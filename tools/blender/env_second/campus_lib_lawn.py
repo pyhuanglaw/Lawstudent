@@ -5,14 +5,14 @@
 
 總圖的位置（從 campus_library.glb 量的，地面 1.2 m 以下）：正面中段 |z|<9 的門廊從 x 82.8 開始、9≤|z|≤12 的台座到 x 81.9，|z|>12 的外牆在 x 86.95。
 配置（北半邊；南半邊對稱）：
-  - 中軸：z −5～5，從椰林大道盡頭 x 70 直通門廊；門廊前的前庭 x 79.4～81.9（|z|≤12）、x 81.9～82.8（|z|<9）。大塊淺色砂岩鋪面，兩邊一條花崗石收邊。
+  - 中軸：z −5～5，從椰林大道盡頭 x 70 直通門廊；門廊前的前庭 x 79.4～81.9（|z|≤12）、x 81.9～82.8（|z|<9）。淺色花崗石鋪面，兩邊一條花崗石收邊。
   - 草皮：L 形，主塊 x 71.4～78.0、z −16.6～−6.4，東側一條 x 78.0～85.4、z −13.6～−16.6 包著總圖的轉角。花崗石低路緣（高 7 cm）。
     草皮面高 4.5 cm（導航是平的，人走上去腳只陷 4.5 cm＝草的高度）。走得到、坐得到。
   - 其他地方：紅磚步道（台大校園的步道），草皮外一圈。
   - 北側草皮中間偏西：老樟樹的樹下一圈土（樹本身是遊戲的 TK.tree 樟樹，和法律系館A 前的大樟樹同一套；patch 放）。南側草皮：中型的樹，同樣一圈土。
   - 長椅、路燈：遊戲共用的 W3.bench()（正式長椅模型）、W3.lampPost()（燈頭位置、夜間光圈已經調好），patch 放。
   - 聖誕樹：模型不做；這裡只留一個空節點 XMAS_TREE_SPOT（前庭北側），劇情要的時候遊戲在這個位置放。
-材質：Poly Haven CC0（large_sandstone_blocks、brick_pavement_04、grass_ground、granite_tile；tools/blender/env_second/textures/）。"""
+材質：Poly Haven CC0（granite_tile、brick_pavement_04、grass_ground；tools/blender/env_second/textures/）。"""
 import json, math, os, sys
 HERE = os.path.dirname(os.path.abspath(__file__))
 sys.path.insert(0, HERE)
@@ -30,7 +30,7 @@ LAWN_MAIN = (71.4, 78.0, 6.4, 16.6)        # 草皮主塊 x0, x1, |z|0, |z|1
 LAWN_WING = (78.0, 85.4, 13.6, 16.6)       # 東側一條（包著總圖轉角）
 CURB = 0.15
 Y_PAVE, Y_AXIS, Y_LAWN, Y_CURB = 0.022, 0.027, 0.045, 0.07
-TREES = {'camphor': (74.2, -11.6, 1.7), 'south': (74.7, 11.6, 1.1)}   # 樹下一圈土（x, z, 半徑）；樹由 patch 放在同一個位置
+TREES = {'camphor': (74.2, -11.6, 1.25), 'south': (74.7, 11.6, 0.95)}   # 樹下一圈土（x, z, 半徑）；樹由 patch 放在同一個位置
 LAMPS = [(70.8, -5.75, 0.0), (70.8, 5.75, math.pi), (79.0, -5.75, 0.0), (79.0, 5.75, math.pi), (75.0, -17.3, 0.0), (75.0, 17.3, math.pi)]   # (x, z, yaw)：燈臂朝 +z（yaw 0）伸到中軸／草皮那一側
 BENCHES = [(x, s * 5.75, 0.0 if s < 0 else math.pi) for s in (-1, 1) for x in (72.6, 75.0, 77.4)]   # 面向中軸（長椅正面朝 +z＝yaw 0）
 XMAS = (80.6, -8.2)
@@ -40,11 +40,11 @@ def build():
     out = os.path.join(L.ROOT, OUT)
     B.reset(texres=512)
     root = B.group('campus_lib_lawn', props={'kind': 'campus_lib_lawn'})
-    M = {'axis': L.pbr('ll_axis_stone', 'large_sandstone_blocks', tile=2.4, target='#cdc4b2', contrast=0.85, normal=0.45, maps=('diff', 'nor'), rough_value=0.82),
-         'brick': L.pbr('ll_brick_paver', 'brick_pavement_04', tile=1.6, target='#9a5743', contrast=1.0, normal=0.45, maps=('diff', 'nor'), rough_value=0.86),
-         'grass': L.pbr('ll_lawn', 'grass_ground', tile=2.6, target='#5f7e3d', contrast=1.05, normal=0.35, maps=('diff', 'nor'), rough_value=0.96),
+    M = {'axis': L.pbr('ll_axis_stone', 'granite_tile', tile=1.4, target='#cbc4b6', contrast=0.75, normal=0.4, maps=('diff', 'nor'), rough_value=0.82),   # 第一次用 large_sandstone_blocks：遊戲裡一條一條很花
+         'brick': L.pbr('ll_brick_paver', 'brick_pavement_04', tile=1.6, target='#93604d', contrast=0.95, normal=0.45, maps=('diff', 'nor'), rough_value=0.86),
+         'grass': L.pbr('ll_lawn', 'grass_ground', tile=2.6, target='#6c8d45', contrast=1.05, normal=0.35, maps=('diff', 'nor'), rough_value=0.96),   # 和校園其他草地接近（第一次 #5f7e3d 比旁邊暗一截）
          'curb': L.pbr('ll_curb_granite', 'granite_tile', tile=0.7, target='#aaa59b', contrast=0.9, maps=('diff',), res=256, rough_value=0.8),
-         'soil': L.flat('ll_tree_soil', '#4d3f31', rough=1.0)}
+         'soil': L.flat('ll_tree_soil', '#5c4c3b', rough=1.0)}
     ax, br, gr, cb, so = (Mesh('ll_axis', M['axis'], tile=2.4), Mesh('ll_brick', M['brick'], tile=1.6), Mesh('ll_lawn', M['grass'], tile=2.6),
                           Mesh('ll_curbs', M['curb'], tile=0.7), Mesh('ll_soil', M['soil']))
 

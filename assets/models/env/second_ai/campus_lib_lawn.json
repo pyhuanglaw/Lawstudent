@@ -5,7 +5,7 @@
  "tris_drawn": 226,
  "materials": 5,
  "out": "assets/models/env/second_ai/campus_lib_lawn.glb",
- "bytes": 309424,
+ "bytes": 276564,
  "texres": 512,
  "layout": {
   "axis_halfwidth": 5.0,
@@ -36,12 +36,12 @@
    "camphor": [
     74.2,
     -11.6,
-    1.7
+    1.25
    ],
    "south": [
     74.7,
     11.6,
-    1.1
+    0.95
    ]
   },
   "lamps": [
