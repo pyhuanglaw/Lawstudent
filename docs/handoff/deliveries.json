@@ -16389,6 +16389,19 @@
    "task": "XINCI-ROMANCE-1030",
    "integration": "已整合待測試",
    "note": "LAWWW-B 照稿接進 xcrom3d.js／r2y3b_events.js／termend_lines.js／confess_lines.js；XCROM.ON 照舊 false（等使用者點選 4a、4b）；xinci_romance_unit ALL PASS"
+  },
+  {
+   "id": "DL-LW2-LMCOLLAPSE-DORM4-1030",
+   "date": "2026-10-30",
+   "from": "LAWWW2-B",
+   "account": "B",
+   "branch": "claude/funny-albattani-iawshm",
+   "sha": "fa0a63063",
+   "msg": "ACK",
+   "what": "LM-COLLAPSE-1030 第三間：宿舍四人房重烘（dorm_room4.glb＋_lm_day／_lm_night／_lm_dark；朝室內壓扁 21.0→0 m²，模型不變；左牆上半偏灰漸層不見）",
+   "task": "LM-COLLAPSE-1030",
+   "integration": "已整合待測試",
+   "note": "LAWWW-B 22:0x 只拿 4 個資產檔；dorm_room4 相關 Node 八支 ALL PASS"
   }
  ],
  "ignored": [
