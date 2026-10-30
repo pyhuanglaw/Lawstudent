@@ -1,5 +1,15 @@
 # LAWWW2 交接紀錄（隨時更新；工作階段中斷時從這裡接）
 
+## ⏱ 現況（LAWWW2-B，2026-10-30 07:5x UTC；帳號 B 七天額度已到警示，隨時可能被切斷——接手的先讀這一段）
+
+- **已交、等整合／已整合**：X140 系外套（b84ce8d27）、#120 床欄透空 patch（給 LAWWW-B 看，b84ce8d27）、X132 Café 窗外 3D 街（f11f2ccb0；LAWWW-B 已合進 postrel dcf33a4e0）、DORM203（postrel 5720bf53c）。
+- **正在做（WIP，還沒交）**：兩點半 Café INTERIOR-AAA 光照烘焙。
+  - 腳本 `tools/blender/env_second/lightbake/bake_cafe.sh`（已 push）。試烘（64 取樣）遊戲內看過：白天有店面窗框的陽光影子，晚上吊燈下一圈光，但兩個都比原本暗。
+  - 正式烘焙用 `GLOBEW=45 BARW=45 WINW=22 FLOORW=28 SKY=0.8 bash tools/blender/env_second/lightbake/bake_cafe.sh 512 <輸出> 1024`（約 10 分鐘）；**這組數字還沒寫回腳本的預設值**。
+  - 下一步：遊戲內同角度改前改後（`tools/blender/env_second/shots/cafe_window_shots.py`，它也會拍到 X132 的街）→ 調亮度 → 交 `cafe_interior.glb`＋兩張光照貼圖。不用改程式（attachRoomGLB 自己接）。
+- **之後的佇列**：X133 總圖前草皮（LIB-LAWN-PLAN-1030）→ 法律學院圖書館 INTERIOR-AAA → 萬才館多功能教室換家具。
+- **沒有遠端備份的**：只有本機暫存的截圖（scratchpad），重拍就有。
+
 ## 📣 給 LAWWW-B（2026-10-30 07:3x UTC｜X132 CAFE-WINDOW-LIVE-1030 交件；send_message 另外傳）
 
 - README：`docs/art-rebuild/second_ai/test_shots/cafe_window_live_1030/README.md`；patch：`docs/art-rebuild/second_ai/patches/cafe_window_live_1030.patch`（只改 zones3d.js＋新測試 `tests/cafe_street_live_unit.js`）。不用換二進位檔（用溫州街現有的 wenzhou_street、wz_props）。
