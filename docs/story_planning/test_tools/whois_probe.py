@@ -150,12 +150,19 @@ async def mode_econ(pg, cdp, run):
         if await pg.evaluate("!!document.querySelector('#phoneBody [data-person]')"): break
         await L.phone_away(pg, cdp); await pg.wait_for_timeout(2000)
     await run.shot(pg, 'econ_friends')
-    nm = await pg.evaluate("(()=>[['econ_weilun',SOCIAL.displayName('econ_weilun')],['econ_tangrui',SOCIAL.displayName('econ_tangrui')]])()")
+    ids = ['econ_weilun', 'econ_tangrui', 'econ_zhengxun', 'econ_pinyu']
+    nm = await pg.evaluate("(ids=>ids.map(id=>[id,SOCIAL.displayName(id)]))", ids)
     run.note('朋友清單：%s' % txt[:400])
-    run.check('經濟系開局 9/2 晚上搬進 412 以後，朋友清單有韋綸、唐睿', all(n in txt for _, n in nm), J({'names': nm, 'list': txt[:300]}))
-    for pid, _ in nm:
-        o = await person(pg, cdp, run, pid, 'econ'); lay_ok(run, 'econ %s' % pid, o)
-        run.check('%s 那一頁有「你經濟系那年的室友（412）」' % pid, any('你經濟系那年的室友（412）' in s for s in ln(o)), J(ln(o)))
+    run.check('經濟系開局搬進 412 以後，朋友清單有韋綸、唐睿（CHAR-WHOIS 第 5 項）', all(n in txt for i0, n in nm[:2]), J({'names': nm[:2], 'list': txt[:300]}))
+    BAN = ['回到法律系以後', '那年的室友', '住了兩個月']
+    for pid, n in nm:   # 469bdde7c（BUG-WHOIS-ECONYEAR-1030）：經濟系那一年回頭看的列都不顯示，只留名字那一行
+        o = await person(pg, cdp, run, pid, 'econ'); l = ln(o)
+        if o['inList']: lay_ok(run, 'econ %s' % pid, o)
+        bad = [x for x in l + (o['api'] or []) if any(b in x for b in BAN)]
+        run.check('經濟系那一年 %s（%s）那一頁：沒有「回到法律系以後」「那年的室友」「住了兩個月」（畫面＋WHOIS.lines）' % (n, pid), not bad, J({'inList': o['inList'], 'lines': l, 'api': o['api']}))
+    camp = await pg.evaluate("!!GAME.G.flags.ECON_CAMP_DONE")
+    allL = await pg.evaluate("(ids=>ids.map(id=>WHOIS.lines(GAME.G,id)))", ids)
+    run.check('經濟系宿營還沒去（ECON_CAMP_DONE＝%s）＝沒有「經濟系宿營同一小隊。」' % camp, camp or not any('經濟系宿營同一小隊' in x for L1 in allL for x in L1), J(allL))
 
 
 async def main():
