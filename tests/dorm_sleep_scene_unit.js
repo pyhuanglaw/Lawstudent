@@ -6,7 +6,7 @@
 //   ② 沿四階踏點一階一階往上（每一階的 (x,y,z) 都到過、高度不往下、姿勢 climb）、再到上床點
 //   ③ 躺在床上：位置＝腳的位置、高度＝床墊頂、朝向＝頭的方向＋π（root 的 −z 指向頭）、姿勢 lie
 //   ④ 鏡頭：爬梯子時用梯子側面的鏡頭（S.climbCam），躺下以後用 sleep_scene.cam（eye、look）
-//   ⑤ 熄燈：躺下以後房間變暗（沒有 z.lightsOff＝曝光 E.toneK 壓到 0.3；有 z.lightsOff＝叫 lightsOff(1)、不動曝光）
+//   ⑤ 熄燈：躺下以後房間變暗（沒有 z.lightsOff＝曝光 E.toneK 壓到 0.18；有 z.lightsOff＝叫 lightsOff(1)、不動曝光）
 //   ⑥ 時間照原本跳（睡到明天早上＝第二天、醒來的時間照選項）；醒來先躺在床上、再一階一階下來，站在梯子前；busy、劇情鎖、熄燈、床的狀態都放開；
 //      進房間的劇情（STORY.onEnter）在站好以後才叫一次；小睡：黑幕裡放回梯子前、時間照跳；睡著被叫醒以外的保底（S.tick）也會放回梯子前
 //   ⑦ 沒有 sleep_scene 的房間（或不在宿舍房間）照舊：不走去梯子、不爬、醒來在門口 (0, 2.4)
@@ -74,15 +74,15 @@ const inBed=f=>f.pose==='lie'&&near(f.x,L.feet[0])&&near(f.z,L.feet[2])&&near(f.
     check('④ 鏡頭：先用梯子側面的鏡頭（climbCam '+cc.pos.map(v=>v.toFixed(2)).join(',')+'，在房間的走道裡），躺下以後換成 sleep_scene.cam（eye '+SC.cam.eye.join(',')+'）',ci>=0&&bi>ci&&Math.abs(cc.pos[0])<=1.6&&Math.abs(cc.pos[2])<=3.15,'climb '+ci+' bed '+bi);
     const dk=Fr.filter(f=>inBed(f)&&f.dark>0), dmax=Fr.reduce((m,f)=>Math.max(m,f.dark),0), lowT=Fr.reduce((m,f)=>Math.min(m,f.toneK),9);
     const dIdx=Fr.findIndex(f=>f.dark>=1), sIdx=Fr.findIndex((f,i)=>i>dIdx&&f.tag==='fade1');
-    check('⑤ 熄燈：躺下以後房間慢慢變暗到 1（曝光 E.toneK 1 → 0.3），然後才淡出睡覺',dk.length>=3&&dmax===1&&near(lowT,0.3,1e-6)&&dIdx>=0&&sIdx>dIdx&&inBed(Fr[sIdx]),'dark 格數 '+dk.length+' 最低曝光 '+lowT);
+    check('⑤ 熄燈：躺下以後房間慢慢變暗到 1（曝光 E.toneK 1 → 0.18），然後才淡出睡覺',dk.length>=3&&dmax===1&&near(lowT,0.18,1e-6)&&dIdx>=0&&sIdx>dIdx&&inBed(Fr[sIdx]),'dark 格數 '+dk.length+' 最低曝光 '+lowT);
     check('⑤ 熄燈以後閉眼（eyesShut）',Fr.some(f=>inBed(f)&&f.dark===1&&f.eyes));
     const wi=gm.enters.findIndex(e=>e.zone==='dorm'), we=gm.enters[wi];
     check('⑥ 時間照原本跳：第 '+(d0+1)+' 天、醒來時間＝選項的 '+want.wake,gm.G.day===d0+1&&near(gm.G.hour,want.wake,1e-6),'day '+gm.G.day+' hour '+gm.G.hour);
     const afterEnter=Fr.slice(Fr.findIndex(f=>f.tag==='entered'));
     check('⑥ 醒來先躺在床上（進房間、淡入以前就躺好，睡覺鏡頭，燈是開的）',we&&we.opts.deferStory&&afterEnter.length&&inBed(afterEnter[0])&&afterEnter[0].cam==='cinematic'&&afterEnter[0].dark===0,we&&JSON.stringify(we.spawn));
-    const down=afterEnter.filter(f=>f.pose==='climb'); const dHit=ST.slice().reverse().map(s=>down.findIndex(f=>near(f.x,s[0])&&near(f.y,s[1])&&near(f.z,s[2])));
+    const down=afterEnter.filter(f=>f.pose==='climbdown'); const dHit=ST.slice().reverse().map(s=>down.findIndex(f=>near(f.x,s[0])&&near(f.y,s[1])&&near(f.z,s[2])));
     let mono2=true; for(let i=1;i<down.length;i++) if(down[i].y>down[i-1].y+1e-9) mono2=false;
-    check('⑥ 再一階一階下來（踏點反過來都到過、高度不往上）',dHit.every(i=>i>=0)&&dHit.every((v,i)=>i===0||v>dHit[i-1])&&mono2,'踏點在第 '+dHit.join('、')+' 格');
+    check('⑥ 再一階一階下來（踏點反過來都到過、高度不往上、姿勢 climbdown）',dHit.every(i=>i>=0)&&dHit.every((v,i)=>i===0||v>dHit[i-1])&&mono2,'踏點在第 '+dHit.join('、')+' 格');
     const P=gm.E.player, s0=ST[0];
     check('⑥ 最後站在梯子前（approach、地板高度、站姿、面向房間）',near(P.obj.position.x,A[0])&&near(P.obj.position.z,A[1])&&P.obj.position.y===0&&P.pose==='idle'&&near(P.obj.rotation.y,Math.atan2(A[0]-s0[0],A[1]-s0[2]),1e-6),JSON.stringify(P.obj.position)+' '+P.pose);
     check('⑥ 不卡住：busy、場景深度、劇情鎖（S._sleeping）、床的狀態、熄燈、GM.onBlack 都放開，曝光回到 1，跟隨鏡頭',!P.busy&&gm.depth===0&&!STORY._sleeping&&!STORY._bed&&!STORY._bedBusy&&(STORY._dark||0)===0&&gm.E.toneK===1&&!gm.onBlack&&gm.E.cam.mode==='follow',`busy ${P.busy} depth ${gm.depth} sleeping ${STORY._sleeping} bed ${!!STORY._bed} toneK ${gm.E.toneK} cam ${gm.E.cam.mode}`);
@@ -118,7 +118,7 @@ const inBed=f=>f.pose==='lie'&&near(f.x,L.feet[0])&&near(f.z,L.feet[2])&&near(f.
     void pr; }
   { const gm=mkGM({day:6,hour:22}); await STORY._bedFx.goToBed(gm,STORY.sleepSceneOf(gm)); const k0=gm.E.toneK; gm.onBlack=STORY.bedOnBlack; for(const f of Object.values(globalThis.LOADLOCKS||{})) f();
     await gm.enter('dorm',{x:0,z:2.4,yaw:Math.PI},{fromLoad:true});
-    check('⑧ 熄燈以後讀檔：換區域時（S.populate 第一行）曝光還原（0.3 → 1）',near(k0,0.3,1e-6)&&gm.E.toneK===1,k0+' → '+gm.E.toneK);
+    check('⑧ 熄燈以後讀檔：換區域時（S.populate 第一行）曝光還原（0.18 → 1）',near(k0,0.18,1e-6)&&gm.E.toneK===1,k0+' → '+gm.E.toneK);
     let ok=true; try{ gm.fade(true); }catch(e){ ok=false; } await new Promise(r=>setTimeout(r,5));
     check('⑧ 讀檔前留下的 GM.onBlack（萬一沒被 loadRelease 清掉）在新的一局觸發也不出錯、不動玩家',ok&&gm.E.player.pose==='idle'&&near(gm.E.player.obj.position.z,2.4)&&gm.E.toneK===1);
     const g3=fs.readFileSync(path.join(ROOT,'src/game3d.js'),'utf8');

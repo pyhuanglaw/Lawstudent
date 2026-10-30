@@ -469,7 +469,7 @@ const GAME = (function(){
      不自己解鎖、不跳過劇情：只放開讀檔／回標題，並把是哪一段沒結束寫進 console 和除錯面板 */
   let staleT=0;
   function staleCheck(rdt){ const P=E.player; if(!P||GM.titleIdle||!(D.busyDepth>0||P.busy)){ staleT=0; if(D.stale) D.stale=false; return; }
-    const tc=$('title3'), live=D.active||!$('choices').classList.contains('hide')||(typeof EVENTS!=='undefined'&&!!EVENTS.running)||(typeof BADCLIP!=='undefined'&&BADCLIP.busy)||phoneOpen||menuOpen||$('fade').classList.contains('on')||(tc&&+tc.style.opacity>0)||walks.size>0||!!(P.path&&P.path.length);
+    const tc=$('title3'), live=D.active||!$('choices').classList.contains('hide')||(typeof EVENTS!=='undefined'&&!!EVENTS.running)||(typeof BADCLIP!=='undefined'&&BADCLIP.busy)||phoneOpen||menuOpen||$('fade').classList.contains('on')||(tc&&+tc.style.opacity>0)||walks.size>0||!!(P.path&&P.path.length)||(typeof STORY!=='undefined'&&!!STORY._bedBusy);   /* _bedBusy：宿舍爬上床、起床的動畫在演（DORM-SLEEP-1030）*/
     if(live){ staleT=0; if(D.stale) D.stale=false; return; }
     /* 只剩 2D 畫面（ADV）開著、沒有對話、選項、事件……：原本一直算「還在演」，劇情停在一半（例：一句話被另一段蓋掉、那一段出錯沒收）就永遠不放開讀檔、也不記 _stuck（STUCK-HARDEN-1027）。
        ADV 自己沒有等點擊的東西（等點擊都是 say／choose），換圖、淡入是幾秒的事：只剩 ADV 開著放寬到 30 秒才算停住 */

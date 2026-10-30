@@ -17,7 +17,7 @@ HOLDS = [
     ('3_lie', "P.pose==='lie'&&S._bedBusy&&(S._dark||0)===0&&!(S._bed&&S._bed.waking)&&!document.getElementById('fade').classList.contains('on')"),
     ('4_dark', "P.pose==='lie'&&(S._dark||0)>=1&&!!P.obj.userData.eyesShut"),
     ('5_wake', "P.pose==='lie'&&S._bed&&S._bed.waking&&!P.obj.userData.eyesShut"),
-    ('6_down', "P.pose==='climb'&&S._bed&&S._bed.waking&&Math.abs(P.obj.position.y-sc.steps[1][1])<0.02"),
+    ('6_down', "P.pose==='climbdown'&&S._bed&&S._bed.waking&&Math.abs(P.obj.position.y-sc.steps[1][1])<0.02"),
 ]
 HOOK = """((holds)=>{ const S=STORY, orig=GAME.sleep; window.__holds=holds.map(h=>({name:h[0],f:new Function('P','S','sc','return ('+h[1]+');'),done:false})); window.__held=null;
   GAME.sleep=async function(ms){ await orig(ms); const P=GAME.E.player, sc=S.sleepSceneOf(GAME)||(S._bed&&S._bed.sc); if(!sc) return; const H=window.__holds; for(let i=0;i<H.length;i++){ const h=H[i]; if(h.done) continue; let ok=false; try{ ok=h.f(P,S,sc); }catch(e){} if(ok){ for(let j=0;j<i;j++) if(!H[j].done){ H[j].done=true; H[j].skipped=true; } h.done=true; window.__held=h.name; await new Promise(r=>{ window.__release=r; }); window.__held=null; break; } } };   /* 照順序；後面的先成立＝前面的算錯過 */

@@ -3207,10 +3207,10 @@ const STORY = (function(){
      醒來：一般的睡覺（sleepNow 換房間的那一次）人在床上醒來 → 短淡出 → 從梯子一階一階下來、站在梯子前；睡著被叫醒（電話 S.coreCallAt／S.lawWakeAt）：開燈、爬下來；
        小睡、經濟系／畢業後「睡覺＝到下一件事」：黑幕裡放回梯子前（GM.onBlack）。保底：人在床上、沒有在演、玩家空下來（S.tick）＝直接放回梯子前；換到別的區域＝清掉。
      沒有 sleep_scene 的房間、不在宿舍房間（美國公寓、家裡）：照原本（梯子前淡出就睡、醒來在門口）。
-     熄燈：區域有 z.lightsOff(k)（LAWWW2 的第三張光照貼圖 roomDarkMap，k 0～1）就用它；沒有就把曝光壓暗（E.toneK × (1−0.7k)，室內 applyTime 每 5 格套一次）。換成光照貼圖只要區域提供 lightsOff。
+     熄燈：區域有 z.lightsOff(k)（LAWWW2 的第三張光照貼圖 roomDarkMap，k 0～1）就用它；沒有就把曝光壓暗（E.toneK × (1−0.82k)，室內 applyTime 每 5 格套一次）。換成光照貼圖只要區域提供 lightsOff。
      讀檔中途：LOADLOCKS 放開（S._bed、S._bedBusy、GM.onBlack、曝光）；存檔時人在床上＝存梯子前（STORY.bedSavePos，game3d.js snapshot）。測試：node tests/dorm_sleep_scene_unit.js */
   S.SLEEP_T={step:0.38,entry:0.5,hold:0.7,dim:0.9,wake:1.0};   /* 秒：一階、上床點、躺下以後、熄燈、醒來躺著 */
-  S.DARK_MAX=0.7;   /* 沒有熄燈光照貼圖時曝光最多壓掉多少 */
+  S.DARK_MAX=0.82;   /* 沒有熄燈光照貼圖時曝光最多壓掉多少（0.7 在 SwiftShader 截圖還像傍晚，2026-10-30）*/
   S.sleepSceneOf=function(GM){ const G=GM&&GM.G, E=GM&&GM.E; if(!G||G.zone!=='dorm'||!E||!E.zone||!E.player||typeof DORM_ROOM==='undefined'||!DORM_ROOM||!DORM_ROOM.units) return null;
     const u=DORM_ROOM.units.find(q=>q.id===(DORM_ROOM.player_unit||'L2')), sc=u&&u.sleep_scene; if(!sc||!sc.approach||!Array.isArray(sc.steps)||!sc.steps.length||!sc.lie||!sc.lie.feet||!sc.cam||!sc.cam.eye||!sc.cam.look) return null; return sc; };
   S.sleepJumpMode=G=>!!((typeof ECONFF!=='undefined'&&ECONFF.on&&ECONFF.on(G)&&ECONFF.next&&ECONFF.next(G))||(typeof PG!=='undefined'&&PG.bedOptions&&PG.bedOptions(G)));   /* 「睡覺＝到下一件事」（S.bedOptions 同一個判斷）*/
@@ -3226,10 +3226,10 @@ const STORY = (function(){
   async function bedTween(GM,o,to,sec){ const p=o.position, x0=p.x, y0=p.y, z0=p.z, n=GM.turbo?1:Math.max(2,Math.round(sec*25));
     for(let i=1;i<=n;i++){ const t=i/n, e=t<0.5?2*t*t:1-Math.pow(-2*t+2,2)/2; p.x=x0+(to[0]-x0)*e; p.y=y0+(to[1]-y0)*e; p.z=z0+(to[2]-z0)*e; await GM.sleep(sec*1000/n); } }
   const faceTo=(o,x,z)=>{ const dx=x-o.position.x, dz=z-o.position.z; if(Math.hypot(dx,dz)>0.03) o.rotation.y=Math.atan2(dx,dz); };
-  /* 爬梯子的鏡頭：踏點中間往床的反方向退 1.8 m、往梯子底下退 1 m、高 1.55（L2：(−1.43, 1.55, 2.99) 看梯子）*/
+  /* 爬梯子的鏡頭：踏點中間往床的反方向退 1.8 m、往梯子底下（房間中間）退 1.6 m、高 1.75（L2：(−0.83, 1.75, 2.99) 看梯子；第一版退 1 m、高 1.55 太近，人爬到一半頭出畫面）*/
   S.climbCam=function(sc){ const st=sc.steps, n=st.length, a=sc.approach, L=sc.lie; const mx=(st[0][0]+st[n-1][0])/2, mz=(st[0][2]+st[n-1][2])/2;
     let ux=st[n-1][0]-a[0], uz=st[n-1][2]-a[1]; const ul=Math.hypot(ux,uz)||1; ux/=ul; uz/=ul; const hd=L.head||L.feet; let bx=hd[0]-L.feet[0], bz=hd[2]-L.feet[2]; const bl=Math.hypot(bx,bz)||1; bx/=bl; bz/=bl;
-    return {pos:[mx-bx*1.8-ux*1.0,1.55,mz-bz*1.8-uz*1.0],look:[mx,0.95,mz]}; };
+    return {pos:[mx-bx*1.8-ux*1.6,1.75,mz-bz*1.8-uz*1.6],look:[mx,0.95,mz]}; };
   function camOn(GM,c,snap){ if(GM.cine) GM.cine('close',GM.E.player.obj,null,{pos:V(c.pos[0],c.pos[1],c.pos[2]),look:V(c.look[0],c.look[1],c.look[2]),snap:!!snap}); }
   const bedCam=sc=>({pos:sc.cam.eye,look:sc.cam.look});
   /* 躺下：root 放在腳的位置、床墊頂的高度，朝向＝頭的方向＋π（character3d.js 的 lie 把整個人往 root 的 −z 放倒）*/
@@ -3242,7 +3242,7 @@ const STORY = (function(){
     if(E.placeAt) E.placeAt(P,a[0],a[1],0); else { o.position.x=a[0]; o.position.z=a[1]; o.position.y=0; } o.rotation.y=Math.atan2(a[0]-s0[0],a[1]-s0[2]); };
   /* 清掉床的狀態、開燈；how：'state'＝只清狀態（換了區域）、'cam'＝站回梯子前並結束運鏡（黑幕裡）、其他＝站回梯子前 */
   S.bedClear=function(GM,how){ const B=S._bed; S._bed=null; S._bedBusy=false; if(GM&&GM.onBlack===bedOnBlack) GM.onBlack=null; if(!GM||!GM.E) return false; S.roomDark(GM,0); if(!B) return false;
-    const E=GM.E, P=E.player, same=E.zone===B.zone&&GM.G.zone==='dorm'; if(same&&how!=='state'&&P&&(P.pose==='lie'||P.pose==='climb')) S.bedStand(GM,B.sc); else if(P&&P.obj&&P.obj.userData) P.obj.userData.eyesShut=false;
+    const E=GM.E, P=E.player, same=E.zone===B.zone&&GM.G.zone==='dorm'; if(same&&how!=='state'&&P&&(P.pose==='lie'||P.pose==='climb'||P.pose==='climbdown')) S.bedStand(GM,B.sc); else if(P&&P.obj&&P.obj.userData) P.obj.userData.eyesShut=false;
     if(same&&how==='cam'&&E.endCinematic) E.endCinematic(); return true; };
   function bedOnBlack(){ if(typeof GAME!=='undefined') S.bedClear(GAME,'cam'); }
   function disarmBlack(GM){ if(GM&&GM.onBlack===bedOnBlack) GM.onBlack=null; }   /* 沒有用到的黑幕接口收掉（小睡沒跳成）*/
@@ -3262,7 +3262,7 @@ const STORY = (function(){
   /* 起床：開燈 → 短淡出 → 最上面一階 → 一階一階下來 → 梯子前。在 sceneBegin 裡面叫（外面的 sceneEnd 放回跟隨鏡頭）*/
   async function getUp(GM,sc){ const E=GM.E, P=E.player, T=S.SLEEP_T, st=sc.steps; S._bedBusy=true;
     try{ if(P.obj.userData) P.obj.userData.eyesShut=false; if((S._dark||0)>0) await darkTo(GM,0,0.4); await GM.sleep(300);
-      await GM.fade(true); const top=st[st.length-1]; P.obj.position.x=top[0]; P.obj.position.y=top[1]; P.obj.position.z=top[2]; P.pose='climb'; P.idlePose='idle'; P.frozen=false;
+      await GM.fade(true); const top=st[st.length-1]; P.obj.position.x=top[0]; P.obj.position.y=top[1]; P.obj.position.z=top[2]; P.pose='climbdown'; P.idlePose='idle'; P.frozen=false;   /* 下來：走路的樣子（不舉手）*/
       const nx=st.length>1?st[st.length-2]:[sc.approach[0],0,sc.approach[1]]; faceTo(P.obj,nx[0],nx[2]); const c=S.climbCam(sc); camOn(GM,{pos:c.pos,look:[top[0],top[1]+1.0,top[2]]},true); await GM.fade(false);
       for(let i=st.length-2;i>=0;i--){ const s=st[i]; faceTo(P.obj,s[0],s[2]); await bedTween(GM,P.obj,s,T.step); camOn(GM,{pos:c.pos,look:[P.obj.position.x,P.obj.position.y+1.0,P.obj.position.z]}); }
       const a=sc.approach; faceTo(P.obj,a[0],a[1]); await bedTween(GM,P.obj,[a[0],0,a[1]],T.step); }
@@ -3270,7 +3270,7 @@ const STORY = (function(){
   /* 醒來（sleepNow 換房間那一次）：進房間時（GM.enter 的 onLoaded，淡入以前）就躺在床上、睡覺鏡頭；淡入以後躺一下、睜眼、爬下來 */
   S.wakeSpawn=sc=>{ const a=sc.approach, s0=sc.steps[0]; return {x:a[0],z:a[1],yaw:Math.atan2(a[0]-s0[0],a[1]-s0[2])}; };
   function wakePlace(GM,sc){ S.roomDark(GM,0); S.lieDown(GM,sc); if(GM.E.player.obj.userData) GM.E.player.obj.userData.eyesShut=true; S._bed.waking=true; camOn(GM,bedCam(sc),true); }
-  async function wakeUp(GM,sc){ GM.sceneBegin(); try{ await GM.sleep(S.SLEEP_T.wake*500); if(GM.E.player.obj.userData) GM.E.player.obj.userData.eyesShut=false; await GM.sleep(S.SLEEP_T.wake*500); await getUp(GM,sc); } finally { GM.sceneEnd(); } }
+  async function wakeUp(GM,sc){ GM.sceneBegin(); S._bedBusy=true; try{ await GM.sleep(S.SLEEP_T.wake*500); if(GM.E.player.obj.userData) GM.E.player.obj.userData.eyesShut=false; await GM.sleep(S.SLEEP_T.wake*500); await getUp(GM,sc); } finally { S._bedBusy=false; GM.sceneEnd(); } }
   S._bedFx={goToBed:(GM,sc)=>goToBed(GM,sc),getUp:(GM,sc)=>getUp(GM,sc),wakeUp:(GM,sc)=>wakeUp(GM,sc),wakePlace:(GM,sc)=>wakePlace(GM,sc)};   /* 測試用 */
   async function bedScene(GM){ const G=GM.G, F=G.flags; S._resume=null; if(typeof HOME!=='undefined'&&HOME.eveDue&&HOME.eveDue(G)&&HOME.eveGo){ await HOME.eveGo(GM); return; }   /* BB 退件 HOLFF-EVE-SKIP：除夕 17:00 停站以後，S.tick 每 30 格才帶回家（實機約 0.5 秒、模擬器三十幾秒），這段時間點床的快轉或睡覺會直接跳到初一、年夜飯整段不演——點床就先回家 */ GM.sceneBegin(); if(S.mainDay(G)===1&&!F.readCase){ const i=await GM.choose([{t:'還沒讀案例，先睡了'},{t:'等等，先去看一下'}]); if(i===1){ GM.sceneEnd(); return; } F.readCase='none'; GM.memo('沒有讀案例就睡了'); } const opts=S.bedOptions(G); const i=await GM.choose(opts.map(o=>({t:o.t,hint:o.hint}))); GM.sceneEnd(); const o=opts[i]; if(!o||o.kind==='stay') return; if(o.kind==='ff'){ if(typeof HOME!=='undefined'&&HOME.ffMenu) await HOME.ffMenu(GM,'dorm'); return; } if(o.kind==='semff'){ if(typeof SEMFF!=='undefined') await SEMFF.menu(GM); return; }   /* 學期中的快轉（FF-SEMESTER-1023，src/semff3d.js）*/ const sc=S.sleepSceneOf(GM), inBed=sc&&(o.kind==='sleep'||o.kind==='nap')?await goToBed(GM,sc):false;   /* 宿舍房間：爬上床、躺下、熄燈（DORM-SLEEP-1030）*/ if(inBed&&(o.kind!=='sleep'||S.sleepJumpMode(G))) GM.onBlack=bedOnBlack;   /* 小睡、到下一件事：下一次黑幕裡放回梯子前（醒來站在梯子前）*/ try{ if(o.kind==='sleep') await sleepNow(GM,o.wake,o.alarm); else if(typeof CLS!=='undefined'&&CLS.skipTo) await CLS.skipTo(GM,o.to,{nap:true}); } finally { disarmBlack(GM); } if(inBed&&S._bed&&!S._bedBusy){ const B=S._bed; if(G.zone==='dorm'&&GM.E.zone===B.zone&&GM.E.player.pose==='lie'){ GM.sceneBegin(); try{ await getUp(GM,B.sc); } finally { GM.sceneEnd(); } } else S.bedClear(GM,'state'); } }   /* 還躺在床上（小睡沒跳成、沒有黑幕）：開燈、爬下來 */
   /* 床的選項（2026-10-13 使用者試玩：「睡覺只能隔天醒來？應該要有小睡一下的選項」「早上睡覺醒來變成下午、下午睡覺起來變成晚上」；AA_110 第 6-5 節，AA 暫定）：

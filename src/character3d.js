@@ -5,7 +5,7 @@
 'use strict';
 const CHAR = (function(){
   const C={};
-  const POSE_CLIP={idle:'idle',walk:'walk',run:'run',talk:'idle',wave:'idle',sit:null,read:null,ride:null,climb:'walk',lie:null};   /* climb：爬宿舍上舖的梯子（走路片段＋手往前抓，CLIMB_VRM）；lie：躺在床上（靜態，LIE_VRM）——DORM-SLEEP-1030 */
+  const POSE_CLIP={idle:'idle',walk:'walk',run:'run',talk:'idle',wave:'idle',sit:null,read:null,ride:null,climb:'walk',climbdown:'walk',lie:null};   /* climb：爬宿舍上舖的梯子（走路片段＋手往前抓，CLIMB_VRM）；climbdown：從梯子下來（走路片段）；lie：躺在床上（靜態，LIE_VRM）——DORM-SLEEP-1030 */
   // ---- 重定向：以兩個骨架的 rest pose 世界旋轉補償 bind pose 差異（來源：Mixamo 命名 mixamorigX → 目標 X）----
   function restMap(root){ root.updateMatrixWorld(true); const m=new Map(); root.traverse(o=>{ const wq=new THREE.Quaternion(); o.getWorldQuaternion(wq); m.set(o.name,{wq,node:o}); }); return m; }
   C.retargetClipSimple=function(clip,srcRoot,dstRoot,opts){ opts=opts||{}; const S=restMap(srcRoot), D=restMap(dstRoot); const tracks=[]; const tmpQ=new THREE.Quaternion(), q=new THREE.Quaternion();
@@ -68,10 +68,10 @@ const CHAR = (function(){
   const RIDE_VRM={Hips:[0.18,0,0],Spine:[0.16,0,0],Spine1:[0.1,0,0],Spine2:[0.04,0,0],Neck:[-0.12,0,0],LeftUpLeg:[-1.0,0,0],RightUpLeg:[-1.0,0,0],LeftLeg:[1.3,0,0],RightLeg:[1.3,0,0],LeftFoot:[0,0,0],RightFoot:[0,0,0],LeftArm:[0,-0.9,-1.0],RightArm:[0,0.9,1.0],LeftForeArm:[0,-0.4,0],RightForeArm:[0,0.4,0]};   /* 骨頭名稱是 Mixamo 的（Spine1＝chest、Spine2＝upperChest，VRM_BONE）；骨盆＋脊椎一起往前傾約 25°（淑女車的直立騎姿，肩膀才搆得到把手）*/
   /* 躺在床上（DORM-SLEEP-1030，使用者 10-30「宿舍睡覺要真的有畫面」）：整個人（vrmWrap）繞人物自己的左右軸轉 −90°＝仰躺、臉朝上、頭朝人物的 −z（story3d.js 把 root 放在腳的位置、朝向＝頭的方向＋π）；
      骨頭：手放在身體兩側、手肘微彎，膝蓋微彎，腳背微微伸直，頭往胸口收一點（枕頭）。LIE_UP＝整個人往上抬多少（背貼床墊：背在站姿的 z≈−0.12）*/
-  const LIE_VRM={Hips:[0,0,0],Spine:[0,0,0],Spine1:[0,0,0],Spine2:[0,0,0],Neck:[0.08,0,0],LeftUpLeg:[-0.04,0,0.03],RightUpLeg:[-0.04,0,-0.03],LeftLeg:[0.1,0,0],RightLeg:[0.1,0,0],LeftFoot:[0.35,0,0],RightFoot:[0.35,0,0],LeftArm:[0,0,-1.32],RightArm:[0,0,1.32],LeftForeArm:[0,-0.3,0],RightForeArm:[0,0.3,0]};
+  const LIE_VRM={Hips:[0,0,0],Spine:[0,0,0],Spine1:[0,0,0],Spine2:[0,0,0],Neck:[0.08,0,0],LeftUpLeg:[-0.04,0,0.03],RightUpLeg:[-0.04,0,-0.03],LeftLeg:[0.1,0,0],RightLeg:[0.1,0,0],LeftFoot:[0.35,0,0],RightFoot:[0.35,0,0],LeftArm:[0,0,-1.36],RightArm:[0,0,1.36],LeftForeArm:[0,0,0],RightForeArm:[0,0,0]};
   const LIE_UP=0.11;
   /* 爬梯子（climb）：走路片段跑完以後，兩隻手往前上方抓梯子／床欄（疊加姿勢，和 u.overlay 同一套：x、z 乘 sx），手肘彎一點 */
-  const CLIMB_VRM={k:1,bones:{LeftArm:[0,-1.45,0.55],RightArm:[0,1.45,-0.55],LeftForeArm:[0,-0.7,0],RightForeArm:[0,0.7,0]}};
+  const CLIMB_VRM={k:1,bones:{LeftArm:[0,-1.4,0.1],RightArm:[0,1.4,-0.1],LeftForeArm:[0,-0.5,0],RightForeArm:[0,0.5,0]}};
   const EXPR_VRM={smile:['happy',0.7],laugh:['happy',1.0],shy:['relaxed',0.8],surprise:['surprised',1.0],worried:['sad',0.7],angry:['angry',0.8],normal:null};
   // VRM 0.x（VRoid）在 normalized rig 裡面朝 -Z（three-vrm 用整個 scene 轉 180° 修正），所以直接寫骨頭旋轉時 x、z 要反號
   function setBonesV(B,tab,sx){ for(const n in tab){ const b=B[n]; if(!b) continue; const r=tab[n]; b.rotation.set(r[0]*sx,r[1],r[2]*sx); } }
@@ -369,7 +369,7 @@ const CHAR = (function(){
   const SIT={LeftUpLeg:[1.45,0,0.08],RightUpLeg:[1.45,0,-0.08],LeftLeg:[1.5,0,0],RightLeg:[1.5,0,0],LeftFoot:[0,0,0],RightFoot:[0,0,0],LeftArm:[0.9,0,0.35],RightArm:[0.9,0,-0.35],LeftForeArm:[0,0,0],RightForeArm:[0,0,0]};
   const READ={LeftArm:[1.2,0,0.9],RightArm:[1.2,0,-0.9],LeftForeArm:[0,0,1.2],RightForeArm:[0,0,-1.2]};
   function setBones(bones,tab,blend){ for(const n in tab){ const b=bones[n]; if(!b) continue; const r=tab[n]; if(blend>=1){ b.rotation.set(r[0],r[1],r[2]); } else { b.rotation.x+=(r[0]-b.rotation.x)*blend; b.rotation.y+=(r[1]-b.rotation.y)*blend; b.rotation.z+=(r[2]-b.rotation.z)*blend; } } }
-  C.animate=function(h,dt,st){ const u=h.userData; if(u.driver==='vrm'){ animateVRM(h,dt,st); return; } if(u.driver!=='glb'){ P3.animate(h,dt,st.pose==='lie'||st.pose==='climb'?Object.assign({},st,{pose:st.pose==='lie'?'idle':'walk'}):st); return; } const a=u.anim; a.t+=dt; const lie=st.pose==='lie', pose=lie?'idle':(st.pose==='climb'?'walk':(st.pose||'idle')); const B=u.bones; const spd=st.speed||0; u.model.rotation.x=lie?-Math.PI/2:0;   /* 備用 GLB 人物：躺＝站姿轉 −90°、爬梯子＝走路（DORM-SLEEP-1030）*/
+  C.animate=function(h,dt,st){ const u=h.userData; if(u.driver==='vrm'){ animateVRM(h,dt,st); return; } if(u.driver!=='glb'){ P3.animate(h,dt,st.pose==='lie'||st.pose==='climb'||st.pose==='climbdown'?Object.assign({},st,{pose:st.pose==='lie'?'idle':'walk'}):st); return; } const a=u.anim; a.t+=dt; const lie=st.pose==='lie', pose=lie?'idle':(st.pose==='climb'||st.pose==='climbdown'?'walk':(st.pose||'idle')); const B=u.bones; const spd=st.speed||0; u.model.rotation.x=lie?-Math.PI/2:0;   /* 備用 GLB 人物：躺＝站姿轉 −90°、爬梯子＝走路（DORM-SLEEP-1030）*/
     if(pose==='sit'||pose==='read'){ if(!a.static){ for(const n in a.actions) a.actions[n].stop(); a.static=true; a.cur=null; } u.model.position.y=(u.model.userData.baseY||0)-0.47*u.k; setBones(B,SIT,1); if(pose==='read'){ setBones(B,READ,1); if(B.Head) B.Head.rotation.set(0.35+Math.sin(a.t*0.6)*0.02,0,0); } else { if(B.Head) B.Head.rotation.set(Math.sin(a.t*0.7)*0.03,Math.sin(a.t*0.4)*0.15,0); } if(B.Spine) B.Spine.rotation.set(0.06,0,0); if(B.Spine1) B.Spine1.rotation.set(0,0,0); }   /* 同上：注視在胸口加轉角，坐姿要每一幀重設 */
     else { if(a.static){ a.static=false; u.model.position.y=u.model.userData.baseY||0; for(const n in B){ B[n].rotation.set(0,0,0); } } const clipName=POSE_CLIP[pose]||'idle'; if(a.cur!==clipName&&a.actions[clipName]){ const prev=a.cur&&a.actions[a.cur]; const next=a.actions[clipName]; next.reset().setEffectiveWeight(1).fadeIn(0.22).play(); if(prev) prev.fadeOut(0.22); a.cur=clipName; } const act=a.actions[a.cur]; if(act){ act.timeScale= a.cur==='walk'?Math.max(0.6,spd/1.45): (a.cur==='run'?Math.max(0.7,spd/4.1):1); } a.mixer.update(dt);
       if(pose==='wave'&&B.RightArm){ const g=Math.sin(a.t*7); B.RightArm.rotation.set(-0.2,0,-2.4+g*0.15); if(B.RightForeArm) B.RightForeArm.rotation.set(0.1,0,-0.5-Math.abs(g)*0.3); if(B.Head) B.Head.rotation.z+=0.08; }
