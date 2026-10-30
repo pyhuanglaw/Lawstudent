@@ -3578,6 +3578,14 @@
    "approvedBy": "AA-B 定稿（D109）",
    "task": "AA533-VAC-FIX-1030",
    "note": "子代理登記（AA533-VAC-FIX-1030，10-30；任務 ID 子代理暫定，總表還沒有這一筆）：寒暑假（二）。程式：src/data/vac_activities.js（TRAVEL.gf 七位 arr、mid、沛珊 firstOnly；C03 以安沒去的上班族大姊三堂；C04 模擬考 Kevin 一句、考完 12:00 私訊；C11 第一次 01-29 最後一晚；C12 茶道老師；C01 diarySay）、src/vac3d.js（choiceElse、msg、C13 女朋友版、C01 第一句後面一句）、src/data/hometown_lines.js（可昕夜市愛河、沛珊公園書店）、src/data/vacfill_events.js（長桌、參創、法圖）、src/home3d.js（快轉旁白分年、晚餐 winter／dadOnly）、src/vacfill3d.js（摘要池不分假期）；src/data/home_lines.js 由 tools/home/import_home_lines.py 讀這一版加晚餐三題。測試 node tests/aa533_vac_unit.js"
+  },
+  {
+   "path": "docs/story_planning/AA_538_實作問答定稿句_佳蓉B館版_SK02系辦三句.md",
+   "sha": "04ebaa37e",
+   "status": "approved",
+   "approvedBy": "AA-B 定稿（D109）",
+   "task": "AA527-FIX-1030",
+   "note": "AA-B 05:26：實作問答裡定的句子寫進稿（佳蓉 B館版 meetB 五行＋畢業照片句：src/data/pool_story_b2.js；SK02 系辦兩句：src/data/events.js ev_sk02_jacket）。測試 node tests/aa_followup_1030_unit.js 的 D0"
   }
  ]
 }

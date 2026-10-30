@@ -6,7 +6,7 @@
 //   C  AA_527 第 2 點：麵店長桌阿哲「阿姨的手包起來了。……」（h504_zhe_hand）——語彤在 4 m 內＝順延到下一個麵店日，大一下學期內有效，過了學期不再演；只演一次、pri
 //   D  AA_528 第 9 點：佳蓉在萬才館（法律系館B）法服值班認識＝專用版本 meetB（五行照 AA 回覆一字不差；社博那個入口照舊 meet）；
 //      在萬才館認識的，畢業私訊第一則換「（照片：值班桌旁邊那根柱子，底下一個插座）」，第二則照舊；talk「法服的攤位每年都擺在同一個位置。……」照留
-//   （企劃線 bec12db00 的 AA_528 還沒有第 9 點那幾句：這支測試對 AA 回覆的原文；原稿推上來以後可以改成 git show 對稿）
+//   D0 佳蓉 meetB 五行、畢業照片句、SK02 系辦兩句都在 AA_538（企劃線 04ebaa37e；AA-B 05:26 把實作問答的句子寫進稿）
 // 修改前（基準 postrel-1030＝3679551fc；archive 出 src、lib、index.html、tests，把這支測試放進去跑）：FAILED 15（A 2、B 7、C 2、D 4；其餘 11 項是對照組，本來就 PASS）。修改後 ALL PASS（26 項）。
 // 全部 Node 單元測試（tests/*_unit.js，2026-10-30）：743 支、結束碼不是 0 的 0 支。改了期待值的舊測試：aa499_501_pool_unit（第 0 節例外 AA528_9、第 6 節 meetB）、
 //   aa527_528_unit（528-1-2 meetB）、aa503_others_unit（第 3 節第 10 週：演過＝不演、沒演到＝順延）、v0_gather_unit、aa529_econ_unit（第 2 節加查字幕先後）
@@ -111,6 +111,13 @@ const NARR='（回家的路上，手機震了一下。）', SAN='在公館的路
     const r={w8:at(TD('Y1S2',8,2)),w9:at(TD('Y1S2',9,2)),w16:at(TD('Y1S2',16,2)),y1s1:at(TD('Y1S1',12,2)),y2s1:at(TD('Y2S1',1,2)),y2s2:at(TD('Y2S2',9,2))};
     check('C. 條件：大一下第 9 週起到學期結束成立；第 8 週、大一上、大二（過了學期）都不成立',e.pri===true&&J(r)===J({w8:false,w9:true,w16:true,y1s1:false,y2s1:false,y2s2:false}),J(r));
     setup(TD('Y2S1',3,2)); const p6=pick(); check('C. 過了大一下（大二上第 3 週的麵店日）：沒演到的也不再演',p6!=='h504_zhe_hand',J(p6)); });
+
+  /* ---------- D0：句子都在 AA_538 稿裡（04ebaa37e） ---------- */
+  await sec('D0',async()=>{ let doc=''; try{ doc=require('child_process').execSync('git -c core.quotepath=false show 04ebaa37e:"docs/story_planning/AA_538_實作問答定稿句_佳蓉B館版_SK02系辦三句.md"',{cwd:H.ROOT,encoding:'utf8'}); }catch(e){}
+    const M='pool_20', L=POOL.LINES[M], ev=(STORY_EVENTS||[]).find(e=>e.id==='ev_sk02_jacket');
+    const want=(L.meetB||[]).filter(l=>!l.meet).map(l=>l.text).concat([(L.gradB||[])[0]]), sk=ev?ev.dialogue.filter(d=>d.text==='我重考了。現在念法律系。'||d.text==='……喔，重考的那個。外套在這裡，等你快一年了。').map(d=>d.text):[];
+    const strip=t=>String(t||'').replace(/^「(.*)」$/,'$1'), miss=want.concat(sk).filter(t=>!doc.includes(strip(t)));
+    check('D0. AA_538（04ebaa37e）讀得到；佳蓉 meetB 五行＋畢業照片句、SK02 系辦兩句都在稿裡（一字不差）',doc.length>500&&want.length===6&&sk.length===2&&!miss.length,doc?J(miss):'git fetch origin claude/cool-heisenberg-o8kuqx'); });
 
   /* ---------- D：AA_528 第 9 點 ---------- */
   await sec('D',async()=>{ const M='pool_20', L=POOL.LINES[M];
