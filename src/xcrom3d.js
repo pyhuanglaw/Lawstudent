@@ -101,7 +101,13 @@ const XCROM=(()=>{
       {speaker:null,text:'（她講到一點半。你們掛電話的時候，她說了「晚安」，又說了一次。）'},
       {set:{XC_CALL1:true}} ],
     outingMissed:G=>{ if(G&&G.flags&&G.flags.XC_CALL1_MISS==null) G.flags.XC_CALL1_MISS=S.callDay(); } };
-  S.phone=function(G){ for(const f of [S.g3Remind,S.blankAgain,S.g7,S.call1]){ try{ f(G); }catch(e){ console.warn('XCROM.phone',e); } } };
+  /* 第 2 節：和以安分開以後（G10），之前已經過了 G3、G4 的玩家，當晚 01:10 她多一則（意思留給玩家去想；這條線就不開了）。G10 的開關關掉＝不傳 */
+  S.AN_BREAK=['今天的劇很難看。','我看完了。'];
+  S.anBreak=function(G){ const f=F(G); if(!law(G)||!S.CFG.noAnEx||!f['EX_'+AN]||sent(G,'xc_an_break')||!contact(G)) return;
+    const R=typeof ROM!=='undefined'&&ROM.get?ROM.get(G,AN):null, H0=R&&Array.isArray(R.history)?R.history.filter(h=>h&&h.ev==='end'):[], e=H0[H0.length-1]; if(!e||e.day==null) return;
+    const g=S.gates(G); if(!g.G3||!g.G4) return; const d=e.day+1, h=1+10/60; if(now(G)<T(d,h)-24||now(G)>T(d,h)+48) return;
+    PHONE.at(G,d,h,S.AN_BREAK.map(P),'xc_an_break'); };
+  S.phone=function(G){ for(const f of [S.g3Remind,S.blankAgain,S.g7,S.call1,S.anBreak]){ try{ f(G); }catch(e){ console.warn('XCROM.phone',e); } } };
   S.EVENTS=[S.EV_G2,S.EV_SAMEDAY,S.EV_CALL1];
   /* ---------- 接線（載入時一次）---------- */
   S.wire=function(){ if(S._wired) return; S._wired=true;

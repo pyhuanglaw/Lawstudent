@@ -8,6 +8,7 @@
 //   4  AA_537b 第 1～3 節（date_lines.js）：十一個 key、128 點喜好、15 句不喜歡、八個常去地點，逐字對稿
 //   5  第 2 段：慈 6 那一場最後「空白的週三下午」（3-5，G8 XC_BLANK）、沒和以安和好多一句（3-6）
 //   6  第 2 段：3-1 大二上麵店補問（G2）、3-2 大二下半夜提醒（G3）、3-5 後補（大四上第 6 週週三）
+//   9  第 2 節：和以安分開那晚 01:10（過了 G3、G4）「今天的劇很難看。」「我看完了。」
 //   8  第 2 段：3-3 G4b 補演的玩家大二下第 8 週週三 00:30 的電話（接＝XC_CALL1、不接＝隔天早上「打錯了。」）
 //   7  第 2 段：3-4 G7 當天約（慈 5 以後第一個週三、答應＝18:00 家常菜、不答應＝大三下第 6 週再一次、日本路線改大四上第 2 週）
 // 用法：node tests/xinci_romance_unit.js（稿用 git show 讀：在沒有 .git 的目錄跑時，設環境變數 XC_GIT_DIR＝這個 repo 的目錄）
@@ -171,6 +172,14 @@ const walk=async(picks,term)=>{ H.said=[]; H.opts=[]; H.picks=picks.slice(); ret
     const m=(H.G.msgs||[]).find(x=>x.tag==='xc_call1_miss');
     check('8. 不接：隔天早上「打錯了。」，G4 沒過',!!m&&m.text==='打錯了。'&&X().gates(H.G).G4===false&&DOC537.includes('「打錯了。」'));
     H.fresh(CALENDAR.dateOf(d-1).key,20,'dorm',{introDone:true}); at(d-1,20); check('8. 慈 3 照常演過的（沒有 XC_FIX）：沒有這通電話',!OUT.get(H.G,'xc_call1')); });
+
+  /* ===== 第 9 節：第 2 節 和以安分開以後那一則 ===== */
+  await sec(9,()=>{ const d=D('2027-11-10'); H.fresh('2027-11-10',20,'dorm',{introDone:true}); H.G.contacts={[XC]:1}; H.G.l118={once:{H7c:1}}; SOCIAL.remember(XC,'XINCI_SECOND','');
+    ROM.start(H.G,AN); ROM.end(H.G,AN,'apart_talk'); STORY.phoneRules(GM); PHONE.tick(H.G); const before=(H.G.msgs||[]).filter(m=>m.tag==='xc_an_break').length; H.G.day=d+1; H.G.hour=1.2; STORY.phoneRules(GM); PHONE.tick(H.G);
+    const m=(H.G.msgs||[]).filter(x=>x.tag==='xc_an_break');
+    check('9. 和以安分開那晚 01:10（過了 G3、G4）：「今天的劇很難看。」「我看完了。」；G10 不過',before===0&&!!m[0]&&m[0].day===d+1&&m[0].h>=1.16&&J(m.map(x=>x.text))===J(X().AN_BREAK)&&X().AN_BREAK.every(t=>DOC537.includes('> 芯慈：'+t))&&X().gates(H.G).G10===false,J(m.map(x=>[x.day,x.h,x.text])));
+    H.fresh('2027-11-10',20,'dorm',{introDone:true}); H.G.contacts={[XC]:1}; ROM.start(H.G,AN); ROM.end(H.G,AN,'apart_talk'); H.G.day=d+1; H.G.hour=1.2; STORY.phoneRules(GM); PHONE.tick(H.G);
+    check('9. 還沒過 G3、G4 的：不傳',!(H.G.msgs||[]).some(x=>x.tag==='xc_an_break')); });
 
   H.done();
 })();
