@@ -55,11 +55,11 @@ async def main():
         ok = await L.go_to(pg, cdp, run, 34, -125.6, 1.2, '後面的小廣場')
         s = await L.state(pg); await run.shot(pg, 'behind_passage')
         run.check('穿過建築：走下後台階到後面的小廣場（高度 0）', ok and abs(s['y']) < 0.1, json.dumps(s, ensure_ascii=False))
-        door = await L.find_it(pg, '進入霖澤館')
+        door = await L.find_it(pg, '進入法律系館A')
         ok = await L.go_to(pg, cdp, run, door['x'] + 0.4, door['z'], 1.0, '穿堂西側的大廳門口')
-        run.check('走回穿堂，到大廳門口（出現「進入霖澤館」）', ok and (await L.state(pg))['interact'].startswith('進入霖澤館'))
+        run.check('走回穿堂，到大廳門口（出現「進入法律系館A」）', ok and (await L.state(pg))['interact'].startswith('進入法律系館A'))
         # 2. 進大廳
-        run.check('點「進入霖澤館」→ 一樓大廳', await press(pg, cdp, run, '進入霖澤館', 'linze'))
+        run.check('點「進入法律系館A」→ 一樓大廳', await press(pg, cdp, run, '進入法律系館A', 'linze'))
         await pg.wait_for_timeout(2500); s = await L.state(pg); await run.shot(pg, 'lobby')
         run.check('在大廳：第 0 層、地面高度', s['zone'] == 'linze' and s['lv'] == 0 and abs(s['y']) < 0.05, json.dumps(s, ensure_ascii=False))
         # 3. 走樓梯上二樓
@@ -123,7 +123,7 @@ async def main():
         c = await pg.evaluate("(k=>{ const n=k.replace('fatiao3d_slot_',''); const b=[...document.querySelectorAll('#saveSlots button')].filter(x=>x.textContent==='讀取'); const e=b.find(x=>x.closest('.item')&&x.closest('.item').textContent.includes('欄位 '+n)); if(!e) return null; e.scrollIntoView({block:'center'}); const r=e.getBoundingClientRect(); return [r.left+r.width/2,r.top+r.height/2]; })(%s)" % json.dumps(saved['k'] if saved else 'fatiao3d_slot_3'))
         if c: await L.touch_tap(cdp, c[0], c[1])
         await pg.wait_for_timeout(4000); s = await L.state(pg)
-        run.check('讀檔：回到霖澤館二樓（第 1 層、4.2 m）', s['zone'] == 'linze' and s['lv'] == 1 and abs(s['y'] - 4.2) < 0.1, json.dumps(s, ensure_ascii=False))
+        run.check('讀檔：回到法律系館A二樓（第 1 層、4.2 m）', s['zone'] == 'linze' and s['lv'] == 1 and abs(s['y'] - 4.2) < 0.1, json.dumps(s, ensure_ascii=False))
         # 8. 電梯
         call = await pg.evaluate("(()=>{ const it=GAME.E.interactables.find(i=>i.elevator&&i.lv===GAME.E.player.lv); return it?{x:it.x,z:it.z}:null; })()")
         ok = await L.go_to(pg, cdp, run, call['x'], call['z'], 0.6, '電梯按鈕（二樓）', lv=1)
@@ -154,10 +154,10 @@ async def main():
             if any(b2 - a2 >= 2.0 for a2, b2 in spans): break
         run.check('NPC 走樓梯上下樓（150 秒內高度變化 ≥ 2 m）', any(b2 - a2 >= 2.0 for a2, b2 in spans), json.dumps(spans) + '  %.0f 秒' % (time.time() - t0))
         # 9. 走出建築
-        ex = await L.find_it(pg, '走出霖澤館')
+        ex = await L.find_it(pg, '走出法律系館A')
         ok = await L.go_to(pg, cdp, run, ex['x'] - 0.3, ex['z'], 0.9, '大廳出口', lv=0)
-        run.check('走到「走出霖澤館」', ok and (await L.state(pg))['interact'].startswith('走出霖澤館'))
-        run.check('走出霖澤館 → 校園（穿堂）', await press(pg, cdp, run, '走出霖澤館', 'campus'))
+        run.check('走到「走出法律系館A」', ok and (await L.state(pg))['interact'].startswith('走出法律系館A'))
+        run.check('走出法律系館A → 校園（穿堂）', await press(pg, cdp, run, '走出法律系館A', 'campus'))
         await pg.wait_for_timeout(2000); s = await L.state(pg)
         run.check('回到校園的穿堂（高度 0.9 m）', s['zone'] == 'campus' and abs(s['y'] - 0.9) < 0.1, json.dumps(s, ensure_ascii=False))
         ok = await L.go_to(pg, cdp, run, 34, -94, 1.5, '法學院廣場')

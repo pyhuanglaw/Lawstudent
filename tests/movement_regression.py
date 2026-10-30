@@ -97,7 +97,7 @@ async def test_D(rig):
     await rig.pg.screenshot(path='screenshots/T_D_after_reload.png')
 async def test_E(rig):
     print('--- TEST E 各區域')
-    zones=[('宿舍','dorm',{'x':0,'z':2.8,'yaw':3.1416},'坐在書桌前',1.5),('霖澤館前','campus',{'x':34,'z':-99,'yaw':0},'進入霖澤館',5.0),('椰林大道','campus',{'x':-40,'z':-5,'yaw':-1.5708},'坐在椰林大道的長椅上',5.0),('教室','classroom',{'x':0,'z':4.6,'yaw':3.1416},'坐下',2.0),('咖啡廳','cafe',{'x':0,'z':4.6,'yaw':3.1416},'坐在窗邊的雙人桌',2.0)]
+    zones=[('宿舍','dorm',{'x':0,'z':2.8,'yaw':3.1416},'坐在書桌前',1.5),('法律系館A前','campus',{'x':34,'z':-99,'yaw':0},'進入法律系館A',5.0),('椰影大道','campus',{'x':-40,'z':-5,'yaw':-1.5708},'坐在椰影大道的長椅上',5.0),('教室','classroom',{'x':0,'z':4.6,'yaw':3.1416},'坐下',2.0),('咖啡廳','cafe',{'x':0,'z':4.6,'yaw':3.1416},'坐在窗邊的雙人桌',2.0)]
     for name,zone,pos,inter,need in zones:
         await rig.load(state(zone,pos,weekday=2,hour=10.3))   # 週二 10:20 刑訴：霖澤館可以進
         a,b=await rig.forward(2400); check(f'E {name}：walk 位置改變', dist(a,b)>=min(need,1.5), f'{a} → {b}')

@@ -30,7 +30,7 @@ async def main():
         b, ctx, pg, cdp, errs = await L.launch(p, landscape=True)
         await pg.goto(URL)
         run.check('遊戲載入', await L.wait_loaded(pg))
-        run.setup('讀檔：第 5 天 15:00 校園（傅鐘附近）')
+        run.setup('讀檔：第 5 天 15:00 校園（晨思鐘附近）')
         await L.load_state(pg, {'zone': 'campus', 'hour': 15.0, 'day': 5, 'weekday': 0, 'weather': 'clear', 'pos': {'x': -38, 'z': 6, 'yaw': 0}, 'flags': {'introDone': True, 'campusIntro': True, 'readCase': 'full', 'classDone': True, 'afternoonDone': True, 'metAn': True, 'zheNoodleDone': True}})
         await pg.wait_for_timeout(8000)
         m0 = await pg.evaluate(MEM)

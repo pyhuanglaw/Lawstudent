@@ -53,6 +53,25 @@ def decide(body, G, ov, path):
     return 'unknown', 'mixed'
 
 
+def py_tokens(src):
+    """Python 測試（瀏覽器流程測試 tests/*.py）：用 tokenize 找字串常數，回傳 ('str', 內容起點, 內容終點)；註解不動"""
+    import io, tokenize
+    starts = [0]
+    for ln in src.split('\n'): starts.append(starts[-1] + len(ln) + 1)
+    out = []
+    FM = getattr(tokenize, 'FSTRING_MIDDLE', None)
+    for t in tokenize.generate_tokens(io.StringIO(src).readline):
+        a = starts[t.start[0] - 1] + t.start[1]; b = starts[t.end[0] - 1] + t.end[1]
+        if FM is not None and t.type == FM:   # Python 3.12 起 f 字串的文字段
+            if src[a:b] == t.string: out.append(('str', a, b))
+            continue
+        if t.type != tokenize.STRING: continue
+        lit = src[a:b]; m = re.match(r"(?i)[rbuf]*('''|\"\"\"|'|\")", lit)
+        if not m: continue
+        q = m.group(1); out.append(('str', a + m.end(), b - len(q)))
+    return out
+
+
 def main():
     args = [a for a in sys.argv[1:] if not a.startswith('--')]
     apply = '--apply' in sys.argv
@@ -64,7 +83,7 @@ def main():
         rel = os.path.relpath(os.path.abspath(f), ROOT)
         src = open(os.path.join(ROOT, rel), encoding='utf-8').read()
         edits = []
-        for k, s, e in tokens(src):
+        for k, s, e in (py_tokens(src) if rel.endswith('.py') else tokens(src)):
             if k == 'regex':   # /…/flags：只看樣式那一段
                 j = src.rfind('/', s + 1, e)
                 if j <= s: continue

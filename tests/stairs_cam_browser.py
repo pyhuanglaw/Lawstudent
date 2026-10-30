@@ -62,7 +62,7 @@ async def main():
         await pg.goto(URL); assert await L.wait_loaded(pg)
         plans = [
             ('library_hall', '總圖大廳', "(()=>{ const s=LIBRARY_LAYOUT.entrance.spawn; return [[s.x,s.z,0,-8.6,1.5,1],[s.x,s.z,0,8.6,1.5,1]]; })()"),
-            ('wancai', '萬才館', "(()=>{ const u=WANCAI_LAYOUT.upperDoor.spawn; return [[0,5,0,u.x,u.z,1]]; })()"),
+            ('wancai', '法律系館B', "(()=>{ const u=WANCAI_LAYOUT.upperDoor.spawn; return [[0,5,0,u.x,u.z,1]]; })()"),
             ('linze', '霖澤館（對照）', "(()=>{ const s=LINZE_LAYOUT.entrance.spawn; const c=GAME.E.interactables.find(i=>i.exit&&i.exit.to==='classroom'); return c?[[s.x,s.z,0,c.x,c.z+0.3,1]]:[]; })()"),
         ]
         for zone, name, routes_js in plans:

@@ -1,8 +1,8 @@
 """真實玩家流程：演講出席三態（AA_110 5-2；src/data/activities.js 的 track、src/game3d.js 的 actTrack）。不用 ?turbo。
-[前置／捷徑] 讀檔站在博雅大廳；每一段前面放一場測試演講到活動清單（遊戲裡的活動清單是空的，內容等 AA、BB）。其餘都走真的介面（點地面、互動按鈕、選項、手機）。
+[前置／捷徑] 讀檔站在博思大廳；每一段前面放一場測試演講到活動清單（遊戲裡的活動清單是空的，內容等 AA、BB）。其餘都走真的介面（點地面、互動按鈕、選項、手機）。
 A. 中途離開：演講已經開始，自己走進 101、坐下 →「坐一下」（20 分鐘）→ 起身 → 自己走出 101 到大廳 → 紀錄是 left（中途離開）、離開的時間在散場前。
-B. 快速前往：第二場開始後坐下 →「坐一下」→ 起身 → 手機「地點」→ 台大校園 → 紀錄是 left、離開的時間是出發的時候（不是到達）。
-C. 座位上跳時間：手機「地點」到博雅門口、按門進去、走進 101；第三場開始前坐下 →「讀書」→「讀 1 小時」跨過整場 → 紀錄是 full（聽完）。
+B. 快速前往：第二場開始後坐下 →「坐一下」→ 起身 → 手機「地點」→ 首都帝大校園 → 紀錄是 left、離開的時間是出發的時候（不是到達）。
+C. 座位上跳時間：手機「地點」到博思門口、按門進去、走進 101；第三場開始前坐下 →「讀書」→「讀 1 小時」跨過整場 → 紀錄是 full（聽完）。
 D. 自動存檔裡有這三筆紀錄（存檔讀檔帶得走）。
 修改前（只有選「聽演講」才記）A、B、C 都沒有紀錄，這個測試會失敗。
 用法：python3 tests/flow_lecture_attend.py URL [輸出資料夾]"""
@@ -23,9 +23,9 @@ async def seat_of(pg, js_filter):
 
 
 async def add_lecture(pg, run, lid, d0, dur):
-    """[前置] 今天、博雅 101、現在＋d0 小時開始、dur 小時（d0 可以是負的：已經開始）"""
-    run.setup(f'放測試演講 {lid}：今天、博雅 101、現在{d0*60:+.0f} 分鐘開始、{dur*60:.0f} 分鐘')
-    return await pg.evaluate("(([id,d0,dur])=>{ const G=GAME.G, d=CALENDAR.dateOf(G.day), h=G.hour%%24; const a={id,title:'測試演講（'+id+'）',kind:'lecture',zone:'boya',room:'101',roomName:'博雅 101',dates:[d.key],t0:h+d0,t1:h+d0+dur}; ACTIVITIES.list.push(a); return {t0:a.t0,t1:a.t1}; })(%s)" % json.dumps([lid, d0, dur]))
+    """[前置] 今天、博思 101、現在＋d0 小時開始、dur 小時（d0 可以是負的：已經開始）"""
+    run.setup(f'放測試演講 {lid}：今天、博思 101、現在{d0*60:+.0f} 分鐘開始、{dur*60:.0f} 分鐘')
+    return await pg.evaluate("(([id,d0,dur])=>{ const G=GAME.G, d=CALENDAR.dateOf(G.day), h=G.hour%%24; const a={id,title:'測試演講（'+id+'）',kind:'lecture',zone:'boya',room:'101',roomName:'博思 101',dates:[d.key],t0:h+d0,t1:h+d0+dur}; ACTIVITIES.list.push(a); return {t0:a.t0,t1:a.t1}; })(%s)" % json.dumps([lid, d0, dur]))
 
 
 async def rec(pg, lid):
@@ -93,7 +93,7 @@ async def main():
         b, ctx, pg, cdp, errs = await L.launch(p, landscape=True)
         await pg.goto(URL)
         run.check('遊戲載入', await L.wait_loaded(pg))
-        run.setup('讀檔：第 3 天（9/19 週五）10:00，博雅教學館大廳')
+        run.setup('讀檔：第 3 天（9/19 週五）10:00，博思教學館大廳')
         await L.load_state(pg, {'zone': 'boya', 'hour': 10.0, 'day': DAY_FRI, 'weekday': 5, 'weather': 'sunny', 'pos': {'x': 0, 'z': 6.8, 'yaw': 3.14}, 'flags': BASE_FLAGS})
         await pg.wait_for_timeout(4000)
         # ---------- A：中途離開 ----------
@@ -117,16 +117,16 @@ async def main():
         r = await rec(pg, 't_quick')
         run.check('B 走回 101、坐下「坐一下」→ 第二場開始記（in）', ok and any(o.startswith('坐一下') for o in opts) and r and r.get('end') == 'in', json.dumps(opts, ensure_ascii=False) + ' ' + json.dumps(r))
         h_dep = (await L.state(pg))['hour']
-        ok = await phone_place(pg, cdp, run, 'campus|台大校園（霖澤館前）')
+        ok = await phone_place(pg, cdp, run, 'campus|首都帝大校園（法律系館A前）')
         s = await L.state(pg); r = await rec(pg, 't_quick')
-        run.check('B 手機「地點」快速前往台大校園 → 中途離開（left）、離開的時間是出發的時候', ok and s['zone'] == 'campus' and r and r.get('end') == 'left' and abs(r.get('lh', 0) - (h_dep % 24)) < 0.05, json.dumps(r) + f' 出發 {h_dep:.2f}、到達 {s["hour"]:.2f}')
+        run.check('B 手機「地點」快速前往首都帝大校園 → 中途離開（left）、離開的時間是出發的時候', ok and s['zone'] == 'campus' and r and r.get('end') == 'left' and abs(r.get('lh', 0) - (h_dep % 24)) < 0.05, json.dumps(r) + f' 出發 {h_dep:.2f}、到達 {s["hour"]:.2f}')
         # ---------- C：座位上跳時間 ----------
-        ok = await phone_place(pg, cdp, run, 'campus|博雅教學館')
+        ok = await phone_place(pg, cdp, run, 'campus|博思教學館')
         s = await L.state(pg)
-        run.check('C 手機「地點」到博雅教學館門口、出現「博雅教學館」', ok and s['zone'] == 'campus' and s['interact'].startswith('博雅教學館'), json.dumps(s, ensure_ascii=False))
+        run.check('C 手機「地點」到博思教學館門口、出現「博思教學館」', ok and s['zone'] == 'campus' and s['interact'].startswith('博思教學館'), json.dumps(s, ensure_ascii=False))
         await L.tap(pg, cdp, '#interact'); await pg.wait_for_timeout(5000)
         s = await L.state(pg)
-        run.check('C 按下去走進博雅教學館（沒有課：直接進去）', s['zone'] == 'boya' and s['stand'], json.dumps(s, ensure_ascii=False))
+        run.check('C 按下去走進博思教學館（沒有課：直接進去）', s['zone'] == 'boya' and s['stand'], json.dumps(s, ensure_ascii=False))
         ok, s = await to_seat(pg, cdp, run, '101 第 3 排附近的空位')
         a = await add_lecture(pg, run, 't_skip', 0.15, 0.6)
         pose, opts, s = await sit_and_choose(pg, cdp, run, '讀書', pick_after=0)

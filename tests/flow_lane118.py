@@ -40,7 +40,7 @@ async def main():
         await pg.evaluate("localStorage.clear()")
         d = await pg.evaluate("STORY.dayOfKey('2025-09-08')")
         social = {'rel': {'zhe': {'fam': 30, 'trust': 15, 'aff': 10, 'resp': 5, 'comf': 15, 'rom': 0, 'npcRom': 0, 'seen': 5, 'talked': 5}}, 'mem': {'zhe': [{'tag': 'FIRST_MET', 'day': -3, 'note': ''}]}, 'reveal': {}, 'prof': {}, 'grad': {'interest': 'NONE', 'field': None, 'prep': 0}}
-        run.setup('讀檔：2025-09-08（一）12:05 霖澤館穿堂後面的小廣場；見過阿哲（熟悉 30）')
+        run.setup('讀檔：2025-09-08（一）12:05 法律系館A穿堂後面的小廣場；見過阿哲（熟悉 30）')
         await L.load_state(pg, {'zone': 'campus', 'hour': 12.08, 'day': d, 'weekday': 1, 'weather': 'sunny', 'stage': 'law', 'money': 3000, 'flags': BASE, 'social': social, 'pos': {'x': 34, 'z': -124.6, 'yaw': 3.14}})
         await pg.wait_for_timeout(3000); await L.close_panels(pg, cdp)
         ex = await L.find_it(pg, '從後門出去')
@@ -104,16 +104,16 @@ async def main():
             if await pg.evaluate("GAME.G.zone==='lane118'&&!GAME.E.player.busy"): break
             await pg.wait_for_timeout(1000)
         run.check('「離開六張犁麵舖」→ 回到 118 巷', await pg.evaluate("GAME.G.zone==='lane118'"))
-        gate = await L.find_it(pg, '回到台大')
-        ok = bool(gate) and await L.go_to(pg, cdp, run, gate['x'], gate['z'], gate['r'] * 0.7, '後門（回台大）')
+        gate = await L.find_it(pg, '回到首都帝大')
+        ok = bool(gate) and await L.go_to(pg, cdp, run, gate['x'], gate['z'], gate['r'] * 0.7, '後門（回首都帝大）')
         await pg.wait_for_timeout(800); s = await L.state(pg)
-        if ok and s['interact'].startswith('回到台大'): await L.tap(pg, cdp, '#interact')
+        if ok and s['interact'].startswith('回到首都帝大'): await L.tap(pg, cdp, '#interact')
         for _ in range(60):
             if await pg.evaluate("GAME.G.zone==='campus'&&!GAME.E.player.busy"): break
             await pg.wait_for_timeout(1000)
         st = await pg.evaluate("({zone:GAME.G.zone, x:+GAME.E.player.obj.position.x.toFixed(1), z:+GAME.E.player.obj.position.z.toFixed(1), fb:GAME.walkFallbacks||0})")
         await run.shot(pg, 'back_campus')
-        run.check('走回後門 → 回到校園（霖澤館後面的小廣場）', st['zone'] == 'campus' and abs(st['x'] - 34) < 4 and st['z'] < -120, json.dumps(st))
+        run.check('走回後門 → 回到校園（法律系館A後面的小廣場）', st['zone'] == 'campus' and abs(st['x'] - 34) < 4 and st['z'] < -120, json.dumps(st))
         run.check('沒有用到卡住保險', st['fb'] == 0, str(st['fb']))
         run.check('沒有 JS 例外', not errs, json.dumps(errs[:3], ensure_ascii=False))
         await b.close()
