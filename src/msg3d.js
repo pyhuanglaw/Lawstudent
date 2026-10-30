@@ -346,7 +346,6 @@ const MSG=(function(){
     'heroine_03:aunt_hand':{ev:'ev_yutong_absent'},   /* AA_11 事件 4：阿姨扭到手、她顧店的那兩週 */
     'heroine_03:dm_exam_eve':{on:'2026-06-17'},   /* 雙主修筆試 6/18（AA_250 第 2 節）的前一天 */
     'classmate_bohan:split_peishan':{ev:['ev_peishan_split','ev_peishan_bohan_split']},   /* AA_374 第 18 項：兩件分手合併成 ev_peishan_split；舊存檔演的是 ev_peishan_bohan_split */
-    'classmate_xinci:rank_second':{ev:['ev_xinci_second','ev_xinci_second_b1','ev_xinci_second_day']},   /* AA_497 2-3：慈 3 的 B1 版、補救的白天版也算 */
     'heroine_02:z2_ge_group':{ev:'ev_zhiruo_ge_group',flag:'ge_group_zhiruo'},   /* 選「我已經有組了」的沒有這個旗標 */
     'heroine_02:z9_ticket':{ev:'ev_zhiruo_last_shift'},
     'heroine_02:notes_photo':{help:'notes'},

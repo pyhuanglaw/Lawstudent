@@ -68,13 +68,11 @@ const MSG2_POOL={
    {"topic": "newyear", "cond": null, "tier": "A", "msgs": ["新年快樂。"], "tags": [], "src": "AA_202 7-3 柏翰"},
    {"topic": "newyear", "cond": null, "tier": "R", "msgs": ["新年快樂。新竹風很大。"], "tags": ["過年"], "src": "AA_202 7-3 柏翰"}
   ]}),
-  "classmate_xinci":Object.assign({"name": "芯慈", "birthday": "03-28", "birthdayText": "芯慈 3/28", "style": "句子完整、客氣；00:30 以後很多話", "conds": {"thanks": [], "ok": [{"key": "rank_second", "text": "慈 3（排名第二）以後", "src": "AA_202 7-2"}], "closed": [], "closedText": null}},{"replies":[
+  "classmate_xinci":Object.assign({"name": "芯慈", "birthday": "03-28", "birthdayText": "芯慈 3/28", "style": "句子完整、客氣；00:30 以後很多話", "conds": {"thanks": [], "ok": [], "closed": [], "closedText": null}},{"replies":[
    {"topic": "thanks", "cond": null, "tier": "A", "msgs": ["不會，有需要再跟我說。"], "tags": [], "src": "AA_202 7-3 芯慈"},
    {"topic": "thanks", "cond": null, "tier": "R", "msgs": ["不會！筆記我都有存，要的話都可以拿。"], "tags": [], "src": "AA_202 7-3 芯慈"},
    {"topic": "bday", "cond": null, "tier": "A", "msgs": ["謝謝你記得。"], "tags": [], "src": "AA_202 7-3 芯慈"},
    {"topic": "bday", "cond": null, "tier": "R", "msgs": ["謝謝！我今天的行事曆只寫了一行：吃蛋糕。"], "tags": [], "src": "AA_202 7-3 芯慈"},
-   {"topic": "ok", "cond": "rank_second", "tier": "A", "msgs": ["還好，謝謝。"], "tags": [], "src": "AA_202 7-3 芯慈"},
-   {"topic": "ok", "cond": "rank_second", "tier": "R", "msgs": ["還好。第二名也是名。……我是這樣跟自己說的。"], "tags": [], "src": "AA_202 7-3 芯慈"},
    {"topic": "newyear", "cond": null, "tier": "A", "msgs": ["新年快樂！"], "tags": [], "src": "AA_202 7-3 芯慈"},
    {"topic": "newyear", "cond": null, "tier": "R", "msgs": ["新年快樂！我把今年的行事曆印出來了。"], "tags": [], "src": "AA_202 7-3 芯慈"}
   ]}),

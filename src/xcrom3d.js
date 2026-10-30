@@ -16,10 +16,10 @@ const XCROM=(()=>{
      這條線用「第二名」撐，先停、不進下一版，等 AA 重寫）：false＝芯慈不在 DATE.HEROINES、沒有心意邀約、告白、半夜訊息、新的時刻、心願午夜場；
      程式留著（tests/xinci_romance_unit.js 用 XCROM.setOn(true) 測），AA 重寫以後照新稿改、再打開 */
   S.ON=false;
-  /* 舊的「第二名」那幾場也先關（D116 遊戲裡的人不跟別人比；同一則否決）：慈 3 ev_xinci_second（＋B1 版、Café 補演、第 11 週提示）、慈 4 ev_xinci_bad_line、
-     慈 5 ev_xinci_an_answers（＋遠版）、慈 6 ev_xinci_first_place（＋日本視訊、錯過那一則）。false＝都不演、配套訊息不發（各支的條件問 XCROM.OLD）；
-     程式和台詞留著，等 AA_547 重寫（芯慈新設定：USER_WANTS X139）；要測舊的那幾場用 XCROM.OLD=true */
-  S.OLD=false;
+  /* 慈 3、慈 5、慈 6 的開關（名字 OLD 是歷史：10-30 19:0x 先關掉舊的「第二名」四場，D116）：AA_547（企劃線 c746f364d，使用者 19:2x 點選「照這份寫」）已經把它們換成新稿——
+     慈 3「凌晨的便利商店」（＋B1、Café 補演、第 11 週提示）、慈 5「對答案」（分工抄筆記）、慈 6「暑期實習」；慈 4、Alison「吵架了」整場拿掉。true＝照新稿演；
+     要整批再關掉時改 false（各支的條件問 XCROM.OLD）。戀愛線（S.ON）照舊關著，等 AA_548 重寫門檻 */
+  S.OLD=true;
   const F=G=>(G&&G.flags)||{};
   const done=(G,id)=>!!(G&&G.events&&G.events.done&&G.events.done[id]);
   const mem=(G,tag)=>!!(G&&G.social&&G.social.mem&&(G.social.mem[XC]||[]).some(m=>m.tag===tag));
@@ -39,7 +39,7 @@ const XCROM=(()=>{
       G1:done(G,'ev_xinci_notes')&&typeof INV!=='undefined'&&!!INV.hasContact&&!!INV.hasContact(G,XC),   /* 慈 1 筆記，拿到聯絡方式 */
       G2:mem(G,'TALKED_FAMILY')||mem(G,'ECON_TOGETHER'),   /* 慈 2 雙主修（3-1 補問也記 TALKED_FAMILY）*/
       G3:!!(l118&&l118.H7c!=null),   /* 「她今天要換。」（lane118.js H7c）*/
-      G4:mem(G,'XINCI_SECOND')&&(f.XC_FIX!=='yes'||!!f.XC_CALL1),   /* 慈 3 半夜的便利商店；走 Café 補演（XC_FIX）的要多過 3-3 那通電話（XC_CALL1）*/
+      G4:(mem(G,'XINCI_NIGHT')||mem(G,'XINCI_SECOND'))&&(f.XC_FIX!=='yes'||!!f.XC_CALL1),   /* 慈 3 半夜的便利商店；走 Café 補演（XC_FIX）的要多過 3-3 那通電話（XC_CALL1）*/
       G5:(f.XC_NIGHT|0)>=6,   /* 半夜回她訊息 6 次（她傳的 30 分鐘內）*/
       G6:!!f.XC5_RECONCILE,   /* 慈 5 她跟以安和好 */
       G7:!!f.XC_SAMEDAY,   /* 「沒有提前一天」：她第一次當天約你，你答應 */

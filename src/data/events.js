@@ -3495,23 +3495,19 @@ const STORY_EVENTS=[
       {label:'c'},{speaker:'heroine_01',expression:'neutral',text:'這不算。'},{speaker:null,text:'她停了一下。'},{speaker:'heroine_01',expression:'smile',text:'……好，算一點。'},
       {label:'end'},{set:{AN_TUTOR_FAMILY:1}} ] },
   /* D10 慈 3「第二名」（AA_40、AA_177 第 5 節：寫成芯慈的作息）：大二上第 14～18 週，週一到週四的深夜（隔天 00:15～00:45）她在溫州街的便利商店，第一次遇到就演；
-     第 15 週以後沒遇到＝不演（AA_243 #20：16 週制改第 12～15 週）。記 XINCI_SECOND（慈 4 的背景；主線 4 xc_drama「那部劇大結局了」在這之後）*/
+     第 15 週以後沒遇到＝不演（AA_243 #20：16 週制改第 12～15 週）。記 XINCI_NIGHT（AA_547 2-1，原本 XINCI_SECOND；主線 4 xc_drama「那部劇大結局了」在這之後）*/
   /* AA_497 2-3：多一個地點＝總圖 B1 二十四小時自習室 00:00～00:15（ev_xinci_second_b1，src/sup497_3d.js 照這一場組：前兩句換、「十二點半了」）；
      兩個地點只演一個；第 11 週週一 00:20 有她聯絡方式的收到提示；第 15 週還沒演＝大二下第 2 週她約 Café 演白天版（ev_xinci_second_day）*/
-  { id:'ev_xinci_second', title:'第二名', participants:['classmate_xinci'], location:'cvs', trigger:'auto', term:['Y2S1'], weeks:[12,13,14,15], weekday:[1,2,3,4], time:[0.25,0.75], once:true, near:{npc:'classmate_xinci',r:4}, background:'blur',
-    prereq:{custom:G=>typeof XCROM!=='undefined'&&!!XCROM.OLD&&typeof STORY!=='undefined'&&!!STORY.knows&&STORY.knows('classmate_xinci',G)&&!(G.events&&G.events.done&&(G.events.done.ev_xinci_second_b1||G.events.done.ev_xinci_second_day))},   /* XCROM.OLD：D116 先關 */
-    dialogue:[ {speaker:null,text:'（芯慈在買咖啡，手機在放韓劇，沒有關聲音。）'},{speaker:null,text:'（她背包還背著，手機上是叫車的畫面。）'},   /* AA_313 5-6：她住永和、通勤，半夜在溫州街要交代 */
-      {speaker:'classmate_xinci',expression:'neutral',text:'（把手機轉靜音）這部很重要，真的。'},{speaker:'classmate_xinci',expression:'neutral',text:'每天就這半小時，沒有人會問我考幾分。'},
-      {speaker:'classmate_xinci',expression:'thinking',text:'（停了一下）你知道我高中跟沈以安補同一家補習班嗎。她在台中，我在永和。'},
-      {speaker:'classmate_xinci',expression:'neutral',text:'聯合模考的排名貼在牆上。她第一，我第二。三年。'},
-      {speaker:'classmate_xinci',expression:'neutral',text:'她不記得我。開學第一天，她跟我說「妳好，我是沈以安」。很客氣。'},
-      {if:{memory:[{npc:'classmate_xinci',tag:'LENT_NOTES'}]},speaker:'classmate_xinci',expression:'neutral',text:'（很平靜）我借你的筆記，是想知道第一名以外的人，筆記怎麼寫。……你的比我想的好。'},
-      {unless:{memory:[{npc:'classmate_xinci',tag:'LENT_NOTES'}]},speaker:'classmate_xinci',expression:'neutral',text:'我在總圖看過你寫筆記。……你寫得比我想的整齊。'},   /* AA_374 第 10 項：沒借過她筆記的玩家 */
-      {choice:[{text:'「妳有跟她說過嗎？」',goto:'a'},{text:'「這部劇在演什麼？」',goto:'b'},{text:'「第二名也很厲害。」',goto:'c'}]},
-      {label:'a'},{speaker:'classmate_xinci',expression:'neutral',text:'說什麼？『妳好，我是三年的第二名』？'},{speaker:null,text:'她笑，很短。'},{speaker:'classmate_xinci',expression:'neutral',text:'不要。'},{goto:'end'},
-      {label:'b'},{speaker:null,text:'她眼睛亮起來，講了十分鐘的劇情。然後停住：'},{speaker:'classmate_xinci',expression:'laugh',text:'啊。我講太多了。'},{speaker:null,text:'她看了一下時間。'},{speaker:'classmate_xinci',expression:'neutral',text:'十二點四十了，我要回去了，明天早八。'},{goto:'end'},
-      {label:'c'},{speaker:null,text:'她把咖啡蓋子蓋好。'},{speaker:'classmate_xinci',expression:'thinking',text:'……我知道啦。'},{speaker:null,text:'（她拿起咖啡，揮了一下手就走了。）'},   /* AA_428 §2 第 5 點：拿掉第一句「我知道。」、不用「好啦，我知道」改口的收法 */
-      {label:'end'},{mem:[{npc:'classmate_xinci',tag:'XINCI_SECOND',note:'凌晨的便利商店'}]} ] },
+  { id:'ev_xinci_second', title:'凌晨的便利商店', participants:['classmate_xinci'], location:'cvs', trigger:'auto', term:['Y2S1'], weeks:[12,13,14,15], weekday:[1,2,3,4], time:[0.25,0.75], once:true, near:{npc:'classmate_xinci',r:4}, background:'blur',   /* AA_547 2-1（D116）：取代「第二名」；id 照舊 */
+    prereq:{custom:G=>typeof XCROM!=='undefined'&&!!XCROM.OLD&&typeof STORY!=='undefined'&&!!STORY.knows&&STORY.knows('classmate_xinci',G)&&!(G.events&&G.events.done&&(G.events.done.ev_xinci_second_b1||G.events.done.ev_xinci_second_day))},
+    dialogue:[ {speaker:null,text:'（B1 自習室關燈以後，她在便利商店等一杯熱拿鐵。）'},
+      {speaker:'classmate_xinci',expression:'neutral',text:'你也還沒睡。'},
+      {speaker:'classmate_xinci',expression:'smile',text:'我在算財管的作業。……我喜歡數字對起來的那一下。'},
+      {choice:[{text:'「妳家也是做這個的嗎？」',goto:'a'},{text:'「什麼時候開始喜歡的？」',goto:'b'},{text:'（陪她等咖啡）',goto:'c'}]},
+      {label:'a'},{speaker:'classmate_xinci',expression:'neutral',text:'不是。我爸媽都是律師。'},{speaker:'classmate_xinci',expression:'neutral',text:'我從小在他們的會議室寫功課。法律聽得很熟，可是我比較喜歡這個。'},{goto:'end'},
+      {label:'b'},{speaker:'classmate_xinci',expression:'thinking',text:'國中。我幫我媽對過一次事務所的帳。'},{speaker:'classmate_xinci',expression:'smile',text:'對起來的時候，好像整間辦公室都安靜了。'},{goto:'end'},
+      {label:'c'},{speaker:null,text:'（咖啡好了。她把第二杯推過來。）'},{speaker:'classmate_xinci',expression:'neutral',text:'多按了一杯。不要浪費。'},
+      {label:'end'},{mem:[{npc:'classmate_xinci',tag:'XINCI_NIGHT',note:'凌晨的便利商店'}]} ] },   /* 記憶 XINCI_SECOND 改名 XINCI_NIGHT（舊存檔的舊標籤照新字顯示，social3d.js MEMORY_LABEL）*/
   /* 沛珊說她和柏翰分開了（AA_185 3-2；台詞 BB_100 2-3）：大二上第 6 週（P3 之後的第一個上課日起），週一到週五 12:10～12:40 霖澤館二樓走廊，她在窗邊等柏翰下課，走過去就演；沒有選項。
      沒遇到＝第 6 週週五 21:00 麵店團群組她自己說（story3d.js phoneRules）。都記 HEARD_PS_SPLIT；也是她伴侶期間的 endEvent（characters.js）*/
   /* AA_374 第 18 項（AA_211 附錄第 373 行、附錄 B E6）：和 ev_peishan_bohan_split 合併成這一件——看過 P3（ev_peishan_decision）、有點熟以上＝原本兩句（先說分開了，AA_313 6-5 第 11 點）；
@@ -4608,7 +4604,7 @@ const STORY_EVENTS_V11=[
       {if:{custom:G=>((G.events&&G.events.done&&G.events.done.ev_youchen_dj)|0)%3===2},speaker:'classmate_youchen',expression:'laugh',text:'你又來了。阿姨說你是常客。'},
       {if:{custom:G=>{ const n=(G.events&&G.events.done&&G.events.done.ev_youchen_dj)|0; return n>0&&n%3===0; }},speaker:'classmate_youchen',expression:'smile',text:'明天早上的課，你幫我看一下有沒有點名。'} ] },
   { id:'ev_xinci_double', title:'雙主修', participants:['classmate_xinci'], location:'library', trigger:'interact', priority:6, once:true, term:['Y1S2'], weeks:[6,7], prereq:{memory:[{npc:'classmate_xinci',tag:'FIRST_MET'}]}, background:'blur',   /* AA_120 7-1 第 3 項：大一下第 6～7 週（2026-03-30～04-12），期中前；債總週四、經原週五。AA_185 3-11：不需要慈 1（借筆記）——認識她就有（祐廷大一下都在重修經原）；沒有慈 1 的玩家第一句換成「……你也在重修經原？」*/
-    dialogue:[ {speaker:null,text:'（總圖裡，她壓低聲音。）'},/* AA_209 附錄A §2：開頭一句旁白，其他的（小聲）×11 拿掉 */{if:{memory:[{npc:'classmate_xinci',tag:'LENT_NOTES'}]},speaker:'classmate_xinci',expression:'tired',text:'經濟的期中在債總的隔天。兩科我都還沒念完……我可能要放棄一科。'},{unless:{memory:[{npc:'classmate_xinci',tag:'LENT_NOTES'}]},speaker:'classmate_xinci',expression:'surprised',text:'你也有修經原喔？我在後面看到你。'}/* AA_209 附錄A §2 */,{choice:[{text:'「放經濟。妳民法比較強。」',consequences:{rel:{classmate_xinci:{trust:4,resp:2}},mem:[{npc:'classmate_xinci',tag:'IMPORTANT_CONVERSATION',note:'你建議她放經濟'}]}},{text:'「兩科都考，考爛也是經驗。」',consequences:{rel:{classmate_xinci:{fam:3,comf:2}},mem:[{npc:'classmate_xinci',tag:'IMPORTANT_CONVERSATION',note:'你說兩科都考'}]}},{text:'「妳為什麼要雙主修？」',consequences:{rel:{classmate_xinci:{trust:5,fam:3}},mem:[{npc:'classmate_xinci',tag:'TALKED_FAMILY',note:'雙主修是家裡要的'}]},goto:'why'},{text:'「經濟那科我陪妳看。」',goto:'econ'}]},{goto:'end'},{label:'why'},{speaker:'classmate_xinci',expression:'neutral',text:'我爸說法律系畢業沒有第二專長會餓死。他是會計師。'},{goto:'end'},
+    dialogue:[ {speaker:null,text:'（總圖裡，她壓低聲音。）'},/* AA_209 附錄A §2：開頭一句旁白，其他的（小聲）×11 拿掉 */{if:{memory:[{npc:'classmate_xinci',tag:'LENT_NOTES'}]},speaker:'classmate_xinci',expression:'tired',text:'經濟的期中在債總的隔天。兩科我都還沒念完……我可能要放棄一科。'},{unless:{memory:[{npc:'classmate_xinci',tag:'LENT_NOTES'}]},speaker:'classmate_xinci',expression:'surprised',text:'你也有修經原喔？我在後面看到你。'}/* AA_209 附錄A §2 */,{choice:[{text:'「放經濟。妳民法比較強。」',consequences:{rel:{classmate_xinci:{trust:4,resp:2}},mem:[{npc:'classmate_xinci',tag:'IMPORTANT_CONVERSATION',note:'你建議她放經濟'}]}},{text:'「兩科都考，考爛也是經驗。」',consequences:{rel:{classmate_xinci:{fam:3,comf:2}},mem:[{npc:'classmate_xinci',tag:'IMPORTANT_CONVERSATION',note:'你說兩科都考'}]}},{text:'「妳為什麼要雙主修？」',consequences:{rel:{classmate_xinci:{trust:5,fam:3}},mem:[{npc:'classmate_xinci',tag:'TALKED_FAMILY',note:'雙主修財金是她自己要的'}]},goto:'why'},{text:'「經濟那科我陪妳看。」',goto:'econ'}]},{goto:'end'},{label:'why'},{speaker:'classmate_xinci',expression:'smile',text:'我喜歡財金。看財報比看小說好看。'},{speaker:'classmate_xinci',expression:'neutral',text:'……我爸媽都是律師。他們說，念我喜歡的就好。'},   /* AA_547 第 2 節（原本「我爸說法律系畢業沒有第二專長會餓死。他是會計師。」）*/{goto:'end'},
       /* 交接包 v2 第 3 節（慈 2 的新選項）：祐廷也在重修經原（下），所有玩家都有；「第三章」不寫是個體還是總體；以安不在場，KNOWS_ECON_YEAR 不變 */
       {label:'econ'},{if:{flagIs:{ECON_PAST_SHARED:'full'}},goto:'ec_full'},{if:{flagIs:{ECON_PAST_SHARED:'half'}},goto:'ec_half'},
       {if:{flags:['P4B_SEEN']},speaker:'classmate_xinci',expression:'neutral',text:'上次問你，你只笑。這次是第三章，你總要說了吧。'},{unless:{flags:['P4B_SEEN']},speaker:'classmate_xinci',expression:'surprised',text:'……你怎麼這麼熟？'},

@@ -316,25 +316,18 @@ const R2Y3B_EVENTS=(function(){
     after:G=>{ const x=X(); if(x) x.kxBdayDone(G); },
     outingMissed:G=>{ const x=X(); if(x) x.kxBdayMissed(G); } };
 
-  /* ---------- 2-Y3-42 慈 6「第一名」：5/4（四）19:00～20:00 麵店長桌（芯慈在；一天的作息）；日本路線＝21:40 視訊（日本 22:40）---------- */
-  const XC_LINES=[ {speaker:'classmate_xinci',text:'以安不在的這學期，我第一次考第一。'},
-    {speaker:'classmate_xinci',text:'一點都不好玩。'},
-    /* AA_497 2-5：照記憶多一句，可以疊（影印機猜拳 XC_RPS、她爸爸那一場選的 XC_DAD_*；src/sup497_3d.js）；沒演到慈 6 的＝隔天 12:00 私訊 */
-    {if:{flags:['XC_RPS']},speaker:'classmate_xinci',text:'我上一次贏她，是大一在影印機前面猜拳。'},
-    {if:{flags:['XC_DAD_AN']},speaker:'classmate_xinci',text:'我打電話跟我爸說了。他問：那沈以安第幾？'},
-    {if:{flags:['XC_DAD_XC']},speaker:'classmate_xinci',text:'我打電話跟我爸說了。他說，你那個同學早就說了。'},
-    {if:{flags:['XC_DAD_NO']},speaker:null,text:'（她看著手機很久，最後沒有打給任何人。）'},
-    {speaker:'classmate_xinci',text:'我把雙主修改成輔系了。經濟我還是喜歡。只是不用拿第一了。'},
-    {speaker:'classmate_xinci',text:'昨天晚上追劇追到兩點。……那部劇真的很好看。'},
-    {choice:[{text:'「恭喜。」',goto:'a'},{text:'「哪一部劇？」',goto:'b'}]},
-    {label:'a'},{speaker:'classmate_xinci',text:'嗯。……第二句你也聽到了吧。'},{goto:'end'},
-    {label:'b'},{speaker:'classmate_xinci',text:'你要聽嗎？'},
-    {unless:JP,speaker:null,text:'（她講了十分鐘。阿哲吃完了兩碗。）'},   /* 視訊版沒有阿哲在旁邊：只到「你要聽嗎？」 */
-    {label:'end'},{set:{XINCI_FIRST:true}},{mem:[{npc:'classmate_xinci',tag:'XINCI_FIRST',note:''}]} ];   /* XINCI_FIRST：記憶＋旗標（events.js 大四上 R1 讀旗標）*/
-  const XC={ id:'ev_xinci_first_place', title:'第一名', participants:['classmate_xinci'], location:'noodle', trigger:'auto', once:true, time:[19,20], npcPresent:'classmate_xinci', background:'blur',
+  /* ---------- 2-Y3-42 慈 6「暑期實習」（AA_547 2-4 新寫，D116：原本「第一名」、改輔系、隔天「排名出來了。我第一。」都拿掉）：5/4（四）19:00～20:00 麵店長桌（芯慈在；一天的作息）；日本路線＝21:40 視訊（日本 22:40）---------- */
+  const XC_LINES=[ {speaker:'classmate_xinci',text:'我申請了國際所的暑期實習。台灣分所。'},
+    {speaker:'classmate_xinci',expression:'smile',text:'……錄取了。金融那一組。'},
+    {choice:[{text:'「恭喜！」',goto:'a'},{text:'「為什麼是金融那一組？」',goto:'b'},{text:'「妳爸媽怎麼說？」',goto:'c'}]},
+    {label:'a'},{speaker:'classmate_xinci',expression:'smile',text:'謝謝。我想做的就是這個。'},{goto:'end'},
+    {label:'b'},{speaker:'classmate_xinci',text:'因為那裡的合約，數字跟條文一樣多。'},{goto:'end'},
+    {label:'c'},{speaker:'classmate_xinci',expression:'laugh',text:'我媽說：那家樓下的咖啡很好喝。'},
+    {label:'end'},{set:{XINCI_FIRST:true}},{mem:[{npc:'classmate_xinci',tag:'XINCI_FIRST',note:''}]} ];   /* XINCI_FIRST（id 照舊）＝慈 6 演過：記憶＋旗標（events.js 大四上 R1 讀旗標）*/
+  const XC={ id:'ev_xinci_first_place', title:'暑期實習', participants:['classmate_xinci'], location:'noodle', trigger:'auto', once:true, time:[19,20], npcPresent:'classmate_xinci', background:'blur',
     prereq:{stage:{npc:'classmate_xinci',min:'FAMILIAR'},custom:G=>{ const x=X(); return typeof XCROM!=='undefined'&&!!XCROM.OLD&&!!x&&x.isDay(G,'2028-05-04')&&!x.inJP(G); }},   /* XCROM.OLD：D116 先關 */
     dialogue:XC_LINES };
-  const XC_VIDEO={ id:'ev_xinci_first_place_video', title:'第一名', participants:['classmate_xinci'], location:'any', trigger:'outing', once:true, background:'dark', hours:0.25,
+  const XC_VIDEO={ id:'ev_xinci_first_place_video', title:'暑期實習', participants:['classmate_xinci'], location:'any', trigger:'outing', once:true, background:'dark', hours:0.25,
     dialogue:[ {scene:'視訊',bg:'video'} ].concat(XC_LINES) };
 
   /* ---------- 2-Y3-43 日本 J2「町公所的一張通知」（以安新 17；CG-17）：日本路線交往中＝5/6 日本 15:00 町公所門口；挽回中＝日本 22:00 宿舍大廳；台灣、美國路線＝20:00 群組（r2y3b3d.js）---------- */

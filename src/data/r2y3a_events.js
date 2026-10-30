@@ -336,21 +336,7 @@ const R2Y3A_EVENTS=(function(){
     after:G=>{ const r=R(); if(r) r.courtDone(G); },
     outingMissed:(G,GM,q)=>{ const r=R(); if(r) r.courtMissed(G,q); } };
 
-  /* ---------- 2-Y3-12 慈 4「很爛的那一句」：10/20（三）12:10～12:40 霖澤館二樓走廊（作息在 r2y3a3d.js），和芯慈 FAMILIAR 以上、在二樓就演 ---------- */
-  const onLv=lv=>(G,GM)=>!GM||!GM.E||!GM.E.player||(GM.E.player.lv|0)===lv;
-  const BAD_LINE={ id:'ev_xinci_bad_line', title:'很爛的那一句', participants:['classmate_xinci'], location:'linze', trigger:'auto', once:true, background:'blur', npcPresent:'classmate_xinci',
-    prereq:{custom:(G,GM)=>typeof XCROM!=='undefined'&&!!XCROM.OLD&&on(G,'2027-10-20',12+10/60,12+40/60)&&stAt(G,'classmate_xinci','FAMILIAR')&&onLv(1)(G,GM)},   /* XCROM.OLD：D116 先關 */
-    dialogue:[ {speaker:'classmate_xinci',text:'你聽說了吧。'},
-      {if:{memory:[{npc:'classmate_xinci',tag:'XINCI_SECOND'}]},speaker:'classmate_xinci',text:'你知道第二名的事。所以你大概懂。'},
-      {speaker:'classmate_xinci',text:'我跟她說，「妳什麼都不用努力就有」。'},
-      {speaker:'classmate_xinci',text:'那句話很爛。我說的時候就知道很爛。'},
-      {speaker:'classmate_xinci',text:'（很久）……我只是想讓她也痛一次。'},
-      {choice:[{text:'「她對自己比對別人嚴。」',if:{custom:G=>typeof STORY!=='undefined'&&!!STORY.plgY1Count&&STORY.plgY1Count(G)>0},set:{CI4:'strict'},goto:'x1'},
-        {text:'「妳要跟她道歉嗎？」',set:{CI4:'sorry'},goto:'x2'},{text:'「妳也很累。」',set:{CI4:'tired'},goto:'x3'}]},
-      {label:'x1'},{speaker:null,text:'（芯慈愣住。）'},{speaker:'classmate_xinci',text:'……我知道。'},{speaker:null,text:'（她看著窗外。）'},{speaker:'classmate_xinci',text:'所以那句話更爛。'},{goto:'end'},
-      {label:'x2'},{speaker:'classmate_xinci',text:'要。'},{speaker:null,text:'（她說得很快。）'},{speaker:'classmate_xinci',text:'可是還不是現在。現在道歉，我會一邊道歉一邊想她會怎麼回。'},{goto:'end'},
-      {label:'x3'},{speaker:null,text:'（她轉頭看你，沒說話。過了一下：）'},{speaker:'classmate_xinci',text:'……嗯。'},   /* 旁白是第二人稱：「看你」（AA_343 B6）*/
-      {label:'end'} ] };
+  /* 2-Y3-12 慈 4「很爛的那一句」：AA_547 第 2 節整場拿掉、不補（D116；芯慈和以安沒有吵過架）。Alison 那三則（r2y3a3d.js ci4Phone）一起拿掉 */
 
   /* ---------- 2-Y3-13 以安新 14「她選了行政法院」（LEGAL_REVIEW_REQUIRED：告區公所的行政訴訟由哪一級法院審，旁白只寫「行政法院」）：10/21（四）17:30～19:40 麵店（作息在 r2y3a3d.js），走到她旁邊就演 ---------- */
   const ADMIN={ id:'ev_an_admin_court', title:'她選了行政法院', participants:['heroine_01'], location:'noodle', trigger:'auto', once:true, background:'blur', npcNear:'heroine_01', nearDist:3,
@@ -458,23 +444,20 @@ const R2Y3A_EVENTS=(function(){
       {if:{memory:[{npc:'heroine_03',tag:'RENT_CONSULTATION'}]},speaker:'heroine_03',text:'法服那次說的，後來都用上了。'},
       {set:{YT_EV14:'heard'}} ] };
 
-  /* ---------- 2-Y3-18 慈 5「對答案」：第 13 週週一～週三 18:00～21:00、週四 18:00～19:45，總圖三樓（兩個人坐同一張桌子；作息在 r2y3a3d.js）。走近＝近的版本；只進三樓＝遠遠看到 ---------- */
+  /* ---------- 2-Y3-18 慈 5「對答案」（AA_547 2-3 新寫：分工抄筆記）：第 13 週週一～週三 18:00～21:00、週四 18:00～19:45，總圖三樓（兩個人坐同一張桌子；作息在 r2y3a3d.js）。走近＝近的版本；只進三樓＝遠遠看到 ---------- */
   const ANS_TIME=G=>{ const x=hh(G); return G.weekday>=1&&G.weekday<=3?(x>=18&&x<21):(G.weekday===4&&x>=18&&x<19.75); };
   const ANSWERS={ id:'ev_xinci_an_answers', title:'對答案', participants:['heroine_01','classmate_xinci'], location:'library', trigger:'auto', once:true, background:'blur', npcNear:['heroine_01','classmate_xinci'], nearDist:3, term:['Y3S1'], weeks:[13],
     prereq:{custom:G=>typeof XCROM!=='undefined'&&!!XCROM.OLD&&ANS_TIME(G)&&knows('heroine_01',G)&&knows('classmate_xinci',G)&&!(G.flags&&G.flags.CI5==='near')},   /* XCROM.OLD：D116 先關 */
-    dialogue:[ {speaker:'heroine_01',text:'第三題妳比我好。'},
-      {speaker:'classmate_xinci',text:'（停了一下）……嗯。'},
-      {speaker:'heroine_01',text:'對了。補習班那個第二名，是妳吧。吳芯慈。'},
-      {speaker:'classmate_xinci',expression:'surprised',text:'……妳記得？'},
-      {speaker:'heroine_01',text:'一直都記得。開學那天，我假裝不記得。'},
-      {speaker:'heroine_01',text:'我每次看排名，都先找那個名字。我怕她追上來。'},
-      {speaker:'classmate_xinci',expression:'laugh',text:'（很久，然後笑出來）……我們兩個都很笨。'},
-      {if:{memory:[{npc:'classmate_xinci',tag:'ECON_TOGETHER'}]},speaker:'classmate_xinci',text:'（轉頭看祐廷）大一你陪我讀經濟。這次換我們陪你對刑訴。'},
-      {if:{memory:[{npc:'classmate_xinci',tag:'ECON_TOGETHER'}]},choice:[{text:'「好。第二題我錯了。」',goto:'e1'}]},
-      {unless:{memory:[{npc:'classmate_xinci',tag:'ECON_TOGETHER'}]},speaker:null,text:'（她們把考卷攤在中間，一題一題對下去。）'},
-      {goto:'end'},
-      {label:'e1'},{speaker:'heroine_01',text:'我看一下。……你錯的地方跟我一樣。'},
-      {label:'end'},{set:{CI5:'near',XC5_RECONCILE:true}} ] };   /* XC5_RECONCILE＝慈 5 演完、兩人和好（近、遠兩版都算，AA_496 第 9 節第 1 點）：尾聲「以安上個月搬家……」那一組讀它（postgrad3d.js）*/
+    dialogue:[ {speaker:null,text:'（以安和芯慈在對刑訴的考古題。你坐下來的時候，她們剛好對到第三題。）'},   /* AA_547 2-3（D116）：新寫，取代「補習班那個第二名」 */
+      {speaker:'heroine_01',text:'第三題，妳的整理比我的清楚。我可以抄嗎？'},
+      {speaker:'classmate_xinci',expression:'smile',text:'可以。第五題妳的條文比我記得細，換我抄。'},
+      {speaker:null,text:'（兩個人同時把筆記推到中間。）'},
+      {speaker:'heroine_01',text:'……我們分工好了。'},
+      {choice:[{text:'「我可以加入嗎？」',goto:'j'},{text:'「妳們開學就坐在一起了吧。」',goto:'f'},{text:'（聽她們對）',goto:'l'}]},
+      {label:'j'},{speaker:'classmate_xinci',expression:'smile',text:'可以。你負責第七題。'},{goto:'end'},
+      {label:'f'},{speaker:'heroine_01',text:'第一排。她把課表推過來給我看。……我那時候想，這個人好細心。'},{goto:'end'},
+      {label:'l'},{speaker:null,text:'（對到第十題，三個人都錯了同一題。芯慈笑出來。）'},
+      {label:'end'},{set:{CI5:'near',XC5_RECONCILE:true}} ] };   /* XC5_RECONCILE＝慈 5 演完、開始一起讀書（AA_547 改意思；近、遠兩版都算，AA_496 第 9 節第 1 點）：尾聲「以安上個月搬家……」那一組讀它（postgrad3d.js）*/
   const ANSWERS_FAR={ id:'ev_xinci_an_answers_far', title:'對答案', participants:[], location:'library', trigger:'enter', once:true, background:'blur', npcZone:['heroine_01','classmate_xinci'], term:['Y3S1'], weeks:[13],
     prereq:{custom:G=>typeof XCROM!=='undefined'&&!!XCROM.OLD&&ANS_TIME(G)&&knows('heroine_01',G)&&knows('classmate_xinci',G)&&!(G.flags&&G.flags.CI5)},
     dialogue:[ {speaker:null,text:'（總圖三樓，靠窗那張桌子。以安和芯慈坐在一起，中間攤著兩份考卷。芯慈笑了一下。）'},{set:{CI5:'far',XC5_RECONCILE:true}} ] };
@@ -562,6 +545,6 @@ const R2Y3A_EVENTS=(function(){
     after:G=>{ const r=R(); if(r){ r.kxYear(G,'KX_VDAY','video'); r.vdayGiraffe(G); } },
     outingMissed:(G,GM,q)=>{ const r=R(); if(r) r.vdayMissed(G); } };
 
-  return [KH_A,KH_B,KH_CALL,QIXI_VIDEO,MOUNTAIN,WELCOME,FIRST_MEAL,CAPTAIN,THIRTY,LECTURE,LECTURE_TABLE,DAD_STUCK,TY_NOODLE,TY_FAMILY,CALL1,CALL2,COURT,BAD_LINE,ADMIN,THIRD,BOOTH,BOOTH_PASS,SCOOTER,RENEW,RETELL,ANSWERS,ANSWERS_FAR,TUTOR,JUNIORS,JUNIORS_VIDEO,THU,XMAS,KN_CALL,VDAY];
+  return [KH_A,KH_B,KH_CALL,QIXI_VIDEO,MOUNTAIN,WELCOME,FIRST_MEAL,CAPTAIN,THIRTY,LECTURE,LECTURE_TABLE,DAD_STUCK,TY_NOODLE,TY_FAMILY,CALL1,CALL2,COURT,ADMIN,THIRD,BOOTH,BOOTH_PASS,SCOOTER,RENEW,RETELL,ANSWERS,ANSWERS_FAR,TUTOR,JUNIORS,JUNIORS_VIDEO,THU,XMAS,KN_CALL,VDAY];
 })();
 Array.prototype.push.apply(STORY_EVENTS,R2Y3A_EVENTS);

@@ -235,15 +235,15 @@ const SUP497=(function(){
   /* 2-3 慈 3：B1 二十四小時自習室的版本（events.js 的 ev_xinci_second 照舊在便利商店；兩個版本只演一個）、提示、補救 */
   S.SECOND_B1=null;   /* 載入時照 ev_xinci_second 組（S.buildSecond）*/
   S.secondDone=G=>done(G,'ev_xinci_second')||done(G,'ev_xinci_second_b1')||done(G,'ev_xinci_second_day');
-  S.buildSecond=function(){ const base=evOf('ev_xinci_second'); if(!base) return null; const D=base.dialogue.slice(), N0=D.findIndex(l=>l&&l.speaker===null&&/^（芯慈在買咖啡/.test(l.text||''));
-    const B1=D.map(l=>Object.assign({},l)); if(N0>=0){ B1[N0]=ln(null,L.xc.secondB1[0]); B1[N0+1]=ln(null,L.xc.secondB1[1]); }
+  S.buildSecond=function(){ const base=evOf('ev_xinci_second'); if(!base) return null; const D=base.dialogue.slice(), N0=D.findIndex(l=>l&&l.speaker===null&&/^（B1 自習室關燈以後/.test(l.text||''));   /* AA_547 2-1 新稿的第一句旁白 */
+    const B1=D.map(l=>Object.assign({},l)); if(N0>=0) B1.splice(N0,1,ln(null,L.xc.secondB1[0]),ln(null,L.xc.secondB1[1]));
     for(const l of B1) if(l&&typeof l.text==='string'&&l.text.indexOf('十二點四十了')===0) l.text=L.xc.secondB1End;   /* B1 的版本早一點：「十二點半了」*/
     return { id:'ev_xinci_second_b1', title:base.title, participants:[XC], location:'library_b1', trigger:'auto', term:base.term.slice(), weeks:base.weeks.slice(), weekday:base.weekday.slice(), time:[0,0.25], once:true, near:{npc:XC,r:4}, background:'blur',
       prereq:{custom:G=>xcOld()&&!!STORY.knows&&STORY.knows(XC,G)&&!S.secondDone(G)}, dialogue:B1 }; };
-  /* 補救的白天版（大二下第 2 週週二 16:00 Café，INV 的約）：前兩句換一句、拿掉「（把手機轉靜音）這部很重要，真的。」、結尾換「四點半了。我要去上經濟。」，記 XINCI_SECOND（她第一次主動約人）*/
-  S.buildDay=function(){ const base=evOf('ev_xinci_second'); if(!base) return null; const D=base.dialogue.map(l=>Object.assign({},l)), N0=D.findIndex(l=>l&&l.speaker===null&&/^（芯慈在買咖啡/.test(l.text||''));
-    if(N0>=0) D.splice(N0,2,ln(null,L.xc.fix.open)); const mi=D.findIndex(l=>l&&/^（把手機轉靜音）/.test(l.text||'')); if(mi>=0) D.splice(mi,1);
-    for(const l of D) if(l&&typeof l.text==='string'&&l.text.indexOf('十二點四十了')===0) l.text=L.xc.fix.end;
+  /* 補救的白天版（大二下第 2 週週二 16:00 Café，INV 的約）：第一句旁白換 fix.open、拿掉「你也還沒睡。」（白天）、最後加「四點半了。我要去上財管。」，記 XINCI_NIGHT（AA_547 2-1 照便利商店那一場改；AA 還沒給這一版專用的句子）*/
+  S.buildDay=function(){ const base=evOf('ev_xinci_second'); if(!base) return null; const D=base.dialogue.map(l=>Object.assign({},l)), N0=D.findIndex(l=>l&&l.speaker===null&&/^（B1 自習室關燈以後/.test(l.text||''));
+    if(N0>=0) D.splice(N0,1,ln(null,L.xc.fix.open)); const mi=D.findIndex(l=>l&&l.text==='你也還沒睡。'); if(mi>=0) D.splice(mi,1);
+    const ei=D.findIndex(l=>l&&l.label==='end'); if(ei>=0) D.splice(ei+1,0,{speaker:XC,expression:'neutral',text:L.xc.fix.end});
     return { id:'ev_xinci_second_day', title:base.title, participants:[XC], location:'any', trigger:'meet', once:true, background:'blur', dialogue:D }; };
   const xcOld=()=>typeof XCROM!=='undefined'&&!!XCROM.OLD;   /* 慈 3、慈 6 舊的「第二名」「第一名」先關（D116，src/xcrom3d.js S.OLD）*/
   S.secondPhone=function(G){ const F=G.flags; if(!xcOld()) return;
@@ -262,8 +262,7 @@ const SUP497=(function(){
       ...L.xc.dad.r.map((R,k)=>[{label:'p'+(k+1)}].concat(lns(R),[{goto:'end'}])),[{label:'end'}]) };
   S.dadPhone=G=>{ const v=G.flags.XC_DAD, d=DK('2027-04-23'); if(v&&d!=null&&dmOK(G,XC)) S.at(G,XC,d,22,[dm(XC,L.xc.dad.night[v])],'xc_dad_night'); };
   /* 2-5 沒演到慈 6（那一小時不在麵店、或那條路線不演）：有點熟以上、有聯絡方式，隔天 12:00 私訊 */
-  S.firstMissPhone=function(G){ const d=DK('2028-05-04'); if(!xcOld()||d==null||done(G,'ev_xinci_first_place')||done(G,'ev_xinci_first_place_video')||G.flags.XINCI_FIRST) return;
-    if(G.day>=d&&dmOK(G,XC)){ const A=L.xc.first, items=A.miss.map(t=>dm(XC,t)); items[items.length-1].ask=askOf('xc_first_miss',A.missOpts.map(([t,r])=>({t,say:[say1(XC,r)]}))); S.at(G,XC,d+1,12,items,'xc_first_miss'); } };
+  S.firstMissPhone=function(G){};   /* 慈 6 沒演到的隔天私訊（「排名出來了。我第一。」）：AA_547 2-4 拿掉（D116）；留空函式，舊的接線不用改 */
   /* 2-6 她主動約（照年份變多；都提前一天約，不說「我變了」）*/
   S.askPhone=function(G){ const F=G.flags, A=L.xc.ask;
     { const d=G.events&&G.events.last&&G.events.last.ev_xinci_notes; if(d!=null&&has(XC,'LENT_NOTES')&&contact(G,XC)) S.at(G,XC,d+1,21,A.notes.map(t=>dm(XC,t)),'xc_notes_fix'); }   /* 大一上慈 1 隔天 21:00（借過筆記）*/

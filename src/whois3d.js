@@ -92,15 +92,16 @@ const WHOIS=(()=>{
   /* ---------------- 1-4 吳芯慈（可攻略路線 AA_537 實作以後，交往那幾行另外補）---------------- */
   const XC='classmate_xinci';
   const xcOld=G=>!camp(G,XC)&&done(G,'ev_xinci_notes');
-  const xcFirst=G=>done(G,'ev_xinci_first_place')||done(G,'ev_xinci_first_place_video');   /* 大三下第一次考第一那一場（改輔系那一句在這裡）*/
+  const xcFirst=G=>done(G,'ev_xinci_first_place')||done(G,'ev_xinci_first_place_video');   /* 慈 6「暑期實習」那一場（AA_547 2-4）*/
   R[XC]=[
     {c:1,id:'name',if:G=>!xcOld(G),t:'吳芯慈。法律系，跟你同班。'},
     {c:1,id:'name0',if:xcOld,t:'吳芯慈。法律系，跟你同班。大一上借筆記那次說上話。'},   /* 舊開局（演過 ev_xinci_notes）*/
-    {c:1,id:'home',if:G=>['ev_xinci_second','ev_xinci_second_b1','ev_xinci_second_day'].some(id=>done(G,id))||!!(G.needed&&G.needed.shown&&G.needed.shown.xc_drama!=null),t:'住永和，通勤。'},   /* 慈 3（「她在台中，我在永和」）或收過「永和的公車今天提早到了」*/
+    {c:1,id:'home',if:G=>camp(G,XC)||!!(G.needed&&G.needed.shown&&G.needed.shown.xc_drama!=null),t:'住永和，通勤。'},   /* AA_547：新的慈 3 沒有說永和＝改看宿營破冰（「吳芯慈，永和。」）或收過 xc_drama */   /* 慈 3（「她在台中，我在永和」）或收過「永和的公車今天提早到了」*/
     {c:2,id:'camp',if:G=>camp(G,XC),t:'宿營同一小隊。'},
     {c:3,id:'notes',if:G=>mem(G,XC,'LENT_NOTES')&&!xcOld(G),t:'她的筆記借過你。'},   /* 舊開局的第一行已經寫了借筆記，不重複 */
-    {c:3,id:'double',if:ev('ev_xinci_double'),t:'雙主修經濟。她說是家裡要的。'},
-    {c:3,id:'minor',if:xcFirst,t:'原本雙主修經濟，大三下改成輔系。',rep:['double']},
+    {c:3,id:'double',if:ev('ev_xinci_double'),t:'雙主修財金。她說看財報比看小說好看。'},   /* AA_547 2-6（原本「雙主修經濟。她說是家裡要的。」）；「大三下改成輔系」那一行拿掉 */
+    {c:3,id:'family',if:G=>mem(G,XC,'TALKED_FAMILY'),t:'爸媽都是律師，在永和開事務所。'},   /* AA_547 2-6「演過慈 2」：她說爸媽是律師的那一支（「妳為什麼要雙主修？」記 TALKED_FAMILY）*/
+    {c:3,id:'intern',if:xcFirst,t:'大三下，她申請上國際所的暑期實習，金融那一組。'},
    ];   /* 「高中補習班，她三年都是第二名。」「大三下，她第一次考了第一。」拿掉（D116 不跟別人比；AA_543 1-4 改稿，企劃線 0342b98ec）*/
 
   /* ---------------- 1-5 江明軒 ---------------- */

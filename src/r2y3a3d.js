@@ -59,7 +59,6 @@ const R2Y3A=(function(){
     ['zhe',{days:[5],from:17.5,to:19,zone:'campus',act:'linger',at:[-3,-111,Math.PI,0],label:'在籃球場練球',terms:['Y3S1'],dates:ONE('2027-09-10'),note:'2-Y3-05 哲 3：新球季第一次練（新體育館旁的籃球場）'}],
     ['classmate_mingxuan',{days:[5],from:17.5,to:19,zone:'campus',act:'linger',at:[-6.5,-114,Math.PI/2,0],label:'在籃球場練球',terms:['Y3S1'],dates:ONE('2027-09-10'),note:'2-Y3-05：明軒照樣打球（家教是二、四、六）'}],
     ['kexin',{days:[3],from:20.5,to:21,zone:'boya',room:'round',act:'read',terms:['Y3S1'],dates:ONE('2027-09-29'),if:{custom:G=>!!(G.flags&&G.flags.KX_K11_SELF)&&G.flags.KX_K11!=='together'&&dating(G,'kexin')},note:'2-Y3-07 K11：她自己聽完講座，坐在博雅一樓的小桌子'}],
-    ['classmate_xinci',{days:[3],from:12+10/60,to:12+40/60,zone:'linze',act:'linger',at:[1.2,-5.2,Math.PI/2,1],terms:['Y3S1'],dates:ONE('2027-10-20'),note:'2-Y3-12 慈 4：霖澤館二樓走廊'}],
     ['heroine_01',{days:[4],from:17.5,to:19+40/60,zone:'noodle',act:'eat',terms:['Y3S1'],dates:ONE('2027-10-21'),note:'2-Y3-13 以安新 14：麵店長桌（20:00 讀書會）'}],
     ['classmate_bohan',{days:[1,2,3,4,5],from:12+10/60,to:13,zone:'linze_4f',act:'linger',at:[6.2,-6.3,Math.PI,0],terms:['Y3S1'],weeks:[10],noHoliday:true,note:'2-Y3-14 翰 4：4F 樓梯間的門口，面向往五樓的那扇門（AA_343 B7；3D 沒有樓梯間裡面，放在 4F 走廊的樓梯間門前）'}],
     ['heroine_01',{days:[1,2,3],from:18,to:21,zone:'library',act:'read',terms:['Y3S1'],weeks:[13],note:'2-Y3-18 慈 5：和芯慈在總圖三樓對刑訴期中的答案'}],
@@ -235,10 +234,7 @@ const R2Y3A=(function(){
     if(t.week===13&&F.CRIMPRO_W13==null&&F.CRIMPRO_HW==='done'){ F.CRIMPRO_W13=G.day; const k=typeof CLS!=='undefined'&&CLS.rot?CLS.rot(it,3):0; await say(S.CR_RETURN[k]||S.CR_RETURN[0]); return true; }
     return false; };
 
-  /* ===================== 2-Y3-12 慈 4：10/19 21:30 Alison 三則 ===================== */
-  const Yu=P('yu'), Yur=R('yu');
-  S.ci4Phone=function(G){ const d=DK('2027-10-19'); if(d==null||G.day<d||G.day>d+1||!met(G,'yu','FAMILIAR')) return; if(now(G)<T(d,21.5)||sent(G,'y3_ci4_yu')) return; silentContact(G,'yu');
-    PHONE.at(G,d,atH(G,d,21.5),[Yu('欸 芯慈跟以安吵架了'),Yu('吵很大'),Object.assign(Yu('你明天中午在A館嗎'),{ask:{id:'y3_ci4_yu',until:T(d+1,12),opts:[{t:'在。',say:[Yur('嗯 我只是說一聲')]},{t:'怎麼了？',say:[Yur('我也不知道 她們在討論室 我在門外')]}]}})],'y3_ci4_yu'); };
+  /* 2-Y3-12 慈 4 的 Alison 三則（「芯慈跟以安吵架了」）：AA_547 第 2 節拿掉（D116） */
 
   /* ===================== 2-Y3-13 以安新 14：沒遇到＝22:00 麵店團群組（不在群組、和她 FRIEND 以上＝私訊）===================== */
   S.an14Phone=function(G){ const F=G.flags, d=DK('2027-10-21'); if(d==null||G.day<d||G.day>d+1||F.AN14||done(G,'ev_an_admin_court')||now(G)<T(d,22)) return;
@@ -351,7 +347,7 @@ const R2Y3A=(function(){
   /* ===================== 掛勾 ===================== */
   S.phone=function(G,GM){ if(!G||!G.flags||!law(G)||typeof PHONE==='undefined') return;
     S.khPhone(G); S.qixiPhone(G); S.f2Phone(G); S.welcomePhone(G); S.firstMealPhone(G); S.captainPhone(G); S.k15Phone(G); S.k11Phone(G); S.q8bPhone(G); S.typhoonPhone(G);
-    S.callPhone(G); S.crPhone(G); S.ci4Phone(G); S.an14Phone(G); S.bohanPhone(G); S.fairPhone(G); S.c4Phone(G); S.leasePhone(G); S.k17Phone(G); S.yt13Phone(G); S.xmasPhone(G);
+    S.callPhone(G); S.crPhone(G); S.an14Phone(G); S.bohanPhone(G); S.fairPhone(G); S.c4Phone(G); S.leasePhone(G); S.k17Phone(G); S.yt13Phone(G); S.xmasPhone(G);
     S.knPhone(G); S.vdayPhone(G); S.x1Phone(G); };
   let busy=false;
   (globalThis.LOADLOCKS=globalThis.LOADLOCKS||{})['r2y3a3d:busy']=()=>{ busy=false; };   /* 讀檔時放開（LOADGEN-LOCKS-1028）：讀檔凍住的舊劇情走不到 finally，只把旗標設回初始值 */
