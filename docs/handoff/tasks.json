@@ -36541,8 +36541,8 @@
    "title": "畢業以後的中秋（2029-09-22、2030-09-12）家人群組那幾則不是停點：住家裡 20:00、住公館套房 18:00／21:00 跳時間不停（只停 13:25、23:00）",
    "area": "BUG",
    "owner": "LAWWW",
-   "status": "已整合待測試",
-   "next": "BB r43_moon 重跑（2029-09-22 住家裡 20:00 停、住公館套房 18:00／21:00 各停一次）",
+   "status": "已驗收",
+   "next": "—",
    "priority": "P3",
    "first": {
     "term": "PG",
@@ -36557,7 +36557,8 @@
    "source": "BB-B 10-27 讀程式預告；10-30 R43 r43_moon 瀏覽器 FAIL（BB_218 681785494）",
    "authorized": "D111",
    "sha": "2ac9e3637",
-   "notes": "HOME.moonPgStop 登記到 PG.stops（第一次 phoneRules 時；home3d 比 postgrad3d 早載入）；aa471_pg_unit 第 4 節兩項（修改前 FAIL）"
+   "notes": "HOME.moonPgStop 登記到 PG.stops（第一次 phoneRules 時；home3d 比 postgrad3d 早載入）；aa471_pg_unit 第 4 節兩項（修改前 FAIL）",
+   "evidence": "BB-B r43c2（17ae7a0ab）11/0 PASS：住家裡 2029、2030 停 20:00；住公館套房兩年停 18:00、21:00；修正前 b38 同一套直接跳到 23:00（BB_218）；aa471_pg_unit 第 4 節"
   }
  ]
 }
