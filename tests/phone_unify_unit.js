@@ -5,6 +5,7 @@
 //   B 手機「訊息」：上面列出聯絡人（七位女生在最前面＋其他有聯絡方式的人），點了打開那個人的對話串（沒有也開空的），裡面有「傳訊息」；
 //     見過、沒有聯絡方式的灰著寫怎麼拿到；子晴有聯絡方式就能傳（不等 Q6，Q6 以前不出講到她的遊戲的句子）；
 //     照劇情保留的擋法在對話裡寫原因（可昕分開以後、芷若在英國只寄明信片、沛珊重考那一段只顯示已送達、學姊事務版）；每天一則照舊；舊存檔的對話串、未讀照舊。
+//   C （調查）見過、有點熟、沒有聯絡方式的五位（以安、芷若、語彤、子晴、沛珊；學姊、可昕開場就有）：當面說話有「交換聯絡方式」，選了就能傳。
 // 做法：載入遊戲的資料與系統（tests/pg_harness.js＋msg3d.js），game3d.js 的手機那幾段（knownIds、PLACE_LIST～quickGo、campusPlaceFor～friendGo、friendsHTML、訊息頁）從原始碼切出來跑。
 // 修改前（fix1030 1ebb95122）：FAIL（A 沒有直接過去、B 沒有聯絡人、子晴擋在 Q6）；修改後 ALL PASS。用法：node tests/phone_unify_unit.js
 require('./alison.js');
@@ -130,5 +131,9 @@ const FR=['heroine_01','heroine_02','heroine_03','heroine_04','heroine_05','clas
     check('B12. 對話串的訊息沒有被改（兩則照舊）',PHONE.thread(H.G,'p:heroine_01').map(m=>m.text).join('/')==='筆記我放你桌上了。/明天見。'); }
   { fresh('2025-11-12',15,'dorm'); H.G.stage='econ'; H.FRIEND('zhe'); const R=MSG.contactRows?MSG.contactRows(H.G,['zhe','kai']):null;
     check('B13. 經濟系那一年：只列傳得到的（阿哲、阿凱不列）',Array.isArray(R)&&!R.some(x=>x.id==='zhe'||x.id==='kai'),J(R)); }
+  /* ================= C 聯絡方式拿不到的路徑（調查）：見過、有點熟以後當面說話的選單有「交換聯絡方式」（AA_124 1-7 保底；INVITE_DATA.exchange 五位都有台詞）================= */
+  for(const id of ['heroine_01','heroine_02','heroine_03','heroine_04','classmate_peishan']){ fresh('2025-11-12',15,'campus'); H.FAMILIAR(id); H.picks=['交換聯絡方式'];
+    const had=INV.hasContact(H.G,id); let err=''; try{ await STORY.offerInvite(H.GM,id,{obj:{position:{x:0,y:0,z:0}}},{name:id}); }catch(e){ err=e.message; }
+    const o=(H.opts[0]||[]); check('C1. '+id+' 有點熟、沒有聯絡方式：當面說話有「交換聯絡方式」，選了＝有聯絡方式、訊息頁可以傳',!had&&o.includes('交換聯絡方式')&&INV.hasContact(H.G,id)&&MSG.open(H.G,id).ok,J({o,err,open:MSG.open(H.G,id)})); }
   H.done();
 })().catch(e=>{ console.error(e); process.exit(1); });
