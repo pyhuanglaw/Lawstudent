@@ -36328,6 +36328,29 @@
    "source": "AA_533（企劃線 cf0066ed2）；白名單 task 記這個 ID",
    "authorized": "D99、D109、D111",
    "notes": "aa533_vac_unit 27 項 ALL PASS"
+  },
+  {
+   "id": "BIGMAP-PEOPLE-1030",
+   "title": "大地圖「認識的人現在大概在」預設收起、自由日 👥 亮點、打開過就記住（BB-B n15 觀察：清單蓋住地圖）",
+   "area": "UI",
+   "owner": "LAWWW",
+   "status": "已整合待測試",
+   "next": "BB 測（直向／寬螢幕開地圖不蓋、👥 展開後再開仍展開、黃點只在自由日）",
+   "priority": "P2",
+   "first": {
+    "term": "Y1S1",
+    "week": 1,
+    "earliest": "第一次打開大地圖",
+    "mainline": true,
+    "blocks": false,
+    "prereq": false,
+    "parallel": true,
+    "confirmed": true
+   },
+   "source": "BB-B BB_218 abd7acb40 n15 第五項（10-30 09:37）",
+   "authorized": "D111（LAWWW 決定 UI）",
+   "sha": "4da27563c",
+   "notes": "tests/bigmap_people_unit.js（修改前 FAIL 2）"
   }
  ]
 }
