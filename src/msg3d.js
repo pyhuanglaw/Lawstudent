@@ -220,7 +220,9 @@ const MSG=(function(){
     if(p==='兩人是朋友') return true;   /* 子晴「芷若在英國」（BB_178 第 2 節）：遊戲還沒有子晴×芷若的狀態（ZZ），她們是朋友 */
     if(p==='每月第一個週日以後那一週'){ const x=CALENDAR.dateOf(G.day), d1=G.day-((x.d|0)-1); let s0=d1; while((CALENDAR.dateOf(s0).wd%7)!==0&&s0<d1+7) s0++; return G.day>=s0&&G.day<=s0+6; }   /* 子晴「芷若這個月打來了」（BB_178 第 2 節）：那個月第一個週日起的七天 */
     if(p==='祐廷也在美國') return S.usWithHer(G);   /* AA_370 第 6 節第 3 題：學姊事務版「在圖書館。有事嗎？」只在祐廷也在布魯明頓時用 */
-    if(p==='祐廷在臺灣') return !S.ytAbroad(G);   /* AA_531 3-3：「在臺灣才成立的話」（語彤「阿姨問你怎麼沒來。」）祐廷在國外不用 */
+    if(p==='店裡的時間') return S.atShop(X,id);   /* AA_531 8-2（企劃線 41ec9a6ac）：傳的那一刻，她的作息是在麵店顧店（act:'help'），照她那邊的時間（X＝herT）；原本認不得＝永遠選不到 */
+    if(p==='祐廷在臺灣') return !S.ytAbroad(G);   /* AA_531 3-3、8-3：「在臺灣才成立的話」（語彤「阿姨問你怎麼沒來。」、以安「下次一起去看。」、沛珊早餐、語彤 MSG2 生日與還好嗎的 L）祐廷在國外不用 */
+    if(p==='祐廷在國外') return !!S.ytAbroad(G);   /* AA_531 8-3（企劃線 41ec9a6ac）：那幾句的國外版（以安「回來以後一起去看。」、沛珊早餐、語彤 MSG2 兩句），美國、日本路線人在國外。標籤（tags），不是情況版 variant「祐廷在國外」（可昕 23:30 以後那一則，S.sitOk）*/
     if(p==='在臺灣') { const pr=presence(G,id); return !(pr&&pr.here===false&&pr.kind==='abroad'); } if(p==='在美國'){ const pr=presence(G,id); return !!(pr&&pr.here===false&&pr.kind==='abroad'); } if(p==='在老家'||p==='在老家或旅行'){ const pr=presence(G,id); return !!(pr&&pr.here===false&&pr.kind==='home'); }   /* AA_276：寒暑假回老家（可昕高雄、沛珊台中）*/
     let m=p.match(/^(?:祐廷)?(大[一二三四])(上|下)?(?:～(大[一二三四])(上|下)?)?(起)?$/);
     if(m){ const y=yearNow(G), a=YEAR[m[1]], b=m[3]?YEAR[m[3]]:(m[5]?9:a); if(!(y>=a&&y<=b)) return false; const sm=semNow(G);
@@ -239,6 +241,8 @@ const MSG=(function(){
     const parts=s.split(/[、，；,]/).map(x=>x.trim()).filter(Boolean); if(id==='heroine_05'&&parts.includes('在美國')&&S.usWithHer(G)) return false; return parts.every(p=>S.tok(G,id,p)); };
   /* 學姊標「在美國」的那一則（事務版「在這邊的圖書館。有事嗎？」，照時差寫的）：祐廷也在布魯明頓（美國路線、人在美國）時不用（BB_178 第 3 節「美國路線：照時差寫的句子不用」；AA_370 L6）。
      情況版「在美國」（閒聊版四則：每條路線都一樣）走 sitOk，不受影響 */
+  /* 「店裡的時間」（AA_531 8-2）：照作息（STORY.schedEnt，含女主角的圈子、約好的時間）那一筆是 act:'help'、在麵店。語彤以外沒有人用這個標籤 */
+  S.atShop=function(X,id){ if(typeof STORY==='undefined'||!STORY.schedEnt||typeof CHARACTERS==='undefined'||!CHARACTERS[id]) return false; const e=STORY.schedEnt(CHARACTERS[id],X); return !!(e&&e.act==='help'&&e.zone==='noodle'); };
   S.ytAbroad=G=>{ if(typeof STORY==='undefined'||!STORY.routeAbroadRoute||!STORY.abroad) return null; const r=STORY.routeAbroadRoute(G); return r&&STORY.abroad(G)?r:null; };   /* 祐廷人在國外的路線（US／JP）；在臺灣、還沒出發、回來了＝null */
   S.usWithHer=G=>typeof STORY!=='undefined'&&!!STORY.route&&STORY.route(G)==='US'&&!!STORY.abroad&&STORY.abroad(G);
   /* 放假那幾版還要看人在哪（AA_369 H5，AA 2026-10-21；句子照原文、不改字）：①「在老家」那幾版只在 presence 是 home 的日子用——有老家的人（presence 有 home）的「放假在X／放假、在X／過年回X」，
