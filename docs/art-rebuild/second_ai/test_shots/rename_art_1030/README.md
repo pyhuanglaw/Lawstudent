@@ -59,7 +59,25 @@
 ## 四、2D 背景、CG 查過的
 
 - 我做的校園 2D 背景（`ntu_avenue`、`ntu_linze`、`ntu_soc`、`ntu_court_night`、`ntu_gym_*`、`law_library_gate`、`library_gate_day`）逐張看過。
-  - **`ntu_linze.webp`（BG-16，法律系館A 前）外牆的大字是「霖澤館」**：這是 10-16 的遊戲內截圖，當時遊戲畫的是舊名。開發分支現在畫「法律系館A」，用同一個鏡頭重拍（見第三節）。
+  - **`ntu_linze.webp`（BG-16，法律系館A 前）外牆的大字是「霖澤館」**：這是 10-16 的遊戲內截圖，當時遊戲畫的是舊名。開發分支現在畫「法律系館A」，**已重拍、換掉**（見下面）。
   - 其他張沒有舊名字。總圖的「總圖書館」、法圖的「法律學院圖書館」、社科院的「社會科學院」不在改名表上。
 - BB 組的校園背景（`xiaofu`、`nccu_dorm*`、`graduation_avenue`、`linze_*`、`library_gate_night`、`wancai_seminar`、`ntu_lib_b1`、`girls_dorm_gate`、`soc_*`、`legal_aid_office`、`admin_office` 等）縮圖看過，沒有看到校名、館名的字。只是縮圖，沒有逐張放大看。
 - CG（開發分支 78 張）：**還沒看**。
+
+## 五、`ntu_linze.webp` 重拍（BG-16）
+
+![原本／重拍](05_ntu_linze.webp)
+
+- 檔名、背景 id 不變（`assets/bg/ntu_linze.webp`，1920×1080，245 KB）。遊戲端不用改。
+- 原本的鏡頭（10-16）現在拍不出原本的畫面：
+  - 左邊被 10-23 加的法律系館A 大樟樹 (24.5, −94.5) 擋住。
+  - 右邊多了一支路燈。
+- 試了六個鏡頭（`tools/blender/env_second/shots/rename_art_close.py` 的 a～f），選 d：
+  - 正對穿堂、16:36，館名「法律系館A」在畫面上方中間。
+  - 人物立繪站在中間時，館名在頭上，不會被擋住。
+- 和原本不一樣的地方：
+  - 鏡頭比較近，看不到天空。
+  - 左上角有樟樹的枝葉。
+  - 窗沒有亮燈（16:36）。
+  - 事件 K2 是第 6 週六 16:00 的傍晚，時間說得通。
+- 館名的字是遊戲畫的（`campuskit3d.js` 的金色字，LAWWW-B 已改成法律系館A），五個字比原本三個字小。
