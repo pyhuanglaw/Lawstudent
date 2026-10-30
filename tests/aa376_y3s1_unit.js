@@ -8,6 +8,7 @@
 //   AA_342 3-1：9/21 第一次週二麵店、9/27 群組→9/28 河濱、10/7「下週的題目，你帶。」→10/14「理由呢？」（BB T3）、10/8 柏翰私訊、11/3 摘要日、11/5 群組、12/8 群組→12/9 麵店、12/18 摘要日
 //   台詞逐字比對企劃線的稿（git show 69aa3b0c、f2de8d1c；第 3-1 節和 b7c437a1 一字不差；PG_DOC_REPO＝讀稿的 repo，預設這個 repo）。
 // 修改前（開發分支 f23f5c47）：上面每一項都會失敗（標「對照」的照樣通過）。用法：node tests/aa376_y3s1_unit.js
+// 2026-10-28 AA_518 第 4-12 改的（企劃線 973dd1b74，SIS-B15-1028）：研究所說明會要見過學姊（met_sis）——第 19 節說明會那一項的前置多 met_sis（限大一照舊查）。
 require('./alison.js');   /* AA_380：企劃線的舊稿還寫「小語」，讀稿的時候照匯入工具換成 Alison */
 const fs=require('fs'), vm=require('vm'), path=require('path'), cp=require('child_process');
 const ROOT=path.resolve(__dirname,'..');
@@ -197,7 +198,7 @@ const in376=t=>MD376.includes(t), in342=t=>MD342.includes(t);
   await sec('19',async()=>{
     const C=[['ev_sis_w1','cafe',['2025-09-10','2027-09-15'],15],['ev_fangyt_pothos','campus',['2025-09-10','2027-09-15'],12.5],['ev_prof_zhou_office','wancai',['2025-09-11','2027-09-16'],15.5],['ev_grad_info_session','wancai',['2025-09-12','2027-09-17'],15]];
     const M={MAIN_D1:STORY.MAIN_D1_NEW,LAW_START_DAY:STORY.LAW_D0};   /* [前置] 新局：法律系主線第一天（day_min 照這個算）*/
-    const out=C.map(([id,z,[y1,y3],h])=>{ fresh(y1,h,z,M); const a=EVENTS.check(ev(id)); fresh(y3,h,z,M); const b=EVENTS.check(ev(id)); return [id,a,b]; });
+    const out=C.map(([id,z,[y1,y3],h])=>{ const M2=id==='ev_grad_info_session'?Object.assign({met_sis:true},M):M;   /* AA_518 4-12：說明會要見過她 */ fresh(y1,h,z,M2); const a=EVENTS.check(ev(id)); fresh(y3,h,z,M2); const b=EVENTS.check(ev(id)); return [id,a,b]; });
     check('19. ev_sis_w1、ev_fangyt_pothos、ev_prof_zhou_office、ev_grad_info_session：大一照常、大三上不演（大一沒觸發就不演）',out.every(([,a,b])=>a===true&&b===false),J(out));
   });
   // ===== 20. 交換志願表 =====

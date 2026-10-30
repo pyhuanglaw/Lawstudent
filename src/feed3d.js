@@ -48,10 +48,13 @@
        （那一刻還有聯絡方式、階段夠）的一分鐘以後——不然那幾則（以安紐約、語彤紅紙、芷若存摺、學姊計畫本……）永遠看不到（AA_511 第 8 節第 4 點「每一則都看得到」）。
        後面還有別的停點的時候不停（跳到那裡看得到）。
      - 可昕分開以後一學期（AA_503 9-3，AA_510 7-3、AA_511 第 7 節照用）：大四下以後沒有下一個學期（V6EX.coolUntil＝null），照分開那天起 18 週（S.COOL_LAST）。
-   ■ 存檔：G.flags.FEED＝{start, items:[{id, who, day, h, v, r, tr, back}], done:{動態 id:'p'|'old'|'x:原因'}, dm:{私訊 id:'sent'|'old'|'x:原因'}, seen, hold:{人物:絕對時間}, ytTreat:阿姨請的那一天}；舊存檔沒有＝從那一天開始。
+   ■ 交往中約會後的動態（AA_515，企劃線 aa9bbc46f → aec3d3d67 第 6 節；資料 src/data/feed_dates.js，不在 SETS 裡、不排日期）：和她的正式校外約會（date3d.js，D01～D32）演完、那時候交往中，
+     date3d.js 的 S.settle、S.settleOvernight 叫 S.dateDone 排一則，當晚照她的時間貼（照片裡有「你」）。細節在下面「交往中約會後的動態」那一段。
+   ■ 存檔：G.flags.FEED＝{start, items:[{id, who, day, h, v, r, tr, back}], done:{動態 id:'p'|'old'|'x:原因'}, dm:{私訊 id:'sent'|'old'|'x:原因'}, seen, hold:{人物:絕對時間}, ytTreat:阿姨請的那一天,
+     dq:[排好還沒貼的約會動態], dt:{約會動態 id:{who, loc, s, g, trip, b}}, dtTrip:{行程 id:約會動態 id|'x:原因'}}；舊存檔沒有＝從那一天開始（dq、dt、dtTrip 沒有＝空的，S.rec 補）。
      tr：出遊途中貼的＝那一趟的 id；畢業以後篇跳時間＝'pg'。
      G.flags.ZQ_NAME_REPLIED（子晴 zq_name 回過）、YT_BDAY_Y2（2027 生日回了「生日快樂。」）、YT6_WITH（語彤 Y6-L8 選「我可以陪妳問。」）、YT_AUNT_DM（8/21 私訊選了哪一個）。
-   測試：node tests/aa503_feed_unit.js、node tests/aa504_505_feed_unit.js、node tests/aa506_507_feed_unit.js、node tests/aa508_509_feed_unit.js、node tests/aa510_511_feed_unit.js */
+   測試：node tests/aa503_feed_unit.js、node tests/aa504_505_feed_unit.js、node tests/aa506_507_feed_unit.js、node tests/aa508_509_feed_unit.js、node tests/aa510_511_feed_unit.js、node tests/aa515_feed_dates_unit.js */
 'use strict';
 const FEED=(function(){
   const S={};
@@ -106,7 +109,8 @@ const FEED=(function(){
     anJP:G=>typeof STORY!=='undefined'&&!!STORY.route&&STORY.route(G)==='JP',   /* 日本路線（11/18 志願表截止時和以安交往；AA_507 1-3 第 7 則、AA_508 1-3 第 4、7 則）*/
     /* 語彤 8/22 問阿姨的 2D 短場演過（8/21 私訊回「好。」、出遊那一趟 done；AA_508 3-3 第 7 則）*/
     ytAunt:G=>{ const q=typeof OUT!=='undefined'&&OUT.get?OUT.get(G,'aa508_yt_aunt'):null; return !!(q&&q.state==='done')||!!(G.events&&G.events.done&&G.events.done.ev_aa508_yt_aunt!=null); },
-    sisUS:G=>typeof STORY!=='undefined'&&!!STORY.route&&STORY.route(G)==='US'   /* 美國路線（和學姊同一班出發、人在美國；AA_509 5-3 第 1～3 則照片加「你」）*/
+    sisUS:G=>typeof STORY!=='undefined'&&!!STORY.route&&STORY.route(G)==='US'&&dating(G,'heroine_05'),   /* 美國路線（和學姊同一班出發、人在美國；AA_509 5-3 第 1～3 則照片加「你」）；AA_516 1-4（企劃線 a9b87c588）：而且交往中才是「你的」那一版，挽回中、挽回不成看一般版 */
+    sisS4Lx:G=>typeof SISB15!=='undefined'&&!!SISB15.heardS4Lx&&SISB15.heardS4Lx(G)   /* AA_518 4-1（企劃線 973dd1b74）：大二下閒聊階梯 S4-Lx 聽過她要去美國交換（src/sis_b15_3d.js）——6/26 那則的私訊回「你知道的。……美國那邊的書。」*/
   };
   /* 和她 st 以上（認識、照 SOCIAL.stage 的順序；同 vac3d.js 的 atLeast）*/
   S.atLeast=(id,st)=>{ if(typeof SOCIAL==='undefined'||!SOCIAL.STAGES||!SOCIAL.stage||!SOCIAL.has||!SOCIAL.has(id,'FIRST_MET')) return false; const A=SOCIAL.STAGES; return A.indexOf(SOCIAL.stage(id))>=A.indexOf(st); };
@@ -135,9 +139,12 @@ const FEED=(function(){
   S.kxCool=function(G){ const F=G.flags||{}; if(dating(G,'kexin')||(!F.EX_kexin&&F.KX_ENDED_ON==null)) return false; if(typeof INV!=='undefined'&&INV.cool&&INV.cool(G,'kexin')) return true;
     const d=S.endDay(G,'kexin'); if(d==null) return false; let u=nextTerm(d); if(u==null) u=d+S.COOL_LAST; return G.day>=d&&G.day<u; };
   /* ---------- 存檔 ---------- */
-  S.rec=function(G){ const F=G.flags||(G.flags={}); let R=F.FEED; if(!R||typeof R!=='object') R=F.FEED={start:G.day,items:[],done:{},dm:{},seen:-1e9};
-    if(typeof R.start!=='number') R.start=G.day; if(!Array.isArray(R.items)) R.items=[]; if(!R.done||typeof R.done!=='object') R.done={}; if(!R.dm||typeof R.dm!=='object') R.dm={}; if(typeof R.seen!=='number') R.seen=-1e9; return R; };
-  S.post=id=>{ for(const s of SETS()) for(const p of s.posts||[]) if(p.id===id) return p; return null; };
+  S.rec=function(G){ const F=G.flags||(G.flags={}); let R=F.FEED; if(!R||typeof R!=='object') R=F.FEED={start:G.day,items:[],done:{},dm:{},seen:-1e9,dq:[],dt:{},dtTrip:{}};
+    if(typeof R.start!=='number') R.start=G.day; if(!Array.isArray(R.items)) R.items=[]; if(!R.done||typeof R.done!=='object') R.done={}; if(!R.dm||typeof R.dm!=='object') R.dm={}; if(typeof R.seen!=='number') R.seen=-1e9;
+    if(!Array.isArray(R.dq)) R.dq=[]; if(!R.dt||typeof R.dt!=='object') R.dt={}; if(!R.dtTrip||typeof R.dtTrip!=='object') R.dtTrip={};   /* 約會後的動態（AA_515）：舊存檔沒有＝空的（從讀檔以後的約會開始）*/
+    return R; };
+  /* 那一則動態：學期的（SETS）照 id 找；約會後的動態（dt_ 開頭，AA_515）照存檔的 R.dt 組出來（要 G；沒給＝GAME.G）*/
+  S.post=(id,G)=>{ for(const s of SETS()) for(const p of s.posts||[]) if(p.id===id) return p; return /^dt_/.test(id||'')?S.dtPost(G,id):null; };
   S.dmOf=id=>{ for(const s of SETS()) for(const q of s.dms||[]) if(q.id===id) return {q,term:s.term}; return null; };
   S.txt=(x,v)=>x&&typeof x==='object'?(x[v||'no']!=null?x[v||'no']:x.no):x;   /* 兩個版本的照片／回覆／私訊問的那一句（可昕第 6 則）*/
   S.line=(G,l)=>l&&typeof l==='object'&&l.if?((S.COND[l.if]&&S.COND[l.if](G))?l.yes:l.no):l;
@@ -146,8 +153,8 @@ const FEED=(function(){
     if(!S.stageOk(G,p.who,p.st)&&!(p.stIf&&S.WENT[p.stIf]&&S.WENT[p.stIf](G))) return 'stage';   /* stIf：那個 WENT 成立就不看階段（語彤 8/22「陪她去的玩家也看得到」）*/
     if(p.if&&!(S.COND[p.if]&&S.COND[p.if](G))) return 'if';
     const R=S.rec(G), t=abs(w.day,w.h), hero=S.isHeroine(p.who), C=hero?S.CAP.heroine:S.CAP.other;
-    if(R.items.filter(i=>i.who===p.who&&abs(i.day,i.h)<=t&&t-abs(i.day,i.h)<C.days*24).length>=C.n) return 'week';
-    if(R.items.filter(i=>i.day===w.day).length>=S.CAP.day) return 'day';
+    if(R.items.filter(i=>i.who===p.who&&!S.isDt(i)&&abs(i.day,i.h)<=t&&t-abs(i.day,i.h)<C.days*24).length>=C.n) return 'week';   /* 約會後的動態不算在「女主角七天最多兩則」裡（AA_515 第 1 節）*/
+    if(R.items.filter(i=>i.day===w.day).length+S.dtHold(G,w.day)>=S.CAP.day) return 'day';   /* 一天四則：約會後的動態照算，而且優先——排好還沒貼的先佔一個位子（S.dtHold），別人的往後擠 */
     if(S.monthCap(G,p,w)) return 'month';
     return ''; };
   /* 一個月最多幾則（那一份的 capMonth：沛珊大三上，AA_507 6-3）：照那一則的日期，同一個月已經出的（R.done 'p'，各學期的都算；items 只留十五天，所以不看 items）*/
@@ -192,6 +199,50 @@ const FEED=(function(){
     const ep=PG.byId?PG.byId('epi'):null, te=ep&&ep.at?ep.at(G):null;
     if(next!=null&&!(te!=null&&Math.abs(next-te)<1e-6)) return null;
     R.pgStopAt=best+1/60; return R.pgStopAt; };   /* pgStopAt：落地時日期卡那一句用（S.PG_STOP_LINE）*/
+  /* ---------- 交往中約會後的動態（AA_515，企劃線 aa9bbc46f → aec3d3d67 第 6 節；資料 src/data/feed_dates.js；FEED-DATES-1028）----------
+     和她的正式校外約會（date3d.js，D01～D32；算一次正式校外約會的那幾趟，心願那一趟也是）演完、那時候和她交往中（dating_<id>）：當晚照她的時間在動態頁貼一則（照片裡有「你」）。
+     不排日期：date3d.js 的 S.settle、S.settleOvernight 算完次數以後叫 S.dateDone（帶分開的那一刻＝DATE.backAt：OUT.go 演完照最後一個地點的單程時間回到臺北）排進 R.dq；
+     時間到了 S.tick 照時間的先後和其他動態、私訊一起處理（S.datePost）。
+     - 一趟一則（R.dtTrip 記那一趟貼了哪一則／為什麼沒貼；同一趟再叫不再排）。同一趟兩個地點（D31＋D32）、兩天一夜：照片用最後一個地點的；兩天一夜在回到臺北那一晚貼。
+       D07 不貼（地點表本來就寫「不放合照的互動點」；FEED_DATES.pic.D07＝null）。只有臺灣的 D01～D32（出國路線的出遊不是 date3d 的正式校外約會，本來就不會進來）。
+     - 幾點（S.dtWhen）：她平常的時間（FEED_DATES.at；子晴 00:30＝隔天凌晨）。約會結束、兩個人分開（回到臺北）的時候已經過了那個時間＝回到家 30 分鐘後（分開那一刻＋30 分鐘）。
+     - 上限：不算在女主角七天最多兩則裡（S.blocked 的 week 不數 dt_ 開頭的；她自己的不因為約會那一則少出）；
+       她同一天最多一則約會動態（每人各算：AA_515 第 6 節第 1 點，同時交往兩位、同一天各約一場＝兩則都出；「同一天」照約會的那一天＝base：當天來回＝那一趟的日子、兩天一夜＝回到臺北那一天——子晴的 00:30、晚回來過了午夜才貼的，
+       算前一天的那一場，不擋隔天另一場約會的那一則；同一位同一天約兩場的，先排的那一則出、後面的 'x:dateday'）；
+       「全部一天最多四則」照算（照貼出來的那一天）：這一則自己不看一天四則（優先，前面已經出滿四則照樣貼）；排好以後、貼出來以前，那一天別人的動態先把這一則的位子算進去（S.dtHold），超過的照舊不出（往後擠）。
+     - 她的一句：照她第幾次「不是又來」的約會動態輪第 1～6 句（第 7 次回到第 1 句）；同一個地點和她去第二次以上（G.dateLog 的 byLoc：DATE.complete 算完這一趟以後 ≥2）＝「又來」那一句，不佔順序。
+       留言、私訊：這一則是她第幾則約會動態（id 的序號，又來也算）——單數用第 1 組、雙數用第 2 組。回應照 S.respond 三選一（按愛心她不回；熟悉 +1 照舊）。
+     - 那時候沒交往不排；排好以後、貼出來以前分開了也不貼（'x:dating'：稿第 4 節「分開那天以後的約會不是交往中」，分開以後不會貼有你的照片）。
+       只在法律系（FEED.tick 只在法律系跑）；畢業以後約會系統不能預約（AA_128 11-1；AA_515 第 6 節第 3 點：不開放），跳時間的途中貼的照 AA_511 的七天規則（同 S.decide 記 tr；程式照留）。舊存檔從讀檔以後的約會開始（R.dq、R.dt 預設空的）。
+     - 存檔：R.dq＝[{trip, who, loc, again, part, base, day, h}]（排好還沒到時間；base＝約會的那一天，day、h＝要貼的時間）；R.dt＝{dt_an_1:{who, loc, s（第幾句 0～5；-1＝又來）, g（第幾組 1／2）, trip, b（約會的那一天）}}
+       （貼出來的，不刪：序號、輪替、私訊對話串的「動態「…」」都靠它；動態頁的 items 照舊只留十五天）；R.dtTrip＝{行程 id:'dt_…'|'x:原因'}。 */
+  S.DT=()=>typeof FEED_DATES!=='undefined'?FEED_DATES:null;
+  S.isDt=i=>!!i&&/^dt_/.test(i.id||'');
+  S.dtHour=who=>{ const D=S.DT(), m=D&&/^(\d\d):(\d\d)$/.exec((D.at||{})[who]||''); if(!m) return null; const h=+m[1]+(+m[2])/60; return h<12?h+24:h; };   /* 12:00 以前的＝隔天凌晨（子晴 00:30）*/
+  /* 要貼的時間：base＝約會的那一晚（當天來回＝那一趟的日子；兩天一夜＝回到臺北那一天），part＝分開的那一刻（絕對時間）。過了她的時間＝回到家 30 分鐘後 */
+  S.dtWhen=function(who,base,part){ const H=S.dtHour(who); if(H==null||base==null) return null; const D=S.DT(), her=abs(base,H), t=part!=null&&part>her+1e-6?part+(D&&D.late!=null?D.late:0.5):her, d=Math.floor(t/24+1e-9); return {day:d,h:Math.max(0,t-d*24)}; };   /* h 不四捨五入（22:07＝22.1166…，進位會晚一點才出）*/
+  /* 約會演完（date3d.js 算一次正式校外約會以後叫）：t＝那一趟（DATE.trip），part＝分開的那一刻（DATE.backAt；沒給＝現在）。排好回傳那一筆，不排回傳 null */
+  S.dateDone=function(G,t,part){ if(!G||!G.flags||!t||!t.trip||(G.stage||'law')!=='law') return null; const D=S.DT(), who=t.who, W=D&&D.who&&D.who[who]; if(!W||!dating(G,who)) return null;   /* 那時候和她交往中 */
+    const locs=(t.locs||[]).filter(Boolean), loc=locs[locs.length-1]; if(!/^D\d\d$/.test(loc||'')||!D.pic[loc]) return null;   /* 臺灣 D01～D32、最後一個地點；D07 不貼（pic null）*/
+    const R=S.rec(G); if(R.dtTrip[t.trip]!=null||R.dq.some(x=>x.trip===t.trip)) return null;   /* 一趟一則 */
+    const p0=part!=null&&isFinite(+part)?+part:nowOf(G), base=(typeof t.day==='number'?t.day:G.day)+(t.kind==='overnight'?(t.nights||1):0), w=S.dtWhen(who,base,p0); if(!w) return null;
+    const L=G.dateLog&&G.dateLog[who], again=!!(L&&L.byLoc&&(L.byLoc[loc]|0)>=2);   /* 又來：這個地點（照片的那一個）連這一趟和她去第二次以上 */
+    const e={trip:t.trip,who,loc,again,part:p0,base,day:w.day,h:w.h}; R.dq.push(e); return e; };
+  S.dtBaseDone=(R,b,who)=>Object.keys(R.dt).some(k=>R.dt[k]&&R.dt[k].b===b&&R.dt[k].who===who);   /* 她在約會的那一天已經貼過約會動態（每人各算，AA_515 第 6 節第 1 點）*/
+  /* 那一天（貼出來的那一天）排好、還沒貼的約會動態先佔位子：會貼的（她在約會的那一天還沒貼過的，同一位同一天約兩場只算一個）有幾個 */
+  S.dtHold=function(G,day){ const R=S.rec(G), B=new Set(); for(const e of R.dq) if(e.day===day&&!S.dtBaseDone(R,e.base,e.who)) B.add(e.who+'@'+e.base); return B.size; };
+  /* 時間到了（S.tick）：貼不貼、貼哪一句。不看七天兩則、不看一天四則（優先）*/
+  S.datePost=function(G,e,w){ const R=S.rec(G), i0=R.dq.indexOf(e); if(i0>=0) R.dq.splice(i0,1); const D=S.DT(), W=D&&D.who&&D.who[e.who], no=why=>{ R.dtTrip[e.trip]='x:'+why; return false; };
+    if(!W) return no('data'); if(abs(w.day,w.h)<nowOf(G)-S.KEEP*24) return no('old');   /* 睡過、跳時間超過七天（同 S.decide）*/
+    if(!hasContact(G,e.who)) return no('contact'); if(!dating(G,e.who)) return no('dating');   /* 貼出來以前分開了 */
+    if(S.dtBaseDone(R,e.base,e.who)) return no('dateday');   /* 她同一天（約會的那一天）最多一則約會動態（每人各算，AA_515 第 6 節第 1 點）*/
+    const mine=Object.keys(R.dt).filter(k=>R.dt[k]&&R.dt[k].who===e.who), n=mine.length+1, k=mine.filter(x=>+R.dt[x].s>=0).length;   /* n＝她第幾則約會動態；k＝前面用了幾次輪替（又來不算）*/
+    const id='dt_'+W.pre+'_'+n, s=e.again?-1:k%W.say.length, g=n%2?1:2;
+    const it={id,who:e.who,day:w.day,h:+w.h.toFixed(3)}; { const q=S.tripNow(G); if(q) it.tr=q.id; else if(S.pgJumping>0) it.tr=S.PG_TR; }   /* 同 S.decide：出遊途中、畢業以後篇跳時間的途中貼的照那兩種留法 */
+    R.items.push(it); R.dt[id]={who:e.who,loc:e.loc,s,g,trip:e.trip,b:e.base}; R.dtTrip[e.trip]=id; return true; };
+  /* 約會動態那一則（S.post 用）：照片、她的一句、留言、私訊照存檔的 R.dt 組出來，格式同學期的 posts（st 只是記號：交往中）*/
+  S.dtPost=function(G,id){ if(!G&&typeof GAME!=='undefined') G=GAME.G; const D=S.DT(), R=G&&G.flags&&G.flags.FEED, e=R&&R.dt&&R.dt[id], W=e&&D&&D.who&&D.who[e.who]; if(!W) return null; const g=e.g===2?1:0;
+    return {id,who:e.who,st:'交往中',dt:true,pic:D.pic[e.loc]||'',say:e.s<0?W.again:(W.say[e.s]||''),cm:W.cm[g],dm:W.dm[g]}; };
   /* ---------- 私訊：這一則傳不傳 ---------- */
   S.dmBlocked=function(G,q){ const F=G.flags||{}, R=S.rec(G); if(!hasContact(G,q.who)) return 'contact'; if(q.who==='kexin'&&S.kxCool(G)) return 'cool';
     if(q.st&&!S.stageOk(G,q.who,q.st)) return 'stage'; if(q.need&&!F[q.need]) return 'need'; if(q.after&&R.dm[q.after]!=='sent') return 'after';
@@ -211,10 +262,11 @@ const FEED=(function(){
     if(S.pgJumping>0){ const t0=S.free&&S.free.G===G&&S.free.t<=now?S.free.t:now; for(const i of R.items) if(i.tr==null&&S.live(G,i,t0)) i.tr=S.PG_TR; }
     else S.free={G,t:now};
     const dueAt=(t,term)=>{ const w0=S.when(G,t,term); if(!w0||abs(w0.day,w0.h)>now+24) return null; const w=S.loc(G,w0); return abs(w.day,w.h)>now?null:w; };   /* 人在國外照時差換成當地時間（S.loc）；一天以後的先不算時差 */
+    for(const e of R.dq.slice()) if(abs(e.day,e.h)<=now+1e-9) due.push({d:e,w:{day:e.day,h:e.h}});   /* 約會後的動態（AA_515）：排好、時間到了（遊戲時鐘；約會都在臺灣，不換時差）。先放：同一刻的話它先貼 */
     for(const s of SETS()){ for(const p of s.posts||[]){ if(R.done[p.id]) continue; const w=dueAt(p.t,s.term); if(w) due.push({p,w}); }
       for(const q of s.dms||[]){ if(R.dm[q.id]) continue; const w=dueAt(q.t,s.term); if(w) due.push({q,w,term:s.term}); } }
     due.sort((a,b)=>abs(a.w.day,a.w.h)-abs(b.w.day,b.w.h)); let n=0;
-    for(const x of due){ if(x.p){ if(S.decide(G,x.p,x.w)) n++; } else S.sendDm(G,x.q,x.w,x.term); }   /* 照時間的先後：一天四則、每人一週兩則照先貼的算 */
+    for(const x of due){ if(x.d){ if(S.datePost(G,x.d,x.w)) n++; } else if(x.p){ if(S.decide(G,x.p,x.w)) n++; } else S.sendDm(G,x.q,x.w,x.term); }   /* 照時間的先後：一天四則、每人一週兩則照先貼的算 */
     S.ytBdayTick(G);
     let hold;   /* 畢業以後篇還沒停下來（S.pgHold，一次 tick 只算一次）*/
     for(const i of R.items){ if(i.tr==null||i.back!=null) continue; if(i.tr===S.PG_TR){ if(hold===undefined) hold=S.pgHold(G); if(!hold) i.back=now; } else if(!S.tripOn(G,i.tr)) i.back=now; }   /* 出遊途中貼的：那一趟演完了＝記回來的那一刻（AA_506 第 9 節）；畢業以後篇跳時間：停下來的那一刻（AA_511 第 0 節第 1 點）*/
@@ -230,7 +282,7 @@ const FEED=(function(){
   S.dmOk=(G,p)=>!!p.dm&&(!p.dmIf||!!(S.COND[p.dmIf]&&S.COND[p.dmIf](G)));
   const HINT='<div style="font-size:12px;opacity:.75;line-height:1.3;margin-top:2px">';
   S.pic=(G,p,v)=>String(S.txt(p.pic,v)==null?'':S.txt(p.pic,v)).replace('{name}',(G&&G.name)||'祐廷');   /* 照片裡的 {name}＝玩家的名字（AA_506 以安第 7 則「京都：」後面是你的名字）*/
-  S.card=function(G,it){ const p=S.post(it.id); if(!p) return ''; const nm=S.name(G,p.who), pic=S.pic(G,p,it.v);
+  S.card=function(G,it){ const p=S.post(it.id,G); if(!p) return ''; const nm=S.name(G,p.who), pic=S.pic(G,p,it.v);
     let h='<div class="item feedItem"><div class="phrow"><b>'+esc(nm)+'</b><span class="muted">'+esc(S.whenText(G,it.day,it.h))+'</span></div><div class="feedPic">（照片：'+esc(pic)+'）</div>'+(p.say?'<div>'+esc(S.txt(p.say,it.v))+'</div>':'');   /* 她的一句也可以分兩版（AA_508 以安第 4 則：日本路線「三個了。」，ce6e87a99）*/
     const says=L=>L.slice(1).map(r=>S.txt(r,it.v)).filter(x=>x!=null&&x!=='');   /* 兩個版本句數不同：沒有的那一版是 ''（子晴大三下第 3 則）*/
     if(!it.r){ const B=['<button class="btn" data-fd="'+esc(it.id+'|heart')+'">（按愛心）</button>'];
@@ -245,11 +297,11 @@ const FEED=(function(){
     if(!L.length) return '<div class="item muted">最近七天沒有動態。</div>';
     return '<div class="list">'+L.map(it=>S.card(G,it)).join('')+'</div><div class="item muted" style="margin-top:8px">動態只留七天。</div>'; };
   /* 私訊對話串裡，回動態的那一句標是哪一則（game3d.js threadHTML）*/
-  S.refLabel=function(G,m){ if(!m||!m.fd) return ''; const p=S.post(m.fd); if(!p) return ''; const it=S.rec(G).items.find(i=>i.id===m.fd); const s=S.txt(p.say,it&&it.v)||('照片：'+S.pic(G,p,it&&it.v));
+  S.refLabel=function(G,m){ if(!m||!m.fd) return ''; const p=S.post(m.fd,G); if(!p) return ''; const it=S.rec(G).items.find(i=>i.id===m.fd); const s=S.txt(p.say,it&&it.v)||('照片：'+S.pic(G,p,it&&it.v));
     return ' · 動態「'+esc(s.length>14?s.slice(0,13)+'…':s)+'」'; };
   /* ---------- 回應 ---------- */
   S.fam=function(G,id){ if(typeof SOCIAL==='undefined'||!SOCIAL.activity) return null; if(SOCIAL.ACT&&!SOCIAL.ACT.feed) SOCIAL.ACT.feed={fam:1}; return SOCIAL.activity(id,'feed'); };
-  S.respond=function(G,id,kind){ if(!G||!['heart','cm','dm'].includes(kind)) return null; const R=S.rec(G), it=R.items.find(i=>i.id===id), p=S.post(id); if(!it||!p||it.r) return null;
+  S.respond=function(G,id,kind){ if(!G||!['heart','cm','dm'].includes(kind)) return null; const R=S.rec(G), it=R.items.find(i=>i.id===id), p=S.post(id,G); if(!it||!p||it.r) return null;
     if(!S.live(G,it)) return null; if(kind==='cm'&&!p.cm) return null; if(kind==='dm'&&!S.dmOk(G,p)) return null;   /* 畫面上看得到的才能回（出遊途中貼的照 S.live 多留）*/
     it.r=kind; const out=[];
     if(kind!=='heart'&&typeof PHONE!=='undefined'){ const L=kind==='cm'?p.cm:p.dm, th='p:'+p.who; const m=PHONE.post(G,{th,from:'player',who:null,text:S.txt(L[0],it.v)}); m.fd=id; m.fk=kind; out.push(m);

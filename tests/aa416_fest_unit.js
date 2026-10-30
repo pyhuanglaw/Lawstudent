@@ -10,6 +10,8 @@
 //   1b 約不到的不列（學姊筆試前、可昕沒交往、和可昕交往中別人的七夕）；只有關係階段還不到照列、選了婉拒（1-3）
 //   13 invites3d.js 接上的三處（實際的檔案）：INV.flow 的「約她過節」選項（手機、當面都有；約好了灰掉、說原因再選）、INV.meet 先演節日那一段
 // 修改前（開發分支 f4804619）：沒有 src/fest3d.js、src/data/fest_events.js——全部 FAIL。用法：node tests/aa416_fest_unit.js
+// 2026-10-28 AA_523 第 6-14 點改的（企劃線 0d7b5388b，SIS-B16-1028）：學姊交往中白色情人節的便條，2029 年那一張「明年也要。上班以後也要。」——
+//   帶 aa523 的那一句：「」裡那句對 AA_523 第 6 節 6-14 那一列、「」外面（背面寫著：）照舊對 AA_416（換回「明年也要。」要一字不差在 AA_416 裡）；其他每一句照舊對 AA_416／BB_122／BB_124
 require('./alison.js');
 const H=require('./pg_harness.js');
 const fs=require('fs'), vm=require('vm'), path=require('path'), cp=require('child_process');
@@ -21,6 +23,8 @@ let ok1=false, ok2=false, err=''; try{ ok1=load('src/data/fest_events.js'); ok2=
 const X=()=>typeof FEST!=='undefined'?FEST:null;
 const git=(sha,f)=>{ try{ return cp.execSync('git show '+sha+':"docs/story_planning/'+f+'"',{cwd:H.ROOT,encoding:'utf8'}); }catch(e){ return ''; } };
 const doc=git('2af5f4899','AA_416_節日總規格_三個情人節生日聖誕_七位.md')   /* 2af5f4899：第 11 節（10-23 19:2x）學姊禮物價錢、送花那一句 */, doc122=git('5788b1cb4','BB_122_溫學姊戀愛線v2_分手前後與重新開始.md'), doc124=git('968473469','BB_124_節日開車約會與健身_BB人物.md');
+let doc523=''; try{ doc523=cp.execSync('git show 0d7b5388b:"docs/story_planning/AA_523_學姊第十六批_回臺灣以後的最後半年.md"',{cwd:process.env.AA523_DOCREPO||H.ROOT,encoding:'utf8'}); }catch(e){ doc523=''; }
+const row614=(doc523.split('\n').find(l=>l.startsWith('| 6-14 |'))||'');   /* AA_523 第 6 節 6-14 那一列 */
 const norm=t=>String(t).replace(/^（/,'').replace(/）$/,'').replace(/[。：]$/,'');   /* 稿裡沒有括號的動作描寫：演成旁白、加（）*/
 const inDoc=(t,d)=>(d||doc).indexOf(t)>=0||(d||doc).indexOf(norm(t))>=0;
 const J=JSON.stringify, AN='heroine_01', ZR='heroine_02', YT='heroine_03', ZQ='heroine_04', SIS='heroine_05', PS='classmate_peishan', KX='kexin', ALL=[AN,ZR,YT,ZQ,SIS,PS,KX];
@@ -56,7 +60,8 @@ const REG=o=>{ global.CG_REGISTRY=o||{}; };
   check('0. STORY.PHONE_RULES、STORY.TICKS、OUT.BEFORE（校外約會）、OUT.AFTER（子晴跨年）都接了',STORY.PHONE_RULES.length>0&&STORY.TICKS.length>0&&OUT.BEFORE.length>0&&OUT.AFTER.length>0);
   { const ML=SOCIAL.MEMORY_LABEL||{}; check('0. 人物頁記憶 HOL_<節日>_<年>（1-7：「<年> 的情人節，和她一起過」照節日換字）',ML.HOL_VDAY_2027==='2027 的情人節，和她一起過'&&ML.HOL_WHITE_2026==='2026 的白色情人節，和她一起過'&&ML.HOL_QIXI_2028==='2028 的七夕，和她一起過'&&ML.HOL_BDAY_2026==='2026 的生日，和她一起過'&&ML.HOL_XMAS_2025==='2025 的聖誕節，和她一起過'&&ML.HOL_NYE_2026==='2026 的跨年，和她一起過'&&inDoc('「<年> 的情人節，和她一起過」')); }
   { const bad=[], normed=[]; const T=(t,d)=>{ if(typeof t!=='string') return; if((d||doc).indexOf(t)>=0) return; if(inDoc(t,d)){ normed.push(t); return; } bad.push(t); };
-    const lines=(L,d)=>{ for(const l of (L||[])){ if(l.text!==undefined) T(l.text,d); if(l.scene!==undefined) T(l.scene,d); for(const c of (l.choice||[])) T(c.text,d); } };
+    const T523=t=>{ const q=(/「[^」]+」/.exec(t)||[''])[0]; if(!(q&&row614.includes(q)&&doc.indexOf(t.replace(q,'「明年也要。」'))>=0)) bad.push('（AA_523 6-14）'+t); };
+    const lines=(L,d)=>{ for(const l of (L||[])){ if(l.aa523){ T523(l.text); continue; } if(l.text!==undefined) T(l.text,d); if(l.scene!==undefined) T(l.scene,d); for(const c of (l.choice||[])) T(c.text,d); } };
     for(const id of ALL){ const P=FEST_DATA.PEOPLE[id];
       for(const k in P.fest){ const c=P.fest[k]; for(const v of ['s5','s6','dt']) lines(c[v]); if(c.vid) lines(c.vid.lines); if(c.noonDm) c.noonDm.forEach(t=>T(t)); }
       if(P.ask){ (P.ask.lines||[]).forEach(t=>T(t)); (P.ask.homeLines||[]).forEach(t=>T(t)); (P.ask.no||[]).forEach(t=>T(t)); T(P.ask.place); }

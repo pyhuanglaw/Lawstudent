@@ -1,5 +1,8 @@
 // 颱風假 T2（BB_110，大二上第 7 週週一 2026-10-19）：日曆、前一晚新聞、T2b 線上的自願討論（三個選項、XU_TYPHOON 兩週內的課前一句）、T2a 阿凱抱泡麵（宿舍房間 21:00 以後）——不需要瀏覽器。
 // 修改前 10/19 不是颱風假、沒有這三件（全部失敗）。用法：node tests/v3_typhoon2_unit.js
+// （2026-10-28 AA_519 5-3（企劃線 d75cd0228，NPC-STORY2-1028）：二十分鐘後的旁白「（二十分鐘後，阿凱全身濕，抱著一箱泡麵站在門口。）」改成「…站在門口，手上這次是一袋滷味。」（颱風夜不要三年同一個畫面）——第 4 項照新字查、舊字不在）
+// （2026-10-28 AA_519 第 9 節第 1 點（企劃線 169130daf）：同一場其他的泡麵一起換成一袋滷味——第 4 項的期待值：阿凱「下雨又怎樣 滷味我都買了」、遞毛巾「先擦頭啦，滷味又不會跑。」（照稿）；
+//   最後旁白「各分到一包」→「各分到一些」（稿「其他泡麵照同樣的意思改」，子代理改：一袋滷味分不出包）。檢查照留，只換字）
 const fs=require('fs'), vm=require('vm'), path=require('path');
 const ROOT=path.resolve(__dirname,'..');
 global.window=global; global.self=global; global.P3={CAST:{}};
@@ -47,8 +50,8 @@ const meet=id=>SOCIAL.remember(id,'FIRST_MET','');
   // T2a
   fresh(ty,20.5,'dorm',{ROOM_Y2:ty-43}); G.stage='law'; check('4. 21:00 以前不演',!tick());
   G.hour=21.2; picks=['遞毛巾']; tick(); await wait(); L=lines(); const K=txt('p:kai');
-  check('4. 阿凱四則、祐廷兩則（照稿，進對話串；AB65-3：BB_167 SC4 #12＋AA_211 附錄 B P10「就當這週的宵夜提早」）',JSON.stringify(K)===JSON.stringify(['kai:我要過去','player:外面在下雨','kai:下雨又怎樣 泡麵我都買了','kai:就當這週的宵夜提早','player:今天是週一','kai:所以咧 颱風天誰管星期幾']),JSON.stringify(K));
-  check('4. 二十分鐘後的旁白＋遞毛巾「先擦箱子啦，泡麵濕掉就完了。」（SC4 #12）、最後旁白「（阿哲和柏翰也各分到一包。學弟說他不吃辣。）」（AA_211 第 2 節【室友】）',L.includes('（二十分鐘後，阿凱全身濕，抱著一箱泡麵站在門口。）')&&/先擦箱子啦，泡麵濕掉就完了。$/.test(L[L.length-2])&&L[L.length-1]==='（阿哲和柏翰也各分到一包。學弟說他不吃辣。）',JSON.stringify(L));
+  check('4. 阿凱四則、祐廷兩則（照稿，進對話串；AB65-3：BB_167 SC4 #12＋AA_211 附錄 B P10「就當這週的宵夜提早」）',JSON.stringify(K)===JSON.stringify(['kai:我要過去','player:外面在下雨','kai:下雨又怎樣 滷味我都買了','kai:就當這週的宵夜提早','player:今天是週一','kai:所以咧 颱風天誰管星期幾']),JSON.stringify(K));
+  check('4. 二十分鐘後的旁白（AA_519 5-3：一袋滷味）＋遞毛巾「先擦頭啦，滷味又不會跑。」（SC4 #12；AA_519 第 9 節第 1 點）、最後旁白「（阿哲和柏翰也各分到一些。學弟說他不吃辣。）」（AA_211 第 2 節【室友】；第 9 節第 1 點子代理改）',L.includes('（二十分鐘後，阿凱全身濕，站在門口，手上這次是一袋滷味。）')&&!L.includes('（二十分鐘後，阿凱全身濕，抱著一箱泡麵站在門口。）')&&/先擦頭啦，滷味又不會跑。$/.test(L[L.length-2])&&L[L.length-1]==='（阿哲和柏翰也各分到一些。學弟說他不吃辣。）',JSON.stringify(L));
   check('4. 不認識方奕廷：沒有拍照那個選項',JSON.stringify(opts[opts.length-1])===JSON.stringify(['（遞毛巾）','「你可以傳訊息就好。」']),JSON.stringify(opts));
   fresh(ty,21.2,'dorm',{ROOM_Y2:ty-43}); G.stage='law'; meet('npc_fangyt'); picks=['拍照']; tick(); await wait(); check('4. 認識方奕廷：拍照傳給他→「他真的出門了？」「颱風天欸」（AA_211 附錄 B P9；原本「他比颱風還堅持。」）',txt('p:npc_fangyt').includes('npc_fangyt:他真的出門了？')&&txt('p:npc_fangyt').includes('npc_fangyt:颱風天欸'));
   fresh(ty,21.2,'campus',{ROOM_Y2:ty-43}); G.stage='law'; check('4. 不在宿舍房間不演',!tick());

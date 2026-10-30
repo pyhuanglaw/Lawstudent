@@ -171,7 +171,8 @@ const R2Y3A=(function(){
   const FT='g:family_law', KV=M(FT,'kevin','Kevin'), SIS=M(FT,'heroine_05','溫學姊'), JR=t=>({th:FT,name:'學妹',text:t});
   const KVr=t=>({from:'kevin',name:'Kevin',text:t}), SISr=t=>({from:'heroine_05',name:'溫學姊',text:t});
   S.typhoonPhone=function(G){ const F=G.flags, d=DK('2027-10-13'); if(d==null||G.day<d||G.day>d+1||typeof CALENDAR==='undefined'||!CALENDAR.typhoon||!CALENDAR.typhoon(d)) return; const n=now(G);
-    if(G.day===d&&n>=T(d,19.5)&&met(G,'kai','FAMILIAR')&&!sent(G,'y3_t3a')){ silentContact(G,'kai'); PHONE.at(G,d,atH(G,d,19.5),[P('kai')('明天也停課吧'),P('kai')('所以我帶泡麵過去')],'y3_t3a'); }
+    if(G.day===d&&n>=T(d,19.5)&&met(G,'kai','FAMILIAR')&&!sent(G,'y3_t3a')){ silentContact(G,'kai'); PHONE.at(G,d,atH(G,d,19.5),[P('kai')('明天也停課吧'),
+      P('kai')('所以我帶豆漿過去')],'y3_t3a'); }   /* AA_519 第 9 節第 1 點「這兩場裡其他泡麵也照這個換」：大三這一場阿凱帶的是兩杯熱豆漿（原本「所以我帶泡麵過去」，子代理照同樣的意思改）*/
     if(grp(G,'family_law')&&n>=T(d,21)&&!sent(G,'y3_t3b'))
       PHONE.at(G,d,atH(G,d,21),[KV('明天家族讀書會還要嗎 颱風欸 @學姊'),SIS('線上。想來的再來。'),Object.assign(JR('……我已經把書收起來了。'),{ask:{id:'y3_t3b',until:T(d+1,19),opts:[
         {t:'明天可以休息嗎？',say:[SISr('……好。休息。')],set:{SIS_TYPHOON_Y3:'rest'}},

@@ -1,4 +1,5 @@
 // AA_497 五位配角改稿（企劃線 60fc3b9a3＝7a38216ca＋第 8 節；任務 NPC-STORY-1028、USER_WANTS X119）：宥辰、芯慈、Alison、明軒、Kevin——不需要瀏覽器。
+//   （2026-10-28 AA_519 1-5 改第 8 節那一項的期待值：公館一百元清單阿鳳麵店那一列換成「乾麵 60」那一列，tests/aa519_support2_unit.js 也查）
 //   0  稿：src/data/sup497_lines.js 每一句、改在各檔的句子都在稿裡（一字不差；地下室照 BB_70 7b、大四兩則照 BB_113）；稿的每一句（> 那幾行、表格）都在遊戲裡
 //   1  宥辰：1-1 personality；1-3 認識（課堂那一句後面＋下課；晚十分鐘到）；1-4 週五的歌 13 則（日子、私訊／班群、回覆、輪流、曾靖雯那一句、第 13 則）；
 //      1-5 電梯（順手的事：開口、期限、12:10 做完、婉拒、過期那一則）；1-6 地下室（邀請、出發、站哪裡、電梯那一句、立群、散場三個回答、沒去的錄影、五年後）；
@@ -735,7 +736,7 @@ const inDoc=t=>DOC.indexOf(t)>=0;
       check('8. 追劇照留的五處：慈 3、慈 6、R1、尾聲、大一的 y1fill',!t.length,J(t)); }
     /* 明軒的滷蛋 */
     { await play('ev_mx_egg_y3'); check('8. ev_mx_egg_y3：「（他把一碗大碗的乾麵推到你面前。）」「冠軍那天欠的。大碗。」',J(H.said.map(x=>x.t))===J(['（他把一碗大碗的乾麵推到你面前。）','冠軍那天欠的。大碗。']),J(H.said.map(x=>x.t))); }
-    check('8. 公館一百元清單（明軒寫的）：「滷蛋另外算。」改「豆干另外算。」、量詞「一塊」（第 8 節後補 b70bed855）；旗標名 MX_EGG* 不改',STORY.MX_FM1.rows[1][3]==='豆干另外算。阿姨有時候多給一塊，這個不能算進排名。'&&in8('「滷蛋」改「豆干」')&&DOC0.indexOf('「阿姨有時候多給一顆」改「阿姨有時候多給一塊」')>=0&&!JSON.stringify(STORY.MX_FM1).includes('滷蛋')&&/MX_EGG_PAID/.test(noCmt('src/data/group_events.js'))&&/MX_EGG_JP/.test(noCmt('src/group3d.js')));
+    check('8. 公館一百元清單（明軒寫的）：「滷蛋另外算。」改「豆干另外算。」、量詞「一塊」（第 8 節後補 b70bed855）；旗標名 MX_EGG* 不改（2026-10-28 AA_519 1-5 再改那一列：乾麵 60、「湯另外點就超過了。阿姨有時候多給一塊豆干，這個不能算進排名。」——豆干、一塊照舊）',JSON.stringify(STORY.MX_FM1.rows[1])===JSON.stringify(['阿鳳麵店','乾麵','60','湯另外點就超過了。阿姨有時候多給一塊豆干，這個不能算進排名。'])&&in8('「滷蛋」改「豆干」')&&DOC0.indexOf('「阿姨有時候多給一顆」改「阿姨有時候多給一塊」')>=0&&!JSON.stringify(STORY.MX_FM1).includes('滷蛋')&&/MX_EGG_PAID/.test(noCmt('src/data/group_events.js'))&&/MX_EGG_JP/.test(noCmt('src/group3d.js')));
     check('8. 明軒的滷蛋只留 M1「他有念啦」那一晚、M2 推滷蛋、德文「不是滷蛋」',noCmt('src/data/events.js').includes('然後請你一顆滷蛋。')&&noCmt('src/y2r2_3d.js').includes('（明軒把自己碗裡的滷蛋，推到你碗裡。）')&&L().mx.german.scene.some(x=>x[1].endsWith('……不是滷蛋。')));
     /* 學妹改名佳穎：family_junior 全部換；姊姊宜蓁不動 */
     { const files=fs.readdirSync(path.join(H.ROOT,'src')).filter(f=>f.endsWith('.js')).map(f=>'src/'+f).concat(fs.readdirSync(path.join(H.ROOT,'src/data')).filter(f=>f.endsWith('.js')).map(f=>'src/data/'+f));

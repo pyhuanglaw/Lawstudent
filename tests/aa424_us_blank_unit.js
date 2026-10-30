@@ -1,6 +1,6 @@
 // AA_424 美國篇的空白日（AA-B 2026-10-23 19:0x，企劃線 355980037；回 BB_301）——不需要瀏覽器。台詞逐字對 AA_424：每一句都直接寫在這裡比對（不從程式讀）。
 //   0 接線：index.html（us208_3d.js 後面兩行）、事件、掛勾、記憶的面板名稱
-//   G 第 1 節 挽回中的週六 10:00 交換生群組 16 則：逐字、三個回法（群組＝REPAIR +1、私訊＝已讀不回不加、不回＝沒有）、之後別人接的那一句（何俊朗見過他才有）、
+//   G 第 1 節 挽回中的週六 10:00 交換生群組 16 則（AA_516 第 5 節補 9/2，17 則）：逐字、三個回法（群組＝REPAIR +1、私訊＝已讀不回不加、不回＝沒有）、之後別人接的那一句（何俊朗見過他才有）、
 //     一週最多 +1（和芝加哥的邀約合起來算）、12/2 前回滿三週到得了 REPAIR ≥ 3、照片 9/16 起、11/11 只有沒去芝加哥、12/9 重新交往也有但不加、交往中沒有、舊存檔太舊的不補
 //   S 第 3 節 交往中開學前的週六：前一天 21:00 私訊、「好。」排行程／「明天不行。」→「好。」、三場逐字＋記憶、竹葉／圖書館用 3D（模糊）、說話框「書瑀」；挽回中沒有；9/13 以後沒有
 //   L 第 3-4 節 9/9 洗衣間：上午選「洗衣服」才演、只看看＝AA_287 的字、平常洗衣服 40 分鐘、快轉停 9/9 11:00；AA_412 3-2 多一句（有 US_ASIAN_MARKET）
@@ -56,6 +56,7 @@ const GRP=[
   ['2028-08-12',['竹葉亞洲超市週日公休。醬油有，冰糖沒有。'],'冰糖去哪裡買？',[],'網路上有。很貴。'],
   ['2028-08-19',['法學院圖書館迎新週也開。三樓靠窗那排有插座。'],'收到。',[]],
   ['2028-08-26',['開學第一週的閱讀很多。先讀每一份的開頭和結尾。'],'好。我試試看。',[]],
+  ['2028-09-02',['勞動節週末，法學院圖書館只開到下午五點。'],'收到。',[]],   /* AA_516 第 5 節（企劃線 a9b87c588）補 W5：她貼、玩家可回「收到。」、之後無；REPAIR 照這張表的規則 */
   ['2028-09-09',['Legal Writing 的教授改得很細。交之前，大聲念一次。'],'念完就知道哪裡卡了。',[':（她按了一個讚。）']],
   ['2028-09-16',['📷（湖邊的步道，起了霧）','早上的湖。'],'好漂亮。',[]],
   ['2028-09-23',['C 棟的烘衣機，濾網要自己清。不清會烘不乾。'],'我上次就烘不乾。',['heroine_05:我也是。']],
@@ -70,7 +71,7 @@ const GRP=[
   ['2028-12-09',['期末考週，會所自習室開到半夜。'],'那裡見。',[':（她已讀了。）']] ];
 const gtag=k=>'usb_grp_'+k.slice(5,7)+k.slice(8,10);
 await sec('G',async()=>{
-  check('G0. 16 個週六、日期照 AA_424 第 1 節的表（每一天都是週六）',J(US_BLANK.GRP.map(r=>r.d))===J(GRP.map(r=>r[0]))&&GRP.every(r=>wdOf(D(r[0]))===6));
+  check('G0. 17 個週六（AA_424 第 1 節 16 個＋AA_516 第 5 節 9/2）、日期照表（每一天都是週六）',J(US_BLANK.GRP.map(r=>r.d))===J(GRP.map(r=>r[0]))&&GRP.every(r=>wdOf(D(r[0]))===6));
   let okAll=true, bad=[];
   for(const [k,post,reply,after,long] of GRP){
     const G=fresh(k,9.75,'us_apartment',{US2:'repair',MET_LONG:true}); if(k==='2028-11-11') G.flags.US_CHICAGO='missed';
@@ -82,7 +83,7 @@ await sec('G',async()=>{
     const want=['player:'+reply].concat(after).concat(long?['npc_long:'+long]:[]);
     const ok2=J(tail)===J(want)&&rep()===r0+1&&(H.G.flags.REPAIR_LOG||[]).some(q=>q.why===gtag(k).replace('usb_grp_','us_grp_'));
     if(!(ok1&&ok2)){ okAll=false; bad.push(k+' '+J({early,M:M.map(m=>m.text),opts:last&&last.ask&&last.ask.opts.map(o=>o.t),tail,rep:rep()})); } }
-  check('G1. 16 則逐字（當地週六 10:00、照片＝兩則）、三個回法的按鈕、在群組回＝玩家那一句＋之後那一句（何俊朗見過他才有）、REPAIR +1',okAll,bad.join('｜'));
+  check('G1. 17 則逐字（當地週六 10:00、照片＝兩則）、三個回法的按鈕、在群組回＝玩家那一句＋之後那一句（何俊朗見過他才有）、REPAIR +1',okAll,bad.join('｜'));
   check('G1b. 照片 9/16 起才有（8 月只傳資訊）',GRP.filter(r=>r[1].some(t=>/📷/.test(t))).every(r=>D(r[0])>=D('2028-09-16'))&&GRP.filter(r=>D(r[0])<D('2028-09-01')).every(r=>!r[1].some(t=>/📷/.test(t)))&&US_BLANK.GRP.filter(r=>r.post.some(t=>/📷/.test(t))).map(r=>r.d).join()==='2028-09-16,2028-10-14,2028-11-11');
   /* 何俊朗沒見過：不接 */
   { const G=fresh('2028-10-28',10,'us_apartment',{US2:'repair'}); rules(); ans(gtag('2028-10-28'),0); rules();
@@ -108,7 +109,7 @@ await sec('G',async()=>{
     check('G4d. 12/2 初雪前回滿三週（9/9、9/16、9/23）：REPAIR 3、條件到得了（R2Y4A.repairOK）',rep()===3&&R2Y4A.repairOK(G4),String(rep())); }
   /* 交往中沒有；12/9 重新交往的有、不加 */
   { const G=fresh('2028-08-05',10,'us_apartment',{US2:'dating'}); dateSis(); let n=0; for(const [k] of GRP){ at(k,10.5); rules(); n+=byTag(gtag(k)).length; }
-    check('G5. 交往中（一直交往）：16 個週六都沒有群組那一則（12/9 也沒有）',n===0,String(n));
+    check('G5. 交往中（一直交往）：17 個週六都沒有群組那一則（12/9 也沒有）',n===0,String(n));
     const G2=fresh('2028-12-09',10,'us_apartment',{US2:'repair',US_RESTART:D('2028-12-02')}); dateSis(); rules();
     const M=byTag(gtag('2028-12-09')); ans(gtag('2028-12-09'),0); rules();
     check('G5b. 12/2 初雪重新交往：12/9 那一則照樣在群組；回「那裡見。」＝（她已讀了。），不加 REPAIR，不排行程',M.length===1&&M[0].text==='期末考週，會所自習室開到半夜。'&&rep()===0&&th('g:us_exchange').slice(-2).map(m=>m.text).join('|')==='那裡見。|（她已讀了。）'&&!OUT.rec(G2).some(q=>/usb/.test(q.id)),J([M.length,rep()])); }

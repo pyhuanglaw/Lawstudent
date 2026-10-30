@@ -73,7 +73,7 @@ const SISY23_EVENTS=(function(){
   /* 2-4 生日的一段（一般、交往中共用；year＝2026 'y1'／2027 'y2'）*/
   const bday=(year,date)=>[ ...(date?[SIS('我自己訂的。我知道你會想訂，可是你會訂錯家。')]:[N('（她在讀書。保溫瓶旁邊多了一小盒蛋糕，還沒拆。）')]),
     SIS('群組那則看到了吧。Kevin 每年都發。'),
-    ...(year==='y1'?[SIS('下禮拜畢業。……之後還是在這裡讀書，只是換一張學生證。')]:[{if:{flagIs:{SIS_LAB_DESK:'went'}},speaker:ID,text:'碩一過完一年了。研究室那張靠門的椅子，我換了一個坐墊。'}]),
+    ...(year==='y1'?[SIS('這禮拜六畢業。……之後還是在這裡讀書，只是換一張學生證。')]:   /* AA_518 4-6：6/2（二）那場，畢業典禮是那個週六（原本「下禮拜畢業。」）*/[{if:{flagIs:{SIS_LAB_DESK:'went'}},speaker:ID,text:'碩一過完一年了。研究室那張靠門的椅子，我換了一個坐墊。'}]),
     {choice:[{text:'「生日快樂。」',goto:'bd_a'},{text:'（遞給她一包茶葉）',goto:'bd_b'},{text:'（把她的保溫瓶拿去裝滿熱水）',goto:'bd_c'}]},
     {label:'bd_a'},SIS(date?'謝謝。……你今天穿得比平常好看。':'謝謝。……蛋糕分你一半，我吃不完。'),{set:{['SIS_BDAY_'+year.toUpperCase()]:'there'}},{goto:'bd_end'},
     {label:'bd_b'},SIS('（看了一下包裝）這家我喝過。……你怎麼知道。'),{speaker:'player',text:'妳保溫瓶的味道。'},SIS('……好。'),N('（她收進包包）'),{set:{['SIS_BDAY_'+year.toUpperCase()]:'tea'}},{goto:'bd_end'},
@@ -185,7 +185,7 @@ const SISY23_EVENTS=(function(){
         {unless:dt,choice:[{text:'「恭喜。」',goto:'a'},{text:'「要慶祝嗎？」',set:{SIS_US_CELEB:true},goto:'b'}]},   /* AA_512 第 2 節第 4 點：選「要慶祝嗎？」記 SIS_US_CELEB（7/29 買鎖那天兌現，ev_sis_predepart）*/
         {if:{custom:G=>dating(G)&&route(G)==='US'},speaker:ID,text:'八月二號。我們同一班。'},
         {if:{custom:G=>dating(G)&&route(G)!=='US'},speaker:ID,text:'八月二號。……你要來送我。'},
-        {if:dt,choice:[{text:'「恭喜。」',goto:'c'},{text:'「我現在過去。」',goto:'d'}]},
+        {if:dt,choice:[{text:'「恭喜。」',goto:'c'},{text:'「我現在過去。」',set:{SIS15_LUNCH_GO:true},goto:'d'}]},   /* AA_518 第 3 節第 4 點：「很晚了。……明天中午，研究室。」＝3/16 12:20 研究室（src/sis_b15_3d.js）*/
         {label:'a'},SIS('嗯。……我以為我會比較高興。現在只想到，要在那邊待四個多月。'),{goto:'end'},
         {label:'b'},SIS('要。……等我把八月以前的事排完。'),{goto:'end'},
         {label:'c'},SIS('嗯。……你先不要掛。我想再聽一下你那邊的聲音。'),{goto:'end'},
