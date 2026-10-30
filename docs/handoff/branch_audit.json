@@ -1,20 +1,20 @@
 {
- "at": "2026-10-30T03:29Z",
- "main": "37603ad6a",
+ "at": "2026-10-30T18:22Z",
+ "main": "271cd2305",
  "ruleSource": "claude/modest-rubin-2lyp7g",
  "counts": {
   "保留｜主線": 1,
   "保留｜崗位在用": 4,
   "保留｜WIP 沒整合完": 4,
-  "保留｜main 沒有的內容": 3,
+  "保留｜main 沒有的內容": 4,
   "清理候選": 13
  },
  "branches": [
   {
    "ref": "origin/main",
    "branch": "main",
-   "sha": "37603ad6a1525254282da14f16ffb93168bc0f5d",
-   "date": "2026-10-30T10:09:49+08:00",
+   "sha": "271cd2305892c095779404dc76f8507ddfe9840b",
+   "date": "2026-10-30T15:49:23+08:00",
    "who": "—",
    "kind": "保留｜主線",
    "why": "GitHub Pages 正式版",
@@ -23,42 +23,42 @@
   {
    "ref": "origin/claude/cool-heisenberg-o8kuqx",
    "branch": "claude/cool-heisenberg-o8kuqx",
-   "sha": "5b9d33d05170c3eaf274a098cbdfc0b62c7d6ac1",
-   "date": "2026-10-30T03:26:07+00:00",
+   "sha": "6f81fc9d9e2e884580f509ebd2ecbf6449fb80ab",
+   "date": "2026-10-30T17:57:55+00:00",
    "who": "AA-B",
    "kind": "保留｜崗位在用",
    "why": "duty.json：AA-B",
-   "ahead": 4339
+   "ahead": 5018
   },
   {
    "ref": "origin/claude/elegant-brown-fcos7n",
    "branch": "claude/elegant-brown-fcos7n",
-   "sha": "843fb2ead86189ea62b01e875bdf5d2fe4aac66e",
-   "date": "2026-10-30T03:27:10+00:00",
+   "sha": "6587f307e7fdeb5112a6816a6d94d99502443de8",
+   "date": "2026-10-30T18:12:01+00:00",
    "who": "BB-B",
    "kind": "保留｜崗位在用",
    "why": "duty.json：BB-B",
-   "ahead": 4895
+   "ahead": 4994
   },
   {
    "ref": "origin/claude/funny-albattani-iawshm",
    "branch": "claude/funny-albattani-iawshm",
-   "sha": "c48a5c3109faf06cea606a28aa4f636e03682808",
-   "date": "2026-10-30T03:23:13+00:00",
+   "sha": "ac3a8ffbb97dd6c9892d5b94112b44238cc1b50e",
+   "date": "2026-10-30T18:10:52+00:00",
    "who": "LAWWW2-B",
    "kind": "保留｜崗位在用",
    "why": "duty.json：LAWWW2-B",
-   "ahead": 1209
+   "ahead": 1300
   },
   {
    "ref": "origin/claude/modest-rubin-2lyp7g",
    "branch": "claude/modest-rubin-2lyp7g",
-   "sha": "4df154b26bfc78186ab2a67954cc1d569e4f6689",
-   "date": "2026-10-30T03:27:18+00:00",
+   "sha": "a72578731e1244d399db701b285664753b5a444b",
+   "date": "2026-10-30T18:20:26+00:00",
    "who": "LAWWW-B、RULE_SOURCE",
    "kind": "保留｜崗位在用",
    "why": "duty.json：LAWWW-B、RULE_SOURCE",
-   "ahead": 20
+   "ahead": 304
   },
   {
    "ref": "origin/claude/adoring-meitner-mqzst8",
@@ -107,7 +107,7 @@
    "date": "2026-10-22T15:09:52+00:00",
    "who": "LAWWW2-A（交班過）",
    "ahead": 850,
-   "why": "main 沒有的 commit 844 個（內容比對）；分出去以後改的檔案有 2216 個和 main 不一樣；整條分支已經在 claude/funny-albattani-iawshm 裡（還沒發布到 main）",
+   "why": "main 沒有的 commit 844 個（內容比對）；分出去以後改的檔案有 2217 個和 main 不一樣；整條分支已經在 claude/funny-albattani-iawshm 裡（還沒發布到 main）",
    "kind": "保留｜main 沒有的內容",
    "inside": [
     "claude/funny-albattani-iawshm"
@@ -136,6 +136,19 @@
    "inside": [
     "claude/cool-heisenberg-o8kuqx",
     "claude/elegant-brown-fcos7n"
+   ]
+  },
+  {
+   "ref": "origin/postrel-1030",
+   "branch": "postrel-1030",
+   "sha": "3808792fe8b2ba9e52fd5ed3cbe264a7c3339d88",
+   "date": "2026-10-30T05:18:52+00:00",
+   "who": "—",
+   "ahead": 73,
+   "why": "main 沒有的 commit 62 個（內容比對）；分出去以後改的檔案有 162 個和 main 不一樣；整條分支已經在 claude/modest-rubin-2lyp7g 裡（還沒發布到 main）",
+   "kind": "保留｜main 沒有的內容",
+   "inside": [
+    "claude/modest-rubin-2lyp7g"
    ]
   },
   {
