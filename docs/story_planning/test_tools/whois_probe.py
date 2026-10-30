@@ -179,7 +179,7 @@ async def mode_econ(pg, cdp, run):
         if pid == 'econ_pinyu' and fl['kx']: w.append('可昕的室友。')
         return w
     fl1, o1 = await cp('econ_9月', want1)
-    run.note('第一個檢查點：%s；%s' % (J(fl1), J(o1, 1200)))
+    run.note('第一個檢查點：%s；%s' % (J(fl1), J(o1)))
     seen = {'camp': None, 'zoula': None}; t2 = time.time(); last2 = 0
     while time.time() - t2 < 2400:   # 照玩家往下玩到 10/19 退宿（Y0_MOVED_OUT），途中宿營過了、進「走啦」群組各看一次（WHOIS.lines）
         s = await P.ts(pg)
