@@ -105,6 +105,14 @@
     - 不接受多段；
     - 人生方向不變。
     - 第二份：約會台詞全套等。
+  - `AA_537b` 芯慈第二份（`508568ae5`）：約會一般台詞、128 點喜好＋15 句、八個常去地點、期末飯、節日。
+  - WORLD_NAMING：第 7 節連 LAWWW2-B 美術字清單 `RENAME_ART_LIST.md`（`bbf848e58`）；3-2 加「紀念品上的字可以縮寫」。
+  - `AA_538` 實作問答定稿句（`04ebaa37e`）：佳蓉 B館版、SK02 系辦三句（給測試讀稿）。
+  - 驗收掃描工具 `tools/rename/scan_game.py`（只讀）：掃開發分支 src 的字串，列舊名、「法律系館A館」、台詞用正式名、旁白只寫 A館。
+  - **等使用者**（10-30 05:4x 問）：
+    - 許教授全名三選一；
+    - 小小福、杜鵑花節、女九、哥大；
+    - 芯慈兩條（跟以安交往過不開、不接受多段）。
 
 值班登記：帳號 C｜AA｜session_019evvieJUJD23EGf4nyLPgo｜分支 claude/magical-albattani-bk7b4n｜接班基準 89accb6d4（快轉合併帳號 B 的 `claude/cool-heisenberg-o8kuqx`）｜2026-10-27
 上一班：帳號 B｜AA｜session_016ACZaD4oB9tX94WqQR4dkS｜最後 commit 89accb6d4（2026-10-25 19:43 UTC，讀稿工具存檔）｜**沒有正式交班**（四個帳號 B 的工作階段都停在 10-25 19:2x～19:4x）→ 使用者 10-27 對 AA-C：「上一班來不及交班，現在由帳號 C 接班」＝第 4 節第 10 步的明確授權（`duty register --user-ok`）。
