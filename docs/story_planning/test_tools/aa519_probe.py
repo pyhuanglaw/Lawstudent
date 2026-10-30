@@ -37,8 +37,21 @@ TARGET = """(i=>{ const E=GAME.E, P=E.player.obj.position, n=E.npcs[i]; if(!n||!
   return {tx:+tx.toFixed(2),tz:+tz.toFixed(2),want:n.talkLabel||('和'+n.name+'說話'),lab:l,d:+Math.hypot(P.x-h.x,P.z-h.z).toFixed(2)}; })"""
 
 
+SAYHOOK = """(()=>{ if(window.__SAYH) return; window.__SAYH=1; window.__SAY=[]; const s0=GAME.say; GAME.say=function(w,t){ try{ window.__SAY.push({n:(w&&w.name)||(typeof w==='string'?w:''), t:String(t||'')}); }catch(e){} return s0.apply(this,arguments); }; })()"""   # 每一句 GAME.say（BB-B 10-30 02:5x：短句「坐。」兩個字，打字一下就完、對話框輪詢抓不到）
+
+
 async def talk_staff(pg, cdp, run, i, tag, picks=()):
-    """像玩家一樣走到那位店員旁邊，按鈕變成「和〈他〉說話」再按，點完對話"""
+    """像玩家一樣走到那位店員旁邊，按鈕變成「和〈他〉說話」再按，點完對話；r['said']＝這一段 GAME.say 說的每一句（走過去途中點到他也算）"""
+    await pg.evaluate(SAYHOOK); n0 = await pg.evaluate("window.__SAY.length")
+    r = await _talk_staff(pg, cdp, run, i, tag, picks)
+    said_ = [[x['n'], x['t']] for x in (await pg.evaluate("window.__SAY"))[n0:]]
+    run.note('%s：GAME.say 記到 %s' % (tag, J(said_)))
+    if r is None and said_: r = {'lines': [], 'opts': [], 'started': True, 'label': None}
+    if r is not None: r['said'] = said_
+    return r
+
+
+async def _talk_staff(pg, cdp, run, i, tag, picks=()):
     for k in range(3):
         g = await pg.evaluate(TARGET, i)
         if not g: run.note('%s：那位不在（或藏著）' % tag); return None
@@ -54,7 +67,8 @@ async def talk_staff(pg, cdp, run, i, tag, picks=()):
 
 
 def said(r, who=None):
-    return [t for nm, t in (r or {}).get('lines', []) if who is None or nm == who]
+    L0 = (r or {}).get('said') or (r or {}).get('lines', [])
+    return [t for nm, t in L0 if who is None or nm == who]
 
 
 async def rooms(pg, key):
