@@ -1,0 +1,88 @@
+diff --git a/src/assets3d.js b/src/assets3d.js
+index c6e4d90e8..6aad8cd64 100644
+--- a/src/assets3d.js
++++ b/src/assets3d.js
+@@ -26,7 +26,7 @@ const ASSETS = (function(){
+     'prop.bagFlat':   {url:'assets/models/env/bag-flat.glb', source:'market.pmnd.rs', license:'CC0', ground:true, fitHeight:0.25},
+     // 人物（正式）：VRoid 官方 CC0 樣本模型（pixiv，VRoid Studio β 版樣本；檔內 meta licenseName=CC0），
+     // 用 tools/vroid_build.py 改成本作角色：移植衣物、換色、縮貼圖。主要角色各一個檔；路人用 4 個底模＋材質顏色相乘。
+-    'char.yuting':     {url:'assets/models/char/vroid_yuting.vrm', blUrl:'assets/models/char/bl_yuting.vrm',type:'vrm',anims:'char.mixamo_clips',height:1.75,role:'PLAYER',source:'VRoid CC0 樣本「HairSample_Male」（pixiv）；本作修改：拿掉帽子／抽繩／口袋線的淺灰上衣、深灰直筒褲、白球鞋、拿掉呆毛、眼睛縮小；後背包是 src/props3d.js',license:'CC0'},
++    'char.yuting':     {url:'assets/models/char/vroid_yuting.vrm', blUrl:'assets/models/char/bl_yuting.vrm',type:'vrm',anims:'char.mixamo_clips',height:1.75,role:'PLAYER',source:'VRoid CC0 樣本「HairSample_Male」（pixiv）；本作修改：拿掉帽子／抽繩／口袋線的淺灰上衣、深灰直筒褲、白球鞋、拿掉呆毛、眼睛縮小；後背包是 src/props3d.js；經濟系系外套 JACKET_ECON 是 tools/jacket_econ.py 加的網格（預設藏，CHAR.setJacket 切換）',license:'CC0',hide:['JACKET_ECON']},
+     'char.heroine_01': {url:'assets/models/char/vroid_heroine_01.vrm', blUrl:'assets/models/char/bl_heroine_01.vrm',type:'vrm',anims:'char.mixamo_clips',height:1.66,source:'VRoid CC0 樣本「HairSample_Female」＋「HairSample_Male」的上衣與長褲＋「Sendagaya Shino」的樂福鞋（pixiv）；本作修改：單一高馬尾、米白針織衫、藍灰直筒寬褲；托特包是 src/props3d.js',license:'CC0'},
+     'char.heroine_02': {url:'assets/models/char/bl_heroine_02.vrm',blUrl:'assets/models/char/bl_heroine_02.vrm',type:'vrm',anims:'char.mixamo_clips',height:1.61,source:'本作 Blender（tools/blender/char/heroine_02.py＋p02_face／p02_hair／p02_clothes；使用者 10-22「好憨」LAWWW2 改臉、瀏海）；底模 VRoid CC0 樣本「Victoria Rubin」（pixiv）；眼鏡 prop.glasses_zhiruo、耳環、圍裙是 src/props3d.js（舊的 VRoid 加工版 vroid_heroine_02.vrm 不再載入）',license:'CC0'},
+     /* ART-05（BB-B BB_131 第 9 節 b6270efc，2026-10-16）：阿哲、芯慈、柏翰、沛珊、可昕的 Blender 版比原本的預設接近標準圖 → v9.9 起是預設（不標 ART_APPROVED；臉、瀏海、頭髮 LAWWW2-B 還在精修）。阿哲原本的 VRoid 版 vroid_zhe.vrm 留在 repo */
+diff --git a/src/character3d.js b/src/character3d.js
+index a58eea4a7..5cd95dc0a 100644
+--- a/src/character3d.js
++++ b/src/character3d.js
+@@ -160,6 +160,10 @@ const CHAR = (function(){
+   C.carryOff=function(h){ const u=h&&h.userData; if(!u||!u.props) return ()=>{}; const was=[];
+     for(const k of C.CARRY){ const o=u.props[k]; if(!o) continue; const on=u.propOn&&Object.prototype.hasOwnProperty.call(u.propOn,k)?u.propOn[k]:undefined; was.push([k,on,o.visible]); C.setProp(h,k,false); }
+     return h2=>{ const x=h2||h, v=x&&x.userData; if(!v) return; for(const [k,on,vis] of was){ if(on!==undefined){ C.setProp(x,k,on); continue; } if(v.propOn) delete v.propOn[k]; const o=v.props&&v.props[k]; if(o) o.visible=vis; } }; };
++  /* 祐廷的經濟系系外套（X140 SK02-LINE-JACKET-1030，LAWWW2-B）：VRM 裡的 JACKET_ECON 網格（同一副骨架；manifest 的 hide 讓每次建模型都先藏起來）。
++     穿上時後背包往外放 10%、往上 1.2 cm：外套比上衣厚 1.3 cm，背帶原本的位置會陷進肩膀。什麼時候穿由劇情決定；每次重建人物模型後要再呼叫一次（buildVRM 會重新藏）*/
++  C.setJacket=function(h,on){ const u=h&&h.userData; if(!u||u.driver!=='vrm'||!u.model) return false; let n=0; u.model.traverse(o=>{ if(o.name==='JACKET_ECON'){ o.visible=!!on; n++; } }); if(!n) return false; u.jacket=!!on;
++    const bp=u.props&&u.props.backpack; if(bp){ if(bp.userData.jk0==null) bp.userData.jk0=bp.position.y; bp.scale.set(on?1.1:1,1,on?1.1:1); bp.position.y=bp.userData.jk0+(on?0.012:0); } return true; };
+   C.release=function(h){ const u=h&&h.userData; if(!u||u.driver!=='vrm') return; try{ if(u.farLOD){ for(const p of u.farLOD.parts){ if(p.parent) p.parent.remove(p); p.skeleton.dispose(); } if(u.isFar) for(const o of u.farLOD.near) o.visible=true; u.farLOD=null; u.isFar=false; }   /* 遠距離版本：拿掉、骨架貼圖放掉；原本的網格恢復顯示（第一個實例會被下一個人重用）*/ if(u.props&&typeof PROPS!=='undefined') PROPS.detach(u.props); u.props=null; const sbm=u.vrm.springBoneManager; if(sbm) sbm.joints.forEach(j=>{ j.center=null; }); }catch(e){} try{ for(const n in u.anim.actions) u.anim.actions[n].stop(); u.anim.mixer.stopAllAction(); u.vrm.humanoid.resetNormalizedPose(); if(u.vrm.expressionManager) u.vrm.expressionManager.expressions.forEach(ex=>u.vrm.expressionManager.setValue(ex.expressionName,0)); for(const t of (u.tinted||[])){ const cur=Array.isArray(t.mesh.material)?t.mesh.material:[t.mesh.material]; const orig=Array.isArray(t.orig)?t.orig:[t.orig]; cur.forEach((mt,i)=>{ if(mt!==orig[i]){ C.rimMats.delete(mt); if(mt.dispose) mt.dispose(); } }); t.mesh.material=t.orig; } u.tinted=[]; }catch(e){} ASSETS.releaseVRM(u.key,u.vrm); };
+   // 走樓梯、台階時的腳步貼合（v9.4，D36；使用者：「人物在樓梯上不能滑動、漂浮或腳穿進階梯」）。
+   // 走路動畫是平地做的：腳底永遠在「身體所在那一階」的高度。這裡依每隻腳底下那一階的實際高度把腳移上去／移下來：
+diff --git a/src/zones3d.js b/src/zones3d.js
+index 9668990ee..28bff6533 100644
+--- a/src/zones3d.js
++++ b/src/zones3d.js
+@@ -1684,7 +1684,9 @@ const Z3 = (function(){
+     /* 宿舍走廊（D44）：房門出去是二樓走廊、自己的房門前（src/dorm3d.js）；沒有載入 dorm3d 時照舊直接回校園 */ if(typeof DM3!=='undefined') E.interactables.push({x:RM.exit[0],z:RM.exit[1],radius:1.4,label:'走出房間',exit:{to:'dorm_hall',spawn:Object.assign({},DM3.homeOf?DM3.homeOf(typeof GAME!=='undefined'&&GAME.G).spawn:DORM_LAYOUT.home.spawn)}}); else E.interactables.push({x:RM.exit[0],z:RM.exit[1],radius:1.4,label:'離開宿舍',exit:{to:'campus',spawn:{x:20,z:54,yaw:Math.PI}}});
+     E.interactables.push({x:z.spots.roomItems[0],z:z.spots.roomItems[1],radius:0.6,label:'看看房間裡的東西',roomItems:true});   /* 交接包 v1 第 1 節「房間物件」（玩家書桌前；story3d.js 的 roomItems）*/
+     P3.mergeStatic(g);
+-    z.dormSetKey=dormSetKey(G0); z.dormRoot=null; z.dormSet=key=>{ z.dormSetKey=key; const S=DORM_SETS[key]||DORM_SETS['203']; if(z.dormRoot) z.dormRoot.traverse(o=>{ if(/^(Y203_|Y412_|Y312_|Y507_|Y409_|NAMETAG_|ROOMMATE_KAI|BEDDING_)/.test(o.name)&&!/_(duvet|pillow|card|black|bulb|items|screen|metal)$/.test(o.name)) o.visible=!S.hide.test(o.name); }); };
++    z.dormSetKey=dormSetKey(G0); z.dormRoot=null; z.dormSet=key=>{ z.dormSetKey=key; const S=DORM_SETS[key]||DORM_SETS['203']; if(z.dormRoot) z.dormRoot.traverse(o=>{ if(/^(Y203_|Y412_|Y312_|Y507_|Y409_|NAMETAG_|ROOMMATE_KAI|BEDDING_)/.test(o.name)&&!/_(duvet|pillow|card|black|bulb|items|screen|metal)$/.test(o.name)) o.visible=!S.hide.test(o.name); }); z.setJacketChair(z.jacketChair); };
++    /* 祐廷椅背上的經濟系系外套（X140；GLB 節點 JACKET_CHAIR，L2 書桌椅，每一年同一張）：預設藏，劇情呼叫 z.setJacketChair(true)；模型還沒載完也先記住 */
++    z.jacketChair=false; z.setJacketChair=on=>{ z.jacketChair=!!on; const o=z.dormRoot&&z.dormRoot.getObjectByName('JACKET_CHAIR'); if(o) o.visible=z.jacketChair; };
+     if(y2Room) roomItemState(z,G0);   /* 拆箱事件一進房間就呼叫 z.setY2Items：模型還沒載完也先記住 */
+     if(typeof ASSETS!=='undefined'&&ASSETS.manifest['bldg.dorm_room4']) ASSETS.loadOne('bldg.dorm_room4').then(c=>{ if(!c||!c.scene||E.zone!==z) return; const root=c.scene.clone(true); attachRoomGLB(z,g0,g,root); attachDormInterior(z,g0,root); z.dormRoot=root; z.dormSet(z.dormSetKey); if(!econ&&z.dormSetKey==='203') loadY1Items(z,g0,E); if(y2Room) loadY2Items(z,g0,E); if(!econ) loadWzItems(z,g0,E); }).catch(e=>console.warn('宿舍室內正式模型載入失敗，用程序化備用模型',e));
+     /* 經濟系那一年（412）：開學那晚的紙箱、經濟學原理、阿勳的書桌與保齡球袋（V0-ART-DORM；AA_168、AA_208）。紙箱照 E01（story3d.js 的 y0FirstNight）：
+diff --git a/tests/jacket_econ_unit.js b/tests/jacket_econ_unit.js
+new file mode 100644
+index 000000000..f5a3b283c
+--- /dev/null
++++ b/tests/jacket_econ_unit.js
+@@ -0,0 +1,39 @@
++// X140 經濟系系外套（SK02-LINE-JACKET-1030，LAWWW2-B 2026-10-30）：模型和遊戲端的接點。node tests/jacket_econ_unit.js
++//   1. vroid_yuting.vrm 有 JACKET_ECON 節點：和 Body 同一個 skin、一個 primitive、材質名稱有 Tops 和 _CLOTH（遊戲的衣服壓暗、邊緣光照上衣的規則）、有貼圖
++//   2. char.yuting 的 manifest hide 有 JACKET_ECON（每次建模型先藏）；character3d.js 有 CHAR.setJacket
++//   3. dorm_room4.glb 有 JACKET_CHAIR（底下有網格、沒有第二套 UV＝烘焙時不存在）；layout 的 jacket_chair 指到它、位置在祐廷（L2）的椅子旁邊
++//   4. zones3d.js 的宿舍有 z.setJacketChair，換年份（dormSet）時照樣套用
++// 實際的顯示、走路坐下樓梯的截圖：tools/blender/env_second/shots/jacket_ingame.py（瀏覽器）
++const fs=require('fs'), path=require('path'); const R=path.join(__dirname,'..');
++let fails=0; const check=(n,ok,info)=>{ console.log((ok?'PASS ':'FAIL ')+n+(info?'  '+info:'')); if(!ok) fails++; };
++function glbJSON(f){ const b=fs.readFileSync(path.join(R,f)); const L=b.readUInt32LE(12); return JSON.parse(b.slice(20,20+L).toString('utf8')); }
++// 1
++const V=glbJSON('assets/models/char/vroid_yuting.vrm');
++const jn=V.nodes.find(n=>n.name==='JACKET_ECON'), body=V.nodes.find(n=>n.mesh!=null&&V.meshes[n.mesh].name.startsWith('Body'));
++check('1. VRM 有 JACKET_ECON 節點', !!jn);
++if(jn){ const m=V.meshes[jn.mesh], p=m.primitives, mat=V.materials[p[0].material];
++  check('1. 和 Body 同一個 skin（同一副骨架）', body&&jn.skin===body.skin, 'skin '+jn.skin+'／Body '+(body&&body.skin));
++  check('1. 一個 primitive、有 JOINTS_0／WEIGHTS_0', p.length===1&&p[0].attributes.JOINTS_0!=null&&p[0].attributes.WEIGHTS_0!=null);
++  check('1. 材質名稱有 Tops、_CLOTH', /Tops/.test(mat.name)&&/_CLOTH/.test(mat.name), mat.name);
++  const vm=V.extensions.VRM.materialProperties[p[0].material];
++  check('1. VRM 材質表（MToon）對得上、有 _MainTex', vm&&vm.name===mat.name&&vm.textureProperties._MainTex!=null);
++  check('1. 在場景裡', V.scenes[V.scene||0].nodes.includes(V.nodes.indexOf(jn))); }
++// 2
++const A=fs.readFileSync(path.join(R,'src/assets3d.js'),'utf8'), C=fs.readFileSync(path.join(R,'src/character3d.js'),'utf8'), Z=fs.readFileSync(path.join(R,'src/zones3d.js'),'utf8');
++const yl=A.split('\n').find(l=>/'char\.yuting':/.test(l))||'';
++check("2. char.yuting 的 hide 有 'JACKET_ECON'", /hide:\[[^\]]*'JACKET_ECON'/.test(yl));
++check('2. character3d.js 有 C.setJacket', /C\.setJacket=function\(h,on\)/.test(C));
++// 3
++const D=glbJSON('assets/models/env/second_ai/dorm_room4.glb'), LY=JSON.parse(fs.readFileSync(path.join(R,'assets/models/env/second_ai/dorm_room4.layout.json'),'utf8'));
++const ji=D.nodes.findIndex(n=>n.name==='JACKET_CHAIR');
++check('3. dorm_room4.glb 有 JACKET_CHAIR', ji>=0);
++if(ji>=0){ const kids=(D.nodes[ji].children||[]).map(i=>D.nodes[i]).filter(n=>n.mesh!=null);
++  check('3. JACKET_CHAIR 底下有網格', kids.length>0, kids.map(n=>n.name).join('、'));
++  check('3. 沒有第二套 UV（烘焙時不存在，照即時光）', kids.every(n=>D.meshes[n.mesh].primitives.every(p=>p.attributes.TEXCOORD_1==null)));
++  const J=LY.jacket_chair, L2=LY.units.find(u=>u.id==='L2');
++  check('3. layout.jacket_chair 指到 JACKET_CHAIR、L2', J&&J.node==='JACKET_CHAIR'&&J.unit==='L2'&&LY.player_unit==='L2');
++  check('3. 位置在 L2 椅子後面（離座位 0.2～0.5 m、同一個 z）', J&&L2&&Math.abs(J.z-L2.seat.z)<0.05&&Math.abs(J.x-L2.seat.x)>0.2&&Math.abs(J.x-L2.seat.x)<0.5, J&&('x '+J.x+'／座位 '+L2.seat.x)); }
++// 4
++check('4. zones3d.js 宿舍有 z.setJacketChair、預設 false', /z\.jacketChair=false; z\.setJacketChair=on=>/.test(Z));
++check('4. 換年份（dormSet）時照樣套用', /o\.visible=!S\.hide\.test\(o\.name\); \}\); z\.setJacketChair\(z\.jacketChair\); \};/.test(Z));
++console.log(fails?('FAILED '+fails):'ALL PASS'); process.exit(fails?1:0);
