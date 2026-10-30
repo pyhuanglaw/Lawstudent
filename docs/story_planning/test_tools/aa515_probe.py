@@ -59,6 +59,7 @@ async def main():
                 got = await P.wait_play(pg, cdp, target_h, max_s=1800)
                 run.check('前置：等到 21:33（她貼的時間以後）', got, J(await pg.evaluate(H['STATE'])))
             else:   # 子晴 00:30（BB-B 10-30 10:13）：站著等，沙盒 25 分鐘只走到 20:13（工具）。照玩家：回宿舍睡到明天，起床打開手機看動態
+                await P.wait_play(pg, cdp, 17.55, max_s=400)   # 17:30 以前床只有小睡、睡到傍晚（story3d.js bedOptions 的 night＝17:30 起）
                 o, slept = await H['sleep_night'](pg, cdp, run, MODE)
                 run.note('睡到明天：%s；現在 %s' % (J(o and [x['t'] for x in o]), J(await pg.evaluate(H['STATE']))))
                 run.check('前置：回宿舍睡到明天（00:30 那一則在睡覺的時候）', bool(slept), J(o and [x['t'] for x in o]))
