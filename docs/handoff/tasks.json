@@ -35863,6 +35863,35 @@
    "source": "AA_532（企劃線 ade80d22f）",
    "authorized": "D99、D109、D111",
    "notes": ""
+  },
+  {
+   "id": "DORM-SLEEP-VISUAL-1030",
+   "title": "宿舍睡覺要有畫面＋床比例＋室友書桌擺設不重疊（使用者 10-30 04:2x 對 LAWWW2）：LAWWW2 交床上躺位與頭向、梯子踏點、睡覺鏡頭、熄燈光照貼圖、床比例、書桌不重疊（dorm_room4.layout.json＋zones3d.js patch 草稿）；LAWWW 做爬梯／躺下動作與睡覺流程接線",
+   "area": "ART",
+   "owner": "LAWWW2",
+   "status": "進行中",
+   "next": "LAWWW2 和 203 光照第四輪一起交 → LAWWW 接睡覺流程（走到梯子 → 換鏡頭 → 躺在床上 → 熄燈淡出 → 醒來）→ BB 測",
+   "priority": "P1",
+   "first": {
+    "term": "Y1S1",
+    "week": 1,
+    "earliest": "法律系大一第一晚睡覺（宿舍 203）",
+    "mainline": true,
+    "blocks": false,
+    "prereq": false,
+    "parallel": true,
+    "confirmed": true
+   },
+   "source": "使用者 10-30 04:2x 對 LAWWW2-B（USER_WANTS X128）",
+   "authorized": "使用者",
+   "xai": {
+    "spec": "使用者原話（X128）",
+    "branch": "claude/funny-albattani-iawshm",
+    "acceptance": "睡覺時看得到人在床上躺下、熄燈；床比例合理；四張書桌擺設不重疊；同角度改前改後",
+    "receiver": "LAWWW",
+    "ack": "ACK"
+   },
+   "notes": "LAWWW 部分（人物動作、流程）等 LAWWW2 的 layout；203 光照第四輪照舊，兩點半 Café 往後排"
   }
  ]
 }
