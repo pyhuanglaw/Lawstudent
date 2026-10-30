@@ -36043,7 +36043,7 @@
     "receiver": "LAWWW",
     "ack": "ACK"
    },
-   "notes": "【05:3x】AA-B：工具第二輪（單獨「博雅」指教學館→博思、「臺大學生」→首都帝大學生；C 類歷史檔、查證出處句自動跳過），基準改 e9c73bcfd（取代 a76fb3308）；驗收掃描 scan_game.py（OLD／AA館／SPOKE／WROTE）；WORLD_NAMING 3-2 紀念品可縮寫（7f72805f5）｜ 【AA-B 05:09】基準換 a76fb3308（工具修正：臺灣大學生不換、查證出處句留真名）；白名單 sha 用 a76fb3308；開發分支 A 類文件照同原則（查證、出處、授權、照片來源留真名），跑完看 diff ｜ 許教授全名使用者選 A（只改全名），AA 擬三個待使用者挑"
+   "notes": "【05:3x】scan_game.py --propose（企劃線 05c8bd0ce）：每一處檔:行、判斷（spoken／written／unknown）、建議新字；unknown 照口語，旁白地點系統字改 written；source／license／note／ref 開發註記跳過；開發分支基準 1069 處 ｜ 【05:3x】AA-B：工具第二輪（單獨「博雅」指教學館→博思、「臺大學生」→首都帝大學生；C 類歷史檔、查證出處句自動跳過），基準改 e9c73bcfd（取代 a76fb3308）；驗收掃描 scan_game.py（OLD／AA館／SPOKE／WROTE）；WORLD_NAMING 3-2 紀念品可縮寫（7f72805f5）｜ 【AA-B 05:09】基準換 a76fb3308（工具修正：臺灣大學生不換、查證出處句留真名）；白名單 sha 用 a76fb3308；開發分支 A 類文件照同原則（查證、出處、授權、照片來源留真名），跑完看 diff ｜ 許教授全名使用者選 A（只改全名），AA 擬三個待使用者挑"
   },
   {
    "id": "L118-CAFE2-STUDY-1030",
