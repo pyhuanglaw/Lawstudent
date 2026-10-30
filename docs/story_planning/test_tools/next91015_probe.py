@@ -18,6 +18,11 @@ MODE（環境變數）：
   jacket  SK02-LINE-JACKET-1030：社科院正門領系外套選「（穿去法律系館A上課）」→ 身上真的穿著（JACKET_ECON 看得到）、截圖；回宿舍房間脫下掛椅背（JACKET_CHAIR）；
           下一次 201 的課（手機「直接去上課」）穿著、阿哲「你是經濟系派來的臥底嗎？」。【捷徑】SK02_DM_DAY（系辦私訊那天）。
   badclip BADCLIP-FOLLOW-1030：當面約以安「約她去…」→ 運動 → 羽球 →「現在一起過去」（她跟著走）→ 短片期間她在網子另一邊（北半場），不是跑到玩家面前。
+  bigmap  BIGMAP-PEOPLE-1030（4da27563c）：VP＝portrait／desktop／landscape。打開大地圖「認識的人現在大概在」預設收起、不蓋地圖；
+          自由的日子 👥 有黃點、有目標的日子沒有；按 👥 展開 → 關掉地圖再開照樣展開；再按收起 → 再開照樣收起。
+  bballrain BBALL-RAIN（LAWWW-B 09:43）：10/3（五）17:45 下雨，新體育館一樓走廊 (-3.6,12.6) 阿哲、明軒；兩種進法（直接讀檔在體育館／從校園走進去），
+          各讀 GAME.npc.zhe（有沒有、位置、看不看得到）＋STORY.whereIs＋flags.companion，轉向東邊對著走廊拍。
+  renart  RENAME-ART-1030（f75d60a4c）：玩家鏡頭走到校門石牌、晨思鐘、博思名牌、法律系館A 公布欄、201 後牆傳單、博思 203 海報前面拍（字看截圖）。
 不是 iPhone：Playwright＋SwiftShader。用法：LW_TESTS=<工作樹>/tests MODE=<上面> python3 next91015_probe.py '<URL>/index.html' <輸出資料夾> <存檔.json>"""
 import os, sys, json, asyncio, re, math, time
 sys.path.insert(0, os.environ['LW_TESTS']); import playlib as L
@@ -25,7 +30,7 @@ sys.path.insert(0, os.path.dirname(os.path.abspath(__file__))); import bbplay as
 from playwright.async_api import async_playwright
 URL, OUT, SAVEF = sys.argv[1], sys.argv[2], sys.argv[3]
 SAVE = json.load(open(SAVEF, encoding='utf-8'))
-MODE = os.environ.get('MODE', 'phone')
+MODE = os.environ.get('MODE', 'phone'); VP = os.environ.get('VP', 'landscape')
 J = lambda o: json.dumps(o, ensure_ascii=False)
 PI = math.pi
 
@@ -431,13 +436,115 @@ async def badclip(pg, cdp, run):
     run.check('短片期間以安一直在網子另一邊（北半場，玩家在南半場，相距 3 m 以上），沒有跑到玩家面前', bool(ok) and not bad, J(bad[:5]))
 
 
+BMST = """(()=>{ const bm=document.getElementById('bigmap'), pp=document.getElementById('bmPeople'), w=document.getElementById('bmWho');
+  const vis=e=>!!e&&!!e.offsetParent&&!e.classList.contains('hide'); let cover=null;
+  if(vis(pp)){ const a=pp.getBoundingClientRect(), c=(document.getElementById('bmCanvas')||document.querySelector('#bigmap canvas')); if(c){ const b=c.getBoundingClientRect(); const ix=Math.max(0,Math.min(a.right,b.right)-Math.max(a.left,b.left)), iy=Math.max(0,Math.min(a.bottom,b.bottom)-Math.max(a.top,b.top)); cover=+((ix*iy)/(b.width*b.height||1)).toFixed(2); } }
+  return {open:vis(bm), people:vis(pp), hot:!!w&&w.classList.contains('hot'), who:!!w&&vis(w), cover, goal:GAME.G.goal||null, dest:GAME.G.goalDest||null}; })()"""
+
+
+async def open_bigmap(pg, cdp):
+    if await pg.evaluate("(()=>{ const b=document.getElementById('btnBigMap'); return !!b&&!!b.offsetParent; })()"): await L.tap(pg, cdp, '#btnBigMap')
+    else: await L.tap(pg, cdp, '#minimap')
+    await pg.wait_for_timeout(1800); return await pg.evaluate(BMST)
+
+
+async def close_bigmap(pg, cdp):
+    if await pg.evaluate("(()=>{ const b=document.getElementById('bmClose'); return !!b&&!!b.offsetParent; })()"): await L.tap(pg, cdp, '#bmClose')
+    else: await L.close_panels(pg, cdp)
+    await pg.wait_for_timeout(900)
+
+
+async def bigmap(pg, cdp, run):
+    free = None
+    for key in ('2025-09-27', '2025-09-28'):   # 週末：目標寫「自由」（或沒有 goalDest）的日子
+        st, d = await P.base(pg, SAVE, key, 10.0, 'campus'); await P.load(pg, cdp, st)
+        g = await pg.evaluate("(()=>({goal:GAME.G.goal||null, dest:GAME.G.goalDest||null}))()")
+        if re.search('自由', g['goal'] or '') or not g['dest']: free = key; break
+    run.note('自由日：%s' % free)
+    for tag, key, hh in (('free', free or '2025-09-27', 10.0), ('class', '2025-09-25', 8.5)):
+        st, d = await P.base(pg, SAVE, key, hh, 'campus'); await P.load(pg, cdp, st); await pg.wait_for_timeout(2000)
+        a = await open_bigmap(pg, cdp); await run.shot(pg, 'bm_%s_%s_open' % (VP, tag)); run.note('%s 打開大地圖：%s' % (tag, J(a)))
+        run.check('%s（%s）：大地圖打開時人物清單收起（不蓋地圖）' % (tag, VP), a['open'] and not a['people'], J(a))
+        if tag == 'free': run.check('自由的日子：👥 有黃點（hot）', a['hot'], J(a))
+        else: run.check('有目標的日子：👥 沒有黃點', not a['hot'], J(a))
+        await L.tap(pg, cdp, '#bmWho'); await pg.wait_for_timeout(1200); b2 = await pg.evaluate(BMST); await run.shot(pg, 'bm_%s_%s_people' % (VP, tag))
+        run.check('%s：按 👥 展開清單、黃點消失' % tag, b2['people'] and not b2['hot'], J(b2))
+        await close_bigmap(pg, cdp); c2 = await open_bigmap(pg, cdp); await run.shot(pg, 'bm_%s_%s_reopen' % (VP, tag))
+        run.check('%s：關掉地圖再開，清單照樣展開' % tag, c2['open'] and c2['people'], J(c2))
+        await L.tap(pg, cdp, '#bmWho'); await pg.wait_for_timeout(1000); await close_bigmap(pg, cdp); d2 = await open_bigmap(pg, cdp)
+        run.check('%s：收起來以後再開，照樣收起' % tag, d2['open'] and not d2['people'], J(d2))
+        await close_bigmap(pg, cdp)
+
+
+ZHE = """(()=>{ const n=(GAME.npc&&GAME.npc.zhe)||null, m=GAME.E.npcs.find(q=>q.charId==='zhe')||null, o=n||m; const P=GAME.E.player.obj.position;
+  let w=null; try{ const x=STORY.whereIs(GAME,'zhe'); w=x?{zone:x.zone,label:x.label||null,away:!!x.away}:null; }catch(e){ w='err:'+e.message; }
+  let vis=null; if(o&&o.obj){ vis=o.obj.visible; let q=o.obj.parent; while(vis&&q){ vis=q.visible; q=q.parent; } }
+  return {npcZhe:!!n, inNpcs:!!m, pos:o&&o.obj?[+o.obj.position.x.toFixed(2),+o.obj.position.z.toFixed(2)]:null, hidden:o?!!o.hidden:null, visible:vis, beh:o?o.beh||null:null,
+    whereIs:w, companion:GAME.G.flags.companion||null, afternoonDone:!!GAME.G.flags.afternoonDone, zone:GAME.G.zone, me:[+P.x.toFixed(2),+P.z.toFixed(2)],
+    all:GAME.E.npcs.filter(q=>!q.hidden).map(q=>(q.charId||q.name||'?')+'@'+q.obj.position.x.toFixed(1)+','+q.obj.position.z.toFixed(1))}; })()"""
+
+
+async def bballrain(pg, cdp, run):
+    mx = await pg.evaluate("(()=>Object.keys(CHARACTERS).find(k=>(CHARACTERS[k].name||'').indexOf('明軒')>=0))()")
+    for tag in ('direct', 'walk'):
+        if tag == 'direct':
+            st, d = await P.base(pg, SAVE, '2025-10-03', 17.75, 'gym'); st['weather'] = 'rain'; await P.load(pg, cdp, st, quiet=False); await pg.wait_for_timeout(6000)
+            run.setup('[前置] 使用者存檔改到 2025-10-03（五）17:45 下雨，直接讀檔在新體育館')
+        else:
+            st, d = await P.base(pg, SAVE, '2025-10-03', 17.6, 'campus'); st['weather'] = 'rain'; await P.load(pg, cdp, st, quiet=False)
+            run.setup('[前置] 使用者存檔改到 2025-10-03（五）17:36 下雨，校園')
+            it = await pg.evaluate("(()=>{ const it=GAME.E.interactables.find(i=>i.exit&&i.exit.to==='gym'); return it?[it.x,it.z]:null; })()")
+            if it: await P.place_near(pg, run, it[0], it[1], 6.0, what='新體育館門口')
+            ok = await door_to(pg, cdp, run, 'gym', '走進新體育館', max_s=200)
+            run.check('下雨天從校園走進新體育館', ok, await pg.evaluate("GAME.G.zone"))
+            await P.wait_play(pg, cdp, 17.75, max_s=200); await pg.wait_for_timeout(3000)
+        z = await pg.evaluate(ZHE); run.note('%s：%s' % (tag, J(z)))
+        await pg.evaluate("(()=>{ const E=GAME.E; for(const R of [3,4,5]){ for(let i=0;i<16;i++){ const a=i*Math.PI/8, px=-3.6-R+Math.cos(a)*0.5, pz=12.6+Math.sin(a)*0.5; if(E.canStand&&!E.canStand(px,pz,0.3,0)) continue; E.placeAt(E.player,px,pz,0); const C=E.cam; C.yaw=-Math.PI/2; C.pitch=0.2; C.manualT=1e9; return; } } })()")
+        await pg.wait_for_timeout(3000); await run.shot(pg, 'rain_gym_%s_east' % tag)
+        z2 = await pg.evaluate(ZHE)
+        near = await pg.evaluate("(([x,z])=>GAME.E.npcs.filter(n=>!n.hidden&&n.obj&&Math.hypot(n.obj.position.x-x,n.obj.position.z-z)<6).map(n=>n.charId||n.name||'?'))", [-3.6, 12.6])
+        run.check('%s：下雨 17:45 體育館一樓走廊 (-3.6,12.6) 附近有阿哲（GAME.npc.zhe 在、看得到）' % tag, z2['inNpcs'] and z2['visible'] is True and 'zhe' in near, J({'zhe': z2, 'near': near}))
+        run.check('%s：明軒也在走廊' % tag, bool(mx) and mx in near, J(near))
+
+
+RENART = [('gongguan', 'PLATE_FACE_GATE_OUT', None, '校門石牌（公館那一面）'), ('campus', 'PLATE_FACE_BELL', None, '晨思鐘石碑'), ('campus', 'PLATE_FACE_BOYA', None, '博思名牌'),
+          ('linze', None, 'linze_notice', '法律系館A 一樓公布欄'), ('classroom', None, 'cls201_print', '201 後牆傳單'), ('boya_203', None, 'boya_203_print', '博思 203 門邊海報')]
+FINDOBJ = """(([nm,tex])=>{ let hit=null; GAME.E.scene.traverse(o=>{ if(hit) return; if(nm&&o.name===nm) hit=o; else if(tex&&o.isMesh){ const ms=Array.isArray(o.material)?o.material:[o.material]; for(const m of ms){ const t=m&&m.map; if(t&&((t.name||'').indexOf(tex)>=0||((t.image&&t.image.src)||'').indexOf(tex)>=0||(m.name||'').indexOf(tex)>=0)){ hit=o; break; } } } });
+  if(!hit) return null; const v=new THREE.Vector3(); hit.getWorldPosition(v); return {name:hit.name, x:+v.x.toFixed(2), y:+v.y.toFixed(2), z:+v.z.toFixed(2)}; })"""
+
+
+async def renart(pg, cdp, run):
+    zones = await pg.evaluate("Object.keys(Z3.ZONES)")
+    for zone, nm, tex, label in RENART:
+        z = zone if zone in zones else None
+        if not z:
+            alt = [k for k in zones if k.startswith(zone.split('_')[0])]; run.note('%s：沒有區域 %s（相近：%s）' % (label, zone, J(alt))); continue
+        st, d = await P.base(pg, SAVE, '2025-09-26', 10.5, z); await P.load(pg, cdp, st); await pg.wait_for_timeout(8000)
+        o = None
+        for _ in range(10):
+            o = await pg.evaluate(FINDOBJ, [nm, tex])
+            if o: break
+            await pg.wait_for_timeout(2000)
+        run.note('%s：%s' % (label, J(o)))
+        if not o: run.check('%s：場景裡找得到（%s）' % (label, nm or tex), False, ''); continue
+        p = await pg.evaluate("""(([x,z])=>{ const E=GAME.E; for(const R of [2.2,3,4,5,6]){ for(let i=0;i<24;i++){ const a=i*Math.PI/12, px=x+Math.sin(a)*R, pz=z+Math.cos(a)*R; if(E.canStand&&!E.canStand(px,pz,0.3,0)) continue;
+            if(E.losR&&!E.losR(px,pz,x,z,0.05)) continue; E.placeAt(E.player,px,pz,0); const C=E.cam; C.yaw=Math.atan2(px-x,pz-z); C.pitch=0.08; C.distTarget=2.4; C.manualT=1e9; return {x:+px.toFixed(2),z:+pz.toFixed(2),R}; } } return null; })""", [o['x'], o['z']])
+        await pg.wait_for_timeout(3500); await run.shot(pg, 'renart_%s' % (nm or tex))
+        run.check('%s：站到前面拍到（字看截圖）' % label, bool(p), J(p))
+
+
 async def main():
-    run = L.Run('next91015_' + MODE, OUT); os.makedirs(OUT, exist_ok=True)
+    run = L.Run('next91015_' + MODE + ('' if VP == 'landscape' else '_' + VP), OUT); os.makedirs(OUT, exist_ok=True)
     async with async_playwright() as p:
-        b, ctx, pg, cdp, errs = await L.launch(p, landscape=True)
+        if VP == 'desktop':
+            b = await p.chromium.launch(executable_path='/opt/pw-browsers/chromium', args=L.ARGS)
+            ctx = await b.new_context(viewport={'width': 1366, 'height': 768}, device_scale_factor=1, has_touch=True)
+            pg = await ctx.new_page(); cdp = await ctx.new_cdp_session(pg); errs = []; pg.on('pageerror', lambda e: errs.append(str(e)))
+        else:
+            b, ctx, pg, cdp, errs = await L.launch(p, landscape=(VP != 'portrait'))
         pg.on('dialog', lambda d: asyncio.ensure_future(d.accept()))
         await pg.goto(URL); run.check('遊戲載入', await L.wait_loaded(pg)); await pg.evaluate("localStorage.clear()"); await P.init(pg)
-        await {'phone': phone, 'bball': bball, 'rooms': rooms, 'cafewin': cafewin, 'noodle': noodle, 'cafe2': cafe2, 'invite': invite, 'jacket': jacket, 'badclip': badclip}[MODE](pg, cdp, run)
+        await {'phone': phone, 'bball': bball, 'rooms': rooms, 'cafewin': cafewin, 'noodle': noodle, 'cafe2': cafe2, 'invite': invite, 'jacket': jacket, 'badclip': badclip, 'bigmap': bigmap, 'bballrain': bballrain, 'renart': renart}[MODE](pg, cdp, run)
         run.check('沒有 JS 例外', not errs, J(errs[:3]))
         print('SHA', os.environ.get('SHA', '?'), 'MODE', MODE)
         await b.close()
