@@ -44,7 +44,7 @@ const settled=(p,ms)=>Promise.race([p.then(()=>'resolved'),wait(ms).then(()=>'pe
   /* ---------- 4 回標題「新遊戲」（不走 applySave；LOADGEN-LOCKS-1028 子代理回報的缺口）---------- */
   const na0=SRC.indexOf('  function newGameAbort(){'), na=na0>0?SRC.slice(na0,SRC.indexOf('GM.newGameAbort=newGameAbort;',na0)):'';
   check('4. newGameAbort：讀檔世代加一、舊對話框和選項收掉、loadRelease、場景深度歸零（同 applySave 那一段）',/GM\.loadGen=\(GM\.loadGen\|0\)\+1/.test(na)&&/D\.active=false/.test(na)&&/'choices'/.test(na)&&/loadRelease\(\)/.test(na)&&/D\.busyDepth=0/.test(na));
-  const calls=(SRC.match(/await waitChars\(\); if\(G\) newGameAbort\(\); const name=/g)||[]).length;
+  const calls=(SRC.match(/await waitChars\(\); (?:if\(!backupBeforeNew\(\)\) return; )?if\(G\) newGameAbort\(\); const name=/g)||[]).length;   /* BUG-SAVE-NEWGAME-1030：中間多一步「開新遊戲前先備份」（tests/save_newgame_backup_unit.js）*/
   check('4. 三個新遊戲按鈕（btnNew、btnNewLaw、btnNewEcon）都先 newGameAbort——只有之前玩過（G 不是 null）才做',calls===3,String(calls));
   console.log(fails?'FAILED '+fails:'ALL PASS');
   process.exit(fails?1:0);
