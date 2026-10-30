@@ -425,6 +425,7 @@ const PG=(function(){
     return null; };
   S.CG_ID={kai:'kai',heroine_01:'heroine01',heroine_02:'heroine02',heroine_03:'heroine03',heroine_04:'heroine04',heroine_05:'heroine05',kexin:'kexin',classmate_peishan:'peishan'};
   S.epiPartner=G=>['heroine_01','heroine_02','heroine_03','heroine_04','heroine_05','kexin','classmate_peishan'].find(id=>S.dating(G,id))||null;   /* 祐廷右手邊：畢業時的伴侶；前任不在旁邊也不在對面 */
+  S.epiPartners=G=>{ const p=S.epiPartner(G); return p?[p]:[]; };   /* 桌上放東西的伴侶（照座位：右手邊、左手邊、對面）；都同意的兩位以上由 src/r2y4b3d.js 換（AA_482 第 3 節）*/
   S.epiCg=G=>'cg_reunion_window_table_'+S.CG_ID[S.epiPartner(G)||'kai'];
   S.epiAlways=function(G){ const id=['zhe','yu','classmate_bohan'].find(x=>S.atTable(G,x)&&S.at(G,x,'FRIEND')); return id?{id,t:L().EPI.always[S.lean(G).top]||L().EPI.always.B}:null; };
   S.footprint=function(G){ const F=G.flags||{}, H=G.habits||{};
@@ -432,10 +433,10 @@ const PG=(function(){
     let grp=0; const att=(G.acts&&G.acts.att)||{}; for(const k in att) if(/^(public_law_group|lawclub_study)@/.test(k)&&att[k]&&(att[k].end||'full')==='full') grp++;
     const c={cafe:Math.max(+F.CAFE_VISITS||0,days(/^place:cafe:/)),fafu:+F.LAWCLUB_SAT_VISITS||0,noodle:days(/^place:noodle:/),library:days(/^place:(library|library_hall|lawlib):/),yexiao:days(/^place:gongguan:night$/),guitar:0,group:grp,abroad:S.exchDelayed(G)?60:0};   /* G.footprint 還沒有：照現有的計次回推（AA_319 1A-20 第 6 節第 3 點）；交換固定 60 天 */
     let best=null; for(const [k] of L().EPI.foot) if(best==null||c[k]>c[best]) best=k; return best; };   /* 平手照表的順序（「比大四一年」沒有逐年的紀錄，不做）*/
-  S.epiItems=function(G){ const E=L().EPI, foot=S.footprint(G), item=(E.foot.find(x=>x[0]===foot)||E.foot[0])[1], p=S.epiPartner(G), F=G.flags;
-    F.EPI_ITEMS=[item].concat(p&&E.items[p]?[E.items[p]]:[]);   /* 伴侶的東西（桌上的另一邊）*/
-    const PI=L().EPI_PARTNER||{}, pi=p?PI[p]:null, pn=pi&&typeof pi==='object'?(F.SIS_THERMOS?(p==='heroine_05'?DLY(G,'epiThermos',pi.thermos):pi.thermos):pi.plain):pi;   /* AA_331 2b：接在祐廷那一樣後面；學姊看 SIS_THERMOS（6/2 她遞的保溫瓶）*/
-    return [E.itemNarr.replace('{item}',item)].concat(pn?[pn]:[]); };
+  S.epiItems=function(G){ const E=L().EPI, foot=S.footprint(G), item=(E.foot.find(x=>x[0]===foot)||E.foot[0])[1], ps=S.epiPartners(G), F=G.flags;
+    F.EPI_ITEMS=[item].concat(ps.filter(p=>E.items[p]).map(p=>E.items[p]));   /* 伴侶的東西（桌上的另一邊；都同意的每一位都放，AA_482 第 3 節）*/
+    const PI=L().EPI_PARTNER||{}, pn=p=>{ const pi=PI[p]; return pi&&typeof pi==='object'?(F.SIS_THERMOS?(p==='heroine_05'?DLY(G,'epiThermos',pi.thermos):pi.thermos):pi.plain):pi; };   /* AA_331 2b：接在祐廷那一樣後面；學姊看 SIS_THERMOS（6/2 她遞的保溫瓶）*/
+    return [E.itemNarr.replace('{item}',item)].concat(ps.map(pn).filter(Boolean)); };
   S.toTitle=function(GM){ try{ const b=typeof document!=='undefined'&&document.getElementById?document.getElementById('btnTitle'):null; if(b&&typeof b.onclick==='function'){ b.onclick(); return true; } }catch(e){ console.warn('PG toTitle',e); } if(GM) GM.running=false; return false; };
   async function epilogue(GM){ const G=GM.G, F=G.flags, E=L().EPI, A=adv(); let ok=false;
     GM.sceneBegin(); try{ await GM.fade(true); if(A&&A.active) A.end();
