@@ -12,6 +12,7 @@
   python3 tools/rename/scan_game.py --ref <分支或 SHA>
   python3 tools/rename/scan_game.py --dir src             # 掃工作目錄
   python3 tools/rename/scan_game.py --summary             # 只印每個檔幾處
+  python3 tools/rename/scan_game.py --propose > x.tsv     # 建議換字表（檔:行、判斷 spoken／written／unknown、原字串、建議）
 
 判斷是啟發式的：搜尋結果是零不代表驗收成功（使用者 10-30），列出來的也要人看過。
 內部識別碼（zone／event／人物 id、asset 路徑、旗標）看起來像 id 的字串不列。
@@ -26,6 +27,7 @@ NEW_FORMAL = re.compile(r'法律系館[AB](?!館)')
 DOUBLE = re.compile(r'法律系館[AB]館')
 SHORT = re.compile(r'(?<![系館])[AB]館')
 SPOKEN_KEYS = {'say', 'lines', 'msg', 'reply', 'r', 'l', 'yes', 'no', 'notYet', 'ask', 'greet', 'talk', 't', 'face', 'phone', 'acc', 'first', 'firstAt', 'walk', 'plan', 'here'}
+SKIP_KEYS = {'source', 'license', 'credit', 'src', 'note', 'notes', 'memo', 'comment', '_comment', 'ref', 'why_dev', 'dev'}   # 素材出處、授權、開發註記：玩家看不到，照 C 類
 WRITTEN_KEYS = {'scene', 'title', 'place', 'label', 'caption', 'name', 'away', 'desc', 'loc', 'where', 'travel', 'hint', 'n', 'narr', 'card', 'memo', 'why'}
 
 
@@ -73,6 +75,8 @@ def literals(src):
 
 def context(pre):
     """從字串前面同一行的文字猜：spoken／written／unknown。"""
+    k0 = re.findall(r'([A-Za-z_]\w*)\s*:\s*\[?\s*$', pre)
+    if k0 and k0[-1] in SKIP_KEYS: return 'skip'
     m = re.findall(r'speaker\s*:\s*(null|\'[^\']*\'|"[^"]*")', pre)
     if m:
         sp = m[-1]
@@ -91,6 +95,7 @@ def scan(items):
             if not s or ID_LIKE.match(s) or not re.search(r'[一-鿿]', s):
                 continue
             ctx = context(pre)
+            if ctx == 'skip': continue
             if ctx == 'unknown' and s.startswith('（'):
                 ctx = 'written'
             for _, hit in W.find_old(s):
@@ -110,8 +115,21 @@ def main():
     ap.add_argument('--dir')
     ap.add_argument('--root', default='src')
     ap.add_argument('--summary', action='store_true')
+    ap.add_argument('--propose', action='store_true', help='輸出建議換字表（TSV：檔:行、判斷、原字串、建議）；unknown 照台詞換，要人看')
     a = ap.parse_args()
     items = files_from_dir(a.dir) if a.dir else files_from_ref(a.ref, a.root)
+    if a.propose:
+        n = 0
+        for path, src in items:
+            for ln, st, pre in literals(src):
+                if not st or ID_LIKE.match(st) or not W.find_old(st): continue
+                ctx = context(pre)
+                if ctx == 'skip': continue
+                if ctx == 'unknown' and st.startswith('（'): ctx = 'written'
+                new = W.written(st) if ctx == 'written' else W.spoken(st)
+                print(f'{path}:{ln}\t{ctx}\t{st}\t{new}'.replace('\n', '⏎')); n += 1
+        print(f'建議 {n} 處；unknown 照台詞（口語）換，旁白、地點、系統字要改成正式', file=sys.stderr)
+        return
     res = scan(items)
     from collections import Counter
     if a.summary:
