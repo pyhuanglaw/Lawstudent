@@ -10,7 +10,9 @@
 //   6  6-1 K0b-L1 只在 2/15～3/15（4/24 跳過、接 K0b-L2）；出遊演完階梯前面說了「（晚上，回到家。）」就不再接「回臺北的家」卡（沒說的照舊有卡）
 //      6-2 品妤 10/31 換句（3/10 那則照留）；6-3 8/29「這個暑假，你還是住在家裡。」；6-4 三個社團各三則（9/27、10/18、12/6 21:00，標籤寫全名，不用回，之前就過了的不補）；
 //      6-5 4/25～6/7 拆兩張
-// 修改前（基準 acc883b3e，這支測試放進去跑）：見 commit 訊息。用法：node tests/aa529_econ_unit.js
+// 修改前（基準 acc883b3e＝v9.10.14 候選 b38b112a8 的遊戲檔：git archive 出 src、tests、lib、index.html，這支測試用新的，AA529_DOCREPO 指這個 repo）：
+//   FAILED 25、PASS 14（PASS＝讀稿、對照組、長版／E20 不加、7/16 有群組才收到等；第 2、3 節找不到 STORY.zoulaMigrate／zoulaGather 丟例外中斷）。修改後 ALL PASS（46 項）。
+// 用法：node tests/aa529_econ_unit.js（在沒有 .git 的目錄跑，設環境變數 AA529_DOCREPO＝這個 repo 的目錄）
 'use strict';
 require('./alison.js');
 const H=require('./pg_harness.js');
