@@ -99,19 +99,40 @@ for (a, b, c, d) in QS:
     mk(1, 'floor').box(max(a, XI0), min(b, XI1), Y1 - 0.012, Y1, max(c, ZI0), min(d, ZI1))
 # 一樓天花板（ceil0）：樓梯井那一塊不做（往上看得到樓梯）；井的四周從天花板到二樓樓板之間封板
 LP = J.get('lightPanels') or {'xs': [], 'zs': []}
+# 博思（BOYA-LM-1030，LAWWW2-B 10-30；照 202 v2、多功能教室 v2）：原本 1.2×0.3 的平板燈貼在格子上、對不上格子線 → T5 格柵燈具（1.2×0.6，佔兩格：外殼、發光面、格柵）。
+# 格子線改成 x＝0.6k、z＝0.6k＋0.1：配置的燈位 x 都是 0.6 的倍數（燈具的長邊兩端剛好在格子線上），z 對到最近一格的中心（7.2 → 7.0，其他不動）。
+# 烘焙的面光源用同一個位置（lightbake/bake_boya.sh 的 trof()）。普通照舊（燈板、格子從外牆內面量）。
+TROF = SET == 'boya'
+GXO, GZO = (0.0, 0.1) if TROF else (XI0, ZI0)
+def trof(x, z): return (round(0.6 * round(x / 0.6), 3), round(0.4 + 0.6 * round((z - 0.4) / 0.6), 3))
+if TROF:
+    M['trof'] = L.flat('tb_troffer', '#ecebe7', rough=0.5); M['louvre'] = L.flat('tb_louvre', '#d3d6d9', rough=0.3, metal=0.35)
+    for _k in ('trof', 'louvre'): M[_k].use_backface_culling = True
 def ceiling(lv, y, rects):
     for (x0, x1, z0, z1) in rects:
         if x1 - x0 < 0.05 or z1 - z0 < 0.05: continue
         hquad(mk(lv, 'ceil'), x0, x1, z0, z1, y)
-        k = math.ceil((x0 - XI0) / 0.6 + 1e-6)
-        while XI0 + k * 0.6 < x1 - 0.05:
-            x = XI0 + k * 0.6; wm(lv, 'ceil', 'tbar').box(x - 0.012, x + 0.012, y - 0.012, y, z0, z1); k += 1
-        k = math.ceil((z0 - ZI0) / 0.6 + 1e-6)
-        while ZI0 + k * 0.6 < z1 - 0.05:
-            z = ZI0 + k * 0.6; wm(lv, 'ceil', 'tbar').box(x0, x1, y - 0.012, y, z - 0.012, z + 0.012); k += 1
+        k = math.ceil((x0 - GXO) / 0.6 + 1e-6)
+        while GXO + k * 0.6 < x1 - 0.05:
+            x = GXO + k * 0.6; wm(lv, 'ceil', 'tbar').box(x - 0.012, x + 0.012, y - 0.012, y, z0, z1); k += 1
+        k = math.ceil((z0 - GZO) / 0.6 + 1e-6)
+        while GZO + k * 0.6 < z1 - 0.05:
+            z = GZO + k * 0.6; wm(lv, 'ceil', 'tbar').box(x0, x1, y - 0.012, y, z - 0.012, z + 0.012); k += 1
     for x in LP['xs']:
         for z in LP['zs']:
             if lv == 0 and WL['x0'] - 0.7 < x < WL['x1'] + 0.7 and WL['z0'] - 0.2 < z < WL['z1'] + 0.2: continue
+            if TROF:
+                x, z = trof(x, z)
+                wm(lv, 'ceil', 'trof').box(x - 0.6, x + 0.6, y - 0.04, y - 0.002, z - 0.3, z + 0.3)                 # 燈具外殼（凸出天花板 4 cm）
+                mk(lv, 'light').box(x - 0.57, x + 0.57, y - 0.044, y - 0.04, z - 0.27, z + 0.27)                    # 發光面
+                lvm = wm(lv, 'ceil', 'louvre')   # 格柵：只做從下面看得到的底面和兩個長邊（方塊的頂面、兩端看不到；一盞燈 8 條，兩層 90 盞）
+                for oz in (-0.18, -0.09, 0.0, 0.09, 0.18):
+                    za_, zb_ = z + oz - 0.004, z + oz + 0.004; hquad(lvm, x - 0.57, x + 0.57, za_, zb_, y - 0.058)
+                    vquad_z(lvm, za_, x - 0.57, x + 0.57, y - 0.058, y - 0.044, -1); vquad_z(lvm, zb_, x - 0.57, x + 0.57, y - 0.058, y - 0.044, 1)
+                for ox in (-0.38, 0.0, 0.38):
+                    xa_, xb_ = x + ox - 0.004, x + ox + 0.004; hquad(lvm, xa_, xb_, z - 0.27, z + 0.27, y - 0.058)
+                    vquad_x(lvm, xa_, z - 0.27, z + 0.27, y - 0.058, y - 0.044, -1); vquad_x(lvm, xb_, z - 0.27, z + 0.27, y - 0.058, y - 0.044, 1)
+                continue
             wm(lv, 'ceil', 'tbar').box(x - 0.62, x + 0.62, y - 0.02, y - 0.004, z - 0.17, z + 0.17)
             hquad(mk(lv, 'light'), x - 0.6, x + 0.6, z - 0.15, z + 0.15, y - 0.021)
 ceiling(0, C0, [(XI0, XI1, WL['z1'], ZI1), (XI0, WL['x0'], ZI0, WL['z1']), (WL['x1'], XI1, ZI0, WL['z1']), (WL['x0'], WL['x1'], ZI0, WL['z0'])])
@@ -297,6 +318,86 @@ for r in J['rooms']:
         mk(lv, 'frame').box(a - 0.02, b_ + 0.02, Y + 2.3, Y + 2.36, *(sorted([dz + out * 0.1, dz + out * 0.17])))
         mk(lv, 'steel').box(b_ - 0.2, b_ - 0.12, Y + 1.0, Y + 1.04, *(sorted([dz + out * 0.16, dz + out * 0.22])))   # 門把
 
+# ================= 階梯教室的長桌、翻椅（BOYA-LM-1030，LAWWW2-B 10-30；照霖澤館 201 v2 classroom_201.py 的做法）=================
+# 原本是遊戲的 Z3.desk／Z3.chair（方塊桌、方塊椅，一排一排一模一樣）。現在：
+#   長桌＝桌板分四段（接縫）、圓角、朝講台那一面的擋板、懸臂鋼板桌腳（在兩個座位中間，膝蓋不會撞到）、桌下置物架、桌上電源盒；桌面在那一排的平台上 0.75 m（teach3d.js LECT_DESK_TOP）。
+#   翻椅＝地上的固定座＋中柱＋轉軸、模壓夾板的椅背（弧形、往後仰）；椅面（SEATPANS，所有階梯教室一個網格）：遊戲把沒有人坐的位子掀起來（zones3d.js 的 seatFold，和 201 同一套）。
+#   椅面上緣 0.475（201 一樣；坐姿高度不變）、座位位置照配置（座位、導航、走近點都不動）。
+# 名字 LECT_<房號>_*、SEATPANS 不併進大網格（遊戲看到 SEATPANS 就藏起備用的方塊桌椅；一間一組，鏡頭裡只有一間時另一間整組被裁掉）。
+import bmesh   # noqa: E402
+def shell(m, P, nu, nv, off):
+    """曲面板（模壓夾板的椅背、椅面）：P(u,v)＝正面的點（遊戲座標，u、v 都是 0..1），off＝背面的位移（遊戲座標）；正面、背面、周邊封起來，平滑著色"""
+    bm = m.bm; Fv = [[bm.verts.new(g2b(*P(i / nu, j / nv))) for j in range(nv + 1)] for i in range(nu + 1)]
+    Kv = [[bm.verts.new(g2b(*[a + b for a, b in zip(P(i / nu, j / nv), off)])) for j in range(nv + 1)] for i in range(nu + 1)]
+    fs = []
+    for i in range(nu):
+        for j in range(nv):
+            fs.append(bm.faces.new((Fv[i][j], Fv[i + 1][j], Fv[i + 1][j + 1], Fv[i][j + 1]))); fs.append(bm.faces.new((Kv[i][j], Kv[i][j + 1], Kv[i + 1][j + 1], Kv[i + 1][j])))
+    ring = [(i, 0) for i in range(nu)] + [(nu, j) for j in range(nv)] + [(i, nv) for i in range(nu, 0, -1)] + [(0, j) for j in range(nv, 0, -1)]
+    for k in range(len(ring)):
+        (a0, a1), (b0, b1) = ring[k], ring[(k + 1) % len(ring)]; fs.append(bm.faces.new((Fv[a0][a1], Fv[b0][b1], Kv[b0][b1], Kv[a0][a1])))
+    bmesh.ops.recalc_face_normals(bm, faces=fs)
+    for f in fs: f.smooth = True
+def prism_x(m, xa, xb, zy):
+    """(z, y) 多邊形沿 x 擠出（桌腳的懸臂鋼板）"""
+    bm = m.bm; A = [bm.verts.new(g2b(xa, y, z)) for (z, y) in zy]; Bv = [bm.verts.new(g2b(xb, y, z)) for (z, y) in zy]
+    fs = [bm.faces.new(A), bm.faces.new(list(reversed(Bv)))]
+    for i in range(len(zy)): j = (i + 1) % len(zy); fs.append(bm.faces.new((A[i], A[j], Bv[j], Bv[i])))
+    bmesh.ops.recalc_face_normals(bm, faces=fs)
+LECT = [r for r in J['rooms'] if r['kind'] == 'lecture']
+LMESH = {}
+if LECT:
+    # 桌面、擋板：淺橡木色的木紋美耐板（備用模型是很深的 #3b3330）。第一版 fine_grained_wood 對比太高（桌面看起來斑斑點點、像髒的）、擋板深灰（從講台看是一條一條黑帶）
+    M['ldesk'] = L.pbr('tb_lect_desk', 'wood_table_001', tile=1.4, target='#b08e6a', contrast=0.6, maps=('diff',), res=256, rough_value=0.45)
+    M['lpanel'] = L.pbr('tb_lect_panel', 'wood_table_001', tile=1.8, target='#97785a', contrast=0.5, maps=('diff',), res=256, rough_value=0.55)
+    M['lsteel'] = L.flat('tb_lect_steel', '#2e3033', rough=0.45, metal=0.35)                                                         # 桌腳、椅腳：深灰烤漆鋼
+    M['lseat'] = L.pbr('tb_lect_seat', 'walnut_veneer', tile=0.7, target='#a77650', normal=0.35, maps=('diff', 'nor'), res=256, rough_value=0.5)   # 椅面、椅背：模壓夾板（201 同色）
+    for _k in ('ldesk', 'lpanel', 'lsteel', 'lseat'): M[_k].use_backface_culling = True
+def lm_(name, key):
+    if name not in LMESH: LMESH[name] = Mesh(name, M[key])
+    return LMESH[name]
+for r in LECT:
+    lv = r['lv'] | 0; Y = J['floors'][lv]['y']; rid = r['id']; fwd = 1 if r.get('stage') == 'S' else -1   # 學生面向 fwd（+z＝講台在南邊）
+    dsk, pnl, stl, sea = lm_(f'LECT_{rid}_desk', 'ldesk'), lm_(f'LECT_{rid}_panel', 'lpanel'), lm_(f'LECT_{rid}_steel', 'lsteel'), lm_(f'LECT_{rid}_seat', 'lseat')
+    pans = lm_('SEATPANS' if lv == 0 else f'SEATPANS_L{lv}', 'lseat')
+    sx0, sx1, dd = r['seatX0'], r['seatX1'], r['deskD']
+    for q in r['rowsData']:
+        h = Y + q['y']; top = h + 0.75; zF = q['deskZ'] + fwd * dd / 2; zR = q['deskZ'] - fwd * dd / 2   # zF＝桌子朝講台那一邊、zR＝學生那一邊
+        za, zb = min(zF, zR), max(zF, zR)
+        xs = [sx0 + i * (sx1 - sx0) / 4 for i in range(5)]
+        for a, b in zip(xs, xs[1:]): dsk.rbox(a + 0.0015, b - 0.0015, top - 0.03, top, za, zb, r=0.006, seg=2)          # 桌板（四段）
+        pnl.box(sx0, sx1, h + 0.04, top - 0.03, *sorted([zF - fwd * 0.004, zF - fwd * 0.024]))                          # 擋板（朝講台）
+        rs = sorted(s['x'] for s in r['seats'] if s.get('row') == q['r'])
+        legs = [sx0 + 0.012, sx1 - 0.012] + [(rs[k] + rs[k + 1]) / 2 for k in range(1, len(rs) - 1, 2)]
+        for bx in legs:                                                                                                  # 懸臂鋼板桌腳：擋板那一側落地、往學生那一側斜上去托住桌板
+            prism_x(stl, bx - 0.006, bx + 0.006, [(zF - fwd * 0.024, h), (zF - fwd * 0.17, h), (zR + fwd * 0.035, top - 0.03), (zF - fwd * 0.024, top - 0.03)])
+        stl.box(sx0 + 0.02, sx1 - 0.02, top - 0.235, top - 0.225, *sorted([zF - fwd * 0.03, zF - fwd * 0.33]))       # 桌下置物架
+        stl.box(sx0 + 0.02, sx1 - 0.02, top - 0.235, top - 0.2, *sorted([zF - fwd * 0.325, zF - fwd * 0.335]))       # 置物架的前緣
+        for k in range(1, len(rs) - 1, 3):                                                                               # 桌上的電源盒（擋板那一側，兩個位子共用一個）
+            ox = (rs[k] + rs[k + 1]) / 2; mk(lv, 'dark').box(ox - 0.07, ox + 0.07, top, top + 0.007, *sorted([zF - fwd * 0.03, zF - fwd * 0.11]))
+    for st in r['seats']:
+        sx, sz, h = st['x'], st['z'], Y + st['y']; f = fwd   # 本地：+lz＝學生面向的方向（配置的座位 yaw：講台在南＝0、在北＝π）
+        def W_(lx, ly, lz, sx=sx, sz=sz, h=h, f=f): return (sx + lx * f, h + ly, sz + lz * f)   # 面向 −z 時左右也要翻（右手方向不變）
+        def pan_P(u, v):   # u：左右、v：前（0）到後（1）
+            x = -0.24 + 0.48 * u; xn = x / 0.24; z = 0.25 - 0.42 * v
+            y = 0.475 + 0.01 * xn * xn - (0.032 * (1 - v / 0.22) ** 2 if v < 0.22 else 0.0)                            # 中間微凹、前緣往下彎
+            if v < 0.1 or v > 0.92: x *= 0.93                                                                            # 四個角收一點
+            return W_(x, y, z)
+        shell(pans, pan_P, 6, 5, (0.0, -0.022, 0.0))
+        def back_P(u, v):  # u：左右、v：下（0）到上（1）
+            x = -0.25 + 0.5 * u; xn = x / 0.25; y = 0.53 + 0.38 * v; z = -0.205 - 0.07 * v + 0.03 * xn * xn             # 往後仰、左右往前包
+            e = max(0.0, abs(2 * v - 1) - 0.7) / 0.3; x *= 1 - 0.1 * e * e
+            return W_(x, y, z)
+        shell(sea, back_P, 6, 4, (0.0, 0.0, -0.018 * f))
+        def lbox(m, lx0, lx1, ly0, ly1, lz0, lz1):
+            a, b = W_(lx0, ly0, lz0), W_(lx1, ly1, lz1); m.box(min(a[0], b[0]), max(a[0], b[0]), a[1], b[1], min(a[2], b[2]), max(a[2], b[2]))
+        stl.cyl(W_(0, 0, -0.06), W_(0, 0.012, -0.06), 0.1, seg=8)                                                       # 地上的固定座
+        stl.cyl(W_(0, 0.012, -0.06), W_(0, 0.41, -0.06), 0.032, seg=8, caps=False)                                      # 中柱
+        lbox(stl, -0.05, 0.05, 0.38, 0.44, -0.13, -0.02)                                                                 # 柱頭（轉軸座）
+        lbox(stl, -0.21, 0.21, 0.425, 0.445, -0.17, -0.13)                                                               # 椅面的轉軸
+        for sgn in (-1, 1):   # 椅背的支架：柱頭往兩側斜上去、托住椅背下緣兩角（第一版是椅背後面一根直管＋固定板，從後排看每張椅背都是一個黑十字）
+            stl.cyl(W_(sgn * 0.04, 0.42, -0.11), W_(sgn * 0.17, 0.56, -0.21), 0.014, seg=6)
+
 # ================= 沙發（公共空間）、講座資訊螢幕的框 =================
 for grp in (J.get('groups') or []):
     lv = grp['lv'] | 0; Y = J['floors'][lv]['y']
@@ -328,11 +429,22 @@ for (lv, key), m in MESH.items():
 for (lv, side, key), m in WMESH.items():
     if m.empty(): continue
     m.finish(G[lv], props={'dir': DIRS[side]})
-L.merge_by_material(G[0], keep=lambda ob: 'WALL_' in ob.name, key=lambda ob: 'L0')
-L.merge_by_material(G[1], keep=lambda ob: 'WALL_' in ob.name, key=lambda ob: 'L1')
+for name, m in LMESH.items():   # 階梯教室的桌椅：一間一組（SEATPANS 所有階梯教室一個）
+    if m.empty(): continue
+    m.finish(G[1 if name.endswith('_L1') else 0], smooth='steel' in name, uv='steel' not in name)   # 鋼件：平滑著色、不要 UV（單色材質；圓管共用頂點，檔案小一點；方塊的邊照樣是硬的）
+KEEP = lambda ob: 'WALL_' in ob.name or ob.name.startswith(('LECT_', 'SEATPANS'))
+L.merge_by_material(G[0], keep=KEEP, key=lambda ob: 'L0')
+L.merge_by_material(G[1], keep=KEEP, key=lambda ob: 'L1')
+# 光照貼圖分給每個網格的比例（自訂屬性 lm，lightbake/bake_room.py 讀；遊戲不用）：天花板大片、平的，分少一點；階梯教室的平台（玩家坐著、走著一直看得到）多一點
+LMR = (('_ceil', 0.35), ('_slab', 0.2), ('WALL_', 0.6), ('_part', 0.7), ('_carpet', 1.3), ('_riser', 1.0), ('_floor', 1.0))
+for ob in root.children_recursive:
+    if ob.type != 'MESH': continue
+    for k_, v_ in LMR:
+        if k_ in ob.name: ob['lm'] = v_; break
 tris = 0
 for ob in root.children_recursive:
     if ob.type == 'MESH': ob.data.calc_loop_triangles(); tris += len(ob.data.loop_triangles)
 st_ = L.export(OUT, gpu_instances=False)
-L.write_json(OUT[:-4] + '.json', dict(st_, tris_total=tris, layout=f'src/data/{SET}_layout.js', note='兩層室內的殼＋固定設備（黑板、講桌、階梯教室平台、沙發、關著的門）；桌椅由遊戲放'))
+L.write_json(OUT[:-4] + '.json', dict(st_, tris_total=tris, layout=f'src/data/{SET}_layout.js', note='兩層室內的殼＋固定設備（黑板、講桌、階梯教室平台、沙發、關著的門）' +
+             ('＋階梯教室的長桌、翻椅（LECT_*、SEATPANS：遊戲看到就藏起備用的方塊桌椅、空位掀起來）；其他桌椅由遊戲放' if LECT else '；桌椅由遊戲放')))
 print(SET, 'tris', tris)
