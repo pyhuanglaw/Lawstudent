@@ -1508,14 +1508,14 @@
    "id": "WIP-LAWWW-AA524-1030",
    "role": "LAWWW",
    "task": "PROMISES-REDO-1030",
-   "state": "WIP",
+   "state": "已交付",
    "sha": "553a63b39",
    "branch": "aa524-promises（子代理；D113 備份 wip_backup/aa524_1030.bundle，基準 6cee635ed）",
    "files": [
     "wip_backup/aa524_1030.bundle"
    ],
-   "todo": "AA_524 34 條做完（d01cd442e；新測試 aa524_promises 122 項 ALL PASS，基底 68 FAIL；全部 Node 734 支 0 失敗）；白名單加 AA_524 8fd10848d；import_ladder／date_lines 加 AA_524 段並重產；新檔 src/aa524_3d.js",
-   "next": "v9.10.14 發布後合：先合這條再合 AA_525，ladder.js／date_lines.js／date_wish.js 衝突不要手解，兩邊工具都合進來以後重跑匯入；index.html 兩個新檔都接、bbpack／aa498 順序檢查兩個都允許",
+   "todo": "AA_524 重做＋AA_526 第 1 節（Z3 早場摘要 S.tick、Y3 第二選項「我在外面等妳。」、Y5 只給選陪等的 YT_WAIT_CLOSE、A2 下學期第二次邀約補 AN_REASON_SHOWN）；aa524_promises_unit 基底 d01cd442e FAILED 9 → ALL PASS 135；全部 Node 734／0",
+   "next": "v9.10.14 發布後第一個合；再合 AA_525（story_import_allow.json 的 AA_526 兩邊各加一筆時合成一筆）；SHA 給 BB",
    "noDirectIntegrate": true,
    "source": "DL-AA-524；LAWWW-B 10-30 02:1x 派子代理"
   },
@@ -1524,7 +1524,7 @@
    "role": "LAWWW",
    "task": "ACCEPTSOPEN-C-1027",
    "state": "WIP",
-   "sha": "e2a478f87",
+   "sha": "938b70c68",
    "branch": "aopen-r2（子代理；D113 備份 wip_backup/aopen_r2_1030.bundle，基準 9bc01f480）",
    "files": [
     "wip_backup/aopen_r2_1030.bundle"
@@ -1548,6 +1548,21 @@
    "next": "v9.10.14 發布後依序合（AA_524 → AA_525 → aopen-r2 → l118-r2），全部 Node，SHA 給 BB 測 H9 與 118 九間；AA 確認 Pasta 118 答應句解讀",
    "noDirectIntegrate": true,
    "source": "AA_480；LAWWW-B 10-30 派子代理"
+  },
+  {
+   "id": "WIP-LAWWW-AA527-1030",
+   "role": "LAWWW",
+   "task": "AA527-FIX-1030",
+   "state": "WIP",
+   "sha": "8ca2f3b25",
+   "branch": "aa527-fix（子代理；D113 備份 wip_backup/aa527_1030.bundle，基準 3035cc66b）",
+   "files": [
+    "wip_backup/aa527_1030.bundle"
+   ],
+   "todo": "AA_527／528（LAWWW-B 10-30 子代理）",
+   "next": "子代理做完回報 → LAWWW 合併、相關測試、全部 Node、SHA 給 BB",
+   "noDirectIntegrate": true,
+   "source": "AA_527／528；LAWWW-B 10-30 派子代理"
   }
  ]
 }
