@@ -35604,8 +35604,8 @@
    "title": "重做 AA_524（以安芷若語彤 34 條）、AA_525（子晴沛珊可昕 29 條）說了沒發生：帳號 C 10-28 15:06 派的兩個子代理成果沒 push 遺失",
    "area": "STORY",
    "owner": "LAWWW",
-   "status": "進行中",
-   "next": "兩個子代理（aa524-promises、aa525-promises，基準 6cee635ed），D113 每 15～20 分鐘備份",
+   "status": "已實作待整合",
+   "next": "v9.10.14 發布後依序合 aa524-promises（553a63b39）→ aa525-promises（61c63ce81），重跑 import_ladder／import_date_lines／import_wish，全部 Node，SHA 給 BB",
    "priority": "P2",
    "first": {
     "term": "Y1S1",
@@ -35619,7 +35619,7 @@
    },
    "source": "DL-AA-524（8fd10848d）、DL-AA-525（6081f725f）；AA-B 10-30 02:12 確認遺失",
    "authorized": "D109、D111",
-   "notes": "AA_525 子代理 03:0x 做完 b179ed93b（84 項 ALL PASS、全部 Node 734／0），備份 wip_backup/aa525_1030.bundle；問 AA 五點（D15 布丁、大三上期末飯二選一矛盾、1-1 去年的份、3-9 接到電話沒答應見面、2-1 只有舊存檔走到）；新背景 tc_schoolroad 要圖（BB）。 ｜ AA_524 子代理 03:1x 做完 d01cd442e（122 項 ALL PASS、全部 Node 734／0），備份 wip_backup/aa524_1030.bundle；問 AA 四點（Z3 摘要旁白、Y3 河濱只接「我來幫忙。」、Y5 YT_TEN_MINUTES 整層都記、A2「讓我想想」不補）。兩條都等 v9.10.14 發布後合。 ｜ AA-B 03:12 回九題 AA_526（4ada43291）：AA_524 Z3 補早場兩句、Y3 第二選項換、Y5 只給選陪等的（YT_WAIT_CLOSE）、A2 下學期第二次邀約補；AA_525 D15 拿掉下次滷味、3-11 KX.Y3S1 第二句撤回、1-1 只給聽過第三張的（ZQ_STICKER3）、3-9 擴大、2-1 照舊 → 交回兩個子代理另一個 commit。"
+   "notes": "【LAWWW-B 03:4x】AA_526 兩邊都做完：AA_524 553a63b39（135 項 ALL PASS、基底 FAILED 9、全部 Node 734／0）；AA_525 61c63ce81（92 項 ALL PASS、修改前 FAILED 10、全部 Node 734／0）；沒有新問題給 AA ｜ AA_525 子代理 03:0x 做完 b179ed93b（84 項 ALL PASS、全部 Node 734／0），備份 wip_backup/aa525_1030.bundle；問 AA 五點（D15 布丁、大三上期末飯二選一矛盾、1-1 去年的份、3-9 接到電話沒答應見面、2-1 只有舊存檔走到）；新背景 tc_schoolroad 要圖（BB）。 ｜ AA_524 子代理 03:1x 做完 d01cd442e（122 項 ALL PASS、全部 Node 734／0），備份 wip_backup/aa524_1030.bundle；問 AA 四點（Z3 摘要旁白、Y3 河濱只接「我來幫忙。」、Y5 YT_TEN_MINUTES 整層都記、A2「讓我想想」不補）。兩條都等 v9.10.14 發布後合。 ｜ AA-B 03:12 回九題 AA_526（4ada43291）：AA_524 Z3 補早場兩句、Y3 第二選項換、Y5 只給選陪等的（YT_WAIT_CLOSE）、A2 下學期第二次邀約補；AA_525 D15 拿掉下次滷味、3-11 KX.Y3S1 第二句撤回、1-1 只給聽過第三張的（ZQ_STICKER3）、3-9 擴大、2-1 照舊 → 交回兩個子代理另一個 commit。"
   },
   {
    "id": "AA527-FIX-1030",
