@@ -35617,6 +35617,28 @@
    "source": "DL-AA-524（8fd10848d）、DL-AA-525（6081f725f）；AA-B 10-30 02:12 確認遺失",
    "authorized": "D109、D111",
    "notes": "AA_525 子代理 03:0x 做完 b179ed93b（84 項 ALL PASS、全部 Node 734／0），備份 wip_backup/aa525_1030.bundle；問 AA 五點（D15 布丁、大三上期末飯二選一矛盾、1-1 去年的份、3-9 接到電話沒答應見面、2-1 只有舊存檔走到）；新背景 tc_schoolroad 要圖（BB）。 ｜ AA_524 子代理 03:1x 做完 d01cd442e（122 項 ALL PASS、全部 Node 734／0），備份 wip_backup/aa524_1030.bundle；問 AA 四點（Z3 摘要旁白、Y3 河濱只接「我來幫忙。」、Y5 YT_TEN_MINUTES 整層都記、A2「讓我想想」不補）。兩條都等 v9.10.14 發布後合。 ｜ AA-B 03:12 回九題 AA_526（4ada43291）：AA_524 Z3 補早場兩句、Y3 第二選項換、Y5 只給選陪等的（YT_WAIT_CLOSE）、A2 下學期第二次邀約補；AA_525 D15 拿掉下次滷味、3-11 KX.Y3S1 第二句撤回、1-1 只給聽過第三張的（ZQ_STICKER3）、3-9 擴大、2-1 照舊 → 交回兩個子代理另一個 commit。"
+  },
+  {
+   "id": "AA527-FIX-1030",
+   "title": "AA_527（讀 AA_496～523 實作）照改：第 1 節稿的口氣七處（學姊編號四句、Kevin 明信片玩笑、{name}、AA_515 三位、芷若格言、宥辰模擬法庭、承恩→維倫）＋第 2 節程式七處（別人說起她本人在旁不說、阿姨繃帶只大一下 8～9 週、C6 三列、阿哲句號、地點日子五處、學妹那句與沛珊營隊、清晨訊息停 07:30）",
+   "area": "STORY",
+   "owner": "LAWWW",
+   "status": "待開工",
+   "next": "v9.10.14 發布、AA_524／525 合併以後派子代理（D113）；逐字對稿測試白名單 sha 換成 bfede0a62",
+   "priority": "P2",
+   "first": {
+    "term": "Y1S1",
+    "week": 1,
+    "earliest": "法律系大一起（繃帶大一下 8～9 週、別人說起她各學期、畢業以後清晨訊息）",
+    "mainline": false,
+    "blocks": false,
+    "prereq": false,
+    "parallel": true,
+    "confirmed": true
+   },
+   "source": "AA_527（企劃線 bfede0a62，outbox 220b632bf）",
+   "authorized": "D109、D111",
+   "notes": "第 4 節許教授全名要問使用者（A 只改全名／B 連姓改／C 不改），由 AA 問；這項不等它。AA_499～502 那一組 AA 另交。"
   }
  ]
 }
