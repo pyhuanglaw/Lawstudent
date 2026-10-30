@@ -43,7 +43,7 @@ const ENC=(function(){
     const T=term(G), h=G.hour;
     if(T&&T.exam==='final') return no('期末考週');   /* 16 週制：第 16 週 */
     const spot=typeof TRIP!=='undefined'&&TRIP.spot?TRIP.spot(row.spot):null; if(spot&&spot.weather==='outdoor'&&G.weather==='rain'&&!row.rainOk) return no('下雨');   /* rainOk：戶外景點但有遮（BB_213 可昕 D10 河邊的台階）*/
-    if(!row.days.includes(G.weekday)) return no('星期'); if(!(h>=row.from&&h<row.to)) return no('時段');
+    if(!((row.termDays&&T&&row.termDays[T.id])||row.days).includes(G.weekday)) return no('星期');   /* termDays：某一學期換星期（作息那一筆同一個 termDays）*/ { const f=(row.termFrom&&T&&row.termFrom[T.id]!=null)?row.termFrom[T.id]:row.from; if(!(h>=f&&h<row.to)) return no('時段'); }   /* termFrom＝某一學期晚一點才開始（AA_507 0-2 第 3 點：學姊大三上 10/16 上午法扶訪談，北投 13:00 起）*/
     if((row.terms||row.weeks)&&!T) return no('不在學期裡'); if(row.terms&&!row.terms.includes(T.id)) return no('學期');
     { const wk=(row.termWeeks&&T&&row.termWeeks[T.id])||row.weeks;   /* termWeeks＝某一學期改用別的週次（AA_373 #5：Alison 烏來大一下改第 8 週 4/18；和 characters.js 的作息一起改）*/
       if(wk&&(Array.isArray(wk)?!wk.includes(T.week):((T.week%2===1)!==(wk==='odd')))) return no('週次'); }   /* 'odd'／'even'＝單雙週；陣列＝學期的第幾週（AA_271 柏翰 D11 第 6、7 週）*/

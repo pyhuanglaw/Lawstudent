@@ -500,7 +500,7 @@ const DATE=(function(){
   S.settle=async function(GM,t,spots,pts,visits,m0,o){ const G=GM.G, loc=t.locs[0], L=S.loc(loc);
     t.spots=spots; S.mem(G,t.who,loc).last=spots.slice(); t.status='done'; const firstWish=S.wishOf(t.who)===loc&&!S.log(G,t.who).wish;
     const r=S.complete(G,t);
-    if(r.counted&&typeof SOCIAL!=='undefined'&&SOCIAL.adjust){ SOCIAL.adjust(t.who,S.GAIN[Math.min(visits,2)]); if(firstWish) SOCIAL.adjust(t.who,{npcRom:4,trust:3}); }
+    if(r.counted&&typeof SOCIAL!=='undefined'&&SOCIAL.adjust){ SOCIAL.adjust(t.who,S.GAIN[Math.min(visits,2)]); if(firstWish) SOCIAL.adjust(t.who,{npcRom:4,trust:3}); if(t.by==='npc'&&SOCIAL.activity) SOCIAL.activity(t.who,'acceptInvite'); }   /* 她約你的（HEROINE-ASKS-1028）：和日常一樣，對方約的又赴約信任 +1（AA_494 0-6）*/
     if(r.counted&&typeof TERMEND!=='undefined'&&TERMEND.contact) TERMEND.contact(G,t.who,'meet');   /* 學期末的飯：正式約會 +2（BB_202 1-1）*/
     if(r.counted&&r.count===1) G.flags['DATED_1_'+t.who]=true;   /* 第一次之後：當晚她傳一張照片或一句話（AA_128 5-5；訊息內容 BB 寫）*/
     if(r.counted&&!(o&&o.quick)) await S.confessOffer(GM,t);   /* 告白：正式校外約會的結尾（AA_128 5-5、AA_215 第 1 節）*/

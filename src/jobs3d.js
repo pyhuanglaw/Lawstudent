@@ -151,6 +151,7 @@ const JOBS=(function(){
     return {a:pick(P.open,n),b,c:pick(P.close,n)}; };
   const extra=(G,k,n,seg)=>{ const out=[]; for(const f of S.SHIFT_LINES){ try{ const r=f(G,k,n,seg); if(r) out.push(...r); }catch(e){ console.warn('JOBS.SHIFT_LINES',e); } } return out; };
   S.running=false;
+  (globalThis.LOADLOCKS=globalThis.LOADLOCKS||{})['jobs3d:running']=()=>{ S.running=false; };   /* 讀檔時放開（LOADGEN-LOCKS-1028）：讀檔凍住的舊劇情走不到 finally，只把旗標設回初始值 */
   S.runShift=async function(GM,k){ if(shop(k).x) return S.runShiftX(GM,k); const G=GM.G, j=fix(S.job(G,k)); if(!j||S.running) return false; const s=shop(k), d=G.day, n=(j.shifts|0)+1, ctx={day:d,n};
     S.running=true; GM.sceneBegin();
     try{

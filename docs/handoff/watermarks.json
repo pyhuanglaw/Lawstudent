@@ -4,20 +4,20 @@
  "roles": {
   "LAWWW": {
    "branch": "claude/adoring-meitner-mqzst8",
-   "sha": "936adf87232c1765e239cf597b3dedb9c49087e3",
-   "at": "2026-10-28T02:41Z",
+   "sha": "ce683f5950e481856acb3780fb1d11566b5a70a7",
+   "at": "2026-10-28T14:08Z",
    "by": "LAWWW-C",
-   "scanned": 253,
+   "scanned": 53,
    "evidence": "帳號 B LAWWW 最後一個 commit（交班＋交接補強＋使用者授權補記）；LAWWW-C 接班時查核、合併成 bfd5f40d",
    "open": [
     "WIP-AB65-3-Y1S2-L",
     "WIP-DORM-ROOM4-0829",
     "WIP-LAWWW-AOPEN-R2-1027",
-    "WIP-LAWWW-DORM203-1028",
-    "WIP-LAWWW-FEED-1028",
     "WIP-LAWWW-L118R2-1027",
-    "WIP-LAWWW-POOL498-1028",
+    "WIP-LAWWW-PROF522B-1028",
     "WIP-LAWWW-RC4-1021",
+    "WIP-LAWWW-SISB16-1028",
+    "WIP-LAWWW-SUPPORT519-1028",
     "WIP-V0-REWRITE-L"
    ],
    "history": [
@@ -118,16 +118,79 @@
      "at": "2026-10-27T17:32Z",
      "by": "LAWWW-C",
      "scanned": 10
+    },
+    {
+     "branch": "claude/adoring-meitner-mqzst8",
+     "sha": "936adf87232c1765e239cf597b3dedb9c49087e3",
+     "at": "2026-10-28T02:41Z",
+     "by": "LAWWW-C",
+     "scanned": 253
+    },
+    {
+     "branch": "claude/adoring-meitner-mqzst8",
+     "sha": "bdc027edd26f5b7678c758106a4db1d1911b25fd",
+     "at": "2026-10-28T04:59Z",
+     "by": "LAWWW-C",
+     "scanned": 98
+    },
+    {
+     "branch": "claude/adoring-meitner-mqzst8",
+     "sha": "e4915c223599730ce64f8a8ad21b5450a46eb34d",
+     "at": "2026-10-28T06:18Z",
+     "by": "LAWWW-C",
+     "scanned": 42
+    },
+    {
+     "branch": "claude/adoring-meitner-mqzst8",
+     "sha": "2af6766c0c5c233d955803f5827e444f21bba133",
+     "at": "2026-10-28T08:11Z",
+     "by": "LAWWW-C",
+     "scanned": 97
+    },
+    {
+     "branch": "claude/adoring-meitner-mqzst8",
+     "sha": "7c242c409760c1b47f36ae3a72904381c75a2ec1",
+     "at": "2026-10-28T09:20Z",
+     "by": "LAWWW-C",
+     "scanned": 57
+    },
+    {
+     "branch": "claude/adoring-meitner-mqzst8",
+     "sha": "c43e07c252ba971ede179c09179d97c109c9a794",
+     "at": "2026-10-28T09:43Z",
+     "by": "LAWWW-C",
+     "scanned": 17
+    },
+    {
+     "branch": "claude/adoring-meitner-mqzst8",
+     "sha": "2b7c6e331d60b7ba9eabd2ca0cec3b05e9f3a4bd",
+     "at": "2026-10-28T10:51Z",
+     "by": "LAWWW-C",
+     "scanned": 48
+    },
+    {
+     "branch": "claude/adoring-meitner-mqzst8",
+     "sha": "2465c51219f464cda2ab8522d59f0fd808315b82",
+     "at": "2026-10-28T11:46Z",
+     "by": "LAWWW-C",
+     "scanned": 25
+    },
+    {
+     "branch": "claude/adoring-meitner-mqzst8",
+     "sha": "b5671d2fa338b3a012418fba664b6e52d17969df",
+     "at": "2026-10-28T12:43Z",
+     "by": "LAWWW-C",
+     "scanned": 40
     }
    ],
    "classify": false
   },
   "LAWWW2": {
    "branch": "claude/focused-cray-c9uwvw",
-   "sha": "297822deff4bfb10d0d03825e53c7d09359ab44f",
-   "at": "2026-10-28T02:41Z",
+   "sha": "3707bc609bca79fb7fd0b3c9d523982f5b834e2f",
+   "at": "2026-10-28T14:08Z",
    "by": "LAWWW-C",
-   "scanned": 56,
+   "scanned": 14,
    "evidence": "帳號 B 交接補強逐筆核對 16 筆（bbb4301b）＋deliveries scannedThrough；d3eeb8bb 已 push",
    "open": [
     "WIP-L2-DATE-CUTOUTS",
@@ -235,15 +298,78 @@
      "at": "2026-10-27T17:32Z",
      "by": "LAWWW-C",
      "scanned": 2
+    },
+    {
+     "branch": "claude/focused-cray-c9uwvw",
+     "sha": "297822deff4bfb10d0d03825e53c7d09359ab44f",
+     "at": "2026-10-28T02:41Z",
+     "by": "LAWWW-C",
+     "scanned": 56
+    },
+    {
+     "branch": "claude/focused-cray-c9uwvw",
+     "sha": "aed889f227e7b84bc92865ba9b8fc130b59a88c2",
+     "at": "2026-10-28T04:59Z",
+     "by": "LAWWW-C",
+     "scanned": 21
+    },
+    {
+     "branch": "claude/focused-cray-c9uwvw",
+     "sha": "8835f75fca6f53fde365e30a095f9b13a9d4cc26",
+     "at": "2026-10-28T06:18Z",
+     "by": "LAWWW-C",
+     "scanned": 7
+    },
+    {
+     "branch": "claude/focused-cray-c9uwvw",
+     "sha": "236abecfbbde44d62aaba81808cb6902b9cdfe41",
+     "at": "2026-10-28T08:11Z",
+     "by": "LAWWW-C",
+     "scanned": 8
+    },
+    {
+     "branch": "claude/focused-cray-c9uwvw",
+     "sha": "9505e321d4dde08ba2c52aa832cfe48292dcae58",
+     "at": "2026-10-28T09:20Z",
+     "by": "LAWWW-C",
+     "scanned": 11
+    },
+    {
+     "branch": "claude/focused-cray-c9uwvw",
+     "sha": "bb7623dbdcada0647fed1471c86478a37a2f376e",
+     "at": "2026-10-28T09:43Z",
+     "by": "LAWWW-C",
+     "scanned": 3
+    },
+    {
+     "branch": "claude/focused-cray-c9uwvw",
+     "sha": "b02954717a007c8e4e427c5efb57d38c6868c998",
+     "at": "2026-10-28T10:51Z",
+     "by": "LAWWW-C",
+     "scanned": 8
+    },
+    {
+     "branch": "claude/focused-cray-c9uwvw",
+     "sha": "5e02adddd88bf2a44529f2075ab08c5942528645",
+     "at": "2026-10-28T11:46Z",
+     "by": "LAWWW-C",
+     "scanned": 4
+    },
+    {
+     "branch": "claude/focused-cray-c9uwvw",
+     "sha": "51be20cfe84851739e4d6c546bbf96e8596e9b20",
+     "at": "2026-10-28T12:43Z",
+     "by": "LAWWW-C",
+     "scanned": 3
     }
    ]
   },
   "AA": {
    "branch": "claude/magical-albattani-bk7b4n",
-   "sha": "8e35600c35fa34606ce789b0a96d939e48901fd4",
-   "at": "2026-10-28T02:41Z",
+   "sha": "b4893fd537c3462367c5898c0fb0276459cbc1b9",
+   "at": "2026-10-28T14:08Z",
    "by": "LAWWW-C",
-   "scanned": 87,
+   "scanned": 18,
    "evidence": "帳號 B 交接補強逐筆核對 126 筆（c02a440e、1af66e42）＋scannedThrough；d3eeb8bb 已 push",
    "open": [
     "WIP-AA-103-SP",
@@ -346,15 +472,78 @@
      "at": "2026-10-27T17:32Z",
      "by": "LAWWW-C",
      "scanned": 212
+    },
+    {
+     "branch": "claude/magical-albattani-bk7b4n",
+     "sha": "8e35600c35fa34606ce789b0a96d939e48901fd4",
+     "at": "2026-10-28T02:41Z",
+     "by": "LAWWW-C",
+     "scanned": 87
+    },
+    {
+     "branch": "claude/magical-albattani-bk7b4n",
+     "sha": "691a264004c6565ddbe3eb327f1f241757014260",
+     "at": "2026-10-28T04:59Z",
+     "by": "LAWWW-C",
+     "scanned": 23
+    },
+    {
+     "branch": "claude/magical-albattani-bk7b4n",
+     "sha": "b88b35db2459d618cf34fc66ace79a04f2e0367e",
+     "at": "2026-10-28T06:18Z",
+     "by": "LAWWW-C",
+     "scanned": 8
+    },
+    {
+     "branch": "claude/magical-albattani-bk7b4n",
+     "sha": "b3918670976d0c10c2dbb21d3287ec99a25a734f",
+     "at": "2026-10-28T08:11Z",
+     "by": "LAWWW-C",
+     "scanned": 21
+    },
+    {
+     "branch": "claude/magical-albattani-bk7b4n",
+     "sha": "fcb5f8bda87ad79c5b4d5aab8baffc531719f689",
+     "at": "2026-10-28T09:20Z",
+     "by": "LAWWW-C",
+     "scanned": 6
+    },
+    {
+     "branch": "claude/magical-albattani-bk7b4n",
+     "sha": "19b4307eb498371842a1bcfafd6513d91b3a9728",
+     "at": "2026-10-28T09:43Z",
+     "by": "LAWWW-C",
+     "scanned": 5
+    },
+    {
+     "branch": "claude/magical-albattani-bk7b4n",
+     "sha": "c43edbb78688b9590c442b6a4e451ee112690851",
+     "at": "2026-10-28T10:51Z",
+     "by": "LAWWW-C",
+     "scanned": 10
+    },
+    {
+     "branch": "claude/magical-albattani-bk7b4n",
+     "sha": "5ec2fe771cf17b8c4337178f1213318127f8655e",
+     "at": "2026-10-28T11:46Z",
+     "by": "LAWWW-C",
+     "scanned": 4
+    },
+    {
+     "branch": "claude/magical-albattani-bk7b4n",
+     "sha": "3999a75983caee90143c7823ffb5af8cb9939737",
+     "at": "2026-10-28T12:43Z",
+     "by": "LAWWW-C",
+     "scanned": 16
     }
    ]
   },
   "BB": {
    "branch": "claude/wonderful-mayer-7fm9g6",
-   "sha": "622079c5b0301b938a83354b8aaccc3bfbc66f6a",
-   "at": "2026-10-28T02:41Z",
+   "sha": "b798a2ef84c83f9dc76876e7f4b463f4db121e5d",
+   "at": "2026-10-28T14:08Z",
    "by": "LAWWW-C",
-   "scanned": 71,
+   "scanned": 3,
    "evidence": "帳號 B 交接補強逐筆核對 113 筆（558f381b）＋scannedThrough；d3eeb8bb 已 push",
    "open": [
     "WIP-BB-181",
@@ -463,6 +652,69 @@
      "at": "2026-10-27T17:32Z",
      "by": "LAWWW-C",
      "scanned": 3
+    },
+    {
+     "branch": "claude/wonderful-mayer-7fm9g6",
+     "sha": "622079c5b0301b938a83354b8aaccc3bfbc66f6a",
+     "at": "2026-10-28T02:41Z",
+     "by": "LAWWW-C",
+     "scanned": 71
+    },
+    {
+     "branch": "claude/wonderful-mayer-7fm9g6",
+     "sha": "3018bea855884513a79a008bf20adb7eb46873aa",
+     "at": "2026-10-28T04:59Z",
+     "by": "LAWWW-C",
+     "scanned": 8
+    },
+    {
+     "branch": "claude/wonderful-mayer-7fm9g6",
+     "sha": "951d155f09237d06bdd1766194683d00ae11bea8",
+     "at": "2026-10-28T06:18Z",
+     "by": "LAWWW-C",
+     "scanned": 3
+    },
+    {
+     "branch": "claude/wonderful-mayer-7fm9g6",
+     "sha": "1ed856f807e873163559627614149b724edd7242",
+     "at": "2026-10-28T08:11Z",
+     "by": "LAWWW-C",
+     "scanned": 18
+    },
+    {
+     "branch": "claude/wonderful-mayer-7fm9g6",
+     "sha": "4d0f9ec82b1ac1367a576742cd1b6ec9c4efc581",
+     "at": "2026-10-28T09:20Z",
+     "by": "LAWWW-C",
+     "scanned": 19
+    },
+    {
+     "branch": "claude/wonderful-mayer-7fm9g6",
+     "sha": "cf7530010aa31cc3674fb4ca8947285d51d989b4",
+     "at": "2026-10-28T09:43Z",
+     "by": "LAWWW-C",
+     "scanned": 1
+    },
+    {
+     "branch": "claude/wonderful-mayer-7fm9g6",
+     "sha": "214d28613a607d046ef38cce2b1ba97e1f8ddadc",
+     "at": "2026-10-28T10:51Z",
+     "by": "LAWWW-C",
+     "scanned": 17
+    },
+    {
+     "branch": "claude/wonderful-mayer-7fm9g6",
+     "sha": "7b0d8b4a82a9c47028d8f27306e823dc0e675688",
+     "at": "2026-10-28T11:46Z",
+     "by": "LAWWW-C",
+     "scanned": 11
+    },
+    {
+     "branch": "claude/wonderful-mayer-7fm9g6",
+     "sha": "7b0d8b4a82a9c47028d8f27306e823dc0e675688",
+     "at": "2026-10-28T12:43Z",
+     "by": "LAWWW-C",
+     "scanned": 0
     }
    ]
   }

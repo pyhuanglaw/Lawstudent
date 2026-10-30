@@ -84,7 +84,7 @@ const MSG=(function(){
   S.UK_WEEK={   /* AA_457 1-1、1-2 的表，一字不改；「／」＝分成兩則（前面是照片）*/
     1:{9:['（照片：宿舍書桌，檯燈下一疊講義）／開學第一週。講義比臺灣厚。','這邊的咖啡店五點就關了。'],10:['今天在課上講話了。講完手在抖。','（照片：一排紅磚房子）／去上課的路。要走二十分鐘。'],
       11:['（照片：窗台上的霜）／今天零度。','天黑得好早。我把檯燈開到最亮。'],12:['（照片：街上的聖誕燈）／這邊十一月就開始掛了。','期末放映會，我的短片排在第三個。'],
-      1:['（照片：雪地上一排腳印）／下雪了。沒有積。','這學期的課表出來了。週三整天都是片。'],2:['剩三個禮拜。我開始數了。','箱子還沒整理。……我不想整理。']},
+      1:['（照片：雪地上一排腳印）／下雪了。沒有積。','一月要考試。考完我想去北邊看一次雪。'],2:['剩十天。我開始數了。',   /* AA_507 0-2 第 5 點：她 2/11 就離開英國、不上新學期（原本「這學期的課表出來了。週三整天都是片。」「剩三個禮拜。我開始數了。」）*/'箱子還沒整理。……我不想整理。']},
     2:{9:['（照片：機場的行李轉盤）／到了。這次的箱子比較輕。','第二年。這邊的路，我不看地圖了。'],10:['今天帶新來的臺灣學生去超市。她跟我第一年一樣，站在米那一排很久。','（照片：落葉堆滿的長椅）／坐不下去。','這學期的導師很嚴。我喜歡。'],
       11:['（照片：放映室的最後一排）／今天的片三個小時。我沒有睡著。','室友問我臺灣的冬天冷不冷。我說會下雨。','你那邊快期末了吧。'],12:['（照片：一盒從臺灣寄來的鳳梨酥）／我媽寄的。一半分給室友了。','今天寫了八千字。英文的。','（照片：結冰的水窪）／走路要小心。'],
       1:['新的一年，我買了一本新的筆記本。第一頁寫片名。','今天看完一部老片。下次回去，我們去那家二輪戲院。','下雪了。這次有積。'],2:['（照片：雪地裡一台腳踏車）／停在那邊三天了。','期中週。我三天沒去咖啡店了。'],
@@ -312,7 +312,7 @@ const MSG=(function(){
     'heroine_03:aunt_hand':{ev:'ev_yutong_absent'},   /* AA_11 事件 4：阿姨扭到手、她顧店的那兩週 */
     'heroine_03:dm_exam_eve':{on:'2026-06-17'},   /* 雙主修筆試 6/18（AA_250 第 2 節）的前一天 */
     'classmate_bohan:split_peishan':{ev:['ev_peishan_split','ev_peishan_bohan_split']},   /* AA_374 第 18 項：兩件分手合併成 ev_peishan_split；舊存檔演的是 ev_peishan_bohan_split */
-    'classmate_xinci:rank_second':{ev:'ev_xinci_second'},
+    'classmate_xinci:rank_second':{ev:['ev_xinci_second','ev_xinci_second_b1','ev_xinci_second_day']},   /* AA_497 2-3：慈 3 的 B1 版、補救的白天版也算 */
     'heroine_02:z2_ge_group':{ev:'ev_zhiruo_ge_group',flag:'ge_group_zhiruo'},   /* 選「我已經有組了」的沒有這個旗標 */
     'heroine_02:z9_ticket':{ev:'ev_zhiruo_last_shift'},
     'heroine_02:notes_photo':{help:'notes'},
@@ -330,7 +330,7 @@ const MSG=(function(){
     'kai:k1_keyboard':{ev:'ev_kai_keyboard_quiet'},
     'kai:k2_engineer':{ev:'ev_kai_engineer'},
     'kai:k5_sue':{ev:'ev_kai_can_they_sue'},
-    'classmate_mingxuan:m1_highlighter':{ev:'ev_mingxuan_notes',flag:'GREEN_HIGHLIGHTER'},   /* 坐到他旁邊的那個選項 */
+    'classmate_mingxuan:m1_highlighter':{ev:['ev_mingxuan_notes','ev_mingxuan_notes_b1'],flag:'GREEN_HIGHLIGHTER'},   /* 坐到他旁邊的那個選項 */
     'classmate_mingxuan:tutor_intro':{ev:'ev_mingxuan_tutor_intro',flag:'TUTOR_WD'},   /* 答應的那一次 */
     'classmate_mingxuan:notes_photo':{help:'notes'},
     'npc_fangyt:f1_pothos':{ev:'ev_fangyt_pothos',flag:'POTHOS'},

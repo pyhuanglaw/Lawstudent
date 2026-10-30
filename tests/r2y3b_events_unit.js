@@ -90,12 +90,13 @@ const IDS=['ev_y3s2_first_meal','ev_y3s2_228','ev_an_azalea_y3','ev_yu_club_mone
   check('C1. 有 U_ASSOC：「先照社團的規則」那個選項；選了＝「對！我們社團有規則！……我去找出來。」', opts[0].length===3&&/先照社團的規則/.test(opts[0][2])&&has('對！我們社團有規則！……我去找出來。'), JSON.stringify(opts));
   check('C2. 「妳真正想要的是什麼？」→「這個不用去法服。」', has('妳真正想要的是什麼？')&&has('……我想要帳對得起來，學弟也還會來社課。')&&has('那先找社團的指導老師。這個不用去法服。')&&G.flags.YU_C6==='rule'&&G.flags.YU_C6_DAY===D('2028-03-16'));
   at('2028-03-23',21.7); rules();
-  check('C2. 3/23 21:40 鞠躬的熊；記 YU_CLUB_BEAR', txt('p:yu').includes('yu:（貼圖：一隻鞠躬的熊）')&&txt('p:yu').includes('yu:少的三千是場地押金 忘了報 還在')&&SOCIAL.has('yu','YU_CLUB_BEAR'));
+  /* 2026-10-28 改：AA_497 3-6（企劃線 7a38216ca）——3/23 那則不管選什麼都一樣的熊拿掉，改成照走的那一路、C6 之後第 14 天 21:00 她私訊三則（tests/aa497_supporting_unit.js 3-6）*/
+  check('C2. 3/23 21:40 那則熊拿掉了（AA_497 3-6）；不記 YU_CLUB_BEAR', !txt('p:yu').includes('yu:（貼圖：一隻鞠躬的熊）')&&!txt('p:yu').includes('yu:少的三千是場地押金 忘了報 還在')&&!SOCIAL.has('yu','YU_CLUB_BEAR'));
   fresh('2028-03-15',21.1,'dorm'); grpJoin(); R('yu','FAM'); rules(); answer('y3_yu_c6',1);
   { const L=txt('p:yu'); const m=nested('y3_yu_c6_phone');
     check('C3. 選「現在說？」：手機版照 Alison 的習慣拆開（不打句號）；沒有 U_ASSOC＝兩個選項', L.includes('player:現在說？')&&L.includes('yu:欸 成發的錢對不起來')&&L.includes('yu:可是三千塊')&&!L.some(t=>/^yu:.*。$/.test(t))&&!!m&&m.ask.opts.length===2, JSON.stringify(L)); }
   answer('y3_yu_c6_phone',0); rules(); at('2028-03-23',21.7); rules();
-  check('C3. 手機版也有「這個不用去法服。」、3/23 那則', txt('p:yu').includes('player:那先找社團的指導老師。這個不用去法服。')&&txt('p:yu').includes('yu:……他是學弟耶')&&txt('p:yu').includes('yu:找到了！！'));
+  check('C3. 手機版也有「這個不用去法服。」；3/23 那則拿掉了（AA_497 3-6）', txt('p:yu').includes('player:那先找社團的指導老師。這個不用去法服。')&&txt('p:yu').includes('yu:……他是學弟耶')&&!txt('p:yu').includes('yu:找到了！！'));
   fresh('2028-03-16',12.6,'linze'); R('yu','FAM'); check('C. 沒回「有。」：3/16 Alison 不在那裡、不演', !R2Y3B.c6MeetDue(G));
 
   // ---------- 2-Y3-30 可昕 K18 ----------
@@ -357,8 +358,8 @@ const IDS=['ev_y3s2_first_meal','ev_y3s2_228','ev_an_azalea_y3','ev_yu_club_mone
   /* AA_343 D1（改了這一項的期待值）：交往中一律有；2/14 沒送（現在所有玩家）＝「不是回禮」那一版（AA_369 H2 改字：2/14 她在臺北、「理由欄」不說出口）*/
   fresh('2028-03-13',21.1,'dorm'); date('heroine_01'); ct('heroine_01'); rules(); { const q=OUT.get(G,'y3_an_white'); check('WD. D1 2/14 沒送（現在所有玩家）：交往中一律有 3/13 21:00 私訊、3/14 18:00 公館', PHONE.sent(G,'y3_an_white')&&!!q&&q.day===D('2028-03-14')&&q.h===18); }
   picks=[0]; await run('ev_an_white_day');
-  { const W=['日本的白色情人節，是收到巧克力的人要回禮。','二月十四號那天，我在讀書。……你也沒說什麼。','（她拿出一個小紙袋）所以這個不是回禮。……是我自己想送的。','嗯。……打開以前先猜。'];
-    check('WD. D1 沒送過（AA_369 H2）：「二月十四號那天，我在讀書。……你也沒說什麼。」「（她拿出一個小紙袋）所以這個不是回禮。……是我自己想送的。」；沒有「我在臺中」「理由欄」；三個回覆照原稿（「謝謝。」→「嗯。……打開以前先猜。」）', JSON.stringify(said.map(x=>x.t))===JSON.stringify(W)&&opts[0].length===3&&!has('（她拿出一個小紙袋）一個月前你送的。這是回禮。')&&!said.some(x=>/我在臺中|理由欄/.test(x.t)), JSON.stringify(said.map(x=>x.t))); }
+  { const W=['日本的白色情人節，是收到巧克力的人要回禮。','二月十四號那天，我在讀書。……你也沒說什麼。','（她拿出一個小紙袋）回禮要先收到才算。……這個，是我自己想送。','嗯。……打開以前先猜。'];   /* AA_508 0-2 第 8 點：第三句換掉禁用句型 */
+    check('WD. D1 沒送過（AA_369 H2）：「二月十四號那天，我在讀書。……你也沒說什麼。」「（她拿出一個小紙袋）回禮要先收到才算。……這個，是我自己想送。」（AA_508 0-2 第 8 點）；沒有「我在臺中」「理由欄」；三個回覆照原稿（「謝謝。」→「嗯。……打開以前先猜。」）', JSON.stringify(said.map(x=>x.t))===JSON.stringify(W)&&opts[0].length===3&&!has('（她拿出一個小紙袋）一個月前你送的。這是回禮。')&&!said.some(x=>/我在臺中|理由欄/.test(x.t)), JSON.stringify(said.map(x=>x.t))); }
   fresh('2028-03-13',21.1,'dorm',{AN_VDAY_GIFT:true,EXCHANGE_ROUTE:'JP'}); date('heroine_01'); ct('heroine_01'); rules(); check('WD. 日本路線：沒有 3/14', !OUT.get(G,'y3_an_white'));
   fresh('2028-04-13',20.5,'dorm'); date('heroine_01'); rules(); const fv=OUT.get(G,'y3_an_far_video');
   check('WD2. 交往中：4/13 21:00 視訊（日本 22:00；AA_377 第 19 項，她 22:30 以後不回；10 分鐘沒接＝沒接）', !!fv&&fv.h===21&&Math.abs(fv.late-1/6)<1e-9&&fv.verb==='接起來'&&fv.place==='視訊');
@@ -395,6 +396,14 @@ const IDS=['ev_y3s2_first_meal','ev_y3s2_228','ev_an_azalea_y3','ev_yu_club_mone
   fresh('2028-04-09',20.05,'dorm'); ct('heroine_01'); rules(); check('AB. 和以安不到 ACQUAINTANCE：沒有訊息', txt('p:heroine_01').length===0&&!G.flags.AN_ABROAD);
   fresh('2028-04-09',20.05,'dorm',{EXCHANGE_ROUTE:'JP'}); R('heroine_01','FAM'); ct('heroine_01'); rules(); check('AB. 日本路線：沒有（她和你在日本）', !PHONE.sent(G,'y3_ab_w3'));
   fresh('2028-04-09',20.05,'dorm'); R('heroine_01','FAM'); ct('heroine_01'); ROM.get(G,'heroine_01').status='ex'; rules(); check('AB. 和以安分手過：沒有訊息池', !PHONE.sent(G,'y3_ab_w3'));
+  /* AA_508 0-2 第 1 點（31a4c4002）：交往中的臺灣、美國玩家也收 T1 十則，每週日一則；有月份的照月份（四月、六月、七月底）——沒有能傳的那一週就空著（之後照她的動態）*/
+  { const J=x=>JSON.stringify(x); const runWeeks=(route)=>{ fresh('2028-03-26',20.05,'dorm',route?{EXCHANGE_ROUTE:route}:{}); R('heroine_01','CLO'); date('heroine_01'); ct('heroine_01'); const wk=[];
+      for(let k=0;k<19;k++){ const d=D('2028-03-26')+7*k; if(d>=D('2028-08-05')) break; at(CALENDAR.dateOf(d).key,20.05); rules(); if(PHONE.sent(G,'y3_ab_w'+(k+1))) wk.push(k+1); } return wk; };
+    const tw=runWeeks(null), t1=(G.flags.AN_ABROAD&&G.flags.AN_ABROAD.t1s)||[];
+    check('AB8. AA_508 0-2 第 1 點：交往中（臺灣路線）每週日一則 T1：十則都傳到、各一次；有月份的那三則等到那個月（第 1～8 週、六月第一個週日第 11 週、7/23 第 18 週）', J(tw)===J([1,2,3,4,5,6,7,8,11,18])&&t1.length===10&&new Set(t1).size===10, J({tw,t1}));
+    const m1=PHONE.byAsk(G,'y3_ab_w1'); check('AB8. 交往中的第一則也是「公寓房間，箱子還沒拆」、兩個回覆按鈕；段（AN_ABROAD_TIER）不動', !!m1&&m1.ask.opts.length===2&&G.flags.AN_ABROAD_TIER==null, J(m1&&m1.ask&&m1.ask.opts.map(o=>o.t)));
+    const us=runWeeks('US'), jp=runWeeks('JP');
+    check('AB8. 美國路線交往中一樣（8/2 才出發）；日本路線交往中沒有（她和你在日本）', J(us)===J(tw)&&jp.length===0, J({us,jp})); }
   /* 約：6/25 視訊（6/29 以前最後一次）→ 我去 → 7/6～7/10 → 8/5、8/6 */
   { fresh('2028-06-25',20.05,'dorm'); R('heroine_01','CLO'); Object.assign(SOCIAL.rel('heroine_01'),{npcRom:55,rom:30}); ct('heroine_01');
     G.trips=[{trip:'t1',who:'heroine_01',day:D('2028-02-01'),counted:true},{trip:'t2',who:'heroine_01',day:D('2028-03-01'),counted:true}];
@@ -489,7 +498,7 @@ const IDS=['ev_y3s2_first_meal','ev_y3s2_228','ev_an_azalea_y3','ev_yu_club_mone
   check('L4. 台灣路線 7/15 10:00：宿舍系統那一則先到，旁白「（最後一次抽籤。四樓。）」', has('（最後一次抽籤。四樓。）')&&txt('g:dorm').some(t=>t.endsWith('大四宿舍抽籤結果：已分配。請於 9/3 前完成入住。')));
   fresh('2028-07-15',10,'dorm',{EXCHANGE_ROUTE:'JP'}); date('heroine_01'); said=[]; await HOME.breakArrive(GM); check('L4. 日本路線：沒有那一句旁白（姊姊幫你填表）', !has('（最後一次抽籤。四樓。）'));
   fresh('2028-07-09',12.1,'dorm'); grpJoin(); R('heroine_03','FAM'); R('yu','FAM'); rules(); answer('yt_bday_y3',0);
-  check('YT. 7/9 12:00 麵店團 Alison「今天語彤生日！」→「傳一句生日快樂」→ 語彤「……謝謝。今年的田野，訪問到第二十三個了。」', txt('g:noodle_team').includes('yu:今天語彤生日！')&&txt('g:noodle_team').includes('player:生日快樂。')&&txt('g:noodle_team').includes('heroine_03:……謝謝。今年的田野，訪問到第二十三個了。')&&G.flags.YT_BDAY_Y3===true, JSON.stringify(txt('g:noodle_team')));
+  check('YT. 7/9 12:00 麵店團 Alison「今天語彤生日！」→「傳一句生日快樂」→ 語彤「……謝謝。今年的田野，訪問到第二十二個了。」（AA_509 0-2 第 2 點）', txt('g:noodle_team').includes('yu:今天語彤生日！')&&txt('g:noodle_team').includes('player:生日快樂。')&&txt('g:noodle_team').includes('heroine_03:……謝謝。今年的田野，訪問到第二十二個了。')&&G.flags.YT_BDAY_Y3===true, JSON.stringify(txt('g:noodle_team')));
   fresh('2028-07-09',12.1,'dorm'); R('heroine_03','FAM'); rules(); check('YT. 不在群組、和語彤 FAMILIAR 以上：她的私訊放同一個按鈕', !!PHONE.byAsk(G,'yt_bday_y3')&&txt('p:heroine_03').includes(':今天是語彤的生日。'));
   fresh('2028-08-04',21.1,'dorm'); date('heroine_02'); ct('heroine_02'); rules(); const zsq=OUT.get(G,'y3_zr_slips');
   check('ZS0. 和芷若交往中（台灣路線）：8/4 21:00 兩則（不用回）；排 8/5 14:00「兩點半（店休）」', txt('p:heroine_02').join('|')==='heroine_02:明天店休。下午兩點，來店裡。|heroine_02:門會鎖著。敲三下。……我跟老闆借了一個下午。'&&!!zsq&&zsq.day===D('2028-08-05')&&zsq.h===14&&zsq.place==='兩點半（店休）'&&!PHONE.pending(G).some(m=>m.th==='p:heroine_02'), JSON.stringify(txt('p:heroine_02')));

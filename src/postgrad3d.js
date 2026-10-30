@@ -145,7 +145,7 @@ const PG=(function(){
     {tag:'pg_sis_ex',at:[GRAD,12],cond:G=>S.isEx(G,'heroine_05'),items:G=>[P_('heroine_05',DLY(G,'thermosEx',L().THERMOS.ex))]},
     {tag:'pg_ps_card',at:[GRAD,12.5],cond:G=>!S.dating(G,'classmate_peishan')&&!S.isEx(G,'classmate_peishan')&&!!G.flags.PS_RECONNECT&&S.at(G,'classmate_peishan','FAMILIAR'),items:G=>DLY(G,'peishan',L().PHONE.peishan.text).map(t=>P_('classmate_peishan',t)),after:G=>{ G.flags.PS_GRAD_CARD=true; }},   /* AA_327 2-Y4-53：收過照片記 PS_GRAD_CARD */
     {tag:'pg_fy',at:[GRAD,13],cond:G=>!S.isEx(G,'npc_fangyt')&&S.at(G,'npc_fangyt','FAMILIAR'),items:G=>L().PHONE.fangyt.text.map(t=>P_('npc_fangyt',t))},
-    {tag:'pg_zr_photo',at:[GRAD,21],cond:G=>!S.dating(G,'heroine_02')&&!S.isEx(G,'heroine_02')&&S.at(G,'heroine_02','FAMILIAR'),items:G=>DLY(G,'zhiruo',L().PHONE.zhiruo.text).map(t=>P_('heroine_02',t))},
+    {tag:'pg_zr_photo',at:['2029-06-03',5+7/60],cond:G=>!S.dating(G,'heroine_02')&&!S.isEx(G,'heroine_02')&&S.at(G,'heroine_02','FAMILIAR'),items:G=>DLY(G,'zhiruo',L().PHONE.zhiruo.text).map(t=>P_('heroine_02',t))},
     /* 1A-14 */
     {tag:'pg_zq_dm',at:[GRAD,16.5],cond:G=>!!S.zqInvite(G),items:G=>S.zqItems(G)},
     {tag:'pg_cafe_photo',at:[GRAD,17.5],cond:G=>graduated(G)&&!!S.tePicked(G)&&inNoodle(G),items:G=>[GR('zhe',L().CAFE.photo)],after:G=>{ G.flags.GRAD_CAFE_HEARD=true; }},   /* 接了一對一：記「聽說」*/
@@ -387,8 +387,10 @@ const PG=(function(){
     const job=e3?3:(e2?2:(e1?1:4)); if(S.dating(G,'heroine_03')) return {end:5,job}; if(e3) return {end:3,job:3}; if(e2) return {end:2,job:2}; if(e1) return {end:1,job:1}; if(S.at(G,'heroine_03','FRIEND')) return {end:4,job:4}; return {end:0,job}; };
   S.epiLine=function(G,id){ const F=G.flags, E=L().EPI, lw=F.BAR_YEAR!=null, me=x=>x.map(t=>[id,t]);
     switch(id){
-      case 'zhe': { if(S.atTable(G,'yu')) return E.zhe.withYu; let t=E.zhe.base; if(has('zhe','LENT_NOTES_Y2')) t=E.zhe.notes; if(has('zhe','STUDIED_WITH_ZHE')) t=E.zhe.studied; if(yes(F.ZHE4_FINAL)) t=E.zhe.final; return [[id,t]]; }   /* 和 Alison 同一桌＝兩人那一組 */
-      case 'yu': { if(S.atTable(G,'zhe')) return null; return [[id,yes(F.YU4_ALONE)?E.yu.alone:E.yu.base]]; }
+      case 'zhe': { let t=E.zhe.base; if(has('zhe','LENT_NOTES_Y2')) t=E.zhe.notes; if(has('zhe','STUDIED_WITH_ZHE')) t=E.zhe.studied; if(yes(F.ZHE4_FINAL)) t=E.zhe.final;
+        if(S.atTable(G,'yu')) return E.zhe.withYu.concat(t!==E.zhe.base?[[id,t]]:[]); return [[id,t]]; }   /* 和 Alison 同一桌＝兩人那一組照演，接著阿哲自己的回收句（筆記／陪念／哲 4，照他那張表取最下面一列）一句；只有預設句的不加（AA_496 第 9 節第 2 點：原本兩人那一組蓋掉各自的回收句）*/
+      case 'yu': { const lib=typeof SUP497!=='undefined'&&SUP497.epiYuLib&&yes(F.YU4_ALONE)?SUP497.epiYuLib(G):[];   /* AA_497 3-7：「一個人吃滷肉飯」那一段之後，有 YU_Y4_LIB（大四法圖坐她對面）多一句 */
+        if(S.atTable(G,'zhe')) return yes(F.YU4_ALONE)?[[id,E.yu.alone]].concat(lib):null; return [[id,yes(F.YU4_ALONE)?E.yu.alone:E.yu.base]].concat(lib); }   /* 和阿哲同一桌：她那一句已經在兩人那一組；YU4_ALONE 的回收句接在阿哲的回收句後面（同上）*/
       case 'classmate_bohan': { let t=E.bohan.base; if(yes(F.BH4_DONE)) t=E.bohan.bh4; if(S.gradAdmit(G)) t=E.bohan.bh5; return [[id,t]]; }   /* 翰 5 兩人同一組＝GRAD_ADMIT 有值（AA_327 2-Y4-06）*/
       case 'classmate_xinci': { if(yes(F.XC1_STICKY)) return [[id,E.xinci.sticky]]; if(yes(F.XC5_RECONCILE)&&S.atTable(G,'heroine_01')) return S.dating(G,'heroine_01')?[E.xinci.reconcile[0]]:E.xinci.reconcile; return [[id,E.xinci.base]]; }
       case 'heroine_01': { if(S.dating(G,'heroine_01')) return me(E.an.partner); if(yes(F.XC5_RECONCILE)&&S.atTable(G,'classmate_xinci')&&!yes(F.XC1_STICKY)) return null; return [[id,E.an.friend]]; }   /* 慈 5 那一組裡以安那句就是她的一句 */
@@ -400,9 +402,10 @@ const PG=(function(){
       case 'classmate_mingxuan': { const M=E.mx; let t=M.base; if(S.gradAdmit(G)) t=M.grad; if(F.BAR_YEAR===2029) t=M.bar2029; if(F.BAR_YEAR===2030) t=M.bar2030; if(has('classmate_mingxuan','SAW_HIM_STUDY')) t=M.saw; return me(t); }
       case 'classmate_peishan': { const P=E.ps; let t=P.base; if(lw&&F.PS_GRAD_CARD) t=S.delayed(G)?[DLY(G,'psCard',P.card[0])].concat(P.card.slice(1)):P.card; if(yes(F.KEPT_FRIEND)) t=P.kept; if(has('classmate_peishan','MIRROR_PEISHAN')) t=P.mirror; if(S.dating(G,'classmate_peishan')) t=yes(F.PS_WAITED)&&P.waited?P.lover.concat([P.waited]):P.lover; return me(t); }   /* PS_WAITED（BB_165 5-1，台南那一天等你問完）：和祐廷那一版多一句 */
       case 'npc_fangyt': { const Fy=E.fy; let t=Fy.base; if(yes(F.CHIAYI_TREE)) t=Fy.tree; if(!S.delayed(G)&&F.BAR_YEAR===2030) t=Fy.y2030;   /* AA_331 1b：交換路線 2031 拿掉（交換延畢的 2030 也不再擋，沒有 2031 國考；AI解讀、待使用者確認）*/ if(yes(F.MOUNTAIN_DAY)) t=Fy.day; if(yes(F.ZR_FY)) t=Fy.zr; return me(t); }   /* 多考的那一年：台灣路線 2030、交換路線 2031（AA_327 f252a7b5）*/
+      case 'classmate_youchen': return typeof SUP497!=='undefined'&&SUP497.epiYc?SUP497.epiYc(G):null;   /* AA_497 1-6（BB_70 7b）：五年後「法條我還是背得很熟。只是現在背的是著作權法。」；地下室那場去了（YC_GIG）多一句 */
       case 'kexin': { if(!S.dating(G,'kexin')) return null; const R=typeof ROM!=='undefined'&&ROM.get?ROM.get(G,'kexin'):null, back=!!(R&&(R.history||[]).some(h=>h.ev==='end')); return me(E.kx.arrive.concat(back?E.kx.b:[])); }   /* A／B（B＝分開又回來）；她最晚到 */
     } return null; };
-  S.EPI_ORDER=['zhe','yu','classmate_bohan','classmate_xinci','heroine_01','heroine_03','heroine_05','heroine_02','heroine_04','kai','classmate_mingxuan','classmate_peishan','npc_fangyt','kexin'];
+  S.EPI_ORDER=['zhe','yu','classmate_bohan','classmate_xinci','heroine_01','heroine_03','heroine_05','heroine_02','heroine_04','kai','classmate_mingxuan','classmate_youchen','classmate_peishan','npc_fangyt','kexin'];   /* 宥辰：AA_497 1-6 五年後那一句（有點熟以上才在桌上，同其他人）*/
   S.epiPresent=(G,id)=>id==='kai'||(id==='kexin'?S.dating(G,'kexin'):S.atTable(G,id));   /* 只有認識的人在場；阿凱是室友 */
   S.econLine=function(G){ const F=G.flags, E=L().EPI.econ; if(!(F.PLAYED_Y0||F.MET_XUN||has('econ_zhengxun','FIRST_MET'))) return null;
     if(F.ECON_PAST_SHARED==='full'||F.ECON_PAST_SHARED==='half'){ const nights=!!(G.events&&G.events.done&&Object.keys(G.events.done).some(k=>/^ev_sk05_vending/.test(k))); return {line:nights?E.full:E.noNights,far:false}; }   /* 那幾個晚上＝SK05 三閃，販賣機見 */
@@ -596,6 +599,7 @@ const PG=(function(){
       const e=Math.min(db,k1); if(!best||e>best.e||(e===best.e&&da>best.da)) best={t,e,da}; }
     if(!best) return null; r.lines.push(best.t); return typeof FD!=='undefined'&&FD.fill?FD.fill(G,best.t):best.t; };   /* {課名}：被當延畢的那一門（FD.fill）*/
   S.busy=false;
+  (globalThis.LOADLOCKS=globalThis.LOADLOCKS||{})['postgrad3d:busy']=()=>{ S.busy=false; running.clear(); };   /* 讀檔時放開（LOADGEN-LOCKS-1028）：讀檔凍住的舊劇情走不到 finally，只把旗標設回初始值 */
   S.DORM={x:0,z:2.4,yaw:Math.PI,lv:0};   /* 宿舍房間（story3d.js Y4_DORM）*/
   S.advance=async function(GM,o){ const G=GM.G, E=GM.E; if(E&&E.player&&E.player.seat&&GM.standUp) GM.standUp(E.player);
     if(S.y4Due(G)) return false;

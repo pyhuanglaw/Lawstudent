@@ -379,7 +379,7 @@ const R2Y3A_EVENTS=(function(){
       {label:'b1'},{speaker:null,text:'（他看著那扇刷卡的門很久。）'},{speaker:'classmate_bohan',text:'……我的。'},{speaker:null,text:'（他笑了一下，很小。）'},{goto:'end'},
       {label:'b2'},{speaker:'classmate_bohan',text:'第一排是因為我怕坐後面聽不到。'},{speaker:null,text:'（他說完自己笑了。）'},{goto:'end'},
       {label:'b3'},{speaker:null,text:'（兩個人坐到下一節課的鐘響。他站起來：）'},{speaker:'classmate_bohan',text:'今天的事，……就到這裡。'},{speaker:null,text:'（走了兩階又停下來：）'},{speaker:'classmate_bohan',text:'……下次我考好了，那個你可以說。'},
-      {label:'end'},(mem('classmate_bohan','BOHAN_HONEST')) ] };
+      {label:'end'},(mem('classmate_bohan','BOHAN_HONEST')),{set:{BH4_DONE:true}} ] };   /* BH4_DONE＝翰 4 演完（AA_496 第 9 節第 1 點）：推甄面試「我是真的想知道」那一版（r2y4a_events.js）、尾聲 bh4（postgrad3d.js）讀它；舊存檔沒有＝照沒演過 */
 
   /* ---------- 2-Y3-15 校慶（大三版）：11/13（六）10:00～16:00 椰林大道，和大二同一個帳篷。法服成員＝攤位版；不是＝路過版。學姊那段只在 12:00～12:30；不改 GRANDMA_TREE_Y2 ---------- */
   const GM_Y2={custom:G=>!!(G.flags&&G.flags.GRANDMA_TREE_Y2)};
@@ -412,7 +412,8 @@ const R2Y3A_EVENTS=(function(){
   /* ---------- 2-Y3-16 C4 阿哲的機車：11/19（五）21:00 的訊息在 r2y3a3d.js；回了的（記 ZHE_SCOOTER）＝之後第一次在麵店遇到阿哲（11/23 起的週二、週四 17:30～20:30）---------- */
   const SCOOTER={ id:'ev_zhe_scooter', title:'阿哲的機車', participants:['zhe'], location:'noodle', trigger:'auto', once:true, background:'blur', npcNear:'zhe', nearDist:3, weekday:[2,4], time:[17.5,20.5],
     prereq:{memory:[{npc:'zhe',tag:'ZHE_SCOOTER'}],custom:G=>{ const d=D('2027-11-23'); return d!=null&&G.day>=d; }},
-    dialogue:[ {speaker:'zhe',text:'修車行估了價。對方照估價付了。'},
+    dialogue:[ {if:{flagIs:{YU_C4:'visit'}},speaker:null,text:'（Alison 坐在旁邊剝橘子，剝好了也沒有吃。）'},   /* AA_497 3-5：11/19 23:40 Alison 的私訊回「我明天去看他。」（YU_C4 visit；src/sup497_3d.js）＝開頭多一句旁白 */
+      {speaker:'zhe',text:'修車行估了價。對方照估價付了。'},
       {speaker:'zhe',expression:'smile',text:'（把他碗裡的滷蛋夾一半給你）法律系的好處是，有人陪你不簽字。'} ] };
 
   /* ---------- 2-Y3-17 語彤事件 14「續約」（LEGAL_REVIEW_REQUIRED：只寫租約到期前受保護、續約是雙方談的）：11/24（三）14:30 麵店；RENT_RENEWED 一律記（story3d.js S.y3Facts）---------- */
@@ -463,10 +464,10 @@ const R2Y3A_EVENTS=(function(){
       {unless:{memory:[{npc:'classmate_xinci',tag:'ECON_TOGETHER'}]},speaker:null,text:'（她們把考卷攤在中間，一題一題對下去。）'},
       {goto:'end'},
       {label:'e1'},{speaker:'heroine_01',text:'我看一下。……你錯的地方跟我一樣。'},
-      {label:'end'},{set:{CI5:'near'}} ] };
+      {label:'end'},{set:{CI5:'near',XC5_RECONCILE:true}} ] };   /* XC5_RECONCILE＝慈 5 演完、兩人和好（近、遠兩版都算，AA_496 第 9 節第 1 點）：尾聲「以安上個月搬家……」那一組讀它（postgrad3d.js）*/
   const ANSWERS_FAR={ id:'ev_xinci_an_answers_far', title:'對答案', participants:[], location:'library', trigger:'enter', once:true, background:'blur', npcZone:['heroine_01','classmate_xinci'], term:['Y3S1'], weeks:[13],
     prereq:{custom:G=>ANS_TIME(G)&&knows('heroine_01',G)&&knows('classmate_xinci',G)&&!(G.flags&&G.flags.CI5)},
-    dialogue:[ {speaker:null,text:'（總圖三樓，靠窗那張桌子。以安和芯慈坐在一起，中間攤著兩份考卷。芯慈笑了一下。）'},{set:{CI5:'far'}} ] };
+    dialogue:[ {speaker:null,text:'（總圖三樓，靠窗那張桌子。以安和芯慈坐在一起，中間攤著兩份考卷。芯慈笑了一下。）'},{set:{CI5:'far',XC5_RECONCILE:true}} ] };
 
   /* ---------- 2-Y3-19 可昕 K17「學弟妹的練習對象」（裁定 #9、#10）：12/9（四）21:45 視訊；大三下 4/26（三）18:30 政大山下（日本路線＝19:30 視訊被看）---------- */
   const TUTOR={ id:'ev_kexin_tutor_practice', title:'學弟妹的練習對象', participants:['kexin'], location:'any', trigger:'outing', once:true, background:'dark', hours:0.5,

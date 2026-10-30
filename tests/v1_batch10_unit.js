@@ -166,7 +166,7 @@ const runX=async(known,gift,toIdx,fromIdx,flags,setup)=>{ const WED=termDay(17,3
     check('只傳訊息 →「交出去了嗎？」＋她「交了。……今天可以早點睡了。」',JSON.stringify(rep)===JSON.stringify(['交出去了嗎？','交了。……今天可以早點睡了。']),JSON.stringify(rep));
     run(12,23); keepOn(BD+1,7.5); run(7.5,8.2); check('只傳訊息＝KX_DEC3 {1:"message"}、那晚沒有空椅子的照片、沒有 KX_BDAY',G.flags.KX_DEC3&&G.flags.KX_DEC3[1]==='message'&&!G.msgs.some(m=>m.tag==='kx_dec3_none')&&!G.flags.KX_BDAY);
     fresh(BD,6,'dorm',{dating_kexin:true}); run(6,23.95); const none=G.msgs.filter(m=>m.tag==='kx_dec3_none').map(m=>[m.day,m.h,m.text]); keepOn(BD+1,7); run(7,8.2);
-    check('什麼都沒做＝那晚 22:30 她傳一張照片＋「一個人吃了。很好吃。下次你要來。」、KX_DEC3 {1:"none"}；隔天沒有「我等了一天。」',none.length===2&&none[1][2]==='一個人吃了。很好吃。下次你要來。'&&none[0][1]===22.5&&G.flags.KX_DEC3[1]==='none'&&!G.msgs.some(m=>m.text==='我等了一天。'),JSON.stringify(none));
+    check('什麼都沒做＝那晚 22:30 她傳「一個人吃了。很好吃。下次你要來。」（酸辣湯餃的照片 AA_503 9-3 改成可昕的動態第 6 則，23:30 一定出）、KX_DEC3 {1:"none"}；隔天沒有「我等了一天。」',none.length===1&&none[0][2]==='一個人吃了。很好吃。下次你要來。'&&none[0][1]===22.5&&G.flags.KX_DEC3[1]==='none'&&!G.msgs.some(m=>m.text==='我等了一天。'),JSON.stringify(none));
     fresh(BD,6,'dorm',{dating_kexin:true}); run(6,6.2); d=draft(); keepOn(BD+1,0.2); const late=PHONE.answer(G,d.ask.id,0); check('草稿過了當天就不能傳',late===null);
     const go=async(flags,events,pick)=>{ fresh(BD,18.2,'dorm',Object.assign({dating_kexin:true},flags||{})); for(const e of (events||[])) G.events.done[e]=1; run(18.2,18.3); const q3=OUT.get(G,'kx_bday'); picks=[pick]; said=[]; opts=[]; await OUT.go(GM,q3); return {L:lines(),O:opts[0]||[]}; };
     let r=await go({},[],'「猜的。」');

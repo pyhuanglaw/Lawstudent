@@ -28,9 +28,9 @@ const HV=(function(){
     if(p.keep&&(G.flags.HV_KEEP_M||{})[ym(G.day)]) return {ok:false,why:'這個月已經去過了（她說一個月一次）'};
     if(S.days(G,id).length) return {ok:true}; if(S.days(G,id,true).length) return {ok:false,why:'那幾天你已經約了校外約會'};   /* 她在的那幾天都撞到已經約好的校外約會 */ const to=S.backTo(G,id); return {ok:false,why:to==='台南'?(S.beenIn(G,id,to)?'她這幾天就要回台南了':'她這幾天就要去台南了'):'她這幾天就要回臺北了'}; };
   /* 寒暑假結束她回哪裡（AA_369 L9）：老家那一段結束後的 presence——沛珊大三起在台南念書（city 台南）＝回台南；其他＝回臺北 */
-  S.backTo=function(G,id){ for(let d=G.day+1;d<=G.day+21;d++){ const p=pres(G,id,d); if(p&&p.here===false&&p.kind==='home') continue; return p&&p.here===false&&p.city?p.city:'臺北'; } return '臺北'; };
+  S.backTo=function(G,id){ for(let d=G.day+1;d<=G.day+21;d++){ const p=pres(G,id,d); if(p&&p.here===false&&(p.kind==='home'||p.kind==='trip')) continue; return p&&p.here===false&&p.city?p.city:'臺北'; } return '臺北'; };
   /* 這一段老家以前她在不在那個城市待過（AA_369 第 7 節第 11 題：2027 暑假尾是她第一次去台南的學校＝「去台南」，之後＝「回台南」）：往回找到這一段老家的第一天，看前一天在哪 */
-  S.beenIn=function(G,id,city){ for(let d=G.day;d>G.day-400;d--){ const p=pres(G,id,d-1); if(p&&p.here===false&&p.kind==='home') continue; return !!(p&&p.here===false&&p.city===city); } return false; };
+  S.beenIn=function(G,id,city){ for(let d=G.day;d>G.day-400;d--){ const p=pres(G,id,d-1); if(p&&p.here===false&&(p.kind==='home'||p.kind==='trip')) continue; return !!(p&&p.here===false&&p.city===city); } return false; };   /* backTo、beenIn 都跳過老家（home）和出去幾天（trip：沛珊暑假山上的營隊 2028-07-17～30、2029-07-23～27，AA_508 0-2 第 5 點）——營隊不是她「待過的城市」*/
   S.planned=(G,id)=>typeof OUT!=='undefined'&&OUT.rec(G).some(q=>q.hv&&q.hv.id===id&&q.state==='planned');
   /* 可以去的日子：明天起七天內她還在老家的（重考消失期：同一個月沒去過），最多三個；城市要和今天一樣（skipDays＝那幾天本身是別的事件，例：台南 BB_165 5-1／5-2）*/
   S.days=function(G,id,anyDate){ const out=[]; const p0=pres(G,id), k0=S.key(G,id), C=L(k0)||{}, skip=(C.skipDays||[]).map(k=>typeof STORY!=='undefined'&&STORY.dayOfKey?STORY.dayOfKey(k):null);

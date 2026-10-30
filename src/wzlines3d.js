@@ -57,6 +57,7 @@ const WZL=(function(){
   S.hasNote=(G,id)=>Array.isArray(G.notes)&&G.notes.some(n=>n.id===id);
   const busy=GM=>(J()&&J().busy(GM))||S.playing;
   S.playing=false;
+  (globalThis.LOADLOCKS=globalThis.LOADLOCKS||{})['wzlines3d:playing']=()=>{ S.playing=false; };   /* 讀檔時放開（LOADGEN-LOCKS-1028）：讀檔凍住的舊劇情走不到 finally，只把旗標設回初始值 */
   S.run=async function(GM,id,o){ const e=evOf(id); if(!e||typeof EVENTS==='undefined') return false;
     if(EVENTS.running&&EVENTS.runLines){ const G=GM.G, own=typeof ADV!=='undefined'&&!ADV.active; if(own) ADV.begin({background:e.background||'blur'});   /* 在別的事件裡面（營隊：VAC 的行程本身是一個出遊事件）：直接演台詞、記成演過 */
       try{ await EVENTS.runLines(e.dialogue||[],e); if(EVENTS.applyConsequences) EVENTS.applyConsequences(e.consequences); G.events.done[id]=(G.events.done[id]||0)+1; G.events.last[id]=G.day; } finally { if(own&&ADV.active) ADV.end(); }
@@ -251,8 +252,8 @@ const WZL=(function(){
   S.FU={ heroine_01:'所長的腳好了。我昨天經過，牠在巡公園。', yu:'欸我昨天在公園看到牠，牠瘦了一點點。……一點點。', heroine_04:'我昨天繞去公園。牠在巡邏，走路已經不跛了。' };
   S.TEA_GIFT={ heroine_01:'茶？……好。你泡得最好的那一種？我要知道是什麼味道。', heroine_03:'……我會慢慢喝。', heroine_05:'謝謝。……我會留到一個沒有排計畫的下午。', heroine_02:'你泡得最好的那一種？……那我不在店裡喝。帶回家，一個人喝。' };
   /* 對方在台灣：芷若大三上（倫敦）、2028-09 起一年在英國；學姊 2028-08～12 在美國 */
-  S.inTaiwan=(G,id)=>{ if(id==='heroine_02'){ const t=S.term(G); if(t&&t.id==='Y3S1') return false; const a=DK('2028-09-01'), b=DK('2029-08-31'); if(a!=null&&G.day>=a&&G.day<=b) return false; }
-    if(id==='heroine_05'){ const a=DK('2028-08-01'), b=DK('2028-12-31'); if(a!=null&&G.day>=a&&G.day<=b) return false; } return S.reachable(id,G); };
+  S.inTaiwan=(G,id)=>{ if(id==='heroine_02'){ const t=S.term(G); if(t&&t.id==='Y3S1') return false; const a=DK('2028-09-02'), b=DK('2029-08-31'); if(a!=null&&G.day>=a&&G.day<=b) return false; }   /* AA_508 0-2 第 10 點：芷若 9/2 才去英國（原本 9/1 起算不在）*/
+    if(id==='heroine_05'){ const a=DK('2028-08-02'), b=DK('2028-12-22'); if(a!=null&&G.day>=a&&G.day<=b) return false; } return S.reachable(id,G); };   /* 學姊 8/2 出發（AA_508 0-2 第 10 點；原本 8/1）、12/23 回來（AA_509 0-2 第 7 點；原本算到 12/31）*/
   S.preTalk=async function(GM,w,id){ const G=GM.G, F=G.flags; if(!law(G)) return;
     if(F.WZ_CAT_FU===id&&S.FU[id]&&G.day>(+F.WZ_CAT_FOUND||0)){ F.WZ_CAT_FU=null; await GM.say(w,S.FU[id]); return; }
     if(id==='heroine_04'&&F.WZ_ZQ_P5_FU&&G.day>(+F.ENC_PARK_ZQ_SEEN||0)){ F.WZ_ZQ_P5_FU=false; await GM.say(w,'昨天那個 bug，鞦韆解決了。……今天換你盪。'); return; }

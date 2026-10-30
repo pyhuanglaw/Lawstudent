@@ -94,9 +94,8 @@ const R2Y3B=(function(){
       PHONE.at(G,d15,21,[Y('欸'),Y('你明天中午有空嗎'),Object.assign(Y('社團的錢的事 想問你'),{ask:{id:'y3_yu_c6',until:T(d16,12.5),opts:[
         {t:'有。十二點半，霖澤館一樓。',say:[{from:'yu',text:'好！！'}],set:{YU_C6_MEET:true}},{t:'現在說？',say:S.c6PhoneItems(G)}]}})],'y3_yu_c6'); }
     if(F.YU_C6&&F.YU_C6_DAY==null) F.YU_C6_DAY=G.day;   /* 手機版回了（當面版在事件裡 stamp）*/
-    if(F.YU_C6_DAY!=null&&now(G)>=T(d23,21+40/60)&&!PHONE.sent(G,'y3_yu_c6_bear')){ const Y=M('p:yu','yu');   /* 結果（AA_117 的結果，新寫成她的訊息）*/
-      PHONE.at(G,d23,21+40/60,[Y('找到了！！'),Y('少的三千是場地押金 忘了報 還在'),Y('學弟傳了這個給我'),Y('（貼圖：一隻鞠躬的熊）')],'y3_yu_c6_bear');
-      if(typeof SOCIAL!=='undefined'&&SOCIAL.remember) SOCIAL.remember('yu','YU_CLUB_BEAR','學弟的熊'); } };
+    /* 結果：AA_497 3-6（企劃線 7a38216ca）改成照 C6 走的那一路、C6 之後第 14 天 21:00 她私訊三則（src/sup497_3d.js 的 yu_c6_after）。
+       原本 3/23 21:40 不管選什麼都一樣的「找到了！！……（貼圖：一隻鞠躬的熊）」（AA_326，記 YU_CLUB_BEAR）拿掉；舊存檔已經收過的照舊在手機裡 */ };
 
   /* ===================== 2-Y3-30 可昕 K18「最輕鬆的一學期」===================== */
   S.k18Phone=function(G){ const d15=D('2028-03-15'), d18=D('2028-03-18'); if(d15==null||G.day<d15||G.day>d18+1||!dating(G,'kexin')) return; const F=G.flags, K=M('p:kexin','kexin');
@@ -314,6 +313,7 @@ const R2Y3B=(function(){
   const runL=async(L,ev)=>{ if(typeof EVENTS!=='undefined'&&EVENTS.runLines) await EVENTS.runLines(L,ev||{id:'r2y3b'}); };
   S.abRec=G=>{ const F=G.flags; if(!F.AN_ABROAD||typeof F.AN_ABROAD!=='object') F.AN_ABROAD={log:[],tier:1,wk:0,n1:0,n2:0,n3:0}; const R=F.AN_ABROAD; if(!Array.isArray(R.log)) R.log=[]; return R; };
   S.abOn=G=>!isJP(G)&&!dating(G,'heroine_01')&&romSt(G,'heroine_01')==='none'&&met(G,'heroine_01','ACQUAINTANCE')&&dmOk(G,'heroine_01');   /* 不到 ACQUAINTANCE、分手過（前任）＝沒有訊息池 */
+  S.abOnDating=G=>!isJP(G)&&dating(G,'heroine_01')&&dmOk(G,'heroine_01');   /* AA_508 0-2 第 1 點（31a4c4002）：交往中的臺灣、美國玩家也收 T1 那十則，每週一則（第 4 階的頻率），外加現有交往版的幾場（4/13 視訊、4/20、5/6）；十則傳完以後的週日照她的動態（手機動態那一輪接）*/
   const said=(G,th,t0,t1)=>(G.msgs||[]).some(m=>m.th===th&&m.from==='player'&&T(m.day,m.h)>=t0-1e-6&&T(m.day,m.h)<=t1+1e-6);
   S.abSettle=function(G){ for(const e of S.abRec(G).log){ if(e.replied!=null||e.kind!=='msg') continue; const t1=T(e.day+1,18); if(said(G,'p:heroine_01',T(e.day,e.h),t1)) e.replied=true; else if(now(G)>t1) e.replied=false; } };
   S.abSundays=function(){ const d0=D(AB_K.sun1), d1=D(AB_K.ret), L=[]; if(d0==null||d1==null) return L; for(let d=d0,wk=1;d<d1;d+=7,wk++) L.push({day:d,wk}); return L; };
@@ -335,8 +335,8 @@ const R2Y3B=(function(){
     2:(G,d)=>mdOf(d).slice(0,2)==='04', 7:(G,d)=>mdOf(d).slice(0,2)==='06', 9:(G,d)=>{ const m=mdOf(d); return m>='07-20'&&m<='07-31'; }};   /* 四月、六月、七月底 */
   S.AB_T1_OLD=[2,1,3,4];   /* 原本四則（櫻花、飯糰、洗衣機、號碼牌）在十則裡的位置 */
   S.abT1Sent=function(R){ if(!Array.isArray(R.t1s)){ const old=Array.isArray(R.n1s)?R.n1s:Array.from({length:Math.min(R.n1|0,S.AB_T1_OLD.length)},(_,k)=>k); R.t1s=[]; for(const i of old){ const j=S.AB_T1_OLD[i]; if(j!=null&&!R.t1s.includes(j)) R.t1s.push(j); } } return R.t1s; };
-  S.abPickT1=function(G,R,day,n){ const W=S.AB_T1_WHEN, sent=S.abT1Sent(R), ok=(i,d)=>!W[i]||!!W[i](G,d), un=[]; for(let i=0;i<n;i++) if(!sent.includes(i)) un.push(i);
-    const later=S.abSundays().filter(w=>w.wk%2===1&&w.day>day).map(w=>w.day);
+  S.abPickT1=function(G,R,day,n,weekly){ const W=S.AB_T1_WHEN, sent=S.abT1Sent(R), ok=(i,d)=>!W[i]||!!W[i](G,d), un=[]; for(let i=0;i<n;i++) if(!sent.includes(i)) un.push(i);
+    const later=S.abSundays().filter(w=>(weekly||w.wk%2===1)&&w.day>day).map(w=>w.day);   /* weekly：交往中每週一則（AA_508 0-2 第 1 點），之後的每個週日都算機會 */
     let i=un.find(k=>!!W[k]&&ok(k,day)&&!later.some(d=>ok(k,d)));   /* 有月份的：最後一次機會 */
     if(i==null) i=un.find(k=>!W[k]);   /* 其他照順序 */
     if(i==null) i=un.find(k=>!!W[k]&&ok(k,day));
@@ -346,9 +346,12 @@ const R2Y3B=(function(){
     let i=-1; for(let k=0;k<n;k++) if(ok(k)&&!R[sk].includes(k)){ i=k; break; }
     if(i<0) for(let k=0;k<n;k++){ const j=((R[key]|0)+k)%n; if(ok(j)){ i=j; break; } }
     if(i<0) return -1; R[key]=i+1; if(!R[sk].includes(i)) R[sk].push(i); return i; };
-  S.abPhone=function(G){ if(!S.abOn(G)) return; const R=S.abRec(G), X=ABE(), AB=X&&X.AB; if(!AB) return; const F=G.flags, A=M('p:heroine_01','heroine_01'); S.abSettle(G);
+  S.abPhone=function(G){ const dt=S.abOnDating(G); if(!S.abOn(G)&&!dt) return; const R=S.abRec(G), X=ABE(), AB=X&&X.AB; if(!AB) return; const F=G.flags, A=M('p:heroine_01','heroine_01'); S.abSettle(G);
     for(const w of S.abSundays()){ if(w.wk<=(R.wk|0)) continue; const t=T(w.day,S.jp(21)); if(now(G)<t) break; R.wk=w.wk;
       if(now(G)>T(w.day+1,18)) continue;   /* 隔天 18:00 以後才跑到這一週（很久沒跑手機規則、讀檔）：不補 */
+      if(dt){ const tag='y3_ab_w'+w.wk, i=S.abPickT1(G,R,w.day,AB.t1.length,true); if(i<0) continue; const L=AB.t1[i].map(A), O=(AB.t1O||[])[i];   /* 交往中：每週 T1 一則（照順序、有月份的照月份），兩個回覆按鈕她回一句；段（tier）不動 */
+        if(O) L[L.length-1].ask={id:tag,until:T(w.day+1,18),opts:O.map(([t,r])=>({t,say:[{from:'heroine_01',text:r}]}))};
+        PHONE.at(G,w.day,S.jp(21),L,tag); R.log.push({day:w.day,h:S.jp(21),kind:'msg',wk:w.wk,tier:1,dating:true}); continue; }
       const tier=S.abTier(G), tag='y3_ab_w'+w.wk; R.tier=tier; F.AN_ABROAD_TIER=tier;
       if(tier===1){ if(w.wk%2!==1) continue; const i=S.abPickT1(G,R,w.day,AB.t1.length); if(i<0) continue; const L=AB.t1[i].map(A), O=(AB.t1O||[])[i];   /* T1 也有兩個回覆按鈕，她回一句（AA_343 D3）；十則照順序各一次、有月份的照月份（S.abPickT1，AA_463 第 1 節）*/
         if(O) L[L.length-1].ask={id:tag,until:T(w.day+1,18),opts:O.map(([t,r])=>({t,say:[{from:'heroine_01',text:r}]}))};
@@ -357,6 +360,7 @@ const R2Y3B=(function(){
       else { const grp=S.abPick(G,R,'n3',AB.t3.length,'t3',w.day); if(grp<0) continue; const e={day:w.day,h:S.jp(21),kind:'video',wk:w.wk,tier,replied:null}; R.log.push(e);
         if(now(G)<T(w.day,S.jp(21)+0.5)) plan(G,{id:'y3_ab_v'+w.wk,ev:'ev_an_abroad_video',day:w.day,h:S.jp(21),late:0.5,place:'視訊',title:'以安打視訊來（日本 21:00）',verb:'接起來',no:'先不接',travel:'',travelH:0,back:'視訊結束。',abv:{wk:w.wk,grp,day:w.day}});
         else e.replied=false; } }
+    if(dt) return;   /* 交往中只有每週那一則（再問、7/7 竹子的照片是還沒交往的流程）*/
     /* 「我再看看」：6/30（五）20:30（她那邊 21:30）再問一次（AA_343 D2）：「六月最後一天。」「七月七號。……你要不要來看？」；
        「我去。」→「好。機票你自己訂，行程我排。」（同第一次）→ 7/6～7/10；「這次不行。」→「好。我拍竹子給你看。」→ 7/7 照片；7/2（日）21:00 還沒回＝這次不行（沒有那句回話）*/
     { const dR=D(AB_K.re); if(dR!=null&&F.AN_JP_TRIP_ASK==='later'){
@@ -434,7 +438,7 @@ const R2Y3B=(function(){
   S.sumLine=function(G,i){ const k=G.flags&&G.flags.SUMMER_Y3; const x=(S.SUMMER_LINES[k]||[])[i]; return typeof x==='function'?x(G):(x||null); };
   /* 7/9（日）12:00 語彤生日：照大一的寫法（home3d.js 2026 那一則）——麵店團群組 Alison＋按鈕「傳一句生日快樂」；不在群組、和語彤 FAMILIAR 以上＝她的私訊放同一個按鈕。日本路線也是同一則 */
   S.ytBdayPhone=function(G){ const d=D('2028-07-09'); if(d==null||now(G)<T(d,lt(G,d,12))||now(G)>=T(d+1,lt(G,d+1,0))||PHONE.sent(G,'yt_bday_y3')) return;
-    const reply={from:'heroine_03',text:'……謝謝。今年的田野，訪問到第二十三個了。'}, opt={t:'傳一句生日快樂',post:'生日快樂。',say:[reply],set:{YT_BDAY_Y3:true}};
+    const reply={from:'heroine_03',text:'……謝謝。今年的田野，訪問到第二十二個了。'}   /* AA_509 0-2 第 2 點：8/22 問阿姨才是第二十三個（9/7「阿姨是第二十三個」）；宜蘭的田野課不算 */, opt={t:'傳一句生日快樂',post:'生日快樂。',say:[reply],set:{YT_BDAY_Y3:true}};
     if(grp(G)) PHONE.at(G,d,lt(G,d,12),[{th:NG,from:'yu',text:'今天語彤生日！',ask:{id:'yt_bday_y3',until:T(d+1,lt(G,d+1,0)),opts:[Object.assign({},opt,{say:[Object.assign({th:NG},reply)]})]}}],'yt_bday_y3');
     else if(met(G,'heroine_03','FAMILIAR')) PHONE.at(G,d,lt(G,d,12),[{th:'p:heroine_03',text:'今天是語彤的生日。',ask:{id:'yt_bday_y3',until:T(d+1,lt(G,d+1,0)),opts:[opt]}}],'yt_bday_y3'); };
   /* 芷若「十二張點單」（BB_165 3-2 照 10-18 加註＝AA_343 D8；AA_326 2-Y3-54）：和芷若交往中。台灣路線 8/4（五）21:00 私訊（不用回）→ 8/5（六）14:00 兩點半（店休）；
@@ -621,6 +625,7 @@ const R2Y3B=(function(){
     S.whitePhone(G); S.farVideoPhone(G); S.abPhone(G); S.anBackPhone(G);
     S.summerPlanPhone(G); S.ytBdayPhone(G); S.slipsPhone(G); S.z13Phone(G); S.q15Phone(G); };
   let busy=false;
+  (globalThis.LOADLOCKS=globalThis.LOADLOCKS||{})['r2y3b3d:busy']=()=>{ busy=false; };   /* 讀檔時放開（LOADGEN-LOCKS-1028）：讀檔凍住的舊劇情走不到 finally，只把旗標設回初始值 */
   const go=(p,tag)=>{ busy=true; Promise.resolve(p).catch(e=>console.warn('R2Y3B '+tag,e)).finally(()=>{ busy=false; }); return true; };
   S.tick=function(GM,dt){ const G=GM&&GM.G; if(busy||!G||!G.flags||!law(G)) return false; if(atHome(G)) return false;
     if(out()&&OUT.due&&OUT.due(G)) return false;   /* 出遊的「出發」先問 */

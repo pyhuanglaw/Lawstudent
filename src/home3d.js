@@ -93,6 +93,7 @@ const HOME=(function(){
   const confirmMiss=async(GM,toH)=>{ const M=S.wouldMiss(GM.G,toH); if(!M.length) return true; await GM.say(null,'會錯過：'+M.join('、')+'。'); return (await GM.choose([{t:'照樣'},{t:'先不要'}]))===0; };
   /* 在家：選單一直到回宿舍 */
   let busy=false;
+  (globalThis.LOADLOCKS=globalThis.LOADLOCKS||{})['home3d:busy']=()=>{ busy=false; y4Go=null; };   /* 讀檔時放開（LOADGEN-LOCKS-1028）：讀檔凍住的舊劇情走不到 finally，只把旗標設回初始值 */
   /* 經濟系大一的寒假（AA_154 A16；2025-01-06～02-16）：在臺北的家，只演 F1（1/27 21:00 手機）、E21（1/28 22:00）、E24 那一晚（手機）、E23（2/16 18:00）；其他跳過。
      H.winter＝寒假模式：1/6 06:00 以後第一次能動的時候轉場（字卡「寒假／臺北的家」）；選單只有吃晚餐、「過幾天」（直接跳到下一個固定點，字卡寫日期）、睡覺（會經過固定點就停在固定點）；
      沒有「回宿舍」。trigger:'home' 的事件（E21、E23）在選單每一輪檢查、到了就演；E23 演完記 Y0_WINTER_DONE，選單接著 S.winterEnd 回宿舍（吃過晚飯 20:00 出門，約 20:40 到宿舍）。E24 那一晚的日期照這裡（AA_355 第 3 節：不再等；休學以後在家那一年照 econff3d.js 的表與 retake_home）*/

@@ -77,6 +77,7 @@ const BADCLIP=(function(){
     return ()=>{ b.remove(); if(c) c.removeEventListener('pointerdown',tap); }; }
   // ---- 主流程 ----
   S.busy=false;
+  (globalThis.LOADLOCKS=globalThis.LOADLOCKS||{})['badminton_clip3d:busy']=()=>{ S.busy=false; };   /* 讀檔時放開（LOADGEN-LOCKS-1028）：讀檔凍住的舊劇情走不到 finally，只把旗標設回初始值 */
   S.play=async function(GM,opts){ opts=opts||{}; const E=GM&&GM.E; if(!E||!E.player||S.busy) return false; S.busy=true; let skipped=false; const id=opts.who;
     const C=court(), half=4.4, P1=E.player, keep=[]; let partner=GM.npc&&GM.npc[id], spawned=false;
     if(!partner&&GM.spawnCharacter&&id){ partner=GM.spawnCharacter(id,C.x,C.z-half,{yaw:0}); spawned=!!partner; }

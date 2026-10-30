@@ -30,6 +30,7 @@ const PHONE=(function(){
   const mk=(G,it,day,h)=>{ const hh=((h%24)+24)%24, dd=day+Math.floor(h/24); const th=it.th||(it.who?'p:'+it.who:'sys');
     const m={day:dd,h:+hh.toFixed(2),who:it.who!==undefined?it.who:(th.startsWith('p:')&&it.from!=='player'?th.slice(2):null),text:it.text,iv:null,th};
     if(it.from) m.from=it.from; if(it.name) m.name=it.name; if(it.pin) m.pin=true; if(it.tag) m.tag=it.tag; if(Array.isArray(it.fold)) m.fold=it.fold.slice();   /* fold：折起來的長訊息（手機上點開看全文；W3b）*/
+    if(it.play) m.play=true;   /* play：錄音（宥辰的週五的歌，AA_497 1-4）——折起來的是點開聽到的那一句旁白，手機上寫「（點開聽）」*/
     if(it.ask){ const P=S.rec(G); P.n++; m.ask=Object.assign({},it.ask,{id:it.ask.id||('a'+P.n)}); }
     if(it.cg){ m.cg=it.cg; G.cg=G.cg||{unlocked:[]}; G.cg.unlocked=G.cg.unlocked||[]; if(!G.cg.unlocked.includes(it.cg)) G.cg.unlocked.push(it.cg); }   /* 照片是一張 CG（例：CG-2b Alison 傳的讀書會白板，AA_343 E2）：訊息下面顯示那張圖（game3d.js threadHTML），送出就收進相簿 */
     return m; };
@@ -63,7 +64,9 @@ const PHONE=(function(){
     if(o.set) for(const f in o.set) G.flags[f]=o.set[f]; if(o.mem&&typeof SOCIAL!=='undefined') for(const q of o.mem) SOCIAL.remember(q.npc,q.tag,q.note);
     if(o.contact&&typeof INV!=='undefined') for(const c of [].concat(o.contact)) INV.addContact(G,c);
     if(o.need&&typeof STORY!=='undefined'&&STORY.neededAnswered) STORY.neededAnswered(G,m,o);   /* 主線 4：回了的那個人信任 +1、記次數 */
+    for(const f of S.ON_ANSWER){ try{ f(G,m,o,k); }catch(e){ console.warn('PHONE.ON_ANSWER',e); } }   /* 回了以後（她主動約你的校外約會：答應＝排進行程、她回一句，src/heroine_asks3d.js）*/
     return {m,o,out}; };
+  S.ON_ANSWER=[];
   /* 對話串：最新的排前面；unread＝別人說的、在上次看過之後、而且是最近 UNREAD_DAYS 天的（BB218-P3 ⑤：快轉到 11/11 時列表還掛著 9/1 媽媽、8/25 第三小隊的紅點——兩個月前的舊訊息不算未讀；要回的照舊算 pending）*/
   S.UNREAD_DAYS=14;
   S.threads=function(G,o){ const P=S.rec(G); const by=new Map(), old=G.day!=null?abs(G.day,G.hour||0)-S.UNREAD_DAYS*24:-1e9;   /* o.sys：通知（sys）也算一串（手機訊息頁的 LINE 式列表，PHONE-LINE-UI-1018）*/

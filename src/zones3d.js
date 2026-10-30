@@ -1385,7 +1385,7 @@ const Z3 = (function(){
     plat.build(g);
     // 平台側面的牆裙（走道和平台之間看得到的高低差）
     { const fl=g.children.find(o=>o.isMesh&&o.geometry&&o.geometry.type==='PlaneGeometry'&&Math.abs(o.rotation.x+Math.PI/2)<1e-6&&o.position.y===0); if(fl){ fl.userData.walkLv=0; walk.push(fl); } }
-    z.walkMeshes=walk; z.camMaxY=5.0;
+    z.walkMeshes=walk; z.camMaxY=5.0; roomBackdrop(g0,W,D,H);   /* 牆外暗色的殼（窗都有窗景板）*/
     for(const [r,c] of [[1,1],[3,5],[2,6],[4,2]]){ const st=z.seats.find(s=>s.row===r&&s.col===c); if(st) PROP(g0,'prop.bag',st.x+0.3,st.y,st.z+0.55,0.6); } { const st=z.seats.find(s=>s.row===1&&s.col===3); PROP(g0,'prop.bottle',st.x,st.y+0.78,st.z-0.55); } { const st=z.seats.find(s=>s.row===2&&s.col===5); PROP(g0,'prop.cup',st.x,st.y+0.78,st.z-0.55); }
     // 座位互動：全部 48 個（v9.4：使用者「教室內所有可使用的座位，都必須真的能走到、坐下、站起來」）
     for(const s of z.seats) E.interactables.push({x:s.x,z:s.z+0.35,y:s.y,radius:0.62,label:'坐下',seat:s});
@@ -1400,7 +1400,62 @@ const Z3 = (function(){
   function condVis(o,fn){ let shown=true; Object.defineProperty(o,'visible',{configurable:true,get(){ const G=typeof GAME!=='undefined'&&GAME.G; return shown&&!!(G&&fn(G)); },set(v){ shown=!!v; }}); }   /* 照條件顯示（同 traceVis，每一格問）*/
   function catBowlOn(G){ const F=G.flags||{}; return F.WZ_CAT_FOUND!=null&&!(typeof PARK!=='undefined'&&PARK.catGone&&PARK.catGone(G)); }
   function traceVis(o,id){ let shown=true; Object.defineProperty(o,'visible',{configurable:true,get(){ const G=typeof GAME!=='undefined'&&GAME.G; return shown&&!!(G&&typeof SIDEQ!=='undefined'&&SIDEQ.traceOn&&SIDEQ.traceOn(G,id)); },set(v){ shown=!!v; }}); }
-  function attachRoomGLB(z,g0,fb,root){ root.traverse(o=>{ if(o.isMesh){ o.castShadow=false; o.receiveShadow=true; if(o.material&&/ceiling/.test(o.material.name)) TK.bounce(o.material,0.5,0.5); } });   /* 天花板：和 room() 的天花板一樣帶自發光 */ g0.add(root); root.updateMatrixWorld(true); const nw=[];
+  /* 室內光照貼圖（INTERIOR-AAA-REVIEW-1028 P1，LAWWW2-C；tools/blender/env_second/lightbake/bake_room.py 用 Cycles 烘焙）：GLB 場景的 extras.lightmap＝{day,night,intensity}。
+     有第二套 UV（uv1）的網格：材質接 lightMap（白天、晚上兩張照時段混合）；間接光已經烘焙在貼圖裡，所以這些材質不吃半球光，方向光只留 LM_DIRK（人物在地上還有影子）。
+     人物、沒有烘焙的東西照舊吃原本的光。原因：室內只有一盞方向光＋半球光，沒有反彈光、接觸陰影，整間平均亮、東西像貼在地上（docs/art-rebuild/second_ai/INTERIOR_AAA_REVIEW_1028.md）*/
+  const LM_DIRK=0.3, lmTex={};
+  function lmLoad(url){ if(!lmTex[url]){ const t=new THREE.TextureLoader().load(url); t.flipY=false; t.colorSpace=THREE.SRGBColorSpace; t.channel=1; lmTex[url]=t; } return lmTex[url]; }
+  function lmMixAt(h){ h=((h%24)+24)%24; if(h>=6.8&&h<17.0) return 0; if(h>=18.6||h<5.6) return 1; return h>=17.0?(h-17.0)/1.6:(6.8-h)/1.2; }   /* 0＝白天那張、1＝晚上那張（17:00～18:36、05:36～06:48 慢慢換）*/
+  const LM_MAPS=THREE.ShaderChunk.lights_fragment_maps.replace('vec4 lightMapTexel = texture2D( lightMap, vLightMapUv );','vec4 lightMapTexel = mix( texture2D( lightMap, vLightMapUv ), texture2D( lmNight, vLightMapUv ), lmMix );');
+  /* 快取的 GLB 每次進區域都是 c.scene.clone(true)：網格是新的、材質是同一批（clone 不複製材質）。接過光照貼圖的材質記在 lmWired（材質 → 它的 uniform）：
+     再進一次只換這一次的白天／晚上貼圖、照時段更新同一組 uniform，不再包一層 onBeforeCompile——包兩層＝lmNight 等 uniform 宣告兩次、shader 編不過、
+     那個網格整個不畫（BB-C 10-28 10:0x：霖澤館大廳第二次進去地板沒紋理、沙發長椅不見、NPC 坐在空氣上；201、202、多功能教室同一段程式）*/
+  const lmWired=new WeakMap();
+  function roomLightmap(z,root,spec){ const U={lmNight:{value:lmLoad(spec.night)},lmMix:{value:0},lmDirK:{value:LM_DIRK}}, day=lmLoad(spec.day), done=new Set(), Us=new Set([U]);
+    root.traverse(o=>{ if(!o.isMesh||!o.geometry||!o.geometry.attributes.uv1) return;
+      for(const m of [].concat(o.material)){ if(!m||done.has(m)||!m.isMeshStandardMaterial) continue; done.add(m); m.lightMap=day; m.lightMapIntensity=spec.intensity||Math.PI*2;
+        const U0=lmWired.get(m); if(U0){ U0.lmNight.value=U.lmNight.value; Us.add(U0); continue; }   /* 已經接過（快取的 GLB 再進一次）：不再包一層 */
+        lmWired.set(m,U);
+        const prev=m.onBeforeCompile; m.onBeforeCompile=function(sh,r){ if(prev) prev.call(this,sh,r); Object.assign(sh.uniforms,U);
+          sh.fragmentShader='uniform sampler2D lmNight; uniform float lmMix; uniform float lmDirK;\n'+sh.fragmentShader.replace('#include <lights_fragment_begin>','#include <lights_fragment_begin>\nreflectedLight.directDiffuse *= lmDirK; reflectedLight.directSpecular *= lmDirK;\n#if defined( RE_IndirectDiffuse )\nirradiance = vec3( 0.0 );\n#endif').replace('#include <lights_fragment_maps>',LM_MAPS); };
+        const pk=m.customProgramCacheKey; m.customProgramCacheKey=function(){ return (pk?pk.call(this):'')+'|roomLM'; }; m.needsUpdate=true; } });
+    const mix=h=>{ const v=lmMixAt(h); for(const u of Us) u.lmMix.value=v; };   /* 這一次用到的每一組 uniform（新接的、之前接過的）都照時段 */
+    const up0=z.update; z.update=function(dt,E){ if(up0) up0.call(this,dt,E); mix(E&&E.hour!=null?E.hour:12); }; mix(typeof GAME!=='undefined'&&GAME.G?GAME.G.hour:12);
+    z.lightmapped=done.size; return done.size; }
+  /* 室內鏡頭在牆外時（牆淡出）看到的背景（INTERIOR-AAA-REVIEW-1028 P2，LAWWW2-C）：房間外 m 公尺一圈暗色的殼（只從裡面看得到、不受光、不吃霧），鏡頭在牆外也看不到天空
+     （v1：鏡頭從側面的走道往前看，牆淡出的那一邊整片淺藍色的天空，教室像飄在天上）。鏡頭最多在牆外 4.4 m（跟隨距離），殼在 7 m：永遠在鏡頭後面，不會擋住房間。
+     只給窗戶都有窗景板的房間用（窗景板在玻璃外 0.42 m，在殼的裡面）；玻璃帷幕直接看出去的房間不要用（2026-10-11 試過整個室內改深灰背景：萬才館東窗、霖澤館玻璃底下的縫變成深灰色，更假）。*/
+  function roomBackdrop(g,W,D,H,m,cx,cz){ m=m||7; const geo=new THREE.BoxGeometry(W+2*m,H+2*m,D+2*m); geo.translate(cx||0,H/2,cz||0);   /* cx、cz：房間中心（GLB 房間的 bounds 不一定以原點為中心）*/ const P=geo.attributes.position, c=new Float32Array(P.count*3), lo=new THREE.Color(0x3a3733), hi=new THREE.Color(0x1a1a1d), t=new THREE.Color();
+    for(let i=0;i<P.count;i++){ const k=Math.min(1,Math.max(0,(P.getY(i)+m)/(H+2*m))); t.copy(lo).lerp(hi,k); c[i*3]=t.r; c[i*3+1]=t.g; c[i*3+2]=t.b; } geo.setAttribute('color',new THREE.BufferAttribute(c,3));
+    const mesh=new THREE.Mesh(geo,new THREE.MeshBasicMaterial({vertexColors:true,side:THREE.BackSide,fog:false})); mesh.name='room_backdrop'; mesh.userData.dyn=true; mesh.castShadow=false; mesh.receiveShadow=false; g.add(mesh); return mesh; }
+  /* SEATFOLD-BEGIN 階梯教室的翻椅（INTERIOR-AAA-REVIEW-1028，LAWWW2-C；tools/blender/classroom_201.py v2 的 SEATPANS 網格：48 張椅面一個網格）：
+     沒有人坐的椅面掀起來（真的階梯教室翻椅；v1 每張都是放下的，一排一排一模一樣），有人坐就放下：玩家、同學（n.seat；正要坐的 seatTarget 走到 0.8 m 內）、遠處的替身（st.taken）。
+     放下是同一格就放好（人坐下的那一格椅面已經在下面，不會掃過身體）；人離開 0.5 秒後 0.3 秒轉上去。
+     頂點照最近的座位分組，繞椅面後緣的轉軸（座位地面中心往後 0.15 m、高 0.445 m；軸＝坐的人的右手方向）轉 92°。
+     幾何是快取共用的（GLB 每次 clone 共用 geometry）：先複製一份再改。沒有 SEATPANS（備用模型、舊 GLB）就不做。測試：tests/seat_fold_unit.js */
+  const PAN_UP=1.6, PAN_SPD=5.0, PAN_WAIT=0.5;
+  function seatFold(z,root){ const m=root&&root.getObjectByName&&root.getObjectByName('SEATPANS'), S=z&&z.seats; if(!m||!m.isMesh||!S||!S.length) return null;
+    m.geometry=m.geometry.clone(); const g=m.geometry, P=g.attributes.position, N=g.attributes.normal, n=P.count; m.updateWorldMatrix(true,false);
+    const toW=m.matrixWorld.clone(), toL=toW.clone().invert(), nW=new THREE.Matrix3().getNormalMatrix(toW), nL=new THREE.Matrix3().getNormalMatrix(toL);
+    const base=Float32Array.from(P.array), nb=N?Float32Array.from(N.array):null, v=new THREE.Vector3(), w=new THREE.Vector3(), vs=S.map(()=>[]);
+    for(let i=0;i<n;i++){ v.fromBufferAttribute(P,i).applyMatrix4(toW); let b=-1, bd=0.2; for(let k=0;k<S.length;k++){ const s=S[k], dx=v.x-s.x, dz=v.z-s.z, d=dx*dx+dz*dz; if(d<bd&&Math.abs(v.y-(s.y||0)-0.45)<0.3){ bd=d; b=k; } } if(b>=0) vs[b].push(i); }
+    const ang=new Float32Array(S.length), idle=new Float32Array(S.length), Q=new THREE.Quaternion(), UP=new THREE.Vector3(0,1,0), H=new THREE.Vector3(), AX=new THREE.Vector3();
+    function pose(k){ const s=S[k], fx=Math.sin(s.yaw||0), fz=Math.cos(s.yaw||0); H.set(s.x-fx*0.15,(s.y||0)+0.445,s.z-fz*0.15); AX.set(fx,0,fz).cross(UP).normalize(); Q.setFromAxisAngle(AX,ang[k]);
+      for(const i of vs[k]){ v.set(base[3*i],base[3*i+1],base[3*i+2]).applyMatrix4(toW).sub(H).applyQuaternion(Q).add(H).applyMatrix4(toL); P.setXYZ(i,v.x,v.y,v.z);
+        if(nb){ w.set(nb[3*i],nb[3*i+1],nb[3*i+2]).applyMatrix3(nW).applyQuaternion(Q).applyMatrix3(nL).normalize(); N.setXYZ(i,w.x,w.y,w.z); } } }
+    const near=(a,s)=>!!a&&Math.abs(a.x-s.x)<0.3&&Math.abs(a.z-s.z)<0.3;
+    function occupied(E,k){ const s=S[k]; if(s.taken) return true; const p=E&&E.player; if(p&&(p.seat===s||near(p.seat,s))) return true;
+      for(const q of (E&&E.npcs)||[]){ if(q.seat===s||near(q.seat,s)) return true; const t=q.seatTarget; if(t&&(t===s||near(t,s))&&q.obj&&Math.hypot(q.obj.position.x-s.x,q.obj.position.z-s.z)<0.8) return true; }
+      return false; }
+    function step(dt,E){ let dirty=false; for(let k=0;k<S.length;k++){ if(occupied(E,k)){ idle[k]=0; if(ang[k]!==0){ ang[k]=0; pose(k); dirty=true; } continue; }
+        idle[k]+=dt; if(idle[k]<PAN_WAIT||ang[k]>=PAN_UP) continue; ang[k]=Math.min(PAN_UP,ang[k]+PAN_SPD*dt); pose(k); dirty=true; }
+      if(dirty){ P.needsUpdate=true; if(N) N.needsUpdate=true; } return dirty; }
+    for(let k=0;k<S.length;k++){ ang[k]=PAN_UP; idle[k]=PAN_WAIT; pose(k); } P.needsUpdate=true; if(N) N.needsUpdate=true;   /* 一開始全部掀起來；有人坐的下一格就放下 */
+    g.computeBoundingSphere(); if(g.boundingSphere) g.boundingSphere.radius+=0.5;
+    const up0=z.update; z.update=function(dt,E){ if(up0) up0.call(this,dt,E); step(Math.min(dt||0,0.1),E); };
+    return (z.seatFold={mesh:m,ang,step,occupied,groups:vs.map(a=>a.length)}); }
+  /* SEATFOLD-END */
+  function attachRoomGLB(z,g0,fb,root){ const LMS=root.userData&&root.userData.lightmap; root.traverse(o=>{ if(o.isMesh){ o.castShadow=false; o.receiveShadow=true; if(o.material&&/ceiling/.test(o.material.name)&&!LMS) TK.bounce(o.material,0.5,0.5); } });   /* 有光照貼圖：天花板的亮已經烘焙進去，不另外加自發光 */   /* 天花板：和 room() 的天花板一樣帶自發光 */ g0.add(root); root.updateMatrixWorld(true); const nw=[];
     root.traverse(o=>{ const m=/^TRACE_(SQ\d+)/.exec(o.name); if(m) traceVis(o,m[1]); });   /* 痕跡（見 traceVis）*/
     root.traverse(o=>{ if(o.name==='WZ_CATBOWL') condVis(o,catBowlOn); });   /* 一盞前院的貓碗（ART-WZ6，AA_420 第 9 節）：找到貓以後（WZ_CAT_FOUND）、收養以前（PARK.catGone）*/
     const glassy=[];   /* 本來就半透明的牆面材質（玻璃、紗窗）：不放進淡出清單（淡出邏輯每格會把不透明度設回 1，玻璃會變成不透明的灰板），改成窗的零件：固定透明、牆淡出時一起藏（和 Café 室內一樣）*/
@@ -1410,7 +1465,7 @@ const Z3 = (function(){
     /* 窗外的景（白天／夜景貼圖、隨時段變色，room() 的 applyTime 照舊換）：從備用模型的窗框組裡拿出來，放到正式模型的玻璃外面 0.3 m（放大一點：斜著看窗洞也看不到外面的空白）；牆淡出時一起藏（不然鏡頭在牆外時會擋住房間）*/
     const wp=[]; if(z.wins) for(const w of z.wins){ const part=w.parent; const ent=z.winParts&&z.winParts.find(p=>p.obj===part); const d=ent?ent.dir:new THREE.Vector3(1,0,0); w.position.addScaledVector(d,-0.42); w.scale.set(1.35,1.4,1); if(w.material.uniforms&&w.material.uniforms.sxy) w.material.uniforms.sxy.value.set(1.35,1.4); part.remove(w); g0.add(w); wp.push({obj:w,at:ent?ent.at:w.position.clone(),dir:d}); }
     for(const o of glassy) wp.push({obj:o,at:o.userData.center,dir:o.userData.dir,partition:!!o.userData.partition});
-    fb.visible=false; z.walls.length=0; for(const w of nw) z.walls.push(w); z.winParts=wp; z.formal=true; }
+    fb.visible=false; z.walls.length=0; for(const w of nw) z.walls.push(w); z.winParts=wp; z.formal=true; if(LMS) roomLightmap(z,root,LMS); seatFold(z,root); }
   // ---------- 萬才館大廳／研討室 ----------
   // 萬才館（室內兩層樓）：src/wancai3d.js（萬才館第三階段，D42；一樓大廳的座標和 v9.3 一樣）
   // ---------- 總圖閱覽室 ----------
@@ -1561,7 +1616,7 @@ const Z3 = (function(){
   const bookstore={ id:'bookstore', name:'舊路書房', indoor:true, camDist:4.0, build(E){ const z=room(E,{view:'bookstore',viewDepth:17,w:12,d:10,h:3.4,wallColor:'#efe6d6',floorTex:W3.canvasTex('woodfloor_lt',256,256,(x,w,h)=>{ x.fillStyle='#cbb390'; x.fillRect(0,0,w,h); x.strokeStyle='rgba(90,60,30,0.22)'; x.lineWidth=2; for(let j=0;j<h;j+=32){ x.beginPath(); x.moveTo(0,j); x.lineTo(w,j); x.stroke(); } }),spawn:{x:0,z:4,yaw:Math.PI},winWall:'front',winXs:[-3.5,3.5]}); /* 窗在店面那一面（後牆是書架）*/ const g0=z.group, nav=z.nav;
     // 程序化的畫面全部放在 g（備用模型）：Blender 正式模型（ASSETS 'bldg.bookstore_interior'，第二個 AI）載入後整組藏起來；導航、互動點、出口都不受影響
     const g=new THREE.Group(); g.name='fallback'; g.userData.dyn=true; for(const o of g0.children.slice()){ if(o.isLight) continue; g0.remove(o); g.add(o); } g0.add(g);
-    shelfWall(g,nav,0,-4.7,0,11); shelfWall(g,nav,-5.7,0,Math.PI/2,8); shelfWall(g,nav,5.7,0,Math.PI/2,8); shelfWall(g,nav,-2,0,Math.PI/2,5); shelfWall(g,nav,2,0,Math.PI/2,5); const table=new THREE.Mesh(new THREE.BoxGeometry(2.4,0.8,1.2),M('#8b5e3c')); table.position.set(0,0.4,3); g.add(table); nav.blockRect(0,3,2.4,1.2,0,0.1); E.interactables.push({x:0,z:4.05,radius:1.1,label:'看看法律書與文具',shop:'book'});   /* v9.3 第二十五批：原本在桌子和書架之間 (0,2)，那裡比人還窄、走不進去（tests/reachability_all.py 抓到），買不到教科書；改成桌子靠門口那一側（像櫃台）*/ E.interactables.push({x:0,z:4.6,radius:1.5,label:'離開書店',exit:{to:'gongguan',spawn:{x:-42,z:18,yaw:Math.PI}}});
+    shelfWall(g,nav,0,-4.7,0,11); shelfWall(g,nav,-5.7,0,Math.PI/2,8); shelfWall(g,nav,5.7,0,Math.PI/2,8); shelfWall(g,nav,-2,0,Math.PI/2,5); shelfWall(g,nav,2,0,Math.PI/2,5); const table=new THREE.Mesh(new THREE.BoxGeometry(2.4,0.8,1.2),M('#8b5e3c')); table.position.set(0,0.4,3); g.add(table); nav.blockRect(0,3,2.4,1.2,0,0.1); E.interactables.push({x:1.8,z:3.2,radius:0.9,label:'看看法律書與文具',shop:'book'})   /* 櫃台桌的東端、收銀機那一頭（BOOKSTORE-EXIT-SHOP-1028，LAWWW2-C）：原本 (0,4.05) 半徑 1.1 就在門口——桌子前緣到門口站得到的地方只有 0.37 m，進門落腳點 (0,4) 也在範圍裡，門口按下去是買書選單。店員站桌子北側 (0.55,1.95) 面向門口，所以不移到桌子後面 */;   /* v9.3 第二十五批：原本在桌子和書架之間 (0,2)，那裡比人還窄、走不進去（tests/reachability_all.py 抓到），買不到教科書；改成桌子靠門口那一側（像櫃台）*/ E.interactables.push({x:0,z:4.6,radius:1.5,label:'離開書店',exit:{to:'gongguan',spawn:{x:-42,z:18,yaw:Math.PI}}});
     P3.mergeStatic(g);   /* 備用模型自己合併（外層合併會跳過它，正式模型載入後要能整組藏起來）*/
     if(typeof ASSETS!=='undefined'&&ASSETS.manifest['bldg.bookstore_interior']) ASSETS.loadOne('bldg.bookstore_interior').then(c=>{ if(!c||!c.scene||E.zone!==z) return; const root=c.scene.clone(true); attachRoomGLB(z,g0,g,root); attachBookstoreInterior(z,g0,root); }).catch(e=>console.warn('書店室內正式模型載入失敗，用程序化備用模型',e));
     return z; } };
@@ -1834,6 +1889,7 @@ const Z3 = (function(){
      只在電腦上做（使用者回報的是電腦；ASSETS.texCap 是空的＝不是手機）。*/
   async function prewarm(E,opts){ opts=opts||{}; const R=E.renderer; if(!R||!R.compileAsync||!E.scene||!E.camera) return null;
     const q=(typeof location!=='undefined'&&location.search)||''; if(/[?&]noprewarm\b/.test(q)||(typeof ASSETS!=='undefined'&&ASSETS.texCap&&!/[?&]prewarm\b/.test(q))) return null;   /* 只在電腦上做（同 prefetchNext）：手機照原本的做法——SwiftShader 手機模擬量到一次黑畫面拉長到 13.6 秒（淡入的計時器被很長的格子擠到後面）；沒有真機數字以前手機不動。?prewarm 手機模擬也做（量測用）、?noprewarm 關掉 */
+    const qc=+((q.match(/[?&]prewarmcap=(\d+)/)||[])[1]||0); if(qc) opts=Object.assign({},opts,{cap:qc});   /* 量測用：?prewarmcap=毫秒 改黑畫面最多等多久 */
     const skip0=E.renderSkip; E.renderSkip=()=>true; try{ return await prewarmRun(E,R,opts); } finally{ E.renderSkip=skip0; } }
   async function prewarmRun(E,R,opts){
     const t0=performance.now(), cap=opts.cap||2000, left=()=>cap-(performance.now()-t0), tick=()=>new Promise(r=>setTimeout(r,0));
@@ -1847,6 +1903,10 @@ const Z3 = (function(){
     finally{ for(const [o,m] of off) o.material=m; }
     out.skipped=off.length; let to=null; const ok=await Promise.race([job.then(()=>true,()=>true),new Promise(r=>{ to=setTimeout(()=>r(false),Math.max(0,left())); })]); clearTimeout(to);
     out.compileMs=performance.now()-tc; if(!ok) out.timedOut=true;
+    /* 編譯結果先讀一次（X14，LAWWW2-C 2026-10-27）：沒有平行編譯時 isReady() 一律是 true，compileAsync 馬上就好，真正的等待留到淡入第一格（three.js 第一次畫到時讀編譯結果：onFirstUse）——
+       SwiftShader 電腦模式量到公館→溫州街第一次淡入那一格 10.3 秒，其中 3.9 秒在等編譯結果。黑畫面時在 cap 之內先讀（program.getUniforms）；讀不完的照舊第一格讀 */
+    const tsl=performance.now(); for(const pg of ((R.info&&R.info.programs)||[])){ if(left()<=0){ out.timedOut=true; break; } if(pg.isReady&&!pg.isReady()) continue; try{ pg.getUniforms(); out.settled=(out.settled|0)+1; }catch(e){ console.warn('prewarm settle',e); } }
+    out.settleMs=performance.now()-tsl;
     const texs=new Set(), add=v=>{ if(v&&v.isTexture&&!v.isRenderTargetTexture) texs.add(v); };
     for(const o of shown){ if(!o.parent||!isMat(o.material)) continue; const ms=Array.isArray(o.material)?o.material:[o.material]; for(const m of ms){ for(const k in m) add(m[k]); if(m.uniforms) for(const k in m.uniforms){ const u=m.uniforms[k]; if(u) add(u.value); } } }
     const tt=performance.now(); let batch=0;
@@ -1915,5 +1975,5 @@ const Z3 = (function(){
         if(!mobile) for(const t of texs(o)){ if(px>=4e6) break; const im=t.image; try{ R.initTexture(t); out.textures++; const a=im&&im.width&&im.height?im.width*im.height:0; px+=a; out.mpix+=a/1e6; } catch(e){} } }
       const d=nprog()-p0; out.programs+=d; if(out.done) out.later=(out.later|0)+d; setTimeout(step,gap); };   /* later＝做完以後才看到、才編的（之後才載完的路人底模…）*/
     setTimeout(step,opts.delay!=null?opts.delay:1000); return out; }
-  return {ZONES,room,desk,chair,glowTex,attachRoomGLB,attachDormInterior,glowBatch:wzGlowBatch,wzParkSeason,wzCatModel,v0BoxFromFlags,fairDayKey,fairExpoFront,isExpoDay,EXPO_DAYS,pothosSize,prewarm,prefetchNext,warmup,PROP_BLOCKS:{wenzhou:WZ_PROP_BLOCKS,gongguan:GG_PROP_BLOCKS},propBlocks};   /* attachRoomGLB：社科院圖書館（src/soclib3d.js）也用這個接法 ；attachDormInterior：宿舍 205（rooms_glb3d.js 的 dorm_interior，和祐廷的房間同一型）*/
+  return {ZONES,room,desk,chair,glowTex,attachRoomGLB,roomLightmap,seatFold,roomBackdrop,attachDormInterior,glowBatch:wzGlowBatch,wzParkSeason,wzCatModel,v0BoxFromFlags,fairDayKey,fairExpoFront,isExpoDay,EXPO_DAYS,pothosSize,prewarm,prefetchNext,warmup,PROP_BLOCKS:{wenzhou:WZ_PROP_BLOCKS,gongguan:GG_PROP_BLOCKS},propBlocks};   /* attachRoomGLB：社科院圖書館（src/soclib3d.js）也用這個接法 ；attachDormInterior：宿舍 205（rooms_glb3d.js 的 dorm_interior，和祐廷的房間同一型）；roomLightmap：霖澤館大廳（src/building3d.js 的 attachFormal）也用 */
 })();

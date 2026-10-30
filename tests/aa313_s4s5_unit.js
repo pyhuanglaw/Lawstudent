@@ -129,10 +129,12 @@ const SRC=f=>fs.readFileSync(path.join(ROOT,f),'utf8');
     check('5-6. xc_contract 和 Alison 的 yu_overtime 不同學期：xc_contract 搬到大二下第 8～10 週（大二上第 11 週不發）',!x1.includes('xc_contract')&&xs.term==='Y2S2'&&J(xs.w)===J([8,10])&&yo.term==='Y2S1',J([x1,xs.term,xs.w])); }
   // 阿哲、Alison 舊的閒聊三句（5-3、5-4）
   if(!STORY._talkOld) check('5-3、5-4. 阿哲、Alison 舊的閒聊三句（STORY._talkOld）',false); else { const say=async(who,key,seed,flags)=>{ fresh(D(key),15,'campus',Object.assign({met_yu:true,companion:'x'},flags||{})); R(who,'FAM'); if(SOCIAL.markUp) SOCIAL.markUp(who,SOCIAL.friendLevel(who)); const n={id:who,charId:who,name:who,obj:{position:{x:1,y:0,z:1}},seat:null,lv:0}; const r0=Math.random; Math.random=()=>seed; said=[]; try{ await STORY._talkOld[who](GM,n); } finally { Math.random=r0; } return said.map(s=>s.t); };
-    const z2=await say('zhe','2027-04-14',0.01), z3=await say('zhe','2027-10-13',0.01);
+    const NDL={noodleTableDay:STORY.termDay('Y1S1',4,4)};   /* 已經在麵店團（做過哲 1）：沒有的話＝錯過長桌，找阿哲說話先演麵店團的補救（AA_496 第 9 節第 3 點，ev_zhe_group_late_talk），這裡要看的是平常的閒聊 */
+    const z2=await say('zhe','2027-04-14',0.01,NDL), z3=await say('zhe','2027-10-13',0.01,NDL);
     check('5-3. 阿哲的閒聊：系籃那句到大二下為止；大三起「這季我是隊長。週五你來記分。」',z2.includes('系籃週五練球，要來就來，不會打也可以來坐。')&&z3.includes('這季我是隊長。週五你來記分。')&&!z3.some(t=>/系籃週五練球/.test(t)),J([z2,z3]));
     const y21=await say('yu','2026-10-14',0.4), y22=await say('yu','2027-03-17',0.4);
-    check('5-4. Alison 的閒聊：大二上「三個社團」、大二下退了辯論社以後「我這禮拜兩個社團都要開會，快死了。」',y21.includes('我這禮拜三個社團都要開會，快死了。')&&y22.includes('我這禮拜兩個社團都要開會，快死了。'),J([y21,y22]));
+    /* 2026-10-28 改：AA_497 3-8「三個社團」只留人物頁、第一次自我介紹、迎新旁白、語 1、聖誕禮物——大二上這一句換成「辯論社」（tests/aa497_supporting_unit.js 3-8）*/
+    check('5-4. Alison 的閒聊：大二上「我這禮拜辯論社都要開會，快死了。」（AA_497 3-8）、大二下退了辯論社以後「我這禮拜兩個社團都要開會，快死了。」',y21.includes('我這禮拜辯論社都要開會，快死了。')&&!y21.includes('我這禮拜三個社團都要開會，快死了。')&&y22.includes('我這禮拜兩個社團都要開會，快死了。'),J([y21,y22]));
     const st=SMALLTALK.zhe.filter(e=>typeof e==='object'&&/系籃|隊長/.test(e.t));
     check('5-3. SMALLTALK 阿哲：系籃那句大一、大二；大三起「這季我是隊長。週五你來記分。」',st.length===2&&J(st[0].term)===J(['Y1S1','Y1S2','Y2S1','Y2S2'])&&st[1].t==='「這季我是隊長。週五你來記分。」'&&J(st[1].term)===J(['Y3S1','Y3S2','Y4S1','Y4S2']),J(st)); }
   // 迎新（5-3、5-4）：說了「哥」記 ZHE_CALLS_GE；還不認識阿哲、Alison 的說話人

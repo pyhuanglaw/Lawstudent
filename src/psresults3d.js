@@ -37,6 +37,7 @@ const PSR=(function(){
     finally{ GM.sceneEnd(); }
     if(GM.autosave) GM.autosave(); return true; };
   let busy=false;
+  (globalThis.LOADLOCKS=globalThis.LOADLOCKS||{})['psresults3d:busy']=()=>{ busy=false; };   /* 讀檔時放開（LOADGEN-LOCKS-1028）：讀檔凍住的舊劇情走不到 finally，只把旗標設回初始值 */
   S.tick=function(GM){ const G=GM&&GM.G; if(busy||!G||!S.bringDue(G)) return false; if(typeof HOME!=='undefined'&&HOME.at&&HOME.at(G)) return false;   /* 在家：家裡的選單接（y4HomeDue）*/
     busy=true; S.bring(GM).catch(e=>console.warn('PSR.bring',e)).finally(()=>{ busy=false; }); return true; };
 

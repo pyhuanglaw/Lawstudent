@@ -57,7 +57,7 @@ const SISY23_EVENTS=(function(){
     return i>=0&&!!P&&(P[ID+'@Y2S2']|0)>i; };   /* 階梯的進度＝G.social.ladder['heroine_05@Y2S2']（下一層的位置；story3d.js ladData 的 key）*/
   /* 2-6 的台詞（說話前接演、台階那一版共用）*/
   const US=[ SIS('明年夏天，我想去美國待一個學期。研究交換。'),
-    SIS('八月走，十二月回來。論文的第三章，要在那邊寫。'),
+    SIS('八月走，十二月回來。論文的第四章，要在那邊寫。'),   /* AA_509 0-2 第 1 點（691a26400）：她上飛機前看完第三章（r2y4a_events）*/
     {unless:{custom:G=>dating(G)||heardUS(G)},speaker:ID,text:'計畫本上寫了很久。今天才決定要跟人說。'},
     {if:{custom:G=>!dating(G)&&heardUS(G)},speaker:ID,text:'之前跟你提過。'},
     {if:{custom:G=>!dating(G)&&heardUS(G)},speaker:ID,text:'……申請送出去了。今天才覺得是真的。'},
@@ -159,6 +159,13 @@ const SISY23_EVENTS=(function(){
     { id:'ev_sis_predepart', title:'出國前最後一個週六', participants:[ID], location:'any', trigger:'outing', once:true, background:'dark', hours:1,
       dialogue:[ {scene:'公館・騎樓',bg:'gongguan'},
         N('（騎樓下。她挑鎖挑了很久，最後買了最普通的那一個。）'),
+        /* AA_512 第 2 節第 4 點（企劃線 c444f0757）：3/15 結果的電話選過「要慶祝嗎？」（SIS_US_CELEB）的，買完鎖以後多一段（aa512：tests/aa512_sis_b13_unit.js 對稿）*/
+        {unless:{flags:['SIS_US_CELEB']},goto:'cel_e'},
+        Object.assign(SIS('三月你說要慶祝。……我排完了。'),{aa512:true}), Object.assign(SIS('今天這樣，算嗎？'),{aa512:true}),
+        {choice:[{text:'「算。」',goto:'cel_a',aa512:true},{text:'「不算，要吃飯。」',goto:'cel_b',aa512:true}]},
+        {label:'cel_a'}, Object.assign(SIS('好。……那我請你喝一杯。'),{aa512:true}), {goto:'cel_e'},
+        {label:'cel_b'}, Object.assign(SIS('……那現在去吃。你選。'),{aa512:true}),   /* AA_512 第 7 節第 11 點：鎖已經買了 */
+        {label:'cel_e'},
         SIS('那邊沒有騎樓。下雨要自己撐傘。'), SIS('……我傘帶了兩把。一把會忘在某個地方。'),
         {choice:[{text:'「四個多月很快。」',goto:'pa'},{text:'「會想回來嗎？」',goto:'pb'}]},
         {label:'pa'}, SIS('嗯。……計畫本排到十二月了，排完就覺得很快。'), {goto:'pc'},
@@ -175,7 +182,7 @@ const SISY23_EVENTS=(function(){
         SIS('……上了。'),
         {unless:dt,speaker:ID,text:'信是下午來的。我看了好幾遍，確定沒有看錯，才打給你。'},
         {unless:dt,speaker:ID,text:'八月二號的飛機。……還沒訂，先把日子想好。'},
-        {unless:dt,choice:[{text:'「恭喜。」',goto:'a'},{text:'「要慶祝嗎？」',goto:'b'}]},
+        {unless:dt,choice:[{text:'「恭喜。」',goto:'a'},{text:'「要慶祝嗎？」',set:{SIS_US_CELEB:true},goto:'b'}]},   /* AA_512 第 2 節第 4 點：選「要慶祝嗎？」記 SIS_US_CELEB（7/29 買鎖那天兌現，ev_sis_predepart）*/
         {if:{custom:G=>dating(G)&&route(G)==='US'},speaker:ID,text:'八月二號。我們同一班。'},
         {if:{custom:G=>dating(G)&&route(G)!=='US'},speaker:ID,text:'八月二號。……你要來送我。'},
         {if:dt,choice:[{text:'「恭喜。」',goto:'c'},{text:'「我現在過去。」',goto:'d'}]},

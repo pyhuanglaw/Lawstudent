@@ -3208,6 +3208,176 @@
    "approvedBy": "AA-C 定稿（使用者 10-27 對 AA-C 選 C＝逐一決定，UA-AA-1027-49；D109）",
    "task": "ACCEPTSOPEN-C-1027",
    "note": "LAWWW-C 10-27 登記（手抄，照 AA_331 的例子）：romance3d.js、multirel3d.js、multirel_lines.js、zr_last3d.js、r2y3b3d.js、r2y4b3d.js 等（子代理 aopen-1027，合併 fb8d27888；tests/aa474_acceptsopen_unit.js 用 git show 020f695a3 逐字對）"
+  },
+  {
+   "path": "docs/story_planning/AA_494_女主角主動約你_七位的門檻頻率地點時間台詞.md",
+   "sha": "b3ecc563c",
+   "status": "approved",
+   "approvedBy": "AA-C 定稿（D109；使用者 10-28 00:0x 對 LAWWW-C 的要求，UA-LAWWW-1028-01）",
+   "task": "HEROINE-ASKS-1028",
+   "note": "LAWWW-C 10-28 登記（手抄）：src/data/heroine_asks.js 110 句；tests/heroine_asks_unit.js 用 git show b3ecc563c 逐字對（合併 23a57d326）"
+  },
+  {
+   "path": "docs/story_planning/AA_496_法律系NPC盤點_文件寫了vs玩得到_分類_斷線清單.md",
+   "sha": "dea54d89e",
+   "status": "approved",
+   "approvedBy": "AA-C 定稿（D109；使用者 10-28 直接對 AA-C 的 NPC 人物重整，UA-AA-1028-51）",
+   "task": "NPC-STORY-1028",
+   "note": "LAWWW-C 10-28 登記（手抄）：第 9 節（阿哲「欸，你還沒進群組？我拉你。」、法服的社長等標籤）；子代理 aa496，合併 bfe8dfad6；tests/aa496_fixes_unit.js 用 git show dea54d89e 對"
+  },
+  {
+   "path": "docs/story_planning/AA_497_五位配角改稿_宥辰_芯慈_Alison_明軒_Kevin.md",
+   "sha": "b70bed855",
+   "status": "approved",
+   "approvedBy": "AA-C 定稿（D109；使用者 10-28 要 AA 挑 3～5 位直接改）；第 8 節 AA-C 10-28 回 LAWWW-C（7bd68b7cf）的問題",
+   "task": "NPC-STORY-1028",
+   "note": "LAWWW-C 10-28 登記：第 1-2 節宥辰的出席表先接（合併 bfe8dfad6；當時用 ad67d327b，那一節兩版一字不差）。10-28 子代理接其餘各節（宥辰、芯慈、Alison、明軒、Kevin：src/data/sup497_lines.js＋src/sup497_3d.js＋各檔的改句），用更正版 7a38216ca（唱法條的是詹立群、宥辰負責錄；閒聊兩句）；地下室那一場照 BB_70 7b、大四兩則照 BB_113 原句（AA_497 指定）。10-28 改用 60fc3b9a3（7a38216ca＋第 8 節，前七節一字不差）：2-1 還沒認識以安＝旁白「（第一排。一個坐得很直的女生轉過頭，……）」、名字「坐第一排的女生」；芯慈追劇八處換句（聖誕劇單、needed xc_drama、noodle_table、msg_pool（tools/msg/build_pool.py 的 FIX 重產）、松菸 D02、九份 D18、eat_lines（tools/eat/import_eat_lines.py 的 FIX 重匯）、wz_jobs）；明軒的滷蛋（冠軍那一串一碗大的／大碗、日本直播、msg_pool 一碗湯、公館一百元清單的滷蛋改豆干）；學妹 family_junior 改名佳穎（讀檔換字 SUP497.migrate；姊姊宜蓁不動）；tests/aa497_supporting_unit.js 讀 60fc3b9a3 雙向逐字對（5-2、5-3 稿上的「宜蓁」照第 8 節第 5 點讀成「佳穎」）；10-28 07:3x 改 b70bed855（第 8 節後補：芯慈 xc_drama 沒回那兩句、公館一百元清單量詞「一塊」，LAWWW-C 實作）"
+  },
+  {
+   "path": "docs/story_planning/AA_503_女主角自己的生活_大一上_動態頁_圈子_她的事.md",
+   "sha": "19b4307eb",
+   "status": "approved",
+   "approvedBy": "AA-C 定稿（D109；使用者 10-28 01:2x 對 LAWWW-C「可攻略女主角 感覺都沒有自己的生活」，USER_WANTS X122★）；d13ab3ab7＝AA 更正後的版本（74916d73b 三處：芷若冬季菜單、語彤當筱涵的受試者、子晴系上的練習賽；62849944b：可昕第 5 則予樂寫的期末倒數；d13ab3ab7 第 12 節：可昕第 4 則私訊問「為什麼爬好幾趟？」、第 6 則分沒去／去了、12/16 書桌照片放回），舊版 c6c93432d 的句子不放進遊戲",
+   "task": "HEROINE-LIFE-1028",
+   "note": "LAWWW-C 10-28 指示子代理登記（手抄）：手機的部分——第 1 節動態頁、第 4～10 節每位的動態表與「她自己的事」的私訊（src/data/feed_y1s1.js、src/feed3d.js）；「別人說起她」（4-4～10-4，src/data/heard_lines.js、src/heard3d.js，說話的人是二十位同學 pool_* 的不在）、7-2 練習賽以後 203 阿凱那一句；tests/aa503_feed_unit.js、tests/aa503_others_unit.js 用 git show d13ab3ab7 逐字對。第 2 節 3D 圈子不在這一筆的實作裡；3D 圈子（第 2 節、第 11 節第 2、3 點、第 4～10 節的 x-1 表）：src/data/heroine_circle.js、src/hcircle3d.js（HEROINE-CIRCLE3D-1028），tests/heroine_circle3d_unit.js 用 git show d13ab3ab7 逐字雙向對稿。10-28 改 6bc3cd784（PRIV-AAFIX-1028，LAWWW-C 子代理）：d13ab3ab7 以後只在最後加了第 13 節（3D 圈子實作時定的）、第 14 節（私密的再補 12 項＋共同的保底），前面一字沒改——第 14 節的旁白「（她跟旁邊的人說了一聲，走到你這邊。）」、子晴 Q7 的走廊旁白進遊戲（src/privtalk3d.js S.NARR、S.SCENE_LEAD），tests/company_priv_unit.js 照白名單上這一版逐字對；tests/aa503_feed_unit.js、tests/aa503_others_unit.js 照舊對 d13ab3ab7，tests/heroine_circle3d_unit.js 照白名單（圈子表一字沒改）。10-28 改 0e46fdc7e（PRIV-AAFIX-1028 後補，LAWWW-C 子代理）：6bc3cd784 以後只在最後加了第 14 節後補（第 3 項擋下來沒演的不算知情的次數、第 4 項七天從第一次被擋那天起算不重算），沒有新的台詞；src/privtalk3d.js S.LATER、tests/company_priv_unit.js 第 9 段照這一版對稿；10-28 09:4x 改 19b4307eb（AA 加第 14 節後補第 5 點：語彤在麵店，阿姨不算旁邊有人；沒有新台詞）"
+  },
+  {
+   "path": "docs/story_planning/AA_506_女主角自己的生活_大二下與暑假.md",
+   "sha": "691a26400",
+   "status": "approved",
+   "approvedBy": "AA-C 2026-10-28 定稿（D109：AA 的稿就是定稿；HEROINE-LIFE-1028）；第 0 節第 1 點子晴 Q4-L1（第二句、第一個選項）由 tools/ladder/import_ladder.py 疊在大二下的階梯上匯入；第 0 節第 2、3 點手動放進 characters.js、vac_activities.js（tests/aa506_s0_unit.js）；第 1～7 節之後照稿接；31a4c4002＝AA 更正以後的版本（e4fbd0192：AA_507 第 0-1 節改的五處——子晴 8/17 拍存檔點、學姊論文題目法律扶助、6/26 不說出美國、陳助教週五 18:30～20:30、以安日文課下課在總圖門口；31a4c4002：芷若 8/23 滷肉「先學一半」）；第 0 節第 1 點的兩句在 31a4c4002 沒有改",
+   "task": "HEROINE-LIFE-1028",
+   "kind": "text",
+   "note": "LAWWW-C 10-28 指示子代理登記（手抄，第三輪）：手機的部分——第 1～7 節每位的動態表與「她自己的事」的私訊（src/data/feed_y2s2.js、src/feed3d.js：可昕 4/10、語彤 2027-07-09 生日）、「別人說起她」（src/data/heard_lines.js、src/heard3d.js；pool_*、小婷、新來的工讀生不在）；tests/aa506_507_feed_unit.js、tests/aa503_others_unit.js 用 git show 31a4c4002 逐字對。3D 圈子、3D 新人物不在這一筆的實作裡；10-28 05:1x 改 691a26400（AA_509 第 0-1 節更正／AA_506 第 9 節出遊途中貼的動態／AA_508 子晴第 5 則 6/25）；3D 圈子（各位的 x-1 表）：src/data/heroine_circle.js、src/hcircle3d.js（HEROINE-CIRCLE3D-1028），tests/heroine_circle3d_unit.js 照白名單上這一筆的 sha 逐字雙向對稿（3D 圈子子代理 305d154b3，LAWWW-C 06:1x 合併）"
+  },
+  {
+   "path": "docs/story_planning/AA_507_女主角自己的生活_大三上與寒假.md",
+   "sha": "3120ac77a",
+   "status": "approved",
+   "approvedBy": "AA-C 2026-10-28 定稿（D109；HEROINE-LIFE-1028）；第 0-2 節八件現有內容手動改進 needed_msgs.js、vacfill_events.js、encounters.js＋encounter3d.js（termFrom）、msg3d.js、characters.js、r3_3d.js、y2b3d.js（tests/aa507_s0_unit.js；aa440_vacfill、aa457_vac 的對稿照 0-2 換）；第 0-1 節、第 1～7 節之後照稿接；31a4c4002＝AA 更正以後的版本（以安讀書會的規則本交給 Alison、寒假改找住的地方〔簽證大三下才辦〕、學姊論文不寫章數、芷若滷肉先學一半）；第 0 節在 31a4c4002 沒有改",
+   "task": "HEROINE-LIFE-1028",
+   "kind": "text",
+   "note": "LAWWW-C 10-28 指示子代理登記（手抄，第三輪）：手機的部分——第 1～7 節每位的動態表與私訊（src/data/feed_y3s1.js、src/feed3d.js：芷若在英國照當地 22:07、沛珊一個月一則、學姊 2/7 交往中私訊）、「別人說起她」（src/data/heard_lines.js、src/heard3d.js；pool_*、新來的工讀生、阿凱大三上不在）；tests/aa506_507_feed_unit.js、tests/aa503_others_unit.js 用 git show 31a4c4002 逐字對。3D 圈子、3D 新人物不在這一筆的實作裡；10-28 05:1x 改 3120ac77a（AA_509 第 0-1 節更正／AA_506 第 9 節出遊途中貼的動態／AA_508 子晴第 5 則 6/25）；3D 圈子（各位的 x-1 表）：src/data/heroine_circle.js、src/hcircle3d.js（HEROINE-CIRCLE3D-1028），tests/heroine_circle3d_unit.js 照白名單上這一筆的 sha 逐字雙向對稿（3D 圈子子代理 305d154b3，LAWWW-C 06:1x 合併）"
+  },
+  {
+   "path": "docs/story_planning/AA_504_女主角自己的生活_大一下與暑假.md",
+   "sha": "62849944b",
+   "status": "approved",
+   "approvedBy": "AA-C 定稿（D109；使用者 10-28 01:2x 對 LAWWW-C「可攻略女主角 感覺都沒有自己的生活」，USER_WANTS X122★）；62849944b＝AA_505 同一個 commit 更正三處以後的版本（小婷只排週五晚上、子晴暑假多在家寫、予樂生日改期末倒數）",
+   "task": "HEROINE-LIFE-1028",
+   "note": "LAWWW-C 10-28 指示子代理登記（手抄）：手機的部分——第 0 節第 1 點（可昕 kx2_late、kx2_azalea 改動態）、第 1～7 節每位的動態表與「她自己的事」的私訊（src/data/feed_y1s2.js、src/feed3d.js；語彤放榜以後麵店阿姨那一句：story3d.js noodleScene）、「別人說起她」（src/data/heard_lines.js，pool_*、小婷不在）；tests/aa504_505_feed_unit.js、tests/aa503_others_unit.js 用 git show 62849944b 逐字對。3D 圈子、公館窗邊的旁白、學姊游泳池、沛珊和柏翰同框、課輔班營隊作息不在這一筆的實作裡；3D 圈子（各位的 x-1 表；學姊游泳池、沛珊和柏翰同框、課輔班的小朋友在這裡）：src/data/heroine_circle.js、src/hcircle3d.js（HEROINE-CIRCLE3D-1028），tests/heroine_circle3d_unit.js 用 git show 62849944b 逐字雙向對稿"
+  },
+  {
+   "path": "docs/story_planning/AA_505_女主角自己的生活_大二上與寒假.md",
+   "sha": "795fbecfd",
+   "status": "approved",
+   "approvedBy": "AA-C 定稿（D109；使用者 10-28 01:2x 對 LAWWW-C「可攻略女主角 感覺都沒有自己的生活」，USER_WANTS X122★）；795fbecfd＝AA 更正後的版本（e05e87992：以安 1/27「一半是漢字。」；010515370 四處：子晴 2/1 換成期末作業的小遊戲、芷若「五月」、語彤阿姨在沙灘上坐了很久、3-4 改由大一的學妹說；c7c97b862／e4fbd0192：第 0 節第 4 點、5-1 陳助教時間（不是手機）；795fbecfd 第 9 節：以安 2/8 改週一、芷若第 4 則改 12/11「送出去了。」、子晴那句跟著改），62849944b 的舊句子不放進遊戲",
+   "task": "HEROINE-LIFE-1028",
+   "note": "LAWWW-C 10-28 指示子代理登記（手抄）：手機的部分——第 1～7 節每位的動態表與「她自己的事」的私訊（src/data/feed_y2s1.js、src/feed3d.js）、「別人說起她」（src/data/heard_lines.js；pool_*、小婷、大一的學妹、阿凱大二上不在）；tests/aa504_505_feed_unit.js、tests/aa503_others_unit.js 用 git show 795fbecfd 逐字對。第 0 節的 3D 部分（語彤排課、沛珊書店班）、3D 圈子不在這一筆的實作裡；3D 圈子（各位的 x-1 表）：src/data/heroine_circle.js、src/hcircle3d.js（HEROINE-CIRCLE3D-1028），tests/heroine_circle3d_unit.js 用 git show 795fbecfd 逐字雙向對稿"
+  },
+  {
+   "path": "docs/story_planning/AA_514_新稿懸著的承諾自查_可昕最後一場模擬法庭.md",
+   "sha": "9bca0f407",
+   "status": "approved",
+   "approvedBy": "AA-C 定稿（D109；HEROINE-LIFE-1028，USER_WANTS X122★）",
+   "task": "KX-MOOT3-1028",
+   "note": "LAWWW-C 10-28 指示子代理登記（手抄）：第 1 節可昕最後一場模擬法庭——AA_505、AA_506 7-2「下次我去看。」補記 KX_WATCH（src/data/feed_y2s1.js kx_moot、feed_y2s2.js kx_win 的選項 set；這一版以前選過的舊存檔看 KX_MOOT_DM／KX_WIN_DM＝watch）；11/28（日）21:00 私訊三則、回覆鍵「去。」「那天不行。」開到 12/4 12:00；「去。」＝12/4（六）14:00 政大出遊（開車約 40 分鐘、2.5 小時、晚 30 分鐘以內還能出發、alarm），2D 底圖先用 classroom_small＋地點字幕「政大・模擬法庭教室」、三選一、KX_MOOT3 came、人物頁 KX_MOOT3_CAME；沒來（「那天不行。」、沒回、回了「去。」卻沒到）＝12/4 21:30 兩則（說去沒到的前面多「你說要來的。」）、KX_MOOT3 missed；交往中或朋友以上、分開以後一學期不約（FEED.kxCool）；11/28 21:00 判斷一次（src/data/kx_moot3_lines.js、src/kx_moot3_3d.js）。第 2 節予樂家：可昕大二上第 4、5 則中間加第 4b 則 kx4bc 1/29（五）19:30 嘉義（src/data/feed_y2s1.js）。tests/aa514_kx_moot3_unit.js 照 964d01175 逐字對（雙向）、稿第 3 節的測試建議；10-28 08:3x 改 9bca0f407（AA 加第 4 節：麵店底圖 nccu_food、晨希叫子晴不加「學姊」、晨希大四兩句改錄音私訊；前面三節沒改）"
+  },
+  {
+   "path": "docs/story_planning/AA_498_法律系同學二十位_共同做法_改名_第一批五位.md",
+   "sha": "56ed354e9",
+   "status": "approved",
+   "approvedBy": "AA-C 定稿（D109；使用者 10-28「全部留著，每個都補故事」「他們可以不能攻略 但有支線任務阿」）",
+   "task": "NPC-STORY-1028",
+   "note": "LAWWW-C 10-28 登記：法律系同學二十位共同做法＋第一批五位（子代理 e21e3f37c，合併時登記）；10-28 改 56ed354e9（AA 加「實作時定的」一節：靖雯旁聽改下午、四人人物頁的中性一句）"
+  },
+  {
+   "path": "docs/story_planning/AA_499_法律系同學第二批_何宇軒_徐靜儀_詹立群_蘇承恩_馬佳蓉.md",
+   "sha": "9f2e2506e",
+   "status": "approved",
+   "approvedBy": "AA-C 定稿（D109；NPC-STORY-1028，USER_WANTS X119）",
+   "task": "NPC-STORY-1028",
+   "note": "LAWWW-C 10-28 指示子代理登記（手抄）：第二批五位（何宇軒、徐靜儀、詹立群、蘇承恩、馬佳蓉）——台詞 src/data/pool_story_b2.js；流程 src/pool_more3d.js（POOL.extend：認識的那一場、閒聊、秘密、順手的事 PQ_HYX1／PQ_HYX2／PQ_JY／PQ_LQ／PQ_SCE／PQ_JR、廣播社錄音、手機各則、社會圖第 6 節第 2 點、柏翰推甄那一天、法律實習三次、法服值班旁白、柏翰與靖雯各一句、班級群組）；第 4-5 節實習說明會那一句旁白：遊戲裡沒有那一場（沒有接）；tests/aa499_501_pool_unit.js 用 git show 4545c239e 逐字雙向對稿；10-28 08:1x 改 9f2e2506e（AA 加「實作時定的」一節：立群／書豪當場交換聯絡方式、承恩一起旁聽 2D、法扶第四句、晨希蟑螂那一句；前面的內容沒改；POOL-AAFIX-1028）"
+  },
+  {
+   "path": "docs/story_planning/AA_500_法律系同學第三批_大二六位_蔡宗霖_劉晏如_楊書豪_葉晨希_游振宇_蕭乃文.md",
+   "sha": "9f2e2506e",
+   "status": "approved",
+   "approvedBy": "AA-C 定稿（D109；NPC-STORY-1028，USER_WANTS X119）",
+   "task": "NPC-STORY-1028",
+   "note": "LAWWW-C 10-28 指示子代理登記（手抄）：第三批六位（蔡宗霖、劉晏如、楊書豪、葉晨希、游振宇、蕭乃文）——台詞 src/data/pool_story_b3.js；流程 src/pool_more3d.js（認識的那一場〔晏如 Café／吉他社兩版、振宇騎車／沒騎車〕、閒聊、秘密、順手的事 PQ_TZL／PQ_LYR／PQ_YSH／PQ_YCX／PQ_YZY、河堤夜騎、乃文借筆記與網拍、手機各則、兩次成發的旁白、畢業〔日本路線改私訊、乃文回國的 B1 櫃台〕）；第 2-3 節「我也怕蟑螂」以後晨希多一句：稿第 4 節沒有那一句（只記 LYR_CX）；tests/aa499_501_pool_unit.js 用 git show d043110ae 逐字雙向對稿；10-28 08:1x 改 9f2e2506e（AA 加「實作時定的」一節：立群／書豪當場交換聯絡方式、承恩一起旁聽 2D、法扶第四句、晨希蟑螂那一句；前面的內容沒改；POOL-AAFIX-1028）"
+  },
+  {
+   "path": "docs/story_planning/AA_501_法律系同學第四批_大三四位_洪珮瑜_施孟儒_廖芸萱_嚴守誠.md",
+   "sha": "17d57eff3",
+   "status": "approved",
+   "approvedBy": "AA-C 定稿（D109；NPC-STORY-1028，USER_WANTS X119）",
+   "task": "NPC-STORY-1028",
+   "note": "LAWWW-C 10-28 指示子代理登記（手抄）：第四批四位（洪珮瑜、施孟儒、廖芸萱、嚴守誠）＋第 5 節第 5 點十五位的 personality——台詞 src/data/pool_story_b4.js；流程 src/pool_more3d.js（認識的那一場〔芸萱沛珊介紹／自己兩版〕、閒聊、秘密、順手的事 PQ_HPY／PQ_SMR、哲學咖啡館、半夜的刑法讀書會兩場、手機各則、系籃三場與大四下那一場、哲 3 阿哲一句、麵店團阿哲轉貼、畢業與房間物品、總圖三樓的紙條）；tests/aa499_501_pool_unit.js 用 git show 17d57eff3 逐字雙向對稿"
+  },
+  {
+   "path": "docs/story_planning/AA_508_女主角自己的生活_大三下與暑假.md",
+   "sha": "ce6e87a99",
+   "status": "approved",
+   "approvedBy": "AA-C 定稿（D109；HEROINE-LIFE-1028，USER_WANTS X122★）",
+   "task": "HEROINE-LIFE-1028",
+   "note": "LAWWW-C 10-28 登記：第 0-2 節開發分支對齊（閒聊階梯學姊招呼週次走 import_ladder.py 的 _fix_greet）；手機動態、同框接的時候另外登記；10-28 05:1x 改 4c3dc1491（AA_509 第 0-1 節更正／AA_506 第 9 節出遊途中貼的動態／AA_508 子晴第 5 則 6/25）；10-28 05:3x 改 28f981438（AA_510 第 0-1 節更正 AA_509 三處；AA_508 這一份和 4c3dc1491 一樣）。第四輪子代理（手機）：第 1～7 節每位的動態表與私訊（src/data/feed_y3s2.js、src/feed3d.js：以安在日本照當地 21:00、日本路線兩則、子晴第 3 則兩個版本、語彤 8/21 私訊與 8/22 麵店的 2D 短場、沛珊一個月一則）、「別人說起她」（src/data/heard_lines.js、src/heard3d.js；曾靖雯、葉晨希、新來的工讀生、阿凱不在）；tests/aa508_509_feed_unit.js、tests/aa503_others_unit.js 照 28f981438 逐字對。3D 圈子、3D 新人物不在這一筆的實作裡；10-28 06:1x 改 ce6e87a99（第 9 節「實作時定的」：以安第 4 則日本路線一句改「三個了。」——src/data/feed_y3s2.js say 分兩版、src/feed3d.js 卡片照版本；語彤 8/21 私訊只給 YT6_WITH＝子代理原本的做法；其他照子代理）。heard_lines.js 的 AA_508 句子在 28f981438 和 ce6e87a99 一樣（src 照記 28f981438）；3D 圈子（各位的 x-1 表）：src/data/heroine_circle.js、src/hcircle3d.js（HEROINE-CIRCLE3D-1028），tests/heroine_circle3d_unit.js 照白名單上這一筆的 sha 逐字雙向對稿（3D 圈子子代理 305d154b3，LAWWW-C 06:1x 合併）"
+  },
+  {
+   "path": "docs/story_planning/AA_509_女主角自己的生活_大四上與寒假.md",
+   "sha": "28f981438",
+   "status": "approved",
+   "approvedBy": "AA-C 定稿（D109；HEROINE-LIFE-1028，USER_WANTS X122★）",
+   "task": "HEROINE-LIFE-1028",
+   "note": "LAWWW-C 10-28 登記：第 0-2 節開發分支對齊九件（學姊論文、語彤訪談數、以安週四、語彤法律課、子晴休假、溫州街學姊日期、D09 改 11/12）；手機動態、同框另外接；10-28 05:3x 改 28f981438（AA_510 第 0-1 節更正三處：可昕第 1 則「第四年」還在山上、晨希那句、芷若倫敦的貓叫「房東」）。第四輪子代理（手機）：第 1～7 節每位的動態表（src/data/feed_y4s1.js、src/feed3d.js：芷若在英國照當地 22:07、學姊在美國第 1～3 則美國路線照片加「你」、沛珊一個月一則）、「別人說起她」（src/data/heard_lines.js、src/heard3d.js；讀書會的學弟、新來的工讀生、葉晨希、阿凱不在）；tests/aa508_509_feed_unit.js、tests/aa503_others_unit.js 照 28f981438 逐字對。3D 圈子、3D 新人物不在這一筆的實作裡；3D 圈子（第 1、3、4、5 節的 x-1 表，七列：以安週四麵店、11/30 以後週四總圖三樓和語彤、語彤總圖門口的媽媽〔只有旁白，spot〕、語彤的法律課、子晴公館騎樓、學姊 12/23 以後週五和陳助教）：src/data/heroine_circle.js、src/hcircle3d.js（HEROINE-CIRCLE3D-1028 第二輪 CIRCLE3D-Y4-1028），tests/heroine_circle3d_unit.js 照白名單上這一筆的 sha 逐字雙向對稿"
+  },
+  {
+   "path": "docs/story_planning/AA_510_女主角自己的生活_大四下與畢業那年夏天.md",
+   "sha": "28f981438",
+   "status": "approved",
+   "approvedBy": "AA-C 定稿（D109；HEROINE-LIFE-1028，USER_WANTS X122★）",
+   "task": "HEROINE-LIFE-1028",
+   "note": "LAWWW-C 10-28 登記：第 0-2 節開發分支對齊（閒聊階梯以安 A8-L1 走 import_ladder.py 的 _fix）；手機動態、同框另外接。第五輪子代理（手機）：第 1～7 節每位的動態表 33 則（src/data/feed_y4s2.js：芷若在英國照當地 22:07＝3/25 以前臺灣 06:07、以後 05:07，8/27 台中 22:07；沛珊一個月一則；可昕不管交不交往都看得到）、x-2「她自己的事」每一件都是那一則動態（沒有私訊）、「別人說起她」（src/data/heard_lines.js：閒聊前一句 6 句——筱涵、以安說語彤、阿凱（7/26 起週五公館）、陳助教、柏翰、曾靖雯；手機 4 則——Alison 麵店團 3/23、予樂 6/10、品妤 8/7、子晴私訊 8/29；葉晨希 pool_11 等 AA_500）；第 0-1 節三處第四輪已照 28f981438；第 8 節第 4 點 6/4 以後畢業以後篇動態照時間出、跳時間不過期（src/feed3d.js，同 AA_511 第 0 節第 1 點）；可昕分開以後一學期在大四下以後＝分開那天起 18 週。tests/aa510_511_feed_unit.js 照 28f981438 逐字對。3D 圈子、第 8 節第 3 點的 3D 作息不在這一筆的實作裡；3D 圈子（第 1、3、4、5 節的 x-1 表，五列：以安和語彤週四總圖三樓、語彤暑假週四麵店、子晴 6/28 起週五公館和阿凱、學姊 5/29 以後週五公館和陳助教；第 8 節第 3 點這四件的作息 characters.js 已經有，照現有、不重複加；6/4 起畢業以後篇照現有做法，第 8 節第 4 點）：src/data/heroine_circle.js、src/hcircle3d.js（HEROINE-CIRCLE3D-1028 第二輪 CIRCLE3D-Y4-1028），tests/heroine_circle3d_unit.js 照白名單上這一筆的 sha 逐字雙向對稿"
+  },
+  {
+   "path": "docs/story_planning/AA_511_女主角自己的生活_畢業以後到2030.md",
+   "sha": "b70bed855",
+   "status": "approved",
+   "approvedBy": "AA-C 定稿（D109；HEROINE-LIFE-1028，USER_WANTS X122★）",
+   "task": "HEROINE-LIFE-1028",
+   "note": "第五輪子代理（手機）登記：第 1～7 節每位三～四則動態 26 則（src/data/feed_pg.js；含留言、私訊問答；以安第 4 則紐約 2030-11-10 20:00＝臺灣 11/11 09:00）；第 0 節第 1 點畢業以後篇（src/postgrad3d.js）跳時間動態不過期——跳的途中貼的、跳之前還看得到的，從停下來（下一件事演完、回到可以操作）那一刻起留七天（src/feed3d.js 包住 PG.jumpTo、tr＝'pg'）；最後一個停點以後直接進尾聲的，先停在還沒出的最後一則動態（FEED.pgStop 掛在 PG.stops）；交換延畢的大五上一樣；可昕分開以後一學期＝分開那天起 18 週（畢業以後沒有下一個學期）。現有的電話、Café、尾聲不動。tests/aa510_511_feed_unit.js 照 c9899bed9 逐字對、第 8 節第 4 點的測試清單；10-28 07:3x 改 b70bed855（第 9 節：手機第五輪實作時定的七件，第 6 點尾聲前多停那一次落地時日期卡下面「（十二月底。這一年快過完了。）」，LAWWW-C 實作 src/feed3d.js PG.cardLine）"
+  },
+  {
+   "path": "docs/story_planning/AA_513_女主角生活稿對照_阿凱四句改私訊_以安窗邊旁白.md",
+   "sha": "a2e4bf196",
+   "status": "approved",
+   "approvedBy": "AA-C 定稿（D109；HEROINE-LIFE-1028，USER_WANTS X122★）",
+   "task": "HEROINE-LIFE-1028",
+   "note": "LAWWW-C 10-28 指示子代理登記：第 1 節阿凱說子晴四句（AA_505、AA_507、AA_508、AA_509 各 4-4）改阿凱的私訊——1-1（2026-11-27 23:20）、1-2（2027-10-27 23:20）、1-4（2028-12-15 23:20）在 src/data/heard_lines.js phone（p:kai；src/heard3d.js COND.kaiZq：認識子晴、手機裡有阿凱；不用回、晚三天以上不補、人在國外照當地時間）；1-3（2028-05-20）加在 src/y34b3d.js S.zqKaiPhone 16:30 兩組照片後面（到場的、日本路線不加；佇列裡舊版本排好的補上）。第 2 節以安和媽媽在公館窗邊：src/data/heard_lines.js pass、src/heard3d.js S.pass（STORY.TICKS；大一上、大一下第 10 週週五 18:00～21:00、公館南側店面街店門口 5 m 內、一學期一次、認識以安、大一下那句要大一上那句出現過；G.flags.AN_MOM_SEEN）。heard_lines.js 開頭「沒做」的阿凱四句改「改私訊，AA_513 第 1 節」。tests/aa513_unit.js 照 a2e4bf196 逐字對"
+  },
+  {
+   "path": "docs/story_planning/AA_512_學姊第十三批_她自己的事當面演_說了沒發生九件.md",
+   "sha": "0e02591e4",
+   "status": "approved",
+   "approvedBy": "AA-C 定稿（D109；SIS-LEAD-1021，USER_WANTS C25）",
+   "task": "SIS-B13-1028",
+   "note": "子代理登記（用 c444f0757：含第 5 節伴手禮、第 6 節日本路線三句／前任／禁用句型；574720913、d5d9e1ae4 是前兩版）：第 1 節八場（src/data/sis_b13_events.js、src/sis_b13_3d.js）——13-1 交棒那一晚她也在（src/sup497_3d.js HAND_EV 接 SISB13_HAND，沒認識的在這裡認識）、13-2 家族群組 5/6 → 5/9 她新家的咖哩（SIS4_CURRY 多一則私訊）、13-3 霖澤館門口 12/6～12/7 出來走一圈、13-4 6/2 公館的蛋糕（和現有 6/2 那場互斥）、13-5 日本路線生日視訊（MSG 生日快樂的朋友版改成她打來；沒接照舊那一句）、13-6 美國挽回中 C 棟洗衣間＋三句短招呼（SMALLTALK）、13-7 12/26 群組 → 12/28 歡迎回來家聚、13-8 新體育館門口 5/7～5/10；第 2 節九件（佳穎私訊多一個選項＋隔天學姊、修正本第二本 7/15 → 7/20、慶祝 SIS_US_CELEB（ev_sis_us_result、ev_sis_predepart）、研究室的晚上（characters.js 作息、src/lab5f3d.js 晚上開門、ev_sis13_lab_eve）、第四十天（美國 9/11 私訊、臺灣日本 r2y4b_events.js 視訊開頭）、報告完了、二月那一頁 1/31 → 2/1 Café、每週視訊 g3／g2 下一次開頭）；第 5 節伴手禮 1/3 → 1/6 家裡的中飯 → 當晚、1/7 媽媽；第 6 節 6-1 ev_sis_jp_video 記 SIS_JP_COAT、SIS_JP_FIRST → ev_sis_pickup 戀人版 (a)(b)(c)、6-2 confess_lines.js 重新開始那一次多一句、6-3 sis_b4_events.js 4-1 改字；feed_y3s1.js 學姊第 1 則「第二次。」→「又煮了。」。tests/aa512_sis_b13_unit.js 照 c444f0757 雙向逐字對稿；10-28 08:4x 改 0e02591e4（AA 加第 7 節：2-1 筆記改 5/20 佳穎私訊、2-4 改字、研究室晚上一學期一次旁白、私密三擋兩不擋；前面各節沒改）"
+  },
+  {
+   "path": "docs/story_planning/AA_515_交往中約會後的動態.md",
+   "sha": "aa9bbc46f",
+   "status": "approved",
+   "approvedBy": "AA-C 定稿（D109；HEROINE-LIFE-1028，USER_WANTS X122★）",
+   "task": "FEED-DATES-1028",
+   "note": "LAWWW-C 10-28 09:3x 登記：交往中約會後的動態（照片表、七位一句／留言／私訊）；src/data/feed_dates.js＋date3d 掛勾；tests/aa515_feed_dates_unit.js 逐字對稿"
+  },
+  {
+   "path": "docs/story_planning/AA_517_宿舍大二到大四_312_507_409房間日常.md",
+   "sha": "ced552c17",
+   "status": "approved",
+   "approvedBy": "AA-C 定稿（D109；DORM203-MATES-1028，USER_WANTS X123）",
+   "task": "DORM-Y24-1028",
+   "note": "LAWWW-C 10-28 09:3x 登記：大二～大四房間日常（旁白、閒聊、三件小事）；tests 逐字對稿"
   }
  ]
 }

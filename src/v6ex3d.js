@@ -199,6 +199,7 @@ const V6EX=(function(){
 
   /* ======================= 每 0.5 秒 ======================= */
   let busy=false; const go=fn=>{ busy=true; Promise.resolve().then(fn).catch(e=>console.warn('V6EX',e)).finally(()=>{ busy=false; }); return true; };
+  (globalThis.LOADLOCKS=globalThis.LOADLOCKS||{})['v6ex3d:busy']=()=>{ busy=false; };   /* 讀檔時放開（LOADGEN-LOCKS-1028）：讀檔凍住的舊劇情走不到 finally，只把旗標設回初始值 */
   S.isBusy=()=>busy;
   const free=GM=>{ const E=GM.E, P=E&&E.player; return !!P&&!E.paused&&!P.busy&&!(GM.D&&GM.D.active)&&!(typeof EVENTS!=='undefined'&&EVENTS.running)&&!(typeof ADV!=='undefined'&&ADV.active)&&!GM.titleIdle; };
   S.tick=function(GM){ const G=GM&&GM.G; if(!G||!G.flags) return false; try{ S.place(GM); }catch(e){}

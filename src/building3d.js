@@ -93,6 +93,7 @@ const B3=(function(){
       else if(f.type==='sofa'){ const c=Math.cos(ry), s=Math.sin(ry); b.add(MAT.sofa(),TK.boxG(f.w,0.42,f.d),f.x,y+0.21,f.z,ry); b.add(MAT.sofa(),TK.boxG(f.w,0.45,0.18),f.x-s*(f.d/2-0.09),y+0.6,f.z-c*(f.d/2-0.09),ry); nav.blockRect(f.x,f.z,f.w,f.d,ry,0.05); }
       else if(f.type==='planter'){ b.add(MAT.graniteD(),new THREE.CylinderGeometry(f.r,f.r*0.9,0.6,16),f.x,y+0.3,f.z); b.add(MAT.plant(),new THREE.IcosahedronGeometry(f.r*1.25,1),f.x,y+1.15,f.z); nav.blockCircle(f.x,f.z,f.r+0.1); }
       else if(f.type==='bench'){ b.add(MAT.wood(),TK.boxG(f.w,0.06,f.d),f.x,y+0.45,f.z); for(const sx of [-1,1]) b.add(MAT.steel(),TK.boxG(0.06,0.43,f.d*0.9),f.x+sx*(f.w/2-0.12),y+0.215,f.z); nav.blockRect(f.x,f.z,f.w,f.d,0,0.05); }
+      else if(f.type==='prop'){ const n=f.nav||[f.x,f.z,f.w,f.d], h=f.h||1; b.add(MAT.wood(),TK.boxG(n[2],h,n[3]),n[0],y+h/2,n[1]); nav.blockRect(n[0],n[1],n[2],n[3],0,0.05); }   /* 大廳第二版的擺設（展示櫃、飲水機、回收桶、傘架、小圓桌；LINZE-LOBBY-V2-1028，LAWWW2-C）：備用模型一個方塊、導航擋 nav（或 w×d）；正式模型照 kind 做 */
       else if(f.type==='board'){ const tx=W3.canvasTex('b3board',512,256,(x,w,h)=>{ x.fillStyle='#24303a'; x.fillRect(0,0,w,h); x.fillStyle='#f3efe4'; x.font='bold 34px "Noto Sans TC",sans-serif'; x.fillText('霖澤館 樓層簡介',24,52); x.font='24px "Noto Sans TC",sans-serif'; x.fillText('1F　大廳｜101 教室｜法律學院辦公室',24,104); x.fillText('2F　201 階梯教室｜202 教室',24,146); x.fillText('3F 討論區｜4F 自習討論區｜5F–8F 研究室',24,188); x.fillStyle='#d6a425'; x.fillText('↑ 樓梯在大廳西側　電梯在中庭',24,232); });
         const bd=new THREE.Mesh(new THREE.PlaneGeometry(f.w,f.w/2),new THREE.MeshBasicMaterial({map:tx})); bd.position.set(f.x,y+1.65,f.z+0.01); keep0.add(bd); b.add(MAT.frame(),TK.boxG(f.w+0.1,f.w/2+0.1,0.04),f.x,y+1.65,f.z-0.03); } }
     b0.build(lv0); b1.build(lv1); }
@@ -175,7 +176,8 @@ const B3=(function(){
     return zone; } };
   // 正式模型：節點名稱的約定（tools/blender/linze_interior.py）——L0_*（一樓）、L1_*（二樓）、WALK_L0／WALK_L1（點地面的面，不畫）、WALL_*（會淡出的外牆）
   function attachFormal(zone,root,fb0,fb1,lv0,lv1,walls,walkMeshes){ const r0=root.getObjectByName('L0_root'), r1=root.getObjectByName('L1_root'); if(!r0||!r1) throw new Error('GLB 少了 L0_root／L1_root');
-    root.traverse(o=>{ if(o.isMesh){ o.castShadow=false; o.receiveShadow=true; if(o.material&&/ceiling/.test(o.material.name)&&typeof TK!=='undefined') TK.bounce(o.material,0.5,0.5); } });   /* 天花板：地面反射上來的光 */
+    const LMS=root.userData&&root.userData.lightmap;   /* 光照貼圖（GLB 的 extras.lightmap；霖澤館大廳 tools/blender/env_second/lightbake/bake_linze_lobby.sh，LINZE-LOBBY-V2-1028）*/
+    root.traverse(o=>{ if(o.isMesh){ o.castShadow=false; o.receiveShadow=true; if(o.material&&/ceiling/.test(o.material.name)&&typeof TK!=='undefined'&&!LMS) TK.bounce(o.material,0.5,0.5); } });   /* 天花板：地面反射上來的光（有光照貼圖時已經烘焙進去，不另外加）*/
     lv0.add(r0); lv1.add(r1); r0.updateMatrixWorld(true); r1.updateMatrixWorld(true);
     const nw=[]; for(const r of [r0,r1]) r.traverse(o=>{ if(o.isMesh&&/WALL_/.test(o.name)){ o.material=o.material.clone(); o.material.transparent=true; const d=o.userData.dir||[0,0,1]; o.userData.dir=new THREE.Vector3(d[0],d[1],d[2]); o.geometry.computeBoundingBox(); o.userData.center=o.geometry.boundingBox.getCenter(new THREE.Vector3()).applyMatrix4(o.matrixWorld); nw.push(o); } });
     /* 點地面用的地板照樣用程序化的（同一份配置），但要先搬出備用模型的群組：E.screenToFloor 只打「整條父節點都看得到」的地板，
@@ -184,7 +186,9 @@ const B3=(function(){
     const hid=new THREE.MeshBasicMaterial({visible:false});
     for(const m of walkMeshes){ let p=m.parent; while(p&&p!==fb0&&p!==fb1) p=p.parent; if(!p) continue; if(!m.material||m.material.visible!==false) m.material=hid; m.userData.dyn=true; (p===fb0?lv0:lv1).attach(m); }
     fb0.visible=false; fb1.visible=false; walls.length=0; for(const w of nw) walls.push(w);
-    zone.formal=true; zone.formalInfo={walls:nw.length}; }
+    zone.formal=true; zone.formalInfo={walls:nw.length};
+    /* 光照貼圖最後才接：外牆的材質上面才複製過（clone 不會帶 onBeforeCompile）；兩層樓已經搬出 root，所以兩層一起走 */
+    if(LMS&&typeof Z3!=='undefined'&&Z3.roomLightmap) zone.formalInfo.lightmapped=Z3.roomLightmap(zone,{traverse:f=>{ r0.traverse(f); r1.traverse(f); }},LMS); }
   /* 給鏡頭用的樓板範圍（engine3d.js 的 slabClip）：一塊長方形扣掉電梯井（電梯車廂穿過樓板，鏡頭看車廂裡的人時不能把井當成樓板）。只是資料，畫面不變 */
   function slabPieces(r,holes,extra){ let parts=[{x0:r.x0,x1:r.x1,z0:r.z0,z1:r.z1}]; for(const h of holes||[]){ if(!h) continue; const next=[]; for(const q of parts){ if(h.x1<=q.x0||h.x0>=q.x1||h.z1<=q.z0||h.z0>=q.z1){ next.push(q); continue; }
       if(h.z0>q.z0) next.push({x0:q.x0,x1:q.x1,z0:q.z0,z1:h.z0}); if(h.z1<q.z1) next.push({x0:q.x0,x1:q.x1,z0:h.z1,z1:q.z1}); const z0=Math.max(q.z0,h.z0), z1=Math.min(q.z1,h.z1); if(h.x0>q.x0) next.push({x0:q.x0,x1:h.x0,z0,z1}); if(h.x1<q.x1) next.push({x0:h.x1,x1:q.x1,z0,z1}); } parts=next; }

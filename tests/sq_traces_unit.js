@@ -28,7 +28,8 @@ check('3. 公館「找車行老闆」shop:bike：SIDEQ.bikeShop 有了才顯示�
 check('3. SQ16 劇本到了（AA_405 第 3 節）：SIDEQ.bikeShop 有了（按鈕出現）',!!S&&typeof S.bikeShop==='function');
 (async()=>{ if(!S||!S.bikeShop){ H.done(); return; }
   const cp=require('child_process'), sh=c=>{ try{ return cp.execSync(c,{cwd:H.ROOT,encoding:'utf8'}); }catch(e){ return ''; } };
-  const doc=sh('git -c core.quotepath=false show f923751c:"docs/story_planning/AA_405_店員的支線_第三批.md"')+sh('git -c core.quotepath=false show b0b80a54:"docs/story_planning/AA_408_店員支線補字_回LAWWW實作問題.md"');
+  const doc=sh('git -c core.quotepath=false show f923751c:"docs/story_planning/AA_405_店員的支線_第三批.md"')+sh('git -c core.quotepath=false show b0b80a54:"docs/story_planning/AA_408_店員支線補字_回LAWWW實作問題.md"')
+    +sh('git -c core.quotepath=false show 33189103b:"docs/story_planning/AA_498_法律系同學二十位_共同做法_改名_第一批五位.md"');   /* AA_498 第 1 節：借車名單和 pool 撞名的兩個名字換成黃惠玲、鄭文彬 */
   const L=S.LINES.SQ16, all=[].concat(L.open,[L.look,L.ask],L.club,L.msg,[L.back,L.note],L.greet,[L.rename.split('{名字}')[0],L.lent.split('{N}')[0],L.lapse],L.names);
   const strip=t=>t.replace(/^（|）$/g,'');
   const bad=all.filter(t=>doc.indexOf(t)<0&&doc.indexOf(strip(t))<0);

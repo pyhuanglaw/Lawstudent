@@ -42,7 +42,7 @@ const NEEDED_MSGS=(function(){
     {id:'yu_expo',who:'yu',term:'Y2S1',w:[1,1],at:{day:'2026-09-10',h:21}/* AA_491 A：社博搬到 9/12（六），第 1 週週四 21:00 發、在社博以前 */,tie:true,   /* AA_374 第 3 項（AA_211 附錄 A 3-5）：原本最早 9/20 才發，博覽會已經過了 */msg:['社團博覽會你站哪一攤？我要去偷看。'],reply:'妳來就知道。',resp:['好神秘。我帶阿哲去。'],miss:['欸，博覽會那則你沒回。我自己找到你那攤了。']},
     {id:'yu_overtime',who:'yu',term:'Y2S1',w:[6,8],msg:['欸，打工的地方不給加班費，這樣可以嗎？我同學問的。'],reply:'我不能判斷。叫她問法服或勞工局。',resp:['……你講話好像法服的學長。好，我叫她去。'],miss:['欸，加班費那則你沒回。我叫我同學去法服問了。']},
     {id:'yu_gift',who:'yu',term:'Y2S1',w:[16,16],tie:true,cond:G=>done(G,'ev_yu_together')||!!F(G).YU_ZHE_TOLD,msg:['聖誕禮物，阿哲跟我買了一樣的。你不准笑。'],reply:'我沒笑。',resp:['你一定在笑。'],miss:['欸，你沒回我。所以你一定在笑。']},
-    {id:'yu_clubs',who:'yu',term:'Y2S2',w:[1,3],msg:['這學期我只剩兩個社團了。你猜我退了哪一個？'],reply:'猜不到。',resp:['辯論社。比賽都在週末，我要念書了。'],miss:['欸，你都沒猜。是辯論社啦。']},
+    {id:'yu_clubs',who:'yu',term:'Y2S2',w:[1,3],cond:G=>false/* AA_497 3-4（企劃線 7a38216ca）：她退辯論社改成大二下第 3 週她自己傳的三則（src/sup497_3d.js yu_quit），這一則不再發（不留兩份）*/,msg:['這學期我只剩兩個社團了。你猜我退了哪一個？'],reply:'猜不到。',resp:['辯論社。比賽都在週末，我要念書了。'],miss:['欸，你都沒猜。是辯論社啦。']},
     {id:'yu_exam',who:'yu',term:'Y2S2',w:[12,14],msg:['司法官的考古題，你覺得大二開始看會太早嗎？'],reply:'不會。',resp:['好。那我開始了。……阿哲知道的話，會說我瘋了。'],miss:['欸，考古題那則你沒回。……我已經開始了。阿哲還不知道。']},
     // 柏翰（AA_179）
     {id:'bh_handover',who:'classmate_bohan',term:'Y2S1',w:[1,3],tie:true,cond:lawclub,msg:['社長交接的資料有一百頁。你幫我看第一章就好。'],reply:'好。',resp:['……謝謝。我以為社長只要會排值班表。'],miss:['交接資料第一章，我自己看完了。……一百頁都看完了。']},
@@ -53,7 +53,7 @@ const NEEDED_MSGS=(function(){
     // 芯慈（AA_179）
     {id:'xc_econ',who:'classmate_xinci',term:'Y2S1',w:[2,4],tie:true,cond:G=>!!F(G).ECON_TOGETHER,msg:['經濟那邊，這學期你還陪我看嗎？'],reply:'好。',resp:['那週三總圖。'],miss:['經濟那邊，你沒回。……我自己去聽了。']},
     {id:'xc_contract',who:'classmate_xinci',term:'Y2S2',w:[8,10],   /* AA_313 5-6：和 Alison 的 yu_overtime（大二上第 6～8 週）幾乎同一則，兩則不要同一學期——搬到大二下第 8～10 週（xc_grade 第 5～7 週、xc_notes 第 11～13 週中間）*/msg:['幫我看一下這份打工的合約。我朋友要簽的。'],reply:'我只能說我看到什麼。要問的話去法服。',resp:['……好。我照你說的跟她講。'],miss:['合約那則你沒回。……我叫我朋友去法服了。']},
-    {id:'xc_drama',who:'classmate_xinci',term:'Y2S1',w:[14,16],tie:true,cond:G=>done(G,'ev_xinci_second'),msg:['那部劇大結局了。你不准爆雷。'],reply:'我沒看。',resp:['那最好。'],miss:['大結局那則你沒回。……很好，代表你沒爆雷。']},
+    {id:'xc_drama',who:'classmate_xinci',term:'Y2S1',w:[14,16],tie:true,cond:G=>done(G,'ev_xinci_second')||done(G,'ev_xinci_second_b1'),msg:['永和的公車今天提早到了。……我多讀了一章。'],reply:'恭喜？',resp:['謝謝。很少發生。'],miss:['上次公車那則，你沒回。','……沒關係。那班車隔天又誤點了。']},   /* AA_497 第 8 節後補（企劃線 b70bed855）：沒回的那一句，時機照原本 */   /* AA_497 第 8 節第 3 點（企劃線 60fc3b9a3）：追劇減量，三句照稿換；沒回的那一句（原本「大結局那則你沒回。……很好，代表你沒爆雷。」）稿沒給新句＝先不說（miss:null），請 AA 補 */
     {id:'xc_grade',who:'classmate_xinci',term:'Y2S2',w:[5,7],msg:['期中成績出來，不要跟我說以安考幾分。'],reply:'好。',resp:['謝啦。不然我一定會去算差幾分。'],miss:['以安的分數那件，你沒回。……反正不要跟我說就好。']},
     {id:'xc_notes',who:'classmate_xinci',term:'Y2S2',w:[11,13],msg:['期末的筆記我想換個方式整理。你都怎麼記判決？'],reply:'我只抄爭點跟結論，其他的回去看全文。',resp:['好，我試試看。'],miss:['筆記那則你沒回。……我自己試了。']},   /* 原 xc_moot（模擬法庭刪除）*/
     // 芷若（BB_97 11-1：整年只有這一則、反過來問他「你想」；沒回不提起）
@@ -62,7 +62,7 @@ const NEEDED_MSGS=(function(){
     {id:'zq_game',who:'heroine_04',term:'Y2S1',w:[1,3],msg:['你現在有空嗎','幫我測一下遊戲'],vars:[{cond:G=>!playtested(G),msg:['幫我看一個東西','現在','……你有空吧'],resp:['傳了','第三張不要跳過 我就是要問那張'],miss:['那則你沒回','……算了 我自己看']}],   /* AA_428 §2 第 6 點：沒試玩過（沒看過 Q6）的玩家整則換掉——不說破她在做遊戲（回答也不講「第三關」）；試玩過的拿掉「這不是問句」（大二上的配額留給事件），resp、miss 照現行 */reply:'好。連結呢？',resp:['傳了','第三關不要跳 我就是要看那邊'],miss:['測遊戲那則你沒回。','……第三關我自己測了。我自己都卡住。']},
     {id:'zq_dad',who:'heroine_04',term:'Y2S2',w:[12,12]/* AA_375 第 3 項：5/16 發，「下週」＝第 13 週（爸爸第 13～14 週才來；原本 [11,12] 5/9 就先發）*/,tie:true,msg:['欸跟你說','我爸下週要來台北','他說要看我做的遊戲'],vars:[{cond:G=>!playtested(G),msg:['欸跟你說','我爸下週要來台北','他說要來看我']}],reply:'他會喜歡的。',resp:['你又不認識他','好啦 謝啦'],
       miss:['我爸要來那則，你沒回。','……算了，沒差。'],missUnless:G=>done(G,'ev_ziqing_dad_visit')},   /* 沒看過 Q6（PLAYTESTED）的不提遊戲；沒回的那一句 Q8 之前才說 */
-    {id:'zq_name',who:'heroine_04',term:'Y2S2',w:[6,8],cond:playtested,msg:['幫我的新遊戲想一個名字。','不要太好聽。'],reply:'『存檔點』。',resp:['哈哈哈好爛','先當暫定的'],miss:['遊戲名字我自己取了。先不說。']},   /* 沒看過 Q6 的玩家會從這則知道她在做遊戲（BB_205 第 5 節）*/
+    {id:'zq_name',who:'heroine_04',term:'Y2S2',w:[6,8],cond:playtested,msg:['幫我的新遊戲想一個名字。','不要太好聽。'],reply:'『存檔點』。',resp:['哈哈哈好爛','先當暫定的'],miss:['名字還沒取。我自己想。']},   /* AA_507 0-2 第 1 點（e4fbd0192）：大三上她說新的那個「還沒有名字」，這句原本「遊戲名字我自己取了。先不說。」*/   /* 沒看過 Q6 的玩家會從這則知道她在做遊戲（BB_205 第 5 節）*/
     {id:'zq_song',who:'heroine_04',term:'Y2S2',w:[11,13],tie:true,cond:G=>!!F(G).INVITED_CLUB,msg:['成發那首歌的第四句寫不出來。','給我一個詞。'],reply:'『重來』。',resp:['可以欸','先用這個'],miss:['第四句歌詞，我自己寫完了。']},
     // 學姊（BB_97 11-1；BB_205 第 4 節：祐廷大二整年她是碩一，只有法圖那本書）
     /* 'sis_duty'、'sis_typo'：刪（BB_207 第 2 節：學姊大二上是碩一，不回法服、推甄整段取消）；'sis_report'：刪（BB_205 第 4 節：學姊沒接阿姨的案子）*/

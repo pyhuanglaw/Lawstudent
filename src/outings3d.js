@@ -43,6 +43,7 @@ const OUT=(function(){
   S.BG.d32_base_afternoon={label:'南投清境農場・下午',image:'assets/bg/d32_base_afternoon.webp'};
   S.BG.d15_base_night={label:'陽明山・夜景',image:'assets/bg/d15_base_night.webp'}; S.BG.d16_base_afternoon={label:'北海岸・下午',image:'assets/bg/d16_base_afternoon.webp'}; S.BG.d22_base_afternoon={label:'石門水庫・下午',image:'assets/bg/d22_base_afternoon.webp'}; S.BG.d23_base_sunset={label:'桃園竹圍漁港・夕陽',image:'assets/bg/d23_base_sunset.webp'};   /* 開車的四處（D15 學姊的心願地點、D16、D22、D23）：使用者 10-17 核准的 33 張裡 DL-06C 當時沒複製的另外四張（abad2fa0 照原檔複製；稽核 D 10-21 USER_WANTS D33）；台詞早就匯入，有底圖才列進約會清單（DATE.listable）*/   /* DL-06C 少的那一張（使用者 10-17 核准的 33 張之一，abad2fa0 照原檔複製）：兩天一夜 D31＋D32 的第二天在清境（DATE-OVERNIGHT-1021，AA_359 第 1 節）*/
   S.BG.car_morning={label:'車上（早上）',image:'assets/bg/car_morning.webp'}; S.BG.car_night={label:'車上（晚上）',image:'assets/bg/car_night.webp'}; S.BG.car_rain={label:'車上（雨天）',image:'assets/bg/car_rain.webp'}; S.BG.car_day={label:'車上',image:'assets/bg/car.webp'};   /* BB-C 第 92 組 car（fdd8383c，使用者生成）：家用小客車白天；只給 bg 'car'（可昕開車那幾場，政大校門口→車上）用，寫死 car_morning 的照舊 */   /* BG-08（LAWWW2-B 702a2838）*/
+  S.BG.sis_new_home={label:'學姊的新家',image:'assets/bg/tutor_home.webp'};   /* AA_512 13-2（企劃線 c444f0757）：學姊 3/20 搬的新家，中午家族來吃咖哩（src/data/sis_b13_events.js ev_sis13_curry）。稿寫「沒有就用公寓室內」＝先借學生家的客廳（窗外是晚上）；BB 跟使用者要圖，到了改成 assets/bg/sis_new_home.webp */
   /* 店員的支線第二批（AA_404 第 2 節「新地點」，src/sideq3d.js）：中和・華新街（一條掛滿招牌的窄街，沒有品牌）、羅斯福路的動物醫院——還沒有圖＝深色底（MISSING_EXTERNAL_ART，等 BB 跟使用者要）*/
   Object.assign(S.BG,{hwaxin_street:{label:'中和・華新街',image:null},vet_clinic:{label:'羅斯福路・動物醫院',image:null}});
   /* 車上：照當時的天氣、時間挑一張（下雨＝雨天、18:00～05:59＝晚上、其他＝早上）；事件要固定哪一張就直接寫 car_morning／car_night／car_rain */
@@ -80,6 +81,7 @@ const OUT=(function(){
   S.onMissed=function(GM,q){ const ev=evOf(q.ev); if(ev&&typeof ev.outingMissed==='function'){ try{ ev.outingMissed(GM.G,GM,q); }catch(e){ console.warn('outingMissed',q.id,e); } } };
   /* 每 0.5 秒（story3d.js 的 S.tick；劇情、對話進行中 S.tick 不會呼叫）*/
   let busy=false;
+  (globalThis.LOADLOCKS=globalThis.LOADLOCKS||{})['outings3d:busy']=()=>{ busy=false; running.clear(); afterDone.clear(); S.fromHome=false; };   /* 讀檔時放開（LOADGEN-LOCKS-1028）：讀檔凍住的舊劇情走不到 finally，只把旗標設回初始值 */
   S.tick=function(GM){ const G=GM&&GM.G; if(busy||!G) return null; if(typeof DATE!=='undefined'&&DATE.tick){ try{ const p=DATE.tick(GM); if(p&&p.then){ busy=true; return p.catch(e=>console.warn('DATE.early',e)).finally(()=>{ busy=false; }); } }catch(e){ console.warn('DATE.tick',e); } }   /* 校外約會：一天一次的 daily、出發前 60 分鐘提醒（可以提早出發：DATE.early）*/ for(const q of S.expire(G)) S.onMissed(GM,q);
     const q=S.due(G); if(!q) return null; busy=true; return S.prompt(GM,q).finally(()=>{ busy=false; }); };
   const hm=h=>typeof INV!=='undefined'&&INV.hhmm?INV.hhmm(h):String(h);

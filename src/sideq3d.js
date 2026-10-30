@@ -144,7 +144,8 @@ const SIDEQ=(function(){
       msg:['（她傳了訊息。過了一下，她的手機震了，她把畫面轉給你看。）','（「那台車我以為被偷了。……修好就好。送給學弟妹吧，新生沒車很麻煩。」）'],
       back:'送給新生？……好。那我把它修好。',note:'（車頭掛了一張紙：『免費借給新生，一學期』。）',
       greet:['打氣筒在門口，自己來。','今天沒什麼車要修。……坐一下可以。'],
-      names:['陳品叡','黃郁婷','張宇翔','劉思妤','鄭凱文'],rename:'（車籃那張紙上，借車的名字換成了：{名字}。）',lent:'那台車這學期也借出去了。……第{N}個。',
+      names:['陳品叡','黃惠玲','張宇翔','劉思妤','鄭文彬'],   /* AA_498 第 1 節：借車名單第 2、5 個名字和法律系同學（pool）撞名，換成黃惠玲、鄭文彬（存檔只記第幾個，不用換字）*/
+      rename:'（車籃那張紙上，借車的名字換成了：{名字}。）',lent:'那台車這學期也借出去了。……第{N}個。',
       lapse:'那台車我拆了，零件給別台用。'},
     SQ17:{open:['我在申請交換。下禮拜英文面試。','你可以問我問題嗎？我一邊做飲料一邊答。'],qs:['為什麼想去？','去了想學什麼？','如果沒上呢？'],
       ans:[['我想去一個沒有人認識我的地方。……先在那邊點一次飲料，看他們會不會記得我。','I want to see if I can start over somewhere no one knows me.'],['日文。還有……怎麼一個人吃飯。','Japanese. And how to eat alone.'],
@@ -596,6 +597,7 @@ const SIDEQ=(function(){
     after:(G)=>{ const r=S.get(G,'SQ05'); if(r) r.signed=G.day; } };
   S.signDue=function(GM){ const G=GM&&GM.G, r=G&&S.get(G,'SQ05'); if(!r||!r.zhe||r.signed||r.closeFrom==null||G.day!==r.closeFrom||G.zone!=='linze') return false; const h=hr(G); return h>=12&&h<18&&!(GM.E&&GM.E.player&&GM.E.player.busy); };
   let busy=false;
+  (globalThis.LOADLOCKS=globalThis.LOADLOCKS||{})['sideq3d:busy']=()=>{ busy=false; };   /* 讀檔時放開（LOADGEN-LOCKS-1028）：讀檔凍住的舊劇情走不到 finally，只把旗標設回初始值 */
   S.tick=function(GM){ const G=GM&&GM.G; if(busy||!law(G)||typeof EVENTS==='undefined'||!EVENTS.run) return false;
     let ev=null; if(S.signDue(GM)) ev=S.SIGN_EV; else if(S.catNightDue(GM)){ ev=S.CAT_EV; const L0=typeof WZ_PARK_LAYOUT!=='undefined'?WZ_PARK_LAYOUT:null, pav=L0&&L0.items&&L0.items.find(i=>i.kind==='pavilion'); if(pav) ev.spawn.at={x:pav.x+1.1,z:pav.z+0.6}; }   /* 她蹲在涼亭的石桌前面 */
     else if(S.sisDue(GM)) ev=S.SIS_EV;

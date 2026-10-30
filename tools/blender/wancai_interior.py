@@ -100,6 +100,7 @@ MAT = {
     'llwhite': pbr('wc_lawlib_white', None, tint=srgb('#f2f1ec'), rough=0.4),
     'llglow':  pbr('wc_lawlib_glow', None, tint=srgb('#f6f1e6'), rough=0.9, emit=srgb('#efe6d4')),
 }
+MAT['nosing'] = pbr('wc_nosing', None, tint=srgb('#3a3d40'), rough=0.45, metal=0.35)   # 樓梯止滑條（顏色和 frame 一樣；WANCAI-LM-1028：不烘）
 MAT['ceiling'].use_backface_culling = True   # 天花板單面（四邊形本來就朝下）：鏡頭拉遠到天花板上面時看得穿（ART-CEIL-LAWWW-ROOMS-1022，LAWWW2 10-22）
 MAT['light'].use_backface_culling = True     # 嵌在天花板的燈板、崁燈也單面（四邊形本來就朝下）：鏡頭在天花板上面時不會浮著一塊塊亮的（LAWWW2 10-22 第二版）
 
@@ -158,18 +159,18 @@ L0 = group('L0_root', root); L1 = group('L1_root', root)
 SE, RZ, RXU = U['slabEdge'], U['railZ'], U['railX']
 
 # ---------------- 地板、二樓樓板、天花板 ----------------
-box('L0_floor', MAT['floor'], -W / 2, W / 2, -0.25, 0.0, -D / 2, D / 2, L0)
+box('L0_floor', MAT['floor'], -W / 2, W / 2, -0.25, 0.0, -D / 2, D / 2, L0, props={'lm': 1.6, 'lmhide': 'side'})   # lm／lmhide：光照貼圖（lightbake/bake_room.py；WANCAI-LM-1028）——地板最常看到；四邊的側面埋在牆裡或在玻璃外面
 WI0, WI1, ZI0, ZI1 = -W / 2 + T / 2, W / 2 - T / 2, -D / 2 + T / 2, D / 2 - T / 2   # 樓板、地板停在牆的內面（原本伸進牆裡）
 SLABS = (('corr', WI0, WI1, ZI0, SE), ('gall', S['railX'], RXU, SE, F2['z1']), ('foyer', WI0, RXU, F2['z1'], ZI1))
 for nm, x0, x1, z0, z1 in SLABS:
-    box(f'L1_slab_{nm}', MAT['slab'], x0, x1, Y1 - U['slabT'], Y1 - 0.02, z0, z1, L1)
-    box(f'L1_floor_{nm}', MAT['floor'], x0, x1, Y1 - 0.02, Y1, z0, z1, L1)
+    box(f'L1_slab_{nm}', MAT['slab'], x0, x1, Y1 - U['slabT'], Y1 - 0.02, z0, z1, L1, props={'lmhide': [0, 1, 0]})   # 樓板上面被地板蓋住
+    box(f'L1_floor_{nm}', MAT['floor'], x0, x1, Y1 - 0.02, Y1, z0, z1, L1, props={'lm': 1.3})
 # 樓板邊的石材收邊（面向中庭、樓梯井的邊）
 box('L1_edge_corr', MAT['granite'], WI0, WI1, Y1 - U['slabT'] - 0.06, Y1 + 0.02, SE - 0.02, SE + 0.06, L1, bevel=0.01)
 box('L1_edge_gall_E', MAT['granite'], RXU - 0.06, RXU + 0.02, Y1 - U['slabT'] - 0.06, Y1 + 0.02, SE, D / 2 - 0.145, L1, bevel=0.01)   # 停在帷幕直櫺前面（原本和最西邊的直櫺側面同一個平面）
 box('L1_edge_gall_W', MAT['granite'], S['railX'] - 0.02, S['railX'] + 0.06, Y1 - U['slabT'] - 0.06, Y1 + 0.02, SE, F2['z1'], L1, bevel=0.01)
 # 天花板（中庭頂、二樓天花板）：單面朝下＋燈板；一樓樓板底下的嵌燈
-quad('L1_ceiling', MAT['ceiling'], [(-W / 2, RY, -D / 2), (W / 2, RY, -D / 2), (W / 2, RY, D / 2), (-W / 2, RY, D / 2)], L1)
+quad('L1_ceiling', MAT['ceiling'], [(-W / 2, RY, -D / 2), (W / 2, RY, -D / 2), (W / 2, RY, D / 2), (-W / 2, RY, D / 2)], L1)['lm'] = 0.3   # 8.4 m 高，很少看到
 for i in range(4):
     for j in range(3):
         cx, cz = -6 + i * 4, -4.5 + j * 4.6
@@ -201,9 +202,9 @@ def wall_with_doors(prefix, parent, z, y0, y1, doors, lvl, ylo=None, yhi=None):
     for k, (a, b) in enumerate(segs):
         if b - a < 0.05: continue
         box(f'{prefix}_WALL_N_{k}', MAT['granite'], a, b, wy0, y0 + 1.2, z - T / 2, z + T / 2, parent, props={'dir': [0, 0, 1]})
-        box(f'{prefix}_WALL_Nu_{k}', MAT['plaster'], a, b, y0 + 1.2, wy1, z - T / 2, z + T / 2, parent, props={'dir': [0, 0, 1]})
+        box(f'{prefix}_WALL_Nu_{k}', MAT['plaster'], a, b, y0 + 1.2, wy1, z - T / 2, z + T / 2, parent, props={'dir': [0, 0, 1], 'lm': 0.7 if lvl else 1.0})   # 二樓的上半段（5.4～8.4 m）光照貼圖少分一點
     for dx in xs:   # 門楣、門框、門板、門把（跟著北牆淡出）
-        box(f'{prefix}_WALL_Nd_{dx}', MAT['plaster'], dx - 0.75, dx + 0.75, y0 + 2.6, wy1, z - T / 2, z + T / 2, parent, props={'dir': [0, 0, 1]})
+        box(f'{prefix}_WALL_Nd_{dx}', MAT['plaster'], dx - 0.75, dx + 0.75, y0 + 2.6, wy1, z - T / 2, z + T / 2, parent, props={'dir': [0, 0, 1], 'lm': 0.7 if lvl else 1.0})
         FN = {'fadegrp': 'Ndoor', 'fadedir': [0, 0, 1]}
         box(f'{prefix}_doorframe_{dx}', MAT['frame'], dx - 0.8, dx + 0.8, y0, y0 + 2.7, z + T / 2 - 0.02, z + T / 2 + 0.05, parent, props=FN)
         box(f'{prefix}_door_{dx}', MAT['woodD'], dx - 0.68, dx + 0.68, y0, y0 + 2.5, z + T / 2 + 0.05, z + T / 2 + 0.09, parent, props=FN)
@@ -219,9 +220,9 @@ for pre, P, y0, y1 in (('L0', L0, 0, YJ), ('L1', L1, YJ, RY)):
     if pre == 'L0':   # 門洞兩側、門楣上面三塊（第二 AI 2026-10-13，LAWWW 授權只改門洞、門、名牌）
         for k, (za, zb, ya, yb) in enumerate(((ZO0, LZ0, y0, y1), (LZ1, ZO1, y0, y1), (LZ0, LZ1, LLD['h'], y1))):
             box(f'{pre}_WALL_W_{k}', MAT['plaster'], -W / 2 - T / 2, -W / 2 + T / 2, ya, yb, za, zb, P, props={'dir': [1, 0, 0]})
-    else: box(f'{pre}_WALL_W', MAT['plaster'], -W / 2 - T / 2, -W / 2 + T / 2, y0, y1, ZO0, ZO1, P, props={'dir': [1, 0, 0]})
+    else: box(f'{pre}_WALL_W', MAT['plaster'], -W / 2 - T / 2, -W / 2 + T / 2, y0, y1, ZO0, ZO1, P, props={'dir': [1, 0, 0], 'lm': 0.8})
     yb_ = 1.2 if pre == 'L0' else Y1 + 1.2
-    box(f'{pre}_WALL_E', MAT['plaster'], W / 2 - T / 2, W / 2 + T / 2, yb_, y1, ZO0, ZO1, P, props={'dir': [-1, 0, 0]})
+    box(f'{pre}_WALL_E', MAT['plaster'], W / 2 - T / 2, W / 2 + T / 2, yb_, y1, ZO0, ZO1, P, props={'dir': [-1, 0, 0], 'lm': 0.8 if pre == 'L1' else 1.0})
     box(f'{pre}_WALL_Eb', MAT['granite'], W / 2 - T / 2, W / 2 + T / 2, y0, yb_, ZO0, ZO1, P, props={'dir': [-1, 0, 0]})
     for k, (za, zb) in enumerate(((ZI0, LZ0), (LZ1, ZI1)) if pre == 'L0' else ((ZI0, ZI1),)):   # 踢腳板停在南北牆的內面
         fy = 0.0 if pre == 'L0' else Y1   # 踢腳板從那一層的地板算（y0 是牆接縫的高度）
@@ -292,14 +293,37 @@ for k, (a, b) in enumerate(((EX - 1.2, EX - 0.02), (EX + 0.02, EX + 1.2))):
 box('L0_entrance_mat', MAT['frame'], EX - 1.3, EX + 1.3, 0.0, 0.012, D / 2 - 1.6, D / 2 - 0.2, L0)   # 入口地墊
 
 # ---------------- 樓梯（往南爬）：每一階一塊石材（實心到地面）＋止滑條、平台；東側玻璃欄板＋不鏽鋼扶手、西牆扶手 ----------------
-def flight(prefix, z0, base, n):
+# WANCAI-LM-1028（LAWWW2-C 10-28）：樓梯從「每一階一個從地面長上來的方塊」改成只有看得到的面（和霖澤館大廳 LINZE-LOBBY-V2-1028 一樣）：
+# 原本方塊互相重疊，光照貼圖大半分給看不到的面。外觀一樣（止滑條照舊，自己的材質：1.5 cm 高，光照貼圖分不到一個像素，不烘）。
+# 往南爬（+z）：踢面朝北（−z）。西側面貼著西牆的內面（x0＝牆面），看不到，不做；東側面從大廳看得到。第一跑的背面貼著平台、底面貼地，不做；第二跑的背面（z＝flight2.z1，朝南）在二樓門廳下面看得到
+def stair_faces(prefix, z0, base, n, front_from):
+    R, Tr, x0, x1 = S['rise'], S['tread'], S['x0'], S['x1']
+    prof = [(z0, front_from)]                          # (z, y)：前緣（北）→ 鋸齒往上 → 最上面一階的後緣（南）
     for k in range(n):
-        top = base + (k + 1) * S['rise']; za = z0 + k * S['tread']; zb = za + S['tread']
-        box(f'{prefix}_step_{k}', MAT['step'], S['x0'], S['x1'], 0, top, za, zb, L0, bevel=0.012)
-        box(f'{prefix}_nosing_{k}', MAT['frame'], S['x0'], S['x1'], top - 0.012, top + 0.003, za, za + 0.045, L0)   # 止滑條（踏面前緣＝北邊）
-flight('L0_f1', F1['z0'], 0.0, F1['risers'])
-box('L0_landing', MAT['step'], S['x0'], S['x1'], 0, LD['y'], LD['z0'], LD['z1'], L0, bevel=0.012)
-flight('L0_f2', F2['z0'], LD['y'], F2['risers'])
+        za = z0 + k * Tr; top = base + (k + 1) * R
+        prof += [(za, top), (za + Tr, top)]
+        box(f'{prefix}_nosing_{k}', MAT['nosing'], x0, x1, top - 0.012, top + 0.003, za, za + 0.045, L0)   # 止滑條（踏面前緣＝北邊）
+    bm = bmesh.new()
+    for (za, ya), (zb_, yb) in zip(prof[:-1], prof[1:]):
+        f = bm.faces.new([bm.verts.new(g2b(x, y, z)) for (x, y, z) in ((x0, ya, za), (x1, ya, za), (x1, yb, zb_), (x0, yb, zb_))]); f.normal_update()
+        if abs(za - zb_) < 1e-6:                        # 踢面：朝北（−遊戲 z）＝Blender +y
+            if f.normal.y < 0: f.normal_flip()
+        elif f.normal.z < 0: f.normal_flip()           # 踏面：朝上
+    zt, yt = prof[-1]
+    if base > 0:                                       # 第二跑的背面（地面到二樓，朝南＝Blender −y）
+        f = bm.faces.new([bm.verts.new(g2b(*p)) for p in ((x0, 0, zt), (x0, yt, zt), (x1, yt, zt), (x1, 0, zt))]); f.normal_update()
+        if f.normal.y > 0: f.normal_flip()
+    bmesh.ops.remove_doubles(bm, verts=bm.verts, dist=1e-5); bm.normal_update(); box_uv(bm, MAT['step']['tile'])
+    mesh_obj(f'{prefix}_steps', bm, MAT['step'], L0)
+    side = prof + [(zt, 0.0)] + ([(z0, 0.0)] if front_from > 0 else [])   # 東側面：鋸齒往下接到地面
+    bm = bmesh.new(); f = bm.faces.new([bm.verts.new(g2b(x1, y, z)) for (z, y) in side]); f.normal_update()
+    if f.normal.x < 0: f.normal_flip()
+    bm.normal_update(); box_uv(bm, MAT['step']['tile']); mesh_obj(f'{prefix}_side_E', bm, MAT['step'], L0)
+stair_faces('L0_f1', F1['z0'], 0.0, F1['risers'], 0.0)
+# 平台：上面＋東側面（從大廳看得到）；西側貼牆、南北兩面貼著兩跑，不做
+quad('L0_landing_top', MAT['step'], [(S['x0'], LD['y'], LD['z1']), (S['x1'], LD['y'], LD['z1']), (S['x1'], LD['y'], LD['z0']), (S['x0'], LD['y'], LD['z0'])], L0)
+quad('L0_landing_E', MAT['step'], [(S['x1'], 0, LD['z0']), (S['x1'], LD['y'], LD['z0']), (S['x1'], LD['y'], LD['z1']), (S['x1'], 0, LD['z1'])], L0)
+stair_faces('L0_f2', F2['z0'], LD['y'], F2['risers'], LD['y'])
 rx = S['railX'] + 0.02
 pts = [(S['railZ0'], 0.0), (F1['z1'], LD['y']), (LD['z1'], LD['y']), (F2['z1'], Y1)]
 for i in range(len(pts) - 1):
@@ -351,20 +375,128 @@ for i, f in enumerate(L['furniture']):
         for sx in (-1, 1): box(f'{pre}_bench_leg_{i}_{sx}', MAT['steel'], f['x'] + sx * (f['w'] / 2 - 0.12) - 0.03, f['x'] + sx * (f['w'] / 2 - 0.12) + 0.03, y, y + 0.42, f['z'] - f['d'] * 0.45, f['z'] + f['d'] * 0.45, P)
     # bulletin（公告欄）：遊戲裡的 W3.bulletin()（canvas 的招募海報），不在模型裡
 
+# ---------------- 大廳的擺設（WANCAI-DRESS-1028，LAWWW2-C 10-28；使用者 P0「校內建築室內……廉價手遊感」，霖澤館大廳第二版的做法）----------------
+# 都在牆邊：東牆（電梯南邊）飲水機＋回收桶、北牆兩扇門中間的展示櫃（法服社、模擬法庭的獎盃獎牌照片）、消防栓箱與滅火器、出口燈、
+# 南面玻璃前長椅、入口傘架、沙發旁的小圓桌、中庭吊燈；離劇情、社團站位（story3d.js 的 CLUB_SPOTS、TA_SPOT、吉他社成發 (0,4.6)、出生點 (0,5)）1.2 m 以上。
+for k_, h_ in (('red', '#b3261e'), ('exitg', '#1f9d55'), ('black', '#1d1f22'), ('white', '#f2f1ec'), ('binB', '#2f6db3'), ('binG', '#3f8f4f'), ('binK', '#6b7076'),
+               ('gold', '#c9a24a'), ('brass', '#b08a4a'), ('cream', '#e6e2d6'), ('navy', '#2b3a55'), ('umbR', '#a8343a')):
+    MAT[k_] = pbr('wc_' + k_, None, tint=srgb(h_), rough=0.35 if k_ in ('gold', 'brass') else 0.6, metal=0.4 if k_ in ('gold', 'brass') else 0.0)
+MAT['exitglow'] = pbr('wc_exitglow', None, tint=srgb('#3fdc84'), rough=0.9, emit=srgb('#3fdc84'))
+def lobby_prop(f, P, pre, y, i):
+    kind, x, z, w, d = f['kind'], f['x'], f['z'], f['w'], f['d']
+    n = f'{pre}_{kind}_{i}'
+    if kind == 'display':      # 靠北牆的展示櫃（朝 +z）：下面木櫃、上面玻璃櫃＋兩層玻璃板、獎盃、獎牌、照片框、法槌、頂燈（和霖澤館大廳同一款）
+        x0, x1, z0, z1 = x - w / 2, x + w / 2, z - d / 2, z + d / 2
+        box(n + '_base', MAT['woodD'], x0, x1, y, y + 0.9, z0, z1, P, bevel=0.01)
+        box(n + '_top', MAT['woodD'], x0, x1, y + 2.0, y + 2.08, z0, z1, P, bevel=0.008)
+        box(n + '_back', MAT['plaster'], x0 + 0.02, x1 - 0.02, y + 0.9, y + 2.0, z0, z0 + 0.03, P)
+        for px in (x0 + 0.015, x1 - 0.015):
+            for pz in (z0 + 0.04, z1 - 0.015): box(f'{n}_post_{px:.2f}_{pz:.2f}', MAT['steel'], px - 0.012, px + 0.012, y + 0.9, y + 2.0, pz - 0.012, pz + 0.012, P)
+        quad(n + '_glass_f', MAT['glass'], [(x0 + 0.02, y + 0.9, z1 - 0.01), (x1 - 0.02, y + 0.9, z1 - 0.01), (x1 - 0.02, y + 2.0, z1 - 0.01), (x0 + 0.02, y + 2.0, z1 - 0.01)], P, tile=1.0)
+        for sx in (x0 + 0.01, x1 - 0.01): quad(f'{n}_glass_s{sx:.2f}', MAT['glass'], [(sx, y + 0.9, z0 + 0.03), (sx, y + 0.9, z1 - 0.01), (sx, y + 2.0, z1 - 0.01), (sx, y + 2.0, z0 + 0.03)], P, tile=1.0)
+        for sy in (1.27, 1.63): box(f'{n}_shelf_{sy}', MAT['glass'], x0 + 0.03, x1 - 0.03, y + sy, y + sy + 0.012, z0 + 0.04, z1 - 0.03, P)
+        box(n + '_lightbar', MAT['light'], x0 + 0.1, x1 - 0.1, y + 1.97, y + 1.99, z0 + 0.15, z0 + 0.2, P)
+        for k, (ox, sy, kind2) in enumerate(((-0.85, 0.9, 'photo'), (-0.45, 0.9, 'cup'), (0.0, 0.9, 'plaque'), (0.45, 0.9, 'cup2'), (0.85, 0.9, 'photo'),
+                                              (-0.7, 1.282, 'plaque'), (-0.25, 1.282, 'gavel'), (0.25, 1.282, 'photo'), (0.7, 1.282, 'cup'),
+                                              (-0.6, 1.642, 'cup2'), (0.0, 1.642, 'photo'), (0.6, 1.642, 'plaque'))):
+            cx, cy, cz = x + ox * w / 2.4, y + sy, z - 0.02
+            if kind2 in ('cup', 'cup2'):
+                hh = 0.24 if kind2 == 'cup2' else 0.18
+                box(f'{n}_tb_{k}', MAT['woodD'], cx - 0.045, cx + 0.045, cy, cy + 0.04, cz - 0.045, cz + 0.045, P)
+                cyl(f'{n}_ts_{k}', MAT['gold'], (cx, cy + 0.04, cz), (cx, cy + hh * 0.55, cz), 0.012, P, seg=8)
+                cyl(f'{n}_tc_{k}', MAT['gold'], (cx, cy + hh * 0.55, cz), (cx, cy + hh, cz), 0.045, P, seg=12)
+                for sx in (-1, 1): cyl(f'{n}_te_{k}_{sx}', MAT['gold'], (cx + sx * 0.045, cy + hh * 0.9, cz), (cx + sx * 0.07, cy + hh * 0.7, cz), 0.007, P, seg=6)
+            elif kind2 == 'plaque':
+                box(f'{n}_pq_{k}', MAT['woodD'], cx - 0.11, cx + 0.11, cy, cy + 0.28, cz - 0.03, cz - 0.01, P)
+                box(f'{n}_pqb_{k}', MAT['brass'], cx - 0.08, cx + 0.08, cy + 0.06, cy + 0.22, cz - 0.01, cz - 0.005, P)
+            elif kind2 == 'photo':
+                box(f'{n}_pf_{k}', MAT['black'], cx - 0.12, cx + 0.12, cy, cy + 0.2, cz - 0.02, cz, P)
+                box(f'{n}_pp_{k}', MAT['white'], cx - 0.105, cx + 0.105, cy + 0.015, cy + 0.185, cz, cz + 0.002, P)
+                box(f'{n}_pi_{k}', MAT['navy'], cx - 0.09, cx + 0.09, cy + 0.03, cy + 0.11, cz + 0.002, cz + 0.003, P)
+            elif kind2 == 'gavel':
+                box(f'{n}_gb_{k}', MAT['woodD'], cx - 0.07, cx + 0.07, cy, cy + 0.025, cz - 0.05, cz + 0.05, P)
+                cyl(f'{n}_gh_{k}', MAT['wood'], (cx - 0.07, cy + 0.06, cz), (cx + 0.07, cy + 0.06, cz), 0.028, P, seg=10)
+                cyl(f'{n}_gs_{k}', MAT['wood'], (cx, cy + 0.06, cz), (cx + 0.02, cy + 0.03, cz + 0.16), 0.008, P, seg=6)
+    elif kind == 'water':      # 飲水機（白鐵、三個出水口：紅熱水、白溫水、藍冰水；接水盤；紙杯架）；朝 −x（東牆）
+        x0, x1, z0, z1 = x - w / 2, x + w / 2, z - d / 2, z + d / 2
+        box(n + '_body', MAT['steel'], x0, x1, y, y + 1.25, z0, z1, P, bevel=0.012)
+        box(n + '_panel', MAT['black'], x0 - 0.005, x0, y + 0.95, y + 1.12, z0 + 0.06, z1 - 0.06, P)
+        box(n + '_niche', MAT['frame'], x0 - 0.003, x0 + 0.06, y + 0.55, y + 0.9, z0 + 0.05, z1 - 0.05, P)
+        box(n + '_tray', MAT['steel'], x0 - 0.08, x0 + 0.02, y + 0.55, y + 0.58, z0 + 0.06, z1 - 0.06, P)
+        for k, (oz, mk) in enumerate(((-0.11, 'red'), (0.0, 'white'), (0.11, 'binB'))):
+            box(f'{n}_tap_{k}', MAT[mk], x0 - 0.05, x0 + 0.01, y + 0.84, y + 0.88, z + oz - 0.02, z + oz + 0.02, P)
+        cyl(n + '_cups', MAT['white'], (x0 - 0.05, y + 0.62, z1 + 0.05), (x0 - 0.05, y + 0.95, z1 + 0.05), 0.04, P, seg=10)
+        box(n + '_sign', MAT['white'], x0 - 0.006, x0 - 0.001, y + 1.15, y + 1.22, z0 + 0.08, z1 - 0.08, P)
+    elif kind == 'bins':       # 三個資源回收桶（藍、綠、灰；不寫字）；沿 z 排、朝 −x
+        z0 = z - w / 2; bw = w / 3
+        for k, mk in enumerate(('binB', 'binG', 'binK')):
+            za, zb = z0 + k * bw + 0.02, z0 + (k + 1) * bw - 0.02
+            box(f'{n}_b{k}', MAT[mk], x - d / 2, x + d / 2, y, y + 0.72, za, zb, P, bevel=0.015)
+            box(f'{n}_l{k}', MAT[mk], x - d / 2 - 0.01, x + d / 2 + 0.01, y + 0.72, y + 0.78, za - 0.01, zb + 0.01, P, bevel=0.01)
+            box(f'{n}_o{k}', MAT['black'], x - d / 2 - 0.012, x - d / 2 + 0.03, y + 0.735, y + 0.765, za + 0.06, zb - 0.06, P)
+            box(f'{n}_t{k}', MAT['white'], x - d / 2 - 0.004, x - d / 2, y + 0.45, y + 0.6, za + 0.05, zb - 0.05, P)
+    elif kind == 'umbrella':   # 傘架：白鐵桶＋三把傘
+        cyl(n + '_bucket', MAT['steel'], (x, y, z), (x, y + 0.5, z), 0.2, P, seg=16)
+        for k, (ox, oz, mk, tilt) in enumerate(((-0.06, -0.05, 'navy', 0.12), (0.07, 0.0, 'umbR', -0.1), (-0.02, 0.08, 'binK', 0.05))):
+            cyl(f'{n}_u{k}', MAT[mk], (x + ox, y + 0.05, z + oz), (x + ox + tilt * 0.6, y + 0.82, z + oz + tilt * 0.3), 0.035, P, seg=8)
+            cyl(f'{n}_h{k}', MAT['black'], (x + ox + tilt * 0.6, y + 0.82, z + oz + tilt * 0.3), (x + ox + tilt * 0.62, y + 0.92, z + oz + tilt * 0.3), 0.01, P, seg=6)
+    elif kind == 'sidetable':  # 沙發旁的小圓桌：木頭桌面、白鐵腳、一盆小盆栽、兩本雜誌
+        cyl(n + '_top', MAT['table'], (x, y + 0.5, z), (x, y + 0.53, z), w / 2, P, seg=20)
+        cyl(n + '_leg', MAT['steel'], (x, y, z), (x, y + 0.5, z), 0.025, P, seg=8)
+        cyl(n + '_foot', MAT['steel'], (x, y, z), (x, y + 0.02, z), w / 2 * 0.7, P, seg=16)
+        box(n + '_mag1', MAT['navy'], x - 0.12, x + 0.06, y + 0.53, y + 0.54, z - 0.02, z + 0.11, P)
+        box(n + '_mag2', MAT['white'], x - 0.1, x + 0.08, y + 0.54, y + 0.548, z - 0.0, z + 0.13, P)
+        cyl(n + '_pot', MAT['cream'], (x + 0.1, y + 0.53, z - 0.08), (x + 0.1, y + 0.65, z - 0.08), 0.05, P, seg=12)
+        PL.potted(mesh_obj, PM, n + '_plant', P, x + 0.1, y + 0.65, z - 0.08, 0.07, seed=931 + i)
+for i, f in enumerate(L['furniture']):
+    if f['type'] == 'prop': lobby_prop(f, L1 if f['lv'] else L0, 'L1' if f['lv'] else 'L0', Y1 if f['lv'] else 0.0, i)
+# 北牆：消防栓箱（紅色、白色窗）＋滅火器；兩扇門上方的出口燈（綠色發光，跟著北牆淡出）
+_FN = {'fadegrp': 'Ndoor', 'fadedir': [0, 0, 1]}; _zf = -D / 2 + T / 2
+box('L0_hydrant', MAT['red'], 3.65, 4.25, 0.75, 1.55, _zf, _zf + 0.16, L0, props=_FN)
+box('L0_hydrant_win', MAT['white'], 3.73, 4.17, 0.95, 1.35, _zf + 0.16, _zf + 0.17, L0, props=_FN)
+for k_, xx in enumerate((3.8, 4.1)):
+    cyl(f'L0_extinguisher_{k_}', MAT['red'], (xx, 0.0, _zf + 0.3), (xx, 0.5, _zf + 0.3), 0.075, L0, seg=12)
+    cyl(f'L0_extinguisher_top_{k_}', MAT['black'], (xx, 0.5, _zf + 0.3), (xx, 0.58, _zf + 0.3), 0.03, L0, seg=8)
+for x_ in (d_['x'] for d_ in L['doors'] if d_['lv'] == 0):
+    box(f'L0_exit_sm_{x_}', MAT['exitg'], x_ - 0.2, x_ + 0.2, 3.1, 3.26, _zf, _zf + 0.04, L0, props=_FN)
+    box(f'L0_exit_smg_{x_}', MAT['exitglow'], x_ - 0.17, x_ + 0.17, 3.12, 3.24, _zf + 0.04, _zf + 0.045, L0, props=_FN)
+# 南面入口上方的出口燈（玻璃帷幕的橫櫺下面，跟著南面淡出）
+_EX = L['entrance']['x']
+box('L0_exit_entr', MAT['exitg'], _EX - 0.3, _EX + 0.3, 2.68, 2.86, D / 2 - 0.3, D / 2 - 0.22, L0, props=FS)
+box('L0_exit_entr_g', MAT['exitglow'], _EX - 0.27, _EX + 0.27, 2.70, 2.84, D / 2 - 0.305, D / 2 - 0.3, L0, props=FS)
+def open_top(ob):
+    """方塊拿掉朝上的那一面：吊燈的發光條上面有燈體蓋著，朝上的面看不到；天花板、燈板不能有朝上的面（tests/room_ceiling_unit.js，LOBBY-CEIL-1028）"""
+    bm = bmesh.new(); bm.from_mesh(ob.data)
+    bmesh.ops.delete(bm, geom=[f for f in bm.faces if f.normal.z > 0.9], context='FACES_ONLY')
+    bm.to_mesh(ob.data); bm.free(); return ob
+# 中庭兩排線型吊燈（6.4 m 高，三段一排；吊線到天花板）
+for zr in (1.2, 4.4):
+    for (xa, xb) in ((-3.4, -0.6), (-0.2, 2.6), (3.0, 5.8)):
+        box(f'L1_pendant_{zr}_{xa}', MAT['frame'], xa, xb, 6.38, 6.46, zr - 0.05, zr + 0.05, L1)
+        open_top(box(f'L1_pendant_glow_{zr}_{xa}', MAT['light'], xa + 0.03, xb - 0.03, 6.375, 6.38, zr - 0.035, zr + 0.035, L1))   # 發光條沒有頂面（上面有燈體蓋著）
+        for xc in (xa + 0.25, xb - 0.25): cyl(f'L1_pendant_wire_{zr}_{xc:.2f}', MAT['frame'], (xc, 6.46, zr), (xc, RY, zr), 0.004, L1, seg=4)
+
+# 純色擺設合成一個頂點色材質（和霖澤館大廳 LOBBY-VC-1028 一樣：每個純色材質各畫一次；金、黃銅、出口燈的發光面照舊）
+sys.path.insert(0, os.path.join(ROOT, 'tools', 'blender', 'env_second'))
+import lib2 as L2   # noqa: E402
+_VC = L2.vc_material('wc_vc', rough=0.6)
+L2.vc_consolidate(root, {MAT[k].name: _VC for k in ('red', 'exitg', 'black', 'white', 'binB', 'binG', 'binK', 'cream', 'navy', 'umbR')})
+
 # ---------------- 同一層、同材質的物件合併（減少 draw call；外牆不合併：要各自淡出）----------------
 def join_by_material(level_root, prefix):
     groups = {}
     for ob in list(level_root.children):
         if ob.type != 'MESH' or 'WALL_' in ob.name: continue
-        groups.setdefault((ob.get('fadegrp'), ob.data.materials[0].name), []).append(ob)
-    for (fg, mname), obs in groups.items():
+        groups.setdefault((ob.get('fadegrp'), ob.data.materials[0].name, ob.get('lm')), []).append(ob)   # lm（光照貼圖的比例）不同的分開合併，才不會丟掉（WANCAI-LM-1028）
+    for (fg, mname, lm), obs in groups.items():
         if len(obs) < 2 and not fg: continue
         dirv = list(obs[0]['fadedir']) if fg else None
         bm = bmesh.new()
         for ob in obs: bm.from_mesh(ob.data)
         mat = obs[0].data.materials[0]
         for ob in obs: bpy.data.meshes.remove(ob.data)
-        mesh_obj(f'{prefix}_WALL_{fg}_{mname}' if fg else f'{prefix}_{mname}', bm, mat, level_root, props={'dir': dirv} if fg else None)
+        pr = dict({'dir': dirv} if fg else {}, **({'lm': lm} if lm is not None else {}))
+        mesh_obj((f'{prefix}_WALL_{fg}_{mname}' if fg else f'{prefix}_{mname}') + (f'_lm{lm:g}' if lm is not None else ''), bm, mat, level_root, props=pr or None)
 for r, pre in ((L0, 'L0'), (L1, 'L1')): join_by_material(r, pre)
 
 # ---------------- 匯出 ----------------

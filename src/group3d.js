@@ -132,7 +132,7 @@ const GROUP=(function(){
     if(jp&&(grp(G)||F.ZHE4_ASKED!=null)&&now>=T(g,tw(G,g,19))&&F.FINAL_GAME_Y3==null) F.FINAL_GAME_Y3='stream';
     if(jp&&F.FINAL_GAME_Y3==='stream'&&now>=T(g,tw(G,g,20+40/60))&&met(G,'classmate_mingxuan','FAMILIAR')){ const X=msg('p:classmate_mingxuan','classmate_mingxuan');
       PHONE.at(G,g,atH(G,g,tw(G,g,20+40/60)),[X('冠軍。我九點家教，先走了。'),Object.assign(X('……你看到了喔。我今天很用力。'),{ask:{id:'y3_mx_stream',until:T(g+2,0),opts:[
-        {t:'恭喜！',set:{MX_EGG_JP:true},say:[{from:'classmate_mingxuan',text:'回來請你吃滷蛋。一顆。'}]},
+        {t:'恭喜！',set:{MX_EGG_JP:true},say:[{from:'classmate_mingxuan',text:'回來請你吃一碗大的。'}]},
         {t:'那出國呢？',mem:[{npc:'classmate_mingxuan',tag:'SAW_HIM_TRY',note:''}],say:[{from:'classmate_mingxuan',text:'……交換那個，我放棄了。畢業以後自己存錢去。'}]}]}})],'y3_mx_stream'); } };
   /* 哲 4 演完：不在群組、但是被叫「明天你要來喔」的人也排冠軍賽（台灣、美國路線）*/
   S.zhe4After=G=>{ if(!grp(G)) S.planFinal(G); };
@@ -177,6 +177,7 @@ const GROUP=(function(){
   S.phone=function(G,GM){ if(!G||!G.flags||(G.stage||'law')!=='law'||typeof PHONE==='undefined') return;
     S.springPhone(G,GM); S.midautumnPhone(G); S.xmasBoxPhone(G); S.finalPhone(G); S.gradPhone(G); S.lastTermPhone(G); };
   let busy=false;
+  (globalThis.LOADLOCKS=globalThis.LOADLOCKS||{})['group3d:busy']=()=>{ busy=false; };   /* 讀檔時放開（LOADGEN-LOCKS-1028）：讀檔凍住的舊劇情走不到 finally，只把旗標設回初始值 */
   S.tick=function(GM){ const G=GM&&GM.G; if(busy||!G||!G.flags||(G.stage||'law')!=='law'||typeof PHONE==='undefined') return false; if(atHome(G)) return false;
     if(out()&&OUT.due&&OUT.due(G)) return false;   /* 出遊的「出發」先問 */
     if(S.streamDue(G)){ busy=true; S.streamScene(GM).catch(e=>console.warn('GROUP stream',e)).finally(()=>{ busy=false; }); return true; }   /* 日本路線的直播（AA_336 C11）*/

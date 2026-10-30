@@ -202,6 +202,7 @@ const CRACKTALK=(function(){
   S.EV.push({id:'ev_yt_drift_noodle',title:'麵店',participants:[YT],location:'noodle',trigger:'manual',background:'blur',dialogue:L.yt_noodle});
   for(const e of S.EV) if(!STORY_EVENTS.some(x=>x.id===e.id)) STORY_EVENTS.push(e);
   let busy=false; const go=fn=>{ busy=true; Promise.resolve().then(fn).catch(e=>console.warn('CRACKTALK',e)).finally(()=>{ busy=false; }); return true; };
+  (globalThis.LOADLOCKS=globalThis.LOADLOCKS||{})['cracktalk3d:busy']=()=>{ busy=false; };   /* 讀檔時放開（LOADGEN-LOCKS-1028）：讀檔凍住的舊劇情走不到 finally，只把旗標設回初始值 */
   S.isBusy=()=>busy;
   S.runTalk=async function(GM,id,evId){ const G=GM.G, e=evOf(evId); if(!e||typeof EVENTS==='undefined') return false; S.prep(G,id); await EVENTS.run(e,{noTitle:true}); S.after(G,id); if(GM.autosave) GM.autosave(); return true; };
   S.letter=async function(GM){ const G=GM.G, r=S.pr(G,ZR), X=L.DRIFT[ZR].letter; r.letter=null; GM.sceneBegin();
@@ -341,8 +342,8 @@ const CRACKTALK=(function(){
       if(a===1){ if(now(G)>=at+48){ P[k]=true; const dd=Math.floor((at+48)/24+1e-9), hx=+(at+48-dd*24).toFixed(2); PHONE.at(G,dd,hx,[{th:'p:'+ZR,from:'player',who:null,text:X2.zr3.later},DM(ZR,X2.zr3.laterReply)],'ct_zr3_later_'+k); if(dating(G,ZR)) S.add(G,ZR); } continue; }   /* 兩天後那則自動送出「好看」、她回「嗯。」，+1 */
       if(a===null&&now(G)>=at+72){ P[k]=true; if(dating(G,ZR)) S.add(G,ZR); } } };   /* 72 小時沒回＝+1 */
 
-  /* ---------- 1-6 子晴（2028-06 畢業以後在工作室上班）---------- */
-  S.zqWork=(G,d)=>{ const a=D('2028-06-01'); if(a==null||(d==null?G.day:d)<a) return false; const p=pres(ZQ,d==null?G:Object.assign({},G,{day:d})); return p.kind==='taipei'||!!p.here; };
+  /* ---------- 1-6 子晴（2028-07-10 曼谷回來起在工作室上班；AA_508 0-2 第 4 點，原本 2028-06-01）---------- */
+  S.zqWork=(G,d)=>{ const a=D('2028-07-10'); if(a==null||(d==null?G.day:d)<a) return false; const p=pres(ZQ,d==null?G:Object.assign({},G,{day:d})); return p.kind==='taipei'||!!p.here; };
   S.zq=function(G){ const R=sub(S.src(G),'zq'), d=G.day, h=hh(G);
     /* ① 大四上第 8～12 週，約好的平日晚上（約人系統 INV 的約、校外約會 DATE 的預約）：那天 17:30「又要加班 對不起」、行程取消；同一個自然月第三次多一則、+1（避不掉）*/
     if(dating(G,ZQ)&&S.zqWork(G)){ const C=[];

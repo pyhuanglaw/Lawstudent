@@ -179,7 +179,9 @@ const CLS=(function(){
     const known=typeof STORY==='undefined'||!STORY.knows||STORY.knows(r.who);   /* BB_170 第 11、32 列：還沒認識的同學（例：開學第一週的沛珊、明軒、以安）顯示「同學」，認識以後才顯示名字 */
     const nm=!known?'同學':((typeof SOCIAL!=='undefined'&&SOCIAL.displayName)?SOCIAL.displayName(r.who):((CHARACTERS[r.who]||{}).name||'同學')); return act?nm+r.text:nm+'：「'+r.text+'」'; };
   S.rot=(it,n)=>(((it.day+it.week)%n)+n)%n;   /* 輪流的序號：經濟系那一年的日子是負數，% 會變負的、取不到句子（BB_218：2024-09-04 微積分、體育「老師：undefined」）*/
-  const pickReact=(arr,it)=>{ const ok=(arr||[]).filter(r=>reactOK(r,it.day)); return ok.length?S.reactLine(ok[S.rot(it,ok.length)]):''; };
+  /* 宥辰不在的那一堂（AA_497 1-2：12:00 以前的必修只在考試前後，STORY.youchenAway）：他那一句照舊，說話人改「同學」（不具名同學，'class'）*/
+  S.reactAs=(r,it)=>r&&typeof STORY!=='undefined'&&STORY.YOUCHEN&&r.who===STORY.YOUCHEN&&STORY.youchenAway&&STORY.youchenAway(it)?Object.assign({},r,{who:'class'}):r;
+  const pickReact=(arr,it)=>{ const ok=(arr||[]).map(r=>S.reactAs(r,it)).filter(r=>reactOK(r,it.day)); return ok.length?S.reactLine(ok[S.rot(it,ok.length)]):''; };
   /* 一週兩格的課（大三上的民訴甲上、刑訴；AA_103）：這一堂是那一週的第幾格（照星期排）、前面的格子是不是都放假 */
   S.slotOrder=function(it){ const ss=(it.c.slots||[]).slice().sort((a,b)=>a.wd-b.wd||String(a.block).localeCompare(String(b.block))); return {i:ss.indexOf(it.slot),ss}; };
   S.earlierSlotsOff=function(it){ const o=S.slotOrder(it); if(o.i<1||typeof CALENDAR==='undefined') return false; const wd=it.slot.wd; return o.ss.slice(0,o.i).every(q=>q.wd!==wd&&CALENDAR.holiday(it.day-(wd-q.wd))); };
@@ -249,7 +251,7 @@ const CLS=(function(){
     await recall(null);
     const i=await GM.choose(opts.map(o=>({t:o.text}))); const res=opts[i]&&opts[i].result; if(res) await GM.say(null,res);
     if(ob.record) R.disc[ob.record]=i;
-    for(const q of (ob.replies||[])){ if(!reactOK(q,it.day)) continue; await GM.say(null,S.reactLine(q)); await recall(q.who); }
+    for(const q0 of (ob.replies||[])){ const q=S.reactAs(q0,it); if(!reactOK(q,it.day)) continue; await GM.say(null,S.reactLine(q)); await recall(q0.who); }   /* reactAs：宥辰不在的那一堂＝「同學」（同上）*/
     if(ob.close) await GM.say(prof||null,(prof?'':(ct.prof||S.profName(c))+'：')+ob.close);
     if(G.flags) for(const u of (ob.understand||[])) G.flags[u]=true; };
   /* 翹課的轉述（AA_104 4-2「同學偶爾會在群組吐槽他沒來（一行，不是懲罰）」、AA_119 第 0 節第 4 點「群組裡一句轉述，不補演」）：
@@ -370,7 +372,7 @@ const CLS=(function(){
       for(const it of S.dayItems(G,d)) if(it.exam===kind&&(!best||d>best.day||(d===best.day&&it.t1>best.h))) best={day:d,h:it.t1}; } return best; };
   /* 上課前的人物事件（BB_135 1-4）：事件寫 beforeClass:'課的 id'，或函式 it=>…（例：霖澤館的任何一堂課，SK02 阿哲那句）（＋一般條件）；人進了教室、要開始上課（不是遲到缺席）就先演 */
   S.beforeClassEvent=async function(GM,it){ if(typeof EVENTS==='undefined'||typeof STORY_EVENTS==='undefined'||!it||!it.c) return false; const ev=STORY_EVENTS.find(e=>(e.beforeClass===it.c.id||(typeof e.beforeClass==='function'&&e.beforeClass(it)))&&EVENTS.check(e,{chain:true})); if(!ev) return false; await EVENTS.run(ev); return true; };
-  S.afterClassEvent=async function(GM,it){ if(typeof EVENTS==='undefined'||typeof STORY_EVENTS==='undefined'||!it||!it.c) return false; const ok=e=>e.afterClass===it.c.id&&(e.afterExam?e.afterExam===it.exam:!it.exam)&&EVENTS.check(e,{chain:true}); const ev=STORY_EVENTS.find(e=>e.classFirst&&ok(e))||STORY_EVENTS.find(ok);   /* classFirst：同一堂下課先演這一件（例：經濟系 P1b1 先、再接 P2，AA_272 第 13 節）*/ if(!ev) return false; await EVENTS.run(ev); return true; };   /* afterExam:'mid'／'final'＝那一科考完（G1 考完試走出教室）；沒寫＝一般的課 */
+  S.afterClassEvent=async function(GM,it){ if(typeof EVENTS==='undefined'||typeof STORY_EVENTS==='undefined'||!it||!it.c) return false; const ok=e=>(e.afterClass===it.c.id||(typeof e.afterClass==='function'&&e.afterClass(it)))&&(e.afterExam?e.afterExam===it.exam:!it.exam)&&EVENTS.check(e,{chain:true});   /* afterClass 也可以是函式 it=>…（同 beforeClass；例：AA_497 1-3 宥辰認識的那一堂下課，src/sup497_3d.js）*/ const ev=STORY_EVENTS.find(e=>e.classFirst&&ok(e))||STORY_EVENTS.find(ok);   /* classFirst：同一堂下課先演這一件（例：經濟系 P1b1 先、再接 P2，AA_272 第 13 節）*/ if(!ev) return false; await EVENTS.run(ev); return true; };   /* afterExam:'mid'／'final'＝那一科考完（G1 考完試走出教室）；沒寫＝一般的課 */
   /* 總圖新生導覽（AA_134 第 2 節，使用者 2026-10-15「開始到結束就是一個按鈕？」）：館員走在前面，玩家自己用搖桿跟上（走太遠她停下來等），每站一到兩句（字幕，不擋操作）；
      同場的新生 2 個跟在館員後面（buddy）；9/19 那一場、還沒走過「總圖的下午」（第二天和以安約總圖）的話，以安站在最前面，最後一站對玩家說一句。
      中途離開（離開這一區、或離館員 25 m 以上超過 40 秒）＝館員不等、記「去過但沒走完」（left），清單不打勾、改天可以再參加別場。走完＝full */
@@ -858,6 +860,7 @@ const CLS=(function(){
      還沒做（AA_160 第 3 節已交，AA_355 第 3 節：不用再等）：路上經過的區域有【固】【必】事件時停下來演（1-3 第 3 點）；翹課確認現在是一般的「這堂課裡的事你會錯過。」，不列事件名（1-5）。
      腳踏車：騎著才照騎車算（和手機快速前往一樣；車停到那棟門外由 bike3d.js 處理）；人在宿舍、車在宿舍門口還是照走路算（要先把車移過去，之後做）。 */
   let wakeP=null, afterP=null, contP=null, goBusy=false, freeSince=0, freeTicks=0;
+  (globalThis.LOADLOCKS=globalThis.LOADLOCKS||{})['classes3d:goBusy']=()=>{ goBusy=false; freeSince=0; freeTicks=0; };   /* 讀檔時放開（LOADGEN-LOCKS-1028）：讀檔凍住的舊劇情走不到 finally，只把旗標設回初始值 */
   const WAKE_GRACE=2500, FREE_MS=1500;
   S.wakeMenuOn=GM=>!(GM&&GM.S&&GM.S.wakeMenu===false);
   S.planSkip=(G,it)=>!!S.rec(G).note['plan_skip_'+it.key];
@@ -899,12 +902,15 @@ const CLS=(function(){
   /* 校外上課（教室 OFF：大四下「法律實習或法律扶助實務」，courses.js rooms.OFF offsite）：沒有 3D 的地點——2D 出門、時間跳到下課、記出席（同服務學習的做法）。
      那一天有旁白的（OFFSITE_LINES：fn(G,it)→一句或 null；例：AA_342 4-2 第 4 週 3/13，twfill3d.js）就說那一句。COURSE-PRACTICE-Y4-1024 */
   S.OFFSITE_LINES=[];
+  S.OFFSITE_AFTER=[];   /* 那一句之後多說的旁白：fn(G,it,line)→一句、幾句或 null（例：AA_499 4-5 法扶實習的承恩，src/pool_more3d.js）*/
   S.goOffsite=async function(GM,it,o){ o=o||{}; const G=GM.G, R=S.rec(G), c=it.c; if(R.done[it.key]) return false;
     if(S.status(G,it)==='missed'){ GM.toast(c.name+'已經快結束了，現在去不算出席。',3600); return false; }
     let line=null; for(const f of S.OFFSITE_LINES){ try{ line=f(G,it)||line; }catch(e){ console.warn('CLS.OFFSITE_LINES',e); } }
     if(typeof ACTIVITIES!=='undefined'&&ACTIVITIES.leave) ACTIVITIES.leave(G);
     GM.sceneBegin(); try{ await GM.fade(true); GM.caption('','到'+(it.room.name||'校外')+'。',2400); await GM.sleep(500);
-      if(line){ if(typeof ADV!=='undefined'&&ADV.begin) ADV.begin({background:it.room.bg&&typeof OUT!=='undefined'&&OUT.bg?OUT.bg(it.room.bg):'dark'}); await GM.fade(false); await GM.say(null,line); if(typeof ADV!=='undefined'&&ADV.active) ADV.end(); await GM.fade(true); }
+      if(line){ if(typeof ADV!=='undefined'&&ADV.begin) ADV.begin({background:it.room.bg&&typeof OUT!=='undefined'&&OUT.bg?OUT.bg(it.room.bg):'dark'}); await GM.fade(false); await GM.say(null,line);
+        for(const f of S.OFFSITE_AFTER){ let x=null; try{ x=f(G,it,line); }catch(e){ console.warn('CLS.OFFSITE_AFTER',e); } for(const t of [].concat(x||[])) await GM.say(null,t); }
+        if(typeof ADV!=='undefined'&&ADV.active) ADV.end(); await GM.fade(true); }
       const h=hr(G); if(h<it.t1) GM.advance(it.t1-h); R.done[it.key]=1; R.attend[c.id]=(R.attend[c.id]||0)+1; await GM.fade(false);
       GM.caption('',c.name+'：第 '+R.attend[c.id]+' 次。',2800);
     } finally { GM.sceneEnd(); }

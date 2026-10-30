@@ -49,7 +49,7 @@ const SEMFF=(function(){
       if(CLS.SPECIAL_PRE&&CLS.SPECIAL_PRE[c.id+'|'+it.week]) return 'special';
       if(typeof STORY_EVENTS!=='undefined'&&c.kind!=='service'){
         if(STORY_EVENTS.some(e=>(e.beforeClass===c.id||(typeof e.beforeClass==='function'&&e.beforeClass(it)))&&evOk(e))) return 'before';
-        G.hour=it.t1; const af=STORY_EVENTS.some(e=>e.afterClass===c.id&&(e.afterExam?e.afterExam===it.exam:!it.exam)&&evOk(e)); G.hour=it.t0; if(af) return 'after'; }
+        G.hour=it.t1; const af=STORY_EVENTS.some(e=>(e.afterClass===c.id||(typeof e.afterClass==='function'&&e.afterClass(it)))&&(e.afterExam?e.afterExam===it.exam:!it.exam)&&evOk(e)); G.hour=it.t0; if(af) return 'after'; }   /* afterClass 函式（同 classes3d.js afterClassEvent）*/
       if(c.kind==='service') return false;
       const ct=CLS.content?CLS.content(it):null;
       if(ct&&CLS.recallText&&(ct.recall||[]).some(r=>(!r.after||r.after==='line')&&CLS.recallText(G,r,it))) return 'recall';

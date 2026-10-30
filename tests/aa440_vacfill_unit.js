@@ -29,8 +29,17 @@ const inDoc=L=>L.filter(t=>DOC.indexOf(t)<0);
 const SP={品妤:'econ_pinyu',唐睿:'econ_tangrui',阿勳:'econ_zhengxun',韋綸:'econ_weilun',阿哲:'zhe',Alison:'yu',柏翰:'classmate_bohan',語彤:'heroine_03',以安:'heroine_01',可昕:'kexin',子晴:'heroine_04',溫學姊:'heroine_05',媽媽:'mom',爸爸:'dad',宜蓁:'sister'};
 const S11=part('### 1-1.','### 1-2.'), S12=part('### 1-2.','### 1-3.'), S13=part('### 1-3.','- 那一晚'), S13S=part('- **`E35_PLAN` 是 sea 或 shop 的**（7/19～7/23 在高雄）：7/19 不演','### 1-4.'), S14=part('### 1-4.','### 1-5.'), S15=part('### 1-5.','### 1-5b.'), S15B=part('### 1-5b.','### 1-6.'), S16=part('### 1-6.','### 1-7.'), S17=part('### 1-7.','### 1-8.'), S18=part('### 1-8.','### 1-9.'), S19=part('### 1-9.','### 1-10.'), S110=part('### 1-10.','## 2.');
 const S21=part('### 2-1.','### 2-2.'), S22=part('### 2-2.','### 2-3.'), S23=part('### 2-3.','### 2-4.'), S24=part('### 2-4.','### 2-5.'), S25=part('### 2-5.','## 3.');
-const S31=part('### 3-1.','### 3-2.'), S32=part('### 3-2.','### 3-3.'), S33=part('### 3-3.','### 3-4.'), S34=part('### 3-4.','## 4.'), S4=part('## 4.','## 5.'), S5=part('## 5.','## 6.');
-const row4=k=>(rows(S4).find(r=>r.some(c=>c.indexOf(k)>=0))||[]).join('|');
+/* AA_507 0-2 第 2、4 點（企劃線 e4fbd0192，AA-C 10-28）改了這份稿的兩格：3-3 的 2/12 第一句和 2/14 旁白、第 4 節 1/15 學姊那一列（兩句、選項、回覆）。
+   只在那兩格裡把稿上的舊句換成新句再比；新句要在 AA_507 裡（check 0、3-3、4）*/
+const P507='docs/story_planning/AA_507_女主角自己的生活_大三上與寒假.md';
+const DOC507=(()=>{ try{ return cp.execSync('git -c core.quotepath=false show e4fbd0192:"'+P507+'"',{cwd:process.env.SPEC_GIT_DIR||H.ROOT,encoding:'utf8',maxBuffer:1<<26,stdio:['ignore','pipe','ignore']}); }catch(e){ return ''; } })();
+const FIX507_33=[['法圖寒假下週一開。','法圖下週一恢復晚上開館。'],['（開館第一天，','（恢復晚上開館的第一天，']];
+const FIX507_0115=[['美國那邊的申請，我送出去了。','美國那邊的面試，排在下禮拜。'],['八月去的那一梯。','線上的。八月去的那一梯。'],['還沒上。……上了再恭喜。','嗯。……上了再跟你說。'],['恭喜。','加油。']];   /* 長的先換（「恭喜。」也在回覆那句裡）*/
+const fx=(t,F)=>F.reduce((x,[a,b])=>x.split(a).join(b),t);
+const NEW507=FIX507_33.concat(FIX507_0115).map(x=>x[1]);
+const back507=t=>FIX507_33.concat(FIX507_0115).reduce((x,[a,b])=>x.split(b).join(a),t);   /* 新句換回舊句：舊句要在 AA_440 */
+const S31=part('### 3-1.','### 3-2.'), S32=part('### 3-2.','### 3-3.'), S33=fx(part('### 3-3.','### 3-4.'),FIX507_33), S34=part('### 3-4.','## 4.'), S4=part('## 4.','## 5.'), S5=part('## 5.','## 6.');
+const row4=k=>{ const r=(rows(S4).find(r=>r.some(c=>c.indexOf(k)>=0))||[]).join('|'); return k==='1/15（六）'?fx(r,FIX507_0115):r; };
 const poolOf=(a,b)=>{ const s=part(a,b); return s.split('\n').map(l=>/^\s*\d+\.\s*(（.*）)\s*$/.exec(l)).filter(Boolean).map(m=>m[1]); };
 /* AA_443 第 2 節（企劃線 f93fa3eda）：摘要池加寫，接在 AA_440 5-1、5-2 各池最後面 */
 const P443='docs/story_planning/AA_443_多媒體中心看的字_摘要池加寫_週四家人群組範圍.md';
@@ -74,7 +83,7 @@ const wake=async(G)=>{ CLS.rec(G); const T0=CALENDAR.TERMS; for(const t of T0) C
   await sec(0,async()=>{
     const all=[]; const walk=v=>{ if(typeof v==='string') all.push(v); else if(Array.isArray(v)) v.forEach(walk); else if(v&&typeof v==='object') Object.values(v).forEach(walk); };
     walk(L()); const ids=/^(econ_[a-z]+|zhe|yu|classmate_bohan|heroine_0\d|kexin|kai|mom|dad|sister)$/;
-    const bad=all.filter(t=>!ids.test(t)&&DOC.indexOf(t)<0&&!POOL443.home.winter.concat(POOL443.home.summer,POOL443.dorm.winter,POOL443.dorm.summer).includes(t));
+    const bad=all.filter(t=>!ids.test(t)&&DOC.indexOf(t)<0&&!POOL443.home.winter.concat(POOL443.home.summer,POOL443.dorm.winter,POOL443.dorm.summer).includes(t)&&!(DOC507&&NEW507.some(n=>t.indexOf(n)>=0&&DOC507.indexOf(n)>=0)&&DOC.indexOf(back507(t))>=0));
     check('0. VACFILL_LINES 的每一句都在 AA_440（摘要池加寫的在 AA_443 第 2 節；人物 id 除外）',bad.length===0,bad.join('｜'));
     check('0. 稿沒有寫字的兩則照片（VACFILL_UI）：括號裡的字取自稿',['上海下大雨','燈'].every(t=>DOC.indexOf(t)>=0)&&VACFILL_UI.photoTyphoon==='📷（上海下大雨）'&&VACFILL_UI.photoLantern==='📷（燈）');
     check('0. 摘要池：AA_440 住家裡寒假 8、暑假 8；留宿舍各 6',POOL440.home.winter.length===8&&POOL440.home.summer.length===8&&POOL440.dorm.winter.length===6&&POOL440.dorm.summer.length===6);
@@ -267,8 +276,8 @@ const wake=async(G)=>{ CLS.rec(G); const T0=CALENDAR.TERMS; for(const t of T0) C
     check('3-2. 「不去。」＝2/9 21:30 Alison 傳一張燈的照片「你錯過一隻龍！！」；不排出遊',b32===0&&J(pairs('vf_y3_0209_miss'))===J(['yu:'+VACFILL_UI.photoLantern,'yu:'+qs(part('- 回「不去。」','### 3-3.'))[1]])&&!out('vf_y3_0209'),J(pairs('vf_y3_0209_miss')));
     /* 3-3 */
     G=lawG('2028-02-12',14.05,{fam:[SIS]}); rules(); const q33=Q(S33);
-    check('3-3. 2/12（六）14:00 學姊（FAMILIAR 以上、沒交往）：「法圖寒假下週一開。」「你開學以前要借書的話，那天人最少。」＋「我那天去。」',J(pairs('vf_y3_0212'))===J(qPairs(q33))&&J(optsOf('vf_y3_0212'))===J(['我那天去。']));
-    answer('vf_y3_0212',0); rules(); Ls=await run('ev_vf_y3_0214'); const n33=nar(part('- 回「我那天去。」','- 2/14 是情人節'))[1];
+    check('3-3. 2/12（六）14:00 學姊（FAMILIAR 以上、沒交往）：「法圖下週一恢復晚上開館。」（AA_507 0-2 第 4 點）「你開學以前要借書的話，那天人最少。」＋「我那天去。」',J(pairs('vf_y3_0212'))===J(qPairs(q33))&&J(optsOf('vf_y3_0212'))===J(['我那天去。']));
+    answer('vf_y3_0212',0); rules(); Ls=await run('ev_vf_y3_0214'); const n33=fx(nar(part('- 回「我那天去。」','- 2/14 是情人節'))[1]||'',FIX507_33);
     check('3-3. 「我那天去。」＝2/14（一）10:00 法圖一鍵：（開館第一天，借書櫃台前面只有你。…點了一下頭。）',isAt(out('vf_y3_0214'),'2028-02-14',10)&&J(Ls)===J([n33]),J(Ls)+J(n33));
     G=lawG('2028-02-12',14.05,{date:[SIS]}); rules(); check('3-3. 和學姊交往中：不發',!tagged('vf_y3_0212').length);
     G=lawG('2028-02-12',14.05,{fam:[SIS],date:[AN]}); rules(); check('3-3. 和別人交往中：照發（只是借書，不和情人節衝突）',tagged('vf_y3_0212').length===2);
@@ -323,7 +332,7 @@ const wake=async(G)=>{ CLS.rec(G); const T0=CALENDAR.TERMS; for(const t of T0) C
     check('4. 「好。」＝1/8（六）15:00 參創一鍵（不算校外約會）：（她帶你繞了一圈試玩區，在一台前面停了很久，什麼都沒說。）',isAt(out('vf_y3w_0108'),'2028-01-08',15)&&!out('vf_y3w_0108').dateTrip&&J(Ls)===J([L().y3w_0106.narr])&&r0106.indexOf(L().y3w_0106.narr)>=0,J(Ls));
     const r0115=row4('1/15（六）');
     G=lawG('2028-01-15',21.05,{fam:[SIS]}); rules(); rep=answer('vf_y3w_0115',0);
-    check('4. 1/15（六）學姊（FAMILIAR 以上）「美國那邊的申請，我送出去了。」「八月去的那一梯。」→「恭喜。」→「還沒上。……上了再恭喜。」',J(tagged('vf_y3w_0115').slice(0,2).map(m=>m.text))===J(qs(r0115).slice(0,2))&&J(rep)===J([SIS+':'+qs(r0115)[3]]),J(rep));
+    check('4. 1/15（六）學姊（FAMILIAR 以上）「美國那邊的面試，排在下禮拜。」「線上的。八月去的那一梯。」→「加油。」→「嗯。……上了再跟你說。」（AA_507 0-2 第 2 點）',J(tagged('vf_y3w_0115').slice(0,2).map(m=>m.text))===J(qs(r0115).slice(0,2))&&J(rep)===J([SIS+':'+qs(r0115)[3]]),J(rep));
     const r0111=row4('1/11（四）');
     G=lawG('2029-01-11',21.05); rules(); check('4. 大四寒假 1/11（四）麵店團：Alison、柏翰、阿哲、Alison',J(pairs('vf_y4w_0111'))===J(['yu:'+qs(r0111)[0],'classmate_bohan:'+qs(r0111)[1],'zhe:'+qs(r0111)[2],'yu:'+qs(r0111)[3]]),J(pairs('vf_y4w_0111')));
     const r0120=row4('1/20（六）');

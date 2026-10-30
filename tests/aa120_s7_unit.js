@@ -4,6 +4,7 @@
 //       黃教授那句只在上過她的課以後、是書不是電影；Alison 的引號、第 4～6 週。
 //   7-2 20 人各三句、每句只說一次、第 3 句要 SHARED_SECRET；心事（facts[1]）說出來以前不出現在任何閒聊、旁白、手機的人物說明；心事在兩句說完以後、一天一句。
 //   7-3 年級跟著遊戲走（大四封頂）、pool_3 的外觀、學長姊照年級畢業（presence）。
+// 2026-10-28 改：AA_497 2-9 芯慈大三上的新閒聊「這學期雙主修的課沒有撞堂。……」也含「雙主修」，篩三個版本的時候排除（tests/aa497_supporting_unit.js 2-9 測那一句）。
 //   7-4 舊存檔：一般自我介紹留下的女主角 FIRST_MET、相遇事件沒播過 → 標成一般招呼（GREETED），先備份；正常相遇過的、有別的紀錄的不動；只做一次。
 //   7-5 雨天的總圖門口只在還沒見過語彤時；經原分組在大一上週五經原下課後的普通教學館、第 4 週起；傅鐘的改字（BB）與芷若作息的備註。
 // 用法：node tests/aa120_s7_unit.js
@@ -30,7 +31,7 @@ const line=(id,re)=>ST(id).find(e=>(typeof e==='string'?e:e.t).match(re));
   check('只在 7～14 天前說，句子裡的天數是那一天算出來的（中文數字）',said.length>0&&said.every(t=>{ const n=+t.split(':')[0]; return n>=7&&n<=14&&t.includes('還有'+STORY.zhNum(n)+'天'); }),said.slice(0,3).join(' / '));
   fresh(mid-10); G.social.small={classmate_bohan:{day:0,used:[],last:null,once:{[e.t]:'Y1S1'}}}; let again=false; for(let k=0;k<3;k++){ G.day=mid-10+k; G.social.small.classmate_bohan.day=0; const L=STORY.smallTalk(G,'classmate_bohan'); if(L.say&&/期中還有/.test(L.say)) again=true; }
   check('同一學期說過就不再說（once:term）',!again); }
-{ const L=ST('classmate_xinci').filter(e=>typeof e==='object'&&/雙主修|自學過一點經濟|念過經濟系，我只問/.test(e.t));
+{ const L=ST('classmate_xinci').filter(e=>typeof e==='object'&&/雙主修|自學過一點經濟|念過經濟系，我只問/.test(e.t)&&e.t!=='「這學期雙主修的課沒有撞堂。……我把那一格空下來了。」');   /* AA_497 2-9（2026-10-28）大三上新閒聊也有「雙主修」三個字，不是這三個版本 */
   check('芯慈：「經濟系那邊的課比較輕鬆」拿掉，換成三個版本（大一上、下；雙主修事件以後不說）',L.length===3&&L.every(e=>JSON.stringify(e.term)==='["Y1S1","Y1S2"]'&&e.if&&JSON.stringify(e.if.notEvents)==='["ev_xinci_double"]')&&!ST('classmate_xinci').some(q=>/比較輕鬆/.test(typeof q==='string'?q:q.t)));
   const pick=v=>{ fresh(dOf('Y1S1',6,3)); if(v) G.flags.ECON_PAST_SHARED=v; const out=[]; for(const e of L){ const ok=(!e.if||EVENTS.cond(e.if))&&(!e.unless||!EVENTS.cond(e.unless)); if(ok) out.push(e.t.slice(1,10)); } return out.join('|'); };
   check('不知道／none：只有排三個版本那句；half：自學過那句；full：念過經濟系那句（AA_224 第 2 組）',pick(null)==='雙主修要多修好多學'&&pick('none')==='雙主修要多修好多學'&&pick('half')==='你說你自學過一點經'&&pick('full')==='你念過經濟系，我只',[pick(null),pick('half'),pick('full')].join(' / ')); }
@@ -42,7 +43,7 @@ const line=(id,re)=>ST(id).find(e=>(typeof e==='string'?e:e.t).match(re));
 /* ---------- 7-2 不熟同學 ---------- */
 const POOL=Object.keys(CHARACTERS).filter(id=>/^pool_/.test(id));
 check('20 位不熟同學各三句，每句只說一次（once），第 3 句要說過心事（SHARED_SECRET）',POOL.length===20&&POOL.every(id=>ST(id).length===3&&ST(id).every(e=>e.once===true)&&!ST(id)[0].if&&!ST(id)[1].if&&JSON.stringify(ST(id)[2].if)===JSON.stringify({memory:[{npc:id,tag:'SHARED_SECRET'}]})));
-check('改過的四個人：林采潔「我在寫一篇推理小說」、徐靜儀「我想當跑司法新聞的記者」、杜宇恆「想雙主修社工」（第 1 句是旁聽）、邱柏勳「常在系館門口講電話的男生」',CHARACTERS.pool_1.facts[1]==='我在寫一篇推理小說'&&CHARACTERS.pool_13.facts[1]==='我想當跑司法新聞的記者'&&CHARACTERS.pool_19.facts[0]==='想雙主修社工'&&/旁聽社工系/.test(ST('pool_19')[0].t)&&CHARACTERS.pool_3.descriptor==='常在系館門口講電話的男生');
+check('改過的四個人：林采潔「我在寫一篇推理小說」、徐靜儀「我想當跑司法新聞的記者」、pool_19「想雙主修社工」（第 1 句是旁聽）、pool_3 的外觀描述（AA_498 第 1、3 節之後：名字改成蘇承恩、邱家齊；pool_3 的描述照地點換成「把冰箱塞滿的學長」）',CHARACTERS.pool_1.facts[1]==='我在寫一篇推理小說'&&CHARACTERS.pool_13.facts[1]==='我想當跑司法新聞的記者'&&CHARACTERS.pool_19.facts[0]==='想雙主修社工'&&/旁聽社工系/.test(ST('pool_19')[0].t)&&CHARACTERS.pool_3.descriptor==='把冰箱塞滿的學長'&&CHARACTERS.pool_19.name==='蘇承恩'&&CHARACTERS.pool_3.name==='邱家齊');
 check('十男十女',POOL.filter(id=>CHARACTERS[id].gender==='m').length===10);
 { /* 一個人從認識到說完：心事不先洩漏 */
   const leaks=[]; for(const id of POOL){ fresh(dOf('Y1S1',5,3)); const sec=CHARACTERS[id].facts[1]; const seen=[];
@@ -54,8 +55,9 @@ check('十男十女',POOL.filter(id=>CHARACTERS[id].gender==='m').length===10);
   STORY.smallTalk(G,id); G.day++; STORY.smallTalk(G,id); check('兩句說完的同一天也不說（一天一句）',!STORY.secretReady(G,id));
   G.day++; check('隔天：可以說了',STORY.secretReady(G,id)); }
 /* ---------- 7-3 年級、在校時間 ---------- */
-{ fresh(dOf('Y1S1',5,3)); const a=SOCIAL.displayName('pool_3'); fresh(dOf('Y2S1',5,3)); const b=SOCIAL.displayName('pool_3'); const c=SOCIAL.yearOf('pool_1'); fresh(dOf('Y4S1',5,3)); const d=SOCIAL.yearOf('pool_2');
-  check('年級跟著遊戲走：pool_3 大一時「法律系三年級的男生」、玩家大二時「法律系四年級的男生」；pool_1 玩家大二時是二年級；大四封頂',a==='法律系三年級的男生'&&b==='法律系四年級的男生'&&c===2&&d===4,[a,b,c,d].join(' / ')); }
+{ fresh(dOf('Y1S1',5,3)); const a=SOCIAL.yearOf('pool_3'), an=SOCIAL.displayName('pool_3'); fresh(dOf('Y2S1',5,3)); const b=SOCIAL.yearOf('pool_3'); const c=SOCIAL.yearOf('pool_1'); fresh(dOf('Y4S1',5,3)); const d=SOCIAL.yearOf('pool_2');
+  /* AA_498 2-2 之後：認識前的稱呼是外觀描述（不在他的地點＝characters.js 的 descriptor），不再是「法律系三年級的男生」；年級照舊跟著遊戲走（SOCIAL.yearOf）*/
+  check('年級跟著遊戲走：pool_3 大一時三年級、玩家大二時四年級；pool_1 玩家大二時是二年級；大四封頂；認識前叫外觀描述「把冰箱塞滿的學長」',a===3&&b===4&&c===2&&d===4&&an==='把冰箱塞滿的學長',[a,an,b,c,d].join(' / ')); }
 { fresh(dOf('Y3S1',3,3)); check('三年級的（pool_3）玩家大三不在學校；二年級的（pool_2）還在',!STORY.present('pool_3',G)&&STORY.present('pool_2',G)); }
 /* ---------- 7-4 舊存檔 ---------- */
 { const mk=()=>({v:2,name:'測試',day:20,hour:10,zone:'campus',events:{done:{},last:{},count:0},social:{mem:{heroine_02:[{tag:'FIRST_MET',day:5,note:'campus'}],heroine_03:[{tag:'FIRST_MET',day:6,note:'library'},{tag:'SHARED_MEAL',day:7}],heroine_04:[{tag:'FIRST_MET',day:8,note:'wancai'}]},rel:{heroine_02:{fam:9}}}});

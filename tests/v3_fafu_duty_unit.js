@@ -63,7 +63,7 @@ GM.money=function(n){ G.money+=n; };
   for(const w of [3,5,7]){ L=await next(w,['時候','先走'],'Y3S1'); check('5. 大三上第 '+w+' 週：學長簽名、沒有學姊',L.includes('（初談紀錄，一頁。學長在最下面簽名。）')&&!L.some(t=>SISRE.test(t)),JSON.stringify(L.slice(0,3))); }
   // 6. 學姊四年都不在
   check('6. 學姊四年都不在（STORY.fafuSisHere 一律 false）',['Y1S1','Y2S1','Y2S2','Y3S1','Y4S1','Y4S2'].every(t=>!STORY.fafuSisHere(mem(sat(t,3),9))));
-  check('6. 圓桌帶的人：大一社長、大二學長、大三大四值班的學長',STORY.fafuLead(mem(sat('Y1S1',3),9))==='社長'&&STORY.fafuLead(mem(sat('Y2S1',3),9))==='學長'&&STORY.fafuLead(mem(sat('Y3S1',3),9))==='值班的學長'&&STORY.fafuLead(mem(sat('Y4S1',3),9))==='值班的學長');
+  check('6. 圓桌帶的人：大一社長、大二學長、大三大四值班的學長',STORY.fafuLead(mem(sat('Y1S1',3),9))==='法服的社長'&&STORY.fafuLead(mem(sat('Y2S1',3),9))==='學長'&&STORY.fafuLead(mem(sat('Y3S1',3),9))==='值班的學長'&&STORY.fafuLead(mem(sat('Y4S1',3),9))==='值班的學長');   /* 大一的標籤寫全名「法服的社長」（AA_496 第 9 節第 6 點，2026-10-28；原本「社長」）*/
   { L=await next(3,['時候','先走'],'Y4S1'); check('6. 大四沒有「我只是路過」「她坐到十二點」',!L.some(t=>/我只是路過|她坐到十二點/.test(t))); }
   // 7. 連續三次沒去：柏翰私訊；「先不排我。」＝這學期不提醒；下學期第一週再問
   { mem(sat('Y2S1',7)-1,20); STORY.phoneRules(GM); for(const w of [7,11,13]){ G.day=sat('Y2S1',w); G.weekday=6; G.hour=8; STORY.phoneRules(GM); G.hour=12.5; STORY.phoneRules(GM); }

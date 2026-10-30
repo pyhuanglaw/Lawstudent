@@ -132,7 +132,7 @@ let money=[]; GM.money=(n,why)=>{ money.push([n,why]); H.G.money+=n; };
     check('1-3. 「（給她一盒巧克力）」→「……好。」旁白「（她當場拆開，吃了一顆。）」「我以為我會留到日本再吃。」、AN_VDAY_GIFT choco、記憶 AN_VDAY_CHOCO',J(L.slice(3,6))===J(['……好。','（她當場拆開，吃了一顆。）','我以為我會留到日本再吃。'])&&H.G.flags.AN_VDAY_GIFT==='choco'&&SOCIAL.has(AN,'AN_VDAY_CHOCO'),J(L));
     at('2028-03-14',18); const W=await play('ev_an_white_day',[0]); check('1-3. 巧克力也算送過（AN_VDAY_GIFT 有值）：3/14 是回禮那一版',W.includes('（她拿出一個小紙袋）一個月前你送的。這是回禮。'),J(W)); }
   { setup('2028-02-13',21.05,AN); rules(); PHONE.answer(H.G,'anyt_an_y3_ask',1); rules(); const r=dms(AN).slice(-1)[0]; at('2028-03-14',18); const W=await play('ev_an_white_day',[0]);
-    check('1-3. 「明天我不行。」→「好。那三月再說。」、AN_VDAY_Y3 no、沒有 AN_VDAY_GIFT＝3/14「不是回禮」那一版',r==='好。那三月再說。'&&H.G.flags.AN_VDAY_Y3==='no'&&H.G.flags.AN_VDAY_GIFT==null&&W.includes('二月十四號那天，我在讀書。……你也沒說什麼。'),J({r,W})); }
+    check('1-3. 「明天我不行。」→「好。那三月再說。」、AN_VDAY_Y3 no、沒有 AN_VDAY_GIFT＝3/14 沒送過那一版，而且是「你有事」那一句（AA_508 0-2 第 8 點：她約過、你拒絕）＋「回禮要先收到才算。」',r==='好。那三月再說。'&&H.G.flags.AN_VDAY_Y3==='no'&&H.G.flags.AN_VDAY_GIFT==null&&W.includes('二月十四號那天，你有事。我在讀書。')&&!W.includes('二月十四號那天，我在讀書。……你也沒說什麼。')&&W.includes('（她拿出一個小紙袋）回禮要先收到才算。……這個，是我自己想送。'),J({r,W})); }
   { setup('2028-02-13',21.05,AN); rules(); PHONE.answer(H.G,'anyt_an_y3_ask',0); rules(); at('2028-02-14',13.6); H.picks=[2]; await OUT.prompt(GM,OUT.get(H.G,'anyt_an_vday_y3')); rules(); const n=dms(AN).length; at('2028-02-14',15.05); rules(); at('2028-02-14',17.05); rules();
     check('1-3. 「不去了」：記 missed、15:00「我在總圖門口。」、17:00「我先回去了。行李還沒收。」',H.G.flags.AN_VDAY_Y3==='missed'&&J(dms(AN).slice(n))===J(['我在總圖門口。','我先回去了。行李還沒收。']),J(dms(AN))); }
   });

@@ -24,13 +24,13 @@ const FIT=(function(){
     classmate_bohan:{n:[['classmate_bohan','你一週去幾次？我在想要不要把運動排進時間表。']],x:[['classmate_bohan','你去健身房的時間，比我念刑法的時間多。'],['classmate_bohan','……我要調一下時間表。']]},
     yu:{n:[['yu','欸你最近有在練喔！！阿哲說他也要去。……他不會去。']],x:[['yu','欸營隊缺體育股長！！你來！']]},
     kai:{n:[['kai','你最近一直出門。健身房？好喔。宵夜還是有你的份。']],x:[['kai','你的泡麵評分變少了。……我有點寂寞。']]},
-    classmate_mingxuan:{n:[['classmate_mingxuan','健身房？學校的？學生月票很便宜吧？哈哈，CP 值很高。']],x:[['classmate_mingxuan','哈哈，系籃缺人。你不要拒絕。']]},
+    classmate_mingxuan:{n:[['classmate_mingxuan','健身房？學校的？學生月票很便宜吧？CP 值很高。']],x:[['classmate_mingxuan','系籃缺人。你不要拒絕。']]},   /* AA_497 4-6：當面的「哈哈」拿掉（口氣表：「哈哈」只在訊息裡）*/
     npc_fangyt:{n:[['npc_fangyt','體能好了。下次帶你走比較難的那條。']],x:[['npc_fangyt','你可以走那條稜線了。……那條我只帶過兩個人。']]} };
   /* GYM-NOTICE-1027（AA_485 第 1 節，企劃線 5aaa71d6a；使用者 10-27「健身房的時間是什麼意思 健身房都不能用?」）：體能也可能是體育課、系籃、登山、羽球、騎車來的，
      沒有健身房會員證（G.daily.gym.card，gym3d.js 辦卡那一天）的玩家，朋友只看得到「他最近在動」——下面這幾句換掉；有會員證照上面那張表。只列有換的那一階 */
   S.NOTICE_NOCARD={ classmate_bohan:{x:[['classmate_bohan','你運動的時間，比我念刑法的時間多。'],['classmate_bohan','……我要調一下時間表。']]},
     kai:{n:[['kai','你最近一直出門。去運動？好喔。宵夜還是有你的份。']]},
-    classmate_mingxuan:{n:[['classmate_mingxuan','最近有在動喔？學校的球場不用錢吧？哈哈，CP 值最高。']]},
+    classmate_mingxuan:{n:[['classmate_mingxuan','最近有在動喔？學校的球場不用錢吧？CP 值最高。']]},   /* AA_497 4-6：當面的「哈哈」拿掉 */
     heroine_01:{n:[['heroine_01','你最近走路變快了。……我只是看到了。']]},
     classmate_peishan:{n:[['classmate_peishan','人為什麼要自己去流汗？我不是質疑，我真的想知道。']]} };
   S.noticeLines=function(G,id,i){ const N=S.NOTICE[id]; if(!N) return null; const k=i>=3?'x':'n', alt=!rec(G).card&&S.NOTICE_NOCARD[id]; return (alt&&alt[k])||N[k]; };
@@ -63,6 +63,7 @@ const FIT=(function(){
   S.idleDue=function(G){ const r=rec(G); if(!r.card) return false; const last=r.fitDay!=null?r.fitDay:(typeof r.card==='number'?r.card:null);   /* card＝辦卡那一天 */ if(last==null||G.day-last<56) return false;
     const t=typeof CALENDAR!=='undefined'?CALENDAR.termOf(G.day):null, tid=t?t.id:'break'; if(r.idleT===tid) return false; const h=G.hour%24; return h>=7&&h<11&&(G.zone==='dorm'||G.zone==='dorm_hall'||(typeof HOME!=='undefined'&&HOME.at&&HOME.at(G))); };
   let busy=false;
+  (globalThis.LOADLOCKS=globalThis.LOADLOCKS||{})['fit3d:busy']=()=>{ busy=false; };   /* 讀檔時放開（LOADGEN-LOCKS-1028）：讀檔凍住的舊劇情走不到 finally，只把旗標設回初始值 */
   S.tick=function(GM){ S.sync(GM); const G=GM&&GM.G; if(busy||!G||!S.idleDue(G)) return false; if(GM.D&&GM.D.active) return false; if(typeof EVENTS!=='undefined'&&EVENTS.running) return false;
     const r=rec(G), t=typeof CALENDAR!=='undefined'?CALENDAR.termOf(G.day):null; r.idleT=t?t.id:'break'; busy=true;
     (async()=>{ try{ GM.sceneBegin(); try{ await GM.say(null,S.LINES.idle); } finally { GM.sceneEnd(); } } catch(e){ console.warn('FIT.idle',e); } finally { busy=false; } })(); return true; };

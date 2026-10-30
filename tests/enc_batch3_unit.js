@@ -123,7 +123,7 @@ const why=(G,spot)=>{ const w=[]; ENC.candidates(G,spot,w); return w.join(' '); 
   const n2=ENCOUNTERS.rows.filter(r=>['D09','D18','D20','D24','D25'].includes(r.spot)).length; check('9. 第二批 10 列（AA 六位＋BB 五位；沛珊 D20 烏來那一列拿掉，AA_282、AA_342 C2）',n2===10,String(n2));
   STAGE.heroine_01='FAMILIAR'; let G=mk(STORY.termDay('Y2S1',10,6),16); check('9. 以安 D09：大二上第 10 週週六 16:00',at(G,'D09')==='heroine_01',why(G,'D09'));
   G=mk(STORY.termDay('Y2S1',16,6),16); check('9. 第 16 週（期末考週）：不在',at(G,'D09')==='');
-  const jp=STORY.termDay('Y3S2',10,6); G=mk(jp,16); check('9. 大三下第 10 週（'+CALENDAR.dateOf(jp).key+'）以安在日本：不出現（presence）',at(G,'D09')===''&&/不在/.test(why(G,'D09')),why(G,'D09')); delete STAGE.heroine_01;
+  const jp=STORY.termDay('Y3S2',10,6); G=mk(jp,16); check('9. 大三下第 10 週（'+CALENDAR.dateOf(jp).key+'）以安在日本：不出現（AA_508 0-2 第 11 點：那一學期的列拿掉＝學期；presence 也擋）',at(G,'D09')===''&&/學期|不在/.test(why(G,'D09')),why(G,'D09')); delete STAGE.heroine_01;
   G=mk(STORY.termDay('Y3S1',12,6),11); const L=[], menus=[]; const gm={G,say:async(w,t)=>L.push((w?(w.name||w)+'：':'')+t),choose:async o=>{ menus.push(o.map(x=>x.t)); return 0; }};
   const hit=ENC.candidates(G,'D18').find(c=>c.row.who==='heroine_03'); if(hit) await ENC.meet(gm,hit.row,hit.tier);
   check('9. 語彤 D18（在做田野）：只點頭的旁白、沒有選單，照樣留 ENC_D18_YT（之後在學校說一句）',!!hit&&!menus.length&&L.includes('（她看到你，點了一下頭，繼續聽阿嬤說話。）')&&SOCIAL.has('heroine_03','ENC_D18_YT'),JSON.stringify({L,menus}));

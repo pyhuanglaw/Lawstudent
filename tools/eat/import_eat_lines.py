@@ -17,6 +17,11 @@ def read_allowed(path):
     if not ok: sys.exit(why)
     return sha, IG.alison(subprocess.run(['git', 'show', f'{sha}:{path}'], cwd=ROOT, capture_output=True, text=True, check=True).stdout)  # AA_380：讀稿先把「小語」換成 Alison（import_guard.alison）
 SHA, src = read_allowed(PATH)
+# AA_497 第 8 節第 3 點（企劃線 60fc3b9a3，AA-C 定）：芯慈追劇減量——朋友以上那一句換句（原文照讀，讀完照這張表換；沒找到原句＝稿變了，停下來）
+FIX = [('剛好。我昨天看了一部劇，沒有人可以講。', '剛好。我昨天把筆記重抄了一遍，沒有人可以講。')]
+for a, b in FIX:
+    if a not in src: raise SystemExit('AA_329 找不到要換的句子：' + a)
+    src = src.replace(a, b)
 SHA_A, src_a = read_allowed(PATH_A)
 SPK = {'以安': 'heroine_01', '芷若': 'heroine_02', '語彤': 'heroine_03', '子晴': 'heroine_04', '學姊': 'heroine_05', '沛珊': 'classmate_peishan', '可昕': 'kexin',
        '阿哲': 'zhe', 'Alison': 'yu', '柏翰': 'classmate_bohan', '芯慈': 'classmate_xinci', '明軒': 'classmate_mingxuan', '祐廷': 'me'}
@@ -29,7 +34,7 @@ def quote(line):
     t = m.group(1).strip()
     if not t: return None
     if t.startswith('（'): return [None, t]
-    m2 = re.match(r'^([^：]{1,4})：(.+)$', t)
+    m2 = re.match(r'^([^：]{1,6})：(.+)$', t)   # 說話的人最多 6 個字（AA_380 小語改名 Alison 以後超過 4 個字，原本的 {1,4} 讀不到；2026-10-28 改，重產的結果和改前的 eat_lines.js 一字不差）
     if m2 and m2.group(1) in SPK: return [SPK[m2.group(1)], m2.group(2)]
     raise SystemExit('認不得的台詞行：' + t)
 lines = src.split('\n')
@@ -72,7 +77,7 @@ a4 = next(l for l in src_a.split('\n') if l.startswith('| A4 |'))
 m4 = re.search(r'上次沒加熱的，店員改說「\*\*([^*」]+)\*\*」，回「([^」]+)」', a4)
 if not m4: raise SystemExit('AA_336 A4 那一列格式變了：' + a4)
 staff['公館的便利商店']['line5Alt'] = {'when': '沒加熱', 't': m4.group(1), 'reply': m4.group(2)}
-data = {'source': f'AA_329（企劃 {SHA}）＋AA_336 第 A 節（企劃 {SHA_A}）', 'open': OPEN, 'closeRecycle': RECYCLE, 'closeDoor': DOOR, 'doorShops': door_shops,
+data = {'source': f'AA_329（企劃 {SHA}）＋AA_336 第 A 節（企劃 {SHA_A}）＋AA_497 第 8 節第 3 點換一句（企劃 60fc3b9a3）', 'open': OPEN, 'closeRecycle': RECYCLE, 'closeDoor': DOOR, 'doorShops': door_shops,
         'together': together, 'first': first, 'staff': staff, 'staffYutong': ['heroine_03', yt]}
 n = sum(len(v) for g in together.values() for v in g.values())
 assert len(together) == 12 and len(first) == 15 and len(staff) == 16, (len(together), len(first), len(staff))

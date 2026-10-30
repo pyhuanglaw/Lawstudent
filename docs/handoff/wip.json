@@ -984,11 +984,12 @@
    "files": [
     "wip_backup/pool498_1028.bundle"
    ],
-   "state": "WIP",
+   "state": "已整合",
    "remaining": "AA_498 法律系同學二十位：改名六位＋借車名單兩個、共同做法 2-1～2-10、二十位地點表（修三位永遠不出現）、第一批五位（曾靖雯、黃郁婷、林采潔、鄭元碩、邱家齊）；子代理 02:3x 開工",
    "next": "bundle 04:1x 更新到 e21e3f37c（正式 commit，子代理收尾中）；做完跑相關 Node 再合；之後 AA_499～501、AA_497",
    "noDirectIntegrate": true,
-   "source": "使用者 10-28（X119：「全部留著，每個都補故事」「他們可以不能攻略 但有支線任務阿」）"
+   "source": "使用者 10-28（X119：「全部留著，每個都補故事」「他們可以不能攻略 但有支線任務阿」）",
+   "closedBy": "70ceae0ed（合併子代理 e21e3f37c 進開發分支，aa498_pool_unit ALL PASS；全部 Node 702 支 0 失敗）"
   },
   {
    "id": "WIP-LAWWW-FEED2-1028",
@@ -1035,11 +1036,458 @@
     "src/feed3d.js",
     "src/heard3d.js"
    ],
-   "state": "WIP",
+   "state": "已整合",
    "remaining": "AA_506、AA_507（e4fbd0192）的動態、私訊、別人說起她；AA_505 e4fbd0192 的更正；3D 不在這一輪",
    "next": "bundle 04:1x 更新到 1a134d6df（第三輪開工＋AA 795fbecfd 回饋）；每 15～20 分鐘更新（D113）；做完跑相關 Node 再合",
    "noDirectIntegrate": true,
-   "source": "使用者 10-28 01:2x（X122★）"
+   "source": "使用者 10-28 01:2x（X122★）",
+   "closedBy": "923e81d20（合併子代理 95e41cb8f 進開發分支，aa506_507_feed_unit 58 項 ALL PASS）"
+  },
+  {
+   "id": "WIP-LAWWW-CIRCLE3D-1028",
+   "task": "HEROINE-CIRCLE3D-1028",
+   "state": "已整合",
+   "sha": "a06030c92、0007404d9",
+   "branch": "worktree-agent-a49a6f354b158e257（子代理；D113 備份 wip_backup/circle3d_1028.bundle）",
+   "files": [
+    "wip_backup/circle3d_1028.bundle"
+   ],
+   "todo": "女主角的圈子在 3D：with 同伴、一定同框、走近時聽到、第一次介紹、二十位同學在這裡認識；AA_503～508 各節 x-1",
+   "next": "子代理做完回報 → LAWWW 合併、全部 Node、BB 看畫面",
+   "noDirectIntegrate": true,
+   "role": "LAWWW",
+   "closedBy": "555186796（合併子代理 305d154b3 進開發分支；tests/heroine_circle3d_unit.js 50 項 ALL PASS，子代理在 ff9f54209 跑 FAILED 13）"
+  },
+  {
+   "id": "WIP-LAWWW-AA497-1028",
+   "task": "NPC-STORY-1028",
+   "state": "已整合",
+   "sha": "cfaed12ef、9e2aa7295",
+   "branch": "worktree-agent-afa95ee54a355c76f（子代理；D113 備份 wip_backup/aa497_1028.bundle）",
+   "files": [
+    "wip_backup/aa497_1028.bundle"
+   ],
+   "todo": "AA_497 五位配角改稿（宥辰、芯慈、Alison、明軒、Kevin；7a38216ca）；06:17 子代理做到 Alison 3-1～3-8 測試",
+   "next": "子代理做完回報 → LAWWW 合併、全部 Node",
+   "noDirectIntegrate": true,
+   "role": "LAWWW",
+   "closedBy": "7bd68b7cf（合併子代理 00638abdb 進開發分支；tests/aa497_supporting_unit.js 269 項 ALL PASS，子代理在 ff9f54209 跑 PASS 2／FAIL 46；改過的 18 支舊測試合併後全過）"
+  },
+  {
+   "id": "WIP-LAWWW-FEED4-1028",
+   "task": "HEROINE-LIFE-1028",
+   "role": "LAWWW",
+   "state": "已整合",
+   "sha": "a06030c92、7f9e4098d",
+   "branch": "worktree-agent-aeda78924a70beebf（子代理第四輪；D113 備份 wip_backup/feed4_1028.bundle）",
+   "files": [
+    "wip_backup/feed4_1028.bundle"
+   ],
+   "todo": "AA_508＋AA_509 手機動態、私訊、別人說起她、2D 短場；AA_506 第 9 節出遊途中貼的動態保留規則",
+   "next": "子代理做完回報 → LAWWW 合併、全部 Node",
+   "noDirectIntegrate": true,
+   "closedBy": "8d7e30de7（合併子代理 7a2a308ee 進開發分支，aa508_509_feed_unit 99 項 ALL PASS；白名單 AA_508／AA_509 照 28f981438）"
+  },
+  {
+   "id": "WIP-LAWWW-FEED5-1028",
+   "role": "LAWWW",
+   "task": "HEROINE-LIFE-1028",
+   "state": "已整合",
+   "sha": "8e50a4fc9、e08e8780a",
+   "branch": "worktree-agent-aa4b5a62dd1409410（子代理第五輪；D113 備份 wip_backup/feed5_1028.bundle）",
+   "files": [
+    "wip_backup/feed5_1028.bundle"
+   ],
+   "todo": "AA_510（大四下＋畢業那年夏天，28f981438）＋AA_511（畢業以後 2029-09～2030-12，c9899bed9）手機動態、私訊、別人說起她；畢業以後篇跳時間動態留七天；曾靖雯、阿凱大二起的「別人說起她」（AA 06:03 規則）",
+   "next": "子代理做完回報 → LAWWW 合併、全部 Node",
+   "noDirectIntegrate": true,
+   "source": "使用者 10-28 01:2x（X122★）",
+   "closedBy": "7ef49cc84（合併子代理 e08e8780a 進開發分支；tests/aa510_511_feed_unit.js 76 項 ALL PASS，子代理對 5b80a7743 跑 FAILED 29）"
+  },
+  {
+   "id": "WIP-LAWWW-POOL499-1028",
+   "role": "LAWWW",
+   "task": "NPC-STORY-1028",
+   "state": "已整合",
+   "sha": "4eccd41a0、053f7d99a",
+   "branch": "worktree-agent-a7a772c76176b37dd（子代理；D113 備份 wip_backup/pool499_1028.bundle）",
+   "files": [
+    "wip_backup/pool499_1028.bundle"
+   ],
+   "todo": "AA_499（4545c239e）、AA_500（d043110ae）、AA_501（17d57eff3）法律系同學第二～四批十五位：認識、作息、支線任務；3D 圈子介紹走認識流程",
+   "next": "子代理做完回報 → LAWWW 合併、全部 Node",
+   "noDirectIntegrate": true,
+   "source": "使用者 10-28（X119：「全部留著，每個都補故事」「他們可以不能攻略 但有支線任務阿」）",
+   "closedBy": "49e6b3e8d（合併子代理 053f7d99a；tests/aa499_501_pool_unit.js 172 項 ALL PASS，子代理在 e7614e335 跑 PASS 22／FAIL 61）"
+  },
+  {
+   "id": "WIP-LAWWW-PRIV-1028",
+   "role": "LAWWW",
+   "task": "COMPANY-PRIV-1028",
+   "state": "已整合",
+   "sha": "4eccd41a0、a32da74ed",
+   "branch": "worktree-agent-aa2ffe70a7b9a0623（子代理；D113 備份 wip_backup/priv_y4circle_1028.bundle）",
+   "files": [
+    "wip_backup/priv_y4circle_1028.bundle"
+   ],
+   "todo": "A：旁邊有她的人時私密選項／場景／階梯步驟不出、等她一個人（AA 06:14 清單）；B：AA_509、AA_510 x-1 圈子加列（CIRCLE3D-Y4-1028）",
+   "next": "子代理做完回報 → LAWWW 合併、全部 Node",
+   "noDirectIntegrate": true,
+   "source": "AA-C 2026-10-28 06:14（AA_503 第 2 節）；使用者 10-28 01:2x（X122★）",
+   "closedBy": "d55f3aff1（合併子代理 a32da74ed；company_priv 30 項、heroine_circle3d 58 項 ALL PASS）"
+  },
+  {
+   "id": "WIP-LAWWW-AA497B-1028",
+   "role": "LAWWW",
+   "task": "NPC-STORY-1028",
+   "state": "已整合",
+   "sha": "8e50a4fc9、417129b1f",
+   "branch": "worktree-agent-afa95ee54a355c76f（AA_497 子代理續做；D113 備份 wip_backup/aa497b_1028.bundle）",
+   "files": [
+    "wip_backup/aa497b_1028.bundle"
+   ],
+   "todo": "AA_497 第 8 節（60fc3b9a3）：2-1 認識以安前不叫名字、芯慈追劇八處換句、明軒滷蛋、學妹改名佳穎（只換學妹）",
+   "next": "子代理做完回報 → LAWWW 合併、白名單 AA_497 改 60fc3b9a3、全部 Node",
+   "noDirectIntegrate": true,
+   "source": "AA-C 2026-10-28 06:43（AA_497 第 8 節）；使用者 10-28 X119",
+   "closedBy": "622d3a269（合併子代理 417129b1f；tests/aa497_supporting_unit.js 284 項 ALL PASS，子代理在 a8cba7618 跑 FAIL 24）"
+  },
+  {
+   "id": "WIP-LAWWW-SISB13-1028",
+   "role": "LAWWW",
+   "task": "SIS-B13-1028",
+   "state": "已整合",
+   "sha": "9bdb1c0d3、8455a44fc",
+   "branch": "worktree-agent-ad1f7063c51269675（子代理；D113 備份 wip_backup/sisb13_1028.bundle）",
+   "files": [
+    "wip_backup/sisb13_1028.bundle",
+    "wip_backup/wip_untracked_sisb13_0743.tar.gz"
+   ],
+   "todo": "AA_512（c444f0757）學姊第十三批八場＋說了沒發生九件＋第 5 節伴手禮＋第 6 節日本視訊三句／前任／禁用句型",
+   "next": "子代理做完回報 → LAWWW 合併、全部 Node",
+   "noDirectIntegrate": true,
+   "source": "AA-C 2026-10-28（AA_512）；使用者 C25",
+   "closedBy": "8da7af594（合併子代理 65fe4ec93；aa512 129 項 ALL PASS）"
+  },
+  {
+   "id": "WIP-LAWWW-AA513-1028",
+   "role": "LAWWW",
+   "task": "HEROINE-LIFE-1028",
+   "state": "已整合",
+   "sha": "4eccd41a0、6027802c8",
+   "branch": "worktree-agent-a977d867acf4da7c2（子代理；D113 備份 wip_backup/aa513_1028.bundle）",
+   "files": [
+    "wip_backup/aa513_1028.bundle"
+   ],
+   "todo": "AA_513（a2e4bf196）阿凱說子晴四句改私訊、以安和媽媽窗邊路過字幕",
+   "next": "子代理做完回報 → LAWWW 合併、全部 Node",
+   "noDirectIntegrate": true,
+   "source": "AA-C 2026-10-28（AA_513）；使用者 X122★",
+   "closedBy": "bb87d2f7b（合併子代理 925c0f2ee；aa513 等相關 10 支 ALL PASS）"
+  },
+  {
+   "id": "WIP-LAWWW-KXMOOT3-1028",
+   "role": "LAWWW",
+   "task": "KX-MOOT3-1028",
+   "state": "已整合",
+   "sha": "9bdb1c0d3、294b36bdb",
+   "branch": "worktree-agent-a3622cfa154c43e9a（子代理；D113 備份 wip_backup/kxmoot3_1028.bundle）",
+   "files": [
+    "wip_backup/kxmoot3_1028.bundle"
+   ],
+   "todo": "AA_514（964d01175）可昕最後一場模擬法庭（KX_WATCH：11/28 約 → 12/4 14:00 政大 → came／missed）＋AA_505 7-3 嘉義予樂家動態（1/29）",
+   "next": "子代理做完回報 → LAWWW 合併、全部 Node",
+   "noDirectIntegrate": true,
+   "source": "AA-C 2026-10-28（AA_514）；使用者 X122★",
+   "closedBy": "2f2ffe3eb（合併子代理 1ea07386e；aa514 56 項 ALL PASS）"
+  },
+  {
+   "id": "WIP-LAWWW-PRIVFIX-1028",
+   "role": "LAWWW",
+   "task": "PRIV-AAFIX-1028",
+   "state": "已整合",
+   "sha": "e0267df43、686863145",
+   "branch": "worktree-agent-a130a4011163817ef（子代理；D113 備份 wip_backup/privfix_1028.bundle）",
+   "files": [
+    "wip_backup/privfix_1028.bundle"
+   ],
+   "todo": "AA 6bc3cd784 定的 18 項：私密 12 項＋共同保底（沒有期限的 7 天、有期限的到期那天照演加旁白）、大四圈子 B2～B5",
+   "next": "子代理做完回報 → LAWWW 合併、全部 Node",
+   "noDirectIntegrate": true,
+   "source": "AA-C 2026-10-28 07:54（AA_503 第 14 節、AA_509 最後一節）",
+   "closedBy": "e324ccc5e（合併子代理 ed686822f；company_priv 59、heroine_circle3d 63 ALL PASS）"
+  },
+  {
+   "id": "WIP-LAWWW-LOADLOCK-1028",
+   "role": "LAWWW",
+   "task": "LOADGEN-LOCKS-1028",
+   "state": "已整合",
+   "sha": "e0267df43、7a70f09ee",
+   "branch": "worktree-agent-a16de5b29bd38efbe（子代理；D113 備份 wip_backup/loadlock_1028.bundle）",
+   "files": [
+    "wip_backup/loadlock_1028.bundle"
+   ],
+   "todo": "讀檔以後凍住的舊劇情佔著的鎖要放開：各模組 LOADLOCKS 登記＋applySave 的 loadRelease（EVENTS.running、ADV、walks…）；靜態檢查",
+   "next": "子代理做完回報 → LAWWW 合併、全部 Node",
+   "noDirectIntegrate": true,
+   "source": "BB-C 08:08、08:23（瀏覽器重現）；LAWWW-C EVENTS.running",
+   "closedBy": "8de0993cd（合併子代理 7e94e383c；loadgen_locks ALL PASS）"
+  },
+  {
+   "id": "WIP-LAWWW-PRIVFIX2-1028",
+   "role": "LAWWW",
+   "task": "PRIV-AAFIX-1028",
+   "state": "已整合",
+   "sha": "37f1416cb、ca07da63d",
+   "branch": "worktree-agent-a130a4011163817ef（子代理；D113 備份 wip_backup/privfix2_1028.bundle）",
+   "files": [
+    "wip_backup/privfix2_1028.bundle"
+   ],
+   "todo": "AA_503 第 14 節後補（0e46fdc7e）：3 擋下來沒演的不算知情次數（MREL、學姊一般見面還原）；4 選項出來了沒選不重算七天（從第一次被擋那天起）；tests/company_priv 第 9 段還在改",
+   "next": "子代理做完回報 → LAWWW 合併、全部 Node、SHA 給 BB",
+   "noDirectIntegrate": true,
+   "source": "AA-C 09:1x（AA_503 第 14 節後補，DL-AA-PRIVQ2）",
+   "closedBy": "eadb542e5（合併子代理 20cbaaba6；company_priv 65 項 ALL PASS）"
+  },
+  {
+   "id": "WIP-LAWWW-FEEDDATES-1028",
+   "role": "LAWWW",
+   "task": "FEED-DATES-1028",
+   "state": "已整合",
+   "sha": "79a094634、b45b02605",
+   "branch": "worktree-agent-ab645f464f54b8a63（子代理；D113 備份 wip_backup/feeddates_1028.bundle）",
+   "files": [
+    "wip_backup/feeddates_1028.bundle"
+   ],
+   "todo": "AA_515 交往中約會後的動態：src/data/feed_dates.js（已有）、feed3d.js 排程與上限（做中）、date3d 掛勾、tests/aa515_feed_dates_unit.js 逐字對稿＋行為",
+   "next": "子代理做完回報 → LAWWW 合併、全部 Node、SHA 給 BB（下一版）",
+   "noDirectIntegrate": true,
+   "source": "AA-C 2026-10-28 09:26（AA_515 aa9bbc46f，DL-AA-515）",
+   "closedBy": "398e1bd5f（合併子代理 50cec9dff；aa515_feed_dates 88 項 ALL PASS）"
+  },
+  {
+   "id": "WIP-LAWWW-DORMY24-1028",
+   "role": "LAWWW",
+   "task": "DORM-Y24-1028",
+   "state": "已整合",
+   "sha": "43f1be811、e03318a54",
+   "branch": "worktree-agent-a41ee188242228165（子代理；D113 備份 wip_backup/dormy24_1028.bundle）",
+   "files": [
+    "wip_backup/dormy24_1028.bundle"
+   ],
+   "todo": "AA_517 宿舍大二到大四：背景室友旁白、房間閒聊、三件小事、旗標；tests/aa517 逐字對稿＋行為（做中）",
+   "next": "子代理做完回報 → LAWWW 合併、全部 Node、SHA 給 BB（下一版）",
+   "noDirectIntegrate": true,
+   "source": "AA-C 2026-10-28 09:29（AA_517 ced552c17，DL-AA-517）",
+   "closedBy": "4bd186657（合併子代理 6b2086e2c；aa517 104 項 ALL PASS）"
+  },
+  {
+   "id": "WIP-LAWWW-SISB14-1028",
+   "role": "LAWWW",
+   "task": "SIS-B14-1028",
+   "state": "已整合",
+   "sha": "7af601fa0、1acd3321d",
+   "branch": "worktree-agent-ac1c5efa9256fe619（子代理；D113 備份 wip_backup/sisb14_1028.bundle）",
+   "files": [
+    "wip_backup/sisb14_1028.bundle"
+   ],
+   "todo": "AA_516 學姊第十四批：新檔 sis_b14（第 2、4 節）、第 1 節十二處修正、舊測試照改（做中）",
+   "next": "子代理做完回報 → LAWWW 合併、全部 Node、SHA 給 BB（下一版）",
+   "noDirectIntegrate": true,
+   "source": "AA-C 2026-10-28 09:52（AA_516 a9b87c588，DL-AA-516）",
+   "closedBy": "a436323c2（合併子代理 c1f8c776a；aa516 105 項 ALL PASS）"
+  },
+  {
+   "id": "WIP-LAWWW-DORMY24FIX-1028",
+   "role": "LAWWW",
+   "task": "DORM-Y24-AAFIX-1028",
+   "state": "已整合",
+   "sha": "075553799、4994e0998",
+   "branch": "worktree-agent-af2a1e7226097c845（子代理；D113 備份 wip_backup/dormy24fix_1028.bundle）",
+   "files": [
+    "wip_backup/dormy24fix_1028.bundle"
+   ],
+   "todo": "AA_517 第 5 節四件做完（4994e0998，142 項 ALL PASS）；5-後補（07709b4c6：睡著版三件、補旁白醒來也算）同一個子代理做中",
+   "next": "子代理做完回報 → LAWWW 合併、全部 Node（下一版）",
+   "noDirectIntegrate": true,
+   "source": "AA-C 2026-10-28 10:08（AA_517 第 5 節 4e703821a，DL-AA-517B）",
+   "closedBy": "63ca2383f（合併子代理 f9cea16d9；aa517 161 項 ALL PASS）"
+  },
+  {
+   "id": "WIP-LAWWW-PRIVAUNT-1028",
+   "role": "LAWWW",
+   "task": "PRIV-AUNT-1028",
+   "state": "已整合",
+   "sha": "7579b6506、c7e707b65",
+   "branch": "worktree-agent-a8ce61cce91c0e4f9（子代理；D113 備份 wip_backup/privaunt_1028.bundle）",
+   "files": [
+    "wip_backup/privaunt_1028.bundle"
+   ],
+   "todo": "AA_503 第 14 節後補第 6、7 點：麵店只有阿姨＝語彤所有私密的照出（S.PLACE_EXCEPT）、auntIn 看 3D 的阿姨（HCIRCLE.labelIn）做了；測試接著改（做中）",
+   "next": "子代理做完回報 → LAWWW 合併、相關測試、全部 Node、SHA 給 BB（下一版）",
+   "noDirectIntegrate": true,
+   "source": "AA-C 2026-10-28 11:41（AA_503 5ec2fe771，DL-AA-PRIVQ4）",
+   "closedBy": "e3de7d021（合併子代理 025574629；company_priv 73 項、aa422 176 項 ALL PASS）"
+  },
+  {
+   "id": "WIP-LAWWW-SISB15-1028",
+   "role": "LAWWW",
+   "task": "SIS-B15-1028",
+   "state": "已整合",
+   "sha": "9b56bc2aa、d878000c7",
+   "branch": "worktree-agent-a24dd2e4efb2c0c15（子代理；D113 備份 wip_backup/sisb15_1028.bundle）",
+   "files": [
+    "wip_backup/sisb15_1028.bundle"
+   ],
+   "todo": "AA_518 學姊第十五批：第 1～4 節接線初版、tests/aa518 173 項 ALL PASS；修改前的數字、舊測試、全部 Node 還沒跑（做中）",
+   "next": "子代理做完回報 → LAWWW 合併（heroine_circle.js、privtalk3d.js 和別的子代理同時改）、相關測試、全部 Node、SHA 給 BB（下一版）",
+   "noDirectIntegrate": true,
+   "source": "AA-C 2026-10-28 11:54（AA_518 973dd1b74，DL-AA-518）",
+   "closedBy": "6f3897984（合併子代理 e52d23bd8；aa518 174 項 ALL PASS）"
+  },
+  {
+   "id": "WIP-LAWWW-PRIVAUNT2-1028",
+   "role": "LAWWW",
+   "task": "PRIV-AUNT-1028",
+   "state": "已整合",
+   "sha": "57cc0f633、3617da98f",
+   "branch": "worktree-agent-abdf948cfaf87793b（子代理；D113 備份 wip_backup/privaunt2_1028.bundle）",
+   "files": [
+    "wip_backup/privaunt2_1028.bundle"
+   ],
+   "todo": "AA_503 後補第 8、9 點：廚房那位就是阿姨（語彤顧店、阿姨不在＝店員也不出現）、大二下以後每學期阿姨那一列 c503_14_1～5 做了；測試接著改",
+   "next": "子代理做完回報 → LAWWW 合併、相關測試、全部 Node、SHA 給 BB（下一版）",
+   "noDirectIntegrate": true,
+   "source": "AA-C 2026-10-28 12:02／12:07（AA_503 38a74680d、f6069e42d，DL-AA-PRIVQ5、Q6）",
+   "closedBy": "e4552c35e（合併子代理 e779fad44；company_priv 78、heroine_circle3d 69、aa422 177 ALL PASS）"
+  },
+  {
+   "id": "WIP-LAWWW-YULE520-1028",
+   "role": "LAWWW",
+   "task": "NPC-STORY2-1028",
+   "state": "已整合",
+   "sha": "0ba34bc27、42efe1bb4",
+   "branch": "worktree-agent-ae63bec8a13035b99（子代理；D113 備份 wip_backup/yule520_1028.bundle）",
+   "files": [
+    "wip_backup/yule520_1028.bundle"
+   ],
+   "todo": "AA_520 予樂自己的線：白名單、實作、tests/aa520 做中（做中）",
+   "next": "子代理做完回報 → LAWWW 合併、相關測試、全部 Node、SHA 給 BB（下一版）",
+   "noDirectIntegrate": true,
+   "source": "AA-C 2026-10-28 12:33（AA_520 481dd8238，DL-AA-520）",
+   "closedBy": "d38992889（合併子代理 df051b4f8；aa520 57 項 ALL PASS）；同一個子代理接著做 AA_521（之後備份另開一筆）"
+  },
+  {
+   "id": "WIP-LAWWW-SUPPORT519-1028",
+   "role": "LAWWW",
+   "task": "NPC-STORY2-1028",
+   "state": "已整合",
+   "sha": "7eedab1ea、69b691e5a",
+   "branch": "worktree-agent-aac3ea47c9856b2ed（子代理；D113 備份 wip_backup/support519_1028.bundle）",
+   "files": [
+    "wip_backup/support519_1028.bundle"
+   ],
+   "todo": "AA_519 配角第二批（＋第 8 節麵店四件）：新測試 aa519_support2（94 項）、店員按鈕最後才算、HXH_SUBJECT 面板名稱、舊測試照新稿改到第四批（做中）",
+   "next": "子代理做完回報 → LAWWW 合併、相關測試、全部 Node、SHA 給 BB（下一版）",
+   "noDirectIntegrate": true,
+   "source": "AA-C 2026-10-28 12:20／12:44（AA_519 873b670c0、d75cd0228，DL-AA-519、519B）",
+   "closedBy": "7d63a0aa4（合併子代理 cf503ee42；aa519_support2 95 項 ALL PASS）"
+  },
+  {
+   "id": "WIP-LAWWW-PROF522-1028",
+   "role": "LAWWW",
+   "task": "NPC-STORY2-1028",
+   "state": "已整合",
+   "sha": "c252dda85、acfdc4dfe",
+   "branch": "worktree-agent-ae2be6e676a121eb9（子代理；D113 備份 wip_backup/prof522_1028.bundle）",
+   "files": [
+    "wip_backup/prof522_1028.bundle"
+   ],
+   "todo": "AA_522 教授的研究室：實作、測試做中",
+   "next": "子代理做完回報 → LAWWW 合併、相關測試、全部 Node、SHA 給 BB（下一版）",
+   "noDirectIntegrate": true,
+   "source": "AA-C 2026-10-28 12:43（AA_522 fcc93126e，DL-AA-522）",
+   "closedBy": "76dce113b（合併子代理 acfdc4dfe；aa522 85 項 ALL PASS）"
+  },
+  {
+   "id": "WIP-LAWWW-ECON521-1028",
+   "role": "LAWWW",
+   "task": "NPC-STORY2-1028",
+   "state": "已整合",
+   "sha": "5abcf5cef、ea700729d",
+   "branch": "worktree-agent-ae63bec8a13035b99（同一個子代理接著做；D113 備份 wip_backup/econ521_1028.bundle，基準 d38992889）",
+   "files": [
+    "wip_backup/econ521_1028.bundle"
+   ],
+   "todo": "AA_520 第 10 節（c884a12ca）做了；AA_521 經濟系的朋友＋何俊朗＋日文班做中",
+   "next": "子代理做完回報 → LAWWW 合併、相關測試、全部 Node、SHA 給 BB（下一版）",
+   "noDirectIntegrate": true,
+   "source": "AA-C 2026-10-28 12:39／13:19（AA_521 0f4b48f20、AA_520 c884a12ca，DL-AA-521、520B）",
+   "closedBy": "66a3401f4（合併子代理 eb5dfb6b9；aa520 58、aa521 45 項 ALL PASS）"
+  },
+  {
+   "id": "WIP-LAWWW-SISB16-1028",
+   "role": "LAWWW",
+   "task": "SIS-B16-1028",
+   "state": "已整合",
+   "sha": "7eedab1ea、8b2ed5f28",
+   "branch": "worktree-agent-a5d933637500b697e（子代理；D113 備份 wip_backup/sisb16_1028.bundle，基準 f07dfb683）",
+   "files": [
+    "wip_backup/sisb16_1028.bundle"
+   ],
+   "todo": "AA_523 學姊第十六批：新檔 sis_b16_events.js／sis_b16_3d.js、第 1 節書桌夜、第 2、3 節作息、第 5、6 節改字改條件（做中；還沒有測試）",
+   "next": "子代理做完回報 → LAWWW 合併、相關測試、全部 Node、SHA 給 BB（下一版）",
+   "noDirectIntegrate": true,
+   "source": "AA-C 2026-10-28 13:40（AA_523 0d7b5388b，DL-AA-523）",
+   "closedBy": "22d47ffc8（合併子代理 1aa06d05f；aa523 138 項 ALL PASS）"
+  },
+  {
+   "id": "WIP-LAWWW-PROF522B-1028",
+   "role": "LAWWW",
+   "task": "NPC-STORY2-1028",
+   "state": "已整合",
+   "sha": "83e9c6560、e60aa30ba",
+   "branch": "worktree-agent-a2a151b1e75317df2（子代理；D113 備份 wip_backup/prof522b_1028.bundle，基準 1ca8d402f）",
+   "files": [
+    "wip_backup/prof522b_1028.bundle"
+   ],
+   "todo": "AA_522 第 8 節：許教授週一研究室、交往中那一題、第一週那句、1-3 提示補演（做中）",
+   "next": "子代理做完回報 → LAWWW 合併、相關測試、全部 Node（下一版）",
+   "noDirectIntegrate": true,
+   "source": "AA-C 2026-10-28 13:40（AA_522 f36dfe3cf，DL-AA-522B）",
+   "closedBy": "24aaaad13（合併子代理 585c38936；aa522 114 項 ALL PASS）"
+  },
+  {
+   "id": "WIP-LAWWW-PROF522C-1028",
+   "role": "LAWWW",
+   "task": "NPC-STORY2-1028",
+   "state": "已整合",
+   "sha": "0f5e8dd95、92e896fc2",
+   "branch": "worktree-agent-aa81d275149c81c7d（子代理；D113 備份 wip_backup/prof522c_1028.bundle，基準 cee42ec2f）",
+   "files": [
+    "wip_backup/prof522c_1028.bundle"
+   ],
+   "todo": "AA_522 第 9 節（a3ea3918e）：民總第一堂那一週研究室不演、第一週那兩句先說、大四下周教授閒聊換句；白名單改 a3ea3918e（做中）",
+   "next": "子代理做完回報 → LAWWW 合併、相關測試、全部 Node、SHA 給 BB（下一版）",
+   "noDirectIntegrate": true,
+   "source": "AA-C 2026-10-28 14:1x（AA_522 第 9 節 a3ea3918e，DL-AA-522C）",
+   "closedBy": "554e6ecb8（合併子代理 a4bf4ca3c；aa522 121 項 ALL PASS）"
+  },
+  {
+   "id": "WIP-LAWWW-SUP519S9-1028",
+   "role": "LAWWW",
+   "task": "NPC-STORY2-1028",
+   "state": "已整合",
+   "sha": "e1e5adcb6、27ecf0a2d",
+   "branch": "worktree-agent-a793c8dff87ac3d12（子代理；D113 備份 wip_backup/sup519s9_1028.bundle，基準 68e50d33f）",
+   "files": [
+    "wip_backup/sup519s9_1028.bundle"
+   ],
+   "todo": "AA_519 第 9 節（169130daf）：颱風夜、Café 櫃台、aa519 第 9 節測試、五支舊測試照新稿改已 commit；子代理在跑全部 Node",
+   "next": "子代理做完回報 → LAWWW 合併、相關測試、全部 Node、SHA 給 BB（下一版）",
+   "noDirectIntegrate": true,
+   "source": "AA-C 2026-10-28 14:3x（AA_519 第 9 節 169130daf，DL-AA-519C）",
+   "closedBy": "da137d89e（合併子代理 27ecf0a2d；aa519_support2 118 項 ALL PASS）"
   }
  ]
 }

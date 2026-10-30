@@ -4,7 +4,7 @@
    1B-13 語彤 T1：2/23 21:00 私訊 → 2/24（四）16:45～17:30 公館麵店門口（沒到＝之後的週四 17:00～17:30 照樣在門口演「第一次」，到第 15 週）→ 之後每週四 17:00～17:30「今天要去嗎？」
          「走吧。」＝旁白輪流、快轉 2 小時；「今天不行。」＝「好。下週四。」（AA_337 第 2 節）；3/23 那一次是田野的發現（那天沒去＝3/30）。
          日本路線：沒有 T1；2/24 起到第 15 週，每週四 21:00 她傳一張田野的照片（六張輪流、沒有字、不用回）。YT_T1、YT_T1_N、FIELD_FINDING。
-   1B-14 芷若 Z11：2/21 起第一次在 Café 跟她點餐（她在班，interact；日本路線 3/25～8/5 在日本不算、8/26 以前都算）。唸回寄的明信片（1B-10 的 ZR_CARDS_SENT）。
+   1B-14 芷若 Z11：2/21 起第一次在 Café 跟她點餐（她在班，interact；日本路線 3/25～8/5 在日本不算；她 7 月回台中、8/1～9/1 不上班（AA_508 0-2 第 9 點），實際上 6/30 是最後一個班）。唸回寄的明信片（1B-10 的 ZR_CARDS_SENT）。
    1B-15 子晴 Q12：5/19 21:00 私訊 → 5/20 14:00 出遊（資工系館展示廳，沒有背景＝社科院大講堂的圖＋字幕）；製作名單照旗標；阿凱 K4；沒去＝21:00 製作名單照片；
          收不到子晴那則的（和阿凱 FAMILIAR 以上、認識子晴但不到 FAMILIAR）：5/18（四）21:00 阿凱私訊 → 去＝出遊 5/20 13:45；不了＝16:30 阿凱的照片（AA_337 第 5 節）；
          回了「去。」卻沒到＝16:30 阿凱三則「你說要來的。」「……我幫你拍了。」＋照片（AA_337 第 7 節）；
@@ -121,6 +121,7 @@ const Y34B=(function(){
   S.departResumeDue=G=>{ const F=G&&G.flags; return law(G)&&JP(G)&&!!F&&F.AN_SENDOFF==='together'&&F.JP_DEPARTED==null&&!(typeof EXCH!=='undefined'&&EXCH.airPending&&EXCH.airPending(G)); };
   S.departResume=async function(GM){ if(!S.departResumeDue(GM.G)) return false; await flyJP(GM); return true; };
   const resumed=new WeakSet(); let resuming=false;
+  (globalThis.LOADLOCKS=globalThis.LOADLOCKS||{})['y34b3d:resuming']=()=>{ resuming=false; };   /* 讀檔時放開（LOADGEN-LOCKS-1028）：讀檔凍住的舊劇情走不到 finally，只把旗標設回初始值 */
   const resumeOk=G=>!resuming&&!!G&&!resumed.has(G)&&S.departResumeDue(G);
   S.departResumeTick=function(GM){ const G=GM&&GM.G; if(!resumeOk(G)) return false; resumed.add(G); resuming=true;
     Promise.resolve().then(()=>S.departResume(GM)).catch(e=>console.warn('Y34B.departResume',e)).finally(()=>{ resuming=false; }); return true; };
@@ -155,7 +156,7 @@ const Y34B=(function(){
     const s=String(v); if(ZR_READ[s]) return s; if(/落差|進城/.test(s)) return 'film'; if(/哭/.test(s)) return 'cried'; if(/吵/.test(s)) return 'noisy'; if(/安靜/.test(s)) return 'quiet'; if(/空白|blank/.test(s)) return 'blank';
     if(/film|gap/.test(s)) return 'film'; if(/cr(y|ied)|tear/.test(s)) return 'cried'; if(/nois|loud/.test(s)) return 'noisy'; if(/quiet/.test(s)) return 'quiet'; return null; };
   S.zrRead=function(G){ const L=Array.isArray(G.flags.ZR_CARDS_SENT)?G.flags.ZR_CARDS_SENT:[]; for(let i=L.length-1;i>=0;i--){ const k=S.zrCardKey(G,L[i]); if(k) return {k,line:ZR_READ[k]}; } return null; };   /* 寄過不只一張的，唸最後一張 */
-  S.zrWindow=G=>{ const a=D('zr0'), b=D('zrEnd'); if(a==null||G.day<a||G.day>b) return false; if(JP(G)&&STORY.abroad&&STORY.abroad(G)) return false; return true; };   /* 2/21～8/26（她最後一場放映以前）；日本路線在日本的那幾個月不算 */
+  S.zrWindow=G=>{ const a=D('zr0'), b=D('zrEnd'); if(a==null||G.day<a||G.day>b) return false; if(JP(G)&&STORY.abroad&&STORY.abroad(G)) return false; if(STORY.zrNoShift&&STORY.zrNoShift(G)) return false; return true; };   /* 2/21～8/26（她最後一場放映以前）；日本路線在日本的那幾個月不算；8/1～9/1 她不上班、在店裡是客人（STORY.zrNoShift，AA_508 0-2 第 9 點）不演點餐 */
   /* ================= 1B-15 子晴 Q12 ================= */
   S.zqGame=G=>'nine';   /* AA_360 第 1 節（使用者 2026-10-17「她自己決定」，BB_194 §17）：發表哪一個照她自己的進度——Q8b 爸爸那件事、學妹的配樂在程式裡都一定會發生，所以一律《九點以後》。
      不再讀祐廷 Q10 的選擇（ZQ_Q10 照樣記，只換她在 Q10 當場的反應）、不讀 PLAYTESTED（只影響製作名單）。貓那一版（Q12 的 q_cat、Q12_CALL 的貓那句、尾聲 zq.cat）留給舊存檔，新的不會播 */
@@ -175,17 +176,25 @@ const Y34B=(function(){
   S.kaiPhoto=G=>G&&G.flags&&G.flags.ZQ_Q12==='cat'?S.KAI_PHOTO.cat:S.KAI_PHOTO.nine;
   S.kaiPhotoFix=function(G){ const P=P_(); if(!P||!P.rec) return; const want=S.kaiPhoto(G), both=[S.KAI_PHOTO.cat,S.KAI_PHOTO.nine];
     for(const q of P.rec(G).q) if(q.tag==='y3_zq_kai_photo'||q.tag==='y3_zq_kai_noshow') for(const it of q.items) if(it&&both.includes(it.text)) it.text=want; };
+  /* AA_513 第 1 節 1-3（AA-C 2026-10-28，a2e4bf196；AA_508 4-4「別人說起她」改阿凱的私訊）：16:30 那兩組（「不了。」的照片、回了「去。」卻沒到的三則）照片後面再兩則。
+     有到場的（ZQ_Q12_SEEN came）不加；日本路線本來就不走這裡（當晚電話＋製作名單那一則）。照片那一組回「不了。」就排進手機佇列，到場沒有要發表會以後才知道：
+     每次跑手機規則對一次還沒送出的那兩組（S.kaiRowFix：舊版本排好、沒有這兩則的補上；到場了拿掉）。照片的換字（S.kaiPhotoFix）只認照片那兩種字，不動這兩則 */
+  S.KAI_ROW=['所以我坐第一排','她叫我不要坐第一排'];
+  const kaiRow=G=>G.flags.ZQ_Q12_SEEN==='came'?[]:S.KAI_ROW.map(t=>DM('kai',t));
+  S.kaiRowFix=function(G){ const P=P_(); if(!P||!P.rec) return; const came=G.flags.ZQ_Q12_SEEN==='came', row=it=>!!it&&S.KAI_ROW.includes(it.text);
+    for(const q of P.rec(G).q) if((q.tag==='y3_zq_kai_photo'||q.tag==='y3_zq_kai_noshow')&&Array.isArray(q.items)){ const has=q.items.some(row);
+      if(came&&has) q.items=q.items.filter(it=>!row(it)); else if(!came&&!has) q.items.push(...kaiRow(G)); } };
   S.zqKaiPhone=function(G){ const F=G.flags, k=D('zqKai'), d20=D('zq'); if(k==null||d20==null||G.day<k||G.day>d20+1||!law(G)||JP(G)) return;
-    S.kaiPhotoFix(G);
+    S.kaiPhotoFix(G); S.kaiRowFix(G);
     if(!sent(G,'y3_zq_kai_ask')){ if(NOW(G)<T(k,21)||NOW(G)>=T(d20,13.75)||!fam('kai')||!met('heroine_04')||fam('heroine_04')) return;
       const L=[DM('kai','週六下午兩點，子晴學姊的發表會。資工系館一樓。'),DM('kai','我要去占位子。你要不要？')];
       L[1].ask={id:'y3_zq_kai',until:T(d20,13.75),opts:[{t:'去。',set:{ZQ_KAI_GO:true}},{t:'不了。',set:{ZQ_KAI_GO:false},say:[{from:'kai',text:'好。我幫你拍。'}]}]};
       at(G,k,G.day===k?Math.max(21,G.hour):G.hour,L,'y3_zq_kai_ask'); return; }
     if(F.ZQ_KAI_GO===true&&F.ZQ_Q12_SEEN==null&&typeof OUT!=='undefined'&&!OUT.get(G,'y3_zq_q12_kai')&&NOW(G)<T(d20,14.75))
       OUT.plan(G,{id:'y3_zq_q12_kai',ev:'ev_ziqing_q12',day:d20,h:13.75,late:1,place:'資工系館一樓展示廳',title:'子晴的發表會',travel:'走路 約 10 分鐘',travelH:1/6,hours:2});   /* 占位子＝13:45；晚到的窗口和子晴那一版一樣到 14:45 */
-    if(F.ZQ_KAI_GO===false) at(G,d20,16.5,[DM('kai',S.kaiPhoto(G))],'y3_zq_kai_photo');   /* AA_363 R1 */
+    if(F.ZQ_KAI_GO===false) at(G,d20,16.5,[DM('kai',S.kaiPhoto(G))].concat(kaiRow(G)),'y3_zq_kai_photo');   /* AA_363 R1；照片後面兩則：AA_513 1-3 */
     if(F.ZQ_KAI_GO===true&&F.ZQ_Q12_SEEN!=='came'){ const q=typeof OUT!=='undefined'?OUT.get(G,'y3_zq_q12_kai'):null;   /* 回了「去。」卻沒到（出遊過了時間、說了不去了，或根本沒排到）：16:30 阿凱三則（AA_337 第 7 節）*/
-      if((q&&q.state==='missed')||NOW(G)>=T(d20,16.5)) at(G,d20,16.5,[DM('kai','你說要來的。'),DM('kai','……我幫你拍了。'),DM('kai',S.kaiPhoto(G))],'y3_zq_kai_noshow'); } };   /* 照片：AA_363 R1 */
+      if((q&&q.state==='missed')||NOW(G)>=T(d20,16.5)) at(G,d20,16.5,[DM('kai','你說要來的。'),DM('kai','……我幫你拍了。'),DM('kai',S.kaiPhoto(G))].concat(kaiRow(G)),'y3_zq_kai_noshow'); } };   /* 照片：AA_363 R1；照片後面兩則：AA_513 1-3 */
   /* ================= 1B-16 可昕 K19 ================= */
   S.kx19Phone=function(G){ const F=G.flags, a=D('kx19ask'), d=D('kx19'); if(a==null||G.day<a||G.day>d+1||!dating(G,'kexin')) return; const K=t=>DM('kexin',t);
     if(!JP(G)&&NOW(G)>=T(a,21)&&NOW(G)<T(d,15)){ const L=[K('我的期末報告被選去發表。禮拜三下午三點。'),K('你要來的話，坐最後一排。')];
@@ -269,7 +278,7 @@ const Y34B=(function(){
     if(F.SIS_RIDE_ASK==='airport'&&F.SIS_SENDOFF==null&&typeof OUT!=='undefined'&&!OUT.get(G,'y4_sis_airport_wait')&&NOW(G)<T(go,8.5))
       OUT.plan(G,{id:'y4_sis_airport_wait',ev:'ev_sis_airport_wait',day:go,h:8.5,late:0.5,place:'桃園機場第二航廈・出境大廳',title:'到機場送學姊',travel:'機場捷運約 1 小時',travelH:1,hours:2,alarm:true,back:'回到台北。'});
     if(F.SIS_RIDE_ASK==='yes'&&F.SIS_RIDE==null&&NOW(G)<T(go,8)){ const k=S.sisRideKind(G); F.SIS_RIDE=k;
-      if(k==='family') at(G,G.day,G.hour+0.05,[GKEV('我也要去！我坐後面！'),{th:'g:family_law',from:'family_junior',name:'學妹',text:'我也要！'}],'y4_sis_ride_family');
+      if(k==='family') at(G,G.day,G.hour+0.05,[GKEV('我也要去！我坐後面！'),{th:'g:family_law',from:'family_junior',name:'佳穎',text:'我也要！'}],'y4_sis_ride_family');
       else at(G,G.day,G.hour+0.1,[DM('heroine_05','……你確定？到機場要一個多小時，還要上高速公路。'),ME('heroine_05','確定。'),DM('heroine_05','……好。')],'y4_sis_ride_two'); }
     if(F.SIS_RIDE&&F.SIS_SENDOFF==null&&typeof OUT!=='undefined'&&!OUT.get(G,'y4_sis_airport')&&NOW(G)<T(go,8.5))
       OUT.plan(G,{id:'y4_sis_airport',ev:'ev_sis_airport',day:go,h:8,late:0.5,place:'學姊家樓下',title:'載學姊去機場',travel:'',travelH:0,hours:3,alarm:true,back:'回到台北。'});   /* 08:00 出發，開車去機場 */
@@ -277,7 +286,7 @@ const Y34B=(function(){
     /* US0（台灣、日本路線；8/3 09:00 台灣＝美東 8/2 21:00）*/
     if(!US(G)&&NOW(G)>=T(u0,9)&&!sent(G,'y4_us0')&&G.day<=u0+2){ F.US0_AT=T(u0,9);
       if(F.SIS_SENDOFF==='two') at(G,u0,tzH(G,u0,9),[DM('heroine_05','到了。'),DM('heroine_05','這裡的天空很大。'),DM('heroine_05','還有，那天我不講話，不是因為不想講。'),DM('heroine_05','是因為那是高速公路。'),DM('heroine_05','……而且我在發燒，講話很難聽。')],'y4_us0');
-      else at(G,u0,tzH(G,u0,9),[GSIS('到了。天空很大。'),GKEV('學姊妳可以多講兩個字'),GSIS('這裡的天空很大，大家保重。')],'y4_us0'); }
+      else at(G,u0,tzH(G,u0,9),[GSIS('到了。天空很大。'),GKEV('天空有多大 拍給我們看啦'),GSIS('（照片：停車場上面的天空）'),GSIS('大家保重。')],'y4_us0'); }   /* AA_497 5-4：「學姊多講兩個字」只留第一次，第 2、3 則換成這三則 */
     if(sent(G,'y4_us0')&&!F.REPLIED_US0&&F.US0_AT!=null&&NOW(G)<F.US0_AT+72){ const mine=(G.msgs||[]).some(m=>m.from==='player'&&(m.th==='p:heroine_05'||m.th==='g:family_law')&&T(m.day,m.h)>=F.US0_AT);
       if(mine){ F.REPLIED_US0=true; remember('heroine_05','REPLIED_US0','到了'); } }   /* 回了（回覆不另寫字：在那個對話串傳任何一句都算；AA_355 第 2 節照用）*/
     /* M6：8/3 起每天一張照片（只在家族群組；美國路線沒有）；週日六題爭論，之後「今天不吵」 */
@@ -410,6 +419,7 @@ const Y34B=(function(){
       if(me||NOW(G)<T(d,21.75)) OUT.plan(G,{id:'y4_m9_call',ev:'ev_sis_defense_call',day:d,h:me?G.hour:21,late:me?0.5:0.75,place:'電話',verb:me?'打過去':'接起來',no:'先不接',title:me?'打給書瑀':'書瑀打電話來',call:true,travel:'',travelH:0,back:'電話掛了。'}); } };
   /* ---------------- 每 0.5 秒（STORY.TICKS）---------------- */
   let busy=false;
+  (globalThis.LOADLOCKS=globalThis.LOADLOCKS||{})['y34b3d:busy']=()=>{ busy=false; };   /* 讀檔時放開（LOADGEN-LOCKS-1028）：讀檔凍住的舊劇情走不到 finally，只把旗標設回初始值 */
   const go=f=>{ busy=true; Promise.resolve().then(f).catch(e=>console.warn('Y34B',e)).finally(()=>{ busy=false; }); return true; };
   const play=id=>GM=>{ const ev=evOf(id); return ev&&typeof EVENTS!=='undefined'?EVENTS.run(ev):null; };
   const failed=id=>typeof EVENTS!=='undefined'&&!!EVENTS.failed&&!!EVENTS.failed[id];   /* 演到一半出錯的事件不再自動開（不然每 0.5 秒都在重開，後面的 S.tick 全部被擋住）*/

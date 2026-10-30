@@ -107,7 +107,7 @@ const Y2B=(function(){
     const text=MSG.playerText(G,id,topic,sub), th='p:'+id; PHONE.post(G,{th,from:'player',who:null,text}); const Rc=MSG.rec(G); Rc.sent[id]=G.day;
     const at=MSG.replyAt?MSG.replyAt(G,id):{day:G.day,h:G.hour%24+0.25}, tc=S.psTaichung(G,at.day);
     PHONE.at(G,at.day,at.h,[P(tc?'好久不見。……我現在在台中，開學以後在台南。':'好久不見。……我現在在台南。'),P('你要來的話，跟我說。')],'ps_back_first'); G.flags.PS_BACK_FIRST=G.day; return {ok:true,text,at}; };
-  /* 去台南的那一天（AA_282 3-1，原文）：presence 改台南、邀約目的地台南要一起做（AA_282 第 5 節），這一批還沒接（LAWWW）。資料先放這裡，接的時候照 hometown3d.js 的結構演 */
+  /* 去台南的那一天（AA_282 3-1，原文）：presence 改台南、邀約目的地台南要一起做（AA_282 第 5 節）——2026-10-21 已接：presence「在台南」在 characters.js，演出照 hometown3d.js 的結構（PS_TAINAN_VISITS）；AA_507 0-2 第 8 點更新註解 */
   S.PS_TAINAN={ first:[{narr:'（台南車站。她站在出口，兩手各拿一杯飲料。）'},'{name}！這杯你的。這邊的紅茶很甜喔，你先喝一口。',{scene:'台南・她的學校'},'這是我們學校。很小吧？走一圈十分鐘。','欸，你覺得我有沒有哪裡不一樣？'],
     firstOpts:[{t:'曬黑了。',say:['對！這裡的太陽跟台中不一樣。']},{t:'頭髮剪短了？',say:['上個月剪的。我室友到現在都還沒發現。']}],
     send:{narr:'（傍晚，她陪你坐車到高鐵站。）',dating:['下次待久一點。末班車太早了。'],other:['謝謝你跑這麼遠！到臺北傳給我喔。']},
@@ -219,6 +219,7 @@ const Y2B=(function(){
     const q=OUT.get(G,'y3_zr_bday_call'); if(q&&q.state==='planned') await OUT.go(GM,q);   /* 自己打過去：不再問「接起來」，直接到 22:00 演 */
     return true; };
   let bdayBusy=false;
+  (globalThis.LOADLOCKS=globalThis.LOADLOCKS||{})['y2b3d:bdayBusy']=()=>{ bdayBusy=false; };   /* 讀檔時放開（LOADGEN-LOCKS-1028）：讀檔凍住的舊劇情走不到 finally，只把旗標設回初始值 */
 
   /* ===================== 每 0.5 秒（STORY.TICKS；只有芷若生日那一通會開劇情＝回傳 true，其他回傳 false）===================== */
   S.tick=function(GM,dt){ const G=GM&&GM.G; if(!G||!G.flags||!law(G)) return false;

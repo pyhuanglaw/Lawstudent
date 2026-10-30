@@ -3,9 +3,9 @@
  "note": "唯一權威的值班狀態（D92／HV-10，使用者 2026-10-16 21:35）。只有值班中的 LAWWW 寫（check_handoff.py duty register／handoff）；其他職位在自己分支寫 docs/handoff/duty_<職位>.json。接班以這份＋正式交班紀錄為準，不照 A→B→C 的順序猜、不看 commit 時間判定值班權。不一致就 duty verify、查不清楚回報使用者。",
  "ruleVersion": "HV-20",
  "ruleSource": {
-  "branch": "claude/adoring-meitner-mqzst8",
-  "sha": "5b6737cd",
-  "updated": "2026-10-27T16:46Z"
+  "branch": "claude/modest-rubin-2lyp7g",
+  "sha": "c76d0cb6",
+  "updated": "2026-10-30T02:07Z"
  },
  "accounts": [
   "A",
@@ -13,28 +13,28 @@
   "C",
   "D"
  ],
- "onDuty": "C",
- "previous": "B",
+ "onDuty": "B",
+ "previous": "C",
  "accountState": {
   "A": "off",
-  "B": "off",
-  "C": "on",
+  "B": "on",
+  "C": "off",
   "D": "unused"
  },
  "roles": {
   "LAWWW": {
-   "account": "C",
-   "session": "session_01Me1thu8Zn934H58kWKNfuF",
-   "branch": "claude/adoring-meitner-mqzst8",
-   "sha": "5b6737cd",
-   "sinceSha": "5b6737cd",
-   "since": "2026-10-27T16:46Z",
+   "account": "B",
+   "session": "session_01DvRVNNnivf7da7qqWuGmw6",
+   "branch": "claude/modest-rubin-2lyp7g",
+   "sha": "c76d0cb6",
+   "sinceSha": "c76d0cb6",
+   "since": "2026-10-30T02:07Z",
    "state": "on",
    "prev": {
-    "account": "B",
-    "session": "session_01DvRVNNnivf7da7qqWuGmw6",
-    "branch": "claude/modest-rubin-2lyp7g",
-    "sha": "719cca3b"
+    "account": "C",
+    "session": "session_01Me1thu8Zn934H58kWKNfuF",
+    "branch": "claude/adoring-meitner-mqzst8",
+    "sha": "5b6737cd"
    }
   },
   "LAWWW2": {
@@ -391,6 +391,21 @@
     }
    },
    "until": "2026-10-27T17:27Z"
+  },
+  {
+   "account": "C",
+   "role": "LAWWW",
+   "roles": {
+    "LAWWW": {
+     "session": "session_01Me1thu8Zn934H58kWKNfuF",
+     "branch": "claude/adoring-meitner-mqzst8",
+     "sha": "5b6737cd",
+     "since": "2026-10-27T16:46Z",
+     "handedOffAt": null,
+     "state": "on"
+    }
+   },
+   "until": "2026-10-30T02:07Z"
   }
  ],
  "anomalies": [
@@ -674,9 +689,18 @@
    "resolved": true,
    "reviewedThrough": "2109de7b0",
    "note": "帳號 B 10-23 接班以後到 10-25 停住寫的 commit（B 沒有交班，所以 duty verify 第 6 項拿 B 上一次 10-22 的交班紀錄比，報「疑似兩個帳號同時寫」）。不是雙寫：B 寫的時候是 B 值班，帳號 C 10-27 16:4x 以後才接班。已全部合併進 claude/wonderful-mayer-7fm9g6（BB-C 快轉合併，a78f96567），並在增量核對（watermarks）、HANDOFF_GAP_MATRIX 第 1 節查核；這條分支之後又有新 commit 照樣報異常"
+  },
+  {
+   "kind": "no-handoff",
+   "role": "LAWWW",
+   "from": "C",
+   "to": "B",
+   "at": "2026-10-30T02:07Z",
+   "note": "LAWWW 上一任 C 沒有正式交班，使用者指示接班；以遠端最後 push 的狀態為準",
+   "resolved": false
   }
  ],
- "seq": 32,
+ "seq": 33,
  "chain": [
   {
    "seq": 1,
@@ -901,6 +925,13 @@
    "account": "C",
    "role": "LAWWW2,AA,BB",
    "event": "sync"
+  },
+  {
+   "seq": 33,
+   "at": "2026-10-30T02:07Z",
+   "account": "B",
+   "role": "LAWWW",
+   "event": "register-user-ok"
   }
  ]
 }

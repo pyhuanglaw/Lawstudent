@@ -17,7 +17,7 @@
    3-12 何俊朗 1～5（美國路線：8/14、9/8、9/15、10/4、10/24→10/25；人物 npc_long 只在 characters.js 的 PORTRAIT_ONLY 登錄名字）——AA_370 M3：停用，美國路線只跑 us_life3d.js 的 USL 版（舊存檔排了的取消）；第 6 節第 9 題：R3 版的事件資料刪掉
    3-19 摘要日的手機小事（池＝加進 STORY.DAILY_PHONE；定時＝PHONE.at；子晴的爸爸＝包住 INV.walkPick）
    3-09 沛珊在台南的「再去」三版：不在這個檔——資料是 src/data/hometown_lines.js 的 'classmate_peishan@台南'，hometown3d.js 的 S.key 照 presence 的城市選那一組
-        （presence 改台南、學期中的邀約是 AA_282 第 5 節第 1、3 點，還沒做＝現在遊戲裡不會出現）
+        （presence 改台南、學期中的邀約是 AA_282 第 5 節第 1、3 點——2026-10-21 已接：characters.js 的 presence「在台南」、台南邀約在 hometown3d.js（PS_TAINAN_VISITS）；AA_507 0-2 第 8 點更新註解）
    3-18 2031 交換延畢的第二年：不做——AA_331 第 1 節 b（a642f518，AI解讀、待使用者確認）定了交換延畢的 2030 也不再擋、沒有 2031 國考（postgrad3d.js 的 S.tier 已經這樣）
    3-03、3-17：AA_328 標「已在」，跳過
    測試：node tests/r3_events_unit.js */
@@ -183,7 +183,7 @@ const R3=(function(){
      C 她回來以後（FRIEND 以上、她知道你的計畫）：要考 2/3 筆試的 1/8 21:00 → 1/9 19:00 研究室，其他 2/20 21:00 → 2/21 19:00；B 演過的不再演；
      D 要考 2/3 筆試的（FRIEND 以上）：交往中或雙方都單身＝2/3 08:30 考場門口當面（S.noteDue；在家的時候借 STORY.y4HomeDue），其他＝2/2 21:00 照片 */
   const SIS='heroine_05', W=M(SIS);
-  const GK=t=>({th:'g:family_law',from:'kevin',name:'Kevin',text:t}), GW=t=>({th:'g:family_law',from:SIS,name:'溫學姊',text:t}), GJ=t=>({th:'g:family_law',from:'family_junior',name:'家族的學妹',text:t});
+  const GK=t=>({th:'g:family_law',from:'kevin',name:'Kevin',text:t}), GW=t=>({th:'g:family_law',from:SIS,name:'溫學姊',text:t}), GJ=t=>({th:'g:family_law',from:'family_junior',name:'佳穎',text:t});   /* AA_497 5-2、第 8 節第 5 點：家族的學妹統一叫佳穎 */
   const route=G=>typeof STORY!=='undefined'&&STORY.route?STORY.route(G):null;
   const partners=G=>typeof ROM!=='undefined'&&ROM.partners?ROM.partners(G):LOVE.filter(x=>dating(G,x));
   /* 要考 2/3 筆試：台灣路線（未決定也算）、Y4_PATH 'grad'、推甄沒上（AA_327 的 Y4_PUSH／GRAD_ADMIT 還沒有＝當作沒上，同 events.js 跨年大四的單字卡）*/

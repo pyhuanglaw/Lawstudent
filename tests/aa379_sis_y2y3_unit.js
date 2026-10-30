@@ -17,6 +17,8 @@ const ok1=load('src/data/sis_y2y3_events.js'), ok2=load('src/sis_y2y3_3d.js');
 let doc=''; try{ doc=cp.execSync('git show 5ef4e291:"docs/story_planning/AA_379_學姊當主要女主角_補強_第一批.md"',{cwd:H.ROOT,encoding:'utf8'}); }catch(e){ doc=''; }   /* 白名單上的 AA_379 是 5ef4e291：d037c668 加 2-6 更正（指到 AA_386 第 2 節：聽過她提美國的，那一句換成兩句），前面各節沒動 */
 const inDoc=t=>doc.indexOf(t)>=0;
 let doc392=''; try{ doc392=cp.execSync('git show e81a1afe1:"docs/story_planning/AA_392_學姊第六批_說了沒發生與每週視訊.md"',{cwd:H.ROOT,encoding:'utf8'}); }catch(e){ doc392=''; }   /* AA_392 第 5 節的第二次訪談也放在這兩個檔（同一套私訊約出遊）*/
+let doc509=''; try{ doc509=cp.execSync('git show 28f981438:"docs/story_planning/AA_509_女主角自己的生活_大四上與寒假.md"',{cwd:H.ROOT,encoding:'utf8'}); }catch(e){ doc509=''; }   /* AA_509 0-2 第 4 點（白名單 28f981438）：論文「第三章」那一句改「第四章」（她上飛機前看完第三章）*/
+const CH4='八月走，十二月回來。論文的第四章，要在那邊寫。', CH4_SRC='「八月走，十二月回來。論文的第三章，要在那邊寫。」改「……論文的第四章，要在那邊寫。」';
 const J=JSON.stringify, ID='heroine_05', X=()=>typeof SISY23!=='undefined'?SISY23:null;
 const ev=id=>STORY_EVENTS.find(e=>e.id===id);
 const setup=(key,h,zone,lv,flags)=>{ const G=H.fresh(key,h,zone||'dorm',Object.assign({met_sis:true,SIS_W1:true},flags||{})); if(lv) H[lv](ID); G.contacts=G.contacts||{}; G.contacts[ID]=G.day-30; return G; };
@@ -34,7 +36,9 @@ const dateSis=()=>{ H.G.flags['dating_'+ID]=true; ROM.get(H.G,ID).status='dating
   check('0. index.html 接在 y3fill3d.js 後面；talkSis、talkCharacter 都先問 SISY23.preTalk',/y3fill3d\.js[^\n]*\n<script src="src\/data\/sis_y2y3_events\.js[^\n]*\n<script src="src\/sis_y2y3_3d\.js/.test(html)&&(st.match(/SISY23\.preTalk\) await SISY23\.preTalk\(GM\)/g)||[]).length===2);
   const LATER=['（她撕了一張便條，寫完貼在桌燈上：「中午十二點二十以後，我在這裡。」）','今天溫學姊生日🎂🎂 去年一個蛋糕，今年兩個。'];   /* 第二句：2027 那一則 Kevin 的生日貼文（AA_461 第 2 節，tests/aa461_y2s2_unit.js 對稿）*/   /* 後來的稿改過的：AA_392 第 4 節乙（研究室走不到，便條寫總圖三樓）→ AA_399 1-2（10-23 研究室 5F 開了）回到甲案原句 */
   const allTxt=J(SISY23_LINES)+J(SISY23_EVENTS), quoted=[...allTxt.matchAll(/text":"([^"]+)"/g)].map(m=>m[1]).concat(Object.values(SISY23_LINES).flat().filter(x=>typeof x==='string'));
-  const notIn=quoted.filter(t=>!inDoc(t.replace('{name}','{name}'))&&!['法圖・討論室','法圖外面的台階','總圖門口的台階','法圖旁邊的簡餐','電話','霖澤館・研究室','法扶・臺北的辦公室','便利商店門口的桌子','公館・騎樓'].includes(t)&&!LATER.includes(t)&&!(doc392&&doc392.indexOf(t)>=0)&&!['社區活動中心・小房間','社區活動中心門口'].includes(t));
+  /* 2026-10-28 AA_512 第 2 節第 4 點（企劃線 c444f0757）：ev_sis_predepart 加的那一段（帶 aa512 的行、選項）對 AA_512 的稿（tests/aa512_sis_b13_unit.js），這裡不算 */
+  const AA512T=new Set(); for(const e of SISY23_EVENTS) for(const l of (e.dialogue||[])){ if(l&&l.aa512&&l.text) AA512T.add(l.text); if(l&&l.choice) for(const c of l.choice) if(c&&c.aa512) AA512T.add(c.text); }
+  const notIn=quoted.filter(t=>!AA512T.has(t)&&!inDoc(t.replace('{name}','{name}'))&&!['法圖・討論室','法圖外面的台階','總圖門口的台階','法圖旁邊的簡餐','電話','霖澤館・研究室','法扶・臺北的辦公室','便利商店門口的桌子','公館・騎樓'].includes(t)&&!LATER.includes(t)&&!(doc392&&doc392.indexOf(t)>=0)&&!['社區活動中心・小房間','社區活動中心門口'].includes(t)&&!(t===CH4&&doc509.indexOf(CH4_SRC)>=0));
   check('0. 每一句台詞都在稿裡（一字不差；地點字幕除外）',!notIn.length,J(notIn));
   /* ---- 1 2-1 研究室 ---- */
   { setup('2026-09-21',20,'dorm','FAMILIAR'); rules(); const a=dms().length; at('2026-09-21',21.05); rules(); const m=PHONE.byAsk(H.G,'sisy23_lab_ask');
