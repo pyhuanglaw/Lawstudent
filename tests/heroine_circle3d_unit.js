@@ -176,8 +176,8 @@ await sec('1',async()=>{ if(!HAS()){ check('1. HCIRCLE',false,'沒有 HCIRCLE');
   check('1. 不在那一區的同伴：回傳跟著她的那一筆（hc＝那一列、with＝她）——靖雯、阿凱、晨希、晏如',!!a&&a.zone==='campus'&&a.act==='linger'&&a.hc==='c506_3_1'&&a.with==='heroine_03'&&!!b&&b.zone==='campus'&&b.hc==='c503_7_2'&&!!c&&c.zone==='wancai'&&c.hc==='c503_7_1'&&!!d&&d.zone==='wancai',J({a,b,c,d}));
   { const r=R('c506_3_1'), f=findOn(r); fresh(f.d,f.h,'campus'); const on0=HCIRCLE.on(r,H.G); H.G.invites=[{id:'iv1',who:'heroine_03',place:'wenzhou',state:'going',zone:'wenzhou',day:f.d,h:f.h}]; const on1=HCIRCLE.on(r,H.G), zj=ent('pool_7');
     check('1. 她和玩家一起走過去（邀約 going，INV.entryFor）的時候：那一列不成立、靖雯不跟過去',on0===true&&on1===false&&!(zj&&zj.hc),J({on0,on1,zj:zj&&zj.zone})); }
-  const e1=chk('c503_6_1','npc_huangxh'), e2=chk('c504_6_1','classmate_bohan');
-  check('1. 本來就在那一區的同伴照他自己的（筱涵在校園、柏翰在總圖：沒有 hc）',!!e1&&e1.zone==='campus'&&!e1.hc&&!!e2&&e2.zone==='library'&&!e2.hc,J({e1,e2}));
+  const e1=chk('c503_6_1','npc_huangxh'), e2=chk('c504_6_1','classmate_bohan'), ndl2=[2,4].includes(H.G.weekday)&&H.G.hour>=17.5&&H.G.hour<20.5;   /* NDL-PRESENT-1030：柏翰週二、四 17:30～20:30 自己的作息是麵店長桌＝那一列跟沛珊去總圖（hc），地點一樣是總圖 */
+  check('1. 本來就在那一區的同伴照他自己的（筱涵在校園、柏翰在總圖：沒有 hc；柏翰麵店日那一段跟著沛珊、一樣在總圖）',!!e1&&e1.zone==='campus'&&!e1.hc&&!!e2&&e2.zone==='library'&&(!e2.hc||ndl2),J({e1,e2,ndl2}));
   /* 一定同框＝每一天；其他＝約 70%、同一天一樣 */
   const always=[], ratio=[];
   for(const r of rows()){ if(!live(r)||r.alone||r.spot||r.once||r.cls) continue; let elig=0, on=0; const f0=findOn(r,FLAGS[r.id]); if(!f0) continue;   /* 每一天用同一個時間（找得到成立的那個時間）*/

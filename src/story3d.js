@@ -1047,10 +1047,15 @@ const STORY = (function(){
     if(c.weeks){ const t=typeof CALENDAR!=='undefined'?CALENDAR.termOf(G.day):null; if(!t||!c.weeks.includes(t.week)) return false; }   /* 第幾週（AA_491 第 7 點：考試前那兩週）*/
     if(c.anJapan){ const p=S.presence('heroine_01',G); if(!(p&&p.here===false&&p.kind==='abroad'&&p.away==='日本')) return false; }   /* 以安在日本（characters.js absentDates 2028-03-25～08-05）*/
     return true; };
+  /* 說話的人要真的在店裡（NDL-PRESENT-1030，使用者 2026-10-30「去阿鳳麵店 出現麵店團的人 對話 但根本沒有在遊戲內出現」）：
+     以前只看認不認識，Alison、柏翰、芯慈沒有麵店作息也照樣在長桌講話（閒聊 17:00～21:00，阿哲 20:30 就走了）。
+     在店裡＝3D 裡有這個人（EVENTS.npcOf），或他這一刻的作息在麵店（schedFor，進門時照這個生出來）；旁白沒有點名的那幾則＝至少一位認識的麵店團在 */
+  S.ndlHere=(G,id)=>!!((typeof EVENTS!=='undefined'&&EVENTS.npcOf&&EVENTS.npcOf(id))||schedFor(id,'noodle',G));
+  S.ndlHereAll=(G,e)=>{ const w=(e&&e.who)||[]; return w.length?w.every(id=>S.ndlHere(G,id)):NDL_REGULARS.some(id=>S.knows(id,G)&&S.ndlHere(G,id)); };
   /* once（那一則只演一次，記在 G.flags.ndlTalkOnce）、pri（條件成立的那幾天先挑，不動輪到第幾則）：「別人說起她」加進長桌的那幾則用（AA_503～505，src/heard3d.js 加進 NOODLE_TABLE）*/
   S.ndlTalkPick=function(G){ const T=typeof NOODLE_TABLE!=='undefined'?NOODLE_TABLE:null, k=S.ndlTalkGroup(G), L=T&&k&&T[k]; if(!L||!L.length) return null;
     const N=(G.flags&&G.flags.ndlTalkN)||{}, i0=(N[k]|0)%L.length, O=(G.flags&&G.flags.ndlTalkOnce)||{};
-    const ok=e=>!(e.once&&O[e.once]!=null)&&(e.who||[]).concat(e.know||[]).every(id=>S.knows(id,G))&&S.ndlTalkIf(G,e.if);
+    const ok=e=>!(e.once&&O[e.once]!=null)&&(e.who||[]).concat(e.know||[]).every(id=>S.knows(id,G))&&S.ndlTalkIf(G,e.if)&&S.ndlHereAll(G,e);
     for(let i=0;i<L.length;i++){ const e=L[i]; if(e.pri&&ok(e)) return {k,i,e}; }
     for(let n=0;n<L.length;n++){ const i=(i0+n)%L.length, e=L[i]; if(e.pri||!ok(e)) continue; return {k,i,e}; }
     return null; };
@@ -1070,7 +1075,7 @@ const STORY = (function(){
     return other===false?true:!S.ndlOtherDue(G); };
   S.ndlTalk=async function(GM){ const G=GM.G, F=G.flags, p=S.ndlTalkPick(G); if(!p) return false; F.ndlTalkDay=G.day;
     const N=F.ndlTalkN&&typeof F.ndlTalkN==='object'?F.ndlTalkN:(F.ndlTalkN={}); if(!p.e.pri) N[p.k]=p.i+1; if(p.e.once){ const O=F.ndlTalkOnce&&typeof F.ndlTalkOnce==='object'?F.ndlTalkOnce:(F.ndlTalkOnce={}); O[p.e.once]=G.day; }
-    const here=(p.e.who&&p.e.who.length)?p.e.who:NDL_REGULARS.filter(id=>S.knows(id,G));   /* 旁白沒有點名的那幾則：長桌上認識的麵店團 */
+    const here=(p.e.who&&p.e.who.length)?p.e.who:NDL_REGULARS.filter(id=>S.knows(id,G)&&S.ndlHere(G,id));   /* 旁白沒有點名的那幾則：長桌上認識、而且在店裡的麵店團 */
     GM.sceneBegin(); try{ if(typeof ADV!=='undefined'){ if(ADV.preload) ADV.preload(p.e.who||[]); if(ADV.begin) ADV.begin({background:'blur'}); } await EVENTS.runLines(p.e.dialogue||[],{id:'ndl_table_'+p.k+'_'+(p.i+1)}); }
     finally { if(typeof ADV!=='undefined'&&ADV.active&&ADV.end) ADV.end(); GM.sceneEnd(); }
     if(typeof SOCIAL!=='undefined'&&SOCIAL.activity) for(const id of here) SOCIAL.activity(id,'classmate');

@@ -168,7 +168,7 @@ await sec('2',async()=>{ if(!HAS()||typeof DORM203==='undefined'){ check('2. 203
 await sec('3',async()=>{ if(!HAS()||typeof NOODLE_TABLE==='undefined'){ check('3. 長桌',false,'沒有'); return; }
   const Y1=NOODLE_TABLE.Y1, ig=Y1.findIndex(e=>e.once==='h503_zhe_garlic'), ih=Y1.findIndex(e=>e.once==='h504_zhe_hand');
   check('3. 兩則加在大一那一組後面（原本的八則不動）',ig===8&&ih===9&&Y1.length===10,J([ig,ih,Y1.length]));
-  const setup=(d)=>{ fresh(d,18,{MET_ZHE:true},'noodle'); meet('zhe','heroine_03','yu','classmate_bohan','classmate_xinci'); PHONE.join(H.G,'noodle_team','麵店團'); };
+  const setup=(d)=>{ fresh(d,18,{MET_ZHE:true,afternoonDone:true},'noodle');   /* afternoonDone：NDL-PRESENT-1030 閒聊要人在店裡，阿哲、Alison 第二天下午以後才有作息 */ meet('zhe','heroine_03','yu','classmate_bohan','classmate_xinci'); PHONE.join(H.G,'noodle_team','麵店團'); };
   const W9=TDt('Y1S2',9,2); setup(W9); H.G.flags.ndlTalkN={Y1:3}; const p=STORY.ndlTalkPick(H.G);
   H.said=[]; await STORY.ndlTalk(GM); const s=said();
   check('3. AA_504：大一下第 9 週的麵店日先挑阿哲「阿姨的手包起來了。……」（只演一次、不動輪到第幾則）',!!p&&p.e.once==='h504_zhe_hand'&&J(s)===J(['阿姨的手包起來了。語彤一個人顧店。我去幫忙收碗，她說你坐著。'])&&H.G.flags.ndlTalkN.Y1===3&&H.G.flags.ndlTalkOnce.h504_zhe_hand===W9,J({s,N:H.G.flags.ndlTalkN}));
