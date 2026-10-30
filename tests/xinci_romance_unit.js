@@ -8,6 +8,7 @@
 //   4  AA_537b 第 1～3 節（date_lines.js）：十一個 key、128 點喜好、15 句不喜歡、八個常去地點，逐字對稿
 //   5  第 2 段：慈 6 那一場最後「空白的週三下午」（3-5，G8 XC_BLANK）、沒和以安和好多一句（3-6）
 //   6  第 2 段：3-1 大二上麵店補問（G2）、3-2 大二下半夜提醒（G3）、3-5 後補（大四上第 6 週週三）
+//  10  G5 半夜訊息：十六則逐字、每週一則（週三／週日輪流、00:30～01:30）、A→B、B3／B8、30 分鐘內回才算、mention、線關上不傳、交往換 L、大二下第 6 週那一則
 //   9  第 2 節：和以安分開那晚 01:10（過了 G3、G4）「今天的劇很難看。」「我看完了。」
 //   8  第 2 段：3-3 G4b 補演的玩家大二下第 8 週週三 00:30 的電話（接＝XC_CALL1、不接＝隔天早上「打錯了。」）
 //   7  第 2 段：3-4 G7 當天約（慈 5 以後第一個週三、答應＝18:00 家常菜、不答應＝大三下第 6 週再一次、日本路線改大四上第 2 週）
@@ -180,6 +181,38 @@ const walk=async(picks,term)=>{ H.said=[]; H.opts=[]; H.picks=picks.slice(); ret
     check('9. 和以安分開那晚 01:10（過了 G3、G4）：「今天的劇很難看。」「我看完了。」；G10 不過',before===0&&!!m[0]&&m[0].day===d+1&&m[0].h>=1.16&&J(m.map(x=>x.text))===J(X().AN_BREAK)&&X().AN_BREAK.every(t=>DOC537.includes('> 芯慈：'+t))&&X().gates(H.G).G10===false,J(m.map(x=>[x.day,x.h,x.text])));
     H.fresh('2027-11-10',20,'dorm',{introDone:true}); H.G.contacts={[XC]:1}; ROM.start(H.G,AN); ROM.end(H.G,AN,'apart_talk'); H.G.day=d+1; H.G.hour=1.2; STORY.phoneRules(GM); PHONE.tick(H.G);
     check('9. 還沒過 G3、G4 的：不傳',!(H.G.msgs||[]).some(x=>x.tag==='xc_an_break')); });
+
+  /* ===== 第 10 節：G5 半夜訊息（AA_537b 第 9 節 8acf3b308）===== */
+  await sec(10,()=>{ const DOC9=doc('8acf3b308','AA_537b_吳芯慈_第二份_約會台詞_校外地點_期末飯_節日.md'), N=X();
+    const all=N.NIGHT_A.concat(N.NIGHT_B), bad=[];
+    for(const x of all){ const row=DOC9.split('\n').find(l=>l.startsWith('| '+x.k+' ')||l.startsWith('| '+x.k+'（')); if(!row){ bad.push(x.k+' 沒有這一列'); continue; } const c=row.split('|').map(z=>z.trim());
+      if(c[2]!==x.m.join('／')) bad.push(x.k+' 她傳：'+x.m.join('／')); const want=x.o.map(([t,r])=>'「'+t+'」→ '+r).join('<br>'); if(c[3]!==want) bad.push(x.k+' 選項'); }
+    check('10. 十六則（A 八、B 八）逐字對稿：她傳的泡泡、三個選項、她回的一句',all.length===16&&!bad.length,J(bad));
+    check('10. L 層八句（AA_537 5-2）、mention（8-2）、「你應該睡了吧。」照稿',N.NIGHT_L.length===8&&N.NIGHT_L.every(t=>DOC537.includes('「'+t+'」'))&&N.MENTION.o.slice(0,2).every(([t,r])=>DOC537b.includes('「'+t+'」→ 芯慈：'+r))&&DOC537b.includes('> 芯慈：'+N.MENTION.m[0])&&DOC537.includes('「'+N.WAKE+'」'));
+    /* 跑一段時間：每天看那一週的時段 */
+    const run=(from,to,ans)=>{ const got=[]; for(let d=from;d<=to;d++){ const sl=N.nightSlot(d); if(sl.day!==d) continue; H.G.day=d; H.G.hour=sl.h+0.02; H.G.weekday=CALENDAR.dateOf(d).wd%7; STORY.phoneRules(GM); PHONE.tick(H.G);
+        const m=(H.G.msgs||[]).filter(x=>x.day===d&&x.th==='p:'+XC&&x.ask&&/^xcn_/.test(x.ask.id)).pop(); if(m){ got.push([CALENDAR.dateOf(d).wd%7,m.text]); if(ans){ H.G.hour=sl.h+ans; PHONE.answer(H.G,m.ask.id,0); } } } return got; };
+    const d0=D('2026-12-14'); H.fresh('2026-12-14',12,'dorm',{introDone:true}); H.G.contacts={[XC]:1}; H.G.events.done.ev_xinci_second=1; H.G.flags.XCN_START=d0;
+    const g=run(d0+1,d0+28,0.25);
+    check('10. 慈 3 以後每週一則：A1、A2、A3、A4 照順序；週三、週日一週一週輪流；00:30～01:30',g.length===4&&J(g.map(x=>x[1]))===J(N.NIGHT_A.slice(0,4).map(x=>x.m[x.m.length-1]))&&g.every(x=>x[0]===3||x[0]===0)&&g[0][0]!==g[1][0],J(g));
+    check('10. 每一則都在 30 分鐘內回＝XC_NIGHT 4',(H.G.flags.XC_NIGHT|0)===4,H.G.flags.XC_NIGHT);
+    run(d0+29,d0+36,0.75); check('10. 超過 30 分鐘才回＝不算（XC_NIGHT 還是 4）',(H.G.flags.XC_NIGHT|0)===4,H.G.flags.XC_NIGHT);
+    H.fresh('2027-10-04',12,'dorm',{introDone:true,XC5_RECONCILE:true}); H.G.contacts={[XC]:1}; H.G.events.done.ev_xinci_second=1; H.G.flags.XCN_START=D('2027-10-03');
+    const gb=run(D('2027-10-04'),D('2027-10-04')+20); check('10. 慈 5 以後換 B：B1、B2、B3',J(gb.map(x=>x[1]))===J(N.NIGHT_B.slice(0,3).map(x=>x.m[x.m.length-1])),J(gb));
+    H.fresh('2028-05-10',12,'dorm',{introDone:true,XC5_RECONCILE:true,XCN:{a:0,b:2,l:0}}); H.G.contacts={[XC]:1}; H.G.events.done.ev_xinci_second=1; H.G.events.done.ev_xinci_first_place=1; H.G.flags.XCN_START=D('2028-05-09');
+    const g6=run(D('2028-05-10'),D('2028-05-10')+48); check('10. 慈 6 以後：B3 不傳（改輔系了）、B8 會傳',!g6.some(x=>x[1]===N.NIGHT_B[2].m.slice(-1)[0])&&g6.some(x=>x[1]===N.NIGHT_B[7].m.slice(-1)[0]),J(g6.map(x=>x[1])));
+    H.fresh('2027-10-04',12,'dorm',{introDone:true,XC5_RECONCILE:true}); H.G.contacts={[XC]:1}; H.G.events.done.ev_xinci_second=1; H.G.flags.XCN_START=D('2027-10-03'); const r=SOCIAL.rel(XC); r.fam=62; r.trust=46; r.comf=41; r.npcRom=10;
+    const gm=run(D('2027-10-04'),D('2027-10-04')+13); const wm=(H.G.msgs||[]).find(x=>x.tag==='xcn_wish');
+    check('10. mention：大三上起、交往前第 4 階以上的第一則＝「我想看一次午夜場。一個人去好像有點怪。」（三個選項），那一週代替、知道心願（wishKnown）；下一週接 B1',!!wm&&wm.text===N.MENTION.m[0]&&J(wm.ask.opts.map(o=>o.t))===J(['我陪妳。','哪一部？','（不回）'])&&DATE.log(H.G,XC).wishKnown===true&&gm[1]&&gm[1][1]===N.NIGHT_B[0].m.slice(-1)[0],J(gm));
+    H.G.hour=wm.h+0.1; PHONE.answer(H.G,'xcn_wish',2); check('10. mention 選「（不回）」＝不貼玩家的話、不算 XC_NIGHT',!(H.G.flags.XC_NIGHT|0));
+    H.fresh('2027-10-04',12,'dorm',{introDone:true}); H.G.contacts={[XC]:1}; H.G.events.done.ev_xinci_second=1; H.G.flags.XCN_START=D('2027-10-03');
+    check('10. 線關上（大三上第 14 週過了還沒和以安和好＝G6 沒過）：之後不傳',run(STORY.termDay('Y3S1',14,1),STORY.termDay('Y3S1',14,1)+20).length===0);
+    H.fresh('2028-07-10',12,'dorm',{introDone:true,XC5_RECONCILE:true,dating_classmate_xinci:true}); H.G.contacts={[XC]:1}; H.G.events.done.ev_xinci_second=1; H.G.flags.XCN_START=D('2028-07-09');
+    let L0=[]; for(let d=D('2028-07-10');d<=D('2028-07-24');d++){ const sl=N.nightSlot(d); if(sl.day!==d) continue; H.G.day=d; H.G.hour=sl.h+0.02; STORY.phoneRules(GM); PHONE.tick(H.G); }
+    L0=(H.G.msgs||[]).filter(x=>/^xcn_/.test(x.tag||'')).map(x=>x.text);
+    check('10. 交往以後換 L 層（「我在看劇。你要不要也打開……」起照順序）',L0.length>=2&&L0[0]===N.NIGHT_L[0]&&L0[1]===N.NIGHT_L[1],J(L0));
+    const dw=STORY.termDay('Y2S2',6,3); H.fresh(CALENDAR.dateOf(dw).key,0.5,'dorm',{introDone:true,XC_NIGHT:1}); H.G.contacts={[XC]:1}; H.G.events.done.ev_xinci_second=1; H.G.hour=0.8; STORY.phoneRules(GM); PHONE.tick(H.G);
+    check('10. 大二下第 6 週還不到 2 次：週三 00:45「你應該睡了吧。」（不用回）',(H.G.msgs||[]).some(x=>x.tag==='xcn_wake'&&x.text===N.WAKE&&!x.ask)); });
 
   H.done();
 })();
