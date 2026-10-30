@@ -1,0 +1,159 @@
+diff --git a/src/data/dorm_room_layout.js b/src/data/dorm_room_layout.js
+index e67b570f7..bc461e35b 100644
+--- a/src/data/dorm_room_layout.js
++++ b/src/data/dorm_room_layout.js
+@@ -1,4 +1,4 @@
+ /* 宿舍房間（台大四人房：上舖床、下面書桌；使用者 2026-10-17 01:0x 給照片、01:3x「宿舍ok」）的配置。
+    自動產生，不要手改：照 assets/models/env/second_ai/dorm_room4.layout.json（LAWWW2-B 的 Blender 腳本輸出，和 dorm_room4.glb 同一份）重新產生：python3 tools/gen_dorm_room_layout.py
+    zones3d.js 的 dorm 區域（導航、座位、睡覺、牆上的東西）、story3d.js（室友坐哪裡）都讀這一份。*/
+-const DORM_ROOM={"version":"loft4-v2","room":{"w":6.0,"d":7.0,"h":3.0,"door":{"x0":-0.48,"x1":0.48},"exit":[0,3.3],"spawn":[0,2.4]},"window":{"x0":-1.1,"x1":1.1,"y0":0.95,"y1":2.4,"view_center":[0.0,1.675],"view_size":[2.2,1.45],"winXs":[0]},"bath":{"block":{"x":[0.6,2.9],"z":[1.4,3.4]},"door_z":[2.2,3.0],"door_face_x":0.6,"look_point":[0.15,2.6],"label":"洗手間（門關著）"},"calendar_spot":{"x":1.25,"y":1.75,"z":1.394,"ry":3.141592653589793,"note":"洗手間北面隔間朝房間那一面（空牆），面向 −z"},"units":[{"id":"R1","side":"R","sets":{"203":"bohan","412":"tangrui","312":"bohan","507":"bohan","409":"bohan"},"u":[-3.395,-1.0],"stair_u":[-1.45,-1.0],"block":{"x":[1.9,2.9],"z":[-3.395,-1.0]},"seat":{"x":2.04,"z":-2.5,"yaw":1.5708},"seat_approach":[1.55,-2.5],"desk_center":[2.59,-2.725],"desk_top_y":0.76,"desk_u":[-3.375,-2.075],"sleep":[1.55,-1.225],"bed_top_y":1.76,"floor_under_bed_spot":[2.6,-2.4],"wall_spot_by_desk":{"x":2.896,"y":1.2,"z":-3.15,"ry":-1.5707963267948966,"note":"書桌前、層架旁邊的空牆（社團傳單）"}},{"id":"R2","side":"R","sets":{"203":"kai","412":"xun","312":"fresh","507":"peer","409":"fresh"},"u":[-0.98,1.39],"stair_u":[0.94,1.39],"block":{"x":[1.9,2.9],"z":[-0.98,1.39]},"seat":{"x":2.04,"z":-0.098,"yaw":1.5708},"seat_approach":[1.55,-0.098],"desk_center":[2.59,-0.323],"desk_top_y":0.76,"desk_u":[-0.96,0.315],"sleep":[1.55,1.165],"bed_top_y":1.76,"floor_under_bed_spot":[2.6,-0.01],"wall_spot_by_desk":{"x":2.896,"y":1.2,"z":-0.735,"ry":-1.5707963267948966,"note":"書桌前、層架旁邊的空牆（社團傳單）"}},{"id":"L1","side":"L","sets":{"203":"zhe","412":"weilun","312":"zhe","507":"soph","409":"soph"},"u":[-3.395,-1.0],"stair_u":[-1.45,-1.0],"block":{"x":[-2.9,-1.9],"z":[-3.395,-1.0]},"seat":{"x":-2.04,"z":-2.5,"yaw":-1.5708},"seat_approach":[-1.55,-2.5],"desk_center":[-2.59,-2.725],"desk_top_y":0.76,"desk_u":[-3.375,-2.075],"sleep":[-1.55,-1.225],"bed_top_y":1.76,"floor_under_bed_spot":[-2.6,-2.4],"wall_spot_by_desk":{"x":-2.896,"y":1.2,"z":-3.15,"ry":1.5707963267948966,"note":"書桌前、層架旁邊的空牆（社團傳單）"}},{"id":"L2","side":"L","sets":{"203":"yuting","412":"yuting","312":"yuting","507":"yuting","409":"yuting"},"u":[-0.98,1.39],"stair_u":[0.94,1.39],"block":{"x":[-2.9,-1.9],"z":[-0.98,1.39]},"seat":{"x":-2.04,"z":-0.098,"yaw":-1.5708},"seat_approach":[-1.55,-0.098],"desk_center":[-2.59,-0.323],"desk_top_y":0.76,"desk_u":[-0.96,0.315],"sleep":[-1.55,1.165],"bed_top_y":1.76,"floor_under_bed_spot":[-2.6,-0.01],"wall_spot_by_desk":{"x":-2.896,"y":1.2,"z":-0.735,"ry":1.5707963267948966,"note":"書桌前、層架旁邊的空牆（社團傳單）"}}],"blocks":[{"id":"R1","x":[1.9,2.9],"z":[-3.395,-1.0]},{"id":"R2","x":[1.9,2.9],"z":[-0.98,1.39]},{"id":"L1","x":[-2.9,-1.9],"z":[-3.395,-1.0]},{"id":"L2","x":[-2.9,-1.9],"z":[-0.98,1.39]},{"id":"shoe_cabinet","x":[-2.9,-2.54],"z":[1.62,2.82]},{"id":"bins","x":[-1.4,-0.8],"z":[3.05,3.4]},{"id":"drying_rack","x":[-2.4699999999999998,-1.67],"z":[2.3200000000000003,2.92]},{"id":"bath","x":[0.6,2.9],"z":[1.4,3.4]}],"sets":{"203":"藏 Y412_*、NAMETAG_*；其他照常","412":"藏 Y203_*、ROOMMATE_KAI；阿勳的書桌、保齡球袋、紙箱用 v0_dorm_props（位置見 units 的 412）","412_first_night":"412 再藏 Y412_TANGRUI、Y412_WEILUN、BEDDING_R1、BEDDING_L1，顯示 NAMETAG_TANGRUI、NAMETAG_WEILUN（AA_208 第 3 節）","312":"大二（AA_208 第 7 節）：只顯示 Y312_*；藏 Y203_*、ROOMMATE_KAI、Y412_*、Y507_*、Y409_*、NAMETAG_*","507":"大三（第 8 節）：只顯示 Y507_*；其他年份的都藏","409":"大四（第 8 節）：只顯示 Y409_*；其他年份的都藏","note":"203、412 那幾組也要藏 Y312_／Y507_／Y409_（2026-10-17 加的三年）"},"v0_props":{"XUN_DESK":{"x":2.59,"y":0.76,"z":-0.323,"ry":1.5707963267948966,"note":"阿勳的書桌（R2）"},"XUN_BOWLING":{"x":2.6,"y":0.0,"z":-0.01,"ry":0.0,"note":"書桌下靠衣櫃那一端的地上"},"BOXES_DESK":{"x":-2.59,"y":0.76,"z":-0.323,"note":"E01 紙箱疊在祐廷的書桌上（AA_208 第 6 節）"},"BOXES_FLOOR":{"x":-1.45,"y":0.0,"z":-0.61,"note":"隔天剩的箱子在書桌旁邊的地上"}},"player_unit":"L2"};
++const DORM_ROOM={"version":"loft4-v2","room":{"w":6.0,"d":7.0,"h":3.0,"door":{"x0":-0.48,"x1":0.48},"exit":[0,3.3],"spawn":[0,2.4]},"window":{"x0":-1.1,"x1":1.1,"y0":0.95,"y1":2.4,"view_center":[0.0,1.675],"view_size":[2.2,1.45],"winXs":[0]},"bath":{"block":{"x":[0.6,2.9],"z":[1.4,3.4]},"door_z":[2.2,3.0],"door_face_x":0.6,"look_point":[0.15,2.6],"label":"洗手間（門關著）"},"calendar_spot":{"x":1.25,"y":1.75,"z":1.394,"ry":3.141592653589793,"note":"洗手間北面隔間朝房間那一面（空牆），面向 −z"},"units":[{"id":"R1","side":"R","sets":{"203":"bohan","412":"tangrui","312":"bohan","507":"bohan","409":"bohan"},"u":[-3.395,-1.0],"stair_u":[-1.4,-1.0],"block":{"x":[1.9,2.9],"z":[-3.395,-1.0]},"seat":{"x":2.04,"z":-2.5,"yaw":1.5708},"seat_approach":[1.55,-2.5],"desk_center":[2.59,-2.725],"desk_top_y":0.76,"desk_u":[-3.375,-2.075],"sleep":[1.55,-1.2],"bed_top_y":1.76,"floor_under_bed_spot":[2.6,-2.4],"wall_spot_by_desk":{"x":2.896,"y":1.2,"z":-3.15,"ry":-1.5707963267948966,"note":"書桌前、層架旁邊的空牆（社團傳單）"},"sleep_scene":{"approach":[1.55,-1.2],"steps":[[2.069,0.32,-1.2],[2.306,0.64,-1.2],[2.544,0.96,-1.2],[2.781,1.28,-1.2]],"bed_entry":[2.65,1.76,-1.65],"lie":{"head":[2.435,1.86,-3.24],"feet":[2.435,1.81,-1.62],"head_dir_yaw":3.1416,"mattress_top_y":1.76,"mattress":{"x":[2.0,2.87],"z":[-3.37,-1.425]}},"cam":{"eye":[0.835,2.75,-1.698],"look":[2.435,1.85,-2.397]}}},{"id":"R2","side":"R","sets":{"203":"kai","412":"xun","312":"fresh","507":"peer","409":"fresh"},"u":[-0.98,1.39],"stair_u":[0.99,1.39],"block":{"x":[1.9,2.9],"z":[-0.98,1.39]},"seat":{"x":2.04,"z":-0.098,"yaw":1.5708},"seat_approach":[1.55,-0.098],"desk_center":[2.59,-0.323],"desk_top_y":0.76,"desk_u":[-0.96,0.315],"sleep":[1.55,1.19],"bed_top_y":1.76,"floor_under_bed_spot":[2.6,-0.01],"wall_spot_by_desk":{"x":2.896,"y":1.2,"z":-0.735,"ry":-1.5707963267948966,"note":"書桌前、層架旁邊的空牆（社團傳單）"},"sleep_scene":{"approach":[1.55,1.19],"steps":[[2.069,0.32,1.19],[2.306,0.64,1.19],[2.544,0.96,1.19],[2.781,1.28,1.19]],"bed_entry":[2.65,1.76,0.74],"lie":{"head":[2.435,1.86,-0.825],"feet":[2.435,1.81,0.795],"head_dir_yaw":3.1416,"mattress_top_y":1.76,"mattress":{"x":[2.0,2.87],"z":[-0.955,0.965]}},"cam":{"eye":[0.835,2.75,0.705],"look":[2.435,1.85,0.005]}}},{"id":"L1","side":"L","sets":{"203":"zhe","412":"weilun","312":"zhe","507":"soph","409":"soph"},"u":[-3.395,-1.0],"stair_u":[-1.4,-1.0],"block":{"x":[-2.9,-1.9],"z":[-3.395,-1.0]},"seat":{"x":-2.04,"z":-2.5,"yaw":-1.5708},"seat_approach":[-1.55,-2.5],"desk_center":[-2.59,-2.725],"desk_top_y":0.76,"desk_u":[-3.375,-2.075],"sleep":[-1.55,-1.2],"bed_top_y":1.76,"floor_under_bed_spot":[-2.6,-2.4],"wall_spot_by_desk":{"x":-2.896,"y":1.2,"z":-3.15,"ry":1.5707963267948966,"note":"書桌前、層架旁邊的空牆（社團傳單）"},"sleep_scene":{"approach":[-1.55,-1.2],"steps":[[-2.069,0.32,-1.2],[-2.306,0.64,-1.2],[-2.544,0.96,-1.2],[-2.781,1.28,-1.2]],"bed_entry":[-2.65,1.76,-1.65],"lie":{"head":[-2.435,1.86,-3.24],"feet":[-2.435,1.81,-1.62],"head_dir_yaw":3.1416,"mattress_top_y":1.76,"mattress":{"x":[-2.87,-2.0],"z":[-3.37,-1.425]}},"cam":{"eye":[-0.835,2.75,-1.698],"look":[-2.435,1.85,-2.397]}}},{"id":"L2","side":"L","sets":{"203":"yuting","412":"yuting","312":"yuting","507":"yuting","409":"yuting"},"u":[-0.98,1.39],"stair_u":[0.99,1.39],"block":{"x":[-2.9,-1.9],"z":[-0.98,1.39]},"seat":{"x":-2.04,"z":-0.098,"yaw":-1.5708},"seat_approach":[-1.55,-0.098],"desk_center":[-2.59,-0.323],"desk_top_y":0.76,"desk_u":[-0.96,0.315],"sleep":[-1.55,1.19],"bed_top_y":1.76,"floor_under_bed_spot":[-2.6,-0.01],"wall_spot_by_desk":{"x":-2.896,"y":1.2,"z":-0.735,"ry":1.5707963267948966,"note":"書桌前、層架旁邊的空牆（社團傳單）"},"sleep_scene":{"approach":[-1.55,1.19],"steps":[[-2.069,0.32,1.19],[-2.306,0.64,1.19],[-2.544,0.96,1.19],[-2.781,1.28,1.19]],"bed_entry":[-2.65,1.76,0.74],"lie":{"head":[-2.435,1.86,-0.825],"feet":[-2.435,1.81,0.795],"head_dir_yaw":3.1416,"mattress_top_y":1.76,"mattress":{"x":[-2.87,-2.0],"z":[-0.955,0.965]}},"cam":{"eye":[-0.835,2.75,0.705],"look":[-2.435,1.85,0.005]}}}],"blocks":[{"id":"R1","x":[1.9,2.9],"z":[-3.395,-1.0]},{"id":"R2","x":[1.9,2.9],"z":[-0.98,1.39]},{"id":"L1","x":[-2.9,-1.9],"z":[-3.395,-1.0]},{"id":"L2","x":[-2.9,-1.9],"z":[-0.98,1.39]},{"id":"shoe_cabinet","x":[-2.9,-2.54],"z":[1.62,2.82]},{"id":"bins","x":[-1.4,-0.8],"z":[3.05,3.4]},{"id":"drying_rack","x":[-2.4699999999999998,-1.67],"z":[2.3200000000000003,2.92]},{"id":"bath","x":[0.6,2.9],"z":[1.4,3.4]}],"sets":{"203":"藏 Y412_*、NAMETAG_*；其他照常","412":"藏 Y203_*、ROOMMATE_KAI；阿勳的書桌、保齡球袋、紙箱用 v0_dorm_props（位置見 units 的 412）","412_first_night":"412 再藏 Y412_TANGRUI、Y412_WEILUN、BEDDING_R1、BEDDING_L1，顯示 NAMETAG_TANGRUI、NAMETAG_WEILUN（AA_208 第 3 節）","312":"大二（AA_208 第 7 節）：只顯示 Y312_*；藏 Y203_*、ROOMMATE_KAI、Y412_*、Y507_*、Y409_*、NAMETAG_*","507":"大三（第 8 節）：只顯示 Y507_*；其他年份的都藏","409":"大四（第 8 節）：只顯示 Y409_*；其他年份的都藏","note":"203、412 那幾組也要藏 Y312_／Y507_／Y409_（2026-10-17 加的三年）"},"v0_props":{"XUN_DESK":{"x":2.59,"y":0.76,"z":-0.323,"ry":1.5707963267948966,"note":"阿勳的書桌（R2）"},"XUN_BOWLING":{"x":2.6,"y":0.0,"z":-0.01,"ry":0.0,"note":"書桌下靠衣櫃那一端的地上"},"BOXES_DESK":{"x":-2.43,"y":0.76,"z":-0.323,"note":"E01 紙箱疊在祐廷的書桌上（AA_208 第 6 節）；箱子深 0.36 m、中心離牆 0.47 m：整疊在層架（深 0.27 m）前面——10-30 以前放在書桌正中間，穿過層架和床板（使用者「書桌上東西不要重疊」）"},"BOXES_FLOOR":{"x":-1.45,"y":0.0,"z":-0.61,"note":"隔天剩的箱子在書桌旁邊的地上"}},"player_unit":"L2"};
+diff --git a/src/zones3d.js b/src/zones3d.js
+index 9668990ee..c674c6f4d 100644
+--- a/src/zones3d.js
++++ b/src/zones3d.js
+@@ -1455,6 +1455,24 @@ const Z3 = (function(){
+     const up0=z.update; z.update=function(dt,E){ if(up0) up0.call(this,dt,E); step(Math.min(dt||0,0.1),E); };
+     return (z.seatFold={mesh:m,ang,step,occupied,groups:vs.map(a=>a.length)}); }
+   /* SEATFOLD-END */
++  /* 熄燈（DORM-SLEEP-VISUAL-1030，LAWWW2-B 10-30；使用者「宿舍睡覺要真的有畫面」）：GLB 的 extras.lightmap.dark＝第三張光照貼圖（tools/blender/env_second/lightbake/bake_room.py --dark：
++     室內的燈全關，只剩窗外路燈、夜空）。z.lightsOff(k)：k＝0 照原本（白天／晚上兩張照時段）、1＝熄燈那一張，中間是漸變（睡覺流程照時間推）。
++     接在 roomLightmap 的 onBeforeCompile 後面，把它換上的日夜混合再和熄燈那張混一次（不改 roomLightmap 本身）；燈管、床下燈條的自發光（材質名合 spec.darkOff，預設 tube|lamp_bulb）、
++     房間自己的點光源跟著 k 暗下去。快取的 GLB 再進一次：不再包一層、熄燈回到 0。沒有 dark 的房間不呼叫，什麼都不變。測試：tests/dorm_lightmap_unit.js */
++  const lmDarkWired=new WeakMap();
++  function roomDarkMap(z,root,spec){ const U={lmDark:{value:lmLoad(spec.dark)},lmOff:{value:0}}, Us=new Set([U]), done=new Set(), glow=[], re=new RegExp(spec.darkOff||'tube|lamp_bulb');
++    root.traverse(o=>{ if(!o.isMesh) return; for(const m of [].concat(o.material)){ if(!m||done.has(m)) continue; done.add(m);
++      if(re.test(m.name||'')&&m.emissive){ glow.push(m); continue; }
++      if(!m.lightMap||!o.geometry||!o.geometry.attributes.uv1) continue;
++      const U0=lmDarkWired.get(m); if(U0){ U0.lmDark.value=U.lmDark.value; U0.lmOff.value=0; Us.add(U0); continue; }
++      lmDarkWired.set(m,U); const prev=m.onBeforeCompile; m.onBeforeCompile=function(sh,r){ if(prev) prev.call(this,sh,r); Object.assign(sh.uniforms,U);
++        sh.fragmentShader='uniform sampler2D lmDark; uniform float lmOff;\n'+sh.fragmentShader.replace('vec4 lightMapTexel = mix( texture2D( lightMap','vec4 lightMapTexel = mix( mix( texture2D( lightMap').replace('texture2D( lmNight, vLightMapUv ), lmMix )','texture2D( lmNight, vLightMapUv ), lmMix ), texture2D( lmDark, vLightMapUv ), lmOff )'); };
++      const pk=m.customProgramCacheKey; m.customProgramCacheKey=function(){ return (pk?pk.call(this):'')+'|roomDark'; }; m.needsUpdate=true; } });
++    const lights=[]; if(z.group) z.group.traverse(o=>{ if(o.isPointLight||o.isSpotLight) lights.push(o); });
++    z.lightsOffK=0; z.lightsOff=k=>{ k=Math.max(0,Math.min(1,+k||0)); z.lightsOffK=k; for(const u of Us) u.lmOff.value=k;
++      for(const m of glow){ if(m.userData.emi0==null) m.userData.emi0=m.emissiveIntensity; m.emissiveIntensity=m.userData.emi0*(1-k); }
++      for(const l of lights){ if(l.userData.i0==null) l.userData.i0=l.intensity; l.intensity=l.userData.i0*(1-0.9*k); } };
++    return Us.size; }
+   function attachRoomGLB(z,g0,fb,root){ const LMS=root.userData&&root.userData.lightmap; root.traverse(o=>{ if(o.isMesh){ o.castShadow=false; o.receiveShadow=true; if(o.material&&/ceiling/.test(o.material.name)&&!LMS) TK.bounce(o.material,0.5,0.5); } });   /* 有光照貼圖：天花板的亮已經烘焙進去，不另外加自發光 */   /* 天花板：和 room() 的天花板一樣帶自發光 */ g0.add(root); root.updateMatrixWorld(true); const nw=[];
+     root.traverse(o=>{ const m=/^TRACE_(SQ\d+)/.exec(o.name); if(m) traceVis(o,m[1]); });   /* 痕跡（見 traceVis）*/
+     root.traverse(o=>{ if(o.name==='WZ_CATBOWL') condVis(o,catBowlOn); });   /* 一盞前院的貓碗（ART-WZ6，AA_420 第 9 節）：找到貓以後（WZ_CAT_FOUND）、收養以前（PARK.catGone）*/
+@@ -1465,7 +1483,7 @@ const Z3 = (function(){
+     /* 窗外的景（白天／夜景貼圖、隨時段變色，room() 的 applyTime 照舊換）：從備用模型的窗框組裡拿出來，放到正式模型的玻璃外面 0.3 m（放大一點：斜著看窗洞也看不到外面的空白）；牆淡出時一起藏（不然鏡頭在牆外時會擋住房間）*/
+     const wp=[]; if(z.wins) for(const w of z.wins){ const part=w.parent; const ent=z.winParts&&z.winParts.find(p=>p.obj===part); const d=ent?ent.dir:new THREE.Vector3(1,0,0); w.position.addScaledVector(d,-0.42); w.scale.set(1.35,1.4,1); if(w.material.uniforms&&w.material.uniforms.sxy) w.material.uniforms.sxy.value.set(1.35,1.4); part.remove(w); g0.add(w); wp.push({obj:w,at:ent?ent.at:w.position.clone(),dir:d}); }
+     for(const o of glassy) wp.push({obj:o,at:o.userData.center,dir:o.userData.dir,partition:!!o.userData.partition});
+-    fb.visible=false; z.walls.length=0; for(const w of nw) z.walls.push(w); z.winParts=wp; z.formal=true; if(LMS) roomLightmap(z,root,LMS); seatFold(z,root); }
++    fb.visible=false; z.walls.length=0; for(const w of nw) z.walls.push(w); z.winParts=wp; z.formal=true; if(LMS) roomLightmap(z,root,LMS); if(LMS&&LMS.dark) roomDarkMap(z,root,LMS); seatFold(z,root); }
+   // ---------- 萬才館大廳／研討室 ----------
+   // 萬才館（室內兩層樓）：src/wancai3d.js（萬才館第三階段，D42；一樓大廳的座標和 v9.3 一樣）
+   // ---------- 總圖閱覽室 ----------
+@@ -1718,8 +1736,9 @@ const Z3 = (function(){
+       if(nm==='dorm_tube'){ mt.emissive=new THREE.Color(0xfff7ea); mt.emissiveIntensity=1.3; }
+       if(nm==='dorm_lamp_bulb'){ mt.emissive=new THREE.Color(0xffe9b8); mt.emissiveIntensity=1.6; }
+       if(nm==='dorm_lcd'){ mt.emissive=new THREE.Color(0x6f98bd); mt.emissiveIntensity=0.9; }
+-      const b=DORM_BOUNCE[nm.replace(/^seethru_/,'').replace(/_(L|R)[12]$/,'')]; if(b) TK.bounce(mt,b[0],b[1]); if(/^seethru_/.test(nm)){ mt.userData.seeThrough=true; if(typeof E3!=='undefined'&&E3.patchSeeThrough) E3.patchSeeThrough(mt); }   /* 上舖（床架、床單、被子、枕頭）擋住玩家時網點透空（engine3d 的樹幹透視；區域 seeThru）。正式模型是進區域以後才載入的：引擎進區域時那一次整理已經過了，這裡要自己 patch（原本只標記、沒 patch，上舖從來沒有透空過——LAWWW2 2026-10-21 查到）*/
+-      if(nm==='dorm_items'){ mt.onBeforeCompile=sh=>{ sh.fragmentShader=sh.fragmentShader.replace('#include <emissivemap_fragment>','#include <emissivemap_fragment>\n#if defined( USE_COLOR ) || defined( USE_COLOR_ALPHA )\n totalEmissiveRadiance += vColor.rgb * 0.25;\n#endif'); }; mt.customProgramCacheKey=()=>'dormVcGlow'; mt.needsUpdate=true; } });
++      const b=DORM_BOUNCE[nm.replace(/^seethru_/,'').replace(/_(L|R)[12]$/,'').replace(/_rt$/,'')]; if(b&&!mt.lightMap) TK.bounce(mt,b[0],b[1]);   /* 有光照貼圖（DORM203-LM-1030：bake_dorm_room4.sh；attachRoomGLB 先接好）的材質不加補光：燈、窗的光和牆角、床底下的暗都已經烘焙進去，再加自發光會整片發白、影子不見。
++        _rt＝烘焙工具給「同一個材質、這個物件不烘」複製的那一份（洗手間朝前牆、右牆的斷面 dorm_wall_rt）：照舊補光，和改前一樣白 */ if(/^seethru_/.test(nm)){ mt.userData.seeThrough=true; if(typeof E3!=='undefined'&&E3.patchSeeThrough) E3.patchSeeThrough(mt); }   /* 上舖（床架、床單、被子、枕頭）擋住玩家時網點透空（engine3d 的樹幹透視；區域 seeThru）。正式模型是進區域以後才載入的：引擎進區域時那一次整理已經過了，這裡要自己 patch（原本只標記、沒 patch，上舖從來沒有透空過——LAWWW2 2026-10-21 查到）*/
++      if(nm==='dorm_items'){ const prev=mt.onBeforeCompile, pk=mt.customProgramCacheKey; mt.onBeforeCompile=function(sh,r){ if(prev) prev.call(this,sh,r); sh.fragmentShader=sh.fragmentShader.replace('#include <emissivemap_fragment>','#include <emissivemap_fragment>\n#if defined( USE_COLOR ) || defined( USE_COLOR_ALPHA )\n totalEmissiveRadiance += vColor.rgb * 0.25;\n#endif'); }; mt.customProgramCacheKey=function(){ return (pk?pk.call(this):'')+'|dormVcGlow'; }; mt.needsUpdate=true; }   /* 接在原本的 onBeforeCompile 後面（不蓋掉）：roomLightmap 晚上讓沒烘焙的小東西跟著暗（RT-NIGHT-1028 的 rtK）也是包在這裡 */ });
+     dormWallItems(z,g0);   /* attachRoomGLB 換掉了 z.walls：月曆、傳單再加回去 */
+     return root; }
+   /* 宿舍牆上的月曆（右牆）、社團傳單（左牆）跟著那面牆淡出（放進 z.walls；dir＝往室內的法線，和牆一樣）：
+@@ -1975,5 +1994,5 @@ const Z3 = (function(){
+         if(!mobile) for(const t of texs(o)){ if(px>=4e6) break; const im=t.image; try{ R.initTexture(t); out.textures++; const a=im&&im.width&&im.height?im.width*im.height:0; px+=a; out.mpix+=a/1e6; } catch(e){} } }
+       const d=nprog()-p0; out.programs+=d; if(out.done) out.later=(out.later|0)+d; setTimeout(step,gap); };   /* later＝做完以後才看到、才編的（之後才載完的路人底模…）*/
+     setTimeout(step,opts.delay!=null?opts.delay:1000); return out; }
+-  return {ZONES,room,desk,chair,glowTex,attachRoomGLB,roomLightmap,seatFold,roomBackdrop,attachDormInterior,glowBatch:wzGlowBatch,wzParkSeason,wzCatModel,v0BoxFromFlags,fairDayKey,fairExpoFront,isExpoDay,EXPO_DAYS,pothosSize,prewarm,prefetchNext,warmup,PROP_BLOCKS:{wenzhou:WZ_PROP_BLOCKS,gongguan:GG_PROP_BLOCKS},propBlocks};   /* attachRoomGLB：社科院圖書館（src/soclib3d.js）也用這個接法 ；attachDormInterior：宿舍 205（rooms_glb3d.js 的 dorm_interior，和祐廷的房間同一型）；roomLightmap：霖澤館大廳（src/building3d.js 的 attachFormal）也用 */
++  return {ZONES,room,desk,chair,glowTex,attachRoomGLB,roomLightmap,roomDarkMap,seatFold,roomBackdrop,attachDormInterior,glowBatch:wzGlowBatch,wzParkSeason,wzCatModel,v0BoxFromFlags,fairDayKey,fairExpoFront,isExpoDay,EXPO_DAYS,pothosSize,prewarm,prefetchNext,warmup,PROP_BLOCKS:{wenzhou:WZ_PROP_BLOCKS,gongguan:GG_PROP_BLOCKS},propBlocks};   /* attachRoomGLB：社科院圖書館（src/soclib3d.js）也用這個接法 ；attachDormInterior：宿舍 205（rooms_glb3d.js 的 dorm_interior，和祐廷的房間同一型）；roomLightmap：霖澤館大廳（src/building3d.js 的 attachFormal）也用 */
+ })();
+diff --git a/tests/dorm_lightmap_unit.js b/tests/dorm_lightmap_unit.js
+new file mode 100644
+index 000000000..8bf5daa21
+--- /dev/null
++++ b/tests/dorm_lightmap_unit.js
+@@ -0,0 +1,86 @@
++// 宿舍房間（玩家的四人房：203／412／312／507／409）的光照貼圖（DORM203-LM-1030，LAWWW2-B 2026-10-30；不需要瀏覽器）。
++// 為什麼：宿舍的正式模型原本靠 attachDormInterior 的補光（TK.bounce：牆、地板、木頭、床單加自發光）讓整間亮起來；
++//   有光照貼圖以後燈、窗的光和床底下、牆角的暗都已經烘焙進去，再加自發光會整片發白、影子不見。
++// 檢查（Z3.attachRoomGLB → Z3.attachDormInterior，和 zones3d.js 的 dorm 區域同一個順序；假的房間）：
++//   1. 有光照貼圖：牆、地板、床單接光照貼圖，沒有補光（不是 bounce、emissive 是黑的）。
++//   2. 沒有光照貼圖（舊的 GLB）：照舊補光（不影響以前的樣子）。烘焙工具複製給不烘物件的材質（名字後面 _rt：洗手間外牆的斷面）也照舊補光。
++//   3. 頂點色的小東西（dorm_items）：自發光一點點（dormVcGlow）照舊；接在原本的 onBeforeCompile 後面、不蓋掉（RT-NIGHT-1028 的 rtK 也包在那裡）。
++//   4. 再進一次（快取的 GLB 每次 clone、材質共用）：dorm_items 不會再包一層。
++//   6. 熄燈（DORM-SLEEP-VISUAL-1030）：GLB 有 extras.lightmap.dark 時 z.lightsOff(k) 換到熄燈那張、燈管和房間的點光源跟著暗；再進一次不再包一層；沒有 dark 的房間不變。
++//   5. 正式模型 assets/models/env/second_ai/dorm_room4.glb（換成這一包以後）：有 extras.lightmap；每一年不一樣的東西（Y203_…、ROOMMATE_KAI、NAMETAG_）
++//      沒有第二套 UV（烘焙時不存在：同一張光照貼圖給五個年級用）；地板、牆、床桌組有。舊的 GLB 沒有 extras.lightmap 時這一項略過（不算失敗）。
++// 用法：node tests/dorm_lightmap_unit.js
++const fs=require('fs'), vm=require('vm'), path=require('path');
++const ROOT=path.resolve(__dirname,'..');
++global.window=global; global.self=global;
++const ctx2d=new Proxy({}, {get:(o,k)=>k==='createRadialGradient'||k==='createLinearGradient'||k==='createPattern'?()=>({addColorStop(){}}):(k==='getImageData'?()=>({data:new Uint8ClampedArray(16)}):(k==='measureText'?()=>({width:10}):(typeof k==='string'?(()=>{}):undefined)))});
++global.document={ createElementNS:()=>({getContext:()=>ctx2d,style:{},addEventListener(){},removeEventListener(){}}), createElement:()=>({width:1,height:1,getContext:()=>ctx2d,style:{}}), getElementById:()=>null, addEventListener(){}, body:{appendChild(){}} };
++global.navigator={userAgent:'node'}; global.addEventListener=()=>{}; global.innerWidth=844; global.innerHeight=390; global.location={search:''};
++for(const f of ['lib/three.bundle.js','lib/three.jsm.bundle.js','src/people3d.js','src/assets3d.js','src/world3d.js','src/engine3d.js','src/townkit3d.js','src/campuskit3d.js','src/zones3d.js']){
++  let src=fs.readFileSync(path.join(ROOT,f),'utf8'); src=src.replace(/^const (\w+)\s*=/m,'globalThis.$1='); vm.runInThisContext(src,{filename:f}); }
++let fails=0; const check=(name,ok,info)=>{ console.log((ok?'PASS ':'FAIL ')+name+(info?'　'+info:'')); if(!ok) fails++; };
++
++const SPEC={day:'assets/models/env/second_ai/dorm_room4_lm_day.webp',night:'assets/models/env/second_ai/dorm_room4_lm_night.webp',intensity:Math.PI*2};
++const mats=()=>({wall:new THREE.MeshStandardMaterial({name:'dorm_wall'}), floor:new THREE.MeshStandardMaterial({name:'dorm_floor'}), sheet:new THREE.MeshStandardMaterial({name:'seethru_dorm_sheet'}),
++  items:new THREE.MeshStandardMaterial({name:'dorm_items',vertexColors:true})});
++function room(M,lm){ const r=new THREE.Group(); const withUv1=g=>{ g.setAttribute('uv1',g.attributes.uv.clone()); return g; };
++  const w=new THREE.Mesh(withUv1(new THREE.BoxGeometry(0.1,3,7)),M.wall); w.name='WALL_left_wall'; w.userData.dir=[1,0,0]; w.position.x=-2.95; r.add(w);
++  const f=new THREE.Mesh(withUv1(new THREE.PlaneGeometry(6,7)),M.floor); f.name='dorm_floor'; r.add(f);
++  const s=new THREE.Mesh(withUv1(new THREE.BoxGeometry(1,0.16,2)),M.sheet); s.name='LOFT_L2_sheet'; r.add(s);
++  const it=new THREE.Mesh(new THREE.BoxGeometry(0.2,0.2,0.2),M.items); it.name='Y203_YUTING_items'; r.add(it);
++  if(lm) r.userData.lightmap=SPEC; return r; }
++const attach=root=>{ const z={walls:[]}, g0=new THREE.Group(), fb=new THREE.Group(); g0.add(fb); Z3.attachRoomGLB(z,g0,fb,root); Z3.attachDormInterior(z,g0,root); return z; };
++const compile=m=>{ const sh={uniforms:{},fragmentShader:'#include <lights_fragment_begin>\n#include <lights_fragment_maps>\n#include <emissivemap_fragment>\n',vertexShader:''}; if(m.onBeforeCompile) m.onBeforeCompile(sh,null); return sh; };
++const wallOf=root=>{ let m=null; root.traverse(o=>{ if(o.name==='WALL_left_wall') m=o.material; }); return m; };   /* attachRoomGLB 會複製牆的材質（淡出用）*/
++const black=c=>!c||(c.r===0&&c.g===0&&c.b===0);
++
++// 1. 有光照貼圖
++const A=mats(), rA=room(A,true); attach(rA); const wA=wallOf(rA);
++check('1. 牆、地板、床單接光照貼圖', !!wA.lightMap&&!!A.floor.lightMap&&!!A.sheet.lightMap);
++check('1. 不加補光（不是 bounce、emissive 黑的）', !wA.userData.bounce&&!A.floor.userData.bounce&&!A.sheet.userData.bounce&&black(wA.emissive)&&black(A.floor.emissive)&&black(A.sheet.emissive),
++  JSON.stringify({wall:!!wA.userData.bounce,floor:!!A.floor.userData.bounce,sheet:!!A.sheet.userData.bounce}));
++check('1. 床單照舊是上舖透視（seeThrough）', !!A.sheet.userData.seeThrough);
++// 2. 沒有光照貼圖：照舊補光
++const Bm=mats(), rB=room(Bm,false); attach(rB); const wB=wallOf(rB);
++check('2. 沒有光照貼圖的 GLB：照舊補光', !!wB.userData.bounce&&!!Bm.floor.userData.bounce&&!!Bm.sheet.userData.bounce&&!wB.lightMap);
++check('2. 烘焙工具複製給不烘物件的那一份（dorm_wall_rt，洗手間外牆斷面）：照舊補光', (()=>{ const M=mats(), r=room(M,true), rt=new THREE.MeshStandardMaterial({name:'dorm_wall_rt'}); const o=new THREE.Mesh(new THREE.BoxGeometry(2,3,0.1),rt); o.name='dorm_bath_outer'; r.add(o); attach(r); return !!rt.userData.bounce&&!rt.lightMap; })());
++// 3. dorm_items：接在原本的後面
++const C=mats(); C.items.onBeforeCompile=function(sh){ sh.fragmentShader='uniform float rtK;\n'+sh.fragmentShader; }; C.items.customProgramCacheKey=()=>'rt';
++const rC=room(C,true); attach(rC); const sc=compile(C.items);
++check('3. 小東西的自發光照舊（dormVcGlow）', /totalEmissiveRadiance \+= vColor\.rgb \* 0\.25/.test(sc.fragmentShader));
++check('3. 原本的 onBeforeCompile 沒被蓋掉（rtK 還在）', /uniform float rtK;/.test(sc.fragmentShader));
++check('3. 快取鍵兩個都有', /rt/.test(C.items.customProgramCacheKey())&&/dormVcGlow/.test(C.items.customProgramCacheKey()), C.items.customProgramCacheKey());
++// 4. 再進一次
++const rC2=room(C,true); attach(rC2); const sc2=compile(C.items);
++check('4. 再進一次不再包一層', (sc2.fragmentShader.match(/vColor\.rgb \* 0\.25/g)||[]).length===1&&(sc2.fragmentShader.match(/uniform float rtK;/g)||[]).length===1);
++// 6. 熄燈（DORM-SLEEP-VISUAL-1030）：GLB 有 extras.lightmap.dark → z.lightsOff(k)
++const SPECD=Object.assign({},SPEC,{dark:'assets/models/env/second_ai/dorm_room4_lm_dark.webp'});
++const attachG=(root)=>{ const z={walls:[]}, g0=new THREE.Group(), fb=new THREE.Group(); g0.add(fb); const pl=new THREE.PointLight(0xfff0d8,12,8,2); g0.add(pl); z.group=g0; Z3.attachRoomGLB(z,g0,fb,root); Z3.attachDormInterior(z,g0,root); return {z,pl}; };
++const D=mats(), tube=new THREE.MeshStandardMaterial({name:'dorm_tube'}); const rD=room(D,false); rD.userData.lightmap=SPECD; const tm=new THREE.Mesh(new THREE.BoxGeometry(0.4,0.02,0.4),tube); tm.name='dorm_tubes'; rD.add(tm);
++const {z:zD,pl}=attachG(rD); const shD=compile(D.floor);
++check('6. 有熄燈那張：z.lightsOff 存在、地板的 shader 三張混合', typeof zD.lightsOff==='function'&&/uniform sampler2D lmDark;/.test(shD.fragmentShader)&&/mix\( mix\( texture2D\( lightMap, vLightMapUv \), texture2D\( lmNight, vLightMapUv \), lmMix \), texture2D\( lmDark, vLightMapUv \), lmOff \)/.test(shD.fragmentShader));
++const off=k=>{ if(typeof zD.lightsOff==='function') zD.lightsOff(k); };   /* 沒有 lightsOff（修改前）照樣跑完、判 FAIL */
++const t0=tube.emissiveIntensity, p0=pl.intensity; off(1);
++check('6. lightsOff(1)：換熄燈那張、燈管不亮、房間的點光源剩一成', shD.uniforms.lmOff&&shD.uniforms.lmOff.value===1&&tube.emissiveIntensity===0&&Math.abs(pl.intensity-p0*0.1)<1e-6, JSON.stringify({off:shD.uniforms.lmOff&&shD.uniforms.lmOff.value,t0,t:tube.emissiveIntensity,p0,p:pl.intensity}));
++off(0); check('6. lightsOff(0)：回到原本', !!shD.uniforms.lmOff&&shD.uniforms.lmOff.value===0&&tube.emissiveIntensity===t0&&pl.intensity===p0);
++off(1); const rD2=room(D,false); rD2.userData.lightmap=SPECD; const {z:zD2}=attachG(rD2); const shD2=compile(D.floor);
++check('6. 再進一次：不再包一層、熄燈回到 0', (shD2.fragmentShader.match(/uniform sampler2D lmDark;/g)||[]).length===1&&!!shD2.uniforms.lmOff&&shD2.uniforms.lmOff.value===0&&typeof zD2.lightsOff==='function');
++const N=mats(), rN=room(N,true), {z:zN}=attachG(rN);
++check('6. 沒有熄燈那張的房間：沒有 lightsOff、shader 沒有 lmDark', zN.lightsOff===undefined&&!/lmDark/.test(compile(N.floor).fragmentShader));
++// 5. 正式模型
++const GLB=path.join(ROOT,'assets/models/env/second_ai/dorm_room4.glb');
++const buf=fs.readFileSync(GLB), J=JSON.parse(buf.slice(20,20+buf.readUInt32LE(12)).toString('utf8'));
++const sceneLm=(J.scenes||[]).some(s=>s.extras&&s.extras.lightmap)||(J.nodes||[]).some(n=>n.extras&&n.extras.lightmap);
++if(!sceneLm) console.log('SKIP 5. 正式模型還是沒有光照貼圖的版本（這一包的 dorm_room4.glb 還沒換上）');
++else {
++  const par={}; J.nodes.forEach((n,i)=>(n.children||[]).forEach(c=>{ par[c]=i; }));
++  const chain=i=>{ const a=[]; while(i!=null){ a.push(J.nodes[i].name||''); i=par[i]; } return a; };
++  const hasUv1=n=>J.meshes[n.mesh].primitives.every(p=>p.attributes.TEXCOORD_1!=null);
++  const yr=[], base=[]; J.nodes.forEach((n,i)=>{ if(n.mesh==null) return; const c=chain(i); (c.some(s=>/^(Y203_|Y412_|Y312_|Y507_|Y409_|Y205_|ROOMMATE_|NAMETAG_)/.test(s))?yr:base).push({name:n.name,uv1:hasUv1(n)}); });
++  const bad=yr.filter(o=>o.uv1).map(o=>o.name);
++  check('5. 每一年不一樣的東西沒有第二套 UV（烘焙時不存在）', yr.length>20&&bad.length===0, yr.length+' 個'+(bad.length?'；有的：'+bad.slice(0,5).join('、'):''));
++  const need=['dorm_floor','WALL_left_wall','WALL_back_wall','dorm_wood','dorm_frame_white','LOFT_L2_sheet','LOFT_R1_frame','BEDDING_L2_duvet','dorm_bathmat'];
++  const miss=need.filter(n=>!base.some(o=>o.name===n&&o.uv1));
++  check('5. 地板、牆、床桌組、上舖、被子、腳踏墊有第二套 UV', miss.length===0, miss.length?'沒有：'+miss.join('、'):'');
++}
++console.log(fails?('FAILED '+fails):'ALL PASS'); process.exit(fails?1:0);
