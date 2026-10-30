@@ -221,6 +221,35 @@ const CROWD=(function(){
     if(w){ n.name=w; n.dept=w.replace(/系的學生$/,''); }   /* AA_495 那三句：說的人是那個系的學生 */
     n.hear={who,t}; n.talkLabel='聽一句'; n.talk=()=>S.overhear(GM,n,[{who,t}]); };
   S.SPOTS.push(...S.gymSpots());
+  /* ===== 系籃練球的球場（BBALL-PRESENT-1030；使用者 2026-10-30「系藍練團時間到 根本球場空的」）=====
+     校園籃球場（醉月湖東側，zones3d.js 的 bballCourt：半場 15×14、籃框在北邊 (−4,−120.85)；活動點 (3.3,−112.7) 在東邊兩張長椅中間）。
+     時段＝系籃練球（activities.js 的 dept_basketball）那一天、那一段：ACTIVITIES.on 成立（大一上第 5～7、10～15 週的週五 17:30～19:00；國定假日照 ACTIVITIES 的規則停練＝沒有人、也沒有參加點），
+     做法同體育館 3F 主球場（arena）：6～8 個人在籃框那半場照路線跑一段、停一下、面向籃框；2～3 個人在場邊（記分、送水）。同一天同一批人（日期＋時段當種子），時段結束走到南邊的路走掉。
+     路人沒有名字；打球的人點了聽一句（體育館籃球場那一組句子裡沒有指定說話的人那幾句：S.GYM_HEAR.basketball），場邊的人不說話。
+     有名字的人（阿哲在場邊、明軒在場上）照作息（characters.js 的 dept_basketball 那一筆），路線不經過他們站的地方、不經過活動點。測試：node tests/bball_present_unit.js */
+  S.BBALL={ act:'dept_basketball', c:[-4,-114.5], hoop:[-4,-119.7], door:[4,-100.5], road:[32,-98],
+    RUN:[[-4.2,-118.4],[-1.4,-117.8],[-7.0,-117.6],[-2.4,-115.6],[-5.6,-115.8],[-9.0,-115.2],[0.4,-114.8],[-8.2,-112.6],[-4.6,-113.0],[-1.0,-112.6]],   /* 籃框那半場（z ≤ −112.2、x ≤ 0.6）：離明軒 (−4,−110.6)、阿哲 (1.6,−111)、活動點都 1.5 m 以上 */
+    SIDE:[[-7.5,-105.6,'scorer','idle',[-7.5,-112]],[-12.0,-112.0,'water','talk',[-4,-112]],[-12.0,-114.4,'water','idle',[-4,-114.4]]] };   /* 場邊：南邊中線外記分、西邊場外送水（面向場內）*/
+  S.bballSpot=function(){ const B=S.BBALL, face=(p,q)=>+Math.atan2(q[0]-p[0],q[1]-p[1]).toFixed(4);
+    const shuffle=(a,r)=>{ a=a.slice(); for(let i=a.length-1;i>0;i--){ const j=Math.floor(r()*(i+1)); [a[i],a[j]]=[a[j],a[i]]; } return a; };
+    return { id:'bball_practice', zone:'campus', label:'系籃練球（籃球場）', c:B.c, spread:[1,1], door:B.door, road:B.road, fidget:true, bball:true,
+      slots(G){ if(typeof ACTIVITIES==='undefined'||!ACTIVITIES.list) return []; const a=ACTIVITIES.list.find(q=>q.id===B.act); if(!a||!ACTIVITIES.on(a,G.day,G)) return [];
+        return [{key:'practice',t0:a.t0,t1:a.t1,n:[8,11],fixed:true,pose:'idle',talk:0,enter:'door',leave:'road'}]; },
+      people(G,slot,r){ const n=slot.n[0]+Math.floor(r()*(slot.n[1]-slot.n[0]+1)), side=n>=10?3:2, np=n-side, base=5000+Math.floor(r()*90)*2, out=[];
+        const mk=(k,o)=>Object.assign({key:this.id+'|'+slot.key+'|'+k,pose:'idle',yaw:0,spec:base+k*2+(r()<0.7?1:0)},o);   /* 路人編號（偶數＝女生）：5000 起一段，不和體育館（3000）、小公園（2000）撞 */
+        for(let k=0;k<np;k++){ const wp=shuffle(B.RUN,r).slice(0,4).map(q=>[q[0],q[1],0]); out.push(mk(k,{x:wp[0][0],z:wp[0][1],role:'bball_run',beh:'route',waypoints:wp,ri:0,walkSpeed:2.8,run:true,pauseAt:true,faceYaw:face(wp[0],B.hoop)})); }
+        for(let k=0;k<side;k++){ const q=B.SIDE[k]; out.push(mk(np+k,{x:q[0],z:q[1],yaw:face(q,q[4]),role:q[2],pose:q[3]})); }
+        return out; },
+      bind(GM,n,p){ S.bballBind(GM,n,p); } }; };
+  /* 打球的人「聽一句」：體育館籃球場那一組（S.GYM_HEAR.basketball）裡沒有指定說話的人的句子（W 空的；「明天系盃」那句是化學系的學生，不在法律系的練球說）；
+     同一次進來不重複、用完了就不說、下一次從下一句開始（G.flags.bballHear；輪法同體育館）。點了不擋活動點、阿哲明軒（yieldIt）*/
+  let bballVisit=null;
+  S.bballLines=()=>{ const H=S.GYM_HEAR.basketball; return H.L.filter((t,i)=>!(H.W&&H.W[i])); };
+  S.bballBind=function(GM,n,p){ const G=GM&&GM.G; if(!G||!n||!p||p.role!=='bball_run') return; const L=S.bballLines(); if(!L.length) return;
+    n.yieldIt=true; n.talkLabel='聽一句';
+    n.talk=()=>{ const vk=(GM.enterN|0)+':'+G.zone; if(!bballVisit||bballVisit.key!==vk){ const F=G.flags||(G.flags={}); bballVisit={key:vk,used:0,start:F.bballHear|0}; F.bballHear=((F.bballHear|0)+1)%L.length; }
+      if(bballVisit.used>=L.length) return; const t=L[(bballVisit.start+bballVisit.used)%L.length]; bballVisit.used++; const who=S.GYM_HEAR.basketball.who; n.hear={who,t}; return S.overhear(GM,n,[{who,t}]); }; };
+  S.SPOTS.push(S.bballSpot());
   /* ===== 路人分科系（AA_495，AA-C 2026-10-28 定稿，句子照抄；CROWD-DEPTS-1028、USER_WANTS X120；句子在 src/data/crowd_depts.js）=====
      使用者 10-28：「路人也是 一堆 上課坐在後排的 路上遇到的 有必要嗎 都沒有別的系的學生 當台大只有法律系嗎」。
      - 一個人一句（第 1 節）：校園（椰）、總圖和社科圖（圖）、體育館（體）、公館（館）的路人生出來時照地點抽一個系（同一群人先把那個地點的系輪一遍再重複；同一天同一群人是同一些系），

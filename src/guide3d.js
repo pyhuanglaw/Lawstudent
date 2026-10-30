@@ -159,6 +159,8 @@ const GUIDE=(function(){
     const S=(wx,wz)=>toScreen(v,W,H,wx,wz); const R=st.route; const ppl=people();
     if(R&&R.length>1&&on()){ x.strokeStyle='rgba(255,190,70,0.95)'; x.lineWidth=4; x.lineJoin='round'; x.lineCap='round'; x.beginPath(); R.forEach((q,i)=>{ if(v.perLv&&(q[2]|0)!==v.lv) return; const [u,w]=S(q[0],q[1]); if(i) x.lineTo(u,w); else x.moveTo(u,w); }); x.stroke(); }
     x.textAlign='center'; x.textBaseline='middle'; const boxes=[]; const free=(u,w,tw,th)=>{ const b=[u-tw/2-2,w-th/2-1,u+tw/2+2,w+th/2+1]; for(const q of boxes){ if(b[0]<q[2]&&b[2]>q[0]&&b[1]<q[3]&&b[3]>q[1]) return false; } boxes.push(b); return true; };
+    // 教學館室內的教室（門號、名字；今天的教室金色星號＋幾點哪一門課）：入口以前畫，入口的字和它重疊就不畫（霖澤館「201 階梯教室」的門本來就是入口，不寫兩次）——src/roommap3d.js，ROOM-MAP-LABELS-1030
+    if(typeof ROOMMAP!=='undefined') ROOMMAP.drawBig(x,S,GM.G,GM.G.zone,v.perLv?v.lv:null,free);
     // 入口（青色門牌；目的地的入口金色）
     x.font='12px "Noto Sans TC","PingFang TC",sans-serif'; for(const it of E.interactables){ if(!it.exit&&!it.elevator&&!it.mark) continue;   /* mark：沒有室內、但要讓玩家認得的入口（共同教學館，2026-10-13）*/ if(v.perLv&&(it.lv|0)!==v.lv) continue; const [u,w]=S(it.x,it.z); const gold=st.tgt&&st.tgt.it===it&&on(); x.fillStyle=gold?'#ffc85a':'#7fd0d6'; x.strokeStyle='rgba(20,22,26,0.9)'; x.lineWidth=1.5; x.beginPath(); x.rect(u-5,w-5,10,10); x.fill(); x.stroke();
       const nm=exitName(it), hl=(it.exit&&!E.indoor)?hoursLine(it.exit.to):''; const who=it.exit?(ppl.filter(q=>q.w.zone!==GM.G.zone&&(q.w.zone===it.exit.to||nextZone(GM.G.zone,q.w.zone)===it.exit.to)).map(q=>q.name)):[]; if(!free(u,w-14,x.measureText(nm).width,15)&&!gold&&!who.length) continue;
