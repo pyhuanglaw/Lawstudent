@@ -1113,8 +1113,8 @@ const STORY_EVENTS=[
     dialogue:[ {speaker:null,text:'你還記得哪一台電梯比較快。只是公告欄上，已經沒有一張是寫給你的。'},
       {scene:'經濟系系辦',bg:'soc_office'},
       {speaker:'系辦助理',text:'學號給我。……這個學號，不在我們系的名單上了耶。'},
-      {speaker:'player',text:'我現在是法律系的。'},
-      {speaker:'系辦助理',text:'……喔，那個轉系的。外套在這裡，等你快一年了。'},
+      {speaker:'player',text:'我重考了。現在念法律系。'},   /* SK02-LINE-JACKET-1030（使用者 10-30「怎麼說我轉系 我是重考欸」；AA-B 05:04 第①級）*/
+      {speaker:'系辦助理',text:'……喔，重考的那個。外套在這裡，等你快一年了。'},
       {if:{custom:G=>STORY.xunNear()&&!!G.flags.PLAYED_Y0},speaker:'阿勳',text:'家豪學長說得對。真的重三倍。'},
       {if:{custom:G=>STORY.xunNear()&&!G.flags.PLAYED_Y0},speaker:'阿勳',text:'……法律系的書，真的比較重。'},
       {choice:[{text:'（穿去霖澤館上課）',set:{ECON_JACKET:'wear'},goto:'end'},{text:'（送給阿勳）',set:{ECON_JACKET:'xun'},goto:'xun'},{text:'（收進衣櫃）',set:{ECON_JACKET:'closet'},goto:'end'}]},
