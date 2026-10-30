@@ -7,6 +7,7 @@
 //   3  她知道你有別人＝心意邀約不發、時段第一天傳 NOPE.knows；多段的開關打開＝照一般的知情條件
 //   4  AA_537b 第 1～3 節（date_lines.js）：十一個 key、128 點喜好、15 句不喜歡、八個常去地點，逐字對稿
 //   5  第 2 段：慈 6 那一場最後「空白的週三下午」（3-5，G8 XC_BLANK）、沒和以安和好多一句（3-6）
+//   6  第 2 段：3-1 大二上麵店補問（G2）、3-2 大二下半夜提醒（G3）、3-5 後補（大四上第 6 週週三）
 // 用法：node tests/xinci_romance_unit.js（稿用 git show 讀：在沒有 .git 的目錄跑時，設環境變數 XC_GIT_DIR＝這個 repo 的目錄）
 'use strict';
 require('./alison.js');
@@ -121,6 +122,23 @@ const walk=async(picks,term)=>{ H.said=[]; H.opts=[]; H.picks=picks.slice(); ret
     t=await play({},[0,'那我來填']); const i=t.indexOf('一點都不好玩。');
     check('5. 3-6：沒和以安和好（沒有 XC5_RECONCILE）＝「一點都不好玩。」後面多「我還是想知道她考幾分。……很爛吧。」；和好的沒有',t[i+1]==='我還是想知道她考幾分。……很爛吧。'&&DOC537.includes('> 芯慈：我還是想知道她考幾分。……很爛吧。')&&!(await play({XC5_RECONCILE:true},[0,'那我來填'])).includes('我還是想知道她考幾分。……很爛吧。'),J(t.slice(i,i+2)));
     check('5. 視訊版（日本路線）同一份台詞（XC_LINES）',J(ev('ev_xinci_first_place_video').dialogue.slice(1))===J(ev('ev_xinci_first_place').dialogue)); });
+
+  /* ===== 第 6 節：第 2 段 3-1、3-2、3-5 後補 ===== */
+  await sec(6,async()=>{ const E=STORY_EVENTS.find(e=>e.id==='ev_xc_g2_dad');
+    const nd=(()=>{ for(let k=1;k<=5;k++){ const d=STORY.termDay('Y2S1',3,k); if(STORY.noodleDay(d)) return d; } return null; })();
+    H.fresh(CALENDAR.dateOf(nd).key,18,'noodle',{introDone:true}); SOCIAL.remember(XC,'FIRST_MET','camp');
+    const pre=E&&E.prereq.custom(H.G), wk=E&&E.term[0]==='Y2S1'&&J(E.weeks)===J([3])&&E.ndlDay===true&&E.npcPresent===XC;
+    H.said=[]; H.picks=['妳爸怎麼了']; await EVENTS.run(E);
+    check('6. 3-1：大二上第 3 週麵店日、她在，慈 2 兩個都沒記＝「我爸是會計師。……算了，沒什麼。」→「妳爸怎麼了？」＝兩句、記 TALKED_FAMILY（G2 過）',!!E&&pre===true&&wk&&J(T())===J(['我爸是會計師。……算了，沒什麼。','他說，法律系畢業沒有第二專長會餓死。','……所以我有第二專長。'])&&X().gates(H.G).G2===true&&T().every(t=>DOC537.includes('> 芯慈：'+t)),J(T()));
+    check('6. 3-1：記過 TALKED_FAMILY（或 ECON_TOGETHER）的不演',E.prereq.custom(H.G)===false);
+    H.fresh(CALENDAR.dateOf(nd).key,18,'noodle',{introDone:true}); H.said=[]; H.picks=['不問']; await EVENTS.run(E); check('6. 3-1：「（不問）」＝不記',J(T())===J(['我爸是會計師。……算了，沒什麼。'])&&!X().gates(H.G).G2);
+    const d=STORY.termDay('Y2S2',10,4); const msgs=()=>(H.G.msgs||[]).filter(m=>m.tag==='xc_g3_remind').map(m=>m.text);
+    H.fresh(CALENDAR.dateOf(d).key,0.5,'dorm',{introDone:true}); H.G.contacts={[XC]:1}; STORY.phoneRules(GM); PHONE.tick(H.G); const before=msgs().length; H.G.hour=0.7; STORY.phoneRules(GM); PHONE.tick(H.G);
+    check('6. 3-2：大二下第 10 週週四 00:40（還沒過 G3、有聯絡方式）三則照稿；00:40 以前沒有',before===0&&J(msgs())===J(X().G3_REMIND)&&X().G3_REMIND.every(t=>DOC537.includes('> 芯慈：'+t)),J(msgs()));
+    H.fresh(CALENDAR.dateOf(d).key,0.7,'dorm',{introDone:true}); H.G.contacts={[XC]:1}; H.G.l118={once:{H7c:3}}; STORY.phoneRules(GM); PHONE.tick(H.G); check('6. 3-2：已經選過「她今天要換。」＝不傳',msgs().length===0);
+    const d4=STORY.termDay('Y4S1',6,3); H.fresh(CALENDAR.dateOf(d4).key,14.1,'dorm',{introDone:true}); H.G.contacts={[XC]:1}; H.G.events.done.ev_xinci_first_place=1; STORY.phoneRules(GM); PHONE.tick(H.G);
+    const m=(H.G.msgs||[]).find(x=>x.tag==='xc_blank_again'); const r=m&&PHONE.answer(H.G,'xc_blank_again',0);
+    check('6. 3-5 後補：大四上第 6 週週三 14:00「週三下午還是空的。」→ 回「我來填。」記 XC_BLANK',!!m&&m.text==='週三下午還是空的。'&&!!r&&H.G.flags.XC_BLANK===true&&DOC537.includes('> 芯慈：週三下午還是空的。')); });
 
   H.done();
 })();

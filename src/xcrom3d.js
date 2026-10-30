@@ -43,5 +43,35 @@ const XCROM=(()=>{
   S.othersNow=function(G,who){ if(S.acceptsOpen(G)) return []; const f=F(G); return Object.keys(f).filter(k=>/^dating_/.test(k)&&f[k]===true).map(k=>k.slice(7)).filter(id=>id!==(who||XC)); };
   /* 她問過（5-5 被發現那一句「告白那天，我問過你」的來由）*/
   S.asked=G=>{ const f=F(G); if(f.XC_ASKED==null) f.XC_ASKED=G.day; };
+
+  /* ===================== 第 2 段：新的時刻（AA_537 第 3 節）＝台詞一字照稿 ===================== */
+  const law=G=>!!G&&(G.stage||'law')==='law';
+  const TD=(t,w,wd)=>typeof STORY!=='undefined'&&STORY.termDay?STORY.termDay(t,w,wd):null;
+  const T=(d,h)=>d*24+h, now=G=>T(G.day,G.hour%24);
+  const hasP=()=>typeof PHONE!=='undefined'&&!!PHONE.at;
+  const sent=(G,tag)=>hasP()&&PHONE.sent(G,tag);
+  const contact=G=>typeof INV!=='undefined'&&!!INV.hasContact&&!!INV.hasContact(G,XC);
+  const P=t=>({th:'p:'+XC,from:XC,text:t});
+  const due=(G,d,h,late)=>d!=null&&now(G)>=T(d,h)&&now(G)<T(d,h)+(late==null?6:late);   /* 到了那個時間、還沒過太久（快轉跳過很久的不補）*/
+  /* 3-1 G2 的補問：大二上第 3 週麵店長桌（麵店日、她在），慈 2 兩個都沒記（TALKED_FAMILY、ECON_TOGETHER）才有 */
+  S.EV_G2={ id:'ev_xc_g2_dad', title:'', participants:[XC], location:'noodle', trigger:'auto', term:['Y2S1'], weeks:[3], ndlDay:true, time:[17.5,21], once:true, npcPresent:XC, background:'blur',
+    prereq:{custom:G=>law(G)&&!mem(G,'TALKED_FAMILY')&&!mem(G,'ECON_TOGETHER')},
+    dialogue:[ {speaker:XC,text:'我爸是會計師。……算了，沒什麼。'},
+      {choice:[{text:'「妳爸怎麼了？」',goto:'a'},{text:'（不問）',goto:'end'}]},   /* 稿寫「玩家點她，選項」：大家都在長桌，旁白之後直接出選項（LAWWW-B 10-30 告訴 AA）*/
+      {label:'a'},{speaker:XC,text:'他說，法律系畢業沒有第二專長會餓死。'},{speaker:XC,text:'……所以我有第二專長。'},{mem:[{npc:XC,tag:'TALKED_FAMILY',note:'她爸爸是會計師'}]},
+      {label:'end'} ] };
+  /* 3-2 G3 的提醒：大二下第 10 週週四 00:40，還沒過 G3（沒選過「她今天要換。」）、有她的聯絡方式 */
+  S.G3_REMIND=['巷口那間家常菜，我還是點番茄炒蛋。','上次說想換。你沒有記。','……我也沒有。晚安。'];
+  S.g3Remind=function(G){ const d=TD('Y2S2',10,4); if(!law(G)||!due(G,d,0+40/60)||sent(G,'xc_g3_remind')||!contact(G)||S.gates(G).G3) return; PHONE.at(G,d,40/60,S.G3_REMIND.map(P),'xc_g3_remind'); };
+  /* 3-5 後補：慈 6 那天沒選「那我來填。」（另外兩個）＝大四上第 6 週週三 14:00 她再傳一次；回「我來填。」照樣記 XC_BLANK */
+  S.blankAgain=function(G){ const d=TD('Y4S1',6,3), f=F(G); if(!law(G)||!due(G,d,14)||sent(G,'xc_blank_again')||f.XC_BLANK||!contact(G)||!(done(G,'ev_xinci_first_place')||done(G,'ev_xinci_first_place_video'))) return;
+    PHONE.at(G,d,14,[Object.assign(P('週三下午還是空的。'),{ask:{id:'xc_blank_again',until:T(d+2,0),opts:[{t:'我來填。',set:{XC_BLANK:true}}]}})],'xc_blank_again'); };
+  S.phone=function(G){ for(const f of [S.g3Remind,S.blankAgain]){ try{ f(G); }catch(e){ console.warn('XCROM.phone',e); } } };
+  S.EVENTS=[S.EV_G2];
+  /* ---------- 接線（載入時一次）---------- */
+  S.wire=function(){ if(S._wired) return; S._wired=true;
+    if(typeof STORY_EVENTS!=='undefined') for(const e of S.EVENTS) if(!STORY_EVENTS.some(x=>x.id===e.id)) STORY_EVENTS.push(e);
+    if(typeof STORY!=='undefined'&&Array.isArray(STORY.PHONE_RULES)) STORY.PHONE_RULES.push(G=>S.phone(G)); };
+  S.wire();
   return S;
 })();
