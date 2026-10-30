@@ -165,6 +165,7 @@
     - BB 近拍結果出來就更新 AA_541 第 5、6 節；
     - 使用者回答七題就照做；
     - 有實作問題就回。
+- **13:3x（AA-B）**：LAWWW-B 問 `pg_an_ex1` 補發時間（BB-B R43）→ 回 B：跟電話版 an1 同一段，到隔天 03:00；an2 同。AA_473 第 2 節補一行。
 
 值班登記：帳號 C｜AA｜session_019evvieJUJD23EGf4nyLPgo｜分支 claude/magical-albattani-bk7b4n｜接班基準 89accb6d4（快轉合併帳號 B 的 `claude/cool-heisenberg-o8kuqx`）｜2026-10-27
 上一班：帳號 B｜AA｜session_016ACZaD4oB9tX94WqQR4dkS｜最後 commit 89accb6d4（2026-10-25 19:43 UTC，讀稿工具存檔）｜**沒有正式交班**（四個帳號 B 的工作階段都停在 10-25 19:2x～19:4x）→ 使用者 10-27 對 AA-C：「上一班來不及交班，現在由帳號 C 接班」＝第 4 節第 10 步的明確授權（`duty register --user-ok`）。
