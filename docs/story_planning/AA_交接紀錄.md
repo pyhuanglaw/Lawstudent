@@ -201,6 +201,12 @@
     - 她會先說；誰先說她都問「你現在有在跟誰交往嗎」，不能騙她。
     - NOPE knows／low；舊 NOPE 句作廢。
   - 提醒 LAWWW-B：G10（以安）、5-5（多段）還在等使用者，做成開關。
+- **16:2x～16:4x（AA-B）**：
+  - LAWWW-B 做完芯慈第 1 段（f802dcfe5）：門檻、學期末告白；兩個開關在 XCROM.CFG。
+  - LAWWW-B 問第 3 段 → AA_537b 第 8 節（86659bbc1）：
+    - GF 期末飯（提前一天約）；
+    - 心願午夜場全套；
+    - HEART table 換句（避開學姊那句）。
 
 值班登記：帳號 C｜AA｜session_019evvieJUJD23EGf4nyLPgo｜分支 claude/magical-albattani-bk7b4n｜接班基準 89accb6d4（快轉合併帳號 B 的 `claude/cool-heisenberg-o8kuqx`）｜2026-10-27
 上一班：帳號 B｜AA｜session_016ACZaD4oB9tX94WqQR4dkS｜最後 commit 89accb6d4（2026-10-25 19:43 UTC，讀稿工具存檔）｜**沒有正式交班**（四個帳號 B 的工作階段都停在 10-25 19:2x～19:4x）→ 使用者 10-27 對 AA-C：「上一班來不及交班，現在由帳號 C 接班」＝第 4 節第 10 步的明確授權（`duty register --user-ok`）。
