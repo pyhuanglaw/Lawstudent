@@ -4468,6 +4468,22 @@
    "remaining": "宿舍四人房（重烘中）→ 201",
    "next": "LAWWW-B 換 library_interior.glb＋兩張光照貼圖；不用改程式",
    "note": "lm_squash_scan 朝室內壓扁 83.2→0 m²；東西兩面灰泥牆（書架後面）原本一大塊斜的深色三角形不見了，四個鏡頭改到 2～10% 像素；相關 Node 三支過；模型、三角形數不變"
+  },
+  {
+   "branch": "claude/funny-albattani-iawshm",
+   "sha": "cfb70a5fd",
+   "noDirectIntegrate": false,
+   "receiver": "LAWWW",
+   "ack": "",
+   "task": "NAV-LIBHALL-ISLAND-1030：總圖大廳一樓 (5.85,-8.4) 牆角 2 格孤島＋library_copier_unit FAIL 要 exit 1（LAWWW-B 10-30 21:27 派工，D108）",
+   "files": [
+    "docs/art-rebuild/second_ai/patches/libhall_island_1030.patch",
+    "docs/art-rebuild/second_ai/test_shots/nav_libhall_island_1030/README.md"
+   ],
+   "state": "已交付",
+   "remaining": "瀏覽器 reachability_all.py 沒跑",
+   "next": "LAWWW-B 套 libhall_island_1030.patch（library_layout.js 滅火器 nav、library3d.js prop 備用方塊照東西大小、library_copier_unit exit 1）；對 4470ef1a9 apply --check 通過",
+   "note": "樓梯核心和滅火器之間 1 m 的牆角封掉（滅火器 nav 往西接到核心）；正式模型不變；library_copier_unit 開發原樣 FAIL exit 1、套後 ALL PASS；nav_buildings_unit ALL PASS；載入總圖配置的 Node 61 支全過"
   }
  ]
 }
