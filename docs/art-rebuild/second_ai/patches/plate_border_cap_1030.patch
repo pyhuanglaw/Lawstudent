@@ -1,0 +1,13 @@
+diff --git a/src/zones3d.js b/src/zones3d.js
+index 55aae7549..64c8392bc 100644
+--- a/src/zones3d.js
++++ b/src/zones3d.js
+@@ -1082,7 +1082,7 @@ const Z3 = (function(){
+       x.strokeStyle=d.color||'#222'; x.globalAlpha=0.45; x.lineWidth=2; x.strokeRect(h*0.08,h*0.08,w-h*0.16,h-h*0.16); x.globalAlpha=1;
+       const ch=[...(d.text||'')], fs=Math.round(h*(d.fs||0.6)), span=Math.min(w*0.74,ch.length*fs*1.55);   /* d.fs：字高是板面高的幾倍（行政大樓的檐部匾額比較扁，字放大到 0.72） */ x.font='bold '+fs+'px '+WZ_SERIF; x.fillStyle=d.color||'#222'; x.textAlign='center'; x.textBaseline='middle';
+       ch.forEach((c,i)=>x.fillText(c,w/2-span/2+span*(i+0.5)/ch.length,h*0.53)); });
+-    return cafeCanvas(W,H,(x,w,h)=>{ x.fillStyle=d.bg||'#ffffff'; x.fillRect(0,0,w,h); x.strokeStyle=d.color||'#222'; x.lineWidth=Math.max(3,w*0.04); x.strokeRect(x.lineWidth,x.lineWidth,w-x.lineWidth*2,h-x.lineWidth*2);
++    return cafeCanvas(W,H,(x,w,h)=>{ x.fillStyle=d.bg||'#ffffff'; x.fillRect(0,0,w,h); x.strokeStyle=d.color||'#222'; x.lineWidth=Math.max(3,Math.min(w*0.04,h*0.16));   /* 外框上限＝板面高的 16%：很扁的長條（博思雨遮名牌 4.8×0.16 m，30:1）原本外框比板面還厚、字被黑邊吃掉。4:1 以內的牌子（門牌、路名牌）和原本一樣；變的只有溫州公園牌（5.2:1）、社科院系所牌（9.5:1）、博思名牌 */ x.strokeRect(x.lineWidth,x.lineWidth,w-x.lineWidth*2,h-x.lineWidth*2);
+       x.fillStyle=d.color||'#222'; x.textAlign='center'; x.textBaseline='middle';
+       if(vert){ const ch=[...(d.text||'')], fs=Math.min(w*0.56,h*(d.sub?0.6:0.8)/Math.max(1,ch.length)/1.1); x.font='bold '+fs+'px '+WZ_SANS; ch.forEach((c,i)=>x.fillText(c,w/2,h*0.07+fs*0.62+i*fs*1.1)); if(d.sub){ x.font='bold '+Math.round(Math.min(w*0.3,h*0.14))+'px '+WZ_SANS; x.fillText(d.sub,w/2,h*0.86); } return; }
+       x.font='bold '+Math.round(h*(d.sub?0.34:0.5))+'px '+WZ_SANS; x.fillText(d.text||'',w/2,h*(d.sub?0.36:0.52)); if(d.sub){ x.font='bold '+Math.round(h*0.26)+'px '+WZ_SANS; x.fillText(d.sub,w/2,h*0.72); } }); }

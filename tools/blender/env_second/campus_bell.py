@@ -204,7 +204,7 @@ for k, m in _acc.items():
                 uvl.data[li].uv = (0.0 if round(co.x, 4) == xs[0] else 1.0, (co.z - z0_) / max(1e-6, z1_ - z0_))
     elif k == 'bronze': bmesh.ops.recalc_face_normals(m.bm, faces=m.bm.faces); m.finish(root, uv=True, smooth=True)   # 鐘、寶頂、吊環都是封閉的：法線一律朝外
     else: m.finish(root, uv=True)
-uv01(plate.finish(root, uv=True, props={'text': '傅鐘', 'bg': '#e3dccd', 'color': '#3a2f28', 'serif': 1}))
+uv01(plate.finish(root, uv=True, props={'text': '晨思鐘', 'bg': '#e3dccd', 'color': '#3a2f28', 'serif': 1}))
 L.merge_by_material(root, keep=lambda ob: 'FACE' in ob.name)
 info = L.export(OUT, gpu_instances=False)
 L.write_json(OUT[:-4] + '.json', info)

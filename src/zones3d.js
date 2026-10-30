@@ -116,7 +116,18 @@ const Z3 = (function(){
     { const rt=avenueRoadTex().clone(); rt.needsUpdate=true; rt.repeat.set(1,196/9);
       const road=new THREE.Mesh(new THREE.PlaneGeometry(12,196),texMat(rt,null,{roughness:0.9})); road.rotation.x=-Math.PI/2; road.rotation.z=-Math.PI/2; road.position.set(-26,0.024,0); road.receiveShadow=true; g.add(road); }
     // 總圖前廣場（椰林大道盡頭）
-    ground(g,17,36,W3.stoneTex('#e3d9c6'),[4,9],78.5,0,0.016);
+    const libPlaza=ground(g,17,36,W3.stoneTex('#e3d9c6'),[4,9],78.5,0,0.016);
+    /* 總圖前草皮（X133 LIB-LAWN-1030 第一版，LAWWW2-B；tools/blender/env_second/campus_lib_lawn.py → bldg.campus_lib_lawn）：中軸（z −5～5）兩邊各一塊 L 形草皮、
+       紅磚步道、北側草皮的老樟樹（企劃：「總圖前面的樟樹比總圖老」「他在樟樹下等你」）、南側一棵中型的樹、沿中軸六張長椅、六盞路燈。
+       有正式模型時才換：原本廣場兩邊的兩棵樹 (74,−12)、(78,14) 拿掉（位置在草皮上）。模型載入失敗時照舊是石板廣場（樹、長椅、路燈還在，走得到）。
+       草皮走得到、坐得到（草皮面 4.5 cm、路緣 7 cm；導航是平的）。導航只擋樹幹、長椅、燈柱。 */
+    const lawnGLB=typeof ASSETS!=='undefined'&&!!ASSETS.manifest['bldg.campus_lib_lawn'];
+    if(lawnGLB){
+      const ct=TK.tree(16,1331,{sp:'camphor'}); ct.name='lib_old_camphor'; place(g,ct,74.2,-11.6,0.4); nav.blockCircle(74.2,-11.6,1.0);   /* 老樟樹：比法律系館A 前的那棵（19 m）矮一點；樹冠蓋到中軸北半邊 */
+      const st=TREE(1.15); place(g,st,74.7,11.6,2.1); nav.blockCircle(74.7,11.6,0.8);   /* 南側草皮：中型的樹（校園其他闊葉樹同一套）*/
+      for(const s of [-1,1]) for(const x of [72.6,75.0,77.4]){ const b=BENCH(); place(g,b,x,s*5.75,s>0?Math.PI:0); nav.blockRect(x,s*5.75,1.4,0.7,0); seats.push({x,z:s*5.75+(s>0?-0.06:0.06),yaw:s>0?Math.PI:0,label:'坐在總圖前的長椅上'}); }
+      for(const [x,z,ry] of [[70.8,-5.75,0],[70.8,5.75,Math.PI],[79.0,-5.75,0],[79.0,5.75,Math.PI],[75.0,-17.3,0],[75.0,17.3,Math.PI]]){ const l=W3.lampPost(); place(g,l,x,z,ry); l.userData.roadPool=true; lamps.push(l); nav.blockCircle(x,z,0.5); }
+    }
     // 椰林大道兩側的杜鵑花叢（真實的椰林大道中間沒有分隔島；開學的九月杜鵑不開花，只有綠叢）：每兩棵椰子樹中間一叢；
     // 路口（小椰林道、文學院、往醉月湖的小路、宿舍）、路燈、長椅前、傅鐘廣場前留空，草地和長椅都走得到
     { const bin=new TK.Bin(); const lampXs=[], benchXs=[]; for(let x=-105;x<=55;x+=22) lampXs.push(x); for(let x=-100;x<=50;x+=25) benchXs.push(x);
@@ -308,8 +319,8 @@ const Z3 = (function(){
       for(const [b,x,z,ry] of fill){ ckPlace(b,x,z,ry); buildings.push(b); }
       // 系館前的樹列、大道外側的樹、宿舍區與校園邊緣的樹帶（擋住草地直接接到遠景的盡頭）
       const rows=[
-        [-104,36],[-90,41],[-76,38],[-100,16],[-112,26],[74,-12],[78,14],[68,26],
-        [-60,58],[-12,60],[54,58],[93,60],[104,66]];
+        [-104,36],[-90,41],[-76,38],[-100,16],[-112,26]].concat(lawnGLB?[]:[[74,-12],[78,14]]).concat([[68,26],   /* X133：有總圖前草皮時，(74,−12)、(78,14) 在草皮上，換成老樟樹、南側的樹 */
+        [-60,58],[-12,60],[54,58],[93,60],[104,66]]);
       for(let x=-116;x<=116;x+=11){ if(x>-52&&x<-16) continue; if(x>-4&&x<44) continue; if(x>56&&x<92) continue; rows.push([x,80]); }
       for(let z=-30;z<=40;z+=10){ rows.push([121,z+((z*7)%3)]); }   /* 總圖東邊；社科院在 z<-42 */
       for(const [x,z] of rows){ const t=TREE(1+((Math.abs(x*3+z))%4)*0.12); place(g,t,x,z,(x+z)*0.37); nav.blockCircle(x,z,0.8); }
@@ -459,6 +470,8 @@ const Z3 = (function(){
     if(typeof ASSETS!=='undefined'&&ASSETS.manifest['bldg.linze_exterior']) ASSETS.loadOne('bldg.linze_exterior').then(c=>{ if(!c||!c.scene||E.zone!==zone) return; attachExterior(linze,c.scene.clone(true)); }).catch(e=>console.warn('霖澤館外觀正式模型載入失敗，用套件的外觀',e));
     // 總圖的 Blender 正式模型（第二個 AI）：和溫州街、公館同一套接法（只藏 ckTag==='library' 的套件；窗晚上亮、招牌是石材底色的 canvas 字）
     if(libGLB) ASSETS.loadOne('bldg.campus_library').then(c=>{ if(!c||!c.scene||E.zone!==zone) return; attachWenzhouModel(E,g,c.scene.clone(true),'ckTag','campus_library_glb','library'); }).catch(e=>console.warn('總圖正式模型載入失敗，用套件的外觀',e));
+    if(lawnGLB) ASSETS.loadOne('bldg.campus_lib_lawn').then(c=>{ if(!c||!c.scene||E.zone!==zone) return; const r=c.scene.clone(true); r.name='campus_lib_lawn_glb';   /* X133 總圖前草皮：只有地面（不投影、接受影子），載入後藏掉石板廣場 */
+      r.traverse(o=>{ if(o.isMesh){ o.castShadow=false; o.receiveShadow=true; } }); g.add(r); libPlaza.visible=false; }).catch(e=>console.warn('總圖前草皮正式模型載入失敗，用石板廣場',e));
     courtGLB(zone);   /* 系籃球場的正式模型（bballCourt）*/
     gateGLB(E,g,gate,-124,0,-Math.PI/2,zone);   /* 校門（ART-EXT-GATE）*/
     if(typeof ASSETS!=='undefined'&&ASSETS.manifest['bldg.campus_lake']) ASSETS.loadOne('bldg.campus_lake').then(c=>{ if(!c||!c.scene||E.zone!==zone) return; attachLakeGLB(E,g,lakeU,c.scene.clone(true)); }).catch(e=>console.warn('醉月湖正式模型載入失敗，用程序化的湖岸、湖心亭',e));   /* 醉月湖（LAWWW2 ⑩）*/
@@ -1082,7 +1095,7 @@ const Z3 = (function(){
       x.strokeStyle=d.color||'#222'; x.globalAlpha=0.45; x.lineWidth=2; x.strokeRect(h*0.08,h*0.08,w-h*0.16,h-h*0.16); x.globalAlpha=1;
       const ch=[...(d.text||'')], fs=Math.round(h*(d.fs||0.6)), span=Math.min(w*0.74,ch.length*fs*1.55);   /* d.fs：字高是板面高的幾倍（行政大樓的檐部匾額比較扁，字放大到 0.72） */ x.font='bold '+fs+'px '+WZ_SERIF; x.fillStyle=d.color||'#222'; x.textAlign='center'; x.textBaseline='middle';
       ch.forEach((c,i)=>x.fillText(c,w/2-span/2+span*(i+0.5)/ch.length,h*0.53)); });
-    return cafeCanvas(W,H,(x,w,h)=>{ x.fillStyle=d.bg||'#ffffff'; x.fillRect(0,0,w,h); x.strokeStyle=d.color||'#222'; x.lineWidth=Math.max(3,w*0.04); x.strokeRect(x.lineWidth,x.lineWidth,w-x.lineWidth*2,h-x.lineWidth*2);
+    return cafeCanvas(W,H,(x,w,h)=>{ x.fillStyle=d.bg||'#ffffff'; x.fillRect(0,0,w,h); x.strokeStyle=d.color||'#222'; x.lineWidth=Math.max(3,Math.min(w*0.04,h*0.16));   /* 外框上限＝板面高的 16%：很扁的長條（博思雨遮名牌 4.8×0.16 m，30:1）原本外框比板面還厚、字被黑邊吃掉。4:1 以內的牌子（門牌、路名牌）和原本一樣；變的只有溫州公園牌（5.2:1）、社科院系所牌（9.5:1）、博思名牌 */ x.strokeRect(x.lineWidth,x.lineWidth,w-x.lineWidth*2,h-x.lineWidth*2);
       x.fillStyle=d.color||'#222'; x.textAlign='center'; x.textBaseline='middle';
       if(vert){ const ch=[...(d.text||'')], fs=Math.min(w*0.56,h*(d.sub?0.6:0.8)/Math.max(1,ch.length)/1.1); x.font='bold '+fs+'px '+WZ_SANS; ch.forEach((c,i)=>x.fillText(c,w/2,h*0.07+fs*0.62+i*fs*1.1)); if(d.sub){ x.font='bold '+Math.round(Math.min(w*0.3,h*0.14))+'px '+WZ_SANS; x.fillText(d.sub,w/2,h*0.86); } return; }
       x.font='bold '+Math.round(h*(d.sub?0.34:0.5))+'px '+WZ_SANS; x.fillText(d.text||'',w/2,h*(d.sub?0.36:0.52)); if(d.sub){ x.font='bold '+Math.round(h*0.26)+'px '+WZ_SANS; x.fillText(d.sub,w/2,h*0.72); } }); }

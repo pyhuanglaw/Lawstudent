@@ -50,7 +50,7 @@ def make_tex():
     d.line([(x0 + 80, y0 + 300), (x1 - 80, y0 + 300)], fill=(200, 60, 50), width=8)
     x0, y0, x1, y1 = REG['SIGN']; d.rectangle([x0, y0, x1 - 1, y1 - 1], fill=(40, 40, 52)); ctext(d, (x0 + x1) / 2, y0 + 40, '演出中', F(64), (250, 220, 120)); ctext(d, (x0 + x1) / 2, y0 + 140, '請輕聲進場', F(40), (230, 230, 230))
     x0, y0, x1, y1 = REG['POSTER']; d.rectangle([x0, y0, x1 - 1, y1 - 1], fill=(250, 214, 92)); ctext(d, (x0 + x1) / 2, y0 + 30, '即興劇社', F(40), (40, 30, 20)); ctext(d, (x0 + x1) / 2, y0 + 90, '期末', F(56), (40, 30, 20)); ctext(d, (x0 + x1) / 2, y0 + 160, '小演出', F(56), (40, 30, 20))
-    ctext(d, (x0 + x1) / 2, y0 + 260, '週三 19:00', F(32), (40, 30, 20)); ctext(d, (x0 + x1) / 2, y0 + 310, '博雅 203', F(32), (40, 30, 20))
+    ctext(d, (x0 + x1) / 2, y0 + 260, '週三 19:00', F(32), (40, 30, 20)); ctext(d, (x0 + x1) / 2, y0 + 310, '博思 203', F(32), (40, 30, 20))
     x0, y0, x1, y1 = REG['CLOCK']; cx, cy, r = (x0 + x1) / 2, (y0 + y1) / 2, 110
     d.rectangle([x0, y0, x1 - 1, y1 - 1], fill=(246, 246, 242)); d.ellipse([cx - r, cy - r, cx + r, cy + r], outline=(40, 40, 40), width=8)
     for k in range(12): a = k * PI / 6; d.line([(cx + (r - 20) * math.sin(a), cy - (r - 20) * math.cos(a)), (cx + (r - 6) * math.sin(a), cy - (r - 6) * math.cos(a))], fill=(40, 40, 40), width=6)
