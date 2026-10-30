@@ -25,7 +25,9 @@ check('3. D32 大草原可昕：整句換成稿上的「有一隻羊一直在看
     w2(src.lines,a); w2((DATE_LINES.loc[loc]||{}).lines,b); a.forEach((t,i)=>{ if(t!==b[i]) diff.push(loc+'：'+t+' → '+b[i]); }); if(a.length!==b.length) diff.push(loc+' 句數 '+a.length+' → '+b.length); }
   let md359=''; try{ md359=cp.execSync('git show fb5156ab:"docs/story_planning/AA_359_兩天一夜的約會_住宿那一段.md"',{cwd:GIT,encoding:'utf8',maxBuffer:8<<20,stdio:['ignore','pipe','ignore']}); }catch(x){}
   const ok359={has:d=>{ const m=/^D\d\d：(.*) → (.*)$/.exec(d); return !!m&&!!md359&&md359.includes('「'+m[1]+'」')&&md359.includes('「'+m[2]+'」'); }};   /* AA_359 5-2、5-3（同一個工具疊的，tests/date_overnight_unit.js 查）：舊句、新句都在 AA_359 的稿裡 */
-  check('4. AA_373 只換了這兩句：D12、D32 和白名單的原檔（57de1709）逐句比，其他句子一字不差（D32 另有 AA_359 5-2、5-3 的幾句）',J(diff.filter(d=>!ok359.has(d)))===J(['D12：你走的比我少，你請晚餐。 → 今天走好多。晚餐你請，我腳好痠。','D32：有一隻羊在看我。我在看它。平手。 → 有一隻羊一直在看我。……牠應該也餓了。走，吃飯。']),J(diff)); }
+  let md525=''; try{ md525=cp.execSync('git show 6081f725f:"docs/story_planning/AA_525_說了沒發生_子晴沛珊可昕.md"',{cwd:GIT,encoding:'utf8',maxBuffer:8<<20,stdio:['ignore','pipe','ignore']}); }catch(x){}
+  const ok525={has:d=>{ const m=/^D\d\d：(.*) → (.*)$/.exec(d); return !!m&&!!md525&&md525.includes('「'+m[1]+'」')&&md525.includes('「'+m[2]+'」'); }};   /* 2026-10-30 AA_525 1-6（企劃線 6081f725f）：子晴 D12「謝謝，下次換我。」→「謝謝。」（同一個工具疊的，tests/aa525_promises_unit.js 查）*/
+  check('4. AA_373 只換了這兩句：D12、D32 和白名單的原檔（57de1709）逐句比，其他句子一字不差（D32 另有 AA_359 5-2、5-3 的幾句；D12 另有 AA_525 1-6 子晴一句）',J(diff.filter(d=>!ok359.has(d)&&!ok525.has(d)))===J(['D12：你走的比我少，你請晚餐。 → 今天走好多。晚餐你請，我腳好痠。','D32：有一隻羊在看我。我在看它。平手。 → 有一隻羊一直在看我。……牠應該也餓了。走，吃飯。']),J(diff)); }
 check('5. date_lines.js 的來源寫著 AA_373@'+SHA+'（匯入工具疊上去的，不是手改）',DATE_LINES.source.includes('AA_373_法律系大一下_時間人在哪與作廢設定_修正稿.md@'+SHA),DATE_LINES.source.slice(-120));
 { const al=JSON.parse(fs.readFileSync(path.join(ROOT,'docs/handoff/story_import_allow.json'),'utf8')).files.filter(e=>e.path===SPEC&&e.status==='approved');
   check('6. 匯入白名單：AA_373 只有一筆 approved＝'+SHA+'（同一個檔不能有兩個 approved 版本）',al.length===1&&al[0].sha===SHA&&al[0].task==='AA373-Y1S2-FIX-1021',J(al.map(e=>e.sha))); }
