@@ -7,7 +7,7 @@
 //   99 舊存檔：沒有新旗標照常跑、不丟例外、不重發
 // 2026-10-30 AA_526（企劃線 4ada43291，AA-B 回 LAWWW-B 的九題，這裡是 AA_524 那四題）：Z3 早場的摘要（字卡、兩句旁白、跳到 11:30）、Y3 第二個選項換「我在外面等妳。」、
 //   Y5 只給選「那哪天陪妳等一次。」的（YT_WAIT_CLOSE；舊存檔不發）、A2 第二次邀約那一場補（AN_REASON_SHOWN）——新句對 AA_526 的稿；
-//   修改前（d01cd442e，乾淨 worktree 放進這支測試真的跑過）：見下一行的數字；修改後 ALL PASS（135 項）。
+//   修改前（d01cd442e，乾淨 worktree 放進這支測試真的跑過）：FAILED 9、PASS 121——A2 三項、Z3 一項（沒有 AA524.tick，整節中斷）、Y3 一項、Y5 四項；修改後 ALL PASS（135 項）。
 // 修改前（開發分支 6cee635ed，乾淨 worktree 放進這支測試真的跑過）：FAILED 68、PASS 42——34 條每一條至少一項 FAIL（沒有 src/aa524_3d.js、新句不在、舊句還在、旗標不記）；
 //   PASS 的是「沒有旗標＝照舊」「不該演的不演」那一類。修改後 ALL PASS（122 項）。用法：node tests/aa524_promises_unit.js
 'use strict';
