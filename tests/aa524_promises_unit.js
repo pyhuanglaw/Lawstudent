@@ -5,6 +5,9 @@
 //   0  讀稿、白名單、新檔、index.html 順序；新句都在稿裡；舊句不在 src/
 //   A1～A14 以安、Z1～Z11 芷若、Y1～Y9 語彤（各節的編號照稿）
 //   99 舊存檔：沒有新旗標照常跑、不丟例外、不重發
+// 2026-10-30 AA_526（企劃線 4ada43291，AA-B 回 LAWWW-B 的九題，這裡是 AA_524 那四題）：Z3 早場的摘要（字卡、兩句旁白、跳到 11:30）、Y3 第二個選項換「我在外面等妳。」、
+//   Y5 只給選「那哪天陪妳等一次。」的（YT_WAIT_CLOSE；舊存檔不發）、A2 第二次邀約那一場補（AN_REASON_SHOWN）——新句對 AA_526 的稿；
+//   修改前（d01cd442e，乾淨 worktree 放進這支測試真的跑過）：見下一行的數字；修改後 ALL PASS（135 項）。
 // 修改前（開發分支 6cee635ed，乾淨 worktree 放進這支測試真的跑過）：FAILED 68、PASS 42——34 條每一條至少一項 FAIL（沒有 src/aa524_3d.js、新句不在、舊句還在、旗標不記）；
 //   PASS 的是「沒有旗標＝照舊」「不該演的不演」那一類。修改後 ALL PASS（122 項）。用法：node tests/aa524_promises_unit.js
 'use strict';
@@ -88,6 +91,11 @@ const NEW={
   Y7:['美國那兩個 阿姨說照片也算'],
   Y8:['（阿姨把一顆滷蛋放進你的碗裡。）','生日那天說的。'],
   Y9:['（這次她先去付了錢。）'] };
+/* AA_526（企劃線 4ada43291，AA-B 回 LAWWW-B 的九題；這裡是 AA_524 那四題）的新句：每一句都要在 AA_526 的稿裡 */
+const SHA526='4ada43291', DOCF526='docs/story_planning/AA_526_回LAWWW_AA524_525重做九題.md';
+let DOC526=''; try{ DOC526=cp.execSync('git -c core.quotepath=false show '+SHA526+':"'+DOCF526+'"',{cwd:process.env.AA524_DOCREPO||H.ROOT,encoding:'utf8',maxBuffer:1<<24}); }catch(e){ DOC526=''; }
+const NEW526={ Z3:['（早場。戲院裡加上你們兩個，一共七個人。）','（散場的時候十一點多。她在門口拍了兩張票根。）','09:10'],
+  Y3:['「我在外面等妳。」','嗯。……很快。','（她鎖好鐵門出來。你們去河濱走了一圈。）'] };
 /* 舊句（換掉的；src/ 的任何地方都不能再有。D18 那一句只換「我寫好再給你看。」那一段）*/
 const OLD=['寒假東京那兩個禮拜，我晚上十點打給你。','我每天都會傳。','「下次也一起寫。」','「下次一起寫。」','約好下次一起寫報告','好。那下週。','另一個原因，下次再說。','好。我帶你去。高美濕地那邊。',
   '……好。我寫進手帳了。','上次說要去最南邊。……還在手帳上。','下次讀書會你要不要來旁聽？時間我再傳給你。','七點我下山。你等我，我們一起搭纜車。','考第三課的單字。全部。','哪一家？開學那週去吃。','牛肉麵！！開學帶我們去',
@@ -102,6 +110,8 @@ await sec(0,()=>{
   const miss=[]; for(const k in NEW) for(const t of NEW[k]) if(DOC.indexOf(t)<0) miss.push(k+'：'+t);
   check('0. 這支測試對的新句每一句都在稿裡（逐字；'+Object.values(NEW).reduce((a,b)=>a+b.length,0)+' 句）',DOC.length>0&&!miss.length,J(miss));
   const A=JSON.parse(fs.readFileSync(path.join(H.ROOT,'docs/handoff/story_import_allow.json'),'utf8')).files.filter(e=>/AA_524_/.test(e.path));
+  { const miss=[]; for(const k in NEW526) for(const t of NEW526[k]) if(DOC526.indexOf(t)<0) miss.push(k+'：'+t);
+    check('0. 讀得到 AA_526（'+SHA526+'：Z3、Y3、Y5、A2 四題）；這支測試對的 AA_526 新句每一句都在那份稿裡',/### Z3/.test(DOC526)&&/### Y3/.test(DOC526)&&/### Y5/.test(DOC526)&&/### A2/.test(DOC526)&&/AN_REASON_SHOWN/.test(DOC526)&&/YT_WAIT_CLOSE/.test(DOC526)&&!miss.length,J(miss)); }
   check('0. 劇情匯入白名單有 AA_524（sha '+SHA+'、approved、HEROINE-LIFE-1028）',A.length===1&&A[0].sha===SHA&&A[0].status==='approved'&&A[0].task==='HEROINE-LIFE-1028',J(A.map(e=>({sha:e.sha,status:e.status,task:e.task}))));
   check('0. 新檔載得到（AA524）；全部的檔載入沒有錯誤',!loadErr.length&&!!X(),J(loadErr));
   const a=s=>html.indexOf(s);
@@ -132,11 +142,18 @@ await sec('A2',async()=>{
   const walk=async(picks,memo,term)=>{ fresh(term==='Y2S1'?'2027-01-12':'2025-12-20',20); H.CLOSE(AN); if(memo) SOCIAL.remember(AN,'AN_REASON_HIDDEN',''); H.said=[]; H.opts=[]; H.picks=picks.slice(); return TERMEND.walkHome(GM,AN,term||'Y1S1'); };
   const tail=NEW.A2.map(t=>t.replace('{name}','祐廷'));
   let r=await walk([0],true);
-  check('A2. 以安的告白，玩家先說（yes）、有 AN_REASON_HIDDEN：最後兩句「上次沒給你看的那一行。」「（理由欄寫著：「想到祐廷。」）」',r==='yes'&&J(said().slice(-2))===J(tail)&&H.said[H.said.length-2].who===SOCIAL.displayName(AN)&&H.said[H.said.length-1].who===null,J({r,tail:said().slice(-3)}));
+  check('A2. 以安的告白，玩家先說（yes）、有 AN_REASON_HIDDEN：最後兩句「上次沒給你看的那一行。」「（理由欄寫著：「想到祐廷。」）」；看過記 AN_REASON_SHOWN（AA_526）',r==='yes'&&J(said().slice(-2))===J(tail)&&H.said[H.said.length-2].who===SOCIAL.displayName(AN)&&H.said[H.said.length-1].who===null&&H.G.flags.AN_REASON_SHOWN===H.G.day,J({r,tail:said().slice(-3),shown:H.G.flags.AN_REASON_SHOWN}));
   r=await walk([3,0],true,'Y2S1');
   check('A2. 她先說、玩家答應（sheSaid）也有',r==='sheSaid'&&J(said().slice(-2))===J(tail),J({r,tail:said().slice(-3)}));
   r=await walk([3,1],true);
-  check('A2. 「讓我想想」（think）＝沒走到告白，不補',r==='think'&&!has(tail[0]),r);
+  check('A2. 「讓我想想」（think）那一場不補（AA_526：她剛被說「讓我想想」，不會把理由欄翻給你看）',r==='think'&&!has(tail[0])&&H.G.flags.AN_REASON_SHOWN==null,r);
+  /* AA_526 A2：下學期她用第二次的邀約再約，那一場交往了＝那一場的最後補同樣兩句（還沒看過）；看過記 AN_REASON_SHOWN，同一句只出一次 */
+  H.G.day=D('2026-06-15'); H.G.hour=21; H.said=[]; H.picks=[0]; r=await TERMEND.walkHome(GM,AN,'Y1S2');
+  check('A2. 「讓我想想」以後，下學期第二次邀約那一場玩家先說（yes，第二次的答應 yes2）：最後補同樣兩句、記 AN_REASON_SHOWN',r==='yes'&&has('好。我們在一起。')&&J(said().slice(-2))===J(tail)&&H.G.flags.AN_REASON_SHOWN===H.G.day,J({r,tail:said().slice(-4)}));
+  fresh('2025-12-20',20); H.CLOSE(AN); SOCIAL.remember(AN,'AN_REASON_HIDDEN',''); H.picks=[3,1]; await TERMEND.walkHome(GM,AN,'Y1S1'); H.G.day=D('2026-06-15'); H.said=[]; H.picks=[3,0]; r=await TERMEND.walkHome(GM,AN,'Y1S2');
+  check('A2. 第二次邀約那一場她先說（she2）、玩家答應（sheSaid）也補',r==='sheSaid'&&has('上次寫的那一行還在。我把後面寫完了。……你要看嗎？')&&J(said().slice(-2))===J(tail),J({r,tail:said().slice(-4)}));
+  fresh('2025-12-20',20,{AN_REASON_SHOWN:5}); H.CLOSE(AN); SOCIAL.remember(AN,'AN_REASON_HIDDEN',''); H.said=[]; H.picks=[0]; r=await TERMEND.walkHome(GM,AN,'Y1S1');
+  check('A2. 已經看過（AN_REASON_SHOWN）：不再出',r==='yes'&&!has(tail[0]),r);
   r=await walk([0],false);
   check('A2. 沒有 AN_REASON_HIDDEN（D07 沒選「不用給我看。」）不補',r==='yes'&&!has(tail[0]),r);
   /* 記憶從哪來：心願約會 D07 選「不用給我看。」（date_wish.js）*/
@@ -274,6 +291,23 @@ await sec('Z3',async()=>{
   setup(true); phAt(sat,22.2); answer('aa524_z3',1); PHONE.tick(H.G); phAt(sun,11.5); it=FEED.rec(H.G).items.find(i=>i.id==='zr3c');
   check('Z3. 「起不來。」→「我就知道。」；動態照現有',J(txt('p:heroine_02').slice(-2))===J([NEW.Z3[4],NEW.Z3[5]])&&!H.G.flags.ZR_EARLY_GO&&!!it&&FEED.pic(H.G,FEED.post('zr3c',H.G),it.v)==='早場電影的票根，片名《冬天以前的港口》',J({t:txt('p:heroine_02').slice(-2),it}));
   setup(false); phAt(sat,22.2); check('Z3. 沒有 ZR_EARLY_PROMISE：沒有私訊',!byTag('aa524_z3').length);
+  /* AA_526 Z3：去了的，當天早上的摘要——週日早上回了＝回完就演；週六晚上就回的＝週日起床那一刻演（STORY.TICKS）。字卡那一天的日期、09:10；旁白兩句；時間跳到 11:30、人在原地 */
+  const wait=()=>new Promise(r=>setTimeout(r,0));
+  const tickAt=async(day,h)=>{ at(day,h); H.said=[]; H.cards=[]; const r=X().tick(GM); for(let i=0;i<20;i++) await wait(); return r; };
+  const sunCard=(()=>{ const x=CALENDAR.dateOf(sun); return x.m+' 月 '+x.d+' 日（日）'; })();
+  setup(true); phAt(sat,22.12); answer('aa524_z3',0); PHONE.tick(H.G); H.G.zone='dorm';
+  let t1=await tickAt(sat,23.5); const late=t1||H.said.length; let t2=await tickAt(sun,1); const night=t2||H.said.length;
+  t2=await tickAt(sun,7.2);
+  check('Z3. 週六晚上回了「我去。」：週六深夜、週日凌晨（05:00 以前）不演；週日起床（07:12）那一刻演——字卡「'+sunCard+'」「09:10」、旁白兩句（照順序）、時間跳到 11:30、人在原地',!late&&!night&&t2===true&&J(H.cards)===J([[sunCard,NEW526.Z3[2]]])&&J(said())===J(NEW526.Z3.slice(0,2))&&H.said.every(x=>x.who===null)&&Math.abs(H.G.hour-11.5)<1e-6&&H.G.zone==='dorm'&&H.G.day===sun,J({late,night,t2,cards:H.cards,L:said(),h:H.G.hour,z:H.G.zone}));
+  check('Z3. 摘要不寫「倒數第三排」、不寫睡著',!said().some(t=>/倒數第三排|睡著/.test(t)),J(said()));
+  ph(); it=FEED.rec(H.G).items.find(i=>i.id==='zr3c');
+  check('Z3. 跳到 11:30 以後，她 11:20 那則動態（兩張票根）接得上',!!it&&it.v==='yes'&&FEED.pic(H.G,FEED.post('zr3c',H.G),it.v)===NEW.Z3[6],J(it));
+  t2=await tickAt(sun,12); check('Z3. 演一次（同一天再空下來不再演）',t2===false&&!H.said.length);
+  setup(true); phAt(sat,22.12); at(sun,7.5); PHONE.tick(H.G); answer('aa524_z3',0); PHONE.tick(H.G);
+  t2=await tickAt(sun,7.6);
+  check('Z3. 週日早上（期限 08:30 以前）才回「我去。」：回完就演，跳到 11:30',t2===true&&J(said())===J(NEW526.Z3.slice(0,2))&&Math.abs(H.G.hour-11.5)<1e-6,J({t2,L:said(),h:H.G.hour}));
+  setup(true); phAt(sat,22.12); answer('aa524_z3',1); PHONE.tick(H.G); t2=await tickAt(sun,7.2);
+  check('Z3. 「起不來。」：沒有摘要',t2===false&&!H.said.length);
 });
 await sec('Z4',async()=>{
   fresh('2026-05-02',15,{},{zone:'wenzhou'}); H.FAMILIAR(ZR); SOCIAL.remember(ZR,'ZR_ASKED_MESSY','Z-L3'); await runEv('ev_zhiruo_secret',[0]);
@@ -392,7 +426,8 @@ await sec('Y3',async()=>{
   let r=await door('2027-02-01',{YT_CLOSED_OUT:true},0);
   check('Y3. 2027 店休、有旗標：她的第一句換「店休。……說好要出去的。」「刷完這一排就走。」；「我來幫忙。」後面多一句「（刷完椅子，你們去河濱走了一圈。）」',r.r===true&&adj([NOODLE_CLOSED.L.inside].concat(NEW.Y3.slice(0,2)))&&!r.L.includes(NOODLE_CLOSED.L.offer)&&adj(['（刷完一排椅子，阿姨塞給你一袋滷蛋。）',NEW.Y3[2]]),J(r.L));
   r=await door('2027-02-01',{YT_CLOSED_OUT:true},1);
-  check('Y3. 選「那我初四再來。」：沒有河濱那一句（她的第一句照換）',r.L.includes(NEW.Y3[0])&&!r.L.includes(NEW.Y3[2])&&r.L.includes('嗯。初四見。'),J(r.L));
+  check('Y3. 有旗標：第二個選項換「我在外面等妳。」（AA_526）→「嗯。……很快。」「（她鎖好鐵門出來。你們去河濱走了一圈。）」；沒有「那我初四再來。」',J(H.opts[0])===J(['「我來幫忙。」',NEW526.Y3[0]])&&adj([NEW.Y3[1]].concat(NEW526.Y3.slice(1)))&&!r.L.includes('嗯。初四見。')&&!r.L.includes(NEW.Y3[2])&&!r.L.includes('（刷完一排椅子，阿姨塞給你一袋滷蛋。）'),J({o:H.opts[0],L:r.L}));
+  r=await door('2027-02-01',{},1); check('Y3. 沒有旗標：兩個選項照原本（「那我初四再來。」→「嗯。初四見。」）',J(H.opts[0])===J(['「我來幫忙。」','「那我初四再來。」'])&&r.L.includes('嗯。初四見。')&&!r.L.includes(NEW526.Y3[1]),J({o:H.opts[0],L:r.L}));
   r=await door('2027-02-01',{},0); check('Y3. 沒有旗標：照原本',r.L.includes(NOODLE_CLOSED.L.offer)&&!r.L.includes(NEW.Y3[0]),J(r.L));
   r=await door('2028-01-20',{YT_CLOSED_OUT:true},0); check('Y3. 2027 以外的店休：照原本（2027 年沒遇到那一場的，不補）',r.L.includes(NOODLE_CLOSED.L.offer)&&!r.L.includes(NEW.Y3[0]),J(r.L));
 });
@@ -407,7 +442,7 @@ await sec('Y5',async()=>{
   const setup=()=>{ fresh('2025-11-04',20.1,{NOODLE_VISITS:3},{zone:'noodle'}); H.FRIEND(YT); contact(YT); };
   setup(); await ladPlay('Y1S1',YT,'Y-L8',['那哪天陪妳等一次']);
   const d=D('2025-11-13');
-  check('Y5. 閒聊階梯 Y-L8「那哪天陪妳等一次。」→「好啊，哪天我顧到打烊再跟你說。」（YT_TEN_MINUTES）；之後的第二個週四＝11/13',has('好啊，哪天我顧到打烊再跟你說。')&&mem(YT,'YT_TEN_MINUTES')&&X().y5Day(H.G)===d&&CALENDAR.dateOf(d).wd===4,keyOf(X().y5Day(H.G)));
+  check('Y5. 閒聊階梯 Y-L8「那哪天陪妳等一次。」→「好啊，哪天我顧到打烊再跟你說。」、記 YT_WAIT_CLOSE＝那一天（AA_526）；之後的第二個週四＝11/13',has('好啊，哪天我顧到打烊再跟你說。')&&mem(YT,'YT_TEN_MINUTES')&&H.G.flags.YT_WAIT_CLOSE===D('2025-11-04')&&X().y5Day(H.G)===d&&CALENDAR.dateOf(d).wd===4,keyOf(X().y5Day(H.G)));
   phAt('2025-11-06',21.2); const n6=byTag('aa524_y5').length;
   phAt(d,20.9); const n0=byTag('aa524_y5').length; phAt(d,21);
   const m=PHONE.byAsk(H.G,'aa524_y5');
@@ -419,9 +454,14 @@ await sec('Y5',async()=>{
   at(d,21.9); H.said=[]; r=await NOODLE_CLOSED.door(GM);
   check('Y5. 「今天不行。」→「嗯。」；麵店門口照常',J(txt('p:heroine_03').slice(-2))===J([NEW.Y5[2],NEW.Y5[3]])&&r===false,J(txt('p:heroine_03').slice(-2)));
   /* 店休：第二個週四在店休裡＝往後延一週（2026-02-02 聊的：2/12、2/19 都在店休 2/10～2/19 → 2/26）*/
-  fresh('2026-02-02',20); H.FRIEND(YT); SOCIAL.remember(YT,'YT_TEN_MINUTES','Y-L8');
+  fresh('2026-02-02',20,{YT_WAIT_CLOSE:D('2026-02-02')}); H.FRIEND(YT);
   check('Y5. 那個週四是店休的，往後延一週（2/12、2/19 店休 → 2/26）',keyOf(X().y5Day(H.G))==='2026-02-26'&&NOODLE_CLOSED.closed(H.G,D('2026-02-12'))&&NOODLE_CLOSED.closed(H.G,D('2026-02-19')),keyOf(X().y5Day(H.G)));
-  fresh('2025-11-04',20.1); H.FRIEND(YT); contact(YT); phAt(d,21.1); check('Y5. 沒有 YT_TEN_MINUTES：沒有私訊',!byTag('aa524_y5').length);
+  fresh('2025-11-04',20.1); H.FRIEND(YT); contact(YT); phAt(d,21.1); check('Y5. 沒有 YT_WAIT_CLOSE：沒有私訊',!byTag('aa524_y5').length);
+  /* AA_526 Y5：只給選「那哪天陪妳等一次。」的——選「打烊以後妳都在幹嘛？」（YT_TEN_MINUTES 照記）不發；舊存檔分不出來的（只有記憶）不發 */
+  setup(); await ladPlay('Y1S1',YT,'Y-L8',['打烊以後妳都在幹嘛']); phAt(d,21);
+  check('Y5. 選「打烊以後妳都在幹嘛？」：YT_TEN_MINUTES 照記、不記 YT_WAIT_CLOSE、11/13 沒有私訊',has('幫阿姨擦桌子，然後一起吃剩下的滷味。')&&mem(YT,'YT_TEN_MINUTES')&&H.G.flags.YT_WAIT_CLOSE==null&&!byTag('aa524_y5').length,J(said()));
+  fresh('2025-11-04',20.1); H.FRIEND(YT); contact(YT); SOCIAL.remember(YT,'YT_TEN_MINUTES','Y-L8'); phAt(d,21);
+  check('Y5. 舊存檔：只有 YT_TEN_MINUTES（分不出選了哪一個）＝不發',!byTag('aa524_y5').length);
 });
 await sec('Y6',()=>{
   const r=NEEDED_MSGS&&J(NEEDED_MSGS);

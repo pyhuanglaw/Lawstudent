@@ -17,6 +17,9 @@
    - Y5 「我過去。」：當天 23:00 以前在麵店門口按「進入阿鳳麵店」（NOODLE_CLOSED.door 包一層）＝旁白兩句、不進去（不排出遊，走過去就演；早於 21:50 到的時間跳到 21:50）。
    - Y8 滷蛋：story3d.js noodleScene 點餐、付完錢那個位置叫 S.ytEgg（阿姨不在店裡＝等下一次，同 FEED.ytTreat）；記 YT_BDAY_EGG。
    存檔：新旗標（稿第 4 節）＋G.flags.AA524＝{a2, z5, z8, y5d, y5}（演過的那一天、Y5 的那個週四）；舊存檔沒有＝沒演過。補的旗標從這一版起才記，之前就選過的看不到兌現。
+   AA_526（企劃線 4ada43291，AA-B 回 LAWWW-B；這裡是 AA_524 那四題）：Z3 去了早場的當天早上摘要（S.tick：字卡那一天、09:10，旁白兩句，跳到 11:30）；
+   Y3 有 YT_CLOSED_OUT 的第二個選項換「我在外面等妳。」（noodle_closed3d.js）；Y5 只給 Y-L8 選「那哪天陪妳等一次。」的（YT_WAIT_CLOSE＝那一天，舊存檔分不出來的不發）；
+   A2 「讓我想想」那一場不補、下學期第二次邀約那一場交往了就補（看過記 AN_REASON_SHOWN，取代原本的 AA524.a2 記號）。
    測試：node tests/aa524_promises_unit.js */
 'use strict';
 const AA524=(function(){
