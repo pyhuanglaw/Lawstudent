@@ -21,7 +21,7 @@ def read(p):
     if p not in APPROVED: sys.exit('拒絕匯入：' + p + ' 不在白名單')
     ok, why = G.allowed(p, APPROVED[p], ALLOW)
     if not ok: sys.exit('拒絕匯入：' + why)
-    return G.alison(subprocess.check_output(['git', '-C', ROOT, 'show', f'{APPROVED[p]}:{p}'], text=True)), APPROVED[p]  # AA_380：讀稿先把「小語」換成 Alison（import_guard.alison）
+    return G.read_fix(subprocess.check_output(['git', '-C', ROOT, 'show', f'{APPROVED[p]}:{p}'], text=True)), APPROVED[p]  # AA_380：讀稿先把「小語」換成 Alison（import_guard.alison）
 
 
 def cells(line):

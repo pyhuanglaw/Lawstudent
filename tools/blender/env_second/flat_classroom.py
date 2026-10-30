@@ -41,11 +41,11 @@ REG = {'PLATE': (0, 0, 512, 128), 'RULES': (512, 0, 1024, 384), 'BOARD': (0, 128
        'FLY1': (512, 384, 682, 672), 'FLY2': (682, 384, 852, 672), 'FLY3': (852, 384, 1022, 672), 'FIRE': (768, 768, 1024, 864),
        'SLIDE': (768, 864, 1024, 1024)}   # 講桌筆電的螢幕（投影片；原本借 118 巷收銀機的「小計 0」畫面）
 ROOMS = {
-    'linze_202': dict(name='霖澤館 202 教室', plate='202 教室', W=13.6, D=9.6, H=3.4, door_x=5.9, wins=[-4.0, -0.4, 3.2], rows=[-3.4, -1.5, 0.4, 2.3, 4.2], tables=[(-3.6, -0.8), (0.8, 3.6)],
+    'linze_202': dict(name='法律系館A 202 教室', plate='202 教室', W=13.6, D=9.6, H=3.4, door_x=5.9, wins=[-4.0, -0.4, 3.2], rows=[-3.4, -1.5, 0.4, 2.3, 4.2], tables=[(-3.6, -0.8), (0.8, 3.6)],
                       style='lecture', floor=('large_floor_tiles_02', '#c2c1bb', 1.8), wall='#ece6da', wain=('walnut_veneer', '#5f4a3a'), back='lockers',
                       src='LAWWW-C 10-20 15:51 回覆 Q1（B：開成第二間平面教室）', door_id='c202', host='linze', host_lv=1, view='linze_201'),   # 窗景用 201 的（同一層樓；往北拍到的是很近的背景大樓牆）
     # rows：排距 1.9；最後一排往西一點（3.55）：進門的出生點 (4.8, −3.05) 離最近的椅子 0.7 m 以上，一進來不會就貼著椅背、出現「坐下」（原本長桌版也是這樣）
-    'wancai_multi': dict(name='萬才館 多功能教室', plate='多功能教室', W=11.6, D=9.0, H=3.4, door_x=4.8, wins=[-3.2, 0.0, 3.2], rows=[-2.15, -0.25, 1.65, 3.55],
+    'wancai_multi': dict(name='法律系館B 多功能教室', plate='多功能教室', W=11.6, D=9.0, H=3.4, door_x=4.8, wins=[-3.2, 0.0, 3.2], rows=[-2.15, -0.25, 1.65, 3.55],
                          style='multi', floor=('laminate_floor_02', '#c4a47e', 2.4), wall='#f0eee9', wain=('painted_plaster_wall', '#d5d3cb'), back='shelf', blinds=[0.45, 0.0, 0.7],
                          src='LAWWW-C 10-20 15:51 回覆 Q2（多功能教室走進去：吉他社）', door_id='multi', host='wancai', host_lv=0),
 }

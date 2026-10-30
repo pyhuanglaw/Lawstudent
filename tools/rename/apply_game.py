@@ -30,7 +30,7 @@ GEN = {  # 產生器產生的檔（檔頭寫「不要手改」）：改產生器
     'src/data/gongtong_layout.js', 'src/data/soclib_layout.js', 'src/data/socsci_layout.js', 'src/data/us_layouts.js',
     'src/data/jp_dorm_layouts.js', 'src/data/l118_shop_layouts.js', 'src/data/library_b1_layout.js',
     'src/data/library_upper_layouts.js', 'src/data/lane118_props.js', 'src/data/dorm_room_layout.js',
-    'src/data/portrait_manifest.js', 'src/library_upper3d.js', 'src/pgdates3d.js',
+    'src/data/portrait_manifest.js',
 }
 SKIP_KEYS = {'source', 'license', 'credit', 'retired', 'note', "'note'", "'spawn_note'", 'cut', 'why_dev', 'dev', 'ref', 'src', "'src'", 'notes'}
 SKIP_FUNCS = {'console.warn', 'console.log', 'console.error', 'console.info'}

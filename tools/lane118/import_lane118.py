@@ -19,7 +19,7 @@ def src():
     if not hits: sys.exit(PATH + '：不在匯入白名單')
     sha = hits[-1]['sha']; ok, why = IG.allowed(PATH, sha, allow)
     if not ok: sys.exit(why)
-    return sha, IG.alison(subprocess.check_output(['git', 'show', f'{sha}:{PATH}'], cwd=ROOT).decode('utf-8'))  # AA_380：讀稿先把「小語」換成 Alison（import_guard.alison）
+    return sha, IG.read_fix(subprocess.check_output(['git', 'show', f'{sha}:{PATH}'], cwd=ROOT).decode('utf-8'))  # AA_380：讀稿先把「小語」換成 Alison（import_guard.alison）
 
 
 def clean(s): return s.replace('**', '').replace('`', '').strip()

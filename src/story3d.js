@@ -3638,7 +3638,7 @@ const STORY = (function(){
   S.sisPreW1=(G,id)=>id==='heroine_05'&&!!G&&(G.stage||'law')==='law'&&!(G.flags&&G.flags.met_sis)&&G.day<S.dayOfKey('2025-09-04');
   /* 直屬公布了沒（AA_372 第 12 項）：9/4（四）21:00 Kevin 在家族群組說「上面那位是你的直屬學姊」以後才算知道——聯絡人的「（直屬）」、W1 祐廷的那一句照這個 */
   /* 日誌裡名字晚一點才寫的那一句（AA_372 第 4 項）：語彤雨天「便利商店應該有賣。」那一版她沒報名字＝「遇到一個借傘的女生」；之後拿到她的聯絡方式（報了名字）才顯示 named */
-  S.memoText=(G,m)=>!m?'':(m.named&&m.who&&typeof INV!=='undefined'&&INV.hasContact&&INV.hasContact(G,m.who)?m.named:m.t);
+  S.memoText=(G,m)=>{ const t=!m?'':(m.named&&m.who&&typeof INV!=='undefined'&&INV.hasContact&&INV.hasContact(G,m.who)?m.named:m.t); return typeof SOCIAL!=='undefined'&&SOCIAL.worldName?SOCIAL.worldName(t):t; };   /* 舊存檔的日誌顯示虛構校名（WORLD-RENAME-1030；存檔不改）*/
   S.memoShown=G=>((G&&G.memo)||[]).filter(m=>{ const t=S.memoText(G,m); return typeof t==='string'&&!!t&&!/^ev_[A-Za-z0-9_]+$/.test(t); });   /* MEMO-NO-EVID-1028：日誌顯示的那幾筆——舊存檔裡已經寫進去的事件代號（ev_xxx）不顯示 */
   S.sisZhishuOut=(G,day,hour)=>{ const d=S.dayOfKey('2025-09-04'), dd=day==null?G.day:day, hh=hour==null?G.hour:hour; return d==null||dd>d||(dd===d&&hh>=21); };
   async function talkSis(GM,n){ const G=GM.G, F=G.flags, E=GM.E; if(EVENTS.onInteract('heroine_05')) return; GM.sceneBegin({adv:'heroine_05'}); if(await S.twoHeartsEcho(GM,'heroine_05',n)){ GM.sceneEnd(); return; }   /* 1A-02 攤牌以後第一次說話 */

@@ -35,7 +35,7 @@ if '--check' in sys.argv:
         same = subprocess.run(['git', '-C', ROOT, 'diff', '--quiet', APPROVED[p], ref, '--', p]).returncode == 0
         print(('一樣：' if same else f'分支上的版本和白名單（{APPROVED[p]}）不同、不會匯入：') + p)
     sys.exit(0)
-show = lambda p: G.alison(subprocess.check_output(['git', '-C', ROOT, 'show', f'{APPROVED[p]}:{p}'], text=True))  # AA_380：讀稿先把「小語」換成 Alison（import_guard.alison）
+show = lambda p: G.read_fix(subprocess.check_output(['git', '-C', ROOT, 'show', f'{APPROVED[p]}:{p}'], text=True))  # AA_380：讀稿先把「小語」換成 Alison（import_guard.alison）
 NAME = {'芷若': 'heroine_02', '子晴': 'heroine_04', '學姊': 'heroine_05', '沛珊': 'classmate_peishan', '可昕': 'kexin', '以安': 'heroine_01', '語彤': 'heroine_03'}
 
 
@@ -229,7 +229,7 @@ if A525:
     ok, why = G.allowed(P525, S525, ALLOW)
     if not ok:
         sys.exit('拒絕匯入：' + why)
-    md525 = G.alison(subprocess.check_output(['git', '-C', ROOT, 'show', f'{S525}:{P525}'], text=True))
+    md525 = G.read_fix(subprocess.check_output(['git', '-C', ROOT, 'show', f'{S525}:{P525}'], text=True))
     FIX525 = [('1-6', 'D10', 'heroine_04', '……謝謝。宵夜我請。', '……謝謝。', 'D10「……謝謝。宵夜我請。」→「……謝謝。」'),
               ('1-6', 'D12', 'heroine_04', '謝謝，下次換我。', '謝謝。', 'D12「謝謝，下次換我。」→「謝謝。」'),
               ('1-6', 'D13', 'heroine_04', '好，下次我請。', '好啦。謝謝。', 'D13「好，下次我請。」→「好啦。謝謝。」'),
@@ -255,7 +255,7 @@ if A526:
     ok, why = G.allowed(P526, S526, ALLOW)
     if not ok:
         sys.exit('拒絕匯入：' + why)
-    md526 = G.alison(subprocess.check_output(['git', '-C', ROOT, 'show', f'{S526}:{P526}'], text=True))
+    md526 = G.read_fix(subprocess.check_output(['git', '-C', ROOT, 'show', f'{S526}:{P526}'], text=True))
     for item, loc, who, old, new, quote in [('第 2 節 D15', 'D15', 'heroine_04', '……好。我記下來。下次滷味我請。', '……好。我記下來。', '> 子晴：……好。我記下來。\n')]:
         if quote not in md526:
             sys.exit(f'AA_526@{S526} 裡找不到 {item} 的「改成」：{quote}')

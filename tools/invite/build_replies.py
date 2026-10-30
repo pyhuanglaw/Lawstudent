@@ -37,7 +37,7 @@ if '--check' in sys.argv:
     same = subprocess.run(['git', '-C', ROOT, 'diff', '--quiet', SHA, ref, '--', SPEC]).returncode == 0
     print(('一樣：' if same else f'分支上的版本和白名單（{SHA}）不同、不會匯入：') + SPEC)
     sys.exit(0)
-MD = GD.alison(subprocess.check_output(['git', '-C', ROOT, 'show', f'{SHA}:{SPEC}'], text=True))
+MD = GD.read_fix(subprocess.check_output(['git', '-C', ROOT, 'show', f'{SHA}:{SPEC}'], text=True))
 
 PLACES = ['cafe', 'library', 'noodle', 'wenzhou', 'brunch', 'teahouse']
 STAGE_NUM = {'交往中': 7}
@@ -78,7 +78,7 @@ AT = {
     '「我在社科院上課，四點下課。」': {'day': 'same', 'from': 16, 'before': 16},
     '「會計作業還沒平。明天？」': {'today': True, 'day': 'tomorrow'},
     '「今天陪品妤。明天？」': {'today': True, 'day': 'tomorrow'},
-    '「我在政大上課。四點二十下課。」': {'day': 'same', 'from': 16 + 20 / 60, 'before': 16 + 20 / 60},
+    '「我在木柵大學上課。四點二十下課。」': {'day': 'same', 'from': 16 + 20 / 60, 'before': 16 + 20 / 60},
     '「讀書會。九點以後。」': {'day': 'same', 'from': 21},
     '「今天陪予樂。明天？」': {'today': True, 'day': 'tomorrow'},
 }

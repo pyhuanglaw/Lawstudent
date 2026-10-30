@@ -115,7 +115,22 @@ const SOCIAL = (function(){
     fx(s,'goal'); return n; };
   S.noteShown=function(id,m){ if(!m||!m.note) return ''; m={tag:m.tag,note:S.alison(m.note)}; if(!retiredNotes){ retiredNotes={}; const add=x=>{ if(x&&x.npc&&x.note) (retiredNotes[x.npc]||(retiredNotes[x.npc]=new Set())).add(x.tag+'|'+x.note); };
       if(typeof STORY_EVENTS!=='undefined') for(const e of STORY_EVENTS){ if(!e.retired) continue; for(const x of ((e.consequences&&e.consequences.mem)||[])) add(x); for(const l of (e.dialogue||[])) for(const c of ((l&&l.choice)||[])){ for(const x of (c.mem||[])) add(x); for(const x of ((c.consequences&&c.consequences.mem)||[])) add(x); } } }
-    const r=retiredNotes[id]; if(r&&r.has(m.tag+'|'+m.note)) return ''; const nk=m.tag+'|'+m.note, rn=NOTE_RENAMED[id]&&NOTE_RENAMED[id][nk]; if(rn) return rn; const r9=NOTE_RENAMED_N9[id]; if(r9&&Object.prototype.hasOwnProperty.call(r9,nk)) return r9[nk];   /* 空字串也算（in，不是真值），AA_350 N9 */ if(/^[a-z_0-9]+$/.test(m.note)){ if(S.PLACE_LABEL[m.note]) return S.PLACE_LABEL[m.note]; const zz=typeof Z3!=='undefined'&&Z3.ZONES&&Z3.ZONES[m.note]; if(zz&&zz.name) return zz.name; } return S.filmRename(m.note); };
+    const r=retiredNotes[id]; if(r&&r.has(m.tag+'|'+m.note)) return ''; const nk=m.tag+'|'+m.note, rn=NOTE_RENAMED[id]&&NOTE_RENAMED[id][nk]; if(rn) return rn; const r9=NOTE_RENAMED_N9[id]; if(r9&&Object.prototype.hasOwnProperty.call(r9,nk)) return r9[nk];   /* 空字串也算（in，不是真值），AA_350 N9 */ if(/^[a-z_0-9]+$/.test(m.note)){ if(S.PLACE_LABEL[m.note]) return S.PLACE_LABEL[m.note]; const zz=typeof Z3!=='undefined'&&Z3.ZONES&&Z3.ZONES[m.note]; if(zz&&zz.name) return zz.name; } return S.worldName(S.filmRename(m.note)); };
+  /* 虛構校名（WORLD-RENAME-1030，D115；docs/WORLD_NAMING.md）：舊存檔裡已經寫下的字（記憶的備註、日誌、筆記、手機訊息）顯示新名字（存檔裡的比對照舊，用原字）。
+     規則和 tools/rename/world_names.py 一樣（tests/world_rename_unit.js 逐條對）：worldName＝正式（旁白、地點、筆記：法律系館A）、worldSpoken＝口語（人物的訊息：A館）。
+     不用 (?<!…)：舊的 iPhone Safari 不認得，整個檔會載不起來；前一個字自己看。 */
+  const WN_PRE=(set,to)=>(m,off,str)=>set.indexOf(str.charAt(off-1))>=0?m:to;
+  const WN_COMMON=[[/政大自強十舍/g,'木柵大學翠嶺十舍'],[/自強十舍/g,'翠嶺十舍'],[/國立臺灣大學|國立台灣大學|[臺台]灣大學(?!生)/g,'首都帝國大學'],[/National Taiwan University/g,'Capital Imperial University'],[/\bNTU\b/g,'CIU'],
+    [/國立政治大學|政治大學/g,'木柵大學'],[/\bNCCU\b/g,'MZU'],[/政大/g,WN_PRE('財行郵執','木柵大學')],[/[臺台]大/g,WN_PRE('舞平講櫃陽月擂吧檯戲','首都帝大')],
+    [/博雅教學館/g,'博思教學館'],[/博雅館/g,'博思教學館'],[/博雅(?!教育|書院|學程|精神|課程)/g,'博思'],[/小椰林道/g,'椰影小徑'],[/椰林大道/g,'椰影大道'],[/椰林(?=那邊|那條|上|旁邊|走|騎|的路)/g,WN_PRE('小','椰影大道')],
+    [/傅鐘/g,'晨思鐘'],[/醉月湖/g,'映月湖'],[/洞洞館/g,'圓窗館'],[/小小福/g,'小小松'],[/小福(?!利)/g,'小松'],[/活大/g,WN_PRE('生復靈','學活')],[/國青中心/g,'國際學苑'],[/辜振甫先生紀念圖書館|辜振甫紀念圖書館|辜振甫圖書館/g,'社科院圖書館']];
+  const WN_SPOKEN=[[/霖澤館?(、|和|與|跟)萬才館?/g,'A館$1B館'],[/萬才館?(、|和|與|跟)霖澤館?/g,'B館$1A館'],[/霖澤館館/g,'A館'],[/萬才館館/g,'B館'],[/霖澤館?/g,'A館'],[/萬才館?/g,'B館']];
+  const WN_WRITTEN=[[/霖澤館?(、|和|與|跟)萬才館?/g,'法律系館A$1B'],[/萬才館?(、|和|與|跟)霖澤館?/g,'法律系館B$1A'],[/霖澤館館(內|裡)/g,'法律系館A裡面'],[/萬才館館(內|裡)/g,'法律系館B裡面'],
+    [/霖澤館館/g,'法律系館A'],[/萬才館館/g,'法律系館B'],[/霖澤館?/g,'法律系館A'],[/萬才館?/g,'法律系館B']];
+  const WN_OLD=/[臺台]灣大學|[臺台]大|NTU|National Taiwan|政治大學|政大|NCCU|霖澤|萬才|博雅|傅鐘|椰林|醉月湖|洞洞館|小福|活大|自強十舍|國青中心|辜振甫/;
+  const wnApply=(t,law)=>{ if(typeof t!=='string'||!WN_OLD.test(t)) return t; for(const [rx,to] of law) t=t.replace(rx,to); for(const [rx,to] of WN_COMMON) t=t.replace(rx,to); return t; };
+  S.worldName=t=>{ const r=wnApply(t,WN_WRITTEN); return typeof r==='string'?r.replace(/(法律系館[AB])(?=[0-9０-９]|研討室|教室)/g,'$1 '):r; };
+  S.worldSpoken=t=>wnApply(t,WN_SPOKEN);
   /* 真實片名改成虛構的（AA_313 6-2，D77）：舊存檔記憶裡的《東京物語》《晚春》顯示新片名（存檔不改）*/
   S.filmRename=t=>typeof t==='string'?t.replace(/《東京物語》|東京物語/g,'《進城的那一週》').replace(/《晚春》|晚春/g,'《父親的午後》').replace(/《《/g,'《').replace(/》》/g,'》'):t;
   /* 改過的備註（舊存檔裡記的是舊說法；人物面板顯示新的，存檔不改）：沛珊「她在考慮轉系」→「她在想別的路」（AA 2026-10-14：她之後是休學重考，不是轉系；BB_95 2-8）*/

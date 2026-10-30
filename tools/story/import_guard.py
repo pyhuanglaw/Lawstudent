@@ -53,6 +53,31 @@ import re as _re
 _CJK = _re.compile('[\u3400-\u4dbf\u4e00-\u9fff\u3040-\u30ff\uf900-\ufaff]')
 
 
+def read_fix(s):
+    """匯入工具讀稿一律走這裡：先 alison()，再照 docs/WORLD_NAMING.md 換名（world()）。"""
+    return world(alison(s))
+
+
+# 虛構校名（WORLD-RENAME-1030，D115，使用者 2026-10-30）：讀稿時照 docs/WORLD_NAMING.md 換名，規則和企劃線換稿用的同一支
+# tools/rename/world_names.py（JSON：text／lines／reply…＝口語、scene／title／place…＝正式；markdown：台詞口語、旁白字幕正式；查證出處句不換）。
+# 企劃線已經換過名的稿再換一次不會變；舊 commit 的稿（白名單上還沒換名的版本）匯進來也是新名字。
+def world(s):
+    if not isinstance(s, str):
+        return s
+    import json as _json, os as _os, sys as _sys
+    _sys.path.insert(0, _os.path.join(_os.path.dirname(_os.path.dirname(_os.path.abspath(__file__))), 'rename'))
+    import world_names as _W
+    if not _W.find_old(s):
+        return s
+    t = s.lstrip()
+    if t[:1] in '{[':
+        try:
+            return _json.dumps(_W.json_obj(_json.loads(s)), ensure_ascii=False, indent=1)
+        except ValueError:
+            pass
+    return _W.md_text(s)
+
+
 def alison(s):
     if not isinstance(s, str) or '小語' not in s:
         return s

@@ -15,7 +15,7 @@ def read_allowed(path):
     if not hit: sys.exit(f'{path} 不在匯入白名單')
     sha = hit[0]['sha']; ok, why = IG.allowed(path, sha, allow)
     if not ok: sys.exit(why)
-    return sha, IG.alison(subprocess.run(['git', 'show', f'{sha}:{path}'], cwd=ROOT, capture_output=True, text=True, check=True).stdout)  # AA_380：讀稿先把「小語」換成 Alison（import_guard.alison）
+    return sha, IG.read_fix(subprocess.run(['git', 'show', f'{sha}:{path}'], cwd=ROOT, capture_output=True, text=True, check=True).stdout)  # AA_380：讀稿先把「小語」換成 Alison（import_guard.alison）
 SHA, src = read_allowed(PATH)
 # AA_497 第 8 節第 3 點（企劃線 60fc3b9a3，AA-C 定）：芯慈追劇減量——朋友以上那一句換句（原文照讀，讀完照這張表換；沒找到原句＝稿變了，停下來）
 FIX = [('剛好。我昨天看了一部劇，沒有人可以講。', '剛好。我昨天把筆記重抄了一遍，沒有人可以講。')]
