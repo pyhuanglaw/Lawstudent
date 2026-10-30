@@ -104,7 +104,7 @@ const HASK=(function(){
       /* 日常：前一天晚上傳（沛珊的「今天晚上」那天 17:00）*/
       if(!(id==='kexin'&&dat)&&(!redo||rd('d'))&&(rd('d')||s.d==null||day0-s.d>=(dat?7:14))) for(const e of p.daily){ if(!dat&&e.th>sn) continue; const v0=dat?e.dat:e.pre; if(!v0) continue;
         const day=day0+(v0.d==='today'?0:1), wd=wdOf(G,day); if((v0.d==='sat'&&wd!==6)||(v0.d==='sun'&&wd!==0)) continue;
-        const vac=S.vacDay(day)&&!!v0.vac, v=S.vOf(v0,vac);   /* AA_532 第 3 節：放假版（句子、學姊的時間）*/
+        const vac=S.vacDay(day)&&!!v0.vac&&(!v0.vac.wkend||wd===0||wd===6), v=S.vOf(v0,vac);   /* AA_532 第 3 節：放假版（句子、學姊的時間）；wkend：學姊平日照學期中（AA-B 10-30 05:12 第 1 點）*/
         if(S.block(G,id,day)||S.storyAsk(G,id,day,'d')) continue;
         const sh=v.d==='today'?17:sendH; if(v.d==='today'&&now>abs(day0,18)) continue;   /* 「今天晚上」那則（沛珊）：那天 17:00 傳；已經過了 18:00 就不傳 */
         for(const h of v.h){ if(abs(day,h)<=Math.max(now,abs(day0,sh))+0.5) continue; if(!S.dailyOk(G,id,e,v,day,h)) continue;

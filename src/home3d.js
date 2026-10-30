@@ -639,11 +639,13 @@ const HOME=(function(){
   S.phoneRules=function(GM){ const G=GM.G; if(typeof PHONE==='undefined'||!L()) return;
     try{ S.famDays(G); }catch(e){ console.warn('HOME.famDays',e); }   /* AA_458 第 4 節：中秋、颱風假前一晚（住家裡的也有爸爸那一則，所以在住家裡版之前）*/
     if(S.LIVE_GROUP&&S.livesHome(G)){ try{ S.gradLive(G); }catch(e){ console.warn('HOME.gradLive',e); } try{ S.LIVE_GROUP(G); }catch(e){ console.warn('HOME.LIVE_GROUP',e); } return; }   /* AA_465 第 7 節：畢業那一週的週四先換成姊姊那一句 */   /* AA_442 第 1 節：住家裡＝住家裡版（不問、不用回、爸爸不傳「？」；src/jpprep3d.js 登記）*/
-    const T=typeof CALENDAR!=='undefined'?CALENDAR.termOf(G.day):null, BK=T?null:S.breakGrp(G); if((!T&&!BK)||(typeof STORY!=='undefined'&&STORY.mainDay?STORY.mainDay(G):G.day)<2) return;   /* BK：AA_532 第 4 節，留宿舍的寒暑假 */
+    const T=typeof CALENDAR!=='undefined'?CALENDAR.termOf(G.day):null, BK=T?null:S.breakGrp(G); if(BK&&S.cnyWeek(G.day)) return;   /* 留宿舍：除夕～初五不傳（爸爸回家吃年夜飯了；AA-B 10-30 05:12 第 5 點）*/ if((!T&&!BK)||(typeof STORY!=='undefined'&&STORY.mainDay?STORY.mainDay(G):G.day)<2) return;   /* BK：AA_532 第 4 節，留宿舍的寒暑假 */
     PHONE.join(G,'home','家人'); const th='g:home', tag='home_ask_'+G.day;
     if(G.weekday===4&&G.hour>=20&&!PHONE.sent(G,tag)){ const g=T?S.grpPick(G,G.day):S.grpPickBreak(G), M=t=>({from:'mom',name:'媽媽',text:t}), pre=S.grpPre?S.grpPre(G):null, PRE=pre?[{th,from:'mom',name:'媽媽',text:pre}]:[];   /* 上一個週末答應了、沒說、沒回去：媽媽那一句前面多一則（AA_488 第 3-2 節，src/homepromise3d.js）*/   /* AA_458 第 1 節：照這一週的種類挑（原本照 G.day/7 輪 home_lines.js 的 group；新局 9/4 是第 -12 天的 BUG-HOME-FAMGROUP-NEGIDX-1021 也就不會再有）*/
       if(g&&g.noAsk){ if(PHONE.at(G,G.day,20,PRE.concat(g.lines.map(t=>({th,from:'mom',name:'媽媽',text:t}))),tag)&&pre&&S.grpPreSent) S.grpPreSent(G); }   /* AA_465 第 1 節：畢業典禮那一週，兩則、沒有 ask（下面爸爸的「？」只看有 ask 的）*/
       else if(g&&PHONE.at(G,G.day,20,PRE.concat([{th,from:'mom',name:'媽媽',text:g.t,ask:{id:tag,until:G.day*24+20+2,k:g.k,opts:[{t:'會回去',say:g.yes.map(M)},{t:'這週不回',say:g.no.map(M)}]}}]),tag)){ const C=S.rec(G).grp; if(g.p) C.p=(C.p|0)+1; if(g.e) C.e=(C.e|0)+1; if(pre&&S.grpPreSent) S.grpPreSent(G); } }
-    for(const m of (G.msgs||[])){ if(!m.ask||!/^home_ask_/.test(m.ask.id)||m.ans!=null) continue; const due=m.day*24+m.h+2; if(G.day*24+G.hour>=due&&!PHONE.sent(G,m.ask.id+'_dad')) PHONE.at(G,m.day,m.h+2,[{th,from:'dad',name:'爸爸',text:((L().groupReply||{}).none||['？'])[0]}],m.ask.id+'_dad'); } };   /* 兩小時沒回：爸爸「？」（睡著了也會補在那個時間）*/
+    for(const m of (G.msgs||[])){ if(!m.ask||!/^home_ask_/.test(m.ask.id)||m.ans!=null) continue; const due=m.day*24+m.h+2; if(G.day*24+G.hour>=due&&!PHONE.sent(G,m.ask.id+'_dad')) PHONE.at(G,m.day,m.h+2,[Object.assign({th,from:'dad',name:'爸爸',text:((L().groupReply||{}).none||['？'])[0]},typeof CALENDAR!=='undefined'&&!CALENDAR.termOf(m.day)?{quiet:true}:{})],m.ask.id+'_dad'); } };   /* 兩小時沒回：爸爸「？」（睡著了也會補在那個時間）；寒暑假（留宿舍那一套）quiet＝收進手機、快轉不停（AA-B 10-30 05:12 第 5 點）*/
+  /* 除夕～初五（HOLFF.CNY1 是初一）*/
+  S.cnyWeek=function(d){ if(typeof HOLFF==='undefined'||!HOLFF.CNY1||typeof CALENDAR==='undefined') return false; const k=HOLFF.CNY1[CALENDAR.dateOf(d).y], ny=k?DK(k):null; return ny!=null&&d>=ny-1&&d<=ny+4; };
   return S;
 })();

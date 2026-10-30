@@ -4,7 +4,8 @@
 //   2-1 2027、2029 除夕 18:30 在家的年夜飯（快轉／睡覺停在 18:30）；2-2 四年初一 08:00 家人群組；2-3 麵店團初一 2028、2029；2-4 以安交往中除夕 22:00；2-5 2027 元宵
 //   3  她們主動約你的放假版七句、學姊放假改下午；芷若校外答應「好！那到時候見。」（日常照舊）
 //   4  留宿舍的寒暑假週四家人群組（回家住的不發）；父親節三年（2028 人在美國照時差）；端午 2026（人不在家才傳）
-//   5  子晴 C15：zq_demo、zq_play2 各自的台詞、邀約、照片
+//   5  子晴 C15：AA-B 10-30 05:12 選 A＝照 AA_525（AA_532 第 5 節作廢；三場的台詞看 tests/aa525_promises_unit.js 1-2）
+//   8  AA-B 10-30 05:12 十四點的第 1、5、7 點：學姊放假平日照學期中（總圖五點以後）、週末下午；留宿舍週四爸爸的「？」quiet、除夕～初五不傳；京都交往版的回覆不重複「分班考分的。」
 //   6  京都 C12 和以安交往中第一堂換版；曼谷 T03 和子晴交往中多兩處
 //   7  總圖兩句、「我還在念書。」、以安的假期計畫（第 15 週週五 21:00 私訊／群組、交往中多問一句）
 // 修改前（d531b973f）FAIL 的：除了 0 的「稿讀得到」，全部。
@@ -31,7 +32,7 @@ const has=typeof HOLFF!=='undefined'&&!!HOLFF.CNY_FAM;
     for(const y in HOLFF.AN_EVE) L.push(...HOLFF.AN_EVE[y]); L.push(HOLFF.LANTERN.card); for(const [,t] of HOLFF.LANTERN.dorm) L.push(t);
     for(const y in HOLFF.FATHER){ for(const [,t] of HOLFF.FATHER[y].ms) L.push(t); const o=HOLFF.FATHER[y].opt; if(o){ L.push(o.t,o.post); for(const [,t] of o.say) L.push(t); } } for(const [,t] of HOLFF.DRAGON.ms) L.push(t);
     for(const e of HOLFF.EVENTS.filter(x=>/^ev_aa532_/.test(x.id))) for(const s of e.dialogue){ if(s.text) L.push(s.text); if(s.choice) for(const c of s.choice) L.push(c.text); } }
-  const C15=TERMEND_LINES.C15; for(const k of ['zq_demo','zq_play2']){ const c=C15[k]; if(Array.isArray(c.lines)) for(const x of c.lines) L.push(x.text||x.narr); else L.push('（lines 還是函式）'); L.push(...c.msg,...c.photo); }
+  /* 子晴 C15 不算：AA-B 10-30 05:12 選 A（照 AA_525），AA_532 第 5 節作廢 */
   L.push('在總圖。暑假人很少。','（寒假的總圖人很少。你五點出來的時候，天已經黑了。）','我還在念書。','工作室在信義區。……週末我還是回公館。','（回旅館的路上，阿凱走在前面。子晴的手指勾了一下你的。）','……他看不到。','（休息時間，以安在走廊等你。她在中級班。）','分班考分的。我中級，你初級。','……下課我在這裡等你。');
   const bad=notIn(L,doc);
   check('0. 新句都在 AA_532 稿裡（一字不差；'+L.length+' 句）',has&&L.length>=90&&!bad.length,J(bad));
@@ -123,8 +124,7 @@ const atHome=()=>{ const Hm=HOME.rec(H.G); Hm.at=true; Hm.day=H.G.day; const B=H
 
   /* ================= 5 子晴 C15 ================= */
   { const C=TERMEND_LINES.C15, L=k=>Array.isArray(C[k].lines)?C[k].lines.map(x=>x.text||x.narr):[];
-    check('5. zq_demo（1/9 資工系館）：第三關改了、只掉一次；邀約「第三關改好了」；照片「我自己破了」',L('zq_demo').includes('第三關。改了。')&&L('zq_demo').includes('（你這次只掉下去一次。）')&&J(C.zq_demo.msg)===J(['{日期} 下午 資工系館','第三關改好了'])&&C.zq_demo.photo[1]==='我自己破了',J(L('zq_demo')));
-    check('5. zq_play2（2027-07-10）：實習那一關；邀約、照片各自的；三場不再一字不差',L('zq_play2').includes('實習做的。……我只負責其中一關。')&&C.zq_play2.msg[1]==='實習的遊戲 我那一關做完了'&&C.zq_play2.photo[2]==='你沒來 只好給阿凱玩 他說很難'&&J(L('zq_play2'))!==J(C.zq_play.lines.map(x=>x.text||x.narr))&&J(L('zq_demo'))!==J(L('zq_play2')),''); }
+    check('5. 子晴 C15 照 AA_525（AA-B 選 A）：zq_demo 是「第三關。橋是新的。」那一版，不是 AA_532 第 5 節的「第三關。改了。」',L('zq_demo').includes('第三關。橋是新的。')&&!L('zq_demo').includes('第三關。改了。')&&L('zq_play2').includes('新的東西。還沒有名字。'),J([L('zq_demo'),L('zq_play2')])); }
 
   /* ================= 6 交往中換版 ================= */
   { const A=VAC_DATA.A, flat=(lines,G)=>{ const out=[]; for(const x of lines){ const v=typeof x==='function'?x(G):x; if(!v) continue; for(const y of [].concat(v)) out.push(y.text||y.narr); } return out; };
@@ -148,5 +148,22 @@ const atHome=()=>{ const Hm=HOME.rec(H.G); Hm.at=true; Hm.day=H.G.day; const B=H
     check('7. 交往中：私訊短版（①②③）＋「你這個假期要做什麼？」（照行事曆＝報了的活動名字／「還沒想」）',q.length===2&&q[0].ask.opts.length===3&&q[1].text==='你這個假期要做什麼？'&&J(q[1].ask.opts.map(o=>o.t))===J(['海外語言文化課程（京都）','還沒想']),J(q.map(m=>[m.text,m.ask.opts.map(o=>o.t)])));
     PHONE.answer(H.G,'aa532_an_plan_Y2S2_q',1); check('7. 回「還沒想」→ 她「那我們再排。」',(H.G.msgs||[]).slice(-1)[0].text==='那我們再排。','');
     const k3=CALENDAR.dateOf(HOLFF.anPlanDay('Y1S2')).key; fresh(k3,20); run(k3,21); check('7. 不認識她：沒有',tagMsgs('aa532_an_plan_Y1S2').length===0,''); }
-  H.done();
+  /* ================= 8 AA-B 10-30 05:12 十四點 ================= */
+{ /* 第 1 點：學姊放假平日照學期中（17:30「明天五點以後，總圖三樓。你帶要問的題目。」）、週末放假版下午 */
+  fresh('2026-07-20',13); friend('heroine_05'); const c=HAS_HASK?HASK.candidates(H.G,H.G.day).filter(x=>x.id==='heroine_05'&&x.place==='library'&&x.day===D('2026-07-21')):[];
+  check('8-1. 學姊放假、平日（7/20 週一傳、7/21 週二約）：照學期中 17:30「明天五點以後，總圖三樓。你帶要問的題目。」、不記 vac',c.length===1&&c[0].h===17.5&&c[0].v.line==='明天五點以後，總圖三樓。你帶要問的題目。'&&!c[0].vac,J(c.map(x=>[x.h,x.v.line,x.vac]))); }
+{ /* 第 5 點：留宿舍週四 22:00 爸爸「？」quiet（快轉不停）；學期中照舊；除夕～初五不傳 */
+  const dadQ=()=>{ const P=PHONE.rec(H.G), q=P.q.find(x=>/^home_ask_\d+_dad$/.test(x.tag||'')); return q?q.items[0]:null; };
+  fresh('2026-07-16',19); H.G.home={at:false}; at(H.G.day,20); HOME.phoneRules(GM); PHONE.tick(H.G); at(H.G.day,22); HOME.phoneRules(GM); const qv=dadQ();
+  fresh('2026-03-12',19); at(H.G.day,20); HOME.phoneRules(GM); PHONE.tick(H.G); at(H.G.day,22); HOME.phoneRules(GM); const qt=dadQ();
+  check('8-5. 暑假留宿舍：20:00 沒回、22:00 爸爸「？」quiet（收進手機、快轉不停）；學期中那一則照舊（不 quiet）',!!qv&&qv.text==='？'&&qv.quiet===true&&!!qt&&!qt.quiet,J({qv,qt}));
+  const ny=D(HOLFF.CNY1[2026]), thu=[];   /* 2026 除夕 2/16～初五 2/21：週四 2/19（2027 那一段沒有週四）*/ for(let d=ny-6;d<=ny+10;d++) if(wd(d)===4) thu.push(d);
+  fresh(CALENDAR.dateOf(ny-8).key,10); H.G.home={at:false}; const got={}; for(const d of thu){ at(d,20); HOME.phoneRules(GM); PHONE.tick(H.G); got[CALENDAR.dateOf(d).key]=tagMsgs('home_ask_'+d).length; }
+  const inWk=thu.filter(d=>d>=ny-1&&d<=ny+4), outWk=thu.filter(d=>d<ny-1||d>ny+4);
+  check('8-5. 留宿舍：除夕～初五那個週四不傳「這週回來吃飯嗎」，前後週照常',inWk.length>=1&&inWk.every(d=>got[CALENDAR.dateOf(d).key]===0)&&outWk.length>=1&&outWk.every(d=>got[CALENDAR.dateOf(d).key]===1),J(got)); }
+{ /* 第 7 點：京都交往版的「妳是中級喔。」回覆 */
+  const k12=VAC_DATA.A.C12.keys[0], c0=k12.choice[0].say[0], txt=G=>typeof c0.text==='function'?c0.text(G):c0.text;
+  fresh('2027-08-10',9); const fr=txt(H.G); H.G.flags.dating_heroine_01=true; const dt=txt(H.G);
+  check('8-7. 京都第一堂「妳是中級喔。」：交往中「你不要叫我老師。」（她剛說過「分班考分的。」）；朋友版照舊',dt==='你不要叫我老師。'&&fr==='分班考分的。……你不要叫我老師。',J({fr,dt})); }
+H.done();
 })().catch(e=>{ console.log('FAIL 例外 '+(e&&e.stack||e)); console.log('FAILED '+(H.fails+1)); process.exit(1); });
