@@ -79,6 +79,9 @@
     - 盤點、分類、交接 `AA_534`（`04e1f2c28`）。
     - **還沒做**：遊戲本體（LAWWW）、美術（LAWWW2）、實測（BB）、AA 第四階段驗收；`WORLD_NAMING.md` 第 8 節四項等使用者。
     - **不准合併 main、不准發布**，等使用者同意（使用者原話）。
+  - 回 LAWWW-B 三則（04:37／04:40／04:50）：AA_529 實作七點、AA_527／528 十三點確認（改三點：社團訊息不停、h504 順延、佳蓉 B館版 meetB）；回 BB-B、LAWWW2-B 更名的事。
+  - 使用者原話三則登記 `user_asks_AA.json`（`bec12db00`）。
+  - `AA_535` 約她選項第一份（`dbd49dca7`，INVITE-OPTS-1030＋X134）：學姊上限放寬、Café 也能約、分類名稱、慢讀常客作息、慢讀七位全套。第二份：缺的台詞＋法圖、映月湖。
 
 值班登記：帳號 C｜AA｜session_019evvieJUJD23EGf4nyLPgo｜分支 claude/magical-albattani-bk7b4n｜接班基準 89accb6d4（快轉合併帳號 B 的 `claude/cool-heisenberg-o8kuqx`）｜2026-10-27
 上一班：帳號 B｜AA｜session_016ACZaD4oB9tX94WqQR4dkS｜最後 commit 89accb6d4（2026-10-25 19:43 UTC，讀稿工具存檔）｜**沒有正式交班**（四個帳號 B 的工作階段都停在 10-25 19:2x～19:4x）→ 使用者 10-27 對 AA-C：「上一班來不及交班，現在由帳號 C 接班」＝第 4 節第 10 步的明確授權（`duty register --user-ok`）。
