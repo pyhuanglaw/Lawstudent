@@ -36477,7 +36477,7 @@
     "ack": "ACTIONED"
    },
    "notes": "【14:1x】LAWWW2 交件 5552cb6eb：GLB 1.32→4.51 MB＋日夜光照、翻椅 132 張、T5 格柵；boya_lecture_furn_1030.patch（teach3d 備用方塊桌椅進 lecture_furniture、接 Z3.seatFold）；READY_FOR_ART_REVIEW ｜ D99 第一優先經濟系那一年玩家最常待的室內，還沒有光照貼圖（10-30 盤點：GLB 的 extras.lightmap）",
-   "sha": "PENDING"
+   "sha": "a63eb8072"
   },
   {
    "id": "SOCLIB-LM-1030",
