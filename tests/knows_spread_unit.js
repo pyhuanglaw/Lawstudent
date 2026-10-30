@@ -59,7 +59,7 @@ GM.money=function(n){ G.money+=n; };
   check('2. 上課日 17:00：子晴知道（told_by:kai）、記 ZQ_ASK_KAI_D、祐廷不知道她知道',G.flags.ZQ_ASK_KAI_D===wed&&!!K&&K.source==='told_by:kai'&&K.h===17&&!ROM.ytKnows(G,'heroine_04','kexin'),JSON.stringify(K));
   const zq=ev('ev_zq_ask_kai'); check('2. 那晚睡覺：演（睡覺觸發）',EVENTS.sleepEvent&&EVENTS.sleepEvent()===zq,String(EVENTS.sleepEvent()&&EVENTS.sleepEvent().id));
   said=[]; await EVENTS.run(zq); let L=lines();
-  check('2. 三句照 AA_218 17-11：「欸，你室友……有女朋友嗎？」「有啊，政大的。怎樣？」「沒有啊，問問。」',L.length===3&&L[0].endsWith('欸，你室友……有女朋友嗎？')&&L[1].endsWith('有啊，政大的。怎樣？')&&L[2].endsWith('沒有啊，問問。'),JSON.stringify(L));
+  check('2. 三句照 AA_218 17-11：「欸，你室友……有女朋友嗎？」「有啊，木柵大學的。怎樣？」「沒有啊，問問。」',L.length===3&&L[0].endsWith('欸，你室友……有女朋友嗎？')&&L[1].endsWith('有啊，木柵大學的。怎樣？')&&L[2].endsWith('沒有啊，問問。'),JSON.stringify(L));
   check('2. 祐廷不在場：沒有因此認識子晴、阿凱（participants 空的）',!SOCIAL.has('heroine_04','FIRST_MET')&&!SOCIAL.has('kai','FIRST_MET')&&ev('ev_zq_ask_kai').participants.length===0);
   check('2. 字卡「17:00　資工系館」（不是凌晨三點）',JSON.stringify(zq.sleepCard)===JSON.stringify(['17:00','資工系館']));
   cards=[]; { const s0=G.hour; await STORY._v1.nightEvent(GM); check('2. 演過了：不再演',!EVENTS.sleepEvent()||EVENTS.sleepEvent().id!=='ev_zq_ask_kai'); }

@@ -77,8 +77,8 @@ const after=(L,a,b)=>{ const i=L.indexOf(a), j=L.indexOf(b); return i>=0&&j>i; }
   await sec('2',async()=>{
     fresh(sat,7,{}); G.contacts.heroine_03=1; setRel('heroine_03',S6); const L28=DATE.loc('D28');
     picks=['兩天一夜…',L28.name,'高鐵','今天','09:00','就這樣約']; const tb=await DATE.menu(GM,'heroine_03',null); const sum=T().find(x=>/兩天一夜/.test(x))||'';
-    check('2. 選單約成：kind overnight、住一晚、09:00 出發、住宿 2500、車資照表（高鐵來回 2800，BUG-DATE-FARE-DOUBLE-1021 以後不再乘 2）、第二天 19:00 離開、21:15 回到台大',!!tb&&tb.ok&&tb.kind==='overnight'&&tb.nights===1&&tb.depart===9&&tb.lodging===2500&&tb.fare===2800&&tb.leave===19&&Math.abs(tb.back-21.25)<1e-9&&tb.day===sat,J(tb));
-    check('2. 確認的摘要寫兩天：出發、住一晚、第二天回來、含住宿',/（兩天一夜）：今天.*09:00 出發.*住一晚，明天.*21:15 回到台大。預計花費 5300 元（含住宿 2500 元）/.test(sum),sum);
+    check('2. 選單約成：kind overnight、住一晚、09:00 出發、住宿 2500、車資照表（高鐵來回 2800，BUG-DATE-FARE-DOUBLE-1021 以後不再乘 2）、第二天 19:00 離開、21:15 回到首都帝大',!!tb&&tb.ok&&tb.kind==='overnight'&&tb.nights===1&&tb.depart===9&&tb.lodging===2500&&tb.fare===2800&&tb.leave===19&&Math.abs(tb.back-21.25)<1e-9&&tb.day===sat,J(tb));
+    check('2. 確認的摘要寫兩天：出發、住一晚、第二天回來、含住宿',/（兩天一夜）：今天.*09:00 出發.*住一晚，明天.*21:15 回到首都帝大。預計花費 5300 元（含住宿 2500 元）/.test(sum),sum);
     check('2. 日期選項寫兩天（今天～明天）、時間只有 09:00',(opts.find(o=>o.some(x=>/^今天 .*～/.test(x)))||[]).length===8&&(opts.find(o=>o.some(x=>/出發$/.test(x)))||[]).filter(x=>/出發$/.test(x)).join()==='09:00 出發',J(opts.slice(2,5)));
     const q=OUT.get(G,'date_'+tb.trip); G.hour=9; check('2. 09:00 問要不要出發（排進行事曆：到達 11:15）',!!q&&OUT.due(G)===q&&Math.abs(q.h-11.25)<1e-9,J(q));
     said=[]; opts=[]; bgs=[]; picks=['出發','文學館的大廳','海堤的夕陽','安平的老巷','館前的圓環綠地']; const m0=G.money, R0=Object.assign({},SOCIAL.rel('heroine_03')); const r=await OUT.prompt(GM,q); const L=T(), t=DATE.trip(G,tb.trip), Lg=DATE.log(G,'heroine_03');
@@ -91,7 +91,7 @@ const after=(L,a,b)=>{ const i=L.indexOf(a), j=L.indexOf(b); return i>=0&&j>i; }
     check('2. 四個點分兩天走完、算一次（dateLog 照算一次）、DATE_OVERNIGHT 照人物記一次（語彤 1；AA_359 5-1 B9，不記地點）',r==='go'&&t.status==='done'&&t.spots.length===4&&Lg.count===1&&Lg.byLoc.D28===1&&G.flags.DATE_OVERNIGHT&&J(G.flags.DATE_OVERNIGHT)===J({heroine_03:1}),J({r,st:t.status,spots:t.spots,count:Lg.count,DO:G.flags.DATE_OVERNIGHT}));
     check('2. 錢：車資 2800＋住宿 2500＋老巷 60＝5360（比當天來回多 2500）',m0-G.money===2800+2500+60,m0-G.money);
     check('2. 結算寫兩天、含住宿；關係照正式校外約會加（第一次去這個地點）',L.some(x=>/^（這兩天去了臺南國立臺灣文學館與安平：文學館的大廳、海堤的夕陽、安平的老巷、館前的圓環綠地。花了 5360 元（含來回車資、住宿）。）$/.test(x))&&SOCIAL.rel('heroine_03').npcRom-R0.npcRom>=5,L.slice(-2).join(' | '));
-    check('2. 第二天回到台大（隔天，回程照高鐵 135 分鐘）',G.day===sat+1&&G.hour>10&&G.hour<21.5,J([G.day-sat,G.hour]));
+    check('2. 第二天回到首都帝大（隔天，回程照高鐵 135 分鐘）',G.day===sat+1&&G.hour>10&&G.hour<21.5,J([G.day-sat,G.hour]));
     const bgi=bgs.map(b=>(b&&b.image||'').replace(/^.*\//,''));
     check('2. 底圖：兩天都用 d28a；選「海堤的夕陽」那一點才換 d28b，第二天早上回到 d28a（AA_359 5-1 B12）',bgi.length===3&&/^d28a_base_day/.test(bgi[0])&&/^d28b_base_sunset/.test(bgi[1])&&/^d28a_base_day/.test(bgi[2]),J(bgi));
     { const iS=said.findIndex(x=>x.t===SP.night.single); check('2. 夕陽演完時間至少到 18:00，接晚上那一句（B7）',iS>0&&said[iS].day===sat&&said[iS].h>=18,J(said[iS])); }
@@ -259,6 +259,6 @@ const after=(L,a,b)=>{ const i=L.indexOf(a), j=L.indexOf(b); return i>=0&&j>i; }
     // BB 10-21 22:54：讀「到達」那次強制存檔以後選「改時間」，q.arrived 要清掉（不然之後不會趕不上、出發車程 0）；摘要的回程寫「最晚」
     const src=fs.readFileSync(path.join(ROOT,'src/date3d.js'),'utf8'), mv=src.slice(src.indexOf('S.move=async function'),src.indexOf('改時間她回一句'));
     check('15. 改時間的三種改法都清掉 q.arrived',(mv.match(/delete q\.arrived;/g)||[]).length===3,String((mv.match(/delete q\.arrived;/g)||[]).length));
-    check('15. 兩天一夜的摘要、時間選單寫「最晚」回到台大（第二天兩個點走完就回，大約中午到下午）',/住一晚，'\+S\.dayLabel\(G,w\.day\+1\)\.trim\(\)\+' 最晚約 /.test(src)&&/住一晚，第二天最晚/.test(src)); });
+    check('15. 兩天一夜的摘要、時間選單寫「最晚」回到首都帝大（第二天兩個點走完就回，大約中午到下午）',/住一晚，'\+S\.dayLabel\(G,w\.day\+1\)\.trim\(\)\+' 最晚約 /.test(src)&&/住一晚，第二天最晚/.test(src)); });
   console.log(fails?'\nFAILED '+fails:'\nALL PASS'); process.exit(fails?1:0);
 })().catch(e=>{ console.log('FAIL 例外',e&&e.stack); process.exit(1); });

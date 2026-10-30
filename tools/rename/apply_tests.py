@@ -4,7 +4,7 @@
     只出現一種＝照那一種換；兩種一樣（沒有法律系館）＝照換；
     T 自己原樣還在遊戲裡、換過的都不在＝遊戲照留的字（開發註記、console.warn、舊存檔比對的鍵）→ 測試也不換；
     都找不到、兩種都有 → 列出來，人看過以後寫進 tools/rename/test_overrides.json（path＋body → spoken／written／skip）。
-  正規表示式不動（測試的正規表示式常常故意比對舊字，要改的人手改）。
+  正規表示式（/…/）的樣式照同樣的規則換（例：/活大的自助餐/ → /學活的自助餐/）；要故意比對舊字的（舊存檔）寫進 test_overrides.json 照留。
 用法：python3 tools/rename/apply_tests.py [--apply] tests/x_unit.js …"""
 import os, re, sys, json
 HERE = os.path.dirname(os.path.abspath(__file__))
@@ -62,7 +62,11 @@ def main():
         src = open(os.path.join(ROOT, rel), encoding='utf-8').read()
         edits = []
         for k, s, e in tokens(src):
-            if k not in ('str', 'tpl'): continue
+            if k == 'regex':   # /…/flags：只看樣式那一段
+                j = src.rfind('/', s + 1, e)
+                if j <= s: continue
+                s, e = s + 1, j
+            elif k not in ('str', 'tpl'): continue
             body = src[s:e]
             if not W.find_old(body): continue
             c, why = decide(body, G, ov, rel)

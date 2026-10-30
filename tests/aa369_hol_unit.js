@@ -267,7 +267,7 @@ const pr=(id,k)=>STORY.presence(id,Object.assign({},G||{flags:{}},{day:D(k),stag
   { fresh(D('2026-11-13'),20,'campus',{lawclub:true}); PHONE.join(G,'lawclub_study','法服'); run(20,21.2); const T=TH('g:lawclub_study').map(m=>m.from+':'+m.text);
     check('第 4 節＋第 7 節第 10 題. 法服群組 11/13「明天九點半，攤位集合。」發話的人是柏翰（大二排法服班、大三發市集通知的都是他），不是語彤、不是沒名字的社長；句子不改',J(T)===J(['classmate_bohan:明天九點半，攤位集合。'])&&!TH('g:lawclub_study').some(m=>m.name),J(TH('g:lawclub_study')));
     const S=(SMALLTALK.classmate_peishan||[]).map(x=>typeof x==='string'?x:x.t);
-    check('第 4 節. 沛珊閒聊：「萬才館的研討室，下午都沒人。你可以去那裡讀書。」（法服沒有週三讀書會）',S.includes('「萬才館的研討室，下午都沒人。你可以去那裡讀書。」')&&!S.some(t=>/讀書會週三/.test(t)),J(S)); }
+    check('第 4 節. 沛珊閒聊：「萬才館的研討室，下午都沒人。你可以去那裡讀書。」（法服沒有週三讀書會）',S.includes('「B館的研討室，下午都沒人。你可以去那裡讀書。」')&&!S.some(t=>/讀書會週三/.test(t)),J(S)); }
   // ===== 第 9 節（企劃線 4512c2d0；AA 2026-10-21 21:0x 答第 8 節實作後四題）=====
   // 第 1 題：大二上期末飯芷若——「放映完隔天，我就回台中了。」在邀約那句（「店裡寒假想排一部老電影的放映。」）後面，選不選「我想去」都講
   { const din=async(pick,kind)=>{ const w=TERMEND.windowOf('Y2S1'); fresh(w.from+1,20,'cafe',kind==='gf'?{dating_heroine_02:true}:{}); R('heroine_02',kind==='gf'?'CLO':'FAM'); said=[]; opts=[]; picks=[pick];

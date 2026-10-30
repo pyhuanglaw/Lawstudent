@@ -8,6 +8,7 @@
 //   12 4-2b 四種狀態（F3 那一晚；6/21 小公園版）　13 F3 婉拒（Café 那四句、日本路線回國以後當面說、方奕廷三則〔日本路線：當面說完那天才送〕；r2y3b 的「我說好」不演）
 //   14 互斥（她們交往中＝她有交往的對象；曖昧期照常）　15 舊存檔　16 結局（尾聲那一行）　17 4-5、4-6　18 手機子晴「芷若在英國」三則的標籤（AA_385 第 9 節）、在家、跳過時間的停點
 // 修改前（開發分支 b857600c）：ZRZQ 不存在，除了「稿上有」以外全部 FAIL。用法：node tests/zrzq_line_unit.js
+require('./alison.js');   // 讀企劃稿（git show）照匯入工具同一套換：Alison、虛構校名（WORLD-RENAME-1030，docs/WORLD_NAMING.md）
 const fs=require('fs'), vm=require('vm'), path=require('path'), cp=require('child_process');
 const ROOT=path.resolve(__dirname,'..');
 global.window=global; global.self=global; global.P3={CAST:{}};
@@ -84,16 +85,16 @@ const ZR='heroine_02', ZQ='heroine_04';
     if(!SPEC) return [false,'讀不到稿']; const P=L.MIND.park, pairs=[['「萬才館一樓……坐在門口的台階上」→「小公園的鞦韆旁邊，子晴坐在長椅上，手機一直亮著。」'],['「把吉他背起來，往溫州街的方向走」→「把手機收進口袋，往巷子裡走」'],['「坐回台階上」→「坐回長椅上」'],
       ['「萬才館門口」→「小公園門口」'],['「萬才館門口。子晴在等人。芷若從溫州街那邊走過來。」→「小公園的長椅。子晴在等人。芷若從巷口走過來。」'],['「你在門口站了一下」→「你在路燈下站了一下」']];
     const okSpec=pairs.every(([p])=>SPEC.includes(p));
-    const want={'（萬才館一樓。吉他社的人陸續走了，子晴坐在門口的台階上，手機一直亮著。）':'（小公園的鞦韆旁邊，子晴坐在長椅上，手機一直亮著。）',
+    const want={'（法律系館B一樓。吉他社的人陸續走了，子晴坐在門口的台階上，手機一直亮著。）':'（小公園的鞦韆旁邊，子晴坐在長椅上，手機一直亮著。）',
       '（她把吉他背起來，往溫州街的方向走。走了一段，又走回來，坐回台階上。）':'（她把手機收進口袋，往巷子裡走。走了一段，又走回來，坐回長椅上。）',
-      '（萬才館門口。子晴在講電話。）':'（小公園門口。子晴在講電話。）','（萬才館門口。子晴在等人。芷若從溫州街那邊走過來。）':'（小公園的長椅。子晴在等人。芷若從巷口走過來。）',
+      '（法律系館B門口。子晴在講電話。）':'（小公園門口。子晴在講電話。）','（法律系館B門口。子晴在等人。芷若從溫州街那邊走過來。）':'（小公園的長椅。子晴在等人。芷若從巷口走過來。）',
       '（芷若勾住她的手臂。兩人往公館走。你在門口站了一下，才走另一邊。）':'（芷若勾住她的手臂。兩人往公館走。你在路燈下站了一下，才走另一邊。）'};
     return [okSpec&&J(P)===J(want),okSpec?'':'稿上找不到替換']; });
   await chk('1. 稿上（4-2～七）每一句對話都有接進來（不接的：入場旁白的說明、被第九節取代的兩句開頭、4-6 兩人私下的原版（七-3：「想妳」不在祐廷面前）、4-7 作廢的第三版、七-6 的訊息版（AA_385 第 7 項拿掉））',()=>{
     if(!SPEC) return [false,'讀不到稿']; const lines=SPEC.split('\n'), i0=lines.findIndex(s=>/^### 4-2\./.test(s)), i1=lines.findIndex(s=>/^## 五/.test(s)), i7=lines.findIndex(s=>/^## 七/.test(s)), i8=lines.findIndex(s=>/^## 八/.test(s));
     const i3=lines.findIndex(s=>/^## 三/.test(s)), i4=lines.findIndex(s=>/^## 四/.test(s));
     const pick=(a,b)=>lines.slice(a,b).filter(s=>/^\s*>\s/.test(s)).map(s=>s.replace(/^\s*>\s*/,'').trim().replace(/（20\d\d-\d\d-\d\d `AA_385` 第 \d+ 項：[^）]*）$/,''));   /* 088556ed：AA_385 改過的句子後面附了改字說明（不是台詞）*/
-    const ex=['（入場旁白照第九節的表，依祐廷那時在哪裡挑一句。）','（公館。二輪戲院剛散場，你正要過馬路，看到子晴和芷若從門口走出來。）','（你經過醉月湖，聽到熟悉的聲音。轉角那邊是子晴和芷若。你停下來，她們沒看到你。）'];
+    const ex=['（入場旁白照第九節的表，依祐廷那時在哪裡挑一句。）','（公館。二輪戲院剛散場，你正要過馬路，看到子晴和芷若從門口走出來。）','（你經過映月湖，聽到熟悉的聲音。轉角那邊是子晴和芷若。你停下來，她們沒看到你。）'];
     const iUK=lines.findIndex(s=>/^### 4-6/.test(s)), iUKend=lines.findIndex(s=>/^- AA 補：/.test(s)&&lines.indexOf(s)>iUK), i47=lines.findIndex(s=>/^### 4-7/.test(s)), iVoid=lines.findIndex(s=>/作廢/.test(s)&&lines.indexOf(s)>i47);
     const i76=lines.findIndex(s=>/^6\. ~~\*\*F3 婉拒那四句的國外訊息版/.test(s)), i76end=lines.findIndex((s,k)=>k>i76&&!/^\s*>\s/.test(s));   /* 七-6 訊息版：AA_385 第 7 項拿掉（「下面這四句不用」）*/
     const voided=new Set(pick(iUK,iUKend).concat(lines.slice(iVoid,i1).filter(s=>/^\s*>\s/.test(s)&&lines.indexOf(s)<lines.findIndex((q,k)=>k>iVoid&&/^- 他之後/.test(q))).map(s=>s.replace(/^\s*>\s*/,'').trim()),i76>0?pick(i76+1,i76end):[]));
@@ -142,7 +143,7 @@ const ZR='heroine_02', ZQ='heroine_04';
     return [said[0].t===L.IN.next.none&&seq(L.NEXT_FRIEND)&&seq(L.NEXT)&&seq(L.NEXT_END.friend)&&!has('（你原本正要上前打招呼，卻停下腳步。）')&&has('欸，祐廷。你也來看？'),J(said.slice(0,3))]; });
 
   /* ===================== 6 4-4、甲 ===================== */
-  await chk('6. 4-4：6/5 14:30 帶到醉月湖；A（子晴先開口）逐字＋結尾；明確說好在一起以後才 dating；YT_HEARD_ZZ、祐廷知道兩人互相喜歡（mutual）',async()=>{
+  await chk('6. 4-4：6/5 14:30 帶到映月湖；A（子晴先開口）逐字＋結尾；明確說好在一起以後才 dating；YT_HEARD_ZZ、祐廷知道兩人互相喜歡（mutual）',async()=>{
     fresh('2026-06-05',14.6,'campus'); both('FAM'); zz({state:'mutual_interest',since:D('2026-06-05'),lastDay:D('2026-04-30')}); await tick(); const Z=G.flags.ZZ;
     return [said[0].t===L.IN.serious.campus&&entered[0][0]==='campus'&&seq(L.SERIOUS.A.concat(L.SERIOUS.END))&&Z.state==='dating'&&Z.version==='A'&&G.flags.YT_HEARD_ZZ===true&&Z.yt==='mutual'&&K(Z.datingDay)==='2026-06-05'&&!opts.length,J({Z,opts})]; });
   await chk('6. 4-4：芷若「她自己條件成立」的學期比子晴多＝B（芷若先開口）；上午有課＝「經濟學原理（重修）下課，吃完午餐…」',async()=>{
@@ -241,7 +242,7 @@ const ZR='heroine_02', ZQ='heroine_04';
     f3('dating',{day:'2028-06-21',h:21.5,zone:'dorm',f3:'2028-06-19'}); caps=[]; await tick(); got.push(caps.slice());
     fresh('2026-09-18',14.6,'campus'); both('FAM'); zz({state:'dating',since:0,datingDay:D('2026-06-05'),datingTerm:'Y1S2',lastDay:D('2026-06-05')}); caps=[]; await tick(); got.push(caps.slice());
     fresh('2028-06-03',14.6,'dorm'); both('FAM'); zz({state:'dating',since:0,datingDay:D('2028-06-02'),datingTerm:'Y3S2',lastDay:D('2028-06-02')}); caps=[]; await tick(); got.push(caps.slice());
-    const want=['萬才館門口','溫州街的小公園','醉月湖','畢業典禮'];
+    const want=['法律系館B門口','溫州街的小公園','映月湖','畢業典禮'];
     return [want.every((w,i)=>got[i].length===1&&got[i][0]===w)&&!got.flat().some(c=>/在一起/.test(c)),J(got)]; });
   await chk('12. 祐廷不在台灣（日本路線）：4-2b 不演（狀態照樣決定）',async()=>{
     f3('dating',{flags:{EXCHANGE_ROUTE:'JP'}}); const r=await tick(); return [!r&&G.flags.ZZ.fy==='declined'&&G.flags.ZZ.ev.ev_zz_zq_mind&&G.flags.ZZ.ev.ev_zz_zq_mind.seen===false,J(G.flags.ZZ.ev)]; });

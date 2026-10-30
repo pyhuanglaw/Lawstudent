@@ -19,6 +19,7 @@
 // 用法：node tests/aa351_kx_drift_unit.js（第 1 節要讀企劃線的 b6588bf5——AA_384 跟著改過的 AA_351：git fetch 過企劃線才讀得到）
 // AA_384（AA 回 LAWWW 的十四題）改的部分（D1 拿掉 118 巷、D6 拿掉祐廷的生日、只看玩家自己約的、分開以後當朋友）在 tests/aa384_kx_friend_unit.js。
 'use strict';
+require('./alison.js');   // 讀企劃稿（git show）照匯入工具同一套換：Alison、虛構校名（WORLD-RENAME-1030，docs/WORLD_NAMING.md）
 const H=require('./pg_harness.js');
 const fs=require('fs'), vm=require('vm'), path=require('path'), cp=require('child_process');
 const {check,GM}=H;
@@ -139,7 +140,7 @@ await sec(5,async()=>{ const G=fresh('2026-10-07',20); K.rule(G); G.flags.KX_CRA
   walk(G,T(D('2026-10-10'),13),T(D('2026-10-10'),21.5),0.5); const ask=askOf(G,/^kx_drift_r2_ask/);
   check('5. 第三天 21:00 她傳「週六還是去山下那家嗎」（「好。」／（不回））',!!ask&&ask.text==='週六還是去山下那家嗎'&&ask.h===21&&ask.day===D('2026-10-10')&&eq(ask.ask.opts.map(o=>o.t),['好。','（不回）']),JSON.stringify(ask&&{t:ask.text,d:key(ask.day),h:ask.h}));
   PHONE.answer(G,ask.ask.id,0); tick(G); const q=OUT.get(G,'kx_drift_r2_1');
-  check('5. 「好。」：週六 18:30 政大・山下的小吃街（出遊）',!!q&&wdOf(q.day)===6&&q.h===18.5&&q.place==='政大・山下的小吃街',JSON.stringify(q&&{d:key(q.day),h:q.h,p:q.place}));
+  check('5. 「好。」：週六 18:30 木柵大學・山下的小吃街（出遊）',!!q&&wdOf(q.day)===6&&q.h===18.5&&q.place==='木柵大學・山下的小吃街',JSON.stringify(q&&{d:key(q.day),h:q.h,p:q.place}));
   const c0=cr(G); const L=await go(G,q,['都過兩天了耶']);
   check('5. 週六：（她點了兩碗酸辣湯餃……）（回去的路上……）「上次那個，我還有一點氣。」→「都過兩天了耶。」＝「兩天不夠。」（她把手放進自己的口袋。）、+1（準時到 −1 也照算）',L[0]==='（她點了兩碗酸辣湯餃。吃飯的時候，她幾乎沒說話。）'&&L[1]==='（回去的路上，走到第二個路口，她才開口。）'&&/上次那個，我還有一點氣。$/.test(L[2]||'')&&L.some(t=>t.endsWith('兩天不夠。'))&&L[L.length-1]==='（她把手放進自己的口袋。）'&&cr(G)===c0,JSON.stringify({L,c0,c:cr(G),log:R(G).log}));
   const G2=fresh('2026-10-07',20); K.rule(G2); G2.flags.KX_CRACK=1; K.add(G2,1,'test'); walk(G2,T(D('2026-10-08'),0),T(D('2026-10-11'),21.5),0.5);
@@ -166,9 +167,9 @@ await sec(7,async()=>{ const mk=()=>{ const G=fresh('2026-10-26',10); K.rule(G);
   PHONE.answer(G,'kx_drift_r4_ask',1); tick(G); const a2=askOf(G,'kx_drift_r4_ask2'); PHONE.answer(G,'kx_drift_r4_ask2',1); tick(G); const tail=msgs(G).slice(-1).map(m=>m.text);
   check('7. 「那天不行。」＝「那週六。」（「好。」／「那天不行。」）；再不行＝她「好。」，直接等 D5（沒有 D4 的見面）',!!a2&&a2.text==='那週六。'&&eq(a2.ask.opts.map(o=>o.t),['好。','那天不行。'])&&eq(tail,['好。'])&&R(G).r4Pick==='decline'&&!!R(G).r5&&R(G).r5.st==='pending'&&!OUT.get(G,'kx_drift_r4'),JSON.stringify({tail,p:R(G).r4Pick,r5:R(G).r5}));
   G=mk(); PHONE.answer(G,'kx_drift_r4_ask',1); tick(G); PHONE.answer(G,'kx_drift_r4_ask2',0); tick(G); let q=OUT.get(G,'kx_drift_r4');
-  check('7. 「那週六。」→「好。」：那個週六 19:00 政大山下',!!q&&wdOf(q.day)===6&&q.h===19&&q.day===D('2026-10-31'),JSON.stringify(q&&{d:key(q.day),h:q.h}));
+  check('7. 「那週六。」→「好。」：那個週六 19:00 木柵大學山下',!!q&&wdOf(q.day)===6&&q.h===19&&q.day===D('2026-10-31'),JSON.stringify(q&&{d:key(q.day),h:q.h}));
   G=mk(); PHONE.answer(G,'kx_drift_r4_ask',0); tick(G); q=OUT.get(G,'kx_drift_r4');
-  check('7. 「好。」：那個週五 19:00 政大・山下的小吃街',!!q&&q.day===D('2026-10-30')&&q.h===19&&q.place==='政大・山下的小吃街',JSON.stringify(q&&{d:key(q.day),h:q.h}));
+  check('7. 「好。」：那個週五 19:00 木柵大學・山下的小吃街',!!q&&q.day===D('2026-10-30')&&q.h===19&&q.place==='木柵大學・山下的小吃街',JSON.stringify(q&&{d:key(q.day),h:q.h}));
   let L=await go(G,q,['我會改']);
   check('7. 四句 →「我會改。先講、準時、妳生氣我當天就打給妳。」＝「你講的喔。」（她把你碗裡的湯餃夾走一顆。）→ 歸零、修補期 35 天',L.length>=6&&L.slice(0,4).every((t,i)=>t.endsWith(K.L.r4.lines[i]))&&L[L.length-1]==='（她把你碗裡的湯餃夾走一顆。）'&&cr(G)===0&&R(G).repairEnd===q.day+35&&R(G).r4Pick===0,JSON.stringify({L,c:cr(G),re:R(G).repairEnd}));
   G=mk(); PHONE.answer(G,'kx_drift_r4_ask',0); tick(G); q=OUT.get(G,'kx_drift_r4'); L=await go(G,q,['我們都太忙了']);
@@ -194,7 +195,7 @@ await sec(9,async()=>{ const mk=()=>{ const G=fresh('2026-11-30',10); K.rule(G);
   let G=mk(); const ex=K.examDay(G,'Y2S1'); walk(G,T(G.day,11),T(ex,20),6);
   check('9. 學期中（第 13～16 週）不演：期末考最後一天 21:00 以前沒有她的那一則',ex>=CALENDAR.termDays('Y2S1').to-6&&!PHONE.sent(G,'kx_drift_r5_msg_Y2S1')&&!OUT.get(G,'kx_drift_r5'),key(ex));
   setT(G,ex,21.05); tick(G); const m=msgs(G).find(x=>x.tag==='kx_drift_r5_msg_Y2S1'), q=OUT.get(G,'kx_drift_r5');
-  check('9. 期末考最後一天（祐廷的最後一科）21:00：「明天晚上七點，我宿舍樓下。」；隔天 19:00 政大・宿舍樓下（她回高雄以前）',!!m&&m.text==='明天晚上七點，我宿舍樓下。'&&m.day===ex&&Math.abs(m.h-21)<0.25&&!!q&&q.day===ex+1&&q.h===19&&q.place==='政大・宿舍樓下'&&!!CALENDAR.termOf(q.day),JSON.stringify({m:m&&m.text,q:q&&{d:key(q.day),h:q.h}}));
+  check('9. 期末考最後一天（祐廷的最後一科）21:00：「明天晚上七點，我宿舍樓下。」；隔天 19:00 木柵大學・宿舍樓下（她回高雄以前）',!!m&&m.text==='明天晚上七點，我宿舍樓下。'&&m.day===ex&&Math.abs(m.h-21)<0.25&&!!q&&q.day===ex+1&&q.h===19&&q.place==='木柵大學・宿舍樓下'&&!!CALENDAR.termOf(q.day),JSON.stringify({m:m&&m.text,q:q&&{d:key(q.day),h:q.h}}));
   const hv='hv_kexin_'+(ex+10); OUT.plan(G,{id:hv,ev:'ev_hv_kx',day:ex+10,h:10.5,place:'高雄',title:'去高雄找可昕',hv:{id:'kexin'}});   /* 先排一個她的出遊（寒假去高雄找她）*/
   PHONE.at(G,ex+5,21,[{th:'p:kexin',from:'kexin',text:'測試：她那一段排著的'}],'t_kx_private'); PHONE.at(G,ex+5,21,[{th:'g:econ_friends',from:'kexin',text:'測試：群組裡她的'},{th:'g:econ_friends',from:'econ_pinyu',text:'測試：群組裡別人的'}],'t_kx_group');   /* 排在手機裡還沒送的 */
   const L=await go(G,q,['再試一次']);

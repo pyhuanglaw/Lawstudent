@@ -52,7 +52,7 @@ const txt=(th)=>TH(th).map(m=>(m.from||'')+':'+m.text);
   const choose=async(o,pick)=>{ setup(o); run(18,23.9); G.day=D.inv2; run(0,23.9); picks=[pick]; await STORY.springPrompt(GM); const h0=G.hour; run(h0,h0+0.3); return G; };
   { await choose({dating:true},'和可昕');
     const q=OUT.get(G,'kx_trip_y1s2');
-    check('選可昕：SPRING_Y1＝kexin；4/3 07:40 政大校門接她（祐廷開車：先回家取車 40 分鐘，AA_147 #1）（ev_kexin_trip_spring_y1）；沒有延到暑假',G.flags.SPRING_Y1==='kexin'&&q&&q.day===D.d0&&Math.abs(q.h-(7+40/60))<0.01&&Math.abs(q.travelH-40/60)<0.01&&/政大校門/.test(q.place)&&/送她回政大/.test(q.back)&&q.ev==='ev_kexin_trip_spring_y1'&&!G.flags.KX_TRIP_DEFERRED,JSON.stringify(q));
+    check('選可昕：SPRING_Y1＝kexin；4/3 07:40 木柵大學校門接她（祐廷開車：先回家取車 40 分鐘，AA_147 #1）（ev_kexin_trip_spring_y1）；沒有延到暑假',G.flags.SPRING_Y1==='kexin'&&q&&q.day===D.d0&&Math.abs(q.h-(7+40/60))<0.01&&Math.abs(q.travelH-40/60)<0.01&&/木柵大學校門/.test(q.place)&&/送她回木柵大學/.test(q.back)&&q.ev==='ev_kexin_trip_spring_y1'&&!G.flags.KX_TRIP_DEFERRED,JSON.stringify(q));
     G.day=D.d0; run(0,23); check('選可昕：麵店團照樣去，4/3 20:30 群組：以安「📷（行程表第二版）」「好，明天下午改去室內的地方，我再排一下。」（AA_209 第 8 節；AA_459 第 5 節加「明天」）、阿哲「下次你要來」',JSON.stringify(txt('g:noodle_team').filter(t=>/行程表第二版|室內的地方|下次你要來/.test(t)))==='["heroine_01:📷（行程表第二版）","heroine_01:好，明天下午改去室內的地方，我再排一下。","zhe:下次你要來"]',JSON.stringify(txt('g:noodle_team')));
     await choose({dating:true},'跟麵店團');
     check('選麵店團（交往中）：可昕回「好。那我們暑假再去，我先選地方。」「你們去哪裡，照片要傳給我。」；KX_TRIP_DEFERRED＝summer',G.flags.SPRING_Y1==='noodle'&&JSON.stringify(txt('p:kexin').slice(-2))==='["kexin:好。那我們暑假再去，我先選地方。","kexin:你們去哪裡，照片要傳給我。"]'&&G.flags.KX_TRIP_DEFERRED==='summer',JSON.stringify(txt('p:kexin').slice(-2)));
@@ -60,7 +60,7 @@ const txt=(th)=>TH(th).map(m=>(m.from||'')+':'+m.text);
     await choose({dating:true},'留在宿舍');
     check('留在宿舍（交往中）：可昕回「留在宿舍？……好。那暑假我們去遠一點。」；KX_TRIP_DEFERRED＝summer',G.flags.SPRING_Y1==='dorm'&&JSON.stringify(txt('p:kexin').slice(-1))==='["kexin:留在宿舍？……好。那暑假我們去遠一點。"]'&&G.flags.KX_TRIP_DEFERRED==='summer',JSON.stringify(txt('p:kexin').slice(-1)));
     G.day=D.d0; run(0,23.9); G.day=D.d0+1; run(0,23.9);
-    check('留在宿舍：4/4 16:00 可昕傳政大山上的照片＋「山上都沒人，我自己爬上去了。」（AA_209）；麵店團的照片也來了',JSON.stringify(txt('p:kexin').slice(-2))==='["kexin:📷（政大山上的階梯）","kexin:山上都沒人，我自己爬上去了。"]'&&txt('g:noodle_team').some(t=>/下次你要來/.test(t)),JSON.stringify(txt('p:kexin').slice(-2)));
+    check('留在宿舍：4/4 16:00 可昕傳木柵大學山上的照片＋「山上都沒人，我自己爬上去了。」（AA_209）；麵店團的照片也來了',JSON.stringify(txt('p:kexin').slice(-2))==='["kexin:📷（木柵大學山上的階梯）","kexin:山上都沒人，我自己爬上去了。"]'&&txt('g:noodle_team').some(t=>/下次你要來/.test(t)),JSON.stringify(txt('p:kexin').slice(-2)));
     G.day=D.d0; G.hour=10; G.zone='dorm'; check('留在宿舍：4/3 白天走進宿舍，旁白「宿舍變得很空。」（AA 71186c7 改成只在 4/3 白天；選別的、春假以外都沒有）',EVENTS.check(eD)&&(G.flags.SPRING_Y1='noodle',!EVENTS.check(eD))&&(G.flags.SPRING_Y1='dorm',G.day=D.d0+5,!EVENTS.check(eD)));
     G.day=D.d0; G.hour=10; G.flags.SPRING_Y1='dorm'; await EVENTS.run(eD); check('宿舍的旁白一句',JSON.stringify(lines().slice(-1))==='["宿舍變得很空。"]'); }
   /* 4/2 過了還沒選 */
@@ -76,6 +76,6 @@ const txt=(th)=>TH(th).map(m=>(m.from||'')+':'+m.text);
     const astro=()=>{ const d=termDay('Y1S2',6,1); G.courses={done:{[d+':ge_y1s2:pm1']:1},attend:{ge_y1s2:1}}; };
     r=await trip(['山上','跟妳一起看'],{},astro);
     check('天文課第 6 週有去：多一個「山上看星星」→「看星星？……你們這禮拜上了什麼課？好，我們去驗證。」（AA_373 #11）→ 月亮那一題 →「跟妳一起看的時候。」→「好。那每天晚上都要一起看。」（AA_295）；stars',JSON.stringify(r.O[0])==='["海邊","別的城市的老街","山上看星星"]'&&r.L.includes(nm+'：看星星？……你們這禮拜上了什麼課？好，我們去驗證。')&&r.L.includes(nm+'：今天的月亮好亮。……你上次認真看月亮，是什麼時候？')&&r.L.includes(nm+'：好。那每天晚上都要一起看。')&&G.flags.KX_TRIP.Y1S2==='stars',JSON.stringify(r.O[0])+' '+JSON.stringify(CLS.attendedWeek(G,'Y1S2:ge_y1s2:w6')));
-    check('一天來回、不演住宿：出遊 13.5 小時（07:40 政大接她、08:00 出發，晚上送她回政大、車開回家，約 21:10 回到台北）；先政大校門再上車（AA_147 #1）',eK.hours===13.5&&eK.trigger==='outing'&&eK.dialogue[0].bg==='nccu_gate'&&eK.dialogue[1].bg==='car'); }
+    check('一天來回、不演住宿：出遊 13.5 小時（07:40 木柵大學接她、08:00 出發，晚上送她回木柵大學、車開回家，約 21:10 回到台北）；先木柵大學校門再上車（AA_147 #1）',eK.hours===13.5&&eK.trigger==='outing'&&eK.dialogue[0].bg==='nccu_gate'&&eK.dialogue[1].bg==='car'); }
   console.log(fails?('FAILED '+fails):'ALL PASS'); process.exit(fails?1:0);
 })().catch(e=>{ console.log('FAIL 例外 '+e.stack); process.exit(1); });

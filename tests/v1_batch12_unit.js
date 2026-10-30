@@ -53,7 +53,7 @@ const KX={dating_kexin:true};
   const FRI3=termDay(3,5), FRI4=termDay(4,5), FRI5=termDay(5,5);
   const ask=tag=>(G.msgs||[]).find(m=>m.tag===tag);
   { fresh(FRI3,8,'campus',KX); run(8,20); const m=ask('kx_tour_ask');
-    check('K1：第 3 週週五 19:30「週末來政大？我當導遊。」、兩個回覆',!!m&&m.day===FRI3&&Math.abs(m.h-19.5)<0.06&&m.text==='週末來政大？我當導遊。'&&JSON.stringify(m.ask.opts.map(o=>o.t))==='["好，週六下午過去。","這週末不行。"]',m&&JSON.stringify({d:m.day,h:m.h,o:m.ask.opts.map(o=>o.t)}));
+    check('K1：第 3 週週五 19:30「週末來木柵大學？我當導遊。」、兩個回覆',!!m&&m.day===FRI3&&Math.abs(m.h-19.5)<0.06&&m.text==='週末來木柵大學？我當導遊。'&&JSON.stringify(m.ask.opts.map(o=>o.t))==='["好，週六下午過去。","這週末不行。"]',m&&JSON.stringify({d:m.day,h:m.h,o:m.ask.opts.map(o=>o.t)}));
     const r=PHONE.answer(G,m.ask.id,0); const out=r&&r.out.map(x=>[x.from,x.text]);
     check('K1：「好，週六下午過去。」→ 她回「好。導遊在校門口等。」（BB 2026-10-14）',JSON.stringify(out)==='[["player","好，週六下午過去。"],["kexin","好。導遊在校門口等。"]]'&&G.flags.KX_TOUR_YES===true,JSON.stringify(out));
     run(20,20.2); fresh(FRI4,8,'campus',Object.assign({},G.flags)); G.msgs=(G.msgs||[]); }
@@ -65,7 +65,7 @@ const KX={dating_kexin:true};
     check('K1：第 4 週週五 19:30 再約一次「這週末呢？導遊還在。」（同樣兩個回覆）',!!m2&&m2.day===FRI4&&Math.abs(m2.h-19.5)<0.06&&m2.text==='這週末呢？導遊還在。'&&JSON.stringify(m2.ask.opts.map(o=>o.t))==='["好，週六下午過去。","這週末不行。"]',m2&&JSON.stringify({d:m2.day,h:m2.h,t:m2.text}));
     const snap=JSON.stringify({f:G.flags,m:G.msgs,p:G.phone,o:G.outings||null,c:G.contacts||null});
     const r2=PHONE.answer(G,m2.ask.id,0); run(20,20.2); const o=OUT.get(G,'kx_tour'); const SAT4=FRI4+1;
-    check('K1：第二次答應＝她回「好。導遊在校門口等。」、排第 4 週週六 14:00 去政大',r2&&r2.out[1].text==='好。導遊在校門口等。'&&!!o&&o.day===SAT4&&o.h===14&&o.ev==='ev_kexin_tour_nccu',JSON.stringify(o));
+    check('K1：第二次答應＝她回「好。導遊在校門口等。」、排第 4 週週六 14:00 去木柵大學',r2&&r2.out[1].text==='好。導遊在校門口等。'&&!!o&&o.day===SAT4&&o.h===14&&o.ev==='ev_kexin_tour_nccu',JSON.stringify(o));
     const s=JSON.parse(snap); G.flags=s.f; G.msgs=s.m; G.phone=s.p; if(s.o) G.outings=s.o; else delete G.outings;
     const m2b=ask('kx_tour_ask2'); PHONE.answer(G,m2b.ask.id,1); run(20,20.2);
     check('K1：第二次也不行＝記 KX_TOUR_NO2、不排出遊',G.flags.KX_TOUR_NO2===true&&!OUT.get(G,'kx_tour'));

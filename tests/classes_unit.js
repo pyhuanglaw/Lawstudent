@@ -25,9 +25,9 @@ const mkG=(day,hour)=>({day,hour,flags:{},weekday:CALENDAR.dateOf(day).wd%7});
   check('同一學期（選修照預設）沒有撞課',!clash.length,clash.join(' | '));
   for(const t of terms){ const n=CLS.termCourses(G,t).filter(c=>c.kind==='required').length; if(n<1) bad.push(t); } check('八個學期都有必修',terms.every(t=>CLS.termCourses(G,t).some(c=>c.kind==='required')));
   const cell=(t,wd,b)=>{ const c=CLS.termCourses(G,t).find(q=>q.slots.some(s=>s.wd===wd&&s.block===b)); return c?c.name+'｜'+(CLS.roomName(c)):'—'; };
-  const want=[['Y1S1',1,'am','憲法（上）｜霖澤館 201'],['Y1S1',1,'pm2','體育｜體育館'],['Y1S1',2,'am','大一國文（上）｜博雅教學館 101'],['Y1S1',4,'am','大一英文（上）｜共同教學館 102'],['Y1S1',5,'am','經濟學原理（上）｜普通教學館 101'],['Y1S1',3,'am','刑法總則（一）｜霖澤館 201'],['Y1S1',4,'pm1','民法總則｜霖澤館 201'],['Y1S1',5,'pm1','—'],
+  const want=[['Y1S1',1,'am','憲法（上）｜霖澤館 201'],['Y1S1',1,'pm2','體育｜體育館'],['Y1S1',2,'am','大一國文（上）｜博思教學館 101'],['Y1S1',4,'am','大一英文（上）｜共同教學館 102'],['Y1S1',5,'am','經濟學原理（上）｜普通教學館 101'],['Y1S1',3,'am','刑法總則（一）｜霖澤館 201'],['Y1S1',4,'pm1','民法總則｜霖澤館 201'],['Y1S1',5,'pm1','—'],
     /* X78：AA_330 搬到萬才館 */['Y2S1',2,'pm1','民法物權｜萬才館 多功能教室'],['Y3S1',1,'am','民事訴訟法甲上｜霖澤館 201'],['Y3S1',4,'am','民事訴訟法甲上｜霖澤館 201'],['Y3S1',2,'am','刑事訴訟法｜霖澤館 201'],['Y3S1',5,'am','刑事訴訟法｜霖澤館 201'],['Y4S1',2,'pm1','法律倫理｜萬才館研討室']];
-  const wbad=want.filter(([t,wd,b,w])=>cell(t,wd,b)!==w).map(([t,wd,b,w])=>t+CLS.WD[wd]+b+'：'+cell(t,wd,b)+'≠'+w); check('AA_103 第 8 節的課表抽查（14 格；方案 A：國文在博雅 101、經濟學原理在普通 101）',!wbad.length,wbad.join(' | '));
+  const wbad=want.filter(([t,wd,b,w])=>cell(t,wd,b)!==w).map(([t,wd,b,w])=>t+CLS.WD[wd]+b+'：'+cell(t,wd,b)+'≠'+w); check('AA_103 第 8 節的課表抽查（14 格；方案 A：國文在博思 101、經濟學原理在普通 101）',!wbad.length,wbad.join(' | '));
   const ex=CLS.termCourses(G,'Y1S2').map(c=>c.name); check('大一下：重修的經濟學原理（下）一定在課表上；法律與社會（下）沒有了（2026-10-14 課程調整刪掉，AA_130）',!ex.includes('法律與社會（下）')&&ex.includes('經濟學原理（下）'),ex.join('、'));
   G.courses={electives:{Y1S2_ls:'none'}}; const ex2=CLS.termCourses(G,'Y1S2').map(c=>c.name); check('舊的選修紀錄 Y1S2_ls 還在也不影響：課表沒有法律與社會（下），經濟學原理（下）還在',!ex2.includes('法律與社會（下）')&&ex2.includes('經濟學原理（下）'),ex2.join('、'));
   const jp=CLS.termCourses(G,'Y2S1').find(c=>c.id==='japanese_1'), jp2=CLS.termCourses(G,'Y2S2').find(c=>c.id==='japanese_2');
@@ -64,7 +64,7 @@ const mkG=(day,hour)=>({day,hour,flags:{},weekday:CALENDAR.dateOf(day).wd%7});
    今天的課那一行整天都一樣，修改前只比文字，目的地一直停在博雅（2026-10-13 審查第 3 項） */
 { const T=dayOf('2025-10-07'); const G=Object.assign(mkG(T,8.5),{flags:{}}); const GM={G,setGoal(t,d){ G.goal=t; G.goalDest=d===undefined?null:d; }};
   CLS.setGoal(GM); const d0=G.goalDest&&G.goalDest.zone; G.hour=12.5; CLS.refreshGoal(GM); const d1=G.goalDest&&G.goalDest.zone;
-  check('上完（或錯過）早上的課：導航的目的地換成下一堂的教室（博雅 101 → 普通 101），目標文字照舊',d0==='boya'&&d1==='putong'&&CLS.isClsGoal(G),`${d0} → ${d1}：${JSON.stringify(G.goalDest)}`); }
+  check('上完（或錯過）早上的課：導航的目的地換成下一堂的教室（博思 101 → 普通 101），目標文字照舊',d0==='boya'&&d1==='putong'&&CLS.isClsGoal(G),`${d0} → ${d1}：${JSON.stringify(G.goalDest)}`); }
 /* 大四的研討課（萬才館研討室 A）：有門、導航指那扇門、上課時間門口可以上課（2026-10-13 審查第 9 項：原本沒有 wancai_seminar 這個門）*/
 { let D=null; for(let d=1;d<2000&&!D;d++){ const t=CALENDAR.termOf(d); if(t&&t.id==='Y4S1'&&CALENDAR.dateOf(d).wd===2&&!CALENDAR.holiday(d)&&CLS.dayItems(mkG(d,8)).some(it=>it.c.id==='legal_ethics')) D=d; }
   const G=mkG(D,13.0), g=CLS.goalFor(G), it=CLS.dayItems(G).find(q=>q.c.id==='legal_ethics');
@@ -128,7 +128,7 @@ function finish(){
   for(const f of files){ let src=fs.readFileSync(path.join(ROOT,f),'utf8'); src=src.replace(/^const (\w+)\s*=/m,'globalThis.$1='); vm.runInThisContext(src,{filename:f}); }
   const E=E3; E.scene=new THREE.Scene(); E.q={level:'medium'}; E.interactables=[]; E.colliders=[]; E.lampGlows=[]; E.seats=[]; E.npcs=[]; E.spawnHint=null; const z=Z3.ZONES.campus.build(E); E.zone=z; E.levels=z.levels||null; E.nav=z.nav; if(E.levels) for(const n of E.levels) n._cm=null; E.player={obj:{position:new THREE.Vector3(),rotation:{y:0}},radius:0.32,lv:0};
   const GM={E}; CLS.addDoors(GM,'campus'); const doors=E.interactables.filter(i=>i.door);
-  check('校園有四個門口上課點（共同、普通、博雅教學館、體育館）',doors.length===4,doors.map(d=>d.label).join('、'));
+  check('校園有四個門口上課點（共同、普通、博思教學館、體育館）',doors.length===4,doors.map(d=>d.label).join('、'));
   for(const d of doors){ let st=null; for(let r=0;r<=1.2&&!st;r+=0.2) for(let a=0;a<12&&!st;a++){ const x=d.x+Math.cos(a/12*Math.PI*2)*r, zz=d.z+Math.sin(a/12*Math.PI*2)*r; if(E.canStand(x,zz,0.32,0)) st=[x,zz]; }
     check(d.label+'的門口（'+d.x+','+d.z+'）旁邊站得住',!!st,JSON.stringify(st)); if(!st) continue;
     const r=E.simWalk(-112,0,st[0],st[1],{lv0:0,lv1:0,dt:0.1,speed:4.8}); check(d.label+'從校門跑得到（模擬走路）',r.ok,JSON.stringify(r).slice(0,160)); }

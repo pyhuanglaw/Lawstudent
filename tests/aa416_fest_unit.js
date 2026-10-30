@@ -51,7 +51,7 @@ const REG=o=>{ global.CG_REGISTRY=o||{}; };
 
 (async()=>{
   /* ======================= 0 讀稿、接線 ======================= */
-  check('0. 讀稿（企劃線 ed80edb71 AA_416：沛珊 3/14 只放醉月湖那一版；BB_122 3-7；BB_124 第 1 節明信片）',doc.length>5000&&inDoc('台南的年份不放（BB-B 18:09）')&&doc122.indexOf('### 3-7.')>=0&&doc124.indexOf('這裡沒有白色情人節。所以我畫了一杯。')>=0);
+  check('0. 讀稿（企劃線 ed80edb71 AA_416：沛珊 3/14 只放映月湖那一版；BB_122 3-7；BB_124 第 1 節明信片）',doc.length>5000&&inDoc('台南的年份不放（BB-B 18:09）')&&doc122.indexOf('### 3-7.')>=0&&doc124.indexOf('這裡沒有白色情人節。所以我畫了一杯。')>=0);
   check('0. 新檔載得到：FEST、FEST_DATA、FEST_EVENTS（七位各一個出遊事件 ev_fest_<人物>）',ok1&&ok2&&!!X()&&FEST_EVENTS.length===7&&ALL.every(id=>!!ev('ev_fest_'+id)&&ev('ev_fest_'+id).trigger==='outing'),err);
   if(!X()){ H.done(); return; }
   await sec('0',async()=>{
@@ -74,7 +74,7 @@ const REG=o=>{ global.CG_REGISTRY=o||{}; };
       for(const k in P.fest){ const c=P.fest[k]; add(c.s5); add(c.s6); add(c.dt); if(c.vid) add(c.vid.lines); } (P.gifts||[]).forEach(g=>add(g.lines)); add(P.none); for(const k in (P.noneBy||{})) add(P.noneBy[k]); ((P.ask||{}).lines||[]).forEach(t=>out.push(t)); ((P.ask||{}).no||[]).forEach(t=>out.push(t)); return out.join('｜'); };
     check('0. 學姊沒有件數、編號、「重點是」；子晴沒有「欸不是」「這不是問句」「存檔」；可昕沒有「假設」（第 10 節）',!/件事|重點是|第[一二三四]|[一二三]、/.test(txt(SIS))&&!/欸不是|這不是問句|存檔/.test(txt(ZQ))&&!/假設/.test(txt(KX)),J([txt(SIS).match(/件事|重點是/),txt(ZQ).match(/存檔/),txt(KX).match(/假設/)])); }
   { const src=fs.readFileSync(path.join(H.ROOT,'src/data/fest_events.js'),'utf8');
-    check('0. CG 代號：芷若 cg_one_cup_heroine02、沛珊 cg_last_page_peishan、子晴 cg_savefile_heroine04、可昕七夕用新的 cg_our_car_kh_kexin（舊的政大後山 cg_our_car_kexin 不用）',/cg\('cg_one_cup_heroine02'\)/.test(src)&&/cg\('cg_last_page_peishan'/.test(src)&&/cg\('cg_savefile_heroine04'\)/.test(src)&&/cg\('cg_our_car_kh_kexin'\)/.test(src)&&!/cg_our_car_kexin['"]/.test(src)); }
+    check('0. CG 代號：芷若 cg_one_cup_heroine02、沛珊 cg_last_page_peishan、子晴 cg_savefile_heroine04、可昕七夕用新的 cg_our_car_kh_kexin（舊的木柵大學後山 cg_our_car_kexin 不用）',/cg\('cg_one_cup_heroine02'\)/.test(src)&&/cg\('cg_last_page_peishan'/.test(src)&&/cg\('cg_savefile_heroine04'\)/.test(src)&&/cg\('cg_our_car_kh_kexin'\)/.test(src)&&!/cg_our_car_kexin['"]/.test(src)); }
   });
 
   /* ======================= 1 日子、誰約得到、專屬場次 ======================= */
@@ -251,11 +251,11 @@ const REG=o=>{ global.CG_REGISTRY=o||{}; };
     check('8. 消失期的生日（交往中）：玩家打電話「今天生日。我還是在讀書。」「……你打來，就算過了。」；白色情人節 2027 不演',!!a.r&&a.r.place==='電話'&&a.O[0][0]==='打電話給她（21:00）'&&w===null,J({O:a.O,w}));
     at('2027-03-15',20.95); const g2=await goOut(a.r.id); check('8. 電話照稿',J(g2.L)===J(['今天生日。我還是在讀書。','……你打來，就算過了。']),J(g2.L)); }
   { setup('2026-03-13',10,{lv:{[PS]:6}}); REG({cg_last_page_peishan:{file:'x',title:'t'}}); const a=await ask(PS,[1]);
-    check('8. 2026 3/14：醉月湖邊（晚上 19:00）',!!a.r&&a.r.place==='醉月湖邊'&&a.r.h===19&&J(a.O[0].slice(0,2))===J(['中午場（11:30～14:30）','晚上場（18:00～21:30）']),J({q:a.r,O:a.O}));
+    check('8. 2026 3/14：映月湖邊（晚上 19:00）',!!a.r&&a.r.place==='映月湖邊'&&a.r.h===19&&J(a.O[0].slice(0,2))===J(['中午場（11:30～14:30）','晚上場（18:00～21:30）']),J({q:a.r,O:a.O}));
     at('2026-03-14',18.7); const g=await goOut(a.r.id);
-    check('8. 醉月湖那一場放 CG cg_last_page_peishan（在「最後一頁是空的」那一句）',J(g.L)===J(['（她拿出一本筆記本。）','這一年我問你的問題，我自己的答案都寫在這裡。','最後一頁是空的。……那一題，你來回答。'])&&J(H.cgs)===J(['cg_last_page_peishan'])&&H.G.flags.PS_WHITE_CG===true,J({L:g.L,cgs:H.cgs}));
+    check('8. 映月湖那一場放 CG cg_last_page_peishan（在「最後一頁是空的」那一句）',J(g.L)===J(['（她拿出一本筆記本。）','這一年我問你的問題，我自己的答案都寫在這裡。','最後一頁是空的。……那一題，你來回答。'])&&J(H.cgs)===J(['cg_last_page_peishan'])&&H.G.flags.PS_WHITE_CG===true,J({L:g.L,cgs:H.cgs}));
     setup('2028-03-13',10,{lv:{[PS]:6},flags:{PS_RECONNECT:true}}); const b=await ask(PS,[0]); at('2028-03-14',7); const g2=await goOut(b.r.id);
-    check('8. 2028 在台南：開車去台南（D28 單程 240 分＋學期中從宿舍出發先回家取車 30 分）、運河邊（tn_canal）、多「這裡沒有醉月湖。……運河也可以。」、不放 CG',!!b.r&&Math.abs(b.r.travelH-4.5)<1e-9&&img(H.bgs.find(x=>x&&x.image))==='tn_canal'&&g2.L[0]==='這裡沒有醉月湖。……運河也可以。'&&!H.cgs.length,J({q:b.r,L:g2.L,cgs:H.cgs,b:H.bgs.map(img)})); delete global.CG_REGISTRY; }
+    check('8. 2028 在台南：開車去台南（D28 單程 240 分＋學期中從宿舍出發先回家取車 30 分）、運河邊（tn_canal）、多「這裡沒有映月湖。……運河也可以。」、不放 CG',!!b.r&&Math.abs(b.r.travelH-4.5)<1e-9&&img(H.bgs.find(x=>x&&x.image))==='tn_canal'&&g2.L[0]==='這裡沒有映月湖。……運河也可以。'&&!H.cgs.length,J({q:b.r,L:g2.L,cgs:H.cgs,b:H.bgs.map(img)})); delete global.CG_REGISTRY; }
     { const dorm=x.drive('D28','台南',H.G,D('2028-03-14')), home=x.drive('D28','台南',H.G,D('2028-07-14'));
       check('8. 開車的算法（DATE-C7）：學期中＝去回各多 30 分、寫「回家取車約 30 分鐘，再開車到台南約 4 小時」；寒暑假從臺北的家＝不加、不寫那一句',dorm.travelH===4.5&&dorm.backH===4.5&&dorm.travel==='回家取車約 30 分鐘，再開車到台南約 4 小時'&&!dorm.home&&home.travelH===4&&home.backH===4&&home.travel==='開車到台南約 4 小時'&&home.home===true,J({dorm,home})); }
   { setup('2028-02-13',21.05,{lv:{[PS]:'dt'}}); rules(); const m=PHONE.byAsk(H.G,'fest_ask_classmate_peishan_vday_2028');
@@ -275,7 +275,7 @@ const REG=o=>{ global.CG_REGISTRY=o||{}; };
   { setup('2026-08-18',10,{lv:{[KX]:'dt'}}); REG({cg_our_car_kexin:{file:'old',title:'我們有車'}}); const a=await ask(KX,[0]); const q=a.r;
     check('9. 七夕（她在高雄）：開車去高雄（D29 單程 270 分；暑假從臺北的家出發，不加取車的 30 分，DATE-C7）或視訊',!!q&&Math.abs(q.travelH-4.5)<1e-9&&q.h===19.5&&J(a.O[0])===J(['開車去高雄找她（一整天）','視訊（21:00）','算了']),J({q,O:a.O}));
     at('2026-08-19',14.2); const g=await goOut(q.id);
-    check('9. 高雄的山上（kh_sizihwan）：旁白、「牛郎織女如果有車，就不用等一年了。」「……我們有車。」；舊的政大後山 CG 不放、新的還沒登錄就不放',img(H.bgs.find(b=>b&&b.image))==='kh_sizihwan'&&J(g.L)===J(['（晚上，山上的停車處，看得到港口的燈。）','牛郎織女如果有車，就不用等一年了。','……我們有車。'])&&!H.cgs.length,J({L:g.L,cgs:H.cgs}));
+    check('9. 高雄的山上（kh_sizihwan）：旁白、「牛郎織女如果有車，就不用等一年了。」「……我們有車。」；舊的木柵大學後山 CG 不放、新的還沒登錄就不放',img(H.bgs.find(b=>b&&b.image))==='kh_sizihwan'&&J(g.L)===J(['（晚上，山上的停車處，看得到港口的燈。）','牛郎織女如果有車，就不用等一年了。','……我們有車。'])&&!H.cgs.length,J({L:g.L,cgs:H.cgs}));
     REG({cg_our_car_kh_kexin:{file:'new',title:'我們有車'}}); setup('2028-08-26',10,{lv:{[KX]:'dt'}}); const m=await play({id:KX,k:'qixi',y:2028,mode:'meet'}); check('9. 高雄那一張 CG 畫好登錄以後才放（cg_our_car_kh_kexin）',J(H.cgs)===J(['cg_our_car_kh_kexin'])); delete global.CG_REGISTRY; }
   { setup('2026-08-19',9,{lv:{[KX]:'dt'}}); rules(); const q=OUT.get(H.G,'fest_kexin_qixi_2026_video'); at('2026-08-19',20.95); const g=q?await goOut(q.id):{L:[]};
     check('9. 沒約她：21:00 她打視訊來「七夕。……你不來，我就自己看港口。」',!!q&&q.verb==='接起來'&&J(g.L)===J(['七夕。……你不來，我就自己看港口。']),J({q,L:g.L})); }

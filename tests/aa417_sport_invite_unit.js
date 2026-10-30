@@ -8,6 +8,7 @@
 //   6  照舊：學姊筆試前照 rule（上限的婉拒）、沛珊大二下聯絡不到；可昕交往中手機約的清單多兩個運動
 //   7  手機約（INV.flow）：晨跑只列 06:30，答應句照 §3
 // 修改前（開發分支 791685e10）：沒有 gym_badminton、run_avenue——FAIL。用法：node tests/aa417_sport_invite_unit.js
+require('./alison.js');   // 讀企劃稿（git show）照匯入工具同一套換：Alison、虛構校名（WORLD-RENAME-1030，docs/WORLD_NAMING.md）
 const H=require('./pg_harness.js');
 const fs=require('fs'), vm=require('vm'), path=require('path'), cp=require('child_process');
 const {check,GM}=H, J=JSON.stringify;
@@ -25,12 +26,12 @@ const meet=async(id,pid,h)=>{ const G=H.G; const iv=INV.accept(G,id,pid,G.day,h=
 const SPEC='docs/story_planning/AA_417_健身定稿_升階一句_注意到_羽球晨跑.md';
 const IP=()=>INVITE_DATA.people;
 const ZQ_B=[['「那球出界了。……好啦，是我沒接到。」'],['「剛剛那一球，你有看到吧。我接到了。」'],['「你不要一直幫我撿球。……謝謝。」']];
-const KX_R=[['「跑到傅鐘不要停。跑回來才算。」'],['「我不喘。……我在講話，所以我不喘。」'],['「早上的台大好安靜。山上的鳥比較吵。」']];
+const KX_R=[['「跑到晨思鐘不要停。跑回來才算。」'],['「我不喘。……我在講話，所以我不喘。」'],['「早上的首都帝大好安靜。山上的鳥比較吵。」']];
 
 (async()=>{
 await sec(0,()=>{ const B=P('gym_badminton'), R=P('run_avenue');
   check('0. 羽球 gym_badminton：新體育館（gym）、有點熟以上、平日 12～21、週末 9～17、一小時',!!B&&B.zone==='gym'&&B.minStage==='FAMILIAR'&&J(B.hoursBy)===J({wk:[12,21],we:[9,17]})&&B.stay===1&&B.sport===true,J(B));
-  check('0. 晨跑 run_avenue：校園（椰林大道）、朋友以上、06:30～07:30、只能約 06:30、下雨不能約',!!R&&R.zone==='campus'&&R.minStage==='FRIEND'&&J(R.hours)===J([6.5,7.5])&&J(R.times)===J([6.5])&&R.noRain===true&&R.sport===true,J(R));
+  check('0. 晨跑 run_avenue：校園（椰影大道）、朋友以上、06:30～07:30、只能約 06:30、下雨不能約',!!R&&R.zone==='campus'&&R.minStage==='FRIEND'&&J(R.hours)===J([6.5,7.5])&&J(R.times)===J([6.5])&&R.noRain===true&&R.sport===true,J(R));
   check('0. INV.sportLines、INV.sportAfter；SOCIAL.ACT.sport；記憶名稱',typeof INV.sportLines==='function'&&typeof INV.sportAfter==='function'&&!!SOCIAL.ACT.sport&&SOCIAL.MEMORY_LABEL.SPORT_BADMINTON==='一起打羽球'&&SOCIAL.MEMORY_LABEL.SPORT_RUN==='一起晨跑');
   check('0. 學姊筆試前的邀約上限包含羽球、晨跑（AA_417 3-3 照現有的 rule）',ok&&SISG.CAP_PLACES.includes('gym_badminton')&&SISG.CAP_PLACES.includes('run_avenue'),err);
   const A=JSON.parse(fs.readFileSync(path.join(H.ROOT,'docs/handoff/story_import_allow.json'),'utf8')).files.filter(e=>e.path===SPEC);
@@ -73,7 +74,7 @@ await sec(2,()=>{ fresh('2026-03-11','heroine_04',1); const w1=INV.placeWhy(H.G,
   check('2. 約好了、那天早上下雨：取消，手機留一則「下雨了，和子晴的晨跑取消。」',iv.state==='cancelled'&&(H.G.msgs||[]).some(m=>/^下雨了，和.+的晨跑取消。$/.test(m.text)),iv.state+' '+J((H.G.msgs||[]).slice(-1)));
   fresh('2026-03-11','heroine_04',3,{hour:21}); const iv2=INV.accept(H.G,'heroine_04','run_avenue',H.G.day+1,6.5,{by:'player'}); H.G.day+=1; H.G.weekday=(H.G.weekday+1)%7; H.G.hour=6.3; H.G.weather='clear'; INV.tick(GM); const en=INV.entryFor(H.G,'heroine_04');
   const gt=INV.goTarget(H.G,iv2); check('2. 「直接過去」落在椰林大道・傅鐘（不是校園第一個落點霖澤館前）',gt.zone==='campus'&&!!gt.spawn&&gt.spawn.x===-38&&gt.spawn.z===6,J(gt));
-  check('2. 沒下雨：照約，06:15 起她在椰林大道傅鐘前等（作息 linger、meetAt）',iv2.state==='accepted'&&!!en&&en.zone==='campus'&&en.act==='linger'&&J(en.at)===J(P('run_avenue').meetAt),J(en)); });
+  check('2. 沒下雨：照約，06:15 起她在椰影大道晨思鐘前等（作息 linger、meetAt）',iv2.state==='accepted'&&!!en&&en.zone==='campus'&&en.act==='linger'&&J(en.at)===J(P('run_avenue').meetAt),J(en)); });
 
 await sec(3,()=>{ fresh('2026-03-11','heroine_04',2); const a=ask('heroine_04','gym_badminton',15.5);
   check('3. 子晴有點熟約羽球：A「羽球？……我很爛喔。先說好。」',txt(a.lines)==='「羽球？……我很爛喔。先說好。」',txt(a.lines));
@@ -81,9 +82,9 @@ await sec(3,()=>{ fresh('2026-03-11','heroine_04',2); const a=ask('heroine_04','
   check('3. 子晴朋友：羽球 R「好。我很爛。你不要教我，讓我自己爛。」（再約一次也是這句，§3 優先於 AA_415）；晨跑 R「早上我在睡。……好啦，一次。」',txt(b.lines)==='「好。我很爛。你不要教我，讓我自己爛。」'&&txt(b2.lines)===txt(b.lines)&&txt(c.lines)==='「早上我在睡。……好啦，一次。」',[txt(b.lines),txt(b2.lines),txt(c.lines)].join(' / '));
   check('3. AA_415 的表沒有被拿來用（這幾句不在 INVITE_REPLIES）',!INVITE_REPLIES.people.heroine_04.some(r=>J(r.lines)===J(b.lines)||J(r.lines)===J(c.lines)));
   fresh('2026-03-11','kexin','d'); const k1=ask('kexin','gym_badminton',15.5), k2=ask('kexin','run_avenue',6.5,H.G.day+1);
-  check('3. 可昕交往中（政大那幾年）：羽球「好。我從山上下來。拍子你負責借。」、晨跑「椰林大道？從政大過去要四十分鐘。」「……好。你敢遲到試試看。」',txt(k1.lines)==='「好。我從山上下來。拍子你負責借。」'&&txt(k2.lines)==='「椰林大道？從政大過去要四十分鐘。」「……好。你敢遲到試試看。」',txt(k1.lines)+' / '+txt(k2.lines));
+  check('3. 可昕交往中（木柵大學那幾年）：羽球「好。我從山上下來。拍子你負責借。」、晨跑「椰影大道？從木柵大學過去要四十分鐘。」「……好。你敢遲到試試看。」',txt(k1.lines)==='「好。我從山上下來。拍子你負責借。」'&&txt(k2.lines)==='「椰影大道？從木柵大學過去要四十分鐘。」「……好。你敢遲到試試看。」',txt(k1.lines)+' / '+txt(k2.lines));
   fresh('2025-03-12','kexin',2,{econ:true}); const k3=INV.personal(H.G,'kexin',P('gym_badminton'),H.G.day,15.5,{res:'accept'});
-  check('3. 可昕經濟系那一年：不說政大那幾年的句子',!/政大|台大的球場|山上/.test(txt(k3.lines)),txt(k3.lines));
+  check('3. 可昕經濟系那一年：不說木柵大學那幾年的句子',!/木柵大學|首都帝大的球場|山上/.test(txt(k3.lines)),txt(k3.lines));
   const W={heroine_01:['「羽球？好。我國中是校隊。……替補。」','「六點半？……好。我本來就六點起床。」'],heroine_03:['「……我不太會。」「好。你不要笑。」','「早上我要幫阿姨備料。……七點半以前可以。」'],
     heroine_02:['「羽球！好啊，我手腕很好。拉花練的。」','「早上？……我昨天上到兩點。」「……好啦。我去。」'],heroine_05:['「羽球。好。……我只會發球。」','「晨跑。好。跑完我直接去研究室。」'],classmate_peishan:['「好啊！！我要問你，你為什麼會打。」','「好啊！早上我很習慣，在家的時候四點半就要起來幫忙開店。」']};
   for(const id in W){ fresh('2026-03-11',id,3); const x=ask(id,'gym_badminton',15.5), y=ask(id,'run_avenue',6.5,H.G.day+1);
@@ -102,8 +103,8 @@ await sec(4,async()=>{ fresh('2026-03-11','heroine_04',3); const m1=await meet('
   fresh('2026-03-11','kexin','d',{hour:6}); const k1=await meet('kexin','run_avenue',6.5), k2=await meet('kexin','run_avenue',6.5);
   check('4. 可昕晨跑：第一次「六點二十五分。我先到了。」只有一次；一起的時候 ① → ②；結束「早餐我知道一家。走。」',k1.includes('「六點二十五分。我先到了。」')&&!k2.includes('「六點二十五分。我先到了。」')&&k1.includes(KX_R[0][0])&&k2.includes(KX_R[1][0])&&k1[k1.length-1]==='「早餐我知道一家。走。」',J(k1)+' | '+J(k2));
   fresh('2026-03-11','heroine_01',3); const a1=await meet('heroine_01','gym_badminton',15.5), a2=await meet('heroine_01','run_avenue',6.5);
-  check('4. 以安：共用旁白（羽球「（你們打了一個小時。……）」、結束「（打完，你們坐在場邊喝水……）」；晨跑「（椰林大道上只有你們……）」「（跑完一圈……傅鐘……）」）',
-    a1.includes('（你們打了一個小時。球場的燈很亮，地板吱吱響。）')&&a1[a1.length-1]==='（打完，你們坐在場邊喝水，誰都不想先站起來。）'&&a2.includes('（椰林大道上只有你們和幾個跑步的人。椰子樹的影子很長。）')&&a2[a2.length-1]==='（跑完一圈，你們在傅鐘前面停下來喘氣。）',J(a1)+' | '+J(a2));
+  check('4. 以安：共用旁白（羽球「（你們打了一個小時。……）」、結束「（打完，你們坐在場邊喝水……）」；晨跑「（椰影大道上只有你們……）」「（跑完一圈……晨思鐘……）」）',
+    a1.includes('（你們打了一個小時。球場的燈很亮，地板吱吱響。）')&&a1[a1.length-1]==='（打完，你們坐在場邊喝水，誰都不想先站起來。）'&&a2.includes('（椰影大道上只有你們和幾個跑步的人。椰子樹的影子很長。）')&&a2[a2.length-1]==='（跑完一圈，你們在晨思鐘前面停下來喘氣。）',J(a1)+' | '+J(a2));
   fresh('2026-03-11','zhe',3); const z1=await meet('zhe','gym_badminton',15.5);
   check('4. 阿哲：一樣是共用旁白',z1.includes('（你們打了一個小時。球場的燈很亮，地板吱吱響。）'),J(z1));
   check('4. 記憶：一起打羽球、一起晨跑',SOCIAL.has('zhe','SPORT_BADMINTON')||SOCIAL.memories('zhe').some(m=>m.tag==='SPORT_BADMINTON')); });
@@ -127,11 +128,11 @@ await sec(6,()=>{ fresh('2025-12-10','heroine_05',3); const s1=ask('heroine_05',
   fresh('2027-03-10','classmate_peishan',3); const p1=ask('classmate_peishan','gym_badminton',15.5);
   check('6. 沛珊大二下（重考、聯絡不到）：照舊約不到',p1.res==='decline'&&p1.why==='away',p1.res+'/'+p1.why); });
 
-await sec(7,async()=>{ fresh('2026-03-11','heroine_04',3); H.said=[]; H.opts=[]; H.picks=['運動','去椰林大道晨跑','明天 06:30'];   /* INVITE-MENU-1030：清單分層，晨跑在「運動…」裡；時間多「其他日子…」*/
+await sec(7,async()=>{ fresh('2026-03-11','heroine_04',3); H.said=[]; H.opts=[]; H.picks=['運動','去椰影大道晨跑','明天 06:30'];   /* INVITE-MENU-1030：清單分層，晨跑在「運動…」裡；時間多「其他日子…」*/
   const iv=await INV.flow(GM,'heroine_04',null,false); const said=H.said.map(s=>s.t);
   check('7. 手機約子晴晨跑：時間只列「明天 06:30」（＋其他日子…）、念 §3 的答應句、約在明天 06:30',!!iv&&iv.place==='run_avenue'&&iv.h===6.5&&iv.day===H.G.day+1&&J(H.opts[2])===J(['明天 06:30','其他日子…','算了'])&&said.includes('「早上我在睡。……好啦，一次。」'),J(H.opts)+' '+J(said));
   fresh('2026-03-11','kexin','d'); H.said=[]; H.opts=[]; H.picks=['運動','返回','算了']; await INV.flow(GM,'kexin',null,false);
-  check('7. 可昕交往中（手機）：「運動…」有羽球、晨跑（她下山來）；台大的其他地點照現有台詞也開了（INVITE-MENU-1030 D，tests/invite_menu_unit.js）',J(H.opts[1])===J(['去新體育館打羽球','去椰林大道晨跑','返回'])&&(H.opts[0]||[]).includes('喝咖啡、喝茶…'),J(H.opts.slice(0,2))); });   /* AA_535 第 2 節的分類名稱 */
+  check('7. 可昕交往中（手機）：「運動…」有羽球、晨跑（她下山來）；首都帝大的其他地點照現有台詞也開了（INVITE-MENU-1030 D，tests/invite_menu_unit.js）',J(H.opts[1])===J(['去新體育館打羽球','去椰影大道晨跑','返回'])&&(H.opts[0]||[]).includes('喝咖啡、喝茶…'),J(H.opts.slice(0,2))); });   /* AA_535 第 2 節的分類名稱 */
 
 H.done();
 })();

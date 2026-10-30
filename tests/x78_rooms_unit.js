@@ -22,7 +22,7 @@ check('1. 教室資料：萬才館 多功能教室＝wancai_multi／multi、霖�
 // 2. 那一天的課表
 const T0=CALENDAR.termDays?CALENDAR.termDays('Y2S1'):null; let day=null, it=null;
 for(let d=T0?T0.from:1;T0&&d<=T0.to&&!it;d++){ const G={day:d,hour:8,weekday:CALENDAR.dateOf(d).wd%7,stage:'law',flags:{},courses:null}; const its=CLS.dayItems(G).filter(q=>q.c.id==='property'); if(its.length){ day=d; it=its[0]; } }
-check('2. 大二上民法物權的那一天：教室是「萬才館 多功能教室」', !!it&&it.room.name==='萬才館 多功能教室', it?CALENDAR.dateOf(day).key:'找不到');
+check('2. 大二上民法物權的那一天：教室是「萬才館 多功能教室」', !!it&&it.room.name==='法律系館B 多功能教室', it?CALENDAR.dateOf(day).key:'找不到');
 if(it){ const G={day,hour:it.t0-0.6,weekday:CALENDAR.dateOf(day).wd%7,stage:'law',flags:{}}; const g=CLS.goalFor(G);
   check('2. 目標導航到 wancai_multi（整個區域就是教室，不找「看看…」）', g.dest&&g.dest.zone==='wancai_multi'&&!g.dest.label, JSON.stringify(g.dest)); }
 // 3. 座位
@@ -30,7 +30,7 @@ if(it){ const G={day,hour:it.t0-0.6,weekday:CALENDAR.dateOf(day).wd%7,stage:'law
   if(it){ const G={day,hour:it.t0+0.05,weekday:CALENDAR.dateOf(day).wd%7,stage:'law',flags:{},zone:'wancai_multi'}; const sc=CLS.seatClass(G,seat);
     check('3. 坐在多功能教室的座位（room＝multi）＝這堂民法物權可以上', !!sc&&sc.c.id==='property', sc?sc.c.name:'null'); } }
 // 4. 第一次的旁白
-check('4. 第一次在那間教室上課的旁白（AA_330 第 3 點）', CLS.ROOM_FIRST&&CLS.ROOM_FIRST.wancai_multi==='（萬才館一樓的多功能教室。椅子是可以移動的那種，大家坐得比在 201 鬆。）'&&CLS.ROOM_FIRST.linze_202==='（二樓的 202 是平面教室。長桌一排一排，沒有階梯。坐後面也看得到黑板。）');
+check('4. 第一次在那間教室上課的旁白（AA_330 第 3 點）', CLS.ROOM_FIRST&&CLS.ROOM_FIRST.wancai_multi==='（法律系館B一樓的多功能教室。椅子是可以移動的那種，大家坐得比在 201 鬆。）'&&CLS.ROOM_FIRST.linze_202==='（二樓的 202 是平面教室。長桌一排一排，沒有階梯。坐後面也看得到黑板。）');
 { const src=fs.readFileSync(path.join(ROOT,'src/classes3d.js'),'utf8');
   check('4. attend：不是考試、不是遲到缺席、沒演過才演，演完記 ROOM_FIRST_<區域>', /line&&!exam&&!lateAbs&&G\.flags&&!G\.flags\['ROOM_FIRST_'\+zf\]\)\{ G\.flags\['ROOM_FIRST_'\+zf\]=true;/.test(src)); }
 // 5. BB-C 10-21（36faaeec）：202 上課前 4 分鐘一個同學都沒有。GLB 教室（rooms_glb3d.js）的區域沒有 layout、座位沒有 kind，CLS.syncRooms 直接跳過＝只會有作息裡的熟人、沒有一般同學。

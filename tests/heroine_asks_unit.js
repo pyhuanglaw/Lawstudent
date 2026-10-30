@@ -12,6 +12,7 @@
 //   10 經濟系那一年（G.stage econ）不約（AA_529 第 1 點，企劃線 881029f98）：HASK.block＝'econ'
 //   9  個人：子晴週末兩點以前不約；芷若沒班 20:00 傳、上班 22:40 傳；語彤的麵店＝問一聲（here），答應回「好。……我跟阿姨說。」
 // 修改前（開發分支 f534dcc4a）：沒有 src/heroine_asks3d.js——第 0 項 FAIL、結束碼 1。用法：node tests/heroine_asks_unit.js
+require('./alison.js');   // 讀企劃稿（git show）照匯入工具同一套換：Alison、虛構校名（WORLD-RENAME-1030，docs/WORLD_NAMING.md）
 const H=require('./pg_harness.js');
 const fs=require('fs'), vm=require('vm'), path=require('path'), cp=require('child_process');
 const {check,GM}=H, J=JSON.stringify;

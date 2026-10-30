@@ -25,6 +25,7 @@
 //   這一項對開發分支 44e8ff8b7 的 src 實際跑 FAIL，改完 ALL PASS。
 // 用法：node tests/aa510_511_feed_unit.js
 'use strict';
+require('./alison.js');   // 讀企劃稿（git show）照匯入工具同一套換：Alison、虛構校名（WORLD-RENAME-1030，docs/WORLD_NAMING.md）
 const H=require('./pg_harness.js');
 const fs=require('fs'), vm=require('vm'), path=require('path'), cp=require('child_process');
 const {check,GM}=H, J=JSON.stringify;

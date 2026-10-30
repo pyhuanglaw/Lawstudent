@@ -110,9 +110,9 @@ const askOpts=id=>{ const m=PHONE.byAsk(G,id); return m?m.ask.opts.map(o=>o.t):n
   // ===== 3. 3-04 方奕廷 F3 =====
   const s12=D('2027-03-12'), s13=s12+1;
   fresh(s12,20.5,'dorm'); R('npc_fangyt','FAM'); C('npc_fangyt'); R('kai','FRI'); run(s12,20.5,21.25);
-  check('3. 3/12 21:00「明天早上六點，椰林大道。帶外套。不用帶腦袋，我負責講。」＋好／六點我起不來', txt('p:npc_fangyt').slice(-1)[0]==='npc_fangyt:明天早上六點，椰林大道。帶外套。不用帶腦袋，我負責講。'&&JSON.stringify(askOpts('r3_fang_6am'))===JSON.stringify(['好。','六點我起不來。']));
+  check('3. 3/12 21:00「明天早上六點，椰影大道。帶外套。不用帶腦袋，我負責講。」＋好／六點我起不來', txt('p:npc_fangyt').slice(-1)[0]==='npc_fangyt:明天早上六點，椰影大道。帶外套。不用帶腦袋，我負責講。'&&JSON.stringify(askOpts('r3_fang_6am'))===JSON.stringify(['好。','六點我起不來。']));
   ans('r3_fang_6am',0); run(s12,21.25,21.5);
-  { const q=OUT.get(G,'r3_fang_6am'); check('3. 回「好。」：「好。阿凱也會來。」、出遊 3/13 06:00 椰林大道（只帶到那裡，事件在那裡等）', txt('p:npc_fangyt').slice(-1)[0]==='npc_fangyt:好。阿凱也會來。'&&!!q&&q.day===s13&&q.h===6&&q.late===0.5&&q.goto&&q.goto.zone==='campus'); }
+  { const q=OUT.get(G,'r3_fang_6am'); check('3. 回「好。」：「好。阿凱也會來。」、出遊 3/13 06:00 椰影大道（只帶到那裡，事件在那裡等）', txt('p:npc_fangyt').slice(-1)[0]==='npc_fangyt:好。阿凱也會來。'&&!!q&&q.day===s13&&q.h===6&&q.late===0.5&&q.goto&&q.goto.zone==='campus'); }
   { G.hour=23; const A=STORY.wakeAlarms(G,s13), O=STORY.bedOptions(G), sl=O.find(o=>o.kind==='sleep');
     check('3. 前一晚睡覺：鬧鐘 05:30（床的選項叫醒時間 05:30，不是 06:30）', A.some(a=>a.h===5.5&&a.why===R3.FANG_WHY)&&!!sl&&sl.wake===5.5&&/05:30/.test(sl.hint)&&!/06:30/.test(sl.hint), JSON.stringify(sl)); }
   G.day=s13; G.hour=5.9; G.zone='campus'; STORY.tick(GM,0.6);
@@ -126,7 +126,7 @@ const askOpts=id=>{ const m=PHONE.byAsk(G,id); return m?m.ask.opts.map(o=>o.t):n
   run(s13,7,7.25); check('3. 去了：沒有 07:00 的葉子', !PHONE.sent(G,'r3_fang_6am_miss'));
   fresh(s13,6,'campus',{FANG_6AM_GO:true}); R('npc_fangyt','FAM'); C('npc_fangyt'); R('kai','FRI'); F3=await play('ev_fangyt_6am',['法學院的樹']);
   check('3. F2 選「下次換我帶你看法學院的樹。」：「法學院有樹？」「有一棵。」「好。」、FANG_LAWTREE', has('法學院有樹？')&&has('有一棵。')&&SOCIAL.has('npc_fangyt','FANG_LAWTREE'));
-  run(D('2027-03-24'),12,12.5); check('3. F2 3/24 12:20「📷（霖澤館前的那棵樹）」「我自己來看了。它很努力。」', JSON.stringify(txt('p:npc_fangyt').slice(-2))===JSON.stringify(['npc_fangyt:📷（霖澤館前的那棵樹）','npc_fangyt:我自己來看了。它很努力。']));
+  run(D('2027-03-24'),12,12.5); check('3. F2 3/24 12:20「📷（法律系館A前的那棵樹）」「我自己來看了。它很努力。」', JSON.stringify(txt('p:npc_fangyt').slice(-2))===JSON.stringify(['npc_fangyt:📷（法律系館A前的那棵樹）','npc_fangyt:我自己來看了。它很努力。']));
   fresh(s13,6,'campus',{FANG_6AM_GO:true}); R('npc_fangyt','FAM'); C('npc_fangyt'); R('kai','FRI'); await play('ev_fangyt_6am',['拍一張']); run(s13+1,12.5,13.25);
   check('3. 拍了阿凱睡著的照片：3/14 13:00 阿凱「刪掉」「……算了 傳給我」', JSON.stringify(txt('p:kai').slice(-2))===JSON.stringify(['kai:刪掉','kai:……算了 傳給我']));
   fresh(s12,21,'dorm'); R('npc_fangyt','FAM'); C('npc_fangyt'); run(s12,21,21.25); ans('r3_fang_6am',1); run(s12,21.25,22); run(s13,6,7.25);
@@ -410,7 +410,7 @@ const askOpts=id=>{ const m=PHONE.byAsk(G,id); return m?m.ask.opts.map(o=>o.t):n
     fresh(D('2027-11-10'),8,'dorm'); date('kexin'); only('y3_kx_mid',()=>run(G.day,8,21.5)); ans('dp_y3_kx_mid',1);
     check('14. 大三上第 10 週起「民訴期中，你們那邊考哪一題？」；「不想講。」→「好。不講。」「……我也不想講。」', JSON.stringify(K())===JSON.stringify(['kexin:民訴期中，你們那邊考哪一題？','player:不想講。','kexin:好。不講。','kexin:……我也不想講。']));
     fresh(D('2027-10-06'),8,'dorm'); date('kexin'); only('y3_kx_zhan',()=>run(G.day,8,21.5)); check('14. 沒見過詹靖：「我那個拍片的朋友詹靖，……」', K()[0]==='kexin:我那個拍片的朋友詹靖，拍了山下那家的老闆一整天。老闆只說了一句：好。');
-    fresh(D('2027-10-06'),8,'dorm',{KX_NCCU_FRIENDS:true}); date('kexin'); only('y3_kx_zhan',()=>run(G.day,8,21.5)); check('14. 見過詹靖（政大的電影夜）：「詹靖拍了山下那家的老闆一整天，……」', K()[0]==='kexin:詹靖拍了山下那家的老闆一整天，老闆只說了一句：好。');
+    fresh(D('2027-10-06'),8,'dorm',{KX_NCCU_FRIENDS:true}); date('kexin'); only('y3_kx_zhan',()=>run(G.day,8,21.5)); check('14. 見過詹靖（木柵大學的電影夜）：「詹靖拍了山下那家的老闆一整天，……」', K()[0]==='kexin:詹靖拍了山下那家的老闆一整天，老闆只說了一句：好。');
     fresh(D('2027-10-06'),8,'dorm',{KX_BDAY:{2:'class'}}); date('kexin'); only('y3_kx_zhan',()=>run(G.day,8,21.5)); check('14. C7 見過詹靖＝系上小教室的生日在場（舊存檔只有 KX_BDAY[2] class）：「詹靖拍了……」（AA_343 C7）', K()[0]==='kexin:詹靖拍了山下那家的老闆一整天，老闆只說了一句：好。', JSON.stringify(K()));
     fresh(D('2027-09-29'),8,'dorm'); date('kexin'); only('y3_kx_eh1',()=>run(G.day,8,23)); ans('dp_y3_kx_eh1',0);
     check('14. 「欸。」「……以後我只打一個『欸』，就是想找你講話。」 22:40；「在。」→「好。……沒事了。」', JSON.stringify(K())===JSON.stringify(['kexin:欸。','kexin:……以後我只打一個『欸』，就是想找你講話。','player:在。','kexin:好。……沒事了。'])&&Math.abs(at('p:kexin','欸。')-(G.day*24+22+40/60))<0.26);

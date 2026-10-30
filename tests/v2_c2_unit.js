@@ -42,15 +42,15 @@ const txt=(th)=>TH(th).map(m=>(m.from||'')+':'+m.text);
     check('固定節點：auto（不用找人說話）',e.trigger==='auto'&&e.location==='any'); }
   const play=async(pick)=>{ fresh(EVE,18,'dorm'); G.name='祐廷'; picks=[pick]; const h0=G.hour; await EVENTS.run(e); return {L:lines(),dh:G.hour-h0}; };
   let r=await play('回去問老師');
-  const base=['除夕。臺北家裡的客廳，一桌親戚。','大伯從公事包裡拿出一疊影印的土地謄本。','大伯：祐廷念台大法律喔？你不是從小就在看法律？來來來，你幫大伯看一下這個。','全桌安靜，看著你。','大伯：這塊地是你阿公留下來的，現在登記十四個人，有人要賣、有人不要。這怎麼辦？','你看了三秒。第一頁就是看不懂的地號。','小時候我也是這樣，翻得到，看不懂。不一樣的是，現在我知道要先問什麼：這塊地是誰的、他們之間是什麼關係、大家想要什麼。','媽媽：他才大一啦，你不要嚇他。','大伯：大一也是法律系啊。','姊姊在旁邊憋笑。','姊姊：（小聲）歡迎來到法律系的第一個寒假。'];
+  const base=['除夕。臺北家裡的客廳，一桌親戚。','大伯從公事包裡拿出一疊影印的土地謄本。','大伯：祐廷念首都帝大法律喔？你不是從小就在看法律？來來來，你幫大伯看一下這個。','全桌安靜，看著你。','大伯：這塊地是你阿公留下來的，現在登記十四個人，有人要賣、有人不要。這怎麼辦？','你看了三秒。第一頁就是看不懂的地號。','小時候我也是這樣，翻得到，看不懂。不一樣的是，現在我知道要先問什麼：這塊地是誰的、他們之間是什麼關係、大家想要什麼。','媽媽：他才大一啦，你不要嚇他。','大伯：大一也是法律系啊。','姊姊在旁邊憋笑。','姊姊：（小聲）歡迎來到法律系的第一個寒假。'];
   check('前半照原文（大伯兩句、媽媽、大伯、姊姊；流程寫成旁白；祐廷心裡的話）',JSON.stringify(r.L.slice(0,base.length))===JSON.stringify(base),JSON.stringify(r.L.slice(0,base.length).filter((t,i)=>t!==base[i])));
   check('三個選項照原文',JSON.stringify(opts[0])==='["「大伯，我回去問老師。」","「我現在還看不懂。可是我知道要先問哪幾件事。」","「這要找律師。」"]',JSON.stringify(opts[0]));
-  check('選「回去問老師」：大伯很高興「好好好，台大的老師！」；FAMILY_LAND_Y1＝teacher；時間過了 2 小時',JSON.stringify(r.L.slice(base.length))==='["大伯很高興。","大伯：好好好，台大的老師！"]'&&G.flags.FAMILY_LAND_Y1==='teacher'&&Math.abs(r.dh-2)<0.01,JSON.stringify(r.L.slice(base.length))+' '+r.dh);
+  check('選「回去問老師」：大伯很高興「好好好，首都帝大的老師！」；FAMILY_LAND_Y1＝teacher；時間過了 2 小時',JSON.stringify(r.L.slice(base.length))==='["大伯很高興。","大伯：好好好，首都帝大的老師！"]'&&G.flags.FAMILY_LAND_Y1==='teacher'&&Math.abs(r.dh-2)<0.01,JSON.stringify(r.L.slice(base.length))+' '+r.dh);
   r=await play('先問哪幾件事');
   check('選「先問哪幾件事」：問了三個問題 → 大伯「……原來我們家連誰想賣都沒講清楚。」→ 全桌笑 → 陽台，姊姊「你從小遇到事情就去翻那本書。現在你會問問題了。」；ask',JSON.stringify(r.L.slice(base.length))===JSON.stringify(['你問了三個問題：誰的、什麼關係、大家想要什麼。','大伯答到一半，自己說：','大伯：……原來我們家連誰想賣都沒講清楚。','全桌笑。','姊姊：你從小遇到事情就去翻那本書。現在你會問問題了。'])&&G.flags.FAMILY_LAND_Y1==='ask',JSON.stringify(r.L.slice(base.length)));
   r=await play('找律師');
   check('選「找律師」：大伯「找律師要錢啊，你不就是嗎？」；lawyer',JSON.stringify(r.L.slice(base.length))==='["大伯：找律師要錢啊，你不就是嗎？"]'&&G.flags.FAMILY_LAND_Y1==='lawyer',JSON.stringify(r.L.slice(base.length)));
-  { fresh(EVE,18,'dorm'); G.name='小明'; picks=[2]; await EVENTS.run(e); check('玩家改了名字：大伯叫的是玩家的名字',lines()[2]==='大伯：小明念台大法律喔？你不是從小就在看法律？來來來，你幫大伯看一下這個。',lines()[2]); }
+  { fresh(EVE,18,'dorm'); G.name='小明'; picks=[2]; await EVENTS.run(e); check('玩家改了名字：大伯叫的是玩家的名字',lines()[2]==='大伯：小明念首都帝大法律喔？你不是從小就在看法律？來來來，你幫大伯看一下這個。',lines()[2]); }
   check('2D 背景：除夕的客廳 home_living_cny（BB-B 第 25 組：年夜飯；10-18 換使用者生成的 home_dining_cny，只看檔案在）、陽台 home_balcony（第 26 組）都有圖；平常的客廳 home_living 不用除夕那張（ART-12 平常版）',!!OUT.BG.home_living_cny&&require('fs').existsSync(require('path').join(__dirname,'..',OUT.BG.home_living_cny.image))&&OUT.BG.home_balcony.image==='assets/bg/home_balcony.webp'&&e.dialogue[0].bg==='home_living_cny'&&OUT.BG.home_living.image!==OUT.BG.home_living_cny.image);
   check('不寫真實地號：台詞裡沒有數字地號（地號只說「看不懂的地號」）',!e.dialogue.some(l=>/\d{2,}/.test(String(l.text||'').replace('{name}',''))));
   { fresh(EVE,22.5,'dorm'); G.events.done={}; check('除夕還沒演就上床：睡覺時演（sleep）；演過了就沒有',EVENTS.sleepEvent()===eb&&(G.events.done.ev_chiayi_land_y1=1,EVENTS.sleepEvent()!==eb));

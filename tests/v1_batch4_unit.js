@@ -136,7 +136,7 @@ const enterEv=()=>{ const L=STORY_EVENTS.filter(e=>e.trigger==='enter'&&EVENTS.c
     check('走近攤位（學姊在）才有；沒加入法服的玩家也會被叫住（要見過學姊：AA_207 §5 加 met_sis）',can(sat,10.5,true,true,true)&&!can(sat,10.5,true,true,false));
     check('別的週六、12 點以後、學姊不在都不會',!can(sat+7,10.5,true,true)&&!can(sat,12.2,true,true)&&!can(sat,10.5,true,false));
     const HEAD=['你。過來。','幫我顧十分鐘。不會的不要亂答，叫我就好。','少年仔，隔壁的樹長到我家這邊，我可以自己剪嗎？'];
-    for(const [pick,tail,d,helped] of [['幫妳問學姊',['阿嬤，先跟鄰居講，請他剪。講了一直沒剪，兩週後的週六早上，九點到十二點，來萬才館。值班的學長姊會幫妳看。'],{fam:2},false],['翻民總',['翻了半天找不到。學姊探頭。','那是物權。你們大二才上。','物權是什麼？','……阿嬤，下一次值班，週六早上來。']   /* AA_207 附錄 §2：感悟旁白刪掉 */,{fam:2},false],['一起查',['你和阿嬤用手機一起查。學姊在旁邊看完。','……還可以。'],{fam:3,resp:2},true]]){
+    for(const [pick,tail,d,helped] of [['幫妳問學姊',['阿嬤，先跟鄰居講，請他剪。講了一直沒剪，兩週後的週六早上，九點到十二點，來B館。值班的學長姊會幫妳看。'],{fam:2},false],['翻民總',['翻了半天找不到。學姊探頭。','那是物權。你們大二才上。','物權是什麼？','……阿嬤，下一次值班，週六早上來。']   /* AA_207 附錄 §2：感悟旁白刪掉 */,{fam:2},false],['一起查',['你和阿嬤用手機一起查。學姊在旁邊看完。','……還可以。'],{fam:3,resp:2},true]]){
       fresh(sat,10.5,'campus'); sisN(); SOCIAL.meet('heroine_05','wancai'); const r0=Object.assign({},SOCIAL.rel('heroine_05'));   /* 已經認識學姊（第一次見面的熟悉度另外算）*/ picks=[pick]; await EVENTS.run(e); const L=lines(), r1=SOCIAL.rel('heroine_05'); const got={}; for(const k in r1){ const dd=(r1[k]||0)-(r0[k]||0); if(dd&&typeof dd==='number') got[k]=dd; }
       check('校慶 選「'+pick+'」：BB_95 原文、學姊 '+JSON.stringify(d)+(helped?'、HELPED':''),JSON.stringify(L)===JSON.stringify(HEAD.concat(tail))&&Object.keys(d).every(k=>got[k]===d[k])&&SOCIAL.has('heroine_05','HELPED')===helped,JSON.stringify({L,got})); }
     check('校慶 阿嬤用名字顯示（路人，不是人物資料）',said.some(x=>x.who==='阿嬤'));

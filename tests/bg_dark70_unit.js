@@ -23,9 +23,9 @@ const ROWS=[
   ['其他 挽回第 4 步的河邊（ev_jp_repair_river）','src/data/jp_events.js',null,"const REPAIR4=[ {scene:'河邊',bg:'jp_riverbank'}",'jp_riverbank'],
   ['其他 七夕・宿舍門口（ev_jp_tanabata_repair）','src/data/jp_events.js',null,"const TANABATA_R=[ {scene:'宿舍門口',bg:'jp_dorm_gate'}",'jp_dorm_gate'],
   ['其他 行李箱的店（ev_jp_suitcase，公館街景暫代）','src/data/jp_events.js',null,"const SUITCASE=[ {scene:'公館',bg:'gongguan'}",'gongguan'],
-  ['其他 推甄面試・萬才館二樓（ev_push_interview）','src/data/r2y4a_events.js',null,"{scene:'萬才館二樓',bg:'wancai_seminar'}",'wancai_seminar'],
+  ['其他 推甄面試・萬才館二樓（ev_push_interview）','src/data/r2y4a_events.js',null,"{scene:'法律系館B二樓',bg:'wancai_seminar'}",'wancai_seminar'],
   ['其他 台南車站（ev_peishan_open_class）','src/data/r2y4b_events.js','ev_peishan_open_class',"{scene:'台南車站',bg:'tn_station'}",'tn_station'],
-  ['其他 博雅教學館（ev_kexin_lecture_ntu，大講堂暫代）','src/data/r2y3a_events.js','ev_kexin_lecture_ntu',"{scene:'博雅教學館',bg:'linze_auditorium'}",'linze_auditorium'],
+  ['其他 博思教學館（ev_kexin_lecture_ntu，大講堂暫代）','src/data/r2y3a_events.js','ev_kexin_lecture_ntu',"{scene:'博思教學館',bg:'linze_auditorium'}",'linze_auditorium'],
   ['其他 地方法院（ev_crimpro_court_visit，旁聽席暫代）','src/data/r2y3a_events.js','ev_crimpro_court_visit',"{scene:'地方法院',bg:'court_gallery'}",'court_gallery'],
   ['其他 學姊放榜的晚餐・沒有家庭晚餐那一版（ev_sis_results_dinner，公館街景暫代）','src/data/events.js',null,"SOCIAL.has('heroine_05','FAMILY_DINNER')},scene:'公館',bg:'gongguan'}",'gongguan']];
 for(const [name,f,id,want,key] of ROWS){ const ok=id?(first(f,id)||'').startsWith(want):src(f).includes(want); check(name+'：'+key,ok&&img(key),id?first(f,id):''); }

@@ -26,7 +26,7 @@ const mk=(key,h,flags)=>{ const day=D(key); G={day,hour:h,zone:'campus',stage:'l
   check('1. 迎新（沒有宿營的備用）：8/31 09:30–12:00、說明「開學典禮前的上午……」；9/27 沒有', !!a&&ACTIVITIES.on(a,D('2025-08-31'),{flags:{}})&&!ACTIVITIES.on(a,D('2025-09-27'),{flags:{}})&&a.t0===9.5&&a.t1===12&&/^開學典禮前的上午/.test(a.desc||''), a&&JSON.stringify({dates:a.dates,t0:a.t0,t1:a.t1}));
   check('1. 有宿營（CAMP_Y1）的局不辦', !!a&&!ACTIVITIES.on(a,D('2025-08-31'),{flags:{CAMP_Y1:true}}));
   const w=ev('ev_welcome_y1s1'); mk('2025-08-31',9.5,{});
-  check('2. 第一句「星期天上午，傅鐘前面，法律系的迎新。下午就是開學典禮。學長姊帶隊，大家先輪流自我介紹。」', (w.dialogue[0]||{}).text==='星期天上午，傅鐘前面，法律系的迎新。下午就是開學典禮。學長姊帶隊，大家先輪流自我介紹。');
+  check('2. 第一句「星期天上午，晨思鐘前面，法律系的迎新。下午就是開學典禮。學長姊帶隊，大家先輪流自我介紹。」', (w.dialogue[0]||{}).text==='星期天上午，晨思鐘前面，法律系的迎新。下午就是開學典禮。學長姊帶隊，大家先輪流自我介紹。');
   check('2. 8/31（大一上開學前）演得到（沒有 term 擋）', !w.term&&EVENTS.check(w,{chain:true})!==false);
   const e=ev('ev_ps_w1_room');
   mk('2025-09-02',9,{welcomeDay:D('2025-08-31')}); await EVENTS.run(e); const L1=said.slice();

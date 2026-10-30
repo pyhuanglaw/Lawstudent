@@ -105,7 +105,7 @@ const sec=async(n,f)=>{ try{ await f(); }catch(e){ check(n+'. 丟出例外（中
     try{ for(let i=0;i<5;i++){ CLS.oneTick(GM); T+=600; } await new Promise(r=>setTimeout(r,30));
       const first=H.entered.slice(); G.flags.campusIntro=true;   /* 霖澤館前那一段（story3d.js onEnter 的 campusMorning）演完 */
       for(let i=0;i<5;i++){ CLS.oneTick(GM); T+=600; } await new Promise(r=>setTimeout(r,30));
-      check('3-9. 玩家空下來：先帶到校園（霖澤館前那一段：阿哲）、演完再帶進 201（字幕「走路到霖澤館。」）',first[0]==='campus'&&H.entered[H.entered.length-1]==='classroom'&&caps.includes('走路到霖澤館。'),JSON.stringify({first,entered:H.entered,caps}));
+      check('3-9. 玩家空下來：先帶到校園（霖澤館前那一段：阿哲）、演完再帶進 201（字幕「走路到霖澤館。」）',first[0]==='campus'&&H.entered[H.entered.length-1]==='classroom'&&caps.includes('走路到法律系館A。'),JSON.stringify({first,entered:H.entered,caps}));
     } finally { Date.now=real; CLS.clearPending(); }
     const G2=fresh('2025-09-25',12.6,'dorm'); check('3-10. 第 9 天（下一個週四）不帶',!D2(G2));
     const G3=fresh('2025-09-18',12.6,'dorm'); G3.stage='econ'; check('3-11. 經濟系那一年不帶（AA_292 不適用本表）',!D2(G3)); }

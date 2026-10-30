@@ -209,7 +209,7 @@ const E_=id=>X()&&X().ev(id);
     { const I=ev.herInvite; setup('2027-03-09',21,{lv:{[SIS]:5},flags:{SIS_EXAM_DONE:true}}); const c=DATE.check(H.G,{who:SIS,locs:['D15'],day:H.D('2027-03-12'),depart:18.5,transport:'car'}); phone(); const tag='wish_ask_'+SIS+'_Y2S2', A=DATE.log(H.G,SIS).wishAsk||{};
       check('6. 她主動約（AA_432：週五 18:30 萬才館出發，回來不超過 23:30）：週二 21:00 傳「週五晚上有空嗎。」「陽明山。你有車。」「……要做什麼，我還沒想好。」',c.ok&&I.dateTime===18.5&&J(msgs(SIS))===J(sp(SIS,I.lines))&&A.date===H.D('2027-03-12')&&A.depart===18.5,J({why:c.why,m:msgs(SIS),A}));
       PHONE.answer(H.G,tag,0); phone(); const tr=H.G.trips.find(t=>t.who===SIS);
-      check('6. 答應：「好。六點半，萬才館前面。……其他的，我不排了。」；訂下週五 18:30 開車上陽明山（by:her）',msgs(SIS).slice(-1)[0]==='好。六點半，萬才館前面。……其他的，我不排了。'&&!!tr&&tr.by==='her'&&tr.depart===18.5&&tr.locs[0]==='D15'&&tr.day===H.D('2027-03-12')&&tr.back<=23.5,J({m:msgs(SIS).slice(-2),tr})); }
+      check('6. 答應：「好。六點半，B館前面。……其他的，我不排了。」；訂下週五 18:30 開車上陽明山（by:her）',msgs(SIS).slice(-1)[0]==='好。六點半，B館前面。……其他的，我不排了。'&&!!tr&&tr.by==='her'&&tr.depart===18.5&&tr.locs[0]==='D15'&&tr.day===H.D('2027-03-12')&&tr.back<=23.5,J({m:msgs(SIS).slice(-2),tr})); }
     const go=async(key,picks)=>{ setup(key,9,{lv:{[SIS]:5},flags:{SIS_EXAM_DONE:true}}); return goDate(SIS,'D15',18,picks||['欄杆',0,'車裡',0,'便利',0,'草地',0,0]); };
     let m0; r=await go('2026-03-13');
     check('6. 那一天（大一下）：「……那一片是我們學校。」……欄杆「我本來想查這裡看得到哪幾棟。……忍住了。」；草地「……那顆很亮的，是星星嗎？」→「那是飛機。」「……真的在動。」；收尾、第 5 階結尾；大一沒有時間點那一句',has(r.L,['……那一片是我們學校。','我本來想查這裡看得到哪幾棟。……忍住了。','……那顆很亮的，是星星嗎？','……真的在動。','我第一次，讓它空著。','下次……我也不排。'])&&!r.L.some(t=>/研究計畫|去美國|論文/.test(t))&&H.G.flags.WISH_DONE_heroine_05===true&&SOCIAL.has(SIS,'SIS_THIRD_EMPTY'),J(r.L));

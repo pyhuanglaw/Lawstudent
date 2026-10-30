@@ -78,7 +78,7 @@ await sec('A',async()=>{
   /* 讀書會有去：散會後「你留一下。」→ 研討室 */
   for(const [picks,res] of [[[0,1],'mend'],[[1],'apart_talk'],[[2],'drift']]){ setup(); at(thu,21.6); H.G.zone='wancai'; H.G.acts.att['public_law_group@'+thu]={end:'full'}; H.said=[]; H.opts=[]; H.bgs=[]; H.picks=picks.slice(); await tick(); const s=said();
     const want=['你留一下。'].concat(AN_BODY, res==='mend'?['……這個理由我收下。','（她把兩個人的規則改成一條：「有事，要說理由。」）']:res==='apart_talk'?['（以安翻開手帳，在理由欄寫一行給你看：「分開。理由：我們都沒有錯。」）','這樣寫，可以嗎？']:[]);
-    check('A2. 讀書會散會後（'+res+'）：台詞逐字、選項',J(s)===J(want)&&J(H.opts[0])===J(AN_O1)&&(res!=='mend'||J(H.opts[1])===J(AN_O2))&&caps.includes('萬才館研討室')&&H.bgs.some(b=>b&&b.image==='assets/bg/wancai_seminar.webp'),J({s,o:H.opts}));
+    check('A2. 讀書會散會後（'+res+'）：台詞逐字、選項',J(s)===J(want)&&J(H.opts[0])===J(AN_O1)&&(res!=='mend'||J(H.opts[1])===J(AN_O2))&&caps.includes('B館研討室')&&H.bgs.some(b=>b&&b.image==='assets/bg/wancai_seminar.webp'),J({s,o:H.opts}));
     if(res==='mend') check('A3. 修補：計數歸零、還在交往、這學期不再排',cnt(AN)===0&&H.G.flags.dating_heroine_01===true&&pr(AN).talked.Y2S1===1&&!pr(AN).plan);
     if(res==='apart_talk') check('A3. 好好分開：EX、EX_REASON talk、歷史 apart_talk、CLEANUP_DONE false',H.G.flags.dating_heroine_01===false&&H.G.flags.EX_heroine_01===true&&H.G.flags.EX_heroine_01_REASON==='talk'&&H.G.flags.ROMANCE_HISTORY.some(h=>h.id===AN&&h.how==='apart_talk')&&H.G.flags.CLEANUP_DONE===false);
     if(res==='drift'){ const dd=pr(AN).drift; at(thu+14,20.9); rules(); const a=dm(AN).length; at(thu+14,21); rules();
@@ -227,7 +227,7 @@ await sec('S',async()=>{
   /* 以安① */
   const thu=D('2026-09-24'), K1='ct_an1_2026-09-24';
   const an1=fl=>{ fresh('2026-09-21',10,'dorm',fl); H.G.events.done.ev_public_law_group=1; date(AN); at(thu,12.6); rules(); };
-  an1(); check('S1. 以安①：讀書會的週四 12:30「今晚讀書會 20:00，萬才館研討室 A。你來嗎？」（照 AA_434 更正的時間）、兩個回覆（沒有家教）',J(dm(AN).slice(-1))===J(['heroine_01:今晚讀書會 20:00，萬才館研討室 A。你來嗎？'])&&J(optsOf(K1))===J(['會。','今天不行，報告要交。']),J([dm(AN),optsOf(K1)]));
+  an1(); check('S1. 以安①：讀書會的週四 12:30「今晚讀書會 20:00，B館研討室 A。你來嗎？」（照 AA_434 更正的時間）、兩個回覆（沒有家教）',J(dm(AN).slice(-1))===J(['heroine_01:今晚讀書會 20:00，B館研討室 A。你來嗎？'])&&J(optsOf(K1))===J(['會。','今天不行，報告要交。']),J([dm(AN),optsOf(K1)]));
   ans(K1,0); at(thu,21.7); rules();
   check('S1. 說「會。」→「好。」；20:30 還沒到＝21:40「你今天沒來。」、+1',dm(AN).includes('heroine_01:好。')&&dm(AN).slice(-1)[0]==='heroine_01:你今天沒來。'&&cnt(AN)===1,J([dm(AN),cnt(AN)]));
   an1(); ans(K1,1); at(thu,21.7); rules(); check('S2. 「今天不行，報告要交。」→「好。講義我留一份給你。」、沒到也不加',dm(AN).includes('heroine_01:好。講義我留一份給你。')&&!dm(AN).includes('heroine_01:你今天沒來。')&&cnt(AN)===0);

@@ -34,9 +34,9 @@ if(ok){
   const st=pl=>({known:pl[0]!=='cafe',open:pl[0]!=='lawlib',here:pl[0]==='dorm',mins:12,bike:false});
   const h0=PLACEMAP.html(Q,st,null,{zone:'campus',x:-38,z:6},()=>'');
   const ring=/<circle cx="220" cy="172" r="11" fill="none" stroke="#e07a6a"/.test(h0);
-  check('3. svg 有 data-pmapsvg（列出畫出來的圖釘）；沒選的時候沒有前往按鈕；你在這裡＝椰林大道那個圖釘一圈紅色',/data-pmapsvg="[a-z0-9,]+"/.test(h0)&&(h0.match(/data-pmapsvg="([^"]+)"/)[1].split(',').length===P.length)&&!/data-place=/.test(h0)&&ring);
+  check('3. svg 有 data-pmapsvg（列出畫出來的圖釘）；沒選的時候沒有前往按鈕；你在這裡＝椰影大道那個圖釘一圈紅色',/data-pmapsvg="[a-z0-9,]+"/.test(h0)&&(h0.match(/data-pmapsvg="([^"]+)"/)[1].split(',').length===P.length)&&!/data-place=/.test(h0)&&ring);
   const h1=PLACEMAP.html(Q,st,'linze',null,z=>z==='linze'?'08:00～22:00':'');
-  check('3. 選霖澤館：列出霖澤館前、大廳、201 教室，各一顆 data-place（值和清單一樣：zone|名字）；營業時間跟著',['campus|台大校園（霖澤館前）','linze|霖澤館（大廳）','classroom|霖澤館 201 教室'].every(k=>h1.includes('data-place="'+k+'"'))&&h1.includes('08:00～22:00'));
+  check('3. 選霖澤館：列出霖澤館前、大廳、201 教室，各一顆 data-place（值和清單一樣：zone|名字）；營業時間跟著',['campus|首都帝大校園（法律系館A前）','linze|霖澤館（大廳）','classroom|霖澤館 201 教室'].every(k=>h1.includes('data-place="'+k+'"'))&&h1.includes('08:00～22:00'));
   const h2=PLACEMAP.html(Q,st,'wancai',null,()=>''); check('3. 已閉館的地點按鈕寫「已閉館」（按了說幾點開，和清單一樣）',/data-place="lawlib\|法律學院圖書館">已閉館</.test(h2));
   const h3=PLACEMAP.html(Q,st,'wenzhou',null,()=>''); check('3. 溫州街圖釘含兩點半；沒去過的地點：寫「還沒去過」、沒有按鈕',h3.includes('還沒去過')&&!/data-place="cafe/.test(h3)&&/data-place="wenzhou\|溫州街"/.test(h3));
   const h4=PLACEMAP.html(Q,st,'dorm',null,()=>''); check('3. 你在這裡的地點：沒有按鈕',h4.includes('你在這裡')&&!/data-place="dorm/.test(h4));

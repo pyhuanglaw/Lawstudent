@@ -44,7 +44,7 @@ async function fly(key,day,setup,wait){ H.fresh(day,4,'dorm'); H.G.stage='law'; 
     &&(()=>{ H.fresh('2027-07-01',10,'dorm'); VAC.rec(H.G).clock={q:'x',tz:-15,end:T(H.G.day+3,18),with:[]}; const a=STORY.tzOffset(H.G), b=STORY.tzOffset(H.G,H.G.day+5); delete VAC.rec(H.G).clock; return a===-15&&b===0&&STORY.tzOffset(H.G)===0; })());
 
   /* ===================== Z1 C10 加州（−15）===================== */
-  { const r=await fly('C10@Y2','2027-06-21',()=>{ H.date('heroine_01'); H.G.flags.dating_kexin=true; }), L=r.L, c=said('（教室比霖澤館的小。教授穿短褲，第一句話是「叫我名字就好」。）'), a=said('（飛機飛了十二個小時。下飛機的時候，手機的時間往回跳了一天。）');
+  { const r=await fly('C10@Y2','2027-06-21',()=>{ H.date('heroine_01'); H.G.flags.dating_kexin=true; }), L=r.L, c=said('（教室比法律系館A的小。教授穿短褲，第一句話是「叫我名字就好」。）'), a=said('（飛機飛了十二個小時。下飛機的時候，手機的時間往回跳了一天。）');
     check('Z1. C10：第一堂課在當地 6/23 09:00 演（那一刻 STORY.tzOffset＝−15：臺灣已經是 6/24 00:00）；「抵達」在第一堂課以前、登機那一刻以後',!!c&&c.day===D('2027-06-23')&&Math.abs(c.hour-9)<0.01&&c.tz===-15&&!!a&&a.tz===-15&&a.at>=r.b0-1e-6&&a.at<c.at,J([c,a&&{at:a.at,tz:a.tz},r.b0]));
     const an=(H.G.msgs||[]).filter(m=>m.from==='heroine_01'&&m.ask&&/^vac_tm_C10@Y2_heroine_01_p/.test(m.ask.id||'')), p=an[0];
     check('Z1. 以安照臺灣 21:30 傳的（每天一則），手機上是當地 06:30；要回的期限也換成當地（臺灣隔天 24:00−15）',an.length>0&&an.every(m=>Math.abs(m.h-6.5)<0.05)&&!!p&&p.ask.until===T(p.day+1,24)-15,J(an.slice(0,2).map(m=>({day:m.day,h:m.h,until:m.ask.until}))));

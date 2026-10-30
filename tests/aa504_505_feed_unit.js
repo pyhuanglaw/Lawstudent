@@ -19,6 +19,7 @@
 // AA_514（企劃線 964d01175；任務 KX-MOOT3-1028）：大二上多一則 kx4bc（可昕 1/29 嘉義予樂家，第 4、5 則中間）——大二上則數 37→38、三個學期的 id 148→149；
 //   ①②對稿不算它（ADD514；它的稿是 AA_514，tests/aa514_kx_moot3_unit.js 逐字對）；可昕第 11 週「下次我去看。」的選項多 set KX_WATCH（這裡不比 set）。
 'use strict';
+require('./alison.js');   // 讀企劃稿（git show）照匯入工具同一套換：Alison、虛構校名（WORLD-RENAME-1030，docs/WORLD_NAMING.md）
 const H=require('./pg_harness.js');
 const fs=require('fs'), vm=require('vm'), path=require('path'), cp=require('child_process');
 const {check,GM}=H, J=JSON.stringify;
@@ -222,10 +223,10 @@ sec('4b',()=>{ if(!HAS()||!SET.Y1S2) return;
   check('4. AA_504：沛珊第 3 則（4/9 23:40）沒和她交往＝有；交往中＝沒有（x:if）',!!a&&!item('ps3b')&&R().done.ps3b==='x:if',J(R().done.ps3b));
   /* 可昕第 1、2 則：一定出（只認識、沒有交往也有）；手機小事那兩則不出 */
   fresh(TDt('Y1S2',1,1),8); who('kexin','ACQ'); walk(TDt('Y1S2',3,6),11,{step:0.5});
-  check('4. AA_504：可昕第 1 則（第 1 週週三 08:40）、第 2 則（第 3 週週六 10:30）只認識也有；原句照用',R().done.kx1b==='p'&&!!item('kx2b')&&post('kx1b').say==='開學了。予樂說這學期要每天早到。今天她遲到。'&&post('kx2b').say==='政大也有杜鵑花。可是開在山上，要爬上去才看得到。');
+  check('4. AA_504：可昕第 1 則（第 1 週週三 08:40）、第 2 則（第 3 週週六 10:30）只認識也有；原句照用',R().done.kx1b==='p'&&!!item('kx2b')&&post('kx1b').say==='開學了。予樂說這學期要每天早到。今天她遲到。'&&post('kx2b').say==='木柵大學也有杜鵑花。可是開在山上，要爬上去才看得到。');
   check('4. AA_504：手機小事沒有 kx2_late、kx2_azalea',!STORY.DAILY_PHONE.some(d=>d.id==='kx2_late'||d.id==='kx2_azalea'));
   fresh(TDt('Y1S2',1,1),8,{dating_kexin:true}); rel('kexin','ACQ'); contact('kexin'); walk(TDt('Y1S2',3,7),23,{rules:true,step:1});
-  check('4. 交往中走第 1～3 週（整套手機規則）：私訊裡沒有那兩句（只有動態）',!(H.G.msgs||[]).some(m=>m.text==='開學了。予樂說這學期要每天早到。今天她遲到。'||m.text==='政大也有杜鵑花。可是開在山上，要爬上去才看得到。')&&R().done.kx1b==='p'&&R().done.kx2b==='p');   /* 動態只留十五天：第 1 週那一則看 done */
+  check('4. 交往中走第 1～3 週（整套手機規則）：私訊裡沒有那兩句（只有動態）',!(H.G.msgs||[]).some(m=>m.text==='開學了。予樂說這學期要每天早到。今天她遲到。'||m.text==='木柵大學也有杜鵑花。可是開在山上，要爬上去才看得到。')&&R().done.kx1b==='p'&&R().done.kx2b==='p');   /* 動態只留十五天：第 1 週那一則看 done */
   /* 分開以後一學期（大一下）*/
   fresh(TDt('Y1S2',1,1),10,{dating_kexin:true}); rel('kexin','ACQ'); contact('kexin'); ROM.end(H.G,'kexin','apart_talk'); walk(TDt('Y1S2',3,7),23,{step:1});
   check('4. 大一下第 1 週分開：這一學期可昕的動態不出現（x:cool）',FEED.kxCool(H.G)===true&&R().done.kx1b==='x:cool'&&R().done.kx2b==='x:cool',J([R().done.kx1b,R().done.kx2b])); });

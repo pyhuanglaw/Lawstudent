@@ -18,6 +18,7 @@
 // 第二輪（d13ab3ab7 第 12 節；修改前＝開發分支 a57127ab4，src、index.html 換回 a57127ab4 實際跑過）：FAILED 11——台詞對稿（kx4、kx6 的舊句不在 d13ab3ab7）、
 //   d13ab3ab7 改掉的舊句還在、第 6 則沒去／去了兩個版本（照片、一句、留言回、私訊問與回：7 項）、12/16 書桌的照片（a57127ab4 只剩那一句）、第 4 則私訊問。修改後 ALL PASS。
 'use strict';
+require('./alison.js');   // 讀企劃稿（git show）照匯入工具同一套換：Alison、虛構校名（WORLD-RENAME-1030，docs/WORLD_NAMING.md）
 const H=require('./pg_harness.js');
 const fs=require('fs'), vm=require('vm'), path=require('path'), cp=require('child_process');
 const {check,GM}=H, J=JSON.stringify;
@@ -138,7 +139,7 @@ sec('3',()=>{ const P=FEED_Y1S1.posts, add=[
   const miss=FEED_Y1S1.posts.map(p=>p.id).filter(id=>!log.has(id));
   check('3. 大一上走一遍（七位都很熟）：44 則都出',L.length===44&&!miss.length,J({n:L.length,miss,done:miss.map(id=>R().done[id])}));
   check('3. 大一上走一遍：一天不超過四則（最多 '+Math.max(0,...Object.values(byDay))+'）、每位連續七天不超過兩則（最多 '+worst+'）',Math.max(0,...Object.values(byDay))<=4&&worst<=2,wid);
-  const kx3=log.get('kx3'); check('3. 可昕第 3 則（沒去過政大、沒有 K1b）：照第一個能問的日子，第 6 週週四 12:30（予樂的宵夜在週三晚上）',!!kx3&&kx3.day===TD(6,4)&&Math.abs(kx3.h-12.5)<0.01,J(kx3)); });
+  const kx3=log.get('kx3'); check('3. 可昕第 3 則（沒去過木柵大學、沒有 K1b）：照第一個能問的日子，第 6 週週四 12:30（予樂的宵夜在週三晚上）',!!kx3&&kx3.day===TD(6,4)&&Math.abs(kx3.h-12.5)<0.01,J(kx3)); });
 
 /* ---------- 4 以安 ---------- */
 sec('4',()=>{ const SAT=TD(10,6);
@@ -168,7 +169,7 @@ sec('6',()=>{ const TUE=TD(11,2), WED=TUE+1, THU=TUE+2;
   let {m,L}=go(0);
   check('6. 第 11 週週二 23:10 三則（交往中）、三個選項；回覆到午夜',!!m&&Math.abs(m.h-(23+10/60))<0.02&&J(th('kexin').filter(x=>x.tag==='aa503_kx_rpt').map(x=>x.text))===J(['我們組有一個人消失了。','報告後天交。他那一段還是空的。','操。'])&&J(m.ask.opts.map(o=>o.t))===J(['我陪妳熬夜。','他人呢？','妳先睡，明天再做。'])&&m.ask.until===T(WED,0),J(m&&m.ask));
   const q=OUT.get(H.G,'aa503_kx_video'), ev=STORY_EVENTS.find(e=>e.id==='ev_kexin_video_report'), said=ev?ev.dialogue.filter(d=>d.text).map(d=>d.text):[];
-  check('6. 「我陪妳熬夜。」→ 她回一句、KX_RPT stay；當晚 00:00 排視訊（接起來）；事件只有開頭「你念你的」、結尾「好了。睡覺。」、兩個小時',J(L.map(x=>x.text))===J(['我陪妳熬夜。','你在台大陪我熬夜？……好啊。視訊開著，你不要講話。'])&&H.G.flags.KX_RPT==='stay'&&!!q&&q.day===WED&&q.h===0&&q.ev==='ev_kexin_video_report'&&q.verb==='接起來'&&!!ev&&ev.trigger==='outing'&&ev.hours===2&&J(said)===J(['你念你的','好了。睡覺。'])&&ev.dialogue[0].bg==='video',J({q,said}));
+  check('6. 「我陪妳熬夜。」→ 她回一句、KX_RPT stay；當晚 00:00 排視訊（接起來）；事件只有開頭「你念你的」、結尾「好了。睡覺。」、兩個小時',J(L.map(x=>x.text))===J(['我陪妳熬夜。','你在首都帝大陪我熬夜？……好啊。視訊開著，你不要講話。'])&&H.G.flags.KX_RPT==='stay'&&!!q&&q.day===WED&&q.h===0&&q.ev==='ev_kexin_video_report'&&q.verb==='接起來'&&!!ev&&ev.trigger==='outing'&&ev.hours===2&&J(said)===J(['你念你的','好了。睡覺。'])&&ev.dialogue[0].bg==='video',J({q,said}));
   walk(THU,17.9); const a=th('kexin').some(x=>x.tag==='aa503_kx_rpt2'); walk(THU,18.1);
   check('6. 週四 18:00「報告交了。」「老師說我們那一段寫得最好。消失的那一段。」',!a&&J(th('kexin').filter(x=>x.tag==='aa503_kx_rpt2').map(x=>x.text))===J(['報告交了。','老師說我們那一段寫得最好。消失的那一段。']));
   ({m,L}=go(1)); walk(THU,18.1);
@@ -241,7 +242,7 @@ sec('9',()=>{ const SAT=TD(5,6);
   fresh(BD,6,{}); who('kexin','ACQ'); walk(BD,23.95,{rules:true,step:0.5});
   if(HAS()) FEED.respond(H.G,'kx6','dm'); check('9. 第 6 則沒去（沒有在交往、只認識也有）：私訊問「一個人吃？」→「予樂在趕她的報告。……有點悲壯。」',!!item('kx6')&&J(th('kexin').slice(-2).map(x=>x.text))===J(['一個人吃？','予樂在趕她的報告。……有點悲壯。']),J(th('kexin').slice(-2).map(x=>x.text)));
   fresh(BD,6,{dating_kexin:true,KX_DEC3_VISIT:true}); walk(BD,23.95,{rules:true,step:0.5}); h6=HT();
-  check('9. 酸辣湯餃：那晚開車去政大（KX_DEC3_VISIT）也一定出，去了的版本：兩碗、你的湯喝光了；私訊問「好吃嗎？」',!!item('kx6')&&item('kx6').v==='yes'&&!(H.G.msgs||[]).some(x=>x.tag==='kx_dec3_none')&&h6.includes('（照片：兩碗酸辣湯餃，對面那一碗的湯喝光了——是你的）')&&h6.includes('好吃嗎？')&&!h6.includes('一個人吃？'),J(item('kx6')));
+  check('9. 酸辣湯餃：那晚開車去木柵大學（KX_DEC3_VISIT）也一定出，去了的版本：兩碗、你的湯喝光了；私訊問「好吃嗎？」',!!item('kx6')&&item('kx6').v==='yes'&&!(H.G.msgs||[]).some(x=>x.tag==='kx_dec3_none')&&h6.includes('（照片：兩碗酸辣湯餃，對面那一碗的湯喝光了——是你的）')&&h6.includes('好吃嗎？')&&!h6.includes('一個人吃？'),J(item('kx6')));
   if(HAS()) FEED.respond(H.G,'kx6','dm'); check('9. 第 6 則去了：私訊問「好吃嗎？」→「你把湯喝光了。我就當你說好吃。」',J(th('kexin').slice(-2).map(x=>x.text))===J(['好吃嗎？','你把湯喝光了。我就當你說好吃。']),J(th('kexin').slice(-2).map(x=>x.text)));
   fresh(BD,6,{dating_kexin:true,KX_DEC3_VISIT:true}); walk(BD,23.95,{rules:true,step:0.5});
   if(HAS()) FEED.respond(H.G,'kx6','cm'); h6=HT(); check('9. 第 6 則去了：留言「辛苦了。」→「你也是。開車上山。」；動態頁上回過的那一則照去了的版本',J(th('kexin').slice(-2).map(x=>x.text))===J(['辛苦了。','你也是。開車上山。'])&&h6.includes('你也是。開車上山。'),J(th('kexin').slice(-2).map(x=>x.text)));

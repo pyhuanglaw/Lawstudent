@@ -54,7 +54,7 @@ const CATS=['念書…','吃飯…','喝咖啡、喝茶…','散步…','運動�
     check('A2. 吃飯…：麵店、半熟＋返回；返回回到第一層',J(b.opts[1])===J(['去阿鳳麵店吃飯','去半熟吃早午餐','返回'])&&J(b.opts[2])===J(b.opts[0]),J(b.opts.slice(0,3)));
     check('A2. 喝咖啡、喝茶…：兩點半 Café、一盞、慢讀咖啡＋返回',J(b.opts[3])===J(['去兩點半 Café 坐坐','去一盞喝茶','去慢讀咖啡念書','返回']),J(b.opts[3]));
     check('A2. 念書…：總圖、慢讀咖啡（同一個地點可以放兩類）、法圖＋返回',J(b.opts[7])===J(['去總圖一起念書','去慢讀咖啡念書','去法圖一起念書','返回']),J(b.opts[7]));
-    check('A2. 運動…：羽球、晨跑＋返回',J(b.opts[5])===J(['去新體育館打羽球','去椰林大道晨跑','返回']),J(b.opts[5]));
+    check('A2. 運動…：羽球、晨跑＋返回',J(b.opts[5])===J(['去新體育館打羽球','去椰影大道晨跑','返回']),J(b.opts[5]));
     const c=await ask('heroine_01',['吃飯','麵店',/^明天/]);
     const iv=(G.invites||[]).slice(-1)[0]||{};
     check('A3. 從分類選地點：照原本的流程排進 INV（accepted、by player、地點 noodle）',!!c.r&&iv.place==='noodle'&&iv.state==='accepted'&&iv.by==='player'&&iv.who==='heroine_01',J([iv,c.L.slice(-3)]));
@@ -114,9 +114,9 @@ const CATS=['念書…','吃飯…','喝咖啡、喝茶…','散步…','運動�
     check('D1. 手機約可昕：第一層有念書、吃飯、喝咖啡喝茶、散步、運動、出去玩（原本只有羽球、晨跑、去校外）',J(a.opts[0])===J(CATS.concat(['出去玩…','算了'])),J(a.opts[0])+(a.err||''));
     const b=await ask('kexin',['喝咖啡','兩點半','其他日子',/（週六）$/,'15:30']);
     const iv=(G.invites||[]).slice(-1)[0]||{};
-    check('D2. 約可昕週六去 Café：照原本的流程（accepted、by player）、答應句是 AA_415 kx21',iv.who==='kexin'&&iv.place==='cafe'&&iv.state==='accepted'&&iv.by==='player'&&wdOf(iv.day)===6&&b.L.some(t=>t.includes('台大的 Café？好。我要坐你平常坐的那張。')),J([iv,b.L]));
+    check('D2. 約可昕週六去 Café：照原本的流程（accepted、by player）、答應句是 AA_415 kx21',iv.who==='kexin'&&iv.place==='cafe'&&iv.state==='accepted'&&iv.by==='player'&&wdOf(iv.day)===6&&b.L.some(t=>t.includes('首都帝大的 Café？好。我要坐你平常坐的那張。')),J([iv,b.L]));
     fresh(mon,10,{}); know('kexin',S6);
-    check('D3. 沒交往的可昕照舊：手機約不到（她在政大，不用這個清單約）',INV.canInvite(G,'kexin')===false);
+    check('D3. 沒交往的可昕照舊：手機約不到（她在木柵大學，不用這個清單約）',INV.canInvite(G,'kexin')===false);
   }
   // ===== E. 沛珊在台南：校內地點不列 =====
   { const d=nextWd(D('2027-10-04'),1); fresh(d,10,{PS_RECONNECT:true}); know('classmate_peishan',S5);

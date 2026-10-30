@@ -18,7 +18,7 @@ const mkG=(k,h,f)=>({stage:'econ',day:dayOf(k),hour:h,weekday:CALENDAR.dateOf(da
   const g=mkG('2024-10-17',23); g.events.done.ev_y0_e30_note=1; check('① 10/17 便利貼演完：還開（下一步 10/19 退宿）',ECONFF.on(g)); const g2=mkG('2024-10-19',18,{Y0_MOVED_OUT:true}); check('① 10/19 退宿以後：第一階段關（換第二階段，tests/econ_ff2_unit.js）',!ECONFF.on(g2));
   global.location={search:'?nofastecon'}; check('① ?nofastecon：關',!ECONFF.on(mkG('2024-09-02',8))); global.location={search:''}; }
 { const G=mkG('2024-09-02',8,{ECON_FULL:false}); const ids=[]; for(let i=0;i<20;i++){ const s=ECONFF.next(G); if(!s) break; ids.push(s.ev); ECONFF.rec(G).done[s.n]=1; }
-  check('AA_300 第 1 節＋AA_305：經濟系開學到退宿只停（保齡球、要我載妳嗎、系烤、長頸鹿拉花、聚會、辦休學、車上、10/29 小福、10/31 搬出宿舍；10/17 便利貼拿掉）',JSON.stringify(ids)===JSON.stringify(['ev_y0_e14','ev_y0_e05','ev_y0_e08','ev_y0_l5a','ev_y0_gather','ev_y0_e30','ev_y0_e26','ev_y0_xiaofu','ev_y0_a3']),JSON.stringify(ids));
+  check('AA_300 第 1 節＋AA_305：經濟系開學到退宿只停（保齡球、要我載妳嗎、系烤、長頸鹿拉花、聚會、辦休學、車上、10/29 小松、10/31 搬出宿舍；10/17 便利貼拿掉）',JSON.stringify(ids)===JSON.stringify(['ev_y0_e14','ev_y0_e05','ev_y0_e08','ev_y0_l5a','ev_y0_gather','ev_y0_e30','ev_y0_e26','ev_y0_xiaofu','ev_y0_a3']),JSON.stringify(ids));
   check('AA_303：交往前三則手機訊息 T1、T3、T6 也拿掉（不排手機）',!PAT.some(x=>/kt\d/.test(x.tag)),JSON.stringify(PAT.map(x=>x.tag)));
   check('AA_300 第 7 節：不在 29 場的邀約私訊不傳（聖誕、豆花、劇社、R2／R5／R6 沒去那則）；ECON_FULL 照傳',ECONFF.cutMsg(G,'y0_e20_ask')&&ECONFF.cutMsg(G,'y0_c1_ask')&&ECONFF.cutMsg(G,'y0_e18a_ask')&&ECONFF.cutMsg(G,'y0_r6_miss')&&!ECONFF.cutMsg(G,'y0_e12_ask')&&!ECONFF.cutMsg(mkG('2024-09-02',8),'y0_e20_ask'));
   check('AA_300：其他經濟系事件不演（EVENTS.check 擋：社團博覽會、泡麵之夜、去總圖念書）；29 場的照演；ECON_FULL（舊流程測試）不擋',ECONFF.cut(G,{id:'ev_y0_e07',stage:'econ'})&&ECONFF.cut(G,{id:'ev_y0_t0a',stage:'econ'})&&ECONFF.cut(G,{id:'ev_y0_e10',stage:'econ'})&&!ECONFF.cut(G,{id:'ev_y0_e05',stage:'econ'})&&!ECONFF.cut(mkG('2024-09-02',8),{id:'ev_y0_e07',stage:'econ'})&&!ECONFF.cut(Object.assign(mkG('2024-09-02',8,{ECON_FULL:false}),{stage:'law'}),{id:'ev_y0_e07',stage:'econ'}));
@@ -36,7 +36,7 @@ const mkG=(k,h,f)=>({stage:'econ',day:dayOf(k),hour:h,weekday:CALENDAR.dateOf(da
     check('BB218-P3 ①：日期卡不早於它講的那一天——12/13 → 12/19 不講「十二月二十日，期末考考完了」、12/19 → 12/21 才講；7/14 → 7/18 不講 7/19（六）的約定、7/18 → 7/20 才講',!/十二月二十日/.test(cl('2024-12-13','2024-12-19'))&&/十二月二十日/.test(cl('2024-12-19','2024-12-21'))&&!/星期六/.test(cl('2025-07-14','2025-07-18',{E35_PLAN:'sea'}))&&/西瓜/.test(cl('2025-07-18','2025-07-20',{E35_PLAN:'sea'})),JSON.stringify([cl('2024-12-13','2024-12-19'),cl('2025-07-14','2025-07-18',{E35_PLAN:'sea'})])); }
   check('AA_348 B1：CUT_MSG 有 y0_r3_miss、y0_r7_ask、y0_r7_miss（30 分鐘版不傳 5/23 保齡球邀約）；ECON_FULL 照舊傳',['y0_r3_miss','y0_r7_ask','y0_r7_miss'].every(k=>ECONFF.cutMsg(mkG('2025-05-23',8,{ECON_FULL:false}),k))&&!ECONFF.cutMsg(mkG('2025-05-23',8,{ECON_FULL:true}),'y0_r7_ask')); }
 { // AA_368 H1、H2（企劃線 e55fda50，LAWWW 2026-10-21）：日期卡「知道太早」——颱風假是 9/30，四月二日是 4/2；停點在那之前的跳躍不能先講
-  const TY='（颱風假那天，你和阿勳在宿舍泡了一整晚的泡麵。之後，小福的午餐常常是同一桌。）', GR='（系烤以後，經濟系的群組每天都有人講話。阿勳每一則都回，品妤每一則都已讀。）';
+  const TY='（颱風假那天，你和阿勳在宿舍泡了一整晚的泡麵。之後，小松的午餐常常是同一桌。）', GR='（系烤以後，經濟系的群組每天都有人講話。阿勳每一則都回，品妤每一則都已讀。）';
   const A2='（四月二日，牆上的倒數撕到一百。那個禮拜，媽媽燉了雞湯。她那碗多一隻雞腿。）', MR='（三月。她開始把每天讀完的範圍寫在一張紙上，貼在倒數日曆旁邊。）';
   const fresh=k=>{ const x=mkG(k,8,{ECON_FULL:false}); x.flags.ECONFF={done:{},lines:[]}; return x; };
   const g1=fresh('2024-09-24'), l1=ECONFF.cardLine(g1,dayOf('2024-09-21'),dayOf('2024-09-24'));

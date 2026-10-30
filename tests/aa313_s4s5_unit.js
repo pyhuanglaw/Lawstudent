@@ -67,7 +67,7 @@ const SRC=f=>fs.readFileSync(path.join(ROOT,f),'utf8');
   // 貓空 D09：大四下她已經交棒（4-3）
   { const row=ENCOUNTERS.rows.find(r=>r.who==='heroine_01'&&r.spot==='D09'), sch=CHARACTERS.heroine_01.daily_schedule.find(q=>q.enc==='D09');
     check('4-3. 偶遇 D09 以安：terms 拿掉 Y4S2（encounters.js、characters.js 作息兩邊）',!!row&&!row.terms.includes('Y4S2')&&row.terms.includes('Y4S1')&&!!sch&&!sch.terms.includes('Y4S2'),J([row&&row.terms,sch&&sch.terms])); }
-  check('4-3. 以安 career_goal 照 AA_285 第 5 節',CHARACTERS.heroine_01.career_goal==='一定考台大法研所；司法官或大事務所律師還沒決定',CHARACTERS.heroine_01.career_goal);
+  check('4-3. 以安 career_goal 照 AA_285 第 5 節',CHARACTERS.heroine_01.career_goal==='一定考首都帝大法研所；司法官或大事務所律師還沒決定',CHARACTERS.heroine_01.career_goal);
   { const H=TERMEND_LINES.HEART.heroine_01, all=J(H); check('4-1 第 12 點. 告白白板不寫死「祐廷」：「沈以安喜歡{name}。理由：還在寫。」（GM.say 會代換 {name}）',all.includes('沈以安喜歡{name}。理由：還在寫。')&&!all.includes('沈以安喜歡祐廷')&&/function subst\(t\)\{ return t\.replace\(\/\\\{name\\\}\/g,G\.name\)/.test(SRC('src/game3d.js'))); }
   check('4-1 第 7 點. ev_an_report_split_late 不說「理由：」',evTexts('ev_an_report_split_late').some(t=>t==='我把你寫在我這組了。……不用謝。剩下的人裡，你最不會遲交。'));
   // ===================== 第 4 節：語彤 =====================
@@ -85,7 +85,7 @@ const SRC=f=>fs.readFileSync(path.join(ROOT,f),'utf8');
     const pool=x=>TERMEND_LINES.POOL.Y1S2.heroine_03.map(f=>typeof f==='function'?f(x):f).filter(v=>v!=null);
     check('4-4. 交往中 6/18 18:00 收到「考完了」那幾則；期末飯她只說「成績單七月三號才寄。」',got&&txt('p:heroine_03')[0]==='考完了'&&J(pool(G))===J(['成績單七月三號才寄。']),J([txt('p:heroine_03'),pool(G)]));
     fresh(D('2026-06-20'),17,'dorm',{}); check('4-4. 沒收過那則（沒交往）：期末飯照舊兩句',J(pool(G))===J(['考完了。……憲法最後一題寫不完。','成績單七月三號才寄。']),J(pool(G))); }
-  check('4-4. 邀約選單「去阿鳳麵店吃飯」（台大就在公館，不說「去公館」）',INVITE_DATA.places.find(p=>p.id==='noodle').verb==='去阿鳳麵店吃飯',INVITE_DATA.places.find(p=>p.id==='noodle').verb);
+  check('4-4. 邀約選單「去阿鳳麵店吃飯」（首都帝大就在公館，不說「去公館」）',INVITE_DATA.places.find(p=>p.id==='noodle').verb==='去阿鳳麵店吃飯',INVITE_DATA.places.find(p=>p.id==='noodle').verb);
   // 語彤大三跨年（4-1 第 13 點）：交往中 00:01 她打電話來
   { const nye=D('2027-12-31'); fresh(nye,22.8,'dorm',{dating_heroine_03:true}); R('heroine_03','CLO'); run(22.8,23.2); const c=OUT.get(G,'yt_nye_call_y3');
     check('4-1 第 13 點. 大三跨年和語彤交往中：00:01 她打電話來（接起來／先不接）',!!c&&c.ev==='ev_yt_nye_call_y3'&&c.day===nye+1&&Math.abs(c.h-1/60)<1e-6&&c.verb==='接起來',J(c));

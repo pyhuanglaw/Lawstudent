@@ -125,7 +125,7 @@ await sec(4,()=>{
   check('4. 手機（交往中，前一天 21:00）：以安 2026 白色情人節、七夕、聖誕＝4-2 那一組；選項「好。」「那天不行。」照舊、tag fest_ask_<她>_<節日>_<年> 照舊',
     J(aw.t)===J(AN_BY.white)&&J(aq.t)===J(AN_BY.qixi)&&J(ax.t)===J(AN_BY.xmas)&&[aw,ax,aq].every(r=>J(r.o)===J(['好。','那天不行。'])),J({aw,aq,ax}));
   const PSB=[].concat(...Object.values(PS_BY));
-  check('4-3. 沛珊（子代理查的，回報給 AA）：2025～2029 每個她約的節日都在老家／台南（homeBy／homeLines）、固定的那一場（2026 三月十四醉月湖）或重考消失期——4-3 的臺北版現在不會從手機發出；回家的句子照舊',px.length>=12&&px.every(r=>!r.t.some(t=>PSB.includes(t)&&!['明天是情人節！！'].includes(t)))&&px.filter(r=>r.t.length).every(r=>/^home/.test(r.w)),J(px.map(r=>[r.k,r.y,r.w,r.t[0]||''])));
+  check('4-3. 沛珊（子代理查的，回報給 AA）：2025～2029 每個她約的節日都在老家／台南（homeBy／homeLines）、固定的那一場（2026 三月十四映月湖）或重考消失期——4-3 的臺北版現在不會從手機發出；回家的句子照舊',px.length>=12&&px.every(r=>!r.t.some(t=>PSB.includes(t)&&!['明天是情人節！！'].includes(t)))&&px.filter(r=>r.t.length).every(r=>/^home/.test(r.w)),J(px.map(r=>[r.k,r.y,r.w,r.t[0]||''])));
   /* 稿 4-2 的問題：以安 2027 生日（中秋，noonOnly）herAsks 會不會發？ */
   const y=2027, bd=FEST.dayOf(AN,'bday',y), cell=FEST.cell(AN,'bday')||{}; dating(AN,keyOf(bd-1)); FEST.phone(H.G); PHONE.tick(H.G); at(bd,11); FEST.phone(H.G); PHONE.tick(H.G);
   const anyBday=['heroine_01','heroine_02','heroine_03','heroine_04','heroine_05',PS,'kexin'].some(id=>(H.G.msgs||[]).some(m=>/^fest_ask_.*_bday_/.test(m.tag||'')));
@@ -137,9 +137,9 @@ await sec(4,()=>{
 
 /* ---- 5 可昕的學期末邀約：寫哪一天 ---- */
 await sec(5,()=>{
-  check('5. TERMEND.dayWord：同一天「今天」、隔天「明天」、其他「禮拜幾」；fillDay 排不到日子＝拿掉 {哪天}',!!TERMEND.dayWord&&TERMEND.dayWord(100,100)==='今天'&&TERMEND.dayWord(100,101)==='明天'&&TERMEND.dayWord(D('2026-12-24'),D('2026-12-26'))==='禮拜六'&&TERMEND.dayWord(D('2026-12-24'),D('2026-12-27'))==='禮拜日'&&TERMEND.fillDay('{哪天} 河堤 五點半','')==='河堤 五點半'&&TERMEND.fillDay('這次換山上 {哪天} 政大正門六點','明天')==='這次換山上 明天 政大正門六點');
+  check('5. TERMEND.dayWord：同一天「今天」、隔天「明天」、其他「禮拜幾」；fillDay 排不到日子＝拿掉 {哪天}',!!TERMEND.dayWord&&TERMEND.dayWord(100,100)==='今天'&&TERMEND.dayWord(100,101)==='明天'&&TERMEND.dayWord(D('2026-12-24'),D('2026-12-26'))==='禮拜六'&&TERMEND.dayWord(D('2026-12-24'),D('2026-12-27'))==='禮拜日'&&TERMEND.fillDay('{哪天} 河堤 五點半','')==='河堤 五點半'&&TERMEND.fillDay('這次換山上 {哪天} 木柵大學正門六點','明天')==='這次換山上 明天 木柵大學正門六點');
   fresh(D('2026-12-24'),20.9,{dating_kexin:true}); run(20.9,21); const q=OUT.get(H.G,'te_kx_Y2S1'), m=byTag('te_kx_Y2S1').map(x=>x.text), want=TERMEND_LINES.KX.Y2S1.invite.map(t=>t.replace('{哪天}','禮拜六'));
-  check('5. 大二上：12/24 20:45 可昕「'+want.join('」「')+'」（約會 12/26 週六政大正門 18:00；原本「這次換山上 政大正門六點」讀起來像今天）',!!q&&q.day===D('2026-12-26')&&q.h===18&&J(m)===J(want)&&m[1]==='這次換山上 禮拜六 政大正門六點',J([m,q&&keyOf(q.day)]));
+  check('5. 大二上：12/24 20:45 可昕「'+want.join('」「')+'」（約會 12/26 週六木柵大學正門 18:00；原本「這次換山上 木柵大學正門六點」讀起來像今天）',!!q&&q.day===D('2026-12-26')&&q.h===18&&J(m)===J(want)&&m[1]==='這次換山上 禮拜六 木柵大學正門六點',J([m,q&&keyOf(q.day)]));
   fresh(D('2026-06-11'),20.5,{dating_kexin:true}); run(20.5,21); const m1=byTag('te_kx_Y1S2').map(x=>x.text);
   check('5. 大一下照舊：「期末考完了吧」「禮拜五 河堤 五點半」「我帶你去吃那家」',J(m1)===J(TERMEND_LINES.KX.Y1S2.invite),J(m1));
   const bad=[]; for(const t of ['Y2S2','Y3S1','Y3S2','Y4S1']){ const w=TERMEND.windowOf(t); if(!w){ bad.push(t+' 沒有時段'); continue; } fresh(w.from,20.5,{dating_kexin:true,EXCHANGE_ROUTE:'TW'}); for(let d=w.from;d<=w.from+4;d++){ at(d,20.5); run(20.5,21); }   /* 傳的那天＝時段第一天或玩家考完回來那天（P.back）*/ const ms=byTag('te_kx_'+t), qq=OUT.get(H.G,'te_kx_'+t);

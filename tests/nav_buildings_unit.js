@@ -26,7 +26,7 @@ const run=(a,b)=>{ for(const dt of [1/30,0.1]){ const r=E.simWalk(a[0],a[1],b[0]
 const fmt=(r)=>JSON.stringify(r).slice(0,220);
 // ---------- 校園：穿堂 ----------
 { const t0=Date.now(); const z=loadZone('campus'); console.log(`（校園建好：${((Date.now()-t0)/1000).toFixed(1)} 秒）`);
-  const door=E.interactables.find(i=>i.label==='進入霖澤館'); check('校園有「進入霖澤館」（穿堂西側的大廳入口）',!!door,door?`(${door.x.toFixed(1)},${door.z.toFixed(1)})`:'');
+  const door=E.interactables.find(i=>i.label==='進入法律系館A'); check('校園有「進入霖澤館」（穿堂西側的大廳入口）',!!door,door?`(${door.x.toFixed(1)},${door.z.toFixed(1)})`:'');
   const H=(x,z)=>E.nav.heightAt(x,z);
   check('穿堂地坪高 0.9 m、前台階從地面連續斜上（最下面一階的邊緣＝地面）、廣場 0',Math.abs(H(34,-110)-0.9)<1e-6&&Math.abs(H(34,-100.49))<0.02&&Math.abs(H(34,-101.7)-0.47)<0.06&&H(34,-96)===0,`穿堂 ${H(34,-110)}、台階底 ${H(34,-100.49).toFixed(3)}、台階中 ${H(34,-101.7).toFixed(3)}、廣場 ${H(34,-96)}`);
   check('穿堂裡站得住（中間、柱子之間）',E.canStand(34,-110,0.32,0)&&E.canStand(31,-112,0.32,0)&&E.canStand(37,-106,0.32,0));
@@ -58,7 +58,7 @@ const fmt=(r)=>JSON.stringify(r).slice(0,220);
     r=run(top,[SX,Z0+W.L+5.5,0]); check('跑步＋低幀率（4.1 m/s、dt 0.1）：陽台 → 大樓梯往下 → 廣場（真實流程：停在最下面一兩階）',r.ok,fmt(r));
     r=run([SX,Z0+W.L+5.5,0],top); check('跑步＋低幀率：廣場 → 大樓梯往上 → 陽台',r.ok,fmt(r));
     r=both([SX,Z0+W.L/2,0],top); check('從樓梯中間（地面那一層）往上走到陽台',r.ok&&r.lv===1,fmt(r));
-    const d2=E.interactables.find(i=>i.exit&&i.exit.to==='wancai'&&i.lv===1), d1=E.interactables.find(i=>i.label==='進入萬才館');
+    const d2=E.interactables.find(i=>i.exit&&i.exit.to==='wancai'&&i.lv===1), d1=E.interactables.find(i=>i.label==='進入法律系館B');
     check('二樓入口在第 1 層、進到萬才館室內二樓（第三階段，D42）；一樓入口在地面那一層',!!d2&&d2.exit.spawn.lv===1&&!!d1&&d1.lv===0&&d1.exit.spawn.lv===undefined,d2&&JSON.stringify(d2.exit));
     const back=WC3.CAMPUS_2F; check('從萬才館二樓出來的位置（平台，第 1 層）站得住、離二樓入口 ≥ 半徑＋0.3（不會一出來就又跳出進門按鈕）',E.canStand(back.x,back.z,0.32,1)&&Math.hypot(back.x-d2.x,back.z-d2.z)>=d2.radius+0.3,`(${back.x},${back.z}) 距離 ${Math.hypot(back.x-d2.x,back.z-d2.z).toFixed(2)}`);
     r=both(plaza,[d2.x,d2.z+0.3,1]); check('二樓入口走得到（平台）',r.ok&&r.lv===1,fmt(r));

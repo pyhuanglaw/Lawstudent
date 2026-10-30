@@ -66,7 +66,7 @@ const near=(id,dx)=>{ const n={id,charId:id,name:id,obj:{position:{x:E.player.ob
   // ---- V2-SK07 唐睿的即興劇 ----
   { const mon=TD('Y1S2',14,1), wed=mon+2;
     fresh(mon,20.5,'campus'); run(20.5,21.2); const q=OUT.get(G,'sk07_improv');
-    check('SK07：大一下第 14 週週一 21:00 群組唐睿「給我一個觀眾。一個就好。」＋排進行程：週三 19:00 博雅',txt('g:econ_friends').includes('econ_tangrui:給我一個觀眾。一個就好。')&&!!q&&q.day===wed&&q.h===19&&q.ev==='ev_sk07_improv',J({g:txt('g:econ_friends').slice(-1),q}));
+    check('SK07：大一下第 14 週週一 21:00 群組唐睿「給我一個觀眾。一個就好。」＋排進行程：週三 19:00 博思',txt('g:econ_friends').includes('econ_tangrui:給我一個觀眾。一個就好。')&&!!q&&q.day===wed&&q.h===19&&q.ev==='ev_sk07_improv',J({g:txt('g:econ_friends').slice(-1),q}));
     const E7=ev('ev_sk07_improv'); const play=async(flags,pick)=>{ fresh(wed,19,'campus',flags); picks=[pick]; await RUN(E7); return {L:lines(),F:G.flags,O:opts.slice()}; };
     let r=await play({PLAYED_Y0:true,E12_ANSWER:'how',MET_PINYU:true,KNOWS_TANG:true},'善意第三人');
     check('SK07：玩過經濟系、知道長頸鹿的尾巴：三個詞；選①＝唐睿演一直說「我不知道」的路人、IMPROV_WORD=善意第三人',J(r.O[0])===J(['「善意第三人！」','「機會成本！」','「長頸鹿的尾巴！」'])&&r.L.includes('唐睿演一個一直買到怪東西、每次都說「我不知道」的路人。')&&r.F.IMPROV_WORD==='善意第三人',J(r.O));
@@ -74,7 +74,7 @@ const near=(id,dx)=>{ const n={id,charId:id,name:id,obj:{position:{x:E.player.ob
     r=await play({PLAYED_Y0:true,E12_ANSWER:'how',MET_PINYU:true,KNOWS_TANG:true},'長頸鹿');
     check('SK07：選③＝唐睿「……這個詞，有人用過了。」然後還是演了一隻長頸鹿',has(r.L,'……這個詞，有人用過了。')&&r.L.includes('然後還是演了一隻長頸鹿。')&&r.F.IMPROV_WORD==='長頸鹿的尾巴',J(r.L));
     r=await play({MET_PINYU:true,STICKY_NOTES:true},'機會成本');
-    check('SK07：沒玩過經濟系大一＝沒有「長頸鹿的尾巴！」；選②演到活大的自助餐收攤',J(r.O[0])===J(['「善意第三人！」','「機會成本！」'])&&r.L.includes('唐睿演一個選不出午餐的人，演到活大的自助餐收攤。'),J(r.O));
+    check('SK07：沒玩過經濟系大一＝沒有「長頸鹿的尾巴！」；選②演到學活的自助餐收攤',J(r.O[0])===J(['「善意第三人！」','「機會成本！」'])&&r.L.includes('唐睿演一個選不出午餐的人，演到學活的自助餐收攤。'),J(r.O));
     fresh(wed,19.5,'campus'); run(19.5,19.5); if(E7&&E7.outingMissed) E7.outingMissed(G,GM,{day:wed}); run(21.4,21.6);
     check('SK07 沒去：當晚品妤在群組傳影片「唐睿的即興劇，今天演一棵樹。演得很好。」',txt('g:econ_friends').includes('econ_pinyu:唐睿的即興劇，今天演一棵樹。演得很好。'),J(txt('g:econ_friends').slice(-2))); }
   // ---- V1-B106-42 經濟系群組的三則 ----
@@ -94,7 +94,7 @@ const near=(id,dx)=>{ const n={id,charId:id,name:id,obj:{position:{x:E.player.ob
     const d2=TD('Y4S1',4,2); fresh(d2,20.5,'campus',{dating_kexin:true}); run(20.5,21.2); let m=PHONE.byAsk(G,'b106_42_survey');
     check('4-2②：大四上第 4 週週二 21:00 唐睿「徵求座談的受試者：二十到三十歲、每週喝三杯以上手搖飲。車馬費五百。」，三個回覆',!!m&&m.text==='徵求座談的受試者：二十到三十歲、每週喝三杯以上手搖飲。車馬費五百。'&&J(m.ask.opts.map(o=>o.t))===J(['「法律系的可以嗎？」','「你現在在做什麼？」','（不回）']),m&&J(m.ask.opts.map(o=>o.t)));
     PHONE.answer(G,'b106_42_survey',0);
-    check('4-2②：選①＝唐睿「不行。你們會反問主持人。」；交往中可昕「那政大法律的呢？」唐睿「更不行。」',J(txt('g:econ_friends').slice(-4))===J(['player:法律系的可以嗎？','econ_tangrui:不行。你們會反問主持人。','kexin:那政大法律的呢？','econ_tangrui:更不行。']),J(txt('g:econ_friends').slice(-4)));
+    check('4-2②：選①＝唐睿「不行。你們會反問主持人。」；交往中可昕「那木柵大學法律的呢？」唐睿「更不行。」',J(txt('g:econ_friends').slice(-4))===J(['player:法律系的可以嗎？','econ_tangrui:不行。你們會反問主持人。','kexin:那木柵大學法律的呢？','econ_tangrui:更不行。']),J(txt('g:econ_friends').slice(-4)));
     fresh(d2,20.5,'campus'); run(20.5,21.2); setDay(d2+1,21.1); run(21.1,21.3);
     check('4-2②：一直沒回＝隔天 21:00 以後品妤替他回答②那一句，加「他每天都這樣介紹自己。」',J(txt('g:econ_friends').slice(-2))===J(['econ_pinyu:「在一間做消費者研究的公司帶焦點座談。我還是在聽人講話，只是現在有人付錢。」','econ_pinyu:他每天都這樣介紹自己。']),J(txt('g:econ_friends').slice(-2)));
     const d3=TD('Y4S2',6,3), sat=d3+3; fresh(d3,20.5,'campus',{dating_kexin:true}); run(20.5,21.2); m=PHONE.byAsk(G,'b106_42_ticket');
