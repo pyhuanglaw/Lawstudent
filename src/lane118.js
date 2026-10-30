@@ -212,11 +212,14 @@ const L118=(function(){
   /* 輪流的順序：noodle2 → dian → korea → self；AA_311 H4 選過（ZHE_118_RANK）＝那一間排第一，H4 那一學期從下一週起由它開始（rankAt）、之後的學期第 2 週就是它 */
   S.rotation=function(G){ const R=S.baseRotation(), k=G&&G.flags&&G.flags.ZHE_118_RANK, i=R.indexOf(k); if(i>0){ R.splice(i,1); R.unshift(k); } return R; };
   S.lunchShop=function(T,G){ const R=S.rotation(G); if(!R.length) return null; const b=G&&G.flags&&G.flags.ZHE_118_RANK&&G.l118?G.l118.rankAt:null; const i=b&&b.term===T.id?T.week-b.week:T.week-2; return R[(i%R.length+R.length)%R.length]; };
+  /* 祐廷人在國外（STORY.abroad：交換路線出發日 ≦ 今天 ＜ 返台日；或 tzOffset 不是 0＝寒暑假出國途中）（AA_531 第 1 節）*/
+  S.meAbroad=G=>typeof STORY!=='undefined'&&((!!STORY.abroad&&!!STORY.abroad(G))||(!!STORY.tzOffset&&(+STORY.tzOffset(G)||0)!==0));
   S.firstMonday=()=>{ const r=typeof CALENDAR!=='undefined'&&CALENDAR.termDays?CALENDAR.termDays('Y1S1'):null; if(!r) return null; for(let d=r.from+7;d<r.from+14;d++) if(CALENDAR.dateOf(d).wd%7===1) return d; return null; };
   S.phone=function(G){ if(typeof PHONE==='undefined'||!D()||(G.stage||'law')!=='law') return; const F=G.flags, now=G.day*24+G.hour, Lc=D().lunch, T=termNow(G);
     if(!T||T.week<2||T.week>15||wdOf(G)!==1||G.hour<12||G.hour>=12.25) return;   /* 那個週一 12:00～12:15 才發（之後讀檔不補發過去的週）*/
     const d1=S.firstMonday(); if(d1==null||G.day<d1) return; const tag='l118_lunch_'+G.day; if(PHONE.sent(G,tag)) return;
     const zp=typeof STORY!=='undefined'&&STORY.presence?STORY.presence('zhe',G):{here:true}; if(zp.here===false) return;
+    if(S.meAbroad(G)) return;   /* AA_531 第 1 節：祐廷人在國外（美國、日本交換）不揪——原本只看阿哲在不在，9/11～12/11 每週一照揪、回「走。」還排出遊、快轉每週停一次（當地 12:00＝臺灣半夜）*/
     if(typeof DATE!=='undefined'&&DATE.tripAt&&DATE.tripAt(G,G.day,12.25,1)) return;   /* 12:15 那段時間已經約了校外約會：這週不揪（BUG-DATE-OVERLAP-1021；第一次那則順延到下一個週一）*/
     const inG=PHONE.inGroup(G,'noodle_team'), famZhe=typeof SOCIAL!=='undefined'&&SOCIAL.STAGES&&SOCIAL.has&&SOCIAL.has('zhe','FIRST_MET')&&SOCIAL.STAGES.indexOf(SOCIAL.stage('zhe'))>=SOCIAL.STAGES.indexOf('FAMILIAR');
     if(!inG&&!famZhe) return;

@@ -73,6 +73,7 @@ const FEST=(function(){
   S.eligible=function(G,id,k,y){ if(S.barred(G,id,k,y)) return false; return S.level(G,id)>=(X.MIN[k]||6); };
   S.dedicated=function(G,id,k,y){ const c=S.cell(id,k); if(!c||c.aa414) return true; const dd=c.dedicated||{};
     if(id==='kexin'&&k==='qixi'&&typeof R2Y3A!=='undefined'&&Array.isArray(R2Y3A.QIXI)&&R2Y3A.QIXI.some(x=>String(x.key).slice(0,4)===String(y)&&(!x.ok||x.ok(G)))) return true;   /* 可昕交往中的七夕視訊 2026、2028（還有 2027 沒去高雄的）在 r2y3a3d.js S.qixiPhone：這裡不再自動打一通（BB-B 10-23：8/19 兩通 21:00 視訊）*/
+    if(id==='kexin'&&k==='qixi'&&route(G)==='US'&&abroadMe(G,S.dayOf(id,k,y))) return true;   /* AA_531 7-2：和可昕交往、人在美國的七夕只演 usl_qixi（us_life3d.js），這裡的「你不來，我就自己看港口。」不排（原本 8/26 兩通視訊）*/
     if(dd.all&&dd.all.includes(y)) return true; if(dd.dt&&dd.dt.includes(y)&&dating(G,id)) return true; return false; };
   S.ver=function(G,id,k){ if(dating(G,id)) return 'dt'; const c=S.cell(id,k)||{}; return c.s5&&stageNum(id)===5?'s5':'s6'; };
   S.cellLines=function(c,ver){ if(!c) return null; if(ver==='dt') return c.dt||c.s6||null; if(ver==='s5') return c.s5||c.s6||null; return c.s6||null; };
@@ -283,7 +284,15 @@ const FEST=(function(){
     cardBusy=true; (async()=>{ R.done[key]='card'; GM.sceneBegin(); try{ if(typeof ADV!=='undefined'&&ADV.begin) ADV.begin({background:'blur',right:{charId:'heroine_02',expression:'neutral'}});
         const K=X.PEOPLE.heroine_02.card; await runLines([{speaker:null,text:K.narr}].concat(K.lines),'heroine_02'); S.reward(G,'heroine_02','white',2029,'video'); }
       finally { if(typeof ADV!=='undefined'&&ADV.active&&ADV.end) ADV.end(); GM.sceneEnd(); cardBusy=false; } })().catch(e=>{ console.warn('FEST card',e); cardBusy=false; }); return true; };
-  S.phone=function(G){ if(!G||!G.flags||!law(G)||typeof PHONE==='undefined') return; S.rec(G); for(const f of [S.herAsks,S.autoCalls,S.ytNoon,S.zrDm]){ try{ f(G); }catch(e){ console.warn('FEST phone',e); } } };
+  /* AA_531 7-1：人在美國的生日（那一格寫了美國的視訊：以安 2028 9/15）——生日只能玩家約，在美國「約」關掉了（us_life3d.js S9），原本那一通到不了：
+     交往中、或那一年本來就約得到她過生日（S.eligible：第 5 階以上）＝前一天起自動排那一通視訊（你打給她；臺灣 21:00＝當地 09:00，鬧鐘會叫）*/
+  S.bdayAbroad=function(G){ if(route(G)!=='US') return;
+    for(const id of HER){ const c=S.cell(id,'bday'); if(!c||!c.vid||c.vid.route!=='US') continue;
+      for(const y of S.years(id,'bday')){ const d=S.dayOf(id,'bday',y); if(d==null||G.day<d-1||G.day>d||!abroadMe(G,d)) continue; const f={id,k:'bday',y,d};
+        if(!S.eligible(G,id,'bday',y)||S.dedicated(G,id,'bday',y)||!S.vidOk(G,id,c,y)||S.bookedWith(G,id,d)||!contact(G,id,d)||S.rec(G).done[id+':bday:'+y]) continue;
+        const W=S.applies(G,id,'bday',y,d); if(!W||W.mode!=='abroad') continue; const h=S.videoH(G,id,d); if(now(G)>=T(d,h+0.25)) continue;
+        S.planVideo(G,f,false); } } };
+  S.phone=function(G){ if(!G||!G.flags||!law(G)||typeof PHONE==='undefined') return; S.rec(G); for(const f of [S.herAsks,S.autoCalls,S.ytNoon,S.zrDm,S.bdayAbroad]){ try{ f(G); }catch(e){ console.warn('FEST phone',e); } } };
 
   /* ---------------- 校外約會（date3d.js）約在她的節日：到了先演節日那一段 ---------------- */
   S.dateBefore=async function(GM,q){ const G=GM.G; if(!q||!q.dateTrip||typeof DATE==='undefined'||!DATE.trip) return false; const t=DATE.trip(G,q.dateTrip); if(!t) return false;

@@ -199,8 +199,10 @@ const SISB16=(function(){
   if(typeof SISY23!=='undefined'&&typeof SISY23.preTalk==='function'&&!SISY23.preTalk._sisb16){ const p0=SISY23.preTalk;
     SISY23.preTalk=Object.assign(async function(GM){ try{ S.bookReturn(GM); }catch(e){ console.warn('SISB16 book',e); } return p0.apply(this,arguments); },p0,{_sisb16:true}); }
   /* 6-10 大四上的招呼：美國那一句只在她回來以前（12/23 以前）說；回來以後換新的那一句（字在 ladder.js，tools/ladder/import_ladder.py）*/
+  /* AA_531 7-3：美國那一句（遞保溫瓶）只給交往中；挽回中（美國路線、沒在交往）換「這邊的飲水機只有冰的。我自己帶。」（字也在 ladder.js 的 base，tools/ladder/import_ladder.py 疊上去）*/
   if(typeof STORY!=='undefined'&&STORY.LADDER_GREET_IF&&L.greetUS&&L.greetBack){ const back=()=>D('2028-12-23');
-    STORY.LADDER_GREET_IF[L.greetUS]={test:G=>{ const b=back(); return b==null||G.day<b; }};
+    STORY.LADDER_GREET_IF[L.greetUS]={test:G=>{ const b=back(); return (b==null||G.day<b)&&S.dating(G); }};
+    if(L.greetUSRepair) STORY.LADDER_GREET_IF[L.greetUSRepair]={test:G=>{ const b=back(); return (b==null||G.day<b)&&!S.dating(G); }};
     STORY.LADDER_GREET_IF[L.greetBack]={test:G=>{ const b=back(); return b!=null&&G.day>=b; }}; }
   /* 2D 背景：新體育館游泳池沒有圖＝深色底＋地點字幕（BB 跟使用者要圖）*/
   if(typeof OUT!=='undefined'&&OUT.BG&&!OUT.BG.gym_pool) OUT.BG.gym_pool={label:'新體育館・游泳池',image:null};

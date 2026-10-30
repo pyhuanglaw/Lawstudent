@@ -191,6 +191,7 @@ const MSG=(function(){
     if(p==='兩人是朋友') return true;   /* 子晴「芷若在英國」（BB_178 第 2 節）：遊戲還沒有子晴×芷若的狀態（ZZ），她們是朋友 */
     if(p==='每月第一個週日以後那一週'){ const x=CALENDAR.dateOf(G.day), d1=G.day-((x.d|0)-1); let s0=d1; while((CALENDAR.dateOf(s0).wd%7)!==0&&s0<d1+7) s0++; return G.day>=s0&&G.day<=s0+6; }   /* 子晴「芷若這個月打來了」（BB_178 第 2 節）：那個月第一個週日起的七天 */
     if(p==='祐廷也在美國') return S.usWithHer(G);   /* AA_370 第 6 節第 3 題：學姊事務版「在圖書館。有事嗎？」只在祐廷也在布魯明頓時用 */
+    if(p==='祐廷在臺灣') return !S.ytAbroad(G);   /* AA_531 3-3：「在臺灣才成立的話」（語彤「阿姨問你怎麼沒來。」）祐廷在國外不用 */
     if(p==='在臺灣') { const pr=presence(G,id); return !(pr&&pr.here===false&&pr.kind==='abroad'); } if(p==='在美國'){ const pr=presence(G,id); return !!(pr&&pr.here===false&&pr.kind==='abroad'); } if(p==='在老家'||p==='在老家或旅行'){ const pr=presence(G,id); return !!(pr&&pr.here===false&&pr.kind==='home'); }   /* AA_276：寒暑假回老家（可昕高雄、沛珊台中）*/
     let m=p.match(/^(?:祐廷)?(大[一二三四])(上|下)?(?:～(大[一二三四])(上|下)?)?(起)?$/);
     if(m){ const y=yearNow(G), a=YEAR[m[1]], b=m[3]?YEAR[m[3]]:(m[5]?9:a); if(!(y>=a&&y<=b)) return false; const sm=semNow(G);

@@ -43,7 +43,9 @@ const SISB16_LINES={
   /* 6-15 大四寒假（2028-12-25～2029-02-18）找她說話（沒有閒聊階梯的時候）：六句輪流（story3d.js talkSis 問 SISB16.winterLine）*/
   winter:['寒假的研究室只有我。暖氣是我開的。','第四章還有三節。……還有兩節。','行李箱還沒收完。','法圖寒假開得很短。我改去總圖。','早上去游泳。這邊的水比較冷。','陳助教說我變黑了。……我在美國都在室內。'],
   /* 6-10 大四上招呼（ladder.js 的 base，tools/ladder/import_ladder.py 疊上去）：12/23 回來以後說新的那一句、以前說美國那一句（條件在 src/sis_b16_3d.js：STORY.LADDER_GREET_IF）*/
-  greetUS:'（她把保溫瓶遞過來）熱水。這邊的飲水機只有冰的。', greetBack:'（她把保溫瓶遞過來）……回來了。這邊的飲水機有熱水。' };
+  greetUS:'（她把保溫瓶遞過來）熱水。這邊的飲水機只有冰的。', greetBack:'（她把保溫瓶遞過來）……回來了。這邊的飲水機有熱水。',
+  /* AA_531 7-3（企劃線 475f55fe6）：挽回中的美國招呼（遞保溫瓶只給交往中；條件在 src/sis_b16_3d.js）*/
+  greetUSRepair:'這邊的飲水機只有冰的。我自己帶。' };
 
 const SISB16_EVENTS=(function(){
   const ID='heroine_05', X=()=>typeof SISB16!=='undefined'?SISB16:null;

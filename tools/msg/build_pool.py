@@ -123,7 +123,8 @@ p.add('chat', 'R', ['（照片：總圖三樓的窗外）'],
       addIf={'tag': '下雨天', 'msgs': ['下雨了。'], 'text': '下雨天加一則「下雨了。」'})
 p.add('chat', 'R', ['剛收完店。'], ['收店後'])
 p.add('chat', 'R', ['陪我媽看電視。'], ['晚上、在家'])
-p.add('chat', 'L', ['在店裡。阿姨問你怎麼沒來。'], ['店裡的時間'])
+p.add('chat', 'L', ['在店裡。阿姨問你怎麼沒來。'], ['店裡的時間', '祐廷在臺灣'])   # AA_531 3-3（企劃線 475f55fe6）：祐廷在國外不用這一句（「怎麼沒來」在臺灣才成立）；美國版在下一行
+p.add('chat', 'L', ['在店裡。阿姨問你美國有沒有麵。'], ['店裡的時間', '美國路線'], src='AA_531 3-3 在國外的版本')
 p.add('share_cat', 'A', ['（照片：另一隻貓，在麵店門口）'])
 p.copy('share_cat', 'A', 'R', '同 A，加「這隻每天都來。」', add_msgs=['這隻每天都來。'])
 p.copy('share_cat', 'R', 'L', '同 R')
@@ -785,7 +786,7 @@ people.append(p)
 # ───────────────────────── assemble ─────────────────────────
 TOPIC_ORDER = ['chat', 'course', 'share_cat', 'share_food', 'share_notes', 'share', 'night', 'daily']
 TIER_ORDER = {'A': 0, 'R': 1, 'L': 2}
-data = {'source': {'AA_202': 'b61e4f55', 'BB_178': 'bb6baddf', 'AA_370': '9eaf4e98', 'AA_393': 'e81a1afe1'}, 'people': {}, 'tagsSeen': []}
+data = {'source': {'AA_202': 'b61e4f55', 'BB_178': 'bb6baddf', 'AA_370': '9eaf4e98', 'AA_393': 'e81a1afe1', 'AA_531': '475f55fe6'}, 'people': {}, 'tagsSeen': []}
 seen = []
 
 
