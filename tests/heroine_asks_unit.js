@@ -9,6 +9,7 @@
 //   6  可昕交往中只有校外（週三晚上傳、約週六或週日）；答應＝DATE.book（by:'npc'）、她回「好。」；排不進＝系統一句
 //   7  心願地點從來不出現在她的邀約裡
 //   8  連續兩次「不了」以後暫停（交往前 4 週）；「改天」＝3 天後同一個地點再約一次（只再一次），不打開自己選時間
+//   10 經濟系那一年（G.stage econ）不約（AA_529 第 1 點，企劃線 881029f98）：HASK.block＝'econ'
 //   9  個人：子晴週末兩點以前不約；芷若沒班 20:00 傳、上班 22:40 傳；語彤的麵店＝問一聲（here），答應回「好。……我跟阿姨說。」
 // 修改前（開發分支 f534dcc4a）：沒有 src/heroine_asks3d.js——第 0 項 FAIL、結束碼 1。用法：node tests/heroine_asks_unit.js
 const H=require('./pg_harness.js');
@@ -113,4 +114,6 @@ const thread=id=>(H.G.msgs||[]).filter(m=>PHONE.th(m)==='p:'+id);
     check('9. 語彤的麵店（here）：手機問一聲（不是 INV 的邀約）；答應回「好。……我跟阿姨說。」',x.here===true&&!x.iv&&!!m&&last.text==='好。……我跟阿姨說。',J({x,last:last&&last.text})); }
   else { const e=HASK_DATA.people.heroine_03.daily.find(q=>q.place==='noodle'); let okd=false; for(let d=d0+1;d<d0+28&&!okd;d++){ at(d-1,12); for(const h of e.pre.h) if(HASK.dailyOk(G,'heroine_03',e,e.pre,d,h)) okd=true; }
     check('9. 語彤的麵店（here）：四週內她在麵店的時間都約不到（沒有可以測的那一天）',false,J({okd,sent:sent().map(q=>[q.id,q.place])})); } }
+{ const st0=H.G.stage; H.G.stage='econ'; const b=HASK.block(H.G,'kexin',H.G.day); H.G.stage=st0; const b2=HASK.block(H.G,'kexin',H.G.day);
+  check('10. 經濟系那一年（stage econ）可昕不主動約：block＝econ；法律系照舊不是 econ（AA_529 第 1 點）',b==='econ'&&b2!=='econ',J({b,b2})); }
 H.done();
