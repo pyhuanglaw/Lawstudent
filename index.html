@@ -16,7 +16,7 @@ button{font-family:var(--font);cursor:pointer}
 #hud{position:absolute;left:max(10px,env(safe-area-inset-left));top:max(8px,env(safe-area-inset-top));display:flex;flex-direction:column;gap:6px;pointer-events:none}
 .chip{display:inline-flex;align-items:center;gap:8px;background:var(--panel);border:1px solid var(--line);border-radius:999px;padding:6px 12px;font-size:13px;line-height:1;backdrop-filter:blur(6px);color:#f4efe6}
 .chip b{color:var(--accent);font-weight:500}
-#goal{font-size:12px;color:#e8e2d6;max-width:60vw;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+#goal{font-size:12px;color:#e8e2d6;max-width:60vw;overflow:hidden;display:-webkit-box;-webkit-box-orient:vertical;-webkit-line-clamp:2;white-space:normal;line-height:1.3;border-radius:14px}
 #hudR{position:absolute;right:max(10px,env(safe-area-inset-right));top:max(8px,env(safe-area-inset-top));display:flex;align-items:center;gap:8px}
 .ibtn{width:44px;height:44px;border-radius:50%;border:1px solid var(--line);background:var(--panel);color:#f4efe6;font-size:18px;display:flex;align-items:center;justify-content:center;backdrop-filter:blur(6px)}
 .ibtn.on{background:rgba(233,185,106,.85);color:#1c1a17;border-color:transparent}

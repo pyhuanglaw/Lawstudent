@@ -15,4 +15,8 @@ check('2. 沒有目的地（沒有目標）：收起、👥 亮點',J(whoShow(un
 check('3. 有目標、有目的地（去上課）：收起、不亮',J(whoShow(undefined,'去共同教學館上課',{zone:'campus'}))==='{"show":false,"hot":false}');
 check('4. 玩家按 👥 打開過：之後打開地圖照樣展開、不亮（有目標也展開）',J(whoShow(true,'自由活動',null))==='{"show":true,"hot":false}'&&J(whoShow(true,'去上課',{zone:'campus'}))==='{"show":true,"hot":false}');
 check('5. 玩家按 👥 收起來：之後照樣收起；自由的日子還是亮點',J(whoShow(false,'自由活動',null))==='{"show":false,"hot":true}'&&J(whoShow(false,'去上課',{zone:'campus'}))==='{"show":false,"hot":false}');
+// 6～7：同一批 BB-B 觀察（AA_541 第 7 節）：寬螢幕大地圖「總圖書館」被人名標籤蓋住；HUD 目標那一行直向、橫向都被截。修改前 FAIL。
+check('6. 大地圖人名標籤先問 free（會蓋住已經畫的地名、門口就只留點）',/const tw=x\.measureText\(n\.name\)\.width; if\(free\(u\+7\+tw\/2,w,tw,14\)\)\{/.test(src));
+{ const g=(html.match(/#goal\{font-size:12px;[^}]*\}/)||[''])[0];
+  check('7. HUD 目標最多兩行（-webkit-line-clamp:2、white-space:normal），不再一行截斷',/-webkit-line-clamp:2/.test(g)&&/white-space:normal/.test(g)&&!/nowrap/.test(g),g); }
 console.log(fails?('FAILED '+fails):'ALL PASS'); process.exit(fails?1:0);
