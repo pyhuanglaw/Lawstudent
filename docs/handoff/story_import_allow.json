@@ -3581,11 +3581,11 @@
   },
   {
    "path": "docs/story_planning/AA_538_實作問答定稿句_佳蓉B館版_SK02系辦三句.md",
-   "sha": "04ebaa37e",
+   "sha": "b9d816288",
    "status": "approved",
    "approvedBy": "AA-B 定稿（D109）",
    "task": "AA527-FIX-1030",
-   "note": "AA-B 05:26：實作問答裡定的句子寫進稿（佳蓉 B館版 meetB 五行＋畢業照片句：src/data/pool_story_b2.js；SK02 系辦兩句：src/data/events.js ev_sk02_jacket）。測試 node tests/aa_followup_1030_unit.js 的 D0"
+   "note": "AA-B 05:26：實作問答裡定的句子寫進稿（佳蓉 B館版 meetB 五行＋畢業照片句：src/data/pool_story_b2.js；SK02 系辦兩句：src/data/events.js ev_sk02_jacket）。測試 node tests/aa_followup_1030_unit.js 的 D0；b9d816288 加第 4 節 PHONE-UNIFY-1030（子晴 openText、分享 A 層各補兩則：tools/msg/build_pool.py → src/data/msg_pool.js；系統說明兩句：src/msg3d.js、src/game3d.js），第 1、2 節同 04ebaa37e"
   },
   {
    "path": "docs/story_planning/AA_536_經濟系同學在社科院圖書館_作息與台詞.md",

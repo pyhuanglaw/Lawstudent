@@ -113,11 +113,11 @@ const NARR='（回家的路上，手機震了一下。）', SAN='在公館的路
     setup(TD('Y2S1',3,2)); const p6=pick(); check('C. 過了大一下（大二上第 3 週的麵店日）：沒演到的也不再演',p6!=='h504_zhe_hand',J(p6)); });
 
   /* ---------- D0：句子都在 AA_538 稿裡（04ebaa37e） ---------- */
-  await sec('D0',async()=>{ let doc=''; try{ doc=require('child_process').execSync('git -c core.quotepath=false show 04ebaa37e:"docs/story_planning/AA_538_實作問答定稿句_佳蓉B館版_SK02系辦三句.md"',{cwd:H.ROOT,encoding:'utf8'}); }catch(e){}
+  await sec('D0',async()=>{ let doc=''; try{ doc=require('child_process').execSync('git -c core.quotepath=false show b9d816288:"docs/story_planning/AA_538_實作問答定稿句_佳蓉B館版_SK02系辦三句.md"',{cwd:H.ROOT,encoding:'utf8'}); }catch(e){}
     const M='pool_20', L=POOL.LINES[M], ev=(STORY_EVENTS||[]).find(e=>e.id==='ev_sk02_jacket');
     const want=(L.meetB||[]).filter(l=>!l.meet).map(l=>l.text).concat([(L.gradB||[])[0]]), sk=ev?ev.dialogue.filter(d=>d.text==='我重考了。現在念法律系。'||d.text==='……喔，重考的那個。外套在這裡，等你快一年了。').map(d=>d.text):[];
     const strip=t=>String(t||'').replace(/^「(.*)」$/,'$1'), miss=want.concat(sk).filter(t=>!doc.includes(strip(t)));
-    check('D0. AA_538（04ebaa37e）讀得到；佳蓉 meetB 五行＋畢業照片句、SK02 系辦兩句都在稿裡（一字不差）',doc.length>500&&want.length===6&&sk.length===2&&!miss.length,doc?J(miss):'git fetch origin claude/cool-heisenberg-o8kuqx'); });
+    check('D0. AA_538（b9d816288）讀得到；佳蓉 meetB 五行＋畢業照片句、SK02 系辦兩句都在稿裡（一字不差）',doc.length>500&&want.length===6&&sk.length===2&&!miss.length,doc?J(miss):'git fetch origin claude/cool-heisenberg-o8kuqx'); });
 
   /* ---------- D：AA_528 第 9 點 ---------- */
   await sec('D',async()=>{ const M='pool_20', L=POOL.LINES[M];
