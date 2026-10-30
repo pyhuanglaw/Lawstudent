@@ -88,17 +88,17 @@ const NARR='（回家的路上，手機震了一下。）', SAN='在公館的路
     check('B. 舊存檔：已經排進佇列、沒有 quiet 的那一則，規則跑一次補成 quiet',PHONE.rec(G5).q.find(x=>x.tag==='y0_badminton_1').items.every(it=>it.quiet===true)); });
 
   /* ---------- C：AA_527 第 2 點 ---------- */
-  await sec('C',async()=>{ const HAND='阿姨的手包起來了。語彤一個人顧店。我去幫忙收碗，她說你坐著。';
+  await sec('C',async()=>{ const HAND='考期中那兩個禮拜，阿姨的手包著。語彤一個人顧店。我去吃麵順便幫忙收碗，她說你坐著。';   /* AA_504 3-4 10-30 14:30 改（期中週＝繃帶期，長桌最早第 10 週）*/
     const setup=(d)=>{ fresh(d,18,'noodle'); fam('zhe'); fam('heroine_03'); fam('yu'); fam('classmate_bohan'); fam('classmate_xinci'); PHONE.join(H.G,'noodle_team','麵店團'); H.G.flags.ndlTalkN={Y1:3}; return H.G; };
     const pick=()=>{ const p=STORY.ndlTalkPick(H.G); return p&&p.e.once||(p?'#'+p.i:null); };
-    const w9t=TD('Y1S2',9,2), w9r=TD('Y1S2',9,4);
+    const w9t=TD('Y1S2',10,2), w9r=TD('Y1S2',10,4);   /* 大一下第 9 週是期中週（麵店團考試週不去麵店，AA-B 10-30 14:30）：weekFrom 9 實際從第 10 週起 */
     setup(w9t); npcAt('heroine_03',1,1); const p1=pick();
-    check('C. 第 9 週的麵店日（週二），語彤在 4 m 內：不演那一則（換別則）',p1!=='h504_zhe_hand',J(p1));
+    check('C. 第 9 週起第一個麵店日（第 10 週週二），語彤在 4 m 內：不演那一則（換別則）',p1!=='h504_zhe_hand',J(p1));
     H.said=[]; await STORY.ndlTalk(GM); const O1=H.G.flags.ndlTalkOnce||{};
     const keep=JSON.parse(JSON.stringify(H.G.flags.ndlTalkOnce||{}));
     setup(w9r); H.G.flags.ndlTalkOnce=JSON.parse(JSON.stringify(keep)); const p2=pick(); H.said=[]; await STORY.ndlTalk(GM);
-    check('C. 下一個麵店日（第 9 週週四）她不在 4 m 內：演「阿姨的手包起來了。……」、只演一次（記 ndlTalkOnce）',O1.h504_zhe_hand==null&&p2==='h504_zhe_hand'&&H.said.some(s=>s.t===HAND)&&H.G.flags.ndlTalkOnce.h504_zhe_hand===w9r,J({p2,said:H.said.map(s=>s.t),once:H.G.flags.ndlTalkOnce}));
-    const done=JSON.parse(JSON.stringify(H.G.flags.ndlTalkOnce)); setup(TD('Y1S2',10,2)); H.G.flags.ndlTalkOnce=done; const p3=pick();
+    check('C. 下一個麵店日（第 10 週週四）她不在 4 m 內：演「考期中那兩個禮拜，阿姨的手包著。……」、只演一次（記 ndlTalkOnce）',O1.h504_zhe_hand==null&&p2==='h504_zhe_hand'&&H.said.some(s=>s.t===HAND)&&H.G.flags.ndlTalkOnce.h504_zhe_hand===w9r,J({p2,said:H.said.map(s=>s.t),once:H.G.flags.ndlTalkOnce}));
+    const done=JSON.parse(JSON.stringify(H.G.flags.ndlTalkOnce)); setup(TD('Y1S2',11,2)); H.G.flags.ndlTalkOnce=done; const p3=pick();
     check('C. 演過了：之後不再演',p3!=='h504_zhe_hand',J(p3));
     /* 第 9 週她一直在旁邊 → 第 12 週她不在 */
     setup(TD('Y1S2',12,2)); const p4=pick();

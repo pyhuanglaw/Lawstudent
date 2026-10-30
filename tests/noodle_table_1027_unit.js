@@ -90,7 +90,7 @@ check('0. 旁白不加括號',!Object.values(NOODLE_TABLE).some(L=>L.some(e=>e.d
 
 /* 7. 大二～大四 */
 { at('2026-09-15',18); const {L}=await play(); check('7. 大二（9/15 二）第 1 則：還沒交往＝跳過，演第 2 則（柏翰、阿哲）',J(L)===J(SPEC.Y2[1]),J(L));
-  at('2026-12-22',18); H.G.events.done.ev_yu_together=1; const r=await play(); check('7. 大二交往以後：第 1 則',J(r.L)===J(SPEC.Y2[0]),J(r.L));
+  at('2026-12-15',18); H.G.events.done.ev_yu_together=1; const r=await play();   /* 12/22 是期末週（麵店團考試週不去麵店，AA-B 10-30 14:30）：改第 15 週 12/15 */ check('7. 大二交往以後：第 1 則',J(r.L)===J(SPEC.Y2[0]),J(r.L));
   at('2026-09-15',18); H.G.flags.ndlTalkN={Y2:2}; let q=await play(); check('7. 大二第 3 則：沒有雙主修＝3b「公車今天塞了二十分鐘。我以為趕不上了。」',J(q.L)===J(['公車今天塞了二十分鐘。我以為趕不上了。']),J(q.L));
   at('2026-09-15',18); H.G.flags.ndlTalkN={Y2:2}; H.G.events.done.ev_xinci_double=1; q=await play(); check('7. 大二第 3 則：演過雙主修＝3',J(q.L)===J([SPEC.Y2[2][0]]),J(q.L));
   at('2026-09-15',18,{know:['zhe','yu','classmate_bohan','classmate_xinci']}); H.G.flags.ndlTalkN={Y2:5}; q=await play(); check('7. 大二第 6 則：不認識語彤＝跳過（回到第 1 則→第 2 則）',J(q.L)===J(SPEC.Y2[1]),J(q.L)); }

@@ -36585,6 +36585,29 @@
    "sha": "49ba39d6d",
    "notes": "PG.MSGS pg_an_ex1、pg_an_group 加 win:6；tests/pg_an_ex_win_unit.js（修改前 FAIL）",
    "evidence": "BB-B 2b40377eb 7/0 PASS：AN_EX_LATE（21:12 變 FRIEND）收到、標 12/14 21:00；AN_EX_NOON（12/15 中午）沒有；1/25 照收；修正前 b38 NOON 照樣補發 FAIL（BB_218）；tests/pg_an_ex_win_unit.js"
+  },
+  {
+   "id": "NDL-EXAM-1030",
+   "title": "考試週麵店團不去麵店（四人麵店作息 noExam）；考試週週二四 17～21 進麵店阿姨「這禮拜考試齁？你們那桌都沒來。」（每個考試週一次；語彤顧店那一場在就不說）；h504_zhe_hand 改回頭說",
+   "area": "STORY",
+   "owner": "LAWWW",
+   "status": "已整合待測試",
+   "next": "BB 測：10/21（期中週）18:00 進麵店＝四人不在、阿姨那句一次、不演長桌閒聊；10/23 不再說；大一下第 10 週麵店日阿哲新句；平常麵店日照舊",
+   "priority": "P2",
+   "first": {
+    "term": "Y1S1",
+    "week": 8,
+    "earliest": "大一上期中週的週二",
+    "mainline": true,
+    "blocks": false,
+    "prereq": false,
+    "parallel": true,
+    "confirmed": true
+   },
+   "source": "BB-B n15_ndlread（10/21 noodleDay false 但四人在店裡）；AA-B 14:25 回 A、14:30 照建議＋h504 改句（AA_504 da3e72727）",
+   "authorized": "D109、D111",
+   "sha": "PENDING",
+   "notes": "story3d hit() 支援 noExam；S.ndlExamDue／ndlExamAyi；四支測試日期改到非考試週（aa503、aa527_528、aa_followup_1030、noodle_table_1027）；ndl_present_unit 第 7 項；白名單 AA_504 → da3e72727"
   }
  ]
 }

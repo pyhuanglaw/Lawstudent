@@ -50,4 +50,13 @@ if(typeof STORY.ndlHere!=='function') H.done();
   STORY.noodleRegulars(GM,true); const cust=E.npcs.filter(n=>n.ndlRegular).length, freeLeft=seats.filter(st=>!E.npcs.some(n=>{ const q=n.seat||n.seatTarget; return q&&Math.hypot(q.x-st.x,q.z-st.z)<0.3; })).length;
   E.zone=z0; E.npcs=n0; E.addNPC=addOrig; global.CHAR=c0; EVENTS.npcOf=o0;
   check('6. 客人 4 位的麵店日（'+k+'，阿哲、Alison 已坐中間）：客人只坐 2 個、留 2 個空位給柏翰、芯慈',STORY.noodleCount(G)>=4&&cust===2&&freeLeft===2,J({day:k,count:STORY.noodleCount(G),cust,freeLeft})); }
+// 7. 考試週（AA-B 10-30 14:25 回 A）：麵店團不去麵店（落回各自的作息）；玩家在群組、考試週週二四 17～21 進麵店，每個考試週第一次阿姨一句
+{ const notNoodle=k=>{ const G=at(k,18); return TEAM.filter(id=>{ const e=STORY.schedEnt(CHARACTERS[id],G); return e&&e.zone==='noodle'; }); };
+  const ex=notNoodle('2025-10-21'), nm=notNoodle('2025-10-14');
+  check('7. 期中週 10/21 18:00 四人都不在麵店（作息）；平常 10/14 四人都在',ex.length===0&&nm.length===4,J({exam:ex,normal:nm}));
+  const G=at('2025-10-21',18); const d1=STORY.ndlExamDue(G), talk=STORY.ndlTalkDue(G); H.said=[]; STORY.ndlExamAyi(GM); const said=J(H.said), d2=STORY.ndlExamDue(G);
+  const G2=at('2025-10-23',18); G2.flags.ndlExamAyi=G.flags.ndlExamAyi; const thu=STORY.ndlExamDue(G2);
+  const G3=at('2025-10-21',18); PHONE.leave&&PHONE.leave(G3,'noodle_team'); const G3g=PHONE.inGroup(G3,'noodle_team'); const noGrp=G3g?null:STORY.ndlExamDue(G3);
+  const G4=at('2025-10-14',18), norm=STORY.ndlExamDue(G4);
+  check('7. 10/21 進麵店：阿姨「'+STORY.NDL_EXAM_AYI+'」一次（不演長桌閒聊）；同一個考試週的 10/23 不再說；平常 10/14 沒有',d1===true&&talk===false&&/這禮拜考試齁？你們那桌都沒來。/.test(said)&&d2===false&&thu===false&&norm===false&&(noGrp===null||noGrp===false),J({d1,talk,said,d2,thu,norm,noGrp})); }
 H.done();

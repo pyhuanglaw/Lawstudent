@@ -3297,11 +3297,11 @@
   },
   {
    "path": "docs/story_planning/AA_504_女主角自己的生活_大一下與暑假.md",
-   "sha": "62849944b",
+   "sha": "da3e72727",
    "status": "approved",
    "approvedBy": "AA-C 定稿（D109；使用者 10-28 01:2x 對 LAWWW-C「可攻略女主角 感覺都沒有自己的生活」，USER_WANTS X122★）；62849944b＝AA_505 同一個 commit 更正三處以後的版本（小婷只排週五晚上、子晴暑假多在家寫、予樂生日改期末倒數）",
    "task": "HEROINE-LIFE-1028",
-   "note": "LAWWW-C 10-28 指示子代理登記（手抄）：手機的部分——第 0 節第 1 點（可昕 kx2_late、kx2_azalea 改動態）、第 1～7 節每位的動態表與「她自己的事」的私訊（src/data/feed_y1s2.js、src/feed3d.js；語彤放榜以後麵店阿姨那一句：story3d.js noodleScene）、「別人說起她」（src/data/heard_lines.js，pool_*、小婷不在）；tests/aa504_505_feed_unit.js、tests/aa503_others_unit.js 用 git show 62849944b 逐字對。3D 圈子、公館窗邊的旁白、學姊游泳池、沛珊和柏翰同框、課輔班營隊作息不在這一筆的實作裡；3D 圈子（各位的 x-1 表；學姊游泳池、沛珊和柏翰同框、課輔班的小朋友在這裡）：src/data/heroine_circle.js、src/hcircle3d.js（HEROINE-CIRCLE3D-1028），tests/heroine_circle3d_unit.js 用 git show 62849944b 逐字雙向對稿"
+   "note": "【LAWWW-B 10-30 14:4x】da3e72727＝3-4 阿哲那句改成回頭說（期中週＝繃帶期，長桌最早第 10 週；AA-B 14:30）；src/data/heard_lines.js h504_zhe_hand 照改，tests/aa503_others_unit.js 對 da3e72727（其他測試照舊對 62849944b，那幾節沒改）｜ LAWWW-C 10-28 指示子代理登記（手抄）：手機的部分——第 0 節第 1 點（可昕 kx2_late、kx2_azalea 改動態）、第 1～7 節每位的動態表與「她自己的事」的私訊（src/data/feed_y1s2.js、src/feed3d.js；語彤放榜以後麵店阿姨那一句：story3d.js noodleScene）、「別人說起她」（src/data/heard_lines.js，pool_*、小婷不在）；tests/aa504_505_feed_unit.js、tests/aa503_others_unit.js 用 git show 62849944b 逐字對。3D 圈子、公館窗邊的旁白、學姊游泳池、沛珊和柏翰同框、課輔班營隊作息不在這一筆的實作裡；3D 圈子（各位的 x-1 表；學姊游泳池、沛珊和柏翰同框、課輔班的小朋友在這裡）：src/data/heroine_circle.js、src/hcircle3d.js（HEROINE-CIRCLE3D-1028），tests/heroine_circle3d_unit.js 用 git show 62849944b 逐字雙向對稿"
   },
   {
    "path": "docs/story_planning/AA_505_女主角自己的生活_大二上與寒假.md",

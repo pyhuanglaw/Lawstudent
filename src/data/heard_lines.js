@@ -115,7 +115,7 @@ const HEARD_LINES={
       {who:['zhe'],know:['heroine_03'],about:'heroine_03',once:'h503_zhe_garlic',if:{term:['Y1S1']},dialogue:[{speaker:'zhe',text:'語彤今天又在剝蒜頭。我去幫忙，被阿姨趕出來。'}]},
       /* AA_504 3-4（第 9 週，阿姨扭到手那兩週）：那一週先挑、只演一次。
          AA_527 第 2 點（AA-B 2026-10-30 04:55）：語彤顧店常在 4 m 內（about：她在旁邊不說）——順延到下一個麵店日，大一下學期內有效，過了學期才放掉＝第 9 週起（weekFrom）、大一下（term）的麵店日，第一個能說的那天演 */
-      {who:['zhe'],know:['heroine_03'],about:'heroine_03',once:'h504_zhe_hand',pri:true,if:{term:['Y1S2'],weekFrom:9},dialogue:[{speaker:'zhe',text:'阿姨的手包起來了。語彤一個人顧店。我去幫忙收碗，她說你坐著。'}]} ]
+      {who:['zhe'],know:['heroine_03'],about:'heroine_03',once:'h504_zhe_hand',pri:true,if:{term:['Y1S2'],weekFrom:9},dialogue:[{speaker:'zhe',text:'考期中那兩個禮拜，阿姨的手包著。語彤一個人顧店。我去吃麵順便幫忙收碗，她說你坐著。'}]} ]
   },
   phone:[
     /* AA_503 8-4：Kevin 在家族群組，12/15 現有聖誕那幾則（21:00，family_xmas3d.js）之前 */
