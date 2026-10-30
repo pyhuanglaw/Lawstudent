@@ -36197,6 +36197,28 @@
     "ack": "SENT"
    },
    "notes": ""
+  },
+  {
+   "id": "BBALL-PRESENT-1030",
+   "title": "系籃練球（週五 17:30～19:00）球場沒人：練球時間阿哲、明軒、學長們真的在球場；非練球日球場提示練球時間；國定假日那週查清楚",
+   "area": "SYS",
+   "owner": "LAWWW",
+   "status": "待開工",
+   "next": "LAWWW：activities.js dept_basketball 的時段加球場上的人（作息或活動生成路人），國定假日檢查；BB 測",
+   "priority": "P1",
+   "first": {
+    "term": "Y1S1",
+    "week": 5,
+    "earliest": "大一上第 5 週週五 17:30 第一次練球",
+    "mainline": false,
+    "blocks": false,
+    "prereq": false,
+    "parallel": true,
+    "confirmed": true
+   },
+   "source": "使用者 10-30 05:2x＋day 30 存檔（X142）",
+   "authorized": "使用者",
+   "notes": ""
   }
  ]
 }
