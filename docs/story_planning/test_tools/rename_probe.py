@@ -26,6 +26,7 @@ J = lambda o: json.dumps(o, ensure_ascii=False)
 BAD = [('疊字「法律系館A館／B館」', re.compile(r'法律系館[AB]館')), ('自己縮的「首帝」', re.compile(r'首帝(?!國|大)')),
        ('自己縮的「帝大」', re.compile(r'(?<!首都)帝大')), ('明衡館／致遠館', re.compile(r'明衡館|致遠館'))]
 SHORT = re.compile(r'(?<![系館])[AB]館')   # 寫的字（地點、門口、地圖、存檔頁）要「法律系館A」，只寫「A館」＝報
+NEWN = re.compile(r'首都帝|木柵大學|法律系館[AB]|[AB]館|晨思鐘|椰影|映月湖|博思|圓窗館|小松|學活|國際學苑|社科院圖書館|翠嶺')
 WRITTEN_IDS = ('clockZ', 'interactLabel', 'title3', 'bmTitle', 'bmSub', 'bmInfo', 'nextClass')
 UI = """(()=>{ const pick=id=>{ const e=document.getElementById(id); if(!e) return null; const cs=getComputedStyle(e); const vis=!!(e.offsetParent||e.getClientRects().length)&&cs.visibility!=='hidden'&&cs.display!=='none';
     const r=e.getBoundingClientRect(); return {id, t:(e.innerText||e.textContent||'').trim(), vis, over:vis&&e.scrollWidth>e.clientWidth+2, off:vis&&Math.round(r.right)>innerWidth+1, w:Math.round(r.width)}; };
@@ -35,7 +36,7 @@ BODY = "(()=>document.body.innerText||'')()"
 
 
 class Find:
-    def __init__(s): s.old = []; s.bad = []; s.short = []; s.over = []; s.seen = set()
+    def __init__(s): s.old = []; s.bad = []; s.short = []; s.over = []; s.over_other = []; s.seen = set()
 
     def text(s, where, t, written=False):
         if not t: return
@@ -52,7 +53,9 @@ class Find:
         for it in items:
             if not it['vis'] or not it['t']: continue
             s.text('%s #%s' % (where, it['id']), it['t'], written=it['id'] in WRITTEN_IDS)
-            if it['over'] or it['off']: s.over.append({'where': where, 'id': it['id'], 't': it['t'][:80], 'over': it['over'], 'off': it['off'], 'w': it['w']})
+            if it['over'] or it['off']:
+                rec = {'where': where, 'id': it['id'], 't': it['t'][:80], 'over': it['over'], 'off': it['off'], 'w': it['w']}
+                (s.over if NEWN.search(it['t']) else s.over_other).append(rec)   # 被截的字裡有新名字才算改名的問題；沒有的（例：目標那一行本來就長）另外列
 
 
 async def launch(p):
@@ -74,7 +77,7 @@ async def save_page(pg, cdp, run, F, tag, do_save=True):
     txt = await pg.evaluate("(document.getElementById('saveSlots')||{}).innerText||''")
     over = await pg.evaluate("(()=>[...document.querySelectorAll('#saveSlots *')].filter(e=>e.children.length===0&&(e.textContent||'').trim()&&(e.scrollWidth>e.clientWidth+2||e.getBoundingClientRect().right>innerWidth+1)).map(e=>(e.textContent||'').trim().slice(0,60)))()")
     F.text('%s 存檔頁' % tag, txt, written=True)
-    for o in over: F.over.append({'where': '%s 存檔頁' % tag, 'id': 'saveSlots', 't': o, 'over': True, 'off': None, 'w': None})
+    for o in over: (F.over if NEWN.search(o) else F.over_other).append({'where': '%s 存檔頁' % tag, 'id': 'saveSlots', 't': o, 'over': True, 'off': None, 'w': None})
     run.note('%s 存檔頁：%s；被截的：%s' % (tag, J(txt[:300]), J(over)))
     await run.shot(pg, '%s_savepage' % tag)
     await L.close_panels(pg, cdp); await pg.wait_for_timeout(600)
@@ -148,6 +151,15 @@ async def oldsave(pg, cdp, run, F):
                 r = await P.phone_thread(pg, cdp, th); F.text('手機對話 %s' % th, r['text'])
                 if th.endswith('kexin'): await run.shot(pg, 'old_phone_kexin')
     await run.shot(pg, 'old_phone')
+    mem2 = await pg.evaluate("""(()=>{ const G=GAME.G; return {msg15:(G.msgs[15]||{}).text||null, outings:(G.outings||[]).map(o=>({title:o.title,place:o.place,back:o.back}))}; })()""")
+    run.note('看過手機以後存檔裡的字：%s' % J(mem2))
+    for v in [mem2['msg15']] + [x for o in mem2['outings'] for x in o.values()]: F.text('看過手機以後 G', v)
+    kx = await P.phone_thread(pg, cdp, 'p:kexin', open_folds=True)
+    line = [l for l in (kx.get('text') or '').split('\n') if '週末來' in l]
+    run.check('舊存檔的可昕訊息「週末來政大？我當導遊。」在手機上顯示新名', bool(line) and not any(WN.find_old(l) for l in line), J(line))
+    if line:
+        await pg.evaluate("(()=>{ const e=[...document.querySelectorAll('#phoneBody *')].find(e=>e.children.length===0&&(e.textContent||'').indexOf('週末來')>=0); if(e) e.scrollIntoView({block:'center'}); })()"); await pg.wait_for_timeout(600)
+        await run.shot(pg, 'old_phone_weekend')
     await L.close_panels(pg, cdp); await pg.wait_for_timeout(600)
     mtabs = await pg.evaluate("(()=>{ return []; })()")
     await L.tap(pg, cdp, '#btnMenu'); await pg.wait_for_timeout(900)
@@ -210,13 +222,13 @@ async def main():
         if MODE == 'views': await views(pg, cdp, run, F)
         elif MODE == 'oldsave': await oldsave(pg, cdp, run, F)
         elif MODE == 'route': await route(pg, cdp, run, F)
-        run.note('舊名：%s' % J(F.old)); run.note('疊字／自己縮／明衡致遠：%s' % J(F.bad)); run.note('寫的字只寫 A館／B館：%s' % J(F.short)); run.note('被截的字：%s' % J(F.over))
+        run.note('舊名：%s' % J(F.old)); run.note('疊字／自己縮／明衡致遠：%s' % J(F.bad)); run.note('寫的字只寫 A館／B館：%s' % J(F.short)); run.note('被截的字（有新名字）：%s' % J(F.over)); run.note('被截的字（和改名無關，另外列）：%s' % J(F.over_other))
         run.check('畫面上沒有舊名（WORLD_NAMING 第 6 節；企劃線 world_names.find_old）', not F.old, J(F.old[:12]))
         run.check('沒有「法律系館A館」疊字、自己縮的「帝大／首帝」、明衡館／致遠館', not F.bad, J(F.bad[:12]))
         run.check('地點字、門口互動字、大地圖、存檔頁寫的是「法律系館A／B」，不是只寫「A館／B館」', not F.short, J(F.short[:12]))
-        run.check('地點字、門口互動字、大地圖、存檔頁的字沒有被截、沒有超出畫面（%s）' % VP, not F.over, J(F.over[:12]))
+        run.check('有新名字的地點字、門口互動字、大地圖、存檔頁沒有被截、沒有超出畫面（%s）' % VP, not F.over, J(F.over[:12]))
         run.check('沒有 JS 例外', not errs, J(errs[:3]))
-        json.dump({'old': F.old, 'bad': F.bad, 'short': F.short, 'over': F.over}, open(os.path.join(OUT, 'rename_%s_%s.json' % (MODE, VP)), 'w'), ensure_ascii=False, indent=1)
+        json.dump({'old': F.old, 'bad': F.bad, 'short': F.short, 'over': F.over, 'over_other': F.over_other}, open(os.path.join(OUT, 'rename_%s_%s.json' % (MODE, VP)), 'w'), ensure_ascii=False, indent=1)
         print('SHA', os.environ.get('SHA', '?'), 'MODE', MODE, 'VP', VP)
         await b.close()
     sys.exit(run.finish())
