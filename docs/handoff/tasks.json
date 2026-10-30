@@ -35664,6 +35664,35 @@
    "source": "AA_528（企劃線 7ad5fee84）",
    "authorized": "D109、D111",
    "notes": "入口那一條是「不製造不合理的門檻」（CLAUDE.md 長期規範第 5 點）。AA-READ-1030 到 AA_527＋528 讀完。"
+  },
+  {
+   "id": "AA-D99-READ-1030",
+   "title": "AA 照 D99 三個優先項目讀遊戲找劇情缺口：經濟系 AA_269 第 6 節 15 點逐點、寒暑假活動與出遊回家約會旅行的台詞覆蓋、美國交換出發到回台各段（含學姊 C25），交 AA_529（第①②級直接附稿）",
+   "area": "STORY",
+   "owner": "AA",
+   "status": "進行中",
+   "next": "AA 交 AA_529 → LAWWW 照 D99 順序排實作",
+   "priority": "P1",
+   "first": {
+    "term": "ECON",
+    "week": 1,
+    "earliest": "經濟系大一（新遊戲開局）",
+    "mainline": true,
+    "blocks": false,
+    "prereq": false,
+    "parallel": true,
+    "confirmed": true
+   },
+   "source": "LAWWW-B 10-30 03:4x 派（AA-B 等使用者兩題時閒置）",
+   "authorized": "D99、D109、D111",
+   "xai": {
+    "spec": "D99（CLAUDE.md P0 三個優先項目）、AA_269 第 6 節",
+    "branch": "claude/cool-heisenberg-o8kuqx",
+    "acceptance": "AA_529：每點現況／缺什麼／補的稿",
+    "receiver": "LAWWW",
+    "ack": "SENT"
+   },
+   "notes": ""
   }
  ]
 }
