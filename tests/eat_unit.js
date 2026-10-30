@@ -78,7 +78,7 @@ const shop=id=>LANE118_SHOPS.shops.find(s=>s.id===id);
   // ---------- E6 ----------
   fresh(td('Y1S1',4,1),12.2,'l118_noodle2'); G.eat={n:{'六張犁麵舖':4},last:{'六張犁麵舖':'牛肉麵'}}; const m0=G.money, T6=EL.staff['六張犁麵舖']||{};
   picks=['老樣子']; await L118.order(GM,'noodle2');
-  check('E6 第 5 次：老闆那一句在選單之前', said.some(s=>s.who===T6.who&&s.t===T6.line5)&&idx(T6.line5)>idx(shop('noodle2').greet.text), said.map(s=>(s.who||'')+':'+s.t).join('｜'));
+  check('E6 第 5 次：118 巷九間不說 AA_329 第 5 次那一句（AA_480 第 2 節：和 AA_311 熟客合併，第 3 次起店員已經認得你；其他店照舊，E7）', !has(T6.line5)&&idx(shop('noodle2').greet.text)===0, said.map(s=>(s.who||'')+':'+s.t).join('｜'));
   check('E6 選單多「老樣子」（在品項後面、「不用了」前面）；選了＝回「好。大碗。」、扣上一次那一樣（牛肉麵）的錢', opts[0]&&opts[0][shop('noodle2').menu.length]==='老樣子'&&opts[0][opts[0].length-1]==='不用了'&&has(T6.same)&&G.money===m0-150&&G.eat.n['六張犁麵舖']===5, JSON.stringify(opts[0])+' money '+(m0-G.money));
   said=[]; opts=[]; picks=[0]; await L118.order(GM,'noodle2');
   check('E6 那一句只說一次；之後選單照樣有「老樣子」', !has(T6.line5)&&opts[0].includes('老樣子'));
