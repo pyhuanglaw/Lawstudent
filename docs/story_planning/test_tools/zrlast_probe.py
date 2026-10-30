@@ -3420,12 +3420,12 @@ R43 = [
        jsok=[('生日那一段：我「生日快樂。」、她只回「謝謝。」', "(GAME.G.msgs||[]).filter(m=>m.tag==='pg_sis_ex_bday_reply').map(m=>(m.from||'')+':'+m.text)", ['player:生日快樂。', 'heroine_05:謝謝。']),
              ('PG_SIS_EX_BDAY＝send', "GAME.G.flags.PG_SIS_EX_BDAY||null", 'send')]),
   # 以安前任（FRIEND 以上）＋麵店團：12/14 21:00 沒有電話、群組「二試過了。一月面試。」；1/25「司法官上了。」各一則
-  dict(id='PGF10_AN_EX', minimal=True, key='2029-12-14', h=20.5, zone='campus', pos=PGPOS, flags=dict(TW3), js=PGJ + NGRP + " LV('heroine_01',45,30,20);" + AN_EX,
+  dict(id='PGF10_AN_EX', minimal=True, key='2029-12-14', h=20.5, zone='campus', pos=PGPOS, flags=dict(TW3), js=PGJ + NGRP + " LV('heroine_01',45,30,20);" + AN_EX + NOKX,
        steps=[('pguntil', '2030-01-25', 21.0, 2700)], pref=[], asks={'*': ''}, wantMsg=['二試過了。一月面試。', '司法官上了。'], none=AN_CALL,
        countMsg={'二試過了。一月面試。': 1, '司法官上了。': 1}, msgAt={'二試過了。一月面試。': ('2029-12-14', 21.0, 0.1), '司法官上了。': ('2030-01-25', 21.0, 0.1)},
        jsok=[ANLV, NOCALL, LAND('2029-12-14', 21.0), LAND('2030-01-25', 21.0)]),
   # 以安前任：12/14 還不到 FRIEND（沒有 12/14 那一則）、【捷徑】1/25 以前到 FRIEND ＝「司法官上了。」只出一則（AA_476 A-6：同一則不要出兩次）
-  dict(id='PGF10_AN_EX_LATE', minimal=True, key='2029-12-14', h=20.9, zone='campus', pos=PGPOS, flags=dict(TW3), js=PGJ + NGRP + " LV('heroine_01',25,10,10);" + AN_EX,
+  dict(id='PGF10_AN_EX_LATE', minimal=True, key='2029-12-14', h=20.9, zone='campus', pos=PGPOS, flags=dict(TW3), js=PGJ + NGRP + " LV('heroine_01',25,10,10);" + AN_EX + NOKX,
        steps=[('pghold', True), ('until', 21.2, 1500), ('jsrun', "(()=>{ const r=SOCIAL.rel('heroine_01'); r.fam=45; r.trust=30; r.comf=20; return true; })()", '12/14 以後、1/25 以前和以安變成 FRIEND（熟悉 45、信任 30）'),
               ('pguntil', '2030-01-25', 21.0, 2700)], pref=[], asks={'*': ''}, none=AN_CALL,
        countMsg={'司法官上了。': 1, '二試過了。一月面試。': 0}, msgAt={'司法官上了。': ('2030-01-25', 21.0, 0.1)},
