@@ -1003,7 +1003,7 @@ async def boyaecon(pg, cdp, run):
         run.note('手機「今天」那一堂的按鈕：%s；過程：%s' % (bt, J(tries)))
         if bt: await L.tap(pg, cdp, '#phoneBody [data-go="%s"]' % it['key'])
         else: await L.phone_away(pg, cdp)
-    n0 = await P.say_hook(pg); t0 = time.time(); cap = None; cap2 = None; seen_boya = None; done = False
+    n0 = await P.say_hook(pg); t0 = time.time(); cap = None; cap2 = None; cap3 = None; seen_boya = None; done = False
     while time.time() - t0 < 2400:
         c = await pg.evaluate("(k=>({zone:GAME.G.zone, day:GAME.G.day, h:+GAME.G.hour, done:!!(CLS.rec(GAME.G).done||{})[k]}))", it['key'])
         if c['done']: done = True
@@ -1015,6 +1015,8 @@ async def boyaecon(pg, cdp, run):
             elif cap is not None and cap2 is None and time.time() - seen_boya > 40:
                 cap2 = await pg.evaluate(CLASSJS)
                 await pg.evaluate("(()=>{ const C=GAME.E.cam; C.yaw=0; C.pitch=0.3; C.distTarget=5; C.manualT=1e9; })()"); await pg.wait_for_timeout(1500); await run.shot(pg, 'econ_class_b'); run.note('上課中（40 秒）：%s' % J(cap2))
+        if cap3 is None and c['zone'] == 'boya' and c['day'] == it['d'] and s['dlg'] and s.get('name') and ('魏' in s['name'] or '教授' in s['name']):   # n19_boyaecon2：5 秒、40 秒都在 9:00（上課 9:10），同學還在大廳等——改成魏教授開口那一刻再量一次（判定用這一次）
+            cap3 = await pg.evaluate(CLASSJS); await run.shot(pg, 'econ_class_c'); run.note('上課中（魏教授開口）：%s' % J(cap3))
         if done and not s['dlg'] and not s['ch'] and cap is not None: break
         if s['ch']: k, _ = P.pick_of(s['ch'], []); await P.tap_choice(pg, cdp, k); await pg.wait_for_timeout(1000); continue
         if s['dlg']: await L.tap(pg, cdp, '#dlg'); await pg.wait_for_timeout(500); continue
@@ -1025,9 +1027,10 @@ async def boyaecon(pg, cdp, run):
     run.note('從開局到 9/9 下課，說的話最後 20 句：%s' % J(lines[-20:]))
     run.check('照玩家流程走到 9/9 經原，而且這一堂上完（CLS done）', done and cap is not None, J({'done': done, 'cap': bool(cap), 'secs': round(time.time() - t0)}))
     if cap:
-        cc = cap2 or cap
+        cc = cap3 or cap2 or cap
+        run.note('判定用的那一次：%s' % ('魏教授開口' if cap3 else ('進教室 40 秒' if cap2 else '進教室 5 秒')))
         run.check('經原上課：在博思（正式模型、方塊桌椅藏著）', cc['zone'] == 'boya' and cc['formal'] and not any(cc['fallback']), J({k: cc[k] for k in ('zone', 'formal', 'fallback')}))
-        run.check('經原上課：同學坐好（坐著 ≥ 3），站著的只有老師等少數（≤ 2）', cc['sit'] >= 3 and len(cc['stand']) <= 2, J({'sit': cc['sit'], 'stand': cc['stand'], 'named': cc['named']}))
+        run.check('經原上課（魏教授開口時）：同學坐好（坐著 ≥ 3），站著的只有老師等少數（≤ 2）', cc['sit'] >= 3 and len(cc['stand']) <= 2, J({'sit': cc['sit'], 'stand': cc['stand'], 'named': cc['named']}))
         run.check('經原上課：有人坐的椅面都放下（busyUp＝0）', bool(cc['fold']) and cc['fold']['busyUp'] == 0, J(cc['fold']))
     run.check('經原上課：魏教授的課堂內容有演（說話的人是魏教授／老師）', bool(cls_lines), J(cls_lines[:4]))
 
