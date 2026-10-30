@@ -4,10 +4,9 @@
 
 - **剛交、已整合：NOODLE-LM-1030 麵店＋LM-COLLAPSE-1030 第一間（法律學院圖書館）**（`ee96b798f`→LAWWW-B 整合 2c65d66f1；`test_shots/noodle_lm_1030/README.md`、`test_shots/lm_collapse_1030/README.md`）。樓梯間欄杆影子糊：LAWWW-B 先不排（D99 只記錄）。
 - **LM-COLLAPSE-1030 四間都交了**（`test_shots/lm_collapse_1030/README.md` 有總結表）：法圖、總圖大廳、宿舍四人房已整合；201 也已整合（LAWWW-B 22:09，全部 Node 773／0）。
-- **剛交：PERF-ZONE-ENTER-1018 第三輪（室內）**（README `test_shots/zone_enter_interior_1030/README.md`；patch `patches/zone_enter_readback_1030.patch`，只改 `zones3d.js`，最新開發 890f8f3f7 套得上）。
-  - 讀像素（`wzAtlasFaces` 平均色、`lmMean` 光照貼圖平均亮度）每站 1.4～5.1 秒 → 0～3 ms；招牌同角度一樣；rtNight 13 間一樣；Node 772／3（三支開發原樣也 FAIL）。
-  - **18 站整體在 SwiftShader 看不出變快**（雜訊比省下的大）；剩下的是 prewarm settle、等 GPU——載入流程，等 LAWWW-B 決定、要實機數字。
-  - 等 LAWWW-B 回 ACK／決定整不整合。下一件照 LAWWW-B 的候選：ART-ECON-3D-GAP-1021 剩下的（j7～j13）或 CLOSED-SPACES-1023 博雅討論室。
+- **PERF-ZONE-ENTER-1018 第三輪已整合**（LAWWW-B 23:2x，`44337adcb`）。剩下的載入流程（prewarm settle、等 GPU、路人 VRM）LAWWW-B 先做量測面板，我不接。
+- **正在做：ART-ECON-3D-GAP-1021**（LAWWW-B 23:2x）：清單 `docs/art-rebuild/second_ai/ECON_3D_GAP_STATUS_1030.md`（j7～j13 全部已整合、各自的 commit；還沒做 A～H）。
+  - 開工順序：A 共同教學館室內正式模型（`teach_interior.py --set gongtong`，現在是程序化）→ B 普通教學館光照烘焙 → C 總圖 3F 閱覽區光照烘焙。
 - **NAV-LIBHALL-ISLAND-1030 已交、已整合（cfb70a5fd，`patches/libhall_island_1030.patch`；LAWWW-B 21:37）**（P2）：總圖大廳一樓約 (5.85,-8.4) 2 格導航孤島（換回舊 GLB 也一樣）；改 `library_layout.js` 阻擋接回大塊或封掉；`tests/library_copier_unit.js` 有 FAIL 就 exit 1（原本 FAIL 也 exit 0）；跑 `nav_buildings_unit`。
 - 已交、已整合：SOCLIB-LM-1030＋BOYA n19（3bc7a8800）。
 - **X133 第二版等使用者的地圖或照片**（使用者 10-30 16:5x 回 LAWWW-B）：第一版照舊在遊戲裡（f75d60a4c），第二版不要再猜。
