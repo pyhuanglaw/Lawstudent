@@ -109,7 +109,7 @@ const HASK=(function(){
   S.outKindOk=function(G,id,e,kind){ const L=typeof DATE!=='undefined'&&DATE.loc?DATE.loc(e.loc):null; if(!L) return false; if(kind==='overnight') return false;
     if(dating(G,id)) return kind==='half'||kind==='evening'||kind==='day';
     return (kind==='half'||kind==='evening')&&LOCAL.includes(L.area)&&!L.needsCar&&(L.transport||[]).some(t=>t.mode!=='car'); };
-  const wishLocs=()=>{ const out=new Set(); if(typeof DATE!=='undefined'&&DATE.HEROINES&&DATE.wishOf) for(const h of DATE.HEROINES){ if(DATE.WISH_X&&DATE.WISH_X[h]) continue; const w=DATE.wishOf(h); if(w) out.add(w); } return out; };   /* DATE.WISH_X（芯慈 D04 午夜場，XINCI-ROMANCE-1030）先不算：芷若、子晴原本週六晚上約你去西門看電影（heroine_asks.js D04）照舊——等 AA 定（已問 AA-B 16:4x）*/   /* 心願地點（誰的都一樣）永遠不主動約（AA_494 0-1）*/
+  const wishLocs=()=>{ const out=new Set(); if(typeof DATE!=='undefined'&&DATE.HEROINES&&DATE.wishOf) for(const h of DATE.HEROINES){ if(DATE.WISH_X&&DATE.WISH_X[h]) continue; const w=DATE.wishOf(h); if(w) out.add(w); } return out; };   /* DATE.WISH_X（芯慈 D04）不算：她的心願是「午夜場」這一件事，不是整個西門町——芷若、子晴週六晚上約你去西門看電影（heroine_asks.js D04）照舊（AA-B 16:31，AA_537b 8-1：AA_494 0-1 對芯慈的 D04 不適用）*/   /* 心願地點（誰的都一樣）永遠不主動約（AA_494 0-1）*/
   /* 今天（day0）可以傳的那幾則 */
   S.candidates=function(G,day0,redo){ const out=[], R=S.rec(G), W=wishLocs(), now=abs(G.day,G.hour%24);   /* redo＝{id,k}：改天的那一次不看「多久約一次」*/
     if(typeof TERMEND!=='undefined'&&TERMEND.window&&TERMEND.window(Object.assign({},G,{day:day0}))) return out;   /* 心意邀約的窗口裡：傳的那一天也不傳（約的那一天在 S.block 擋）*/
