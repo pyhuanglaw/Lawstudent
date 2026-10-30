@@ -37,8 +37,9 @@ async def main():
             st, d = await P.base(pg, SAVE, ['Y1S1', 4, 4], 15.4, 'wancai'); await P.load(pg, cdp, st)
             wk = await pg.evaluate("""(()=>{ const G=GAME.G, d0=STORY.mainD1(G)+1, c=CALENDAR.dateOf(d0), wd=c.wd===7?7:c.wd, thu=d0-(wd-1)+3; return {d0, key0:c.key, thu, thuKey:CALENDAR.dateOf(thu).key, ca:G.flags.classAnswer==null?null:G.flags.classAnswer}; })()""")
             run.note('民總第一堂（STORY.mainD1+1）＝%s；那一週的週四＝%s；classAnswer＝%s' % (wk['key0'], wk['thuKey'], J(wk['ca'])))
-            st, d = await P.base(pg, SAVE, wk['thuKey'], 15.4, 'wancai', flags=(None if wk['ca'] else {'classAnswer': 'none'})); await P.load(pg, cdp, st)
-            run.setup('[前置] 使用者存檔 → %s（民總第一堂那一週的週四，大一上第 %s 週）15:24 萬才館%s' % (d['key'], d['week'], '' if wk['ca'] else '；【捷徑】classAnswer＝none（存檔沒有）'))
+            CA = os.environ.get('ZHOU_CA') or (None if wk['ca'] else 'none')   # BB-B 10-30：使用者存檔是 bold（第 9 節只寫了 good、none 兩句）；ZHOU_CA＝【捷徑】指定
+            st, d = await P.base(pg, SAVE, wk['thuKey'], 15.4, 'wancai', flags=({'classAnswer': CA} if CA else None)); await P.load(pg, cdp, st)
+            run.setup('[前置] 使用者存檔 → %s（民總第一堂那一週的週四，大一上第 %s 週）15:24 萬才館%s' % (d['key'], d['week'], ('；【捷徑】classAnswer＝%s' % CA) if CA else ''))
             civ = await pg.evaluate("!!STORY.civ1Week(GAME.G)"); run.check('前置：這一天在民總第一堂那一週（STORY.civ1Week）', civ, J(civ))
             zw = await P.wait_present(pg, 'prof_zhou', 60); run.note('周教授：%s' % J(zw))
             r = await P.talk_full(pg, cdp, run, 'prof_zhou', 'zhou_w1', max_s=300); await run.shot(pg, 'zhou_w1')
