@@ -20,6 +20,8 @@ MODE（環境變數）：
   badclip BADCLIP-FOLLOW-1030：當面約以安「約她去…」→ 運動 → 羽球 →「現在一起過去」（她跟著走）→ 短片期間她在網子另一邊（北半場），不是跑到玩家面前。
   bigmap  BIGMAP-PEOPLE-1030（4da27563c）：VP＝portrait／desktop／landscape。打開大地圖「認識的人現在大概在」預設收起、不蓋地圖；
           自由的日子 👥 有黃點、有目標的日子沒有；按 👥 展開 → 關掉地圖再開照樣展開；再按收起 → 再開照樣收起。
+          fc0c0ac69 起（LAWWW-B 10:42）：人名標籤不蓋地名（寬螢幕「總圖書館」看截圖）；HUD 目標最多兩行：長目標兩行看得完（沒被截）、
+          和「今天的課」chip（#nextClass）、導引（#guide）不重疊、不超出畫面。
   bballrain BBALL-RAIN（LAWWW-B 09:43）：10/3（五）17:45 下雨，新體育館一樓走廊 (-3.6,12.6) 阿哲、明軒；兩種進法（直接讀檔在體育館／從校園走進去），
           各讀 GAME.npc.zhe（有沒有、位置、看不看得到）＋STORY.whereIs＋flags.companion，轉向東邊對著走廊拍。
   renart  RENAME-ART-1030（f75d60a4c）：玩家鏡頭走到校門石牌、晨思鐘、博思名牌、法律系館A 公布欄、201 後牆傳單、博思 203 海報前面拍（字看截圖）；
@@ -456,6 +458,23 @@ async def close_bigmap(pg, cdp):
     else: await L.close_panels(pg, cdp)
     await pg.wait_for_timeout(900)
 
+HUD = """(()=>{ const r=id=>{ const e=document.getElementById(id); if(!e||!e.offsetParent||e.classList.contains('hide')) return null; const b=e.getBoundingClientRect(); return {x:+b.left.toFixed(1),y:+b.top.toFixed(1),w:+b.width.toFixed(1),h:+b.height.toFixed(1),t:(e.innerText||'').trim().slice(0,160)}; };
+  const g=document.getElementById('goal'), cs=g?getComputedStyle(g):null, lh=cs?parseFloat(cs.lineHeight)||15.6:15.6;
+  const o={goal:r('goal'), next:r('nextClass'), guide:r('guide'), clock:r('clock'), vw:innerWidth, vh:innerHeight, clamp:cs?cs.webkitLineClamp||cs.getPropertyValue('-webkit-line-clamp'):null,
+    lines:g?Math.round((g.clientHeight-(parseFloat(cs.paddingTop)||0)-(parseFloat(cs.paddingBottom)||0))/lh):null, cut:g?g.scrollHeight>g.clientHeight+1:null, full:GAME.G.goal||null};
+  const hit=(a,b)=>a&&b&&a.x<b.x+b.w-0.5&&b.x<a.x+a.w-0.5&&a.y<b.y+b.h-0.5&&b.y<a.y+a.h-0.5;
+  o.overlap=[['goal','next'],['goal','guide'],['next','guide'],['goal','clock']].filter(([a,b])=>hit(o[a],o[b])).map(x=>x.join('×'));
+  o.off=['goal','next','guide'].filter(k=>o[k]&&(o[k].x<0||o[k].y<0||o[k].x+o[k].w>o.vw+0.5||o[k].y+o[k].h>o.vh+0.5)); return o; })()"""
+
+
+async def hud_check(pg, cdp, run):
+    for key, hh, zone, tag in (('2025-09-25', 8.5, 'dorm', 'class_am'), ('2025-09-25', 12.4, 'campus', 'class_pm'), ('2025-09-30', 9.6, 'campus', 'class_tue')):
+        st, d = await P.base(pg, SAVE, key, hh, zone); await P.load(pg, cdp, st); await pg.wait_for_timeout(4000)
+        h = await pg.evaluate(HUD); await run.shot(pg, 'hud_%s_%s' % (VP, tag)); run.note('%s HUD：%s' % (tag, J(h)))
+        if not h['goal']: run.check('%s（%s）：看得到目標那一行' % (tag, VP), False, J(h)); continue
+        run.check('%s（%s）：目標最多兩行（line-clamp 2），這一則兩行看得完、沒被截' % (tag, VP), (h['lines'] or 0) <= 2 and not h['cut'], J({k: h[k] for k in ('lines', 'cut', 'clamp', 'full')}))
+        run.check('%s（%s）：目標、今天的課、導引互不重疊，也沒有超出畫面' % (tag, VP), not h['overlap'] and not h['off'], J({k: h[k] for k in ('goal', 'next', 'guide', 'overlap', 'off')}))
+
 
 async def bigmap(pg, cdp, run):
     free = None
@@ -477,6 +496,13 @@ async def bigmap(pg, cdp, run):
         await L.tap(pg, cdp, '#bmWho'); await pg.wait_for_timeout(1000); await close_bigmap(pg, cdp); d2 = await open_bigmap(pg, cdp)
         run.check('%s：收起來以後再開，照樣收起' % tag, d2['open'] and not d2['people'], J(d2))
         await close_bigmap(pg, cdp)
+    # 人名標籤不蓋地名（fc0c0ac69）：總圖前面有人的時候開大地圖（字畫在 canvas 上，看截圖）
+    st, d = await P.base(pg, SAVE, '2025-09-25', 12.4, 'campus'); await P.load(pg, cdp, st); await pg.wait_for_timeout(3000)
+    a = await open_bigmap(pg, cdp)
+    if not a['people']: await L.tap(pg, cdp, '#bmWho'); await pg.wait_for_timeout(1000); await L.tap(pg, cdp, '#bmWho'); await pg.wait_for_timeout(1000)
+    await run.shot(pg, 'bm_%s_labels' % VP); await close_bigmap(pg, cdp)
+    run.check('大地圖人名標籤（%s）：截圖拍到（「總圖書館」有沒有被人名蓋住看截圖）' % VP, a['open'], J(a))
+    await hud_check(pg, cdp, run)
 
 
 ZHE = """(()=>{ const n=(GAME.npc&&GAME.npc.zhe)||null, m=GAME.E.npcs.find(q=>q.charId==='zhe')||null, o=n||m; const P=GAME.E.player.obj.position;
