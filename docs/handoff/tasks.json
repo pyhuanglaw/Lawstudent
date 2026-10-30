@@ -35943,8 +35943,8 @@
    "title": "阿鳳麵店長桌閒聊：麵店團的人不在場也在講話（只有阿哲有麵店作息；閒聊 17:00～21:00 都演）",
    "area": "SYS",
    "owner": "LAWWW",
-   "status": "進行中",
-   "next": "postrel-1030：Alison、柏翰、芯慈麵店日長桌作息（放在作息最後，不蓋掉原本的）＋閒聊只在說話的人都在場時演；AA 確認",
+   "status": "已實作待整合",
+   "next": "postrel-1030 c1658d38c → v9.10.14 發布後進開發分支 → BB 瀏覽器：麵店日 18:00 長桌四位都在、20:45 沒人也沒閒聊",
    "priority": "P1",
    "first": {
     "term": "Y1S1",
@@ -35958,7 +35958,65 @@
    },
    "source": "使用者 10-30 04:3x＋存檔 day28（UA-LAWWW-1030-09，X131）",
    "authorized": "使用者",
+   "notes": "ndl_present_unit 修改前 FAILED → ALL PASS"
+  },
+  {
+   "id": "CAFE-WINDOW-LIVE-1030",
+   "title": "兩點半 Café 往門口那一側的窗景是靜態貼圖 → 看得到外面（3D 溫州街、路人、時段光線）",
+   "area": "ART",
+   "owner": "LAWWW2",
+   "status": "待開工",
+   "next": "LAWWW2 排在宿舍 203 那包之後（和 INTERIOR-AAA 的 Café 一起）",
+   "priority": "P1",
+   "first": {
+    "term": "Y1S1",
+    "week": 1,
+    "earliest": "法律系大一上",
+    "mainline": true,
+    "blocks": false,
+    "prereq": false,
+    "parallel": true,
+    "confirmed": true
+   },
+   "source": "使用者 10-30 04:4x（X132）",
+   "authorized": "使用者",
+   "xai": {
+    "spec": "使用者原話",
+    "branch": "claude/funny-albattani-iawshm",
+    "acceptance": "同角度改前改後截圖、效能、進兩次",
+    "receiver": "LAWWW",
+    "ack": "SENT"
+   },
    "notes": ""
+  },
+  {
+   "id": "LIB-LAWN-PLAN-1030",
+   "title": "照臺大校內地圖規劃總圖前草皮",
+   "area": "ART",
+   "owner": "LAWWW2",
+   "status": "待開工",
+   "next": "LAWWW2：參考校總區平面圖、照片 → 規劃 → 同角度改前改後",
+   "priority": "P1",
+   "first": {
+    "term": "Y1S1",
+    "week": 1,
+    "earliest": "法律系大一上",
+    "mainline": true,
+    "blocks": false,
+    "prereq": false,
+    "parallel": true,
+    "confirmed": true
+   },
+   "source": "使用者 10-30 04:4x（X133）",
+   "authorized": "使用者",
+   "xai": {
+    "spec": "使用者原話",
+    "branch": "claude/funny-albattani-iawshm",
+    "acceptance": "同角度改前改後截圖、效能、進兩次",
+    "receiver": "LAWWW",
+    "ack": "SENT"
+   },
+   "notes": "建築、場景 ART_APPROVED 只有使用者標"
   }
  ]
 }

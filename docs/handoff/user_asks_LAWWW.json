@@ -1508,6 +1508,24 @@
    "status": "進行中",
    "wants": "X131",
    "task": "NDL-PRESENT-1030"
+  },
+  {
+   "id": "UA-LAWWW-1030-10",
+   "at": "2026-10-30T04:4x",
+   "quote": "2點半咖啡看出去窗景 進門那個方向 還是非動態 很像貼一張圖",
+   "kind": "原話",
+   "status": "進行中",
+   "wants": "X132",
+   "task": "CAFE-WINDOW-LIVE-1030"
+  },
+  {
+   "id": "UA-LAWWW-1030-11",
+   "at": "2026-10-30T04:4x",
+   "quote": "請依照台大校內地圖 規劃 總圖前草皮",
+   "kind": "原話",
+   "status": "進行中",
+   "wants": "X133",
+   "task": "LIB-LAWN-PLAN-1030"
   }
  ]
 }
