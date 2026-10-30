@@ -252,7 +252,7 @@ await sec(8,async()=>{ const H8=L().H8, mon=td('Y2S1',3,1), know=FOOD_FAV_LINES[
 /* ---- 9 H9 ---- */
 await sec(9,async()=>{ const H9=L().H9, tue=td('Y2S1',4,2), PV='去 Pasta 118 吃午餐';
   /* 約：交往中用手機約她（INV.flow，沒有 n＝手機）；見面：約好的時間她在 Pasta 118（INV.entryFor）、你也進來＝INV.startTogether（遊戲裡是 INV.autoStart 叫的）*/
-  const invite=async(id,d,picks)=>{ at(d,10); H.G.zone='campus'; H.said=[]; H.opts=[]; H.picks=picks.slice(); const iv=await INV.flow(GM,id,null,false); return {iv,list:(H.opts[0]||[]).slice(),said:said()}; };
+  const invite=async(id,d,picks)=>{ at(d,10); H.G.zone='campus'; H.said=[]; H.opts=[]; H.picks=picks.slice(); const iv=await INV.flow(GM,id,null,false); return {iv,list:((H.opts[0]&&H.opts[0].all)||H.opts[0]||[]).slice(),said:said()}; };   /* all：分層的一類展開（INVITE-MENU-1030：Pasta 118 在「吃飯…」裡）*/
   const meet=async(iv,pick)=>{ at(iv.day,iv.h); H.G.zone='l118_pasta'; GM.npc={}; E.npcs=[]; const n=here(iv.who); const m0=H.G.money, h0=H.G.hour; H.said=[]; H.opts=[]; H.picks=[pick||'白醬雞肉麵'];
     await INV.startTogether(GM,iv,n); return {said:said(),paid:m0-H.G.money,mins:Math.round((H.G.hour-h0)*60)}; };
   fresh(tue,10,'campus'); H.FRIEND(AN); H.date(AN); INV.addContact(H.G,AN);
