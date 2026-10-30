@@ -71,8 +71,8 @@ def world(s):
         return s
     t = s.lstrip()
     if t[:1] in '{[':
-        try:
-            return _json.dumps(_W.json_obj(_json.loads(s)), ensure_ascii=False, indent=1)
+        try:   # 縮排照企劃線換稿工具（world_names.py apply）的寫法，換出來的 JSON 和企劃線換過名的檔一樣
+            return _json.dumps(_W.json_obj(_json.loads(s)), ensure_ascii=False, indent=1 if '\n "' in s[:200] else None) + ('\n' if s.endswith('\n') else '')
         except ValueError:
             pass
     return _W.md_text(s)
@@ -87,3 +87,13 @@ def alison(s):
         nxt = s[b] if b < len(s) else ''
         return (' ' if pre and _CJK.match(pre) else '') + 'Alison' + (' ' if nxt and _CJK.match(nxt) else '')
     return _re.sub('小語', rep, s)
+
+
+if __name__ == '__main__':   # 測試讀稿用（tests/alison.js）：python3 tools/story/import_guard.py read_fix < 稿 > 換好的稿
+    import sys as _sys
+    if _sys.argv[1:] == ['read_fix']:
+        _sys.stdout.write(read_fix(_sys.stdin.read()))
+    elif _sys.argv[1:] == ['world']:
+        _sys.stdout.write(world(_sys.stdin.read()))
+    else:
+        _sys.exit('用法：import_guard.py read_fix|world < 檔')

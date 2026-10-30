@@ -119,7 +119,7 @@ const SOCIAL = (function(){
   /* 虛構校名（WORLD-RENAME-1030，D115；docs/WORLD_NAMING.md）：舊存檔裡已經寫下的字（記憶的備註、日誌、筆記、手機訊息）顯示新名字（存檔裡的比對照舊，用原字）。
      規則和 tools/rename/world_names.py 一樣（tests/world_rename_unit.js 逐條對）：worldName＝正式（旁白、地點、筆記：法律系館A）、worldSpoken＝口語（人物的訊息：A館）。
      不用 (?<!…)：舊的 iPhone Safari 不認得，整個檔會載不起來；前一個字自己看。 */
-  const WN_PRE=(set,to)=>(m,off,str)=>set.indexOf(str.charAt(off-1))>=0?m:to;
+  const WN_PRE=(set,to)=>(m,off,str)=>off>0&&set.indexOf(str.charAt(off-1))>=0?m:to;
   const WN_COMMON=[[/政大自強十舍/g,'木柵大學翠嶺十舍'],[/自強十舍/g,'翠嶺十舍'],[/國立臺灣大學|國立台灣大學|[臺台]灣大學(?!生)/g,'首都帝國大學'],[/National Taiwan University/g,'Capital Imperial University'],[/\bNTU\b/g,'CIU'],
     [/國立政治大學|政治大學/g,'木柵大學'],[/\bNCCU\b/g,'MZU'],[/政大/g,WN_PRE('財行郵執','木柵大學')],[/[臺台]大/g,WN_PRE('舞平講櫃陽月擂吧檯戲','首都帝大')],
     [/博雅教學館/g,'博思教學館'],[/博雅館/g,'博思教學館'],[/博雅(?!教育|書院|學程|精神|課程)/g,'博思'],[/小椰林道/g,'椰影小徑'],[/椰林大道/g,'椰影大道'],[/椰林(?=那邊|那條|上|旁邊|走|騎|的路)/g,WN_PRE('小','椰影大道')],

@@ -2,8 +2,8 @@
 """遊戲程式的換名（WORLD-RENAME-1030，D115；規則照 docs/WORLD_NAMING.md，換字用 world_names.py 的 spoken／written）。
 
 用法：
-  python3 tools/rename/apply_game.py            # 只列：每個檔還有幾個字串要換、哪些法律系館的字串判斷不出口語還是正式
-  python3 tools/rename/apply_game.py --apply    # 就地改寫 src/*.js、src/data/*.js 的字串常數
+  python3 tools/rename/apply_game.py            # 只查（tests/world_rename_unit.js 跑這個）：還有字串要換、法律系館判斷不出來、產生器的檔還有舊名＝結束碼 1
+  python3 tools/rename/apply_game.py --apply    # 就地改寫 src/*.js、src/data/*.js 的字串常數（合進別的分支的程式以後再跑一次）
   python3 tools/rename/apply_game.py --list     # 每一處：檔:行、判斷、鍵、原字串 → 新字串
 
 只改字串常數（'…'、"…"、`…`），註解、正規表示式不動；內部 id（看起來像 id 的字串）不會有中文舊名，所以不會碰到。
@@ -177,8 +177,16 @@ def main():
             open(os.path.join(ROOT, p), 'w', encoding='utf-8').write(out); changed_files += 1
         elif edits and mode == '':
             print(f'{len(edits):4d}  {p}')
-    print(f'要換 {total} 處' + (f'，改了 {changed_files} 個檔' if mode == '--apply' else '') + f'；法律系館判斷不出來 {undecided} 處（寫進 game_overrides.json）', file=sys.stderr)
-    sys.exit(1 if undecided else 0)
+    # 產生器的檔只查不改：開發註記（note、src…）以外還有舊名＝要改產生器或它讀的稿、重跑
+    gen_left = 0
+    for p in sorted(GEN):
+        if not os.path.exists(os.path.join(ROOT, p)): continue
+        src = open(os.path.join(ROOT, p), encoding='utf-8').read()
+        for x in literals(p, src):
+            if (ov.get((p, x['body'])) or classify(x)) == 'skip': continue
+            gen_left += 1; print(f'產生的檔還有舊名\t{p}:{x["line"]}\t{x["key"]}\t{x["body"][:80]}')
+    print(f'要換 {total} 處' + (f'，改了 {changed_files} 個檔' if mode == '--apply' else '') + f'；法律系館判斷不出來 {undecided} 處（寫進 game_overrides.json）；產生器的檔還有舊名 {gen_left} 處', file=sys.stderr)
+    sys.exit(1 if undecided or gen_left or (total and mode != '--apply') else 0)
 
 
 if __name__ == '__main__':
