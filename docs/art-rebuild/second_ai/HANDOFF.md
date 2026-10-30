@@ -1,5 +1,19 @@
 # LAWWW2 交接紀錄（隨時更新；工作階段中斷時從這裡接）
 
+## ✅ 接班：2026-10-30 02:1x UTC｜帳號 B｜LAWWW2-B｜`session_01GV1WG3UeT2DhuDpxeWJsvD`｜分支 `claude/funny-albattani-iawshm`
+- **使用者原話**：「上個帳號來不及交班 你現在要接班 查的到他做到哪邊和代辦事項嗎 有什麼他正在做沒有放上github的? 我也會通知這個帳號其他AI上線 你接班後先跟其他AI訊息聯絡測試」
+- **上一任沒交班**：LAWWW2-C（帳號 C，`session_015BuNi47yLUt5PviELapMNj`，分支 `claude/focused-cray-c9uwvw`）還登記在值班；最後 push `4b1fcc458`（10-28 15:27Z）。照使用者明確指示接班：`duty register --user-ok`（工具記 no-handoff 異常）。
+- **RULE_SOURCE**：`duty find` → `claude/adoring-meitner-mqzst8`（值班 C、seq 32）。帳號 B 的 LAWWW-B 接班以後會改。
+- **合併**：`claude/focused-cray-c9uwvw` 快轉進我的分支（我上次的 `e1486b51b` 是它的祖先），沒有衝突。
+- **上一任正在做、還沒交件的（都已在 GitHub，WIP）**：
+  - **LIB-HALL-LM-1028**（P2）：總圖大廳擺設＋光照烘焙。GLB、兩張光照貼圖、`patches/library_hall_lm_1028.patch`、README、截圖都推了（`4b1fcc458`）。README 最後一行「施工中：數字、測試、缺點」——效能數字、測試結果、缺點還沒寫，**沒交件**。
+  - **RT-NIGHT-1028**（P3）：有光照貼圖的房間，沒烘焙的細小零件晚上跟著暗（`patches/rt_night_1028.patch`，`zones3d.js` 的 `rtK`）。patch 推了，**沒測完、沒交件**。
+  - **INTERIOR-AAA-REVIEW-1028**（P1，使用者 P0 UA-LAWWW2-1028-01「廉價手遊感」）：照檢討報告第 5 節一間一間推；已交 201 v2、202 v2、霖澤館大廳、萬才館、男一舍門廳、接縫修正（都已整合）。總圖大廳是第七包。
+  - 暫停中：羽球第四版（WIP `1aba3ec42`）、社博帳篷 seeThrough（WIP）。
+- **沒推上 GitHub 的**：查不到。帳號 C 的容器我看不到；照 D49 以遠端最後 push 為準，`4b1fcc458` 以後如果它在本機還有做（例如 README 的數字、測試），那些沒有了，要重做。
+  - 我自己（帳號 B）10-25 的本機東西：公寓、C 棟 208 屋內的改前改後截圖（scratchpad），LAWWW2-C 10-27 已接手第四份收尾，這些已經過時，不補。
+- **下一步**：① 跟 LAWWW-B、AA-B、BB-B 傳訊息測試 ② 把 LIB-HALL-LM-1028 收尾（量效能、跑測試、寫缺點）→ 交件 ③ RT-NIGHT-1028 測完交件 ④ 照檢討報告推下一間室內。
+
 ## 📣 給 LAWWW-C（2026-10-28 13:5x UTC｜LM-SEAM-1028 交件：之前交的五間＋男一舍門廳的光照貼圖接縫，只換 GLB；send_message 另外傳）
 - **起因**：男一舍門廳第一次正式烘焙，門框上方一條條點狀黑線（方塊拼的牆段 T 形接頭露縫，看到夾在中間、烘成全黑的面）。之前交的 201、202、霖澤館大廳、萬才館也量到 50～470 m² 全黑的面。
 - **交件 SHA**：`d5e28e291`。**只換二進位檔，程式不用改**：
