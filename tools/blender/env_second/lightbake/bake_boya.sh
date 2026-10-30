@@ -31,10 +31,28 @@ for lv, y, w in ((0, C0, w0), (1, RY, w1)):
 print(';'.join(out))
 EOF
 )
+# 燈具往四周散出去的光（點光源，燈具下方 0.4 m）：面光源只往下照，試烘焙（64 取樣）階梯教室的天花板只吃到木桌、地毯反彈上來的光，整片暗、偏咖啡色
+# （T5 格柵燈具的「洞穴效應」，遊戲裡看起來像髒的）。真的燈具格柵、燈管旁邊也會漏光到天花板：每盞燈下面一顆小點光源，天花板在燈的四周亮一圈
+POINTS=$(python3 - <<'EOF'
+import json, os
+s = open('src/data/boya_layout.js', encoding='utf8').read(); J = json.loads(s[s.index('{', s.index('BOYA_LAYOUT')):s.rindex('}') + 1])
+C0, RY = J['ceil0'], J['roofY']; WL = J['stair']['well']; LP = J['lightPanels']
+trof = lambda x, z: (round(0.6 * round(x / 0.6), 3), round(0.4 + 0.6 * round((z - 0.4) / 0.6), 3))
+up = os.environ.get('UPW', '3')
+out = []
+for lv, y in ((0, C0), (1, RY)):
+    for x in LP['xs']:
+        for z in LP['zs']:
+            if lv == 0 and WL['x0'] - 0.7 < x < WL['x1'] + 0.7 and WL['z0'] - 0.2 < z < WL['z1'] + 0.2: continue
+            cx, cz = trof(x, z); out.append(f'{cx:.3f},{y - 0.4:.3f},{cz:.3f},{up},1.0,0.96,0.9')
+print(';'.join(out))
+EOF
+)
 /opt/blenv/bin/python tools/blender/env_second/teach_interior.py -- --set boya --out "$TMP/boya_plain.glb"
+python3 -c "import json,sys; d=json.load(open(sys.argv[1])); d['out']='assets/models/env/second_ai/boya_interior.glb'; json.dump(d,open(sys.argv[2],'w'),ensure_ascii=False,indent=1)" "$TMP/boya_plain.json" "$OUTDIR/boya_interior.json"   # 統計（三角形、材質）
 /opt/blenv/bin/python tools/blender/env_second/lightbake/bake_room.py -- --in "$TMP/boya_plain.glb" --out "$OUTDIR/boya_interior.glb" \
   --lm "$TMP/by" --url assets/models/env/second_ai/boya_interior_lm --res "$RES" --samples "$SAMPLES" --hide "$HIDE" --nolm "$NOLM" \
-  --sun 200,${SUNEL:-38},${SUNW:-1.8} --sky "${SKY:-0.5}" --daywb 0.92,0.88,0.8 --lights "$LIGHTS" --daylights "${DAYL:-0.9}" --smooth 1 --shell S,N
+  --sun 200,${SUNEL:-38},${SUNW:-1.8} --sky "${SKY:-0.5}" --daywb 0.92,0.88,0.8 --lights "$LIGHTS" --points "$POINTS" --daylights "${DAYL:-0.9}" --smooth 1 --shell S,N
 python3 tools/blender/env_second/lightbake/to_webp.py "$TMP/by" "$OUTDIR/boya_interior_lm" 90
 /opt/blenv/bin/python tools/blender/env_second/lightbake/lm_fix_hidden.py -- --in "$OUTDIR/boya_interior.glb" --out "$OUTDIR/boya_interior.glb" --lm "$OUTDIR/boya_interior_lm"
 cp "$TMP/by.json" tools/blender/env_second/lightbake/boya_interior_lm.json
