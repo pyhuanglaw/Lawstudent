@@ -35825,7 +35825,7 @@
    "area": "STORY",
    "owner": "LAWWW",
    "status": "已實作待整合",
-   "next": "aa531-us 4ff878a64 合進 postrel-1030（msg_pool 產生器兩邊都改、重跑）→ v9.10.14 後進開發分支 → BB 測美國路線；4 處稿上矛盾、2 件要 AA 決定（語彤「店裡的時間」標籤、四句臺灣才成立的話）",
+   "next": "已合進 postrel-1030（e0bbbde79；msg_pool 產生器兩邊來源都留重跑）→ v9.10.14 後進開發分支 → BB 測美國路線；4 處稿上矛盾、2 件要 AA 決定",
    "priority": "P1",
    "first": {
     "term": "Y3S1",
