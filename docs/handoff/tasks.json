@@ -35230,7 +35230,7 @@
    "title": "發布 v9.10.13：候選以開發分支 3dbe4ad2e 為底（PRIV 後補第 5 點、check_orphans 修正以後；約會動態 FEED-DATES、宿舍大二到大四 DORM-Y24 不含）＋LAWWW2 吊燈修正（LOBBY-CEIL-1028）",
    "area": "P0",
    "owner": "LAWWW",
-   "status": "進行中",
+   "status": "已驗收",
    "priority": "P1",
    "source": "D85（LAWWW 自主決定發布）；v9.10.12 列的下一版內容（X118、X120、X123、X119、X122、X125、X14）＋之後整合的學姊第十三批、可昕最後一場模擬法庭、讀檔卡住修正、私密",
    "first": {
@@ -35243,7 +35243,8 @@
     "parallel": false,
     "confirmed": true
    },
-   "next": "【LAWWW-C 2026-10-28 11:4x UTC】BB 門檻 ④ 等 7 天 PASS（第 1 天擋、第 3 天不重算、第 8 天旁白＋照演）、第 5 點麵店阿姨 PASS；兩件 P2（PRIV-AUNT-1028）不擋這一版；接著 r3 → relsuite（約 85 分鐘）→ GO／NO-GO｜【LAWWW-C 2026-10-28 11:2x UTC】BB 門檻：①② PASS（rc1）、③ rc2 進兩次四區 ALL PASS（133ef256a）；④ 等 7 天（工具改前置站位）、麵店阿姨、relsuite 跑中｜【LAWWW-C 2026-10-28 10:2x UTC】rc2 da50fbdc1 乾淨 worktree 全部 Node 721 支、失敗 0（8 分鐘）；HV-15：題目漏收 0（企劃線 c8f794db5 重新匯出 399 題只有來源那一行不同）、check_orphans 88、停住 115、白名單 24、check_lines 528；BB 跑 reentry_shots（rc2 四區＋rc1 對照）、relsuite、priv2｜【LAWWW-C 2026-10-28 10:2x UTC】rc1 NO-GO（BB 門檻 ③：大廳第二次進去壞＝LOBBY-REENTRY-1028）；rc2＝da50fbdc1＝rc1＋0d00c28b5（zones3d.js、tests/linze_lightmap_unit.js），bundle wip_backup/rel91013_rc2.bundle（17898179e）；BB 重拍 ③／③b；其他門檻：① 在家存檔選單 PASS、② newGameAbort PASS、relsuite 跑中；rc2 全部 Node 背景跑中｜【LAWWW-C 2026-10-28 10:1x UTC】rc1＝12e6190dd（本機分支 rel-91013＝3dbe4ad2e＋LAWWW2 e29fde3c5 吊燈：tools/blender/linze_interior.py＋glb＋兩張光照貼圖）；room_ceiling、linze_lightmap、nav_buildings ALL PASS；bundle wip_backup/rel91013_rc1.bundle；rc1 全部 Node 背景跑中；BB 發布門檻（第五節＋LOADGEN 第 4 點、newGameAbort、大廳畫面）｜【LAWWW-C 2026-10-28 10:0x UTC】候選基準 3dbe4ad2e（本機分支 rel-91013-base）；全部 Node 721 支只剩 room_ceiling（吊燈）；BB 讀檔鎖兩支 ALL PASS；HV-15：check_orphans 88（＝v9.10.12）、看板停住 115、check_lines 可能抄錯 528（v9.10.12 506）；等 LAWWW2 吊燈 → rc1＝基準＋吊燈 → bundle wip_backup/rel91013_rc1.bundle → BB 發布門檻（第五節＋LOADGEN 第 4 點、newGameAbort、大廳畫面）→ 發布樹＋版本字樣 → PR"
+   "next": "【LAWWW-C 2026-10-28 11:4x UTC】BB 門檻 ④ 等 7 天 PASS（第 1 天擋、第 3 天不重算、第 8 天旁白＋照演）、第 5 點麵店阿姨 PASS；兩件 P2（PRIV-AUNT-1028）不擋這一版；接著 r3 → relsuite（約 85 分鐘）→ GO／NO-GO｜【LAWWW-C 2026-10-28 11:2x UTC】BB 門檻：①② PASS（rc1）、③ rc2 進兩次四區 ALL PASS（133ef256a）；④ 等 7 天（工具改前置站位）、麵店阿姨、relsuite 跑中｜【LAWWW-C 2026-10-28 10:2x UTC】rc2 da50fbdc1 乾淨 worktree 全部 Node 721 支、失敗 0（8 分鐘）；HV-15：題目漏收 0（企劃線 c8f794db5 重新匯出 399 題只有來源那一行不同）、check_orphans 88、停住 115、白名單 24、check_lines 528；BB 跑 reentry_shots（rc2 四區＋rc1 對照）、relsuite、priv2｜【LAWWW-C 2026-10-28 10:2x UTC】rc1 NO-GO（BB 門檻 ③：大廳第二次進去壞＝LOBBY-REENTRY-1028）；rc2＝da50fbdc1＝rc1＋0d00c28b5（zones3d.js、tests/linze_lightmap_unit.js），bundle wip_backup/rel91013_rc2.bundle（17898179e）；BB 重拍 ③／③b；其他門檻：① 在家存檔選單 PASS、② newGameAbort PASS、relsuite 跑中；rc2 全部 Node 背景跑中｜【LAWWW-C 2026-10-28 10:1x UTC】rc1＝12e6190dd（本機分支 rel-91013＝3dbe4ad2e＋LAWWW2 e29fde3c5 吊燈：tools/blender/linze_interior.py＋glb＋兩張光照貼圖）；room_ceiling、linze_lightmap、nav_buildings ALL PASS；bundle wip_backup/rel91013_rc1.bundle；rc1 全部 Node 背景跑中；BB 發布門檻（第五節＋LOADGEN 第 4 點、newGameAbort、大廳畫面）｜【LAWWW-C 2026-10-28 10:0x UTC】候選基準 3dbe4ad2e（本機分支 rel-91013-base）；全部 Node 721 支只剩 room_ceiling（吊燈）；BB 讀檔鎖兩支 ALL PASS；HV-15：check_orphans 88（＝v9.10.12）、看板停住 115、check_lines 可能抄錯 528（v9.10.12 506）；等 LAWWW2 吊燈 → rc1＝基準＋吊燈 → bundle wip_backup/rel91013_rc1.bundle → BB 發布門檻（第五節＋LOADGEN 第 4 點、newGameAbort、大廳畫面）→ 發布樹＋版本字樣 → PR",
+   "evidence": "v9.10.13 發布：main 37603ad6a（PR #19，2026-10-30 02:09:56 UTC），Pages run 40990069412 02:11:54 success；遊戲檔案＝rc2 da50fbdc1＋版本字樣（BB-C 10-28 15:29 GO，relsuite 750 PASS）；LAWWW-C 推發布樹 c76d0cb69 後停，LAWWW-B 接班完成"
   },
   {
    "id": "SIS-B14-1028",
