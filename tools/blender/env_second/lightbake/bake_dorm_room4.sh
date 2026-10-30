@@ -9,7 +9,7 @@
 #   天空（Nishita）的太陽位置照樣要放在南邊（180°）：第一次試烘放 0°（北），太陽附近那一圈很亮的天空正對著北窗，門口的地上照出一大塊像陽光的亮斑、整間偏橘。
 # 窗外：dorm_room4.py --bakeblock 加對面大樓＋街道（BAKEONLY_，只在烘焙時存在）：第二次試烘只有天空，接近地平線的天光從北窗直直落到 5 m 外的門口地上、整片過曝。
 # 洗手間朝前牆、右牆那兩面（dorm_bath_outer，貼著房間的牆、看不到；前牆淡出時才看得到斷面）不烘：烘出來每公尺只有 1 個像素、整面灰，照舊即時光＋補光（和改前一樣白）。
-# 每一年不一樣的東西（Y203_／Y412_／Y312_／Y507_／Y409_／Y205_、NAMETAG_、ROOMMATE_KAI：書、筆電、紙箱、海報）烘焙時當作不存在（--hide）：
+# 每一年不一樣的東西（Y203_／Y412_／Y312_／Y507_／Y409_／Y205_、NAMETAG_、ROOMMATE_KAI：書、筆電、紙箱、海報；椅背上的系外套 JACKET_CHAIR，X140）烘焙時當作不存在（--hide）：
 #   同一張光照貼圖給五個年級用，不能留下某一年的東西的影子；這些東西照舊即時光（和其他房間的小零件一樣）。被子、枕頭（BEDDING_）大部分時候都在，照樣烘。
 # 白天：天光 ×3（第四輪 ×2 只亮 8%：窗小、捲簾拉下三分之一、對面有樓）、燈開七成（第五輪五成整間偏灰）；白天整體比晚上暗一點、窗邊亮，晚上是暖色的燈。
 # 第三張熄燈（--dark，DORM-SLEEP-VISUAL-1030，使用者「睡覺要真的有畫面」）：室內燈全關，只剩夜空和窗外的路燈；遊戲 z.lightsOff(k) 換過去
@@ -19,7 +19,7 @@ SAMPLES=${1:-512}
 OUTDIR=${2:-assets/models/env/second_ai}
 RES=${3:-1024}
 TMP=$(mktemp -d)
-HIDE='glass|^Y203_|^Y412_|^Y312_|^Y507_|^Y409_|^Y205_|^NAMETAG_|^ROOMMATE_'
+HIDE='glass|^Y203_|^Y412_|^Y312_|^Y507_|^Y409_|^Y205_|^NAMETAG_|^ROOMMATE_|^JACKET_'
 NOLM='tubes|fixtures|dorm_led|dorm_items|dorm_metal|chrome|black|_rod|mirror|shower|sign|bath_outer|BAKEONLY'
 LED='0.03,0.8,1.0,0.88,0.72'; LEDW=${LEDW:-9}
 DARKPT='0.4,2.2,-8.5,450,1.0,0.75,0.45'   # 熄燈那一張：窗外對面人行道的路燈（暖黃、高出房間地板 2.2 m、離窗 5 m）

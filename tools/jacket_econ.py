@@ -46,14 +46,22 @@ def tops_prim(v):
 
 
 def remove_old(v):
-    j = v.j
-    for ni, n in enumerate(j['nodes']):
-        if n.get('name') == NAME:
-            mi = n['mesh']
-            for s in j['scenes']: s['nodes'] = [x for x in s['nodes'] if x != ni]
-            n.pop('mesh'); n.pop('skin', None); n['name'] = NAME + '_removed'
-            j['meshes'][mi]['primitives'] = []     # VRM.save 只打包用到的 accessor；空 mesh 留著（不重排索引）
-            print('  removed old', NAME)
+    """已經有 JACKET_ECON 的檔案（重跑）：拿掉節點、網格、材質、貼圖。這幾樣都是 build() 最後加上去的，所以都在陣列的最後面，直接拿掉、不用重排其他索引。"""
+    j = v.j; vm = j['extensions']['VRM']
+    ni = next((i for i, n in enumerate(j['nodes']) if n.get('name') == NAME), None)
+    if ni is None: return
+    mi = j['nodes'][ni]['mesh']; mat = j['meshes'][mi]['primitives'][0]['material']
+    ti = j['materials'][mat]['pbrMetallicRoughness']['baseColorTexture']['index']; ii = j['textures'][ti]['source']
+    last = (ni == len(j['nodes']) - 1, mi == len(j['meshes']) - 1, mat == len(j['materials']) - 1, ti == len(j['textures']) - 1, ii == len(j['images']) - 1)
+    assert all(last), ('JACKET_ECON 不在最後面，不能直接拿掉：改從沒有外套的 vroid_yuting.vrm 重跑（vroid_build.py → char_polish.py）', last)
+    for sc in j['scenes']: sc['nodes'] = [x for x in sc['nodes'] if x != ni]
+    fp = vm.get('firstPerson', {})
+    if 'meshAnnotations' in fp: fp['meshAnnotations'] = [m for m in fp['meshAnnotations'] if m.get('mesh') != mi]
+    pr = j['meshes'][mi]['primitives'][0]; accs = sorted(list(pr['attributes'].values()) + [pr['indices']])
+    assert accs == list(range(len(j['accessors']) - len(accs), len(j['accessors']))), ('JACKET_ECON 的 accessor 不在最後面', accs)
+    del j['accessors'][accs[0]:]
+    j['nodes'].pop(); j['meshes'].pop(); j['materials'].pop(); vm['materialProperties'].pop(); j['textures'].pop(); j['images'].pop()
+    print('  removed old', NAME)
 
 
 def weld(P, eps=2e-4):
