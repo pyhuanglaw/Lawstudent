@@ -3434,6 +3434,14 @@
    "approvedBy": "AA-C 定稿（D109；SIS-LEAD-1021，USER_WANTS C25）",
    "task": "SIS-B16-1028",
    "note": "子代理登記（SIS-B16-1028，10-28）：學姊第十六批（回臺灣以後的最後半年，2028-12-24～2029-06-30）。新檔 src/data/sis_b16_events.js、src/sis_b16_3d.js（index.html 接在 sis_b15 後面）。第 1 節 A（交往中）五場：1-1 12/24 接機戀人版選「先回家睡覺。」→ 11:00 那則以後排 12:00 公館滷肉飯；1-2 1/19 21:00 私訊 → 1/20 14:00 她家最後一箱（美國路線、接機戀人版各自的計畫本那一行；h3b 才有「Shu，謝謝。」、g6b 外套）；1-3 書桌夜 3/28～4/11 第一個有去的週三換演研究單位回信（r3_events.js again 那一段；沒演到＝4/15 21:00 私訊兩則）；1-4 5/11 21:00 私訊 → 5/12 07:00 新體育館游泳池 → 早餐店（2D 背景 gym_pool 沒有圖＝深色底，scene_bg_keys PENDING，BB 要圖）；1-5 6/2 選「修正本我陪妳改。」（postgrad_lines.js 記 SIS16_REV_PROMISE）→ 6/4 21:00 私訊 → 6/5 19:00 研究室（沒到＝23:00 一則）。第 2 節 B（朋友以上沒交往）：2-1 2/16 21:00 → 2/20 17:00 總圖門口借書（沒到 2/21 12:00；3/15 21:00 以前在 Café、總圖找她說話＝還了，沒有＝「書。」）；2-2 3/3～3/24 週六 10～12 傅鐘長椅（characters.js 作息、3D）；2-3 3/26～4/13 平日 17:00～17:30 總圖門口碩一的學妹（3D）；2-4 6/22 22:00 → 6/23 10:00 法圖門口還書（A、B）；2-5 美國那一通選「那換我打給妳。」（r2y4b_events.js 記 SIS16_T7B）→ 12/25 14:00 白天的電話。第 3 節家族：1/10、3/20、6/29 家族群組；3/22 19:00～21:00 法圖討論室 A 她旁聽（作息、3D）；3-3 生日那則改成在家族群組就知道（postgrad3d.js S.bdayKnown；C、D 只回「生日快樂。」）、C 典禮上看她一眼（6/2 13:00～14:30 椰林大道）。第 4 節 R：2/19～3/2 平日 17:00～17:30 總圖門口一次。第 5 節：g6b 外套、h9b 拍照（r2y4a_events.js 接機兩處，r2y4b_events.js 記 SIS16_G6B／H3B／H9B／T7B）、情人節補一天（sis_b4 記 SIS_VDAY_MAKEUP → r3_3d.js 休息日那則換三句）、S7-L2「那現在還好嗎？」→ 5/28 22:00 私訊、S7-L8「一起參加典禮。」→ 保溫瓶那一場加拍照兩句（STORY.ladReply 包一層，同 sis_b14）。第 6 節十五處＋書桌夜七句：ladder.js 只經 tools/ladder/import_ladder.py 的 _fix 重產（S7-L3 週次 [9,14]、S7-L8 選項②、Y4S1 12/24 起臺灣的招呼 greetBack）、pg_dates.js 經 tools/story/import_pg_dates.py 重產（學姊 2029-06）、heard_lines.js h509_ta_sis（src AA_523 6-3、2029-01-13 起）、termend_lines.js（Y4S1 心意版、話題池第一句）、events.js W1 晚到版（大三、大四的選項與回答、標題晚了一年／兩年／三年）、heroine_asks3d.js（她那一週有劇情出遊或私訊邀約就不約、春節 2/12～2/16 不約、前任到 4-1 重新開始以前不收）、sis_b13 Kevin 兩則、sis_b12 12-7 選項、fest_events.js 2029 白色情人節便條、story3d.js 大四寒假六句、r3_events.js 書桌夜七句輪流；第 0 節上班日 7/2（一）：feed_y4s2.js 註解（遊戲裡沒有「七月一號」上班的字）。tests/aa523_sis_b16_unit.js 逐字雙向對稿（132 句、27 個選項、8 則私訊）＋A／B／C／D／R 邏輯＋舊存檔（修改前 FAILED 76、PASS 16；修改後 ALL PASS 138 項）；第 6 節改到的舊測試 8 支照新稿改期待值（aa379、aa416、aa470、aa492、aa503_others、aa508_509、aa367、aa512，檔頭註明）。；10-28 14:5x 改 28c56dfdc（AA 加第 10 節：6-7 大四下每週三的書桌夜不算劇情出遊（heroine_asks3d.js S.OUT_SKIP）；子代理其他解讀照現在；新體育館門口和游泳池一起交 BB 要圖）"
+  },
+  {
+   "path": "docs/story_planning/AA_524_說了沒發生_以安芷若語彤.md",
+   "sha": "8fd10848d",
+   "status": "approved",
+   "approvedBy": "AA-C 定稿（D109；HEROINE-LIFE-1028，USER_WANTS X122★）",
+   "task": "HEROINE-LIFE-1028",
+   "note": "LAWWW-B 子代理登記（aa524-promises，10-30；上一班 LAWWW-C 子代理的實作沒 push 遺失，重做）：以安、芷若、語彤 34 條說了沒發生。閒聊階梯的改字、extraIf（A4 番茄炒蛋保鮮盒、A14 對考卷／十五分鐘、Z3-L4 罐頭、Z10 滷肉一整罐）只經 tools/ladder/import_ladder.py 的 _fix；約會台詞的改字（A8 D09、A9 D14／D16、Z7 D18／D10）只經 tools/date/import_date_lines.py 的 AA_524 那一段；其他接線在 src/aa524_3d.js 和各檔原地（檔內標 AA_524）。測試 tests/aa524_promises_unit.js"
   }
  ]
 }
