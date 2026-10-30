@@ -316,8 +316,8 @@ const INV=(function(){
       if(sp){ const FA=FAof(); if(FA) await S.playLines(GM,who,FA); if(P.id==='gym_badminton') await S.badClip(GM,iv,who); if(sp.during.length) await S.playLines(GM,who,sp.during); sp.next(); }   /* 羽球：答應、第一次那一句 → 短片 → 一起的時候（AA_485 第 2 節）*/
       else { if(lines&&lines.length){ for(const t of lines) await GM.say(who,t); } else if(P.scene) await P.scene(GM,iv,who); /* 地點自己的見面（茶席：AA_167，src/wzlines3d.js）*/ else if(ml) await GM.say(/^「/.test(ml)?who:null,ml); else await GM.say(null,'你和'+nm+P.verb.replace(/^去/,'在')+'。');
         { const FA=FAof(); if(FA) await S.playLines(GM,who,FA); } }   /* 第一次和她（他）去那個地方：在那裡多說的（BB_158 的 first：點完餐、脫鞋、老闆娘說的三分四十秒）*/
-      await GM.fade(true); GM.advance(P.stay); await GM.fade(false); GM.caption('',[P.name,nm,'（'+(P.stay>=1?P.stay+' 小時':Math.round(P.stay*60)+' 分鐘')+'）'].join('・'),2600);
-      if(typeof SOCIAL!=='undefined'){ if(SOCIAL.remember) SOCIAL.remember(iv.who,P.memory,P.name); if(SOCIAL.activity){ SOCIAL.activity(iv.who,P.sport?'sport':({cafe:'cafe',library:'library',noodle:'meal',wenzhou:'walk',brunch:'meal',teahouse:'cafe'}[P.id]||'cafe')); if(iv.by==='npc') SOCIAL.activity(iv.who,'acceptInvite'); } else if(SOCIAL.adjust) SOCIAL.adjust(iv.who,{fam:2}); }
+      if(!P.ownMeal){ await GM.fade(true); GM.advance(P.stay); await GM.fade(false); } GM.caption('',[P.name,nm,'（'+(P.stay>=1?P.stay+' 小時':Math.round(P.stay*60)+' 分鐘')+'）'].join('・'),2600);   /* ownMeal：地點的 scene 自己點餐、走時間（Pasta 118 照 L118.order，AA_480 第 5 節）*/
+      if(typeof SOCIAL!=='undefined'){ if(SOCIAL.remember) SOCIAL.remember(iv.who,P.memory,P.name); if(SOCIAL.activity){ SOCIAL.activity(iv.who,P.sport?'sport':({cafe:'cafe',library:'library',noodle:'meal',wenzhou:'walk',brunch:'meal',teahouse:'cafe'}[P.id]||(P.kind==='meal'?'meal':'cafe'))); if(iv.by==='npc') SOCIAL.activity(iv.who,'acceptInvite'); } else if(SOCIAL.adjust) SOCIAL.adjust(iv.who,{fam:2}); }
       if(typeof SOCIAL!=='undefined'&&SOCIAL.adjust&&typeof DATE!=='undefined'&&DATE.stageNum&&DATE.stageNum(iv.who)>=3&&iv.who!=='kexin'){ const DY=G.daily||(G.daily={}), k='romAlone_'+iv.who; if(DY[k]!==G.day){ DY[k]=G.day; SOCIAL.adjust(iv.who,{npcRom:1,rom:1}); } }   /* 校園單獨約出來（AA_128 1-1）：她的戀愛 +1、祐廷的戀愛 +1，同一個人一天一次；AA_243 第 1 節（BB_199 P0-1 方案 A）：從朋友（第 3 階）開始，不是第 5 階 */   /* AA_124 1-2：照地點（Café、總圖、吃飯、溫州街）；對方約的又赴約，信任 +1 */
       if(sp) S.sportAfter(G,iv.who,P);   /* 子晴、可昕：自在 +3、她的戀愛 +3（AA_126 6-3）；羽球＝打羽球的體能 */
       if(typeof WISH!=='undefined'&&WISH.meetMention) await WISH.meetMention(GM,iv,who);   /* 心願：聊天提到（DATE-C4、C5；src/wish3d.js）——見面那一段演完、道別以前，條件到了說一次 */
@@ -390,7 +390,7 @@ const INV=(function(){
       Promise.resolve().then(()=>S.startTogether(GM,iv,n)).catch(e=>console.warn('INV.autoStart',e)).finally(()=>{ autoBusy=false; if(GM.G===G){ if(GM.sceneEnd) GM.sceneEnd(); if(GM.autosave) GM.autosave(); } }); return true; }
     return false; };
   /* 開始：有座位的地點（總圖、Café、麵店、茶館、早午餐）先一起坐下——她坐著就坐她旁邊，沒坐就找兩個相鄰的空位；找不到就照舊直接開始 */
-  S.pairSeats=function(GM,n,place){ const E=GM.E; if(!SEATED[place]||!n||!E||!E.zone||!Array.isArray(E.zone.seats)) return null;
+  S.pairSeats=function(GM,n,place){ const E=GM.E; if(!seatPose(place)||!n||!E||!E.zone||!Array.isArray(E.zone.seats)) return null;
     const near=(a,b,r)=>Math.hypot(a.x-b.x,a.z-b.z)<r;
     const together=(a,b)=>{ if(typeof a.yaw!=='number'||typeof b.yaw!=='number') return false; const fx=Math.sin(a.yaw), fz=Math.cos(a.yaw), dx=b.x-a.x, dz=b.z-a.z, c=Math.cos(a.yaw-b.yaw), along=dx*fx+dz*fz, side=dx*fz-dz*fx;
       return (c>0.95&&Math.abs(along)<0.3)||(c<-0.95&&Math.abs(side)<0.3&&along>0); };   /* 並排（朝同一邊、前後不錯開）或面對面（她看得到你）*/
@@ -404,7 +404,7 @@ const INV=(function(){
     const pr=S.pairSeats(GM,n,iv.place); let sat=false;
     if(pr&&GM.sitAt&&P){ if(GM.fade) await GM.fade(true);
       if(n.seat!==pr.her){ if(GM.standUp&&n.seat) GM.standUp(n); n.seatTarget=null; n.path=null; GM.sitAt(n,pr.her); }
-      n.pose=n.idlePose=SEATED[iv.place]; n.frozen=true; n.beh='idle';
+      n.pose=n.idlePose=seatPose(iv.place); n.frozen=true; n.beh='idle';
       if(P.seat&&GM.standUp) GM.standUp(P); GM.sitAt(P,pr.me); sat=true; if(GM.fade) await GM.fade(false); }
     await S.meet(GM,iv,n);
     if(sat&&P&&P.seat&&GM.standUp) GM.standUp(P); };
@@ -452,7 +452,8 @@ const INV=(function(){
   /* 一起走到有座位的地點（總圖、Café、麵店、茶館、早午餐）：她走去一個旁邊還有空位的位子坐下；約定時間改成現在（不會因為路上花的時間被算成沒赴約）。
      見面：你坐到她旁邊（S.seatMeet，座位選單呼叫）或跟她說話（story3d.js talkCharacter 的 INV.meetable）。找不到位子或走不到就照舊直接見面。 */
   const SEATED={library:'read',cafe:'sit',noodle:'sit',teahouse:'sit',brunch:'sit'};
-  S.seatFirst=function(GM,iv,n){ const E=GM.E, G=GM.G; if(!n||!n.obj||!SEATED[iv.place]||!E||!E.zone||!Array.isArray(E.zone.seats)||!E.moveTo) return false;
+  const seatPose=pid=>SEATED[pid]||(S.place(pid)||{}).seatPose||null;   /* 別的檔加的地點自己帶（Pasta 118：lane118.js 的 L118.INVITE，AA_480 第 5 節）*/
+  S.seatFirst=function(GM,iv,n){ const E=GM.E, G=GM.G; if(!n||!n.obj||!seatPose(iv.place)||!E||!E.zone||!Array.isArray(E.zone.seats)||!E.moveTo) return false;
     const near=(a,b,r)=>Math.hypot(a.x-b.x,a.z-b.z)<r;
     const busy=st=>st.taken||E.npcs.some(m=>m!==n&&(m.seat||m.seatTarget)&&near(m.seat||m.seatTarget,st,0.35))||(E.player&&E.player.seat&&near(E.player.seat,st,0.35));
     const ok=E.zone.seats.filter(st=>!st.label&&!busy(st));   /* label＝長椅之類的單獨座位；要桌邊的位子 */
@@ -460,7 +461,7 @@ const INV=(function(){
     const P=E.player.obj.position; const cand=ok.filter(pair).sort((a,b)=>Math.hypot(a.x-P.x,a.z-P.z)-Math.hypot(b.x-P.x,b.z-P.z));
     const st=cand[0]; if(!st) return false;
     if(GM.standUp) GM.standUp(n); n.beh='idle'; n.frozen=false; n.path=null; n.seatTarget=st;
-    const pose=SEATED[iv.place]; const sit=()=>{ n.seatTarget=null; if(GM.sitAt) GM.sitAt(n,st); n.pose=n.idlePose=pose; n.frozen=true; };
+    const pose=seatPose(iv.place); const sit=()=>{ n.seatTarget=null; if(GM.sitAt) GM.sitAt(n,st); n.pose=n.idlePose=pose; n.frozen=true; };
     const ap=(GM.seatApproach&&GM.seatApproach(st))||[st.x,st.z]; if(!E.moveTo(n,ap[0],ap[1],sit,st.lv|0)){ n.seatTarget=null; return false; }
     iv.h=+((G.hour%24)).toFixed(3); iv.waitSeat={x:st.x,z:st.z,lv:st.lv|0};
     if(GM.setGoal) GM.setGoal('坐到'+nameOf(iv.who)+'旁邊'); return true; };
