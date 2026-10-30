@@ -35991,8 +35991,8 @@
    "title": "兩點半 Café 往門口那一側的窗景是靜態貼圖 → 看得到外面（3D 溫州街、路人、時段光線）",
    "area": "ART",
    "owner": "LAWWW2",
-   "status": "待開工",
-   "next": "LAWWW2 排在宿舍 203 那包之後（和 INTERIOR-AAA 的 Café 一起）",
+   "status": "已實作待整合",
+   "next": "已合進 postrel-1030（dcf33a4e0，LAWWW2-B f11f2ccb0）→ v9.10.14 後進開發分支 → BB 測（Café 窗外白天／黃昏／晚上、效能：門口鏡頭 draw call 158→265）；建築場景 ART_APPROVED 只有使用者能標",
    "priority": "P1",
    "first": {
     "term": "Y1S1",
@@ -36013,7 +36013,7 @@
     "receiver": "LAWWW",
     "ack": "SENT"
    },
-   "notes": ""
+   "notes": "【07:3x】LAWWW2-B 交件 f11f2ccb0：溫州街 3D 模型當窗景（裁切平面、晚上照時段、4 個路人）；cafe_street_live_unit（基準 10 FAIL）｜ "
   },
   {
    "id": "LIB-LAWN-PLAN-1030",
