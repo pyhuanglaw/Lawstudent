@@ -1,7 +1,7 @@
-"""普通教學館、博雅教學館的室內（兩層）正式模型 → assets/models/env/second_ai/{putong,boya}_interior.glb。LAWWW2-C 2026-10-18（ART-EXT-TEACH 第二批）：
-  /opt/blenv/bin/python tools/blender/env_second/teach_interior.py -- --set putong|boya [--out 輸出.glb]
+"""普通、博雅、共同教學館的室內（兩層）正式模型 → assets/models/env/second_ai/{putong,boya,gongtong}_interior.glb。LAWWW2-C 2026-10-18（ART-EXT-TEACH 第二批）：
+  /opt/blenv/bin/python tools/blender/env_second/teach_interior.py -- --set putong|boya|gongtong [--out 輸出.glb]
 
-配置讀 src/data/{putong,boya}_layout.js（遊戲 src/teach3d.js 的導航、座位、互動點讀同一份，兩邊的牆、樓梯、階梯教室的平台一定一致）。
+配置讀 src/data/{putong,boya,gongtong}_layout.js（遊戲 src/teach3d.js 的導航、座位、互動點讀同一份，兩邊的牆、樓梯、階梯教室的平台一定一致）。
 座標＝配置的座標：x 往東、z 往南（+z＝南牆：入口）、y 往上；一樓地板 y=0、二樓 floors[1].y、屋頂 roofY。
 節點命名（src/building3d.js 的 B3.attachFormal）：L0_root（一樓＋整座樓梯）、L1_root（二樓：玩家在一樓、鏡頭高過二樓樓板時藏起來）；
   名字含 WALL_ 的是外牆和貼在外牆上的東西（窗框、窗台、入口的門、往空橋的玻璃門；擋住鏡頭時一起淡出），自訂屬性 dir＝往室內的法線。
@@ -12,7 +12,9 @@
 真實性：房間配置是遊戲的模板（docs/campus/TEACHING_BUILDINGS_PLAN.md），材料是台灣大學教學館常見的做法（磨石子地板、輕鋼架礦纖天花板、白牆、綠黑板），不宣稱還原真實室內。
 2026-10-30 博思（BOYA-LM-1030，LAWWW2-B；LAWWW-B 派工、INTERIOR_AAA_REVIEW_1028 第 5 節 P1 光照＋P5 燈具）：
   階梯教室的長桌、翻椅改在模型裡（LECT_<房號>_*、SEATPANS；照霖澤館 201 v2）：遊戲 patch（patches/boya_lecture_furn_1030.patch）看到 SEATPANS 就藏起備用的方塊桌椅、空位椅面掀起來（Z3.seatFold）；
-  天花板的燈板換成 T5 格柵燈具（1.2×0.6，格子線 x＝0.6k、z＝0.6k＋0.1）；光照烘焙 lightbake/bake_boya.sh。普通（--set putong）照舊：沒有階梯教室、燈板和格子不變。"""
+  天花板的燈板換成 T5 格柵燈具（1.2×0.6，格子線 x＝0.6k、z＝0.6k＋0.1）；光照烘焙 lightbake/bake_boya.sh。普通（--set putong）照舊：沒有階梯教室、燈板和格子不變。
+2026-10-30 共同（--set gongtong，ART-ECON-3D-GAP-1021 A，LAWWW2-B）：原本沒有正式模型（遊戲一直是 teach3d.js 的程序化備用畫面）。做法和博思一樣：T5 格柵燈具、101 階梯教室的長桌翻椅在模型裡。
+  配置沒有 lightPanels：燈位照 teach3d.js 備用模型的預設（DEFAULT_LP，兩邊一致）。休息區的圓桌、自習區的桌椅（配置的 lounge／study，舊寫法）照舊是遊戲畫的，不在這裡。"""
 import json, math, os, sys
 HERE = os.path.dirname(os.path.abspath(__file__))
 sys.path.insert(0, HERE)
@@ -21,7 +23,7 @@ from lib2 import B, Mesh, g2b, bpy   # noqa: E402
 
 ARGS = sys.argv[sys.argv.index('--') + 1:] if '--' in sys.argv else []
 def arg(n, d=None): return ARGS[ARGS.index(n) + 1] if n in ARGS else d
-SET = arg('--set', 'boya'); KEY = {'boya': 'BOYA_LAYOUT', 'putong': 'PUTONG_LAYOUT'}[SET]
+SET = arg('--set', 'boya'); KEY = {'boya': 'BOYA_LAYOUT', 'putong': 'PUTONG_LAYOUT', 'gongtong': 'GONGTONG_LAYOUT'}[SET]
 OUT = os.path.join(L.ROOT, arg('--out', f'assets/models/env/second_ai/{SET}_interior.glb'))
 src = open(os.path.join(L.ROOT, f'src/data/{SET}_layout.js'), encoding='utf8').read()
 J = json.loads(src[src.index('{', src.index(KEY)):src.rindex('}') + 1])
@@ -101,17 +103,17 @@ for (a, b, c, d) in QS:
     mk(1, 'slab').box(a, b, Y1 - ST, Y1 - 0.012, c, d)
     mk(1, 'floor').box(max(a, XI0), min(b, XI1), Y1 - 0.012, Y1, max(c, ZI0), min(d, ZI1))
 # 一樓天花板（ceil0）：樓梯井那一塊不做（往上看得到樓梯）；井的四周從天花板到二樓樓板之間封板
-LP = J.get('lightPanels') or {'xs': [], 'zs': []}
+DEFAULT_LP = {'xs': [-9.6, -6.0, -1.2, 1.2, 6.0, 9.6], 'zs': [-5.2, -2.0, 1.0, 4.6]}   # teach3d.js：配置沒寫 lightPanels 時的燈位（共同）
+LP = J.get('lightPanels') or DEFAULT_LP
 # 博思（BOYA-LM-1030，LAWWW2-B 10-30；照 202 v2、多功能教室 v2）：原本 1.2×0.3 的平板燈貼在格子上、對不上格子線 → T5 格柵燈具（1.2×0.6，佔兩格：外殼、發光面、格柵）。
 # 格子線改成 x＝0.6k、z＝0.6k＋0.1：配置的燈位 x 都是 0.6 的倍數（燈具的長邊兩端剛好在格子線上），z 對到最近一格的中心（7.2 → 7.0，其他不動）。
 # 烘焙的面光源用同一個位置（lightbake/bake_boya.sh 的 trof()）。普通照舊（燈板、格子從外牆內面量）。
-TROF = SET == 'boya'
+TROF = SET in ('boya', 'gongtong')
 GXO, GZO = (0.0, 0.1) if TROF else (XI0, ZI0)
 def trof(x, z): return (round(0.6 * round(x / 0.6), 3), round(0.4 + 0.6 * round((z - 0.4) / 0.6), 3))
 if TROF:
     M['trof'] = L.flat('tb_troffer', '#ecebe7', rough=0.5); M['louvre'] = L.flat('tb_louvre', '#d3d6d9', rough=0.3, metal=0.35)
-    M['lectop'] = L.flat('tb_lectern_top', '#5c5953', rough=0.5)
-    for _k in ('trof', 'louvre', 'lectop'): M[_k].use_backface_culling = True
+    for _k in ('trof', 'louvre'): M[_k].use_backface_culling = True
 def ceiling(lv, y, rects):
     for (x0, x1, z0, z1) in rects:
         if x1 - x0 < 0.05 or z1 - z0 < 0.05: continue
@@ -293,7 +295,7 @@ for r in J['rooms']:
         if r.get('lectern'):
             lc = r['lectern']; wd = mk(lv, 'wood')
             wd.box(lc['x'] - lc['w'] / 2, lc['x'] + lc['w'] / 2, Y, Y + 1.05, lc['z'] - lc['d'] / 2, lc['z'] + lc['d'] / 2)
-            mk(lv, 'lectop' if TROF else 'dark').box(lc['x'] - lc['w'] / 2 - 0.05, lc['x'] + lc['w'] / 2 + 0.05, Y + 1.05, Y + 1.1, lc['z'] - lc['d'] / 2 - 0.05, lc['z'] + lc['d'] / 2 + 0.05)   # 博思：深灰美耐板（BB-B n19「講台往座位那幾張講桌桌面很深、接近黑」：原本 tb_dark #26282b）
+            mk(lv, 'dark').box(lc['x'] - lc['w'] / 2 - 0.05, lc['x'] + lc['w'] / 2 + 0.05, Y + 1.05, Y + 1.1, lc['z'] - lc['d'] / 2 - 0.05, lc['z'] + lc['d'] / 2 + 0.05)
         wz = r['z1'] if up < 0 else r['z0']                                                          # 講台那一面牆（外牆的內面）
         wz_in = wz                                                                                   # 房間的邊界就是牆的內面（z1＝D/2−T/2）
         if r.get('board'):
