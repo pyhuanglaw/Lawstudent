@@ -9,6 +9,7 @@
 //   6  京都 C12 和以安交往中第一堂換版；曼谷 T03 和子晴交往中多兩處
 //   7  總圖兩句、「我還在念書。」、以安的假期計畫（第 15 週週五 21:00 私訊／群組、交往中多問一句）
 // 修改前（d531b973f）FAIL 的：除了 0 的「稿讀得到」，全部。
+// 2026-10-30 AA_539 1-3（企劃線 c9f6dd6cb，SIS-LEAD-1021）：2026-06-30～09-20 學姊學生證停了、總圖改約慢讀——3、8-1 的學姊總圖改查 2027 暑假（日期以外不變）。
 const H=require('./pg_harness.js');
 const fs=require('fs'), vm=require('vm'), path=require('path'), cp=require('child_process');
 const {check,GM}=H, J=JSON.stringify;
@@ -61,10 +62,10 @@ const VAC_LINES={an_lib:'放假的總圖人很少。明天下午三點半，二�
 { const pick=(id,place,k,h)=>{ fresh(k,h); friend(id); return HAS_HASK?HASK.candidates(H.G,H.G.day).filter(x=>x.id===id&&x.place===place):[]; };
   const a=pick('heroine_01','library','2026-07-14',13), b=pick('heroine_01','library','2026-03-10',13);
   check('3. 以安總圖：暑假（7/14 傳、7/15 約）用放假版「放假的總圖人很少。…」；學期中照舊「…你帶題目。」',a.length===1&&a[0].v.line===VAC_LINES.an_lib&&a[0].vac===true&&b.length===1&&b[0].v.line==='明天下午三點半，總圖二樓靠窗。我帶憲法筆記，你帶題目。'&&!b[0].vac,J([a.map(x=>x.v.line),b.map(x=>x.v.line)]));
-  /* 學姊：週五傳、週六約（平日 9～17 在研究室）*/
-  const s=pick('heroine_05','library','2026-07-17',13);
+  /* 學姊：週五傳、週六約（平日 9～17 在研究室）。2026-10-30 AA_539 1-3（c9f6dd6cb）：2026-06-30～09-20 她學生證停了、總圖進不去，改約慢讀——放假版改用 2027 暑假查（原本 2026-07-17） */
+  const s=pick('heroine_05','library','2027-07-16',13);
   check('3. 學姊總圖放假版：下午（15:30），「明天下午，總圖三樓。放假了，題目照帶。」',s.length===1&&s[0].h===15.5&&s[0].v.line===VAC_LINES.sis_lib,J(s.map(x=>[x.h,x.v.line])));
-  fresh('2026-07-17',13); friend('heroine_05'); H.G.flags.dating_heroine_05=true; const sd=HAS_HASK?HASK.candidates(H.G,H.G.day).filter(x=>x.id==='heroine_05'&&x.place==='library'):[];
+  fresh('2027-07-16',13); friend('heroine_05'); H.G.flags.dating_heroine_05=true; const sd=HAS_HASK?HASK.candidates(H.G,H.G.day).filter(x=>x.id==='heroine_05'&&x.place==='library'):[];
   check('3. 學姊交往中總圖放假版：下午，「明天下午，總圖三樓。放假，不問題目。」',sd.length===1&&sd[0].h===15.5&&sd[0].v.line===VAC_LINES.sis_lib_dat,J(sd.map(x=>[x.h,x.v.line])));
   /* 排好、傳出去：訊息是放假版（sent 記 vac） */
   fresh('2026-07-14',13); friend('heroine_01'); let rec=null; if(HAS_HASK){ HASK.phone(H.G); rec=HASK.rec(H.G).sent[0]; at(H.G.day,23.9); HASK.phone(H.G); PHONE.tick(H.G); }
@@ -149,9 +150,9 @@ const atHome=()=>{ const Hm=HOME.rec(H.G); Hm.at=true; Hm.day=H.G.day; const B=H
     PHONE.answer(H.G,'aa532_an_plan_Y2S2_q',1); check('7. 回「還沒想」→ 她「那我們再排。」',(H.G.msgs||[]).slice(-1)[0].text==='那我們再排。','');
     const k3=CALENDAR.dateOf(HOLFF.anPlanDay('Y1S2')).key; fresh(k3,20); run(k3,21); check('7. 不認識她：沒有',tagMsgs('aa532_an_plan_Y1S2').length===0,''); }
   /* ================= 8 AA-B 10-30 05:12 十四點 ================= */
-{ /* 第 1 點：學姊放假平日照學期中（17:30「明天五點以後，總圖三樓。你帶要問的題目。」）、週末放假版下午 */
-  fresh('2026-07-20',13); friend('heroine_05'); const c=HAS_HASK?HASK.candidates(H.G,H.G.day).filter(x=>x.id==='heroine_05'&&x.place==='library'&&x.day===D('2026-07-21')):[];
-  check('8-1. 學姊放假、平日（7/20 週一傳、7/21 週二約）：照學期中 17:30「明天五點以後，總圖三樓。你帶要問的題目。」、不記 vac',c.length===1&&c[0].h===17.5&&c[0].v.line==='明天五點以後，總圖三樓。你帶要問的題目。'&&!c[0].vac,J(c.map(x=>[x.h,x.v.line,x.vac]))); }
+{ /* 第 1 點：學姊放假平日照學期中（17:30「明天五點以後，總圖三樓。你帶要問的題目。」）、週末放假版下午。AA_539 1-3：2026 暑假（學生證停掉）改慢讀，這裡改查 2027 暑假（原本 2026-07-20） */
+  fresh('2027-07-19',13); friend('heroine_05'); const c=HAS_HASK?HASK.candidates(H.G,H.G.day).filter(x=>x.id==='heroine_05'&&x.place==='library'&&x.day===D('2027-07-20')):[];
+  check('8-1. 學姊放假、平日（2027-07-19 週一傳、7/20 週二約）：照學期中 17:30「明天五點以後，總圖三樓。你帶要問的題目。」、不記 vac',c.length===1&&c[0].h===17.5&&c[0].v.line==='明天五點以後，總圖三樓。你帶要問的題目。'&&!c[0].vac,J(c.map(x=>[x.h,x.v.line,x.vac]))); }
 { /* 第 5 點：留宿舍週四 22:00 爸爸「？」quiet（快轉不停）；學期中照舊；除夕～初五不傳 */
   const dadQ=()=>{ const P=PHONE.rec(H.G), q=P.q.find(x=>/^home_ask_\d+_dad$/.test(x.tag||'')); return q?q.items[0]:null; };
   fresh('2026-07-16',19); H.G.home={at:false}; at(H.G.day,20); HOME.phoneRules(GM); PHONE.tick(H.G); at(H.G.day,22); HOME.phoneRules(GM); const qv=dadQ();
