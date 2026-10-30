@@ -88,8 +88,21 @@ const XCROM=(()=>{
       {speaker:'shop_home',name:'老闆娘',text:'妹妹今天也是番茄炒蛋？'},{speaker:XC,text:'……排骨飯。'},{speaker:'shop_home',name:'老闆娘',text:'喔！又換！'},
       {speaker:null,text:'（她看你一眼，好像在說：你看，我自己換了。）'},{speaker:XC,text:'今天沒有排讀書。是我自己沒有排。'},
       {set:{XC_SAMEDAY:true}} ] };
-  S.phone=function(G){ for(const f of [S.g3Remind,S.blankAgain,S.g7]){ try{ f(G); }catch(e){ console.warn('XCROM.phone',e); } } };
-  S.EVENTS=[S.EV_G2,S.EV_SAMEDAY];
+  /* 3-3 G4b：慈 3 走 Café 補演（XC_FIX＝yes）的玩家，大二下第 8 週週三 00:30 她第一次打電話來（出遊的電話，同 an_yt_hol3d.js）：接＝XC_CALL1（G4 過）；不接＝隔天早上「打錯了。」，G4 沒過 */
+  S.callDay=()=>TD('Y2S2',8,3);
+  S.call1=function(G){ const f=F(G), d=S.callDay(); if(!law(G)||d==null||f.XC_FIX!=='yes'||f.XC_CALL1||typeof OUT==='undefined'||!OUT.plan) return;
+    if(f.XC_CALL1_MISS==null&&!outGet(G,'xc_call1')&&now(G)>=T(d-1,12)&&now(G)<T(d,0.75))
+      OUT.plan(G,{id:'xc_call1',ev:'ev_xc_call1',day:d,h:0.5,late:0.25,place:'電話',verb:'接起來',no:'先不接',title:(typeof SOCIAL!=='undefined'&&SOCIAL.displayName?SOCIAL.displayName(XC):'芯慈')+'打電話來',call:true,travel:'',travelH:0,back:'電話掛了。',alarm:true});
+    const q=outGet(G,'xc_call1'); if(f.XC_CALL1_MISS==null&&q&&(q.state==='missed'||q.state==='cancelled'||(q.state==='planned'&&now(G)>T(d,0.75)))) f.XC_CALL1_MISS=d;
+    if(f.XC_CALL1_MISS!=null&&!sent(G,'xc_call1_miss')&&now(G)>=T(d,8.5)&&now(G)<T(d+2,0)) PHONE.at(G,Math.max(d,G.day),Math.max(8.5,(G.day>d?G.hour%24:8.5)),[P('打錯了。')],'xc_call1_miss'); };
+  S.EV_CALL1={ id:'ev_xc_call1', title:'她第一次打電話來', participants:[XC], location:'any', trigger:'outing', once:true, background:'dark', hours:1,
+    dialogue:[ {scene:'電話',bg:'phone'},
+      {speaker:XC,text:'……你還沒睡。'},{speaker:XC,text:'我在看一部劇。女主角考了第二名，哭了一整集。'},{speaker:XC,text:'我覺得很蠢。可是我也哭了。'},{speaker:XC,text:'你不用說什麼。我只是想講出來。'},
+      {speaker:null,text:'（她講到一點半。你們掛電話的時候，她說了「晚安」，又說了一次。）'},
+      {set:{XC_CALL1:true}} ],
+    outingMissed:G=>{ if(G&&G.flags&&G.flags.XC_CALL1_MISS==null) G.flags.XC_CALL1_MISS=S.callDay(); } };
+  S.phone=function(G){ for(const f of [S.g3Remind,S.blankAgain,S.g7,S.call1]){ try{ f(G); }catch(e){ console.warn('XCROM.phone',e); } } };
+  S.EVENTS=[S.EV_G2,S.EV_SAMEDAY,S.EV_CALL1];
   /* ---------- 接線（載入時一次）---------- */
   S.wire=function(){ if(S._wired) return; S._wired=true;
     if(typeof STORY_EVENTS!=='undefined') for(const e of S.EVENTS) if(!STORY_EVENTS.some(x=>x.id===e.id)) STORY_EVENTS.push(e);

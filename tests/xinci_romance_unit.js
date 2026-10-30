@@ -8,6 +8,7 @@
 //   4  AA_537b 第 1～3 節（date_lines.js）：十一個 key、128 點喜好、15 句不喜歡、八個常去地點，逐字對稿
 //   5  第 2 段：慈 6 那一場最後「空白的週三下午」（3-5，G8 XC_BLANK）、沒和以安和好多一句（3-6）
 //   6  第 2 段：3-1 大二上麵店補問（G2）、3-2 大二下半夜提醒（G3）、3-5 後補（大四上第 6 週週三）
+//   8  第 2 段：3-3 G4b 補演的玩家大二下第 8 週週三 00:30 的電話（接＝XC_CALL1、不接＝隔天早上「打錯了。」）
 //   7  第 2 段：3-4 G7 當天約（慈 5 以後第一個週三、答應＝18:00 家常菜、不答應＝大三下第 6 週再一次、日本路線改大四上第 2 週）
 // 用法：node tests/xinci_romance_unit.js（稿用 git show 讀：在沒有 .git 的目錄跑時，設環境變數 XC_GIT_DIR＝這個 repo 的目錄）
 'use strict';
@@ -159,6 +160,17 @@ const walk=async(picks,term)=>{ H.said=[]; H.opts=[]; H.picks=picks.slice(); ret
     PHONE.answer(H.G,'xc_g7_2',1); at(STORY.termDay('Y4S1',2,3),15.05); check('7. 兩次都沒答應：不再約（線關上，G7 不過）',!(H.G.msgs||[]).some(m=>/^xc_g7_3/.test(m.tag||''))&&X().gates(H.G).G7===false);
     STORY._rr=STORY.routeAbroadRoute; STORY.routeAbroadRoute=()=>'JP'; const jd=X().g7Day2(H.G); STORY.routeAbroadRoute=STORY._rr;
     check('7. 日本路線（大三下在日本）：第二次改大四上第 2 週週三',jd===STORY.termDay('Y4S1',2,3)&&CALENDAR.dateOf(jd).wd%7===3); });
+
+  /* ===== 第 8 節：第 2 段 3-3 G4b 那通電話 ===== */
+  await sec(8,async()=>{ const d=X().callDay(), at=(dd,h)=>{ H.G.day=dd; H.G.hour=h; H.G.weekday=CALENDAR.dateOf(dd).wd%7; STORY.phoneRules(GM); PHONE.tick(H.G); };
+    H.fresh(CALENDAR.dateOf(d-1).key,20,'dorm',{introDone:true,XC_FIX:'yes'}); SOCIAL.remember(XC,'XINCI_SECOND',''); at(d-1,20); const q=OUT.get(H.G,'xc_call1');
+    check('8. 3-3：走 Café 補演（XC_FIX yes）＝大二下第 8 週週三 00:30 她打電話來（出遊的電話：接起來／先不接）',CALENDAR.dateOf(d).wd%7===3&&!!q&&q.call===true&&q.day===d&&q.h===0.5&&q.verb==='接起來'&&q.no==='先不接',J(q));
+    H.said=[]; await EVENTS.run(STORY_EVENTS.find(e=>e.id==='ev_xc_call1')); const W=['……你還沒睡。','我在看一部劇。女主角考了第二名，哭了一整集。','我覺得很蠢。可是我也哭了。','你不用說什麼。我只是想講出來。'];
+    check('8. 接起來：照稿四句＋旁白「（她講到一點半……又說了一次。）」、記 XC_CALL1（G4 過）',J(T().slice(0,4))===J(W)&&T()[4]==='（她講到一點半。你們掛電話的時候，她說了「晚安」，又說了一次。）'&&H.G.flags.XC_CALL1===true&&X().gates(H.G).G4===true&&W.every(t=>DOC537.includes('> 芯慈：'+t)),J(T()));
+    H.fresh(CALENDAR.dateOf(d-1).key,20,'dorm',{introDone:true,XC_FIX:'yes'}); SOCIAL.remember(XC,'XINCI_SECOND',''); at(d-1,20); STORY_EVENTS.find(e=>e.id==='ev_xc_call1').outingMissed(H.G); at(d,8.6);
+    const m=(H.G.msgs||[]).find(x=>x.tag==='xc_call1_miss');
+    check('8. 不接：隔天早上「打錯了。」，G4 沒過',!!m&&m.text==='打錯了。'&&X().gates(H.G).G4===false&&DOC537.includes('「打錯了。」'));
+    H.fresh(CALENDAR.dateOf(d-1).key,20,'dorm',{introDone:true}); at(d-1,20); check('8. 慈 3 照常演過的（沒有 XC_FIX）：沒有這通電話',!OUT.get(H.G,'xc_call1')); });
 
   H.done();
 })();
