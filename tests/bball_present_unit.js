@@ -40,7 +40,8 @@ if(process.argv[2]==='--sched'){
   check('6. 蓋掉的原本那一筆是一般作息（校園走走、公館），不是上課、家教、顧店、社課',!bad2.length,bad2.join('｜'));
   const off=[[THU,17.75,'週四（10/16，使用者的存檔）'],[HOL,17.75,'國慶日（10/10）'],[W4,17.75,'第 4 週（還沒開始練）'],[FRI,19.05,'19:00 以後'],[FRI,17.4,'17:30 以前'],[Y1S2FRI,17.75,'大一下的週五']].map(([k,h,why])=>{ const bad=ids.filter(id=>court(at(id,k,h))); return bad.length?why+' '+bad.join(','):null; }).filter(Boolean);
   check('6. 非練球日、國定假日、第 4 週、時段外、大一下：阿哲、明軒都不在球場',!off.length,off.join('｜'));
-  { const e=at('zhe',THU,18); check('6. 阿哲週四照舊在麵店（17:30～20:30）',!!e&&e.zone==='noodle',e&&e.zone); }
+  { const ND=(()=>{ for(let d=STORY.dayOfKey('2025-10-13');d<STORY.dayOfKey('2025-10-31');d++){ const w=CALENDAR.dateOf(d).wd; if(w!==5&&STORY.noodleDay(d)) return CALENDAR.dateOf(d).key; } return THU; })();   /* AA_542 第 5 節：麵店日每週不固定兩天 */
+    const e=at('zhe',ND,18); check('6. 阿哲麵店日（不是週五：'+ND+'）照舊在麵店（17:30～20:30）',!!e&&e.zone==='noodle',e&&e.zone); }
   { const src=fs.readFileSync(path.join(ROOT,'src/story3d.js'),'utf8'); check('6. 作息寫 noPair 的 linger：生出來的人不被 pairUp 帶走（n.noPair）',/act==='linger'&&ent\.at\)\{[^\n]*if\(n&&ent\.noPair\) n\.noPair=true/.test(src)); }
   process.exit(fails?1:0);
 }

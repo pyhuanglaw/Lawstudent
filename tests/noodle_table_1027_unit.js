@@ -18,6 +18,7 @@ const meet=(...ids)=>{ for(const id of ids){ SOCIAL.remember(id,'FIRST_MET','');
 const ALL=['zhe','yu','classmate_bohan','classmate_xinci','heroine_03','heroine_01'];
 const at=(key,hh,o)=>{ o=o||{}; H.fresh(key,hh,'noodle',Object.assign({afternoonDone:true},o.flags)); if(o.group!==false) PHONE.join(H.G,'noodle_team','麵店團'); meet(...(o.know||ALL)); return H.G; };   /* afternoonDone：第二天下午以後（阿哲、Alison 才有作息；NDL-PRESENT-1030 閒聊要人在店裡）*/
 const text=e=>(e.dialogue||[]).map(l=>l.text);
+const NDs=(k,n)=>{ const L=[]; for(let d=STORY.dayOfKey(k);L.length<n&&d<STORY.dayOfKey(k)+200;d++){ if(!STORY.noodleDay(d)) continue; const key=CALENDAR.dateOf(d).key; H.fresh(key,18,'noodle',{afternoonDone:true}); if(['zhe','yu','classmate_bohan','classmate_xinci'].every(id=>STORY.ndlHere(H.G,id))) L.push(key); } return L; }, ND1=k=>NDs(k,1)[0];   /* 這一天起四個人都在店裡的麵店日（AA_542 第 5 節：麵店日每週不固定兩天，有人那天有別的行程就不在）*/
 const play=async()=>{ H.said=[]; const r=await STORY.ndlTalk(GM); return {r,L:H.said.map(s=>s.t)}; };
 const D=k=>STORY.dayOfKey(k);
 
@@ -56,7 +57,7 @@ check('0. 旁白不加括號',!Object.values(NOODLE_TABLE).some(L=>L.some(e=>e.d
   at('2025-09-16',18); await play(); check('2. 演過以後同一天不再演',!STORY.ndlTalkDue(H.G)&&H.G.flags.ndlTalkDay===H.G.day); }
 
 /* 3. 照順序輪 */
-{ const days=['2025-09-16','2025-09-18','2025-09-23','2025-09-25','2025-09-30','2025-10-02','2025-10-07','2025-10-09','2025-10-14'], seq=[]; let flags=null, soc=null;
+{ const days=NDs('2025-09-15',9), seq=[];   /* 接下來九個麵店日（AA_542 第 5 節：麵店日每週不固定兩天）*/ let flags=null, soc=null;
   for(const k of days){ H.fresh(k,18,'noodle',Object.assign({afternoonDone:true},flags||{})); if(soc){ H.G.social=soc; SOCIAL.bind(H.G); } PHONE.join(H.G,'noodle_team','麵店團'); meet(...ALL); const {L}=await play(); seq.push(L[0]); flags=H.G.flags; soc=H.G.social; }
   const first=SPEC.Y1.map(x=>x[0]);
   check('3. 每個麵店日一則，照順序 1→8，用完從頭輪（第 9 個麵店日又是第 1 則）',J(seq)===J(first.slice(0,4).concat(['欸，下禮拜系籃練球，你來不來？'],first.slice(5),[first[0]])),J(seq)); }
@@ -76,8 +77,8 @@ check('0. 旁白不加括號',!Object.values(NOODLE_TABLE).some(L=>L.some(e=>e.d
   H.G.flags.ndlTalkDay=null; await play(); const d2=ids.map((id,i)=>(SOCIAL.rel(id).fam|0)-f0[i]); check('4. 同一天再演一次（測試強制）：classmate 一天一次，阿哲不再加',d2[0]===1,J(d2)); }
 
 /* 5. 第 8 則 */
-{ at('2026-03-03',18); H.G.flags.ndlTalkN={Y1:7}; H.G.events.done.ev_yu_together=1; const {L}=await play(); check('5. 阿哲和 Alison 交往以後：第 8 則跳過（回到第 1 則）',L[0]===SPEC.Y1[0][0],J(L)); }
-{ at('2026-03-03',18); H.G.flags.ndlTalkN={Y1:7}; const {L}=await play(); check('5. Y1S2 還沒交往：第 8 則照演',J(L)===J(SPEC.Y1[7]),J(L)); }
+{ at(ND1('2026-03-02'),18); H.G.flags.ndlTalkN={Y1:7}; H.G.events.done.ev_yu_together=1; const {L}=await play(); check('5. 阿哲和 Alison 交往以後：第 8 則跳過（回到第 1 則）',L[0]===SPEC.Y1[0][0],J(L)); }
+{ at(ND1('2026-03-02'),18); H.G.flags.ndlTalkN={Y1:7}; const {L}=await play(); check('5. Y1S2 還沒交往：第 8 則照演',J(L)===J(SPEC.Y1[7]),J(L)); }
 
 /* 6. 讓給別的麵店事件 */
 { at('2025-09-16',18); const e=STORY_EVENTS.find(q=>q.location==='noodle'&&q.trigger==='enter'); H.G.events.last[e.id]=H.G.day; check('6. 今天已經演過一件麵店事件（'+e.id+'）：不演',!STORY.ndlTalkDue(H.G));
@@ -89,21 +90,21 @@ check('0. 旁白不加括號',!Object.values(NOODLE_TABLE).some(L=>L.some(e=>e.d
   check('6. 找語彤說話的事件：她不在店裡＝不算',STORY.ndlTalkDue(H.G)); GM.npc.heroine_03={id:'heroine_03',charId:'heroine_03',obj:{position:{x:0,y:0,z:0}}}; check('6. 她在店裡：讓給它',!STORY.ndlTalkDue(H.G)); GM.npc={}; STORY_EVENTS.pop(); }
 
 /* 7. 大二～大四 */
-{ at('2026-09-15',18); const {L}=await play(); check('7. 大二（9/15 二）第 1 則：還沒交往＝跳過，演第 2 則（柏翰、阿哲）',J(L)===J(SPEC.Y2[1]),J(L));
-  at('2026-12-15',18); H.G.events.done.ev_yu_together=1; const r=await play();   /* 12/22 是期末週（麵店團考試週不去麵店，AA-B 10-30 14:30）：改第 15 週 12/15 */ check('7. 大二交往以後：第 1 則',J(r.L)===J(SPEC.Y2[0]),J(r.L));
-  at('2026-09-15',18); H.G.flags.ndlTalkN={Y2:2}; let q=await play(); check('7. 大二第 3 則：沒有雙主修＝3b「公車今天塞了二十分鐘。我以為趕不上了。」',J(q.L)===J(['公車今天塞了二十分鐘。我以為趕不上了。']),J(q.L));
-  at('2026-09-15',18); H.G.flags.ndlTalkN={Y2:2}; H.G.events.done.ev_xinci_double=1; q=await play(); check('7. 大二第 3 則：演過雙主修＝3',J(q.L)===J([SPEC.Y2[2][0]]),J(q.L));
-  at('2026-09-15',18,{know:['zhe','yu','classmate_bohan','classmate_xinci']}); H.G.flags.ndlTalkN={Y2:5}; q=await play(); check('7. 大二第 6 則：不認識語彤＝跳過（回到第 1 則→第 2 則）',J(q.L)===J(SPEC.Y2[1]),J(q.L)); }
-{ at('2027-09-14',18); H.G.flags.ndlTalkN={Y3:3}; let q=await play(); check('7. 大三上：第 4 則（Y3S2）跳過，第 5、6 則（以安在日本）跳過＝回到第 1 則（還沒交往再跳）→ 第 2 則',J(q.L)===J(SPEC.Y3[1]),J(q.L));
-  at('2028-04-04',18); H.G.flags.ndlTalkN={Y3:3}; q=await play(); check('7. 2028-04-04（Y3S2，以安在日本）：第 4 則',J(q.L)===J(SPEC.Y3[3]),J(q.L));
+{ at(ND1('2026-09-14'),18); const {L}=await play(); check('7. 大二第一個麵店日：第 1 則：還沒交往＝跳過，演第 2 則（柏翰、阿哲）',J(L)===J(SPEC.Y2[1]),J(L));
+  at(ND1('2026-12-14'),18); H.G.events.done.ev_yu_together=1; const r=await play();   /* 12/22 是期末週（麵店團考試週不去麵店，AA-B 10-30 14:30）：改第 15 週 12/15 */ check('7. 大二交往以後：第 1 則',J(r.L)===J(SPEC.Y2[0]),J(r.L));
+  at(ND1('2026-09-14'),18); H.G.flags.ndlTalkN={Y2:2}; let q=await play(); check('7. 大二第 3 則：沒有雙主修＝3b「公車今天塞了二十分鐘。我以為趕不上了。」',J(q.L)===J(['公車今天塞了二十分鐘。我以為趕不上了。']),J(q.L));
+  at(ND1('2026-09-14'),18); H.G.flags.ndlTalkN={Y2:2}; H.G.events.done.ev_xinci_double=1; q=await play(); check('7. 大二第 3 則：演過雙主修＝3',J(q.L)===J([SPEC.Y2[2][0]]),J(q.L));
+  at(ND1('2026-09-14'),18,{know:['zhe','yu','classmate_bohan','classmate_xinci']}); H.G.flags.ndlTalkN={Y2:5}; q=await play(); check('7. 大二第 6 則：不認識語彤＝跳過（回到第 1 則→第 2 則）',J(q.L)===J(SPEC.Y2[1]),J(q.L)); }
+{ at(ND1('2027-09-13'),18); H.G.flags.ndlTalkN={Y3:3}; let q=await play(); check('7. 大三上：第 4 則（Y3S2）跳過，第 5、6 則（以安在日本）跳過＝回到第 1 則（還沒交往再跳）→ 第 2 則',J(q.L)===J(SPEC.Y3[1]),J(q.L));
+  at(ND1('2028-04-03'),18); H.G.flags.ndlTalkN={Y3:3}; q=await play(); check('7. 2028-04-04（Y3S2，以安在日本）：第 4 則',J(q.L)===J(SPEC.Y3[3]),J(q.L));
   q=await (async()=>{ H.G.flags.ndlTalkDay=null; return play(); })(); check('7. 接著第 5 則（芯慈：以安不在）',J(q.L)===J(SPEC.Y3[4]),J(q.L));
   H.G.flags.ndlTalkDay=null; q=await play(); check('7. 接著第 6 則（旁白）',J(q.L)===J(SPEC.Y3[5]),J(q.L));
-  at('2028-03-14',18); H.G.flags.ndlTalkN={Y3:4}; q=await play(); check('7. 2028-03-14（Y3S2、以安還沒去日本）：第 5、6 則跳過',![SPEC.Y3[4][0],SPEC.Y3[5][0]].includes(q.L[0]),J(q.L)); }
-{ at('2028-09-12',18); let q=await play(); check('7. 大四上第 1 則（Y4S1）',J(q.L)===J(SPEC.Y4[0]),J(q.L));
-  at('2028-09-12',18); H.G.flags.ndlTalkN={Y4:2}; q=await play(); check('7. 大四上：第 3 則（2029-03-01 起）、第 4 則（Y4S2）跳過＝第 5 則',J(q.L)===J(SPEC.Y4[4]),J(q.L));
-  at('2029-03-06',18); H.G.flags.ndlTalkN={Y4:2}; q=await play(); check('7. 2029-03-06：第 3 則',J(q.L)===J(SPEC.Y4[2]),J(q.L));
-  at('2029-03-06',18); H.G.flags.ndlTalkN={Y4:0}; q=await play(); check('7. 大四下：第 1 則（Y4S1）跳過＝第 2 則',J(q.L)===J(SPEC.Y4[1]),J(q.L)); }
-{ at('2028-09-12',18); const ids=['zhe','yu','classmate_bohan','classmate_xinci'], f0=ids.map(id=>SOCIAL.rel(id).fam|0); H.G.flags.ndlTalkN={Y4:4}; await play(); const d=ids.map((id,i)=>(SOCIAL.rel(id).fam|0)-f0[i]);
+  at(ND1('2028-03-13'),18); H.G.flags.ndlTalkN={Y3:4}; q=await play(); check('7. 2028-03-14（Y3S2、以安還沒去日本）：第 5、6 則跳過',![SPEC.Y3[4][0],SPEC.Y3[5][0]].includes(q.L[0]),J(q.L)); }
+{ at(ND1('2028-09-11'),18); let q=await play(); check('7. 大四上第 1 則（Y4S1）',J(q.L)===J(SPEC.Y4[0]),J(q.L));
+  at(ND1('2028-09-11'),18); H.G.flags.ndlTalkN={Y4:2}; q=await play(); check('7. 大四上：第 3 則（2029-03-01 起）、第 4 則（Y4S2）跳過＝第 5 則',J(q.L)===J(SPEC.Y4[4]),J(q.L));
+  at(ND1('2029-03-05'),18); H.G.flags.ndlTalkN={Y4:2}; q=await play(); check('7. 2029-03-06：第 3 則',J(q.L)===J(SPEC.Y4[2]),J(q.L));
+  at(ND1('2029-03-05'),18); H.G.flags.ndlTalkN={Y4:0}; q=await play(); check('7. 大四下：第 1 則（Y4S1）跳過＝第 2 則',J(q.L)===J(SPEC.Y4[1]),J(q.L)); }
+{ at(ND1('2028-09-11'),18); const ids=['zhe','yu','classmate_bohan','classmate_xinci'], f0=ids.map(id=>SOCIAL.rel(id).fam|0); H.G.flags.ndlTalkN={Y4:4}; await play(); const d=ids.map((id,i)=>(SOCIAL.rel(id).fam|0)-f0[i]);
   check('7. 旁白沒有點名的那一則（紅紙）：長桌上認識的麵店團各 +1',J(d)===J([1,1,1,1]),J(d)); }
 
 /* 8. 走進來兩秒以後 */

@@ -23,7 +23,7 @@ const html=fs.readFileSync(path.join(H.ROOT,'index.html'),'utf8');
 GM.toast=()=>{}; GM.studySession=async()=>{}; GM.spawnCharacter=()=>null; GM.phoneBadge=()=>{}; GM.quickGo=async()=>{};
 const caps=[]; GM.caption=(a,b)=>{ caps.push([a,b]); };
 if(typeof HOME!=='undefined') HOME.phoneRules=()=>{};
-const D=k=>typeof k==='number'?k:STORY.dayOfKey(k), keyOf=d=>CALENDAR.dateOf(d).key, wdOf=d=>CALENDAR.dateOf(d).wd%7, TD=(t,w,wd)=>STORY.termDay(t,w,wd);
+const D=k=>typeof k==='number'?k:STORY.dayOfKey(k), keyOf=d=>CALENDAR.dateOf(d).key, wdOf=d=>CALENDAR.dateOf(d).wd%7, TD=(t,w,wd)=>STORY.termDay(t,w,wd), NDt=(t,w,k)=>{ const L=[]; for(let wd=1;wd<=5;wd++){ const d=STORY.termDay(t,w,wd); if(d!=null&&STORY.noodleDay(d)) L.push(d); } return L[k|0]!=null?L[k|0]:L[0]; };
 const sec=async(n,f)=>{ try{ await f(); }catch(e){ check(n+'. 丟出例外（這一節中斷）',false,String(e&&e.stack||e).split('\n').slice(0,3).join(' / ')); } };
 const BASE={introDone:true,afternoonDone:true,classDone:true,metAn:true,met_an:true,MET_ZHE:true,ROOM_Y2:true,ROOM_Y3:true};
 const fresh=(k,h,zone,flags)=>{ const G=H.fresh(typeof k==='number'?keyOf(k):k,h,zone||'dorm',Object.assign({},BASE,flags||{})); G.outings=[]; G.acts={att:{}}; G.contacts=G.contacts||{}; G.invites=[]; PHONE.rec(G);
@@ -117,7 +117,7 @@ const docRe=(n,re)=>re.test(docOf(n));
     check('2-1. 陳助教稿寫「公館」的五句都加 notZone（h506～h510_ta_sis）；沒寫公館的（h503、h504、h505）照舊',J(NZ)===J(['h506_ta_sis','h507_ta_sis','h508_ta_sis','h509_ta_sis','h510_ta_sis']),J(NZ));
     /* 麵店長桌（noodle）：阿哲說語彤 */
     const ndl=HEARD_LINES.noodle.Y1; check('2-1. 麵店長桌那兩則（阿哲說語彤）加 about（她本人在旁邊就不說）',ndl.every(x=>x.about==='heroine_03'));
-    const w9=TD('Y1S2',10,2); fresh(w9,18,'noodle');   /* 大一下第 9 週是期中週（麵店團考試週不去麵店，AA-B 10-30 14:30）：weekFrom 9 實際第 10 週起 */ fam('zhe'); fam('heroine_03'); const k=STORY.ndlTalkPick(H.G); npcAt('heroine_03',1,1); const k2=STORY.ndlTalkPick(H.G);
+    const w9=NDt('Y1S2',10,0); fresh(w9,18,'noodle');   /* 大一下第 9 週是期中週（麵店團考試週不去麵店，AA-B 10-30 14:30）：weekFrom 9 實際第 10 週起 */ fam('zhe'); fam('heroine_03'); const k=STORY.ndlTalkPick(H.G); npcAt('heroine_03',1,1); const k2=STORY.ndlTalkPick(H.G);
     check('2-1. 麵店：大一下第 9 週起（第 10 週）阿哲那一則（h504_zhe_hand）——語彤在 4 m 內就換別則／不說',!!k&&k.e.once==='h504_zhe_hand'&&!(k2&&k2.e.once==='h504_zhe_hand'),J([k&&k.e.once,k2&&k2.e.once])); });
 
   await sec('2-2',()=>{ const sp=G=>J((HCIRCLE.specOf('hc_ayi',G).props||[]).map(p=>typeof p==='object'?p.name:p)), w=(t,k)=>{ fresh(TD(t,k,2),18,'noodle'); return H.G; };

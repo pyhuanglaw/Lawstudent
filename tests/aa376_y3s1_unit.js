@@ -212,7 +212,8 @@ const in376=t=>MD376.includes(t), in342=t=>MD342.includes(t);
   await sec('342a',async()=>{
     fresh('2027-09-21',17.5,'noodle'); NOODLE(); said=[]; EVENTS.onEnter('noodle'); await new Promise(r=>setTimeout(r,0)); const a=all();
     check('3-1 9/21（二）這學期第一次週二進麵店：旁白（逐字），只演一次',a.includes('（大三第一次在麵店遇到大家。阿姨看了一圈：「大三了，點的還是一樣。」）')&&!!G.events.done.ev_y3_tue_noodle&&!EVENTS.check(ev('ev_y3_tue_noodle')),J(a));
-    fresh('2027-09-21',17.5,'noodle'); NOODLE(); G.flags.ndlDays=[D('2027-09-14')]; check('3-1 9/14 週二已經去過麵店的：9/21 不演（不是第一次）',!EVENTS.check(ev('ev_y3_tue_noodle')));
+    const ndBefore=(()=>{ for(let d=D('2027-09-06');d<D('2027-09-21');d++) if(STORY.noodleDay(d)) return d; return D('2027-09-14'); })();   /* AA_542：麵店日每週不固定兩天，這學期 9/21 以前第一個麵店日 */
+    fresh('2027-09-21',17.5,'noodle'); NOODLE(); G.flags.ndlDays=[ndBefore]; check('3-1 這學期 9/21 以前的麵店日已經去過麵店的：9/21 不演（不是第一次）',!EVENTS.check(ev('ev_y3_tue_noodle')));
     fresh('2027-09-14',17.5,'noodle'); NOODLE(); check('3-1 9/14（第 2 週）還不演（9/21 起）',!EVENTS.check(ev('ev_y3_tue_noodle')));
   });
   await sec('342b',async()=>{
@@ -247,7 +248,7 @@ const in376=t=>MD376.includes(t), in342=t=>MD342.includes(t);
     check('3-1 11/5（五）22:00 群組：Alison「沒課的一週」「我睡了三天」',J(txt('g:noodle_team').slice(-2))===J(['yu:沒課的一週','yu:我睡了三天']),J(txt('g:noodle_team')));
     fresh('2027-12-08',20.9,'dorm'); NOODLE(); runPhone('2027-12-08',20.9,21.2,0.1);
     check('3-1 12/8（三）21:00 群組：阿哲「期末前最後一頓 明天 麵店」',J(txt('g:noodle_team').slice(-1))===J(['zhe:期末前最後一頓 明天 麵店']),J(txt('g:noodle_team')));
-    fresh('2027-12-09',18,'noodle'); NOODLE(); said=[]; EVENTS.onEnter('noodle'); await new Promise(r=>setTimeout(r,0));
+    fresh('2027-12-09',18,'noodle'); NOODLE(); G.events.done.ev_y3_tue_noodle=D('2027-09-21'); said=[]; EVENTS.onEnter('noodle'); await new Promise(r=>setTimeout(r,0));   /* 這學期已經在麵店遇過大家（AA_542 起「第一次在麵店遇到大家」不只週二，沒演過的話 12/9 會先演它）*/
     check('3-1 12/9（四）進麵店：「（期末前最後一次在麵店。大家都帶了講義，沒有人翻開。）」',has('（期末前最後一次在麵店。大家都帶了講義，沒有人翻開。）'),J(all()));
   });
   console.log(fails?'FAILED '+fails:'ALL PASS'); process.exit(fails?1:0);

@@ -58,6 +58,7 @@ const sec=async(name,fn)=>{ try{ await fn(); }catch(e){ check(name+'（例外）
 const html=fs.readFileSync(path.join(H.ROOT,'index.html'),'utf8');
 const DK=k=>PG.DK(k);
 const TDt=(term,w,wd)=>{ const R=CALENDAR.termDays(term); return R.from+(w-1)*7+(wd-1); };
+const NDt=(term,w,k)=>{ const R=CALENDAR.termDays(term), L=[]; for(let d=R.from+(w-1)*7;d<R.from+w*7;d++) if(STORY.noodleDay(d)) L.push(d); return L[k|0]!=null?L[k|0]:L[0]; };   /* 那一週第 k 個麵店日（AA_542 第 5 節：麵店日每週不固定兩天）*/
 const wdOf=d=>{ const w=CALENDAR.dateOf(d).wd; return w===7?0:w; };
 const at=(d,h)=>{ H.G.day=d; H.G.hour=h; H.G.weekday=wdOf(d); };
 const fresh=(d,h,flags,zone)=>{ const G=H.fresh(CALENDAR.dateOf(d).key,h,zone||'dorm',flags); if(!G.contacts) G.contacts={}; if(!Array.isArray(G.outings)) G.outings=[]; return G; };
@@ -170,17 +171,17 @@ await sec('3',async()=>{ if(!HAS()||typeof NOODLE_TABLE==='undefined'){ check('3
   check('3. 兩則加在大一那一組後面（原本的八則不動）',ig===8&&ih===9&&Y1.length===10,J([ig,ih,Y1.length]));
   const setup=(d)=>{ fresh(d,18,{MET_ZHE:true,afternoonDone:true},'noodle');   /* afternoonDone：NDL-PRESENT-1030 閒聊要人在店裡，阿哲、Alison 第二天下午以後才有作息 */ meet('zhe','heroine_03','yu','classmate_bohan','classmate_xinci'); PHONE.join(H.G,'noodle_team','麵店團'); };
   /* 大一下第 9 週是期中週（不算麵店日；麵店團考試週不去麵店，AA-B 10-30 14:30）：weekFrom 9 實際第 10 週起第一個麵店日演 */
-  const W9=TDt('Y1S2',10,2); setup(W9); H.G.flags.ndlTalkN={Y1:3}; const p=STORY.ndlTalkPick(H.G);
+  const W9=NDt('Y1S2',10,0); setup(W9); H.G.flags.ndlTalkN={Y1:3}; const p=STORY.ndlTalkPick(H.G);
   H.said=[]; await STORY.ndlTalk(GM); const s=said();
   check('3. AA_504 3-4：大一下第 9 週起第一個麵店日（第 10 週）先挑阿哲「考期中那兩個禮拜，阿姨的手包著。……」（只演一次、不動輪到第幾則）',!!p&&p.e.once==='h504_zhe_hand'&&J(s)===J(['考期中那兩個禮拜，阿姨的手包著。語彤一個人顧店。我去吃麵順便幫忙收碗，她說你坐著。'])&&H.G.flags.ndlTalkN.Y1===3&&H.G.flags.ndlTalkOnce.h504_zhe_hand===W9,J({s,N:H.G.flags.ndlTalkN}));
-  at(W9+2,18); const p2=STORY.ndlTalkPick(H.G); check('3. 同一週的下一個麵店日：照原本輪到的第 4 則',!!p2&&p2.i===3,J(p2&&[p2.i,p2.e.once]));
-  setup(TDt('Y1S2',11,2)); H.G.flags.ndlTalkN={Y1:3}; H.G.flags.ndlTalkOnce={h504_zhe_hand:W9}; const p3=STORY.ndlTalkPick(H.G); check('3. 第 10 週演過了：第 11 週沒有那一則',!!p3&&p3.e.once!=='h504_zhe_hand');
-  setup(TDt('Y1S2',11,2)); H.G.flags.ndlTalkN={Y1:3}; const p4=STORY.ndlTalkPick(H.G); check('3. AA_527 第 2 點（2026-10-30）：第 10 週沒演到＝第 11 週的麵店日先挑它（大一下學期內順延）',!!p4&&p4.e.once==='h504_zhe_hand');
+  at(NDt('Y1S2',10,1),18); const p2=STORY.ndlTalkPick(H.G); check('3. 同一週的下一個麵店日：照原本輪到的第 4 則',!!p2&&p2.i===3,J(p2&&[p2.i,p2.e.once]));
+  setup(NDt('Y1S2',11,0)); H.G.flags.ndlTalkN={Y1:3}; H.G.flags.ndlTalkOnce={h504_zhe_hand:W9}; const p3=STORY.ndlTalkPick(H.G); check('3. 第 10 週演過了：第 11 週沒有那一則',!!p3&&p3.e.once!=='h504_zhe_hand');
+  setup(NDt('Y1S2',11,0)); H.G.flags.ndlTalkN={Y1:3}; const p4=STORY.ndlTalkPick(H.G); check('3. AA_527 第 2 點（2026-10-30）：第 10 週沒演到＝第 11 週的麵店日先挑它（大一下學期內順延）',!!p4&&p4.e.once==='h504_zhe_hand');
   /* 大一上：輪到才演、只演一次 */
-  const W6=TDt('Y1S1',6,2); setup(W6); H.G.flags.ndlTalkN={Y1:8}; const g=STORY.ndlTalkPick(H.G); H.said=[]; await STORY.ndlTalk(GM); const sg=said();
+  const W6=NDt('Y1S1',6,0); setup(W6); H.G.flags.ndlTalkN={Y1:8}; const g=STORY.ndlTalkPick(H.G); H.said=[]; await STORY.ndlTalk(GM); const sg=said();
   check('3. AA_503：大一上輪到第 9 則＝阿哲「語彤今天又在剝蒜頭。我去幫忙，被阿姨趕出來。」；演完輪到第 10 則',!!g&&g.e.once==='h503_zhe_garlic'&&J(sg)===J(['語彤今天又在剝蒜頭。我去幫忙，被阿姨趕出來。'])&&H.G.flags.ndlTalkN.Y1===9,J({sg,N:H.G.flags.ndlTalkN}));
-  H.G.flags.ndlTalkN={Y1:8}; at(W6+7,18); const g2=STORY.ndlTalkPick(H.G); check('3. 演過了：下一輪輪到它就跳過（只演一次）',!!g2&&g2.e.once!=='h503_zhe_garlic',J(g2&&[g2.i,g2.e.once]));
-  setup(TDt('Y1S2',3,2)); H.G.flags.ndlTalkN={Y1:8}; const g3=STORY.ndlTalkPick(H.G); check('3. 大一下輪到它：不演（大一上才有）',!!g3&&g3.e.once!=='h503_zhe_garlic');
+  H.G.flags.ndlTalkN={Y1:8}; at(NDt('Y1S1',7,0),18); const g2=STORY.ndlTalkPick(H.G); check('3. 演過了：下一輪輪到它就跳過（只演一次）',!!g2&&g2.e.once!=='h503_zhe_garlic',J(g2&&[g2.i,g2.e.once]));
+  setup(NDt('Y1S2',3,0)); H.G.flags.ndlTalkN={Y1:8}; const g3=STORY.ndlTalkPick(H.G); check('3. 大一下輪到它：不演（大一上才有）',!!g3&&g3.e.once!=='h503_zhe_garlic');
   });
 
 /* ---------- 4 手機 ---------- */

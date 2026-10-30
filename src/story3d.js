@@ -1133,7 +1133,7 @@ const STORY = (function(){
     /* 麵店團先拿位子（BB-B 10-30 n15_ndlread：9/30、10/2、10/14、10/16 客人 ×4 先坐滿六個位子的四個，柏翰、芯慈作息在麵店卻沒有位子、沒生出來；客人 ×2 的 10/7、10/21 就有）：
        作息在麵店、還沒在店裡的麵店團幾位（need）就留幾個空位，客人只坐剩下的。S.populate 裡客人比 populateSchedule 先生、S.tick 裡 17:30 客人也會先走進來。測試：node tests/ndl_present_unit.js 第 6 項 */
     const taken=(x,z)=>E.npcs.some(n=>{ const st=n.seat||n.seatTarget; return st&&Math.hypot(st.x-x,st.z-z)<0.3; });
-    const need=NDL_REGULARS.filter(id=>!(typeof EVENTS!=='undefined'&&EVENTS.npcOf&&EVENTS.npcOf(id))&&schedFor(id,'noodle',G)).length;
+    const need=NDL_REGULARS.filter(id=>{ try{ return !(typeof EVENTS!=='undefined'&&EVENTS.npcOf&&EVENTS.npcOf(id))&&!!schedFor(id,'noodle',G); }catch(e){ return false; } }).length;   /* 作息條件讀不到（事件系統還沒綁）＝不留位子 */
     const SEATS=E.zone&&E.zone.seats&&E.zone.seats.length?E.zone.seats:NDL_ALL.map(([x,z])=>({x,z}));   /* 店裡六個位子（zones3d.js 的麵店：三張桌 × 2）；沒有座位資料（單元測試的假區域）照這六個算 */
     let free=SEATS.filter(st=>!taken(st.x,st.z)&&Math.hypot(P.x-st.x,P.z-st.z)>=0.6).length;
     for(let i=0;i<cnt;i++){ if(mine.some(n=>n.ndlIdx===i)) continue; const [x,z,yaw]=NDL_SEATS[i];

@@ -159,8 +159,10 @@ const has=(a,...ids)=>ids.every(id=>a.includes(id)), hasNot=(a,...ids)=>ids.ever
     check('18. 手機「還好嗎」（和沛珊分開以後）：演的是合併的那一件也開（原本只認 ev_peishan_bohan_split）',ck.includes('split_peishan')&&cp.includes('bohan_split'),J([ck,cp])); }
   // ===== 第 19 項：作息 =====
   { const at=(id,k,h)=>{ fresh(D(k),h,'campus',{}); return STORY.schedEnt(CHARACTERS[id],G); };
-    const w=at('classmate_bohan','2026-10-07',19.5);
-    check('19. 柏翰週三晚上（大二上 10/7 19:30）：總圖讀書，不在萬才館「社團」（法服週三讀書會已作廢）',!!w&&w.zone==='library'&&w.act==='read',J(w&&[w.zone,w.act]));
+    /* AA_542 第 5 節：麵店日每週不固定兩天（可能是週三）——挑大二上第一個不是麵店日的週三 */
+    let wk='2026-10-07'; for(let d=D('2026-09-09');d<D('2026-12-31');d+=7){ if(CALENDAR.dateOf(d).wd===3&&!STORY.noodleDay(d)&&CALENDAR.termOf(d)&&!CALENDAR.termOf(d).exam){ wk=CALENDAR.dateOf(d).key; break; } }
+    const w=at('classmate_bohan',wk,19.5);
+    check('19. 柏翰週三晚上（大二上不是麵店日的週三 '+wk+' 19:30）：總圖讀書，不在萬才館「社團」（法服週三讀書會已作廢）',!!w&&w.zone==='library'&&w.act==='read',J(w&&[w.zone,w.act]));
     const ids=['classmate_bohan','classmate_xinci','heroine_01','yu','classmate_mingxuan','classmate_peishan'];
     const thu=ids.map(id=>{ const e=at(id,'2026-10-08',14); return e?e.zone+'/'+e.act:'-'; }), thu1=ids.map(id=>{ const e=at(id,'2025-10-09',14); return e?e.zone+'/'+e.act:'-'; });
     check('19. 大二上週四下午（10/8 14:00）沒有課：同學不在 201「上課」',thu.every(x=>!/classroom\/class/.test(x)),J(thu));
