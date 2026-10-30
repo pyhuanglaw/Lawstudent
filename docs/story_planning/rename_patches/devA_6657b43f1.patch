@@ -1,0 +1,946 @@
+diff --git a/CLAUDE.md b/CLAUDE.md
+index b66db26d8..1fec01bf7 100644
+--- a/CLAUDE.md
++++ b/CLAUDE.md
+@@ -416,8 +416,8 @@ D84（LAWWW ⇄ LAWWW2 的美術派工細則）、D79（劇情先問 AA）照舊
+ 
+ - 線上（GitHub Pages）：https://pyhuanglaw.github.io/Lawstudent/ ——推到 `main` 就自動重新部署。
+ - 目前版本：**v9.7 已部署在 `main`（2026-10-14 12:32:31 UTC，`313d620`＝測試過的候選 19 本身；CG 劇情版：大一上 v1 劇情（手機群組、迎新、中秋、颱風假、聖誕、跨年、期末、可昕的遠距線）、事件 CG、每週課堂內容（法律審查通過的週）、睡覺第二版、社團、騎腳踏車；共同教學館、大一女舍的 Blender 外觀與可昕的 3D 人物還沒放；上一個穩定版 v9.6 `e88bda5`）**，發布紀錄與回復方法在 `docs/RELEASES.md`；之後的開發在開發分支（2026-10-10 起是 `claude/confident-ritchie-8rwh7t`，由舊分支 `claude/friendly-brahmagupta-6bbkzc` 快轉接續，歷史相同；**每個工作階段以系統指定的分支為準**），驗證完才合併到 `main`（D32；使用者 2026-10-10 授權：測試通過的成熟成果可以自行發布，見 RELEASES.md；2026-10-16 起 main 的合併與發布由 LAWWW 自主決定（D85），三小時間隔已取消）。標題畫面最下面有版本字樣。詳見下方「目前狀態」。 **【過時（2026-10-30 LAWWW-B 更新）：線上是 v9.10.14（`271cd2305`，PR #20，2026-10-30 07:52 UTC），見 `docs/RELEASES.md`】**
+-- **雙 AI 分工（2026-10-10 晚上起，D39、D40）**：第一個 AI「LAWWW」（`session_01Eds6msqpsuzNEw98sdw8JX`，分支 `claude/confident-ritchie-8rwh7t`）負責人物、核心系統、霖澤館、萬才館、整合、發布，也負責分派工作。第二個 AI「LAWWW2」（工作階段標題「遊戲協作專案」，`session_01AC1WVgJSmoJK1uRsPK2Zn1`，分支 `claude/second-ai-env-art`）負責環境美術：Café、溫州街、街道道具、公館、獨立室內。**交接文件、檔案所有權、通訊與交付流程：`docs/SECOND_AI_HANDOFF.md`；工作看板：`docs/DUAL_AI_BOARD.md`**。兩邊用 claude-code-remote 的 `send_message` 事件驅動聯絡。第二個 AI 不碰 `main`、不發布；成果由第一個 AI merge 進開發分支、跑回歸測試後才能發布。 **【歷史（2026-10-18 AA-C 依使用者授權標記）：現行分工照 D100、D100a】**
+-- **（2026-10-10 09:55 起只剩一個工作階段：使用者結束建築組，之後人物與建築都由 `claude/confident-ritchie-8rwh7t` 負責；建築組未完成的事見 `docs/ART_REBUILD_PROGRESS.md` 的「建築組交接」。下面是原本的分工，留作紀錄。）** 兩個平行工作階段（2026-10-10 使用者訂的分工）：人物組（分支 `claude/confident-ritchie-8rwh7t`：主角與五女主模型、臉／髮型／服裝、走跑坐上下樓梯的動畫品質與 footIK、人物模型載入）；建築組（分支 `claude/friendly-brahmagupta-6bbkzc`：霖澤館／萬才館 Blender 模型、穿堂、樓梯、電梯、教室、多樓層導航、校園／公館／溫州街、場景材質光影碰撞、場景整合與回歸測試）。兩邊用 claude-code-remote 的 `send_message` 直接聯絡；改共用檔案（`src/character3d.js`、`src/assets3d.js`、`tests/playlib.py`）前先通知對方；整合前互相 merge 並跑測試；各自向使用者回報（【人物組／建築組｜進度回報】）。只有工作階段實際在跑時才能聯絡。
++- **雙 AI 分工（2026-10-10 晚上起，D39、D40）**：第一個 AI「LAWWW」（`session_01Eds6msqpsuzNEw98sdw8JX`，分支 `claude/confident-ritchie-8rwh7t`）負責人物、核心系統、法律系館A、B、整合、發布，也負責分派工作。第二個 AI「LAWWW2」（工作階段標題「遊戲協作專案」，`session_01AC1WVgJSmoJK1uRsPK2Zn1`，分支 `claude/second-ai-env-art`）負責環境美術：Café、溫州街、街道道具、公館、獨立室內。**交接文件、檔案所有權、通訊與交付流程：`docs/SECOND_AI_HANDOFF.md`；工作看板：`docs/DUAL_AI_BOARD.md`**。兩邊用 claude-code-remote 的 `send_message` 事件驅動聯絡。第二個 AI 不碰 `main`、不發布；成果由第一個 AI merge 進開發分支、跑回歸測試後才能發布。 **【歷史（2026-10-18 AA-C 依使用者授權標記）：現行分工照 D100、D100a】**
++- **（2026-10-10 09:55 起只剩一個工作階段：使用者結束建築組，之後人物與建築都由 `claude/confident-ritchie-8rwh7t` 負責；建築組未完成的事見 `docs/ART_REBUILD_PROGRESS.md` 的「建築組交接」。下面是原本的分工，留作紀錄。）** 兩個平行工作階段（2026-10-10 使用者訂的分工）：人物組（分支 `claude/confident-ritchie-8rwh7t`：主角與五女主模型、臉／髮型／服裝、走跑坐上下樓梯的動畫品質與 footIK、人物模型載入）；建築組（分支 `claude/friendly-brahmagupta-6bbkzc`：法律系館A／法律系館B Blender 模型、穿堂、樓梯、電梯、教室、多樓層導航、校園／公館／溫州街、場景材質光影碰撞、場景整合與回歸測試）。兩邊用 claude-code-remote 的 `send_message` 直接聯絡；改共用檔案（`src/character3d.js`、`src/assets3d.js`、`tests/playlib.py`）前先通知對方；整合前互相 merge 並跑測試；各自向使用者回報（【人物組／建築組｜進度回報】）。只有工作階段實際在跑時才能聯絡。
+ - **測試制度（2026-10-10 永久規範，D34）**：`docs/TESTING.md`。真實玩家流程測試不用 `?turbo`、不瞬移、不改劇情狀態；捷徑只能當前置條件並標示；重要測試要在有 bug 的版本失敗、修好的版本通過；不用「N 項全部通過」代替驗收；分清楚手機模擬與真機。
+ 
+ ## MANDATORY 3D ART PRODUCTION RULES（2026-10-10 使用者訂定的永久強制規則，D38；詳細流程：`docs/art-rebuild/ART_DIRECTION.md` 第 12 節）
+@@ -621,12 +621,12 @@ D84（LAWWW ⇄ LAWWW2 的美術派工細則）、D79（劇情先問 AA）照舊
+ index.html              開發版入口：UI DOM、CSS、script 載入順序、GAME.boot()（GitHub Pages 直接用這個）
+ src/                    遊戲程式（classic script、全域 IIFE 模組）
+   engine3d.js             渲染、日夜光線、天氣、鏡頭、觸控輸入、NavGrid A*、碰撞、NPC 行為、LOD、分區載入
+-  zones3d.js              各區域：校園、公館、溫州街、教室、萬才館、總圖、咖啡廳、便利商店、麵店、書店、宿舍（含導航格）
++  zones3d.js              各區域：校園、公館、溫州街、教室、法律系館B、總圖、咖啡廳、便利商店、麵店、書店、宿舍（含導航格）
+   library3d.js            總圖大廳（library_hall：一樓大廳、帝國式大樓梯、電梯、二樓自習區；閱覽室的電梯與樓梯間，D43）
+   dorm3d.js               男生宿舍（dorm_hall：一樓門廳、交誼廳、走廊、雙跑樓梯、二樓走廊與自己的房門 203，D44）
+   world3d.js              LEVEL_BLOCKOUT 產生器（建築、貼圖、路燈、腳踏車、風動 shader）
+   townkit3d.js            街道套件 TK（台北公寓、店面、兩點半 Café、日式老屋、電線桿、機車、行道樹、大王椰子、夜間發光材質）
+-  campuskit3d.js          校園建築套件 CK（台大風格：面磚／紅磚、拱窗、一樓拱廊、門廊、四坡屋頂、塔樓）
++  campuskit3d.js          校園建築套件 CK（首都帝大風格：面磚／紅磚、拱窗、一樓拱廊、門廊、四坡屋頂、塔樓）
+   people3d.js             PLACEHOLDER_CHARACTER 程序化人物
+   assets3d.js             資產層：manifest、載入、fallback、VRM pool
+   character3d.js          人物介面 CHAR.build/animate/setExpr；GLB driver（Mixamo 重定向 v2）、VRM driver
+@@ -708,27 +708,27 @@ python3 build.py
+ > **【現況（2026-10-30 LAWWW-B 更新）】**線上 v9.10.14（`271cd2305`，PR #20）；下一版 v9.10 的條件與範圍照 D99 與 `docs/RELEASES.md`（三個優先項目：經濟系完整流程 → 寒暑假 → 美國交換；全部法律題目是 v9.10 第一項）。下面是 10-10～10-11 多樓層、美術重建時期的技術紀錄，仍可查技術細節，但不是現在的重點。劇情現行設定以企劃 `docs/story_planning/00_現行設定總表.md` 為準。
+ 
+ - **3D 美術重建 v1 正在進行**（需求：`docs/history/specs/20_*`；即時進度：`docs/ART_REBUILD_PROGRESS.md`；畫面驗收：`docs/art-rebuild/VISUAL_REVIEW.md`）。
+-- **v9.4（2026-10-10 14:47 UTC 已發布，`6b9c0dc`）：多樓層＋Blender 正式模型**（需求：`docs/history/specs/21_*`、`22_*`；D36 分層導航方案 A、D37 霖澤館室內、D38 永久美術規範）。
++- **v9.4（2026-10-10 14:47 UTC 已發布，`6b9c0dc`）：多樓層＋Blender 正式模型**（需求：`docs/history/specs/21_*`、`22_*`；D36 分層導航方案 A、D37 法律系館A室內、D38 永久美術規範）。
+   - 引擎：每層一張 `E3.NavGrid`（同尺寸、同原點）＋格子高度（`addSurf`：平台 `{y}`、斜面 `{axis,ya,yb}`；`tread/rise/low`＝畫面上一階一階的高度）；樓梯格子兩層共用、高度相同的地方可以換層；`gridPath` 是（層, 格）的 A*。人物有 `lv`、真的 `y`（`settleY` 用 `visualHeightAt`）；`E.nav` 永遠是玩家那一層。存檔 `pos.lv`、`pos.y`（舊存檔預設第 0 層）。**改任何導航或區域幾何要跑 `node tests/nav_levels_unit.js`、`node tests/nav_buildings_unit.js`**。
+-  - 霖澤館：穿堂可以走（0.9 m）；室內是 `linze` 區域（`src/building3d.js`、配置 `src/data/linze_layout.js`：大廳、雙跑樓梯、玻璃電梯、二樓迴廊、201 教室門；三樓以上整修中）；201 是階梯教室（`src/data/classroom_layout.js`，48 個座位都能坐）。
++  - 法律系館A：穿堂可以走（0.9 m）；室內是 `linze` 區域（`src/building3d.js`、配置 `src/data/linze_layout.js`：大廳、雙跑樓梯、玻璃電梯、二樓迴廊、201 教室門；三樓以上整修中）；201 是階梯教室（`src/data/classroom_layout.js`，48 個座位都能坐）。
+   - Blender（`/opt/blenv/bin/python tools/blender/<腳本>.py`；共用 `tools/blender/b3lib.py`；貼圖 Poly Haven CC0 在 `tools/blender/textures/`）：`linze_interior.py`、`classroom_201.py`、`linze_exterior.py` → `assets/models/env/*.glb`（`ASSETS` 的 `type:'building'`）。程序化版本留作導航與載入失敗的備用（D38 分類 ③）。遊戲沒有環境貼圖：金屬度上限 0.45（`b3lib.MAX_METAL`）。
+   - 走樓梯腳步貼合：`character3d.js` 的 `footIK`（真實骨架、兩段式 IK）；`node tests/stairs_feet_unit.js` 量腳和踏面的距離。
+-- **萬才館第二階段（2026-10-11，D41；需求 21「萬才館的弧形大樓梯必須能讓玩家走上去」）**：校園有兩層導航格（`zones3d.js` 的 `wancaiStairs`：第 1 層只有萬才館大樓梯、樓梯頂端平台、弧形陽台）；大樓梯兩層共用，高度用 `CK.lawhall` 畫台階的同一組外緣（`ck.wancai.outl`：畫面一階一階 `vfn`、碰撞連續 `fn`）；陽台下的一樓入口照舊在地面那一層；二樓入口這一版關著（告示）。外觀是 Blender 模型（`tools/blender/wancai_exterior.py` → `assets/models/env/wancai_exterior.glb`，台階外緣用 `--check` 和遊戲比對）。戶外往下走樓梯時鏡頭俯角會加（`engine3d.js` 的 `C.pitchAdd`）。**改萬才館或校園導航要跑 `node tests/nav_buildings_unit.js`、`node tools/dev_scratch/kit_nav_check.js`、`tests/campus_layout_nav.py`、`tests/flow_wancai_stairs.py`、`tests/wancai_glb_integration.py`**；改 `CK.lawhall` 的萬才館台階要重新匯出 GLB（外緣不一致時 `--check` 會失敗）。
+-- **萬才館第三階段：室內兩層樓（2026-10-11，D42）**：`wancai` 區域搬到 `src/wancai3d.js`（配置 `src/data/wancai_layout.js`，Blender `tools/blender/wancai_interior.py` 讀同一份）。**一樓大廳的座標和 v9.3 完全相同**（柱子、沙發、圓桌、公告欄 `notice:'lawclub'`、出口 (0,6.6)、`story3d.js` 的劇情站位與 `CLUB_SPOTS`、`TA_SPOT`）；二樓 4.2 m：北側走廊、西側迴廊、西南門廳；西側直跑樓梯往南爬（第二跑＋最上一階兩層共用）、東側玻璃電梯（`B3.buildElevator`，3F 以上按不亮：要刷識別證）；平台上的二樓入口打開（從二樓的門出去回到平台，校園第 1 層）。房間門牌不用「201」（法服公告寫萬才館 201，社團目前在大廳聚會）。改萬才館室內要跑 `node tests/nav_buildings_unit.js`、`tests/flow_wancai_floors.py`、`tests/zone_transitions.py`、`tests/reachability_all.py`。
+-- **總圖第一階段：大廳＋二樓自習區（2026-10-11，D43；需求 21「圖書館可進入閱讀區、自習區」）**：校園的總圖門口進新區域 `library_hall`（`src/library3d.js`、配置 `src/data/library_layout.js`）：一樓大廳（門廳、閘門、服務台）＋帝國式中央大樓梯（中間一跑上到平台、兩側兩跑折返，三跑與平台兩層共用）＋電梯＋二樓自習區（長桌可以坐下讀書）。現有的閱覽室（`library`）是「3F 閱覽區」（劇情：「我看過你在三樓」），座標、座位、劇情不動，出口改成樓梯間（回到大廳二樓東側）、東側多一部電梯。電梯可以到**別的區域**的樓層（樓層資料 `zone`；`E.spawnHint` 讓新區域建好時車廂停在那一層、人在車廂裡；`GAME.enter` 的 `deferStory`／`noAutosave`）。小安「總圖的下午」（原文「二樓靠牆的長桌」）改成走到大廳二樓就開始（`story3d.js` 的 S.tick；舊存檔在閱覽室的照舊）。正式模型 `tools/blender/library_interior.py`（植物：室內樹＝葉片卡、大葉盆栽＝模型葉子，共用做法在 `tools/blender/plants.py`）；窗外的景是遊戲裡校園的畫面 `assets/models/env/library_view_*.webp`（`tools/shots/library_views.py` 重拍；改校園的總圖附近或椰林大道後可以重拍）。窗玻璃不能放進牆的淡出群組（`fadeWalls` 會把整組設成不透明）。**改總圖要跑 `node tests/nav_buildings_unit.js`、`tests/flow_library_floors.py`、`tests/flow_library_scene.py`**。
++- **法律系館B第二階段（2026-10-11，D41；需求 21「法律系館B的弧形大樓梯必須能讓玩家走上去」）**：校園有兩層導航格（`zones3d.js` 的 `wancaiStairs`：第 1 層只有法律系館B大樓梯、樓梯頂端平台、弧形陽台）；大樓梯兩層共用，高度用 `CK.lawhall` 畫台階的同一組外緣（`ck.wancai.outl`：畫面一階一階 `vfn`、碰撞連續 `fn`）；陽台下的一樓入口照舊在地面那一層；二樓入口這一版關著（告示）。外觀是 Blender 模型（`tools/blender/wancai_exterior.py` → `assets/models/env/wancai_exterior.glb`，台階外緣用 `--check` 和遊戲比對）。戶外往下走樓梯時鏡頭俯角會加（`engine3d.js` 的 `C.pitchAdd`）。**改法律系館B或校園導航要跑 `node tests/nav_buildings_unit.js`、`node tools/dev_scratch/kit_nav_check.js`、`tests/campus_layout_nav.py`、`tests/flow_wancai_stairs.py`、`tests/wancai_glb_integration.py`**；改 `CK.lawhall` 的法律系館B台階要重新匯出 GLB（外緣不一致時 `--check` 會失敗）。
++- **法律系館B第三階段：室內兩層樓（2026-10-11，D42）**：`wancai` 區域搬到 `src/wancai3d.js`（配置 `src/data/wancai_layout.js`，Blender `tools/blender/wancai_interior.py` 讀同一份）。**一樓大廳的座標和 v9.3 完全相同**（柱子、沙發、圓桌、公告欄 `notice:'lawclub'`、出口 (0,6.6)、`story3d.js` 的劇情站位與 `CLUB_SPOTS`、`TA_SPOT`）；二樓 4.2 m：北側走廊、西側迴廊、西南門廳；西側直跑樓梯往南爬（第二跑＋最上一階兩層共用）、東側玻璃電梯（`B3.buildElevator`，3F 以上按不亮：要刷識別證）；平台上的二樓入口打開（從二樓的門出去回到平台，校園第 1 層）。房間門牌不用「201」（法服公告寫法律系館B 201，社團目前在大廳聚會）。改法律系館B室內要跑 `node tests/nav_buildings_unit.js`、`tests/flow_wancai_floors.py`、`tests/zone_transitions.py`、`tests/reachability_all.py`。
++- **總圖第一階段：大廳＋二樓自習區（2026-10-11，D43；需求 21「圖書館可進入閱讀區、自習區」）**：校園的總圖門口進新區域 `library_hall`（`src/library3d.js`、配置 `src/data/library_layout.js`）：一樓大廳（門廳、閘門、服務台）＋帝國式中央大樓梯（中間一跑上到平台、兩側兩跑折返，三跑與平台兩層共用）＋電梯＋二樓自習區（長桌可以坐下讀書）。現有的閱覽室（`library`）是「3F 閱覽區」（劇情：「我看過你在三樓」），座標、座位、劇情不動，出口改成樓梯間（回到大廳二樓東側）、東側多一部電梯。電梯可以到**別的區域**的樓層（樓層資料 `zone`；`E.spawnHint` 讓新區域建好時車廂停在那一層、人在車廂裡；`GAME.enter` 的 `deferStory`／`noAutosave`）。小安「總圖的下午」（原文「二樓靠牆的長桌」）改成走到大廳二樓就開始（`story3d.js` 的 S.tick；舊存檔在閱覽室的照舊）。正式模型 `tools/blender/library_interior.py`（植物：室內樹＝葉片卡、大葉盆栽＝模型葉子，共用做法在 `tools/blender/plants.py`）；窗外的景是遊戲裡校園的畫面 `assets/models/env/library_view_*.webp`（`tools/shots/library_views.py` 重拍；改校園的總圖附近或椰影大道後可以重拍）。窗玻璃不能放進牆的淡出群組（`fadeWalls` 會把整組設成不透明）。**改總圖要跑 `node tests/nav_buildings_unit.js`、`tests/flow_library_floors.py`、`tests/flow_library_scene.py`**。
+ - **宿舍走廊（2026-10-11，D44；需求 21 第 3 點「宿舍可進入房間、走廊」）**：校園「回宿舍」進新區域 `dorm_hall`（`src/dorm3d.js`、配置 `src/data/dorm_layout.js`）：一樓門廳（舍監室窗口、信箱、公告）、交誼廳（沙發、電視、販賣機、長桌）、走廊、雙跑樓梯（A 跑 → 平台 1.8 m → B 跑，兩層共用）、二樓走廊；北側 203 是祐廷和阿凱的房間，進去就是現有的 `dorm` 區域（座標、劇情都不動，房間的出口改成「走出房間」→ 二樓走廊）。走廊兩側的牆是鏡頭碰撞（`E.colliders`）。正式模型 `tools/blender/dorm_hall.py`。**改宿舍要跑 `node tests/nav_buildings_unit.js`、`tests/flow_dorm_hall.py`**；導航格的邊界放在 0.2 的奇數倍（見 `dorm_layout.js` 開頭）。
+ - 沿路線移動（2026-10-11，`engine3d.js`）：最後一步只走到轉折點（`stepSp`）；換層（`switchLevel`）用人物所在那一層的**連續高度**比、容許值依步長放寬——跑步＋低幀率時一步 0.41 m，舊做法會在樓梯底來回跳、換不回地面那一層。`tests/nav_buildings_unit.js` 有跑步＋低幀率的上下樓梯檢查。
+-- 作息換到同一區的另一間（2026-10-14，`story3d.js` 的 `roomMove`）：作息寫了不同的 `room`、而且是坐著的動作（read、class、eat、sit）時，已經在場的人會起身，走到那一間的空位坐下，不瞬移。朋友已經在那一間，就坐同一張桌子；沒有空位就留在原地；走不到就坐回原來的位子。例：B4 演講散場後，以安、小語從博雅 101 走到大廳的圓桌。改這一段要跑 `node tests/schedule_roommove_unit.js`、`node tests/v2_c13_unit.js`、`tests/flow_b4_lecture.py`。
++- 作息換到同一區的另一間（2026-10-14，`story3d.js` 的 `roomMove`）：作息寫了不同的 `room`、而且是坐著的動作（read、class、eat、sit）時，已經在場的人會起身，走到那一間的空位坐下，不瞬移。朋友已經在那一間，就坐同一張桌子；沒有空位就留在原地；走不到就坐回原來的位子。例：B4 演講散場後，以安、小語從博思 101 走到大廳的圓桌。改這一段要跑 `node tests/schedule_roommove_unit.js`、`node tests/v2_c13_unit.js`、`tests/flow_b4_lecture.py`。
+ - 人物：玩家與所有 NPC 已改用 VRoid CC0 樣本改作的 VRM（`tools/vroid_build.py` → `assets/models/char/vroid_*.vrm`），不再出現程序化球體人；舊的 Seed-san／Twist sample／RPM 不再載入。六位核心角色正依 Character Bible 與美術參考圖逐一修正，**美術尚未經使用者驗收**。
+ - 溫州街：已用 `src/townkit3d.js` 重建成台北巷弄（原本是空柏油地＋方盒）；兩點半 Café 搬到東端路口（D22）；正在精修日式老屋、小公園與三個時段的光影。
+ - 校園（v9.3）：依使用者提供的臺大校總區平面圖重排（D23、D25）——大門 → 椰林大道 → 總圖；傅鐘＋行政大樓在大道南側、文學院正對面、校史館靠大門、醉月湖（湖心亭＋木棧道）、小椰林道；大王椰子與闊葉樹改成 `townkit3d.js` 程序化（`royalPalm`、`tree`）。霖澤館、宿舍、校門座標沒動（舊存檔與測試不受影響）；改校園要跑 `tests/campus_layout_nav.py`。v9.3 第六批起，行政大樓、文學院、校史館、總圖用 `src/campuskit3d.js`（`CK.hall`）蓋；建築的導航阻擋由套件回傳（`userData.ck.blocks`：建築本體＋拱廊柱子＋門廊），在 `zones3d.js` 的 `ckPlace` 轉成世界座標，鏡頭碰撞也在 `ckPlace` 加（本體＋拱廊上方樓層）；第七批起霖澤館、萬才館也是套件，一樓拱廊走得進去；第九批男一舍（沒有拱廊的版本）、社會科學院（`CK.modern` 現代白色系館）；第十批農業陳列館（`CK.pavilion`：圓洞鏤空牆）——校園已經沒有 `W3.building` 方盒，所有建築的導航阻擋與鏡頭碰撞都來自套件。
+-- 校園（v9.3 第十七～二十批，使用者 2026-10-09 提供椰林大道、霖澤館、萬才館照片並要求全面改造）：椰林大道中間 12 m 柏油路＋黃色虛線（照片）、大王椰子拉高到約 20 m、兩側大樹牆；大道兩側與舟山路補了沒有名字的系館、停車架、腳踏車。霖澤館、萬才館改用 `CK.lawhall`（D28）：霖澤館是穿過整棟的三層樓高穿堂（`entry:'portal'`）、萬才館是偏西的玻璃入口＋弧形大台階（`entry:'stairs'`、`annex`）；**台階、門廊、穿堂都不能走**（D26：沒有地形高度），入口互動點在台階下（`userData.ck.doorX/doorZ`）。法學院後面（建築背面到圍牆）不能走。地圖邊界外是走不到的背景（D27，`TK.bgCity`＋`zones3d.js` 的 campusBackdrop）：校門外照公館區域座標換算（公館 (gx,gz) → 校園 (x=-170-gz, z=gx)），改公館的店面或馬路時，校園這邊的背景要一起改。校園 `viewFar:260, fogNear:100`；**`engine3d.js` 的 applyTime 每幀設霧的距離，要用 `E.fogFar`**（第二十批之前一直被重設成畫質預設值，區域的 viewFar 沒生效）。遠景剪影（makeSkyline）在不透明那一輪、天空之後先畫，不能改回半透明（會蓋住 118 m 以外的建築）。改校園的空曠程度用 `tools/dev_scratch/view_audit.py`（360° 盤點）檢查。
+-- 公館（v9.3 第十一批）：南側店面街改用 `TK.apartment` 的連續騎樓（`ground.through`、`ground.pillars`），整個南側往馬路搬 30 m（店面立面 z=19、店門互動點 z=21、從店裡出來站在 z=18）；西端是往溫州街的巷口（轉角公寓＋路名牌）；校門那一側看得到校園（洞洞館側面、椰子樹）。改公館要跑 `tests/gongguan_layout_nav.py`；店門口座標和 `tests/p0_movement.py` 的「公館店門口」出生點要一起改。捷運出口（`TK.mrtExit`，第十二批）、校門（`CK.gate`，第十四批，校園與公館共用；`zones3d.js` 的 `placeGate` 轉換導航阻擋）已換新；第十六批換了傅鐘（`CK.bell()`，+z 是石碑那一面，用 `placeBlocks()` 把 `userData.gate.blocks` 轉成導航阻擋，`placeGate` 也用它）和路燈（`W3.lampPost()`：柱座、燈桿、燈臂、燈罩是一個共用幾何＋燈罩玻璃；燈頭位置 (0, 3.95, 0.75) 不能動，各區域的夜間光暈與地面光圈照這個位置加）。
++- 校園（v9.3 第十七～二十批，使用者 2026-10-09 提供椰影大道、法律系館A、B照片並要求全面改造）：椰影大道中間 12 m 柏油路＋黃色虛線（照片）、大王椰子拉高到約 20 m、兩側大樹牆；大道兩側與舟山路補了沒有名字的系館、停車架、腳踏車。法律系館A、B改用 `CK.lawhall`（D28）：法律系館A是穿過整棟的三層樓高穿堂（`entry:'portal'`）、法律系館B是偏西的玻璃入口＋弧形大台階（`entry:'stairs'`、`annex`）；**台階、門廊、穿堂都不能走**（D26：沒有地形高度），入口互動點在台階下（`userData.ck.doorX/doorZ`）。法學院後面（建築背面到圍牆）不能走。地圖邊界外是走不到的背景（D27，`TK.bgCity`＋`zones3d.js` 的 campusBackdrop）：校門外照公館區域座標換算（公館 (gx,gz) → 校園 (x=-170-gz, z=gx)），改公館的店面或馬路時，校園這邊的背景要一起改。校園 `viewFar:260, fogNear:100`；**`engine3d.js` 的 applyTime 每幀設霧的距離，要用 `E.fogFar`**（第二十批之前一直被重設成畫質預設值，區域的 viewFar 沒生效）。遠景剪影（makeSkyline）在不透明那一輪、天空之後先畫，不能改回半透明（會蓋住 118 m 以外的建築）。改校園的空曠程度用 `tools/dev_scratch/view_audit.py`（360° 盤點）檢查。
++- 公館（v9.3 第十一批）：南側店面街改用 `TK.apartment` 的連續騎樓（`ground.through`、`ground.pillars`），整個南側往馬路搬 30 m（店面立面 z=19、店門互動點 z=21、從店裡出來站在 z=18）；西端是往溫州街的巷口（轉角公寓＋路名牌）；校門那一側看得到校園（圓窗館側面、椰子樹）。改公館要跑 `tests/gongguan_layout_nav.py`；店門口座標和 `tests/p0_movement.py` 的「公館店門口」出生點要一起改。捷運出口（`TK.mrtExit`，第十二批）、校門（`CK.gate`，第十四批，校園與公館共用；`zones3d.js` 的 `placeGate` 轉換導航阻擋）已換新；第十六批換了晨思鐘（`CK.bell()`，+z 是石碑那一面，用 `placeBlocks()` 把 `userData.gate.blocks` 轉成導航阻擋，`placeGate` 也用它）和路燈（`W3.lampPost()`：柱座、燈桿、燈臂、燈罩是一個共用幾何＋燈罩玻璃；燈頭位置 (0, 3.95, 0.75) 不能動，各區域的夜間光暈與地面光圈照這個位置加）。
+ - 室內（v9.3 第十五批）：`zones3d.js` 的 `room()` 有天花板（單面朝下：鏡頭超過天花板高度時看不到，維持剖面視角）和窗（`winWall` 選哪一面牆、`winXs` 位置、`curtains`；窗的零件掛在 `zone.winParts`，牆淡出時一起隱藏；19:24 以後換夜景貼圖）。便利商店的貨架是 `goodsWall`（導航和 `shelfWall` 相同）。
+ - 鏡頭：跟隨鏡頭只對建築碰撞；樹幹、電線桿擋住玩家時用「樹幹透視」（`engine3d.js`，shader 網點透空，只作用在 `userData.seeThrough` 的材質；`townkit3d.js` 的 `seeThru()` 標記）。改鏡頭要跑 `tests/see_through.py`。
+ - 太陽方位（v9.3 第二十一批，D29）：`engine3d.js` 的時段表 azimuth 是羅盤方位；戶外照 x 往東、-z 往北換算，區域座標轉過方向的在區域定義加 `sunYaw`（公館 `π/2`）；室內維持舊的方向。**新增戶外區域或改區域方向時要設 `sunYaw`**，不然中午的太陽會跑到北邊（v9.3 之前就是這樣：朝南的系館正面整天背光）。
+ - 柏油路（v9.3 第二十二批，D30）：照片的淺灰（`W3.asphaltTex`、`TK.asphaltTex`、`zones3d.js` 的 `avenueRoadTex`，底色約 #acacaa）。貼圖有 `userData.asphalt`，`engine3d.js` 會在入夜時把這些材質調暗；**新增柏油貼圖要加這個標記**，不然晚上整條路會發亮。
+-- 法學院區（v9.3 第二十四批，D31，使用者提供配置圖＋萬才館照片）：萬才館的入口互動點在陽台下的一樓入口 (93.8,-100.6)，從萬才館出來在 (93.8,-98.4)；正面的弧形量體、樓梯、平台、凸出量體不能走，陽台底下可以走。國青中心是兩館中間後方的背景（走不到），黑森林＋小水池在法學院廣場南邊。改 `CK.lawhall` 要跑 `node tools/dev_scratch/kit_nav_check.js`。
++- 法學院區（v9.3 第二十四批，D31，使用者提供配置圖＋法律系館B照片）：法律系館B的入口互動點在陽台下的一樓入口 (93.8,-100.6)，從法律系館B出來在 (93.8,-98.4)；正面的弧形量體、樓梯、平台、凸出量體不能走，陽台底下可以走。國際學苑是兩館中間後方的背景（走不到），黑森林＋小水池在法學院廣場南邊。改 `CK.lawhall` 要跑 `node tools/dev_scratch/kit_nav_check.js`。
+ - 找路（v9.3 第二十五批，D35）：`E3.NavGrid.path` 先只走「人物（半徑 0.33 m）站得住」的格子（`clearMask`），找不到才退回舊的；拉直路線用 `losR`。**加家具、改 `blockRect` 後跑 `tests/reachability_all.py`**（全遊戲 103 個互動點用引擎真正的移動模擬走一遍；`--legacy` 切回舊找路）。測試用的掛勾：`E.simWalk`、`?navlegacy`、`GAME.walkFallbacks`（劇情自動走路卡住 4 秒遊戲時間就放到目的地的次數，真實流程測試要求 0）、`GAME.seatApproach`、`GAME.minimapArrow`。
+ - 小地圖（v9.3 第二十五批）：前方朝上的旋轉地圖，旋轉角＝鏡頭角度（`E.cam.yaw`，鏡頭在玩家的 (sin yaw, cos yaw) 那一側）；有「北」標示與玩家箭頭。改小地圖跑 `tests/minimap_direction.py`。
+ - 已修：教室同學朝向、VRM 0.x 朝向與坐姿軸向、標題畫面自動存檔覆蓋進度、標題「讀取」選單被蓋住、Café 座位擋住對話、直向小地圖蓋住選單、互動按鈕蓋住搖桿（細節見 ART_REBUILD_PROGRESS 的技術問題紀錄）。
+diff --git a/docs/CHARACTER_ART_SPEC.md b/docs/CHARACTER_ART_SPEC.md
+index 9e23a17ad..3aeb0ce75 100644
+--- a/docs/CHARACTER_ART_SPEC.md
++++ b/docs/CHARACTER_ART_SPEC.md
+@@ -127,7 +127,7 @@ assets/cg/<character_id>/<cg_id>.webp
+ 
+ ## 7. 背景圖需求（bg_id）
+ 
+-law_classroom_day / law_classroom_evening / library_day / library_night / cafe_day / cafe_evening / cafe_rain / dorm_night / campus_sunset / campus_rain / royal_palm_road_day（椰林大道） / gate_night（校門） / noodle_shop_night / gongguan_night / wenzhou_alley_dusk。
++law_classroom_day / law_classroom_evening / library_day / library_night / cafe_day / cafe_evening / cafe_rain / dorm_night / campus_sunset / campus_rain / royal_palm_road_day（椰影大道） / gate_night（校門） / noodle_shop_night / gongguan_night / wenzhou_alley_dusk。
+ 目前事件用 `background:'blur'|'freeze'` 直接以 3D 當背景；提供圖片後在事件把 background 改為 `{image:'assets/backgrounds/<bg_id>.webp'}`。
+ 
+ ## 8. Event CG 需求（第一批）
+diff --git a/docs/DUAL_AI_BOARD.md b/docs/DUAL_AI_BOARD.md
+index 5d0804f73..efbaddc67 100644
+--- a/docs/DUAL_AI_BOARD.md
++++ b/docs/DUAL_AI_BOARD.md
+@@ -1,5 +1,8 @@
+ # 雙 AI 工作看板
+ 
++> **歷史紀錄（2026-10-30 起，RENAME-1030）**：本文件記的是當時的決定和原話，裡面的「臺大、政大、霖澤館、萬才館、傅鐘、椰林大道……」照原文保留。遊戲現行名稱以 `docs/WORLD_NAMING.md`（企劃線）為準；新的決定照新名寫。
++
++
+ > **【歷史（2026-10-18 AA-C 依使用者授權標記）】**兩個 AI 時期（2026-10-10～10-14）的工作看板，已停用。現行：四職位分工照 `CLAUDE.md` D100／D100a；任務總表 `docs/HANDOFF_GAP_MATRIX.md`；值班 `docs/AI_SESSION_HANDOFF.md`。
+ 
+ - 分工與規則：[`docs/SECOND_AI_HANDOFF.md`](SECOND_AI_HANDOFF.md)。
+diff --git a/docs/MISSING_EXTERNAL_ART.md b/docs/MISSING_EXTERNAL_ART.md
+index dffb74ebc..e3f9311aa 100644
+--- a/docs/MISSING_EXTERNAL_ART.md
++++ b/docs/MISSING_EXTERNAL_ART.md
+@@ -43,11 +43,11 @@ law_classroom_day / law_classroom_evening / library_day / library_night / cafe_d
+ 沒有圖時是深色底＋地點字幕（ADV 的 `dark`）。有圖以後在 `OUT.BG[id].image` 填路徑（例：`assets/backgrounds/nccu_gate.webp`），事件不用改。
+ | id | 地點 | 用在 |
+ |---|---|---|
+-| `nccu_gate` | 政大・校門口 | 可昕 K1 導遊、K1b |
+-| `nccu_food` | 政大・山下的小吃街 | K1、K1b |
+-| `nccu_river` | 政大・河堤 | K1b |
+-| `nccu_lib` | 政大・圖書館 | K1b |
+-| `nccu_park` | 政大・停車場 | K1、K1b |
++| `nccu_gate` | 木柵大學・校門口 | 可昕 K1 導遊、K1b |
++| `nccu_food` | 木柵大學・山下的小吃街 | K1、K1b |
++| `nccu_river` | 木柵大學・河堤 | K1b |
++| `nccu_lib` | 木柵大學・圖書館 | K1b |
++| `nccu_park` | 木柵大學・停車場 | K1、K1b |
+ | `car` | 車上 | 開車的轉場（還沒用到） |
+ | `riverside` | 河濱（和子晴的河堤夜景共用） | 中秋烤肉（A13、K3） |
+ | `gongguan_luwei` | 公館・滷味攤（公館有 3D 區域，滷味攤還沒有） | 考完的宵夜（A15） |
+@@ -55,7 +55,7 @@ law_classroom_day / law_classroom_evening / library_day / library_night / cafe_d
+ | `seaside_town` | 海邊的小鎮（虛構，不寫真實地名）：火車站、堤防、民宿；第一天下雨 | 春假麵店團的兩天一夜（交接包 v2 C9） |
+ | `trip_sea`、`trip_oldtown`、`trip_mountain` | 海邊、別的城市的老街、山上（虛構或一般化的地點，不指定真實店家） | 春假：可昕 K8 開車旅行（交接包 v2 C9） |
+ | （還沒有 id）`bus_night` | 晚上的公車上：窗外的燈、旁邊的人的肩膀（不畫臉） | 可昕 K12b「回程的公車」（AA_325 2-Y2-16；現在是 `dark`＋旁白）。`trip_oldtown` 也用在這一件的老街 |
+-| （還沒有 id）`nccu_classroom_small` | 政大・系上的小教室：投影幕、燈關一半、二十幾個人 | 可昕 K10b 電影夜、大二生日（AA_325 2-Y2-06、2-Y2-15；現在先用 `classroom_small`）。邵鈞、詹靖沒有立繪（compact） |
++| （還沒有 id）`nccu_classroom_small` | 木柵大學・系上的小教室：投影幕、燈關一半、二十幾個人 | 可昕 K10b 電影夜、大二生日（AA_325 2-Y2-06、2-Y2-15；現在先用 `classroom_small`）。邵鈞、詹靖沒有立繪（compact） |
+ | `chiayi_living`、`chiayi_balcony` | 嘉義老家的客廳（年菜、圓桌）、陽台；道具：一疊土地謄本（不寫真實地號） | 主線 2 親戚的土地資料（交接包 v2 C2） |
+ | `dorm_roof` | 宿舍頂樓 | 跨年（A21） |
+ | `video` | 視訊（可昕的房間） | 可昕的期末成績（BB_95 9-8） |
+@@ -70,7 +70,7 @@ law_classroom_day / law_classroom_evening / library_day / library_night / cafe_d
+   | CG id | 編號 | 場景（哪一刻） | 現在的背景 |
+   |---|---|---|---|
+   | `cg_graduation_mother_heroine01` | CG-9 | 1A-13 6/2 12:00 畢業典禮拍照 ③ 以安和媽媽（和以安 `FRIEND` 以上），「謝謝你們這四年陪她吵架。」那一句 | 2D `graduation_avenue`（沒有圖＝深色底） |
+-  | `cg_two_graduations_kexin` | BCG-07 | 6/9 可昕的畢業典禮（政大）：去了＝「等我拍完。晚上吃山下那家。」之後；沒去＝6/9 18:30 打開她傳的照片那一段 | 去了：2D `nccu_campus`；沒去：深色底 |
++  | `cg_two_graduations_kexin` | BCG-07 | 6/9 可昕的畢業典禮（木柵大學）：去了＝「等我拍完。晚上吃山下那家。」之後；沒去＝6/9 18:30 打開她傳的照片那一段 | 去了：2D `nccu_campus`；沒去：深色底 |
+   | `cg_this_time_heroine05` | BCG-39 | 6/2 20:30 學姊的生日（研究室，和學姊交往中）：「……許願要說出來嗎？」之後她閉眼許願那一拍 | 2D 研究室走廊（`ra_lab` 沒有＝`linze_prof_hall`） |
+   | `cg_reunion_window_table_<kai／heroine01／heroine02／heroine03／heroine04／heroine05／kexin／peishan>` | CG-10（基底圖＋8 張人物圖層合成） | 1A-20 尾聲 2034-06-03 19:00 兩點半 Café：同一桌的人、前任說完以後；祐廷右手邊＝畢業時的伴侶，沒有＝阿凱 | 兩點半 Café 的 3D（模糊） |
+ 
+diff --git a/docs/PROJECT_DECISIONS.md b/docs/PROJECT_DECISIONS.md
+index 4858fc312..8c3fd123d 100644
+--- a/docs/PROJECT_DECISIONS.md
++++ b/docs/PROJECT_DECISIONS.md
+@@ -1,5 +1,8 @@
+ # 專案決策紀錄（PROJECT DECISIONS）
+ 
++> **歷史紀錄（2026-10-30 起，RENAME-1030）**：本文件記的是當時的決定和原話，裡面的「臺大、政大、霖澤館、萬才館、傅鐘、椰林大道……」照原文保留。遊戲現行名稱以 `docs/WORLD_NAMING.md`（企劃線）為準；新的決定照新名寫。
++
++
+ 長期有效的設計與工作決策。短期進度在 `docs/ART_REBUILD_PROGRESS.md`。
+ 規則：新指令與既有決策衝突時，以使用者**最新明確指示**為準，並在這裡記錄變更（不刪舊紀錄，改標「已變更」）；不把尚未確認的想法寫成使用者已決定。
+ 來源欄的 `spec NN` 指 `docs/history/specs/` 裡使用者的需求原文。日期為台灣時間。
+diff --git a/docs/REGRESSION_CHECKLIST.md b/docs/REGRESSION_CHECKLIST.md
+index 7a3a297b6..0f0a98871 100644
+--- a/docs/REGRESSION_CHECKLIST.md
++++ b/docs/REGRESSION_CHECKLIST.md
+@@ -16,7 +16,7 @@
+ | `python3 tests/gongguan_layout_nav.py http://127.0.0.1:8765/index.html` | 公館（v9.3 第十一批：連續騎樓的台北街屋）：主要地點與「從店裡／溫州街／校園回來」的出生點站得住、走得到；騎樓整排連續可走；騎樓柱子、店裡面、捷運入口、圓環花台不能走；麵店、茶行、書店、便利商店的互動點位置、站在店門口出現該店互動；舊存檔站在新柱子或舊版店門口時讀檔後移到可走的地方；實際按互動進麵店再出來、往溫州街再回來 | 約 3 分鐘 |
+ | `node tools/dev_scratch/spring_sim/sim_hair.js` | 六位核心角色的頭髮彈簧骨：站著、瞬移後、走路（人物移動，30 fps 與 0.3 秒一幀）的髮尾高度；走路／瞬移時髮尾比站著高超過 2 cm 就 FAIL（v9.3 #25：頭髮被甩到耳朵高度）。Node 直接載入遊戲的 `lib/`、`src/`，不需要瀏覽器 | 約 1 分鐘 |
+ | `python3 tools/dev_scratch/nav_islands.py http://127.0.0.1:8765/index.html [區域 id …]` | 每個區域用 0.1 m 間距取樣「站得住」，找出和主要區域不相連的小孤島（面積 < 0.5 m²、離主要區域 1.5 m 內 → SUSPECT）。孤島四周都站不住，滑進去就出不來（v9.3 #31） | 全部區域約 10 分鐘 |
+-| `node tools/dev_scratch/kit_nav_check.js` | 不用瀏覽器（Node）：建霖澤館、萬才館（參數和 `zones3d.js` 一樣），建築正面外每個 2.2 m 以下的頂點都要在套件回傳的導航阻擋裡（台階、石牆、端塊、弧形量體、花台）；陽台底下可以走所以不算。改 `CK.lawhall` 時跑（第二十一批起；第二十四批起只看 2.2 m 以下） | 幾秒 |
++| `node tools/dev_scratch/kit_nav_check.js` | 不用瀏覽器（Node）：建法律系館A、B（參數和 `zones3d.js` 一樣），建築正面外每個 2.2 m 以下的頂點都要在套件回傳的導航阻擋裡（台階、石牆、端塊、弧形量體、花台）；陽台底下可以走所以不算。改 `CK.lawhall` 時跑（第二十一批起；第二十四批起只看 2.2 m 以下） | 幾秒 |
+ | `python3 tests/see_through.py http://127.0.0.1:8765/index.html` | 鏡頭和玩家之間有大王椰子樹幹時看得到玩家（v9.3 #35）：同一幀畫正常畫面、拿掉樹幹的畫面、玩家剪影，比較玩家範圍內看得到的比例。關掉透視時要 < 40%（確認樹幹真的擋住）、打開時 ≥ 60%；演出鏡頭、室內不開 | 約 3 分鐘 |
+ | `python3 tools/dev_scratch/render_stats.py http://127.0.0.1:8765/index.html` | （參考用，不判定）六個常用鏡頭（校園三個、溫州街 Café 前、公館兩個）畫一幀的三角形數、draw call、幾何數、貼圖數；改建築、加大量物件之後和上一版比較（量第十一批以前的版本時加 `GG_Z=44`，公館店面街的鏡頭位置才相同） | 約 2 分鐘 |
+ | `python3 tools/dev_scratch/evtest.py`（需先 build） | 52 個事件的觸發條件與鎖定解鎖 | 約 10 分鐘 |
+@@ -29,10 +29,10 @@
+ | `python3 tests/flow_main_day12.py http://127.0.0.1:8765/index.html` | **第三層真實玩家流程：第一、二天主線**：不用 turbo、不讀檔，從標題開新遊戲 → 宿舍 → 點地面走到書桌讀案例 → 睡覺 → 第二天 → 走進霖澤館上課 → 下課離開 → 選單存檔 → 重新整理 → 讀檔 → 走得動 | 約 20–40 分鐘 |
+ | `python3 tests/save_compat_v7.py http://127.0.0.1:8791/index.html http://127.0.0.1:8790/index.html` | **發布前**（2026-10-10 加）：8791 開 `main` 舊版（v7）的乾淨 checkout，開新遊戲寫出真正的 v7 存檔＋抽 v7 各區域走得到的 48 個位置；新版啟動前把 v7 存檔放進 localStorage（同網址升級）：標題畫面不覆蓋、「繼續」讀得進來且資料一樣、站得住走得動、欄位 1、48 個位置 | 約 5–10 分鐘 |
+ | `node tests/nav_levels_unit.js` | **v9.4 多樓層（Node，幾秒）**：分層導航引擎——單層時的找路結果和改版前（`92acd48`）完全相同（300 組 × 2 種模式）；兩層＋樓梯：上下樓找路、樓梯中段高度、換層、跨層的 A* | 約 10 秒 |
+-| `node tests/nav_buildings_unit.js` | **v9.4 多樓層（Node）**：用真的區域程式建校園、霖澤館、201 教室：穿堂 0.9 m、前後台階、從廣場走到後面中庭、大廳 → 樓梯 → 二樓、電梯車廂、48 個座位站得住且走得到、上課劇情走到座位、離開教室；改 `zones3d.js`、`building3d.js`、`campuskit3d.js` 的 `lawhall`、`classroom_layout.js`、`linze_layout.js` 時一定要跑 | 約 30 秒 |
+-| `node tests/stairs_feet_unit.js [char.yuting]` | **v9.4 走樓梯的腳步（Node）**：角色上樓梯、下樓梯（霖澤館尺寸），footIK 開／關各走一次，量腳穿進台階多深、支撐腳離地多高（開：穿進 < 4.5 cm、離地 < 5 cm，而且比關掉時好）；改 `character3d.js` 的動畫或 footIK 時跑 | 約 1 分鐘 |
++| `node tests/nav_buildings_unit.js` | **v9.4 多樓層（Node）**：用真的區域程式建校園、法律系館A、201 教室：穿堂 0.9 m、前後台階、從廣場走到後面中庭、大廳 → 樓梯 → 二樓、電梯車廂、48 個座位站得住且走得到、上課劇情走到座位、離開教室；改 `zones3d.js`、`building3d.js`、`campuskit3d.js` 的 `lawhall`、`classroom_layout.js`、`linze_layout.js` 時一定要跑 | 約 30 秒 |
++| `node tests/stairs_feet_unit.js [char.yuting]` | **v9.4 走樓梯的腳步（Node）**：角色上樓梯、下樓梯（法律系館A尺寸），footIK 開／關各走一次，量腳穿進台階多深、支撐腳離地多高（開：穿進 < 4.5 cm、離地 < 5 cm，而且比關掉時好）；改 `character3d.js` 的動畫或 footIK 時跑 | 約 1 分鐘 |
+ | `python3 tests/flow_linze_floors.py http://127.0.0.1:8765/index.html` | **v9.4 第三層真實玩家流程（最高驗收標準）**：廣場 → 穿堂 → 穿過建築 → 大廳 → 自己走樓梯上二樓 → 201 坐下起身 → 在二樓存讀檔 → 電梯 → NPC 上下樓 → 走出建築回廣場（見 `docs/TESTING.md` 第八節） | 約 30–60 分鐘 |
+-| `python3 tools/dev_scratch/linze_shots.py URL 輸出資料夾 標籤` | （截圖用，不判定）霖澤館外觀四個固定鏡頭 × 11:00／17:30／20:30；新舊比較用（8790＝線上版副本） | 約 10 分鐘 |
++| `python3 tools/dev_scratch/linze_shots.py URL 輸出資料夾 標籤` | （截圖用，不判定）法律系館A外觀四個固定鏡頭 × 11:00／17:30／20:30；新舊比較用（8790＝線上版副本） | 約 10 分鐘 |
+ | `python3 tools/dev_scratch/view_audit.py URL spec.json 輸出資料夾 [方向數=8]` | （畫面盤點，人工看圖）把玩家放到 spec 裡的每個位置，用一般跟隨鏡頭轉一圈各拍一張，拼成一張對照表：找「轉鏡頭看到大片空地、地面盡頭、孤立建築」的角度（v9.3 第十八～二十批用 33 個位置，spec 範例見 ART_REBUILD_PROGRESS） | 約 40 分鐘（33 個位置） |
+ | `python3 tools/dev_scratch/cine_multi.py URL spec.json [寬] [高]` | （截圖用，不判定）一次載入、連拍多個固定鏡頭（演出鏡頭）；同一個區域＋時間只載入一次，比 `tools/shots/scene_shot.py` 快很多。改前改後比較圖用同一份 spec 對兩個版本各跑一次 | 每張約 30 秒 |
+ 
+@@ -43,7 +43,7 @@
+ | 移動與鏡頭 | `engine3d.js`（stepEntity、updateCamera、input、樹幹透視）、`game3d.js`（搖桿、sitAt/standUp） | p0、movement_regression、touch_flow；改 updateCamera 或樹幹透視時加跑 see_through |
+ | 地形與碰撞 | `zones3d.js` 任何幾何或 NavGrid（`blockRect/blockOutside/open`）、出生點、出入口座標 | 改校園時加跑 campus_layout_nav；改公館時加跑 gongguan_layout_nav（出入口座標要和 p0 的「公館店門口」出生點一起改）；p0（含溫州街）、movement_regression E、touch_flow；加家具、改 `blockRect` 之後跑 `nav_islands.py` |
+ | NPC 導航 | `story3d.js` 的 walkRoutes／bikeRoutes、`engine3d.js` updateNPC | 截圖確認 NPC 不在牆裡、touch_flow |
+-| 樓層與高度（v9.4，D36） | `engine3d.js` 的 NavGrid 高度面（`addSurf`、`heightAt`、`visualHeightAt`）、`gridPath`（跨層找路）、`switchLevel`、`settleY`、`screenToFloor`、`updateLevelVis`；`building3d.js`（霖澤館室內、電梯）；`zones3d.js` 的教室平台、`ckPlace` 的 `surfs`；`campuskit3d.js` 的 `lawhall`（穿堂、台階）；`character3d.js` 的 footIK；存檔的 `pos.lv`、`pos.y` | nav_levels_unit、nav_buildings_unit、stairs_feet_unit（Node）；flow_linze_floors、flow_class_real、p0、save_compat_v7 |
++| 樓層與高度（v9.4，D36） | `engine3d.js` 的 NavGrid 高度面（`addSurf`、`heightAt`、`visualHeightAt`）、`gridPath`（跨層找路）、`switchLevel`、`settleY`、`screenToFloor`、`updateLevelVis`；`building3d.js`（法律系館A室內、電梯）；`zones3d.js` 的教室平台、`ckPlace` 的 `surfs`；`campuskit3d.js` 的 `lawhall`（穿堂、台階）；`character3d.js` 的 footIK；存檔的 `pos.lv`、`pos.y` | nav_levels_unit、nav_buildings_unit、stairs_feet_unit（Node）；flow_linze_floors、flow_class_real、p0、save_compat_v7 |
+ | 人物朝向與動畫 | `character3d.js`（buildVRM、animateVRM、setBonesV）、`assets3d.js`（cloneVRM）、`tools/vroid_build.py` 重建的模型 | 角色展示截圖（正側背、走跑坐交談）、教室座位朝向、touch_flow 坐下；改到彈簧骨、`updateVRM` 或重建有頭髮的模型時跑 `sim_hair.js` |
+ | 場景切換 | `game3d.js` enter／applySave、各區域 exits、入口互動點與出來的出生點座標 | zone_transitions、touch_flow（溫州街 ↔ Café）、movement_regression E |
+ | 日夜與天氣 | `engine3d.js` applyTime／KEY、區域的 `applyTimeOutdoor`、`townkit3d.js` setNight、區域的 `sunYaw`（D29） | 同位置 11:00／17:30／20:30 截圖；新增戶外區域或改區域方向時，中午椰子樹、路燈的影子要往北倒（太陽在南邊） |
+diff --git a/docs/REVIEW_README.md b/docs/REVIEW_README.md
+index 12fa516b2..21bfc8f8f 100644
+--- a/docs/REVIEW_README.md
++++ b/docs/REVIEW_README.md
+@@ -32,7 +32,7 @@ src/assets3d.js       ASSET LAYER：manifest、loader、fallback、instance
+ src/character3d.js    CHARACTER LAYER：build/animate/setExpr 統一介面；GLB driver（Mixamo 重定向）
+ src/world3d.js        LEVEL_BLOCKOUT 產生器：貼圖、建築、樹（fallback）、路燈、腳踏車…、風動 shader
+ src/engine3d.js       渲染、時間光線、天氣、鏡頭、觸控、導航格 A*、碰撞、NPC 行為、LOD
+-src/zones3d.js        區域定義（校園、公館、溫州街、教室、萬才館、總圖、咖啡廳、便利商店、麵店、書店、宿舍）
++src/zones3d.js        區域定義（校園、公館、溫州街、教室、法律系館B、總圖、咖啡廳、便利商店、麵店、書店、宿舍）
+ src/audio3d.js        WebAudio 合成環境音
+ src/data/characters.js CHARACTERS / UNFAMILIAR_POOL / SOCIAL_GRAPH / PORTRAITS
+ src/data/legal_qbank.js 刑訴題庫（使用者提供，Q001–Q084）
+@@ -74,7 +74,7 @@ test_*.html           子系統測試頁；play.py / shot3d.py 自動測試
+ 
+ ## F. Gameplay loop
+ 
+-第一天晚上宿舍（讀或不讀案例）→ 第二天民總（周教授提問，答案取決於是否讀案例）→ 走出霖澤館、小安追上來 → 一起走到咖啡廳／總圖 → 對話與選擇 → 黃昏 → 公館吃麵（阿哲）→ 宿舍 → 之後自由：課表（週二刑訴、週四民總）、讀書會（週三法服）、圖書館讀書（把混淆的爭點讀懂）、咖啡廳、公館、溫州街；資料驅動事件依地點／時間／天氣／關係／記憶觸發；NPC 依日程出現。時間在自由行動時流動（1 小時≈2.5 分鐘）。
++第一天晚上宿舍（讀或不讀案例）→ 第二天民總（周教授提問，答案取決於是否讀案例）→ 走出法律系館A、小安追上來 → 一起走到咖啡廳／總圖 → 對話與選擇 → 黃昏 → 公館吃麵（阿哲）→ 宿舍 → 之後自由：課表（週二刑訴、週四民總）、讀書會（週三法服）、圖書館讀書（把混淆的爭點讀懂）、咖啡廳、公館、溫州街；資料驅動事件依地點／時間／天氣／關係／記憶觸發；NPC 依日程出現。時間在自由行動時流動（1 小時≈2.5 分鐘）。
+ 
+ ## G. Rendering architecture
+ 
+@@ -110,7 +110,7 @@ three.js WebGLRenderer、ACES tone mapping、sRGB；HemisphereLight＋Directiona
+ 
+ - **PLACEHOLDER_CHARACTER**：除主角與小安外的所有 NPC 與路人（`src/people3d.js`）。主角為 RPM 範例 avatar（棕西裝、光頭；casting 不符，僅證明 pipeline）；小安為 three-vrm 範例 VRM（白 T 黑短褲、棕長髮；不是依 Character Bible 製作的，僅證明 VRM pipeline）。
+ - **PLACEHOLDER_2D_PORTRAIT**：全部立繪（圖片尚未提供）。
+-- **LEVEL_BLOCKOUT**：所有建築（`W3.building` 方盒＋貼圖立面）、道路、室內牆面桌椅書櫃、公館店面、溫州街公寓、校門／傅鐘／總圖門廊等地標。
++- **LEVEL_BLOCKOUT**：所有建築（`W3.building` 方盒＋貼圖立面）、道路、室內牆面桌椅書櫃、公館店面、溫州街公寓、校門／晨思鐘／總圖門廊等地標。
+ - 程序化 fallback 樹（W3.banyan/palm/bush）與腳踏車、路燈、販賣機等 props。
+ - 天空 shader、雨、環境音（合成）。
+ 
+@@ -157,7 +157,7 @@ three.js WebGLRenderer、ACES tone mapping、sRGB；HemisphereLight＋Directiona
+ 
+ ## S2. v7（2026-09-27 傍晚）P0 修復與角色視覺整合
+ 
+-- **P0 root cause**：校園 NavGrid 只涵蓋 z ∈ [-85,85]，法學院前庭（z -84～-124）全在格外＝阻擋 → 霖澤館前不能動；公館店門口出口在 blockOutside 之外；宿舍書桌起身位置只檢查中心點不檢查半徑。修法見 `tests/p0_movement.py`、`tests/movement_regression.py` 與 REVIEW_NOTES 13。
++- **P0 root cause**：校園 NavGrid 只涵蓋 z ∈ [-85,85]，法學院前庭（z -84～-124）全在格外＝阻擋 → 法律系館A前不能動；公館店門口出口在 blockOutside 之外；宿舍書桌起身位置只檢查中心點不檢查半徑。修法見 `tests/p0_movement.py`、`tests/movement_regression.py` 與 REVIEW_NOTES 13。
+ - 玩家模型：`char.vrm_player`（Seed-san 改色、隱藏機械配件）；RPM 範例降為 `TEMP_PLAYER_DEV_MODEL`（fallbackModel）。`CHAR.build`：VRM → GLB → fallbackModel GLB → 程序化。
+ - 2D：五位女主角 `campus/neutral` 由使用者合圖切出（production）；`PORTRAIT_FILES` manifest；`ADV.hasProductionPortrait / portraitQuality`；沒圖的人物走 compact 模式，玩家版本沒有 placeholder 標籤。
+ - 資料：五位女主角 `height_cm`、`zodiac`（正式），3D 身高同步。
+diff --git a/docs/SECOND_AI_HANDOFF.md b/docs/SECOND_AI_HANDOFF.md
+index f9e023c43..f79a2ff35 100644
+--- a/docs/SECOND_AI_HANDOFF.md
++++ b/docs/SECOND_AI_HANDOFF.md
+@@ -16,7 +16,7 @@
+ |---|---|
+ | 你是誰 | **第二個 AI「LAWWW2」**：環境美術（Blender 場景資產＋把自己的場景接進遊戲）。工作階段 `session_01AC1WVgJSmoJK1uRsPK2Zn1`（標題「遊戲協作專案」，2026-10-10 12:45Z 開） |
+ | 你的分支 | **`claude/second-ai-env-art`**，基底是第一個 AI 的開發分支。如果平台另外指定了分支，以平台為準，並用訊息告訴第一個 AI 分支名稱 |
+-| 第一個 AI | **LAWWW**：工作階段 `session_01Eds6msqpsuzNEw98sdw8JX`，分支 `claude/confident-ritchie-8rwh7t`（開發主線）。負責人物、核心系統、霖澤館、萬才館、整合、發布，也負責分派 LAWWW2 的工作（使用者 2026-10-10 授權） |
++| 第一個 AI | **LAWWW**：工作階段 `session_01Eds6msqpsuzNEw98sdw8JX`，分支 `claude/confident-ritchie-8rwh7t`（開發主線）。負責人物、核心系統、法律系館A、B、整合、發布，也負責分派 LAWWW2 的工作（使用者 2026-10-10 授權） |
+ | 通訊 | claude-code-remote MCP 的 **`send_message`**（`session_id` 填對方的 ID），2026-10-10 已確認雙向可用。用名稱定址的 `SendMessage` 到不了對方 |
+ | 目前任務 | **兩點半 Café**（外觀＋`cafe` 室內，Blender 正式模型接進遊戲）→ 溫州街近景 → 後備 A 街道道具 → 後備 B 獨立室內 → 公館、校園地標。佇列見第 3 節開頭 |
+ | 絕對不能做 | 改 `main`、發布 GitHub Pages、force push、改劇情／角色設定／存檔格式、改第一個 AI 擁有的檔案（第 5 節）、標 `ART_APPROVED` |
+@@ -30,8 +30,8 @@
+ - **人物**：沈以安、祐廷的 Blender 版第一版完成（`READY_FOR_ART_REVIEW`），網址加 `?blchar` 才載入，預設仍是 VRoid 加工版。
+ - **開發分支 `claude/confident-ritchie-8rwh7t`（v9.4，還沒發布）**：
+   - 多樓層導航（D36）。
+-  - 霖澤館外觀、室內（大廳、樓梯、電梯、二樓）、201 階梯教室都換成 Blender 正式模型（`tools/blender/linze_*.py`、`classroom_201.py` → `assets/models/env/*.glb`）。
+-  - 長椅坐姿修正、霖澤館鏡頭遮擋修正。
++  - 法律系館A外觀、室內（大廳、樓梯、電梯、二樓）、201 階梯教室都換成 Blender 正式模型（`tools/blender/linze_*.py`、`classroom_201.py` → `assets/models/env/*.glb`）。
++  - 長椅坐姿修正、法律系館A鏡頭遮擋修正。
+   - 人物改用 Blender 製作，示範角色沈以安正在做（`tools/blender/char/`）。
+   - 發布候選 `47b2043`：發布前測試做到一半。
+ - **美術規範（強制）**：`CLAUDE.md` 的「MANDATORY 3D ART PRODUCTION RULES」（D38）、[`docs/art-rebuild/ART_DIRECTION.md`](art-rebuild/ART_DIRECTION.md) 第 12 節。
+@@ -68,16 +68,16 @@
+ 
+ | 工作 | 負責 | 狀態 |
+ |---|---|---|
+-| 霖澤館剩餘：夜間暖色玻璃重拍、Blender 渲染圖、玻璃反射、天花板／入口／窗／門框細節、201 窗外景與設備、玻璃電梯 Blender 化、三樓以上 | AI-1 | 部分進行中（WIP patch 在 AI-1 的暫存區） |
+-| 萬才館第二階段：Blender 正式模型＋可以走的弧形大樓梯＋二樓平台與陽台（依賴多樓層導航與校園區塊） | AI-1 | 尚未開工 |
++| 法律系館A剩餘：夜間暖色玻璃重拍、Blender 渲染圖、玻璃反射、天花板／入口／窗／門框細節、201 窗外景與設備、玻璃電梯 Blender 化、三樓以上 | AI-1 | 部分進行中（WIP patch 在 AI-1 的暫存區） |
++| 法律系館B第二階段：Blender 正式模型＋可以走的弧形大樓梯＋二樓平台與陽台（依賴多樓層導航與校園區塊） | AI-1 | 尚未開工 |
+ | **兩點半 Café**：外觀＋室內 | **AI-2** | **進行中（第一項）** |
+ | **溫州街近景**：日式老屋、小公園、巷弄公寓立面（鐵窗、冷氣、雨遮、磁磚）、紅磚人行道、電線桿、路名牌、反光鏡 | **AI-2** | 第二項 |
+ | **街道道具 Blender 化**：機車 2–3 款、腳踏車、行道樹（樟樹、榕樹近景）、盆栽、路燈（燈頭位置 (0, 3.95, 0.75) 不能動）、長椅；Instancing＋遠景簡化 | **AI-2** | 第三項 |
+ | **公館近景**：南側騎樓店面模組、捷運出口、往溫州街的巷口 | **AI-2** | 第四項 |
+ | **獨立室內**：便利商店（`cvs`）、麵店（`noodle`）、書店（`bookstore`）、宿舍（`dorm`）＋家具組 | **AI-2** | 第五項 |
+-| 校園地標：總圖、行政大樓、文學院、傅鐘、校門、洞洞館、社科院 | 先由 AI-2 做 Blender 模型，AI-1 接進校園（校園區塊是 AI-1 的） | 第六項，開工前雙方協調 |
+-| 椰林大道：大王椰子 Blender、鋪面 PBR | AI-2 做資產（併入第三項），AI-1 接進校園 | 之後 |
+-| 總圖閱覽室（`library` 室內）、萬才館大廳（`wancai` 室內） | AI-1（校園建築） | 之後 |
++| 校園地標：總圖、行政大樓、文學院、晨思鐘、校門、圓窗館、社科院 | 先由 AI-2 做 Blender 模型，AI-1 接進校園（校園區塊是 AI-1 的） | 第六項，開工前雙方協調 |
++| 椰影大道：大王椰子 Blender、鋪面 PBR | AI-2 做資產（併入第三項），AI-1 接進校園 | 之後 |
++| 總圖閱覽室（`library` 室內）、法律系館B大廳（`wancai` 室內） | AI-1（校園建築） | 之後 |
+ | 地面材質 PBR（柏油維持淺灰 D30、人行道磚、草地） | 溫州街／公館：AI-2；校園：AI-1 | 之後 |
+ 
+ ### C. 技術與玩家體驗
+@@ -130,7 +130,7 @@
+   - 門口盆栽、A 字立牌。
+   - 從窗戶看得到的室內一角：桌椅、吊燈、書架、吧檯。
+   - 夜間窗光：材質名稱約定＋`TK.addNight`，寫法參考 `zones3d.js` 的 `attachExterior`。
+-- 整合方式：照霖澤館外觀。
++- 整合方式：照法律系館A外觀。
+   - `ASSETS.loadOne(key).then(c=>attachExterior(...))`，套件外觀藏起來，導航與鏡頭碰撞沿用。
+   - GLB 載入失敗時回到程序化外觀。
+ 
+@@ -193,7 +193,7 @@
+ 
+ ### 第六項（之後，先協調）：校園地標
+ 
+-- 傅鐘、校門、總圖、行政大樓的 Blender 模型。
++- 晨思鐘、校門、總圖、行政大樓的 Blender 模型。
+ - 校園區塊、`campuskit3d.js` 是 AI-1 的。AI-2 交 GLB＋接法建議，由 AI-1 接進去，或由 AI-1 開放修改窗口。
+ 
+ **做完一項就自己接下一項，不必等使用者或 AI-1 回覆。** 被擋住時記錄原因、通知 AI-1，改做佇列裡下一個不受阻的項目。
+@@ -205,7 +205,7 @@
+ - 沈以安 Blender 正式模型（第一優先），以及其他五位主角、NPC 的 Blender 重製。
+ - 人物系統：VRM、骨架、表情、動畫。
+   - 檔案：`src/character3d.js`、`src/props3d.js`、`tools/blender/char/`、`tools/vroid_build.py`、`assets/models/char/`。
+-- 霖澤館（外觀、室內、201）剩餘美術與效能。萬才館第二階段。
++- 法律系館A（外觀、室內、201）剩餘美術與效能。法律系館B第二階段。
+ - 校園區域：`zones3d.js` 的 `campus`、`linze`、`classroom`、`wancai`、`library` 區塊，`campuskit3d.js`、`building3d.js`。
+ - 引擎、導航、存檔、遊戲流程：`engine3d.js`、`game3d.js` 等。
+ - v9.4 與之後的正式發布（只有 AI-1 能發布，兩次發布至少間隔三小時）。
+@@ -249,7 +249,7 @@
+   - 柏油維持淺灰（D30）。新的柏油貼圖要加 `userData.asphalt`，入夜才會變暗。
+ - **GLB 規格**：
+   - 貼圖 512–1024 px WebP。
+-  - 重複物件用 `EXT_mesh_gpu_instancing`，遊戲已支援，霖澤館窗戶、201 椅子都是這樣做。
++  - 重複物件用 `EXT_mesh_gpu_instancing`，遊戲已支援，法律系館A窗戶、201 椅子都是這樣做。
+   - 一棟外觀 ≤ 2.5 MB、一間室內 ≤ 2 MB。超過要說明理由。
+ - **資產登錄**：`src/assets3d.js` 的第二個 AI 區塊，例如：
+   ```js
+@@ -270,7 +270,7 @@
+ 
+ ## 7. 美術品質要求（兩個 AI 共同）
+ 
+-- 目標是正式販售的日系生活模擬遊戲質感（Premium Stylized 3D Life Simulation），同時保留台北、台大、溫州街的辨識度。使用者現在最大的不滿是「畫面像廉價 3D 原型」。
++- 目標是正式販售的日系生活模擬遊戲質感（Premium Stylized 3D Life Simulation），同時保留台北、首都帝大、溫州街的辨識度。使用者現在最大的不滿是「畫面像廉價 3D 原型」。
+ - 每個近景都要達到：
+   - 正確的比例、輪廓、構造厚度（窗框、門框、雨遮、招牌支架都有厚度）。
+   - 材質差異（木、玻璃、石材、金屬、磁磚、植物）。
+@@ -288,7 +288,7 @@
+   - `01` 沈以安設定圖、`02` 祐廷設定圖、`03`／`06` 六人設定。
+   - `04` 溫州街 Café 全景＋介面、`05` 四位女主角＋溫州街光影、**`07` 祐廷與沈以安在 Café 黃昏（目標圖）**。
+ - 使用者的實景照片：
+-  - 椰林大道、霖澤館、萬才館、教室、法律學院配置圖：使用者在第一個 AI 的對話裡給過，但**沒有存進 repo**。從照片得到的結論寫在 `docs/PROJECT_DECISIONS.md` 的 D23–D31。
++  - 椰影大道、法律系館A、B、教室、法律學院配置圖：使用者在第一個 AI 的對話裡給過，但**沒有存進 repo**。從照片得到的結論寫在 `docs/PROJECT_DECISIONS.md` 的 D23–D31。
+   - `docs/history/user_feedback_images/` 只有 iPhone 實機回報截圖。
+   - 溫州街、公館、Café 沒有使用者的照片，用參考圖＋台北常見構造。缺的參考圖記在自己的進度文件裡，先照現有描述做第一版，並寫明假設。
+ - 需求原文：`docs/history/specs/`（20 美術重建、21 多樓層、22 永久美術規範）。
+diff --git a/docs/TESTING.md b/docs/TESTING.md
+index 3e9b386c0..f1a9b2df1 100644
+--- a/docs/TESTING.md
++++ b/docs/TESTING.md
+@@ -4,7 +4,7 @@
+ >
+ > 起因：v9.3 第一次正式發布當天，使用者實玩就碰到兩個測試沒抓到的 bug：
+ > 1. 進教室上課劇情卡住（劇情自動走路卡在桌角、永遠等下去），按「坐下」也走不到；
+-> 2. 霖澤館外面跑的方向和小地圖相反（小地圖旋轉角正負號錯，v7 就有）。
++> 2. 法律系館A外面跑的方向和小地圖相反（小地圖旋轉角正負號錯，v7 就有）。
+ >
+ > 舊測試抓不到的原因：全部用 `?turbo`，劇情的自動走路會直接瞬移到目的地；小地圖只檢查「有沒有畫出來」，沒有檢查方向。
+ 
+@@ -28,11 +28,11 @@
+   - 第 3 級保留真實流程測試（`flow_class_real`、`flow_main_day12` 等），用來確認快速模式沒有漏掉只在正常模式出現的 bug。
+ - **沙盒太慢時劇情照設計接手，不算走不到，也不算通過**（TEST-DAY12-SPEED-1023）：
+   - 情況：`flow_main_day12` 第二天 13:05 從霖澤館前走到 201。沙盒每秒不到 1 格時，常常走超過遊戲時間的 15 分鐘。
+-  - 遊戲照設計處理：`classes3d.js` 的 `S.goDay2`——12:30～15:12 還沒上過課、玩家空下來 1.5 秒＝「走路到霖澤館。」直接帶進 201。這是 AA_294 第 1 節「時間到了直接帶去」。
++  - 遊戲照設計處理：`classes3d.js` 的 `S.goDay2`——12:30～15:12 還沒上過課、玩家空下來 1.5 秒＝「走路到法律系館A。」直接帶進 201。這是 AA_294 第 1 節「時間到了直接帶去」。
+   - 測試做法：
+     - 走路途中進到 classroom，就記【劇情接手】，並檢查接手的時間合理：第二天、12:30～15:12、還沒上過課。
+     - 走到門口、上樓梯、按「進入 201」那幾項印 `[未驗]`：不算通過，也不算失敗。
+-    - 後面照舊檢查：上課劇情自己走到座位、教授開口、沒用到卡住保險、上完課、下課走出霖澤館、存讀檔。
++    - 後面照舊檢查：上課劇情自己走到座位、教授開口、沒用到卡住保險、上完課、下課走出法律系館A、存讀檔。
+     - 真實時間的上限照幀率放大（`SLOW`）：
+       - 開頭在標題畫面量一次、進宿舍以後再量一次，取比較慢的那一次。
+       - SLOW＝1.5／每秒格數，限 1～6 倍。每秒 1.5 格以上＝1 倍，和原本一樣。
+@@ -102,9 +102,9 @@
+ 
+ ## 三、全遊戲清單（2026-10-10 從程式掃出來）
+ 
+-- **區域 11 個**：戶外 3（校園 `campus`、公館 `gongguan`、溫州街 `wenzhou`）、室內 8（霖澤館教室 `classroom`、萬才館大廳 `wancai`、總圖閱覽室 `library`、兩點半 Café `cafe`、便利商店 `cvs`、麵店 `noodle`、書店 `bookstore`、宿舍 `dorm`）。
++- **區域 11 個**：戶外 3（校園 `campus`、公館 `gongguan`、溫州街 `wenzhou`）、室內 8（法律系館A 教室 `classroom`、法律系館B大廳 `wancai`、總圖閱覽室 `library`、兩點半 Café `cafe`、便利商店 `cvs`、麵店 `noodle`、書店 `bookstore`、宿舍 `dorm`）。
+ - **互動點 103 個**（`E.interactables`，出入口、座位、商店、告示、床、書桌…；`tests/reachability_all.py` 逐一列出）、**出入口到達點 20 個**、**劇情自動走路的目的地 11 個**（教室上課、教室事件座位、咖啡廳、圖書館、宿舍書桌、麵店）。
+-- **劇情**：條件事件 `STORY_EVENTS` 52 個（觸發方式：`auto`／`interact`／`enter`；地點：校園 10、圖書館 7、萬才館 7、咖啡廳 6、宿舍 4、麵店 3、教室 3、公館 2、跨區 10）＋程式寫的第一、二天主線（宿舍開場、讀案例、上課、遇見小安、咖啡廳、圖書館、麵店、書店、商店櫃台）＋閒聊 `SMALLTALK` 23 組。
++- **劇情**：條件事件 `STORY_EVENTS` 52 個（觸發方式：`auto`／`interact`／`enter`；地點：校園 10、圖書館 7、法律系館B 7、咖啡廳 6、宿舍 4、麵店 3、教室 3、公館 2、跨區 10）＋程式寫的第一、二天主線（宿舍開場、讀案例、上課、遇見小安、咖啡廳、圖書館、麵店、書店、商店櫃台）＋閒聊 `SMALLTALK` 23 組。
+ - **角色 44 個**（`CHARACTERS`：五位女主角、阿哲、溫學姊、同學 5、室友、教授 8、其他 NPC、路人 20）。
+ - **介面**：標題（開始新的一天、繼續、讀取／匯入、名字、版本字樣）、HUD（時鐘、地點、星期、目標、體力、金錢）、選單（筆記、人物、法律、地圖、存檔＋匯出匯入、設定、說明、回到標題）、對話框與選項、互動按鈕、虛擬搖桿、跑步鈕、置中鈕、小地圖、提示、直向提示、載入畫面。
+ - **系統**：時間（日期、星期、課表、日夜）、天氣、體力、金錢、人物關係（六維、記憶、揭露）、法律知識（題庫 84 題，答案不可改）、筆記與備忘、CG、存檔（自動、3 欄位、備份、匯出入、版本遷移、標題不覆蓋）。
+@@ -113,14 +113,14 @@
+ 
+ | 項目 | 第三層真實玩家流程 | 只到第一／二層 | 尚未驗證 |
+ |---|---|---|---|
+-| 霖澤館上課（第一天主線核心） | ✅ `flow_class_real` | — | 不同選項（只走過第一個選項）、沒讀案例的分支 |
++| 法律系館A上課（第一天主線核心） | ✅ `flow_class_real` | — | 不同選項（只走過第一個選項）、沒讀案例的分支 |
+ | 小地圖方向 | ✅ `minimap_direction`（拖曳、搖桿） | 四個鏡頭方向（直接設角度） | 室內外切換後、各出生點讀檔後的方向 |
+ | 全部 103 個互動點的可達性 | — | ✅ `reachability_all`（模擬移動） | 每一個實際用觸控走過去按（只有教室、咖啡廳、溫州街做過） |
+ | 場景切換（校園↔5 個入口、公館↔校園） | — | ✅ `zone_transitions` | 其他區域之間（公館↔溫州街、店家）的真實操作 |
+ | 溫州街 → 咖啡廳 → 坐下 → 存讀檔 | ⚠️ `touch_flow_wenzhou`（用 turbo） | — | 不用 turbo 的版本 |
+ | 舊存檔（v7）相容 | — | ✅ `save_compat_v7` | 真實玩家的 v7 存檔（只用 v7 新遊戲剛開始的存檔＋48 個位置） |
+ | 52 個條件事件 | — | 一部分（`tools/dev_scratch/evtest.py` 檢查觸發條件） | **大部分事件沒有完整流程測試**（第六節） |
+-| 第一、二天主線（新遊戲 → 宿舍 → 讀案例 → 睡覺 → 霖澤館上課 → 離開教室 → 存讀檔） | ✅ `flow_main_day12`（不讀檔、不用 turbo） | — | 小安之後（公館麵店、溫州街、回宿舍）還沒有 |
++| 第一、二天主線（新遊戲 → 宿舍 → 讀案例 → 睡覺 → 法律系館A上課 → 離開教室 → 存讀檔） | ✅ `flow_main_day12`（不讀檔、不用 turbo） | — | 小安之後（公館麵店、溫州街、回宿舍）還沒有 |
+ | **多樓層（v9.4）：霖澤館穿堂、大廳、樓梯上二樓、201 階梯教室坐下起身、電梯、NPC 上下樓、在二樓存讀檔** | `flow_linze_floors`（最高驗收標準，見第八節） | ✅ `nav_levels_unit.js`、`nav_buildings_unit.js`（Node：分層找路、樓梯、48 個座位） | 真實手機 |
+ | 走樓梯的腳步（不穿進台階、不漂浮） | — | ✅ `stairs_feet_unit.js`（Node：三個角色上下樓梯，量腳和踏面的距離） | 瀏覽器畫面、真實手機 |
+ | 介面：選單、存檔欄位、匯出匯入、設定 | ⚠️ `touch_flow_wenzhou` 存讀檔 | — | 匯出／匯入、設定各項、直向版面 |
+@@ -159,11 +159,11 @@
+ | 日期 | 問題 | 測試 | 在有 bug 的版本 | 修好之後 |
+ |---|---|---|---|---|
+ | 2026-10-10 | 進教室上課劇情卡在桌角、找不到地方坐下 | `flow_class_real.py`、`reachability_all.py`（教室） | 失敗（卡在 (-6.4,1.9)；`--legacy` 可達性 15 項失敗） | 見最新測試報告 |
+-| 2026-10-10 | 霖澤館外跑的方向和小地圖相反（一）：小地圖旋轉角正負號錯 | `minimap_direction.py` | 失敗（鏡頭朝北時前方的出入口在地圖下方 181°） | 見最新測試報告 |
+-| 2026-10-10 | 霖澤館外跑的方向和小地圖相反（二）：**搖桿方向依鏡頭角度旋轉時寫反**——只有鏡頭朝正北／正南時對，轉 45° 偏 90°、轉到側面整個相反（往鏡頭這邊跑）；`touch_flow_wenzhou` 的搖桿反算照著錯的公式寫，所以也沒抓到 | `joystick_direction.py`（8 個鏡頭角度 × 4 個方向＋手指拖曳轉鏡頭） | 失敗（45°：偏 90°；90°、270°：偏 180°） | 見最新測試報告 |
+-| 2026-10-10 | 霖澤館：Blender 室內模型載入後，**點樓梯踏面走不上樓梯**（點地面用的透明地板跟著程序化備用模型一起藏起來，點樓梯會打到一樓的平面、落在樓梯後面很遠的地方；搖桿走得上去）。Node 模擬不載入 GLB，所以沒抓到 | `flow_linze_floors.py`（像玩家一樣點看得到的樓梯踏面） | 失敗（修正前最後一次跑：到樓梯下面之後點地面 71 次，只有 1 次落在樓梯上；63 次只能點目標本身、落在一樓平面很遠的地方（例如 z=-52），7 次找不到點得到的地方；人物停在樓梯中段，只靠搖桿慢慢推） | 見最新測試報告 |
+-| 2026-10-10 | **長椅坐下時人物坐在椅子前面的空中**（GLB 長椅照寬 1.8 m 縮放，座面 0.61 m 高；座位點在長椅中心前 0.55 m，超過椅面前緣 0.24 m）。修：長椅寬 1.35 m（座面約 0.46 m）、座位點在中心前 0.06 m、導航阻擋寬 1.4 m（`5c7bd6f`） | `tools/shots/char_motion.py`（遊戲內坐溫州街長椅，正面＋側面截圖） | 坐在椅子前面半公尺的空中 | 坐在椅面上、背靠椅背；`reachability_all`、`campus_layout_nav` 和修改前（`9f1c792`，乾淨 worktree）結果**完全相同**——兩個失敗都是舊問題：201 有 17 個座位的「坐下」按鈕不會出現（任務 #19，待查），`campus_layout_nav` 還把 v9.4 起可以走的霖澤館穿堂、前後台階列在「不能走」（測試的期待過時，已改成「站得住且走得到」，PASS） |
+-| 2026-10-10 | **霖澤館／201 鏡頭遮擋**（#16）：進大廳時兩扇深色自動門擋住人物；南面帷幕、二樓 201 門口、201 後門的門與框也會擋住（Blender 匯出時合併進一般材質，不會跟著外牆淡出）。修：`tools/blender/linze_interior.py` 外牆上的框與門照立面分組合併成 `WALL_*`（帶往室內的法線）、`classroom_201.py` 後門改 `WALL_S_*` → 跟著牆淡出 | `tests/indoor_camera_occlusion.py`（5 個位置，鏡頭在背後，9 條射線，3 條以上被不透明物擋住＝失敗） | 舊 GLB（`GLB_SWAP`）：4/5 失敗 | 新 GLB：5/5 PASS；`nav_buildings_unit`、`nav_levels_unit` ALL PASS（導航沒動）；比較圖 `docs/art-rebuild/screenshots/v94_LINZE_camera_occlusion_before_after.jpg` |
++| 2026-10-10 | 法律系館A外跑的方向和小地圖相反（一）：小地圖旋轉角正負號錯 | `minimap_direction.py` | 失敗（鏡頭朝北時前方的出入口在地圖下方 181°） | 見最新測試報告 |
++| 2026-10-10 | 法律系館A外跑的方向和小地圖相反（二）：**搖桿方向依鏡頭角度旋轉時寫反**——只有鏡頭朝正北／正南時對，轉 45° 偏 90°、轉到側面整個相反（往鏡頭這邊跑）；`touch_flow_wenzhou` 的搖桿反算照著錯的公式寫，所以也沒抓到 | `joystick_direction.py`（8 個鏡頭角度 × 4 個方向＋手指拖曳轉鏡頭） | 失敗（45°：偏 90°；90°、270°：偏 180°） | 見最新測試報告 |
++| 2026-10-10 | 法律系館A：Blender 室內模型載入後，**點樓梯踏面走不上樓梯**（點地面用的透明地板跟著程序化備用模型一起藏起來，點樓梯會打到一樓的平面、落在樓梯後面很遠的地方；搖桿走得上去）。Node 模擬不載入 GLB，所以沒抓到 | `flow_linze_floors.py`（像玩家一樣點看得到的樓梯踏面） | 失敗（修正前最後一次跑：到樓梯下面之後點地面 71 次，只有 1 次落在樓梯上；63 次只能點目標本身、落在一樓平面很遠的地方（例如 z=-52），7 次找不到點得到的地方；人物停在樓梯中段，只靠搖桿慢慢推） | 見最新測試報告 |
++| 2026-10-10 | **長椅坐下時人物坐在椅子前面的空中**（GLB 長椅照寬 1.8 m 縮放，座面 0.61 m 高；座位點在長椅中心前 0.55 m，超過椅面前緣 0.24 m）。修：長椅寬 1.35 m（座面約 0.46 m）、座位點在中心前 0.06 m、導航阻擋寬 1.4 m（`5c7bd6f`） | `tools/shots/char_motion.py`（遊戲內坐溫州街長椅，正面＋側面截圖） | 坐在椅子前面半公尺的空中 | 坐在椅面上、背靠椅背；`reachability_all`、`campus_layout_nav` 和修改前（`9f1c792`，乾淨 worktree）結果**完全相同**——兩個失敗都是舊問題：201 有 17 個座位的「坐下」按鈕不會出現（任務 #19，待查），`campus_layout_nav` 還把 v9.4 起可以走的法律系館A穿堂、前後台階列在「不能走」（測試的期待過時，已改成「站得住且走得到」，PASS） |
++| 2026-10-10 | **法律系館A／201 鏡頭遮擋**（#16）：進大廳時兩扇深色自動門擋住人物；南面帷幕、二樓 201 門口、201 後門的門與框也會擋住（Blender 匯出時合併進一般材質，不會跟著外牆淡出）。修：`tools/blender/linze_interior.py` 外牆上的框與門照立面分組合併成 `WALL_*`（帶往室內的法線）、`classroom_201.py` 後門改 `WALL_S_*` → 跟著牆淡出 | `tests/indoor_camera_occlusion.py`（5 個位置，鏡頭在背後，9 條射線，3 條以上被不透明物擋住＝失敗） | 舊 GLB（`GLB_SWAP`）：4/5 失敗 | 新 GLB：5/5 PASS；`nav_buildings_unit`、`nav_levels_unit` ALL PASS（導航沒動）；比較圖 `docs/art-rebuild/screenshots/v94_LINZE_camera_occlusion_before_after.jpg` |
+ | 2026-10-09 | 標題畫面自動存檔覆蓋進度 | `save_compat_v7.py`（標題停 8 秒存檔不變） | — | 通過 |
+ 
+ ### 測試程式本身的錯誤（不是遊戲 bug；照實記錄，改的是測試的操作方式或等待時機，檢查標準不變）
+@@ -179,10 +179,10 @@
+ | 2026-10-10 | `playlib.go_to`（`flow_class_real`、`flow_main_day12` 共用） | 搖桿反推的左右正負號寫反（目標在右邊時往左推） | `flow_class_real` 下課後走到教室左後角 | 改正（`cd52bab`） |
+ | 2026-10-10 | `playlib.go_to` | 目標在鏡頭後面時點不到地面，就朝目標直推搖桿；從前排座位直推會被下一排長桌擋住，推 69 次沒前進 | 發布前測試（`cd52bab`）`flow_class_real` 失敗；截圖是人物站在兩排桌子之間 | 先像玩家一樣用手指滑動畫面把鏡頭轉向目標，看得到再點地面（遊戲的找路會繞過桌子）；`turn_camera_to` |
+ | 2026-10-10 | `flow_main_day12` | 換場景時（標題卡、載入區域）有一段沒有對話、不忙碌的空檔，「等恢復控制」在劇情開始前就成立，測試提早檢查「目標」 | 發布前測試兩項失敗；截圖：宿舍開場還沒開始、阿哲才剛說「祐廷！」 | 等遊戲自己的劇情旗標（`introDone`、`campusIntro`）＋恢復控制 |
+-| 2026-10-11 | `flow_main_day12` | **測試過時**：寫於 v9.3（一進霖澤館就直接到教室），v9.4（`76cfe72`，10-10 07:10Z）霖澤館改成真的大樓、201 在二樓，劇情改成提示「上二樓到 201」、要玩家自己走上去，測試還在等自動進教室（300 秒後失敗）；下課「離開教室」回到霖澤館二樓、不是校園，後面也接不上。**而且 `tests/release_suite.sh` 沒有包含這個第五節第 6 項的測試**：v9.4、v9.4.1 發布時、v9.4.2 候選版的 25/25 都沒有跑它 | 萬才館第二階段的完整回歸（10-11 01:58Z）：「上課劇情自己走到座位坐下」失敗，人物停在霖澤館大廳入口 | 照現在的劇情像玩家一樣：進霖澤館 → 看到目標「上二樓，到 201 教室上課」→ 走樓梯上二樓 →「進入 201 階梯教室」→ 上課劇情自己走到座位坐下；下課 → 離開教室（霖澤館二樓）→ 走樓梯下一樓 →「走出霖澤館」→ 校園。檢查標準不變。`release_suite.sh` 補上這一項 |
++| 2026-10-11 | `flow_main_day12` | **測試過時**：寫於 v9.3（一進法律系館A就直接到教室），v9.4（`76cfe72`，10-10 07:10Z）法律系館A改成真的大樓、201 在二樓，劇情改成提示「上二樓到 201」、要玩家自己走上去，測試還在等自動進教室（300 秒後失敗）；下課「離開教室」回到法律系館A二樓、不是校園，後面也接不上。**而且 `tests/release_suite.sh` 沒有包含這個第五節第 6 項的測試**：v9.4、v9.4.1 發布時、v9.4.2 候選版的 25/25 都沒有跑它 | 法律系館B第二階段的完整回歸（10-11 01:58Z）：「上課劇情自己走到座位坐下」失敗，人物停在法律系館A大廳入口 | 照現在的劇情像玩家一樣：進法律系館A → 看到目標「上二樓，到 201 教室上課」→ 走樓梯上二樓 →「進入 201 階梯教室」→ 上課劇情自己走到座位坐下；下課 → 離開教室（法律系館A二樓）→ 走樓梯下一樓 →「走出法律系館A」→ 校園。檢查標準不變。`release_suite.sh` 補上這一項 |
+ | 2026-10-10 | `reachability_all.py`（201 階梯教室） | 檢查「站在這裡時最近的互動是不是這個座位」時，把玩家一律放在 y=0；遊戲的 `E.nearestInteractable` 會略過上下差 1.4 m 以上的東西（別層），201 最上面幾排的座位高 1.5–1.8 m，被當成別層 → 回報「17 個座位按鈕不會出現」（任務 #19） | 長椅修正的回歸測試，修改前後結果相同 → 查測試；實際遊戲裡站在最上排（y 1.8）時「坐下」按鈕有出現、指向那個座位（3/3） | 放到那一格的地板高度（`E.heightAt`）；`--zones` 只測指定區域。修正後 classroom ALL PASS（49 個互動點） |
+ | 2026-10-10 | `playlib.go_to`（多樓層） | 目標在別層時只點目標本身；從一樓投影到二樓的點不在畫面上（或點下去落在別的地方），就改推搖桿朝目標直衝，卡在樓梯扶手外面 | 人物組跑 `flow_linze_floors`：卡在 (-5.4,4.8)、扶手外 | 新增 `tap_path`：沿遊戲找路的路線，點最遠的、畫面上看得到、而且點下去真的落在那裡（`E.screenToFloor` 驗證 3D 位置）的點，像玩家一段一段點樓梯踏面；點目標本身也先驗證落點 |
+-| 2026-10-10 | `playlib.go_to` | 目標在鏡頭背後時，`tap_path` 每次只點得到腳邊 1–2 m 的點，倒退著走；從霖澤館後面的小廣場回到大廳門口點了 12 次 | `PLAYLIB_TAPLOG=1` 印出每次點地面的位置 | 目標在鏡頭背後（夾角超過約 100°）而且超過 4 m 時，先滑動畫面把鏡頭轉過去再點 |
++| 2026-10-10 | `playlib.go_to` | 目標在鏡頭背後時，`tap_path` 每次只點得到腳邊 1–2 m 的點，倒退著走；從法律系館A後面的小廣場回到大廳門口點了 12 次 | `PLAYLIB_TAPLOG=1` 印出每次點地面的位置 | 目標在鏡頭背後（夾角超過約 100°）而且超過 4 m 時，先滑動畫面把鏡頭轉過去再點 |
+ | 2026-10-23 | `flow_main_day12` 第二天「走樓梯上二樓、走到 201 教室門口」FAIL | 沙盒太慢：走超過 12:30 以後的接手時間，`S.goDay2` 照設計把人帶進 201，`go_to` 看到人不見了就算走不到 | LAWWW-B 10-23 16:15 回報負載 25 時 FAIL；BB-B 第三、四版重跑（第四版 lw18 bac2e55df：28 PASS、0 FAIL、2 項 [未驗]） | `go_to(..., stop=TAKEN)`：進到 classroom＝劇情接手，記時間、那幾項印 `[未驗]`，照舊檢查課有沒有開始；第二天開場時間印出來 |
+ 
+ | 2026-10-10 | 建築組交接 #2「後廣場回大廳的後台階走到一半停住，再點也不動、推搖桿才繼續」 | **在遊戲裡重現不出來**，原因是測試的時間差：`tools/dev_scratch/back_steps_diag.py` 在瀏覽器逐 0.5 秒記錄位置、高度、路線、`blockedAt`、`canStand`——①觸控點大廳門口（自動跑）②觸控點近處（用走的）③一直推搖桿 ④人物在台階上時每秒再點一次門口 ⑤**桌機視窗滑鼠點門口**——五種都一路走上後台階（高度 0→0.9 m 連續）到門口，沒有停住（靜止的取樣是沙盒每 1–2 秒才畫一格，平均分布在整段路上）。Node 從台階上每個點找路到門口都是直線。④裡看到路線繞到建築前面 (28.25,−99.75)：測試先用「這一格」的鏡頭算門口在螢幕上的位置，送出點擊時已經過了一格、鏡頭跟著人物往前移，同一個螢幕位置對到建築前面的地面。真人看到的畫面和點下去處理的是同一格，不會有這個落差 | 瀏覽器 5 種輸入方式的診斷紀錄（2026-10-10） | 不是遊戲 bug：診斷工具留在 `tools/dev_scratch/back_steps_diag.py`；`flow_linze_floors` 這一段（點 1 次＋轉鏡頭 1 次）照樣通過 |
+@@ -194,12 +194,12 @@
+ | 層 | 測試 | 內容 |
+ |---|---|---|
+ | 第一層（Node） | `tests/nav_levels_unit.js` | 分層導航：單層時和改版前的找路結果完全相同（300 組×2）；兩層＋樓梯的找路、樓梯中段的高度、換層 |
+-| 第一層（Node） | `tests/nav_buildings_unit.js` | 用真的區域程式（校園、霖澤館、201 教室）：穿堂高度、前後台階、樓梯上下、電梯、48 個座位都站得住而且走得到、劇情走到座位、離開教室 |
++| 第一層（Node） | `tests/nav_buildings_unit.js` | 用真的區域程式（校園、法律系館A、201 教室）：穿堂高度、前後台階、樓梯上下、電梯、48 個座位都站得住而且走得到、劇情走到座位、離開教室 |
+ | 第一層（Node） | `tests/stairs_feet_unit.js` | 走樓梯的腳步貼合（`character3d.js` footIK）：三個角色上樓梯、下樓梯，腳和踏面的距離 |
+ | 第三層（瀏覽器、手機觸控、不用 turbo） | `tests/flow_linze_floors.py` | 法學院廣場 → 前台階 → 穿堂（0.9 m）→ 穿過建築到後面 → 大廳 → 自己走樓梯（經過中段高度）→ 二樓 → 201 → 坐下起身 → 離開 → 在二樓存檔、重新整理、讀檔 → 電梯（看得到車廂移動）→ NPC 上下樓 → 走出建築 → 下台階回廣場；`walkFallbacks`＝0、沒有 JS 例外 |
+ 
+ **2026-10-10 結果（人物組接手後重跑，`4d95ed0`＋人物模型，Playwright Chromium SwiftShader、iPhone 橫向模擬、CDP 觸控、不用 turbo；不是手機實機）：`flow_linze_floors` 29/29 ALL PASS。**
+-廣場 → 前台階 → 穿堂（0.9 m）→ 後面的小廣場 → 走回大廳門口（點地面 1 次、轉鏡頭 1 次，146 秒）→ 一樓大廳 → 點樓梯踏面 4 次自己走上二樓（中段高度取樣 45 個）→ 201（星期六的旁白有點掉）→ 走到第 2 排第 5 個座位、坐下（高度 0.9 m）、「坐一下」、起身 → 離開教室回二樓迴廊 → 在二樓存到欄位 3、重新整理、讀檔回到二樓（第 1 層、4.2 m）→ 搭電梯選「1F 大廳」（看得到車廂往下）→ NPC 60 秒內從 0 走到 2.35 m → 走出霖澤館 → 穿堂 → 走下前台階回廣場；卡住保險 0 次、JS 例外 0。截圖：`docs/art-rebuild/screenshots/v94_FLOW_linze_floors_allpass.jpg`。
++廣場 → 前台階 → 穿堂（0.9 m）→ 後面的小廣場 → 走回大廳門口（點地面 1 次、轉鏡頭 1 次，146 秒）→ 一樓大廳 → 點樓梯踏面 4 次自己走上二樓（中段高度取樣 45 個）→ 201（星期六的旁白有點掉）→ 走到第 2 排第 5 個座位、坐下（高度 0.9 m）、「坐一下」、起身 → 離開教室回二樓迴廊 → 在二樓存到欄位 3、重新整理、讀檔回到二樓（第 1 層、4.2 m）→ 搭電梯選「1F 大廳」（看得到車廂往下）→ NPC 60 秒內從 0 走到 2.35 m → 走出法律系館A → 穿堂 → 走下前台階回廣場；卡住保險 0 次、JS 例外 0。截圖：`docs/art-rebuild/screenshots/v94_FLOW_linze_floors_allpass.jpg`。
+ **測試通過但截圖看得到的問題（待修）**：剛進一樓大廳時，鏡頭和人物之間有一大片深色門板擋住畫面；201 最上排的走道，畫面中間有一塊深色方塊擋住（鏡頭和人物之間的門／牆沒有淡出）。
+ 
+ 允許的「看得到的換場景」：進出建築（區域切換）、電梯（車廂上下、門開關）。不允許：測試直接設定位置、跳過找路、關掉碰撞。
+diff --git a/docs/art-rebuild/ASSET_INVENTORY.md b/docs/art-rebuild/ASSET_INVENTORY.md
+index ec29d9f7a..590147d6e 100644
+--- a/docs/art-rebuild/ASSET_INVENTORY.md
++++ b/docs/art-rebuild/ASSET_INVENTORY.md
+@@ -14,17 +14,17 @@
+ 
+ | 資產 | 用在哪裡 | 分類 | 狀態 | 升級做法（D38） |
+ |---|---|---|---|---|
+-| `CK.lawhall` 霖澤館（外觀） | 校園：法學院廣場北側 | ⑤（套件：③導航阻擋、鏡頭碰撞、GLB 失敗時的備用） | **INTEGRATED**：`tools/blender/linze_exterior.py` → `assets/models/env/linze_exterior.glb`（2.32 MB；Poly Haven 花崗石磚、預鑄混凝土、紅磚；窗框窗戶 GPU instancing）；穿堂、前後台階可以走（D36）；新舊比較 VISUAL_REVIEW 17.1 | 玻璃反射（沒有環境貼圖）、遠處磚紋、Meshopt／KTX2 壓縮；使用者看過才能標 ART_APPROVED |
+-| 霖澤館室內（`src/building3d.js` 程序化備用） | 霖澤館大廳、樓梯、二樓迴廊（`linze` 區域） | ③（備用；點地面用的透明地板也在這裡，正式模型載入後搬出來繼續用） | 正式模型 **INTEGRATED**：`tools/blender/linze_interior.py` → `linze_interior.glb`（1.95 MB）；遊戲化設計（D37，沒有照片）；比較圖 VISUAL_REVIEW 17.2 | 三樓以上、更多家具與標示 |
+-| 玻璃電梯（`building3d.js` 程序化，要動） | 霖澤館中庭 | ④ | BLOCKOUT | Blender 車廂與井道模型（車廂、門分開的節點，遊戲照樣控制開關與上下） |
+-| `CK.lawhall` 萬才館 | 校園：法學院廣場東側 | ⑤＋③（套件留作導航、鏡頭碰撞、載入失敗的備用） | **INTEGRATED**（2026-10-11，D41）：外觀換成 Blender `wancai_exterior.glb`（`tools/blender/wancai_exterior.py`）；弧形大樓梯**可以走**（兩層共用的台階高度，平台與陽台在校園第 1 層）；二樓入口這一版關著；`READY_FOR_ART_REVIEW` | 室內兩層（二樓入口接陽台）；兩側張開的窄台階目前不能走 |
+-| `CK.hall` 總圖、行政大樓、文學院、校史館、男一舍、無名系館 | 校園 | ④（總圖、行政大樓、文學院：主要地標）／②（無名系館、遠的）；總圖、行政大樓、文學院、校史館：⑤＋③ | **總圖**：LAWWW2 Blender `campus_library.glb`（1.47 MB、22,816 個三角形；拱窗是真的窗洞、切石、面磚、屋瓦 PBR），導航、碰撞、互動點不變，`READY_FOR_ART_REVIEW`（second_ai/VISUAL_REVIEW 第 8 節）；**行政大樓**：LAWWW2 Blender `campus_admin.glb`（0.92 MB、13,453 個三角形，套件 20,443；米黃面磚、拱窗窗洞、三拱門廊＋三面陽台欄杆、檐部匾額），`READY_FOR_ART_REVIEW`（second_ai/VISUAL_REVIEW 第 10 節）；**文學院、校史館**：LAWWW2 Blender `campus_arts.glb`（0.65 MB、8,776 個三角形）、`campus_hist.glb`（0.51 MB、6,354 個三角形；門廊圓石柱）；紅褐面磚、拱窗窗洞、拱廊、山牆＋牛眼窗、石材匾額，`READY_FOR_ART_REVIEW`（second_ai/VISUAL_REVIEW 第 11 節）；其他（男一舍、無名系館）：BLOCKOUT | 第三階段：地標逐棟 Blender（LAWWW 23:26Z 順序：總圖 → 傅鐘 → 行政大樓 → 文學院、校史館）；背景系館可保留程序化 男一舍外觀（**使用者 2026-10-18 03:3x：四座全部換 Blender**（「如果要整個改，那就沒關係就叫他直接改全部改」）；普通／博雅含室內；位置、門口、導航不動；ART-EXT-*，LAWWW2） |
++| `CK.lawhall` 法律系館A（外觀） | 校園：法學院廣場北側 | ⑤（套件：③導航阻擋、鏡頭碰撞、GLB 失敗時的備用） | **INTEGRATED**：`tools/blender/linze_exterior.py` → `assets/models/env/linze_exterior.glb`（2.32 MB；Poly Haven 花崗石磚、預鑄混凝土、紅磚；窗框窗戶 GPU instancing）；穿堂、前後台階可以走（D36）；新舊比較 VISUAL_REVIEW 17.1 | 玻璃反射（沒有環境貼圖）、遠處磚紋、Meshopt／KTX2 壓縮；使用者看過才能標 ART_APPROVED |
++| 法律系館A室內（`src/building3d.js` 程序化備用） | 法律系館A大廳、樓梯、二樓迴廊（`linze` 區域） | ③（備用；點地面用的透明地板也在這裡，正式模型載入後搬出來繼續用） | 正式模型 **INTEGRATED**：`tools/blender/linze_interior.py` → `linze_interior.glb`（1.95 MB）；遊戲化設計（D37，沒有照片）；比較圖 VISUAL_REVIEW 17.2 | 三樓以上、更多家具與標示 |
++| 玻璃電梯（`building3d.js` 程序化，要動） | 法律系館A中庭 | ④ | BLOCKOUT | Blender 車廂與井道模型（車廂、門分開的節點，遊戲照樣控制開關與上下） |
++| `CK.lawhall` 法律系館B | 校園：法學院廣場東側 | ⑤＋③（套件留作導航、鏡頭碰撞、載入失敗的備用） | **INTEGRATED**（2026-10-11，D41）：外觀換成 Blender `wancai_exterior.glb`（`tools/blender/wancai_exterior.py`）；弧形大樓梯**可以走**（兩層共用的台階高度，平台與陽台在校園第 1 層）；二樓入口這一版關著；`READY_FOR_ART_REVIEW` | 室內兩層（二樓入口接陽台）；兩側張開的窄台階目前不能走 |
++| `CK.hall` 總圖、行政大樓、文學院、校史館、男一舍、無名系館 | 校園 | ④（總圖、行政大樓、文學院：主要地標）／②（無名系館、遠的）；總圖、行政大樓、文學院、校史館：⑤＋③ | **總圖**：LAWWW2 Blender `campus_library.glb`（1.47 MB、22,816 個三角形；拱窗是真的窗洞、切石、面磚、屋瓦 PBR），導航、碰撞、互動點不變，`READY_FOR_ART_REVIEW`（second_ai/VISUAL_REVIEW 第 8 節）；**行政大樓**：LAWWW2 Blender `campus_admin.glb`（0.92 MB、13,453 個三角形，套件 20,443；米黃面磚、拱窗窗洞、三拱門廊＋三面陽台欄杆、檐部匾額），`READY_FOR_ART_REVIEW`（second_ai/VISUAL_REVIEW 第 10 節）；**文學院、校史館**：LAWWW2 Blender `campus_arts.glb`（0.65 MB、8,776 個三角形）、`campus_hist.glb`（0.51 MB、6,354 個三角形；門廊圓石柱）；紅褐面磚、拱窗窗洞、拱廊、山牆＋牛眼窗、石材匾額，`READY_FOR_ART_REVIEW`（second_ai/VISUAL_REVIEW 第 11 節）；其他（男一舍、無名系館）：BLOCKOUT | 第三階段：地標逐棟 Blender（LAWWW 23:26Z 順序：總圖 → 晨思鐘 → 行政大樓 → 文學院、校史館）；背景系館可保留程序化 男一舍外觀（**使用者 2026-10-18 03:3x：四座全部換 Blender**（「如果要整個改，那就沒關係就叫他直接改全部改」）；普通／博思含室內；位置、門口、導航不動；ART-EXT-*，LAWWW2） |
+ | `CK.hall` 共同教學館（外觀，2026-10-13 D55） | 校園：大道南側、行政大樓東邊（真實位置；取代原本的無名系館，同尺寸） | ④（近景、必須升級）；套件留作③導航阻擋與備用 | **BLOCKOUT**（掛館名牌；門口有入口名牌） | LAWWW2 Blender 外觀 GLB（已分派，排在法圖之後）；真實外觀照片查證 |
+ | `CK.hall`×2＋天橋 大一女舍 A、B 棟（外觀，2026-10-13 D55） | 校園：西南角、舟山路西段南側（學務處官方：近公館捷運站 2、3 號出口；取代無名系館 (-92,66)） | ④；套件留作③ | **BLOCKOUT**（A 棟傳達室、B 棟刷卡門；門口長椅、腳踏車架；2 樓天橋是程序化方盒＋玻璃） | LAWWW2 Blender 外觀（A、B、天橋、門口等候區、生活細節）；照片查證 |
+-| `CK.modern` 社會科學院、背景系館 | 校園東側 | ④（社科院）／②；社科院：⑤＋③ | **社科院**：LAWWW2 Blender `campus_modern.glb`（0.17 MB、1,968 個三角形，套件 5,392；帶狀長窗是真的窗洞、外凸的樓板邊、薄簷＋女兒牆、往內退 1.2 m 的玻璃大廳、雨遮、匾額），導航、碰撞、互動點不變，`READY_FOR_ART_REVIEW`（second_ai/VISUAL_REVIEW 第 13 節）；國青中心（AI-1）、背景系館：BLOCKOUT | 有照片時照照片改社科院（現在照套件的量體做） |
++| `CK.modern` 社會科學院、背景系館 | 校園東側 | ④（社科院）／②；社科院：⑤＋③ | **社科院**：LAWWW2 Blender `campus_modern.glb`（0.17 MB、1,968 個三角形，套件 5,392；帶狀長窗是真的窗洞、外凸的樓板邊、薄簷＋女兒牆、往內退 1.2 m 的玻璃大廳、雨遮、匾額），導航、碰撞、互動點不變，`READY_FOR_ART_REVIEW`（second_ai/VISUAL_REVIEW 第 13 節）；國際學苑（AI-1）、背景系館：BLOCKOUT | 有照片時照照片改社科院（現在照套件的量體做） |
+ | `CK.pavilion` 農業陳列館（洞洞館） | 校園西側 | ⑤＋③ | LAWWW2 Blender `campus_pavilion.glb`（0.14 MB、968 個三角形，套件 378；鏤空牆是貼圖透明度挖的圓洞（前後兩層）、二樓內牆晚上照房間透出暖光、往內退的玻璃帷幕、入口石材門框＋匾額；入口正前方不放柱子），導航、碰撞、互動點不變，`READY_FOR_ART_REVIEW`（second_ai/VISUAL_REVIEW 第 13 節） | 有照片時照照片改（真實的洞洞館是綠釉陶管砌的鏤空牆） |
+-| `CK.gate` 校門 | 校園西端、公館 | ④ | BLOCKOUT （**使用者 2026-10-18 03:3x：四座全部換 Blender**（「如果要整個改，那就沒關係就叫他直接改全部改」）；普通／博雅含室內；位置、門口、導航不動；ART-EXT-*，LAWWW2） | 第三階段（地標） |
+-| `CK.bell` 傅鐘 | 椰林大道南側 | ⑤＋③（套件留作導航阻擋與載入失敗的備用） | LAWWW2 Blender `campus_bell.glb`（126 KB、1,562 個三角形；切石台基與柱子、瓦屋頂、銅鐘三道鐘帶、石碑匾額、夜間地燈／柱面暖光／光暈），導航、互動不變，`READY_FOR_ART_REVIEW`（second_ai/VISUAL_REVIEW 第 9 節） | 有照片的話照照片改比例與細節 |
++| `CK.gate` 校門 | 校園西端、公館 | ④ | BLOCKOUT （**使用者 2026-10-18 03:3x：四座全部換 Blender**（「如果要整個改，那就沒關係就叫他直接改全部改」）；普通／博思含室內；位置、門口、導航不動；ART-EXT-*，LAWWW2） | 第三階段（地標） |
++| `CK.bell` 晨思鐘 | 椰影大道南側 | ⑤＋③（套件留作導航阻擋與載入失敗的備用） | LAWWW2 Blender `campus_bell.glb`（126 KB、1,562 個三角形；切石台基與柱子、瓦屋頂、銅鐘三道鐘帶、石碑匾額、夜間地燈／柱面暖光／光暈），導航、互動不變，`READY_FOR_ART_REVIEW`（second_ai/VISUAL_REVIEW 第 9 節） | 有照片的話照照片改比例與細節 |
+ | `CK.tileTex`、各套件的 canvas 貼圖（面磚、花崗石、紅磚） | 全部校園建築 | ④ | BLOCKOUT（canvas 隨機斑點） | 換 Poly Haven PBR（紅磚、花崗石、混凝土） |
+ 
+ ## 二、台北街景（`src/townkit3d.js`，`TK`）
+@@ -33,7 +33,7 @@
+ |---|---|---|---|---|
+ | `TK.apartment` 騎樓街屋、公寓 | 公館南側店面街、溫州街 | 溫州街：⑤＋③；公館：④（近景店面）／②（後排） | **溫州街**：被 LAWWW2 的 Blender GLB 取代（`wenzhou_street.glb`：主巷 14 棟＋遠景 15 棟，同一套材質與窗戶原型；`READY_FOR_ART_REVIEW`，v9.4.2 候選／遠景在下一版），套件留作 `?nobldg` 與載入失敗的備用。**兩點半 Café**：`cafe_exterior.glb`（v9.4.1 已上線）。**公館**：BLOCKOUT（LAWWW2 21:21Z 認領，製作中） | 公館：同溫州街的做法（Blender 模組化組件、同材質合併、窗戶共用原型） |
+ | `TK.japaneseHouse` 日式老屋 | 溫州街 | ⑤＋③ | 被 `wz_jphouse.glb`（日式宿舍＋院牆，LAWWW2 Blender）取代；`READY_FOR_ART_REVIEW`（v9.4.2 候選） | — |
+-| `TK.mrtExit` 捷運出口 | 公館 | ④ | BLOCKOUT （**使用者 2026-10-18 03:3x：四座全部換 Blender**（「如果要整個改，那就沒關係就叫他直接改全部改」）；普通／博雅含室內；位置、門口、導航不動；ART-EXT-*，LAWWW2） | Blender（地標） |
++| `TK.mrtExit` 捷運出口 | 公館 | ④ | BLOCKOUT （**使用者 2026-10-18 03:3x：四座全部換 Blender**（「如果要整個改，那就沒關係就叫他直接改全部改」）；普通／博思含室內；位置、門口、導航不動；ART-EXT-*，LAWWW2） | Blender（地標） |
+ | `TK.utilityPole`、`TK.wires`、`TK.trafficMirror`、`TK.mailbox`、`TK.aBoard`、`TK.pots` | 溫州街、公館 | 溫州街：⑤＋③；公館：④ | 溫州街：被 `wz_props.glb`（電線桿、反光鏡、路名牌、Café 門前紅磚道）取代，`READY_FOR_ART_REVIEW`；公館：BLOCKOUT | 公館跟著公館近景一起換 |
+ | `TK.scooter`（`W3.scooter` 舊版） | 公館、溫州街、校門外背景 | 溫州街、公館：⑤＋③；校門外背景：② | 溫州街：`scooter.glb`（兩款，LAWWW2 Blender）`READY_FOR_ART_REVIEW`；**公館：同一個 GLB，分組 InstancedMesh（北側 5 組、南側 3 組，看不到的那組整組不畫），`READY_FOR_ART_REVIEW`（second_ai/VISUAL_REVIEW 第 12 節）**；校門外背景：維持套件 | 更多車款（檔車、外送箱、安全帽） |
+ | `TK.road`、`W3.asphaltTex`、人行道磚 | 全部戶外 | ④ | BLOCKOUT（canvas） | Poly Haven 柏油／鋪面 PBR，**維持淺灰（D30）**、入夜變暗的標記保留 |
+@@ -47,37 +47,37 @@
+ |---|---|---|---|---|
+ | `W3.building`（LEVEL_BLOCKOUT 方盒） | 已不在校園使用 | ⑤／③ | 已被套件取代 | 不再當畫面 |
+ | `W3.lampPost` 路燈 | 校園、公館、溫州街 | ④ | BLOCKOUT；LAWWW2 的 `street_props.glb`（路燈、腳踏車、長椅）`MODEL_READY`、整合驗收中 | Blender 路燈（燈頭位置 (0,3.95,0.75) 不變，夜間光暈照舊） |
+-| `W3.bike`、`W3.bikeRack` | 校園（含霖澤館後面的小廣場） | ④ | BLOCKOUT | Blender 腳踏車＋Instancing |
++| `W3.bike`、`W3.bikeRack` | 校園（含法律系館A後面的小廣場） | ④ | BLOCKOUT | Blender 腳踏車＋Instancing |
+ | `W3.bench`（`ASSETS 'prop.bench'`，CC0 GLB） | 校園長椅 | ①（待使用者確認） | INTEGRATED | 保留；風格不合再換 |
+ | `W3.palm`、`W3.banyan`、`W3.bush`、`W3.hedge`、`W3.foodCart`、`W3.gate`、`W3.mrtEntrance`、`W3.awning` | 舊版 fallback／零星 | ③／⑤ | 舊 placeholder | 不再當正式畫面 |
+-| `W3.planter` 花台、`W3.bulletin` 公告欄、`W3.vending` 販賣機 | 法學院前庭、椰林大道北側、霖澤館西側、萬才館一樓（`wancai3d.js` 的公告欄） | ⑤＋③ | LAWWW2 Blender（`street_props.glb` 的 `planter_box`、`bulletin_board`、`vending_machine`：水泥花槽＋灌木葉片卡＋小花、木框軟木板＋雨遮＋公告紙、紅色飲料販賣機＋展示窗＋背光），尺寸照程序化版本、導航不變，`READY_FOR_ART_REVIEW`（second_ai/VISUAL_REVIEW 第 14 節）；`?nobldg`、載入失敗照舊程序化 | 公告紙上的字、飲料瓶細節、展示窗玻璃 |
++| `W3.planter` 花台、`W3.bulletin` 公告欄、`W3.vending` 販賣機 | 法學院前庭、椰影大道北側、法律系館A西側、法律系館B一樓（`wancai3d.js` 的公告欄） | ⑤＋③ | LAWWW2 Blender（`street_props.glb` 的 `planter_box`、`bulletin_board`、`vending_machine`：水泥花槽＋灌木葉片卡＋小花、木框軟木板＋雨遮＋公告紙、紅色飲料販賣機＋展示窗＋背光），尺寸照程序化版本、導航不變，`READY_FOR_ART_REVIEW`（second_ai/VISUAL_REVIEW 第 14 節）；`?nobldg`、載入失敗照舊程序化 | 公告紙上的字、飲料瓶細節、展示窗玻璃 |
+ | `W3.grassTex`、`W3.pathTex`、`W3.stoneTex`、`W3.brickTex`、`W3.facadeTex`（canvas） | 地面、室內地板 | ④ | BLOCKOUT | Poly Haven PBR |
+ 
+ ## 四、室內（`src/zones3d.js`）
+ 
+ | 資產 | 用在哪裡 | 分類 | 狀態 | 升級做法 |
+ |---|---|---|---|---|
+-| `room()` 牆、地板、天花板、窗 | 總圖、Café、便利商店、麵店、書店、宿舍（萬才館改用 `src/wancai3d.js`） | Café、便利商店、麵店、書店、宿舍：⑤＋③；總圖：④＋③ | **Café**：`cafe_interior.glb`（v9.4.1 已上線）；**便利商店、麵店、書店、宿舍**：LAWWW2 Blender GLB（`cvs_interior`、`noodle_interior`、`bookstore_interior`、`dorm_interior`），導航格與程序化版完全相同，`READY_FOR_ART_REVIEW`（v9.4.2 候選）；**總圖閱覽室**：BLOCKOUT | 總圖：Blender 室內（閱讀區、自習區，需求 21） |
+-| 萬才館室內兩層樓（`src/wancai3d.js`＋`src/data/wancai_layout.js`；D42） | `wancai` 區域 | ⑤＋③（程序化備用留作導航與載入失敗時） | **INTEGRATED**（2026-10-11）：Blender `tools/blender/wancai_interior.py` → `wancai_interior.glb`（2.36 MB、4,954 個三角形）；一樓大廳座標和 v9.3 相同（劇情、社團、舊存檔照舊）、二樓走廊／迴廊／門廳、樓梯、玻璃電梯、二樓門通到外面平台；遊戲化設計（不是實測）；`READY_FOR_ART_REVIEW`（使用者還沒看過） | 磨石子地在燈光下偏白、近處玻璃欄杆偏霧；樓梯下方是實心石材；房間都關著（演講廳、研討室） |
+-| 總圖書館大廳（`src/library3d.js`＋`src/data/library_layout.js`；D43） | `library_hall` 區域（新）；閱覽室（`library`）多了電梯與樓梯間的出口 | ⑤＋③（程序化備用留作導航與載入失敗時） | **INTEGRATED**（2026-10-11）：Blender `tools/blender/library_interior.py` → `library_interior.glb`（5.1 MB、約 4.8 萬個三角形：書一本一個方塊約一半；植物是葉片卡＋模型葉子，第一版的多面體圓球已換掉）；窗外的景是遊戲裡校園的實際畫面（`library_view_*.webp`：正面玻璃看出去是椰林大道、側窗是總圖南側的草地與系館，白天／晚上兩套；原本是程序化畫的綠色半圓）；一樓大廳（門廳、閘門、服務台、期刊報紙、新書展示）、帝國式中央大樓梯、電梯（可以到 3F 閱覽區）、二樓自習區；遊戲化設計（不是實測）；功能驗證與 `READY_FOR_ART_REVIEW` 的截圖在 VISUAL_REVIEW 第 21 節（使用者還沒看過） | 閱覽室（3F）本身還是 `room()` 程序化方盒（④）；GLB 5.1 MB 偏大（Meshopt／KTX2 還沒做） |
++| `room()` 牆、地板、天花板、窗 | 總圖、Café、便利商店、麵店、書店、宿舍（法律系館B改用 `src/wancai3d.js`） | Café、便利商店、麵店、書店、宿舍：⑤＋③；總圖：④＋③ | **Café**：`cafe_interior.glb`（v9.4.1 已上線）；**便利商店、麵店、書店、宿舍**：LAWWW2 Blender GLB（`cvs_interior`、`noodle_interior`、`bookstore_interior`、`dorm_interior`），導航格與程序化版完全相同，`READY_FOR_ART_REVIEW`（v9.4.2 候選）；**總圖閱覽室**：BLOCKOUT | 總圖：Blender 室內（閱讀區、自習區，需求 21） |
++| 法律系館B室內兩層樓（`src/wancai3d.js`＋`src/data/wancai_layout.js`；D42） | `wancai` 區域 | ⑤＋③（程序化備用留作導航與載入失敗時） | **INTEGRATED**（2026-10-11）：Blender `tools/blender/wancai_interior.py` → `wancai_interior.glb`（2.36 MB、4,954 個三角形）；一樓大廳座標和 v9.3 相同（劇情、社團、舊存檔照舊）、二樓走廊／迴廊／門廳、樓梯、玻璃電梯、二樓門通到外面平台；遊戲化設計（不是實測）；`READY_FOR_ART_REVIEW`（使用者還沒看過） | 磨石子地在燈光下偏白、近處玻璃欄杆偏霧；樓梯下方是實心石材；房間都關著（演講廳、研討室） |
++| 總圖書館大廳（`src/library3d.js`＋`src/data/library_layout.js`；D43） | `library_hall` 區域（新）；閱覽室（`library`）多了電梯與樓梯間的出口 | ⑤＋③（程序化備用留作導航與載入失敗時） | **INTEGRATED**（2026-10-11）：Blender `tools/blender/library_interior.py` → `library_interior.glb`（5.1 MB、約 4.8 萬個三角形：書一本一個方塊約一半；植物是葉片卡＋模型葉子，第一版的多面體圓球已換掉）；窗外的景是遊戲裡校園的實際畫面（`library_view_*.webp`：正面玻璃看出去是椰影大道、側窗是總圖南側的草地與系館，白天／晚上兩套；原本是程序化畫的綠色半圓）；一樓大廳（門廳、閘門、服務台、期刊報紙、新書展示）、帝國式中央大樓梯、電梯（可以到 3F 閱覽區）、二樓自習區；遊戲化設計（不是實測）；功能驗證與 `READY_FOR_ART_REVIEW` 的截圖在 VISUAL_REVIEW 第 21 節（使用者還沒看過） | 閱覽室（3F）本身還是 `room()` 程序化方盒（④）；GLB 5.1 MB 偏大（Meshopt／KTX2 還沒做） |
+ | 公共教學館模板（`src/teach3d.js`＋`src/data/gongtong_layout.js`；2026-10-13 D55 第二階段） | `gongtong` 區域（共同教學館室內：大廳、走廊、101／102／201／202 普通教室、U 形樓梯、休息區、自習區、長椅、公告欄；管理室、203、洗手間關著） | ④（近景；程序化版本之後留作③導航與備用） | **BLOCKOUT**（室內未查證＝可替換的模板；功能：導航、77 個座位、教室上課——單元測試通過、瀏覽器還沒跑） | LAWWW2 照同一份 layout 建 Blender 室內（使用者優先順序第 4 項：普通、共同的可重用教室）；之後普通、博雅用同一套模板 |
+-| 博雅教學館、普通教學館室內（`src/teach3d.js`＋`src/data/boya_layout.js`、`putong_layout.js`；2026-10-13 D55） | `boya`、`putong` 區域（校園上的門等方案 A／B） | ④（玩家常停留的近景，必須升級）；程序化留作③導航與載入失敗的備用 | **BLOCKOUT**（備用模型：方盒牆、程序化家具；正式模型由 LAWWW2 照同一份配置做） 普通、博雅外觀（**使用者 2026-10-18 03:3x：四座全部換 Blender**（「如果要整個改，那就沒關係就叫他直接改全部改」）；普通／博雅含室內；位置、門口、導航不動；ART-EXT-*，LAWWW2） |
++| 博思教學館、普通教學館室內（`src/teach3d.js`＋`src/data/boya_layout.js`、`putong_layout.js`；2026-10-13 D55） | `boya`、`putong` 區域（校園上的門等方案 A／B） | ④（玩家常停留的近景，必須升級）；程序化留作③導航與載入失敗的備用 | **BLOCKOUT**（備用模型：方盒牆、程序化家具；正式模型由 LAWWW2 照同一份配置做） 普通、博思外觀（**使用者 2026-10-18 03:3x：四座全部換 Blender**（「如果要整個改，那就沒關係就叫他直接改全部改」）；普通／博思含室內；位置、門口、導航不動；ART-EXT-*，LAWWW2） |
+ | 男生宿舍室內（`src/dorm3d.js`＋`src/data/dorm_layout.js`；D44） | `dorm_hall` 區域（新）；房間（`dorm`）的出口改成二樓走廊 | ⑤＋③（程序化備用留作導航與載入失敗時） | **INTEGRATED**（2026-10-11）：Blender `tools/blender/dorm_hall.py` → `dorm_hall.glb`（2.4 MB、約 1.2 萬個三角形）；一樓門廳、交誼廳、走廊、雙跑樓梯、二樓走廊；遊戲化設計（不是實測）；美術還沒經使用者看過 | 寢室都關著（只有自己的房間能進）；窗外的景還是程序化畫的 |
+ | 201 階梯教室（v9.4：平台、走道台階、長桌、木翻椅） | `classroom` 區域 | ③（程序化版本留作導航與備用） | 正式模型 **INTEGRATED**：`tools/blender/classroom_201.py` → `classroom_201.glb`（1.57 MB；深色長桌、木翻椅 48 張 instancing、木講桌、投影幕、方格天花板＋日光燈，照使用者的教室照片）；48 個座位導航 FUNCTIONAL（Node 模擬）；瀏覽器真實流程見 TESTING 第八節 | 黑板／投影內容、窗外景、使用者看過才能標 ART_APPROVED |
+ | 社會科學院 辜先生紀念圖書館 一樓開架閱覽室（⑬；配置 `src/data/soclib_layout.js`，由 `tools/blender/env_second/soclib_layout_gen.py` 產生） | 新區域（還沒接進遊戲；區域程式、導航、校園入口由 LAWWW 做） | ⑤（新做） | `MODEL_READY`（LAWWW2）：`tools/blender/env_second/soclib_interior.py` → `assets/models/env/second_ai/soclib_interior.glb`（白色樹狀柱＋荷葉柱頂、圓形天窗光井、竹集成材的弧形雙面書架與靠牆書架、閱覽長桌＋檯燈、竹椅、北／西玻璃帷幕前的窗邊長桌、服務台、閘門、查詢電腦、閱報區）；配置含導航阻擋（rects／circles）與 65 個座位 | 接進遊戲後：窗外照片（北、西玻璃帷幕）、整合測試、遊戲內截圖 |
+ | 和平東路二段 118 巷兩側街景（⑭；配置 `src/data/lane118_layout.js`：LAWWW） | 新區域（還沒接進遊戲；區域、導航、店門互動由 LAWWW 做） | ⑤（新做） | `MODEL_READY`（LAWWW2）：`wz_street.py --set lane118` → `assets/models/env/second_ai/lane118_street.glb`（9 間店＋補空檔的住家、樓梯間、一般小店；字牌板面照溫州街的做法由遊戲畫字） | 接進遊戲後：遊戲內截圖、夜間燈光、照片查證 |
+ | 騎車用的腳踏車（⑫） | 新資產（還沒接進遊戲；騎乘姿勢、IK、操作由 LAWWW 做） | ⑤（新做） | `MODEL_READY`（LAWWW2）：`bike_ride.py` → `assets/models/env/bike_ride.glb`（235 KB；節點 frame／fork／wheel_f／wheel_r／crank／pedal_l／pedal_r，樞紐自我檢查）＋從模型量的尺寸表 `bike_ride.json` | 接上人物後：遊戲內截圖、踩踏動作 |
+-| 萬才館 法律學院圖書館（配置 `src/data/lawlib_layout.js`、區域 `src/lawlib3d.js`：LAWWW） | 程序化備用模型（LAWWW）→ 正式模型載入後藏起來 | ③（備用）／新做 | `READY_FOR_ART_REVIEW`（LAWWW2）：`tools/blender/lawlib_interior.py` → `assets/models/env/lawlib_interior.glb`（一樓櫃台、閱覽桌、閱覽隔間、玻璃討論室、影印室、U 形樓梯、二樓書架＋書模組 instancing、期刊架）；萬才館西牆的門（`wancai_interior.py`）；窗景 `lawlib_*` | LAWWW 整合測試；配置的問題 1～7（VISUAL_REVIEW second_ai 17.8）；使用者看美術 |
++| 法律系館B 法律學院圖書館（配置 `src/data/lawlib_layout.js`、區域 `src/lawlib3d.js`：LAWWW） | 程序化備用模型（LAWWW）→ 正式模型載入後藏起來 | ③（備用）／新做 | `READY_FOR_ART_REVIEW`（LAWWW2）：`tools/blender/lawlib_interior.py` → `assets/models/env/lawlib_interior.glb`（一樓櫃台、閱覽桌、閱覽隔間、玻璃討論室、影印室、U 形樓梯、二樓書架＋書模組 instancing、期刊架）；法律系館B西牆的門（`wancai_interior.py`）；窗景 `lawlib_*` | LAWWW 整合測試；配置的問題 1～7（VISUAL_REVIEW second_ai 17.8）；使用者看美術 |
+ | 共同教學館外觀（LAWWW2 正式模型；套件 `CK.hall` 留作③導航阻擋與備用） | 校園 (2,33)：取代套件方盒的畫面；導航、門口不變 | ⑤（新做） | `MODEL_READY`（LAWWW2）：`campus_gongtong.py` → `assets/models/env/second_ai/campus_gongtong.glb`（土黃面磚、樓板豎貼帶、洗石子雙拱窗、山牆青瓷花磚、三四樓退縮＋南側開放走廊、西側木造走廊、北側蒲葵 6 棵；依文字資料的遊戲化設計） | LAWWW 接線（VISUAL_REVIEW second_ai 20.5：大道南側大樹牆前 4 棵換蒲葵、蒲葵樹幹導航、鏡頭碰撞）；照片查證 |
+ | 大一女舍外觀（LAWWW2 正式模型；套件 `CK.hall`×2＋天橋方盒留作③） | 校園 A (−108,68)、B (−78,66)、天橋 (−93,67)：取代套件的畫面；導航、門口、長椅、車架不變 | ⑤（新做） | `MODEL_READY`（LAWWW2）：`campus_freshman.py` → `assets/models/env/second_ai/campus_freshman.glb`（米色二丁掛、樓梯間、窗型冷氣、鐵窗、屋頂水塔與太陽能熱水器、背面曬衣、A 棟傳達室小窗與信箱、B 棟刷卡機、男賓止步；依文字資料的遊戲化設計） | LAWWW 接線（VISUAL_REVIEW second_ai 21.5：fdA、fdB、天橋標 ckTag）；照片查證 |
+ | 新社科院外觀（LAWWW2 正式模型；取代套件 `CK.modern` 社科院、門前 7 根白柱、⑤ `campus_modern.glb`（白色原型）當預設畫面） | 校園 x 95–125：圖書館 z −92～−70、中庭 z −70～−58、大樓 z −58～−42 | ⑤（新做；舊的 `CK.modern` 社科院與 ⑤ GLB 變成 ⑤ 已被取代） | `MODEL_READY`（LAWWW2）：`campus_socsci.py` → `assets/models/env/second_ai/campus_socsci.glb`（玻璃帷幕、從外面看得到的樹狀柱與天窗、植栽屋頂、8 層清水混凝土、一樓玻璃大廳、中庭；遊戲化南北對調） | **2026-10-16 LAWWW-B 接線（`INTEGRATED`）**：`src/data/socsci_layout.js`（`tools/gen_socsci_layout.py` 從 `campus_socsci.json` 產生）——導航 22 個阻擋＋樹穴、鏡頭碰撞 3 個、圖書館的門改到南牆 (101,−69.3)（出來站 (101,−67.6) 面向南）、中庭 4 張長椅可以坐、大樓室內沒做（門不開；經濟系那年的「社會科學院」說明、SK02 系辦在西面主入口）；舊白色樓與 7 根柱拿掉，備用量體同尺寸（ckTag soc）。`tests/nav_soclib_unit.js`。瀏覽器截圖、reachability_all、flow_soclib 還沒跑（`FUNCTIONAL_VERIFIED` 之前）；照片查證 |
+-| 教學館家具模組（LAWWW2 正式模型 `assets/models/env/second_ai/furniture_study.glb`：自習雙人桌、自習椅、圓桌、講堂椅（座面放下／收起）、排尾側板、連續桌板＋簡化版；教室門：門框、門片開／關、門牌——VISUAL_REVIEW 第 25 節） | 博雅 101 講堂、教學館自習區、教室門口（取代模板的方塊桌椅、牆上的門洞；座位配置、入座、LOD 由 LAWWW 做） | ⑤（新做） | `MODEL_READY`（LAWWW2；還沒接）：VISUAL_REVIEW 第 23 節 | 一個材質（顏色＋法線＋粗糙度／金屬度）、每種一個網格，給 `InstancedMesh` |
+-| 坐著的聽眾替身（LAWWW2 正式模型 `assets/models/env/second_ai/seated_figures.glb`：路人底模 4 種×3 姿勢×2 配色＝24 種外型，LOD0 約 1,500／LOD1 約 350 三角形，一個材質） | 博雅 101 講堂、教學館自習區的遠處人群（近處用真的 VRM 人物；放法、數量、LOD 由 LAWWW 做） | ⑤（新做） | `MODEL_READY`（LAWWW2；還沒接）：VISUAL_REVIEW 第 24 節 | 和講堂椅同一個原點，直接用同一個 instance 矩陣 |
+-| 桌上小物（LAWWW2 正式模型 `assets/models/env/second_ai/desk_props.glb`：17 種單件＋15 組（講堂 `lset`／自習桌 `tset`／圓桌 `rset`／手上 `hold`）×2 LOD，一個材質，螢幕自發光——VISUAL_REVIEW 第 27 節） | 博雅 101 講堂、教學館自習區（配坐姿替身或真的 NPC；放法、配哪一組由 LAWWW 做） | ⑤（新做） | `MODEL_READY`（LAWWW2；還沒接）：VISUAL_REVIEW 第 27 節 | 講堂組、手上的東西和講堂椅、替身同一個原點，直接用同一個 instance 矩陣 |
+-| 社團博覽會攤位（LAWWW2 正式模型 `assets/models/env/second_ai/club_fair.glb`：九個攤位，每攤一個網格、一個材質——VISUAL_REVIEW 第 28 節） | 椰林大道南側草地（9/30、10/1；服務台換掉 (−13.5, 14.6) 的公告欄、法服換掉 (−18, 14.5) 的招生攤位） | ⑤（新做；取代那兩天的公告欄與方盒招生攤位） | `MODEL_READY`（LAWWW2；配置是 PROPOSAL，還沒接）：VISUAL_REVIEW 第 28 節 | 顯示日期、導航（每頂帳篷 3×3 m）、互動、藏起原本的公告欄與招生攤位由 LAWWW 做 |
+-| 系籃半場（LAWWW2 正式模型 `assets/models/env/second_ai/bball_court.glb`：鋪面＋場線、籃架、長椅三個網格——`docs/art-rebuild/second_ai/research/系籃球場_位置提案.md`） | 校園（提案 A：醉月湖東側 (−4, −113)；B：男一舍與體育館之間 (48.5, 67)；**位置等使用者確認**） | ⑤（新做；現在系籃練球只是體育館門口的一個點） | `MODEL_READY`（LAWWW2；位置是 PROPOSAL，還沒接） | 導航只擋籃架柱子與長椅；活動點搬到長椅前面 |
++| 教學館家具模組（LAWWW2 正式模型 `assets/models/env/second_ai/furniture_study.glb`：自習雙人桌、自習椅、圓桌、講堂椅（座面放下／收起）、排尾側板、連續桌板＋簡化版；教室門：門框、門片開／關、門牌——VISUAL_REVIEW 第 25 節） | 博思 101 講堂、教學館自習區、教室門口（取代模板的方塊桌椅、牆上的門洞；座位配置、入座、LOD 由 LAWWW 做） | ⑤（新做） | `MODEL_READY`（LAWWW2；還沒接）：VISUAL_REVIEW 第 23 節 | 一個材質（顏色＋法線＋粗糙度／金屬度）、每種一個網格，給 `InstancedMesh` |
++| 坐著的聽眾替身（LAWWW2 正式模型 `assets/models/env/second_ai/seated_figures.glb`：路人底模 4 種×3 姿勢×2 配色＝24 種外型，LOD0 約 1,500／LOD1 約 350 三角形，一個材質） | 博思 101 講堂、教學館自習區的遠處人群（近處用真的 VRM 人物；放法、數量、LOD 由 LAWWW 做） | ⑤（新做） | `MODEL_READY`（LAWWW2；還沒接）：VISUAL_REVIEW 第 24 節 | 和講堂椅同一個原點，直接用同一個 instance 矩陣 |
++| 桌上小物（LAWWW2 正式模型 `assets/models/env/second_ai/desk_props.glb`：17 種單件＋15 組（講堂 `lset`／自習桌 `tset`／圓桌 `rset`／手上 `hold`）×2 LOD，一個材質，螢幕自發光——VISUAL_REVIEW 第 27 節） | 博思 101 講堂、教學館自習區（配坐姿替身或真的 NPC；放法、配哪一組由 LAWWW 做） | ⑤（新做） | `MODEL_READY`（LAWWW2；還沒接）：VISUAL_REVIEW 第 27 節 | 講堂組、手上的東西和講堂椅、替身同一個原點，直接用同一個 instance 矩陣 |
++| 社團博覽會攤位（LAWWW2 正式模型 `assets/models/env/second_ai/club_fair.glb`：九個攤位，每攤一個網格、一個材質——VISUAL_REVIEW 第 28 節） | 椰影大道南側草地（9/30、10/1；服務台換掉 (−13.5, 14.6) 的公告欄、法服換掉 (−18, 14.5) 的招生攤位） | ⑤（新做；取代那兩天的公告欄與方盒招生攤位） | `MODEL_READY`（LAWWW2；配置是 PROPOSAL，還沒接）：VISUAL_REVIEW 第 28 節 | 顯示日期、導航（每頂帳篷 3×3 m）、互動、藏起原本的公告欄與招生攤位由 LAWWW 做 |
++| 系籃半場（LAWWW2 正式模型 `assets/models/env/second_ai/bball_court.glb`：鋪面＋場線、籃架、長椅三個網格——`docs/art-rebuild/second_ai/research/系籃球場_位置提案.md`） | 校園（提案 A：映月湖東側 (−4, −113)；B：男一舍與體育館之間 (48.5, 67)；**位置等使用者確認**） | ⑤（新做；現在系籃練球只是體育館門口的一個點） | `MODEL_READY`（LAWWW2；位置是 PROPOSAL，還沒接） | 導航只擋籃架柱子與長椅；活動點搬到長椅前面 |
+ | 總圖書館 3F 閱覽區（LAWWW2 正式模型 `assets/models/env/second_ai/library_3f.glb`——VISUAL_REVIEW 第 30 節） | library 區域（room() 22×16×4.0） | ④→⑤（取代程序化的牆、地板、桌椅、書架；程序化留作載入失敗的備用） | `MODEL_READY`（LAWWW2；還沒接） | 家具都在原本的導航阻擋範圍裡；電梯（library3d.js）不在 GLB 裡 |
+-| 醉月湖：湖岸、置石、湖心亭、木棧道（LAWWW2 正式模型 `assets/models/env/second_ai/campus_lake.glb`——VISUAL_REVIEW 第 31 節） | 校園 lake()（湖的本地座標，放在 (cx,0,cz)） | ④→⑤（取代程序化的湖岸帶子、柱體亭子、木板；水面 shader、睡蓮、草叢照舊） | `MODEL_READY`（LAWWW2；還沒接） | 程序化的湖岸／亭／木棧道要先放進 `lake_fallback` 群組（patches/lake_fallback_9884d29.patch）；導航不變 |
++| 映月湖：湖岸、置石、湖心亭、木棧道（LAWWW2 正式模型 `assets/models/env/second_ai/campus_lake.glb`——VISUAL_REVIEW 第 31 節） | 校園 lake()（湖的本地座標，放在 (cx,0,cz)） | ④→⑤（取代程序化的湖岸帶子、柱體亭子、木板；水面 shader、睡蓮、草叢照舊） | `MODEL_READY`（LAWWW2；還沒接） | 程序化的湖岸／亭／木棧道要先放進 `lake_fallback` 群組（patches/lake_fallback_9884d29.patch）；導航不變 |
+ | `desk()`、`chair()`、`shelfWall()`、`goodsWall()`、床、沙發、Café 家具 | 各室內 | ④ | BLOCKOUT | Blender 家具組（GLB，同一款重用） |
+ 
+ ## 五、人物（`src/character3d.js`、`assets/models/char/`）
+diff --git a/docs/campus/PUBLIC_BUILDINGS_DESIGN.md b/docs/campus/PUBLIC_BUILDINGS_DESIGN.md
+index 08ed69f50..940ccb801 100644
+--- a/docs/campus/PUBLIC_BUILDINGS_DESIGN.md
++++ b/docs/campus/PUBLIC_BUILDINGS_DESIGN.md
+@@ -1,6 +1,6 @@
+ # 公共教學建築與日常生活：通用系統設計（盤點＋分階段做法）
+ 
+-使用者 2026-10-13 決定：普通教學館、共同教學館、博雅教學館、大一女舍是跨經濟系大一與法律系四年反覆使用的生活場景。這份文件說明怎麼把它們做成「可以上課、讀書、碰面、參加活動與生活的地方」。
++使用者 2026-10-13 決定：普通教學館、共同教學館、博思教學館、大一女舍是跨經濟系大一與法律系四年反覆使用的生活場景。這份文件說明怎麼把它們做成「可以上課、讀書、碰面、參加活動與生活的地方」。
+ 
+ 範圍：
+ - **只做通用系統與場景**，不寫任何人物劇情。杜可昕、沛珊、經濟系主線、演講故事、跨年級回憶都等 AA、BB 企劃與使用者確認。
+@@ -12,12 +12,12 @@
+ 
+ | 系統 | 在哪裡 | 現在能做什麼 | 公共建築要補的 |
+ |---|---|---|---|
+-| 多樓層建築 | `src/building3d.js`（霖澤館）、`src/wancai3d.js`、`src/library3d.js`、`src/lawlib3d.js` | 配置寫在 layout JSON（`src/data/*_layout.js`）；每層一張導航格；樓梯、電梯；牆的透視；樓板不擋鏡頭；Blender 正式模型照同一份 layout 做，載入失敗有備用外觀 | 四個模組各寫一次。教學館要有**共用的教學館模板**：一份 layout 描述大廳、走廊、教室、階梯教室、自習區、休息區 |
++| 多樓層建築 | `src/building3d.js`（法律系館A）、`src/wancai3d.js`、`src/library3d.js`、`src/lawlib3d.js` | 配置寫在 layout JSON（`src/data/*_layout.js`）；每層一張導航格；樓梯、電梯；牆的透視；樓板不擋鏡頭；Blender 正式模型照同一份 layout 做，載入失敗有備用外觀 | 四個模組各寫一次。教學館要有**共用的教學館模板**：一份 layout 描述大廳、走廊、教室、階梯教室、自習區、休息區 |
+ | 課表 | `src/data/courses.js`、`src/classes3d.js` | 每門課的學期、星期、時段、教室、教授；今天的課、上課（3D 教室坐下或門口畫面）、翹課、自學、成績單；手機「今天」「課表」 | 教室改成「建築裡的房間」；同一間教室照學期載入不同課程（資料上已經是：課程指定教室，不是教室綁課程）；別的系的課＝路人學生的上課時間 |
+-| 教室裡的同學 | `CLS.syncRoom`（201）、`story3d.js` 的作息 | 上課時座位上坐著同學；教授照課表在講台或萬才館 | 上課前在門外等、開始前進教室、下課後陸續走出去（現在是直接出現在座位上） |
++| 教室裡的同學 | `CLS.syncRoom`（201）、`story3d.js` 的作息 | 上課時座位上坐著同學；教授照課表在講台或法律系館B | 上課前在門外等、開始前進教室、下課後陸續走出去（現在是直接出現在座位上） |
+ | 人物作息 | `story3d.js` 的 `schedFor`／`populateSchedule`／`refreshSchedule`（每 3 秒） | 有名字的人照作息出現在某個區域；待在區域裡時，時段到了該出現的人出現、時段結束的人離開（`tests/schedule_refresh_unit.js`） | 作息加「哪一棟、哪一間」；跳過時間後照新的時間重排（現在已經會：`refreshSchedule` 用當下時間） |
+ | 路人 | 各區域的 extras（法圖讀者、教室同學、街上行人） | 隨機位置 | **同一個時段重新進來要看到同一批人**（用「區域＋日期＋時段」當亂數種子）；路人沒有名字，不會是有名字的人 |
+-| 座位與自習 | `E.seats`、`GM.seatMenu`、`studySession`、`CLS.studyPick` | 坐下、坐一下、讀書（準備課程、法律知識）、上課 | 自習桌（博雅的小桌子）用同一套座位；有人坐的位子不能坐（已經有） |
++| 座位與自習 | `E.seats`、`GM.seatMenu`、`studySession`、`CLS.studyPick` | 坐下、坐一下、讀書（準備課程、法律知識）、上課 | 自習桌（博思的小桌子）用同一套座位；有人坐的位子不能坐（已經有） |
+ | 條件事件 | `src/events3d.js`、`src/data/events.js` | 地點（區域）、時間、星期、學期（2026-10-13 新增）、天數、旗標、記憶、關係、靠近某人 | 加「房間」「活動」「某人在場」三種條件（第 5 節）；只加條件，不改觸發流程 |
+ | 手機 | `game3d.js` 的手機面板 | 今天、課表、地點（快速前往）、跳過時間 | 之後：朋友（位置）、訊息（邀約）、活動（演講資訊） |
+ | 時間跳轉 | `CLS.skipTo` | 遇到特殊課堂、約好的時間、劇情、閉館會停 | 加「已報名的演講」 |
+@@ -29,7 +29,7 @@
+   - 牆、地板、樓梯、電梯、門、窗、透視、樓板；
+   - 每層的導航格；
+   - 備用外觀＋Blender 正式模型。
+-  - 普通、共同、博雅各一份 layout（`src/data/putong_layout.js` 等），共用模組。既有的霖澤館、萬才館、總圖、法圖不動。
++  - 普通、共同、博思各一份 layout（`src/data/putong_layout.js` 等），共用模組。既有的法律系館A、B、總圖、法圖不動。
+ - **房間是建築區域裡的一部分**（不是各自一個區域）。這樣才看得到學生從走廊走進教室、下課走出來，NPC 也能在房間之間走動。房間種類：
+   - `lobby` 大廳（入口、公告欄、休息椅）
+   - `corridor` 走廊（教室門口的等候位置）
+@@ -41,16 +41,16 @@
+ - **門口上課的過渡**：室內還沒做好時，照現在的「門口上課」（2D 課堂畫面），layout 做好後換成走進教室坐下。課表資料不用改。
+ - **玩家自由**：沒有課、沒有劇情時，公共空間照常可以進（大廳、走廊、自習區、空教室）。進去不會自動觸發故事。教學館的開放時間沒查證前不設限。
+ 
+-### 2.1 配置的元件（2026-10-13 實作；共同、博雅共用，`src/teach3d.js`）
++### 2.1 配置的元件（2026-10-13 實作；共同、博思共用，`src/teach3d.js`）
+ 
+ | 元件 | 內容 | 例子 |
+ |---|---|---|
+-| `rooms` `kind:'classroom'` | 平面教室：黑板、講桌、雙人桌；座位 `kind:'class'`；門口「看看」 | 共 102、201、202；博雅 201、202 |
+-| `rooms` `kind:'lecture'` | 階梯教室：每排一個平台（`rowsData`：前緣、後緣、高度、桌子、座位），兩側走道每排兩階（碰撞連續斜面、畫面一階一階），長桌、椅子擋住；座位帶高度；講桌、黑板、投影幕；門在講台那一端 | 共 101；博雅 101、102 |
+-| `rooms` `kind:'closed'` | 關著的房間：整間擋住；門板＋門口說明（`doorZ`＝門在哪一道牆，說明在走廊那一側） | 共 203、洗手間；博雅 103、203、204 |
+-| `groups` | 公共空間：桌子（長方、圓）、椅子、沙發；全部擋住（不能穿過椅子）；座位標籤照空間 | 博雅的沙發區、自習小桌、討論桌 |
++| `rooms` `kind:'classroom'` | 平面教室：黑板、講桌、雙人桌；座位 `kind:'class'`；門口「看看」 | 共 102、201、202；博思 201、202 |
++| `rooms` `kind:'lecture'` | 階梯教室：每排一個平台（`rowsData`：前緣、後緣、高度、桌子、座位），兩側走道每排兩階（碰撞連續斜面、畫面一階一階），長桌、椅子擋住；座位帶高度；講桌、黑板、投影幕；門在講台那一端 | 共 101；博思 101、102 |
++| `rooms` `kind:'closed'` | 關著的房間：整間擋住；門板＋門口說明（`doorZ`＝門在哪一道牆，說明在走廊那一側） | 共 203、洗手間；博思 103、203、204 |
++| `groups` | 公共空間：桌子（長方、圓）、椅子、沙發；全部擋住（不能穿過椅子）；座位標籤照空間 | 博思的沙發區、自習小桌、討論桌 |
+ | `areas` | `roomAt` 用的範圍（休息區、自習區、走廊、資訊角） | 兩棟都有 |
+-| `boards` | 公告欄；`style:'screen'`＝講座資訊螢幕（`zoneFilter`：只列這棟的活動） | 博雅資訊角 |
++| `boards` | 公告欄；`style:'screen'`＝講座資訊螢幕（`zoneFilter`：只列這棟的活動） | 博思資訊角 |
+ | `waitSpots` | 教室門口的等候點（之後室內人流用） | 兩棟都有 |
+ 
+ 規則（導航格 0.4 m）：格子中心在 0.4 的倍數上；牆放在 0.4 的倍數上；門洞兩端在格子邊界（0.4k+0.2）上、寬 1.2 m；階梯教室每排前緣在格子中心上（椅子後面那一條走道才站得住）。
+@@ -66,7 +66,7 @@
+    - 開始前 5 分鐘：走進教室、坐下。
+    - 上課中：坐著。
+    - 下課後 0～10 分鐘：陸續起身、走出去，往出口或下一個房間。
+-2. **演講／活動**（博雅）：
++2. **演講／活動**（博思）：
+    - 活動資料寫明房間、時間、人數。
+    - 公告欄提前幾天貼出來。
+    - 開始前 20 分鐘：大廳、走廊有人等。
+@@ -88,7 +88,7 @@
+ | 互動 | 做法 | 現況 |
+ |---|---|---|
+ | 1 進入建築 | 入口互動＋門口名牌（和其他建築同一套） | 共同教學館已有門口（室內還沒開放，寫清楚「館內之後開放」） |
+-| 2 到指定教室上課 | 手機「今天」指路→走進教室→坐下選「上課」（同 201） | 霖澤館 201 已有；教學館室內做好後沿用 |
++| 2 到指定教室上課 | 手機「今天」指路→走進教室→坐下選「上課」（同 201） | 法律系館A 201 已有；教學館室內做好後沿用 |
+ | 3 上課前等待 | 走廊的等候位置：「等一下」，時間過 5–10 分鐘，旁邊的人在聊天 | 新增 |
+ | 4 下課後離開 | 上完課自動起身，玩家自己走出去 | 201 已有 |
+ | 5 找位置坐下 | 座位互動 | 已有 |
+@@ -139,8 +139,8 @@
+ | 階段 | 內容 | 前提 |
+ |---|---|---|
+ | 1 | 四棟外觀＋入口＋地圖＋快速前往＋導航（共同：已整合；大一女舍：位置已查證；普通、博雅：等使用者選 A／B） | — |
+-| 2 | 教學館模板（`teach3d.js`）＋共同教學館室內：大廳、走廊、可重用的平面教室與**階梯教室元件**（`kind:'lecture'`：每排平台、兩側台階走道、長桌、講台，博雅的大講堂用同一套；2026-10-13 共 101 已用）、等候位置；上課前後的人流；「門口上課」換成走進教室 | AA 給日文上、下的學期與時段 |
+-| 3 | 博雅室內：大型階梯教室、通識教室、自習小桌、公告欄、演講狀態；活動系統（先用測試資料）。**2026-10-13 第一版（開發分支 cb47e3d、ddaff0b）**：一樓 101、102 階梯教室、沙發區、自習小桌、討論桌、講座資訊螢幕；二樓 201、202 討論教室；演講時大教室坐滿聽眾（測試資料）。校園上的門等使用者選 A／B | LAWWW2 的博雅模型（可先用備用外觀） |
++| 2 | 教學館模板（`teach3d.js`）＋共同教學館室內：大廳、走廊、可重用的平面教室與**階梯教室元件**（`kind:'lecture'`：每排平台、兩側台階走道、長桌、講台，博思的大講堂用同一套；2026-10-13 共 101 已用）、等候位置；上課前後的人流；「門口上課」換成走進教室 | AA 給日文上、下的學期與時段 |
++| 3 | 博思室內：大型階梯教室、通識教室、自習小桌、公告欄、演講狀態；活動系統（先用測試資料）。**2026-10-13 第一版（開發分支 cb47e3d、ddaff0b）**：一樓 101、102 階梯教室、沙發區、自習小桌、討論桌、講座資訊螢幕；二樓 201、202 討論教室；演講時大教室坐滿聽眾（測試資料）。校園上的門等使用者選 A／B | LAWWW2 的博思模型（可先用備用外觀） |
+ | 4 | 普通教學館室內（沿用模板）；大一女舍外部細節、門禁、門口傍晚與晚上的人 | — |
+ | 5 | 手機：朋友、訊息、邀約、活動（2026-10-13：「朋友」「活動」分頁已做；訊息、邀約等 BB 的台詞） | 朋友的作息（AA、BB） |
+ 
+@@ -157,4 +157,4 @@
+   - 活動資料（演講主題、時間）。
+ - **BB**：路人的閒聊句子、演講的內容（使用者確認後）。
+ - **LAWWW2**：四棟的外觀與室內模型（已分派，優先順序照使用者）。
+-- **使用者**：普通、博雅的位置（方案 A／B）。
++- **使用者**：普通、博思的位置（方案 A／B）。
+diff --git a/docs/campus/SOCSCI_PLAN.md b/docs/campus/SOCSCI_PLAN.md
+index f958285b3..5ace68b52 100644
+--- a/docs/campus/SOCSCI_PLAN.md
++++ b/docs/campus/SOCSCI_PLAN.md
+@@ -3,10 +3,10 @@
+ > **2026-10-20 位置更正（X75，`PROJECT_DECISIONS.md` D107）**：使用者指出社科院不在法律系出去的左手邊、應該在西南。查證臺大官方交通資訊後，整組搬到霖澤館西南、小椰林道西邊（x −13～17、z −93～−43），轉 180°（大樓在北、正門朝小椰林道，圖書館在南，和真實一樣）。下面第 3 節的座標（x 95–125）是搬家以前的；現在的座標以 `src/data/socsci_layout.js`（`tools/gen_socsci_layout.py` 換算）為準，LAWWW2 的模型本身沒有重匯。
+ 
+ 使用者 2026-10-13 定案（`docs/PROJECT_DECISIONS.md` D56）：
+-- 遊戲是現代台大平行校園。
+-- 新社科院從經濟系大一第一天就存在，在霖澤館對面，也就是辜先生紀念圖書館所在的建築區域。
++- 遊戲是現代首都帝大平行校園。
++- 新社科院從經濟系大一第一天就存在，在法律系館A對面，也就是辜先生紀念圖書館所在的建築區域。
+ - 取消徐州路校區。
+-- 普通、共同、博雅、社科院是跨學年共用的場景。
++- 普通、共同、博思、社科院是跨學年共用的場景。
+ 
+ 使用者要先看五件事：
+ 1. 現有社科院的位置與完成度；
+@@ -19,10 +19,10 @@
+ 
+ | # | 問題 | 回答 |
+ |---|---|---|
+-| 1 | 位置與完成度 | **已經有**。<br>位置：校園 (110,-70)，法學院廣場東側、萬才館南邊、總圖北邊，正面朝西（朝廣場）。<br>外觀：程式產生的白色四層樓（`CK.modern`），門前 7 根白色圓柱代表辜先生紀念圖書館（同一個白色造型的 Blender 版已經交來、還沒接，見第 2 點）。<br>有的：導航阻擋、鏡頭碰撞、大地圖的「社會科學院」字樣。<br>沒有的：入口、室內、快速前往。<br>完成度：外觀是 `BLOCKOUT`（程序化套件，照 D38 不能當正式美術）。 |
++| 1 | 位置與完成度 | **已經有**。<br>位置：校園 (110,-70)，法學院廣場東側、法律系館B南邊、總圖北邊，正面朝西（朝廣場）。<br>外觀：程式產生的白色四層樓（`CK.modern`），門前 7 根白色圓柱代表辜先生紀念圖書館（同一個白色造型的 Blender 版已經交來、還沒接，見第 2 點）。<br>有的：導航阻擋、鏡頭碰撞、大地圖的「社會科學院」字樣。<br>沒有的：入口、室內、快速前往。<br>完成度：外觀是 `BLOCKOUT`（程序化套件，照 D38 不能當正式美術）。 |
+ | 2 | 要不要新模型 | **要，照真實外觀新做**（Blender，LAWWW2 做）：<br>・前面一層樓的辜先生紀念圖書館：玻璃牆、白色樹狀柱、荷葉柱頂；<br>・後面的清水混凝土教學大樓。<br>**更正（16:55）**：LAWWW2 10-11 已經交了一個社科院的 Blender 外觀（⑤，`451d032` 的 `campus_modern.glb`，`READY_FOR_ART_REVIEW`，**還沒接進遊戲**）。它是照現在的白色原型做的（同樣的位置與大小、真的開出來的帶狀長窗、玻璃大廳、漆面粉刷），**不是真實的社科院**（清水混凝土＋前面的圖書館）。在正式模型做好之前，可以先用它取代程序化的白色方盒（品質比較好，但造型照樣不對）。<br>**圖書館一樓室內已經有**：LAWWW2 的 ⑬（`f3212c0`，`MODEL_READY`），65 個座位，還沒接進遊戲。<br>**大樓室內**（系辦、迎新用的教室）先用現有的教學館模板（`src/teach3d.js`），不需要新模型。 |
+-| 3 | 對地圖的影響 | 照最小方案，**只動社科院這一塊**（x 95–125、z -98～-42）。<br>醉月湖、霖澤館、萬才館、總圖、椰林大道、往萬才館的小路都不動。<br>這一塊沒有劇情站位、舊存檔的出生點，舊存檔不受影響。 |
+-| 4 | 可以沿用的 | 社科院的位置、導航與大地圖標示；LAWWW2 的圖書館室內（⑬）；教學館模板（大廳、門牌、教室、座位、人流）；活動系統（演講、迎新都可以放在社科院的教室）；事件介面（`room`、`term`、`activity`）；快速前往、大地圖、目標導航；共同、博雅、普通三棟的室內（課照課表放）。 |
++| 3 | 對地圖的影響 | 照最小方案，**只動社科院這一塊**（x 95–125、z -98～-42）。<br>映月湖、法律系館A、法律系館B、總圖、椰影大道、往法律系館B的小路都不動。<br>這一塊沒有劇情站位、舊存檔的出生點，舊存檔不受影響。 |
++| 4 | 可以沿用的 | 社科院的位置、導航與大地圖標示；LAWWW2 的圖書館室內（⑬）；教學館模板（大廳、門牌、教室、座位、人流）；活動系統（演講、迎新都可以放在社科院的教室）；事件介面（`room`、`term`、`activity`）；快速前往、大地圖、目標導航；共同、博思、普通三棟的室內（課照課表放）。 |
+ | 5 | 最小方案 | 原地沿用、分三步（第 3 節）。實際畫面在第 2 節，方案圖在第 3 節。 |
+ 
+ ## 1. 真實位置（查證）
+@@ -38,7 +38,7 @@
+ | 開放時間：第三方資料寫週一到週四 08:20–21:00；週五、週末、寒暑假查不到 | [蕃薯藤旅遊](https://travel.yam.com/article/120519)（**需查證**，請使用者像法圖那樣查官網） |
+ 
+ **遊戲和真實的差異**：法學院區照 D25、D31 壓縮過，霖澤館、萬才館朝南（朝玩家走得到的法學院廣場）。
+-- 社科院在廣場東側，**隔著法學院廣場和霖澤館斜對面**（步行約 80 m）。
++- 社科院在廣場東側，**隔著法學院廣場和法律系館A斜對面**（步行約 80 m）。
+ - 真實是隔著辛亥路校門進來的那條路相對。
+ - 要做到「正對面」得把社科院搬到廣場南邊（第 3 節的方案 B），要移樹、改地圖和測試，不推薦。
+ 
+@@ -46,12 +46,12 @@
+ 
+ 開發分支 `24e7770` 的遊戲畫面，上午 10:30。Playwright＋SwiftShader，1280×720 桌機尺寸，**不是手機實機**；隱藏了 HUD 和玩家。
+ 
+-| **從霖澤館前看過去**：左邊是萬才館的弧形量體，中間的白色長樓是社科院，前面是白色圓柱 | **法學院廣場往東看**：黑森林的樹後面是社科院的正面，招牌「社會科學院」 |
++| **從法律系館A前看過去**：左邊是法律系館B的弧形量體，中間的白色長樓是社科院，前面是白色圓柱 | **法學院廣場往東看**：黑森林的樹後面是社科院的正面，招牌「社會科學院」 |
+ |---|---|
+ | ![](socsci/now_1_from_linze.jpg) | ![](socsci/now_2_plaza.jpg) |
+-| **社科院正面近看**：白色四層樓、橫向長窗、一樓玻璃、薄雨遮；白色圓柱是圓柱體加圓盤（原型，D38 不能當正式美術） | **俯瞰法學院區**（西南往東北看）：左＝霖澤館、中＝萬才館、右＝社科院（朝西、朝廣場）、右下＝總圖 |
++| **社科院正面近看**：白色四層樓、橫向長窗、一樓玻璃、薄雨遮；白色圓柱是圓柱體加圓盤（原型，D38 不能當正式美術） | **俯瞰法學院區**（西南往東北看）：左＝法律系館A、中＝法律系館B、右＝社科院（朝西、朝廣場）、右下＝總圖 |
+ | ![](socsci/now_3_front.jpg) | ![](socsci/now_4_overview.jpg) |
+-| **從社科院前往霖澤館看**：左邊是黑森林，廣場對面是霖澤館（穿堂），右邊是萬才館的弧形量體與大樓梯 | **從社科院往南走**：左邊是總圖的側面，右邊遠處是小椰林道 |
++| **從社科院前往法律系館A看**：左邊是黑森林，廣場對面是法律系館A（穿堂），右邊是法律系館B的弧形量體與大樓梯 | **從社科院往南走**：左邊是總圖的側面，右邊遠處是椰影小徑 |
+ | ![](socsci/now_5_to_linze.jpg) | ![](socsci/now_6_to_library.jpg) |
+ 
+ 現況平面圖（`tools/dev_scratch/socsci_plan_diagram.py`，照 `src/zones3d.js` 的座標畫，不是遊戲截圖；步行距離是用遊戲的導航格算的）：
+@@ -60,11 +60,11 @@
+ 
+ | 從社科院前 (97.5,-70) 走到 | 距離 | 走路（1.8 m/s） |
+ |---|---|---|
+-| 萬才館入口 | 31 m | 約 17 秒 |
+-| 小椰林道北端 | 70 m | 約 39 秒 |
++| 法律系館B入口 | 31 m | 約 17 秒 |
++| 椰影小徑北端 | 70 m | 約 39 秒 |
+ | 總圖入口 | 74 m | 約 41 秒 |
+-| 霖澤館入口 | 80 m | 約 44 秒 |
+-| 文學院北側（往普通、博雅的路口；兩棟照方案 A 放好後再量一次） | 119 m | 約 66 秒 |
++| 法律系館A入口 | 80 m | 約 44 秒 |
++| 文學院北側（往普通、博思的路口；兩棟照方案 A 放好後再量一次） | 119 m | 約 66 秒 |
+ | 共同教學館門口 | 138 m | 約 76 秒 |
+ | 大一女舍 | 248 m | 約 138 秒 |
+ 
+@@ -74,11 +74,11 @@
+ 
+ **配置**（社科院這一塊裡面重排，外面不動）：
+ - **辜先生紀念圖書館**放在靠廣場的那一半（x 95–125、z -92～-70）：
+-  - 玻璃牆朝西（朝廣場、朝霖澤館）、朝北（朝萬才館），裡面看得到白色樹狀柱；
++  - 玻璃牆朝西（朝廣場、朝法律系館A）、朝北（朝法律系館B），裡面看得到白色樹狀柱；
+   - 入口在南邊的中庭。
+   - LAWWW2 的室內是 30×22 m，照校園的壓縮比例，不另外改尺寸。
+-- **社科院大樓**（清水混凝土、多層）放在後面（x 99–123、z -62～-42），入口朝西（往萬才館的小路）和北邊的中庭。
+-- 兩棟之間是中庭（z -70～-62），往西接到往萬才館的小路。
++- **社科院大樓**（清水混凝土、多層）放在後面（x 99–123、z -62～-42），入口朝西（往法律系館B的小路）和北邊的中庭。
++- 兩棟之間是中庭（z -70～-62），往西接到往法律系館B的小路。
+ - 門前 7 根白色圓柱拿掉，由圖書館本身取代。
+ 
+ **分三步做**（都先在開發分支，驗收後才發布）：
+@@ -91,7 +91,7 @@
+ 
+ **不做的**（D56）：徐州路校區、第二座校園、跨校區交通；杜可昕、經濟系朋友等還沒批准的人物劇情。
+ 
+-**方案 B（不推薦）**：把社科院搬到法學院廣場南邊（x 40–74、z -76～-50），和霖澤館正對面。
++**方案 B（不推薦）**：把社科院搬到法學院廣場南邊（x 40–74、z -76～-50），和法律系館A正對面。
+ - 要移掉那裡的樹、改大地圖與目標導航、改 `campus_layout_nav` 等測試。
+ - 原本的位置會空出一塊要重新填。
+ - 使用者如果覺得「斜對面」不對，再改這個。
+diff --git a/docs/campus/TEACHING_BUILDINGS_PLAN.md b/docs/campus/TEACHING_BUILDINGS_PLAN.md
+index 5c430658c..98ceb7865 100644
+--- a/docs/campus/TEACHING_BUILDINGS_PLAN.md
++++ b/docs/campus/TEACHING_BUILDINGS_PLAN.md
+@@ -1,6 +1,6 @@
+ # 台大總校區三棟公共教學館：位置查證與配置規劃
+ 
+-使用者 2026-10-13 決定：先擴充台大總校區，新增**普通教學館、共同教學館、博雅教學館**。這三棟是整個遊戲反覆使用的公共教學空間，不是經濟系的一次性劇情場景：法律系的通識、共同課程、跨系活動會用到，之後的經濟系大一也會用到。經濟系的劇情、人物、課表等 AA、BB 企劃整合、使用者確認後才做。
++使用者 2026-10-13 決定：先擴充首都帝大總校區，新增**普通教學館、共同教學館、博思教學館**。這三棟是整個遊戲反覆使用的公共教學空間，不是經濟系的一次性劇情場景：法律系的通識、共同課程、跨系活動會用到，之後的經濟系大一也會用到。經濟系的劇情、人物、課表等 AA、BB 企劃整合、使用者確認後才做。
+ 
+ 分工：
+ - **LAWWW2**：外觀查證、照片與參考、Blender 模型、GLB。
+@@ -29,23 +29,23 @@
+ | 建築 | 教室 | 公共空間 |
+ |---|---|---|
+ | 共同教學館 | 3 間階梯教室（678 人）、1 間未來教室、16 間錄播教室、24 間平面教室。教室編號照樓層：共 101（一樓，240 人階梯）、共 301（200 人階梯），最高到共 4xx | — |
+-| 博雅教學館 | 7 間階梯教室（1,553 人）、1 間未來教室、1 間遠距教室、22 間錄播教室、14 間平面教室。博雅 101（400 人，一樓）、102、103（約 280 人）。二樓 2 間階梯＋4 間討論教室；三樓 2 間階梯＋10 間討論教室 | **一樓有三處大型公共空間：沙發、桌椅，供學生自習與討論**（使用者記得的自習小桌） |
++| 博思教學館 | 7 間階梯教室（1,553 人）、1 間未來教室、1 間遠距教室、22 間錄播教室、14 間平面教室。博思 101（400 人，一樓）、102、103（約 280 人）。二樓 2 間階梯＋4 間討論教室；三樓 2 間階梯＋10 間討論教室 | **一樓有三處大型公共空間：沙發、桌椅，供學生自習與討論**（使用者記得的自習小桌） |
+ | 普通教學館 | 25 間教室、約 2,630 個座位（大教室多）；二樓空橋連博雅 | 還沒查到 |
+ 
+ → 遊戲的模板要照這些修正：
+ - 共同的一樓要有階梯教室（共 101），其他是平面教室；
+-- 博雅一樓是大階梯教室＋三處自習與討論的公共空間；
++- 博思一樓是大階梯教室＋三處自習與討論的公共空間；
+ - 教室門牌照真實的編號規則。
+ 
+ 從南往北，真實的關係是：
+ 
+-**椰林大道 → 文學院 → 普通教學館 →（空橋）→ 博雅教學館 → 醉月湖**
++**椰影大道 → 文學院 → 普通教學館 →（空橋）→ 博思教學館 → 映月湖**
+ 
+-共同教學館在椰林大道南側、行政大樓東邊（中間是木造走廊），背面是舟山路。
++共同教學館在椰影大道南側、行政大樓東邊（中間是木造走廊），背面是舟山路。
+ 
+ 三棟都不在法律學院旁邊，也不是排成一排：
+ - 共同在大道南側。
+-- 普通、博雅在大道北側、文學院後面，往醉月湖的方向。
++- 普通、博思在大道北側、文學院後面，往映月湖的方向。
+ 
+ 還沒查證、要 LAWWW2 從照片確認的：
+ - 外觀（層數、材料、立面）；
+@@ -59,12 +59,12 @@
+ - 座標：x 往東、-z 往北，1 單位＝1 m。
+ - 校園照臺大平面圖「壓縮」（D25）：椰林大道大約 1:3.7（校門 x=-124 → 總圖 x≈87）。
+ - 刻意和真實不同的地方：
+-  - 法律學院放在小椰林道北端。
++  - 法律學院放在椰影小徑北端。
+   - 社科院在總圖北邊。
+   - 舟山路是行政大樓後面的直路。
+   - **醉月湖比真實靠近大道**（中心 (-30,-66)）。
+ - 走得到的範圍：x -123..125、z -124..84。西北角（x -123..5、z -124..-84）是走不到的樹林，社科院北邊（x 100..125）也是。
+-- 劇情、事件、人物資料都沒有用到醉月湖的座標（已搜尋 `src/story3d.js`、`src/data/events.js`、`src/data/characters.js`、`src/guide3d.js`）。只有 `tests/campus_layout_nav.py` 的地點清單、大地圖地名（`src/data/places.js`）和校園本身用到。
++- 劇情、事件、人物資料都沒有用到映月湖的座標（已搜尋 `src/story3d.js`、`src/data/events.js`、`src/data/characters.js`、`src/guide3d.js`）。只有 `tests/campus_layout_nav.py` 的地點清單、大地圖地名（`src/data/places.js`）和校園本身用到。
+ 
+ 現況（`tools/dev_scratch/teaching_plan_diagram.py` 依 `src/zones3d.js` 的座標畫，不是遊戲截圖）：
+ 
+@@ -73,53 +73,53 @@
+ | 位置 | 現在是什麼 | 能不能放教學館 |
+ |---|---|---|
+ | 行政大樓東邊 (2,33)，24×14 | 第十八批補的**沒有名字的系館**（「大道南側、行政大樓東邊」） | **可以**：正好是共同教學館的真實位置——西邊隔 5 m 是行政大樓，南邊是舟山路。直接換掉這棟無名系館，不動其他東西 |
+-| 文學院背面 (z=-43) 到醉月湖步道 (z=-51) | 約 8 m 的草地 | **放不下**普通＋博雅 |
++| 文學院背面 (z=-43) 到映月湖步道 (z=-51) | 約 8 m 的草地 | **放不下**普通＋博思 |
+ | 醉月湖東邊、小椰林道西邊（x -8..22、z -84..-40） | 草地、三棵樹 | 擠得下兩棟 24 m 寬的，但位置關係和真實不同（方案 B） |
+-| 醉月湖北邊（x -70..5、z -124..-84） | 走不到的樹林（背景） | 校園往北擴充後可以用（方案 A） |
++| 映月湖北邊（x -70..5、z -124..-84） | 走不到的樹林（背景） | 校園往北擴充後可以用（方案 A） |
+ 
+ ## 3. 配置方案
+ 
+ ### 共同教學館（位置確定，兩個方案相同）
+ 
+-- 取代 (2,33) 的無名系館：ry=π，正面朝北、對著椰林大道，和行政大樓同方向；footprint 24×14（x -10..14、z 26..40）。
++- 取代 (2,33) 的無名系館：ry=π，正面朝北、對著椰影大道，和行政大樓同方向；footprint 24×14（x -10..14、z 26..40）。
+ - 正門在北面中間。大道的樹牆在 x -2..6 本來就留了空，大道上的杜鵑叢在 x -2.4..2.4 有缺口，玩家可以直接從大道走到門口。
+ - 和行政大樓之間的 5 m 做有頂的木造走廊，玩家可以從走廊下走過。外觀等 LAWWW2 的照片查證。
+ - 課表系統原本的「共同課程教室」暫時上課點在 (45,22.6)（另一棟無名系館門口，做課表時放的）。共同教學館蓋好後移到它的正門。
+ 
+-### 普通、博雅：兩個方案（需要使用者決定）
++### 普通、博思：兩個方案（需要使用者決定）
+ 
+-**方案 A（推薦）：醉月湖往北搬、西北角擴充**
++**方案 A（推薦）：映月湖往北搬、西北角擴充**
+ 
+ ![方案 A](teaching_plan_A.png)
+ 
+-- **醉月湖整組往北搬約 46 m**：中心 (-30,-66) → (-36,-112)。湖面、石砌湖岸、湖心亭、木棧道、長椅、路燈、蘆葦一起搬，形狀不變。原本走不到的西北角樹林（x -70..5、z -124..-84）改成走得到；樹林往西、往北退。
++- **映月湖整組往北搬約 46 m**：中心 (-30,-66) → (-36,-112)。湖面、石砌湖岸、湖心亭、木棧道、長椅、路燈、蘆葦一起搬，形狀不變。原本走不到的西北角樹林（x -70..5、z -124..-84）改成走得到；樹林往西、往北退。
+ - 新的位置：
+   - **普通教學館**在文學院正後方（中心約 (-38,-58.5)，34×17）。
+-  - **博雅教學館**在普通北邊（中心約 (-38,-83)，34×18），二樓空橋連普通。
+-  - 博雅的北邊是新的湖南岸步道和醉月湖。
+-- 路：往醉月湖的小路（x≈-12）往北延長到新的湖邊；文學院和普通之間加一條東西向的路。
++  - **博思教學館**在普通北邊（中心約 (-38,-83)，34×18），二樓空橋連普通。
++  - 博思的北邊是新的湖南岸步道和映月湖。
++- 路：往映月湖的小路（x≈-12）往北延長到新的湖邊；文學院和普通之間加一條東西向的路。
+ - 和真實的關係**全部對得上**：普通在文學院後面、博雅在普通北邊（空橋）、博雅北望醉月湖。
+ - 影響：
+   - 湖和湖心亭的位置改變（劇情沒有用到）。
+   - `tests/campus_layout_nav.py` 的湖邊地點換成新座標（照樣檢查木棧道、湖心亭走得到、湖面不能走，不放寬標準）。
+   - 舊存檔剛好站在舊湖面或新建築裡的，讀檔後照現有的規則移到最近站得住的地方（`OLD_SAVES` 測試）。
+-  - 大地圖的「醉月湖」地名跟著改。
++  - 大地圖的「映月湖」地名跟著改。
+   - VISUAL_REVIEW 第 8 節的俯視圖要重拍。
+ - 這是「可以漸進擴充」的做法：只開放西北角一塊，其他地方都不動；之後要加新生教學館、小福利社等，也從這一塊往外長。
+ 
+-**方案 B：醉月湖不動**
++**方案 B：映月湖不動**
+ 
+ ![方案 B](teaching_plan_B.png)
+ 
+-- 普通、博雅擺在湖東邊、小椰林道西邊（各 24 m 寬，中間空橋）。
++- 普通、博思擺在湖東邊、椰影小徑西邊（各 24 m 寬，中間空橋）。
+ - 優點：既有場景完全不動。
+ - 缺點：
+-  - 兩棟只能做 24 m 寬，擠在湖和小椰林道之間。
++  - 兩棟只能做 24 m 寬，擠在湖和椰影小徑之間。
+   - **和真實不同**：普通在文學院東北，不是正後方；醉月湖在博雅西邊，真實在北邊。
+ 
+-使用者 2026-10-13 說「不要為了新增三棟建築而破壞既有場景的位置；若需要更大的校園世界，請提出可漸進擴充的方法」。方案 A 要搬動醉月湖，所以**先請使用者決定**。在那之前：
++使用者 2026-10-13 說「不要為了新增三棟建築而破壞既有場景的位置；若需要更大的校園世界，請提出可漸進擴充的方法」。方案 A 要搬動映月湖，所以**先請使用者決定**。在那之前：
+ - 共同教學館照常做（兩個方案相同）；
+-- 普通、博雅只做外觀研究，還不放進遊戲。
++- 普通、博思只做外觀研究，還不放進遊戲。
+ 
+ ## 3b. 大一女舍（使用者 2026-10-13 第二則：列為優先場景）
+ 
+@@ -165,7 +165,7 @@
+ - 舊存檔：`tests/save_compat_v7.py`、`tests/save_compat_live.py`。
+ 
+ 室內（大廳、走廊、樓梯、電梯、普通教室、大階梯教室、休息區）是第二階段：
+-- 做成可重複使用的教學館模板（和霖澤館、萬才館同一套分層導航）。
++- 做成可重複使用的教學館模板（和法律系館A、B同一套分層導航）。
+ - 室內沒有查證的部分做成可替換的模板，**不宣稱和真實相同**。
+ - 第一階段的門口先寫清楚「室內整修中」，不用隱形牆。
+ 
+@@ -175,12 +175,12 @@
+ |---|---|
+ | 三棟真實位置查證 | 完成（公開資料交叉確認；官方地圖沙盒連不到，請使用者再對一次） |
+ | 共同教學館位置 | 確定：(2,33) |
+-| 普通、博雅位置 | 開發分支已照**方案 A** 做好（D55）；**等使用者驗收**（第 6 節：俯視圖、影響範圍、路線、替代方案） |
++| 普通、博思位置 | 開發分支已照**方案 A** 做好（D55）；**等使用者驗收**（第 6 節：俯視圖、影響範圍、路線、替代方案） |
+ | 大一女舍 | 位置查證完成（學務處官方簡介）；規劃：校園西南角、舟山路西段南側（取代無名系館 (-92,66)） |
+ | LAWWW2 分派 | 2026-10-13 已送達（DELIVERED），等 ACK；法圖照原安排繼續 |
+ | 模型 | 還沒有（LAWWW2 先做法圖，再做三棟的參考研究、共同） |
+ | 整合進可玩的 3D 地圖（開發分支，外觀是 BLOCKOUT） | 共同教學館：外觀、門口、地圖、快速前往、**室內第一版**（大廳、走廊、樓梯、休息區、自習區；一樓東半是**共 101 階梯教室**（五排、40 個座位、兩側台階走道、講台在大廳那一端的門口）＋三間平面教室 102、201、202；課在 101 上）；大一女舍：A、B 兩棟＋天橋、門口長椅、男賓止步、地圖、快速前往；門口的人流（上課前後、早晚） |
+-| 室內（開發分支，2026-10-13 晚）| 共同、博雅、普通三棟都用同一個模板（`src/teach3d.js`）：**博雅**一樓 101、102 階梯教室（各 66 位）、沙發區、自習小桌、討論桌、講座資訊螢幕，二樓 201、202 討論教室；**普通**中間走廊、1F 101–104 與 2F 201、202 平面大教室、往博雅的空橋（關著）。所有椅子都擋住（不能穿過椅子）。博雅、普通的校園門口照方案 A 做好（開發分支），等使用者驗收方案 A |
++| 室內（開發分支，2026-10-13 晚）| 共同、博思、普通三棟都用同一個模板（`src/teach3d.js`）：**博思**一樓 101、102 階梯教室（各 66 位）、沙發區、自習小桌、討論桌、講座資訊螢幕，二樓 201、202 討論教室；**普通**中間走廊、1F 101–104 與 2F 201、202 平面大教室、往博思的空橋（關著）。所有椅子都擋住（不能穿過椅子）。博思、普通的校園門口照方案 A 做好（開發分支），等使用者驗收方案 A |
+ | 測試 | 單元測試全部通過（`campus_public_unit`、`nav_teach_unit`（三棟）、`teach_class_unit`、`boya_lecture_unit`、`crowd_unit`、`quick_travel_unit`）；**瀏覽器的玩家流程（`flow_teaching_buildings.py`、`flow_classes.py`、`flow_boya_interior.py`）還沒跑** |
+ | 發布 | 都只在開發分支，沒有發布 |
+ | 效能（模型層面；在 Node 建區域、數合併前的網格與三角形） | 校園：v9.5 候選 1,239 個網格／58.9 萬三角形 → 開發分支 1,274／60.0 萬（+2.8%／+1.8%；共同教學館、大一女舍兩棟＋天橋、門口長椅與車架）；共同教學館室內 370 個網格／2.3 萬三角形（法圖室內 437／1.2 萬）。瀏覽器會合併靜態網格，draw call 比這少。**手機實際幀率沒有量**（雲端沙盒是 SwiftShader） |
+@@ -196,15 +196,15 @@
+ ![方案 A 改了哪裡](planA/planA_impact.png)
+ 
+ - **範圍只有西北角**：文學院後面到新的湖，約 67 × 75 m（x −62～5、z −124～−48.5）。
+-  - 文學院本身、椰林大道、傅鐘、霖澤館、萬才館、總圖、小椰林道、所有入口與快速前往的地點都沒動。
+-- **新擋住約 666 m²**（橘色）：普通教學館（34 × 16 m）、博雅教學館（34 × 18 m）、搬過去的醉月湖。
++  - 文學院本身、椰影大道、晨思鐘、法律系館A、B、總圖、椰影小徑、所有入口與快速前往的地點都沒動。
++- **新擋住約 666 m²**（橘色）：普通教學館（34 × 16 m）、博思教學館（34 × 18 m）、搬過去的映月湖。
+ - **新可以走約 2,082 m²**（綠色）：
+   - 原本的湖面；
+   - 原本走不到的西北角樹林（湖北移後打開）。
+-- **醉月湖整組保留**：湖面形狀、石砌湖岸、湖心亭、木棧道、長椅、路燈、蘆葦一起往北搬約 46 m，中心 (−30,−66) → (−36,−112)。
+-  - 湖在博雅北邊，中間隔一條湖南岸步道。
++- **映月湖整組保留**：湖面形狀、石砌湖岸、湖心亭、木棧道、長椅、路燈、蘆葦一起往北搬約 46 m，中心 (−30,−66) → (−36,−112)。
++  - 湖在博思北邊，中間隔一條湖南岸步道。
+ - 圖上另外看得到的改動是**大一女舍**（左下，D56 的另一項，不屬於方案 A）。
+-- **劇情、事件、人物資料都沒有用到醉月湖的座標**（第 2 節已搜尋），所以搬湖不影響劇情。
++- **劇情、事件、人物資料都沒有用到映月湖的座標**（第 2 節已搜尋），所以搬湖不影響劇情。
+ 
+ ### 6-2 玩家怎麼走
+ 
+@@ -212,27 +212,27 @@
+ 
+ | 路線 | 方案 A（開發分支） | v9.5 |
+ |---|---|---|
+-| 傅鐘前 → 普通門口 | 79 m（走路 44 秒、跑步 16 秒） | —（沒有普通） |
+-| 普通門口 → 博雅門口 | 56 m（31 秒／12 秒）：繞過普通東側到兩棟中間（二樓空橋之後再開） | — |
+-| 博雅門口 → 醉月湖南岸 | 55 m（30 秒／11 秒） | — |
+-| 傅鐘前 → 醉月湖南岸 | 123 m（68 秒／26 秒） | 73 m（40 秒／15 秒） |
+-| 霖澤館前 → 醉月湖南岸 | 70 m（39 秒／15 秒） | 79 m（44 秒／16 秒） |
+-| 霖澤館前 → 普通門口（週五重修經原、下午回霖澤館） | 91 m（51 秒／19 秒） | — |
++| 晨思鐘前 → 普通門口 | 79 m（走路 44 秒、跑步 16 秒） | —（沒有普通） |
++| 普通門口 → 博思門口 | 56 m（31 秒／12 秒）：繞過普通東側到兩棟中間（二樓空橋之後再開） | — |
++| 博思門口 → 映月湖南岸 | 55 m（30 秒／11 秒） | — |
++| 晨思鐘前 → 映月湖南岸 | 123 m（68 秒／26 秒） | 73 m（40 秒／15 秒） |
++| 法律系館A前 → 映月湖南岸 | 70 m（39 秒／15 秒） | 79 m（44 秒／16 秒） |
++| 法律系館A前 → 普通門口（週五重修經原、下午回法律系館A） | 91 m（51 秒／19 秒） | — |
+ | 校門 → 普通門口 | 100 m（55 秒／21 秒） | — |
+ | 男一舍 → 普通門口 | 133 m（74 秒／28 秒） | — |
+ 
+ - 時間是遊戲裡的走路 1.8 m/s、跑步 4.8 m/s，不含轉彎。
+-- 也可以用手機「地點」快速前往「普通教學館」「博雅教學館」（照距離算時間）。
++- 也可以用手機「地點」快速前往「普通教學館」「博思教學館」（照距離算時間）。
+ - **玩家感受到的差別**：
+-  - 從椰林大道去醉月湖多走約 50 m；
+-  - 從霖澤館去醉月湖反而近一點。
+-  - 文學院後面原本看得到的湖，現在換成普通教學館；湖在博雅後面。
++  - 從椰影大道去映月湖多走約 50 m；
++  - 從法律系館A去映月湖反而近一點。
++  - 文學院後面原本看得到的湖，現在換成普通教學館；湖在博思後面。
+ 
+ ### 6-3 有沒有「位置照真實、醉月湖不動、導航不變」的替代方案？
+ 
+ - **真實的順序**：椰林大道 → 文學院 → 普通 →（空橋）→ 博雅 → 醉月湖（博雅北望醉月湖）。
+ - **照這個順序放兩棟真實大小的教學館，需要約 54 m 的深度**：
+-  - 文學院背面 → 7.5 m 步道 → 普通 16 m → 7.5 m（空橋）→ 博雅 18 m → 5 m 湖南岸步道。
++  - 文學院背面 → 7.5 m 步道 → 普通 16 m → 7.5 m（空橋）→ 博思 18 m → 5 m 湖南岸步道。
+ - **v9.5 文學院背面到湖南岸步道只有約 8 m。**
+ 
+ | 方案 | 位置和真實一樣 | 醉月湖 | 現有導航與場景 | 結論 |
+@@ -240,8 +240,8 @@
+ | **A（開發分支）**：湖往北搬 46 m | 全部對得上 | 保留（整組搬，形狀不變），就在博雅北邊 | 只改西北角；其他不變 | **推薦**。46 m 是放得下兩棟真實大小教學館的最小距離 |
+ | B：湖不動，兩棟放在湖東邊、小椰林道西邊 | 不對：普通在文學院東北（不是正後方）、湖在博雅西邊（真實在北邊） | 不動 | 只改湖東邊 | 可以做，但和真實位置不同 |
+ | C：湖不動、順序照真實 | 對 | 不動 | — | **放不下**：只有 8 m，要 54 m |
+-| D：湖只搬一部分（例如 20 m）、教學館縮小 | 對 | 保留 | 只改西北角 | 不推薦：博雅兩間 66 人階梯教室、二樓教室已照現在的大小做好室內，縮小要重做室內 |
+-| E：搬文學院，讓出空間 | 對 | 不動 | 文學院、傅鐘一帶的位置、存檔裡站在那裡的玩家都會受影響 | 不推薦：動到更多既有場景 |
++| D：湖只搬一部分（例如 20 m）、教學館縮小 | 對 | 保留 | 只改西北角 | 不推薦：博思兩間 66 人階梯教室、二樓教室已照現在的大小做好室內，縮小要重做室內 |
++| E：搬文學院，讓出空間 | 對 | 不動 | 文學院、晨思鐘一帶的位置、存檔裡站在那裡的玩家都會受影響 | 不推薦：動到更多既有場景 |
+ 
+ 結論：在「位置照真實、保留醉月湖、不動其他場景」三個條件下，方案 A 是改動最小的做法。
+ 
+@@ -254,7 +254,7 @@
+ 
+ ### 6-5 需要使用者決定
+ 
+-**方案 A 可以嗎？** 醉月湖保留，整組往北搬約 46 m，到博雅北邊；從椰林大道去醉月湖會多走約 50 m。
++**方案 A 可以嗎？** 映月湖保留，整組往北搬約 46 m，到博思北邊；從椰影大道去映月湖會多走約 50 m。
+ - 可以：方案 A 和開發分支上已經做好、測過的課表、手機等一起進 v9.6（發布前跑完整回歸）。
+ - 想要別的：告訴我哪裡要改。B 可以在開發分支另外做一版給你比較（約半天）。
+ 
+diff --git a/docs/handoff/USER_WANTS.md b/docs/handoff/USER_WANTS.md
+index 1bb0dfb62..d02b48a2b 100644
+--- a/docs/handoff/USER_WANTS.md
++++ b/docs/handoff/USER_WANTS.md
+@@ -1,5 +1,8 @@
+ # 使用者需求總表（HV-15／D101；四職位、所有帳號）
+ 
++> **歷史紀錄（2026-10-30 起，RENAME-1030）**：本文件記的是當時的決定和原話，裡面的「臺大、政大、霖澤館、萬才館、傅鐘、椰林大道……」照原文保留。遊戲現行名稱以 `docs/WORLD_NAMING.md`（企劃線）為準；新的決定照新名寫。
++
++
+ > - 規則：`docs/AI_SESSION_HANDOFF.md` 第 0b 節。使用者要過、玩家看得到或玩得到的每樣東西，一列。
+ > - 狀態：在遊戲裡（線上版已有）／在開發分支（還沒發布）／做好了沒進遊戲／還沒做／暫停／已取消（取消要有使用者原話）。
+ > - 誰改：LAWWW（系統、場景、美術、發布）、AA（劇情、台詞、法律內容）直接改；BB、LAWWW2 用訊息交給 LAWWW。
