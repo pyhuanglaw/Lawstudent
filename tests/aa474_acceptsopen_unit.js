@@ -11,6 +11,8 @@
 //   9 第 5 節三句（學姊 Byes 第三句、沛珊知情心意邀約的接受、學姊第二次的 then／yes）照稿
 //   10 舊存檔：讀檔不多欄位、以前演過的不倒回去重演
 // 修改前（開發分支 d5ce20a40）：開關七位都 false、沒有 MREL.knowGate／kxWithdraw——大部分 FAIL。用法：node tests/aa474_acceptsopen_unit.js
+// 第二輪（10-30，企劃線 187584ca8）照 AA_481、AA_483 改的期望值：七夕她先說只說兩句（8-1）、大峽谷她先說只說前兩句（8-6）、七月 promise 不接朋友那一句（8-2）、
+//   可昕收回 ①「你又騙我一次。」②「我是聽別人講的。」開頭、「我說過了。」前的旁白（7）、第 9 節對 AA_474＋AA_483（24 句）。其他第二輪的檢查在 tests/aa481_483_aopen_unit.js
 require('./alison.js');
 const H=require('./pg_harness.js');
 const fs=require('fs'), vm=require('vm'), path=require('path');
