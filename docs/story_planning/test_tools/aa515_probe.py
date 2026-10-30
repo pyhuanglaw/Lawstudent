@@ -54,7 +54,10 @@ async def main():
             q = await pg.evaluate("(id=>(FEED.rec(GAME.G).items||[]).filter(i=>String(i.id||'').startsWith('dt_')).map(i=>({id:i.id,who:i.who,day:CALENDAR.dateOf(i.day).key,h:i.h,pic:i.pic||i.photo||null,text:i.text==null?null:i.text})))(%s)" % J(WHO))
             run.note('回來時排好的約會動態：%s' % J(q))
             target_h = 21.55 if MODE == 'an' else 24.6
-            if target_h < 24: got = await P.wait_play(pg, cdp, target_h, max_s=900)
+            if target_h < 24:   # 以安 21:30（BB-B 10-30 10:30）：站著等 900 秒只走到 19:10（工具）。照玩家：手機「跳過時間」→ 等到晚上（20:00），再等到 21:33
+                await H['skip'](pg, cdp, '等到晚上', MODE); run.note('跳過時間「等到晚上」→ %s' % J(await pg.evaluate(H['STATE'])))
+                got = await P.wait_play(pg, cdp, target_h, max_s=1800)
+                run.check('前置：等到 21:33（她貼的時間以後）', got, J(await pg.evaluate(H['STATE'])))
             else:   # 子晴 00:30（BB-B 10-30 10:13）：站著等，沙盒 25 分鐘只走到 20:13（工具）。照玩家：回宿舍睡到明天，起床打開手機看動態
                 o, slept = await H['sleep_night'](pg, cdp, run, MODE)
                 run.note('睡到明天：%s；現在 %s' % (J(o and [x['t'] for x in o]), J(await pg.evaluate(H['STATE']))))
