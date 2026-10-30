@@ -1,12 +1,14 @@
-/* ===== 學姊重讀（AA_539，企劃線 c9f6dd6cb；SIS-LEAD-1021、D111、USER_WANTS C25）第 3 節：補空白（第②級）——接線 =====
+/* ===== 學姊重讀（AA_539，企劃線 c9f6dd6cb → 90d0a41d0；SIS-LEAD-1021、D111、USER_WANTS C25）第 3 節：補空白（第②級）——接線 =====
    台詞在 src/data/sis_aa539_lines.js（照稿不改字）。STORY.PHONE_RULES：
    - 3-1 朋友版六則私訊（2026-07-20、12-20、2028-02-27、04-12、06-20、2029-02-14）：認識她（met_sis）、朋友以上、有她的聯絡方式、沒在和她交往、不是前任；
        21:00（人在日本、美國、寒暑假出國＝當地時間，同 sis_b12_3d.js tzH）。那一天晚兩天以上才讀到的不補（同 SISB12）。
-       2026-07-20 那一則有回覆選項：「我在附近。」＝照一般邀約，約當天下午到慢讀（INV 的邀約，by:'npc'；見面照 AA_535 學姊慢讀的句子＝invites.js 的 slowreadLines）；
-       「今天不行。」＝她「好。」。
-       【稿上不清楚、照最接近的做法】稿的表頭寫 21:00，可是這一則說「我在慢讀」、回「我在附近。」要「約當天下午到慢讀」，慢讀 18:00 關——
-       這一則改成下午 14:00 傳（2026-07-20 週一），約的時間照慢讀平日的時段（INVITE_DATA 的 timesBy：12:10、15:30）挑還來得及、兩個人都空的第一個（15:30）；
-       回覆期限 15:15（來得及 15:30）；那時候都不行＝照 INV.nextFree 當天慢讀還開著的下一個半點（最晚 16:30 開始）；還是沒有＝不約（不另外寫句子）。
+       2026-07-20 那一則照 5-1（90d0a41d0）：14:00 傳（LAWWW-B 子代理原本的時間，AA 照用）。
+         12-1（AA_470「學生證」，sis_b12 的 ev_sis_borrowed_card）還沒演：兩則＋選項——
+           「我在附近。」＝她「好。三樓靠窗。」，約當天 15:30 總圖（INV 的總圖邀約，by:'npc'）；見面那一次直接演 12-1（INV 的 iv.ev，同 sup497_3d.js），不演一般的總圖見面；
+           「今天不行。」＝她「好。」；12-1 照原規則（7/31 以前平日在總圖找她照樣演）。回覆期限 15:15。
+         12-1 演過了：「你借我的那三本，第一本讀完了。」一則、不用回。排好還沒送到以前 12-1 演了＝換成這一則（S.fixQueued）。
+         人在國外照收；12-1 還沒演的只收前兩則，沒有選項。
+         約好以後、見面以前 12-1 自己先演了（在總圖找她說話）＝那一次照一般的總圖見面（拿掉 iv.ev）；從見面演的，補記 SIS_CARD_DAY（12-1 第 21 天的私訊照 sis_b12_3d.js S.cardBack）。
    - 3-2 沒認識的玩家也收到的家族群組三則（2026-07-05 20:00、12-24 21:00、2027-07-15 20:00）：在家族群組（family_law）就收到、不用回；朋友版、交往中也一樣。
    存檔：G.flags.SIS539_SR＝7/20 約到的 INV 邀約 id（'none'＝沒約到）；訊息照 PHONE 的 tag（sis539_*）。測試：node tests/aa539_sis_reread_unit.js */
 'use strict';
@@ -27,30 +29,38 @@ const SIS539=(function(){
   const dm=t=>({th:'p:'+ID,from:ID,text:t});
   S.friendOk=G=>law(G)&&!!G.flags.met_sis&&!S.dating(G)&&!S.isEx(G)&&stageOk('FRIEND')&&contact(G);   /* 3-1：朋友以上、有聯絡方式；交往中的不發 */
   S.dmTag=i=>'sis539_fdm_'+i; S.grpTag=i=>'sis539_grp_'+i;
-  S.SR_UNTIL=15.25;   /* 7/20 回覆期限（來得及 15:30）*/
+  S.SR_UNTIL=15.25;   /* 7/20 回覆期限（來得及 15:30 總圖）*/
+  const CARD_EV='ev_sis_borrowed_card';
+  S.cardDone=G=>!!(G&&((G.events&&G.events.done&&G.events.done[CARD_EV])||(G.flags&&G.flags.SIS_CARD_DAY!=null)))||(typeof SOCIAL!=='undefined'&&!!SOCIAL.has&&SOCIAL.has(ID,'SIS_BORROWED_CARD'));   /* 12-1 演過了（事件、SISB12 記的那一天、記憶）*/
   S.away=(G,d)=>(typeof STORY!=='undefined'&&!!STORY.abroad&&STORY.abroad(Object.assign({},G,{day:d})))||(typeof VAC!=='undefined'&&!!VAC.abroadOn&&VAC.abroadOn(G,d));
 
   /* ---------------- 3-1 朋友版私訊 ---------------- */
   S.friendDm=function(G){ const A=L.friendDm||[];
     for(let i=0;i<A.length;i++){ const a=A[i], d=D(a.day), tag=S.dmTag(i); if(d==null||G.day<d||G.day>d+2||sent(G,tag)||!S.friendOk(G)) continue;
-      if(a.yes&&now(G)>=T(d,tzH(G,d,S.SR_UNTIL))) continue;   /* 有選項的那一則（7/20）：過了回覆期限才讀到的不補 */
-      const M=a.L.map(dm); if(a.yes&&!S.away(G,d)) M[M.length-1].ask={id:tag,until:T(d,tzH(G,d,S.SR_UNTIL)),opts:[{t:a.yes},{t:a.noT,say:[{from:ID,text:a.no}]}]};   /* 那天人在國外（寒暑假出國）：照收、沒有選項（同 sis_b12_3d.js 12-6b 的做法）*/
+      if(a.card&&S.cardDone(G)){ PHONE.at(G,d,tzH(G,d,a.h),a.card.map(dm),tag); continue; }   /* 7/20：12-1 演過了＝那一則（不用回）*/
+      const ask=!!a.yes&&!S.away(G,d);   /* 人在國外：照收、沒有選項（5-1）*/
+      if(ask&&now(G)>=T(d,tzH(G,d,S.SR_UNTIL))) continue;   /* 有選項的那一則：過了回覆期限才讀到的不補 */
+      const M=a.L.map(dm); if(ask) M[M.length-1].ask={id:tag,until:T(d,tzH(G,d,S.SR_UNTIL)),opts:[{t:a.yes,say:[{from:ID,text:a.yesRe}]},{t:a.noT,say:[{from:ID,text:a.no}]}]};
       PHONE.at(G,d,tzH(G,d,a.h),M,tag); } };
-  /* 「我在附近。」：照一般邀約，約當天下午到慢讀（PHONE.ON_ANSWER；回的當下就約）*/
-  S.srSlot=function(G,d){ if(typeof INV==='undefined'||!INV.place||!INV.freeAt) return null; const P=INV.place('slowread'); if(!P) return null; const t0=hh(G)+0.25;
-    const wd=typeof CALENDAR!=='undefined'&&CALENDAR.dateOf?CALENDAR.dateOf(d).wd%7:G.weekday, L0=(P.timesBy?((wd===0||wd===6)?P.timesBy.we:P.timesBy.wk):P.times)||[];
-    for(const h of L0) if(h>=t0&&INV.freeAt(G,ID,P,d,h)) return h;
-    const n=INV.nextFree?INV.nextFree(G,ID,P,d,t0):null; return n&&n.day===d?n.h:null; };
-  S.onAsk=function(G,m,o,k){ const id=m&&m.ask&&m.ask.id; if(id!==S.dmTag(0)||k!==0||!G||!G.flags||G.flags.SIS539_SR!=null) return;
-    const d=D((L.friendDm||[])[0].day), h=d==null?null:S.srSlot(G,d);
-    if(h==null){ G.flags.SIS539_SR='none'; return; }
-    const iv=INV.accept(G,ID,'slowread',d,h,{by:'npc'}); G.flags.SIS539_SR=iv?iv.id:'none'; };
+  /* 排好、還沒送到（14:00 以前）12-1 先演了：換成「演過了」的那一則 */
+  S.fixQueued=function(G){ const a=(L.friendDm||[])[0]; if(!a||!a.card||!S.cardDone(G)) return; const P=PHONE.rec?PHONE.rec(G):null; const q=P&&Array.isArray(P.q)?P.q.find(x=>x&&x.tag===S.dmTag(0)):null;
+    if(q&&q.items&&q.items[0]&&q.items[0].text===a.L[0]) q.items=a.card.map(dm); };
+  /* 「我在附近。」：約當天 15:30 總圖，見面直接演 12-1（PHONE.ON_ANSWER；回的當下就約）*/
+  S.SR_H=15.5;
+  S.onAsk=function(G,m,o,k){ const id=m&&m.ask&&m.ask.id; if(id!==S.dmTag(0)||k!==0||!G||!G.flags||G.flags.SIS539_SR!=null||typeof INV==='undefined'||!INV.accept) return;
+    const d=D((L.friendDm||[])[0].day), P=INV.place?INV.place('library'):null;
+    if(d==null||!P||(INV.freeAt&&!INV.freeAt(G,ID,P,d,S.SR_H))){ G.flags.SIS539_SR='none'; return; }   /* 那個時間你已經約了別人、考試：不約（不另外寫句子）*/
+    const iv=INV.accept(G,ID,'library',d,S.SR_H,{by:'npc'}); if(iv&&!S.cardDone(G)) iv.ev=CARD_EV; G.flags.SIS539_SR=iv?iv.id:'none'; };
+  /* 約好的那一次：見面以前 12-1 自己先演了＝拿掉 iv.ev（照一般的見面）；從見面演完的＝補記 SIS_CARD_DAY（第 21 天的私訊）*/
+  S.srFix=function(G){ const F=G.flags, ivId=F.SIS539_SR; if(!ivId||ivId==='none'||typeof INV==='undefined'||!INV.byId) return; const iv=INV.byId(G,ivId); if(!iv) return;
+    if(iv.ev===CARD_EV&&iv.state==='accepted'&&S.cardDone(G)) delete iv.ev;
+    if(iv.ev===CARD_EV&&iv.state==='done'&&F.SIS_CARD_DAY==null){ const R=G.events&&G.events.last; F.SIS_CARD_DAY=R&&R[CARD_EV]!=null?R[CARD_EV]:iv.day; } };
 
   /* ---------------- 3-2 家族群組 ---------------- */
   S.famGrp=function(G){ if(!inGrp(G)) return; const A=L.famGrp||[];
     for(let i=0;i<A.length;i++){ const a=A[i], d=D(a.day), tag=S.grpTag(i); if(d==null||G.day<d||G.day>d+2||sent(G,tag)) continue; PHONE.at(G,d,tzH(G,d,a.h),a.L.map(g),tag); } };
 
-  S.phone=function(G){ if(!G||!G.flags||!law(G)||typeof PHONE==='undefined') return; for(const f of [S.friendDm,S.famGrp]){ try{ f(G); }catch(e){ console.warn('SIS539 phone',e); } } };
+  S.phone=function(G){ if(!G||!G.flags||!law(G)||typeof PHONE==='undefined') return; for(const f of [S.srFix,S.fixQueued,S.friendDm,S.famGrp]){ try{ f(G); }catch(e){ console.warn('SIS539 phone',e); } } };
   if(typeof STORY!=='undefined'&&Array.isArray(STORY.PHONE_RULES)) STORY.PHONE_RULES.push(G=>S.phone(G));
   if(typeof PHONE!=='undefined'&&Array.isArray(PHONE.ON_ANSWER)) PHONE.ON_ANSWER.push((G,m,o,k)=>S.onAsk(G,m,o,k));
   return S;
