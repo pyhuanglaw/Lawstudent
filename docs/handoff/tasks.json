@@ -35847,7 +35847,7 @@
    "area": "STORY",
    "owner": "LAWWW",
    "status": "已實作待整合",
-   "next": "aa532-vac 7f75195ab 合進 postrel-1030 → v9.10.14 後進開發分支 → BB 測",
+   "next": "postrel-1030 3808792fe → v9.10.14 後進開發分支 → BB 測",
    "priority": "P1",
    "first": {
     "term": "Y1S1",
@@ -35861,15 +35861,15 @@
    },
    "source": "AA_532（企劃線 ade80d22f）；AA_533（企劃線 cf0066ed2）",
    "authorized": "D99、D109、D111",
-   "notes": "【05:2x】合進 postrel-1030 2eeb91a85（兩份都留；子晴 C15 三場 AA_525 與 AA_532 衝突、先照 AA_525、問 AA；aa532_vac_unit 第 0、5 節 3 項暫時 FAIL）｜ 【05:1x】子代理做完（AA_532 41 項、AA_533 27 項、全部 Node 737／0）；14 點轉 AA ｜ 【LAWWW-B 04:3x】AA_533 交給同一個子代理接著做 ｜ "
+   "notes": "【05:3x】AA-B 05:12 回覆：C15 選 A（照 AA_525，AA_532 第 5 節作廢）；十四點第 1（學姊放假平日照學期中、總圖五點以後、週末下午）、5（留宿舍週四爸爸「？」quiet、除夕～初五不傳）、7（京都交往版回覆不重複「分班考分的。」）照改，其他照原做法——postrel 3808792fe，aa532_vac_unit 全過（第 8 節四項新增） ｜ 【05:2x】合進 postrel-1030 2eeb91a85（兩份都留；子晴 C15 三場 AA_525 與 AA_532 衝突、先照 AA_525、問 AA；aa532_vac_unit 第 0、5 節 3 項暫時 FAIL）｜ 【05:1x】子代理做完（AA_532 41 項、AA_533 27 項、全部 Node 737／0）；14 點轉 AA ｜ 【LAWWW-B 04:3x】AA_533 交給同一個子代理接著做 ｜ "
   },
   {
    "id": "DORM-SLEEP-VISUAL-1030",
    "title": "宿舍睡覺要有畫面＋床比例＋室友書桌擺設不重疊（使用者 10-30 04:2x 對 LAWWW2）：LAWWW2 交床上躺位與頭向、梯子踏點、睡覺鏡頭、熄燈光照貼圖、床比例、書桌不重疊（dorm_room4.layout.json＋zones3d.js patch 草稿）；LAWWW 做爬梯／躺下動作與睡覺流程接線",
    "area": "ART",
    "owner": "LAWWW2",
-   "status": "進行中",
-   "next": "LAWWW2 和 203 光照第四輪一起交 → LAWWW 接睡覺流程（走到梯子 → 換鏡頭 → 躺在床上 → 熄燈淡出 → 醒來）→ BB 測",
+   "status": "已實作待整合",
+   "next": "dorm-sleep 6bcca1d71 合進 postrel-1030 → v9.10.14 後進開發分支 → BB 測（瀏覽器整晚＋存讀檔）；LAWWW2：z.lightsOff 光照貼圖、睡覺運鏡的床欄透空（D108）、新 GLB 交了重拍",
    "priority": "P1",
    "first": {
     "term": "Y1S1",
@@ -35890,7 +35890,7 @@
     "receiver": "LAWWW",
     "ack": "ACK"
    },
-   "notes": "【LAWWW2-B 04:26】先交數字 98f8a41f7（dorm_room4.layout.json 每組床桌 sleep_scene：approach、steps 四階、bed_entry、lie head/feet/頭向、cam eye/look）；床墊 1.85→1.92 m、床尾擋板移到走道那一半（GLB 和熄燈光照之後交）→ LAWWW 接睡覺流程 ｜ LAWWW 部分（人物動作、流程）等 LAWWW2 的 layout；203 光照第四輪照舊，兩點半 Café 往後排"
+   "notes": "【05:4x】子代理交件：走到梯子→爬四階→躺→熄燈（暫用曝光壓暗，z.lightsOff 有就用）→淡出；醒來在床上→爬下來站梯子前；小睡、經濟系「睡到下一件事」醒來直接站梯子前（沒有床上醒來那段）；室友照舊；存檔存梯子前；新測試 dorm_sleep_scene_unit（基準 FAILED 1→ALL PASS），全部 Node 739／0；截圖 7 張（SwiftShader）｜ 【LAWWW2-B 04:26】先交數字 98f8a41f7（dorm_room4.layout.json 每組床桌 sleep_scene：approach、steps 四階、bed_entry、lie head/feet/頭向、cam eye/look）；床墊 1.85→1.92 m、床尾擋板移到走道那一半（GLB 和熄燈光照之後交）→ LAWWW 接睡覺流程 ｜ LAWWW 部分（人物動作、流程）等 LAWWW2 的 layout；203 光照第四輪照舊，兩點半 Café 往後排"
   },
   {
    "id": "NPC-STALL-1030",
@@ -36173,9 +36173,9 @@
    "id": "ECON-FRIENDS-SOCLIB-1030",
    "title": "經濟系以前的同學在社科院圖書館遇得到（法律系以後的作息＋偶遇台詞）",
    "area": "STORY",
-   "owner": "AA",
-   "status": "待開工",
-   "next": "AA 定人、作息、偶遇句（玩過／沒玩過前傳）→ LAWWW 加作息與偶遇",
+   "owner": "LAWWW",
+   "status": "進行中",
+   "next": "子代理照 AA_536 實作（分支 econ-soclib-1030，基準 postrel 3808792fe）→ 審 → 合進 postrel-1030 → BB 測",
    "priority": "P1",
    "first": {
     "term": "Y1S1",
@@ -36187,16 +36187,16 @@
     "parallel": true,
     "confirmed": true
    },
-   "source": "使用者 10-30 05:1x（X141）",
+   "source": "使用者 10-30 05:1x（X141）；AA_536（企劃線 1a65846c5）",
    "authorized": "使用者",
    "xai": {
-    "spec": "使用者原話",
-    "branch": "claude/cool-heisenberg-o8kuqx",
-    "acceptance": "人、作息、偶遇台詞可直接實作",
+    "spec": "AA_536（企劃線 1a65846c5）",
+    "branch": "econ-soclib-1030（本機，D113 備份進 wip_backup）",
+    "acceptance": "AA_536 第 4 節測試清單",
     "receiver": "LAWWW",
-    "ack": "SENT"
+    "ack": "ACTIONED"
    },
-   "notes": ""
+   "notes": "【05:3x】AA-B 05:12 交 AA_536：品妤常客（SK12 長桌）、阿勳、唐睿、韋綸考試週；不新增邀約訊息事件；沒玩前傳先自我介紹記 MET_*；派子代理 ｜ "
   },
   {
    "id": "BBALL-PRESENT-1030",
