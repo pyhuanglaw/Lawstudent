@@ -12,6 +12,7 @@ URL, OUT, SAVEF = sys.argv[1], sys.argv[2], sys.argv[3]
 SAVE = json.load(open(SAVEF, encoding='utf-8'))
 J = lambda o: json.dumps(o, ensure_ascii=False)
 REST = '在家休息一下'
+has = lambda opts: any(o.startswith(REST) for o in opts)   # 選項的字＝標題＋小字（「在家休息一下一小時」）：看開頭（BB-B 10-30 02:4x 第一次跑就是這裡判斷錯）
 
 
 async def menu(pg, cdp, max_s=60):
@@ -42,12 +43,12 @@ async def main():
             if not s: run.note('第 %d 次：60 秒沒有選單' % (k + 1)); break
             h = await pg.evaluate("+GAME.G.hour.toFixed(2)"); opts = [o['t'] for o in s['ch']]
             seen.append({'h': h, 'opts': opts}); run.note('第 %d 次選單（G.hour %.2f）：%s' % (k + 1, h, J(opts)))
-            if REST not in opts: last = seen[-1]; break
-            await P.tap_choice(pg, cdp, opts.index(REST)); await pg.wait_for_timeout(4000)
+            if not has(opts): last = seen[-1]; break
+            await P.tap_choice(pg, cdp, [o.startswith(REST) for o in opts].index(True)); await pg.wait_for_timeout(4000)
         await run.shot(pg, 'last_menu')
-        run.check('23:00 第一次選單有「%s」' % REST, bool(seen) and REST in seen[0]['opts'] and seen[0]['h'] < 24, J(seen[:1]))
+        run.check('23:00 第一次選單有「%s」' % REST, bool(seen) and has(seen[0]['opts']) and seen[0]['h'] < 24, J(seen[:1]))
         run.check('凌晨 2:30（G.hour 26.5）以後的選單沒有「%s」、還有「睡覺」' % REST, bool(last) and last['h'] >= 26.5 and any(o.startswith('睡覺') for o in last['opts']), J(last))
-        run.check('2:30 以前每一次都還有「%s」（沒有提早拿掉）' % REST, all(REST in x['opts'] for x in seen if x['h'] < 26.5), J([x for x in seen if x['h'] < 26.5 and REST not in x['opts']]))
+        run.check('2:30 以前每一次都還有「%s」（沒有提早拿掉）' % REST, all(has(x['opts']) for x in seen if x['h'] < 26.5), J([x for x in seen if x['h'] < 26.5 and not has(x['opts'])]))
         run.check('看過的 G.hour 都不超過 28（原本可以按到 131）', all(x['h'] < 28 for x in seen), J([x['h'] for x in seen]))
         if last:
             d0 = await pg.evaluate("GAME.G.day")
