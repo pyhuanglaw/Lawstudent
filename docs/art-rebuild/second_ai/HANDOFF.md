@@ -3,7 +3,7 @@
 ## ⏱ 現況（LAWWW2-B，2026-10-30 21:1x UTC；帳號 B 七天額度已到警示，隨時可能被切斷——接手的先讀這一段）
 
 - **剛交、已整合：NOODLE-LM-1030 麵店＋LM-COLLAPSE-1030 第一間（法律學院圖書館）**（`ee96b798f`→LAWWW-B 整合 2c65d66f1；`test_shots/noodle_lm_1030/README.md`、`test_shots/lm_collapse_1030/README.md`）。樓梯間欄杆影子糊：LAWWW-B 先不排（D99 只記錄）。
-- **LM-COLLAPSE-1030**：法圖已整合；總圖大廳已整合（c1f95420a→4470ef1a9）；宿舍四人房已交（fa0a63063，21→0 m²）；**正在做 201**（在 `scratchpad/slwt` 重烘中）（`bake_classroom_201.sh` 沒有跑 `lm_fix_hidden.py`，重烘時要注意）。
+- **LM-COLLAPSE-1030 四間都交了**（`test_shots/lm_collapse_1030/README.md` 有總結表）：法圖、總圖大廳、宿舍四人房已整合；**201 剛交（19c3cb4c3，5.8→0 m²），等 ACK**。之後等 LAWWW-B 從 D99 佇列派下一件（`bake_classroom_201.sh` 沒有跑 `lm_fix_hidden.py`，重烘時要注意）。
 - **NAV-LIBHALL-ISLAND-1030 已交、已整合（cfb70a5fd，`patches/libhall_island_1030.patch`；LAWWW-B 21:37）**（P2）：總圖大廳一樓約 (5.85,-8.4) 2 格導航孤島（換回舊 GLB 也一樣）；改 `library_layout.js` 阻擋接回大塊或封掉；`tests/library_copier_unit.js` 有 FAIL 就 exit 1（原本 FAIL 也 exit 0）；跑 `nav_buildings_unit`。
 - 已交、已整合：SOCLIB-LM-1030＋BOYA n19（3bc7a8800）。
 - **X133 第二版等使用者的地圖或照片**（使用者 10-30 16:5x 回 LAWWW-B）：第一版照舊在遊戲裡（f75d60a4c），第二版不要再猜。

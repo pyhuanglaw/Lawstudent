@@ -4504,6 +4504,26 @@
    "remaining": "201（重烘中）",
    "next": "LAWWW-B 換 dorm_room4.glb＋三張光照貼圖（day、night、dark）；不用改程式",
    "note": "lm_squash_scan 朝室內壓扁 21.0→0 m²；模型和開發一樣（158 節點、19,144 三角形）；看得到的差別小（左牆上半偏灰漸層，左牆鏡頭 4%）；用到 dorm_room4 的 Node 八支全過"
+  },
+  {
+   "branch": "claude/funny-albattani-iawshm",
+   "sha": "19c3cb4c3",
+   "noDirectIntegrate": false,
+   "receiver": "LAWWW",
+   "ack": "",
+   "task": "LM-COLLAPSE-1030 第四間（最後一間）：法律系館A 201 用修好的 bake_room.py 重烘",
+   "files": [
+    "assets/models/env/classroom_201.glb",
+    "assets/models/env/classroom_201_lm_day.webp",
+    "assets/models/env/classroom_201_lm_night.webp",
+    "tools/blender/env_second/lightbake/classroom_201_lm.json",
+    "tools/blender/env_second/shots/c201_lm_shots.py",
+    "docs/art-rebuild/second_ai/test_shots/lm_collapse_1030/README.md"
+   ],
+   "state": "已交付",
+   "remaining": "LM-COLLAPSE-1030 四間都交了",
+   "next": "LAWWW-B 換 classroom_201.glb＋兩張光照貼圖；不用改程式",
+   "note": "lm_squash_scan 朝室內壓扁 5.8→0 m²；模型和開發一樣（63 節點、62,232 三角形）；看得到的差別小（西牆護牆板明暗，3～8%）；用到 classroom_201 的 Node 三支過"
   }
  ]
 }
