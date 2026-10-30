@@ -3605,11 +3605,11 @@
   },
   {
    "path": "docs/story_planning/AA_535b_約她選項_第二份_缺的台詞_法圖_映月湖.md",
-   "sha": "2dbcc5691",
+   "sha": "b3e5bca3b",
    "status": "approved",
-   "approvedBy": "AA-B 定稿（D109、D111；第②級；INVITE-OPTS-1030 第二份）",
+   "approvedBy": "AA-B 定稿（D109、D111；第②級；INVITE-OPTS-1030 第二份；b3e5bca3b 加第 4 節：回 LAWWW-B 實作問答、更正語彤慢讀的 walk、補可昕六句、沛珊慢讀撞到書店課輔班）",
    "task": "INVITE-OPTS-1030",
-   "note": "子代理登記（LAWWW-B 的 invite-menu，10-30）：1-1 以安、語彤、可昕缺的 meet、1-2 可昕的 bye（src/data/rel_lines.js 尾巴）；1-3 以安、語彤校外 depart／enough／leaveEarly／noPair（src/date3d.js 的 S.EXTRA_LINES：date_lines.js 是匯入工具產生的，不手改）；2-1 法圖、2-2 映月湖（src/data/invites.js 尾巴、rel_lines.js meet.lawlib／meet.lake）。台詞一字照稿；tests/aa535b_lawlib_lake_unit.js 逐句對稿。"
+   "note": "子代理登記（LAWWW-B 的 invite-menu，10-30）：1-1 以安、語彤、可昕缺的 meet、1-2 可昕的 bye（src/data/rel_lines.js 尾巴）；1-3 以安、語彤校外 depart／enough／leaveEarly／noPair（src/date3d.js 的 S.EXTRA_LINES：date_lines.js 是匯入工具產生的，不手改）；2-1 法圖、2-2 映月湖（src/data/invites.js 尾巴、rel_lines.js meet.lawlib／meet.lake）；第 4 節（b3e5bca3b）：4-1 語彤慢讀的 walk 看 118 巷 H8（滇香小館）、4-2 可昕 Pasta 118／茶席的 acc 與 Café／總圖／麵店／溫州街的 firstAt（INVITE_DATA.people.kexin）、4-3 沛珊大三起約慢讀撞到書店／課輔班改到下一個她有空的早上 10:00（invites.js 沛珊的 rule）。台詞一字照稿；tests/aa535b_lawlib_lake_unit.js 逐句對稿。"
   }
  ]
 }

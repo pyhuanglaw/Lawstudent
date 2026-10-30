@@ -1,9 +1,10 @@
-// AA_535b（INVITE-OPTS-1030 第二份，AA-B 定稿，企劃線 2dbcc5691）：缺的台詞（以安、語彤、可昕的 meet；可昕的 bye；以安、語彤校外的 depart／enough／leaveEarly／noPair）、
+// AA_535b（INVITE-OPTS-1030 第二份，AA-B 定稿，企劃線 b3e5bca3b＝2dbcc5691 加第 4 節實作問答）：缺的台詞（以安、語彤、可昕的 meet；可昕的 bye；以安、語彤校外的 depart／enough／leaveEarly／noPair）、
 // 新的校內地點法圖（法律學院圖書館）、映月湖。不需要瀏覽器。用法：node tests/aa535b_lawlib_lake_unit.js（稿用 git show 讀，台詞逐字對稿）。測試清單照稿第 3 節：
 //   七位各約一次法圖、一次映月湖（第一次＋第二次）；可昕約法圖 → 改約慢讀（週二慢讀休 → 系統改天）；芷若認識階段約法圖 → 婉拒；有伴侶約映月湖 → 系統說明；
 //   學姊筆試前約映月湖 → 婉拒；以安、語彤校外約會走完三個點 → enough。
+//   第 4 節：語彤慢讀的 walk 看 H8（滇香小館）；可昕 Pasta 118、茶席的 acc，Café、總圖、麵店、溫州街的 firstAt；沛珊大三起約慢讀撞到書店、課輔班 → 下一個她有空的早上 10:00。
 const fs=require('fs'), vm=require('vm'), path=require('path'), cp=require('child_process');
-const ROOT=path.resolve(__dirname,'..'), GIT=process.env.SPEC_GIT_DIR||ROOT, SPEC_SHA='2dbcc5691', SPEC_PATH='docs/story_planning/AA_535b_約她選項_第二份_缺的台詞_法圖_映月湖.md';
+const ROOT=path.resolve(__dirname,'..'), GIT=process.env.SPEC_GIT_DIR||ROOT, SPEC_SHA='b3e5bca3b', SPEC_PATH='docs/story_planning/AA_535b_約她選項_第二份_缺的台詞_法圖_映月湖.md';
 global.window=global; global.self=global; global.P3={CAST:{}};
 global.document={ getElementById:()=>null, addEventListener(){} }; global.navigator={userAgent:'node'}; global.addEventListener=()=>{}; global.location={search:'?noriders'};
 const NAMES=/^(ROM|CHARACTERS|UNFAMILIAR_POOL|SOCIAL_GRAPH|PORTRAITS|STORY_EVENTS|STORY_EVENTS_V11|SMALLTALK|SOCIAL|EVENTS|STORY|CALENDAR|PLACES|INVITE_DATA|INVITE_REPLIES|INV|PHONE|COURSES|CLS|ACTIVITIES|REL_LINES|OUT|LADDER|HOME|HOME_LINES|CG_REGISTRY|NEEDED_MSGS|MSG|MSG_POOL|MSG2_POOL|MSG_KX_Y0|HOMETOWN_LINES|HV|DATE|DATE_DATA|DATE_LINES|CONFESS_LINES|TERMEND|TERMEND_LINES|VAC|VAC_DATA|FREE_TRIPS|TRIP|ENCOUNTERS|ENC_WALK|ENC|DORM_ROOM|SISG|SLOWREAD)$/;
@@ -125,6 +126,58 @@ const once=async(id,pid,day,h)=>{ const P=INV.place(pid); return INV.personal(G,
     G.flags.dating_heroine_02=false; const P0=Object.assign({},CHARACTERS.heroine_03.partner); CHARACTERS.heroine_03.partner={from:'Y1S1',until:'Y4S2'}; know('heroine_03',S6);
     const w2=INV.placeWhy(G,'heroine_03',LK), wz=INV.placeWhy(G,'heroine_03',INV.place('wenzhou')), dc=INV.decide(G,'heroine_03','lake',sat,17.5), tx=INV.reply(G,'heroine_03','lake',dc); CHARACTERS.heroine_03.partner=P0.from?P0:undefined; if(!P0.from) delete CHARACTERS.heroine_03.partner;
     check('2-2. 有伴侶約映月湖：兩個人單獨的規則照溫州街，系統說明（why.partnerWalk「兩個人單獨去散步不太好。約在 Café 或總圖吧。」）',w2===INVITE_DATA.why.partnerWalk&&w2===wz&&dc.res==='decline'&&dc.why==='partner'&&tx===INVITE_DATA.why.partnerWalk,J([w2,dc,tx])); }
+  // ===== 第 4 節（b3e5bca3b）：實作問答的更正與補句 =====
+  const S4T=spec.slice(Math.max(0,spec.indexOf('## 4.'))), in4=t=>!!S4T&&S4T.includes(String(t).replace(/^「|」$/g,'').replace(/^（|）$/g,''));
+  const KX=INVITE_DATA.people.kexin, SRL=INVITE_DATA.slowreadLines, H8L='「滇香小館的老闆娘人很好。我去問過她開店的事。」';
+  const PS_TU='「那時候我在課輔班。……慢讀早上也開，早上好不好？」', PS_SH='「那時候我在書店。……慢讀早上也開，早上好不好？」';
+  { fresh(TD('Y1S2',5,6),9); const lawG=G, FA4=['cafe','library','noodle','wenzhou'].map(p=>KX.firstAt[p](lawG));
+    const all=[].concat(KX.acc.pasta118,KX.acc.teahouse_ceremony,...FA4,[H8L,PS_TU,PS_SH]), bad=all.filter(t=>!in4(t));
+    check('4. 稿第 4 節：語彤 walk 的 H8 句、可昕六處、沛珊兩句都在 b3e5bca3b 第 4 節（一字照稿）',!!S4T&&bad.length===0&&all.length===14,J([all.length,bad])); }
+  // 4-1 語彤慢讀的 walk
+  { const d=TD('Y2S1',6,1); fresh(d,10); know('heroine_03',S6);
+    const pick=()=>{ G.flags.walkChatN={}; const p=INV.walkPick(G,'heroine_03','slowread'); return p&&p.lines; }, own=()=>SRL.heroine_03.walk.filter(e=>!e.if||e.if(G,{year:2})).map(e=>e.l);
+    const a0=own(), p0=pick(); G.l118={n:{},d:{},last:{},w:{},once:{H8:d-3}}; const a1=own(), p1=pick();
+    check('4-1. 語彤慢讀的 walk：H8 沒演過＝原本兩句（「118 巷的店，老闆幾乎都住樓上。」「你看二樓的窗戶……」）',J(a0)===J([['「118 巷的店，老闆幾乎都住樓上。」','「你看二樓的窗戶，有曬衣服的就是。」']])&&J(p0)===J(a0[0]),J([a0,p0]));
+    check('4-1. H8 演過（G.l118.once.H8）＝「滇香小館的老闆娘人很好。我去問過她開店的事。」',J(a1)===J([[H8L]])&&J(p1)===J([H8L]),J([a1,p1]));
+    check('4-1. 稿上寫錯的「家常菜的老闆娘」那一句拿掉了',!JSON.stringify(SRL).includes('家常菜的老闆娘')); }
+  // 4-2 可昕補的六處
+  { const sat=TD('Y1S2',5,6); fresh(sat-1,9,{dating_kexin:true}); know('kexin',S6);
+    const PA=INV.place('pasta118')||{id:'pasta118',zone:'l118_pasta',name:'Pasta 118',kind:'meal',minStage:'FAMILIAR',stay:40/60,ownMeal:true}, TC=INV.place('teahouse_ceremony')||{id:'teahouse_ceremony',zone:'wz_teahouse',name:'一盞的茶席',kind:'reason',minStage:'FRIEND',stay:1.25};
+    const kl=[PA,TC].map(P=>INV.kxPlaceLine(G,P)), ra=INV.personal(G,'kexin',PA,sat,12,{res:'accept'}), rt=INV.personal(G,'kexin',TC,sat+7,14,{res:'accept'});
+    check('4-2. 可昕交往中：Pasta 118、茶席有她自己的答應句（kxPlaceLine＝own，原本只有一般句 kx20）',J(kl)===J(['own','own']),J(kl));
+    check('4-2. 可昕 Pasta 118 acc「好。我從木柵過去四十分鐘，你先點，我到了就吃。」',J(ra.lines)===J(['「好。我從木柵過去四十分鐘，你先點，我到了就吃。」']),J(ra.lines));
+    check('4-2. 可昕茶席 acc「茶席。……我要穿裙子嗎？」／「我穿。」',J(rt.lines)===J(['「茶席。……我要穿裙子嗎？」','「我穿。」']),J(rt.lines));
+    const sub=(L,want)=>{ let i=0; for(const t of L) if(t===want[i]) i++; return i===want.length; };
+    for(const p of ['cafe','library','noodle','wenzhou']){ fresh(sat-1,9,{dating_kexin:true}); know('kexin',S6); const P=INV.place(p), FA=KX.firstAt[p](G).map(t=>t.replace(/^「|」$/g,'').replace(/^（|）$/g,''));
+      const s1=pickSlot('kexin',P,sat,p==='noodle'?12:15), iv=INV.accept(G,'kexin',p,s1.day,s1.h,{by:'player'}); said=[]; await INV.meet(GM,iv,null); const L1=T().map(t=>String(t).replace(/^「|」$/g,'').replace(/^（|）$/g,''));
+      const s2=pickSlot('kexin',P,s1.day+1,p==='noodle'?12:15), iv2=INV.accept(G,'kexin',p,s2.day,s2.h,{by:'player'}); said=[]; await INV.meet(GM,iv2,null); const L2=T().map(t=>String(t).replace(/^「|」$/g,'').replace(/^（|）$/g,''));
+      check('4-2. 可昕第一次和你到'+P.name+'：firstAt 照稿、照順序（'+FA.length+' 句）；第二次不說',iv.state==='done'&&sub(L1,FA)&&!FA.some(t=>L2.includes(t)),J([iv.state,L1,L2])); }
+    G.stage='econ'; const ec=['cafe','library','noodle','wenzhou'].map(p=>KX.firstAt[p](G)); G.stage='law';
+    check('4-2. 經濟系那一年不說（「你們學校」＝她在政大、祐廷在台大的那幾年；和羽球、晨跑的 firstAt 同一把尺）',ec.every(x=>x==null),J(ec)); }
+  // 4-3 沛珊大三起約慢讀，撞到課輔班、書店 → 下一個她有空的早上 10:00
+  { const SL=INV.place('slowread'), d0=TD('Y3S1',6,3); fresh(d0-2,9,{PS_BACK_FIRST:1}); know('classmate_peishan',S4);
+    const pr0=STORY.presence('classmate_peishan',Object.assign({},G,{day:d0})), dc0=INV.decide(G,'classmate_peishan','slowread',d0,15.5);
+    check('4-3. 現在的遊戲：大三起她在台南（presence kind＝city），約不到慢讀（decide＝away）＝這一段只在她人在臺北的日子才會播（和 AA_535 的「大三起，在臺北」同一個前提）',pr0.kind==='city'&&dc0.res==='decline'&&dc0.why==='away',J([pr0,dc0]));
+    /* 【前置／捷徑】把她那幾天的 presence 換成「在臺北」（kind taipei），NOT 裡的日子照舊在台南 */
+    const P0=STORY.presence; let NOT=new Set(); STORY.presence=function(id,g){ if(id==='classmate_peishan'&&g&&typeof g.day==='number'&&!NOT.has(g.day)) return {here:false,kind:'taipei'}; return P0.apply(this,arguments); };
+    const tp=d=>STORY.presence('classmate_peishan',Object.assign({},G,{day:d})).kind==='taipei';
+    const run=async(w,wd,h,not)=>{ const d=TD('Y3S1',w,wd); fresh(d-2,9,{PS_BACK_FIRST:1}); know('classmate_peishan',S4); NOT=new Set((not||[]).map(k=>d+k)); const r=await once('classmate_peishan','slowread',d,h); return {d,r}; };
+    const okAlt=(d,a)=>!!a&&a.h===10&&a.day>d&&wdOf(a.day)!==6&&tp(a.day)&&INV.freeAt(G,'classmate_peishan',SL,a.day,10)&&!Array.from({length:a.day-d-1},(_,k)=>d+1+k).some(x=>wdOf(x)!==6&&tp(x)&&INV.freeAt(G,'classmate_peishan',SL,x,10));
+    const info=x=>J(x&&[x.d,wdOf(x.d),x.r.res,x.r.why,x.r.lines,x.r.alt,x.r.alt&&wdOf(x.r.alt.day)]);
+    try{
+      const tu=await run(6,3,15.5);
+      check('4-3. 週三 15:30 約慢讀（課輔班 16～19）：「那時候我在課輔班。……慢讀早上也開，早上好不好？」、改到下一個她有空的早上 10:00（週四）',tu.r.res==='resched'&&J(tu.r.lines)===J([PS_TU])&&okAlt(tu.d,tu.r.alt)&&tu.r.alt.day===tu.d+1,info(tu));
+      const tu2=await run(6,3,15.5,[1]);
+      check('4-3. 週四她不在臺北：跳過，改到週五 10:00',tu2.r.res==='resched'&&okAlt(tu2.d,tu2.r.alt)&&tu2.r.alt.day===tu2.d+2,info(tu2));
+      const sh=await run(6,6,14);
+      check('4-3. 週六 14:00 約慢讀（書店 10～18）：「那時候我在書店。……慢讀早上也開，早上好不好？」、改到週日 10:00（週六整天在書店）',sh.r.res==='resched'&&J(sh.r.lines)===J([PS_SH])&&okAlt(sh.d,sh.r.alt)&&sh.r.alt.day===sh.d+1,info(sh));
+      const sh2=await run(6,6,14,[1]);
+      check('4-3. 週日她回台南：改到週一 10:00（週二慢讀休也會跳過）',sh2.r.res==='resched'&&okAlt(sh2.d,sh2.r.alt)&&sh2.r.alt.day===sh2.d+2,info(sh2));
+      const su=await run(6,7,14);
+      check('4-3. 週日 14:00（書店 13～18）也一樣；三種都不用 plan 那句「啊，那時候我有事！」',J(su.r.lines)===J([PS_SH])&&okAlt(su.d,su.r.alt)&&![tu,tu2,sh,sh2,su].some(x=>/那時候我有事/.test(J(x.r.lines))),info(su));
+      const ok=(await run(6,5,12+10/60)).r;
+      check('4-3. 沒撞到（週五 12:10）照舊答應「好。慢讀不用學生證。……我帶作業去改。」',ok.res==='accept'&&J(ok.lines)===J(['「好。慢讀不用學生證。……我帶作業去改。」']),J(ok));
+    } finally { STORY.presence=P0; } }
   // ===== 分類 =====
   { const mon=TD('Y1S2',4,1); fresh(mon,10); know('heroine_01',S6);
     const a=await ask('heroine_01',['念書','返回','散步','返回','算了']);

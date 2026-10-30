@@ -42,9 +42,12 @@ const band=id=>['FRIEND','CLOSE_FRIEND'].includes(SOCIAL.friendLevel(id))?'R':'A
   { const al=JSON.parse(fs.readFileSync(path.join(ROOT,'docs/handoff/story_import_allow.json'),'utf8')).files.filter(e=>e.path===SPEC_PATH);
     check('0. 匯入白名單：'+SPEC_PATH.split('/').pop()+' 一筆 approved＝'+SPEC_SHA+'（INVITE-OPTS-1030）',al.length===1&&al[0].sha===SPEC_SHA&&al[0].status==='approved'&&al[0].task==='INVITE-OPTS-1030'&&!!al[0].approvedBy,J(al.map(e=>[e.sha,e.status,e.task]))); }
   const inSpec=t=>!spec||spec.includes(String(t).replace(/^「|」$/g,'').replace(/^（|）$/g,''));
+  /* AA_535b 第 4 節（企劃線 b3e5bca3b）更正 AA_535 4-2 語彤的 walk（H8 在滇香小館）：慢讀台詞也認那一節 */
+  let spec4=''; try{ spec4=cp.execSync('git show b3e5bca3b:"docs/story_planning/AA_535b_約她選項_第二份_缺的台詞_法圖_映月湖.md"',{cwd:GIT,encoding:'utf8',maxBuffer:8<<20,stdio:['ignore','pipe','ignore']}); }catch(e){} spec4=spec4.slice(Math.max(0,spec4.indexOf('## 4.')));
+  const inSpecSR=t=>inSpec(t)||(!!spec4&&spec4.includes(String(t).replace(/^「|」$/g,'').replace(/^（|）$/g,'')));
   { const SR=INVITE_DATA.slowreadLines||{}, all=[]; for(const id in SR) for(const k in SR[id]){ const v=SR[id][k]; const L=typeof v==='function'?v(null,{r:{}})||[]:(Array.isArray(v)?v:[].concat(v.A||[],v.R||[])); for(const x of L) all.push(typeof x==='string'?x:[].concat(x.l||[]).join('')); }
-    const bad=[]; for(const id in SR) for(const k in SR[id]){ const v=SR[id][k]; let L=typeof v==='function'?v(null,{r:{}})||[]:(Array.isArray(v)?v:[].concat(v.A||[],v.R||[])); for(const x of L){ for(const t of (typeof x==='string'?[x]:(x.l||[]))) if(!inSpec(t)) bad.push(id+'.'+k+':'+t); } }
-    check('0. 七位的慢讀台詞（first／acc／plan／here／firstAt／walk）每一句都在稿上（一字照稿）',Object.keys(SR).length===7&&bad.length===0&&all.length>50,J(bad));
+    const bad=[]; for(const id in SR) for(const k in SR[id]){ const v=SR[id][k]; let L=typeof v==='function'?v(null,{r:{}})||[]:(Array.isArray(v)?v:[].concat(v.A||[],v.R||[])); for(const x of L){ for(const t of (typeof x==='string'?[x]:(x.l||[]))) if(!inSpecSR(t)) bad.push(id+'.'+k+':'+t); } }
+    check('0. 七位的慢讀台詞（first／acc／plan／here／firstAt／walk）每一句都在稿上（一字照稿；語彤的 walk 照 AA_535b 4-1 更正）',Object.keys(SR).length===7&&bad.length===0&&all.length>50,J(bad));
     const M=[]; for(const id of Object.keys(SR)){ const m=((REL_LINES[id]||{}).meet||{}).slowread||{}; for(const k of ['A','F','R']) if(!m[k]||!inSpec(m[k])) M.push(id+'.'+k); }
     check('0. 見面旁白 meet.slowread（A／F／R）七位都有、照稿',M.length===0,J(M));
     const sg=[SISG.STUDY_YES].concat(SISG.DECLINE_OFF,SISG.STUDY_OPTS,SLOWREAD.NARR,SLOWREAD.REGULARS.map(r=>r.hi)).filter(t=>!inSpec(t));
