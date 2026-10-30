@@ -24,8 +24,10 @@ const SUP497=(function(){
   const YC='classmate_youchen', XC='classmate_xinci', AN='heroine_01', YU='yu', MX='classmate_mingxuan', ZHE='zhe', SIS='heroine_05', LQ='pool_16', ZJW='pool_7', KV='kevin', YZ='family_junior';
   S.IDS={YC,XC,AN,YU,MX,ZHE,SIS,LQ,ZJW,KV,YZ};
   let GMr=null;
-  S.bind=gm=>{ if(gm) GMr=gm; return GMr; };
+  S.bind=gm=>{ if(gm!==undefined) GMr=gm; return GMr; };   /* bind(null)＝放掉（測試用：模擬讀檔以後沒有人 bind）*/
   const curG=()=>(GMr&&GMr.G)||(typeof GAME!=='undefined'&&GAME&&GAME.G)||null;
+  const curE=()=>(GMr&&GMr.E)||(typeof GAME!=='undefined'&&GAME&&GAME.E)||null;   /* BB-B 10-30：GMr 只有宥辰課堂那一場（meetIn）會設，讀檔以後是 null——影印機、宥辰兩場電梯的條件一直不成立；改成沒有 GMr 時用 GAME.E */
+  const onFloor0=()=>{ const E=curE(); return !!(E&&E.player&&(E.player.lv|0)===0); };
 
   /* ---------- 小工具 ---------- */
   const DK=k=>typeof STORY!=='undefined'&&STORY.dayOfKey?STORY.dayOfKey(k):null;
@@ -142,7 +144,7 @@ const SUP497=(function(){
   S.elevAskDue=function(G){ if(!law(G)||S.qState(G)||!inTerm(G,'Y2S1')||week(G)<6||week(G)>9) return false; const w=wdOf(G.day); if(w<1||w>4) return false; const h=hr(G); if(h<15+10/60||h>=18) return false;   /* 週一～週四（期限是那一週的週五：開口以後至少還有一天的 12:10）*/
     return dmOK(G,YC)&&sent(G,'yc_song_5')&&(typeof SIDEQ==='undefined'||!SIDEQ.openIds||SIDEQ.openIds(G).length<SIDEQ.MAX); };
   S.ELEV_ASK={ id:'ev_yc_elev_ask', title:'法律系館A的電梯', participants:[YC], location:'linze', trigger:'auto', once:true, background:'blur', near:{x:3.2,z:-4.1,r:3},
-    prereq:{custom:G=>S.elevAskDue(G)&&!!(GMr&&GMr.E&&GMr.E.player&&(GMr.E.player.lv|0)===0)},
+    prereq:{custom:G=>S.elevAskDue(G)&&onFloor0()},
     dialogue:lns((L.yc.elev||{}).open).concat([{choice:[{text:(L.yc.elev||{}).opts[0],set:{YC_ELEV_ASK:'yes'},goto:'y'},{text:(L.yc.elev||{}).opts[1],set:{YC_ELEV_ASK:'no'},goto:'n'}]},
       {label:'n'}],lns((L.yc.elev||{}).no),[{goto:'end'},{label:'y'},{label:'end'}]),
     after:(G,GM)=>{ if(G.flags.YC_ELEV_ASK==='yes') S.acceptElev(GM&&GM.G===G?GM:{G}); else S.declineElev(G); } };
@@ -152,7 +154,7 @@ const SUP497=(function(){
   S.elevOpen=G=>{ const r=S.qRec(G); return !!r&&r.state==='open'&&r.step==='block'&&G.day<=r.by; };   /* 答應了、還沒過期限（characters.js 宥辰 12:10～12:20 在電梯前的作息也讀這個）*/
   S.elevDoneDue=function(G){ if(!S.elevOpen(G)||G.zone!=='linze') return false; const w=wdOf(G.day); if(w<1||w>5) return false; const h=hr(G); return h>=12+10/60&&h<12+20/60; };
   S.ELEV_DONE={ id:'ev_yc_elev_done', title:'法律系館A的電梯', participants:[YC], location:'linze', trigger:'auto', once:true, background:'blur',
-    prereq:{custom:G=>S.elevDoneDue(G)&&!!(GMr&&GMr.E&&GMr.E.player&&(GMr.E.player.lv|0)===0)},
+    prereq:{custom:G=>S.elevDoneDue(G)&&onFloor0()},
     dialogue:lns((L.yc.elev||{}).done).concat([{set:{YC_ELEVATOR:true}}]),
     after:(G,GM)=>{ const r=S.qRec(G); if(!r||r.state!=='open') return; if(typeof SIDEQ!=='undefined'&&SIDEQ.finish) SIDEQ.finish(GM&&GM.G===G?GM:{G},S.QID,r,{helped:true}); else { r.state='done'; r.doneDay=G.day; }
       if(typeof SOCIAL!=='undefined'&&SOCIAL.adjust) SOCIAL.adjust(YC,{fam:6,trust:6}); } };
@@ -229,7 +231,7 @@ const SUP497=(function(){
   S.COPY_AT={x:10.35,z:2.05};   /* 總圖一樓東牆邊的影印機 (11.4,2.6) 前面（LAWWW2 4e0b212f8 library_layout.js copier；以安 (10.35,2.35) 朝 +x 站面板前、芯慈 (10.35,1.75) yaw 1.2 看出紙盤——LAWWW2 08:40：BB 說館員辦公室那條窄道離芯慈 0.45 m，改了以後 1.65 m；原本 (8.0,2.6) 擠到服務台客人站的地方）*/
   S.copyDue=G=>law(G)&&inTerm(G,'Y1S2')&&week(G)>=7&&week(G)<=9&&[1,3,4,5].indexOf(wdOf(G.day))>=0&&!(typeof CALENDAR!=='undefined'&&CALENDAR.holiday(G.day))&&hr(G)>=12+10/60&&hr(G)<13&&met(G,AN)&&xcMet(G)&&!done(G,'ev_xc_copy');
   S.COPY={ id:'ev_xc_copy', title:'影印機', participants:[XC,AN], noMeet:[AN,XC], location:'library_hall', trigger:'auto', once:true, background:'blur', near:{x:10.35,z:2.05,r:2.2},
-    prereq:{custom:G=>S.copyDue(G)&&!!(GMr&&GMr.E&&GMr.E.player&&(GMr.E.player.lv|0)===0)},
+    prereq:{custom:G=>S.copyDue(G)&&onFloor0()},
     dialogue:lns(L.xc.copy.open).concat([{choice:L.xc.copy.opts.map((t,k)=>({text:t,goto:'c'+(k+1)}))}],
       ...L.xc.copy.r.map((R,k)=>[{label:'c'+(k+1)}].concat(lns(R),k===0?[{set:{XC_COPY:true}}]:(k===2?[{set:{XC_RPS:true}}]:[]),[{goto:'end'}])),[{label:'end'}]) };
   /* 2-3 慈 3：B1 二十四小時自習室的版本（events.js 的 ev_xinci_second 照舊在便利商店；兩個版本只演一個）、提示、補救 */

@@ -333,6 +333,8 @@ const inDoc=t=>DOC.indexOf(t)>=0||X547.indexOf(t)>=0;
     setup(d,12.5); const a=sched(AN), x=sched(XC);
     check('2-2. 大一下第 7～9 週週一、三、四、五中午：以安、芯慈的作息在總圖一樓的影印機前（看得到兩個人站在那裡）',!!a&&a.zone==='library_hall'&&!!x&&x.zone==='library_hall'&&Math.hypot(a.at[0]-10.35,a.at[1]-2.05)<1&&Math.hypot(x.at[0]-10.35,x.at[1]-2.05)<1,J([a,x].map(q=>q&&[q.zone,q.at])));
     check('2-2. 走到影印機前（12:10～13:00、兩個人都認識）＝演',ready('ev_xc_copy'));
+    { const src=fs.readFileSync(path.join(H.ROOT,'src/sup497_3d.js'),'utf8'); S().bind(null); const G0=globalThis.GAME; globalThis.GAME={E,get G(){ return H.G; }}; const ok=ready('ev_xc_copy'); globalThis.GAME=G0; if(G0===undefined) delete globalThis.GAME; S().bind(GM);
+      check('2-2. 讀檔以後沒有人 bind（GMr null，BB-B 10-30）：影印機、宥辰兩場電梯的條件改用 GAME.E 照樣成立',ok&&!/GMr&&GMr\.E&&GMr\.E\.player/.test(src)&&/const curE=\(\)=>\(GMr&&GMr\.E\)\|\|\(typeof GAME!=='undefined'&&GAME&&GAME\.E\)/.test(src)); }
     const no=[];
     setup(TD('Y1S2',7,2),12.5); if(ready('ev_xc_copy')||(sched(AN)||{}).zone==='library_hall') no.push('週二（以安在 118 巷）');
     setup(d,13.1); if(ready('ev_xc_copy')) no.push('13:00 以後');
