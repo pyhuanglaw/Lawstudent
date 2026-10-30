@@ -141,12 +141,12 @@ def build():
     if PLATE_ON == 'house':
         PF = K.Fr((cx, 0, z1), (1, 0, 0), (0, 0, 1))
         kit.fbox('trim', PF, -1.35, 1.35, 2.08, 2.66, 0.0, 0.06, skip=('in',))
-        plate('PLATE_FACE_GATE_OUT', PF, -1.25, 1.25, 2.13, 2.61, 0.062, {'text': '國立臺灣大學', 'bg': '#e6e0d2', 'color': '#3a2f28', 'serif': 1, 'fs': 0.72})
+        plate('PLATE_FACE_GATE_OUT', PF, -1.25, 1.25, 2.13, 2.61, 0.062, {'text': '首都帝國大學', 'bg': '#e6e0d2', 'color': '#3a2f28', 'serif': 1, 'fs': 0.72})
     else:
         for (sx, zs) in ((1, 1), (-1, -1)):
             x = sx * 7.8; PF = K.Fr((x, 0, zs * 0.3), (zs, 0, 0), (0, 0, zs))
             kit.fbox('trim', PF, -1.55, 1.55, 0.78, 1.72, 0.0, 0.06, skip=('in',))
-            plate(f'PLATE_FACE_GATE_{"OUT" if zs > 0 else "IN"}', PF, -1.45, 1.45, 0.86, 1.64, 0.062, {'text': '國立臺灣大學', 'bg': '#e6e0d2', 'color': '#3a2f28', 'serif': 1, 'fs': 0.72})
+            plate(f'PLATE_FACE_GATE_{"OUT" if zs > 0 else "IN"}', PF, -1.45, 1.45, 0.86, 1.64, 0.062, {'text': '首都帝國大學', 'bg': '#e6e0d2', 'color': '#3a2f28', 'serif': 1, 'fs': 0.72})
     # 門房門口的吸頂燈（校內那面，門上方）
     kit.box('lamp', cx - 0.55 - 0.14, cx - 0.55 + 0.14, 2.5, 2.62, z0 - 0.14, z0 - 0.02, col=None)
 
