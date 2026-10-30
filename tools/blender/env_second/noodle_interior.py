@@ -37,13 +37,16 @@ M = {
     'tile': L.pbr('ndl_wall_tile', 'rounded_square_tiled_wall', tile=0.6, target='#ecebe6', normal=0.7, maps=('diff', 'nor'), rough_value=0.3),
     'paint': L.flat('ndl_wall_paint', '#efe3cc', rough=0.85), 'trim': L.flat('ndl_trim', '#8a3b2e', rough=0.5),
     'ceil': L.flat('ndl_ceiling', '#f1ece2', rough=0.9, cull=True), 'tube': L.flat('ndl_tube', '#ffffff', rough=0.3, emit=B.srgb('#fff4e0')),
-    'steel': L.flat('ndl_steel', '#b8bcbf', rough=0.25, metal=0.6), 'steel_dark': L.flat('ndl_steel_dark', '#6c7175', rough=0.35, metal=0.5),
+    # 不鏽鋼（NOODLE-LM-1030 改）：原本金屬度 0.6／0.5（lib2 夾到 0.45）——遊戲沒有環境貼圖，金屬度高只剩高光，煮麵台、湯鍋整片接近黑的；
+    # 改成金屬度 0.2、顏色亮一點，看起來是一般小麵店的霧面不鏽鋼
+    'steel': L.flat('ndl_steel', '#c4c8cb', rough=0.35, metal=0.2), 'steel_dark': L.flat('ndl_steel_dark', '#959a9f', rough=0.4, metal=0.2),
     'table': L.flat('ndl_table_top', '#f1efe9', rough=0.35), 'tedge': L.flat('ndl_table_edge', '#9aa0a5', rough=0.35, metal=0.5),
     'chair': L.flat('ndl_chair_red', '#c23f35', rough=0.45), 'leg': L.flat('ndl_chair_leg', '#4a4f55', rough=0.45, metal=0.4),
     'bowl': L.flat('ndl_bowl', '#f3f0e8', rough=0.3), 'noodle': L.flat('ndl_noodle', '#e3c27a', rough=0.6), 'soup': L.flat('ndl_soup', '#c08a4a', rough=0.15),
     'black': L.flat('ndl_black', '#1f2022', rough=0.4), 'red': L.flat('ndl_red_jar', '#b3271c', rough=0.3), 'wood': L.pbr('ndl_wood', 'dark_wood', tile=0.8, target='#6b4a30', maps=('diff',), res=256, rough_value=0.6),
     'glass': L.flat('ndl_glass', '#dfe9ec', rough=0.05, alpha=0.18), 'frame': L.flat('ndl_frame', '#9aa0a5', rough=0.35, metal=0.5),
     'board': L.flat('ndl_sign_face', '#ffffff', rough=0.7), 'fan': L.flat('ndl_fan', '#e9e6dc', rough=0.4), 'tv': L.flat('ndl_tv', '#141518', rough=0.2),
+    'batten': L.flat('ndl_batten', '#eeeeea', rough=0.4),   # 日光燈座：白色烤漆（NOODLE-LM-1030 改；原本用窗框的金屬灰，遊戲裡是一條條黑的）
     'food': L.vc_material('ndl_food', rough=0.6),
 }
 walls = {'front': [], 'back': [], 'left': [], 'right': []}
@@ -64,9 +67,9 @@ def wall_box(side, key, a0, a1, y0, y1, t0=0.0, t1=0.12):
 # ---- 地板（磨石子）、天花板、日光燈管
 Mesh('ndl_floor', M['floor']).box(X0, X1, -0.02, 0.0, Z0, Z1).finish(root)
 ce = Mesh('ndl_ceiling', M['ceil']); ce.quad([(X0, H, Z0), (X1, H, Z0), (X1, H, Z1), (X0, H, Z1)]); ce.finish(root, uv=False)
-tb = Mesh('ndl_tubes', M['tube']); fx = Mesh('ndl_tube_fix', M['frame'])
+tb = Mesh('ndl_tubes', M['tube']); fx = Mesh('ndl_tube_fix', M['batten'])
 for z in (-2.6, 0.5, 3.0):
-    for x in (-2.5, 2.5): tb.cyl((x - 0.6, H - 0.12, z), (x + 0.6, H - 0.12, z), 0.018, seg=6); fx.box(x - 0.65, x + 0.65, H - 0.1, H - 0.06, z - 0.05, z + 0.05)
+    for x in (-2.5, 2.5): tb.cyl((x - 0.6, H - 0.12, z), (x + 0.6, H - 0.12, z), 0.018, seg=8); fx.box(x - 0.65, x + 0.65, H - 0.1, H - 0.06, z - 0.05, z + 0.05)
 tb.finish(root); fx.finish(root)
 
 # ---- 牆：下半白色小方磚（1.3 m）＋紅色收邊條、上半奶油色漆；前牆兩扇窗（x＝±3）和門
