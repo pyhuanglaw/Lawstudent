@@ -319,7 +319,6 @@ const R2Y3B_EVENTS=(function(){
   /* ---------- 2-Y3-42 慈 6「第一名」：5/4（四）19:00～20:00 麵店長桌（芯慈在；一天的作息）；日本路線＝21:40 視訊（日本 22:40）---------- */
   const XC_LINES=[ {speaker:'classmate_xinci',text:'以安不在的這學期，我第一次考第一。'},
     {speaker:'classmate_xinci',text:'一點都不好玩。'},
-    {if:{notFlags:['XC5_RECONCILE']},speaker:'classmate_xinci',text:'我還是想知道她考幾分。……很爛吧。'},   /* AA_537 3-6（XINCI-ROMANCE-1030）：沒和以安和好（G6 沒過）＝她還沒放下，這條線不開 */
     /* AA_497 2-5：照記憶多一句，可以疊（影印機猜拳 XC_RPS、她爸爸那一場選的 XC_DAD_*；src/sup497_3d.js）；沒演到慈 6 的＝隔天 12:00 私訊 */
     {if:{flags:['XC_RPS']},speaker:'classmate_xinci',text:'我上一次贏她，是大一在影印機前面猜拳。'},
     {if:{flags:['XC_DAD_AN']},speaker:'classmate_xinci',text:'我打電話跟我爸說了。他問：那沈以安第幾？'},
@@ -331,14 +330,7 @@ const R2Y3B_EVENTS=(function(){
     {label:'a'},{speaker:'classmate_xinci',text:'嗯。……第二句你也聽到了吧。'},{goto:'end'},
     {label:'b'},{speaker:'classmate_xinci',text:'你要聽嗎？'},
     {unless:JP,speaker:null,text:'（她講了十分鐘。阿哲吃完了兩碗。）'},   /* 視訊版沒有阿哲在旁邊：只到「你要聽嗎？」 */
-    {label:'end'},
-    /* AA_537 3-5（XINCI-ROMANCE-1030，G8）：「空白的週三下午」——慈 6 那一場最後（視訊版也一樣）；選「那我來填。」記 XC_BLANK，另外兩個大四上第 6 週週三 14:00 她再傳一次（src/xcrom3d.js）*/
-    {speaker:'classmate_xinci',text:'週三下午，原本是經濟系的課。'},{speaker:'classmate_xinci',text:'現在空出來了。'},{speaker:'classmate_xinci',text:'我第一次有一個不知道要做什麼的下午。'},
-    {choice:[{text:'「那我來填。」',goto:'xb1'},{text:'「妳可以休息。」',goto:'xb2'},{text:'「去念以安念的那一科？」',goto:'xb3'}]},
-    {label:'xb1'},{speaker:'classmate_xinci',text:'……好。不要填太滿。'},{set:{XC_BLANK:true}},{goto:'xbend'},
-    {label:'xb2'},{speaker:'classmate_xinci',text:'休息。……我試試看。'},{goto:'xbend'},
-    {label:'xb3'},{speaker:'classmate_xinci',text:'不要。……謝謝。'},
-    {label:'xbend'},{set:{XINCI_FIRST:true}},{mem:[{npc:'classmate_xinci',tag:'XINCI_FIRST',note:''}]} ];   /* XINCI_FIRST：記憶＋旗標（events.js 大四上 R1 讀旗標）*/
+    {label:'end'},{set:{XINCI_FIRST:true}},{mem:[{npc:'classmate_xinci',tag:'XINCI_FIRST',note:''}]} ];   /* XINCI_FIRST：記憶＋旗標（events.js 大四上 R1 讀旗標）*/
   const XC={ id:'ev_xinci_first_place', title:'第一名', participants:['classmate_xinci'], location:'noodle', trigger:'auto', once:true, time:[19,20], npcPresent:'classmate_xinci', background:'blur',
     prereq:{stage:{npc:'classmate_xinci',min:'FAMILIAR'},custom:G=>{ const x=X(); return !!x&&x.isDay(G,'2028-05-04')&&!x.inJP(G); }},
     dialogue:XC_LINES };

@@ -6,7 +6,7 @@
 //      有別的交往對象（她不知道）＝others 後兩行、不交往；她先說（先不說）——she 最後一句就是問題，有對象＝others、沒有＝「沒有。」再出好／讓我想想
 //   3  她知道你有別人＝心意邀約不發、時段第一天傳 NOPE.knows；多段的開關打開＝照一般的知情條件
 //   4  AA_537b 第 1～3 節（date_lines.js）：十一個 key、128 點喜好、15 句不喜歡、八個常去地點，逐字對稿
-//   5  第 2 段：慈 6 那一場最後「空白的週三下午」（3-5，G8 XC_BLANK）、沒和以安和好多一句（3-6）
+//   5  （拿掉）3-5、3-6 加在慈 6 那一場的兩段：使用者 10-30 否決「第一名／第二名」劇情，r2y3b_events.js 還原
 //   6  第 2 段：3-1 大二上麵店補問（G2）、3-2 大二下半夜提醒（G3）、3-5 後補（大四上第 6 週週三）
 //  11  心願午夜場：DATE_WISH 登記、22:30 出發 02:30 回來（只這一場）、只有午夜場算心願、她週五 00:40 主動約、那一場照稿、隔天睡到十點
 //  10  G5 半夜訊息：十六則逐字、每週一則（週三／週日輪流、00:30～01:30）、A→B、B3／B8、30 分鐘內回才算、mention、線關上不傳、交往換 L、大二下第 6 週那一則
@@ -47,7 +47,12 @@ const heart=()=>TERMEND.heartWhy(H.G,XC,TERMEND.windowOf('Y3S2'));
 const walk=async(picks,term)=>{ H.said=[]; H.opts=[]; H.picks=picks.slice(); return TERMEND.walkHome(GM,XC,term||'Y3S2'); };
 
 (async()=>{
-  await sec(0,()=>{ check('0. 全部的檔載入沒有錯誤；XCROM 載得到',!loadErr.length&&!!X(),J(loadErr));
+  await sec('00',()=>{ check('00. 遊戲預設：這條線關著（XCROM.ON false；使用者 10-30 否決「第一名／第二名」劇情，等 AA 重寫）：DATE.HEROINES 沒有芯慈、沒有心願事件、事件沒進 STORY_EVENTS',!!X()&&X().ON===false&&!DATE.HEROINES.includes(XC)&&!DATE_WISH.events[XC]&&!STORY_EVENTS.some(e=>['ev_xc_g2_dad','ev_xc_sameday','ev_xc_call1'].includes(e.id)));
+    const G=H.fresh('2028-06-10',20,'campus',{introDone:true,XC_NIGHT:9,XC5_RECONCILE:true,XC_SAMEDAY:true,XC_BLANK:true}); G.events.done.ev_xinci_notes=1; G.events.done.ev_xinci_first_place=1; (G.contacts||(G.contacts={}))[XC]=1;
+    SOCIAL.remember(XC,'TALKED_FAMILY',''); SOCIAL.remember(XC,'XINCI_SECOND',''); G.l118={once:{H7c:1}}; Object.assign(SOCIAL.rel(XC),{fam:70,trust:62,comf:50,npcRom:76,rom:40}); Object.assign(DATE.log(G,XC),{count:6,wish:true,wishKnown:true});
+    check('00. 關著的時候：門檻全過的存檔也不發心意邀約、告白選項藏著、半夜訊息不傳',TERMEND.heartWhy(G,XC,TERMEND.windowOf('Y3S2'))===false&&CONFESS_LINES[XC].hideIf(G)===true&&(STORY.phoneRules(GM),PHONE.tick(G),!(G.msgs||[]).some(m=>/^xcn_|^xc_/.test(m.tag||''))));
+    X().setOn(true); });   /* 下面測關著的程式本身（AA 重寫以前照舊能用）*/
+  await sec(0,()=>{ check('0. 全部的檔載入沒有錯誤；XCROM 載得到；setOn(true) 以後 DATE.HEROINES 有芯慈、心願事件、事件都在',!loadErr.length&&!!X()&&X().ON===true&&DATE.HEROINES.includes(XC)&&!!DATE_WISH.events[XC]&&STORY_EVENTS.some(e=>e.id==='ev_xc_sameday'),J(loadErr));
     const html=fs.readFileSync(path.join(H.ROOT,'index.html'),'utf8'), a=s=>html.indexOf(s);
     check('0. index.html：xcrom3d.js 在 date3d.js、termend3d.js、story3d.js 以後、GAME.boot() 以前',a('src/xcrom3d.js')>Math.max(a('src/date3d.js'),a('src/termend3d.js'),a('src/story3d.js'))&&a('src/xcrom3d.js')<a('GAME.boot()'));
     check('0. 兩個開關集中在 XCROM.CFG：G10 跟以安交往過＝使用者 10-30 選「照樣可以開」（noAnEx false）；不接受多段＝還在討論，照 AA 的建議（noOpen true）',J(X().CFG)===J({noAnEx:false,noOpen:true}));
@@ -115,18 +120,6 @@ const walk=async(picks,term)=>{ H.said=[]; H.opts=[]; H.picks=picks.slice(); ret
     check('4. 128 點喜好、15 個不喜歡的點各有一句（照稿）',nl===128&&nd===15&&!badD.length,J([nl,nd,badD]));
     const locs=Object.keys(DATE_LINES.loc).filter(l=>((DATE_LINES.loc[l].lines||{})[XC]));
     check('4. 八個常去地點（D02、D04、D05、D06、D07、D12、D15、D18）有到達／收尾；D04 第一次到「西門町。我週六晚上常來。……都是一個人。」「今天不是。」',J(locs.sort())===J(['D02','D04','D05','D06','D07','D12','D15','D18'])&&J(DATE_LINES.loc.D04.lines[XC].arrive.first.lines.map(x=>x.text))===J(['西門町。我週六晚上常來。……都是一個人。','今天不是。']),J(locs)); });
-
-  /* ===== 第 5 節：第 2 段 3-5、3-6（慈 6 那一場）===== */
-  await sec(5,async()=>{ const ev=id=>STORY_EVENTS.find(e=>e.id===id);
-    const play=async(fl,picks)=>{ H.fresh('2028-05-04',19.2,'noodle',Object.assign({introDone:true},fl)); const r=SOCIAL.rel(XC); r.fam=30; SOCIAL.remember(XC,'FIRST_MET','camp'); H.said=[]; H.opts=[]; H.picks=picks.slice(); await EVENTS.run(ev('ev_xinci_first_place')); return T(); };
-    const B=['週三下午，原本是經濟系的課。','現在空出來了。','我第一次有一個不知道要做什麼的下午。'];
-    let t=await play({XC5_RECONCILE:true},[0,'那我來填']);
-    check('5. 3-5：慈 6 最後「週三下午，原本是經濟系的課。」「現在空出來了。」「我第一次有一個不知道要做什麼的下午。」→「那我來填。」＝「……好。不要填太滿。」、XC_BLANK',J(t.slice(-4))===J(B.concat(['……好。不要填太滿。']))&&H.G.flags.XC_BLANK===true&&B.concat(['……好。不要填太滿。']).every(x=>DOC537.includes('> 芯慈：'+x)),J(t.slice(-5)));
-    t=await play({XC5_RECONCILE:true},[0,'休息']); const t2=await play({XC5_RECONCILE:true},[0,'以安念的']);
-    check('5. 3-5：另外兩個「休息。……我試試看。」「不要。……謝謝。」，不記 XC_BLANK',t.slice(-1)[0]==='休息。……我試試看。'&&t2.slice(-1)[0]==='不要。……謝謝。'&&!H.G.flags.XC_BLANK,J([t.slice(-1),t2.slice(-1)]));
-    t=await play({},[0,'那我來填']); const i=t.indexOf('一點都不好玩。');
-    check('5. 3-6：沒和以安和好（沒有 XC5_RECONCILE）＝「一點都不好玩。」後面多「我還是想知道她考幾分。……很爛吧。」；和好的沒有',t[i+1]==='我還是想知道她考幾分。……很爛吧。'&&DOC537.includes('> 芯慈：我還是想知道她考幾分。……很爛吧。')&&!(await play({XC5_RECONCILE:true},[0,'那我來填'])).includes('我還是想知道她考幾分。……很爛吧。'),J(t.slice(i,i+2)));
-    check('5. 視訊版（日本路線）同一份台詞（XC_LINES）',J(ev('ev_xinci_first_place_video').dialogue.slice(1))===J(ev('ev_xinci_first_place').dialogue)); });
 
   /* ===== 第 6 節：第 2 段 3-1、3-2、3-5 後補 ===== */
   await sec(6,async()=>{ const E=STORY_EVENTS.find(e=>e.id==='ev_xc_g2_dad');

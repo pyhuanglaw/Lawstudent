@@ -12,6 +12,10 @@ const XCROM=(()=>{
      noAnEx＝跟以安交往過就不開——使用者 2026-10-30 選「照樣可以開」（UA-LAWWW-1030-26）＝false；
      noOpen＝不接受多段——使用者 10-30：「我們要討論一下他的個性再來討論……應該是他主觀要知道如果玩家有跟別人交往，如果只是客觀有這件事情他不知道的話那他也無從在意吧」（UA-LAWWW-1030-27）＝還在討論，先照 AA 的建議 */
   S.CFG={noAnEx:false,noOpen:true};
+  /* 整條線的開關（2026-10-30 17:1x AA-B 轉：使用者直接對 AA 否決芯慈×以安「第一名／第二名」整條劇情——「拜託你把那個第一第二名刪掉，這個爛劇情」；
+     這條線用「第二名」撐，先停、不進下一版，等 AA 重寫）：false＝芯慈不在 DATE.HEROINES、沒有心意邀約、告白、半夜訊息、新的時刻、心願午夜場；
+     程式留著（tests/xinci_romance_unit.js 用 XCROM.setOn(true) 測），AA 重寫以後照新稿改、再打開 */
+  S.ON=false;
   const F=G=>(G&&G.flags)||{};
   const done=(G,id)=>!!(G&&G.events&&G.events.done&&G.events.done[id]);
   const mem=(G,tag)=>!!(G&&G.social&&G.social.mem&&(G.social.mem[XC]||[]).some(m=>m.tag===tag));
@@ -38,7 +42,7 @@ const XCROM=(()=>{
       G8:(done(G,'ev_xinci_first_place')||done(G,'ev_xinci_first_place_video'))&&!!f.XC_BLANK,   /* 慈 6＋「空白的週三下午」選「那我來填。」*/
       G9:S.numbers(G),
       G10:!(S.CFG.noAnEx&&S.anDated(G)) }; };
-  S.allGates=G=>{ const g=S.gates(G); return Object.keys(g).every(k=>g[k]); };
+  S.allGates=G=>{ if(!S.ON) return false; const g=S.gates(G); return Object.keys(g).every(k=>g[k]); };
   /* 心意邀約發不發（AA_537b 第 7 節：G1～G8 都過、G9 數值、G10；人在國外那一學期沒有）——termend3d.js S.cond 一開始問；沒過＝不發、也不傳 NOPE 那一句 */
   S.heartOk=function(G){ if(typeof STORY!=='undefined'&&STORY.abroad&&STORY.abroad(G)) return false; return S.allGates(G); };
   /* 告白那一刻祐廷正在交往的別人（她接受多段＝不算）：有＝她問完「你現在有在跟誰交往嗎。」接 others、不交往（AA_537 第 4 節、AA_537b 第 7 節）*/
@@ -169,7 +173,7 @@ const XCROM=(()=>{
   S.wake=function(G){ const f=F(G), d=TD('Y2S2',6,3); if(!law(G)||!hasP()||!contact(G)||!S.nightStart(G)||S.closed(G)||!due(G,d,0.75,1)||sent(G,'xcn_wake')||(f.XC_NIGHT|0)>=2) return; PHONE.at(G,d,0.75,[P(S.WAKE)],'xcn_wake'); };
   /* 30 分鐘內回＝XC_NIGHT +1 */
   S.onAnswer=function(G,m,o){ if(!m||!m.ask||!/^xcn_/.test(m.ask.id)||!o||o.noCount) return; const sentAt=T(m.day,m.h), at=now(G); if(at-sentAt<=0.5+1e-6){ const f=F(G); f.XC_NIGHT=(f.XC_NIGHT|0)+1; } };
-  S.phone=function(G){ for(const f of [S.g3Remind,S.blankAgain,S.g7,S.call1,S.anBreak,S.night,S.wake]){ try{ f(G); }catch(e){ console.warn('XCROM.phone',e); } } };
+  S.phone=function(G){ if(!S.ON) return; for(const f of [S.g3Remind,S.blankAgain,S.g7,S.call1,S.anBreak,S.night,S.wake]){ try{ f(G); }catch(e){ console.warn('XCROM.phone',e); } } };
   S.EVENTS=[S.EV_G2,S.EV_SAMEDAY,S.EV_CALL1];
   /* ---------- 心願那一場：午夜場（AA_537b 8-2，企劃線 86659bbc1；DATE_WISH 的格式，同沛珊 D06）----------
      mention 不放在這裡（在半夜訊息，S.MENTION）：見面時不說。herInvite：交往前第 5 階以上＋XC_BLANK、兩個人都單身（交往中可以），一學期一次，週五 00:40 傳、約週六 22:30 出發（23:30 開演；DATE.MIDNIGHT）。
@@ -192,14 +196,19 @@ const XCROM=(()=>{
     fixedAfter:{lines:[]},
     closing:{title:'午夜場',lines:[NR('（午夜場散場，捷運已經沒了。你們走到西門站外面等計程車。）'),ME('電影普通。'),ME('……可是我會記得。')],
       choices:[{t:'「我也是。」',reply:[ME('嗯。')]},{t:'「下次再來。」',reply:[ME('好。下次不是午夜場也可以。')]},{t:'（陪她等車）',reply:[NR('（計程車來了。她上車以前，回頭看了你一眼。）')]}]} };
-  S.wireWish=function(){ if(typeof DATE_WISH!=='undefined'&&DATE_WISH.events&&!DATE_WISH.events[XC]) DATE_WISH.events[XC]=S.WISH_EV;
+  S.wireWish=function(){
     if(typeof WISH!=='undefined'&&WISH.record&&!WISH.record._xc){ const r0=WISH.record; WISH.record=Object.assign(function(G,t,ev){ const r=r0.apply(this,arguments); try{ if(t&&t.who===XC&&G&&G.flags) G.flags.XC_MIDNIGHT_DAY=G.day; }catch(e){} return r; },{_xc:true}); } };
   /* ---------- 接線（載入時一次）---------- */
+  /* 打開／關掉整條線：DATE.HEROINES、事件、心願事件一起加或拿掉 */
+  S.setOn=function(v){ S.ON=!!v;
+    if(typeof DATE!=='undefined'&&Array.isArray(DATE.HEROINES)){ const i=DATE.HEROINES.indexOf(XC); if(S.ON&&i<0) DATE.HEROINES.push(XC); if(!S.ON&&i>=0) DATE.HEROINES.splice(i,1); }
+    if(typeof STORY_EVENTS!=='undefined') for(const e of S.EVENTS){ const k=STORY_EVENTS.findIndex(x=>x.id===e.id); if(S.ON&&k<0) STORY_EVENTS.push(e); if(!S.ON&&k>=0) STORY_EVENTS.splice(k,1); }
+    if(typeof DATE_WISH!=='undefined'&&DATE_WISH.events){ if(S.ON) DATE_WISH.events[XC]=S.WISH_EV; else if(DATE_WISH.events[XC]===S.WISH_EV) delete DATE_WISH.events[XC]; }
+    return S.ON; };
   S.wire=function(){ if(S._wired) return; S._wired=true;
-    if(typeof STORY_EVENTS!=='undefined') for(const e of S.EVENTS) if(!STORY_EVENTS.some(x=>x.id===e.id)) STORY_EVENTS.push(e);
     if(typeof STORY!=='undefined'&&Array.isArray(STORY.PHONE_RULES)) STORY.PHONE_RULES.push(G=>S.phone(G));
     if(typeof PHONE!=='undefined'&&Array.isArray(PHONE.ON_ANSWER)) PHONE.ON_ANSWER.push((G,m,o,k)=>S.onAnswer(G,m,o,k));
-    S.wireWish(); };
+    S.wireWish(); S.setOn(S.ON); };
   S.wire();
   return S;
 })();

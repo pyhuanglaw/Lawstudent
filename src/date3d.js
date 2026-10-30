@@ -12,7 +12,7 @@
 const DATE=(function(){
   const S={};
   const D=()=>typeof DATE_DATA!=='undefined'?DATE_DATA:{locations:{},points:{points:{}},heroineIds:{}};
-  S.HEROINES=['heroine_01','heroine_02','heroine_03','heroine_04','heroine_05','classmate_peishan','kexin','classmate_xinci'];   /* 芯慈：XINCI-ROMANCE-1030（使用者 X139「芯慈可攻略 但要很難達成」；AA_537，門檻在 src/xcrom3d.js）*/
+  S.HEROINES=['heroine_01','heroine_02','heroine_03','heroine_04','heroine_05','classmate_peishan','kexin'];   /* 芯慈（XINCI-ROMANCE-1030）由 src/xcrom3d.js 的 XCROM.setOn(true) 加進來；10-30 17:1x 使用者否決「第一名／第二名」劇情，這條線先關（XCROM.ON false）*/
   /* 舊存檔：補欄位、不改已有的；不追溯以前的出遊、CG、告白 */
   S.rec=function(G){ if(!G) return null; if(!G.dateLog||typeof G.dateLog!=='object') G.dateLog={}; if(!Array.isArray(G.trips)) G.trips=[]; if(!Array.isArray(G.groupTrips)) G.groupTrips=[]; if(!G.dateMemory||typeof G.dateMemory!=='object') G.dateMemory={};
     if(G.flags&&typeof G.flags==='object'&&(!G.flags.DATE_OVERNIGHT||typeof G.flags.DATE_OVERNIGHT!=='object')) G.flags.DATE_OVERNIGHT={};   /* 兩天一夜住過幾次（AA_359 第 4 節；舊存檔＝{}）*/

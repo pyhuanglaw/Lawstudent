@@ -388,7 +388,7 @@ const inDoc=t=>DOC.indexOf(t)>=0;
     setup(d,17.75); await play('ev_xc_dad',[0]); ruleAt(d,22.05); check('2-4. 沒有聯絡方式：當晚不傳',!byTag('xc_dad_night').length); });
 
   await sec('2-5',async()=>{ const F=L().xc.first, d=D('2028-05-04');
-    const run=async flags=>{ fresh(d,19.2,'noodle',Object.assign({XC5_RECONCILE:true},flags)); fam(XC); await play('ev_xinci_first_place',[0]); return H.said.map(q=>q.t); };   /* XC5_RECONCILE：和以安和好了（沒和好的多一句「我還是想知道她考幾分。」，AA_537 3-6，tests/xinci_romance_unit.js 查）*/
+    const run=async flags=>{ fresh(d,19.2,'noodle',flags); fam(XC); await play('ev_xinci_first_place',[0]); return H.said.map(q=>q.t); };
     let r=await run({}); const i=r.indexOf('一點都不好玩。');
     check('2-5. 沒有記號：「一點都不好玩。」後面直接接原文（雙主修改輔系）',i>0&&r[i+1]==='我把雙主修改成輔系了。經濟我還是喜歡。只是不用拿第一了。');
     r=await run({XC_RPS:true,XC_DAD_AN:true}); const j=r.indexOf('一點都不好玩。');
@@ -691,7 +691,7 @@ const inDoc=t=>DOC.indexOf(t)>=0;
     { const d=TD('Y2S2',4,3); fresh(d,20,'dorm'); fam(YU); contact(YU); ruleAt(d,21.1); if(byTag('yu_quit').length) past.push('3-4 退社（下一週才讀）'); }
     check('7. 已經過了的場景、訊息不補（1-3、2-3、2-4、3-1、3-4、5-2）',!past.length,J(past));
     /* 記號沒有的照「沒選」：各節已經測過（2-5 沒有 XC_*、3-2 沒有 YU2_PICK、3-3 沒有 YU_BKF、3-5 沒有 YU_C4、4-2 沒有 MX_UMB、1-6 沒有 YC_GIG）——這裡再跑一次舊存檔的旗標全空 */
-    { fresh(D('2028-05-04'),19.2,'noodle',{XC5_RECONCILE:true}); fam(XC); await play('ev_xinci_first_place',[0]); const r=H.said.map(x=>x.t), i=r.indexOf('一點都不好玩。');   /* XC5_RECONCILE：同 2-5（AA_537 3-6 那一句只在沒和好時）*/ const a=r[i+1]==='我把雙主修改成輔系了。經濟我還是喜歡。只是不用拿第一了。';
+    { fresh(D('2028-05-04'),19.2,'noodle'); fam(XC); await play('ev_xinci_first_place',[0]); const r=H.said.map(x=>x.t), i=r.indexOf('一點都不好玩。'); const a=r[i+1]==='我把雙主修改成輔系了。經濟我還是喜歡。只是不用拿第一了。';
       fresh(D('2028-03-08'),8.6,'campus'); await play('ev_yu_alone_breakfast',[0]); const b=H.said[1]&&!Object.values(L().yu.bkf.yu4).includes(H.said[1].t);
       fresh(D('2027-11-23'),19,'noodle'); await play('ev_zhe_scooter',[0]); const c=H.said[0]&&H.said[0].t!==L().yu.c4.scooter;
       check('7. 舊存檔沒有新記號（XC_RPS、XC_DAD_*、YU_BKF、YU_C4）：慈 6、語 4、阿哲的機車照原本',a&&b&&c,J([a,b,c])); }
