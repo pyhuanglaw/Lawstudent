@@ -10,7 +10,7 @@
 
 ## 交接（最新）——工作階段隨時可能因額度中斷（D45 緊急保存規則）
 
-**現況（帳號 B LAWWW-B，2026-10-30 13:5x UTC；帳號 B 七天額度已到警示 allowed_warning，2026-11-06 02:00 UTC 重置——隨時可能被切斷）**
+**現況（帳號 B LAWWW-B，2026-10-30 14:4x UTC；帳號 B 七天額度已到警示 allowed_warning，2026-11-06 02:00 UTC 重置——隨時可能被切斷）**
 - 線上：**v9.10.14**（main `271cd2305`，PR #20，Pages 07:52:40 成功；BB-B main deploy_check ALL PASS）：快速存檔獨立一格、開新遊戲前先備份、經濟系那一年可昕不主動約。BB 對 main 補跑剩下的情境（AA_520／523／518／515_zq、R43、libhall、R44）。
 - **下一版在開發分支**（`55b49aa11` 以後；全部 Node：`fe3cee955` 763／0，之後只多 AA_539 第 5 節（子代理 763／0）與 7/20 旁白）：
   - postrel-1030 全部（`b576263b6`）；改名 D115（`ba315523b`、`ea67b0cb4`、舊存檔出遊 `ca5f3381c`、開發文件 `052d589d2`）；Café 室內光照（CAFE-LM-1030）；學姊 AA_539（`fe3cee955`、`101f841c8`、`55b49aa11`）。
@@ -22,6 +22,8 @@
   - 11:4x～11:5x：多功能教室 v2（MULTI-ROOM-V2-1030，`95da49eab`）；**補套** 03:3x 收的總圖大廳光照＋晚上小零件變暗（LIB-HALL-LM-1028、RT-NIGHT-1028，`bbe0c9469`，v9.10.14 發布後漏套）；麵店閒聊只認 3D 真的在的人（`dd8b216c0`）。**全部 Node（乾淨 checkout bbe0c9469）768／0**。
   - 12:4x：畢業以後的中秋當 PG 停點（BUG-PG-MOON-STOP，`2ac9e3637`；BB R43 r43_moon 瀏覽器 FAIL）；畢業以後相關 221 支 Node ALL PASS；BB 重跑 r43_moon。
   - 13:3x～13:4x：以安二試、司法官放榜群組照 AA 回 B 改成到隔天 03:00（PG-AN-EX-WIN-1030，`49ba39d6d`）；BUG-PG-MOON-STOP、PG-AN-EX-WIN 都 BB 驗收通過（修正前 FAIL、修正後 PASS）。R43 其他 FAIL 是探針。
+  - 14:1x～14:4x：博思教學館 v2（BOYA-LM-1030，`a63eb8072`）；麵店團先拿位子（客人先留空位，`5f8b94515`，全部 Node 770／0）；系外套已驗收。
+  - **進行中（還沒推）**：考試週麵店團不去麵店（AA 回 A：四人麵店作息加 `noExam`、story3d hit() 支援 noExam、阿姨一句「這禮拜考試齁？你們那桌都沒來。」）。草稿在工作階段 scratchpad（story3d_examA.js、ndl_present_examA.js；characters.js 四筆麵店作息加 noExam:true）。撞到 4 支測試用考試週日期挑閒聊（aa503、aa527_528、aa_followup_1030 第 9 週、noodle_table_1027 第 7 項 12/22），已問 AA 照建議改測試日期（第 10 週、12/15）。接手的人：等 AA 回覆再做。
   - LAWWW2 下一批（D99 經濟系優先）：BOYA-LM-1030 博思教學館 → SOCLIB-LM-1030 社科圖 → NOODLE-LM-1030 麵店；ART-ZR-PS-3D-1022 回報進度。AA_541 改名最終一致性報告（企劃線 bc3f0ad97）：約 95%，剩 BB 近拍＋使用者真機；發布條件含**使用者同意**、README 同一次換。
 - **改名版（D115）發布前一定要先問使用者同意**（使用者 04:31 原話「不得未經我同意直接合併 main 或正式發布」）；發布時根目錄 README 換 AA 草稿（企劃線 f745e8ab9）。
 - 總圖前草皮：三個問題（草皮形狀、台階、樟樹位置）還在等使用者，回答了 LAWWW2 再出第二版。
