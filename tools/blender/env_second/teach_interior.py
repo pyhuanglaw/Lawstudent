@@ -127,7 +127,7 @@ def ceiling(lv, y, rects):
             if TROF:
                 x, z = trof(x, z)
                 wm(lv, 'ceil', 'trof').box(x - 0.6, x + 0.6, y - 0.04, y - 0.002, z - 0.3, z + 0.3)                 # 燈具外殼（凸出天花板 4 cm）
-                mk(lv, 'light').box(x - 0.57, x + 0.57, y - 0.044, y - 0.04, z - 0.27, z + 0.27)                    # 發光面
+                hquad(mk(lv, 'light'), x - 0.57, x + 0.57, z - 0.27, z + 0.27, y - 0.044)                          # 發光面：單面朝下（tests/room_ceiling_unit.js：掛在天花板上的燈板要朝下）
                 lvm = wm(lv, 'ceil', 'louvre')   # 格柵：只做從下面看得到的底面和兩個長邊（方塊的頂面、兩端看不到；一盞燈 8 條，兩層 90 盞）
                 for oz in (-0.18, -0.09, 0.0, 0.09, 0.18):
                     za_, zb_ = z + oz - 0.004, z + oz + 0.004; hquad(lvm, x - 0.57, x + 0.57, za_, zb_, y - 0.058)
