@@ -46,9 +46,9 @@ const E_=id=>X()&&X().ev(id);
   /* AA_459 第 5 節、AA_460 第 6 節的換字（tools/date/import_wish.py 的 REPLACE；wish_bb.json 還沒跟著改）：比對 JSON 時換回原句、對原稿時不算 */
   const REP=[['你可以說不。我只是問問看。','你可以說不。不是叫你說不，是問你。'],['你的，你自己買。……這樣才算約好。','你的，你自己買。這樣比較像約好，不像我請你。'],['好。兩點半，光典門口。……兩點半是巧合。跟店名沒關係。','好。兩點半，光典門口。……兩點半是巧合，不是店名。']];
   check('0. 三句已經改進原稿（wish_bb.json@cb5caad65）：不再有暫代換字（verify.replaced 沒有）、原稿對不到 0 句',!(DW.verify.replaced||[]).length&&(DW.verify.miss||[]).length===0,J([DW.verify.replaced,DW.verify.miss]));
-  { const unrep=s=>s,   /* REP 三句 cb5caad65 起已經改進企劃線的 JSON，比對的版本（ab9d70fe0）就是新句：不用換回 */ strip=e=>{ const x=JSON.parse(unrep(J(e))); delete x.src; if(x.closing&&x.id==='wish_heroine_01') delete x.closing.linesIf; return x; };
+  { const unrep=s=>s.split('"那座橋，我回去要畫一次。"').join('"那座橋，我回去要畫一次。……畫好再給你看。"'),   /* REP 三句 cb5caad65 起已經改進企劃線的 JSON，比對的版本（ab9d70fe0）就是新句：不用換回；AA_525 1-5（6081f725f，tools/date/import_wish.py 疊的）子晴結尾換回原句再比 */ strip=e=>{ const x=JSON.parse(unrep(J(e))); delete x.src; if(x.closing&&x.id==='wish_heroine_01') delete x.closing.linesIf; return x; };
     const same=[AN,YT].every(id=>WAA&&J(strip(DW.events[id]))===J(WAA.events[id]))&&[ZR,ZQ,SIS,PS,KX].every(id=>WBB&&J(strip(DW.events[id]))===J(WBB.events[id]));
-    check('0. 七位的事件和企劃線的 JSON（wish_aa@482c7f6e9、wish_bb@ab9d70fe0）逐欄相同（一字不改；只多以安大一的收尾）',same&&Object.keys(DW.events).length===7); }
+    check('0. 七位的事件和企劃線的 JSON（wish_aa@482c7f6e9、wish_bb@ab9d70fe0）逐欄相同（一字不改；只多以安大一的收尾、AA_525 1-5 子晴結尾一句）',same&&Object.keys(DW.events).length===7); }
   { const li=(DW.events[AN].closing.linesIf||[])[0], two=li?sp(AN,li.lines):[];
     check('0. 以安大一的收尾照 AA_127 1-5「大一的版本：前三句換成」：「上憲法講第八條那天，我只覺得它很長。」「今天比較知道，每一句後面都有人。」（旁白照用；大二以後照原本三句）',J(two)===J(['上憲法講第八條那天，我只覺得它很長。','今天比較知道，每一句後面都有人。'])&&two.every(t=>AA127.includes(t))&&J(li.if)===J({unless:{termFrom:'Y2S1'}})&&li.lines[0].text===DW.events[AN].closing.lines[0].text&&li.lines[3].text===DW.events[AN].closing.lines[4].text,J(li)); }
   { let n=0, bad=[]; const walk=(o,src)=>{ if(Array.isArray(o)) return o.forEach(x=>walk(x,src)); if(!o||typeof o!=='object') return; if(typeof o.text==='string'&&o.who&&o.who!=='note'){ n++; if(!inMd(o.text,src)&&!REP.some(r=>r[0]===o.text)) bad.push(o.text); return; } for(const k in o) if(!['wish','rule','note','record','where','source','title','scene','repeat','costNote','likeNote','code','memory','name','context','hotspotsTitle'].includes(k)) walk(o[k],src); };
@@ -195,7 +195,7 @@ const E_=id=>X()&&X().ev(id);
     check('5. 收尾：「最後一關換你。」→ 選①「我知道。剛剛看過了。……打。」；Q12 以前「我自己的遊戲，最後一關還沒做。」；第 5 階「今天不錯。……下個月試玩區會換一批。」',has(r.L,['最後一關換你。','我知道。剛剛看過了。……打。','我自己的遊戲，最後一關還沒做。','……我現在比較知道要怎麼做了。','今天不錯。……下個月試玩區會換一批。']),J(r.L.slice(-10)));
     check('5. 記：WISH_DONE_heroine_04、ZQ_LAST_STAGE、相簿；錢：機台 60、扭蛋 100、休息區 60、車資 60',H.G.flags.WISH_DONE_heroine_04===true&&SOCIAL.has(ZQ,'ZQ_LAST_STAGE')&&(H.G.album||[]).some(a=>a.id==='wish_heroine_04')&&DATE.log(H.G,ZQ).wish===true&&m0-H.G.money===60+100+60+60&&H.cgs.length===0,String(m0-H.G.money));
     setup('2026-10-10',9,{lv:{[ZQ]:'dt'}}); r=await goDate(ZQ,'D03',15,['試玩',0,'差不多',2]);
-    check('5. 交往中：抵達多「人很多。手給我。……我是怕我自己走丟。」；Q12 以前的結尾「那座橋，我回去要畫一次。……畫好再給你看。」',has(r.L,['人很多。手給我。……我是怕我自己走丟。','那座橋，我回去要畫一次。……畫好再給你看。']),J(r.L.slice(-6)));
+    check('5. 交往中：抵達多「人很多。手給我。……我是怕我自己走丟。」；Q12 以前的結尾「那座橋，我回去要畫一次。」（AA_525 1-5 改句，原「……畫好再給你看。」）',has(r.L,['人很多。手給我。……我是怕我自己走丟。','那座橋，我回去要畫一次。'])&&!r.L.includes('那座橋，我回去要畫一次。……畫好再給你看。'),J(r.L.slice(-6)));
   }
 
   /* ======================= 6 學姊 D15（AA_426 改稿）======================= */

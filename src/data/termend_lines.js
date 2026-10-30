@@ -169,7 +169,7 @@ const TERMEND_LINES=(function(){
         {terms:['Y3S2'],invite:'禮拜四十點，等我下班。',h:22,wd:4}]},   /* AA_377 第 7 節（企劃線 d037c668）：大三下她週三、四上班到 22:00，週五不上班 */
     heroine_04:{invite:G=>TM(G)==='Y4S1'||TM(G)==='Y3S2'?'你考完了吧 宵夜 我想吃兩份':'考完了 宵夜 我想吃兩份',   /* AA_377 第 10 項：大三下她 6/3 畢業了（同大四上）*/
      invByTerm:{Y1S1:'考完了 宵夜 我想吃兩份',Y1S2:'考完了 宵夜 這次三份 你一份',Y2S1:'考完了 宵夜 我請 demo 過了',Y2S2:'考完了 宵夜 我今天只睡三小時 要吃多一點',Y3S1:'考完了 宵夜 專題的事今天不講',Y3S2:'你考完了吧 宵夜 我想吃兩份',Y4S1:'你考完了吧 宵夜 工作室今天放我走'},
-     place:'yexiao',placeName:'公館宵夜',h:22,table:G=>Q6(G)?'你測過的那一關，我改完了。……下學期再給你玩。':'這學期熬了很多夜。有幾個晚上是在想你。',
+     place:'yexiao',placeName:'公館宵夜',h:22,table:G=>Q6(G)?'你測過的那一關，我改完了。':'這學期熬了很多夜。有幾個晚上是在想你。',   /* AA_525 1-2：拿掉「……下學期再給你玩。」（後面的鉤子「要不要玩？」接 zq_play）*/
       tableByTerm:{Y2S1:['demo 做完了。我傳給我爸，他已讀。','……已讀也算看過吧。'],Y2S2:['暑假我要做一個新的東西。','……做好以前，不准問。'],Y3S1:['期末專題，我挑了一個可能做不完的題目。','……做不完也沒關係吧。'],Y3S2:['下個月開始上班。','……晚上十點以後，我還是有空。'],Y4S1:['工作室的案子上禮拜交了。','……交完我睡到隔天晚上。'],Y5S1:['工作室接了新案子。這次第一關是我做的。','……我做得很慢。他們都在等我。']},
       over:[{terms:['Y5S1'],invite:'你實習完了吧 宵夜 我想吃兩份'}]},
     classmate_peishan:{invite:'期末考完了！今天吃飯，我想吃熱的。',invByTerm:{Y1S1:'期末考完了！今天吃飯，我想吃熱的。',Y1S2:'期末考完了！今天吃飯，吃冰的也可以。夏天了。',Y2S1:'期末考完了！今天吃火鍋好不好？我想吃熱的。',Y2S2:'期末考完了！我們去吃那家你上次說好吃的。',Y3S1:'學期結束了！你下來，我帶你吃台南的。',Y3S2:'期末結束了！你下來吃晚餐，我知道一家很小的店。',Y4S1:'學期結束了！你下來。……我想吃熱的，跟第一次一樣。'},place:'eatery',placeName:'系館附近的簡餐',h:18.5,table:'這學期有幾次我想打給你，後來沒打。怕你在讀書。',
@@ -272,6 +272,17 @@ const TERMEND_LINES=(function(){
     river:{name:'景美溪河堤',h:17.5,bg:'riverside',open:'（河堤的步道，她走在靠水的那一邊。）',close:'（她站在你的車門邊。『到家傳訊息。』）',miss:['我在河堤等了一下','你還好嗎']},
     nccu:{name:'政大正門',h:18,bg:'nccu_food',open:'（山下那家店，她點了兩人份，沒有問你。）',close:'（她送你到停車場，站著等你倒車出去。）',miss:['我在正門等了一下','你還好嗎']} };
   const C10=G=>typeof VAC!=='undefined'&&!!VAC.enrolled&&VAC.enrolled(G,'C10');   /* 大二暑假加州暑期課（VAC 做好以後接）*/
+  /* AA_525（企劃線 6081f725f）：可昕學期末約會多的段落（termend3d.js S.kexinDinner）——open＝開場旁白之後、飯桌一開始；end＝飯桌最後（table、二選一之後，收尾旁白之前）。
+     Y3S1 end：3-1 K-1、K-2 聖誕（2027 聖誕視訊說「禮物等我考完再換」KX_XMAS[3] video／missed＝交換禮物；再加上 2026 收過卡片的 KX_XMAS[2] went／missed＝「今年的第二頁，你排。」、二選一、記 KX_PAGE2_MINE）；
+     Y4S1：美國路線——open＝3-10 K-15「23 號回來，第一碗我請。」（收過 y4_a23_us_kx 那兩則）；end＝3-2 K-3「你回來我們再去一次摩天輪。」（KX_ANNIV[4] video）*/
+  const XM=(G,n)=>(G&&G.flags&&G.flags.KX_XMAS&&G.flags.KX_XMAS[n])||null;
+  const KX_EXTRA={
+    Y3S1:{end:G=>['video','missed'].includes(XM(G,3))?[{narr:'（吃完飯，她從包包拿出一個小盒子，推過來。）'},'聖誕的。說好考完換。',{narr:'（你也把準備好的那一份拿出來。）'},
+      ...(['went','missed'].includes(XM(G,2))?['還有，去年說的。今年的第二頁，你排。',
+        {choice:[{t:'「河濱，看燈。」',say:['……抄我的。好。',g=>{ g.flags.KX_PAGE2_MINE='river'; return null; }]},{t:'「山上，看夜景。」',say:['好。你開車。',g=>{ g.flags.KX_PAGE2_MINE='mountain'; return null; }]}]},
+        {narr:'（那一晚的第二頁，是你排的。）'}]:[])]:null},
+    Y4S1:{open:G=>US3(G)&&typeof PHONE!=='undefined'&&PHONE.sent(G,'y4_a23_us_kx')?['第一碗。說好我請。',{narr:'（她先去付了錢。）'}]:null,
+      end:G=>US3(G)&&!!G.flags&&!!G.flags.KX_ANNIV&&G.flags.KX_ANNIV[4]==='video'?['摩天輪。說好的。',{narr:'（吃完飯，你們去搭了摩天輪。轉到最高的時候，她靠著窗，沒有說話。）'}]:null} };
   /* AA_401 第 1 節（企劃線 18251b0e1；AA_313 2-5 第 3 點）：大二起每場學期末約會，table 兩句後面加一個二選一；khh＝KX_KHH[學期＋W／S]，y5＝KX_Y5_CALL */
   const US3=G=>typeof STORY!=='undefined'&&STORY.route&&STORY.route(G)==='US';
   const KX_ASK={
@@ -288,7 +299,7 @@ const TERMEND_LINES=(function(){
     Y1S2:{place:'river',wd:5,first:true,invite:['期末考完了吧','禮拜五 河堤 五點半','我帶你去吃那家']},
     Y2S1:{place:'nccu',invite:['考完了！','這次換山上 {哪天} 政大正門六點','我請'],table:['我們期末考完，你寒假來高雄。','我家附近那個夜市，你還沒去過。']},
     Y2S2:{place:'river',invite:['考完沒','{哪天} 河堤 五點半','這次你開車 我負責音樂'],table:G=>C10(G)?['你暑假要去加州。','出發前，來高雄找我一次。']:['暑假來高雄找我。','……這次不要當天就走。']},
-    Y3S1:{place:'nccu',invite:['期末考完了吧','{哪天} 政大 六點','我有一個很奇怪的報告題目要講給你聽'],table:['期末報告我寫房東能不能進房客的房間。老師說題目很奇怪，可是給過了。','寒假你來高雄。……我們都沒去過的地方，我來排。']},
+    Y3S1:{place:'nccu',invite:['期末考完了吧','{哪天} 政大 六點','我有一個很奇怪的報告題目要講給你聽'],table:['期末報告我寫房東能不能進房客的房間。老師說題目很奇怪，可是給過了。','寒假你來高雄。……我們都沒去過的地方，我來排。']},   /* AA_525 3-11 改這一句的部分 AA_526 第 2 節撤回（大三寒假高雄那一趟她「我排好了。你來就好。」已經兌現），照原句 */
     Y3S2:{place:'river',invite:['{哪天} 河堤 五點半','暑假的事 當面講'],table:G=>typeof STORY!=='undefined'&&STORY.route&&STORY.route(G)==='US'?['八月你就去美國了。……我算過了，我們分開最久就是這次。']:['暑假你在臺北，我在高雄。……又是兩個月的視訊。']},   /* AA_369 L4：飯桌分路線（台灣、美國；日本路線這時候人在日本，沒有這一頓）*/
     Y4S1:{place:'nccu',invite:['最後一個上學期了欸','{哪天} 政大 六點'],table:['大四了。……我們期末考完，就剩一個學期。','寒假我回高雄念書。……你來的話，我占兩個位子。']},
     Y5S1:{place:'river',invite:['學期結束了吧','你沒有期末考 我知道','{哪天} 河堤 五點半'],table:['十四號以後，我就是律師了。……還要受訓。','受訓的時候不能看手機。……你週末再打給我。']} };   /* 大五上（交換延畢，AA_357 3-4）：不再提「一月拿證書」（3-2 第五年講過）*/
@@ -328,9 +339,13 @@ const TERMEND_LINES=(function(){
     miss:['我自己去了。我爸問你怎麼沒來。']};
   /* C15 朋友約的單日小事（AA_251 第 2 節）：日子 LAWWW 暫排；msg＝傳日子（AA_270 第 2 節）；photo＝沒去的那天晚上 21:00 私訊（第 3 節）*/
   const C15={
-    zq_play:{who:'heroine_04',day:'2026-06-27',h:14,place:'公館的騎樓咖啡店',lines:[{narr:'（她把筆電轉過來。畫面上一隻像素的貓在跳。）'},{who:'heroine_04',text:'玩。不要問怎麼玩，玩就知道。'},{narr:'（你掉下去三次。）'},{who:'heroine_04',text:'……第三關太難了。我回去改。'}],msg:['{日期} 下午 有空嗎','我弄好一關了 要你玩'],photo:['📷（筆電螢幕上，一隻像素貓卡在牆裡）','它卡住了','你沒來 沒人幫我找 bug']},
-    zq_play2:{who:'heroine_04',day:'2027-07-10',h:14,place:'公館的騎樓咖啡店',lines:G=>C15.zq_play.lines,msg:['{日期} 下午 有空嗎','我弄好一關了 要你玩'],photo:['📷（筆電螢幕上，一隻像素貓卡在牆裡）','它卡住了','你沒來 沒人幫我找 bug']},
-    zq_demo:{who:'heroine_04',day:'2027-01-09',h:14,place:'資工系館',lines:G=>C15.zq_play.lines,msg:['{日期} 下午 有空嗎','我弄好一關了 要你玩'],photo:['📷（筆電螢幕上，一隻像素貓卡在牆裡）','它卡住了','你沒來 沒人幫我找 bug']},
+    /* AA_525 1-2（企劃線 6081f725f）：三場分開寫——zq_play 第二關（ladder Q2-L4 選「我會注意到。」記 ZQ_SAW_THIRD；Q2-L8 選「需要幫忙就說。」記憶 ZQ2_SUMMER_TESTER）、zq_demo 第三關（「第三關太難了」放這裡）、zq_play2 她的新東西 */
+    zq_play:{who:'heroine_04',day:'2026-06-27',h:14,place:'公館的騎樓咖啡店',lines:G=>[{narr:'（她把筆電轉過來。畫面上一隻像素的貓，在插座前面打了一個呵欠。）'},{who:'heroine_04',text:'第二關。你上次玩到這裡。'},
+      ...(G&&G.flags&&G.flags.ZQ_SAW_THIRD?[{who:'heroine_04',text:'……第三個插座。你說你會看到。'},{narr:'（你看到了。貓在第三個插座前面停了一下，打了一個呵欠。）'}]:[]),
+      ...(typeof SOCIAL!=='undefined'&&SOCIAL.has&&SOCIAL.has('heroine_04','ZQ2_SUMMER_TESTER')?[{narr:'（她把一杯飲料推到你面前。）'},{who:'heroine_04',text:'包飲料。說好的。'}]:[]),
+      {narr:'（你掉下去兩次，第三次過了。）'},{who:'heroine_04',text:'過了。……第三關我還沒做。'}],msg:['{日期} 下午 有空嗎','我弄好一關了 要你玩'],photo:['📷（筆電螢幕上，一隻像素貓卡在牆裡）','它卡住了','你沒來 沒人幫我找 bug']},
+    zq_play2:{who:'heroine_04',day:'2027-07-10',h:14,place:'公館的騎樓咖啡店',lines:[{narr:'（她把筆電轉過來。這次不是那隻貓。）'},{who:'heroine_04',text:'新的東西。還沒有名字。'},{narr:'（你玩了二十分鐘。她一句話都沒說，在旁邊記筆記。）'},{who:'heroine_04',text:'……好。我知道哪裡要改了。'}],msg:['{日期} 下午 有空嗎','我弄好一關了 要你玩'],photo:['📷（筆電螢幕上，一隻像素貓卡在牆裡）','它卡住了','你沒來 沒人幫我找 bug']},
+    zq_demo:{who:'heroine_04',day:'2027-01-09',h:14,place:'資工系館',lines:[{narr:'（資工系館的電腦教室。螢幕上，一隻貓站在一座橋上。）'},{who:'heroine_04',text:'第三關。橋是新的。'},{narr:'（你在橋的一半掉下去。）'},{who:'heroine_04',text:'……第三關太難了。我回去改。'}],msg:['{日期} 下午 有空嗎','我弄好一關了 要你玩'],photo:['📷（筆電螢幕上，一隻像素貓卡在牆裡）','它卡住了','你沒來 沒人幫我找 bug']},
     yu_camp:{who:'yu',day:'2026-07-11',h:12,place:'營地',bg:'camp_school',lines:[{narr:'（操場上一群小朋友在追 Alison。）'},{who:'yu',text:'你來了！……等一下，我先救我自己。'},{narr:'（午餐的時候，她的盤子被一個小朋友偷了一塊雞塊。）'}],msg:['{日期}中午來！！','帶水，這裡什麼都沒有！'],photo:['📷（操場上一群小朋友比著勝利手勢，Alison 在最後面，頭髮亂掉）','我還活著！']},
     yu_camp2:{who:'yu',day:'2027-07-17',h:12,place:'營地',bg:'camp_school',lines:G=>[{narr:'（操場上，一隊小朋友排成一排，跟在 Alison 後面。她脖子上掛著一個哨子。）'},{who:'yu',text:'我是小隊長了！……他們都不聽我的。'},{narr:'（午餐的時候，一個小朋友伸手要拿她的雞塊。她早就把雞塊藏在碗底。）'},
       {who:'yu',text:G&&G.flags&&G.flags.C15_DONE&&G.flags.C15_DONE.yu_camp!=null?'去年被偷過，今年學乖了。':'他們最會偷雞塊。要先藏好。'}],msg:['{日期}中午來！！','我是小隊長喔！！帶水'],photo:['📷（一排小朋友比著勝利手勢，Alison 站在最前面拿著哨子）','小隊長還活著！']},   /* AA_408 第 5 節：大二暑假的探班（大一去過 yu_camp 的最後一句不一樣）*/
@@ -350,5 +365,5 @@ const TERMEND_LINES=(function(){
   const AUTO_NO_GRAD_DELAYED={heroine_01:'好。今天恭喜。',classmate_xinci:'好。今天恭喜。',yu:'好吧！！今天恭喜！',heroine_05:'好。今天恭喜。'};   /* 交換延畢的玩家（日本、美國路線，PG.delayed）：典禮那天不說「畢業快樂」（AA_381 第 1 節，企劃線 d14a0388）*/
   const ENDED={heroine_01:'這學期不了。謝謝你約我。',heroine_03:'這次先不要。',heroine_05:'這學期我排不出來。你自己保重。',heroine_02:'謝謝。這次我想自己過。',heroine_04:'這次先不要啦。',classmate_peishan:'謝謝你問。……這次我先不去。',kexin:'現在還不行。謝謝你還會約我。'};
   const REPLY=['嗯。','真的假的。','我也是。'];   /* 祐廷回的一句（AA_250 10-1：池子以外，輪流）*/
-  return {KX_ASK,PLACE,HEART,OPTS,NOT_YET_OPT,ANSWER,FRIEND,FALLBACK,GF,NOPE,POOL,REPLY,Q6,KX,KX_PLACE,HOOK,HOOK_NO,C14,C15,SYS_TE,SYS_GF,AUTO_ME,AUTO_ME_GRAD,AUTO_NO,AUTO_NO_GRAD,AUTO_NO_GRAD_DELAYED,ENDED,src:'AA_254 8fdcc961（7fa1aad4、a9daffbb 更正）／AA_250 acf92ff0、375b91dd、c524b61e、ae841bba'};
+  return {KX_ASK,KX_EXTRA,PLACE,HEART,OPTS,NOT_YET_OPT,ANSWER,FRIEND,FALLBACK,GF,NOPE,POOL,REPLY,Q6,KX,KX_PLACE,HOOK,HOOK_NO,C14,C15,SYS_TE,SYS_GF,AUTO_ME,AUTO_ME_GRAD,AUTO_NO,AUTO_NO_GRAD,AUTO_NO_GRAD_DELAYED,ENDED,src:'AA_254 8fdcc961（7fa1aad4、a9daffbb 更正）／AA_250 acf92ff0、375b91dd、c524b61e、ae841bba'};
 })();

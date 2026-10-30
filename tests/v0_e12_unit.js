@@ -46,7 +46,7 @@ const TH=th=>PHONE.thread(G,th).map(m=>m.text);
   const m=PHONE.thread(G,'p:kexin').find(x=>x.text==='好冷。我先回去了。');
   check('3. 三個接法、一定要回（must）；沒回之前 PHONE.mustOpen',m.ask.must===true&&m.ask.opts.length===3&&PHONE.mustOpen(G,'p:kexin'));
   run(); check('3. 自動打開和可昕的對話',opened.some(o=>o[0]==='msg'&&o[1]==='p:kexin'));
-  PHONE.answer(G,m.ask.id,2); check('3. 回「明天補妳一次。」：E12_ANSWER＝tomorrow、可以關了；她回「好。明天。不准再睡著。」',G.flags.E12_ANSWER==='tomorrow'&&!PHONE.mustOpen(G,'p:kexin')&&(()=>{ const T2=PHONE.thread(G,'p:kexin').map(x=>x.text); return T2[T2.length-1]==='好。明天。不准再睡著。'; })());
+  PHONE.answer(G,m.ask.id,2); check('3. 回「明天補妳一次。」：E12_ANSWER＝tomorrow、可以關了；她回「……不用補。睡飽一點。」（AA_525 3-8 K-14 改句，原「好。明天。不准再睡著。」）',G.flags.E12_ANSWER==='tomorrow'&&!PHONE.mustOpen(G,'p:kexin')&&(()=>{ const T2=PHONE.thread(G,'p:kexin').map(x=>x.text); return T2[T2.length-1]==='……不用補。睡飽一點。'; })());
   // 睡著
   G=JSON.parse(snap); SOCIAL.bind(G); EVENTS.bind(GM); opened=[]; GM.D.active=true; at(D6+1,8); check('4. 隔天醒來（別的事件進行中時先不開）：訊息照 18:30 的時間',(()=>{ const x=PHONE.thread(G,'p:kexin').find(y=>y.text==='你沒來喔。'); return x&&x.day===D6&&Math.abs(x.h-18.5)<0.05; })()&&!opened.length);
   GM.D.active=false; run(); check('4. 事件結束後才打開',opened.length===1);

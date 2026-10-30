@@ -448,7 +448,9 @@ const VAC_DATA=(function(){
         byDate:[{to:'2027-06-04',invite:['明天我十點下班。','……你來的話，我晚一點關燈。'],h:22}]},   /* AA_373 第 6 節第 9 題（企劃線 bdab2f42）：她晚班到 22:00——見面那天在 2027-06-04 以前（她還在上班）＝「九點」改「十點」、22:00；台詞、沒去的那句照原本。之後照 AA_375（noShift）*/
           /* AA_369 第 8 節第 8 題：見面那天在她不上班的日子（2027-06-04～09-02）＝這一句、隔天下午（15:00，LAWWW 排的）；
              第 9 節第 2 題：那一場的台詞（不再是倒扣椅子、做第一杯）、沒去的隔天那句也換（vac3d.js S.reNS）*/
-      heroine_04:{invite:['回來了喔','明天晚上 公館 宵夜','十點'],h:22,place:'公館',bg:'gongguan',lines:[{who:'heroine_04',text:'欸！'},{narr:'（她跑過來，停在你面前一步。）'},{who:'heroine_04',text:'……曬黑了。好醜。'},{who:'heroine_04',text:'……走，吃東西。'}],miss:['欸你昨天放我鳥']},
+      heroine_04:{invite:['回來了喔','明天晚上 公館 宵夜','十點'],h:22,place:'公館',bg:'gongguan',lines:[{who:'heroine_04',text:'欸！'},{narr:'（她跑過來，停在你面前一步。）'},{who:'heroine_04',text:'……曬黑了。好醜。'},{who:'heroine_04',text:'……走，吃東西。'}],miss:['欸你昨天放我鳥'],
+        /* AA_525 1-4（Z-4）：出國期間收過「試玩一下 回來給你玩」（看過 Q6；這一趟的私訊，vac3d.js 的 tag vac_tm_<這一趟>_heroine_04_…）＝最後多兩句（vac3d.js S.outing 're'）*/
+        more:{if:(G,I)=>Q6(G)&&!!I&&(G.msgs||[]).some(m=>m&&m.from==='heroine_04'&&m.text==='試玩一下 回來給你玩'&&String(m.tag||'').indexOf('vac_tm_'+I.key+'_heroine_04_')===0),lines:[{narr:'（她把筆電轉過來，推到你面前。）'},{who:'heroine_04',text:'說好的。玩。'}]}},
       heroine_05:{invite:['明天五點，法圖門口。'],h:17+5/60,place:'法圖門口',bg:'law_library_gate',lines:[{who:'heroine_05',text:'回來了？'},{who:'heroine_05',text:'……好。'},{narr:'（她把一本書遞給你。）'},{who:'heroine_05',text:'你不在的時候出的，先借你看。'}],miss:['昨天沒等到你。……沒關係。']},
       classmate_peishan:{invite:['歡迎回來！','明天下午兩點，舊路書房好不好？'],h:14,place:'舊路書房',bg:'oldroad_bookstore',lines:[{who:'classmate_peishan',text:'你回來了！'},{who:'classmate_peishan',text:'快講，那邊的小朋友是怎樣的？'}],miss:['你昨天是不是睡著了']},
       kexin:{invite:['明天五點半 河堤','我在老地方等'],h:17.5,place:'河堤',bg:'riverside',lines:[{who:'kexin',text:'你回來了。'},{who:'kexin',text:'我算過了，你在那邊三十二天。……好，我不算了。'}],miss:['我昨天在河堤等了一下','你還好嗎']} },
@@ -493,7 +495,7 @@ const VAC_DATA=(function(){
       heroine_02:{yes:['好啊。……我想去有老電影院的地方。'],last:'明天就要回去了。……我想再坐一次那個渡輪。',lastNot:'明天就要回去了。……我想再坐一次那條路。',no:'……先在國內吧。我還想先跟你看幾部電影。',later:'……我也想去。下次好不好，我想慢慢排。'},
       heroine_04:{yes:['去！機票我來比價。'],last:'這趟花的錢我算好了。……你不要看，看了會心痛。',no:'出國？太快了啦。先去夜市練習。',later:'美國？！……下次啦，我先存一點錢買遊戲。'},
       heroine_05:{yes:['……我要先看研究所的時間。'],next:['那幾天可以。'],last:'好久沒有一整天不想研究所的事。',no:'……先在國內。出國的話，我要先排好時間。',later:'十天以上，我要先跟研究所請好。下次。',eve:['我跟我媽說了。','她叫我多帶一件外套。']},
-      kexin:{yes:['我算一下。……飛三個多小時的話，第一天下午就能玩。'],last:'我算了一下，我們這五天走了六萬多步。',no:'我排了一下……先在國內，出國我要多排一點時間。',later:'歐洲要排很久……下次，我先做一份行程表給你看。'},
+      kexin:{yes:['我算一下。……飛三個多小時的話，第一天下午就能玩。'],last:'我算了一下，我們這五天走了六萬多步。',no:'我排了一下……先在國內，出國我要多排一點時間。',later:'歐洲要排很久。……我先存錢。'},
       classmate_peishan:{yes:['真的嗎？我沒出過國。……你要教我怎麼過海關。'],last:'我第一次出國耶。……好好玩。',no:'先在國內走走吧，我們還沒一起去過很多地方。',later:'好遠喔……下次！我先查一下。'} } };
   function Q6(G){ return !!(G&&G.events&&G.events.done&&G.events.done.ev_ziqing_secret_game); }   /* 子晴的遊戲秘密：看過 Q6 才傳遊戲截圖（AA_242 375b91dd）*/
   /* 以安也在京都的語言課：FAMILIAR 以上（AA_242 5-1；她的假期計畫 AA_244 第 1 節大二暑假）*/

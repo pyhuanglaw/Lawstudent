@@ -14,7 +14,8 @@ const REL_LINES=(function(){
   /* 學姊的 W8 上限（cap）拿掉了（AA_219 A-11），這裡不再需要 W8 的判斷 */
   const tutorNight=G=>[2,4,6].includes(G.weekday);   /* 明軒二四六晚上家教（BB_120 1-7b 他的那一句） */
   const zrShift=G=>G.zone==='cafe'&&typeof STORY!=='undefined'&&!!STORY.ladWorking&&STORY.ladWorking(G,'heroine_02');   /* 芷若在 Café 而且在上班（BB_169 a4ccf909 Z-1、Z-2；AA_200 第 2 節第 15 項的 onShift） */
-  const zqQ6=G=>!!(G.events&&G.events.done&&G.events.done.ev_ziqing_secret_game);   /* 看過子晴 Q6（BB_169 a4ccf909 Q-2、Q-3b、Q-8、Q-9；BB_166 1-1） */
+  const zqQ6=G=>!!(G.events&&G.events.done&&G.events.done.ev_ziqing_secret_game);
+  const zqPre2=G=>zqQ6(G)&&typeof STORY!=='undefined'&&!!STORY.dayOfKey&&(d=>d!=null&&G.day<d)(STORY.dayOfKey('2026-06-27'));   /* AA_525 1-2：看過 Q6、2026-06-27（zq_play 第二關）以前＝「第二關做好了。」*/   /* 看過子晴 Q6（BB_169 a4ccf909 Q-2、Q-3b、Q-8、Q-9；BB_166 1-1） */
   const atDesk=G=>['cafe','library','library_hall'].includes(G.zone);   /* 在 Café、總圖（BB_169 a4ccf909 Q-1：「存好」要有電腦在手上） */
   return {
   /* ---------- AA 的六位（AA_124 1-6；2026-10-16 口語改稿照 AA_194 第 3 節，6e94d8d7） ---------- */
@@ -79,7 +80,7 @@ const REL_LINES=(function(){
       wenzhou:{R:'她帶你去看一棵很老的樹。'} } },
   heroine_04:{   /* 高子晴（1-3）。BB_169 a4ccf909 第 3 節 Q-1～Q-9：FAMILIAR 分在 Café、總圖和其他地方；FRIEND、CLOSE 的「有點累」、meet 的 cafe R／wenzhou R 分有沒有看過 Q6（ev_ziqing_secret_game） */
     up:{ FAMILIAR:[{if:atDesk,l:['「喔你來了。」','「等一下，我先把這個存好。」']},{l:['「喔你來了。」','「等我一下，我回個訊息。」']}],
-      FRIEND:[{if:zqQ6,l:['「新版本做好了。你先玩，我還沒給別人看。」']},{l:['（她把耳機的一邊遞給你）','「這首，聽完再講話。」']}],
+      FRIEND:[{if:zqPre2,l:['「第二關做好了。你先玩，我還沒給別人看。」']},{if:zqQ6,l:['「新版本做好了。你先玩，我還沒給別人看。」']},{l:['（她把耳機的一邊遞給你）','「這首，聽完再講話。」']}],
       CLOSE_FRIEND:[{if:zqQ6,l:['「你最近還好嗎？看起來很累。」'],ch:[{t:'還好。',r:['「喔，那就好。」']},{t:'有點累。',r:['「那今天不叫你測了。」']},{t:'妳呢？',r:['「我？還行啦。」','「就最近都很晚睡。」']}]},
         {l:['「你最近還好嗎？看起來很累。」'],ch:[{t:'還好。',r:['「喔，那就好。」']},{t:'有點累。',r:['「那今天早點散。」']},{t:'妳呢？',r:['「我？還行啦。」','「就最近都很晚睡。」']}]}] },
     bye:{base:['「好。掰。」'],FRIEND:['「好，我回去趕作業了。掰。」'],CLOSE_FRIEND:['「今天好好玩。」','「下次再約。」']},

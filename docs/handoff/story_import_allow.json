@@ -3442,6 +3442,22 @@
    "approvedBy": "AA-C 定稿（D109；HEROINE-LIFE-1028，USER_WANTS X122★）",
    "task": "HEROINE-LIFE-1028",
    "note": "LAWWW-B 子代理登記（aa524-promises，10-30；上一班 LAWWW-C 子代理的實作沒 push 遺失，重做）：以安、芷若、語彤 34 條說了沒發生。閒聊階梯的改字、extraIf（A4 番茄炒蛋保鮮盒、A14 對考卷／十五分鐘、Z3-L4 罐頭、Z10 滷肉一整罐）只經 tools/ladder/import_ladder.py 的 _fix；約會台詞的改字（A8 D09、A9 D14／D16、Z7 D18／D10）只經 tools/date/import_date_lines.py 的 AA_524 那一段；其他接線在 src/aa524_3d.js 和各檔原地（檔內標 AA_524）。測試 tests/aa524_promises_unit.js"
+  },
+  {
+   "path": "docs/story_planning/AA_525_說了沒發生_子晴沛珊可昕.md",
+   "sha": "6081f725f",
+   "status": "approved",
+   "approvedBy": "AA-C 定稿（D109；USER_WANTS X122）",
+   "task": "HEROINE-LIFE-1028",
+   "note": "子代理登記（LAWWW-B 重做，10-30）：AA_525 說了沒發生（二）子晴、沛珊、可昕 29 條。階梯六句（子晴 Q2-L5、沛珊 P3-L3、P5-L2、可昕 K2-L8、K3-L5、K6-L6）只經 tools/ladder/import_ladder.py 重產；子晴心願約會結尾（1-5）只經 tools/date/import_wish.py 重產；其餘在 src（見 tests/aa525_promises_unit.js）。"
+  },
+  {
+   "path": "docs/story_planning/AA_526_回LAWWW_AA524_525重做九題.md",
+   "sha": "4ada43291",
+   "status": "approved",
+   "approvedBy": "AA-B 定稿（D109；USER_WANTS X122）",
+   "task": "HEROINE-LIFE-1028",
+   "note": "子代理登記（LAWWW-B，10-30）：AA_526 回 AA_524、AA_525 重做的九題。AA_525 部分：D15 子晴「全部我請。」回覆只經 tools/date/import_date_lines.py 重產；3-11 KX.Y3S1 第二句撤回（termend_lines.js 照原句）；1-1 第三張貼紙只給聽過的（ZQ_STICKER3，y2r2_3d.js／y34b3d.js）；3-9 條件改演過 ev_kexin_summer_plan_call（r2y3a_events.js）；2-1 照現在。AA_524 部分另外做。"
   }
  ]
 }

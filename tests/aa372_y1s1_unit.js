@@ -126,7 +126,7 @@ const D2=STORY._day2||{};
     M=await rain('一起走吧'); check('4. 對照：她報了名字的版本（一起撐傘）照舊「雨天在總圖門口遇到陳語彤」',M.includes('雨天在總圖門口遇到陳語彤')&&!M.some(m=>m&&typeof m==='object'),J(M)); }
   // ===== 第 6、7、9、10、11、14、16、17 項：台詞 =====
   { const V=evText('ev_kexin_video_study'); check('6. 可昕 12/16 視訊：「你們期末考還剩幾科？我在算哪天可以見面。」（不問第一科）',V.includes('你們期末考還剩幾科？我在算哪天可以見面。')&&!V.some(t=>/第一科/.test(t)));
-    const N=evText('ev_kexin_tour_nccu'); check('7. 政大導遊：「山下那家酸辣湯餃。開學到現在，我已經吃到老闆認得我了。」「下次你來，我們吃山上那家。」；沒有「吃了一學期」「選宵夜」',N.includes('山下那家酸辣湯餃。開學到現在，我已經吃到老闆認得我了。')&&N.includes('下次你來，我們吃山上那家。')&&!N.some(t=>/吃了一學期|選宵夜/.test(t)),J(N.slice(-3)));
+    const N=evText('ev_kexin_tour_nccu'); check('7. 政大導遊：「山下那家酸辣湯餃。開學到現在，我已經吃到老闆認得我了。」「下次你來，我們吃山下那家。」（AA_525 3-5 改「山上」→「山下」）；沒有「吃了一學期」「選宵夜」',N.includes('山下那家酸辣湯餃。開學到現在，我已經吃到老闆認得我了。')&&N.includes('下次你來，我們吃山下那家。')&&!N.some(t=>/吃了一學期|選宵夜/.test(t)),J(N.slice(-3)));
     const X=evText('ev_sk01_soc'); check('9. 阿勳：「兩個月。看也看會了。」（不是「一年。」）',X.includes('兩個月。看也看會了。')&&!X.includes('一年。看也看會了。'));
     const B=evText('ev_mid_autumn_bbq'); check('10. 中秋烤肉阿哲：「欸，明軒說你比我們大一屆？」（宿營時明軒問過「你幾年次的」）；「等一下。經濟系？重考？」照留',B.includes('欸，明軒說你比我們大一屆？')&&!B.some(t=>/你幾年次的/.test(t))&&B.includes('等一下。經濟系？重考？'));
     const K=ev('ev_kexin_visits_ntu'), KT=evText('ev_kexin_visits_ntu'); check('11. 可昕 K2：標題「她來台大找你」、「霖澤館。以前每天從社科院看過來。……第一次走進來。」',K.title==='她來台大找你'&&KT.includes('霖澤館。以前每天從社科院看過來。……第一次走進來。')&&!KT.some(t=>/比照片高/.test(t)),K.title);
@@ -177,7 +177,7 @@ const D2=STORY._day2||{};
     if(typeof D2.meetAn==='function'){ fresh(d4,15.3,'campus',{introDone:true,classDone:true,metAn:true,classAnswer:'good',AN_NAME_TOLD:true}); picks=[0]; await D2.meetAn(GM);
       check('第 6 節第 3 題. 對照：上課前已經自我介紹過（AN_NAME_TOLD）的玩家，追出來那場不再說「我是沈以安。……」',!said.some(s=>/我是沈以安/.test(s.t))&&said.some(s=>s.t==='呼——你走好快。'&&s.who==='小安'),J(said.slice(0,2))); }
     // 第 7 題、第 9 題
-    const N=evText('ev_kexin_tour_nccu'); check('第 6 節第 7 題. 政大導遊：拿掉「……這是分工，不是命令。」，最後一句「下次你來，我們吃山上那家。」',!N.some(t=>/分工/.test(t))&&N[N.length-1]==='下次你來，我們吃山上那家。',J(N.slice(-2)));
+    const N=evText('ev_kexin_tour_nccu'); check('第 6 節第 7 題. 政大導遊：拿掉「……這是分工，不是命令。」，最後一句「下次你來，我們吃山下那家。」（AA_525 3-5）',!N.some(t=>/分工/.test(t))&&N[N.length-1]==='下次你來，我們吃山下那家。',J(N.slice(-2)));
     const K2=ev('ev_kexin_visits_ntu'); check('第 6 節第 9 題. K2 的日誌：「可昕來台大找你」（不是「可昕第一次來台大」）',!!K2&&!!K2.consequences&&K2.consequences.memo==='可昕來台大找你',K2&&K2.consequences&&K2.consequences.memo);
   }
   { // 第 10 題：9/3 她接受交友邀請起，手機的私訊串、聯絡人寫「溫書瑀」；「（直屬）」照舊 9/4 21:00 以後

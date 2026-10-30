@@ -309,7 +309,7 @@ const R2Y3B_EVENTS=(function(){
     dialogue:[ {if:KXV,scene:'視訊',bg:'video'},{unless:KXV,scene:'公館',bg:'gongguan_cake'},   /* 公館的甜點店 2D 沒有＝深色底＋字幕 */
       {if:KXV,speaker:null,text:'（她把一片蛋糕舉到鏡頭前。）'},{if:KXV,speaker:'kexin',expression:'teasing',text:'這片是你的。我幫你吃。'},
       {speaker:'kexin',expression:'smile',text:'生日願望。一，報告寫完。二，你的報告也寫完。'},
-      {speaker:'kexin',expression:'laugh',text:'三……三十分鐘到了。第三個明年說。'},
+      {speaker:'kexin',expression:'laugh',text:'三……三十分鐘到了。第三個明年說。'},{set:{KX_WISH3:true}},   /* AA_525 3-3（K-4）：2029-04-23 21:00 她的私訊多兩句（r2y4b3d.js）*/
       {if:{custom:G=>KXV.custom(G)&&!!(G.flags&&G.flags.KX_EXCHANGE_ASKED)},speaker:'kexin',expression:'smile',text:'沒關係，你先睡。填交換志願的時候，你有先問我。'},   /* AA_344 ⑤：日本路線視訊的最後（三十分鐘到了、她掛之前），交換志願表那一場先問過她的（KX_EXCHANGE_ASKED，story3d.js 1A-05）；BB_98 9-5 */
       {unless:KXV,speaker:null,text:'（她把最後一口蛋糕吃完，拿了包包就走。走到門口又回頭。）'},   /* 收尾（新寫）：當面那一版 */
       {unless:KXV,speaker:'kexin',expression:'smile',text:'報告寫完了跟我說。'} ],

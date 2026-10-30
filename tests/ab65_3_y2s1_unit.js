@@ -130,7 +130,7 @@ await sec(6,async()=>{
     pd.includes('我想了很久，到底要不要繼續念法律。')&&pd.includes('學姊那時候說她還在想。……我好像想好了。')&&pd.includes('……我會說我想當老師。她應該會再問三次。')&&!pd.some(t=>/框外面的人|我想完了|這次我答得出來/.test(t)),J(pd));
   const z7=texts(ev('ev_zhiruo_applied')), q6=texts(ev('ev_ziqing_secret_game')), q7=texts(ev('ev_ziqing_lab_letter'));
   check('6. SC3 #15 芷若 Z7 選「不會。」：單身「……你說的喔。」、有伴侶「……嗯。謝謝。」（兩版都接「今天的咖啡我請。」）',z7.includes('……你說的喔。')&&z7.includes('……嗯。謝謝。')&&z7.includes('今天的咖啡我請。')&&!z7.some(t=>/我會當真|先不要怕/.test(t)),J(z7));
-  check('6. SC3 #15 子晴 Q6 better：單身「……真的？那你下禮拜再來，幫我玩第二關。」、交往中「好，那我把它做完。做完你再玩一次。」',q6.includes('……真的？那你下禮拜再來，幫我玩第二關。')&&q6.includes('好，那我把它做完。做完你再玩一次。')&&!q6.some(t=>/我會當真|我會真的把它做完/.test(t)),J(q6));
+  check('6. SC3 #15 子晴 Q6 better：單身「……真的？那第二關做好，你再幫我玩。」（AA_525 1-2 改句，原「……真的？那你下禮拜再來，幫我玩第二關。」）、交往中「好，那我把它做完。做完你再玩一次。」',q6.includes('……真的？那第二關做好，你再幫我玩。')&&q6.includes('好，那我把它做完。做完你再玩一次。')&&!q6.some(t=>/我會當真|我會真的把它做完/.test(t)),J(q6));
   check('6. SC3 #14 子晴 Q7 選項 a：「可是不進去的話，我要怎麼回？他是我爸的同學欸。」',q7.includes('可是不進去的話，我要怎麼回？他是我爸的同學欸。')&&!q7.some(t=>/那我很蠢/.test(t)),J(q7)); });
 
 await sec(7,()=>{

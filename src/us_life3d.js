@@ -320,7 +320,8 @@ const USL=(function(){
   /* 摘要日：d 那天 h 點（預設 08:00）以後 */
   S.SUM=X.summary.map(s=>Object.assign({},s));
   S.sumLine=(G,s)=>typeof s.t==='function'?s.t(G):s.t;
-  S.sumDue=(G,t0,t1)=>S.SUM.filter(s=>{ const d=D(s.d), x=d!=null?T(d,s.h!=null?s.h:8):null; return x!=null&&x>t0+1e-6&&x<=t1+1e-6&&!S.rec(G).sum[s.d]; });
+  S.sumOk=(G,s)=>{ try{ return !s.if||!!s.if(G); }catch(e){ return false; } };   /* if：那一句只給某些玩家（AA_525 3-2 可昕的卡片）；不成立＝那天沒有摘要 */
+  S.sumDue=(G,t0,t1)=>S.SUM.filter(s=>{ const d=D(s.d), x=d!=null?T(d,s.h!=null?s.h:8):null; return x!=null&&x>t0+1e-6&&x<=t1+1e-6&&!S.rec(G).sum[s.d]&&S.sumOk(G,s); });
   S.jump=async function(GM,t){ const G=GM.G, E=GM.E; await GM.fade(true); const tS=now(G); let tt=tS, n=0, why=null, mo=null; const P=typeof PHONE!=='undefined'?PHONE:null, p0=P&&P.pending?P.pending(G).length:0;
     { const nx=S.nextStop(G,tt); if(nx!=null&&nx<t) t=nx; }
     while(tt+0.25<=t+1e-6){ tt=Math.round((tt+0.25)*4)/4; setTime(G,E,tt);
@@ -431,7 +432,7 @@ const USL=(function(){
     if(prev==='us_apartment'&&z==='us_outside'&&G.day===D('2028-12-03')&&!F.USL_RAIL){ F.USL_RAIL=true; GM.caption('',X.looks.railSnow,4600); return false; }
     if(prev&&prev!=='us_market'&&z==='us_market'&&G.day>=D('2028-11-13')&&G.day<=D('2028-11-23')&&F.USL_FALL!==G.day){ F.USL_FALL=G.day; GM.caption('',X.looks.marketFall,4600); return false; }
     /* 摘要日：沒有跳過的那天，到時間出一次 */
-    { const s=S.SUM.find(q=>D(q.d)===G.day&&!S.rec(G).sum[q.d]&&h>=(q.h!=null?q.h:8)); if(s&&inUS(G)){ S.rec(G).sum[s.d]=1; GM.caption('',S.sumLine(G,s),4800); } }
+    { const s=S.SUM.find(q=>D(q.d)===G.day&&!S.rec(G).sum[q.d]&&h>=(q.h!=null?q.h:8)&&S.sumOk(G,q)); if(s&&inUS(G)){ S.rec(G).sum[s.d]=1; GM.caption('',S.sumLine(G,s),4800); } }
     return false; };
 
   /* ======================= US3 的湖邊（r2y4a_events.js 的 ev_us3_lake）多兩句：開頭（有 US_LAKE_FIRST）、交往中那一版的最後（「晚上來 C 棟。室友不在。」）======================= */

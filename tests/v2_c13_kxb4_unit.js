@@ -36,7 +36,7 @@ const meet=id=>SOCIAL.remember(id,'FIRST_MET','');
   check('1. 22:00 以前沒有；22:00「演講怎樣？」「我今天在系上被教授點名了，好丟臉。」',r.before&&T.includes('演講怎樣？')&&T.includes('我今天在系上被教授點名了，好丟臉。'),JSON.stringify(T));
   check('1. 回覆開到隔天 18:00',r.m&&r.m.ask.until===(thu+1)*24+18);
   const o=r.m.ask.opts.map(x=>x.t); check('2. 聽完 B4：第一個回覆＝「講者最後問：『被限制的那個人，最後可以去哪裡？』」；另外兩個',o[0]==='講者最後問：『被限制的那個人，最後可以去哪裡？』'&&o[1]==='被點名？妳答出來了嗎？'&&o[2]==='先說妳的。演講的事等一下說。',JSON.stringify(o));
-  PHONE.answer(G,r.m.ask.id,0); let T2=TH('p:kexin').map(m=>m.text); check('2. →「這題我要偷走。下次出給你。」（AA_313 第 2 節第 27 列）',T2[T2.length-1]==='這題我要偷走。下次出給你。');
+  PHONE.answer(G,r.m.ask.id,0); let T2=TH('p:kexin').map(m=>m.text); check('2. →「這題我要偷走。」（AA_313 第 2 節第 27 列；AA_525 3-11 拿掉「下次出給你。」）',T2[T2.length-1]==='這題我要偷走。');
   r=go('left'); check('3. 只聽前半：「我只聽了前半。」→「前半也算。後半我幫你編一個結局。」',r.m.ask.opts[0].t==='我只聽了前半。'&&(PHONE.answer(G,r.m.ask.id,0),TH('p:kexin').map(m=>m.text).pop()==='前半也算。後半我幫你編一個結局。'));
   r=go(null); check('4. 沒去：「我沒去。」→「沒關係。我今天也很想沒去——我被點名了。」',r.m.ask.opts[0].t==='我沒去。'&&(PHONE.answer(G,r.m.ask.id,0),TH('p:kexin').map(m=>m.text).pop()==='沒關係。我今天也很想沒去——我被點名了。'));
   r=go('full'); PHONE.answer(G,r.m.ask.id,2); T2=TH('p:kexin').map(m=>m.text);
