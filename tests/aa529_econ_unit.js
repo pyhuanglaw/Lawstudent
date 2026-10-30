@@ -12,6 +12,7 @@
 //      6-5 4/25～6/7 拆兩張
 // 修改前（基準 acc883b3e＝v9.10.14 候選 b38b112a8 的遊戲檔：git archive 出 src、tests、lib、index.html，這支測試用新的，AA529_DOCREPO 指這個 repo）：
 //   FAILED 25、PASS 14（PASS＝讀稿、對照組、長版／E20 不加、7/16 有群組才收到等；第 2、3 節找不到 STORY.zoulaMigrate／zoulaGather 丟例外中斷）。修改後 ALL PASS（46 項）。
+// 全部 Node 單元測試（tests/*_unit.js，2026-10-30）：735 支、結束碼不是 0 的 0 支。改了期待值的舊測試：econ_ff_unit（日期卡 28→29 句）、v0_gather_unit（最後一句是「回家的路上」）、rom1016_unit（K7 第 4 頁照 AA_529）。
 // 用法：node tests/aa529_econ_unit.js（在沒有 .git 的目錄跑，設環境變數 AA529_DOCREPO＝這個 repo 的目錄）
 'use strict';
 require('./alison.js');
