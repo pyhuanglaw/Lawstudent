@@ -46,7 +46,7 @@ const HASK=(function(){
   /* 你約過她、見到面（INV 的 by:'player' done；DATE 的 by:'player' done）：交往前 5 天、交往中 3 天她不約 */
   S.lastMet=function(G,id){ let d=-1e9; for(const iv of (G.invites||[])) if(iv.who===id&&iv.by==='player'&&iv.state==='done') d=Math.max(d,iv.day); for(const t of (G.trips||[])) if(t.who===id&&(t.by||'player')==='player'&&t.status==='done') d=Math.max(d,t.day); return d; };
   /* 這一天整個不約的原因（空字串＝可以）*/
-  S.block=function(G,id,day){ if(!P(id)) return 'nodata';
+  S.block=function(G,id,day){ if(!P(id)) return 'nodata'; if(G.stage==='econ') return 'econ';   /* AA_529 第 1 點（企劃線 881029f98）：經濟系那一年不約——台詞、地點是政大那一套，她在高雄、衝刺班時也會約，回程還出「回到台大」 */
     if(typeof INV!=='undefined'){ if(INV.cool&&INV.cool(G,id)) return 'cool'; if(INV.hasContact&&!INV.hasContact(G,id)) return 'contact'; }
     if(typeof SOCIAL!=='undefined'&&SOCIAL.stage&&SOCIAL.stage(id)==='STRANGER') return 'stranger';
     if(typeof MREL!=='undefined'){ if(MREL.zzRefusing&&MREL.zzRefusing(G,id)) return 'mrel'; if(id==='kexin'&&MREL.kxOdPaused&&MREL.kxOdPaused(G)) return 'kxPaused'; }

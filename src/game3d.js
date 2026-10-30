@@ -337,6 +337,20 @@ const GAME = (function(){
   GM.autosave=autosave;
   /* 不可逆的轉換之前先備份（CLAUDE.md 存檔規則第 9 點；例：經濟系 8/31 換到法律系，AA_154 2-4b 第 4 點）：寫 fatiao3d_backup，另外寫一份之後不會被蓋掉的 fatiao3d_backup_<key> */
   GM.backupNow=function(label,key){ const s=snapshot(); s.backupLabel=label||''; const ok=write(KEY_BACKUP,s); if(key) write(KEY_BACKUP+'_'+key,s); return ok; };
+  /* 開新遊戲前先備份（使用者 2026-10-30 04:0x：「你現在放到自動存檔 我重新開遊戲 就被第一天蓋掉了 完全讀不到」，BUG-SAVE-NEWGAME-1030）：
+     開新遊戲的第一次自動存檔會蓋掉原本的自動存檔（以前不備份）——先把自動存檔、快速存檔各寫一份不會被蓋掉的 fatiao3d_backup_new_<savedAt>（同一份不重寫）。
+     最多留 NEW_KEEP 份：超過就刪進度最少（day 最小，同天刪舊的）那一份，連按幾次開新遊戲也不會把真正的進度擠掉。備份寫不進去（空間不足）＝先問玩家要不要照樣開新遊戲 */
+  const NEW_KEEP=3, KEY_NEWBK=KEY_BACKUP+'_new_';
+  function backupKeys(){ const st=ls(); const out=[]; if(!st) return out; try{ for(let i=0;i<st.length;i++){ const k=st.key(i); if(k&&(k===KEY_BACKUP||k.indexOf(KEY_BACKUP+'_')===0)) out.push(k); } }catch(e){} return out; }
+  function backupList(){ return backupKeys().map(k=>[k,read(k)]).filter(([k,b])=>b&&typeof b==='object'&&typeof b.day==='number').sort((a,b)=>(+b[1].savedAt||0)-(+a[1].savedAt||0)); }
+  function backupBeforeNew(){ let fail=false;
+    for(const key of [KEY_AUTO,KEY_QUICK]){ const s=read(key); if(!s||typeof s!=='object'||typeof s.day!=='number') continue; const k=KEY_NEWBK+(s.savedAt||Date.now()); if(read(k)) continue;
+      s.backupLabel=(key===KEY_QUICK?'快速存檔':'自動存檔')+'（開新遊戲前）'; if(!write(k,s)) fail=true; }
+    const L=backupKeys().filter(k=>k.indexOf(KEY_NEWBK)===0).map(k=>[k,read(k)||{}]); L.sort((a,b)=>((+a[1].day||0)-(+b[1].day||0))||((+a[1].savedAt||0)-(+b[1].savedAt||0)));
+    const st=ls(); while(L.length>NEW_KEEP){ const [k]=L.shift(); try{ st.removeItem(k); }catch(e){} }
+    if(fail&&typeof confirm==='function'&&!confirm('沒辦法備份原本的進度（瀏覽器空間不足）。\n仍要開新遊戲嗎？原本的自動存檔會被蓋掉。')) return false;
+    return true; }
+  GM.backupBeforeNew=backupBeforeNew; GM.backupList=backupList;
   function saveSlot(i){ const prev=read(KEY_SLOT+i); if(prev) write(KEY_BACKUP,prev); const ok=write(KEY_SLOT+i,snapshot()); toast(ok?'已存到欄位 '+i:'存檔失敗（瀏覽器儲存不可用）'); renderSlots(); }
   /* 舊存檔的女主角初遇（AA_120 7-4 第 7 點，使用者 2026-10-13 批准）：舊版的一般自我介紹已經記了 FIRST_MET、她的相遇事件卻一次都沒播過——
      這筆 FIRST_MET 改標成「一般招呼」（GREETED），相遇事件就當還沒見過（不會永久錯過）；熟悉度、其他紀錄都不動。
@@ -387,7 +401,10 @@ const GAME = (function(){
   function parseImport(t){ t=t.trim(); let obj=null; try{ obj=JSON.parse(t); }catch(e){ try{ obj=JSON.parse(decodeURIComponent(escape(atob(t)))); }catch(e2){ throw new Error('無法解析：不是 JSON 也不是匯出的文字格式'); } } const err=validate(obj); if(err) throw new Error(err); if(obj&&obj._stuck) delete obj._stuck; if(obj&&obj._busy) delete obj._busy; return obj; }
   GM.parseImport=parseImport; GM.exportText=exportText;
   const dayLab=d=>typeof SOCIAL!=='undefined'&&SOCIAL.dayLabel?SOCIAL.dayLabel(d):'第 '+d+' 天';   /* 筆記、日誌的日期（9/11），不是「第 -379 天」（經濟系那一年 day 是負的，2026-10-17 瀏覽器實測）*/
-  function renderSlots(){ const box=$('saveSlots'); box.innerHTML=''; const auto=read(KEY_AUTO); const mk=(label,s,onSave,onLoad)=>{ const d=document.createElement('div'); d.className='item'; d.innerHTML='<b>'+label+'</b> '+(s?((typeof STORY!=='undefined'&&STORY.dayTitle?STORY.dayTitle(s):'第 '+s.day+' 天')+' '+fmtTime(s.hour)+' · '+((s.home&&s.home.at?'臺北的家':(Z3.ZONES[s.zone]?Z3.ZONES[s.zone].name:s.zone)))+' · '+s.name+'<div class="muted">'+new Date(s.savedAt).toLocaleString()+'</div>'):'<span class="muted">（空）</span>'); const row=document.createElement('div'); row.className='row2'; row.style.marginTop='8px'; if(onSave){ const b=document.createElement('button'); b.className='btn'; b.textContent='存檔'; b.onclick=onSave; row.appendChild(b); } if(s){ const b=document.createElement('button'); b.className='btn pri'; b.textContent='讀取'; b.onclick=onLoad; row.appendChild(b); } d.appendChild(row); box.appendChild(d); }; mk('自動存檔',auto,null,()=>loadFrom(auto)); const quick=read(KEY_QUICK); mk('快速存檔（右上 💾）',quick,null,()=>loadFrom(quick));   /* 只有讀取：存＝右上 💾（這一格不放「存檔」鈕，第一個「存檔」照舊是欄位 1）*/ for(let i=1;i<=3;i++){ const s=read(KEY_SLOT+i); mk('欄位 '+i,s,()=>saveSlot(i),()=>loadFrom(s)); } }
+  function renderSlots(){ const box=$('saveSlots'); box.innerHTML=''; const auto=read(KEY_AUTO); const mk=(label,s,onSave,onLoad,into)=>{ const d=document.createElement('div'); d.className='item'; d.innerHTML='<b>'+label+'</b> '+(s?((typeof STORY!=='undefined'&&STORY.dayTitle?STORY.dayTitle(s):'第 '+s.day+' 天')+' '+fmtTime(s.hour)+' · '+((s.home&&s.home.at?'臺北的家':(Z3.ZONES[s.zone]?Z3.ZONES[s.zone].name:s.zone)))+' · '+s.name+'<div class="muted">'+new Date(s.savedAt).toLocaleString()+'</div>'):'<span class="muted">（空）</span>'); const row=document.createElement('div'); row.className='row2'; row.style.marginTop='8px'; if(onSave){ const b=document.createElement('button'); b.className='btn'; b.textContent='存檔'; b.onclick=onSave; row.appendChild(b); } if(s){ const b=document.createElement('button'); b.className='btn pri'; b.textContent='讀取'; b.onclick=onLoad; row.appendChild(b); } d.appendChild(row); (into||box).appendChild(d); }; mk('自動存檔',auto,null,()=>loadFrom(auto)); const quick=read(KEY_QUICK); mk('快速存檔（右上 💾）',quick,null,()=>loadFrom(quick));   /* 只有讀取：存＝右上 💾（這一格不放「存檔」鈕，第一個「存檔」照舊是欄位 1）*/ for(let i=1;i<=3;i++){ const s=read(KEY_SLOT+i); mk('欄位 '+i,s,()=>saveSlot(i),()=>loadFrom(s)); }
+    /* 備份（BUG-SAVE-NEWGAME-1030）：瀏覽器裡全部的 fatiao3d_backup*（開新遊戲前、欄位覆蓋前、匯入前、經濟系最後一天…），新的在上面，只有讀取；放在另一個框（#saveBackups），#saveSlots 的按鈕照舊 */
+    let bx=$('saveBackups'); if(!bx&&box.parentNode){ bx=document.createElement('div'); bx.id='saveBackups'; bx.className='list'; box.parentNode.insertBefore(bx,box.nextSibling); } if(bx){ bx.innerHTML=''; const L=backupList();
+      if(L.length){ const h=document.createElement('div'); h.className='muted'; h.style.margin='14px 0 6px'; h.textContent='備份（開新遊戲、覆蓋欄位、匯入之前自動留的；讀取＝從那裡接著玩）'; bx.appendChild(h); for(const [k,b] of L) mk('備份：'+(b.backupLabel||(k===KEY_BACKUP?'上一次覆蓋前':'備份')),b,null,()=>loadFrom(b),bx); } } }
   async function loadFrom(s){ if(D.busyDepth>0&&!D.stale&&$('titleScreen').classList.contains('hide')){ toast('劇情還在進行，結束後再讀檔',3200); return; }   if(!$('titleScreen').classList.contains('hide')) await waitChars();   /* 從標題畫面讀檔：主要角色還在背景下載就先等（boot 的開遊戲加速）*/   /* 遊戲中劇情演到一半不能讀檔（讀了舊的劇情流程會接著演到新存檔）；標題畫面照常 */ try{ closeMenu(); $('titleScreen').classList.add('hide'); await applySave(s); toast('已讀取'); }catch(e){ toast('讀取失敗：'+e.message,3500); } }
   // ---------- 選單 ----------
   let menuOpen=false;
@@ -666,11 +683,11 @@ const GAME = (function(){
     $('btnImport').onclick=()=>{ $('exportBox').classList.add('hide'); $('importBox').classList.remove('hide'); $('importMsg').textContent=''; };
     $('importFile').onchange=e=>{ const f=e.target.files[0]; if(!f) return; const r=new FileReader(); r.onload=()=>{ $('importText').value=r.result; }; r.readAsText(f); };
     $('btnImportGo').onclick=async()=>{ try{ const obj=parseImport($('importText').value); const cur=read(KEY_AUTO); if(cur) write(KEY_BACKUP,cur); write(KEY_AUTO,obj); $('importMsg').textContent='匯入成功，已備份原本進度。'; await loadFrom(obj); }catch(err){ $('importMsg').textContent='匯入失敗：'+err.message; } };
-    $('btnNew').onclick=async()=>{ A3.start(); await waitChars(); if(G) newGameAbort(); const name=($('nameInput').value||'祐廷').trim().slice(0,6); G=defaults(name); GM.G=G; bindSystems(); $('titleScreen').classList.add('hide'); GM.running=true; await STORY.newGame(GM); };
+    $('btnNew').onclick=async()=>{ A3.start(); await waitChars(); if(!backupBeforeNew()) return; if(G) newGameAbort(); const name=($('nameInput').value||'祐廷').trim().slice(0,6); G=defaults(name); GM.G=G; bindSystems(); $('titleScreen').classList.add('hide'); GM.running=true; await STORY.newGame(GM); };
     /* 開局二選一（2026-10-18 使用者：「下一個版本開始就可以選擇要不要玩經濟系前傳，也可以選直接玩法律系」）：btnNew＝經濟系前傳（原本的預設）、btnNewLaw＝直接法律系大一（回顧 → 8/22 宿營 → 搬宿舍）*/
-    if($('btnNewLaw')) $('btnNewLaw').onclick=async()=>{ A3.start(); await waitChars(); if(G) newGameAbort(); const name=($('nameInput').value||'祐廷').trim().slice(0,6); G=defaults(name); GM.G=G; bindSystems(); $('titleScreen').classList.add('hide'); GM.running=true; await STORY.newGame(GM,{law:true}); };
+    if($('btnNewLaw')) $('btnNewLaw').onclick=async()=>{ A3.start(); await waitChars(); if(!backupBeforeNew()) return; if(G) newGameAbort(); const name=($('nameInput').value||'祐廷').trim().slice(0,6); G=defaults(name); GM.G=G; bindSystems(); $('titleScreen').classList.add('hide'); GM.running=true; await STORY.newGame(GM,{law:true}); };
     if($('btnNewEcon')){ if(/[?&]y0\b/.test(location.search)) $('btnNewEcon').classList.remove('hide');   /* 經濟系開局（交接包 v0）：v0 做完以前只在網址 ?y0 出現（D81：開局照舊）*/
-      $('btnNewEcon').onclick=async()=>{ A3.start(); await waitChars(); if(G) newGameAbort(); const name=($('nameInput').value||'祐廷').trim().slice(0,6); G=defaults(name); GM.G=G; bindSystems(); $('titleScreen').classList.add('hide'); GM.running=true; await STORY.newGameEcon(GM); }; }
+      $('btnNewEcon').onclick=async()=>{ A3.start(); await waitChars(); if(!backupBeforeNew()) return; if(G) newGameAbort(); const name=($('nameInput').value||'祐廷').trim().slice(0,6); G=defaults(name); GM.G=G; bindSystems(); $('titleScreen').classList.add('hide'); GM.running=true; await STORY.newGameEcon(GM); }; }
     $('btnContinue').onclick=async()=>{ A3.start(); const s=read(KEY_AUTO); if(!s){ toast('沒有自動存檔'); return; } await waitChars(); GM.running=true; await loadFrom(s); };
     $('btnLoadMenu').onclick=()=>{ A3.start(); if(!G){ G=defaults(); GM.G=G; } openMenu('save'); };
     $('rotate').onclick=()=>$('rotate').classList.remove('want');

@@ -33222,7 +33222,7 @@
    "title": "七位接不接受同時交往（acceptsOpen）照使用者 C＝逐一決定：AA_474 七位各自的條件、子晴＋芷若同時兩人都離開、可昕收回",
    "area": "v6",
    "owner": "LAWWW",
-   "status": "進行中",
+   "status": "已實作待整合",
    "priority": "P2",
    "source": "使用者 10-27 對 AA-C 回答 C（UA-AA-1027-49）；AA_474（企劃線 claude/magical-albattani-bk7b4n：第一版 d03d5da1a、第 5 節 fc961b2c5、更正 314c61ce4、**第二版 7e3f8ed4c＋3b 通則 020f695a3 為準**）",
    "first": {
@@ -33235,13 +33235,13 @@
     "parallel": true,
     "confirmed": true
    },
-   "next": "【LAWWW-C 2026-10-27 20:3x UTC】第二輪暫停（見 pausedReason）｜【LAWWW-C 2026-10-27 20:1x UTC】AA_482（7620d336e）加進子代理第二輪、排在 AA_481 之後（2-Y4-54 坦白照她的條件、都同意不問選誰、尾聲兩邊坐；子代理另列畢業以後七位談話演不到的地方給 AA）｜【LAWWW-C 2026-10-27 20:1x UTC】第一輪合進開發分支 fb8d27888（子代理 aopen-1027 eb97e846c：七位 acceptsOpen true＋各自條件、MREL.knowGate 3b 七處、可昕收回 ①②③；新測試 aa474_acceptsopen_unit 58 項，基底 53 FAIL；子代理分支 Node 653/0）。第二輪：AA_481（265f54809）五處前後句＋AA 回答第一輪八題（已轉 AA-C 20:1x），子代理同一分支做（基底 fb8d27888）；之後 BB 測 BB_TEST_QUEUE_1027 第 5c 節｜【LAWWW-C 2026-10-27 19:2x UTC】子代理開工（worktree wt_aopen，分支 aopen-1027，基底 d5ce20a40；照 AA_474 最後版本 020f695a3）；D113 每 15～20 分鐘 bundle（wip_backup/aopen_1027.bundle）｜【LAWWW-C 2026-10-27 17:2x UTC】**以 AA_474 第二版（7e3f8ed4c）＋第 4 節 3b 通則（020f695a3）為準，下面舊紀錄裡和它不同的都作廢**。要做的：①romance3d.js 第 20 行七位 acceptsOpen 改 true；②S.knowOpts 不加各人條件（AA 第一版讀漏 termend3d.js S.KNOWS_OK＝BB_203 5-3，她知道時要先過這張表心意邀約才會發），只改學姊：第一次一律讓我想想、第二次中間要兩次 L1/L2；③發現以後的結果照現在不改（以安 YT_INTENT、芷若約會 ≥8 次都作廢）；④3b 通則：開始交往前 knownOthers 有人＝先演 KNOW＋S.knowOpts（芷若照三問），七處：以安七夕 r2y3b3d.js S.romStart、七月最後一次 r2y4b3d.js S.julyScene start、芷若 8/26 zr_last3d.js S.start、Z13（z13Dinner＋hisOrderStart）、Q15（q15Walk＋貼紙）、學姊大峽谷 tw canyonAfter（連 OPEN_OK 都沒記）、學姊重新開始的約會結尾告白 date3d S.confess；Z13／Q15 在她知道時改走一般的 knowWalk；每處「還沒」那一條照 3b 的表；不在通則裡：jp3d 187、r2y4a3d S.restart、termend 295（只有可昕走得到，她沒有心意邀約）；⑤可昕收回（第 3 節）；⑥第 5 節 multirel_lines.js 三句改字＋aa423_multirel_unit.js 第 95 行；⑦romance_unit #14、mrel_ps_turn_unit #6 照新決定改寫。r2y4b3d.js 和 PG-FIX-471-473 改到同一檔 → PG-FIX 合進開發分支以後才開工（子代理照 D113 開工就備份）｜（以下舊紀錄）【LAWWW-C 2026-10-27 17:1x UTC】AA-C 更正（企劃線 314c61ce4）：「S.anResult 的 C 補 YT_INTENT both」作廢——以安、可昕的談話沒有心意那一題、從來不記 YT_INTENT，加了就永遠到不了接受；程式用「結果那天 Y 還在交往」判斷，照現在就對。發現以後的結果只剩一處要補：芷若 Byes 加約會 ≥8 次 ｜ 【LAWWW-C 2026-10-27 17:0x UTC】AA_474 加第 5 節（企劃線 fc961b2c5）：multirel_lines.js 接受那幾句兩組撞句改三處——學姊 Byes 第三句、沛珊知情心意邀約 accept.yes、學姊第二次「她說可以」的 then／yes（第一次照舊）；aa423_multirel_unit.js 第 95 行寫死學姊 Byes 要一起改 ｜ 【LAWWW-C 2026-10-27 17:0x UTC】照 AA_474 第 4 節：先補 multirel3d.js S.knowOpts 答應前的各人條件（現在只看開關、心意邀約 npcRom≥30＝開關一開就當場接受；表在第 1-8 節）→ 再把 romance3d.js 第 20 行七位改 true；學姊第一次「她說可以」一律讓我想想；S.anResult 的 C 補 YT_INTENT both；芷若補約會 ≥8 次；可昕收回（第 3 節新規格＋台詞）；romance_unit #14、mrel_ps_turn_unit #6「七位都 false」照新決定改寫。排在 v9.10.11 發布、PG-FIX-471-473 之後（子代理照 D113 開工就備份）",
+   "next": "aopen-r2（268c65322，wip_backup/aopen_r2_1030.bundle）合進 postrel-1030，v9.10.14 發布後進開發分支，BB 瀏覽器測",
    "sha": "fb8d27888",
    "pausedBy": "使用者（20:13 前後在工作階段裡停下了第二輪的子代理；系統訊息：只有使用者明確要求才再開新的代理）",
    "pausedReason": "第一輪已合進開發分支 fb8d27888；第二輪（AA_481 五處、AA_483 八題答案與定稿字、AA_482 坦白與尾聲）的子代理被使用者停下（很可能是使用者中斷 LAWWW-C 回合時一起停的），半成品 LAWWW 存成 aopen-1027 f642d440f（沒測、不能直接合）",
    "resumeWhen": "使用者說要繼續（LAWWW-C 在進度回報裡問了）；繼續時從 aopen-1027 f642d440f 接，照 AA_481、AA_483 第 1～2 節、AA_482",
    "recheckOn": "2026-11-03（或使用者下一次回覆時）",
-   "notes": "LAWWW-B 10-30 03:0x：照使用者 02:2x「接下來你自己安排有什麼規劃要做還沒做的」（UA-LAWWW-1030-04 AI 解讀，delegatedBy 1030-03）恢復第二輪，AA_524／525 子代理做完後派子代理續做（D113 備份），v9.10.14 發布後合。 ｜ 03:2x 派子代理（aopen-r2，基準 9bc01f480＋合併上一班半成品），D113 備份。"
+   "notes": "【LAWWW-B 10-30 03:5x】第二輪子代理做完 268c65322（AA_481、AA_483 第 1～2 節、AA_482；全部 Node 734／0）；問 AA 五個細節＋2030 畢業後「說實話」台詞還是學生口吻、芷若語彤子晴學姊第一步後停住 ｜ LAWWW-B 10-30 03:0x：照使用者 02:2x「接下來你自己安排有什麼規劃要做還沒做的」（UA-LAWWW-1030-04 AI 解讀，delegatedBy 1030-03）恢復第二輪，AA_524／525 子代理做完後派子代理續做（D113 備份），v9.10.14 發布後合。 ｜ 03:2x 派子代理（aopen-r2，基準 9bc01f480＋合併上一班半成品），D113 備份。"
   },
   {
    "id": "LAWWW2-REEXPORT-US-1027",
@@ -35619,7 +35619,7 @@
    },
    "source": "DL-AA-524（8fd10848d）、DL-AA-525（6081f725f）；AA-B 10-30 02:12 確認遺失",
    "authorized": "D109、D111",
-   "notes": "【LAWWW-B 03:4x】AA_526 兩邊都做完：AA_524 553a63b39（135 項 ALL PASS、基底 FAILED 9、全部 Node 734／0）；AA_525 61c63ce81（92 項 ALL PASS、修改前 FAILED 10、全部 Node 734／0）；沒有新問題給 AA ｜ AA_525 子代理 03:0x 做完 b179ed93b（84 項 ALL PASS、全部 Node 734／0），備份 wip_backup/aa525_1030.bundle；問 AA 五點（D15 布丁、大三上期末飯二選一矛盾、1-1 去年的份、3-9 接到電話沒答應見面、2-1 只有舊存檔走到）；新背景 tc_schoolroad 要圖（BB）。 ｜ AA_524 子代理 03:1x 做完 d01cd442e（122 項 ALL PASS、全部 Node 734／0），備份 wip_backup/aa524_1030.bundle；問 AA 四點（Z3 摘要旁白、Y3 河濱只接「我來幫忙。」、Y5 YT_TEN_MINUTES 整層都記、A2「讓我想想」不補）。兩條都等 v9.10.14 發布後合。 ｜ AA-B 03:12 回九題 AA_526（4ada43291）：AA_524 Z3 補早場兩句、Y3 第二選項換、Y5 只給選陪等的（YT_WAIT_CLOSE）、A2 下學期第二次邀約補；AA_525 D15 拿掉下次滷味、3-11 KX.Y3S1 第二句撤回、1-1 只給聽過第三張的（ZQ_STICKER3）、3-9 擴大、2-1 照舊 → 交回兩個子代理另一個 commit。"
+   "notes": "【LAWWW-B 03:5x】發布後合併預備分支 postrel-1030（本機 worktree，D113 備份 wip_backup/postrel_1030.bundle）：AA_524＋AA_525（工具、白名單衝突兩邊都留，重產 ladder／date_lines）＋l118-r2＋aopen-r2；合併修正 20311f0c0：AA_524 Z9 明信片背面改看 YT_CONFESSED（AA_482 以後坦白不當場退回朋友），已問 AA；四條合起來全部 Node 735 支只差 aa524 Z9 那一項，修正後相關測試全過 ｜ 【LAWWW-B 03:4x】AA_526 兩邊都做完：AA_524 553a63b39（135 項 ALL PASS、基底 FAILED 9、全部 Node 734／0）；AA_525 61c63ce81（92 項 ALL PASS、修改前 FAILED 10、全部 Node 734／0）；沒有新問題給 AA ｜ AA_525 子代理 03:0x 做完 b179ed93b（84 項 ALL PASS、全部 Node 734／0），備份 wip_backup/aa525_1030.bundle；問 AA 五點（D15 布丁、大三上期末飯二選一矛盾、1-1 去年的份、3-9 接到電話沒答應見面、2-1 只有舊存檔走到）；新背景 tc_schoolroad 要圖（BB）。 ｜ AA_524 子代理 03:1x 做完 d01cd442e（122 項 ALL PASS、全部 Node 734／0），備份 wip_backup/aa524_1030.bundle；問 AA 四點（Z3 摘要旁白、Y3 河濱只接「我來幫忙。」、Y5 YT_TEN_MINUTES 整層都記、A2「讓我想想」不補）。兩條都等 v9.10.14 發布後合。 ｜ AA-B 03:12 回九題 AA_526（4ada43291）：AA_524 Z3 補早場兩句、Y3 第二選項換、Y5 只給選陪等的（YT_WAIT_CLOSE）、A2 下學期第二次邀約補；AA_525 D15 拿掉下次滷味、3-11 KX.Y3S1 第二句撤回、1-1 只給聽過第三張的（ZQ_STICKER3）、3-9 擴大、2-1 照舊 → 交回兩個子代理另一個 commit。"
   },
   {
    "id": "AA527-FIX-1030",
@@ -35664,6 +35664,234 @@
    "source": "AA_528（企劃線 7ad5fee84）",
    "authorized": "D109、D111",
    "notes": "入口那一條是「不製造不合理的門檻」（CLAUDE.md 長期規範第 5 點）。AA-READ-1030 到 AA_527＋528 讀完。"
+  },
+  {
+   "id": "AA-D99-READ-1030",
+   "title": "AA 照 D99 三個優先項目讀遊戲找劇情缺口：經濟系 AA_269 第 6 節 15 點逐點、寒暑假活動與出遊回家約會旅行的台詞覆蓋、美國交換出發到回台各段（含學姊 C25），交 AA_529（第①②級直接附稿）",
+   "area": "STORY",
+   "owner": "AA",
+   "status": "進行中",
+   "next": "AA 交 AA_529 → LAWWW 照 D99 順序排實作",
+   "priority": "P1",
+   "first": {
+    "term": "Y0S1",
+    "week": 1,
+    "earliest": "經濟系大一（新遊戲開局）",
+    "mainline": true,
+    "blocks": false,
+    "prereq": false,
+    "parallel": true,
+    "confirmed": true
+   },
+   "source": "LAWWW-B 10-30 03:4x 派（AA-B 等使用者兩題時閒置）",
+   "authorized": "D99、D109、D111",
+   "xai": {
+    "spec": "D99（CLAUDE.md P0 三個優先項目）、AA_269 第 6 節",
+    "branch": "claude/cool-heisenberg-o8kuqx",
+    "acceptance": "AA_529：每點現況／缺什麼／補的稿",
+    "receiver": "LAWWW",
+    "ack": "SENT"
+   },
+   "notes": "【AA-B 04:17】AA_532 寒暑假（一）交（ade80d22f）→ AA532-VAC-FIX-1030；AA_533 活動內容接著 ｜ 【AA-B 04:13】AA_531 美國交（475f55fe6）→ AA531-US-FIX-1030；AA_532 寒暑假接著 ｜ 【AA-B 04:10】AA_529 經濟系交（企劃線 881029f98）；AA_531 美國、AA_532 寒暑假接著交。第 1 點（可昕主動約沒擋 econ）LAWWW 已修 b38b112a8 進 v9.10.14；第 2～6 點排 AA529-ECON-FIX-1030 ｜ "
+  },
+  {
+   "id": "AA530-PG-CONFESS-1030",
+   "title": "AA_530：畢業以後（2030-05-25）選「跟她們說實話。」七位各一版的地點、時間、談話與結果（停點改成出遊或視訊），換掉學生口吻的字；現在芷若、語彤、子晴、學姊第一步後停住、尾聲座位接不起來",
+   "area": "STORY",
+   "owner": "AA",
+   "status": "待開工",
+   "next": "AA 先交 AA_529（D99）再寫 AA_530 → LAWWW 實作",
+   "priority": "P3",
+   "first": {
+    "term": "Y4S2",
+    "week": 16,
+    "earliest": "畢業以後多段感情、還沒都同意的玩家",
+    "mainline": false,
+    "blocks": false,
+    "prereq": false,
+    "parallel": true,
+    "confirmed": true
+   },
+   "source": "aopen-r2 子代理 Node 模擬（LAWWW-B 03:4x 轉 AA）；AA-B 03:45 回要另寫",
+   "authorized": "D109",
+   "xai": {
+    "spec": "AA_482 第 2 節、AA_530（待交）",
+    "branch": "claude/cool-heisenberg-o8kuqx",
+    "acceptance": "七位 2030 版本可接上畢業以後篇停點",
+    "receiver": "LAWWW",
+    "ack": "ACK"
+   },
+   "notes": "很少人走到，排在 D99 之後（AA）"
+  },
+  {
+   "id": "QUICK-SLOT-1030",
+   "title": "快速存檔獨立一格：💾 存到 fatiao3d_quick（不被自動存檔蓋掉），選單存檔頁與標題讀取看得到、可讀取；自動存檔、欄位 1～3 不變",
+   "area": "SYS",
+   "owner": "LAWWW",
+   "status": "已實作待整合",
+   "next": "v9.10.14 新候選（dda717bdd）BB 測",
+   "priority": "P1",
+   "first": {
+    "term": "Y0S1",
+    "week": 1,
+    "earliest": "新遊戲開始就能按 💾",
+    "mainline": true,
+    "blocks": false,
+    "prereq": false,
+    "parallel": true,
+    "confirmed": true
+   },
+   "source": "使用者 10-30 03:5x 選擇題（UA-LAWWW-1030-05，USER_WANTS X126）",
+   "authorized": "使用者",
+   "notes": "【LAWWW-B 04:1x】提前進 v9.10.14：cherry-pick 到開發分支 1b9354379（和 BUG-SAVE-NEWGAME-1030 一起） ｜ 【LAWWW-B 04:0x】postrel-1030 7a6c12473：💾 存 fatiao3d_quick（上一份備份 fatiao3d_backup），存檔頁「自動存檔」下面一格「快速存檔（右上 💾）」只有讀取（第一個「存檔」鈕照舊是欄位 1，瀏覽器測試不受影響）；quick_save_unit 修改前 FAILED 6 → ALL PASS"
+  },
+  {
+   "id": "AA522-ANSVAR-1030",
+   "title": "AA_522 第 9 節第 1 點：民總第一堂第一次跟周教授說話，classAnswer 的 half／bold／absent 沒有稿，現在說一般那句「週四下課以後我都在」（那天就是週四、研究室下週才開）",
+   "area": "STORY",
+   "owner": "AA",
+   "status": "等待其他AI／素材",
+   "next": "AA 給句子或決定照一般那句 → LAWWW 改 talkProf",
+   "priority": "P3",
+   "first": {
+    "term": "Y1S1",
+    "week": 1,
+    "earliest": "法律系大一上民總第一堂",
+    "mainline": true,
+    "blocks": false,
+    "prereq": false,
+    "parallel": true,
+    "confirmed": true
+   },
+   "source": "BB-B 03:52 瀏覽器實測（BB_218 d7dc95f9b）",
+   "authorized": "D109",
+   "xai": {
+    "spec": "AA_522 第 9 節第 1 點",
+    "branch": "claude/cool-heisenberg-o8kuqx",
+    "acceptance": "三種回答各有一句或明確照一般那句",
+    "receiver": "LAWWW",
+    "ack": "SENT"
+   },
+   "pausedReason": "等 AA 回（排在 AA_529 之後）",
+   "resumeWhen": "AA 回覆",
+   "notes": "不擋 v9.10.14"
+  },
+  {
+   "id": "BUG-SAVE-NEWGAME-1030",
+   "title": "P0 存檔被蓋掉：💾 快速存檔存在自動存檔那一格，標題按開新遊戲第一次自動存檔就蓋掉、沒有備份、讀不到（使用者實際遺失進度）",
+   "area": "SYS",
+   "owner": "LAWWW",
+   "status": "已實作待整合",
+   "next": "v9.10.14 候選 b38b112a8（含 AA_529 第 1 點）→ BB 跑 save_compat＋release_suite＋瀏覽器①～⑤＋經濟系沒有可昕主動約 → GO 後發布",
+   "priority": "P0",
+   "first": {
+    "term": "Y0S1",
+    "week": 1,
+    "earliest": "標題畫面開新遊戲（有舊進度的玩家）",
+    "mainline": true,
+    "blocks": true,
+    "prereq": false,
+    "parallel": false,
+    "confirmed": true
+   },
+   "source": "使用者 10-30 04:0x（UA-LAWWW-1030-06，USER_WANTS X127）",
+   "authorized": "使用者",
+   "notes": "dda717bdd：開新遊戲（三個按鈕）先備份自動存檔、快速存檔到 fatiao3d_backup_new_<savedAt>（最多 3 份，刪進度最少的）、寫不進去先問；存檔頁 #saveBackups 列出全部 fatiao3d_backup* 可讀取；save_newgame_backup_unit 修改前 FAILED → ALL PASS。使用者這一次被蓋掉的自動存檔救不回來；可能還在的：fatiao3d_backup（覆蓋欄位、匯入前）、fatiao3d_backup_y0end（經濟系最後一天）、欄位 1～3 → 新版的「備份」區看得到。已請使用者新版上線前別按欄位存檔、匯入（會蓋 fatiao3d_backup）"
+  },
+  {
+   "id": "AA529-ECON-FIX-1030",
+   "title": "AA_529 經濟系第 2～6 點：走啦群組改 10/15 聚會回家路上建（舊存檔補）、10/16 總圖與 7/13 對答案兩張日期卡掛到 10/17 14:40、7/13 10:00 空白卡下、K7 週年卡 p4 換句、長頸鹿鑰匙圈補兩句旁白、小的五處（K0b-L1 國界 2/15～3/15、品妤 10/31 換句、8/29 換字、9/21 社團群組每社團三則、4/25～6/7 日期卡拆兩張）",
+   "area": "STORY",
+   "owner": "LAWWW",
+   "status": "進行中",
+   "next": "子代理（分支 aa529-econ，基準 acc883b3e），D113 備份；做完合進 postrel-1030，v9.10.14 發布後進開發分支",
+   "priority": "P1",
+   "first": {
+    "term": "Y0S1",
+    "week": 1,
+    "earliest": "經濟系大一（新遊戲開局）",
+    "mainline": true,
+    "blocks": false,
+    "prereq": false,
+    "parallel": true,
+    "confirmed": true
+   },
+   "source": "AA_529（企劃線 881029f98）",
+   "authorized": "D99、D109、D111",
+   "notes": "第 1 點已修 b38b112a8（v9.10.14）。USER_WANTS X27 寫成「預設版用日期卡、長版有場景」（AA）"
+  },
+  {
+   "id": "AA531-US-FIX-1030",
+   "title": "AA_531 美國交換：①lane118 人在美國照樣揪 118 午餐（14 次）→ 在國外不發、其他阿哲揪人同查；②和臺灣的人交往中四個半月幾乎沒聯絡 → 以安、語彤、子晴、沛珊各五樣（七夕、中秋、視訊、12/23）；③國外版三處（沛珊 ps3 不算國外月份、子晴 zq2 選項、語彤阿姨）；④勞動節烤肉 9/3 21:00 一則（交往中學姊私訊／挽回中社區信）；⑤上課每門再四句、us_comp 期末報告與 us_intro 期末考各一場；⑥大峽谷 10/9、10/11 補句；⑦小的四處（以安 9/15 生日視訊自動排、可昕七夕只留 usl_qixi、挽回中 greetUS 換句、學姊週日視訊旁白七句輪流）",
+   "area": "STORY",
+   "owner": "LAWWW",
+   "status": "待開工",
+   "next": "aa527-fix 子代理交件後派子代理（D99 第三優先：美國交換）",
+   "priority": "P1",
+   "first": {
+    "term": "Y3S1",
+    "week": 1,
+    "earliest": "大三上美國交換出發",
+    "mainline": true,
+    "blocks": false,
+    "prereq": false,
+    "parallel": true,
+    "confirmed": true
+   },
+   "source": "AA_531（企劃線 475f55fe6）",
+   "authorized": "D99、D109、D111",
+   "notes": "挽回中「她不私訊」照設計不改（AA）"
+  },
+  {
+   "id": "AA532-VAC-FIX-1030",
+   "title": "AA_532 寒暑假（一）：①除夕前一天～初三七位都不主動約（學姊除夕總圖、語彤初一備料、子晴初一 Café）、cracktalk S.ytShop 看店休；②過年（2027／2029 除夕年夜飯、四年初一家人群組長輩圖、麵店團初一 2028／2029、以安交往中除夕私訊三年、2027 元宵）；③主動約你放假版七句、學姊放假改下午、芷若「好！那到時候見。」；④留宿舍放假也發週四家人群組、父親節三年、端午 2026；⑤子晴「玩我的遊戲」三版各自寫；⑥京都以安、曼谷子晴交往中換版；⑦小的（總圖放假兩句換字、「我還在念書。」、以安假期計畫照 AA_244 第 1 節）",
+   "area": "STORY",
+   "owner": "LAWWW",
+   "status": "進行中",
+   "next": "子代理（分支 aa532-vac，基準 d531b973f），D113 備份；AA_533 交了再交給它；做完合進 postrel-1030",
+   "priority": "P1",
+   "first": {
+    "term": "Y1S1",
+    "week": 19,
+    "earliest": "法律系大一寒假（經濟系那一年的暑假另看）",
+    "mainline": true,
+    "blocks": false,
+    "prereq": false,
+    "parallel": true,
+    "confirmed": true
+   },
+   "source": "AA_532（企劃線 ade80d22f）",
+   "authorized": "D99、D109、D111",
+   "notes": ""
+  },
+  {
+   "id": "DORM-SLEEP-VISUAL-1030",
+   "title": "宿舍睡覺要有畫面＋床比例＋室友書桌擺設不重疊（使用者 10-30 04:2x 對 LAWWW2）：LAWWW2 交床上躺位與頭向、梯子踏點、睡覺鏡頭、熄燈光照貼圖、床比例、書桌不重疊（dorm_room4.layout.json＋zones3d.js patch 草稿）；LAWWW 做爬梯／躺下動作與睡覺流程接線",
+   "area": "ART",
+   "owner": "LAWWW2",
+   "status": "進行中",
+   "next": "LAWWW2 和 203 光照第四輪一起交 → LAWWW 接睡覺流程（走到梯子 → 換鏡頭 → 躺在床上 → 熄燈淡出 → 醒來）→ BB 測",
+   "priority": "P1",
+   "first": {
+    "term": "Y1S1",
+    "week": 1,
+    "earliest": "法律系大一第一晚睡覺（宿舍 203）",
+    "mainline": true,
+    "blocks": false,
+    "prereq": false,
+    "parallel": true,
+    "confirmed": true
+   },
+   "source": "使用者 10-30 04:2x 對 LAWWW2-B（USER_WANTS X128）",
+   "authorized": "使用者",
+   "xai": {
+    "spec": "使用者原話（X128）",
+    "branch": "claude/funny-albattani-iawshm",
+    "acceptance": "睡覺時看得到人在床上躺下、熄燈；床比例合理；四張書桌擺設不重疊；同角度改前改後",
+    "receiver": "LAWWW",
+    "ack": "ACK"
+   },
+   "notes": "LAWWW 部分（人物動作、流程）等 LAWWW2 的 layout；203 光照第四輪照舊，兩點半 Café 往後排"
   }
  ]
 }

@@ -1523,14 +1523,14 @@
    "id": "WIP-LAWWW-AOPEN-R2-1030",
    "role": "LAWWW",
    "task": "ACCEPTSOPEN-C-1027",
-   "state": "WIP",
-   "sha": "938b70c68",
+   "state": "已交付",
+   "sha": "b56bcaf6e",
    "branch": "aopen-r2（子代理；D113 備份 wip_backup/aopen_r2_1030.bundle，基準 9bc01f480）",
    "files": [
     "wip_backup/aopen_r2_1030.bundle"
    ],
-   "todo": "AA_481／483／482（LAWWW-B 10-30 子代理）",
-   "next": "子代理做完回報 → LAWWW 合併、相關測試、全部 Node、SHA 給 BB",
+   "todo": "AA_481（以安七夕她先說、學姊大峽谷、芷若 8/26、七月最後一次、可昕收回）、AA_483 第 1～2 節、AA_482 第 2～4 節（tellQuiet、尾聲每位伴侶）做完；新測試 aa481_483_aopen_unit 基底 9bc01f480 FAILED 40 → 分支 67 項 ALL PASS；全部 Node 734／0；AA_483 第 3 節不在範圍",
+   "next": "合進 postrel-1030（AA_524、AA_525、l118-r2 之後），全部 Node；v9.10.14 發布後合開發分支；AA 確認五個細節與 2030 畢業後說實話的台詞",
    "noDirectIntegrate": true,
    "source": "AA_481／483／482；LAWWW-B 10-30 派子代理"
   },
@@ -1554,7 +1554,7 @@
    "role": "LAWWW",
    "task": "AA527-FIX-1030",
    "state": "WIP",
-   "sha": "8ca2f3b25",
+   "sha": "e04c683f4",
    "branch": "aa527-fix（子代理；D113 備份 wip_backup/aa527_1030.bundle，基準 3035cc66b）",
    "files": [
     "wip_backup/aa527_1030.bundle"
@@ -1563,6 +1563,51 @@
    "next": "子代理做完回報 → LAWWW 合併、相關測試、全部 Node、SHA 給 BB",
    "noDirectIntegrate": true,
    "source": "AA_527／528；LAWWW-B 10-30 派子代理"
+  },
+  {
+   "id": "WIP-LAWWW-POSTREL-1030",
+   "role": "LAWWW",
+   "task": "PROMISES-REDO-1030",
+   "state": "WIP",
+   "sha": "7a6c12473",
+   "branch": "postrel-1030（子代理；D113 備份 wip_backup/postrel_1030.bundle，基準 5457e7c95）",
+   "files": [
+    "wip_backup/postrel_1030.bundle"
+   ],
+   "todo": "發布後合併（AA_524＋525＋l118-r2＋aopen-r2＋合併修正）（LAWWW-B 10-30 子代理）",
+   "next": "子代理做完回報 → LAWWW 合併、相關測試、全部 Node、SHA 給 BB",
+   "noDirectIntegrate": true,
+   "source": "發布後合併（AA_524＋525＋l118-r2＋aopen-r2＋合併修正）；LAWWW-B 10-30 派子代理"
+  },
+  {
+   "id": "WIP-LAWWW-AA529-1030",
+   "role": "LAWWW",
+   "task": "AA529-ECON-FIX-1030",
+   "state": "WIP",
+   "sha": "0dcdece9a",
+   "branch": "aa529-econ（子代理；D113 備份 wip_backup/aa529_1030.bundle，基準 acc883b3e）",
+   "files": [
+    "wip_backup/aa529_1030.bundle"
+   ],
+   "todo": "AA_529 第 2～6 點（LAWWW-B 10-30 子代理）",
+   "next": "子代理做完回報 → LAWWW 合併、相關測試、全部 Node、SHA 給 BB",
+   "noDirectIntegrate": true,
+   "source": "AA_529 第 2～6 點；LAWWW-B 10-30 派子代理"
+  },
+  {
+   "id": "WIP-LAWWW-AA532-1030",
+   "role": "LAWWW",
+   "task": "AA532-VAC-FIX-1030",
+   "state": "WIP",
+   "sha": "4c81ef7df",
+   "branch": "aa532-vac（子代理；D113 備份 wip_backup/aa532_1030.bundle，基準 d531b973f）",
+   "files": [
+    "wip_backup/aa532_1030.bundle"
+   ],
+   "todo": "AA_532 寒暑假（LAWWW-B 10-30 子代理）",
+   "next": "子代理做完回報 → LAWWW 合併、相關測試、全部 Node、SHA 給 BB",
+   "noDirectIntegrate": true,
+   "source": "AA_532 寒暑假；LAWWW-B 10-30 派子代理"
   }
  ]
 }
