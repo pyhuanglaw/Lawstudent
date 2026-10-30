@@ -22,7 +22,10 @@ MODE（環境變數）：
           自由的日子 👥 有黃點、有目標的日子沒有；按 👥 展開 → 關掉地圖再開照樣展開；再按收起 → 再開照樣收起。
   bballrain BBALL-RAIN（LAWWW-B 09:43）：10/3（五）17:45 下雨，新體育館一樓走廊 (-3.6,12.6) 阿哲、明軒；兩種進法（直接讀檔在體育館／從校園走進去），
           各讀 GAME.npc.zhe（有沒有、位置、看不看得到）＋STORY.whereIs＋flags.companion，轉向東邊對著走廊拍。
-  renart  RENAME-ART-1030（f75d60a4c）：玩家鏡頭走到校門石牌、晨思鐘、博思名牌、法律系館A 公布欄、201 後牆傳單、博思 203 海報前面拍（字看截圖）。
+  renart  RENAME-ART-1030（f75d60a4c）：玩家鏡頭走到校門石牌、晨思鐘、博思名牌、法律系館A 公布欄、201 後牆傳單、博思 203 海報前面拍（字看截圖）；
+          另外拍社科院系所牌、溫州公園牌（外框變細以後的字）、ADV 背景 ntu_linze（外牆大字）。博思 203 平常關著（SK07 那一晚才開）：直接讀檔進去＝【前置】。
+  libla   LIB-LAWN-1030（f75d60a4c，LAWWW-B 09:51）：從椰影大道走到總圖門口；白天 15:00、黃昏 17:50、晚上 20:00 同一個鏡頭（晚上看六盞路燈）；
+          中軸南、北各坐一張「坐在總圖前的長椅上」→ 起身走得開；進出總圖兩次，草皮模型還在、石板廣場沒疊上來。
 不是 iPhone：Playwright＋SwiftShader。用法：LW_TESTS=<工作樹>/tests MODE=<上面> python3 next91015_probe.py '<URL>/index.html' <輸出資料夾> <存檔.json>"""
 import os, sys, json, asyncio, re, math, time
 sys.path.insert(0, os.environ['LW_TESTS']); import playlib as L
@@ -508,8 +511,10 @@ async def bballrain(pg, cdp, run):
 
 
 RENART = [('gongguan', 'PLATE_FACE_GATE_OUT', None, '校門石牌（公館那一面）'), ('campus', 'PLATE_FACE_BELL', None, '晨思鐘石碑'), ('campus', 'PLATE_FACE_BOYA', None, '博思名牌'),
-          ('linze', None, 'linze_notice', '法律系館A 一樓公布欄'), ('classroom', None, 'cls201_print', '201 後牆傳單'), ('boya_203', None, 'boya_203_print', '博思 203 門邊海報')]
-FINDOBJ = """(([nm,tex])=>{ let hit=null; GAME.E.scene.traverse(o=>{ if(hit) return; if(nm&&o.name===nm) hit=o; else if(tex&&o.isMesh){ const ms=Array.isArray(o.material)?o.material:[o.material]; for(const m of ms){ const t=m&&m.map; if(t&&((t.name||'').indexOf(tex)>=0||((t.image&&t.image.src)||'').indexOf(tex)>=0||(m.name||'').indexOf(tex)>=0)){ hit=o; break; } } } });
+          ('linze', None, 'linze_notice', '法律系館A 一樓公布欄'), ('classroom', None, 'cls201_print', '201 後牆傳單'), ('boya_203', None, 'boya_203_print', '博思 203 門邊海報'),
+          ('campus', 'PLATE_FACE_SOC', None, '社科院系所牌'), ('wenzhou', 'PLATE_FACE_PARK', None, '溫州公園牌')]
+FINDOBJ = """(([nm,tex])=>{ let hit=null; if(nm==='PLATE_FACE_SOC'||nm==='PLATE_FACE_PARK'){ const want=nm==='PLATE_FACE_SOC'?/SOC|SOCSCI|DEPT/i:/PARK|WZ_?PARK|WENZHOU/i; GAME.E.scene.traverse(o=>{ if(!hit&&/^PLATE_FACE/.test(o.name||'')&&want.test(o.name)) hit=o; }); if(!hit){ const names=[]; GAME.E.scene.traverse(o=>{ if(/^PLATE_FACE/.test(o.name||'')) names.push(o.name); }); return {missing:true,plates:names.slice(0,40)}; } }
+  GAME.E.scene.traverse(o=>{ if(hit) return; if(nm&&o.name===nm) hit=o; else if(tex&&o.isMesh){ const ms=Array.isArray(o.material)?o.material:[o.material]; for(const m of ms){ const t=m&&m.map; if(t&&((t.name||'').indexOf(tex)>=0||((t.image&&t.image.src)||'').indexOf(tex)>=0||(m.name||'').indexOf(tex)>=0)){ hit=o; break; } } } });
   if(!hit) return null; const v=new THREE.Vector3(); hit.getWorldPosition(v); return {name:hit.name, x:+v.x.toFixed(2), y:+v.y.toFixed(2), z:+v.z.toFixed(2)}; })"""
 
 
@@ -526,11 +531,73 @@ async def renart(pg, cdp, run):
             if o: break
             await pg.wait_for_timeout(2000)
         run.note('%s：%s' % (label, J(o)))
+        if o and o.get('missing'): run.note('%s：沒有對得上的 PLATE_FACE 節點；場景裡的牌子：%s' % (label, J(o['plates']))); o = None
         if not o: run.check('%s：場景裡找得到（%s）' % (label, nm or tex), False, ''); continue
         p = await pg.evaluate("""(([x,z])=>{ const E=GAME.E; for(const R of [2.2,3,4,5,6]){ for(let i=0;i<24;i++){ const a=i*Math.PI/12, px=x+Math.sin(a)*R, pz=z+Math.cos(a)*R; if(E.canStand&&!E.canStand(px,pz,0.3,0)) continue;
             if(E.losR&&!E.losR(px,pz,x,z,0.05)) continue; E.placeAt(E.player,px,pz,0); const C=E.cam; C.yaw=Math.atan2(px-x,pz-z); C.pitch=0.08; C.distTarget=2.4; C.manualT=1e9; return {x:+px.toFixed(2),z:+pz.toFixed(2),R}; } } return null; })""", [o['x'], o['z']])
         await pg.wait_for_timeout(3500); await run.shot(pg, 'renart_%s' % (nm or tex))
         run.check('%s：站到前面拍到（字看截圖）' % label, bool(p), J(p))
+    # ADV 背景 ntu_linze（BG-16 重拍）：用 ADV 自己換背景，截圖看外牆大字
+    st, d = await P.base(pg, SAVE, '2025-09-26', 10.5, 'campus'); await P.load(pg, cdp, st); await pg.wait_for_timeout(3000)
+    r = await pg.evaluate("(async()=>{ try{ ADV.begin({background:'ntu_linze'}); await new Promise(r=>setTimeout(r,2500)); const el=document.querySelector('#adv,#advBg,.adv-bg'); return {ok:true, bg:el?getComputedStyle(el).backgroundImage.slice(0,120):null}; }catch(e){ return {ok:false, e:e.message}; } })()")
+    await pg.wait_for_timeout(2500); await run.shot(pg, 'renart_bg_ntu_linze')
+    run.check('ADV 背景 ntu_linze 叫得出來（外牆大字看截圖）', bool(r and r.get('ok')), J(r))
+    await pg.evaluate("(()=>{ try{ ADV.end(); }catch(e){} })()")
+
+
+LAWN = """(()=>{ let glb=null, plates=0; GAME.E.scene.traverse(o=>{ if(o.name==='campus_lib_lawn_glb'){ let v=o.visible, q=o.parent; while(v&&q){ v=q.visible; q=q.parent; } glb=v; } });
+  let plaza=null; GAME.E.scene.traverse(o=>{ if(o.isMesh&&Math.abs(o.position.x-78.5)<0.01&&Math.abs(o.position.z)<0.01&&Math.abs(o.position.y-0.016)<0.002){ let v=o.visible, q=o.parent; while(v&&q){ v=q.visible; q=q.parent; } plaza=v; } });
+  const seats=(GAME.E.interactables||[]).filter(i=>/總圖前的長椅/.test(i.label||'')).map(i=>({x:+i.x.toFixed(2),z:+i.z.toFixed(2)})); return {zone:GAME.G.zone, glb, plaza, seats, me:[+GAME.E.player.obj.position.x.toFixed(2),+GAME.E.player.obj.position.z.toFixed(2)]}; })()"""
+
+
+async def libla(pg, cdp, run):
+    st, d = await P.base(pg, SAVE, '2025-09-26', 15.0, 'campus', pos={'x': 58, 'z': 0.5, 'yaw': -PI / 2, 'lv': 0, 'y': 0}); await P.load(pg, cdp, st); await pg.wait_for_timeout(8000)
+    run.setup('[前置] 使用者存檔改到 2025-09-26（五）15:00，站在椰影大道 (58,0.5)')
+    a = await pg.evaluate(LAWN); run.note('草皮：%s' % J(a))
+    run.check('總圖前草皮正式模型載入、看得到（campus_lib_lawn_glb）', a['glb'] is True, J(a))
+    run.check('中軸兩邊有六張「坐在總圖前的長椅上」', len(a['seats']) == 6, J(a['seats']))
+    run.check('草皮載入以後石板廣場藏起來（沒有疊在草皮上）', a['plaza'] is False, J(a))
+    ok = await L.go_to(pg, cdp, run, 79.5, 0.0, 1.0, '總圖門口', max_s=240)
+    me = await pg.evaluate("[GAME.E.player.obj.position.x, GAME.E.player.obj.position.z]")
+    run.check('從椰影大道照玩家走到總圖門口（中軸）', math.hypot(me[0] - 79.5, me[1]) < 2.0, J(me)); await run.shot(pg, 'lawn_at_door')
+    snap = await P.snapshot(pg)
+    for hh, tag in ((15.0, 'day'), (17.83, 'dusk'), (20.0, 'night')):
+        await P.jump(pg, cdp, run, '2025-09-26', hh, pos={'x': 66, 'z': 0.5, 'yaw': -PI / 2, 'lv': 0, 'y': 0}, snap=snap)
+        await pg.wait_for_timeout(6000)
+        await pg.evaluate("(()=>{ const C=GAME.E.cam; C.yaw=-Math.PI/2; C.pitch=0.16; C.distTarget=6; C.manualT=1e9; })()"); await pg.wait_for_timeout(3000)
+        await run.shot(pg, 'lawn_%s' % tag)
+        if tag == 'night':
+            await pg.evaluate("(()=>{ const C=GAME.E.cam; C.pitch=0.5; C.distTarget=14; })()"); await pg.wait_for_timeout(2500); await run.shot(pg, 'lawn_night_high')
+    await P.jump(pg, cdp, run, '2025-09-26', 15.2, pos={'x': 70, 'z': 0.5, 'yaw': -PI / 2, 'lv': 0, 'y': 0}, snap=snap); await pg.wait_for_timeout(5000)
+    seats = (await pg.evaluate(LAWN))['seats']
+    pick = [sorted([q for q in seats if q['z'] < 0], key=lambda q: q['x'])[:1], sorted([q for q in seats if q['z'] > 0], key=lambda q: -q['x'])[:1]]
+    for q in [x[0] for x in pick if x]:
+        await L.go_to(pg, cdp, run, q['x'], q['z'] - (0.7 if q['z'] > 0 else -0.7), 0.6, '長椅 (%.1f,%.1f) 前面' % (q['x'], q['z']), max_s=150, stop=lambda s: '總圖前的長椅' in s['interact'])
+        lab = (await P.ts(pg))['lab']
+        await L.tap(pg, cdp, '#interact'); sat = None; t0 = time.time(); did = False
+        while time.time() - t0 < 90:
+            s2 = await P.ts(pg)
+            if sat is None and await pg.evaluate("!!(GAME.E.player.seat||GAME.E.player.pose==='sit')"): sat = True; await run.shot(pg, 'lawn_bench_%d' % int(q['x'] * 10))
+            if s2['ch']:
+                T = [o['t'] for o in s2['ch']]
+                k = next((i for i, t in enumerate(T) if t.startswith('坐一下')), None) if not did else None
+                if k is None: k = next((i for i, t in enumerate(T) if re.match(r'^(站起來|起身|離開|就這樣|算了|不坐了)', t)), len(T) - 1)
+                if T[k].startswith('坐一下'): did = True
+                await P.tap_choice(pg, cdp, k); await pg.wait_for_timeout(1200); continue
+            if s2['dlg']: await L.tap(pg, cdp, '#dlg'); await pg.wait_for_timeout(650); continue
+            if s2['busy'] or s2['depth'] > 0: await pg.wait_for_timeout(600); continue
+            if did and not await pg.evaluate("!!(GAME.E.player.seat||GAME.E.player.pose==='sit')"): break
+            if did and s2['lab'] and re.match(r'^(站起來|起身)', s2['lab']): await L.tap(pg, cdp, '#interact'); await pg.wait_for_timeout(1500); continue
+            await pg.wait_for_timeout(800)
+        p0 = await pg.evaluate("[GAME.E.player.obj.position.x, GAME.E.player.obj.position.z]")
+        await L.go_to(pg, cdp, run, q['x'], 0.0, 0.8, '起身走回中軸', max_s=90)
+        p1 = await pg.evaluate("[GAME.E.player.obj.position.x, GAME.E.player.obj.position.z]")
+        run.check('長椅 (%.1f,%.1f)：按鈕「%s」、坐得下、起身以後走得回中軸（沒卡住）' % (q['x'], q['z'], lab), '總圖前的長椅' in lab and bool(sat) and abs(p1[1]) < 1.5, J({'sat': sat, 'from': p0, 'to': p1}))
+    for k in (1, 2):
+        ok1 = await door_to(pg, cdp, run, 'library_hall', '進總圖（第 %d 次）' % k, max_s=200); await pg.wait_for_timeout(4000)
+        ok2 = await door_to(pg, cdp, run, 'campus', '出總圖（第 %d 次）' % k, max_s=200); await pg.wait_for_timeout(8000)
+        a = await pg.evaluate(LAWN); await run.shot(pg, 'lawn_reenter_%d' % k)
+        run.check('進出總圖第 %d 次：進得去、出得來，草皮模型還在、長椅六張' % k, ok1 and ok2 and a['zone'] == 'campus' and a['glb'] is True and a['plaza'] is False and len(a['seats']) == 6, J({'in': ok1, 'out': ok2, 'lawn': a}))
 
 
 async def main():
@@ -544,7 +611,7 @@ async def main():
             b, ctx, pg, cdp, errs = await L.launch(p, landscape=(VP != 'portrait'))
         pg.on('dialog', lambda d: asyncio.ensure_future(d.accept()))
         await pg.goto(URL); run.check('遊戲載入', await L.wait_loaded(pg)); await pg.evaluate("localStorage.clear()"); await P.init(pg)
-        await {'phone': phone, 'bball': bball, 'rooms': rooms, 'cafewin': cafewin, 'noodle': noodle, 'cafe2': cafe2, 'invite': invite, 'jacket': jacket, 'badclip': badclip, 'bigmap': bigmap, 'bballrain': bballrain, 'renart': renart}[MODE](pg, cdp, run)
+        await {'phone': phone, 'bball': bball, 'rooms': rooms, 'cafewin': cafewin, 'noodle': noodle, 'cafe2': cafe2, 'invite': invite, 'jacket': jacket, 'badclip': badclip, 'bigmap': bigmap, 'bballrain': bballrain, 'renart': renart, 'libla': libla}[MODE](pg, cdp, run)
         run.check('沒有 JS 例外', not errs, J(errs[:3]))
         print('SHA', os.environ.get('SHA', '?'), 'MODE', MODE)
         await b.close()
