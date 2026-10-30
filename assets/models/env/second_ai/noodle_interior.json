@@ -1,10 +1,10 @@
 {
  "objects": 47,
  "unique_meshes": 47,
- "tris": 6008,
- "tris_drawn": 6008,
- "materials": 24,
+ "tris": 6056,
+ "tris_drawn": 6056,
+ "materials": 25,
  "out": "assets/models/env/second_ai/noodle_interior.glb",
- "bytes": 437516,
+ "bytes": 440348,
  "texres": 512
 }

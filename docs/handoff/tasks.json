@@ -36519,8 +36519,8 @@
    "title": "麵店室內光照烘焙（noodle_interior；麵店團每週二、四）",
    "area": "ART",
    "owner": "LAWWW2",
-   "status": "待開工",
-   "next": "LAWWW2 做（照 INTERIOR_AAA_REVIEW_1028 P1 光照＋P5 燈具；layout、座位、碰撞不動）→ 交件 → LAWWW 整合 → BB 測",
+   "status": "已整合待測試",
+   "next": "BB 在瀏覽器看阿鳳麵店白天／晚上（晚上是日光燈白光、不是整間橘色；煮麵台、湯鍋不是黑的；櫃門、湯鍋晚上不變咖啡色）",
    "priority": "P1",
    "first": {
     "term": "Y1S1",
@@ -36539,7 +36539,7 @@
     "branch": "claude/funny-albattani-iawshm",
     "acceptance": "同鏡頭改前改後白天晚上、座位不變、效能",
     "receiver": "LAWWW",
-    "ack": "自領"
+    "ack": "ACTIONED"
    },
    "notes": "D99 第一優先經濟系那一年玩家最常待的室內，還沒有光照貼圖（10-30 盤點：GLB 的 extras.lightmap）"
   },
@@ -36731,9 +36731,9 @@
    "title": "光照烘焙工具 collapse_black 的舊 bug（只看面的中心）重烘舊房間：法律學院圖書館 91 m²（東牆兩層）、總圖大廳 83、宿舍四人房 21（左右牆）、201 6（LAWWW2 lm_squash_scan.py 掃出；Café、霖澤、202、宿舍大廳、萬才館沒有）",
    "area": "ART",
    "owner": "LAWWW2",
-   "status": "待開工",
+   "status": "進行中",
    "priority": "P2",
-   "next": "NOODLE-LM-1030 做完以後，依序重烘法律學院圖書館 → 總圖大廳 → 宿舍四人房 → 201（每間 20～40 分鐘、大小不變）→ LAWWW 整合 → BB 看",
+   "next": "法律學院圖書館 ee96b798f 已整合（91.4→0 m²；看得到的差別 <1.1% 像素）；總圖大廳已重烘、截圖後交 → 宿舍四人房 → 201",
    "first": {
     "term": "Y1S1",
     "week": 1,
@@ -36751,7 +36751,7 @@
     "branch": "claude/funny-albattani-iawshm",
     "acceptance": "lm_squash_scan 朝室內看得到的面壓扁 0 m²；改前改後同鏡頭",
     "receiver": "LAWWW",
-    "ack": "SENT"
+    "ack": "ACK"
    }
   },
   {
