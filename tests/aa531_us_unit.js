@@ -1,4 +1,4 @@
-// AA_531 D99 美國交換（企劃線 475f55fe6 定稿，41ec9a6ac 加第 8 節實作問答；AA-B 定稿 D109；任務 AA531-US-FIX-1030；D99 第三優先）——不需要瀏覽器。用法：node tests/aa531_us_unit.js
+// AA_531 D99 美國交換（企劃線 475f55fe6 定稿，41ec9a6ac 加第 8 節實作問答，a28201f61 加 8-5；AA-B 定稿 D109；任務 AA531-US-FIX-1030；D99 第三優先）——不需要瀏覽器。用法：node tests/aa531_us_unit.js
 //   0  稿讀得到；遊戲裡這一批的新句都在 AA_531 稿裡（一字不差）、稿第 2、4、5、6、7-3、7-4 節的句子都在遊戲裡；白名單有 AA_531；ladder.js、msg_pool.js 是工具產生的
 //   1  人在國外（美國、日本）阿哲週一不揪 118 午餐（臺灣路線照揪）；美國那一學期整段掃過：阿哲、麵店團沒有要你「走。」的、沒有排 118 午餐的出遊
 //   2  和臺灣的人交往中、人在美國：以安、語彤、子晴、沛珊各五樣（七夕、中秋、視訊、12/23；以安兩次視訊：10/19 有接挪到 10/29、11/19 只給第一次有接的）；時間照時差；沒交往、臺灣路線沒有
@@ -8,7 +8,8 @@
 //   6  大峽谷 10/9、10/11 兩個版本補句（位置）
 //   7  7-1 以安生日美國自動排視訊；7-2 可昕七夕美國只演 usl_qixi；7-3 挽回中的招呼；7-4 朋友版週日視訊七句輪流
 //   8  第 8 節實作問答（41ec9a6ac）：8-1 改稿九句（以安 8/26、12/23 三位、德國同學是女生、期末考可以翻書），被換掉的六句不在遊戲；8-2 語彤「店裡的時間」＝她的作息（照臺灣時間）在麵店顧店；
-//      8-3 以安、沛珊、語彤（MSG2 兩句）四句國外版（美國、日本路線人在國外），臺灣照原句
+//      8-3 以安、沛珊、語彤（MSG2 兩句）四句國外版（美國、日本路線人在國外），臺灣照原句；
+//      8-5（a28201f61）語彤 MSG2 兩句國外版的回問：生日兩個選項、她回的話；「打給我」——「我現在打。」＝現在跳「打給她」、「等我十分鐘」＝她回「好。我等。」、十分鐘以後才跳，演同一通電話；不加好感
 // 修改前（postrel-1030 2eeb91a85，git archive 那一版放進這支測試真的跑過，稿從這個 repo 讀：AA531_DOCREPO）：第 0 節「稿讀得到」以外全部 FAIL。
 // 在沒有 .git 的目錄跑：設環境變數 AA531_DOCREPO＝這個 repo 的目錄
 'use strict';
@@ -51,7 +52,7 @@ const said=()=>H.said.map(x=>x.t), has=t=>H.said.some(x=>x.t===t);
 const seq=(a,L)=>{ L=L||said(); let p=-1; for(const t of a){ const k=L.indexOf(t,p+1); if(k<0) return false; p=k; } return true; };
 
 /* ---------- 稿 ---------- */
-const SHA='41ec9a6ac', DOCF='docs/story_planning/AA_531_D99美國交換_人在美國還被揪118午餐_在臺灣的伴侶四個月沒聯絡_上課期末.md';
+const SHA='a28201f61', DOCF='docs/story_planning/AA_531_D99美國交換_人在美國還被揪118午餐_在臺灣的伴侶四個月沒聯絡_上課期末.md';
 let DOC=''; try{ DOC=cp.execSync('git -c core.quotepath=false show '+SHA+':"'+DOCF+'"',{cwd:process.env.AA531_DOCREPO||H.ROOT,encoding:'utf8',maxBuffer:1<<24}); }catch(e){ DOC=''; }
 const part=(a,b)=>{ const i=DOC.indexOf(a); if(i<0) return ''; const j=b?DOC.indexOf(b,i+1):-1; return DOC.slice(i,j<0?DOC.length:j); };
 const SPK=/^(以安|語彤|子晴|沛珊|學姊|書瑀|教授)：/;
@@ -70,6 +71,7 @@ const DOC73=quotes(S7.split('### 7-3')[1]||'');
 /* 第 8 節實作問答（41ec9a6ac）：8-1 改稿九句、8-3 國外版四列。SUP＝8-1 換掉的稿上舊句（第 2 節表、5-2）→ 新句 */
 const S8=part('## 8. 實作問答'), Q81=quotes(String(S8.split('### 8-1')[1]||'').split('### 8-2')[0]);
 const T83=String(S8.split('### 8-3')[1]||'').split('### 8-4')[0].split('\n').map(l=>l.split('|').map(x=>x.trim())).filter(c=>c.length>=5&&c[1]&&!/^-+$/.test(c[1])&&c[1]!=='誰').map(c=>({who:c[1],tw:c[2],ab:c[3]}));
+const S85=String(S8.split('### 8-5')[1]||''), O85=[...S85.matchAll(/選項「([^」]+)」/g)].map(m=>m[1]), Q85=quotes(S85);   /* 8-5：四個選項；她回的兩句＋電話四行＋「好。我等。」*/
 const SUP=Q81.length===9?{'你那邊是早上。先去上課。':Q81[0],'到了傳一句。':Q81[1],'落地了嗎':Q81[3],'到了嗎～':Q81[5],'（他講德國的部分講了十二分鐘。輪到你的時候，教授看了一下錶。）':Q81[7],'（期末考。三題申論，都是陪審團。寫到第三題，你的手開始痠。）':Q81[8]}:{};
 
 /* ---------- 遊戲這一批的字 ---------- */
@@ -311,6 +313,34 @@ await sec('8-3',()=>{
     ok=[o(TW(),'dorm','2028-10-17'),o(US(),'us_apartment','2028-10-17'),o(JP(),'jp_dorm','2028-05-17')]; } finally { MSG.conds2=c0; }
   check('8-3. 語彤 MSG2 生日（L）：臺灣「'+YB.tw+'」（帶回問）、日本路線人在日本「'+YB.ab+'」',!!bt&&!!bj&&bt.m===YB.tw&&bt.ask===true&&bj.m===YB.ab,J({bt,bj}));
   check('8-3. 語彤 MSG2 還好嗎（L）：臺灣「'+YO.tw+'」（帶回問）、人在美國、日本「'+YO.ab+'」',!!ok&&!!ok[0]&&ok[0].m===YO.tw&&ok[0].ask===true&&ok.slice(1).every(x=>!!x&&x.m===YO.ab),J(ok)); });
+await sec('8-5',async()=>{
+  const P=(MSG2_POOL.people[YT]||{}), R=P.replies||[], eb=R.find(e=>e.topic==='bday'&&/AA_531/.test(e.src||'')), eo=R.find(e=>e.topic==='ok'&&/AA_531/.test(e.src||'')), C=(P.calls||{}).ok_abroad||{};
+  check('8-5. 讀得到稿 8-5：四個選項、七句（她回的兩句、電話四行、「好。我等。」）',O85.length===4&&Q85.length===7,J({O85,Q85}));
+  const strip=o=>J(o.map(x=>[x.t,x.r||[]]));
+  check('8-5. 回覆池（tools/msg/build_msg2.py 產生）：生日國外版的回問「'+O85[0]+'」→「'+Q85[0]+'」、「'+O85[1]+'」→「'+Q85[1]+'」；「打給我」的回問「'+O85[2]+'」（電話）、「'+O85[3]+'」→「'+Q85[6]+'」（十分鐘以後電話）；電話四行照稿；沒有好感、旗標',
+    !!eb&&!!eb.ask&&strip(eb.ask.opts)===J([[O85[0],[Q85[0]]],[O85[1],[Q85[1]]]])&&!!eo&&!!eo.ask&&strip(eo.ask.opts)===J([[O85[2],[]],[O85[3],[Q85[6]]]])&&J(eo.ask.opts.map(o=>o.call&&[o.call.key,o.call.min]))===J([['ok_abroad',0],['ok_abroad',10]])
+    &&J(C.lines)===J(Q85.slice(2,6))&&![eb,eo].some(e=>e.ask.opts.some(o=>o.rel||o.set||o.mem)),J({b:eb&&eb.ask,o:eo&&eo.ask,C}));
+  const E5=ev(MSG.callEv(YT,'ok_abroad'));
+  check('8-5. 電話事件 '+MSG.callEv(YT,'ok_abroad')+'：{scene:\'電話\'} 開頭、旁白兩行（說話的人空的）、語彤兩句；沒有選項、沒有 after（不加好感）',
+    !!E5&&E5.trigger==='outing'&&E5.dialogue[0].scene==='電話'&&J(E5.dialogue.slice(1).map(l=>[l.speaker,l.text]))===J([[null,Q85[2]],[YT,Q85[3]],[null,Q85[4]],[YT,Q85[5]]])&&!E5.after&&!E5.dialogue.some(l=>l.choice),J(E5&&E5.dialogue));
+  /* 生日（7/9，日本路線人在日本）：真的傳、收到、回 */
+  const recv=()=>{ const q=PHONE.rec(H.G).q; const last=q[q.length-1]; if(!last) return null; H.G.day=last.day; H.G.hour=last.h+0.01; H.G.weekday=wdOf(H.G.day); PHONE.tick(H.G,()=>{}); return PHONE.thread(H.G,'p:'+YT).filter(m=>m.ask&&m.from===YT).pop()||null; };
+  const bd=[]; for(const k of [0,1]){ fresh('2028-07-09',15,'jp_dorm',JP()); date(YT,'2028-01-01'); const r=MSG.send(H.G,YT,'bday'); const m=r&&r.ok?recv():null; const a=m?PHONE.answer(H.G,m.ask.id,k):null;
+    bd.push({ok:!!(r&&r.ok),last:m&&m.text,opts:m&&m.ask.opts.map(o=>o.t),out:a?a.out.map(x=>x.text):null,plan:OUT.rec(H.G).length}); }
+  check('8-5. 日本路線 7/9 傳「生日快樂」：回「謝謝。……你那邊幾點？」帶兩個選項；選「比妳那邊快一個小時。」她回「……那你比我先過完今天。」、選「生日快樂。回去請妳吃麵。」她回「阿姨不會收錢的。……你還是要請。」；不排電話',
+    bd.every(x=>x.ok&&x.last==='謝謝。……你那邊幾點？'&&J(x.opts)===J(O85.slice(0,2))&&x.plan===0)&&J(bd[0].out)===J([O85[0],Q85[0]])&&J(bd[1].out)===J([O85[1],Q85[1]]),J(bd));
+  /* 還好嗎（[前置] 直接給 conds2 一件事：阿姨扭到手）：美國當地 10/17 20:00（臺灣 10/18 08:00）傳 */
+  const c0=MSG.conds2, res={}, relOf=()=>{ const x=(H.G.social&&H.G.social.rel||{})[YT]||{}; return J(['trust','aff','resp','comf','rom'].map(k=>x[k]|0)); };   /* 好感那幾項（熟悉度 fam、見過 seen 不算：傳訊息、講電話本來就會加）*/
+  try{ MSG.conds2=(G,id,tp)=>tp==='ok'&&id===YT?[{key:'aunt_hand',day:G.day}]:c0.apply(MSG,arguments);
+    for(const k of [0,1]){ fresh('2028-10-17',20,'us_apartment',US()); date(YT,'2028-06-01'); const r=MSG.send(H.G,YT,'ok'); const m=r&&r.ok?recv():null; const f0=relOf();
+      const a=m?PHONE.answer(H.G,m.ask.id,k):null, now=H.G.day*24+H.G.hour, q=OUT.rec(H.G).find(x=>/^msg2_call_heroine_03_ok_abroad_/.test(x.id)), due0=OUT.due(H.G);
+      let due1=null, said1=null; if(q){ const tq=q.day*24+q.h; if(k===1){ const t2=now+1/6+0.01; H.G.day=Math.floor(t2/24); H.G.hour=t2-H.G.day*24; H.G.weekday=wdOf(H.G.day); due1=OUT.due(H.G); } await goOut(q.id); said1=said().slice(); res[k]={tq:+(tq-now).toFixed(3)}; }
+      Object.assign(res[k]=res[k]||{},{ok:!!(r&&r.ok),last:m&&m.text,opts:m&&m.ask.opts.map(o=>o.t),out:a?a.out.map(x=>x.text):null,q:q&&{verb:q.verb,call:q.call,place:q.place,ev:q.ev,must:q.must,ask:q.ask!=null},due0:due0&&due0.id,due1:due1&&due1.id,said:said1,rel:relOf()===f0,f0,f1:relOf()}); } } finally { MSG.conds2=c0; }
+  const call=Q85.slice(2,6), r0=res[0]||{}, r1=res[1]||{}, qOk=x=>!!x.q&&x.q.verb==='打給她'&&x.q.call===true&&x.q.place==='電話'&&x.q.ev===MSG.callEv(YT,'ok_abroad')&&x.q.must===true;
+  check('8-5. 美國 「還好嗎」：回「……不太好。你可以打給我嗎。」帶兩個選項（「'+O85[2]+'」「'+O85[3]+'」）',[r0,r1].every(x=>x.ok&&x.last==='……不太好。你可以打給我嗎。'&&J(x.opts)===J(O85.slice(2,4))),J({r0,r1}));
+  check('8-5. 選「我現在打。」：沒有她的回話、馬上跳「打給她」（電話、你打過去），演那通電話（四行照順序）',J(r0.out)===J([O85[2]])&&qOk(r0)&&r0.tq===0&&!!r0.due0&&seq(call,r0.said||[]),J(r0));
+  check('8-5. 選「等我十分鐘，我在外面。」：她回「好。我等。」；現在還不跳、十分鐘以後才跳「打給她」，演同一通電話',J(r1.out)===J([O85[3],Q85[6]])&&qOk(r1)&&Math.abs(r1.tq-1/6)<0.002&&!r1.due0&&!!r1.due1&&seq(call,r1.said||[]),J(r1));
+  check('8-5. 回了選項、電話演完：好感（信任、好感、尊重、自在、戀愛）沒有變',r0.rel===true&&r1.rel===true,J({r0:[r0.f0,r0.f1],r1:[r1.f0,r1.f1]})); });
 
 H.done();
 })();

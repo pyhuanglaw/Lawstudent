@@ -1,9 +1,9 @@
-/* 玩家主動傳訊息的第二批話題（MSG-2：謝謝、生日快樂、還好嗎、新年快樂）回覆池：AA 六位＝AA_202 第 7 節，BB 九位＝AA_257（AA 定稿）＋BB_178 第 10 節的條件（企劃線 AA_202@65239add、AA_257@5f9957a2、BB_178@741e94f1、AA_389@345234b3、AA_531@41ec9a6ac）。
+/* 玩家主動傳訊息的第二批話題（MSG-2：謝謝、生日快樂、還好嗎、新年快樂）回覆池：AA 六位＝AA_202 第 7 節，BB 九位＝AA_257（AA 定稿）＋BB_178 第 10 節的條件（企劃線 AA_202@65239add、AA_257@5f9957a2、BB_178@741e94f1、AA_389@345234b3、AA_531@a28201f61）。
    產生器 tools/msg/build_msg2.py → tools/msg/to_js2.py（每一句照抄原文；tests/msg_chat_unit.js 第 H 項逐字比對 git 上的原文）。不要手改句子。
    people[id]：birthday（MM-DD）、conds（thanks／ok：什麼事以後能傳，key＋原文；bday：分年份的列；closed：不開的時候）、replies（topic thanks／bday／ok／newyear、cond、tier、msgs、tags、ask）。程式的判斷在 src/msg3d.js。 */
 'use strict';
 const MSG2_POOL={
- "source":{"AA_202": "65239add", "AA_257": "5f9957a2", "BB_178": "741e94f1", "AA_389": "345234b3", "AA_531": "41ec9a6ac"},
+ "source":{"AA_202": "65239add", "AA_257": "5f9957a2", "BB_178": "741e94f1", "AA_389": "345234b3", "AA_531": "a28201f61"},
  "topics":{"thanks": {"say": ["謝謝", "上次謝啦"], "when": "對方幫過忙以後 7 天內，一次（例：借筆記 `LENT_NOTES` 的另一方向、借考古題、幫忙排行程、她送了東西）。條件表 LAWWW 照各人事件的旗標列"}, "bday": {"say": ["生日快樂"], "when": "對方生日當天（00:00～23:59）。生日的節日事件（`AA_126` 第 7 節）演過了也可以傳"}, "ok": {"say": ["還好嗎"], "when": "對方遇到事以後 3 天內（下表 7-2 的「事」）"}, "newyear": {"say": ["新年快樂"], "when": "1/1，以及除夕到初三"}},
  "people":{
   "heroine_01":Object.assign({"name": "以安", "birthday": "09-15", "birthdayText": "以安 9/15", "style": "短；貼圖只有兔子「收到」", "conds": {"thanks": [], "ok": [{"key": "yu_argument", "text": "和 Alison 吵架以後（`ev_an_yu_argument`）", "src": "AA_202 7-2"}, {"key": "tutee_rejected", "text": "家教學生的家申請被駁回（新 10）", "src": "AA_202 7-2"}, {"key": "exchange_week", "text": "交換出發前一週", "src": "AA_202 7-2"}], "closed": [], "closedText": null}},{"replies":[
@@ -20,19 +20,19 @@ const MSG2_POOL={
    {"topic": "newyear", "cond": null, "tier": "R", "msgs": ["新年快樂。台中好冷。"], "tags": ["過年"], "src": "AA_202 7-3 以安"},
    {"topic": "newyear", "cond": null, "tier": "L", "msgs": ["新年快樂。……阿嬤問我在跟誰傳訊息。"], "tags": ["過年"], "src": "AA_202 7-3 以安"}
   ]}),
-  "heroine_03":Object.assign({"name": "語彤", "birthday": "07-09", "birthdayText": "語彤 7/9", "style": "常傳沒有字的照片；沒有貼圖", "conds": {"thanks": [], "ok": [{"key": "aunt_hand", "text": "阿姨扭到手（`AA_11` 事件 4）", "src": "AA_202 7-2"}, {"key": "dm_exam_eve", "text": "雙主修筆試前一天（6/17）", "src": "AA_202 7-2"}], "closed": [], "closedText": null}},{"replies":[
+  "heroine_03":Object.assign({"name": "語彤", "birthday": "07-09", "birthdayText": "語彤 7/9", "style": "常傳沒有字的照片；沒有貼圖", "calls": {"ok_abroad": {"src": "AA_531 8-5", "lines": ["（電話接通，她一開始沒有說話。）", "……你不用說什麼。", "（過了十分鐘，她說：）", "好了。謝謝。"]}}, "conds": {"thanks": [], "ok": [{"key": "aunt_hand", "text": "阿姨扭到手（`AA_11` 事件 4）", "src": "AA_202 7-2"}, {"key": "dm_exam_eve", "text": "雙主修筆試前一天（6/17）", "src": "AA_202 7-2"}], "closed": [], "closedText": null}},{"replies":[
    {"topic": "thanks", "cond": null, "tier": "A", "msgs": ["……嗯。"], "tags": [], "src": "AA_202 7-3 語彤"},
    {"topic": "thanks", "cond": null, "tier": "R", "msgs": ["不用謝。"], "tags": [], "src": "AA_202 7-3 語彤"},
    {"topic": "thanks", "cond": null, "tier": "L", "msgs": ["（照片：一碗乾麵，加了蛋）"], "tags": [], "src": "AA_202 7-3 語彤"},
    {"topic": "bday", "cond": null, "tier": "A", "msgs": ["謝謝。"], "tags": [], "src": "AA_202 7-3 語彤"},
    {"topic": "bday", "cond": null, "tier": "R", "msgs": ["謝謝。阿姨今天幫我煮了豬腳麵線。"], "tags": [], "src": "AA_202 7-3 語彤"},
    {"topic": "bday", "cond": null, "tier": "L", "msgs": ["謝謝。……你今天會來店裡嗎？"], "tags": ["祐廷在臺灣"], "src": "AA_202 7-3 語彤", "ask": {"q": "你今天會來店裡嗎？", "src": "AA_202 7-3 語彤「L 的回問」", "opts": [{"t": "會。", "r": ["好。"]}, {"t": "今天沒辦法。", "r": ["好。那明天。"]}]}},
-   {"topic": "bday", "cond": null, "tier": "L", "msgs": ["謝謝。……你那邊幾點？"], "tags": ["祐廷在國外"], "src": "AA_531 8-3 在國外的版本"},
+   {"topic": "bday", "cond": null, "tier": "L", "msgs": ["謝謝。……你那邊幾點？"], "tags": ["祐廷在國外"], "src": "AA_531 8-3 在國外的版本", "ask": {"q": "你那邊幾點？", "src": "AA_531 8-5 語彤國外版的回問", "opts": [{"t": "比妳那邊快一個小時。", "r": ["……那你比我先過完今天。"]}, {"t": "生日快樂。回去請妳吃麵。", "r": ["阿姨不會收錢的。……你還是要請。"]}]}},
    {"topic": "ok", "cond": null, "tier": "A", "msgs": ["還好。"], "tags": [], "src": "AA_202 7-3 語彤"},
    {"topic": "ok", "cond": "aunt_hand", "tier": "R", "msgs": ["還好。阿姨比較不好。"], "tags": ["阿姨扭到手"], "src": "AA_202 7-3 語彤", "alt": "1/2"},
    {"topic": "ok", "cond": "dm_exam_eve", "tier": "R", "msgs": ["明天考試。……有點緊張。"], "tags": ["筆試前一天"], "src": "AA_202 7-3 語彤", "alt": "2/2"},
    {"topic": "ok", "cond": null, "tier": "L", "msgs": ["……不太好。你可以來店裡坐一下嗎。"], "tags": ["祐廷在臺灣"], "src": "AA_202 7-3 語彤", "ask": {"q": "你可以來店裡坐一下嗎。", "src": "AA_202 7-3 語彤「L 的回問」", "opts": [{"t": "我現在過去。", "r": ["嗯。"]}, {"t": "現在走不開，晚點打給妳。", "r": ["好。"]}]}},
-   {"topic": "ok", "cond": null, "tier": "L", "msgs": ["……不太好。你可以打給我嗎。"], "tags": ["祐廷在國外"], "src": "AA_531 8-3 在國外的版本"},
+   {"topic": "ok", "cond": null, "tier": "L", "msgs": ["……不太好。你可以打給我嗎。"], "tags": ["祐廷在國外"], "src": "AA_531 8-3 在國外的版本", "ask": {"q": "你可以打給我嗎。", "src": "AA_531 8-5 語彤國外版的回問", "opts": [{"t": "我現在打。", "call": {"key": "ok_abroad", "min": 0}}, {"t": "等我十分鐘，我在外面。", "r": ["好。我等。"], "call": {"key": "ok_abroad", "min": 10}}]}},
    {"topic": "newyear", "cond": null, "tier": "A", "msgs": ["新年快樂。"], "tags": [], "src": "AA_202 7-3 語彤"},
    {"topic": "newyear", "cond": null, "tier": "R", "msgs": ["（照片：麵店拉下來的鐵門，貼著紅紙）"], "tags": ["過年"], "src": "AA_202 7-3 語彤"},
    {"topic": "newyear", "cond": null, "tier": "L", "msgs": ["（照片：麵店拉下來的鐵門，貼著紅紙）", "初四開店。你要第一個來。"], "tags": ["過年"], "src": "AA_202 7-3 語彤", "copiedFrom": "R", "added": ["初四開店。你要第一個來。"], "cellText": "同 R，加「初四開店。你要第一個來。」"}

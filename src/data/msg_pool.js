@@ -1,10 +1,10 @@
-/* 玩家主動傳訊息的回覆池（SYS-PHONE-CHAT／MSG-L1）：AA 六位＝AA_202 第 6 節，BB 九位＝BB_178 第 0～8b 節（企劃線 AA_202@b61e4f55、BB_178@bb6baddf、AA_370@9eaf4e98、AA_393@e81a1afe1、AA_531@41ec9a6ac、AA_538@b9d816288）。
+/* 玩家主動傳訊息的回覆池（SYS-PHONE-CHAT／MSG-L1）：AA 六位＝AA_202 第 6 節，BB 九位＝BB_178 第 0～8b 節（企劃線 AA_202@b61e4f55、BB_178@bb6baddf、AA_370@9eaf4e98、AA_393@e81a1afe1、AA_531@a28201f61、AA_538@b9d816288）。
    產生器 tools/msg/build_pool.py → tools/msg/to_js.py（每一句照抄原文；tests/msg_chat_unit.js 第 F 項逐字比對 git 上的原文）。不要手改句子：改企劃、改產生器、重跑。
    每一則：topic（chat 在幹嘛／course 問課／share_cat、share_food、share_notes 分享／night 晚安）、tier（A／R／L）、variant（情況版）、msgs（同一次回覆的幾個泡泡）、tags（原文的條件）、ask（回問）。
    rules 是各人的回覆時間、開放條件原文（給程式對照；程式的判斷在 src/msg3d.js）。 */
 'use strict';
 const MSG_POOL={
- "source":{"AA_202": "b61e4f55", "BB_178": "bb6baddf", "AA_370": "9eaf4e98", "AA_393": "e81a1afe1", "AA_531": "41ec9a6ac", "AA_538": "b9d816288"},
+ "source":{"AA_202": "b61e4f55", "BB_178": "bb6baddf", "AA_370": "9eaf4e98", "AA_393": "e81a1afe1", "AA_531": "a28201f61", "AA_538": "b9d816288"},
  "people":{
   "heroine_01":{"name":"沈以安","rules":{"replyFree": [1, 10], "noReplyText": "22:30 以後不回，隔天 7 點多回「昨天睡了。早。」（玩家傳的是晚安，就只回這一句）", "openText": "第一次能用：拿到這個人的聯絡方式以後。每個人拿到的時間不同，照現有的「交換聯絡方式」條件（`BB_172`、`AA_134`）", "habitText": "短、快；貼圖只有一張兔子「收到」", "wakeLine": ["昨天睡了。早。"], "lTierText": "L＝曖昧、交往（只有以安、語彤；~~她們的戀愛窗口在大三、大四以後~~ 2026-10-17 AA-C，AA_215／AA_216 R8：交往中（任何學期），或第 5 階以上而且兩人都單身；大一就可能用到）", "otherText": ["22:30 以後傳：隔天早上「昨天睡了。早。」再接一般版（晚安不接，見 3-1 第 4 點）。", "以安：快、短、只有一張兔子「收到」貼圖；"]},"replies":[
    {"topic": "chat", "tier": "A", "variant": null, "msgs": ["在總圖。"], "tags": [], "ask": null, "src": "AA_202 6-2 在幹嘛"},

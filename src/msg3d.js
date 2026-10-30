@@ -425,8 +425,20 @@ const MSG=(function(){
   /* 回問選項（3-1 第 6 點）：cond「接到問課」只在問課開的時候有、goto course＝接她問課的回覆；「在美國時換成」只在她在美國時 */
   S.askOpts=function(G,id,e,nm,ctx){ if(!e.ask||!e.ask.opts) return null; const abroad=S.tok(G,id,'在美國'), course=S.topics(G,id).some(q=>q.k==='course');
     const out=[]; for(const q of e.ask.opts){ if(q.cond&&/在美國時換成/.test(q.cond)&&!abroad) continue; if(q.goto==='course'&&(abroad||!course)) continue;
-      let r=q.r||[]; if(q.goto==='course'){ const c=S.pick(G,id,'course',null,ctx); r=c?c.msgs:[]; } out.push({t:q.t,say:r.map(x=>/^（旁白：/.test(x)?{from:null,text:x}:{from:id,name:nm,text:x})}); }
+      let r=q.r||[]; if(q.goto==='course'){ const c=S.pick(G,id,'course',null,ctx); r=c?c.msgs:[]; } const it={t:q.t,say:r.map(x=>/^（旁白：/.test(x)?{from:null,text:x}:{from:id,name:nm,text:x})}; if(q.call) it.call=Object.assign({who:id},q.call); out.push(it); }
     return out.length?{opts:out}:null; };
+  /* 回問選項帶的電話（AA_531 8-5，企劃線 a28201f61：語彤 MSG2「……不太好。你可以打給我嗎。」的國外版）：回了那個選項＝排一通你打過去的電話（遊戲現有的電話演出：OUT 出遊 place:'電話'、call:true、
+     事件 {scene:'電話'}，同 y2r2_3d.js 芷若錄取那晚）。min＝幾分鐘以後打（「等我十分鐘」＝10：她先回「好。我等。」，十分鐘以後才跳「打給她」）；台詞在回覆池那個人的 calls（產生器 tools/msg/build_msg2.py）。
+     不加好感（照原句的規則）*/
+  S.callEv=(id,key)=>'ev_msg2_'+id+'_'+key;
+  S.planCall=function(G,id,c){ if(!c||!c.key||typeof OUT==='undefined'||!OUT.plan) return false; const qid='msg2_call_'+id+'_'+c.key+'_'+G.day; if(OUT.get(G,qid)) return false;
+    const at=G.day*24+(+G.hour||0)+(c.min||0)/60, day=Math.floor(at/24+1e-9), h=+(at-day*24).toFixed(4), nm=typeof SOCIAL!=='undefined'&&SOCIAL.displayName?SOCIAL.displayName(id):id;
+    return OUT.plan(G,{id:qid,ev:S.callEv(id,c.key),day,h,ask:c.min?at:null,late:0.5,place:'電話',title:'打給'+nm,verb:'打給她',must:true,call:true,travel:'',travelH:0,back:'電話結束。'}); };
+  if(typeof PHONE!=='undefined'&&PHONE.ON_ANSWER) PHONE.ON_ANSWER.push((G,m,o)=>{ if(o&&o.call&&o.call.who) S.planCall(G,o.call.who,o.call); });
+  if(typeof STORY_EVENTS!=='undefined'&&typeof MSG2_POOL!=='undefined') for(const id in (MSG2_POOL.people||{})){ const C=MSG2_POOL.people[id].calls||{};
+    for(const k in C){ if(STORY_EVENTS.some(e=>e.id===S.callEv(id,k))) continue;
+      STORY_EVENTS.push({id:S.callEv(id,k),title:'電話',participants:[id],location:'any',trigger:'outing',once:false,background:'dark',hours:0.25,src:C[k].src,
+        dialogue:[{scene:'電話'}].concat((C[k].lines||[]).map(t=>/^（[^）]*）$/.test(t)?{speaker:null,text:t}:{speaker:id,text:t}))}); } }
   S.send=function(G,id,topic,sub){ if(!S.canSend(G,id)) return {ok:false,why:S.open(G,id).why||'今天傳過了'}; if(!S.topics(G,id).some(q=>q.k===topic)) return {ok:false,why:'這個話題現在不行'};
     if(S.SIS_T[topic]&&id==='heroine_05') return S.sisSend(G,id,topic);   /* 學姊的限時話題（AA_485 第 4 節）*/
     const R=S.rec(G), o=S.open(G,id), th='p:'+id; const text=S.playerText(G,id,topic,sub);
