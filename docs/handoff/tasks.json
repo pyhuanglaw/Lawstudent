@@ -36608,6 +36608,35 @@
    "authorized": "D109、D111",
    "sha": "1e3ffbb0e",
    "notes": "story3d hit() 支援 noExam；S.ndlExamDue／ndlExamAyi；四支測試日期改到非考試週（aa503、aa527_528、aa_followup_1030、noodle_table_1027）；ndl_present_unit 第 7 項；白名單 AA_504 → da3e72727"
+  },
+  {
+   "id": "NOODLE-TEAM-SHRINK-1030",
+   "title": "麵店團縮小成背景（使用者 10-30 14:5x：不再叫麵店團、不固定週二週四；麵店只是朋友有時會在、語彤顧店的地方；群組改一般系上朋友群組）",
+   "area": "STORY",
+   "owner": "AA",
+   "status": "進行中",
+   "next": "AA 出改稿規格（成團 ev_zhe_long_table／ev_zhe_group_late、群組名、「週二週四」「規矩」台詞、長桌閒聊 NOODLE_TABLE、heard_lines 麵店、春假旅行、畢業以後群組、X139 芯慈）→ LAWWW 改程式（noodle_team 群組名、作息改成不固定、S.noodleDay／ndlTalk、考試週阿姨那句）→ BB 測",
+   "priority": "P1",
+   "first": {
+    "term": "Y1S1",
+    "week": 2,
+    "earliest": "大一上第 2 週週四麵店（原本的成團）",
+    "mainline": true,
+    "blocks": false,
+    "prereq": false,
+    "parallel": true,
+    "confirmed": true
+   },
+   "source": "使用者 10-30 14:5x（X144，UA-LAWWW-1030-23／24）",
+   "authorized": "使用者選擇題",
+   "xai": {
+    "spec": "AA 改稿規格（待交）",
+    "branch": "claude/cool-heisenberg-o8kuqx",
+    "acceptance": "玩家看不到「麵店團」、沒有固定週二週四的規矩；朋友有時在麵店；語彤照常在店裡；舊存檔不壞",
+    "receiver": "LAWWW",
+    "ack": "SENT"
+   },
+   "notes": "程式範圍：約 40 個檔用到 noodle_team 群組（287 處）；events.js 67 處麵店"
   }
  ]
 }
