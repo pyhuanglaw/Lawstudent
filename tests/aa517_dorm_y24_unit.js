@@ -230,7 +230,10 @@ const sweepR=(k0,h0,k1,h1,step)=>{ step=step||0.25; const a=D(k0)*24+h0, b=D(k1)
     check('3. 312 大二上第 1 週跟阿哲講話：第一句「學弟問我浴室……我現在是學長了欸。」；同一天再講＝「之後」那兩句',J(a1)===J([ZN+Z.rows[0].t])&&isAfter(a2,Z),J([a1,a2]));
     const a3=await talk('zhe'); check('3. 「之後」兩句輪流（旁白、「欸，宵夜？……好啦，明天。」）',isAfter(a3,Z)&&a3[0]!==a2[0],J([a2,a3]));
     const [a4,a5]=await days('zhe',[['2026-09-09',22.6],['2026-09-10',22.6]]);
-    check('3. 一天一句新的：「這間窗戶看得到樹……」；沒有沛珊分開、還沒 12/19＝隔天沒有新的（之後那兩句）',J(a4)===J([ZN+Z.rows[1].t])&&isAfter(a5,Z),J([a4,a5]));
+    check('3. 一天一句新的：「這間窗戶看得到樹……」（有 DORM_FOUR＝大一住過 203：照原句「203 只看得到對面的冷氣。」，AA_542 9-3）；沒有沛珊分開、還沒 12/19＝隔天沒有新的（之後那兩句）',J(a4)===J([ZN+Z.rows[1].t])&&Z.rows[1].t==='這間窗戶看得到樹。203 只看得到對面的冷氣。'&&isAfter(a5,Z),J([a4,a5]));
+    { room('2026-09-08',22.6,Object.assign(Y2(),{DORM_FOUR:false})); knowAll(); await talk('zhe'); at('2026-09-09',22.6); const f4=await talk('zhe');
+      check('3. 沒有 DORM_FOUR（舊開局，阿哲大一沒住過 203）：「這間窗戶看得到樹。我之前那間只看得到對面的冷氣。」（AA_542 9-3）',J(f4)===J([ZN+'這間窗戶看得到樹。我之前那間只看得到對面的冷氣。'])&&Z.rows[1].noFour==='這間窗戶看得到樹。我之前那間只看得到對面的冷氣。',J(f4));
+      room('2026-09-08',22.6,Y2()); knowAll(); await talk('zhe'); at('2026-09-09',22.6); await talk('zhe'); at('2026-09-10',22.6); }   /* 回到原本那一串（z1、z2 說過，9/10）*/
     H.G.events.done.ev_peishan_split=1; at('2026-10-14',22.6); const a6=await talk('zhe');
     check('3. ev_peishan_split 演過、沒有和沛珊交往：「柏翰這禮拜都很早上床。……你有發現嗎？」',J(a6)===J([ZN+Z.rows[2].t]),J(a6));
     const [a7,a8]=await days('zhe',[['2026-12-18',23.2],['2026-12-19',23.2]]); check('3. 12/18 沒有、12/19 起「我最近比較晚回來。……送 Alison 去捷運站。」（AA_380 改名）',isAfter(a7,Z)&&J(a8)===J([ZN+Z.rows[3].t]),J([a7,a8]));

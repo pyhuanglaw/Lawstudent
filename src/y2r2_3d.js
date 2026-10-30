@@ -488,9 +488,10 @@ const Y2R2=(function(){
   EV.push({ id:'ev_y2s2_thu_noodle_first', title:'', participants:[], location:'noodle', trigger:'enter', term:['Y2S2'], weeks:[1,2,3], weekday:[1,2,3,4,5],ndlDay:true, time:[17.5,21], once:true, background:'blur',   /* 第 1 週 2/25：這學期第一次週四進麵店（第 3 週以前）*/
     prereq:{custom:ndl},
     dialogue:[ {speaker:null,text:'（大二下第一次在麵店遇到大家。阿姨說，過年胖了的人自己知道。）'} ] });
-  EV.push({ id:'ev_y2s2_thu_noodle_spring', title:'', participants:[], location:'noodle', trigger:'enter', term:['Y2S2'], weeks:[7], weekday:[1,2,3,4,5],ndlDay:true, time:[17.5,21], once:true, background:'blur',   /* 第 7 週 4/8：春假回來第一次週四進麵店 */
+  EV.push({ id:'ev_y2s2_thu_noodle_spring', title:'', participants:[], location:'noodle', trigger:'enter', term:['Y2S2'], weeks:[7,8,9,10], weekday:[1,2,3,4,5],ndlDay:true, time:[17.5,21], once:true, background:'blur',   /* 春假回來以後第一個麵店日（AA_542 9-2：第 7 週只挑到 1 天、錯過就整個錯過 → 第 7～10 週都可以；第 8～9 週期中週沒有麵店日）*/
     prereq:{custom:ndl},
-    dialogue:[ {speaker:null,text:'（春假回來以後，第一次在麵店遇到大家。每個人都在講自己這幾天去了哪裡。）'} ] });
+    dialogue:[ {if:{custom:G=>{ const t=CALENDAR.termOf(G.day); return !t||t.week<10; }},speaker:null,text:'（春假回來以後，第一次在麵店遇到大家。每個人都在講自己這幾天去了哪裡。）'},
+      {if:{custom:G=>{ const t=CALENDAR.termOf(G.day); return !!t&&t.week>=10; }},speaker:null,text:'（期中考完，第一次在麵店遇到大家。春假去了哪裡，到現在還有人在講。）'} ] });   /* 第 10 週才遇到的換一句（9-2）*/
   S.fillRules=function(G,GM){ if(!law(G)||!hasP()||!G.flags) return;
     /* 3/12（五）21:00 柏翰私訊（和柏翰 FAMILIAR 以上）*/
     { const m=d('f312'); if(m!=null&&knows('classmate_bohan',G)&&atLeast('classmate_bohan','FAMILIAR')&&win(G,m,21,1)&&!sent(G,'y2s2_bh_table')){ const B=t=>({th:'p:classmate_bohan',from:'classmate_bohan',text:t});

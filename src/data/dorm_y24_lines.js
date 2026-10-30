@@ -33,7 +33,7 @@ const DORMY24_LINES=(function(){
       r312:{
         zhe:{ rows:[
             {k:'z1',term:'Y2S1',weeks:[1,4],t:'學弟問我浴室哪一間水比較熱。我教他了。……我現在是學長了欸。'},
-            {k:'z2',term:'Y2S1',t:'這間窗戶看得到樹。203 只看得到對面的冷氣。'},
+            {k:'z2',term:'Y2S1',t:'這間窗戶看得到樹。203 只看得到對面的冷氣。',noFour:'這間窗戶看得到樹。我之前那間只看得到對面的冷氣。'},   /* noFour：沒有 DORM_FOUR（舊開局，阿哲大一沒住過 203）換這句（AA_542 9-3）*/
             {k:'z3',term:'Y2S1',need:'split',t:'柏翰這禮拜都很早上床。……你有發現嗎？'},
             {k:'z4',term:'Y2S1',from:'2026-12-19',t:'我最近比較晚回來。……送 Alison 去捷運站。'},   /* 稿寫的是 AA_380 改名以前的舊叫法：使用者 10-21「改成Alison」，遊戲裡一律 Alison，照匯入工具 alison 的寫法換（tools/story/import_guard.py、tests/alison.js）。
                 稿「12/19 以後（ev_yu_together）」：看日期（S.dormMates 阿哲 12/19 起 23:00 才回來也是看日期）*/

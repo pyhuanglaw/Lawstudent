@@ -219,7 +219,11 @@ const lad=(term,cid,sid)=>(((LADDER.byTerm[term]||{})[cid]||{}).steps||[]).find(
     const okIn=(e,k,h)=>{ fresh(k,h,'noodle'); PHONE.join(G,'noodle_team','麵店團'); return !!e&&EVENTS.check(e); };
     const nd1=(()=>{ for(let d=D('2027-02-22');d<D('2027-03-15');d++) if(STORY.noodleDay(d)) return CALENDAR.dateOf(d).key; return null; })(), nn1=(()=>{ for(let d=D('2027-02-22');d<D('2027-03-01');d++){ const w=CALENDAR.dateOf(d).wd; if(w>=1&&w<=5&&!STORY.noodleDay(d)) return CALENDAR.dateOf(d).key; } return null; })();   /* AA_542 第 5 節：麵店日每週不固定兩天 */
     check('AA_342. 大二下第一個麵店日（'+nd1+'）：「（大二下第一次在麵店遇到大家。阿姨說，過年胖了的人自己知道。）」；不是麵店日（'+nn1+'）不演',!!a&&J(evTexts(a))===J(['（大二下第一次在麵店遇到大家。阿姨說，過年胖了的人自己知道。）'])&&!!nd1&&okIn(a,nd1,18)&&!!nn1&&!okIn(a,nn1,18));
-    check('AA_342. 4/8（四）春假回來第一次週四麵店：「（春假回來以後，第一次在麵店遇到大家。每個人都在講自己這幾天去了哪裡。）」',!!b&&J(evTexts(b))===J(['（春假回來以後，第一次在麵店遇到大家。每個人都在講自己這幾天去了哪裡。）'])&&okIn(b,'2027-04-08',18)&&!okIn(b,'2027-04-15',18));
+    { const SP1='（春假回來以後，第一次在麵店遇到大家。每個人都在講自己這幾天去了哪裡。）', SP10='（期中考完，第一次在麵店遇到大家。春假去了哪裡，到現在還有人在講。）';
+      const ndw=w=>{ for(let i=1;i<=5;i++){ const d=STORY.termDay('Y2S2',w,i); if(d!=null&&STORY.noodleDay(d)) return CALENDAR.dateOf(d).key; } return null; }, w7=ndw(7), w10=ndw(10), w11=ndw(11);
+      const sayAt=k=>{ fresh(k,18,'noodle'); return b.dialogue.filter(l=>!l.if||!l.if.custom||l.if.custom(G)).map(l=>l.text); };
+      check('AA_342／AA_542 9-2. 春假回來以後第一個麵店日：第 7 週（'+w7+'）「'+SP1+'」；第 8～9 週期中沒有麵店日；第 7 週錯過、第 10 週（'+w10+'）才遇到換「'+SP10+'」；第 11 週（'+w11+'）不演',
+        !!b&&J(evTexts(b))===J([SP1,SP10])&&w7==='2027-04-08'&&ndw(8)==null&&ndw(9)==null&&!!w10&&!!w11&&okIn(b,w7,18)&&J(sayAt(w7))===J([SP1])&&okIn(b,w10,18)&&J(sayAt(w10))===J([SP10])&&!okIn(b,w11,18),J([w7,w10,w11,w7&&sayAt(w7),w10&&sayAt(w10)])); }
     fresh('2027-03-06',9,'dorm'); said=[]; const t1=Y2R2.fillTick?Y2R2.fillTick(GM):false; await new Promise(r=>setImmediate(r)); const s1=lines(); said=[]; const t1b=Y2R2.fillTick?Y2R2.fillTick(GM):false;
     fresh('2027-05-20',12,'dorm'); said=[]; Y2R2.fillTick&&Y2R2.fillTick(GM); await new Promise(r=>setImmediate(r)); const s2=lines();
     check('AA_342. 3/6（六）、5/20（四）摘要日的旁白各說一次',t1===true&&J(s1)===J(['（大二下的第二週。你終於記住了這學期的課表：週二要跑法律系館B。）'])&&t1b===false&&J(s2)===J(['（五月。宿舍走廊開始有人在討論暑假要去哪裡。）']),J([t1,s1,t1b,s2]));
