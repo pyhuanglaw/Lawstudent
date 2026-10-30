@@ -8,6 +8,7 @@
 //   4  AA_537b 第 1～3 節（date_lines.js）：十一個 key、128 點喜好、15 句不喜歡、八個常去地點，逐字對稿
 //   5  第 2 段：慈 6 那一場最後「空白的週三下午」（3-5，G8 XC_BLANK）、沒和以安和好多一句（3-6）
 //   6  第 2 段：3-1 大二上麵店補問（G2）、3-2 大二下半夜提醒（G3）、3-5 後補（大四上第 6 週週三）
+//   7  第 2 段：3-4 G7 當天約（慈 5 以後第一個週三、答應＝18:00 家常菜、不答應＝大三下第 6 週再一次、日本路線改大四上第 2 週）
 // 用法：node tests/xinci_romance_unit.js（稿用 git show 讀：在沒有 .git 的目錄跑時，設環境變數 XC_GIT_DIR＝這個 repo 的目錄）
 'use strict';
 require('./alison.js');
@@ -139,6 +140,25 @@ const walk=async(picks,term)=>{ H.said=[]; H.opts=[]; H.picks=picks.slice(); ret
     const d4=STORY.termDay('Y4S1',6,3); H.fresh(CALENDAR.dateOf(d4).key,14.1,'dorm',{introDone:true}); H.G.contacts={[XC]:1}; H.G.events.done.ev_xinci_first_place=1; STORY.phoneRules(GM); PHONE.tick(H.G);
     const m=(H.G.msgs||[]).find(x=>x.tag==='xc_blank_again'); const r=m&&PHONE.answer(H.G,'xc_blank_again',0);
     check('6. 3-5 後補：大四上第 6 週週三 14:00「週三下午還是空的。」→ 回「我來填。」記 XC_BLANK',!!m&&m.text==='週三下午還是空的。'&&!!r&&H.G.flags.XC_BLANK===true&&DOC537.includes('> 芯慈：週三下午還是空的。')); });
+
+  /* ===== 第 7 節：第 2 段 3-4 G7「沒有提前一天」===== */
+  await sec(7,async()=>{ const wed=(()=>{ for(let k=1;k<=7;k++){ const d=STORY.termDay('Y3S1',14,k); if(CALENDAR.dateOf(d).wd%7===3) return d; } return null; })();
+    const at=(d,h)=>{ H.G.day=d; H.G.hour=h; H.G.weekday=CALENDAR.dateOf(d).wd%7; STORY.phoneRules(GM); PHONE.tick(H.G); };
+    const th=()=>(H.G.msgs||[]).filter(m=>m.th==='p:'+XC).map(m=>m.text);
+    H.fresh(CALENDAR.dateOf(wed).key,14,'dorm',{introDone:true,XC5_RECONCILE:true}); H.G.contacts={[XC]:1}; at(wed,14.5); const b=th().length; at(wed,15.05);
+    check('7. 慈 5 以後第一個週三（大三上第 14 週）15:00 三則照稿（15:00 以前沒有）',b===0&&J(th())===J(X().G7_MSG)&&X().G7_MSG.every(t=>DOC537.includes('> 芯慈：'+t)),J(th()));
+    PHONE.answer(H.G,'xc_g7_1',0); at(wed,15.2); const q=OUT.get(H.G,'xc_g7_1');
+    check('7. 回「有。去哪？」＝她「巷口家常菜。六點。」、排好 18:00 的出遊（ev_xc_sameday）',th().slice(-1)[0]==='巷口家常菜。六點。'&&!!q&&q.ev==='ev_xc_sameday'&&q.h===18&&q.day===wed,J([th().slice(-2),q]));
+    H.said=[]; await EVENTS.run(STORY_EVENTS.find(e=>e.id==='ev_xc_sameday'));
+    const W=['妹妹今天也是番茄炒蛋？','……排骨飯。','喔！又換！','（她看你一眼，好像在說：你看，我自己換了。）','今天沒有排讀書。是我自己沒有排。'];
+    check('7. 那一頓照稿（老闆娘、排骨飯、她看你一眼、今天沒有排讀書）、記 XC_SAMEDAY（G7 過）',J(T())===J(W)&&H.G.flags.XC_SAMEDAY===true&&X().gates(H.G).G7===true&&W.every(t=>DOC537.includes(t)),J(T()));
+    H.fresh(CALENDAR.dateOf(wed).key,15.05,'dorm',{introDone:true,XC5_RECONCILE:true}); H.G.contacts={[XC]:1}; at(wed,15.05); PHONE.answer(H.G,'xc_g7_1',1);
+    check('7. 回「今天不行。」＝「好。那我還是提前一天。」、不排出遊',th().slice(-1)[0]==='好。那我還是提前一天。'&&!OUT.get(H.G,'xc_g7_1'));
+    const d2=STORY.termDay('Y3S2',6,3); at(d2,15.05); const m2=(H.G.msgs||[]).filter(m=>m.tag==='xc_g7_2').map(m=>m.text);
+    check('7. 第一次沒答應：大三下第 6 週週三 15:00 再約一次，第三則「……再破例一次。」',CALENDAR.dateOf(d2).wd%7===3&&J(m2)===J(X().G7_MSG2)&&DOC537.includes('……再破例一次。'),J(m2));
+    PHONE.answer(H.G,'xc_g7_2',1); at(STORY.termDay('Y4S1',2,3),15.05); check('7. 兩次都沒答應：不再約（線關上，G7 不過）',!(H.G.msgs||[]).some(m=>/^xc_g7_3/.test(m.tag||''))&&X().gates(H.G).G7===false);
+    STORY._rr=STORY.routeAbroadRoute; STORY.routeAbroadRoute=()=>'JP'; const jd=X().g7Day2(H.G); STORY.routeAbroadRoute=STORY._rr;
+    check('7. 日本路線（大三下在日本）：第二次改大四上第 2 週週三',jd===STORY.termDay('Y4S1',2,3)&&CALENDAR.dateOf(jd).wd%7===3); });
 
   H.done();
 })();

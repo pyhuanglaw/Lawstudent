@@ -66,8 +66,30 @@ const XCROM=(()=>{
   /* 3-5 後補：慈 6 那天沒選「那我來填。」（另外兩個）＝大四上第 6 週週三 14:00 她再傳一次；回「我來填。」照樣記 XC_BLANK */
   S.blankAgain=function(G){ const d=TD('Y4S1',6,3), f=F(G); if(!law(G)||!due(G,d,14)||sent(G,'xc_blank_again')||f.XC_BLANK||!contact(G)||!(done(G,'ev_xinci_first_place')||done(G,'ev_xinci_first_place_video'))) return;
     PHONE.at(G,d,14,[Object.assign(P('週三下午還是空的。'),{ask:{id:'xc_blank_again',until:T(d+2,0),opts:[{t:'我來填。',set:{XC_BLANK:true}}]}})],'xc_blank_again'); };
-  S.phone=function(G){ for(const f of [S.g3Remind,S.blankAgain]){ try{ f(G); }catch(e){ console.warn('XCROM.phone',e); } } };
-  S.EVENTS=[S.EV_G2];
+  /* 3-4 G7「沒有提前一天」：慈 5 以後的第一個週三（大三上第 14 週起）15:00 她當天約；沒答應（或答應了沒到）＝大三下第 6 週週三再約一次（第三則換「……再破例一次。」；
+     日本路線大三下在日本＝改大四上第 2 週週三，AA_537 1-1）。兩次都沒答應：這條線關上（G7 不會過）。答應＝當天 18:00 巷口家常菜（出遊，ev_xc_sameday）*/
+  S.G7_MSG=['今天晚上有空嗎。','我知道我說過吃飯要提前一天。','……今天想破例。'];
+  S.G7_MSG2=['今天晚上有空嗎。','我知道我說過吃飯要提前一天。','……再破例一次。'];
+  const isJP=G=>typeof STORY!=='undefined'&&!!STORY.routeAbroadRoute&&STORY.routeAbroadRoute(G)==='JP';
+  S.g7Day2=G=>isJP(G)?TD('Y4S1',2,3):TD('Y3S2',6,3);
+  const outGet=(G,id)=>typeof OUT!=='undefined'&&OUT.get?OUT.get(G,id):null;
+  S.g7Send=function(G,k,d){ const M=(k===1?S.G7_MSG:S.G7_MSG2).map(P), K='XC_G7_'+k;
+    M[M.length-1].ask={id:'xc_g7_'+k,until:T(d,17.5),opts:[{t:'有。去哪？',say:[{from:XC,text:'巷口家常菜。六點。'}],set:{[K]:'go'}},{t:'今天不行。',say:[{from:XC,text:'好。那我還是提前一天。'}],set:{[K]:'no'}}]};
+    PHONE.at(G,d,15,M,'xc_g7_'+k); F(G)['XC_G7_DAY'+k]=d; };
+  S.g7=function(G){ const f=F(G); if(!law(G)||!hasP()||f.XC_SAMEDAY||!f.XC5_RECONCILE) return;
+    const t=typeof CALENDAR!=='undefined'?CALENDAR.termOf(G.day):null, wd=typeof CALENDAR!=='undefined'?CALENDAR.dateOf(G.day).wd%7:-1;
+    if(!sent(G,'xc_g7_1')){ if(contact(G)&&t&&t.id==='Y3S1'&&t.week>=14&&wd===3&&(G.hour%24)>=15&&(G.hour%24)<17.5) S.g7Send(G,1,G.day); }
+    else if(!sent(G,'xc_g7_2')){ const q1=outGet(G,'xc_g7_1'), d1=f.XC_G7_DAY1, failed=f.XC_G7_1!=='go'||(q1&&(q1.state==='missed'||q1.state==='cancelled'))||(d1!=null&&G.day>d1+1&&!f.XC_SAMEDAY);
+      const d2=S.g7Day2(G); if(failed&&contact(G)&&due(G,d2,15,2.5)) S.g7Send(G,2,d2); }
+    for(const k of [1,2]){ const d=f['XC_G7_DAY'+k]; if(f['XC_G7_'+k]==='go'&&d!=null&&!outGet(G,'xc_g7_'+k)&&now(G)<T(d,18.5)&&typeof OUT!=='undefined'&&OUT.plan)
+      OUT.plan(G,{id:'xc_g7_'+k,ev:'ev_xc_sameday',day:d,h:18,late:0.5,place:'巷口家常菜',title:'和'+(typeof SOCIAL!=='undefined'&&SOCIAL.displayName?SOCIAL.displayName(XC):'芯慈')+'吃晚餐',travel:'',travelH:0.25,alarm:true,back:'吃完了。'}); } };
+  S.EV_SAMEDAY={ id:'ev_xc_sameday', title:'今天想破例', participants:[XC], location:'any', trigger:'outing', once:true, background:'dark', hours:1,
+    dialogue:[ {scene:'巷口家常菜',bg:'l118_home'},
+      {speaker:'shop_home',name:'老闆娘',text:'妹妹今天也是番茄炒蛋？'},{speaker:XC,text:'……排骨飯。'},{speaker:'shop_home',name:'老闆娘',text:'喔！又換！'},
+      {speaker:null,text:'（她看你一眼，好像在說：你看，我自己換了。）'},{speaker:XC,text:'今天沒有排讀書。是我自己沒有排。'},
+      {set:{XC_SAMEDAY:true}} ] };
+  S.phone=function(G){ for(const f of [S.g3Remind,S.blankAgain,S.g7]){ try{ f(G); }catch(e){ console.warn('XCROM.phone',e); } } };
+  S.EVENTS=[S.EV_G2,S.EV_SAMEDAY];
   /* ---------- 接線（載入時一次）---------- */
   S.wire=function(){ if(S._wired) return; S._wired=true;
     if(typeof STORY_EVENTS!=='undefined') for(const e of S.EVENTS) if(!STORY_EVENTS.some(x=>x.id===e.id)) STORY_EVENTS.push(e);
