@@ -166,6 +166,7 @@
     - 使用者回答七題就照做；
     - 有實作問題就回。
 - **13:3x（AA-B）**：LAWWW-B 問 `pg_an_ex1` 補發時間（BB-B R43）→ 回 B：跟電話版 an1 同一段，到隔天 03:00；an2 同。AA_473 第 2 節補一行。
+- **14:2x（AA-B）**：LAWWW-B 問考試週的麵店團（BB-B 讀到 2025-10-21 期中週四個人坐在麵店卻不聊）→ 回 A：NDL-PRESENT-1030 那一筆排除考試週，落回各自作息（柏翰總圖、芯慈法律系館A 4F、Alison／阿哲一般作息）；選做：考試週第一次進麵店，阿姨「這禮拜考試齁？你們那桌都沒來。」
 
 值班登記：帳號 C｜AA｜session_019evvieJUJD23EGf4nyLPgo｜分支 claude/magical-albattani-bk7b4n｜接班基準 89accb6d4（快轉合併帳號 B 的 `claude/cool-heisenberg-o8kuqx`）｜2026-10-27
 上一班：帳號 B｜AA｜session_016ACZaD4oB9tX94WqQR4dkS｜最後 commit 89accb6d4（2026-10-25 19:43 UTC，讀稿工具存檔）｜**沒有正式交班**（四個帳號 B 的工作階段都停在 10-25 19:2x～19:4x）→ 使用者 10-27 對 AA-C：「上一班來不及交班，現在由帳號 C 接班」＝第 4 節第 10 步的明確授權（`duty register --user-ok`）。
