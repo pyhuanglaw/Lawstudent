@@ -35782,7 +35782,7 @@
    "area": "SYS",
    "owner": "LAWWW",
    "status": "已實作待整合",
-   "next": "v9.10.14 新候選 dda717bdd（全部 Node 在跑）→ BB 重跑 save_compat＋release_suite＋瀏覽器：有進度時開新遊戲 → 備份區讀得回來；💾 快速存檔一格",
+   "next": "v9.10.14 新候選 007000868（全部 Node 734／0）→ BB 跑 save_compat＋release_suite＋瀏覽器①～⑤ → GO 後發布",
    "priority": "P0",
    "first": {
     "term": "Y0S1",
