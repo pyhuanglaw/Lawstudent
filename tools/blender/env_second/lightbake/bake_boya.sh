@@ -31,20 +31,20 @@ for lv, y, w in ((0, C0, w0), (1, RY, w1)):
 print(';'.join(out))
 EOF
 )
-# 燈具往四周散出去的光（點光源，燈具下方 0.4 m）：面光源只往下照，試烘焙（64 取樣）階梯教室的天花板只吃到木桌、地毯反彈上來的光，整片暗、偏咖啡色
+# 燈具往四周散出去的光（點光源，燈具下方 0.9 m、8 W；10-30 第二次試烘焙 0.4 m、3 W：天花板上只有一個一個小亮點，整片照樣暗）：面光源只往下照，試烘焙（64 取樣）階梯教室的天花板只吃到木桌、地毯反彈上來的光，整片暗、偏咖啡色
 # （T5 格柵燈具的「洞穴效應」，遊戲裡看起來像髒的）。真的燈具格柵、燈管旁邊也會漏光到天花板：每盞燈下面一顆小點光源，天花板在燈的四周亮一圈
 POINTS=$(python3 - <<'EOF'
 import json, os
 s = open('src/data/boya_layout.js', encoding='utf8').read(); J = json.loads(s[s.index('{', s.index('BOYA_LAYOUT')):s.rindex('}') + 1])
 C0, RY = J['ceil0'], J['roofY']; WL = J['stair']['well']; LP = J['lightPanels']
 trof = lambda x, z: (round(0.6 * round(x / 0.6), 3), round(0.4 + 0.6 * round((z - 0.4) / 0.6), 3))
-up = os.environ.get('UPW', '3')
+up = os.environ.get('UPW', '8')
 out = []
 for lv, y in ((0, C0), (1, RY)):
     for x in LP['xs']:
         for z in LP['zs']:
             if lv == 0 and WL['x0'] - 0.7 < x < WL['x1'] + 0.7 and WL['z0'] - 0.2 < z < WL['z1'] + 0.2: continue
-            cx, cz = trof(x, z); out.append(f'{cx:.3f},{y - 0.4:.3f},{cz:.3f},{up},1.0,0.96,0.9')
+            cx, cz = trof(x, z); out.append(f'{cx:.3f},{y - 0.9:.3f},{cz:.3f},{up},1.0,0.96,0.9')
 print(';'.join(out))
 EOF
 )
