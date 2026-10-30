@@ -74,7 +74,10 @@ async def main():
                 x = mine[0]
                 run.check('第 1 節：貼的時間＝%s' % ('21:30' if MODE == 'an' else '00:30'), abs((x['h'] or 0) - (21.5 if MODE == 'an' else 0.5)) < 0.02 or abs((x['h'] or 0) - 24.5) < 0.02, J(x))
                 if MODE == 'an': run.check('第 3-1 節：以安的一句是第 1 句「手帳上劃掉一個。」', '手帳上劃掉一個。' in body, J(body[:600]))
-                else: run.check('第 3-4 節：子晴的一句沒有句號', bool(x['text']) and '。' not in x['text'], J(x))
+                else:   # 動態的 text 欄位是空的（顯示時才照 D13 那一列補字，BB-B 10-30 a515_zq3）：看動態頁上照片下面那一行
+                    ls = [t.strip() for t in body.split('\n')]; k = next((i for i, t in enumerate(ls) if t.startswith('（照片')), None)
+                    line = ls[k + 1] if k is not None and k + 1 < len(ls) else ''
+                    run.check('第 3-4 節：子晴的一句沒有句號（動態頁照片下面那一行）', bool(line) and '。' not in line, J({'line': line, 'item': x}))
         run.check('沒有 JS 例外', not errs, J(errs[:3]))
         print('SHA', os.environ.get('SHA', '?'), 'MODE', MODE)
         await H['close'](b)
