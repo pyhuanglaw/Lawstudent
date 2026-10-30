@@ -19,7 +19,7 @@ TMP=$(mktemp -d)
 HIDE='glass|^ndl_tubes$|^ndl_tube$'
 NOLM='tube|bowl|noodle|soup|food|jar|black|legs|table_edges|tissue|steel_dark|SIGN_FACE|frame|fan|_tv'
 COOL='1.0,0.97,0.9'
-TW=${TUBEW:-20}
+TW=${TUBEW:-17}   # 64 取樣試烘焙 20 W：牆整片偏白（日光燈小店本來就平均地亮，但和改前比太亮）
 PT=""
 for z in -2.6 0.5 3.0; do for x in -2.5 2.5; do for dx in -0.4 0 0.4; do
   PT="$PT;$(python3 -c "print(f'{$x+$dx:.2f}')"),3.04,$z,$TW,$COOL,0.04"
