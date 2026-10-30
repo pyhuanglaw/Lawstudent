@@ -321,8 +321,18 @@ const DATE=(function(){
      當面約（n）用她的名字講；其他時候是手機訊息（名字後面「（手機）」，同時寫進手機的對話串）。還沒匯入的人或格子＝不說話（只有旁白）。 */
   const LN=()=>typeof DATE_LINES!=='undefined'?DATE_LINES:{lines:{},prefs:{}};
   const noodleOff=day=>typeof PLACES!=='undefined'&&!!PLACES.hours&&!!PLACES.hours.noodle&&!(PLACES.typhoonClosed&&PLACES.typhoonClosed('noodle',day))&&!PLACES.isOpen('noodle',12,day)&&!PLACES.isOpen('noodle',18,day);
-  S.LINE_IF={heroine_03:{accept:(G,t,x)=>!/公休/.test(String(x))||noodleOff(t.day)}};   /* 可昕的出發三句都輪流：BB_128 3-6 那一句 AA_432 改成「我到了。你在哪？」（企劃線 1ced2f8b3；原本的「這是告知」先不播，已拿掉）*/   /* 語彤「那天店裡公休」只在麵店已定的公休日（AA_127 第 8 節；沒有固定的每週公休日＝其他日子用第一句）*/
-  S.lineFor=function(G,id,kind,t){ const L=((LN().lines||{})[id]||{})[kind]; if(!L||!L.length) return null; const f=(S.LINE_IF[id]||{})[kind]; const ok=L.filter(x=>!f||f(G,t||{},x)); if(!ok.length) return null;
+  /* AA_535b 1-3（INVITE-OPTS-1030 第二份，AA-B 定稿，企劃線 2dbcc5691；一字照稿）：以安、語彤校外約會缺的四格——depart＝出發時間到了她傳的訊息（三則輪流）、enough＝第三個點之後那一句、
+     leaveEarly＝一個點都沒去就回去、noPair＝合照還不到第 6 階。date_lines.js 是匯入工具產生的（不手改），這幾格它沒有的才用這裡（S.lineFor）。
+     以安「明天早上有讀書會」只在學期中（寒暑假換另一句）；語彤「晚上我要幫阿姨」只在她在臺北、麵店那天有開（不然換「走累了。回去吧。」）——S.LINE_IF 的 enough */
+  S.EXTRA_LINES={
+    heroine_01:{depart:['我到了。早到十分鐘，不是在催你。','出門了。手帳帶了。','車上。我在看等一下要去的地方的地圖。'],enough:['……今天差不多了。明天早上有讀書會。','排的都走完了。……多走的那一段，我很喜歡。'],
+      leaveEarly:['……這樣就回去了？好。手帳上寫的，下次再用。'],noPair:['照片？……我幫你拍。我拍得比較正。']},
+    heroine_03:{depart:['我到了。','出門了。阿姨叫我帶傘。','車上。人很多。'],enough:['……差不多了。晚上我要幫阿姨。','走累了。回去吧。'],leaveEarly:['……就這樣？好。那我回店裡。'],noPair:['我不用。……我幫你拍。']} };
+  const inTerm=day=>typeof CALENDAR!=='undefined'&&!!CALENDAR.termOf&&!!CALENDAR.termOf(day)&&!(typeof HOME!=='undefined'&&HOME.breakOf&&HOME.breakOf(day));
+  const ytShop=(G,day)=>{ const p=typeof STORY!=='undefined'&&STORY.presence?STORY.presence('heroine_03',Object.assign({},G,{day})):{here:true}; return (p.here||p.kind==='taipei')&&!noodleOff(day)&&!(typeof PLACES!=='undefined'&&PLACES.isOpen&&!PLACES.isOpen('noodle',18,day)); };
+  S.LINE_IF={heroine_03:{accept:(G,t,x)=>!/公休/.test(String(x))||noodleOff(t.day),enough:(G,t,x)=>!/幫阿姨/.test(String(x))||ytShop(G,t.day!=null?t.day:G.day)},
+    heroine_01:{enough:(G,t,x)=>!/讀書會/.test(String(x))||inTerm(t.day!=null?t.day:G.day)}};   /* 可昕的出發三句都輪流：BB_128 3-6 那一句 AA_432 改成「我到了。你在哪？」（企劃線 1ced2f8b3；原本的「這是告知」先不播，已拿掉）*/   /* 語彤「那天店裡公休」只在麵店已定的公休日（AA_127 第 8 節；沒有固定的每週公休日＝其他日子用第一句）*/
+  S.lineFor=function(G,id,kind,t){ let L=((LN().lines||{})[id]||{})[kind]; if(!L||!L.length) L=(S.EXTRA_LINES[id]||{})[kind]; if(!L||!L.length) return null;   /* 匯入的 date_lines.js 沒有的格子＝AA_535b 1-3（S.EXTRA_LINES）*/ const f=(S.LINE_IF[id]||{})[kind]; const ok=L.filter(x=>!f||f(G,t||{},x)); if(!ok.length) return null;
     const lg=S.log(G,id); if(!lg.lineIdx||typeof lg.lineIdx!=='object') lg.lineIdx={}; const k=(lg.lineIdx[kind]|0)%ok.length; lg.lineIdx[kind]=(lg.lineIdx[kind]|0)+1; return [].concat(ok[k]); };
   S.speak=async function(GM,id,kind,t,n){ const G=GM.G, msgs=S.lineFor(G,id,kind,t); if(!msgs) return false; return S.sayLines(GM,id,msgs,n); };
   S.sayLines=async function(GM,id,msgs,n){ const G=GM.G;   /* 當面＝她的名字；手機＝「（手機）」＋寫進手機的對話串（T7a 那一句也走這裡）*/
