@@ -1023,6 +1023,42 @@ async def boyaecon(pg, cdp, run):
         run.check('經原上課：有人坐的椅面都放下（busyUp＝0）', bool(cc['fold']) and cc['fold']['busyUp'] == 0, J(cc['fold']))
     run.check('經原上課：魏教授的課堂內容有演（說話的人是魏教授／老師）', bool(cls_lines), J(cls_lines[:4]))
 
+async def boyab4(pg, cdp, run):
+    # 法律系 B4 演講（大一下第 11 週週四 19:00 博思 101，ACTIVITIES B4）：預設流程裡看得到博思 101 的地方（LAWWW-B 16:04）。手機「今天」按去聽
+    d = await pg.evaluate("(()=>{ const T=CALENDAR.TERMS.find(t=>t.id==='Y1S2'); const a=STORY.dayOfKey(T.start); let d=a+10*7; while(CALENDAR.dateOf(d).wd!==4) d++; return CALENDAR.dateOf(d).key; })()")
+    st, dd = await P.base(pg, SAVE, d, 18.3, 'campus'); await P.load(pg, cdp, st, quiet=False)
+    run.setup('[前置] 使用者存檔改到 %s（%s 第 %s 週）18:18 校園' % (dd['key'], dd['term'], dd['week']))
+    it = await pg.evaluate("(()=>{ const q=(CLS.dayItems(GAME.G)||[]).find(x=>x.room&&x.room.zone==='boya'); return q?{key:q.key, t0:q.t0, t1:q.t1, room:q.room.room||null, name:(q.c&&q.c.name)||q.title||null}:null; })()")
+    run.note('那一天博思的項目：%s' % J(it))
+    run.check('前置：%s 手機「今天」有博思 101 的演講' % d, bool(it) and str(it.get('room')) == '101', J(it))
+    if not it: return
+    await P.phone_tab(pg, cdp, 'today')
+    bt = await pg.evaluate("(k=>{ const e=[...document.querySelectorAll('#phoneBody [data-go]')].find(b=>b.dataset.go===k); return e?(e.textContent||'').trim():null; })", it['key'])
+    run.note('手機按鈕：%s' % bt)
+    if bt: await L.tap(pg, cdp, '#phoneBody [data-go="%s"]' % it['key'])
+    n0 = await P.say_hook(pg); t0 = time.time(); cap = None; cap2 = None; seen = None
+    while time.time() - t0 < 1500:
+        c = await pg.evaluate("(()=>({zone:GAME.G.zone, h:+GAME.G.hour}))()")
+        s = await P.ts(pg)
+        if c['zone'] == 'boya':
+            if seen is None: seen = time.time()
+            if cap is None and time.time() - seen > 6:
+                cap = await pg.evaluate(CLASSJS); await run.shot(pg, 'b4_a'); run.note('演講（進博思 6 秒）：%s' % J(cap))
+            elif cap is not None and cap2 is None and time.time() - seen > 45:
+                cap2 = await pg.evaluate(CLASSJS); await pg.evaluate("(()=>{ const C=GAME.E.cam; C.yaw=0; C.pitch=0.3; C.distTarget=5; C.manualT=1e9; })()"); await pg.wait_for_timeout(1500); await run.shot(pg, 'b4_b'); run.note('演講（45 秒）：%s' % J(cap2))
+        if cap2 is not None and c['h'] > it['t1'] - 0.05 and not s['dlg']: break
+        if s['ch']: k, _ = P.pick_of(s['ch'], ['坐', '聽']); await P.tap_choice(pg, cdp, k); await pg.wait_for_timeout(1000); continue
+        if s['dlg']: await L.tap(pg, cdp, '#dlg'); await pg.wait_for_timeout(500); continue
+        if c['h'] > it['t1'] + 0.5: break
+        await pg.wait_for_timeout(1200)
+    lines = await P.said(pg, n0); run.note('說的話（前 14 句）：%s' % J(lines[:14]))
+    cc = cap2 or cap
+    run.check('B4 演講：進了博思 101（正式模型、方塊桌椅藏著）', bool(cc) and cc['zone'] == 'boya' and cc['formal'] and not any(cc['fallback']), J(cc and {k: cc[k] for k in ('zone', 'formal', 'fallback')}))
+    if cc:
+        run.check('B4 演講：聽眾坐好（坐著 ≥ 5），站著的只有講者等少數（≤ 3）', cc['sit'] >= 5 and len(cc['stand']) <= 3, J({'sit': cc['sit'], 'stand': cc['stand'], 'player': cc['player']}))
+        run.check('B4 演講：有人坐的椅面都放下（busyUp＝0）', bool(cc['fold']) and cc['fold']['busyUp'] == 0, J(cc['fold']))
+    run.check('B4 演講：有演講內容（說了話）', len(lines) >= 3, J(lines[:6]))
+
 async def main():
     run = L.Run('next91015_' + MODE + ('' if VP == 'landscape' else '_' + VP), OUT); os.makedirs(OUT, exist_ok=True)
     async with async_playwright() as p:
@@ -1034,7 +1070,7 @@ async def main():
             b, ctx, pg, cdp, errs = await L.launch(p, landscape=(VP != 'portrait'))
         pg.on('dialog', lambda d: asyncio.ensure_future(d.accept()))
         await pg.goto(URL); run.check('遊戲載入', await L.wait_loaded(pg)); await pg.evaluate("localStorage.clear()"); await P.init(pg)
-        await {'phone': phone, 'bball': bball, 'rooms': rooms, 'cafewin': cafewin, 'noodle': noodle, 'cafe2': cafe2, 'invite': invite, 'jacket': jacket, 'badclip': badclip, 'bigmap': bigmap, 'bballrain': bballrain, 'renart': renart, 'libla': libla, 'lawlib': lawlib, 'cafe2diag': cafe2diag, 'multiroom': multiroom, 'rtnight': rtnight, 'boya': boya, 'boyaecon': boyaecon}[MODE](pg, cdp, run)
+        await {'phone': phone, 'bball': bball, 'rooms': rooms, 'cafewin': cafewin, 'noodle': noodle, 'cafe2': cafe2, 'invite': invite, 'jacket': jacket, 'badclip': badclip, 'bigmap': bigmap, 'bballrain': bballrain, 'renart': renart, 'libla': libla, 'lawlib': lawlib, 'cafe2diag': cafe2diag, 'multiroom': multiroom, 'rtnight': rtnight, 'boya': boya, 'boyaecon': boyaecon, 'boyab4': boyab4}[MODE](pg, cdp, run)
         run.check('沒有 JS 例外', not errs, J(errs[:3]))
         print('SHA', os.environ.get('SHA', '?'), 'MODE', MODE)
         await b.close()
