@@ -1,11 +1,29 @@
 # LAWWW2 交接紀錄（隨時更新；工作階段中斷時從這裡接）
 
-## ⏱ 現況（LAWWW2-B，2026-10-30 08:0x UTC；帳號 B 七天額度已到警示，隨時可能被切斷——接手的先讀這一段）
+## ⏱ 現況（LAWWW2-B，2026-10-30 10:0x UTC；帳號 B 七天額度已到警示，隨時可能被切斷——接手的先讀這一段）
 
-- **已交**：X140 系外套（b84ce8d27）、#120 床欄透空 patch（給 LAWWW-B 看）、X132 Café 窗外 3D 街（f11f2ccb0；已合進 postrel dcf33a4e0）、DORM203（postrel 5720bf53c）、**Café 光照烘焙（CAFE-LM-1030，本次交件，見下一段）**。
-- **X133 總圖前草皮**：規劃稿已交（3a3d2bc40，`test_shots/lib_lawn_plan_1030/README.md`；send_message 給 LAWWW-B，問使用者三件事：草皮形狀、台階、樟樹位置）。**下一步**：沒回答前照提案做第一版——Blender GLB（草皮、中軸鋪面、路緣、長椅、路燈、老樟樹、預設藏的聖誕樹節點）＋zones3d patch（換掉 `ground(g,17,36,…,78.5,0,…)` 那片石板廣場、加導航阻擋）＋`tools/blender/env_second/shots/lib_lawn_shots.py` 同角度改前改後。
-- **再之後**：法律學院圖書館 INTERIOR-AAA → 萬才館多功能教室換家具。
+- **剛交（這一輪）**：
+  - **D115 改名美術字**（RENAME-ART-1030，`test_shots/rename_art_1030/README.md`）：校門石牌、晨思鐘、博思名牌（GLB extras），法律系館A 一樓公布欄、201 傳單、博思 203 海報、吉他社海報（貼圖），`ntu_linze.webp` 重拍，`bg_nccu.py` 站牌。
+    - 工具 `tools/blender/env_second/glb_patch.py`：只換貼圖或 extras，不重新匯出。
+    - 另附 `plate_border_cap_1030.patch`：博思名牌在遊戲裡讀不出來（外框比板面厚），一行修正，LAWWW-B 決定。
+  - **X133 總圖前草皮第一版**（LIB-LAWN-1030，`test_shots/lib_lawn_1030/README.md`）：`campus_lib_lawn.glb`＋`lib_lawn_1030.patch`（老樟樹、南側樹、六張長椅、六盞路燈）。
+- **之前交的**：X140 系外套（b84ce8d27）、#120 床欄透空 patch、X132 Café 窗外 3D 街（已合進 postrel dcf33a4e0）、Café 光照烘焙（53153491e）、DORM203（postrel 5720bf53c）。
+- **等使用者回答**（X133 規劃稿第四節）：草皮形狀、總圖門口台階、樟樹位置。回答以後照地圖調整第二版。
+- **下一步**：法律學院圖書館 INTERIOR-AAA（D111 第三間）→ 萬才館多功能教室換家具。
+- **CG（開發分支 78 張）還沒查舊校名**；BB 組的校園 2D 背景只看了縮圖。
+- **開發分支的 `tests/home_unit.js` 本來就 FAIL 2**（改名以後題目還寫「政大」，程式出「木柵大學」）：不是我的，回報 LAWWW-B。
 - **沒有遠端備份的**：只有本機暫存的截圖（scratchpad），重拍就有。
+
+## 📣 給 LAWWW-B（2026-10-30 10:0x UTC｜D115 改名美術字＋X133 總圖前草皮第一版 交件；send_message 另外傳）
+
+- **改名**：`docs/art-rebuild/second_ai/test_shots/rename_art_1030/README.md`。
+  - 換二進位：`campus_gate.glb`、`campus_bell.glb`、`campus_boya.glb`（extras 的字）、`linze_interior.glb`、`classroom_201.glb`、`boya_203.glb`（貼圖）、`assets/bg/ntu_linze.webp`（重拍）。不用改程式。
+  - 遊戲內同角度改前改後都對。`wz6_items.glb`（支援素材）也改了。
+  - `plate_border_cap_1030.patch`（選用）：博思名牌外框上限，4:1 以內的牌子不變。
+  - 測試樹（開發 ca5f3381c＋這一包＋外框 patch）全部 Node 763 過、1 FAIL：`home_unit.js`，乾淨的開發分支一樣 FAIL（題目還寫政大）。
+- **X133**：`docs/art-rebuild/second_ai/test_shots/lib_lawn_1030/README.md`。
+  - `campus_lib_lawn.glb`（226 三角形）＋`lib_lawn_1030.patch`（zones3d、assets3d、新測試 `tests/lib_lawn_unit.js`）。
+  - 兩個 patch 一起套 `git apply --check` 通過。
 
 ## 📣 給 LAWWW-B（2026-10-30 08:0x UTC｜CAFE-LM-1030 兩點半 Café 光照烘焙交件；send_message 另外傳）
 
