@@ -424,7 +424,7 @@ const VAC=(function(){
     if(v.k==='w') return S.workDay(GM,I,q);   /* 上班日（C16、C17）*/
     if(v.k==='brief'){ const b=A.select&&A.select.brief; if(b) await S.key(GM,{bg:b.bg,lines:b.lines.concat(S.nth(G,I)===1&&b.first?b.first:[])},I); return true; }   /* C18 行前說明會（AA_242 12-5）：第一次參加的多三行 */
     if(v.k==='kx'){ if(A.kx) await S.key(GM,A.kx,I); return true; }   /* 可昕的視訊（C17 最後一天 22:00，AA_242 10-6）*/
-    if(v.k==='re'){ const R=Dt().TRIP_MSG.reunion[v.who]; if(R){ const ns=S.reNS(R,q.day); await S.key(GM,{bg:R.bg,lines:(ns&&ns.lines)||R.lines},I); G.flags['REUNION_'+id]=true; } return true; }   /* 她不上班的那段（芷若 2027-06-04～09-02）：noShift 的台詞（AA_369 第 9 節第 2 題）*/
+    if(v.k==='re'){ const R=Dt().TRIP_MSG.reunion[v.who]; if(R){ const ns=S.reNS(R,q.day), mo=R.more&&typeof R.more.if==='function'&&R.more.if(G,I)?R.more.lines:[]; await S.key(GM,{bg:R.bg,lines:((ns&&ns.lines)||R.lines).concat(mo)},I);   /* more：AA_525 1-4 子晴「說好的。玩。」*/ G.flags['REUNION_'+id]=true; } return true; }   /* 她不上班的那段（芷若 2027-06-04～09-02）：noShift 的台詞（AA_369 第 9 節第 2 題）*/
     if(v.k==='trip'){ const abroad=A.place.kind==='abroad', ed=S.dayOf(I.yk,A.season,A.trip.end.day), endT=T(ed,A.trip.end.h);   /* endT：回到臺灣的那一刻（臺灣時間）*/
       if(abroad){ S.flyStart(GM,q,endT,[...S.mates(I)]); S.tripMsgs(G,I); }   /* 出國：時鐘換當地時間（AA_478 第 7 節），之後才排訊息（照臺灣時間排的換算成當地）*/
       const at=k=>k.at!=null?k.at:T(S.dayOf(I.yk,A.season,k.day),k.h);   /* 關鍵事件的 day／h 是當地時間（遊戲時鐘）；可昕的視訊 at＝換算過的 */

@@ -4425,7 +4425,7 @@ const STORY_EVENTS_V11=[
         {text:'「這比我想的好玩。」',unless:{custom:G=>typeof SOCIAL!=='undefined'&&(SOCIAL.has('heroine_04','ARGUED_ABOUT_CAREER')||SOCIAL.has('heroine_04','CONTEST_DAY'))},consequences:{rel:{heroine_04:{trust:5,aff:4}},mem:[{npc:'heroine_04',tag:'PLAYTESTED',note:''}]},goto:'better'},
         {text:'「總圖二樓靠窗那排的插座是壞的。」',consequences:{rel:{heroine_04:{trust:6,resp:5}},mem:[{npc:'heroine_04',tag:'PLAYTESTED',note:''}],flags:{FIRST_BUG:true}},goto:'bug'}]},
       {label:'cat'},{speaker:'heroine_04',expression:'serious',text:'因為牠的手機沒電了。'},{speaker:'heroine_04',expression:'laugh'},{speaker:null,text:'（她說得很認真，然後自己笑到趴在桌上。）'},{goto:'end'},
-      {label:'better'},{unless:GF('heroine_04'),speaker:'heroine_04',expression:'smile',text:'……真的？那你下禮拜再來，幫我玩第二關。'},{if:GF('heroine_04'),speaker:'heroine_04',expression:'smile',text:'好，那我把它做完。做完你再玩一次。'},{goto:'end'},
+      {label:'better'},{unless:GF('heroine_04'),speaker:'heroine_04',expression:'smile',text:'……真的？那第二關做好，你再幫我玩。'}   /* AA_525 1-2：原句「那你下禮拜再來，幫我玩第二關。」（之後是 2026-06-27 期末鉤子的 zq_play）*/,{if:GF('heroine_04'),speaker:'heroine_04',expression:'smile',text:'好，那我把它做完。做完你再玩一次。'},{goto:'end'},
       {label:'bug'},{speaker:null,text:'（她愣住，打開程式碼。）'},{speaker:'heroine_04',expression:'surprised',text:'……真的假的。我加進去。'},
       {label:'end'} ] },
   /* 阿凱 K2「工程師也是人」（BB_96 4-3，交接包 v2，新事件）：子晴 Q6 之後第一個在宿舍和他說話的晚上（他 18 點以後都在宿舍）；兩週內沒說到話就不演。
