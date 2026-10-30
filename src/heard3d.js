@@ -16,7 +16,7 @@
 'use strict';
 const HEARD=(function(){
   const S={};
-  const L=typeof HEARD_LINES!=='undefined'?HEARD_LINES:{talk:[],kai203:[],noodle:{},phone:[],pass:[]};
+  const L=typeof HEARD_LINES!=='undefined'?HEARD_LINES:{talk:[],kai203:[],noodle:{},phone:[],pass:[],label:[]};
   S.L=L;
   const law=G=>!!G&&!!G.flags&&(G.stage||'law')==='law';
   const abs=(d,h)=>d*24+h, now=G=>abs(G.day,+G.hour||0);
@@ -64,18 +64,32 @@ const HEARD=(function(){
     kaiZq:G=>hasContact(G,'kai')&&knows('heroine_04')
   };
   const condOk=(G,c)=>!c||!!(S.COND[c]&&S.COND[c](G));
+  /* ---------- 她本人在旁邊就不說（AA_527 2-1，企劃線 bfede0a62；heard_lines.js 全部、以後的批次照這條）----------
+     說的那一刻，說起的那個人（about）和說的人（who）在同一個圈子（HCIRCLE 這一區現在成立的列，兩個人都在那一列；或 3D 裡她跟著說的人：_hcWith、配對、一起走），
+     或她在玩家 4 m 內（同一層）＝不說，等下一次（不記說過）。例：12/11 子晴說芷若（兩個人同框）、筱涵說語彤（大三上週二、四 12～13）、晨希說子晴（吉他社）。
+     手機（phone）不是當面說，不算；路過字幕（pass）是看到她本人，不算 */
+  S.NEAR_R=4;
+  let GMr=null; S.bind=gm=>{ if(gm) GMr=gm; return GMr; };
+  const npcOf=(GM,id)=>{ if(!GM||!id) return null; if(typeof EVENTS!=='undefined'&&EVENTS.npcOf){ try{ const n=EVENTS.npcOf(id); if(n) return n; }catch(e){} } return (GM.npc&&GM.npc[id])||null; };
+  S.herNear=function(G,about,who,GM){ if(!G||!about) return false; GM=GM||GMr;
+    if(who&&typeof HCIRCLE!=='undefined'&&HCIRCLE&&typeof HCIRCLE.rowsIn==='function'){ try{ for(const r of HCIRCLE.rowsIn(G,G.zone)){ const ids=[r.who].concat(r.with||[]); if(ids.includes(about)&&ids.includes(who)) return true; } }catch(e){ console.warn('HEARD.herNear',e); } }
+    const n=GM&&GM.G===G?npcOf(GM,about):null, p=n&&!n.hidden&&!n.leaving&&n.obj&&n.obj.position; if(!p) return false;
+    const pl=GM.E&&GM.E.player, q=pl&&pl.obj&&pl.obj.position; if(q&&(n.lv|0)===(pl.lv|0)&&Math.hypot(p.x-q.x,p.z-q.z)<=S.NEAR_R) return true;
+    const w=who&&npcOf(GM,who); if(w&&(n._hcWith===who||w._hcWith===about||n.paired===w||w.paired===n||n.buddy===w||w.buddy===n||n.chatWith===w||w.chatWith===n)) return true;
+    return false; };
   /* ---------- talk：閒聊前面先說一句 ---------- */
-  S.talkDue=function(G,id){ if(!law(G)) return null; const R=S.rec(G); if(R.day[id]===G.day) return null;
+  S.talkDue=function(G,id,GM){ if(!law(G)) return null; const R=S.rec(G); if(R.day[id]===G.day) return null;
     for(const e of L.talk||[]){ if(e.who!==id||R.said[e.id]!=null) continue; if(e.after&&R.said[e.after]==null) continue; if(e.about&&!knows(e.about)) continue;
-      if(!S.inWin(G,e)||!condOk(G,e.cond)) continue; return e; }
+      if(!S.inWin(G,e)||!condOk(G,e.cond)) continue; if(e.notZone&&G.zone===e.notZone) continue;   /* notZone：不在那一區說（AA_527 2-1 陳助教那幾句：他自己的時段，不在公館）*/
+      if(e.about&&S.herNear(G,e.about,id,GM)) continue; return e; }
     return null; };
-  S.preTalk=async function(GM,who,id){ const G=GM&&GM.G; if(!G) return false; const e=S.talkDue(G,id); if(!e) return false; const R=S.rec(G); R.said[e.id]=G.day; R.day[id]=G.day; await GM.say(who,e.t); return true; };
+  S.preTalk=async function(GM,who,id){ const G=GM&&GM.G; if(!G) return false; S.bind(GM); const e=S.talkDue(G,id,GM); if(!e) return false; const R=S.rec(G); R.said[e.id]=G.day; R.day[id]=G.day; await GM.say(who,e.t); return true; };
   /* ---------- kai203：203 房間裡的阿凱 ---------- */
   S.kaiDue=function(G){ if(!law(G)||G.zone!=='dorm'||typeof DORM203==='undefined'||!DORM203.era||!DORM203.era(G)) return null; const R=S.rec(G), F=G.flags;
     for(const e of L.kai203||[]){ if(R.said[e.id]!=null) continue; if(e.flag&&Object.keys(e.flag).some(k=>F[k]!==e.flag[k])) continue; if(e.about&&!knows(e.about)) continue;
-      if(!S.inWin(G,e)||!condOk(G,e.cond)) continue; return e; }
+      if(!S.inWin(G,e)||!condOk(G,e.cond)) continue; if(e.about&&S.herNear(G,e.about,'kai')) continue; return e; }
     return null; };
-  S.kai203=async function(GM,n){ const G=GM&&GM.G; if(!G) return false; const D=typeof DORM203!=='undefined'&&DORM203.rec?DORM203.rec(G,true):null; if(!D||D.tday.kai===G.day) return false;
+  S.kai203=async function(GM,n){ const G=GM&&GM.G; if(!G) return false; S.bind(GM); const D=typeof DORM203!=='undefined'&&DORM203.rec?DORM203.rec(G,true):null; if(!D||D.tday.kai===G.day) return false;
     const e=S.kaiDue(G); if(!e) return false; const R=S.rec(G); R.said[e.id]=G.day; D.tday.kai=G.day; if(e.set) Object.assign(G.flags,e.set);
     await GM.say(n,e.t); if(typeof SOCIAL!=='undefined'&&SOCIAL.activity){ SOCIAL.activity('kai','chat'); SOCIAL.activity('kai','chatNew'); } return true; };
   /* ---------- phone：群組、私訊 ---------- */
@@ -109,17 +123,35 @@ const HEARD=(function(){
         const n=e.terms.slice(0,i).filter(t=>R[t]!=null).length; return {e,term,t:e.t[Math.min(n,e.t.length-1)]}; } }   /* 第幾次看到用第幾句：前面的學期沒看到的，用第一句 */
     return null; };
   /* 每 0.5 秒（STORY.TICKS）：對話、劇情進行中不出；圈子的字幕（hcircle3d.js 走近時聽到）正在出就等它，出這一句的時候它也等（共用 HCIRCLE._capBusy，兩邊不互相蓋掉）*/
-  S.pass=function(GM){ const G=GM&&GM.G, E=GM&&GM.E, pl=E&&E.player; if(!G||!pl||!pl.obj||pl.busy||(GM.D&&GM.D.active)||(typeof ADV!=='undefined'&&ADV.active)) return false;
+  S.pass=function(GM){ if(GM) S.bind(GM); const G=GM&&GM.G, E=GM&&GM.E, pl=E&&E.player; if(!G||!pl||!pl.obj||pl.busy||(GM.D&&GM.D.active)||(typeof ADV!=='undefined'&&ADV.active)) return false;
     const HC=typeof HCIRCLE!=='undefined'&&HCIRCLE&&typeof HCIRCLE.tick==='function'?HCIRCLE:null; if(HC&&HC._capBusy) return false;
     const d=S.passDue(G,pl.obj.position); if(!d) return false;
     const F=G.flags||(G.flags={}); if(!F[d.e.flag]||typeof F[d.e.flag]!=='object') F[d.e.flag]={}; F[d.e.flag][d.term]=G.day;
     if(GM.caption){ GM.caption('',d.t,S.PASS_MS); if(HC){ HC._capBusy=true; S.later(()=>{ HC._capBusy=false; },S.PASS_MS); } }
     return true; };
+  /* ---------- label：標籤同伴說起她（AA_527 2-6：大一的學妹；資料見 heard_lines.js 的 label）---------- */
+  S.LABEL_R=5;
+  S.labelOn=function(G,e){ if(!law(G)||!e||G.zone!==e.zone) return false; const h=+G.hour||0; if(e.days&&!e.days.includes(G.weekday)) return false; if(!(h>=e.from&&h<e.to)) return false;
+    const T=typeof CALENDAR!=='undefined'&&CALENDAR.termOf?CALENDAR.termOf(G.day):null; if(e.terms&&!(T&&e.terms.includes(T.id))) return false; if(e.weeks&&!(T&&e.weeks.includes(T.week))) return false; return true; };
+  /* 現在要站在這一區的標籤（hcircle3d.js S.arrange 問：這幾個不放開）：說過的那一句就不再站 */
+  S.labelWant=function(GM){ const G=GM&&GM.G, out=[]; if(!G) return out; const R=S.rec(G); for(const e of L.label||[]) if(R.said[e.id]==null&&S.labelOn(G,e)) for(const c of e.who) out.push(c); return out; };
+  S.labelTick=function(GM){ const G=GM&&GM.G, E=GM&&GM.E, pl=E&&E.player, pp=pl&&pl.obj&&pl.obj.position; if(!G||!pp) return false; S.bind(GM); const R=S.rec(G);
+    const HC=typeof HCIRCLE!=='undefined'&&HCIRCLE?HCIRCLE:null;
+    for(const e of L.label||[]){ if(R.said[e.id]!=null||!S.labelOn(G,e)) continue;
+      e.who.forEach((cid,k)=>{ let n=GM.npc&&GM.npc[cid]; if(n&&n.leaving){ n.leaving=false; n.arrived=false; n.beh='idle'; n.path=null; }
+        if(!n&&HC&&HC.spawnLabel&&GM.spawnNPC){ const a=e.at[k%e.at.length]; HC.spawnLabel(GM,cid,{obj:{position:{x:a[0],y:0,z:a[1]}},lv:0},true,{x:a[0],z:a[1],yaw:a[2]||0}); } });
+      const sp=GM.npc&&GM.npc[e.who[0]], q=sp&&!sp.hidden&&sp.obj&&sp.obj.position; if(!q||(sp.lv|0)!==(pl.lv|0)||Math.hypot(q.x-pp.x,q.z-pp.z)>S.LABEL_R) continue;
+      if(pl.busy||(GM.D&&GM.D.active)||(typeof ADV!=='undefined'&&ADV.active)||(HC&&HC._capBusy)) continue;   /* 對話、劇情、圈子的字幕正在出：等一下 */
+      if(e.about&&S.herNear(G,e.about,null,GM)) continue;   /* 她本人在旁邊（AA_527 2-1）*/
+      R.said[e.id]=G.day; const name=(HC&&HC.PEOPLE&&HC.PEOPLE[e.who[0]]&&HC.PEOPLE[e.who[0]].label)||'';
+      if(GM.caption){ GM.caption(name,e.t,S.PASS_MS); if(HC){ HC._capBusy=true; S.later(()=>{ HC._capBusy=false; },S.PASS_MS); } }
+      return true; }
+    return false; };
   /* ---------- 接線 ---------- */
   if(typeof NOODLE_TABLE!=='undefined'&&L.noodle) for(const k of Object.keys(L.noodle)){ const T=NOODLE_TABLE[k]; if(!Array.isArray(T)) continue;
     for(const e of L.noodle[k]) if(!T.some(x=>x&&x.once&&x.once===e.once)) T.push(e); }
   if(typeof STORY!=='undefined'){ if(Array.isArray(STORY.PRE_TALK)) STORY.PRE_TALK.push((GM,who,id)=>S.preTalk(GM,who,id)); if(Array.isArray(STORY.PHONE_RULES)) STORY.PHONE_RULES.push(G=>S.phone(G));
-    if(Array.isArray(STORY.TICKS)) STORY.TICKS.push(GM=>{ try{ S.pass(GM); }catch(e){ console.warn('HEARD.pass',e); } return false; }); }   /* 路過字幕：回傳 false，不擋後面的 TICKS */
+    if(Array.isArray(STORY.TICKS)) STORY.TICKS.push(GM=>{ try{ S.pass(GM); }catch(e){ console.warn('HEARD.pass',e); } try{ S.labelTick(GM); }catch(e){ console.warn('HEARD.label',e); } return false; }); }   /* 路過字幕：回傳 false，不擋後面的 TICKS */
   if(typeof DORM203!=='undefined'&&typeof DORM203.kaiTalk==='function'&&!DORM203._heard){ const k0=DORM203.kaiTalk; DORM203.kaiTalk=async function(GM,n){ if(await S.kai203(GM,n)) return true; return k0.apply(this,arguments); }; DORM203._heard=true; }
   return S;
 })();

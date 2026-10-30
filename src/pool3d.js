@@ -110,7 +110,9 @@ const POOL=(function(){
     if(pc.seat&&z==='classroom') base.seat=pc.seat.slice(); return base; };
 
   /* 2-2 認識之前的外觀描述：這一筆作息的 desc（同一個人在兩個地方各有一句）；不在這一區＝null（SOCIAL 用 characters.js 的 descriptor）*/
-  S.descNow=function(id,G){ G=G||curG(); if(!G||typeof CHARACTERS==='undefined'||!CHARACTERS[id]) return null; const n=GMr&&GMr.G===G&&GMr.npc&&GMr.npc[id]; if(n&&n.poolDesc) return n.poolDesc; const e=ent(G,id); return e&&e.desc||null; };
+  S.descNow=function(id,G){ G=G||curG(); if(!G||typeof CHARACTERS==='undefined'||!CHARACTERS[id]) return null;
+    if(typeof HCIRCLE!=='undefined'&&HCIRCLE&&HCIRCLE.named&&HCIRCLE.named(G,id)) return CHARACTERS[id].name;   /* 女主角的圈子同框看過名牌（AA_528 1-3）：還沒認識也寫名字 */
+    const n=GMr&&GMr.G===G&&GMr.npc&&GMr.npc[id]; if(n&&n.poolDesc) return n.poolDesc; const e=ent(G,id); return e&&e.desc||null; };
   /* 人物頁（2-2、2-8）：一句話；升到朋友（reveal FRIEND）＝personality（沒寫的照一句話）*/
   S.pageDesc=function(id){ const c=typeof CHARACTERS!=='undefined'&&CHARACTERS[id]; if(!c) return ''; if(c.cardBefore&&!(typeof SOCIAL!=='undefined'&&SOCIAL.has&&SOCIAL.has(id,'SHARED_SECRET'))) return c.cardBefore; const fr=typeof SOCIAL!=='undefined'&&SOCIAL.reveal&&SOCIAL.reveal(id)==='FRIEND'; return fr&&c.personality?c.personality:(c.card||''); };
   const esc=s=>String(s).replace(/[&<>"]/g,ch=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'})[ch]);
@@ -153,8 +155,8 @@ const POOL=(function(){
     if(id===Z){ if(e.seat==='bell') return 'meetBell'; if(e.act==='class'&&hr(G)>=12) return 'meetClass'; return null; }   /* 教室版「早安。……對，下午了。」：下午的課 */
     if(id===Y) return e.door&&(ti(G)>0||week(G)>=2)?'meet':null;   /* 教室門口（上課前、期中考前一週週三下課）。5-1 寫大一上第 2～4 週：第 1 週不演；第 5 週以後沒有別的認識版本，照同一場演（不然她整條線都沒了）*/
     if(id===C){ if(z==='bookstore') return 'meetBook'; if(e.act==='class'&&(ti(G)>0||week(G)>=6)) return 'meetClass'; return null; }   /* 6-6：大一上第 6 週起，必修課第三排 */
-    if(id===YS) return z==='campus'&&!e.terms&&S.py(G)===1?'meet':null;   /* 椰林大道那一筆；「你是大一的吧？」「大三」＝祐廷大一 */
-    if(id===Q) return z==='dorm_hall'&&S.py(G)===1?'meet':null;   /* 交誼廳；「學弟」「大三」＝祐廷大一 */
+    if(id===YS) return z==='campus'&&!e.terms?'meet':null;   /* 椰林大道那一筆；「你是大一的吧？」「大三」＝祐廷大一（AA_528 1-1：大二起照樣可以認識，第一場照演；他畢業以後作息不在）*/
+    if(id===Q) return z==='dorm_hall'?'meet':null;   /* 交誼廳；「學弟」「大三」＝祐廷大一（AA_528 1-1：大二起照樣可以認識）*/
     return null; };
   S.owns=id=>OWN.has(id);
   S.meet=async function(GM,who,id,n){ const G=GM.G; S.bind(GM); const v=S.meetVersion(G,id); const lines=v&&L[id]&&L[id][v]; if(!lines) return false;

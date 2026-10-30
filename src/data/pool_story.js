@@ -21,6 +21,8 @@ const POOL_STORY=(function(){
   const SUNNY={custom:G=>!G.weather||G.weather==='clear'};
   const FAFU={custom:G=>typeof STORY!=='undefined'&&!!STORY.fafuDuty&&STORY.fafuDuty(G)};
   const WD=[1,2,3,4,5], ALL=[0,1,2,3,4,5,6];
+  /* 吉他社今天有社課（activities.js club_guitar；AA_528 1-3：晨希那一段在吉他社，萬才館旁邊那一格只在沒課的時候）*/
+  const NO_GUITAR={custom:G=>{ if(typeof ACTIVITIES==='undefined'||!ACTIVITIES.list||!ACTIVITIES.on) return true; const a=ACTIVITIES.list.find(x=>x.id==='club_guitar'); return !(a&&ACTIVITIES.on(a,G.day,G)); }};
 
   /* ---------- 第 1 節 改名（撞到主要人物）：讀檔時換字（src/pool3d.js 的 POOL.migrate）---------- */
   /* 舊名寫成 \u 跳脫（舊名在 src/ 裡只剩這張換字表；tests/aa498_pool_unit.js 用 grep 查沒有殘留）：邱○○→邱家齊、鄭○○→鄭元碩、施○○→施孟儒、詹○○→詹立群、嚴○○→嚴守誠、杜○○→蘇維倫 */
@@ -71,9 +73,10 @@ const POOL_STORY=(function(){
     pool_10:{ card:'助教的學弟，想做研究', before:'常在總圖問助教問題的同學', personality:'', place:'總圖',
       model:'char.npc_nm1', props:['notebook_q'],   /* 寫滿問題的筆記本＝notebook_q（NPC-POOL-ART-1028）*/
       where:[ {days:WD,from:14,to:16,zone:'library',act:'read',noHoliday:true,desc:'常跟助教說話的男生',label:'總圖，陳助教旁邊那一桌'} ] },   /* 陳助教平日 14～18 在閱覽室（npc_ta_chen 的作息）；SOCIAL_GRAPH pool_10—npc_ta_chen＝坐她旁邊的位子（story3d.js 的 friendSeat）*/
-    pool_11:{ card:'吉他社，和弦換不過去', before:'背吉他袋的學妹', personality:'', place:'萬才館旁邊',
+    pool_11:{ card:'吉他社，和弦換不過去', before:'背吉他袋的學姊', personality:'', place:'萬才館旁邊',
       model:'char.npc_nf8', props:['guitar'],   /* 吉他袋＝guitar（掛法是子晴模型以外的預設值，還沒看畫面）*/
-      where:[ {days:[1,3],from:19,to:21,zone:'campus',act:'linger',at:[97.5,-95,P,0],noHoliday:true,desc:'背吉他袋的女生',label:'萬才館旁邊'} ] },
+      where:[ {days:[1,3],from:19,to:21,zone:'wancai',act:'club',activity:'club_guitar',desc:'背吉他袋的女生',label:'萬才館，吉他社社課'},   /* AA_528 1-3（企劃線 7ad5fee84）：吉他社有課的時間她在吉他社（同一個時段原本也站在萬才館旁邊）*/
+        {days:[1,3],from:19,to:21,zone:'campus',act:'linger',at:[97.5,-95,P,0],noHoliday:true,if:NO_GUITAR,desc:'背吉他袋的女生',label:'萬才館旁邊'} ] },   /* 萬才館旁邊那一格只在吉他社沒課的時候 */
     pool_12:{ card:'系籃經理', personality:'', place:'籃球場',
       model:'char.npc_nm5', props:['sports_drink'],   /* 運動飲料＝sports_drink（坐下時藏，NPC-POOL-ART-1028）；系服沒有（衣服，D99）*/
       where:[ {days:[5],from:17,to:19,zone:'campus',act:'linger',at:[2.6,-114.5,-P/2,0],noHoliday:true,desc:'總是穿系服的人',label:'醉月湖東側的籃球場'} ] },   /* 系籃球場 (−4,−113) 東邊的長椅旁，面向場內 */
@@ -101,7 +104,7 @@ const POOL_STORY=(function(){
     pool_20:{ card:'法服幹部，管器材', personality:'', place:'萬才館一樓',
       model:'char.npc_nf18', props:['lanyard_tag'],   /* 法服的名牌＝lanyard_tag（掛繩照這個底模量過，NPC-POOL-ART-1028）；延長線沒有 */
       where:[ {days:ALL,from:0,to:24,zone:'campus',act:'linger',at:[-50,11.25,P,0],activity:'club_expo_y1s1',actHours:true,pri:true,desc:'法服攤位那個人',label:'社團博覽會，法服的攤位',greetAt:'社團博覽會'},   /* 法服帳篷（−47.5,13.5）前，學姊的西邊 */
-        {days:[6],from:9,to:12,zone:'wancai',act:'linger',at:[1.9,1.6,-P/2,0],if:FAFU,desc:'法服攤位那個人',label:'萬才館一樓，法服值班'} ] }   /* 隔週六 9～12（STORY.fafuDuty）：圓桌旁 */
+        {days:[6],from:9,to:12,zone:'wancai',act:'linger',at:[1.9,1.6,-P/2,0],if:FAFU,fafuDuty:true,desc:'法服攤位那個人',label:'萬才館一樓，法服值班'} ] }   /* fafuDuty：認識的入口（AA_528 1-2，src/pool_more3d.js MEETV 的 meetDuty）*/   /* 隔週六 9～12（STORY.fafuDuty）：圓桌旁 */
   };
 
   /* ---------- 第 4～8 節 第一批五位 ---------- */
