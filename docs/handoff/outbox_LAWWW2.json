@@ -4301,6 +4301,26 @@
    "remaining": "沒照校內地圖（使用者三個問題未回答）；聖誕樹只留位置；+40 draw call（手機實機沒量）",
    "next": "LAWWW-B 套 lib_lawn_1030.patch＋GLB；轉問使用者草皮形狀／台階／樟樹位置",
    "note": "老樟樹＋南側樹＋六張長椅＋六盞路燈（遊戲端）；lib_lawn_unit 改前 FAIL 改後 PASS；全部 Node 764／1（home_unit 開發分支本來就 FAIL）；READY_FOR_ART_REVIEW"
+  },
+  {
+   "branch": "claude/funny-albattani-iawshm",
+   "sha": "PENDING",
+   "noDirectIntegrate": false,
+   "receiver": "LAWWW",
+   "ack": "",
+   "task": "LAWLIB-LM-1030：法律學院圖書館室內光照烘焙（INTERIOR-AAA 第三間，D111）",
+   "files": [
+    "assets/models/env/lawlib_interior.glb",
+    "assets/models/env/lawlib_interior_lm_day.webp",
+    "assets/models/env/lawlib_interior_lm_night.webp",
+    "tools/blender/env_second/lightbake/bake_lawlib.sh",
+    "tools/blender/env_second/lightbake/lawlib_interior_lm.json",
+    "docs/art-rebuild/second_ai/test_shots/lawlib_lm_1030/README.md"
+   ],
+   "state": "已交付",
+   "remaining": "人物、書、書架鐵件、椅子照即時光；太陽固定在下午；生活感擺設、牆面材質這一輪沒做",
+   "next": "LAWWW-B 換 lawlib_interior.glb＋兩張光照貼圖（不用改程式，attachFormal 自己接）",
+   "note": "一樓十八片燈、二樓長條燈、八盞桌燈、南面下午的太陽；全部 Node 766／2（兩支 sis 稿比對測試開發分支本來就 FAIL）；draw call 175～296 差不多、三角形變少；READY_FOR_ART_REVIEW"
   }
  ]
 }
