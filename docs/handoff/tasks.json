@@ -36021,8 +36021,8 @@
    "title": "虛構大學世界觀全面更名（台大→首都帝國大學／首都帝大、政大→木柵大學、霖澤館→法律系館A、萬才館→法律系館B、傅鐘→晨思鐘……）：AA 命名規範與企劃稿；LAWWW 程式、顯示文字、導航、存檔相容、整合測試；LAWWW2 3D／2D 圖上的字；BB 獨立測試；內部 id 不改",
    "area": "SYS",
    "owner": "LAWWW",
-   "status": "等待其他AI／素材",
-   "next": "等 AA 的 docs/WORLD_NAMING.md 與使用者原文（AA 轉述，LAWWW-B 還沒直接收到）→ 換字表＋工具 → 照規範改顯示文字",
+   "status": "待開工",
+   "next": "v9.10.14 發布、postrel-1030 這一批合進開發分支以後：照 docs/WORLD_NAMING.md 第 3、5、6 節改顯示文字（換字表＋工具，語境規則、不誤改清單），白名單換 AA 新 SHA，測試；LAWWW2 改圖上的字；BB 測",
    "priority": "P1",
    "first": {
     "term": "Y0S1",
@@ -36032,12 +36032,10 @@
     "blocks": false,
     "prereq": false,
     "parallel": true,
-    "confirmed": false
+    "confirmed": true
    },
    "source": "AA-B 04:33 轉述使用者 10-30 的大任務（原文待 AA 寫進 user_asks_AA.json）",
-   "authorized": "使用者（待原文核對）",
-   "pausedReason": "等 AA 命名規範＋使用者原文",
-   "resumeWhen": "AA 交 WORLD_NAMING.md 與原文 commit",
+   "authorized": "使用者（10-30 對 AA 定案；05:0x 對 LAWWW-B 選擇題確認）",
    "xai": {
     "spec": "docs/WORLD_NAMING.md（AA 待交）",
     "branch": "claude/cool-heisenberg-o8kuqx",

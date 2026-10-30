@@ -1562,6 +1562,15 @@
    "status": "進行中",
    "wants": "X137",
    "task": "PHONE-UNIFY-1030"
+  },
+  {
+   "id": "UA-LAWWW-1030-16",
+   "at": "2026-10-30T05:0x",
+   "quote": "（選擇題）AA 轉述的虛構大學全面更名要不要照 docs/WORLD_NAMING.md 改遊戲畫面上的名字 → 「Yes, change them (Recommended)」：v9.10.14 發布、這一批修正合完以後改，存檔相容",
+   "kind": "選擇題答案",
+   "status": "進行中",
+   "wants": "X138",
+   "task": "WORLD-RENAME-1030"
   }
  ]
 }
