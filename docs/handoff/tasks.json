@@ -36809,6 +36809,34 @@
     "receiver": "LAWWW",
     "ack": "SENT"
    }
+  },
+  {
+   "id": "XINCI-REWRITE-1030",
+   "title": "芯慈新個性 AA_547（使用者 10-30 19:2x 點選「照這份寫」；USER_WANTS X148）：開學第一排、影印機、慈 2、爸爸接她、事務所、寒暑假、畢業以後、個性、人物頁改；慈 3／5／6 新寫；慈 4、Alison「吵架了」、改輔系、隔天「我第一」、msg2「第二名也是名」拿掉",
+   "area": "STORY",
+   "owner": "LAWWW",
+   "status": "進行中",
+   "priority": "P1",
+   "next": "46e36f86b 程式做完（XCROM.OLD 打開）；寫死舊句的測試修正中；AA 給慈 3 B1 版、Café 補演版的專用句、確認「四點半了。我要去上財管。」位置；→ BB 測",
+   "first": {
+    "term": "Y1S1",
+    "week": 1,
+    "earliest": "大一上開學第一排（ev_xc_day1）",
+    "mainline": false,
+    "blocks": false,
+    "prereq": false,
+    "parallel": true,
+    "confirmed": true
+   },
+   "source": "AA-B 10-30 21:22 訊息（AA_547 定案）",
+   "authorized": "使用者 10-30 19:2x 點選（對 AA-B）、D109、D116",
+   "xai": {
+    "spec": "AA_547（企劃線 c746f364d）第 2 節",
+    "branch": "claude/modest-rubin-2lyp7g",
+    "acceptance": "每場照稿逐字；遊戲裡沒有「第二名」「第一名」「吵架」「改輔系」",
+    "receiver": "BB",
+    "ack": "SENT"
+   }
   }
  ]
 }
