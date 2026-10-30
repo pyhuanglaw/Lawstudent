@@ -216,8 +216,8 @@ const CL={us_intro:['教授問，誰的國家用的是法典。一半的人舉�
   us_comp:['教授的投影片上有一張世界地圖。臺灣太小，他用紅筆圈了起來。','一個巴西來的同學說，他們的憲法很長。全班笑了，他沒有笑。','今天輪到你帶討論。你準備的東西講完了，時間還剩一大半，後面都是別人在問。','下課以後，德國來的同學把你的報告借去看。還你的時候，上面多了幾個問號。'],
   us_writing:['今天練習改一個太長的句子。你改完的，比原本的還長。','教授在你的作業上畫了一個箭頭，旁邊寫：Start here. 箭頭指的是你的第二段。','中間休息的時候，你走去圖書館。咖啡機上還是貼著『故障』。','今天交的是一封給客戶的信。教授說：你的客戶不是法官，不要嚇他。']};
 await sec('C',async()=>{ const X=US_LIFE_EVENTS.DATA.classLines, G=fresh('2028-08-21',9,'us_apartment',US());
-  check('C. 三門課都是八句：原本四句不動、新的四句接在後面（AA_412 第 4 節逐字）',['us_intro','us_comp','us_writing'].every(id=>X[id].length===8&&J(X[id].slice(4))===J(CL[id]))&&X.us_intro[0]==='教授第一堂課就問：『誰讀過陪審團的電影？』全班都舉手。'&&typeof X.us_writing[1]==='function');
-  check('C. 輪流：第 1～4 次是原本的、第 5～8 次是新的、第 9 次回到第一句',['us_intro','us_comp','us_writing'].every(id=>USL.classLine(id,4,G)===CL[id][0]&&USL.classLine(id,7,G)===CL[id][3]&&USL.classLine(id,8,G)===USL.classLine(id,0,G)));
+  check('C. 三門課都是十二句（AA_531 5-1 又接四句；原本八句）：原本四句不動、AA_412 的四句接在後面（第 5～8 句，AA_412 第 4 節逐字）',['us_intro','us_comp','us_writing'].every(id=>X[id].length===12&&J(X[id].slice(4,8))===J(CL[id]))&&X.us_intro[0]==='教授第一堂課就問：『誰讀過陪審團的電影？』全班都舉手。'&&typeof X.us_writing[1]==='function');
+  check('C. 輪流：第 1～4 次是原本的、第 5～8 次是新的、第 13 次回到第一句（AA_531 5-1 起十二句；原本第 9 次）',['us_intro','us_comp','us_writing'].every(id=>USL.classLine(id,4,G)===CL[id][0]&&USL.classLine(id,7,G)===CL[id][3]&&USL.classLine(id,12,G)===USL.classLine(id,0,G)));
   check('C. Legal Writing 第二句照舊：沒見過何俊朗＝「坐你前面的交換生」（AA_370 L1；AA_451 1-2 換字）',USL.classLine('us_writing',1,G)==='坐你前面的交換生交出去的作業，被圈出三個『however』。');
   /* 一鍵上課（USL.attend）實際上五次 Introduction（週一、三 10:00）：第五次出現新的第一句 */
   const got=[]; let d=D('2028-08-21'); while(got.length<5){ const w=wdOf(d); if((w===1||w===3)&&USL.classDay(d)){ at(CALENDAR.dateOf(d).key,9.5); const it=USL.items(G).find(x=>x.c.id==='us_intro'); H.said=[]; await USL.attend(GM,it); got.push(H.said.map(s=>s.t).join('｜')); } d++; }

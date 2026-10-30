@@ -370,7 +370,7 @@ const USL=(function(){
   const nmOf=id=>typeof SOCIAL!=='undefined'&&SOCIAL.displayName?SOCIAL.displayName(id):id;
   S.twDay=(G,it)=>{ if(it.alt){ const q=typeof OUT!=='undefined'&&OUT.get?OUT.get(G,'y4_an18_video'):null; if(q&&q.state==='done') return D(it.alt); } return D(it.d); };
   S.twPhone=function(G){ const A=X.aa531; if(!A||!isUS(G)||!G.flags.US_ARRIVED) return;
-    for(const id in A){ if(!datingW(G,id)) continue; if(typeof INV!=='undefined'&&INV.hasContact&&!INV.hasContact(G,id)) continue;
+    for(const id in A){ if(!datingW(G,id)) continue;   /* 交往中＝有她的聯絡方式（同 sis_b16_3d.js 的 contact）*/
       for(const it of A[id]){ const d=S.twDay(G,it); if(d==null) continue; const tag='usl_tw_'+id+'_'+it.k;
         if(it.ret?!(G.day>=d&&!S.here(G)):!S.usDay(G,d)) continue;   /* ret：回到臺灣的那一天（12/23 已經不在美國）*/
         const c=it.ret?{day:d,h:it.h}:S.tw2loc(G,d,it.h);

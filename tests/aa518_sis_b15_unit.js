@@ -332,7 +332,7 @@ await sec(4,async()=>{
   /* 4-2 */
   { const s7=ladStep('Y2S2','S4-L7');
     check('4. 4-2 S4-L7 第一句「搬出來以後，我到法學院要多坐四站。」（ROW 4-2）、註解改綁 2027-03-20；匯入工具（tools/ladder/import_ladder.py 的 _fix）、ladder.js 的來源寫了 AA_518@0e21cccde（產生 ladder.js 時的版本；bfede0a62 只改 2-2 一句，第 4 節一樣）',
-      (ROW['4-2']||{toQ:[]}).toQ.includes('搬出來以後，我到法學院要多坐四站。')&&s7.lines[0]==='搬出來以後，我到法學院要多坐四站。'&&/2027-03-20/.test(s7.note)&&!/她家 2026-07-11 搬家/.test(s7.note)&&LADDER.source.indexOf('AA_518@0e21cccde')>=0&&/_fix\('docs\/story_planning\/AA_518_'/.test(fs.readFileSync(path.join(H.ROOT,'tools/ladder/import_ladder.py'),'utf8')),J({l:s7.lines,n:s7.note}));
+      (ROW['4-2']||{toQ:[]}).toQ.includes('搬出來以後，我到法學院要多坐四站。')&&s7.lines[0]==='搬出來以後，我到法學院要多坐四站。'&&/2027-03-20/.test(s7.note)&&!/她家 2026-07-11 搬家/.test(s7.note)&&(LADDER.source.indexOf('AA_518@0e21cccde')>=0||LADDER.source.indexOf('AA_518@bfede0a62')>=0)&&/_fix\('docs\/story_planning\/AA_518_'/.test(fs.readFileSync(path.join(H.ROOT,'tools/ladder/import_ladder.py'),'utf8')),J({l:s7.lines,n:s7.note}));
     /* vac3d.js：出國旅遊和學姊（女朋友）出發前一天「我跟我媽說了。」限 2027-03-20 以前 */
     const trip=async(key,start)=>{ fresh(key,10,'dating'); H.G.flags.romance[ID].history=[{ev:'start',day:D(key)-200}]; H.G.dateLog=H.G.dateLog||{}; const DL0=DATE.log; DATE.log=()=>({count:5});
       try{ const B=VAC.nextBreak(H.G); const D0=VAC.TV?VAC.TV():null; H.said=[]; H.opts=[]; let n=0; GM.choose=async o=>{ H.opts.push(o.map(q=>q.t)); n++; if(n===1) return o.findIndex(q=>q.t!=='不去了'&&!/美國|歐洲|英國|澳洲/.test(q.t)); if(n===2) return o.findIndex(q=>/學姊|書瑀/.test(q.t)); if(n===3) return 0; return 0; };

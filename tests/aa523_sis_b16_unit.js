@@ -93,7 +93,7 @@ const strDeep=(v,out)=>{ if(v==null) return out; if(typeof v==='string'){ out.pu
 const evTexts=Lx=>{ const A=[]; for(const l of (Lx||[])){ if(typeof l.text==='string') A.push(l.text); if(l.choice) for(const c of l.choice) A.push(c.text); } return A; };
 const aaLines=id=>{ const e=ev(id); const A=[]; for(const l of ((e&&e.dialogue)||[])){ if(l.aa523&&typeof l.text==='string') A.push(l.text); if(l.choice) for(const c of l.choice) if(c.aa523) A.push(c.text); } return A; };
 const ladStep=(term,id)=>{ const Lx=LADDER&&LADDER.byTerm&&LADDER.byTerm[term]&&LADDER.byTerm[term][ID]; return Lx&&Lx.steps?Lx.steps.find(s=>s.id===id)||null:null; };
-const mine=()=>{ const A=[]; if(typeof SISB16_LINES!=='undefined') strDeep(Object.assign({},SISB16_LINES,{greetUS:null}),[]).filter(t=>!/^[a-z_0-9]+$/.test(t)).forEach(t=>A.push(t));   /* greetUS＝現有那一句（只是給條件用的鍵）；[誰,句子] 的「誰」不算 */
+const mine=()=>{ const A=[]; if(typeof SISB16_LINES!=='undefined') strDeep(Object.assign({},SISB16_LINES,{greetUS:null,greetUSRepair:null}),[]).filter(t=>!/^[a-z_0-9]+$/.test(t)).forEach(t=>A.push(t));   /* greetUS＝現有那一句（只是給條件用的鍵）；greetUSRepair＝AA_531 7-3 的句子（對 AA_531 的稿，tests/aa531_us_unit.js）；[誰,句子] 的「誰」不算 */
   if(typeof SISB16_EVENTS!=='undefined') for(const e of SISB16_EVENTS) A.push(...evTexts(e.dialogue)); return A; };
 const changed=()=>{ const A=[];
   for(const id of ['ev_sis_y4_desks','ev_sis_pickup','ev_sis_w1_late','ev_sis_blank_jan']) A.push(...aaLines(id));
