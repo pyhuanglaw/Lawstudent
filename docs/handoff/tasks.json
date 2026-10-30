@@ -35596,7 +35596,10 @@
    },
    "source": "使用者 2026-10-30 02:0x「LAWWW-C來不及交班 你現在要接班」",
    "authorized": "使用者原話（duty register --user-ok）",
-   "notes": "02:1x 使用者問帳號 B 上次（10-25 19:39 沒交班）做到一半的有沒有被 C 重做：LAWWW-B 這邊只有 AA_471 第 3～7 節＋AA_472＋AA_473 那個子代理（撞到額度，改到一半的 5 個檔沒 commit、沒備份）——C 10-27 17:2x～17:58 用 PG-FIX-471-473-1027 整個重做（7dacc9463）＝重複做；我那份作廢不合。其他（int-1025、AA_470、v9.10.11 候選 f54a35ec4）都有 push／bundle，C 接著發布 v9.10.11（PR #17）、v9.10.12（PR #18）。已請 AA-B、BB-B、LAWWW2-B 各自查。02:2x 使用者：接下來自己安排還沒做的規劃、主動安排四個職位的工作，使用者有一陣子不看。 ｜ 02:1x～02:2x 三位回報上次（10-25）做到一半的：AA-B 沒有半成品，AA-C 都是接著做（AA_477／479／490／492／512～523），AA_470 第 8 節第 4 點以 AA_518 為準（d6ec89343 加註作廢）；BB-B 做完的都已 push，跑到一半的 trx_dating8 等由 BB-C 接著跑完並發布 v9.10.11，沒重跑已做完的，留兩個開放問題轉 LAWWW2；LAWWW2-B 只有 PERF-SINGLESIDE-GLB 第四份差屋內截圖，LAWWW2-C 用同一批 GLB 交件（d66eed041）並接著做第五～七份，沒有重複、沒有不一致。唯一重複的是 LAWWW-B 的 AA_471～473 子代理（C 重做成 PG-FIX-471-473-1027）。v9.10.13 已發布（37603ad6a）。v9.10.14 範圍＝92e9bca92 遊戲檔案，凍結給 BB。"
+   "notes": "02:1x 使用者問帳號 B 上次（10-25 19:39 沒交班）做到一半的有沒有被 C 重做：LAWWW-B 這邊只有 AA_471 第 3～7 節＋AA_472＋AA_473 那個子代理（撞到額度，改到一半的 5 個檔沒 commit、沒備份）——C 10-27 17:2x～17:58 用 PG-FIX-471-473-1027 整個重做（7dacc9463）＝重複做；我那份作廢不合。其他（int-1025、AA_470、v9.10.11 候選 f54a35ec4）都有 push／bundle，C 接著發布 v9.10.11（PR #17）、v9.10.12（PR #18）。已請 AA-B、BB-B、LAWWW2-B 各自查。02:2x 使用者：接下來自己安排還沒做的規劃、主動安排四個職位的工作，使用者有一陣子不看。 ｜ 02:1x～02:2x 三位回報上次（10-25）做到一半的：AA-B 沒有半成品，AA-C 都是接著做（AA_477／479／490／492／512～523），AA_470 第 8 節第 4 點以 AA_518 為準（d6ec89343 加註作廢）；BB-B 做完的都已 push，跑到一半的 trx_dating8 等由 BB-C 接著跑完並發布 v9.10.11，沒重跑已做完的，留兩個開放問題轉 LAWWW2；LAWWW2-B 只有 PERF-SINGLESIDE-GLB 第四份差屋內截圖，LAWWW2-C 用同一批 GLB 交件（d66eed041）並接著做第五～七份，沒有重複、沒有不一致。唯一重複的是 LAWWW-B 的 AA_471～473 子代理（C 重做成 PG-FIX-471-473-1027）。v9.10.13 已發布（37603ad6a）。v9.10.14 範圍＝92e9bca92 遊戲檔案，凍結給 BB。",
+   "aliases": [
+    "DUTY-AA-1030"
+   ]
   },
   {
    "id": "PROMISES-REDO-1030",
@@ -36081,7 +36084,7 @@
    "area": "SYS",
    "owner": "LAWWW",
    "status": "已整合待測試",
-   "next": "已進開發分支（postrel-1030 合併 b576263b6、改名 ba315523b）→ BB 測（下一版）",
+   "next": "已進開發分支（ba315523b、ea67b0cb4、文件 052d589d2）→ BB 測（改名畫面截字）→ **發布前問使用者同意**（使用者 04:31 原話：不得未經同意合併 main 或發布）→ 發布時根目錄 README 換 AA 草稿 f745e8ab9",
    "priority": "P1",
    "first": {
     "term": "Y0S1",
@@ -36102,7 +36105,10 @@
     "receiver": "LAWWW",
     "ack": "ACK"
    },
-   "notes": "【07:5x】子代理交件 world-rename-1030 d4e6e5305：scan_game 1072→83（OLD 79＝註解誤判 34、console 11、開發註記 33、舊存檔比對鍵 1；SPOKE／WROTE 各 2 誤判）、讀稿換名 read_fix、舊存檔顯示換、新測試 world_rename_unit；烘進貼圖的字交 LAWWW2；5 點轉 AA ｜ 【07:5x】v9.10.14 發布後 postrel-1030 合進開發分支（b576263b6）＋改名（ba315523b）｜ 【05:3x】scan_game.py --propose（企劃線 05c8bd0ce）：每一處檔:行、判斷（spoken／written／unknown）、建議新字；unknown 照口語，旁白地點系統字改 written；source／license／note／ref 開發註記跳過；開發分支基準 1069 處 ｜ 【05:3x】AA-B：工具第二輪（單獨「博雅」指教學館→博思、「臺大學生」→首都帝大學生；C 類歷史檔、查證出處句自動跳過），基準改 e9c73bcfd（取代 a76fb3308）；驗收掃描 scan_game.py（OLD／AA館／SPOKE／WROTE）；WORLD_NAMING 3-2 紀念品可縮寫（7f72805f5）｜ 【AA-B 05:09】基準換 a76fb3308（工具修正：臺灣大學生不換、查證出處句留真名）；白名單 sha 用 a76fb3308；開發分支 A 類文件照同原則（查證、出處、授權、照片來源留真名），跑完看 diff ｜ 許教授全名使用者選 A（只改全名），AA 擬三個待使用者挑"
+   "notes": "【08:2x】使用者 04:31 對 AA 的原話（UA-AA-1030-55）：「不得未經我同意直接合併 main 或正式發布」——改名版要先問使用者同意才能合進 main、發布（下一版發布前問）｜ 【07:5x】子代理交件 world-rename-1030 d4e6e5305：scan_game 1072→83（OLD 79＝註解誤判 34、console 11、開發註記 33、舊存檔比對鍵 1；SPOKE／WROTE 各 2 誤判）、讀稿換名 read_fix、舊存檔顯示換、新測試 world_rename_unit；烘進貼圖的字交 LAWWW2；5 點轉 AA ｜ 【07:5x】v9.10.14 發布後 postrel-1030 合進開發分支（b576263b6）＋改名（ba315523b）｜ 【05:3x】scan_game.py --propose（企劃線 05c8bd0ce）：每一處檔:行、判斷（spoken／written／unknown）、建議新字；unknown 照口語，旁白地點系統字改 written；source／license／note／ref 開發註記跳過；開發分支基準 1069 處 ｜ 【05:3x】AA-B：工具第二輪（單獨「博雅」指教學館→博思、「臺大學生」→首都帝大學生；C 類歷史檔、查證出處句自動跳過），基準改 e9c73bcfd（取代 a76fb3308）；驗收掃描 scan_game.py（OLD／AA館／SPOKE／WROTE）；WORLD_NAMING 3-2 紀念品可縮寫（7f72805f5）｜ 【AA-B 05:09】基準換 a76fb3308（工具修正：臺灣大學生不換、查證出處句留真名）；白名單 sha 用 a76fb3308；開發分支 A 類文件照同原則（查證、出處、授權、照片來源留真名），跑完看 diff ｜ 許教授全名使用者選 A（只改全名），AA 擬三個待使用者挑",
+   "aliases": [
+    "RENAME-1030"
+   ]
   },
   {
    "id": "L118-CAFE2-STUDY-1030",
