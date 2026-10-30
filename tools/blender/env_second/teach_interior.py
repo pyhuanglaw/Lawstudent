@@ -9,7 +9,10 @@
 這個模型取代 teach3d.js 備用模型 fb0／fb1 裡的東西：地板、樓板、樓梯、外牆、隔間、窗框、天花板與燈、黑板、講桌、階梯教室的平台與走道台階、講台、黑板、投影幕、
   沙發、關著的房間的門、講座資訊螢幕的框、入口的門。**桌椅不在這裡**（遊戲的 Z3.desk／Z3.chair、LAWWW2 的 furniture_study.glb 照舊放；patch 把它們搬出 fb0／fb1）。
 不做：字（牌子、指標：遊戲用 canvas 畫）、公告欄（W3.bulletin）、長椅（W3.formalBench）、窗外的景（B3.outView）、點地面用的透明地板。
-真實性：房間配置是遊戲的模板（docs/campus/TEACHING_BUILDINGS_PLAN.md），材料是台灣大學教學館常見的做法（磨石子地板、輕鋼架礦纖天花板、白牆、綠黑板），不宣稱還原真實室內。"""
+真實性：房間配置是遊戲的模板（docs/campus/TEACHING_BUILDINGS_PLAN.md），材料是台灣大學教學館常見的做法（磨石子地板、輕鋼架礦纖天花板、白牆、綠黑板），不宣稱還原真實室內。
+2026-10-30 博思（BOYA-LM-1030，LAWWW2-B；LAWWW-B 派工、INTERIOR_AAA_REVIEW_1028 第 5 節 P1 光照＋P5 燈具）：
+  階梯教室的長桌、翻椅改在模型裡（LECT_<房號>_*、SEATPANS；照霖澤館 201 v2）：遊戲 patch（patches/boya_lecture_furn_1030.patch）看到 SEATPANS 就藏起備用的方塊桌椅、空位椅面掀起來（Z3.seatFold）；
+  天花板的燈板換成 T5 格柵燈具（1.2×0.6，格子線 x＝0.6k、z＝0.6k＋0.1）；光照烘焙 lightbake/bake_boya.sh。普通（--set putong）照舊：沒有階梯教室、燈板和格子不變。"""
 import json, math, os, sys
 HERE = os.path.dirname(os.path.abspath(__file__))
 sys.path.insert(0, HERE)

@@ -1,20 +1,17 @@
 # LAWWW2 交接紀錄（隨時更新；工作階段中斷時從這裡接）
 
-## ⏱ 現況（LAWWW2-B，2026-10-30 10:0x UTC；帳號 B 七天額度已到警示，隨時可能被切斷——接手的先讀這一段）
+## ⏱ 現況（LAWWW2-B，2026-10-30 13:0x UTC；帳號 B 七天額度已到警示，隨時可能被切斷——接手的先讀這一段）
 
-- **剛交（這一輪）**：
-  - **D115 改名美術字**（RENAME-ART-1030，`test_shots/rename_art_1030/README.md`）：校門石牌、晨思鐘、博思名牌（GLB extras），法律系館A 一樓公布欄、201 傳單、博思 203 海報、吉他社海報（貼圖），`ntu_linze.webp` 重拍，`bg_nccu.py` 站牌。
-    - 工具 `tools/blender/env_second/glb_patch.py`：只換貼圖或 extras，不重新匯出。
-    - 另附 `plate_border_cap_1030.patch`：博思名牌在遊戲裡讀不出來（外框比板面厚），一行修正，LAWWW-B 決定。
-  - **X133 總圖前草皮第一版**（LIB-LAWN-1030，`test_shots/lib_lawn_1030/README.md`）：`campus_lib_lawn.glb`＋`lib_lawn_1030.patch`（老樟樹、南側樹、六張長椅、六盞路燈）。
-- **之前交的**：X140 系外套（b84ce8d27）、#120 床欄透空 patch、X132 Café 窗外 3D 街（已合進 postrel dcf33a4e0）、Café 光照烘焙（53153491e）、DORM203（postrel 5720bf53c）。
-- **等使用者回答**（X133 規劃稿第四節）：草皮形狀、總圖門口台階、樟樹位置。回答以後照地圖調整第二版。
-- **法律學院圖書館 INTERIOR-AAA（D111 第三間）**：光照烘焙已交（LAWLIB-LM-1030，`test_shots/lawlib_lm_1030/README.md`；`bake_lawlib.sh`）。
-- **萬才館多功能教室 v2**（MULTI-ROOM-V2-1030，`test_shots/multi_room_v2_1030/README.md`）：已交。注意 `flat_classroom.py` 開發分支是 10-22 換回的舊版（沒有 202 v2），我這邊是 v2＋改名。
-- **下一步**：等 LAWWW-B 派工；X133 第二版等使用者回答。
-- CG 78 張查過舊校名：沒有（RENAME_ART_LIST 第四節）；BB 組的校園 2D 背景只看了縮圖。
-- **開發分支的 `tests/home_unit.js` 本來就 FAIL 2**（改名以後題目還寫「政大」，程式出「木柵大學」）：不是我的，回報 LAWWW-B。
-- **沒有遠端備份的**：只有本機暫存的截圖（scratchpad），重拍就有。
+- **正在做：BOYA-LM-1030 博思教學館室內**（LAWWW-B 10-30 派工，D99 經濟系那一年第一優先；`test_shots/boya_lm_1030/README.md`）。`WORK_IN_PROGRESS`。
+  - 已完成：`teach_interior.py`（101／102 長桌、翻椅 SEATPANS；T5 格柵燈具）、`lightbake/bake_boya.sh`、`patches/boya_lecture_furn_1030.patch`（teach3d.js：藏起備用方塊桌椅、空位椅面掀起來）、改前截圖、改前效能、三次 64 取樣試烘焙。
+  - 正在跑：512 取樣正式烘焙（測試樹 scratchpad/bywt＝開發 dd8b216c0＋這一包；**GLB、光照貼圖還沒進我的分支**，烘完才 commit）。
+  - 還沒做：改後截圖、改後效能、全部 Node、README 收尾、交件。
+  - 接手：在開發分支的 checkout 上複製這三個檔（teach_interior.py、bake_boya.sh、patch），套 patch，`bash tools/blender/env_second/lightbake/bake_boya.sh`（512 取樣約半小時）。
+- **派工佇列（LAWWW-B 10-30，照順序）**：BOYA-LM-1030 → SOCLIB-LM-1030（社科院圖書館光照烘焙）→ NOODLE-LM-1030（麵店光照烘焙）。ART-ZR-PS-3D-1022（芷若、沛珊 3D）排在三間之後，博思交件時先回報進度。
+- **已交、已整合（10-30）**：D115 改名美術字＋博思名牌外框（f75d60a4c）、X133 草皮第一版（f75d60a4c）、法律學院圖書館光照（6e3a95623）、多功能教室 v2（95da49eab）、LIB-HALL-LM／RT-NIGHT（bbe0c9469）。
+- **等使用者回答**（X133 規劃稿第四節）：草皮形狀、總圖門口台階、樟樹位置。
+- **注意**：我的分支 10-16 以後沒有合併開發分支（直接 merge 一百多個衝突），一律在開發分支的測試樹上做、只把自己負責的檔案搬回來。
+- **沒有遠端備份的**：scratchpad 的截圖、測試樹（重做就有）。
 
 ## 📣 給 LAWWW-B（2026-10-30 10:0x UTC｜D115 改名美術字＋X133 總圖前草皮第一版 交件；send_message 另外傳）
 
