@@ -36644,8 +36644,8 @@
    "title": "手機人物頁補「全名、怎麼認識的、和你的關係」（使用者 10-30「玩這麼久搞不清楚阿哲是誰」）：阿哲先、其他常出現的朋友一起",
    "area": "STORY",
    "owner": "LAWWW",
-   "status": "進行中",
-   "next": "LAWWW 接 AA_543（企劃線 d483ecbbf）：personHTML 加「你們」一段（13 人、條件成立才顯示、一頁最多 6 行）、個性改 8 人、經濟系開局 9/2 搬進 412 記韋綸唐睿 FIRST_MET → BB 照第 4 節測",
+   "status": "已實作待整合",
+   "next": "全部 Node 跑完（背景）→ 已整合待測試 → BB 照 AA_543 第 4 節測；AA 回實作時定的 7 處（6 行分類等）",
    "priority": "P1",
    "first": {
     "term": "Y1S1",
@@ -36666,7 +36666,8 @@
     "receiver": "LAWWW",
     "ack": "ACK"
    },
-   "notes": "阿哲＝張哲維（ev_zhe_w1_meet 最後一句才報全名）；personHTML 目前只有 personality 一句"
+   "notes": "阿哲＝張哲維（ev_zhe_w1_meet 最後一句才報全名）；personHTML 目前只有 personality 一句",
+   "sha": "f4adf6cb7"
   }
  ]
 }
