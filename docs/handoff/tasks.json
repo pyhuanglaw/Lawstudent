@@ -35603,8 +35603,8 @@
    "title": "重做 AA_524（以安芷若語彤 34 條）、AA_525（子晴沛珊可昕 29 條）說了沒發生：帳號 C 10-28 15:06 派的兩個子代理成果沒 push 遺失",
    "area": "STORY",
    "owner": "LAWWW",
-   "status": "已實作待整合",
-   "next": "v9.10.14 發布後依序合 aa524-promises（553a63b39）→ aa525-promises（61c63ce81），重跑 import_ladder／import_date_lines／import_wish，全部 Node，SHA 給 BB",
+   "status": "已整合待測試",
+   "next": "已進開發分支（postrel-1030 合併 b576263b6、改名 ba315523b）→ BB 測（下一版）",
    "priority": "P2",
    "first": {
     "term": "Y1S1",
@@ -35618,15 +35618,15 @@
    },
    "source": "DL-AA-524（8fd10848d）、DL-AA-525（6081f725f）；AA-B 10-30 02:12 確認遺失",
    "authorized": "D109、D111",
-   "notes": "【LAWWW-B 03:5x】發布後合併預備分支 postrel-1030（本機 worktree，D113 備份 wip_backup/postrel_1030.bundle）：AA_524＋AA_525（工具、白名單衝突兩邊都留，重產 ladder／date_lines）＋l118-r2＋aopen-r2；合併修正 20311f0c0：AA_524 Z9 明信片背面改看 YT_CONFESSED（AA_482 以後坦白不當場退回朋友），已問 AA；四條合起來全部 Node 735 支只差 aa524 Z9 那一項，修正後相關測試全過 ｜ 【LAWWW-B 03:4x】AA_526 兩邊都做完：AA_524 553a63b39（135 項 ALL PASS、基底 FAILED 9、全部 Node 734／0）；AA_525 61c63ce81（92 項 ALL PASS、修改前 FAILED 10、全部 Node 734／0）；沒有新問題給 AA ｜ AA_525 子代理 03:0x 做完 b179ed93b（84 項 ALL PASS、全部 Node 734／0），備份 wip_backup/aa525_1030.bundle；問 AA 五點（D15 布丁、大三上期末飯二選一矛盾、1-1 去年的份、3-9 接到電話沒答應見面、2-1 只有舊存檔走到）；新背景 tc_schoolroad 要圖（BB）。 ｜ AA_524 子代理 03:1x 做完 d01cd442e（122 項 ALL PASS、全部 Node 734／0），備份 wip_backup/aa524_1030.bundle；問 AA 四點（Z3 摘要旁白、Y3 河濱只接「我來幫忙。」、Y5 YT_TEN_MINUTES 整層都記、A2「讓我想想」不補）。兩條都等 v9.10.14 發布後合。 ｜ AA-B 03:12 回九題 AA_526（4ada43291）：AA_524 Z3 補早場兩句、Y3 第二選項換、Y5 只給選陪等的（YT_WAIT_CLOSE）、A2 下學期第二次邀約補；AA_525 D15 拿掉下次滷味、3-11 KX.Y3S1 第二句撤回、1-1 只給聽過第三張的（ZQ_STICKER3）、3-9 擴大、2-1 照舊 → 交回兩個子代理另一個 commit。"
+   "notes": "【07:5x】v9.10.14 發布後 postrel-1030 合進開發分支（b576263b6）＋改名（ba315523b）｜ 【LAWWW-B 03:5x】發布後合併預備分支 postrel-1030（本機 worktree，D113 備份 wip_backup/postrel_1030.bundle）：AA_524＋AA_525（工具、白名單衝突兩邊都留，重產 ladder／date_lines）＋l118-r2＋aopen-r2；合併修正 20311f0c0：AA_524 Z9 明信片背面改看 YT_CONFESSED（AA_482 以後坦白不當場退回朋友），已問 AA；四條合起來全部 Node 735 支只差 aa524 Z9 那一項，修正後相關測試全過 ｜ 【LAWWW-B 03:4x】AA_526 兩邊都做完：AA_524 553a63b39（135 項 ALL PASS、基底 FAILED 9、全部 Node 734／0）；AA_525 61c63ce81（92 項 ALL PASS、修改前 FAILED 10、全部 Node 734／0）；沒有新問題給 AA ｜ AA_525 子代理 03:0x 做完 b179ed93b（84 項 ALL PASS、全部 Node 734／0），備份 wip_backup/aa525_1030.bundle；問 AA 五點（D15 布丁、大三上期末飯二選一矛盾、1-1 去年的份、3-9 接到電話沒答應見面、2-1 只有舊存檔走到）；新背景 tc_schoolroad 要圖（BB）。 ｜ AA_524 子代理 03:1x 做完 d01cd442e（122 項 ALL PASS、全部 Node 734／0），備份 wip_backup/aa524_1030.bundle；問 AA 四點（Z3 摘要旁白、Y3 河濱只接「我來幫忙。」、Y5 YT_TEN_MINUTES 整層都記、A2「讓我想想」不補）。兩條都等 v9.10.14 發布後合。 ｜ AA-B 03:12 回九題 AA_526（4ada43291）：AA_524 Z3 補早場兩句、Y3 第二選項換、Y5 只給選陪等的（YT_WAIT_CLOSE）、A2 下學期第二次邀約補；AA_525 D15 拿掉下次滷味、3-11 KX.Y3S1 第二句撤回、1-1 只給聽過第三張的（ZQ_STICKER3）、3-9 擴大、2-1 照舊 → 交回兩個子代理另一個 commit。"
   },
   {
    "id": "AA527-FIX-1030",
    "title": "AA_527（讀 AA_496～523 實作）照改：第 1 節稿的口氣七處（學姊編號四句、Kevin 明信片玩笑、{name}、AA_515 三位、芷若格言、宥辰模擬法庭、承恩→維倫）＋第 2 節程式七處（別人說起她本人在旁不說、阿姨繃帶只大一下 8～9 週、C6 三列、阿哲句號、地點日子五處、學妹那句與沛珊營隊、清晨訊息停 07:30）",
    "area": "STORY",
    "owner": "LAWWW",
-   "status": "已實作待整合",
-   "next": "aa-followup-1030 已合進 postrel-1030（f63f5b8cf）→ v9.10.14 後進開發分支 → BB 測",
+   "status": "已整合待測試",
+   "next": "已進開發分支（postrel-1030 合併 b576263b6、改名 ba315523b）→ BB 測（下一版）",
    "priority": "P2",
    "first": {
     "term": "Y1S1",
@@ -35640,7 +35640,7 @@
    },
    "source": "AA_527（企劃線 bfede0a62，outbox 220b632bf）",
    "authorized": "D109、D111",
-   "notes": "【05:5x】aa-followup-1030 b2bc2dea3 交件：AA_529⑤聚會旁白排在回程字幕後、⑦社團三則 quiet（PHONE.loud，各快轉不停）、AA_527-2 h504 第 9 週起順延（weekFrom）、AA_528-9 佳蓉 meetB／gradB；新測試 aa_followup_1030_unit 26 項（基準 FAILED 15）；全部 Node 743／0；5 個細節轉 AA 確認 ｜ 【LAWWW-B 04:5x】子代理做完 2637ea798（89 項 ALL PASS、基準 FAILED 73、全部 Node 734／0）；13 個細節轉 AA ｜ 第 4 節許教授全名要問使用者（A 只改全名／B 連姓改／C 不改），由 AA 問；這項不等它。AA_499～502 那一組 AA 另交。"
+   "notes": "【07:5x】v9.10.14 發布後 postrel-1030 合進開發分支（b576263b6）＋改名（ba315523b）｜ 【05:5x】aa-followup-1030 b2bc2dea3 交件：AA_529⑤聚會旁白排在回程字幕後、⑦社團三則 quiet（PHONE.loud，各快轉不停）、AA_527-2 h504 第 9 週起順延（weekFrom）、AA_528-9 佳蓉 meetB／gradB；新測試 aa_followup_1030_unit 26 項（基準 FAILED 15）；全部 Node 743／0；5 個細節轉 AA 確認 ｜ 【LAWWW-B 04:5x】子代理做完 2637ea798（89 項 ALL PASS、基準 FAILED 73、全部 Node 734／0）；13 個細節轉 AA ｜ 第 4 節許教授全名要問使用者（A 只改全名／B 連姓改／C 不改），由 AA 問；這項不等它。AA_499～502 那一組 AA 另交。"
   },
   {
    "id": "AA528-FIX-1030",
@@ -35728,8 +35728,8 @@
    "title": "快速存檔獨立一格：💾 存到 fatiao3d_quick（不被自動存檔蓋掉），選單存檔頁與標題讀取看得到、可讀取；自動存檔、欄位 1～3 不變",
    "area": "SYS",
    "owner": "LAWWW",
-   "status": "已實作待整合",
-   "next": "v9.10.14 新候選（dda717bdd）BB 測",
+   "status": "已驗收",
+   "next": "—（已發布 v9.10.14）",
    "priority": "P1",
    "first": {
     "term": "Y0S1",
@@ -35743,15 +35743,16 @@
    },
    "source": "使用者 10-30 03:5x 選擇題（UA-LAWWW-1030-05，USER_WANTS X126）",
    "authorized": "使用者",
-   "notes": "【LAWWW-B 04:1x】提前進 v9.10.14：cherry-pick 到開發分支 1b9354379（和 BUG-SAVE-NEWGAME-1030 一起） ｜ 【LAWWW-B 04:0x】postrel-1030 7a6c12473：💾 存 fatiao3d_quick（上一份備份 fatiao3d_backup），存檔頁「自動存檔」下面一格「快速存檔（右上 💾）」只有讀取（第一個「存檔」鈕照舊是欄位 1，瀏覽器測試不受影響）；quick_save_unit 修改前 FAILED 6 → ALL PASS"
+   "notes": "【07:5x】v9.10.14 已發布（main 271cd2305，PR #20）；BB-B 07:36 暫定 GO（BB_218 2b44483c6：存檔①～⑤ 修正前 92e9bca92 FAIL→過；relsuite15 765 PASS）；發布樹全部 Node 734／0 ｜ 【LAWWW-B 04:1x】提前進 v9.10.14：cherry-pick 到開發分支 1b9354379（和 BUG-SAVE-NEWGAME-1030 一起） ｜ 【LAWWW-B 04:0x】postrel-1030 7a6c12473：💾 存 fatiao3d_quick（上一份備份 fatiao3d_backup），存檔頁「自動存檔」下面一格「快速存檔（右上 💾）」只有讀取（第一個「存檔」鈕照舊是欄位 1，瀏覽器測試不受影響）；quick_save_unit 修改前 FAILED 6 → ALL PASS",
+   "evidence": "v9.10.14 已發布（main 271cd2305，PR #20）；BB-B 07:36 暫定 GO（BB_218 2b44483c6：存檔①～⑤ 修正前 92e9bca92 FAIL→過；relsuite15 765 PASS）；發布樹全部 Node 734／0"
   },
   {
    "id": "AA522-ANSVAR-1030",
    "title": "AA_522 第 9 節第 1 點：民總第一堂第一次跟周教授說話，classAnswer 的 half／bold／absent 沒有稿，現在說一般那句「週四下課以後我都在」（那天就是週四、研究室下週才開）",
    "area": "STORY",
    "owner": "LAWWW",
-   "status": "已實作待整合",
-   "next": "已在 postrel-1030（6c37df703）→ v9.10.14 後進開發分支 → BB 測（民總第一堂答一半／說成立／沒來，下課找周教授）",
+   "status": "已整合待測試",
+   "next": "已進開發分支（postrel-1030 合併 b576263b6、改名 ba315523b）→ BB 測（下一版）",
    "priority": "P3",
    "first": {
     "term": "Y1S1",
@@ -35772,15 +35773,15 @@
     "receiver": "LAWWW",
     "ack": "ACTIONED"
    },
-   "notes": "【07:2x】AA-B：稿早在 50cd33b53（03:4x）交了、outbox 漏登；照三句做（S.ZHOU_W1），新測試 aa522_ansvar_unit ｜ 不擋 v9.10.14"
+   "notes": "【07:5x】v9.10.14 發布後 postrel-1030 合進開發分支（b576263b6）＋改名（ba315523b）｜ 【07:2x】AA-B：稿早在 50cd33b53（03:4x）交了、outbox 漏登；照三句做（S.ZHOU_W1），新測試 aa522_ansvar_unit ｜ 不擋 v9.10.14"
   },
   {
    "id": "BUG-SAVE-NEWGAME-1030",
    "title": "P0 存檔被蓋掉：💾 快速存檔存在自動存檔那一格，標題按開新遊戲第一次自動存檔就蓋掉、沒有備份、讀不到（使用者實際遺失進度）",
    "area": "SYS",
    "owner": "LAWWW",
-   "status": "已實作待整合",
-   "next": "v9.10.14 候選 b38b112a8（含 AA_529 第 1 點）→ BB 跑 save_compat＋release_suite＋瀏覽器①～⑤＋經濟系沒有可昕主動約 → GO 後發布",
+   "status": "已驗收",
+   "next": "—（已發布 v9.10.14）",
    "priority": "P0",
    "first": {
     "term": "Y0S1",
@@ -35794,15 +35795,16 @@
    },
    "source": "使用者 10-30 04:0x（UA-LAWWW-1030-06，USER_WANTS X127）",
    "authorized": "使用者",
-   "notes": "【05:1x】BB-B b38b112a8 存檔①～⑤全過（修正前 92e9bca92 照預期 FAIL）；BB 觀察（不擋）：照 day 刪會先刪經濟系序章 → 下一版 postrel ccdff6d53 改成照演過的事件數、步數，同一個開局只留一份 ｜ dda717bdd：開新遊戲（三個按鈕）先備份自動存檔、快速存檔到 fatiao3d_backup_new_<savedAt>（最多 3 份，刪進度最少的）、寫不進去先問；存檔頁 #saveBackups 列出全部 fatiao3d_backup* 可讀取；save_newgame_backup_unit 修改前 FAILED → ALL PASS。使用者這一次被蓋掉的自動存檔救不回來；可能還在的：fatiao3d_backup（覆蓋欄位、匯入前）、fatiao3d_backup_y0end（經濟系最後一天）、欄位 1～3 → 新版的「備份」區看得到。已請使用者新版上線前別按欄位存檔、匯入（會蓋 fatiao3d_backup）"
+   "notes": "【07:5x】v9.10.14 已發布（main 271cd2305，PR #20）；BB-B 07:36 暫定 GO（BB_218 2b44483c6：存檔①～⑤ 修正前 92e9bca92 FAIL→過；relsuite15 765 PASS）；發布樹全部 Node 734／0 ｜ 【05:1x】BB-B b38b112a8 存檔①～⑤全過（修正前 92e9bca92 照預期 FAIL）；BB 觀察（不擋）：照 day 刪會先刪經濟系序章 → 下一版 postrel ccdff6d53 改成照演過的事件數、步數，同一個開局只留一份 ｜ dda717bdd：開新遊戲（三個按鈕）先備份自動存檔、快速存檔到 fatiao3d_backup_new_<savedAt>（最多 3 份，刪進度最少的）、寫不進去先問；存檔頁 #saveBackups 列出全部 fatiao3d_backup* 可讀取；save_newgame_backup_unit 修改前 FAILED → ALL PASS。使用者這一次被蓋掉的自動存檔救不回來；可能還在的：fatiao3d_backup（覆蓋欄位、匯入前）、fatiao3d_backup_y0end（經濟系最後一天）、欄位 1～3 → 新版的「備份」區看得到。已請使用者新版上線前別按欄位存檔、匯入（會蓋 fatiao3d_backup）",
+   "evidence": "v9.10.14 已發布（main 271cd2305，PR #20）；BB-B 07:36 暫定 GO（BB_218 2b44483c6：存檔①～⑤ 修正前 92e9bca92 FAIL→過；relsuite15 765 PASS）；發布樹全部 Node 734／0"
   },
   {
    "id": "AA529-ECON-FIX-1030",
    "title": "AA_529 經濟系第 2～6 點：走啦群組改 10/15 聚會回家路上建（舊存檔補）、10/16 總圖與 7/13 對答案兩張日期卡掛到 10/17 14:40、7/13 10:00 空白卡下、K7 週年卡 p4 換句、長頸鹿鑰匙圈補兩句旁白、小的五處（K0b-L1 國界 2/15～3/15、品妤 10/31 換句、8/29 換字、9/21 社團群組每社團三則、4/25～6/7 日期卡拆兩張）",
    "area": "STORY",
    "owner": "LAWWW",
-   "status": "已實作待整合",
-   "next": "aa-followup-1030 已合進 postrel-1030（f63f5b8cf）→ v9.10.14 後進開發分支 → BB 測",
+   "status": "已整合待測試",
+   "next": "已進開發分支（postrel-1030 合併 b576263b6、改名 ba315523b）→ BB 測（下一版）",
    "priority": "P1",
    "first": {
     "term": "Y0S1",
@@ -35816,15 +35818,15 @@
    },
    "source": "AA_529（企劃線 881029f98）",
    "authorized": "D99、D109、D111",
-   "notes": "【05:5x】aa-followup-1030 b2bc2dea3 交件：AA_529⑤聚會旁白排在回程字幕後、⑦社團三則 quiet（PHONE.loud，各快轉不停）、AA_527-2 h504 第 9 週起順延（weekFrom）、AA_528-9 佳蓉 meetB／gradB；新測試 aa_followup_1030_unit 26 項（基準 FAILED 15）；全部 Node 743／0；5 個細節轉 AA 確認 ｜ 【05:0x】子代理做完（46 項、基準 FAILED 25、全部 Node 735／0）；7 點轉 AA ｜ 第 1 點已修 b38b112a8（v9.10.14）。USER_WANTS X27 寫成「預設版用日期卡、長版有場景」（AA）"
+   "notes": "【07:5x】第 1 點（可昕不主動約）已在 v9.10.14 發布 ｜ 【07:5x】v9.10.14 發布後 postrel-1030 合進開發分支（b576263b6）＋改名（ba315523b）｜ 【05:5x】aa-followup-1030 b2bc2dea3 交件：AA_529⑤聚會旁白排在回程字幕後、⑦社團三則 quiet（PHONE.loud，各快轉不停）、AA_527-2 h504 第 9 週起順延（weekFrom）、AA_528-9 佳蓉 meetB／gradB；新測試 aa_followup_1030_unit 26 項（基準 FAILED 15）；全部 Node 743／0；5 個細節轉 AA 確認 ｜ 【05:0x】子代理做完（46 項、基準 FAILED 25、全部 Node 735／0）；7 點轉 AA ｜ 第 1 點已修 b38b112a8（v9.10.14）。USER_WANTS X27 寫成「預設版用日期卡、長版有場景」（AA）"
   },
   {
    "id": "AA531-US-FIX-1030",
    "title": "AA_531 美國交換：①lane118 人在美國照樣揪 118 午餐（14 次）→ 在國外不發、其他阿哲揪人同查；②和臺灣的人交往中四個半月幾乎沒聯絡 → 以安、語彤、子晴、沛珊各五樣（七夕、中秋、視訊、12/23）；③國外版三處（沛珊 ps3 不算國外月份、子晴 zq2 選項、語彤阿姨）；④勞動節烤肉 9/3 21:00 一則（交往中學姊私訊／挽回中社區信）；⑤上課每門再四句、us_comp 期末報告與 us_intro 期末考各一場；⑥大峽谷 10/9、10/11 補句；⑦小的四處（以安 9/15 生日視訊自動排、可昕七夕只留 usl_qixi、挽回中 greetUS 換句、學姊週日視訊旁白七句輪流）",
    "area": "STORY",
    "owner": "LAWWW",
-   "status": "已實作待整合",
-   "next": "已合進 postrel-1030（ca39039fe，含第 8 節、8-5 a28201f61）→ v9.10.14 後進開發分支 → BB 測美國路線",
+   "status": "已整合待測試",
+   "next": "已進開發分支（postrel-1030 合併 b576263b6、改名 ba315523b）→ BB 測（下一版）",
    "priority": "P1",
    "first": {
     "term": "Y3S1",
@@ -35838,15 +35840,15 @@
    },
    "source": "AA_531（企劃線 475f55fe6）",
    "authorized": "D99、D109、D111",
-   "notes": "【06:4x】8-5 語彤國外版回問兩句（生日兩選項、「打給我」兩選項＋電話）做完；aa531_us 57 項；全部 Node 757／0 ｜ 【06:2x】第 8 節做完（aa531-us 98b2a1aa4，新測試 49 項，全部 Node 756／0）｜ 【06:0x】AA-B 05:55：AA_531 第 8 節（41ec9a6ac）：四處改稿、語彤「店裡的時間」照 act:help 生效、四句國外版（美國、日本）；交回同一個子代理 ｜ 【06:3x】子代理交件：118 午餐國外不揪、四位伴侶各五樣、ps3／zq2／語彤國外版、勞動節、上課十二句＋兩堂期末、大峽谷補句、以安生日視訊、可昕七夕、挽回中招呼、七句旁白；新測試 aa531_us_unit 40 項（基準 FAILED 33）；全部 Node 只剩 aa532 三項（已修）｜ 挽回中「她不私訊」照設計不改（AA）"
+   "notes": "【07:5x】v9.10.14 發布後 postrel-1030 合進開發分支（b576263b6）＋改名（ba315523b）｜ 【06:4x】8-5 語彤國外版回問兩句（生日兩選項、「打給我」兩選項＋電話）做完；aa531_us 57 項；全部 Node 757／0 ｜ 【06:2x】第 8 節做完（aa531-us 98b2a1aa4，新測試 49 項，全部 Node 756／0）｜ 【06:0x】AA-B 05:55：AA_531 第 8 節（41ec9a6ac）：四處改稿、語彤「店裡的時間」照 act:help 生效、四句國外版（美國、日本）；交回同一個子代理 ｜ 【06:3x】子代理交件：118 午餐國外不揪、四位伴侶各五樣、ps3／zq2／語彤國外版、勞動節、上課十二句＋兩堂期末、大峽谷補句、以安生日視訊、可昕七夕、挽回中招呼、七句旁白；新測試 aa531_us_unit 40 項（基準 FAILED 33）；全部 Node 只剩 aa532 三項（已修）｜ 挽回中「她不私訊」照設計不改（AA）"
   },
   {
    "id": "AA532-VAC-FIX-1030",
    "title": "AA_532 寒暑假（一）：①除夕前一天～初三七位都不主動約（學姊除夕總圖、語彤初一備料、子晴初一 Café）、cracktalk S.ytShop 看店休；②過年（2027／2029 除夕年夜飯、四年初一家人群組長輩圖、麵店團初一 2028／2029、以安交往中除夕私訊三年、2027 元宵）；③主動約你放假版七句、學姊放假改下午、芷若「好！那到時候見。」；④留宿舍放假也發週四家人群組、父親節三年、端午 2026；⑤子晴「玩我的遊戲」三版各自寫；⑥京都以安、曼谷子晴交往中換版；⑦小的（總圖放假兩句換字、「我還在念書。」、以安假期計畫照 AA_244 第 1 節）＋AA_533 寒暑假活動內容（C13 和女朋友出國七位各加到了／中間、活動卡第一次、回她的縣市再去、小出遊、快轉旁白分年、摘要池接著輪、晚餐題目＋3）",
    "area": "STORY",
    "owner": "LAWWW",
-   "status": "已實作待整合",
-   "next": "postrel-1030 3808792fe → v9.10.14 後進開發分支 → BB 測",
+   "status": "已整合待測試",
+   "next": "已進開發分支（postrel-1030 合併 b576263b6、改名 ba315523b）→ BB 測（下一版）",
    "priority": "P1",
    "first": {
     "term": "Y1S1",
@@ -35860,15 +35862,15 @@
    },
    "source": "AA_532（企劃線 ade80d22f）；AA_533（企劃線 cf0066ed2）",
    "authorized": "D99、D109、D111",
-   "notes": "【05:3x】AA-B 05:12 回覆：C15 選 A（照 AA_525，AA_532 第 5 節作廢）；十四點第 1（學姊放假平日照學期中、總圖五點以後、週末下午）、5（留宿舍週四爸爸「？」quiet、除夕～初五不傳）、7（京都交往版回覆不重複「分班考分的。」）照改，其他照原做法——postrel 3808792fe，aa532_vac_unit 全過（第 8 節四項新增） ｜ 【05:2x】合進 postrel-1030 2eeb91a85（兩份都留；子晴 C15 三場 AA_525 與 AA_532 衝突、先照 AA_525、問 AA；aa532_vac_unit 第 0、5 節 3 項暫時 FAIL）｜ 【05:1x】子代理做完（AA_532 41 項、AA_533 27 項、全部 Node 737／0）；14 點轉 AA ｜ 【LAWWW-B 04:3x】AA_533 交給同一個子代理接著做 ｜ "
+   "notes": "【07:5x】v9.10.14 發布後 postrel-1030 合進開發分支（b576263b6）＋改名（ba315523b）｜ 【05:3x】AA-B 05:12 回覆：C15 選 A（照 AA_525，AA_532 第 5 節作廢）；十四點第 1（學姊放假平日照學期中、總圖五點以後、週末下午）、5（留宿舍週四爸爸「？」quiet、除夕～初五不傳）、7（京都交往版回覆不重複「分班考分的。」）照改，其他照原做法——postrel 3808792fe，aa532_vac_unit 全過（第 8 節四項新增） ｜ 【05:2x】合進 postrel-1030 2eeb91a85（兩份都留；子晴 C15 三場 AA_525 與 AA_532 衝突、先照 AA_525、問 AA；aa532_vac_unit 第 0、5 節 3 項暫時 FAIL）｜ 【05:1x】子代理做完（AA_532 41 項、AA_533 27 項、全部 Node 737／0）；14 點轉 AA ｜ 【LAWWW-B 04:3x】AA_533 交給同一個子代理接著做 ｜ "
   },
   {
    "id": "DORM-SLEEP-VISUAL-1030",
    "title": "宿舍睡覺要有畫面＋床比例＋室友書桌擺設不重疊（使用者 10-30 04:2x 對 LAWWW2）：LAWWW2 交床上躺位與頭向、梯子踏點、睡覺鏡頭、熄燈光照貼圖、床比例、書桌不重疊（dorm_room4.layout.json＋zones3d.js patch 草稿）；LAWWW 做爬梯／躺下動作與睡覺流程接線",
    "area": "ART",
    "owner": "LAWWW2",
-   "status": "已實作待整合",
-   "next": "dorm-sleep 6bcca1d71 已合進 postrel-1030（f63f5b8cf）→ v9.10.14 後進開發分支 → BB 測（瀏覽器整晚＋存讀檔）；LAWWW2：z.lightsOff 光照貼圖、睡覺運鏡的床欄透空（D108）、新 GLB 交了重拍",
+   "status": "已整合待測試",
+   "next": "已進開發分支（postrel-1030 合併 b576263b6、改名 ba315523b）→ BB 測（下一版）",
    "priority": "P1",
    "first": {
     "term": "Y1S1",
@@ -35889,15 +35891,15 @@
     "receiver": "LAWWW",
     "ack": "ACK"
    },
-   "notes": "【07:3x】床欄透空接好（S.lieDown 設 E.cam.seeThru，中心床墊上 0.28 m、r 0.2、aspect 0.5；爬下來、populate 清），postrel 4a4b0cd4a ｜ 【06:4x】床欄透空：LAWWW2 cine_seethru_1030.patch（E.cam.seeThru）由 jacket-econ-1030 子代理一起接（S.lieDown 設、起床清）｜ 【05:4x】子代理交件：走到梯子→爬四階→躺→熄燈（暫用曝光壓暗，z.lightsOff 有就用）→淡出；醒來在床上→爬下來站梯子前；小睡、經濟系「睡到下一件事」醒來直接站梯子前（沒有床上醒來那段）；室友照舊；存檔存梯子前；新測試 dorm_sleep_scene_unit（基準 FAILED 1→ALL PASS），全部 Node 739／0；截圖 7 張（SwiftShader）｜ 【LAWWW2-B 04:26】先交數字 98f8a41f7（dorm_room4.layout.json 每組床桌 sleep_scene：approach、steps 四階、bed_entry、lie head/feet/頭向、cam eye/look）；床墊 1.85→1.92 m、床尾擋板移到走道那一半（GLB 和熄燈光照之後交）→ LAWWW 接睡覺流程 ｜ LAWWW 部分（人物動作、流程）等 LAWWW2 的 layout；203 光照第四輪照舊，兩點半 Café 往後排"
+   "notes": "【07:5x】v9.10.14 發布後 postrel-1030 合進開發分支（b576263b6）＋改名（ba315523b）｜ 【07:3x】床欄透空接好（S.lieDown 設 E.cam.seeThru，中心床墊上 0.28 m、r 0.2、aspect 0.5；爬下來、populate 清），postrel 4a4b0cd4a ｜ 【06:4x】床欄透空：LAWWW2 cine_seethru_1030.patch（E.cam.seeThru）由 jacket-econ-1030 子代理一起接（S.lieDown 設、起床清）｜ 【05:4x】子代理交件：走到梯子→爬四階→躺→熄燈（暫用曝光壓暗，z.lightsOff 有就用）→淡出；醒來在床上→爬下來站梯子前；小睡、經濟系「睡到下一件事」醒來直接站梯子前（沒有床上醒來那段）；室友照舊；存檔存梯子前；新測試 dorm_sleep_scene_unit（基準 FAILED 1→ALL PASS），全部 Node 739／0；截圖 7 張（SwiftShader）｜ 【LAWWW2-B 04:26】先交數字 98f8a41f7（dorm_room4.layout.json 每組床桌 sleep_scene：approach、steps 四階、bed_entry、lie head/feet/頭向、cam eye/look）；床墊 1.85→1.92 m、床尾擋板移到走道那一半（GLB 和熄燈光照之後交）→ LAWWW 接睡覺流程 ｜ LAWWW 部分（人物動作、流程）等 LAWWW2 的 layout；203 光照第四輪照舊，兩點半 Café 往後排"
   },
   {
    "id": "DORM203-LM-1030",
    "title": "宿舍四人房光照烘焙（白天、晚上、熄燈三張）、床墊 1.92 m、床尾擋板移到走道那一半、五個年份書桌不重疊（使用者 X125 室內廉價感、X128 床的比例與書桌重疊）",
    "area": "ART",
    "owner": "LAWWW2",
-   "status": "已實作待整合",
-   "next": "已合進 postrel-1030（dorm203-lm ff443f5fc，LAWWW2-B 2082cdfc1）→ v9.10.14 後進開發分支 → BB 測（睡覺畫面重拍、熄燈）；床欄透空 LAWWW2 做（E.cam.seeThru）",
+   "status": "已整合待測試",
+   "next": "已進開發分支（postrel-1030 合併 b576263b6、改名 ba315523b）→ BB 測（下一版）",
    "priority": "P1",
    "first": {
     "term": "Y1S1",
@@ -35918,15 +35920,15 @@
     "receiver": "LAWWW",
     "ack": "ACTIONED"
    },
-   "notes": "【06:2x】整合：patch＋二進位＋layout 重產；熄燈半球光方向光乘 0.15（STORY.DARK_LIGHTS，dorm_dark_lights_unit）；READY_FOR_ART_REVIEW（建築場景 ART_APPROVED 只有使用者能標）"
+   "notes": "【07:5x】v9.10.14 發布後 postrel-1030 合進開發分支（b576263b6）＋改名（ba315523b）｜ 【06:2x】整合：patch＋二進位＋layout 重產；熄燈半球光方向光乘 0.15（STORY.DARK_LIGHTS，dorm_dark_lights_unit）；READY_FOR_ART_REVIEW（建築場景 ART_APPROVED 只有使用者能標）"
   },
   {
    "id": "NPC-STALL-1030",
    "title": "NPC 離開空間卡在門口一直走（原地踏步）",
    "area": "SYS",
    "owner": "LAWWW",
-   "status": "已實作待整合",
-   "next": "postrel-1030 5b48dc350 → v9.10.14 發布後進開發分支 → BB 瀏覽器測（Café 23:00、教室下課、麵店離開）",
+   "status": "已整合待測試",
+   "next": "已進開發分支（postrel-1030 合併 b576263b6、改名 ba315523b）→ BB 測（下一版）",
    "priority": "P1",
    "first": {
     "term": "Y1S1",
@@ -35940,15 +35942,15 @@
    },
    "source": "使用者 10-30 04:2x（UA-LAWWW-1030-07，X129）",
    "authorized": "使用者",
-   "notes": "npc_stall_unit 修改前 FAILED → ALL PASS"
+   "notes": "【07:5x】v9.10.14 發布後 postrel-1030 合進開發分支（b576263b6）＋改名（ba315523b）｜ npc_stall_unit 修改前 FAILED → ALL PASS"
   },
   {
    "id": "INVITE-OPTS-1030",
    "title": "約她的選項：學姊也約不到其他活動；七位統一、更多、太多就分階層（吃飯／念書／散步／校外…）",
    "area": "SYS",
    "owner": "LAWWW",
-   "status": "已實作待整合",
-   "next": "已合進 postrel-1030（6b231ca8a，含 AA_535b 第 4 節 b3e5bca3b）→ v9.10.14 後進開發分支 → BB 測",
+   "status": "已整合待測試",
+   "next": "已進開發分支（postrel-1030 合併 b576263b6、改名 ba315523b）→ BB 測（下一版）",
    "priority": "P1",
    "first": {
     "term": "Y1S1",
@@ -35962,15 +35964,15 @@
    },
    "source": "使用者 10-30 04:2x（UA-LAWWW-1030-08，X130）；AA_535b（企劃線 2dbcc5691）",
    "authorized": "使用者",
-   "notes": "【06:1x】AA-B 06:10：沛珊大三起照現在（在台南，約不到＝她不在，跟故事一致；大三起在臺北那套是 BB_163 舊設定，留著不動）；可昕 firstAt 經濟系那一年不說（照現在）｜ 【06:1x】AA_535b 第 4 節照做（語彤 walk 看 H8、可昕六處、沛珊改早上 10:00；aa535b 86 項；全部 Node 757／0）｜ 【06:3x】子代理交件：A～G＋AA_535＋AA_535b；新測試 invite_menu（基準 FAIL 30）、aa535_invite_opts 60 項、aa535b_lawlib_lake 68 項；全部 Node 745／0；截圖 4 張 ｜ 【05:2x】AA_535b（缺的 meet、可昕 bye、校外四句、法圖、映月湖）轉給同一個子代理接著做 ｜ 【AA-B 05:03】AA_535 第一份（企劃線 dbd49dca7）：學姊上限（1～9 週不設、10～13 週一週一次、14 週起非念書婉拒接「那一起念書。」、念書不算）、分類七類（「出去玩」「她說過想去的」「這個時候才有」）、慢讀常客作息＋念書旁白、慢讀邀約地點七位全套 → 交給 invite-menu 子代理接著做；第二份（缺的見面句、法圖、映月湖）待交 ｜ 【LAWWW-B 04:5x】唯讀調查：七位清單一樣（校內 9、校外 32），差在規則——學姊晚上 Café sisCafe 擋掉「約她去…」、當面不能約校外（invites3d.js:511）、可昕交往中只有運動、沛珊台南列了全拒、時間只有今天明天、選單一層 28～30 列。子代理（invite-menu，基準 postrel-1030）做分類選單＋A～G；AA 決定學姊筆試前上限、補見面句等、要不要加新校內地點 ｜ "
+   "notes": "【07:5x】v9.10.14 發布後 postrel-1030 合進開發分支（b576263b6）＋改名（ba315523b）｜ 【06:1x】AA-B 06:10：沛珊大三起照現在（在台南，約不到＝她不在，跟故事一致；大三起在臺北那套是 BB_163 舊設定，留著不動）；可昕 firstAt 經濟系那一年不說（照現在）｜ 【06:1x】AA_535b 第 4 節照做（語彤 walk 看 H8、可昕六處、沛珊改早上 10:00；aa535b 86 項；全部 Node 757／0）｜ 【06:3x】子代理交件：A～G＋AA_535＋AA_535b；新測試 invite_menu（基準 FAIL 30）、aa535_invite_opts 60 項、aa535b_lawlib_lake 68 項；全部 Node 745／0；截圖 4 張 ｜ 【05:2x】AA_535b（缺的 meet、可昕 bye、校外四句、法圖、映月湖）轉給同一個子代理接著做 ｜ 【AA-B 05:03】AA_535 第一份（企劃線 dbd49dca7）：學姊上限（1～9 週不設、10～13 週一週一次、14 週起非念書婉拒接「那一起念書。」、念書不算）、分類七類（「出去玩」「她說過想去的」「這個時候才有」）、慢讀常客作息＋念書旁白、慢讀邀約地點七位全套 → 交給 invite-menu 子代理接著做；第二份（缺的見面句、法圖、映月湖）待交 ｜ 【LAWWW-B 04:5x】唯讀調查：七位清單一樣（校內 9、校外 32），差在規則——學姊晚上 Café sisCafe 擋掉「約她去…」、當面不能約校外（invites3d.js:511）、可昕交往中只有運動、沛珊台南列了全拒、時間只有今天明天、選單一層 28～30 列。子代理（invite-menu，基準 postrel-1030）做分類選單＋A～G；AA 決定學姊筆試前上限、補見面句等、要不要加新校內地點 ｜ "
   },
   {
    "id": "NDL-PRESENT-1030",
    "title": "阿鳳麵店長桌閒聊：麵店團的人不在場也在講話（只有阿哲有麵店作息；閒聊 17:00～21:00 都演）",
    "area": "SYS",
    "owner": "LAWWW",
-   "status": "已實作待整合",
-   "next": "postrel-1030 c1658d38c → v9.10.14 發布後進開發分支 → BB 瀏覽器：麵店日 18:00 長桌四位都在、20:45 沒人也沒閒聊",
+   "status": "已整合待測試",
+   "next": "已進開發分支（postrel-1030 合併 b576263b6、改名 ba315523b）→ BB 測（下一版）",
    "priority": "P1",
    "first": {
     "term": "Y1S1",
@@ -35984,15 +35986,15 @@
    },
    "source": "使用者 10-30 04:3x＋存檔 day28（UA-LAWWW-1030-09，X131）",
    "authorized": "使用者",
-   "notes": "ndl_present_unit 修改前 FAILED → ALL PASS"
+   "notes": "【07:5x】v9.10.14 發布後 postrel-1030 合進開發分支（b576263b6）＋改名（ba315523b）｜ ndl_present_unit 修改前 FAILED → ALL PASS"
   },
   {
    "id": "CAFE-WINDOW-LIVE-1030",
    "title": "兩點半 Café 往門口那一側的窗景是靜態貼圖 → 看得到外面（3D 溫州街、路人、時段光線）",
    "area": "ART",
    "owner": "LAWWW2",
-   "status": "已實作待整合",
-   "next": "已合進 postrel-1030（dcf33a4e0，LAWWW2-B f11f2ccb0）→ v9.10.14 後進開發分支 → BB 測（Café 窗外白天／黃昏／晚上、效能：門口鏡頭 draw call 158→265）；建築場景 ART_APPROVED 只有使用者能標",
+   "status": "已整合待測試",
+   "next": "已進開發分支（postrel-1030 合併 b576263b6、改名 ba315523b）→ BB 測（下一版）",
    "priority": "P1",
    "first": {
     "term": "Y1S1",
@@ -36013,7 +36015,7 @@
     "receiver": "LAWWW",
     "ack": "SENT"
    },
-   "notes": "【07:3x】LAWWW2-B 交件 f11f2ccb0：溫州街 3D 模型當窗景（裁切平面、晚上照時段、4 個路人）；cafe_street_live_unit（基準 10 FAIL）｜ "
+   "notes": "【07:5x】v9.10.14 發布後 postrel-1030 合進開發分支（b576263b6）＋改名（ba315523b）｜ 【07:3x】LAWWW2-B 交件 f11f2ccb0：溫州街 3D 模型當窗景（裁切平面、晚上照時段、4 個路人）；cafe_street_live_unit（基準 10 FAIL）｜ "
   },
   {
    "id": "LIB-LAWN-PLAN-1030",
@@ -36049,8 +36051,8 @@
    "title": "虛構大學世界觀全面更名（台大→首都帝國大學／首都帝大、政大→木柵大學、霖澤館→法律系館A、萬才館→法律系館B、傅鐘→晨思鐘……）：AA 命名規範與企劃稿；LAWWW 程式、顯示文字、導航、存檔相容、整合測試；LAWWW2 3D／2D 圖上的字；BB 獨立測試；內部 id 不改",
    "area": "SYS",
    "owner": "LAWWW",
-   "status": "進行中",
-   "next": "子代理在 world-rename-1030（基準 postrel 22b164d64）照 WORLD_NAMING＋AA 工具改顯示文字、產生器重產、逐字對稿測試改讀更名稿 → 審 → v9.10.14 後跟 postrel 一起進開發分支 → scan_game 數字給 AA → BB 測",
+   "status": "已整合待測試",
+   "next": "已進開發分支（postrel-1030 合併 b576263b6、改名 ba315523b）→ BB 測（下一版）",
    "priority": "P1",
    "first": {
     "term": "Y0S1",
@@ -36071,15 +36073,15 @@
     "receiver": "LAWWW",
     "ack": "ACK"
    },
-   "notes": "【05:3x】scan_game.py --propose（企劃線 05c8bd0ce）：每一處檔:行、判斷（spoken／written／unknown）、建議新字；unknown 照口語，旁白地點系統字改 written；source／license／note／ref 開發註記跳過；開發分支基準 1069 處 ｜ 【05:3x】AA-B：工具第二輪（單獨「博雅」指教學館→博思、「臺大學生」→首都帝大學生；C 類歷史檔、查證出處句自動跳過），基準改 e9c73bcfd（取代 a76fb3308）；驗收掃描 scan_game.py（OLD／AA館／SPOKE／WROTE）；WORLD_NAMING 3-2 紀念品可縮寫（7f72805f5）｜ 【AA-B 05:09】基準換 a76fb3308（工具修正：臺灣大學生不換、查證出處句留真名）；白名單 sha 用 a76fb3308；開發分支 A 類文件照同原則（查證、出處、授權、照片來源留真名），跑完看 diff ｜ 許教授全名使用者選 A（只改全名），AA 擬三個待使用者挑"
+   "notes": "【07:5x】子代理交件 world-rename-1030 d4e6e5305：scan_game 1072→83（OLD 79＝註解誤判 34、console 11、開發註記 33、舊存檔比對鍵 1；SPOKE／WROTE 各 2 誤判）、讀稿換名 read_fix、舊存檔顯示換、新測試 world_rename_unit；烘進貼圖的字交 LAWWW2；5 點轉 AA ｜ 【07:5x】v9.10.14 發布後 postrel-1030 合進開發分支（b576263b6）＋改名（ba315523b）｜ 【05:3x】scan_game.py --propose（企劃線 05c8bd0ce）：每一處檔:行、判斷（spoken／written／unknown）、建議新字；unknown 照口語，旁白地點系統字改 written；source／license／note／ref 開發註記跳過；開發分支基準 1069 處 ｜ 【05:3x】AA-B：工具第二輪（單獨「博雅」指教學館→博思、「臺大學生」→首都帝大學生；C 類歷史檔、查證出處句自動跳過），基準改 e9c73bcfd（取代 a76fb3308）；驗收掃描 scan_game.py（OLD／AA館／SPOKE／WROTE）；WORLD_NAMING 3-2 紀念品可縮寫（7f72805f5）｜ 【AA-B 05:09】基準換 a76fb3308（工具修正：臺灣大學生不換、查證出處句留真名）；白名單 sha 用 a76fb3308；開發分支 A 類文件照同原則（查證、出處、授權、照片來源留真名），跑完看 diff ｜ 許教授全名使用者選 A（只改全名），AA 擬三個待使用者挑"
   },
   {
    "id": "L118-CAFE2-STUDY-1030",
    "title": "118 巷慢讀咖啡：能念書（座位標自習）、有 NPC 去念書（作息）、能約人去（邀約地點）",
    "area": "SYS",
    "owner": "LAWWW",
-   "status": "進行中",
-   "next": "LAWWW 在 postrel-1030 開自習座位（l118_shops3d.js cafe2 的座位 study:true，吧檯高腳椅除外）；AA 定誰平常在那裡念書＋約去慢讀的台詞 → 作息與邀約地點",
+   "status": "已整合待測試",
+   "next": "已進開發分支（postrel-1030 合併 b576263b6、改名 ba315523b）→ BB 測（下一版）",
    "priority": "P1",
    "first": {
     "term": "Y1S1",
@@ -36100,15 +36102,15 @@
     "receiver": "LAWWW",
     "ack": "SENT"
    },
-   "notes": "【AA-B 05:03】AA_535 第 3、4 節：慢讀常客作息（以安、語彤、芯慈、乃文）、念書旁白、邀約地點 → invite-menu 子代理 ｜ 【05:0x】讀書座位做好 fix1030 1ebb95122；作息、邀約等 AA ｜ "
+   "notes": "【07:5x】v9.10.14 發布後 postrel-1030 合進開發分支（b576263b6）＋改名（ba315523b）｜ 【AA-B 05:03】AA_535 第 3、4 節：慢讀常客作息（以安、語彤、芯慈、乃文）、念書旁白、邀約地點 → invite-menu 子代理 ｜ 【05:0x】讀書座位做好 fix1030 1ebb95122；作息、邀約等 AA ｜ "
   },
   {
    "id": "BADCLIP-FOLLOW-1030",
    "title": "羽球短片：一起走過去（follow）的人被引擎拉回玩家身邊，沒有隔著網子打",
    "area": "SYS",
    "owner": "LAWWW",
-   "status": "已實作待整合",
-   "next": "fix1030 1ebb95122 合進 postrel-1030 → v9.10.14 後進開發分支 → BB 用 day 29 存檔重現",
+   "status": "已整合待測試",
+   "next": "已進開發分支（postrel-1030 合併 b576263b6、改名 ba315523b）→ BB 測（下一版）",
    "priority": "P1",
    "first": {
     "term": "Y1S1",
@@ -36122,15 +36124,15 @@
    },
    "source": "使用者 10-30 04:5x＋存檔 day29（X135）",
    "authorized": "使用者",
-   "notes": ""
+   "notes": "【07:5x】v9.10.14 發布後 postrel-1030 合進開發分支（b576263b6）＋改名（ba315523b）｜ "
   },
   {
    "id": "PHONE-UNIFY-1030",
    "title": "手機統一：朋友頁每個有區域的人都能「直接過去」；訊息頁列出所有有聯絡方式的人可開新對話、七位見過＋有聯絡方式就能傳（子晴不再要求特定事件）、沒聯絡方式灰著寫原因",
    "area": "SYS",
    "owner": "LAWWW",
-   "status": "已實作待整合",
-   "next": "phone-unify e3cd8e7b1 已合進 postrel-1030（f63f5b8cf）→ v9.10.14 後進開發分支 → BB 測（朋友頁直接過去、訊息頁聯絡人、子晴 Q6 前）；AA 確認子晴 Q6 前的語氣、分享 A 層要不要補",
+   "status": "已整合待測試",
+   "next": "已進開發分支（postrel-1030 合併 b576263b6、改名 ba315523b）→ BB 測（下一版）",
    "priority": "P0",
    "first": {
     "term": "Y1S1",
@@ -36144,7 +36146,7 @@
    },
    "source": "使用者 10-30 04:5x 兩則（UA-LAWWW-1030-14、15；X136、X137；前面 H05、X110）",
    "authorized": "使用者",
-   "notes": "【06:2x】AA_538 第 4 節照做（子晴 openText、分享 A 層各補兩則、兩句系統說明；postrel 0f7a16c9e）｜ 【06:0x】子代理交件：朋友頁人在哪都有「直接過去（約 N 分鐘）」（不能去的寫原因：機場、國外、休學退宿、退宿宿舍；關門照 zoneShut）；訊息頁上面一排聯絡人（七位女生在前、沒聯絡方式灰著寫原因）、子晴不再等 Q6（遊戲那兩句擋掉）；對話串傳不了一律寫原因；新測試 phone_unify_unit（基準 FAILED 39→ALL PASS），全部 Node 742／0；22 個清單外區域實際直接過去；截圖 3 張。未改：休學退宿以後新體育館照「地點」清單可以去 ｜ 使用者說講很多次了：這次一次統一到位"
+   "notes": "【07:5x】v9.10.14 發布後 postrel-1030 合進開發分支（b576263b6）＋改名（ba315523b）｜ 【06:2x】AA_538 第 4 節照做（子晴 openText、分享 A 層各補兩則、兩句系統說明；postrel 0f7a16c9e）｜ 【06:0x】子代理交件：朋友頁人在哪都有「直接過去（約 N 分鐘）」（不能去的寫原因：機場、國外、休學退宿、退宿宿舍；關門照 zoneShut）；訊息頁上面一排聯絡人（七位女生在前、沒聯絡方式灰著寫原因）、子晴不再等 Q6（遊戲那兩句擋掉）；對話串傳不了一律寫原因；新測試 phone_unify_unit（基準 FAILED 39→ALL PASS），全部 Node 742／0；22 個清單外區域實際直接過去；截圖 3 張。未改：休學退宿以後新體育館照「地點」清單可以去 ｜ 使用者說講很多次了：這次一次統一到位"
   },
   {
    "id": "XINCI-ROMANCE-1030",
@@ -36180,8 +36182,8 @@
    "title": "SK02 經濟系系外套：系辦助理「那個轉系的」改成重考的說法（AA）；選「穿去霖澤館上課」要真的穿上（LAWWW2 外套外觀＋椅背外套；LAWWW 接上那一次霖澤館的課穿著）",
    "area": "STORY",
    "owner": "LAWWW",
-   "status": "已實作待整合",
-   "next": "已合進 postrel-1030（jacket-econ-1030 6097a8100 → 4a4b0cd4a）→ v9.10.14 後進開發分支 → BB 測（選穿去霖澤上課那次穿著、宿舍椅背、冷天上課日、大二起掛椅背）；外套 READY_FOR_ART_REVIEW（角色美術 LAWWW 驗收：截圖看過，穿著與椅背都對）；AA 07:19：1、2 照子代理；房間物件兩版句已改（postrel 68eb35bca）",
+   "status": "已整合待測試",
+   "next": "已進開發分支（postrel-1030 合併 b576263b6、改名 ba315523b）→ BB 測（下一版）",
    "priority": "P1",
    "first": {
     "term": "Y1S1",
@@ -36195,15 +36197,15 @@
    },
    "source": "使用者 10-30 05:1x 兩則（X140）",
    "authorized": "使用者",
-   "notes": "【07:2x】AA-B 07:19：收進衣櫃／阿勳代領不穿、領的那天就穿照子代理；房間物件 wear 版分大一「天冷的時候，你還是會穿去上課。」／大二起「大一冷的時候常穿，現在一直掛在椅背上。」（68eb35bca）；postrel 4a4b0cd4a 全部 Node 760／0 ｜ 【07:3x】子代理交件：STORY.jacketDue／jacketSync（populate、tick）、C.upgrade 帶外套；不加存檔欄位（從 ECON_JACKET、SK02_DAY、ev_sk02_spy、day、zone 推）；新測試 sk02_jacket_wear_unit 39 項（基準 FAIL 23）；全部 Node 759／0；截圖兩張（霖澤館大廳穿著、203 椅背）｜ 【07:1x】AA-B 07:13：沒有每天的氣溫，用大一上第 10 週～大一下第 6 週的上課日代替，可以 ｜ 【06:4x】LAWWW2-B 交件 b84ce8d27（外套二進位＋patch＋jacket_econ_unit；床欄透空 cine_seethru patch）；派子代理 ｜ 【05:1x】①台詞改好 postrel-1030 4ecc3039c（AA-B 05:04：「我重考了。現在念法律系。」「……喔，重考的那個。……」）；②穿外套規則 AA 定：ev_sk02_spy 那天必穿、大一上下最高溫 ≤20°C 的上課日出門穿、回宿舍掛椅背、大二起一直掛椅背；外套字「首都帝大 經濟」「CIU ECON」→ 等 LAWWW2 外套（JACKET_ECON）與椅背（JACKET_CHAIR，宿舍 203）｜ "
+   "notes": "【07:5x】v9.10.14 發布後 postrel-1030 合進開發分支（b576263b6）＋改名（ba315523b）｜ 【07:2x】AA-B 07:19：收進衣櫃／阿勳代領不穿、領的那天就穿照子代理；房間物件 wear 版分大一「天冷的時候，你還是會穿去上課。」／大二起「大一冷的時候常穿，現在一直掛在椅背上。」（68eb35bca）；postrel 4a4b0cd4a 全部 Node 760／0 ｜ 【07:3x】子代理交件：STORY.jacketDue／jacketSync（populate、tick）、C.upgrade 帶外套；不加存檔欄位（從 ECON_JACKET、SK02_DAY、ev_sk02_spy、day、zone 推）；新測試 sk02_jacket_wear_unit 39 項（基準 FAIL 23）；全部 Node 759／0；截圖兩張（霖澤館大廳穿著、203 椅背）｜ 【07:1x】AA-B 07:13：沒有每天的氣溫，用大一上第 10 週～大一下第 6 週的上課日代替，可以 ｜ 【06:4x】LAWWW2-B 交件 b84ce8d27（外套二進位＋patch＋jacket_econ_unit；床欄透空 cine_seethru patch）；派子代理 ｜ 【05:1x】①台詞改好 postrel-1030 4ecc3039c（AA-B 05:04：「我重考了。現在念法律系。」「……喔，重考的那個。……」）；②穿外套規則 AA 定：ev_sk02_spy 那天必穿、大一上下最高溫 ≤20°C 的上課日出門穿、回宿舍掛椅背、大二起一直掛椅背；外套字「首都帝大 經濟」「CIU ECON」→ 等 LAWWW2 外套（JACKET_ECON）與椅背（JACKET_CHAIR，宿舍 203）｜ "
   },
   {
    "id": "ECON-FRIENDS-SOCLIB-1030",
    "title": "經濟系以前的同學在社科院圖書館遇得到（法律系以後的作息＋偶遇台詞）",
    "area": "STORY",
    "owner": "LAWWW",
-   "status": "已實作待整合",
-   "next": "已合進 postrel-1030（econ-soclib-1030 f96898e47）→ v9.10.14 後進開發分支 → BB 測（社科圖品妤、唐睿、韋綸考試週）；10 個細節轉 AA",
+   "status": "已整合待測試",
+   "next": "已進開發分支（postrel-1030 合併 b576263b6、改名 ba315523b）→ BB 測（下一版）",
    "priority": "P1",
    "first": {
     "term": "Y1S1",
@@ -36224,15 +36226,15 @@
     "receiver": "LAWWW",
     "ack": "ACTIONED"
    },
-   "notes": "【06:3x】AA-B 05:49：1～9 照子代理；唐睿 label「念書」拿掉引號（bball-rain 850bd28d8）｜ 【06:2x】子代理交件：四人作息（品妤座位 16＝SK12 長桌、阿勳窗邊、唐睿沙發、韋綸考試週四）、src/data/econfr_soclib.js＋src/econsl3d.js、雙向逐字對稿；新測試 econ_soclib_1030_unit 75 項（基準 FAILED 51）｜ 【05:3x】AA-B 05:12 交 AA_536：品妤常客（SK12 長桌）、阿勳、唐睿、韋綸考試週；不新增邀約訊息事件；沒玩前傳先自我介紹記 MET_*；派子代理 ｜ "
+   "notes": "【07:5x】v9.10.14 發布後 postrel-1030 合進開發分支（b576263b6）＋改名（ba315523b）｜ 【06:3x】AA-B 05:49：1～9 照子代理；唐睿 label「念書」拿掉引號（bball-rain 850bd28d8）｜ 【06:2x】子代理交件：四人作息（品妤座位 16＝SK12 長桌、阿勳窗邊、唐睿沙發、韋綸考試週四）、src/data/econfr_soclib.js＋src/econsl3d.js、雙向逐字對稿；新測試 econ_soclib_1030_unit 75 項（基準 FAILED 51）｜ 【05:3x】AA-B 05:12 交 AA_536：品妤常客（SK12 長桌）、阿勳、唐睿、韋綸考試週；不新增邀約訊息事件；沒玩前傳先自我介紹記 MET_*；派子代理 ｜ "
   },
   {
    "id": "BBALL-PRESENT-1030",
    "title": "系籃練球（週五 17:30～19:00）球場沒人：練球時間阿哲、明軒、學長們真的在球場；非練球日球場提示練球時間；國定假日那週查清楚",
    "area": "SYS",
    "owner": "LAWWW",
-   "status": "已實作待整合",
-   "next": "已合進 postrel-1030（campus-ux＋bball-rain-1030 1d7615288，22b164d64）→ v9.10.14 後進開發分支 → BB 測（週五晴天球場、下雨體育館一樓走廊、手機活動頁）",
+   "status": "已整合待測試",
+   "next": "已進開發分支（postrel-1030 合併 b576263b6、改名 ba315523b）→ BB 測（下一版）",
    "priority": "P1",
    "first": {
     "term": "Y1S1",
@@ -36246,15 +36248,15 @@
    },
    "source": "使用者 10-30 05:2x＋day 30 存檔（X142）",
    "authorized": "使用者",
-   "notes": "【06:2x】BBALL-RAIN 交件：ACTIVITIES.rainy（17:30 記一次）、下雨球場只剩提示、體育館參加點、阿哲明軒下雨作息、手機活動頁地點；新測試 bball_rain_unit 42 項（基準 FAIL 29）；全部 Node 753／0 ｜ 【06:3x】AA-B 05:40：下雨的週五改到新體育館一樓走廊（17:30 天氣一次定整場），派子代理 BBALL-RAIN（分支 bball-rain-1030）｜ 【06:1x】子代理交件：週五 17:30～19:00 球場 6～8 人打球、場邊 2～3 人（crowd3d bballSpot）；阿哲、明軒週五在球場（Y1S1，noPair）；不是練球日在集合點放提示「系籃練球（星期五 17:30）」按了寫下一次日期；國慶 10/10 停。使用者存檔 10/16 是週四（練球是週五）。新測試 bball_present_unit 27 項（基準 13 FAIL）｜ "
+   "notes": "【07:5x】v9.10.14 發布後 postrel-1030 合進開發分支（b576263b6）＋改名（ba315523b）｜ 【06:2x】BBALL-RAIN 交件：ACTIVITIES.rainy（17:30 記一次）、下雨球場只剩提示、體育館參加點、阿哲明軒下雨作息、手機活動頁地點；新測試 bball_rain_unit 42 項（基準 FAIL 29）；全部 Node 753／0 ｜ 【06:3x】AA-B 05:40：下雨的週五改到新體育館一樓走廊（17:30 天氣一次定整場），派子代理 BBALL-RAIN（分支 bball-rain-1030）｜ 【06:1x】子代理交件：週五 17:30～19:00 球場 6～8 人打球、場邊 2～3 人（crowd3d bballSpot）；阿哲、明軒週五在球場（Y1S1，noPair）；不是練球日在集合點放提示「系籃練球（星期五 17:30）」按了寫下一次日期；國慶 10/10 停。使用者存檔 10/16 是週四（練球是週五）。新測試 bball_present_unit 27 項（基準 13 FAIL）｜ "
   },
   {
    "id": "ROOM-MAP-LABELS-1030",
    "title": "教學館室內地圖標出每間教室（門號、位置、今天要上課的那間），小地圖與大地圖都看得到",
    "area": "SYS",
    "owner": "LAWWW",
-   "status": "已實作待整合",
-   "next": "campus-ux-1030 b26c4ca7d 已合進 postrel-1030 → v9.10.14 後進開發分支 → BB 測；已知：大地圖同學名字會壓到今天那間的第二行",
+   "status": "已整合待測試",
+   "next": "已進開發分支（postrel-1030 合併 b576263b6、改名 ba315523b）→ BB 測（下一版）",
    "priority": "P1",
    "first": {
     "term": "Y1S1",
@@ -36268,7 +36270,7 @@
    },
    "source": "使用者 10-30 05:2x（X143）",
    "authorized": "使用者",
-   "notes": "【06:1x】子代理交件：src/roommap3d.js，普通／博雅／共同／霖澤館 1～4F／萬才館的教室名牌（從 layout 讀），小地圖、大地圖都有；今天的那一間金色「★ 101」＋幾點課名；新測試 room_map_labels_unit；全部 Node 744／0 ｜ "
+   "notes": "【07:5x】v9.10.14 發布後 postrel-1030 合進開發分支（b576263b6）＋改名（ba315523b）｜ 【06:1x】子代理交件：src/roommap3d.js，普通／博雅／共同／霖澤館 1～4F／萬才館的教室名牌（從 layout 讀），小地圖、大地圖都有；今天的那一間金色「★ 101」＋幾點課名；新測試 room_map_labels_unit；全部 Node 744／0 ｜ "
   },
   {
    "id": "AA533-VAC-FIX-1030",
