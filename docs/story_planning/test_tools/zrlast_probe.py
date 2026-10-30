@@ -3379,7 +3379,7 @@ R43 = [
   # ⑤ 日本路線延畢（交換延畢）：交往中（以安）＝「你沒有在家」；單身＝原句。12/23 晚上起跳，跳進 1 月那一跳的日期卡
   dict(id='PGF5_NYE_D', minimal=True, key='2029-12-23', h=20.0, zone='campus', pos=PGPOS, flags=JPDF, js=PGJ + JPJS + AN_D,
        steps=[('pguntil', '2030-01-02', 0.0, 2400)], pref=[], asks={'*': ''}, want=[NYE_OUT], none=[NYE_IN]),
-  dict(id='PGF5_NYE_S', minimal=True, key='2029-12-23', h=20.0, zone='campus', pos=PGPOS, flags=JPDF, js=PGJ + JPJS,
+  dict(id='PGF5_NYE_S', minimal=True, key='2029-12-23', h=20.0, zone='campus', pos=PGPOS, flags=JPDF, js=PGJ + JPJS + NOKX,   # BB-B 10-30：最小存檔＝GAME.defaults 預設和可昕交往中，單身要明寫關掉（r43_nye 第一次跑出「她說這樣剛好」＝探針）
        steps=[('pguntil', '2030-01-02', 0.0, 2400)], pref=[], asks={'*': ''}, want=[NYE_IN], none=[NYE_OUT]),
   # ⑥ 學姊交往中：2029-08-04 考場門口（便條三句＋「我在對面的便利商店等…」）→ 一試【捷徑】改 5 題 → 9/7 15:20 她的私訊（「你先排，我幫你看」）
   dict(id='PGF6_STORE29', minimal=True, key='2029-08-03', h=20.5, zone='campus', pos=PGPOS, flags=dict(TW3, BAR_REG=True, Y4_PATH='bar'), js=PGJ + SIS_D,
