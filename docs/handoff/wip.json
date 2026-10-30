@@ -1524,7 +1524,7 @@
    "role": "LAWWW",
    "task": "ACCEPTSOPEN-C-1027",
    "state": "已交付",
-   "sha": "268c65322",
+   "sha": "b56bcaf6e",
    "branch": "aopen-r2（子代理；D113 備份 wip_backup/aopen_r2_1030.bundle，基準 9bc01f480）",
    "files": [
     "wip_backup/aopen_r2_1030.bundle"
