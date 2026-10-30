@@ -226,7 +226,8 @@ const CROWD=(function(){
      時段＝系籃練球（activities.js 的 dept_basketball）那一天、那一段：ACTIVITIES.on 成立（大一上第 5～7、10～15 週的週五 17:30～19:00；國定假日照 ACTIVITIES 的規則停練＝沒有人、也沒有參加點），
      做法同體育館 3F 主球場（arena）：6～8 個人在籃框那半場照路線跑一段、停一下、面向籃框；2～3 個人在場邊（記分、送水）。同一天同一批人（日期＋時段當種子），時段結束走到南邊的路走掉。
      路人沒有名字；打球的人點了聽一句（體育館籃球場那一組句子裡沒有指定說話的人那幾句：S.GYM_HEAR.basketball），場邊的人不說話。
-     有名字的人（阿哲在場邊、明軒在場上）照作息（characters.js 的 dept_basketball 那一筆），路線不經過他們站的地方、不經過活動點。測試：node tests/bball_present_unit.js */
+     有名字的人（阿哲在場邊、明軒在場上）照作息（characters.js 的 dept_basketball 那一筆），路線不經過他們站的地方、不經過活動點。測試：node tests/bball_present_unit.js
+     下雨的週五（BBALL-RAIN-1030）：照 17:30 的天氣一次定整場（ACTIVITIES.rainy），下雨場改到新體育館一樓走廊——球場沒有人（slots 回空的）；測試：node tests/bball_rain_unit.js */
   S.BBALL={ act:'dept_basketball', c:[-4,-114.5], hoop:[-4,-119.7], door:[4,-100.5], road:[32,-98],
     RUN:[[-4.2,-118.4],[-1.4,-117.8],[-7.0,-117.6],[-2.4,-115.6],[-5.6,-115.8],[-9.0,-115.2],[0.4,-114.8],[-8.2,-112.6],[-4.6,-113.0],[-1.0,-112.6]],   /* 籃框那半場（z ≤ −112.2、x ≤ 0.6）：離明軒 (−4,−110.6)、阿哲 (1.6,−111)、活動點都 1.5 m 以上 */
     SIDE:[[-7.5,-105.6,'scorer','idle',[-7.5,-112]],[-12.0,-112.0,'water','talk',[-4,-112]],[-12.0,-114.4,'water','idle',[-4,-114.4]]] };   /* 場邊：南邊中線外記分、西邊場外送水（面向場內）*/
@@ -234,6 +235,7 @@ const CROWD=(function(){
     const shuffle=(a,r)=>{ a=a.slice(); for(let i=a.length-1;i>0;i--){ const j=Math.floor(r()*(i+1)); [a[i],a[j]]=[a[j],a[i]]; } return a; };
     return { id:'bball_practice', zone:'campus', label:'系籃練球（籃球場）', c:B.c, spread:[1,1], door:B.door, road:B.road, fidget:true, bball:true,
       slots(G){ if(typeof ACTIVITIES==='undefined'||!ACTIVITIES.list) return []; const a=ACTIVITIES.list.find(q=>q.id===B.act); if(!a||!ACTIVITIES.on(a,G.day,G)) return [];
+        if(ACTIVITIES.rainy&&ACTIVITIES.rainy(a,G)) return [];   /* 下雨的週五（BBALL-RAIN-1030，AA 10-30）：系籃改到新體育館走廊——球場沒有人、路人也不打球（17:30 的天氣一次定整場：ACTIVITIES.rainy）*/
         return [{key:'practice',t0:a.t0,t1:a.t1,n:[8,11],fixed:true,pose:'idle',talk:0,enter:'door',leave:'road'}]; },
       people(G,slot,r){ const n=slot.n[0]+Math.floor(r()*(slot.n[1]-slot.n[0]+1)), side=n>=10?3:2, np=n-side, base=5000+Math.floor(r()*90)*2, out=[];
         const mk=(k,o)=>Object.assign({key:this.id+'|'+slot.key+'|'+k,pose:'idle',yaw:0,spec:base+k*2+(r()<0.7?1:0)},o);   /* 路人編號（偶數＝女生）：5000 起一段，不和體育館（3000）、小公園（2000）撞 */
