@@ -114,7 +114,8 @@ const meet=id=>SOCIAL.remember(id,'FIRST_MET','');
   const jk=()=>STORY.roomItemList(G).filter(r=>r[0]==='經濟系的系外套').map(r=>[].concat(r[1]));
   check('13. 房間：第 8 週阿勳代領＝「口袋裡還夾著阿勳那張紙條。」',JSON.stringify(jk())===JSON.stringify([['經濟系的系外套。口袋裡還夾著阿勳那張紙條。']]),JSON.stringify(jk()));
   G.flags.SK02_W8=null; G.flags.ECON_JACKET='closet'; check('13. 房間：③收進衣櫃',JSON.stringify(jk())===JSON.stringify([['經濟系的系外套。摺好的，還沒穿過。','領的時候，系辦助理說它等你快一年了。']]),JSON.stringify(jk()));
-  G.flags.ECON_JACKET='wear'; check('13. 房間：①穿去上課',JSON.stringify(jk())===JSON.stringify([['經濟系的系外套。你穿去霖澤館一次，阿哲說你是臥底。','……之後就掛在椅背上了。']]),JSON.stringify(jk()));
+  G.flags.ECON_JACKET='wear'; G.flags.ROOM_Y2=null; check('13. 房間：①穿去上課（大一，AA-B 10-30 07:19）',JSON.stringify(jk())===JSON.stringify([['經濟系的系外套。天冷的時候，你還是會穿去上課。']]),JSON.stringify(jk()));
+  G.flags.ROOM_Y2=1; check('13. 房間：①穿去上課（大二起）',JSON.stringify(jk())===JSON.stringify([['經濟系的系外套。大一冷的時候常穿，現在一直掛在椅背上。']]),JSON.stringify(jk())); G.flags.ROOM_Y2=null;
   G.flags.ECON_JACKET='xun'; check('13. 房間：②送給阿勳＝沒有',!jk().length);
   delete G.flags.ECON_JACKET; check('13. 房間：沒有系外套的劇情＝沒有',!jk().length);
   // 12. P4d 第二句
