@@ -44,15 +44,15 @@ const W=()=>Lm().KX_WITHDRAW||{};
 const msgs=th=>(H.G.msgs||[]).filter(m=>m.th===th);
 const GD={GRADUATED:D('2029-06-02')};
 /* 企劃線的稿（逐字對）*/
-const SPEC='187584ca8', FILES={a474:'AA_474_acceptsOpen使用者回答C_七位各自的條件',a481:'AA_481_AA474實作讀後_特別場景的知情對話接不上的五處',a482:'AA_482_多段感情2-Y4-54照使用者C更新_坦白照她們的條件_都同意的尾聲',a483:'AA_483_回LAWWW_AA474子代理八題_BB審稿定稿_美國秋假自習室提示'};
-const DOC={}; for(const k in FILES){ for(const r of [SPEC,'origin/claude/cool-heisenberg-o8kuqx']){ try{ DOC[k]=cp.execSync('git show '+r+':"docs/story_planning/'+FILES[k]+'.md"',{cwd:H.ROOT,encoding:'utf8',stdio:['ignore','pipe','ignore']}); if(DOC[k]) break; }catch(e){ DOC[k]=''; } } }
+const SPEC='187584ca8', SPEC_OF={a483:'9c4152899'}, FILES={a474:'AA_474_acceptsOpen使用者回答C_七位各自的條件',a481:'AA_481_AA474實作讀後_特別場景的知情對話接不上的五處',a482:'AA_482_多段感情2-Y4-54照使用者C更新_坦白照她們的條件_都同意的尾聲',a483:'AA_483_回LAWWW_AA474子代理八題_BB審稿定稿_美國秋假自習室提示'};
+const DOC={}; for(const k in FILES){ for(const r of [SPEC_OF[k]||SPEC,'origin/claude/cool-heisenberg-o8kuqx']){ try{ DOC[k]=cp.execSync('git show '+r+':"docs/story_planning/'+FILES[k]+'.md"',{cwd:H.ROOT,encoding:'utf8',stdio:['ignore','pipe','ignore']}); if(DOC[k]) break; }catch(e){ DOC[k]=''; } } }
 const inDoc=(t,...ks)=>(ks.length?ks:Object.keys(DOC)).some(k=>(DOC[k]||'').indexOf(t)>=0);
 
 (async()=>{
 check('0. 檔案都載得到（multirel3d.js 包在 r2y3b3d.js 外面，同 index.html）；讀得到企劃線 '+SPEC+' 的 AA_474、481、482、483',ok&&!!X()&&!!RB()&&Object.values(DOC).every(Boolean),err||J(Object.keys(DOC).filter(k=>!DOC[k])));
 if(!X()){ H.done(); return; }
 { const A=JSON.parse(fs.readFileSync(path.join(H.ROOT,'docs/handoff/story_import_allow.json'),'utf8')).files.filter(e=>/AA_4(74|81|82|83)_/.test(e.path));
-  check('0. 劇情匯入白名單：AA_474、AA_481、AA_482、AA_483 都是 '+SPEC+'、approved、AA-C 定稿、任務 ACCEPTSOPEN-C-1027（這支測試對同一版的稿）',A.length===4&&A.every(e=>e.sha===SPEC&&e.status==='approved'&&/AA-C/.test(e.approvedBy||'')&&e.task==='ACCEPTSOPEN-C-1027'),J(A.map(e=>[e.path.slice(19,25),e.sha]))); }
+  check('0. 劇情匯入白名單：AA_474、AA_481、AA_482、AA_483 都是 '+SPEC+'（AA_483 是 '+SPEC_OF.a483+'）、approved、AA-C 定稿、任務 ACCEPTSOPEN-C-1027（這支測試對同一版的稿）',A.length===4&&A.every(e=>e.sha===(/AA_483_/.test(e.path)?SPEC_OF.a483:SPEC)&&e.status==='approved'&&/AA-C/.test(e.approvedBy||'')&&e.task==='ACCEPTSOPEN-C-1027'),J(A.map(e=>[e.path.slice(19,25),e.sha]))); }
 
 /* ================= AA_481 第 1 節：以安七夕，她先說的那一條 ================= */
 await sec('481-1',async()=>{
@@ -166,19 +166,19 @@ await sec('483-6',async()=>{
   const zqSet=knows=>{ fresh('2028-06-08',20.6,'dorm',{ZQ_DAD_HEARD:true,ATTENDED_SHOW:true,dating_kexin:true,YT_HONEST:{heroine_04:true},ZQ_ASK_KAI_D:knows?null:0}); H.CLOSE(ZQ); setRom(ZQ,40); H.G.contacts[ZQ]=1; const L=DATE.log(H.G,ZQ); L.count=4; L.wish=true;
     for(const t of ['CLAPPED','PLAYTESTED','TOLD_HER_CHANGE']) SOCIAL.remember(ZQ,t,''); if(knows) learn(ZQ,KX,'test',{day:D('2028-06-01'),h:12}); };
   const rules=()=>{ STORY.phoneRules(GM); PHONE.tick(H.G); };
-  const qt='te_Y3S2_heroine_04', zt=()=>msgs('p:heroine_04').map(m=>m.text), KM=['我剛剛才知道'+X().nameFor(H.G,ZQ,KX)+'的事','電話先不打了 我要想一下'];
+  const qt='te_Y3S2_heroine_04', zt=()=>msgs('p:heroine_04').map(m=>m.text), KM=['我才知道'+X().nameFor(H.G,ZQ,KX)+'的事','電話先不打了 我要想一下'];
   const q15=async()=>{ zqSet(false); rules(); PHONE.answer(H.G,qt,0); rules(); const q=OUT.get(H.G,'te_Y3S2'); if(q) setD(q.day,q.h-0.1); await goOut('te_Y3S2',[0]); return H.G.flags.ZQ_Q15; };
   let Q=await q15(); setD(Q.day+1,12.1); rules(); const sent=PHONE.sent(H.G,'y3_zq_exe');
   learn(ZQ,KX,'test',{day:H.G.day,h:12.5}); setD(Q.day+1,13); const ans=PHONE.answer(H.G,'y3_zq_exe',0); rules(); const z=zt();
   const call=(H.G.outings||[]).find(q=>q.id==='y3_zq_exe_call'&&q.state==='planned');
-  check('483 1-6. 回答.exe 傳了、玩家回了貼紙，之後她才知道（交往以前）：不交往、不打來；原本她打來的時間改傳兩則「我剛剛才知道可昕的事」「電話先不打了 我要想一下」（不加句號）',
+  check('483 1-6. 回答.exe 傳了、玩家回了貼紙，之後她才知道（交往以前）：不交往、不打來；原本她打來的時間改傳兩則「我才知道可昕的事」「電話先不打了 我要想一下」（不加句號）',
     sent&&ans!=null&&H.G.flags.ZQ_EXE_REPLY===true&&Q.res==='knows'&&!H.G.flags.dating_heroine_04&&!call&&J(z.slice(-2))===J(KM),J([z.slice(-3),Q,!!call]));
   rules(); rules(); check('483 1-6. 兩則只傳一次',zt().filter(t=>t===KM[1]).length===1);
   Q=await q15(); learn(ZQ,KX,'test',{day:Q.day,h:23}); setD(Q.day+1,12.1); rules();
   check('483 1-6. 回答.exe 還沒傳就知道的：不傳檔案、也不補那兩則（玩家不知道有這個檔案）',!PHONE.sent(H.G,'y3_zq_exe')&&Q.res==='knows'&&!zt().includes(KM[1]),J(zt()));
   Q=await q15(); setD(Q.day+1,12.1); rules(); setD(Q.day+1,13); PHONE.answer(H.G,'y3_zq_exe',0); rules();
   check('483 1-6. 她不知道（照原本）：回貼紙＝交往、她打來；沒有那兩則',H.G.flags.dating_heroine_04===true&&Q.res==='sticker'&&!zt().includes(KM[1]));
-  check('483 1-6. 兩則照稿',inDoc('子晴：我剛剛才知道{她}的事','a483')&&inDoc('子晴：電話先不打了 我要想一下','a483'));
+  check('483 1-6. 兩則照稿',inDoc('子晴：我才知道{她}的事','a483')&&inDoc('子晴：電話先不打了 我要想一下','a483'));
 });
 
 /* ================= AA_483 第 1 節第 7 點：告白選項，她知道的時候（七位一樣）================= */

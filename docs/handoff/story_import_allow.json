@@ -3227,11 +3227,11 @@
   },
   {
    "path": "docs/story_planning/AA_483_回LAWWW_AA474子代理八題_BB審稿定稿_美國秋假自習室提示.md",
-   "sha": "187584ca8",
+   "sha": "9c4152899",
    "status": "approved",
    "approvedBy": "AA-C 定稿（D109；第①②級）",
    "task": "ACCEPTSOPEN-C-1027",
-   "note": "LAWWW-B 10-30 子代理 aopen-r2 登記（手抄）：只做第 1～2 節（第 3 節美國秋假自習室提示是另一個任務 US-BLANK-1012-HINT-1027，這一輪沒做）——可昕收回 ①② 定稿、視訊版結尾、「我說過了。」前的旁白（multirel_lines.js KX_WITHDRAW）、Q15 她後來才知道的兩則（r2y3b_events.js Q15.knowsMsg、r2y3b3d.js q15KnowsMsg）、告白選項放寬（date3d.js S.willing）、沛珊 S.TELL；tests/aa481_483_aopen_unit.js 用 git show 187584ca8 逐字對"
+   "note": "LAWWW-B 10-30 子代理 aopen-r2 登記（手抄）：只做第 1～2 節（第 3 節美國秋假自習室提示是另一個任務 US-BLANK-1012-HINT-1027，這一輪沒做）——可昕收回 ①② 定稿、視訊版結尾、「我說過了。」前的旁白（multirel_lines.js KX_WITHDRAW）、Q15 她後來才知道的兩則（r2y3b_events.js Q15.knowsMsg、r2y3b3d.js q15KnowsMsg）、告白選項放寬（date3d.js S.willing）、沛珊 S.TELL；tests/aa481_483_aopen_unit.js 用 git show 187584ca8 逐字對｜LAWWW-B 10-30 03:5x：Q15 子晴那則拿掉「剛剛」（AA-B 回 aopen-r2 第 3 點），sha 187584ca8 → 9c4152899"
   },
   {
    "path": "docs/story_planning/AA_494_女主角主動約你_七位的門檻頻率地點時間台詞.md",
