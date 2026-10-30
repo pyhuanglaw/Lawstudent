@@ -2,7 +2,7 @@
 走真實流程（不用 ?turbo）；日期、地點、關係是【前置】（使用者存檔改日子，讀檔後設關係），每一個都標出來。Playwright 手機橫向模擬，不是 iPhone。
   DAY1  大一上第 1 週週一 9/1 憲法（上）上課前：手機「今天」「直接去上課」→ 課前「第一排」三句
   COPY_REAL  大一下第 7 週週三 12:15 總圖大廳一樓影印機旁，認識以安、芯慈：照玩家站著等（不做任何捷徑）——看會不會演（SUP497.bind 只在宥辰那一場呼叫）
-  COPY_BACK／COPY_RPS  同上，【捷徑】SUP497.bind(GAME) 以後：「（排到她們後面）」／「「猜拳？」」兩支
+  COPY_BACK／COPY_RPS  同上（890f8f3f7 起不再 bind；XC_BIND=1 才用舊捷徑）：「（排到她們後面）」／「「猜拳？」」兩支
   C2  大一下第 6 週週二 15:30 總圖閱覽室：「和吳芯慈說話」→ 選「妳為什麼要雙主修？」→ 兩句；人物頁「雙主修財金…」「爸媽都是律師…」
   C3A／C3B／C3C  大二上第 12 週週一 00:18 日日便利：「凌晨的便利商店」三個選項各一次
   C3B1  同一天 00:03 總圖 B1：「（陪她走到門口）」
@@ -427,15 +427,54 @@ async def s_copy(p, run, base, sid, out):
             await run.shot(pg, '%s_after' % sid)
             run.check('%s：照玩家（不做捷徑）站在影印機旁、copyDue 成立的時候演「影印機」（ev_xc_copy）' % sid, ok, J({'before': pos, 'after': pos2}))
             return
-        run.setup('【捷徑】SUP497.bind(GAME)（遊戲裡只有宥辰那一場會呼叫，讀檔以後 ev_xc_copy 的條件一直不成立；COPY_REAL 那一支看實際情形）')
-        await pg.evaluate("SUP497.bind(GAME)")
+        # 890f8f3f7 起（BUG-SUP497-BIND-1030）沒有 GMr 時用 GAME.E：不再 SUP497.bind，照玩家站著等；XC_BIND=1 才用舊捷徑
+        if os.environ.get('XC_BIND') == '1':
+            run.setup('【捷徑】SUP497.bind(GAME)'); await pg.evaluate("SUP497.bind(GAME)")
         n0 = await log_len(pg)
         ok, ch = await wait_for(pg, cdp, run, DONE + "('ev_xc_copy')", max_s=300, picks=[COPYP[sid]], label=sid)
         lg = await log_since(pg, n0); T = texts(lg); CS = choice_sets(lg); await report(pg, run, sid, res, T, CS, caps(lg))
-        run.check('%s：bind 以後演「影印機」' % sid, ok, J(ch[-2:]))
+        run.check('%s：不做捷徑、站在影印機旁等，演「影印機」' % sid, ok, J({'pos': pos, 'ch': ch[-2:]}))
         if not ok: return
         run.check('%s：三個選項「「我幫妳們一起印。」」／「（排到她們後面）」／「「猜拳？」」' % sid, any(c == ['「我幫妳們一起印。」', '（排到她們後面）', '「猜拳？」'] for c in CS), J(CS[-2:]))
         run.check('%s：選 %s → %s' % (sid, COPYP[sid], '／'.join(COPYS[sid])), has_seq(T, COPYS[sid]), J(T[-6:]))
+    finally: await finish_page(run, sid, res, errs, b)
+
+
+YC = 'classmate_youchen'
+ELEV_OPTS = ['「我幫你擋。」', '「我等一下有課。」']
+ELEV_OPEN = ['（電梯門開了。他沒有進去，手上拿著一支小小的錄音機。門關上。他按了一下，門又開了。）', '……啊，你。幫我一個忙。', '我要錄電梯「叮」那一聲，可是一直有人。中午十二點十分以後，大概有五分鐘沒有人。你在一樓樓梯口幫我擋一下。']
+ELEV_DONE_T = ['（你站在樓梯口。一個學姊要走過來，你說了一句「電梯在維修」，她就去走樓梯了。）', '（叮。）', '……錄到了。', '你剛剛騙那個學姊的那一句，我也錄到了。我會剪掉。……大概。']
+SONG5 = "PHONE.postAt(GAME.G,{th:'p:classmate_youchen',from:'classmate_youchen',text:'（前置）',tag:'yc_song_5'},STORY.termDay('Y2S1',4,5),23.5)"
+ELEVQ = "(()=>{ const r=SIDEQ.get(GAME.G,'YQ_ELEV'); return r?{state:r.state, by:r.by, byKey:r.by!=null?CALENDAR.dateOf(r.by).key:null}:null; })()"
+
+
+@guard
+async def s_elev(p, run, base, sid, out):
+    # 宥辰兩場電梯（BUG-SUP497-BIND-1030 修好以後，讀檔不 bind 也要演）：開口＝大二上第 7 週週二 15:30 霖澤館一樓；做完＝隔天 12:10～12:20
+    res = out.setdefault(sid, {})
+    if sid == 'ELEV_ASK':
+        b, pg, cdp, errs, r = await launch(p, run, base, '2026-10-20', 15.5, 'linze', rels={YC: 'FAMILIAR'}, quiet=False, label=sid + '（大二上第 7 週週二 15:30 法律系館A 一樓；跟宥辰 FAMILIAR、有聯絡方式）')
+    else:
+        b, pg, cdp, errs, r = await launch(p, run, base, '2026-10-21', 12.05, 'linze', rels={YC: 'FAMILIAR'}, quiet=False, label=sid + '（大二上第 7 週週三 12:03 法律系館A 一樓；跟宥辰 FAMILIAR）')
+    try:
+        await pg.evaluate(SONG5); run.setup('【前置】宥辰第 5 則歌的私訊（tag yc_song_5）放進手機（第 4 週週五 23:30）')
+        if sid == 'ELEV_DONE':
+            await pg.evaluate("SUP497.acceptElev(GAME)"); run.setup('【前置】SUP497.acceptElev(GAME)：順手的事「電梯」已答應（期限這一週週五）；%s' % J(await pg.evaluate(ELEVQ)))
+        bound = await pg.evaluate("!!SUP497.bind()"); run.note('%s：讀檔以後有沒有人 bind（應該沒有）：%s' % (sid, bound))
+        await L.go_to(pg, cdp, run, 4.6, -4.4, 0.6, '一樓電梯前', max_s=200, lv=0)
+        n0 = await log_len(pg); evid = 'ev_yc_elev_ask' if sid == 'ELEV_ASK' else 'ev_yc_elev_done'
+        ok, ch = await wait_for(pg, cdp, run, DONE + "('%s')" % evid, max_s=900 if sid == 'ELEV_DONE' else 300, picks=[ELEV_OPTS[0]], label=sid)
+        lg = await log_since(pg, n0); T = texts(lg); CS = choice_sets(lg); await report(pg, run, sid, res, T, CS)
+        q = await pg.evaluate(ELEVQ); fl = await pg.evaluate("GAME.G.flags.YC_ELEVATOR||null"); st = await pg.evaluate(STATE)
+        res.update({'q': q, 'flag': fl, 'bound': bound})
+        run.check('%s：讀檔以後沒有人 bind（%s），照玩家站在電梯前也演（%s done）' % (sid, bound, evid), ok and not bound, J({'ch': ch[-2:], 'at': st}))
+        if not ok: return
+        if sid == 'ELEV_ASK':
+            run.check('ELEV_ASK：三句開場＋兩個選項「「我幫你擋。」」／「「我等一下有課。」」', has_seq(T, ELEV_OPEN) and any(c == ELEV_OPTS for c in CS), J({'T': T[:6], 'CS': CS[-2:]}, 700))
+            run.check('ELEV_ASK：選「我幫你擋。」→ 順手的事 YQ_ELEV 掛上（open、期限 2026-10-23 週五）', bool(q) and q['state'] == 'open' and q['byKey'] == '2026-10-23', J(q))
+        else:
+            run.check('ELEV_DONE：12:10～12:20 之間演、四句（擋學姊、叮、錄到了、我會剪掉）', has_seq(T, ELEV_DONE_T) and 12 + 10 / 60 - 0.02 <= st['h'] < 12 + 21 / 60, J({'T': T[:6], 'h': st['h']}, 700))
+            run.check('ELEV_DONE：記 YC_ELEVATOR、順手的事做完（done）', fl is True and bool(q) and q['state'] == 'done', J({'flag': fl, 'q': q}))
     finally: await finish_page(run, sid, res, errs, b)
 
 
@@ -608,8 +647,8 @@ async def s_zrl3(p, run, base, sid, out):
     finally: await finish_page(run, sid, res, errs, b)
 
 
-ORDER = ['DAY1', 'COPY_REAL', 'COPY_BACK', 'COPY_RPS', 'C2', 'C3A', 'C3B', 'C3C', 'C3B1', 'C3FIX', 'DAD', 'C5', 'C6', 'ZRFEED', 'ZRL3']
-FN = {'DAY1': s_day1, 'COPY_REAL': s_copy, 'COPY_BACK': s_copy, 'COPY_RPS': s_copy, 'C2': s_c2, 'C3A': s_c3, 'C3B': s_c3, 'C3C': s_c3, 'C3B1': s_c3, 'C3FIX': s_c3fix,
+ORDER = ['DAY1', 'COPY_REAL', 'COPY_BACK', 'COPY_RPS', 'ELEV_ASK', 'ELEV_DONE', 'C2', 'C3A', 'C3B', 'C3C', 'C3B1', 'C3FIX', 'DAD', 'C5', 'C6', 'ZRFEED', 'ZRL3']
+FN = {'DAY1': s_day1, 'COPY_REAL': s_copy, 'COPY_BACK': s_copy, 'COPY_RPS': s_copy, 'ELEV_ASK': s_elev, 'ELEV_DONE': s_elev, 'C2': s_c2, 'C3A': s_c3, 'C3B': s_c3, 'C3C': s_c3, 'C3B1': s_c3, 'C3FIX': s_c3fix,
       'DAD': s_dad, 'C5': s_c5, 'C6': s_c6, 'ZRFEED': s_zrfeed, 'ZRL3': s_zrl3}
 
 
