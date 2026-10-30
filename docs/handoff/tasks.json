@@ -35795,7 +35795,7 @@
    },
    "source": "使用者 10-30 04:0x（UA-LAWWW-1030-06，USER_WANTS X127）",
    "authorized": "使用者",
-   "notes": "dda717bdd：開新遊戲（三個按鈕）先備份自動存檔、快速存檔到 fatiao3d_backup_new_<savedAt>（最多 3 份，刪進度最少的）、寫不進去先問；存檔頁 #saveBackups 列出全部 fatiao3d_backup* 可讀取；save_newgame_backup_unit 修改前 FAILED → ALL PASS。使用者這一次被蓋掉的自動存檔救不回來；可能還在的：fatiao3d_backup（覆蓋欄位、匯入前）、fatiao3d_backup_y0end（經濟系最後一天）、欄位 1～3 → 新版的「備份」區看得到。已請使用者新版上線前別按欄位存檔、匯入（會蓋 fatiao3d_backup）"
+   "notes": "【05:1x】BB-B b38b112a8 存檔①～⑤全過（修正前 92e9bca92 照預期 FAIL）；BB 觀察（不擋）：照 day 刪會先刪經濟系序章 → 下一版 postrel ccdff6d53 改成照演過的事件數、步數，同一個開局只留一份 ｜ dda717bdd：開新遊戲（三個按鈕）先備份自動存檔、快速存檔到 fatiao3d_backup_new_<savedAt>（最多 3 份，刪進度最少的）、寫不進去先問；存檔頁 #saveBackups 列出全部 fatiao3d_backup* 可讀取；save_newgame_backup_unit 修改前 FAILED → ALL PASS。使用者這一次被蓋掉的自動存檔救不回來；可能還在的：fatiao3d_backup（覆蓋欄位、匯入前）、fatiao3d_backup_y0end（經濟系最後一天）、欄位 1～3 → 新版的「備份」區看得到。已請使用者新版上線前別按欄位存檔、匯入（會蓋 fatiao3d_backup）"
   },
   {
    "id": "AA529-ECON-FIX-1030",
@@ -36043,7 +36043,7 @@
     "receiver": "LAWWW",
     "ack": "ACK"
    },
-   "notes": "許教授全名使用者選 A（只改全名），AA 擬三個待使用者挑"
+   "notes": "【AA-B 05:09】基準換 a76fb3308（工具修正：臺灣大學生不換、查證出處句留真名）；白名單 sha 用 a76fb3308；開發分支 A 類文件照同原則（查證、出處、授權、照片來源留真名），跑完看 diff ｜ 許教授全名使用者選 A（只改全名），AA 擬三個待使用者挑"
   },
   {
    "id": "L118-CAFE2-STUDY-1030",
