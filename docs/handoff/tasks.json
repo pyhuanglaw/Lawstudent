@@ -35625,7 +35625,7 @@
    "area": "STORY",
    "owner": "LAWWW",
    "status": "已實作待整合",
-   "next": "aa-followup-1030 合進 postrel-1030 → v9.10.14 後進開發分支 → BB 測",
+   "next": "aa-followup-1030 已合進 postrel-1030（f63f5b8cf）→ v9.10.14 後進開發分支 → BB 測",
    "priority": "P2",
    "first": {
     "term": "Y1S1",
@@ -35803,7 +35803,7 @@
    "area": "STORY",
    "owner": "LAWWW",
    "status": "已實作待整合",
-   "next": "aa-followup-1030 合進 postrel-1030 → v9.10.14 後進開發分支 → BB 測",
+   "next": "aa-followup-1030 已合進 postrel-1030（f63f5b8cf）→ v9.10.14 後進開發分支 → BB 測",
    "priority": "P1",
    "first": {
     "term": "Y0S1",
@@ -35869,7 +35869,7 @@
    "area": "ART",
    "owner": "LAWWW2",
    "status": "已實作待整合",
-   "next": "dorm-sleep 6bcca1d71 合進 postrel-1030 → v9.10.14 後進開發分支 → BB 測（瀏覽器整晚＋存讀檔）；LAWWW2：z.lightsOff 光照貼圖、睡覺運鏡的床欄透空（D108）、新 GLB 交了重拍",
+   "next": "dorm-sleep 6bcca1d71 已合進 postrel-1030（f63f5b8cf）→ v9.10.14 後進開發分支 → BB 測（瀏覽器整晚＋存讀檔）；LAWWW2：z.lightsOff 光照貼圖、睡覺運鏡的床欄透空（D108）、新 GLB 交了重拍",
    "priority": "P1",
    "first": {
     "term": "Y1S1",
@@ -36102,7 +36102,7 @@
    "area": "SYS",
    "owner": "LAWWW",
    "status": "已實作待整合",
-   "next": "phone-unify e3cd8e7b1 合進 postrel-1030 → v9.10.14 後進開發分支 → BB 測（朋友頁直接過去、訊息頁聯絡人、子晴 Q6 前）；AA 確認子晴 Q6 前的語氣、分享 A 層要不要補",
+   "next": "phone-unify e3cd8e7b1 已合進 postrel-1030（f63f5b8cf）→ v9.10.14 後進開發分支 → BB 測（朋友頁直接過去、訊息頁聯絡人、子晴 Q6 前）；AA 確認子晴 Q6 前的語氣、分享 A 層要不要補",
    "priority": "P0",
    "first": {
     "term": "Y1S1",
