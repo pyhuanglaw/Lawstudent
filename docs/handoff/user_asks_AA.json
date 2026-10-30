@@ -659,8 +659,8 @@
    "status": "在開發分支",
    "task": "XINCI-ROMANCE-1030",
    "src": "使用者用 AskUserQuestion 點選，2026-10-30 19:2x UTC",
-   "checked": "2026-10-30 AA-B：AA_547 照兩題改好（家裡的事她直接講；慈 3、慈 6、寒暑假、人物頁跟著改），交 LAWWW-B 開工",
-   "wants": "X139"
+   "checked": "2026-10-30 AA-B：AA_547 照兩題改好（家裡的事她直接講；慈 3、慈 6、寒暑假、人物頁跟著改），交 LAWWW-B 開工；LAWWW-B 實作 46e36f86b（XCROM.OLD 打開，戀愛線照關）",
+   "wants": "X148"
   }
  ]
 }
