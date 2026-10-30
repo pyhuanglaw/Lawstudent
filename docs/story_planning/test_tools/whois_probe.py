@@ -113,15 +113,19 @@ async def mode_econ(pg, cdp, run):
     u = URL + ('&' if '?' in URL else '?') + 'y0'
     await pg.goto(u); await L.wait_loaded(pg); await pg.evaluate("localStorage.clear()"); await pg.goto(u); await L.wait_loaded(pg); await pg.wait_for_timeout(1500); await P.init(pg)
     await L.tap(pg, cdp, '#btnNewEcon'); await pg.wait_for_timeout(2000)
-    t0 = time.time(); moved = None
-    while time.time() - t0 < 1500:   # 照玩家：點對話、選第一個、站著讓事件接事件往下走，到 9/2 晚上兩個人搬進 412
-        s = await L.state(pg)
+    t0 = time.time(); moved = None; last = 0; trail = []
+    while time.time() - t0 < 2700:   # 照玩家（同 next91015 boyaecon 走到 9/9 的那個迴圈）：點對話、選項用 P.pick_of（不選變暗的，婉拒那一類優先）、手機收起來
+        s = await P.ts(pg)
+        if s['ch']: k, _ = P.pick_of(s['ch'], []); await P.tap_choice(pg, cdp, k); await pg.wait_for_timeout(1000); continue
         if s['dlg']: await L.tap(pg, cdp, '#dlg'); await pg.wait_for_timeout(500); continue
-        if s['choices']: await L.tap(pg, cdp, '#choices button'); await pg.wait_for_timeout(900); continue
         await L.phone_away(pg, cdp)
-        m = await pg.evaluate("(()=>({mv:!!GAME.G.flags.E412_MOVEIN, key:CALENDAR.dateOf(GAME.G.day).key, h:+(+GAME.G.hour).toFixed(2), zone:GAME.G.zone}))()")
+        m = await pg.evaluate("(()=>{ const F=GAME.G.flags; return {mv:!!F.E412_MOVEIN, night:F.E01_NIGHT||null, boxes:!!F.E01_BOXES, key:CALENDAR.dateOf(GAME.G.day).key, h:+(+GAME.G.hour).toFixed(2), zone:GAME.G.zone, stage:GAME.G.stage, paused:!!(GAME.E&&GAME.E.paused)}; })()")
         if m['mv']: moved = m; break
+        if time.time() - last > 120:
+            last = time.time(); trail.append(m); run.note('經濟系開局進度：%s' % J(m))
         await pg.wait_for_timeout(1200)
+    if not moved:
+        run.note('沒走到搬進 412：最後的狀態 %s；最後的畫面另存' % J(await P.ts(pg))); await run.shot(pg, 'econ_stuck')
     run.note('E412_MOVEIN：%s（%d 秒）' % (J(moved), time.time() - t0))
     run.check('前置：照玩家走到韋綸、唐睿搬進 412（E412_MOVEIN）', bool(moved), J(moved))
     if not moved: return
