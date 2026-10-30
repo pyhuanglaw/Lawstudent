@@ -1,7 +1,7 @@
 """BB-B 10-30（BUG-SAVE-NEWGAME-1030；v9.10.14 新候選 dda717bdd，修正前 92e9bca92）：開新遊戲前先備份、存檔頁「備份」一區、💾 存到自己的「快速存檔」——照玩家按按鈕（不用 turbo）。
 使用者 10-30 04:0x 實測：💾 存在自動存檔那一格 → 重開遊戲按開新遊戲 → 第一天立刻自動存檔蓋掉、完全讀不到。
 MODE（環境變數）：
-  new     BTN＝btnNew／btnNewLaw／btnNewEcon（三個開新遊戲按鈕各一次）：
+  new     BTN＝btnNew（從經濟系開始，序章）／btnNewLaw（從法律系開始）／btnNewEcon（從經濟系大一開始，開發中：只在網址 ?y0 出現）各一次：
           【前置】使用者存檔讀進來、遊戲自己的 GAME.autosave 存一次（＝有進度的玩家）；照玩家按 💾 →「快速存檔」；
           重新整理 → 標題按那個開新遊戲 → 照玩家點對話、選第一個，玩到自動存檔被新遊戲寫過 → 重新整理 → 標題「讀取／匯入存檔」→
           存檔頁 #saveBackups 有「備份：自動存檔（開新遊戲前）」（和「備份：快速存檔（開新遊戲前）」）→ 按那一筆「讀取」＝回到原本的日子、地點、時間
@@ -153,7 +153,7 @@ async def main():
 
         elif MODE == 'cap':
             hist = []
-            for n, btn in enumerate(['btnNewLaw', 'btnNewEcon', 'btnNewLaw', 'btnNew'], 1):
+            for n, btn in enumerate(['btnNewLaw', 'btnNew', 'btnNewLaw', 'btnNew'], 1):   # btnNewEcon 只在網址 ?y0 才看得到（開發中），cap 用玩家看得到的兩個
                 k0, k2, k1 = await new_game_once(pg, cdp, run, btn, 'cap%d' % n)
                 bk = {k: v for k, v in k2.items() if k.startswith('fatiao3d_backup_new_')}; hist.append(bk)
                 run.note('第 %d 次開新遊戲以後的備份：%s' % (n, J(bk)))
