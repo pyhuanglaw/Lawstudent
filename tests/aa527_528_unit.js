@@ -53,7 +53,7 @@ const docRe=(n,re)=>re.test(docOf(n));
   await sec('W',()=>{ const want={AA_497:'bfede0a62',AA_498:'7ad5fee84',AA_499:'7ad5fee84',AA_500:'7ad5fee84',AA_501:'7ad5fee84',AA_502:'7ad5fee84',AA_503:'bfede0a62',AA_511:'bfede0a62',AA_512:'bfede0a62',AA_514:'bfede0a62',AA_515:'bfede0a62',AA_518:'bfede0a62',AA_523:'bfede0a62'};
     const bad=Object.keys(want).filter(n=>{ const a=allowOf(n); return !a||a.sha!==want[n]||a.status!=='approved'; });
     check('W. 白名單：這兩份讀稿改過的原稿換成企劃線最後一次修改的 commit（AA_527 bfede0a62、AA_528 7ad5fee84），補 AA_502',!bad.length,J(bad.map(n=>[n,allowOf(n)&&allowOf(n).sha])));
-    const keep={AA_504:'62849944b',AA_505:'795fbecfd',AA_508:'ce6e87a99',AA_509:'28f981438',AA_510:'28f981438',AA_519:'e5835610d'};
+    const keep={AA_504:'da3e72727'/* 10-30 14:30 AA_504 3-4 阿哲那句改（NDL-EXAM-1030），原本 62849944b */,AA_505:'795fbecfd',AA_508:'ce6e87a99',AA_509:'28f981438',AA_510:'28f981438',AA_519:'e5835610d'};
     check('W. 沒改的照舊（AA_504、505、508、509、510、519）',Object.keys(keep).every(n=>allowOf(n)&&allowOf(n).sha===keep[n]));
     check('W. 讀得到原稿（git show 白名單的 sha）',['AA_497','AA_502','AA_512','AA_515','AA_523'].every(n=>docOf(n).length>1000)); });
 
