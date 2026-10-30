@@ -16322,8 +16322,8 @@
    "msg": "ACK",
    "what": "AA_543 第 6 節：經濟系那一年的人物頁句子（阿勳、韋綸、唐睿、品妤，現在式；條件 E01_DONE／E412_MOVEIN／ECON_CAMP_DONE／econ_friends／Y0_MOVED_OUT；轉法律系照第 2 節）",
    "task": "BUG-WHOIS-ECONYEAR-1030",
-   "integration": "已整合待測試",
-   "note": "LAWWW-B 1d4e7d897 照稿接；whois_unit ALL PASS；BB n21_whois_econ4"
+   "integration": "已驗收",
+   "note": "LAWWW-B 1d4e7d897 照稿接；whois_unit ALL PASS；BB n21_whois_econ4；BB-B n21_whois_econ6 ALL PASS（BB_218 332743f1e）"
   },
   {
    "id": "DL-LW2-NOODLELM-1030",
