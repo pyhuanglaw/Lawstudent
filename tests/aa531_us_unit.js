@@ -235,6 +235,8 @@ await sec(7,async()=>{
   fresh('2028-08-24',10,'us_apartment',US()); date(KX,'2028-01-01'); for(const [d,h] of [['2028-08-25',10],['2028-08-25',21],['2028-08-26',8]]) phAt(d,h);
   const kx=[!!OUT.get(H.G,'usl_qixi'),outIds().filter(i=>/^fest_kexin_qixi/.test(i)),FEST.dedicated(H.G,KX,'qixi',2028)];
   check('7-2. 和可昕交往、人在美國的七夕：只排 usl_qixi，FEST 的臺灣版（「你不來，我就自己看港口。」）不排（dedicated）',kx[0]===true&&!kx[1].length&&kx[2]===true,J(kx));
+});
+await sec('7-3',async()=>{
   /* 7-3 挽回中的招呼 */
   const GI=STORY.LADDER_GREET_IF, US0=SISB16_LINES.greetUS, RP=SISB16_LINES.greetUSRepair, BK=SISB16_LINES.greetBack;
   fresh('2028-11-01',10,'us_lawlib',US()); date(SIS,'2028-07-01'); const d=[GI[US0].test(H.G),GI[RP].test(H.G),GI[BK].test(H.G)];
@@ -244,6 +246,8 @@ await sec(7,async()=>{
   const got=[]; fresh('2028-11-01',10,'us_lawlib',US()); H.FRIEND(SIS); for(let i=0;i<15;i++){ H.G.social.greetUsed={}; H.G.day=D('2028-11-01')+i; const g=STORY.ladGreet&&STORY.ladGreet(H.G,SIS); if(g) got.push(g); }
   check('7-3. 學姊的美國招呼：交往中＝遞保溫瓶那一句；挽回中（美國路線、沒在交往）＝「這邊的飲水機只有冰的。我自己帶。」、不遞保溫瓶；12/24 回來以後兩句都不說、說回來的那一句；臺灣路線照原本',
     J(d)===J([true,false,false])&&J(r)===J([false,true,false])&&J(t)===J([true,false])&&J(b)===J([false,false,true])&&got.length>0&&!got.includes(US0)&&got.includes(RP),J({d,r,t,b,got}));
+});
+await sec('7-4',async()=>{
   /* 7-4 朋友版週日視訊七句輪流 */
   const Rr={}, seqN=[]; for(let d=D('2028-08-06');d<=D('2028-12-17');d+=7) seqN.push([keyOf(d),R2Y4B.saVNarrNext(Rr,d)]);
   const idx=seqN.map(x=>x[1]), w=D('2028-11-06');
