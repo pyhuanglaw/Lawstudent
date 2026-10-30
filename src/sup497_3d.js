@@ -166,7 +166,7 @@ const SUP497=(function(){
   S.GIG='2026-11-14'; S.GIG_ASK='2026-11-09';
   S.gigPhone=function(G){ const d=DK(S.GIG_ASK), g=DK(S.GIG); if(d==null||g==null||!law(G)) return;
     if(G.day>=d-1&&now(G)<T(g,20.5)&&!sent(G,'yc_gig_ask')&&(inGrp(G,'law_class')||inGrp(G,'noodle_team'))){ const it=[];   /* 班級群組（同班的人都看得到）＋阿哲在麵店團再貼一次（11/14 開場以後才進群組的不補）*/
-      if(inGrp(G,'law_class')) it.push(gm('law_class',YC,'宥辰',L.yc.gig.invite)); if(inGrp(G,'noodle_team')) it.push({th:'g:noodle_team',from:ZHE,text:L.yc.gig.invite});
+      if(inGrp(G,'law_class')) it.push(gm('law_class',YC,'宥辰',L.yc.gig.invite)); if(inGrp(G,'noodle_team')) it.push({th:'g:noodle_team',from:ZHE,text:(L.yc.gig.zheRepost||'')+L.yc.gig.invite});
       if(PHONE.at(G,d,21,it,'yc_gig_ask')) G.flags.YC_GIG_INV=true; }
     if(G.flags.YC_GIG_INV&&now(G)>=T(d,21)&&now(G)<T(g,20.5)) plan(G,{id:'yc_gig',ev:'ev_yc_gig',day:g,h:20,late:0.5,place:'公館・地下室',title:'宥辰的第一場（公館的地下室 20:00）',travel:'走過去約 15 分鐘',travelH:0.25,hours:2.5,back:'散場了。'}); };   /* 看到的人排進行程；時間到「出發」才去（不去＝沒去的那一版）*/
   S.GIG_EV={ id:'ev_yc_gig', title:'地下室的第一場', participants:[YC,ZHE], location:'any', trigger:'outing', once:true, background:'dark', hours:2.5,
@@ -304,7 +304,7 @@ const SUP497=(function(){
   S.yuPhone=function(G){ const F=G.flags, Y=t=>dm(YU,t);
     { const d=termDay('Y2S2',3,3), old=!!(G.needed&&G.needed.shown&&G.needed.shown.yu_clubs!=null); if(d!=null&&dmOK(G,YU)&&!old){ const items=L.yu.quit.msg.map(Y); items[items.length-1].ask=askOf('yu_quit',L.yu.quit.opts.map(([t,r])=>({t,say:[say1(YU,r)]}))); S.at(G,YU,d,21,items,'yu_quit'); } }   /* 3-4 大二下第 3 週週三 21:00（她說禮拜三晚上空下來）；舊存檔已經收過舊的「你猜我退了哪一個？」（needed_msgs yu_clubs）＝不再發（不留兩份）*/
     { const d=DK('2027-11-19'); if(d!=null&&sent(G,'y3_c4')&&dmOK(G,YU)){ const items=L.yu.c4.msg.map(Y); items[items.length-1].ask=askOf('yu_c4',L.yu.c4.opts.map(([t,R],k)=>({t,say:R.map(r=>say1(YU,r)),set:{YU_C4:['visit','her','leave'][k]}}))); S.at(G,YU,d,23+40/60,items,'yu_c4'); } }   /* 3-5 C4 阿哲那則之後，當晚 23:40 */
-    { const d0=F.YU_C6_DAY, v=F.YU_C6; if(d0!=null&&v&&dmOK(G,YU)&&!sent(G,'y3_yu_c6_bear')){ const A=L.yu.c6, rows=v==='pay'||v==='open'?A.soft:(v==='rule'?A.rule:A.teacher); S.at(G,YU,d0+14,21,rows.map(Y),'yu_c6_after'); } }   /* 3-6 C6 之後第 14 天 21:00（照走的那一路：要學弟賠／把帳攤開＝第 1 列、社團的規則＝第 2 列、其他＝第 3 列；r2y3b3d.js 原本 7 天後那一則熊拿掉，舊存檔收過熊的不再收）*/
+    { const d0=F.YU_C6_DAY, v=F.YU_C6; if(d0!=null&&v&&dmOK(G,YU)&&!sent(G,'y3_yu_c6_bear')){ const A=L.yu.c6, rows=v==='pay'?A.soft:(v==='rule'?A.rule:A.teacher); S.at(G,YU,d0+14,21,rows.map(Y),'yu_c6_after'); } }   /* 3-6 C6 之後第 14 天 21:00（AA_527 2-3（企劃線 bfede0a62）：要學弟賠＝第 1 列、把帳攤開＝第 3 列（指導老師陪我們對帳）、社團的規則＝第 2 列——原本 pay、open 都走第 1 列，第 3 列沒有人收到；r2y3b3d.js 原本 7 天後那一則熊拿掉，舊存檔收過熊的不再收）*/
     { const d=DK('2028-10-14'); if(d!=null&&route(G)==='US'&&abroad(G,d)&&dmOK(G,YU)) S.at(G,YU,d,15,L.yu.lib.us.map(Y),'yu_lib_us'); }   /* 3-7 美國路線：臺灣時間 15:00 */
     { const d=termDay('Y4S1',10,3); if(d!=null&&dmOK(G,YU)) S.at(G,YU,d,22.5,L.yu.lib.w10.map(Y),'yu_lib_w10'); } };   /* 3-7 大四上第 10 週 22:30（LAWWW 排週三）*/
   /* 3-7 法圖（大四上第 5～8 週，平日 14:00～17:00，法圖二樓最角落，有點熟以上，人在臺灣；一次）*/

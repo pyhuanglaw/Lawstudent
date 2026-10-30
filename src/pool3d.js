@@ -110,7 +110,9 @@ const POOL=(function(){
     if(pc.seat&&z==='classroom') base.seat=pc.seat.slice(); return base; };
 
   /* 2-2 認識之前的外觀描述：這一筆作息的 desc（同一個人在兩個地方各有一句）；不在這一區＝null（SOCIAL 用 characters.js 的 descriptor）*/
-  S.descNow=function(id,G){ G=G||curG(); if(!G||typeof CHARACTERS==='undefined'||!CHARACTERS[id]) return null; const n=GMr&&GMr.G===G&&GMr.npc&&GMr.npc[id]; if(n&&n.poolDesc) return n.poolDesc; const e=ent(G,id); return e&&e.desc||null; };
+  S.descNow=function(id,G){ G=G||curG(); if(!G||typeof CHARACTERS==='undefined'||!CHARACTERS[id]) return null;
+    if(typeof HCIRCLE!=='undefined'&&HCIRCLE&&HCIRCLE.named&&HCIRCLE.named(G,id)) return CHARACTERS[id].name;   /* 女主角的圈子同框看過名牌（AA_528 1-3）：還沒認識也寫名字 */
+    const n=GMr&&GMr.G===G&&GMr.npc&&GMr.npc[id]; if(n&&n.poolDesc) return n.poolDesc; const e=ent(G,id); return e&&e.desc||null; };
   /* 人物頁（2-2、2-8）：一句話；升到朋友（reveal FRIEND）＝personality（沒寫的照一句話）*/
   S.pageDesc=function(id){ const c=typeof CHARACTERS!=='undefined'&&CHARACTERS[id]; if(!c) return ''; if(c.cardBefore&&!(typeof SOCIAL!=='undefined'&&SOCIAL.has&&SOCIAL.has(id,'SHARED_SECRET'))) return c.cardBefore; const fr=typeof SOCIAL!=='undefined'&&SOCIAL.reveal&&SOCIAL.reveal(id)==='FRIEND'; return fr&&c.personality?c.personality:(c.card||''); };
   const esc=s=>String(s).replace(/[&<>"]/g,ch=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'})[ch]);
@@ -149,12 +151,13 @@ const POOL=(function(){
   /* 這一區、這個時間有沒有寫好的認識版本（沒有＝先不能說話）*/
   S.MEETV={};   /* 第二批以後：id → (G,e)⇒這一區、這個時間的認識版本（LINES[id] 的鍵）或 null（src/pool_more3d.js）*/
   S.meetVersion=function(G,id){ if(!OWN.has(id)) return null; const e=ent(G,id); if(!e) return null; const z=G.zone;
+    if(typeof STORY!=='undefined'&&STORY.presence){ const pr=STORY.presence(id,G); if(pr&&pr.here===false) return null; }   /* 不在（畢業了、交換出國）＝不能認識（AA_528 1-1：他已經畢業的不能再認識）*/
     if(!B1.has(id)) return S.MEETV[id]?(S.MEETV[id](G,e)||null):null;
     if(id===Z){ if(e.seat==='bell') return 'meetBell'; if(e.act==='class'&&hr(G)>=12) return 'meetClass'; return null; }   /* 教室版「早安。……對，下午了。」：下午的課 */
     if(id===Y) return e.door&&(ti(G)>0||week(G)>=2)?'meet':null;   /* 教室門口（上課前、期中考前一週週三下課）。5-1 寫大一上第 2～4 週：第 1 週不演；第 5 週以後沒有別的認識版本，照同一場演（不然她整條線都沒了）*/
     if(id===C){ if(z==='bookstore') return 'meetBook'; if(e.act==='class'&&(ti(G)>0||week(G)>=6)) return 'meetClass'; return null; }   /* 6-6：大一上第 6 週起，必修課第三排 */
-    if(id===YS) return z==='campus'&&!e.terms&&S.py(G)===1?'meet':null;   /* 椰林大道那一筆；「你是大一的吧？」「大三」＝祐廷大一 */
-    if(id===Q) return z==='dorm_hall'&&S.py(G)===1?'meet':null;   /* 交誼廳；「學弟」「大三」＝祐廷大一 */
+    if(id===YS) return z==='campus'&&!e.terms?'meet':null;   /* 椰林大道那一筆；「你是大一的吧？」「大三」＝祐廷大一（AA_528 1-1：大二起照樣可以認識，第一場照演；他畢業以後作息不在）*/
+    if(id===Q) return z==='dorm_hall'?'meet':null;   /* 交誼廳；「學弟」「大三」＝祐廷大一（AA_528 1-1：大二起照樣可以認識）*/
     return null; };
   S.owns=id=>OWN.has(id);
   S.meet=async function(GM,who,id,n){ const G=GM.G; S.bind(GM); const v=S.meetVersion(G,id); const lines=v&&L[id]&&L[id][v]; if(!lines) return false;
@@ -429,7 +432,7 @@ const POOL=(function(){
     const e=ent(G,id); return (e&&e.greetAt)||c.poolPlace||'教室'; };   /* 表上的地點；有兩個地點的人照現在這一筆（邱家齊在校園＝總圖門口、馬佳蓉在社博＝社團博覽會）*/
 
   /* ---------- 2-10 舊存檔：讀檔換名、說過秘密的記成「沒選」---------- */
-  S.renameText=function(t){ if(typeof t!=='string') return t; let s=t; for(const id in D.RENAME){ const [a,b]=D.RENAME[id]; if(s.indexOf(a)>=0) s=s.split(a).join(b); } return s; };
+  S.renameText=function(t){ if(typeof t!=='string') return t; let s=t; for(const id in D.RENAME){ const [a,b]=D.RENAME[id]; if(s.indexOf(a)>=0) s=s.split(a).join(b); } for(const [a,b] of (Array.isArray(D.RENAME_MORE)?D.RENAME_MORE:[])){ if(s.indexOf(a)>=0) s=s.split(a).join(b); } return s; };   /* RENAME_MORE：同一個人改第二次名（AA_527 1-7 pool_19）*/
   S.migrate=function(s){ if(!s||typeof s!=='object') return 0; let n=0; const fx=(o,k)=>{ if(!o||typeof o!=='object') return; const v=o[k]; if(typeof v!=='string') return; const w=S.renameText(v); if(w!==v){ o[k]=w; n++; } };
     const msg=m=>{ if(!m||typeof m!=='object') return; fx(m,'text'); fx(m,'name'); if(m.ask&&Array.isArray(m.ask.opts)) for(const o of m.ask.opts){ fx(o,'t'); if(o&&Array.isArray(o.say)) for(const y of o.say) fx(y,'text'); } };
     if(Array.isArray(s.msgs)) s.msgs.forEach(msg); const P=s.phone; if(P&&typeof P==='object'){ if(Array.isArray(P.q)) for(const q of P.q){ msg(q); if(q&&Array.isArray(q.items)) q.items.forEach(msg); } if(P.groups&&typeof P.groups==='object') for(const k in P.groups) fx(P.groups[k],'name'); }

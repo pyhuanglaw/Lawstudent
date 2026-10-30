@@ -36,7 +36,7 @@ const HCIRCLE_DATA={
   PEOPLE:{
     hc_xt:{label:'小婷',sex:'f',model:'char.npc_nf6',props:[{name:'apron',show:true},'name_pin'],note:'Café 同事，外文系大一的學妹（AA_503 5-1）'},
     hc_boss:{label:'老闆',sex:'m',model:'char.npc_nm6',props:[{name:'apron',show:true,color:'#2f3338'},'mug'],note:'Café 老闆（AA_503 5-1）'},
-    hc_ayi:{label:'阿姨',sex:'f',model:'char.npc_nf3',props:[{name:'apron',show:true,color:'#8a3a32'},'ladle','bandage'],note:'麵店的阿姨（AA_503 6-1：LAWWW2 做中年女性、圍裙、湯杓；先用固定的路人底模）'},
+    hc_ayi:{label:'阿姨',sex:'f',model:'char.npc_nf3',props:[{name:'apron',show:true,color:'#8a3a32'},'ladle',{name:'bandage',when:'ayiHand'}],note:'麵店的阿姨（AA_503 6-1：LAWWW2 做中年女性、圍裙、湯杓；先用固定的路人底模）；繃帶只在大一下第 8～9 週（AA_504 阿姨扭到手；AA_527 2-2：when＝hcircle3d.js S.PROP_WHEN，櫃台、廚房那位都一樣）'},
     hc_sf1:{label:'學姊的同學',sex:'m',model:'char.npc_nm16',props:[{name:'backpack',color:'#3a3a3a'},'lawbook'],note:'學姊備考的同學（AA_503 8-1，兩個之一）'},
     hc_sf2:{label:'學姊的同學',sex:'m',model:'char.npc_nm2',props:[{name:'backpack',color:'#59463a'},'folder'],note:'學姊備考的同學（AA_503 8-1，兩個之一）'},
     hc_np:{label:'新來的工讀生',sex:'f',model:'char.npc_nf11',props:[{name:'apron',show:true},'name_pin'],note:'Café 新來的工讀生（AA_505 2-1）'},
@@ -103,9 +103,9 @@ const HCIRCLE_DATA={
     {id:'c503_10_2',doc:'AA_503',sec:'10-1',k:2,who:'classmate_peishan',ref:true,heard:'照現有'},
     {id:'c503_10_3',doc:'AA_503',sec:'10-1',k:3,who:'classmate_peishan',ref:true,heard:'照現有讀書會',place:'作息補：週四 20:00 萬才館（SCHED）；讀書會是事件，柏翰、Alison 不另外搬'},
     /* ===================== AA_504 大一下＋暑假 ===================== */
-    {id:'c504_1_1',doc:'AA_504',sec:'1-1',k:1,who:'heroine_01',with:['yu'],always:true,days:[1,3],from:18,to:18+50/60,terms:['Y1S2'],wk:[1,11],zone:'campus',heard:'Alison：欸妳日文課幾點？／以安：七點。／Alison：早上？……妳瘋了。'},
+    {id:'c504_1_1',doc:'AA_504',sec:'1-1',k:1,who:'heroine_01',with:['yu'],always:true,days:[1,3],from:18,to:18+50/60,terms:['Y1S2'],wk:[1,12],dates:[['2026-02-23','2026-05-13']],aa527:'2-5',zone:'campus',heard:'Alison：欸妳日文課幾點？／以安：七點。／Alison：早上？……妳瘋了。'},
     {id:'c504_1_2',doc:'AA_504',sec:'1-1',k:2,who:'heroine_01',alone:true,days:[1,3],from:18,to:18+50/60,terms:['Y1S2'],wk:[12,13],dates:[['2026-05-14','2026-05-24']],zone:'campus',heard:'（她一個人走，手帳拿在手上，沒有打開。）',
-      place:'第 12～13 週、5/14 吵架以後＝5/18、5/20；第 12 週 5/11、5/13 還沒吵架，兩列都不算（照舊）'},
+      place:'第 12～13 週、5/14 吵架以後＝5/18、5/20；第 12 週 5/11、5/13 還沒吵架＝照上一列和 Alison 同框（AA_527 2-5，企劃線 bfede0a62：c504_1_1 延到第 12 週 5/13）'},
     {id:'c504_1_3',doc:'AA_504',sec:'1-1',k:3,who:'heroine_01',with:['yu'],always:true,days:[1,3],from:18,to:18+50/60,terms:['Y1S2'],wk:[14,16],zone:'campus',heard:'Alison：欸，上次那個，我還是覺得要申請很怪。／以安：我知道。妳說過了。／Alison：……那我們今天走哪邊？'},
     {id:'c504_1_4',doc:'AA_504',sec:'1-1',k:4,who:'heroine_01',with:['pool_7'],cls:true,terms:['Y1S2'],cond:'metZjw',anchor:'with',heard:'曾靖雯：早安。妳日文課是不是也很早？／以安：七點。……妳的早安我現在聽得習慣了。',place:'「照舊」＝同 AA_503（認識曾靖雯以後）'},
     {id:'c504_2_1',doc:'AA_504',sec:'2-1',k:1,who:'heroine_02',with:['hc_xt'],days:[5],from:19,to:22,terms:['Y1S2'],zone:'cafe',act:'barista',comp:{hc_xt:{clerk:'cafe'}},heard:'小婷：學姊，這杯櫻花的妳試一下。／芷若：甜。少一半糖漿。'},
@@ -125,8 +125,8 @@ const HCIRCLE_DATA={
     {id:'c504_5_2',doc:'AA_504',sec:'5-1',k:2,who:'heroine_05',with:['hc_sf1','hc_sf2'],days:[1,2,3,4,5],from:12,to:13,terms:['Y1S2'],wk:[13,14],zone:'campus',heard:'學姊的同學：書瑀，畢業照那天妳要站中間。／學姊：邊邊。',place:'霖澤館前（作息補，SCHED）'},
     {id:'c504_5_3',doc:'AA_504',sec:'5-1',k:3,who:'heroine_05',alone:true,days:[1,2,3,4,5],from:7,to:8,dates:[['2026-06-15','2026-07-05']],zone:'gym_b1',heard:'（她在最旁邊的水道，游一段，扶著池邊休息一下，再游一段。）',
       place:'沒有游泳的動作：站在池邊（作息補，SCHED）'},
-    {id:'c504_6_1',doc:'AA_504',sec:'6-1',k:1,who:'classmate_peishan',with:['classmate_bohan'],days:[1,2,4,5],from:16,to:19,terms:['Y1S2'],dates:[['2026-04-06','2026-06-14']],zone:'library',cond:'psBohan',heard:'柏翰：五十分鐘到了。休息十分鐘。／沛珊：我這頁還沒看完……好啦。',
-      place:'總圖二樓→兩個人的作息都在總圖三樓閱覽區（library）；週二、四 16～18 第 5～15 週她在溫州街課輔班（作息在前面）'},
+    {id:'c504_6_1',doc:'AA_504',sec:'6-1',k:1,who:'classmate_peishan',with:['classmate_bohan'],days:[1,2,4,5],from:16,to:19,terms:['Y1S2'],dates:[['2026-04-06','2026-06-14']],zone:'library_hall',cond:'psBohan',aa527:'2-5',heard:'柏翰：五十分鐘到了。休息十分鐘。／沛珊：我這頁還沒看完……好啦。',
+      place:'總圖二樓＝總圖大廳二樓自習區（library_hall 二樓；AA_527 2-5，企劃線 bfede0a62；原本放總圖三樓閱覽區）：沛珊那幾格的作息在 characters.js 改 library_hall，柏翰照圈子跟著她（STORY.SCHED_WITH）；週二、四 16～18 第 5～15 週她在溫州街課輔班（作息在前面）'},
     {id:'c504_6_2',doc:'AA_504',sec:'6-1',k:2,who:'classmate_peishan',ref:true,heard:'照現有'},
     {id:'c504_6_3',doc:'AA_504',sec:'6-1',k:3,who:'classmate_peishan',with:['hc_kid'],days:[2,4],from:16,to:18,terms:['Y1S2'],wk:[5,15],zone:'wenzhou',heard:'小朋友：老師！這題我會了！／沛珊：好棒！……那下一題呢？'},
     /* ===================== AA_505 大二上＋寒假 ===================== */
@@ -167,8 +167,8 @@ const HCIRCLE_DATA={
     {id:'c505_5_2',doc:'AA_505',sec:'5-1',k:2,who:'heroine_05',alone:true,days:[1,2,3,4],from:7,to:8,terms:['Y2S1'],dates:[['2026-09-09','2026-12-27']],zone:'gym_b1',heard:'（她在最旁邊的水道，游完一趟，看了一下牆上的鐘。）',
       place:'池邊（作息補，SCHED）；表寫「平日」、第 8 節寫「週一～四」＝週一～四；9/8 08:30 新學生證「可以刷了」（第 5-2 節）以後＝9/9 起'},
     {id:'c505_5_3',doc:'AA_505',sec:'5-1',k:3,who:'heroine_05',ref:true,heard:'照現有'},
-    {id:'c505_6_1',doc:'AA_505',sec:'6-1',k:1,who:'classmate_peishan',with:['classmate_bohan'],days:[1,2,4,5],from:16,to:19,terms:['Y2S1'],wk:[1,6],zone:'library',cond:'psBohan',heard:'柏翰：今天念幾頁？／沛珊：……還好啦。你呢？',place:'總圖二樓→總圖三樓閱覽區（兩個人的作息）'},
-    {id:'c505_6_2',doc:'AA_505',sec:'6-1',k:2,who:'classmate_peishan',alone:true,days:[1,2,4,5],from:16,to:19,terms:['Y2S1'],wk:[7,16],zone:'library',cond:'psAfterBohan',heard:'（她坐在原本的位子，旁邊的椅子是空的。她在看手機，沒有在看書。）',
+    {id:'c505_6_1',doc:'AA_505',sec:'6-1',k:1,who:'classmate_peishan',with:['classmate_bohan'],days:[1,2,4,5],from:16,to:19,terms:['Y2S1'],wk:[1,6],zone:'library_hall',cond:'psBohan',aa527:'2-5',heard:'柏翰：今天念幾頁？／沛珊：……還好啦。你呢？',place:'總圖二樓＝總圖大廳二樓自習區（library_hall 二樓；AA_527 2-5；沛珊的作息改 library_hall，柏翰照圈子跟著她）'},
+    {id:'c505_6_2',doc:'AA_505',sec:'6-1',k:2,who:'classmate_peishan',alone:true,days:[1,2,4,5],from:16,to:19,terms:['Y2S1'],wk:[7,16],zone:'library_hall',cond:'psAfterBohan',aa527:'2-5',heard:'（她坐在原本的位子，旁邊的椅子是空的。她在看手機，沒有在看書。）',
       place:'「和柏翰分開以後」＝玩家沒和她交往、柏翰那一段已經結束（STORY.partnerOn）'},
     {id:'c505_6_3',doc:'AA_505',sec:'6-1',k:3,who:'classmate_peishan',ref:true,heard:'照現有'},
     /* ===================== AA_506 大二下＋暑假 ===================== */
@@ -220,7 +220,8 @@ const HCIRCLE_DATA={
     {id:'c508_4_1',doc:'AA_508',sec:'4-1',k:1,who:'heroine_04',ref:true,heard:'照 2-1',place:'＝c508_2_3'},
     {id:'c508_4_2',doc:'AA_508',sec:'4-1',k:2,who:'heroine_04',with:['hc_gtr'],days:[1,3],from:19,to:21,terms:['Y3S2'],zone:'wancai',act:'club',heard:'吉他社的學弟：學姊，畢業以後還會回來聽嗎？／子晴：……下班以後。／吉他社的學弟：那都九點以後了。／子晴：對。'},
     {id:'c508_5_1',doc:'AA_508',sec:'5-1',k:1,who:'heroine_05',with:['npc_ta_chen'],always:true,days:[5],from:18.5,to:20.5,terms:['Y3S2'],wk:[1,3],zone:'gongguan',heard:'陳助教：結果出來了沒？／學姊：還沒。／陳助教：……妳今天一直看手機。／學姊：沒有一直。'},
-    {id:'c508_5_2',doc:'AA_508',sec:'5-1',k:2,who:'heroine_05',with:['npc_ta_chen'],always:true,days:[5],from:18.5,to:20.5,terms:['Y3S2'],wk:[4,16],zone:'gongguan',heard:'陳助教：美國的宿舍排到了沒？／學姊：還沒。每天看信箱。／陳助教：妳以前等成績也這樣。／學姊：……我現在比較會等了。'},
+    {id:'c508_5_2',doc:'AA_508',sec:'5-1',k:2,who:'heroine_05',with:['npc_ta_chen'],always:true,days:[5],from:18.5,to:20.5,dates:[['2028-03-13','2028-06-15'],['2028-06-17','2028-06-22'],['2028-06-24','2028-07-28']],aa527:'2-5',zone:'gongguan',heard:'陳助教：美國的宿舍排到了沒？／學姊：還沒。每天看信箱。／陳助教：妳以前等成績也這樣。／學姊：……我現在比較會等了。',
+      place:'AA_527 2-5（企劃線 bfede0a62）：第 4 週起演到 7/28（她 8/2 出發前最後一個週五）；6/16 是 c519_2_3，6/23 那一週不演（AA_508 5-3：在她家吃咖哩）'},
     {id:'c519_2_3',doc:'AA_519',sec:'2-3',k:1,who:'heroine_05',with:['npc_ta_chen'],always:true,days:[5],from:18.5,to:20.5,dates:[['2028-06-16','2028-06-16']],zone:'gongguan',heard:'陳助教：下禮拜二口試。／學姊：幾點。／陳助教：……妳要來？／學姊：最後一排。不講話。',
       place:'AA_519 2-3：6/16（五）週五公館和學姊吃飯那一列（放暑假了，學期的列不成立；只有這一天）；口試 2028-06-20（二），學姊沒有別的事'},
     /* ===================== AA_509 大四上＋寒假（CIRCLE3D-Y4-1028）===================== */

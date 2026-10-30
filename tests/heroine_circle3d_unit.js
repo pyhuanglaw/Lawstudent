@@ -9,8 +9,8 @@
 //      （走路＝buddy、坐著＝旁邊的空位、站著＝旁邊）；標籤同伴（小婷、阿姨、學姊的同學…）生出來、固定底模、Café／麵店原本的店員藏起來，那一列結束拿掉、店員回來；
 //      一個人的列不和別人配對（pairUp 跳過）；必修課上課前以安坐到曾靖雯旁邊；大道上的以安（舊的劇情人物）走到萬才館門口站好
 //   3  走近聽到：5 m 內、同伴在旁邊才出字幕，照稿的順序和說話的人；一列一天一次、隔天再一次；once 的列整個存檔一次；必修課那幾列只在上課以前
-//   4  找她說話：沒聽到的先在對話框演、再照常說話；第一次在同伴旁邊＝介紹——二十位同學在這裡認識（FIRST_MET、名字換掉、熟悉＋3），
-//      之後找他說話不再演他自己的認識那一場；其他人只記下介紹過
+//   4  找她說話：沒聽到的先在對話框演、再照常說話；第一次在同伴旁邊＝介紹——二十位同學只換名牌（AA_528 1-3，2026-10-30：不記 FIRST_MET、熟悉不加），
+//      他們自己的第一場照演（原本在這裡就認識、之後不演）；其他人只記下介紹過
 //   5  旁邊有人：同伴在旁邊＝不出「約她去…」、priv（告白）選項，交換聯絡方式照常；同伴不在＝照常
 //   6  其他：標籤同伴的底模都在 ASSETS、性別對、不和二十位同學撞、彼此不重複；story3d.js、multirel3d.js 的掛勾
 // 修改前（開發分支 ff9f54209 的乾淨 checkout（git worktree --detach）放進這支測試實際跑，2026-10-28）：FAILED 13、PASS 2
@@ -173,11 +173,11 @@ await sec('1',async()=>{ if(!HAS()){ check('1. HCIRCLE',false,'沒有 HCIRCLE');
   /* 跟著她的那一筆：靖雯在霖澤館門口（大二下債各下課）、阿凱在校園（大一上週五）、晏如／晨希在萬才館（吉他社）*/
   const chk=(rid,c,flags)=>{ const r=R(rid), f=findOn(r,flags); if(!f) return null; const e=ent(c); return e?{zone:e.zone,act:e.act,hc:e.hc,with:e.with}:null; };
   const a=chk('c506_3_1','pool_7'), b=chk('c503_7_2','kai'), c=chk('c503_7_1','pool_11'), d=chk('c503_7_1','pool_5');
-  check('1. 不在那一區的同伴：回傳跟著她的那一筆（hc＝那一列、with＝她）——靖雯、阿凱、晨希、晏如',!!a&&a.zone==='campus'&&a.act==='linger'&&a.hc==='c506_3_1'&&a.with==='heroine_03'&&!!b&&b.zone==='campus'&&b.hc==='c503_7_2'&&!!c&&c.zone==='wancai'&&c.hc==='c503_7_1'&&!!d&&d.zone==='wancai',J({a,b,c,d}));
+  check('1. 不在那一區的同伴：回傳跟著她的那一筆（hc＝那一列、with＝她）——靖雯、阿凱、晏如；晨希吉他社有課的時間本來就在吉他社（AA_528 1-3：她自己的作息，沒有 hc）',!!a&&a.zone==='campus'&&a.act==='linger'&&a.hc==='c506_3_1'&&a.with==='heroine_03'&&!!b&&b.zone==='campus'&&b.hc==='c503_7_2'&&!!c&&c.zone==='wancai'&&c.act==='club'&&!c.hc&&!!d&&d.zone==='wancai'&&d.hc==='c503_7_1',J({a,b,c,d}));
   { const r=R('c506_3_1'), f=findOn(r); fresh(f.d,f.h,'campus'); const on0=HCIRCLE.on(r,H.G); H.G.invites=[{id:'iv1',who:'heroine_03',place:'wenzhou',state:'going',zone:'wenzhou',day:f.d,h:f.h}]; const on1=HCIRCLE.on(r,H.G), zj=ent('pool_7');
     check('1. 她和玩家一起走過去（邀約 going，INV.entryFor）的時候：那一列不成立、靖雯不跟過去',on0===true&&on1===false&&!(zj&&zj.hc),J({on0,on1,zj:zj&&zj.zone})); }
-  const e1=chk('c503_6_1','npc_huangxh'), e2=chk('c504_6_1','classmate_bohan'), ndl2=[2,4].includes(H.G.weekday)&&H.G.hour>=17.5&&H.G.hour<20.5;   /* NDL-PRESENT-1030：柏翰週二、四 17:30～20:30 自己的作息是麵店長桌＝那一列跟沛珊去總圖（hc），地點一樣是總圖 */
-  check('1. 本來就在那一區的同伴照他自己的（筱涵在校園、柏翰在總圖：沒有 hc；柏翰麵店日那一段跟著沛珊、一樣在總圖）',!!e1&&e1.zone==='campus'&&!e1.hc&&!!e2&&e2.zone==='library'&&(!e2.hc||ndl2),J({e1,e2,ndl2}));
+  const e1=chk('c503_6_1','npc_huangxh'), e2=chk('c504_6_1','classmate_bohan');
+  check('1. 本來就在那一區的同伴照他自己的（筱涵在校園：沒有 hc）；沛珊「總圖二樓」改總圖大廳二樓（AA_527 2-5）＝柏翰（自己的作息在三樓閱覽區）跟著她到 library_hall',!!e1&&e1.zone==='campus'&&!e1.hc&&!!e2&&e2.zone==='library_hall'&&e2.hc==='c504_6_1'&&e2.with==='classmate_peishan',J({e1,e2}));
   /* 一定同框＝每一天；其他＝約 70%、同一天一樣 */
   const always=[], ratio=[];
   for(const r of rows()){ if(!live(r)||r.alone||r.spot||r.once||r.cls) continue; let elig=0, on=0; const f0=findOn(r,FLAGS[r.id]); if(!f0) continue;   /* 每一天用同一個時間（找得到成立的那個時間）*/
@@ -209,9 +209,9 @@ await sec('2',async()=>{ if(!HAS()){ check('2. HCIRCLE',false,'沒有 HCIRCLE');
     check('2. 週一 18:00 以安和 Alison 一起走（Alison＝buddy、跟著以安、paired）',!!f&&!!an&&!!yu&&yu.beh==='buddy'&&yu.buddy===an&&yu.paired===an&&dist(an,yu)<1.5,J({f,beh:yu&&yu.beh})); }
   /* (c) 沛珊×柏翰：總圖坐在旁邊的空位 */
   { const seats=[{x:0,z:0,yaw:0},{x:0.9,z:0,yaw:0},{x:1.8,z:0,yaw:0},{x:8,z:5,yaw:0},{x:-8,z:5,yaw:0}];
-    const r=R('c504_6_1'); const f=findOn(r); fresh(f.d,f.h,'library'); stage('library',seats); STORY._bindGM(GM); HCIRCLE.bind(GM);
+    const r=R('c504_6_1'); const f=findOn(r); fresh(f.d,f.h,'library_hall'); stage('library_hall',seats); STORY._bindGM(GM); HCIRCLE.bind(GM);
     const ps=GM.spawnCharacter('classmate_peishan',0,0,{seat:E.zone.seats[0],pose:'read'}); const bh=GM.spawnCharacter('classmate_bohan',8,5,{seat:E.zone.seats[3],pose:'read'}); HCIRCLE.arrange(GM,false);
-    check('2. 大一下 4/6 以後的總圖：柏翰坐到沛珊旁邊的空位',!!bh.seat&&Math.hypot(bh.seat.x-0,bh.seat.z-0)<1&&bh.seat!==E.zone.seats[3],J(bh.seat)); }
+    check('2. 大一下 4/6 以後的總圖（大廳二樓自習區，AA_527 2-5）：柏翰坐到沛珊旁邊的空位',!!bh.seat&&Math.hypot(bh.seat.x-0,bh.seat.z-0)<1&&bh.seat!==E.zone.seats[3],J(bh.seat)); }
   /* (d) Café：芷若上班、小婷站店員的位置，原本的店員藏起來；那一列結束小婷走、店員回來 */
   { const r=R('c503_5_1'); const f=findOn(r); fresh(f.d,19.5,'cafe'); stage('cafe'); STORY._bindGM(GM); HCIRCLE.bind(GM); const ck=clerk(-0.6,-5.25);
     const zr=GM.spawnCharacter('heroine_02',-2.5,-5.15,{yaw:0}); zr.frozen=true; zr.staff='cafe'; HCIRCLE.arrange(GM,false); const xt=GM.npc.hc_xt;
@@ -287,16 +287,16 @@ await sec('4',async()=>{ if(!HAS()){ check('4. HCIRCLE',false,'沒有 HCIRCLE');
   H.said=[]; H.picks=[]; E.player.obj.position={x:-3,y:0,z:5}; await zq.talk(zq); const L=said();
   const want=r.lines.map(l=>(HCIRCLE.who(GM,{id:l.id,label:l.label})||'')+'：'+l.t);
   check('4. 沒聽到就找她說話：先在對話框演那幾句（照稿），再照常說話',L.length>3&&J(L.slice(0,3).map(s=>s.replace(/^[^：]*：/,'')))===J(r.lines.map(l=>l.t)),J(L.slice(0,5)));
-  check('4. 第一次在同伴旁邊找她說話：兩位同學在這裡認識（FIRST_MET）、名字從外觀描述換成名字、熟悉＋3',!before5&&SOCIAL.has('pool_5','FIRST_MET')&&SOCIAL.has('pool_11','FIRST_MET')&&nm0!=='葉晨希'&&SOCIAL.npcName('pool_11')==='葉晨希'&&cx.name==='葉晨希'&&(SOCIAL.rel('pool_11').fam|0)>=fam0+3,J({nm0,nm1:cx.name,fam0,fam1:SOCIAL.rel('pool_11').fam}));
-  /* 之後找晨希說話：不是第一次（不演自己的認識那一場：沒有「我是葉晨希。」）*/
-  H.said=[]; await STORY.talkCharacter('pool_11',cx); const L2=said();
-  check('4. 認識以後找同學說話：不再演他自己的認識那一場（沒有自我介紹）',!L2.some(s=>/我是葉晨希/.test(s)),J(L2.slice(0,3)));
+  /* AA_528 1-3（企劃線 7ad5fee84）：同框只顯示名字（名牌），不記 FIRST_MET、不算認識；他們自己的第一場照演（原本這裡就認識、熟悉＋3）*/
+  check('4. 第一次在同伴旁邊找她說話：兩位同學只換名牌（名字從外觀描述換成名字），不記 FIRST_MET、熟悉不加；記下看過名牌（G.flags.HCIRCLE.intro）',!before5&&!SOCIAL.has('pool_5','FIRST_MET')&&!SOCIAL.has('pool_11','FIRST_MET')&&nm0!=='葉晨希'&&SOCIAL.npcName('pool_11')==='葉晨希'&&cx.name==='葉晨希'&&(SOCIAL.rel('pool_11').fam|0)===fam0&&H.G.flags.HCIRCLE.intro.pool_11===H.G.day,J({nm0,nm1:cx.name,fam0,fam1:SOCIAL.rel('pool_11').fam}));
+  /* 之後：吉他社那裡沒有晨希的認識版本＝沒有說話按鈕；她自己的第一場（萬才館旁邊）照演 */
+  check('4. 看過名牌以後：還沒認識也寫名字（HCIRCLE.named → POOL.descNow）；她自己的第一場照演（第二批以後的認識版本在 tests/aa499_501_pool_unit.js 第 17 節、tests/aa527_528_unit.js）',HCIRCLE.named(H.G,'pool_11')&&POOL.descNow('pool_11',H.G)==='葉晨希'&&!SOCIAL.has('pool_11','FIRST_MET'));
   /* 第一批的曾靖雯（BATCH1）：在語彤旁邊認識＝POOL.afterMeet（他那條線的「認識」那一段）、之後不演 meetBell／meetClass */
   { const r2=R('c506_3_1'); const f2=findOn(r2); fresh(f2.d,f2.h,'campus'); stage('campus'); STORY._bindGM(GM); HCIRCLE.bind(GM); POOL.bind(GM); H.FRIEND('heroine_03'); SOCIAL.meet('heroine_03','campus');
     const yt=GM.spawnCharacter('heroine_03',36.6,-97.4,{yaw:Math.PI/2}); yt.frozen=true; const zj=GM.spawnCharacter('pool_7',36.6,-98.35,{}); E.player.obj.position={x:37.5,y:0,z:-96.8}; HCIRCLE.arrange(GM,false);
     H.said=[]; await yt.talk(yt); const seg=(POOL.rec(H.G).seg.pool_7||{}).meet;
-    check('4. 曾靖雯（第一批）在語彤旁邊認識：FIRST_MET、他那條線「認識」那一段記下（POOL.afterMeet）',SOCIAL.has('pool_7','FIRST_MET')&&seg===H.G.day,J({seg}));
-    set(f2.d,6.8,'campus'); H.said=[]; await STORY.talkCharacter('pool_7',zj); check('4. 之後在傅鐘找她：不演 meetBell（「我叫曾靖雯。」）',!said().some(s=>/我叫曾靖雯/.test(s)),J(said().slice(0,3))); }
+    check('4. 曾靖雯（第一批）在語彤旁邊：只換名牌，不記 FIRST_MET、他那條線沒有「認識」那一段（AA_528 1-3）',!SOCIAL.has('pool_7','FIRST_MET')&&!seg&&SOCIAL.npcName('pool_7')==='曾靖雯',J({seg}));
+    set(f2.d,6.8,'campus'); H.said=[]; await STORY.talkCharacter('pool_7',zj); check('4. 之後在傅鐘找她：她自己的第一場（meetBell「我叫曾靖雯。」）照演、之後算認識',said().some(s=>/我叫曾靖雯/.test(s))&&SOCIAL.has('pool_7','FIRST_MET'),J(said().slice(0,3))); }
   /* 不是同學的同伴：只記下介紹過（筱涵）*/
   { const r3=R('c503_6_1'); const f3=findOn(r3); fresh(f3.d,12.4,'campus'); stage('campus'); STORY._bindGM(GM); HCIRCLE.bind(GM); H.FRIEND('heroine_03'); SOCIAL.meet('heroine_03','campus');
     const yt=GM.spawnCharacter('heroine_03',0,7,{beh:'wander',waypoints:[[0,7]]}), xh=GM.spawnCharacter('npc_huangxh',1,7,{beh:'wander',waypoints:[[1,7]]}); HCIRCLE.arrange(GM,false); E.player.obj.position={x:1,y:0,z:8};

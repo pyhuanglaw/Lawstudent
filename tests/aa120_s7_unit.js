@@ -43,7 +43,7 @@ const line=(id,re)=>ST(id).find(e=>(typeof e==='string'?e:e.t).match(re));
 /* ---------- 7-2 不熟同學 ---------- */
 const POOL=Object.keys(CHARACTERS).filter(id=>/^pool_/.test(id));
 check('20 位不熟同學各三句，每句只說一次（once），第 3 句要說過心事（SHARED_SECRET）',POOL.length===20&&POOL.every(id=>ST(id).length===3&&ST(id).every(e=>e.once===true)&&!ST(id)[0].if&&!ST(id)[1].if&&JSON.stringify(ST(id)[2].if)===JSON.stringify({memory:[{npc:id,tag:'SHARED_SECRET'}]})));
-check('改過的四個人：林采潔「我在寫一篇推理小說」、徐靜儀「我想當跑司法新聞的記者」、pool_19「想雙主修社工」（第 1 句是旁聽）、pool_3 的外觀描述（AA_498 第 1、3 節之後：名字改成蘇承恩、邱家齊；pool_3 的描述照地點換成「把冰箱塞滿的學長」）',CHARACTERS.pool_1.facts[1]==='我在寫一篇推理小說'&&CHARACTERS.pool_13.facts[1]==='我想當跑司法新聞的記者'&&CHARACTERS.pool_19.facts[0]==='想雙主修社工'&&/旁聽社工系/.test(ST('pool_19')[0].t)&&CHARACTERS.pool_3.descriptor==='把冰箱塞滿的學長'&&CHARACTERS.pool_19.name==='蘇承恩'&&CHARACTERS.pool_3.name==='邱家齊');
+check('改過的四個人：林采潔「我在寫一篇推理小說」、徐靜儀「我想當跑司法新聞的記者」、pool_19「想雙主修社工」（第 1 句是旁聽）、pool_3 的外觀描述（AA_498 第 1、3 節之後：名字改成蘇維倫〔AA_527 1-7〕、邱家齊；pool_3 的描述照地點換成「把冰箱塞滿的學長」）',CHARACTERS.pool_1.facts[1]==='我在寫一篇推理小說'&&CHARACTERS.pool_13.facts[1]==='我想當跑司法新聞的記者'&&CHARACTERS.pool_19.facts[0]==='想雙主修社工'&&/旁聽社工系/.test(ST('pool_19')[0].t)&&CHARACTERS.pool_3.descriptor==='把冰箱塞滿的學長'&&CHARACTERS.pool_19.name==='蘇維倫'&&CHARACTERS.pool_3.name==='邱家齊');
 check('十男十女',POOL.filter(id=>CHARACTERS[id].gender==='m').length===10);
 { /* 一個人從認識到說完：心事不先洩漏 */
   const leaks=[]; for(const id of POOL){ fresh(dOf('Y1S1',5,3)); const sec=CHARACTERS[id].facts[1]; const seen=[];

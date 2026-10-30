@@ -40,7 +40,7 @@ try{ load('src/data/dorm_room_layout.js','DORM_ROOM'); }catch(e){ err+=String(e)
 try{ ok=load('src/data/dorm203_lines.js','DORM203_LINES')&&load('src/dorm203_3d.js','DORM203'); }catch(e){ err+=' '+String(e); }
 const X=()=>typeof DORM203!=='undefined'?DORM203:null, LL=()=>typeof DORM203_LINES!=='undefined'?DORM203_LINES:null;
 let DOC='';
-try{ DOC=cp.execSync('git show d13ab3ab7:"docs/story_planning/AA_502_203室友日常_阿哲_柏翰_阿凱.md"',{cwd:process.env.AA502_GIT_DIR||H.ROOT,encoding:'utf8',stdio:['ignore','pipe','ignore']}); }catch(e){ DOC=''; }
+try{ DOC=cp.execSync('git show 7ad5fee84:"docs/story_planning/AA_502_203室友日常_阿哲_柏翰_阿凱.md"',{cwd:process.env.AA502_GIT_DIR||H.ROOT,encoding:'utf8',stdio:['ignore','pipe','ignore']}); }catch(e){ DOC=''; }
 const NAME={kai:'阿凱',zhe:'阿哲',classmate_bohan:'柏翰',yu:'Alison'};
 const sec=async(n,f)=>{ try{ await f(); }catch(e){ check(n+'. （丟例外）',false,String(e&&e.stack||e).split('\n').slice(0,3).join(' | ')); } };
 /* 假的生人物、坐下、走路（同 tests/dorm_mates_live_unit.js；E.moveTo 先記下來，測試決定走到了沒有）*/
@@ -82,7 +82,7 @@ const knowAll=()=>{ for(const id of ['kai','zhe','classmate_bohan']){ H.rel(id,2
   /* ================= 0 載入、index.html、對稿 ================= */
   await sec(0,()=>{ const html=fs.readFileSync(path.join(H.ROOT,'index.html'),'utf8'), a=html.indexOf('src/rom1016_3d.js'), b=html.indexOf('src/data/dorm203_lines.js'), c=html.indexOf('src/dorm203_3d.js'), d=html.indexOf('src/data/bbpack_events.js');
     check('0. 新檔載得到（DORM203_LINES、DORM203）；index.html：rom1016_3d.js → data/dorm203_lines.js → dorm203_3d.js（兩個新檔相鄰）→ bbpack_events.js（順序；中間可以有別的新模組，例 heroine_asks；bbpack3d 緊接 GAME.boot 由 bbpack_unit 查）',ok&&!!X()&&!!L&&a>0&&b>a&&c>b&&d>c&&html.slice(b,c).split('<script').length===2,err); });
-  await sec(0,()=>{ check('0. 拿得到稿（git show d13ab3ab7；有第 6 節「實作時定的」）',DOC.length>1000&&DOC.indexOf('## 4. 203 群組')>0&&DOC.indexOf('## 6. 實作時定的')>0,'長度 '+DOC.length);
+  await sec(0,()=>{ check('0. 拿得到稿（git show 7ad5fee84＝AA_528 第 3 節改字以後的版本；有第 6 節「實作時定的」）',DOC.length>1000&&DOC.indexOf('## 4. 203 群組')>0&&DOC.indexOf('## 6. 實作時定的')>0,'長度 '+DOC.length);
     if(!L||!DOC){ for(const n of ['0. 遊戲裡的每一句都在稿裡','0. 反過來：稿第 1～4 節的每一句遊戲裡都有']) check(n,false,!L?'沒有 DORM203_LINES':'拿不到稿'); return; }
     const bad=[], inDoc=t=>DOC.indexOf(t)>=0;
     /* 遊戲 → 稿：每一句都在稿裡；說話的人對（「名字：」接在前面，或在那個人的表裡）*/
@@ -202,7 +202,7 @@ const knowAll=()=>{ for(const id of ['kai','zhe','classmate_bohan']){ H.rel(id,2
     room('2025-08-30',22.6); knowAll(); const o2=await talk('zhe'); check('3. 8/30（開學以前）房間裡還沒有能說的：照原本的閒聊',!!o2&&!Z.rows.some(r=>o2.endsWith(r.t))&&!isAfter(o2,Z),o2);
     room('2025-09-02',19); knowAll(); const k1=await talkKai(); at('2025-09-03',19); const k2=await talkKai();
     check('3. 阿凱（房間）：第一句「冷氣遙控器我收在抽屜裡」；隔天沒有新的（期中後才有下一句）＝原本的房間句',k1[0]===KR[0].t&&k2.length===1&&!KR.some(r=>r.t===k2[0]),J([k1,k2]));
-    at('2025-11-03',19); const k3=await talkKai(); check('3. 期中後：「上次宵夜是我下去拿的」',k3[0]===KR[1].t,J(k3));
+    at('2025-11-03',19); const k3a=await talkKai(); at('2025-11-28',19); const k3=await talkKai(); check('3. 期中後、第 13 週 3-3 宵夜（11/27）以前還沒有；宵夜那一晚以後：「上次宵夜是我下去拿的。……就這樣。」（AA_528 2-3）',k3a.length===1&&!KR.some(r=>r.t===k3a[0])&&k3[0]===KR[1].t,J([k3a,k3]));
     at('2026-02-24',19); const k4=await talkKai(); at('2026-02-25',19); const k5=await talkKai();
     check('3. 大一下：「你們三個都念法律」；三句說完照原本的房間句',k4[0]===KR[3].t&&k5.length===1&&!KR.some(r=>r.t===k5[0]),J([k4,k5])); });
 
@@ -260,11 +260,11 @@ const knowAll=()=>{ for(const id of ['kai','zhe','classmate_bohan']){ H.rel(id,2
     /* ③ 宵夜選「謝謝阿凱」→ 阿凱閒聊換句 */
     room('2025-11-27',23.1); knowAll(); await runEv('ev_r203_supper',['謝謝阿凱']); check('5③. 宵夜選「謝謝阿凱。」：KAI_COUNTED',H.G.flags.KAI_COUNTED===true);
     const ka=[]; for(const d of ['2025-11-28','2025-11-29','2025-11-30']){ at(d,19); ka.push((await talkKai())[0]); }
-    check('5③. 之後阿凱的閒聊：「上次宵夜是我下去拿的」不出現、換成「上次宵夜，你說了謝謝。……沒事，我只是說一下。」',ka[0]===KR[0].t&&ka[1]===KR[2].t&&!ka.includes(KR[1].t),J(ka));
+    check('5③. 之後阿凱的閒聊：「上次宵夜是我下去拿的」不出現、換成「上次宵夜，你說了謝謝。……就這樣。」',ka[0]===KR[0].t&&ka[1]===KR[2].t&&!ka.includes(KR[1].t),J(ka));
     room('2025-11-27',23.1); knowAll(); await runEv('ev_r203_supper',['（吃）']); const kb=[]; for(const d of ['2025-11-28','2025-11-29','2025-11-30']){ at(d,19); kb.push((await talkKai())[0]); }
     check('5③. 對照：選（吃）＝原本那一句「上次宵夜是我下去拿的」，沒有換的那句',kb[1]===KR[1].t&&!kb.includes(KR[2].t),J(kb));
     room('2025-11-03',19); knowAll(); await talkKai(); at('2025-11-04',19); const kc0=(await talkKai())[0]; at('2025-11-27',23.1); await runEv('ev_r203_supper',['謝謝阿凱']); at('2025-11-28',19); const kc1=(await talkKai())[0]; at('2025-11-29',19); const kc2=(await talkKai())[0];
-    check('5③. 宵夜以前已經聽過原本那句：KAI_COUNTED 以後還會聽到換的那句（一次）',kc0===KR[1].t&&kc1===KR[2].t&&!KR.some(r=>r.t===kc2),J([kc0,kc1,kc2]));
+    check('5③. 宵夜以前（期中後）沒有「上次宵夜……」那一句（AA_528 2-3；原本這裡先聽到原句）；宵夜算到他以後聽到換的那句（一次）',!KR.some(r=>r.t===kc0)&&kc1===KR[2].t&&!KR.some(r=>r.t===kc2),J([kc0,kc1,kc2]));
     /* ③b AA_502 第 6 節第 9 點（企劃線 795fbecfd）：KAI_COUNTED 有兩個來源（3-3 宵夜、AA_503 7-2 子晴練習賽選「他沒講。」）；2-3 那一句只看宵夜那晚有沒有算到他（R203_SUPPER_KAI）*/
     room('2025-11-27',23.1,{KAI_COUNTED:true,ZQ_PRACTICE:'tell'}); knowAll(); await runEv('ev_r203_supper',['（吃）']); const kd=[]; for(const d of ['2025-11-28','2025-11-29','2025-11-30']){ at(d,19); kd.push((await talkKai())[0]); }
     check('5③b. 練習賽已經記了 KAI_COUNTED、宵夜選（吃）（R203_SUPPER_KAI false）＝原句「上次宵夜是我下去拿的」，沒有換的那句；KAI_COUNTED 照舊在',kd[1]===KR[1].t&&!kd.includes(KR[2].t)&&H.G.flags.KAI_COUNTED===true&&H.G.flags.R203_SUPPER_KAI===false,J(kd));
