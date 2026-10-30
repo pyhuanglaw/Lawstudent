@@ -1569,7 +1569,7 @@
    "role": "LAWWW",
    "task": "PROMISES-REDO-1030",
    "state": "WIP",
-   "sha": "3808792fe",
+   "sha": "f63f5b8cf",
    "branch": "postrel-1030（子代理；D113 備份 wip_backup/postrel_1030.bundle，基準 5457e7c95）",
    "files": [
     "wip_backup/postrel_1030.bundle"
@@ -1629,7 +1629,7 @@
    "role": "LAWWW",
    "task": "INVITE-OPTS-1030",
    "state": "WIP",
-   "sha": "3a31cbcf8",
+   "sha": "23060ad1e",
    "branch": "invite-menu（子代理；D113 備份 wip_backup/invite_1030.bundle，基準 c1658d38c）",
    "files": [
     "wip_backup/invite_1030.bundle"
@@ -1659,7 +1659,7 @@
    "role": "LAWWW",
    "task": "PHONE-UNIFY-1030",
    "state": "WIP",
-   "sha": "cdc5fe994",
+   "sha": "e3cd8e7b1",
    "branch": "phone-unify（子代理；D113 備份 wip_backup/phone_1030.bundle，基準 1ebb95122）",
    "files": [
     "wip_backup/phone_1030.bundle"
@@ -1689,7 +1689,7 @@
    "role": "LAWWW",
    "task": "ROOM-MAP-LABELS-1030",
    "state": "WIP",
-   "sha": "8e1bc871b",
+   "sha": "b26c4ca7d",
    "branch": "campus-ux-1030（子代理；D113 備份 wip_backup/campusux_1030.bundle，基準 3679551fc）",
    "files": [
     "wip_backup/campusux_1030.bundle"
@@ -1704,7 +1704,7 @@
    "role": "LAWWW",
    "task": "AA531-US-FIX-1030",
    "state": "WIP",
-   "sha": "79e269398",
+   "sha": "45c8660b7",
    "branch": "aa531-us（子代理；D113 備份 wip_backup/aa531_1030.bundle，基準 2eeb91a85）",
    "files": [
     "wip_backup/aa531_1030.bundle"
@@ -1719,7 +1719,7 @@
    "role": "LAWWW",
    "task": "ECON-FRIENDS-SOCLIB-1030",
    "state": "WIP",
-   "sha": "04a034d46",
+   "sha": "20f6c6c95",
    "branch": "econ-soclib-1030（子代理；D113 備份 wip_backup/econsoclib_1030.bundle，基準 3808792fe）",
    "files": [
     "wip_backup/econsoclib_1030.bundle"
