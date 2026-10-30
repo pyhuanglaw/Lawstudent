@@ -34,4 +34,11 @@ if(typeof STORY.ndlHere!=='function') H.done();
 { const G=at('2025-09-16',18); const orig=STORY.ndlHere; STORY.ndlHere=()=>false;
   const e={dialogue:[{text:'（旁白）'}]}; const a=STORY.ndlHereAll(G,e); STORY.ndlHere=orig; const b=STORY.ndlHereAll(G,e);
   check('4. 旁白沒點名的那一則：一個麵店團都不在＝不演；有人在＝演',a===false&&b===true,J({a,b})); }
+// 5. 麵店這一區已經生過人（S._popZone）：只認 3D 真的有的人（BB-B 10-30 n15：9/30、10/2 柏翰、芯慈作息在麵店但店裡坐滿沒生出來，ndlHere 照樣算在）
+{ const G=at('2025-09-30',18); const sched=STORY.ndlHere(G,'classmate_bohan'); const o=EVENTS.npcOf, z0=STORY._popZone;
+  EVENTS.npcOf=id=>id==='zhe'?{id:'zhe'}:null; STORY._popZone='noodle';
+  const zhe=STORY.ndlHere(G,'zhe'), bo=STORY.ndlHere(G,'classmate_bohan'), pair=STORY.ndlHereAll(G,{who:['zhe','classmate_bohan']});
+  G.zone='campus'; const away=STORY.ndlHere(G,'classmate_bohan'); G.zone='noodle';
+  EVENTS.npcOf=o; STORY._popZone=z0;
+  check('5. 麵店生過人以後：阿哲在 3D＝在；柏翰作息在麵店但 3D 沒有＝不在（阿哲＋柏翰那一則不演）；不在麵店照舊看作息',sched===true&&zhe===true&&bo===false&&pair===false&&away===true,J({sched,zhe,bo,pair,away})); }
 H.done();

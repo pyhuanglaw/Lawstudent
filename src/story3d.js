@@ -377,7 +377,7 @@ const STORY = (function(){
         const o=CHAR.build(extraSpec(xi++)); o.position.set(2.6,0,-2.35); o.rotation.y=0; E.addNPC({obj:o,name:'',beh:'idle',pose:'idle',idlePose:'idle',frozen:true,isExtra:true,lv:1}); } }
     if(typeof CLS!=='undefined'&&typeof CALENDAR!=='undefined'){ try{ if(zoneId==='campus') CLS.addDoors(GM,'campus'); if(CLS.addActSpots) CLS.addActSpots(GM,zoneId);   /* 活動的集合點（AA_110 6-3）*/ if(CLS.addActHints) CLS.addActHints(GM,zoneId);   /* 今天沒有的社課（系籃練球）：集合點寫星期幾幾點（BBALL-PRESENT-1030）*/ if(zoneId==='classroom'&&!F.classNow&&!(isThu(G)&&!F.classDone)) CLS.syncRoom(GM,{instant:true}); if(E.zone&&(E.zone.layout||E.zone.glbRoom)) CLS.syncRoom(GM,{instant:true});   /* 剛走進來（換區域）：照現在的時間直接坐好、老師站好（CLASS-TEACHER-1027：原本 36 分鐘內再走進同一間＝當成一直待著，晚到的人看到老師從門口走進來）*/   /* 建築裡的教室（共同教學館…，D55）；GLB 教室（萬才館多功能教室、霖澤館 202：rooms_glb3d.js 的 glbRoom）也是進來就坐好（原本要等 CLS.tick 第一次同步）*/ }catch(e){ console.warn('CLS populate',e); } }   /* 課表（D52）：共同教學館、體育館的門口；201 上課時的同學 */
     if(typeof CROWD!=='undefined'){ try{ CROWD.enter(GM,zoneId); }catch(e){ console.warn('CROWD.enter',e); } }   /* 公共場景的人流（D55）：照現在的時間直接排好；同一天同一時段進出看到同一批人 */
-    GM_ref=GM; if(G.social){ try{ populateSchedule(zoneId,GM); }catch(e){ console.warn('schedule populate failed',e); } }
+    GM_ref=GM; if(G.social){ try{ populateSchedule(zoneId,GM); }catch(e){ console.warn('schedule populate failed',e); } } S._popZone=zoneId;   /* 這一區的人已經照作息生過（S.ndlHere：在麵店裡只認 3D 真的有的人）*/
     if(zoneId==='lane118'&&typeof L118!=='undefined'){ try{ L118.populate(GM); }catch(e){ console.warn('L118.populate',e); } }   /* 118 巷：常客、約好的午餐站到店門口（AA_280 第 3、4 節）*/
     if(/^l118_/.test(zoneId)&&typeof L118!=='undefined'&&L118.populateShop){ try{ L118.populateShop(GM,zoneId.slice(5)); }catch(e){ console.warn('L118.populateShop',e); } }   /* 走進店裡：在門口等的常客、約好的午餐坐在店裡（LANE118-SHOPS-1020）*/
   };
@@ -1064,7 +1064,10 @@ const STORY = (function(){
   /* 說話的人要真的在店裡（NDL-PRESENT-1030，使用者 2026-10-30「去阿鳳麵店 出現麵店團的人 對話 但根本沒有在遊戲內出現」）：
      以前只看認不認識，Alison、柏翰、芯慈沒有麵店作息也照樣在長桌講話（閒聊 17:00～21:00，阿哲 20:30 就走了）。
      在店裡＝3D 裡有這個人（EVENTS.npcOf），或他這一刻的作息在麵店（schedFor，進門時照這個生出來）；旁白沒有點名的那幾則＝至少一位認識的麵店團在 */
-  S.ndlHere=(G,id)=>!!((typeof EVENTS!=='undefined'&&EVENTS.npcOf&&EVENTS.npcOf(id))||schedFor(id,'noodle',G));
+  /* 人在麵店、這一區已經生過人（S._popZone）：只認 3D 真的有的人（BB-B 10-30 n15：9/30、10/2 18:00 柏翰、芯慈作息在麵店、ndlHere 算在，3D 卻沒生出來——
+     店裡的位子被那天的麵店事件、客人坐滿，spawnAt 找不到空位就不生；那兩天剛好別的事件先演才沒露餡。換一個沒有事件的麵店日，就會是「柏翰說話、人不在」）。
+     不在麵店（或還沒生過人：單元測試的假 GM）照舊看作息。測試：node tests/ndl_present_unit.js 第 5 項 */
+  S.ndlHere=(G,id)=>{ const n=typeof EVENTS!=='undefined'&&EVENTS.npcOf&&EVENTS.npcOf(id); if(n) return true; if(G.zone==='noodle'&&S._popZone==='noodle') return false; return !!schedFor(id,'noodle',G); };
   S.ndlHereAll=(G,e)=>{ const w=(e&&e.who)||[]; return w.length?w.every(id=>S.ndlHere(G,id)):NDL_REGULARS.some(id=>S.knows(id,G)&&S.ndlHere(G,id)); };
   /* once（那一則只演一次，記在 G.flags.ndlTalkOnce）、pri（條件成立的那幾天先挑，不動輪到第幾則）：「別人說起她」加進長桌的那幾則用（AA_503～505，src/heard3d.js 加進 NOODLE_TABLE）*/
   S.ndlTalkPick=function(G){ const T=typeof NOODLE_TABLE!=='undefined'?NOODLE_TABLE:null, k=S.ndlTalkGroup(G), L=T&&k&&T[k]; if(!L||!L.length) return null;
