@@ -50,8 +50,20 @@ async def through(pg, cdp, run, to, tag):
     return n0
 
 
-async def walk_lines(pg, n0, wait_ms=10000):
-    await pg.wait_for_timeout(wait_ms)
+POLL = "(()=>{ const X=typeof DORMY24!=='undefined'?DORMY24:null, G=GAME.G; return {walk:!!(X&&X._walk), h:+(+G.hour).toFixed(3), pbusy:!!GAME.E.player.busy, dact:!!(GAME.D&&GAME.D.active), adv:!!(typeof ADV!=='undefined'&&ADV.active), evrun:!!(typeof EVENTS!=='undefined'&&EVENTS.running), phone:!!(GAME.phoneIsOpen&&GAME.phoneIsOpen()), sleep:!!(typeof STORY!=='undefined'&&STORY._sleeping), cap:(document.getElementById('caption')||{}).innerText||''}; })()"
+
+
+async def walk_lines(pg, n0, wait_ms=40000, run=None, tag=''):
+    """走進來以後最多等 40 秒（BB-B 10-30：v9.10.14 上第一次等 10 秒沒抓到，S._walk 還在、之後才演）：每秒記一次擋住旁白的狀態；旁白出來（_walk 清掉、有字幕）就提早結束"""
+    t0 = time.time(); trace = []; last = None
+    while (time.time() - t0) * 1000 < wait_ms:
+        st = await pg.evaluate(POLL); st['s'] = round(time.time() - t0, 1)
+        key = {k: v for k, v in st.items() if k not in ('s', 'h')}
+        if key != last: trace.append(st); last = key
+        cs = [c['t'] for c in await P.captions(pg, n0) if c.get('v') and c.get('t')]
+        if not st['walk'] and cs: break
+        await pg.wait_for_timeout(1000)
+    if run: run.note('%s 走進來以後的狀態變化（秒數＝真實時間）：%s' % (tag, json.dumps(trace, ensure_ascii=False)))
     return [c['t'] for c in await P.captions(pg, n0) if c.get('v') and c.get('t')]
 
 
@@ -75,8 +87,8 @@ async def main():
                 n0 = await through(pg, cdp, run, 'dorm', '第 %d 次走進房間' % k)
                 z = await pg.evaluate("GAME.G.zone"); run.check('第 %d 次：走進房間（dorm）' % k, z == 'dorm', str(z))
                 dg0 = await pg.evaluate(DIAG)
-                cs = await walk_lines(pg, n0); w = [t for t in cs if t in WALK[MODE]]
-                run.note('第 %d 次走進來：進門那一刻 %s；10 秒後 %s' % (k, J(dg0), J(await pg.evaluate(DIAG))))
+                cs = await walk_lines(pg, n0, run=run, tag='第 %d 次' % k); w = [t for t in cs if t in WALK[MODE]]
+                run.note('第 %d 次走進來：進門那一刻 %s；之後 %s' % (k, J(dg0), J(await pg.evaluate(DIAG))))
                 run.note('第 %d 次走進來的字幕：%s' % (k, J(cs))); seen.append(w)
                 await run.shot(pg, 'walk%d' % k)
                 run.check('第 1 節 第 %d 次：背景室友那幾句旁白之一（剛好一句）' % k, len(w) == 1, J(cs))
