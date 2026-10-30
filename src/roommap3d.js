@@ -80,7 +80,7 @@ const ROOMMAP=(function(){
   S.shortName=t=>String(t||'').replace(/教室$/,'').replace(/室\s*/,'').replace(/\s+/g,'');   /* 多功能教室→多功能、研討室 A→研討A、演講廳→演講廳 */
   /* 大地圖：guide3d.js 的 drawMap 在畫入口以前呼叫（toS＝世界座標轉畫面；free＝drawMap 那一套「這一塊還空著就佔用」）。
      字：配置的名字去掉館名（「101（階梯教室）」）；今天的那一間金色「★ 101」、下面一行小字「13:20 憲法（上）」。
-     放不下（比那一間在畫面上窄、或和旁邊的名牌太近）就先拿掉第二行、再只寫門號；還是和別的字重疊就不寫（今天的那一間一定寫門號）*/
+     放不下（比那一間在畫面上窄、或和旁邊的名牌太近）就第二行只寫幾點、再拿掉第二行、再只寫門號；還是和別的字重疊就不寫（今天的那一間一定寫門號）*/
   const F1=b=>(b?'700 ':'600 ')+'14px "Noto Sans TC","PingFang TC",sans-serif', F2='12px "Noto Sans TC","PingFang TC",sans-serif';
   S.drawBig=function(x,toS,G,zone,lv,free){ if(!x||!toS) return []; const L=S.labels(G,zone,lv); if(!L.length) return []; const drawn=[];
     const P=L.map(q=>{ const [u,w]=toS(q.x,q.z); let avail=Infinity; const r=q.room;
@@ -91,7 +91,7 @@ const ROOMMAP=(function(){
     x.save(); x.textAlign='center'; x.textBaseline='middle'; x.lineJoin='round';
     const meas=(f,t)=>{ x.font=f; return x.measureText(t).width; };
     for(const p of ord){ const q=p.q, star=q.today?'★ ':'';
-      const tries=q.today?[{l1:star+q.text,l2:hhmm(q.today.t0)+' '+q.today.name},{l1:star+q.text},{l1:star+(q.num||q.mini)}]:[{l1:q.text},{l1:q.num||q.mini}];
+      const tries=q.today?[{l1:star+q.text,l2:hhmm(q.today.t0)+' '+q.today.name},{l1:star+q.text,l2:hhmm(q.today.t0)+' 上課'},{l1:star+q.text},{l1:star+(q.num||q.mini)}]:[{l1:q.text},{l1:q.num||q.mini}];   /* 課名放不下：第二行只寫幾點 */
       for(const t of tries) t.w=Math.max(meas(F1(q.today),t.l1),t.l2?meas(F2,t.l2):0);
       let pick=tries.find(t=>t.w<=p.avail)||tries[tries.length-1];
       const ok=t=>!free||free(p.u,p.w+(t.l2?8:0),t.w,t.l2?34:17);
