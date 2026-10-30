@@ -41,10 +41,11 @@ async def main():
             run.check('約好了：3/28 15:00 淡水', bool(t), J(T))
             o, slept = await H['sleep_night'](pg, cdp, run, MODE)
             await H['skip'](pg, cdp, '等到傍晚', MODE)
-            ok, ch = await H['wait_for'](pg, cdp, run, "(()=>{ const ch=document.getElementById('choices'); return !!ch&&!ch.classList.contains('hide')&&[...ch.querySelectorAll('button')].some(b=>b.textContent.trim().startsWith('出發')); })()", max_s=300, label=MODE)
+            ok, ch = await H['wait_for'](pg, cdp, run, "(()=>{ const ch=document.getElementById('choices'); return !!ch&&!ch.classList.contains('hide')&&[...ch.querySelectorAll('button')].some(b=>/^(現在)?出發/.test(b.textContent.trim())); })()", max_s=300, label=MODE)   # 跳過時間跳到出發前一點，遊戲問「現在出發／到時間再說」（BB-B 10-30：舊版只認「出發」，wait_for 自己選了「現在出發」把整趟約會走掉）
             run.check('時間到了有「出發」', ok, J(await pg.evaluate(H['STATE'])))
             n0 = len(await pg.evaluate("window.__LOG||[]"))
-            await H['pick'](pg, cdp, '出發', MODE)
+            go = await pg.evaluate("(()=>{ const b=[...document.querySelectorAll('#choices button')].find(b=>/^(現在)?出發/.test(b.textContent.trim())); return b?b.textContent.trim():null; })()")
+            await H['pick'](pg, cdp, (go or '出發')[:4], MODE)
             ok2, ch2 = await H['wait_for'](pg, cdp, run, "(()=>{ const t=(GAME.G.trips||[]).find(x=>(x.locs||[])[0]==='D13'); return !!t&&t.status==='done'&&(window.__LOG||[]).slice(%d).some(x=>x.n==='［字幕］'&&x.t.indexOf('回到台大')>=0); })()" % n0,
                                            max_s=600, picks=['飲料攤', '差不多了，回去吧', '（今天先不說）'], label=MODE)
             await H['drive'](pg, cdp, run, picks=['（今天先不說）'], max_s=60, label=MODE)
