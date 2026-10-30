@@ -10,6 +10,7 @@ const ACTIVITIES={
   /* AA_110 第 6-3 節的活動清單（AA 暫定，全部 story:false；2026-10-13）＋6-8 節（AA 回答 LAWWW 的四個問題，【暫定】）：吉他社、法服讀書會、社團博覽會、系籃。
      desc＝AA 表上的「內容」（手機、公告欄上的說明）。spot：沒有座位的活動在這一點集合（classes3d.js 的 addActSpots）；once：去一次就好（任何一場聽過，其他場不再列）。
      door：在不能進去的房間門口參加（萬才館的多功能教室、研討室 A：classes3d.js 的 roomDoor，2D 畫面）；weekdays：一週好幾天（吉他社週一、三）；verb：參加的說法（系籃「去練球」）。
+     rain：下雨的備案 {zone, roomName, spot, hint, narr}（系籃下雨改到新體育館一樓走廊，BBALL-RAIN-1030）——照那天 t0 的天氣一次定整場（ACTIVITIES.rainy），下雨場的集合點在 rain.spot、原本的集合點只剩 hint、旁白固定用 narr[rain.narr]。
      narr：社課的旁白（6-8 (d)，台詞【虛構】）——同一學期每句最多一次、照順序，用完以後只顯示「社課結束了。」；不提有名字的人物。narrAt:'start'＝在快轉前播（法服：旁白＋題庫兩三題）。
      人物事件（6-8 (a)）：同一場社課只播一個——吉他社：還沒認識子晴的第一次社課自動播 ev_ziqing_club 的初遇；法服：第一次播 ev_studygroup_wed 整段，之後旁白＋題庫（classes3d.js 的 clubEvent）。
      clubs：博覽會的五個社團（選了就加入：CLUB_<id>）；clubName：攤位上的社團名稱。 */
