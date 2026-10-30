@@ -1,7 +1,7 @@
 /* ===== 遊戲層：狀態、時間、UI、互動、對話演出、鏡頭運鏡、存檔 ===== */
 'use strict';
 const GAME = (function(){
-  const SAVE_VER=2; const KEY_AUTO='fatiao3d_auto', KEY_SLOT='fatiao3d_slot_', KEY_BACKUP='fatiao3d_backup', KEY_SET='fatiao3d_settings';
+  const SAVE_VER=2; const KEY_AUTO='fatiao3d_auto', KEY_QUICK='fatiao3d_quick', KEY_SLOT='fatiao3d_slot_', KEY_BACKUP='fatiao3d_backup', KEY_SET='fatiao3d_settings';
   const WEEK=['週日','週一','週二','週三','週四','週五','週六'];
   const $=id=>document.getElementById(id);
   let E=null; let G=null; let S={quality:'medium',joystick:true,volume:0.6,textSpeed:2,fps:false,guide:true};
@@ -387,7 +387,7 @@ const GAME = (function(){
   function parseImport(t){ t=t.trim(); let obj=null; try{ obj=JSON.parse(t); }catch(e){ try{ obj=JSON.parse(decodeURIComponent(escape(atob(t)))); }catch(e2){ throw new Error('無法解析：不是 JSON 也不是匯出的文字格式'); } } const err=validate(obj); if(err) throw new Error(err); if(obj&&obj._stuck) delete obj._stuck; if(obj&&obj._busy) delete obj._busy; return obj; }
   GM.parseImport=parseImport; GM.exportText=exportText;
   const dayLab=d=>typeof SOCIAL!=='undefined'&&SOCIAL.dayLabel?SOCIAL.dayLabel(d):'第 '+d+' 天';   /* 筆記、日誌的日期（9/11），不是「第 -379 天」（經濟系那一年 day 是負的，2026-10-17 瀏覽器實測）*/
-  function renderSlots(){ const box=$('saveSlots'); box.innerHTML=''; const auto=read(KEY_AUTO); const mk=(label,s,onSave,onLoad)=>{ const d=document.createElement('div'); d.className='item'; d.innerHTML='<b>'+label+'</b> '+(s?((typeof STORY!=='undefined'&&STORY.dayTitle?STORY.dayTitle(s):'第 '+s.day+' 天')+' '+fmtTime(s.hour)+' · '+((s.home&&s.home.at?'臺北的家':(Z3.ZONES[s.zone]?Z3.ZONES[s.zone].name:s.zone)))+' · '+s.name+'<div class="muted">'+new Date(s.savedAt).toLocaleString()+'</div>'):'<span class="muted">（空）</span>'); const row=document.createElement('div'); row.className='row2'; row.style.marginTop='8px'; if(onSave){ const b=document.createElement('button'); b.className='btn'; b.textContent='存檔'; b.onclick=onSave; row.appendChild(b); } if(s){ const b=document.createElement('button'); b.className='btn pri'; b.textContent='讀取'; b.onclick=onLoad; row.appendChild(b); } d.appendChild(row); box.appendChild(d); }; mk('自動存檔',auto,null,()=>loadFrom(auto)); for(let i=1;i<=3;i++){ const s=read(KEY_SLOT+i); mk('欄位 '+i,s,()=>saveSlot(i),()=>loadFrom(s)); } }
+  function renderSlots(){ const box=$('saveSlots'); box.innerHTML=''; const auto=read(KEY_AUTO); const mk=(label,s,onSave,onLoad)=>{ const d=document.createElement('div'); d.className='item'; d.innerHTML='<b>'+label+'</b> '+(s?((typeof STORY!=='undefined'&&STORY.dayTitle?STORY.dayTitle(s):'第 '+s.day+' 天')+' '+fmtTime(s.hour)+' · '+((s.home&&s.home.at?'臺北的家':(Z3.ZONES[s.zone]?Z3.ZONES[s.zone].name:s.zone)))+' · '+s.name+'<div class="muted">'+new Date(s.savedAt).toLocaleString()+'</div>'):'<span class="muted">（空）</span>'); const row=document.createElement('div'); row.className='row2'; row.style.marginTop='8px'; if(onSave){ const b=document.createElement('button'); b.className='btn'; b.textContent='存檔'; b.onclick=onSave; row.appendChild(b); } if(s){ const b=document.createElement('button'); b.className='btn pri'; b.textContent='讀取'; b.onclick=onLoad; row.appendChild(b); } d.appendChild(row); box.appendChild(d); }; mk('自動存檔',auto,null,()=>loadFrom(auto)); const quick=read(KEY_QUICK); mk('快速存檔（右上 💾）',quick,null,()=>loadFrom(quick));   /* 只有讀取：存＝右上 💾（這一格不放「存檔」鈕，第一個「存檔」照舊是欄位 1）*/ for(let i=1;i<=3;i++){ const s=read(KEY_SLOT+i); mk('欄位 '+i,s,()=>saveSlot(i),()=>loadFrom(s)); } }
   async function loadFrom(s){ if(D.busyDepth>0&&!D.stale&&$('titleScreen').classList.contains('hide')){ toast('劇情還在進行，結束後再讀檔',3200); return; }   if(!$('titleScreen').classList.contains('hide')) await waitChars();   /* 從標題畫面讀檔：主要角色還在背景下載就先等（boot 的開遊戲加速）*/   /* 遊戲中劇情演到一半不能讀檔（讀了舊的劇情流程會接著演到新存檔）；標題畫面照常 */ try{ closeMenu(); $('titleScreen').classList.add('hide'); await applySave(s); toast('已讀取'); }catch(e){ toast('讀取失敗：'+e.message,3500); } }
   // ---------- 選單 ----------
   let menuOpen=false;
@@ -635,12 +635,14 @@ const GAME = (function(){
   GM.phoneBadge=phoneBadge;
   GM.phoneIsOpen=()=>!!phoneOpen;
   /* 快速存檔、匯出（使用者 2026-10-27「可以有快速存檔按鍵嗎」「快速匯出」，QUICK-SAVE-EXPORT-1027）：右上 💾 一按打開兩個按鈕。
-     存檔＝自動存檔那一格（讀取選單的「自動存檔」）；劇情進行中不存——存在劇情中途，讀回來會從中途重演（AN-MEAL-STUCK-1027 就是這樣），請玩家按匯出。
+     存檔＝自己的「快速存檔」一格（fatiao3d_quick；使用者 2026-10-30 選「獨立快速存檔格」，QUICK-SLOT-1030：原本存在自動存檔那一格，下一次自動存檔就蓋掉）；
+     存之前把上一份快速存檔備份到 fatiao3d_backup（同 saveSlot）；選單存檔頁在「自動存檔」下面一格讀得到。劇情進行中不存——存在劇情中途，讀回來會從中途重演（AN-MEAL-STUCK-1027 就是這樣），請玩家按匯出。
      匯出＝和「選單 → 存檔 → 匯出 → 下載」同一個檔（含 _stuck、_busy），任何時候都能按：卡住時回報用。 */
   function quickSave(){ if(!G||!E.player||GM.titleIdle) return false;
     if(D.busyDepth>0){ toast('劇情進行中，結束後再存。卡住的話按「匯出存檔檔案」傳給開發。',3800); return false; }
-    autosave(); const dd=typeof CALENDAR!=='undefined'&&CALENDAR.dateOf?CALENDAR.dateOf(G.day):null, h=((G.hour%24)+24)%24, p2=n=>String(n).padStart(2,'0');
-    toast('已存檔'+(dd?'：'+dd.m+'/'+dd.d+' '+p2(Math.floor(h))+':'+p2(Math.floor((h%1)*60)):''),2400); return true; }
+    const prev=read(KEY_QUICK); if(prev) write(KEY_BACKUP,prev); if(!write(KEY_QUICK,snapshot())){ toast('存檔失敗（瀏覽器儲存不可用）'); return false; }
+    const dd=typeof CALENDAR!=='undefined'&&CALENDAR.dateOf?CALENDAR.dateOf(G.day):null, h=((G.hour%24)+24)%24, p2=n=>String(n).padStart(2,'0');
+    toast('已快速存檔'+(dd?'：'+dd.m+'/'+dd.d+' '+p2(Math.floor(h))+':'+p2(Math.floor((h%1)*60)):'')+'（選單 → 存檔 →「快速存檔」讀取）',2800); if($('saveSlots')&&menuOpen) renderSlots(); return true; }
   GM.quickSave=quickSave;
   function bindUI(){ $('btnMenu').onclick=()=>{ if(menuOpen) closeMenu(); else openMenu('notes'); }; $('btnClose').onclick=closeMenu; document.querySelectorAll('#menu .tabs button').forEach(b=>b.onclick=()=>switchTab(b.dataset.tab));
     const userClosePhone=()=>{ if(G&&PHONE.mustOpen&&PHONE.mustOpen(G,phoneThread||undefined)){ toast('先回覆。'); return; } closePhone(); };   /* 一定要回的訊息（ask.must）沒回之前，玩家按關閉不會關 */
