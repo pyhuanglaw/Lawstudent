@@ -1,0 +1,98 @@
+{
+ "zone": "dorm",
+ "title": "宿舍 203：四張書桌（現況）",
+ "state": {
+  "stage": "law",
+  "day": 45,
+  "flags": {
+   "WZ_ITEM_TIMER": true,
+   "WZ_ITEM_NOTEBOOK": true,
+   "WZ_ITEM_TEA": true,
+   "WZ_CARD": true,
+   "WZ_YE_DONE": true,
+   "WZ_POSTER_ITEM": true,
+   "POTHOS": true,
+   "pothosWaterN": 25,
+   "KAI_MOVEIN": true,
+   "KAI_TAPE": true
+  }
+ },
+ "views": [
+  {
+   "name": "203_L2",
+   "label": "203｜L2 的書桌",
+   "hour": 14,
+   "pos": [
+    0,
+    2.7
+   ],
+   "eye": [
+    -1.12,
+    1.42,
+    0.027
+   ],
+   "look": [
+    -2.6,
+    0.82,
+    -0.323
+   ]
+  },
+  {
+   "name": "203_L1",
+   "label": "203｜L1 的書桌",
+   "hour": 14,
+   "pos": [
+    0,
+    2.7
+   ],
+   "eye": [
+    -1.12,
+    1.42,
+    -2.375
+   ],
+   "look": [
+    -2.6,
+    0.82,
+    -2.725
+   ]
+  },
+  {
+   "name": "203_R1",
+   "label": "203｜R1 的書桌",
+   "hour": 14,
+   "pos": [
+    0,
+    2.7
+   ],
+   "eye": [
+    1.12,
+    1.42,
+    -2.375
+   ],
+   "look": [
+    2.6,
+    0.82,
+    -2.725
+   ]
+  },
+  {
+   "name": "203_R2",
+   "label": "203｜R2 的書桌",
+   "hour": 14,
+   "pos": [
+    0,
+    2.7
+   ],
+   "eye": [
+    1.12,
+    1.42,
+    0.027
+   ],
+   "look": [
+    2.6,
+    0.82,
+    -0.323
+   ]
+  }
+ ]
+}

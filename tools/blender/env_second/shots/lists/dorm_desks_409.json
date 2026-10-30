@@ -1,0 +1,139 @@
+{
+ "zone": "dorm",
+ "title": "宿舍 409：四張書桌（現況）",
+ "state": {
+  "stage": "law",
+  "day": 1140,
+  "flags": {
+   "WZ_ITEM_TIMER": true,
+   "WZ_ITEM_NOTEBOOK": true,
+   "WZ_ITEM_TEA": true,
+   "WZ_CARD": true,
+   "WZ_YE_DONE": true,
+   "WZ_POSTER_ITEM": true,
+   "POTHOS": true,
+   "pothosWaterN": 25,
+   "ROOM_Y4": true,
+   "ROOM_Y2_ITEMS": [
+    "civ",
+    "duty",
+    "film",
+    "green",
+    "noodle",
+    "pick",
+    "report",
+    "sticky",
+    "y1_3",
+    "y1_4"
+   ],
+   "ROOM_Y3_ITEMS": [
+    "article",
+    "cold",
+    "credits",
+    "expo",
+    "fafu_form",
+    "field",
+    "form",
+    "game_y2",
+    "jp_key",
+    "land",
+    "notes_y2",
+    "postcards",
+    "sis_plan",
+    "vac_C02",
+    "vac_C03",
+    "vac_C08",
+    "vac_C09",
+    "vac_C10",
+    "vac_C11",
+    "vac_C12",
+    "welcome_badge",
+    "zhe_notes",
+    "zq_usb"
+   ],
+   "ROOM_Y4_ITEMS": [
+    "form",
+    "cold",
+    "land"
+   ]
+  }
+ },
+ "views": [
+  {
+   "name": "409_L2",
+   "label": "409｜L2 的書桌",
+   "hour": 14,
+   "pos": [
+    0,
+    2.7
+   ],
+   "eye": [
+    -1.12,
+    1.42,
+    0.027
+   ],
+   "look": [
+    -2.6,
+    0.82,
+    -0.323
+   ]
+  },
+  {
+   "name": "409_L1",
+   "label": "409｜L1 的書桌",
+   "hour": 14,
+   "pos": [
+    0,
+    2.7
+   ],
+   "eye": [
+    -1.12,
+    1.42,
+    -2.375
+   ],
+   "look": [
+    -2.6,
+    0.82,
+    -2.725
+   ]
+  },
+  {
+   "name": "409_R1",
+   "label": "409｜R1 的書桌",
+   "hour": 14,
+   "pos": [
+    0,
+    2.7
+   ],
+   "eye": [
+    1.12,
+    1.42,
+    -2.375
+   ],
+   "look": [
+    2.6,
+    0.82,
+    -2.725
+   ]
+  },
+  {
+   "name": "409_R2",
+   "label": "409｜R2 的書桌",
+   "hour": 14,
+   "pos": [
+    0,
+    2.7
+   ],
+   "eye": [
+    1.12,
+    1.42,
+    0.027
+   ],
+   "look": [
+    2.6,
+    0.82,
+    -0.323
+   ]
+  }
+ ]
+}

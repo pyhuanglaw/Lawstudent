@@ -9,7 +9,7 @@ GLB → Blender Cycles 烘焙「光照貼圖」（只有光、不含顏色：直
 用法（Blender 自帶的 python）：
 /opt/blenv/bin/python tools/blender/env_second/lightbake/bake_room.py -- --in <房間.glb> --out <輸出.glb> --lm <輸出前綴（不含 _day.png）> --url <遊戲裡的路徑前綴>
    [--res 1024] [--samples 64] [--emit 材質名=強度,...] [--hide 材質名或物件名的正規式（烘焙時當作不存在：玻璃）]
-   [--sun 方位角,仰角,強度（白天的太陽，遊戲座標的羅盤方位）] [--sky 1.0] [--nightsky 0.03] [--scale 2.0] [--keep-instances]
+   [--sun 方位角,仰角,強度（白天的太陽，遊戲座標的羅盤方位）] [--dark [--darksky 0.045] [--darkpoints x,y,z,W[,r,g,b];…]（第三張：熄燈）] [--sky 1.0] [--nightsky 0.03] [--scale 2.0] [--keep-instances]
    [--dayemit 材質名=強度,...（只在白天那一張發光、晚上不亮：天窗）] [--points x,y,z,W[,r,g,b];...（點光源）] [--nolm 正規式（不做光照貼圖、照舊即時光的物件：發光的燈面；烘焙時照樣看得到、照樣發光）] [--lights …（見下面）] [--daylights 1.0（白天那一張的燈乘多少）] [--daywb r,g,b] [--nightwb r,g,b]（白平衡） [--smooth 像素] [--uvonly（只排 UV、不烘焙）] [--shell 窗那一面（N/S/E/W，見下面）] [--drop 正規式（只在烘焙時擋光、不輸出的物件）]
 物件的自訂屬性 lm（GLB extras）：光照貼圖分給它的比例（1＝照面積平均；小東西、天花板上的東西 0.2～0.5）；lmhide＝[x,y,z]：朝這個方向的面看不到、不分像素（'side'＝所有側面）。
 之後用系統的 python3 把 _day.png／_night.png 轉成 WebP（lightbake/to_webp.py），放到 --url 指的位置。
@@ -324,6 +324,25 @@ def wb(px, k): return px * np.array(WB[k], dtype=np.float32)[None, None, :] if W
 os.makedirs(os.path.dirname(os.path.abspath(LM)), exist_ok=True)
 day = bake('day', SKY, SUN[2], 1.0, DAYL); save(wb(day, 'day'), LM + '_day.png')
 night = bake('night', NIGHTSKY, 0.0, 1.0); save(wb(night, 'night'), LM + '_night.png')
+# 第三張「熄燈」（--dark；宿舍睡覺 DORM-SLEEP-VISUAL-1030，使用者 10-30「睡覺要真的有畫面」）：室內的燈（--lights、--points）全關、所有發光材質（燈管、燈條、螢幕）也關，
+# 只剩夜空（--darksky，預設 --nightsky 的 1.5 倍）＋窗外的路燈（--darkpoints x,y,z,W[,r,g,b];…，只在這一張）。遊戲：Z3.roomLightmap 的 z.lightsOff(0～1) 從晚上那張換到這張
+DARK = None
+if '--dark' in A:
+    _em = []
+    for m in bpy.data.materials:
+        b_ = next((x for x in m.node_tree.nodes if x.type == 'BSDF_PRINCIPLED'), None) if m.node_tree else None
+        if b_ and 'Emission Strength' in b_.inputs: _em.append((b_, b_.inputs['Emission Strength'].default_value)); b_.inputs['Emission Strength'].default_value = 0.0
+    _dp = []
+    for spec in (arg('--darkpoints', '') or '').split(';'):
+        if not spec.strip(): continue
+        v = [float(t) for t in spec.split(',')]; x, y, z, Wt = v[:4]; col = tuple(v[4:7]) if len(v) >= 7 else (1.0, 0.78, 0.5)
+        ld = bpy.data.lights.new('darkpt', 'POINT'); ld.energy = Wt; ld.color = col; ld.shadow_soft_size = 0.15
+        lo = bpy.data.objects.new(ld.name, ld); sc.collection.objects.link(lo); lo.location = Vector((x, -z, y)); _dp.append(lo)
+    _ek, _dk = dict(EMIT), dict(DAYEMIT); EMIT.clear(); DAYEMIT.clear()   # bake() 會照 --emit／--dayemit 重設發光：這一張全部不亮
+    DARK = bake('dark', float(arg('--darksky', str(NIGHTSKY * 1.5))), 0.0, 0.0, 0.0); save(wb(DARK, 'night'), LM + '_dark.png')
+    EMIT.update(_ek); DAYEMIT.update(_dk)
+    for b_, v in _em: b_.inputs['Emission Strength'].default_value = v
+    for lo in _dp: bpy.data.objects.remove(lo)
 
 # ---- 5b. 夾在零件中間、烘出來全黑的面（白天、晚上兩張都 < 0.003：完全照不到光，只有被包住的面會這樣）：和看不到的面一樣，UV 收到同一個物件最大那一面的中心 ----
 # 為什麼（LIB-HALL-LM-1028）：方塊拼起來的牆、台座，兩塊接在一起的那一面夾在中間烘成黑的；正面在接縫是 T 形接頭（一邊有頂點、一邊沒有），
@@ -376,6 +395,7 @@ json.dump({'scale': SCALE, 'intensity': math.pi * SCALE, 'res': RES, 'samples': 
 URL = arg('--url')   # 遊戲裡光照貼圖的路徑前綴（例：assets/models/env/classroom_201_lm）→ 寫進 GLB 場景的 extras.lightmap，遊戲的 attachRoomGLB 看到就自動接
 if URL:
     LMX = {'day': URL + '_day.webp', 'night': URL + '_night.webp', 'intensity': math.pi * SCALE}
+    if DARK is not None: LMX['dark'] = URL + '_dark.webp'   # 熄燈那一張（--dark）
     if DAYEMIT: LMX['dayEmit'] = sorted(DAYEMIT)   # 只在白天那一張發光的材質（--dayemit：天窗）：遊戲的 Z3.roomLightmap 晚上把它們調暗（不然遊戲裡整晚照樣亮；RT-NIGHT-1028）
     sc['lightmap'] = LMX
 bpy.ops.export_scene.gltf(filepath=os.path.abspath(OUT), export_format='GLB', export_texcoords=True, export_normals=True, export_extras=True,
