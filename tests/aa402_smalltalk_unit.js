@@ -13,7 +13,7 @@ const AA497=new Set(['「財金系的課跟法律系的撞了一堂，我改修�
   '「以安不在，她的位子一直空著。我想把書放上去，又沒放。」','「國考跟研究所，我兩個都報了。本來想先實習再說的。」']);   /* AA_497 2-9 換掉的兩句 */
 const NEW=id=>SMALLTALK[id].filter(e=>typeof e==='object'&&e.term&&!/^Y1/.test(e.term[0]));
 check('0. 每一句都在稿裡（一字不差；AA_497 換的、加的句子不算這份稿）',!!doc&&[...NEW('classmate_bohan'),...NEW('classmate_xinci')].filter(e=>!AA497.has(e.t)).every(e=>doc.indexOf(e.t)>=0),J([...NEW('classmate_bohan'),...NEW('classmate_xinci')].filter(e=>!AA497.has(e.t)&&doc.indexOf(e.t)<0).map(e=>e.t)));
-check('0. 柏翰 12 句、芯慈 13 句（大二上～大四下；AA_497 拿掉追劇那一句＝12 句，另加四句），每句 once',NEW('classmate_bohan').length===12&&NEW('classmate_xinci').length===12+4&&NEW('classmate_xinci').filter(e=>AA497.has(e.t)).length===6&&[...NEW('classmate_bohan'),...NEW('classmate_xinci')].every(e=>e.once===true));
+check('0. 柏翰 12 句、芯慈 13 句（大二上～大四下；AA_497 拿掉追劇那一句＝12 句，另加四句；AA_547 換的財金系那一句也列在 AA497＝7 句），每句 once',NEW('classmate_bohan').length===12&&NEW('classmate_xinci').length===12+4&&NEW('classmate_xinci').filter(e=>AA497.has(e.t)).length===7&&[...NEW('classmate_bohan'),...NEW('classmate_xinci')].every(e=>e.once===true));
 /* 一整學期每天說一次：回傳 [{t, week, day}] */
 const termRun=(id,term,flags,setup)=>{ const r=CALENDAR.termDays?CALENDAR.termDays(term):null; if(!r) return []; H.fresh(CALENDAR.dateOf(r.from).key,23,'campus',Object.assign({EXCHANGE_ROUTE:'TW'},flags||{})); H.FRIEND(id); if(setup) setup(H.G);
   const out=[]; for(let d=r.from;d<=r.to;d++){ H.at(CALENDAR.dateOf(d).key,23); const x=STORY.smallTalk(H.G,id); if(x&&x.say){ const t=CALENDAR.termOf(d); out.push({t:x.say,week:t?t.week:0,day:d}); } } return out; };
