@@ -3626,6 +3626,14 @@
    "approvedBy": "AA-B 定稿（D109）",
    "task": "SIS-LEAD-1021",
    "note": "子代理登記（LAWWW-B 的 sis-lead-539，10-30）：學姊重讀（AA_470 之後的空白、重複）。1-1 美國路線 12/24 期末飯換句（src/data/termend_lines.js 學姊 invByTerm.Y4S1）；1-2 有研究室以前（約的那一天 ≦ 2026-09-21）交往版晨跑換句；第 2 節三種通用邀約輪流、同一句四週內不重複（src/data/heroine_asks.js 學姊的 alt／noLab，src/heroine_asks3d.js S.pickVar）；1-4 美國 208 私訊第二、三次換句（src/us208_3d.js 的 dmMore、S.dmText）；1-5 日本 5/29 換句（src/data/sis_jp_events.js）；3-1 朋友版六則私訊、3-2 家族群組三則（src/data/sis_aa539_lines.js、src/sis_aa539_3d.js）。1-6（AA_527 四處）不做。10-30 換 90d0a41d0（第 5 節更正與實作問答）：1-3 作廢、慢讀那兩句當總圖輪流的第五句；7/20 那一則換句（12-1 還沒演：借書不行、在總圖三樓＋選項，「我在附近。」＝15:30 總圖、見面直接演 12-1；演過了：第一本讀完了）；208 私訊每一句最多傳一次（src/us_life3d.js nextStop 往後找到第一個會傳的週末）。台詞一字照稿；tests/aa539_sis_reread_unit.js 逐句對稿。；4fe297d9c 只多 5-1 見面前旁白「（你走上三樓。她坐在靠窗的位子。）」（src/sis_aa539_3d.js S.SR_UP）"
+  },
+  {
+   "path": "docs/story_planning/AA_537b_吳芯慈_第二份_約會台詞_校外地點_期末飯_節日.md",
+   "sha": "508568ae5",
+   "status": "approved",
+   "approvedBy": "AA-B 定稿（D109）",
+   "task": "XINCI-ROMANCE-1030",
+   "note": "LAWWW-B 10-30：芯慈第二份（使用者 X139 芯慈可以交往）。第 1～3 節由 tools/date/import_date_lines.py 匯入 src/data/date_lines.js（一般台詞十一個 key、128 點喜好、15 句不喜歡、八個常去地點）；第 4、5 節（期末飯、節日）手寫進 termend_lines.js／fest 那幾檔，台詞一字照稿"
   }
  ]
 }

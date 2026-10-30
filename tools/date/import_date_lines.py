@@ -266,6 +266,72 @@ if A526:
             o['text'] = new
         FIXED525.append(('AA_526 ' + item, who, old, new, len(hit)))
     FILES['fix526'] = P526
+# AA_537b（XINCI-ROMANCE-1030；AA-B 10-30 508568ae5，使用者 X139 芯慈可以交往）芯慈第二份：第 1 節一般台詞（十一個 key）、第 2 節 128 點喜不喜歡（l／n／d）、
+# 2-1 不喜歡那一點的一句、第 3 節八個常去地點的到達／收尾（arrive.first 的「／」＝連著說的兩句；其他欄的「／」＝輪流，現在都只有一句；tier 都是 any）。白名單沒有 AA_537b＝不加
+A537 = G.approved_files(ALLOW, SP + 'AA_537b_')
+XC = 'classmate_xinci'
+if A537:
+    P537, S537 = next(iter(A537.items()))
+    ok, why = G.allowed(P537, S537, ALLOW)
+    if not ok:
+        sys.exit('拒絕匯入：' + why)
+    md537 = G.read_fix(subprocess.check_output(['git', '-C', ROOT, 'show', f'{S537}:{P537}'], text=True))
+    KEY537 = ['accept', 'acceptDating', 'cancel', 'flaked', 'move', 'move3', 'transport', 'depart', 'enough', 'leaveEarly', 'noPair']
+    for r in rows(section(md537, '## 1. 約會的一般台詞'))[1:]:
+        if r[0] in KEY537:
+            a = alts(r[1])
+            if not a:
+                sys.exit('AA_537b 第 1 節拆不出來：' + r[0])
+            L.setdefault(XC, {})[r[0]] = a
+    miss = [k for k in KEY537 if not (L.get(XC) or {}).get(k)]
+    if miss:
+        sys.exit('AA_537b 第 1 節少了：' + ' '.join(miss))
+    LK = {'l': 'like', 'n': 'normal', 'd': 'dislike'}
+    nlk = 0
+    for r in rows(section(md537, '## 2. 校外各點喜不喜歡')):
+        for i in (0, 2):
+            if i + 1 >= len(r) or not re.fullmatch(r'D\d\d', r[i]):
+                continue
+            loc = r[i]; pts = (LOC.get(loc) or {}).get('points') or {}
+            for it in r[i + 1].split('／'):
+                m = re.fullmatch(r'(\w+) ([lnd])', it.strip())
+                if not m or f'{loc}.{m.group(1)}' not in pts:
+                    sys.exit(f'AA_537b 第 2 節 {loc}「{it}」對不到地點的互動點：' + ' '.join(pts))
+                LOC[loc].setdefault('likes', {}).setdefault(XC, {})[f'{loc}.{m.group(1)}'] = LK[m.group(2)]; nlk += 1
+    if nlk != 128:
+        sys.exit(f'AA_537b 第 2 節應該是 128 個點，拆出 {nlk} 個')
+    ndl = 0
+    for r in rows(section(md537, '### 2-1')):
+        m = re.fullmatch(r'(D\d\d)\.(\w+)', r[0])
+        if not m:
+            continue
+        loc, pid = m.group(1), r[0]
+        if LOC[loc]['likes'][XC].get(pid) != 'dislike':
+            sys.exit(f'AA_537b 2-1 {pid} 在第 2 節不是 d')
+        LOC[loc].setdefault('dislikeLine', {}).setdefault(XC, {})[pid] = r[1]; ndl += 1
+    nd = sum(1 for loc in LOC for v in LOC[loc].get('likes', {}).get(XC, {}).values() if v == 'dislike')
+    if ndl != nd:
+        sys.exit(f'AA_537b 2-1 的句子 {ndl} 句、第 2 節 d 有 {nd} 個')
+    COL = ['arrive.first', 'arrive.normal', 'arrive.dating', 'closing.first', 'closing.normal']
+    seq = lambda c: [{'who': XC, 'text': t} for t in alts(c)]
+    n3 = 0
+    for r in rows(section(md537, '## 3. 她常去的八個地點'))[1:]:
+        m = re.match(r'(D\d\d) ', r[0])
+        if not m:
+            continue
+        loc = m.group(1)
+        if loc not in LOC or len(r) != 6:
+            sys.exit('AA_537b 第 3 節這一列拆不出來：' + ' | '.join(r))
+        X = {'arrive': {'first': {'tier': 'any', 'lines': seq(r[1])}, 'normal': [{'tier': 'any', 'lines': [{'who': XC, 'text': t}]} for t in alts(r[2])],
+                        'dating': [{'tier': 'any', 'lines': [{'who': XC, 'text': t}]} for t in alts(r[3])]},
+             'closing': {'first': {'tier': 'any', 'lines': seq(r[4])}, 'normal': [{'tier': 'any', 'lines': [{'who': XC, 'text': t}]} for t in alts(r[5])]}}
+        if not all(X['arrive']['first']['lines']) or not X['arrive']['normal'] or not X['arrive']['dating'] or not X['closing']['first']['lines'] or not X['closing']['normal']:
+            sys.exit('AA_537b 第 3 節 ' + loc + ' 有空格')
+        LOC[loc].setdefault('lines', {})[XC] = X; n3 += 1
+    if n3 != 8:
+        sys.exit(f'AA_537b 第 3 節應該是八個地點，拆出 {n3} 個')
+    FILES['xc537b'] = P537
+    print(f'AA_537b：一般台詞 {len(L[XC])} 個 key、喜好 {nlk} 點、不喜歡的句子 {ndl} 句、常去地點 {n3} 個')
 # 地點檔裡寫成旁白、其實是給開發看的條件或伏筆說明：改成 who:'note'（遊戲不顯示）。整句相同才改，其他旁白不動（DATE-C3：淡水示範的反應，
 # 遊戲裡原本會演出「（第 6 階以上）」——D13 以安、學姊的合照那一句前面；「（第 3 節她的心願的伏筆）」——D13 可昕欄杆第一次的選項②）
 NOTE_NARR = {'第 6 階以上', '第 3 節她的心願的伏筆'}
