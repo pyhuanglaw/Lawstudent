@@ -4490,7 +4490,7 @@
    "sha": "fa0a63063",
    "noDirectIntegrate": false,
    "receiver": "LAWWW",
-   "ack": "",
+   "ack": "ACK＋已整合（LAWWW-B 10-30 22:03；DL-LW2-LMCOLLAPSE-DORM4-1030）",
    "task": "LM-COLLAPSE-1030 第三間：宿舍四人房用修好的 bake_room.py 重烘",
    "files": [
     "assets/models/env/second_ai/dorm_room4.glb",
