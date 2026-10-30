@@ -328,7 +328,7 @@ const REG=o=>{ global.CG_REGISTRY=o||{}; };
   await sec('13',async()=>{
   const src=fs.readFileSync(path.join(H.ROOT,'src/invites3d.js'),'utf8');
   /* INVITE-MENU-1030：清單分層以後，「約她過節」放在「特別的」那一類（只有一個就直接列）；灰掉的說原因留在同一層（S.STAY_MENU）、選了走 FEST.ask */
-  const hooks=[["if(fsO) sp.push(Object.assign({},fsO,{go:'fest'}));","nodes.push({t:'特別的',items:sp});"],
+  const hooks=[["if(fsO) sp.push(Object.assign({},fsO,{go:'fest'}));","nodes.push({t:S.WHEN_LABEL,items:sp});"],   /* AA_535 第 2 節：「特別的」改「這個時候才有」*/
     ["if(x.go==='fest'&&x.dim){ await GM.say(null,x.hint+'。'); return S.STAY_MENU; }","if(x.go==='fest') return FEST.ask(GM,id,n);"],
     ["if(iv.fest&&typeof FEST!=='undefined'&&FEST.meet) await FEST.meet(GM,iv,who);",null]];
   const hk=hooks.map(([h,before])=>{ const i=src.indexOf(h); return i>=0&&src.indexOf(h,i+1)<0&&(!before||src.indexOf(before,i)>i); });

@@ -46,7 +46,7 @@ const T=SOCIAL.ACT; check('4. 數值照 AA_124 1-2 的表（＋msg：AA_202 第 
 // 5
 const st=fs.readFileSync(path.join(ROOT,'src/story3d.js'),'utf8'), iv=fs.readFileSync(path.join(ROOT,'src/invites3d.js'),'utf8');
 check('5. 閒聊：chat＋新的一句 chatNew',/SOCIAL\.activity\(id,'chat'\); if\(L\.fresh\) SOCIAL\.activity\(id,'chatNew'\);/.test(st));
-check('5. 約好的見面照地點；對方約的又赴約加 acceptInvite',/SOCIAL\.activity\(iv\.who,P\.sport\?'sport':\(\{cafe:'cafe',library:'library',noodle:'meal',wenzhou:'walk',brunch:'meal',teahouse:'cafe'\}\[P\.id\]\|\|\(P\.kind==='meal'\?'meal':'cafe'\)\)\); if\(iv\.by==='npc'\) SOCIAL\.activity\(iv\.who,'acceptInvite'\);/.test(iv));   /* 一起運動的地點（P.sport）照 sport（AA_417 第 3 節）；表上沒有的吃飯地點（kind meal：Pasta 118，AA_480 第 5 節）照 meal */
+check('5. 約好的見面照地點；對方約的又赴約加 acceptInvite',/SOCIAL\.activity\(iv\.who,P\.sport\?'sport':\(\{cafe:'cafe',library:'library',noodle:'meal',wenzhou:'walk',brunch:'meal',teahouse:'cafe',slowread:'library'\}\[P\.id\]\|\|\(P\.kind==='meal'\?'meal':'cafe'\)\)\); if\(iv\.by==='npc'\) SOCIAL\.activity\(iv\.who,'acceptInvite'\);/.test(iv));   /* 一起運動的地點（P.sport）照 sport（AA_417 第 3 節）；表上沒有的吃飯地點（kind meal：Pasta 118，AA_480 第 5 節）照 meal */
 // 6
 const g3=fs.readFileSync(path.join(ROOT,'src/game3d.js'),'utf8');
 check('6. sceneBegin 第一層開始記',/function sceneBegin\(opts\)\{ if\(D\.busyDepth===0&&typeof SOCIAL!=='undefined'&&SOCIAL\.feel\)\{ SOCIAL\.feel=\{\}; SOCIAL\.feelOn=true; \}/.test(g3));

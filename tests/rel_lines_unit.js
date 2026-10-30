@@ -23,12 +23,12 @@ check('SOCIAL.playUp／upLine／byeLine／meetLine／contactName 存在',['playU
 // ---------- 1. 資料 ----------
 const AA=['heroine_01','heroine_03','zhe','yu','classmate_bohan','classmate_xinci'], BB=['heroine_05','heroine_02','heroine_04','classmate_peishan','kai','classmate_mingxuan','npc_fangyt'];
 const ids=Object.keys(REL_LINES);
-check('1. 13 個人（AA 六位、BB 七位）都有資料、都在 CHARACTERS',AA.concat(BB).every(id=>REL_LINES[id]&&CHARACTERS[id])&&ids.length===13,ids.join(','));
+check('1. 13 個人（AA 六位、BB 七位）都有資料、都在 CHARACTERS；另外可昕只有見面旁白、道別（AA_535 慢讀、AA_535b 1-1／1-2：她不走「認識→有點熟」，沒有 up）',AA.concat(BB).every(id=>REL_LINES[id]&&CHARACTERS[id])&&ids.length===14&&ids.includes('kexin')&&!!CHARACTERS.kexin&&!REL_LINES.kexin.up,ids.join(','));
 const steps=v=>Array.isArray(v)?(v.length&&v[0]&&typeof v[0]==='object'&&('l' in v[0])?v.flatMap(x=>x.l):v):(v&&v.l)||[];
 const fmtOK=st=>typeof st==='string'?/^[「（]/.test(st):(st&&typeof st.n==='string'&&/^（/.test(st.n));
 /* 2026-10-28 改：AA_497 4-6（企劃線 7a38216ca）明軒的滷蛋只留 M1、M2、德文那三處——朋友階的道別「下次我請。……一顆滷蛋。」拿掉，朋友階照 base（SOCIAL.byeLine 往下找）；AA 要另外補一句再加回來 */
 const BYE_NONE={classmate_mingxuan:['FRIEND']};
-check('1. 每個人三階的門檻台詞、三種見面結束的一句（明軒朋友階的道別 AA_497 拿掉、照 base）；格式都是「」或（）',ids.every(id=>{ const d=REL_LINES[id]; return ['FAMILIAR','FRIEND','CLOSE_FRIEND'].every(k=>steps(d.up[k]).length&&steps(d.up[k]).every(fmtOK))&&['base','FRIEND','CLOSE_FRIEND'].every(k=>(BYE_NONE[id]||[]).includes(k)?!d.bye[k]:(steps(d.bye[k]).length&&steps(d.bye[k]).every(fmtOK))); }));
+check('1. 每個人三階的門檻台詞、三種見面結束的一句（明軒朋友階的道別 AA_497 拿掉、照 base；可昕沒有 up，道別三階另外驗，AA_535b 1-2）；格式都是「」或（）',ids.filter(id=>id!=='kexin').every(id=>{ const d=REL_LINES[id]; return ['FAMILIAR','FRIEND','CLOSE_FRIEND'].every(k=>steps(d.up[k]).length&&steps(d.up[k]).every(fmtOK))&&['base','FRIEND','CLOSE_FRIEND'].every(k=>(BYE_NONE[id]||[]).includes(k)?!d.bye[k]:(steps(d.bye[k]).length&&steps(d.bye[k]).every(fmtOK))); }));
 check('1. BB 的七位：Café、總圖、公館吃飯有旁白，溫州街只有朋友以上；聯絡人有 base 和朋友（阿凱開學就叫阿凱）',BB.every(id=>{ const M=REL_LINES[id].meet, C=REL_LINES[id].contact; return M&&['cafe','library','noodle'].every(p=>M[p]&&M[p].R)&&M.wenzhou&&M.wenzhou.R&&!M.wenzhou.A&&!M.wenzhou.F&&C&&C.base&&(C.FRIEND||id==='kai'); }));
 check('1. AA 的六位：朋友以後的聯絡人；以安好朋友以後是「小安」',AA.every(id=>REL_LINES[id].contact&&REL_LINES[id].contact.FRIEND)&&REL_LINES.heroine_01.contact.CLOSE_FRIEND==='小安');
 // ---------- 2. 門檻台詞 ----------

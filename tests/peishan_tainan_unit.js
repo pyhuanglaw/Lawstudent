@@ -228,7 +228,7 @@ const termDay=(t,w,wd)=>STORY.termDay(t,w,wd);
     fresh(d,12,'dorm',{PS_BACK_FIRST:1}); R(ID,'CLO'); C(ID); SOCIAL.rel(ID).npcRom=35; DATE.knowWish(G,ID); said=[]; picks=['台南・美術館',0]; await DATE.menu(GM,ID,null);
     check('7. K3 已經知道：「美術館？……你記得。」「好。這件事，我會記很久。」', has('美術館？……你記得。')&&has('好。這件事，我會記很久。'));
     const hk=[]; const ch0=GM.choose; GM.choose=async o=>{ hk.push(o.map(x=>[x.t,x.hint])); return o.length-1; }; await DATE.menu(GM,ID,null); GM.choose=ch0;
-    check('7. K11 清單上灰掉的北部地點的說明：「她現在在台南。」（分層：整類灰掉的那一類小字寫這一句）', (hk[0]||[]).some(x=>x[0]==='市區：看展・電影…'&&x[1]==='她現在在台南。'), JSON.stringify(hk[0])); }
+    check('7. K11 清單上灰掉的北部地點的說明：「她現在在台南。」（分層：整類灰掉的那一類小字寫這一句）', (hk[0]||[]).some(x=>x[0]==='臺北市：看展・電影…'&&x[1]==='她現在在台南。'), JSON.stringify(hk[0])); }
   // K4 台南的學期末飯、P6 公開課（OUT.AFTER）也推進一層；同一天最多一層
   { const d=termDay('Y3S1',16,5); fresh(d,21,'dorm',{PS_BACK_FIRST:1}); R(ID,'FRI'); C(ID); const k=ID+'@Y3S1'; said=[];
     await OUT.runAfter(GM,{id:'te_Y3S1',ev:'ev_termend_dinner',te:{term:'Y3S1',who:ID,kind:'heart'}},null);

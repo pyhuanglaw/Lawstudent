@@ -1,4 +1,4 @@
-// 校外單獨約會的預約與衝突檢查（DATE-S3；src/date3d.js 的 DATE.check／canAsk／menu／pickWhen／tick、invites3d.js 的「去校外…」）：AA_128 4-1、4-3。用法：node tests/date_book_unit.js
+// 校外單獨約會的預約與衝突檢查（DATE-S3；src/date3d.js 的 DATE.check／canAsk／menu／pickWhen／tick、invites3d.js 的「出去玩…」）：AA_128 4-1、4-3。用法：node tests/date_book_unit.js
 const fs=require('fs'), vm=require('vm'), path=require('path');
 const ROOT=path.resolve(__dirname,'..');
 global.window=global; global.self=global; global.P3={CAST:{}};
@@ -98,8 +98,8 @@ const ADV2=global.ADV; ADV2.active=false;
   const r7=await DATE.move(GM,qm,tm); check('7. 改時間「選別的日期和時間」→ 明天 10:00：行程與行事曆都更新、重新提醒',r7==='moved'&&tm.day===day+1&&tm.depart===10&&qm.day===day+1&&Math.abs(qm.h-(10+DATE.travel('D13').minutes/60))<1e-9&&tm.reminded===false,JSON.stringify(tm));
   // ---------- 8 INV.flow 的入口 ----------
   fresh(day,9,'dorm',{}); G.contacts.heroine_03=1; opts=[]; picks=['算了'];
-  await INV.flow(GM,'heroine_03',null,false); check('8. 約人的地點清單最後有「去校外…」（還沒到第 5 階＝灰掉）',opts[0].includes('去校外…'),opts[0].join('/'));
-  fresh(day,9,'dorm',{}); G.contacts.zhe=1; opts=[]; picks=['算了']; await INV.flow(GM,'zhe',null,false); check('8. 男生（阿哲）沒有「去校外…」',!opts[0].includes('去校外…'),opts[0].join('/'));
+  await INV.flow(GM,'heroine_03',null,false); check('8. 約人的地點清單最後有「出去玩…」（還沒到第 5 階＝灰掉）',opts[0].includes('出去玩…'),opts[0].join('/'));
+  fresh(day,9,'dorm',{}); G.contacts.zhe=1; opts=[]; picks=['算了']; await INV.flow(GM,'zhe',null,false); check('8. 男生（阿哲）沒有「出去玩…」',!opts[0].includes('出去玩…'),opts[0].join('/'));
   // ---------- 9 她的句子（DATE-S6；date_lines.js 白名單匯入）----------
   check('9. date_lines.js 來自匯入白名單（BB_128＠ab9d70fe0（10-27 AA_475 第 1、3 節；之前 a1bc53f4c 10-24 AA_447 芷若「是A，不是B」；之前 a5b936a69 AA_439 禁用句；之前 efe575813 AA_436 學姊數東西四句；之前 1ced2f8b3 AA_432 可昕出發句、e78814663 AA_426 第 6 節「……開玩笑的」重訪句改掉；之前 967b4273a AA_426 心願改稿、ffd7eef8 AA_398 學姊不數件數、3229ad05）、AA_127＠482c7f6e9（10-27 AA_475 第 1 節；之前 967b4273a AA_426 以安「理由：」歸零；之前 345234b3）——10-22 換版 10816dd5、10-23 AA_389 第 7 點改放鴿子兩句再換，舊版 741e94f1／5e910dd2 會把 AA_295、AA_313 改過的句子蓋回；date_prefs 兩個檔＠5e910dd2）',/白名單/.test(DATE_LINES.source)&&/BB_128[^＋]*@ab9d70fe0/.test(DATE_LINES.source)&&/AA_127[^＋]*@482c7f6e9/.test(DATE_LINES.source)&&DATE_LINES.source.includes('date_prefs_bb.json@5e910dd2')&&Object.keys(DATE_LINES.lines).length===7,DATE_LINES.source);
   fresh(day,9,'dorm',{}); G.contacts.heroine_03=1; G.flags.dating_heroine_03=false; R('heroine_03',...LV.CLO);

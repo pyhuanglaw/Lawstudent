@@ -70,21 +70,22 @@ const DECL=['「這學期我在準備研究所，晚上大多在圖書館。…�
     const take=(r,day,h,pid)=>{ if(r.res==='accept') INV.accept(G,ID,pid||'noodle',day,h,{by:'player'}); return r.res==='accept'; };
     fresh(td('Y1S1',5,1),8,'dorm',{SIS_W1:true}); FRI(); const rel0=relOf(); const got={}, decl=[];
     for(let w=5;w<=16;w++){ got[w]=0; for(const wd of [2,4]){ const d=td('Y1S1',w,wd), r=tryInv(d,19); if(take(r,d,19)) got[w]++; else if(r.res==='decline'&&r.why==='exam') decl.push(r.lines[0]); } }
-    check('2-1／G5. 十月（第 5～9 週）一週只答應一次',[5,6,7,8,9].every(w=>got[w]===1),JSON.stringify(got));
-    check('2-1／G5. 十一月（第 10～13 週）兩週一次（10–11、12–13）',got[10]+got[11]===1&&got[12]+got[13]===1,JSON.stringify(got));
+    /* AA_535 第 1 節（INVITE-OPTS-1030，AA-B dbd49dca7）放寬：第 1～9 週不設上限、第 10～13 週一週一次（原本一週一次、兩週一次）；第 14 週起照舊婉拒，但換兩句、接「那一起念書。」*/
+    check('2-1／G5. 十月（第 5～9 週）不設上限：一週約兩次都答應（AA_535 1-2）',[5,6,7,8,9].every(w=>got[w]===2),JSON.stringify(got));
+    check('2-1／G5. 十一月（第 10～13 週）一週一次（AA_535 1-2）',[10,11,12,13].every(w=>got[w]===1),JSON.stringify(got));
     check('2-1／G5. 十二月起（第 14 週～）都婉拒',[14,15,16].every(w=>got[w]===0),JSON.stringify(got));
-    check('2-1. 婉拒句照 AA_284 2-1 四句輪流、不連續重複',decl.length>=4&&decl.every((t,i)=>t===DECL[i%4])&&decl.every((t,i)=>i===0||t!==decl[i-1]),JSON.stringify(decl.slice(0,5)));
+    check('2-1. 婉拒句：第 10～13 週照 AA_284 2-1 四句輪流；第 14 週起換 AA_535 1-3 的兩句輪流；不連續重複',decl.length===10&&decl.slice(0,4).every((t,i)=>t===DECL[i%4])&&decl.slice(4).every((t,i)=>t===SISG.DECLINE_OFF[i%2])&&decl.every((t,i)=>i===0||t!==decl[i-1]),JSON.stringify(decl));
     const rel1=relOf(); check('2-1／G5. 婉拒不扣任何數值',['fam','trust','aff','resp','comf','rom','npcRom'].every(k=>(+rel1[k]||0)>=(+rel0[k]||0)),JSON.stringify(rel0)+' → '+JSON.stringify(rel1));
     check('2-1. 「不是不想去，是真的在」不在遊戲裡（AA_332 第 3 節）',!fs.readdirSync(path.join(ROOT,'src')).concat(fs.readdirSync(path.join(ROOT,'src/data')).map(f=>'data/'+f)).filter(f=>/\.js$/.test(f)).some(f=>fs.readFileSync(path.join(ROOT,'src',f),'utf8').includes('不是不想去，是真的在')));
-    fresh(td('Y1S1',7,1),8,'dorm',{SIS_W1:true}); FRI();
-    { const d1=td('Y1S1',7,2), r1=tryInv(d1,12+10/60); take(r1,d1,12+10/60); const d2=td('Y1S1',7,3), r2=tryInv(d2,19); take(r2,d2,19); const d3=td('Y1S1',7,4), r3=tryInv(d3,19);   /* 第 7 週週一 10/13 是颱風假（麵店不開），從週二起 */
+    fresh(td('Y1S1',11,1),8,'dorm',{SIS_W1:true}); FRI();
+    { const d1=td('Y1S1',11,2), r1=tryInv(d1,12+10/60); take(r1,d1,12+10/60); const d2=td('Y1S1',11,3), r2=tryInv(d2,19); take(r2,d2,19); const d3=td('Y1S1',11,4), r3=tryInv(d3,19);   /* AA_535：有上限的是第 10～13 週（原本用第 7 週）*/
       check('2-1. 平日中午 12:00～13:00 吃飯一律答應、不算次數（週二午餐、週三晚餐都答應，週四才婉拒）',r1.res==='accept'&&r2.res==='accept'&&r3.res==='decline'&&r3.why==='exam',[r1.res,r2.res,r3.res+':'+r3.why].join(' ')); }
     fresh(td('Y1S1',14,3),8,'dorm',{SIS_W1:true}); FRI();
     { const d=td('Y1S1',14,3), r=tryInv(d,12+10/60), rl=tryInv(td('Y1S1',14,2),19,'library'), rj=tryInv(K('2026-01-13'),19), rx=tryInv(K('2026-02-02'),12+10/60), rp=tryInv(K('2026-02-03'),19);
       check('2-1. 第 14 週午餐照樣答應；總圖（一起念書）不受上限；1 月晚餐婉拒；2/2 午餐（她在考試、不在學校）婉拒；2/3（筆試以後）照一般規則',r.res==='accept'&&!(rl.res==='decline'&&rl.why==='exam')&&rj.res==='decline'&&rj.why==='exam'&&rx.res==='decline'&&rx.why==='exam'&&!(rp.why==='exam'),[r.res,rl.res+':'+rl.why,rj.res,rx.res,rp.res+':'+rp.why].join(' ')); }
     /* 當面約（INV.flow）：婉拒句講出來、數值沒動 */
-    fresh(td('Y1S1',15,2),15,'campus',{SIS_W1:true}); FRI(); const r0=relOf(); picks=['阿鳳麵店','明天 19:00']; const iv=await INV.flow(GM,ID,null,false);
-    check('2-1. 手機約她（第 15 週）：她說婉拒句、沒有約成、數值沒動',iv===null&&said.some(s=>DECL.includes(s.t))&&JSON.stringify(relOf())===JSON.stringify(r0),JSON.stringify(lines().slice(-2)));
+    fresh(td('Y1S1',15,2),15,'campus',{SIS_W1:true}); FRI(); const r0=relOf(); picks=['阿鳳麵店','明天 19:00','不用了。']; const iv=await INV.flow(GM,ID,null,false);
+    check('2-1. 手機約她（第 15 週）：她說婉拒句（AA_535 1-3 的兩句）、接「那一起念書。」／「不用了。」；選「不用了。」沒有約成、數值沒動',iv===null&&said.some(s=>SISG.DECLINE_OFF.includes(s.t))&&opts.some(o=>o.join('|')==='那一起念書。|不用了。')&&!(G.invites||[]).length&&JSON.stringify(relOf())===JSON.stringify(r0),JSON.stringify(lines().slice(-2)));
     /* 校外約會：第 10 週起「等我考完。」；第 9 週以前照一般條件 */
     const dateOk=()=>{ const r=SOCIAL.rel(ID); Object.assign(r,{fam:50,trust:35,comf:20,npcRom:35,rom:10}); };
     fresh(td('Y1S1',10,2),15,'campus',{SIS_W1:true}); dateOk(); said=[]; picks=['算了','算了']; await DATE.menu(GM,ID,null);
@@ -93,7 +94,7 @@ const DECL=['「這學期我在準備研究所，晚上大多在圖書館。…�
     fresh(td('Y1S1',13,4),15,'campus',{SIS_W1:true}); dateOk(); said=[]; picks=['算了','算了']; await DATE.menu(GM,ID,null); const s13=txts().slice();
     fresh(td('Y1S1',14,2),15,'campus',{SIS_W1:true}); dateOk(); said=[]; picks=['算了','算了']; await DATE.menu(GM,ID,null); const s14=txts().slice();
     const FAR='校外的話，等我考完。……考完我想去很遠的地方。';
-    check('2-1. 校外約會：第 10～13 週她說「等我考完。」；第 9 週照一般條件（不說）',s10.includes('等我考完。')&&s13.includes('等我考完。')&&!s10.includes(FAR)&&!s9.includes('等我考完。')&&!s9.includes(FAR),JSON.stringify([s10,s9.slice(0,2),s13]));
+    check('2-1. 校外約會：第 10～13 週不再婉拒（AA_535 1-2：和校內共用那一週的一次、只能半天，tests/aa535_invite_opts_unit.js）；第 9 週照一般條件（不說）',!s10.includes('等我考完。')&&!s13.includes('等我考完。')&&!s10.includes(FAR)&&!s9.includes('等我考完。')&&!s9.includes(FAR)&&SISG.halfOnly({stage:'law',day:td('Y1S1',10,2),hour:15}),JSON.stringify([s10,s9.slice(0,2),s13]));
     check('2-1. AA_339 第 4 題：第 14 週～筆試（1 月寒假也是）換一句「校外的話，等我考完。……考完我想去很遠的地方。」',s14.includes(FAR)&&sj.includes(FAR)&&!s14.includes('等我考完。')&&!sj.includes('等我考完。'),JSON.stringify([s14,sj]));
   });
   /* ---------- 2-2 十月的法圖 ---------- */

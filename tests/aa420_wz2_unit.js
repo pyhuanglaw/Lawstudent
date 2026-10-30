@@ -106,7 +106,7 @@ await sec(3,async()=>{ const P=INVITE_DATA.places.find(p=>p.id==='teahouse_cerem
   H.said=[]; H.opts=[]; H.picks=['算了','算了','算了']; await INV.flow(GM,'heroine_01',null,false);
   check('3. WZ-T3 以前：約人的地點沒有「去一盞的茶席」（分層以後看展開的 all：一盞在「坐坐・喝茶…」裡）',!!H.opts[0]&&!H.opts[0].all.includes('去一盞的茶席')&&H.opts[0].all.includes('去一盞喝茶'),J(H.opts[0].all));
   H.G.flags.WZ_TEA_SEAT=true; H.said=[]; H.opts=[]; H.picks=['去一盞的茶席','算了']; await INV.flow(GM,'heroine_01',null,false);
-  check('3. WZ-T3 以後：有「去一盞的茶席」（在「坐坐・喝茶…」裡）；時間＝下一次茶席（第三個週日）14:00、15:30（地點自己給日子：沒有「其他日子…」）',H.opts[0].all.includes('去一盞的茶席')&&H.opts[1].includes('去一盞的茶席')&&J(H.opts[2])===J(['明天 14:00','明天 15:30','算了']),J(H.opts));
+  check('3. WZ-T3 以後：有「去一盞的茶席」（AA_535：放在「喝咖啡、喝茶…」和「這個時候才有」；這個時候才有只有它＝直接列在第一層）；時間＝下一次茶席（第三個週日）14:00、15:30（地點自己給日子：沒有「其他日子…」）',H.opts[0].includes('去一盞的茶席')&&J(H.opts[1])===J(['明天 14:00','明天 15:30','算了']),J(H.opts));
   const T=INV.timeOptions(H.G,false,P); at(Tsun+1,10); const T2=INV.timeOptions(H.G,false,P); const d2=CALENDAR.dateOf(T2[0].day);
   check('3. 不是茶席的日子：選項是下一個第三個週日',T.length===2&&T[0].day===Tsun&&T2.length===2&&d2.wd===7&&d2.d>=15&&d2.d<=21&&T2[0].t===d2.m+'/'+d2.d+' 14:00',J(T2));
   at(Tsun-1,15); const r=INV.decide(H.G,'heroine_01','teahouse_ceremony',Tsun,14); check('3. 第三個週日 14:00：以安答應（朋友）',r.res==='accept',J(r));
