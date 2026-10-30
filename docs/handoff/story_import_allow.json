@@ -3578,6 +3578,14 @@
    "approvedBy": "AA-B 定稿（D109）",
    "task": "AA533-VAC-FIX-1030",
    "note": "子代理登記（AA533-VAC-FIX-1030，10-30；任務 ID 子代理暫定，總表還沒有這一筆）：寒暑假（二）。程式：src/data/vac_activities.js（TRAVEL.gf 七位 arr、mid、沛珊 firstOnly；C03 以安沒去的上班族大姊三堂；C04 模擬考 Kevin 一句、考完 12:00 私訊；C11 第一次 01-29 最後一晚；C12 茶道老師；C01 diarySay）、src/vac3d.js（choiceElse、msg、C13 女朋友版、C01 第一句後面一句）、src/data/hometown_lines.js（可昕夜市愛河、沛珊公園書店）、src/data/vacfill_events.js（長桌、參創、法圖）、src/home3d.js（快轉旁白分年、晚餐 winter／dadOnly）、src/vacfill3d.js（摘要池不分假期）；src/data/home_lines.js 由 tools/home/import_home_lines.py 讀這一版加晚餐三題。測試 node tests/aa533_vac_unit.js"
+  },
+  {
+   "path": "docs/story_planning/AA_536_經濟系同學在社科院圖書館_作息與台詞.md",
+   "sha": "1a65846c5",
+   "status": "approved",
+   "approvedBy": "AA-B 定稿（D109；使用者 2026-10-30 05:1x「經濟系以前的同學 要能夠在社科院圖書館遇到吧」）",
+   "task": "ECON-FRIENDS-SOCLIB-1030",
+   "note": "LAWWW-B 子代理登記（ECON-FRIENDS-SOCLIB-1030，10-30）：經濟系同學在社科院圖書館。第 1 節作息：src/data/characters.js 品妤、阿勳、唐睿、韋綸的 daily_schedule（zone soclib、seatAt：品妤座位 16〔SK12 那張長桌〕、阿勳北面窗邊座位 39、唐睿閱報區沙發座位 57、韋綸長桌 rt0 座位 4；noHoliday；韋綸考試週照 calendar.js termOf 的 exam）；第 2 節台詞 src/data/econfr_soclib.js、接線 src/econsl3d.js（story3d.js talkCharacter 兩個掛勾：first 那一段、POOL.talk 後面）；第一次的旁白、沒有 MET_* 先說現有的自我介紹、一天一句、打招呼輪流（本人＋館員那一句）；品妤 SK12 那四天不接；阿勳 3/22 以後那一句社科圖以外也說。tests/econ_soclib_1030_unit.js 逐字雙向對稿＋作息＋走進社科圖＋說話"
   }
  ]
 }
