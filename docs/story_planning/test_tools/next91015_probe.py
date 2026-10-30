@@ -1114,6 +1114,27 @@ async def noodlm(pg, cdp, run):
     run.check('鏡頭白天、晚上都站得到', all(r[3] for r in rows), J([(r[0], r[1]) for r in rows if not r[3]]))
 
 
+LHSPOTS = [('1f_east', 6.0, 2.0, 0, 11.9, 2.0, '一樓東牆'), ('1f_west', -6.0, 2.0, 0, -11.9, 2.0, '一樓西牆'),
+           ('1f_east_n', 6.0, -3.0, 0, 11.9, -5.0, '一樓東牆北段'), ('1f_west_n', -6.0, -3.0, 0, -11.9, -5.0, '一樓西牆北段'),
+           ('2f_east', 8.0, -4.0, 1, 11.9, -4.0, '二樓東牆'), ('2f_west', -8.0, -4.0, 1, -11.9, -4.0, '二樓西牆')]
+
+
+async def lhlm(pg, cdp, run):
+    # LM-COLLAPSE-1030 第二間：總圖大廳重烘（4470ef1a9）——東西兩面牆白天、晚上，原本牆上斜的黑三角要沒了；[前置] 直接讀檔在總圖大廳
+    rows = []
+    for hh, tg in ((14.0, 'day'), (20.5, 'night')):
+        st, d = await P.base(pg, SAVE, '2025-09-26', hh, 'library_hall'); await P.load(pg, cdp, st); await pg.wait_for_timeout(9000)
+        run.setup('[前置] 使用者存檔改到 %s %s 總圖大廳（出生點）' % (d['key'], tg))
+        lm = await pg.evaluate("(()=>{ let n=0, m=0; GAME.E.scene.traverse(o=>{ if(o.isMesh&&o.visible){ m++; const ms=Array.isArray(o.material)?o.material:[o.material]; if(ms.some(q=>q&&q.lightMap)) n++; } }); return {zone:GAME.G.zone, lightmapped:n, meshes:m}; })()")
+        run.check('%s：總圖大廳有接到光照貼圖' % tg, lm['zone'] == 'library_hall' and lm['lightmapped'] > 0, J(lm))
+        for key, x, z, lv, tx, tz, label in LHSPOTS:
+            p, stt = await ll_shot(pg, run, 'libhall_%s_%s' % (tg, key), x, z, lv, tx, tz)
+            rows.append((tg, key, label, p, stt)); run.note('%s %s：站 %s；亮度 %s' % (tg, label, J(p), J(stt)))
+    bad = [(r[0], r[2], r[4]) for r in rows if r[4].get('dark', 0) > 0.25 or r[4].get('white', 0) > 0.15]
+    run.check('總圖大廳東西牆每張：黑（<12）不超過 25%、死白（>248）不超過 15%（斜的黑三角、接縫看截圖）', not bad and all('err' not in r[4] for r in rows), J(bad))
+    run.check('鏡頭白天、晚上都站得到', all(r[3] for r in rows), J([(r[0], r[1]) for r in rows if not r[3]]))
+
+
 async def boyab4(pg, cdp, run):
     # 法律系 B4 演講（大一下第 11 週週四 19:00 博思 101，ACTIVITIES B4）：預設流程裡看得到博思 101 的地方（LAWWW-B 16:04）。手機「今天」按去聽
     d = await pg.evaluate("(()=>{ const T=CALENDAR.TERMS.find(t=>t.id==='Y1S2'); const a=STORY.dayOfKey(T.start); let d=a+10*7; while(CALENDAR.dateOf(d).wd!==4) d++; return CALENDAR.dateOf(d).key; })()")
@@ -1165,7 +1186,7 @@ async def main():
             b, ctx, pg, cdp, errs = await L.launch(p, landscape=(VP != 'portrait'))
         pg.on('dialog', lambda d: asyncio.ensure_future(d.accept()))
         await pg.goto(URL); run.check('遊戲載入', await L.wait_loaded(pg)); await pg.evaluate("localStorage.clear()"); await P.init(pg)
-        await {'phone': phone, 'bball': bball, 'rooms': rooms, 'cafewin': cafewin, 'noodle': noodle, 'cafe2': cafe2, 'invite': invite, 'jacket': jacket, 'badclip': badclip, 'bigmap': bigmap, 'bballrain': bballrain, 'renart': renart, 'libla': libla, 'lawlib': lawlib, 'cafe2diag': cafe2diag, 'multiroom': multiroom, 'rtnight': rtnight, 'boya': boya, 'boyaecon': boyaecon, 'boyab4': boyab4, 'soclm': soclm, 'noodlm': noodlm}[MODE](pg, cdp, run)
+        await {'phone': phone, 'bball': bball, 'rooms': rooms, 'cafewin': cafewin, 'noodle': noodle, 'cafe2': cafe2, 'invite': invite, 'jacket': jacket, 'badclip': badclip, 'bigmap': bigmap, 'bballrain': bballrain, 'renart': renart, 'libla': libla, 'lawlib': lawlib, 'cafe2diag': cafe2diag, 'multiroom': multiroom, 'rtnight': rtnight, 'boya': boya, 'boyaecon': boyaecon, 'boyab4': boyab4, 'soclm': soclm, 'noodlm': noodlm, 'lhlm': lhlm}[MODE](pg, cdp, run)
         run.check('沒有 JS 例外', not errs, J(errs[:3]))
         print('SHA', os.environ.get('SHA', '?'), 'MODE', MODE)
         await b.close()
