@@ -36362,7 +36362,7 @@
    "area": "ART",
    "owner": "LAWWW2",
    "status": "已整合待測試",
-   "next": "BB 測改名牌子近拍（校門、晨思鐘、博思名牌、A館公布欄、201 傳單、博思 203）；LAWWW2 接著查 CG 78 張舊校名",
+   "next": "BB 測改名牌子近拍（n16_renart：校門、晨思鐘、博思名牌、A館公布欄、201 傳單、博思 203、社科院系所牌、溫州公園牌、ntu_linze）",
    "priority": "P1",
    "first": {
     "term": "Y1S1",
@@ -36384,7 +36384,7 @@
     "receiver": "LAWWW",
     "ack": "ACTIONED"
    },
-   "notes": "LAWWW2 交件 0235c71b9 → f75d60a4c；外框 patch 套了（4:1 以內不變）；還沒做：CG 78 張、BB 組校園 2D 背景只看縮圖"
+   "notes": "【10:1x】LAWWW2 8ad003353：CG 78 張查完，沒有舊校名、館名字樣（六張放大看）｜ LAWWW2 交件 0235c71b9 → f75d60a4c；外框 patch 套了（4:1 以內不變）；還沒做：CG 78 張、BB 組校園 2D 背景只看縮圖"
   }
  ]
 }
