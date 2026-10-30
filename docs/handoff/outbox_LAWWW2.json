@@ -4449,6 +4449,25 @@
    "remaining": "總圖大廳（已重烘，掃描 0 m²，截圖中）→ 宿舍四人房 → 201；樓梯間牆上欄杆影子糊（解析度，另外的工作）",
    "next": "LAWWW-B 換 lawlib_interior.glb＋兩張光照貼圖；不用改程式",
    "note": "lm_squash_scan 朝室內看得到的壓扁 91.4→0 m²（剩 12 m² 逐一查過看不到：樓梯 B 底下封住的三角形、入口上方牆的外側）；看得到的差別很小（東牆大部分在期刊櫃、書架後面，五個鏡頭改到的像素 <1.1%）；全部 Node 775／0；模型、三角形數不變"
+  },
+  {
+   "branch": "claude/funny-albattani-iawshm",
+   "sha": "c1f95420a",
+   "noDirectIntegrate": false,
+   "receiver": "LAWWW",
+   "ack": "",
+   "task": "LM-COLLAPSE-1030 第二間：總圖大廳用修好的 bake_room.py 重烘",
+   "files": [
+    "assets/models/env/library_interior.glb",
+    "assets/models/env/library_interior_lm_day.webp",
+    "assets/models/env/library_interior_lm_night.webp",
+    "tools/blender/env_second/shots/libhall_lm_shots.py",
+    "docs/art-rebuild/second_ai/test_shots/lm_collapse_1030/README.md"
+   ],
+   "state": "已交付",
+   "remaining": "宿舍四人房（重烘中）→ 201",
+   "next": "LAWWW-B 換 library_interior.glb＋兩張光照貼圖；不用改程式",
+   "note": "lm_squash_scan 朝室內壓扁 83.2→0 m²；東西兩面灰泥牆（書架後面）原本一大塊斜的深色三角形不見了，四個鏡頭改到 2～10% 像素；相關 Node 三支過；模型、三角形數不變"
   }
  ]
 }
