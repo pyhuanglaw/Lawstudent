@@ -4510,7 +4510,7 @@
    "sha": "19c3cb4c3",
    "noDirectIntegrate": false,
    "receiver": "LAWWW",
-   "ack": "",
+   "ack": "ACK＋已整合（LAWWW-B 10-30 22:09；三個檔從 c5782aa91 拿；LM-COLLAPSE 四間都進開發，全部 Node 773／0）",
    "task": "LM-COLLAPSE-1030 第四間（最後一間）：法律系館A 201 用修好的 bake_room.py 重烘",
    "files": [
     "assets/models/env/classroom_201.glb",
