@@ -205,7 +205,8 @@ NDLDIAG = """(T=>{ const G=GAME.G, o={}; const f=(k,fn)=>{ try{ o[k]=fn(); }catc
   f('due',()=>STORY.ndlTalkDue(G)); f('dueIgnoreOther',()=>STORY.ndlTalkDue(G,false)); f('otherDue',()=>STORY.ndlOtherDue?STORY.ndlOtherDue(G):null);
   f('pick',()=>{ const p=STORY.ndlTalkPick(G); return p?{k:p.k,i:p.i,who:p.e&&p.e.who||null,first:p.e&&p.e.dialogue&&p.e.dialogue[0]&&String(p.e.dialogue[0].text||'').slice(0,30)}:null; });
   f('here',()=>T.map(id=>[id,STORY.ndlHere(G,id),STORY.knows?STORY.knows(id,G):null])); f('stage',()=>G.stage||'law'); f('abroad',()=>!!G.flags.abroad);
-  f('evRunning',()=>!!(typeof EVENTS!=='undefined'&&EVENTS.running)); f('n',()=>(G.flags.ndlTalkN||null)); return o; })"""
+  f('evRunning',()=>!!(typeof EVENTS!=='undefined'&&EVENTS.running)); f('n',()=>(G.flags.ndlTalkN||null));
+  f('ndlTalkDayRaw',()=>[G.flags.ndlTalkDay==null?null:G.flags.ndlTalkDay, G.day]); f('kind',()=>CALENDAR.kind(G.day)); f('term',()=>{ const t=CALENDAR.termOf(G.day); return t?{id:t.id, week:t.week, exam:!!t.exam}:null; }); return o; })"""   # BB-B 14:2x：LAWWW-B 要 10/21 的 ndlTalkDay 和當天 day；noodleDay 是 false 的時候看是不是考試週
 
 
 NDLREAD = """(T=>{ const G=GAME.G, E=GAME.E, o={}; const f=(k,fn)=>{ try{ o[k]=fn(); }catch(e){ o[k]='err:'+e.message; } };   // LAWWW-B 13:14 要的讀數：麵店團為什麼沒生出來
@@ -240,10 +241,20 @@ async def noodle(pg, cdp, run):
         if NDLR:
             run.note('%s 讀數（進門／讀檔後 1.5 秒）：%s' % (tag, J(await pg.evaluate(NDLREAD, TEAM))))
             await pg.wait_for_timeout(20000); run.note('%s 讀數（再 20 秒）：%s' % (tag, J(await pg.evaluate(NDLREAD, TEAM))))
+        rd = await pg.evaluate(NDLREAD, TEAM) if NDLR else None
         if want == 'early':
+            t17 = time.time()
+            while time.time() - t17 < 300 and await pg.evaluate("GAME.G.hour") < 17.62: await pg.wait_for_timeout(2000)   # 17:30 客人走進來的那一段：看 seatTarget
+            run.note('%s 17:37（客人走進來）讀數：%s' % (tag, J(await pg.evaluate(NDLREAD, TEAM))))
             w = await P.wait_play(pg, cdp, 18.05, max_s=600, run=run, tag=tag); pres0 = await pg.evaluate(PRESENT)
-            run.note('%s 17:20 進店站到 18:03（%s）讀數：%s' % (tag, w, J(await pg.evaluate(NDLREAD, TEAM)))); await run.shot(pg, 'noodle_%s_1800' % tag)
+            rd = await pg.evaluate(NDLREAD, TEAM); run.note('%s 17:20 進店站到 18:03（%s）讀數：%s' % (tag, w, J(rd))); await run.shot(pg, 'noodle_%s_1800' % tag)
             want = True
+        if NDLR and rd and want is not False:   # 5f8b94515 以後：作息在麵店的麵店團都要有位子、生出來；客人只坐剩下的
+            se = dict((a, b) for a, b in (rd.get('schedEnt') or []) if isinstance(rd.get('schedEnt'), list))
+            need = [i for i in TEAM if isinstance(se.get(i), dict) and se[i].get('zone') == 'noodle']
+            keys = set(rd.get('npcKeys') or []); miss = [i for i in need if i not in keys]
+            cust = sum(1 for q in (rd.get('seated') or []) if not q[0])
+            run.check('%s：作息在麵店的麵店團都生出來、有位子（客人只坐剩下的）' % tag, not miss, J({'need': need, 'missing': miss, 'customers': cust, 'seats': rd.get('seats'), 'seated': rd.get('seated')}))
         elif want == 'load': want = True
         diag = await pg.evaluate(NDLDIAG, TEAM); run.note('%s 進門後閒聊條件：%s' % (tag, J(diag)))
         talk_pres = None; t0 = time.time(); talked = False
