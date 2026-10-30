@@ -566,6 +566,11 @@ const R2Y4B=(function(){
     {from:'2028-11-24',L:['（照片：一盤火雞，旁邊一小碗白飯）','感恩節。同學的媽媽聽說我是臺灣來的，多煮了一碗飯。']},{from:'2028-12-04',L:['（照片：計畫本十二月那一頁）','最後一格寫的是回臺灣。']}];
   S.SA_X_DAYS=14;   /* 最早那天起兩週內才能出（AA 確認 LAWWW 23:10 的解讀）；個別的寫 days */
   S.SA_V_SETS=3; S.SA_V_NARR='（視訊。她那邊是週六晚上。這個禮拜的事，你們講了半個小時。）';   /* T3 三組用完以後只有這一行旁白（大峽谷邀約照現在的條件接在後面）*/
+  /* AA_531 7-4（企劃線 475f55fe6）：旁白那幾週（二十週有十三週同一句）改七句輪流——照順序、不和上一週同一句；第 7 句（暖氣）11/6 冬令時間以後的週日才進。
+     句子在 r2y4b_events.js ev_sis_video 的 vn（七行，條件照 S.sisVNarr）；排的時候記在出遊的 sa.narr（0～6），舊存檔排好的沒有＝第 1 句（原句）*/
+  S.SA_VN_N=7; S.SA_VN_WINTER='2028-11-06';
+  S.saVNarrNext=(R,day)=>{ const n=day>=saFrom(S.SA_VN_WINTER)?S.SA_VN_N:S.SA_VN_N-1, last=R.vnLast==null?-1:(R.vnLast|0); let i=(last+1)%n; if(i===last) i=(i+1)%n; R.vnLast=i; return i; };
+  S.sisVNarr=G=>{ const q=typeof OUT!=='undefined'?OUT.rec(G).filter(x=>/^y4_sa_v_/.test(x.id)&&x.sa).sort((a,b)=>b.day-a.day).find(x=>x.day<=G.day):null; return q&&q.sa.narr!=null?q.sa.narr|0:0; };
   /* AA_392 第 1-3 節：交往中的六組視訊（ev_sis_video_gf），照順序、各一次；from＝那一組最早的週日（中秋、冬令時間、感恩節、回臺灣那幾週），還沒到就那一週只有旁白；
      canyon＝臺灣路線 10/13 大峽谷才交往的不演（中秋那組）*/
   S.SA_VD=[{from:'2028-08-13',canyon:false},{from:'2028-09-03',canyon:false},{from:'2028-10-01',canyon:false},{from:'2028-11-05'},{from:'2028-11-26'},{from:'2028-12-10'}];   /* AA_516 1-3（企劃線 a9b87c588）：大峽谷才交往的，開始交往以前的 g1、g2、g3 都算演過（原本只有中秋 g3 不演、10/22 從 g1「到這邊一個禮拜了。」開始）*/
@@ -628,7 +633,8 @@ const R2Y4B=(function(){
         else { const L=p.t1!=null?S.SA_T1[p.t1]:S.SA_X[p.x].L, tag=(p.t1!=null?'y4_sa_t1_':'y4_sa_x_')+k; if(p.t1!=null) R.i1++; else R.ix=p.x+1; PHONE.at(G,c.mDay,c.mH,L.map(t=>SISP(t)),tag); R.log.push({k,kind:p.t1!=null?'t1':'x',tag,x:p.x}); } }
       else { const tag='y4_sa_v_'+k; R.vset=Math.min(R.i3|0,S.SA_V_SETS); R.i3=(R.i3|0)+1;
         if(R.vset===S.SA_V_SETS){ const t=R.t3|0; if(t<S.SA_VT.length&&c.vDay>=saFrom(S.SA_VT[t].from)){ R.vset=S.SA_VT0+t; R.t3=t+1; } }   /* AA_516 第 3 節：v0～v2 用完以後 t4～t7（照順序、到了才演；沒到的那一週照舊旁白）*/
-        plan(G,{id:tag,ev:'ev_sis_video',day:c.vDay,h:c.vH,late:1,place:'視訊',verb:'接起來',title:'和學姊視訊（她那邊週六晚上）',travel:'',travelH:0,back:'視訊結束。',sa:{k,set:R.vset}}); R.log.push({k,kind:'video',tag}); } } };   /* 每週視訊：三組各一次，之後 set 3＝只有旁白 */
+        const sa={k,set:R.vset}; if(R.vset===S.SA_V_SETS&&!(typeof OUT!=='undefined'&&OUT.get&&OUT.get(G,tag))) sa.narr=S.saVNarrNext(R,c.vDay);   /* AA_531 7-4：旁白那一週輪到第幾句 */
+        plan(G,{id:tag,ev:'ev_sis_video',day:c.vDay,h:c.vH,late:1,place:'視訊',verb:'接起來',title:'和學姊視訊（她那邊週六晚上）',travel:'',travelH:0,back:'視訊結束。',sa}); R.log.push({k,kind:'video',tag}); } } };   /* 每週視訊：三組各一次，之後 set 3＝只有旁白 */
   S.SA_S_SETS=3;   /* AA_395 2-1 短視訊三組 */
   S.sisShortSet=G=>{ const q=typeof OUT!=='undefined'?OUT.rec(G).filter(x=>/^y4_sa_s_/.test(x.id)&&x.sa).sort((a,b)=>b.day-a.day).find(x=>x.day<=G.day):null; return q?q.sa.sset:0; };
   S.sisVideoSet=G=>{ const q=typeof OUT!=='undefined'?OUT.rec(G).filter(x=>/^y4_sa_v_/.test(x.id)&&x.sa).sort((a,b)=>b.day-a.day).find(x=>x.day<=G.day):null; return q?q.sa.set:0; };

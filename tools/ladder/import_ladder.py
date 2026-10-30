@@ -322,6 +322,11 @@ if X525:
         chars = y1 if term == 'Y1S1' else (out['byTerm'].get(term) or {})
         _swap(f'AA_525@{S525}', md525, chars, rows)
     out['source'] += f'＋{os.path.basename(P525)[:6]}@{S525}（子晴 Q2-L5、沛珊 P3-L3／P5-L2、可昕 K2-L8／K3-L5／K6-L6）'
+#      AA_531（AA531-US-FIX-1030；AA-B 10-30 475f55fe6 定稿）7-3：挽回中（美國路線、沒在交往）的美國招呼「這邊的飲水機只有冰的。我自己帶。」——base 加這一句（放在回來以後那一句後面：
+#      美國那一句、回來以後那一句、這一句一次只有一句成立，篩過以後其他招呼的位置不變）；哪一句什麼時候說在 src/sis_b16_3d.js（STORY.LADDER_GREET_IF：挽回中不遞保溫瓶）
+_SIS_Y4S1_BASE2 = _SIS_Y4S1_BASE[:2] + ['（她把保溫瓶遞過來）……回來了。這邊的飲水機有熱水。'] + _SIS_Y4S1_BASE[2:]
+_fix_greet_base('docs/story_planning/AA_531_', '學姊挽回中的美國招呼', [
+    ('7-3', 'Y4S1', 'heroine_05', _SIS_Y4S1_BASE2, _SIS_Y4S1_BASE2[:3] + ['這邊的飲水機只有冰的。我自己帶。'] + _SIS_Y4S1_BASE2[3:], '學姊：這邊的飲水機只有冰的。我自己帶。')])
 with open(dst, 'w', encoding='utf8') as fo:
     fo.write('/* 閒聊階梯（大一上；AA_135、AA_136、BB_130；README 在企劃線 docs/story_planning/ladder/）。產生器：tools/ladder/import_ladder.py（不要手改）。來源：' + out['source'] + ' */\n')
     fo.write("'use strict';\nconst LADDER=" + json.dumps(out, ensure_ascii=False) + ';\nLADDER.byTerm.Y1S1=LADDER.characters;   /* 大一上：舊的 characters／terms 照留（舊程式、舊測試讀得到）*/\n')

@@ -3610,6 +3610,14 @@
    "approvedBy": "AA-B 定稿（D109、D111；第②級；INVITE-OPTS-1030 第二份）",
    "task": "INVITE-OPTS-1030",
    "note": "子代理登記（LAWWW-B 的 invite-menu，10-30）：1-1 以安、語彤、可昕缺的 meet、1-2 可昕的 bye（src/data/rel_lines.js 尾巴）；1-3 以安、語彤校外 depart／enough／leaveEarly／noPair（src/date3d.js 的 S.EXTRA_LINES：date_lines.js 是匯入工具產生的，不手改）；2-1 法圖、2-2 映月湖（src/data/invites.js 尾巴、rel_lines.js meet.lawlib／meet.lake）。台詞一字照稿；tests/aa535b_lawlib_lake_unit.js 逐句對稿。"
+  },
+  {
+   "path": "docs/story_planning/AA_531_D99美國交換_人在美國還被揪118午餐_在臺灣的伴侶四個月沒聯絡_上課期末.md",
+   "sha": "475f55fe6",
+   "status": "approved",
+   "approvedBy": "AA-B 定稿（D109）",
+   "task": "AA531-US-FIX-1030",
+   "note": "子代理登記（AA531-US-FIX-1030，10-30）：美國交換（D99 第三優先）。程式：src/lane118.js（人在國外不揪 118 午餐）、src/us_life3d.js＋src/data/us_life_events.js（以安、語彤、子晴、沛珊在臺灣的伴侶各五樣、勞動節 9/3 21:00 一則、上課每門十二句、us_comp／us_intro 最後一堂）、src/cracktalk3d.js＋src/data/cracktalk_lines.js（沛珊 ps3 國外的月份不算、子晴 zq2 國外版選項）、src/fest3d.js（以安生日美國自動排視訊、可昕七夕美國只演 usl_qixi）、src/data/r2y4b_events.js＋src/r2y4b3d.js（大峽谷 10/9、10/11 補句、朋友版週日視訊七句輪流）、src/sis_b16_3d.js＋src/data/sis_b16_events.js（挽回中的美國招呼）；src/data/ladder.js 由 tools/ladder/import_ladder.py 讀這一版加 7-3 那一句；src/data/msg_pool.js 由 tools/msg/build_pool.py → to_js.py 加語彤國外版。測試 node tests/aa531_us_unit.js"
   }
  ]
 }

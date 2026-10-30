@@ -359,8 +359,10 @@ const R2Y4B_EVENTS=(function(){
       {speaker:'heroine_05',text:'路線我排好了。上車。'},
       {advance:toDay('2028-10-08',12)},{titleCard:'10/8（日）',sub:'亞利桑那'},{speaker:null,text:'（沙漠裡的加油站，她買了兩瓶很大的水。）'},
       {advance:toDay('2028-10-09',12)},{titleCard:'10/9（一）',sub:'亞利桑那'},{speaker:null,text:'（第一眼看到峽谷的時候，你們兩個都沒說話。）'},
+      {speaker:'heroine_05',text:'……照片拍不進去。',aa531:true},{speaker:null,text:'（她還是拍了一張，看了一眼，刪掉。）',aa531:true},{speaker:'heroine_05',text:'用看的就好。',aa531:true},   /* AA_531 第 6 節（企劃線 475f55fe6）：交往中 10/9 補句 */
       {advance:toDay('2028-10-10',12)},{titleCard:'10/10（二）',sub:'亞利桑那'},{speaker:null,text:'（她在步道上走得比你快。走到一半，她回頭把手伸給你。）'},
       {advance:toDay('2028-10-11',21)},{titleCard:'10/11（三）',sub:'汽車旅館'},{scene:'汽車旅館',bg:'trip_hotel_twin'},{speaker:null,text:'（汽車旅館的電視只有三台。她轉到氣象台，看了很久。）'},
+      {speaker:'heroine_05',text:'明天峽谷那邊風大。外套帶厚的。',aa531:true},{speaker:null,text:'（她把兩支手機的鬧鐘都設好，才關燈。）',aa531:true},   /* AA_531 第 6 節：交往中 10/11 補句 */
       {advance:toDay('2028-10-12',12)},{titleCard:'10/12（四）',sub:'亞利桑那'},{speaker:null,text:'（她的論文第四章帶來了，還在背包最下面。）'},
       {advance:toDay('2028-10-13',18)},{scene:'峽谷',bg:'dark'},   /* gc_rim_sunset 沒有：dark＋字幕 */
       {speaker:null,text:'（太陽慢慢沉到峽谷另一邊。風很大，她把外套拉鍊拉到最上面。）'},
@@ -404,7 +406,13 @@ const R2Y4B_EVENTS=(function(){
       {choice:[{text:'「回來見。」',goto:'t7a',aa516:true},{text:'「那換我打給妳。」',set:{SIS16_T7B:true},goto:'t7b',aa516:true}]},   /* AA_523 2-5（企劃線 0d7b5388b）：選 t7b 記 SIS16_T7B＝12/25 14:00「白天了。」（src/sis_b16_3d.js）*/
       {label:'t7a'},{speaker:'heroine_05',text:'嗯。回去見。',aa516:true},{goto:'inv'},
       {label:'t7b'},{speaker:'heroine_05',text:'……白天打。我會醒著。',aa516:true},{goto:'inv'},
-      {label:'vn'},{speaker:null,text:'（視訊。她那邊是週六晚上。這個禮拜的事，你們講了半個小時。）'},   /* R().SA_V_NARR */
+      {label:'vn'},{unless:{custom:G=>R().sisVNarr(G)>0},speaker:null,text:'（視訊。她那邊是週六晚上。這個禮拜的事，你們講了半個小時。）'},   /* R().SA_V_NARR（AA_531 7-4 第 1 句）*/
+      {if:{custom:G=>R().sisVNarr(G)===1},speaker:null,text:'（視訊。她那邊在下雨，窗戶的聲音比她的聲音還大。）',aa531:true},   /* AA_531 7-4（企劃線 475f55fe6）：七句輪流（r2y4b3d.js S.saVNarrNext）*/
+      {if:{custom:G=>R().sisVNarr(G)===2},speaker:null,text:'（視訊。她一邊講一邊在計畫本上劃掉東西。你看不到她劃的是哪一格。）',aa531:true},
+      {if:{custom:G=>R().sisVNarr(G)===3},speaker:null,text:'（視訊。她問你這週讀到哪一章。你說了，她點頭，沒有說好或不好。）',aa531:true},
+      {if:{custom:G=>R().sisVNarr(G)===4},speaker:null,text:'（視訊。她室友在後面走過去，跟你揮了一下手。）',aa531:true},
+      {if:{custom:G=>R().sisVNarr(G)===5},speaker:null,text:'（視訊。訊號斷了兩次。第三次接通，她說：「好，繼續。」）',aa531:true},
+      {if:{custom:G=>R().sisVNarr(G)===6},speaker:null,text:'（視訊。她那邊的暖氣太熱，講到一半，她起來去開窗。）',aa531:true},
       {label:'inv'},{unless:{custom:G=>R().sisInviteDue(G)},end:true},
       {speaker:'heroine_05',text:'十月有一個禮拜的秋假。我想開車去大峽谷。'},
       {speaker:'heroine_05',text:'……一個人開太遠。你要不要來？'},
@@ -504,8 +512,10 @@ const R2Y4B_EVENTS=(function(){
       {speaker:'heroine_05',text:'路線我排好了。你坐副駕，負責放音樂。'},
       {advance:toDay('2028-10-09',3)},{titleCard:'10/8（日）',sub:'亞利桑那'},{speaker:null,text:'（沙漠裡的加油站，她買了兩瓶很大的水。）'},
       {advance:toDay('2028-10-10',3)},{titleCard:'10/9（一）',sub:'亞利桑那'},{speaker:null,text:'（第一眼看到峽谷的時候，你們兩個都沒說話。）'},
+      {speaker:'heroine_05',text:'……照片拍不進去。',aa531:true},{speaker:null,text:'（她拍了一張，看了一下，沒有刪。）',aa531:true},   /* AA_531 第 6 節（企劃線 475f55fe6）：還沒交往 10/9 補句 */
       {advance:toDay('2028-10-11',3)},{titleCard:'10/10（二）',sub:'亞利桑那'},{speaker:null,text:'（她在步道上走得比你快。走到一半，她停下來等你。）'},   /* 裁定 #50：還沒交往，不牽手 */
       {advance:toDay('2028-10-12',12)},{titleCard:'10/11（三）',sub:'汽車旅館'},{scene:'汽車旅館',bg:'trip_hotel_twin'},{speaker:null,text:'（汽車旅館的電視只有三台。她轉到氣象台，看了很久。）'},
+      {speaker:'heroine_05',text:'明天風大。外套帶厚的。',aa531:true},{speaker:null,text:'（關燈以前，她問你鬧鐘設幾點。）',aa531:true},   /* AA_531 第 6 節：還沒交往 10/11 補句 */
       {advance:toDay('2028-10-13',3)},{titleCard:'10/12（四）',sub:'亞利桑那'},{speaker:null,text:'（她的論文第四章帶來了，還在背包最下面。）'},
       {advance:toDay('2028-10-14',9)},{scene:'峽谷',bg:'dark'},   /* 亞利桑那 10/13 傍晚＝臺灣 10/14 早上 */
       {speaker:null,text:'（太陽慢慢沉到峽谷另一邊。風很大，她把外套拉鍊拉到最上面。）'},
