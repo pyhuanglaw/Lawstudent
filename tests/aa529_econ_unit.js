@@ -28,7 +28,7 @@ const SKIP=new Set(['src/character3d.js','src/engine3d.js','src/townkit3d.js','s
 const loadErr=[];
 { const html=fs.readFileSync(path.join(H.ROOT,'index.html'),'utf8'); const files=[...html.matchAll(/<script src="([^"?]+)/g)].map(m=>m[1]).filter(f=>f.startsWith('src/')&&!PG_FILES.has(f)&&!SKIP.has(f));
   for(const f of files){ try{ let src=fs.readFileSync(path.join(H.ROOT,f),'utf8'); src=src.replace(/^const ([A-Z][A-Z0-9_]*)\s*=/mg,'globalThis.$1='); vm.runInThisContext(src,{filename:f}); }catch(e){ loadErr.push(f+'：'+String(e.message).slice(0,120)); } } }
-GM.toast=()=>{}; GM.caption=()=>{}; GM.studySession=async()=>{}; GM.spawnNPC=()=>null; GM.spawnCharacter=()=>null; GM.phoneBadge=()=>{}; GM.quickGo=async()=>{};
+const capsAt=[]; GM.toast=()=>{}; GM.caption=(a,b)=>{ capsAt.push([b,H.said.length]); }; GM.studySession=async()=>{}; GM.spawnNPC=()=>null; GM.spawnCharacter=()=>null; GM.phoneBadge=()=>{}; GM.quickGo=async()=>{};
 const phoneOpened=[]; GM.phoneThread=async(th,o)=>{ phoneOpened.push(th); };
 const cardsMs=[]; GM.titleCard=async(a,b,ms)=>{ H.cards.push([a,b]); cardsMs.push([a,b,ms]); };
 const D=k=>STORY.dayOfKey(k), T=(d,h)=>d*24+h, keyOf=d=>CALENDAR.dateOf(d).key, md=d=>{ const x=CALENDAR.dateOf(d); return x.m+'/'+x.d; };
@@ -68,8 +68,8 @@ const NEW65=quotes(S65)[0];
     const [narr,sys,...three]=ZOULA, d15=D('2024-10-15');
     const G=econ('2024-10-15',17,{},{zone:'campus'}); check('2. 前提：30 分鐘版（ECONFF.short）、10/15 17:00 還沒有「走啦」',ECONFF.short(G)&&!PHONE.inGroup(G,'econ_friends'));
     setAt(d15,17.6); ph(); const q=OUT.get(G,'y0_gather'); check('2. 17:30 排了聚會（OUT y0_gather）',!!q&&q.state==='planned');
-    H.said=[]; H.picks=['假裝沒看到']; setAt(d15,18.75); await OUT.go(GM,q); const L=H.said.map(s=>s.t);
-    check('2. 聚會演完、回家的路上：最後一句旁白「'+narr+'」（在「她走進女舍以前」之後）',L[L.length-1]===narr&&L[L.length-2]==='（她走進女舍以前，回頭揮了一下手。）'&&G.flags.Y0_ZOULA==='gather',J(L.slice(-3)));
+    H.said=[]; capsAt.length=0; H.picks=['假裝沒看到']; setAt(d15,18.75); await OUT.go(GM,q); const L=H.said.map(s=>s.t);
+    check('2. 聚會演完、回家的路上：最後一句旁白「'+narr+'」（在「她走進女舍以前」之後；AA_529 第⑤點：在地點字幕「在公館的路口散了。」之後）',L[L.length-1]===narr&&L[L.length-2]==='（她走進女舍以前，回頭揮了一下手。）'&&capsAt.length===1&&capsAt[0][0]==='在公館的路口散了。'&&capsAt[0][1]===L.length-1&&G.flags.Y0_ZOULA==='gather',J([L.slice(-3),capsAt]));
     check('2. 群組建好了（「走啦」），系統一則照原本 P2 的字',PHONE.inGroup(G,'econ_friends')&&PHONE.title(G,'g:econ_friends')==='走啦'&&sys==='系統：'+STORY.ZOULA_SYS);
     const t0=T(G.day,G.hour); PHONE.tick(G); const M=thr('g:econ_friends');
     check('2. 系統一則＋三則：照稿、照順序、說的人（韋綸、品妤、韋綸）、時間＝聚會演完（10/15 22:20 左右）',M.length===4&&M[0].text===STORY.ZOULA_SYS&&!M[0].from&&three.every((l,i)=>{ const [who,t]=sp(l), m=M[i+1]; return m&&m.text===t&&PHONE.who(m)===who; })&&M.every(m=>m.day===d15&&Math.abs(m.h-(22+1/3))<0.02)&&M.every(m=>m.tag==='econ_friends_new'),J(M.map(m=>[PHONE.who(m),m.text,m.day===d15,m.h])));
