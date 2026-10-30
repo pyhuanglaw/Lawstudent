@@ -1,0 +1,5005 @@
+[
+ {
+  "frames": 8,
+  "steadyMs": 2499,
+  "over100": 6,
+  "over250": 4,
+  "top": [
+   {
+    "t": 25.35,
+    "ms": 17854,
+    "newProg": 4
+   },
+   {
+    "t": 7.38,
+    "ms": 3960,
+    "newProg": 6
+   },
+   {
+    "t": 3.22,
+    "ms": 3202,
+    "newProg": -43
+   },
+   {
+    "t": 27.84,
+    "ms": 2499,
+    "newProg": 1
+   },
+   {
+    "t": 3.42,
+    "ms": 196,
+    "newProg": 68
+   },
+   {
+    "t": 7.49,
+    "ms": 115,
+    "newProg": 0
+   },
+   {
+    "t": 27.89,
+    "ms": 45,
+    "newProg": 0
+   },
+   {
+    "t": 0.02,
+    "ms": 20,
+    "newProg": 0
+   }
+  ],
+  "rows": [
+   [
+    0.02,
+    20,
+    0
+   ],
+   [
+    3.22,
+    3202,
+    -43
+   ],
+   [
+    3.42,
+    196,
+    68
+   ],
+   [
+    7.38,
+    3960,
+    6
+   ],
+   [
+    7.49,
+    115,
+    0
+   ],
+   [
+    25.35,
+    17854,
+    4
+   ],
+   [
+    27.84,
+    2499,
+    1
+   ],
+   [
+    27.89,
+    45,
+    0
+   ]
+  ],
+  "marks": [
+   {
+    "what": "loadZone",
+    "ms": 545,
+    "merge": 19,
+    "merged": 59
+   }
+  ],
+  "loads": [
+   {
+    "k": "bldg.wz_cat",
+    "cached": false,
+    "start": 0.84,
+    "done": 8.13
+   },
+   {
+    "k": "bldg.wenzhou_street",
+    "cached": true,
+    "start": 0.95,
+    "done": 1.22
+   },
+   {
+    "k": "bldg.wz_scooter",
+    "cached": true,
+    "start": 1.03,
+    "done": 3.06
+   },
+   {
+    "k": "bldg.wz_park",
+    "cached": true,
+    "start": 1.03,
+    "done": 3.12
+   },
+   {
+    "k": "bldg.wz_props",
+    "cached": true,
+    "start": 1.03,
+    "done": 3.14
+   },
+   {
+    "k": "bldg.wz_jphouse",
+    "cached": true,
+    "start": 1.03,
+    "done": 3.16
+   },
+   {
+    "k": "bldg.cafe_exterior",
+    "cached": true,
+    "start": 1.03,
+    "done": 3.17
+   },
+   {
+    "k": "char.npc_nf6",
+    "cached": false,
+    "start": 1.05,
+    "done": 8.17
+   },
+   {
+    "k": "char.npc_nm6",
+    "cached": false,
+    "start": 1.06,
+    "done": 8.21
+   },
+   {
+    "k": "bldg.cafe_interior",
+    "cached": false,
+    "start": 7.5,
+    "done": 8.27
+   }
+  ],
+  "progEnd": 104,
+  "tex": 201,
+  "geo": 266,
+  "zone": "wenzhou",
+  "prewarm": {
+   "ms": 2249,
+   "attachMs": 2010.9000000003725,
+   "compileMs": 234.90000000037253,
+   "texMs": 0,
+   "textures": 0,
+   "mpix": 0,
+   "skipped": 670,
+   "timedOut": true,
+   "settleMs": 0
+  },
+  "label": "gongguan → wenzhou（第 1 次）",
+  "enterMs": 8111,
+  "progStart": 68,
+  "texStart": 95,
+  "geoStart": 137,
+  "visibleMaxMs": 0,
+  "visibleStallMs": 0,
+  "visibleExcessMs": 0,
+  "blackMs": 7611,
+  "visibleNewProg": 0
+ },
+ {
+  "frames": 18,
+  "steadyMs": 916,
+  "over100": 17,
+  "over250": 15,
+  "top": [
+   {
+    "t": 12.8,
+    "ms": 5829,
+    "newProg": 0
+   },
+   {
+    "t": 4.03,
+    "ms": 4291,
+    "newProg": 0
+   },
+   {
+    "t": 24.68,
+    "ms": 2693,
+    "newProg": 0
+   },
+   {
+    "t": 15.4,
+    "ms": 2595,
+    "newProg": 0
+   },
+   {
+    "t": 6.16,
+    "ms": 2026,
+    "newProg": 0
+   },
+   {
+    "t": 16.45,
+    "ms": 1051,
+    "newProg": 0
+   },
+   {
+    "t": 25.76,
+    "ms": 1029,
+    "newProg": 0
+   },
+   {
+    "t": 18.34,
+    "ms": 988,
+    "newProg": 0
+   },
+   {
+    "t": 21.09,
+    "ms": 916,
+    "newProg": 0
+   },
+   {
+    "t": 19.26,
+    "ms": 914,
+    "newProg": 0
+   },
+   {
+    "t": 20.17,
+    "ms": 914,
+    "newProg": 0
+   },
+   {
+    "t": 17.35,
+    "ms": 906,
+    "newProg": 0
+   }
+  ],
+  "rows": [
+   [
+    4.03,
+    4291,
+    0
+   ],
+   [
+    4.13,
+    109,
+    54
+   ],
+   [
+    6.16,
+    2026,
+    0
+   ],
+   [
+    6.82,
+    659,
+    6
+   ],
+   [
+    6.97,
+    153,
+    0
+   ],
+   [
+    12.8,
+    5829,
+    0
+   ],
+   [
+    15.4,
+    2595,
+    0
+   ],
+   [
+    16.45,
+    1051,
+    0
+   ],
+   [
+    17.35,
+    906,
+    0
+   ],
+   [
+    18.34,
+    988,
+    0
+   ],
+   [
+    19.26,
+    914,
+    0
+   ],
+   [
+    20.17,
+    914,
+    0
+   ],
+   [
+    21.09,
+    916,
+    0
+   ],
+   [
+    21.99,
+    903,
+    0
+   ],
+   [
+    24.68,
+    2693,
+    0
+   ],
+   [
+    24.73,
+    47,
+    0
+   ],
+   [
+    25.76,
+    1029,
+    0
+   ],
+   [
+    26.63,
+    877,
+    0
+   ]
+  ],
+  "marks": [
+   {
+    "what": "loadZone",
+    "ms": 63,
+    "merge": 0,
+    "merged": 0
+   }
+  ],
+  "loads": [
+   {
+    "k": "bldg.cafe_interior",
+    "cached": true,
+    "start": 0.55,
+    "done": 0.7
+   },
+   {
+    "k": "char.npc_nf7",
+    "cached": false,
+    "start": 0.55,
+    "done": 7.1
+   },
+   {
+    "k": "char.npc_nm7",
+    "cached": false,
+    "start": 0.55,
+    "done": 7.14
+   },
+   {
+    "k": "prop.mug",
+    "cached": false,
+    "start": 0.58,
+    "done": 6.19
+   },
+   {
+    "k": "char.npc_nf9",
+    "cached": false,
+    "start": 0.69,
+    "done": 7.23
+   },
+   {
+    "k": "bldg.wenzhou_street",
+    "cached": true,
+    "start": 0.75,
+    "done": 0.79
+   },
+   {
+    "k": "bldg.wz_props",
+    "cached": true,
+    "start": 0.75,
+    "done": 3.97
+   }
+  ],
+  "progEnd": 112,
+  "tex": 123,
+  "geo": 151,
+  "zone": "cafe",
+  "prewarm": {
+   "ms": 5505.9000000003725,
+   "attachMs": 3328.10000000149,
+   "compileMs": 2175.5,
+   "texMs": 0,
+   "textures": 0,
+   "mpix": 0,
+   "skipped": 286,
+   "timedOut": true,
+   "settleMs": 0
+  },
+  "label": "wenzhou → cafe（第 1 次）",
+  "enterMs": 7298,
+  "progStart": 104,
+  "texStart": 201,
+  "geoStart": 266,
+  "visibleMaxMs": 5829,
+  "visibleStallMs": 9628,
+  "visibleExcessMs": 4760,
+  "blackMs": 6798,
+  "visibleNewProg": 0
+ },
+ {
+  "frames": 12,
+  "steadyMs": 1344,
+  "over100": 10,
+  "over250": 8,
+  "top": [
+   {
+    "t": 20.67,
+    "ms": 13336,
+    "newProg": 0
+   },
+   {
+    "t": 7.21,
+    "ms": 3718,
+    "newProg": 2
+   },
+   {
+    "t": 3.23,
+    "ms": 3031,
+    "newProg": -34
+   },
+   {
+    "t": 24.71,
+    "ms": 2545,
+    "newProg": 0
+   },
+   {
+    "t": 26.75,
+    "ms": 2017,
+    "newProg": 0
+   },
+   {
+    "t": 22.17,
+    "ms": 1344,
+    "newProg": 0
+   },
+   {
+    "t": 0.17,
+    "ms": 869,
+    "newProg": 0
+   },
+   {
+    "t": 3.49,
+    "ms": 261,
+    "newProg": 49
+   },
+   {
+    "t": 20.82,
+    "ms": 149,
+    "newProg": 0
+   },
+   {
+    "t": 7.34,
+    "ms": 127,
+    "newProg": 0
+   },
+   {
+    "t": 0.2,
+    "ms": 32,
+    "newProg": 0
+   },
+   {
+    "t": 24.74,
+    "ms": 27,
+    "newProg": 0
+   }
+  ],
+  "rows": [
+   [
+    0.17,
+    869,
+    0
+   ],
+   [
+    0.2,
+    32,
+    0
+   ],
+   [
+    3.23,
+    3031,
+    -34
+   ],
+   [
+    3.49,
+    261,
+    49
+   ],
+   [
+    7.21,
+    3718,
+    2
+   ],
+   [
+    7.34,
+    127,
+    0
+   ],
+   [
+    20.67,
+    13336,
+    0
+   ],
+   [
+    20.82,
+    149,
+    0
+   ],
+   [
+    22.17,
+    1344,
+    0
+   ],
+   [
+    24.71,
+    2545,
+    0
+   ],
+   [
+    24.74,
+    27,
+    0
+   ],
+   [
+    26.75,
+    2017,
+    0
+   ]
+  ],
+  "marks": [
+   {
+    "what": "loadZone",
+    "ms": 459,
+    "merge": 16,
+    "merged": 59
+   }
+  ],
+  "loads": [
+   {
+    "k": "bldg.wz_cat",
+    "cached": true,
+    "start": 0.65,
+    "done": 1.2
+   },
+   {
+    "k": "bldg.wenzhou_street",
+    "cached": true,
+    "start": 0.81,
+    "done": 1.2
+   },
+   {
+    "k": "bldg.wz_scooter",
+    "cached": true,
+    "start": 0.93,
+    "done": 3.1
+   },
+   {
+    "k": "bldg.wz_park",
+    "cached": true,
+    "start": 0.93,
+    "done": 3.18
+   },
+   {
+    "k": "bldg.wz_props",
+    "cached": true,
+    "start": 0.93,
+    "done": 3.18
+   },
+   {
+    "k": "bldg.wz_jphouse",
+    "cached": true,
+    "start": 0.93,
+    "done": 3.2
+   },
+   {
+    "k": "bldg.cafe_exterior",
+    "cached": true,
+    "start": 0.93,
+    "done": 3.21
+   },
+   {
+    "k": "char.npc_nf8",
+    "cached": false,
+    "start": 0.95,
+    "done": 7.42
+   },
+   {
+    "k": "char.npc_nm8",
+    "cached": false,
+    "start": 0.95,
+    "done": 7.46
+   }
+  ],
+  "progEnd": 129,
+  "tex": 249,
+  "geo": 313,
+  "zone": "wenzhou",
+  "prewarm": {
+   "ms": 2324,
+   "attachMs": 2035.2999999988824,
+   "compileMs": 285.90000000037253,
+   "texMs": 0,
+   "textures": 0,
+   "mpix": 0,
+   "skipped": 674,
+   "timedOut": true,
+   "settleMs": 0
+  },
+  "label": "cafe → wenzhou（第 2 次）",
+  "enterMs": 7670,
+  "progStart": 112,
+  "texStart": 123,
+  "geoStart": 151,
+  "visibleMaxMs": 127,
+  "visibleStallMs": 127,
+  "visibleExcessMs": 0,
+  "blackMs": 7170,
+  "visibleNewProg": 0
+ },
+ {
+  "frames": 30,
+  "steadyMs": 697,
+  "over100": 27,
+  "over250": 26,
+  "top": [
+   {
+    "t": 5.3,
+    "ms": 6250,
+    "newProg": 0
+   },
+   {
+    "t": 11.62,
+    "ms": 3098,
+    "newProg": 3
+   },
+   {
+    "t": 8.47,
+    "ms": 3051,
+    "newProg": 16
+   },
+   {
+    "t": 12.69,
+    "ms": 1040,
+    "newProg": 0
+   },
+   {
+    "t": 13.69,
+    "ms": 993,
+    "newProg": 0
+   },
+   {
+    "t": 27.71,
+    "ms": 823,
+    "newProg": 0
+   },
+   {
+    "t": 28.5,
+    "ms": 785,
+    "newProg": 0
+   },
+   {
+    "t": 19.39,
+    "ms": 778,
+    "newProg": 0
+   },
+   {
+    "t": 16.54,
+    "ms": 734,
+    "newProg": 0
+   },
+   {
+    "t": 15.1,
+    "ms": 724,
+    "newProg": 0
+   },
+   {
+    "t": 15.81,
+    "ms": 707,
+    "newProg": 0
+   },
+   {
+    "t": 26.89,
+    "ms": 701,
+    "newProg": 0
+   }
+  ],
+  "rows": [
+   [
+    5.3,
+    6250,
+    0
+   ],
+   [
+    5.42,
+    119,
+    0
+   ],
+   [
+    8.47,
+    3051,
+    16
+   ],
+   [
+    8.53,
+    56,
+    0
+   ],
+   [
+    11.62,
+    3098,
+    3
+   ],
+   [
+    11.65,
+    21,
+    0
+   ],
+   [
+    11.65,
+    9,
+    0
+   ],
+   [
+    12.69,
+    1040,
+    0
+   ],
+   [
+    13.69,
+    993,
+    0
+   ],
+   [
+    14.38,
+    689,
+    0
+   ],
+   [
+    15.1,
+    724,
+    0
+   ],
+   [
+    15.81,
+    707,
+    0
+   ],
+   [
+    16.54,
+    734,
+    0
+   ],
+   [
+    17.22,
+    680,
+    0
+   ],
+   [
+    17.91,
+    692,
+    0
+   ],
+   [
+    18.61,
+    699,
+    0
+   ],
+   [
+    19.39,
+    778,
+    0
+   ],
+   [
+    20.05,
+    665,
+    0
+   ],
+   [
+    20.75,
+    696,
+    0
+   ],
+   [
+    21.45,
+    697,
+    0
+   ],
+   [
+    22.12,
+    675,
+    0
+   ],
+   [
+    22.79,
+    673,
+    0
+   ],
+   [
+    23.47,
+    676,
+    0
+   ],
+   [
+    24.12,
+    650,
+    0
+   ],
+   [
+    24.81,
+    685,
+    0
+   ],
+   [
+    25.5,
+    698,
+    0
+   ],
+   [
+    26.19,
+    683,
+    0
+   ],
+   [
+    26.89,
+    701,
+    0
+   ],
+   [
+    27.71,
+    823,
+    0
+   ],
+   [
+    28.5,
+    785,
+    0
+   ]
+  ],
+  "marks": [
+   {
+    "what": "loadZone",
+    "ms": 47,
+    "merge": 0,
+    "merged": 0
+   }
+  ],
+  "loads": [
+   {
+    "k": "bldg.noodle_interior",
+    "cached": false,
+    "start": 0.53,
+    "done": 5.62
+   },
+   {
+    "k": "char.npc_nf9",
+    "cached": false,
+    "start": 0.53,
+    "done": 5.69
+   },
+   {
+    "k": "char.npc_nm9",
+    "cached": false,
+    "start": 0.53,
+    "done": 8.55
+   },
+   {
+    "k": "char.npc_nf3",
+    "cached": false,
+    "start": 0.54,
+    "done": 8.51
+   },
+   {
+    "k": "prop.ladle",
+    "cached": false,
+    "start": 0.62,
+    "done": 5.48
+   },
+   {
+    "k": "prop.ladle",
+    "cached": true,
+    "start": 10.71,
+    "done": 11.62
+   }
+  ],
+  "progEnd": 101,
+  "tex": 190,
+  "geo": 223,
+  "zone": "noodle",
+  "prewarm": {
+   "ms": 4576.200000001118,
+   "attachMs": 3.800000000745058,
+   "compileMs": 118.20000000111759,
+   "texMs": 0,
+   "textures": 0,
+   "mpix": 0,
+   "skipped": 30,
+   "timedOut": true,
+   "settled": 75,
+   "settleMs": 4451.5
+  },
+  "label": "wenzhou → noodle（第 1 次）",
+  "enterMs": 8503,
+  "progStart": 129,
+  "texStart": 249,
+  "geoStart": 313,
+  "visibleMaxMs": 3098,
+  "visibleStallMs": 9357,
+  "visibleExcessMs": 1704,
+  "blackMs": 8003,
+  "visibleNewProg": 3
+ },
+ {
+  "frames": 22,
+  "steadyMs": 626,
+  "over100": 18,
+  "over250": 13,
+  "top": [
+   {
+    "t": 17.41,
+    "ms": 6403,
+    "newProg": 0
+   },
+   {
+    "t": 11.01,
+    "ms": 4368,
+    "newProg": 0
+   },
+   {
+    "t": 3.31,
+    "ms": 3351,
+    "newProg": 0
+   },
+   {
+    "t": 24.99,
+    "ms": 1631,
+    "newProg": 0
+   },
+   {
+    "t": 20.47,
+    "ms": 1627,
+    "newProg": 0
+   },
+   {
+    "t": 21.98,
+    "ms": 1519,
+    "newProg": 0
+   },
+   {
+    "t": 26.44,
+    "ms": 1449,
+    "newProg": 0
+   },
+   {
+    "t": 18.84,
+    "ms": 1429,
+    "newProg": 0
+   },
+   {
+    "t": 23.36,
+    "ms": 1376,
+    "newProg": 0
+   },
+   {
+    "t": 6.49,
+    "ms": 1286,
+    "newProg": 3
+   },
+   {
+    "t": 4.22,
+    "ms": 626,
+    "newProg": 0
+   },
+   {
+    "t": 4.92,
+    "ms": 264,
+    "newProg": 0
+   }
+  ],
+  "rows": [
+   [
+    3.31,
+    3351,
+    0
+   ],
+   [
+    3.47,
+    158,
+    44
+   ],
+   [
+    3.59,
+    128,
+    0
+   ],
+   [
+    4.22,
+    626,
+    0
+   ],
+   [
+    4.38,
+    165,
+    0
+   ],
+   [
+    4.44,
+    52,
+    0
+   ],
+   [
+    4.47,
+    31,
+    0
+   ],
+   [
+    4.64,
+    175,
+    0
+   ],
+   [
+    4.65,
+    9,
+    0
+   ],
+   [
+    4.92,
+    264,
+    0
+   ],
+   [
+    4.94,
+    23,
+    0
+   ],
+   [
+    5.2,
+    261,
+    0
+   ],
+   [
+    6.49,
+    1286,
+    3
+   ],
+   [
+    6.64,
+    154,
+    0
+   ],
+   [
+    11.01,
+    4368,
+    0
+   ],
+   [
+    17.41,
+    6403,
+    0
+   ],
+   [
+    18.84,
+    1429,
+    0
+   ],
+   [
+    20.47,
+    1627,
+    0
+   ],
+   [
+    21.98,
+    1519,
+    0
+   ],
+   [
+    23.36,
+    1376,
+    0
+   ],
+   [
+    24.99,
+    1631,
+    0
+   ],
+   [
+    26.44,
+    1449,
+    0
+   ]
+  ],
+  "marks": [
+   {
+    "what": "loadZone",
+    "ms": 1517,
+    "merge": 132,
+    "merged": 254
+   }
+  ],
+  "loads": [
+   {
+    "k": "bldg.skybridge",
+    "cached": true,
+    "start": 0.96,
+    "done": 3.13
+   },
+   {
+    "k": "bldg.campus_gongguan_bd",
+    "cached": true,
+    "start": 1.52,
+    "done": 3.13
+   },
+   {
+    "k": "bldg.wancai_exterior",
+    "cached": true,
+    "start": 1.86,
+    "done": 3.13
+   },
+   {
+    "k": "bldg.linze_exterior",
+    "cached": true,
+    "start": 1.86,
+    "done": 3.13
+   },
+   {
+    "k": "bldg.campus_library",
+    "cached": true,
+    "start": 1.86,
+    "done": 3.13
+   },
+   {
+    "k": "bldg.campus_lib_lawn",
+    "cached": true,
+    "start": 1.86,
+    "done": 3.14
+   },
+   {
+    "k": "bldg.bball_court",
+    "cached": true,
+    "start": 1.86,
+    "done": 3.14
+   },
+   {
+    "k": "bldg.campus_gate",
+    "cached": true,
+    "start": 1.86,
+    "done": 3.15
+   },
+   {
+    "k": "bldg.campus_lake",
+    "cached": true,
+    "start": 1.86,
+    "done": 3.15
+   },
+   {
+    "k": "bldg.campus_bell",
+    "cached": true,
+    "start": 1.86,
+    "done": 3.15
+   },
+   {
+    "k": "bldg.campus_gongtong",
+    "cached": true,
+    "start": 1.86,
+    "done": 3.16
+   },
+   {
+    "k": "bldg.campus_male1",
+    "cached": true,
+    "start": 1.86,
+    "done": 3.17
+   },
+   {
+    "k": "bldg.campus_putong",
+    "cached": true,
+    "start": 1.86,
+    "done": 3.17
+   },
+   {
+    "k": "bldg.campus_boya",
+    "cached": true,
+    "start": 1.86,
+    "done": 3.18
+   },
+   {
+    "k": "bldg.campus_freshman",
+    "cached": true,
+    "start": 1.86,
+    "done": 3.19
+   },
+   {
+    "k": "bldg.campus_admin",
+    "cached": true,
+    "start": 1.86,
+    "done": 3.21
+   },
+   {
+    "k": "bldg.campus_arts",
+    "cached": true,
+    "start": 1.86,
+    "done": 3.22
+   },
+   {
+    "k": "bldg.campus_hist",
+    "cached": true,
+    "start": 1.86,
+    "done": 3.23
+   },
+   {
+    "k": "bldg.campus_pavilion",
+    "cached": true,
+    "start": 1.86,
+    "done": 3.23
+   },
+   {
+    "k": "bldg.campus_socsci",
+    "cached": true,
+    "start": 1.86,
+    "done": 3.24
+   },
+   {
+    "k": "char.npc_nf10",
+    "cached": false,
+    "start": 2,
+    "done": 6.54
+   },
+   {
+    "k": "char.npc_nm11",
+    "cached": false,
+    "start": 2,
+    "done": 5.25
+   },
+   {
+    "k": "prop.helmet_bike",
+    "cached": false,
+    "start": 2.88,
+    "done": 3.61
+   },
+   {
+    "k": "char.npc_nm17",
+    "cached": false,
+    "start": 2.9,
+    "done": 6.7
+   },
+   {
+    "k": "char.npc_nf16",
+    "cached": false,
+    "start": 2.9,
+    "done": 6.76
+   },
+   {
+    "k": "prop.helmet_bike",
+    "cached": true,
+    "start": 10.93,
+    "done": 11.01
+   }
+  ],
+  "progEnd": 118,
+  "tex": 272,
+  "geo": 406,
+  "zone": "campus",
+  "prewarm": {
+   "ms": 2120.199999999255,
+   "attachMs": 183.5,
+   "compileMs": 329.5,
+   "texMs": 1038.699999999255,
+   "textures": 129,
+   "mpix": 29.494147000000016,
+   "skipped": 1194,
+   "timedOut": true,
+   "settled": 115,
+   "settleMs": 564
+  },
+  "label": "noodle → campus（第 1 次）",
+  "enterMs": 6936,
+  "progStart": 101,
+  "texStart": 190,
+  "geoStart": 223,
+  "visibleMaxMs": 4368,
+  "visibleStallMs": 4522,
+  "visibleExcessMs": 3116,
+  "blackMs": 6436,
+  "visibleNewProg": 0
+ },
+ {
+  "frames": 25,
+  "steadyMs": 877,
+  "over100": 24,
+  "over250": 22,
+  "top": [
+   {
+    "t": 11.64,
+    "ms": 6263,
+    "newProg": 11
+   },
+   {
+    "t": 5.25,
+    "ms": 3814,
+    "newProg": 7
+   },
+   {
+    "t": 14.78,
+    "ms": 3136,
+    "newProg": 1
+   },
+   {
+    "t": 1.44,
+    "ms": 1963,
+    "newProg": 0
+   },
+   {
+    "t": 16.54,
+    "ms": 1652,
+    "newProg": 0
+   },
+   {
+    "t": 30.45,
+    "ms": 1021,
+    "newProg": 0
+   },
+   {
+    "t": 17.46,
+    "ms": 926,
+    "newProg": 0
+   },
+   {
+    "t": 20.88,
+    "ms": 924,
+    "newProg": 0
+   },
+   {
+    "t": 23.43,
+    "ms": 903,
+    "newProg": 0
+   },
+   {
+    "t": 25.15,
+    "ms": 891,
+    "newProg": 0
+   },
+   {
+    "t": 26.04,
+    "ms": 889,
+    "newProg": 0
+   },
+   {
+    "t": 27.79,
+    "ms": 887,
+    "newProg": 0
+   }
+  ],
+  "rows": [
+   [
+    1.44,
+    1963,
+    0
+   ],
+   [
+    5.25,
+    3814,
+    7
+   ],
+   [
+    5.38,
+    128,
+    0
+   ],
+   [
+    11.64,
+    6263,
+    11
+   ],
+   [
+    14.78,
+    3136,
+    1
+   ],
+   [
+    14.88,
+    107,
+    0
+   ],
+   [
+    16.54,
+    1652,
+    0
+   ],
+   [
+    17.46,
+    926,
+    0
+   ],
+   [
+    17.48,
+    22,
+    0
+   ],
+   [
+    18.33,
+    850,
+    0
+   ],
+   [
+    19.08,
+    744,
+    0
+   ],
+   [
+    19.96,
+    877,
+    0
+   ],
+   [
+    20.88,
+    924,
+    0
+   ],
+   [
+    21.71,
+    833,
+    0
+   ],
+   [
+    22.53,
+    816,
+    0
+   ],
+   [
+    23.43,
+    903,
+    0
+   ],
+   [
+    24.26,
+    829,
+    0
+   ],
+   [
+    25.15,
+    891,
+    0
+   ],
+   [
+    26.04,
+    889,
+    0
+   ],
+   [
+    26.9,
+    862,
+    0
+   ],
+   [
+    27.79,
+    887,
+    0
+   ],
+   [
+    28.64,
+    850,
+    0
+   ],
+   [
+    29.43,
+    788,
+    0
+   ],
+   [
+    30.45,
+    1021,
+    0
+   ],
+   [
+    31.14,
+    689,
+    0
+   ]
+  ],
+  "marks": [
+   {
+    "what": "loadZone",
+    "ms": 157,
+    "merge": 1,
+    "merged": 0
+   }
+  ],
+  "loads": [
+   {
+    "k": "bldg.soclib_interior",
+    "cached": false,
+    "start": 0.62,
+    "done": 5.62
+   },
+   {
+    "k": "char.npc_nf11",
+    "cached": false,
+    "start": 0.64,
+    "done": 5.54
+   },
+   {
+    "k": "char.npc_nm13",
+    "cached": false,
+    "start": 0.64,
+    "done": 5.61
+   }
+  ],
+  "progEnd": 111,
+  "tex": 201,
+  "geo": 338,
+  "zone": "soclib",
+  "prewarm": {
+   "ms": 3720.7000000011176,
+   "attachMs": 3.900000000372529,
+   "compileMs": 397.90000000037253,
+   "texMs": 0,
+   "textures": 0,
+   "mpix": 0,
+   "skipped": 269,
+   "timedOut": true,
+   "settled": 74,
+   "settleMs": 3317.2999999988824
+  },
+  "label": "campus → soclib（第 1 次）",
+  "enterMs": 11639,
+  "progStart": 118,
+  "texStart": 272,
+  "geoStart": 406,
+  "visibleMaxMs": 3136,
+  "visibleStallMs": 9216,
+  "visibleExcessMs": 1382,
+  "blackMs": 11139,
+  "visibleNewProg": 1
+ },
+ {
+  "frames": 23,
+  "steadyMs": 156,
+  "over100": 17,
+  "over250": 9,
+  "top": [
+   {
+    "t": 21.68,
+    "ms": 6252,
+    "newProg": 3
+   },
+   {
+    "t": 15.43,
+    "ms": 4953,
+    "newProg": 0
+   },
+   {
+    "t": 4.12,
+    "ms": 3788,
+    "newProg": -22
+   },
+   {
+    "t": 10.47,
+    "ms": 3512,
+    "newProg": 0
+   },
+   {
+    "t": 6.8,
+    "ms": 1654,
+    "newProg": 2
+   },
+   {
+    "t": 25.84,
+    "ms": 1555,
+    "newProg": 0
+   },
+   {
+    "t": 24.29,
+    "ms": 1468,
+    "newProg": 0
+   },
+   {
+    "t": 22.79,
+    "ms": 1041,
+    "newProg": 0
+   },
+   {
+    "t": 0.33,
+    "ms": 887,
+    "newProg": 0
+   },
+   {
+    "t": 6.96,
+    "ms": 166,
+    "newProg": 0
+   },
+   {
+    "t": 4.89,
+    "ms": 157,
+    "newProg": 0
+   },
+   {
+    "t": 4.42,
+    "ms": 156,
+    "newProg": 0
+   }
+  ],
+  "rows": [
+   [
+    0.33,
+    887,
+    0
+   ],
+   [
+    4.12,
+    3788,
+    -22
+   ],
+   [
+    4.26,
+    139,
+    37
+   ],
+   [
+    4.42,
+    156,
+    0
+   ],
+   [
+    4.53,
+    114,
+    0
+   ],
+   [
+    4.58,
+    49,
+    0
+   ],
+   [
+    4.61,
+    36,
+    0
+   ],
+   [
+    4.73,
+    113,
+    0
+   ],
+   [
+    4.74,
+    9,
+    0
+   ],
+   [
+    4.89,
+    157,
+    0
+   ],
+   [
+    4.91,
+    23,
+    0
+   ],
+   [
+    5.02,
+    105,
+    0
+   ],
+   [
+    5.14,
+    122,
+    0
+   ],
+   [
+    6.8,
+    1654,
+    2
+   ],
+   [
+    6.96,
+    166,
+    0
+   ],
+   [
+    10.47,
+    3512,
+    0
+   ],
+   [
+    15.43,
+    4953,
+    0
+   ],
+   [
+    21.68,
+    6252,
+    3
+   ],
+   [
+    21.75,
+    73,
+    0
+   ],
+   [
+    22.79,
+    1041,
+    0
+   ],
+   [
+    22.82,
+    28,
+    0
+   ],
+   [
+    24.29,
+    1468,
+    0
+   ],
+   [
+    25.84,
+    1555,
+    0
+   ]
+  ],
+  "marks": [
+   {
+    "what": "loadZone",
+    "ms": 1459,
+    "merge": 81,
+    "merged": 254
+   }
+  ],
+  "loads": [
+   {
+    "k": "bldg.skybridge",
+    "cached": true,
+    "start": 0.83,
+    "done": 3.12
+   },
+   {
+    "k": "bldg.campus_gongguan_bd",
+    "cached": true,
+    "start": 1.53,
+    "done": 3.12
+   },
+   {
+    "k": "bldg.wancai_exterior",
+    "cached": true,
+    "start": 1.86,
+    "done": 3.12
+   },
+   {
+    "k": "bldg.linze_exterior",
+    "cached": true,
+    "start": 1.86,
+    "done": 3.12
+   },
+   {
+    "k": "bldg.campus_library",
+    "cached": true,
+    "start": 1.86,
+    "done": 3.12
+   },
+   {
+    "k": "bldg.campus_lib_lawn",
+    "cached": true,
+    "start": 1.86,
+    "done": 3.96
+   },
+   {
+    "k": "bldg.bball_court",
+    "cached": true,
+    "start": 1.86,
+    "done": 3.96
+   },
+   {
+    "k": "bldg.campus_gate",
+    "cached": true,
+    "start": 1.86,
+    "done": 3.96
+   },
+   {
+    "k": "bldg.campus_lake",
+    "cached": true,
+    "start": 1.86,
+    "done": 3.97
+   },
+   {
+    "k": "bldg.campus_bell",
+    "cached": true,
+    "start": 1.86,
+    "done": 3.97
+   },
+   {
+    "k": "bldg.campus_gongtong",
+    "cached": true,
+    "start": 1.86,
+    "done": 3.98
+   },
+   {
+    "k": "bldg.campus_male1",
+    "cached": true,
+    "start": 1.86,
+    "done": 3.99
+   },
+   {
+    "k": "bldg.campus_putong",
+    "cached": true,
+    "start": 1.86,
+    "done": 4
+   },
+   {
+    "k": "bldg.campus_boya",
+    "cached": true,
+    "start": 1.86,
+    "done": 4
+   },
+   {
+    "k": "bldg.campus_freshman",
+    "cached": true,
+    "start": 1.86,
+    "done": 4.01
+   },
+   {
+    "k": "bldg.campus_admin",
+    "cached": true,
+    "start": 1.86,
+    "done": 4.02
+   },
+   {
+    "k": "bldg.campus_arts",
+    "cached": true,
+    "start": 1.86,
+    "done": 4.03
+   },
+   {
+    "k": "bldg.campus_hist",
+    "cached": true,
+    "start": 1.86,
+    "done": 4.05
+   },
+   {
+    "k": "bldg.campus_pavilion",
+    "cached": true,
+    "start": 1.86,
+    "done": 4.06
+   },
+   {
+    "k": "bldg.campus_socsci",
+    "cached": true,
+    "start": 1.86,
+    "done": 4.07
+   },
+   {
+    "k": "char.npc_nf12",
+    "cached": false,
+    "start": 1.95,
+    "done": 5.05
+   },
+   {
+    "k": "char.npc_nm16",
+    "cached": false,
+    "start": 1.95,
+    "done": 5.14
+   },
+   {
+    "k": "prop.helmet_bike",
+    "cached": true,
+    "start": 2.82,
+    "done": 4.11
+   },
+   {
+    "k": "char.npc_nm17",
+    "cached": false,
+    "start": 2.83,
+    "done": 5.18
+   },
+   {
+    "k": "char.npc_nf16",
+    "cached": false,
+    "start": 2.84,
+    "done": 5.21
+   },
+   {
+    "k": "prop.helmet_bike",
+    "cached": true,
+    "start": 6.91,
+    "done": 6.96
+   }
+  ],
+  "progEnd": 131,
+  "tex": 287,
+  "geo": 428,
+  "zone": "campus",
+  "prewarm": {
+   "ms": 2094,
+   "attachMs": 1004.5,
+   "compileMs": 197.90000000037253,
+   "texMs": 803.6999999992549,
+   "textures": 130,
+   "mpix": 33.688451000000015,
+   "skipped": 1327,
+   "timedOut": true,
+   "settled": 126,
+   "settleMs": 84
+  },
+  "label": "soclib → campus（第 2 次）",
+  "enterMs": 7264,
+  "progStart": 111,
+  "texStart": 201,
+  "geoStart": 338,
+  "visibleMaxMs": 4953,
+  "visibleStallMs": 8631,
+  "visibleExcessMs": 7841,
+  "blackMs": 6764,
+  "visibleNewProg": 0
+ },
+ {
+  "frames": 24,
+  "steadyMs": 920,
+  "over100": 21,
+  "over250": 21,
+  "top": [
+   {
+    "t": 5.8,
+    "ms": 5806,
+    "newProg": 0
+   },
+   {
+    "t": 10.97,
+    "ms": 5102,
+    "newProg": 12
+   },
+   {
+    "t": 13.35,
+    "ms": 2352,
+    "newProg": 0
+   },
+   {
+    "t": 28.23,
+    "ms": 1707,
+    "newProg": 0
+   },
+   {
+    "t": 14.55,
+    "ms": 1192,
+    "newProg": 0
+   },
+   {
+    "t": 16.49,
+    "ms": 1074,
+    "newProg": 0
+   },
+   {
+    "t": 23,
+    "ms": 1074,
+    "newProg": 0
+   },
+   {
+    "t": 17.45,
+    "ms": 959,
+    "newProg": 0
+   },
+   {
+    "t": 21.04,
+    "ms": 950,
+    "newProg": 0
+   },
+   {
+    "t": 30.4,
+    "ms": 949,
+    "newProg": 0
+   },
+   {
+    "t": 26.52,
+    "ms": 936,
+    "newProg": 0
+   },
+   {
+    "t": 18.37,
+    "ms": 920,
+    "newProg": 0
+   }
+  ],
+  "rows": [
+   [
+    5.8,
+    5806,
+    0
+   ],
+   [
+    5.87,
+    65,
+    0
+   ],
+   [
+    10.97,
+    5102,
+    12
+   ],
+   [
+    11,
+    32,
+    0
+   ],
+   [
+    13.35,
+    2352,
+    0
+   ],
+   [
+    14.55,
+    1192,
+    0
+   ],
+   [
+    15.4,
+    856,
+    0
+   ],
+   [
+    15.42,
+    16,
+    0
+   ],
+   [
+    16.49,
+    1074,
+    0
+   ],
+   [
+    17.45,
+    959,
+    0
+   ],
+   [
+    18.37,
+    920,
+    0
+   ],
+   [
+    19.23,
+    856,
+    0
+   ],
+   [
+    20.09,
+    869,
+    0
+   ],
+   [
+    21.04,
+    950,
+    0
+   ],
+   [
+    21.93,
+    885,
+    0
+   ],
+   [
+    23,
+    1074,
+    0
+   ],
+   [
+    23.82,
+    814,
+    0
+   ],
+   [
+    24.72,
+    900,
+    0
+   ],
+   [
+    25.58,
+    869,
+    0
+   ],
+   [
+    26.52,
+    936,
+    0
+   ],
+   [
+    28.23,
+    1707,
+    0
+   ],
+   [
+    28.55,
+    323,
+    0
+   ],
+   [
+    29.45,
+    899,
+    0
+   ],
+   [
+    30.4,
+    949,
+    0
+   ]
+  ],
+  "marks": [
+   {
+    "what": "loadZone",
+    "ms": 268,
+    "merge": 1,
+    "merged": 0
+   }
+  ],
+  "loads": [
+   {
+    "k": "prop.furniture_study",
+    "cached": false,
+    "start": 0.74,
+    "done": 6.04
+   },
+   {
+    "k": "prop.furniture_study",
+    "cached": false,
+    "start": 0.74,
+    "done": 6.04
+   },
+   {
+    "k": "bldg.skybridge",
+    "cached": true,
+    "start": 0.74,
+    "done": 0.77
+   },
+   {
+    "k": "bldg.boya_interior",
+    "cached": false,
+    "start": 0.75,
+    "done": 6.11
+   },
+   {
+    "k": "char.npc_nf13",
+    "cached": false,
+    "start": 0.75,
+    "done": 10.99
+   }
+  ],
+  "progEnd": 121,
+  "tex": 162,
+  "geo": 338,
+  "zone": "boya",
+  "prewarm": {
+   "ms": 4691.5999999996275,
+   "attachMs": 6.700000001117587,
+   "compileMs": 52.5,
+   "texMs": 0,
+   "textures": 0,
+   "mpix": 0,
+   "skipped": 14,
+   "timedOut": true,
+   "settled": 93,
+   "settleMs": 4630
+  },
+  "label": "campus → boya（第 1 次）",
+  "enterMs": 10986,
+  "progStart": 131,
+  "texStart": 287,
+  "geoStart": 428,
+  "visibleMaxMs": 2352,
+  "visibleStallMs": 9078,
+  "visibleExcessMs": 512,
+  "blackMs": 10486,
+  "visibleNewProg": 0
+ },
+ {
+  "frames": 25,
+  "steadyMs": 167,
+  "over100": 18,
+  "over250": 12,
+  "top": [
+   {
+    "t": 16,
+    "ms": 5684,
+    "newProg": 0
+   },
+   {
+    "t": 3.96,
+    "ms": 3721,
+    "newProg": -28
+   },
+   {
+    "t": 10.31,
+    "ms": 3626,
+    "newProg": 0
+   },
+   {
+    "t": 21.34,
+    "ms": 1923,
+    "newProg": 0
+   },
+   {
+    "t": 24.93,
+    "ms": 1807,
+    "newProg": 0
+   },
+   {
+    "t": 17.8,
+    "ms": 1803,
+    "newProg": 0
+   },
+   {
+    "t": 26.73,
+    "ms": 1796,
+    "newProg": 0
+   },
+   {
+    "t": 23.12,
+    "ms": 1778,
+    "newProg": 0
+   },
+   {
+    "t": 19.42,
+    "ms": 1620,
+    "newProg": 0
+   },
+   {
+    "t": 6.58,
+    "ms": 1402,
+    "newProg": 2
+   },
+   {
+    "t": 0.24,
+    "ms": 881,
+    "newProg": 0
+   },
+   {
+    "t": 5.11,
+    "ms": 275,
+    "newProg": 0
+   }
+  ],
+  "rows": [
+   [
+    0.24,
+    881,
+    0
+   ],
+   [
+    3.96,
+    3721,
+    -28
+   ],
+   [
+    4.07,
+    118,
+    38
+   ],
+   [
+    4.13,
+    51,
+    0
+   ],
+   [
+    4.26,
+    131,
+    0
+   ],
+   [
+    4.39,
+    134,
+    0
+   ],
+   [
+    4.41,
+    19,
+    0
+   ],
+   [
+    4.45,
+    38,
+    0
+   ],
+   [
+    4.48,
+    30,
+    0
+   ],
+   [
+    4.64,
+    167,
+    0
+   ],
+   [
+    4.67,
+    24,
+    0
+   ],
+   [
+    4.79,
+    127,
+    0
+   ],
+   [
+    4.84,
+    41,
+    0
+   ],
+   [
+    5.11,
+    275,
+    0
+   ],
+   [
+    5.18,
+    69,
+    0
+   ],
+   [
+    6.58,
+    1402,
+    2
+   ],
+   [
+    6.69,
+    107,
+    0
+   ],
+   [
+    10.31,
+    3626,
+    0
+   ],
+   [
+    16,
+    5684,
+    0
+   ],
+   [
+    17.8,
+    1803,
+    0
+   ],
+   [
+    19.42,
+    1620,
+    0
+   ],
+   [
+    21.34,
+    1923,
+    0
+   ],
+   [
+    23.12,
+    1778,
+    0
+   ],
+   [
+    24.93,
+    1807,
+    0
+   ],
+   [
+    26.73,
+    1796,
+    0
+   ]
+  ],
+  "marks": [
+   {
+    "what": "loadZone",
+    "ms": 1569,
+    "merge": 77,
+    "merged": 254
+   }
+  ],
+  "loads": [
+   {
+    "k": "bldg.skybridge",
+    "cached": true,
+    "start": 1.08,
+    "done": 3.05
+   },
+   {
+    "k": "bldg.campus_gongguan_bd",
+    "cached": true,
+    "start": 1.68,
+    "done": 3.05
+   },
+   {
+    "k": "bldg.wancai_exterior",
+    "cached": true,
+    "start": 1.98,
+    "done": 3.05
+   },
+   {
+    "k": "bldg.linze_exterior",
+    "cached": true,
+    "start": 1.98,
+    "done": 3.05
+   },
+   {
+    "k": "bldg.campus_library",
+    "cached": true,
+    "start": 1.98,
+    "done": 3.05
+   },
+   {
+    "k": "bldg.campus_lib_lawn",
+    "cached": true,
+    "start": 1.98,
+    "done": 3.77
+   },
+   {
+    "k": "bldg.bball_court",
+    "cached": true,
+    "start": 1.98,
+    "done": 3.77
+   },
+   {
+    "k": "bldg.campus_gate",
+    "cached": true,
+    "start": 1.98,
+    "done": 3.77
+   },
+   {
+    "k": "bldg.campus_lake",
+    "cached": true,
+    "start": 1.98,
+    "done": 3.77
+   },
+   {
+    "k": "bldg.campus_bell",
+    "cached": true,
+    "start": 1.98,
+    "done": 3.77
+   },
+   {
+    "k": "bldg.campus_gongtong",
+    "cached": true,
+    "start": 1.98,
+    "done": 3.78
+   },
+   {
+    "k": "bldg.campus_male1",
+    "cached": true,
+    "start": 1.98,
+    "done": 3.78
+   },
+   {
+    "k": "bldg.campus_putong",
+    "cached": true,
+    "start": 1.98,
+    "done": 3.79
+   },
+   {
+    "k": "bldg.campus_boya",
+    "cached": true,
+    "start": 1.98,
+    "done": 3.8
+   },
+   {
+    "k": "bldg.campus_freshman",
+    "cached": true,
+    "start": 1.98,
+    "done": 3.81
+   },
+   {
+    "k": "bldg.campus_admin",
+    "cached": true,
+    "start": 1.98,
+    "done": 3.85
+   },
+   {
+    "k": "bldg.campus_arts",
+    "cached": true,
+    "start": 1.98,
+    "done": 3.85
+   },
+   {
+    "k": "bldg.campus_hist",
+    "cached": true,
+    "start": 1.98,
+    "done": 3.86
+   },
+   {
+    "k": "bldg.campus_pavilion",
+    "cached": true,
+    "start": 1.98,
+    "done": 3.87
+   },
+   {
+    "k": "bldg.campus_socsci",
+    "cached": true,
+    "start": 1.98,
+    "done": 3.88
+   },
+   {
+    "k": "char.npc_nf14",
+    "cached": false,
+    "start": 2.06,
+    "done": 5.14
+   },
+   {
+    "k": "char.npc_nm18",
+    "cached": false,
+    "start": 2.06,
+    "done": 4.83
+   },
+   {
+    "k": "prop.helmet_bike",
+    "cached": true,
+    "start": 2.77,
+    "done": 3.94
+   },
+   {
+    "k": "char.npc_nf16",
+    "cached": false,
+    "start": 2.78,
+    "done": 5.17
+   }
+  ],
+  "progEnd": 133,
+  "tex": 357,
+  "geo": 477,
+  "zone": "campus",
+  "prewarm": {
+   "ms": 2128.7000000011176,
+   "attachMs": 910.4000000003725,
+   "compileMs": 164.59999999962747,
+   "texMs": 933,
+   "textures": 130,
+   "mpix": 33.688451000000015,
+   "skipped": 1248,
+   "timedOut": true,
+   "settled": 131,
+   "settleMs": 113.40000000037253
+  },
+  "label": "boya → campus（第 3 次）",
+  "enterMs": 7037,
+  "progStart": 121,
+  "texStart": 162,
+  "geoStart": 338,
+  "visibleMaxMs": 5684,
+  "visibleStallMs": 9417,
+  "visibleExcessMs": 8642,
+  "blackMs": 6537,
+  "visibleNewProg": 0
+ },
+ {
+  "frames": 17,
+  "steadyMs": 1410,
+  "over100": 14,
+  "over250": 13,
+  "top": [
+   {
+    "t": 5.53,
+    "ms": 5871,
+    "newProg": 0
+   },
+   {
+    "t": 13.52,
+    "ms": 5050,
+    "newProg": 1
+   },
+   {
+    "t": 8.43,
+    "ms": 2794,
+    "newProg": 17
+   },
+   {
+    "t": 17.15,
+    "ms": 1698,
+    "newProg": 0
+   },
+   {
+    "t": 18.75,
+    "ms": 1598,
+    "newProg": 0
+   },
+   {
+    "t": 25.75,
+    "ms": 1435,
+    "newProg": 0
+   },
+   {
+    "t": 24.32,
+    "ms": 1423,
+    "newProg": 0
+   },
+   {
+    "t": 15.45,
+    "ms": 1416,
+    "newProg": 0
+   },
+   {
+    "t": 27.16,
+    "ms": 1410,
+    "newProg": 0
+   },
+   {
+    "t": 21.53,
+    "ms": 1406,
+    "newProg": 0
+   },
+   {
+    "t": 20.12,
+    "ms": 1375,
+    "newProg": 0
+   },
+   {
+    "t": 22.9,
+    "ms": 1366,
+    "newProg": 0
+   }
+  ],
+  "rows": [
+   [
+    5.53,
+    5871,
+    0
+   ],
+   [
+    5.64,
+    114,
+    0
+   ],
+   [
+    8.43,
+    2794,
+    17
+   ],
+   [
+    8.47,
+    39,
+    0
+   ],
+   [
+    13.52,
+    5050,
+    1
+   ],
+   [
+    13.53,
+    8,
+    0
+   ],
+   [
+    13.54,
+    10,
+    0
+   ],
+   [
+    14.04,
+    496,
+    0
+   ],
+   [
+    15.45,
+    1416,
+    0
+   ],
+   [
+    17.15,
+    1698,
+    0
+   ],
+   [
+    18.75,
+    1598,
+    0
+   ],
+   [
+    20.12,
+    1375,
+    0
+   ],
+   [
+    21.53,
+    1406,
+    0
+   ],
+   [
+    22.9,
+    1366,
+    0
+   ],
+   [
+    24.32,
+    1423,
+    0
+   ],
+   [
+    25.75,
+    1435,
+    0
+   ],
+   [
+    27.16,
+    1410,
+    0
+   ]
+  ],
+  "marks": [
+   {
+    "what": "loadZone",
+    "ms": 46,
+    "merge": 0,
+    "merged": 0
+   }
+  ],
+  "loads": [
+   {
+    "k": "bldg.dorm_room4",
+    "cached": false,
+    "start": 0.52,
+    "done": 5.78
+   },
+   {
+    "k": "char.npc_nf15",
+    "cached": false,
+    "start": 0.53,
+    "done": 5.84
+   },
+   {
+    "k": "char.npc_nm19",
+    "cached": false,
+    "start": 0.53,
+    "done": 5.87
+   },
+   {
+    "k": "bldg.dorm_y1_items",
+    "cached": false,
+    "start": 5.79,
+    "done": 8.51
+   }
+  ],
+  "progEnd": 117,
+  "tex": 140,
+  "geo": 265,
+  "zone": "dorm",
+  "prewarm": {
+   "ms": 4703.5999999996275,
+   "attachMs": 2.400000000372529,
+   "compileMs": 27.40000000037253,
+   "texMs": 0,
+   "textures": 0,
+   "mpix": 0,
+   "skipped": 6,
+   "timedOut": true,
+   "settled": 88,
+   "settleMs": 4673.199999999255
+  },
+  "label": "campus → dorm（第 1 次）",
+  "enterMs": 8438,
+  "progStart": 133,
+  "texStart": 357,
+  "geoStart": 477,
+  "visibleMaxMs": 5050,
+  "visibleStallMs": 8660,
+  "visibleExcessMs": 2230,
+  "blackMs": 7938,
+  "visibleNewProg": 1
+ },
+ {
+  "frames": 13,
+  "steadyMs": 1579,
+  "over100": 12,
+  "over250": 9,
+  "top": [
+   {
+    "t": 19.96,
+    "ms": 11750,
+    "newProg": 0
+   },
+   {
+    "t": 5.82,
+    "ms": 5817,
+    "newProg": 0
+   },
+   {
+    "t": 8.02,
+    "ms": 2089,
+    "newProg": 2
+   },
+   {
+    "t": 22.56,
+    "ms": 1654,
+    "newProg": 0
+   },
+   {
+    "t": 27.38,
+    "ms": 1633,
+    "newProg": 0
+   },
+   {
+    "t": 24.17,
+    "ms": 1608,
+    "newProg": 0
+   },
+   {
+    "t": 25.75,
+    "ms": 1579,
+    "newProg": 0
+   },
+   {
+    "t": 28.91,
+    "ms": 1532,
+    "newProg": 0
+   },
+   {
+    "t": 20.87,
+    "ms": 773,
+    "newProg": 0
+   },
+   {
+    "t": 8.21,
+    "ms": 185,
+    "newProg": 0
+   },
+   {
+    "t": 20.1,
+    "ms": 144,
+    "newProg": 0
+   },
+   {
+    "t": 5.93,
+    "ms": 116,
+    "newProg": 37
+   }
+  ],
+  "rows": [
+   [
+    5.82,
+    5817,
+    0
+   ],
+   [
+    5.93,
+    116,
+    37
+   ],
+   [
+    8.02,
+    2089,
+    2
+   ],
+   [
+    8.21,
+    185,
+    0
+   ],
+   [
+    19.96,
+    11750,
+    0
+   ],
+   [
+    20.1,
+    144,
+    0
+   ],
+   [
+    20.87,
+    773,
+    0
+   ],
+   [
+    20.9,
+    32,
+    0
+   ],
+   [
+    22.56,
+    1654,
+    0
+   ],
+   [
+    24.17,
+    1608,
+    0
+   ],
+   [
+    25.75,
+    1579,
+    0
+   ],
+   [
+    27.38,
+    1633,
+    0
+   ],
+   [
+    28.91,
+    1532,
+    0
+   ]
+  ],
+  "marks": [
+   {
+    "what": "loadZone",
+    "ms": 1709,
+    "merge": 96,
+    "merged": 254
+   }
+  ],
+  "loads": [
+   {
+    "k": "bldg.skybridge",
+    "cached": true,
+    "start": 1.06,
+    "done": 3.39
+   },
+   {
+    "k": "bldg.campus_gongguan_bd",
+    "cached": true,
+    "start": 1.76,
+    "done": 3.39
+   },
+   {
+    "k": "bldg.wancai_exterior",
+    "cached": true,
+    "start": 2.1,
+    "done": 3.39
+   },
+   {
+    "k": "bldg.linze_exterior",
+    "cached": true,
+    "start": 2.1,
+    "done": 3.39
+   },
+   {
+    "k": "bldg.campus_library",
+    "cached": true,
+    "start": 2.1,
+    "done": 3.39
+   },
+   {
+    "k": "bldg.campus_lib_lawn",
+    "cached": true,
+    "start": 2.1,
+    "done": 5.19
+   },
+   {
+    "k": "bldg.bball_court",
+    "cached": true,
+    "start": 2.1,
+    "done": 5.19
+   },
+   {
+    "k": "bldg.campus_gate",
+    "cached": true,
+    "start": 2.1,
+    "done": 5.19
+   },
+   {
+    "k": "bldg.campus_lake",
+    "cached": true,
+    "start": 2.1,
+    "done": 5.22
+   },
+   {
+    "k": "bldg.campus_bell",
+    "cached": true,
+    "start": 2.1,
+    "done": 5.22
+   },
+   {
+    "k": "bldg.campus_gongtong",
+    "cached": true,
+    "start": 2.1,
+    "done": 5.25
+   },
+   {
+    "k": "bldg.campus_male1",
+    "cached": true,
+    "start": 2.1,
+    "done": 5.31
+   },
+   {
+    "k": "bldg.campus_putong",
+    "cached": true,
+    "start": 2.1,
+    "done": 5.33
+   },
+   {
+    "k": "bldg.campus_boya",
+    "cached": true,
+    "start": 2.1,
+    "done": 5.36
+   },
+   {
+    "k": "bldg.campus_freshman",
+    "cached": true,
+    "start": 2.1,
+    "done": 5.41
+   },
+   {
+    "k": "bldg.campus_admin",
+    "cached": true,
+    "start": 2.1,
+    "done": 5.56
+   },
+   {
+    "k": "bldg.campus_arts",
+    "cached": true,
+    "start": 2.1,
+    "done": 5.63
+   },
+   {
+    "k": "bldg.campus_hist",
+    "cached": true,
+    "start": 2.1,
+    "done": 5.66
+   },
+   {
+    "k": "bldg.campus_pavilion",
+    "cached": true,
+    "start": 2.1,
+    "done": 5.68
+   },
+   {
+    "k": "bldg.campus_socsci",
+    "cached": true,
+    "start": 2.1,
+    "done": 5.7
+   },
+   {
+    "k": "char.npc_nf16",
+    "cached": false,
+    "start": 2.2,
+    "done": 8.3
+   },
+   {
+    "k": "char.npc_nm10",
+    "cached": false,
+    "start": 2.2,
+    "done": 8.33
+   },
+   {
+    "k": "prop.helmet_bike",
+    "cached": true,
+    "start": 3.06,
+    "done": 5.8
+   },
+   {
+    "k": "char.npc_nf16",
+    "cached": false,
+    "start": 3.08,
+    "done": 8.3
+   }
+  ],
+  "progEnd": 126,
+  "tex": 229,
+  "geo": 441,
+  "zone": "campus",
+  "prewarm": {
+   "ms": 2589.2000000011176,
+   "attachMs": 2428.60000000149,
+   "compileMs": 153.7999999988824,
+   "texMs": 0,
+   "textures": 0,
+   "mpix": 0,
+   "skipped": 1174,
+   "timedOut": true,
+   "settleMs": 0
+  },
+  "label": "dorm → campus（第 4 次）",
+  "enterMs": 8486,
+  "progStart": 117,
+  "texStart": 140,
+  "geoStart": 265,
+  "visibleMaxMs": 185,
+  "visibleStallMs": 185,
+  "visibleExcessMs": 0,
+  "blackMs": 7986,
+  "visibleNewProg": 0
+ },
+ {
+  "frames": 24,
+  "steadyMs": 825,
+  "over100": 21,
+  "over250": 20,
+  "top": [
+   {
+    "t": 6.16,
+    "ms": 6179,
+    "newProg": 0
+   },
+   {
+    "t": 13.71,
+    "ms": 5768,
+    "newProg": 3
+   },
+   {
+    "t": 7.83,
+    "ms": 1591,
+    "newProg": 0
+   },
+   {
+    "t": 15.14,
+    "ms": 1434,
+    "newProg": 1
+   },
+   {
+    "t": 24.83,
+    "ms": 982,
+    "newProg": 0
+   },
+   {
+    "t": 18.05,
+    "ms": 909,
+    "newProg": 0
+   },
+   {
+    "t": 18.91,
+    "ms": 858,
+    "newProg": 0
+   },
+   {
+    "t": 22.26,
+    "ms": 858,
+    "newProg": 0
+   },
+   {
+    "t": 19.76,
+    "ms": 843,
+    "newProg": 0
+   },
+   {
+    "t": 17.15,
+    "ms": 840,
+    "newProg": 0
+   },
+   {
+    "t": 28.09,
+    "ms": 834,
+    "newProg": 0
+   },
+   {
+    "t": 21.4,
+    "ms": 825,
+    "newProg": 0
+   }
+  ],
+  "rows": [
+   [
+    6.16,
+    6179,
+    0
+   ],
+   [
+    6.24,
+    79,
+    16
+   ],
+   [
+    7.83,
+    1591,
+    0
+   ],
+   [
+    7.94,
+    109,
+    0
+   ],
+   [
+    13.71,
+    5768,
+    3
+   ],
+   [
+    15.14,
+    1434,
+    1
+   ],
+   [
+    15.19,
+    48,
+    0
+   ],
+   [
+    15.48,
+    285,
+    0
+   ],
+   [
+    15.5,
+    23,
+    0
+   ],
+   [
+    16.31,
+    804,
+    0
+   ],
+   [
+    17.15,
+    840,
+    0
+   ],
+   [
+    18.05,
+    909,
+    0
+   ],
+   [
+    18.91,
+    858,
+    0
+   ],
+   [
+    19.76,
+    843,
+    0
+   ],
+   [
+    20.57,
+    816,
+    0
+   ],
+   [
+    21.4,
+    825,
+    0
+   ],
+   [
+    22.26,
+    858,
+    0
+   ],
+   [
+    23.06,
+    803,
+    0
+   ],
+   [
+    23.84,
+    786,
+    0
+   ],
+   [
+    24.83,
+    982,
+    0
+   ],
+   [
+    25.64,
+    813,
+    0
+   ],
+   [
+    26.45,
+    815,
+    0
+   ],
+   [
+    27.26,
+    808,
+    0
+   ],
+   [
+    28.09,
+    834,
+    0
+   ]
+  ],
+  "marks": [
+   {
+    "what": "loadZone",
+    "ms": 81,
+    "merge": 1,
+    "merged": 0
+   }
+  ],
+  "loads": [
+   {
+    "k": "bldg.soclib_interior",
+    "cached": true,
+    "start": 0.56,
+    "done": 0.92
+   },
+   {
+    "k": "char.npc_nf17",
+    "cached": false,
+    "start": 0.57,
+    "done": 8.02
+   },
+   {
+    "k": "char.npc_nm12",
+    "cached": false,
+    "start": 0.57,
+    "done": 8.05
+   }
+  ],
+  "progEnd": 106,
+  "tex": 172,
+  "geo": 231,
+  "zone": "soclib",
+  "prewarm": {
+   "ms": 5330.799999998882,
+   "attachMs": 5250.9000000003725,
+   "compileMs": 78.69999999925494,
+   "texMs": 0,
+   "textures": 0,
+   "mpix": 0,
+   "skipped": 418,
+   "timedOut": true,
+   "settleMs": 0
+  },
+  "label": "campus → soclib（第 2 次）",
+  "enterMs": 8302,
+  "progStart": 126,
+  "texStart": 229,
+  "geoStart": 441,
+  "visibleMaxMs": 5768,
+  "visibleStallMs": 10149,
+  "visibleExcessMs": 4118,
+  "blackMs": 7802,
+  "visibleNewProg": 4
+ },
+ {
+  "frames": 26,
+  "steadyMs": 1214,
+  "over100": 17,
+  "over250": 14,
+  "top": [
+   {
+    "t": 13.25,
+    "ms": 5286,
+    "newProg": 0
+   },
+   {
+    "t": 3.94,
+    "ms": 4191,
+    "newProg": 0
+   },
+   {
+    "t": 15.96,
+    "ms": 2712,
+    "newProg": 0
+   },
+   {
+    "t": 23.55,
+    "ms": 2336,
+    "newProg": 0
+   },
+   {
+    "t": 17.98,
+    "ms": 2014,
+    "newProg": 0
+   },
+   {
+    "t": 21.21,
+    "ms": 1712,
+    "newProg": 0
+   },
+   {
+    "t": 25.22,
+    "ms": 1674,
+    "newProg": 0
+   },
+   {
+    "t": 29.88,
+    "ms": 1653,
+    "newProg": 0
+   },
+   {
+    "t": 28.23,
+    "ms": 1594,
+    "newProg": 0
+   },
+   {
+    "t": 19.5,
+    "ms": 1523,
+    "newProg": 0
+   },
+   {
+    "t": 6.72,
+    "ms": 1509,
+    "newProg": 0
+   },
+   {
+    "t": 26.63,
+    "ms": 1415,
+    "newProg": 0
+   }
+  ],
+  "rows": [
+   [
+    3.94,
+    4191,
+    0
+   ],
+   [
+    4.06,
+    122,
+    40
+   ],
+   [
+    4.54,
+    478,
+    0
+   ],
+   [
+    4.65,
+    105,
+    0
+   ],
+   [
+    4.7,
+    50,
+    0
+   ],
+   [
+    4.74,
+    44,
+    0
+   ],
+   [
+    4.79,
+    47,
+    0
+   ],
+   [
+    4.83,
+    43,
+    0
+   ],
+   [
+    4.9,
+    75,
+    0
+   ],
+   [
+    5.01,
+    110,
+    0
+   ],
+   [
+    5.09,
+    76,
+    0
+   ],
+   [
+    5.18,
+    96,
+    0
+   ],
+   [
+    5.21,
+    22,
+    0
+   ],
+   [
+    6.72,
+    1509,
+    0
+   ],
+   [
+    7.93,
+    1214,
+    2
+   ],
+   [
+    7.96,
+    34,
+    0
+   ],
+   [
+    13.25,
+    5286,
+    0
+   ],
+   [
+    15.96,
+    2712,
+    0
+   ],
+   [
+    17.98,
+    2014,
+    0
+   ],
+   [
+    19.5,
+    1523,
+    0
+   ],
+   [
+    21.21,
+    1712,
+    0
+   ],
+   [
+    23.55,
+    2336,
+    0
+   ],
+   [
+    25.22,
+    1674,
+    0
+   ],
+   [
+    26.63,
+    1415,
+    0
+   ],
+   [
+    28.23,
+    1594,
+    0
+   ],
+   [
+    29.88,
+    1653,
+    0
+   ]
+  ],
+  "marks": [
+   {
+    "what": "loadZone",
+    "ms": 1468,
+    "merge": 125,
+    "merged": 254
+   }
+  ],
+  "loads": [
+   {
+    "k": "bldg.skybridge",
+    "cached": true,
+    "start": 0.99,
+    "done": 3.29
+   },
+   {
+    "k": "bldg.campus_gongguan_bd",
+    "cached": true,
+    "start": 1.48,
+    "done": 3.29
+   },
+   {
+    "k": "bldg.wancai_exterior",
+    "cached": true,
+    "start": 1.82,
+    "done": 3.29
+   },
+   {
+    "k": "bldg.linze_exterior",
+    "cached": true,
+    "start": 1.82,
+    "done": 3.29
+   },
+   {
+    "k": "bldg.campus_library",
+    "cached": true,
+    "start": 1.82,
+    "done": 3.29
+   },
+   {
+    "k": "bldg.campus_lib_lawn",
+    "cached": true,
+    "start": 1.82,
+    "done": 3.34
+   },
+   {
+    "k": "bldg.bball_court",
+    "cached": true,
+    "start": 1.82,
+    "done": 3.34
+   },
+   {
+    "k": "bldg.campus_gate",
+    "cached": true,
+    "start": 1.82,
+    "done": 3.34
+   },
+   {
+    "k": "bldg.campus_lake",
+    "cached": true,
+    "start": 1.82,
+    "done": 3.37
+   },
+   {
+    "k": "bldg.campus_bell",
+    "cached": true,
+    "start": 1.82,
+    "done": 3.37
+   },
+   {
+    "k": "bldg.campus_gongtong",
+    "cached": true,
+    "start": 1.82,
+    "done": 3.4
+   },
+   {
+    "k": "bldg.campus_male1",
+    "cached": true,
+    "start": 1.82,
+    "done": 3.44
+   },
+   {
+    "k": "bldg.campus_putong",
+    "cached": true,
+    "start": 1.82,
+    "done": 3.47
+   },
+   {
+    "k": "bldg.campus_boya",
+    "cached": true,
+    "start": 1.82,
+    "done": 3.49
+   },
+   {
+    "k": "bldg.campus_freshman",
+    "cached": true,
+    "start": 1.82,
+    "done": 3.51
+   },
+   {
+    "k": "bldg.campus_admin",
+    "cached": true,
+    "start": 1.82,
+    "done": 3.62
+   },
+   {
+    "k": "bldg.campus_arts",
+    "cached": true,
+    "start": 1.82,
+    "done": 3.66
+   },
+   {
+    "k": "bldg.campus_hist",
+    "cached": true,
+    "start": 1.82,
+    "done": 3.7
+   },
+   {
+    "k": "bldg.campus_pavilion",
+    "cached": true,
+    "start": 1.82,
+    "done": 3.75
+   },
+   {
+    "k": "bldg.campus_socsci",
+    "cached": true,
+    "start": 1.82,
+    "done": 3.82
+   },
+   {
+    "k": "char.npc_nf18",
+    "cached": false,
+    "start": 1.96,
+    "done": 4.94
+   },
+   {
+    "k": "char.npc_nm14",
+    "cached": false,
+    "start": 1.96,
+    "done": 5
+   },
+   {
+    "k": "prop.helmet_bike",
+    "cached": true,
+    "start": 2.87,
+    "done": 3.92
+   },
+   {
+    "k": "char.npc_nm17",
+    "cached": false,
+    "start": 2.88,
+    "done": 5.08
+   },
+   {
+    "k": "prop.helmet_bike",
+    "cached": true,
+    "start": 7.9,
+    "done": 7.93
+   }
+  ],
+  "progEnd": 133,
+  "tex": 317,
+  "geo": 491,
+  "zone": "campus",
+  "prewarm": {
+   "ms": 3422.2000000011176,
+   "attachMs": 649.5,
+   "compileMs": 165,
+   "texMs": 2179.60000000149,
+   "textures": 157,
+   "mpix": 44.796803000000025,
+   "skipped": 1133,
+   "timedOut": true,
+   "settled": 131,
+   "settleMs": 422.69999999925494
+  },
+  "label": "soclib → campus（第 5 次）",
+  "enterMs": 8317,
+  "progStart": 106,
+  "texStart": 172,
+  "geoStart": 231,
+  "visibleMaxMs": 5286,
+  "visibleStallMs": 10012,
+  "visibleExcessMs": 3142,
+  "blackMs": 7817,
+  "visibleNewProg": 0
+ },
+ {
+  "frames": 25,
+  "steadyMs": 847,
+  "over100": 23,
+  "over250": 22,
+  "top": [
+   {
+    "t": 4.94,
+    "ms": 4960,
+    "newProg": 0
+   },
+   {
+    "t": 10.13,
+    "ms": 3471,
+    "newProg": 0
+   },
+   {
+    "t": 6.63,
+    "ms": 1601,
+    "newProg": 0
+   },
+   {
+    "t": 12.31,
+    "ms": 1204,
+    "newProg": 0
+   },
+   {
+    "t": 13.24,
+    "ms": 930,
+    "newProg": 0
+   },
+   {
+    "t": 20.12,
+    "ms": 914,
+    "newProg": 0
+   },
+   {
+    "t": 21.91,
+    "ms": 905,
+    "newProg": 0
+   },
+   {
+    "t": 15.84,
+    "ms": 898,
+    "newProg": 0
+   },
+   {
+    "t": 22.81,
+    "ms": 897,
+    "newProg": 0
+   },
+   {
+    "t": 21.01,
+    "ms": 888,
+    "newProg": 0
+   },
+   {
+    "t": 17.55,
+    "ms": 874,
+    "newProg": 0
+   },
+   {
+    "t": 14.09,
+    "ms": 856,
+    "newProg": 0
+   }
+  ],
+  "rows": [
+   [
+    4.94,
+    4960,
+    0
+   ],
+   [
+    5.03,
+    83,
+    27
+   ],
+   [
+    6.63,
+    1601,
+    0
+   ],
+   [
+    6.66,
+    34,
+    0
+   ],
+   [
+    10.13,
+    3471,
+    0
+   ],
+   [
+    10.94,
+    807,
+    0
+   ],
+   [
+    11.1,
+    162,
+    0
+   ],
+   [
+    12.31,
+    1204,
+    0
+   ],
+   [
+    13.24,
+    930,
+    0
+   ],
+   [
+    14.09,
+    856,
+    0
+   ],
+   [
+    14.94,
+    846,
+    0
+   ],
+   [
+    15.84,
+    898,
+    0
+   ],
+   [
+    16.67,
+    836,
+    0
+   ],
+   [
+    17.55,
+    874,
+    0
+   ],
+   [
+    18.38,
+    836,
+    0
+   ],
+   [
+    19.21,
+    823,
+    0
+   ],
+   [
+    20.12,
+    914,
+    0
+   ],
+   [
+    21.01,
+    888,
+    0
+   ],
+   [
+    21.91,
+    905,
+    0
+   ],
+   [
+    22.81,
+    897,
+    0
+   ],
+   [
+    23.65,
+    836,
+    0
+   ],
+   [
+    24.48,
+    837,
+    0
+   ],
+   [
+    25.33,
+    847,
+    0
+   ],
+   [
+    26.16,
+    835,
+    0
+   ],
+   [
+    26.98,
+    816,
+    0
+   ]
+  ],
+  "marks": [
+   {
+    "what": "loadZone",
+    "ms": 268,
+    "merge": 0,
+    "merged": 0
+   }
+  ],
+  "loads": [
+   {
+    "k": "prop.furniture_study",
+    "cached": true,
+    "start": 0.74,
+    "done": 0.78
+   },
+   {
+    "k": "prop.furniture_study",
+    "cached": true,
+    "start": 0.74,
+    "done": 0.78
+   },
+   {
+    "k": "bldg.skybridge",
+    "cached": true,
+    "start": 0.74,
+    "done": 0.78
+   },
+   {
+    "k": "bldg.boya_interior",
+    "cached": true,
+    "start": 0.75,
+    "done": 0.78
+   },
+   {
+    "k": "char.npc_nf19",
+    "cached": false,
+    "start": 0.75,
+    "done": 6.88
+   },
+   {
+    "k": "char.npc_nm15",
+    "cached": false,
+    "start": 0.75,
+    "done": 6.93
+   }
+  ],
+  "progEnd": 121,
+  "tex": 161,
+  "geo": 336,
+  "zone": "boya",
+  "prewarm": {
+   "ms": 4251.9000000003725,
+   "attachMs": 4167.4000000003725,
+   "compileMs": 81.40000000037253,
+   "texMs": 0,
+   "textures": 0,
+   "mpix": 0,
+   "skipped": 179,
+   "timedOut": true,
+   "settleMs": 0
+  },
+  "label": "campus → boya（第 2 次）",
+  "enterMs": 7116,
+  "progStart": 133,
+  "texStart": 317,
+  "geoStart": 491,
+  "visibleMaxMs": 3471,
+  "visibleStallMs": 10010,
+  "visibleExcessMs": 1777,
+  "blackMs": 6616,
+  "visibleNewProg": 0
+ },
+ {
+  "frames": 19,
+  "steadyMs": 897,
+  "over100": 16,
+  "over250": 15,
+  "top": [
+   {
+    "t": 12.06,
+    "ms": 7326,
+    "newProg": 0
+   },
+   {
+    "t": 3.05,
+    "ms": 3225,
+    "newProg": 0
+   },
+   {
+    "t": 21.76,
+    "ms": 2128,
+    "newProg": 0
+   },
+   {
+    "t": 4.62,
+    "ms": 1450,
+    "newProg": 1
+   },
+   {
+    "t": 18.74,
+    "ms": 1275,
+    "newProg": 0
+   },
+   {
+    "t": 13.21,
+    "ms": 1150,
+    "newProg": 0
+   },
+   {
+    "t": 22.74,
+    "ms": 983,
+    "newProg": 0
+   },
+   {
+    "t": 24.55,
+    "ms": 910,
+    "newProg": 0
+   },
+   {
+    "t": 23.64,
+    "ms": 902,
+    "newProg": 0
+   },
+   {
+    "t": 14.13,
+    "ms": 897,
+    "newProg": 0
+   },
+   {
+    "t": 19.63,
+    "ms": 890,
+    "newProg": 0
+   },
+   {
+    "t": 14.98,
+    "ms": 844,
+    "newProg": 0
+   }
+  ],
+  "rows": [
+   [
+    3.05,
+    3225,
+    0
+   ],
+   [
+    3.14,
+    90,
+    41
+   ],
+   [
+    3.17,
+    28,
+    0
+   ],
+   [
+    4.62,
+    1450,
+    1
+   ],
+   [
+    4.73,
+    114,
+    0
+   ],
+   [
+    12.06,
+    7326,
+    0
+   ],
+   [
+    13.21,
+    1150,
+    0
+   ],
+   [
+    13.23,
+    29,
+    0
+   ],
+   [
+    14.13,
+    897,
+    0
+   ],
+   [
+    14.98,
+    844,
+    0
+   ],
+   [
+    15.81,
+    838,
+    0
+   ],
+   [
+    16.64,
+    823,
+    0
+   ],
+   [
+    17.46,
+    827,
+    0
+   ],
+   [
+    18.74,
+    1275,
+    0
+   ],
+   [
+    19.63,
+    890,
+    0
+   ],
+   [
+    21.76,
+    2128,
+    0
+   ],
+   [
+    22.74,
+    983,
+    0
+   ],
+   [
+    23.64,
+    902,
+    0
+   ],
+   [
+    24.55,
+    910,
+    0
+   ]
+  ],
+  "marks": [
+   {
+    "what": "loadZone",
+    "ms": 789,
+    "merge": 32,
+    "merged": 116
+   }
+  ],
+  "loads": [
+   {
+    "k": "bldg.gongguan_mrt",
+    "cached": true,
+    "start": 0.51,
+    "done": 1.67
+   },
+   {
+    "k": "bldg.gongguan_far",
+    "cached": true,
+    "start": 0.61,
+    "done": 2.71
+   },
+   {
+    "k": "bldg.campus_gate",
+    "cached": true,
+    "start": 1.08,
+    "done": 2.71
+   },
+   {
+    "k": "bldg.gongguan_shops",
+    "cached": true,
+    "start": 1.08,
+    "done": 2.74
+   },
+   {
+    "k": "bldg.wz_scooter",
+    "cached": true,
+    "start": 1.24,
+    "done": 2.77
+   },
+   {
+    "k": "char.npc_nf20",
+    "cached": false,
+    "start": 1.27,
+    "done": 4.8
+   },
+   {
+    "k": "char.npc_nm20",
+    "cached": false,
+    "start": 1.28,
+    "done": 4.83
+   }
+  ],
+  "progEnd": 133,
+  "tex": 163,
+  "geo": 287,
+  "zone": "gongguan",
+  "prewarm": {
+   "ms": 2004.5999999996275,
+   "attachMs": 1382.199999999255,
+   "compileMs": 115.29999999888241,
+   "texMs": 0,
+   "textures": 0,
+   "mpix": 0,
+   "skipped": 655,
+   "timedOut": true,
+   "settled": 117,
+   "settleMs": 505.09999999962747
+  },
+  "label": "boya → gongguan（第 1 次）",
+  "enterMs": 5093,
+  "progStart": 121,
+  "texStart": 161,
+  "geoStart": 336,
+  "visibleMaxMs": 7326,
+  "visibleStallMs": 10331,
+  "visibleExcessMs": 5532,
+  "blackMs": 4593,
+  "visibleNewProg": 0
+ },
+ {
+  "frames": 28,
+  "steadyMs": 686,
+  "over100": 20,
+  "over250": 20,
+  "top": [
+   {
+    "t": 9.46,
+    "ms": 4737,
+    "newProg": 3
+   },
+   {
+    "t": 24.59,
+    "ms": 2633,
+    "newProg": 0
+   },
+   {
+    "t": 3.74,
+    "ms": 2529,
+    "newProg": -51
+   },
+   {
+    "t": 16.16,
+    "ms": 2086,
+    "newProg": 0
+   },
+   {
+    "t": 13.27,
+    "ms": 1650,
+    "newProg": 0
+   },
+   {
+    "t": 10.54,
+    "ms": 1073,
+    "newProg": 2
+   },
+   {
+    "t": 1.21,
+    "ms": 905,
+    "newProg": 0
+   },
+   {
+    "t": 0.31,
+    "ms": 895,
+    "newProg": 0
+   },
+   {
+    "t": 17.09,
+    "ms": 858,
+    "newProg": 0
+   },
+   {
+    "t": 4.63,
+    "ms": 837,
+    "newProg": 0
+   },
+   {
+    "t": 14.08,
+    "ms": 809,
+    "newProg": 0
+   },
+   {
+    "t": 18.53,
+    "ms": 754,
+    "newProg": 0
+   }
+  ],
+  "rows": [
+   [
+    0.31,
+    895,
+    0
+   ],
+   [
+    1.21,
+    905,
+    0
+   ],
+   [
+    3.74,
+    2529,
+    -51
+   ],
+   [
+    3.79,
+    46,
+    18
+   ],
+   [
+    4.63,
+    837,
+    0
+   ],
+   [
+    4.73,
+    98,
+    0
+   ],
+   [
+    9.46,
+    4737,
+    3
+   ],
+   [
+    10.54,
+    1073,
+    2
+   ],
+   [
+    10.56,
+    26,
+    0
+   ],
+   [
+    10.59,
+    25,
+    0
+   ],
+   [
+    10.98,
+    390,
+    0
+   ],
+   [
+    11.62,
+    641,
+    0
+   ],
+   [
+    13.27,
+    1650,
+    0
+   ],
+   [
+    14.08,
+    809,
+    0
+   ],
+   [
+    16.16,
+    2086,
+    0
+   ],
+   [
+    16.17,
+    10,
+    0
+   ],
+   [
+    16.19,
+    17,
+    0
+   ],
+   [
+    16.23,
+    46,
+    0
+   ],
+   [
+    17.09,
+    858,
+    0
+   ],
+   [
+    17.78,
+    686,
+    0
+   ],
+   [
+    18.53,
+    754,
+    0
+   ],
+   [
+    19.27,
+    742,
+    0
+   ],
+   [
+    19.93,
+    656,
+    0
+   ],
+   [
+    20.61,
+    685,
+    0
+   ],
+   [
+    21.29,
+    680,
+    0
+   ],
+   [
+    21.96,
+    667,
+    0
+   ],
+   [
+    24.59,
+    2633,
+    0
+   ],
+   [
+    24.62,
+    27,
+    0
+   ]
+  ],
+  "marks": [
+   {
+    "what": "loadZone",
+    "ms": 30,
+    "merge": 0,
+    "merged": 0
+   }
+  ],
+  "loads": [
+   {
+    "k": "bldg.noodle_interior",
+    "cached": true,
+    "start": 1.25,
+    "done": 1.27
+   },
+   {
+    "k": "char.npc_nf1",
+    "cached": false,
+    "start": 1.25,
+    "done": 4.91
+   },
+   {
+    "k": "char.npc_nm1",
+    "cached": false,
+    "start": 1.25,
+    "done": 4.89
+   },
+   {
+    "k": "char.npc_nf3",
+    "cached": false,
+    "start": 1.26,
+    "done": 4.94
+   },
+   {
+    "k": "prop.ladle",
+    "cached": true,
+    "start": 1.26,
+    "done": 1.28
+   },
+   {
+    "k": "prop.ladle",
+    "cached": true,
+    "start": 6.97,
+    "done": 9.46
+   }
+  ],
+  "progEnd": 105,
+  "tex": 95,
+  "geo": 219,
+  "zone": "noodle",
+  "prewarm": {
+   "ms": 2543.60000000149,
+   "attachMs": 2473.60000000149,
+   "compileMs": 69.19999999925494,
+   "texMs": 0,
+   "textures": 0,
+   "mpix": 0,
+   "skipped": 65,
+   "timedOut": true,
+   "settleMs": 0
+  },
+  "label": "gongguan → noodle（第 2 次）",
+  "enterMs": 5114,
+  "progStart": 133,
+  "texStart": 163,
+  "geoStart": 287,
+  "visibleMaxMs": 4737,
+  "visibleStallMs": 9300,
+  "visibleExcessMs": 3643,
+  "blackMs": 4614,
+  "visibleNewProg": 5
+ },
+ {
+  "frames": 12,
+  "steadyMs": 355,
+  "over100": 10,
+  "over250": 6,
+  "top": [
+   {
+    "t": 22.87,
+    "ms": 15716,
+    "newProg": 3
+   },
+   {
+    "t": 7.01,
+    "ms": 3332,
+    "newProg": 2
+   },
+   {
+    "t": 3.46,
+    "ms": 3079,
+    "newProg": -23
+   },
+   {
+    "t": 25.42,
+    "ms": 2548,
+    "newProg": 1
+   },
+   {
+    "t": 0.03,
+    "ms": 554,
+    "newProg": 0
+   },
+   {
+    "t": 25.82,
+    "ms": 355,
+    "newProg": 0
+   },
+   {
+    "t": 3.67,
+    "ms": 212,
+    "newProg": 51
+   },
+   {
+    "t": 0.38,
+    "ms": 198,
+    "newProg": 0
+   },
+   {
+    "t": 0.18,
+    "ms": 159,
+    "newProg": 0
+   },
+   {
+    "t": 7.15,
+    "ms": 149,
+    "newProg": 0
+   },
+   {
+    "t": 25.46,
+    "ms": 45,
+    "newProg": 0
+   },
+   {
+    "t": 25.85,
+    "ms": 35,
+    "newProg": 0
+   }
+  ],
+  "rows": [
+   [
+    0.03,
+    554,
+    0
+   ],
+   [
+    0.18,
+    159,
+    0
+   ],
+   [
+    0.38,
+    198,
+    0
+   ],
+   [
+    3.46,
+    3079,
+    -23
+   ],
+   [
+    3.67,
+    212,
+    51
+   ],
+   [
+    7.01,
+    3332,
+    2
+   ],
+   [
+    7.15,
+    149,
+    0
+   ],
+   [
+    22.87,
+    15716,
+    3
+   ],
+   [
+    25.42,
+    2548,
+    1
+   ],
+   [
+    25.46,
+    45,
+    0
+   ],
+   [
+    25.82,
+    355,
+    0
+   ],
+   [
+    25.85,
+    35,
+    0
+   ]
+  ],
+  "marks": [
+   {
+    "what": "loadZone",
+    "ms": 313,
+    "merge": 13,
+    "merged": 59
+   }
+  ],
+  "loads": [
+   {
+    "k": "bldg.wz_cat",
+    "cached": true,
+    "start": 0.61,
+    "done": 1.02
+   },
+   {
+    "k": "bldg.wenzhou_street",
+    "cached": true,
+    "start": 0.73,
+    "done": 1.02
+   },
+   {
+    "k": "bldg.wz_scooter",
+    "cached": true,
+    "start": 0.78,
+    "done": 3.28
+   },
+   {
+    "k": "bldg.wz_park",
+    "cached": true,
+    "start": 0.78,
+    "done": 3.38
+   },
+   {
+    "k": "bldg.wz_props",
+    "cached": true,
+    "start": 0.78,
+    "done": 3.38
+   },
+   {
+    "k": "bldg.wz_jphouse",
+    "cached": true,
+    "start": 0.78,
+    "done": 3.41
+   },
+   {
+    "k": "bldg.cafe_exterior",
+    "cached": true,
+    "start": 0.78,
+    "done": 3.42
+   },
+   {
+    "k": "char.npc_nf2",
+    "cached": false,
+    "start": 0.8,
+    "done": 7.23
+   },
+   {
+    "k": "char.npc_nm2",
+    "cached": false,
+    "start": 0.8,
+    "done": 7.25
+   }
+  ],
+  "progEnd": 139,
+  "tex": 213,
+  "geo": 380,
+  "zone": "wenzhou",
+  "prewarm": {
+   "ms": 2684.199999999255,
+   "attachMs": 2448.199999999255,
+   "compileMs": 232.2999999988824,
+   "texMs": 0,
+   "textures": 0,
+   "mpix": 0,
+   "skipped": 674,
+   "timedOut": true,
+   "settleMs": 0
+  },
+  "label": "noodle → wenzhou（第 3 次）",
+  "enterMs": 7479,
+  "progStart": 105,
+  "texStart": 95,
+  "geoStart": 219,
+  "visibleMaxMs": 149,
+  "visibleStallMs": 149,
+  "visibleExcessMs": 0,
+  "blackMs": 6979,
+  "visibleNewProg": 0
+ },
+ {
+  "frames": 23,
+  "steadyMs": 876,
+  "over100": 21,
+  "over250": 19,
+  "top": [
+   {
+    "t": 20.07,
+    "ms": 8614,
+    "newProg": 0
+   },
+   {
+    "t": 9.78,
+    "ms": 7406,
+    "newProg": -50
+   },
+   {
+    "t": 0.45,
+    "ms": 2102,
+    "newProg": 0
+   },
+   {
+    "t": 2.37,
+    "ms": 1924,
+    "newProg": 0
+   },
+   {
+    "t": 11.31,
+    "ms": 1398,
+    "newProg": 1
+   },
+   {
+    "t": 28.13,
+    "ms": 945,
+    "newProg": 0
+   },
+   {
+    "t": 24.58,
+    "ms": 941,
+    "newProg": 0
+   },
+   {
+    "t": 21.86,
+    "ms": 932,
+    "newProg": 0
+   },
+   {
+    "t": 22.77,
+    "ms": 907,
+    "newProg": 0
+   },
+   {
+    "t": 27.18,
+    "ms": 902,
+    "newProg": 0
+   },
+   {
+    "t": 29.01,
+    "ms": 881,
+    "newProg": 0
+   },
+   {
+    "t": 23.64,
+    "ms": 876,
+    "newProg": 0
+   }
+  ],
+  "rows": [
+   [
+    0.45,
+    2102,
+    0
+   ],
+   [
+    2.37,
+    1924,
+    0
+   ],
+   [
+    9.78,
+    7406,
+    -50
+   ],
+   [
+    9.91,
+    133,
+    40
+   ],
+   [
+    11.31,
+    1398,
+    1
+   ],
+   [
+    11.46,
+    150,
+    0
+   ],
+   [
+    20.07,
+    8614,
+    0
+   ],
+   [
+    20.11,
+    36,
+    0
+   ],
+   [
+    20.14,
+    28,
+    0
+   ],
+   [
+    20.93,
+    788,
+    0
+   ],
+   [
+    21.86,
+    932,
+    0
+   ],
+   [
+    22.77,
+    907,
+    0
+   ],
+   [
+    23.64,
+    876,
+    0
+   ],
+   [
+    24.58,
+    941,
+    0
+   ],
+   [
+    25.43,
+    847,
+    0
+   ],
+   [
+    26.28,
+    852,
+    0
+   ],
+   [
+    27.18,
+    902,
+    0
+   ],
+   [
+    28.13,
+    945,
+    0
+   ],
+   [
+    29.01,
+    881,
+    0
+   ],
+   [
+    29.85,
+    841,
+    0
+   ],
+   [
+    30.67,
+    817,
+    0
+   ],
+   [
+    31.53,
+    864,
+    0
+   ],
+   [
+    32.39,
+    854,
+    0
+   ]
+  ],
+  "marks": [
+   {
+    "what": "loadZone",
+    "ms": 44,
+    "merge": 0,
+    "merged": 0
+   }
+  ],
+  "loads": [
+   {
+    "k": "bldg.cafe_interior",
+    "cached": true,
+    "start": 2.42,
+    "done": 2.51
+   },
+   {
+    "k": "char.npc_nf3",
+    "cached": false,
+    "start": 2.42,
+    "done": 11.67
+   },
+   {
+    "k": "char.npc_nm3",
+    "cached": false,
+    "start": 2.42,
+    "done": 11.71
+   },
+   {
+    "k": "char.npc_nm6",
+    "cached": false,
+    "start": 2.43,
+    "done": 11.74
+   },
+   {
+    "k": "prop.mug",
+    "cached": true,
+    "start": 2.49,
+    "done": 2.54
+   },
+   {
+    "k": "char.npc_nf9",
+    "cached": false,
+    "start": 2.51,
+    "done": 11.77
+   },
+   {
+    "k": "bldg.wenzhou_street",
+    "cached": true,
+    "start": 2.52,
+    "done": 2.54
+   },
+   {
+    "k": "bldg.wz_props",
+    "cached": true,
+    "start": 2.52,
+    "done": 9.7
+   },
+   {
+    "k": "prop.mug",
+    "cached": true,
+    "start": 15.42,
+    "done": 20.07
+   }
+  ],
+  "progEnd": 130,
+  "tex": 162,
+  "geo": 279,
+  "zone": "cafe",
+  "prewarm": {
+   "ms": 7443.0999999996275,
+   "attachMs": 7269.9000000003725,
+   "compileMs": 170.7000000011176,
+   "texMs": 0.09999999962747097,
+   "textures": 0,
+   "mpix": 0,
+   "skipped": 263,
+   "timedOut": true,
+   "settleMs": 0.09999999962747097
+  },
+  "label": "wenzhou → cafe（第 2 次）",
+  "enterMs": 11784,
+  "progStart": 139,
+  "texStart": 213,
+  "geoStart": 380,
+  "visibleMaxMs": 8614,
+  "visibleStallMs": 9552,
+  "visibleExcessMs": 6862,
+  "blackMs": 11284,
+  "visibleNewProg": 0
+ }
+]

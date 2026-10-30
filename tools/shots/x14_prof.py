@@ -1,12 +1,13 @@
 """X14 換區域卡一下（PERF-ZONE-ENTER-1018，LAWWW2-C 2026-10-27）：公館 → 溫州街 → 咖啡廳 → 溫州街，每一次 CPU profiler 開著，
 把取樣照時間分到每一格（requestAnimationFrame 的間隔），列出最長幾格在做什麼（self／inclusive），以及那一格在 GAME.enter 的哪一段（黑畫面、淡入後）。
-用法：python3 tools/shots/x14_prof.py 工作樹 URL [--desktop] [秒數]"""
+用法：python3 tools/shots/x14_prof.py 工作樹 URL [--desktop] [秒數] [--route 區域,區域,…]（PERF-ZONE-ENTER-1018 第三輪加 --route，LAWWW2-B 10-30：室內）"""
 import asyncio, json, sys, collections
 sys.path.insert(0, sys.argv[1] + '/tests')
 import playlib as L
 from playwright.async_api import async_playwright
 URL = sys.argv[2]; DESKTOP = '--desktop' in sys.argv
 REC = int([a for a in sys.argv[3:] if a.isdigit()][0]) if [a for a in sys.argv[3:] if a.isdigit()] else 20
+ROUTE = sys.argv[sys.argv.index('--route') + 1].split(',') if '--route' in sys.argv else None
 HOOK = """(()=>{ const P=window.__fp={frames:[]}; let last=performance.now(); const tick=()=>{ const t=performance.now(); P.frames.push([last,t]); last=t; requestAnimationFrame(tick); }; requestAnimationFrame(tick); })()"""
 def analyze(prof, tpage, frames, t_enter0, t_enter1, label):
     nodes = {n['id']: n for n in prof['nodes']}; parent = {}
@@ -47,7 +48,8 @@ async def main():
         await L.load_state(pg, {'zone': 'gongguan', 'hour': 15.0, 'weather': 'clear', 'pos': None}, quiet_events=True)
         await pg.wait_for_timeout(25000); await pg.evaluate(HOOK)
         await cdp.send('Profiler.enable'); await cdp.send('Profiler.setSamplingInterval', {'interval': 500})
-        for zone, label in (('wenzhou', '公館 → 溫州街（第一次）'), ('cafe', '溫州街 → 咖啡廳（第一次）'), ('wenzhou', '咖啡廳 → 溫州街（第二次）')):
+        plan = [(z, '→ %s（第 %d 站）' % (z, i + 1)) for i, z in enumerate(ROUTE)] if ROUTE else (('wenzhou', '公館 → 溫州街（第一次）'), ('cafe', '溫州街 → 咖啡廳（第一次）'), ('wenzhou', '咖啡廳 → 溫州街（第二次）'))
+        for zone, label in plan:
             tpage = await pg.evaluate("performance.now()"); await cdp.send('Profiler.start')
             t01 = await pg.evaluate("(async()=>{ const t=performance.now(); await GAME.enter('%s'); return [t, performance.now()]; })()" % zone)
             await pg.wait_for_timeout(REC * 1000)
