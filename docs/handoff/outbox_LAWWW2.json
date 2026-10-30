@@ -4238,6 +4238,25 @@
    "remaining": "Café INTERIOR-AAA 光照烘焙（LAWWW2 下一步）；手機實機效能沒量",
    "next": "LAWWW-B 套 patch（只改 zones3d.js＋tests/cafe_street_live_unit.js）；不用換二進位檔",
    "note": "使用者 10-30「兩點半 Café 往進門那個方向的窗景還是靜態、很像貼一張圖」（UA-LAWWW-1030-10）。wenzhou_street＋wz_props 照溫州街座標擺在玻璃外、裁切平面、亮窗與路燈光圈、4 個路人；單元測試改前 10 FAIL→ALL PASS；全部 Node 738／0；門口鏡頭 158→265 calls、25→47 萬三角形；READY_FOR_ART_REVIEW（建築場景只有使用者標 ART_APPROVED）"
+  },
+  {
+   "branch": "claude/funny-albattani-iawshm",
+   "sha": "PENDING",
+   "noDirectIntegrate": false,
+   "receiver": "LAWWW",
+   "ack": "",
+   "task": "CAFE-LM-1030：兩點半 Café 室內光照烘焙（INTERIOR-AAA 第二間）",
+   "files": [
+    "assets/models/env/second_ai/cafe_interior.glb",
+    "assets/models/env/second_ai/cafe_interior_lm_day.webp",
+    "assets/models/env/second_ai/cafe_interior_lm_night.webp",
+    "tools/blender/env_second/lightbake/bake_cafe.sh",
+    "docs/art-rebuild/second_ai/test_shots/cafe_lm_1030/README.md"
+   ],
+   "state": "已交付",
+   "remaining": "人物沒有吃到烘焙的光；白天的太陽固定在下午；晚上比原本暗一點（要更亮可以吊燈 55 W 重烘）",
+   "next": "LAWWW-B 換 cafe_interior.glb＋兩張光照貼圖（不用改程式）",
+   "note": "LAWWW-B D111 的第二間。白天店面西曬窗框影子＋天光、晚上十二盞吊燈＋立燈；全部 Node 738／0；draw call 不變；GLB 1.44→1.92 MB、光照貼圖 171 KB；READY_FOR_ART_REVIEW"
   }
  ]
 }

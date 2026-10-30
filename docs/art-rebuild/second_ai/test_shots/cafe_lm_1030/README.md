@@ -15,7 +15,7 @@
 | `tools/blender/env_second/lightbake/cafe_interior_lm.json` | 這次烘焙的參數紀錄 |
 
 - **不用改程式**：zones3d.js 的 cafe 區域本來就走 `attachRoomGLB`，看到 GLB 的 `extras.lightmap` 就接。測試樹沒改程式，截圖就是這樣接上的。
-- 換上後跑：全部 Node（結果在 outbox）。
+- 測試樹（開發 4df154b26＋DORM203＋系外套＋床欄透空＋Café 窗外 3D 街＋這一包）全部 Node **738 支 0 失敗**。
 
 ## 二、怎麼烘的
 
