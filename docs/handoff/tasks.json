@@ -36168,6 +36168,35 @@
    "source": "使用者 10-30 05:1x 兩則（X140）",
    "authorized": "使用者",
    "notes": ""
+  },
+  {
+   "id": "ECON-FRIENDS-SOCLIB-1030",
+   "title": "經濟系以前的同學在社科院圖書館遇得到（法律系以後的作息＋偶遇台詞）",
+   "area": "STORY",
+   "owner": "AA",
+   "status": "待開工",
+   "next": "AA 定人、作息、偶遇句（玩過／沒玩過前傳）→ LAWWW 加作息與偶遇",
+   "priority": "P1",
+   "first": {
+    "term": "Y1S1",
+    "week": 1,
+    "earliest": "法律系大一上第一次去社科院圖書館",
+    "mainline": false,
+    "blocks": false,
+    "prereq": false,
+    "parallel": true,
+    "confirmed": true
+   },
+   "source": "使用者 10-30 05:1x（X141）",
+   "authorized": "使用者",
+   "xai": {
+    "spec": "使用者原話",
+    "branch": "claude/cool-heisenberg-o8kuqx",
+    "acceptance": "人、作息、偶遇台詞可直接實作",
+    "receiver": "LAWWW",
+    "ack": "SENT"
+   },
+   "notes": ""
   }
  ]
 }

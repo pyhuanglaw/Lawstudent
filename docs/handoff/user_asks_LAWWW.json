@@ -1598,6 +1598,15 @@
    "status": "進行中",
    "wants": "X140",
    "task": "SK02-LINE-JACKET-1030"
+  },
+  {
+   "id": "UA-LAWWW-1030-20",
+   "at": "2026-10-30T05:1x",
+   "quote": "經濟系以前的同學 要能夠在社科院圖書館遇到吧",
+   "kind": "原話",
+   "status": "進行中",
+   "wants": "X141",
+   "task": "ECON-FRIENDS-SOCLIB-1030"
   }
  ]
 }
