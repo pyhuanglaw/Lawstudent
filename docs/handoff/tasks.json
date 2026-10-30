@@ -36649,8 +36649,8 @@
    "title": "手機人物頁補「全名、怎麼認識的、和你的關係」（使用者 10-30「玩這麼久搞不清楚阿哲是誰」）：阿哲先、其他常出現的朋友一起",
    "area": "STORY",
    "owner": "LAWWW",
-   "status": "已整合待測試",
-   "next": "BB-B n21_whois_law2（bcec62805，BB_218 b9667c0c9）瀏覽器 8 項中 7 項 PASS（第 1 項經濟系開局是捷徑）；第 5 項經濟系開局 9/2 搬進 412 朋友清單有韋綸唐睿＝n21_whois_econ2 跑中 → 過了改已驗收。80b964285 起芯慈「第二名」「第一次考第一」兩行拿掉（D116）",
+   "status": "已驗收",
+   "next": "已驗收（10-30 19:4x）。經濟系那一年後兩點（走啦群組、退宿以後）跟 BUG-WHOIS-ECONYEAR-1030 一起看（n21_whois_econ5）",
    "priority": "P1",
    "first": {
     "term": "Y1S1",
@@ -36672,7 +36672,8 @@
     "ack": "ACTIONED"
    },
    "notes": "阿哲＝張哲維（ev_zhe_w1_meet 最後一句才報全名）；personHTML 目前只有 personality 一句；實作 9597ffa34（個性 8 人）、f4adf6cb7（src/whois3d.js 13 人、9/2 搬進 412 記韋綸唐睿 FIRST_MET）、c4fc0d4fe（5-1）、bcec62805；全部 Node 771／1 → 那一支（v0_dorm_props，原始碼順序）修好、whois 53 項 ALL PASS",
-   "sha": "bcec62805"
+   "sha": "bcec62805",
+   "evidence": "BB-B 瀏覽器：n21_whois_law2（bcec62805，BB_218 b9667c0c9）法律系 8 項 7 PASS（第 1 項經濟系開局是捷徑，改由 econ4 實走）；n21_whois_econ4（1d4e7d897，BB_218 0d5abf6cb）照玩家從經濟系開局走：第 5 項 9/12 朋友清單有韋綸、唐睿 PASS；9/13 四人頁和 WHOIS.lines 一致、直向 OK；whois_unit ALL PASS"
   },
   {
    "id": "NDL-AUNT-VIS-1030",
@@ -36760,7 +36761,7 @@
    "owner": "LAWWW",
    "status": "已整合待測試",
    "priority": "P1",
-   "next": "469bdde7c 先不顯示回頭看的列；AA_543 第 6 節（企劃線 30e7b0311）經濟系那一年現在式四人接上（阿勳 E01_DONE、韋綸唐睿 E412_MOVEIN、宿營 ECON_CAMP_DONE、走啦群組 econ_friends、退宿 Y0_MOVED_OUT 換「住了兩個月」、轉法律系＝stage law 照第 2 節）；whois_unit 第 5 節 6 項、第 0 項稿換 30e7b0311 → BB n21_whois_econ4 重看",
+   "next": "469bdde7c 先不顯示回頭看的列；AA_543 第 6 節（企劃線 30e7b0311）經濟系那一年現在式四人接上（阿勳 E01_DONE、韋綸唐睿 E412_MOVEIN、宿營 ECON_CAMP_DONE、走啦群組 econ_friends、退宿 Y0_MOVED_OUT 換「住了兩個月」、轉法律系＝stage law 照第 2 節）；whois_unit 第 5 節 6 項、第 0 項稿換 30e7b0311 → BB n21_whois_econ4 重看；【19:4x】BB n21_whois_econ4：9/13 四人頁 PASS（BB_218 0d5abf6cb）；走啦群組、10/19 退宿以後那兩點＝探針當掉（BB 的工具），n21_whois_econ5 重跑",
    "first": {
     "term": "Y0S1",
     "week": 1,
