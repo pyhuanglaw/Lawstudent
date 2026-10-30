@@ -149,7 +149,10 @@ const GUIDE=(function(){
     const fit=Math.min(W/ex,H/ez)*0.94; const p=P(); st.view={cx:nav.ox+wW/2,cz:nav.oz+wH/2,k:fit,fit,th,lv,perLv,img:bmImage(nav),nav};
     if(!E.indoor&&fit<2.2){ st.view.k=Math.min(3.2,fit*2.2); st.view.cx=p.x; st.view.cz=p.z; }   // 校園很大：先放大到玩家附近，用「－」看全圖
     const zn=PLACES.names[GM.G.zone]||(E.zone.def&&E.zone.def.name)||''; $('bmTitle').textContent=zn+(perLv?'　'+(lv+1)+'F':''); if($('bmNorth')) $('bmNorth').classList.toggle('hide',!!E.indoor); const d=GM.G.goalDest; $('bmSub').textContent=GM.G.goal?('目標：'+GM.G.goal):'';
-    if($('bmPeople')){ renderPeoplePanel(); $('bmPeople').classList.toggle('hide',!(/自由/.test(GM.G.goal||'')||!GM.G.goalDest)); } drawMap(); }
+    if($('bmPeople')){ renderPeoplePanel(); const w=whoShow(st.who,GM.G.goal,GM.G.goalDest); $('bmPeople').classList.toggle('hide',!w.show); if($('bmWho')) $('bmWho').classList.toggle('hot',w.hot); } drawMap(); }
+  /* 大地圖的「認識的人現在大概在」（BB-B 10-30：一打開地圖清單就蓋住大半張地圖——直向蓋住大半、共同教學館蓋住「★ 102」、寬螢幕蓋住農業陳列館）：
+     預設收起；自由的日子（原本自動打開的時候，使用者 10-11「自由那天根本不知道其他 NPC 在哪」）👥 亮一個點提示；玩家自己按 👥 打開過＝之後打開地圖照樣展開、收起來就照樣收起（st.who）。測試：node tests/bigmap_people_unit.js */
+  function whoShow(who,goal,goalDest){ const free=/自由/.test(goal||'')||!goalDest; return {show:who===true,hot:free&&who!==true}; }
   function renderPeoplePanel(){ const el=$('bmPeople'); if(!el) return; const ppl=people(); el.innerHTML='<b>認識的人現在大概在</b>'+(ppl.length?ppl.map(q=>'<div class="row2" style="justify-content:space-between;gap:6px"><span>'+q.name+'：'+q.text+'</span><button class="btn" data-find="'+q.id+'">帶我去</button></div>').join(''):'<div class="muted">'+((typeof STORY!=='undefined'&&STORY.opening?STORY.opening(GM.G):GM.G.day<=2)&&!GM.G.flags.afternoonDone?'第一、二天的劇情還在進行，大家的行程還沒開始':'現在沒有人有固定的行程。去總圖、公館、溫州街走走，說不定會遇到')+'</div>'); el.querySelectorAll('[data-find]').forEach(b=>b.onclick=()=>{ if(GM.findPerson&&GM.findPerson(b.dataset.find)){ st.routeKey='~'; drawMap(); } }); }
   function closeMap(){ $('bigmap').classList.add('hide'); st.open=false; E.paused=!!st.wasPaused; freeCanvas($('bmCanvas')); }   /* 關掉就釋放大地圖畫布（手機 2 倍解析度約 5 MB；下次打開 drawMap 重設大小）*/
   function toScreen(v,W,H,wx,wz){ const dx=wx-v.cx, dz=wz-v.cz, c=Math.cos(v.th), s=Math.sin(v.th); return [W/2+(dx*c-dz*s)*v.k, H/2+(dx*s+dz*c)*v.k]; }
@@ -192,7 +195,7 @@ const GUIDE=(function(){
     const up=e=>{ pts.delete(e.pointerId); if(pts.size<2) pinch=null; }; cv.addEventListener('pointerup',up); cv.addEventListener('pointercancel',up);
     const zoom=f=>{ const v=st.view; if(!v) return; v.k=Math.max(v.fit*0.9,Math.min(12,v.k*f)); drawMap(); };
     $('bmIn').onclick=()=>zoom(1.6); $('bmOut').onclick=()=>zoom(1/1.6); $('bmMe').onclick=()=>{ const v=st.view; if(!v) return; const p=P(); v.cx=p.x; v.cz=p.z; if(v.k<2.2) v.k=Math.min(3.2,Math.max(v.k,2.2)); drawMap(); };
-    $('bmClose').onclick=closeMap; if($('bmWho')) $('bmWho').onclick=()=>{ const el=$('bmPeople'); renderPeoplePanel(); el.classList.toggle('hide'); }; if($('bmTravel')) $('bmTravel').onclick=()=>{ closeMap(); if(GM.openMenu) GM.openMenu('map'); }; $('minimap').addEventListener('click',()=>openMap()); window.addEventListener('resize',()=>{ if(st.open) drawMap(); }); }
+    $('bmClose').onclick=closeMap; if($('bmWho')) $('bmWho').onclick=()=>{ const el=$('bmPeople'); renderPeoplePanel(); el.classList.toggle('hide'); st.who=!el.classList.contains('hide'); $('bmWho').classList.remove('hot'); }; if($('bmTravel')) $('bmTravel').onclick=()=>{ closeMap(); if(GM.openMenu) GM.openMenu('map'); }; $('minimap').addEventListener('click',()=>openMap()); window.addEventListener('resize',()=>{ if(st.open) drawMap(); }); }
 
   function init(gm){ GM=gm; E=gm.E; bindMap(); }
   function zoneChanged(){ st.routeKey='~'; st.route=null; clearMarkers(); st.markerZone=null; for(const c of st.bmImgs.splice(0)) if(c.nav!==E.nav&&!(E.levels&&E.levels.includes(c.nav))){ freeCanvas(c.img); c.nav._bmImg=null; } else st.bmImgs.push(c); }
