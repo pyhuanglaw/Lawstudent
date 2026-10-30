@@ -154,8 +154,8 @@ def lbox(m, side, u0, u1, y0, y1, v0, v1, fn='box', **kw):
 
 
 # ======================================================================= 房間：地板、天花板、燈
-Mesh('dorm_floor', M['floor']).box(X0, X1, -0.02, 0.0, Z0, Z1).finish(root)
-ce = Mesh('dorm_ceiling', M['ceil']); ce.quad([(X0, H, Z0), (X1, H, Z0), (X1, H, Z1), (X0, H, Z1)]); ce.finish(root, uv=False)
+Mesh('dorm_floor', M['floor']).box(X0, X1, -0.02, 0.0, Z0, Z1).finish(root, props={'lm': 1.3, 'lmhide': 'side,down'})   # lm、lmhide：光照烘焙（DORM203-LM-1030，bake_dorm_room4.sh）分給地板多一點；地板方塊的四邊埋在牆裡、底面看不到
+ce = Mesh('dorm_ceiling', M['ceil']); ce.quad([(X0, H, Z0), (X1, H, Z0), (X1, H, Z1), (X0, H, Z1)]); ce.finish(root, uv=False, props={'lm': 0.35})   # 天花板：玩家鏡頭往下看，幾乎看不到
 tb = Mesh('dorm_tubes', M['tube']); fx = Mesh('dorm_fixtures', M['fixture'])
 for (cx, cz, r) in ((0.0, -1.7, 0.24), (0.0, 0.7, 0.24), (1.8, 2.45, 0.13)):     # 圓形吸頂燈（照片）：外殼＋乳白燈罩；最後一盞在洗手間
     fx.add_bm(L.lathe([(r, 0.0), (r, -0.035), (r - 0.02, -0.045), (0.0, -0.045)], seg=24), Matrix.Translation(g2b(cx, H - 0.002, cz)))
@@ -756,6 +756,11 @@ for x_ in (RX0, RX1):
     met.cyl((x_, 0.0, RZ - 0.27), (x_, 1.1, RZ), 0.008, seg=5); met.cyl((x_, 0.0, RZ + 0.27), (x_, 1.1, RZ), 0.008, seg=5)
 for (y_, dz) in ((1.1, 0.0), (0.85, -0.1), (0.85, 0.1)): met.cyl((RX0, y_, RZ + dz), (RX1, y_, RZ + dz), 0.006, seg=5)
 it.cbox(-2.3, -2.0, 0.62, 1.1, RZ - 0.015, RZ + 0.015, '#e6e0d2'); it.cbox(-1.95, -1.8, 0.7, 1.1, RZ - 0.115, RZ - 0.085, '#4a6c8c')
+# 大家共用的東西（DORM203-LM-1030；四個年級、經濟系那年都一樣）：洗手間門口的吸水腳踏墊（走道上、平的，不擋路）；門左邊角落靠牆的掃把和畚箕
+bmat = Mesh('dorm_bathmat', L.flat('dorm_bathmat', '#7f8b92', rough=0.97)); soft_box(bmat, 0.1, 0.58, 0.0, 0.012, 2.33, 2.87, r=0.005, seg=1); fin(bmat, uv=False, props={'lm': 0.6})
+met.cyl((-2.79, 0.06, 3.12), (-2.84, 1.22, 3.27), 0.011, seg=6)                                                                      # 掃把：鋁管＋塑膠頭＋刷毛
+it.cbox(-2.86, -2.72, 0.02, 0.1, 3.05, 3.19, '#2f6f8f'); it.cbox(-2.85, -2.73, 0.0, 0.03, 3.06, 3.18, '#c9b98a')
+it.cbox(-2.86, -2.62, 0.0, 0.015, 3.24, 3.36, '#2f6f8f'); it.cbox(-2.86, -2.84, 0.015, 0.2, 3.24, 3.36, '#2f6f8f')                    # 畚箕（立在牆角）
 LAYOUT['blocks'] += [{'id': 'shoe_cabinet', 'x': [IX0, round(IX0 + 0.36, 3)], 'z': [1.62, 2.82]}, {'id': 'bins', 'x': [-1.4, -0.8], 'z': [3.05, IZ1]},
                      {'id': 'drying_rack', 'x': [RX0 - 0.05, RX1 + 0.05], 'z': [RZ - 0.3, RZ + 0.3]}, {'id': 'bath', 'x': [round(bx0 - bt / 2, 3), IX1], 'z': [round(bz0 - bt / 2, 3), IZ1]}]
 

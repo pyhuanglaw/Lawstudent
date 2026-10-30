@@ -1,0 +1,12 @@
+{"zone": "dorm", "title": "宿舍 203（大一）：左＝改前、右＝改後；路人拿掉、同一個鏡頭",
+ "state": {"stage": "law", "day": 45, "flags": {"KAI_MOVEIN": true}},
+ "views": [
+  {"name": "d_in",    "label": "白天 14:00｜進門往窗",             "hour": 14,   "pos": [0, 2.2],    "yaw": 0,       "pitch": 0.38},
+  {"name": "d_left",  "label": "白天 14:00｜走道往左（祐廷的書桌）", "hour": 14,   "pos": [-1.1, 0.2], "yaw": 1.5708,  "pitch": 0.32},
+  {"name": "d_right", "label": "白天 14:00｜走道往右（柏翰、阿凱）", "hour": 14,   "pos": [1.1, -1.4], "yaw": -1.5708, "pitch": 0.32},
+  {"name": "d_back",  "label": "白天 14:00｜窗邊往門口",           "hour": 14,   "pos": [0, -2.4],   "yaw": 3.1416,  "pitch": 0.38},
+  {"name": "n_in",    "label": "晚上 20:30｜進門往窗",             "hour": 20.5, "pos": [0, 2.2],    "yaw": 0,       "pitch": 0.38},
+  {"name": "n_left",  "label": "晚上 20:30｜走道往左（祐廷的書桌）", "hour": 20.5, "pos": [-1.1, 0.2], "yaw": 1.5708,  "pitch": 0.32},
+  {"name": "n_right", "label": "晚上 20:30｜走道往右（柏翰、阿凱）", "hour": 20.5, "pos": [1.1, -1.4], "yaw": -1.5708, "pitch": 0.32},
+  {"name": "n_back",  "label": "晚上 20:30｜窗邊往門口",           "hour": 20.5, "pos": [0, -2.4],   "yaw": 3.1416,  "pitch": 0.38}
+ ]}
