@@ -192,9 +192,9 @@ const DATE=(function(){
   S.overnightLocs=()=>Object.keys(D().locations).filter(k=>((S.loc(k)||{}).kinds||[]).includes('overnight')&&S.listable(k));
   /* 同一趟的第二天（AA_128 第 116 行：D31＋D32）：第二個地點也要能住一晚、而且在清單上（有底圖、有台詞）*/
   S.comboOf=locId=>((S.loc(locId)||{}).combo||[]).find(c=>((S.loc(c)||{}).kinds||[]).includes('overnight')&&S.listable(c)&&S.loc(locId).id<c)||null;
-  S.canAsk=function(G,id){ if(!S.HEROINES.includes(id)) return {ok:false,why:'不能約'};
+  S.canAsk=function(G,id,o){ if(!S.HEROINES.includes(id)) return {ok:false,why:'不能約'};   /* o.face：當面約（不用聯絡方式；INVITE-MENU-1030 B）*/
     { const last=S.lastDay(); if(last!=null&&G.day>last) return {ok:false,why:'畢業典禮以後不能預約'}; if(S.playerAbroad(G,G.day)) return {ok:false,why:'你在國外'}; }   /* DATE-S8（AA_128 11-1）*/
-    if(typeof INV!=='undefined'&&INV.whyNot){ const w=INV.whyNot(G,id); if(w) return {ok:false,why:w}; }
+    if(typeof INV!=='undefined'&&INV.whyNot){ const w=INV.whyNot(G,id,o); if(w) return {ok:false,why:w}; }
     return S.canAskCore(G,id); };
   /* INV.whyNot 以外的條件（第 5 階、她在等你說清楚、她有交往的對象）：INV.whyNot 也用它（AA_350 T7a：她在台中、約得到才打開手機的「約」；不能叫 canAsk，會繞回 whyNot）*/
   S.canAskCore=function(G,id){ const F=G.flags||{}, dating=!!F['dating_'+id];
@@ -337,21 +337,35 @@ const DATE=(function(){
   const awayAt=(G,id,day)=>{ if(!S.noNorthOn(G,id,day)||!STORY.presence) return null; const p=STORY.presence(id,Object.assign({},G,{day})); if(p.here) return null; return {at:p.city||p.home||'',away:p.away||''}; };   /* 不在城市、也不在老家（例：2029-07 山上的營隊）＝照 presence 的 away 那幾個字 */
   S.noTaipei=function(G,id,day,locId){ const L=S.loc(locId); if(!L||!S.NORTH.includes(L.area)) return ''; const a=awayAt(G,id,day); if(!a) return ''; return a.at?'她在'+a.at+'。要見她，得去'+a.at+'。':'她'+a.away+'。'; };
   S.cityNow=function(G,id,day,locId){ const L=S.loc(locId); if(!L||!S.NORTH.includes(L.area)) return ''; const a=awayAt(G,id,day==null?G.day:day); if(!a) return ''; return a.at?'她現在在'+a.at+'。':'她'+a.away+'。'; };
-  S.menu=async function(GM,id,n){ const G=GM.G; S.rec(G); const ca=S.canAsk(G,id); if(!ca.ok){ await GM.say(null,ca.why+'。'); return null; }
+  /* 「去校外…」的第二層（INVITE-MENU-1030，使用者 10-30 04:2x「如果太多就分階層」：原本 28～30 列平鋪，手機直向要捲三個畫面）：照地點分類，一類最多 7 個；
+     一類只有一個＝直接列那個地點、整類都約不了＝灰掉並寫原因（INV.menuTree）；沒分到的地點放「其他」；兩天一夜照舊另一項（D26～D32）。分類名稱是系統字 */
+  S.GROUPS=[
+    {id:'city',t:'市區：看展・電影',ids:['D01','D02','D03','D04','D05','D06','D07']},
+    {id:'river',t:'動物園・河岸・老城',ids:['D08','D10','D12']},
+    {id:'hill',t:'山・溫泉・夜景',ids:['D09','D11','D15','D20']},
+    {id:'sea',t:'海邊',ids:['D13','D14','D16','D17','D23']},
+    {id:'old',t:'老街',ids:['D18','D19','D21']},
+    {id:'far',t:'外縣市一日',ids:['D22','D24','D25','D26','D27']}];
+  const flatPick=async(GM,nodes)=>{ const L=[]; for(const x of nodes) if(x.items) L.push(...x.items); else L.push(x); for(;;){ const o=L.map(x=>({t:x.t,hint:x.hint,dim:!!x.dim})); o.push({t:'算了'});   /* 沒有 INV（舊的測試環境）：平鋪 */
+      const k=await GM.choose(o); if(!(k>=0&&k<L.length)) return null; const x=L[k]; if(x.dim&&x.why){ await GM.say(null,x.why); continue; } return x; } };
+  S.menu=async function(GM,id,n){ const G=GM.G; S.rec(G); const ca=S.canAsk(G,id,n?{face:true}:null); if(!ca.ok){ await GM.say(null,ca.why+'。'); return null; }
     if(id==='heroine_05'&&typeof SISG!=='undefined'&&SISG.dateDecline&&SISG.dateDecline(G)){ await SISG.dateNo(GM,n); return null; }   /* 學姊：大一上第 10 週起到筆試婉拒校外約會：第 10～13 週「等我考完。」、第 14 週～筆試「校外的話，等我考完。……考完我想去很遠的地方。」（AA_284 2-1、AA_339 第 4 題；句子在 src/sis_grad3d.js 的 SISG.DATE_NO）*/
     const only=S.homeOnly(G,id), inOnly=k=>!only||only.includes(k);   /* AA_350 T7a：她今天在台中＝只列 D26（兩天一夜也是）*/
     const locs=Object.keys(D().locations).filter(k=>S.listable(k)&&S.kindAt(k,10)&&inOnly(k)), ovl=S.canOvernight(G,id)?S.overnightLocs().filter(inOnly):[];   /* 兩天一夜：第 6 階或交往中才有這一項；沒到條件 D28～D32 不列（AA_359 第 4 節）*/
     if(!locs.length&&!ovl.length){ await GM.say(null,'（還沒有可以約的校外地點。）'); return null; }
-    for(;;){ const lo=locs.map(k=>{ const L=S.loc(k), tr=S.travel(k), nt=S.noTaipei(G,id,G.day,k); return nt?{t:L.name,hint:S.cityNow(G,id,G.day,k),dim:true,why:nt}:{t:L.name,hint:L.area+(tr?'　'+tr.label+' 約 '+tr.minutes+' 分':'')}; });   /* 她不上來：北部的地點灰掉（AA_349 K3、K11）*/
-      const mu=typeof HV!=='undefined'&&HV.museumOffer?HV.museumOffer(G,id):null, muIdx=mu?lo.length:-1; if(mu) lo.push({t:mu.name,hint:mu.ok?mu.hint:mu.why,dim:!mu.ok});   /* 沛珊大三起的心願地點「台南・美術館」（AA_349 K3：去台南的那一天；hometown3d.js）*/
-      const ovIdx=ovl.length?lo.length:-1; if(ovl.length) lo.push({t:'兩天一夜…',hint:'住一晚（住宿 '+S.lodging()+' 元）'});
-      lo.push({t:'算了'});
-      const li=await GM.choose(lo); if(li===muIdx){ if(!mu.ok){ await GM.say(null,mu.why+'。'); continue; } return HV.museumAsk(GM,id,n); }
+    for(;;){ const leaf=k=>{ const L=S.loc(k), tr=S.travel(k), nt=S.noTaipei(G,id,G.day,k); return nt?{t:L.name,hint:S.cityNow(G,id,G.day,k),dim:true,why:nt,loc:k}:{t:L.name,hint:L.area+(tr?'　'+tr.label+' 約 '+tr.minutes+' 分':''),loc:k}; };   /* 她不上來：北部的地點灰掉（AA_349 K3、K11）*/
+      const used=new Set(), nodes=S.GROUPS.map(g=>{ const it=g.ids.filter(k=>locs.includes(k)); it.forEach(k=>used.add(k)); return {t:g.t,gid:g.id,items:it.map(leaf)}; });   /* 照地點分類（INVITE-MENU-1030）：整類灰掉＝小字寫原因 */
+      { const rest=locs.filter(k=>!used.has(k)); if(rest.length) nodes.push({t:'其他',items:rest.map(leaf)}); }   /* 之後新增、還沒分類的地點 */
+      const mu=typeof HV!=='undefined'&&HV.museumOffer?HV.museumOffer(G,id):null; if(mu) nodes.find(g=>g.gid==='far').items.push({t:mu.name,hint:mu.ok?mu.hint:mu.why,dim:!mu.ok,why:mu.ok?'':mu.why+'。',go:'mu'});   /* 沛珊大三起的心願地點「台南・美術館」（AA_349 K3：去台南的那一天；hometown3d.js）：放在外縣市一日 */
+      if(ovl.length) nodes.push({t:'兩天一夜…',hint:'住一晚（住宿 '+S.lodging()+' 元）',go:'ov'});
+      const pick=async x=>{ if(x.dim&&x.why){ await GM.say(null,x.why); return INV.STAY_MENU; } return x; };   /* 灰掉的地點：說原因、再選一次 */
+      const x=typeof INV!=='undefined'&&INV.menuTree?await INV.menuTree(GM,nodes,pick):await flatPick(GM,nodes); if(!x) return null;
+      if(x.go==='mu') return HV.museumAsk(GM,id,n);
       let loc, kind, two=null;
-      if(li===ovIdx){ const oo=ovl.map(k=>{ const L=S.loc(k), tr=S.travel(k); return {t:L.name,hint:L.area+(tr?'　'+tr.label+' 約 '+tr.minutes+' 分':'')}; }); oo.push({t:'算了'});   /* 可以住一晚的地點（D26～D32）*/
+      if(x.go==='ov'){ const oo=ovl.map(k=>{ const L=S.loc(k), tr=S.travel(k); return {t:L.name,hint:L.area+(tr?'　'+tr.label+' 約 '+tr.minutes+' 分':'')}; }); oo.push({t:'算了'});   /* 可以住一晚的地點（D26～D32）*/
         const oi=await GM.choose(oo); if(oi>=ovl.length) continue; loc=ovl[oi]; kind='overnight';
         const c2=S.comboOf(loc); if(c2){ const ci=await GM.choose([{t:'只去'+S.loc(loc).name},{t:S.loc(loc).name+'＋'+S.loc(c2).name,hint:'第二天去'+S.loc(c2).name+'（要開車）'}]); if(ci===1) two=c2; } }   /* D31＋D32 同一趟（AA_128 第 116 行）*/
-      else { if(li>=locs.length) return null; if(lo[li].dim){ await GM.say(null,lo[li].why); continue; } loc=locs[li]; }
+      else loc=x.loc;
       const L=S.loc(loc), names=two?L.name+'、'+S.loc(two).name:L.name; let mode=((L.transport||[])[0]||{}).mode;
       const T=(L.transport||[]).filter(x=>x.mode&&(!two||x.mode==='car')), pref=S.prefOf(id,loc); let prefOff=false; if(two) mode='car'; if(pref&&T.some(x=>x.mode===pref)){ T.sort((a,b)=>(b.mode===pref)-(a.mode===pref)); mode=pref; }   /* 她的偏好排第一、預設選它；D31＋D32 只能開車（清境要車）*/
       if(two&&pref&&pref!=='car') prefOff=true;
