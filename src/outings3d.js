@@ -93,7 +93,8 @@ const OUT=(function(){
   /* 出發：轉場 → 抵達（不早於約好的時間）→ 演事件（深色底開始，避免看到原本的 3D 畫面）→ 時間往後 → 回到原本的地方 */
   /* 演完的地點字幕（出遊沒寫 back 的）：畢業以後退宿了（MOVED_OUT）＝回到家／公館的套房，不是「回到台大。」（BUG-PG-RETURN-TEXT-1021：6/9 典禮、K26、麵店、畢業以後的固定格）*/
   S.backText=G=>{ if(typeof HOME!=='undefined'&&HOME.movedOut&&HOME.movedOut(G)) return HOME.suite&&HOME.suite(G)?'回到公館的套房。':'回到家。'; return '回到台大。'; };
-  S.go=async function(GM,q,o){ const G=GM.G, ev=evOf(q.ev), tr=S.trip(G,q,o&&o.fromHome);   /* o.fromHome：從家裡的選單出發（選單先把「在家」關掉了）*/
+  S.homeSaid=null;   /* AA_529 6-1：這一趟演完、階梯前面已經說了「（晚上，回到家。）」的出遊 id */
+  S.go=async function(GM,q,o){ const G=GM.G, ev=evOf(q.ev), tr=S.trip(G,q,o&&o.fromHome); S.homeSaid=null;   /* o.fromHome：從家裡的選單出發（選單先把「在家」關掉了）*/
     if(q.camp&&typeof STORY!=='undefined'&&STORY.campY1){ q.state='done'; await STORY.campY1(GM,{next:false});   /* 法律系迎新宿營（經濟系路線，AA_205 2-3）：三天全部在 S.campY1 演，演完回到 8/24 下午的家 */
       if(!(o&&o.fromHome)&&typeof HOME!=='undefined'&&HOME.arriveQuiet&&HOME.baseMode&&HOME.baseMode(G)) HOME.arriveQuiet(GM).catch(e=>console.warn('HOME.arriveQuiet',e)); return true; }
     const dt=!!q.dateTrip&&typeof DATE!=='undefined';   /* 校外單獨約會：抵達後演 DATE.scene（不是 STORY_EVENTS 的事件）*/
@@ -123,7 +124,7 @@ const OUT=(function(){
     if(kxHere&&typeof STORY!=='undefined'&&STORY.ladNext){ const md=q.verb==='接起來'||q.place==='視訊'?'video':'meet', st=STORY.ladNext(G,'kexin',md);   /* 可昕的閒聊階梯（BB_130：只在見面／視訊推進，路上不推進）：演完那一段接著聊一層；今天推進過或條件不到就不聊（不用短招呼）*/
       let go=!!st; if(go&&st.id==='K-L6'&&q.ev==='ev_kexin_video_study') go=false;   /* AA_313 第 2 節第 54 列：K4 一起讀書的視訊那晚不接 K-L6（同一個「讀書時的聲音」，留到下一次見面）*/
       if(go&&G.stage==='econ'&&G.flags&&G.flags.Y0_MOVED_OUT&&md==='meet'){   /* AA_304 第 10 列：休學在家那一年，她的階梯講的是家裡的事（餐桌、鉛筆盒），不直接接在外面的場景後面：傍晚以後先回到家，白天不接 */
-        if(G.hour<17) go=false; else { if(typeof ADV!=='undefined'&&ADV.setBg) ADV.setBg(S.bg('home_living')); await GM.say(null,'（晚上，回到家。）'); } }
+        if(G.hour<17) go=false; else { if(typeof ADV!=='undefined'&&ADV.setBg) ADV.setBg(S.bg('home_living')); await GM.say(null,'（晚上，回到家。）'); S.homeSaid=q.id; } }   /* AA_529 6-1：說了「回到家」＝home3d.js 不再接「回臺北的家」卡 */
       if(go) await STORY.ladPlay(GM,{name:SOCIAL.displayName('kexin'),charId:'kexin'},'kexin',st); }
     await S.runAfter(GM,q,ev);   /* 結尾、分開以前（OUT.AFTER）：畫面還在那裡（可昕在場的還在右邊）*/
     if(kxTail&&ADV.active) ADV.end();
