@@ -6,6 +6,7 @@
 //      有別的交往對象（她不知道）＝others 後兩行、不交往；她先說（先不說）——she 最後一句就是問題，有對象＝others、沒有＝「沒有。」再出好／讓我想想
 //   3  她知道你有別人＝心意邀約不發、時段第一天傳 NOPE.knows；多段的開關打開＝照一般的知情條件
 //   4  AA_537b 第 1～3 節（date_lines.js）：十一個 key、128 點喜好、15 句不喜歡、八個常去地點，逐字對稿
+//   5  第 2 段：慈 6 那一場最後「空白的週三下午」（3-5，G8 XC_BLANK）、沒和以安和好多一句（3-6）
 // 用法：node tests/xinci_romance_unit.js（稿用 git show 讀：在沒有 .git 的目錄跑時，設環境變數 XC_GIT_DIR＝這個 repo 的目錄）
 'use strict';
 require('./alison.js');
@@ -108,6 +109,18 @@ const walk=async(picks,term)=>{ H.said=[]; H.opts=[]; H.picks=picks.slice(); ret
     check('4. 128 點喜好、15 個不喜歡的點各有一句（照稿）',nl===128&&nd===15&&!badD.length,J([nl,nd,badD]));
     const locs=Object.keys(DATE_LINES.loc).filter(l=>((DATE_LINES.loc[l].lines||{})[XC]));
     check('4. 八個常去地點（D02、D04、D05、D06、D07、D12、D15、D18）有到達／收尾；D04 第一次到「西門町。我週六晚上常來。……都是一個人。」「今天不是。」',J(locs.sort())===J(['D02','D04','D05','D06','D07','D12','D15','D18'])&&J(DATE_LINES.loc.D04.lines[XC].arrive.first.lines.map(x=>x.text))===J(['西門町。我週六晚上常來。……都是一個人。','今天不是。']),J(locs)); });
+
+  /* ===== 第 5 節：第 2 段 3-5、3-6（慈 6 那一場）===== */
+  await sec(5,async()=>{ const ev=id=>STORY_EVENTS.find(e=>e.id===id);
+    const play=async(fl,picks)=>{ H.fresh('2028-05-04',19.2,'noodle',Object.assign({introDone:true},fl)); const r=SOCIAL.rel(XC); r.fam=30; SOCIAL.remember(XC,'FIRST_MET','camp'); H.said=[]; H.opts=[]; H.picks=picks.slice(); await EVENTS.run(ev('ev_xinci_first_place')); return T(); };
+    const B=['週三下午，原本是經濟系的課。','現在空出來了。','我第一次有一個不知道要做什麼的下午。'];
+    let t=await play({XC5_RECONCILE:true},[0,'那我來填']);
+    check('5. 3-5：慈 6 最後「週三下午，原本是經濟系的課。」「現在空出來了。」「我第一次有一個不知道要做什麼的下午。」→「那我來填。」＝「……好。不要填太滿。」、XC_BLANK',J(t.slice(-4))===J(B.concat(['……好。不要填太滿。']))&&H.G.flags.XC_BLANK===true&&B.concat(['……好。不要填太滿。']).every(x=>DOC537.includes('> 芯慈：'+x)),J(t.slice(-5)));
+    t=await play({XC5_RECONCILE:true},[0,'休息']); const t2=await play({XC5_RECONCILE:true},[0,'以安念的']);
+    check('5. 3-5：另外兩個「休息。……我試試看。」「不要。……謝謝。」，不記 XC_BLANK',t.slice(-1)[0]==='休息。……我試試看。'&&t2.slice(-1)[0]==='不要。……謝謝。'&&!H.G.flags.XC_BLANK,J([t.slice(-1),t2.slice(-1)]));
+    t=await play({},[0,'那我來填']); const i=t.indexOf('一點都不好玩。');
+    check('5. 3-6：沒和以安和好（沒有 XC5_RECONCILE）＝「一點都不好玩。」後面多「我還是想知道她考幾分。……很爛吧。」；和好的沒有',t[i+1]==='我還是想知道她考幾分。……很爛吧。'&&DOC537.includes('> 芯慈：我還是想知道她考幾分。……很爛吧。')&&!(await play({XC5_RECONCILE:true},[0,'那我來填'])).includes('我還是想知道她考幾分。……很爛吧。'),J(t.slice(i,i+2)));
+    check('5. 視訊版（日本路線）同一份台詞（XC_LINES）',J(ev('ev_xinci_first_place_video').dialogue.slice(1))===J(ev('ev_xinci_first_place').dialogue)); });
 
   H.done();
 })();
