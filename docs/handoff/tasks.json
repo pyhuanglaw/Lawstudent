@@ -28726,7 +28726,7 @@
    },
    "source": "使用者 2026-10-21 22:5x 直接對 AA；AA 22:50 轉 LAWWW（AA_交接紀錄 f032523b）；USER_WANTS C25",
    "authorized": "D109（AA 劇情自主）；其他女主角的路線、結局不動（使用者的決定）",
-   "next": "AA：總檢查交 LAWWW；LAWWW：AA378-Y4S1-FIX-1021 第 1 節先做；之後學姊的補強場景交件就排最前；下次檢查 10-22",
+   "next": "AA 稿已交、等 AA 在遊戲裡重讀（學姊：AA_539 三種玩家×八學期＋美日路線對 AA_470 A～H；女主角生活：postrel-1030 合進開發分支以後讀）",
    "xai": {
     "spec": "使用者 10-21 22:5x 原話；AA_378 第 1 節",
     "branch": "claude/story-planning",
@@ -28734,7 +28734,7 @@
     "receiver": "LAWWW",
     "ack": "ACK"
    },
-   "notes": "AA-B 18:15 總檢查交 AA_470（三種存檔、臺灣八學期＋美日；交往中已是七位最厚，缺學期接縫與家族群組）→ SIS-B12-1025。"
+   "notes": "【07:1x】AA-B 07:13：稿都交完（學姊 AA_470、十二～十六批、AA_512、AA_523；生活 AA_503～513、AA_524／525），剩重讀 ｜ AA-B 18:15 總檢查交 AA_470（三種存檔、臺灣八學期＋美日；交往中已是七位最厚，缺學期接縫與家族群組）→ SIS-B12-1025。"
   },
   {
    "id": "SIS-B12-1025",
@@ -34396,14 +34396,15 @@
     "parallel": true,
     "confirmed": true
    },
-   "next": "【LAWWW-C 2026-10-28 15:0x UTC】AA_524（8fd10848d，以安、芷若、語彤 34 條）、AA_525（6081f725f，子晴、沛珊、可昕 29 條）說了沒發生交了（DL-AA-524、525；照 LAWWW-C 14:26 的建議，X122★「她的事自己往前走」）；兩個子代理並行，下一版 v9.10.14｜【LAWWW-C 2026-10-28 04:5x UTC】AA_506、AA_507 手機部分（照 31a4c4002）合進開發分支 923e81d20（子代理 95e41cb8f；aa506_507_feed_unit 58 項）；AA_508 第 0-2 節十一件 1c1c569a1、aeba34286、5fe5dc2c0；下一步：AA_508 手機動態＋同框、各學期 3D 圈子（HEROINE-LIFE-NPC3D-1028）｜【LAWWW-C 2026-10-28 03:5x UTC】第二輪合進開發分支 1ac24cb11（d3ace2663）：AA_504、AA_505 手機（動態 84 則、私訊 10 則）、別人說起她 41 句、AA_503 第 12 節；沒做：3D 圈子、pool 同學說的那幾句、小婷、大一的學妹、交往中約會後的動態；下一輪：AA_506（e4fbd0192 版本）、AA_507 的手機部分；子代理判斷 9 點轉 AA｜【LAWWW-C 2026-10-28 03:0x UTC】AA_503 手機的部分合進開發分支 481c039c7（子代理 a962ff0a6，稿 62849944b）：動態頁、七位大一上 44 則動態、10 則私訊、可昕四則改動態；aa503_feed_unit（修改前 FAILED 55）；沒做：3D 圈子、別人說起她、Kevin 12/15 群組、予樂私訊、203 阿凱那一句；子代理問的 3 點（可昕四則、12/3 報告、爬五次）問 AA｜【LAWWW-C 2026-10-28 02:5x UTC】AA_505 大二上＋寒假交了（62849944b，DL-AA-505；含 AA_503／504 更正三處）；AA_503 用 62849944b（已轉手機子代理）；AA_504、505 等手機子代理合進來以後同一套接｜【LAWWW-C 2026-10-28 02:4x UTC】AA_504 大一下＋暑假交了（bf50e9825，DL-AA-504）；AA_503 更正 74916d73b（芷若冬季菜單、語彤受試者、子晴練習賽）已轉手機子代理；AA_504 等手機子代理合進來以後同一套接；予樂老家 AA 定嘉義、D30 不動（AA_504 用 ef783aa61）｜【LAWWW-C 2026-10-28 02:2x UTC】AA_503 大一上交了（c6c93432d，DL-AA-503）：動態頁、圈子同框、七位各自的事；LAWWW 接（v9.10.13 以後分批）；3D 人物派 LAWWW2（HEROINE-LIFE-NPC3D-1028）｜【LAWWW-C 2026-10-28 01:2x UTC】派 AA-C 規劃（每位一份：她的圈子、每學期她自己的事、玩家怎麼知道）；LAWWW 接（作息裡和朋友同框、動態／訊息、別人的閒聊）",
+   "next": "AA 稿已交、等 AA 在遊戲裡重讀（學姊：AA_539 三種玩家×八學期＋美日路線對 AA_470 A～H；女主角生活：postrel-1030 合進開發分支以後讀）",
    "xai": {
     "spec": "AA_503（c6c93432d）",
     "branch": "claude/magical-albattani-bk7b4n",
     "acceptance": "玩家看得到女主角不只繞著自己轉：有朋友、有自己的事、會講自己的生活",
     "receiver": "LAWWW",
     "ack": "SENT"
-   }
+   },
+   "notes": "【07:1x】AA-B 07:13：稿都交完（學姊 AA_470、十二～十六批、AA_512、AA_523；生活 AA_503～513、AA_524／525），剩重讀 ｜ "
   },
   {
    "id": "DORM203-MATES-1028",
@@ -35748,9 +35749,9 @@
    "id": "AA522-ANSVAR-1030",
    "title": "AA_522 第 9 節第 1 點：民總第一堂第一次跟周教授說話，classAnswer 的 half／bold／absent 沒有稿，現在說一般那句「週四下課以後我都在」（那天就是週四、研究室下週才開）",
    "area": "STORY",
-   "owner": "AA",
-   "status": "等待其他AI／素材",
-   "next": "AA 給句子或決定照一般那句 → LAWWW 改 talkProf",
+   "owner": "LAWWW",
+   "status": "已實作待整合",
+   "next": "已在 postrel-1030（6c37df703）→ v9.10.14 後進開發分支 → BB 測（民總第一堂答一半／說成立／沒來，下課找周教授）",
    "priority": "P3",
    "first": {
     "term": "Y1S1",
@@ -35769,11 +35770,9 @@
     "branch": "claude/cool-heisenberg-o8kuqx",
     "acceptance": "三種回答各有一句或明確照一般那句",
     "receiver": "LAWWW",
-    "ack": "SENT"
+    "ack": "ACTIONED"
    },
-   "pausedReason": "等 AA 回（排在 AA_529 之後）",
-   "resumeWhen": "AA 回覆",
-   "notes": "不擋 v9.10.14"
+   "notes": "【07:2x】AA-B：稿早在 50cd33b53（03:4x）交了、outbox 漏登；照三句做（S.ZHOU_W1），新測試 aa522_ansvar_unit ｜ 不擋 v9.10.14"
   },
   {
    "id": "BUG-SAVE-NEWGAME-1030",
@@ -36196,7 +36195,7 @@
    },
    "source": "使用者 10-30 05:1x 兩則（X140）",
    "authorized": "使用者",
-   "notes": "【06:4x】LAWWW2-B 交件 b84ce8d27（外套二進位＋patch＋jacket_econ_unit；床欄透空 cine_seethru patch）；派子代理 ｜ 【05:1x】①台詞改好 postrel-1030 4ecc3039c（AA-B 05:04：「我重考了。現在念法律系。」「……喔，重考的那個。……」）；②穿外套規則 AA 定：ev_sk02_spy 那天必穿、大一上下最高溫 ≤20°C 的上課日出門穿、回宿舍掛椅背、大二起一直掛椅背；外套字「首都帝大 經濟」「CIU ECON」→ 等 LAWWW2 外套（JACKET_ECON）與椅背（JACKET_CHAIR，宿舍 203）｜ "
+   "notes": "【07:1x】AA-B 07:13：沒有每天的氣溫，用大一上第 10 週～大一下第 6 週的上課日代替，可以 ｜ 【06:4x】LAWWW2-B 交件 b84ce8d27（外套二進位＋patch＋jacket_econ_unit；床欄透空 cine_seethru patch）；派子代理 ｜ 【05:1x】①台詞改好 postrel-1030 4ecc3039c（AA-B 05:04：「我重考了。現在念法律系。」「……喔，重考的那個。……」）；②穿外套規則 AA 定：ev_sk02_spy 那天必穿、大一上下最高溫 ≤20°C 的上課日出門穿、回宿舍掛椅背、大二起一直掛椅背；外套字「首都帝大 經濟」「CIU ECON」→ 等 LAWWW2 外套（JACKET_ECON）與椅背（JACKET_CHAIR，宿舍 203）｜ "
   },
   {
    "id": "ECON-FRIENDS-SOCLIB-1030",
