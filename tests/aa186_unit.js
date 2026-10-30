@@ -51,9 +51,9 @@ GM.money=function(n){ G.money+=n; };
   check('C2. 舊資料的 ev_an_study_group 照舊讀成公法讀書會（LADDER_EVENT_ALIAS）',J(STORY.ladLines({id:'X',lines:['舊'],linesIf:[{if:{events:['ev_an_study_group']},lines:['新']}]},G,'heroine_01'))==='["新"]');
   check('C3. 語彤 Y5-L6 等續約（RENT_RENEWED）',!STORY.LADDER_HOLD['Y5-L6']({flags:{}})&&STORY.LADDER_HOLD['Y5-L6']({flags:{RENT_RENEWED:true}}));
   check('D1. E25 旁白用「你」',/她笑著打你的手臂/.test(txt1('ev_y0_e25'))&&/她拉住你的袖子/.test(txt1('ev_y0_e25'))&&!/打他的手臂|拉住他的袖子/.test(txt1('ev_y0_e25')));
-  check('D2. SK03（大一下）是活大',ev2('ev_sk03_lunch').title==='週五的活大'&&!/小福/.test(txt1('ev_sk03_lunch')));
+  check('D2. SK03（大一下）是學活',ev2('ev_sk03_lunch').title==='週五的學活'&&!/小松/.test(txt1('ev_sk03_lunch')));
   const cls=require('fs').readFileSync(require('path').join(ROOT,'src/classes3d.js'),'utf8');
-  check('D3. 午餐選單：大一下起活大的自助餐',/活大的自助餐，夾了三樣菜/.test(cls));
+  check('D3. 午餐選單：大一下起學活的自助餐',/學活的自助餐，夾了三樣菜/.test(cls));
   const NL=NEEDED_MSGS.list;
   check('E. 主線 4：Z7 的訊息接上條件（不再是 NOT_YET）；模擬法庭三則換掉（AA_179 516ba348）',(()=>{ const e=NL.find(x=>x.id==='zr_beans'); return !!e&&e.cond&&e.cond.toString().indexOf('NOT_YET')<0&&e.cond.toString()!=='()=>false'; })()&&['an_moot','bh_moot','xc_moot'].every(id=>!NL.find(x=>x.id===id))&&['an_topics','bh_scores','xc_notes'].every(id=>!!NL.find(x=>x.id===id)));   /* AA_179（516ba348）：模擬法庭三則換成讀書會題目、分數表、筆記 */
   console.log(fails?'FAILED: '+fails:'ALL PASS'); process.exit(fails?1:0);

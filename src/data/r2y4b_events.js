@@ -18,7 +18,7 @@ const R2Y4B_BAR_NARR={
   kexin:{   /* 2-1 可昕（視訊；週六在政大）*/
     wd:['（視訊開著。兩個人都沒說話，只有翻頁的聲音。）','（她把今天的考古題拍給你，紅筆圈了三題。）','（十點半，她說要去倒水。回來的時候拿著兩杯，看了一下螢幕，自己笑了。）','（她讀到一半睡著了。你等了十分鐘才叫她。）',
       '（你們互相出了五題。她錯兩題，你錯三題。）','（今天讀民訴。她說民訴讀起來像在排隊。）','（掛之前，她把桌上的日曆翻給你看：又劃掉一格。）'],
-    sat:['（政大山上的自習室。她占了靠窗的兩個位子。）','（山下買的便當，你們坐在自習室外面的樓梯吃完。）'],
+    sat:['（木柵大學山上的自習室。她占了靠窗的兩個位子。）','（山下買的便當，你們坐在自習室外面的樓梯吃完。）'],
     wdEnd:'（讀到十一點。）', satEnd:'（讀到傍晚。）' },
   yutong:{   /* 2-2 語彤（麵店；週六在總圖）*/
     wd:['（十點，阿姨把燈關掉一半，留長桌那一盞。）','（語彤把今天讀的抄在一張小卡上，放進圍裙口袋。）','（你講完一段，她說：「再一次。」你又講了一次。）','（阿姨端了兩碗湯過來，沒說話，又走回廚房。）',
@@ -162,7 +162,7 @@ const R2Y4B_EVENTS=(function(){
     outingMissed:G=>{ const r=R(); if(r) r.springPhoto(G); } },
   /* 和可昕開車（照 AA_324 1C-01 可昕那一選：目的地從還沒去過的裡面選；都去過＝迷路到的地方；沒有假設題）。車上開場、回程照 AA_345 G3。記 KX_TRIP.Y4S2 */
   { id:'ev_kexin_trip_spring_y4', title:'春假：開車旅行（大四）', participants:['kexin'], location:'any', trigger:'outing', once:true, background:'dark', hours:13.5,
-    dialogue:[ {scene:'政大・校門口',bg:'nccu_gate'},{scene:'車上',bg:'car'},
+    dialogue:[ {scene:'木柵大學・校門口',bg:'nccu_gate'},{scene:'車上',bg:'car'},
       {speaker:'kexin',expression:'smile',text:'沒有行程表。音樂我管，方向你管。'},   /* 車上開場、回程：大四版（AA_345 G3 新寫），不沿用大一、大二；三個地方都去過（迷路那一版）也一樣（AA_350 N3）*/
       {speaker:'kexin',expression:'smile',text:'……目的地也你管。我只是想坐在車上。'},
       {if:{custom:G=>R().kxAllSeen(G)},goto:'lost'},
@@ -208,7 +208,7 @@ const R2Y4B_EVENTS=(function(){
     outingMissed:G=>{ const r=R(); if(r) r.psOpenMissed(G); } },
   /* ---------- 2-Y4-38 可昕的生日「今年不要慶祝」：開車上山，送一碗山下那家的酸辣湯餃，不進去（4/24 晚上；nccu_dorm）---------- */
   { id:'ev_kexin_bday_visit_y4', title:'生日（大四）', participants:['kexin'], location:'any', trigger:'outing', once:true, background:'dark', hours:2/3, kxAway:true,
-    dialogue:[ {scene:'政大・宿舍樓下',bg:'nccu_dorm'},
+    dialogue:[ {scene:'木柵大學・宿舍樓下',bg:'nccu_dorm'},
       {speaker:'kexin',expression:'surprised',text:'……你開上山就為了這個？'},
       {speaker:'kexin',expression:'smile',text:'湯還是熱的。'} ],
     after:G=>{ const r=R(); if(r) r.kxBdaySet(G,'visit'); },   /* KX_BDAY:{4:'visit'}（AA_327 2-Y4-38 第 4 節）*/
@@ -228,7 +228,7 @@ const R2Y4B_EVENTS=(function(){
       {set:{BALL_Y4:'went'}} ],
     outingMissed:G=>{ const r=R(); if(r) r.ballMissed(G); } },
   { id:'ev_concert_y4', title:'吉他社成發', participants:[], location:'any', trigger:'outing', once:true, background:'dark', hours:2,
-    dialogue:[ {scene:'萬才館大廳',bg:'dark'},   /* 場地照 AA_13 G3（大一的成發在萬才館大廳，activities.js guitar_show_y1s2）；沒有 2D 底圖＝dark＋字幕 */
+    dialogue:[ {scene:'法律系館B大廳',bg:'dark'},   /* 場地照 AA_13 G3（大一的成發在萬才館大廳，activities.js guitar_show_y1s2）；沒有 2D 底圖＝dark＋字幕 */
       {speaker:null,text:'（Alison 拿著流程表跑來跑去。）'},
       {if:kn('yu'),speaker:'yu',text:'最後一首！最後一首！誰把麥克風拿走了！'},
       {if:{custom:G=>R().friendUp(G,'heroine_04')&&R().has('heroine_04','CLAPPED')},speaker:'heroine_04',text:'原來坐這裡是這種感覺。你以前都這麼大聲喔？'},   /* 子晴回來當評審（BB_70 8d）*/
@@ -239,7 +239,7 @@ const R2Y4B_EVENTS=(function(){
   /* ---------- 2-Y4-40 可昕 K25 讀書會的最後一晚（5/16（三）21:00；BB_99 9-16）：開車送宵夜（政大）／視訊。互考的比數拿掉（AA_263）---------- */
   { id:'ev_kexin_last_study_night', title:'讀書會的最後一晚', participants:['kexin'], location:'any', trigger:'outing', once:true, background:'dark', hours:1,
     dialogue:[ {if:{flagIs:{KX_K25:'video'}},goto:'v'},
-      {scene:'政大・宿舍樓下',bg:'nccu_dorm'},
+      {scene:'木柵大學・宿舍樓下',bg:'nccu_dorm'},
       {speaker:'予樂',text:'司機升級成外送員。'},{goto:'shelf'},
       {label:'v'},{scene:'視訊',bg:'video'},
       {speaker:null,text:'（邵鈞對著鏡頭點頭致意。）'},
@@ -571,7 +571,7 @@ const R2Y4B_EVENTS=(function(){
       {speaker:'heroine_03',text:'買賣不破租賃那一條。你講給我聽，講到我聽得懂。'} ],
     after:G=>{ const r=R(); if(r) r.groupNightDone(G,'noodle'); } },
   { id:'ev_bar_group_video', title:'律師讀書小組（視訊）', participants:['kexin'], location:'any', trigger:'outing', background:'dark', hours:2, kxAway:true,
-    dialogue:[ {if:{custom:G=>R().isSat(G)},scene:'政大・宿舍樓下',bg:'nccu_dorm'},{unless:{custom:G=>R().isSat(G)},scene:'視訊',bg:'video'},   /* 只有可昕：週六在政大（AA_253 第 11 節）*/
+    dialogue:[ {if:{custom:G=>R().isSat(G)},scene:'木柵大學・宿舍樓下',bg:'nccu_dorm'},{unless:{custom:G=>R().isSat(G)},scene:'視訊',bg:'video'},   /* 只有可昕：週六在政大（AA_253 第 11 節）*/
       {if:{custom:G=>R().groupLine(G,'kexin')==='k1'},speaker:'kexin',expression:'serious',text:'刑總那題，你先講結論，再講理由。講完我再問。'},
       {if:{custom:G=>R().groupLine(G,'kexin')==='k2'},speaker:'kexin',expression:'teasing',text:'這題你上禮拜錯過。……我記得。再一次。'},
       {if:{custom:G=>R().groupLine(G,'kexin')==='k3'},speaker:'kexin',expression:'teasing',text:'你講得太快了。慢一點，講給一個不懂法律的人聽。……就是我那個室友。'},

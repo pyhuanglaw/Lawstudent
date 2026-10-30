@@ -203,9 +203,9 @@ const NAME=id=>SOCIAL.displayName(id);
   // ===== 5. 1C-05 子晴、芷若同一天畢業 =====
   const {inv:g2,d:g3}=GROUP.gradDays();
   fresh(g2,20,'dorm'); R('heroine_04','FRI'); R('heroine_02','FAM'); run(g2,20,21.25);
-  { const m=PHONE.byAsk(G,'y3_zq_grad'); check('5. 6/2 21:00 子晴三則＋回覆「去。」「那天我有事。」', JSON.stringify(txt('p:heroine_04'))===JSON.stringify(['heroine_04:明天早上畢業典禮','heroine_04:九點 椰林大道','heroine_04:你要來喔'])&&!!m&&JSON.stringify(m.ask.opts.map(o=>o.t))==='["去。","那天我有事。"]', JSON.stringify(txt('p:heroine_04'))); }
+  { const m=PHONE.byAsk(G,'y3_zq_grad'); check('5. 6/2 21:00 子晴三則＋回覆「去。」「那天我有事。」', JSON.stringify(txt('p:heroine_04'))===JSON.stringify(['heroine_04:明天早上畢業典禮','heroine_04:九點 椰影大道','heroine_04:你要來喔'])&&!!m&&JSON.stringify(m.ask.opts.map(o=>o.t))==='["去。","那天我有事。"]', JSON.stringify(txt('p:heroine_04'))); }
   PHONE.answer(G,'y3_zq_grad',0); run(g2,21.5,21.75);
-  { const q=OUT.get(G,'y3_zq_grad'); check('5. 回「去。」：「好 那你負責拍」、6/3 09:00 椰林大道（到 11:00）', txt('p:heroine_04').slice(-1)[0]==='heroine_04:好 那你負責拍'&&!!q&&q.day===g3&&q.h===9&&q.late===2); }
+  { const q=OUT.get(G,'y3_zq_grad'); check('5. 回「去。」：「好 那你負責拍」、6/3 09:00 椰影大道（到 11:00）', txt('p:heroine_04').slice(-1)[0]==='heroine_04:好 那你負責拍'&&!!q&&q.day===g3&&q.h===9&&q.late===2); }
   fresh(g3,9,'campus'); R('heroine_04','FRI'); R('heroine_02','FAM'); let Q1=await play('ev_zq_zr_graduation');
   check('5. G1 上午：「妳閉眼了啦。再一張。」「妳拍歪了。」「（把手機塞給你）你拍我們兩個。」；GRAD_ZQ_ZR zq', Q1.includes(NAME('heroine_04')+'：妳閉眼了啦。再一張。')&&Q1.includes(NAME('heroine_02')+'：妳拍歪了。')&&Q1[Q1.length-1]===NAME('heroine_04')+'：（把手機塞給你）你拍我們兩個。'&&G.flags.GRAD_ZQ_ZR==='zq'&&!Q1.some(t=>/我們兩個。$/.test(t)&&t.indexOf('你拍')<0), JSON.stringify(Q1));
   G.hour=14.5; G.zone='cafe'; check('5. 下午 14:00 以後第一次進 Café（芷若 FAMILIAR 以上）', GROUP.zrCafeDue(G)&&EVENTS.check(ev('ev_zhiruo_graduation_cafe')));
@@ -213,7 +213,7 @@ const NAME=id=>SOCIAL.displayName(id);
   check('5. G2 芷若 Z12：「九月，我去英國念電影研究。一年。」…三選一、「……嗯。她說她要學著用視訊。」、IMPORTANT_CONVERSATION、GRAD_ZQ_ZR both', Z12.includes(NAME('heroine_02')+'：九月，我去英國念電影研究。一年。')&&JSON.stringify(opts[0])===JSON.stringify(['「台中的影印店，我可以去印東西嗎？」','「妳媽一定很開心。」','「明信片還要寄嗎？」'])&&Z12.includes(NAME('heroine_02')+'：……嗯。她說她要學著用視訊。')&&SOCIAL.has('heroine_02','IMPORTANT_CONVERSATION')&&G.flags.GRAD_ZQ_ZR==='both');
   G.hour=13; check('5. 14:00 以前不演', !GROUP.zrCafeDue(G));
   fresh(g2,21,'dorm'); R('heroine_04','FRI'); date('heroine_04'); run(g2,21,21.25);
-  check('5. 已經和子晴交往：四句「……你來的話我會很緊張」「所以你要來」', JSON.stringify(txt('p:heroine_04'))===JSON.stringify(['heroine_04:明天早上畢業典禮','heroine_04:九點 椰林大道','heroine_04:你來的話我會很緊張','heroine_04:所以你要來']));
+  check('5. 已經和子晴交往：四句「……你來的話我會很緊張」「所以你要來」', JSON.stringify(txt('p:heroine_04'))===JSON.stringify(['heroine_04:明天早上畢業典禮','heroine_04:九點 椰影大道','heroine_04:你來的話我會很緊張','heroine_04:所以你要來']));
   fresh(g3,9,'campus'); date('heroine_04'); R('heroine_02','FAM'); Q1=await play('ev_zq_zr_graduation');
   check('5. 交往中：先「欸不是，你站過來一點。」「我們兩個。」（BB_119 1c-2），再接 G5', Q1[0]===NAME('heroine_04')+'：欸不是，你站過來一點。'&&Q1[1]===NAME('heroine_04')+'：我們兩個。'&&Q1[2]==='（子晴穿著學士服，學士帽歪的，吉他袋還是背著。她在幫芷若拍照，拍了二十張。）');
   fresh(g2,21,'dorm'); R('heroine_04','FRI'); run(g2,21,21.25); PHONE.answer(G,'y3_zq_grad',1); run(g2,21.5,23.75); run(g3,8,12.75);

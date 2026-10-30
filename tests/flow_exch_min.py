@@ -90,7 +90,7 @@ async def main():
         dep = await pg.evaluate("STORY.dayOfKey('2028-08-02')")
         wd = await pg.evaluate("(d=>{ const w=CALENDAR.dateOf(d).wd; return w===7?0:w; })(%d)" % dep)
         fl = dict(BASE_FLAGS); fl['EXCHANGE_ROUTE'] = 'US'
-        run.setup('讀檔到 2028-08-02（美國路線出發日）05:50 校園（椰林大道），已經選了美國')
+        run.setup('讀檔到 2028-08-02（美國路線出發日）05:50 校園（椰影大道），已經選了美國')
         await L.load_state(pg, {'stage': 'law', 'zone': 'campus', 'day': dep, 'weekday': wd, 'hour': 5.83, 'pos': {'x': -20, 'z': -12, 'yaw': 0}, 'flags': fl, 'events': {'done': {}, 'last': {}, 'count': 0}})
         ok, _ = await drive(pg, cdp, ZONE + "==='airport_dep'&&!GAME.D.active&&!document.querySelector('#choices button')", ['好'], 120)
         h = await pg.evaluate("GAME.G.hour")

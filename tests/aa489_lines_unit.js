@@ -9,5 +9,5 @@ const i0=EV.indexOf("id:'ev_sis_club_expo'"), sis=i0<0?'':EV.slice(i0,EV.indexOf
 check('1. 還沒見過：「（帳篷前面站著一個綁馬尾的人，手上拿著一疊傳單。你認得她——家族群組大頭貼上那個學姊。）」',sis.includes("text:'（帳篷前面站著一個綁馬尾的人，手上拿著一疊傳單。你認得她——家族群組大頭貼上那個學姊。）'"));
 check('1. 見過：「（站在帳篷前面那個綁馬尾的人轉過來，看到你。）」',sis.includes("{label:'main'},{speaker:null,text:'（站在帳篷前面那個綁馬尾的人轉過來，看到你。）'}"));
 check('1. 不再有「帳篷後面走出來」',!!sis&&!/帳篷後面走出來/.test(sis));
-check('2. 社博那天學姊的手機地點',/label:'椰林大道（社團博覽會，法服的攤位，到下午四點）',[^\n]*|daily_schedule:\[\{[^\n]*activity:'club_expo_y1s1'[^\n]*label:'椰林大道（社團博覽會，法服的攤位，到下午四點）'/.test(CH));
+check('2. 社博那天學姊的手機地點',/label:'椰影大道（社團博覽會，法服的攤位，到下午四點）',[^\n]*|daily_schedule:\[\{[^\n]*activity:'club_expo_y1s1'[^\n]*label:'椰影大道（社團博覽會，法服的攤位，到下午四點）'/.test(CH));
 console.log(fails?'FAILED '+fails:'ALL PASS'); process.exit(fails?1:0);

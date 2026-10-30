@@ -153,9 +153,9 @@ const R2Y3A=(function(){
 
   /* ===================== 2-Y3-07 可昕 K11「她來台大聽講座」 ===================== */
   S.k11Phone=function(G){ const F=G.flags, di=DK('2027-09-27'), d=DK('2027-09-29'); if(di==null||G.day<di||G.day>d+1||!dating(G,'kexin')) return; const n=now(G);
-    if(n>=T(di,21)&&n<T(d,18.5)&&!sent(G,'y3_k11')) PHONE.at(G,di,atH(G,di,21),[Object.assign(K('你們學校這週有一場講座，我想聽。我要去。你要嗎？'),{ask:{id:'y3_k11',until:T(d,18.5),opts:[{t:'一起去。',say:[Kr('好。禮拜三七點，博雅。我先占位子。')],set:{KX_K11_GO:true}},{t:'那天我不行。',say:[Kr('好。我自己聽。')],set:{KX_K11_SELF:true}}]}})],'y3_k11');
+    if(n>=T(di,21)&&n<T(d,18.5)&&!sent(G,'y3_k11')) PHONE.at(G,di,atH(G,di,21),[Object.assign(K('你們學校這週有一場講座，我想聽。我要去。你要嗎？'),{ask:{id:'y3_k11',until:T(d,18.5),opts:[{t:'一起去。',say:[Kr('好。禮拜三七點，博思。我先占位子。')],set:{KX_K11_GO:true}},{t:'那天我不行。',say:[Kr('好。我自己聽。')],set:{KX_K11_SELF:true}}]}})],'y3_k11');
     { const m=PHONE.byAsk(G,'y3_k11'); if(m&&m.ans==null&&n>=T(d,18.5)&&!F.KX_K11_GO) F.KX_K11_SELF=true; }   /* 不回：她照樣自己聽 */
-    if(F.KX_K11_GO&&!F.KX_K11&&!outGet(G,'y3_k11')&&n<T(d,19.25)) plan(G,{id:'y3_k11',ev:'ev_kexin_lecture_ntu',day:d,h:19,late:0.25,place:'博雅教學館',title:'講座（博雅）19:00',travel:'走過去約 8 分鐘',travelH:8/60,alarm:true});
+    if(F.KX_K11_GO&&!F.KX_K11&&!outGet(G,'y3_k11')&&n<T(d,19.25)) plan(G,{id:'y3_k11',ev:'ev_kexin_lecture_ntu',day:d,h:19,late:0.25,place:'博思教學館',title:'講座（博思）19:00',travel:'走過去約 8 分鐘',travelH:8/60,alarm:true});
     if(F.KX_K11_SELF&&!F.KX_K11&&n>=T(d,21)&&!sent(G,'y3_k11_heard')){ PHONE.at(G,d,21,[K('我先回去了。今天的講座我很喜歡。')],'y3_k11_heard'); F.KX_K11='heard'; } };
   S.lectureMissed=G=>{ G.flags.KX_K11_SELF=true; };   /* 答應了沒到：照「她自己聽」（小桌子、21:00 那一則）*/
   S.lectureAttended=function(G){ if(typeof ACTIVITIES!=='undefined'&&ACTIVITIES.rec){ const A=ACTIVITIES.rec(G).att; A['B6c@'+G.day]={h:19,end:'full'}; } };   /* 一起聽的記 attended:'B6c'（BB_105）*/
@@ -238,7 +238,7 @@ const R2Y3A=(function(){
   /* ===================== 2-Y3-12 慈 4：10/19 21:30 Alison 三則 ===================== */
   const Yu=P('yu'), Yur=R('yu');
   S.ci4Phone=function(G){ const d=DK('2027-10-19'); if(d==null||G.day<d||G.day>d+1||!met(G,'yu','FAMILIAR')) return; if(now(G)<T(d,21.5)||sent(G,'y3_ci4_yu')) return; silentContact(G,'yu');
-    PHONE.at(G,d,atH(G,d,21.5),[Yu('欸 芯慈跟以安吵架了'),Yu('吵很大'),Object.assign(Yu('你明天中午在霖澤館嗎'),{ask:{id:'y3_ci4_yu',until:T(d+1,12),opts:[{t:'在。',say:[Yur('嗯 我只是說一聲')]},{t:'怎麼了？',say:[Yur('我也不知道 她們在討論室 我在門外')]}]}})],'y3_ci4_yu'); };
+    PHONE.at(G,d,atH(G,d,21.5),[Yu('欸 芯慈跟以安吵架了'),Yu('吵很大'),Object.assign(Yu('你明天中午在A館嗎'),{ask:{id:'y3_ci4_yu',until:T(d+1,12),opts:[{t:'在。',say:[Yur('嗯 我只是說一聲')]},{t:'怎麼了？',say:[Yur('我也不知道 她們在討論室 我在門外')]}]}})],'y3_ci4_yu'); };
 
   /* ===================== 2-Y3-13 以安新 14：沒遇到＝22:00 麵店團群組（不在群組、和她 FRIEND 以上＝私訊）===================== */
   S.an14Phone=function(G){ const F=G.flags, d=DK('2027-10-21'); if(d==null||G.day<d||G.day>d+1||F.AN14||done(G,'ev_an_admin_court')||now(G)<T(d,22)) return;
@@ -286,7 +286,7 @@ const R2Y3A=(function(){
     const dj=DK('2028-04-25'); if(dj==null||G.day<dj||G.day>dj+1) return; const dd=dj+1, jp=inJP(G,dd);
     if(jp){ const tz=x=>x+(typeof STORY!=='undefined'&&STORY.tzOffset?STORY.tzOffset(G,dj):0); if(n>=T(dj,tz(21))&&!sent(G,'y3_k17_jr_jp')){ PHONE.at(G,dj,atH(G,dj,tz(21)),[K('讀書會的學弟妹要請你吃飯。你在國外，先視訊被看。')],'y3_k17_jr_jp'); plan(G,VIDEO('y3_k17_jrv','ev_kexin_juniors_video',dd,tz(19.5),'可昕的視訊',{alarm:false})); } return; }   /* 人在日本＝當地時間（台灣＋1；AA_341 J-S7）*/
     if(n>=T(dj,21)&&n<T(dd,17.5)&&!sent(G,'y3_k17_jr')) PHONE.at(G,dj,atH(G,dj,21),[K('讀書會的學弟妹考完了。他們說要請學姊的男朋友吃飯。'),Object.assign(K('你要來被看。'),{ask:{id:'y3_k17_jr',until:T(dd,17.5),opts:[{t:'好。',say:[Kr('明天六點半，山下那家。')],set:{KX_JUNIORS_GO:true}},{t:'我不太想被看。',say:[Kr('……好。我跟他們說你很忙。')],set:{KX_JUNIORS_GO:false}}]}})],'y3_k17_jr');
-    if(F.KX_JUNIORS_GO===true&&!F.KX_JUNIORS&&!outGet(G,'y3_k17_dinner')&&n<T(dd,19)) plan(G,{id:'y3_k17_dinner',ev:'ev_kexin_juniors_dinner',day:dd,h:18.5,late:0.5,place:'政大山下的小吃店',title:'學弟妹的飯（政大山下 18:30）',travel:'開車約 40 分鐘',travelH:2/3,alarm:true});
+    if(F.KX_JUNIORS_GO===true&&!F.KX_JUNIORS&&!outGet(G,'y3_k17_dinner')&&n<T(dd,19)) plan(G,{id:'y3_k17_dinner',ev:'ev_kexin_juniors_dinner',day:dd,h:18.5,late:0.5,place:'木柵大學山下的小吃店',title:'學弟妹的飯（木柵大學山下 18:30）',travel:'開車約 40 分鐘',travelH:2/3,alarm:true});
     const m=PHONE.byAsk(G,'y3_k17_jr'), no=F.KX_JUNIORS_GO===false||(!!m&&m.ans==null&&n>=T(dd,17.5));   /* 不去（不回也算：要問 AA）*/
     if(no&&!F.KX_JUNIORS&&n>=T(dd,21)) S.juniorsPhoto(G); };
   S.juniorsPhoto=function(G){ const dd=DK('2028-04-26'); if(dd==null||sent(G,'y3_k17_jr_photo')) return; PHONE.at(G,dd,21,[K('（照片：小吃店的圓桌，三個學弟妹）'),K('他們說下次一定要看到本人。')],'y3_k17_jr_photo'); G.flags.KX_JUNIORS='photo'; };

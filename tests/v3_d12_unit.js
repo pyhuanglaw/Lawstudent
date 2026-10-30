@@ -37,7 +37,7 @@ GM.money=function(n){ G.money+=n; };
 (async()=>{
   const d16=D('2026-12-16'), d17=D('2026-12-17'), d31=D('2026-12-31');
   fresh(d16,20,'campus'); PHONE.join(G,'noodle_team','麵店團'); run(20,21.2); let o=OUT.get(G,'y2_xmas');
-  check('1. 聖誕：12/16 21:00 阿哲「聖誕交換禮物，明天中午，霖澤館一樓 兩百以內」；出發選單 12/17（四）12:20（12/24 是第 16 週期末考週，AA_313 第 4-1 節第 8 點）',txt('g:noodle_team').includes('zhe:聖誕交換禮物，明天中午，霖澤館一樓 兩百以內')&&o&&o.day===d17&&Math.abs(o.h-(12+20/60))<1e-6&&CALENDAR.termOf(d17).week<16,JSON.stringify([txt('g:noodle_team'),o]));
+  check('1. 聖誕：12/16 21:00 阿哲「聖誕交換禮物，明天中午，A館一樓 兩百以內」；出發選單 12/17（四）12:20（12/24 是第 16 週期末考週，AA_313 第 4-1 節第 8 點）',txt('g:noodle_team').includes('zhe:聖誕交換禮物，明天中午，A館一樓 兩百以內')&&o&&o.day===d17&&Math.abs(o.h-(12+20/60))<1e-6&&CALENDAR.termOf(d17).week<16,JSON.stringify([txt('g:noodle_team'),o]));
   const X=ev('ev_y2_xmas'); fresh(d17,12.4,'campus'); const k0=STORY.knows; STORY.knows=id=>['zhe','yu','heroine_01'].includes(id); meet('heroine_01'); said=[]; G.flags.Y2_XMAS_FROM=null; const r0=Math.random; Math.random=()=>0; await EVENTS.run(X); Math.random=r0; STORY.knows=k0; let L=lines();
   check('2. 兩個一樣的保溫杯「……為什麼有兩個一樣的保溫杯？」阿哲、Alison「不是我們。」；抽到以安＝空白手帳「跟我用的同一款。你不用寫得很整齊。」（AA_313 4-3）',L.includes('拆到的人：……為什麼有兩個一樣的保溫杯？')&&L.includes('阿哲、Alison：不是我們。')&&L.includes('你抽到以安的：一本空白手帳。')&&L.includes('沈以安：跟我用的同一款。你不用寫得很整齊。')&&!L.some(t=>/理由欄/.test(t)),JSON.stringify(L));
   // 3. 跨年大二（AA_210 第 1 節＋第 5 節 881ed505：16 週制 12/31 在寒假；取代原本的「十一點五十，頂樓。十分鐘就好。」）

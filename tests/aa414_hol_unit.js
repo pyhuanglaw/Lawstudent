@@ -125,7 +125,7 @@ let money=[]; GM.money=(n,why)=>{ money.push([n,why]); H.G.money+=n; };
     PHONE.answer(H.G,'anyt_an_y3_ask',0); rules(); const r=dms(AN).slice(-1)[0], q=OUT.get(H.G,'anyt_an_vday_y3');
     check('1-3. 「好。」→「嗯。不要遲到。」；出遊 2/14 14:00 走路、late 0.25、標題「情人節（總圖門口）」',r==='嗯。不要遲到。'&&!!q&&q.h===14&&q.travel==='走路'&&q.late===0.25&&q.title==='情人節（總圖門口）'&&q.day===H.D('2028-02-14'),J(q));
     at('2028-02-14',13.7); const a=relOf(AN); const {L}=await goOut('anyt_an_vday_y3',[0]);
-    check('1-3. 背景 ntu_avenue；「（給她一支鋼筆）」→「……你知道我的筆快沒水了。」「去日本帶這支。」；最後「三月十四號那天，你不要排別的。」',img(H.bgs[0])==='ntu_avenue'&&J(L)===J(['（寒假的椰林大道，腳踏車比平常少一半。）','再一個多月就去日本了。','行李我列好了。衣服帶太少，書帶太多。','……你知道我的筆快沒水了。','去日本帶這支。','三月十四號那天，你不要排別的。'])&&J(H.opts[0])===J(['（給她一支鋼筆）','（給她一盒巧克力）']),J(L));
+    check('1-3. 背景 ntu_avenue；「（給她一支鋼筆）」→「……你知道我的筆快沒水了。」「去日本帶這支。」；最後「三月十四號那天，你不要排別的。」',img(H.bgs[0])==='ntu_avenue'&&J(L)===J(['（寒假的椰影大道，腳踏車比平常少一半。）','再一個多月就去日本了。','行李我列好了。衣服帶太少，書帶太多。','……你知道我的筆快沒水了。','去日本帶這支。','三月十四號那天，你不要排別的。'])&&J(H.opts[0])===J(['（給她一支鋼筆）','（給她一盒巧克力）']),J(L));
     check('1-3. AN_VDAY_GIFT pen、AN_VDAY_Y3 went、記憶 AN_VDAY_PEN、+3／+6／+5',H.G.flags.AN_VDAY_GIFT==='pen'&&H.G.flags.AN_VDAY_Y3==='went'&&SOCIAL.has(AN,'AN_VDAY_PEN')&&!SOCIAL.has(AN,'AN_VDAY_CHOCO')&&dRel(AN,a)===VDAY,dRel(AN,a));
     at('2028-03-14',18); const W=await play('ev_an_white_day',[0]);
     check('1-3. 接 3/14：ev_an_white_day 演「（她拿出一個小紙袋）一個月前你送的。這是回禮。」那一版（不改 r2y3b_events.js）',W.includes('（她拿出一個小紙袋）一個月前你送的。這是回禮。')&&!W.includes('二月十四號那天，我在讀書。……你也沒說什麼。'),J(W)); }

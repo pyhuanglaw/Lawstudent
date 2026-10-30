@@ -20,6 +20,7 @@
 // 修改後 ALL PASS。用法：node tests/aa506_507_feed_unit.js
 // 2026-10-28 AA_518 第 4-1、4-5 改的（企劃線 973dd1b74，SIS-B15-1028）：sis4d 私訊回兩版（went sisS4Lx）、sis2e 留言回「最近加得比較快。」——第 0 節對稿時照 AA_518 換（AA518_ROW）。
 'use strict';
+require('./alison.js');   // 讀企劃稿（git show）照匯入工具同一套換：Alison、虛構校名（WORLD-RENAME-1030，docs/WORLD_NAMING.md）
 const H=require('./pg_harness.js');
 const fs=require('fs'), vm=require('vm'), path=require('path'), cp=require('child_process');
 const {check,GM}=H, J=JSON.stringify;
@@ -187,7 +188,7 @@ sec('2',()=>{ if(!HAS()||!SET.Y2S2||!SET.Y3S1){ check('2. 走一遍',false,'沒�
   check('2. 沛珊同一個月第二則（測試用 10/20）：10/9 那則先出、10/20 那則不出（x:month）；拿掉 capMonth 就出（14 天一則、七天兩則的上限都沒擋）',a.ps1e==='p'&&a.fake==='x:month'&&b.fake==='p',J({a,b}));
   /* 可昕沒有交往（朋友）：大三上四則都看得到（AA_507 第 8 節）*/
   fresh(DK('2027-09-06'),0); who('kexin','FRIEND'); const seen=new Set(); for(let d=DK('2027-09-06');d<=DK('2028-02-20');d++){ at(d,23.9); tickF(); for(const i of R().items) seen.add(i.id); }
-  check('2. 可昕沒有交往、朋友：大三上四則都看得到（政大大三、民總讀書會、房東的報告、高雄的芭樂）',['kx1e','kx2e','kx3e','kx4e'].every(id=>seen.has(id)),J([...seen])); });
+  check('2. 可昕沒有交往、朋友：大三上四則都看得到（木柵大學大三、民總讀書會、房東的報告、高雄的芭樂）',['kx1e','kx2e','kx3e','kx4e'].every(id=>seen.has(id)),J([...seen])); });
 
 /* ---------- 3 英國時差 ---------- */
 sec('3',()=>{ if(!HAS()||!SET.Y3S1){ check('3. 英國時差',false,'沒有資料'); return; }

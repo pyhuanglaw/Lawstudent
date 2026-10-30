@@ -337,15 +337,15 @@ const MSG_POOL={
    {"topic": "chat", "tier": "A", "variant": "深夜", "msgs": ["在把上課抄的整理到另一本。"], "tags": ["大一～大二上"], "ask": null, "src": "BB_178 4 在幹嘛 深夜", "tierMin": true, "variantNote": "兩則輪流"},
    {"topic": "course", "tier": "A", "variant": "考試週", "msgs": ["我整理了一份重點，傳給你。", "（檔案）", "有錯的話跟我說。"], "tags": [], "ask": null, "src": "BB_178 4 問課 考試週", "tierMin": true}
   ]},
-  "kexin":{"name":"杜可昕","rules":{"replyFree": null, "noReplyText": null, "openText": "什麼時候開：只有 L 層：法律系開場預設和祐廷交往中\n什麼時候不開，或只回事務：分開以後不開（走向 B 她不出現，走向 C 只有生日那一句，`BB_107`、`AA_112`）。經濟系前傳不在這份；前傳要用這個功能時告訴 BB，另寫", "habitText": "手機習慣：短；累了傳長頸鹿貼圖；人在政大，常提「坡」「山下」。熟了講很普通的小事：吃什麼、報告好煩、予樂又怎樣（`AA_188`）。可昕沒有假設題（使用者 10-18）。", "wakeLine": [], "otherText": ["開放：只有 L 層；分開了就不開（0-1）。", "祐廷在國外：她每晚的訊息、通話照遠距線（`BB_107`）另外跑；玩家主動傳的照這裡，時差照 `AA_144` 5-2。", "子晴、可昕、阿凱、方奕廷：沒有這個話題。（0-7 問課）"], "sectionText": {"night": "晚安（交往中）"}},"replies":[
+  "kexin":{"name":"杜可昕","rules":{"replyFree": null, "noReplyText": null, "openText": "什麼時候開：只有 L 層：法律系開場預設和祐廷交往中\n什麼時候不開，或只回事務：分開以後不開（走向 B 她不出現，走向 C 只有生日那一句，`BB_107`、`AA_112`）。經濟系前傳不在這份；前傳要用這個功能時告訴 BB，另寫", "habitText": "手機習慣：短；累了傳長頸鹿貼圖；人在木柵大學，常提「坡」「山下」。熟了講很普通的小事：吃什麼、報告好煩、予樂又怎樣（`AA_188`）。可昕沒有假設題（使用者 10-18）。", "wakeLine": [], "otherText": ["開放：只有 L 層；分開了就不開（0-1）。", "祐廷在國外：她每晚的訊息、通話照遠距線（`BB_107`）另外跑；玩家主動傳的照這裡，時差照 `AA_144` 5-2。", "子晴、可昕、阿凱、方奕廷：沒有這個話題。（0-7 問課）"], "sectionText": {"night": "晚安（交往中）"}},"replies":[
    {"topic": "chat", "tier": "L", "variant": null, "msgs": ["在爬坡。", "快到了。"], "tags": [], "ask": null, "src": "BB_178 5 在幹嘛"},
    {"topic": "chat", "tier": "L", "variant": null, "msgs": ["在圖書館。", "予樂在旁邊睡著了。"], "tags": ["學期中"], "ask": null, "src": "BB_178 5 在幹嘛"},
    {"topic": "chat", "tier": "L", "variant": null, "msgs": ["在宿舍。予樂在講她的報告，講了四十分鐘。"], "tags": ["學期中"], "ask": null, "src": "BB_178 5 在幹嘛"},
    {"topic": "chat", "tier": "L", "variant": null, "msgs": ["在等公車。", "你呢？"], "tags": [], "ask": {"opts": [{"t": "在念書。", "r": ["好。我也要開始念了。"]}, {"t": "在宿舍。", "r": ["我也快到了。"]}]}, "src": "BB_178 5 在幹嘛"},
    {"topic": "chat", "tier": "L", "variant": null, "msgs": ["予樂問我在跟誰傳訊息。", "我說不告訴她。"], "tags": ["學期中；帶感情的那一句"], "ask": null, "src": "BB_178 5 在幹嘛", "affection": true},
-   {"topic": "share_cat", "tier": "L", "variant": null, "msgs": ["（長頸鹿貼圖）", "政大的貓比較胖。"], "tags": ["學期中"], "ask": null, "src": "BB_178 5 分享 貓"},
-   {"topic": "share_cat", "tier": "L", "variant": null, "msgs": ["（長頸鹿貼圖）", "我家巷口的貓比政大的還胖。"], "tags": ["在老家"], "ask": null, "src": "BB_178 5 分享 貓"},
-   {"topic": "share_food", "tier": "L", "variant": null, "msgs": ["下次你來政大，我帶你吃這邊的。"], "tags": ["學期中"], "ask": null, "src": "BB_178 5 分享 吃的"},
+   {"topic": "share_cat", "tier": "L", "variant": null, "msgs": ["（長頸鹿貼圖）", "木柵大學的貓比較胖。"], "tags": ["學期中"], "ask": null, "src": "BB_178 5 分享 貓"},
+   {"topic": "share_cat", "tier": "L", "variant": null, "msgs": ["（長頸鹿貼圖）", "我家巷口的貓比木柵大學的還胖。"], "tags": ["在老家"], "ask": null, "src": "BB_178 5 分享 貓"},
+   {"topic": "share_food", "tier": "L", "variant": null, "msgs": ["下次你來木柵大學，我帶你吃這邊的。"], "tags": ["學期中"], "ask": null, "src": "BB_178 5 分享 吃的"},
    {"topic": "share_food", "tier": "L", "variant": null, "msgs": ["高雄的你沒吃過。你來我再帶你去。"], "tags": ["在老家"], "ask": null, "src": "BB_178 5 分享 吃的"},
    {"topic": "share_notes", "tier": "L", "variant": null, "msgs": ["我們的講義也這樣。", "法律系都一樣。"], "tags": [], "ask": null, "src": "BB_178 5 分享 講義"},
    {"topic": "night", "tier": "L", "variant": null, "msgs": ["晚安。", "（長頸鹿貼圖）"], "tags": [], "ask": null, "src": "BB_178 5 晚安"},

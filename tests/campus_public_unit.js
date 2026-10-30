@@ -25,7 +25,7 @@ const walk=(a,b)=>{ for(const [dt,sp] of [[1/30,1.6],[0.1,4.1]]){ const r=E.simW
 const GATE=[-112,0], LINZE=[34,-98];
 const near=(it)=>{ for(let rr=0;rr<=(it.radius||1.5)-0.05;rr+=0.1) for(let a=0;a<24;a++){ const x=it.x+Math.cos(a/24*Math.PI*2)*rr, zz=it.z+Math.sin(a/24*Math.PI*2)*rr; if(stand(x,zz)) return [x,zz]; } return null; };
 const LM=PLACES.landmarks.campus, QL=PLACES.quickList();
-for(const [label,lm,foots] of [['共同教學館','共同教學館',[[2,33,24,14]]],['普通教學館','普通教學館',[[-38,-58.5,34,16]]],['博雅教學館','博雅教學館',[[-38,-83,34,18]]],['大一女舍 A 棟（傳達室）','大一女舍',[[-108,68,24,12]]],['大一女舍 B 棟','大一女舍',[[-78,66,24,12]]]]){   /* 普通、博雅：方案 A（D55）*/
+for(const [label,lm,foots] of [['共同教學館','共同教學館',[[2,33,24,14]]],['普通教學館','普通教學館',[[-38,-58.5,34,16]]],['博思教學館','博思教學館',[[-38,-83,34,18]]],['大一女舍 A 棟（傳達室）','大一女舍',[[-108,68,24,12]]],['大一女舍 B 棟','大一女舍',[[-78,66,24,12]]]]){   /* 普通、博雅：方案 A（D55）*/
   const it=E.interactables.find(i=>i.label===label); check(label+'：有入口互動點、有名牌（mark）',!!it&&!!it.mark,it?`(${it.x},${it.z})`:'');
   if(!it) continue; const p=near(it); check(label+'：入口旁邊站得住',!!p,JSON.stringify(p)); if(!p) continue;
   let r=walk(GATE,p); check(label+'：從校門走得到（走路 30 fps、跑步＋低幀率）',r.ok,JSON.stringify(r).slice(0,180));
@@ -34,23 +34,23 @@ for(const [label,lm,foots] of [['共同教學館','共同教學館',[[2,33,24,14
   check(label+'：大地圖有地名「'+lm+'」',LM.some(q=>q[0]===lm)); }
 { /* 走出教學館的落點離門口的互動點 ≥ 半徑＋0.2 m：一出來不會又跳出「共同教學館」「博雅教學館」（2026-10-13 審查：博雅原本 1.4 m）*/
   const bad=[]; for(const [k,LAY] of [['common',GONGTONG_LAYOUT],['putong',PUTONG_LAYOUT],['boya',BOYA_LAYOUT]]){ const d=CLS.DOORS[k], c=LAY.entrance.campus; const dist=Math.hypot(c.x-d.x,c.z-d.z); if(dist<d.radius+0.2||!stand(c.x,c.z)) bad.push(k+' '+dist.toFixed(2)+' m'); }
-  check('走出共同、普通、博雅：落點站得住、離門口的互動點 ≥ 半徑＋0.2 m',!bad.length,bad.join(' | ')); }
+  check('走出共同、普通、博思：落點站得住、離門口的互動點 ≥ 半徑＋0.2 m',!bad.length,bad.join(' | ')); }
 check('大一女舍：A、B 兩棟之間（2 樓天橋下）走得過去',stand(-93,67)&&walk([-93,57],[-93,78]).ok,JSON.stringify(walk([-93,57],[-93,78])).slice(0,160));
 { const s=(z.seats||E.seats||[]).find(q=>/大一女舍門口的長椅/.test(q.label||'')); check('大一女舍門口有等人用的長椅（坐得到：長椅前站得住、從校門走得到）',!!s&&stand(s.x,s.z+0.75)&&walk(GATE,[s.x,s.z+0.75]).ok,JSON.stringify(s)); }
 { const bad=QL.filter(q=>q[0]==='campus'&&/共同教學館|大一女舍/.test(q[1])).filter(q=>!stand(q[2].x,q[2].z)); check('快速前往的落點（共同教學館、大一女舍）在門口前、站得住',QL.some(q=>/大一女舍/.test(q[1]))&&!bad.length,JSON.stringify(bad)); }
 { const it=E.interactables.find(i=>i.door==='common'); check('課表的共同教學館上課點＝共同教學館的正門（不是另一棟無名系館）',!!it&&Math.abs(it.x-2)<1&&Math.abs(it.z-22.8)<1,it?`(${it.x},${it.z})`:''); }
 // 方案 A：普通在文學院正後方、博雅在普通北邊、醉月湖在博雅北邊（D55，docs/campus/TEACHING_BUILDINGS_PLAN.md）
 { const P=E.interactables.find(i=>i.door==='putong'), B=E.interactables.find(i=>i.door==='boya');
-  check('方案 A 的南北順序：文學院（z -34）→ 普通（門口 z≈-49）→ 博雅（門口 z≈-73）→ 醉月湖（湖心亭 z≈-111）',!!P&&!!B&&P.z<-43&&B.z<P.z-15&&stand(-39,-111.4)&&!stand(-25,-112),P&&B?`普通 ${P.z}、博雅 ${B.z}`:'');
+  check('方案 A 的南北順序：文學院（z -34）→ 普通（門口 z≈-49）→ 博思（門口 z≈-73）→ 映月湖（湖心亭 z≈-111）',!!P&&!!B&&P.z<-43&&B.z<P.z-15&&stand(-39,-111.4)&&!stand(-25,-112),P&&B?`普通 ${P.z}、博雅 ${B.z}`:'');
   check('進館互動點通到室內（exit.to：目標導航找得到）',P&&P.exit&&P.exit.to==='putong'&&B&&B.exit&&B.exit.to==='boya');
-  const r1=walk([P.x,P.z+1.2],[B.x,B.z+1.4]); check('普通門口 → 博雅門口（兩棟之間的路）走得到',r1.ok,JSON.stringify(r1).slice(0,160));
-  const r2=walk([B.x,B.z+1.4],[-39,-111.4]); check('博雅門口 → 醉月湖湖心亭（新的湖南岸步道＋木棧道）走得到',r2.ok,JSON.stringify(r2).slice(0,160));
-  const bad=QL.filter(q=>q[0]==='campus'&&/普通教學館|博雅教學館/.test(q[1])).filter(q=>!stand(q[2].x,q[2].z)); check('快速前往：普通、博雅的落點在門口前、站得住',QL.filter(q=>/普通教學館|博雅教學館/.test(q[1])).length===2&&!bad.length,JSON.stringify(bad));
-  check('大地圖：醉月湖的地名跟著湖搬到北邊',LM.some(q=>q[0]==='醉月湖'&&q[2]<-100)); }
+  const r1=walk([P.x,P.z+1.2],[B.x,B.z+1.4]); check('普通門口 → 博思門口（兩棟之間的路）走得到',r1.ok,JSON.stringify(r1).slice(0,160));
+  const r2=walk([B.x,B.z+1.4],[-39,-111.4]); check('博思門口 → 映月湖湖心亭（新的湖南岸步道＋木棧道）走得到',r2.ok,JSON.stringify(r2).slice(0,160));
+  const bad=QL.filter(q=>q[0]==='campus'&&/普通教學館|博思教學館/.test(q[1])).filter(q=>!stand(q[2].x,q[2].z)); check('快速前往：普通、博思的落點在門口前、站得住',QL.filter(q=>/普通教學館|博思教學館/.test(q[1])).length===2&&!bad.length,JSON.stringify(bad));
+  check('大地圖：映月湖的地名跟著湖搬到北邊',LM.some(q=>q[0]==='映月湖'&&q[2]<-100)); }
 // 方案 A 留下的樹（2026-10-13 審查第 5 項）：原本「湖北邊」那一排樹在博雅建築裡、往湖的小路上（沒有導航阻擋，人會穿過樹幹）
 { const ps=TREES.map(t=>{ const v=new THREE.Vector3(); t.getWorldPosition(v); return [+v.x.toFixed(1),+v.z.toFixed(1)]; });
   const inBoya=ps.filter(([x,zz])=>x>-55.5&&x<-20.5&&zz>-92.5&&zz<-73.5), onPath=ps.filter(([x,zz])=>x>-15&&x<-9&&zz>-97&&zz<-46), loose=ps.filter(([x,zz])=>x>-62&&x<-5&&zz>-92&&zz<-80&&stand(x,zz));
-  check('湖北邊那排樹拿掉了：博雅裡面、x=-12 往湖的小路上沒有樹，博雅附近站得住的地方沒有穿得過去的樹幹',TREES.length>20&&!inBoya.length&&!onPath.length&&!loose.length,JSON.stringify({inBoya,onPath,loose})); }
+  check('湖北邊那排樹拿掉了：博思裡面、x=-12 往湖的小路上沒有樹，博思附近站得住的地方沒有穿得過去的樹幹',TREES.length>20&&!inBoya.length&&!onPath.length&&!loose.length,JSON.stringify({inBoya,onPath,loose})); }
 // 系籃球場（LAWWW2 9428f9f，位置 A 醉月湖東側 (-4,-113)，2026-10-14；zones3d.js 的 bballCourt）：場地可以走，只擋籃架柱子和兩張長椅；活動點從校門、霖澤館前走得到
 { const S=[3.3,-112.7]; const inC=[[-4,-113],[-10,-118],[2,-108],[-4,-106.5],[-11.5,-110]].filter(q=>stand(q[0],q[1]));
   check('系籃球場：場地中間和四周都站得住（鋪面可以走）',inC.length===5,JSON.stringify(inC));
@@ -67,10 +67,10 @@ check('大一女舍：A、B 兩棟之間（2 樓天橋下）走得過去',stand(
   check('博覽會那天（9/6）：九頂帳篷擺出來、招生攤位收起來',!!tentsF&&tentsF.children.length===9&&!booth,JSON.stringify({tents:tentsF&&tentsF.children.length,booth:!!booth}));
   check('博覽會那天：帳篷擋住（站不進帳篷裡）、帳篷前面 z 13 站得住',![-21.3,-13.5,3.4,14.8].some(x=>stand(x,15.1))&&[-21.3,-13.5,-9.7,3.4].every(x=>stand(x,13.0)));
   const r=walk(GATE,[-13.5,13.0]); check('博覽會那天：服務台前（博覽會的互動點 (-13.5,13.6) 旁邊）從校門走得到',r.ok,JSON.stringify(r).slice(0,160));
-  check('博覽會那天：傅鐘廣場、長椅前留空（(-25,12)、(0,12) 站得住）',stand(-25,12)&&stand(0,12));
+  check('博覽會那天：晨思鐘廣場、長椅前留空（(-25,12)、(0,12) 站得住）',stand(-25,12)&&stand(0,12));
   const nz=build(DAY('2025-10-07')); const tentsN=nz.group.children.find(o=>o.name==='fair_fallback'); const booth2=E.interactables.find(i=>/招生攤位/.test(i.label||''));
   check('平常（10/7）：沒有帳篷，招生攤位、公告欄照舊',!tentsN&&!!booth2&&!stand(-13.5,14.6),JSON.stringify({tents:!!tentsN,booth:!!booth2}));
   { const zz=Z3.ZONES.campus.build(E); E.zone=zz; E.nav=zz.nav; E.levels=zz.levels||null; if(E.levels) for(const n of E.levels) n._cm=null; } }
 // 萬才館研討室 A：大四研討課的門（2026-10-13 審查第 9 項）
-{ E.interactables=[]; const wz=Z3.ZONES.wancai.build(E); const sem=E.interactables.find(i=>i.door==='wancai_seminar'); check('萬才館二樓的研討室 A 是上課的門（門口上課：大四的法律倫理、判決研討）',!!sem&&sem.lv===1&&sem.label==='研討室 A'&&typeof sem.onInteract==='function',sem?`${sem.label} lv${sem.lv}`:'沒有'); }
+{ E.interactables=[]; const wz=Z3.ZONES.wancai.build(E); const sem=E.interactables.find(i=>i.door==='wancai_seminar'); check('法律系館B二樓的研討室 A 是上課的門（門口上課：大四的法律倫理、判決研討）',!!sem&&sem.lv===1&&sem.label==='研討室 A'&&typeof sem.onInteract==='function',sem?`${sem.label} lv${sem.lv}`:'沒有'); }
 console.log(fails?('FAILED '+fails):'ALL PASS'); process.exit(fails?1:0);

@@ -31,10 +31,10 @@ const grad=async(setup)=>{ const G=H.fresh('2029-06-02',8,'dorm'); ['zhe','yu','
   await STORY.gradFamily(GM); clear(); await H.run('grad'); return G; };
 await sec('G',async()=>{
   await grad(()=>{ H.FRIEND(AN); ex(AN); });
-  check('G1. 和以安分開過（FRIEND）：新 21 友情版——媽媽、CG-9、「謝謝你們這四年陪她吵架。」（修改前前任不演）',H.has('（以安的媽媽站在傅鐘旁邊。）')&&H.has('這是我媽。她是法官。')&&H.cgs.includes('cg_graduation_mother_heroine01')&&H.has('（對大家，很平常）謝謝你們這四年陪她吵架。'),J(said().slice(0,8)));
+  check('G1. 和以安分開過（FRIEND）：新 21 友情版——媽媽、CG-9、「謝謝你們這四年陪她吵架。」（修改前前任不演）',H.has('（以安的媽媽站在晨思鐘旁邊。）')&&H.has('這是我媽。她是法官。')&&H.cgs.includes('cg_graduation_mother_heroine01')&&H.has('（對大家，很平常）謝謝你們這四年陪她吵架。'),J(said().slice(0,8)));
   check('G1. 沒有「媽，這是祐廷。」那一段、沒有選項',!said().some(t=>/^媽，這是/.test(t))&&!H.has('我知道。妳說過很多次。')&&!H.opts.some(o=>o.includes('「伯母好。」')));
   await grad(()=>{ ex(AN); });
-  check('G1. 前任、還不到 FRIEND：不演（和朋友一樣的門檻）',!H.has('（以安的媽媽站在傅鐘旁邊。）'));
+  check('G1. 前任、還不到 FRIEND：不演（和朋友一樣的門檻）',!H.has('（以安的媽媽站在晨思鐘旁邊。）'));
   await grad(()=>{ H.FRIEND(YT); ex(YT); });
   check('G2. 和語彤分開過（FRIEND）：事件 17 友情版「恭喜。……我還要一年，今天先穿一次學士服。」、沒有 CG-21、沒有斜對面那句',H.has('（語彤穿著學士服，手上拿著一把深藍色的長柄傘。外面在飄雨。）')&&H.has('阿姨說今天不開店。她要來拍照。')&&H.has('恭喜。……我還要一年，今天先穿一次學士服。')&&!H.cgs.includes('cg_one_umbrella_heroine03')&&!H.has('恭喜。……四年，我們都在總圖三樓。你都坐我斜對面。'),J(said()));
   await grad(()=>{ H.FRIEND(YT); ex(YT); H.CLOSE(ZQ); ROM.start(H.G,ZQ); });

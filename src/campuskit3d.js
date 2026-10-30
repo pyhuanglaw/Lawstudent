@@ -218,7 +218,7 @@ const CK=(function(){ 'use strict';
       bin.add(wall,TK.boxG(W,0.55,D,1.2),hx,hh+0.24+0.275,hz); bin.add(trim,TK.boxG(W+0.08,0.12,D+0.08,1.2),hx,hh+0.85,hz);
       const glass=GLASS(); for(const sx of [-1,1]) for(const dz of [-D/4,D/4]){ bin.add(glass,TK.planeG(0.8,1.3),hx+sx*(W/2+0.01),1.65,hz+dz,sx*Math.PI/2,{noShadow:true}); bin.add(trim,TK.boxG(0.08,1.5,1.0,1.2),hx+sx*(W/2+0.02),1.65,hz+dz,0,{noShadow:true}); }
       bin.add(TK.col('#3c2d23',{roughness:0.6}),TK.planeG(0.9,2.15),hx-0.55,0.12+1.075,H.z0-0.01,Math.PI,{noShadow:true});
-      const nameT=TK.signTex(o.name||'國立臺灣大學',{bg:'#e6e0d2',color:'#3a2f28',serif:true,size:84});
+      const nameT=TK.signTex(o.name||'首都帝國大學',{bg:'#e6e0d2',color:'#3a2f28',serif:true,size:84});
       bin.add(trim,TK.boxG(2.7,0.58,0.08,1.2),hx,2.37,H.z1+0.04,0,{noShadow:true});
       const pl=new THREE.Mesh(new THREE.PlaneGeometry(2.5,0.48),new THREE.MeshStandardMaterial({map:nameT,roughness:0.8})); pl.position.set(hx,2.37,H.z1+0.085); g.add(pl);
       blocks.push([hx,hz,W+0.2,D+0.2,0.15]); }
@@ -425,7 +425,7 @@ const CK=(function(){ 'use strict';
     }
     bin.build(g);
     // 館名：霖澤館在門廊上的石材帶（金色大字）；萬才館在二樓玻璃上方的石材帶（位置是推測）。橘色直式「法律學院」掛在霖澤館右邊玻璃牆前的方柱上
-    const name=o.name||(portal?'霖澤館':'萬才館');
+    const name=o.name||(portal?'法律系館A':'法律系館B');
     // 館名是金色的字直接裝在石材上（照片：沒有底板、字距很開）：透明底的字
     const nameT=TK.signTex(name.split('').join('\u3000'),{bg:'rgba(0,0,0,0)',color:'#d6b25a',serif:true,size:96}), nameM=new THREE.MeshStandardMaterial({map:nameT,roughness:0.45,metalness:0.45,transparent:true,alphaTest:0.3,depthWrite:false});
     if(portal){ const nm=new THREE.Mesh(new THREE.PlaneGeometry(10.4,2.6),nameM); nm.position.set(0,PH+0.62+1.1,d/2+0.41); nm.userData.keepWithFormal=true; g.add(nm);   /* keepWithFormal：Blender 正式外觀載入後，套件的外觀藏起來，招牌留著 */
@@ -453,7 +453,7 @@ const CK=(function(){ 'use strict';
     const prof=[[0.001,0.62],[0.2,0.58],[0.33,0.36],[0.4,0.12],[0.44,0.0],[0.475,0.02],[0.47,0.07],[0.41,0.17],[0.335,0.38],[0.305,0.58],[0.29,0.76],[0.25,0.88],[0.15,0.95],[0.001,0.97]].map(([x,y])=>new THREE.Vector2(x,y));
     const bh=0.97; bin.add(bronze,new THREE.LatheGeometry(prof,20),0,by-0.12-bh,0); bin.add(bronze,new THREE.SphereGeometry(0.08,10,8),0,by-0.12-bh+0.12,0);
     // 正面石碑
-    const st=TK.signTex(o.name||'傅鐘',{bg:'#e3dccd',color:'#3a2f28',serif:true,size:96}); bin.add(trim,TK.boxG(1.5,0.86,0.28,1.2),0,0.43,3.05); bin.add(trim,TK.boxG(1.62,0.1,0.36,1.2),0,0.9,3.05);
+    const st=TK.signTex(o.name||'晨思鐘',{bg:'#e3dccd',color:'#3a2f28',serif:true,size:96}); bin.add(trim,TK.boxG(1.5,0.86,0.28,1.2),0,0.43,3.05); bin.add(trim,TK.boxG(1.62,0.1,0.36,1.2),0,0.9,3.05);
     const pl=new THREE.Mesh(new THREE.PlaneGeometry(1.36,0.34),new THREE.MeshStandardMaterial({map:st,roughness:0.85})); pl.position.set(0,0.52,3.196); g.add(pl);   /* 招牌貼圖是 4:1 */
     // 夜間投光：前面兩根柱子腳下的地燈（燈罩玻璃晚上亮）＋柱面一道由下往上淡出的暖光（加法混合的黑色面：白天看不到，晚上只有自發光）
     { const lampT=TK.tex('ckBellUpT',16,16,(c,w,h)=>{ c.fillStyle='#fff1d6'; c.fillRect(0,0,w,h); },false); const lens=TK.glowMat('ckBellUp',lampT,{nightI:1.6,dayI:0});

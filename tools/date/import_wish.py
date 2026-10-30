@@ -29,7 +29,7 @@ if '--check' in sys.argv:
         same = subprocess.run(['git', '-C', ROOT, 'diff', '--quiet', APPROVED[p], ref, '--', p]).returncode == 0
         print(('一樣：' if same else f'分支上的版本和白名單（{APPROVED[p]}）不同、不會匯入：') + p)
     sys.exit(0)
-show = lambda p: G.alison(subprocess.check_output(['git', '-C', ROOT, 'show', f'{APPROVED[p]}:{p}'], text=True))
+show = lambda p: G.read_fix(subprocess.check_output(['git', '-C', ROOT, 'show', f'{APPROVED[p]}:{p}'], text=True))
 
 
 def deep(o, f):
@@ -71,7 +71,7 @@ if A525:
     ok, why = G.allowed(P525, S525, ALLOW)
     if not ok:
         sys.exit('拒絕匯入：' + why)
-    md525 = G.alison(subprocess.check_output(['git', '-C', ROOT, 'show', f'{S525}:{P525}'], text=True))
+    md525 = G.read_fix(subprocess.check_output(['git', '-C', ROOT, 'show', f'{S525}:{P525}'], text=True))
     OLD5, NEW5 = '那座橋，我回去要畫一次。……畫好再給你看。', '那座橋，我回去要畫一次。'
     if '改原句：「' + NEW5 + '」' not in md525:
         sys.exit(f'AA_525@{S525} 裡找不到 1-5 的「改原句」：{NEW5}')

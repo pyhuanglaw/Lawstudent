@@ -20,6 +20,8 @@ const PHONE=(function(){
   S.rec=function(G){ if(typeof INV!=='undefined') INV.rec(G); else if(!Array.isArray(G.msgs)) G.msgs=[];
     if(!G.phone||typeof G.phone!=='object') G.phone={}; const P=G.phone; if(!P.groups||typeof P.groups!=='object') P.groups={}; if(!P.seen||typeof P.seen!=='object') P.seen={}; if(!Array.isArray(P.q)) P.q=[]; if(typeof P.n!=='number') P.n=0;
     if(!P.filmRen){ P.filmRen=1; const fr=typeof SOCIAL!=='undefined'&&SOCIAL.filmRename; if(fr){ for(const k in P.groups){ const g=P.groups[k]; if(g&&typeof g.name==='string'&&/東京物語|晚春/.test(g.name)) g.name=fr(g.name).replace(/[《》]/g,''); } for(const m of (G.msgs||[])) if(m&&typeof m.text==='string'&&/東京物語|晚春/.test(m.text)) m.text=fr(m.text); for(const m of P.q) if(m&&typeof m.text==='string'&&/東京物語|晚春/.test(m.text)) m.text=fr(m.text); } }   /* 舊存檔：手機裡的真實片名換成虛構的（AA_313 6-2，D77；只做一次）*/
+    if(!P.worldRen){ P.worldRen=1; const wn=typeof SOCIAL!=='undefined'&&SOCIAL.worldName, ws=typeof SOCIAL!=='undefined'&&SOCIAL.worldSpoken; if(wn&&ws){ for(const k in P.groups){ const g=P.groups[k]; if(g&&typeof g.name==='string') g.name=wn(g.name); }
+      const fix=m=>{ if(m&&typeof m.text==='string') m.text=((m.from||m.who)&&(m.th||'')!=='sys'?ws:wn)(m.text); }; for(const m of (G.msgs||[])) fix(m); for(const m of P.q) fix(m); } }   /* 舊存檔：手機裡的真實校名、館名換成虛構的（WORLD-RENAME-1030，D115；人物傳的＝口語 A館、系統＝正式；只做一次）*/
     return P; };
   S.th=m=>m.th||(m.who?'p:'+m.who:'sys');
   const abs=(day,h)=>day*24+h;

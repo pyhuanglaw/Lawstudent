@@ -91,7 +91,7 @@ const SISB8_EVENTS=(function(){
         {label:'b'},SIS('……我沒睡。我在想第二節。'),N('（她的臉上有一條袖子壓出來的印子。）'),{set:{SIS_HOT_WATER_BACK:'knock'}} ] },
     /* ---------- 第 4 節：2027-07-22（四）15:00 霖澤館研究室：外行人讀一章 ---------- */
     { id:'ev_sis_ch1_read', title:'外行人讀一章', participants:[ID], location:'any', trigger:'outing', once:true, background:'dark', hours:1.5,
-      dialogue:[ {scene:'霖澤館・研究室',bg:'dark'},
+      dialogue:[ {scene:'法律系館A・研究室',bg:'dark'},
         N('（研究室只剩她一個人，冷氣很冷。她給你一份印好的稿子和一支鉛筆。）'),
         SIS('看不懂的地方畫線。不要客氣。'),
         N('（你讀了四十分鐘，畫了三條線。她一條一條看。）'),

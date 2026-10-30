@@ -200,15 +200,15 @@ await sec('2 何宇軒',async()=>{ const d=TD('Y1S1',4,2); fresh(d,14.5,'library
 
 /* ---------- 3 徐靜儀（AA_499 第 2 節）---------- */
 await sec('3 徐靜儀',async()=>{ const d=TD('Y1S1',4,1); fresh(d,12.5,'campus'); spawn(JY);
-  check('3. 徐靜儀：認識前「和聲音很好聽的女生說話」（椰林大道，平日 12～13）',GM.npc[JY].name==='聲音很好聽的女生',GM.npc[JY].name);
+  check('3. 徐靜儀：認識前「和聲音很好聽的女生說話」（椰影大道，平日 12～13）',GM.npc[JY].name==='聲音很好聽的女生',GM.npc[JY].name);
   await talk(JY,['可以不要錄嗎']);
   check('3. 徐靜儀 2-1 認識：「同學，可以錄嗎？…」選「……可以不要錄嗎？」→ JY_ANS no；說名字以前外觀描述、之後「徐靜儀」',whoOf(T(L(JY).meet[1]))==='聲音很好聽的女生'&&has('可以。（她把錄音筆放下來）那我們用講的就好。……你哪一系的？法律？我也是。')&&whoOf('我叫徐靜儀。法律系，跟你同班。……你上課都坐後面，所以你沒看過我。')==='徐靜儀'&&H.G.flags.JY_ANS==='no'&&SOCIAL.has(JY,'FIRST_MET'),J(said()));
   await again(JY,[],d+4,12.5,'campus'); const four=has(L(JY).airedNo);
   await again(JY,[],d+7,12.5,'campus');
-  check('3. 徐靜儀 一週以後（沒有聯絡方式＝下一次在椰林大道當面）：「節目上了。沒有你，可是…」（第 4 天還沒有）',!four&&has(L(JY).airedNo)&&P().did(H.G,'jyAired'),J(said()));
+  check('3. 徐靜儀 一週以後（沒有聯絡方式＝下一次在椰影大道當面）：「節目上了。沒有你，可是…」（第 4 天還沒有）',!four&&has(L(JY).airedNo)&&P().did(H.G,'jyAired'),J(said()));
   /* 2-3 新聞：「一起查」→ 秘密在那裡 → 2030 checked 版（AA_499 第 6 節第 5 點）*/
   const d2=TD('Y1S2',4,2); set(d2,12.5,'campus'); rel(JY,25,3); GM.npc={}; spawn(JY); await talk(JY,['一起查']);
-  check('3. 徐靜儀 2-3 新聞裡的一句話（大一下第 3～10 週，椰林大道，有點熟）：選「我不確定。我們一起查。」→ JY_NEWS checked；秘密在這裡說；交換聯絡方式；當場做完',hasL(L(JY).news[0])&&has('無罪，是檢察官沒有證明到讓法官確信。……這跟「沒做」差很遠。')&&H.G.flags.JY_NEWS==='checked'&&SOCIAL.has(JY,'SHARED_SECRET')&&INV.hasContact(H.G,JY)&&quest('PQ_JY').state==='done',J(said()));
+  check('3. 徐靜儀 2-3 新聞裡的一句話（大一下第 3～10 週，椰影大道，有點熟）：選「我不確定。我們一起查。」→ JY_NEWS checked；秘密在這裡說；交換聯絡方式；當場做完',hasL(L(JY).news[0])&&has('無罪，是檢察官沒有證明到讓法官確信。……這跟「沒做」差很遠。')&&H.G.flags.JY_NEWS==='checked'&&SOCIAL.has(JY,'SHARED_SECRET')&&INV.hasContact(H.G,JY)&&quest('PQ_JY').state==='done',J(said()));
   set(D('2030-09-30'),22); ph(); set(D('2030-10-01'),8.1); ph(); const nw=tagged('pool_jy_news2030')[0]; phAt(D('2030-10-02'),21.1);
   check('3. 徐靜儀 2-7：2030-10-01 08:00 新聞（通知）；隔天 21:00 她私訊＝一起查過（checked）那一則',!!nw&&nw.text===L(JY).news2030&&nw.th==='sys'&&msgs(JY).includes(L(JY).title)&&!msgs(JY).includes(L(JY).titleNo),J([nw&&nw.th,msgs(JY)]));
   /* 「無罪就是沒做吧。」*/
@@ -297,7 +297,7 @@ await sec('6 馬佳蓉',async()=>{ fresh(TD('Y1S1',1,1),10,'campus'); const a=AC
   /* 5-3 影印機（大一下第 12～15 週，值班的週六 12:00）*/
   const s=(()=>{ for(let x=TD('Y1S2',12,6);x<=TD('Y1S2',15,6);x+=7){ H.G.day=x; if(STORY.fafuDuty(H.G)) return x; } return null; })();
   fresh(s,12.1,'wancai'); meet(M); rel(M,25,3); const e=P().ent(H.G,M); spawn(M); await talk(M,['我幫妳搬']);
-  check('6. 馬佳蓉 5-3 影印機（大一下第 12～15 週，值班的週六 12:00 在萬才館一樓）：開口；「我幫妳搬。」＝交換聯絡方式、搬（2D 法學院前庭）、人物頁、當場做完',!!e&&e.label==='萬才館一樓，值班結束'&&hasL(L(M).ask[0])&&has('……它活了。')&&H.G.flags.JR_COPIER===true&&INV.hasContact(H.G,M)&&deeds(M).includes('幫她搬過影印機')&&quest('PQ_JR').state==='done',J([e&&e.label,said()]));
+  check('6. 馬佳蓉 5-3 影印機（大一下第 12～15 週，值班的週六 12:00 在萬才館一樓）：開口；「我幫妳搬。」＝交換聯絡方式、搬（2D 法學院前庭）、人物頁、當場做完',!!e&&e.label==='法律系館B一樓，值班結束'&&hasL(L(M).ask[0])&&has('……它活了。')&&H.G.flags.JR_COPIER===true&&INV.hasContact(H.G,M)&&deeds(M).includes('幫她搬過影印機')&&quest('PQ_JR').state==='done',J([e&&e.label,said()]));
   /* 法服值班時的旁白（三次一句）*/
   const tx=[]; for(let k=0;k<4;k++){ set(s+14*(k+1),9,'wancai'); H.said=[]; await PM().fafuExtra(GM,false); tx.push(H.said.length?H.said[0].t:''); }
   check('6. 馬佳蓉：搬過影印機＝之後法服值班偶爾旁白「（新的影印機在角落嗡嗡響。…）」（三次一句）；值班的包裝（STORY.fafuWatch、fafuShift）有接',J(tx)===J([L(M).copierDuty,'','',L(M).copierDuty])&&STORY._poolFafu===true,J(tx));
@@ -355,7 +355,7 @@ await sec('8 劉晏如',async()=>{ const d=TD('Y1S1',4,3); fresh(d,14,'cafe'); s
   check('8. 劉晏如 吉他社版（祐廷去過吉他社社課＝萬才館那一場是「新的！吃這個。…」）；沒去過的不演；大二也照演（AA_528 1-1：原本大二不演）',v0===null&&v1==='meetClub'&&v2==='meetClub',J([v0,v1,v2]));
   /* 2-3 蟑螂（大一下第 3～10 週，吉他社社課那天 18:45）*/
   const r3=TD('Y1S2',5,1); fresh(r3,18.8,'wancai'); meet(LY); rel(LY,25,3); meet(CX); const e=P().ent(H.G,LY); spawn(LY); await talk(LY,['我也怕']);
-  check('8. 劉晏如 2-3 蟑螂（大一下、社課那天 18:45 萬才館一樓走廊、有點熟）：她背貼著牆、秘密在這裡說；選「我也怕蟑螂。」→ 晨希來開門（AA_500 第 7 節第 5 點）；記 LYR_ROACH',!!e&&e.label==='萬才館一樓走廊'&&has('其實我很怕蟑螂。子晴說她不怕，可是她在練團，叫不出來。')&&SOCIAL.has(LY,'SHARED_SECRET')&&has('（你們在走廊站了二十分鐘。最後是晨希來，直接開門走進去，出來的時候說：「沒有了。」）')&&H.G.flags.LYR_ROACH===true&&H.G.flags.LYR_CX===true,J(said()));
+  check('8. 劉晏如 2-3 蟑螂（大一下、社課那天 18:45 萬才館一樓走廊、有點熟）：她背貼著牆、秘密在這裡說；選「我也怕蟑螂。」→ 晨希來開門（AA_500 第 7 節第 5 點）；記 LYR_ROACH',!!e&&e.label==='法律系館B一樓走廊'&&has('其實我很怕蟑螂。子晴說她不怕，可是她在練團，叫不出來。')&&SOCIAL.has(LY,'SHARED_SECRET')&&has('（你們在走廊站了二十分鐘。最後是晨希來，直接開門走進去，出來的時候說：「沒有了。」）')&&H.G.flags.LYR_ROACH===true&&H.G.flags.LYR_CX===true,J(said()));
   fresh(r3,18.8,'wancai'); meet(LY); rel(LY,25,3); spawn(LY); await talk(LY,['我進去','出去了']);
   check('8. 劉晏如「我進去。」→ 2D 一場、「出去了。」→「這包給你。碎的。」；交換聯絡方式（「下次再有，我直接傳給你。」）；人物頁「幫她趕過社辦的蟑螂」；做完',has('這包給你。碎的。')&&has('下次再有，我直接傳給你。')&&INV.hasContact(H.G,LY)&&deeds(LY).includes('幫她趕過社辦的蟑螂')&&quest('PQ_LYR').state==='done'&&H.G.flags.LYR_ROACH===true,J(said()));
   phAt(TD('Y2S1',4,1),18.9);
@@ -376,19 +376,19 @@ function idx(t){ return H.said.findIndex(x=>x.t===t); }
 
 /* ---------- 9 楊書豪（AA_500 第 3 節）---------- */
 await sec('9 楊書豪',async()=>{ const d=TD('Y1S1',4,2); fresh(d,12.3,'campus'); spawn(SH);
-  check('9. 楊書豪：認識前「和走路很快的男生說話」（椰林大道，平日 12～13）',GM.npc[SH].name==='走路很快的男生',GM.npc[SH].name);
+  check('9. 楊書豪：認識前「和走路很快的男生說話」（椰影大道，平日 12～13）',GM.npc[SH].name==='走路很快的男生',GM.npc[SH].name);
   await talk(SH,[]);
   check('9. 楊書豪 3-1 認識：「學弟，現在幾點？…」→ 說名字、「下次辯論賽我當計時。…」',has('學弟，現在幾點？……十二點十四。好，我還有六分鐘。')&&whoOf('楊書豪，大二，辯論社。我去占位子，下午的比賽我計時。')==='楊書豪'&&has('下次辯論賽我當計時。……對，我每次都當計時。'),J(said()));
   const d2=TD('Y1S2',9,2); fresh(d2,12.3,'campus'); meet(SH); rel(SH,25,3); meet('yu'); H.G.flags.met_yu=true; spawn(SH); await talk(SH,['我去']);
   const r=quest('PQ_YSH'), q=outing('ev_pool_ysh_debate');
-  check('9. 楊書豪 3-3 第一次上台（大一下第 8～12 週，椰林大道，有點熟）：二辯感冒、秘密在這裡說；「我去。」＝排這個週六 14:00 博雅 201',has('其實……我很怕上台。所以我一直當計時。')&&SOCIAL.has(SH,'SHARED_SECRET')&&r.state==='open'&&!!q&&wdOf(q.day)===6&&q.h===14&&!INV.hasContact(H.G,SH),J([r,q&&keyOf(q.day)]));
+  check('9. 楊書豪 3-3 第一次上台（大一下第 8～12 週，椰影大道，有點熟）：二辯感冒、秘密在這裡說；「我去。」＝排這個週六 14:00 博思 201',has('其實……我很怕上台。所以我一直當計時。')&&SOCIAL.has(SH,'SHARED_SECRET')&&r.state==='open'&&!!q&&wdOf(q.day)===6&&q.h===14&&!INV.hasContact(H.G,SH),J([r,q&&keyOf(q.day)]));
   await go('ev_pool_ysh_debate',['慢一點']);
-  check('9. 楊書豪 社內賽（2D，博雅 201，沒有圖＝深色底）：選「（比一個「慢一點」的手勢）」→ YSH_UP slow；下台以後那兩句；交換聯絡方式、人物頁「看過他第一次上台」',has('（他放慢了。三分鐘講完，剛好。計時器響的時候，他已經坐下了。）')&&has('可是我講完了。')&&H.G.flags.YSH_UP==='slow'&&INV.hasContact(H.G,SH)&&deeds(SH).includes('看過他第一次上台')&&r.state==='done'&&OUT.bg('boya_201')==='dark',J(said()));
+  check('9. 楊書豪 社內賽（2D，博思 201，沒有圖＝深色底）：選「（比一個「慢一點」的手勢）」→ YSH_UP slow；下台以後那兩句；交換聯絡方式、人物頁「看過他第一次上台」',has('（他放慢了。三分鐘講完，剛好。計時器響的時候，他已經坐下了。）')&&has('可是我講完了。')&&H.G.flags.YSH_UP==='slow'&&INV.hasContact(H.G,SH)&&deeds(SH).includes('看過他第一次上台')&&r.state==='done'&&OUT.bg('boya_201')==='dark',J(said()));
   phAt(TD('Y2S1',2,1),21.1); const ch=msgs(SH).includes(L(SH).chair);
   phAt(PM().yuQuitDay(),21.6);
   check('9. 楊書豪：大二上當社長那一則；Alison 退社那天（認識 Alison、有聯絡方式）兩則',ch&&J(msgs(SH).slice(-2))===J(L(SH).yuQuit),J(msgs(SH)));
   set(TD('Y3S2',16,2),12.5,'campus'); GM.npc={}; spawn(SH); await talk(SH,[]);
-  check('9. 楊書豪 3-5 畢業（2028-06，博雅門口）：計時器交給學弟、「…四年，時間到。」；選「慢一點」的那一句（AA_500 第 7 節第 5 點）',has('辯論社的計時器，我交給學弟了。')&&has('慢一點。我後來每一場都這樣跟自己說。')&&!has('你那時候點頭，我現在上台前都會想到。')&&P().ent(H.G,SH).label==='博雅門口',J(said()));
+  check('9. 楊書豪 3-5 畢業（2028-06，博思門口）：計時器交給學弟、「…四年，時間到。」；選「慢一點」的那一句（AA_500 第 7 節第 5 點）',has('辯論社的計時器，我交給學弟了。')&&has('慢一點。我後來每一場都這樣跟自己說。')&&!has('你那時候點頭，我現在上台前都會想到。')&&P().ent(H.G,SH).label==='博思門口',J(said()));
   fresh(d2,12.3,'campus'); meet(SH); rel(SH,25,3); spawn(SH); await talk(SH,['那天我有事']);
   check('9. 楊書豪「那天我有事。」→「好。我自己去。」（秘密照樣說了）',has('好。我自己去。')&&SOCIAL.has(SH,'SHARED_SECRET')&&quest('PQ_YSH').state==='declined'); });
 
@@ -396,7 +396,7 @@ await sec('9 楊書豪',async()=>{ const d=TD('Y1S1',4,2); fresh(d,12.3,'campus'
 await sec('10 葉晨希',async()=>{ const d=TD('Y1S1',4,1); fresh(d,19.5,'campus'); spawn(CX);
   check('10. 葉晨希：認識前「和背吉他袋的女生說話」（萬才館旁邊，週一、三 19～21）',GM.npc[CX].name==='背吉他袋的女生',GM.npc[CX].name);
   await talk(CX,[]);
-  check('10. 葉晨希 4-1 認識：一直彈同兩個和弦、「……很難聽嗎？」→ 說名字、「……除了你。」',has('……很難聽嗎？')&&whoOf('葉晨希，大二。吉他社。萬才館那邊晚上很安靜，彈錯也沒人聽到。')==='葉晨希'&&has('……除了你。'),J(said()));
+  check('10. 葉晨希 4-1 認識：一直彈同兩個和弦、「……很難聽嗎？」→ 說名字、「……除了你。」',has('……很難聽嗎？')&&whoOf('葉晨希，大二。吉他社。B館那邊晚上很安靜，彈錯也沒人聽到。')==='葉晨希'&&has('……除了你。'),J(said()));
   /* 秘密「我幫妳打拍子。」→ 接 4-3；三個晚上 → YCX_BEAT → 兩次成發（AA_500 第 7 節第 5 點）*/
   fresh(TD('Y1S2',3,1),19.5,'campus'); meet(CX); rel(CX,25,3); spawn(CX); await talk(CX,['我幫妳打拍子','好']);
   const r=quest('PQ_YCX');
@@ -491,7 +491,7 @@ await sec('13 洪珮瑜',async()=>{ const d=TD('Y1S1',4,2); fresh(d,14,'library'
 
 /* ---------- 14 施孟儒（AA_501 第 2 節）---------- */
 await sec('14 施孟儒',async()=>{ const d=TD('Y1S1',4,5); fresh(d,17.5,'campus'); spawn(MR);
-  check('14. 施孟儒：認識前「和總是穿系服的人說話」（醉月湖東側的籃球場，週五 17～19）',GM.npc[MR].name==='總是穿系服的人',GM.npc[MR].name);
+  check('14. 施孟儒：認識前「和總是穿系服的人說話」（映月湖東側的籃球場，週五 17～19）',GM.npc[MR].name==='總是穿系服的人',GM.npc[MR].name);
   await talk(MR,[]);
   check('14. 施孟儒 2-1 認識：「學弟，你來看球的？……水夠嗎？拿一瓶。」→ 說名字',has('學弟，你來看球的？……水夠嗎？拿一瓶。')&&whoOf('施孟儒，大三，系籃經理。系籃的水是我買的，毛巾是我洗的，比分是我記的。球是他們打的。')==='施孟儒',J(said()));
   /* 秘密「我幫你佔一次。」→ 2-3 早上六點的球場 → 阿哲那一句（AA_501 第 5 節第 6 點）*/
@@ -500,7 +500,7 @@ await sec('14 施孟儒',async()=>{ const d=TD('Y1S1',4,5); fresh(d,17.5,'campus
   check('14. 施孟儒 秘密（大一下第 4 週起，球場）：「其實……我常常翹課。」選「我幫你佔一次。」→ 接 2-3：「好。」＝掛事（下週五早上六點）',has('其實……我常常翹課。')&&has('……真的？那這週五早上六點。')&&r.state==='open'&&r.day0===d2+7&&SOCIAL.has(MR,'SHARED_SECRET'),J([r,said()]));
   H.G.flags.ZHE_CALLS_GE=true; set(r.day0,6.1,'campus'); E.player.obj.position={x:-4,y:0,z:-112}; GM.npc={}; const ev=P().AUTO.map(f=>f(GM)).find(Boolean);
   H.said=[]; if(ev) await EVENTS.run(ev);
-  check('14. 施孟儒 那個週五 06:00～06:30 到球場（醉月湖東側）＝早上六點的球場：系服外套、七點阿哲「哥……你六點就在這裡？」（ZHE_CALLS_GE）；交換聯絡方式、做完、時間到 07:00',!!ev&&ev.id==='ev_pool_smr_court'&&has('哥……你六點就在這裡？')&&!has('……你六點就在這裡？')&&INV.hasContact(H.G,MR)&&r.state==='done'&&deeds(MR).includes('幫系籃佔過一次早上的球場')&&H.G.hour>6.99,J([ev&&ev.id,said(),H.G.hour]));
+  check('14. 施孟儒 那個週五 06:00～06:30 到球場（映月湖東側）＝早上六點的球場：系服外套、七點阿哲「哥……你六點就在這裡？」（ZHE_CALLS_GE）；交換聯絡方式、做完、時間到 07:00',!!ev&&ev.id==='ev_pool_smr_court'&&has('哥……你六點就在這裡？')&&!has('……你六點就在這裡？')&&INV.hasContact(H.G,MR)&&r.state==='done'&&deeds(MR).includes('幫系籃佔過一次早上的球場')&&H.G.hour>6.99,J([ev&&ev.id,said(),H.G.hour]));
   set(r.day0,12.1); ph();
   check('14. 施孟儒 考完那天中午：一行三樣、分三則',J(msgs(MR))===J(L(MR).courtMsg),J(msgs(MR)));
   /* 系籃三場各選一次不同的選項 */

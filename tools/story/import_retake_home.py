@@ -11,7 +11,7 @@ APPROVED = G.approved_files(ALLOW, 'docs/story_planning/retake_home/')
 if P not in APPROVED: sys.exit('拒絕匯入：' + P + ' 不在白名單')
 ok, why = G.allowed(P, APPROVED[P], ALLOW)
 if not ok: sys.exit('拒絕匯入：' + why)
-d = json.loads(G.alison(subprocess.check_output(['git', '-C', ROOT, 'show', f'{APPROVED[P]}:{P}'], text=True)))  # AA_380：讀稿先把「小語」換成 Alison（import_guard.alison）
+d = json.loads(G.read_fix(subprocess.check_output(['git', '-C', ROOT, 'show', f'{APPROVED[P]}:{P}'], text=True)))  # AA_380：讀稿先把「小語」換成 Alison（import_guard.alison）
 for k in ('short', 'long'):
     for e in d[k]:
         for l in e['lines'] + e.get('after', []):

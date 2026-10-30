@@ -43,8 +43,8 @@ const SISB11_EVENTS=(function(){
         {label:'a'},SIS('還沒過。恭喜留到那天。'),{set:{SIS_DEF_DATE:'congrats'}},{goto:'m'},
         {label:'b'},SIS('現在不會。前一天晚上會。'),{set:{SIS_DEF_DATE:'nervous'}},{goto:'m'},
         {label:'c'},SIS('……Kevin 一定會叫大家去。你站後面一點就好。'),{set:{SIS_DEF_DATE:'wait'}},   /* wait：不在家族群組的，5/28 21:00 她私訊（src/sis_b11_3d.js S.m9）*/
-        {label:'m'},{scene:'椰林大道',bg:'ntu_avenue'},
-        N('（你們沿著椰林大道走了一段。路燈一盞一盞亮起來。）'),
+        {label:'m'},{scene:'椰影大道',bg:'ntu_avenue'},
+        N('（你們沿著椰影大道走了一段。路燈一盞一盞亮起來。）'),
         SIS('口試完，就要開始上班了。'),
         SIS('你呢。你那條路，走到哪裡了。'),
         {choice:[{text:'「還在走。」',goto:'p'},{text:'「我不確定是不是對的。」',goto:'q'}]},

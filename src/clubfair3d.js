@@ -48,7 +48,7 @@ const CLUBFAIR=(function(){
     L[b.id]=G.day; GM.sceneBegin(); try{ for(const [k,t] of (b.look||[])) await GM.say(k==='narr'?null:staff(b),t); } finally { GM.sceneEnd(); } return 0; };
   /* ---------- 服務台：十五攤的選單（classes3d.js S.fairMenu 叫這裡）---------- */
   S.menu=async function(GM){ const G=GM.G, F=flags(G), B=S.booths(); let k=-1;
-    GM.sceneBegin(); try{ await GM.say(null,'椰林大道上一整排攤位。公告欄貼著今天擺攤的社團。');
+    GM.sceneBegin(); try{ await GM.say(null,'椰影大道上一整排攤位。公告欄貼著今天擺攤的社團。');
       const opts=B.map(b=>{ const c=clubOf(b), j=!!(b.club&&F['CLUB_'+b.club]); return {t:b.sign+(j?'（已加入）':''),hint:c&&typeof CLS!=='undefined'&&CLS.clubWhen?CLS.clubWhen(c):undefined}; }); opts.push({t:'逛完了'});
       k=await GM.choose(opts); } finally { GM.sceneEnd(); }
     if(!(k>=0&&k<B.length)) return 0; return S.booth(GM,B[k].id); };

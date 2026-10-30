@@ -90,7 +90,7 @@ const econHome=(k,h)=>{ fresh(D(k),h,'campus',{Y0_MOVED_OUT:true,ECON_CAMP_OPEN:
   econHome('2025-04-15',9); const w9=await jumpSkip(T(G.day+7,8.5));
   check('8. 4/19 模擬考拿掉：快轉不停在 4/19',T(G.day,G.hour)>T(D('2025-04-19'),18),JSON.stringify({w9,at:CALENDAR.dateOf(G.day).key+' '+G.hour}));
   // 9：放榜固定考上
-  { const src=fs.readFileSync(path.join(ROOT,'src/data/events.js'),'utf8'); check('9. 放榜固定考上台大法律（榜單那一句不看讀書次數）',/（臺大法律學系，財經法學組。你的名字在上面。）/.test(src)&&!/retake:study[^\n]{0,80}E36_RESULT/.test(src)); }
+  { const src=fs.readFileSync(path.join(ROOT,'src/data/events.js'),'utf8'); check('9. 放榜固定考上首都帝大法律（榜單那一句不看讀書次數）',/（首都帝大法律學系，財經法學組。你的名字在上面。）/.test(src)&&!/retake:study[^\n]{0,80}E36_RESULT/.test(src)); }
 
   // 10：BB_214
   { econHome('2025-02-13',12); G.flags.dating_kexin=true; STORY.phoneRules(GM); const q=OUT.get(G,'y0_e27');

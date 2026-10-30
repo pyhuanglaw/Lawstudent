@@ -51,7 +51,7 @@ const XUN='econ_zhengxun';
     check('2. 22:00：「十點了。被子鋪好了，地上還有兩個箱子沒拆。」選項「先睡。明天再拆。」「今天拆完。」',L.includes('十點了。被子鋪好了，地上還有兩個箱子沒拆。')&&opts[1].join()==='先睡。明天再拆。,今天拆完。');
     check('2. 先睡：E01_NIGHT sleep、E01_DONE；旁白「燈還沒關，你就睡著了」',G.flags.E01_NIGHT==='sleep'&&G.flags.E01_DONE===true&&L.includes('你把兩個箱子推到書桌旁邊的地上。燈還沒關，你就睡著了。'));
     check('3. 隔天 9/2 07:00 起床；換日標題寫日期「9 月 2 日」（不是第 −379 天）',G.day===Y0+1&&Math.abs(G.hour-7)<1e-6&&cards.some(c=>c.startsWith('9 月 2 日｜')),G.day+' '+G.hour+' '+cards.join(' / '));
-    check('3. 起床：阿勳「你昨天十點就睡了。」「經原九點十分，在博雅。」',L.includes('阿勳：你昨天十點就睡了。')&&L.includes('阿勳：經原九點十分，在博雅。')&&G.flags.E01_MORNING===true);
+    check('3. 起床：阿勳「你昨天十點就睡了。」「經原九點十分，在博思。」',L.includes('阿勳：你昨天十點就睡了。')&&L.includes('阿勳：經原九點十分，在博思。')&&G.flags.E01_MORNING===true);
     check('3. 先睡的那晚不算 01:00 以後才睡',!(G.daily&&G.daily.lateNight===G.day));
     said=[]; G.hour=18; G.zone='dorm'; STORY.y0Tick(GM); await new Promise(r=>setTimeout(r,10));
     check('4. 先睡的玩家 9/2 晚上回房間：「你終於把箱子拆完了。阿勳幫你把空箱子壓扁，拿去樓下回收。」一次，接著「（韋綸和唐睿搬進來了。…）」（AA_208 第 3 節）',lines().includes('你終於把箱子拆完了。阿勳幫你把空箱子壓扁，拿去樓下回收。')&&lines().indexOf('（韋綸和唐睿搬進來了。韋綸的東西比三個人加起來還多。）')===lines().indexOf('你終於把箱子拆完了。阿勳幫你把空箱子壓扁，拿去樓下回收。')+1&&G.flags.E01_BOXES===true);

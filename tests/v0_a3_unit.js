@@ -42,7 +42,7 @@ const txt=(th)=>TH(th).map(m=>(m.from||'')+':'+m.text);
   /* 法律系開局 */
   { fresh(1,21.2,'dorm',{}); G.flags={dating_kexin:true}; said=[]; const E0=GM.E; GM.E=Object.assign({},E,{player:{busy:false},endCinematic(){},setWeather(){}}); GM.titleIdle=true; GM.hideHUD=()=>{}; let entered=null; const en=GM.enter; GM.enter=async(z)=>{ entered=z; G.zone=z; };
     await STORY.newGame(GM); GM.enter=en; GM.E=E0; const L=said.map(s=>s.t);
-    check('法律系開局：先放④（10 句，AA_224 第 2 組）再放③（4 句），然後進宿舍（現有的第一天）',L[0]==='你從小就想念台大法律。'&&L[9]==='九月，你回到同一個校園，換了一個系。'&&L[10]==='開學第一週，你走進霖澤館。沒有人知道你來過這個校園。'&&L.length===14&&entered==='dorm'&&G.day===1&&G.stage==='law',JSON.stringify({n:L.length,first:L[0],entered,day:G.day}));
+    check('法律系開局：先放④（10 句，AA_224 第 2 組）再放③（4 句），然後進宿舍（現有的第一天）',L[0]==='你從小就想念首都帝大法律。'&&L[9]==='九月，你回到同一個校園，換了一個系。'&&L[10]==='開學第一週，你走進法律系館A。沒有人知道你來過這個校園。'&&L.length===14&&entered==='dorm'&&G.day===1&&G.stage==='law',JSON.stringify({n:L.length,first:L[0],entered,day:G.day}));
     check('法律系開局：記下看過摘要（舊存檔另外處理）',G.flags.LAW_RECAP_SEEN===true); }
   /* 經濟系開局 */
   { fresh(1,21.2,'dorm',{}); G.flags={dating_kexin:true,KX_DEC3_MIGRATED:true,E01_DONE:true}; /* E01（宿舍第一晚）另外在 tests/v0_e01_unit.js 測；這裡只看開局的狀態 */ const E0=GM.E; GM.E=Object.assign({},E,{player:{busy:false},endCinematic(){},setWeather(){}}); GM.hideHUD=()=>{}; let card=null; GM.titleCard=async(a,b)=>{ card=a+'｜'+b; };

@@ -50,7 +50,7 @@ const cp=require('child_process'), SPEC_SHA='5cd35678';
     ['#5','src/y34b3d.js','你的那條路，現在走到哪了？不用現在說。','大四要走哪條路，你決定了嗎？不用現在說。'],['#5','src/y34b3d.js','我的也想跟你說。','可是我想第一批知道。'],
     ['#6','src/y34b3d.js','阿姨，三年前我說，我們週二週四都會來。','阿姨，四年前我說，我們週二週四都會來。'],['#6','src/y34b3d.js','（坐下）第四年了。這兩個位子，本來就是我們的。','（坐下）四年了。這兩個位子，本來就是我們的。'],['#6','src/y34b3d.js','你說了三年的麵，原來是真的。','你說了四年的麵，原來是真的。'],
     ['#7','src/data/termend_lines.js','考完喔？吃飯，一樣九點以後','考完喔？吃飯，最後一學期了，一樣九點以後'],['#8','src/data/termend_lines.js','筆試考完，我想去看一次海。……還沒想好去哪裡。',null],
-    ['#10','src/data/events.js','（把卡片翻到第一頁）第四年。……明年這一天，我們都畢業了。',null],['#10','src/data/events.js','對啊。四年前你還不知道政大怎麼走。',null]];
+    ['#10','src/data/events.js','（把卡片翻到第一頁）第四年。……明年這一天，我們都畢業了。',null],['#10','src/data/events.js','對啊。四年前你還不知道木柵大學怎麼走。',null]];
   for(const [k,f,nw,old] of NEW) check('0. '+k+'「'+nw+'」＝稿、＝遊戲（'+f+'）'+(old?'；舊句「'+old+'」不在了':''),spec.includes(nw)&&src(f).includes("'"+nw+"'")&&(!old||!src(f).includes("'"+old+"'")));
   // ---- 1. 以安 A7-L2 ----
   { const at=(k)=>{ fresh(D(k),15,'campus'); SOCIAL.remember('heroine_01','FIRST_MET',''); Object.assign(SOCIAL.rel('heroine_01'),{fam:45,trust:30,comf:20}); const LD=STORY.ladData(G,'heroine_01'); const i=LD?LD.L.steps.findIndex(s=>s.id==='A7-L2'):-1; G.social=G.social||{}; G.social.ladder=Object.assign({},G.social.ladder||{},LD?{[LD.key]:i}:{}); G.social.ladderDay={}; const st=STORY.ladNext(G,'heroine_01'); return {i,id:st&&st.id}; };
@@ -72,7 +72,7 @@ const cp=require('child_process'), SPEC_SHA='5cd35678';
   { const e=STORY_EVENTS.find(x=>x.id==='ev_kexin_anniversary_yn'), L=(e&&e.dialogue)||[], i=L.findIndex(l=>l.label==='y4'), ch=i>=0?L.slice(i).find(l=>l.choice):null;
     const rep=lab=>{ const j=L.findIndex(l=>l.label===lab); return j>=0?L[j+1].text:null; };
     const C=ch?ch.choice.map(c=>[c.text,rep(c.goto)]):null;
-    check('10. #10 可昕第四年：「（把卡片翻到第一頁）第四年。……明年這一天，我們都畢業了。」＋自己一組選項（「明年也一起過。」→「好。寫進表格。」／「時間好快。」→「對啊。四年前你還不知道政大怎麼走。」／（不說話，看著她）→「……幹嘛一直看。」）',
-      i>=0&&L[i+1].text==='（把卡片翻到第一頁）第四年。……明年這一天，我們都畢業了。'&&JSON.stringify(C)===JSON.stringify([['「明年也一起過。」','好。寫進表格。'],['「時間好快。」','對啊。四年前你還不知道政大怎麼走。'],['（不說話，看著她）','……幹嘛一直看。']]),JSON.stringify(C)); }
+    check('10. #10 可昕第四年：「（把卡片翻到第一頁）第四年。……明年這一天，我們都畢業了。」＋自己一組選項（「明年也一起過。」→「好。寫進表格。」／「時間好快。」→「對啊。四年前你還不知道木柵大學怎麼走。」／（不說話，看著她）→「……幹嘛一直看。」）',
+      i>=0&&L[i+1].text==='（把卡片翻到第一頁）第四年。……明年這一天，我們都畢業了。'&&JSON.stringify(C)===JSON.stringify([['「明年也一起過。」','好。寫進表格。'],['「時間好快。」','對啊。四年前你還不知道木柵大學怎麼走。'],['（不說話，看著她）','……幹嘛一直看。']]),JSON.stringify(C)); }
   console.log(fails?'FAILED '+fails:'ALL PASS'); process.exit(fails?1:0);
 })().catch(e=>{ console.log('FAIL 例外 '+(e&&e.stack||e)); process.exit(1); });

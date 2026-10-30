@@ -44,7 +44,7 @@ const PGDATE=(function(){
   /* 見面的地點（AA_366 第 1 節「地點照 AA_354（公館、河濱、政大小吃街輪流）」）：字幕、背景、車程照大一下那一段（story3d.js K5 之後每週），政大照畢業後篇（6/9、K26：開車約 40 分鐘）*/
   S.KX_PLACES=[{place:'公館',bg:'gongguan',title:'我們的日子：約在公館',travel:'騎車約 10 分鐘',travelH:1/6},
     {place:'河濱',bg:'riverside',title:'我們的日子：河濱',travel:'騎車約 15 分鐘',travelH:0.25},
-    {place:'政大・山下的小吃街',bg:'nccu_food',title:'我們的日子：開車去政大',travel:'開車約 40 分鐘',travelH:2/3}];
+    {place:'木柵大學・山下的小吃街',bg:'nccu_food',title:'我們的日子：開車去木柵大學',travel:'開車約 40 分鐘',travelH:2/3}];
   S.KX_CALL={place:'電話',bg:null,title:'我們的日子：電話',travel:'',travelH:0};   /* P4（受訓：「隔週六晚上。你打給我。」）：地點字幕寫「電話」*/
   let kxDefs=null;
   S.kxDefs=function(){ if(kxDefs) return kxDefs; const K=D()&&D().kexin; if(!K) return []; let n=0;

@@ -55,7 +55,7 @@ const meet=id=>SOCIAL.remember(id,'FIRST_MET','');
   fresh(d16,15,'campus',{CLUB_lawclub_study:true}); G.stage='law'; at(-13.5,13.6); picks=['法服','幫人看']; tick(); await wait(); L=lines();
   check('2. 法服「幫人看法律問題。」：新生「那你很厲害耶。」＋旁白；學姊不說話',L.includes('新生：那你很厲害耶。')&&L.includes('你想說「我只是坐在旁邊做紀錄」，最後沒說。')&&!L.some(t=>/順序對了/.test(t)),JSON.stringify(L));
   fresh(d16,15,'campus',{CLUB_dept_basketball:true,ZHE_CALLS_GE:true}); G.stage='law'; at(-13.5,13.6); picks=['系籃']; tick(); await wait(); L=lines();   /* AA_374 第 7 項：有「哥」的玩家（ZHE_CALLS_GE）照原句 */
-  check('3. 系籃（叫你哥的玩家）：阿哲「哥，你站這裡。…」「不用每天啦，週五晚上練一次。」、新生「那我可以先去看看嗎？」、阿哲「可以啊，球場在醉月湖旁邊。」（AB65-3（AA_211） 附錄 A 阿哲一列；原本祐廷「……我們很常練。」）',L.some(t=>t.endsWith('哥，你站這裡。身高夠，看起來很會打。'))&&L.some(t=>t.endsWith('不用每天啦，週五晚上練一次。'))&&L.includes('新生：那我可以先去看看嗎？')&&L.some(t=>t.endsWith('可以啊，球場在醉月湖旁邊。'))&&!L.includes('祐廷：……我們很常練。'),JSON.stringify(L));
+  check('3. 系籃（叫你哥的玩家）：阿哲「哥，你站這裡。…」「不用每天啦，週五晚上練一次。」、新生「那我可以先去看看嗎？」、阿哲「可以啊，球場在映月湖旁邊。」（AB65-3（AA_211） 附錄 A 阿哲一列；原本祐廷「……我們很常練。」）',L.some(t=>t.endsWith('哥，你站這裡。身高夠，看起來很會打。'))&&L.some(t=>t.endsWith('不用每天啦，週五晚上練一次。'))&&L.includes('新生：那我可以先去看看嗎？')&&L.some(t=>t.endsWith('可以啊，球場在映月湖旁邊。'))&&!L.includes('祐廷：……我們很常練。'),JSON.stringify(L));
   fresh(d16,15,'campus',{CLUB_club_debate:true}); G.stage='law'; at(-13.5,13.6); tick(); await wait(); L=lines(); check('3. 辯論社（AB65-3（AA_211） 附錄 A 祐廷的選項：「還好，我進去以前也很怕上台。」、社長那句刪掉）',L.includes('祐廷：還好，我進去以前也很怕上台。')&&!L.some(t=>/^社長：/.test(t)),JSON.stringify(L));
   fresh(d16,15,'campus',{CLUB_club_hiking:true}); G.stage='law'; at(-13.5,13.6); tick(); await wait(); L=lines(); check('3. 登山社（AB65-3（AA_211）：「會啊，我第一次爬完腿痠三天。」）',L.includes('祐廷：會啊，我第一次爬完腿痠三天。'),JSON.stringify(L));
   // 都沒加入

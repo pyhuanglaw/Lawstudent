@@ -103,11 +103,11 @@ const runX=async(known,gift,toIdx,fromIdx,flags,setup)=>{ const WED=termDay(17,3
   /* ---------- 可昕 K2 她第一次來台大（BB_95 9-3）---------- */
   { const FRI=termDay(6,5), SAT=FRI+1;
     fresh(FRI,19.5,'dorm',{dating_kexin:true}); run(19.5,20.1); const m=G.msgs.find(x=>x.tag==='kx_ntu_ask'); const q=OUT.get(G,'kx_ntu');
-    check('K2：第 6 週週五 20:00「這次換我去台大。我先去找品妤，你四點來社科院門口。」（AA_313 第 2 節第 8 列）；週六 16:00 社科院門口（不和第 4 週六迎新、第 5 週六中秋同一天）',!!m&&m.day===FRI&&Math.abs(m.h-20)<0.06&&m.text==='這次換我去台大。我先去找品妤，你四點來社科院門口。'&&!!q&&q.day===SAT&&q.h===16&&SAT!==termDay(4,6)&&SAT!==termDay(5,6),JSON.stringify(q));
+    check('K2：第 6 週週五 20:00「這次換我去首都帝大。我先去找品妤，你四點來社科院門口。」（AA_313 第 2 節第 8 列）；週六 16:00 社科院門口（不和第 4 週六迎新、第 5 週六中秋同一天）',!!m&&m.day===FRI&&Math.abs(m.h-20)<0.06&&m.text==='這次換我去首都帝大。我先去找品妤，你四點來社科院門口。'&&!!q&&q.day===SAT&&q.h===16&&SAT!==termDay(4,6)&&SAT!==termDay(5,6),JSON.stringify(q));
     const go=async(flags,events,pick)=>{ fresh(SAT,15.7,'campus',Object.assign({dating_kexin:true},flags||{})); for(const e of (events||[])) G.events.done[e]=1; PHONE.at(G,FRI,20,[{th:'p:kexin',from:'kexin',text:'x'}],'kx_ntu_ask'); run(15.7,15.8); const q2=OUT.get(G,'kx_ntu'); picks=[pick]; said=[]; opts=[]; await OUT.go(GM,q2); return {L:lines(),O:opts[0]||[]}; };
     let r=await go({},[],'「今天沒有遲到。」');
-    check('K2：旁白用「你」（BB 2026-10-14）：「社科院門口，可昕和品妤已經在等你。」「品妤先回去了。你們沿著椰林大道走出校門，在附近吃晚餐。」（AA_313 第 2 節第 8 列）；品妤第一次出現＝「好久不見。你現在每天都在對面那棟喔？」（AA_207 §4-6：不報全名）；可昕「我們的舊系館。……裡面的販賣機還是壞的。」（AA_207 §7 第 3 列：原本接在品妤的問句後面又是一個問句）',r.L[0]==='社科院門口，可昕和品妤已經在等你。'&&r.L.includes('品妤先回去了。你們沿著椰林大道走出校門，在附近吃晚餐。')&&!r.L.includes('品妤先回去了。你們沿著椰林大道，一路走到公館吃晚餐。')&&r.L.includes('好久不見。你現在每天都在對面那棟喔？')&&!r.L.includes('你來了。')&&r.L.includes('我們的舊系館。……裡面的販賣機還是壞的。')&&!r.L.includes('我們的舊系館。……你現在每天經過，都不會進去了吧？'),JSON.stringify(r.L.slice(0,4)));
-    check('K2：霖澤館前三選一（AA_295）；「今天沒有遲到。」→「……因為我在。」她笑',JSON.stringify(r.O)===JSON.stringify(['「遲到走後門。」','「今天沒有遲到。」','「我沒有每天遲到。」'])&&r.L.includes('霖澤館。以前每天從社科院看過來。……第一次走進來。')&&r.L.includes('你每天第一堂都從這個門進去？……遲到的時候也是？')&&r.L.includes('……因為我在。')&&r.L.includes('她笑。'));
+    check('K2：旁白用「你」（BB 2026-10-14）：「社科院門口，可昕和品妤已經在等你。」「品妤先回去了。你們沿著椰影大道走出校門，在附近吃晚餐。」（AA_313 第 2 節第 8 列）；品妤第一次出現＝「好久不見。你現在每天都在對面那棟喔？」（AA_207 §4-6：不報全名）；可昕「我們的舊系館。……裡面的販賣機還是壞的。」（AA_207 §7 第 3 列：原本接在品妤的問句後面又是一個問句）',r.L[0]==='社科院門口，可昕和品妤已經在等你。'&&r.L.includes('品妤先回去了。你們沿著椰影大道走出校門，在附近吃晚餐。')&&!r.L.includes('品妤先回去了。你們沿著椰影大道，一路走到公館吃晚餐。')&&r.L.includes('好久不見。你現在每天都在對面那棟喔？')&&!r.L.includes('你來了。')&&r.L.includes('我們的舊系館。……裡面的販賣機還是壞的。')&&!r.L.includes('我們的舊系館。……你現在每天經過，都不會進去了吧？'),JSON.stringify(r.L.slice(0,4)));
+    check('K2：霖澤館前三選一（AA_295）；「今天沒有遲到。」→「……因為我在。」她笑',JSON.stringify(r.O)===JSON.stringify(['「遲到走後門。」','「今天沒有遲到。」','「我沒有每天遲到。」'])&&r.L.includes('A館。以前每天從社科院看過來。……第一次走進來。')&&r.L.includes('你每天第一堂都從這個門進去？……遲到的時候也是？')&&r.L.includes('……因為我在。')&&r.L.includes('她笑。'));
     check('K2：K1 還沒去過＝分開時「下次換你來，我當導遊。」；記 MET_PINYU',r.L.includes('下次換你來，我當導遊。')&&G.flags.MET_PINYU===true);
     r=await go({MET_PINYU:true},['ev_kexin_tour_nccu'],'「我沒有每天遲到。」');
     check('K2：之前遇過品妤＝只點頭「你來了。」；K1 去過＝沒有「下次換你來」；「我沒有每天遲到。」→「證據呢？」',r.L.includes('你來了。')&&!r.L.some(t=>t.startsWith('曾品妤。'))&&!r.L.includes('下次換你來，我當導遊。')&&r.L.includes('證據呢？'));
@@ -161,7 +161,7 @@ const runX=async(known,gift,toIdx,fromIdx,flags,setup)=>{ const WED=termDay(17,3
     fresh(BD,5.5,'dorm',{dating_kexin:true}); toasts=[]; run(5.5,6.2); let d=draft();
     check('12/3（週三）：沒有「生日」的行事曆；她的對話串有「（草稿）」可以傳「交出去了嗎？」',CALENDAR.dateOf(BD).key.endsWith('12-03')&&!toasts.some(t=>/生日/.test(t))&&!!d&&d.th==='p:kexin'&&d.from==='player'&&JSON.stringify(d.ask.opts.map(o=>o.t))===JSON.stringify(['交出去了嗎？']),JSON.stringify({toasts,d:d&&d.text}));
     const q=OUT.get(G,'kx_bday'); G.hour=17.9; const due0=OUT.due(G); G.hour=18.01; const due1=OUT.due(G);
-    check('18:00 起出遊提示「開車去政大」（開車約 30 分鐘；標題沒有「生日」）',!!q&&!due0&&!!due1&&due1.id==='kx_bday'&&q.title==='開車去政大'&&q.travel==='開車約 30 分鐘',JSON.stringify(q));
+    check('18:00 起出遊提示「開車去木柵大學」（開車約 30 分鐘；標題沒有「生日」）',!!q&&!due0&&!!due1&&due1.id==='kx_bday'&&q.title==='開車去木柵大學'&&q.travel==='開車約 30 分鐘',JSON.stringify(q));
     G.hour=12; PHONE.answer(G,d.ask.id,0); const rep=G.msgs.filter(m=>m.th==='p:kexin').map(m=>m.text).slice(-2);
     check('只傳訊息 →「交出去了嗎？」＋她「交了。……今天可以早點睡了。」',JSON.stringify(rep)===JSON.stringify(['交出去了嗎？','交了。……今天可以早點睡了。']),JSON.stringify(rep));
     run(12,23); keepOn(BD+1,7.5); run(7.5,8.2); check('只傳訊息＝KX_DEC3 {1:"message"}、那晚沒有空椅子的照片、沒有 KX_BDAY',G.flags.KX_DEC3&&G.flags.KX_DEC3[1]==='message'&&!G.msgs.some(m=>m.tag==='kx_dec3_none')&&!G.flags.KX_BDAY);
@@ -170,7 +170,7 @@ const runX=async(known,gift,toIdx,fromIdx,flags,setup)=>{ const WED=termDay(17,3
     fresh(BD,6,'dorm',{dating_kexin:true}); run(6,6.2); d=draft(); keepOn(BD+1,0.2); const late=PHONE.answer(G,d.ask.id,0); check('草稿過了當天就不能傳',late===null);
     const go=async(flags,events,pick)=>{ fresh(BD,18.2,'dorm',Object.assign({dating_kexin:true},flags||{})); for(const e of (events||[])) G.events.done[e]=1; run(18.2,18.3); const q3=OUT.get(G,'kx_bday'); picks=[pick]; said=[]; opts=[]; await OUT.go(GM,q3); return {L:lines(),O:opts[0]||[]}; };
     let r=await go({},[],'「猜的。」');
-    check('去政大＝旁白「政大的晚上，山上的風比台大冷一點。」→「……你怎麼知道我幾點下課？」；沒見過予樂＝沒有「問予樂的。」；整段沒有「生日」',r.L[0]==='政大的晚上，山上的風比台大冷一點。'&&r.L.includes('……你怎麼知道我幾點下課？')&&JSON.stringify(r.O)===JSON.stringify(['「妳的課表在我手機裡。」','「猜的。」'])&&!r.L.some(t=>/生日/.test(t)),JSON.stringify(r.L.slice(0,4)));
+    check('去木柵大學＝旁白「木柵大學的晚上，山上的風比首都帝大冷一點。」→「……你怎麼知道我幾點下課？」；沒見過予樂＝沒有「問予樂的。」；整段沒有「生日」',r.L[0]==='木柵大學的晚上，山上的風比首都帝大冷一點。'&&r.L.includes('……你怎麼知道我幾點下課？')&&JSON.stringify(r.O)===JSON.stringify(['「妳的課表在我手機裡。」','「猜的。」'])&&!r.L.some(t=>/生日/.test(t)),JSON.stringify(r.L.slice(0,4)));
     check('「猜的。」→「猜錯的話，你要在這裡等多久？」「等到猜對。」「……很會講欸。」（AA_207 §7 第 1 列：原本「……好，算你過。」替玩家打分）；予樂沒見過＝「予樂看了你一眼，對可昕說：」「好，我先走。」',['猜錯的話，你要在這裡等多久？','等到猜對。','……很會講欸。','予樂看了你一眼，對可昕說：','好，我先走。'].every(t=>r.L.includes(t))&&!r.L.includes('……好，算你過。'));
     check('小吃街「今天本來是一個普通的週三。」「……你從台北開上來喔？山路晚上很暗欸。」（AA_207 §5／BB_167 SC4 第 33 列）「今天你點餐。」；沒有「老闆記得你的點法。」',['今天本來是一個普通的週三。','……你從台北開上來喔？山路晚上很暗欸。','今天你點餐。'].every(t=>r.L.includes(t))&&!r.L.includes('老闆記得你的點法。'));
     keepOn(BD+1,7.5); run(7.5,8.2); check('去了＝KX_DEC3 {1:"visit"}',G.flags.KX_DEC3[1]==='visit');

@@ -89,7 +89,7 @@ const SISB4=(function(){
       out:{id:'sisb4_xmas_y2',ev:'ev_sis_xmas_y2',day:'2026-12-24',h:22,late:0.25,place:'兩點半 Café 門口',title:'聖誕夜（兩點半 Café 門口）',travel:'走路 約 10 分鐘',travelH:1/6},
       miss:{day:'2026-12-24',h:22+20/60,lines:L.x2Missed}},
     {k:'xmas_y3',ask:'2027-12-24',h:20.5,lines:L.x3Ask,yes:L.x3Yes,noT:L.x3NoT,no:L.x3No,flag:'SIS_XMAS_Y3',ok:'there',go:'SIS_XMAS_Y3_GO',
-      out:{id:'sisb4_xmas_y3',ev:'ev_sis_xmas_y3',day:'2027-12-24',h:21,late:0.25,place:'霖澤館・研究室',title:'聖誕夜（霖澤館・研究室）',travel:'走路 約 10 分鐘',travelH:1/6},
+      out:{id:'sisb4_xmas_y3',ev:'ev_sis_xmas_y3',day:'2027-12-24',h:21,late:0.25,place:'法律系館A・研究室',title:'聖誕夜（法律系館A・研究室）',travel:'走路 約 10 分鐘',travelH:1/6},
       miss:{day:'2027-12-24',h:21.5,lines:L.x3Missed}},
     {k:'vday_y2',ask:'2027-02-13',h:21,lines:L.v2Ask,yes:L.v2Yes,noT:L.v2NoT,no:L.v2No,flag:'SIS_VDAY_Y2',ok:'went',go:'SIS_VDAY_Y2_GO',
       out:{id:'sisb4_vday_y2',ev:'ev_sis_vday_y2',day:'2027-02-14',h:14,late:0.25,place:'臺北植物園',title:'情人節（臺北植物園）',travel:'捷運 約 20 分鐘',travelH:1/3},

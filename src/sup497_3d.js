@@ -141,7 +141,7 @@ const SUP497=(function(){
   S.fri=d=>{ let x=d; while(wdOf(x)!==5) x++; return x; };
   S.elevAskDue=function(G){ if(!law(G)||S.qState(G)||!inTerm(G,'Y2S1')||week(G)<6||week(G)>9) return false; const w=wdOf(G.day); if(w<1||w>4) return false; const h=hr(G); if(h<15+10/60||h>=18) return false;   /* 週一～週四（期限是那一週的週五：開口以後至少還有一天的 12:10）*/
     return dmOK(G,YC)&&sent(G,'yc_song_5')&&(typeof SIDEQ==='undefined'||!SIDEQ.openIds||SIDEQ.openIds(G).length<SIDEQ.MAX); };
-  S.ELEV_ASK={ id:'ev_yc_elev_ask', title:'霖澤館的電梯', participants:[YC], location:'linze', trigger:'auto', once:true, background:'blur', near:{x:3.2,z:-4.1,r:3},
+  S.ELEV_ASK={ id:'ev_yc_elev_ask', title:'法律系館A的電梯', participants:[YC], location:'linze', trigger:'auto', once:true, background:'blur', near:{x:3.2,z:-4.1,r:3},
     prereq:{custom:G=>S.elevAskDue(G)&&!!(GMr&&GMr.E&&GMr.E.player&&(GMr.E.player.lv|0)===0)},
     dialogue:lns((L.yc.elev||{}).open).concat([{choice:[{text:(L.yc.elev||{}).opts[0],set:{YC_ELEV_ASK:'yes'},goto:'y'},{text:(L.yc.elev||{}).opts[1],set:{YC_ELEV_ASK:'no'},goto:'n'}]},
       {label:'n'}],lns((L.yc.elev||{}).no),[{goto:'end'},{label:'y'},{label:'end'}]),
@@ -151,7 +151,7 @@ const SUP497=(function(){
   S.declineElev=G=>{ if(typeof SIDEQ!=='undefined') SIDEQ.rec(G)[S.QID]={state:'declined',term:SIDEQ.termKey?SIDEQ.termKey(G):'Y2S1',day:G.day}; };
   S.elevOpen=G=>{ const r=S.qRec(G); return !!r&&r.state==='open'&&r.step==='block'&&G.day<=r.by; };   /* 答應了、還沒過期限（characters.js 宥辰 12:10～12:20 在電梯前的作息也讀這個）*/
   S.elevDoneDue=function(G){ if(!S.elevOpen(G)||G.zone!=='linze') return false; const w=wdOf(G.day); if(w<1||w>5) return false; const h=hr(G); return h>=12+10/60&&h<12+20/60; };
-  S.ELEV_DONE={ id:'ev_yc_elev_done', title:'霖澤館的電梯', participants:[YC], location:'linze', trigger:'auto', once:true, background:'blur',
+  S.ELEV_DONE={ id:'ev_yc_elev_done', title:'法律系館A的電梯', participants:[YC], location:'linze', trigger:'auto', once:true, background:'blur',
     prereq:{custom:G=>S.elevDoneDue(G)&&!!(GMr&&GMr.E&&GMr.E.player&&(GMr.E.player.lv|0)===0)},
     dialogue:lns((L.yc.elev||{}).done).concat([{set:{YC_ELEVATOR:true}}]),
     after:(G,GM)=>{ const r=S.qRec(G); if(!r||r.state!=='open') return; if(typeof SIDEQ!=='undefined'&&SIDEQ.finish) SIDEQ.finish(GM&&GM.G===G?GM:{G},S.QID,r,{helped:true}); else { r.state='done'; r.doneDay=G.day; }
@@ -160,7 +160,7 @@ const SUP497=(function(){
     if(r.state==='lapsed') S.at(G,YC,r.by,23,(L.yc.elev.lapse||[]).map(t=>dm(YC,t)),'yc_elev_lapse'); };
   S.register=function(){ if(typeof SIDEQ==='undefined'||!SIDEQ.Q) return false; if(!SIDEQ.Q[S.QID]) SIDEQ.Q[S.QID]={shop:'sup:'+YC,title:L.yc.elev.title,avail:()=>false,accept:async()=>{}};
     if(!SIDEQ.hint._sup){ const h0=SIDEQ.hint; SIDEQ.hint=Object.assign((id,r)=>id===S.QID?S.elevHint(r):h0(id,r),{_sup:true}); } return true; };
-  S.elevHint=r=>{ const d=r&&r.by!=null?dateOf(r.by):null; return '平日 12:10～12:20 到霖澤館一樓的樓梯口幫宥辰擋人'+(d?'（到 '+d.m+'/'+d.d+' 週五）':''); };   /* 介面的字 */
+  S.elevHint=r=>{ const d=r&&r.by!=null?dateOf(r.by):null; return '平日 12:10～12:20 到法律系館A一樓的樓梯口幫宥辰擋人'+(d?'（到 '+d.m+'/'+d.d+' 週五）':''); };   /* 介面的字 */
 
   /* 1-6 地下室的第一場（BB_70 7b，AA 定稿；2026-11-14（六）20:00）：11/9（一）21:00 班級群組宥辰貼、麵店團阿哲再貼一次（看到的人排進行程；「出發」才去）*/
   S.GIG='2026-11-14'; S.GIG_ASK='2026-11-09';

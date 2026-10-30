@@ -117,7 +117,7 @@ await sec(0,()=>{ const a=s=>html.indexOf(s);
   const lostQ=QUOTES.filter(t=>!GS.has(t)&&!(t==='學姊今天遲到十分鐘 我拍下來了'&&typeof SISB15_LINES!=='undefined'&&SISB15_LINES.late===t)), lostO=OPTS.filter(o=>!GS.has(o)&&!GS.has(unq(o))), lostR=INLR.filter(t=>!GS.has(t)&&!/^（/.test(t));
   check('0. 稿 → 遊戲：第 1～3 節每一句「>」（'+QUOTES.length+' 句）都在遊戲裡',QUOTES.length===98&&!lostQ.length,J({n:QUOTES.length,lostQ}));
   check('0. 稿 → 遊戲：每個選項（'+OPTS.length+' 個）、→ 同一行的回覆（'+INLR.length+' 句）都在遊戲裡',OPTS.length===35&&INLR.length===7&&!lostO.length&&!lostR.length,J({o:OPTS.length,r:INLR.length,lostO,lostR}));
-  const INLINE=['今天的題目在白板上。','坐。題目自己看。','佳穎，你先講。……好，換人。','明天讀書會。','去。','禮拜六畢業典禮 霖澤館門口拍照 家族都來','（傳一張照片給她）','坐。還有十分鐘。','你沒去過吧。','學姊的三本書（每一本都畫了線）'];   /* 稿寫在說明句裡的（「」括起來）*/
+  const INLINE=['今天的題目在白板上。','坐。題目自己看。','佳穎，你先講。……好，換人。','明天讀書會。','去。','禮拜六畢業典禮 法律系館A門口拍照 家族都來','（傳一張照片給她）','坐。還有十分鐘。','你沒去過吧。','學姊的三本書（每一本都畫了線）'];   /* 稿寫在說明句裡的（「」括起來）*/
   check('0. 稿寫在說明裡的句子（白板三句、私訊、回「去。」、Kevin 6/1 那一則、照片的選項、A 多的兩句、房間物件）都在稿裡、也在遊戲裡',INLINE.every(t=>DOC.indexOf('「'+t+'」')>=0&&GS.has(t)),J(INLINE.filter(t=>!(DOC.indexOf('「'+t+'」')>=0&&GS.has(t)))));
   /* 遊戲 → 稿（說明：①studyAsk 是 AA_470 12-4 Kevin 那一句（稿沒寫揪的字，子代理解讀），對 SISB12_LINES；②「旁白：」那一句遊戲只放括號裡的字；③11/12 那一次椰林大道＝兩段照稿接起來）*/
   const notIn=[...new Set(G0)].filter(t=>DOC.indexOf(t)<0&&DOC.indexOf(unq(t))<0);
@@ -126,7 +126,7 @@ await sec(0,()=>{ const a=s=>html.indexOf(s);
   const bad=notIn.filter(t=>!okExtra[t]);
   check('0. 遊戲 → 稿：新檔的每一句、改字（'+new Set(G0).size+' 句）都在稿裡（一字不差；揪的那一句是 AA_470 12-4 Kevin 的原句、「旁白：」只取括號裡的字）',G0.length>=110&&!bad.length&&Object.keys(okExtra).every(k=>okExtra[k]),J({bad,okExtra}));
   const P=(typeof SISB15_LINES!=='undefined'&&SISB15_LINES.photos)||[], av=P.find(p=>p.k==='avenue');
-  check('0. 11/12 那一次椰林大道：「葉子還是綠的吧。」＋稿 11/12 那一句「這邊已經沒有葉子了。」（兩段都在稿裡）',!!av&&J(av.r11)===J(['葉子還是綠的吧。','這邊已經沒有葉子了。'])&&DOC.indexOf('「葉子還是綠的吧。這邊已經黃了。」')>=0&&DOC.indexOf('（11/12 那一次：「這邊已經沒有葉子了。」）')>=0);
+  check('0. 11/12 那一次椰影大道：「葉子還是綠的吧。」＋稿 11/12 那一句「這邊已經沒有葉子了。」（兩段都在稿裡）',!!av&&J(av.r11)===J(['葉子還是綠的吧。','這邊已經沒有葉子了。'])&&DOC.indexOf('「葉子還是綠的吧。這邊已經黃了。」')>=0&&DOC.indexOf('（11/12 那一次：「這邊已經沒有葉子了。」）')>=0);
   /* 第 4 節換掉的舊句不在遊戲裡 */
   const OLD=['他說兩匙剛好。','每個月加一趟。','下禮拜畢業。……之後還是在這裡讀書，只是換一張學生證。','暑假我在法圖。','寒假我在法圖。','論文的題目定了。','明年夏天，我申請了美國的交換。還在等結果。','搬家以後，我從家裡到法學院要多坐四站。','期末考完了嗎？我在等美國那邊的結果。……吃飯的時候不要問。'];
   const srcAll=['src/data/feed_y3s1.js','src/data/feed_y3s2.js','src/data/sis_y2y3_events.js','src/data/termend_lines.js','src/data/ladder.js'].map(f=>fs.readFileSync(path.join(H.ROOT,f),'utf8').replace(/\/\*[\s\S]*?\*\//g,'')).join('\n');
@@ -231,9 +231,9 @@ await sec(3,async()=>{
   { const a=D('2028-06-01'), d=D('2028-06-03');
     check('3. 1 日子：6/1 週四、6/3 週六、8/26 週六',wdOf(a)===4&&wdOf(d)===6&&wdOf('2028-08-26')===6);
     fresh(a,20.8,'none'); ph(); const n0=byTag('sisb15_kv_grad_ask').length; phAt(a,21.2); const M=byTag('sisb15_kv_grad_ask');
-    check('3. 1 6/1 21:00 家族群組 Kevin「禮拜六畢業典禮 霖澤館門口拍照 家族都來」、回覆「去。」（D 也有）',n0===0&&M.length===1&&M[0].from==='kevin'&&M[0].text==='禮拜六畢業典禮 霖澤館門口拍照 家族都來'&&J(askOpts('sisb15_kv_grad_ask'))===J(['去。']),J(M));
+    check('3. 1 6/1 21:00 家族群組 Kevin「禮拜六畢業典禮 法律系館A門口拍照 家族都來」、回覆「去。」（D 也有）',n0===0&&M.length===1&&M[0].from==='kevin'&&M[0].text==='禮拜六畢業典禮 法律系館A門口拍照 家族都來'&&J(askOpts('sisb15_kv_grad_ask'))===J(['去。']),J(M));
     answer('sisb15_kv_grad_ask',0); ph(); const q=OUT.get(H.G,'sisb15_kv_grad');
-    check('3. 1 回「去。」→ 6/3 10:30「霖澤館門口」（ev_sis15_kv_grad）',!!q&&q.day===d&&q.h===10.5&&q.place==='霖澤館門口'&&q.ev==='ev_sis15_kv_grad',J(q));
+    check('3. 1 回「去。」→ 6/3 10:30「霖澤館門口」（ev_sis15_kv_grad）',!!q&&q.day===d&&q.h===10.5&&q.place==='法律系館A門口'&&q.ev==='ev_sis15_kv_grad',J(q));
     at(d,10.4); await goOut('sisb15_kv_grad',[]); const want=quotesOf(part('**6/3（六）10:30','- 記 `SIS15_KV_GRAD`',S3));
     check('3. 1 演：照稿四句（Kevin「學姊！站中間！」、她「……你是主角。」、扶正帽子）；記 SIS15_KV_GRAD；D 演完記 met_sis',J(said())===J(want)&&want.length===4&&H.G.flags.SIS15_KV_GRAD===true&&H.G.flags.met_sis===true&&H.said[1].who==='Kevin',J({s:said(),want}));
     phAt(d,13.2); check('3. 1 6/3 13:00 那則群組照舊（sisb12_grad「好。日子跟我說。」）',txt('g:family_law').includes('好。日子跟我說。'));
@@ -272,10 +272,10 @@ await sec(3,async()=>{
     fresh('2028-09-10',19.9,'dating'); const A=act(), s0=A&&A.show(H.G); at('2028-09-10',20.1); const s1=A&&A.show(H.G);
     check('3. 5 臺灣路線交往中 9/10（日）：20:00 起她的私訊對話框多一個「（傳一張照片給她）」（PHONE.GROUP_ACTS、th p:她）；20:00 以前沒有',!!A&&A.th==='p:'+ID&&A.label==='（傳一張照片給她）'&&s0===false&&s1===true&&wdOf('2028-09-10')===7&&wdOf('2028-11-12')===7,J({s0,s1}));
     H.said=[]; H.opts=[]; H.picks=[0]; await A.run(GM); phAt('2028-09-10',22.6); const T0=txt('p:'+ID);
-    check('3. 5 三選一（照稿）；選「（麵店的長桌）」→ 傳出去、她回「阿姨有沒有問我。」（照 MSG 的時間：22:30）；記 SIS15_PHOTO_9；一次一張',J(H.opts[0])===J(['（麵店的長桌）','（椰林大道）','（你的計畫本）'])&&J(T0)===J(['（麵店的長桌）','阿姨有沒有問我。'])&&H.G.flags.SIS15_PHOTO_9==='noodle'&&A.show(H.G)===false,J(T0));
+    check('3. 5 三選一（照稿）；選「（麵店的長桌）」→ 傳出去、她回「阿姨有沒有問我。」（照 MSG 的時間：22:30）；記 SIS15_PHOTO_9；一次一張',J(H.opts[0])===J(['（麵店的長桌）','（椰影大道）','（你的計畫本）'])&&J(T0)===J(['（麵店的長桌）','阿姨有沒有問我。'])&&H.G.flags.SIS15_PHOTO_9==='noodle'&&A.show(H.G)===false,J(T0));
     const rep=async(key,k)=>{ fresh(key,20.5,'dating'); H.picks=[k]; await act().run(GM); phAt(key,23); return txt('p:'+ID).slice(-1)[0]; };
     const r9=await rep('2028-09-10',1), r11=await rep('2028-11-12',1), rp=await rep('2028-11-12',2), f11=H.G.flags.SIS15_PHOTO_11;
-    check('3. 5 椰林大道：9/10「葉子還是綠的吧。這邊已經黃了。」、11/12「葉子還是綠的吧。這邊已經沒有葉子了。」；計畫本「這一頁太滿了。……睡覺那一格呢。」；11/12 記 SIS15_PHOTO_11',r9==='葉子還是綠的吧。這邊已經黃了。'&&r11==='葉子還是綠的吧。這邊已經沒有葉子了。'&&rp==='這一頁太滿了。……睡覺那一格呢。'&&f11==='plan',J([r9,r11,rp,f11]));
+    check('3. 5 椰影大道：9/10「葉子還是綠的吧。這邊已經黃了。」、11/12「葉子還是綠的吧。這邊已經沒有葉子了。」；計畫本「這一頁太滿了。……睡覺那一格呢。」；11/12 記 SIS15_PHOTO_11',r9==='葉子還是綠的吧。這邊已經黃了。'&&r11==='葉子還是綠的吧。這邊已經沒有葉子了。'&&rp==='這一頁太滿了。……睡覺那一格呢。'&&f11==='plan',J([r9,r11,rp,f11]));
     const no=[]; for(const [nm,key,kind,o] of [['美國路線','2028-09-10','dating',{route:'US'}],['日本路線','2028-09-10','dating',{route:'JP'}],['朋友（沒交往）','2028-09-10','friend'],['別的週日 9/17','2028-09-17','dating']]){ fresh(key,20.5,kind,{},o); if(act().show(H.G)) no.push(nm); }
     check('3. 5 美國路線、日本路線、沒交往、別的日子：沒有',!no.length,J(no));
     const g3=fs.readFileSync(path.join(H.ROOT,'src/game3d.js'),'utf8');
@@ -377,7 +377,7 @@ await sec(4,async()=>{
   /* 4-14 */
   { const w3=STORY.termDay('Y2S1',3,2), w4=STORY.termDay('Y2S1',4,2); fresh(w3,19,'friend'); const e3=STORY.schedEnt(CHARACTERS[ID],H.G); fresh(w4,19,'friend'); const e4=STORY.schedEnt(CHARACTERS[ID],H.G);
     fresh(w3,19,'friend'); const c3=CLOSED.taWeek(H.G); fresh(w4,19,'friend'); const c4=CLOSED.taWeek(H.G);
-    check('4. 4-14 演習課第 4 週起（作息、closed3d.js TA_WEEKS）：第 3 週週二 19:00 不在 101、第 4 週在',J(CLOSED.TA_WEEKS)===J([4,5,6,7,10,11,12,13,14,15])&&!(e3&&e3.away==='在霖澤館 101 帶演習課')&&!!e4&&e4.away==='在霖澤館 101 帶演習課'&&c3===false&&c4===true,J([e3&&(e3.away||e3.zone),e4&&e4.away,c3,c4])); }
+    check('4. 4-14 演習課第 4 週起（作息、closed3d.js TA_WEEKS）：第 3 週週二 19:00 不在 101、第 4 週在',J(CLOSED.TA_WEEKS)===J([4,5,6,7,10,11,12,13,14,15])&&!(e3&&e3.away==='在法律系館A 101 帶演習課')&&!!e4&&e4.away==='在法律系館A 101 帶演習課'&&c3===false&&c4===true,J([e3&&(e3.away||e3.zone),e4&&e4.away,c3,c4])); }
   /* 4-15 */
   { const s8=ladStep('Y2S2','S4-L8'); fresh('2027-05-17',12,'fam'); const a=STORY.ladLines(s8,H.G,ID); H.G.events.done.ev_sis13_curry=1; const b=STORY.ladLines(s8,H.G,ID);
     check('4. 4-15 S4-L8（第 13～16 週）：5/9 咖哩演過的「上次在我家，大一的學弟妹一進門就全部站起來。」「……我說坐。他們站得更直。」；沒演過的照原句',J(s8.week)===J([13,16])&&J(b)===J(['上次在我家，大一的學弟妹一進門就全部站起來。','……我說坐。他們站得更直。'])&&J(a)===J(['Kevin 辦家族聚餐，叫我一定要去。','我到的時候，大一的學弟妹全部站起來叫學姊。……我坐下來，他們又站一次。'])&&(ROW['4-15']||{toQ:[]}).toQ.includes('……我說坐。他們站得更直。'),J({a,b})); } });

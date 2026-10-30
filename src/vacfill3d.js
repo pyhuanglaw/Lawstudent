@@ -132,7 +132,7 @@ const VACFILL=(function(){
   const NOODLE={zone:'noodle',x:0,z:3.4,yaw:Math.PI};   /* 「照麵店一般的吃飯」：一鍵到麵店（同 story3d.js 的 y3_cold_noodle）*/
   S.OUTS=[
     {flag:'VF_Y0_0719',v:['go'],stage:'econ',q:{id:'vf_y0_0719',ev:'ev_vf_y0_0719',day:'2025-07-19',h:19,late:0.5,place:'公館',title:'和經濟系那一群吃飯',travel:'捷運＋公車 約 30 分鐘',travelH:0.5}},
-    {flag:'VF_Y0_0727',v:['go'],stage:'econ',q:{id:'vf_y0_0727',goto:{zone:'campus',x:-112,z:0,yaw:-Math.PI/2},day:'2025-07-27',h:15,late:0.75,place:'臺大校門口',title:'去學校走一走',travel:'捷運＋公車 約 30 分鐘',travelH:0.5}},
+    {flag:'VF_Y0_0727',v:['go'],stage:'econ',q:{id:'vf_y0_0727',goto:{zone:'campus',x:-112,z:0,yaw:-Math.PI/2},day:'2025-07-27',h:15,late:0.75,place:'首都帝大校門口',title:'去學校走一走',travel:'捷運＋公車 約 30 分鐘',travelH:0.5}},
     {flag:'VF_Y0_0818',v:['go'],stage:'econ',q:{id:'vf_y0_0818',ev:'ev_vf_y0_0818',day:'2025-08-18',h:19,late:0.5,place:'公館',title:'和經濟系那一群吃飯',travel:'捷運＋公車 約 30 分鐘',travelH:0.5}},
     {flag:'VF_Y2_0623',v:['go'],q:{id:'vf_y2_0623',goto:NOODLE,day:'2027-06-23',h:18,late:0.75,place:'公館',title:'阿鳳麵店',travel:'走過去約 15 分鐘',travelH:0.25}},
     {flag:'VF_Y2_0729',v:['go','find'],q:{id:'vf_y2_0729',ev:'ev_vf_y2_0729',day:'2027-07-29',h:14,late:0.5,place:'法圖',title:'法圖',travel:'走過去約 10 分鐘',travelH:1/6}},

@@ -35,7 +35,7 @@ const block=async(name,f)=>{ try{ await f(); }catch(e){ check(name+'（例外：
 /* ---------- AA_346 第 3 節的台詞（照原文抄一份，和程式的表分開，才驗得出抄錯）---------- */
 const N=t=>({n:t});
 const EXP={
-  heroine_01:{o:y=>y===2029?'（讀書會散了。萬才館研討室外的走廊，只剩你們兩個。她手上還拿著白板筆。）':'（麵店，兩人桌。她先到，點了兩碗，一碗推到你面前。）',
+  heroine_01:{o:y=>y===2029?'（讀書會散了。法律系館B 研討室外的走廊，只剩你們兩個。她手上還拿著白板筆。）':'（麵店，兩人桌。她先到，點了兩碗，一碗推到你面前。）',
     knew:y=>['……我知道。不用說名字。','你選了。……好。'],ask:['理由呢？'],
     told:y=>[N('（她沒有馬上說話。）'),'……你說實話了。','我要一點時間。'],quiet:y=>['……好。',N(y===2029?'（她把白板筆的蓋子蓋上。）':'（她把筷子在碗上放好。）')],
     last:y=>[N('（她翻開手帳，寫了一行，沒有給你看。）'),'好了。……你先走。我把這頁寫完。']},
@@ -56,15 +56,15 @@ const EXP={
   classmate_peishan:{o:y=>'（電話。她那邊有小孩子的聲音，她走到外面才講。）',
     knew:y=>['……我知道你要說什麼。','你特地打來說這個。'],told:y=>['……你特地打來說這個。','……還好啦。你那邊吃飯了嗎？'],
     quiet:y=>['……嗯。',N('（電話那頭很久沒有聲音。）'),'好。……那我掛了喔。'],last:y=>['謝謝你在我重考那年陪我。那一年，我不會忘。']},
-  kexin:{o:y=>y===2029?'（政大山下的小吃店。她點好了兩碗，筷子還沒拆。）':'（她家樓下。她穿著拖鞋下來，手上還拿著鑰匙。）',
+  kexin:{o:y=>y===2029?'（木柵大學山下的小吃店。她點好了兩碗，筷子還沒拆。）':'（她家樓下。她穿著拖鞋下來，手上還拿著鑰匙。）',
     knew:y=>['……你說完了？',N(y===2029?'（她把筷子放下。）':'（她把鑰匙握在手裡。）'),'我知道。……我以為你會更早講。'],
     told:y=>['……你說完了？',N(y===2029?'（她把筷子放下。）':'（她把鑰匙握在手裡。）'),'……操。','你至少講完了。'],
     quiet:y=>['……就這樣？',N(y===2029?'（她站起來，自己去付了錢。）':'（她轉身上樓，門沒有關好。）')],last:y=>['我累的時候傳的那隻長頸鹿，先不傳了。','……累了，我自己會去睡。']} };
 const ME='……我想跟妳分開。', DM='你是不是有話要跟我說。', PH='（電話。）', OPTS=['「我喜歡上別人了。」','（不說原因）'];
 /* 表（第 1 節）：[2029 幾點, 2030 幾點, 2029 地點, 2030 地點, 2029 背景, 2030 背景]；背景 null＝深色底、'phone'＝電話（不在家＝晚上的路邊）*/
-const TBL={heroine_01:[18,19,'萬才館研討室外的走廊','麵店，兩人桌','wancai_seminar','noodle_table'],heroine_03:[21.5,21.5,'麵店打烊以後','麵店打烊以後','noodle_table','noodle_table'],
+const TBL={heroine_01:[18,19,'法律系館B 研討室外的走廊','麵店，兩人桌','wancai_seminar','noodle_table'],heroine_03:[21.5,21.5,'麵店打烊以後','麵店打烊以後','noodle_table','noodle_table'],
   heroine_02:[22,21.5,'約好的視訊','打烊後的 Café','video',null],heroine_04:[21,20,'吉他社辦外面的樓梯','工作室樓下',null,null],heroine_05:[17,18.5,'研究室走廊','她上班的研究單位樓下','linze_prof_hall',null],
-  classmate_peishan:[21,21,'電話','電話','phone','phone'],kexin:[18.5,20,'政大山下的小吃店','她家樓下','nccu_food',null]};
+  classmate_peishan:[21,21,'電話','電話','phone','phone'],kexin:[18.5,20,'木柵大學山下的小吃店','她家樓下','nccu_food',null]};
 /* AA_350 Q3：電話版（沛珊，以及錯過三次改電話的）看得到動作的旁白換成聽得到的；拿掉的＝null（照 AA 的對照表另抄一份）*/
 const HEAR={'（蒜頭一顆一顆放進碗裡。）':'（電話那頭有剝東西的聲音。）','（她沒有問為什麼。蒜頭剝完了，她又拿了一顆。）':'（電話那頭有剝東西的聲音。）','（她低頭，擦了一下已經乾淨的杯子。）':'（那頭有杯子碰到的聲音。）',
   '（她把計畫本闔上，沒有寫任何東西。）':'（紙闔起來的聲音。）','（她翻開手帳，寫了一行，沒有給你看。）':'（翻紙的聲音。）','（她把筷子放下。）':'（那頭安靜了一下。）','（她把筷子在碗上放好。）':'（那頭安靜了一下。）',
@@ -100,18 +100,18 @@ const missThree=id=>{ for(let n=0;n<3;n++){ const q=OUT.get(H.G,'apart'+(rnd(S.a
       F.MULTI_PRE==='pick:kexin'&&LOVE7.every(id=>F['dating_'+id]===true&&!F['EX_'+id])&&JSON.stringify(H.opts[1])===JSON.stringify(LOVE7.map(nm)), JSON.stringify(H.opts));
     const exp={heroine_01:'2029-05-22',heroine_03:'2029-05-23',heroine_02:'2029-05-24',heroine_04:'2029-05-25',heroine_05:'2029-05-30',classmate_peishan:'2029-05-26'}, bad=[];
     for(const id in exp){ const q=OUT.get(H.G,'apart29_'+id+'_0'); if(!q||q.day!==D(exp[id])||q.h!==TBL[id][0]||q.place!==TBL[id][2]||q.ev!=='ev_choice_apart_'+id||q.state!=='planned'||q.who!==id||q.late!==0.5) bad.push(id+':'+JSON.stringify(q&&{day:q.day,h:q.h,place:q.place})); }
-    check('1. 隔天起一晚一位、照表的順序：以安 5/22 18:00 萬才館研討室外的走廊、語彤 5/23 21:30 麵店打烊以後、芷若 5/24 22:00 約好的視訊、子晴 5/25 21:00 吉他社辦外面的樓梯、沛珊 5/26 21:00 電話；學姊固定 5/30 17:00 研究室走廊',
+    check('1. 隔天起一晚一位、照表的順序：以安 5/22 18:00 法律系館B 研討室外的走廊、語彤 5/23 21:30 麵店打烊以後、芷若 5/24 22:00 約好的視訊、子晴 5/25 21:00 吉他社辦外面的樓梯、沛珊 5/26 21:00 電話；學姊固定 5/30 17:00 研究室走廊',
       !bad.length&&!!R&&JSON.stringify(R.list)===JSON.stringify(['heroine_01','heroine_03','heroine_02','heroine_04','heroine_05','classmate_peishan'])&&R.keep==='kexin', bad.join(' '));
     check('1. 都在 6/2（畢業典禮）以前；一晚只有一位；被選的那一位沒有這一場', apartOuts().every(q=>q.day<D('2029-06-02'))&&new Set(apartOuts().map(q=>q.day)).size===apartOuts().length&&!apartOuts().some(q=>q.who==='kexin'));
     const z=OUT.get(H.G,'apart29_heroine_02_0'), p=OUT.get(H.G,'apart29_classmate_peishan_0'), a=OUT.get(H.G,'apart29_heroine_01_0');
     check('1. 出遊的寫法：視訊＝「接起來」「先不接」、不用出門；電話＝「打給她」「今天先不要」（call）；當面＝走過去約 10 分鐘（萬才館）',
-      z.verb==='接起來'&&z.no==='先不接'&&z.travelH===0&&p.verb==='打給她'&&p.no==='今天先不要'&&p.call===true&&p.title==='打給'+nm('classmate_peishan')&&a.title==='萬才館研討室外的走廊（'+nm('heroine_01')+'）'&&a.travel==='走過去約 10 分鐘'&&!a.verb);
+      z.verb==='接起來'&&z.no==='先不接'&&z.travelH===0&&p.verb==='打給她'&&p.no==='今天先不要'&&p.call===true&&p.title==='打給'+nm('classmate_peishan')&&a.title==='法律系館B 研討室外的走廊（'+nm('heroine_01')+'）'&&a.travel==='走過去約 10 分鐘'&&!a.verb);
     /* 存讀檔、跨日 */
     H.G=JSON.parse(JSON.stringify(H.G)); SOCIAL.bind(H.G); EVENTS.bind(GM); INV.rec(H.G);
     at('2029-05-22',17.5); const n0=OUT.due(H.G); at('2029-05-22',17.6); const q1=OUT.due(H.G);
     check('1. 存檔讀回來（JSON）、到了隔天：17:35（18:00 減走過去 10 分鐘、再提早 15 分鐘）起問「出發」，以前不問', !n0&&!!q1&&q1.id==='apart29_heroine_01_0');
     H.said=[]; H.opts=[]; H.picks=[0,1]; const r=await OUT.prompt(GM,q1);
-    check('1. 「出發：萬才館研討室外的走廊（以安）」→ 演以安那一場（她不知道：「理由呢？」二選一）', r==='go'&&H.opts[0][0]==='出發：萬才館研討室外的走廊（'+nm('heroine_01')+'）'&&H.said.some(s=>s.t==='理由呢？')&&H.G.flags.EX_heroine_01===true&&H.G.flags.dating_kexin===true, JSON.stringify(H.opts));
+    check('1. 「出發：法律系館B 研討室外的走廊（以安）」→ 演以安那一場（她不知道：「理由呢？」二選一）', r==='go'&&H.opts[0][0]==='出發：法律系館B 研討室外的走廊（'+nm('heroine_01')+'）'&&H.said.some(s=>s.t==='理由呢？')&&H.G.flags.EX_heroine_01===true&&H.G.flags.dating_kexin===true, JSON.stringify(H.opts));
     check('1. 被選的那一位不因為這幾場知道別人（knowsRel 沒有她）', !LOVE7.some(x=>ROM.knowsOf(H.G,'kexin',x)));
   });
   await block('1b. 選以安',async()=>{
@@ -119,7 +119,7 @@ const missThree=id=>{ for(let n=0;n<3;n++){ const q=OUT.get(H.G,'apart'+(rnd(S.a
     const exp={heroine_03:'2029-05-22',heroine_02:'2029-05-23',heroine_04:'2029-05-24',heroine_05:'2029-05-30',classmate_peishan:'2029-05-25',kexin:'2029-05-26'}, bad=[];
     for(const id in exp){ const q=OUT.get(H.G,'apart29_'+id+'_0'); if(!q||q.day!==D(exp[id])||q.h!==TBL[id][0]||q.place!==TBL[id][2]) bad.push(id); }
     const k=OUT.get(H.G,'apart29_kexin_0');
-    check('1b. 選以安：語彤 5/22、芷若 5/23、子晴 5/24、沛珊 5/25、可昕 5/26 18:30 政大山下的小吃店（開車約 40 分鐘）；學姊 5/30 17:00；以安自己沒有', !bad.length&&k.travel==='開車約 40 分鐘'&&!OUT.get(H.G,'apart29_heroine_01_0'), bad.join(' '));
+    check('1b. 選以安：語彤 5/22、芷若 5/23、子晴 5/24、沛珊 5/25、可昕 5/26 18:30 木柵大學山下的小吃店（開車約 40 分鐘）；學姊 5/30 17:00；以安自己沒有', !bad.length&&k.travel==='開車約 40 分鐘'&&!OUT.get(H.G,'apart29_heroine_01_0'), bad.join(' '));
   });
   await block('1c. 5/28 才選',async()=>{
     fresh('2029-05-28',21); for(const id of LOVE7){ H.FRIEND(id); date(id); } at('2029-05-28',22);
@@ -178,7 +178,7 @@ const missThree=id=>{ for(let n=0;n<3;n++){ const q=OUT.get(H.G,'apart'+(rnd(S.a
     at('2029-05-24',22); PHONE.tick(H.G); const m=(H.G.msgs||[]).find(x=>x.text===DM);
     check('4. 22:00 她私訊「你是不是有話要跟我說。」（以前沒有）；接著電話版到期', early&&!!m&&m.th==='p:heroine_01'&&m.from==='heroine_01'&&m.h===22&&dueHas('r2y4b_apart29_call_heroine_01'));
     H.said=[]; H.opts=[]; H.bgs=[]; caps.length=0; H.picks=[1]; await H.run('r2y4b_apart29_call_heroine_01'); const h=hist('heroine_01');
-    check('4. 電話版：地點的旁白換成「（電話。）」，其他照原文（以安「理由呢？」→ 沒說）；字幕「電話」、背景照事件的 {scene:\'電話\'}（不在家＝晚上的路邊，圖還沒到＝深色底）', same('heroine_01',want('heroine_01',2029,'quiet',true))&&caps.includes('電話')&&!caps.includes('萬才館研討室外的走廊')&&bgOk('phone'), dump());
+    check('4. 電話版：地點的旁白換成「（電話。）」，其他照原文（以安「理由呢？」→ 沒說）；字幕「電話」、背景照事件的 {scene:\'電話\'}（不在家＝晚上的路邊，圖還沒到＝深色底）', same('heroine_01',want('heroine_01',2029,'quiet',true))&&caps.includes('電話')&&!caps.includes('法律系館B 研討室外的走廊')&&bgOk('phone'), dump());
     check('4. 電話版談完：分開（apart_choice、said quiet）；事件記一次；不會再演', H.G.flags.EX_heroine_01===true&&!!h&&h.how==='apart_choice'&&h.said==='quiet'&&h.day===D('2029-05-24')&&(H.G.events.done.ev_choice_apart_heroine_01|0)===1&&!dueHas('r2y4b_apart29_call_heroine_01')&&apartOuts().filter(q=>q.who==='heroine_01').length===3);
     /* 22:00 以後才算沒到（芷若 22:00 的視訊）：當下私訊 */
     setup('heroine_02',2029,{keep:'heroine_04'}); missThree('heroine_02'); const Z=rnd(S.apartRound(H.G,2029),'heroine_02'), zq=OUT.get(H.G,'apart29_heroine_02_2');

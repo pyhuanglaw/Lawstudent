@@ -80,7 +80,7 @@ const YULE=(function(){
 
   /* ---------------- 第 4 節 演講那一晚 ---------------- */
   S.OUTS={   /* 出遊（OUT.plan）：①霖澤館 201、②阿鳳麵店；車程照現有的霖澤館、麵店出遊；alarm＝跳過時間停在該出發的時候 */
-    listen:{id:'yl_lecture',ev:'ev_yule_lecture',h:18+50/60,late:0.5,place:'霖澤館 201',title:'家事調查官的演講（霖澤館 201）',travel:'走過去約 10 分鐘',travelH:1/6,alarm:true},
+    listen:{id:'yl_lecture',ev:'ev_yule_lecture',h:18+50/60,late:0.5,place:'法律系館A 201',title:'家事調查官的演講（法律系館A 201）',travel:'走過去約 10 分鐘',travelH:1/6,alarm:true},
     eat:{id:'yl_lecture',ev:'ev_yule_lecture',h:20.25,late:0.5,place:'阿鳳麵店',title:'阿鳳麵店（予樂）',travel:'走過去約 15 分鐘',travelH:0.25,alarm:true} };
   S.untilAbs=function(G){ const A=L.lecture, u=A&&S.when(A.until); if(!u) return null; const w=S.loc(G,u); return abs(w.day,w.h); };
   S.lecture=function(G){ const A=L.lecture, B=L.lectureAfter; if(!A||!B) return; const R=S.rec(G), F=G.flags;
@@ -121,6 +121,6 @@ const YULE=(function(){
   /* 記憶簿文字（AA_520 第 7 節：記憶 YL_LECTURE＝「和予樂聽了一場家事的演講」；記憶本身 note 空的）*/
   if(L.mem&&typeof SOCIAL!=='undefined'&&SOCIAL.MEMORY_LABEL&&!SOCIAL.MEMORY_LABEL.YL_LECTURE) SOCIAL.MEMORY_LABEL.YL_LECTURE=L.mem;
   /* 2D 背景：霖澤館 201 沒有圖＝深色底（BB 要圖；tests/scene_bg_keys_unit.js 的 PENDING）*/
-  if(typeof OUT!=='undefined'&&OUT.BG&&!OUT.BG.linze_201) OUT.BG.linze_201={label:'霖澤館 201',image:null};
+  if(typeof OUT!=='undefined'&&OUT.BG&&!OUT.BG.linze_201) OUT.BG.linze_201={label:'法律系館A 201',image:null};
   return S;
 })();

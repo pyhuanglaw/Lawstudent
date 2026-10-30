@@ -615,7 +615,7 @@ const MREL=(function(){
         st.meets=(st.meets|0)+1; return null; } },
     kexin:{
       tick(G,st){ const t=now(G); if(st.phase==='ended'||st.phase==='done'||st.phase==='thinking') return null;
-        if(st.selfAt!=null&&!seen(st,'self')&&t>=st.selfAt) return {k:'self',bg:'nccu_gate',cap:'政大',cut:true,run:async GM=>S.kxSelf(GM,st)};
+        if(st.selfAt!=null&&!seen(st,'self')&&t>=st.selfAt) return {k:'self',bg:'nccu_gate',cap:'木柵大學',cut:true,run:async GM=>S.kxSelf(GM,st)};
         if(S.kxEDue(G,st)) return {k:'kx_e',x:KX,bg:'phone_street_night',cap:'電話',run:async GM=>S.kxE(GM,st)};   /* 結果 E（AA_429 第 2 節）*/
         if(seen(st,'n4')&&!seen(st,'hug')&&st.hugAt!=null&&t>=st.hugAt&&rom(KX)>=80&&!S.liedSince(G,KX,st)) return {k:'hug',x:KX,bg:'phone_street_night',run:async GM=>S.kxHug(GM,st)};
         return null; },

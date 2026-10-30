@@ -199,8 +199,8 @@ const POOL=(function(){
   /* ---------- 2-6 順手的事（SIDEQ 登記）---------- */
   S.QUEST={ PQ_ZJW:{who:Z,title:'陪靖雯去旁聽'}, PQ_YT1:{who:Y,title:'黃郁婷：考前補給包'}, PQ_YT2:{who:Y,title:'黃郁婷：迎新報到桌'},
     PQ_CJ:{who:C,title:'林采潔：第三章'}, PQ_YS:{who:YS,title:'鄭元碩：法律系的一天'}, PQ_QJQ:{who:Q,title:'邱家齊：代收媽媽的箱子'} };
-  const HINT={ PQ_ZJW:{court:r=>md(r.outDay)+'（'+wdTxt(r.outDay)+'）14:00 陪靖雯去臺北地方法院旁聽'}, PQ_YT1:{pack:()=>'今天 19:00～21:00 到萬才館一樓幫忙包考前補給包'},
-    PQ_YT2:{desk:r=>md(r.outDay)+'（三）08:30 到霖澤館一樓的迎新報到桌'}, PQ_CJ:{read:()=>'在舊路書房或教室找采潔，讀她的第三章'},
+  const HINT={ PQ_ZJW:{court:r=>md(r.outDay)+'（'+wdTxt(r.outDay)+'）14:00 陪靖雯去臺北地方法院旁聽'}, PQ_YT1:{pack:()=>'今天 19:00～21:00 到法律系館B一樓幫忙包考前補給包'},
+    PQ_YT2:{desk:r=>md(r.outDay)+'（三）08:30 到法律系館A一樓的迎新報到桌'}, PQ_CJ:{read:()=>'在舊路書房或教室找采潔，讀她的第三章'},
     PQ_YS:{shoot:r=>md(r.outDay)+'（六）07:00 起當「法律系的一天」的主角'}, PQ_QJQ:{pick:r=>md(r.satDay)+'（六）10:00～18:00 到男一舍門廳領包裹',fridge:()=>'把箱子放進男一舍交誼廳的冰箱'} };
   S.hint=(id,r)=>{ const h=HINT[id]&&HINT[id][r.step]; return typeof h==='function'?h(r):(h||''); };
   S.HINT=HINT;   /* 第二批以後的順手的事在 src/pool_more3d.js 加進來（S.QUEST、S.HINT，再叫一次 S.register）*/
@@ -240,7 +240,7 @@ const POOL=(function(){
   S.ytTableLine=G=>S.qState(G,'PQ_YT1')==='done'?L[Y].tableYes:L[Y].tableNo;
   /* 5-5 郁婷：迎新報到桌（大二上第 1 週週三 08:30，霖澤館一樓，2D）*/
   S.yt2Day=()=>termDay('Y2S1',1,3);
-  S.acceptYt2=function(GM){ const G=GM.G, d=S.yt2Day(); S.openQ(GM,'PQ_YT2','desk',{outDay:d,by:d}); if(d!=null) plan(G,{id:'pool_yt_desk',ev:'ev_pool_yt_desk',day:d,h:8.5,late:0.5,place:'霖澤館一樓',title:'黃郁婷：迎新報到桌（霖澤館一樓 8:30）',travel:'走過去約 10 分鐘',travelH:0.25}); };
+  S.acceptYt2=function(GM){ const G=GM.G, d=S.yt2Day(); S.openQ(GM,'PQ_YT2','desk',{outDay:d,by:d}); if(d!=null) plan(G,{id:'pool_yt_desk',ev:'ev_pool_yt_desk',day:d,h:8.5,late:0.5,place:'法律系館A一樓',title:'黃郁婷：迎新報到桌（法律系館A一樓 8:30）',travel:'走過去約 10 分鐘',travelH:0.25}); };
   S.DESK_EV={ id:'ev_pool_yt_desk', title:'迎新報到桌', participants:[Y], location:'any', trigger:'outing', background:'dark', hours:1.5, dialogue:L[Y]?L[Y].desk:[],
     after:(G,GM)=>{ const r=S.qRec(G,'PQ_YT2'); if(r&&r.state==='open') S.finishQ(GM&&GM.G===G?GM:{G},'PQ_YT2',r,{away:true}); }, outingMissed:lapseQ('PQ_YT2') };
   /* 6-3 采潔：第三章（大一下第 2～12 週，聽過她的秘密；在舊路書房或教室）*/
@@ -248,7 +248,7 @@ const POOL=(function(){
   S.acceptCj=GM=>{ const G=GM.G; if(typeof INV!=='undefined') INV.addContact(G,C); const T=typeof CALENDAR!=='undefined'&&CALENDAR.termDays?CALENDAR.termDays('Y1S2'):null; S.openQ(GM,'PQ_CJ','read',{by:T?T.to:G.day+60}); };
   /* 7-3 元碩：法律系的一天（大二下第 4～10 週；下一個週六 07:00 起，2D 一天四段）*/
   S.acceptYs=function(GM){ const G=GM.G; if(typeof INV!=='undefined') INV.addContact(G,YS); const d=S.nextSat(G); S.openQ(GM,'PQ_YS','shoot',{outDay:d,by:d});
-    plan(G,{id:'pool_ys_day_'+d,ev:'ev_pool_ys_day',day:d,h:7,late:1,place:'台大校園',title:'鄭元碩：法律系的一天（傅鐘 7:00）',travel:'走過去約 10 分鐘',travelH:0.25}); };
+    plan(G,{id:'pool_ys_day_'+d,ev:'ev_pool_ys_day',day:d,h:7,late:1,place:'首都帝大校園',title:'鄭元碩：法律系的一天（晨思鐘 7:00）',travel:'走過去約 10 分鐘',travelH:0.25}); };
   S.DAY_EV={ id:'ev_pool_ys_day', title:'法律系的一天', participants:[YS], location:'any', trigger:'outing', background:'dark', hours:13, dialogue:L[YS]?L[YS].day:[],
     after:(G,GM)=>{ const r=S.qRec(G,'PQ_YS'); if(r&&r.state==='open') S.finishQ(GM&&GM.G===G?GM:{G},'PQ_YS',r,{away:true}); }, outingMissed:lapseQ('PQ_YS') };
   /* 8-3 家齊：代收媽媽的箱子（大一下第 4～10 週，交誼廳，週四晚上；週六 10～18 門廳領 → 交誼廳的冰箱）*/
@@ -310,7 +310,7 @@ const POOL=(function(){
 
   /* 4-5「好。」：下一個值班的週六 9:00 到萬才館一樓（在旁邊看法服值班，照現有的流程）*/
   S.planWatch=function(G){ const s=typeof STORY!=='undefined'&&STORY.fafuSat?STORY.fafuSat(G.day):null; if(!s) return false;
-    return plan(G,{id:'pool_zjw_fafu_'+s.day,day:s.day,h:9,late:1,place:'萬才館一樓',title:'去看法服值班（萬才館一樓 9:00）',travel:'走過去約 10 分鐘',travelH:0.25,goto:{zone:'wancai',x:2.3,z:3.6,yaw:Math.PI}}); };
+    return plan(G,{id:'pool_zjw_fafu_'+s.day,day:s.day,h:9,late:1,place:'法律系館B一樓',title:'去看法服值班（法律系館B一樓 9:00）',travel:'走過去約 10 分鐘',travelH:0.25,goto:{zone:'wancai',x:2.3,z:3.6,yaw:Math.PI}}); };
   /* 4-4 大二起：祐廷也是法服的＝「（值班表上，她的名字排在你下面那一週。）」（值班的週六，她在萬才館一樓的時候一次）*/
   S.DUTY_EV={ id:'ev_pool_zjw_duty', title:'值班表', participants:[], location:'wancai', trigger:'manual', background:'freeze', dialogue:[{speaker:null,text:L[Z]?L[Z].dutyList:''}],
     after:G=>{ S.mark(G,'zjwDuty'); S.seg(G,Z,'fafu'); } };

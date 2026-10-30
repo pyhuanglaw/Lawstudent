@@ -89,7 +89,7 @@ await sec(2,async()=>{ const sat=TD('Y1S2',4,6); fresh(key(sat),14,'wz_teahouse'
   /* 2-4：公法讀書會那一晚 */
   const thu=TD('Y3S1',2,4); fresh(key(thu),20,'wancai',{WZ_YE:2,CLUB_public_law_group:true}); const a=ACTIVITIES.list.find(x=>x.id==='public_law_group'); const ce=CLS.clubEvent(H.G,a);
   check('2. 大三上第一次去公法讀書會：2-4',!!ce&&ce.id==='ev_wz_t_study',ce&&ce.id); H.said=[]; await EVENTS.run(ce);
-  check('2. 2-4：萬才館研討室 A、Alison 那幾句、九點半、以安的最後一句（AA_420 4-2）',said('週四晚上，萬才館研討室 A。以安、Alison，還有兩個你不熟的同學。桌上是呂老師那個鐵盒子裡的東西：一疊發黃的紙。')&&said('可是這樣不公平吧！')&&said('三個人把每一張紙依日期排好，寫在白板的時間線上。九點半，管理員來敲門。')&&said('我們不幫他打官司。我們幫他整理到，他知道該問誰、怎麼問。')&&H.G.flags.AN_YE_STUDY===true,J(L()));
+  check('2. 2-4：萬才館研討室 A、Alison 那幾句、九點半、以安的最後一句（AA_420 4-2）',said('週四晚上，法律系館B 研討室 A。以安、Alison，還有兩個你不熟的同學。桌上是呂老師那個鐵盒子裡的東西：一疊發黃的紙。')&&said('可是這樣不公平吧！')&&said('三個人把每一張紙依日期排好，寫在白板的時間線上。九點半，管理員來敲門。')&&said('我們不幫他打官司。我們幫他整理到，他知道該問誰、怎麼問。')&&H.G.flags.AN_YE_STUDY===true,J(L()));
   fresh(key(TD('Y2S2',3,4)),20,'wancai',{WZ_YE:2}); check('2. 大二下沒有 2-4',!(CLS.clubEvent(H.G,a)||{id:''}).id.startsWith('ev_wz'));
   /* 2-6：美國路線大四下，多兩句；日本路線大四上 */
   fresh(key(TD('Y4S1',3,6)),14,'wz_teahouse',{WZ_YE:1,EXCHANGE_ROUTE:'US'}); check('2. 美國路線大四上：沒有 2-6',WZL.line2Due(H.G,'visit')!=='ev_wz_t2c');
@@ -99,9 +99,9 @@ await sec(2,async()=>{ const sat=TD('Y1S2',4,6); fresh(key(sat),14,'wz_teahouse'
   check('2. 有讀書會的版本、沒有美國那兩句、WZ_YE_DONE＋白板照片',said('家裡照你們整理的那張時間表，請了律師幫忙，向國家請求把登記改回來。結果還沒出來。')&&!said('回來了。我本來上個月就要搬。')&&H.G.flags.WZ_YE_DONE===true&&STORY.roomItemList(H.G).some(r=>r[0]==='讀書會白板的照片'));
   fresh(key(DK('2029-06-16')),14,'wz_teahouse',{WZ_YE:1}); check('2. 大四下結束都沒遇到：蘇姨「呂老師搬走了。杯子留在這裡。」',WZL.luMissed(H.G)); H.said=[]; await JOBS.onEnter(GM,'tea'); check('2. （蘇姨那一句）',said('呂老師搬走了。杯子留在這裡。')&&!WZL.luMissed(H.G)); });
 
-await sec(3,async()=>{ const sat=TD('Y2S1',4,6); fresh(key(sat),11,'wz_brunch',{WZ_BRUNCH_HELP:true,WZ_B2_DAY:sat-21}); hire('brunch',[6],{shifts:9}); H.picks=['萬才館週六上午有法服']; await run('ev_wz_b_ins');
+await sec(3,async()=>{ const sat=TD('Y2S1',4,6); fresh(key(sat),11,'wz_brunch',{WZ_BRUNCH_HELP:true,WZ_B2_DAY:sat-21}); hire('brunch',[6],{shifts:9}); H.picks=['B館週六上午有法服']; await run('ev_wz_b_ins');
   check('3. 週六班的玩家選「法服」：小米姐（在廚房，聽到了）「那天的班你不用來。蛋我煮。」',said('那天的班你不用來。蛋我煮。')&&H.G.flags.WZ_BRUNCH_INS===1,J(L()));
-  fresh(key(sat),11,'wz_brunch',{WZ_BRUNCH_HELP:true,WZ_B2_DAY:sat-21}); hire('brunch',[7],{shifts:9}); H.picks=['萬才館週六上午有法服']; await run('ev_wz_b_ins'); check('3. 週日班的玩家沒有那一句',!said('那天的班你不用來。蛋我煮。'));
+  fresh(key(sat),11,'wz_brunch',{WZ_BRUNCH_HELP:true,WZ_B2_DAY:sat-21}); hire('brunch',[7],{shifts:9}); H.picks=['B館週六上午有法服']; await run('ev_wz_b_ins'); check('3. 週日班的玩家沒有那一句',!said('那天的班你不用來。蛋我煮。'));
   fresh(key(sat),11,'wz_brunch',{WZ_BRUNCH_INS:2,WZ_B_HELP_DAY:sat-21}); hire('brunch',[6],{shifts:12,worked:[sat-14,sat-7]}); H.G.events.done.ev_wz_b2=1; H.said=[]; await WZL.shiftEv(GM,'brunch',13);
   check('3. 3-4 之後第三個週末班：3-5、小米姐（在廚房）「他們說下次要帶孫子來。……我去找一張兒童椅。」、手寫的卡片',said('他們說下次要帶孫子來。……我去找一張兒童椅。')&&!said('他們說要把你寫進遺囑。開玩笑的。……應該。')&&STORY.roomItemList(H.G).some(r=>r[0]==='手寫的卡片'),J(L()));
   /* 沒幫忙：第 10 班 */
@@ -149,7 +149,7 @@ await sec(6,async()=>{ const ZQ=['ev_wz_c4','ev_wz_p5','ev_wz_p_found'].flatMap(
   const c4=WZL.SHIFT.copy.find(e=>e.id==='ev_wz_c4'); fresh(key(TD('Y1S2',12,2)),19,'wz_print'); SOCIAL.remember('heroine_04','FIRST_MET','');
   check('6. WZ-C4：大一下第 12 週週二有、週三沒有、第 14 週沒有',c4.due(H.G)&&(at(TD('Y1S2',12,3),19),!c4.due(H.G))&&(at(TD('Y1S2',14,2),19),!c4.due(H.G)));
   at(TD('Y1S2',12,2),19); H.said=[]; H.picks=[0]; await run('ev_wz_c4'); check('6. 認識：「……你在這裡打工？」',said('……你在這裡打工？')&&H.G.flags.WZ_ZQ_POSTER===true&&!H.G.flags.WZ_POSTER_ITEM,J(L()));
-  const zs=ev('ev_ziqing_show'); check('6. Q5 成發多兩句（WZ_ZQ_POSTER）',zs.dialogue[0].text==='萬才館門口貼著那張藍色的海報。藍色是對的。'&&zs.dialogue.filter(l=>l.text==='海報的藍色，台下的人有看到。').length===2); });
+  const zs=ev('ev_ziqing_show'); check('6. Q5 成發多兩句（WZ_ZQ_POSTER）',zs.dialogue[0].text==='法律系館B門口貼著那張藍色的海報。藍色是對的。'&&zs.dialogue.filter(l=>l.text==='海報的藍色，台下的人有看到。').length===2); });
 
 await sec(7,async()=>{ fresh('2026-12-17',17.1); SOCIAL.rel('classmate_peishan').fam=30; SOCIAL.remember('classmate_peishan','FIRST_MET',''); check('7. WZ-P4：2026-12-17 以後不演',CALENDAR.dateOf(H.G.day).wd===4&&!WZL.p4Due(H.G));
   fresh('2026-12-15',17.1); SOCIAL.rel('classmate_peishan').fam=30; SOCIAL.remember('classmate_peishan','FIRST_MET',''); check('7. 2026-12-15（二）17:06 在公園：演',WZL.p4Due(H.G));

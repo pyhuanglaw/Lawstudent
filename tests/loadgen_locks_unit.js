@@ -163,7 +163,7 @@ const lv=(id,st)=>{ const r=SOCIAL.rel(id); const n={FAMILIAR:{fam:25},FRIEND:{f
 /* 存檔：照 H.fresh 做一份（當下會綁到它；做完綁回原本那一局——讀檔前遊戲還在原本那一局）*/
 const mkSave=(key,h,zone,flags,rels)=>{ const keep=H.G; const s=H.fresh(key,h,zone,flags); for(const [id,st] of rels||[]) lv(id,st); const out=JSON.parse(JSON.stringify(s)); H.G=keep; if(keep){ SOCIAL.bind(keep); EVENTS.bind(GM); } return out; };
 const AUNT=['2027-05-22',9.2,'wancai_semb',{lawclub:true},[['heroine_03','FRIEND'],['classmate_bohan','FRIEND']]];
-const OPEN='（萬才館的諮詢室。門開了，進來的是阿鳳阿姨，後面跟著語彤。）';
+const OPEN='（法律系館B的諮詢室。門開了，進來的是阿鳳阿姨，後面跟著語彤。）';
 
 /* ======================= 3 阿姨諮詢（BB 的 sh_reload_lg3）======================= */
 await sec(3,async()=>{

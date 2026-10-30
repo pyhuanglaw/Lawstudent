@@ -123,7 +123,7 @@ const SISB4_EVENTS=(function(){
       outingMissed:G=>{ const x=X(); if(x) x.missed(G,'xmas_y2'); } },
     /* ---------- 3-2 2027-12-24（五）21:00 霖澤館・研究室（同 ev_sis_plan_lab：研究室的走廊底圖＋字幕）---------- */
     { id:'ev_sis_xmas_y3', title:'聖誕夜', participants:[ID], location:'any', trigger:'outing', once:true, background:'dark', hours:1,
-      dialogue:[ {scene:'霖澤館・研究室',bg:'linze_prof_hall'},
+      dialogue:[ {scene:'法律系館A・研究室',bg:'linze_prof_hall'},
         N('（研究室只剩她一個人。門口她那張桌上，放著一棵手掌大的聖誕樹，燈一閃一閃。）'),
         SIS('隔壁的學妹放的。她回家了，叫我幫她顧。'),
         SIS('……樹要怎麼顧。'),

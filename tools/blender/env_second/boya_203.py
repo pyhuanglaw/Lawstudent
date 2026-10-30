@@ -242,12 +242,12 @@ def build():
     tris = 0
     for ob in bpy.data.objects:
         if ob.type == 'MESH': ob.data.calc_loop_triangles(); tris += len(ob.data.loop_triangles)
-    lay = dict(version=1, zone=SID, name='博雅 203（即興劇社的小演出）', type='討論室', src='AA_399 第 10 節（企劃線 5d09bb725）；SK07（events.js ev_sk07_improv）；LAWWW-B 10-24 03:53 任務 #82',
+    lay = dict(version=1, zone=SID, name='博思 203（即興劇社的小演出）', type='討論室', src='AA_399 第 10 節（企劃線 5d09bb725）；SK07（events.js ev_sk07_improv）；LAWWW-B 10-24 03:53 任務 #82',
                bounds=dict(x0=X0, x1=X1, z0=Z0, z1=Z1), h=H, cam_dist=4.4, door=c.door, spawn=c.spawn, exits=c.exits, windows=c.wins, view='boya_2f_south',
                counter=None, clerk=None, teacherSpot=spots['tang'], order=None, seats=c.seats, interact=c.inter, blocks=c.blocks, spots=spots,
                open=dict(days=['2026-05-27'], dayHours=[18.5, 21.5], daysOnly=True, note='AA_399 第 10 節：只有 SK07 那一晚開（2026-05-27 18:30～21:30）。其他時間門照舊（boya_layout.js 203「之後開放」）'),
                back_spawn=dict(x=-11.6, z=1.5, lv=1, yaw=round(PI, 4), note='博雅教學館 2F、203 門前面的走廊（teach3d.js 關著的房間的互動點）'),
-               host_door=dict(zone='boya', id='203', lv=1, label='進入 博雅 203', note='teach3d.js 的關著的房間 203：那一晚多一個「進入 博雅 203」，原本的「之後開放」那天藏起來'))
+               host_door=dict(zone='boya', id='203', lv=1, label='進入 博思 203', note='teach3d.js 的關著的房間 203：那一晚多一個「進入 博雅 203」，原本的「之後開放」那天藏起來'))
     auto_ap(c, lay)
     prob = navcheck(c, lay); lay['navcheck'] = dict(cell=0.4, inset=0.25, problems=prob, ap=sum(1 for s in lay['seats'] if s.get('ap')))
     L.write_json(os.path.join(OUTDIR, SID + '.layout.json'), lay)

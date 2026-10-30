@@ -9,7 +9,7 @@ SHOTS = os.environ.get('SHOT_DIR') or os.path.join(tempfile.gettempdir(), 'lawst
 os.makedirs(SHOTS, exist_ok=True)
 URL=(sys.argv[1] if len(sys.argv)>1 else 'http://127.0.0.1:8765/build/index.html')+'?turbo'
 # v9.3 第十九批：霖澤館改成墊高的門廊＋大台階（不能走），門口互動點移到台階下面 (34,-99.8)，教室出口改成 (34,-97.6)；(34,-101) 現在在台階上
-SPAWNS=[('霖澤館前（教室出口）','campus',{'x':34,'z':-97.6,'yaw':0}),('霖澤館門口（台階下）','campus',{'x':34,'z':-99.6,'yaw':0}),('舊存檔：站在霖澤館舊門口（現在是台階）','campus',{'x':34,'z':-101,'yaw':0}),('校園預設出生點','campus',{'x':34,'z':-98,'yaw':0}),('宿舍門口','campus',{'x':20,'z':54,'yaw':3.1416}),('公館麵店門口','gongguan',{'x':-63,'z':18,'yaw':3.1416}),('公館便利商店門口','gongguan',{'x':-29.4,'z':18,'yaw':3.1416}),('校門外','gongguan',{'x':-2.5,'z':-29,'yaw':0}),('溫州街','wenzhou',{'x':40,'z':-1,'yaw':-1.5708})]
+SPAWNS=[('霖澤館前（教室出口）','campus',{'x':34,'z':-97.6,'yaw':0}),('法律系館A門口（台階下）','campus',{'x':34,'z':-99.6,'yaw':0}),('舊存檔：站在法律系館A舊門口（現在是台階）','campus',{'x':34,'z':-101,'yaw':0}),('校園預設出生點','campus',{'x':34,'z':-98,'yaw':0}),('宿舍門口','campus',{'x':20,'z':54,'yaw':3.1416}),('公館麵店門口','gongguan',{'x':-63,'z':18,'yaw':3.1416}),('公館便利商店門口','gongguan',{'x':-29.4,'z':18,'yaw':3.1416}),('校門外','gongguan',{'x':-2.5,'z':-29,'yaw':0}),('溫州街','wenzhou',{'x':40,'z':-1,'yaw':-1.5708})]
 async def joystick(pg,cdp,dx,dy,ms):
     jx,jy=await pg.evaluate("(()=>{ const r=document.getElementById('joy').getBoundingClientRect(); return [r.left+r.width/2, r.top+r.height/2]; })()")
     await cdp.send('Input.dispatchTouchEvent',{'type':'touchStart','touchPoints':[{'x':jx,'y':jy}]})
@@ -45,7 +45,7 @@ async def main():
             check(f'{label}：搖桿右 → 移動／轉向', dist(p1,p2)>0.2 or abs(p2['yaw']-p1['yaw'])>0.2, f'{p2}')
             await joystick(pg,cdp,-60,0,900); p3=await pos(pg)
             check(f'{label}：搖桿左 → 移動／轉向', dist(p2,p3)>0.2 or abs(p3['yaw']-p2['yaw'])>0.2, f'{p3}')
-            if label.startswith('霖澤館前'):
+            if label.startswith('法律系館A前'):
                 await pg.screenshot(path=SHOTS+'/A_linze_move_01.png')
                 await joystick(pg,cdp,0,-58,1600); p4=await pos(pg)  # 幾乎推到底 → 跑
                 check('霖澤館前：推到底 → 跑', p4['pose'] in ('run','walk') or dist(p3,p4)>1.0, f'{p4}')

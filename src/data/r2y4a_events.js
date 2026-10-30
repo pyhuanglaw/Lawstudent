@@ -295,16 +295,16 @@ const R2Y4A_EVENTS=(function(){
   /* ---- 2-Y4-01 迎新（大四版）：2028-09-02（六）13:00 社科院旁的草地（出遊；8/31 21:00 系學會在「法律系（全班）」群組）---- */
   EV.push({ id:'ev_y4_welcome', title:'迎新（大四版）', participants:[], location:'any', trigger:'outing', once:true, background:'dark', hours:2.5,
     dialogue:[ {scene:'社科院旁的草地',bg:'ntu_soc'},
-      nar('（新生排隊領名牌。一個學弟問你萬才館怎麼走。）'),
+      nar('（新生排隊領名牌。一個學弟問你法律系館B怎麼走。）'),
       {speaker:'系學會的人',text:'學長，你帶他過去好了。'},
-      {scene:'椰林大道',bg:'ntu_avenue'},
-      nar('（你帶他走過椰林大道。他一直回頭看傅鐘。）'),
+      {scene:'椰影大道',bg:'ntu_avenue'},
+      nar('（你帶他走過椰影大道。他一直回頭看晨思鐘。）'),
       {speaker:'新生',text:'學長，大四會很忙嗎？'},
-      {choice:[{text:'「忙。可是還是會去吃麵。」',goto:'a'},{text:'「看你想做什麼。」',goto:'b'},{text:'（指著萬才館）「先記得這棟就好。」',goto:'c'}]},
+      {choice:[{text:'「忙。可是還是會去吃麵。」',goto:'a'},{text:'「看你想做什麼。」',goto:'b'},{text:'（指著法律系館B）「先記得這棟就好。」',goto:'c'}]},
       {label:'a'},{speaker:'新生',text:'吃麵？'},nar('（你往公館的方向指了一下。）'),{goto:'e'},
       {label:'b'},{speaker:'新生',text:'……我還不知道想做什麼。'},me('那先念民總。'),{goto:'e'},
-      {label:'c'},nar('（他把萬才館拍了一張照片。）'),
-      {label:'e'},nar('（萬才館門口。他說了謝謝，跑回草地。）'),
+      {label:'c'},nar('（他把法律系館B拍了一張照片。）'),
+      {label:'e'},nar('（法律系館B門口。他說了謝謝，跑回草地。）'),
       {set:{WELCOME_Y4:'went'}} ] });
 
   /* ---- 2-Y4-02 颱風假 T4a 泡麵之夜（BB_110；AA_253 第 8 節）：9/17（日）21:00 起人在宿舍 409（停課公告、T4b 停課的信在 r2y4a3d.js）---- */
@@ -414,7 +414,7 @@ const R2Y4A_EVENTS=(function(){
     dialogue:[ {if:{flags:['PUSH_RAN']},speaker:null,text:'（你一路跑上二樓。）'},
       IF(BH4,{speaker:BH,text:'他們問我為什麼。……我說，我是真的想知道。'}),
       UN(BH4,{speaker:BH,text:'答完了。最後我多說了一句：我喜歡這一科。'}),
-      {scene:'萬才館二樓',bg:'wancai_seminar'},
+      {scene:'法律系館B二樓',bg:'wancai_seminar'},
       nar('（十五分鐘。最後一題是：你為什麼想研究這個？）'),
       {set:{PUSH_INTERVIEW:true}} ] });
   const PASS=G=>G.flags.Y4_PUSH==='pass', bh=t=>({speaker:BH,text:t});
@@ -500,7 +500,7 @@ const R2Y4A_EVENTS=(function(){
   /* ---- 2-Y4-13 K21「約讀書，而且真的有讀」（BB_99 9-2、9-0b；裁定第 18 點）：9/23（六）14:00 政大（出遊）／總圖（3D：goto 到閱覽室，這裡的 auto 演）；美國路線＝視訊（當地 09:00）---- */
   EV.push({ id:'ev_kexin_study_really', title:'約讀書，而且真的有讀', participants:[KX], location:'any', trigger:'outing', once:true, background:'dark', hours:2/3,
     outingMissed:(G,GM,q)=>{ if(typeof R2Y4A!=='undefined') R2Y4A.k21Missed(G,q); },
-    dialogue:[ {scene:'政大・宿舍樓下',bg:'nccu_dorm'},nar('（兩個小時，沒有人說話。她只推過來一張便條：「先讀完。」）'),TO16 ].concat(K21_ECHO,K21_PICK('（給她看自己畫滿重點的那一頁）')) });
+    dialogue:[ {scene:'木柵大學・宿舍樓下',bg:'nccu_dorm'},nar('（兩個小時，沒有人說話。她只推過來一張便條：「先讀完。」）'),TO16 ].concat(K21_ECHO,K21_PICK('（給她看自己畫滿重點的那一頁）')) });
   EV.push({ id:'ev_kexin_study_really_lib', title:'約讀書，而且真的有讀', participants:[KX], location:['library','library_hall'], trigger:'auto', once:true, time:[13.75,15], background:'blur',
     prereq:{custom:G=>{ const d=D('2028-09-23'); return d!=null&&G.day===d&&KXD(G)&&G.flags.KX_K21_AT==='lib'&&!G.flags.KX_STUDY_PLAN; }},
     outingMissed:(G,GM,q)=>{ if(typeof R2Y4A!=='undefined') R2Y4A.k21Missed(G,q); },
@@ -513,7 +513,7 @@ const R2Y4A_EVENTS=(function(){
   const SJ_MET=G=>has(KX,'ENC_D13_KX')||has(KX,'ENC_D09_KX')||!!G.flags.KX_NCCU_FRIENDS;   /* 見過邵鈞（淡水 D13、貓空 D09 的偶遇；大二的電影夜，y2r2_3d.js 同一條）*/
   EV.push({ id:'ev_kexin_two_directions', title:'兩個方向的讀書會', participants:[KX], location:'any', trigger:'outing', once:true, background:'dark', hours:2/3,
     outingMissed:(G,GM,q)=>{ if(typeof R2Y4A!=='undefined') R2Y4A.k22Missed(G); },
-    dialogue:[ {scene:'政大・宿舍樓下',bg:'nccu_dorm'},
+    dialogue:[ {scene:'木柵大學・宿舍樓下',bg:'nccu_dorm'},
       UN(SJ_MET,kx('這是邵鈞，考古題有目錄的那個。')),
       nar('（邵鈞說他從大一就知道自己要當法官。）'),
       {advance:G=>Math.max(0,21-hh(G))},   /* 讀完以後（讀書會 19:00～21:00）*/
@@ -531,11 +531,11 @@ const R2Y4A_EVENTS=(function(){
   const merge=(G,k,v)=>{ G.flags[k]=Object.assign({},(G.flags[k]&&typeof G.flags[k]==='object')?G.flags[k]:{},v); };
   EV.push({ id:'ev_kexin_xmas_y4', title:'聖誕，讀到打烊', participants:[KX], location:'any', trigger:'outing', once:true, background:'dark', hours:2/3,
     outingMissed:(G,GM,q)=>{ if(typeof R2Y4A!=='undefined') R2Y4A.kxXmasMissed(G); },
-    dialogue:[ {scene:'政大山下・咖啡店',bg:'dark'},
+    dialogue:[ {scene:'木柵大學山下・咖啡店',bg:'dark'},
       IF(usR,kx('你的時差還沒調回來吧。……那今天讀到打烊，剛好。')),   /* 美國路線（12/23 已經回來）*/
       {advance:G=>Math.max(0,22-hh(G))},
       nar('（兩個人讀到店員開始收椅子。走出來，山上的風。）'),
-      {scene:'政大・宿舍樓下',bg:'nccu_dorm'},
+      {scene:'木柵大學・宿舍樓下',bg:'nccu_dorm'},
       kx('……冷死了。'),
       kx('聖誕快樂。今天讀了幾頁，不要說。今天不算。'),
       {choice:[{text:'「聖誕快樂。」',goto:'a'},{text:'（把圍巾給她）',goto:'b'}]},

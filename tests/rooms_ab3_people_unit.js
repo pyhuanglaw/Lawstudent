@@ -110,7 +110,7 @@ await sec(2,async()=>{
   check('2. 柏翰坐 spots.duty、語彤坐 spots.companion、阿姨（背景）坐 spots.client',sp3.some(s=>s.id==='classmate_bohan'&&near(s,sp.duty)&&s.o.seat)&&sp3.some(s=>s.id==='heroine_03'&&near(s,sp.companion)&&s.o.seat)&&ex3.some(e=>e.id==='rab3_aunt'&&near(e,sp.client)&&e.o.seat),J(sp3.map(s=>[s.id,s.x,s.z]))+J(ex3.map(e=>[e.id,e.x,e.z])));
   check('2. 畫面：模糊的 3D（不是 wancai_seminar 的圖）',bg3[0]==='blur'&&!bg3.some(isImg),J(bg3));
   check('2. 散會：阿姨、語彤離開，柏翰照作息留著',rm3.includes('rab3_aunt')&&rm3.includes('heroine_03')&&!!GM.npc.classmate_bohan&&C.staged===null,J(rm3));
-  check('2. 演了一次（ev_yt_aunt_consult、值班算一次）、台詞照原文',G.events.done.ev_yt_aunt_consult===1&&G.flags.LAWCLUB_SAT_LAST===G.day&&L3d[0]==='（萬才館的諮詢室。門開了，進來的是阿鳳阿姨，後面跟著語彤。）'&&L3d.includes(NM('classmate_bohan')+'：好。那紀錄你照做，意見我來講。'),J(L3d.slice(0,4)));
+  check('2. 演了一次（ev_yt_aunt_consult、值班算一次）、台詞照原文',G.events.done.ev_yt_aunt_consult===1&&G.flags.LAWCLUB_SAT_LAST===G.day&&L3d[0]==='（法律系館B的諮詢室。門開了，進來的是阿鳳阿姨，後面跟著語彤。）'&&L3d.includes(NM('classmate_bohan')+'：好。那紀錄你照做，意見我來講。'),J(L3d.slice(0,4)));
   H.said=[]; const r2=await STORY.fafuShift(GM); check('2. 同一天再按：不再演（once）',!r2&&!H.said.length);
   G=await aunt('wancai',[0]); await without('wancai_semb',()=>STORY.fafuShift(GM)); const L2d=lines(), bg2=H.bgs.slice();
   check('2. 房間不在（舊版）：照原本 2D——沒有換區域、背景是 wancai_seminar 的圖',!entered.length&&isImg(bg2[0]),J(bg2));
@@ -149,7 +149,7 @@ await sec(4,async()=>{
   const d2=satOf('Y2S1',dutyG), sp=LAY('wancai_semb').sets.consult.spots, seats=LAY('wancai_semb').sets.consult.seats;
   const me=C.mirror(sp.companion), cl=C.mirror(sp.client);
   check('4. 東邊隔間的兩張椅子（西邊 client、companion 的鏡像）是配置的座位',seats.some(s=>near(s,me))&&seats.some(s=>near(s,cl)));
-  const q=()=>({id:'sq02_fafu_t',ev:'ev_sq02_fafu',day:H.G.day,h:9.5,late:2,place:'萬才館',title:'法服初談：巷口茶飲的店員',travel:'走路 約 10 分鐘',travelH:1/6,state:'planned'});
+  const q=()=>({id:'sq02_fafu_t',ev:'ev_sq02_fafu',day:H.G.day,h:9.5,late:2,place:'法律系館B',title:'法服初談：巷口茶飲的店員',travel:'走路 約 10 分鐘',travelH:1/6,state:'planned'});
   let G=fresh(keyOf(d2),9.4,'wancai'); H.said=[]; await OUT.go(GM,q()); const L3d=lines(), bg3=H.bgs.slice();
   check('4. 換到研討室 B 演，演完回到原本的地方（萬才館）',entered.map(e=>e.z).join('>')==='wancai_semb>wancai'&&G.zone==='wancai',J(entered.map(e=>e.z)));
   check('4. 店員坐東邊 client、背景志工（值班的學長）在東邊志工的位子；祐廷坐東邊 companion',extras.some(e=>e.id==='rab3_sq02_clerk'&&near(e,cl)&&e.o.seat)&&extras.some(e=>e.id==='rab3_semb_vol'&&near(e,sp.volunteer)),J(extras.map(e=>[e.id,e.x,e.z])));
@@ -238,20 +238,20 @@ await sec(10,async()=>{
 
 /* ======================= 12. 博雅 203：SK07 唐睿的即興劇 ======================= */
 await sec(12,async()=>{
-  const L=LAY('boya_203'), sp=L&&L.spots; check('12. 博雅 203 的房間登記了（rooms_glb3d.js boya_203）、只有 2026-05-27 18:30～21:30 開',!!sp&&C.roomOk('boya_203')&&Z3.roomGlbOpen('boya_203',{day:D('2026-05-27'),hour:19})&&!Z3.roomGlbOpen('boya_203',{day:D('2026-05-27'),hour:17}));
+  const L=LAY('boya_203'), sp=L&&L.spots; check('12. 博思 203 的房間登記了（rooms_glb3d.js boya_203）、只有 2026-05-27 18:30～21:30 開',!!sp&&C.roomOk('boya_203')&&Z3.roomGlbOpen('boya_203',{day:D('2026-05-27'),hour:19})&&!Z3.roomGlbOpen('boya_203',{day:D('2026-05-27'),hour:17}));
   if(!sp) return;
   { fresh('2026-05-27',18.6,'boya'); await GM.enter('boya_203',Object.assign({},L.spawn)); const mem=extras.filter(e=>/rab3_b203_member/.test(e.id)), aud=extras.filter(e=>/rab3_b203_aud/.test(e.id));
     check('12. 那一晚走進 203：社員兩位站在 spots.member、觀眾 8 位（畫質中＝11 的四分之三）坐 spots.audience；第一排品妤、祐廷、阿哲的位子空著',mem.length===2&&mem.every(e=>sp.member.some(p=>near(p,e))&&!e.o.seat)&&aud.length===8&&aud.every(e=>sp.audience.some(p=>near(p,e))&&!!e.o.seat)&&!extras.some(e=>near(e,sp.me)||near(e,sp.pinyu)||near(e,sp.zhe)),J({mem:mem.length,aud:aud.length}));
     fresh('2026-05-27',17,'boya'); await GM.enter('boya_203',Object.assign({},L.spawn)); check('12. 17:00（還沒開）：沒有人',!extras.length); }
-  const q=()=>({id:'sk07_improv',ev:'ev_sk07_improv',day:H.G.day,h:19,late:0.25,place:'博雅教學館',title:'唐睿的即興劇',travel:'走過去約 10 分鐘',travelH:1/6,state:'planned'});
+  const q=()=>({id:'sk07_improv',ev:'ev_sk07_improv',day:H.G.day,h:19,late:0.25,place:'博思教學館',title:'唐睿的即興劇',travel:'走過去約 10 分鐘',travelH:1/6,state:'planned'});
   const run=async(zone,noRoom)=>{ const G=fresh('2026-05-27',18.8,zone); H.said=[]; H.picks=[0]; let sat=null; const s0=GM.sitAt; GM.sitAt=(ent,st)=>{ if(ent===P&&!sat) sat=st; s0(ent,st); };
     try{ if(noRoom) await without('boya_203',()=>OUT.go(GM,q())); else await OUT.go(GM,q()); } finally { GM.sitAt=s0; } return {G,sat,L:lines(),bg:H.bgs.slice(),sp:spawned.slice(),ex:extras.slice(),en:entered.map(e=>e.z),rm:removed.slice()}; };
   const a=await run('boya');
-  check('12. 換到博雅 203 演，演完回到原本的地方（博雅 2F）',J(a.en)===J(['boya_203','boya'])&&a.G.zone==='boya',J(a.en));
+  check('12. 換到博思 203 演，演完回到原本的地方（博思 2F）',J(a.en)===J(['boya_203','boya'])&&a.G.zone==='boya',J(a.en));
   check('12. 唐睿站在舞台中間（spots.tang）、品妤坐第一排正中間（pinyu）、阿哲坐 zhe',a.sp.some(s=>s.id==='econ_tangrui'&&near(s,sp.tang)&&!(s.o&&s.o.seat))&&a.sp.some(s=>s.id==='econ_pinyu'&&near(s,sp.pinyu)&&s.o.seat)&&a.sp.some(s=>s.id==='zhe'&&near(s,sp.zhe)&&s.o.seat),J(a.sp.map(s=>[s.id,s.x,s.z])));
   check('12. 祐廷坐品妤旁邊（spots.me）；社員、觀眾在',!!a.sat&&near(a.sat,sp.me)&&a.ex.filter(e=>/rab3_b203_member/.test(e.id)).length===2&&a.ex.filter(e=>/rab3_b203_aud/.test(e.id)).length===8,J(a.sat));
   check('12. 畫面：blur（場景那一步的 classroom_small 換成 blur）',a.bg.includes('blur')&&!a.bg.some(isImg)&&C.staged===null,J(a.bg));
-  check('12. 台詞照原文；IMPROV_WORD、演一次',a.L.includes('即興劇社借了博雅的教室，辦期末的小演出。品妤坐在第一排，沒有表情。阿哲是被你拉來的。')&&a.L[a.L.length-1]==='品妤：他說是為了練膽量。我覺得是為了社辦的冷氣。'&&a.G.flags.IMPROV_WORD==='善意第三人'&&a.G.events.done.ev_sk07_improv===1,J(a.L));
+  check('12. 台詞照原文；IMPROV_WORD、演一次',a.L.includes('即興劇社借了博思的教室，辦期末的小演出。品妤坐在第一排，沒有表情。阿哲是被你拉來的。')&&a.L[a.L.length-1]==='品妤：他說是為了練膽量。我覺得是為了社辦的冷氣。'&&a.G.flags.IMPROV_WORD==='善意第三人'&&a.G.events.done.ev_sk07_improv===1,J(a.L));
   const b=await run('boya',true);
   check('12. 房間不在：照原本 2D（不換區域、classroom_small 的圖），台詞一樣',!b.en.length&&b.bg.some(isImg)&&J(b.L)===J(a.L),J(b.bg));
   const c=await run('boya_203');

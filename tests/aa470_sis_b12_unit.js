@@ -195,7 +195,7 @@ await sec(5,async()=>{
 /* ---- 6 12-6 ---- */
 await sec(6,async()=>{ const g6=D('2028-06-03'), a=D('2028-07-10'), d=D('2028-07-13');
   fresh('2028-06-03',12,'none'); ph(); const e0=byTag('sisb12_grad').length; at(g6,13); ph(); const M=byTag('sisb12_grad'), m=M.find(x=>x.ask);
-  check('6. 6/3（六）13:00 群組（沒認識的也收到）：Kevin 學士服照片、「我畢業了！！！」、「恭喜。」、（AA_497 5-4 換）「學姊 八月國考 妳幫我集氣一次就好」「好。日子跟我說。」；選項「學長恭喜！」',e0===0&&J(M.map(x=>x.text))===J(['（照片：學士服，站在霖澤館門口，比了一個 V）','我畢業了！！！','恭喜。','學姊 八月國考 妳幫我集氣一次就好','好。日子跟我說。'])&&M[0].h===13&&!!m&&J(m.ask.opts.map(o=>o.t))===J(['學長恭喜！']),J(M));
+  check('6. 6/3（六）13:00 群組（沒認識的也收到）：Kevin 學士服照片、「我畢業了！！！」、「恭喜。」、（AA_497 5-4 換）「學姊 八月國考 妳幫我集氣一次就好」「好。日子跟我說。」；選項「學長恭喜！」',e0===0&&J(M.map(x=>x.text))===J(['（照片：學士服，站在法律系館A門口，比了一個 V）','我畢業了！！！','恭喜。','學姊 八月國考 妳幫我集氣一次就好','好。日子跟我說。'])&&M[0].h===13&&!!m&&J(m.ask.opts.map(o=>o.t))===J(['學長恭喜！']),J(M));
   PHONE.answer(H.G,'sisb12_grad',0); const last=TH('g:family_law').slice(-2).map(x=>x.text);
   check('6. 「學長恭喜！」→ Kevin「學弟明年換你！！」',J(last)===J(['學長恭喜！','學弟明年換你！！']),J(last));
   fresh('2028-06-03',12,'friend',{},{route:'JP'}); H.G.flags.JP_DEPARTED=D('2028-03-25'); at(g6,15); ph(); const J6=byTag('sisb12_grad');
@@ -326,7 +326,7 @@ await sec(12,async()=>{
 await sec(14,async()=>{ const a=D('2029-05-28'), d=D('2029-05-29');
   const m9=(kind,flags,o)=>{ fresh('2029-05-28',20,kind,flags,o); at(a,21); ph(); return OUT.get(H.G,'y4_m9'); };
   let q=m9('fam');
-  check('14. 熟悉、認識她、在家族群組：5/28 21:00 Kevin「學姊明天下午四點口試！大家去門口等！」＋排 5/29 16:00「學姊的口試」（y4_m9、霖澤館・研究室的走廊、ev_sis_defense）',byTag('y4_m9_grp').length===2&&!!q&&q.day===d&&q.h===16&&q.ev==='ev_sis_defense'&&q.title==='學姊的口試'&&q.place==='霖澤館・研究室的走廊',J(q));
+  check('14. 熟悉、認識她、在家族群組：5/28 21:00 Kevin「學姊明天下午四點口試！大家去門口等！」＋排 5/29 16:00「學姊的口試」（y4_m9、霖澤館・研究室的走廊、ev_sis_defense）',byTag('y4_m9_grp').length===2&&!!q&&q.day===d&&q.h===16&&q.ev==='ev_sis_defense'&&q.title==='學姊的口試'&&q.place==='法律系館A・研究室的走廊',J(q));
   const r0=relNow(); at(d,15.8); await goOut('y4_m9'); const dd=dRel(r0,relNow());
   check('14. 去了＝演 M9（「（研究室門口的長椅，門上貼著「口試中」。）」…「等妳。大家都是。」「……好。我請大家喝飲料。販賣機的。」）；SIS_DEFENSE there；熟悉 +2',seq(['（研究室門口的長椅，門上貼著「口試中」。）','過了。','……你們怎麼都還在？','等妳。大家都是。','……好。我請大家喝飲料。販賣機的。'])&&H.G.flags.SIS_DEFENSE==='there'&&dd.fam===2,J({s:said(),dd}));
   m9('fam'); at(d,18.6); ph();

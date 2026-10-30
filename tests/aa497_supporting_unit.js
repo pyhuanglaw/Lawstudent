@@ -84,18 +84,18 @@ const inDoc=t=>DOC.indexOf(t)>=0;
       '十二點半了，我要回去了，明天早八。':'2-3「結尾「十二點四十了」改「十二點半了」」（原句的其他字照舊）',
       '（一段 30 秒的錄影，電梯「叮」一聲。）':'BB_70 7b「群組裡一段 30 秒的錄影，電梯「叮」一聲」',
       '你錯過了法律系最好聽的電梯':'BB_70 7b 阿哲那一句（第 0 節：阿哲手機不加句號）',
-      '（他用霖澤館的聲音做了一首歌：電梯的「叮」、教室椅子收起來的聲音、周教授說「下一個」。）':'BB_70 7b「他的那一首」那一格（旁白）',
+      '（他用法律系館A的聲音做了一首歌：電梯的「叮」、教室椅子收起來的聲音、周教授說「下一個」。）':'BB_70 7b「他的那一首」那一格（旁白）',
       '（聽出來的人會笑。）':'BB_70 7b「聽出來的人會笑」（旁白）',
       '（照片）':'2-6 第一列「拍給你。（照片）」（訊息分兩則）',
       '筆記第 7 頁的圖畫反了。我改好了，拍給你。':'2-6 第一列（同上）',
-      '走出總圖。':'4-1「「走到校門口」改「走出總圖」」（原句的句號照舊）','宥辰：霖澤館的電梯':'順手的事的標題（介面的字）','總圖 B1 討論室':'介面的字',
+      '走出總圖。':'4-1「「走到校門口」改「走出總圖」」（原句的句號照舊）','宥辰：法律系館A的電梯':'順手的事的標題（介面的字）','總圖 B1 討論室':'介面的字',
       '（轉貼宥辰）':'AA_527 2-4（企劃線 bfede0a62）：阿哲在麵店團再貼一次宥辰的邀請＝顯示成轉貼（後面接宥辰原文）' };
     const QUOTED=t=>inDoc('「'+t+'」')||(/^「[^「」]+」$/.test(t)&&inDoc(t.slice(1,-1)));   /* 手機的回覆選項：稿寫成「…」，遊戲的按鈕不加引號；閒聊（SMALLTALK 的寫法是「…」）稿寫成「> 芯慈：…」 */
     const bad=[...new Set(out)].filter(t=>!(inDoc(t)||B7B.indexOf(t)>=0||BB113.indexOf(t)>=0||QUOTED(t)||DERIVED[t]));
     check('0a. sup497_lines.js 每一句（台詞、旁白、選項、手機訊息）都在稿裡：AA_497 60fc3b9a3（學妹照第 8 節第 5 點叫佳穎）／BB_70 7b／BB_113（一字不差；推導的 '+Object.keys(DERIVED).length+' 句另外列）',out.length>350&&!bad.length,out.length+' 句；不在稿裡：'+J(bad));
     const dv=Object.keys(DERIVED).filter(t=>t.length>4&&!/總圖 B1|順手/.test(t)).filter(t=>!out.includes(t));
     check('0a. 推導的句子都真的用到（沒有多餘的例外）',!dv.length,J(dv));
-    check('0a. 地下室那一場照 BB_70 7b：邀請、三個站位的那一句、散場的問題和三個回答一字不差',['週六晚上八點。公館。地下室。不用買票，有捐款箱。','……前排。好。不能出錯了。','站這裡最好，看得到所有人的臉。','一千二。夠付場地費。你顧得很好。','聽得出來是哪裡嗎？','對。法律系唯一有節奏的地方。','我錄了三天。要等到沒有人的時候，才錄得到那一聲。','萬才館太安靜。我要錄的是吵。','那首用霖澤館電梯做的歌，版權是我自己的。我查過了。'].every(t=>B7B.indexOf(t)>=0&&out.includes(t)));
+    check('0a. 地下室那一場照 BB_70 7b：邀請、三個站位的那一句、散場的問題和三個回答一字不差',['週六晚上八點。公館。地下室。不用買票，有捐款箱。','……前排。好。不能出錯了。','站這裡最好，看得到所有人的臉。','一千二。夠付場地費。你顧得很好。','聽得出來是哪裡嗎？','對。法律系唯一有節奏的地方。','我錄了三天。要等到沒有人的時候，才錄得到那一聲。','B館太安靜。我要錄的是吵。','那首用A館電梯做的歌，版權是我自己的。我查過了。'].every(t=>B7B.indexOf(t)>=0&&out.includes(t)));
     check('0a. 大四的兩則照 BB_113 原句（第 1-8 節「之後接 BB_113 原句」）',BB113.indexOf(L().yc.deal.y4a)>=0&&BB113.indexOf(L().yc.deal.y4b)>=0&&inDoc(L().yc.deal.y4a)&&inDoc(L().yc.deal.y4b));
     /* 改在其他檔的句子 */
     const SRC=['src/data/events.js','src/data/r2y3b_events.js','src/y2r2_3d.js','src/data/r2y3a_events.js','src/data/multirel_lines.js','src/story3d.js','src/data/sis_b12_events.js','src/y34b3d.js','src/data/y1fill_events.js'].map(f=>fs.readFileSync(path.join(H.ROOT,f),'utf8')).join('\n');
@@ -214,7 +214,7 @@ const inDoc=t=>DOC.indexOf(t)>=0;
     setup(7,2,15.5); await play('ev_yc_elev_ask',[0]); const q=SIDEQ.get(H.G,'YQ_ELEV'), fri=TD('Y2S1',7,5);
     check('1-5. 「（電梯門開了。……）」三句＋兩個選項；「我幫你擋。」＝掛順手的事，期限那一週的週五',H.said[0].t===L().yc.elev.open[0][1]&&J(H.opts[0])===J(L().yc.elev.opts)&&!!q&&q.state==='open'&&q.by===fri,J(q));
     check('1-5. 手機「今天」那一格的字',/12:10～12:20/.test(SIDEQ.hint('YQ_ELEV',q))&&SIDEQ.openIds(H.G).includes('YQ_ELEV'));
-    at(TD('Y2S1',7,3),12+12/60); H.G.zone='linze'; E.player.lv=0; check('1-5. 那一週任何一天 12:10～12:20 到霖澤館一樓（12:25、週六、隔週都不算）',EVENTS.check(dn)&&(at(TD('Y2S1',7,3),12.42),!EVENTS.check(dn))&&(at(TD('Y2S1',7,6),12.2),!EVENTS.check(dn))&&(at(TD('Y2S1',8,2),12.2),!EVENTS.check(dn)));
+    at(TD('Y2S1',7,3),12+12/60); H.G.zone='linze'; E.player.lv=0; check('1-5. 那一週任何一天 12:10～12:20 到法律系館A一樓（12:25、週六、隔週都不算）',EVENTS.check(dn)&&(at(TD('Y2S1',7,3),12.42),!EVENTS.check(dn))&&(at(TD('Y2S1',7,6),12.2),!EVENTS.check(dn))&&(at(TD('Y2S1',8,2),12.2),!EVENTS.check(dn)));
     at(TD('Y2S1',7,3),12+12/60); await play('ev_yc_elev_done');
     check('1-5. 做完：四句（「電梯在維修」、叮、錄到了、「我會剪掉。……大概。」）；記 YC_ELEVATOR、順手的事做完',J(H.said.map(s=>s.t))===J(L().yc.elev.done.map(x=>x[1]))&&H.G.flags.YC_ELEVATOR===true&&SIDEQ.get(H.G,'YQ_ELEV').state==='done');
     setup(7,2,15.5); await play('ev_yc_elev_ask',[1]); check('1-5. 「我等一下有課。」：「好。那我再錄三天。」；不掛',has('好。那我再錄三天。')&&SIDEQ.get(H.G,'YQ_ELEV').state==='declined');
@@ -243,7 +243,7 @@ const inDoc=t=>DOC.indexOf(t)>=0;
     fresh(g,20,'dorm'); PHONE.join(H.G,'law_class','法律系（全班）'); ev('ev_yc_gig').outingMissed(H.G,GM,{day:g}); ruleAt(g,22.6); check('1-6. 不在麵店團：貼在班級群組',J(texts('g:law_class'))===J([G0.video,G0.missed]));
     /* 五年後 */
     const epi=f=>{ const G=fresh('2034-06-03',19,'cafe',f); fam(YC); return PG.epiLine(G,YC); };
-    check('1-6. 五年後（尾聲，有點熟以上在桌上）：「法條我還是背得很熟。……」；YC_GIG 多一句「那首用霖澤館電梯做的歌，……」',J(epi({}))===J([[YC,G0.epi]])&&J(epi({YC_GIG:true}))===J([[YC,G0.epi],[YC,G0.epiGig]])&&PG.EPI_ORDER.includes(YC),J([epi({}),epi({YC_GIG:true})]));
+    check('1-6. 五年後（尾聲，有點熟以上在桌上）：「法條我還是背得很熟。……」；YC_GIG 多一句「那首用A館電梯做的歌，……」',J(epi({}))===J([[YC,G0.epi]])&&J(epi({YC_GIG:true}))===J([[YC,G0.epi],[YC,G0.epiGig]])&&PG.EPI_ORDER.includes(YC),J([epi({}),epi({YC_GIG:true})]));
     { const G=fresh('2034-06-03',19,'cafe'); check('1-6. 不熟（有點熟以下）不在桌上',!PG.epiPresent(G,YC)); } });
 
   await sec('1-7',async()=>{ const A=L().yc.fail, d=TD('Y2S1',1,3);
@@ -465,7 +465,7 @@ const inDoc=t=>DOC.indexOf(t)>=0;
 
   await sec('3-3',async()=>{ const B=L().yu.bkf, d=TD('Y2S2',4,4);
     const setup=(day,h,o)=>{ o=o||{}; fresh(day,h,'campus'); if(o.zy!==false) H.G.events.done.ev_yu_together=1; if(o.fam!==false) fam(YU); spawnAt(YU,-30,20.94,0); pos(-30,19.6,0); return H.G; };
-    setup(d,8.6); const y=sched(YU); check('3-3. 大二下第 4～6 週週四、五 08:20～09:05：Alison 的作息在傅鐘旁的長椅（吃早餐）；和阿哲在一起以後',!!y&&y.zone==='campus'&&y.act==='eat'&&J(y.seatAt)===J([-30,21]),J(y&&[y.zone,y.act,y.seatAt]));
+    setup(d,8.6); const y=sched(YU); check('3-3. 大二下第 4～6 週週四、五 08:20～09:05：Alison 的作息在晨思鐘旁的長椅（吃早餐）；和阿哲在一起以後',!!y&&y.zone==='campus'&&y.act==='eat'&&J(y.seatAt)===J([-30,21]),J(y&&[y.zone,y.act,y.seatAt]));
     { setup(d,8.6,{zy:false}); const a=sched(YU); setup(TD('Y2S2',4,1),8.6); const b=sched(YU); check('3-3. 還沒在一起：不在長椅；週一早上她有課',!(a&&a.zone==='campus'&&a.act==='eat')&&!(b&&b.zone==='campus'&&b.act==='eat'),J([a&&a.zone,b&&b.zone])); }
     setup(d,8.6); check('3-3. 走到長椅旁（有點熟以上、在一起以後）＝演',ready('ev_yu_bkf'));
     const no=[]; setup(d,9.2); if(ready('ev_yu_bkf')) no.push('09:05 以後'); setup(d,8.6,{zy:false}); if(ready('ev_yu_bkf')) no.push('還沒在一起'); setup(d,8.6,{fam:false}); if(ready('ev_yu_bkf')) no.push('不熟'); setup(TD('Y2S2',7,4),8.6); if(ready('ev_yu_bkf')) no.push('第 7 週');
@@ -527,7 +527,7 @@ const inDoc=t=>DOC.indexOf(t)>=0;
 
   await sec('3-8',async()=>{ const SRC=['src/story3d.js','src/data/events.js'].map(f=>fs.readFileSync(path.join(H.ROOT,f),'utf8')).join('\n');
     const strs=[...SRC.matchAll(/'([^'\n]*三個社團[^'\n]*)'/g)].map(m=>m[1]);
-    const KEEP=['參加了三個社團。常在傅鐘旁邊的長椅吃早餐。','我參加了三個社團，吉他社、辯論社，還有系學會。你要不要來吉他社？不用會彈。','她講了十五分鐘，關於三個社團。','Alison 自我介紹講了三分鐘她的三個社團。','我要拿來寫三個社團的行事曆！'];
+    const KEEP=['參加了三個社團。常在晨思鐘旁邊的長椅吃早餐。','我參加了三個社團，吉他社、辯論社，還有系學會。你要不要來吉他社？不用會彈。','她講了十五分鐘，關於三個社團。','Alison 自我介紹講了三分鐘她的三個社團。','我要拿來寫三個社團的行事曆！'];
     check('3-8. 「三個社團」只留：人物頁、第一次自我介紹、語 1「她講了十五分鐘」、迎新那一句旁白、聖誕禮物那一句',J([...new Set(strs)].sort())===J(KEEP.slice().sort()),J(strs));
     check('3-8. 換掉的兩處：語 1 的選項「「辯論社不會累嗎？」」、平常閒聊「我這禮拜辯論社都要開會，快死了。」',SRC.includes("'「辯論社不會累嗎？」'")&&SRC.includes("'我這禮拜辯論社都要開會，快死了。'")); });
 

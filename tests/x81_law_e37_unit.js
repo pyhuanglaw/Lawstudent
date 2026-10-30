@@ -52,7 +52,7 @@ const lawStart=(day,hour,flags)=>{ fresh(day,hour,'dorm',Object.assign({KX_FIRST
   // 4
   back(); G.day=D30; G.weekday=CALENDAR.dateOf(D30).wd%7; G.hour=13.5; said=[]; picks=['我也以為']; const qq=OUT.get(G,'y0_e37'); await OUT.go(GM,qq); const L=said.map(x=>x.t);
   check('4a. 演 E37（字照 AA_303「法律系 8/30」）：開家裡的車、搬三趟、「這是我的床」、湯餃、「我也以為我會在經濟系。」那一支、一個人開車下山',L.includes('（八月三十日。你開家裡的車，載她和兩個行李箱上山。）')&&L.includes('（擦汗）……好。這是我的床。')&&L.includes('結果兩個人都繞了一圈。')&&L.includes('（到了宿舍門口，她回頭揮了一下手。你一個人開車下山。）'),JSON.stringify(L.slice(-4)));
-  check('4a. AA_368 L7：小吃街「（山下的小吃街。她點了兩碗酸辣湯餃，說放榜那天晚上查政大附近的店，就想吃這家了。）」（原本「說上次來看宿舍的時候就想吃了」）',L.includes('（山下的小吃街。她點了兩碗酸辣湯餃，說放榜那天晚上查政大附近的店，就想吃這家了。）')&&!L.some(t=>/上次來看宿舍/.test(t)),JSON.stringify(L.filter(t=>/湯餃/.test(t))));
+  check('4a. AA_368 L7：小吃街「（山下的小吃街。她點了兩碗酸辣湯餃，說放榜那天晚上查木柵大學附近的店，就想吃這家了。）」（原本「說上次來看宿舍的時候就想吃了」）',L.includes('（山下的小吃街。她點了兩碗酸辣湯餃，說放榜那天晚上查木柵大學附近的店，就想吃這家了。）')&&!L.some(t=>/上次來看宿舍/.test(t)),JSON.stringify(L.filter(t=>/湯餃/.test(t))));
   check('4b. 最後多一句「（你把車開回家，再搭捷運回宿舍。）」',L[L.length-1]==='（你把車開回家，再搭捷運回宿舍。）',L[L.length-1]);
   check('4c. 回到宿舍 19:00 左右（14:00 到、演完開車回家、捷運回宿舍）、人還在宿舍、E37 演過',Math.abs(G.hour-19)<0.01&&G.zone==='dorm'&&!!G.events.done.ev_y0_e37&&qq.state==='done',G.hour+' '+G.zone);
   // AA_368 M8：經濟系路線（8/29 已經轉法律系、搬進宿舍）8/30 住在宿舍＝一樣有這一句、多 1 小時；出發地點照舊（臺北的家樓下、開車）

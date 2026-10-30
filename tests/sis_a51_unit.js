@@ -78,7 +78,7 @@ GM.money=function(n){ G.money+=n; };
   at(a8,16.5,'campus',{SIS_CONTACTED:false}); check('4. 沒有 B（沒加好友）不演',!EVENTS.check(c1));
   at(a8,16.5,'campus',{SIS_RESULT_OUT:false}); check('4. 還沒放榜不演',!EVENTS.check(c1));
   at(a8,16.5,'campus'); picks=['長什麼樣子']; await EVENTS.run(c1); L=lines();
-  const iAsk=L.findIndex(t=>t==='祐廷：……等一下。我高二校慶好像被問過。一群大學生，說他們是台大法律的，要錄影、要約好幾次。'), iFb=L.indexOf('（高二上，校慶。操場邊排滿攤位，很吵。你手上一碗剉冰，煉乳快要和紅豆化在一起。）'), iBack=L.findIndex(t=>t.endsWith('真的假的？你高二是哪一年？'));
+  const iAsk=L.findIndex(t=>t==='祐廷：……等一下。我高二校慶好像被問過。一群大學生，說他們是首都帝大法律的，要錄影、要約好幾次。'), iFb=L.indexOf('（高二上，校慶。操場邊排滿攤位，很吵。你手上一碗剉冰，煉乳快要和紅豆化在一起。）'), iBack=L.findIndex(t=>t.endsWith('真的假的？你高二是哪一年？'));
   check('4. 入場旁白「（你走過法學院圖書館外面的台階……）」、第一句「你下學期通識選好了嗎？」',L[0]==='（你走過法學院圖書館外面的台階，學姊坐在最上面一階，旁邊放著一杯咖啡。）'&&L[1].endsWith('你下學期通識選好了嗎？'),JSON.stringify(L.slice(0,3)));
   check('4. 回想 A 插在「……等一下。我高二校慶好像被問過。」之後、「真的假的？你高二是哪一年？」之前',iAsk>0&&iFb===iAsk+1&&iBack>iFb,JSON.stringify([iAsk,iFb,iBack]));
   check('4. 回想：她抄號碼「不好意思，最後四個數字再念一次？」（名字溫書瑀、不用現在的立繪）、「冰已經化掉一半了」',L.includes('溫書瑀：不好意思，最後四個數字再念一次？')&&L[iBack-1]==='（他們往下一攤走。你低頭繼續吃冰。冰已經化掉一半了。）',JSON.stringify(L.slice(iFb,iBack)));

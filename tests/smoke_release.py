@@ -112,7 +112,7 @@ async def main():
         closed = await pg.evaluate("(()=>{ const e=document.getElementById('phone'); return !e||e.classList.contains('hide')||getComputedStyle(e).display==='none'; })()")
         run.check('手機關得掉', closed)
         # ---------- 3. 上課（BUG-15）----------
-        run.setup('讀檔：第 9 天（9/25 週四）12:55，霖澤館二樓 201 門口；第一、二天主線已過')
+        run.setup('讀檔：第 9 天（9/25 週四）12:55，法律系館A二樓 201 門口；第一、二天主線已過')
         await L.load_state(pg, {'zone': 'linze', 'hour': 12.92, 'day': DAY1_THU, 'weekday': 4, 'weather': 'sunny', 'pos': {'x': -2.0, 'z': -6.0, 'lv': 1, 'yaw': 3.14}, 'flags': BASE_FLAGS})
         await settle(pg, cdp, run)
         await close_auto_phone(pg, cdp, run, '讀檔到 201 門口')

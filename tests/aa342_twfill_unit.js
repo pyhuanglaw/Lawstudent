@@ -111,14 +111,14 @@ const ents=(G,k,h)=>{ setT(k,h); G.zone='noodle'; return EVENTS.check; };
     check('4. 別的考試沒有這一句',!X().examLine(G,Object.assign({},it,{exam:'final'}))&&!X().examLine(Object.assign({},G,{day:G.day+1}),it));
     G=fresh('2029-04-13',22.05); rules(); check('4. 4/13（五）22:00：Alison「最後一次期中考」「考完了」、阿哲「最後一次」',J(grp(NG,'tw_y4s2_last_mid'))===J(['yu:最後一次期中考','yu:考完了','zhe:最後一次']));
     G=fresh('2029-04-26',21.05,'dorm',{},{know:[BH]}); rules(); const g=msgs(NG).filter(m=>m.tag==='tw_y4s2_grad_ask');
-    check('4. 4/26（四）21:00 阿哲「禮拜六十點 椰林大道 學士服拍照」「衣服我先租了 錢之後給」＋「去。」',J(g.map(m=>m.text))===J(['禮拜六十點 椰林大道 學士服拍照','衣服我先租了 錢之後給'])&&J(g[1].ask.opts.map(o=>o.t))===J(['去。']));
+    check('4. 4/26（四）21:00 阿哲「禮拜六十點 椰影大道 學士服拍照」「衣服我先租了 錢之後給」＋「去。」',J(g.map(m=>m.text))===J(['禮拜六十點 椰影大道 學士服拍照','衣服我先租了 錢之後給'])&&J(g[1].ask.opts.map(o=>o.t))===J(['去。']));
     PHONE.answer(G,'tw_y4s2_grad_ask',0); rules(); const q=OUT.get(G,'tw_y4_grad_photo');
-    check('4. 「去。」＝4/28（六）10:00 椰林大道（出遊）',!!q&&q.day===H.D('2029-04-28')&&q.h===10&&q.ev==='ev_y4_grad_photo',J(q));
+    check('4. 「去。」＝4/28（六）10:00 椰影大道（出遊）',!!q&&q.day===H.D('2029-04-28')&&q.h===10&&q.ev==='ev_y4_grad_photo',J(q));
     let Lg=await run('ev_y4_grad_photo'); setT('2029-04-28',12.6); rules();
-    check('4. 4/28 椰林大道：「（學士服是租的，袖子太長。Alison 拍了兩百張，說只會留三張。）」、阿哲「（把學士帽丟上去，沒接到）……再一次。」、柏翰「學士帽要等典禮那天才丟。」；去了＝12:30 沒有照片',
+    check('4. 4/28 椰影大道：「（學士服是租的，袖子太長。Alison 拍了兩百張，說只會留三張。）」、阿哲「（把學士帽丟上去，沒接到）……再一次。」、柏翰「學士帽要等典禮那天才丟。」；去了＝12:30 沒有照片',
       J(Lg)===J([L().gradNarr,L().gradZhe,L().gradBohan])&&H.G.flags.Y4_GRAD_PHOTO==='went'&&!msgs(NG).some(m=>m.tag==='tw_y4s2_grad_miss'),J(Lg));
     G=fresh('2029-04-26',21.05); rules(); setT('2029-04-28',12.4); rules(); const before=msgs(NG).some(m=>m.tag==='tw_y4s2_grad_miss'); setT('2029-04-28',12.6); rules();
-    check('4. 沒去（沒回）：4/28 12:30 Alison「（照片：椰林大道，一排人穿著學士服，中間空了一個位子）」「你的位子我們留了」',!before&&J(grp(NG,'tw_y4s2_grad_miss'))===J(['yu:（照片：椰林大道，一排人穿著學士服，中間空了一個位子）','yu:你的位子我們留了'])&&G.flags.Y4_GRAD_PHOTO==='missed');
+    check('4. 沒去（沒回）：4/28 12:30 Alison「（照片：椰影大道，一排人穿著學士服，中間空了一個位子）」「你的位子我們留了」',!before&&J(grp(NG,'tw_y4s2_grad_miss'))===J(['yu:（照片：椰影大道，一排人穿著學士服，中間空了一個位子）','yu:你的位子我們留了'])&&G.flags.Y4_GRAD_PHOTO==='missed');
     for(const [k,t,flag,reply] of [[0,'謝謝麵店的阿姨。','auntie',null],[1,'謝謝那幾年的週四。','thursday',null],[2,'還沒想好。','notyet','我幫你寫：還沒想好。']]){
       G=fresh('2029-05-04',21.05); rules(); const y=msgs(NG).filter(m=>m.tag==='tw_y4s2_yearbook'); const opts=y.length?y[0].ask.opts.map(o=>o.t):[]; PHONE.answer(G,'tw_y4s2_yearbook',k); const last=msgs(NG).slice(-1)[0];
       check('4. 5/4（五）21:00 柏翰「畢業紀念冊的一句話，今天截止。」三選一：「'+t+'」＝YEARBOOK_LINE '+flag+(reply?'、柏翰「'+reply+'」':''),y.length===1&&y[0].from===BH&&y[0].text===L().yearbook&&J(opts)===J(['謝謝麵店的阿姨。','謝謝那幾年的週四。','還沒想好。'])&&G.flags.YEARBOOK_LINE===flag&&(reply?last.from===BH&&last.text===reply:last.text===t),J([opts,last])); }

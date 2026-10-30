@@ -55,7 +55,7 @@ const GROUP=(function(){
   S.springChoose=function(GM,k,o){ o=o||{}; const G=GM.G, F=G.flags, D=S.springDays(), kx=!!F.dating_kexin, g=grp(G); F.SPRING_Y2=k;
     const KX=(day,h,L,tag)=>PHONE.at(G,day,h,L.map(t=>({th:'p:kexin',from:'kexin',text:t})),tag);
     if(k==='noodle') plan(G,{id:'ndl_trip_y2s2',ev:'ev_spring_y2_noodle',day:D.trip,h:8,place:'臺北的家（先回家取車）',title:'春假：開車載麵店團',travel:'回家取車約 30 分鐘',travelH:0.5,back:'回到台北。'});
-    if(k==='kexin') plan(G,{id:'kx_trip_y2s2',ev:'ev_kexin_trip_spring_y2',day:D.d0,h:7+40/60,place:'政大校門口（先回家取車）',title:'春假：開車旅行',travel:'回家取車約 30 分鐘，再開到政大接她',travelH:40/60,back:'送她回政大，再把車開回家。'});
+    if(k==='kexin') plan(G,{id:'kx_trip_y2s2',ev:'ev_kexin_trip_spring_y2',day:D.d0,h:7+40/60,place:'木柵大學校門口（先回家取車）',title:'春假：開車旅行',travel:'回家取車約 30 分鐘，再開到木柵大學接她',travelH:40/60,back:'送她回木柵大學，再把車開回家。'});
     if(kx&&(k==='noodle'||k==='dorm')){ if(!o.silent) KX(G.day,G.hour+0.1,['好。那暑假再去。'],'kx_spring2_reply'); KX(D.d0,21.5,['📷（她和予樂在讀書會的長桌，桌上兩疊講義）','春假。我們在讀書。'],'kx_spring2_photo'); F.KX_TRIP_DEFERRED='summer'; }
     S.springPick(G,k,o);
     if(k!=='noodle'&&g) S.springPhoto(G); };
@@ -150,10 +150,10 @@ const GROUP=(function(){
   S.gradDays=()=>({inv:DK(GR.inv),d:DK(GR.d)});
   S.gradPhone=function(G){ const F=G.flags, {inv,d}=S.gradDays(); if(inv==null||G.day<inv||G.day>d+1) return; const now=T(G.day,G.hour), jp=inJP(G,d), Q=msg('p:heroine_04','heroine_04');
     if(!jp&&G.day<=d&&now>=T(inv,21)&&!PHONE.sent(G,'y3_zq_grad')&&met(G,'heroine_04','FRIEND')){
-      const L=(dating(G,'heroine_04')?['明天早上畢業典禮','九點 椰林大道','你來的話我會很緊張','所以你要來']:['明天早上畢業典禮','九點 椰林大道','你要來喔']).map(Q);
+      const L=(dating(G,'heroine_04')?['明天早上畢業典禮','九點 椰影大道','你來的話我會很緊張','所以你要來']:['明天早上畢業典禮','九點 椰影大道','你要來喔']).map(Q);
       L[L.length-1].ask={id:'y3_zq_grad',until:T(d,9),opts:[{t:'去。',set:{ZQ_GRAD_GO:true},say:[{from:'heroine_04',text:'好 那你負責拍'}]},{t:'那天我有事。',set:{ZQ_GRAD_GO:false},say:[{from:'heroine_04',text:'好 那拍給你看'}]}]};
       PHONE.at(G,inv,atH(G,inv,21),L,'y3_zq_grad'); }
-    if(F.ZQ_GRAD_GO===true&&!outGet(G,'y3_zq_grad')&&(G.day<d||(G.day===d&&G.hour<11))) plan(G,{id:'y3_zq_grad',ev:'ev_zq_zr_graduation',day:d,h:9,late:2,place:'椰林大道',title:'子晴、芷若的畢業典禮',travel:'走過去約 10 分鐘',travelH:1/6});
+    if(F.ZQ_GRAD_GO===true&&!outGet(G,'y3_zq_grad')&&(G.day<d||(G.day===d&&G.hour<11))) plan(G,{id:'y3_zq_grad',ev:'ev_zq_zr_graduation',day:d,h:9,late:2,place:'椰影大道',title:'子晴、芷若的畢業典禮',travel:'走過去約 10 分鐘',travelH:1/6});
     if(!jp&&PHONE.sent(G,'y3_zq_grad')&&!evDone(G,'ev_zq_zr_graduation')&&now>=T(d,12.5)&&!PHONE.sent(G,'y3_zq_grad_photo')){   /* 沒去上午 */
       PHONE.at(G,d,12.5,['（一張自拍，學士帽歪的）','你沒來','帽子是故意歪的 不要笑'].map(Q),'y3_zq_grad_photo'); if(F.GRAD_ZQ_ZR==null) F.GRAD_ZQ_ZR='photo'; }
     if(jp&&now>=T(d,tw(G,d,12.5))){   /* 日本路線：只有照片（子晴：BB_98 4-5 照 4-4 傳照片；芷若：AA_324 1C-05、BB_98 3-5）*/

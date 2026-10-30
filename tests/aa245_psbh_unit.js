@@ -5,6 +5,7 @@
 //   AA_409（企劃線 86016b84；使用者 10-23 選擇題：沛珊大一上期末可以交往）逐字對稿
 //   3 大二上第 6 週的分手：ev_peishan_split 交往中不演（AA_374 已做，對照）、ev_peishan_bohan_split 不會演（只留一件）
 // 修改前（開發分支 b947f4eb）：第 0 節照樣過，第 1 節「交往中」、第 2 節 FAIL。用法：node tests/aa245_psbh_unit.js
+require('./alison.js');   // 讀企劃稿（git show）照匯入工具同一套換：Alison、虛構校名（WORLD-RENAME-1030，docs/WORLD_NAMING.md）
 const fs=require('fs'), vm=require('vm'), path=require('path');
 const ROOT=path.resolve(__dirname,'..');
 global.window=global; global.self=global; global.P3={CAST:{}};
@@ -47,7 +48,7 @@ const s1=(DOC.split('## 1.')[1]||'').split('\n## ')[0], bq=s1.split('\n').filter
 let D409=''; try{ D409=execSync('git -c core.quotepath=false show 86016b84:"docs/story_planning/AA_409_沛珊大一上期末可以交往_交往中的大一下.md"',{cwd:ROOT,encoding:'utf8'}); }catch(e){}
 const NEW=['（沛珊坐在你旁邊。她把碗裡的滷蛋夾了一半，放到你碗裡。）','……喔。','全桌安靜三秒。','對。你們吃你們的。','（Alison 在桌子底下踢了阿哲一腳。）'], OLD=['（柏翰把每個人的麵錢算好，寫在餐巾紙上。）','一個人一百一十五。阿哲你多一顆蛋，一百二十五。','……你連這個都算。'];
 const W4=['（讀書會結束。你收白板的時候，沛珊站在門口等。）','今天那一題，你講得很好。……我想多聽你講。',   /* AA_525 2-4 P-6：原「下週那一題，你報。……我想聽你講。」（2026-10-30 AA_525 改稿，企劃線 6081f725f：tests/aa525_promises_unit.js） */
-  '（你們一起走出萬才館。柏翰走在前面，一個人。）'], TOLD='（沛珊把碗裡的滷蛋夾了一半，放到你碗裡。沒有人說話。）';
+  '（你們一起走出法律系館B。柏翰走在前面，一個人。）'], TOLD='（沛珊把碗裡的滷蛋夾了一半，放到你碗裡。沒有人說話。）';
 const W4_409=W4.map(t=>t==='今天那一題，你講得很好。……我想多聽你講。'?'下週那一題，你報。……我想聽你講。':t);   /* AA_409 的稿還是原句（AA_525 2-4 改的那一句對 AA_525：tests/aa525_promises_unit.js）*/
 check('0. 讀稿：AA_409 第 1、2 節交往中的句子都在稿裡（一字不差；AA_525 改掉的那一句對原句）',!!D409&&[...NEW,...W4_409,TOLD].every(t=>D409.includes(t.replace(/^（|）$/g,''))),J([...NEW,...W4_409,TOLD].filter(t=>!D409.includes(t.replace(/^（|）$/g,'')))));
 (async()=>{
@@ -61,7 +62,7 @@ check('0. 讀稿：AA_409 第 1、2 節交往中的句子都在稿裡（一字�
   const w4=ev('ev_peishan_bohan_w4'), pre=dating=>{ fresh(termDay('Y1S2',4,4),18,'wancai',dating?{dating_classmate_peishan:true}:{}); R('classmate_peishan','FRI'); return EVENTS.cond(w4.prereq); };
   check('2. 「走出萬才館」：交往中也演（prereq 成立）；沒交往照舊',!!w4&&pre(false)===true&&pre(true)===true,J([pre(false),pre(true)]));
   { pre(true); said=[]; await EVENTS.run(w4); const L=said.map(x=>x.t); pre(false); said=[]; await EVENTS.run(w4); const L0=said.map(x=>x.t);
-    check('2. 交往中＝她等你收白板、「今天那一題，你講得很好。……我想多聽你講。」（AA_525 2-4）、柏翰走在前面（AA_409 第 2 節）；沒交往＝沛珊和柏翰一起走出萬才館',J(L)===J(W4)&&L0[0]==='（讀書會結束。沛珊和柏翰一起走出萬才館，一路在爭下週誰報告哪一題。）',J([L,L0])); }
+    check('2. 交往中＝她等你收白板、「今天那一題，你講得很好。……我想多聽你講。」（AA_525 2-4）、柏翰走在前面（AA_409 第 2 節）；沒交往＝沛珊和柏翰一起走出法律系館B',J(L)===J(W4)&&L0[0]==='（讀書會結束。沛珊和柏翰一起走出法律系館B，一路在爭下週誰報告哪一題。）',J([L,L0])); }
   const sp=dating=>{ fresh(termDay('Y2S1',6,1),12.3,'linze',dating?{dating_classmate_peishan:true}:{}); R('classmate_peishan','FRI'); return EVENTS.check(ev('ev_peishan_split')); };
   const bs=()=>{ fresh(termDay('Y2S1',6,1),12.3,'linze',{}); R('classmate_peishan','FRI'); return EVENTS.cond(ev('ev_peishan_bohan_split').prereq); };
   check('3. 大二上第 6 週的分手只演一件：ev_peishan_split 沒交往照演、交往中不演（AA_374，對照）；ev_peishan_bohan_split 不演',sp(false)===true&&sp(true)===false&&bs()===false,J([sp(false),sp(true),bs()]));

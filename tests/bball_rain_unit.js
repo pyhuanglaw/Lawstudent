@@ -156,7 +156,7 @@ check('0. activities.js 的系籃練球有下雨的備案（rain：gym、新體�
 // ---------- 5. 手機、tick ----------
 { const G=mkG(FRI,17.75,'rain'), p=ACTIVITIES.placeOf?ACTIVITIES.placeOf(A,G):null, G2=mkG(FRI,17.75,'clear'), q=ACTIVITIES.placeOf?ACTIVITIES.placeOf(A,G2):null;
   const src=fs.readFileSync(path.join(ROOT,'src/game3d.js'),'utf8');
-  check('5. 手機「活動」今天那一場：下雨＝新體育館一樓走廊（前往 gym）、晴天＝籃球場（醉月湖東側）（ACTIVITIES.placeOf；game3d.js eventsHTML 用它）',!!p&&p.zone==='gym'&&p.roomName==='新體育館一樓走廊'&&!!q&&q.zone==='campus'&&q.roomName==='籃球場（醉月湖東側）'&&/const pa=k===0&&ACTIVITIES\.placeOf\?ACTIVITIES\.placeOf\(a,G\):a;[^\n]*\n[^\n]*const where=pa\.roomName[^\n]*q\[0\]===pa\.zone/.test(src),JSON.stringify([p,q])); }
+  check('5. 手機「活動」今天那一場：下雨＝新體育館一樓走廊（前往 gym）、晴天＝籃球場（映月湖東側）（ACTIVITIES.placeOf；game3d.js eventsHTML 用它）',!!p&&p.zone==='gym'&&p.roomName==='新體育館一樓走廊'&&!!q&&q.zone==='campus'&&q.roomName==='籃球場（映月湖東側）'&&/const pa=k===0&&ACTIVITIES\.placeOf\?ACTIVITIES\.placeOf\(a,G\):a;[^\n]*\n[^\n]*const where=pa\.roomName[^\n]*q\[0\]===pa\.zone/.test(src),JSON.stringify([p,q])); }
 { const G=mkG(FRI,17.4,'rain'); if(ACTIVITIES.rainLock) ACTIVITIES.rainLock(G); const r0=!!(G.acts&&G.acts.wx); G.hour=17.52; if(ACTIVITIES.rainLock) ACTIVITIES.rainLock(G); const r1=G.acts&&G.acts.wx&&G.acts.wx.dept_basketball;
   const src=fs.readFileSync(path.join(ROOT,'src/classes3d.js'),'utf8');
   check('5. 課表的 tick（classes3d.js S.tick）每一格叫 ACTIVITIES.rainLock：17:24 不記、17:31 照那時的天氣記',!r0&&!!r1&&r1.rain===true&&/S\.tick=function\(GM\)\{[^\n]*\n\s*if\(typeof ACTIVITIES!=='undefined'&&ACTIVITIES\.rainLock\) ACTIVITIES\.rainLock\(G\);/.test(src),JSON.stringify(r1)); }

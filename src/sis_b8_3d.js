@@ -38,7 +38,7 @@ const SISB8=(function(){
       out:{id:'sisb8_lunch',ev:'ev_sis_lunch_y2',day:'2026-11-06',h:12+20/60,late:0.25,place:'公館・自助餐',title:'直屬的午餐（公館的自助餐）',travel:'走路 約 15 分鐘',travelH:0.25}},
     {k:'ch1',ask:'2027-07-20',h:21,lines:L.ch1Ask,flag:'SIS_CH1_READ',go:'SIS_CH1_GO',
       opts:[{t:L.ch1Yes,go:true},{t:L.ch1Q,go:true,r:L.ch1QR},{t:L.ch1NoT,go:false,r:L.ch1No}],
-      out:{id:'sisb8_ch1',ev:'ev_sis_ch1_read',day:'2027-07-22',h:15,late:0.25,place:'霖澤館・研究室',title:'研究室（幫學姊讀論文第一章）',travel:'走路 約 10 分鐘',travelH:1/6},
+      out:{id:'sisb8_ch1',ev:'ev_sis_ch1_read',day:'2027-07-22',h:15,late:0.25,place:'法律系館A・研究室',title:'研究室（幫學姊讀論文第一章）',travel:'走路 約 10 分鐘',travelH:1/6},
       no:{day:'2027-07-25',h:21,lines:[L.ch1Mail],flagNo:'mail'}} ];
   S.asks=function(G){ const F=G.flags;
     for(const a of S.ASKS){ const d=D(a.ask), od=D(a.out.day); if(d==null||od==null||!Array.isArray(a.lines)) continue; const tag='sisb8_'+a.k+'_ask';

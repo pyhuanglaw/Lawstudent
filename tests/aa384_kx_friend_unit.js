@@ -14,6 +14,7 @@
 //   讀得到稿、MSG_POOL 的「祐廷在國外」兩則、照朋友以前的短回覆兩項、沒有問課、謝謝還好嗎不開、交往中 L 層、尾聲兩個對照、自然的日子只有放榜、劇情出遊不算、玩家自己約的照算、畢業那天兩個對照。
 // 用法：node tests/aa384_kx_friend_unit.js（第 1 節要讀企劃線的 b6588bf5：git fetch 過企劃線才讀得到）
 'use strict';
+require('./alison.js');   // 讀企劃稿（git show）照匯入工具同一套換：Alison、虛構校名（WORLD-RENAME-1030，docs/WORLD_NAMING.md）
 const H=require('./pg_harness.js');
 const fs=require('fs'), vm=require('vm'), path=require('path'), cp=require('child_process');
 const {check,GM}=H;
@@ -93,7 +94,7 @@ await sec(2,async()=>{
     const v=send(G,D('2028-12-25'),14,'chat');
     check('2. 放假但她還在臺北（大四寒假 12/25 留在臺北）：一般版',gen.some(m=>eq(m,v.her)),JSON.stringify(v.her));
     const sc=send(G,D('2027-10-08'),14,'share','cat'), sf=send(G,D('2027-10-09'),14,'share','food'), sn=send(G,D('2027-10-10'),14,'share','notes');
-    check('2. 分享：貓「政大的貓還是比較胖。」、吃的「看起來不錯。」「下次跟予樂去吃。」、講義「你的字還是一樣醜。」',eq(sc.her,['政大的貓還是比較胖。'])&&eq(sf.her,['看起來不錯。','下次跟予樂去吃。'])&&eq(sn.her,['你的字還是一樣醜。']),JSON.stringify([sc.her,sf.her,sn.her]));
+    check('2. 分享：貓「木柵大學的貓還是比較胖。」、吃的「看起來不錯。」「下次跟予樂去吃。」、講義「你的字還是一樣醜。」',eq(sc.her,['木柵大學的貓還是比較胖。'])&&eq(sf.her,['看起來不錯。','下次跟予樂去吃。'])&&eq(sn.her,['你的字還是一樣醜。']),JSON.stringify([sc.her,sf.her,sn.her]));
     const tpDay=topicsAt(G,D('2027-10-11'),15), tpNight=topicsAt(G,D('2027-10-11'),22);
     const n1=send(G,D('2027-10-11'),22,'night'), n2=send(G,D('2027-10-12'),22,'night'), n3=send(G,D('2027-10-15'),22,'night');
     check('2. 晚安：晚上才有（下午沒有；不看熟悉度——這個存檔她只有第 1 階）、兩則輪流「晚安。」「嗯，晚安。」',!tpDay.includes('night')&&tpNight.includes('night')&&DATE.stageNum('kexin')<4&&eq([n1.her,n2.her,n3.her],[['晚安。'],['嗯，晚安。'],['晚安。']]),JSON.stringify({tpDay,tpNight,st:DATE.stageNum('kexin'),n:[n1.her,n2.her,n3.her]}));

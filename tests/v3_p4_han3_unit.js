@@ -64,7 +64,7 @@ GM.money=function(n){ G.money+=n; };
   base(w1); PHONE.join(G,'public_law','公法讀書會'); G.events.done.ev_peishan_handover=1; run(21.5,21.7);
   check('3. 有去：沒有那一則',!PHONE.sent(G,'ps_p4_missed'));
   base(w1); PHONE.join(G,'public_law','公法讀書會'); G.events.done.ev_peishan_handover=1; G.flags.STUDYGROUP_LEADER=true; run(21.8,22.2);
-  check('3. 接了（STUDYGROUP_LEADER）：12/17 22:00 沛珊「這學期的題目和筆記，我放在萬才館櫃子的第二格。」→「收到。」（BB_205 第 2 節；AA_281 改字）',txt('p:classmate_peishan').includes('classmate_peishan:這學期的題目和筆記，我放在萬才館櫃子的第二格。'));
+  check('3. 接了（STUDYGROUP_LEADER）：12/17 22:00 沛珊「這學期的題目和筆記，我放在B館櫃子的第二格。」→「收到。」（BB_205 第 2 節；AA_281 改字）',txt('p:classmate_peishan').includes('classmate_peishan:這學期的題目和筆記，我放在B館櫃子的第二格。'));
   base(w2); e=CLS.clubEvent(G,A);
   check('4. 柏翰接：第 2 週週四讀書會＝翰 3',!!e&&e.id==='ev_bohan_scores',e&&e.id);
   base(w2,{flags:{STUDYGROUP_LEADER:true}}); e=CLS.clubEvent(G,A);

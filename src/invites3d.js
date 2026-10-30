@@ -55,7 +55,7 @@ const INV=(function(){
     if(!pres.here&&pres.kind==='trip'&&!tc) return pres.away+'，不在臺北。';   /* 方奕廷暑假上山（BB_171）*/
     if(!pres.here&&pres.kind==='home'&&!pres.keep&&!hvOk(G,id)&&!tc&&pres.home) return '回'+pres.home+'了，不在臺北。';   /* 明軒回彰化、方奕廷回台中（BB_171）；可昕、沛珊照下面（可以去找她）*/
     if(!pres.here&&pres.kind==='city'&&!hvOk(G,id)) return pres.lost?pres.away:'在'+pres.city+'，不在臺北。';   /* 沛珊大三起在台南（AA_282）：還沒重新聯絡上＝「很久沒聯絡」；可以去台南找她的照下面 */
-    if(!pres.here&&/^econ_/.test(id)&&(G.stage||'law')==='law'&&pres.kind!=='home'&&pres.kind!=='trip') return '在台大經濟系';   /* 經濟系的同學在法律系那幾年還在台大經濟系，不是「這學期不在學校」（2026-10-18 使用者）*/
+    if(!pres.here&&/^econ_/.test(id)&&(G.stage||'law')==='law'&&pres.kind!=='home'&&pres.kind!=='trip') return '在首都帝大經濟系';   /* 經濟系的同學在法律系那幾年還在台大經濟系，不是「這學期不在學校」（2026-10-18 使用者）*/
     if(!pres.here&&pres.kind!=='taipei'&&!((pres.kind==='home'||pres.kind==='city')&&hvOk(G,id))&&!tc) return fmtWhy(pres.kind==='after'?W.graduated:((pres.kind==='absent'||pres.kind==='abroad')?W.abroad:W.away),{pr})||'這學期不在學校';   /* abroad：characters.js absentDates 的交換（以安 3/25～8/5 在日本、學姊 8/2～12/23 在美國）＝「{pr}這學期在國外。」（AA_341 J-S16）；city：沛珊大三起在台南（AA_282）*/
     const b=S.booked(G,id); if(b) return fmtWhy(W.booked,{when:'週'+WK[wdOf(G,b.day)]+' '+hh(b.h),place:(S.place(b.place)||{}).name||''});
     if(typeof SOCIAL!=='undefined'&&SOCIAL.stage&&SOCIAL.stage(id)==='STRANGER') return W.stranger||'還不太熟';

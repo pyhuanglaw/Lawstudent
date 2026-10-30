@@ -24,7 +24,7 @@ const LOOK=['（小窗裡：她站在黑板前面。一年級的學弟妹低著�
 (async()=>{
 await sec(0,()=>{ const html=fs.readFileSync(path.join(H.ROOT,'index.html'),'utf8');
   check('0. src/closed3d.js 載得到、index.html 接在 lab5f3d.js 後面',ok&&!!X()&&/lab5f3d\.js\?v=[^"]+"><\/script>\n<script src="src\/closed3d\.js\?v=[^"]+"><\/script>/.test(html),err);
-  const sc=CHARACTERS[SIS].daily_schedule, a=sc.find(q=>q.away==='在霖澤館 101 帶演習課'), b=sc.find(q=>q.zone==='linze'&&q.act==='linger'&&q.terms&&q.terms.includes('Y2S1'));
+  const sc=CHARACTERS[SIS].daily_schedule, a=sc.find(q=>q.away==='在法律系館A 101 帶演習課'), b=sc.find(q=>q.zone==='linze'&&q.act==='linger'&&q.terms&&q.terms.includes('Y2S1'));
   check('0. 學姊作息：週二 18:30～20:20 在 101 帶演習課、20:20～20:40 在 101 門口（Y2S1、第 4～15 週扣期中；AA_518 4-14）',!!a&&!!b&&a.from===18.5&&Math.abs(a.to-(20+20/60))<1e-9&&J(a.weeks)===J([4,5,6,7,10,11,12,13,14,15])&&J(b.weeks)===J([4,5,6,7,10,11,12,13,14,15])&&Math.abs(b.from-(20+20/60))<1e-9&&Math.abs(b.to-(20+40/60))<1e-9,J([a,b].map(q=>q&&{f:q.from,t:q.to,w:q.weeks})));
   check('0. SISY23.preTalk 包了一層',!!SISY23.preTalk._closed); });
 if(!X()){ H.done(); return; }
@@ -47,10 +47,10 @@ await sec(2,async()=>{ fresh('2026-09-29',19); await STORY.interact(door101,GM);
 
 await sec(3,()=>{ const at=(k,h)=>{ fresh(k,h); return STORY.schedEnt(CHARACTERS[SIS],H.G); };
   const e1=at('2026-09-29',19), e2=at('2026-09-29',20.5), e3=at('2026-09-29',21);
-  check('3. 19:00 不在場景（在 101 帶演習課）',!!e1&&e1.zone===null&&e1.away==='在霖澤館 101 帶演習課',J(e1&&{z:e1.zone,a:e1.away}));
+  check('3. 19:00 不在場景（在 101 帶演習課）',!!e1&&e1.zone===null&&e1.away==='在法律系館A 101 帶演習課',J(e1&&{z:e1.zone,a:e1.away}));
   check('3. 20:30 在霖澤館 101 門口（linger）',!!e2&&e2.zone==='linze'&&e2.act==='linger'&&J(e2.at)===J([-3,-5.4,0,0]),J(e2&&{z:e2.zone,act:e2.act}));
   check('3. 21:00 照舊（不是 101）',!e3||e3.zone!=='linze',J(e3&&{z:e3.zone,act:e3.act}));
-  const e4=at('2026-10-27',19); check('3. 期中週照舊（不在 101）',!e4||e4.away!=='在霖澤館 101 帶演習課'); });
+  const e4=at('2026-10-27',19); check('3. 期中週照舊（不在 101）',!e4||e4.away!=='在法律系館A 101 帶演習課'); });
 
 await sec(4,async()=>{ fresh('2026-09-29',20.4); H.FRIEND(SIS); await SISY23.preTalk(GM);
   check('4. 下課第一次說話：「……你在外面看了多久。」',H.has('……你在外面看了多久。'),J(H.lines()));

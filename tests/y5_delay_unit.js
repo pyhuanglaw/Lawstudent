@@ -26,11 +26,11 @@ const grad=(key,h,flags)=>{ const G=H.fresh(key,h==null?10:h,'dorm',Object.assig
       STORY.termAt(D('2029-12-21'))==='Y4S2'&&STORY.termAt(D('2030-08-11'))==='Y4S2'&&STORY.termAt(D('2029-06-10'))==='Y4S2'&&STORY.termAt(D('2027-07-20'))==='Y2S2'&&STORY.termAt(D('2025-09-17'))==='Y1S1'&&STORY.termAt(D('2024-06-01'))===null,
       [STORY.termAt(D('2029-12-21')),STORY.termAt(D('2030-08-11'))].join(',')); }
   { grad('2029-12-21',10);
-    check('G1. 畢業以後 2029-12-21：以安「台大法研所・碩一」（原本變回「法律系・一年級」）',tag('heroine_01')==='台大法研所・碩一',tag('heroine_01'));
-    check('G1. 畢業以後 2029-12-21：子晴的 presence 是工作室（taipei，不在台大）——原本 termAt＝null 變成「在」',STORY.presence('heroine_04',H.G).here===false&&STORY.presence('heroine_04',H.G).kind==='taipei',JSON.stringify(STORY.presence('heroine_04',H.G)));
+    check('G1. 畢業以後 2029-12-21：以安「首都帝大法研所・碩一」（原本變回「法律系・一年級」）',tag('heroine_01')==='首都帝大法研所・碩一',tag('heroine_01'));
+    check('G1. 畢業以後 2029-12-21：子晴的 presence 是工作室（taipei，不在首都帝大）——原本 termAt＝null 變成「在」',STORY.presence('heroine_04',H.G).here===false&&STORY.presence('heroine_04',H.G).kind==='taipei',JSON.stringify(STORY.presence('heroine_04',H.G)));
     check('G1. 畢業以後 2029-12-21：不熟的同學不再寫「一年級」',!/一年級/.test(tag('pool_1')),tag('pool_1')); }
   { grad('2029-10-01',10);
-    const want={heroine_01:'台大法研所・碩一',heroine_02:'兩點半 Café',heroine_03:'社會系・延畢（修法律必修）',heroine_04:'獨立遊戲工作室',heroine_05:'研究單位',kexin:'政大法律系畢業',zhe:'準備國考',classmate_bohan:'台大法研所・碩一',kai:'資工系畢業・上班',classmate_mingxuan:'德國',yu:'準備司法官',classmate_xinci:'事務所',npc_fangyt:'嘉義'};
+    const want={heroine_01:'首都帝大法研所・碩一',heroine_02:'兩點半 Café',heroine_03:'社會系・延畢（修法律必修）',heroine_04:'獨立遊戲工作室',heroine_05:'研究單位',kexin:'木柵大學法律系畢業',zhe:'準備國考',classmate_bohan:'首都帝大法研所・碩一',kai:'資工系畢業・上班',classmate_mingxuan:'德國',yu:'準備司法官',classmate_xinci:'事務所',npc_fangyt:'嘉義'};
     const bad=Object.keys(want).filter(id=>tag(id)!==want[id]), ps=tag('classmate_peishan');
     check('G1. 2-1 表：畢業以後 2029-10-01，十三個人照表寫「現在在做什麼」；沛珊「照現在（台南）」不換',!bad.length&&ps==='法律系・二年級',bad.map(id=>id+'='+tag(id)).join('、')+'｜沛珊='+ps); }
   { grad('2029-12-14',10); const a=tag('kexin'); grad('2030-07-02',10); const b=tag('heroine_03'); grad('2030-08-11',10); const c=tag('heroine_01'), m=tag('classmate_mingxuan');

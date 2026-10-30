@@ -107,7 +107,7 @@ const meet=id=>SOCIAL.remember(id,'FIRST_MET','');
     check('跨年：「我想在臺北跟麵店團跨年。」＝她回「好。那你幫我跟阿哲說新年快樂。」、KX_NYE {1:roof}（不扣分）',r.includes('好。那你幫我跟阿哲說新年快樂。')&&G.flags.KX_NYE[1]==='roof');
     toNye(20); o=OUT.get(G,'nye'); check('跨年（頂樓）：12/31 23:40 宿舍頂樓（AA_204 2-3）',!!o&&o.ev==='ev_nye_roof'&&Math.abs(o.h-(23+40/60))<1e-6,JSON.stringify(o));
     G.hour=23.6; picks=['出發']; await OUT.tick(GM); let L2=lines();
-    check('跨年（頂樓）：AA 的群戲（「我們就說有看到。」）＋零點前一分鐘她的視訊「三、二、一——」、訊號慢一秒、「……你那邊卡了一秒啦。新年快樂。」（AA_207 §5／BB_167 SC4 第 33 列）；沒見過她的阿哲喊「政大的那位，新年快樂！」',L2[0]==='（十一點四十，男生宿舍頂樓。風很大。信義區那邊的天空，亮了一塊。）'&&L2.includes('……我們就說有看到。')&&L2.includes('三、二、一——')&&L2.includes('……你那邊卡了一秒啦。新年快樂。')&&L2.includes('政大的那位，新年快樂！'),JSON.stringify(L2));
+    check('跨年（頂樓）：AA 的群戲（「我們就說有看到。」）＋零點前一分鐘她的視訊「三、二、一——」、訊號慢一秒、「……你那邊卡了一秒啦。新年快樂。」（AA_207 §5／BB_167 SC4 第 33 列）；沒見過她的阿哲喊「木柵大學的那位，新年快樂！」',L2[0]==='（十一點四十，男生宿舍頂樓。風很大。信義區那邊的天空，亮了一塊。）'&&L2.includes('……我們就說有看到。')&&L2.includes('三、二、一——')&&L2.includes('……你那邊卡了一秒啦。新年快樂。')&&L2.includes('木柵大學的那位，新年快樂！'),JSON.stringify(L2));
     check('跨年（頂樓）：她的視訊（零點前一分鐘）排在群戲「倒數是 Alison 起的頭」之前、零點的旁白之後沒有她（AA_313 第 2 節第 16 列）',L2.indexOf('……你那邊卡了一秒啦。新年快樂。')>=0&&L2.indexOf('……你那邊卡了一秒啦。新年快樂。')<L2.indexOf('（倒數是 Alison 起的頭，數到三，大家才跟上。）')&&L2.indexOf('（倒數是 Alison 起的頭，數到三，大家才跟上。）')<L2.indexOf('（零點。很遠的地方，煙火亮了。只看得到上半截。）'),JSON.stringify(L2));
     ask(1); G.flags.KX_MET_NOODLE_TEAM=true; toNye(20); G.hour=23.6; picks=['出發']; await OUT.tick(GM); L2=lines();
     check('跨年（頂樓）：中秋烤肉見過她的阿哲喊「可昕新年快樂！」',L2.includes('可昕新年快樂！'));

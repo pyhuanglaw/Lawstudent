@@ -18,6 +18,7 @@
 //   這個測試抄的台詞都在稿裡、kxCool 的根據、兩題都選別的＝沒有、沒選過＝都沒有）。修改後 ALL PASS（56 項：第 5 節有資料才多跑的 4 項）。
 // 用法：node tests/aa514_kx_moot3_unit.js
 'use strict';
+require('./alison.js');   // 讀企劃稿（git show）照匯入工具同一套換：Alison、虛構校名（WORLD-RENAME-1030，docs/WORLD_NAMING.md）
 const H=require('./pg_harness.js');
 const fs=require('fs'), vm=require('vm'), path=require('path'), cp=require('child_process');
 const {check,GM}=H, J=JSON.stringify;
@@ -57,8 +58,8 @@ const said=()=>H.said.map(s=>s.t);
 const seq=(got,want)=>{ for(let i=0;i+want.length<=got.length;i++) if(want.every((w,k)=>got[i+k]===w)) return true; return false; };
 const herAfter=n=>(H.G.msgs||[]).slice(n).filter(m=>m.from===KX).map(m=>m.text);
 /* 台詞（照 AA_514 原文抄；比對遊戲實際傳出來、說出來的）*/
-const ASK3=['禮拜六下午兩點。政大，模擬法庭。','你說過要來看。','最後一排。'];
-const NAR=['（政大的模擬法庭教室。法官席坐著三個學長姊，旁聽席坐了一半。你坐最後一排。）','（她穿著法袍走進來，沒有往後看。）','（輪到她。講到第二個爭點，她抬頭看了旁聽席一眼，停了半秒，才接著講。）',
+const ASK3=['禮拜六下午兩點。木柵大學，模擬法庭。','你說過要來看。','最後一排。'];
+const NAR=['（木柵大學的模擬法庭教室。法官席坐著三個學長姊，旁聽席坐了一半。你坐最後一排。）','（她穿著法袍走進來，沒有往後看。）','（輪到她。講到第二個爭點，她抬頭看了旁聽席一眼，停了半秒，才接著講。）',
   '（宣判的時候，她們那一組贏了。她只點了一下頭。）','（散場以後，她在教室門口等。法袍已經脫了，掛在手上。）'];
 const SAW=['我看到你了。最後一排，左邊數來第三個。','講到第二個爭點的時候。……差點忘詞。'];
 const OPTS=['「妳講得很好。」','「我有坐最後一排。」','「要不要去吃東西？」'];
@@ -80,7 +81,7 @@ await sec('0',async()=>{
   check('0. 劇情匯入白名單：AA_514 @ '+SHA+'、approved、approvedBy AA-C、任務 KX-MOOT3-1028',A.length===1&&A[0].sha===SHA&&A[0].status==='approved'&&/AA-C/.test(A[0].approvedBy||'')&&A[0].task==='KX-MOOT3-1028',J(A));
   check('0. 人物頁記憶 KX_MOOT3_CAME「'+MEM_LABEL+'」（稿 1-2）',(SOCIAL.MEMORY_LABEL||{}).KX_MOOT3_CAME===MEM_LABEL&&inDoc('人物頁「'+MEM_LABEL+'」'));
   /* ① 遊戲 → 稿 */
-  const CAP_OK={'政大・山下的小吃街':'AA_514 第 4 節第 2 點：麵店那段換 nccu_food；地點字幕照 kxdrift3d.js OD_SCENE.nccu（稿沒寫字幕）'};
+  const CAP_OK={'木柵大學・山下的小吃街':'AA_514 第 4 節第 2 點：麵店那段換 nccu_food；地點字幕照 kxdrift3d.js OD_SCENE.nccu（稿沒寫字幕）'};
   const bad=[], Lx=L(), T_=t=>{ if(typeof t==='string'&&t!==''&&!inDoc(t)) bad.push(t); };
   if(!Lx||!ev(EV)) bad.push('沒有 KX_MOOT3_LINES／ev_kexin_moot3');
   else { for(const k in Lx){ const v=Lx[k]; if(Array.isArray(v)) v.forEach(x=>{ if(x&&typeof x==='object'){ T_(x.t); (x.r||[]).forEach(T_); } else T_(x); }); else T_(v); }
@@ -101,7 +102,7 @@ await sec('0',async()=>{
   const missL=lines.filter(t=>!gameKx.has(t)), missN=nars.filter(t=>!gameNar.has(t)), missO=opts.filter(t=>!phoneOpts.has(t)&&!evOpts.has('「'+t+'」'));
   check('0. ② 稿第 1 節「可昕：」'+lines.length+' 句、旁白 '+nars.length+' 句、選項 '+opts.length+' 個都在遊戲裡（私訊的回覆鍵＝原字，2D 的選項加「」）',lines.length===15&&nars.length===6&&opts.length===5&&!missL.length&&!missN.length&&!missO.length,J({n:[lines.length,nars.length,opts.length],missL,missN,missO}));
   check('0. 這個測試抄的台詞也都在稿裡（下面逐句比對用）',ASK3.concat(NAR,SAW,OPTS,...OPT_R,CLOSE,MISSED,[NOSHOW,'好。不要遲到。']).every(inDoc),J(ASK3.concat(NAR,SAW,OPTS,...OPT_R,CLOSE,MISSED,[NOSHOW]).filter(t=>!inDoc(t))));
-  check('0. 稿 1-2：地點字幕「政大・模擬法庭教室」、底圖先用 classroom_small（事件的第一個場景）',!!ev(EV)&&J(ev(EV).dialogue[0])===J({scene:'政大・模擬法庭教室',bg:'classroom_small'})&&inDoc('底圖先用 `classroom_small`，地點字幕「政大・模擬法庭教室」'));
+  check('0. 稿 1-2：地點字幕「木柵大學・模擬法庭教室」、底圖先用 classroom_small（事件的第一個場景）',!!ev(EV)&&J(ev(EV).dialogue[0])===J({scene:'木柵大學・模擬法庭教室',bg:'classroom_small'})&&inDoc('底圖先用 `classroom_small`，地點字幕「木柵大學・模擬法庭教室」'));
   /* ② 稿 → 遊戲：第 2 節的表（第 4b 列）*/
   const s2=doc.slice(doc.indexOf('## 2. '),doc.indexOf('## 3. ')), row=s2.split('\n').find(l=>/^\|\s*4b\s*\|/.test(l));
   const c=row?row.trim().replace(/^\||\|$/g,'').split('|').map(x=>x.trim()):[], qs=s=>[...String(s||'').matchAll(/「([^」]*)」/g)].map(m=>m[1]);
@@ -150,14 +151,14 @@ await sec('3',async()=>{
   for(const k of [0,1,2]){
     invite('FRIEND',{KX_WATCH:true}); const n=(H.G.msgs||[]).length; const a=PHONE.answer(H.G,ASK,0); const reply=herAfter(n); rules(); const q=q0();
     if(k===0){ check('3. 回「去。」→她回「好。不要遲到。」（KX_MOOT3_GO true）',!!a&&J(reply)===J(['好。不要遲到。'])&&H.G.flags.KX_MOOT3_GO===true,J(reply));
-      check('3. 排 12/4（六）14:00 的出遊：政大、開車約 40 分鐘、晚 30 分鐘以內還能出發、2.5 小時、alarm、事件 ev_kexin_moot3',!!q&&q.ev===EV&&q.day===DM&&q.h===14&&q.late===0.5&&q.place==='政大'&&q.travel==='開車約 40 分鐘'&&Math.abs(q.travelH-2/3)<1e-9&&q.hours===2.5&&q.alarm===true&&q.state==='planned',J(q));
+      check('3. 排 12/4（六）14:00 的出遊：木柵大學、開車約 40 分鐘、晚 30 分鐘以內還能出發、2.5 小時、alarm、事件 ev_kexin_moot3',!!q&&q.ev===EV&&q.day===DM&&q.h===14&&q.late===0.5&&q.place==='木柵大學'&&q.travel==='開車約 40 分鐘'&&Math.abs(q.travelH-2/3)<1e-9&&q.hours===2.5&&q.alarm===true&&q.state==='planned',J(q));
       go(DM,13); const d0=OUT.due(H.G); go(DM,13+10/60); const d1=OUT.due(H.G);
       check('3. 13:00 還不用出發、13:10 該出發了（OUT.due）',!d0&&!!d1&&d1.id===OUT_ID,J([d0&&d0.id,d1&&d1.id])); }
     at(DM,13+10/60); const caps=[], c0=GM.caption; GM.caption=(a,b)=>{ caps.push(b); }; H.said=[]; H.opts=[]; H.picks=[k]; H.bgs=[]; H.cards=[];
     try{ if(q) await OUT.go(GM,q); } finally { GM.caption=c0; }
     const got=said(), want=NAR.concat(SAW,OPT_R[k],CLOSE);
     check('3. 選第 '+(k+1)+' 個（'+OPTS[k]+'）：旁白五句、她的兩句、三選一、'+(k===2?'「要。我餓死了。」＋麵店的旁白':'她回的那一句')+'、接著兩句（一字照稿、照順序）',!!q&&seq(got,want)&&H.opts.some(o=>J(o)===J(OPTS)),J(got.slice(0,14)));
-    if(k===0){ check('3. 字卡「可昕的模擬法庭（政大）／開車約 40 分鐘」、底圖 classroom_small、地點字幕「政大・模擬法庭教室」',H.cards.some(c=>J(c)===J(['可昕的模擬法庭（政大）','開車約 40 分鐘']))&&H.bgs.some(b=>b&&b.image==='assets/bg/classroom_small.webp')&&caps.includes('政大・模擬法庭教室'),J({cards:H.cards,bgs:H.bgs,caps}));
+    if(k===0){ check('3. 字卡「可昕的模擬法庭（木柵大學）／開車約 40 分鐘」、底圖 classroom_small、地點字幕「木柵大學・模擬法庭教室」',H.cards.some(c=>J(c)===J(['可昕的模擬法庭（木柵大學）','開車約 40 分鐘']))&&H.bgs.some(b=>b&&b.image==='assets/bg/classroom_small.webp')&&caps.includes('木柵大學・模擬法庭教室'),J({cards:H.cards,bgs:H.bgs,caps}));
       check('3. 14:00 到、16:30 回來（演 2.5 小時）',H.G.day===DM&&Math.abs(H.G.hour-16.5)<0.02,J([H.G.day,H.G.hour])); }
     check('3. 演完（第 '+(k+1)+' 個）：KX_MOOT3＝came、人物頁 KX_MOOT3_CAME、出遊 done',H.G.flags.KX_MOOT3==='came'&&SOCIAL.has(KX,'KX_MOOT3_CAME')&&!!q&&q.state==='done',J([H.G.flags.KX_MOOT3,q&&q.state]));
     go(DM,21.6); check('3. 有來的（第 '+(k+1)+' 個）：21:30 沒有私訊',!tagged(MISS).length&&H.G.flags.KX_MOOT3==='came'); } });

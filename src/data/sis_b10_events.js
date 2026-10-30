@@ -3,8 +3,8 @@
 'use strict';
 const SISB10_LINES={
   /* 第 1 節：交往中的跨年——私訊、選項、她的回覆；k＝date（去找她）／roof（頂樓＋零點電話）*/
-  nye:{2:{nye:'2026-12-31',ask:'2026-12-24',L:['三十一號晚上，你有事嗎。'],opts:[{t:'阿哲他們揪頂樓。',k:'roof',r:'好。那你去。零點我打給你。'},{t:'沒有。',k:'date',r:'十一點半，醉月湖。人比較少。'}],
-      out:{h:23.5,place:'醉月湖',title:'跨年：醉月湖',travel:'走路 約 10 分鐘',travelH:1/6}},
+  nye:{2:{nye:'2026-12-31',ask:'2026-12-24',L:['三十一號晚上，你有事嗎。'],opts:[{t:'阿哲他們揪頂樓。',k:'roof',r:'好。那你去。零點我打給你。'},{t:'沒有。',k:'date',r:'十一點半，映月湖。人比較少。'}],
+      out:{h:23.5,place:'映月湖',title:'跨年：映月湖',travel:'走路 約 10 分鐘',travelH:1/6}},
     3:{nye:'2027-12-31',ask:'2027-12-24',L:['三十一號我要寫交換的讀書計畫，會寫到很晚。','……十一點以後有空。'],opts:[{t:'我去頂樓。妳寫完打給我。',k:'roof',r:'好。'},{t:'我去找妳。',k:'date',r:'十一點十五分，總圖前面。'}],
       out:{h:23.25,place:'總圖前',title:'跨年：總圖前',travel:'走路 約 10 分鐘',travelH:1/6}},
     4:{nye:'2028-12-31',ask:'2028-12-26',L:['三十一號，我時差應該調好了。','……應該。'],opts:[{t:'我去頂樓。零點打給妳。',k:'roof',r:'好。我會醒著。'},{t:'我去妳家附近找妳。',k:'date',r:'十一點四十，巷口的便利商店。我傳位置給你。'}],
@@ -22,9 +22,9 @@ const SISB10_EVENTS=(function(){
   const C=f=>({custom:G=>!!X()&&f(G,X())});
   return [
     /* ---------- 1-1 大二 2026-12-31 23:30 醉月湖 ---------- */
-    { id:'ev_sis_nye_y2', title:'跨年：醉月湖', participants:[ID], location:'any', trigger:'outing', once:true, background:'dark', hours:0.75,
-      dialogue:[ {scene:'醉月湖',bg:'zuiyue_night'},
-        N('（湖邊沒有幾個人。遠遠的，聽得到椰林大道那邊有人在倒數。）'),
+    { id:'ev_sis_nye_y2', title:'跨年：映月湖', participants:[ID], location:'any', trigger:'outing', once:true, background:'dark', hours:0.75,
+      dialogue:[ {scene:'映月湖',bg:'zuiyue_night'},
+        N('（湖邊沒有幾個人。遠遠的，聽得到椰影大道那邊有人在倒數。）'),
         SIS('我每年這時候都在家，寫明年的計畫本。'),SIS('今年寫到一半就出來了。'),
         {choice:[{text:'「寫到哪裡？」',set:{SIS_NYE_PLAN_Q:true},goto:'a'},{text:'（陪她看湖）',goto:'b'}]},   /* AA_512 第 2 節第 8 點：記 SIS_NYE_PLAN_Q（2029-01-31「明天二月了。」兌現，src/sis_b13_3d.js S.feb）*/
         {label:'a'},SIS('一月。……二月以後，等你一起排。'),{goto:'c'},
@@ -40,7 +40,7 @@ const SISB10_EVENTS=(function(){
         {choice:[{text:'「寫了什麼？」',goto:'a'},{text:'「寄出去了嗎？」',goto:'b'}]},
         {label:'a'},SIS('不告訴你。'),SIS('……寫完了，就不想再看一次。'),{goto:'c'},
         {label:'b'},SIS('還沒。十一點五十九分寄。'),SIS('……我想讓它是今年的事。'),
-        {label:'c'},N('（椰林大道那頭，有人在放仙女棒。）'),SIS('新年快樂。'),N('（她把熱飲換到另一隻手，空出來的那隻，放進你的手裡。）'),
+        {label:'c'},N('（椰影大道那頭，有人在放仙女棒。）'),SIS('新年快樂。'),N('（她把熱飲換到另一隻手，空出來的那隻，放進你的手裡。）'),
         {set:{SIS_NYE_DONE:3}} ],
       outingMissed:(G,GM,q)=>{ const x=X(); if(x) x.nyeDateMissed(G,3,q); } },
     /* ---------- 1-3 大四 2028-12-31 23:40 她家的巷口 ---------- */

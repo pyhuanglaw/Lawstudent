@@ -322,11 +322,11 @@ const JOBS=(function(){
   const tt=t=>typeof OUT!=='undefined'&&OUT.tt?OUT.tt(t):t;
   S.prompt2=async function(GM,q,pr){ const G=GM.G, a=q.job?q:pr.q, b=q.job?pr.q:q; let k=3;
     const hint=x=>[x.place,hm(x.h),x.travel].filter(Boolean).join('　');
-    GM.sceneBegin(); try{ const O=[{t:'出發：'+tt(a.title),hint:hint(a)}, pr.plg?{t:'去公法讀書會',hint:'萬才館研討室 A　20:00'}:{t:'出發：'+tt(b.title),hint:hint(b)}, {t:'晚一點（20 分鐘後再提醒）'}, {t:'這週都請假'}]; k=await GM.choose(O); } finally { GM.sceneEnd(); }
+    GM.sceneBegin(); try{ const O=[{t:'出發：'+tt(a.title),hint:hint(a)}, pr.plg?{t:'去公法讀書會',hint:'法律系館B 研討室 A　20:00'}:{t:'出發：'+tt(b.title),hint:hint(b)}, {t:'晚一點（20 分鐘後再提醒）'}, {t:'這週都請假'}]; k=await GM.choose(O); } finally { GM.sceneEnd(); }
     const miss=x=>{ if(!x||x.state!=='planned') return; x.state='missed'; if(OUT.onMissed) OUT.onMissed(GM,x); };
     if(k===2){ const t0=now(G)+1/3; a.ask=t0; if(b) b.ask=t0; return 'later'; }
     if(k===0){ if(b) miss(b); await OUT.go(GM,a); return 'go'; }
-    if(k===1){ miss(a); if(b) await OUT.go(GM,b); else if(GM.toast) GM.toast('今晚去公法讀書會（20:00，萬才館研討室 A）',3600); return pr.plg?'no':'go'; }
+    if(k===1){ miss(a); if(b) await OUT.go(GM,b); else if(GM.toast) GM.toast('今晚去公法讀書會（20:00，法律系館B 研討室 A）',3600); return pr.plg?'no':'go'; }
     miss(a); if(b) miss(b); return 'no'; };
 
   // ---------- 寒暑假、三週沒去、出國回來（手機）----------

@@ -93,7 +93,7 @@ def make_tex():
 
 class Room(K.Shop):
     def __init__(self):
-        self.sid = SID; self.T = {'name': '萬才館 研討室 B', 'sub': '法服初談室'}; self.S = dict(trim='#5a4a3e', wainH=0.9)
+        self.sid = SID; self.T = {'name': '法律系館B 研討室 B', 'sub': '法服初談室'}; self.S = dict(trim='#5a4a3e', wainH=0.9)
         self.W, self.D = 7.6, 6.0; self.X0, self.X1, self.Z0, self.Z1 = -3.8, 3.8, -3.0, 3.0
         self.rng = random.Random(2028); self.extra = {}
         B.reset(texres=512)
@@ -345,7 +345,7 @@ def build():
             if in_set(ob): set_tris[ob.parent.name] = set_tris.get(ob.parent.name, 0) + n
     common_blocks = list(c.blocks); common_seats = list(c.seats)
     sets = {name.lower(): dict(node='SET_' + name, blocks=common_blocks + S_['blocks'], seats=common_seats + S_['seats'], spots=S_['spots']) for name, S_ in c.SETS.items()}
-    lay = dict(version=1, zone=SID, name='萬才館 研討室 B', type='研討室（法服初談室）', src='AA_399 第 5 節（企劃線 5d09bb725）；LAWWW-B 10-24 03:53 任務 #82',
+    lay = dict(version=1, zone=SID, name='法律系館B 研討室 B', type='研討室（法服初談室）', src='AA_399 第 5 節（企劃線 5d09bb725）；LAWWW-B 10-24 03:53 任務 #82',
                bounds=dict(x0=X0, x1=X1, z0=Z0, z1=Z1), h=H, cam_dist=4.0, door=c.door, spawn=c.spawn, exits=c.exits, windows=c.wins, view='wancai_sema',
                counter=None, clerk=None, teacherSpot=None, order=None, seats=sets['consult']['seats'], interact=c.inter, blocks=sets['consult']['blocks'],
                spots=sets['consult']['spots'], set_default='consult', sets=sets, set_days={'2028-10-26': 'interview'},

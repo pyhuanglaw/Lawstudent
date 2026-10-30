@@ -60,16 +60,16 @@ const POOL_MORE=(function(){
 
   /* ---------- 接資料（AA_498 第 3 節以外各人那條線要的時段）---------- */
   const WHERE={
-    [LY]:[ {days:[1,3],from:18.75,to:19,zone:'wancai',act:'linger',at:[3.0,-5.4,0,0],activity:'club_guitar',terms:['Y1S2'],weeks:[3,4,5,6,7,8,9,10],pri:true,if:{custom:G=>fam(LY)&&!q(G,'PQ_LYR')},desc:'抱著一疊講義的女生',label:'萬才館一樓走廊'},   /* 2-3：吉他社社課那天 18:45（社辦在多功能教室那一側）*/
-      {days:WD,from:18,to:21,zone:'wancai',act:'linger',at:[3.0,-5.4,0,0],terms:['Y3S2'],weeks:[16],pri:true,desc:'抱著一疊講義的女生',label:'萬才館一樓，最後一次來社辦'} ],   /* 2-5 畢業那一週 */
-    [SH]:[ {days:WD,from:12,to:13,zone:'campus',act:'linger',at:[-36.4,-71.0,0,0],terms:['Y3S2'],weeks:[16],pri:true,desc:'走路很快的男生',label:'博雅門口'} ],   /* 3-5 畢業那一週，博雅門口（DOORS.boya (−38,−72.8) 東南）*/
-    [CX]:[ {days:[1,3],from:21,to:22,zone:'campus',act:'linger',at:[97.5,-95,PI,0],pri:true,if:{custom:G=>q(G,'PQ_YCX')==='open'},desc:'背吉他袋的女生',label:'萬才館旁邊，練和弦'},   /* 4-3 打拍子：週一、三 21:00 以後 */
-      {days:WD,from:19,to:21,zone:'campus',act:'linger',at:[97.5,-95,PI,0],terms:['Y3S2'],weeks:[16],pri:true,desc:'背吉他袋的女生',label:'萬才館旁邊'} ],   /* 4-4 她畢業那一週 */
+    [LY]:[ {days:[1,3],from:18.75,to:19,zone:'wancai',act:'linger',at:[3.0,-5.4,0,0],activity:'club_guitar',terms:['Y1S2'],weeks:[3,4,5,6,7,8,9,10],pri:true,if:{custom:G=>fam(LY)&&!q(G,'PQ_LYR')},desc:'抱著一疊講義的女生',label:'法律系館B一樓走廊'},   /* 2-3：吉他社社課那天 18:45（社辦在多功能教室那一側）*/
+      {days:WD,from:18,to:21,zone:'wancai',act:'linger',at:[3.0,-5.4,0,0],terms:['Y3S2'],weeks:[16],pri:true,desc:'抱著一疊講義的女生',label:'法律系館B一樓，最後一次來社辦'} ],   /* 2-5 畢業那一週 */
+    [SH]:[ {days:WD,from:12,to:13,zone:'campus',act:'linger',at:[-36.4,-71.0,0,0],terms:['Y3S2'],weeks:[16],pri:true,desc:'走路很快的男生',label:'博思門口'} ],   /* 3-5 畢業那一週，博雅門口（DOORS.boya (−38,−72.8) 東南）*/
+    [CX]:[ {days:[1,3],from:21,to:22,zone:'campus',act:'linger',at:[97.5,-95,PI,0],pri:true,if:{custom:G=>q(G,'PQ_YCX')==='open'},desc:'背吉他袋的女生',label:'法律系館B旁邊，練和弦'},   /* 4-3 打拍子：週一、三 21:00 以後 */
+      {days:WD,from:19,to:21,zone:'campus',act:'linger',at:[97.5,-95,PI,0],terms:['Y3S2'],weeks:[16],pri:true,desc:'背吉他袋的女生',label:'法律系館B旁邊'} ],   /* 4-4 她畢業那一週 */
     [ZY]:[ {days:WD,from:14,to:18,zone:'library_hall',act:'read',terms:['Y2S1'],weeks:[15],pri:true,noHoliday:true,desc:'騎腳踏車超快的男生',label:'總圖，念書'},   /* 5-4 大二上期末前一週（在總圖）*/
       {days:WD,from:8,to:18,zone:'campus',act:'linger',at:[-117,3.6,-PI/2,0],terms:['Y3S2'],weeks:[16],pri:true,desc:'騎腳踏車超快的男生',label:'校門口，牽著車'} ],   /* 5-5 畢業那一週，校門口 */
     [YS]:[ {days:WD,from:13,to:15,zone:'library',act:'read',seatAt:[-2.4,1.5],terms:['Y2S2'],weeks:[16],pri:true,desc:'愛睡覺的男生',label:'總圖三樓'} ],   /* 4-5 畢業那一週：那張桌子（桌上的紙條在 (−2.4,0.6)）*/
-    [M]:[ {days:[6],from:12,to:12.5,zone:'wancai',act:'linger',at:[1.9,1.6,-PI/2,0],terms:['Y1S2'],weeks:[12,13,14,15],pri:true,if:{custom:G=>typeof STORY!=='undefined'&&!!STORY.fafuDuty&&STORY.fafuDuty(G)},desc:'法服攤位那個人',label:'萬才館一樓，值班結束'} ],   /* 5-3：值班的週六 12:00（值班結束）*/
-    [H]:[ {days:[4],from:8.5,to:10,zone:'linze',act:'linger',at:[4.6,2.6,PI/2,0],dates:[['2028-10-26','2028-10-26']],pri:true,desc:'常跟助教說話的男生',label:'霖澤館一樓，等推甄面試'} ] };   /* 1-6 推甄面試那天 */
+    [M]:[ {days:[6],from:12,to:12.5,zone:'wancai',act:'linger',at:[1.9,1.6,-PI/2,0],terms:['Y1S2'],weeks:[12,13,14,15],pri:true,if:{custom:G=>typeof STORY!=='undefined'&&!!STORY.fafuDuty&&STORY.fafuDuty(G)},desc:'法服攤位那個人',label:'法律系館B一樓，值班結束'} ],   /* 5-3：值班的週六 12:00（值班結束）*/
+    [H]:[ {days:[4],from:8.5,to:10,zone:'linze',act:'linger',at:[4.6,2.6,PI/2,0],dates:[['2028-10-26','2028-10-26']],pri:true,desc:'常跟助教說話的男生',label:'法律系館A一樓，等推甄面試'} ] };   /* 1-6 推甄面試那天 */
   for(const B of [B2,B3,B4]) if(B) P.extend(B,null);
   for(const id in WHERE){ if(P.owns(id)) P.WHERE_MORE[id]=(P.WHERE_MORE[id]||[]).concat(WHERE[id]); }
   P.apply();
@@ -78,7 +78,7 @@ const POOL_MORE=(function(){
     if(!A.some(a=>a&&a[0]==='2027-03-01')) A.push(['2027-03-01','2027-07-31','日本','abroad']); }
   /* 柏翰：推甄面試那天早上也在霖澤館一樓（AA_499 1-6「柏翰和宇軒坐在同一張長椅上」）*/
   if(typeof CHARACTERS!=='undefined'&&CHARACTERS[BH]&&Array.isArray(CHARACTERS[BH].daily_schedule)&&!CHARACTERS[BH].daily_schedule.some(e=>e&&e.poolPush))
-    CHARACTERS[BH].daily_schedule.unshift({days:[4],from:8.5,to:10,zone:'linze',act:'linger',at:[4.6,1.6,PI/2,0],dates:[['2028-10-26','2028-10-26']],pri:true,poolPush:true,label:'霖澤館一樓，等推甄面試'});
+    CHARACTERS[BH].daily_schedule.unshift({days:[4],from:8.5,to:10,zone:'linze',act:'linger',at:[4.6,1.6,PI/2,0],dates:[['2028-10-26','2028-10-26']],pri:true,poolPush:true,label:'法律系館A一樓，等推甄面試'});
   /* 社會圖（AA_499 第 6 節第 2 點）*/
   if(B2&&B2.GRAPH&&typeof SOCIAL_GRAPH!=='undefined'){ const G2=B2.GRAPH;
     for(const c of G2.change){ const e=SOCIAL_GRAPH.find(x=>(x.a===c.a&&x.b===c.b)||(x.a===c.b&&x.b===c.a)); if(e) e.type=c.type; else SOCIAL_GRAPH.push(Object.assign({},c)); }
@@ -87,7 +87,7 @@ const POOL_MORE=(function(){
   if(L[YX]&&L[YX].meetQ){ L[YX].meetPS=L[YX].meetPS.concat(L[YX].meetQ); L[YX].meetAlone=L[YX].meetAlone.concat(L[YX].meetQ); }
   /* 馬佳蓉萬才館值班的認識版本（AA_528 1-2）：原本借社博那一場的台詞（meetDuty）；AA_528 第 9 點（AA-B 10-30 04:55）改成專用版本 meetB（src/data/pool_story_b2.js），meetDuty 不再用 */
   /* 2D 背景（稿：沒有背景圖＝深色底；MISSING_EXTERNAL_ART，BB 跟使用者要）*/
-  if(typeof OUT!=='undefined'&&OUT.BG){ const B={radio_room:'廣播社・錄音間',putong_empty:'普通教學館・空教室',welfare_room:'社福中心・教室',boya_201:'博雅 201',phil_cafe:'文學院・教室',law_courtyard:'法學院・前庭'};
+  if(typeof OUT!=='undefined'&&OUT.BG){ const B={radio_room:'廣播社・錄音間',putong_empty:'普通教學館・空教室',welfare_room:'社福中心・教室',boya_201:'博思 201',phil_cafe:'文學院・教室',law_courtyard:'法學院・前庭'};
     for(const k in B) if(!OUT.BG[k]) OUT.BG[k]={label:B[k],image:null}; }
 
   /* ---------- 認識的那一場（2-3）：這一區、這個時間的版本 ----------
@@ -151,10 +151,10 @@ const POOL_MORE=(function(){
     PQ_LQ:{who:LQ,title:'詹立群：試教'}, PQ_SCE:{who:SC,title:'蘇維倫：週六的課輔'}, PQ_JR:{who:M,title:'馬佳蓉：影印機'}, PQ_TZL:{who:TZ,title:'蔡宗霖：二手書'},
     PQ_LYR:{who:LY,title:'劉晏如：社辦的蟑螂'}, PQ_YSH:{who:SH,title:'楊書豪：第一次上台'}, PQ_YCX:{who:CX,title:'葉晨希：打拍子'}, PQ_YZY:{who:ZY,title:'游振宇：問我問題'},
     PQ_HPY:{who:PY,title:'洪珮瑜：當一次她媽媽'}, PQ_SMR:{who:MR,title:'施孟儒：早上六點的球場'} });
-  Object.assign(P.HINT,{ PQ_HYX1:{office:r=>md(r.outDay)+'（三）15:00 陪宇軒去敲周老師研究室的門（霖澤館）'}, PQ_HYX2:{cases:r=>md(r.outDay)+'（四）19:00～21:00 到總圖 B1 討論室幫宇軒讀判決'},
+  Object.assign(P.HINT,{ PQ_HYX1:{office:r=>md(r.outDay)+'（三）15:00 陪宇軒去敲周老師研究室的門（法律系館A）'}, PQ_HYX2:{cases:r=>md(r.outDay)+'（四）19:00～21:00 到總圖 B1 討論室幫宇軒讀判決'},
     PQ_LQ:{teach:r=>md(r.outDay)+'（四）19:00 到普通教學館的空教室，當立群的國中生'}, PQ_SCE:{tutor:r=>md(r.outDay)+'（六）10:00 陪維倫去社福中心的課輔'},
-    PQ_TZL:{books:r=>md(r.outDay)+'（六）14:00 幫宗霖把書搬去舊路書房寄賣'}, PQ_YSH:{debate:r=>md(r.outDay)+'（六）14:00 博雅 201，坐第一排看書豪上台'},
-    PQ_YCX:{beat:r=>'週一或週三 21:00 以後到萬才館旁邊，幫晨希打拍子（'+(r.n|0)+'／3）'}, PQ_SMR:{court:r=>md(r.day0)+'（五）06:00～06:30 到醉月湖東側的籃球場幫系籃佔場'} });
+    PQ_TZL:{books:r=>md(r.outDay)+'（六）14:00 幫宗霖把書搬去舊路書房寄賣'}, PQ_YSH:{debate:r=>md(r.outDay)+'（六）14:00 博思 201，坐第一排看書豪上台'},
+    PQ_YCX:{beat:r=>'週一或週三 21:00 以後到法律系館B旁邊，幫晨希打拍子（'+(r.n|0)+'／3）'}, PQ_SMR:{court:r=>md(r.day0)+'（五）06:00～06:30 到映月湖東側的籃球場幫系籃佔場'} });
   P.register();
 
   /* ---------- 出遊、場景的事件 ---------- */
@@ -223,7 +223,7 @@ const POOL_MORE=(function(){
 
   /* ===== 何宇軒（AA_499 第 1 節）===== */
   S.acceptHyx1=GM=>{ const G=GM.G; if(typeof INV!=='undefined') INV.addContact(G,H); const d=nextWd(G,3); P.openQ(GM,'PQ_HYX1','office',{outDay:d,by:d});
-    planOut(G,{id:'pool_hyx_office_'+d,ev:'ev_pool_hyx_office',day:d,h:15,place:'霖澤館',title:'何宇軒：周教授的研究室（霖澤館 15:00）'}); };
+    planOut(G,{id:'pool_hyx_office_'+d,ev:'ev_pool_hyx_office',day:d,h:15,place:'法律系館A',title:'何宇軒：周教授的研究室（法律系館A 15:00）'}); };
   S.acceptHyx2=GM=>{ const G=GM.G; let d=G.day; while(dateOf(d).wd!==4||(d===G.day&&hr(G)>=18.5)) d++; P.openQ(GM,'PQ_HYX2','cases',{outDay:d,by:d});
     planOut(G,{id:'pool_hyx_cases_'+d,ev:'ev_pool_hyx_cases',day:d,h:19,place:'總圖 B1',title:'何宇軒：一百份判決（總圖 B1 討論室 19:00）'}); };   /* 那個週四 19:00～21:00 */
   FLOW[H]=[
@@ -306,7 +306,7 @@ const POOL_MORE=(function(){
 
   /* ===== 楊書豪（AA_500 第 3 節）===== */
   S.acceptYsh=GM=>{ const G=GM.G; const d=nextWd(G,6); P.openQ(GM,'PQ_YSH','debate',{outDay:d,by:d});
-    planOut(G,{id:'pool_ysh_debate_'+d,ev:'ev_pool_ysh_debate',day:d,h:14,place:'博雅 201',title:'楊書豪：社內賽（博雅 201 14:00）'}); };
+    planOut(G,{id:'pool_ysh_debate_'+d,ev:'ev_pool_ysh_debate',day:d,h:14,place:'博思 201',title:'楊書豪：社內賽（博思 201 14:00）'}); };
   FLOW[SH]=[
     gradScene(SH,'Y3S2','yshGrad','campus'),
     async(GM,who)=>{ const G=GM.G; if(q(G,'PQ_YSH')||!inTerm(G,'Y1S2')||week(G)<8||week(G)>12||!fam(SH)||G.zone!=='campus'||!P.canOpen(G)) return false;   /* 3-3：大一下第 8～12 週，椰林大道（秘密在這裡說）*/

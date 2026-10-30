@@ -45,7 +45,7 @@ const GROUP_EVENTS=(function(){
     outingMissed:G=>{ const g=G1(); if(g) g.springPhoto(G); } },
   /* 和可昕的那一趟（BB_97 9-12；AA_324 第 2 節：到了的假設題拿掉，換成她到了以後的一句）。出發、回程照大一那一趟（BB_96 9-5 的流程）。記 KX_TRIP.Y2S2 */
   { id:'ev_kexin_trip_spring_y2', title:'春假：開車旅行（大二）', participants:['kexin'], location:'any', trigger:'outing', once:true, background:'dark', hours:13.5,
-    dialogue:[ {scene:'政大・校門口',bg:'nccu_gate'},{scene:'車上',bg:'car'},
+    dialogue:[ {scene:'木柵大學・校門口',bg:'nccu_gate'},{scene:'車上',bg:'car'},
       {if:kxAll,goto:'lost'},
       {speaker:'kexin',expression:'smile',text:'我管音樂。你管方向。'},   /* 車上開場、回程：大二版（AA_336 C8），不沿用大一 */
       {speaker:'kexin',expression:'teasing',text:'……目的地，現在決定。'},
@@ -167,7 +167,7 @@ const GROUP_EVENTS=(function(){
     consequences:{flags:{MX_EGG_PAID:true}} },
   /* ---------- 1C-05 G5 子晴、芷若同一天畢業（2028-06-03；高子晴_角色企劃 Q13＋AA_13 G5）。上午椰林大道（6/2 21:00 子晴邀約回了「去。」）；和子晴交往中先演 BB_119 1c-2 ---------- */
   { id:'ev_zq_zr_graduation', title:'子晴、芷若的畢業典禮', participants:[], location:'any', trigger:'outing', once:true, background:'dark', hours:1.5,
-    dialogue:[ {scene:'畢業典禮的椰林大道',bg:'graduation_avenue'},
+    dialogue:[ {scene:'畢業典禮的椰影大道',bg:'graduation_avenue'},
       {if:{custom:dating('heroine_04')},speaker:'heroine_04',text:'欸不是，你站過來一點。'},
       {if:{custom:G=>dating('heroine_04')(G)&&typeof CG_REGISTRY!=='undefined'&&!!CG_REGISTRY.cg_crooked_cap_heroine04},cg:'cg_crooked_cap_heroine04'},   /* BCG-26（cg_approved/ README：放在「我們兩個。」，CG 就是那張自拍）*/
       {if:{custom:dating('heroine_04')},speaker:'heroine_04',text:'我們兩個。'},   /* BB_119 1c-2 */
@@ -175,7 +175,7 @@ const GROUP_EVENTS=(function(){
       {speaker:'heroine_04',text:'妳閉眼了啦。再一張。'},
       {if:kn('heroine_02'),speaker:'heroine_02',text:'妳拍歪了。'},
       {speaker:'heroine_04',text:'（把手機塞給你）你拍我們兩個。'} ],
-    consequences:{memo:'子晴、芷若的畢業典禮（椰林大道）'},
+    consequences:{memo:'子晴、芷若的畢業典禮（椰影大道）'},
     after:G=>{ const F=G.flags; F.GRAD_ZQ_ZR=F.GRAD_ZQ_ZR==='zr'||F.GRAD_ZQ_ZR==='both'?'both':'zq'; } },
   /* 下午：芷若 Z12（6/3 14:00 以後第一次進 Café；和她 FAMILIAR 以上）。記 IMPORTANT_CONVERSATION（她的志向，放電影）*/
   { id:'ev_zhiruo_graduation_cafe', title:'芷若的畢業', participants:['heroine_02'], location:'cafe', trigger:'enter', once:true, background:'blur',

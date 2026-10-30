@@ -28,7 +28,7 @@ const PS='classmate_peishan', rel=()=>Object.assign({},SOCIAL.rel(PS));
   const want=[
     {opt:'「我想知道事情『應該』怎麼處理。」',react:['應該喔。……那是誰決定什麼叫應該？老師嗎？']   /* AA_207 §7 第 4 列：「應該。」和旁白「她重複一次。」刪掉 */,d:{fam:3,comf:3},mem:false},
     {opt:'「想幫人。」',react:['幫人喔。……可是社工系也可以幫人吧？'],d:{fam:3,resp:2},mem:false},
-    {opt:'「妳呢？」',react:['我在旁聽哲學系的課。上禮拜坐在那間教室，比坐在霖澤館這一個多月都自在。','……我還沒跟家裡說。','她停了一下。','好奇怪。講出來以後，聲音比我想的還大。'],d:{fam:4,trust:3},mem:true}];
+    {opt:'「妳呢？」',react:['我在旁聽哲學系的課。上禮拜坐在那間教室，比坐在A館這一個多月都自在。','……我還沒跟家裡說。','她停了一下。','好奇怪。講出來以後，聲音比我想的還大。'],d:{fam:4,trust:3},mem:true}];
   for(let k=0;k<3;k++){ at('library',2,15); SOCIAL.meet(PS,'library'); const r0=rel(); pick=k; await EVENTS.run(ev); const L=lines(), r1=rel(), w=want[k];
     check('選項 '+(k+1)+'：三個選項的文字（第一個換成 BB 寫好的）',JSON.stringify(opts[0])===JSON.stringify(want.map(x=>x.opt)),JSON.stringify(opts[0]));
     const q=L.indexOf('欸，你為什麼會來念法律？……除了考上以外。');   /* AA_236 B3 口語改稿；AA_207 §7 第 4 列：「我是說」全體禁用 */
