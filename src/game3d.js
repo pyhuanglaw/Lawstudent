@@ -380,7 +380,7 @@ const GAME = (function(){
      tests/loadgen_locks_unit.js 掃 src/，finally 才放開、沒登記的會 FAIL。
      這裡另外放開：劇情走路（walks）、EVENTS.run 的 running／_playerSeated／_preMet、ADV（開著＝EVENTS.tick 不跑、2D 蓋在畫面上；ADV.end 只收畫面，沒有接續的回呼）、黑邊、日期卡（titleCard 的 sleep 不醒＝一直亮著）、關係提示（sceneBegin 開的 SOCIAL.feelOn）。
      只有 applySave 叫（換 G 之前；busyDepth、busyWho 在換 G 那一行歸零）：沒有讀檔＝什麼都不變 */
-  function loadRelease(){ for(const f of Object.values(globalThis.LOADLOCKS||{})){ try{ f(); }catch(e){ console.warn('LOADLOCKS',e); } }
+  function loadRelease(){ for(const f of Object.values(globalThis.LOADLOCKS||{})){ try{ f(); }catch(e){ console.warn('LOADLOCKS',e); } } GM.onBlack=null;   /* 「下一次黑幕時做」的接口（宿舍睡覺 DORM-SLEEP-1030）：舊流程的不帶進新的一局 */
     walks.clear(); if(typeof EVENTS!=='undefined'){ EVENTS.running=null; EVENTS._playerSeated=false; EVENTS._preMet=null; }
     if(typeof ADV!=='undefined'&&ADV.active&&ADV.end) ADV.end(); letterbox(false); { const tc=$('title3'); if(tc) tc.style.opacity=0; }
     if(typeof SOCIAL!=='undefined'){ SOCIAL.feelOn=false; SOCIAL.feel={}; SOCIAL.feelStage={}; SOCIAL.capNotes=[]; } }

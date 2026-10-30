@@ -111,10 +111,17 @@ const inBed=f=>f.pose==='lie'&&near(f.x,L.feet[0])&&near(f.z,L.feet[2])&&near(f.
   { const gm=mkGM({day:6,hour:22}); let n=0; gm.onSleep=async()=>{ const P=gm.E.player; if(P.pose==='climb'&&near(P.obj.position.y,ST[1][1])&&!gm.hang){ n++; gm.hang=true; gm.loadGen++; } };
     const pr=STORY.interact({sleep:true},gm); await new Promise(r=>setTimeout(r,30));
     const mid={bed:!!STORY._bed,busy:!!STORY._bedBusy};
-    gm.onBlack=STORY.bedOnBlack; for(const f of Object.values(globalThis.LOADLOCKS||{})) f();
-    check('⑧ 爬到一半讀檔：LOADLOCKS 放開床的狀態、爬梯子的鎖、GM.onBlack、熄燈',n===1&&mid.bed&&mid.busy&&!STORY._bed&&!STORY._bedBusy&&!gm.onBlack&&(STORY._dark||0)===0,JSON.stringify(mid));
+    for(const f of Object.values(globalThis.LOADLOCKS||{})) f();
+    check('⑧ 爬到一半讀檔：LOADLOCKS 放開床的狀態、爬梯子的鎖（S._bed、S._bedBusy、S._dark）',n===1&&mid.bed&&mid.busy&&!STORY._bed&&!STORY._bedBusy&&(STORY._dark||0)===0,JSON.stringify(mid));
+    gm.hang=false; gm.loadGen++; await gm.enter('dorm',{x:0,z:2.4,yaw:Math.PI},{fromLoad:true});   /* 讀檔（applySave）一定換區域 */
+    const P=gm.E.player; check('⑧ 讀進來以後：站著（不是 climb／lie）、不是 busy、沒有床的狀態',P.pose==='idle'&&!STORY._bed&&!STORY._bedBusy,P.pose);
     void pr; }
-  { const gm=mkGM({day:6,hour:22}); await STORY._bedFx.goToBed(gm,STORY.sleepSceneOf(gm)); const k0=gm.E.toneK; for(const f of Object.values(globalThis.LOADLOCKS||{})) f();
-    check('⑧ 熄燈以後讀檔：曝光還原（0.3 → 1）',near(k0,0.3,1e-6)&&gm.E.toneK===1,k0+' → '+gm.E.toneK); }
+  { const gm=mkGM({day:6,hour:22}); await STORY._bedFx.goToBed(gm,STORY.sleepSceneOf(gm)); const k0=gm.E.toneK; gm.onBlack=STORY.bedOnBlack; for(const f of Object.values(globalThis.LOADLOCKS||{})) f();
+    await gm.enter('dorm',{x:0,z:2.4,yaw:Math.PI},{fromLoad:true});
+    check('⑧ 熄燈以後讀檔：換區域時（S.populate 第一行）曝光還原（0.3 → 1）',near(k0,0.3,1e-6)&&gm.E.toneK===1,k0+' → '+gm.E.toneK);
+    let ok=true; try{ gm.fade(true); }catch(e){ ok=false; } await new Promise(r=>setTimeout(r,5));
+    check('⑧ 讀檔前留下的 GM.onBlack（萬一沒被 loadRelease 清掉）在新的一局觸發也不出錯、不動玩家',ok&&gm.E.player.pose==='idle'&&near(gm.E.player.obj.position.z,2.4)&&gm.E.toneK===1);
+    const g3=fs.readFileSync(path.join(ROOT,'src/game3d.js'),'utf8');
+    check('⑧ game3d.js：loadRelease 清掉 GM.onBlack；fade(true) 全黑以後才叫 GM.onBlack',/function loadRelease\(\)\{[^\n]*GM\.onBlack=null;/.test(g3)&&/function fade\(on\)\{[^\n]*sleep\(on\?480:500\)\.then\(\(\)=>\{ if\(on&&GM\.onBlack\)/.test(g3)); }
   STORY.onEnter=realOnEnter;
   console.log(fails?('FAILED '+fails):'ALL PASS'); process.exit(fails?1:0); })().catch(e=>{ console.log('FAIL 例外 '+(e&&e.stack||e)); console.log('FAILED '+(fails+1)); process.exit(1); });
