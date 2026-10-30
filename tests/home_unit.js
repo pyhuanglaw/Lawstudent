@@ -67,11 +67,11 @@ const meet=id=>SOCIAL.remember(id,'FIRST_MET','');
     check('G49 姊姊在家的週末（1～7 號）晚餐不會問「你姊說她下個月回來。」',hit===0&&pool>0,JSON.stringify({sat,hit})); }
   // AA_140 G48：在家也要赴約；週日晚上在家睡覺＝先回宿舍（修改前 12～15 失敗）
   { const SAT=termDay('Y1S2',9,6); fresh(SAT,18.5,'dorm',{introDone:true,classDone:true,afternoonDone:true,dating_kexin:true}); HOME.rec(G).at=true; HOME.rec(G).day=G.day;
-    OUT.plan(G,{id:'t_out',ev:'ev_kexin_tour_nccu',day:G.day,h:18.75,place:'政大',title:'去政大找可昕',travel:'開車約 30 分鐘',travelH:0.5}); opts=[]; picks=['出發']; await HOME.loop(GM);
-    check('12. 在家、到了出遊該出發的時間：選單最上面「出發：去政大找可昕」（從家裡出發）；出發＝演出遊、離開家',(opts[0]||[])[0]==='出發：去政大找可昕'&&OUT.get(G,'t_out').state==='done'&&!HOME.at(G),JSON.stringify({o:opts[0],st:OUT.get(G,'t_out').state,at:HOME.at(G)})); }
+    OUT.plan(G,{id:'t_out',ev:'ev_kexin_tour_nccu',day:G.day,h:18.75,place:'木柵大學',title:'去木柵大學找可昕',travel:'開車約 30 分鐘',travelH:0.5}); opts=[]; picks=['出發']; await HOME.loop(GM);
+    check('12. 在家、到了出遊該出發的時間：選單最上面「出發：去木柵大學找可昕」（從家裡出發）；出發＝演出遊、離開家',(opts[0]||[])[0]==='出發：去木柵大學找可昕'&&OUT.get(G,'t_out').state==='done'&&!HOME.at(G),JSON.stringify({o:opts[0],st:OUT.get(G,'t_out').state,at:HOME.at(G)})); }
   { const SAT=termDay('Y1S2',9,6); fresh(SAT,17,'dorm',{introDone:true,classDone:true,afternoonDone:true}); HOME.rec(G).at=true; HOME.rec(G).day=G.day;
-    OUT.plan(G,{id:'t_out2',ev:'ev_kexin_tour_nccu',day:G.day,h:19,place:'政大',title:'去政大找可昕',travelH:0.5}); said=[]; picks=['睡覺','先不要','回宿舍']; const d0=G.day; await HOME.loop(GM);
-    check('13. 睡覺會跳過約好的時間：先問「會錯過：19:00 去政大找可昕」，選「先不要」＝不睡（還是同一天）',said.some(x=>/^會錯過：19:00 去政大找可昕/.test(x.t))&&G.day===d0&&OUT.get(G,'t_out2').state==='planned',JSON.stringify({s:said.map(x=>x.t).slice(-3),day:G.day})); }
+    OUT.plan(G,{id:'t_out2',ev:'ev_kexin_tour_nccu',day:G.day,h:19,place:'木柵大學',title:'去木柵大學找可昕',travelH:0.5}); said=[]; picks=['睡覺','先不要','回宿舍']; const d0=G.day; await HOME.loop(GM);
+    check('13. 睡覺會跳過約好的時間：先問「會錯過：19:00 去木柵大學找可昕」，選「先不要」＝不睡（還是同一天）',said.some(x=>/^會錯過：19:00 去木柵大學找可昕/.test(x.t))&&G.day===d0&&OUT.get(G,'t_out2').state==='planned',JSON.stringify({s:said.map(x=>x.t).slice(-3),day:G.day})); }
   { const SAT=termDay('Y1S2',9,6); fresh(SAT,12,'dorm',{introDone:true}); HOME.rec(G).at=true; G.invites=[{id:'iv_t',who:'heroine_01',place:'cafe',day:G.day,h:10,state:'accepted'}];
     HOME.postponeMissed(G); check('14. 在家的時候過了時間的當面約＝延後、不扣分（不是沒赴約、不記 MISSED_DINNER）',G.invites[0].state==='postponed'&&!SOCIAL.has('heroine_01','MISSED_DINNER')); }
   { const SAT=termDay('Y1S2',9,6); fresh(SAT,15,'dorm',{introDone:true}); HOME.rec(G).at=true; G.invites=[{id:'iv_t2',who:'heroine_01',place:'cafe',day:G.day,h:15.5,state:'accepted'}]; opts=[]; picks=['出發']; await HOME.loop(GM);
