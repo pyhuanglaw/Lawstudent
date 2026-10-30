@@ -36074,15 +36074,15 @@
     "receiver": "LAWWW",
     "ack": "SENT"
    },
-   "notes": ""
+   "notes": "【05:0x】讀書座位做好 fix1030 1ebb95122；作息、邀約等 AA ｜ "
   },
   {
    "id": "BADCLIP-FOLLOW-1030",
    "title": "羽球短片：一起走過去（follow）的人被引擎拉回玩家身邊，沒有隔著網子打",
    "area": "SYS",
    "owner": "LAWWW",
-   "status": "進行中",
-   "next": "postrel-1030：badminton_clip3d.js 演出期間 beh follow→idle、演完還原；engine3d.js follow／buddy 遇 frozen 不動；單元測試；BB 瀏覽器用 day 29 存檔重現",
+   "status": "已實作待整合",
+   "next": "fix1030 1ebb95122 合進 postrel-1030 → v9.10.14 後進開發分支 → BB 用 day 29 存檔重現",
    "priority": "P1",
    "first": {
     "term": "Y1S1",
@@ -36097,6 +36097,28 @@
    "source": "使用者 10-30 04:5x＋存檔 day29（X135）",
    "authorized": "使用者",
    "notes": ""
+  },
+  {
+   "id": "PHONE-UNIFY-1030",
+   "title": "手機統一：朋友頁每個有區域的人都能「直接過去」；訊息頁列出所有有聯絡方式的人可開新對話、七位見過＋有聯絡方式就能傳（子晴不再要求特定事件）、沒聯絡方式灰著寫原因",
+   "area": "SYS",
+   "owner": "LAWWW",
+   "status": "進行中",
+   "next": "子代理（phone-unify，基準 fix1030），D113 備份 → 合進 postrel-1030 → BB 測",
+   "priority": "P0",
+   "first": {
+    "term": "Y1S1",
+    "week": 1,
+    "earliest": "法律系大一上有了第一個聯絡方式",
+    "mainline": true,
+    "blocks": false,
+    "prereq": false,
+    "parallel": true,
+    "confirmed": true
+   },
+   "source": "使用者 10-30 04:5x 兩則（UA-LAWWW-1030-14、15；X136、X137；前面 H05、X110）",
+   "authorized": "使用者",
+   "notes": "使用者說講很多次了：這次一次統一到位"
   }
  ]
 }
