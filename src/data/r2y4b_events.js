@@ -514,8 +514,9 @@ const R2Y4B_EVENTS=(function(){
       {speaker:'heroine_05',text:'……我以為我要先說。'},{speaker:'heroine_05',text:'好。'},{goto:'yes'},
       {label:'she'},{speaker:'heroine_05',text:'那我先說。'},
       {speaker:'heroine_05',text:'我喜歡你。……我想了很久，要不要在這裡說。'},
-      {speaker:'heroine_05',text:'你要說好，還是要我再說一次。'},
-      {if:SIS_KNOWS,call:async(G,GM)=>{ const r=R(); if(r) await r.canyonKnow(GM,false); }},{goto:'air',if:CANYON_KNEW},
+      {goto:'shek',if:SIS_KNOWS},   /* AA_481 第 2 節：她知道＝只說前兩句就接知情對話（「你要說好，還是要我再說一次。」接著又先問另一個人，玩家還沒開口就被換了題目）*/
+      {speaker:'heroine_05',text:'你要說好，還是要我再說一次。'},{goto:'yes'},
+      {label:'shek'},{call:async(G,GM)=>{ const r=R(); if(r) await r.canyonKnow(GM,false); }},{goto:'air',if:CANYON_KNEW},
       {label:'yes'},{set:{SIS_CANYON:'confess',CALLED_SHUYU:true}},
       {label:'air'},   /* 知情對話演過（SIS_CANYON 由 canyonKnow 記：答應＝confess，不交往＝knows）*/
       {advance:toDay('2028-10-15',3)},{scene:'鳳凰城的機場',bg:'us_airport'},   /* BB_220★：鳳凰城機場→us_airport（AA_370 合併以後接，BG-DARK-70-1021 最後一列）*/
