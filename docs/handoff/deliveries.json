@@ -16402,6 +16402,19 @@
    "task": "LM-COLLAPSE-1030",
    "integration": "已整合待測試",
    "note": "LAWWW-B 22:0x 只拿 4 個資產檔；dorm_room4 相關 Node 八支 ALL PASS"
+  },
+  {
+   "id": "DL-LW2-LMCOLLAPSE-201-1030",
+   "date": "2026-10-30",
+   "from": "LAWWW2-B",
+   "account": "B",
+   "branch": "claude/funny-albattani-iawshm",
+   "sha": "19c3cb4c3",
+   "msg": "ACK",
+   "what": "LM-COLLAPSE-1030 第四間：201 重烘（classroom_201.glb＋兩張光照；朝室內壓扁 5.8→0 m²；檔案在 WIP c5782aa91，交件 19c3cb4c3 補說明和截圖）",
+   "task": "LM-COLLAPSE-1030",
+   "integration": "已整合待測試",
+   "note": "LAWWW-B 22:1x 只拿 3 個資產檔（GLB 4.10→3.92 MB）；room_ceiling、room_rtnight、seat_fold、linze_lightmap ALL PASS"
   }
  ],
  "ignored": [
