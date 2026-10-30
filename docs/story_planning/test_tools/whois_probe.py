@@ -134,8 +134,22 @@ async def mode_econ(pg, cdp, run):
     run.note('E412_MOVEIN：%s（%d 秒）' % (J(moved), time.time() - t0))
     run.check('前置：照玩家走到韋綸、唐睿搬進 412（E412_MOVEIN）', bool(moved), J(moved))
     if not moved: return
-    await pg.wait_for_timeout(3000)
-    txt = await P.phone_tab(pg, cdp, 'friends'); await run.shot(pg, 'econ_friends')
+    idle = 0; t1 = time.time()
+    while time.time() - t1 < 240 and idle < 6:   # 搬進來那一刻常常接著換日字卡（econ3：截圖全黑、朋友頁還沒畫出來）：先把對話、字卡等完
+        s = await P.ts(pg)
+        if s['ch']: k, _ = P.pick_of(s['ch'], []); await P.tap_choice(pg, cdp, k); idle = 0; await pg.wait_for_timeout(1000); continue
+        if s['dlg']: await L.tap(pg, cdp, '#dlg'); idle = 0; await pg.wait_for_timeout(500); continue
+        busy = await pg.evaluate("(()=>{ const t=document.getElementById('titleCard')||document.querySelector('.titlecard,.dateCard'); return !!(t&&!t.classList.contains('hide')&&t.offsetParent); })()")
+        idle = 0 if busy else idle + 1
+        await L.phone_away(pg, cdp); await pg.wait_for_timeout(1200)
+    st1 = await pg.evaluate("(()=>({key:CALENDAR.dateOf(GAME.G.day).key, h:+(+GAME.G.hour).toFixed(2), zone:GAME.G.zone, stage:GAME.G.stage, PLAYED_Y0:!!GAME.G.flags.PLAYED_Y0, met:['econ_weilun','econ_tangrui'].map(id=>[id,!!SOCIAL.has(id,'FIRST_MET'),!!GAME.G.flags['met_'+id]]), known:(GAME.knownIds?GAME.knownIds():[]).filter(x=>/^econ_/.test(x))}))()")
+    run.note('等完字卡：%s' % J(st1))
+    txt = ''
+    for _ in range(5):
+        txt = await P.phone_tab(pg, cdp, 'friends')
+        if await pg.evaluate("!!document.querySelector('#phoneBody [data-person]')"): break
+        await L.phone_away(pg, cdp); await pg.wait_for_timeout(2000)
+    await run.shot(pg, 'econ_friends')
     nm = await pg.evaluate("(()=>[['econ_weilun',SOCIAL.displayName('econ_weilun')],['econ_tangrui',SOCIAL.displayName('econ_tangrui')]])()")
     run.note('朋友清單：%s' % txt[:400])
     run.check('經濟系開局 9/2 晚上搬進 412 以後，朋友清單有韋綸、唐睿', all(n in txt for _, n in nm), J({'names': nm, 'list': txt[:300]}))
