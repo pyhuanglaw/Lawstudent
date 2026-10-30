@@ -226,6 +226,18 @@ async def noodle(pg, cdp, run):
                 r = await P.dialog(pg, cdp, run, max_s=120, tag='noodle_%s' % tag); talked = True
             if await pg.evaluate("(d=>GAME.G.flags.ndlTalkDay===d)", day) and not (await P.ts(pg))['dlg']: break
             await pg.wait_for_timeout(1500)
+        if want is True and not await pg.evaluate("(d=>GAME.G.flags.ndlTalkDay===d)", day):   # 那天另有麵店事件（ndlOtherDue，例：語彤在店裡）＝閒聊讓給它：像玩家一樣先去找她，再看閒聊
+            d2 = await pg.evaluate(NDLDIAG, TEAM); run.note('%s 60 秒沒有閒聊，條件：%s' % (tag, J(d2)))
+            if d2.get('otherDue') and await P.who(pg, 'heroine_03'):
+                r3 = await P.talk_full(pg, cdp, run, 'heroine_03', '%s_yutong' % tag, max_s=240); run.note('%s 先找語彤：%s' % (tag, J(r3 and r3['lines'][:6])))
+                t1 = time.time()
+                while time.time() - t1 < 90:
+                    s = await P.ts(pg)
+                    if s['dlg'] or s['ch']:
+                        if talk_pres is None: talk_pres = await pg.evaluate(PRESENT); await run.shot(pg, 'noodle_%s_talk' % tag)
+                        await P.dialog(pg, cdp, run, max_s=120, tag='noodle_%s_after_yutong' % tag)
+                    if await pg.evaluate("(d=>GAME.G.flags.ndlTalkDay===d)", day) and not (await P.ts(pg))['dlg']: break
+                    await pg.wait_for_timeout(1500)
         lines = await P.said(pg, n0); ndl = await pg.evaluate("(d=>GAME.G.flags.ndlTalkDay===d)", day)
         pres = talk_pres or pres0; names = set()
         for q in pres: names |= {q['name'], q['nm']}
