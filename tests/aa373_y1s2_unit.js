@@ -104,7 +104,7 @@ const kxOD=()=>OUT.rec(G).filter(q=>/^kx_od_/.test(q.id));
   { const ps=CHARACTERS.classmate_peishan, at=(wk,wd,h)=>{ fresh(termDay('Y1S2',wk,wd),h,'wenzhou',{}); return STORY.schedEnt(ps,G)||{}; };
     const A=[[5,2,16],[5,4,17.5],[9,2,16.5],[15,4,17.9]].map(x=>at(...x).zone), B=[[5,1,16.5],[5,5,18.5],[4,2,16.5],[16,2,16.5]].map(x=>at(...x).zone);
     check('6. 沛珊作息：大一下第 5～15 週週二、四 16:00～18:00 在溫州街（課輔班）',A.every(z=>z==='wenzhou'),J(A));
-    check('6. 對照：週一、五 16～19 照舊在總圖；第 4 週、第 16 週的週二照舊在總圖',B.every(z=>z==='library'),J(B));
+    check('6. 對照：週一、五 16～19 照舊在總圖；第 4 週週二照舊在總圖；第 16 週週二（4/6～6/14 和柏翰那一段）＝總圖大廳二樓自習區（AA_527 2-5，原本三樓閱覽區）',J(B)===J(['library','library','library','library_hall']),J(B));
     const T=evText('ev_peishan_tutoring'); check('6. 溫州街課輔班（P3b）：「喔，是你。我在這裡當志工。一週兩天。」',T.includes('喔，是你。我在這裡當志工。一週兩天。')&&!T.some(t=>/一週三天/.test(t)),J(T.slice(0,2)));
     const L3=LADDER.byTerm.Y1S2.classmate_peishan.steps.find(s=>s.id==='P2-L3');
     check('6. 閒聊階梯 P2-L3：「我在溫州街的課輔班當志工。一週兩天。」',!!L3&&L3.lines[0]==='我在溫州街的課輔班當志工。一週兩天。',L3&&L3.lines[0]);

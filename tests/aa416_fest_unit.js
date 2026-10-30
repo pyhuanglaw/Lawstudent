@@ -23,7 +23,7 @@ let ok1=false, ok2=false, err=''; try{ ok1=load('src/data/fest_events.js'); ok2=
 const X=()=>typeof FEST!=='undefined'?FEST:null;
 const git=(sha,f)=>{ try{ return cp.execSync('git show '+sha+':"docs/story_planning/'+f+'"',{cwd:H.ROOT,encoding:'utf8'}); }catch(e){ return ''; } };
 const doc=git('2af5f4899','AA_416_節日總規格_三個情人節生日聖誕_七位.md')   /* 2af5f4899：第 11 節（10-23 19:2x）學姊禮物價錢、送花那一句 */, doc122=git('5788b1cb4','BB_122_溫學姊戀愛線v2_分手前後與重新開始.md'), doc124=git('968473469','BB_124_節日開車約會與健身_BB人物.md');
-let doc523=''; try{ doc523=cp.execSync('git show 0d7b5388b:"docs/story_planning/AA_523_學姊第十六批_回臺灣以後的最後半年.md"',{cwd:process.env.AA523_DOCREPO||H.ROOT,encoding:'utf8'}); }catch(e){ doc523=''; }
+let doc523=''; try{ doc523=cp.execSync('git show bfede0a62:"docs/story_planning/AA_523_學姊第十六批_回臺灣以後的最後半年.md"',{cwd:process.env.AA523_DOCREPO||H.ROOT,encoding:'utf8'}); }catch(e){ doc523=''; }
 const row614=(doc523.split('\n').find(l=>l.startsWith('| 6-14 |'))||'');   /* AA_523 第 6 節 6-14 那一列 */
 const norm=t=>String(t).replace(/^（/,'').replace(/）$/,'').replace(/[。：]$/,'');   /* 稿裡沒有括號的動作描寫：演成旁白、加（）*/
 const inDoc=(t,d)=>(d||doc).indexOf(t)>=0||(d||doc).indexOf(norm(t))>=0;

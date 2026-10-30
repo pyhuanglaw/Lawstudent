@@ -1,5 +1,5 @@
 // AA_527＋AA_528（劇情總監 AA-B 2026-10-30 讀稿：企劃線 5b9d33d05；任務 AA527-FIX-1030、AA528-FIX-1030；D109）——不需要瀏覽器。
-//   AA_527 讀 AA_496～523 的實作：第 1 節稿的口氣七處（學姊四句、Kevin 明信片三則、13-1 {name}、AA_515 三位、芷若格言、宥辰模擬法庭、蘇承恩→蘇維倫）、
+//   AA_527 讀 AA_496～523 的實作：第 1 節稿的口氣七處（學姊四句、Kevin 明信片三則、13-1 {name}、AA_515 三位、芷若格言、宥辰模擬法庭、蘇○○→蘇維倫）、
 //          第 2 節程式七處（別人說起她本人在旁邊不說、陳助教四句改時段；繃帶只在大一下第 8～9 週；C6 三列；阿哲句號兩處；地點日子五處；學妹那句、沛珊營隊；清晨訊息停 07:30）。
 //   AA_528 讀 AA_499～502 的實作：入口（二十位大二起還能認識、佳蓉萬才館值班、同框不算認識、晨希吉他社、佳蓉「其實……」、乃文借筆記）、時間（宗霖在日本、畢業私訊一天兩人、阿凱宵夜）、八句口氣、立群秘密、白名單。
 //   台詞照劇情匯入白名單 docs/handoff/story_import_allow.json 上「現在」那一版（AA_527 bfede0a62、AA_528 7ad5fee84）的原稿逐字對（git show）。
@@ -36,7 +36,7 @@ const byTag=tag=>(H.G.msgs||[]).filter(m=>m.tag===tag), thread=th=>(H.G.msgs||[]
 const fam=id=>H.rel(id,25,0,0), contact=id=>INV.addContact(H.G,id);
 const SRC=f=>fs.readFileSync(path.join(H.ROOT,'src',f),'utf8');
 const npcAt=(id,x,z,o)=>{ const n=Object.assign({obj:{position:{x,y:0,z},rotation:{y:0}},lv:0,name:id},o||{}); GM.npc[id]=n; return n; };
-const OLD_CE='承恩';   /* 「承恩」（寫成 \u 跳脫：src/、tests/ grep 不到）*/
+const OLD_CE='\u627f\u6069';   /* pool_19 的舊名（使用者刪掉的直屬學弟的名字；寫成 \u 跳脫：src/、tests/ grep 不到）*/
 
 /* ---------- 原稿：白名單上現在那一版 ---------- */
 const ALLOW=JSON.parse(fs.readFileSync(path.join(H.ROOT,'docs/handoff/story_import_allow.json'),'utf8'));
@@ -84,12 +84,12 @@ const docRe=(n,re)=>re.test(docOf(n));
     check('1-6. AA_497 宥辰第 7 則：「這週：法槌的聲音。其實是我用課本敲桌子。」（模擬法庭是使用者刪掉的設定）；點開、回覆照舊',!!r&&r.say[0]==='這週：法槌的聲音。其實是我用課本敲桌子。'&&r.where==='我房間。課本是民法，最厚的那本。'&&inDoc('AA_497','| 7 | 大二下 3 月 | 這週：法槌的聲音。其實是我用課本敲桌子。'),J(r)); });
   await sec('1-7',()=>{ check('1-7. pool_19 改名「蘇維倫」',CHARACTERS.pool_19.name==='蘇維倫'&&inDoc('AA_499','我叫蘇維倫。')&&inDoc('AA_498','**蘇維倫**'),CHARACTERS.pool_19.name);
     const hits=[]; const scan=dir=>{ for(const f of fs.readdirSync(path.join(H.ROOT,dir))){ const p=path.join(dir,f), st=fs.statSync(path.join(H.ROOT,p)); if(st.isDirectory()){ scan(p); continue; } if(!/\.js$/.test(f)) continue; if(fs.readFileSync(path.join(H.ROOT,p),'utf8').indexOf(OLD_CE)>=0) hits.push(p); } };
-    scan('src'); check('1-7. src/ 沒有「承恩」（讀檔換字表寫成 \\u 跳脫；稿的檔名也是）',!hits.length,J(hits));
+    scan('src'); check('1-7. src/ 沒有舊名（使用者刪掉的直屬學弟的名字；讀檔換字表、稿的檔名寫成 \\u 跳脫）',!hits.length,J(hits));
     const L2=POOL_STORY_B2.LINES.pool_19, flat=J(L2);
     check('1-7. 台詞、旁白裡叫他的換「維倫」（我叫蘇維倫、維倫在隔壁桌、你和維倫坐在最後一排）',/我叫蘇維倫/.test(flat)&&/維倫在隔壁桌/.test(flat)&&/你和維倫坐在最後一排/.test(flat)&&inDoc('AA_499','（維倫在隔壁桌，手上的筆停住了。）'));
-    const old={msgs:[{text:'杜宇恆：週六有活動',name:'杜宇恆'},{text:'蘇'+OLD_CE+'：週六有活動',name:'蘇'+OLD_CE}],outings:[{title:'蘇'+OLD_CE+'：週六的課輔（社福中心 10:00）',place:'社福中心'}],invites:[{label:'週六 10:00 陪'+OLD_CE+'去社福中心的課輔'}],flags:{}};
+    const old={msgs:[{text:'\u675c\u5b87\u6046：週六有活動',name:'\u675c\u5b87\u6046'},{text:'蘇'+OLD_CE+'：週六有活動',name:'蘇'+OLD_CE}],outings:[{title:'蘇'+OLD_CE+'：週六的課輔（社福中心 10:00）',place:'社福中心'}],invites:[{label:'週六 10:00 陪'+OLD_CE+'去社福中心的課輔'}],flags:{}};
     const n=POOL.migrate(old), s=J(old);
-    check('1-7. 舊存檔讀檔：杜○○、蘇承恩都換成蘇維倫（邀約那一句「陪○○」一起換）；換過的再讀一次不變',n===6&&s.indexOf(OLD_CE)<0&&s.indexOf('杜宇恆')<0&&old.msgs[1].text==='蘇維倫：週六有活動'&&old.invites[0].label==='週六 10:00 陪維倫去社福中心的課輔'&&POOL.migrate(old)===0,n+' '+s); });
+    check('1-7. 舊存檔讀檔：杜○○、蘇○○都換成蘇維倫（邀約那一句「陪○○」一起換）；換過的再讀一次不變',n===6&&s.indexOf(OLD_CE)<0&&s.indexOf('\u675c\u5b87\u6046')<0&&old.msgs[1].text==='蘇維倫：週六有活動'&&old.invites[0].label==='週六 10:00 陪維倫去社福中心的課輔'&&POOL.migrate(old)===0,n+' '+s); });
 
   /* ===================== AA_527 第 2 節：程式 ===================== */
   await sec('2-1',async()=>{
