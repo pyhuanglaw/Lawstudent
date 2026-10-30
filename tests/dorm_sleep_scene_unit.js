@@ -12,7 +12,7 @@
 //   ⑦ 沒有 sleep_scene 的房間（或不在宿舍房間）照舊：不走去梯子、不爬、醒來在門口 (0, 2.4)
 //   ⑧ 讀檔中途（爬到一半）：LOADLOCKS 放開床的狀態、熄燈、GM.onBlack；人在床上時存檔存梯子前
 //   ⑨ 床欄透空（LAWWW2-B #120，engine3d.js 的 E.cam.seeThru）：躺下（S.lieDown）才設——中心＝躺著的身體中段、床墊上 0.28 m、r 0.2、aspect 0.5；
-//      爬梯子時沒有；醒來躺在床上有；爬下來、保底（S.tick）、小睡醒來、換區域（S.populate）、讀檔（LOADLOCKS）都清掉。修改前（ca39039fe）⑨ 八項 FAIL 6 項（從來不設；「爬梯子沒有」「爬下來沒有」本來就過）
+//      爬梯子時沒有；醒來躺在床上有；爬下來、保底（S.tick）、小睡醒來、換區域（S.populate）、讀檔（一定換區域＝S.populate）都清掉。修改前（ca39039fe）⑨ 八項 FAIL 6 項（從來不設；「爬梯子沒有」「爬下來沒有」本來就過）
 // 修改前（postrel-1030）：沒有 STORY.sleepSceneOf（第 1 項就失敗）。用法：node tests/dorm_sleep_scene_unit.js
 const vm=require('vm'), fs=require('fs'), path=require('path');
 const ROOT=path.resolve(__dirname,'..');
@@ -133,8 +133,8 @@ const seeOK=s=>!!s&&near(s.x,SEE.x,1e-6)&&near(s.y,SEE.y,1e-6)&&near(s.z,SEE.z,1
   { const gm=mkGM({day:6,hour:22}); await STORY._bedFx.goToBed(gm,STORY.sleepSceneOf(gm)); const s1=gm.E.cam.seeThru&&Object.assign({},gm.E.cam.seeThru); await gm.enter('campus',{x:20,z:54,yaw:0},{});
     check('⑨ 躺著的時候換到別的區域（S.populate）：透空清掉',seeOK(s1)&&gm.E.cam.seeThru==null,JSON.stringify(s1)+' → '+JSON.stringify(gm.E.cam.seeThru)); }
   { const gm=mkGM({day:6,hour:22}); await STORY._bedFx.goToBed(gm,STORY.sleepSceneOf(gm)); const k0=gm.E.toneK; gm.onBlack=STORY.bedOnBlack; const s2=gm.E.cam.seeThru&&Object.assign({},gm.E.cam.seeThru); for(const f of Object.values(globalThis.LOADLOCKS||{})) f();
-    check('⑨ 熄燈以後讀檔（LOADLOCKS）：透空清掉',seeOK(s2)&&gm.E.cam.seeThru==null,JSON.stringify(s2)+' → '+JSON.stringify(gm.E.cam.seeThru));
     await gm.enter('dorm',{x:0,z:2.4,yaw:Math.PI},{fromLoad:true});
+    check('⑨ 熄燈以後讀檔：讀檔換區域（S.populate）時透空清掉（LOADLOCKS 只放開旗標）',seeOK(s2)&&gm.E.cam.seeThru==null,JSON.stringify(s2)+' → '+JSON.stringify(gm.E.cam.seeThru));
     check('⑧ 熄燈以後讀檔：換區域時（S.populate 第一行）曝光還原（0.18 → 1）',near(k0,0.18,1e-6)&&gm.E.toneK===1,k0+' → '+gm.E.toneK);
     let ok=true; try{ gm.fade(true); }catch(e){ ok=false; } await new Promise(r=>setTimeout(r,5));
     check('⑧ 讀檔前留下的 GM.onBlack（萬一沒被 loadRelease 清掉）在新的一局觸發也不出錯、不動玩家',ok&&gm.E.player.pose==='idle'&&near(gm.E.player.obj.position.z,2.4)&&gm.E.toneK===1);
