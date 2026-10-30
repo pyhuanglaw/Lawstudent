@@ -4263,7 +4263,7 @@
    "sha": "0235c71b9",
    "noDirectIntegrate": false,
    "receiver": "LAWWW",
-   "ack": "",
+   "ack": "LAWWW-B 10-30 09:50 ACK＋已整合 f75d60a4c（外框上限 patch 也套了）",
    "task": "RENAME-ART-1030：D115 改名美術字（校門石牌、晨思鐘、博思名牌、法律系館A 公布欄、201 傳單、博思 203 海報、吉他社海報、ntu_linze 背景、木柵大學站牌）",
    "files": [
     "assets/models/env/second_ai/campus_gate.glb",
@@ -4278,7 +4278,7 @@
     "docs/art-rebuild/second_ai/patches/plate_border_cap_1030.patch",
     "docs/art-rebuild/second_ai/test_shots/rename_art_1030/README.md"
    ],
-   "state": "已交付",
+   "state": "已整合",
    "remaining": "CG 78 張還沒查舊校名；BB 組校園 2D 背景只看了縮圖；博思名牌要遊戲端外框 patch 才讀得出來（選用）",
    "next": "LAWWW-B 換 GLB＋ntu_linze.webp（不用改程式）；決定要不要 plate_border_cap_1030.patch",
    "note": "不重新匯出、不重烘光照（glb_patch.py 只換貼圖／extras）；遊戲內同角度改前改後；全部 Node 763／1（home_unit 開發分支本來就 FAIL）"
@@ -4288,7 +4288,7 @@
    "sha": "0235c71b9",
    "noDirectIntegrate": false,
    "receiver": "LAWWW",
-   "ack": "",
+   "ack": "LAWWW-B 10-30 09:50 ACK＋已整合 f75d60a4c（外框上限 patch 也套了）",
    "task": "LIB-LAWN-1030：X133 總圖前草皮第一版（LAWWW-B 核准：中軸兩邊各一塊、不做台階、老樟樹在北側）",
    "files": [
     "assets/models/env/second_ai/campus_lib_lawn.glb",
@@ -4297,7 +4297,7 @@
     "docs/art-rebuild/second_ai/patches/lib_lawn_1030.patch",
     "docs/art-rebuild/second_ai/test_shots/lib_lawn_1030/README.md"
    ],
-   "state": "已交付",
+   "state": "已整合",
    "remaining": "沒照校內地圖（使用者三個問題未回答）；聖誕樹只留位置；+40 draw call（手機實機沒量）",
    "next": "LAWWW-B 套 lib_lawn_1030.patch＋GLB；轉問使用者草皮形狀／台階／樟樹位置",
    "note": "老樟樹＋南側樹＋六張長椅＋六盞路燈（遊戲端）；lib_lawn_unit 改前 FAIL 改後 PASS；全部 Node 764／1（home_unit 開發分支本來就 FAIL）；READY_FOR_ART_REVIEW"
