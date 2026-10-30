@@ -1,5 +1,7 @@
 # 第三方素材與授權
 
+> 出處、參考照片、查證來源照原文寫真實地名與校名（出處要對得上）；遊戲內顯示的名稱以 `docs/WORLD_NAMING.md` 為準（D115，2026-10-30 起）。
+
 | 項目 | 來源 | 授權 | 使用方式 |
 |---|---|---|---|
 | three.js r187dev | https://github.com/mrdoob/three.js （git clone，2026-09） | MIT | `lib/three.bundle.js`：core＋modules 打包成 classic script；`lib/three.jsm.bundle.js`：GLTFLoader、SkeletonUtils、BufferGeometryUtils |
