@@ -1056,6 +1056,7 @@ const STORY = (function(){
     if(c.term){ const t=typeof CALENDAR!=='undefined'?CALENDAR.termOf(G.day):null; if(!t||!c.term.includes(t.id)) return false; }
     if(c.from){ const d=S.dayOfKey(c.from); if(d==null||G.day<d) return false; }
     if(c.weeks){ const t=typeof CALENDAR!=='undefined'?CALENDAR.termOf(G.day):null; if(!t||!c.weeks.includes(t.week)) return false; }   /* 第幾週（AA_491 第 7 點：考試前那兩週）*/
+    if(c.weekFrom!=null){ const t=typeof CALENDAR!=='undefined'?CALENDAR.termOf(G.day):null; if(!t||!(t.week>=c.weekFrom)) return false; }   /* 第幾週起（到 term 那一學期結束；AA_527 第 2 點：h504_zhe_hand 第 9 週起順延）*/
     if(c.anJapan){ const p=S.presence('heroine_01',G); if(!(p&&p.here===false&&p.kind==='abroad'&&p.away==='日本')) return false; }   /* 以安在日本（characters.js absentDates 2028-03-25～08-05）*/
     return true; };
   /* 說話的人要真的在店裡（NDL-PRESENT-1030，使用者 2026-10-30「去阿鳳麵店 出現麵店團的人 對話 但根本沒有在遊戲內出現」）：
@@ -1909,7 +1910,8 @@ const STORY = (function(){
       if(F.Y0_KEY_CARD==null&&F.GIRAFFE_KEYCHAIN&&F.E20_MAILBOX!=null&&!D('ev_y0_e20')&&!D('ev_y0_e20b')&&typeof ECONFF!=='undefined'&&ECONFF.short&&ECONFF.short(G)&&(PHONE.rec(G).cut||[]).includes('y0_e20_mail')) F.Y0_KEY_CARD='due'; }   /* 30 分鐘版信箱那則一定是剪的（長版會送到）；舊存檔過了 12/29 的照樣補（旁白是過去式「十二月底」）*/
     /* C2 自己的社團（AA_154 A37）：社課邀約、出發選單、唐睿的劇社私訊（Y0_EXTRA）刪除（AA_218 第 11 節、AA_154 0b-2；不提前到 10/17 以前，AA_355 第 3 節）。E07 選了社團（Y0_CLUB）照舊加進那個社團的群組 */
     if(S.isEcon(G)&&F.Y0_CLUB){ const C2={guitar:{g:'y0_guitar',n:'吉他社'},hiking:{g:'y0_hiking',n:'登山社'},badminton:{g:'y0_badminton',n:'羽球社'}}[F.Y0_CLUB]; if(C2&&!PHONE.inGroup(G,C2.g)) PHONE.join(G,C2.g,C2.n);
-      const X=C2&&S.Y0_CLUB_MSG[C2.g]; if(X&&PHONE.inGroup(G,C2.g)) X.m.forEach(([k,L],i)=>{ const d=S.dayOfKey(k); if(d!=null&&G.day<=d) PHONE.at(G,d,21,L.map(t=>({th:'g:'+C2.g,from:X.from,name:X.who,text:t})),C2.g+'_'+(i+1)); }); }
+      const X=C2&&S.Y0_CLUB_MSG[C2.g]; if(X&&PHONE.inGroup(G,C2.g)) X.m.forEach(([k,L],i)=>{ const d=S.dayOfKey(k), tag=C2.g+'_'+(i+1); if(d!=null&&G.day<=d) PHONE.at(G,d,21,L.map(t=>({th:'g:'+C2.g,from:X.from,name:X.who,text:t,quiet:true})),tag);
+        const q=PHONE.rec(G).q.find(x=>x.tag===tag); if(q) for(const it of q.items) it.quiet=true; }); }   /* AA_529 第⑦點（AA-B 10-30 04:55）：不用回＝quiet，30 分鐘版的快轉不停在這裡（收進手機、有紅點）；已經排進佇列的舊存檔也補上 */
     /* E22 期末通宵：刪除（AA_218 第 11 節、AA_154 0b-2）。
        E21a 跨年（A36、A38；AA_224 3-6）：12/31（二）19:00 群組四則＋出發選單「總圖門口 23:00：跨年」；沒去＝00:05 群組人潮照片＋可昕私訊 */
     if(S.isEcon(G)&&typeof OUT!=='undefined'){ const tue31=S.dayOfKey('2024-12-31'), gid=PHONE.inGroup(G,'econ_friends')?'econ_friends':'econ_class', T='g:'+gid, D=id=>!!(G.events&&G.events.done&&G.events.done[id]);

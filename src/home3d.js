@@ -295,7 +295,7 @@ const HOME=(function(){
      o.ff（玩家選的快轉，S.ffMenu）：再加上面 S.waitNew 那幾種，停在收到的那一刻（o.why＝'msg'／'event'）
      X58（使用者 10-18 15:4x「跳過途中收到訊息就跳出來、按了繼續跳；不要跳完才說「收到 N 則」」）：快轉、睡覺跳過去的途中收到任何一則別人傳的訊息（不用回的也算）就停在那一刻（o.why＝'msg'）——
      呼叫的人打開手機（S.ffPhone，「收起來」寫「跳過」）、關掉以後接著跳（S.ffMenu、breakRound 的睡覺）；跳完不再說「收到 N 則」（同經濟系 y0Jump）*/
-  S.recvN=out=>(out||[]).filter(m=>m&&m.from!=='player').length;   /* PHONE.tick 這一批裡別人傳的（祐廷自己那一句不算「收到」）*/
+  S.recvN=out=>(out||[]).filter(m=>m&&m.from!=='player'&&!m.quiet).length;   /* PHONE.tick 這一批裡別人傳的（祐廷自己那一句不算「收到」；quiet 的不停：AA_529 第⑦點）*/
   S.FF_MAX=200;   /* 一次快轉最多停幾次（每一次都要玩家按「跳過」；只是防呆）*/
   S.breakJump=async function(GM,t,o){ o=o||{}; const G=GM.G, E=GM.E; await GM.fade(true); let n=0, tt=T(G.day,G.hour), mo=null; G.flags._repSkipLine=null; const w0=o.ff?S.waitSnap(G):null;
     const repPass=x=>{ if(typeof OUT==='undefined'||typeof VAC==='undefined'||!VAC.repSkip) return; for(const q of OUT.rec(G)){ if(q.state!=='planned'||T(q.day,q.h)>x) continue; const l=VAC.repSkip(G,q); if(l!=null){ VAC.repDone(G,q); if(l) G.flags._repSkipLine=l; } } };   /* ''＝記成去過、沒有旁白（C16、C17 沒有關鍵事件的上班日，vac3d.js S.workSkip）*/   /* 跳過的第二次以後的活動：記成去過、旁白換成那一句（AA_275 第 1 節）*/
@@ -341,16 +341,16 @@ const HOME=(function(){
   S.y0ffOpts=function(G){ if(!S.baseMode(G)) return null; const now=T(G.day,G.hour), end=S.y0FfEnd(); if(end==null||end<=now+0.5) return null;
     const dn=Math.min(T(G.day+30,8.5),end), d3=Math.min(T(G.day+3,8.5),end), d7=Math.min(T(G.day+7,8.5),end);
     return [{t:'到下一個有事的日子',hint:'有事就停（最多到 '+dateLabel(dn)+'）',to:dn},{t:'過三天',hint:'到 '+dateLabel(d3)+'（中間有事會先停）',to:d3},{t:'過一週',hint:'到 '+dateLabel(d7)+'（中間有事會先停）',to:d7},{t:'不用了',to:null}]; };
-  S.y0Jump=async function(GM,t){ const G=GM.G, E=GM.E; await GM.fade(true); let n=0, mo=null, why=null, tt=T(G.day,G.hour); const p0=typeof PHONE!=='undefined'&&PHONE.pending?PHONE.pending(G).length:0;
+  S.y0Jump=async function(GM,t){ const G=GM.G, E=GM.E; await GM.fade(true); let n=0, ln=0, mo=null, why=null, tt=T(G.day,G.hour);   /* n：收到幾則（紅點）；ln：會停的（quiet 的不算，AA_529 第⑦點）*/ const p0=typeof PHONE!=='undefined'&&PHONE.pending?PHONE.pending(G).length:0;
     { const nx=S.breakNext(G,tt); if(nx!=null&&nx<t) t=nx; const fx=S.y0FixedNext(G,tt); if(fx!=null&&fx<t) t=fx; }
     const ra=DK('2025-02-15'), rb=DK('2025-07-10'); let dPrev=G.day; const cards=[], dStart=G.day, tStart=T(G.day,G.hour);   /* brief：同一天、不到一小時（回完手機接著跳）不再出一次「臺北的家」字卡（BB-C 10-18）*/   /* AA_272 第 2 節：重考期快轉跨過的日子照「讀書日」算（retake:study；E36 的旁白讀它）。cards：跨過的衝刺班日子卡（AA_298 第 1 節）*/
     while(tt+0.25<=t+1e-6){ tt=Math.round((tt+0.25)*4)/4; setTime(G,E,tt);
       if(G.day!==dPrev){ dPrev=G.day; const play=typeof ECONFF!=='undefined'&&ECONFF.on2&&ECONFF.on2(G)&&ECONFF.PLAY_DAYS.some(k=>DK(k)===G.day); if(!play&&ra!=null&&rb!=null&&G.day>ra&&G.day<=rb&&typeof EVENTS!=='undefined'&&EVENTS.habit) EVENTS.habit('retake:study'); const cc=typeof ECONFF!=='undefined'&&ECONFF.cramCard?ECONFF.cramCard(G):null; if(cc) cards.push({t:T(G.day,9),c:cc}); }   /* 事件模式：玩樂日（R3、R6、R7）不記讀書日（AA_292 第 6 節）*/
       if(Math.abs(tt-Math.round(tt))<1e-6){
         if(typeof STORY!=='undefined'&&STORY.monthlyFunds){ const f=STORY.monthlyFunds(G); if(f){ GM.money(f.amount); mo=typeof STORY!=='undefined'&&STORY.fundsJoin?STORY.fundsJoin(mo,f):f; } }
-        if(typeof PHONE!=='undefined'){ try{ if(typeof STORY!=='undefined'&&STORY.phoneRules) STORY.phoneRules(GM); PHONE.tick(G,out=>{ n+=out.length; }); }catch(e){ console.warn('HOME y0Jump phone',e); } } }
+        if(typeof PHONE!=='undefined'){ try{ if(typeof STORY!=='undefined'&&STORY.phoneRules) STORY.phoneRules(GM); PHONE.tick(G,out=>{ n+=out.length; ln+=PHONE.loud?PHONE.loud(out).length:out.length; }); }catch(e){ console.warn('HOME y0Jump phone',e); } } }
       const nx=S.breakNext(G,tt); if(nx!=null&&nx<t) t=nx;
-      why=S.y0Stop(G,p0); if(why) break; if(n>0){ why='msg'; break; } }   /* 跳的途中收到任何一則訊息就停：直接打開那一段、按「跳過」繼續跳（使用者 10-18 15:4x：「如果中間顯示簡訊跳出來按它可以繼續跳」；原本只有要回的才停、其他跳完才說「收到 N 則」）*/
+      why=S.y0Stop(G,p0); if(why) break; if(ln>0){ why='msg'; break; } }   /* 跳的途中收到任何一則訊息就停：直接打開那一段、按「跳過」繼續跳（使用者 10-18 15:4x：「如果中間顯示簡訊跳出來按它可以繼續跳」；原本只有要回的才停、其他跳完才說「收到 N 則」）*/
     if(!why&&T(G.day,G.hour)<t) setTime(G,E,t);
     if(GM.titleCard) for(const x of cards) if(x.t<T(G.day,G.hour)-0.01) await GM.titleCard(dateLabel(x.t),x.c.t,2400);   /* 衝刺班：中間跳過的日子只出日期卡＋cram_cards 那一行 */
     const atCram=typeof ECONFF!=='undefined'&&ECONFF.cramDay&&ECONFF.cramDay(G)&&G.hour>=9&&G.hour<21;

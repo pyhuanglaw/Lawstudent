@@ -85,8 +85,7 @@ const POOL_MORE=(function(){
     for(const c of G2.add){ if(!SOCIAL_GRAPH.some(x=>(x.a===c.a&&x.b===c.b)||(x.a===c.b&&x.b===c.a))) SOCIAL_GRAPH.push(Object.assign({},c)); } }
   /* 林采潔那一套：廖芸萱兩個認識的版本共用選項以後那幾句 */
   if(L[YX]&&L[YX].meetQ){ L[YX].meetPS=L[YX].meetPS.concat(L[YX].meetQ); L[YX].meetAlone=L[YX].meetAlone.concat(L[YX].meetQ); }
-  /* 馬佳蓉萬才館值班的認識版本（AA_528 1-2）：社博那一場的台詞；「社團博覽會」那一類字眼換成「這裡」（地點是萬才館：她那一筆作息的 label） */
-  if(L[M]&&Array.isArray(L[M].meet)&&!L[M].meetDuty) L[M].meetDuty=L[M].meet.map(l=>l&&typeof l==='object'&&typeof l.text==='string'?Object.assign({},l,{text:l.text.split('社團博覽會').join('這裡')}):l);
+  /* 馬佳蓉萬才館值班的認識版本（AA_528 1-2）：原本借社博那一場的台詞（meetDuty）；AA_528 第 9 點（AA-B 10-30 04:55）改成專用版本 meetB（src/data/pool_story_b2.js），meetDuty 不再用 */
   /* 2D 背景（稿：沒有背景圖＝深色底；MISSING_EXTERNAL_ART，BB 跟使用者要）*/
   if(typeof OUT!=='undefined'&&OUT.BG){ const B={radio_room:'廣播社・錄音間',putong_empty:'普通教學館・空教室',welfare_room:'社福中心・教室',boya_201:'博雅 201',phil_cafe:'文學院・教室',law_courtyard:'法學院・前庭'};
     for(const k in B) if(!OUT.BG[k]) OUT.BG[k]={label:B[k],image:null}; }
@@ -100,7 +99,7 @@ const POOL_MORE=(function(){
     [J]:(G,e)=>G.zone==='campus'&&!e.terms&&!e.dates?'meet':null,   /* 椰林大道（找人訪問）*/
     [LQ]:(G,e)=>G.zone==='gongguan'?'meet':null,   /* 公館，週五晚上 */
     [SC]:(G,e)=>G.zone==='soclib'?'meet':null,   /* 「民總，你坐我斜前面」*/
-    [M]:(G,e)=>G.zone==='campus'&&e.activity==='club_expo_y1s1'?'meet':(G.zone==='wancai'&&e.fafuDuty?'meetDuty':null),   /* 社團博覽會（法服的攤位）；萬才館法服值班（AA_528 1-2）*/
+    [M]:(G,e)=>G.zone==='campus'&&e.activity==='club_expo_y1s1'?'meet':(G.zone==='wancai'&&e.fafuDuty?'meetB':null),   /* 社團博覽會（法服的攤位）；萬才館法服值班（AA_528 1-2；第 9 點專用版本 meetB）*/
     [TZ]:(G,e)=>G.zone==='library_hall'&&!e.terms?'meet':null,
     [LY]:(G,e)=>G.zone==='cafe'?'meetCafe':((G.zone==='wancai'&&typeof ACTIVITIES!=='undefined'&&ACTIVITIES.attendedAny&&ACTIVITIES.attendedAny(G,'club_guitar'))?'meetClub':null),   /* 吉他社版：祐廷去過吉他社社課 */
     [SH]:(G,e)=>G.zone==='campus'&&!e.terms?'meet':null,
@@ -405,7 +404,8 @@ const POOL_MORE=(function(){
   S.GRAD_Q=[[M,'grad','pool_jr_grad',false],[TZ,'gradJP','pool_tzl_gradjp',true],[LY,'gradJP','pool_lyr_gradjp',true],[SH,'gradJP','pool_ysh_gradjp',true],[CX,'gradJP','pool_ycx_gradjp',true],[ZY,'gradJP','pool_yzy_gradjp',true],[NW,'gradJP','pool_nw_gradjp',true]];
   S.gradSlots=function(G){ const d=termDay('Y3S2',16,6); if(d==null) return []; const jp=abroad(G,d), out=[];
     for(const [id,k,tag,jpOnly] of S.GRAD_Q){ if(jpOnly&&!jp) continue; if(id===NW&&P.did(G,'nwGrad')) continue; if(!L[id]||!L[id][k]||!contact(G,id)) continue; out.push({id,k,tag}); }
-    out.forEach((o,i)=>{ o.day=d+Math.floor(i/2); o.h=i%2?21.5:20; }); return out; };
+    out.forEach((o,i)=>{ o.day=d+Math.floor(i/2); o.h=i%2?21.5:20; if(o.id===M&&S.jrMetB(G)&&L[M].gradB) o.k='gradB'; }); return out; };   /* 佳蓉在萬才館值班認識的：照片換值班桌旁邊的柱子（AA_528 第 9 點） */
+  S.jrMetB=G=>{ const v=(R_(G).mv||{})[M]; return v==='meetB'||v==='meetDuty'; };   /* 在哪裡認識的：POOL.meet 記的版本（mv）。meetDuty＝改版以前的開發存檔，也是在萬才館 */
   S.gradPhone=function(G){ const R=R_(G); for(const o of S.gradSlots(G)){ const ok=story(G,o.id,o.day,o.h,L[o.id][o.k],o.tag); if(o.id===M) segSent(G,M,'grad',o.tag); if(ok&&o.id===NW) R.nwLeft=G.day; } };
   S.phone=function(G){ if(!law(G)||typeof PHONE==='undefined'||typeof CALENDAR==='undefined') return; const F=G.flags||{}, R=R_(G);
     /* 何宇軒 */

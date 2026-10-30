@@ -259,7 +259,7 @@ const VAC=(function(){
      跳完不再說「這幾天收到 N 則」。手機開著的時候 2D 先收起來（S.away：home3d.js 的 backdrop 照樣把 3D 藏著，不露出出發前的宿舍、機場）*/
   const dayCard=G=>{ const x=CALENDAR.dateOf(G.day); return x.m+'/'+x.d+'（'+WDN[x.wd%7]+'）'; };   /* WDN：上面 C01 那一段的「日一二三四五六」*/
   const hhmm=h=>{ const m=Math.round((((h%24)+24)%24)*60); return String(Math.floor(m/60)%24).padStart(2,'0')+':'+String(m%60).padStart(2,'0'); };
-  const recvN=out=>(out||[]).filter(m=>m&&m.from!=='player').length;   /* 這一批裡別人傳的（祐廷自己那一句不算「收到」；同 HOME.recvN）*/
+  const recvN=out=>(out||[]).filter(m=>m&&m.from!=='player'&&!m.quiet).length;   /* 這一批裡別人傳的（祐廷自己那一句不算「收到」；同 HOME.recvN）*/
   S.MSG_STOPS=200;   /* 一次跳過最多停幾次（每一次都要玩家按「跳過」；只是防呆：超過就照舊一路跳到 t）*/
   S.away=false;   /* 跳過途中打開手機的那一下（2D 收起來）：home3d.js 的 S.backdrop 照這個把 3D 藏著 */
   (globalThis.LOADLOCKS=globalThis.LOADLOCKS||{})['vac3d:away']=()=>{ S.away=false; };   /* 讀檔時放開（LOADGEN-LOCKS-1028）：讀檔凍住的舊劇情走不到 finally，只把旗標設回初始值 */
