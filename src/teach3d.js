@@ -269,6 +269,8 @@ const TB3=(function(){
 
   // ---- 階梯教室（備用模型）：每排的平台、兩側走道的台階（每排兩階）、前緣收邊、長桌、椅子、講桌、黑板、投影幕；門口的「看看」；點地面用的平面 ----
   function buildLecture(L,r,grp,bb,IT,lvGrp,zone){ const MAT=B3.MAT, Y=L.floors[r.lv].y, up=r.stage==='S'?-1:1, dummy={blockRect(){}};
+    /* 長桌、椅子（備用）放在自己的群組：正式室內模型有階梯教室的桌椅（SEATPANS）時整組藏起來（BOYA-LM-1030，LAWWW2-B 10-30；博思 teach_interior.py）*/
+    const lf=new THREE.Group(); lf.name='lecture_furniture'; grp.add(lf); (zone.lectFurn=zone.lectFurn||[]).push(lf);
     const platM=TK.std({map:W3.stoneTex('#c4c2bd'),roughness:0.8}), riserM=TK.std({color:0x8f8b84,roughness:0.85}), noseM=TK.std({color:0x55595e,roughness:0.6}), stepM=TK.std({color:0xd8d2c4,roughness:0.7});
     const sw=r.seatX1-r.seatX0, sx=(r.seatX0+r.seatX1)/2, wx0=Math.min(...r.aisles.map(a=>a[0])), wx1=Math.max(...r.aisles.map(a=>a[1]));
     for(const q of r.rowsData){ const za=Math.min(q.front,q.back), zb=Math.max(q.front,q.back), half=(q.y-q.yPrev)/2;
@@ -280,9 +282,10 @@ const TB3=(function(){
         bb.add(platM,TK.boxG(aw,q.y,r.stepD,2.4),ac,Y+q.y/2,q.front+up*r.stepD*1.5);
         bb.add(platM,TK.boxG(aw,q.y,fb-fa,2.4),ac,Y+q.y/2,(fa+fb)/2);
         for(const [zz,yy] of [[q.front,q.yPrev+half],[z1,q.y]]) bb.add(stepM,TK.boxG(aw,0.02,0.06),ac,Y+yy+0.005,zz+up*0.03); }   // 每一階前緣的止滑條
-      { const dk=Z3.desk(grp,dummy,sx,q.deskZ,0,sw,r.deskD,'#3b3330'); dk.position.y=q.y-(0.77-LECT_DESK_TOP); }   /* 桌面在那一排的平台上 0.75 m（Z3.desk 的桌面 0.77）：和正式的講堂桌板、替身抄筆記的手、桌上小物同一個高度 */
+      { const dk=Z3.desk(lf,dummy,sx,q.deskZ,0,sw,r.deskD,'#3b3330'); dk.position.y=q.y-(0.77-LECT_DESK_TOP); }   /* 桌面在那一排的平台上 0.75 m（Z3.desk 的桌面 0.77）：和正式的講堂桌板、替身抄筆記的手、桌上小物同一個高度 */
       const wp=new THREE.Mesh(new THREE.PlaneGeometry(wx1-wx0,zb-za),new THREE.MeshBasicMaterial({visible:false})); wp.rotation.x=-Math.PI/2; wp.position.set((wx0+wx1)/2,Y+q.y+0.01,(za+zb)/2); wp.userData.walkLv=r.lv; wp.userData.dyn=true; lvGrp.add(wp); zone.walkMeshes.push(wp); }
-    for(const st of r.seats){ const c=Z3.chair(grp,st.x,st.z,st.yaw,'#8a5f3c'); c.position.y=st.y; }
+    for(const st of r.seats){ const c=Z3.chair(lf,st.x,st.z,st.yaw,'#8a5f3c'); c.position.y=st.y; }
+    mergeFurniture(lf);
     if(r.lectern){ const lc=r.lectern; bb.add(MAT.wood(),TK.boxG(lc.w,1.05,lc.d),lc.x,Y+0.525,lc.z); bb.add(MAT.woodD(),TK.boxG(lc.w+0.1,0.05,lc.d+0.1),lc.x,Y+1.075,lc.z); }
     const wz=up<0?r.z1:r.z0;   // 講台那一面牆
     if(r.board){ const b=r.board; bb.add(TK.std({color:0x2f4a3a,roughness:0.6}),TK.boxG(b.w,b.y1-b.y0,0.04),b.x,Y+(b.y0+b.y1)/2,wz+up*0.03); bb.add(MAT.frame(),TK.boxG(b.w+0.1,0.05,0.09),b.x,Y+b.y0-0.02,wz+up*0.06); }
@@ -351,6 +354,8 @@ const TB3=(function(){
        隔間牆（tb_partition）擋住鏡頭時照樣網點透空。導航、座位、互動點、桌椅都不變；載入前、載入失敗照舊是備用模型 */
     zone.formal=false; { const GK='bldg.'+id+'_interior'; if(typeof ASSETS!=='undefined'&&ASSETS.manifest&&ASSETS.manifest[GK]) ASSETS.loadOne(GK).then(c=>{ if(!c||!c.scene||E.zone!==zone) return; const root=c.scene.clone(true);
       B3.attachFormal(zone,root,fb0,fb1,lv0,lv1,walls,walkMeshes);
+      /* 階梯教室的長桌、翻椅在正式模型裡（BOYA-LM-1030，LAWWW2-B 10-30；SEATPANS＝所有椅面一個網格）：藏起備用的方塊桌椅；沒有人坐的椅面掀起來（Z3.seatFold，和法律系館A 201 同一套）*/
+      if(lv0.getObjectByName('SEATPANS')){ for(const f of zone.lectFurn||[]) f.visible=false; if(Z3.seatFold) Z3.seatFold(zone,lv0); }
       for(const r of [lv0,lv1]) r.traverse(o=>{ if(o.isMesh&&o.material&&/^tb_partition/.test(o.material.name||'')&&!o.material.userData.seeThrough){ o.material.userData.seeThrough=true; if(E.patchSeeThrough) E.patchSeeThrough(o.material); } });
     }).catch(e=>console.warn(L.name+' 室內正式模型載入失敗，用備用模型',e)); }
     const EN=L.entrance; E.interactables.push({x:EN.exit.x,z:EN.exit.z,radius:EN.exit.r,lv:0,label:'走出'+L.name,exit:{to:'campus',spawn:EN.campus?Object.assign({},EN.campus):undefined}});   /* campus 還沒定（博雅：校園的位置等使用者決定）＝校園的預設出生點 */

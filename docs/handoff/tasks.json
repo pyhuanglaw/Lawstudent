@@ -29095,7 +29095,7 @@
    "id": "ART-ZR-PS-3D-1022",
    "title": "芷若、沛珊的 3D 人物看起來憨（使用者 10-22 04:0x 對 LAWWW2：「林芷若3d好憨 沛珊也是」）：在遊戲裡拍臉部近景找具體原因，一次改一樣、同鏡頭比；名字、身高、髮型、服裝識別照通過的參考圖",
    "owner": "LAWWW2",
-   "status": "進行中",
+   "status": "已驗收",
    "priority": "P2",
    "area": "ART",
    "first": {
@@ -29110,7 +29110,7 @@
    },
    "source": "使用者 2026-10-22 04:0x 直接對 LAWWW2；LAWWW2 04:01 訊息（user_asks_LAWWW2.json UA-LAWWW2-1022-01）",
    "authorized": "使用者直接交代（10-17「修改人物的事情暫停」對這兩位解除）；D100 第 6 點角色美術由 LAWWW 驗收",
-   "next": "【LAWWW-B 10-23 16:5x】第三十一版（781d692f）退件：臉旁碎髮正面看得到、眨眼閉滿＝進步；但瀏海仍是一整片蓋額頭、剪到眉毛的平瀏海（參考圖是中分、額頭露出、兩片窗簾瀏海往外撥垂到顴骨～下巴）、頭頂兩側鼓起、兩側髮量少。第三十二版：中分線清楚、額頭中間露出、窗簾瀏海、頭頂順、兩側蓬垂到脖子、低馬尾鬆綁；臉不動。開發分支照舊第二十八版。LAWWW2 排第一（C27），大樹 A、總圖 B1 在後 ｜ 【LAWWW（帳號 A）15:1x】LAWWW2 15:09 交班：第三十一版 WIP 沒交件（repo 的 VRM 還是第三十版）；腳本 c8a7a953、遊戲內比較圖 d724b106（char_review/peishan_v31/）；正面四項改好（尖刺、窄長倒 V、髮尾、臉旁長碎髮），三分之四側太陽穴那條皮膚還在試；第三十一版 VRM 沒有遠端備份（用腳本重做，md5 d8ff855e）。驗收照「對著參考圖逐項比」 ｜ 【LAWWW（帳號 A）13:5x】第三十版（7e64ec43）退件：膚色、臉陰影對，三分之四側接近可以；正面瀏海還是短的帽子、臉旁長碎髮正面看不到 → 第三十一版只改正面（可以考慮換 CC0 前髮，LAWWW2 判斷）；不接進遊戲 ｜ 【LAWWW（帳號 A）12:5x】第二十九版（9b0ec2db）驗收沒過、退回：髮色／眉毛／唇色對、眼睛接近；瀏海不對（短的安全帽、停在眉毛上、沒有臉旁長碎髮）、臉白脖子紅像面具；三分之四側梳痕太硬、馬尾太規整 → LAWWW2 做第三十版（同格式交件）；不接進遊戲 ｜ 【LAWWW（帳號 A）2026-10-22 11:5x】使用者 11:5x 直接對 LAWWW2：「你花這麼多時間改沛珊長裙結果她人還是很醜 臉啊頭髮啊 醜死了」（UA-LAWWW2-1022-02，LAWWW2 9ee4cd24）＝LAWWW 04:4x「沛珊通過」的驗收被使用者推翻，任務改回進行中。沛珊第二十八版：臉和頭髮重做（LAWWW2 對照參考圖 story-planning 分支 docs/story_planning/art_reference/classmate_peishan.webp 找到的原因：①額頭整片露出、只有幾根黑色尖刺，參考圖是中分往兩邊垂的瀏海；②髮色純黑一塊，參考圖深棕黑、有一束束亮面；③眼睛小、沒有亮點；④眉毛離眼睛遠、臉一片白、唇色淡）→ 遊戲內同鏡頭前後 → LAWWW 驗收。這次的驗收標準（LAWWW 自己改）：遊戲內臉部近景和參考圖並排，瀏海、髮色、眼睛、眉毛、唇色逐項對，不再只看穿模、比例、服裝；過了才接。v9.10.5 照舊是第二十七版（D99 第 4 點：不擋發布），寫進 RELEASES「這版還沒有的」 ｜ 【LAWWW（帳號 A）2026-10-22 04:4x】LAWWW2 交件 1598a47d（沛珊第二十七版）、888831c4（芷若改 Blender 版）。LAWWW 驗收（D100 第 6 點）：沛珊通過；芷若的臉通過、頭髮另開 ART-ZR-HAIR-1022；已接進開發分支（同檔名＋assets3d.js 一行）。等 v9.10.4 發布測試跑完：瀏覽器看 Café 圍裙、吧台座位、區域與劇情鏡頭的截圖 ｜ 【LAWWW（帳號 A）2026-10-22 04:1x】LAWWW2 拍臉部近景找原因 → 改 → 交件；LAWWW 看遊戲內截圖驗收（D100 第 6 點），換 VRM（盡量同檔名、manifest 不改）。不能動的：character3d.js MODEL_PROPS——芷若的 glasses、earrings、apron 三個節點名字（Café 當班才穿圍裙）；沛珊的 glasses 是另外的 GLB（prop.glasses_peishan）掛在 glasses 那個名字上；VRM 表情（CHAR.setExpr）；身高 1.61／1.63；沛珊 manifest 的 armOut 9、armBack 0.45、armFwd 0.15；芷若 blUrl（?blchar）",
+   "next": "—（第三十二版沒改的四項：兩側髮帶、瀏海落在鏡框上緣、髮片邊緣一階一階、鞋子——要做第三十三版另開任務）",
    "xai": {
     "spec": "使用者原話＋BB 通過的參考圖",
     "branch": "claude/second-ai-env-art",
@@ -36454,8 +36454,8 @@
    "title": "博思教學館室內光照烘焙＋照 202 v2 換家具與天花板（boya_interior：101／102 階梯教室、走廊；經濟系第一堂經原在博思 101）",
    "area": "ART",
    "owner": "LAWWW2",
-   "status": "進行中",
-   "next": "LAWWW2 做（照 INTERIOR_AAA_REVIEW_1028 P1 光照＋P5 燈具；layout、座位、碰撞不動）→ 交件 → LAWWW 整合 → BB 測",
+   "status": "已整合待測試",
+   "next": "BB 測（博思 101／102 白天晚上、坐下起身椅面掀起放下、經濟系第一堂經原在 101 照常上課、進兩次）",
    "priority": "P1",
    "first": {
     "term": "Y0S1",
@@ -36474,16 +36474,17 @@
     "branch": "claude/funny-albattani-iawshm",
     "acceptance": "同鏡頭改前改後白天晚上、layout 不變、效能",
     "receiver": "LAWWW",
-    "ack": "自領"
+    "ack": "ACTIONED"
    },
-   "notes": "D99 第一優先經濟系那一年玩家最常待的室內，還沒有光照貼圖（10-30 盤點：GLB 的 extras.lightmap）"
+   "notes": "【14:1x】LAWWW2 交件 5552cb6eb：GLB 1.32→4.51 MB＋日夜光照、翻椅 132 張、T5 格柵；boya_lecture_furn_1030.patch（teach3d 備用方塊桌椅進 lecture_furniture、接 Z3.seatFold）；READY_FOR_ART_REVIEW ｜ D99 第一優先經濟系那一年玩家最常待的室內，還沒有光照貼圖（10-30 盤點：GLB 的 extras.lightmap）",
+   "sha": "PENDING"
   },
   {
    "id": "SOCLIB-LM-1030",
    "title": "社科院圖書館室內光照烘焙（soclib_interior；經濟系那一年念書、經濟系朋友在社科圖遇得到 ECON-FRIENDS-SOCLIB-1030）",
    "area": "ART",
    "owner": "LAWWW2",
-   "status": "待開工",
+   "status": "進行中",
    "next": "LAWWW2 做（照 INTERIOR_AAA_REVIEW_1028 P1 光照＋P5 燈具；layout、座位、碰撞不動）→ 交件 → LAWWW 整合 → BB 測",
    "priority": "P1",
    "first": {

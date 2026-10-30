@@ -13423,8 +13423,8 @@
    "what": "沛珊第二十九版（臉、頭髮；UA-LAWWW2-1022-02）：中分八字瀏海、髮色深棕、眼睛放大＋亮點、眉毛、唇色、細框眼鏡；VRM／眼鏡／腳本 f510b1b7；說明與對照圖 docs/art-rebuild/second_ai/char_review/peishan_v29/",
    "task": "ART-ZR-PS-3D-1022",
    "msg": "ACK",
-   "integration": "退件",
-   "note": "LAWWW（帳號 A）12:5x 驗收（D100 第 6 點，和參考圖 classmate_peishan.webp 並排逐項）：髮色、眉毛、唇色對，眼睛接近可以；瀏海不對（短的安全帽、停在眉毛上、太陽穴硬邊、沒有臉旁長碎髮；參考圖是長到眼睛高度的中分瀏海＋到下巴的碎髮）、臉白脖子紅像面具 → 退回做第三十版；不接進遊戲（v9.10.5 照舊第二十七版）"
+   "integration": "不整合",
+   "note": "LAWWW（帳號 A）12:5x 驗收（D100 第 6 點，和參考圖 classmate_peishan.webp 並排逐項）：髮色、眉毛、唇色對，眼睛接近可以；瀏海不對（短的安全帽、停在眉毛上、太陽穴硬邊、沒有臉旁長碎髮；參考圖是長到眼睛高度的中分瀏海＋到下巴的碎髮）、臉白脖子紅像面具 → 退回做第三十版；不接進遊戲（v9.10.5 照舊第二十七版）｜【LAWWW-B 10-30 14:1x】退件，被第三十二版（27b5e58bf，10-23 驗收、v9.10.7 起）取代，不整合"
   },
   {
    "id": "DL-LAWWW2-7e64ec43",
@@ -13436,8 +13436,8 @@
    "what": "沛珊第三十版（照 12:5x 退件單）：兩側瀏海長到顴骨、臉旁每邊 3 綹到下巴、頭頂貼頭皮；膚色統一（身體陰影不乘皮膚貼圖、身體乘臉的暖色、臉淡陰影）；梳痕淡、馬尾低鬆；說明 docs/art-rebuild/second_ai/char_review/peishan_v30/",
    "task": "ART-ZR-PS-3D-1022",
    "msg": "ACK",
-   "integration": "退件",
-   "note": "LAWWW（帳號 A）13:5x 驗收：膚色、臉陰影對，三分之四側接近可以，髮色眉毛唇色眼睛對；正面瀏海還是短的帽子（頭頂尖刺、額頭大倒 V、停在眉毛上）、臉旁長碎髮正面看不到 → 退回第三十一版；不接進遊戲"
+   "integration": "不整合",
+   "note": "LAWWW（帳號 A）13:5x 驗收：膚色、臉陰影對，三分之四側接近可以，髮色眉毛唇色眼睛對；正面瀏海還是短的帽子（頭頂尖刺、額頭大倒 V、停在眉毛上）、臉旁長碎髮正面看不到 → 退回第三十一版；不接進遊戲｜【LAWWW-B 10-30 14:1x】退件，被第三十二版（27b5e58bf，10-23 驗收、v9.10.7 起）取代，不整合"
   },
   {
    "id": "DL-AA-608b9adc",
@@ -13943,8 +13943,8 @@
    "what": "沛珊第三十一版 VRM（只換頭髮）＋遊戲內對照圖",
    "task": "ART-ZR-PS-3D-1022",
    "msg": "ACK",
-   "integration": "未整合",
-   "note": "LAWWW-B 10-23 16:5x 驗收不通過（瀏海仍是平剪蓋額頭；要中分、窗簾瀏海）；不換進開發分支；第三十二版"
+   "integration": "不整合",
+   "note": "LAWWW-B 10-23 16:5x 驗收不通過（瀏海仍是平剪蓋額頭；要中分、窗簾瀏海）；不換進開發分支；第三十二版｜【LAWWW-B 10-30 14:1x】被第三十二版（27b5e58bf，10-23 驗收、v9.10.7 起）取代，不整合"
   },
   {
    "id": "DL-LW2-LAB8",
@@ -16285,6 +16285,19 @@
    "task": "MULTI-ROOM-V2-1030",
    "integration": "已整合待測試",
    "note": "【LAWWW-B 11:4x ACK】rooms_glb、wancai_lightmap、room_ceiling、room_map_labels、x78_rooms、nav_buildings ALL PASS"
+  },
+  {
+   "id": "DL-LW2-BOYALM-1030",
+   "date": "2026-10-30",
+   "from": "LAWWW2-B",
+   "account": "B",
+   "branch": "claude/funny-albattani-iawshm",
+   "sha": "5552cb6eb",
+   "msg": "ACK",
+   "what": "博思教學館室內 v2：翻椅、長桌、T5 格柵、光照烘焙（GLB＋日夜）、boya_lecture_furn_1030.patch、boya_lecture_glb_unit",
+   "task": "BOYA-LM-1030",
+   "integration": "已整合待測試",
+   "note": "【LAWWW-B 14:1x ACK】boya_lecture_glb、desk_furniture、room_ceiling、rooms_glb、nav_buildings ALL PASS"
   }
  ],
  "ignored": [
