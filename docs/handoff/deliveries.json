@@ -16415,6 +16415,19 @@
    "task": "LM-COLLAPSE-1030",
    "integration": "已整合待測試",
    "note": "LAWWW-B 22:1x 只拿 3 個資產檔（GLB 4.10→3.92 MB）；room_ceiling、room_rtnight、seat_fold、linze_lightmap ALL PASS"
+  },
+  {
+   "id": "DL-LW2-ZONEENTER-1030",
+   "date": "2026-10-30",
+   "from": "LAWWW2-B",
+   "account": "B",
+   "branch": "claude/funny-albattani-iawshm",
+   "sha": "95fcbf00c",
+   "msg": "ACK",
+   "what": "PERF-ZONE-ENTER-1018 第三輪（室內）：zones3d.js 兩段同步讀像素改掉——光照貼圖平均亮度改 createImageBitmap 背景縮圖＋每網址快取、字牌 atlas 平均色快取＋字牌門牌畫在 CPU 畫布（zone_enter_readback_1030.patch）",
+   "task": "PERF-ZONE-ENTER-1018",
+   "integration": "已整合待測試",
+   "note": "LAWWW-B 23:2x 套上；SwiftShader 量：getImageData 每站 1.4～5.1 秒→0～3 ms，但 18 站整體看不出變快（雜訊比省下的大，README 照實寫）；畫面同角度一樣、rtNight 小數點後 4 位一樣；zones 相關 Node 40 支 ALL PASS。剩下的（prewarm settle 4～7 秒、等 GPU）要在使用者電腦上量"
   }
  ],
  "ignored": [
