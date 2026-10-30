@@ -36565,8 +36565,8 @@
    "title": "以安二試（2029-12-14）、司法官（2030-01-25）放榜的麵店團群組：和電話版同一段，到隔天 03:00 以前條件成立才補（原本 48 小時內都補）",
    "area": "BUG",
    "owner": "LAWWW",
-   "status": "已整合待測試",
-   "next": "BB r43d PGF10_AN_EX_LATE：21:12 變 FRIEND 照收到；隔天中午才變 FRIEND 不收到",
+   "status": "已驗收",
+   "next": "—",
    "priority": "P3",
    "first": {
     "term": "Y4S2",
@@ -36581,7 +36581,8 @@
    "source": "BB-B R43 PGF10_AN_EX_LATE（10-30 13:31）；AA-B 13:33 回 B",
    "authorized": "D109（AA 劇情決定）、D111",
    "sha": "49ba39d6d",
-   "notes": "PG.MSGS pg_an_ex1、pg_an_group 加 win:6；tests/pg_an_ex_win_unit.js（修改前 FAIL）"
+   "notes": "PG.MSGS pg_an_ex1、pg_an_group 加 win:6；tests/pg_an_ex_win_unit.js（修改前 FAIL）",
+   "evidence": "BB-B 2b40377eb 7/0 PASS：AN_EX_LATE（21:12 變 FRIEND）收到、標 12/14 21:00；AN_EX_NOON（12/15 中午）沒有；1/25 照收；修正前 b38 NOON 照樣補發 FAIL（BB_218）；tests/pg_an_ex_win_unit.js"
   }
  ]
 }
