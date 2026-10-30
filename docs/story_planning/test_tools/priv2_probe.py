@@ -165,6 +165,10 @@ async def main():
             else:
                 run.check('前置：語彤旁邊有阿姨以外的同伴（companyOf 有 npc_huangxh）', bool(who) and 'npc_huangxh' in who, J(who))
             r, dl = await talk(pg, cdp, run, MODE, picks=['就這樣', '不用了', '先不'])
+            if r and any('這是我阿姨的店' in t for _, t in r.get('lines', [])):   # BB-B 10-30 02:3x：第一次說話演的是她在麵店的初見（「……你？這是我阿姨的店。」，沒有平常的選單）＝像玩家一樣再跟她說一次
+                run.note('%s：第一次說話是語彤在麵店的初見（沒有平常的選單），再跟她說一次' % MODE)
+                r, dl = await talk(pg, cdp, run, MODE + '_2', picks=['就這樣', '不用了', '先不'])
+                run.check('第二次說話有平常的選單（不是初見）', bool(r and r.get('opts')) and not any('這是我阿姨的店' in t for _, t in r.get('lines', [])), J(r and r.get('opts')))
             flat = [o for os_ in (r or {}).get('opts', []) for o in os_]
             inv = any(o.startswith('約她去') for o in flat); tl = bool(later) and later in flat
             s1 = await pg.evaluate(STATE, YT); run.note('說完：%s' % J(s1))
