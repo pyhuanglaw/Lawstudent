@@ -13,6 +13,14 @@
   spoken   speaker 是人物（同一個物件的 speaker／who／from）、鍵是 say／lines／reply／msgs／ask…、GM.say(人物,…)
   其他     tools/rename/game_overrides.json 逐條寫（path＋body＝原字串一字不差 → cls）；法律系館的字串沒寫＝列出來，不改
 產生器產生的檔（GEN）不在這裡改：改產生器或它讀的稿，重跑產生器。
+  匯入工具讀企劃稿一律走 tools/story/import_guard.py 的 read_fix（＝alison＋world 換名），白名單上還沒換名的舊稿匯進來也是新名字；
+  讀稿對字的測試用 tests/alison.js 的同一套（git show 企劃稿＝換名以後的字）。
+
+合進別的分支的程式（還在路上的 AA_524／525、aopen、118 巷……）以後：
+  1. python3 tools/rename/apply_game.py --apply；法律系館判斷不出來的寫進 game_overrides.json（path＋body＝原字串 → spoken／written／skip）再跑
+  2. 有改產生器讀的稿：重跑那支產生器（它讀稿時會換名）
+  3. python3 tools/rename/apply_tests.py --apply <新的或失敗的測試>（測試寫死的預期字串照遊戲換；判斷不出來的寫進 test_overrides.json）
+  4. node tests/world_rename_unit.js（src 沒有舊名、舊存檔顯示、讀稿 hook）
 """
 import os, re, sys, json
 HERE = os.path.dirname(os.path.abspath(__file__))
