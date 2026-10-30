@@ -26,6 +26,8 @@ def game_text():
 def decide(body, G, ov, path):
     o = ov.get((path, body))
     if o: return o, 'override'
+    if re.search(r'\.(md|json|js|py|webp|png|jpg|glb)\b', body) and not re.search(r'[「」。，、（]', body):
+        return 'skip', 'file-path'   # 檔名、路徑（企劃稿的檔名帶舊名，不改：WORLD_NAMING 第 5 節）
     sp, wr = W.spoken(body), W.written(body)
     if sp == body and wr == body: return 'same', ''
     hs, hw = sp in G, wr in G
@@ -38,12 +40,13 @@ def decide(body, G, ov, path):
     for m in re.finditer(r'霖澤館?館?|萬才館?館?', body):
         found = None
         for k in (10, 8, 6, 5, 4, 3, 2):
-            a, b = max(0, m.start() - k), min(len(body), m.end() + k)
-            win = body[a:b]
-            if len(win) < 5: continue
-            ws, ww = W.spoken(win), W.written(win)
-            fs, fw = ws in G, ww in G
-            if fs != fw: found = 'spoken' if fs else 'written'; break
+            for a, b in ((max(0, m.start() - k), min(len(body), m.end() + k)), (m.start(), min(len(body), m.end() + k)), (max(0, m.start() - k), m.end())):
+                win = body[a:b]   # 兩邊、只取後面、只取前面（測試拼字時舊名常在一段的開頭或結尾）
+                if len(win) < 5: continue
+                ws, ww = W.spoken(win), W.written(win)
+                fs, fw = ws in G, ww in G
+                if fs != fw: found = 'spoken' if fs else 'written'; break
+            if found: break
         if not found: return 'unknown', ('both' if hs and hw else 'none')
         cls.add(found)
     if len(cls) == 1: return cls.pop(), 'window'

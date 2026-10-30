@@ -105,9 +105,9 @@ const sec=async(n,f)=>{ try{ await f(); }catch(e){ check(n+'. 丟出例外（中
   { setup('2027-08-06',20,'dorm','FRIEND',{SIS_QIXI:{2026:'met'}}); dateSis(); rules(); const a=dms().length; at('2027-08-06',21.05); rules(); const m=PHONE.byAsk(H.G,'sisqx_2027_ask');
     check('1-2. 2027-08-06（五）21:00（去年一起過）：「週日七夕。」「我那天在研究室寫到八點。」「你可以八點來接我。」「晚餐你帶。」；回覆「好，我帶。」「要吃什麼？」「那天不行。」',a===0&&J(dms())===J(['週日七夕。','我那天在研究室寫到八點。','你可以八點來接我。','晚餐你帶。'])&&!!m&&J(m.ask.opts.map(o=>o.t))===J(['好，我帶。','要吃什麼？','那天不行。']),J(dms()));
     PHONE.answer(H.G,'sisqx_2027_ask',1); rules(); const q=OUT.get(H.G,'sisqx_2027');
-    check('1-2. 「要吃什麼？」→「你決定。不要太油。」、照答應排 8/8（日）20:00 霖澤館・研究室門口',dms().slice(-1)[0]==='你決定。不要太油。'&&!!q&&q.day===H.D('2027-08-08')&&q.h===20&&q.ev==='ev_sis_qixi'&&/霖澤館/.test(q.place||''),J({d:dms(),q}));
+    check('1-2. 「要吃什麼？」→「你決定。不要太油。」、照答應排 8/8（日）20:00 法律系館A・研究室門口',dms().slice(-1)[0]==='你決定。不要太油。'&&!!q&&q.day===H.D('2027-08-08')&&q.h===20&&q.ev==='ev_sis_qixi'&&/法律系館A/.test(q.place||''),J({d:dms(),q}));
     at('2027-08-08',20); H.G.flags.SIS_CRACK=1; const c0=logN(), r0=relOf(); const L=await play('ev_sis_qixi',[0]); const r1=relOf();
-    check('1-2. 研究室門口（霖澤館前的底圖）：八點零五分、「第三節寫完了。……第二節被我刪了一半。」、台階上吃便當；「刪了一半還算寫完嗎？」→「算。刪掉的那一半本來就不該寫。」；「明年八月，我就在美國了。」收便當、「走吧。我送你到路口。」',
+    check('1-2. 研究室門口（法律系館A前的底圖）：八點零五分、「第三節寫完了。……第二節被我刪了一半。」、台階上吃便當；「刪了一半還算寫完嗎？」→「算。刪掉的那一半本來就不該寫。」；「明年八月，我就在美國了。」收便當、「走吧。我送你到路口。」',
       J(L)===J(L12)&&J(H.opts[0])===J(['「刪了一半還算寫完嗎？」','（把她的稿子拿過來看）'])&&H.bgs.some(b=>b&&b.image==='assets/bg/ntu_linze.webp'),J({L,O:H.opts,bgs:H.bgs}));
     check('1-2. SIS_QIXI[2027] met（2026 那筆還在）；+3／+6／+5、裂縫 1→0；不進 dateLog',QX(2027)==='met'&&QX(2026)==='met'&&dRel(r0,r1)===VDAY&&H.G.flags.SIS_CRACK===0&&logN()===c0,dRel(r0,r1)+' '+J(H.G.flags.SIS_QIXI)); }
   { setup('2027-08-06',21.05,'dorm','FRIEND'); dateSis(); rules(); const first=dms().slice(), m0=PHONE.byAsk(H.G,'sisqx_2027_last'), main0=PHONE.byAsk(H.G,'sisqx_2027_ask');

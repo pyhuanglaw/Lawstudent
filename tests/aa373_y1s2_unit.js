@@ -182,8 +182,8 @@ const kxOD=()=>OUT.rec(G).filter(q=>/^kx_od_/.test(q.id));
   // ===== 第 24 項：沛珊 P2「這半年」=====
   { const dbt=async day=>{ fresh(day,15,'library',{}); R('classmate_peishan','FAM'); picks=['妳呢']; said=[]; await EVENTS.run(ev('ev_peishan_doubt')); return lines(); };
     const a=await dbt(termDay('Y1S1',8,3)), b=await dbt(termDay('Y1S2',3,3));
-    check('24. 大一下才演的 P2：「我在旁聽哲學系的課。上禮拜坐在那間教室，比坐在A館這半年都自在。」',b.includes('我在旁聽哲學系的課。上禮拜坐在那間教室，比坐在A館這半年都自在。')&&!b.some(t=>/一個多月/.test(t)),J(b.filter(t=>/霖澤館/.test(t))));
-    check('24. 對照：大一上照原句「…比坐在A館這一個多月都自在。」',a.includes('我在旁聽哲學系的課。上禮拜坐在那間教室，比坐在A館這一個多月都自在。')&&!a.some(t=>/這半年/.test(t)),J(a.filter(t=>/霖澤館/.test(t)))); }
+    check('24. 大一下才演的 P2：「我在旁聽哲學系的課。上禮拜坐在那間教室，比坐在A館這半年都自在。」',b.includes('我在旁聽哲學系的課。上禮拜坐在那間教室，比坐在A館這半年都自在。')&&!b.some(t=>/一個多月/.test(t)),J(b.filter(t=>/A館/.test(t))));
+    check('24. 對照：大一上照原句「…比坐在A館這一個多月都自在。」',a.includes('我在旁聽哲學系的課。上禮拜坐在那間教室，比坐在A館這一個多月都自在。')&&!a.some(t=>/這半年/.test(t)),J(a.filter(t=>/A館/.test(t)))); }
   // ===== 第 25、26 項＋BB-4：可昕不比輸贏 =====
   { const w7=termDay('Y1S2',7,3); fresh(w7,20.9,'dorm',{dating_kexin:true}); run(21,21.1); const L=txt('p:kexin');
     check('25、26／BB-4. 4/8 21:00：「考完去吃山下那攤，我請。下週六下午可以嗎？」（沒有「輸的請」；下週六＝4/18）',L.includes('考完去吃山下那攤，我請。下週六下午可以嗎？')&&!L.some(t=>/輸的請/.test(t)),J(L));
@@ -217,7 +217,7 @@ const kxOD=()=>OUT.rec(G).filter(q=>/^kx_od_/.test(q.id));
     check('第 6-2 節第 4 題. 學姊 S2-L6 看過空保溫瓶那一套：「上學期期中那個空的保溫瓶，你看到了。」',!!fl&&fl.lines[0]==='上學期期中那個空的保溫瓶，你看到了。',fl&&fl.lines[0]);
     const h2=TERMEND.heart('heroine_03','Y1S2'), h3=TERMEND.heart('heroine_03','Y2S1');
     check('第 6-2 節第 7 題. 語彤大一下心意第二次：「禮拜五。打烊以後。……你上次說要想，想好了嗎。」（對照：大二上照舊「禮拜四」）',!!h2&&h2.invite2==='禮拜五。打烊以後。……你上次說要想，想好了嗎。'&&!!h3&&h3.invite2==='禮拜四。打烊以後。……你上次說要想，想好了嗎。',J([h2&&h2.invite2,h3&&h3.invite2]));
-    const dbt=async day=>{ fresh(day,15,'library',{}); R('classmate_peishan','FAM'); picks=['妳呢']; said=[]; await EVENTS.run(ev('ev_peishan_doubt')); return lines().filter(t=>/霖澤館/.test(t)); };
+    const dbt=async day=>{ fresh(day,15,'library',{}); R('classmate_peishan','FAM'); picks=['妳呢']; said=[]; await EVENTS.run(ev('ev_peishan_doubt')); return lines().filter(t=>/A館/.test(t)); };
     const y2=await dbt(termDay('Y2S1',3,3));
     check('第 6-2 節第 10 題. 大二上才第一次演沛珊 P2：「…比坐在A館這一年多都自在。」（不是「這半年」「這一個多月」）',J(y2)===J(['我在旁聽哲學系的課。上禮拜坐在那間教室，比坐在A館這一年多都自在。']),J(y2));
     const at=(key,h,id)=>{ fresh(D(key),h,'campus',{}); const e=STORY.schedEnt(CHARACTERS[id],G); return e&&e.away; };

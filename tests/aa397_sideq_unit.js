@@ -97,7 +97,7 @@ await sec('2 SQ02',async()=>{ fresh('2026-10-05',15,'wenzhou'); know('巷口茶�
   const q=(H.G.outings||[]).find(x=>x.ev==='ev_sq02_fafu');
   check('2. SQ02 開頭：（她把一張紙壓在收銀機下面。）、店員那句；選「要不要帶去法服問？」→ 排下一次法服初談（單週六上午、萬才館）',seq(['（她把一張紙壓在收銀機下面。）','老闆說上禮拜打破的杯子，要從我薪水扣。三個，四百五。'])&&J(H.opts[1])===J(['「要不要帶去法服問？」','「妳自己覺得呢？」'])&&!!q&&CALENDAR.dateOf(q.day).wd===6&&STORY.fafuDuty(Object.assign({},H.G,{day:q.day}))&&R('SQ02').step==='fafu',J(q));
   await goOut(q.id,[]);
-  check('2. SQ02 法服：萬才館・研討室；值班的學長「可以先跟老闆好好談；需要的話，勞工局有免費的諮詢。」',H.said.some(s=>s.who==='值班的學長'&&s.t==='可以先跟老闆好好談；需要的話，勞工局有免費的諮詢。')&&R('SQ02').step==='wait',J(said()));
+  check('2. SQ02 法服：法律系館B・研討室；值班的學長「可以先跟老闆好好談；需要的話，勞工局有免費的諮詢。」',H.said.some(s=>s.who==='值班的學長'&&s.t==='可以先跟老闆好好談；需要的話，勞工局有免費的諮詢。')&&R('SQ02').step==='wait',J(said()));
   set(keyOf(q.day+1),15); money=[]; await shop('巷口茶飲',[0],{item:'紅茶',price:30});
   check('2. SQ02 之後去茶飲：老闆那句（旁白）、「半糖少冰，對吧。……今天不算錢。」、這一杯退錢；做完',seq(['（她回去跟老闆說了。老闆說：「我只是嚇嚇妳，誰叫妳一直講手機。」最後沒扣。）','半糖少冰，對吧。……今天不算錢。'])&&J(money)===J([30])&&R('SQ02').state==='done',J([said(),money]));
   set(keyOf(q.day+2),15); await shop('巷口茶飲',[0]); check('2. SQ02 痕跡：（櫃台貼了一張「工作中手機請放後面」——她自己貼的。）一次',has('（櫃台貼了一張「工作中手機請放後面」——她自己貼的。）'));
@@ -250,7 +250,7 @@ await sec(4,async()=>{
   check('4. SQ08 象棋阿伯「貓？我每天帶一點魚乾。牠比我準時。」、蘇姨「我中午會放一碗水。……牠不吃我的飯，只喝水。」、貼表（你把表貼在公布欄的角落，用了四個圖釘。）',X().LINES.SQ08.ask.abo==='貓？我每天帶一點魚乾。牠比我準時。'&&X().LINES.SQ08.ask.su==='我中午會放一碗水。……牠不吃我的飯，只喝水。'&&X().LINES.SQ08.post==='（你把表貼在公布欄的角落，用了四個圖釘。）');
   fresh('2027-10-03',12,'l118_noodle'); know('六張犁麵舖',4); PHONE.join&&PHONE.join(H.G,'noodle_team'); SOCIAL.remember('zhe','FIRST_MET',''); await shop('六張犁麵舖',[0,1]); const r5=R('SQ05');
   set('2027-10-04',13,'linze'); const due=X().signDue({G:H.G,E}); set('2027-10-04',13,'campus'); const notL=X().signDue({G:H.G,E}); H.said=[]; set('2027-10-04',13,'linze'); await EVENTS.run(X().SIGN_EV);
-  check('4. SQ05 答應的隔天 12:00～18:00 在霖澤館：（你下課經過霖澤館一樓，阿哲把卡片塞給你。）（在別的地方不演）',!!r5&&(!r5.zhe||(due&&!notL&&has('（你下課經過法律系館A一樓，阿哲把卡片塞給你。）')&&!!r5.signed)),J({zhe:r5&&r5.zhe,due,notL}));
+  check('4. SQ05 答應的隔天 12:00～18:00 在霖澤館：（你下課經過霖澤館一樓，阿哲把卡片塞給你。）（在別的地方不演）',!!r5&&(!r5.zhe||(due&&!notL&&has('（你下課經過A館一樓，阿哲把卡片塞給你。）')&&!!r5.signed)),J({zhe:r5&&r5.zhe,due,notL}));
 });
 H.done();
 })().catch(e=>{ console.error(e); process.exit(1); });

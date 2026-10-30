@@ -117,7 +117,7 @@ await sec(0,()=>{ const a=s=>html.indexOf(s);
   const lostQ=QUOTES.filter(t=>!GS.has(t)&&!(t==='學姊今天遲到十分鐘 我拍下來了'&&typeof SISB15_LINES!=='undefined'&&SISB15_LINES.late===t)), lostO=OPTS.filter(o=>!GS.has(o)&&!GS.has(unq(o))), lostR=INLR.filter(t=>!GS.has(t)&&!/^（/.test(t));
   check('0. 稿 → 遊戲：第 1～3 節每一句「>」（'+QUOTES.length+' 句）都在遊戲裡',QUOTES.length===98&&!lostQ.length,J({n:QUOTES.length,lostQ}));
   check('0. 稿 → 遊戲：每個選項（'+OPTS.length+' 個）、→ 同一行的回覆（'+INLR.length+' 句）都在遊戲裡',OPTS.length===35&&INLR.length===7&&!lostO.length&&!lostR.length,J({o:OPTS.length,r:INLR.length,lostO,lostR}));
-  const INLINE=['今天的題目在白板上。','坐。題目自己看。','佳穎，你先講。……好，換人。','明天讀書會。','去。','禮拜六畢業典禮 A館門口拍照 家族都來','（傳一張照片給她）','坐。還有十分鐘。','你沒去過吧。','學姊的三本書（每一本都畫了線）'];   /* 稿寫在說明句裡的（「」括起來）*/
+  const INLINE=['今天的題目在白板上。','坐。題目自己看。','佳穎，你先講。……好，換人。','明天讀書會。','去。','禮拜六畢業典禮 法律系館A門口拍照 家族都來','（傳一張照片給她）','坐。還有十分鐘。','你沒去過吧。','學姊的三本書（每一本都畫了線）'];   /* 稿寫在說明句裡的（「」括起來）*/
   check('0. 稿寫在說明裡的句子（白板三句、私訊、回「去。」、Kevin 6/1 那一則、照片的選項、A 多的兩句、房間物件）都在稿裡、也在遊戲裡',INLINE.every(t=>DOC.indexOf('「'+t+'」')>=0&&GS.has(t)),J(INLINE.filter(t=>!(DOC.indexOf('「'+t+'」')>=0&&GS.has(t)))));
   /* 遊戲 → 稿（說明：①studyAsk 是 AA_470 12-4 Kevin 那一句（稿沒寫揪的字，子代理解讀），對 SISB12_LINES；②「旁白：」那一句遊戲只放括號裡的字；③11/12 那一次椰林大道＝兩段照稿接起來）*/
   const notIn=[...new Set(G0)].filter(t=>DOC.indexOf(t)<0&&DOC.indexOf(unq(t))<0);
@@ -231,7 +231,7 @@ await sec(3,async()=>{
   { const a=D('2028-06-01'), d=D('2028-06-03');
     check('3. 1 日子：6/1 週四、6/3 週六、8/26 週六',wdOf(a)===4&&wdOf(d)===6&&wdOf('2028-08-26')===6);
     fresh(a,20.8,'none'); ph(); const n0=byTag('sisb15_kv_grad_ask').length; phAt(a,21.2); const M=byTag('sisb15_kv_grad_ask');
-    check('3. 1 6/1 21:00 家族群組 Kevin「禮拜六畢業典禮 A館門口拍照 家族都來」、回覆「去。」（D 也有）',n0===0&&M.length===1&&M[0].from==='kevin'&&M[0].text==='禮拜六畢業典禮 A館門口拍照 家族都來'&&J(askOpts('sisb15_kv_grad_ask'))===J(['去。']),J(M));
+    check('3. 1 6/1 21:00 家族群組 Kevin「禮拜六畢業典禮 法律系館A門口拍照 家族都來」、回覆「去。」（D 也有）',n0===0&&M.length===1&&M[0].from==='kevin'&&M[0].text==='禮拜六畢業典禮 法律系館A門口拍照 家族都來'&&J(askOpts('sisb15_kv_grad_ask'))===J(['去。']),J(M));
     answer('sisb15_kv_grad_ask',0); ph(); const q=OUT.get(H.G,'sisb15_kv_grad');
     check('3. 1 回「去。」→ 6/3 10:30「霖澤館門口」（ev_sis15_kv_grad）',!!q&&q.day===d&&q.h===10.5&&q.place==='法律系館A門口'&&q.ev==='ev_sis15_kv_grad',J(q));
     at(d,10.4); await goOut('sisb15_kv_grad',[]); const want=quotesOf(part('**6/3（六）10:30','- 記 `SIS15_KV_GRAD`',S3));

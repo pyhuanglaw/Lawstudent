@@ -25,8 +25,8 @@ const mkG=(day,hour)=>({day,hour,flags:{},weekday:CALENDAR.dateOf(day).wd%7});
   check('同一學期（選修照預設）沒有撞課',!clash.length,clash.join(' | '));
   for(const t of terms){ const n=CLS.termCourses(G,t).filter(c=>c.kind==='required').length; if(n<1) bad.push(t); } check('八個學期都有必修',terms.every(t=>CLS.termCourses(G,t).some(c=>c.kind==='required')));
   const cell=(t,wd,b)=>{ const c=CLS.termCourses(G,t).find(q=>q.slots.some(s=>s.wd===wd&&s.block===b)); return c?c.name+'｜'+(CLS.roomName(c)):'—'; };
-  const want=[['Y1S1',1,'am','憲法（上）｜霖澤館 201'],['Y1S1',1,'pm2','體育｜體育館'],['Y1S1',2,'am','大一國文（上）｜博思教學館 101'],['Y1S1',4,'am','大一英文（上）｜共同教學館 102'],['Y1S1',5,'am','經濟學原理（上）｜普通教學館 101'],['Y1S1',3,'am','刑法總則（一）｜霖澤館 201'],['Y1S1',4,'pm1','民法總則｜霖澤館 201'],['Y1S1',5,'pm1','—'],
-    /* X78：AA_330 搬到萬才館 */['Y2S1',2,'pm1','民法物權｜萬才館 多功能教室'],['Y3S1',1,'am','民事訴訟法甲上｜霖澤館 201'],['Y3S1',4,'am','民事訴訟法甲上｜霖澤館 201'],['Y3S1',2,'am','刑事訴訟法｜霖澤館 201'],['Y3S1',5,'am','刑事訴訟法｜霖澤館 201'],['Y4S1',2,'pm1','法律倫理｜萬才館研討室']];
+  const want=[['Y1S1',1,'am','憲法（上）｜法律系館A 201'],['Y1S1',1,'pm2','體育｜體育館'],['Y1S1',2,'am','大一國文（上）｜博思教學館 101'],['Y1S1',4,'am','大一英文（上）｜共同教學館 102'],['Y1S1',5,'am','經濟學原理（上）｜普通教學館 101'],['Y1S1',3,'am','刑法總則（一）｜法律系館A 201'],['Y1S1',4,'pm1','民法總則｜法律系館A 201'],['Y1S1',5,'pm1','—'],
+    /* X78：AA_330 搬到萬才館 */['Y2S1',2,'pm1','民法物權｜法律系館B 多功能教室'],['Y3S1',1,'am','民事訴訟法甲上｜法律系館A 201'],['Y3S1',4,'am','民事訴訟法甲上｜法律系館A 201'],['Y3S1',2,'am','刑事訴訟法｜法律系館A 201'],['Y3S1',5,'am','刑事訴訟法｜法律系館A 201'],['Y4S1',2,'pm1','法律倫理｜法律系館B 研討室']];
   const wbad=want.filter(([t,wd,b,w])=>cell(t,wd,b)!==w).map(([t,wd,b,w])=>t+CLS.WD[wd]+b+'：'+cell(t,wd,b)+'≠'+w); check('AA_103 第 8 節的課表抽查（14 格；方案 A：國文在博思 101、經濟學原理在普通 101）',!wbad.length,wbad.join(' | '));
   const ex=CLS.termCourses(G,'Y1S2').map(c=>c.name); check('大一下：重修的經濟學原理（下）一定在課表上；法律與社會（下）沒有了（2026-10-14 課程調整刪掉，AA_130）',!ex.includes('法律與社會（下）')&&ex.includes('經濟學原理（下）'),ex.join('、'));
   G.courses={electives:{Y1S2_ls:'none'}}; const ex2=CLS.termCourses(G,'Y1S2').map(c=>c.name); check('舊的選修紀錄 Y1S2_ls 還在也不影響：課表沒有法律與社會（下），經濟學原理（下）還在',!ex2.includes('法律與社會（下）')&&ex2.includes('經濟學原理（下）'),ex2.join('、'));

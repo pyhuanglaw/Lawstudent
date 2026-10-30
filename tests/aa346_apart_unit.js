@@ -100,7 +100,7 @@ const missThree=id=>{ for(let n=0;n<3;n++){ const q=OUT.get(H.G,'apart'+(rnd(S.a
       F.MULTI_PRE==='pick:kexin'&&LOVE7.every(id=>F['dating_'+id]===true&&!F['EX_'+id])&&JSON.stringify(H.opts[1])===JSON.stringify(LOVE7.map(nm)), JSON.stringify(H.opts));
     const exp={heroine_01:'2029-05-22',heroine_03:'2029-05-23',heroine_02:'2029-05-24',heroine_04:'2029-05-25',heroine_05:'2029-05-30',classmate_peishan:'2029-05-26'}, bad=[];
     for(const id in exp){ const q=OUT.get(H.G,'apart29_'+id+'_0'); if(!q||q.day!==D(exp[id])||q.h!==TBL[id][0]||q.place!==TBL[id][2]||q.ev!=='ev_choice_apart_'+id||q.state!=='planned'||q.who!==id||q.late!==0.5) bad.push(id+':'+JSON.stringify(q&&{day:q.day,h:q.h,place:q.place})); }
-    check('1. 隔天起一晚一位、照表的順序：以安 5/22 18:00 萬才館研討室外的走廊、語彤 5/23 21:30 麵店打烊以後、芷若 5/24 22:00 約好的視訊、子晴 5/25 21:00 吉他社辦外面的樓梯、沛珊 5/26 21:00 電話；學姊固定 5/30 17:00 研究室走廊',
+    check('1. 隔天起一晚一位、照表的順序：以安 5/22 18:00 法律系館B 研討室外的走廊、語彤 5/23 21:30 麵店打烊以後、芷若 5/24 22:00 約好的視訊、子晴 5/25 21:00 吉他社辦外面的樓梯、沛珊 5/26 21:00 電話；學姊固定 5/30 17:00 研究室走廊',
       !bad.length&&!!R&&JSON.stringify(R.list)===JSON.stringify(['heroine_01','heroine_03','heroine_02','heroine_04','heroine_05','classmate_peishan'])&&R.keep==='kexin', bad.join(' '));
     check('1. 都在 6/2（畢業典禮）以前；一晚只有一位；被選的那一位沒有這一場', apartOuts().every(q=>q.day<D('2029-06-02'))&&new Set(apartOuts().map(q=>q.day)).size===apartOuts().length&&!apartOuts().some(q=>q.who==='kexin'));
     const z=OUT.get(H.G,'apart29_heroine_02_0'), p=OUT.get(H.G,'apart29_classmate_peishan_0'), a=OUT.get(H.G,'apart29_heroine_01_0');
@@ -111,7 +111,7 @@ const missThree=id=>{ for(let n=0;n<3;n++){ const q=OUT.get(H.G,'apart'+(rnd(S.a
     at('2029-05-22',17.5); const n0=OUT.due(H.G); at('2029-05-22',17.6); const q1=OUT.due(H.G);
     check('1. 存檔讀回來（JSON）、到了隔天：17:35（18:00 減走過去 10 分鐘、再提早 15 分鐘）起問「出發」，以前不問', !n0&&!!q1&&q1.id==='apart29_heroine_01_0');
     H.said=[]; H.opts=[]; H.picks=[0,1]; const r=await OUT.prompt(GM,q1);
-    check('1. 「出發：萬才館研討室外的走廊（以安）」→ 演以安那一場（她不知道：「理由呢？」二選一）', r==='go'&&H.opts[0][0]==='出發：萬才館研討室外的走廊（'+nm('heroine_01')+'）'&&H.said.some(s=>s.t==='理由呢？')&&H.G.flags.EX_heroine_01===true&&H.G.flags.dating_kexin===true, JSON.stringify(H.opts));
+    check('1. 「出發：法律系館B 研討室外的走廊（以安）」→ 演以安那一場（她不知道：「理由呢？」二選一）', r==='go'&&H.opts[0][0]==='出發：法律系館B 研討室外的走廊（'+nm('heroine_01')+'）'&&H.said.some(s=>s.t==='理由呢？')&&H.G.flags.EX_heroine_01===true&&H.G.flags.dating_kexin===true, JSON.stringify(H.opts));
     check('1. 被選的那一位不因為這幾場知道別人（knowsRel 沒有她）', !LOVE7.some(x=>ROM.knowsOf(H.G,'kexin',x)));
   });
   await block('1b. 選以安',async()=>{

@@ -82,8 +82,8 @@ const ZR='heroine_02', ZQ='heroine_04';
     return [!bad.length,bad.join('；')]; });
   await chk('1. 4-7 畢業典禮那天的入場旁白照 BB_194 23-3（AA-C 同意）',()=>[!!BB&&BB.includes(L.IN.learnGrad),'']);
   await chk('1. 4-2b 小公園版：只換 AA 寫好的場景字（萬才館→小公園、吉他→手機、台階→長椅、門口→路燈下）',()=>{
-    if(!SPEC) return [false,'讀不到稿']; const P=L.MIND.park, pairs=[['「萬才館一樓……坐在門口的台階上」→「小公園的鞦韆旁邊，子晴坐在長椅上，手機一直亮著。」'],['「把吉他背起來，往溫州街的方向走」→「把手機收進口袋，往巷子裡走」'],['「坐回台階上」→「坐回長椅上」'],
-      ['「萬才館門口」→「小公園門口」'],['「萬才館門口。子晴在等人。芷若從溫州街那邊走過來。」→「小公園的長椅。子晴在等人。芷若從巷口走過來。」'],['「你在門口站了一下」→「你在路燈下站了一下」']];
+    if(!SPEC) return [false,'讀不到稿']; const P=L.MIND.park, pairs=[['「B館一樓……坐在門口的台階上」→「小公園的鞦韆旁邊，子晴坐在長椅上，手機一直亮著。」'],['「把吉他背起來，往溫州街的方向走」→「把手機收進口袋，往巷子裡走」'],['「坐回台階上」→「坐回長椅上」'],
+      ['「法律系館B門口」→「小公園門口」'],['「B館門口。子晴在等人。芷若從溫州街那邊走過來。」→「小公園的長椅。子晴在等人。芷若從巷口走過來。」'],['「你在門口站了一下」→「你在路燈下站了一下」']];
     const okSpec=pairs.every(([p])=>SPEC.includes(p));
     const want={'（法律系館B一樓。吉他社的人陸續走了，子晴坐在門口的台階上，手機一直亮著。）':'（小公園的鞦韆旁邊，子晴坐在長椅上，手機一直亮著。）',
       '（她把吉他背起來，往溫州街的方向走。走了一段，又走回來，坐回台階上。）':'（她把手機收進口袋，往巷子裡走。走了一段，又走回來，坐回長椅上。）',
@@ -219,11 +219,11 @@ const ZR='heroine_02', ZQ='heroine_04';
   /* ZZ 先建（這一版開始玩的存檔，F3 以前就有 ZZ），F3 那天的結果才照當時的狀態決定 */
   const f3=(st,o)=>{ fresh(o&&o.day||'2028-05-31',o&&o.h||21,o&&o.zone||'campus',o&&o.flags||{}); both('FAM'); zz(Object.assign({state:st,since:0,lastDay:D('2028-04-27')},o&&o.zz||{}));
     Object.assign(G.flags,{FANG_F3_DAY:D(o&&o.f3||'2028-05-29'),FANG_F3:'bought'}); };
-  await chk('12. 4-2b 已經在交往（F3 那天 dating）：芷若婉拒（fy declined）、5/31 21:00 萬才館門口情侶版（吉他社的玩家沒有「你經過萬才館」）；片名換成《秋天的晚飯》',async()=>{
+  await chk('12. 4-2b 已經在交往（F3 那天 dating）：芷若婉拒（fy declined）、5/31 21:00 法律系館B門口情侶版（吉他社的玩家沒有「你經過法律系館B」）；片名換成《秋天的晚飯》',async()=>{
     f3('dating',{flags:{CLUB_club_guitar:true}}); await tick(); const Z=G.flags.ZZ;
     return [Z.fy==='declined'&&Z.f3==='dating'&&entered[0][0]==='campus'&&said[0].t===exp(L.MIND.dating)[0]&&seq(L.MIND.dating)&&has('他約妳看《秋天的晚飯》喔？')&&Z.ev.ev_zz_zq_mind.seen===true,J({fy:Z.fy,s:said.slice(0,2)})]; });
   await chk('12. 4-2b 互相喜歡、還沒交往：婉拒、跟子晴說了（講電話那一版）；之後的 4-4（6/2）一律 B',async()=>{
-    f3('mutual_interest'); await tick(); const Z=G.flags.ZZ; const a=Z.fy==='declined'&&Z.forceB===true&&said[0].t==='（你經過萬才館。）'&&seq(L.MIND.mutual);
+    f3('mutual_interest'); await tick(); const Z=G.flags.ZZ; const a=Z.fy==='declined'&&Z.forceB===true&&said[0].t==='（你經過法律系館B。）'&&seq(L.MIND.mutual);
     at('2028-06-02',14.6); await tick(); const Q=L.SERIOUS;
     return [a&&seq(Q.AGAIN.concat(Q.B.slice(Q.fromB),Q.END))&&G.flags.ZZ.version==='B',J({a,v:G.flags.ZZ.version})]; });
   await chk('12. 4-2b 曖昧（feelings_emerging、兩人都單身）：芷若接受、去看了（went）＝第一次在意版；隔天起芷若選方奕廷（seeing、held＝結局 C）',async()=>{
@@ -236,7 +236,7 @@ const ZR='heroine_02', ZQ='heroine_04';
     f3('dating',{day:'2028-06-21',h:21.4,zone:'dorm',f3:'2028-06-19'}); const r0=await tick(); at('2028-06-21',21.5); await tick();
     const want=L.MIND.dating.map(([w,t])=>[w,L.MIND.park[t]||t]);
     return [!r0&&said[0].t===L.IN.mindPark&&entered[0][0]==='wenzhou'&&seq(want),J(said.slice(0,2))]; });
-  await chk('12. 開場字幕（也是筆記本日誌的標題）照地點：4-2b 萬才館門口／溫州街的小公園；4-7 醉月湖／畢業典禮；不劇透（沒有「在一起」）',async()=>{
+  await chk('12. 開場字幕（也是筆記本日誌的標題）照地點：4-2b 法律系館B門口／溫州街的小公園；4-7 映月湖／畢業典禮；不劇透（沒有「在一起」）',async()=>{
     const got=[];
     f3('dating',{flags:{CLUB_club_guitar:true}}); caps=[]; await tick(); got.push(caps.slice());
     f3('dating',{day:'2028-06-21',h:21.5,zone:'dorm',f3:'2028-06-19'}); caps=[]; await tick(); got.push(caps.slice());

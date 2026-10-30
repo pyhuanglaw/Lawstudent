@@ -13,7 +13,7 @@ const load=f=>{ const p=path.join(H.ROOT,f); if(!fs.existsSync(p)) return false;
 let ok1=false, ok2=false, err=''; try{ ok1=load('src/data/bbpack_events.js'); ok2=load('src/bbpack3d.js'); }catch(e){ err=String(e); }
 const X=()=>typeof BBPACK!=='undefined'?BBPACK:null;
 const git=(sha,f)=>{ try{ return cp.execSync('git show '+sha+':"docs/story_planning/'+f+'"',{cwd:H.ROOT,encoding:'utf8',maxBuffer:1<<26}); }catch(e){ return ''; } };
-const DOCS={ B105:git('3954f9b62','BB_105_四個地點的跨學年故事.md'), B137:git('a047e5feb','BB_137_AB05台詞_日文班博思女舍十五件.md'), A153:git('c7f4ada86','AA_153_BB105一列事件_規格骨架.md'),
+const DOCS={ B105:git('3954f9b62','BB_105_四個地點的跨學年故事.md'), B137:git('a047e5feb','BB_137_AB05台詞_日文班博雅女舍十五件.md'), A153:git('c7f4ada86','AA_153_BB105一列事件_規格骨架.md'),
   B106:git('3954f9b62','BB_106_社會科學院與附近教學館_跨學年日常事件.md'), B110:git('3a26e94af','BB_110_日常內容_好玩事件_颱風假_社團_打工.md'), A383:git('bc8a1f5d4','AA_383_回BB_0400_五題_台詞與企劃對不上.md') };
 const ALLDOC=Object.values(DOCS).join('\n');
 const PS='classmate_peishan', AN='heroine_01', YT='heroine_03', ZR='heroine_02', SIS='heroine_05', XC='classmate_xinci', BH='classmate_bohan', MX='classmate_mingxuan';

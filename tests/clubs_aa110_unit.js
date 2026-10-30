@@ -42,9 +42,9 @@ const W=[5,6,7,10,11,12,13,14,15];   /* 16 週制：第 16 週期末，社課停
   fresh(monOK,18.5); await CLS.roomDoor(GM,'wancai','multi',{look:'多功能教室。這個時段沒有排課，門鎖著。'});
   check('週一 18:30 按多功能教室的門：「吉他社社課：今天 19:00 在這裡」，不能參加',!chose.length&&/吉他社社課：今天 19:00 在這裡/.test(caps[0]||''),caps[0]);
   /* AA 2026-10-13 P2：沒有社課的日子按多功能教室的門，寫社課的時間＋「今天沒有社課。」（原本只寫「門鎖著」，玩家不知道什麼時候來）*/
-  const LOOK='多功能教室。這個時段沒有排課，門鎖著。', WHEN='吉他社社課：每週一、三 19:00–21:00，萬才館 多功能教室（第 5 週起）。';
+  const LOOK='多功能教室。這個時段沒有排課，門鎖著。', WHEN='吉他社社課：每週一、三 19:00–21:00，法律系館B 多功能教室（第 5 週起）。';
   fresh(monOK+1,19.1); await CLS.roomDoor(GM,'wancai','multi',{look:LOOK});
-  check('週二按多功能教室的門：「吉他社社課：每週一、三 19:00–21:00，萬才館 多功能教室（第 5 週起）。今天沒有社課。」',!chose.length&&caps[0]===WHEN+'今天沒有社課。',caps[0]);
+  check('週二按多功能教室的門：「吉他社社課：每週一、三 19:00–21:00，法律系館B 多功能教室（第 5 週起）。今天沒有社課。」',!chose.length&&caps[0]===WHEN+'今天沒有社課。',caps[0]);
   fresh(monOK,20.5); await CLS.roomDoor(GM,'wancai','multi',{look:LOOK});
   check('週一 20:30（社課過了一半、不能再參加）：不說「今天沒有社課」，說「已經過了一半」',!chose.length&&caps[0]===WHEN+'今天的社課已經過了一半，下次再來。',caps[0]);
   fresh(monOK,21.5); await CLS.roomDoor(GM,'wancai','multi',{look:LOOK});

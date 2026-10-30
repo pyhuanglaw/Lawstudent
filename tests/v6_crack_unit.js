@@ -78,7 +78,7 @@ await sec('A',async()=>{
   /* 讀書會有去：散會後「你留一下。」→ 研討室 */
   for(const [picks,res] of [[[0,1],'mend'],[[1],'apart_talk'],[[2],'drift']]){ setup(); at(thu,21.6); H.G.zone='wancai'; H.G.acts.att['public_law_group@'+thu]={end:'full'}; H.said=[]; H.opts=[]; H.bgs=[]; H.picks=picks.slice(); await tick(); const s=said();
     const want=['你留一下。'].concat(AN_BODY, res==='mend'?['……這個理由我收下。','（她把兩個人的規則改成一條：「有事，要說理由。」）']:res==='apart_talk'?['（以安翻開手帳，在理由欄寫一行給你看：「分開。理由：我們都沒有錯。」）','這樣寫，可以嗎？']:[]);
-    check('A2. 讀書會散會後（'+res+'）：台詞逐字、選項',J(s)===J(want)&&J(H.opts[0])===J(AN_O1)&&(res!=='mend'||J(H.opts[1])===J(AN_O2))&&caps.includes('B館研討室')&&H.bgs.some(b=>b&&b.image==='assets/bg/wancai_seminar.webp'),J({s,o:H.opts}));
+    check('A2. 讀書會散會後（'+res+'）：台詞逐字、選項',J(s)===J(want)&&J(H.opts[0])===J(AN_O1)&&(res!=='mend'||J(H.opts[1])===J(AN_O2))&&caps.includes('法律系館B 研討室')&&H.bgs.some(b=>b&&b.image==='assets/bg/wancai_seminar.webp'),J({s,o:H.opts}));
     if(res==='mend') check('A3. 修補：計數歸零、還在交往、這學期不再排',cnt(AN)===0&&H.G.flags.dating_heroine_01===true&&pr(AN).talked.Y2S1===1&&!pr(AN).plan);
     if(res==='apart_talk') check('A3. 好好分開：EX、EX_REASON talk、歷史 apart_talk、CLEANUP_DONE false',H.G.flags.dating_heroine_01===false&&H.G.flags.EX_heroine_01===true&&H.G.flags.EX_heroine_01_REASON==='talk'&&H.G.flags.ROMANCE_HISTORY.some(h=>h.id===AN&&h.how==='apart_talk')&&H.G.flags.CLEANUP_DONE===false);
     if(res==='drift'){ const dd=pr(AN).drift; at(thu+14,20.9); rules(); const a=dm(AN).length; at(thu+14,21); rules();
