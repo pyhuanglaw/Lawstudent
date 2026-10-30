@@ -78,7 +78,8 @@
   - 有模型時拿掉兩棵舊樹；載入後藏起石板廣場；樹下的土在草皮裡。
   - 改前 FAIL、改後 ALL PASS。
 - `node tests/nav_buildings_unit.js`、`node tools/dev_scratch/kit_nav_check.js`：ALL PASS。
-- 全部 Node：見下面。
+- 全部 Node（測試樹＝開發 `ca5f3381c`＋這一包）：764 支過、1 支 FAIL。
+  - FAIL 的是 `tests/home_unit.js`，乾淨的開發分支一樣 FAIL 2 項：改名以後題目還寫「去政大找可昕」，程式出「去木柵大學找可昕」。不是這一包造成的。
 - 對開發 `ca5f3381c`：`git apply --check` 通過；和 `plate_border_cap_1030.patch` 一起套也通過。
 
 ## 五、效能（`tools/blender/env_second/shots/lib_lawn_perf.py`，15:00，SwiftShader 量的，手機實機沒有量）
