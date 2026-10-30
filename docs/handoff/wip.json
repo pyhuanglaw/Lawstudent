@@ -1488,6 +1488,21 @@
    "noDirectIntegrate": true,
    "source": "AA-C 2026-10-28 14:3x（AA_519 第 9 節 169130daf，DL-AA-519C）",
    "closedBy": "da137d89e（合併子代理 27ecf0a2d；aa519_support2 118 項 ALL PASS）"
+  },
+  {
+   "id": "WIP-LAWWW-AA525-1030",
+   "role": "LAWWW",
+   "task": "PROMISES-REDO-1030",
+   "state": "WIP",
+   "sha": "5059817c8",
+   "branch": "aa525-promises（子代理；D113 備份 wip_backup/aa525_1030.bundle，基準 6cee635ed）",
+   "files": [
+    "wip_backup/aa525_1030.bundle"
+   ],
+   "todo": "AA_525 說了沒發生（上一班帳號 C 派的子代理成果沒 push 遺失，重做）",
+   "next": "子代理做完回報 → LAWWW 合併、相關測試、全部 Node、SHA 給 BB",
+   "noDirectIntegrate": true,
+   "source": "DL-AA-525；LAWWW-B 10-30 02:1x 派子代理"
   }
  ]
 }

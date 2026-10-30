@@ -35593,6 +35593,28 @@
    "source": "使用者 2026-10-30 02:0x「LAWWW-C來不及交班 你現在要接班」",
    "authorized": "使用者原話（duty register --user-ok）",
    "notes": "02:1x 使用者問帳號 B 上次（10-25 19:39 沒交班）做到一半的有沒有被 C 重做：LAWWW-B 這邊只有 AA_471 第 3～7 節＋AA_472＋AA_473 那個子代理（撞到額度，改到一半的 5 個檔沒 commit、沒備份）——C 10-27 17:2x～17:58 用 PG-FIX-471-473-1027 整個重做（7dacc9463）＝重複做；我那份作廢不合。其他（int-1025、AA_470、v9.10.11 候選 f54a35ec4）都有 push／bundle，C 接著發布 v9.10.11（PR #17）、v9.10.12（PR #18）。已請 AA-B、BB-B、LAWWW2-B 各自查。02:2x 使用者：接下來自己安排還沒做的規劃、主動安排四個職位的工作，使用者有一陣子不看。"
+  },
+  {
+   "id": "PROMISES-REDO-1030",
+   "title": "重做 AA_524（以安芷若語彤 34 條）、AA_525（子晴沛珊可昕 29 條）說了沒發生：帳號 C 10-28 15:06 派的兩個子代理成果沒 push 遺失",
+   "area": "STORY",
+   "owner": "LAWWW",
+   "status": "進行中",
+   "next": "兩個子代理（aa524-promises、aa525-promises，基準 6cee635ed），D113 每 15～20 分鐘備份",
+   "priority": "P2",
+   "first": {
+    "term": "Y1S1",
+    "week": 1,
+    "earliest": "法律系大一上起各女主角",
+    "mainline": false,
+    "blocks": false,
+    "prereq": false,
+    "parallel": true,
+    "confirmed": true
+   },
+   "source": "DL-AA-524（8fd10848d）、DL-AA-525（6081f725f）；AA-B 10-30 02:12 確認遺失",
+   "authorized": "D109、D111",
+   "notes": ""
   }
  ]
 }
