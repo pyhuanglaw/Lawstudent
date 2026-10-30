@@ -14,11 +14,11 @@
 |---|---|
 | `assets/models/char/vroid_yuting.vrm` | 多一個節點／網格 `JACKET_ECON`（2,586 三角形、1 張 1024 JPEG 貼圖、材質 `J00_Tops_JacketEcon_CLOTH`）。3.45 → 3.66 MB。其他部分和原本一樣（腳本是在原本的檔案上加，不重建人物） |
 | `tools/jacket_econ.py` | 做外套的腳本。重跑會先拿掉舊的外套（結果和從沒有外套的檔案做一模一樣：已比對） |
-| `assets/models/env/second_ai/dorm_room4.glb`＋三張光照貼圖 | 多一個節點 `JACKET_CHAIR`（底下 `JACKET_CHAIR_cloth`，材質 `dorm_jacket_chair`，雙面）。烘焙時不算（`--hide ^JACKET_`），照即時光，和每一年的小東西一樣 |
+| `assets/models/env/second_ai/dorm_room4.glb` | 多一個節點 `JACKET_CHAIR`（底下 `JACKET_CHAIR_cloth`，材質 `dorm_jacket_chair`，雙面；1.60 → 1.62 MB）。烘焙時不算（`--hide ^JACKET_`），照即時光，和每一年的小東西一樣。重烘出來的三張光照貼圖和 DORM203 那一包**一個位元組都沒變**（不用換） |
 | `assets/models/env/second_ai/dorm_room4.layout.json` | 多 `jacket_chair`：節點名稱、L2、中心位置。其他欄位沒變（已比對） |
 | `tools/blender/env_second/dorm_room4.py` | `make_jacket_tex()`、`jacket_chair()`；L2 那張椅子加外套 |
 | `tools/blender/env_second/textures/gen/dorm_jacket_chair.png` | 椅背外套的貼圖（腳本產生） |
-| `docs/art-rebuild/second_ai/patches/jacket_econ_1030.patch` | 遊戲端：`src/assets3d.js`、`src/character3d.js`、`src/zones3d.js`（見第二節） |
+| `docs/art-rebuild/second_ai/patches/jacket_econ_1030.patch` | 遊戲端：`src/assets3d.js`、`src/character3d.js`、`src/zones3d.js`（見第二節）＋新測試 `tests/jacket_econ_unit.js` |
 | `tools/blender/env_second/shots/jacket_ingame.py` | 遊戲內截圖＋檢查（第三節） |
 
 ## 二、遊戲端（patch）
@@ -31,6 +31,9 @@
 - `src/zones3d.js`（宿舍）：`z.setJacketChair(true/false)`。
   - 預設 `false`。模型還沒載完就叫也可以，載完會套上。
   - 換年份（`z.dormSet`）以後照樣保持。
+- `tests/jacket_econ_unit.js`（Node）：VRM 的 `JACKET_ECON`（同一個 skin、材質名稱、在場景裡）、manifest 的 `hide`、`setJacket`、宿舍 GLB 的 `JACKET_CHAIR`（沒有第二套 UV）、layout 的位置、`setJacketChair`。換上這一包 ALL PASS；還沒換 GLB 時「dorm_room4.glb 有 JACKET_CHAIR」那一項 FAIL。
+- 測試樹（開發 4df154b26＋DORM203 patch＋這一包＋cine_seethru patch）全部 Node **737 支 0 失敗**（含新的 `jacket_econ_unit`）。
+- 換上後跑：`node tests/jacket_econ_unit.js`、`node tests/dorm_lightmap_unit.js`、`python3 tools/gen_dorm_room_layout.py`（layout 多一個欄位）。
 - patch 以遠端的 `postrel-1030`（3808792fe）為基準，在開發分支 `modest-rubin`（647dc5c6d）上 `git apply --check` 也過；和 DORM203-LM-1030 的 patch 改的是不同行。
 
 ## 三、圖
@@ -55,9 +58,22 @@
 
 ![背帶：沒調整／調整後](03_backpack_straps.webp)
 
-### 3.4 遊戲內（手機橫向模擬）
+### 3.4 遊戲內（手機橫向 844×390 模擬）
 
-（見下面「遊戲內檢查」）
+`tools/blender/env_second/shots/jacket_ingame.py`（測試樹＝開發 4df154b26＋DORM203 patch＋這一包），**ALL PASS**：
+
+- 外套預設藏著（manifest 的 `hide`）；`CHAR.setJacket(玩家, true)` 顯示、`false` 藏起來。
+- 推搖桿從法學院廣場走上萬才館大樓梯：樓梯中段、平台都拍了。
+- 宿舍：`JACKET_CHAIR` 有載入、預設藏著；穿外套按「坐在書桌前」坐下；`z.setJacketChair(true)` 顯示。
+- 沒有 JS 例外。
+- [前置／捷徑]：讀檔放位置；坐下那張截圖時暫時把選單（讀書／整理筆記／起身）藏起來，因為選單蓋住坐著的人。
+
+![校園：預設／穿上／走路／大樓梯](06_ingame_campus.webp)
+
+![宿舍：穿外套站著、坐下；椅背外套藏著／掛上](07_ingame_dorm.webp)
+
+- 跟隨鏡頭的距離下看得出是深藍外套、下襬的白線；背後的字被後背包蓋住。
+- 椅背那張：祐廷換回灰色上衣，外套掛在 L2 的椅背、「ECON」朝走道。
 
 ### 3.5 宿舍椅背外套
 

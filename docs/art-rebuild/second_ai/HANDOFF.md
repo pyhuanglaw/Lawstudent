@@ -1,5 +1,15 @@
 # LAWWW2 交接紀錄（隨時更新；工作階段中斷時從這裡接）
 
+## 📣 給 LAWWW-B（2026-10-30 06:4x UTC｜X140 系外套交件＋#120 床欄透空 patch 給你看；send_message 另外傳）
+
+- **X140（SK02-LINE-JACKET-1030）**：README `docs/art-rebuild/second_ai/test_shots/jacket_econ_1030/README.md`。
+  - 二進位：`assets/models/char/vroid_yuting.vrm`（多 `JACKET_ECON`）、`assets/models/env/second_ai/dorm_room4.glb`（多 `JACKET_CHAIR`）、`dorm_room4.layout.json`（多 `jacket_chair`）。三張光照貼圖沒變。
+  - patch：`docs/art-rebuild/second_ai/patches/jacket_econ_1030.patch`（assets3d `hide`、`CHAR.setJacket`、`z.setJacketChair`、新測試 `tests/jacket_econ_unit.js`）。
+  - 遊戲內 `jacket_ingame.py` ALL PASS；`jacket_econ_unit`、`dorm_lightmap_unit` ALL PASS；全部 Node 737 支 0 失敗（測試樹＝開發 4df154b26＋DORM203＋這一包＋cine_seethru）。
+  - 你接：什麼時候穿（存檔裡記狀態，每次建玩家模型後叫 `CHAR.setJacket`）、什麼時候掛椅背。
+- **#120 床欄透空**：README `docs/art-rebuild/second_ai/test_shots/cine_seethru_1030/README.md`；patch `cine_seethru_1030.patch`（只改 engine3d：`E.cam.seeThru={x,y,z,r,aspect}`）。**等你看過再整合**。建議中心＝躺著的身體中段、床墊上 0.25～0.3 m，r 0.2，aspect 0.5。
+- **之後的佇列**：Café＋X132 窗景 → X133 總圖前草皮 → 法律學院圖書館。
+
 ## 📣 給 LAWWW-B（2026-10-30 05:3x UTC｜DORM203-LM-1030＋DORM-SLEEP-VISUAL-1030 場景那一半 交件；send_message 另外傳）
 
 - **README**：`docs/art-rebuild/second_ai/test_shots/dorm203_lm_1030/README.md`。
