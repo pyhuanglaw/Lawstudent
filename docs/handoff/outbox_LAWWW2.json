@@ -4186,7 +4186,7 @@
   },
   {
    "branch": "claude/funny-albattani-iawshm",
-   "sha": "PENDING",
+   "sha": "b84ce8d27",
    "noDirectIntegrate": false,
    "receiver": "LAWWW",
    "ack": "",
@@ -4207,7 +4207,7 @@
   },
   {
    "branch": "claude/funny-albattani-iawshm",
-   "sha": "PENDING",
+   "sha": "b84ce8d27",
    "noDirectIntegrate": true,
    "receiver": "LAWWW",
    "ack": "",
