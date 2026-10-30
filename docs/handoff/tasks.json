@@ -36018,6 +36018,35 @@
    "notes": "【07:5x】v9.10.14 發布後 postrel-1030 合進開發分支（b576263b6）＋改名（ba315523b）｜ 【07:3x】LAWWW2-B 交件 f11f2ccb0：溫州街 3D 模型當窗景（裁切平面、晚上照時段、4 個路人）；cafe_street_live_unit（基準 10 FAIL）｜ "
   },
   {
+   "id": "CAFE-LM-1030",
+   "title": "兩點半 Café 室內光照烘焙（INTERIOR-AAA 第二間；使用者 X125 室內廉價手遊感）",
+   "area": "ART",
+   "owner": "LAWWW2",
+   "status": "已整合待測試",
+   "next": "已進開發分支（LAWWW2-B 53153491e）→ BB 測（Café 白天／黃昏／晚上）；建築場景 ART_APPROVED 只有使用者能標",
+   "priority": "P1",
+   "first": {
+    "term": "Y1S1",
+    "week": 1,
+    "earliest": "法律系大一上",
+    "mainline": true,
+    "blocks": false,
+    "prereq": false,
+    "parallel": true,
+    "confirmed": true
+   },
+   "source": "使用者 X125；LAWWW2-B 交件 53153491e",
+   "authorized": "D108、D111",
+   "xai": {
+    "spec": "X125",
+    "branch": "claude/funny-albattani-iawshm",
+    "acceptance": "光照貼圖兩張、draw call 不變",
+    "receiver": "LAWWW",
+    "ack": "ACTIONED"
+   },
+   "notes": "【08:1x】整合：只換二進位（cafe_interior.glb＋lm_day／lm_night），不用改程式；晚上比原本暗一點（要更亮可吊燈 55 W 重烘）"
+  },
+  {
    "id": "LIB-LAWN-PLAN-1030",
    "title": "照臺大校內地圖規劃總圖前草皮",
    "area": "ART",
