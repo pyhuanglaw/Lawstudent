@@ -45,14 +45,14 @@ const Bm=mats(), rB=room(Bm,false); attach(rB); const wB=wallOf(rB);
 check('2. 沒有光照貼圖的 GLB：照舊補光', !!wB.userData.bounce&&!!Bm.floor.userData.bounce&&!!Bm.sheet.userData.bounce&&!wB.lightMap);
 check('2. 烘焙工具複製給不烘物件的那一份（dorm_wall_rt，洗手間外牆斷面）：照舊補光', (()=>{ const M=mats(), r=room(M,true), rt=new THREE.MeshStandardMaterial({name:'dorm_wall_rt'}); const o=new THREE.Mesh(new THREE.BoxGeometry(2,3,0.1),rt); o.name='dorm_bath_outer'; r.add(o); attach(r); return !!rt.userData.bounce&&!rt.lightMap; })());
 // 3. dorm_items：接在原本的後面
-const C=mats(); C.items.onBeforeCompile=function(sh){ sh.fragmentShader='uniform float rtK;\n'+sh.fragmentShader; }; C.items.customProgramCacheKey=()=>'rt';
+const C=mats(); C.items.onBeforeCompile=function(sh){ sh.fragmentShader='uniform float prevHook;\n'+sh.fragmentShader; };   /* 原本就有的 onBeforeCompile（假的）；rtK 是 RT-NIGHT-1028 的 Z3.roomLightmap 真的包的（10-30 整合後）*/ C.items.customProgramCacheKey=()=>'rt';
 const rC=room(C,true); attach(rC); const sc=compile(C.items);
 check('3. 小東西的自發光照舊（dormVcGlow）', /totalEmissiveRadiance \+= vColor\.rgb \* 0\.25/.test(sc.fragmentShader));
-check('3. 原本的 onBeforeCompile 沒被蓋掉（rtK 還在）', /uniform float rtK;/.test(sc.fragmentShader));
+check('3. 原本的 onBeforeCompile 沒被蓋掉（prevHook 還在）、RT-NIGHT 的 rtK 也接上', /uniform float prevHook;/.test(sc.fragmentShader)&&/uniform float rtK;/.test(sc.fragmentShader));
 check('3. 快取鍵兩個都有', /rt/.test(C.items.customProgramCacheKey())&&/dormVcGlow/.test(C.items.customProgramCacheKey()), C.items.customProgramCacheKey());
 // 4. 再進一次
 const rC2=room(C,true); attach(rC2); const sc2=compile(C.items);
-check('4. 再進一次不再包一層', (sc2.fragmentShader.match(/vColor\.rgb \* 0\.25/g)||[]).length===1&&(sc2.fragmentShader.match(/uniform float rtK;/g)||[]).length===1);
+check('4. 再進一次不再包一層', (sc2.fragmentShader.match(/vColor\.rgb \* 0\.25/g)||[]).length===1&&(sc2.fragmentShader.match(/uniform float rtK;/g)||[]).length===1&&(sc2.fragmentShader.match(/uniform float prevHook;/g)||[]).length===1);
 // 6. 熄燈（DORM-SLEEP-VISUAL-1030）：GLB 有 extras.lightmap.dark → z.lightsOff(k)
 const SPECD=Object.assign({},SPEC,{dark:'assets/models/env/second_ai/dorm_room4_lm_dark.webp'});
 const attachG=(root)=>{ const z={walls:[]}, g0=new THREE.Group(), fb=new THREE.Group(); g0.add(fb); const pl=new THREE.PointLight(0xfff0d8,12,8,2); g0.add(pl); z.group=g0; Z3.attachRoomGLB(z,g0,fb,root); Z3.attachDormInterior(z,g0,root); return {z,pl}; };

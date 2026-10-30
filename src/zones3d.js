@@ -1417,14 +1417,25 @@ const Z3 = (function(){
      有第二套 UV（uv1）的網格：材質接 lightMap（白天、晚上兩張照時段混合）；間接光已經烘焙在貼圖裡，所以這些材質不吃半球光，方向光只留 LM_DIRK（人物在地上還有影子）。
      人物、沒有烘焙的東西照舊吃原本的光。原因：室內只有一盞方向光＋半球光，沒有反彈光、接觸陰影，整間平均亮、東西像貼在地上（docs/art-rebuild/second_ai/INTERIOR_AAA_REVIEW_1028.md）*/
   const LM_DIRK=0.3, lmTex={};
-  function lmLoad(url){ if(!lmTex[url]){ const t=new THREE.TextureLoader().load(url); t.flipY=false; t.colorSpace=THREE.SRGBColorSpace; t.channel=1; lmTex[url]=t; } return lmTex[url]; }
+  function lmLoad(url){ if(!lmTex[url]){ let res; const ready=new Promise(r=>{ res=r; }); const t=new THREE.TextureLoader().load(url,()=>res(t),undefined,()=>res(null)); t.flipY=false; t.colorSpace=THREE.SRGBColorSpace; t.channel=1; t.userData.ready=ready; lmTex[url]=t; } return lmTex[url]; }
   function lmMixAt(h){ h=((h%24)+24)%24; if(h>=6.8&&h<17.0) return 0; if(h>=18.6||h<5.6) return 1; return h>=17.0?(h-17.0)/1.6:(6.8-h)/1.2; }   /* 0＝白天那張、1＝晚上那張（17:00～18:36、05:36～06:48 慢慢換）*/
   const LM_MAPS=THREE.ShaderChunk.lights_fragment_maps.replace('vec4 lightMapTexel = texture2D( lightMap, vLightMapUv );','vec4 lightMapTexel = mix( texture2D( lightMap, vLightMapUv ), texture2D( lmNight, vLightMapUv ), lmMix );');
   /* 快取的 GLB 每次進區域都是 c.scene.clone(true)：網格是新的、材質是同一批（clone 不複製材質）。接過光照貼圖的材質記在 lmWired（材質 → 它的 uniform）：
      再進一次只換這一次的白天／晚上貼圖、照時段更新同一組 uniform，不再包一層 onBeforeCompile——包兩層＝lmNight 等 uniform 宣告兩次、shader 編不過、
      那個網格整個不畫（BB-C 10-28 10:0x：霖澤館大廳第二次進去地板沒紋理、沙發長椅不見、NPC 坐在空氣上；201、202、多功能教室同一段程式）*/
   const lmWired=new WeakMap();
+  /* 有光照貼圖的房間裡、沒有第二套 UV 的東西（細小零件、頂點色的小東西、門框窗框：照舊即時光）晚上跟著房間暗下來（RT-NIGHT-1028，LAWWW2-C）：
+     晚上那張光照貼圖比白天暗很多（只剩燈），即時光的半球光只從 1.2 降到 0.95，這些東西晚上比旁邊的牆、地板亮 2～3 倍，像浮在畫面上。
+     rtK：白天 1；晚上＝這一間晚上／白天光照貼圖的平均亮度比 × 1.2／0.95（限 0.3～1；貼圖還沒載好、讀不到像素時 RT_NIGHT_DEF），照 lmMix 混合。
+     乘在半球光、方向光、點光源上（lights_fragment_maps 之後）。自己發光的（emissive 夠亮）不動；人物不在房間的 GLB 裡，不受影響。 */
+  const RT_NIGHT_DEF=0.55, rtWired=new WeakMap();
+  /* 只在白天發光的材質（GLB 的 extras.lightmap.dayEmit，材質名字含其中一個字串；bake_room.py 的 --dayemit：總圖大廳的天窗）：烘焙時只有白天那一張發光，
+     遊戲裡原本整晚照樣亮（像一片日光燈）。晚上發光降到 DAY_EMIT_NIGHT、顏色換成夜空的暗藍灰，照 lmMix 混合（和換光照貼圖同一條曲線）。 */
+  const DAY_EMIT_NIGHT=0.04, DAY_EMIT_NC=new THREE.Color(0x1c2230);
+  function lmMean(t){ try{ const im=t&&t.image; if(!im||!im.width) return 0; const c=document.createElement('canvas'); c.width=c.height=32; const x=c.getContext('2d'); x.drawImage(im,0,0,32,32); const d=x.getImageData(0,0,32,32).data; let s=0,n=0;
+      for(let i=0;i<d.length;i+=4){ const v=Math.max(d[i],d[i+1],d[i+2])/255; if(v<0.01) continue; s+=v<=0.04045?v/12.92:Math.pow((v+0.055)/1.055,2.4); n++; } return n?s/n:0; }catch(e){ return 0; } }   /* 全黑的（貼圖空白的地方）不算 */
   function roomLightmap(z,root,spec){ const U={lmNight:{value:lmLoad(spec.night)},lmMix:{value:0},lmDirK:{value:LM_DIRK}}, day=lmLoad(spec.day), done=new Set(), Us=new Set([U]);
+    const RT={rtK:{value:1}}, Rs=new Set([RT]), rdone=new Set(); let kN=RT_NIGHT_DEF, nrt=0;
     root.traverse(o=>{ if(!o.isMesh||!o.geometry||!o.geometry.attributes.uv1) return;
       for(const m of [].concat(o.material)){ if(!m||done.has(m)||!m.isMeshStandardMaterial) continue; done.add(m); m.lightMap=day; m.lightMapIntensity=spec.intensity||Math.PI*2;
         const U0=lmWired.get(m); if(U0){ U0.lmNight.value=U.lmNight.value; Us.add(U0); continue; }   /* 已經接過（快取的 GLB 再進一次）：不再包一層 */
@@ -1432,9 +1443,22 @@ const Z3 = (function(){
         const prev=m.onBeforeCompile; m.onBeforeCompile=function(sh,r){ if(prev) prev.call(this,sh,r); Object.assign(sh.uniforms,U);
           sh.fragmentShader='uniform sampler2D lmNight; uniform float lmMix; uniform float lmDirK;\n'+sh.fragmentShader.replace('#include <lights_fragment_begin>','#include <lights_fragment_begin>\nreflectedLight.directDiffuse *= lmDirK; reflectedLight.directSpecular *= lmDirK;\n#if defined( RE_IndirectDiffuse )\nirradiance = vec3( 0.0 );\n#endif').replace('#include <lights_fragment_maps>',LM_MAPS); };
         const pk=m.customProgramCacheKey; m.customProgramCacheKey=function(){ return (pk?pk.call(this):'')+'|roomLM'; }; m.needsUpdate=true; } });
-    const mix=h=>{ const v=lmMixAt(h); for(const u of Us) u.lmMix.value=v; };   /* 這一次用到的每一組 uniform（新接的、之前接過的）都照時段 */
+    const DE=[].concat(spec.dayEmit||[]), Ds=[];
+    if(DE.length) root.traverse(o=>{ if(!o.isMesh) return; for(const m of [].concat(o.material)){ if(!m||Ds.indexOf(m)>=0||!DE.some(k=>(m.name||'').indexOf(k)>=0)) continue;
+      if(m.userData.dayEmitI==null){ m.userData.dayEmitI=m.emissiveIntensity==null?1:m.emissiveIntensity; m.userData.dayEmitC=m.color?m.color.clone():null; } Ds.push(m); } });   /* 第一次接的時候記下原本的值（快取的 GLB 再進一次是同一批材質）*/
+    root.traverse(o=>{ if(!o.isMesh||!o.geometry||o.geometry.attributes.uv1) return;   /* 沒有第二套 UV 的：晚上跟著暗（上面的註解） */
+      for(const m of [].concat(o.material)){ if(!m||done.has(m)||rdone.has(m)||!m.isMeshStandardMaterial||Ds.indexOf(m)>=0) continue; rdone.add(m);   /* 只在白天發光的另外處理（下面 mix）*/
+        if(m.emissive&&(m.emissive.r+m.emissive.g+m.emissive.b)*(m.emissiveIntensity==null?1:m.emissiveIntensity)>0.3) continue;
+        nrt++; const R0=rtWired.get(m); if(R0){ Rs.add(R0); continue; } rtWired.set(m,RT);
+        const prev=m.onBeforeCompile; m.onBeforeCompile=function(sh,r){ if(prev) prev.call(this,sh,r); Object.assign(sh.uniforms,RT);
+          sh.fragmentShader='uniform float rtK;\n'+sh.fragmentShader.replace('#include <lights_fragment_maps>','#include <lights_fragment_maps>\nirradiance *= rtK; reflectedLight.directDiffuse *= rtK; reflectedLight.directSpecular *= rtK;'); };
+        const pk=m.customProgramCacheKey; m.customProgramCacheKey=function(){ return (pk?pk.call(this):'')+'|roomRT'; }; m.needsUpdate=true; } });
+    Promise.all([day.userData.ready,U.lmNight.value.userData.ready]).then(([a,b])=>{ const md=lmMean(a), mn=lmMean(b); if(md>0&&mn>0) kN=Math.min(1,Math.max(0.3,mn/md*1.2/0.95)); z.rtNight=kN; });
+    z.rtNight=kN;
+    const mix=h=>{ const v=lmMixAt(h); for(const u of Us) u.lmMix.value=v; for(const r of Rs) r.rtK.value=1+(kN-1)*v;   /* 這一次用到的每一組 uniform（新接的、之前接過的）都照時段 */
+      for(const m of Ds){ m.emissiveIntensity=m.userData.dayEmitI*(1-v*(1-DAY_EMIT_NIGHT)); if(m.userData.dayEmitC) m.color.copy(m.userData.dayEmitC).lerp(DAY_EMIT_NC,v); } };
     const up0=z.update; z.update=function(dt,E){ if(up0) up0.call(this,dt,E); mix(E&&E.hour!=null?E.hour:12); }; mix(typeof GAME!=='undefined'&&GAME.G?GAME.G.hour:12);
-    z.lightmapped=done.size; return done.size; }
+    z.lightmapped=done.size; z.rtWired=nrt; z.dayEmit=Ds.length; return done.size; }
   /* 室內鏡頭在牆外時（牆淡出）看到的背景（INTERIOR-AAA-REVIEW-1028 P2，LAWWW2-C）：房間外 m 公尺一圈暗色的殼（只從裡面看得到、不受光、不吃霧），鏡頭在牆外也看不到天空
      （v1：鏡頭從側面的走道往前看，牆淡出的那一邊整片淺藍色的天空，教室像飄在天上）。鏡頭最多在牆外 4.4 m（跟隨距離），殼在 7 m：永遠在鏡頭後面，不會擋住房間。
      只給窗戶都有窗景板的房間用（窗景板在玻璃外 0.42 m，在殼的裡面）；玻璃帷幕直接看出去的房間不要用（2026-10-11 試過整個室內改深灰背景：萬才館東窗、霖澤館玻璃底下的縫變成深灰色，更假）。*/

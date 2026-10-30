@@ -2,7 +2,8 @@
 //   遊戲把室內的 WALL_* 牆設成 transparent 才能淡出（attachFormal／attachRoomGLB），材質又是雙面：three.js 雙面又半透明要畫兩次。
 //   同一頁全部改單面的上限：社科圖 2.25→3.3、總圖大廳 1.9→2.95、便利商店 3.5→4.8。lib2.single_side 匯出：
 //   1. 社科圖、總圖大廳、便利商店的材質除了玻璃都是單面（glTF doubleSided false）；玻璃照舊雙面；
-//   2. 開口的零件補了反面（每個三角形都有反過來的分身）：總圖的葉片卡（室內樹、盆栽）、樓梯踏面；社科圖的天井、竹子；便利商店的牆面；
+//   2. 開口的零件補了反面（每個三角形都有反過來的分身）：總圖的葉片卡（室內樹、盆栽）；社科圖的天井、竹子；便利商店的牆面；
+//      （總圖的樓梯踏面原本也在這裡：LIB-HALL-LM-1028 大樓梯改成每階一塊實心石材，烘焙前也拿掉了有光照貼圖的物件的反面——踏面現在是封閉的零件，不需要反面。）
 //   3. 原本就單面的天花板（朝下：鏡頭超過天花板高度時看得穿，剖面視角）沒有補朝上的那一面——第一次試便利商店，從高處看整片擋住；
 //   4. 背面看不到的沒有補：社科圖的書、便利商店架上的商品（三角形數和改前一樣；便利商店只多端架促銷牌的背面 8 個）；
 //   5. 便利商店端架的 4 張促銷牌有背面（BB-B 10-25：材質改單面以後，從貨架另一頭看促銷牌整片不見；只給促銷牌補一片反面，商品貼圖集照舊單面）。
@@ -24,7 +25,7 @@ const GL={ soclib:load('assets/models/env/second_ai/soclib_interior.glb'), libra
 
 for(const [k,G] of Object.entries(GL)){ const ds=G.mats.filter(m=>m.doubleSided&&!/glass/.test(m.name)).map(m=>m.name), gl=G.mats.filter(m=>/glass/.test(m.name));
   check('1. '+k+'：除了玻璃都單面（'+G.mats.length+' 個材質）；玻璃照舊雙面', !ds.length&&gl.every(m=>m.doubleSided), ds.length?'雙面：'+ds.slice(0,8).join(' '):gl.map(m=>m.name).join(' ')); }
-const P2=[['總圖 葉片卡',GL.library,/^lb_leaf_/],['總圖 樓梯踏面',GL.library,/^lb_step$/],['社科圖 天井',GL.soclib,/^soclib_lightwell$/],['便利商店 牆面',GL.cvs,/^cvs_wall$/]];
+const P2=[['總圖 葉片卡',GL.library,/^lb_leaf_/],['社科圖 天井',GL.soclib,/^soclib_lightwell$/],['便利商店 牆面',GL.cvs,/^cvs_wall$/]];
 const r2=P2.map(([n,G,re])=>{ const [ok,nt]=paired(G,re); return [n,ok,nt]; });
 check('2. 開口的零件有反面（至少一半的三角形有反過來的分身；封閉的部分不需要）', r2.every(([,ok,nt])=>nt>0&&ok>=nt*0.5), r2.map(([n,ok,nt])=>n+' '+ok+'/'+nt).join('  '));
 const [cok,cnt]=paired(GL.cvs,/^cvs_ceiling$/), ceil=GL.cvs.mats.find(m=>m.name==='cvs_ceiling');
