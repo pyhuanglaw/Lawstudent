@@ -3429,7 +3429,8 @@ R43 = [
        steps=[('pghold', True), ('until', 21.2, 1500), ('jsrun', "(()=>{ const r=SOCIAL.rel('heroine_01'); r.fam=45; r.trust=30; r.comf=20; return true; })()", '12/14 以後、1/25 以前和以安變成 FRIEND（熟悉 45、信任 30）'),
               ('pguntil', '2030-01-25', 21.0, 2700)], pref=[], asks={'*': ''}, none=AN_CALL,
        countMsg={'司法官上了。': 1, '二試過了。一月面試。': 0}, msgAt={'司法官上了。': ('2030-01-25', 21.0, 0.1)},
-       jsok=[ANLV, NOCALL, ('12/14 那時候還不到 FRIEND：沒有 pg_an_ex1', "PHONE.sent(GAME.G,'pg_an_ex1')", False)]),
+       jsok=[ANLV, NOCALL, ('12/14 那時候還不到 FRIEND：沒有 pg_an_ex1', "PHONE.sent(GAME.G,'pg_an_ex1')", False),
+             ('（只記時間）「二試過了。一月面試。」是哪一天幾點進手機的', "(GAME.G.msgs||[]).filter(m=>m&&m.text==='二試過了。一月面試。').map(m=>{ const o={d:CALENDAR.dateOf(m.day).key}; for(const k of ['h','hour','t','time','at']) if(m[k]!=null&&typeof m[k]!=='object') o[k]=m[k]; return o; })", lambda x: True)]),   # BB-B 10-30 13:3x：補 NOKX 以後還是有，要知道是 12/14 21:12 改成 FRIEND 就馬上補（48 小時的 win），還是更晚
 ]
 for _s in R43:   # BB-B 10-30 13:2x：R43 原本沒有 SAYH，3D 對話框的旁白（PG.STEPS 的 GM.say：12/26 延畢旁白、6/17 系辦）記不到，只記得到日期卡和手機＝r43_fd 兩輪 FAIL 都是探針
     if SAYH not in _s.get('js', ''): _s['js'] = SAYH + _s.get('js', '')
