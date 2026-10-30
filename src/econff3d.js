@@ -126,12 +126,15 @@ const ECONFF=(()=>{
   S.PIN=[['2024-10-17','（十月十六日晚上，你們在總圖三樓念微積分。她看了五分鐘，還在第一行。）'],
     ['2025-07-13','（對答案。數學，你從第一題重新對了一次，全對。考完，她回高雄過暑假。）']];
   /* AA_529 第 5 節：長頸鹿鑰匙圈（story3d.js 記 Y0_KEY_CARD='due'，30 分鐘版 E20、E20b、信箱那則都剪了）：之後第一張日期卡下面加兩句（休學在家那一段的日期卡＝home3d.js y0Jump）；
-     沒有日期卡就掛在那天的起床（home3d.js S.sleep → S.keyWake）。出過記那一天（不再出）*/
+     沒有日期卡就掛在那天的起床（home3d.js S.sleep → S.keyWake）。出過記那一天（不再出）。
+     那張卡本來就有一句的（例：12/20→12/31 那一跳是「十二月二十日，期末考考完了……」，X53）照留、兩句接在後面（「加」兩句；一行一句，<br> 分開）*/
   S.KEY_LINES=['（十二月底，可昕拿給你一個小紙袋。裡面是一個長頸鹿鑰匙圈，脖子很短。）','（她說聖誕節那天忘了給。你把它掛在家裡的鑰匙上。）'];
   S.keyDue=G=>!!(G&&G.flags&&G.flags.Y0_KEY_CARD==='due');
   S.keyWake=async function(GM){ const G=GM.G; if(!S.keyDue(G)) return false; G.flags.Y0_KEY_CARD=G.day; for(const l of S.KEY_LINES) await GM.say(null,l); return true; };
-  S.cardLine=function(G,d0,d1){ if(!S.short(G)) return null; const r=S.rec(G);
-    if(S.keyDue(G)&&S.on2(G)){ G.flags.Y0_KEY_CARD=G.day; return S.KEY_LINES.join('<br>'); }   /* 兩句一張卡（home3d.js y0Jump 看到 <br> 放久一點）*/
+  S.cardLine=function(G,d0,d1){ if(!S.short(G)) return null; const t=S.cardLine1(G,d0,d1);
+    if(S.keyDue(G)&&S.on2(G)){ G.flags.Y0_KEY_CARD=G.day; return [t].concat(S.KEY_LINES).filter(Boolean).join('<br>'); }   /* 幾句一張卡（home3d.js y0Jump 照 <br> 的數目放久一點）*/
+    return t; };
+  S.cardLine1=function(G,d0,d1){ const r=S.rec(G);
     if(d1>d0) for(const [k,t] of S.PIN){ if(DK(k)===d1&&!r.lines.includes(t)){ r.lines.push(t); return t; } }
     if(d1-d0<2) return null; const k0=d0+1, k1=d1-1;
     for(const [a,b,t0] of S.CARDS){ const t=typeof t0==='function'?t0(G):t0; if(!t||r.lines.includes(t)) continue; const da=DK(a), db=DK(b); if(da!=null&&db!=null&&da<=k1&&db>=k0){ r.lines.push(t); return t; } } return null; };   /* 第三格可以是函式（G）→ 句子或 null＝這一跳不出（AA_348：7/15～7/23 看 E35_PLAN）*/

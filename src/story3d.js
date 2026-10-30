@@ -3381,7 +3381,7 @@ const STORY = (function(){
         還在經濟系那一年、10/15 聚會演過、沒有群組的也一樣（Y0_ZOULA 記 'load'）*/
   S.ZOULA_SYS='韋綸建立了群組「走啦」，把你加了進來。';
   S.zoulaGather=function(G,h){ if(typeof PHONE==='undefined'||!G||PHONE.inGroup(G,'econ_friends')) return false; PHONE.join(G,'econ_friends','走啦'); const T='g:econ_friends';
-    PHONE.at(G,G.day,h!=null?h:G.hour,[{th:T,text:S.ZOULA_SYS},{th:T,from:'econ_weilun',name:'韋綸',text:'以後吃飯在這裡揪！'},{th:T,from:'econ_pinyu',text:'名字誰取的。'},{th:T,from:'econ_weilun',name:'韋綸',text:'我！……還沒想好，先這樣。'}],'econ_friends_new');
+    PHONE.at(G,G.day,h!=null?h:G.hour,[{th:T,text:S.ZOULA_SYS},{th:T,from:'econ_weilun',name:'韋綸',text:'以後吃飯在這裡揪！'},{th:T,from:'econ_pinyu',name:'品妤',text:'名字誰取的。'},{th:T,from:'econ_weilun',name:'韋綸',text:'我！……還沒想好，先這樣。'}],'econ_friends_new');
     (G.flags=G.flags||{}).Y0_ZOULA='gather'; return true; };
   S.zoulaMigrate=function(s){ const F=s&&s.flags; if(!F||typeof F!=='object'||typeof PHONE==='undefined') return false; const done=(s.events&&s.events.done)||{};
     const law=(s.stage||'law')!=='econ'&&!!F.PLAYED_Y0, econ=s.stage==='econ'&&!!done.ev_y0_gather; if(!law&&!econ) return false; if(PHONE.inGroup(s,'econ_friends')) return false;
