@@ -1,5 +1,5 @@
 """光照貼圖的「壓扁的面」檢查（LM-COLLAPSE-1030，LAWWW2-B 2026-10-30）：讀烘焙好的 GLB（TEXCOORD_1），找世界面積大（> 1 m²）、
-光照 UV 面積卻不到整個模型平均密度 10% 的三角形，再從面上 21 個點沿法線射線，有碰到東西（> 5 cm）的點＝朝室內、看得到。
+光照 UV 面積卻不到整個模型平均密度 10% 的三角形，再從面上 21 個點沿法線射線，有碰到東西（> 5 cm）、而且碰到的是正面的點＝朝室內、看得到（碰到背面＝起點在別的實心零件裡面：被蓋住）。
 為什麼：bake_room.py 的 collapse_black（夾在中間、烘成全黑的面收成一點）10-30 以前只看面的中心——大的牆、地板中心剛好在黑板、講桌、
 書架後面就整面收掉，lm_fix_hidden.py 再接到共用邊上，變成對角線那一條光拉開來（博思 101 講台旁一塊斜的深色影子：BB-B n19；社科圖地板一半）。
 用法：python3 tools/blender/env_second/lightbake/lm_squash_scan.py 房間.glb [...]（不用 Blender；每間幾十秒）
@@ -28,9 +28,13 @@ def allTris(J,acc):
             out.append(P[I])
     return np.concatenate(out)
 def hit(T,o,d,tmax=60.0):
+    """沿 d 最近碰到的三角形的距離；碰到的是背面（起點在別的實心零件裡面，例如貼著牆、伸進牆裡的樓梯）回傳 None——看不到"""
     e1=T[:,1]-T[:,0]; e2=T[:,2]-T[:,0]; p=np.cross(d,e2); det=(e1*p).sum(1); ok=np.abs(det)>1e-9
     inv=np.where(ok,1/np.where(ok,det,1),0); s=o-T[:,0]; u=(s*p).sum(1)*inv; q=np.cross(s,e1); v=(q*d).sum(1)*inv; t=(e2*q).sum(1)*inv
-    m=ok&(u>=0)&(v>=0)&(u+v<=1)&(t>1e-3)&(t<tmax); return t[m].min() if m.any() else None
+    m=ok&(u>=0)&(v>=0)&(u+v<=1)&(t>1e-3)&(t<tmax)
+    if not m.any(): return None
+    i=np.nonzero(m)[0][np.argmin(t[m])]
+    return None if np.dot(np.cross(e1[i],e2[i]),d)>0 else t[i]   # 背面：法線和射線同方向
 for path in sys.argv[1:]:
     J,acc=load(path); T=allTris(J,acc); rows=[]; aA=aU=0
     for nd in J['nodes']:
