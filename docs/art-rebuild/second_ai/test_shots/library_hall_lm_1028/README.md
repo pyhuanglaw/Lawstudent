@@ -10,12 +10,13 @@
   - 程式只多一行（`library3d.js` 的 `prop`）；光照的接法不用改（`library3d.js` 也走 `B3.attachFormal`）。
   - 晚上天窗變暗要 `rt_night_1028.patch`（RT-NIGHT-1028，另一包）。沒套也能用，只是晚上天窗照樣亮。
 - **狀態**：`READY_FOR_ART_REVIEW`。建築、場景只有使用者能標 `ART_APPROVED`。
-- **怎麼套**（開發分支 `68e50d33f` 上 `git apply --check` 通過）：
+- **怎麼套**（開發分支 `68e50d33f` 上 `git apply --check` 通過；LAWWW2-B 10-30 在最新開發 `c76d0cb69`（v9.10.13 發布樹）上再試一次也通過）：
   1. 程式：`git apply docs/art-rebuild/second_ai/patches/library_hall_lm_1028.patch`：
      - `src/data/library_layout.js`：十筆地上的擺設（`prop`）。
      - `src/library3d.js`：家具多一種 `prop`（備用方塊＋導航阻擋），和 `dorm3d.js`、`building3d.js` 一樣。
      - `tools/blender/library_interior.py`：模型（見下面「改了什麼」）。
      - `tests/library_hall_lightmap_unit.js`：新的測試。
+     - `tests/singleside_interiors_unit.js`：拿掉「總圖樓梯踏面有反面」那一項（大樓梯改實心石材，見「測試」；LAWWW2-B 10-30 加進 patch）。
      - `LICENSES.md`：總圖書館大廳那一列。
   2. 二進位檔和工具（`git checkout <這包的 commit> -- `＋下面的檔）：
      - `assets/models/env/library_interior.glb`、`library_interior_lm_day.webp`、`library_interior_lm_night.webp`
@@ -88,4 +89,39 @@
 - 二樓東側：還書車，兩張單人沙發中間的小茶几（雜誌、報紙）。
 - 地上的十件在 `library_layout.js` 有一筆 `prop`：導航擋住、有備用方塊。模型裡沒有字（D77），螢幕是暗的。
 
-（施工中：數字、測試、缺點）
+## 效能（LAWWW2-B 10-30 收尾補量）
+
+遊戲內、白天 15:00，拿掉路人（`renderer.info`＋每格 4×5 秒 fps；`perf_variants.py`，SwiftShader 模擬，不是手機實機）。改前＝開發 `c76d0cb69`；改後＝同一個 commit＋這包＋`rt_night_1028.patch`；最後再量一次改前看機器有沒有變慢：
+
+| 鏡頭 | fps 改前／**改後**／再量改前 | draw call 改前 → 改後 | 三角形 改前 → 改後 |
+|---|---|---|---|
+| 一樓 入口往裡面 | 2.85／**2.7**／2.8 | 189 → 182 | 13.6 萬 → 14.0 萬 |
+| 一樓 回頭（往大門） | 5.25／**4.75**／4.8 | 107 → 108 | 12.0 萬 → 12.9 萬 |
+| 二樓自習區 方向 1 | 2.7／**3.1**／2.85 | 119 → 121 | 12.8 萬 → 13.8 萬 |
+| 二樓自習區 方向 2 | 2.0／**2.5**／2.35 | 156 → 161 | 13.1 萬 → 14.1 萬 |
+
+- fps 落在兩次改前之間的起伏裡，看不出變慢；draw call −4～+3%；三角形多 3～8%（新擺設）。
+- 模型：5,717,612 → 6,921,936 bytes（第二套 UV、後處理以後有些頂點分開）；網格 88 → 87；材質 35 → 31；三角形 60,098 → 63,556。
+- 光照貼圖兩張 WebP（1024 × 1024）：白天 125 KB、晚上 116 KB。
+
+## 光照貼圖的排版（`uv_fill.py`）
+
+- 填滿率 **28.7%**，接光照貼圖的三角形 8,622 個（39 個網格有第二套 UV）。
+- 主要的面每公尺的像素：一樓地板 9、二樓木地板 9、樓板（從一樓往上看）6、大樓梯 9、牆 5～7、天花板 3。
+- 沒有 uv1 的網格是故意的：發光面、玻璃、樹葉、黃銅、窗框、頂點色的小東西（晚上靠 `rt_night_1028.patch` 跟著暗）。
+
+## 測試
+
+- 新 `tests/library_hall_lightmap_unit.js`（這包）、`tests/room_rtnight_unit.js`（RT-NIGHT）：開發 `c76d0cb69`＋兩份 patch＋三個二進位檔 ALL PASS。
+- **`tests/singleside_interiors_unit.js` 第 2 項要跟著改**（這個 patch 裡已經改了）：原本檢查「總圖樓梯踏面有反面」，這包大樓梯改成每階一塊實心石材、烘焙前也拿掉了有光照貼圖物件的反面，踏面現在是封閉的零件（每條邊兩個面），不需要反面。只拿掉那一個檢查，其他（葉片卡、社科圖天井、便利商店牆面）照舊。
+- 開發 `c76d0cb69`＋兩份 patch＋三個二進位檔：`tests/` **725 支 Node 測試 0 失敗**。
+- 「進兩次」（`shots/lm_reentry.py`）：見下。
+- 沒跑：`flow_library_floors.py`、`flow_library_scene.py`（瀏覽器流程）、整套回歸、iPhone 實機。
+
+## 缺點、還沒做到的
+
+- **光照貼圖解析度偏低**：填滿率 28.7%、地板每公尺 9 個像素（男一舍門廳 52.3%、18 px/m；檢討報告第 7 節的目標是 50%）。總圖大廳面積大（一樓地板 885 m²），一張 1024 分不夠：家具底下、牆角的影子比較糊，近看地板的光有一點塊狀。之後可以分兩張（一樓、二樓各一張）或改 2048——貼圖大 4 倍，要先量手機的記憶體。
+- 晚上天窗變暗要和 `rt_night_1028.patch` 一起套；只套這包，晚上天窗照樣亮（和開發分支原本一樣）。
+- 三樓閱覽室（`library` 區域）沒有動，這包只有一樓大廳、中庭、二樓自習區與東翼。
+- 西南角樓梯 `hdownS` 有 28 條邊不是封閉的（貼牆的那一側），單面看不到，烘焙也正常；記在這裡。
+
