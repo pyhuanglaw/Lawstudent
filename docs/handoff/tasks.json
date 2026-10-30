@@ -36054,8 +36054,8 @@
    "title": "照臺大校內地圖規劃總圖前草皮",
    "area": "ART",
    "owner": "LAWWW2",
-   "status": "進行中",
-   "next": "LAWWW2 照提案做第一版（中軸 10 m、南北兩塊草皮、北側老樟樹、長椅、路燈；台階先不做）→ 交件 → BB 測；三個問題問使用者（草皮一塊還兩塊、草皮和椰影大道間有沒有路、大門前台階）",
+   "status": "已整合待測試",
+   "next": "BB 測（校園走到總圖前、坐長椅、路燈、老樟樹、reachability_all）；使用者回答三個問題（草皮形狀、台階、樟樹位置）再出第二版",
    "priority": "P1",
    "first": {
     "term": "Y1S1",
@@ -36074,9 +36074,13 @@
     "branch": "claude/funny-albattani-iawshm",
     "acceptance": "同角度改前改後截圖、效能、進兩次",
     "receiver": "LAWWW",
-    "ack": "SENT"
+    "ack": "ACTIONED"
    },
-   "notes": "【08:1x】LAWWW2-B 3a3d2bc40 規劃稿（地圖不在 repo，照 D25 位置關係）；LAWWW-B：照提案做、台階先不做、問使用者 ｜ 建築、場景 ART_APPROVED 只有使用者標"
+   "notes": "【09:5x】LAWWW2 交件 0235c71b9（campus_lib_lawn.glb＋lib_lawn_1030.patch）整合 f75d60a4c；lib_lawn_unit、nav_buildings_unit、kit_nav_check ALL PASS；+40 draw call（SwiftShader），實機量過再決定；READY_FOR_ART_REVIEW ｜ 【08:1x】LAWWW2-B 3a3d2bc40 規劃稿（地圖不在 repo，照 D25 位置關係）；LAWWW-B：照提案做、台階先不做、問使用者 ｜ 建築、場景 ART_APPROVED 只有使用者標",
+   "aliases": [
+    "LIB-LAWN-1030"
+   ],
+   "sha": "f75d60a4c"
   },
   {
    "id": "WORLD-RENAME-1030",
@@ -36351,6 +36355,36 @@
    "authorized": "D111（LAWWW 決定 UI）",
    "sha": "4da27563c",
    "notes": "tests/bigmap_people_unit.js（修改前 FAIL 2）"
+  },
+  {
+   "id": "RENAME-ART-1030",
+   "title": "D115 改名美術字：校門石牌、晨思鐘、博思名牌、法律系館A 公布欄、201 傳單、博思 203 海報、ntu_linze 背景（只換貼圖不重烘）＋長條名牌外框上限",
+   "area": "ART",
+   "owner": "LAWWW2",
+   "status": "已整合待測試",
+   "next": "BB 測改名牌子近拍（校門、晨思鐘、博思名牌、A館公布欄、201 傳單、博思 203）；LAWWW2 接著查 CG 78 張舊校名",
+   "priority": "P1",
+   "first": {
+    "term": "Y1S1",
+    "week": 1,
+    "earliest": "新遊戲走進校門",
+    "mainline": true,
+    "blocks": false,
+    "prereq": false,
+    "parallel": true,
+    "confirmed": true
+   },
+   "source": "使用者 10-30（D115，選擇題「改」）；RENAME_ART_LIST",
+   "authorized": "D115、D108",
+   "sha": "f75d60a4c",
+   "xai": {
+    "spec": "docs/art-rebuild/second_ai/RENAME_ART_LIST.md",
+    "branch": "claude/funny-albattani-iawshm",
+    "acceptance": "同角度改前改後、遊戲內近拍",
+    "receiver": "LAWWW",
+    "ack": "ACTIONED"
+   },
+   "notes": "LAWWW2 交件 0235c71b9 → f75d60a4c；外框 patch 套了（4:1 以內不變）；還沒做：CG 78 張、BB 組校園 2D 背景只看縮圖"
   }
  ]
 }
