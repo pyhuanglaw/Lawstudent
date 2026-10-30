@@ -35744,6 +35744,37 @@
    "source": "使用者 10-30 03:5x 選擇題（UA-LAWWW-1030-05，USER_WANTS X126）",
    "authorized": "使用者",
    "notes": "【LAWWW-B 04:0x】postrel-1030 7a6c12473：💾 存 fatiao3d_quick（上一份備份 fatiao3d_backup），存檔頁「自動存檔」下面一格「快速存檔（右上 💾）」只有讀取（第一個「存檔」鈕照舊是欄位 1，瀏覽器測試不受影響）；quick_save_unit 修改前 FAILED 6 → ALL PASS"
+  },
+  {
+   "id": "AA522-ANSVAR-1030",
+   "title": "AA_522 第 9 節第 1 點：民總第一堂第一次跟周教授說話，classAnswer 的 half／bold／absent 沒有稿，現在說一般那句「週四下課以後我都在」（那天就是週四、研究室下週才開）",
+   "area": "STORY",
+   "owner": "AA",
+   "status": "等待其他AI／素材",
+   "next": "AA 給句子或決定照一般那句 → LAWWW 改 talkProf",
+   "priority": "P3",
+   "first": {
+    "term": "Y1S1",
+    "week": 1,
+    "earliest": "法律系大一上民總第一堂",
+    "mainline": true,
+    "blocks": false,
+    "prereq": false,
+    "parallel": true,
+    "confirmed": true
+   },
+   "source": "BB-B 03:52 瀏覽器實測（BB_218 d7dc95f9b）",
+   "authorized": "D109",
+   "xai": {
+    "spec": "AA_522 第 9 節第 1 點",
+    "branch": "claude/cool-heisenberg-o8kuqx",
+    "acceptance": "三種回答各有一句或明確照一般那句",
+    "receiver": "LAWWW",
+    "ack": "SENT"
+   },
+   "pausedReason": "等 AA 回（排在 AA_529 之後）",
+   "resumeWhen": "AA 回覆",
+   "notes": "不擋 v9.10.14"
   }
  ]
 }
