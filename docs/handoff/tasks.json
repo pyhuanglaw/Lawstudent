@@ -36559,6 +36559,29 @@
    "sha": "2ac9e3637",
    "notes": "HOME.moonPgStop 登記到 PG.stops（第一次 phoneRules 時；home3d 比 postgrad3d 早載入）；aa471_pg_unit 第 4 節兩項（修改前 FAIL）",
    "evidence": "BB-B r43c2（17ae7a0ab）11/0 PASS：住家裡 2029、2030 停 20:00；住公館套房兩年停 18:00、21:00；修正前 b38 同一套直接跳到 23:00（BB_218）；aa471_pg_unit 第 4 節"
+  },
+  {
+   "id": "PG-AN-EX-WIN-1030",
+   "title": "以安二試（2029-12-14）、司法官（2030-01-25）放榜的麵店團群組：和電話版同一段，到隔天 03:00 以前條件成立才補（原本 48 小時內都補）",
+   "area": "BUG",
+   "owner": "LAWWW",
+   "status": "已整合待測試",
+   "next": "BB r43d PGF10_AN_EX_LATE：21:12 變 FRIEND 照收到；隔天中午才變 FRIEND 不收到",
+   "priority": "P3",
+   "first": {
+    "term": "PG",
+    "week": 1,
+    "earliest": "畢業以後 2029-12-14 以安二試放榜",
+    "mainline": false,
+    "blocks": false,
+    "prereq": false,
+    "parallel": true,
+    "confirmed": true
+   },
+   "source": "BB-B R43 PGF10_AN_EX_LATE（10-30 13:31）；AA-B 13:33 回 B",
+   "authorized": "D109（AA 劇情決定）、D111",
+   "sha": "PENDING",
+   "notes": "PG.MSGS pg_an_ex1、pg_an_group 加 win:6；tests/pg_an_ex_win_unit.js（修改前 FAIL）"
   }
  ]
 }
