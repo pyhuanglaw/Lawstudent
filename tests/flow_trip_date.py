@@ -2,7 +2,7 @@
 A. DL-06B：[前置] 讀檔到公館、捷運公館站入口旁（週六 14:00，晴天）→ 點「捷運公館站入口」→ 選「九份老街」→ 交通標題卡（兩段：捷運＋客運）→
    九份的 2D 畫面（底圖 d18_base_dusk）→ 選第一個能做的 → 回去 → 回公館。檢查：回到公館、G.places.free.D18＝1、時間往後、扣了車資、沒有 JS 錯誤。
 B. DATE-S3／S6：[前置] 和語彤交往中、有她的聯絡方式（讀檔時設旗標）；[前置] 用 INV.flow 開「約人」的選單（等同手機朋友頁按「約」，手機面板的點法另外測）→
-   像玩家一樣點：去校外… → 淡水金色水岸 → 明天 → 15:00 出發 → 就這樣約 → 她的「答應（交往中）」那一句。
+   像玩家一樣點：出去玩… → 新北市、桃園：海邊… → 淡水金色水岸 → 明天 → 15:00 出發 → 就這樣約 → 她的「答應（交往中）」那一句（INVITE-MENU-1030／AA_535：選單分層）。
    [前置] 把時間撥到隔天 14:58（等出發提示；不用 turbo、不瞬移）→「現在要出發嗎？」→ 出發 → 淡水的 2D 畫面、她的抵達句 → 點兩個互動點 → 差不多了 → 收尾句 → 回程。
    檢查：正式校外約會 1 次（G.dateLog.heroine_03.count）、DATED_1、行程 done、記得點過的互動點、沒有 JS 錯誤。
 用法：python3 tests/flow_trip_date.py http://127.0.0.1:8765/index.html [輸出資料夾]"""
@@ -86,13 +86,13 @@ async def main():
         await pg.evaluate("(()=>{ GAME.G.contacts=GAME.G.contacts||{}; GAME.G.contacts.heroine_03=1; })()")
         run.setup('用 INV.flow 開約人選單（等同手機朋友頁的「約」）')
         await pg.evaluate("void INV.flow(GAME,'heroine_03',null,false)")
-        steps = [('去校外', 'place'), ('淡水金色水岸', 'loc'), ('明天', 'day'), ('15:00', 'time'), ('就這樣約', 'ok')]
+        steps = [('出去玩', 'place'), ('新北市、桃園：海邊', 'group'), ('淡水金色水岸', 'loc'), ('明天', 'day'), ('15:00', 'time'), ('就這樣約', 'ok')]
         ok_steps = []
         for w, k in steps:
             t = await pick(pg, cdp, w); ok_steps.append((k, t))
         seen = await talk_until_choices(pg, cdp)
         trip = await pg.evaluate("(GAME.G.trips||[]).slice(-1)[0]||null")
-        run.check('預約：去校外… → 淡水 → 明天 → 15:00 → 就這樣約，都點得到；行程 booked、明天 15:00', all(t for _, t in ok_steps) and trip and trip['status'] == 'booked' and trip['depart'] == 15, json.dumps([ok_steps, trip], ensure_ascii=False))
+        run.check('預約：出去玩… → 海邊 → 淡水 → 明天 → 15:00 → 就這樣約，都點得到；行程 booked、明天 15:00', all(t for _, t in ok_steps) and trip and trip['status'] == 'booked' and trip['depart'] == 15, json.dumps([ok_steps, trip], ensure_ascii=False))
         await run.shot(pg, 'date_booked')
         run.setup('把時間撥到隔天 14:58（等出發提示）')
         await pg.evaluate("(()=>{ const G=GAME.G; G.day+=1; G.weekday=(G.weekday+1)%7; G.hour=14.97; GAME.E.hour=G.hour; })()")

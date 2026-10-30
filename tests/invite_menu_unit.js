@@ -40,20 +40,20 @@ const T=()=>said.map(s=>s.t), thread=id=>(G.msgs||[]).filter(m=>m.th==='p:'+id).
 const ask=async(id,pk,n,together)=>{ said=[]; opts=[]; full=[]; picks=pk||[]; let r=null, err=null; try{ r=await INV.flow(GM,id,n||null,!!together); }catch(e){ err=String(e&&e.stack||e); } return {r,err,opts:opts.slice(),full:full.slice(),L:T().concat(err?['（例外）'+err]:[])}; };
 const max8=a=>a.opts.every(o=>o.length<=8);
 const GROUPS=()=>DATE.GROUPS||[{id:'tpe_art',t:'',ids:['D01','D02','D03','D04','D05','D06']},{id:'ntp_sea',t:'',ids:['D13','D14','D16','D17','D23']}];   /* 修改前沒有 DATE.GROUPS：照稿的分組跑下去（各項照樣 FAIL）*/
-const CATS=['念書…','吃飯…','喝咖啡、喝茶…','去溫州街散步','運動…'];   /* 法律系那幾年：念書＝總圖＋慢讀咖啡（AA_535）*/
+const CATS=['念書…','吃飯…','喝咖啡、喝茶…','散步…','運動…'];   /* 法律系那幾年：念書＝總圖＋慢讀咖啡＋法圖（AA_535、AA_535b）；散步＝溫州街＋映月湖（AA_535b）*/
 (async()=>{
   const mon=nextWd(D('2026-03-09'),1), tue=mon+1, sat=nextWd(mon,6), sun=sat+1;   // 大一下（學姊筆試、放榜以後）
   // ===== A. 第一層照分類 =====
   { fresh(mon,10); know('heroine_01',S5);
     const a=await ask('heroine_01',['算了']);
-    check('A1. 手機約以安：第一層＝念書…／吃飯…／喝咖啡、喝茶…／散步（只有溫州街＝直接列）／運動…／出去玩…／算了',J(a.opts[0])===J(CATS.concat(['出去玩…','算了'])),J(a.opts[0])+a.err);
+    check('A1. 手機約以安：第一層＝念書…／吃飯…／喝咖啡、喝茶…／散步…／運動…／出去玩…／算了',J(a.opts[0])===J(CATS.concat(['出去玩…','算了'])),J(a.opts[0])+a.err);
     check('A1. 一層不超過 8 列',max8(a),J(a.opts.map(o=>o.length)));
     const f=a.full[0]||[]; const meal=f.find(o=>o.t==='吃飯…')||{};
     check('A1. 一類的小字列裡面的地點（吃飯…：阿鳳麵店、半熟）',/阿鳳麵店/.test(meal.hint||'')&&/半熟/.test(meal.hint||'')&&!meal.dim,J(meal));
     const b=await ask('heroine_01',['吃飯','返回','喝咖啡','返回','運動','返回','念書','返回','算了']);
     check('A2. 吃飯…：麵店、半熟＋返回；返回回到第一層',J(b.opts[1])===J(['去阿鳳麵店吃飯','去半熟吃早午餐','返回'])&&J(b.opts[2])===J(b.opts[0]),J(b.opts.slice(0,3)));
     check('A2. 喝咖啡、喝茶…：兩點半 Café、一盞、慢讀咖啡＋返回',J(b.opts[3])===J(['去兩點半 Café 坐坐','去一盞喝茶','去慢讀咖啡念書','返回']),J(b.opts[3]));
-    check('A2. 念書…：總圖、慢讀咖啡（同一個地點可以放兩類）＋返回',J(b.opts[7])===J(['去總圖一起念書','去慢讀咖啡念書','返回']),J(b.opts[7]));
+    check('A2. 念書…：總圖、慢讀咖啡（同一個地點可以放兩類）、法圖＋返回',J(b.opts[7])===J(['去總圖一起念書','去慢讀咖啡念書','去法圖一起念書','返回']),J(b.opts[7]));
     check('A2. 運動…：羽球、晨跑＋返回',J(b.opts[5])===J(['去新體育館打羽球','去椰林大道晨跑','返回']),J(b.opts[5]));
     const c=await ask('heroine_01',['吃飯','麵店',/^明天/]);
     const iv=(G.invites||[]).slice(-1)[0]||{};

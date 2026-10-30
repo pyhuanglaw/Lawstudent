@@ -39,6 +39,8 @@ const band=id=>['FRIEND','CLOSE_FRIEND'].includes(SOCIAL.friendLevel(id))?'R':'A
   // ===== 0. 稿 =====
   let spec=''; try{ spec=cp.execSync('git show '+SPEC_SHA+':"'+SPEC_PATH+'"',{cwd:GIT,encoding:'utf8',maxBuffer:8<<20,stdio:['ignore','pipe','ignore']}); }catch(e){}
   check('0. 讀得到稿 AA_535@'+SPEC_SHA,!!spec&&/慢讀咖啡/.test(spec),spec.slice(0,40).replace(/\n/g,' '));
+  { const al=JSON.parse(fs.readFileSync(path.join(ROOT,'docs/handoff/story_import_allow.json'),'utf8')).files.filter(e=>e.path===SPEC_PATH);
+    check('0. 匯入白名單：'+SPEC_PATH.split('/').pop()+' 一筆 approved＝'+SPEC_SHA+'（INVITE-OPTS-1030）',al.length===1&&al[0].sha===SPEC_SHA&&al[0].status==='approved'&&al[0].task==='INVITE-OPTS-1030'&&!!al[0].approvedBy,J(al.map(e=>[e.sha,e.status,e.task]))); }
   const inSpec=t=>!spec||spec.includes(String(t).replace(/^「|」$/g,'').replace(/^（|）$/g,''));
   { const SR=INVITE_DATA.slowreadLines||{}, all=[]; for(const id in SR) for(const k in SR[id]){ const v=SR[id][k]; const L=typeof v==='function'?v(null,{r:{}})||[]:(Array.isArray(v)?v:[].concat(v.A||[],v.R||[])); for(const x of L) all.push(typeof x==='string'?x:[].concat(x.l||[]).join('')); }
     const bad=[]; for(const id in SR) for(const k in SR[id]){ const v=SR[id][k]; let L=typeof v==='function'?v(null,{r:{}})||[]:(Array.isArray(v)?v:[].concat(v.A||[],v.R||[])); for(const x of L){ for(const t of (typeof x==='string'?[x]:(x.l||[]))) if(!inSpec(t)) bad.push(id+'.'+k+':'+t); } }
@@ -112,8 +114,8 @@ const band=id=>['FRIEND','CLOSE_FRIEND'].includes(SOCIAL.friendLevel(id))?'R':'A
   // ===== 6. 分類名稱（第 2 節）=====
   { const mon=TD('Y1S2',4,1); fresh(mon,10); know('heroine_01',{fam:10,trust:4,comf:2,npcRom:0,rom:0});
     const a=await ask('heroine_01',['算了']); const f=a.full[0]||[];
-    check('6. 第一層：念書…／吃飯…／喝咖啡、喝茶…／散步／運動…／出去玩…／算了',J(f.map(o=>o.t))===J(['念書…','吃飯…','喝咖啡、喝茶…','去溫州街散步','運動…','出去玩…','算了']),J(f.map(o=>o.t)));
-    const out=f.find(o=>o.t==='出去玩…')||{}, walk=f.find(o=>o.t==='去溫州街散步')||{}, meal=f.find(o=>o.t==='吃飯…')||{};
+    check('6. 第一層：念書…／吃飯…／喝咖啡、喝茶…／散步…（溫州街、映月湖，AA_535b）／運動…／出去玩…／算了',J(f.map(o=>o.t))===J(['念書…','吃飯…','喝咖啡、喝茶…','散步…','運動…','出去玩…','算了']),J(f.map(o=>o.t)));
+    const out=f.find(o=>o.t==='出去玩…')||{}, walk=f.find(o=>o.t==='散步…')||{}, meal=f.find(o=>o.t==='吃飯…')||{};
     check('6. 出去玩：不寫「約會」',!/約會/.test(out.t+out.hint),J(out));
     check('6. 沒開的分類照樣列出、反灰、小字寫原因（散步要等你們變成朋友。／吃飯的原因）',walk.dim&&walk.hint==='散步要等你們變成朋友。'&&meal.dim&&meal.hint==='再熟一點，才約得出去吃飯。',J([walk,meal])); }
   { const d=TD('Y1S2',4,6); fresh(d-1,10); know('heroine_01',S5); DATE.knowWish(G,'heroine_01'); const wk=DATE.wishOf('heroine_01');

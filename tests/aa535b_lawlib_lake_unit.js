@@ -42,6 +42,8 @@ const once=async(id,pid,day,h)=>{ const P=INV.place(pid); return INV.personal(G,
   // ===== 0. 稿 =====
   let spec=''; try{ spec=cp.execSync('git show '+SPEC_SHA+':"'+SPEC_PATH+'"',{cwd:GIT,encoding:'utf8',maxBuffer:8<<20,stdio:['ignore','pipe','ignore']}); }catch(e){}
   check('0. 讀得到稿 AA_535b@'+SPEC_SHA,!!spec&&/映月湖/.test(spec)&&/法律學院圖書館/.test(spec));
+  { const al=JSON.parse(fs.readFileSync(path.join(ROOT,'docs/handoff/story_import_allow.json'),'utf8')).files.filter(e=>e.path===SPEC_PATH);
+    check('0. 匯入白名單：'+SPEC_PATH.split('/').pop()+' 一筆 approved＝'+SPEC_SHA+'（INVITE-OPTS-1030）',al.length===1&&al[0].sha===SPEC_SHA&&al[0].status==='approved'&&al[0].task==='INVITE-OPTS-1030'&&!!al[0].approvedBy,J(al.map(e=>[e.sha,e.status,e.task]))); }
   const inSpec=t=>!spec||spec.includes(String(t).replace(/^「|」$/g,'').replace(/^（|）$/g,''));
   { const bad=[]; const walk=(tag,v)=>{ if(v==null) return; if(typeof v==='function') return walk(tag,v(null,{r:{}})); if(typeof v==='string'){ if(!inSpec(v)) bad.push(tag+':'+v); return; } if(Array.isArray(v)) return v.forEach(x=>walk(tag,x)); if(v.l) return walk(tag,v.l); for(const k in v) walk(tag+'.'+k,v[k]); };
     walk('lawlib',INVITE_DATA.lawlibLines); walk('lake',INVITE_DATA.lakeLines);
