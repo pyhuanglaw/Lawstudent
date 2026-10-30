@@ -10,7 +10,9 @@
 - 竹色弧形矮書架（圍出「林間書房」）、東牆靠牆書架、期刊架：書是一本一本的（頂點色，一個材質）。
 - 閱覽長桌（竹色桌面、中間一排小檯燈）、竹椅；北牆、西牆的玻璃帷幕前是窗邊長桌＋椅子；服務台、館員區矮隔板、入口閘門與玻璃欄杆、查詢電腦、新書展示台、還書箱、閱報區沙發。
 會淡出的牆：WALL_<front|back|left|right>_*（自訂屬性 dir＝往室內的法線；front＝南牆、back＝北牆、left＝西牆、right＝東牆）。字（招牌）用 canvas：SIGN_FACE_*。
-貼圖：Poly Haven CC0（terrazzo_tiles、walnut_veneer：淺色直紋當竹集成材）。"""
+貼圖：Poly Haven CC0（terrazzo_tiles、walnut_veneer：淺色直紋當竹集成材）。
+2026-10-30 SOCLIB-LM-1030（LAWWW2-B；LAWWW-B 派工，INTERIOR_AAA_REVIEW_1028 第 5 節 P1 光照＋P5 燈具）：加燈具——荷葉頂面的上照燈帶、天花板小筒燈（避開天窗、荷葉、牆邊）；
+  燈的位置寫進統計 JSON 的 lights（lightbake/bake_soclib.sh 讀同一份烘焙光照貼圖）。配置、座位、導航都不動。"""
 import json, math, os, sys, random
 HERE = os.path.dirname(os.path.abspath(__file__))
 sys.path.insert(0, HERE)
@@ -195,6 +197,35 @@ for c in J['columns']:
 ob = colm.finish(root, uv=False)
 L.smooth_mesh(ob, angle=1.2)
 
+# ---------- 燈具（SOCLIB-LM-1030，LAWWW2-B 2026-10-30；INTERIOR_AAA_REVIEW_1028 第 5 節 P1 光照＋P5 燈具）----------
+# 原本天花板上沒有燈具：晚上的光只有遊戲的 8 盞即時點光源，看不出光從哪裡來。加兩種（位置寫進 soclib_interior.json 的 lights，烘焙 lightbake/bake_soclib.sh 讀同一份）：
+#   ①荷葉上照燈：每片荷葉頂面一圈暖色燈帶（從下面看不到燈，只看到天花板在荷葉上方亮一圈；晚上像一片片發亮的樹冠）
+#   ②天花板小筒燈：3 m 一格，避開天窗、荷葉、牆邊；從下面看是一個一個小亮點，閱覽桌、書架上一圈光
+M['down'] = L.flat('soclib_downlight', '#fffaf0', rough=0.4, emit=B.srgb('#fff4e2'), cull=True)
+M['up'] = L.flat('soclib_uplight', '#fff1d6', rough=0.4, emit=B.srgb('#ffe2b0'), cull=True)
+dl, dtrim, ul = Mesh('soclib_downlights', M['down']), Mesh('soclib_downlight_trim', M['white']), Mesh('soclib_uplights', M['up'])
+def disc(m, x, z, y, r, n=12, up=False):
+    vs = [m.bm.verts.new(g2b(x + r * math.cos(2 * math.pi * k / n), y, z + r * math.sin(2 * math.pi * k / n))) for k in range(n)]
+    f = m.bm.faces.new(vs if up else vs[::-1]); f.normal_update()
+    if (f.normal.z > 0) != up: f.normal_flip()
+def ring(m, x, z, y, r0, r1, n=24, up=True):
+    a = [m.bm.verts.new(g2b(x + r0 * math.cos(2 * math.pi * k / n), y, z + r0 * math.sin(2 * math.pi * k / n))) for k in range(n)]
+    b = [m.bm.verts.new(g2b(x + r1 * math.cos(2 * math.pi * k / n), y, z + r1 * math.sin(2 * math.pi * k / n))) for k in range(n)]
+    for k in range(n):
+        j = (k + 1) % n; f = m.bm.faces.new((a[k], a[j], b[j], b[k])); f.normal_update()
+        if (f.normal.z > 0) != up: f.normal_flip()
+DOWN = []
+for gx in [-13.5 + 3 * i for i in range(10)]:
+    for gz in [-9.0 + 3 * k for k in range(7)]:
+        if any(math.hypot(gx - s['x'], gz - s['z']) < s['r'] + 0.6 for s in J['skylights']): continue      # 天窗旁邊
+        if any(math.hypot(gx - c['x'], gz - c['z']) < c['cap'] + 0.25 for c in J['columns']): continue    # 荷葉上方（被葉子擋住）
+        if abs(gx) > W / 2 - 0.9 or abs(gz) > D / 2 - 0.9: continue                                         # 牆邊
+        DOWN.append((gx, gz)); disc(dtrim, gx, gz, H - 0.004, 0.1); disc(dl, gx, gz, H - 0.008, 0.065)
+UP = []
+for c in J['columns']:
+    top = c['capY'] + 0.1; ring(ul, c['x'], c['z'], top + 0.006, 0.5, 0.58); UP.append((c['x'], top, c['z']))
+dl.finish(root, uv=False); dtrim.finish(root, uv=False); ul.finish(root, uv=False)
+
 # ---------- 書架、書 ----------
 shelf = Mesh('soclib_shelves', M['bamboo']); shelfD = Mesh('soclib_shelves_dark', M['bambooD']); books = CM('soclib_books', M['books'])
 def fill_books_line(cx, cz, yaw, length, y0, y1, depth):
@@ -266,6 +297,7 @@ def chair(x, z, yaw):
     rbox(chairs, x, z, yaw, -0.23, 0.23, 0.41, 0.44, -0.22, 0.2); rbox(seatf, x, z, yaw, -0.21, 0.21, 0.44, 0.47, -0.2, 0.18)
     rbox(chairs, x, z, yaw, -0.23, 0.23, 0.6, 0.86, -0.24, -0.2)                         # 椅背（一片彎的竹板，近似成平板）
     for lx in (-0.2, 0.2): rbox(chairs, x, z, yaw, lx - 0.018, lx + 0.018, 0.44, 0.86, -0.23, -0.2)
+LAMPS = []   # 閱覽長桌的檯燈頭（烘焙用）
 tables = Mesh('soclib_tables', M['bamboo']); tabD = Mesh('soclib_tables_dark', M['bambooD']); lamps = Mesh('soclib_lamps', M['lamp']); metal = Mesh('soclib_metal', M['steel'])
 for f in J['furniture']:
     if f['type'] == 'readingTable':
@@ -278,7 +310,7 @@ for f in J['furniture']:
         for i in range(n):
             lx = x - w / 2 + w / (2 * n) * (2 * i + 1)
             metal.cyl((lx, 0.86, z), (lx, 1.18, z), 0.012, seg=6); metal.box(lx - 0.03, lx + 0.03, 1.16, 1.2, z - 0.16, z + 0.16)   # 檯燈：細桿＋往兩邊伸的燈頭
-            lamps.box(lx - 0.025, lx + 0.025, 1.155, 1.162, z - 0.15, z + 0.15)
+            lamps.box(lx - 0.025, lx + 0.025, 1.155, 1.162, z - 0.15, z + 0.15); LAMPS.append((round(lx, 3), round(z, 3)))
     elif f['type'] == 'windowCounter':
         if f['side'] == 'north':
             x0, x1, z, d = f['x0'], f['x1'], f['z'], f['d']; tables.box(x0, x1, 0.72, 0.76, z - d / 2, z + d / 2)
@@ -364,10 +396,11 @@ for ob in root.children_recursive:
 # PERF-SINGLESIDE-GLB-1025（LAWWW2-B 2026-10-25）：材質改單面（lib2.single_side）——遊戲把 WALL_* 設成 transparent 才能淡出，雙面又半透明要畫兩次。
 # 封閉的殼直接單面；開口的零件（牆面、葉片卡、薄板）補反面，看起來和原本一樣；玻璃照舊雙面；遊戲照名字接手的板面（*_FACE_*）不動網格
 # 開口但背面看不到的不補：書（書背朝走道，後面是書架背板）、天花板（只從下面看）
-_ss = L.single_side(root, keep=r'glass', nodup=r'^(soclib_books|soclib_ceiling)', skip=lambda ob: 'FACE' in ob.name)
+_ss = L.single_side(root, keep=r'glass', nodup=r'^(soclib_books|soclib_ceiling|soclib_downlights|soclib_uplights)', skip=lambda ob: 'FACE' in ob.name)
 print('{"single_side": %s}' % json.dumps({k: v for k, v in sorted(_ss.items(), key=lambda kv: -kv[1][1])}, ensure_ascii=False))
 st = L.export(OUT)
-info = dict(st, tris_by_object=dict(sorted(tris.items(), key=lambda kv: -kv[1])), columns=len(J['columns']), skylights=len(J['skylights']), seats=len(J['seats']))
+info = dict(st, tris_by_object=dict(sorted(tris.items(), key=lambda kv: -kv[1])), columns=len(J['columns']), skylights=len(J['skylights']), seats=len(J['seats']),
+            lights={'down': DOWN, 'up': UP, 'lamps': LAMPS, 'H': H, 'note': '筒燈（天花板下 8 mm）、荷葉上照燈（荷葉頂面）、閱覽桌檯燈頭（1.155 m）；lightbake/bake_soclib.sh 讀這裡'})
 L.write_json(OUT[:-4] + '.json', info)
 print('tris total', sum(tris.values()))
 
