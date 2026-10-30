@@ -29,7 +29,7 @@ const VAC_DATA=(function(){
     {day:d2,h:19,title:'小考',bg:'classroom_small',lines:[G=>AN_C03(G)?[{who:'heroine_01',text:'九十二。片假名寫錯一個。'},{who:'heroine_01',text:'ツ跟シ。我每次都分不清楚。'}]:null],
       choiceIf:AN_C03, choice:[{t:'「那兩個真的很像。」',say:[{who:'heroine_01',text:'很像不是理由。'},{narr:'（她在筆記本上把兩個字各寫了十遍。）'}]},{t:'「我錯了五個。」',say:[{who:'heroine_01',text:'……那下課一起練。十分鐘。'}],rel:{heroine_01:{fam:2}}}]},
     {day:d3,h:19,title:'最後一堂',bg:'classroom_small',lines:[G=>AN_C03(G)?[{who:'heroine_01',text:'這禮拜六我回台中，8 號回來。'},{who:'heroine_01',text:'日文我會繼續背。'}]:null],
-      choiceIf:AN_C03, choice:[{t:'「好，我也背。」',say:[{who:'heroine_01',text:'說好了。'}]},{t:'「回來要考我嗎？」',say:[{who:'heroine_01',text:'考第三課的單字。全部。'}]}]} ];
+      choiceIf:AN_C03, choice:[{t:'「好，我也背。」',say:[{who:'heroine_01',text:'說好了。'}]},{t:'「回來要考我嗎？」',say:[{who:'heroine_01',text:'第三課的單字，你自己背。'}]}]} ];
   /* VAC-C04 的共用部分（第一堂 Kevin 那段分寒暑假；模擬考、累到不行、正式考試；AA_241 第 9、10 節、AA_264 第 2 節）*/
   const KV=t=>({who:'kevin',name:'Kevin',text:t});
   const C04_REP={ keys2:['補習班第一堂。櫃台的人說：「又來了喔。」','模擬考。聽力比上次多對了幾題。','單字本寫到第三本了。','考場是同一間學校。這次你知道廁所在哪裡。'],
