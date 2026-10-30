@@ -36787,9 +36787,9 @@
    "title": "總圖大廳一樓有 2 格的小孤島（約 (5.85,-8.4)）：tests/library_copier_unit.js「一樓沒有小孤島」FAIL，但測試結束碼是 0，全部 Node 一直算它通過（v9.3 #31：比人窄的縫留下的孤島，滑進去就出不來）",
    "area": "SCENE",
    "owner": "LAWWW2",
-   "status": "待開工",
+   "status": "已整合待測試",
    "priority": "P2",
-   "next": "LAWWW2（D108 場景導航）：找出 (5.85,-8.4) 那兩格是哪個家具或牆的縫，改 library_layout 的阻擋讓它跟大塊相連或整個封掉；library_copier_unit 改成有 FAIL 就 exit 1；跑 nav_buildings_unit、reachability",
+   "next": "LAWWW2 cfb70a5fd 套上（滅火器 nav 往西接到樓梯核心，孤島封掉；可站 22,629→22,623 格）；BB 瀏覽器走一次總圖大廳一樓滅火器那個牆角（tests/reachability_all.py 沒跑）",
    "first": {
     "term": "Y1S1",
     "week": 1,
@@ -36807,7 +36807,7 @@
     "branch": "claude/funny-albattani-iawshm",
     "acceptance": "library_copier_unit ALL PASS 且有 FAIL 時 exit 1；nav_buildings_unit ALL PASS",
     "receiver": "LAWWW",
-    "ack": "SENT"
+    "ack": "ACTIONED"
    }
   },
   {

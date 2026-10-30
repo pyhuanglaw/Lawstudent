@@ -42,4 +42,4 @@ function islands(n,lv){ const a=n.toWorld(0,0), b=n.toWorld(n.cols-1,n.rows-1); 
   const ev=E.interactables.find(i=>i.elevator&&(i.lv|0)===0); const r3=both([sp.x,sp.z,0],[ev.x,ev.z,0]); check('一樓電梯的點照樣走得到', r3.ok, fmt(r3));
   const c=islands(E.levels?E.levels[0]:E.nav,0); check('一樓沒有小孤島（只有一塊可站的地方，或其他塊都很大）', c.slice(1).every(q=>q.n>200), '區塊 '+c.length+'：'+JSON.stringify(c.slice(0,4)));
 }
-console.log(fails?('FAILED '+fails):'ALL PASS');
+console.log(fails?('FAILED '+fails):'ALL PASS'); process.exit(fails?1:0);   // 原本 FAIL 也 exit 0：全部 Node 一直把這支算成通過（NAV-LIBHALL-ISLAND-1030）

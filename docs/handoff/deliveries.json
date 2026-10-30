@@ -16350,6 +16350,19 @@
    "task": "LM-COLLAPSE-1030",
    "integration": "已整合待測試",
    "note": "LAWWW-B 21:2x 只拿 3 個資產檔；library／lightmap 相關 Node 58 支 ALL PASS（library_copier_unit 一樓 2 格小孤島 FAIL＝換回舊 GLB 也一樣、結束碼 0，另開 NAV-LIBHALL-ISLAND-1030）"
+  },
+  {
+   "id": "DL-LW2-LIBHALL-ISLAND-1030",
+   "date": "2026-10-30",
+   "from": "LAWWW2-B",
+   "account": "B",
+   "branch": "claude/funny-albattani-iawshm",
+   "sha": "cfb70a5fd",
+   "msg": "ACK",
+   "what": "NAV-LIBHALL-ISLAND-1030：總圖大廳一樓滅火器（6.5,−8.65）加 nav 封掉樓梯核心和滅火器中間的 2 格孤島；library3d.js 備用方塊照 f.w／f.d 畫；library_copier_unit 有 FAIL 就 exit 1（libhall_island_1030.patch）",
+   "task": "NAV-LIBHALL-ISLAND-1030",
+   "integration": "已整合待測試",
+   "note": "LAWWW-B 21:4x 套 patch；library_copier（ALL PASS、exit 0）、nav_buildings、library_hall_lightmap、library_b1、library_upper ALL PASS"
   }
  ],
  "ignored": [
