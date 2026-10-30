@@ -91,6 +91,7 @@ const AA524=(function(){
 
   /* ---------------- Z7、Y9 remember 多一句 ---------------- */
   S._spot=null;
+  (globalThis.LOADLOCKS=globalThis.LOADLOCKS||{})['aa524_3d:_spot']=()=>{ S._spot=null; };   /* 讀檔時放開（LOADGEN-LOCKS-1028）：讀檔凍住的舊約會走不到 finally */
   const remSet=(id,lc,pid)=>{ const H=(((((typeof DATE_LINES!=='undefined'?DATE_LINES:{}).loc||{})[lc]||{}).lines||{})[id]||{}).hotspots||{}; return (H[pid]||{}).remember||null; };
   S.remExtra=async function(GM,id,set,t,pid){ const G=GM.G, lc=(t.locs||[])[0]; for(const e of S.L.rem){ if(e.who!==id||e.loc!==lc||e.pid!==pid||set!==remSet(id,lc,pid)) continue;
       const m=DATE.mem(G,id,lc), fp=m.fp||{}, rx=m.rx||(m.rx={}); if(fp[pid]!==e.pick||rx[pid]) continue; rx[pid]=G.day; await say(GM,e.x); } };
