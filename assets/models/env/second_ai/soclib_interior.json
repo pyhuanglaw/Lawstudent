@@ -5,7 +5,7 @@
  "tris_drawn": 91256,
  "materials": 22,
  "out": "assets/models/env/second_ai/soclib_interior.glb",
- "bytes": 5769060,
+ "bytes": 5769044,
  "texres": 512,
  "tris_by_object": {
   "soclib_books": 44362,
