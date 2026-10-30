@@ -103,7 +103,9 @@ def _md_segment(text, user_line):
     def q(m):
         inner = m.group(1)
         if user_line: return m.group(0)
-        return '「' + (spoken(inner) if _SENT.search(inner) else written(inner)) + '」'
+        if inner.startswith('（'): return '「' + written(inner) + '」'   # 引號裡的括號旁白＝正式（10-30 LAWWW-B 第 1 點）
+        msg_style = re.search(r'[\u4e00-\u9fff] [\u4e00-\u9fff]', inner)   # 手機訊息不打標點、用空白斷句（Kevin「禮拜六畢業典禮 A館門口拍照」）＝口語
+        return '「' + (spoken(inner) if (_SENT.search(inner) or msg_style) else written(inner)) + '」'
     parts, last = [], 0
     for m in _QUOTE.finditer(text):
         parts.append(('t', text[last:m.start()])); parts.append(('q', m)); last = m.end()

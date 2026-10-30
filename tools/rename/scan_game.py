@@ -59,6 +59,19 @@ def literals(src):
         if src.startswith('/*', i):
             j = src.find('*/', i + 2); j = n if j < 0 else j + 2
             line += src.count('\n', i, j); i = j; continue
+        if c == '/':   # 正規表示式字面量：前一個非空白字元是運算子或括號就當成 regex，跳到結尾的 /（不然裡面的引號會讓後面整段斷詞走錯）
+            k = i - 1
+            while k >= 0 and src[k] in ' \t': k -= 1
+            if k < 0 or src[k] in '(,=:[!&|?{};+-*%<>~^\n':
+                j, cls = i + 1, False
+                while j < n and src[j] != '\n':
+                    if src[j] == '\\': j += 2; continue
+                    if src[j] == '[': cls = True
+                    elif src[j] == ']': cls = False
+                    elif src[j] == '/' and not cls: break
+                    j += 1
+                if j < n and src[j] == '/':
+                    i = j + 1; continue
         if c in '\'"`':
             q, j, buf = c, i + 1, []
             while j < n and src[j] != q:
