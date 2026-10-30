@@ -10,14 +10,15 @@
 #   日光燈偏白，比 Café 的暖色燈冷；小麵店白天燈也開著（--daylights）。
 # 外殼（--shell S）：店面（+z）有玻璃，天光從這一面進來；其他包黑殼。
 # --nolm（照舊即時光）：燈管、燈座、碗、麵、湯、滷味、調味罐、筷筒、黑色小東西、椅腳桌腳、桌邊、面紙盒、湯鍋煮麵爐（深色不鏽鋼）、
-#   紅紙菜單／價目板（SIGN_FACE：字由遊戲 canvas 畫）、窗框、電扇、電視（小零件，分不到像素）。桌面、椅子（方塊）、煮麵台櫃身照樣烘（有接觸陰影）。
+#   紅紙菜單／價目板（SIGN_FACE：字由遊戲 canvas 畫）、窗框、電扇、電視（小零件，分不到像素）。桌面、椅子（方塊）、煮麵台（櫃身、櫃門、湯鍋、煮麵爐）照樣烘（有接觸陰影）。
+#   櫃門、湯鍋、煮麵爐（ndl_steel_dark）第一次正式烘焙沒烘：晚上照遊戲的暖色即時燈，變成咖啡色，和烘過的櫃身（灰的）不搭——第二次一起烘。
 set -e
 SAMPLES=${1:-512}
 OUTDIR=${2:-assets/models/env/second_ai}
 RES=${3:-1024}
 TMP=$(mktemp -d)
 HIDE='glass|^ndl_tubes$|^ndl_tube$'
-NOLM='tube|bowl|noodle|soup|food|jar|black|legs|table_edges|tissue|steel_dark|SIGN_FACE|frame|fan|_tv'
+NOLM='tube|bowl|noodle|soup|food|jar|black|legs|table_edges|tissue|SIGN_FACE|frame|fan|_tv'
 COOL='1.0,0.97,0.9'
 TW=${TUBEW:-17}   # 64 取樣試烘焙 20 W：牆整片偏白（日光燈小店本來就平均地亮，但和改前比太亮）
 PT=""
