@@ -36,6 +36,8 @@ NDLDAYS = """(ids=>{ const T=CALENDAR.TERMS.filter(t=>ids.includes(t.id)), out=[
       if(STORY.noodleDay(d)){ w.days.push(CALENDAR.dateOf(d).key); w.wds.push(CALENDAR.dateOf(d).wd); } }
     out.push({id:t.id, weeks:Object.values(wk)}); }
   return out; })"""
+SCHED2 = """(([ids,keys])=>{ const G=GAME.G, d0=G.day, h0=G.hour, w0=G.weekday, out=[]; try{ for(const key of keys){ const d=STORY.dayOfKey(key); G.day=d; G.hour=18; G.weekday=CALENDAR.dateOf(d).wd%7;
+    out.push({key, ndl:STORY.noodleDay(d), at:ids.map(id=>{ let e=null; try{ e=STORY.schedEnt(CHARACTERS[id],G); }catch(x){ return 'ERR '+x.message; } return e?(e.zone+(e.zone==='noodle'?'':'／'+(e.act||'')+(e.note?'〔'+String(e.note).slice(0,24)+'〕':''))):null; }).map(z=>z&&z.startsWith('noodle')?'noodle':z)}); } } finally { G.day=d0; G.hour=h0; G.weekday=w0; } return out; })"""
 SCHED = """(([ids,keys])=>{ const G=GAME.G, out=[]; for(const key of keys){ const d=STORY.dayOfKey(key); const g=Object.assign(Object.create(Object.getPrototypeOf(G)),G,{day:d,hour:18,weekday:CALENDAR.dateOf(d).wd});
     const at=ids.map(id=>{ let e=null; try{ e=STORY.schedEnt(CHARACTERS[id],g); }catch(x){ e={err:x.message}; } return e&&e.zone==='noodle'; });
     out.push({key, ndl:STORY.noodleDay(d), at}); } return out; })"""
@@ -135,10 +137,17 @@ async def mode_a(pg, cdp, run):
     if not r: return
     info, st1, l1 = r
     run.check('選「好。」：阿哲「六點半，店門口。」、ZHE_NOODLE_INV＝yes', st1['inv'] == 'yes' and any(l[1] == '六點半，店門口。' for l in l1), J(st1))
-    plan = await pg.evaluate("(()=>{ const q=(GAME.G.outings||[]).find(o=>o.id==='zhe_first_table'); return q?{h:q.h, place:q.place, title:q.title, state:q.state}:null; })()")
-    run.check('排好出遊：18:30 阿鳳麵店「第一次併桌」', bool(plan) and abs(plan['h'] - 18.5) < 0.01 and plan['place'] == '阿鳳麵店', J(plan))
-    n0 = await P.say_hook(pg)
-    await P.wait_play(pg, cdp, 20.2, max_s=1500, picks=['出發'], run=run, tag='first_table')
+    PLANJS = "(()=>{ const q=(GAME.G.outings||[]).find(o=>o.id==='zhe_first_table'); return q?{h:q.h, place:q.place, title:q.title, state:q.state, now:+(+GAME.G.hour).toFixed(2)}:null; })()"
+    plan = None; t0 = time.time()
+    while time.time() - t0 < 180:   # 出遊是 S.tick 在下課那一場演完以後才排（story3d.js），先等它排好再查（n20_shrink_a2 下課當下就查＝太早）
+        plan = await pg.evaluate(PLANJS)
+        if plan: break
+        await drain(pg, cdp, secs=8); await L.phone_away(pg, cdp); await pg.wait_for_timeout(1500)
+    run.check('排好出遊：18:30 阿鳳麵店「第一次併桌」（下課以後排好）', bool(plan) and abs(plan['h'] - 18.5) < 0.01 and plan['place'] == '阿鳳麵店', J(plan))
+    n0 = await P.say_hook(pg); t0 = time.time()
+    while time.time() - t0 < 3000:   # 等到第一次併桌演完（或 20:30 還沒演）：SwiftShader 慢，15:10 → 18:30 要很久（a2 1500 秒不夠，七句在等 21:00 的時候才演）
+        if await pg.evaluate("(()=>{ const D=GAME.G.events.done||{}; return !!D.ev_zhe_long_table_out||GAME.G.hour>=20.5; })()"): break
+        await P.wait_play(pg, cdp, 24, max_s=60, picks=['出發'], run=None, tag='first_table')
     lines = await P.said(pg, n0); got = [l[1] for l in lines if l[1] in FIRST_TABLE]
     run.note('18:30 之後說的：%s' % J(lines[:14])); await run.shot(pg, 'a_after_table')
     run.check('18:30 出遊「第一次併桌」七句照順序', got == FIRST_TABLE, J({'got': got, 'n': len(got)}))
@@ -165,15 +174,26 @@ async def mode_a(pg, cdp, run):
     run.check('麵店日沒有落在國定假日（CALENDAR.kind 不是 term 的那幾天）', not hol, J(hol[:6]))
     run.check('同一份存檔讀兩次，挑到的麵店日一樣', nd1 == nd2, '')
     keys = [k for k in allk[:20]] + await pg.evaluate("(()=>{ const o=[]; const a=STORY.dayOfKey('2025-10-06'); for(let d=a; d<a+14; d++) if(CALENDAR.dateOf(d).wd>=1&&CALENDAR.dateOf(d).wd<=5) o.push(CALENDAR.dateOf(d).key); return o; })()")
-    sc = await pg.evaluate(SCHED, [FRIENDS, keys]); mis = [x for x in sc if x['ndl'] != all(x['at']) or (not x['ndl'] and any(x['at']))]
-    run.check('四人 18:00 的作息在麵店＝那一天是麵店日（不是就不在）', not mis, J(mis[:6]))
+    st0, d0 = await P.base(pg, SAVE, '2025-09-24', 12.0, 'campus'); await P.load(pg, cdp, st0)   # 用使用者存檔重新讀（a2 是在 A 跑完的狀態上算，Alison 那一格和 Node 不一樣）
+    run.setup('[前置] 作息表：使用者存檔重新讀在 2025-09-24 12:00（不是 A 跑完的狀態）')
+    sc = await pg.evaluate(SCHED2, [FRIENDS, keys])
+    wrong = [x for x in sc if not x['ndl'] and any(z == 'noodle' for z in x['at'])]
+    run.check('不是麵店日：四個人 18:00 都不在麵店', not wrong, J(wrong[:6]))
+    run.check('麵店日：18:00 至少有一個人在麵店', all(any(z == 'noodle' for z in x['at']) for x in sc if x['ndl']), J([x for x in sc if x['ndl']][:4]))
+    elsew = [x for x in sc if x['ndl'] and not all(z == 'noodle' for z in x['at'])]
+    run.note('麵店日不在麵店的（特定作息蓋過麵店那一筆，AA_542 第 5 節「特定作息優先」）：%s' % J(elsew[:10], 2000))
     # E2 舊存檔
     for key, want in (('2025-10-01', '法一吃飯'), ('2027-03-10', '法二吃飯')):
         st, d = await P.base(pg, SAVE, key, 15.0, 'campus'); await P.load(pg, cdp, st)
         await P.prep(pg, cdp, run, """(()=>{ const G=GAME.G; PHONE.join(G,'noodle_team','麵店團'); PHONE.post(G,{th:'g:noodle_team',text:'阿哲建立了群組「麵店團」，把你加了進來。',tag:'noodle_team_new'});
             PHONE.post(G,{th:'g:noodle_team',from:'zhe',text:'以後週二週四 麵店長桌',tag:'noodle_team_rule'}); PHONE.post(G,{th:'g:noodle_team',from:'zhe',text:'有空就來 沒空不用講',tag:'noodle_team_rule'});
             PHONE.rec(G).groups.noodle_team.day=STORY.dayOfKey('2025-09-25'); G.flags.noodleTableDay=STORY.dayOfKey('2025-09-25'); return PHONE.rec(G).groups.noodle_team; })()""", label='舊版存檔：%s 有「麵店團」群組＋舊的兩則規矩（9/25 建）' % key)
-        await pg.wait_for_timeout(6000); g = await pg.evaluate(GRP); texts = [m['text'] for m in g['msgs']]
+        h0 = await pg.evaluate("GAME.G.day*24+GAME.G.hour"); t0 = time.time()
+        while time.time() - t0 < 90:   # 等遊戲時間真的往前走（S.tick 跑過）再看：a2 讀進來 6 秒就查，2025-10-01 那一份還是「麵店團」；Node 直接呼叫 STORY.ndlGroupFix 兩份都會換
+            if await pg.evaluate("GAME.G.day*24+GAME.G.hour") > h0 + 0.05: break
+            await drain(pg, cdp, secs=6); await L.phone_away(pg, cdp); await pg.wait_for_timeout(1500)
+        await pg.wait_for_timeout(3000); g = await pg.evaluate(GRP); texts = [m['text'] for m in g['msgs']]
+        run.note('舊存檔 %s：讀進來以後遊戲時間 %.2f → %.2f' % (key, h0 % 24, (await pg.evaluate("GAME.G.hour"))))
         run.note('舊存檔 %s 讀進來：%s' % (key, J(g)))
         run.check('舊存檔 %s：群組名稱換成「%s」' % (key, want), g['name'] == want, J(g['name']))
         run.check('舊存檔 %s：舊的兩則規矩換新句、建立那則寫「法一吃飯」' % key, '吃飯用' in texts and '誰要吃什麼就喊' in texts and '以後週二週四 麵店長桌' not in texts and not any(OLD in t for t in texts),
