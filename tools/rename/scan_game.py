@@ -131,6 +131,16 @@ def main():
         print(f'建議 {n} 處；unknown 照台詞（口語）換，旁白、地點、系統字要改成正式', file=sys.stderr)
         return
     res = scan(items)
+    # 根目錄 index.html（HUD 預設字、說明頁、標題）：逐行看，HTML 註解不算
+    if not a.dir:
+        try:
+            html = subprocess.run(['git', 'show', f'{a.ref}:index.html'], capture_output=True, text=True, check=True).stdout
+            html = re.sub(r'<!--.*?-->', lambda m: '\n' * m.group(0).count('\n'), html, flags=re.S)
+            for i, l in enumerate(html.split('\n'), 1):
+                for _, hit in W.find_old(re.sub(r'<script[^>]*>.*', '', l)):
+                    res.append(('index.html', i, 'OLD', hit, re.sub(r'<[^>]+>', ' ', l).strip()))
+        except subprocess.CalledProcessError:
+            pass
     from collections import Counter
     if a.summary:
         c = Counter((r[0], r[2]) for r in res)
