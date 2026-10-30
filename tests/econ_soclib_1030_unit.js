@@ -99,8 +99,8 @@ const SCHED=[
   {id:'econ_zhengxun',row:'| 阿勳 | 大二上～大三上 |',terms:['Y2S2','Y3S1'],days:[3],from:14,to:17,label:'跑研究的資料',docs:['週三 14:00～17:00','跑研究的資料']},
   {id:'econ_zhengxun',row:'| 阿勳 | 大三上 |',terms:['Y3S1'],days:[6],from:10,to:12,label:'跑研究的資料',docs:['另加週六 10:00～12:00']},
   {id:'econ_zhengxun',row:'| 阿勳 | 大三下 |',terms:['Y3S2'],days:[1,3],from:14,to:17,label:'準備發表',until:'2028-03-21',docs:['3/22 以前：週一、週三 14:00～17:00；3/22 以後不排','準備發表']},
-  {id:'econ_tangrui',row:'| 唐睿 |',terms:['Y3S1'],days:[2],from:19.5,to:21,label:'「念書」',docs:['大三上週二','19:30～21:00','「念書」']},
-  {id:'econ_tangrui',row:'| 唐睿 |',terms:['Y3S2'],days:[3],from:19.5,to:21,label:'「念書」',until:'2028-06-03',docs:['大三下週三','19:30～21:00']},
+  {id:'econ_tangrui',row:'| 唐睿 |',terms:['Y3S1'],days:[2],from:19.5,to:21,label:'念書',docs:['大三上週二','19:30～21:00','「念書」']},
+  {id:'econ_tangrui',row:'| 唐睿 |',terms:['Y3S2'],days:[3],from:19.5,to:21,label:'念書',until:'2028-06-03',docs:['大三下週三','19:30～21:00']},
   {id:'econ_weilun',row:'| 韋綸 |',terms:['Y2S1','Y2S2','Y3S1','Y3S2'],days:[4],from:19,to:21,label:'期中、期末抱佛腳',exam:true,until:'2028-06-03',docs:['大二上～大三下','週四 19:00～21:00','期中、期末抱佛腳']} ];
 const docRow=r=>{ const l=DOC.split('\n').find(x=>x.startsWith(r.row)&&r.docs.every(k=>x.includes(k))); return l||null; };
 const WD7=d=>{ const w=CALENDAR.dateOf(d).wd; return w===7?0:w; };   /* 作息的星期：0＝週日 */
