@@ -340,14 +340,17 @@ const GAME = (function(){
   GM.backupNow=function(label,key){ const s=snapshot(); s.backupLabel=label||''; const ok=write(KEY_BACKUP,s); if(key) write(KEY_BACKUP+'_'+key,s); return ok; };
   /* 開新遊戲前先備份（使用者 2026-10-30 04:0x：「你現在放到自動存檔 我重新開遊戲 就被第一天蓋掉了 完全讀不到」，BUG-SAVE-NEWGAME-1030）：
      開新遊戲的第一次自動存檔會蓋掉原本的自動存檔（以前不備份）——先把自動存檔、快速存檔各寫一份不會被蓋掉的 fatiao3d_backup_new_<savedAt>（同一份不重寫）。
-     最多留 NEW_KEEP 份：超過就刪進度最少（day 最小，同天刪舊的）那一份，連按幾次開新遊戲也不會把真正的進度擠掉。備份寫不進去（空間不足）＝先問玩家要不要照樣開新遊戲 */
+     最多留 NEW_KEEP 份：超過就刪實際玩得最少（演過的事件數、步數最少，同樣少刪舊的）那一份；同一個開局狀態只留一份，連按幾次開新遊戲也不會把真正的進度擠掉。備份寫不進去（空間不足）＝先問玩家要不要照樣開新遊戲 */
   const NEW_KEEP=3, KEY_NEWBK=KEY_BACKUP+'_new_';
   function backupKeys(){ const st=ls(); const out=[]; if(!st) return out; try{ for(let i=0;i<st.length;i++){ const k=st.key(i); if(k&&(k===KEY_BACKUP||k.indexOf(KEY_BACKUP+'_')===0)) out.push(k); } }catch(e){} return out; }
   function backupList(){ return backupKeys().map(k=>[k,read(k)]).filter(([k,b])=>b&&typeof b==='object'&&typeof b.day==='number').sort((a,b)=>(+b[1].savedAt||0)-(+a[1].savedAt||0)); }
   function backupBeforeNew(){ let fail=false;
+    const prog=b=>((b&&b.events&&+b.events.count)||0)*100000+((b&&b.stats&&+b.stats.steps)||0);   /* 實際玩了多少：演過的事件數，再看走過的步數（BB-B 10-30：照 day 排會先刪經濟系序章那一份——序章的 day 一定比法律系小）*/
+    const same=(a,b)=>a&&b&&a.day===b.day&&Math.abs((+a.hour||0)-(+b.hour||0))<0.05&&(a.stage||'law')===(b.stage||'law')&&prog(a)===prog(b);   /* 同一個開局狀態（剛開局連按幾次）只留一份 */
     for(const key of [KEY_AUTO,KEY_QUICK]){ const s=read(key); if(!s||typeof s!=='object'||typeof s.day!=='number') continue; const k=KEY_NEWBK+(s.savedAt||Date.now()); if(read(k)) continue;
+      if(backupKeys().filter(x=>x.indexOf(KEY_NEWBK)===0).some(x=>same(read(x),s))) continue;
       s.backupLabel=(key===KEY_QUICK?'快速存檔':'自動存檔')+'（開新遊戲前）'; if(!write(k,s)) fail=true; }
-    const L=backupKeys().filter(k=>k.indexOf(KEY_NEWBK)===0).map(k=>[k,read(k)||{}]); L.sort((a,b)=>((+a[1].day||0)-(+b[1].day||0))||((+a[1].savedAt||0)-(+b[1].savedAt||0)));
+    const L=backupKeys().filter(k=>k.indexOf(KEY_NEWBK)===0).map(k=>[k,read(k)||{}]); L.sort((a,b)=>(prog(a[1])-prog(b[1]))||((+a[1].savedAt||0)-(+b[1].savedAt||0)));   /* 超過 NEW_KEEP 份：刪實際玩得最少的（同樣少刪舊的）*/
     const st=ls(); while(L.length>NEW_KEEP){ const [k]=L.shift(); try{ st.removeItem(k); }catch(e){} }
     if(fail&&typeof confirm==='function'&&!confirm('沒辦法備份原本的進度（瀏覽器空間不足）。\n仍要開新遊戲嗎？原本的自動存檔會被蓋掉。')) return false;
     return true; }
