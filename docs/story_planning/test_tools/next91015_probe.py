@@ -705,6 +705,23 @@ async def lawlib(pg, cdp, run):
         run.check('進出第 %d 次：出得去、進得來，光照貼圖照樣接上、亮度正常' % k, ok1 and ok2 and lm['zone'] == 'lawlib' and lm['n'] > 0 and stt.get('dark', 1) <= 0.25 and stt.get('white', 1) <= 0.15, J({'out': ok1, 'in': ok2, 'lm': lm, 'lum': stt}))
 
 
+async def cafe2diag(pg, cdp, run):   # BB-B 10-30：n15_cafe2／2b 站到「坐下讀書」旁邊，按鈕不出來——分清楚是遊戲還是探針
+    st, d = await P.base(pg, SAVE, '2025-09-27', 14.0, 'l118_cafe2'); await P.load(pg, cdp, st); await pg.wait_for_timeout(3000)
+    await P.dialog(pg, cdp, run, picks=['不去了'], max_s=60, start_s=6, tag='diag_prompt')
+    rows = await pg.evaluate("""(()=>{ const E=GAME.E, out=[]; const its=E.interactables.filter(i=>i.seat&&i.label==='坐下讀書');
+      for(const it of its){ const a=GAME.seatApproach?GAME.seatApproach(it.seat):null; if(!a) continue; E.placeAt(E.player,a[0],a[1],0); E.player.tapPref=null;
+        const occ=E.npcs.filter(n=>n.seat&&Math.hypot(n.seat.x-it.seat.x,n.seat.z-it.seat.z)<0.35).map(n=>n.charId||n.name||'?');
+        const near=E.nearestInteractable(); const P=E.player.obj.position;
+        out.push({seat:[it.x,it.z], ap:[+a[0].toFixed(2),+a[1].toFixed(2)], d:+Math.hypot(it.x-P.x,it.z-P.z).toFixed(2), r:it.radius, lv:it.lv, plv:E.player.lv|0, levels:!!E.levels, hidden:!!it.hidden, taken:!!it.seat.taken, occ,
+          near:near?{label:near.label,x:near.x,z:near.z}:null, busy:!!E.player.busy, dActive:!!(GAME.D&&GAME.D.active)}); }
+      return out; })()""")
+    await pg.wait_for_timeout(1500)
+    ui = await pg.evaluate("(()=>{ const b=document.getElementById('interact'); return {hide:b?b.classList.contains('hide'):null, label:((document.getElementById('interactLabel')||{}).textContent||''), busy:!!GAME.E.player.busy}; })()")
+    await run.shot(pg, 'cafe2diag')
+    run.note('每個「坐下讀書」旁邊：%s；畫面按鈕 %s' % (J(rows), J(ui)))
+    run.check('站到每個「坐下讀書」的 seatApproach：遊戲判定最近的互動就是那個座位（nearestInteractable）', bool(rows) and all(r['near'] and r['near']['label'] == '坐下讀書' for r in rows), J(rows))
+
+
 async def main():
     run = L.Run('next91015_' + MODE + ('' if VP == 'landscape' else '_' + VP), OUT); os.makedirs(OUT, exist_ok=True)
     async with async_playwright() as p:
@@ -716,7 +733,7 @@ async def main():
             b, ctx, pg, cdp, errs = await L.launch(p, landscape=(VP != 'portrait'))
         pg.on('dialog', lambda d: asyncio.ensure_future(d.accept()))
         await pg.goto(URL); run.check('遊戲載入', await L.wait_loaded(pg)); await pg.evaluate("localStorage.clear()"); await P.init(pg)
-        await {'phone': phone, 'bball': bball, 'rooms': rooms, 'cafewin': cafewin, 'noodle': noodle, 'cafe2': cafe2, 'invite': invite, 'jacket': jacket, 'badclip': badclip, 'bigmap': bigmap, 'bballrain': bballrain, 'renart': renart, 'libla': libla, 'lawlib': lawlib}[MODE](pg, cdp, run)
+        await {'phone': phone, 'bball': bball, 'rooms': rooms, 'cafewin': cafewin, 'noodle': noodle, 'cafe2': cafe2, 'invite': invite, 'jacket': jacket, 'badclip': badclip, 'bigmap': bigmap, 'bballrain': bballrain, 'renart': renart, 'libla': libla, 'lawlib': lawlib, 'cafe2diag': cafe2diag}[MODE](pg, cdp, run)
         run.check('沒有 JS 例外', not errs, J(errs[:3]))
         print('SHA', os.environ.get('SHA', '?'), 'MODE', MODE)
         await b.close()
