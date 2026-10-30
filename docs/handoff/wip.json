@@ -1584,7 +1584,7 @@
    "role": "LAWWW",
    "task": "AA529-ECON-FIX-1030",
    "state": "WIP",
-   "sha": "1a40e3e14",
+   "sha": "0d01e8517",
    "branch": "aa529-econ（子代理；D113 備份 wip_backup/aa529_1030.bundle，基準 acc883b3e）",
    "files": [
     "wip_backup/aa529_1030.bundle"
@@ -1599,7 +1599,7 @@
    "role": "LAWWW",
    "task": "AA532-VAC-FIX-1030",
    "state": "WIP",
-   "sha": "b28b48591",
+   "sha": "e51b43057",
    "branch": "aa532-vac（子代理；D113 備份 wip_backup/aa532_1030.bundle，基準 d531b973f）",
    "files": [
     "wip_backup/aa532_1030.bundle"
@@ -1623,6 +1623,36 @@
    "next": "子代理做完回報 → LAWWW 合併、相關測試、全部 Node、SHA 給 BB",
    "noDirectIntegrate": true,
    "source": "宿舍睡覺畫面；LAWWW-B 10-30 派子代理"
+  },
+  {
+   "id": "WIP-LAWWW-INVITE-1030",
+   "role": "LAWWW",
+   "task": "INVITE-OPTS-1030",
+   "state": "WIP",
+   "sha": "cc031b52d",
+   "branch": "invite-menu（子代理；D113 備份 wip_backup/invite_1030.bundle，基準 c1658d38c）",
+   "files": [
+    "wip_backup/invite_1030.bundle"
+   ],
+   "todo": "約她選單分層（LAWWW-B 10-30 子代理）",
+   "next": "子代理做完回報 → LAWWW 合併、相關測試、全部 Node、SHA 給 BB",
+   "noDirectIntegrate": true,
+   "source": "約她選單分層；LAWWW-B 10-30 派子代理"
+  },
+  {
+   "id": "WIP-LAWWW-FIX1030-1030",
+   "role": "LAWWW",
+   "task": "BADCLIP-FOLLOW-1030",
+   "state": "WIP",
+   "sha": "1ebb95122",
+   "branch": "fix1030（子代理；D113 備份 wip_backup/fix1030_1030.bundle，基準 99c7be7d5）",
+   "files": [
+    "wip_backup/fix1030_1030.bundle"
+   ],
+   "todo": "羽球、慢讀（LAWWW-B 10-30 子代理）",
+   "next": "子代理做完回報 → LAWWW 合併、相關測試、全部 Node、SHA 給 BB",
+   "noDirectIntegrate": true,
+   "source": "羽球、慢讀；LAWWW-B 10-30 派子代理"
   }
  ]
 }
