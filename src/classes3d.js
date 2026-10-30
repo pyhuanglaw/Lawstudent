@@ -452,10 +452,23 @@ const CLS=(function(){
   /* 沒有座位的活動（總圖新生導覽…）在集合點參加（AA_110 6-3）：今天有這個活動就放一個互動點；時間到了按下去參加，還沒到寫幾點集合 */
   S.addActSpots=function(GM,zoneId){ if(typeof ACTIVITIES==='undefined'||!ACTIVITIES.spotsIn) return; const E=GM.E, G=GM.G;
     for(const a of ACTIVITIES.spotsIn(G,zoneId)){ const sp=a.spot; E.interactables.push({x:sp.x,z:sp.z,radius:sp.r||1.2,lv:sp.lv|0,label:sp.label||a.title,mark:true,actSpot:a.id,onInteract:()=>S.spotInteract(GM,a)}); } };
+  /* 集合點的社課（系籃練球：球場沒有門口）今天沒有的時候（BBALL-PRESENT-1030；使用者 2026-10-30「系藍練團時間到 根本球場空的」——週四 17:45 站在球場邊）：
+     這學期有這個社課、今天不是那一天（或國定假日停練）＝集合點放一個只看不參加的提示：名牌寫星期幾幾點（mark：遠遠看得到），按了寫時間地點和下一次是哪一天。
+     今天有（ACTIVITIES.on）就藏起來（真正的集合點由 addActSpots 放）。和 addActSpots 分開：集合點只在活動那一天出現（activities_aa110_unit 的規則照舊）*/
+  S.actHints=function(G,zoneId){ if(typeof ACTIVITIES==='undefined'||typeof CALENDAR==='undefined'||!G) return []; const T=CALENDAR.termOf(G.day); if(!T) return [];
+    return ACTIVITIES.list.filter(a=>a.spot&&a.kind==='club'&&a.zone===zoneId&&!(typeof a.skip==='function'&&a.skip(G))&&(!a.term||a.term.includes(T.id))&&!ACTIVITIES.on(a,G.day,G)); };
+  S.actHintLabel=a=>{ const wds=a.weekdays||(a.weekday?[a.weekday]:[]); return a.title+'（'+(wds.length?'星期'+wds.map(d=>WDN[d%7]).join('、')+' ':'')+hhmm(a.t0)+'）'; };
+  S.actHintText=function(G,a){ const T=CALENDAR.termOf(G.day), d0=CALENDAR.dateOf(G.day), hol=CALENDAR.holiday(G.day); let s='今天沒有'+a.title+'。';
+    if(hol&&ACTIVITIES.on(Object.assign({},a,{holidays:true}),G.day,G)) s='今天'+(typeof hol==='string'?hol:'放假')+'，'+a.title+'停一次。';   /* 照排是今天、因為國定假日不辦（ACTIVITIES.on：放假那天不辦）*/
+    let nx=null; for(let d=G.day+1;d<=G.day+120;d++){ const t=CALENDAR.termOf(d); if(!t||t.id!==T.id) break; if(ACTIVITIES.on(a,d,G)){ nx=d; break; } }
+    const nt=nx!=null?(()=>{ const q=CALENDAR.dateOf(nx); return '下一次：'+q.m+'/'+q.d+'（'+WDN[q.wd%7]+'）'+hhmm(a.t0)+'。'; })():'這學期的'+a.title+'結束了。';
+    return a.title+'：'+S.clubWhen(a,T&&T.id)+'。'+s+nt; };
+  S.addActHints=function(GM,zoneId){ const E=GM.E; for(const a of S.actHints(GM.G,zoneId)){ const sp=a.spot;
+      E.interactables.push({x:sp.x,z:sp.z,radius:sp.r||1.2,lv:sp.lv|0,label:S.actHintLabel(a),mark:true,actHint:a.id,get look(){ return S.actHintText(GM.G,a); },get hidden(){ return !!(GM.G&&ACTIVITIES.on(a,GM.G.day,GM.G)); }}); } };
   S.spotInteract=async function(GM,a){ const G=GM.G, h=hr(G);
     if(a.kind==='fair') return S.fairMenu(GM,a);   /* 社團博覽會：選社團（6-8 (b)）*/
     if(ACTIVITIES.canJoin(G,a)){ GM.sceneBegin(); let i=1; try{ i=await GM.choose([{t:(a.verb||'參加')+'：'+a.title,hint:hhmm(a.t0)+'–'+hhmm(a.t1)+'　'+(a.desc||'')},{t:'先不要'}]); } finally { GM.sceneEnd(); } if(i===0) await S.attendActivity(GM,a); return; }
-    const s=ACTIVITIES.onceDone(G,a)?'你已經參加過了。':(ACTIVITIES.attended(G,a.id,G.day)?'今天這一場你參加過了。':(h<a.t0-0.25?'今天 '+hhmm(a.t0)+' 在這裡集合。':'今天這一場已經開始一段時間了。'));
+    const s=ACTIVITIES.onceDone(G,a)?'你已經參加過了。':(ACTIVITIES.attended(G,a.id,G.day)?'今天這一場你參加過了。':(h<a.t0-0.25?'今天 '+hhmm(a.t0)+' 在這裡集合。':(h>=a.t1?'今天這一場已經結束了。':'今天這一場已經開始一段時間了。')));   /* 結束以後（BBALL-PRESENT-1030）：原本也寫「已經開始一段時間了」*/
     GM.caption('',a.title+'：'+s+(a.desc?a.desc:''),4200); };
   /* 進不去的房間門口（萬才館一樓多功能教室、二樓研討室 A；wancai3d.js）：那一間的社課現在可以參加 →「參加：…」（門口參加＝2D 畫面）；
      研討室 A 有課 → 照門口上課（doorInteract）；今天晚一點才有社課 → 寫幾點；今天參加過了 → 寫參加過了；都沒有 → 原本的說明（門鎖著／研討室的課的說明）*/
