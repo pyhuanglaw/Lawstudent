@@ -33,6 +33,7 @@ const SKIP=new Set(['src/character3d.js','src/engine3d.js','src/townkit3d.js','s
 const loadErr=[];
 { const html=fs.readFileSync(path.join(H.ROOT,'index.html'),'utf8'); const files=[...html.matchAll(/<script src="([^"?]+)/g)].map(m=>m[1]).filter(f=>f.startsWith('src/')&&!PG_FILES.has(f)&&!SKIP.has(f));
   for(const f of files){ try{ let src=fs.readFileSync(path.join(H.ROOT,f),'utf8'); src=src.replace(/^const ([A-Z][A-Z0-9_]*)\s*=/mg,'globalThis.$1='); vm.runInThisContext(src,{filename:f}); }catch(e){ loadErr.push(f+'：'+String(e.message).slice(0,100)); } } }
+if(typeof XCROM!=='undefined') XCROM.OLD=true; else globalThis.XCROM={OLD:true};   /* 芯慈舊的「第二名」那幾場遊戲預設關著（D116，src/xcrom3d.js S.OLD；預設值在 tests/xinci_romance_unit.js 第 00 項測）：這支測留著的程式本身 */
 GM.toast=()=>{}; GM.caption=()=>{}; GM.studySession=async()=>{}; GM.spawnNPC=()=>null; GM.spawnCharacter=()=>null; GM.phoneBadge=()=>{}; GM.quickGo=async()=>{};
 if(typeof HOME!=='undefined') HOME.phoneRules=()=>{};   /* 家人群組的週訊息和這裡無關 */
 const S=()=>typeof SUP497!=='undefined'?SUP497:null, L=()=>typeof SUP497_LINES!=='undefined'?SUP497_LINES:null;

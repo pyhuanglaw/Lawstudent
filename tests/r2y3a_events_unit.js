@@ -16,6 +16,7 @@ global.CG_REGISTRY={};
 for(const f of ['src/data/calendar.js','src/data/places.js','src/data/characters.js','src/data/rel_lines.js','src/data/courses.js','src/data/activities.js','src/data/events.js','src/data/ladder.js','src/data/home_lines.js','src/data/hometown_lines.js','src/data/needed_msgs.js','src/data/termend_lines.js',
   'src/social3d.js','src/events3d.js','src/data/invites.js','src/invites3d.js','src/phone3d.js','src/outings3d.js','src/home3d.js','src/romance3d.js','src/story3d.js','src/data/syllabus.js','src/classes3d.js','src/termend3d.js',
   'src/data/y2b_events.js','src/y2b3d.js','src/data/group_events.js','src/group3d.js','src/y2r2_3d.js','src/data/r2y3a_events.js','src/r2y3a3d.js']) if(fs.existsSync(path.join(ROOT,f))) load(f);
+if(typeof XCROM!=='undefined') XCROM.OLD=true; else globalThis.XCROM={OLD:true};   /* 芯慈舊的「第二名」那幾場遊戲預設關著（D116，src/xcrom3d.js S.OLD；預設值在 tests/xinci_romance_unit.js 第 00 項測）：這支測留著的程式本身 */
 let fails=0; const check=(name,ok,info)=>{ console.log((ok?'PASS ':'FAIL ')+name+(info&&!ok?'　'+info:'')); if(!ok) fails++; };
 if(typeof R2Y3A==='undefined'||typeof R2Y3A_EVENTS==='undefined'){ check('0. src/data/r2y3a_events.js、src/r2y3a3d.js 載入（R2Y3A_EVENTS、R2Y3A）',false); console.log('FAILED '+fails); process.exit(1); }
 global.ADV={active:false,preload(){},begin(){ this.active=true; },end(){ this.active=false; },log(){},speaker(){},hide(){},cg(){ return true; },setBg(b){ this.bg=b; }}; global.CHAR={setExpr(){}};

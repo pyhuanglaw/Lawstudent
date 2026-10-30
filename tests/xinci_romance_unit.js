@@ -51,6 +51,11 @@ const walk=async(picks,term)=>{ H.said=[]; H.opts=[]; H.picks=picks.slice(); ret
     const G=H.fresh('2028-06-10',20,'campus',{introDone:true,XC_NIGHT:9,XC5_RECONCILE:true,XC_SAMEDAY:true,XC_BLANK:true}); G.events.done.ev_xinci_notes=1; G.events.done.ev_xinci_first_place=1; (G.contacts||(G.contacts={}))[XC]=1;
     SOCIAL.remember(XC,'TALKED_FAMILY',''); SOCIAL.remember(XC,'XINCI_SECOND',''); G.l118={once:{H7c:1}}; Object.assign(SOCIAL.rel(XC),{fam:70,trust:62,comf:50,npcRom:76,rom:40}); Object.assign(DATE.log(G,XC),{count:6,wish:true,wishKnown:true});
     check('00. 關著的時候：門檻全過的存檔也不發心意邀約、告白選項藏著、半夜訊息不傳',TERMEND.heartWhy(G,XC,TERMEND.windowOf('Y3S2'))===false&&CONFESS_LINES[XC].hideIf(G)===true&&(STORY.phoneRules(GM),PHONE.tick(G),!(G.msgs||[]).some(m=>/^xcn_|^xc_/.test(m.tag||''))));
+    { const OLD_IDS=['ev_xinci_second','ev_xinci_second_b1','ev_xinci_bad_line','ev_xinci_an_answers','ev_xinci_an_answers_far','ev_xinci_first_place'], E=id=>STORY_EVENTS.find(e=>e.id===id);
+      const G2=H.fresh('2027-12-06',0.5,'cvs',{introDone:true}); SOCIAL.meet&&SOCIAL.meet(XC,'test'); SOCIAL.remember(XC,'FIRST_MET','');
+      check('00. 舊的「第二名」四場預設也關著（XCROM.OLD false，D116）：慈 3（＋B1）、慈 4、慈 5（＋遠版）、慈 6 的條件一律不成立；第 11 週提示、Café 補演、錯過那一則、日本視訊不發',
+        X().OLD===false&&OLD_IDS.every(id=>!!E(id)&&E(id).prereq.custom(G2,GM)===false)&&(SUP497.secondPhone(G2),SUP497.firstMissPhone(G2),R2Y3B.xcPhone(G2),!(G2.msgs||[]).some(m=>/^xc_second|^xc_fix|^xc_first_miss/.test(m.tag||'')))&&!(typeof OUT!=='undefined'&&OUT.get&&OUT.get(G2,'y3_xc_video')),
+        JSON.stringify(OLD_IDS.map(id=>[id,!!E(id)]))); }
     X().setOn(true); });   /* 下面測關著的程式本身（AA 重寫以前照舊能用）*/
   await sec(0,()=>{ check('0. 全部的檔載入沒有錯誤；XCROM 載得到；setOn(true) 以後 DATE.HEROINES 有芯慈、心願事件、事件都在',!loadErr.length&&!!X()&&X().ON===true&&DATE.HEROINES.includes(XC)&&!!DATE_WISH.events[XC]&&STORY_EVENTS.some(e=>e.id==='ev_xc_sameday'),J(loadErr));
     const html=fs.readFileSync(path.join(H.ROOT,'index.html'),'utf8'), a=s=>html.indexOf(s);
