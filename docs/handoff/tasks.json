@@ -35846,8 +35846,8 @@
    "title": "AA_532 寒暑假（一）：①除夕前一天～初三七位都不主動約（學姊除夕總圖、語彤初一備料、子晴初一 Café）、cracktalk S.ytShop 看店休；②過年（2027／2029 除夕年夜飯、四年初一家人群組長輩圖、麵店團初一 2028／2029、以安交往中除夕私訊三年、2027 元宵）；③主動約你放假版七句、學姊放假改下午、芷若「好！那到時候見。」；④留宿舍放假也發週四家人群組、父親節三年、端午 2026；⑤子晴「玩我的遊戲」三版各自寫；⑥京都以安、曼谷子晴交往中換版；⑦小的（總圖放假兩句換字、「我還在念書。」、以安假期計畫照 AA_244 第 1 節）＋AA_533 寒暑假活動內容（C13 和女朋友出國七位各加到了／中間、活動卡第一次、回她的縣市再去、小出遊、快轉旁白分年、摘要池接著輪、晚餐題目＋3）",
    "area": "STORY",
    "owner": "LAWWW",
-   "status": "進行中",
-   "next": "子代理（分支 aa532-vac，基準 d531b973f），D113 備份；AA_533 交了再交給它；做完合進 postrel-1030",
+   "status": "已實作待整合",
+   "next": "aa532-vac 7f75195ab 合進 postrel-1030 → v9.10.14 後進開發分支 → BB 測",
    "priority": "P1",
    "first": {
     "term": "Y1S1",
@@ -35861,7 +35861,7 @@
    },
    "source": "AA_532（企劃線 ade80d22f）；AA_533（企劃線 cf0066ed2）",
    "authorized": "D99、D109、D111",
-   "notes": "【LAWWW-B 04:3x】AA_533 交給同一個子代理接著做 ｜ "
+   "notes": "【05:1x】子代理做完（AA_532 41 項、AA_533 27 項、全部 Node 737／0）；14 點轉 AA ｜ 【LAWWW-B 04:3x】AA_533 交給同一個子代理接著做 ｜ "
   },
   {
    "id": "DORM-SLEEP-VISUAL-1030",
@@ -36241,6 +36241,28 @@
    "source": "使用者 10-30 05:2x（X143）",
    "authorized": "使用者",
    "notes": ""
+  },
+  {
+   "id": "AA533-VAC-FIX-1030",
+   "title": "AA_533 寒暑假活動內容（C13 和女朋友出國七位到了／中間、活動卡第一次、回她的縣市再去、小出遊、快轉旁白分年、摘要池接著輪、晚餐三題）——和 AA532-VAC-FIX-1030 同一個子代理",
+   "area": "STORY",
+   "owner": "LAWWW",
+   "status": "已實作待整合",
+   "next": "aa532-vac 7f75195ab 合進 postrel-1030 → BB 測",
+   "priority": "P1",
+   "first": {
+    "term": "Y1S1",
+    "week": 19,
+    "earliest": "法律系大一寒假",
+    "mainline": true,
+    "blocks": false,
+    "prereq": false,
+    "parallel": true,
+    "confirmed": true
+   },
+   "source": "AA_533（企劃線 cf0066ed2）；白名單 task 記這個 ID",
+   "authorized": "D99、D109、D111",
+   "notes": "aa533_vac_unit 27 項 ALL PASS"
   }
  ]
 }
