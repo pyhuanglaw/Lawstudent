@@ -13,7 +13,7 @@ const NOODLE_CLOSED=(function(){
     inside:'（裡面有聲音。語彤蹲在地上刷椅子腳，看到你，把手套拔下來。）', offer:'店休。……你要吃的話，冰箱有昨天的滷蛋。',
     opts:[{t:'「我來幫忙。」',say:['好。抹布在那邊。你刷這一排。'],narr:'（刷完一排椅子，阿姨塞給你一袋滷蛋。）',fam:1},{t:'「那我初四再來。」',say:['嗯。初四見。']}],
     invite:'店休這週我比較有空。……下午要大掃除，約晚上。',
-    out:{year:2027,offer:['店休。……說好要出去的。','刷完這一排就走。'],narr:'（刷完椅子，你們去河濱走了一圈。）'},   /* AA_524 Y3：2026 情人節說了「下次店休也出來。」（YT_CLOSED_OUT）——2027 店休那一場她的第一句換這兩句、「我來幫忙。」後面多一句旁白 */
+    out:{year:2027,offer:['店休。……說好要出去的。','刷完這一排就走。'],narr:'（刷完椅子，你們去河濱走了一圈。）',opt2:{t:'「我在外面等妳。」',say:['嗯。……很快。'],narr:'（她鎖好鐵門出來。你們去河濱走了一圈。）'}},   /* AA_524 Y3：2026 情人節說了「下次店休也出來。」（YT_CLOSED_OUT）——2027 店休那一場她的第一句換這兩句、「我來幫忙。」後面多一句旁白；AA_526 Y3：第二個選項換 opt2（「那我初四再來。」＝不出去，對不上）*/
     d:{2026:['開了。','阿姨說，今天第一碗加蛋。'],2027:['開了。','招牌真的擦了。很亮。'],2028:['開了。','阿姨從老家帶了一箱橘子，吃麵送一顆。'],2029:['開了。','第一碗加蛋。今年也是。']} };
   const S={L,CNY};
   const DK=k=>typeof STORY!=='undefined'&&STORY.dayOfKey?STORY.dayOfKey(k):null;
@@ -38,8 +38,8 @@ const NOODLE_CLOSED=(function(){
       if(inGroup(G)&&friend(G)&&hr>=10&&hr<17&&!F['NOODLE_CLEAN_'+y]){ F['NOODLE_CLEAN_'+y]=true;
         const out=!!F.YT_CLOSED_OUT&&L.out&&y===L.out.year;   /* AA_524 Y3 */
         await GM.say(null,L.inside); for(const t of (out?L.out.offer:[L.offer])) await GM.say(yt,t);
-        const k=await GM.choose(L.opts.map(o=>({t:o.t}))); const o=L.opts[k]||L.opts[1];
-        for(const t of o.say) await GM.say(yt,t); if(o.narr) await GM.say(null,o.narr); if(out&&o.fam) await GM.say(null,L.out.narr);   /* 河濱那一句只接「我來幫忙。」（「那我初四再來。」＝你走了，接不上；稿寫「選項後面」，LAWWW 子代理解讀）*/
+        const OP=out?[L.opts[0],L.out.opt2]:L.opts; const k=await GM.choose(OP.map(o=>({t:o.t}))); const o=OP[k]||OP[1];
+        for(const t of o.say) await GM.say(yt,t); if(o.narr) await GM.say(null,o.narr); if(out&&o.fam) await GM.say(null,L.out.narr);   /* 「我來幫忙。」：原本的旁白之後接河濱那一句；第二個選項 opt2 的旁白自己就是河濱（AA_526 Y3）*/
         if(o.fam&&typeof SOCIAL!=='undefined'&&SOCIAL.rel){ const r=SOCIAL.rel('heroine_03'); r.fam=(r.fam||0)+o.fam; } } }
     finally{ GM.sceneEnd(); } return true; };
   /* C：店休期間約語彤（invites3d.js 選完時間以後）：時間排到 18:00 以後、答應的那一句換掉 */

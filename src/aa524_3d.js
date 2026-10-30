@@ -46,8 +46,9 @@ const AA524=(function(){
 
   /* ---------------- 閒聊階梯選了哪一句 ---------------- */
   S.LAD={'A2-L1':{id:'heroine_01',t:'「下次做給我吃。」',f:'AN_COOK_PROMISE'},'A5-L8':{id:'heroine_01',t:'「回來第一碗我請。」',f:'AN_FIRST_BOWL'},
-    'Z2-L8':{id:'heroine_02',t:'「回來的時候跟我說。」',f:'ZR_TELL_BACK'},'Z4-L1':{id:'heroine_02',t:'「一半也想吃。」',f:'ZR_LUROU_HALF'}};
-  S.onLad=function(G,st,ch,id){ if(!G||!G.flags||!st||!ch) return false; const x=S.LAD[st.id]; if(!x||x.id!==id||ch.t!==x.t) return false; G.flags[x.f]=true; return true; };
+    'Z2-L8':{id:'heroine_02',t:'「回來的時候跟我說。」',f:'ZR_TELL_BACK'},'Z4-L1':{id:'heroine_02',t:'「一半也想吃。」',f:'ZR_LUROU_HALF'},
+    'Y-L8':{id:'heroine_03',t:'「那哪天陪妳等一次。」',f:'YT_WAIT_CLOSE',day:true}};   /* AA_526 Y5：只給選第一個選項的（YT_TEN_MINUTES 是整層都記）；記那一天（算第二個週四用）*/
+  S.onLad=function(G,st,ch,id){ if(!G||!G.flags||!st||!ch) return false; const x=S.LAD[st.id]; if(!x||x.id!==id||ch.t!==x.t) return false; G.flags[x.f]=x.day?G.day:true; return true; };
 
   /* ---------------- 私訊 ---------------- */
   /* Z3：大二上第 8 週週六（第 1 週週一＝開學日；同 FEED 的 'W8六'）22:07，回覆期限週日 08:30 */
@@ -61,12 +62,12 @@ const AA524=(function(){
   S.z6=function(G){ const F=G.flags; if(!F.ZR_TELL_BACK||PHONE.sent(G,'aa524_z6')) return false; const d=DK('2026-08-26'); if(d==null) return false;
     const w=loc(G,d,22+7/60); if(now(G)<T(w.day,w.h)||now(G)>=T(w.day+2,0)||!contact(G,'heroine_02')) return false;
     PHONE.at(G,w.day,w.h,S.L.z6.map(t=>({th:'p:heroine_02',from:'heroine_02',text:t})),'aa524_z6'); return true; };
-  /* Y5：Y-L8 說完的那一天（記憶 YT_TEN_MINUTES 的 day）以後的第二個週四；店休（NOODLE_CLOSED）往後延一週。算出來就記住（記憶有上限，舊的會被擠掉）*/
-  S.y5Day=function(G){ const R=rec(G); if(R.y5d!=null) return R.y5d; const M=typeof SOCIAL!=='undefined'&&SOCIAL.memories?SOCIAL.memories('heroine_03'):[]; const m=M.find(x=>x&&x.tag==='YT_TEN_MINUTES'); if(!m||typeof CALENDAR==='undefined') return null;
-    let d=m.day, n=0; while(n<2){ d++; if(CALENDAR.dateOf(d).wd%7===4) n++; }
+  /* Y5：Y-L8 選「那哪天陪妳等一次。」的那一天（YT_WAIT_CLOSE；AA_526：只給選這一個的，舊存檔分不出來的不發）以後的第二個週四；店休（NOODLE_CLOSED）往後延一週。算出來就記住 */
+  S.y5Day=function(G){ const F=G.flags, R=rec(G); if(R.y5d!=null) return R.y5d; if(typeof F.YT_WAIT_CLOSE!=='number'||typeof CALENDAR==='undefined') return null;
+    let d=F.YT_WAIT_CLOSE, n=0; while(n<2){ d++; if(CALENDAR.dateOf(d).wd%7===4) n++; }
     for(let k=0;k<10&&typeof NOODLE_CLOSED!=='undefined'&&NOODLE_CLOSED.closed&&NOODLE_CLOSED.closed(G,d);k++) d+=7;
     R.y5d=d; return d; };
-  S.y5=function(G){ const R0=G.flags.AA524; if(!has('heroine_03','YT_TEN_MINUTES')&&!(R0&&R0.y5d!=null)) return false; if(PHONE.sent(G,'aa524_y5')) return false; const d=S.y5Day(G); if(d==null) return false;
+  S.y5=function(G){ if(typeof G.flags.YT_WAIT_CLOSE!=='number') return false; if(PHONE.sent(G,'aa524_y5')) return false; const d=S.y5Day(G); if(d==null) return false;
     if(now(G)<T(d,21)||now(G)>=T(d,21+40/60)||!contact(G,'heroine_03')) return false; if(typeof STORY!=='undefined'&&STORY.abroad&&STORY.abroad(G)) return false;
     const L=S.L.y5; PHONE.at(G,d,21,[{th:'p:heroine_03',from:'heroine_03',text:L.msg,ask:{id:'aa524_y5',until:T(d,21+40/60),opts:[{t:L.go,say:[]},{t:L.no,say:[{from:'heroine_03',text:L.noR}]}]}}],'aa524_y5'); return true; };
   S.y5Due=function(G){ const R=G&&G.flags&&G.flags.AA524; if(!R||R.y5!=null||R.y5d==null||G.day!==R.y5d||(+G.hour||0)>=23||typeof PHONE==='undefined'||!PHONE.byAsk) return false; const m=PHONE.byAsk(G,'aa524_y5'); return !!m&&m.ans===0; };
@@ -80,7 +81,8 @@ const AA524=(function(){
     G.flags.YT_BDAY_EGG=G.day; for(const x of S.L.y8) await say(GM,x); return true; };
 
   /* ---------------- A2 以安告白的最後兩句 ---------------- */
-  S.a2=async function(GM,id,r){ const G=GM.G; if(id!=='heroine_01'||(r!=='yes'&&r!=='sheSaid')||!has('heroine_01','AN_REASON_HIDDEN')) return false; const R=rec(G); if(R.a2!=null) return false; R.a2=G.day;
+  /* 第一次告白那一場、或「讓我想想」以後下學期第二次邀約那一場（AA_526 A2），交往了（'yes'／'sheSaid'）、有 AN_REASON_HIDDEN、還沒看過；看過記 AN_REASON_SHOWN（同一句只出一次）。「讓我想想」那一場不補 */
+  S.a2=async function(GM,id,r){ const G=GM.G; if(id!=='heroine_01'||(r!=='yes'&&r!=='sheSaid')||!has('heroine_01','AN_REASON_HIDDEN')||G.flags.AN_REASON_SHOWN!=null) return false; G.flags.AN_REASON_SHOWN=G.day;
     for(const x of S.L.a2) await say(GM,x); return true; };
 
   /* ---------------- Z5、Z8 她主動約的 D04 西門老片：開頭兩句 ---------------- */
