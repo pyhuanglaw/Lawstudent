@@ -47,6 +47,7 @@ for path in sys.argv[1:]:
             du1=U[I[:,1]]-U[I[:,0]]; du2=U[I[:,2]]-U[I[:,0]]; UA=np.abs(du1[:,0]*du2[:,1]-du1[:,1]*du2[:,0])/2
             aA+=A.sum(); aU+=UA.sum()
             for k in np.nonzero(A>1.0)[0]: rows.append((nd['name'],int(k),A[k],UA[k],P[I[k]],n[k]/np.linalg.norm(n[k])))
+    if not aA: print(path.split('/')[-1],'沒有光照貼圖 UV（TEXCOORD_1），不用查'); continue
     dens=aU/aA; vis=[]
     for r in rows:
         if not (1e-12<r[3]<0.1*dens*r[2]): continue
