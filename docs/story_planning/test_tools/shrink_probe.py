@@ -74,7 +74,11 @@ async def invite(pg, cdp, run, pick):
         return {d, key:CALENDAR.dateOf(d).key, item:it?{key:it.key, t0:it.t0, t1:it.t1, name:it.c.name}:null, week1:!!(STORY.week1Start&&STORY.week1Start(G))}; })()""")
     run.note('阿哲約吃麵那一天（termDay Y1S1 第 %s 週週四）：%s' % (2 if info['week1'] else 4, J(info)))
     if not info['item']: run.check('前置：那一天有民總', False, J(info)); return None
-    await P.jump(pg, cdp, run, info['key'], info['item']['t0'] - 0.5, zone='campus', pos=None, quiet=False, note='民總上課前 30 分鐘在校園')
+    snap = await P.snapshot(pg); C = snap.get('courses') or {}; pre = '%d:' % info['d']; cut = []
+    for k in ('done', 'attend', 'late', 'abs', 'note', 'disc', 'ask', 'prep'):   # 使用者 9/25 存檔那一天的課已經上過（「上過了」，沒有「直接去上課」、下課不會約）：那一天的上課紀錄拿掉
+        for kk in [x for x in (C.get(k) or {}) if str(x).startswith(pre) or str(x).startswith('plan_skip_' + pre)]: C[k].pop(kk, None); cut.append(k + ':' + kk)
+    run.setup('【前置】使用者存檔在 %s 那一天的課已經上過，拿掉那一天的上課紀錄：%s' % (info['key'], J(cut)))
+    await P.jump(pg, cdp, run, info['key'], info['item']['t0'] - 0.5, zone='campus', pos=None, quiet=False, snap=snap, note='民總上課前 30 分鐘在校園')
     bt = None; tries = []
     for _ in range(4):   # 跳過去以後先有對話（事件開著）時手機打不開：先把對話點完、選項照 pick，再開手機「今天」找「直接去上課」
         await drain(pg, cdp, picks=[pick, '坐'], secs=60)
