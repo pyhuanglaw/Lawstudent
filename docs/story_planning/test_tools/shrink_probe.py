@@ -84,6 +84,7 @@ async def invite(pg, cdp, run, pick):
         if bt: break
         await L.phone_away(pg, cdp); await pg.wait_for_timeout(1500)
     if bt: await L.tap(pg, cdp, '#phoneBody [data-go="%s"]' % info['item']['key'])
+    else: await L.phone_away(pg, cdp)
     run.note('手機「今天」：%s；找按鈕的過程：%s' % (bt, J(tries)))
     n0 = await P.say_hook(pg); seen = []; t0 = time.time()
     while time.time() - t0 < 900:

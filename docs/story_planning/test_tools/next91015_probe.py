@@ -991,10 +991,17 @@ async def boyaecon(pg, cdp, run):
     if os.environ.get('BOYA_FULL'):   # BB-B 16:0x：預設的「事件接事件」（ECONFF.short）把 cls 那幾步都 cut 掉，9/9 經原不演、不會進博思；?nofastecon 舊流程才會上那一堂
         await drain_free(pg, cdp)
         await P.jump(pg, cdp, run, '2024-09-09', it['t0'] - 0.5, zone='campus', pos=None, quiet=False, note='?nofastecon 舊流程：同一份進度跳到 9/9 上課前 30 分鐘')
-        await P.phone_tab(pg, cdp, 'today')
-        bt = await pg.evaluate("(k=>{ const e=[...document.querySelectorAll('#phoneBody [data-go]')].find(b=>b.dataset.go===k); return e?(e.textContent||'').trim():null; })", it['key'])
-        run.note('手機「今天」那一堂的按鈕：%s' % bt)
+        bt = None; tries = []
+        for _ in range(4):   # 跳過去以後先有對話時手機打不開；找不到按鈕要把手機收起來（手機開著時間不走，n20_shrink_a 就是這樣停在 12:50）
+            await drain_free(pg, cdp, secs=60)
+            txt = await P.phone_tab(pg, cdp, 'today')
+            bt = await pg.evaluate("(k=>{ const e=[...document.querySelectorAll('#phoneBody [data-go]')].find(b=>b.dataset.go===k); return e?(e.textContent||'').trim():null; })", it['key'])
+            tries.append({'bt': bt, 'h': await pg.evaluate("+(+GAME.G.hour).toFixed(2)"), 'today': (txt or '')[:160]})
+            if bt: break
+            await L.phone_away(pg, cdp); await pg.wait_for_timeout(1500)
+        run.note('手機「今天」那一堂的按鈕：%s；過程：%s' % (bt, J(tries)))
         if bt: await L.tap(pg, cdp, '#phoneBody [data-go="%s"]' % it['key'])
+        else: await L.phone_away(pg, cdp)
     n0 = await P.say_hook(pg); t0 = time.time(); cap = None; cap2 = None; seen_boya = None; done = False
     while time.time() - t0 < 2400:
         c = await pg.evaluate("(k=>({zone:GAME.G.zone, day:GAME.G.day, h:+GAME.G.hour, done:!!(CLS.rec(GAME.G).done||{})[k]}))", it['key'])
@@ -1034,8 +1041,12 @@ async def boyab4(pg, cdp, run):
     if not it: return
     await P.phone_tab(pg, cdp, 'today')
     bt = await pg.evaluate("(k=>{ const e=[...document.querySelectorAll('#phoneBody [data-go]')].find(b=>b.dataset.go===k); return e?(e.textContent||'').trim():null; })", it['key'])
+    if not bt:   # 讀檔以後先有對話（事件開著）時手機打不開：對話點完再找一次；找不到就把手機收起來（手機開著時間不走）
+        await L.phone_away(pg, cdp); await drain_free(pg, cdp, secs=60); await P.phone_tab(pg, cdp, 'today')
+        bt = await pg.evaluate("(k=>{ const e=[...document.querySelectorAll('#phoneBody [data-go]')].find(b=>b.dataset.go===k); return e?(e.textContent||'').trim():null; })", it['key'])
     run.note('手機按鈕：%s' % bt)
     if bt: await L.tap(pg, cdp, '#phoneBody [data-go="%s"]' % it['key'])
+    else: await L.phone_away(pg, cdp)
     n0 = await P.say_hook(pg); t0 = time.time(); cap = None; cap2 = None; seen = None
     while time.time() - t0 < 1500:
         c = await pg.evaluate("(()=>({zone:GAME.G.zone, h:+GAME.G.hour}))()")
