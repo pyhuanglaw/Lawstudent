@@ -1,10 +1,10 @@
-/* 玩家主動傳訊息的回覆池（SYS-PHONE-CHAT／MSG-L1）：AA 六位＝AA_202 第 6 節，BB 九位＝BB_178 第 0～8b 節（企劃線 AA_202@b61e4f55、BB_178@bb6baddf、AA_370@9eaf4e98、AA_393@e81a1afe1）。
+/* 玩家主動傳訊息的回覆池（SYS-PHONE-CHAT／MSG-L1）：AA 六位＝AA_202 第 6 節，BB 九位＝BB_178 第 0～8b 節（企劃線 AA_202@b61e4f55、BB_178@bb6baddf、AA_370@9eaf4e98、AA_393@e81a1afe1、AA_538@b9d816288）。
    產生器 tools/msg/build_pool.py → tools/msg/to_js.py（每一句照抄原文；tests/msg_chat_unit.js 第 F 項逐字比對 git 上的原文）。不要手改句子：改企劃、改產生器、重跑。
    每一則：topic（chat 在幹嘛／course 問課／share_cat、share_food、share_notes 分享／night 晚安）、tier（A／R／L）、variant（情況版）、msgs（同一次回覆的幾個泡泡）、tags（原文的條件）、ask（回問）。
    rules 是各人的回覆時間、開放條件原文（給程式對照；程式的判斷在 src/msg3d.js）。 */
 'use strict';
 const MSG_POOL={
- "source":{"AA_202": "b61e4f55", "BB_178": "bb6baddf", "AA_370": "9eaf4e98", "AA_393": "e81a1afe1"},
+ "source":{"AA_202": "b61e4f55", "BB_178": "bb6baddf", "AA_370": "9eaf4e98", "AA_393": "e81a1afe1", "AA_538": "b9d816288"},
  "people":{
   "heroine_01":{"name":"沈以安","rules":{"replyFree": [1, 10], "noReplyText": "22:30 以後不回，隔天 7 點多回「昨天睡了。早。」（玩家傳的是晚安，就只回這一句）", "openText": "第一次能用：拿到這個人的聯絡方式以後。每個人拿到的時間不同，照現有的「交換聯絡方式」條件（`BB_172`、`AA_134`）", "habitText": "短、快；貼圖只有一張兔子「收到」", "wakeLine": ["昨天睡了。早。"], "lTierText": "L＝曖昧、交往（只有以安、語彤；~~她們的戀愛窗口在大三、大四以後~~ 2026-10-17 AA-C，AA_215／AA_216 R8：交往中（任何學期），或第 5 階以上而且兩人都單身；大一就可能用到）", "otherText": ["22:30 以後傳：隔天早上「昨天睡了。早。」再接一般版（晚安不接，見 3-1 第 4 點）。", "以安：快、短、只有一張兔子「收到」貼圖；"]},"replies":[
    {"topic": "chat", "tier": "A", "variant": null, "msgs": ["在總圖。"], "tags": [], "ask": null, "src": "AA_202 6-2 在幹嘛"},
@@ -199,7 +199,7 @@ const MSG_POOL={
    {"topic": "daily", "tier": "L", "variant": "在英國", "msgs": ["學校的咖啡今天比較好喝。換了一個人煮。"], "tags": ["交往中"], "ask": null, "src": "BB_178 1-E 交往中 每天一則 9", "tierMin": true},
    {"topic": "daily", "tier": "L", "variant": "在英國", "msgs": ["（照片：筆記本上寫滿的片名）", "這週的。"], "tags": ["交往中"], "ask": null, "src": "BB_178 1-E 交往中 每天一則 10", "tierMin": true}
   ]},
-  "heroine_04":{"name":"高子晴","rules":{"replyFree": null, "noReplyText": "回覆時間：22～24 點最活躍；早上不回，下午兩點才醒。大四她在工作室上班（`BB_163` 第 2 節）：平日白天不回，下班以後回。", "openText": "什麼時候開：Q6 以後（測試她的遊戲，她要了帳號，`BB_70` 2-1）\n什麼時候不開，或只回事務：Q6 以前沒有她的私訊，不開", "habitText": "手機習慣：一句拆好幾則；不解釋，直接丟截圖、一個問號；插座貓貼圖（她自己畫的那隻）。", "wakeLine": ["早", "剛看到"], "otherText": ["開放：Q6 以後（0-1）。", "延到隔天：「早」／「剛看到」。", "子晴、可昕、阿凱、方奕廷：沒有這個話題。（0-7 問課）"], "sectionText": {"night": "晚安（`CLOSE_FRIEND` 以上；曖昧、交往。祐廷和別人交往中不開）"}},"replies":[
+  "heroine_04":{"name":"高子晴","rules":{"replyFree": null, "noReplyText": "回覆時間：22～24 點最活躍；早上不回，下午兩點才醒。大四她在工作室上班（`BB_163` 第 2 節）：平日白天不回，下班以後回。", "openText": "什麼時候開：加了好友以後就開（PHONE-UNIFY-1030）；講到她遊戲的兩則 Q6 以後才出。", "habitText": "手機習慣：一句拆好幾則；不解釋，直接丟截圖、一個問號；插座貓貼圖（她自己畫的那隻）。", "wakeLine": ["早", "剛看到"], "otherText": ["開放：Q6 以後（0-1）。", "延到隔天：「早」／「剛看到」。", "子晴、可昕、阿凱、方奕廷：沒有這個話題。（0-7 問課）"], "sectionText": {"night": "晚安（`CLOSE_FRIEND` 以上；曖昧、交往。祐廷和別人交往中不開）"}},"replies":[
    {"topic": "chat", "tier": "A", "variant": null, "msgs": ["在寫東西", "（截圖：一大片紅色的錯誤訊息）"], "tags": [], "ask": null, "src": "BB_178 2 在幹嘛"},
    {"topic": "chat", "tier": "A", "variant": null, "msgs": ["在系館", "冷氣好冷"], "tags": ["學期中，大一～大三"], "ask": null, "src": "BB_178 2 在幹嘛"},
    {"topic": "chat", "tier": "A", "variant": null, "msgs": ["寫作業", "資工的", "你不會想知道"], "tags": ["學期中，大一～大三"], "ask": null, "src": "BB_178 2 在幹嘛"},
@@ -210,12 +210,18 @@ const MSG_POOL={
    {"topic": "chat", "tier": "L", "variant": null, "msgs": ["在修 bug", "修好一個", "多出兩個"], "tags": [], "ask": null, "src": "BB_178 2 在幹嘛"},
    {"topic": "chat", "tier": "L", "variant": null, "msgs": ["在便利商店", "布丁買一送一", "（照片：兩個布丁）"], "tags": [], "ask": null, "src": "BB_178 2 在幹嘛"},
    {"topic": "share_cat", "tier": "A", "variant": null, "msgs": ["（插座貓的貼圖）"], "tags": [], "ask": null, "src": "BB_178 2 分享 貓"},
+   {"topic": "share_cat", "tier": "A", "variant": null, "msgs": ["哪裡拍的"], "tags": [], "ask": null, "src": "AA_538 4-2"},
+   {"topic": "share_cat", "tier": "A", "variant": null, "msgs": ["牠尾巴好短"], "tags": [], "ask": null, "src": "AA_538 4-2"},
    {"topic": "share_cat", "tier": "R", "variant": null, "msgs": ["牠在看你", "牠要你的飯"], "tags": [], "ask": null, "src": "BB_178 2 分享 貓"},
    {"topic": "share_cat", "tier": "L", "variant": null, "msgs": ["你比較像牠"], "tags": [], "ask": null, "src": "BB_178 2 分享 貓"},
    {"topic": "share_food", "tier": "A", "variant": null, "msgs": ["那個看起來很辣"], "tags": [], "ask": null, "src": "BB_178 2 分享 吃的"},
+   {"topic": "share_food", "tier": "A", "variant": null, "msgs": ["這間在哪"], "tags": [], "ask": null, "src": "AA_538 4-2"},
+   {"topic": "share_food", "tier": "A", "variant": null, "msgs": ["看起來很油", "我要"], "tags": [], "ask": null, "src": "AA_538 4-2"},
    {"topic": "share_food", "tier": "R", "variant": null, "msgs": ["這個要加辣", "不加辣不能吃"], "tags": [], "ask": null, "src": "BB_178 2 分享 吃的"},
    {"topic": "share_food", "tier": "L", "variant": null, "msgs": ["留一口給我"], "tags": [], "ask": null, "src": "BB_178 2 分享 吃的"},
    {"topic": "share_notes", "tier": "A", "variant": null, "msgs": ["我看三行就睏了"], "tags": [], "ask": null, "src": "BB_178 2 分享 講義"},
+   {"topic": "share_notes", "tier": "A", "variant": null, "msgs": ["字好小"], "tags": [], "ask": null, "src": "AA_538 4-2"},
+   {"topic": "share_notes", "tier": "A", "variant": null, "msgs": ["你們的筆記都長這樣喔"], "tags": [], "ask": null, "src": "AA_538 4-2"},
    {"topic": "share_notes", "tier": "R", "variant": null, "msgs": ["拍給我幹嘛", "好啦我看了", "看不懂"], "tags": [], "ask": null, "src": "BB_178 2 分享 講義"},
    {"topic": "share_notes", "tier": "L", "variant": null, "msgs": ["你在念書", "那我也來寫", "（截圖：她打開的程式）"], "tags": [], "ask": null, "src": "BB_178 2 分享 講義"},
    {"topic": "night", "tier": "R", "variant": null, "msgs": ["晚安", "我還要寫一下"], "tags": [], "ask": null, "src": "BB_178 2 晚安"},

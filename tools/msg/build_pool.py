@@ -363,7 +363,7 @@ p = P('heroine_04', '高子晴', 'BB_178 2', BB_L)
 p.rules = {
     'replyFree': None,
     'noReplyText': '回覆時間：22～24 點最活躍；早上不回，下午兩點才醒。大四她在工作室上班（`BB_163` 第 2 節）：平日白天不回，下班以後回。',
-    'openText': bb_open('Q6 以後（測試她的遊戲，她要了帳號，`BB_70` 2-1）', 'Q6 以前沒有她的私訊，不開'),
+    'openText': '什麼時候開：加了好友以後就開（PHONE-UNIFY-1030）；講到她遊戲的兩則 Q6 以後才出。',   # AA_538 4-1（b9d816288）取代 BB_178 的「Q6 以後」
     'habitText': '手機習慣：一句拆好幾則；不解釋，直接丟截圖、一個問號；插座貓貼圖（她自己畫的那隻）。',
     'wakeLine': ['早', '剛看到'],
     'otherText': ['開放：Q6 以後（0-1）。', '延到隔天：「早」／「剛看到」。',
@@ -406,6 +406,13 @@ p.sit('chat', ['剛跟芷若視訊完', '她那邊才下午'], '芷若在英國'
 p.add('share_cat', 'A', ['（插座貓的貼圖）'])
 p.add('share_food', 'A', ['那個看起來很辣'])
 p.add('share_notes', 'A', ['我看三行就睏了'])
+# AA_538 4-2（b9d816288）：子晴分享的 A 層各補兩則（PHONE-UNIFY-1030；「看起來很油」「我要」同一回合）
+p.add('share_cat', 'A', ['哪裡拍的'], src='AA_538 4-2')
+p.add('share_cat', 'A', ['牠尾巴好短'], src='AA_538 4-2')
+p.add('share_food', 'A', ['這間在哪'], src='AA_538 4-2')
+p.add('share_food', 'A', ['看起來很油', '我要'], src='AA_538 4-2')
+p.add('share_notes', 'A', ['字好小'], src='AA_538 4-2')
+p.add('share_notes', 'A', ['你們的筆記都長這樣喔'], src='AA_538 4-2')
 p.add('share_cat', 'R', ['牠在看你', '牠要你的飯'])
 p.add('share_food', 'R', ['這個要加辣', '不加辣不能吃'])
 p.add('share_notes', 'R', ['拍給我幹嘛', '好啦我看了', '看不懂'])
@@ -785,7 +792,7 @@ people.append(p)
 # ───────────────────────── assemble ─────────────────────────
 TOPIC_ORDER = ['chat', 'course', 'share_cat', 'share_food', 'share_notes', 'share', 'night', 'daily']
 TIER_ORDER = {'A': 0, 'R': 1, 'L': 2}
-data = {'source': {'AA_202': 'b61e4f55', 'BB_178': 'bb6baddf', 'AA_370': '9eaf4e98', 'AA_393': 'e81a1afe1'}, 'people': {}, 'tagsSeen': []}
+data = {'source': {'AA_202': 'b61e4f55', 'BB_178': 'bb6baddf', 'AA_370': '9eaf4e98', 'AA_393': 'e81a1afe1', 'AA_538': 'b9d816288'}, 'people': {}, 'tagsSeen': []}
 seen = []
 
 

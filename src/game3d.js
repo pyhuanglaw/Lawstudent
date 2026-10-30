@@ -590,7 +590,7 @@ const GAME = (function(){
     const us=typeof EXCH!=='undefined'&&EXCH.inUS&&EXCH.inUS(G), jp=typeof JP!=='undefined'&&JP.inJapan&&JP.inJapan(G);
     if(jp) return '你人在日本'; if(us&&!/^us_/.test(z)) return '你人在美國'; if(!us&&/^(us_|jp_)/.test(z)) return '不在臺灣';
     const b=typeof PLACES!=='undefined'&&PLACES.base?PLACES.base(z):z, moved=typeof HOME!=='undefined'&&HOME.baseMode&&HOME.baseMode(G), jpOut=(typeof JP!=='undefined'&&JP.movedOut&&JP.movedOut(G))||(typeof HOME!=='undefined'&&!!HOME.movedOut&&HOME.movedOut(G));
-    if(moved&&(NTU_ZONES.includes(z)||NTU_ZONES.includes(b))) return '休學退宿了，不回台大';
+    if(moved&&(NTU_ZONES.includes(z)||NTU_ZONES.includes(b))) return '休學退宿了，不回學校';
     if(jpOut&&(b==='dorm_hall'||z==='dorm')) return '已經退宿了'; return ''; }
   function friendGo(id,w,PL){ if(!w||!w.zone||w.away||w.zone===G.zone) return null; const z=w.zone;
     const p=z==='campus'?campusPlaceFor(id,PL):PL.find(q=>q[0]===z); if(p) return {pl:p};

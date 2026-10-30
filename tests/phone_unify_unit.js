@@ -123,7 +123,7 @@ const FR=['heroine_01','heroine_02','heroine_03','heroine_04','heroine_05','clas
     check('B10. 沛珊重考那一段（silent）：照樣能傳（有傳訊息）、對話裡寫只顯示「已送達」',o.ok&&o.mode==='silent'&&/data-msgto="classmate_peishan"/.test(t)&&/已送達/.test(t),J({o,t:t.replace(/<[^>]+>/g,' ').slice(0,200)}));
     const r=MSG.send(H.G,'classmate_peishan','chat'); check('B10. 傳了：已送達、不回（照舊）',r.ok&&r.silent===true,J(r)); }
   { fresh('2025-10-08',15,'dorm'); H.FAMILIAR('heroine_05'); const o=MSG.open(H.G,'heroine_05'); const P=mk(); const t=P?P.threadHTML('p:heroine_05'):'';
-    check('B11. 學姊還不是朋友（事務版）：能傳、對話裡寫只回事務上的訊息',o.ok&&o.mode==='business'&&/data-msgto="heroine_05"/.test(t)&&/事務/.test(t),J({o,t:t.replace(/<[^>]+>/g,' ').slice(0,200)})); }
+    check('B11. 學姊還不是朋友（事務版）：能傳、對話裡寫「學姊現在只回事情上的訊息。」（AA_538 4-3）',o.ok&&o.mode==='business'&&/data-msgto="heroine_05"/.test(t)&&t.includes('學姊現在只回事情上的訊息。等你們變成朋友，而且你沒有在跟別人交往，她才會跟你閒聊。'),J({o,t:t.replace(/<[^>]+>/g,' ').slice(0,200)})); }
   /* 舊存檔 */
   { fresh('2025-11-12',15,'dorm'); allContacts(); PHONE.postAt(H.G,{th:'p:heroine_01',from:'heroine_01',text:'筆記我放你桌上了。'},H.G.day-1,21); PHONE.postAt(H.G,{th:'p:heroine_01',from:'heroine_01',text:'明天見。'},H.G.day,9);
     const before=J(PHONE.threads(H.G,{sys:true}).map(t=>[t.th,t.unread,t.n])); const P=mk(); const h=P?P.msgHTML():''; const after=J(PHONE.threads(H.G,{sys:true}).map(t=>[t.th,t.unread,t.n]));
