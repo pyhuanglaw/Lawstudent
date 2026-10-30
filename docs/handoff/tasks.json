@@ -32598,7 +32598,7 @@
     "receiver": "LAWWW",
     "ack": "ACK"
    },
-   "notes": "LAWWW2-B 10:56：街景外觀（不透明）單面量不出差別，室內 WALL_* transparent 才有用（博雅 1.45→2.35）；LAWWW-B 同意先量再做。注意：SIGN_FACE_／INTERIOR_FACE_ 不能補反面（wzAtlasFaces 合不起來會退回套件）。 ｜ LAWWW2-B 13:23 第一份交件 cd3f2feeb（社科圖、總圖大廳、便利商店室內 GLB 單面；fps 社科圖 2.35→3.4、總圖 1.8→2.55、便利商店 3.25→4.95；patch singleside_interiors_1025.patch；新測試開發 FAILED 4、新 GLB ALL PASS）→ v9.10.10 發布後整合。接著體育館三個。 ｜ 第一份已套進預備分支 int-1025（b8fc0a546）；15:0x 第二份 055577d00（體育館 1F 大廳 3.5→4.6、B1 4.6→5.65、主球場 +6～10%）套進 int-1025 f257a94af（含 bb_support gym_b1_props／entry）。LAWWW-B 決定：主球場用補反面版；1F 大廳木格柵木條留雙面（斜波紋），請重匯 gym_interior.glb。 ｜ 第一、二份 10-25 15:3x 合進開發分支（40a645855）；1F 大廳木格柵留雙面的重匯還在等 LAWWW2。 ｜ BB-B 16:2x 驗兩份（69bb17f53）：社科圖 +33～54%、總圖大廳 +28～37%、便利商店 +30～38%、體育館 1F +8～27%、B1 +10～23%、3F +3%，沒有破面看穿；便利商店貨架端紅黃小旗背面看不見（cvs_goods_atlas 單片）→ 16:2x 請 LAWWW2 只給小旗補反面、重匯 cvs_interior.glb（和 gym 木格柵一起交）。 ｜ 17:1x 第三份 bae544475 合進開發分支：溫州街 +8～30%、118 巷 +16～19%（大面材質單面、幾何不動）；體育館大廳木格柵照舊雙面（波紋沒了）；便利商店促銷牌補反面（BB 回饋已修）；singleside_streets、singleside_gym、singleside_interiors ALL PASS。待 BB 瀏覽器驗第三份。",
+   "notes": "LAWWW2-B 10:56：街景外觀（不透明）單面量不出差別，室內 WALL_* transparent 才有用（博雅 1.45→2.35）；LAWWW-B 同意先量再做。注意：SIGN_FACE_／INTERIOR_FACE_ 不能補反面（wzAtlasFaces 合不起來會退回套件）。 ｜ LAWWW2-B 13:23 第一份交件 cd3f2feeb（社科圖、總圖大廳、便利商店室內 GLB 單面；fps 社科圖 2.35→3.4、總圖 1.8→2.55、便利商店 3.25→4.95；patch singleside_interiors_1025.patch；新測試開發 FAILED 4、新 GLB ALL PASS）→ v9.10.10 發布後整合。接著體育館三個。 ｜ 第一份已套進預備分支 int-1025（b8fc0a546）；15:0x 第二份 055577d00（體育館 1F 大廳 3.5→4.6、B1 4.6→5.65、主球場 +6～10%）套進 int-1025 f257a94af（含 bb_support gym_b1_props／entry）。LAWWW-B 決定：主球場用補反面版；1F 大廳木格柵木條留雙面（斜波紋），請重匯 gym_interior.glb。 ｜ 第一、二份 10-25 15:3x 合進開發分支（40a645855）；1F 大廳木格柵留雙面的重匯還在等 LAWWW2。 ｜ BB-B 16:2x 驗兩份（69bb17f53）：社科圖 +33～54%、總圖大廳 +28～37%、便利商店 +30～38%、體育館 1F +8～27%、B1 +10～23%、3F +3%，沒有破面看穿；便利商店貨架端紅黃小旗背面看不見（cvs_goods_atlas 單片）→ 16:2x 請 LAWWW2 只給小旗補反面、重匯 cvs_interior.glb（和 gym 木格柵一起交）。 ｜ 17:1x 第三份 bae544475 合進開發分支：溫州街 +8～30%、118 巷 +16～19%（大面材質單面、幾何不動）；體育館大廳木格柵照舊雙面（波紋沒了）；便利商店促銷牌補反面（BB 回饋已修）；singleside_streets、singleside_gym、singleside_interiors ALL PASS。待 BB 瀏覽器驗第三份。 ｜ LAWWW2-B 10-30 02:21：體育館 1F 大廳木格柵遠處同心波紋（單面前後都有，4.5 cm 木條遠處小於一像素的幾何鋸齒）記成已知、不擋發布，排進 INTERIOR-AAA-REVIEW-1028 體育館大廳那一輪（遠處換有 mipmap 的條紋貼圖）。",
    "sha": "e6da67e38"
   },
   {
@@ -32816,7 +32816,7 @@
     "receiver": "LAWWW",
     "ack": "未派"
    },
-   "notes": "LAWWW2-B 17:0x 交件 bae544475（window_dusk_fade_1025.patch：W3.photoFade，光線 18.6～19.2 白天照片照 nk 疊成夜景照片；12/10 17:20 霖澤館窗 0.084→0.055、總圖 0.116→0.069，屋外 0.041／0.029）；17:1x 合進開發分支，window_dusk_fade、window_night_sync、us_airport_dusk ALL PASS；READY_FOR_ART_REVIEW；待 BB 瀏覽器驗。",
+   "notes": "LAWWW2-B 17:0x 交件 bae544475（window_dusk_fade_1025.patch：W3.photoFade，光線 18.6～19.2 白天照片照 nk 疊成夜景照片；12/10 17:20 霖澤館窗 0.084→0.055、總圖 0.116→0.069，屋外 0.041／0.029）；17:1x 合進開發分支，window_dusk_fade、window_night_sync、us_airport_dusk ALL PASS；READY_FOR_ART_REVIEW；待 BB 瀏覽器驗。 ｜ LAWWW2-B 10-30 02:21（b0604a236）：夏天也慢慢疊＝維持不改（BB 9b3185665 量 6/20 18:26～19:03 窗跟著屋外一起暗：霖澤 1.2～1.4 倍、總圖 1.8～2.3、萬才 0.94～1.18，沒有日落前先黑）。",
    "pausedBy": "LAWWW-C 2026-10-27 19:5x UTC（照 BB-C 10-27 盤點 BB_INTEGRATED_TRIAGE_1027 D 類分流）",
    "pausedReason": "畫面已整合；建築、場景美術只有使用者能標 ART_APPROVED（CLAUDE.md 美術規則第 8 條、D59、D110），列在 docs/handoff/USER_ART_REVIEW_1027.md",
    "resumeWhen": "使用者看 docs/handoff/USER_ART_REVIEW_1027.md 這一項：標 ART_APPROVED → LAWWW 改已驗收；提修改 → LAWWW2 改（D108）、BB 再測",
