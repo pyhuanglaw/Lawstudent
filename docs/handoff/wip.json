@@ -1569,7 +1569,7 @@
    "role": "LAWWW",
    "task": "PROMISES-REDO-1030",
    "state": "WIP",
-   "sha": "ca39039fe",
+   "sha": "dcf33a4e0",
    "branch": "postrel-1030（子代理；D113 備份 wip_backup/postrel_1030.bundle，基準 5457e7c95）",
    "files": [
     "wip_backup/postrel_1030.bundle"
@@ -1764,7 +1764,7 @@
    "role": "LAWWW",
    "task": "WORLD-RENAME-1030",
    "state": "WIP",
-   "sha": "8c8c22dac",
+   "sha": "0bfab6dc2",
    "branch": "world-rename-1030（子代理；D113 備份 wip_backup/rename_1030.bundle，基準 22b164d64）",
    "files": [
     "wip_backup/rename_1030.bundle"
@@ -1779,7 +1779,7 @@
    "role": "LAWWW",
    "task": "SK02-LINE-JACKET-1030",
    "state": "WIP",
-   "sha": "96a4c5ef6",
+   "sha": "6097a8100",
    "branch": "jacket-econ-1030（子代理；D113 備份 wip_backup/jacket_1030.bundle，基準 ca39039fe）",
    "files": [
     "wip_backup/jacket_1030.bundle"
