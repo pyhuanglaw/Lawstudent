@@ -32,7 +32,7 @@ const ENCOUNTERS={
       lines:{acq:['……你也來？','我十二點半要走。下午有排。'],friend:['這一區我看完了。旁邊那一區，你要一起看嗎？不用勉強。','我有一張表，十二點半要走。……表是我自己排的，可以改十分鐘。'],dating:['你怎麼知道我在這裡？……你不知道。好，那是巧合。','巧合我接受。十二點半以前都是你的。']},
       ex:{apart_life:['嗨。這一區很好，你慢慢看。'],apart_lifeNarr:'（她先走了。）',apart_drift:['……{name}。','我十二點半要走。']},src:'AA_162 1、2-1、3'},
     {who:'classmate_bohan',spot:'D06',why:'他坐在展廳的長椅上，手上沒有書。',days:[0],from:10,to:12,terms:['Y3S1','Y3S2','Y4S1','Y4S2'],stageMin:'FAMILIAR',busy:'no',join:'friend',memo:'ENC_D06_BH',away:'在美術館',
-      lines:{acq:['……{name}。','我在休息。這裡沒有人會問我考幾分。'],friend:['我每個月來一次。','坐兩個小時，回去讀得比較快。']},src:'AA_162 1、2-4'},
+      lines:{acq:['……{name}。','我在休息。這裡很安靜，什麼都不用排。'],friend:['我每個月來一次。','坐兩個小時，回去讀得比較快。']},src:'AA_162 1、2-4'},
     // ---- D12 大稻埕碼頭與迪化街 ----
     {who:'heroine_04',spot:'D12',why:'她坐在碼頭邊，膝上開著筆電。',days:[0],from:16,to:19,terms:null,weeks:'odd',stageMin:'ACQUAINTANCE',busy:'no',join:true,memo:'ENC_D12_ZQ',away:'在大稻埕',
       lines:{acq:['你也來這裡？','我在寫東西。河邊比較好想。'],friend:['你來得剛好。幫我玩一次。','……你死在第三關。很好，代表那裡太難了。'],dating:['欸不是……你跟蹤我？','好啦，我很高興。']},

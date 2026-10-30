@@ -106,7 +106,7 @@ const HEARD_LINES={
   kai203:[
     /* AA_503 7-2：子晴練習賽的私訊選「他沒講。」（ZQ_PRACTICE 'tell'）→ 下一次在 203 阿凱這一句，算 KAI_COUNTED（AA_502 3-3）*/
     {id:'h503_kai_tell',t:'子晴叫你恭喜我？……喔。好。謝謝。',flag:{ZQ_PRACTICE:'tell'},set:{KAI_COUNTED:true},src:'AA_503 7-2'},
-    {id:'h503_kai_third',t:'系上那個練習賽，子晴第三。她一直說下次要贏我。',about:'heroine_04',from:'Y1S1:W11六 18:00',src:'AA_503 7-4'},   /* 第 11 週週六練習賽以後 */
+    {id:'h503_kai_third',t:'系上那個練習賽，子晴第三。她跑來問我那題怎麼寫，問了一個小時。',about:'heroine_04',from:'Y1S1:W11六 18:00',src:'AA_503 7-4'},   /* 第 11 週週六練習賽以後 */
     {id:'h504_kai_contest',t:'子晴那場比賽沒去。……我也沒問。',about:'heroine_04',from:'Y1S2:W9一',until:'Y1S2:W9日',src:'AA_504 4-4'}   /* 「第 9 週」：4/18（第 8 週週六）她沒去的那場以後那一週 */
   ],
   noodle:{
@@ -132,9 +132,9 @@ const HEARD_LINES={
     /* AA_505 5-4：Kevin 家族群組 1/23（學姊去池上）。幾點稿沒寫，取 21:00 */
     {id:'h505_kevin',at:'2027-01-23 21:00',th:'g:family_law',cond:'famGroup',items:[['kevin','Kevin','學姊去池上了'],['kevin','Kevin','她只傳了一張照片給我 稻田 沒有稻子'],['kevin','Kevin','學姊妳要不要說明一下'],['heroine_05','溫學姊','冬天。']],src:'AA_505 5-4'},
     /* AA_505 7-4：予樂（p:yule，第 11 週，有的話）——可昕「輸了。」（第 11 週週六 22:30）那晚。幾點稿沒寫，取 23:50 */
-    {id:'h505_yule',at:'Y2S1:W11六 23:50',th:'p:yule',cond:'yule',items:[['yule','予樂','可昕輸了以後回宿舍 一句話都沒講 直接開始寫下一份'],['yule','予樂','我好怕她']],src:'AA_505 7-4'},
+    {id:'h505_yule',at:'Y2S1:W11六 23:50',th:'p:yule',cond:'yule',items:[['yule','予樂','可昕輸了以後回宿舍 一句話都沒講 直接開始寫下一份'],['yule','予樂','她好認真']],src:'AA_505 7-4'},
     /* AA_505 7-4：品妤（經濟系老朋友，第 12 週）——和大一上那句一樣放「走啦」群組。幾點稿沒寫，取第 12 週週二 21:20 */
-    {id:'h505_pinyu',at:'Y2S1:W12二 21:20',th:'g:econ_friends',cond:'econGroup',items:[['econ_pinyu','品妤','可昕說她模擬法庭輸給一個大三的。她講的時候一直在笑，你知道那代表她很生氣。']],src:'AA_505 7-4'},
+    {id:'h505_pinyu',at:'Y2S1:W12二 21:20',th:'g:econ_friends',cond:'econGroup',items:[['econ_pinyu','品妤','可昕說她模擬法庭沒過。她講的時候一直在笑，你知道那代表她很在意。']],src:'AA_505 7-4'},
     /* AA_506 5-4：Kevin 家族群組 3/20 21:00（學姊搬家；學姊第 1 則動態 18:00 之後）*/
     {id:'h506_kevin',at:'2027-03-20 21:00',th:'g:family_law',cond:'famGroup',items:[['kevin','Kevin','學姊搬家了'],['kevin','Kevin','我搬了一箱 她說我搬的是最輕的那箱'],['kevin','Kevin','我有意見'],['heroine_05','溫學姊','你自己挑的。']],src:'AA_506 5-4'},
     /* AA_506 7-4：予樂（p:yule，4/10 23:00，有的話）——可昕「贏了。」（4/10 22:30）那晚 */

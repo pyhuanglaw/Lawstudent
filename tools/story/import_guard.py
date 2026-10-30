@@ -68,11 +68,13 @@ def ndl542(s):
         return s
     if _NDL is None:
         import json as _json, os as _os
-        try:
-            with open(_os.path.join(_os.path.dirname(_os.path.abspath(__file__)), 'ndl542_fix.json'), encoding='utf-8') as f:
-                _NDL = _json.load(f)['pairs']
-        except (OSError, ValueError, KeyError):
-            _NDL = []
+        _NDL = []
+        for fn in ('ndl542_fix.json', 'nocmp_fix.json'):   # nocmp_fix.json：NO-COMPARE-1030（D116 不跟別人比，AA_546）同一個做法
+            try:
+                with open(_os.path.join(_os.path.dirname(_os.path.abspath(__file__)), fn), encoding='utf-8') as f:
+                    _NDL += _json.load(f)['pairs']
+            except (OSError, ValueError, KeyError):
+                pass
     for a, b in _NDL:
         if a in s:
             s = s.replace(a, b)

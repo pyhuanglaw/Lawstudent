@@ -14,7 +14,7 @@ const ef0=cp.__worldEf||cp.execFileSync;
 function world(s){ if(typeof s!=='string'||!OLD.test(s)) return s;
   return ef0.call(cp,'python3',[GUARD,'world'],{input:s,encoding:'utf8',maxBuffer:256*1024*1024}); }
 // NOODLE-TEAM-SHRINK-1030（AA_542 企劃線 6b33b4012，使用者 10-30 X144 麵店團縮小成背景）：遊戲照 AA_542 換了玩家看得到的字，舊稿讀進來照同一張表換（tools/story/ndl542_fix.json，長的先換）
-let NDL=null; function ndl(s){ if(typeof s!=='string') return s; if(!NDL){ try{ NDL=JSON.parse(require('fs').readFileSync(path.join(__dirname,'..','tools','story','ndl542_fix.json'),'utf8')).pairs; }catch(e){ NDL=[]; } }
+let NDL=null; function ndl(s){ if(typeof s!=='string') return s; if(!NDL){ NDL=[]; for(const fn of ['ndl542_fix.json','nocmp_fix.json']){ try{ NDL=NDL.concat(JSON.parse(require('fs').readFileSync(path.join(__dirname,'..','tools','story',fn),'utf8')).pairs); }catch(e){} } }   /* nocmp_fix.json：NO-COMPARE-1030（D116 不跟別人比，AA_546）同一個做法 */
   for(const [a,b] of NDL) if(s.indexOf(a)>=0) s=s.split(a).join(b); return s; }
 const fix=r=>typeof r==='string'?ndl(world(alison(r))):(Buffer.isBuffer(r)?Buffer.from(ndl(world(alison(r.toString('utf8')))),'utf8'):r);
 const isDoc=s=>/\bshow\b/.test(s)&&/docs\/story_planning\//.test(s);

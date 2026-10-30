@@ -249,7 +249,7 @@ const R2Y3A=(function(){
   /* ===================== 2-Y3-14 翰 4：柏翰接讀書會的版本＝11/18（四）21:40 私訊 ===================== */
   S.bohanPhone=function(G){ const F=G.flags, d=DK('2027-11-18'); if(d==null||G.day<d||G.day>d+1||now(G)<T(d,21+40/60)||sent(G,'y3_bohan_w11')) return;
     if(!done(G,'ev_bohan_third_floor')||F.STUDYGROUP_LEADER||!done(G,'ev_bohan_scores')) return; silentContact(G,'classmate_bohan');
-    PHONE.at(G,d,atH(G,d,21+40/60),[P('classmate_bohan')('分數表我拿掉了。人有沒有回來，再說。')],'y3_bohan_w11'); };
+    PHONE.at(G,d,atH(G,d,21+40/60),[P('classmate_bohan')('白板那張表我還留著。這學期換成大家輪流寫。')],'y3_bohan_w11'); };
 
   /* ===================== 2-Y3-15 校慶：11/12（五）21:00 柏翰在法服群組 ===================== */
   const FF='g:lawclub_study', BF=M(FF,'classmate_bohan'), BFr=R('classmate_bohan');

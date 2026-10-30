@@ -2464,9 +2464,9 @@ const STORY = (function(){
     { const w1=termDay('Y2S1',15,4), ps='classmate_peishan'; if(w1!=null&&F.STUDYGROUP_LEADER&&G.events&&G.events.done&&G.events.done.ev_peishan_handover&&(G.day>w1||(G.day===w1&&G.hour>=22))&&G.day<=w1+3&&!PHONE.sent(G,'ps_notes')){ const P=t=>({th:'p:'+ps,from:ps,text:t});
         PHONE.at(G,w1,22,[Object.assign(P('這學期的題目和筆記，我放在B館櫃子的第二格。'),{ask:Object.assign({id:'ps_notes',opts:[{t:'收到。',say:[P('……謝謝你接住。')]}]},F.dating_classmate_peishan?{}:{until:w1*24+24})})],'ps_notes'); } }   /* AA_374 第 17 項：回覆期限到那天 23:59（12/18 起她不回）；和她交往中的照例外規則，不設期限 */
     { const w1=termDay('Y2S1',15,4); if(w1!=null&&G.day>=w1&&G.day<=w1+3&&(G.day>w1||G.hour>=21.5)&&!(G.events&&G.events.done&&G.events.done.ev_peishan_handover)&&PHONE.inGroup(G,'public_law')&&!PHONE.sent(G,'ps_p4_missed'))
-        PHONE.at(G,w1,21.5,[{th:'g:public_law',from:'classmate_peishan',text:'題目整理交給柏翰了。不要變成比分數的地方。'}],'ps_p4_missed');
+        PHONE.at(G,w1,21.5,[{th:'g:public_law',from:'classmate_peishan',text:'題目整理交給柏翰了。要好玩喔。'}],'ps_p4_missed');
       const w2=termDay('Y2S2',2,4); if(w2!=null&&F.STUDYGROUP_LEADER&&G.day>=w2&&G.day<=w2+3&&(G.day>w2||G.hour>=21)&&PHONE.inGroup(G,'law_class')&&!PHONE.sent(G,'han3_chart'))
-        PHONE.at(G,w2,21,[{th:'g:law_class',from:'classmate_bohan',text:'（照片：白板上每個人上週讀的頁數）'}],'han3_chart'); }   /* AA_375 第 23 項：第 1 週沒有小考，表是讀了幾頁 */
+        PHONE.at(G,w2,21,[{th:'g:law_class',from:'classmate_bohan',text:'（照片：白板上每個人這週要讀到哪裡）'}],'han3_chart'); }   /* AA_375 第 23 項：第 1 週沒有小考，表是讀了幾頁 */
     /* 沛珊 P4b 換你陪我念（BB_97 4-4；大二下第 2 週起，前置 MIRROR_PEISHAN 或和她朋友以上）：第 2 週週五 21:00 她私訊（時間 LAWWW-B 排，已告訴 AA-B）。
        她知道祐廷重考過（ECON_PAST_SHARED full 或 MIRROR_PEISHAN）＝「重考的人才能回答的問題」＋第四個選項；不知道＝「有沒有很想放棄、可是撐過來的事？」。
        祐廷在和別人交往、而且她知道：之後她開小群組「陪重考生念書」（祐廷、阿哲；阿哲「我來補債各」），便條寫「你們呢？」（invites.js 的 afterMeet）。
@@ -3458,7 +3458,7 @@ const STORY = (function(){
   const DD=k=>S.dayOfKey(k), inR=(G,a,b)=>{ const x=DD(a), y=DD(b); return x!=null&&y!=null&&G.day>=x&&G.day<=y; }, rdone=(G,id)=>!!(G.events&&G.events.done&&G.events.done[id]);
   S.rStudyKind=function(G){ if(G.day===DD('2025-02-15')) return 'r1'; if(G.day===DD('2025-04-02')) return 'r5'; if(inR(G,'2025-04-07','2025-04-13')&&!rdone(G,'ev_y0_r2')) return 'r2'; return 's'; };
   S.rArrived=G=>S.retakeOn(G)&&S.retakeType(G)==='study'&&typeof HOME!=='undefined'&&!!HOME.at&&HOME.at(G)&&G.hour>=S.KX_ARRIVE&&!(G.flags.RT_KX===G.day);   /* 讀書日：她到他家的餐桌（在家的選單那一輪演）*/
-  S.RS=[{t:['「你又比我早起。……今天早餐我請。」']},{t:['（她放下包包）','「你讀到哪了？……三章？我才讀到第二章。」']},   /* AA_224 6-2：S1、S2 改（她不去上課了）*/
+  S.RS=[{t:['「你又比我早起。……今天早餐我請。」']},{t:['（她放下包包）','「你讀到哪了？……三章？好，我也要到第三章。」']},   /* AA_224 6-2：S1、S2 改（她不去上課了）*/
         {t:['「你的螢光筆快沒水了。你今天到底畫了多少？」']},{t:['「我帶了兩杯飲料。你那杯是賄賂：等一下讓我先問問題。」']},{t:['「你一直坐在這裡，會不會忘記外面有太陽？……好啦，我坐下了。」']}];
   S.RP=[['2025-02-15','2025-07-10','（你們在公館的二輪戲院看了一部老電影。片尾字幕跑完以前，她不准你站起來。）'],['2025-03-28','2025-05-15','（你們在溫州街的巷子裡亂走。她每經過一隻貓，就停下來打一次招呼。）'],
         ['2025-04-01','2025-05-31','（你們坐在映月湖邊吃雞蛋糕。她說湖裡的魚看起來也在準備考試。）'],['2025-04-01','2025-06-30','（你們搭捷運到淡水看海。回程的車上她睡著了，頭一直往你這邊倒。）'],
