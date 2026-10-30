@@ -36203,8 +36203,8 @@
    "title": "系籃練球（週五 17:30～19:00）球場沒人：練球時間阿哲、明軒、學長們真的在球場；非練球日球場提示練球時間；國定假日那週查清楚",
    "area": "SYS",
    "owner": "LAWWW",
-   "status": "進行中",
-   "next": "子代理（campus-ux-1030，基準 postrel-1030），D113 備份 → 合進 postrel-1030 → BB 測",
+   "status": "已實作待整合",
+   "next": "campus-ux-1030 b26c4ca7d 合進 postrel-1030 → v9.10.14 後進開發分支 → BB 測；AA：下雨天室外練球要不要停",
    "priority": "P1",
    "first": {
     "term": "Y1S1",
@@ -36218,15 +36218,15 @@
    },
    "source": "使用者 10-30 05:2x＋day 30 存檔（X142）",
    "authorized": "使用者",
-   "notes": ""
+   "notes": "【06:1x】子代理交件：週五 17:30～19:00 球場 6～8 人打球、場邊 2～3 人（crowd3d bballSpot）；阿哲、明軒週五在球場（Y1S1，noPair）；不是練球日在集合點放提示「系籃練球（星期五 17:30）」按了寫下一次日期；國慶 10/10 停。使用者存檔 10/16 是週四（練球是週五）。新測試 bball_present_unit 27 項（基準 13 FAIL）｜ "
   },
   {
    "id": "ROOM-MAP-LABELS-1030",
    "title": "教學館室內地圖標出每間教室（門號、位置、今天要上課的那間），小地圖與大地圖都看得到",
    "area": "SYS",
    "owner": "LAWWW",
-   "status": "進行中",
-   "next": "子代理（campus-ux-1030，基準 postrel-1030），D113 備份 → 合進 postrel-1030 → BB 測",
+   "status": "已實作待整合",
+   "next": "campus-ux-1030 b26c4ca7d 合進 postrel-1030 → v9.10.14 後進開發分支 → BB 測；已知：大地圖同學名字會壓到今天那間的第二行",
    "priority": "P1",
    "first": {
     "term": "Y1S1",
@@ -36240,7 +36240,7 @@
    },
    "source": "使用者 10-30 05:2x（X143）",
    "authorized": "使用者",
-   "notes": ""
+   "notes": "【06:1x】子代理交件：src/roommap3d.js，普通／博雅／共同／霖澤館 1～4F／萬才館的教室名牌（從 layout 讀），小地圖、大地圖都有；今天的那一間金色「★ 101」＋幾點課名；新測試 room_map_labels_unit；全部 Node 744／0 ｜ "
   },
   {
    "id": "AA533-VAC-FIX-1030",
