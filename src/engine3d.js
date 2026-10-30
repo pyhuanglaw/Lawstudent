@@ -325,6 +325,19 @@ const E3 = (function(){
     const o=ent.obj.position; return {ok:false,reason:'timeout',x:+o.x.toFixed(2),z:+o.z.toFixed(2)}; };
   E.unstick=function(ent,maxR){ if(!ent) return false; const lv=ent.lv|0, n=navOf(lv); if(!n) return false; const o=ent.obj.position; if(standL(o.x,o.z,0.3,lv)) return false; const nf=n.nearestFree(o.x,o.z,maxR||16); if(!nf) return false; // 找一個四周也能站的格子
     let best=null; const [cx,cz]=n.toCell(o.x,o.z); for(let r=1;r<=(maxR||16)&&!best;r++){ for(let dz=-r;dz<=r&&!best;dz++) for(let dx=-r;dx<=r;dx++){ if(Math.max(Math.abs(dx),Math.abs(dz))!==r) continue; const [wx,wz]=n.toWorld(cx+dx,cz+dz); if(standL(wx,wz,0.3,lv)){ best=[wx,wz]; break; } } } if(!best) best=nf; o.x=best[0]; o.z=best[1]; o.y=n.heightAt(o.x,o.z); console.warn('unstick →',best); return true; };
+  /* NPC 走路卡住（使用者 2026-10-30 04:2x：「npc要離開一個空間都會卡在門口一直行走 很白癡」，NPC-STALL-1030）：
+     沿路線走、被牆／門框／家具擋住時原本一直播走路、原地踏步，沒有任何保底（玩家有 stallStop，NPC 沒有）。
+     連續 E.NPC_STALL 秒（遊戲時間）幾乎沒前進（每一格走不到該走距離的 15%）：
+       ①離路線終點 E.NPC_STALL_NEAR 以內（離開的人卡在門口、走去座位卡在旁邊）＝當作到了：清路線、照常呼叫 onArrive（離開的人＝出門；STORY.leaveTouch 當下移除）；
+       ②要離開的人（beh leave）在遠處卡住＝重新找一次路（只一次），還是卡＝站好、記 n.stalled（鏡頭看不到時才移除，見 story3d.js）；
+       ③其他＝放掉路線、站好（不原地踏步）。回傳 true＝這一格不再走 */
+  E.NPC_STALL=1.2; E.NPC_STALL_NEAR=3.5;
+  function npcStall(n){ const P=n.path, o=n.obj.position; n._stall=0; if(!P||!P.length) return false; const end=P[P.length-1], rem=Math.hypot(end[0]-o.x,end[1]-o.z);
+    const arrive=()=>{ n.path=null; n.stalled=true; n.pose=n.idlePose&&n.idlePose!=='walk'&&n.idlePose!=='run'?n.idlePose:'idle'; n.speed=0; if(n.onArrive){ const f=n.onArrive; n.onArrive=null; f(n); } return true; };
+    if(rem<E.NPC_STALL_NEAR) return arrive();
+    if(n.beh==='leave'||n.leaving){ if(!n._repath){ n._repath=true; const f=n.onArrive; if(E.moveTo(n,end[0],end[1],f,n.lv|0)) return false; } n.path=null; n.onArrive=null; n.stalled=true; n.pose='idle'; n.speed=0; return true; }   /* 遠處卡住、重找也卡：站好，鏡頭看不到時才移除（story3d.js refreshSchedule 的 n.stalled&&!vis），不在玩家眼前消失 */
+    n.path=null; n.onArrive=null; n.pose=n.idlePose&&n.idlePose!=='walk'&&n.idlePose!=='run'?n.idlePose:'idle'; n.speed=0; return true; }
+  E.npcStall=npcStall;
   E.moveTo=function(ent,x,z,onArrive,lv){ if(!navOf(ent.lv|0)){ ent.path=[[x,z]]; ent.onArrive=onArrive; return true; } const p=E.pathTo(ent.obj.position.x,ent.obj.position.z,ent.lv|0,x,z,lv===undefined||lv===null?(ent.lv|0):lv); if(p&&p.length){ ent.path=p; ent.onArrive=onArrive; return true; } ent.path=null; return false; };   // lv：目標在哪一層（多樓層區域；不給＝同一層）
   const _fr=new THREE.Frustum(), _frM=new THREE.Matrix4(), _frS=new THREE.Sphere();
   /* 這一格看得到嗎（鏡頭視錐＋和 NPC 一樣的距離 LOD）：不是 NPC 的會動的人（路上騎腳踏車的人，bike3d.js B.rider）用。
@@ -363,7 +376,8 @@ const E3 = (function(){
         else { n.mount0=null; o.position.set(sx,P.position.y+PS.y*k,sz); o.rotation.set(0,sy,P.rotation.z); n.pose='sit'; n.idlePose='sit'; n.speed=0; n.lv=E.player.lv|0; } } }
     else if(n.beh==='follow'&&E.player&&E.player.riding&&!n.noRide&&(!E.rideMode||E.rideMode(n)==='ride')&&(E.player.speed||0)<0.2&&Math.hypot(E.player.obj.position.x-o.position.x,E.player.obj.position.z-o.position.z)<3.0){ n.beh='passenger'; n.path=null; n.mountT=0; n.mount0=null; if(E.onRide) E.onRide(n,true); }   /* 一起走的人：你騎著車停在她旁邊（3 m 內、停下來），她自己走到後座坐上去（AA_137 第 5 節）；沒裝載妹墊、不願意的人照舊走路（rideMode）*/
     else if((n.beh==='follow'&&E.player)||(n.beh==='buddy'&&n.buddy)){ if(followStep(n,dt)) moving=true; }
-    else if(n.path){ const t=n.path[0]; const dx=t[0]-o.position.x, dz=t[1]-o.position.z; const d=Math.hypot(dx,dz); if(wpReached(n,d,0.3,dt)){ n.path.shift(); if(!n.path.length){ n.path=null; if(n.onArrive){ const f=n.onArrive; n.onArrive=null; f(n); } } } else { const sp=n.run?4.0:(n.walkSpeed||1.35); stepEntity(n,dx/d,dz/d,stepSp(sp,d,dt),dt); moving=true; n.pose=n.run?'run':'walk'; n.speed=sp; } }
+    else if(n.path){ const t=n.path[0]; const dx=t[0]-o.position.x, dz=t[1]-o.position.z; const d=Math.hypot(dx,dz); if(wpReached(n,d,0.3,dt)){ n.path.shift(); n._stall=0; if(!n.path.length){ n.path=null; if(n.onArrive){ const f=n.onArrive; n.onArrive=null; f(n); } } } else { const sp=n.run?4.0:(n.walkSpeed||1.35), x0=o.position.x, z0=o.position.z, ss=stepSp(sp,d,dt); stepEntity(n,dx/d,dz/d,ss,dt); moving=true; n.pose=n.run?'run':'walk'; n.speed=sp;
+        if(ss*dt>1e-4){ const mv=Math.hypot(o.position.x-x0,o.position.z-z0); n._stall=mv<ss*dt*0.15?(n._stall||0)+dt:0; if(n._stall>E.NPC_STALL&&npcStall(n)) moving=false; } } }
     else if(n.beh==='wander'&&n.timer<=0&&!n.frozen){ const w=n.waypoints; if(w&&w.length){ const wp=w[(Math.random()*w.length)|0]; E.moveTo(n,wp[0]+(Math.random()-0.5)*1.5,wp[1]+(Math.random()-0.5)*1.5,null,wp[2]); n.timer=4+Math.random()*8; } }
     else if(n.beh==='route'&&!n.path&&n.timer<=0&&!n.frozen){ const w=n.waypoints; if(w&&w.length){ n.ri=((n.ri||0)+1)%w.length; const wp=w[n.ri]; E.moveTo(n,wp[0],wp[1],null,wp[2]); n.timer=n.pauseAt?1+Math.random()*3:0; } }
     if(!moving&&(n.pose==='walk'||n.pose==='run')){ n.pose=n.beh==='follow'?'idle':(n.idlePose||'idle'); if(n.beh==='follow') n.idlePose='idle'; n.speed=0; }   /* 跟著你走的人停下來是站著（原本退回作息的坐姿：使用者 2026-10-16「我停下來她就恢復坐姿」）*/
