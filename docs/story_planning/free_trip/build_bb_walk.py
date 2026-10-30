@@ -47,7 +47,7 @@ WALK = [
     w('classmate_peishan', 'D12', 'D12.pier', ['我小時候以為，河對面就是另一個國家。'], ['我讀一頁給你聽。……只讀一頁，風太大了。'], cond={'terms': ['Y1S1', 'Y1S2', 'Y2S1']}),
     w('classmate_peishan', 'D12', 'D12.sunset', ['今天的天空，可以畫成封面。'], ['你不要看我。看夕陽。……好，可以看一下。'], cond={'terms': ['Y1S1', 'Y1S2', 'Y2S1']}),
     # 沛珊 D06（大三起的週日 09:30～12；心願事件以後；不選空畫框）
-    w('classmate_peishan', 'D06', 'walk', ['小孩子在草地上都用跑的。大人都忘了。'], ['你跑一下。……開玩笑的。不過我想看。'], cond={'terms': ['Y3S1', 'Y3S2', 'Y4S1', 'Y4S2']}),
+    w('classmate_peishan', 'D06', 'walk', ['小孩子在草地上都用跑的。大人都忘了。'], ['你跑一下給我看好不好！……我想看。'], cond={'terms': ['Y3S1', 'Y3S2', 'Y4S1', 'Y4S2']}),
     w('classmate_peishan', 'D06', 'D06.gallery', ['小孩看畫，先看最大的顏色。我在學他們。'], ['我們今天只看三幅。看慢一點。'], cond={'terms': ['Y3S1', 'Y3S2', 'Y4S1', 'Y4S2']}),
     w('classmate_peishan', 'D06', 'D06.cafe', ['十一點半以前，我得去書店顧童書區。'], ['你下午來書店嗎？……不來也沒關係，我挑一本書等你。'], cond={'terms': ['Y3S1', 'Y3S2', 'Y4S1', 'Y4S2']}),
     # 可昕 D13（週日 16:30～19；只在交往中）
@@ -69,7 +69,7 @@ LEAVE = [
     {'who': 'heroine_04', 'spot': 'D12', 'friend': '我回去寫東西了。今天的光很好。', 'dating': '你先走。我看你走到那個轉角。'},
     {'who': 'heroine_05', 'spot': 'D06', 'friend': '我四點要回去讀書。……今天，謝謝。', 'dating': '下次你排行程。我照你的走。'},
     {'who': 'classmate_peishan', 'spot': 'D12', 'friend': '我要去搭車了。今天買的繪本，下次借你。', 'dating': '今天買的書，第一本我先讀給你聽。……下次。'},
-    {'who': 'classmate_peishan', 'spot': 'D06', 'friend': '我去書店了。你慢慢看。', 'dating': '下午見。……我是說，如果你來的話。'},
+    {'who': 'classmate_peishan', 'spot': 'D06', 'friend': '我去書店了。你慢慢看。', 'dating': '下午見。……如果你來的話。'},
     {'who': 'kexin', 'spot': 'D13', 'friend': '', 'dating': '我搭車回木柵了。送我到捷運站就好。……到月台也可以。'},
     {'who': 'kexin', 'spot': 'D04', 'friend': '', 'dating': '我回木柵了。今天的電影你最喜歡哪一幕？傳給我。'},
 ]
@@ -109,7 +109,7 @@ SIDE = [
 FOLLOWUP = [  # BB_144 第 4 節：第一次在那個地方遇到她，之後她下一次正常聊天時說一次（AA_160 5-3）；只放在一般聊天，劇情事件不讀（R7）
     {'mem': 'ENC_D04_ZR', 'who': 'heroine_02', 'where': 'Café 的閒聊', 'line': '上次在西門町，你看完是什麼表情？……我從後面看到了。'},
     {'mem': 'ENC_D12_ZQ', 'who': 'heroine_04', 'where': '一般聊天', 'line': '欸不是，上次大稻埕那個第三關，我改簡單了。因為你。'},
-    {'mem': 'ENC_D06_SIS', 'who': 'heroine_05', 'where': '一般聊天', 'line': '上次在美術館。……一件事。你在那幅畫前面站很久。'},
+    {'mem': 'ENC_D06_SIS', 'who': 'heroine_05', 'where': '一般聊天', 'line': '上次在美術館。……你在那幅畫前面站很久。'},
     {'mem': 'ENC_D12_PS', 'who': 'classmate_peishan', 'where': '一般聊天', 'line': '上次你選的那本繪本，課輔班的小孩很喜歡。',
      'lineIf': {'cond': '大一、大二上（她還沒去課輔班）', 'line': '上次那本繪本，我送給鄰居的小孩了。'}},
     {'mem': 'ENC_D13_KX', 'who': 'kexin', 'where': '一般聊天（只有交往中）', 'line': '上次淡水那個假設題，我還沒說完。下次說。'},

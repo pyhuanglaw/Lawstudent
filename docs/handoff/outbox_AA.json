@@ -1481,6 +1481,2519 @@
    "receiver": "LAWWW",
    "ack": "SENT",
    "note": "回 LAWWW 14:5x 六題；第 1 節加第 5、6 點，第 8 節加第 4 條"
+  },
+  {
+   "task": "SIS-LEAD-1021",
+   "branch": "claude/cool-heisenberg-o8kuqx",
+   "sha": "3a509150",
+   "files": [
+    "docs/story_planning/AA_388_學姊第五批_七夕.md"
+   ],
+   "state": "已交付",
+   "remaining": "無",
+   "next": "LAWWW：AA_388 第 3 節 ev_sis_qixi（三年七夕，交往中、她自己約；SIS_QIXI 旗標）；BB：照第 3 節第 4 點測",
+   "noDirectIntegrate": false,
+   "receiver": "LAWWW",
+   "ack": "DELIVERED",
+   "note": "C25 學姊第五批（AA-B 2026-10-23）；白色情人節不做學姊版（第 0 節）"
+  },
+  {
+   "task": "AA313-FIXES-1020",
+   "branch": "claude/cool-heisenberg-o8kuqx",
+   "sha": "345234b3",
+   "files": [
+    "docs/story_planning/AA_389_回AA313剩下九點.md",
+    "docs/story_planning/date_system/lines/D13.json",
+    "docs/story_planning/AA_127_以安語彤_心願約會與邀約變化.md"
+   ],
+   "state": "已交付",
+   "remaining": "AA 第 2、8 點的補場（AA389-ZR-SENDOFF-1023、AA389-ZQ-GAME-1023 等）接著寫",
+   "next": "LAWWW：照 AA_389 九點改程式、重新匯入 D13 與 date_lines、設 ZR_UK_BACK；AA：寫 AA_390 芷若出發那天",
+   "noDirectIntegrate": false,
+   "receiver": "LAWWW",
+   "ack": "DELIVERED",
+   "note": "回 AA313_REMAINING_1022 (b) 九點"
+  },
+  {
+   "task": "AA389-ZR-SENDOFF-1023",
+   "branch": "claude/cool-heisenberg-o8kuqx",
+   "sha": "5f4b9c7b",
+   "files": [
+    "docs/story_planning/AA_390_芷若2027年9月2日出發那天.md"
+   ],
+   "state": "已交付",
+   "remaining": "無",
+   "next": "LAWWW：AA_390 第 6 節（9/1 訊息、ev_zr_sendoff_2027、沒來的訊息、期末選項打開、1B-06 三則分流）；BB 測",
+   "noDirectIntegrate": false,
+   "receiver": "LAWWW",
+   "ack": "DELIVERED",
+   "note": "AA_389 第 2 點的補場"
+  },
+  {
+   "task": "SIS-B6-1023",
+   "branch": "claude/cool-heisenberg-o8kuqx",
+   "sha": "946ff2f1",
+   "files": [
+    "docs/story_planning/AA_392_學姊第六批_說了沒發生與每週視訊.md"
+   ],
+   "state": "已交付",
+   "remaining": "無",
+   "next": "LAWWW：AA_392 第 10 節（saOn 交往版視訊、送機私訊三選一、口試電話、研究室作息甲／乙、SIS_IV_AGAIN、荷花池、7/31 總圖、6/2 她爸爸、y34b3d 註解）；BB 測",
+   "noDirectIntegrate": false,
+   "receiver": "LAWWW",
+   "ack": "DELIVERED",
+   "note": "D111 學姊第六批（AA_391）"
+  },
+  {
+   "task": "SIS-B7-1023",
+   "branch": "claude/cool-heisenberg-o8kuqx",
+   "sha": "659c748f",
+   "files": [
+    "docs/story_planning/AA_393_學姊第七批_日本路線.md"
+   ],
+   "state": "已交付",
+   "remaining": "無",
+   "next": "LAWWW：AA_393 第 7 節（3/22 私訊＋3/23 Café 接演＋3/24 照片、兩週一則八張、7/31 私訊＋8/1 視訊、回覆池 國外:JP、交往中四組視訊）；BB 測",
+   "noDirectIntegrate": false,
+   "receiver": "LAWWW",
+   "ack": "DELIVERED",
+   "note": "D111 學姊第七批（AA_391）"
+  },
+  {
+   "task": "SIS-B8-1023",
+   "branch": "claude/cool-heisenberg-o8kuqx",
+   "sha": "744a8726",
+   "files": [
+    "docs/story_planning/AA_394_學姊第八批_大二整年與兩個暑假.md"
+   ],
+   "state": "已交付",
+   "remaining": "無",
+   "next": "LAWWW：AA_394 第 6 節（法圖週三五場接演、三場 OUT、助教新設定、自助餐底圖、債各筆記物品）；BB 測",
+   "noDirectIntegrate": false,
+   "receiver": "LAWWW",
+   "ack": "DELIVERED",
+   "note": "D111 學姊第八批（AA_391）"
+  },
+  {
+   "task": "AA398-SIS-NO-THREE-1023",
+   "branch": "claude/cool-heisenberg-o8kuqx",
+   "sha": "ffd7eef8",
+   "files": [
+    "docs/story_planning/AA_398_學姊不再說三件事_全遊戲替換表.md",
+    "docs/story_planning/00_人物口氣表.md",
+    "docs/story_planning/date_system/lines/D01.json",
+    "docs/story_planning/date_system/lines/D02.json",
+    "docs/story_planning/date_system/lines/D03.json",
+    "docs/story_planning/date_system/lines/D07.json",
+    "docs/story_planning/date_system/lines/D09.json",
+    "docs/story_planning/date_system/lines/D11.json",
+    "docs/story_planning/date_system/lines/D14.json",
+    "docs/story_planning/date_system/lines/D15.json",
+    "docs/story_planning/date_system/lines/D24.json",
+    "docs/story_planning/date_system/lines/D25.json",
+    "docs/story_planning/date_system/lines/D28.json",
+    "docs/story_planning/date_system/lines/D30.json",
+    "docs/story_planning/date_system/wish/wish_bb.json",
+    "docs/story_planning/free_trip/solo_before_bb_v1.json",
+    "docs/story_planning/free_trip/bb_walk_v1.json",
+    "docs/story_planning/ladder/ladder_bb_y2s1.json"
+   ],
+   "state": "已交付",
+   "remaining": "沛珊心願 wish_bb.py 與 BB_128 3-4 不一致（AA398-PS-WISH-SYNC，和本件無關）",
+   "next": "LAWWW：AA_398 第 1 節 51 處改 src、第 2 節重新匯入、建議加檢查；BB：第 5 節測試",
+   "noDirectIntegrate": false,
+   "receiver": "LAWWW",
+   "ack": "DELIVERED",
+   "note": "使用者 10-23 直接：學姊永久不再說三件事"
+  },
+  {
+   "task": "AA397-SIDEQUEST-1023",
+   "branch": "claude/cool-heisenberg-o8kuqx",
+   "sha": "ffd7eef8",
+   "files": [
+    "docs/story_planning/AA_397_店員的支線_順手的事.md"
+   ],
+   "state": "已交付",
+   "remaining": "第二批支線之後寫",
+   "next": "LAWWW：第 1 節系統、第 2 節九則、第 3 節貓線事件；LAWWW2：貓的位置／姿勢（CAT_curl）、大四下不顯示；BB 測第 4 節",
+   "noDirectIntegrate": false,
+   "receiver": "LAWWW",
+   "ack": "DELIVERED",
+   "note": "使用者 10-23 直接：店員支線（參考人中之龍、不抄襲）；貓由子晴收養（回 LAWWW2-B WZ-CAT-LIFE-1023）"
+  },
+  {
+   "task": "SIS-B9-1024",
+   "branch": "claude/cool-heisenberg-o8kuqx",
+   "sha": "eaeafe34e",
+   "files": [
+    "docs/story_planning/AA_395_學姊第九批_大三下學期中與大四上的遠距.md"
+   ],
+   "state": "已交付",
+   "remaining": "2-3 等 BB-B 跑完，AA 選放寬方式",
+   "next": "LAWWW：AA_395 第 3 節；BB-B：第 2-3 節跑正常玩的臺灣路線玩家",
+   "noDirectIntegrate": false,
+   "receiver": "LAWWW",
+   "ack": "DELIVERED",
+   "note": "D111 學姊第九批（AA_391）；提前交"
+  },
+  {
+   "task": "LAWWW2-CLOSED-SPACES-1023",
+   "branch": "claude/cool-heisenberg-o8kuqx",
+   "sha": "53ca91b2",
+   "files": [
+    "docs/story_planning/AA_399_關著的空間_劇情用途與開放規則.md"
+   ],
+   "state": "已交付",
+   "remaining": "無",
+   "next": "LAWWW2：照第 0 節順序做空間；LAWWW：作息、2D 換 3D、借書 G.loans；BB 測第 13 節",
+   "noDirectIntegrate": false,
+   "receiver": "LAWWW2,LAWWW",
+   "ack": "DELIVERED",
+   "note": "使用者 10-23 08:0x 對 LAWWW2-B：關著的空間可以開發、跟 AA 討論劇情（AA_399 在 53ca91b2；e81a1afe 漏加檔案）"
+  },
+  {
+   "task": "SIS-B10-1024",
+   "branch": "claude/cool-heisenberg-o8kuqx",
+   "sha": "53af5dfc4",
+   "files": [
+    "docs/story_planning/AA_396_學姊第十批_交往中的節日_前任_畢業以後的朋友.md"
+   ],
+   "state": "已交付",
+   "remaining": "無",
+   "next": "LAWWW：AA_396 第 5 節；BB 測",
+   "noDirectIntegrate": false,
+   "receiver": "LAWWW",
+   "ack": "DELIVERED",
+   "note": "D111 學姊第十批（AA_391），提前交；AA_391 六～十批全部交完"
+  },
+  {
+   "task": "AA389-ZQ-GAME-1023",
+   "branch": "claude/cool-heisenberg-o8kuqx",
+   "sha": "ce4f34378",
+   "files": [
+    "docs/story_planning/AA_400_子晴的測試版_HOOK_ZQ_GAME.md"
+   ],
+   "state": "已交付",
+   "remaining": "無",
+   "next": "LAWWW：AA_400 第 6 節；termend_lines.js:278 noOpt 拿掉；BB 測",
+   "noDirectIntegrate": false,
+   "receiver": "LAWWW",
+   "ack": "DELIVERED",
+   "note": "AA_389 第 2 點的補場"
+  },
+  {
+   "task": "AA389-KX-TERMDATE-1023",
+   "branch": "claude/cool-heisenberg-o8kuqx",
+   "sha": "18251b0e1",
+   "files": [
+    "docs/story_planning/AA_401_可昕學期末約會的二選一_寒假來高雄.md"
+   ],
+   "state": "已交付",
+   "remaining": "無",
+   "next": "LAWWW：AA_401 第 4 節；BB 測",
+   "noDirectIntegrate": false,
+   "receiver": "LAWWW",
+   "ack": "DELIVERED",
+   "note": "AA_389 第 3 點"
+  },
+  {
+   "task": "AA389-BH-XC-SMALLTALK-1023",
+   "branch": "claude/cool-heisenberg-o8kuqx",
+   "sha": "235cf61ac",
+   "files": [
+    "docs/story_planning/AA_402_柏翰芯慈大二起的閒聊_SMALLTALK.md"
+   ],
+   "state": "已交付",
+   "remaining": "無",
+   "next": "LAWWW：加進 SMALLTALK；BB 測",
+   "noDirectIntegrate": false,
+   "receiver": "LAWWW",
+   "ack": "DELIVERED",
+   "note": "AA_389 第 8 點"
+  },
+  {
+   "task": "AA389-GRAD-DEBATE-1023",
+   "branch": "claude/cool-heisenberg-o8kuqx",
+   "sha": "720f32472",
+   "files": [
+    "docs/story_planning/AA_403_這一段你來講_ev_grad_debate的兌現.md"
+   ],
+   "state": "已交付",
+   "remaining": "無",
+   "next": "LAWWW：ev_grad_debate_teach；BB 測",
+   "noDirectIntegrate": false,
+   "receiver": "LAWWW",
+   "ack": "DELIVERED",
+   "note": "AA_389 第 9 點；改成當面"
+  },
+  {
+   "task": "AA404-SIDEQUEST2-1023",
+   "branch": "claude/cool-heisenberg-o8kuqx",
+   "sha": "30bf21de8",
+   "files": [
+    "docs/story_planning/AA_404_店員的支線_第二批.md"
+   ],
+   "state": "已交付",
+   "remaining": "第三批之後寫",
+   "next": "LAWWW：AA_404 第 2 節；LAWWW2：華新街、動物醫院 2D；BB 測",
+   "noDirectIntegrate": false,
+   "receiver": "LAWWW",
+   "ack": "DELIVERED",
+   "note": "使用者 10-23 店員支線的第二批"
+  },
+  {
+   "task": "AA405-SIDEQUEST3-1023",
+   "branch": "claude/cool-heisenberg-o8kuqx",
+   "sha": "1fa2b494a",
+   "files": [
+    "docs/story_planning/AA_405_店員的支線_第三批.md"
+   ],
+   "state": "已交付",
+   "remaining": "無",
+   "next": "LAWWW：AA_405 第 2 節；BB 測",
+   "noDirectIntegrate": false,
+   "receiver": "LAWWW",
+   "ack": "DELIVERED",
+   "note": "使用者 10-23 店員支線的第三批；不需要新 2D"
+  },
+  {
+   "task": "SIS-AFTER-XMAS-1023",
+   "branch": "claude/cool-heisenberg-o8kuqx",
+   "sha": "7910f785f",
+   "files": [
+    "docs/story_planning/AA_406_家族的聖誕交換禮物_直屬送直屬.md"
+   ],
+   "state": "已交付",
+   "remaining": "無",
+   "next": "LAWWW：AA_406 第 5 節；BB-B：gongguan_hotpot 2D、測試",
+   "noDirectIntegrate": false,
+   "receiver": "LAWWW",
+   "ack": "DELIVERED",
+   "note": "AA_391 第 1 節「之後」那一列；D111；10:2x 改大一 2025-12-22（和 AA_386 3-1 大二聖誕夜重複），LAWWW 要改已實作的 9dcbb19d"
+  },
+  {
+   "task": "LIB-LOAN-BOOKS-1023",
+   "branch": "claude/cool-heisenberg-o8kuqx",
+   "sha": "e81aa74c2",
+   "files": [
+    "docs/story_planning/AA_407_總圖借書_第一批書單.md"
+   ],
+   "state": "已交付",
+   "remaining": "R1 等 5F",
+   "next": "LAWWW：AA_407 第 4 節；BB 測",
+   "noDirectIntegrate": false,
+   "receiver": "LAWWW",
+   "ack": "DELIVERED",
+   "note": "回 LAWWW-B LIB-LOAN-1023 要書單"
+  },
+  {
+   "task": "SIDEQ-AA397-FILL-1023",
+   "branch": "claude/cool-heisenberg-o8kuqx",
+   "sha": "29e41dd8b",
+   "files": [
+    "docs/story_planning/AA_408_店員支線補字_回LAWWW實作問題.md",
+    "docs/story_planning/AA_397_店員的支線_順手的事.md"
+   ],
+   "state": "已交付",
+   "remaining": "無",
+   "next": "LAWWW：照 AA_408 補進 sideq3d.js；第二、三批的過期一句已在第 1 節",
+   "noDirectIntegrate": false,
+   "receiver": "LAWWW",
+   "ack": "DELIVERED",
+   "note": "回 LAWWW-B 11:23 AA_397 實作缺字"
+  },
+  {
+   "task": "PS-DATE-EARLY-1023",
+   "branch": "claude/cool-heisenberg-o8kuqx",
+   "sha": "86016b84e",
+   "files": [
+    "docs/story_planning/AA_409_沛珊大一上期末可以交往_交往中的大一下.md"
+   ],
+   "state": "已交付",
+   "remaining": "無",
+   "next": "LAWWW：AA_409 第 4 節＋AA_334 第 1 節；BB 測",
+   "noDirectIntegrate": false,
+   "receiver": "LAWWW",
+   "ack": "DELIVERED",
+   "note": "使用者 10-23 12:2x 選擇題（經 LAWWW-B）"
+  },
+  {
+   "task": "FOOD-FAV-1023",
+   "branch": "claude/cool-heisenberg-o8kuqx",
+   "sha": "86016b84e",
+   "files": [
+    "docs/story_planning/AA_410_女主角各自喜歡吃的東西.md"
+   ],
+   "state": "已交付",
+   "remaining": "無",
+   "next": "LAWWW：AA_410 第 3 節；BB 測",
+   "noDirectIntegrate": false,
+   "receiver": "LAWWW",
+   "ack": "DELIVERED",
+   "note": "使用者 10-23 12:2x 選擇題（經 LAWWW-B）"
+  },
+  {
+   "task": "SIS-SHUYU-1017",
+   "branch": "claude/cool-heisenberg-o8kuqx",
+   "sha": "38352ab3b",
+   "files": [
+    "docs/story_planning/AA_411_交往中叫書瑀_祐廷的句子與標題.md"
+   ],
+   "state": "已交付",
+   "remaining": "無",
+   "next": "LAWWW：AA_411 第 5 節（4 句＋標題自動換）；BB 測",
+   "noDirectIntegrate": false,
+   "receiver": "LAWWW",
+   "ack": "DELIVERED",
+   "note": "LAWWW-B 10-23 17:2x 派工第 1 項（USER_WANTS C15）"
+  },
+  {
+   "task": "US-AA412-1023",
+   "branch": "claude/cool-heisenberg-o8kuqx",
+   "sha": "1f2c3b8b7",
+   "files": [
+    "docs/story_planning/AA_412_美國篇清查_缺口與補稿.md"
+   ],
+   "state": "已交付",
+   "remaining": "無",
+   "next": "LAWWW：AA_412 第 6 節；BB 測",
+   "noDirectIntegrate": false,
+   "receiver": "LAWWW",
+   "ack": "DELIVERED",
+   "note": "LAWWW-B 10-23 17:2x 派工第 2 項（D99 第三項；US-20W-SPEC、V4-R-US、F08、X35）；原本的工作項名稱：US-GAP-AUDIT-1023（2026-10-27 AA-C 改成總表 ID，LAWWW-C 17:08 要求）"
+  },
+  {
+   "task": "WZ-AA413-1023",
+   "branch": "claude/cool-heisenberg-o8kuqx",
+   "sha": "9f6a848c9",
+   "files": [
+    "docs/story_planning/AA_413_溫州街店面_剩下三家_B09收尾.md"
+   ],
+   "state": "已交付",
+   "remaining": "無",
+   "next": "LAWWW2：日日便利室內（沿用便利商店）、水果攤、布告欄互動點；LAWWW：營業時間、菜單、店員；BB 測",
+   "noDirectIntegrate": false,
+   "receiver": "LAWWW, LAWWW2",
+   "ack": "DELIVERED",
+   "note": "LAWWW-B 10-23 17:2x 派工第 4 項（USER_WANTS B09）；AA_364 以外的三家；原本的工作項名稱：B09-WZ-SHOPS-1023（2026-10-27 AA-C 改成總表 ID，LAWWW-C 17:08 要求）"
+  },
+  {
+   "task": "D14-T11",
+   "branch": "claude/cool-heisenberg-o8kuqx",
+   "sha": "f2a897701",
+   "files": [
+    "docs/story_planning/AA_414_以安語彤_交往中的節日_第一批_情人節與中秋.md"
+   ],
+   "state": "已交付",
+   "remaining": "第二批（七夕、聖誕夜）",
+   "next": "LAWWW：AA_414 第 4 節；BB-B：cg_moon_pomelo_heroine03；BB 測",
+   "noDirectIntegrate": false,
+   "receiver": "LAWWW, BB",
+   "ack": "DELIVERED",
+   "note": "BACKLOG-SWEEP-AA-1021 B 表 D14-T11（以安、語彤交往中的節日一場都沒有）；原本的工作項名稱：AN-YT-HOLIDAYS-1-1023（2026-10-27 AA-C 改成總表 ID，LAWWW-C 17:08 要求）"
+  },
+  {
+   "task": "D14-T9",
+   "branch": "claude/cool-heisenberg-o8kuqx",
+   "sha": "b113e39db",
+   "files": [
+    "docs/story_planning/AA_415_邀約回覆照階段變_七位定稿.md"
+   ],
+   "state": "已交付",
+   "remaining": "無",
+   "next": "LAWWW：AA_415 第 8 節；BB 測",
+   "noDirectIntegrate": false,
+   "receiver": "LAWWW",
+   "ack": "DELIVERED",
+   "note": "LAWWW-B 10-23 17:4x 第 6 項（USER_WANTS D37）；取代 BB_123、AA_127 1-7／2-7 的提案"
+  },
+  {
+   "task": "D14-T11",
+   "branch": "claude/cool-heisenberg-o8kuqx",
+   "sha": "4f4da5ad1",
+   "files": [
+    "docs/story_planning/AA_416_節日總規格_三個情人節生日聖誕_七位.md",
+    "docs/story_planning/AA_414_以安語彤_交往中的節日_第一批_情人節與中秋.md"
+   ],
+   "state": "已交付",
+   "remaining": "無（以安、語彤的七夕、聖誕併在 AA_416 第 3、5 節，不另出第二批）",
+   "next": "LAWWW：AA_416 第 10 節；BB-B：兩張 CG 條件／地點調整；BB 測",
+   "noDirectIntegrate": false,
+   "receiver": "LAWWW, BB",
+   "ack": "DELIVERED",
+   "note": "LAWWW-B 10-23 17:4x 第 7 項（USER_WANTS D38）"
+  },
+  {
+   "task": "D14-T10",
+   "branch": "claude/cool-heisenberg-o8kuqx",
+   "sha": "99710a908",
+   "files": [
+    "docs/story_planning/AA_417_健身定稿_升階一句_注意到_羽球晨跑.md"
+   ],
+   "state": "已交付",
+   "remaining": "無",
+   "next": "LAWWW：AA_417 第 4 節；BB 測",
+   "noDirectIntegrate": false,
+   "receiver": "LAWWW",
+   "ack": "DELIVERED",
+   "note": "LAWWW-B 10-23 18:0x 第 8 項（USER_WANTS D40）；原本的工作項名稱：D40-FITNESS-LINES（2026-10-27 AA-C 改成總表 ID，LAWWW-C 17:08 要求）"
+  },
+  {
+   "task": "D14-T4",
+   "branch": "claude/cool-heisenberg-o8kuqx",
+   "sha": "2e90719ce",
+   "files": [
+    "docs/story_planning/AA_418_看出席的課_第一堂老師說的規定.md"
+   ],
+   "state": "已交付",
+   "remaining": "無",
+   "next": "LAWWW：AA_418 第 3 節；BB 測",
+   "noDirectIntegrate": false,
+   "receiver": "LAWWW",
+   "ack": "DELIVERED",
+   "note": "LAWWW-B 10-23 18:0x 第 9 項（USER_WANTS D43）；原本的工作項名稱：D43-ATTEND-LINES（2026-10-27 AA-C 改成總表 ID，LAWWW-C 17:08 要求）"
+  },
+  {
+   "task": "VAC-ZR-UK-1017",
+   "branch": "claude/cool-heisenberg-o8kuqx",
+   "sha": "e37d98ed2",
+   "files": [
+    "docs/story_planning/AA_419_芷若在英國_約好的視訊與按鈕句.md"
+   ],
+   "state": "已交付",
+   "remaining": "無",
+   "next": "LAWWW：AA_419 第 4 節；BB 測",
+   "noDirectIntegrate": false,
+   "receiver": "LAWWW",
+   "ack": "DELIVERED",
+   "note": "LAWWW-B 10-23 18:0x 第 10 項（USER_WANTS E07）；原本的工作項名稱：E07-ZR-UK-VIDEO（2026-10-27 AA-C 改成總表 ID，LAWWW-C 17:08 要求）"
+  },
+  {
+   "task": "DL-11",
+   "branch": "claude/cool-heisenberg-o8kuqx",
+   "sha": "7a6469099",
+   "files": [
+    "docs/story_planning/AA_420_溫州街故事線與打工_現行版.md"
+   ],
+   "state": "已交付",
+   "remaining": "無（AA 的部分）；DL-10 打工、DL-11 事件由 LAWWW 實作",
+   "next": "LAWWW-B 照 AA_420＋AA_167／AA_165／BB_148／AA_164 實作；wzpark3d.js 走失週改第 10 週；ev_yt_lease_text 多一句；白名單加 AA_420",
+   "noDirectIntegrate": false,
+   "receiver": "LAWWW-B",
+   "ack": "DELIVERED",
+   "note": "LAWWW-B 10-23 18:0x 第 11 項。照現行設定重整 B05／B06：打工補四條規則、四條線的時程與人物對齊（學姊不在法服、美國／日本路線、沛珊消失期、16 週制）、BB_148 台詞由 AA 定稿。；原本的工作項名稱：B05-B06-WZ-CURRENT；也涵蓋 DL-10（打工）（2026-10-27 AA-C 改成總表 ID，LAWWW-C 17:08 要求）"
+  },
+  {
+   "task": "D14-T5B",
+   "branch": "claude/cool-heisenberg-o8kuqx",
+   "sha": "42c87f4fa",
+   "files": [
+    "docs/story_planning/AA_421_回LAWWW兩題_大四下被當延畢_AA227與228還沒做的.md"
+   ],
+   "state": "已交付",
+   "remaining": "EVPKG-AA227-228-KNOW 的第一批定稿 AA_422、第二批 AA_423（AA 接著做）",
+   "next": "LAWWW-B：D14-T5B 照 AA_421 第 1 節；EVPKG-AA227-228-KNOW 不結案，等 AA_422",
+   "noDirectIntegrate": false,
+   "receiver": "LAWWW-B",
+   "ack": "DELIVERED",
+   "note": "LAWWW-B 10-23 第 5 項的兩題：(a) 大四下被當延畢沿用大五上、6/2 照一般畢業生、6/18 成績公布才變延畢，交換才有的十二處換掉、新句子九句、重修期末改報告；(b) AA_227 328 句找到 10、AA_228 146 句找到 3，場景沒進遊戲，分兩批定稿。；原本的工作項名稱：BACKLOG-SWEEP-AA-1021-Q2；第 2 節（AA_227／228 還沒做的）屬 EVPKG-AA227-228-KNOW（2026-10-27 AA-C 改成總表 ID，LAWWW-C 17:08 要求）"
+  },
+  {
+   "task": "EVPKG-AA227-228-KNOW",
+   "branch": "claude/cool-heisenberg-o8kuqx",
+   "sha": "5156f1435",
+   "files": [
+    "docs/story_planning/AA_422_多線交往第一批定稿_問句曖昧知情邀約發現.md"
+   ],
+   "state": "已交付",
+   "remaining": "第二批（挽回、結果、第二次冷靜期）AA_423",
+   "next": "LAWWW-B 照 AA_422＋AA_227／AA_228 原文做第一批；BB 測第 8 節",
+   "noDirectIntegrate": false,
+   "receiver": "LAWWW-B",
+   "ack": "DELIVERED",
+   "note": "USER_WANTS D35★ 第一批：七位的第一次約會問句（ASKED_GF）、知情版心意邀約（照 BB_203 C10／5-3，承諾沒做到的第二次）、發現（含子晴、芷若一個人的版本，國外改視訊）；原文一字不改。；原本的工作項名稱：EVPKG-AA227-228-KNOW-B1（2026-10-27 AA-C 改成總表 ID，LAWWW-C 17:08 要求）"
+  },
+  {
+   "task": "EVPKG-AA227-228-KNOW",
+   "branch": "claude/cool-heisenberg-o8kuqx",
+   "sha": "26357a440",
+   "files": [
+    "docs/story_planning/AA_423_多線交往第二批定稿_挽回與結果.md"
+   ],
+   "state": "已交付",
+   "remaining": "無（AA 的兩批都交了）",
+   "next": "LAWWW-B 照 AA_422＋AA_423 做 EVPKG-AA227-228-KNOW；BB 測兩份第 8／7 節",
+   "noDirectIntegrate": false,
+   "receiver": "LAWWW-B",
+   "ack": "DELIVERED",
+   "note": "USER_WANTS D35★ 第二批：七位挽回、結果、第二次冷靜；補子晴、芷若一個人被發現以後的挽回；沛珊交往中的放榜電話。；原本的工作項名稱：EVPKG-AA227-228-KNOW-B2（2026-10-27 AA-C 改成總表 ID，LAWWW-C 17:08 要求）"
+  },
+  {
+   "task": "US-AA412-1023",
+   "branch": "claude/cool-heisenberg-o8kuqx",
+   "sha": "be3310d18",
+   "files": [
+    "docs/story_planning/AA_424_美國篇空白日_週六秋假迎新週.md"
+   ],
+   "state": "已交付",
+   "remaining": "無",
+   "next": "LAWWW-B 實作；BB-B 用 BB_301 的工具再跑一次，空白日應為 0",
+   "noDirectIntegrate": false,
+   "receiver": "LAWWW-B",
+   "ack": "DELIVERED",
+   "note": "回 BB_301（LAWWW-B 第 61 項）：美國篇交往中 10 天、挽回中 21 天的空白日全部補；挽回中週六的群組一則接 BB_204 REPAIR「每週」那一列。"
+  },
+  {
+   "task": "EVPKG-AA227-228-KNOW",
+   "branch": "claude/cool-heisenberg-o8kuqx",
+   "sha": "310d6cc67",
+   "files": [
+    "docs/story_planning/AA_425_AA422與423審稿更正.md",
+    "docs/story_planning/AA_207_AB65第2批_大一上BB人物事件改稿.md"
+   ],
+   "state": "已交付",
+   "remaining": "無",
+   "next": "LAWWW-B 的子代理照 AA_425 換 AA_422／AA_423 的台詞；AA_207 第 7 節六處",
+   "noDirectIntegrate": false,
+   "receiver": "LAWWW-B",
+   "ack": "DELIVERED",
+   "note": "獨立審稿以後的更正版；AA_422 3-1 可昕知情版心意邀約不做（BB_119：她的求和只在祐廷單身時）。"
+  },
+  {
+   "task": "DATE-C4",
+   "branch": "claude/cool-heisenberg-o8kuqx",
+   "sha": "967b4273a",
+   "files": [
+    "docs/story_planning/AA_426_心願事件改稿_子晴學姊可昕與四個提醒.md",
+    "docs/story_planning/date_system/wish/wish_bb.json",
+    "docs/story_planning/date_system/wish/wish_aa.json",
+    "docs/story_planning/BB_128_校外單獨約會_心願地點與淡水示範規格.md",
+    "docs/story_planning/AA_127_以安語彤_心願約會與邀約變化.md",
+    "docs/story_planning/date_system/lines/D03.json",
+    "docs/story_planning/date_system/lines/D15.json",
+    "docs/story_planning/AA_143_大二的年度群戲與模擬法庭結果.md",
+    "docs/story_planning/AA_341_日本交換那一學期_每一週能做什麼_盤點補稿與場景清單.md"
+   ],
+   "state": "已交付",
+   "remaining": "D*.json 重訪句 17 句「……開玩笑的」下一個 commit 改",
+   "next": "LAWWW-B 白名單換 wish_aa、wish_bb、AA_127、BB_128、D03、D15 到這個 commit，重跑 import_wish.py、import_date_lines.py（hold 應該變成 0）；jp_events.js:20、events.js:3489 兩句手動換（AA_426 第 5 節）",
+   "noDirectIntegrate": false,
+   "receiver": "LAWWW-B",
+   "ack": "DELIVERED",
+   "note": "回 LAWWW-B 20:07 第一組（DATE-C4／C5 hold）：子晴 17、學姊 11、可昕 10＋同場 0-3 禁用句；四個提醒（公法研究所作廢、語彤團體淡水作廢、以安說出口的理由：歸零、芷若不寫小津）。本機照 import_wish.py 規則跑過：hold 0、對不到 0。"
+  },
+  {
+   "task": "DATE-C6",
+   "branch": "claude/cool-heisenberg-o8kuqx",
+   "sha": "e78814663",
+   "files": [
+    "docs/story_planning/AA_426_心願事件改稿_子晴學姊可昕與四個提醒.md",
+    "docs/story_planning/date_system/lines/",
+    "docs/story_planning/BB_128_校外單獨約會_心願地點與淡水示範規格.md"
+   ],
+   "state": "已交付",
+   "remaining": "無",
+   "next": "LAWWW-B 白名單換 D03、D05、D06、D13、D15、D16、D17、D18、D19、D22、D23、D25、D27 的 .json 和 BB_128 到 e78814663，重跑 import_date_lines.py",
+   "noDirectIntegrate": false,
+   "receiver": "LAWWW-B",
+   "ack": "DELIVERED",
+   "note": "約會地點句 17 句「……開玩笑的」（0-3 自己推翻）改掉，AA_426 第 6 節逐句表；D*.py 產生器同步。"
+  },
+  {
+   "task": "DL-11",
+   "branch": "claude/cool-heisenberg-o8kuqx",
+   "sha": "4d66231ab",
+   "files": [
+    "docs/story_planning/AA_427_溫州街補字_茶席BB四位_颱風後的早上_早午餐群組.md"
+   ],
+   "state": "已交付",
+   "remaining": "無",
+   "next": "LAWWW-B 實作：茶席 BB 四位那一句（src/wzlines3d.js）、WZ-P3 事件＋WZ_P3_HELPED、象棋第四種開局「讓你一隻馬」、麵店團早午餐群組（玩家約＋阿哲一學期揪一次）",
+   "noDirectIntegrate": false,
+   "receiver": "LAWWW-B",
+   "ack": "DELIVERED",
+   "note": "回 LAWWW-B 20:07 第二組。沛珊茶席只到 2026-12-16；可昕那句備用。"
+  },
+  {
+   "task": "AB65-3-Y2S1-L",
+   "branch": "claude/cool-heisenberg-o8kuqx",
+   "sha": "1b33efe8e",
+   "files": [
+    "docs/story_planning/AA_428_回LAWWW_AA419美國版_AA211九點.md",
+    "docs/story_planning/AA_419_芷若在英國_約好的視訊與按鈕句.md"
+   ],
+   "state": "已交付",
+   "remaining": "第 8 點沛珊 #a：LAWWW 照原則判斷，判斷不出來貼兩版給 AA",
+   "next": "LAWWW-B 照 AA_428 第 2 節改九點；AA_419 美國路線三列",
+   "noDirectIntegrate": false,
+   "receiver": "LAWWW-B",
+   "ack": "DELIVERED",
+   "note": "回 LAWWW-B 20:07 第三、四組（AA_419 第 4 點美國版、AA_211 第 ② 部分九點）。"
+  },
+  {
+   "task": "EVPKG-AA227-228-KNOW",
+   "branch": "claude/cool-heisenberg-o8kuqx",
+   "sha": "6ccaa812f",
+   "files": [
+    "docs/story_planning/AA_429_多線交往缺字_坦白版五位_可昕E_沛珊E_子晴畢業後.md"
+   ],
+   "state": "已交付",
+   "remaining": "無",
+   "next": "LAWWW-B：五位坦白版（YT_CONFESSED）＋挽回時多的一句、可昕 E 的電話＋30 天後短文社群一則、沛珊 E 重新開始一場、子晴畢業以後的第二次冷靜；說溜嘴接 ev_kexin_two_circles、ev_noodle_23rd",
+   "noDirectIntegrate": false,
+   "receiver": "LAWWW-B",
+   "ack": "DELIVERED",
+   "note": "回 LAWWW-B 20:07 第五組。"
+  },
+  {
+   "task": "V3-B105",
+   "branch": "claude/cool-heisenberg-o8kuqx",
+   "sha": "7525db6a5",
+   "files": [
+    "docs/story_planning/AA_430_BB事件包缺字_B6b講座_B12再聽一次.md",
+    "docs/story_planning/00_文件狀態表.md"
+   ],
+   "state": "已交付",
+   "remaining": "無",
+   "next": "LAWWW-B：B6b 邀約、講座、散場；B12 邀約、演講（以安舉手、玩家四選一 B12_ASK）、散場 A／B／C 三版＋收尾、Alison 版",
+   "noDirectIntegrate": false,
+   "receiver": "LAWWW-B",
+   "ack": "DELIVERED",
+   "note": "回 LAWWW-B 20:07 第六組；00_文件狀態表 BB_106 改成 SK01～SK14（AA_289 5-5）。"
+  },
+  {
+   "task": "V6-S5",
+   "branch": "claude/cool-heisenberg-o8kuqx",
+   "sha": "f00b9e9f1",
+   "files": [
+    "docs/story_planning/AA_431_裂縫來源的時刻_打工應徵與班表.md"
+   ],
+   "state": "已交付",
+   "remaining": "打工：便利商店夜班、補習班助教、事務所工讀的應徵與班表下一批；研究助理等 M8",
+   "next": "LAWWW-B：CRACKTALK.SOURCES_MISSING 十項照第 1-1～1-6 節接；GAPS 照 1-7；SYS-13-EV Café 外場、舊路書房照第 2 節",
+   "noDirectIntegrate": false,
+   "receiver": "LAWWW-B",
+   "ack": "DELIVERED",
+   "note": "回 LAWWW-B 20:21 七、八。沛珊③改成「連兩個月沒去台南」；沛珊修補改「每個月我去台南找妳一次」；子晴修補的三次邀約寫好。"
+  },
+  {
+   "task": "EVPKG-AA227-228-KNOW",
+   "branch": "claude/cool-heisenberg-o8kuqx",
+   "sha": "1ced2f8b3",
+   "files": [
+    "docs/story_planning/AA_432_回LAWWW_acceptsOpen待決_六個小問題_大一跨年訊息.md",
+    "docs/story_planning/date_system/wish/wish_bb.json",
+    "docs/story_planning/date_system/wish/common_bb.json",
+    "docs/story_planning/BB_128_校外單獨約會_心願地點與淡水示範規格.md",
+    "docs/story_planning/date_system/lines/"
+   ],
+   "state": "已交付",
+   "remaining": "acceptsOpen 七位等使用者（第③級，U4）",
+   "next": "LAWWW-B：USER_WANTS 列 acceptsOpen 待決策；白名單換 wish_bb、common_bb、BB_128、D06、D10、D18、D31 到 1ced2f8b3；V1-BB171 照第 4 節；AA334-S4 取消",
+   "noDirectIntegrate": false,
+   "receiver": "LAWWW-B",
+   "ack": "DELIVERED",
+   "note": "回 LAWWW-B 20:38、20:41。"
+  },
+  {
+   "task": "SYS-13-EV",
+   "branch": "claude/cool-heisenberg-o8kuqx",
+   "sha": "78641fff5",
+   "files": [
+    "docs/story_planning/AA_433_打工第二批_便利商店補習班事務所的應徵與班表.md"
+   ],
+   "state": "已交付",
+   "remaining": "研究助理等 M8",
+   "next": "LAWWW-B：便利商店夜班（公館）、補習班助教、事務所工讀照 AA_433；補習班、事務所用 2D",
+   "noDirectIntegrate": false,
+   "receiver": "LAWWW-B",
+   "ack": "DELIVERED",
+   "note": "接 AA_431 第 2 節。"
+  },
+  {
+   "task": "SYS-13-EV",
+   "branch": "claude/cool-heisenberg-o8kuqx",
+   "sha": "a06d3f545",
+   "files": [
+    "docs/story_planning/AA_163_D79回覆_法服週六值班與家教.md"
+   ],
+   "state": "已交付",
+   "remaining": "無",
+   "next": "LAWWW-B：AA_163 白名單可以換到 a06d3f545（AA 已審：只改一處，家教的期末考週「第 17～18 週」→「第 16 週」，16 週制）",
+   "noDirectIntegrate": false,
+   "receiver": "LAWWW-B",
+   "ack": "DELIVERED",
+   "note": "AA-B 2026-10-23 審過 a06d3f545 的 diff：和 d64110e1f 只差那一處，正確。"
+  },
+  {
+   "task": "V6-S3",
+   "branch": "claude/cool-heisenberg-o8kuqx",
+   "sha": "434e6d6d7",
+   "files": [
+    "docs/story_planning/AA_434_回LAWWW_分手後可以重新開始_前任版缺字.md",
+    "docs/story_planning/BB_119_多段感情_交接包v6_BB人物.md",
+    "docs/story_planning/AA_431_裂縫來源的時刻_打工應徵與班表.md"
+   ],
+   "state": "已交付",
+   "remaining": "無",
+   "next": "LAWWW-B：不復合的鎖不做（照現在）；V6-B6 可昕第一句、以安 AA_227 3-1 回覆換；Alison 貼圖、芯慈留位子、分開後訊息邀約減半規則；AA_431 1-1 時間改 20:00",
+   "noDirectIntegrate": false,
+   "receiver": "LAWWW-B",
+   "ack": "DELIVERED",
+   "note": "回 LAWWW-B 20:44 第 7～9 題＋V6 前任版缺字；AA_221 U7 照使用者 10-14 規則解決（可以重新開始）。"
+  },
+  {
+   "task": "AA435-JP-BLANK-1024",
+   "branch": "claude/cool-heisenberg-o8kuqx",
+   "sha": "0bb6e2fe6",
+   "files": [
+    "docs/story_planning/AA_435_日本篇的空白日_開學前_週末_期末週_最後一週.md",
+    "docs/story_planning/AA_341_日本交換那一學期_每一週能做什麼_盤點補稿與場景清單.md"
+   ],
+   "state": "已交付",
+   "remaining": "無",
+   "next": "LAWWW-B：jp_events.js 第 38、58、107 行三句換掉；照 AA_435 第 1～5 節排進 JP.SCH 的空格；BB-B 用 BB_302 的方法重掃",
+   "noDirectIntegrate": false,
+   "receiver": "LAWWW-B、BB-B",
+   "ack": "DELIVERED",
+   "note": "回 BB-B 10-23 21:0x BB_302（日本路線空白日）。美國篇不答應邀約的空白是玩家選擇，不補。；原本的工作項名稱：JP-BLANK-1023（2026-10-27 AA-C 改成總表 ID，LAWWW-C 17:08 要求）"
+  },
+  {
+   "task": "EVPKG-AA227-228-KNOW",
+   "branch": "claude/cool-heisenberg-o8kuqx",
+   "sha": "efe575813",
+   "files": [
+    "docs/story_planning/AA_436_回LAWWW_重新開始的開關_學姊數東西_坦白視訊版.md",
+    "docs/story_planning/AA_185_全學年缺口補完_v0到v6.md",
+    "docs/story_planning/BB_128_校外單獨約會_心願地點與淡水示範規格.md",
+    "docs/story_planning/date_system/lines/"
+   ],
+   "state": "已交付",
+   "remaining": "無",
+   "next": "LAWWW-B：REBUILD_GATE 保持開；multirel_lines.js:379「道歉收到。理由呢？」換；白名單換 D04、D13、D15、D20、BB_128 到 efe575813；芷若英國、子晴語彤可昕出國時的坦白視訊版照第 3 節",
+   "noDirectIntegrate": false,
+   "receiver": "LAWWW-B",
+   "ack": "DELIVERED",
+   "note": "回 LAWWW-B 10-24 03:27。"
+  },
+  {
+   "task": "V6-S3",
+   "branch": "claude/cool-heisenberg-o8kuqx",
+   "sha": "fc6f20bc0",
+   "files": [
+    "docs/story_planning/AA_437_回LAWWW_九題_新15前任長桌版_主線10前任紙箱.md",
+    "docs/story_planning/AA_123_多段感情_架構與以安語彤.md"
+   ],
+   "state": "已交付",
+   "remaining": "無",
+   "next": "LAWWW-B：照 AA_437 九題；新 15 前任長桌版、主線 10 前任紙箱（CLEANUP_BOX）新增；AA_435 三處補",
+   "noDirectIntegrate": false,
+   "receiver": "LAWWW-B",
+   "ack": "DELIVERED",
+   "note": "回 LAWWW-B 10-24 03:42。"
+  },
+  {
+   "task": "PLAN-1016-ROM",
+   "branch": "claude/cool-heisenberg-o8kuqx",
+   "sha": "605902fc6",
+   "files": [
+    "docs/story_planning/AA_438_回LAWWW_他點的那一杯限學期末_可昕卡片_臺灣路線.md",
+    "docs/story_planning/BB_165_AB61_BB五位戀愛線補拍與矛盾.md"
+   ],
+   "state": "已交付",
+   "remaining": "無",
+   "next": "LAWWW-B：his_order 點餐選項限學期末心意邀約窗口；K7 卡片沒去＝當晚電話 A＋下次見面給卡片（房間才有卡片）；AA_342 照「那時候人在臺灣」不改",
+   "noDirectIntegrate": false,
+   "receiver": "LAWWW-B",
+   "ack": "DELIVERED",
+   "note": "回 LAWWW-B 10-24 03:55 三題。；原本的工作項名稱：V5-ZR-HIS-ORDER（2026-10-27 AA-C 改成總表 ID，LAWWW-C 17:08 要求）"
+  },
+  {
+   "task": "AA439-LINT-1024",
+   "branch": "claude/cool-heisenberg-o8kuqx",
+   "sha": "a5b936a69",
+   "files": [
+    "docs/story_planning/AA_439_遊戲台詞禁用句總掃描_開發分支83134ddf3.md",
+    "docs/story_planning/date_system/lines/",
+    "docs/story_planning/date_system/wish/wish_bb.json"
+   ],
+   "state": "已交付",
+   "remaining": "手機訊息、閒聊階梯的格式下一次另外掃",
+   "next": "LAWWW-B：白名單換 D01～D32、wish_bb、BB_128 到 a5b936a69 重匯；y34b3d.js:457、events.js:358、events.js:1059 三句手動換",
+   "noDirectIntegrate": false,
+   "receiver": "LAWWW-B",
+   "ack": "DELIVERED",
+   "note": "AA 自己對開發分支 83134ddf3 掃口氣表禁用句；停用事件不算。；原本的工作項名稱：DIALOGUE-BAN-SWEEP-1024（2026-10-27 AA-C 改成總表 ID，LAWWW-C 17:08 要求）"
+  },
+  {
+   "task": "AA439-LINT-1024",
+   "branch": "claude/cool-heisenberg-o8kuqx",
+   "sha": "cbdbc69bf",
+   "files": [
+    "docs/story_planning/AA_439_遊戲台詞禁用句總掃描_開發分支83134ddf3.md",
+    "docs/story_planning/ladder/ladder_bb_y0s2.json",
+    "docs/story_planning/free_trip/bb_walk_v1.json",
+    "docs/story_planning/AA_162_偶遇人物表_AA六位.md"
+   ],
+   "state": "已交付",
+   "remaining": "無",
+   "next": "LAWWW-B：AA_439 第 4 節四句；白名單換 ladder_bb_y0s2、bb_walk_v1、AA_162 到 cbdbc69bf 重匯",
+   "noDirectIntegrate": false,
+   "receiver": "LAWWW-B",
+   "ack": "DELIVERED",
+   "note": "第二次掃：手機、閒聊階梯、偶遇、同行。；原本的工作項名稱：DIALOGUE-BAN-SWEEP-1024（2026-10-27 AA-C 改成總表 ID，LAWWW-C 17:08 要求）"
+  },
+  {
+   "task": "VAC-FILL-AA440-1024",
+   "branch": "claude/cool-heisenberg-o8kuqx",
+   "sha": "718c06a30",
+   "files": [
+    "docs/story_planning/AA_440_寒暑假的空白日_最空三段_住家裡_留宿舍.md"
+   ],
+   "state": "已交付",
+   "remaining": "無",
+   "next": "LAWWW-B：第 1～4 節小事件與訊息排進空白日；第 5 節摘要池（住家裡、留宿舍）；BB-B 照 BB_303 方法重掃",
+   "noDirectIntegrate": false,
+   "receiver": "LAWWW-B、BB-B",
+   "ack": "DELIVERED",
+   "note": "回 BB-B 10-24 05:59 BB_303（D99 第二優先：寒暑假）。；原本的工作項名稱：VAC-BLANK-1024（2026-10-27 AA-C 改成總表 ID，LAWWW-C 17:08 要求）"
+  },
+  {
+   "task": "COURSE-PRACTICE-Y4-1024",
+   "branch": "claude/cool-heisenberg-o8kuqx",
+   "sha": "70d31d938",
+   "files": [
+    "docs/story_planning/AA_441_大四下法律實習_每週一句旁白_法扶韓律師.md"
+   ],
+   "state": "已交付",
+   "remaining": "無",
+   "next": "LAWWW-B：13 個週二各一句走 CLS.OFFSITE_LINES；第一次出席用第 1 週句（INTERN_LEGALAID 換一句）；LP_RENT_SEEN 決定第 6、12 週 A/B；OFF 名稱與背景改法扶（建議）；4/24 群組可選",
+   "noDirectIntegrate": false,
+   "receiver": "LAWWW-B",
+   "ack": "DELIVERED",
+   "note": "回 LAWWW-B 10-24 06:01（P3，可選）。"
+  },
+  {
+   "task": "VAC-FILL-AA440-1024",
+   "branch": "claude/cool-heisenberg-o8kuqx",
+   "sha": "d94d259ec",
+   "files": [
+    "docs/story_planning/AA_442_國外學期盤點_日本出發前五週_住家裡的家人群組.md",
+    "docs/story_planning/AA_393_學姊第七批_日本路線.md"
+   ],
+   "state": "已交付",
+   "remaining": "無",
+   "next": "LAWWW-B：第 1 節住家裡的週四家人群組（不問、六則輪流、3/23 日本路線那則）；第 2 節日本出發前五週（兩種存檔都有的 14 天、交往中九點日文電話九晚＋3/18 私訊、挽回中 3/11 和五天旁白）；第 3 節 sis_jp_events.js hint 改「你禮拜六走」。BB-B：jp_sweep.js 加載 jp_blank 兩個檔再重掃",
+   "noDirectIntegrate": false,
+   "receiver": "LAWWW-B、BB-B",
+   "ack": "DELIVERED",
+   "note": "10-24 04:30 答應 LAWWW-B 的國外學期盤點（D99）。美國 4 種存檔、日本當地 2 種都是 0 天空白。；原本的工作項名稱：ABROAD-SWEEP-1024（2026-10-27 AA-C 改成總表 ID，LAWWW-C 17:08 要求）"
+  },
+  {
+   "task": "VAC-FILL-AA440-1024",
+   "branch": "claude/cool-heisenberg-o8kuqx",
+   "sha": "de83f9af2",
+   "files": [
+    "docs/story_planning/AA_442_國外學期盤點_日本出發前五週_住家裡的家人群組.md",
+    "docs/story_planning/AA_424_美國篇空白日_週六秋假迎新週.md",
+    "docs/story_planning/AA_437_回LAWWW_九題_新15前任長桌版_主線10前任紙箱.md"
+   ],
+   "state": "已交付",
+   "remaining": "寒暑假那一份的訊息還在掃",
+   "next": "LAWWW-B：us_blank_lines.js:101 回覆改「下禮拜六去看看。」；S.AN15_EX.replyZhe 改「明天中午截止。」；白名單 AA_424、AA_437 換到 de83f9af2",
+   "noDirectIntegrate": false,
+   "receiver": "LAWWW-B",
+   "ack": "DELIVERED",
+   "note": "AA_442 第 4 節；另回 LAWWW-B 06:51 兩題（9a033f397：C10 改 14:00、SQ02 店員女生）。；原本的工作項名稱：DATEWORD-SWEEP-1024（2026-10-27 AA-C 改成總表 ID，LAWWW-C 17:08 要求）"
+  },
+  {
+   "task": "VAC-FILL-AA440-1024",
+   "branch": "claude/cool-heisenberg-o8kuqx",
+   "sha": "edae49ca6",
+   "files": [
+    "docs/story_planning/AA_440_寒暑假的空白日_最空三段_住家裡_留宿舍.md"
+   ],
+   "state": "已交付",
+   "remaining": "無",
+   "next": "LAWWW-B：AA_440 第 1 節照修訂版重接（1-2～1-4 E35 sea/shop/sleep 版、1-4 改「禮拜五出成績」、1-5 改出成績以後、1-6 改等放榜的群組、1-7 爸爸不說考上、1-8 可昕「還沒放榜，先看」、新 1-9 8/13 家人群組＋8/16 錄取通知、新 1-10 8/17～8/18 餞行）；3-3 碩一下；3-4 改 2/19",
+   "noDirectIntegrate": false,
+   "receiver": "LAWWW-B",
+   "ack": "DELIVERED",
+   "note": "回 LAWWW-B 07:08 三處。；原本的工作項名稱：VAC-BLANK-1024（2026-10-27 AA-C 改成總表 ID，LAWWW-C 17:08 要求）"
+  },
+  {
+   "task": "CLOSED-SPACES-1023",
+   "branch": "claude/cool-heisenberg-o8kuqx",
+   "sha": "f93fa3eda",
+   "files": [
+    "docs/story_planning/AA_443_多媒體中心看的字_摘要池加寫_週四家人群組範圍.md"
+   ],
+   "state": "已交付",
+   "remaining": "無",
+   "next": "LAWWW-B：第 1 節多媒體中心三樣看的字＋和芷若說話多一段；第 2 節摘要池接在 AA_440 各池後面；第 3 節週四家人群組範圍（學期中住家裡）。BB-B：摘要池加寫完，AA_442 接好再掃日本出發前",
+   "noDirectIntegrate": false,
+   "receiver": "LAWWW-B、BB-B",
+   "ack": "DELIVERED",
+   "note": "回 LAWWW-B 07:33（多媒體中心）、BB-B 07:33（BB_303 第 5 節）。"
+  },
+  {
+   "task": "CLOSED-SPACES-1023",
+   "branch": "claude/cool-heisenberg-o8kuqx",
+   "sha": "350c10201",
+   "files": [
+    "docs/story_planning/AA_444_美國臥室C_學姊的房間_看的字.md"
+   ],
+   "state": "已交付",
+   "remaining": "無",
+   "next": "LAWWW-B：#82 第七間臥室 C——第一次進房間一句（US_ROOM_C_SEEN）、書桌、書架、窗外照日期四版、去過 5F 研究室多一句",
+   "noDirectIntegrate": false,
+   "receiver": "LAWWW-B",
+   "ack": "DELIVERED",
+   "note": "回 LAWWW-B 08:11。另：AA_440 3-3 學姊改回碩二下（0ebe162f9，07:2x 誤改）。"
+  },
+  {
+   "task": "VAC-FILL-AA440-1024",
+   "branch": "claude/cool-heisenberg-o8kuqx",
+   "sha": "ca16c073d",
+   "files": [
+    "docs/story_planning/AA_440_寒暑假的空白日_最空三段_住家裡_留宿舍.md"
+   ],
+   "state": "已交付",
+   "remaining": "無",
+   "next": "LAWWW-B：AA_440 1-5b 7/31 10:00 成績單寄到（在家醒來兩句旁白）",
+   "noDirectIntegrate": false,
+   "receiver": "LAWWW-B、BB-B",
+   "ack": "DELIVERED",
+   "note": "回 BB-B BB_303 第 6 節：經濟系暑假 7/28～8/03 連 7 天空白。；原本的工作項名稱：VAC-BLANK-1024（2026-10-27 AA-C 改成總表 ID，LAWWW-C 17:08 要求）"
+  },
+  {
+   "task": "VAC-FILL-AA440-1024",
+   "branch": "claude/cool-heisenberg-o8kuqx",
+   "sha": "03b7e6dff",
+   "files": [
+    "docs/story_planning/AA_442_國外學期盤點_日本出發前五週_住家裡的家人群組.md",
+    "docs/story_planning/AA_340_美國交換那一學期_每一週能做什麼_盤點與補稿.md"
+   ],
+   "state": "已交付",
+   "remaining": "等 BB 的美國完整劇本再讀一次",
+   "next": "LAWWW-B：us_life_events.js:221 8/11 摘要改草原超市；白名單 AA_340 換到 03b7e6dff",
+   "noDirectIntegrate": false,
+   "receiver": "LAWWW-B",
+   "ack": "DELIVERED",
+   "note": "回 LAWWW-B 08:32（D99 美國交換）。；原本的工作項名稱：US-READ-1024（2026-10-27 AA-C 改成總表 ID，LAWWW-C 17:08 要求）"
+  },
+  {
+   "task": "CLOSED-SPACES-1023",
+   "branch": "claude/cool-heisenberg-o8kuqx",
+   "sha": "540e1d3fb",
+   "files": [
+    "docs/story_planning/AA_440_寒暑假的空白日_最空三段_住家裡_留宿舍.md",
+    "docs/story_planning/AA_443_多媒體中心看的字_摘要池加寫_週四家人群組範圍.md",
+    "docs/story_planning/AA_444_美國臥室C_學姊的房間_看的字.md"
+   ],
+   "state": "已交付",
+   "remaining": "無",
+   "next": "LAWWW-B：AA_443 第 4 節四句改字（拿信、掛號信、隔壁的阿伯、出門倒垃圾）；AA_444 第 4 節書庫樓梯、木梯；白名單 AA_440、AA_443、AA_444 換到這個 commit",
+   "noDirectIntegrate": false,
+   "receiver": "LAWWW-B",
+   "ack": "DELIVERED",
+   "note": "回 LAWWW-B 08:37 兩件。"
+  },
+  {
+   "task": "RELEASE-9109-TEST",
+   "branch": "claude/cool-heisenberg-o8kuqx",
+   "sha": "fd200c2c6",
+   "files": [
+    "docs/story_planning/AA_445_寒暑假讀過一遍_麵店開兩次_五位節日邀約分節日.md",
+    "docs/story_planning/AA_440_寒暑假的空白日_最空三段_住家裡_留宿舍.md",
+    "docs/story_planning/AA_416_節日總規格_三個情人節生日聖誕_七位.md"
+   ],
+   "state": "已交付",
+   "remaining": "無",
+   "next": "LAWWW-B：1-1 大三寒假 2/4 改新菜單（AA_440 3-1）；1-2 fest_events.js 五位 ask 加 by（vday／white／qixi／bday／xmas）；第 2 節 21:xx 事件的快轉停點請和 BB 一起確認",
+   "noDirectIntegrate": false,
+   "receiver": "LAWWW-B、BB-B",
+   "ack": "DELIVERED",
+   "note": "回 LAWWW-B 13:50（D99 寒暑假讀者那一輪）。；原本的工作項名稱：VAC-READ-1024；實作記在 RELEASE-9109-TEST ⑨（76fd3ce8b）（2026-10-27 AA-C 改成總表 ID，LAWWW-C 17:08 要求）"
+  },
+  {
+   "task": "RELEASE-9109-TEST",
+   "branch": "claude/cool-heisenberg-o8kuqx",
+   "sha": "443360cc0",
+   "files": [
+    "docs/story_planning/AA_446_大二寒暑假回老家訊息_和大一重複.md"
+   ],
+   "state": "已交付",
+   "remaining": "大二寒假、大三暑假、大四寒假的讀者那一輪接著讀",
+   "next": "LAWWW-B：holff3d.js S.HOME_MSGS 的 hol_y2w_*、hol_y2s_* 十則換字（tag 不變）；可選 vac3d.js c01First _none 照年份換",
+   "noDirectIntegrate": false,
+   "receiver": "LAWWW-B",
+   "ack": "DELIVERED",
+   "note": "接 AA_445；讀大一暑假時發現。；原本的工作項名稱：VAC-READ-1024；實作記在 RELEASE-9109-TEST ⑨（6759ffce6）（2026-10-27 AA-C 改成總表 ID，LAWWW-C 17:08 要求）"
+  },
+  {
+   "task": "RELEASE-9109-TEST",
+   "branch": "claude/cool-heisenberg-o8kuqx",
+   "sha": "5c139cc49",
+   "files": [
+    "docs/story_planning/AA_446_大二寒暑假回老家訊息_和大一重複.md",
+    "docs/story_planning/AA_414_以安語彤_交往中的節日_第一批_情人節與中秋.md",
+    "docs/story_planning/AA_210_大二到大四跨年_16週制.md",
+    "docs/story_planning/AA_327_事件包_第2輪之三_大四到尾聲.md",
+    "docs/story_planning/AA_253_交換地點由交往對象決定_台詞.md"
+   ],
+   "state": "已交付",
+   "remaining": "無（八個假期都讀過）",
+   "next": "LAWWW-B：AA_446 第 1、2 節 holff3d.js 十則換字；第 3 節海邊沒去的照片（可選）；第 5 節 an_yt_hol_events.js grp；第 6 節 S.nyeY2 選項「我去頂樓。」兩處；第 7 節 r2y4b3d.js S.SA_T1 第 2 則；第 8 節 story3d.js S.zrNye 大四朋友版",
+   "noDirectIntegrate": false,
+   "receiver": "LAWWW-B",
+   "ack": "DELIVERED",
+   "note": "接 AA_445，寒暑假讀者那一輪讀完剩下四個假期。；原本的工作項名稱：VAC-READ-1024；實作記在 RELEASE-9109-TEST ⑨（6759ffce6）（2026-10-27 AA-C 改成總表 ID，LAWWW-C 17:08 要求）"
+  },
+  {
+   "task": "AA447-DUPLINES-1024",
+   "branch": "claude/cool-heisenberg-o8kuqx",
+   "sha": "a1bc53f4c",
+   "files": [
+    "docs/story_planning/AA_447_重複台詞全遊戲掃描_紐約送機_台南送行.md",
+    "docs/story_planning/date_system/lines/D02.json",
+    "docs/story_planning/date_system/lines/D09.json",
+    "docs/story_planning/date_system/wish/wish_bb.json"
+   ],
+   "state": "已交付",
+   "remaining": "無",
+   "next": "LAWWW-B：1-1 ev_an_ny_sendoff 前三句（看過日本送機的換）；1-2 hometown_lines 沛珊 send 照 PS_TAINAN_VISITS、公開課送行換；1-3 紐約機票那句照 AN_JP_TRIP_ASK；1-4 白名單 D02、D09、wish_bb 換到這個 commit 重匯，r2y4b_events.js 以安「抖的是手」那句手動換",
+   "noDirectIntegrate": false,
+   "receiver": "LAWWW-B",
+   "ack": "DELIVERED",
+   "note": "寒暑假讀完以後自排：全遊戲重複台詞＋「是A，不是B」補掃。；原本的工作項名稱：DUP-LINES-1024（2026-10-27 AA-C 改成總表 ID，LAWWW-C 17:08 要求）"
+  },
+  {
+   "task": "QA-TRANSCRIPT-US-1024",
+   "branch": "claude/cool-heisenberg-o8kuqx",
+   "sha": "b7c25dd14",
+   "files": [
+    "docs/story_planning/AA_448_美國交換程式文字盤點_季節與背景圖.md",
+    "docs/story_planning/AA_412_美國篇清查_缺口與補稿.md"
+   ],
+   "state": "已交付",
+   "remaining": "BB 的美國劇本到了再補實際順序那一層",
+   "next": "LAWWW-B：us3d.js gateSeason 日子 10/9、11/1、12/2；longGreet 第 5 句限 10/8 以前；12/2 初雪兩場開頭 bg 先 dark（建議）。BB-B：照 D97 跟使用者要四張圖（湖邊夏天傍晚、湖邊初冬早上、小教堂台階雪夜、週六市集夏天），cg_frozen_lake 改圖時岸邊不要有雪",
+   "noDirectIntegrate": false,
+   "receiver": "LAWWW-B、BB-B",
+   "ack": "DELIVERED",
+   "note": "回 LAWWW-B 14:48（D99 美國交換）。；原本的工作項名稱：US-TEXT-AUDIT-1024；第 2 節四張背景屬 BG-US-SEASON-1024（2026-10-27 AA-C 改成總表 ID，LAWWW-C 17:08 要求）"
+  },
+  {
+   "task": "ECON-READ-1024",
+   "branch": "claude/cool-heisenberg-o8kuqx",
+   "sha": "e3f697c0e",
+   "files": [
+    "docs/story_planning/AA_449_經濟系那一年讀過一遍_情人節問補習班_搬走以後的鬧鐘.md"
+   ],
+   "state": "已交付",
+   "remaining": "無",
+   "next": "LAWWW-B：events.js ev_y0_e27b 最後加三句（2/14 情人節）、「她走進後面的辦公室」改「工作人員走進後面的辦公室」；story3d.js y0_xu_alarm 條件改 !Y0_MOVED_OUT；y0_wl_newbike 換字；y0_e24b 照 KH_TRIP_DONE 兩種（可選）",
+   "noDirectIntegrate": false,
+   "receiver": "LAWWW-B",
+   "ack": "DELIVERED",
+   "note": "回 LAWWW-B 15:16（D99 經濟系；自己排的）。手機用 BB vac_sweep 改的工具從 9/2 連續掃到 5/31（scratchpad）。"
+  },
+  {
+   "task": "US-READ-DATING-1024",
+   "branch": "claude/cool-heisenberg-o8kuqx",
+   "sha": "fb1d8ae45",
+   "files": [
+    "docs/story_planning/AA_450_美國交換逐日劇本讀後_交往中.md",
+    "docs/story_planning/AA_448_美國交換程式文字盤點_季節與背景圖.md"
+   ],
+   "state": "已交付",
+   "remaining": "BB 的挽回中劇本到了再讀（1-8 挽回中那幾則再對一次）",
+   "next": "LAWWW-B：第 3 節清單（ev_us1_asian、ev_usl_lake1、ev_usb_orient＋演出時機、mom 照日期二十則、chicagoMissed／us_chi_ask、termend_lines 學姊 Y4S1 加三句、us_club_ask 等改何俊朗傳、lakeMissed、可選 long3／party、10/4 提示太早）。BB-B：挽回中或重跑交往中時 dating_kexin 關掉、手機要回的選第一個",
+   "noDirectIntegrate": false,
+   "receiver": "LAWWW-B、BB-B",
+   "ack": "DELIVERED",
+   "note": "讀 BB-B cff43616e（v9.10.9 候選 55eed589e）；出處對開發分支 ec3af2865。"
+  },
+  {
+   "task": "US-READ-NOLONG-1025",
+   "branch": "claude/cool-heisenberg-o8kuqx",
+   "sha": "14ee5d2a7",
+   "files": [
+    "docs/story_planning/AA_451_美國交換讀後_沒見過何俊朗.md"
+   ],
+   "state": "已交付",
+   "remaining": "BB 挽回中劇本到了再讀",
+   "next": "LAWWW-B：ev_us_chicago 沒見過版加五句＋MET_LONG、LONG_CHI；ev_us_leave「還好。」LONG_CHI 換句；ev_usl_lastclass、us_writing 沒見過版換字；媽媽 12/17 別在回家後補（可選）；確認 11/11 才記 MET_LONG 不補發過期訊息",
+   "noDirectIntegrate": false,
+   "receiver": "LAWWW-B",
+   "ack": "DELIVERED",
+   "note": "回 LAWWW-B 10-25 02:1x；讀 BB-B 29b4e87a7；出處對開發分支 3dd078ead。附之前兩個問題的答案。"
+  },
+  {
+   "task": "US-READ-REPAIR-1025",
+   "branch": "claude/cool-heisenberg-o8kuqx",
+   "sha": "8d9910961",
+   "files": [
+    "docs/story_planning/AA_452_美國交換讀後_挽回中.md"
+   ],
+   "state": "已交付",
+   "remaining": "BB 重跑交往中（見過何俊朗）那一份到了再看",
+   "next": "LAWWW-B：1-1 挽回中 12/2 初雪跳出出發或 20:00 停點就演（重要）；us_snow_msg、ev_us2_repair、ev_us3_lake（r）、ev_us_return（n）、ev_usl_long4 換字／加句；1-7 可選",
+   "noDirectIntegrate": false,
+   "receiver": "LAWWW-B",
+   "ack": "DELIVERED",
+   "note": "讀 BB-B fc1642184；出處對開發分支 b00b922fc。"
+  },
+  {
+   "task": "US-READ-DATING2-1025",
+   "branch": "claude/cool-heisenberg-o8kuqx",
+   "sha": "38820fd5e",
+   "files": [
+    "docs/story_planning/AA_453_美國交換讀後_交往中新版_七夕和退回的報告.md"
+   ],
+   "state": "已交付",
+   "remaining": "BB 挽回中新版（ad5251364）到了再看",
+   "next": "LAWWW-B：1-1 查 8/25 17:00 美國七夕停點（met_sis？）；1-2 0826 私訊、ev_usb_syllabus 第一句七夕版；1-3 9/13 交往中私訊改要回＋出遊演 ev_us2_kitchen。BB-B：1-1 用有 met_sis 的存檔驗",
+   "noDirectIntegrate": false,
+   "receiver": "LAWWW-B、BB-B",
+   "ack": "DELIVERED",
+   "note": "讀 BB-B ec98a8836（開發分支 91c8f9c6e）。"
+  },
+  {
+   "task": "US208-DM-1025",
+   "branch": "claude/cool-heisenberg-o8kuqx",
+   "sha": "eaa98aaa7",
+   "files": [
+    "docs/story_planning/AA_454_美國208週末七場_快轉看不到_補她的私訊.md"
+   ],
+   "state": "已交付",
+   "remaining": "無",
+   "next": "LAWWW-B：us208_3d.js 週末 14:00 私訊（要回）＋OUT.STAGE 出遊，七句照表、週日一句；S.lakeLook 照 usSeasonKey；ev_usl_thanks_alone 換字",
+   "noDirectIntegrate": false,
+   "receiver": "LAWWW-B",
+   "ack": "DELIVERED",
+   "note": "回 LAWWW-B 10-25 03:3x（D99 自己排）；對開發分支 6ea57d3a0。"
+  },
+  {
+   "task": "SIS-B11-1025",
+   "branch": "claude/cool-heisenberg-o8kuqx",
+   "sha": "2de70709f",
+   "files": [
+    "docs/story_planning/AA_455_學姊第十一批_大四下的朋友版.md"
+   ],
+   "state": "已交付",
+   "remaining": "無",
+   "next": "LAWWW-B：11-1 3/20 私訊＋3/21 12:30 法圖出遊（SIS_ABSTRACT）；11-2 4/16～4/27 平日 17:00 總圖門口＋4/18 16:45 停點＋4/27 私訊（SIS_DEFENSE_DATE）、5/28 不在家族群組的私訊＋M9。BB-B：朋友版兩份、交往中／前任不出",
+   "noDirectIntegrate": false,
+   "receiver": "LAWWW-B、BB-B",
+   "ack": "DELIVERED",
+   "note": "回 LAWWW-B 10-25 05:1x（C25、D109）。"
+  },
+  {
+   "task": "US-READ-REPAIR-1025",
+   "branch": "claude/cool-heisenberg-o8kuqx",
+   "sha": "2c75de1bc",
+   "files": [
+    "docs/story_planning/AA_452_美國交換讀後_挽回中.md"
+   ],
+   "state": "已交付",
+   "remaining": "BB 交往中（補 met_sis）重跑到了再看",
+   "next": "LAWWW-B：ev_us_snow_repair label ok 的 CG 後面加一句旁白＋SNOW_END",
+   "noDirectIntegrate": false,
+   "receiver": "LAWWW-B",
+   "ack": "DELIVERED",
+   "note": "讀 BB-B b28d82e70（候選 ad5251364，補 met_sis，REPAIR 到 3 重新開始那一條）。；原本的工作項名稱：US-READ-REPAIR2-1025（2026-10-27 AA-C 改成總表 ID，LAWWW-C 17:08 要求）"
+  },
+  {
+   "task": "VAC-READ2-1025",
+   "branch": "claude/cool-heisenberg-o8kuqx",
+   "sha": "71f260ecc",
+   "files": [
+    "docs/story_planning/AA_456_法律系寒暑假再讀一遍_每年一字不差的訊息.md"
+   ],
+   "state": "已交付",
+   "remaining": "無",
+   "next": "LAWWW-B：story3d 四年跨年那句；noodle_closed3d L.a/L.d 照年份；vac3d c01First 回覆照 yk；nye_y2_zhe／hol_y3w／hol_y4w_zhe_home 換字；termend_lines GF invByTerm（六位＋芷若 over 前三筆）；cracktalk_lines zq2 照月份輪流",
+   "noDirectIntegrate": false,
+   "receiver": "LAWWW-B",
+   "ack": "DELIVERED",
+   "note": "回 LAWWW-B 10-25 07:4x；vac_sweep 對開發分支 b66bad90c 重跑，跨假期一字不差掃描（scratchpad）。"
+  },
+  {
+   "task": "VAC-READ3-1025",
+   "branch": "claude/cool-heisenberg-o8kuqx",
+   "sha": "3be31d3c8",
+   "files": [
+    "docs/story_planning/AA_457_寒暑假重複第二輪_芷若英國每天一則_語彤裂縫_沛珊回家的邀約.md"
+   ],
+   "state": "已交付",
+   "remaining": "無",
+   "next": "LAWWW-B：msg3d 英國每天一則改每週＋msg_pool 加照月份句子（兩次在英國 12＋30 句）與排法；cracktalk_lines yt2.A/B.ask 照第幾次輪；fest_events 沛珊 homeBy＋fest3d herLines",
+   "noDirectIntegrate": false,
+   "receiver": "LAWWW-B",
+   "ack": "DELIVERED",
+   "note": "vac_sweep 改一份跑芷若、語彤、學姊、沛珊交往中（開發分支 d853debc1）＋跨假期一字不差掃描。"
+  },
+  {
+   "task": "TERM-READ-Y1S1-1025",
+   "branch": "claude/cool-heisenberg-o8kuqx",
+   "sha": "b01e32018",
+   "files": [
+    "docs/story_planning/AA_458_法律系大一上讀一遍_媽媽週四群組_沛珊講義_家族群組的日子.md"
+   ],
+   "state": "已交付",
+   "remaining": "無",
+   "next": "LAWWW-B：媽媽週四群組照 AA_458 1-2 排、1-3 換句與回覆（不手改 home_lines.js）＋1-5 回家那週晚餐旁白；bbpack3d D5 沛珊講義照第幾次輪；story3d 1796/1799、family_xmas3d 31 換字；中秋當天、颱風假前一晚家人群組各兩則",
+   "noDirectIntegrate": false,
+   "receiver": "LAWWW-B",
+   "ack": "DELIVERED",
+   "note": "term_sweep（vac_sweep 學期版）跑 2025-09-01～12-21，開發分支 496eacd48，沒交往／可昕／以安三種存檔，0 錯誤；新開局連三週同一句由程式碼推得、沒實跑。"
+  },
+  {
+   "task": "TERM-READ-Y1S2-1025",
+   "branch": "claude/cool-heisenberg-o8kuqx",
+   "sha": "c0972cd32",
+   "files": [
+    "docs/story_planning/AA_459_法律系大一下讀一遍_媽媽群組補兩條_家族群組_落選通知_撞期.md"
+   ],
+   "state": "已交付",
+   "remaining": "無",
+   "next": "LAWWW-B：AA_458 媽媽群組規則補（連假②改字、期中只一次、期末上下學期兩句）；fam_dinner_inv「下週五」、fam_final_y1s2 沒去三句換字、可選上榜聚餐 Kevin 一句；vac3d 落選通知帶 sel.name＋阿哲改私訊；SK07 撞期加問題；四處換字（date_wish 改 wish_bb.json 再產生）",
+   "noDirectIntegrate": false,
+   "receiver": "LAWWW-B",
+   "ack": "DELIVERED",
+   "note": "term_sweep 2026-02-23～06-14，開發分支 496eacd48，沒交往／可昕／以安／沛珊／子晴五種存檔，0 錯誤；可昕那份 5/28 起手機 200 則上限，之後不算數。"
+  },
+  {
+   "task": "TERM-READ-Y2S1-1025",
+   "branch": "claude/cool-heisenberg-o8kuqx",
+   "sha": "b9362f474",
+   "files": [
+    "docs/story_planning/AA_460_法律系大二上讀一遍_沛珊重考每晚一則_節日邀約_手機上限.md"
+   ],
+   "state": "已交付",
+   "remaining": "無",
+   "next": "LAWWW-B：phone3d put 剪掉的 tag 進 cut（工程，你決定）；PS_KEEP_NIGHT 照月份／日子／週六／短句（考試 2027-07-10、11）；kai_sheet 四種；fest_events 以安、沛珊加 by，以安 2027 生日確認 herAsks；termend KX invite 加 {哪天}；wish_bb.json 芷若光典兩句",
+   "noDirectIntegrate": false,
+   "receiver": "LAWWW-B",
+   "ack": "DELIVERED",
+   "note": "term_sweep 2026-09-07～12-27，開發分支 25b535be4，八種存檔，0 錯誤；掃描每天先剪舊訊息、tag 記進 cut（模擬修好的樣子）。"
+  },
+  {
+   "task": "TERM-READ-Y2S2-1025",
+   "branch": "claude/cool-heisenberg-o8kuqx",
+   "sha": "2afc82609",
+   "files": [
+    "docs/story_planning/AA_461_法律系大二下讀一遍_春假群組沒人回_Kevin的生日貼文.md"
+   ],
+   "state": "已交付",
+   "remaining": "無",
+   "next": "LAWWW-B：group3d springChoose 選完祐廷一句＋回的人、none 加 4/2 21:00 柏翰；bdayKevin 分年 2027 換句；r3_3d ZR_FEE_SHOTS 第二張換字",
+   "noDirectIntegrate": false,
+   "receiver": "LAWWW-B",
+   "ack": "DELIVERED",
+   "note": "term_sweep 2027-02-22～06-13，開發分支 3b65720aa，八種存檔，0 錯誤。"
+  },
+  {
+   "task": "TERM-READ-Y3S1-1025",
+   "branch": "claude/cool-heisenberg-o8kuqx",
+   "sha": "81bee6b83",
+   "files": [
+    "docs/story_planning/AA_462_法律系大三上讀一遍_以安旁聽_語彤的週四_沛珊連兩天下台南.md"
+   ],
+   "state": "已交付",
+   "remaining": "無",
+   "next": "LAWWW-B：an14Phone 換字＋CRIMPRO_WITH an 多一句；r2y3a3d 265 fafu 換字；yt_seat 照學期第幾個週四輪；沛珊台南學期末邀約前兩天去過就改一句不排；KW 12/3、hometown 美術館、ps3、可昕 2027 聖誕視訊（同一天才換）",
+   "noDirectIntegrate": false,
+   "receiver": "LAWWW-B",
+   "ack": "DELIVERED",
+   "note": "term_sweep 2027-09-06～12-26（TW），開發分支 28a287dd6，八種存檔，0 錯誤；AA_458、AA_457 第 1、3 節在遊戲裡對過。"
+  },
+  {
+   "task": "TERM-READ-Y3S2-1025",
+   "branch": "claude/cool-heisenberg-o8kuqx",
+   "sha": "c0ad4d168",
+   "files": [
+    "docs/story_planning/AA_463_法律系大三下讀一遍_以安在日本的私訊_母親節姊姊和媽媽_沛珊的裂縫談話.md",
+    "docs/story_planning/AA_458_法律系大一上讀一遍_媽媽週四群組_沛珊講義_家族群組的日子.md"
+   ],
+   "state": "已交付",
+   "remaining": "無",
+   "next": "LAWWW-B（發布後）：AB.t1／t1O 十則各一次；母親節媽媽照姊姊 momAsk 的回答；2028 端午 zongzi 照 5/25 回答；ps1／ps2／ps3 照第幾次換；AA_458 第 7 節中秋每年換（ae13fa69e）",
+   "noDirectIntegrate": false,
+   "receiver": "LAWWW-B",
+   "ack": "DELIVERED",
+   "note": "term_sweep 2028-02-21～06-11（TW），開發分支 6ba31acc0，八種存檔，0 錯誤。"
+  },
+  {
+   "task": "TERM-READ-Y4S1-1025",
+   "branch": "claude/cool-heisenberg-o8kuqx",
+   "sha": "d781b5255",
+   "files": [
+    "docs/story_planning/AA_464_法律系大四上讀一遍_學姊在美國的照片和週日_子晴的裂縫回覆.md"
+   ],
+   "state": "已交付",
+   "remaining": "無",
+   "next": "LAWWW-B（發布後）：M6_PHOTO 加每月週三二十張、其他天三張不連續；不吵週日十四句；zq2.opts 回覆照 msgs 第幾種；y34b3d 293 加麵店；AA_462 第 4 節加同一天",
+   "noDirectIntegrate": false,
+   "receiver": "LAWWW-B",
+   "ack": "DELIVERED",
+   "note": "term_sweep 2028-09-04～12-24（TW），開發分支 b9a7c5d4f，八種存檔，0 錯誤；S.m6 刪舊照片讓掃描漏看幾天，照程式碼讀。"
+  },
+  {
+   "task": "TERM-READ-Y4S2-1025",
+   "branch": "claude/cool-heisenberg-o8kuqx",
+   "sha": "ee0d6b70d",
+   "files": [
+    "docs/story_planning/AA_465_法律系大四下讀一遍_畢業那一週的家人群組_子晴的貓_八學期總清單.md"
+   ],
+   "state": "已交付",
+   "remaining": "無",
+   "next": "LAWWW-B（發布後）：AA_458 排法加畢業典禮那週週四（不問）＋6/1 21:00 爸爸機場照片；CAT.photos[5] 換字；r2y4b3d springChoose 選完祐廷＋以安各一句。第 6 節是 AA_458～465 總清單",
+   "noDirectIntegrate": false,
+   "receiver": "LAWWW-B",
+   "ack": "DELIVERED",
+   "note": "term_sweep 2029-02-19～06-10（TW），開發分支 a2a423fae，八種存檔，0 錯誤；法律系八學期這一輪完成。"
+  },
+  {
+   "task": "JP-READ-1025",
+   "branch": "claude/cool-heisenberg-o8kuqx",
+   "sha": "30cc3235a",
+   "files": [
+    "docs/story_planning/AA_466_日本路線讀一遍_家人群組在日本_語彤的田野照片.md"
+   ],
+   "state": "已交付",
+   "remaining": "無",
+   "next": "LAWWW-B（發布後）：JPPREP_LINES.HOME_GROUP 十二則照順序（國外／在家跳過）、第 4 則國外版；YT_JP 兩週一張各一次加兩張",
+   "noDirectIntegrate": false,
+   "receiver": "LAWWW-B",
+   "ack": "DELIVERED",
+   "note": "term_sweep 加 ROUTE=JP，2028-03-20～08-12，開發分支 a2a423fae，0 錯誤；只有和以安交往中那份算數。"
+  },
+  {
+   "task": "EV-STATIC-DUP-1025",
+   "branch": "claude/cool-heisenberg-o8kuqx",
+   "sha": "5bbd16ab1",
+   "files": [
+    "docs/story_planning/AA_467_事件台詞全文掃描_期末最後一頓_可昕的高雄跨年.md"
+   ],
+   "state": "已交付",
+   "remaining": "無",
+   "next": "LAWWW-B（發布後）：ev_term_last_meal_y1s2／_y2s1 前三句換字；ev_kx_nye_river_y3／_y4 零點、結尾換字",
+   "noDirectIntegrate": false,
+   "receiver": "LAWWW-B",
+   "ack": "DELIVERED",
+   "note": "事件台詞全文掃描，開發分支 416861cca；畢業以後篇 term_sweep 推不動，改看 postgrad_lines.js。"
+  },
+  {
+   "task": "EV-STATIC-DUP2-1025",
+   "branch": "claude/cool-heisenberg-o8kuqx",
+   "sha": "cd2dc7646",
+   "files": [
+    "docs/story_planning/AA_468_事件台詞第二輪_芷若英國跨年兩年_律師讀書小組九十晚.md"
+   ],
+   "state": "已交付",
+   "remaining": "無",
+   "next": "LAWWW-B（發布後）：ev_zr_nye_video_y4 換字（含 outingMissed）；ev_bar_group_night／video 第一輪以後換旁白、用完留收尾",
+   "noDirectIntegrate": false,
+   "receiver": "LAWWW-B",
+   "ack": "DELIVERED",
+   "note": "女主角台詞十二字以上、兩個事件以上，開發分支 416861cca。"
+  },
+  {
+   "task": "ROT-POOLS-1025",
+   "branch": "claude/cool-heisenberg-o8kuqx",
+   "sha": "9f465dcef",
+   "files": [
+    "docs/story_planning/AA_469_長期輪流的短句_阿哲揪麵店_法服值班_打工收尾.md"
+   ],
+   "state": "已交付",
+   "remaining": "無",
+   "next": "LAWWW-B（發布後）：NDL_PINGS 八句＋連三次停＋還好嗎；FAFU_CASES 第二輪回訪、第三輪旁白、FAFU_OPEN／FAFU_YT 六句一輪；wz_jobs withLines／night 各加四句",
+   "noDirectIntegrate": false,
+   "receiver": "LAWWW-B",
+   "ack": "DELIVERED",
+   "note": "找 %L.length 輪流的地方，開發分支 93d899acc。"
+  },
+  {
+   "task": "BACKLOG-SWEEP-AA-1021",
+   "branch": "claude/cool-heisenberg-o8kuqx",
+   "sha": "7db64468a",
+   "files": [
+    "docs/story_planning/AA_交接紀錄.md"
+   ],
+   "state": "已交付",
+   "remaining": "大五（交換延畢）、畢業以後篇的讀後：另開 TERM-READ-Y5-1025、PG-READ-1025，排在 SIS-LEAD-1021 之後",
+   "next": "LAWWW-B：BACKLOG-SWEEP-AA-1021 改結案（AA 交接紀錄該節 E 表）",
+   "noDirectIntegrate": true,
+   "receiver": "LAWWW-B",
+   "ack": "SENT",
+   "note": "D99 經濟系→寒暑假→美國三段讀完（AA_449、AA_440/445/446/456/457、AA_450～454），另讀法律系八學期 AA_458～465、日本 AA_466、全文掃描 AA_467～469。；原本的 state 寫「AA 這邊可以結案」（2026-10-27 AA-C 改成合格式）"
+  },
+  {
+   "task": "SIS-B12-1025",
+   "branch": "claude/cool-heisenberg-o8kuqx",
+   "sha": "5f54b6545",
+   "files": [
+    "docs/story_planning/AA_470_學姊第十二批_三種玩家總檢查_大一暑假到大四寒假補七場.md"
+   ],
+   "state": "已交付",
+   "remaining": "畢業以後的朋友（每季一個窗口以外）留給 PG-READ-1025",
+   "next": "LAWWW-B（發布後）：12-1～12-7 七場、4-1～4-5 說了沒發生、5-1 家族四場記 met_sis＋舊存檔補記號、5-2 群組貼文拿掉認識她的條件；任務 ID 建議 SIS-B12-1025（掛 SIS-LEAD-1021）",
+   "noDirectIntegrate": false,
+   "receiver": "LAWWW-B",
+   "ack": "SENT",
+   "note": "SIS-LEAD-1021 總檢查：term_sweep6 三種存檔＋3D 盤點（開發分支 1dacc06af）。"
+  },
+  {
+   "task": "TERM-READ-Y5-1025",
+   "branch": "claude/cool-heisenberg-o8kuqx",
+   "sha": "763993620",
+   "files": [
+    "docs/story_planning/AA_471_大五讀一遍_日本路線家人群組不停_學期判斷過了220天_放榜四次.md"
+   ],
+   "state": "已交付",
+   "remaining": "PG-READ-1025（臺灣路線畢業以後）重跑中，另交 AA_472",
+   "next": "LAWWW-B（發布後）：第 9 節七項；第 1、2 節是程式條件（jpOn 加日子、termKey 不用 D+日子）",
+   "noDirectIntegrate": false,
+   "receiver": "LAWWW-B",
+   "ack": "SENT",
+   "note": "pg_read：畢業以後篇跳到下一件事、場景真的播，開發分支 8759408a4（src 同 1dacc06af）。"
+  },
+  {
+   "task": "PG-READ-1025",
+   "branch": "claude/cool-heisenberg-o8kuqx",
+   "sha": "1ebcf530e",
+   "files": [
+    "docs/story_planning/AA_472_畢業以後讀一遍_臺灣路線八種存檔_讀書計畫誰排_可昕第六年.md",
+    "docs/story_planning/AA_367_畢業以後的交往節奏_六位.md"
+   ],
+   "state": "已交付",
+   "remaining": "無（BACKLOG-SWEEP 剩下的兩段都讀完）",
+   "next": "LAWWW-B（發布後）：第 8 節六項；AA_367 沛珊 2030-06 一句已改，重新匯入 pg_dates.js",
+   "noDirectIntegrate": false,
+   "receiver": "LAWWW-B",
+   "ack": "SENT",
+   "note": "pg_read 臺灣路線八種；大四下先記全部通過（前置）。"
+  },
+  {
+   "task": "PG-READ-1025",
+   "branch": "claude/cool-heisenberg-o8kuqx",
+   "sha": "66393bb91",
+   "files": [
+    "docs/story_planning/AA_473_前任的畢業以後_學姊恭喜兩次_以安不打給前男友.md"
+   ],
+   "state": "已交付",
+   "remaining": "無",
+   "next": "LAWWW-B（發布後）：BDAY.exReply／bdayEx 只留「謝謝。」；an1／an2 以安前任改群組",
+   "noDirectIntegrate": false,
+   "receiver": "LAWWW-B",
+   "ack": "SENT",
+   "note": "pg_read 前任三種。；原本的工作項名稱：PG-EX-1025（2026-10-27 AA-C 改成總表 ID，LAWWW-C 17:08 要求）"
+  },
+  {
+   "task": "ACCEPTSOPEN-C-1027",
+   "branch": "claude/magical-albattani-bk7b4n",
+   "sha": "020f695a3",
+   "files": [
+    "docs/story_planning/AA_474_acceptsOpen使用者回答C_七位各自的條件.md"
+   ],
+   "state": "已交付",
+   "remaining": "",
+   "next": "LAWWW：照第二版（7e3f8ed4c）＋3b 通則（020f695a3）實作，PG-FIX-471-473 合進來以後開工；BB：第 3 節可昕收回的口氣、第 6 節兩條",
+   "noDirectIntegrate": false,
+   "receiver": "LAWWW",
+   "ack": "ACK",
+   "note": "使用者 10-27 回答 C（UA-AA-1027-49）；第一版 d03d5da1a、更正 314c61ce4、第 5 節 fc961b2c5 都被第二版取代"
+  },
+  {
+   "task": "AA475-BAN5-1027",
+   "branch": "claude/magical-albattani-bk7b4n",
+   "sha": "e089e8788",
+   "files": [
+    "docs/story_planning/AA_475_禁用句第五輪_AA439以後新增的三句.md",
+    "docs/story_planning/date_system/lines/D09.json",
+    "docs/story_planning/date_system/lines/D10.json",
+    "docs/story_planning/date_system/lines/D11.json",
+    "docs/story_planning/date_system/lines/D14.json",
+    "docs/story_planning/date_system/lines/D20.json",
+    "docs/story_planning/ladder/ladder_bb_y3s2.json",
+    "docs/story_planning/date_system/wish/wish_aa.json",
+    "docs/story_planning/date_system/wish/wish_bb.json"
+   ],
+   "state": "已交付",
+   "remaining": "",
+   "next": "LAWWW：白名單換到 e089e8788、重跑 import_date_lines／import_ladder／import_wish；開發分支 cracktalk_lines.js 沛珊一句、invites.js 子晴羽球一句＋tests/aa417_sport_invite_unit.js 第 97 行",
+   "noDirectIntegrate": false,
+   "receiver": "LAWWW",
+   "ack": "ACK",
+   "note": "AA_475＝AA_439 的後續（禁用句第五輪＋AA_362 漏掉的句號版「不是X。是Y。」）；LAWWW-C 17:35 開任務 AA475-BAN5-1027（DL-AA-475），已整合待測試"
+  },
+  {
+   "task": "PG-FIX-471-473-1027",
+   "branch": "claude/magical-albattani-bk7b4n",
+   "sha": "6ad997806",
+   "files": [
+    "docs/story_planning/AA_476_回LAWWW_PGFIX九題_抓包CG_AA290白名單.md"
+   ],
+   "state": "已交付",
+   "remaining": "",
+   "next": "LAWWW：照 A 節九題改（芷若視訊改回原句、延畢擋字卡、第六年邀約兩則、阿哲句號、住外面的中秋照年份）",
+   "noDirectIntegrate": false,
+   "receiver": "LAWWW",
+   "ack": "SENT",
+   "note": "AA_476 A 節"
+  },
+  {
+   "task": "AA290-INTAKE",
+   "branch": "claude/magical-albattani-bk7b4n",
+   "sha": "6ad997806",
+   "files": [
+    "docs/story_planning/AA_476_回LAWWW_PGFIX九題_抓包CG_AA290白名單.md"
+   ],
+   "state": "已交付",
+   "remaining": "",
+   "next": "LAWWW：白名單 12 檔換到 AA_476 B-2 表的版本（程式不用改）",
+   "noDirectIntegrate": false,
+   "receiver": "LAWWW",
+   "ack": "SENT",
+   "note": "AA_476 B-2（USER_WANTS C11）；B-1 I10 抓包 CG 等使用者 A/B/C"
+  },
+  {
+   "task": "PG-FIX-471-473-1027",
+   "branch": "claude/magical-albattani-bk7b4n",
+   "sha": "0fae57ee2",
+   "files": [
+    "docs/story_planning/AA_477_AA471到473讀一遍_跨年字卡_阿哲訊息句號.md"
+   ],
+   "state": "已交付",
+   "remaining": "",
+   "next": "LAWWW：2-1 postgrad3d.js 第 571 行開始日改 2030-01-01；第 3 節阿哲 43 則 P3（ACCEPTSOPEN 以後）",
+   "noDirectIntegrate": false,
+   "receiver": "LAWWW",
+   "ack": "SENT",
+   "note": "AA_477：AA_471～473＋AA_476 A 節讀一遍（開發分支 9f312e3f9，8 種存檔都到了）"
+  },
+  {
+   "task": "VAC-A2",
+   "branch": "claude/magical-albattani-bk7b4n",
+   "sha": "c88da7e75",
+   "files": [
+    "docs/story_planning/AA_478_回LAWWW_3D機場大廳五題.md"
+   ],
+   "state": "已交付",
+   "remaining": "",
+   "next": "LAWWW：飛往字卡、C05/T02/C08 出發那一幕進大廳就演、C10 改抵達、T03/T02 大廳一句、挽回中以安站遠處（做得到的話）",
+   "noDirectIntegrate": false,
+   "receiver": "LAWWW",
+   "ack": "SENT",
+   "note": "AA_478（X58／E08 合進來以後的五題，開發分支 c4581469a）"
+  },
+  {
+   "task": "QA-TRANSCRIPT-US-1024",
+   "branch": "claude/magical-albattani-bk7b4n",
+   "sha": "02428913b",
+   "files": [
+    "docs/story_planning/AA_479_美國交換逐日劇本讀後_交往中第三版.md"
+   ],
+   "state": "已交付",
+   "remaining": "",
+   "next": "LAWWW：三處（usl_sis_0803 加 until 8/3 09:00；sis_qixi y28Us 社區門口；us_life 11/25 字卡書瑀）；BB：下次底檔留意大一舊訊息",
+   "noDirectIntegrate": false,
+   "receiver": "LAWWW",
+   "ack": "SENT",
+   "note": "AA_479：BB-C 交往中逐日劇本（3b089e965，候選 f54a35ec4）讀後"
+  },
+  {
+   "task": "LANE118-SHOP-STORY-1020",
+   "branch": "claude/magical-albattani-bk7b4n",
+   "sha": "be47f6341",
+   "files": [
+    "docs/story_planning/AA_480_回LAWWW_118巷六題.md"
+   ],
+   "state": "已交付",
+   "remaining": "",
+   "next": "LAWWW：照六題改（118 巷九間熟客合併、阿哲輪流 home→self、H9 午餐約加 Pasta 118）",
+   "noDirectIntegrate": false,
+   "receiver": "LAWWW",
+   "ack": "SENT",
+   "note": "AA_480：AA_311 實作後六題"
+  },
+  {
+   "task": "ACCEPTSOPEN-C-1027",
+   "branch": "claude/magical-albattani-bk7b4n",
+   "sha": "265f54809",
+   "files": [
+    "docs/story_planning/AA_481_AA474實作讀後_特別場景的知情對話接不上的五處.md"
+   ],
+   "state": "已交付",
+   "remaining": "",
+   "next": "LAWWW：併進 aopen-1027（七夕 h 兩句、大峽谷 she 兩句、芷若 8/26 自動一句＋騎樓旁白、七月朋友句去「好。」與 promise 不接、可昕收回的約訊息與視訊開頭）",
+   "noDirectIntegrate": false,
+   "receiver": "LAWWW",
+   "ack": "SENT",
+   "note": "AA_481：讀 aopen-1027@eb97e846c，AA_474 3b 規格漏寫的五處"
+  },
+  {
+   "task": "ACCEPTSOPEN-C-1027",
+   "branch": "claude/magical-albattani-bk7b4n",
+   "sha": "7620d336e",
+   "files": [
+    "docs/story_planning/AA_482_多段感情2-Y4-54照使用者C更新_坦白照她們的條件_都同意的尾聲.md",
+    "docs/story_planning/AA_327_事件包_第2輪之三_大四到尾聲.md"
+   ],
+   "state": "已交付",
+   "remaining": "畢業以後（2030）各人談話、結果找不到地方演的，等 LAWWW 列出再補",
+   "next": "LAWWW：r2y4b3d.js tellScene 改祐廷先坦白紀錄（不 toFriend）、名單過濾、multiY5Due 加「還沒都同意」、S.TELL 換收尾七句；尾聲都同意的座位／CG 共通圖／桌上每一位的東西／旁白",
+   "noDirectIntegrate": false,
+   "receiver": "LAWWW",
+   "ack": "SENT",
+   "note": "AA_482：2-Y4-54 原本寫在 acceptsOpen 全 false 的前提，照使用者 U5 原話「照她們接不接受」恢復"
+  },
+  {
+   "task": "ACCEPTSOPEN-C-1027",
+   "branch": "claude/magical-albattani-bk7b4n",
+   "sha": "187584ca8",
+   "files": [
+    "docs/story_planning/AA_483_回LAWWW_AA474子代理八題_BB審稿定稿_美國秋假自習室提示.md"
+   ],
+   "state": "已交付",
+   "remaining": "",
+   "next": "LAWWW：八題照第 1 節（視訊結尾、我說過了前的旁白、Q15 貼紙後兩則、告白選項照 S.KNOWS_OK 放寬七位）；第 2 節定稿換字",
+   "noDirectIntegrate": false,
+   "receiver": "LAWWW",
+   "ack": "SENT",
+   "note": "AA_483 第 1、2 節"
+  },
+  {
+   "task": "US-BLANK-1012-HINT-1027",
+   "branch": "claude/magical-albattani-bk7b4n",
+   "sha": "187584ca8",
+   "files": [
+    "docs/story_planning/AA_483_回LAWWW_AA474子代理八題_BB審稿定稿_美國秋假自習室提示.md"
+   ],
+   "state": "已交付",
+   "remaining": "",
+   "next": "LAWWW：10/12 19:30 停點出旁白「（秋假的社區很安靜。窗外，會所自習室的燈還亮著。）」（只在 S.studyDue）",
+   "noDirectIntegrate": false,
+   "receiver": "LAWWW",
+   "ack": "SENT",
+   "note": "AA_483 第 3 節"
+  },
+  {
+   "task": "QA-TRANSCRIPT-US-1024",
+   "branch": "claude/magical-albattani-bk7b4n",
+   "sha": "af7ecfd62",
+   "files": [
+    "docs/story_planning/AA_484_美國交換逐日劇本挽回中讀後_更正AA479字卡稱呼.md",
+    "docs/story_planning/AA_479_美國交換逐日劇本讀後_交往中第三版.md"
+   ],
+   "state": "已交付",
+   "remaining": "",
+   "next": "LAWWW：11/25 字卡改回「學姊說這不算初雪」（AA_479 第 3 節作廢）＋ us_life_unit 改回；us208_3d.js 89 行「我查了。是水澆太多。」",
+   "noDirectIntegrate": false,
+   "receiver": "LAWWW",
+   "ack": "SENT",
+   "note": "AA_484：BB-C 挽回中劇本 64cb3b4c0 讀後；更正 AA 自己 AA_479 的錯"
+  },
+  {
+   "task": "GYM-NOTICE-1027",
+   "branch": "claude/magical-albattani-bk7b4n",
+   "sha": "5aaa71d6a",
+   "files": [
+    "docs/story_planning/AA_485_回LAWWW_使用者大一上試玩五件_健身句_羽球短片_社博_學姊訊息.md"
+   ],
+   "state": "已交付",
+   "remaining": "",
+   "next": "LAWWW：沒有會員證的柏翰、阿凱、明軒（＋以安、沛珊）換句",
+   "noDirectIntegrate": false,
+   "receiver": "LAWWW",
+   "ack": "SENT",
+   "note": "AA_485 第 1 節"
+  },
+  {
+   "task": "BADMINTON-CLIP-1027",
+   "branch": "claude/magical-albattani-bk7b4n",
+   "sha": "5aaa71d6a",
+   "files": [
+    "docs/story_planning/AA_485_回LAWWW_使用者大一上試玩五件_健身句_羽球短片_社博_學姊訊息.md"
+   ],
+   "state": "已交付",
+   "remaining": "",
+   "next": "LAWWW：三個鏡頭、第一次完整版／之後只演鏡頭 2、七位＋男生朋友的最後一個鏡頭",
+   "noDirectIntegrate": false,
+   "receiver": "LAWWW",
+   "ack": "SENT",
+   "note": "AA_485 第 2 節"
+  },
+  {
+   "task": "CLUBFAIR-REAL-1027",
+   "branch": "claude/magical-albattani-bk7b4n",
+   "sha": "5aaa71d6a",
+   "files": [
+    "docs/story_planning/AA_485_回LAWWW_使用者大一上試玩五件_健身句_羽球短片_社博_學姊訊息.md"
+   ],
+   "state": "已交付",
+   "remaining": "",
+   "next": "LAWWW：大一社博搬 2025-09-06（六）10～16、大二 2026-09-12；36 頂帳篷、15 攤互動、舞台、錯過的接法",
+   "noDirectIntegrate": false,
+   "receiver": "LAWWW",
+   "ack": "SENT",
+   "note": "AA_485 第 3-1～3-4 節"
+  },
+  {
+   "task": "CLUBFAIR-HINT-1027",
+   "branch": "claude/magical-albattani-bk7b4n",
+   "sha": "5aaa71d6a",
+   "files": [
+    "docs/story_planning/AA_485_回LAWWW_使用者大一上試玩五件_健身句_羽球短片_社博_學姊訊息.md"
+   ],
+   "state": "已交付",
+   "remaining": "",
+   "next": "LAWWW：9/1 行事曆、公告欄、9/4 系學會、9/5 Kevin、9/6 起床提示",
+   "noDirectIntegrate": false,
+   "receiver": "LAWWW",
+   "ack": "SENT",
+   "note": "AA_485 第 3-5 節"
+  },
+  {
+   "task": "MSG-SIS-EARLY-1027",
+   "branch": "claude/magical-albattani-bk7b4n",
+   "sha": "5aaa71d6a",
+   "files": [
+    "docs/story_planning/AA_485_回LAWWW_使用者大一上試玩五件_健身句_羽球短片_社博_學姊訊息.md"
+   ],
+   "state": "已交付",
+   "remaining": "",
+   "next": "LAWWW：加好友就開事務版＋問社博、問法服兩種",
+   "noDirectIntegrate": false,
+   "receiver": "LAWWW",
+   "ack": "SENT",
+   "note": "AA_485 第 4 節"
+  },
+  {
+   "task": "NOODLE-TEAM-WHY-1027",
+   "branch": "claude/magical-albattani-bk7b4n",
+   "sha": "cd824bf41",
+   "files": [
+    "docs/story_planning/AA_486_回LAWWW_麵店團在故事裡做什麼_長桌閒聊_語彤中秋烤肉一句.md"
+   ],
+   "state": "已交付",
+   "remaining": "大二以後的長桌閒聊 AA 接著寫",
+   "next": "LAWWW：建群組後阿哲兩則；麵店日長桌閒聊（大一八則）",
+   "noDirectIntegrate": false,
+   "receiver": "LAWWW",
+   "ack": "SENT",
+   "note": "AA_486 第 1 節：不拿掉麵店團，不用問使用者"
+  },
+  {
+   "task": "YT-BBQ-WHY-1027",
+   "branch": "claude/magical-albattani-bk7b4n",
+   "sha": "cd824bf41",
+   "files": [
+    "docs/story_planning/AA_486_回LAWWW_麵店團在故事裡做什麼_長桌閒聊_語彤中秋烤肉一句.md"
+   ],
+   "state": "已交付",
+   "remaining": "",
+   "next": "LAWWW：ev_mid_autumn_bbq 768 行換三行",
+   "noDirectIntegrate": false,
+   "receiver": "LAWWW",
+   "ack": "SENT",
+   "note": "AA_486 第 2 節"
+  },
+  {
+   "task": "NOODLE-TEAM-WHY-1027",
+   "branch": "claude/magical-albattani-bk7b4n",
+   "sha": "b830dd5eb",
+   "files": [
+    "docs/story_planning/AA_487_麵店團長桌閒聊_大二到大四.md"
+   ],
+   "state": "已交付",
+   "remaining": "",
+   "next": "LAWWW：長桌閒聊大二到大四各六則（規則照 AA_486 1-4）",
+   "noDirectIntegrate": false,
+   "receiver": "LAWWW",
+   "ack": "SENT",
+   "note": "AA_487：AA_486 第 1-4 節的後續"
+  },
+  {
+   "task": "HOME-PROMISE-1027",
+   "branch": "claude/magical-albattani-bk7b4n",
+   "sha": "961a3a8a0",
+   "files": [
+    "docs/story_planning/AA_488_答應媽媽回家_記下約定_提醒_撞約_沒回去.md"
+   ],
+   "state": "已交付",
+   "remaining": "",
+   "next": "LAWWW：home3d.js 記約定＋週六提醒＋18:30／21:30＋下週四一則＋姊姊兩則；邀約、出遊撞到三選一",
+   "noDirectIntegrate": false,
+   "receiver": "LAWWW",
+   "ack": "SENT",
+   "note": "AA_488（USER_WANTS X116）"
+  },
+  {
+   "task": "SIS-EXPO-PRESENCE-1027",
+   "branch": "claude/magical-albattani-bk7b4n",
+   "sha": "c4bcf86f6",
+   "files": [
+    "docs/story_planning/AA_489_回LAWWW_社博學姊站位兩句_手機地點_提早上課旁白_體育館路人_以安吃完麵.md"
+   ],
+   "state": "已交付",
+   "remaining": "",
+   "next": "LAWWW：照 AA_489 第 1、2 節換字／加句",
+   "noDirectIntegrate": false,
+   "receiver": "LAWWW",
+   "ack": "SENT",
+   "note": "AA_489 第 1、2 節"
+  },
+  {
+   "task": "CROWD-CLASS-ARRIVE-1027",
+   "branch": "claude/magical-albattani-bk7b4n",
+   "sha": "c4bcf86f6",
+   "files": [
+    "docs/story_planning/AA_489_回LAWWW_社博學姊站位兩句_手機地點_提早上課旁白_體育館路人_以安吃完麵.md"
+   ],
+   "state": "已交付",
+   "remaining": "",
+   "next": "LAWWW：照 AA_489 第 3 節換字／加句",
+   "noDirectIntegrate": false,
+   "receiver": "LAWWW",
+   "ack": "SENT",
+   "note": "AA_489 第 3 節"
+  },
+  {
+   "task": "GYM-CROWD-1027",
+   "branch": "claude/magical-albattani-bk7b4n",
+   "sha": "c4bcf86f6",
+   "files": [
+    "docs/story_planning/AA_489_回LAWWW_社博學姊站位兩句_手機地點_提早上課旁白_體育館路人_以安吃完麵.md"
+   ],
+   "state": "已交付",
+   "remaining": "",
+   "next": "LAWWW：照 AA_489 第 4 節換字／加句",
+   "noDirectIntegrate": false,
+   "receiver": "LAWWW",
+   "ack": "SENT",
+   "note": "AA_489 第 4 節"
+  },
+  {
+   "task": "AN-MEAL-STUCK-1027",
+   "branch": "claude/magical-albattani-bk7b4n",
+   "sha": "c4bcf86f6",
+   "files": [
+    "docs/story_planning/AA_489_回LAWWW_社博學姊站位兩句_手機地點_提早上課旁白_體育館路人_以安吃完麵.md"
+   ],
+   "state": "已交付",
+   "remaining": "",
+   "next": "LAWWW：照 AA_489 第 5 節換字／加句",
+   "noDirectIntegrate": false,
+   "receiver": "LAWWW",
+   "ack": "SENT",
+   "note": "AA_489 第 5 節"
+  },
+  {
+   "task": "SIS-B12-FIX-1027",
+   "branch": "claude/magical-albattani-bk7b4n",
+   "sha": "a4f530c11",
+   "files": [
+    "docs/story_planning/AA_490_回LAWWW_學姊第十二批三件_法圖午休改週五_書推過去_讀書會撞期.md",
+    "docs/story_planning/AA_470_學姊第十二批_三種玩家總檢查_大一暑假到大四寒假補七場.md"
+   ],
+   "state": "已交付",
+   "remaining": "",
+   "next": "LAWWW（發布後）：12-5 週五 3/3～4/21；4-2 拿掉店的條件；12-4、12-3 撞期加小字；日本路線 5/29 換第二句",
+   "noDirectIntegrate": false,
+   "receiver": "LAWWW",
+   "ack": "SENT",
+   "note": "AA_490"
+  },
+  {
+   "task": "CLUBFAIR-REAL-1027",
+   "branch": "claude/magical-albattani-bk7b4n",
+   "sha": "9544aaf7f",
+   "files": [
+    "docs/story_planning/AA_491_回LAWWW_社博合進來以後的七件與四件.md",
+    "docs/story_planning/AA_170_大二_社團博覽會招生與大二暑假.md"
+   ],
+   "state": "已交付",
+   "remaining": "",
+   "next": "LAWWW：公告欄後半句、嘉義校友會、大二第 4 則加週次條件＋換第一句、yu_expo 改週四 21:00、AA_170 開場沒去社博的版本、系籃場邊",
+   "noDirectIntegrate": false,
+   "receiver": "LAWWW",
+   "ack": "SENT",
+   "note": "AA_491"
+  },
+  {
+   "task": "SIS-B12-FIX-1027",
+   "branch": "claude/magical-albattani-bk7b4n",
+   "sha": "2a5b78ee3",
+   "files": [
+    "docs/story_planning/AA_492_回LAWWW_學姊第十二批實作後_出國中的讀書會_讀書計畫問兩次_另外一本.md"
+   ],
+   "state": "已交付",
+   "remaining": "",
+   "next": "LAWWW：12-6b 出國中替代選項＋舊存檔取消提示；12-7 研究所玩家不問選項一；交往後補演另外一本",
+   "noDirectIntegrate": false,
+   "receiver": "LAWWW",
+   "ack": "SENT",
+   "note": "AA_492"
+  },
+  {
+   "task": "WZ-CAT-LIFE-1023",
+   "branch": "claude/magical-albattani-bk7b4n",
+   "sha": "868726e5c",
+   "files": [
+    "docs/story_planning/AA_493_回LAWWW_溫州街的貓會走動以後的四句.md"
+   ],
+   "state": "已交付",
+   "remaining": "",
+   "next": "LAWWW：環境句時段 17:30～21:00＋白天版；取名分兩版；所長回來固定趴在圓椅上",
+   "noDirectIntegrate": false,
+   "receiver": "LAWWW",
+   "ack": "SENT",
+   "note": "AA_493"
+  },
+  {
+   "task": "HEROINE-ASKS-1028",
+   "branch": "claude/magical-albattani-bk7b4n",
+   "sha": "b3ecc563c",
+   "files": [
+    "docs/story_planning/AA_494_女主角主動約你_七位的門檻頻率地點時間台詞.md"
+   ],
+   "state": "已交付",
+   "remaining": "",
+   "next": "LAWWW（v9.10.13）：第 0 節規則＋第 1～7 節七位的邀約、改天、不了、答應",
+   "noDirectIntegrate": false,
+   "receiver": "LAWWW",
+   "ack": "SENT",
+   "note": "AA_494（USER_WANTS X118★）"
+  },
+  {
+   "task": "CROWD-DEPTS-1028",
+   "branch": "claude/magical-albattani-bk7b4n",
+   "sha": "5d7bd4040",
+   "files": [
+    "docs/story_planning/AA_495_路人分科系_各系的人說的話_走過聽到的對話_通識課前後.md"
+   ],
+   "state": "已交付",
+   "remaining": "無",
+   "next": "LAWWW 照第 5 節接：路人抽系、頭上名字、一人一句（照 AA_489 輪法）、兩人對話、通識課／法律系必修門口；外觀給 LAWWW2 看",
+   "noDirectIntegrate": false,
+   "receiver": "LAWWW",
+   "ack": "SENT",
+   "note": "二十個系、每系 1～4 句照時段；走過聽到的對話 18 組；通識課門口 11 組；法律系必修門口 5 組；體育館加 3 句"
+  },
+  {
+   "task": "NPC-STORY-1028",
+   "branch": "claude/magical-albattani-bk7b4n",
+   "sha": "ad67d327b",
+   "files": [
+    "docs/story_planning/AA_496_法律系NPC盤點_文件寫了vs玩得到_分類_斷線清單.md",
+    "docs/story_planning/AA_497_五位配角改稿_宥辰_芯慈_Alison_明軒_Kevin.md"
+   ],
+   "state": "已交付",
+   "remaining": "二十位同學（pool）的共同做法＋第一批五位 AA_498 寫中；之後每批 4～5 位",
+   "next": "LAWWW：先修 AA_496 第 9 節的斷線（不用等台詞）；再接 AA_497 第 7 節清單（宥辰、芯慈、Alison、明軒、Kevin）；三個社團、CP 值、滷蛋改完列給 AA",
+   "noDirectIntegrate": false,
+   "receiver": "LAWWW",
+   "ack": "SENT",
+   "note": "第 1 批＝使用者 10-28 直接要的「挑 3～5 位最缺存在感、最值得留的法律系配角直接改」；宥辰用 BB_70 7b、BB_113 原稿 AA 定稿"
+  },
+  {
+   "task": "NPC-STORY-1028",
+   "branch": "claude/magical-albattani-bk7b4n",
+   "sha": "33189103b",
+   "files": [
+    "docs/story_planning/AA_498_法律系同學二十位_共同做法_改名_第一批五位.md"
+   ],
+   "state": "已交付",
+   "remaining": "二十位裡其他十五位：每批 4～5 位（下一批：同屆的何宇軒、徐靜儀、詹立群、蘇承恩＋馬佳蓉）",
+   "next": "LAWWW：第 1 節改名（含 SQ16 借車名單、舊存檔換字）、第 2 節共同做法、第 3 節地點表（修三位永遠不出現）、第 4～8 節五位",
+   "noDirectIntegrate": false,
+   "receiver": "LAWWW",
+   "ack": "SENT",
+   "note": "pool 第一批：曾靖雯、黃郁婷、林采潔、鄭元碩（原鄭凱文）、邱家齊（原邱柏勳）"
+  },
+  {
+   "task": "NPC-STORY-1028",
+   "branch": "claude/magical-albattani-bk7b4n",
+   "sha": "9f2e2506e",
+   "files": [
+    "docs/story_planning/AA_499_法律系同學第二批_何宇軒_徐靜儀_詹立群_蘇承恩_馬佳蓉.md",
+    "docs/story_planning/AA_497_五位配角改稿_宥辰_芯慈_Alison_明軒_Kevin.md"
+   ],
+   "state": "已交付",
+   "remaining": "二十位裡還有十位：大二的蔡宗霖、劉晏如、楊書豪、葉晨希、游振宇、蕭乃文；大三的洪珮瑜、施孟儒、廖芸萱、嚴守誠",
+   "next": "LAWWW：AA_499 五位；社會圖 heroine_03—pool_20 改 referral；AA_497 第 1-10 節宥辰大三兩句更正（唱法條的是立群）",
+   "noDirectIntegrate": false,
+   "receiver": "LAWWW",
+   "ack": "SENT",
+   "note": "pool 第二批（同屆四位＋馬佳蓉）；b70bed855 第 8 節後補：芯慈公車沒回那一句、豆干「一塊」；9f2e2506e 實作時定的（回 LAWWW-C 49e6b3e8d）"
+  },
+  {
+   "task": "NPC-STORY-1028",
+   "branch": "claude/magical-albattani-bk7b4n",
+   "sha": "9f2e2506e",
+   "files": [
+    "docs/story_planning/AA_500_法律系同學第三批_大二六位_蔡宗霖_劉晏如_楊書豪_葉晨希_游振宇_蕭乃文.md"
+   ],
+   "state": "已交付",
+   "remaining": "二十位裡還有四位：大三的洪珮瑜、施孟儒、廖芸萱、嚴守誠",
+   "next": "LAWWW：AA_500 六位；2028-06 畢業，日本路線改私訊；吉他社兩次成發、以安日本加旁白",
+   "noDirectIntegrate": false,
+   "receiver": "LAWWW",
+   "ack": "SENT",
+   "note": "pool 第三批（大二的六位）；9f2e2506e 實作時定的（回 LAWWW-C 49e6b3e8d）"
+  },
+  {
+   "task": "NPC-STORY-1028",
+   "branch": "claude/magical-albattani-bk7b4n",
+   "sha": "17d57eff3",
+   "files": [
+    "docs/story_planning/AA_501_法律系同學第四批_大三四位_洪珮瑜_施孟儒_廖芸萱_嚴守誠.md"
+   ],
+   "state": "已交付",
+   "remaining": "AA 這邊二十位都寫完（AA_498～501）＋五位配角（AA_497）；剩 LAWWW 實作、AA 實作後在遊戲裡讀",
+   "next": "LAWWW：AA_501 四位；系籃三選項回應；personality 表補進 characters.js",
+   "noDirectIntegrate": false,
+   "receiver": "LAWWW",
+   "ack": "SENT",
+   "note": "pool 第四批（大三的四位），二十位完"
+  },
+  {
+   "task": "DORM203-MATES-1028",
+   "branch": "claude/magical-albattani-bk7b4n",
+   "sha": "4071fdb9a",
+   "files": [
+    "docs/story_planning/AA_502_203室友日常_阿哲_柏翰_阿凱.md"
+   ],
+   "state": "已交付",
+   "remaining": "",
+   "next": "LAWWW：第 1 節作息＋進門旁白、第 2 節房間閒聊、第 3 節六件小事（不在的補旁白）、第 4 節 203 群組",
+   "noDirectIntegrate": false,
+   "receiver": "LAWWW",
+   "ack": "SENT",
+   "note": "USER_WANTS X123；大一 203（大二 312 照 AA_208 第 7 節）"
+  },
+  {
+   "task": "HEROINE-LIFE-1028",
+   "branch": "claude/magical-albattani-bk7b4n",
+   "sha": "c6c93432d",
+   "files": [
+    "docs/story_planning/AA_503_女主角自己的生活_大一上_動態頁_圈子_她的事.md"
+   ],
+   "state": "已交付",
+   "remaining": "大一下以後每學期一份",
+   "next": "LAWWW：第 1 節動態頁、第 2 節作息 with＋聽到、第 4～10 節七位大一上、可昕四則改動態；新 3D 人物（阿姨、Café 小婷與老闆、學姊的兩個同學）給 LAWWW2",
+   "noDirectIntegrate": false,
+   "receiver": "LAWWW",
+   "ack": "SENT",
+   "note": "USER_WANTS X122★；大一上（2025-09～2026-01）"
+  },
+  {
+   "task": "NPC-STORY-1028",
+   "branch": "claude/magical-albattani-bk7b4n",
+   "sha": "705495026",
+   "files": [
+    "docs/story_planning/AA_496_法律系NPC盤點_文件寫了vs玩得到_分類_斷線清單.md"
+   ],
+   "state": "已交付",
+   "remaining": "",
+   "next": "LAWWW：AA_496 第 9 節舊存檔回填照這一則",
+   "noDirectIntegrate": false,
+   "receiver": "LAWWW",
+   "ack": "SENT",
+   "note": "回 LAWWW-C 02:14：①AA_494 你判斷的九點全部照你的做法；②AA_496 第 9 節：舊存檔回填 BH4_DONE（events.done 有 ev_bohan_third_floor）、XC5_RECONCILE（ev_xinci_an_answers 或 _far）、XC1_STICKY（ROOM_Y2_ITEMS 有芯慈的便利貼），ZHE4_FINAL 推不出來不回填；系統字「阿哲把你加進了群組「麵店團」。」照用；入口條件、回收句取最下面一列、（對{name}）的寫法都照你的；宥辰「常常趴著」不做，不影響劇情"
+  },
+  {
+   "task": "HEROINE-LIFE-1028",
+   "branch": "claude/magical-albattani-bk7b4n",
+   "sha": "bf50e9825",
+   "files": [
+    "docs/story_planning/AA_504_女主角自己的生活_大一下與暑假.md",
+    "docs/story_planning/AA_503_女主角自己的生活_大一上_動態頁_圈子_她的事.md"
+   ],
+   "state": "已交付",
+   "remaining": "大二上以後每學期一份",
+   "next": "LAWWW：AA_504 第 0 節先修四件（可昕 kx2_late／kx2_azalea 改動態、沛珊—柏翰交往期同框、課輔營隊 6/22～6/26、AA_503 三處更正 74916d73b），再接第 1～7 節七位",
+   "noDirectIntegrate": false,
+   "receiver": "LAWWW",
+   "ack": "SENT",
+   "note": "大一下＋暑假（2026-02～08）；AA_503 更正：芷若拉花改冬季菜單、語彤訪問移到大一下（訪問阿姨）、子晴改練習賽"
+  },
+  {
+   "task": "HEROINE-LIFE-1028",
+   "branch": "claude/magical-albattani-bk7b4n",
+   "sha": "ef783aa61",
+   "files": [
+    "docs/story_planning/AA_504_女主角自己的生活_大一下與暑假.md"
+   ],
+   "state": "已交付",
+   "remaining": "",
+   "next": "LAWWW：AA_504 第 7 節可昕動態第 6、7 則照新字；D30 不用改",
+   "noDirectIntegrate": false,
+   "receiver": "LAWWW",
+   "ack": "SENT",
+   "note": "回 LAWWW-C 02:43：予樂老家改嘉義（第 6 則「她家在嘉義。」），第 7 則私訊問的回答改「新的筆電。舊的那台打報告會當機。」；D30「予樂說花蓮一定要買麻糬。她要三盒。」照舊"
+  },
+  {
+   "task": "HEROINE-LIFE-1028",
+   "branch": "claude/magical-albattani-bk7b4n",
+   "sha": "62849944b",
+   "files": [
+    "docs/story_planning/AA_505_女主角自己的生活_大二上與寒假.md",
+    "docs/story_planning/AA_503_女主角自己的生活_大一上_動態頁_圈子_她的事.md",
+    "docs/story_planning/AA_504_女主角自己的生活_大一下與暑假.md"
+   ],
+   "state": "已交付",
+   "remaining": "大二下以後每學期一份",
+   "next": "LAWWW：AA_505 第 0 節先修五件（芷若 Z4 以外的玩家看動態、沛珊書店班與台中、語彤進 3D 民總、子晴關數順序、AA_503/504 三處更正）＋第 1～7 節",
+   "noDirectIntegrate": false,
+   "receiver": "LAWWW",
+   "ack": "SENT",
+   "note": "大二上＋寒假（2026-09～2027-02）；沛珊照 AA_281 動態慢慢變少、12/18 以後沒有"
+  },
+  {
+   "task": "DORM203-MATES-1028",
+   "branch": "claude/magical-albattani-bk7b4n",
+   "sha": "d13ab3ab7",
+   "files": [
+    "docs/story_planning/AA_502_203室友日常_阿哲_柏翰_阿凱.md",
+    "docs/story_planning/AA_503_女主角自己的生活_大一上_動態頁_圈子_她的事.md"
+   ],
+   "state": "已交付",
+   "remaining": "無",
+   "next": "LAWWW：AA_502 第 6 節（3-6 暑假只剩祐廷和阿凱、3-2／3-5 台詞、ev_dorm_late_kai 23:30 以後＋誰在床上、ev_kai_late_screen 那晚阿凱到 03:30）；AA_503 第 12 節（可昕第 6 則兩個版本、第 4 則、12/16 書桌照片放回）",
+   "noDirectIntegrate": false,
+   "receiver": "LAWWW",
+   "ack": "SENT",
+   "note": "回 LAWWW-C 03:05 的 12 項（AA_502、AA_503 實作時子代理判斷的地方）；HEROINE-LIFE-1028 的部分也在這個 commit"
+  },
+  {
+   "task": "HEROINE-LIFE-1028",
+   "branch": "claude/magical-albattani-bk7b4n",
+   "sha": "010515370",
+   "files": [
+    "docs/story_planning/AA_506_女主角自己的生活_大二下與暑假.md",
+    "docs/story_planning/AA_505_女主角自己的生活_大二上與寒假.md"
+   ],
+   "state": "已交付",
+   "remaining": "大三起分臺灣／日本／美國路線，每學期一份",
+   "next": "LAWWW：AA_506 第 0 節先修六件（子晴兩個遊戲分清楚＋Q4-L1 改字、學姊游泳池與暑假法圖、可昕 C17「全台灣」、沛珊 P4b／4/17 作廢、語彤 2027-07-09 生日、AA_505 四處）＋第 1～7 節",
+   "noDirectIntegrate": false,
+   "receiver": "LAWWW",
+   "ack": "SENT",
+   "note": "大二下＋暑假（2027-02～09）；沛珊消失期間沒有動態、9/4 台南一則；可昕非交往也看得到模擬法庭與高雄實習"
+  },
+  {
+   "task": "HEROINE-LIFE-1028",
+   "branch": "claude/magical-albattani-bk7b4n",
+   "sha": "e4fbd0192",
+   "files": [
+    "docs/story_planning/AA_507_女主角自己的生活_大三上與寒假.md",
+    "docs/story_planning/AA_506_女主角自己的生活_大二下與暑假.md",
+    "docs/story_planning/AA_505_女主角自己的生活_大二上與寒假.md"
+   ],
+   "state": "已交付",
+   "remaining": "大三下起照路線分（日本：以安和玩家同去；美國：大四上）",
+   "next": "LAWWW：AA_507 第 0-1 節（AA_506 五處）、第 0-2 節八件（子晴 zq_name、學姊 1/15 面試＋heardUS 算 S5-L1、北投 13:00、法圖寒假那句、芷若 UK_WEEK 1～2 月、語彤刑總、以安週四讀書會、過時註解）＋第 1～7 節",
+   "noDirectIntegrate": false,
+   "receiver": "LAWWW",
+   "ack": "SENT",
+   "note": "大三上＋寒假（2027-09～2028-02）；芷若在英國的動態照當地 22:07（臺灣 05:07／06:07）；沛珊一個月最多一則"
+  },
+  {
+   "task": "HEROINE-LIFE-1028",
+   "branch": "claude/magical-albattani-bk7b4n",
+   "sha": "31a4c4002",
+   "files": [
+    "docs/story_planning/AA_508_女主角自己的生活_大三下與暑假.md",
+    "docs/story_planning/AA_507_女主角自己的生活_大三上與寒假.md",
+    "docs/story_planning/AA_506_女主角自己的生活_大二下與暑假.md"
+   ],
+   "state": "已交付",
+   "remaining": "大四上起（美國路線大四上在國外）",
+   "next": "LAWWW：AA_508 第 0-1 節（AA_506／507 四處）、第 0-2 節十一件（交往中也收以安在日本的十則、學姊日本路線招呼週次與章數、子晴 7/10 上班、沛珊 2028 營隊、語彤宜蘭與法律課、白色情人節兩句、芷若 8 月當客人、wzlines 差一天、小問題）＋第 1～7 節；語彤 8/22 新短場",
+   "noDirectIntegrate": false,
+   "receiver": "LAWWW",
+   "ack": "SENT",
+   "note": "大三下＋暑假（2028-02～09）；AA_506、AA_507 本體請用 31a4c4002 的版本；芷若 9/2 出發認識以上都有一則"
+  },
+  {
+   "task": "HEROINE-LIFE-1028",
+   "branch": "claude/magical-albattani-bk7b4n",
+   "sha": "3120ac77a",
+   "files": [
+    "docs/story_planning/AA_509_女主角自己的生活_大四上與寒假.md",
+    "docs/story_planning/AA_508_女主角自己的生活_大三下與暑假.md",
+    "docs/story_planning/AA_507_女主角自己的生活_大三上與寒假.md"
+   ],
+   "state": "已交付",
+   "remaining": "大四下（2029-02-19～畢業）一份；之後各路線的延畢學期另議",
+   "next": "LAWWW：AA_509 第 0-1 節（AA_507／508 四處）、第 0-2 節九件（學姊論文第四章兩句、語彤 7/9 第二十二個、以安週四麵店與總圖三樓、讀書會順序、語彤法律課、子晴國定假日休、溫州街學姊 12/23、沛珊寒假代課再早餐店、小問題）＋第 1～7 節",
+   "noDirectIntegrate": false,
+   "receiver": "LAWWW",
+   "ack": "SENT",
+   "note": "大四上＋寒假（2028-09～2029-02）；AA_506～508 本體請用 3120ac77a 的版本"
+  },
+  {
+   "task": "HEROINE-LIFE-1028",
+   "branch": "claude/magical-albattani-bk7b4n",
+   "sha": "28f981438",
+   "files": [
+    "docs/story_planning/AA_510_女主角自己的生活_大四下與畢業那年夏天.md",
+    "docs/story_planning/AA_509_女主角自己的生活_大四上與寒假.md"
+   ],
+   "state": "已交付",
+   "remaining": "9/3 以後（大五上、畢業以後篇）另一份",
+   "next": "LAWWW：AA_510 第 0-1 節（AA_509 三處）、第 0-2 節七件（以安大四下週四總圖三樓、語彤暑假週四麵店、A8-L1 保險法改證交法、芷若 6/2 那則改 6/3 05:07、學姊口試後不說第四章、日本路線補修班沒有以安、子晴工作室四人已接上）＋第 1～7 節",
+   "noDirectIntegrate": false,
+   "receiver": "LAWWW",
+   "ack": "SENT",
+   "note": "大四下＋畢業那年夏天（2029-02～09）；AA_508／509 本體請用 28f981438 的版本"
+  },
+  {
+   "task": "HEROINE-LIFE-1028",
+   "branch": "claude/magical-albattani-bk7b4n",
+   "sha": "b70bed855",
+   "files": [
+    "docs/story_planning/AA_511_女主角自己的生活_畢業以後到2030.md"
+   ],
+   "state": "已交付",
+   "remaining": "無（HEROINE-LIFE-1028 大一上～畢業以後全部寫完：AA_503～511）",
+   "next": "LAWWW：AA_511 七位各三～四則動態（2029-09～2030-12，接 2034 尾聲）；畢業以後篇跳時間時動態從停下來起留七天",
+   "noDirectIntegrate": false,
+   "receiver": "LAWWW",
+   "ack": "SENT",
+   "note": "系列最後一份；沒有新的 3D、事件；b70bed855 第 9 節：手機第五輪實作時定的七件（第 6 點尾聲前那一停加一句旁白）"
+  },
+  {
+   "task": "SIS-LEAD-1021",
+   "branch": "claude/magical-albattani-bk7b4n",
+   "sha": "0e02591e4",
+   "files": [
+    "docs/story_planning/AA_512_學姊第十三批_她自己的事當面演_說了沒發生九件.md"
+   ],
+   "state": "已交付",
+   "remaining": "",
+   "next": "LAWWW：AA_512 八場（13-1 改 AA_497 5-2 加學姊、13-2 新家咖哩、13-3 椰林大道、13-4 公館蛋糕、13-5 日本視訊、13-6 美國洗衣間、13-7 歡迎回來家聚、13-8 游完泳的早上）＋第 2 節說了沒發生九件＋feed_y3s1 學姊「第二次。」改「又煮了。」＋第 5 節伴手禮（美國路線交往中：1/3 21:00 私訊約 → 1/6 11:30 祐廷家中飯 → 當晚學姊、1/7 媽媽各一則；SIS13_GIFT）＋第 6 節（日本路線接機三處加句＋SIS_JP_COAT／SIS_JP_FIRST；重新開始答應多一句；4-1 改字；三個測試檔寫死的句子要一起改）",
+   "noDirectIntegrate": false,
+   "receiver": "LAWWW",
+   "ack": "ACK",
+   "note": "學姊第十三批（C25，D111）；盤點 scratchpad/inv8；朋友版大四、美國挽回中、她自己的事第一次當面；574720913 加第 5 節回 LAWWW-C 伴手禮那句；c444f0757 加第 6 節；DL-AA-512 已 ACK，第 5、6 節（574720913、c444f0757）LAWWW-C 07:20 回已轉給學姊第十三批的子代理；0e02591e4 第 7 節（回 LAWWW-C 8da7af594：2-1 改 5/20、2-4 改句、2-5 旁白、私密三場）"
+  },
+  {
+   "task": "HEROINE-LIFE-1028",
+   "branch": "claude/magical-albattani-bk7b4n",
+   "sha": "a2e4bf196",
+   "files": [
+    "docs/story_planning/AA_513_女主角生活稿對照_阿凱四句改私訊_以安窗邊旁白.md"
+   ],
+   "state": "已交付",
+   "remaining": "",
+   "next": "LAWWW：AA_513 第 1 節阿凱四則私訊（11/27、10/27、5/20 16:30 照片後、12/15）＋第 2 節以安和媽媽公館窗邊字幕旁白（AN_MOM_SEEN）；heard_lines.js「沒做」阿凱那幾行改註",
+   "noDirectIntegrate": false,
+   "receiver": "LAWWW",
+   "ack": "SENT",
+   "note": "逐句對照 AA_497/498/502～509 稿和開發分支 e89f2a537：497、498、502 全部在；503～509 少的都在 heard_lines.js 的沒做清單，只有阿凱四句（3D 沒有他）和以安窗邊旁白要 AA 定"
+  },
+  {
+   "task": "HEROINE-LIFE-1028",
+   "branch": "claude/magical-albattani-bk7b4n",
+   "sha": "9bca0f407",
+   "files": [
+    "docs/story_planning/AA_514_新稿懸著的承諾自查_可昕最後一場模擬法庭.md"
+   ],
+   "state": "已交付",
+   "remaining": "",
+   "next": "LAWWW：AA_514 第 1 節可昕最後一場模擬法庭（KX_WATCH：AA_505／506 7-2「下次我去看。」補記；11/28 約 → 12/4 14:00 政大 → came／missed）＋第 2 節 AA_505 7-3 加一則嘉義予樂家動態（1/29）",
+   "noDirectIntegrate": false,
+   "receiver": "LAWWW",
+   "ack": "SENT",
+   "note": "自查今天新稿的懸著的承諾（同 AA_356 做法），只有可昕兩件沒下文；9bca0f407 第 4 節：nccu_food、晨希叫子晴改字、晨希大四兩句改錄音私訊"
+  },
+  {
+   "task": "COMPANY-PRIV-1028",
+   "branch": "claude/magical-albattani-bk7b4n",
+   "sha": "0e46fdc7e",
+   "files": [
+    "docs/story_planning/AA_503_女主角自己的生活_大一上_動態頁_圈子_她的事.md"
+   ],
+   "state": "已交付",
+   "remaining": "",
+   "next": "LAWWW：AA_503 第 14 節 ASK_AA 12 項（擋 1～5、10 的兩句；不擋 6、8、11；7 改一般版；9 加走廊旁白；12 例外三組）＋共同保底：沒有期限的私密項目等 7 天等不到她一個人，第 8 天起照演、開頭旁白「（她跟旁邊的人說了一聲，走到你這邊。）」",
+   "noDirectIntegrate": false,
+   "receiver": "LAWWW",
+   "ack": "SENT",
+   "note": "回 LAWWW-C d55f3aff1 要 AA 定的 18 項；0e46fdc7e 第 14 節後補（擋下的不算次數、七天不重算）"
+  },
+  {
+   "task": "CIRCLE3D-Y4-1028",
+   "branch": "claude/magical-albattani-bk7b4n",
+   "sha": "6bc3cd784",
+   "files": [
+    "docs/story_planning/AA_509_女主角自己的生活_大四上與寒假.md"
+   ],
+   "state": "已交付",
+   "remaining": "",
+   "next": "LAWWW：AA_509 最後一節大四圈子六項（學姊週五從 2029-01-12、子晴騎樓那一列延到 6/27、語彤暑假坐長桌最裡面；其他照現在）",
+   "noDirectIntegrate": false,
+   "receiver": "LAWWW",
+   "ack": "SENT",
+   "note": "回 LAWWW-C d55f3aff1 要 AA 定的 18 項"
+  },
+  {
+   "task": "HEROINE-LIFE-1028",
+   "branch": "claude/magical-albattani-bk7b4n",
+   "sha": "aec3d3d67",
+   "files": [
+    "docs/story_planning/AA_515_交往中約會後的動態.md"
+   ],
+   "state": "已交付",
+   "remaining": "",
+   "next": "LAWWW：AA_515 交往中約會後的動態（date3d 正式校外約會演完、交往中→當晚照她的時間貼一則；32 個地點照片表＋七位一句輪替／又來／留言私訊兩組；D07 不貼；不算七天兩則上限）；建議新檔 src/data/feed_dates.js",
+   "noDirectIntegrate": false,
+   "receiver": "LAWWW",
+   "ack": "SENT",
+   "note": "補 AA_503 第 0 節「交往中約會後的動態，台詞之後的批次寫」——LAWWW 子代理 03:5x 記沒做的那一類；aec3d3d67 第 6 節（回 LAWWW-C 398e1bd5f）"
+  },
+  {
+   "task": "DORM203-MATES-1028",
+   "branch": "claude/magical-albattani-bk7b4n",
+   "sha": "07709b4c6",
+   "files": [
+    "docs/story_planning/AA_517_宿舍大二到大四_312_507_409房間日常.md"
+   ],
+   "state": "已交付",
+   "remaining": "",
+   "next": "LAWWW：AA_517 大二 312／大三 507／大四 409 房間日常（背景室友走進來的旁白、阿哲 312 和柏翰 312／507／409 房間閒聊、三件小事 R312_SUPPER 11/19、R507_ZHE 5/30、R409_LAST 退宿前一晚＋203（舊生）群組兩則）；作息照 S.dormMates 不改",
+   "noDirectIntegrate": false,
+   "receiver": "LAWWW",
+   "ack": "SENT",
+   "note": "X123 延伸：AA_502 只有大一 203，大二以後房間有人但沒有房間裡的話；4e703821a 第 5 節（回 LAWWW-C 10:06）；07709b4c6 5-後補（回 LAWWW-C 10:46）"
+  },
+  {
+   "task": "SIS-LEAD-1021",
+   "branch": "claude/magical-albattani-bk7b4n",
+   "sha": "ca08e848c",
+   "files": [
+    "docs/story_planning/AA_516_學姊第十四批_她在美國的五個月.md",
+    "docs/story_planning/AA_512_學姊第十三批_她自己的事當面演_說了沒發生九件.md"
+   ],
+   "state": "已交付",
+   "remaining": "",
+   "next": "LAWWW：AA_516 第 1 節修正十二處（g6 班次、12/20 截圖、大峽谷才交往跳過 g1～h3、sisUS 要交往中、13-7 改 20:30、接機按鈕要 met、saOn 要聯絡方式、雪兩句、感恩節一句、usFall 改 10/9～10、美國路線不送書照片）＋第 2 節 A/B（8/3 電話、h1～h9、10/26 等你考完、12/31 鍋子）＋第 3 節 C（t4～t7）＋第 4 節 E（9/2 咖哩、SU-L6 07:00、SU-L7 週六外套、第四十天傘、SU-L8 旁白）＋第 5 節 F（9/2 群組）",
+   "noDirectIntegrate": false,
+   "receiver": "LAWWW",
+   "ack": "SENT",
+   "note": "C25 學姊第十四批；盤點 scratchpad/inv9（8a62128a5）；AA_512 13-7 家聚邀約改 20:30；cf7d5fa94 第 7 節（回 LAWWW-C a436323c2）；3cd10909b 第 8 節（AA_515～517 懸著的承諾自查，補兩句）；d6f8621ac、913802344 第 8 節第 3、4 點（碗那一句放哪一場、細位置）；ca08e848c 第 8 節第 5 點（回 LAWWW-C 12:19：3-2 滷肉碗那一句移到 label e 後、mem 前，兩支都出）"
+  },
+  {
+   "task": "SIS-LEAD-1021",
+   "branch": "claude/magical-albattani-bk7b4n",
+   "sha": "973dd1b74",
+   "files": [
+    "docs/story_planning/AA_518_學姊第十五批_學校裡的平常日子.md"
+   ],
+   "state": "已交付",
+   "remaining": "",
+   "next": "LAWWW：AA_518 第 1 節寒暑假九場（認識以上，週三下午／晚上）、第 2 節家族讀書會（大三週四 19～21 法圖討論室作息＋四次演出 10/21、12/9、3/16、5/11，D 記 met_sis）、第 3 節說了沒發生十件（Kevin 畢業合照＋國考集氣、期中後、3/15 群組、3/16 便當、拍照傳給她、兩把傘、兩件外套、你請、火鍋照片、送機私訊）、第 4 節對不上十五處",
+   "noDirectIntegrate": false,
+   "receiver": "LAWWW",
+   "ack": "SENT",
+   "note": "C25 學姊第十五批（學校裡）；盤點 scratchpad/inv10（eed58ad5c）"
+  },
+  {
+   "task": "NPC-STORY-1028",
+   "branch": "claude/magical-albattani-bk7b4n",
+   "sha": "873b670c0",
+   "files": [
+    "docs/story_planning/AA_519_配角第二批_麵店阿姨_陳助教_Café_黃筱涵_阿凱.md"
+   ],
+   "state": "已交付",
+   "remaining": "予樂（下一批）",
+   "next": "LAWWW：AA_519 麵店阿姨（櫃台換阿姨中年底模、3D 說話照時期表、店名由來 AUNT_NAME、吃好一點／送小菜換句、ANNIVERSARY_23→ANNIV23、刪 JOB_NOODLE 那幾句、一百元清單改）、陳助教（年級、論文第五章、照學年閒聊、6/16 heard、6/20 私訊）、Café（櫃台老闆、說話表、打工台詞、拉花 2D、小婷點餐、小禾、heard_lines:25 接上）、黃筱涵（照學年、受試者 2D HXH_SUBJECT）、阿凱（週五資工系館前、說話表含 KAI_K5 回聲、宵夜三句、颱風兩年改、宜蘭、聊天池照年級）、第 6 節（立衡 3/31→4/7、方奕廷照學年、予樂重複介紹）",
+   "noDirectIntegrate": false,
+   "receiver": "LAWWW",
+   "ack": "SENT",
+   "note": "X119 第二批；盤點 scratchpad/inv11（64e12da0e）"
+  },
+  {
+   "task": "NPC-STORY2-1028",
+   "branch": "claude/magical-albattani-bk7b4n",
+   "sha": "481dd8238",
+   "files": [
+    "docs/story_planning/AA_520_予樂自己的線_辦活動的人不在照片裡.md"
+   ],
+   "state": "已交付",
+   "remaining": "",
+   "next": "LAWWW：AA_520 予樂——第 1 節收件條件（yule＋和可昕沒有鬧翻）、第 2 節 h503_yule 加兩句、第 3 節 p:yule 十四則（3-1～3-16）、第 4 節 ev_yule_lecture（10/14 邀請四種回覆、10/20 ①霖澤館 201／②阿鳳、4-3 共同、4-4 沒去的私訊）、第 5 節 h509_yule 選項＋23:55＋2029-01-12 檔案、第 6 節可昕 2028-09-16 21:10 兩句；旗標 YL_LEC／YL_ROOM／YL_RPT、記憶 YL_LECTURE；不用 3D",
+   "noDirectIntegrate": false,
+   "receiver": "LAWWW",
+   "ack": "SENT",
+   "note": "X119 配角第二批的下一位（AA_519 第 6 節留的）；可以和 AA_519 一起排"
+  },
+  {
+   "task": "NPC-STORY2-1028",
+   "branch": "claude/magical-albattani-bk7b4n",
+   "sha": "0f4b48f20",
+   "files": [
+    "docs/story_planning/AA_521_經濟系的朋友_法律系那三年_何俊朗_日文班.md"
+   ],
+   "state": "已交付",
+   "remaining": "",
+   "next": "LAWWW：AA_521——第 1 節 D2 照學期換句（韋綸／唐睿／阿勳每學期 a、b 兩句，大一下～大三下；品妤新增 ev_b106d2_pinyu 週五 12:05 普通教學館每學期一句；S.b106d2Key 照學期取鍵）、第 2 節「走啦」群組五則（2026-05-13、2027-04-14、2027-05-24、2027-11-30、2028-06-03）、第 3 節何俊朗 longGreet 加日期範圍六句、第 4 節日文班三則（采蓁、宇恆；4-3 日本路線有回覆 CZ_VET_PHOTO）",
+   "noDirectIntegrate": false,
+   "receiver": "LAWWW",
+   "ack": "SENT",
+   "note": "X119 inv11 第六～八節；去向照 BB_106 第 405～412 行；可以和 AA_519、AA_520 一起排"
+  },
+  {
+   "task": "NPC-STORY2-1028",
+   "branch": "claude/magical-albattani-bk7b4n",
+   "sha": "fcc93126e",
+   "files": [
+    "docs/story_planning/AA_522_教授的研究室_周許林照學期換.md"
+   ],
+   "state": "已交付",
+   "remaining": "周教授四題民法 LEGAL_REVIEW_REQUIRED（審過才定稿）",
+   "next": "LAWWW：AA_522——周教授閒聊「週四下課以後」（改 tests/aa195_411_unit.js 第 3 項）、研究室照學期（大一上加一題、大一下兩題、大二上兩題、大四下一次）問完就不觸發；許教授招呼與問題照年級；林教授下課後開頭照次數＋新 ev_prof_lin_office；陳教授閒聊改字（改 tests/aa130_curriculum_unit.js 第 9 項）",
+   "noDirectIntegrate": false,
+   "receiver": "LAWWW",
+   "ack": "SENT",
+   "note": "X119 inv11 第十一節；可以和 AA_519～521 一起排"
+  },
+  {
+   "task": "SIS-LEAD-1021",
+   "branch": "claude/magical-albattani-bk7b4n",
+   "sha": "0d7b5388b",
+   "files": [
+    "docs/story_planning/AA_523_學姊第十六批_回臺灣以後的最後半年.md"
+   ],
+   "state": "已交付",
+   "remaining": "新體育館游泳池 2D 背景（BB 跟使用者要）",
+   "next": "LAWWW：AA_523——A：1-1 12/24 滷肉飯、1-2 1/20 最後一箱、1-3 3/28 研究單位回信（書桌夜那一晚；沒去的補到 4/11、4/15 私訊）、1-4 5/12 游泳＋早餐店、1-5 6/5 修正本；B：2-1 2/16 私訊＋2/20 書、2-2 3/3～24 週六受訪阿姨、2-3 3/26～4/13 碩一學妹（B、C）、2-4 6/23 還書（A、B）、2-5 12/25 白天的電話；家族：3-1 1/10 明信片、3-2 3/20 群組＋3/22 讀書會旁聽（D 到熟悉）、3-3 6/2 生日群組給全部家族＋C 典禮一眼、3-4 6/29 群組；R：4-1 總圖門口；第 5 節九件兌現（接機外套、車上拍、補一天、到時候再問、拍照…）；第 6 節十五處改字＋書桌夜四句；上班日 2029-07-02",
+   "noDirectIntegrate": false,
+   "receiver": "LAWWW",
+   "ack": "SENT",
+   "note": "C25 學姊第十六批；盤點 scratchpad/inv12（8ffdddd91）"
+  },
+  {
+   "task": "HEROINE-LIFE-1028",
+   "branch": "claude/magical-albattani-bk7b4n",
+   "sha": "6081f725f",
+   "files": [
+    "docs/story_planning/AA_524_說了沒發生_以安芷若語彤.md",
+    "docs/story_planning/AA_525_說了沒發生_子晴沛珊可昕.md"
+   ],
+   "state": "已交付",
+   "remaining": "",
+   "next": "LAWWW：AA_524（以安、芷若、語彤 34 條，8fd10848d）＋AA_525（子晴、沛珊、可昕 29 條）——說了沒發生：在之後已有的場合補一兩句（R1 第一碗、告白理由欄、芷若聖誕視訊一起看片、早場、十點電話、倒數第三排、語彤跨年視訊、店休出去、對岸那排房子、子晴第三張貼紙、zq_play／zq_demo／zq_play2 三場分開寫、沛珊告白她先開口、國中那條路、課輔班卡片、可昕聖誕第二頁＋換禮物、美國週年卡片＋摩天輪、第三個願望、手寫卡片、實習第一天電話…）、改原句、補旗標（各份第 4 節）",
+   "noDirectIntegrate": false,
+   "receiver": "LAWWW",
+   "ack": "SENT",
+   "note": "X122★；LAWWW-C 14:26 建議；盤點 inv13a／inv13b（60a55dd3c）"
   }
  ],
  "items": [

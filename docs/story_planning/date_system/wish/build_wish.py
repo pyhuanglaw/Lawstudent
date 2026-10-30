@@ -56,6 +56,7 @@ for who in src.ORDER:
     sec = sec.split('**再去 D')[0]               # 再去的台詞在地點檔
     sec = re.sub(r'^\*\*她的心願\*\*.*$', '', sec, flags=re.M)   # 心願說明（寫在 wish 欄位的摘要），不是台詞
     sec = re.sub(r'^  - 大三下 K18.*$', '', sec, flags=re.M)   # K18、大四下春假的回聲在 BB_98 9-13、BB_99 9-15（已改）
+    sec = re.sub(r'^> \*\*（2026-10-21 AA-C，`AA_349` K3.*$', '', sec, flags=re.M)   # 沛珊大三起的台南版在 src/data/hometown_lines.js（AA_349 K3），不在 wish_bb（2026-10-23 AA-B）
     js = norm(json.dumps(out['events'][who], ensure_ascii=False))
     quotes = set()
     for m in re.finditer(r'^> ' + re.escape(NAMES[who]) + r'：(.+)$', sec, re.M): quotes.add(m.group(1))

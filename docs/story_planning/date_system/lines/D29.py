@@ -29,7 +29,7 @@ H['heroine_02']=dict(  # 芷若：光、電影、咖啡師、台中的家
  })
 H['heroine_04']=dict(  # 子晴：晚上的生物、遊戲；「欸不是」三次以內、「這不是問句」兩次以內
  likes={'D29.warehouse':'like','D29.sculpture':'like','D29.harbor':'normal','D29.rail':'normal'},
- arrive=dict(first=('any',['欸不是，高雄好熱。','我需要冷氣。先冷氣，再看展。']),
+ arrive=dict(first=('any',['高雄好熱。','我需要冷氣。先冷氣，再看展。']),
    normal=[('any',['高鐵上我睡了一小時。電量滿格。']),('any',['先看展，再吃冰，晚上去港口。這樣排可以吧？']),('high',['這次我沒帶電腦。……好啦，有帶平板。'])],
    dating=[('any',['兩天。要吃的我列好了，你挑。'])]),
  close=dict(first=('any',['回程我要睡。……到台北叫我。','照片我晚上整理好再傳你。不要催。']),
