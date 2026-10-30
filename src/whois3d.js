@@ -81,7 +81,7 @@ const WHOIS=(()=>{
       if(r.y3) return r.four?'室友：大一 203、大二 312、大三 507。':'室友：大二 312、大三 507。';
       if(r.y2) return r.four?'室友：大一 203、大二 312。':'室友：大二 312。';
       return '大一同住 203，他比你先搬進去。'; }},
-    {c:3,id:'score',if:f('BOHAN_SCORE'),t:'大一上期中考完，他問過你考幾分。'},
+    {c:3,id:'score',if:f('BOHAN_SCORE'),t:'大一上期中考完，他問過你第三題怎麼寫。'},   /* AA_546 1-6（D116）*/
     {c:3,id:'ps',keep:true,if:psBh,t:'大一下，他和沛珊在一起了。'},
     {c:3,id:'split',keep:true,if:f('PEISHAN_BOHAN_SPLIT'),t:'大一下他和沛珊在一起過，大二上分開了。',rep:['ps']},
     {c:3,id:'club',if:G=>y(G,2)&&heard(G,BH,'「法服的值班表，我排到十二月了。」'),t:'大二當法服社長。'},

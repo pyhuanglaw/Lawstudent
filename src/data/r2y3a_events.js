@@ -373,21 +373,22 @@ const R2Y3A_EVENTS=(function(){
       {set:{AN14:'there'}},(mem('heroine_01','AN_ADMIN_COURT')) ] };
 
   /* ---------- 2-Y3-14 翰 4「四樓的樓梯間」（裁定 #8）：第 10 週（11/8～11/12）平日 12:10～13:00，霖澤館 4F（linze_4f）樓梯間，他坐在往五樓那扇刷卡門前的台階上（「5 樓以上是研究室，樓梯間的門要刷教職員證。」；作息在 r2y3a3d.js），和柏翰 FAMILIAR 以上。
-     三、四樓已經開放、沒有整修的樓梯口了（AA_343 B7，569621e0 改四樓；第一版的 202 門口作廢：202 已做成正式教室）：標題改、id 不變；「台階」、選項、「走了兩階」照原文 ---------- */
+     三、四樓已經開放、沒有整修的樓梯口了（AA_343 B7，569621e0 改四樓；第一版的 202 門口作廢：202 已做成正式教室）：標題改、id 不變；「台階」、選項、「走了兩階」照原文。
+     AA_546 1-5（NO-COMPARE-1030，D116）：念得慢、記得久；拿掉跟哥哥比、「跟不上你們」「沒有輸太多」 ---------- */
   const THIRD={ id:'ev_bohan_third_floor', title:'四樓的樓梯間', participants:['classmate_bohan'], location:'linze_4f', trigger:'auto', once:true, background:'blur', npcNear:'classmate_bohan', nearDist:3,
     term:['Y3S1'], weeks:[10], weekday:[1,2,3,4,5], time:[12+10/60,13],
     prereq:{custom:(G,GM)=>stAt(G,'classmate_bohan','FAMILIAR')},   /* linze_4f 只有一層 */
     dialogue:[ {speaker:'classmate_bohan',expression:'tired',text:'（看到祐廷，沒有站起來）……你不要說話。'},
-      {speaker:'classmate_bohan',expression:'serious',text:'刑訴。我最喜歡的一科。平均以下。'},
+      {speaker:'classmate_bohan',expression:'serious',text:'刑訴。我最喜歡的一科。六十二。'},
       {speaker:'classmate_bohan',text:'你知道我為什麼每天念六小時嗎。'},
-      {speaker:'classmate_bohan',text:'不是因為我很認真。是因為我不念，就跟不上你們。'},
-      {speaker:'classmate_bohan',text:'我哥念電機，一天念兩小時。我們家只有我需要六小時。'},
-      {speaker:'classmate_bohan',text:'我問大家考幾分，是想確定我沒有輸太多。'},
-      {if:{memory:[{npc:'classmate_bohan',tag:'ASKED_BACK'}]},speaker:'classmate_bohan',text:'……那天你反問我。我回家想了很久，為什麼我不敢反問別人。'},
-      {choice:[{text:'「六小時也是你的。」',goto:'b1'},{text:'「你跟上了啊。你還坐在第一排。」',goto:'b2'},{text:'（在他旁邊的台階坐下）',goto:'b3'}]},
+      {speaker:'classmate_bohan',text:'不是因為我很認真。是因為我念得慢。一頁要看三次，才記得住。'},
+      {speaker:'classmate_bohan',text:'可是看三次的東西，我都不會忘。……這是我唯一確定的事。'},
+      {speaker:'classmate_bohan',text:'我問大家第三題怎麼寫，是想知道別人怎麼想。我自己只會一種想法。'},
+      {if:{memory:[{npc:'classmate_bohan',tag:'ASKED_BACK'}]},speaker:'classmate_bohan',text:'……那天你反問我錯哪裡。我回家想了很久，我從來沒跟人說過我錯哪裡。'},
+      {choice:[{text:'「六小時也是你的。」',goto:'b1'},{text:'「念得慢、記得久，那很好啊。」',goto:'b2'},{text:'（在他旁邊的台階坐下）',goto:'b3'}]},
       {label:'b1'},{speaker:null,text:'（他看著那扇刷卡的門很久。）'},{speaker:'classmate_bohan',text:'……我的。'},{speaker:null,text:'（他笑了一下，很小。）'},{goto:'end'},
-      {label:'b2'},{speaker:'classmate_bohan',text:'第一排是因為我怕坐後面聽不到。'},{speaker:null,text:'（他說完自己笑了。）'},{goto:'end'},
-      {label:'b3'},{speaker:null,text:'（兩個人坐到下一節課的鐘響。他站起來：）'},{speaker:'classmate_bohan',text:'今天的事，……就到這裡。'},{speaker:null,text:'（走了兩階又停下來：）'},{speaker:'classmate_bohan',text:'……下次我考好了，那個你可以說。'},
+      {label:'b2'},{speaker:null,text:'（他笑了一下，很小。）'},{speaker:'classmate_bohan',text:'……那我以後不要說『只是』念得慢。'},{goto:'end'},
+      {label:'b3'},{speaker:null,text:'（兩個人坐到下一節課的鐘響。他站起來：）'},{speaker:'classmate_bohan',text:'今天的事，……就到這裡。'},{speaker:null,text:'（走了兩階又停下來：）'},{speaker:'classmate_bohan',text:'……下次我考好了，我先跟你說。'},
       {label:'end'},(mem('classmate_bohan','BOHAN_HONEST')),{set:{BH4_DONE:true}} ] };   /* BH4_DONE＝翰 4 演完（AA_496 第 9 節第 1 點）：推甄面試「我是真的想知道」那一版（r2y4a_events.js）、尾聲 bh4（postgrad3d.js）讀它；舊存檔沒有＝照沒演過 */
 
   /* ---------- 2-Y3-15 校慶（大三版）：11/13（六）10:00～16:00 椰林大道，和大二同一個帳篷。法服成員＝攤位版；不是＝路過版。學姊那段只在 12:00～12:30；不改 GRANDMA_TREE_Y2 ---------- */

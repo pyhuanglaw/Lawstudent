@@ -896,21 +896,17 @@ const STORY_EVENTS=[
     after:G=>{ if(typeof SOCIAL==='undefined'||typeof STORY==='undefined') return; for(const id of ['zhe','classmate_bohan','yu','classmate_xinci','classmate_mingxuan','heroine_01']) if(STORY.knows(id,G)) SOCIAL.remember(id,'SHARED_CLASS','民總期中考'); } },
   /* 翰 1 你考幾分（交付清單 A16：AA_40 翰 1，接 ev_bohan_kaogu；AA 2026-10-14）：大一上期中放榜——第 10 週的民總下課（第 10 週沒去上課的話第 11 週那堂），霖澤館走廊。
      遊戲不顯示分數（AA_104 第 10 節）：「（告訴他分數）」只有旁白「你說了分數。」，比他高／低照民總的準備程度（很好＝比他高，不錯以下＝比他低：CLS.gradeOf）。
-     記憶 TOLD_SCORE（備註寫比他高／低；分數高於他的玩家，大二的翰 2 會被邀請）、ASKED_BACK（翰 4 多一句）；BOHAN_SCORE：higher／lower／no（「不想說。」翰 2 不邀請）。
+     記憶 TOLD_SCORE（跟他講第三題怎麼寫）、ASKED_BACK（翰 4 多一句）；BOHAN_SCORE：told／unsure／asked（AA_546 1-2；舊存檔的 higher／lower／no 照舊有值）。
      沒見過他：先用 ev_bohan_kaogu 的自我介紹那句 */
-  { id:'ev_bohan_score', title:'你考幾分', participants:['classmate_bohan'], location:'classroom', trigger:'class', afterClass:'civ_general', term:['Y1S1'], weeks:[10,11], carryTo:15, once:true, background:'blur',   /* AA_294 ②：第 10～11 週沒去民總，延到下一次出席（到第 15 週）*/
+  { id:'ev_bohan_score', title:'第三題',   /* AA_546 1-2（NO-COMPARE-1030，D116 不跟別人比）：問寫法、不問分數 */ participants:['classmate_bohan'], location:'classroom', trigger:'class', afterClass:'civ_general', term:['Y1S1'], weeks:[10,11], carryTo:15, once:true, background:'blur',   /* AA_294 ②：第 10～11 週沒去民總，延到下一次出席（到第 15 週）*/
     dialogue:[ {unless:{memory:[{npc:'classmate_bohan',tag:'FIRST_MET'}]},speaker:'classmate_bohan',expression:'serious',text:'許柏翰。第一排那個。'},
-      {speaker:'classmate_bohan',expression:'serious',text:'你民總幾分？'},
+      {speaker:'classmate_bohan',expression:'serious',text:'民總期中，第三題你怎麼寫？'},
       {speaker:'classmate_bohan',expression:'neutral',text:'我問了十四個人。你是第十五個。'},
-      {choice:[{text:'（告訴他分數）',goto:'tell'},{text:'「不想說。」',set:{BOHAN_SCORE:'no'},goto:'no'},{text:'「你考幾分？」',set:{BOHAN_SCORE:'asked'},consequences:{mem:[{npc:'classmate_bohan',tag:'ASKED_BACK',note:'期中放榜'}]},goto:'back'}]},
-      {label:'tell'},{speaker:null,text:'你說了分數。'},
-      {if:{custom:G=>typeof CLS!=='undefined'&&CLS.gradeOf(((CLS.rec(G)||{}).prep||{}).civ_general||0)==='很好'},goto:'hi'},
-      {set:{BOHAN_SCORE:'lower'}},{mem:[{npc:'classmate_bohan',tag:'TOLD_SCORE',note:'期中放榜，告訴他民總的分數（比他低）'}]},
-      {speaker:'classmate_bohan',expression:'neutral',text:'好。'},{speaker:null,text:'他也寫進手機的備忘錄。'},{goto:'end'},
-      {label:'hi'},{set:{BOHAN_SCORE:'higher'}},{mem:[{npc:'classmate_bohan',tag:'TOLD_SCORE',note:'期中放榜，告訴他民總的分數（比他高）'}]},
-      {speaker:null,text:'他點頭，寫進手機的備忘錄。'},{speaker:'classmate_bohan',expression:'neutral',text:'好。'},{goto:'end'},
-      {label:'no'},{speaker:'classmate_bohan',expression:'neutral',text:'好。'},{speaker:null,text:'他沒有生氣，只是把「15」改成「14」。'},{goto:'end'},
-      {label:'back'},{speaker:null,text:'他停了一下。'},{speaker:'classmate_bohan',expression:'neutral',text:'……八十一。第六。'},{speaker:null,text:'第一次有人反問他。'},
+      {choice:[{text:'（講你怎麼寫的）',set:{BOHAN_SCORE:'told'},goto:'tell'},{text:'「我也不確定。」',set:{BOHAN_SCORE:'unsure'},goto:'unsure'},{text:'「你錯哪裡？」',set:{BOHAN_SCORE:'asked'},consequences:{mem:[{npc:'classmate_bohan',tag:'ASKED_BACK',note:'期中放榜'}]},goto:'back'}]},
+      {label:'tell'},{speaker:null,text:'你講了你的寫法。'},{speaker:'classmate_bohan',expression:'neutral',text:'……你先從事實看的。好。'},{speaker:null,text:'他寫進手機的備忘錄。'},
+      {mem:[{npc:'classmate_bohan',tag:'TOLD_SCORE',note:'期中放榜，跟他講第三題你怎麼寫'}]},{goto:'end'},
+      {label:'unsure'},{speaker:'classmate_bohan',expression:'neutral',text:'好。不確定也算一種寫法。'},{speaker:null,text:'他也寫進去。'},{goto:'end'},
+      {label:'back'},{speaker:null,text:'他停了一下。'},{speaker:'classmate_bohan',expression:'neutral',text:'……第三題。整題。'},{speaker:null,text:'第一次有人反問他。'},
       {label:'end'},{unless:{custom:G=>typeof INV!=='undefined'&&INV.hasContact(G,'classmate_bohan')},speaker:'classmate_bohan',expression:'neutral',text:'考古題我晚上傳給你。',consequences:{contact:'classmate_bohan'}} ] },   /* 聯絡方式的劇情時刻（AA_124 1-7、AA_70 2-5：期中放榜那天）。AA_372 第 16 項：8/29 起同寢，原本「你的聯絡方式。考古題要傳給你。」*/
   /* 考完的宵夜（交付清單 A15：AA_71 2-4、BB_95 3-6，AA 2026-10-14）：民總期中考那天晚上 20:30 公館滷味攤。公館有 3D 區域，滷味攤還沒有：先用出遊（轉場＋深色底，
      背景 gongguan_luwei 在 MISSING_EXTERNAL_ART）。誰揪：有麵店團群組＝阿哲在群組「考完了。滷味。」；沒有＝G1 結束時當面問。去不去由玩家選，不去不扣分。
@@ -3560,14 +3556,15 @@ const STORY_EVENTS=[
       {choice:[{text:'「我接。」',if:{custom:G=>typeof STORY!=='undefined'&&STORY.plgY1Count&&STORY.plgY1Count(G)>=5},set:{STUDYGROUP_LEADER:true}},{text:'（不說話）'}]} ] },
   /* 柏翰 翰 3 分數表（AA_40、AA_177 第 5 節；柏翰接題目整理的版本）：第二次聚會＝大二下第 2 週週三 3/3 的讀書會，白板上多了一張分數表；可以去找他談，或什麼都不做（都不改變翰 4）。
      沒去讀書會＝沒有。一個月後（第 6 週起第一次去讀書會）：來對題目的人從八個變四個。祐廷接的版本：3/3 21:00 柏翰在全班群組貼分布圖（story3d.js）*/
-  { id:'ev_bohan_scores', title:'分數表', participants:['classmate_bohan'], location:'wancai', trigger:'club', term:['Y2S2'], weeks:[2], weekday:[4], once:true, background:'blur',   /* 公法讀書會（週四，BB_191 §8-7）*/
+  { id:'ev_bohan_scores', title:'白板',   /* AA_546 1-4（D116）：每個人只寫自己的目標 */ participants:['classmate_bohan'], location:'wancai', trigger:'club', term:['Y2S2'], weeks:[2], weekday:[4], once:true, background:'blur',   /* 公法讀書會（週四，BB_191 §8-7）*/
     prereq:{memory:[{npc:'classmate_bohan',tag:'FIRST_MET'}],custom:G=>!G.flags.STUDYGROUP_LEADER},
-    dialogue:[ {speaker:null,text:'（白板上多了一張表：每個人上週讀了幾頁。）'}/* AA_375 第 23 項：第 1 週沒有小考 */,{speaker:'classmate_bohan',expression:'neutral',text:'這樣比較有效率。'},{speaker:null,text:'（以安看了白板一眼，沒說話，繼續發講義。）'},   /* AA_222：以安不出聲 */
-      {choice:[{text:'「讀書會不是比分數的地方吧。」',set:{HAN3_TALKED:true},goto:'talk'},{text:'（什麼都不做）'}]},{goto:'end'},
-      {label:'talk'},{speaker:'classmate_bohan',expression:'neutral',text:'她不來了。這樣大家比較知道自己差多少。'},{label:'end'} ] },   /* AA_255／AA_281 */
+    dialogue:[ {speaker:null,text:'（白板上多了一張表：每個人寫自己這週要讀到哪裡。）'},{speaker:'classmate_bohan',expression:'neutral',text:'寫下來比較不會忘。只寫自己的。'},{speaker:null,text:'（以安看了白板一眼，在自己那一格寫「刑總 第五章」。）'},
+      {choice:[{text:'「我也寫。」',set:{HAN3_TALKED:true},goto:'w'},{text:'「我這週很亂，寫不出來。」',set:{HAN3_TALKED:true},goto:'m'},{text:'（什麼都不做）'}]},{goto:'end'},
+      {label:'w'},{speaker:'classmate_bohan',expression:'neutral',text:'好。'},{goto:'end'},
+      {label:'m'},{speaker:'classmate_bohan',expression:'neutral',text:'那就寫「很亂」。也是一種進度。'},{label:'end'} ] },   /* AA_255／AA_281；AA_546 1-4 改 */
   { id:'ev_bohan_scores_month', title:'讀書會', participants:[], location:'wancai', trigger:'club', term:['Y2S2'], weeks:[6,7,8,9,10,11,12,13,14,15], weekday:[4], once:true, background:'blur',
     prereq:{custom:G=>!G.flags.STUDYGROUP_LEADER},
-    dialogue:[ {speaker:null,text:'（來對題目的人從八個變四個。）'} ] },
+    dialogue:[ {speaker:null,text:'（白板那張表，每個人的格子都寫滿了。有人在柏翰那一格畫了一個讚。）'} ] },   /* AA_546 1-4 */
   /* 沛珊 P4b 在 Café 的那一次（BB_97 4-4、AA_177 第 8 節②）：第 8 週週六 4/17，12:30 她傳「總圖滿了。兩點半，靠窗。」（story3d.js）→ 13:00～15:00 走進 Café 就演；可以錯過。
      只有兩個人的版本（祐廷在和別人交往、她也知道＝小組版，照舊在總圖，沒有這一次）。CG BCG-35 放在她把便條推過來的那一拍 */
   { id:'ev_peishan_cafe_42', title:'今天念了 42 頁', participants:['classmate_peishan'], location:'cafe', trigger:'auto', once:true, term:['Y2S2'], time:[13,15], background:'blur',
@@ -4059,27 +4056,27 @@ const STORY_EVENTS=[
     dialogue:[ {speaker:'classmate_peishan',expression:'neutral',text:'柏翰說他不懂。……他沒有錯。我們想要的東西不一樣。'},
       {speaker:'classmate_peishan',expression:'neutral',text:'我們上週分開了。我自己說的。'} ],
     consequences:{flags:{PEISHAN_BOHAN_SPLIT:true},memo:'沛珊說她和柏翰分開了'} },
-  /* 柏翰 翰 2 考古題小組（AA_40 翰 2；時間地點照 AA_177 第 5 節）：大二上第 7 週平日 18～21，總圖三樓（閱覽區，他的作息），翰 1 說出分數而且比他高（BOHAN_SCORE higher）的玩家走到他旁邊。
+  /* 柏翰 翰 2 考古題小組（AA_40 翰 2；時間地點照 AA_177 第 5 節）：大二上第 7 週平日 18～21，總圖三樓（閱覽區，他的作息），翰 1 演過、跟他有點熟以上的玩家走到他旁邊（AA_546 1-3：拿掉「只有分數比他高的才邀」）。
      選「好。」＝小組每週六 16:00～18:00，總圖 B1 討論室（出發選單，story3d.js 'bohan_group_<day>'）；第三次的旁白「你第一次在意一個數字。」。沒被邀請的：第 7～8 週第一次在麵店，阿哲一句（ev_bohan_group_heard）*/
   { id:'ev_bohan_exam_group', title:'考古題小組', participants:['classmate_bohan'], location:'library', trigger:'auto', term:['Y2S1'], weeks:[7], weekday:[1,2,3,4,5], time:[18,21], once:true, background:'blur', near:{npc:'classmate_bohan',r:3},
-    prereq:{custom:G=>G.flags.BOHAN_SCORE==='higher'},
-    dialogue:[ {speaker:'classmate_bohan',expression:'neutral',text:'我在組一個考古題小組。四個人。每週對答案，算分。'},
+    prereq:{stage:{npc:'classmate_bohan',min:'FAMILIAR'},custom:G=>!!(G.events&&G.events.done&&G.events.done.ev_bohan_score)},
+    dialogue:[ {speaker:'classmate_bohan',expression:'neutral',text:'我在組一個考古題小組。每週寫一份，寫完互相看怎麼寫。'},
       {speaker:'classmate_bohan',expression:'neutral',text:'以安說不要。她說她週四有讀書會。'},
-      {speaker:'classmate_bohan',expression:'neutral',text:'（看手機的備忘錄）你分數夠。你要不要來。'},
-      {choice:[{text:'「好。」',set:{BOHAN_GROUP:'yes'},goto:'y'},{text:'「不了。」',set:{BOHAN_GROUP:'no'},goto:'n'},{text:'「分數不夠的人呢？」',set:{BOHAN_GROUP:'ask'},goto:'q'}]},
-      {label:'y'},{speaker:null,text:'小組每週六下午，總圖 B1 的討論室。對答案、算分、排名。'},{goto:'end'},
-      {label:'n'},{speaker:'classmate_bohan',expression:'neutral',text:'好。'},{speaker:null,text:'（他把你的名字劃掉。）'},{goto:'end'},
-      {label:'q'},{speaker:null,text:'他愣住。'},{speaker:'classmate_bohan',expression:'neutral',text:'……分數不夠，就跟不上。'},{speaker:null,text:'他自己聽到這句話，臉色變了一下。'},{mem:[{npc:'classmate_bohan',tag:'ASKED_LOW_SCORE',note:''}]},
+      {speaker:'classmate_bohan',expression:'neutral',text:'你要不要來？'},
+      {choice:[{text:'「好。」',set:{BOHAN_GROUP:'yes'},goto:'y'},{text:'「不了。」',set:{BOHAN_GROUP:'no'},goto:'n'},{text:'「我寫得很慢，可以嗎？」',set:{BOHAN_GROUP:'slow'},goto:'q'}]},
+      {label:'y'},{speaker:null,text:'小組每週六下午，總圖 B1 的討論室。寫完，一個人講一題。'},{goto:'end'},
+      {label:'n'},{speaker:'classmate_bohan',expression:'neutral',text:'好。想來再跟我說。'},{goto:'end'},
+      {label:'q'},{speaker:null,text:'他愣了一下。'},{speaker:'classmate_bohan',expression:'neutral',text:'……我也是。所以才組的。'},{mem:[{npc:'classmate_bohan',tag:'ASKED_SLOW',note:''}]},
       {label:'end'} ],
     after:G=>{ if(G.flags.BOHAN_GROUP==='yes') G.flags.BOHAN_GROUP_DAY=G.day; } },
   { id:'ev_bohan_group_session', title:'考古題小組', participants:[], location:'any', trigger:'outing', background:'dark', hours:2,
     dialogue:[ {scene:'總圖 B1・討論室',bg:'library_b1'},
       {if:{custom:G=>!(G.flags.BOHAN_GROUP_N|0)},speaker:null,text:'（四個人，一張考古題。柏翰按下手機的計時器。）'},   /* AB65-3（AA_211 附錄 A 第 3 節第 7 點）：第一次補一句旁白 */
-      {if:{custom:G=>(G.flags.BOHAN_GROUP_N|0)===2},speaker:null,text:'（第二次對完答案，柏翰把分數寫在白板上。你發現自己先找的是自己的名字。）'} ],
+      {if:{custom:G=>(G.flags.BOHAN_GROUP_N|0)===2},speaker:null,text:'（寫完，柏翰把每個人的寫法抄在白板上。同一題有四種寫法，都說得通。）'} ],   /* AA_546 1-3 */
     after:G=>{ G.flags.BOHAN_GROUP_N=(G.flags.BOHAN_GROUP_N|0)+1; } },
   { id:'ev_bohan_group_heard', title:'', participants:['zhe'], location:'noodle', trigger:'auto', term:['Y2S1'], weeks:[7,8], once:true, background:'blur', near:{npc:'zhe',r:4},
-    prereq:{custom:G=>G.flags.BOHAN_SCORE!=='higher'},
-    dialogue:[ {speaker:'zhe',expression:'neutral',text:'柏翰組了一個菁英小組。我沒被邀。'} ] },
+    prereq:{custom:G=>G.flags.BOHAN_GROUP!=='yes'},   /* 沒去的玩家（AA_546 1-3）*/
+    dialogue:[ {speaker:'zhe',expression:'neutral',text:'柏翰組了一個考古題小組。我去了一次。……他講第三題講了四十分鐘。'} ] },
   /* 以安新 8 讀書會的規則太多（交接包 v3 3b，AA；後半照 AA_140 G13、AA_177 撞期 #2）：大二上第 7 週週四 20:00 的公法讀書會（萬才館研討室，classes3d.js clubEvent 先演這件），加入過的玩家在場（PUBLIC_LAW_GROUP）。
      沒加入的、在麵店團：Alison 在群組傳撕掉一半的規則＋以安一句（記「聽說」）。後半：同一週週六 14:00 期中前的補讀（以安在群組約、出發選單）＝人回來了（CG-2，檔案還沒有）；記 PLG_RULES。
      沒去後半、在群組的玩家看 Alison 傳的照片（CG-2b：Alison 在群組傳的照片＋三則，src/y2r2_3d.js，AA_343 E2；AA_355 第 3 節）*/

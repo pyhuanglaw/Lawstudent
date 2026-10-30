@@ -47,8 +47,8 @@ const NEEDED_MSGS=(function(){
     // 柏翰（AA_179）
     {id:'bh_handover',who:'classmate_bohan',term:'Y2S1',w:[1,3],tie:true,cond:lawclub,msg:['社長交接的資料有一百頁。你幫我看第一章就好。'],reply:'好。',resp:['……謝謝。我以為社長只要會排值班表。'],miss:['交接資料第一章，我自己看完了。……一百頁都看完了。']},
     {id:'bh_q3',who:'classmate_bohan',term:'Y2S1',w:[6,8],tie:true,msg:['刑分考古題第三題，你寫哪一說？'],reply:'兩說都寫。',resp:['……考試時間不夠。'],miss:['上週問你刑分第三題……算了，我自己查到了。']},
-    {id:'bh_score',who:'classmate_bohan',term:'Y2S1',w:[11,13],tie:true,cond:G=>F(G).BOHAN_GROUP==='ask',msg:['你上次說分數不夠的人。我還在想。'],reply:'想到了跟我說。',resp:['嗯。'],miss:['分數不夠的人那件事……我還在想。']},
-    {id:'bh_scores',who:'classmate_bohan',term:'Y2S2',w:[7,9],tie:true,cond:G=>att(G,'public_law_group')&&done(G,'ev_bohan_scores'),msg:['分數表那件，以安都沒說話。她是不是不高興？'],reply:'你自己問她。',resp:['……好。'],miss:['讀書會那則，你沒回也沒關係。']},   /* 原 bh_moot（模擬法庭刪除）；只在 ev_bohan_scores 演過才出現 */
+    {id:'bh_score',who:'classmate_bohan',term:'Y2S1',w:[11,13],tie:true,cond:G=>F(G).BOHAN_GROUP==='slow'||F(G).BOHAN_GROUP==='ask',msg:['你上次說寫得慢。我現在都等最後一個寫完才對。'],reply:'好。',resp:['嗯。'],miss:['你上次說寫得慢那件事。我現在都等最後一個寫完。']},   /* AA_546 1-3（舊存檔的 ask 一樣）*/
+    {id:'bh_scores',who:'classmate_bohan',term:'Y2S2',w:[7,9],tie:true,cond:G=>att(G,'public_law_group')&&done(G,'ev_bohan_scores'),msg:['以安在白板上寫了她這週的進度。她寫字好工整。'],reply:'你自己跟她說。',resp:['……好。'],miss:['讀書會那則，你沒回也沒關係。']},   /* 原 bh_moot（模擬法庭刪除）；只在 ev_bohan_scores 演過才出現 */
     {id:'bh_final',who:'classmate_bohan',term:'Y2S2',w:[14,15],msg:['期末的考古題整理好了，放在讀書會的雲端。'],reply:'謝謝。',resp:['民法那份少一年，我還在找。'],miss:null},
     // 芯慈（AA_179）
     {id:'xc_econ',who:'classmate_xinci',term:'Y2S1',w:[2,4],tie:true,cond:G=>!!F(G).ECON_TOGETHER,msg:['經濟那邊，這學期你還陪我看嗎？'],reply:'好。',resp:['那週三總圖。'],miss:['經濟那邊，你沒回。……我自己去聽了。']},
