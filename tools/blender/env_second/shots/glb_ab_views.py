@@ -18,8 +18,11 @@ HIDE = "#hud,#hudR,#joy,#interact,#minimap,#btnMenu,#btnRun,#ctlR,#goal,#toast,#
 F = ImageFont.truetype('/usr/share/fonts/truetype/wqy/wqy-zenhei.ttc', 20)
 
 
-def mk(data):   # page.route 的處理函式會收到 (route, request) 兩個參數：資料要用閉包帶進去，不能用預設參數
-    async def fulfil(route): await route.fulfill(status=200, body=data, headers={'Content-Type': 'model/gltf-binary'})
+CT = {'.js': 'application/javascript', '.glb': 'model/gltf-binary', '.json': 'application/json', '.webp': 'image/webp', '.png': 'image/png'}   # 也可以換程式檔（RT-NIGHT-1028：改前改後是 zones3d.js 不一樣）
+
+
+def mk(data, ct='model/gltf-binary'):   # page.route 的處理函式會收到 (route, request) 兩個參數：資料要用閉包帶進去，不能用預設參數
+    async def fulfil(route): await route.fulfill(status=200, body=data, headers={'Content-Type': ct})
     return fulfil
 
 
@@ -32,7 +35,7 @@ async def main():
             pg.on('console', lambda m: errs.append('console: ' + m.text[:200]) if '失敗' in m.text or m.type == 'error' else None)   # 正式模型載入失敗時遊戲退回套件、只 console.warn（第一次試公館的時候整排店面不見了，截圖才看出來）
             for pair in [s for s in spec.split(',') if s]:
                 url_path, local = pair.split(':', 1)
-                await pg.route('**/' + url_path.lstrip('/') + '*', mk(open(local, 'rb').read()))
+                await pg.route('**/' + url_path.lstrip('/') + '*', mk(open(local, 'rb').read(), CT.get(os.path.splitext(local)[1], 'application/octet-stream')))
             await pg.goto(URL)
             for i in range(240):
                 if await pg.evaluate("!!(window.GAME&&document.getElementById('loading')&&document.getElementById('loading').classList.contains('hide'))"): break
