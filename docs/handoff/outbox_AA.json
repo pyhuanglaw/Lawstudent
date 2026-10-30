@@ -4285,6 +4285,21 @@
    "receiver": "LAWWW",
    "ack": "SENT",
    "note": "工具第二輪：博雅單獨、臺大學生；C 檔、查證句自動跳過；驗收掃描工具（開發分支基準 1148 處）"
+  },
+  {
+   "task": "AA522-ANSVAR-1030",
+   "branch": "claude/cool-heisenberg-o8kuqx",
+   "sha": "50cd33b53",
+   "files": [
+    "docs/story_planning/AA_522_教授的研究室_周許林照學期換.md"
+   ],
+   "state": "已交付",
+   "remaining": "",
+   "next": "LAWWW-B：AA_522 第 9 節第 1 點（第 250～253 行）half／bold／absent 三句",
+   "noDirectIntegrate": false,
+   "receiver": "LAWWW",
+   "ack": "SENT",
+   "note": "10-30 03:4x 已交，outbox 漏登（07:1x 補登）"
   }
  ],
  "items": [
