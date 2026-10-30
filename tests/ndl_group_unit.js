@@ -41,4 +41,16 @@ const gmsg=G=>(G.msgs||[]).filter(m=>m.th==='g:noodle_team').map(m=>[m.from||'',
 // 5 遊戲資料裡玩家看得到的字沒有「麵店團」（註解不算）
 { const hits=[]; for(const dir of ['src','src/data']) for(const f of fs.readdirSync(path.join(H.ROOT,dir))){ if(!/\.js$/.test(f)) continue; const src=fs.readFileSync(path.join(H.ROOT,dir,f),'utf8').replace(/\/\*[\s\S]*?\*\//g,'').replace(/(^|[^:'"\\])\/\/[^\n]*/g,'$1').replace(/["']?(note|doc|src)["']?\s*:\s*("([^"\\\n]|\\.)*"|'([^'\\\n]|\\.)*')/g,'');   /* note／doc／src＝開發說明，玩家看不到 */ const re=/'([^'\\\n]|\\.)*'|"([^"\\\n]|\\.)*"|`([^`\\]|\\.)*`/g; let m; while((m=re.exec(src))){ if(m[0].indexOf('麵店團')>=0&&!/^'(「)?麵店團(」)?'$/.test(m[0])&&!(f==='v6ex3d.js'&&/^'A3 以安：/.test(m[0]))) hits.push(dir+'/'+f+': '+m[0].slice(0,40));   /* 除外：舊存檔改名比對用的「麵店團」、v6ex3d.js 的 S.NOT_DONE（給 LAWWW／AA 看的沒做清單）*/ } }
   check('5. src 的字串（不含註解、note 開發說明）沒有「麵店團」（舊存檔改名比對用的、S.NOT_DONE 除外）',!hits.length,hits.slice(0,6).join('｜')); }
+// 6 第一次併桌（AA_542 1-1、1-2）：民總下課阿哲約；答應＝18:30 阿鳳麵店（出遊）；不管答應不答應，當天 21:00 建群組
+{ const inv=(STORY_EVENTS||[]).find(e=>e.id==='ev_zhe_noodle_invite'), out=(STORY_EVENTS||[]).find(e=>e.id==='ev_zhe_long_table_out'), auto=(STORY_EVENTS||[]).find(e=>e.id==='ev_zhe_long_table');
+  const T=e=>(e&&e.dialogue||[]).filter(x=>x.text).map(x=>x.text);
+  check('6. 約：民總下課（afterClass civ_general、classAlso）阿哲「晚上吃麵？公館那家，阿鳳。」、選項「好。」「今天不行。」',!!inv&&inv.afterClass==='civ_general'&&inv.classAlso===true&&T(inv)[0]==='晚上吃麵？公館那家，阿鳳。'&&J((inv.dialogue.find(x=>x.choice)||{choice:[]}).choice.map(c=>c.text))===J(['「好。」','「今天不行。」'])&&T(inv).includes('六點半，店門口。')&&T(inv).includes('好啊，下次。'));
+  const L=['（阿哲把兩張桌子併起來。）','你們？法律系的？','一年級。阿姨，我們之後會常來。','常來是多常？','（想了一下）想吃麵的時候。','那就是常來。','（對你）這家便宜，又近。之後想吃麵就來，遇到就一起坐。'];
+  check('6. 第一次併桌：出遊版、在麵店遇到版台詞一樣（七句）；title「第一次併桌」；在麵店遇到版只在麵店日',!!out&&!!auto&&J(T(out))===J(L)&&J(T(auto))===J(L)&&out.title==='第一次併桌'&&auto.title==='第一次併桌'&&auto.ndlDay===true&&out.trigger==='outing');
+  const d=STORY.termDay('Y1S1',2,4);
+  H.fresh(CALENDAR.dateOf(d).key,15.5,'campus',{zheNoodleInvDay:d,ZHE_NOODLE_INV:'yes'}); STORY.phoneRules(GM); PHONE.tick(H.G); const q=OUT.get(H.G,'zhe_first_table'); const g0=PHONE.inGroup(H.G,'noodle_team');
+  H.at(CALENDAR.dateOf(d).key,21.1); STORY.phoneRules(GM); PHONE.tick(H.G); const g1=PHONE.inGroup(H.G,'noodle_team'), nt=H.G.flags.noodleTableDay;
+  check('6. 答應：排 18:30 阿鳳麵店「第一次併桌」（出遊 ev_zhe_long_table_out）；21:00 以前沒有群組、21:00 建「法一吃飯」',!!q&&q.ev==='ev_zhe_long_table_out'&&q.day===d&&q.h===18.5&&!g0&&g1&&nt===d&&PHONE.rec(H.G).groups.noodle_team.name==='法一吃飯',J({q:q&&[q.ev,q.day,q.h],g0,g1,nt}));
+  H.fresh(CALENDAR.dateOf(d).key,15.5,'campus',{zheNoodleInvDay:d,ZHE_NOODLE_INV:'no'}); STORY.phoneRules(GM); const q2=OUT.get(H.G,'zhe_first_table'); H.at(CALENDAR.dateOf(d).key,21.1); STORY.phoneRules(GM); PHONE.tick(H.G);
+  check('6. 不答應：不排出遊；21:00 照樣建群組',!q2&&PHONE.inGroup(H.G,'noodle_team')&&H.G.flags.noodleTableDay===d,J({q2:!!q2,nt:H.G.flags.noodleTableDay})); }
 H.done();

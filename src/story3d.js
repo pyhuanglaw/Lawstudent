@@ -2048,6 +2048,9 @@ const STORY = (function(){
     /* 麵店團（AA_70 2-3、AA_40 哲 1）：哲 1 那天阿哲建的群組。麵店日＝上課週的週二、週四（考試週、國定假日、出國期間沒有）。
        阿哲 17:30 在群組裡揪，只在你上一個麵店日沒來的時候（AA 2026-10-14：一直有來的玩家，群組是安靜的）；四句輪流。tag rt_＝例行訊息（每天的手機小事不把它當成劇情訊息）。
        有沒有來：麵店日 17:00–21:00 在麵店（ndlDays，最近 12 個）；開始記以前（ndlTrack0：舊存檔）的麵店日當作有來 */
+    if(F.zheNoodleInvDay!=null&&F.noodleTableDay==null){ const d=F.zheNoodleInvDay;   /* AA_542 1-1：阿哲第一次民總下課約吃麵（events.js ev_zhe_noodle_invite）*/
+      if(F.ZHE_NOODLE_INV==='yes'&&typeof OUT!=='undefined'&&!OUT.get(G,'zhe_first_table')&&G.day*24+G.hour<d*24+18.75) OUT.plan(G,{id:'zhe_first_table',ev:'ev_zhe_long_table_out',day:d,h:18.5,late:0.25,place:'阿鳳麵店',title:'第一次併桌 18:30（阿鳳麵店）',travel:'走過去約 15 分鐘',travelH:0.25});
+      if(G.day*24+G.hour>=d*24+21) F.noodleTableDay=d; }   /* 不管答應不答應，當天 21:00 建群組 */
     if(F.noodleTableDay!=null&&typeof CALENDAR!=='undefined'){ if(!PHONE.inGroup(G,'noodle_team')){ const gn=S.ndlGroupName(G); PHONE.join(G,'noodle_team',gn); PHONE.post(G,{th:'g:noodle_team',text:F.NDL_LATE_ADD?'阿哲把你加進了群組「'+gn+'」。':'阿哲建立了群組「'+gn+'」，把你加了進來。',tag:'noodle_team_new'});   /* NDL_LATE_ADD：錯過第一次併桌、之後才被阿哲拉進來的（events.js ev_zhe_group_late，AA_496 第 9 節第 3 點）：群組早就有了，不寫「建立了」；群組名照當學年（AA_542 2-1）*/
         for(const t of S.NDL_RULE) PHONE.post(G,{th:'g:noodle_team',from:'zhe',text:t,tag:'noodle_team_rule'}); }   /* AA_542 2-2：建好的下一則（手機訊息，不加句號）；原本「以後週二週四 麵店長桌」「有空就來 沒空不用講」（NOODLE-TEAM-WHY-1027）收回 */
       S.ndlGroupFix(G);   /* AA_542 2-1、2-4：每學年上課第一天 12:00 阿哲改名；舊存檔的「麵店團」換成當學年的名字、舊的兩則規矩顯示新句子 */

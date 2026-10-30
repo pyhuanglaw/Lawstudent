@@ -165,6 +165,12 @@ function SIS_HOT_WATER(first){ return [
 const ZHE_GROUP_LATE=G=>{ const F=G.flags||{}, DN=(G.events&&G.events.done)||{}; if((G.stage||'law')!=='law'||F.noodleTableDay!=null||DN.ev_zhe_long_table||DN.ev_zhe_group_late||DN.ev_zhe_group_late_talk) return false;
   if(typeof PHONE!=='undefined'&&PHONE.inGroup&&PHONE.inGroup(G,'noodle_team')) return false;
   const d=typeof STORY!=='undefined'&&STORY.termDay?STORY.termDay('Y1S2',2,1):null; return d!=null&&G.day>=d; };
+/* 第一次併桌（AA_542 1-2，NOODLE-TEAM-SHRINK-1030；使用者 10-30 X144 麵店團縮小成背景）：原本「規矩很簡單：週二週四，麵店。不用約，來就有人。」。
+   約好的（ev_zhe_noodle_invite「好。」）18:30 出遊演 ev_zhe_long_table_out；沒約、沒答應、沒去成的，之後第一次在麵店遇到阿哲演 ev_zhe_long_table。台詞同一份 */
+const ZHE_FIRST_TABLE=[ {speaker:null,text:'（阿哲把兩張桌子併起來。）'},{speaker:'阿姨',text:'你們？法律系的？'},
+  {speaker:'zhe',expression:'smile',text:'一年級。阿姨，我們之後會常來。'},{speaker:'阿姨',text:'常來是多常？'},
+  {speaker:'zhe',expression:'neutral',text:'（想了一下）想吃麵的時候。'},{speaker:'阿姨',text:'那就是常來。'},
+  {speaker:'zhe',expression:'smile',text:'（對你）這家便宜，又近。之後想吃麵就來，遇到就一起坐。'} ];
 const STORY_EVENTS=[
   // ────────────────────────────────────────── 語彤：雨天圖書館門口（Vertical Slice）
   /* AA_140 G06（2026-10-16）：週二、週四 17:30～20:30 語彤在麵店（AA_110 6-3），這個時段不觸發；台詞不改 */
@@ -661,11 +667,22 @@ const STORY_EVENTS=[
   /* 哲 1：不用約，來就有人（AA_40 哲 1；交付清單 A9）：大一上第 4 週週四起（遊戲裡的第二個週四），週二、週四傍晚在阿鳳麵店遇到阿哲（他的日程 17:30–20:30）——
      第 4 週週四沒去的玩家，順延到之後第一次在麵店遇到他（BB_95 第 5 節第 4 點：不能永久錯過）；只一次。麵店的長桌從這裡開始：
      阿哲建「麵店團」群組（AA_70 2-3），之後每個上課週的週二、週四 17:30 他在群組裡揪（story3d.js 的 phoneRules）。阿姨＝麵店的老闆娘（店員是路人模型，沒有名字）*/
-  { id:'ev_zhe_long_table', title:'不用約，來就有人', participants:['zhe'], location:'noodle', trigger:'auto', near:{npc:'zhe',r:6}, term:['Y1S1'], weekday:[2,4], time:[17.5,20.5], once:true, background:'blur',
-    prereq:{custom:G=>typeof STORY!=='undefined'&&!!STORY.termDay&&G.day>=STORY.termDay('Y1S1',STORY.week1Start&&STORY.week1Start(G)?2:4,4)},   /* A13（AA_195 4-7）：開學改 9/1 的局是第 2 週週四（9/11，遊戲裡的第二個週四）；舊局照舊第 4 週週四（第 2 週在第 1 天以前，提早會撞到主線第二天的麵店）*/
-    dialogue:[ {speaker:'zhe',expression:'smile',text:'（把兩張桌子併起來）阿姨，我們以後週二週四都來。'},{speaker:'阿姨',text:'你們？你們是誰？'},
-      {speaker:'zhe',expression:'laugh',text:'法律系一年級。現在是四個，之後會更多。'},{speaker:'zhe',expression:'smile',text:'（對你）規矩很簡單：週二週四，麵店。不用約，來就有人。'} ],
-    consequences:{stamp:['noodleTableDay']} },
+  /* 約（AA_542 1-1）：大一上第一次民總下課（開學 9/1 的局第 2 週週四，舊局第 4 週週四；沒上課的不約）。答應＝18:30 阿鳳麵店（出遊）；不管答應不答應，當天 21:00 建群組（story3d.js phoneRules）。
+     classAlso：同一堂下課已經有別的事件（學姊家聚 ev_sis_fam_hall2）也接著演這一件（classes3d.js afterClassEvent）*/
+  { id:'ev_zhe_noodle_invite', title:'晚上吃麵？', participants:['zhe'], location:'any', trigger:'class', afterClass:'civ_general', classAlso:true, term:['Y1S1'], weekday:[4], once:true, background:'blur',
+    prereq:{custom:G=>typeof STORY!=='undefined'&&!!STORY.termDay&&G.day===STORY.termDay('Y1S1',STORY.week1Start&&STORY.week1Start(G)?2:4,4)&&G.flags.classAnswer!=='absent'&&G.flags.noodleTableDay==null&&(!STORY.knows||STORY.knows('zhe',G))},
+    dialogue:[ {speaker:'zhe',expression:'smile',text:'晚上吃麵？公館那家，阿鳳。'},
+      {choice:[{text:'「好。」',goto:'y'},{text:'「今天不行。」',goto:'n'}]},
+      {label:'y'},{speaker:'zhe',expression:'smile',text:'六點半，店門口。'},{set:{ZHE_NOODLE_INV:'yes'}},{goto:'end'},
+      {label:'n'},{speaker:'zhe',expression:'neutral',text:'好啊，下次。'},{set:{ZHE_NOODLE_INV:'no'}},
+      {label:'end'} ],
+    consequences:{stamp:['zheNoodleInvDay']} },
+  { id:'ev_zhe_long_table_out', title:'第一次併桌', participants:['zhe'], location:'any', trigger:'outing', once:true, background:'blur', hours:1.5,
+    dialogue:[ {scene:'阿鳳麵店',bg:'noodle_table'} ].concat(ZHE_FIRST_TABLE) },   /* 群組照約的那天 21:00 建（story3d.js phoneRules 設 noodleTableDay）*/
+  { id:'ev_zhe_long_table', title:'第一次併桌', participants:['zhe'], location:'noodle', trigger:'auto', near:{npc:'zhe',r:6}, term:['Y1S1'], weekday:[1,2,3,4,5], ndlDay:true, time:[17.5,20.5], once:true, background:'blur',
+    prereq:{custom:G=>typeof STORY!=='undefined'&&!!STORY.termDay&&G.day>=STORY.termDay('Y1S1',STORY.week1Start&&STORY.week1Start(G)?2:4,4)&&!(G.events&&G.events.done&&G.events.done.ev_zhe_long_table_out)&&!(G.flags.ZHE_NOODLE_INV==='yes'&&G.day===G.flags.zheNoodleInvDay)},   /* A13（AA_195 4-7）的日子；約好當天晚上的那一頓由出遊演 */
+    dialogue:ZHE_FIRST_TABLE.slice(),
+    after:G=>{ if(G.flags.noodleTableDay==null) G.flags.noodleTableDay=G.day; } },   /* 沒被約過的（那天沒上民總）：這一場才建群組；約過的已經在約的那天 21:00 建了，不改日子 */
   /* 麵店團群組的補救（AA_496 第 9 節第 3 點，NPC-STORY-1028）：錯過哲 1 的人（ZHE_GROUP_LATE），大一下第 2 週起第一次在麵店遇到阿哲（同哲 1：麵店、阿哲在旁邊 6 m 內），
      或和阿哲說話、有點熟以上（下一個事件）：阿哲當面一句（當面說的，有標點：口氣表），然後照長桌那一場的做法加進麵店團——記 noodleTableDay（story3d.js 的 phoneRules 加群組、
      阿哲兩則規矩、之後的揪、期末最後一頓都照它）；NDL_LATE_ADD＝群組早就有了，系統訊息寫「把你加進了」，不寫「建立了」。只一次 */

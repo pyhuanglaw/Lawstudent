@@ -51,7 +51,7 @@ const meet=id=>SOCIAL.remember(id,'FIRST_MET','');
     check('A9 阿哲在旁邊（6 m 內）才演；離太遠不演',!far&&!!near,JSON.stringify({far,near}));
     await new Promise(r=>setTimeout(r,0));
     const L=lines();
-    check('A9 台詞（AA_40 哲 1 原文；「（對祐廷）」改「（對你）」）',JSON.stringify(L)===JSON.stringify(['（把兩張桌子併起來）阿姨，我們以後週二週四都來。','你們？你們是誰？','法律系一年級。現在是四個，之後會更多。','（對你）規矩很簡單：週二週四，麵店。不用約，來就有人。']),JSON.stringify(L));
+    check('A9 台詞（AA_542 1-2「第一次併桌」；原本 AA_40 哲 1「規矩很簡單：週二週四，麵店。不用約，來就有人。」收回）',JSON.stringify(L)===JSON.stringify(['（阿哲把兩張桌子併起來。）','你們？法律系的？','一年級。阿姨，我們之後會常來。','常來是多常？','（想了一下）想吃麵的時候。','那就是常來。','（對你）這家便宜，又近。之後想吃麵就來，遇到就一起坐。']),JSON.stringify(L));
     check('A9 阿姨的台詞名字是「阿姨」',said[1]&&said[1].who==='阿姨',JSON.stringify(said[1]));
     check('A9 記下哪一天（noodleTableDay）、只一次',G.flags.noodleTableDay===W4THU&&!EVENTS.check(e));
     /* 麵店團群組 */
@@ -127,7 +127,7 @@ const meet=id=>SOCIAL.remember(id,'FIRST_MET','');
     check('A12 「好，一起寫。」＋cafeView A：「那結論你寫。」、記憶 REPORT_PARTNER',L.includes('那結論你寫。')&&SOCIAL.has('heroine_01','REPORT_PARTNER')&&caps.some(t=>/^下課了/.test(t)));
     for(const [v,t] of [['B','那反方你寫。'],['C','那判斷標準你寫，你比我會講。']]){ const Lv=await cls(W4THU,{_view:v},null,['一起寫']); check('A12 cafeView '+v+'：「'+t+'」',Lv.includes(t)&&!Lv.includes('那結論你寫。'),JSON.stringify(Lv.slice(-2))); }
     const Ln=await cls(W4THU,{},null,['有組了']);
-    check('A12 「我已經有組了。」→「好。那我自己寫，寫完給你看。」、不記 REPORT_PARTNER（不扣分）',Ln.includes('好。那我自己寫，寫完給你看。')&&!SOCIAL.has('heroine_01','REPORT_PARTNER')&&JSON.stringify(opts[opts.length-1])==='["「好，一起寫。」","「我已經有組了。」"]',JSON.stringify(opts[opts.length-1]));
+    check('A12 「我已經有組了。」→「好。那我自己寫，寫完給你看。」、不記 REPORT_PARTNER（不扣分）',Ln.includes('好。那我自己寫，寫完給你看。')&&!SOCIAL.has('heroine_01','REPORT_PARTNER')&&JSON.stringify(opts.find(o=>JSON.stringify(o).indexOf('一起寫')>=0))==='["「好，一起寫。」","「我已經有組了。」"]',JSON.stringify(opts[opts.length-1]));
     const noAfternoon=await cls(W4THU,{afternoonDone:false}), noAn=await cls(W4THU,{},null,[],false), w6=await cls(W6THU), old=await cls(W4THU,{},()=>{ G.events.done.ev_an_report_followup=1; });
     check('A12 沒有第二天下午、以安不在教室、第 6 週、舊存檔已經演過「報告的結論」：都沒有',[noAfternoon,noAn,w6,old].every(L=>L&&!L.includes('你那天講的，我想放進去。')),JSON.stringify([noAfternoon,noAn,w6,old].map(L=>L&&L.length)));
     const w5=await cls(W5THU,{},null,['一起寫']); check('A12 第 4 週沒去上課：第 5 週那堂課之後',w5.includes('你那天講的，我想放進去。'));
