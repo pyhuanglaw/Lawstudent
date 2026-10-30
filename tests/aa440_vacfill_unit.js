@@ -85,6 +85,9 @@ const wake=async(G)=>{ CLS.rec(G); const T0=CALENDAR.TERMS; for(const t of T0) C
 /* AA_532 第 7 節（企劃線 ade80d22f）：總圖兩句換字（不改開館時間）——和 AA_440 的原句比的時候換回原句；新句在 tests/aa532_vac_unit.js 對 AA_532 */
 const AA532={'在總圖。暑假人很少。':'在總圖。暑假開到五點。','（寒假的總圖人很少。你五點出來的時候，天已經黑了。）':'（總圖寒假開到五點。你五點出來的時候，天已經黑了。）'};
 const b532=t=>typeof t==='string'&&AA532[t]?AA532[t]:t;
+/* AA_533 第 4 節（企劃線 cf0066ed2）：三場一鍵出遊後面加的人說話（新句在 tests/aa533_vac_unit.js 對 AA_533）*/
+const AA533={y2w_0116:['（語彤端麵過來，順手把你的筷子擺正。）','寒假人少。阿姨煮得比較慢。','慢沒關係！我餓到可以等！'],y3w_0108:['這台是我學長做的。他去年也在這裡排隊，排到最後一個。','……明年我也要有一台。'],
+  y3_0214:['開學前來借的人，通常是要補上學期的。','……你是哪一種？','（把一本書從書架抽出來，放在你手上）這本。']};
 const b532all=v=>typeof v==='string'?b532(v):Array.isArray(v)?v.map(b532all):(v&&typeof v==='object')?Object.fromEntries(Object.entries(v).map(([k,x])=>[k,b532all(x)])):v;
 (async()=>{
   /* ======================= 0 ======================= */
@@ -289,7 +292,7 @@ const b532all=v=>typeof v==='string'?b532(v):Array.isArray(v)?v.map(b532all):(v&
     G=lawG('2028-02-12',14.05,{fam:[SIS]}); rules(); const q33=Q(S33);
     check('3-3. 2/12（六）14:00 學姊（FAMILIAR 以上、沒交往）：「法圖下週一恢復晚上開館。」（AA_507 0-2 第 4 點）「你開學以前要借書的話，那天人最少。」＋「我那天去。」',J(pairs('vf_y3_0212'))===J(qPairs(q33))&&J(optsOf('vf_y3_0212'))===J(['我那天去。']));
     answer('vf_y3_0212',0); rules(); Ls=await run('ev_vf_y3_0214'); const n33=fx(nar(part('- 回「我那天去。」','- 2/14 是情人節'))[1]||'',FIX507_33);
-    check('3-3. 「我那天去。」＝2/14（一）10:00 法圖一鍵：（開館第一天，借書櫃台前面只有你。…點了一下頭。）',isAt(out('vf_y3_0214'),'2028-02-14',10)&&J(Ls)===J([n33]),J(Ls)+J(n33));
+    check('3-3. 「我那天去。」＝2/14（一）10:00 法圖一鍵：（開館第一天，借書櫃台前面只有你。…點了一下頭。）',isAt(out('vf_y3_0214'),'2028-02-14',10)&&J(Ls)===J([n33].concat(AA533.y3_0214)),J(Ls)+J(n33));   /* AA_533 4-3：後面加學姊兩句＋選項（預設第一個）*/
     G=lawG('2028-02-12',14.05,{date:[SIS]}); rules(); check('3-3. 和學姊交往中：不發',!tagged('vf_y3_0212').length);
     G=lawG('2028-02-12',14.05,{fam:[SIS],date:[AN]}); rules(); check('3-3. 和別人交往中：照發（只是借書，不和情人節衝突）',tagged('vf_y3_0212').length===2);
     /* 3-4 */
@@ -332,7 +335,7 @@ const b532all=v=>typeof v==='string'?b532(v):Array.isArray(v)?v.map(b532all):(v&
     G=lawG('2027-01-14',21.05); rules(); check('4. 大二寒假 1/14（四）21:00 麵店團：阿哲「寒假還有誰在臺北」、語彤「我在。店裡」、Alison「我！！」＋「我也在。」',J(pairs('vf_y2w_0114'))===J(['zhe:'+qs(r0114)[0],YT+':'+qs(r0114)[1],'yu:'+qs(r0114)[2]])&&J(optsOf('vf_y2w_0114'))===J([qs(r0114)[3]]),J(pairs('vf_y2w_0114')));
     answer('vf_y2w_0114',0); rules(); Ls=await run('ev_vf_y2w_0116');
     check('4. 「我也在。」＝1/16（六）18:00 麵店長桌一鍵：（長桌只坐了一半。）（阿姨沒說話，在你碗裡多放了一匙肉燥。）（AA_519 1-3：稿上的「（長桌只坐了一半。阿姨多送了一盤小菜：「人少，吃多一點。」）」拆兩句、後半換第 6 句）',
-      isAt(out('vf_y2w_0116'),'2027-01-16',18)&&J(Ls)===J(NEW0114)&&J([L().y2w_0114.narr,L().y2w_0114.narr2])===J(NEW0114)&&r0114.indexOf(OLD0114)>=0&&ok519(NEW0114[0])&&ok519(NEW0114[1]),J(Ls));
+      isAt(out('vf_y2w_0116'),'2027-01-16',18)&&J(Ls)===J([NEW0114[0]].concat(AA533.y2w_0116,[NEW0114[1]]))&&J([L().y2w_0114.narr,L().y2w_0114.narr2])===J(NEW0114)&&r0114.indexOf(OLD0114)>=0&&ok519(NEW0114[0])&&ok519(NEW0114[1]),J(Ls));
     const r0122=row4('1/22（五）');
     G=lawG('2027-01-22',21.05); rules(); rep=answer('vf_y2w_0122',0);
     check('4. 1/22（五）姊姊私訊「我 2/3 回去」「媽說你又在睡」→「沒有。」→「她說你會這樣講」',J(tagged('vf_y2w_0122').slice(0,2).map(m=>m.text))===J(qs(r0122).slice(0,2))&&J(rep)===J(['sister:'+qs(r0122)[3]])&&qs(r0122)[2]==='沒有。',J(rep));
@@ -341,7 +344,7 @@ const b532all=v=>typeof v==='string'?b532(v):Array.isArray(v)?v.map(b532all):(v&
     const r0106=row4('1/6（四）');
     G=lawG('2028-01-06',21.05,{know:[ZQ]}); rules(); check('4. 大三寒假 1/6（四）子晴（在臺北）：「期末考完了 我要去參創」「你要的話 下午三點」＋「好。」',J(tagged('vf_y3w_0106').map(m=>m.text))===J(qs(r0106).slice(0,2))&&J(optsOf('vf_y3w_0106'))===J([qs(r0106)[2]]));
     answer('vf_y3w_0106',0); rules(); Ls=await run('ev_vf_y3w_0108');
-    check('4. 「好。」＝1/8（六）15:00 參創一鍵（不算校外約會）：（她帶你繞了一圈試玩區，在一台前面停了很久，什麼都沒說。）',isAt(out('vf_y3w_0108'),'2028-01-08',15)&&!out('vf_y3w_0108').dateTrip&&J(Ls)===J([L().y3w_0106.narr])&&r0106.indexOf(L().y3w_0106.narr)>=0,J(Ls));
+    check('4. 「好。」＝1/8（六）15:00 參創一鍵（不算校外約會）：（她帶你繞了一圈試玩區，在一台前面停了很久，什麼都沒說。）',isAt(out('vf_y3w_0108'),'2028-01-08',15)&&!out('vf_y3w_0108').dateTrip&&J(Ls)===J([L().y3w_0106.narr].concat(AA533.y3w_0108))&&r0106.indexOf(L().y3w_0106.narr)>=0,J(Ls));
     const r0115=row4('1/15（六）');
     G=lawG('2028-01-15',21.05,{fam:[SIS]}); rules(); rep=answer('vf_y3w_0115',0);
     check('4. 1/15（六）學姊（FAMILIAR 以上）「美國那邊的面試，排在下禮拜。」「線上的。八月去的那一梯。」→「加油。」→「嗯。……上了再跟你說。」（AA_507 0-2 第 2 點）',J(tagged('vf_y3w_0115').slice(0,2).map(m=>m.text))===J(qs(r0115).slice(0,2))&&J(rep)===J([SIS+':'+qs(r0115)[3]]),J(rep));

@@ -55,7 +55,7 @@ const SRC=f=>fs.readFileSync(path.join(ROOT,f),'utf8');
     check('4-3. 大一寒假（12/24，也沒有學期）同樣不說周老師那句',!y1.some(t=>/周老師說錯誤和撤銷/.test(t)),J(y1)); }
   // 日語課 C03：還不認識以安（公告欄報名）＝照其他年份的旁白、沒有她的選項（4-1 第 6 點）
   { fresh(D('2026-07-07'),18,'dorm',{}); VAC.signup(G,'C03@Y1','yes'); said=[]; opts=[]; const q=OUT.get(G,'vac_C03@Y1_0'); G.day=q.day; G.hour=19; await VAC.outing(GM,q);
-    const L=lines(); check('4-1 第 6 點. C03 大一、不認識以安：「（教室裡都是不認識的人。）」、沒有「你也來了。」、沒有她的選項',L.includes('（教室裡都是不認識的人。）')&&!L.some(t=>/你也來了|以安/.test(t))&&!opts.length,J([L,opts]));
+    const L=lines(); check('4-1 第 6 點. C03 大一、不認識以安：AA_533 2-1 起是上班族大姊那一版（原本「（教室裡都是不認識的人。）」）、沒有「你也來了。」、沒有她的選項',L.includes('（教室很小，十二個位子。你旁邊坐著一個上班族大姊，筆記本上已經寫滿了平假名。）')&&!L.some(t=>/你也來了|以安/.test(t))&&J(opts)===J([['「我也是。」','「想去日本交換。」']]),J([L,opts]));
     fresh(D('2026-07-07'),18,'dorm',{}); R('heroine_01','FRI'); VAC.signup(G,'C03@Y1','yes'); said=[]; const q2=OUT.get(G,'vac_C03@Y1_0'); G.day=q2.day; G.hour=19; await VAC.outing(GM,q2);
     check('4-1 第 6 點. C03 大一、認識以安：照稿「你也來了。」',lines().includes('沈以安：你也來了。'),J(lines())); }
   // C05 日本五天：以安、語彤同一天不再收到兩次（拿掉 va11_jp_*；出國輪播照舊）
