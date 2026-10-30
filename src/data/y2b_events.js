@@ -25,7 +25,7 @@ const Y2B_EVENTS=(function(){
 
   /* ---- 1B-01 可昕 K10c「她第一次考壞一科」（AA_316；BB_97 9-4、AA_177 第 8 節②）：11/19 20:30 政大自強十舍樓下的長椅 ---- */
   const BAD_EXAM={ id:'ev_kexin_bad_exam', title:'她第一次考壞一科', participants:['kexin'], location:'any', trigger:'outing', once:true, background:'dark', hours:2/3, kxAway:true,
-    dialogue:[ {scene:'政大・宿舍樓下',bg:'nccu_dorm'},
+    dialogue:[ {scene:'木柵大學・宿舍樓下',bg:'nccu_dorm'},
       {speaker:null,text:'（她坐在長椅上，膝蓋上攤著物權的課本。看到你，把課本闔起來一半。）'},
       {speaker:'kexin',expression:'surprised',text:'你真的來了。'},
       {speaker:'kexin',expression:'serious',text:'先說好，你一安慰我就回去。'},
@@ -145,7 +145,7 @@ const Y2B_EVENTS=(function(){
       {if:{flags:['KX_MET_NOODLE_TEAM']},speaker:'kexin',expression:'smile',text:'上次是烤肉，這次是麵。'},
       {unless:{flags:['KX_MET_NOODLE_TEAM']},speaker:'kexin',expression:'surprised',text:'你們就是麵店團？我聽了一年半。'},
       {if:{flagIs:{KX_INTRO:'gf'}},goto:'yl'},   /* K3 已經說了「我女朋友」：大家已經知道，不另外介紹 */
-      {choice:[{text:'「這是可昕。我女朋友。」',set:{KX_CIRCLES_INTRO:'gf'},goto:'ig'},{text:'「這是可昕，政大法律。」',set:{KX_CIRCLES_INTRO:'school'},goto:'is'}]},
+      {choice:[{text:'「這是可昕。我女朋友。」',set:{KX_CIRCLES_INTRO:'gf'},goto:'ig'},{text:'「這是可昕，木柵大學法律。」',set:{KX_CIRCLES_INTRO:'school'},goto:'is'}]},
       {label:'ig'},{speaker:'zhe',text:'……喔。'},{if:{custom:G=>knows('yu',G)},speaker:'yu',text:'你都不講！'},{goto:'yl'},
       {label:'is'},{speaker:null,text:'（可昕看了你一眼，沒說什麼。）'},
       {label:'yl'},

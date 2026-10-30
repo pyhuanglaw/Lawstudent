@@ -98,7 +98,7 @@ const SIDEQ=(function(){
       thanks:'（兩個禮拜後，一個很瘦的男生來店裡道謝。他是國考生，那天胃出血被送急診，住院兩週。筆電裡是他三年的筆記。）',after:'（他每天來同一個插座位子讀書，店長幫他留。）',
       card:'（那個插座位子的桌上，多了一張手寫的小卡「謝謝」。）',pass:'（牆上多了一張剪報大小的紙：「榜單影本」。）',lapse:'那台筆電，我送去派出所了。'},
     SQ05:{open:['膝蓋要開刀。要休兩個禮拜。','……公休的紙，你幫我寫，寫得好看一點。'],notes:['老闆去修膝蓋，兩週後見。','本店公休至○月○日。','休息一下，大碗加蛋等你。'],
-      zheCard:[['zhe','六張犁的老闆要去開膝蓋！'],['zhe','我買了一張卡片，明天中午霖澤館一樓，大家來簽'],['yu','我帶彩色筆']],sign:'（你下課經過霖澤館一樓，阿哲把卡片塞給你。）',   /* AA_408 2：答應那天 21:00 麵店團群組 */
+      zheCard:[['zhe','六張犁的老闆要去開膝蓋！'],['zhe','我買了一張卡片，明天中午A館一樓，大家來簽'],['yu','我帶彩色筆']],sign:'（你下課經過法律系館A一樓，阿哲把卡片塞給你。）',   /* AA_408 2：答應那天 21:00 麵店團群組 */
       photo:[['zhe','（照片：病床旁的小桌，卡片立著，旁邊一碗醫院的稀飯）'],['zhe','老闆說，這個沒有他煮的好吃']],reopen:'大碗加蛋。……今天不收錢。',card:'（卡片貼在煮麵台旁邊的牆上。）',lapse:'公休的紙我自己寫了。『休息兩週』。……四個字。'},
     SQ06:{open:['我孫子國二，數學不及格。','你們有沒有同學在當家教？'],askTutor:{[MX]:['國二數學，可以。週幾？','我本來就在那附近教，順路。這個 CP 值很高。'],[AN]:['國二數學。好。週四以外都可以。']},   /* AA_408 2（明軒的「CP 值」這一場算一次）*/
       report:'他上課一直在桌子底下彈手指。',selfReport:['（第一次上課。他的數學課本很新，手指一直在桌子底下彈。）','（你看了一下：他彈的是吉他的和弦。）'],
@@ -138,7 +138,7 @@ const SIDEQ=(function(){
       sis:{put:'（你把那本民法總則放在她桌上。）',how:'……這本怎麼會在你這裡。',bought:'我賣掉的時候，以為不會再看到。',asked:'書店老闆打電話問我？……不是。是你在那裡整理。',ugly:'裡面的字很醜。問號很多。',keep:'……你留著吧。裡面錯的地方，你現在用得到。'},
       buy:'她說給你的？好。',item:'學姊大一的民法總則',shelf:'（學姊大一的民法總則。封面內頁寫著『溫書瑀』，字比現在圓一點。）',   /* AA_408 6：房間物品平常「看」*/ eve:'（最後一頁，她寫了一行小字：『考完了。下次不要熬夜。』）',lapse:'那箱書，我拿去回收了。'},
     /* 第三批（AA_405，1fa2b494a）。SQ16 輪轉單車：AA_405 第 3 節補充（f923751c）；店門口互動點 LAWWW2 ed65a78e；過期一句 AA_408 第 1 節 */
-    SQ16:{open:['這台送來修，兩年了，沒人來牽。','……電話打不通。你是台大的吧，幫我看看那張貼紙。'],
+    SQ16:{open:['這台送來修，兩年了，沒人來牽。','……電話打不通。你是首都帝大的吧，幫我看看那張貼紙。'],
       look:'（一張很舊的校內停車證，只看得到一半的號碼，旁邊貼著一張社團的貼紙「登山社」。）',   /* AA_405 SQ16 步驟 1 的「看」車架（稿的描述照抄成旁白）*/
       ask:'請問一下，這張貼紙是你們社團的嗎？',club:['……這是我們以前社長的車。他畢業了，在新竹上班。','我問他。'],
       msg:['（她傳了訊息。過了一下，她的手機震了，她把畫面轉給你看。）','（「那台車我以為被偷了。……修好就好。送給學弟妹吧，新生沒車很麻煩。」）'],
@@ -299,7 +299,7 @@ const SIDEQ=(function(){
   };
   S.Q=Q;
   const PASTA_PARTNERS=()=>Object.keys(L.SQ12.pair);   /* SQ12 一起去的交往對象：以安、語彤、子晴、學姊、可昕（AA_408 6）*/
-  const HINT={SQ01:{wait:'下次去林家乾麵'},SQ02:{fafu:r=>'帶去法服問（'+(r.fafuDay!=null?md(r.fafuDay)+' 週六上午，':'')+'萬才館）',wait:'下次去巷口茶飲'},SQ03:{board:'在夏日冰菓室的窗口「看價目板」'},
+  const HINT={SQ01:{wait:'下次去林家乾麵'},SQ02:{fafu:r=>'帶去法服問（'+(r.fafuDay!=null?md(r.fafuDay)+' 週六上午，':'')+'法律系館B）',wait:'下次去巷口茶飲'},SQ03:{board:'在夏日冰菓室的窗口「看價目板」'},
     SQ04:{ask:'下次去慢讀咖啡（118 巷）',again:r=>md(r.again)+' 以後再去慢讀咖啡（118 巷）',police:'送筆電去派出所',wait:'下次去慢讀咖啡（118 巷）'},SQ05:{closed:r=>'六張犁麵舖公休到 '+md(r.closeTo)+'；之後再去'},
     SQ06:{lesson:'等家教第一次上課',twist:'下次去好家自助餐（118 巷）',club:r=>'帶孫子去吉他社社課（'+md(r.by)+'）'},SQ07:{sis:'找學姊看讀書計畫（兩點半 Café）',wait:'下次去蛋包飯研究所（118 巷）',last:'下次去蛋包飯研究所（118 巷）'},
     SQ08:{board:'去溫州街的公園看公布欄',ask:r=>'問象棋阿伯（早上）'+(r.abo?'✓':'')+'、一盞茶屋的蘇姨（下午）'+(r.su?'✓':''),back:'回公館的便利商店說',post:'把餵貓表貼到公園的公布欄'},
@@ -379,9 +379,9 @@ const SIDEQ=(function(){
 
   /* ---------- SQ02：法服（單週六上午的初談；2D 出遊）---------- */
   S.planFafu=function(G,r){ const s=typeof STORY!=='undefined'&&STORY.fafuSat?STORY.fafuSat(G.day):null; if(!s||typeof OUT==='undefined'){ setAct(r,'fafu',G.day+14); return false; }
-    r.fafuDay=s.day; setAct(r,'fafu',s.day); return OUT.plan(G,{id:'sq02_fafu_'+r.day,ev:'ev_sq02_fafu',day:s.day,h:9.5,late:2,place:'萬才館',title:'法服初談：巷口茶飲的店員',travel:'走路 約 10 分鐘',travelH:1/6}); };
+    r.fafuDay=s.day; setAct(r,'fafu',s.day); return OUT.plan(G,{id:'sq02_fafu_'+r.day,ev:'ev_sq02_fafu',day:s.day,h:9.5,late:2,place:'法律系館B',title:'法服初談：巷口茶飲的店員',travel:'走路 約 10 分鐘',travelH:1/6}); };
   S.FAFU_EV={ id:'ev_sq02_fafu', title:'法服初談', participants:[], location:'any', trigger:'outing', background:'dark', hours:0.75,
-    dialogue:[{scene:'萬才館・研討室',bg:'wancai_seminar'},{speaker:'值班的學長',text:L.SQ02.fafu}],   /* LEGAL_REVIEW_REQUIRED */
+    dialogue:[{scene:'法律系館B・研討室',bg:'wancai_seminar'},{speaker:'值班的學長',text:L.SQ02.fafu}],   /* LEGAL_REVIEW_REQUIRED */
     after:(G)=>{ const r=S.get(G,'SQ02'); if(r&&r.state==='open'&&r.step==='fafu') setWait(r,'wait',G.day+1); },
     outingMissed:(G)=>{ const r=S.get(G,'SQ02'); if(r&&r.state==='open'&&r.step==='fafu'){ r.state='lapsed'; r.lapseDay=G.day; } } };
 
@@ -408,9 +408,9 @@ const SIDEQ=(function(){
 
   /* ---------- SQ06：吉他社社課（下一次社課，ACTIVITIES club_guitar）---------- */
   S.clubNext=function(G){ if(typeof ACTIVITIES==='undefined'||!ACTIVITIES.list||!ACTIVITIES.on) return null; const a=ACTIVITIES.list.find(x=>x.id==='club_guitar'); if(!a) return null;
-    for(let d=G.day+1;d<=G.day+21;d++) if(ACTIVITIES.on(a,d)) return {day:d,t0:a.t0,room:a.roomName||'萬才館'}; return null; };
+    for(let d=G.day+1;d<=G.day+21;d++) if(ACTIVITIES.on(a,d)) return {day:d,t0:a.t0,room:a.roomName||'法律系館B'}; return null; };
   S.CLUB_EV={ id:'ev_sq06_club', title:'吉他社社課', participants:[ZQ], location:'any', trigger:'outing', background:'dark', hours:1,
-    dialogue:[{scene:'萬才館 多功能教室'},{speaker:ZQ,text:L.SQ06.zq},{consequences:{rel:{[ZQ]:{fam:2}}}}],
+    dialogue:[{scene:'法律系館B 多功能教室'},{speaker:ZQ,text:L.SQ06.zq},{consequences:{rel:{[ZQ]:{fam:2}}}}],
     after:(G,GM)=>{ const r=S.get(G,'SQ06'); if(r&&r.state==='open'&&r.step==='club'){ r.helped=true; S.finish(GM||{G},'SQ06',r); } },
     outingMissed:(G)=>{ const r=S.get(G,'SQ06'); if(r&&r.state==='open'&&r.step==='club'){ r.state='lapsed'; r.lapseDay=G.day; } } };
 

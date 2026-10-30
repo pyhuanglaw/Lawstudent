@@ -170,7 +170,7 @@ const DATE=(function(){
     if(P.kind==='overnight') Object.assign(trip,{nights:1,lodging:P.lodging,leave:P.leave});
     G.trips.push(trip);
     if(typeof OUT!=='undefined'&&OUT.plan){ const nm=typeof SOCIAL!=='undefined'&&SOCIAL.displayName?SOCIAL.displayName(o.who):o.who, names=P.locs.map(l=>S.loc(l).name).join('、');
-      OUT.plan(G,{id:'date_'+id,dateTrip:id,ev:null,day:o.day,h:P.depart+P.travelH,travelH:P.travelH,travel:P.travelLabel+' 約 '+Math.round(P.travelH*60)+' 分鐘',place:names,title:'和'+nm+'去'+names+(P.kind==='overnight'?'（兩天一夜）':''),late:1,back:'回到台大。'}); }
+      OUT.plan(G,{id:'date_'+id,dateTrip:id,ev:null,day:o.day,h:P.depart+P.travelH,travelH:P.travelH,travel:P.travelLabel+' 約 '+Math.round(P.travelH*60)+' 分鐘',place:names,title:'和'+nm+'去'+names+(P.kind==='overnight'?'（兩天一夜）':''),late:1,back:'回到首都帝大。'}); }
     return Object.assign({ok:true},trip); };
   S.trip=(G,id)=>{ S.rec(G); return G.trips.find(t=>t.trip===id)||null; };
   /* ===== 預約（AA_128 4-1；DATE-S3）=====
@@ -315,7 +315,7 @@ const DATE=(function(){
     for(;;){ const dOpts=days.map(d=>({t:S.dayLabel(G,d)+(ov?'～'+S.dayLabel(G,d+1).replace(/^(今天|明天) /,''):'')})); dOpts.push({t:'算了'}); const di=await GM.choose(dOpts); if(di>=days.length) return null; const day=days[di];
       const K=ov?['overnight']:((S.loc(o.locs[0])||{}).kinds||['half']).filter(k=>S.STAY[k]); const sd=ov?null:S.sunsetDepart(o.locs[0],day); const hs=[...new Set(K.flatMap(k=>S.TIMES[k]||[]).concat(sd!=null?[sd]:[]))].sort((x,y)=>x-y);   /* 淡水多一個「夕陽前兩小時」的出發時間（DATE-C2）*/
       const rows=hs.map(h=>({h,c:S.check(G,Object.assign({},o,{day,depart:h,kind:ov?'overnight':undefined}))}));
-      const tOpts=rows.map(r=>({t:hm(r.h)+' 出發',hint:r.c.ok?((ov?'住一晚，第二天最晚':'')+'回到台大約 '+hm(r.c.plan.back)+(r.c.warns.length?'。'+r.c.warns.join('；'):'')):r.c.why,dim:!r.c.ok})); tOpts.push({t:'換一天'}); tOpts.push({t:'算了'});
+      const tOpts=rows.map(r=>({t:hm(r.h)+' 出發',hint:r.c.ok?((ov?'住一晚，第二天最晚':'')+'回到首都帝大約 '+hm(r.c.plan.back)+(r.c.warns.length?'。'+r.c.warns.join('；'):'')):r.c.why,dim:!r.c.ok})); tOpts.push({t:'換一天'}); tOpts.push({t:'算了'});
       for(;;){ const ti=await GM.choose(tOpts); if(ti===rows.length) break; if(ti>rows.length) return null; const r=rows[ti]; if(!r.c.ok){ if(GM.toast) GM.toast(r.c.why,2600); continue; } return {day,depart:r.h,kind:r.c.plan.kind,check:r.c}; } } };
   /* 她的句子（DATE-S6；src/data/date_lines.js：BB_128 3-6、3-7、AA_127 1-7、2-7、第 8 節，白名單匯入）：每一格幾句輪流（記在 dateLog 的 lineIdx，讀檔補預設）；一句裡有好幾則＝連發。
      當面約（n）用她的名字講；其他時候是手機訊息（名字後面「（手機）」，同時寫進手機的對話串）。還沒匯入的人或格子＝不說話（只有旁白）。 */
@@ -388,8 +388,8 @@ const DATE=(function(){
       if(two&&pref&&pref!=='car') prefOff=true;
       if(T.length>1){ const to=T.map(x=>{ const tr=S.travel(loc,x.mode); return {t:tr.label+(x.mode===pref?'（她想這樣去）':''),hint:'單程約 '+tr.minutes+' 分、來回 '+tr.fare+' 元'+(x.mode==='car'?'（從宿舍要先回家取車，多 30 分）':'')}; });   /* 車資是來回（AA_128 第 70 行）*/ const ti=await GM.choose(to); mode=T[ti].mode; prefOff=!!pref&&mode!==pref; }
       const o={who:id,locs:two?[loc,two]:[loc],transport:mode,kind}; const w=await S.pickWhen(GM,o); if(!w) return null;
-      const P=w.check.plan, ov=P.kind==='overnight', sum=ov?'和'+nameOf(id)+'去'+names+'（兩天一夜）：'+S.dayLabel(G,w.day).trim()+' '+hm(P.depart)+' 出發，'+P.travelLabel+'單程約 '+Math.round(P.travelH*60)+' 分鐘，住一晚，'+S.dayLabel(G,w.day+1).trim()+' 最晚約 '+hm(P.back)+' 回到台大。預計花費 '+w.check.cost+' 元（含住宿 '+P.lodging+' 元）。'
-        :'和'+nameOf(id)+'去'+L.name+'：'+S.dayLabel(G,w.day).trim()+' '+hm(P.depart)+' 出發，'+P.travelLabel+'單程約 '+Math.round(P.travelH*60)+' 分鐘，預計花費 '+w.check.cost+' 元，約 '+hm(P.back)+' 回到台大。';
+      const P=w.check.plan, ov=P.kind==='overnight', sum=ov?'和'+nameOf(id)+'去'+names+'（兩天一夜）：'+S.dayLabel(G,w.day).trim()+' '+hm(P.depart)+' 出發，'+P.travelLabel+'單程約 '+Math.round(P.travelH*60)+' 分鐘，住一晚，'+S.dayLabel(G,w.day+1).trim()+' 最晚約 '+hm(P.back)+' 回到首都帝大。預計花費 '+w.check.cost+' 元（含住宿 '+P.lodging+' 元）。'
+        :'和'+nameOf(id)+'去'+L.name+'：'+S.dayLabel(G,w.day).trim()+' '+hm(P.depart)+' 出發，'+P.travelLabel+'單程約 '+Math.round(P.travelH*60)+' 分鐘，預計花費 '+w.check.cost+' 元，約 '+hm(P.back)+' 回到首都帝大。';
       await GM.say(null,sum+(w.check.warns.length?'（'+w.check.warns.join('；')+'）':'')); const k=await GM.choose([{t:'就這樣約'},{t:'重新選'},{t:'算了'}]); if(k===2) return null; if(k===1) continue;
       if(n&&GM.caption) GM.caption('','（'+(typeof CHARACTERS!=='undefined'&&CHARACTERS[id]&&CHARACTERS[id].gender==='m'?'他':'她')+'看了一下手機的行事曆，點點頭。）',2000);   /* 和 INV.flow 當面約一樣的動作字幕（AA_134 第 4 節）；她答應的那一句 BB 交了再接 */
       const t=S.book(G,Object.assign(o,{day:w.day,depart:w.depart,kind:w.kind,by:'player'})); if(!t.ok){ await GM.say(null,t.why||'約不成。'); return null; }

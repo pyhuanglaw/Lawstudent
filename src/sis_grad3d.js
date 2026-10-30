@@ -179,7 +179,7 @@ const SISG=(function(){
     /* 2-12 畢業典禮（BB_97 2-8；W10）：6/6（六）11:00 法律學院的典禮之後、霖澤館一樓大廳；有點熟以上的玩家當天早上收到她的私訊 → 出遊。
        她的爸爸、媽媽：路人 compact（沒有立繪）；說話人標「學姊的爸爸」（AA_339 第 3 題；媽媽同理標「學姊的媽媽」——這一場媽媽沒有台詞，只有旁白）；2D linze_auditorium */
     { id:'ev_sis_graduation', title:'畢業典禮', participants:[ID], location:'any', trigger:'outing', once:true, background:'dark', hours:1.5,
-      dialogue:[ {scene:'霖澤館・一樓大廳',bg:'linze_auditorium'},
+      dialogue:[ {scene:'法律系館A・一樓大廳',bg:'linze_auditorium'},
         {speaker:'學姊的爸爸',text:'九月開學？'},
         {speaker:ID,expression:'neutral',text:'九月。……開學前，我想先睡一個禮拜。'},
         {speaker:null,text:'（媽媽笑了。）'},
@@ -226,8 +226,8 @@ const SISG=(function(){
       PHONE.at(G,d27,21.5,[K('📷（定食店的長桌，學姊坐中間，面前是全桌最貴的那一份）'),K('沒來的人錯過請學姊吃飯。千載難逢')],'sisg_rank_dinner_photo'); };   /* 合照的說明：AA_339 第 2 題 */
   /* 2-12：6/6（六）早上她的私訊（有點熟以上）→ 11:00 霖澤館（出遊）。11:00 以後才起床的不補 */
   S.gradRule=function(G,now){ const d=D('grad'); if(d==null||now<T(d,8)||now>=T(d,11)||sent(G,'sisg_grad_msg')||!atLeast(ID,'FAMILIAR')) return;
-    PHONE.at(G,d,8,[P5('今天十一點，霖澤館。不用帶花。')],'sisg_grad_msg');   /* AA_459 第 5 節：學姊的私訊用句號收尾 */
-    if(typeof OUT!=='undefined') OUT.plan(G,{id:'sisg_grad',ev:'ev_sis_graduation',day:d,h:11,late:0.5,place:'霖澤館',title:'學姊的畢業典禮（霖澤館）',travel:'走過去約 10 分鐘',travelH:1/6,alarm:true,back:'離開霖澤館。'}); };
+    PHONE.at(G,d,8,[P5('今天十一點，A館。不用帶花。')],'sisg_grad_msg');   /* AA_459 第 5 節：學姊的私訊用句號收尾 */
+    if(typeof OUT!=='undefined') OUT.plan(G,{id:'sisg_grad',ev:'ev_sis_graduation',day:d,h:11,late:0.5,place:'法律系館A',title:'學姊的畢業典禮（法律系館A）',travel:'走過去約 10 分鐘',travelH:1/6,alarm:true,back:'離開法律系館A。'}); };
   S.phone=function(G){ if(typeof PHONE==='undefined'||!law(G)) return; if(!G.flags) G.flags={}; const now=T(G.day,G.hour);
     S.unlockRule(G,now); S.wedInvite(G,now); S.breakRules(G,now); S.rankRules(G,now); S.gradRule(G,now); };
 

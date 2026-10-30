@@ -15,11 +15,11 @@ const PLACEMAP=(function(){
   /* 圖釘：x,y＝圖上座標；lab＝地名寫在哪一邊（t 上、b 下、l 左、r 右）；cx,cz＝校園裡的實際座標（找「你在這裡」用）；m＝[zone,label] */
   S.PINS=[
     {id:'lane118',name:'118 巷',x:290,y:24,lab:'r',m:[['lane118','118 巷']]},
-    {id:'linze',name:'霖澤館',x:278,y:78,lab:'t',cx:30,cz:-104,m:[['campus','台大校園（霖澤館前）'],['linze','霖澤館（大廳）'],['classroom','霖澤館 201 教室']]},
-    {id:'wancai',name:'萬才館',x:333,y:82,lab:'t',cx:92,cz:-100,m:[['wancai','萬才館（大廳）'],['lawlib','法律學院圖書館']]},
+    {id:'linze',name:'法律系館A',x:278,y:78,lab:'t',cx:30,cz:-104,m:[['campus','首都帝大校園（法律系館A前）'],['linze','法律系館A（大廳）'],['classroom','法律系館A 201 教室']]},
+    {id:'wancai',name:'法律系館B',x:333,y:82,lab:'t',cx:92,cz:-100,m:[['wancai','法律系館B（大廳）'],['lawlib','法律學院圖書館']]},
     {id:'soclib',name:'社科圖',x:268,y:132,lab:'r',cx:11,cz:-66,m:[['soclib','社科院圖書館']]},
-    {id:'boya',name:'博雅・普通',x:206,y:112,lab:'t',cx:-38,cz:-60,m:[['campus','博雅教學館'],['campus','普通教學館']]},
-    {id:'avenue',name:'椰林大道',x:220,y:172,lab:'t',cx:-40,cz:6,m:[['campus','椰林大道・傅鐘']]},
+    {id:'boya',name:'博思・普通',x:206,y:112,lab:'t',cx:-38,cz:-60,m:[['campus','博思教學館'],['campus','普通教學館']]},
+    {id:'avenue',name:'椰影大道',x:220,y:172,lab:'t',cx:-40,cz:6,m:[['campus','椰影大道・晨思鐘']]},
     {id:'gate',name:'校門',x:162,y:172,lab:'t',cx:-112,cz:0,m:[['campus','校門口']]},
     {id:'library',name:'總圖',x:330,y:172,lab:'t',cx:86,cz:0,m:[['library_hall','總圖書館（大廳）']]},
     {id:'gongtong',name:'共同',x:262,y:206,lab:'b',cx:2,cz:22,m:[['campus','共同教學館']]},
@@ -28,7 +28,7 @@ const PLACEMAP=(function(){
     {id:'gongguan',name:'公館',x:100,y:172,lab:'t',m:[['gongguan','公館商圈'],['gongguan','捷運公館站'],['noodle','阿鳳麵店'],['bookstore','舊路書房'],['cvs','日日便利']]},
     {id:'wenzhou',name:'溫州街',x:66,y:82,lab:'t',m:[['wenzhou','溫州街'],['cafe','兩點半 Café']]}];
   /* 區域的底：校園、公館（羅斯福路那一條）、溫州街 */
-  S.AREAS=[{id:'campus',name:'台大校園',x:146,y:52,w:208,h:200,lx:154,ly:68,c:'#2c3a2f'},
+  S.AREAS=[{id:'campus',name:'首都帝大校園',x:146,y:52,w:208,h:200,lx:154,ly:68,c:'#2c3a2f'},
     {id:'gongguan',name:'',x:74,y:126,w:62,h:96,c:'#3a3329'},
     {id:'wenzhou',name:'',x:14,y:56,w:122,h:56,c:'#33302c'}];
   const key=pl=>pl[0]+'|'+pl[1];

@@ -85,7 +85,7 @@ const WZL=(function(){
     /* 出門提醒：「法服值班（今天陪阿德）」「法服值班（今天陪林太太）」；選「這次不去」＝順延 */
     const today=S.lineToday(G); if(today&&typeof OUT!=='undefined'&&G.hour<9.5){ const id='fafu_'+G.day, q=OUT.get(G,id), L=S.LINE[today.k];
       if(q){ if(q.state==='planned'){ q.title=L.title; q.no='這次不去'; } }
-      else OUT.plan(G,{id,day:G.day,h:9,place:'萬才館一樓',title:L.title,travel:'走過去約 10 分鐘',travelH:0.25,no:'這次不去',goto:{zone:'wancai',x:0,z:5,yaw:Math.PI},silent:true}); } };
+      else OUT.plan(G,{id,day:G.day,h:9,place:'法律系館B一樓',title:L.title,travel:'走過去約 10 分鐘',travelH:0.25,no:'這次不去',goto:{zone:'wancai',x:0,z:5,yaw:Math.PI},silent:true}); } };
   S.lineToday=function(G){ const F=G.flags; for(const k of ['WZ_LINE_L','WZ_LINE_I']){ const R=F[k]; if(R&&R.day===G.day&&!done(G,S.LINE[R.k].ev)) return R; } return null; };
   /* 那個週六早午餐自動請假（JOBS.EXCUSE）*/
   S.excuse=(G,k,d)=>{ if(k!=='brunch') return null; const F=G.flags; for(const key of ['WZ_LINE_L','WZ_LINE_I']){ const R=F[key]; if(R&&R.day===d) return 'fafu_line'; } return null; };
@@ -287,7 +287,7 @@ const WZL=(function(){
   S.addSearch=function(GM){ const E=GM&&GM.E; if(!E||!Array.isArray(E.interactables)||typeof WZ_PARK_LAYOUT==='undefined') return; const n=(WZ_PARK_LAYOUT.interact||[]).find(q=>q.kind==='notice'); if(!n) return;
     E.interactables.push({x:n.x+1.2,z:n.z,radius:1.2,label:'找貓',wzCat:true,get hidden(){ const G=GM.G; return !(G&&S.searchOn(G)); }}); };
   S.patch=function(){ if(typeof STORY_EVENTS==='undefined') return; const E=id=>STORY_EVENTS.find(e=>e.id===id);
-    const zq=E('ev_ziqing_show'); if(zq&&!zq._wz){ zq._wz=true; const D=zq.dialogue; D.unshift({if:{flags:['WZ_ZQ_POSTER']},speaker:null,text:'萬才館門口貼著那張藍色的海報。藍色是對的。'});
+    const zq=E('ev_ziqing_show'); if(zq&&!zq._wz){ zq._wz=true; const D=zq.dialogue; D.unshift({if:{flags:['WZ_ZQ_POSTER']},speaker:null,text:'法律系館B門口貼著那張藍色的海報。藍色是對的。'});
       const line={if:{flags:['WZ_ZQ_POSTER']},speaker:'heroine_04',text:'海報的藍色，台下的人有看到。'};
       const a=D.findIndex(l=>l.text==='我看到你了。你拍得超大聲。很丟臉。……謝啦。'); if(a>=0) D.splice(a+1,0,line);
       const b=D.findIndex(l=>l.text==='你有來。'); if(b>=0) D.splice(b+1,0,Object.assign({},line)); }   /* BB_148 8b：開場一句、她下台後一句（拍手、沒按兩個版本；沒去的沒有）*/

@@ -49,40 +49,40 @@ const POOL_STORY=(function(){
     pool_4:{ card:'班代，系學會活動組', personality:'什麼都要數一遍，數完才放心', place:'教室門口',
       model:'char.npc_nf15', props:['folder'],   /* 夾板＝folder（手上的資料夾）；系學會外套沒有 */
       where:[ {days:[3],from:12+10/60,to:12+40/60,zone:'classroom',act:'linger',at:[1.2,6.9,-1.2,0],terms:['Y1S1'],weeks:[7],noHoliday:true,pri:true,door:true,desc:'總是最後進教室的人',label:'教室門口'},   /* 5-3：期中考前一週的週三下課（大一上第 7 週週三，刑總 9:10～12:10 在霖澤館 201）在教室門口 */
-        {days:[1],from:8,to:18,zone:'linze',act:'linger',at:[4.4,1.6,P/2,0],terms:['Y2S1'],weeks:[1],noHoliday:true,desc:'拿著點名板的女生',label:'霖澤館一樓，迎新'} ],   /* 5-5：大二上第 1 週週一在霖澤館一樓（沒有聯絡方式的當面問）*/
+        {days:[1],from:8,to:18,zone:'linze',act:'linger',at:[4.4,1.6,P/2,0],terms:['Y2S1'],weeks:[1],noHoliday:true,desc:'拿著點名板的女生',label:'法律系館A一樓，迎新'} ],   /* 5-5：大二上第 1 週週一在霖澤館一樓（沒有聯絡方式的當面問）*/
       cls:{door:true,seat:[5,0],desc:'總是最後進教室的人'} },   /* 上課前 10 分鐘在教室門口（霖澤館 201 的後門口；其他教室沒有門口的站位＝直接坐）、上課時坐最後一排（表上只寫門口：她是同班同學，上課照樣在）*/
     pool_5:{ card:'吉他社，怕蟑螂', personality:'', place:'兩點半 Café',
       model:'char.npc_nf9', props:['folder'],   /* 抱著一疊講義＝folder；撥片鑰匙圈沒有 */
       where:[ {days:ALL,from:11,to:17,zone:'cafe',act:'read',noHoliday:true,desc:'抱著一疊講義的女生',label:'兩點半 Café'} ] },
-    pool_6:{ card:'系上活動的照片都是他拍的', personality:'照片裡從來沒有他自己', place:'椰林大道',
+    pool_6:{ card:'系上活動的照片都是他拍的', personality:'照片裡從來沒有他自己', place:'椰影大道',
       model:'char.npc_nm9', props:['camera_film'],   /* 底片相機＝camera_film（背帶照這個底模量過，換底模要重量；NPC-POOL-ART-1028）；格子襯衫沒有（衣服，D99）*/
-      where:[ {days:[1,2,3],from:12,to:13,zone:'campus',act:'linger',at:[33,-112,0,0],terms:['Y2S2'],weeks:[15],noHoliday:true,pri:true,desc:'脖子上掛相機的學長',label:'霖澤館穿堂，展覽'},   /* 7-4 展覽那三天 12～13 點在霖澤館一樓穿堂（校園的穿堂，地坪 0.9 m）*/
-        {days:ALL,from:16,to:17.5,zone:'campus',act:'linger',at:[-10,0.8,P/2,0],noHoliday:true,if:SUNNY,desc:'脖子上掛相機的學長',label:'椰林大道，拍照'} ] },   /* 椰林大道中間的黃色虛線旁邊 */
-    pool_7:{ card:'每天六點在傅鐘旁邊吃早餐的同學', personality:'想當律師，還不知道要幫誰', place:'傅鐘旁邊',
+      where:[ {days:[1,2,3],from:12,to:13,zone:'campus',act:'linger',at:[33,-112,0,0],terms:['Y2S2'],weeks:[15],noHoliday:true,pri:true,desc:'脖子上掛相機的學長',label:'法律系館A穿堂，展覽'},   /* 7-4 展覽那三天 12～13 點在霖澤館一樓穿堂（校園的穿堂，地坪 0.9 m）*/
+        {days:ALL,from:16,to:17.5,zone:'campus',act:'linger',at:[-10,0.8,P/2,0],noHoliday:true,if:SUNNY,desc:'脖子上掛相機的學長',label:'椰影大道，拍照'} ] },   /* 椰林大道中間的黃色虛線旁邊 */
+    pool_7:{ card:'每天六點在晨思鐘旁邊吃早餐的同學', personality:'想當律師，還不知道要幫誰', place:'晨思鐘旁邊',
       model:'char.npc_nf2', props:['tote','thermos_silver','thermos_bench'],   /* 短髮＝黑色鮑伯頭的底模；帆布包＝tote（右肩）；銀色保溫瓶＝thermos_silver（左手，坐下時藏）；坐在傅鐘長椅時放在身旁＝thermos_bench（pool3d.js afterSpawn 開，NPC-POOL-ART-1028）*/
-      where:[ {days:ALL,from:6,to:7.5,zone:'campus',act:'sit',seat:'bell',dates:[['2029-06-02','2029-06-02']],pri:true,desc:'傅鐘旁邊吃早餐的人',label:'傅鐘旁邊，最後一次'},   /* 4-4、4-6：畢業典禮當天 06:00～07:30 */
-        {days:WD,from:6.5,to:7+40/60,zone:'campus',act:'sit',seat:'bell',noHoliday:true,desc:'傅鐘旁邊吃早餐的人',label:'傅鐘旁邊，吃早餐'},   /* 傅鐘旁的長椅（和 Alison 9:30 以後坐的同一張，時間不重疊）*/
-        {days:[6],from:9,to:12,zone:'wancai',act:'linger',at:[-2.0,1.8,P/2,0],terms:['Y2S1','Y2S2','Y3S1','Y3S2','Y4S1','Y4S2'],if:FAFU,desc:'坐第一排正中間的女生',label:'萬才館一樓，法服值班'} ],   /* 4-4：大二起隔週六 9～12 法服值班（和馬佳蓉；STORY.fafuDuty 的週六），圓桌旁 */
+      where:[ {days:ALL,from:6,to:7.5,zone:'campus',act:'sit',seat:'bell',dates:[['2029-06-02','2029-06-02']],pri:true,desc:'晨思鐘旁邊吃早餐的人',label:'晨思鐘旁邊，最後一次'},   /* 4-4、4-6：畢業典禮當天 06:00～07:30 */
+        {days:WD,from:6.5,to:7+40/60,zone:'campus',act:'sit',seat:'bell',noHoliday:true,desc:'晨思鐘旁邊吃早餐的人',label:'晨思鐘旁邊，吃早餐'},   /* 傅鐘旁的長椅（和 Alison 9:30 以後坐的同一張，時間不重疊）*/
+        {days:[6],from:9,to:12,zone:'wancai',act:'linger',at:[-2.0,1.8,P/2,0],terms:['Y2S1','Y2S2','Y3S1','Y3S2','Y4S1','Y4S2'],if:FAFU,desc:'坐第一排正中間的女生',label:'法律系館B一樓，法服值班'} ],   /* 4-4：大二起隔週六 9～12 法服值班（和馬佳蓉；STORY.fafuDuty 的週六），圓桌旁 */
       cls:{seat:[0,4],desc:'坐第一排正中間的女生'} },
-    pool_8:{ card:'辯論社，永遠當計時', personality:'', place:'椰林大道',
+    pool_8:{ card:'辯論社，永遠當計時', personality:'', place:'椰影大道',
       model:'char.npc_nm13', props:['backpack'],   /* 計時器掛在背包上：背包有，計時器沒有 */
-      where:[ {days:WD,from:12,to:13,zone:'campus',act:'wander',near:[-40,0],noHoliday:true,desc:'走路很快的男生',label:'椰林大道'} ] },
+      where:[ {days:WD,from:12,to:13,zone:'campus',act:'wander',near:[-40,0],noHoliday:true,desc:'走路很快的男生',label:'椰影大道'} ] },
     pool_9:{ card:'喜歡聽 podcast', personality:'', place:'總圖',
       model:'char.npc_nf7', props:[],   /* 耳機一邊戴一邊不戴沒有 */
       where:[ {days:WD,from:13,to:17,zone:'library',act:'read',seatAt:[5.6,-3.9],noHoliday:true,desc:'坐窗邊的人',label:'總圖三樓，窗邊'} ] },   /* 閱覽室（3F）的窗在後牆（z −8）：最靠窗那一排的位子 */
     pool_10:{ card:'助教的學弟，想做研究', before:'常在總圖問助教問題的同學', personality:'', place:'總圖',
       model:'char.npc_nm1', props:['notebook_q'],   /* 寫滿問題的筆記本＝notebook_q（NPC-POOL-ART-1028）*/
       where:[ {days:WD,from:14,to:16,zone:'library',act:'read',noHoliday:true,desc:'常跟助教說話的男生',label:'總圖，陳助教旁邊那一桌'} ] },   /* 陳助教平日 14～18 在閱覽室（npc_ta_chen 的作息）；SOCIAL_GRAPH pool_10—npc_ta_chen＝坐她旁邊的位子（story3d.js 的 friendSeat）*/
-    pool_11:{ card:'吉他社，和弦換不過去', before:'背吉他袋的學姊', personality:'', place:'萬才館旁邊',
+    pool_11:{ card:'吉他社，和弦換不過去', before:'背吉他袋的學姊', personality:'', place:'法律系館B旁邊',
       model:'char.npc_nf8', props:['guitar'],   /* 吉他袋＝guitar（掛法是子晴模型以外的預設值，還沒看畫面）*/
-      where:[ {days:[1,3],from:19,to:21,zone:'wancai',act:'club',activity:'club_guitar',desc:'背吉他袋的女生',label:'萬才館，吉他社社課'},   /* AA_528 1-3（企劃線 7ad5fee84）：吉他社有課的時間她在吉他社（同一個時段原本也站在萬才館旁邊）*/
-        {days:[1,3],from:19,to:21,zone:'campus',act:'linger',at:[97.5,-95,P,0],noHoliday:true,if:NO_GUITAR,desc:'背吉他袋的女生',label:'萬才館旁邊'} ] },   /* 萬才館旁邊那一格只在吉他社沒課的時候 */
+      where:[ {days:[1,3],from:19,to:21,zone:'wancai',act:'club',activity:'club_guitar',desc:'背吉他袋的女生',label:'法律系館B，吉他社社課'},   /* AA_528 1-3（企劃線 7ad5fee84）：吉他社有課的時間她在吉他社（同一個時段原本也站在萬才館旁邊）*/
+        {days:[1,3],from:19,to:21,zone:'campus',act:'linger',at:[97.5,-95,P,0],noHoliday:true,if:NO_GUITAR,desc:'背吉他袋的女生',label:'法律系館B旁邊'} ] },   /* 萬才館旁邊那一格只在吉他社沒課的時候 */
     pool_12:{ card:'系籃經理', personality:'', place:'籃球場',
       model:'char.npc_nm5', props:['sports_drink'],   /* 運動飲料＝sports_drink（坐下時藏，NPC-POOL-ART-1028）；系服沒有（衣服，D99）*/
-      where:[ {days:[5],from:17,to:19,zone:'campus',act:'linger',at:[2.6,-114.5,-P/2,0],noHoliday:true,desc:'總是穿系服的人',label:'醉月湖東側的籃球場'} ] },   /* 系籃球場 (−4,−113) 東邊的長椅旁，面向場內 */
-    pool_13:{ card:'廣播社', personality:'', place:'椰林大道',
+      where:[ {days:[5],from:17,to:19,zone:'campus',act:'linger',at:[2.6,-114.5,-P/2,0],noHoliday:true,desc:'總是穿系服的人',label:'映月湖東側的籃球場'} ] },   /* 系籃球場 (−4,−113) 東邊的長椅旁，面向場內 */
+    pool_13:{ card:'廣播社', personality:'', place:'椰影大道',
       model:'char.npc_nf10', props:['recorder'],   /* 錄音筆＝recorder（NPC-POOL-ART-1028）*/
-      where:[ {days:WD,from:12,to:13,zone:'campus',act:'wander',near:[-60,0],noHoliday:true,desc:'聲音很好聽的女生',label:'椰林大道，找人訪問'} ] },
+      where:[ {days:WD,from:12,to:13,zone:'campus',act:'wander',near:[-60,0],noHoliday:true,desc:'聲音很好聽的女生',label:'椰影大道，找人訪問'} ] },
     pool_14:{ card:'腳踏車社', personality:'', place:'校園',
       model:'char.npc_nm17', props:['backpack','helmet'],   /* 安全帽＝helmet（掛在後背包右側：沒有後背包時會浮在背後，NPC-POOL-ART-1028 補 backpack）；公路車（騎士）沒有接：遊戲裡騎車的路人（GM.extras 的騎士）不能說話，先站在總圖東側的停車架旁 */
       where:[ {days:WD,from:8,to:18,zone:'campus',act:'linger',at:[47.5,-14.4,0,0],noHoliday:true,desc:'騎腳踏車超快的男生',label:'校園，停車架旁'} ] },   /* 表上沒寫時間：照上課時間 */
@@ -101,10 +101,10 @@ const POOL_STORY=(function(){
     pool_19:{ card:'去社工系旁聽，週末當志工', personality:'', place:'社科院',
       model:'char.npc_nm8', props:['folder'],   /* 社工系的講義＝folder */
       where:[ {days:WD,from:10,to:12,zone:'soclib',act:'read',noHoliday:true,desc:'講話很小聲的男生',label:'社科院'} ] },   /* 社會科學院一樓遊戲裡沒有室內：社科院圖書館（社科院裡面的區域）*/
-    pool_20:{ card:'法服幹部，管器材', personality:'', place:'萬才館一樓',
+    pool_20:{ card:'法服幹部，管器材', personality:'', place:'法律系館B一樓',
       model:'char.npc_nf18', props:['lanyard_tag'],   /* 法服的名牌＝lanyard_tag（掛繩照這個底模量過，NPC-POOL-ART-1028）；延長線沒有 */
       where:[ {days:ALL,from:0,to:24,zone:'campus',act:'linger',at:[-50,11.25,P,0],activity:'club_expo_y1s1',actHours:true,pri:true,desc:'法服攤位那個人',label:'社團博覽會，法服的攤位',greetAt:'社團博覽會'},   /* 法服帳篷（−47.5,13.5）前，學姊的西邊 */
-        {days:[6],from:9,to:12,zone:'wancai',act:'linger',at:[1.9,1.6,-P/2,0],if:FAFU,fafuDuty:true,desc:'法服攤位那個人',label:'萬才館一樓，法服值班'} ] }   /* fafuDuty：認識的入口（AA_528 1-2，src/pool_more3d.js MEETV 的 meetDuty）*/   /* 隔週六 9～12（STORY.fafuDuty）：圓桌旁 */
+        {days:[6],from:9,to:12,zone:'wancai',act:'linger',at:[1.9,1.6,-P/2,0],if:FAFU,fafuDuty:true,desc:'法服攤位那個人',label:'法律系館B一樓，法服值班'} ] }   /* fafuDuty：認識的入口（AA_528 1-2，src/pool_more3d.js MEETV 的 meetDuty）*/   /* 隔週六 9～12（STORY.fafuDuty）：圓桌旁 */
   };
 
   /* ---------- 第 4～8 節 第一批五位 ---------- */
@@ -113,12 +113,12 @@ const POOL_STORY=(function(){
     [Z]:{
       meetBell:[ N('（長椅上一個女生，膝蓋上攤著飯糰的包裝紙，旁邊一個銀色的保溫瓶。）'), z('早安。'), z('……你也是法律系的吧？民總，你坐我後面幾排。'), MEET(Z), z('我叫曾靖雯。你這麼早起來做什麼？'),
         {choice:[{text:'「睡不著。」',goto:'a'},{text:'「想看看早上的校園。」',goto:'b'},{text:'「……剛好路過。」',goto:'c'}]},
-        L('a'), z('那你明天也睡不著的話，這張長椅分你一半。'), GO('e'), L('b'), z('對吧。六點半以前，椰林大道上只有掃地的阿伯跟我。'), GO('e'), L('c'), z('六點半剛好路過傅鐘？……好，我不問。'), L('e') ],
+        L('a'), z('那你明天也睡不著的話，這張長椅分你一半。'), GO('e'), L('b'), z('對吧。六點半以前，椰影大道上只有掃地的阿伯跟我。'), GO('e'), L('c'), z('六點半剛好路過晨思鐘？……好，我不問。'), L('e') ],
       meetClass:[ N('（第一排正中間的女生回過頭。）'), z('早安。……對，下午了。我習慣這樣說。'), MEET(Z), z('我叫曾靖雯。你坐哪裡？'), N('（你指了一下後面。）'), z('那邊聽得到老師嗎？這間的麥克風，後面幾排會有回音。') ],
-      talk:[ {t:'「我六點就到傅鐘旁邊吃早餐了。那時候的校園很安靜，你應該來看一次。」',when:'met'}, {t:'「早起的祕訣是早睡。……好，我知道這不算祕訣。」',when:'met'},
+      talk:[ {t:'「我六點就到晨思鐘旁邊吃早餐了。那時候的校園很安靜，你應該來看一次。」',when:'met'}, {t:'「早起的祕訣是早睡。……好，我知道這不算祕訣。」',when:'met'},
         {t:'「以安每次都比我早到一點點。我開始懷疑她住在教室裡。」',when:'metAn'}, {t:'「民總講到意思表示那天，我寫了三頁。回去看，只看得懂第一頁。」',when:'Y1S1'},
         {t:'「我上禮拜自己去地方法院旁聽了。坐最後一排，沒有人趕我。」',when:'Y1S2noCourt'}, {t:'「法服值班的時候，佳蓉負責倒水，我負責記。我寫字很快，這件事終於有用了。」',when:'Y2+'},
-        {t:'「實習要填志願了。我把法扶寫第一個，寫完看了很久。」',when:'Y3S1'}, {t:'「傅鐘旁邊那家飯糰，四年漲了兩次。我都有發現。」',when:'Y4'} ],
+        {t:'「實習要填志願了。我把法扶寫第一個，寫完看了很久。」',when:'Y3S1'}, {t:'「晨思鐘旁邊那家飯糰，四年漲了兩次。我都有發現。」',when:'Y4'} ],
       greet:['「早安。」','「今天的飯糰是鮪魚的。不好吃。」','（她舉了一下保溫瓶，算是打招呼。）'],
       /* 4-3 順手的事：陪她去旁聽 */
       ask:[ z('我想去地方法院旁聽。網站上說誰都可以進去，可是我一個人……有點不敢走進去。'), z('你哪天下午沒課？') ],   /* AA_498「實作時定的」第 3 點（56ed354e9）：大一下平日每天早上都有課，改下午 */
@@ -140,7 +140,7 @@ const POOL_STORY=(function(){
       dutyList:'（值班表上，她的名字排在你下面那一週。）',
       y3q:'實習志願我第一個寫法扶，第二個是律所。你覺得我會後悔嗎？',
       y3Opts:[['不會。','好。那我不改了。'],['後悔也來得及改。','……那我先不改，後悔再說。'],['妳自己覺得呢？','我覺得不會。我只是想聽別人說一次。']],
-      gradEve:'早安。明天畢業典禮。我六點會在傅鐘，最後一次。',
+      gradEve:'早安。明天畢業典禮。我六點會在晨思鐘，最後一次。',
       gradMiss:['（照片：空的長椅）','早安。'],
       /* 4-5 邀你 */
       invite:[ z('法服週六缺一個記錄的人。你要不要來看一次？') ], inviteOpts:['「好。」','「我再想想。」'], inviteNo:[ z('好。我們每兩個禮拜都在，想來就來。') ],
@@ -152,7 +152,7 @@ const POOL_STORY=(function(){
         {unless:{custom:G=>['yes','depends','self'].includes((G.flags||{}).ZJW_HELP)},speaker:Z,text:'我還是不知道要幫誰。可是我會一直找下去。'},
         z('好了。……再見。這次不說早安了。') ],
       /* 4-7 錯過、不在 */
-      abroad:'早安。你那邊幾點？我這邊六點。傅鐘的長椅換新的了。',
+      abroad:'早安。你那邊幾點？我這邊六點。晨思鐘的長椅換新的了。',
       y5:'早安。你今年還在學校，幫我看一下那張長椅還在不在。' },
 
     /* ===== 第 5 節 黃郁婷 ===== */
@@ -168,7 +168,7 @@ const POOL_STORY=(function(){
         {t:'「我禮拜四晚上都在總圖 B1。書記官的書比民法還厚。」',when:'Y3secret'}, {t:'「采潔問我書記官每天在做什麼，說要寫進小說。我叫她不要把我寫成兇手。」',when:'Y4metCJ'} ],
       greet:['「我數一下。……好，你在。」','（她在夾板上打了一個勾，對你點頭。）','「明天的課改教室了，群組有說。」'],
       /* 5-3 順手的事：考前補給包 */
-      ask1:[ y('明天系學會要在霖澤館一樓發考前補給包。今天晚上要包八十包，人不夠。'), y('七點到九點，萬才館一樓。你有空嗎？') ],
+      ask1:[ y('明天系學會要在A館一樓發考前補給包。今天晚上要包八十包，人不夠。'), y('七點到九點，B館一樓。你有空嗎？') ],
       ask1Opts:['「我去幫忙。」','「我今天晚上有事。」'], ask1No:[ y('好，我去問阿哲。他一定會說好，然後帶三個人來。') ],
       pack:[ N('（長桌上一箱餅乾、一箱巧克力、一疊寫好的小卡。你負責放卡片。）'), y('卡片上寫的是學長姊的考前提醒。……不要偷看，看了會更緊張。'), N('（包到最後，她把每一包又數了一次。）'),
         y('我數一下。……八十。好，都在。'), y('謝啦。我們加一下好友，以後缺人我直接找你。') ],
@@ -181,7 +181,7 @@ const POOL_STORY=(function(){
         L('a'), y('法庭裡每一句話，都要有人記下來。我覺得那個人很重要。'), GO('e'), L('b'), y('大家都會這樣問。……我就是想坐在旁邊那個位子。'), GO('e'), L('c'), y('嗯。……那我就開始念了。'), L('e') ],
       /* 5-5 順手的事 2：迎新報到桌 */
       ask2:'禮拜三早上迎新的報到桌缺一個人。八點半到十點，坐著幫我對名單就好。', ask2Opts:['好。','那天早上我有課。'], ask2No:'好。我自己來。',
-      desk:[ {scene:'霖澤館一樓'}, N('（報到桌前排了一長串新生。你負責找名字、打勾。）'), N('（一個新生小聲問：「學長，法律系是不是要背很多東西？」）'),
+      desk:[ {scene:'法律系館A一樓'}, N('（報到桌前排了一長串新生。你負責找名字、打勾。）'), N('（一個新生小聲問：「學長，法律系是不是要背很多東西？」）'),
         {choice:[{text:'「要背。背完還要會用。」',goto:'a'},{text:'「不用怕，大家都背不完。」',goto:'a'},{text:'「問旁邊那個班代。」',goto:'b'}]},
         L('a'), N('（那個新生點點頭，拿了名牌走了。）'), GO('e'), L('b'), y('（頭也沒抬）要背。我數過，比高中多。'), L('e'),
         {if:{custom:G=>typeof POOL!=='undefined'&&POOL.met(G,Z)},speaker:null,text:'（七點半，靖雯提著一袋早餐來，放在報到桌上：「早安。給工作人員的。」）'},
@@ -237,34 +237,34 @@ const POOL_STORY=(function(){
         ys('我是鄭元碩，大三，法律系。系上活動的照片，十張裡有八張是我拍的。所以照片裡都沒有我。'),
         {choice:[{text:'「可以給我看嗎？」',set:{YS_PHOTO:true},goto:'a'},{text:'「下次我會繞開。」',goto:'b'}]},
         L('a'), ys('洗出來再給你。底片的，要等。'), GO('e'), L('b'), ys('不用繞。路上有人，照片才不會像明信片。'), L('e') ],
-      talk:[ {t:'「椰林大道下午四點的光最好看。你下次經過可以看一下。」',when:'met'}, {t:'「家齊每次打電話回家都講台語。我聽不懂，可是聽得出來他很想回去。」',when:'metQJQ'},
-        {t:'「底片一卷三十六張。我拍完一卷要一個月，一直捨不得按。」',when:'Y1S1'}, {t:'「醉月湖那張，我拿去投比賽了。」',when:'Y1S2'},
-        {t:'「上次那張醉月湖的照片，我拿去投比賽。沒得獎，可是我很開心。」',when:'secret'}, {t:'「這學期是我最後一年。我還是一張自己在系上的照片都沒有。」',when:'Y2S1'},
+      talk:[ {t:'「椰影大道下午四點的光最好看。你下次經過可以看一下。」',when:'met'}, {t:'「家齊每次打電話回家都講台語。我聽不懂，可是聽得出來他很想回去。」',when:'metQJQ'},
+        {t:'「底片一卷三十六張。我拍完一卷要一個月，一直捨不得按。」',when:'Y1S1'}, {t:'「映月湖那張，我拿去投比賽了。」',when:'Y1S2'},
+        {t:'「上次那張映月湖的照片，我拿去投比賽。沒得獎，可是我很開心。」',when:'secret'}, {t:'「這學期是我最後一年。我還是一張自己在系上的照片都沒有。」',when:'Y2S1'},
         {t:'「家齊的箱子是我領的。冰箱開了一整晚才塞得進去。」',when:'qjqNo'} ],   /* 8-3 祐廷說「我週六不在。」以後多一句 */
       greet:['「等一下——光。……好，你可以走了。」','（他舉起相機對著你，沒有按，又放下來。）','「今天的雲很好。可惜我沒帶底片。」'],
       secret:[ ys('其實……我想當攝影師。'),
         {choice:[{text:'「那就去當啊。」',set:{YS_GO:true},goto:'a'},{text:'「先考完國考再說？」',set:{YS_SAFE:true},goto:'b'},{text:'「你拍的那張背影，我記得。」',if:{flags:['YS_PHOTO']},set:{YS_REMEMBER:true},goto:'c'}]},
         L('a'), ys('你講得好簡單。……可是被你這樣講，好像真的沒那麼難。'), GO('e'), L('b'), ys('我爸也這樣說。……你們講的都對，所以我才煩。'), GO('e'),
-        L('c'), ys('……那張洗出來了。我一直忘了給你。'), N('（他從背包裡拿出一張照片：椰林大道，下午四點，一個人的背影。）'), L('e') ],
-      photoLook:'椰林大道，下午四點，一個人的背影。',   /* 房間物品「元碩拍的背影」：稿沒有另外寫「看」的句子，用秘密那一場照片的內容（7-2 那句旁白冒號後面的字，一字不差；房間物品的旁白不一定加括號，例：舊《民法》）*/
+        L('c'), ys('……那張洗出來了。我一直忘了給你。'), N('（他從背包裡拿出一張照片：椰影大道，下午四點，一個人的背影。）'), L('e') ],
+      photoLook:'椰影大道，下午四點，一個人的背影。',   /* 房間物品「元碩拍的背影」：稿沒有另外寫「看」的句子，用秘密那一場照片的內容（7-2 那句旁白冒號後面的字，一字不差；房間物品的旁白不一定加括號，例：舊《民法》）*/
       /* 7-3 順手的事：法律系的一天 */
-      ask:[ ys('畢業前我想在霖澤館的穿堂辦一個小展覽，主題是「法律系的一天」。'), ys('缺一個人當主角。從早上到晚上，不用看鏡頭。你哪個週六比較閒？') ],
+      ask:[ ys('畢業前我想在A館的穿堂辦一個小展覽，主題是「法律系的一天」。'), ys('缺一個人當主角。從早上到晚上，不用看鏡頭。你哪個週六比較閒？') ],
       askOpts:['「我可以。」','「那陣子我很忙。」'], askNo:[ ys('好。那我找家齊。他很閒，可是一直看鏡頭。') ],
-      day:[ {scene:'傅鐘'}, N('（早上七點，傅鐘。你坐在長椅的一頭，他蹲在遠遠的地方。）'),
+      day:[ {scene:'晨思鐘'}, N('（早上七點，晨思鐘。你坐在長椅的一頭，他蹲在遠遠的地方。）'),
         {if:{custom:G=>typeof POOL!=='undefined'&&POOL.met(G,Z)},speaker:null,text:'（長椅另一頭有人說了一聲「早安」——是靖雯。）'},
-        {scene:'霖澤館・穿堂'}, N('（中午，霖澤館的穿堂。光從另一頭照進來。你什麼都不用做，走過去就好。）'),
+        {scene:'法律系館A・穿堂'}, N('（中午，法律系館A的穿堂。光從另一頭照進來。你什麼都不用做，走過去就好。）'),
         {scene:'阿鳳麵店'}, {if:{custom:G=>typeof PHONE!=='undefined'&&PHONE.inGroup(G,'noodle_team')},speaker:null,text:'（傍晚，麵店。阿哲在你對面吃第二碗。）'},   /* 麵店團的（PHONE 的 noodle_team 群組）*/
         ys('不要看鏡頭，繼續吃。'),
         {scene:'總圖門口'}, N('（晚上，總圖門口。他把相機放下來。）'), ys('最後一張了。謝啦。'), {set:{YS_MODEL:true}} ],
       /* 7-4 展覽（霖澤館一樓穿堂：只有旁白，不用新美術）*/
       expo:[ N('（穿堂的牆上貼了一排黑白照片，標題寫著「法律系的一天」。）'),
-        {if:{flags:['YS_MODEL']},speaker:null,text:'（照片裡的人是你：傅鐘的早上、穿堂的中午、麵店的傍晚、總圖的晚上。每一張都只拍到你的背影或側臉。）'},
+        {if:{flags:['YS_MODEL']},speaker:null,text:'（照片裡的人是你：晨思鐘的早上、穿堂的中午、麵店的傍晚、總圖的晚上。每一張都只拍到你的背影或側臉。）'},
         {unless:{flags:['YS_MODEL']},speaker:null,text:'（照片裡的人是邱家齊。每一張，他都在看鏡頭。）'},
-        {if:{flags:['YS_PHOTO']},speaker:null,text:'（最後一張是大一那年，椰林大道下午四點，一個走進鏡頭的背影。）'},
+        {if:{flags:['YS_PHOTO']},speaker:null,text:'（最後一張是大一那年，椰影大道下午四點，一個走進鏡頭的背影。）'},
         {if:{custom:(G,GM)=>typeof POOL!=='undefined'&&POOL.here(YS)},speaker:YS,text:'展覽的照片，還是沒有我。……這樣剛好。'} ],
       /* 畢業以後（各一則）*/
       y3:{go:['我在一間攝影工作室當助理。每天幫別人拍最重要的那一天。國考明年再說。'],safe:['補習班。國考還有半年。相機放在書桌上，每天都看得到。'],none:['（照片：一張書桌，桌上一台相機和一疊考古題）']},
-      y4:['（照片：椰林大道，下午四點）','路過。光還是一樣。'] },
+      y4:['（照片：椰影大道，下午四點）','路過。光還是一樣。'] },
 
     /* ===== 第 8 節 邱家齊 ===== */
     [Q]:{

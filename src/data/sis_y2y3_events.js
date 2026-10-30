@@ -83,7 +83,7 @@ const SISY23_EVENTS=(function(){
   return [
     /* ---------- 2-1 9/22（二）12:20 霖澤館・研究室（地點、背景照 ev_sis_plan_lab）---------- */
     { id:'ev_sis_lab_desk', title:'研究室靠門的位子', participants:[ID], location:'any', trigger:'outing', once:true, background:'dark', hours:1,
-      dialogue:[ {scene:'霖澤館・研究室',bg:'linze_prof_hall'},
+      dialogue:[ {scene:'法律系館A・研究室',bg:'linze_prof_hall'},
         N('（研究室有八張桌子。她的在門邊，門一開就撞到椅背。）'),
         SIS('靠門的位子。每個人進來都會撞到我。'),
         SIS('……也好。誰來了我都知道。'),

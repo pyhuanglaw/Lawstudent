@@ -139,12 +139,12 @@ const FEST_DATA=(function(){
         vday:{s6:[P('情人節？我在台中。早餐店情人節也開。'),P('你要來吃蛋餅嗎？')],dt:[P('我爸在蛋餅上畫了愛心。他不知道是給誰的。'),P('……現在知道了。')],
           vid:{years:[2027],call:true,dtOnly:true,her:true,lines:[P('情人節。我在讀書。'),P('……可是我想聽你的聲音。五分鐘就好。')]}},   /* 消失期、交往中：21:00 電話 */
         white:{years:[2026,2028,2029],   /* 2027 消失期不演 */
-          s6:[{if:{custom:tainan},speaker:PS,text:'這裡沒有醉月湖。……運河也可以。'},N('（她拿出一本筆記本。）'),P('這一年我問你的問題，我自己的答案都寫在這裡。'),
+          s6:[{if:{custom:tainan},speaker:PS,text:'這裡沒有映月湖。……運河也可以。'},N('（她拿出一本筆記本。）'),P('這一年我問你的問題，我自己的答案都寫在這裡。'),
             cg('cg_last_page_peishan',G=>!tainan(G)&&!F(G,'PS_WHITE_CG')),{if:{custom:G=>!tainan(G)&&hasCG('cg_last_page_peishan')},set:{PS_WHITE_CG:true}},
             P('最後一頁是空的。……那一題，你來回答。')],
           dt:[cg('cg_last_page_peishan',G=>!tainan(G)&&!F(G,'PS_WHITE_CG')),{if:{custom:G=>!tainan(G)&&hasCG('cg_last_page_peishan')},set:{PS_WHITE_CG:true}},
             P('最後一頁我寫了：『明年也一起問嗎？』'),P('……你可以用一個字回答。')],
-          fixed:{2026:{place:'醉月湖邊',bg:'dark',h:19}}},   /* 2026 醉月湖邊（晚上）；2028、2029 台南的運河邊（tn_canal，不放 CG）*/
+          fixed:{2026:{place:'映月湖邊',bg:'dark',h:19}}},   /* 2026 醉月湖邊（晚上）；2028、2029 台南的運河邊（tn_canal，不放 CG）*/
         qixi:{s6:[P('七夕的故事有一個問題：為什麼是喜鵲？')],dt:[P('我查到了。……不告訴你。明年再問我。')]},
         bday:{s6:[P('你怎麼知道？……我只在讀書會說過一次。'),P('我們家的生日蛋糕是蛋餅疊起來的，三層。我爸的發明。')],dt:[P('我爸說今年要做兩份蛋餅蛋糕。……他沒問為什麼，可是他知道。')],
           vid:{years:[2027],call:true,dtOnly:true,lines:[P('今天生日。我還是在讀書。'),P('……你打來，就算過了。')]}},   /* 消失期、交往中：電話（你打來）*/

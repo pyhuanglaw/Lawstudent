@@ -178,8 +178,8 @@ const PG=(function(){
     return OUT.plan(G,{id:'te_'+(kind==='gf'?'gf_':'')+'Y4S2'+(kind==='gf'?'_'+who:''),ev:'ev_termend_dinner',day:S.gradDay(),h,late:0.25,place:pname,title:'學期末的飯：'+nm(who)+(pname?'（'+pname+'）':''),travel:'走過去約 15 分鐘',travelH:0.25,te:{term:'Y4S2',who,kind}}); };
   S.planCafe=G=>typeof OUT!=='undefined'&&OUT.plan(G,{id:'pg_grad_cafe',goto:{zone:'cafe',x:0,z:5,yaw:Math.PI},day:S.gradDay(),h:17.5,late:0.25,place:'兩點半 Café',title:'兩點半 Café',travel:'走過去約 15 分鐘',travelH:0.25});   /* 窗口 17:15～17:45 */
   S.planBday=function(G){ if(typeof OUT==='undefined'||OUT.get(G,'pg_sis_bday')||S.isEx(G,'heroine_05')||S.tePicked(G)==='heroine_05') return false; if(!S.sisOk(G)) return false;
-    return OUT.plan(G,{id:'pg_sis_bday',ev:'ev_pg_sis_bday',day:S.gradDay(),h:20.5,late:0.5,place:'霖澤館・研究室',title:'學姊的生日：研究室，八點半',travel:'走過去約 10 分鐘',travelH:1/6}); };
-  S.planKx=G=>typeof OUT!=='undefined'&&OUT.plan(G,{id:'pg_kx_grad',ev:'ev_pg_kx_grad',day:S.DK('2029-06-09'),h:16.5,late:0.5,place:'政大',title:'兩個畢業典禮（政大）',travel:'開車約 40 分鐘',travelH:2/3});
+    return OUT.plan(G,{id:'pg_sis_bday',ev:'ev_pg_sis_bday',day:S.gradDay(),h:20.5,late:0.5,place:'法律系館A・研究室',title:'學姊的生日：研究室，八點半',travel:'走過去約 10 分鐘',travelH:1/6}); };
+  S.planKx=G=>typeof OUT!=='undefined'&&OUT.plan(G,{id:'pg_kx_grad',ev:'ev_pg_kx_grad',day:S.DK('2029-06-09'),h:16.5,late:0.5,place:'木柵大學',title:'兩個畢業典禮（木柵大學）',travel:'開車約 40 分鐘',travelH:2/3});
   /* 學姊 2030 年的生日（AA_382 第 4 節，企劃線 e6d4a198）：畢業以後和學姊交往中（她在臺灣上班）。6/1（六）21:00 私訊「好。」／「明天不行。」（沒回＝到 6/2 09:00 為止）→
      「好。」＝6/2（日）09:00 她家樓下（跳過時間、睡覺停在出發前），開車約一小時到北海岸；沒去（明天不行、沒回、約了沒到）＝6/2 15:00 她傳照片「看到了。」；約了沒到的 09:30 先傳「九點半了。我先去。」（企劃線 116d5c72）。
      旗標 SIS_BDAY_Y5（sea／alone），和 SIS_BDAY_Y1～Y4 同一套；6/2 那天算有事（src/pgdates3d.js 的 busyDays：固定格不排在那天）*/

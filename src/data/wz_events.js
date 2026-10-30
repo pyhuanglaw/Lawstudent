@@ -32,12 +32,12 @@ const WZ_EVENTS=(function(){
     {speaker:'阿德',text:'我在這裡十四年了。我只會影印，不會看這種東西。'},
     {speaker:'阿芃',name:'阿芃（在角落寫功課，沒有抬頭）',text:'爸，你可以問他啊。他是法律系的。'},
     {speaker:'阿德',text:'他才大二。'},
-    {choice:[{text:'「我還看不懂。可是萬才館週六有法服，學長姐會幫人看。我可以陪你去。」',set:{WZ_COPY_LEASE:1},goto:'y'},{text:'「我也不太懂。」',goto:'n'}]},
+    {choice:[{text:'「我還看不懂。可是B館週六有法服，學長姐會幫人看。我可以陪你去。」',set:{WZ_COPY_LEASE:1},goto:'y'},{text:'「我也不太懂。」',goto:'n'}]},
     {label:'y'},{speaker:'阿德',text:'……要錢嗎？'},{speaker:'player',text:'不用。'},{speaker:'阿德',text:'那我去。'},{goto:'end'},
     {label:'n'},{speaker:'阿德',text:'沒關係。我自己再想想。'},
     {label:'end'},{stamp:['WZ_C_L1']} ] }));
   /* 1-3 第一次初談（AA_420 3-2：學姊不在法服；加入法服的玩家＝柏翰那兩句；沒加入的＝「你坐在阿德旁邊」）*/
-  L.push(ev('ev_wz_c_lease2','第一次初談',{ location:'wancai', dialogue:[ N('萬才館一樓。阿德穿了一件燙過的襯衫，手上那個信封被他捏得有點皺。'),
+  L.push(ev('ev_wz_c_lease2','第一次初談',{ location:'wancai', dialogue:[ N('法律系館B一樓。阿德穿了一件燙過的襯衫，手上那個信封被他捏得有點皺。'),
     {speaker:'研究所學長',text:'您好，請坐。今天想問什麼？'},
     {speaker:'阿德',text:'我的店……房東說要漲租。'},
     N('學長沒有馬上說要怎麼辦。他先問：租約什麼時候簽的？寫了幾年？有沒有寫續約和漲租的方式？房東是用什麼方式通知的？'),
@@ -48,7 +48,7 @@ const WZ_EVENTS=(function(){
     {speaker:'研究所學長',text:'下次請您把租約正本、這封信、這幾年付租金的紀錄都帶來。我們再一起看。'},
     {speaker:'阿德',text:'……好。我以為今天就會知道答案。'},
     {speaker:'研究所學長',text:'先把事情弄清楚，答案才會準。'},
-    N('走出萬才館，阿德說：「你們的學長，講話跟我們印論文一樣。先對齊，再裝訂。」'),
+    N('走出法律系館B，阿德說：「你們的學長，講話跟我們印論文一樣。先對齊，再裝訂。」'),
     {set:{WZ_COPY_LEASE:2},stamp:['WZ_C_L2']} ] }));
   /* 1-4 第二次初談（AA_167；說話的研究所學姊照 AA_420 3-2 現場的人＝雅筑學姊）*/
   L.push(ev('ev_wz_c_lease3','第二次初談',{ location:'wancai', dialogue:[ N('阿德帶了一個資料夾，每一張都用迴紋針夾好，按日期排。'),
@@ -126,7 +126,7 @@ const WZ_EVENTS=(function(){
   /* 2-4 公法讀書會的真案子（AA_420 4-2：萬才館研討室 A、Alison、九點半）：公法讀書會那一晚的事件（classes3d.js clubEvent）*/
   L.push(ev('ev_wz_t_study','讀書會的真案子',{ participants:[AN,YU], clubEvent:'public_law_group', background:{image:'assets/bg/wancai_seminar.webp'},
     term:['Y3S1','Y3S2','Y4S1','Y4S2'], prereq:{custom:G=>(+((G.flags||{}).WZ_YE)||0)===2},
-    dialogue:[ N('週四晚上，萬才館研討室 A。以安、Alison，還有兩個你不熟的同學。桌上是呂老師那個鐵盒子裡的東西：一疊發黃的紙。'),
+    dialogue:[ N('週四晚上，法律系館B 研討室 A。以安、Alison，還有兩個你不熟的同學。桌上是呂老師那個鐵盒子裡的東西：一疊發黃的紙。'),
     {speaker:AN,text:'好。那你先說，這件事的時間線。'},
     N('你照呂老師說的講了一遍。以安在白板上畫了一條線。'),
     {speaker:YU,text:'欸等一下，日治的時候有登記，戰後又要重新登記一次？那沒趕上的人怎麼辦？'},
@@ -162,11 +162,11 @@ const WZ_EVENTS=(function(){
   L.push(ev('ev_wz_b_ins','保險公司的信',{ dialogue:[ N('收尾的時候，林太太還沒走。她從包包裡拿出一疊信，用橡皮筋綁著。'),
     {speaker:'林太太',text:'這些字，我看不懂。保險公司說，有一項不能賠。'},
     {speaker:'林太太',text:'我不想吵架。我只是想知道，為什麼。'},
-    {choice:[{text:'「萬才館週六上午有法服，學長姐會幫人看。我可以陪妳去。」',set:{WZ_BRUNCH_INS:1},goto:'y'},{text:'「我回去幫妳查查看。」',set:{WZ_BRUNCH_SELF:true},goto:'end'}]},
+    {choice:[{text:'「B館週六上午有法服，學長姐會幫人看。我可以陪妳去。」',set:{WZ_BRUNCH_INS:1},goto:'y'},{text:'「我回去幫妳查查看。」',set:{WZ_BRUNCH_SELF:true},goto:'end'}]},
     {label:'y'},{speaker:'林太太',text:'你們學校的學生，週六早上還要做這個？'},{speaker:'player',text:'有人要做。'},
     {if:C((w,G)=>w.brunchSat(G)),speaker:'小米姐',name:'小米姐（在廚房，聽到了）',text:'那天的班你不用來。蛋我煮。'},
     {label:'end'},{stamp:['WZ_B_INS_DAY']} ] }));
-  L.push(ev('ev_wz_b_ins2','法服的那個上午',{ location:'wancai', dialogue:[ N('萬才館一樓。林太太把信一封一封攤開，排得很整齊。'),
+  L.push(ev('ev_wz_b_ins2','法服的那個上午',{ location:'wancai', dialogue:[ N('法律系館B一樓。林太太把信一封一封攤開，排得很整齊。'),
     {speaker:'雅筑學姊',text:'您先說說，先生住院前後，保險是什麼時候買的？當初填資料的時候，有沒有被問到什麼？'},
     N('林太太講到一半，停下來，看著桌面。'),
     N('你坐到她旁邊，把一杯溫水推過去，什麼都沒說。'),

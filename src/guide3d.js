@@ -28,12 +28,12 @@ const GUIDE=(function(){
     [/，或|或回|或找|（或/, null],
     [/閉館/, {zone:'campus',name:'離開總圖'}],
     [/睡覺|回宿舍/, {zone:'dorm',label:'睡覺',name:'床（睡覺）'}],
-    [/201|民法總則|上課/, {zone:'classroom',name:'霖澤館 201 教室'}],
-    [/走出霖澤館/, {zone:'campus',name:'霖澤館外面'}],
-    [/霖澤館/, {zone:'linze',name:'霖澤館'}],
+    [/201|民法總則|上課/, {zone:'classroom',name:'法律系館A 201 教室'}],
+    [/走出霖澤館/, {zone:'campus',name:'法律系館A外面'}],
+    [/霖澤館/, {zone:'linze',name:'法律系館A'}],
     [/法律學院圖書館|法圖/, {zone:'lawlib',name:'法律學院圖書館'}],
     [/社科院圖書館|辜先生/, {zone:'soclib',name:'社科院圖書館'}],
-    [/萬才館/, {zone:'wancai',name:'萬才館'}],
+    [/萬才館/, {zone:'wancai',name:'法律系館B'}],
     [/共同教學館/, {zone:'campus',label:'共同教學館',name:'共同教學館'}],
     [/大一女舍|女舍/, {zone:'campus',label:'大一女舍 A 棟（傳達室）',name:'大一女舍'}],
     [/溫州街|兩點半|Café|咖啡廳/, {zone:'cafe',name:'兩點半 Café'}],
@@ -100,7 +100,7 @@ const GUIDE=(function(){
     else x.arc(u,v,4.5,0,7); x.fill(); x.stroke(); }
 
   /* ---------- 入口標記 ---------- */
-  function exitName(it){ const L=it.label||''; if(it.elevator) return '電梯'; if(/^進入/.test(L)) return L.replace(/^進入\s*/,''); if(/^往/.test(L)) return L; const M={'走出校門':'校門・往公館','回到校園':'台大校門','回公館':'往公館','回宿舍':'男生宿舍'}; if(M[L]) return M[L]; if(/^(離開|走出)/.test(L)) return '出口'; return L; }
+  function exitName(it){ const L=it.label||''; if(it.elevator) return '電梯'; if(/^進入/.test(L)) return L.replace(/^進入\s*/,''); if(/^往/.test(L)) return L; const M={'走出校門':'校門・往公館','回到校園':'首都帝大校門','回公館':'往公館','回宿舍':'男生宿舍'}; if(M[L]) return M[L]; if(/^(離開|走出)/.test(L)) return '出口'; return L; }
   function hoursLine(zone){ const o=PLACES.hours[zone]; if(!o) return ''; const h=GM.G.hour%24; if(o.rules) return (PLACES.isOpen(zone,h,GM.G.day)?'開放・':'已閉館・')+PLACES.todayText(zone,GM.G.day); if(o.open==null) return o.text; return PLACES.isOpen(zone,h)?'開放 '+o.text:'已閉館・開放 '+o.text; }
   function label(text,sub,gold){ const c=document.createElement('canvas'); const x=c.getContext('2d'); const F1='600 40px "Noto Sans TC","PingFang TC","Microsoft JhengHei",sans-serif', F2='28px "Noto Sans TC","PingFang TC","Microsoft JhengHei",sans-serif';
     x.font=F1; const w1=x.measureText(text).width; x.font=F2; const w2=sub?x.measureText(sub).width:0; const W=Math.ceil(Math.max(w1,w2)+48), H=sub?104:68; c.width=W; c.height=H+16;

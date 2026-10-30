@@ -126,7 +126,7 @@ const SISB16_EVENTS=(function(){
         {set:{SIS16_SWIM_A:true}} ] },
     /* ---------- 1-5 6/5（二）19:00 修正本（A；6/2 研究室生日選「修正本我陪妳改。」SIS16_REV_PROMISE；6/4 21:00 私訊；研究室 linze_prof_hall；到 23:00）---------- */
     { id:'ev_sis16_rev', title:'修正本', participants:[ID], location:'any', trigger:'outing', once:true, background:'dark', hours:4,
-      dialogue:[ {scene:'霖澤館・研究室',bg:'linze_prof_hall'},
+      dialogue:[ {scene:'法律系館A・研究室',bg:'linze_prof_hall'},
         N('（研究室。桌上攤著口試委員的意見，紅筆、藍筆、黃色的便利貼。）'),
         SIS('指導教授說要刪二十頁。我找了一個禮拜，找到十八頁。'),
         SIS('剩下兩頁，你幫我找。你不懂財經法，所以你看得出來哪裡讀起來累。'),
@@ -150,7 +150,7 @@ const SISB16_EVENTS=(function(){
     /* ---------- 2-2 3/3～3/24 週六 10:00～12:00 受訪阿姨的那一段（B；她週六上午在校園：這四個週六坐在傅鐘旁邊的長椅〔characters.js〕；走到她旁邊先演，一次）---------- */
     { id:'ev_sis16_reader', title:'受訪的阿姨', participants:[ID], location:'campus', trigger:'auto', once:true, weekday:[6], time:[10,12], near:{npc:ID,r:3}, background:'blur',
       prereq:{custom:G=>!!X()&&X().readerOk(G)},
-      dialogue:[ N('（週六上午。她坐在傅鐘旁邊的長椅，膝蓋上放著幾張印出來的紙，紅筆咬在嘴裡。）'),
+      dialogue:[ N('（週六上午。她坐在晨思鐘旁邊的長椅，膝蓋上放著幾張印出來的紙，紅筆咬在嘴裡。）'),
         SIS('……你來得剛好。'),
         SIS('讀一段給我聽。不用懂法律。讀完告訴我，你覺得這個人是什麼樣的人。'),
         N('（那一段沒有名字。一個開了二十年早餐店的人，一張借據，一個她說「那時候不懂」的簽名。）'),

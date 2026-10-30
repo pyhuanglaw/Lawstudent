@@ -176,8 +176,8 @@ const MSG=(function(){
      問社博：加了好友～社博結束（activities.js club_expo_y1s1 那一天 t1；社博不在週六的舊局沒有：句子寫「禮拜六的社博」）。問了的玩家社博那天照 ev_sis_club_expo 的「見過」那一條（SIS_MSG_EXPO）。
      問法服：社博以後、大一上（稿上沒寫到什麼時候，先放到大一上結束）；加入了法服（SIS_CLUB_EXPO／lawclub／CLUB_lawclub_study）＝第一版，沒加入＝第二版 */
   S.SIS_T={ sis_expo:{t:'問社博',say:'學姊，禮拜六的社博，法律系的大多參加什麼？',r:['看你想做什麼。想練法律的，法服。想動的，系籃。','我那天在法服顧攤。十點到四點。'],set:'SIS_MSG_EXPO'},
-    sis_fafu_in:{t:'問法服',say:'法服第一次去要準備什麼？',r:['不用準備。站旁邊聽，做紀錄。','隔週週六九點，萬才館一樓。不要遲到。']},
-    sis_fafu_out:{t:'問法服',say:'法服現在還能報名嗎？',r:['可以。週六上午去萬才館一樓，找值班的學長姊。']} };
+    sis_fafu_in:{t:'問法服',say:'法服第一次去要準備什麼？',r:['不用準備。站旁邊聽，做紀錄。','隔週週六九點，B館一樓。不要遲到。']},
+    sis_fafu_out:{t:'問法服',say:'法服現在還能報名嗎？',r:['可以。週六上午去B館一樓，找值班的學長姊。']} };
   S.sisExpoDay=function(G){ const A=typeof ACTIVITIES!=='undefined'&&ACTIVITIES.list?ACTIVITIES.list.find(a=>a.id==='club_expo_y1s1'):null; if(!A||typeof CALENDAR==='undefined'||typeof STORY==='undefined'||!STORY.dayOfKey) return null;
     const ks=(A.datesW1&&STORY.week1Start&&STORY.week1Start(G))?A.datesW1:(A.datesOld&&STORY.week1Start&&!STORY.week1Start(G)?A.datesOld:A.dates); const ds=(ks||[]).map(k=>STORY.dayOfKey(k)).filter(d=>d!=null).sort((a,b)=>a-b);
     return ds.length?{d0:ds[0],d1:ds[ds.length-1],t1:A.t1}:null; };   /* 社博那幾天（第一天、最後一天、幾點收）*/

@@ -337,9 +337,9 @@ const R2Y4A=(function(){
     /* ---- 2-Y4-13 K21：9/20 21:00 私訊（政大／總圖）→ 9/23（六）14:00；美國路線 9/20 當地 09:00 兩則 → 9/23 當地 09:00 視訊 ---- */
     { const a=D('2028-09-20'), d=D('2028-09-23'); if(a!=null&&d!=null&&kxOn(G)&&G.day>=a-1&&G.day<=d+1){
         if(!us){
-          if(past(G,a,21)&&now(G)<T(d,14)&&!PHONE.sent(G,'y4_kx21_ask')){ const L=[K('這學期，我們約讀書，就真的讀。'),K('讀完才能聊天。'),K('週六下午兩點。政大，還是總圖？')];
-            L[2].ask={id:'y4_kx21',until:T(d,14),opts:[{t:'政大。',set:{KX_K21_AT:'nccu'}},{t:'總圖。',set:{KX_K21_AT:'lib'}}]}; PHONE.at(G,a,G.day===a?Math.max(21,G.hour):21,L,'y4_kx21_ask'); }
-          if(F.KX_K21_AT==='nccu') plan(G,{id:'y4_kx21',ev:'ev_kexin_study_really',day:d,h:14,late:0.25,place:'政大・自強十舍樓下',title:'約讀書（可昕）',travel:'開車 約 40 分鐘',travelH:2/3});
+          if(past(G,a,21)&&now(G)<T(d,14)&&!PHONE.sent(G,'y4_kx21_ask')){ const L=[K('這學期，我們約讀書，就真的讀。'),K('讀完才能聊天。'),K('週六下午兩點。木柵大學，還是總圖？')];
+            L[2].ask={id:'y4_kx21',until:T(d,14),opts:[{t:'木柵大學。',set:{KX_K21_AT:'nccu'}},{t:'總圖。',set:{KX_K21_AT:'lib'}}]}; PHONE.at(G,a,G.day===a?Math.max(21,G.hour):21,L,'y4_kx21_ask'); }
+          if(F.KX_K21_AT==='nccu') plan(G,{id:'y4_kx21',ev:'ev_kexin_study_really',day:d,h:14,late:0.25,place:'木柵大學・翠嶺十舍樓下',title:'約讀書（可昕）',travel:'開車 約 40 分鐘',travelH:2/3});
           if(F.KX_K21_AT==='lib') plan(G,{id:'y4_kx21',ev:'ev_kexin_study_really_lib',day:d,h:14,late:0.25,place:'總圖',title:'約讀書（可昕）',travel:'走過去約 10 分鐘',travelH:1/6,goto:{zone:'library',x:0,z:7,yaw:Math.PI}});   /* 3D 總圖（閱覽室）：到了由 ev_kexin_study_really_lib（auto）演 */
           if(PHONE.sent(G,'y4_kx21_ask')&&!F.KX_K21_AT&&now(G)>=T(d,14.25)) S.k21Missed(G); }   /* 沒回＝沒去 */
         else { const ld=loc(G,d,21);
@@ -349,7 +349,7 @@ const R2Y4A=(function(){
     { const a=D('2028-11-13'), d=a!=null?a+1:null; if(a!=null&&kxOn(G)&&G.day>=a-1&&G.day<=d+1){
         if(!us){
           if(past(G,a,21)&&now(G)<T(d,19)&&!PHONE.sent(G,'y4_kx22_ask')){ const m=K('明天晚上七點，讀書會。邵鈞也在。你來旁聽，不用說話。'); m.ask={id:'y4_kx22',until:T(d,19),opts:[{t:'去。',set:{KX_K22:'go'}},{t:'不去。',set:{KX_K22:'no'}}]}; PHONE.at(G,a,G.day===a?Math.max(21,G.hour):21,[m],'y4_kx22_ask'); }
-          if(F.KX_K22==='go') plan(G,{id:'y4_kx22',ev:'ev_kexin_two_directions',day:d,h:19,late:0.25,place:'政大',title:'兩個方向的讀書會（可昕）',travel:'開車 約 40 分鐘',travelH:2/3});
+          if(F.KX_K22==='go') plan(G,{id:'y4_kx22',ev:'ev_kexin_two_directions',day:d,h:19,late:0.25,place:'木柵大學',title:'兩個方向的讀書會（可昕）',travel:'開車 約 40 分鐘',travelH:2/3});
           if(PHONE.sent(G,'y4_kx22_ask')&&F.KX_K22!=='go'&&now(G)>=T(d,19.25)) S.k22Missed(G); }
         else if(pastTW(G,d,21.5)) S.k22Missed(G); } }
     /* ---- 2-Y4-15 交換延畢以外：筆試放榜那天（2029-03-22，2-Y4-34 的 15:00 寫 GRAD_EXAM_RESULT）15:30 可昕打來；KX_INTERN_EXAM＝這一通（推甄沒上、後來筆試：她的實習 11/24 說過了，AA_345 F9）---- */
@@ -369,8 +369,8 @@ const R2Y4A=(function(){
         if(F.SIS_PICKUP_TMR&&F.SIS_PICKUP&&F.SIS_PICKUP!=='mrt'&&!PHONE.sent(G,'y4_pickup_tmr')){ const t='滷肉飯。今天。不要再說明天。'; PHONE.at(G,d+1,11,[F.SIS_PICKUP==='family'?GS(t):P5(t)],'y4_pickup_tmr'); } } }   /* 「先回家睡覺。」隔天（AA 沒寫幾點，排 11:00）：家族共乘發在群組 */
     /* ---- 2-Y4-24 聖誕：12/24 21:00 私訊（去／不去）→ 12/25（一）19:00 政大山下 ---- */
     { const a=D('2028-12-24'), d=a!=null?a+1:null; if(a!=null&&kxOn(G)&&!abroad(G)&&G.day>=a-1&&G.day<=d+1){
-        if(past(G,a,21)&&now(G)<T(d,19)&&!PHONE.sent(G,'y4_kx_xmas_ask')){ const L=[K('明天白天各自讀。'),K('晚上來政大山下，那家咖啡店開到十點。我們讀到打烊。')]; L[1].ask={id:'y4_kx_xmas',until:T(d,19),opts:[{t:'去。',set:{KX_XMAS_Y4:'go'}},{t:'不去。',set:{KX_XMAS_Y4:'no'}}]}; PHONE.at(G,a,G.day===a?Math.max(21,G.hour):21,L,'y4_kx_xmas_ask'); }
-        if(F.KX_XMAS_Y4==='go') plan(G,{id:'y4_kx_xmas',ev:'ev_kexin_xmas_y4',day:d,h:19,late:0.25,place:'政大山下・咖啡店',title:'聖誕（可昕）',travel:'開車 約 40 分鐘',travelH:2/3});
+        if(past(G,a,21)&&now(G)<T(d,19)&&!PHONE.sent(G,'y4_kx_xmas_ask')){ const L=[K('明天白天各自讀。'),K('晚上來木柵大學山下，那家咖啡店開到十點。我們讀到打烊。')]; L[1].ask={id:'y4_kx_xmas',until:T(d,19),opts:[{t:'去。',set:{KX_XMAS_Y4:'go'}},{t:'不去。',set:{KX_XMAS_Y4:'no'}}]}; PHONE.at(G,a,G.day===a?Math.max(21,G.hour):21,L,'y4_kx_xmas_ask'); }
+        if(F.KX_XMAS_Y4==='go') plan(G,{id:'y4_kx_xmas',ev:'ev_kexin_xmas_y4',day:d,h:19,late:0.25,place:'木柵大學山下・咖啡店',title:'聖誕（可昕）',travel:'開車 約 40 分鐘',travelH:2/3});
         if(PHONE.sent(G,'y4_kx_xmas_ask')&&F.KX_XMAS_Y4!=='go'&&now(G)>=T(d,19.25)) S.kxXmasMissed(G); } }
     /* ---- 2-Y4-25 期末成績：12/22 21:00 一則；1/8 21:00 選一科（她在高雄）---- */
     { const a=D('2028-12-22'), g=D('2029-01-08'); if(a!=null&&g!=null&&kxOn(G)){
@@ -459,7 +459,7 @@ const R2Y4A=(function(){
 
   /* ===================== 2-Y4-07 校慶的海報：11/6～11/11 霖澤館公告欄（AA_345 F1 新寫；11/12 起撤掉）=====================
      霖澤館的公告欄＝校園霖澤館台階西端外面那一塊（zones3d.js 的 W3.bulletin (16.6,−100.6)，原本掛在霖澤館一樓拱廊的內牆上；正面朝 +z）。法服成員另外有 11/10 21:00 的群組 */
-  S.POSTER='（公告欄上貼了一張校慶的海報：「11/11（六）校慶園遊會　椰林大道。法律服務社問答攤　10:00～16:00。租屋、打工、買賣，什麼都可以問。」）';
+  S.POSTER='（公告欄上貼了一張校慶的海報：「11/11（六）校慶園遊會　椰影大道。法律服務社問答攤　10:00～16:00。租屋、打工、買賣，什麼都可以問。」）';
   S.POSTER_AT={x:16.6,z:-99.5};
   S.posterOn=G=>{ const a=D('2028-11-06'), b=D('2028-11-11'); return law(G)&&a!=null&&b!=null&&G.day>=a&&G.day<=b; };
   S.posterPlace=function(GM){ const G=GM.G, E=GM.E; if(!E||!E.interactables||G.zone!=='campus') return; const k=E.interactables.findIndex(it=>it.fairPosterY4);
@@ -469,7 +469,7 @@ const R2Y4A=(function(){
     finally{ if(typeof ADV!=='undefined'&&ADV.active&&ADV.end) ADV.end(); GM.sceneEnd(); } return true; };
 
   /* ===================== 2-Y4-06 推甄面試：10/26（四）早上目標「10:00 萬才館二樓（推甄面試）」；09:45 起人在二樓就開始、09:50 還沒到＝帶到場 ===================== */
-  const IV_GOAL='10:00 萬才館二樓（推甄面試）', IV_SPAWN=()=>Object.assign({x:-6.2,z:5.0,lv:1,yaw:Math.PI},(typeof WANCAI_LAYOUT!=='undefined'&&WANCAI_LAYOUT.upperDoor&&WANCAI_LAYOUT.upperDoor.spawn)||{});
+  const IV_GOAL='10:00 法律系館B二樓（推甄面試）', IV_SPAWN=()=>Object.assign({x:-6.2,z:5.0,lv:1,yaw:Math.PI},(typeof WANCAI_LAYOUT!=='undefined'&&WANCAI_LAYOUT.upperDoor&&WANCAI_LAYOUT.upperDoor.spawn)||{});
   S.ivOn=G=>{ const d=D('2028-10-26'); return S.pushOn(G)&&d!=null&&G.day===d&&!done(G,'ev_push_interview'); };
   S.ivHere=GM=>{ const G=GM.G, P=GM.E&&GM.E.player; return G.zone==='wancai'&&!!P&&(P.lv|0)===1; };
   S.ivBringDue=G=>S.ivOn(G)&&hh(G)>=9+50/60&&hh(G)<12;
@@ -503,7 +503,7 @@ const R2Y4A=(function(){
     if(F.KX_STUDY_PLAN&&typeof OUT!=='undefined'){ const q=OUT.get(G,'y4_kx21'); if(q&&q.state==='planned'&&q.goto) q.state='done'; }   /* 2-Y4-13 總圖：自己走去、已經演了＝不再問「出發」*/
     S.winterLib(GM);
     /* 2-Y4-06 面試 */
-    if(S.ivOn(G)){ const h=hh(G); if(h>=6&&h<10) setGoalOnce(GM,'R2Y4A_IV_GOAL',IV_GOAL,{zone:'wancai',name:'萬才館'});
+    if(S.ivOn(G)){ const h=hh(G); if(h>=6&&h<10) setGoalOnce(GM,'R2Y4A_IV_GOAL',IV_GOAL,{zone:'wancai',name:'法律系館B'});
       if((S.ivHere(GM)&&h>=9.75&&h<12)||S.ivBringDue(G)) return go(()=>S.interview(GM)); }
     /* 2-Y4-27 筆試 */
     if(S.exOn(G)){ const h=hh(G); if(h>=8&&h<9) setGoalOnce(GM,'R2Y4A_EX_GOAL',EX_GOAL,{zone:'campus',label:'共同教學館',name:'共同教學館'});

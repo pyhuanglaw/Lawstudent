@@ -405,7 +405,7 @@ const JP=(function(){
     if(q){ const tr=OUT.trip?OUT.trip(G,q,true):{travel:q.travel||''}; O.push({t:(q.verb||'出發')+'：'+q.title,hint:(S.callLike(q)?'':'從家裡出發　')+(q.place||'')+'　'+hm(q.h)+(tr.travel?'　'+tr.travel:''),k:'out',q}); }
     for(const iv of (HOME.dueInvites?HOME.dueInvites(G):[])){ const P=INV.place(iv.place)||{}; O.push({t:'出發：和'+(typeof SOCIAL!=='undefined'?SOCIAL.displayName(iv.who):iv.who)+'約在'+(P.name||''),hint:hm(iv.h)+'　捷運＋公車 約 30 分鐘',k:'inv',iv,P}); }
     if(!ateToday&&h>=18.5&&h<20) O.push({t:'吃晚餐',k:'eat'});
-    if(h<22) O.push({t:'出門',hint:'公館、溫州街、台大　捷運＋公車 約 30 分鐘',k:'go'});
+    if(h<22) O.push({t:'出門',hint:'公館、溫州街、首都帝大　捷運＋公車 約 30 分鐘',k:'go'});
     O.push({t:'看手機',hint:'和朋友聯絡',k:'phone'});
     const ff=S.ffOpts(G,'home'); if(ff) O.push({t:'快轉',hint:'到下一個有事的日子、過三天、過一週',k:'ff'});
     O.push({t:'存檔',hint:'存到存檔欄位',k:'save'});

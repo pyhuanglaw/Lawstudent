@@ -51,9 +51,9 @@ const TWFILL_LINES={
   maritime0411:'（海商法的期中考。題目裡的那艘船，沉在一個你沒聽過的海峽。）',
   lastMid:[['yu','最後一次期中考'],['yu','考完了'],['zhe','最後一次']],
   /* 第 10 週：學士服拍照。4/26（四）21:00 群組；「去。」＝4/28（六）10:00 椰林大道；沒去＝12:30 群組 */
-  gradAsk:[['zhe','禮拜六十點 椰林大道 學士服拍照'],['zhe','衣服我先租了 錢之後給']], gradGo:'去。',
+  gradAsk:[['zhe','禮拜六十點 椰影大道 學士服拍照'],['zhe','衣服我先租了 錢之後給']], gradGo:'去。',
   gradNarr:'（學士服是租的，袖子太長。Alison 拍了兩百張，說只會留三張。）', gradZhe:'（把學士帽丟上去，沒接到）……再一次。', gradBohan:'學士帽要等典禮那天才丟。',
-  gradMiss:[['yu','（照片：椰林大道，一排人穿著學士服，中間空了一個位子）'],['yu','你的位子我們留了']],
+  gradMiss:[['yu','（照片：椰影大道，一排人穿著學士服，中間空了一個位子）'],['yu','你的位子我們留了']],
   /* 第 11 週 5/4（五）21:00 群組：畢業紀念冊的一句話（記 F.YEARBOOK_LINE，只是紀念，不讀）*/
   yearbook:'畢業紀念冊的一句話，今天截止。', yearbookOpts:[['謝謝麵店的阿姨。','auntie'],['謝謝那幾年的週四。','thursday'],['還沒想好。','notyet','我幫你寫：還沒想好。']],
   seatsY4:[['yu','畢業典禮的位子按學號排'],['zhe','我跟 Alison 只差一號'],['yu','差兩號']],   /* 第 13 週 5/17（四）21:00 群組 */
@@ -84,7 +84,7 @@ const TWFILL_EVENTS=(function(){
       dialogue:[ {speaker:null,text:L.noodle0301} ] },
     /* ---------- 4-2 第 10 週：4/28（六）10:00 椰林大道學士服拍照（4/26 回了「去。」；典禮前自己約的，和 6/2 典禮後的拍照不衝突）---------- */
     { id:'ev_y4_grad_photo', title:'學士服拍照', participants:['zhe'], location:'any', trigger:'outing', once:true, background:'dark', hours:2,
-      dialogue:[ {scene:'椰林大道',bg:'ntu_avenue'}, {speaker:null,text:L.gradNarr}, {speaker:'zhe',text:L.gradZhe},
+      dialogue:[ {scene:'椰影大道',bg:'ntu_avenue'}, {speaker:null,text:L.gradNarr}, {speaker:'zhe',text:L.gradZhe},
         {if:{custom:()=>knows('classmate_bohan')},speaker:'classmate_bohan',text:L.gradBohan} ],
       after:G=>{ G.flags.Y4_GRAD_PHOTO='went'; } },
     /* ---------- 4-2 第 14 週：5/24（四）最後一個上課週的週四進麵店 ---------- */

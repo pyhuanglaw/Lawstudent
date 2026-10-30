@@ -13,7 +13,7 @@ const LANE118_LAYOUT={
   "floorH":3.2, "groundH":3.6,
   "roadSouth":{"name":"辛亥路","z0":34,"z1":46,"crossX":0,"crossW":4.0},
   "roadNorth":{"name":"和平東路二段","z0":-56,"z1":-42},
-  "backGate":{"x":0,"z":49,"label":"回到台大（後門）","spawn":{"x":0,"z":31,"yaw":3.1416}},
+  "backGate":{"x":0,"z":49,"label":"回到首都帝大（後門）","spawn":{"x":0,"z":31,"yaw":3.1416}},
   "shops":[
     {"id":"dian",  "side":"W","z0":22.0,"z1":28.0,"floors":4,"name":"滇香小館",     "type":"滇緬料理","menu":[["椒麻雞飯",110,26],["酸辣河粉",100,24]]},
     {"id":"self",  "side":"W","z0":14.0,"z1":21.0,"floors":4,"name":"好家自助餐",   "type":"自助餐",  "menu":[["自助餐（三菜一肉）",85,24]]},

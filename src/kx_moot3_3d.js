@@ -26,7 +26,7 @@ const KXMOOT3=(function(){
   S.DAYS={ask:'2027-11-28',day:'2027-12-04'};
   S.ASK_H=21; S.UNTIL_H=12; S.H=14; S.LATE=0.5; S.HOURS=2.5; S.MISS_H=21.5;
   S.ASK='kx_moot3_ask'; S.OUT_ID='kx_moot3'; S.EV='ev_kexin_moot3'; S.TAG_MISS='kx_moot3_missed'; S.MEM='KX_MOOT3_CAME';
-  S.TITLE='最後一場模擬法庭'; S.OUT_TITLE='可昕的模擬法庭（政大）';   /* 系統字（稿沒寫）：事件開頭的字幕、筆記本；出遊「出發：」那一行 */
+  S.TITLE='最後一場模擬法庭'; S.OUT_TITLE='可昕的模擬法庭（木柵大學）';   /* 系統字（稿沒寫）：事件開頭的字幕、筆記本；出遊「出發：」那一行 */
 
   /* ---------- 誰有 ---------- */
   /* 說過「下次我去看。」：KX_WATCH（那兩題的選項 set）；這一版以前就選過的舊存檔看那兩題的選項記號（FEED.dmItems 記 ask.flag＝選項的 k）*/
@@ -57,7 +57,7 @@ const KXMOOT3=(function(){
     if(F.KX_MOOT3_ASK!=='sent') return;
     /* 1-2：回了「去。」＝排 12/4 14:00 的出遊 */
     if(F.KX_MOOT3_GO===true&&F.KX_MOOT3==null&&typeof OUT!=='undefined'&&OUT.plan&&!OUT.get(G,S.OUT_ID)&&t<T(dM,S.H+S.LATE))
-      OUT.plan(G,{id:S.OUT_ID,ev:S.EV,day:dM,h:S.H,late:S.LATE,place:'政大',title:S.OUT_TITLE,travel:'開車約 40 分鐘',travelH:2/3,hours:S.HOURS,alarm:true});
+      OUT.plan(G,{id:S.OUT_ID,ev:S.EV,day:dM,h:S.H,late:S.LATE,place:'木柵大學',title:S.OUT_TITLE,travel:'開車約 40 分鐘',travelH:2/3,hours:S.HOURS,alarm:true});
     /* 1-3：沒來＝12/4 21:30 */
     if(F.KX_MOOT3==null&&t>=T(dM,S.MISS_H)){ const q=typeof OUT!=='undefined'&&OUT.get?OUT.get(G,S.OUT_ID):null;
       if(q&&(q.state==='done'||(q.state==='planned'&&q.arrived===true))) return;   /* 有去（came 由事件記）、還在演 */
@@ -65,7 +65,7 @@ const KXMOOT3=(function(){
 
   /* ---------- 事件（1-2；trigger 'outing'，由上面排）---------- */
   const say=t=>/^（/.test(t)?{speaker:null,text:t}:{speaker:KX,expression:'neutral',text:t};
-  S.FOOD_RE=/^（山下小吃街的麵店/;   /* AA_527 2-5：旁白對齊字幕（原本「政大後門的麵店」）*/ S.FOOD_SCENE='政大・山下的小吃街';   /* 選「要不要去吃東西？」以後的麵店那段：底圖 nccu_food（地點字幕同 kxdrift3d.js OD_SCENE.nccu）*/
+  S.FOOD_RE=/^（山下小吃街的麵店/;   /* AA_527 2-5：旁白對齊字幕（原本「政大後門的麵店」）*/ S.FOOD_SCENE='木柵大學・山下的小吃街';   /* 選「要不要去吃東西？」以後的麵店那段：底圖 nccu_food（地點字幕同 kxdrift3d.js OD_SCENE.nccu）*/
   S.EVENT=!L?null:{ id:S.EV, title:S.TITLE, participants:[KX], location:'any', trigger:'outing', once:true, background:'dark', hours:S.HOURS,
     dialogue:[{scene:L.scene,bg:'classroom_small'}].concat(L.nar.map(say),L.saw.map(say),
       [{choice:L.opts.map((o,i)=>({text:o.t,goto:'km3_'+i}))}],

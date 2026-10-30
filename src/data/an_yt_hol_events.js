@@ -109,7 +109,7 @@ const ANYTHOL_EVENTS=(function(){
     /* ---------- 1-3 2028-02-14（一）14:00 總圖門口 → 椰林大道（去日本以前；記 AN_VDAY_GIFT：3/14 ev_an_white_day 演「一個月前你送的」那一版）---------- */
     { id:'ev_an_vday_y3', title:'情人節', participants:[AN], location:'any', trigger:'outing', once:true, get background(){ return BG('ntu_avenue'); }, hours:1.5,
       dialogue:[
-        N('（寒假的椰林大道，腳踏車比平常少一半。）'),
+        N('（寒假的椰影大道，腳踏車比平常少一半。）'),
         A('再一個多月就去日本了。'),
         A('行李我列好了。衣服帶太少，書帶太多。'),
         {choice:[{text:'（給她一支鋼筆）',set:{AN_VDAY_GIFT:'pen'},mem:[{npc:AN,tag:'AN_VDAY_PEN',note:''}],goto:'a'},{text:'（給她一盒巧克力）',set:{AN_VDAY_GIFT:'choco'},mem:[{npc:AN,tag:'AN_VDAY_CHOCO',note:''}],goto:'b'}]},

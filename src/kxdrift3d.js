@@ -69,17 +69,17 @@ const KXDRIFT=(function(){
       missed:['你昨天在公館。','打給你也不接。']},
     r1b:{lines:['你最近常跟{她}出去耶。','……我沒有怎樣，我只是問。'],
       opts:[{t:'「下次三個人一起吃飯？」',say:['……好啊。你約。'],n:0},{t:'「妳想太多了。」',say:['我說了，我只是問。','……算了。吃飯。'],n:1},{t:'「那我少跟她出去。」',say:['我不是要你少出去。','……算了，先點餐。'],n:0}]},
-    r2:{short:['嗯','在忙','嗯'],ask:'週六還是去山下那家嗎',askOpts:['好。','（不回）'],scene:'政大・山下的小吃街',
+    r2:{short:['嗯','在忙','嗯'],ask:'週六還是去山下那家嗎',askOpts:['好。','（不回）'],scene:'木柵大學・山下的小吃街',
       lines:['（她點了兩碗酸辣湯餃。吃飯的時候，她幾乎沒說話。）','（回去的路上，走到第二個路口，她才開口。）','上次那個，我還有一點氣。'],
       opts:[{t:'「我知道。」',say:['……嗯。','（她勾住你的手臂。）'],n:0},{t:'「都過兩天了耶。」',say:['兩天不夠。','（她把手放進自己的口袋。）'],n:1}]},
     r3:{first:'今天讀書會吵到九點。邵鈞跟予樂為了一題，一個說要先講結論，一個說……',shao:'邵鈞',noShao:'我們讀書會一個人',
       lines:['（你在看明天的考古題。她講到一半停下來。）','你剛剛在看別的東西。','……沒關係。我也累了。今天先這樣。'],
       opts:[{t:'「我在聽，妳說。」',say:['（她講完了。後面那一段講得很快。）','……好，晚安。'],n:0},{t:'「好，早點睡。」',say:['（畫面黑掉。）'],n:1}],yule:'你們最近還好嗎'},
-    r4:{ask:'週五晚上，山下那家。有事要講。',askOpts:['好。','那天不行。'],sat:'那週六。',ok:'好。',scene:'政大・山下的小吃街',
+    r4:{ask:'週五晚上，山下那家。有事要講。',askOpts:['好。','那天不行。'],sat:'那週六。',ok:'好。',scene:'木柵大學・山下的小吃街',
       lines:['我們最近是不是一直在吵？','我知道我脾氣不好。','可是你也一直讓我猜。猜你在哪、跟誰、會不會遲到。','……我不想再猜了。'],
       opts:[{t:'「我會改。先講、準時、妳生氣我當天就打給妳。」',say:['你講的喔。','（她把你碗裡的湯餃夾走一顆。）']},{t:'「我們都太忙了。」',say:['對。……那怎麼辦？','（你答不出來。）','……先吃吧。湯餃要冷了。']},{t:'「是妳太容易生氣。」',say:['……好。','（她付完錢就走了。）']}]},
     repair:'這個月你都有先講。',
-    r5:{ask:'明天晚上七點，我宿舍樓下。',scene:'政大・宿舍樓下',talk:['我想了一個禮拜。','我們分開好不好。','我不想每次見面，都在算你又遲到幾分鐘。','你應該也不想每次都在猜我為什麼生氣。'],
+    r5:{ask:'明天晚上七點，我宿舍樓下。',scene:'木柵大學・宿舍樓下',talk:['我想了一個禮拜。','我們分開好不好。','我不想每次見面，都在算你又遲到幾分鐘。','你應該也不想每次都在猜我為什麼生氣。'],
       opts:[{t:'「再試一次？」',say:['我們試過了。','……試了一整個學期。']},{t:'「……好。」',say:['嗯。','（她點頭，很久沒說話。）']},{t:'（不說話）',say:['你看，你又不講話。','（她笑了一下，眼睛是紅的。）']}],
       close:['我先上去了。','到家傳一下。這個我還是想知道。'],home:['到了。','嗯。'],callOpen:['我在樓下等了一個小時。','……那我在電話裡講。'],callClose:['我要上去了。','……晚安。'],text:'昨天的事，我寫在這裡。'},
     r6:{short:['嗯','最近很忙','嗯'],pass:['欸。','恭喜。'],news:['欸。','我實習上了。……想說跟你講一下。'],newsEarly:['欸。','我們讀書會的考古題終於做完了。……想說跟你講一下。'],
@@ -95,7 +95,7 @@ const KXDRIFT=(function(){
       {topic:'chat',tier:'R',variant:'考試週',msgs:['在念。考完再說。'],tags:[],ask:null,src:'AA_384 第 1 項 chat 考試週'},
       {topic:'chat',tier:'R',variant:'放假、在高雄',msgs:['在高雄。','（照片：一碗很大的肉燥飯）'],tags:[],ask:null,src:'AA_384 第 1 項 chat 放假、在高雄'},
       {topic:'chat',tier:'R',variant:'深夜',msgs:['還沒睡。報告寫不完。','你也早點睡。'],tags:[],ask:null,src:'AA_384 第 1 項 chat 深夜'},
-      {topic:'share_cat',tier:'R',variant:null,msgs:['政大的貓還是比較胖。'],tags:[],ask:null,src:'AA_384 第 1 項 share_cat'},
+      {topic:'share_cat',tier:'R',variant:null,msgs:['木柵大學的貓還是比較胖。'],tags:[],ask:null,src:'AA_384 第 1 項 share_cat'},
       {topic:'share_food',tier:'R',variant:null,msgs:['看起來不錯。','下次跟予樂去吃。'],tags:[],ask:null,src:'AA_384 第 1 項 share_food'},
       {topic:'share_notes',tier:'R',variant:null,msgs:['你的字還是一樣醜。'],tags:[],ask:null,src:'AA_384 第 1 項 share_notes'},
       {topic:'night',tier:'R',variant:null,msgs:['晚安。'],tags:[],ask:null,src:'AA_384 第 1 項 night（兩則輪流）'},
@@ -199,7 +199,7 @@ const KXDRIFT=(function(){
     ||((G.trips||[]).some(t=>t&&t.who===KX&&(t.status==='booked'||t.status==='going')&&typeof DATE!=='undefined'&&DATE.onDay&&DATE.onDay(t,day)));
   /* 準時到 −1（一週最多一次）、遲到超過 15 分鐘 +1 */
   S.arrive=function(G,q){ const late=now(G)-T(q.day,q.h); if(late>0.25+1e-6) return S.add(G,1,'late'); return S.minus(G,'arrive','ontime'); };
-  S.OD_SCENE={nccu:['政大・山下的小吃街','nccu_food'],ntu:['台大・社科院門口','ntu_soc'],gongguan:['公館','gongguan'],wenzhou:['溫州街','wenzhou'],river:['河濱','riverside']};   /* K5 的地點（events.js ev_kexin_our_day_wk）*/
+  S.OD_SCENE={nccu:['木柵大學・山下的小吃街','nccu_food'],ntu:['首都帝大・社科院門口','ntu_soc'],gongguan:['公館','gongguan'],wenzhou:['溫州街','wenzhou'],river:['河濱','riverside']};   /* K5 的地點（events.js ev_kexin_our_day_wk）*/
   S.sceneOf=function(G,q,ev){ if(!q||q.dateTrip) return null; const a=q.odPlace&&S.OD_SCENE[q.odPlace]; if(a) return {scene:a[0],bg:a[1]};
     for(const l of ((ev&&ev.dialogue)||[])){ if(!l||l.scene===undefined) continue; if(l.if&&!(typeof EVENTS!=='undefined'&&EVENTS.cond&&EVENTS.cond(l.if))) continue; if(l.unless&&typeof EVENTS!=='undefined'&&EVENTS.cond&&EVENTS.cond(l.unless)) continue; return {scene:l.scene,bg:l.bg}; }
     return null; };

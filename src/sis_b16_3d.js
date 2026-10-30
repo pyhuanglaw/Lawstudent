@@ -94,7 +94,7 @@ const SISB16=(function(){
 
   /* ---------------- 1-5 6/5 修正本 ---------------- */
   S.REV={ask:'2029-06-04',day:'2029-06-05'};
-  S.REV_OUT={id:'sisb16_rev',ev:'ev_sis16_rev',h:19,late:0.5,place:'霖澤館・研究室',title:'研究室（學姊的修正本）',travel:'走路 約 10 分鐘',travelH:1/6,hours:4};
+  S.REV_OUT={id:'sisb16_rev',ev:'ev_sis16_rev',h:19,late:0.5,place:'法律系館A・研究室',title:'研究室（學姊的修正本）',travel:'走路 約 10 分鐘',travelH:1/6,hours:4};
   S.rev=function(G){ const F=G.flags, a=D(S.REV.ask), d=D(S.REV.day), tag='sisb16_rev_dm'; if(a==null||d==null||G.day<a||G.day>d+1||!F.SIS16_REV_PROMISE) return;
     if(!sent(G,tag)&&now(G)>=T(a,21)&&now(G)<T(d,S.REV_OUT.h)&&law(G)&&S.dating(G)) PHONE.at(G,a,21,(L.revDm||[]).map(dm),tag);   /* 不用回：送到就排（照畢業以後篇的出遊）*/
     if(got(G,tag)&&F.SIS16_REV==null){ const q=outGet(G,S.REV_OUT.id);

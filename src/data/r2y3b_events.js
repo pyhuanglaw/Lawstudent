@@ -64,7 +64,7 @@ const R2Y3B_EVENTS=(function(){
   /* ---------- 2-Y3-28 杜鵑花第三張：2028-03-09（四）12:00～12:40 椰林大道（以安的作息只有這一天，r2y3b3d.js 加）；和以安 FAMILIAR 以上、走過去和她說話 ---------- */
   const AZALEA={ id:'ev_an_azalea_y3', title:'四年，四張（第三張）', participants:['heroine_01'], location:'campus', trigger:'interact', priority:8, once:true, term:['Y3S2'], weeks:[3], weekday:[4], time:[12,12+40/60], background:'blur',
     prereq:{stage:{npc:'heroine_01',min:'FAMILIAR'}},
-    dialogue:[ {speaker:null,text:'（椰林大道的杜鵑開了。以安拿著手機，站在和前兩年同一個位置。）'},
+    dialogue:[ {speaker:null,text:'（椰影大道的杜鵑開了。以安拿著手機，站在和前兩年同一個位置。）'},
       {speaker:'heroine_01',text:'第三張。你幫我拍。'},
       {speaker:null,text:'（你拍了兩張。她看了一下。）'},
       {speaker:'heroine_01',text:'可以。花有拍到。'},
@@ -144,7 +144,7 @@ const R2Y3B_EVENTS=(function(){
     {if:{flagIs:{YU_BKF:'WAKE'}},speaker:'yu',text:'阿哲現在起得來了。……可是我還是想要一個晚上，只有我。'},
     {if:{flagIs:{YU_BKF:'ALONE'}},speaker:'yu',text:'你大二說一個人吃也不錯。我那時候覺得你很怪。'} ];
   const YU4_W=[ {label:'w'},{speaker:'yu',text:'對。'},{speaker:null,text:'（她笑。）'},{speaker:'yu',text:'他昨天傳了十二部電影給我。……我一部都不要看他選的。'},{goto:'end'},
-    {label:'q'},{speaker:'yu',text:'……還不知道。'},{speaker:null,text:'（她看著傅鐘。）'},{speaker:'yu',text:'所以才要留一個晚上。'},{goto:'end'} ];   /* 檔尾裁定 #17 */
+    {label:'q'},{speaker:'yu',text:'……還不知道。'},{speaker:null,text:'（她看著晨思鐘。）'},{speaker:'yu',text:'所以才要留一個晚上。'},{goto:'end'} ];   /* 檔尾裁定 #17 */
   const YU4={ id:'ev_yu_alone_breakfast', title:'一個人的晚上', participants:['yu'], location:'campus', trigger:'auto', once:true, term:['Y3S2'], weeks:[3,4,5,6], weekday:[1,2,3,4,5], time:[9.5,12], npcNear:'yu', background:'blur',
     prereq:{stage:{npc:'yu',min:'FAMILIAR'},custom:G=>{ const x=X(); return !!x&&!x.inJP(G); }},
     dialogue:[ {speaker:null,text:'（她一個人在吃早餐。這次她沒有戴耳機。）'} ].concat(YU4_BKF,[

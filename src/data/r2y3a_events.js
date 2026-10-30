@@ -209,12 +209,12 @@ const R2Y3A_EVENTS=(function(){
     outingMissed:(G,GM,q)=>{ const r=R(); if(r) r.k15Missed(G,q); } };
 
   /* ---------- 2-Y3-07 可昕 K11「她來台大聽講座」（裁定 #30）：9/29（三）19:00～20:30 博雅的大教室。一起聽＝出遊；她自己聽＝20:30～21:00 在博雅一樓的小桌子（作息在 r2y3a3d.js）---------- */
-  const LECTURE={ id:'ev_kexin_lecture_ntu', title:'她來台大聽講座', participants:['kexin'], location:'any', trigger:'outing', once:true, background:'dark', hours:0.25,
-    dialogue:[ {scene:'博雅教學館',bg:'linze_auditorium'},   /* 講座在博雅 101（3D 區域的大教室）；出遊的 2D 沒有這張圖：深色底＋字幕 */
-      {speaker:null,text:'（博雅的大教室。講座的題目是「平台、新創與新的規則」。可昕坐第三排，筆記寫了兩頁。）'},
+  const LECTURE={ id:'ev_kexin_lecture_ntu', title:'她來首都帝大聽講座', participants:['kexin'], location:'any', trigger:'outing', once:true, background:'dark', hours:0.25,
+    dialogue:[ {scene:'博思教學館',bg:'linze_auditorium'},   /* 講座在博雅 101（3D 區域的大教室）；出遊的 2D 沒有這張圖：深色底＋字幕 */
+      {speaker:null,text:'（博思的大教室。講座的題目是「平台、新創與新的規則」。可昕坐第三排，筆記寫了兩頁。）'},
       {speaker:null,text:'（講者一直說「彈性」。）'},
       {advance:toH(20.5)},
-      {speaker:'kexin',expression:'serious',text:'你先說。我想知道台大的人怎麼聽。'},
+      {speaker:'kexin',expression:'serious',text:'你先說。我想知道首都帝大的人怎麼聽。'},
       {choice:[{text:'「講者的例子太少。」',goto:'l1'},{text:'「例子很好，可是規則誰來訂沒講。」',goto:'l2'},{text:'「我在看妳的筆記。」',goto:'l3'}]},
       {label:'l1'},{speaker:'kexin',expression:'serious',text:'我在意的是別的：他一直說『彈性』，沒說是誰的彈性。'},{speaker:'kexin',expression:'smile',text:'我們聽到的不一樣。很好。'},{goto:'end'},
       {label:'l2'},{speaker:'kexin',expression:'surprised',text:'……那是我想問的。你先問到了。'},{goto:'end'},
@@ -222,7 +222,7 @@ const R2Y3A_EVENTS=(function(){
       {label:'end'},{set:{KX_K11:'together'}} ],
     after:G=>{ const r=R(); if(r) r.lectureAttended(G); },   /* attended B6c（BB_105）*/
     outingMissed:(G,GM,q)=>{ const r=R(); if(r) r.lectureMissed(G); } };
-  const LECTURE_TABLE={ id:'ev_kexin_lecture_table', title:'她來台大聽講座', participants:['kexin'], location:'boya', trigger:'auto', once:true, background:'blur', npcNear:'kexin', nearDist:3,
+  const LECTURE_TABLE={ id:'ev_kexin_lecture_table', title:'她來首都帝大聽講座', participants:['kexin'], location:'boya', trigger:'auto', once:true, background:'blur', npcNear:'kexin', nearDist:3,
     prereq:{custom:G=>on(G,'2027-09-29',20.5,21)&&G.flags.KX_K11!=='together'&&!!G.flags.KX_K11_SELF&&dating(G,'kexin')},
     dialogue:[ {speaker:'kexin',expression:'tired',text:'講完了。我坐一下再走。'},
       {speaker:'kexin',expression:'thinking',text:'他一直說「彈性」，沒說是誰的彈性。……你沒聽到，我先記著。'},
@@ -397,7 +397,7 @@ const R2Y3A_EVENTS=(function(){
   const member=G=>typeof STORY!=='undefined'&&!!STORY.fafuMember&&STORY.fafuMember(G);
   const BOOTH={ id:'ev_fair_booth_y3', title:'法律問答攤（大三）', participants:[], location:'campus', trigger:'auto', term:['Y3S1'], weeks:[10], weekday:[6], time:[10,16], once:true, near:{x:-17.8,z:13.0,r:4.5}, background:'blur',
     prereq:{custom:G=>member(G)},
-    dialogue:[ {speaker:null,text:'（椰林大道。法服的攤位在第三個帳篷。柏翰把「法律問答」的牌子立好，又調了兩次角度。）'},
+    dialogue:[ {speaker:null,text:'（椰影大道。法服的攤位在第三個帳篷。柏翰把「法律問答」的牌子立好，又調了兩次角度。）'},
       {if:GM_Y2,speaker:'阿嬤',text:'少年欸，你又在這。'},
       {if:GM_Y2,speaker:'阿嬤',text:'那棵芭樂，隔壁說過年前要剪。我在等他。'},
       {if:GM_Y2,choice:[{text:'「這次妳跟他講了？」',goto:'g1'},{text:'「芭樂還有掉嗎？」',goto:'g2'},{text:'（請她坐一下）',goto:'g3'}]},
@@ -489,8 +489,8 @@ const R2Y3A_EVENTS=(function(){
       {label:'p3'},{speaker:null,text:'（她把那題放進講義。）'},{speaker:'kexin',expression:'smile',text:'這題是一個法律系的學弟問的。'},
       {label:'end'} ] };
   const JUNIORS={ id:'ev_kexin_juniors_dinner', title:'學弟妹的飯', participants:['kexin'], location:'any', trigger:'outing', once:true, background:'dark', hours:1.5,
-    dialogue:[ {scene:'政大・山下的小吃街',bg:'nccu_food'},
-      {speaker:null,text:'（政大山下的小吃店。三個大一的學弟妹坐在對面，一直在看你。）'},
+    dialogue:[ {scene:'木柵大學・山下的小吃街',bg:'nccu_food'},
+      {speaker:null,text:'（木柵大學山下的小吃店。三個大一的學弟妹坐在對面，一直在看你。）'},
       {speaker:'學妹',text:'學姊說你都坐第四排。'},
       {speaker:'kexin',expression:'embarrassed',text:'我沒說。'},
       {speaker:'學弟',text:'學姊說過兩次。'},
