@@ -77,7 +77,10 @@ const USL=(function(){
   S.status=(G,it)=>{ const R=S.rec(G); if(R.cls[it.key]) return 'done'; if(it.day<G.day||(it.day===G.day&&G.hour>=24)) return 'missed'; if(it.day>G.day) return 'upcoming'; const h=hh(G); if(h>=it.t1-0.25) return 'missed'; return h>=it.t0-1?'open':'upcoming'; };
   S.openItem=G=>S.items(G).find(it=>S.status(G,it)==='open')||null;
   S.classLine=(id,n,G)=>{ const L=X.classLines[id]||[]; const v=L.length?L[((n|0)%L.length+L.length)%L.length]:''; return typeof v==='function'?v(G):v; };   /* 第一次上那門課＝第一句，之後輪流（AA_340 G2）；函式＝照旗標換（AA_370 L1）*/
-  S.special=(G,it)=>it.c.id==='us_comp'&&it.day===D('2028-10-26')?'ev_usl_midterm':(it.c.id==='us_writing'&&it.day===D('2028-12-08')?'ev_usl_lastclass':null);
+  /* AA_531 5-2：另外兩門的最後一堂——12/7（四）Comparative 期末報告、12/6（三）Introduction 期末考（Legal Writing 12/8 照舊）*/
+  S.FINALS={us_comp:['2028-12-07','ev_usl_comp_final'],us_intro:['2028-12-06','ev_usl_intro_final']};
+  S.special=(G,it)=>{ if(it.c.id==='us_comp'&&it.day===D('2028-10-26')) return 'ev_usl_midterm'; if(it.c.id==='us_writing'&&it.day===D('2028-12-08')) return 'ev_usl_lastclass';
+    const f=S.FINALS[it.c.id]; return f&&it.day===D(f[0])&&evOf(f[1])?f[1]:null; };
   const SPAWN0={us_outside:{x:-35,z:0,yaw:Math.PI/2},us_apartment:{x:2.4,z:-1,yaw:Math.PI/2},us_campus_class_out:{x:0,z:9.02,yaw:0},us_clubhouse:{x:-28,z:10.6,yaw:Math.PI},us_lawlib:{x:0,z:7.8,yaw:Math.PI},us_shared:{x:0.4,z:4,yaw:-Math.PI/2}};
   const SP=k=>Object.assign({},(typeof US3!=='undefined'&&US3.SPAWN&&US3.SPAWN[k])||SPAWN0[k]||{x:0,z:2,yaw:Math.PI});
   S.attend=async function(GM,it){ const G=GM.G, R=S.rec(G); if(!it||R.cls[it.key]) return false; const st=S.status(G,it); if(st!=='open'&&!(st==='upcoming'&&it.day===G.day)) return false;
@@ -301,7 +304,8 @@ const USL=(function(){
   S.ffEnd=()=>T(D(S.CAL.leave),7);   /* 12/16 07:00 離開（之後是 r2y4a3d.js 的那一週）*/
   const FIXED=[ ['2028-08-03',4.5,G=>!G.flags.USL_JETLAG],['2028-08-05',17.5,G=>dating(G)],['2028-08-21',9,G=>!(S.rec(G).att.us_intro|0)],['2028-09-04',17,G=>!done(G,'ev_usl_bbq')],
     ['2028-09-13',18,G=>dating(G)],['2028-09-13',18.75,G=>!dating(G)],['2028-10-04',20.5,G=>S.long3Done(G)&&!done(G,'ev_usl_long4')&&!G.flags.LONG_NOTE],['2028-10-16',21,G=>S.oct16On(G)],['2028-10-26',12,()=>true],['2028-10-31',18,G=>!done(G,'ev_usl_halloween')],['2028-10-31',19,G=>done(G,'ev_usl_halloween')&&!done(G,'ev_usl_halloween2')],
-    ['2028-11-22',21,()=>true],['2028-11-23',17,G=>!dating(G)&&!!G.flags.MET_LONG],['2028-12-02',18,()=>true],['2028-12-02',19.75,G=>!dating(G)],['2028-12-08',8,()=>true],['2028-12-16',7,()=>true] ];   /* AA_340 第 1 節的事件（出遊、要回的訊息另外停）*/
+    ['2028-11-22',21,()=>true],['2028-11-23',17,G=>!dating(G)&&!!G.flags.MET_LONG],['2028-12-02',18,()=>true],['2028-12-02',19.75,G=>!dating(G)],['2028-12-08',8,()=>true],['2028-12-16',7,()=>true],
+    ['2028-12-06',9,G=>!S.rec(G).cls[D('2028-12-06')+':us_intro']],['2028-12-07',12,G=>!S.rec(G).cls[D('2028-12-07')+':us_comp']] ];   /* AA_340 第 1 節的事件（出遊、要回的訊息另外停）；AA_531 5-2：另外兩門的最後一堂，開始前一小時停（同 12/8、10/26）*/
   /* 10/16 21:00 的停點（BUG-US-WKND-EMPTYSTOP-1025）：原本不看條件都停；改成那個時間真的有事才停——
      ① 學姊「改過的報告拿了 A。」（r2y4a3d.js R2Y4A.us2GradeOn：交往中、US2 是 there 或 missed；挽回中、US2 其他值＝不傳）
      ② 「大四要怎麼過？」再問一次（story3d.js STORY.y4Path2Due：上次選④，10/16 21:00 在公寓演）——原本的停點也讓這一場準時，不能一起拿掉
@@ -357,8 +361,24 @@ const USL=(function(){
   /* ======================= 手機（STORY.PHONE_RULES；時間都是當地）======================= */
   const past=(G,d,h)=>d!=null&&now(G)>=T(d,h);
   const plan=(G,o)=>typeof OUT!=='undefined'&&!OUT.get(G,o.id)&&OUT.plan(G,Object.assign({travel:'',travelH:0,late:0.75,back:'回到社區。'},o));
+  /* ======================= AA_531 第 2 節：和臺灣的人交往中、人在美國（以安、語彤、子晴、沛珊）——七夕、中秋、視訊、12/23 =======================
+     原本她們每週的戲遇到「人在國外」就關掉，四個半月幾乎沒有聯絡。資料 X.aa531（臺灣時間）；送到時照時差換成當地（STORY.tzOffset）。
+     私訊：和她交往中、那一天人在美國（12/23 那一則：去過美國、交往中，人已經回到臺灣）；不用回。視訊：出遊（她打來，call:true；鬧鐘會叫），前一天起排。
+     以安的兩次：第一次 10/22，10/19 那一通（y34b3d.js y4_an18_video）有接＝挪到 10/29；第二次 11/19 只給第一次有接的（她說「下次我照你那邊的時間排」的兌現）*/
+  const datingW=(G,id)=>{ const F=G.flags||{}, R=F.romance||{}; return F['dating_'+id]===true||!!(R[id]&&R[id].status==='dating'); };
+  S.tw2loc=(G,d,h)=>{ const t=T(d,h)+(+STORY.tzOffset(G,d)||0), dd=Math.floor(t/24+1e-9); return {day:dd,h:+(t-dd*24).toFixed(4)}; };
+  const nmOf=id=>typeof SOCIAL!=='undefined'&&SOCIAL.displayName?SOCIAL.displayName(id):id;
+  S.twDay=(G,it)=>{ if(it.alt){ const q=typeof OUT!=='undefined'&&OUT.get?OUT.get(G,'y4_an18_video'):null; if(q&&q.state==='done') return D(it.alt); } return D(it.d); };
+  S.twPhone=function(G){ const A=X.aa531; if(!A||!isUS(G)||!G.flags.US_ARRIVED) return;
+    for(const id in A){ if(!datingW(G,id)) continue; if(typeof INV!=='undefined'&&INV.hasContact&&!INV.hasContact(G,id)) continue;
+      for(const it of A[id]){ const d=S.twDay(G,it); if(d==null) continue; const tag='usl_tw_'+id+'_'+it.k;
+        if(it.ret?!(G.day>=d&&!S.here(G)):!S.usDay(G,d)) continue;   /* ret：回到臺灣的那一天（12/23 已經不在美國）*/
+        const c=it.ret?{day:d,h:it.h}:S.tw2loc(G,d,it.h);
+        if(it.msgs){ if(!PHONE.sent(G,tag)&&G.day<=c.day+1&&past(G,c.day,c.h)) PHONE.at(G,c.day,c.h,it.msgs.map(t=>({th:'p:'+id,from:id,text:t})),tag); continue; }
+        if(it.video&&S.here(G)&&!(it.after&&!G.flags[it.after])&&G.day>=c.day-1&&now(G)<T(c.day,c.h)+0.5) plan(G,{id:tag,ev:it.video,day:c.day,h:c.h,late:0.5,place:'視訊',verb:'接起來',no:'先不接',title:nmOf(id)+'打視訊來',call:true,back:'視訊結束。',alarm:true}); } } };
   S.phone=function(G){ if(!G||!G.flags||typeof PHONE==='undefined'||!isUS(G)) return; const F=G.flags, M=X.msgs, dt=dating(G);
     S.longMerge(G);   /* AA_370 M3：美國路線都跑（回臺灣以後的尾聲 r2y4b3d.js 也讀 MET_LONG）*/
+    try{ S.twPhone(G); }catch(e){ console.warn('USL twPhone',e); }   /* AA_531 第 2 節（12/23 那一則人已經回到臺灣：放在 S.here 前面）*/
     /* G1 8/2 台灣 08:00 Kevin 家族群組（玩家還在機場：臺灣時間；學姊不回，挽回中照發）*/
     { const d=S.dep(); if(d!=null&&G.day>=d&&G.day<=d+1&&past(G,d,8)&&PHONE.inGroup(G,'family_law')&&!PHONE.sent(G,'usl_kevin_0802')) PHONE.at(G,d,8,M.kevin0802.map(t=>({th:'g:family_law',from:'kevin',name:'Kevin',text:t})),'usl_kevin_0802'); }
     if(!S.here(G)) return;
@@ -376,6 +396,13 @@ const USL=(function(){
     if(!S.r3Did(G,'usl_long1')) plan(G,{id:'usl_long1',ev:'ev_usl_long1',day:D('2028-08-14'),h:10,late:1,place:'法學院',title:'國際學生迎新',alarm:true});
     /* G2 8/26 可昕七夕（和可昕交往中；台灣 21:00＝當地 09:00，視訊）*/
     { const d=D('2028-08-26'); if(F.dating_kexin&&G.day<=d) plan(G,{id:'usl_qixi',ev:'ev_usl_qixi',day:d,h:21+(STORY.tzOffset(G,d)||0),late:0.75,place:'視訊',title:'可昕的視訊：七夕',verb:'接起來',no:'今天先不要',back:'視訊結束。'}); }
+    /* AA_531 第 4 節：9/3（日）21:00 勞動節烤肉（原本沒人告訴你：公告只貼在會所門口，快轉停在 9/4 17:00 公寓）——交往中學姊私訊、挽回中社區寄來的信；
+       回「好。」／「（去）」＝排 9/4 17:00 會所（出遊，走過去約 3 分鐘）。沒回、回不去的照原本（走到會所門口 17:00～19:00 還是演得到）*/
+    { const d=D('2028-09-03'), d4=D(S.CAL.labor);
+      if(G.day>=d&&G.day<=d4&&past(G,d,21)&&now(G)<T(d4,17)&&!done(G,'ev_usl_bbq')&&!PHONE.sent(G,'usl_bbq_ask')){
+        if(dt){ const L=M.bbqAsk.map(P5); L[L.length-1].ask={id:'usl_bbq_ask',until:T(d4,17),opts:M.bbqAskOpts.map(([t,r],i)=>({t,say:[{from:S5,text:r}],set:{USL_BBQ_GO:i===0}}))}; PHONE.at(G,d,21,L,'usl_bbq_ask'); }
+        else PHONE.at(G,d,21,[{th:'sys',text:M.bbqMail,ask:{id:'usl_bbq_ask',until:T(d4,17),opts:M.bbqMailOpts.map((t,i)=>({t,set:{USL_BBQ_GO:i===0}}))}}],'usl_bbq_ask'); }
+      if(F.USL_BBQ_GO===true&&!done(G,'ev_usl_bbq')&&now(G)<T(d4,17.75)) plan(G,{id:'usl_bbq',ev:'ev_usl_bbq',day:d4,h:17,late:1,place:'會所',title:'勞動節烤肉（會所後面的草地）',travel:'走過去約 3 分鐘',travelH:0.05,back:'回到公寓。'}); }
     /* 何俊朗 2a（9/8 12:00 Legal Writing 下課）、2b（9/15 18:30 新開的餐廳；2a 演過才有）*/
     if(!S.r3Did(G,'usl_long2a')) plan(G,{id:'usl_long2a',ev:'ev_usl_long2a',day:D('2028-09-08'),h:12,late:0.75,place:'法學院走廊',title:'Legal Writing 下課'});
     if(F.LONG_2A&&!S.r3Did(G,'usl_long2b')) plan(G,{id:'usl_long2b',ev:'ev_usl_long2b',day:D('2028-09-15'),h:18.5,late:0.75,place:'新開的餐廳',title:'新開的餐廳'});
