@@ -1,19 +1,25 @@
 # LAWWW2 交接紀錄（隨時更新；工作階段中斷時從這裡接）
 
-## ⏱ 現況（LAWWW2-B，2026-10-30 17:0x UTC；帳號 B 七天額度已到警示，隨時可能被切斷——接手的先讀這一段）
+## ⏱ 現況（LAWWW2-B，2026-10-30 19:0x UTC；帳號 B 七天額度已到警示，隨時可能被切斷——接手的先讀這一段）
 
-- **正在做：SOCLIB-LM-1030 社科院圖書館光照烘焙＋BOYA BB-B n19 兩點，一起交件**（LAWWW-B：「排在 SOCLIB-LM 之後順手修，一起交件」）。
-  - soclib 第一次正式烘焙（07d99d960 檢查點）做完以後，找到烘焙工具的 bug：`bake_room.py` 的 `collapse_black` 只看面的中心——大的面中心剛好在黑板、講桌、書架後面就整面收成一點，
-    `lm_fix_hidden.py` 再接到共用的那條邊，變成對角線那一條光拉開來。**BB-B n19「講台前一塊深藍色的影子」就是這個**（101、102 講台那面牆下半個三角形 28 m²）；社科圖地板一半（330 m²）也是。
-  - 已修 `collapse_black`（和 `lm_fix_hidden.lmmax` 一樣看整面）；講桌桌面 #5c5953；soclib 招牌板面照舊單面；`tests/singleside_interiors_unit.js` 第 2 項社科圖天井改成 2b（烘焙以後拿掉反面，留下看得到的那一面）→ `patches/soclib_lm_test_1030.patch`。
-  - 測試樹 `scratchpad/slwt`（開發 753e32cd3＋這兩包）**重烘中：soclib 再 boya（各約 35 分鐘）**；之後重拍、跑全部 Node（第一次 771／1＝上面那支）、交件。
-  - 舊房間同一個 bug（`tools/blender/env_second/lightbake/lm_squash_scan.py` 掃，朝室內看得到的）：法律學院圖書館 91 m²、總圖大廳 83、宿舍四人房 21、201 6；Café、霖澤、202、宿舍大廳、萬才館沒有。重烘才會好，交件時問 LAWWW-B 排不排。
-- **下一件：NOODLE-LM-1030 麵店**。ART-ZR-PS-3D-1022 已驗收，不開 v33。
-- **剛交、已整合**：BOYA-LM-1030（a63eb8072）。
-- **已交、已整合（10-30）**：D115 改名美術字＋博思名牌外框（f75d60a4c）、X133 草皮第一版（f75d60a4c）、法律學院圖書館光照（6e3a95623）、多功能教室 v2（95da49eab）、LIB-HALL-LM／RT-NIGHT（bbe0c9469）。
+- **剛交：SOCLIB-LM-1030 社科院圖書館＋BOYA BB-B n19 兩點**（`b659056c6`；`test_shots/soclib_lm_1030/README.md`、`boya_lm_1030/README.md` 第六節；`READY_FOR_ART_REVIEW`）。等 LAWWW-B ACK。
+  - 找到並修了烘焙工具的 bug（`bake_room.py` 的 `collapse_black` 只看面中心）：BB-B n19 的講台前斜影、社科圖地板一半都是它。
+  - 舊房間同一個 bug（`lightbake/lm_squash_scan.py`）：法律學院圖書館 91 m²、總圖大廳 83、宿舍四人房 21、201 6——要重烘才會好，問 LAWWW-B 排不排（LM-COLLAPSE-1030）。
+  - 測試樹 `scratchpad/slwt`（開發 753e32cd3＋兩包）全部 Node 772／0。
+- **下一件：NOODLE-LM-1030 麵店**（`noodle_interior.py`，和 Café 同一套 `attachRoomGLB`；燈＝日光燈管 `ndl_tube`）。
 - **X133 第二版等使用者的地圖或照片**（使用者 10-30 16:5x 回 LAWWW-B：「我之後傳地圖或照片」；LAWWW-B 17:16 轉告）：第一版照舊在遊戲裡（f75d60a4c），第二版不要再猜；LIB-LAWN-PLAN-1030 先放著。
+- ART-ZR-PS-3D-1022 已驗收，不開 v33。
 - **注意**：我的分支 10-16 以後沒有合併開發分支（直接 merge 一百多個衝突），一律在開發分支的測試樹上做、只把自己負責的檔案搬回來。
 - **沒有遠端備份的**：scratchpad 的截圖、測試樹（重做就有）。
+
+## 📣 給 LAWWW-B（2026-10-30 19:0x UTC｜SOCLIB-LM-1030＋BOYA n19 交件；send_message 另外傳）
+
+- **社科圖**：README `docs/art-rebuild/second_ai/test_shots/soclib_lm_1030/README.md`。
+  - 換二進位：`soclib_interior.glb`＋`soclib_interior_lm_day.webp`、`_night.webp`（＋`soclib_interior.json`）。程式不用改（`attachRoomGLB` 自己接）。
+  - **要套**：`docs/art-rebuild/second_ai/patches/soclib_lm_test_1030.patch`（只改 `tests/singleside_interiors_unit.js`：天井烘焙以後沒有反面，改成檢查留下來的是看得到的那一面）。對 753e32cd3、最新 207cffb0e 都套得上。
+- **博思 n19**：README `boya_lm_1030/README.md` 第六節。只換二進位：`boya_interior.glb`＋兩張光照貼圖（＋json）。
+  - 講桌桌面 #26282b → #5c5953；101／102 講台前斜的深色影子＝烘焙工具 bug，修了重烘。
+- 全部 Node 772／0。舊房間重烘（LM-COLLAPSE-1030）等你決定。
 
 ## 📣 給 LAWWW-B（2026-10-30 15:0x UTC｜BOYA-LM-1030 博思教學館室內 交件；send_message 另外傳）
 
