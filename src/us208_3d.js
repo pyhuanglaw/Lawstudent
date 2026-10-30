@@ -13,7 +13,8 @@
    AA_454 第 1 節（AA-B 2026-10-25 03:5x，企劃線 eaa98aaa7）：快轉在週末 14:00 有停、畫面上什麼都沒有，一路快轉七場全部錯過——週末 14:00 她私訊一則要回的（S.dmPhone，每一場的那一句＝SCENES 的 dm）：
      「我過去。」＝出遊「C 棟 208」，出發就換到 208 演那一場（OUT.STAGE，S.stage）；「今天不行。」＝她「好。」，週日 14:00 再一次「今天也在 208。」；週日也說不行＝這個週末不演；沒回＝照現在。
      存檔 G.flags.US208_DM＝這個週末傳過了（那個週六）、US208_NO＝週日說不行的那個週末（那個週六；只是紀錄：AA-B 04:12「這個週末就不演」＝不再傳私訊，自己走過去照演）；舊存檔沒有＝沒傳過。測試：node tests/aa454_us_unit.js
-     AA_539 1-4（企劃線 c9f6dd6cb）：那一場沒演、下一個週末再傳，每句只傳一次——第二次、第三次換 dmMore 的句子（G.flags.US208_DMN 記每一場傳過幾次）。測試：node tests/aa539_sis_reread_unit.js
+     AA_539 1-4（企劃線 c9f6dd6cb）＋5-2 第 6 點（90d0a41d0）：每一句最多傳一次——有 dmMore 的三場（3-1、3-3、3-6）第二、三次換句，其他四場第二次起不傳（快轉也不停）；
+       週日那一句「今天也在 208。」也算（和 3-1 的第二句同一句：傳過了就不再傳）。傳過的句子＝G.flags.US208_SAID＋手機裡 us208_dm_* 的那幾則（舊存檔照手機）。測試：node tests/aa539_sis_reread_unit.js
    BUG-US-WKND-EMPTYSTOP-1025：USL.nextStop 的週末 14:00 停點問 S.stopAt（只停在她那天會傳私訊的時候）。測試：node tests/us_wknd_stop_unit.js
    AA_516 第 8 節第 1 點、第 3～5 點（企劃線 3cd10909b → d6f8621ac → 913802344 → ca08e848c 第 8 節第 5 點，SIS-B14-AAFIX-1028）：4-1 9/2 吃過她的咖哩（SIS14_US_CURRY）的，「之後第一次有吃東西的 208 場景」多一句旁白、一次（BOWL，SIS14_BOWL）：
      先算 9/13 US2（r2y4a_events.js ev_us2_kitchen，三支都有）；沒演到＝這裡 3-2 滷肉，兩支選項會合的地方（{label:'e'} 後面＝盛出來吃的時候；第 5 點）；七場的其他六場（沒吃東西）不放。測試：node tests/aa516_sis_b14_unit.js */
@@ -39,7 +40,7 @@ const US208=(function(){
   S.heardClip=G=>(typeof SOCIAL!=='undefined'&&!!SOCIAL.has&&SOCIAL.has(S5,'SIS4_CLIPPINGS'))||!!(G&&G.social&&G.social.ladSeen&&G.social.ladSeen['S2-L5']!=null);
 
   /* ---------------- 七場（第 3-1～3-7 節）；dm＝AA_454 第 1 節週末 14:00 她私訊的那一句（照稿的表；不搶那一場的第一句）----------------
-     dmMore：AA_539 1-4（企劃線 c9f6dd6cb）——那一場沒演、下一個週末又傳的時候換句（第二次、第三次；每句只傳一次）。稿只寫了 3-1、3-3、3-6；其他四場照舊重傳原句（S.dmText）*/
+     dmMore：AA_539 1-4（企劃線 c9f6dd6cb）——那一場沒演、下一個週末又傳的時候換句（第二次、第三次；每句最多傳一次，5-2 第 6 點）。稿只寫了 3-1、3-3、3-6；其他四場第二次起不傳（S.dmText）*/
   S.SCENES=[
     {n:'3-1',ev:'ev_us208_memo',from:'2028-09-16',to:'2028-09-24',tag:'US208_MEMO',label:'書瑀幫你看 Legal Writing 的作業',dm:'我在 208。門沒鎖。',dmMore:['今天也在 208。'],dialogue:[
       nar('（門沒鎖。她坐在沙發上，腿上放著筆電。）'),
@@ -148,19 +149,21 @@ const US208=(function(){
   const md=d=>{ const k=typeof CALENDAR!=='undefined'&&CALENDAR.dateOf?CALENDAR.dateOf(d).key:''; return k?k.slice(5,7)+k.slice(8,10):String(d); };
   S.askId=d=>'us208_ask_'+md(d); S.dmTag=d=>'us208_dm_'+md(d); S.outId=d=>'us208_'+md(d);   /* d＝傳的那一天 */
   /* d 那天（星期 w）她要傳的那一句；不傳＝null。S.dmPhone 和快轉的停點（S.stopAt）共用，兩邊不會對不起來 */
-  /* AA_539 1-4：那一場的第幾次（每個週末的第一則算一次；G.flags.US208_DMN＝{場次:傳過幾次}）；舊存檔沒有＝數手機裡傳過的原句 */
-  S.dmCount=function(G,s){ const N=G.flags&&G.flags.US208_DMN; if(N&&typeof N==='object'&&N[s.n]!=null) return N[s.n]|0;
-    return (G.msgs||[]).filter(m=>m&&/^us208_dm_/.test(m.tag||'')&&m.text===s.dm).length; };
-  S.dmText=(G,s)=>{ const L=[s.dm].concat(s.dmMore||[]); return L[Math.min(S.dmCount(G,s),L.length-1)]; };   /* 稿的次數用完（範圍裡的週末數不會超過）＝最後一句 */
+  /* AA_539 1-4、5-2 第 6 點：她週末傳過的句子（每一句最多一次）。G.flags.US208_SAID（傳的時候記）＋手機裡 us208_dm_* 的訊息、還沒送到的（PHONE 的 q）——舊存檔、開發版存的 US208_DMN 都照手機 */
+  S.said=function(G){ const out=new Set(Array.isArray(G.flags&&G.flags.US208_SAID)?G.flags.US208_SAID:[]), re=/^us208_dm_/;
+    for(const m of (G.msgs||[])) if(m&&re.test(m.tag||'')&&m.text) out.add(m.text);
+    const P=typeof PHONE!=='undefined'&&PHONE.rec?PHONE.rec(G):null; if(P&&Array.isArray(P.q)) for(const q of P.q) if(q&&re.test(q.tag||'')) for(const it of (q.items||[])) if(it&&it.text) out.add(it.text);
+    return out; };
+  S.dmText=(G,s)=>{ const L=[s.dm].concat(s.dmMore||[]), S0=S.said(G); return L.find(t=>!S0.has(t))||null; };   /* 那一場還沒傳過的第一句；都傳過＝不傳 */
   const dmLine=(G,d,w,s)=>{ const wk=w===0?d-1:d; if(PHONE.sent(G,S.dmTag(d))) return null;
-    if(G.flags.US208_DM!==wk) return S.dmText(G,s);   /* 這個週末的第一則：那一場的那一句（AA_539 1-4：第二次起換句）*/
-    if(w===0){ const m=PHONE.byAsk(G,S.askId(wk)); if(m&&m.ans===1) return S.DM_SUN; }   /* 週六回「今天不行。」：週日再一次（一個週末最多一次）*/
+    if(G.flags.US208_DM!==wk) return S.dmText(G,s);   /* 這個週末的第一則：那一場還沒傳過的那一句（AA_539 1-4：第二次起換句；沒有了＝不傳）*/
+    if(w===0){ const m=PHONE.byAsk(G,S.askId(wk)); if(m&&m.ans===1&&!S.said(G).has(S.DM_SUN)) return S.DM_SUN; }   /* 週六回「今天不行。」：週日再一次（一個週末最多一次；「今天也在 208。」傳過了就不再傳，5-2 第 6 點）*/
     return null; };
   S.dmPhone=function(G){ if(!G||!G.flags||typeof PHONE==='undefined'||!(G.weekday===6||G.weekday===0)) return; const F=G.flags, d=G.day, wk=S.wk(G), s=S.due(G); if(!s) return;
-    if(hh(G)<S.DM_UNTIL){ const t=dmLine(G,d,G.weekday,s), first=F.US208_DM!==wk, n0=first?S.dmCount(G,s):0;
+    if(hh(G)<S.DM_UNTIL){ const t=dmLine(G,d,G.weekday,s);
       if(t){ const no={t:S.DM_NO,say:[{from:S5,text:S.DM_NO_RE}]}; if(G.weekday===0) no.set={US208_NO:wk};
         PHONE.at(G,d,Math.max(14,hh(G)),[{th:'p:'+S5,from:S5,text:t,ask:{id:S.askId(d),until:T(d,S.DM_UNTIL),opts:[{t:S.DM_YES,say:[{from:S5,text:S.DM_YES_RE}]},no]}}],S.dmTag(d)); F.US208_DM=wk;
-        if(first){ const N=F.US208_DMN&&typeof F.US208_DMN==='object'?F.US208_DMN:(F.US208_DMN={}); N[s.n]=n0+1; } } }   /* AA_539 1-4：記這一場傳過幾次 */
+        const SA=Array.isArray(F.US208_SAID)?F.US208_SAID:(F.US208_SAID=[]); if(!SA.includes(t)) SA.push(t); } }   /* AA_539：記傳過的句子（手機訊息 200 則以上會被收掉）*/
     const m=PHONE.byAsk(G,S.askId(d));
     if(m&&m.ans===0&&typeof OUT!=='undefined'&&OUT.plan&&!OUT.get(G,S.outId(d))&&hh(G)<S.DM_UNTIL){ const h=Math.max(14.5,qc(hh(G)+0.25));   /* 「我過去。」＝排出遊（演的是排的當下該演的那一場）*/
       OUT.plan(G,{id:S.outId(d),ev:s.ev,day:d,h,late:Math.max(0.25,S.DM_UNTIL-h),place:'C 棟 208',title:'C 棟 208',travel:'走路 約 5 分鐘',travelH:1/12,back:'回到社區。'}); } };

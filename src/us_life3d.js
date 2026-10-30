@@ -315,8 +315,9 @@ const USL=(function(){
   S.nextStop=function(G,t0){ let best=null; const c=x=>{ if(x!=null&&x>t0+1e-6&&(best==null||x<best)) best=x; };
     for(const [k,h,f] of FIXED){ const d=D(k); if(d!=null&&(!f||f(G))) c(T(d,h)); }
     if(typeof OUT!=='undefined'&&OUT.rec) for(const q of OUT.rec(G)) if(q.state==='planned') c(T(q.day,q.h)-(OUT.trip?OUT.trip(G,q).travelH:(q.travelH||0))-0.25);
-    if(dating(G)&&(G.flags.US2||G.day>D('2028-09-13'))){ const d0=Math.floor(t0/24); for(let d=d0;d<=d0+7;d++){ const w=wdOf(d); if((w===6||w===0)&&d<D(S.CAL.leave)&&d>D('2028-09-13')&&!S.sisAwayAt(T(d,14))&&(typeof US208==='undefined'||!US208.stopAt||US208.stopAt(G,d))) c(T(d,14)); } }   /* 交往中週末的 208（她在芝加哥的週末不停，AA_370 M9）；
-       只停在她那天 14:00 會傳私訊的時候（us208_3d.js US208.stopAt：有該演的那一場、這個週末還沒演；BUG-US-WKND-EMPTYSTOP-1025：原本每個週六、日都停，去過了的週日、10/7～8、11/4、七場演完以後停下來什麼都沒有）*/
+    if(dating(G)&&(G.flags.US2||G.day>D('2028-09-13'))){ const d0=Math.floor(t0/24), dL=D(S.CAL.leave); for(let d=d0;d<dL;d++){ const w=wdOf(d); if((w===6||w===0)&&d>D('2028-09-13')&&T(d,14)>t0+1e-6&&!S.sisAwayAt(T(d,14))&&(typeof US208==='undefined'||!US208.stopAt||US208.stopAt(G,d))){ c(T(d,14)); break; } } }   /* 交往中週末的 208（她在芝加哥的週末不停，AA_370 M9）；
+       只停在她那天 14:00 會傳私訊的時候（us208_3d.js US208.stopAt：有該演的那一場、這個週末還沒演；BUG-US-WKND-EMPTYSTOP-1025：原本每個週六、日都停，去過了的週日、10/7～8、11/4、七場演完以後停下來什麼都沒有）。
+       AA_539 5-2 第 6 點（208 每一句最多傳一次）以後，沒有私訊的週末可能連好幾週：原本只往後看 7 天，改成往後找到第一個會傳的週末（到離開美國為止）*/
     return best; };
   S.ffOpts=function(G){ if(!S.here(G)||!inUS(G)) return null; const t0=now(G), end=S.ffEnd(); if(end<=t0+0.5) return null; const nx=S.nextStop(G,t0), to=nx!=null&&nx<end?nx:end, d3=Math.min(T(G.day+3,8.5),end), d7=Math.min(T(G.day+7,8.5),end);
     return [{t:'到下一個有事的日子',hint:(nx!=null&&nx<end?'跳到 ':'沒有排定的事：到 ')+dateLabel(to),to},{t:'過三天',hint:'到 '+dateLabel(d3)+'（中間有事會先停）',to:d3},{t:'過一週',hint:'到 '+dateLabel(d7)+'（中間有事會先停）',to:d7},{t:'不用了',to:null}]; };
