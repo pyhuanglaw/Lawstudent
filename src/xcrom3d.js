@@ -107,12 +107,7 @@ const XCROM=(()=>{
       {speaker:null,text:'（她講到一點半。你們掛電話的時候，她說了「晚安」，又說了一次。）'},
       {set:{XC_CALL1:true}} ],
     outingMissed:G=>{ if(G&&G.flags&&G.flags.XC_CALL1_MISS==null) G.flags.XC_CALL1_MISS=S.callDay(); } };
-  /* 第 2 節：和以安分開以後（G10），之前已經過了 G3、G4 的玩家，當晚 01:10 她多一則（意思留給玩家去想；這條線就不開了）。G10 的開關關掉＝不傳 */
-  S.AN_BREAK=['今天的劇很難看。','我看完了。'];
-  S.anBreak=function(G){ const f=F(G); if(!law(G)||!S.CFG.noAnEx||!f['EX_'+AN]||sent(G,'xc_an_break')||!contact(G)) return;
-    const R=typeof ROM!=='undefined'&&ROM.get?ROM.get(G,AN):null, H0=R&&Array.isArray(R.history)?R.history.filter(h=>h&&h.ev==='end'):[], e=H0[H0.length-1]; if(!e||e.day==null) return;
-    const g=S.gates(G); if(!g.G3||!g.G4) return; const d=e.day+1, h=1+10/60; if(now(G)<T(d,h)-24||now(G)>T(d,h)+48) return;
-    PHONE.at(G,d,h,S.AN_BREAK.map(P),'xc_an_break'); };
+  /* 第 2 節「和以安分開那晚 01:10」那一則：使用者 10-30 選「照樣可以開」以後 AA-B 17:18「拿掉，不換」——不做 */
   /* ---------- G5 半夜訊息（AA_537 第 1 節「G5 的訊息從哪裡來」、AA_537b 第 9 節 8acf3b308）----------
      慈 3（或 3-3 電話）以後每週一則：週三或週日（一週週三、一週週日輪流）00:30～01:30；照順序輪、用完從頭（八則一輪＝同一則八週內不重複）。
      A＝慈 5 以前、B＝慈 5（和以安和好）以後；B3 慈 6 以後不傳（她改輔系了）、B8 要慈 6 以後。交往以後換 L 層（AA_537 5-2）。
@@ -173,7 +168,7 @@ const XCROM=(()=>{
   S.wake=function(G){ const f=F(G), d=TD('Y2S2',6,3); if(!law(G)||!hasP()||!contact(G)||!S.nightStart(G)||S.closed(G)||!due(G,d,0.75,1)||sent(G,'xcn_wake')||(f.XC_NIGHT|0)>=2) return; PHONE.at(G,d,0.75,[P(S.WAKE)],'xcn_wake'); };
   /* 30 分鐘內回＝XC_NIGHT +1 */
   S.onAnswer=function(G,m,o){ if(!m||!m.ask||!/^xcn_/.test(m.ask.id)||!o||o.noCount) return; const sentAt=T(m.day,m.h), at=now(G); if(at-sentAt<=0.5+1e-6){ const f=F(G); f.XC_NIGHT=(f.XC_NIGHT|0)+1; } };
-  S.phone=function(G){ if(!S.ON) return; for(const f of [S.g3Remind,S.blankAgain,S.g7,S.call1,S.anBreak,S.night,S.wake]){ try{ f(G); }catch(e){ console.warn('XCROM.phone',e); } } };
+  S.phone=function(G){ if(!S.ON) return; for(const f of [S.g3Remind,S.blankAgain,S.g7,S.call1,S.night,S.wake]){ try{ f(G); }catch(e){ console.warn('XCROM.phone',e); } } };
   S.EVENTS=[S.EV_G2,S.EV_SAMEDAY,S.EV_CALL1];
   /* ---------- 心願那一場：午夜場（AA_537b 8-2，企劃線 86659bbc1；DATE_WISH 的格式，同沛珊 D06）----------
      mention 不放在這裡（在半夜訊息，S.MENTION）：見面時不說。herInvite：交往前第 5 階以上＋XC_BLANK、兩個人都單身（交往中可以），一學期一次，週五 00:40 傳、約週六 22:30 出發（23:30 開演；DATE.MIDNIGHT）。

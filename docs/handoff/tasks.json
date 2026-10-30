@@ -36694,6 +36694,35 @@
    "source": "BB-B BB_218（企劃線 elegant-brown-fcos7n）n14：NPC 清單兩個阿姨——無名店員（照設計：阿姨在時藏起來，PRIV-AUNT-1028）＋ hc_ayi（20 秒後才顯示＝模型載入，src/hcircle3d.js S.modelWait）",
    "authorized": "D85",
    "notes": "兩筆不是重複：店員藏起來、hc_ayi 換上（S.arrange／S.kitchen）。S.together 已經看 cn.hidden，可能是模型非同步載入時 hidden 還是 false。D99：外觀問題只記錄、不擋流程"
+  },
+  {
+   "id": "NO-COMPARE-1030",
+   "title": "遊戲裡的人不跟別人比（D116、USER_WANTS X146；使用者 10-30 17:3x 對 AA-B）：刪掉所有跟別人比、嫉妒、因為別人厲害覺得自己很爛的台詞與事件（芯慈×以安第一名／第二名、柏翰、以安「我怕她追上來」……）",
+   "area": "STORY",
+   "owner": "AA",
+   "status": "進行中",
+   "priority": "P0",
+   "next": "AA 用子代理掃開發分支所有違反的地方 → 出改稿（大的用選擇題問使用者）→ LAWWW 照改、BB 測；這一類內容不進下一版（改名版等這一批處理完才發）",
+   "first": {
+    "term": "Y1S1",
+    "week": 1,
+    "earliest": "大一上起各處台詞",
+    "mainline": true,
+    "blocks": true,
+    "prereq": false,
+    "parallel": false,
+    "confirmed": true
+   },
+   "source": "使用者 2026-10-30 16:5x、17:3x 直接對 AA-B（AA-B 17:14、17:19 轉）",
+   "authorized": "使用者（永久規則 D116）",
+   "xai": {
+    "spec": "AA 掃描清單＋改稿（待交）",
+    "branch": "claude/cool-heisenberg-o8kuqx",
+    "acceptance": "遊戲裡沒有人跟別人比、嫉妒、覺得別人的努力理所當然、因為別人厲害覺得自己很爛；可以在意自己的成績",
+    "receiver": "LAWWW",
+    "ack": "ACK"
+   },
+   "notes": "芯慈的線（XINCI-ROMANCE-1030）已關、暫停；人物頁三行（第二名、第一次考第一、改輔系）在 AA 清單裡；芯慈爸爸會計師為什麼雙主修經濟不主修會計＝AA 問使用者"
   }
  ]
 }
