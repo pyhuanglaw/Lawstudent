@@ -28,11 +28,10 @@ _COMMON = [
     (r'國立政治大學|政治大學', '木柵大學'),
     (r'\bNCCU\b', 'MZU'),
     (r'(?<![財行郵執])政大', '木柵大學'),
-    (r'(?<![舞平講櫃陽月擂吧檯戲])[臺台]大(?!學)', '首都帝大'),
+    (r'(?<![舞平講櫃陽月擂吧檯戲])[臺台]大', '首都帝大'),   # 「臺大學生」也換（10-30 補）
     (r'博雅教學館', '博思教學館'),
     (r'博雅館', '博思教學館'),
-    (r'博雅(?=[0-9０-９一二三四五六七八九十]{1,3}(?:[0-9０-９]|教室|號|室))', '博思'),
-    (r'博雅(?=的?(?:教室|大樓|門口|樓下|一樓|二樓|三樓|四樓|那棟|前面|旁邊|後面))', '博思'),
+    (r'博雅(?!教育|書院|學程|精神|課程)', '博思'),   # 單獨的「博雅」在本作都是那棟教學館（10-30 補：「博雅 102」「在博雅吵了一小時」）；「博雅教育」這類一般用法不換
     (r'小椰林道', '椰影小徑'),
     (r'椰林大道', '椰影大道'),
     (r'(?<!小)椰林(?=那邊|那條|上|旁邊|走|騎|的路)', '椰影大道'),
@@ -73,10 +72,10 @@ _SP=re.compile(r'(法律系館[AB])(?=[0-9０-９]|研討室|教室)')
 def written(s): return _SP.sub(r'\1 ', _apply(s, _WL))
 
 OLD = [
-    ('臺灣大學', r'[臺台]灣大學(?!生)'), ('臺大／台大', r'(?<![舞平講櫃陽月擂吧檯戲])[臺台]大(?!學)'),
+    ('臺灣大學', r'[臺台]灣大學(?!生)'), ('臺大／台大', r'(?<![舞平講櫃陽月擂吧檯戲])[臺台]大'),
     ('NTU', r'\bNTU\b'), ('National Taiwan University', r'National Taiwan University'),
     ('政大／政治大學', r'政治大學|(?<![財行郵執])政大'), ('NCCU', r'\bNCCU\b'),
-    ('霖澤館', r'霖澤'), ('萬才館', r'萬才館?'), ('博雅教學館', r'博雅(?:教學)?館'),
+    ('霖澤館', r'霖澤'), ('萬才館', r'萬才館?'), ('博雅', r'博雅(?!教育|書院|學程|精神|課程)'),
     ('傅鐘', r'傅鐘'), ('椰林大道', r'椰林大道'), ('小椰林道', r'小椰林道'), ('醉月湖', r'醉月湖'),
     ('洞洞館', r'洞洞館'), ('小福', r'小福(?!利)'), ('活大', r'(?<![生復靈])活大'),
     ('自強十舍', r'自強十舍'), ('國青中心', r'國青中心'), ('辜振甫圖書館', r'辜振甫'),
@@ -87,6 +86,8 @@ def find_old(s):
 
 # ---------- markdown 判斷 ----------
 _SKIP = re.compile(r'`[^`]*`|https?://\S+|\[[^\]]*\]\([^)]*\)')
+# 真實世界查證、出處的句子照 C 類留真名（WORLD_NAMING 第 9 節；10-30 補）：整行不換、check 也不列
+_C_LINE = re.compile(r'官方|官網|網站|網頁|網路資料|網路搜尋|網路查|簡章|二手資料|WebSearch|沙盒|連不上|打不開|報導|https?://|需查證|查證|沒有查到|查不到|沒查到|還沒查到|沒核到|研究查|課程地圖|只取氛圍|地方參考|參考[臺台]大|真實[臺台]大校曆')
 _SPEAKER = r'[一-鿿A-Za-z][一-鿿A-Za-z・ ]{0,7}'
 _NOT_SPEAKER = set('期限 開口 收尾 結尾 觸發 頻率 對象 前置 結局 數值 旗標 記號 資料 檔案 出處 驗收 版本 階段 週次 學期 假期 日程 作息 這週 那週 主題 順手的事 稿上 現有 新 舊 補 時段 星期 幾點 地點 場景 字幕 時間 日子 日期 條件 原句 改成 原本 現在 說明 備註 例 例如 稿 遊戲 位置 檔 程式 旁白 標題 背景 停點 註 注意 結論 原因 做法 範圍 來源 狀態 問題 建議 分級 目的 方向 圖 規則 誰 地方 名稱 寫法 正式 口語 英文 改 留 對 錯 換 加 刪 下一步 重點 第一步 理由 依據 底圖 種類 檔名 處理 內容 測試 結果 怎麼 什麼時候 哪裡 出現在哪 字 例句 原話 定案 使用者 AA LAWWW BB 開發組 企劃線 任務 分支 commit 白名單 交付 回覆 回答 先說 一句話'.split())
 _WRITTEN_SPK = set('旁白 系統 字卡 告示 公告 招牌 門牌 字幕 地點 標題'.split())
@@ -185,6 +186,7 @@ def md_text(txt):
     for line in txt.split('\n'):
         if line.lstrip().startswith('```'):
             fence = not fence; out.append(line); continue
+        if _C_LINE.search(line): out.append(line); continue   # 查證、出處的句子不換
         out.append(md_line(line))   # 企劃稿的 ``` 區塊多半是台詞稿，照樣換（反引號、id 不動）
     return '\n'.join(out)
 
@@ -193,6 +195,7 @@ _SPOKEN_KEYS = {'text', 'line', 'lines', 't', 'reply', 'say', 'msgs', 'msg', 'ye
 _WRITTEN_KEYS = {'scene', 'place', 'title', 'label', 'loc', 'location', 'name', 'caption', 'narr', 'n', 'card', 'sub', 'note', 'desc', 'tag'}
 def json_obj(o, key=None):
     if isinstance(o, str):
+        if _C_LINE.search(o): return o
         if key in _SPOKEN_KEYS: return spoken(o)
         return written(o)
     if isinstance(o, list): return [json_obj(x, key) for x in o]
@@ -204,7 +207,7 @@ def json_obj(o, key=None):
 # ---------- Python 資料檔（企劃線的 build_*.py：台詞寫在 dict／list 裡）----------
 _PYTOK = re.compile(r"""(['"])(\w+)\1\s*:|(['"])((?:\\.|(?!\3).)*?)\3|(#.*$)""")
 def py_line(line):
-    if not find_old(line): return line
+    if not find_old(line) or _C_LINE.search(line): return line
     out, last, key = [], 0, None
     for m in _PYTOK.finditer(line):
         out.append(line[last:m.start()]); last = m.end()
@@ -220,12 +223,24 @@ def py_line(line):
 def py_text(txt): return '\n'.join(py_line(l) for l in txt.split('\n'))
 
 # ---------- CLI ----------
+def _is_c_file(f):
+    # C 類（歷史紀錄、使用者原文、研究紀錄）：資料夾裡有 README_歷史紀錄.md，或檔頭有「歷史紀錄」註
+    if os.path.basename(f) == 'README_歷史紀錄.md': return True
+    d = os.path.dirname(os.path.abspath(f))
+    while d and os.path.basename(d) not in ('docs', ''):   # 往上找到 docs 為止，任何一層有 README_歷史紀錄.md 都算
+        if os.path.exists(os.path.join(d, 'README_歷史紀錄.md')): return True
+        d = os.path.dirname(d)
+    try: head = open(f, encoding='utf-8').read(400)
+    except Exception: return False
+    return '**歷史紀錄／原文' in head or '**歷史紀錄（2026-10-30 起）**' in head
+
 def files(paths):
     for p in paths:
         if os.path.isdir(p):
             for root, _, fs in os.walk(p):
                 for f in sorted(fs):
-                    if f.endswith(('.md', '.json', '.txt', '.py')): yield os.path.join(root, f)
+                    fp = os.path.join(root, f)
+                    if f.endswith(('.md', '.json', '.txt', '.py')) and not _is_c_file(fp): yield fp
         elif os.path.isfile(p): yield p
 
 def main():
@@ -237,6 +252,7 @@ def main():
         except Exception: continue
         if mode == 'check':
             for i, line in enumerate(txt.split('\n'), 1):
+                if _C_LINE.search(line): continue
                 for n, w in find_old(_SKIP.sub('', line)):
                     print(f'{f}:{i}:{n}:{w}'); total += 1
             continue
