@@ -720,7 +720,7 @@ async def cafe2diag(pg, cdp, run):   # BB-B 10-30：n15_cafe2／2b 站到「坐�
     await P.dialog(pg, cdp, run, picks=['不去了'], max_s=60, start_s=6, tag='diag_prompt')
     rows = await pg.evaluate("""(()=>{ const E=GAME.E, out=[]; const its=E.interactables.filter(i=>i.seat&&i.label==='坐下讀書');
       for(const it of its){ const a=GAME.seatApproach?GAME.seatApproach(it.seat):null; if(!a) continue; E.placeAt(E.player,a[0],a[1],0); E.player.tapPref=null;
-        const occ=E.npcs.filter(n=>n.seat&&Math.hypot(n.seat.x-it.seat.x,n.seat.z-it.seat.z)<0.35).map(n=>n.charId||n.name||'?');
+        const occ=E.npcs.filter(n=>n.seat&&Math.hypot(n.seat.x-it.seat.x,n.seat.z-it.seat.z)<0.35).map(n=>({who:n.charId||n.name||'?', at:[+n.obj.position.x.toFixed(2),+n.obj.position.z.toFixed(2)], dSeat:+Math.hypot(n.obj.position.x-it.seat.x,n.obj.position.z-it.seat.z).toFixed(2), beh:n.beh||null, pose:n.pose||null, hidden:!!n.hidden, seatTarget:n.seatTarget?[n.seatTarget.x,n.seatTarget.z]:null}));   /* LAWWW-B 11:45：看起來空、遊戲算有人坐的那張——誰佔著、人在哪 */
         const near=E.nearestInteractable(); const P=E.player.obj.position;
         out.push({seat:[it.x,it.z], ap:[+a[0].toFixed(2),+a[1].toFixed(2)], d:+Math.hypot(it.x-P.x,it.z-P.z).toFixed(2), r:it.radius, lv:it.lv, plv:E.player.lv|0, levels:!!E.levels, hidden:!!it.hidden, taken:!!it.seat.taken, occ,
           near:near?{label:near.label,x:near.x,z:near.z}:null, busy:!!E.player.busy, dActive:!!(GAME.D&&GAME.D.active)}); }
