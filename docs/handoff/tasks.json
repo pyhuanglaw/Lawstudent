@@ -36613,9 +36613,9 @@
    "id": "NOODLE-TEAM-SHRINK-1030",
    "title": "麵店團縮小成背景（使用者 10-30 14:5x：不再叫麵店團、不固定週二週四；麵店只是朋友有時會在、語彤顧店的地方；群組改一般系上朋友群組）",
    "area": "STORY",
-   "owner": "AA",
-   "status": "進行中",
-   "next": "AA 出改稿規格（成團 ev_zhe_long_table／ev_zhe_group_late、群組名、「週二週四」「規矩」台詞、長桌閒聊 NOODLE_TABLE、heard_lines 麵店、春假旅行、畢業以後群組、X139 芯慈）→ LAWWW 改程式（noodle_team 群組名、作息改成不固定、S.noodleDay／ndlTalk、考試週阿姨那句）→ BB 測",
+   "owner": "LAWWW",
+   "status": "已整合待測試",
+   "next": "BB 照 AA_542 第 8 節實際玩（新遊戲：民總下課約吃麵、第一次併桌、群組名「法一吃飯」→ 大二改名、麵店日每週不固定兩天、考試週沒有人、不再揪人）；AA 第 9 節的兩處（春假那則第 7～10 週、舊開局 312 z2）3183b49c2 已接",
    "priority": "P1",
    "first": {
     "term": "Y1S1",
@@ -36630,21 +36630,22 @@
    "source": "使用者 10-30 14:5x（X144，UA-LAWWW-1030-23／24）",
    "authorized": "使用者選擇題",
    "xai": {
-    "spec": "AA 改稿規格（待交）",
+    "spec": "AA_542（企劃線 6b33b4012；第 9 節 c2e442b57）",
     "branch": "claude/cool-heisenberg-o8kuqx",
     "acceptance": "玩家看不到「麵店團」、沒有固定週二週四的規矩；朋友有時在麵店；語彤照常在店裡；舊存檔不壞",
     "receiver": "LAWWW",
-    "ack": "SENT"
+    "ack": "ACTIONED"
    },
-   "notes": "程式範圍：約 40 個檔用到 noodle_team 群組（287 處）；events.js 67 處麵店"
+   "notes": "程式範圍：約 40 個檔用到 noodle_team 群組（287 處）；events.js 67 處麵店；實作 32dd6ae75～3183b49c2：S.noodleDay（每週 FNV 挑兩天、考試週沒有）、群組名照學年（法一～法四吃飯，舊存檔換名）、ev_zhe_noodle_invite／ev_zhe_long_table_out、拿掉定時揪人和考試週阿姨那句；全套單元 771 項通過（6d358e159）",
+   "sha": "3183b49c2"
   },
   {
    "id": "CHAR-WHOIS-1030",
    "title": "手機人物頁補「全名、怎麼認識的、和你的關係」（使用者 10-30「玩這麼久搞不清楚阿哲是誰」）：阿哲先、其他常出現的朋友一起",
    "area": "STORY",
-   "owner": "AA",
-   "status": "待開工",
-   "next": "AA 寫每位常出現朋友的一句（全名、怎麼認識、關係；照認識程度、事件分段）→ LAWWW 接 game3d.js personHTML → BB 測",
+   "owner": "LAWWW",
+   "status": "進行中",
+   "next": "LAWWW 接 AA_543（企劃線 d483ecbbf）：personHTML 加「你們」一段（13 人、條件成立才顯示、一頁最多 6 行）、個性改 8 人、經濟系開局 9/2 搬進 412 記韋綸唐睿 FIRST_MET → BB 照第 4 節測",
    "priority": "P1",
    "first": {
     "term": "Y1S1",
@@ -36659,11 +36660,11 @@
    "source": "使用者 10-30 14:5x（X145，UA-LAWWW-1030-25）",
    "authorized": "D109、D111",
    "xai": {
-    "spec": "AA 稿（待交）",
+    "spec": "AA_543（企劃線 d483ecbbf）",
     "branch": "claude/cool-heisenberg-o8kuqx",
     "acceptance": "人物頁看得到全名、怎麼認識、關係；沒發生的事不先寫",
     "receiver": "LAWWW",
-    "ack": "SENT"
+    "ack": "ACK"
    },
    "notes": "阿哲＝張哲維（ev_zhe_w1_meet 最後一句才報全名）；personHTML 目前只有 personality 一句"
   }

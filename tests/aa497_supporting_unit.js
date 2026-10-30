@@ -132,7 +132,7 @@ const inDoc=t=>DOC.indexOf(t)>=0;
     check('0b. 動物影片後 4 則換成的 4 句',J(vids)===J(L().kv.vids),J(vids)); });
 
   /* ===================== 1 宥辰 ===================== */
-  await sec('1-1',()=>{ check('1-1. characters.js 的 personality 補一句「在錄音室待過一年」',CHARACTERS[YC].personality==='考前才出現；晚上在公館當 DJ；對法條的記憶力出奇好；在錄音室待過一年',CHARACTERS[YC].personality); });
+  await sec('1-1',()=>{ check('1-1. characters.js 的 personality：AA_543 第 3 節（CHAR-WHOIS-1030）拿掉「在錄音室待過一年」（遊戲裡沒有人說過）＝「考前才出現；晚上在公館當 DJ；對法條的記憶力出奇好」',CHARACTERS[YC].personality==='考前才出現；晚上在公館當 DJ；對法條的記憶力出奇好',CHARACTERS[YC].personality); });
 
   await sec('1-3',async()=>{ const SPLIT='ev_an_report_split', NEW={MAIN_D1:-13,LAW_START_DAY:-18};   /* 新局＝story3d.js startLawWeek1 寫的兩個旗標 */
     /* 新局（8/29 搬進宿舍、主線第一天 9/3 週三）：第 1 週週四的民總是第二天的劇情課；第 2 週週四下課＝學姊問家聚（ev_sis_fam_hall2：收過邀請、沒在走廊問過的才有）→ 那樣的話第 3 週。
