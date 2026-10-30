@@ -35729,7 +35729,7 @@
    "area": "SYS",
    "owner": "LAWWW",
    "status": "已實作待整合",
-   "next": "v9.10.14 發布後隨 postrel-1030 進開發分支；BB 瀏覽器測：按 💾 → 選單存檔頁「快速存檔」那一格有、讀得回來；自動存檔、欄位 1～3 不受影響",
+   "next": "v9.10.14 新候選（dda717bdd）BB 測",
    "priority": "P1",
    "first": {
     "term": "Y0S1",
@@ -35743,7 +35743,7 @@
    },
    "source": "使用者 10-30 03:5x 選擇題（UA-LAWWW-1030-05，USER_WANTS X126）",
    "authorized": "使用者",
-   "notes": "【LAWWW-B 04:0x】postrel-1030 7a6c12473：💾 存 fatiao3d_quick（上一份備份 fatiao3d_backup），存檔頁「自動存檔」下面一格「快速存檔（右上 💾）」只有讀取（第一個「存檔」鈕照舊是欄位 1，瀏覽器測試不受影響）；quick_save_unit 修改前 FAILED 6 → ALL PASS"
+   "notes": "【LAWWW-B 04:1x】提前進 v9.10.14：cherry-pick 到開發分支 1b9354379（和 BUG-SAVE-NEWGAME-1030 一起） ｜ 【LAWWW-B 04:0x】postrel-1030 7a6c12473：💾 存 fatiao3d_quick（上一份備份 fatiao3d_backup），存檔頁「自動存檔」下面一格「快速存檔（右上 💾）」只有讀取（第一個「存檔」鈕照舊是欄位 1，瀏覽器測試不受影響）；quick_save_unit 修改前 FAILED 6 → ALL PASS"
   },
   {
    "id": "AA522-ANSVAR-1030",
@@ -35775,6 +35775,28 @@
    "pausedReason": "等 AA 回（排在 AA_529 之後）",
    "resumeWhen": "AA 回覆",
    "notes": "不擋 v9.10.14"
+  },
+  {
+   "id": "BUG-SAVE-NEWGAME-1030",
+   "title": "P0 存檔被蓋掉：💾 快速存檔存在自動存檔那一格，標題按開新遊戲第一次自動存檔就蓋掉、沒有備份、讀不到（使用者實際遺失進度）",
+   "area": "SYS",
+   "owner": "LAWWW",
+   "status": "已實作待整合",
+   "next": "v9.10.14 新候選 dda717bdd（全部 Node 在跑）→ BB 重跑 save_compat＋release_suite＋瀏覽器：有進度時開新遊戲 → 備份區讀得回來；💾 快速存檔一格",
+   "priority": "P0",
+   "first": {
+    "term": "Y0S1",
+    "week": 1,
+    "earliest": "標題畫面開新遊戲（有舊進度的玩家）",
+    "mainline": true,
+    "blocks": true,
+    "prereq": false,
+    "parallel": false,
+    "confirmed": true
+   },
+   "source": "使用者 10-30 04:0x（UA-LAWWW-1030-06，USER_WANTS X127）",
+   "authorized": "使用者",
+   "notes": "dda717bdd：開新遊戲（三個按鈕）先備份自動存檔、快速存檔到 fatiao3d_backup_new_<savedAt>（最多 3 份，刪進度最少的）、寫不進去先問；存檔頁 #saveBackups 列出全部 fatiao3d_backup* 可讀取；save_newgame_backup_unit 修改前 FAILED → ALL PASS。使用者這一次被蓋掉的自動存檔救不回來；可能還在的：fatiao3d_backup（覆蓋欄位、匯入前）、fatiao3d_backup_y0end（經濟系最後一天）、欄位 1～3 → 新版的「備份」區看得到。已請使用者新版上線前別按欄位存檔、匯入（會蓋 fatiao3d_backup）"
   }
  ]
 }
