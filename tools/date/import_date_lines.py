@@ -224,6 +224,24 @@ if A525:
             o['text'] = new
         FIXED525.append((item + ' ' + loc, who, old, new, len(hit)))
     FILES['fix525'] = P525
+# AA_526（HEROINE-LIFE-1028；AA-B 10-30 4ada43291 定稿，回 AA_525 的問題）第 2 節 D15：子晴「全部我請。」的回覆拿掉「下次滷味我請」——同上，那個地點、那個人整句相同才換
+A526 = G.approved_files(ALLOW, SP + 'AA_526_')
+if A526:
+    P526, S526 = next(iter(A526.items()))
+    ok, why = G.allowed(P526, S526, ALLOW)
+    if not ok:
+        sys.exit('拒絕匯入：' + why)
+    md526 = G.alison(subprocess.check_output(['git', '-C', ROOT, 'show', f'{S526}:{P526}'], text=True))
+    for item, loc, who, old, new, quote in [('第 2 節 D15', 'D15', 'heroine_04', '……好。我記下來。下次滷味我請。', '……好。我記下來。', '> 子晴：……好。我記下來。\n')]:
+        if quote not in md526:
+            sys.exit(f'AA_526@{S526} 裡找不到 {item} 的「改成」：{quote}')
+        hit = [o for o in texts(((LOC.get(loc) or {}).get('lines') or {}).get(who)) if o['text'] in (old, new)]
+        if not hit:
+            sys.exit(f'AA_526 {item}：{loc} {who} 找不到「{old}」（也不是「{new}」）')
+        for o in hit:
+            o['text'] = new
+        FIXED525.append(('AA_526 ' + item, who, old, new, len(hit)))
+    FILES['fix526'] = P526
 # 地點檔裡寫成旁白、其實是給開發看的條件或伏筆說明：改成 who:'note'（遊戲不顯示）。整句相同才改，其他旁白不動（DATE-C3：淡水示範的反應，
 # 遊戲裡原本會演出「（第 6 階以上）」——D13 以安、學姊的合照那一句前面；「（第 3 節她的心願的伏筆）」——D13 可昕欄杆第一次的選項②）
 NOTE_NARR = {'第 6 階以上', '第 3 節她的心願的伏筆'}

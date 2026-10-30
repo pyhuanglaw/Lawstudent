@@ -36,8 +36,8 @@ const R2Y3A_EVENTS=(function(){
     beforeOuting:async(G,GM,q)=>{ const r=R(); if(r) r.khPay(G,GM); },   /* 高鐵（2980）、旅館一晚 */
     dialogue:[ {scene:'左營站',bg:'kh_station'},
       ...pickLines(KHL&&KHL.pick,{custom:G=>!khAgain(G)}), ...pickLines(KHL&&(KHL.pickAgain||KHL.pick),{custom:khAgain}),
-      /* AA_525 3-9（K-11）：6/2 沒去（Y2R2_K14_NOSHOW）、晚上那通電話她說了「那你下次要當面恭喜我。」的（演過 ev_kexin_summer_plan_call）＝接人以後當面補；選項只有一個 */
-      {unless:{custom:G=>!!(G.flags&&G.flags.Y2R2_K14_NOSHOW)&&!!(G.events&&G.events.done&&G.events.done.ev_kexin_summer_plan_call)},goto:'aa525_k11_end'},
+      /* AA_525 3-9（K-11）：晚上那通電話她說了「那你下次要當面恭喜我。」的（演過 ev_kexin_summer_plan_call：6/2 沒到 Y2R2_K14_NOSHOW、沒答應的兩種人都聽過，AA_526 第 2 節）＝接人以後當面補；選項只有一個 */
+      {unless:{custom:G=>!!(G.events&&G.events.done&&G.events.done.ev_kexin_summer_plan_call)},goto:'aa525_k11_end'},
       {speaker:'kexin',expression:'neutral',text:'……當面。'},{choice:[{text:'「恭喜。」',goto:'aa525_k11'}]},{label:'aa525_k11'},{speaker:'kexin',expression:'smile',text:'好。收到了。'},{label:'aa525_k11_end'},
       {speaker:'kexin',expression:'tired',text:'這週我影印了一千兩百頁。今天不要有紙。'},
       {speaker:'kexin',expression:'teasing',text:'……行程表除外。'},

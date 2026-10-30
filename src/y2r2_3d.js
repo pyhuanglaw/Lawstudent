@@ -453,8 +453,9 @@ const Y2R2=(function(){
       {speaker:null,text:'（她看向觀眾席，找到你，比了一個拍手的手勢。）'},
       {if:{custom:G=>dating(G,'heroine_04')},speaker:null,text:'（下台後，她沒有發貼紙給你。她走過來，把一張插座貓貼紙直接貼在你的手機殼上。）'},   /* AA_338 第 3 節「看過 Q5」*/
       {if:{custom:G=>dating(G,'heroine_04')},speaker:'heroine_04',expression:'smile',text:'第二張。明年還有第三張。'},
+      {if:{custom:G=>dating(G,'heroine_04')},set:{ZQ_STICKER3:true}},   /* AA_526 第 2 節 1-1（企劃線 4ada43291）：聽過「明年還有第三張」＝2028 Q12 的第三張（y34b3d.js S.zq3rd）*/
       {label:'end'} ],
-    after:G=>{ G.flags.ZQ_SHOW2='came'; } });
+    after:G=>{ G.flags.ZQ_SHOW2='came'; if(G.flags.ZQ_STICKER3==null) G.flags.ZQ_STICKER3=false; } });   /* AA_526：演過、沒聽過那一句（「去年的份。」那一支、went 但沒交往）＝false；舊存檔沒有這個旗標＝y34b3d.js 照「演過、大一 Q5 去過、現在交往中」算 */
   /* 2-Y2-22 語彤事件 11：6/3（四）17:30～19:30 走進麵店（沒去＝6/17）*/
   const ytBf=G=>dating(G,'heroine_03');
   /* AA_375 第 21 項：補演（6/17 17:30）和語彤的學期末的飯（週四 19:00 麵店，termend 的出遊 te_Y2S2／te_gf_Y2S2_heroine_03）互斥——排了期末飯的那天，補演改隔天 */

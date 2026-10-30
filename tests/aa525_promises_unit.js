@@ -3,6 +3,7 @@
 // 每一條至少一個檢查，盡量實際跑（事件、手機規則、約會互動點、期末飯、去她的縣市、閒聊階梯的回覆）；新加的句子逐句對稿（都要在 AA_525 裡）。
 //   0  讀稿、白名單、src/aa525_3d.js 載得到、index.html 順序、舊句全部不在 src 裡
 //   1  子晴 1-1～1-6　2  沛珊 2-1～2-4　3  可昕 3-1～3-11（含 AA_356 漏的一筆）
+// AA_526（企劃線 4ada43291，AA-B 10-30 回 AA_525 的問題）第 2 節：D15「全部我請。」回覆、3-11 KX.Y3S1 第二句撤回、1-1 只給聽過「明年還有第三張」的（ZQ_STICKER3）、3-9 條件改演過那通電話、2-1 照現在。
 // 用法：node tests/aa525_promises_unit.js（在沒有 .git 的目錄跑：設環境變數 AA525_DOCREPO＝有企劃線 commit 的 repo）
 'use strict';
 require('./alison.js');
@@ -43,6 +44,9 @@ const stripComments=s=>s.replace(/\/\*[\s\S]*?\*\//g,'').replace(/^\s*\/\/.*$/mg
 const SHA='6081f725f', DOCF='docs/story_planning/AA_525_說了沒發生_子晴沛珊可昕.md';
 let DOC=''; try{ DOC=cp.execSync('git -c core.quotepath=false show '+SHA+':"'+DOCF+'"',{cwd:process.env.AA525_DOCREPO||H.ROOT,encoding:'utf8',maxBuffer:1<<24,stdio:['ignore','pipe','ignore']}); }catch(e){ DOC=''; }
 const inDoc=t=>!!DOC&&DOC.includes(t);
+const SHA6='4ada43291', DOCF6='docs/story_planning/AA_526_回LAWWW_AA524_525重做九題.md';
+let DOC6=''; try{ DOC6=cp.execSync('git -c core.quotepath=false show '+SHA6+':"'+DOCF6+'"',{cwd:process.env.AA525_DOCREPO||H.ROOT,encoding:'utf8',maxBuffer:1<<24,stdio:['ignore','pipe','ignore']}); }catch(e){ DOC6=''; }
+const NEW6=['……好。我記下來。','寒假你來高雄。……我們都沒去過的地方，我來排。'];   /* AA_526 第 2 節：D15 改成的那一句、3-11 撤回照原句的那一句 */
 /* 這一份加進遊戲的每一句（旁白、台詞、選項、私訊、系統字）：都要一字不差在稿裡 */
 const NEW=[
   '（她從口袋拿出一張插座貓貼紙，貼在你手機殼上。和前兩張排在一起。）','第三張。說好的。','📷（一張插座貓貼紙，貼在她的筆電上）','第三張 先貼我這',
@@ -65,7 +69,7 @@ const NEW=[
   '……蛋糕你挑。只有這個你挑。','（政大門口的流蘇開了。白白的一整片。）',
   '開學我就上去了。台北見。','……好。下次找一個我們都沒去過的地方。','……真的喔？那我帶你去夜市。','……牠脖子很短。就這樣。','……不用補。睡飽一點。',
   '……當面。','恭喜。','好。收到了。','第一碗。說好我請。','（她先去付了錢。）',
-  '圖書館前面那兩隻，一隻叫原告，一隻叫被告。','不要。我自己寫。','好。','這題我要偷走。','嗯。……講不清楚。','歐洲要排很久。……我先存錢。','寒假你來高雄。……去哪裡你決定。','……欠的那一碗。好，扣掉。'];
+  '圖書館前面那兩隻，一隻叫原告，一隻叫被告。','不要。我自己寫。','好。','這題我要偷走。','嗯。……講不清楚。','歐洲要排很久。……我先存錢。','……欠的那一碗。好，扣掉。'];   /* 3-11「寒假你來高雄。……去哪裡你決定。」AA_526 撤回 */
 /* 改掉的舊句（src 裡不能再出現；註解裡的不算）*/
 const OLD=['你測過的那一關，我改完了。……下學期再給你玩。','……真的？那你下禮拜再來，幫我玩第二關。','那下次社課來。我彈給你聽。只彈一次。','那座橋，我回去要畫一次。……畫好再給你看。',
   '……謝謝。宵夜我請。','謝謝，下次換我。','好！下次我請。',   /* D30「好。下次換我。」food_fav_lines.js 另有一句（不是這一份的），在 1-6 對約會那一句 */
@@ -73,7 +77,8 @@ const OLD=['你測過的那一關，我改完了。……下學期再給你玩�
   '下週那一題，你報。……我想聽你講。','今天買的書，第一本我先讀給你聽。……下次。','回程的車上，我要把今天的事寫下來。寫好給你看。','看起來好好吃。考完你帶我去。',
   '……下次我請你吃早餐。我家的。','……謝謝。下次換我。','……謝謝。下次換你。','下次你來，我們吃山上那家。','開學我就上去了。……到時候換你來接我。','……好。下次換你。去一個你也沒去過的地方。',
   '……真的喔？那我帶你去吃我家巷口的豆花。','下次見面再跟你說。','好。明天。不准再睡著。','好啦。下次你來政大，我帶你去圖書館前面找。','好啊。下次你來政大，我帶你去圖書館前面找。','要。等我寫完第一頁再給你看。',
-  '好，那下週換你請。','這題我要偷走。下次出給你。','嗯。……下次講給你聽。','歐洲要排很久……下次，我先做一份行程表給你看。','寒假你來高雄。……我們都沒去過的地方，我來排。'];
+  '好，那下週換你請。','這題我要偷走。下次出給你。','嗯。……下次講給你聽。','歐洲要排很久……下次，我先做一份行程表給你看。','……好。我記下來。下次滷味我請。',   /* 最後一句：AA_526 第 2 節 D15 */
+  '寒假你來高雄。……去哪裡你決定。'];   /* AA_526 撤回的改字：不能在遊戲裡 */
 const ZQ='heroine_04', PS='classmate_peishan', KX='kexin';
 
 (async()=>{
@@ -85,6 +90,10 @@ await sec(0,()=>{
   check('0. 全部的檔載入沒有錯誤；src/aa525_3d.js 載得到（AA525.LAD、cards、phone）',!loadErr.length&&typeof AA525!=='undefined'&&Array.isArray(AA525.LAD)&&typeof AA525.cards==='function'&&typeof AA525.phone==='function',J(loadErr));
   const a=s=>html.indexOf(s);
   check('0. index.html：aa525_3d.js 在 story3d.js、date3d.js、termend3d.js、privtalk3d.js 以後、bbpack_events.js 以前',a('src/aa525_3d.js')>Math.max(a('src/story3d.js'),a('src/date3d.js'),a('src/termend3d.js'),a('src/privtalk3d.js'))&&a('src/aa525_3d.js')<a('src/data/bbpack_events.js'));
+  const A6=JSON.parse(SRC('docs/handoff/story_import_allow.json')).files.filter(e=>/AA_526_/.test(e.path));
+  check('0. AA_526：讀得到稿（'+SHA6+' 第 2 節 D15、大三上期末飯、1-1、3-9、2-1），白名單有一筆（approved、AA-B 定稿、HEROINE-LIFE-1028）',DOC6.length>2000&&/### D15/.test(DOC6)&&/ZQ_STICKER3/.test(DOC6)&&/### 3-9/.test(DOC6)&&A6.length===1&&A6[0].sha===SHA6&&A6[0].status==='approved'&&A6[0].task==='HEROINE-LIFE-1028',J(A6.map(e=>e.sha)));
+  const miss6=NEW6.filter(t=>!DOC6.includes(t));
+  check('0. AA_526 這兩句一字不差在 AA_526 裡（「……好。我記下來。」「寒假你來高雄。……我們都沒去過的地方，我來排。」）',!miss6.length,J(miss6));
   const miss=NEW.filter(t=>!inDoc(t));
   check('0. 新加的 '+NEW.length+' 句每一句都一字不差在稿裡',!miss.length,J(miss));
   const files=listSrc(), hit=[]; for(const f of files){ const s=stripComments(SRC(f)); for(const t of OLD) if(s.includes(t)) hit.push(f+'：'+t); }
@@ -94,14 +103,23 @@ await sec(0,()=>{
 /* ================= 1 子晴 ================= */
 await sec('1-1',async()=>{
   const q12=async(flags,dat)=>{ fresh('2028-05-20',14,Object.assign({ZQ_Q12:'nine'},flags)); H.FRIEND(ZQ); if(dat) H.date(ZQ); await runEv('ev_ziqing_q12'); return said(); };
-  const L1=await q12({ZQ_SHOW2:'came'},true), i0=L1.indexOf('謝謝：爸爸'), i1=L1.indexOf('（她從口袋拿出一張插座貓貼紙，貼在你手機殼上。和前兩張排在一起。）');
-  check('1-1. Q12 發表會（交往中、大二下成發 ZQ_SHOW2 came）：製作名單「謝謝：爸爸」之後「（她從口袋拿出一張插座貓貼紙…）」「第三張。說好的。」',i0>=0&&i1===i0+1&&L1[i1+1]==='第三張。說好的。',J(L1.slice(Math.max(0,i0-1),i0+4)));
-  const L2=await q12({ZQ_SHOW2:'came'},false), L3=await q12({ZQ_SHOW2:'absent'},true);
+  const L1=await q12({ZQ_SHOW2:'came',ZQ_STICKER3:true},true), i0=L1.indexOf('謝謝：爸爸'), i1=L1.indexOf('（她從口袋拿出一張插座貓貼紙，貼在你手機殼上。和前兩張排在一起。）');
+  check('1-1. Q12 發表會（交往中、聽過「第二張。明年還有第三張。」ZQ_STICKER3）：製作名單「謝謝：爸爸」之後「（她從口袋拿出一張插座貓貼紙…）」「第三張。說好的。」',i0>=0&&i1===i0+1&&L1[i1+1]==='第三張。說好的。',J(L1.slice(Math.max(0,i0-1),i0+4)));
+  const L2=await q12({ZQ_SHOW2:'came',ZQ_STICKER3:true},false), L3=await q12({ZQ_SHOW2:'absent'},true), L4=await q12({ZQ_SHOW2:'came',ZQ_STICKER3:false},true);
   check('1-1. 沒交往、成發沒來（ZQ_SHOW2 absent）＝沒有第三張',!L2.includes('第三張。說好的。')&&!L3.includes('第三張。說好的。'));
+  check('1-1. AA_526：成發有來、但沒聽過那一句（「去年的份。」那一支、went 但當時沒交往：ZQ_STICKER3 false）＝不補',!L4.includes('第三張。說好的。'),J(L4.slice(-4)));
+  /* 大二下成發（ev_ziqing_show2）：went 那一支＋交往中＝記 ZQ_STICKER3 true；「去年的份。」那一支、went 沒交往＝false */
+  const sh2=async(zqShow,dat)=>{ fresh('2027-06-05',19,zqShow?{ZQ_SHOW:zqShow}:{},'wancai'); H.FRIEND(ZQ); if(dat) H.date(ZQ); await runEv('ev_ziqing_show2'); return {s:said(),v:H.G.flags.ZQ_STICKER3}; };
+  const W1=await sh2('came',true), W2=await sh2(null,true), W3=await sh2('came',false);
+  check('1-1. AA_526：大二下成發 went＋交往中（「第二張。明年還有第三張。」）記 ZQ_STICKER3 true；「去年的份。」那一支、went 沒交往記 false',W1.s.includes('第二張。明年還有第三張。')&&W1.v===true&&W2.s.includes('去年的份。')&&W2.v===false&&!W3.s.includes('第二張。明年還有第三張。')&&W3.v===false,J([W1.v,W2.v,W3.v]));
+  /* 舊存檔（沒有 ZQ_STICKER3）：演過 ev_ziqing_show2、去過大一的 Q5、現在交往中＝算聽過 */
+  const old=async(f,doneShow2,dat)=>{ const L=await (async()=>{ fresh('2028-05-20',14,Object.assign({ZQ_Q12:'nine',ZQ_SHOW2:'came'},f)); H.FRIEND(ZQ); if(dat) H.date(ZQ); if(doneShow2) H.G.events.done.ev_ziqing_show2=true; await runEv('ev_ziqing_q12'); return said(); })(); return L.includes('第三張。說好的。'); };
+  const O1=await old({ZQ_SHOW:'came'},true,true), O2=await old({},true,true), O3=await old({ZQ_SHOW:'clap'},false,true), O4=await old({ZQ_SHOW:'half'},true,false);
+  check('1-1. AA_526 舊存檔：演過大二下成發、大一 Q5 去過（ZQ_SHOW came／clap／half）、現在交往中＝有；Q5 沒去、沒演過、沒交往＝沒有',O1&&!O2&&!O3&&!O4,J([O1,O2,O3,O4]));
   const miss=(flags,dat)=>{ fresh('2028-05-20',21,Object.assign({ZQ_Q12_SEEN:'missed',EXCHANGE_ROUTE:'TW'},flags)); H.FRIEND(ZQ); if(dat) H.date(ZQ); at('2028-05-20',21); Y34B.zqPhone(H.G); tick(); return msgTexts('p:'+ZQ); };
-  const M1=miss({ZQ_SHOW2:'came'},true), M2=miss({ZQ_SHOW2:'came'},false);
+  const M1=miss({ZQ_SHOW2:'came',ZQ_STICKER3:true},true), M2=miss({ZQ_SHOW2:'came',ZQ_STICKER3:true},false), M3=miss({ZQ_SHOW2:'came',ZQ_STICKER3:false},true);
   check('1-1. 沒到發表會：21:00 製作名單照片後面多兩則「📷（一張插座貓貼紙，貼在她的筆電上）」「第三張 先貼我這」（交往中、ZQ_SHOW2 came）',J(M1)===J(['（照片：製作名單）','📷（一張插座貓貼紙，貼在她的筆電上）','第三張 先貼我這']),J(M1));
-  check('1-1. 沒交往：照舊只有製作名單那一則',J(M2)===J(['（照片：製作名單）']),J(M2));
+  check('1-1. 沒交往、沒聽過那一句（ZQ_STICKER3 false）：照舊只有製作名單那一則',J(M2)===J(['（照片：製作名單）'])&&J(M3)===J(['（照片：製作名單）']),J([M2,M3]));
 });
 await sec('1-2',async()=>{
   const c15=async(id,flags,mem)=>{ fresh('2026-06-27',14,flags); H.FRIEND(ZQ); for(const m of mem||[]) SOCIAL.remember(ZQ,m,''); H.said=[]; await TERMEND.dayOuting(GM,{ted:{day:'c15',id}}); return said(); };
@@ -147,6 +165,7 @@ await sec('1-6',async()=>{
   const c=await two(ZQ,'D15','D15.store','布丁不行'), d=await two(ZQ,'D15','D15.store','全部我請');
   check('1-6. D15 第一次選「布丁不行。」（「……欸，好啦。布丁下次。」）記 ZQ_D15_NEXT；第二次 remember「上次的布丁，今天我要。」「……上次說下次的。」',c.f1.ZQ_D15_NEXT!=null&&J(c.s2)===J(['上次的布丁，今天我要。','……上次說下次的。']),J(c.s2));
   check('1-6. D15 第一次選「全部我請。」：不記，第二次「上次也來這裡。」',d.f1.ZQ_D15_NEXT==null&&J(d.s2)===J(['上次也來這裡。']),J(d.s2));
+  check('1-6. AA_526 第 2 節：D15「全部我請。」的回覆＝「……好。我記下來。」（拿掉「下次滷味我請」；tools/date/import_date_lines.py 疊的，來源寫 AA_526）',rep('D15','D15.store',ZQ,0)==='……好。我記下來。'&&L('D15',ZQ)['D15.store'].first.choice[0].t==='「全部我請。」'&&DATE_LINES.source.includes('AA_526_回LAWWW_AA524_525重做九題.md@'+SHA6),rep('D15','D15.store',ZQ,0));
 });
 
 /* ================= 2 沛珊 ================= */
@@ -210,7 +229,7 @@ const dinner=async(term,key,h,flags,picks)=>{ fresh(key,h,Object.assign({dating_
 await sec('3-1',async()=>{
   const A=await dinner('Y3S1','2028-01-18',18,{KX_XMAS:{2:'went',3:'video'}},['題目哪裡奇怪','河濱']);
   check('3-1. 大三上期末飯（2027 聖誕視訊 KX_XMAS[3] video、2026 收過卡片 KX_XMAS[2] went）：飯桌後面交換禮物、「還有，去年說的。今年的第二頁，你排。」、二選一、會合；記 KX_PAGE2_MINE',
-    seq(['寒假你來高雄。……去哪裡你決定。','（吃完飯，她從包包拿出一個小盒子，推過來。）','聖誕的。說好考完換。','（你也把準備好的那一份拿出來。）','還有，去年說的。今年的第二頁，你排。','……抄我的。好。','（那一晚的第二頁，是你排的。）'])&&J(H.opts[H.opts.length-1])===J(['「河濱，看燈。」','「山上，看夜景。」'])&&H.G.flags.KX_PAGE2_MINE==='river',J(A.slice(2)));
+    seq(['寒假你來高雄。……我們都沒去過的地方，我來排。','（吃完飯，她從包包拿出一個小盒子，推過來。）','聖誕的。說好考完換。','（你也把準備好的那一份拿出來。）','還有，去年說的。今年的第二頁，你排。','……抄我的。好。','（那一晚的第二頁，是你排的。）'])&&J(H.opts[H.opts.length-1])===J(['「河濱，看燈。」','「山上，看夜景。」'])&&H.G.flags.KX_PAGE2_MINE==='river',J(A.slice(2)));
   const B=await dinner('Y3S1','2028-01-18',18,{KX_XMAS:{3:'missed'}},[0,'山上']);
   check('3-1. 只有 2027 聖誕（沒視訊 missed）＝交換禮物，沒有第二頁',B.includes('聖誕的。說好考完換。')&&!B.includes('還有，去年說的。今年的第二頁，你排。')&&H.G.flags.KX_PAGE2_MINE==null,J(B.slice(2)));
   const C=await dinner('Y3S1','2028-01-18',18,{KX_XMAS:{2:'went'}},[0]);
@@ -281,9 +300,10 @@ await sec('3-8',async()=>{
 });
 await sec('3-9',async()=>{
   const kh=async(noshow,call)=>{ fresh('2027-08-07',10,Object.assign({dating_kexin:true},noshow?{Y2R2_K14_NOSHOW:true}:{})); H.FRIEND(KX); if(call) H.G.events.done.ev_kexin_summer_plan_call=true; await runEv('ev_kexin_trip_summer_y2',['恭喜']); return {s:said(),o:H.opts.slice()}; };
-  const A=await kh(true,true), B=await kh(false,true), C=await kh(true,false);
+  const A=await kh(true,true), B=await kh(false,true), C=await kh(true,false), Dd=await kh(false,false);
   check('3-9. 高雄的兩天開頭（6/2 沒去、晚上的電話說了「那你下次要當面恭喜我。」）：「……當面。」→ 選項只有「恭喜。」→「好。收到了。」，在「這週我影印了一千兩百頁…」之前',seq(['……當面。','好。收到了。','這週我影印了一千兩百頁。今天不要有紙。'],A.s)&&J(A.o[0])===J(['「恭喜。」']),J({s:A.s.slice(0,6),o:A.o[0]}));
-  check('3-9. 沒有 Y2R2_K14_NOSHOW、或沒演過那通電話＝沒有',!B.s.includes('……當面。')&&!C.s.includes('……當面。'));
+  check('3-9. AA_526 第 2 節：沒答應 6/2（沒有 Y2R2_K14_NOSHOW）但接到那通電話的也補，台詞一樣',seq(['……當面。','好。收到了。','這週我影印了一千兩百頁。今天不要有紙。'],B.s)&&J(B.o[0])===J(['「恭喜。」']),J(B.s.slice(3,6)));
+  check('3-9. 沒演過那通電話（不管有沒有 NOSHOW）＝沒有',!C.s.includes('……當面。')&&!Dd.s.includes('……當面。'));
 });
 await sec('3-10',async()=>{
   const mk=sentMsg=>dinner('Y4S1','2029-01-17',18,{EXCHANGE_ROUTE:'US'},[0]).then(x=>x);
@@ -300,7 +320,7 @@ await sec('3-11',async()=>{
   check('3-11. story3d.js「好，那下週換你請。」→「好。」、「這題我要偷走。下次出給你。」→「這題我要偷走。」；y2r2_3d.js「嗯。……下次講給你聽。」→「嗯。……講不清楚。」',
     s.includes("{t:'這週不行，下週換我請。',set:{KX_YULE:'no'},say:[K('好。')]}")&&s.includes("say:[K('這題我要偷走。')]")&&y.includes("{t:'妳很喜歡這門課。',say:[{from:'kexin',text:'嗯。……講不清楚。'}]}"));
   check('3-11. 出國的計畫「歐洲要排很久。……我先存錢。」',VAC_DATA&&JSON.stringify(VAC_DATA).includes('"later":"歐洲要排很久。……我先存錢。"'));
-  check('3-11. 大三上期末飯第二句「寒假你來高雄。……去哪裡你決定。」',J(TERMEND_LINES.KX.Y3S1.table)===J(['期末報告我寫房東能不能進房客的房間。老師說題目很奇怪，可是給過了。','寒假你來高雄。……去哪裡你決定。']));
+  check('3-11. AA_526 撤回：大三上期末飯第二句照原句「寒假你來高雄。……我們都沒去過的地方，我來排。」；「寒假要去哪裡？」→「不告訴你。來了就知道。」不改',J(TERMEND_LINES.KX.Y3S1.table)===J(['期末報告我寫房東能不能進房客的房間。老師說題目很奇怪，可是給過了。','寒假你來高雄。……我們都沒去過的地方，我來排。'])&&J(TERMEND_LINES.KX_ASK.Y3S1[1].r)===J(['不告訴你。來了就知道。']));
   const e18=async r2=>{ fresh('2025-04-24',19,{},'gongguan'); if(r2) H.G.events.done.ev_y0_r2=true; H.G.stage='econ'; await runEv('ev_y0_e18b',['請她吃一碗豆花']); return said(); };
   const A=await e18(true), B=await e18(false);
   check('3-11. AA_356 漏的一筆：演過豆花賭注（「所以你欠我一碗。」）、4/24 生日選「請她吃一碗豆花」＝多「……欠的那一碗。好，扣掉。」',seq(['難怪你剛剛一直不見。','……欠的那一碗。好，扣掉。'],A)&&!B.includes('……欠的那一碗。好，扣掉。')&&B.includes('難怪你剛剛一直不見。'),J([A.slice(-3),B.slice(-2)]));
@@ -309,6 +329,7 @@ await sec(4,async()=>{
   const nf=['ZQ_SAW_THIRD','ZQ_D06_TREAT','ZQ_D15_NEXT','PS_NOT_YET_TOLD','PS_SCHOOLROAD','PS_D05_EGG','KX_PAGE2_MINE','KX_WISH3','KX_CARD_MINE','KX_CAKE_YOU','KX_TASSEL_PROMISE'];
   const all=listSrc().map(f=>SRC(f)).join('\n'), miss=nf.filter(f=>!all.includes(f)||!inDoc('`'+f+'`'));
   check('4. 第 4 節的新旗標（'+nf.length+' 個）都在稿裡、程式都有記',!miss.length,J(miss));
+  check('4. AA_526 的新旗標 ZQ_STICKER3 在 AA_526 稿裡、程式有記（y2r2_3d.js）、有讀（y34b3d.js）',DOC6.includes('`ZQ_STICKER3`')&&SRC('src/y2r2_3d.js').includes('ZQ_STICKER3:true')&&SRC('src/y34b3d.js').includes('ZQ_STICKER3'));
   /* 舊存檔：旗標都沒有＝照舊（上面每一條的「沒有」那一半）；這裡再跑一次 Q12、zq_play、第四年，舊存檔不丟例外 */
   fresh('2028-05-20',14,{ZQ_Q12:'nine'}); H.FRIEND(ZQ); delete H.G.flags.ZQ_SHOW2; let ok=true; try{ await runEv('ev_ziqing_q12'); }catch(e){ ok=false; }
   check('4. 舊存檔（沒有這一版的旗標）跑得過、沒有新句子',ok&&!has('第三張。說好的。'));

@@ -166,7 +166,8 @@ const Y34B=(function(){
         OUT.plan(G,{id:'y3_zq_q12',ev:'ev_ziqing_q12',day:d20,h:14,late:0.75,place:'資工系館一樓展示廳',title:'子晴的發表會',travel:'走路 約 10 分鐘',travelH:1/6,hours:2});
       if(F.ZQ_Q12_SEEN==='missed'&&!sent(G,'y3_zq_q12_miss')) at(G,d20,21,[DM('heroine_04','（照片：製作名單）')].concat(S.zq3rd(G)?[DM('heroine_04','📷（一張插座貓貼紙，貼在她的筆電上）'),DM('heroine_04','第三張 先貼我這')]:[]),'y3_zq_q12_miss'); }   /* AA_525 1-1：交往中、ZQ_SHOW2 came 的，照片後面多兩則 */   /* 沒去：當晚 21:00 製作名單的照片，沒有 CG */
     else if(NOW(G)>=T(d20,tzH(G,d20,21))&&!sent(G,'y3_zq_q12_kai')&&F.ZQ_Q12_SEEN==='online') at(G,d20,G.day===d20?Math.max(tzH(G,d20,21),G.hour):G.hour,[DM('kai','子晴的製作名單。')],'y3_zq_q12_kai'); };   /* 日本路線：電話之後阿凱傳製作名單的特寫（人在日本＝當地時間，AA_341 J-S13）*/
-  S.zq3rd=G=>dating(G,'heroine_04')&&G.flags.ZQ_SHOW2==='came';   /* AA_525 1-1（Z-1）：大二下成發「第二張。明年還有第三張。」的第三張 */
+  S.zq3rd=G=>{ if(!dating(G,'heroine_04')) return false; const v=G.flags.ZQ_STICKER3; if(v===true) return true; if(v===false) return false;   /* AA_525 1-1（Z-1）：大二下成發「第二張。明年還有第三張。」的第三張；AA_526 第 2 節：只給聽過那一句的（ZQ_STICKER3，「去年的份。」那一支不補）*/
+    return done(G,'ev_ziqing_show2')&&['clap','came','half'].includes(G.flags.ZQ_SHOW); };   /* 舊存檔（沒有 ZQ_STICKER3）：演過 ev_ziqing_show2、去過大一的 Q5（y2r2_3d.js q5Went）、現在交往中＝算聽過 */
   S.zqCallDue=G=>{ const d=D('zq'); return law(G)&&JP(G)&&d!=null&&G.day===d&&G.hour>=tzH(G,d,21)&&G.hour<tzH(G,d,24)&&G.flags.ZQ_Q12_SEEN==null&&fam('heroine_04'); };   /* 台灣 21:00＝日本 22:00（AA_341 J-S13）*/
   S.zqCall=GM=>{ const F=GM.G.flags; if(F.ZQ_Q12==null) F.ZQ_Q12=S.zqGame(GM.G); return play('ev_ziqing_q12_call')(GM); };   /* 電話一律《九點以後》那一句（S.zqGame；AA_341 J-S18「依 ZQ_Q12 分兩版」AA_360 第 1 節作廢）。Q12_CALL 貓那句留著不刪：只有舊存檔已經記了 cat 才會用到 */
   /* 收不到子晴 5/19 那則的玩家（和阿凱 FAMILIAR 以上、認識子晴但不到 FAMILIAR）：5/18（四）21:00 阿凱私訊（AA_337 第 5 節，新寫）。跟阿凱不熟的沒有入口；
