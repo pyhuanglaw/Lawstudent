@@ -36136,16 +36136,16 @@
     "parallel": true,
     "confirmed": true
    },
-   "source": "使用者 10-30（X139）；AA_537（企劃線 dbb50b663）＋AA_537b（508568ae5）",
+   "source": "使用者 10-30（X139）；AA_537（企劃線 2f523e21a 版）＋AA_537b（508568ae5）",
    "authorized": "使用者",
    "xai": {
-    "spec": "AA_537（dbb50b663）＋AA_537b（508568ae5）",
+    "spec": "AA_537（2f523e21a）＋AA_537b（508568ae5）",
     "branch": "claude/cool-heisenberg-o8kuqx",
     "acceptance": "AA_537 第 7 節＋各節測試",
     "receiver": "LAWWW",
     "ack": "ACK"
    },
-   "notes": "【05:2x】AA-B 交兩份：十道門（G1～G10，G7、G8 新）、跟以安交往過不開、不接受多段（AA 向使用者回報這兩個決定）｜ "
+   "notes": "【05:3x】AA_537 補兩處：G5 半夜訊息每週一則（週三／週日 00:30～01:30，30 分鐘內回算一次，快轉要停）；1-1 國外那一學期（當面的門延到回臺第一週、日本 G7 第二次大四上第 2 週、G8 視訊版、美國大四上不能告白）｜ 【05:2x】AA-B 交兩份：十道門（G1～G10，G7、G8 新）、跟以安交往過不開、不接受多段（AA 向使用者回報這兩個決定）｜ "
   },
   {
    "id": "SK02-LINE-JACKET-1030",
