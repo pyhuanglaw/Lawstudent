@@ -86,13 +86,24 @@
 
 （量測中）
 
-### 3. 招牌同角度比對
+### 3. 招牌同角度比對（溫州街，白天 14:00、晚上 20:30）
 
-（量測中）
+- 工具：`tools/blender/env_second/shots/fast_shots.py`。
+- 鏡頭：取自 `street_after.json` 前四個鏡頭，藏玩家、NPC，等正式模型到齊才拍。
+- 結果：差異 0.05～1.25% 像素，全部在兩棵行道樹的葉子上（被風吹動，兩次拍的時刻不同）。
+  - 招牌（林家、日日便利、巷口茶飲、夏日冰菓室、Café 的匾額）完全一樣，白天晚上都是。
 
-### 4. Node 測試
+![改前｜改後｜差異](signs_compare.webp)
 
-（量測中）
+### 4. Node 測試（測試樹＝開發 `610d74642`＋這一包）
+
+- 全部 Node：**772 過、3 個 FAIL**。
+- 3 個 FAIL 在開發分支原樣（`610d74642`，不加這一包）也 FAIL，失敗的項目一模一樣：
+  - `aa497_supporting_unit.js`、`whois_unit.js`、`xinci_romance_unit.js`。
+  - 這三支用 `git show <commit>` 讀 AA 的稿，那幾個 commit 不在我這份 clone 裡。
+- 和這一包直接有關的都過：
+  - `room_rtnight_unit.js`（rtK：Node 讀不到像素，照舊用預設 0.55）；
+  - `library_hall_lightmap_unit.js`、`singleside_interiors_unit.js`、`night_forget_unit.js`。
 
 ## 四、還沒解決的（不是這一包能改的）
 
