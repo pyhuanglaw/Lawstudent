@@ -3013,7 +3013,11 @@ const STORY_EVENTS=[
       {speaker:null,text:'（巷口的便利商店，門口有一張小鐵桌。她買了關東煮，你買了兩瓶熱的。）'},
       {speaker:null,text:'（沒有人提期中。她把蘿蔔分你一半。）'},
       {speaker:null,text:'（十一點半，她說：「好，這次真的要回去了。」）'},{speaker:null,text:'（她走進女舍以前，回頭揮了一下手。）'},{set:{KX_STAYED:true}},{rel:{kexin:{comf:2}}},
-      {set:{E10_EVE:'went'}} ],
+      {set:{E10_EVE:'went'}},
+      /* AA_529 第 2 節：回家的路上建「走啦」（30 分鐘版 P2、P2b 都剪了，原本一般玩家建不起來）；系統一則＋三則在聚會演完那一刻（story3d.js S.zoulaGather）。
+         已經在群組裡的（長版 P2、P2b 演過）不重複建、這句旁白也不出 */
+      {call:(G,GM,ev)=>{ if(typeof STORY!=='undefined'&&STORY.zoulaGather) STORY.zoulaGather(G,G.hour+((ev&&ev.hours)||0)); }},
+      {if:{flagIs:{Y0_ZOULA:'gather'}},speaker:null,text:'（回家的路上，手機震了一下。）'} ],
     afterOuting:(G,GM)=>{ if(GM.money) GM.money(-100); } },
   /* ★E10「我們去總圖念書吧」——其實沒念多少（BB_104 8b-4；AA_154 第 117 行；固定核心）：10/15 22:30 可昕私訊邀（story3d.js），回「好。」＝10/16 晚上走進總圖三樓（library）就開始。
      第一句旁白照前一晚有沒有去群組聚會（E10_EVE＝'went'；10/15 的聚會一律是「群組裡一整晚都在聊天」——AA_355 第 2 節照用，30 分鐘版不演那幾場）。邀約那則已經在手機上，事件從「隔天晚上，總圖三樓」開始。
