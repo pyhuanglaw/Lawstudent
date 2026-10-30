@@ -187,6 +187,7 @@ const Y2R2=(function(){
       {if:BV('class'),scene:'政大・系上的小教室',bg:'classroom_small'},{if:BV('shop'),scene:'政大・山下的小吃街',bg:'nccu_food'},
       {if:{custom:G=>G.flags._y2BdV==='two'||G.flags._y2BdV==='drive'},scene:'政大・校門口',bg:'nccu_gate'},
       {if:BV('gg'),scene:'公館',bg:'gongguan'},   /* 沒回予樂、MSG-2 選「妳來公館」：21:00 公館（AA_338 第 2 節）*/
+      {if:{custom:G=>G.flags._y2BdV!=='gg'&&!!G.flags.KX_TASSEL_PROMISE},speaker:null,text:'（政大門口的流蘇開了。白白的一整片。）'},   /* AA_525 3-7（K-9）：大一下 K2-L6 選「明年我們一起看。」（KX_TASSEL_PROMISE）＝到政大的版本開頭一句 */
       {if:BV('class'),speaker:null,text:'（系上小教室的燈關著。予樂、邵鈞、詹靖躲在桌子後面。可昕推門進來，燈亮。）'},
       {if:BV('class'),speaker:'kexin',expression:'surprised',text:'……你們。'},
       {if:BV('class'),speaker:'kexin',expression:'teasing',text:'你也是。你什麼時候跟予樂變成同一國的？'},
@@ -517,7 +518,7 @@ const Y2R2=(function(){
         if(F.KX_K9==='yes'&&!outGet(G,'y2r2_k9')&&now(G)<abs(m,17.75)) plan(G,{id:'y2r2_k9',ev:'ev_kexin_good_class',day:m,h:17.5,late:0.25,place:'公館河濱',title:'公館河濱（可昕）',travel:'走過去約 15 分鐘',travelH:0.25,back:'回到台大。'});
         const q=outGet(G,'y2r2_k9'), met=done(G,'ev_kexin_good_class');
         if(!met&&win(G,m,21,2)&&sent(G,'y2r2_k9_ask')&&!sent(G,'y2r2_k9_msg')){ const L=[]; if(q&&q.state==='missed') L.push(K('我等了二十分鐘。'));
-          L.push(K('我找到一門上課不想滑手機的課。'),K('老師講規則怎麼改變人的行為。罰款高一點，大家就真的慢下來嗎？'),KASK('📷（她的筆記，畫了一條路和一張罰單）',{id:'y2r2_k9_msg',opts:[{t:'會嗎？',say:[{from:'kexin',text:'有些人會。有些人換一條路。'}]},{t:'妳很喜歡這門課。',say:[{from:'kexin',text:'嗯。……下次講給你聽。'}]}]}));
+          L.push(K('我找到一門上課不想滑手機的課。'),K('老師講規則怎麼改變人的行為。罰款高一點，大家就真的慢下來嗎？'),KASK('📷（她的筆記，畫了一條路和一張罰單）',{id:'y2r2_k9_msg',opts:[{t:'會嗎？',say:[{from:'kexin',text:'有些人會。有些人換一條路。'}]},{t:'妳很喜歡這門課。',say:[{from:'kexin',text:'嗯。……講不清楚。'}]}]}));
           at(G,m,21,L,'y2r2_k9_msg'); if(!F.KX_K9||F.KX_K9==='yes') F.KX_K9=F.KX_K9==='yes'?'missed':'none'; merge(G,'KX_DIR',{Y2:'rules'}); } } }
     /* --- 2-Y2-04 中秋：她的那一段 --- */
     { const a=d('ma0'), m=d('ma'); if(kx(G)&&a!=null&&m!=null){ const met=!!F.KX_MET_NOODLE_TEAM, q=outGet(G,'y2_midautumn'), went=done(G,'ev_y2_midautumn');

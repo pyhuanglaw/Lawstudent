@@ -197,7 +197,7 @@ const R2Y3B=(function(){
     if(jp){ if(!outGet(G,'kx_bday_y3')&&now(G)<T(bd,lt(G,bd,21.5))) plan(G,{id:'kx_bday_y3',ev:'ev_kexin_birthday_y3',day:bd,h:lt(G,bd,21),late:0.5,place:'視訊',title:'可昕的生日：視訊（日本 22:00）',verb:'接起來',no:'先不接',travel:'',travelH:0,back:'視訊結束。'}); }
     else {
       if(S.kxBdayBoth(G)&&now(G)>=T(bd-1,21)&&now(G)<T(bd,18)&&!PHONE.sent(G,'y3_kx_bday_ask'))
-        PHONE.at(G,bd-1,21,[K('明天我生日。今年你不用想了，我想好了。'),K('公館，三十分鐘，一片蛋糕。我們兩個都在趕報告。'),Object.assign(K('六點。'),{ask:{id:'y3_kx_bday_ask',until:T(bd,18),opts:[
+        PHONE.at(G,bd-1,21,[K('明天我生日。今年你不用想了，我想好了。'),...(F.KX_CAKE_YOU?[K('……蛋糕你挑。只有這個你挑。')]:[]),K('公館，三十分鐘，一片蛋糕。我們兩個都在趕報告。'),   /* AA_525 3-7（K-8）：大二下 K4-L5 選「下次換我挑。」（KX_CAKE_YOU）的多一句 */Object.assign(K('六點。'),{ask:{id:'y3_kx_bday_ask',until:T(bd,18),opts:[
           {t:'好。',say:[{from:'kexin',text:'好。'}],set:{KX_BDAY3_GO:true}},{t:'明天我不行。',say:[{from:'kexin',text:'……好。'}],set:{KX_BDAY3_NO:true}}]}})],'y3_kx_bday_ask');
       if(F.KX_BDAY3_GO===true&&now(G)<T(bd,18.25)) S.kxBdayPlan(G,bd);
       if(G.day===bd&&now(G)<T(bd,18.25)&&!F.KX_BDAY3_NO&&S.kxBdayButton(G,bd)) S.kxBdayPlan(G,bd);   /* 其他玩家：按了生日快樂、回了她的回問（兩個選項都排 18:00 公館，她下山）*/ }

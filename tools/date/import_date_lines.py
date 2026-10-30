@@ -7,6 +7,8 @@
 格子裡「／」分開的是輪流用的幾句；同一句裡有好幾個「」＝連發幾則訊息（例：「好。」「我跟阿姨說那天不顧店。」）。「」以外的說明不進遊戲。
   - 疊在上面的改句：AA_373 6-1「`date_lines.js`」那一列（可昕不跟祐廷比輸贏，使用者 10-18）——「現在」欄的第 n 句換成「AA 定」欄的第 n 句；
     AA_359 5-2 的表（D26～D32 只能在第二天說、或時間不對的幾句，AA 改字）、5-3 的表（離開那一句在第二天白天說：天色、「下次早上來」的七句）和子晴那一句——那個地點、那個人的「現在」換成「改成」（引號裡的字；括號裡的說明不進遊戲）。
+    AA_525（說了沒發生（二），白名單上的 commit）1-6、2-4：子晴、沛珊約會裡「下次我請／下次換我」的第一次回覆改成不欠——那個地點、那個人整句相同才換（FIX525）；
+    D06、D15 子晴、D05 沛珊的 remember 誰聽得到、選了哪一個要記的旗標是條件式的：src/date3d.js 的 DATE.REMEMBER_IF、DATE.PICK_FLAG。
     5-3 的兩個到達句另一版（沛珊住臺南的 D28、D31＋D32 同一趟可昕到清境）是條件式的：src/date3d.js 的 DATE.ARRIVE_VAR。
     兩種都只換一字不差的 text（e75d1cce 起 6-1 兩欄都是整句，原本「……」開頭只換後面那一段的做法拿掉）；找不到的印出來、不換。每次都從白名單的原檔重算，重跑結果一樣。
 用法：python3 tools/date/import_date_lines.py [--check 企劃線ref]"""
@@ -194,6 +196,34 @@ for o in hit:
 FIXED359.append(('5-3 D32', 'heroine_04', m.group(1), m.group(2), len(hit)))
 if not hit:
     print('AA_359 5-3：D32 heroine_04 找不到「' + m.group(1) + '」，沒換')
+# AA_525（HEROINE-LIFE-1028；AA-C 10-28 6081f725f 定稿）1-6 子晴 D10、D12、D13、D30、D31，2-4 沛珊 D08、D15、D18：第一次的回覆改成不欠（「下次我請」「下次換我」）。
+# 只在那個地點、那個人的台詞裡換一字不差的 text；每一句先確認稿裡有「改成」那一句。白名單沒有 AA_525＝不換
+A525 = G.approved_files(ALLOW, SP + 'AA_525_')
+FIXED525 = []
+if A525:
+    P525, S525 = next(iter(A525.items()))
+    ok, why = G.allowed(P525, S525, ALLOW)
+    if not ok:
+        sys.exit('拒絕匯入：' + why)
+    md525 = G.alison(subprocess.check_output(['git', '-C', ROOT, 'show', f'{S525}:{P525}'], text=True))
+    FIX525 = [('1-6', 'D10', 'heroine_04', '……謝謝。宵夜我請。', '……謝謝。', 'D10「……謝謝。宵夜我請。」→「……謝謝。」'),
+              ('1-6', 'D12', 'heroine_04', '謝謝，下次換我。', '謝謝。', 'D12「謝謝，下次換我。」→「謝謝。」'),
+              ('1-6', 'D13', 'heroine_04', '好，下次我請。', '好啦。謝謝。', 'D13「好，下次我請。」→「好啦。謝謝。」'),
+              ('1-6', 'D30', 'heroine_04', '好。下次換我。', '好。謝謝。', 'D30「好。下次換我。」→「好。謝謝。」'),
+              ('1-6', 'D31', 'heroine_04', '好！下次我請。', '好！謝謝！', 'D31「好！下次我請。」→「好！謝謝！」'),
+              ('2-4 P-6', 'D15', 'classmate_peishan', '……下次我請你吃早餐。我家的。', '……我家的早餐比這個好吃！', 'D15「……下次我請你吃早餐。我家的。」→「……我家的早餐比這個好吃！」'),
+              ('2-4 P-6', 'D08', 'classmate_peishan', '……謝謝。下次換你。', '謝謝！', 'D08、D18「下次換我」→「謝謝！」'),   # 稿寫「下次換我」；D08 遊園列車那一句其實是「……謝謝。下次換你。」（「我讓妳。」的回覆），同一列一起換
+              ('2-4 P-6', 'D18', 'classmate_peishan', '……謝謝。下次換我。', '謝謝！', 'D08、D18「下次換我」→「謝謝！」')]
+    for item, loc, who, old, new, quote in FIX525:
+        if quote not in md525:
+            sys.exit(f'AA_525@{S525} 裡找不到 {item} 的「改成」：{quote}')
+        hit = [o for o in texts(((LOC.get(loc) or {}).get('lines') or {}).get(who)) if o['text'] in (old, new)]
+        if not hit:
+            sys.exit(f'AA_525 {item}：{loc} {who} 找不到「{old}」（也不是「{new}」）')
+        for o in hit:
+            o['text'] = new
+        FIXED525.append((item + ' ' + loc, who, old, new, len(hit)))
+    FILES['fix525'] = P525
 # 地點檔裡寫成旁白、其實是給開發看的條件或伏筆說明：改成 who:'note'（遊戲不顯示）。整句相同才改，其他旁白不動（DATE-C3：淡水示範的反應，
 # 遊戲裡原本會演出「（第 6 階以上）」——D13 以安、學姊的合照那一句前面；「（第 3 節她的心願的伏筆）」——D13 可昕欄杆第一次的選項②）
 NOTE_NARR = {'第 6 階以上', '第 3 節她的心願的伏筆'}
@@ -213,3 +243,4 @@ with open(dst, 'w', encoding='utf8') as fo:
 print('wrote', dst, {w: {k: len(v) for k, v in m.items()} for w, m in L.items()}, '偏好', {w: len(m) for w, m in prefs.items()}, '地點', sorted(LOC))
 print('AA_373 6-1 改句：' + '；'.join(f'「{o}」→「{n}」{c} 處' for o, n, c in FIXED))
 print('AA_359 5-2、5-3 改句：' + '；'.join(f'{l} {w}「{o}」→「{n}」{c} 處' for l, w, o, n, c in FIXED359))
+print('AA_525 1-6、2-4 改句：' + '；'.join(f'{l} {w}「{o}」→「{n}」{c} 處' for l, w, o, n, c in FIXED525))

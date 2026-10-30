@@ -36,6 +36,9 @@ const R2Y3A_EVENTS=(function(){
     beforeOuting:async(G,GM,q)=>{ const r=R(); if(r) r.khPay(G,GM); },   /* 高鐵（2980）、旅館一晚 */
     dialogue:[ {scene:'左營站',bg:'kh_station'},
       ...pickLines(KHL&&KHL.pick,{custom:G=>!khAgain(G)}), ...pickLines(KHL&&(KHL.pickAgain||KHL.pick),{custom:khAgain}),
+      /* AA_525 3-9（K-11）：6/2 沒去（Y2R2_K14_NOSHOW）、晚上那通電話她說了「那你下次要當面恭喜我。」的（演過 ev_kexin_summer_plan_call）＝接人以後當面補；選項只有一個 */
+      {unless:{custom:G=>!!(G.flags&&G.flags.Y2R2_K14_NOSHOW)&&!!(G.events&&G.events.done&&G.events.done.ev_kexin_summer_plan_call)},goto:'aa525_k11_end'},
+      {speaker:'kexin',expression:'neutral',text:'……當面。'},{choice:[{text:'「恭喜。」',goto:'aa525_k11'}]},{label:'aa525_k11'},{speaker:'kexin',expression:'smile',text:'好。收到了。'},{label:'aa525_k11_end'},
       {speaker:'kexin',expression:'tired',text:'這週我影印了一千兩百頁。今天不要有紙。'},
       {speaker:'kexin',expression:'teasing',text:'……行程表除外。'},
       {speaker:null,text:'（她把手機轉過來。今天的行程表只有三行：渡輪、燈塔、吃東西。）'},
@@ -48,7 +51,7 @@ const R2Y3A_EVENTS=(function(){
       {choice:[{text:'「那今天妳是觀光客。」',goto:'k1'},{text:'「上面風好大。」',goto:'k2'},{text:'（陪她看海，不說話）',goto:'k3'}]},
       {label:'k1'},{speaker:'kexin',expression:'smile',text:'對。觀光客要拍照。'},{speaker:null,text:'（她把手機塞給你。）'},{speaker:'kexin',expression:'serious',text:'拍我，還有後面的海。不要拍到別人。'},{goto:'eve'},
       {label:'k2'},{speaker:'kexin',expression:'smile',text:'下面更熱。……再站一下。'},{speaker:null,text:'（她靠著欄杆，看了很久的海。）'},{goto:'eve'},
-      {label:'k3'},{speaker:null,text:'（你們站在欄杆邊。過了很久，她才開口。）'},{speaker:'kexin',expression:'smile',text:'……好。下次換你。去一個你也沒去過的地方。'},
+      {label:'k3'},{speaker:null,text:'（你們站在欄杆邊。過了很久，她才開口。）'},{speaker:'kexin',expression:'smile',text:'……好。下次找一個我們都沒去過的地方。'},
       {label:'eve'},{advance:toH(18)},
       {speaker:null,text:'（她騎車送你到旅館門口，沒有熄火。）'},
       {speaker:'kexin',expression:'teasing',text:'明天下午四點，我開車來。……今天早點睡，不要滑手機。'},

@@ -1192,7 +1192,7 @@ const ENC_WALK={
    "who": "classmate_peishan",
    "spot": "D12",
    "friend": "我要去搭車了。今天買的繪本，下次借你。",
-   "dating": "今天買的書，第一本我先讀給你聽。……下次。"
+   "dating": "今天買的書，第一本是繪本。……給課輔班的。"   /* AA_525 2-4 P-6：原「今天買的書，第一本我先讀給你聽。……下次。」*/
   },
   {
    "who": "classmate_peishan",
@@ -1238,7 +1238,7 @@ const ENC_WALK={
    "who": "classmate_peishan",
    "spot": "D20",
    "friend": "我們要回去了。謝謝你。下次課輔班要不要來說一個故事？",
-   "dating": "回程的車上，我要把今天的事寫下來。寫好給你看。"
+   "dating": "回程的車上，我要把今天的事寫下來！"   /* AA_525 2-4 P-6：原「……寫好給你看。」*/
   },
   {
    "batch": 2,

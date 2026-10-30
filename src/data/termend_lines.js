@@ -269,6 +269,17 @@ const TERMEND_LINES=(function(){
     river:{name:'景美溪河堤',h:17.5,bg:'riverside',open:'（河堤的步道，她走在靠水的那一邊。）',close:'（她站在你的車門邊。『到家傳訊息。』）',miss:['我在河堤等了一下','你還好嗎']},
     nccu:{name:'政大正門',h:18,bg:'nccu_food',open:'（山下那家店，她點了兩人份，沒有問你。）',close:'（她送你到停車場，站著等你倒車出去。）',miss:['我在正門等了一下','你還好嗎']} };
   const C10=G=>typeof VAC!=='undefined'&&!!VAC.enrolled&&VAC.enrolled(G,'C10');   /* 大二暑假加州暑期課（VAC 做好以後接）*/
+  /* AA_525（企劃線 6081f725f）：可昕學期末約會多的段落（termend3d.js S.kexinDinner）——open＝開場旁白之後、飯桌一開始；end＝飯桌最後（table、二選一之後，收尾旁白之前）。
+     Y3S1 end：3-1 K-1、K-2 聖誕（2027 聖誕視訊說「禮物等我考完再換」KX_XMAS[3] video／missed＝交換禮物；再加上 2026 收過卡片的 KX_XMAS[2] went／missed＝「今年的第二頁，你排。」、二選一、記 KX_PAGE2_MINE）；
+     Y4S1：美國路線——open＝3-10 K-15「23 號回來，第一碗我請。」（收過 y4_a23_us_kx 那兩則）；end＝3-2 K-3「你回來我們再去一次摩天輪。」（KX_ANNIV[4] video）*/
+  const XM=(G,n)=>(G&&G.flags&&G.flags.KX_XMAS&&G.flags.KX_XMAS[n])||null;
+  const KX_EXTRA={
+    Y3S1:{end:G=>['video','missed'].includes(XM(G,3))?[{narr:'（吃完飯，她從包包拿出一個小盒子，推過來。）'},'聖誕的。說好考完換。',{narr:'（你也把準備好的那一份拿出來。）'},
+      ...(['went','missed'].includes(XM(G,2))?['還有，去年說的。今年的第二頁，你排。',
+        {choice:[{t:'「河濱，看燈。」',say:['……抄我的。好。',g=>{ g.flags.KX_PAGE2_MINE='river'; return null; }]},{t:'「山上，看夜景。」',say:['好。你開車。',g=>{ g.flags.KX_PAGE2_MINE='mountain'; return null; }]}]},
+        {narr:'（那一晚的第二頁，是你排的。）'}]:[])]:null},
+    Y4S1:{open:G=>US3(G)&&typeof PHONE!=='undefined'&&PHONE.sent(G,'y4_a23_us_kx')?['第一碗。說好我請。',{narr:'（她先去付了錢。）'}]:null,
+      end:G=>US3(G)&&!!G.flags&&!!G.flags.KX_ANNIV&&G.flags.KX_ANNIV[4]==='video'?['摩天輪。說好的。',{narr:'（吃完飯，你們去搭了摩天輪。轉到最高的時候，她靠著窗，沒有說話。）'}]:null} };
   /* AA_401 第 1 節（企劃線 18251b0e1；AA_313 2-5 第 3 點）：大二起每場學期末約會，table 兩句後面加一個二選一；khh＝KX_KHH[學期＋W／S]，y5＝KX_Y5_CALL */
   const US3=G=>typeof STORY!=='undefined'&&STORY.route&&STORY.route(G)==='US';
   const KX_ASK={
@@ -285,7 +296,7 @@ const TERMEND_LINES=(function(){
     Y1S2:{place:'river',wd:5,first:true,invite:['期末考完了吧','禮拜五 河堤 五點半','我帶你去吃那家']},
     Y2S1:{place:'nccu',invite:['考完了！','這次換山上 {哪天} 政大正門六點','我請'],table:['我們期末考完，你寒假來高雄。','我家附近那個夜市，你還沒去過。']},
     Y2S2:{place:'river',invite:['考完沒','{哪天} 河堤 五點半','這次你開車 我負責音樂'],table:G=>C10(G)?['你暑假要去加州。','出發前，來高雄找我一次。']:['暑假來高雄找我。','……這次不要當天就走。']},
-    Y3S1:{place:'nccu',invite:['期末考完了吧','{哪天} 政大 六點','我有一個很奇怪的報告題目要講給你聽'],table:['期末報告我寫房東能不能進房客的房間。老師說題目很奇怪，可是給過了。','寒假你來高雄。……我們都沒去過的地方，我來排。']},
+    Y3S1:{place:'nccu',invite:['期末考完了吧','{哪天} 政大 六點','我有一個很奇怪的報告題目要講給你聽'],table:['期末報告我寫房東能不能進房客的房間。老師說題目很奇怪，可是給過了。','寒假你來高雄。……去哪裡你決定。']},   /* AA_525 3-11：第二句原「……我們都沒去過的地方，我來排。」*/
     Y3S2:{place:'river',invite:['{哪天} 河堤 五點半','暑假的事 當面講'],table:G=>typeof STORY!=='undefined'&&STORY.route&&STORY.route(G)==='US'?['八月你就去美國了。……我算過了，我們分開最久就是這次。']:['暑假你在臺北，我在高雄。……又是兩個月的視訊。']},   /* AA_369 L4：飯桌分路線（台灣、美國；日本路線這時候人在日本，沒有這一頓）*/
     Y4S1:{place:'nccu',invite:['最後一個上學期了欸','{哪天} 政大 六點'],table:['大四了。……我們期末考完，就剩一個學期。','寒假我回高雄念書。……你來的話，我占兩個位子。']},
     Y5S1:{place:'river',invite:['學期結束了吧','你沒有期末考 我知道','{哪天} 河堤 五點半'],table:['十四號以後，我就是律師了。……還要受訓。','受訓的時候不能看手機。……你週末再打給我。']} };   /* 大五上（交換延畢，AA_357 3-4）：不再提「一月拿證書」（3-2 第五年講過）*/
@@ -351,5 +362,5 @@ const TERMEND_LINES=(function(){
   const AUTO_NO_GRAD_DELAYED={heroine_01:'好。今天恭喜。',classmate_xinci:'好。今天恭喜。',yu:'好吧！！今天恭喜！',heroine_05:'好。今天恭喜。'};   /* 交換延畢的玩家（日本、美國路線，PG.delayed）：典禮那天不說「畢業快樂」（AA_381 第 1 節，企劃線 d14a0388）*/
   const ENDED={heroine_01:'這學期不了。謝謝你約我。',heroine_03:'這次先不要。',heroine_05:'這學期我排不出來。你自己保重。',heroine_02:'謝謝。這次我想自己過。',heroine_04:'這次先不要啦。',classmate_peishan:'謝謝你問。……這次我先不去。',kexin:'現在還不行。謝謝你還會約我。'};
   const REPLY=['嗯。','真的假的。','我也是。'];   /* 祐廷回的一句（AA_250 10-1：池子以外，輪流）*/
-  return {KX_ASK,PLACE,HEART,OPTS,NOT_YET_OPT,ANSWER,FRIEND,FALLBACK,GF,NOPE,POOL,REPLY,Q6,KX,KX_PLACE,HOOK,HOOK_NO,C14,C15,SYS_TE,SYS_GF,AUTO_ME,AUTO_ME_GRAD,AUTO_NO,AUTO_NO_GRAD,AUTO_NO_GRAD_DELAYED,ENDED,src:'AA_254 8fdcc961（7fa1aad4、a9daffbb 更正）／AA_250 acf92ff0、375b91dd、c524b61e、ae841bba'};
+  return {KX_ASK,KX_EXTRA,PLACE,HEART,OPTS,NOT_YET_OPT,ANSWER,FRIEND,FALLBACK,GF,NOPE,POOL,REPLY,Q6,KX,KX_PLACE,HOOK,HOOK_NO,C14,C15,SYS_TE,SYS_GF,AUTO_ME,AUTO_ME_GRAD,AUTO_NO,AUTO_NO_GRAD,AUTO_NO_GRAD_DELAYED,ENDED,src:'AA_254 8fdcc961（7fa1aad4、a9daffbb 更正）／AA_250 acf92ff0、375b91dd、c524b61e、ae841bba'};
 })();

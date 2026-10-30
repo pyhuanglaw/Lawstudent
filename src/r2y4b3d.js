@@ -181,7 +181,8 @@ const R2Y4B=(function(){
   S.kxPlanTable=G=>!!G.flags.KX_STUDY_PLAN;   /* 共用的讀書計畫表（2-Y4-13 K21 寫的，沒去也記）*/
   const kxBdaySet=S.kxBdaySet=(G,v)=>{ G.flags.KX_BDAY_Y4=v; G.flags.KX_BDAY=Object.assign({},G.flags.KX_BDAY||{},{4:v}); };
   const kxBdayPhone=G=>{ const d23=DK(KB.d23), d24=d23+1, d25=d23+2, F=G.flags; if(d23==null||G.day<d23||G.day>d25+1||!dating(G,'kexin')) return;
-    if(at(G,KB.d23,21)&&G.day<=d24) PHONE.at(G,d23,atH(G,d23,21),[P_('kexin','明天我生日。今年不要慶祝，我們都在準備考試。',{ask:{id:'y4_kx_bday',until:T(d24,24),opts:[{t:'好。'}]}})],'y4_kx_bday');
+    if(at(G,KB.d23,21)&&G.day<=d24){ const ask={ask:{id:'y4_kx_bday',until:T(d24,24),opts:[{t:'好。'}]}};   /* AA_525 3-3（K-4）：大三生日說「第三個明年說。」（KX_WISH3）的多兩句（回覆掛在最後一則）*/
+      PHONE.at(G,d23,atH(G,d23,21),F.KX_WISH3?[P_('kexin','明天我生日。今年不要慶祝，我們都在準備考試。'),P_('kexin','第三個願望。去年說今年說。'),P_('kexin','我們兩個都考過。',ask)]:[P_('kexin','明天我生日。今年不要慶祝，我們都在準備考試。',ask)],'y4_kx_bday'); }
     if(G.day>=d25&&F.KX_BDAY_Y4==null&&PHONE.sent(G,'y4_kx_bday')){ const q=outGet(G,'y4_kx_bday'); if(q&&q.state==='planned') return; kxBdaySet(G,'none');
       PHONE.at(G,d25,atH(G,d25,21),[P_('kexin','昨天我生日。我知道我說不要慶祝。'),P_('kexin','可是我還是等了一天。')],'y4_kx_bday_none'); } };   /* 什麼都沒做：隔天兩句（她這學期的那一句）*/
   S.kxBdayDue=G=>{ const d=DK(KB.d24); return d!=null&&G.day===d&&hh(G)>=9&&hh(G)<23&&dating(G,'kexin')&&G.flags.KX_BDAY_Y4==null&&!outGet(G,'y4_kx_bday')&&(G.flags.KX_BDAY4_ASK==null||now(G)>=G.flags.KX_BDAY4_ASK)&&PHONE.sent(G,'y4_kx_bday'); };

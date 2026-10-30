@@ -139,6 +139,9 @@ const PRIVTALK=(function(){
       note:'旁邊有人＝這一次不演；期限 12/7（AA 08:29）：那天照演、開頭旁白'},
     {key:'sis13_laundry',cat:'感情',topic:'學姊美國洗衣間（挽回中）',who:'heroine_05',kind:'event',gate:'prereq',ev:'ev_sis13_laundry',due:'2028-10-20',desc:'src/data/sis_b13_events.js 13-6 洗衣間（美國路線、沒交往，2028-10-08～20 21:00～22:00 社區戶外）',
       note:'旁邊有人＝這一次不演；那一段最後一天 10/20 當期限（稿沒寫期限；AA 確認）'},
+    /* ---- AA_525 2-3（企劃線 6081f725f）：沛珊課輔班的卡片（稿寫「保底 7 天照 privtalk3d.js」）---- */
+    {key:'ps_cards',cat:'說了沒發生',topic:'沛珊課輔班的卡片',who:'classmate_peishan',kind:'pre',gate:'edit',desc:'src/aa525_3d.js STORY.PRE_TALK（2026-06-25 18:30「她們有做卡片給你。我先收著。」以後第一次和她說話：她拿出三張卡片）',
+      note:'這一次不給（照常說話）；沒有期限：等了 7 天照給（開頭一句旁白）'},
     /* ---- 3D 說話裡沒有入口的（寫明在哪裡；之後加入口就用這個 key 問 PRIVTALK.ok）---- */
     {key:'sis_oral',cat:'還沒公開',topic:'學姊口試結果',who:'heroine_05',kind:'none',gate:'none',from:'2029-05-29',until:'2029-05-30',
       desc:'沒有 3D 入口：結果在 5/29 16:00～18:00 研究室走廊的出遊（y34b3d.js M9，2D）、家族群組、電話（ev_sis_defense_call）；她 5/29 08～18 點不在 3D（characters.js）'},
