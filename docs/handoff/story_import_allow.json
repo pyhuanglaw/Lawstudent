@@ -3203,11 +3203,35 @@
   },
   {
    "path": "docs/story_planning/AA_474_acceptsOpen使用者回答C_七位各自的條件.md",
-   "sha": "020f695a3",
+   "sha": "187584ca8",
    "status": "approved",
    "approvedBy": "AA-C 定稿（使用者 10-27 對 AA-C 選 C＝逐一決定，UA-AA-1027-49；D109）",
    "task": "ACCEPTSOPEN-C-1027",
-   "note": "LAWWW-C 10-27 登記（手抄，照 AA_331 的例子）：romance3d.js、multirel3d.js、multirel_lines.js、zr_last3d.js、r2y3b3d.js、r2y4b3d.js 等（子代理 aopen-1027，合併 fb8d27888；tests/aa474_acceptsopen_unit.js 用 git show 020f695a3 逐字對）"
+   "note": "LAWWW-C 10-27 登記（手抄，照 AA_331 的例子）：romance3d.js、multirel3d.js、multirel_lines.js、zr_last3d.js、r2y3b3d.js、r2y4b3d.js 等（子代理 aopen-1027，合併 fb8d27888；tests/aa474_acceptsopen_unit.js 用 git show 020f695a3 逐字對）。10-30 LAWWW-B 子代理 aopen-r2 改到 187584ca8（AA_483 那一個 commit：020f695a3 以後只在第 3 節開頭加一行註，指到 AA_483 第 2-1 節、第 1 節第 1、2 點，第 1～6 節的字沒改）"
+  },
+  {
+   "path": "docs/story_planning/AA_481_AA474實作讀後_特別場景的知情對話接不上的五處.md",
+   "sha": "187584ca8",
+   "status": "approved",
+   "approvedBy": "AA-C 定稿（D109 劇情總監自主決定；第②級）",
+   "task": "ACCEPTSOPEN-C-1027",
+   "note": "LAWWW-B 10-30 子代理 aopen-r2 登記（手抄）：第 1 節七夕 r2y3b_events.js、第 2 節大峽谷 r2y4b_events.js、第 3 節芷若 8/26 zr_last_events.js＋multirel_lines.js KNOW_AT、第 4 節七月最後一次 r2y4b3d.js S.JULY／julyScene、第 5 節可昕收回的訊息與視訊開頭 multirel3d.js／multirel_lines.js（視訊旁白照 AA_483 第 2-2 節）；tests/aa481_483_aopen_unit.js 用 git show 187584ca8 逐字對"
+  },
+  {
+   "path": "docs/story_planning/AA_482_多段感情2-Y4-54照使用者C更新_坦白照她們的條件_都同意的尾聲.md",
+   "sha": "187584ca8",
+   "status": "approved",
+   "approvedBy": "AA-C 定稿（D109；原則是使用者 10-18 的 U5，本檔第②級）",
+   "task": "ACCEPTSOPEN-C-1027",
+   "note": "LAWWW-B 10-30 子代理 aopen-r2 登記（手抄）：r2y4b3d.js S.TELL（第 4 節七句，沛珊照 AA_483 第 2-3 節）、tellScene → MREL.tellQuiet（multirel3d.js）、MULTI_TELL29/30.list、multiY5Due、對話框人數、尾聲座位（r2y4b3d.js patchEpilogue、postgrad3d.js epiPartners／epiItems）；tests/aa481_483_aopen_unit.js 用 git show 187584ca8 逐字對"
+  },
+  {
+   "path": "docs/story_planning/AA_483_回LAWWW_AA474子代理八題_BB審稿定稿_美國秋假自習室提示.md",
+   "sha": "187584ca8",
+   "status": "approved",
+   "approvedBy": "AA-C 定稿（D109；第①②級）",
+   "task": "ACCEPTSOPEN-C-1027",
+   "note": "LAWWW-B 10-30 子代理 aopen-r2 登記（手抄）：只做第 1～2 節（第 3 節美國秋假自習室提示是另一個任務 US-BLANK-1012-HINT-1027，這一輪沒做）——可昕收回 ①② 定稿、視訊版結尾、「我說過了。」前的旁白（multirel_lines.js KX_WITHDRAW）、Q15 她後來才知道的兩則（r2y3b_events.js Q15.knowsMsg、r2y3b3d.js q15KnowsMsg）、告白選項放寬（date3d.js S.willing）、沛珊 S.TELL；tests/aa481_483_aopen_unit.js 用 git show 187584ca8 逐字對"
   },
   {
    "path": "docs/story_planning/AA_494_女主角主動約你_七位的門檻頻率地點時間台詞.md",

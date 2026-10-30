@@ -141,16 +141,16 @@ await sec(7,async()=>{
   ROM.ytAnswer(H.G,KX,'claimNone'); X().phone(H.G,GM); const p1=X().rec(H.G).kwp, q1=OUT.get(H.G,kwId('2026-10-08'));
   check('7. 接受以後（OPEN_OK.kexin.沛珊）沒事＝不收回；又說謊（YT_LIED.kexin 又記一筆）＝她約隔天 20:00 公館捷運出口（出遊）',acc&&noLie&&!!p1&&p1.why===1&&!!q1&&q1.h===20&&q1.place==='公館捷運出口'&&q1.mrel&&q1.mrel.kind==='withdraw',J([p1,q1]));
   setT('2026-10-08',20); clr(); await runOut(kwId('2026-10-08'));
-  check('7. ①（他沒做到她的條件）：「我那時候開的條件，你還記得嗎？」「她的事你自己講。我問你，你不准騙我。」（她沒有等你回答。）「我答應的時候是想清楚才答應的。」「現在也想清楚了。我不行了。」→ 戀愛 ≥ 70：「我們的日子先停。」「吃飯還是可以。你不要因為這樣就不敢找我。」',
-    seq(['我那時候開的條件，你還記得嗎？','她的事你自己講。我問你，你不准騙我。','（她沒有等你回答。）','我答應的時候是想清楚才答應的。','現在也想清楚了。我不行了。','我們的日子先停。','吃飯還是可以。你不要因為這樣就不敢找我。'])&&!H.has('我們分開吧。'),J(T()));
+  check('7. ①（他沒做到她的條件；AA_483 第 2-1 節 BB-C 審稿後的定稿）：「你又騙我一次。」「我那時候開的條件，你還記得嗎？」「她的事你自己講。我問你，你不准騙我。」（她沒有等你回答。）「我答應的時候是想清楚的。」「……我不行了。」→ 戀愛 ≥ 70：「我們的日子先停。」「吃飯還是可以。你不要因為這樣就不敢找我。」',
+    seq(['你又騙我一次。','我那時候開的條件，你還記得嗎？','她的事你自己講。我問你，你不准騙我。','（她沒有等你回答。）','我答應的時候是想清楚的。','……我不行了。','我們的日子先停。','吃飯還是可以。你不要因為這樣就不敢找我。'])&&!H.has('我們分開吧。')&&!H.has('現在也想清楚了。我不行了。'),J(T()));
   const W1=H.G.flags.KX_WITHDREW||{};
   check('7. 記錄：清掉 OPEN_OK.kexin.沛珊、KX_WITHDREW {why 1}、回 B（thinking）、還在交往；我們的日子暫停（排好的那一格 skipped、之後不排）',!okOpen(KX,PS)&&W1.why===1&&W1.y===PS&&st(KX).phase==='thinking'&&H.G.flags.dating_kexin===true&&onBefore&&!KXOD.on(H.G)&&OUT.get(H.G,'kx_od_'+odDay).state==='skipped'&&X().knownOthers(H.G,KX).includes(PS));
   ROM.ytAnswer(H.G,KX,'claimNone'); setT('2026-10-08',23); X().phone(H.G,GM); X().scan(H.G);
   check('7. 每段交往只演一次：收回過以後又說謊也不再收回、也不當成「被發現」再演一次',!!H.G.flags.KX_WITHDREW&&!X().rec(H.G).kwp&&!X().rec(H.G).pend[KX]);
   setT('2026-10-08',23.5); clr(); const a0=X().meetAction(H.G,KX,'out');
-  setT('2026-10-09',15); clr(); const a1=X().meetAction(H.G,KX,'out'); if(a1) await a1.run(GM); const told=J(T())===J(['我說過了。']);
+  setT('2026-10-09',15); clr(); const a1=X().meetAction(H.G,KX,'out'); if(a1) await a1.run(GM); const told=J(T())===J(['（你還沒開口，她先搖了一下頭。）','我說過了。']);
   setT('2026-10-10',15); const a2=X().meetAction(H.G,KX,'out');
-  check('7. 回 B 以後、沛珊還在：當天不再演；之後第一次見面祐廷再提兩個都要＝「我說過了。」（一次；不再走一次接受）',!a0&&told&&!a2&&!okOpen(KX,PS),J(T()));
+  check('7. 回 B 以後、沛珊還在：當天不再演；之後第一次見面祐廷再提兩個都要＝（你還沒開口，她先搖了一下頭。）「我說過了。」（一次；不再走一次接受；旁白照 AA_483 第 1 節第 2 點）',!a0&&told&&!a2&&!okOpen(KX,PS),J(T()));
   const wasB=st(KX).phase==='thinking'; ROM.end(H.G,PS,'t'); setT('2026-10-12',15); clr(); const a3=X().meetAction(H.G,KX,'out'); if(a3) await a3.run(GM);
   check('7. 回 B 以後沛珊真的結束了＝照 5-6 的 A「你真的跟她分了？」「分了。」「……好。」「我不會每次約會都翻舊帳。可是你要是再一次，我就真的走了。」；我們的日子恢復',
     wasB&&J(T())===J(['你真的跟她分了？','分了。','……好。','我不會每次約會都翻舊帳。可是你要是再一次，我就真的走了。'])&&st(KX).phase==='done'&&KXOD.on(H.G),J(T()));
@@ -162,7 +162,7 @@ await sec(7,async()=>{
   const p2=X().rec(H.G).kwp;
   check('7. ② 接受以後又和子晴交往、她從阿哲那裡先知道＝收回（不另外演「被發現」）',!!p2&&p2.why===2&&p2.z===ZQ&&!X().rec(H.G).pend[KX]&&(X().rec(H.G).disc[KX]||{})[ZQ].ver==='withdraw',J(p2));
   setT('2026-10-08',20); clr(); await runOut(kwId('2026-10-08'));
-  check('7. ② 同①的那幾句 → 戀愛 < 70：「我們分開吧。」「……你不用送我。」＝她提分手（ended、by her）',seq(['我那時候開的條件，你還記得嗎？','現在也想清楚了。我不行了。','我們分開吧。','……你不用送我。'])&&!H.has('我們的日子先停。')&&!H.G.flags.dating_kexin&&ROM.get(H.G,KX).by==='her'&&(H.G.flags.KX_WITHDREW||{}).why===2&&!H.has('你上次跟我講的時候，就已經有她了嗎？'),J(T()));
+  check('7. ② 第一句「我是聽別人講的。」、其他同①（AA_483 第 2-1 節）→ 戀愛 < 70：「我們分開吧。」「……你不用送我。」＝她提分手（ended、by her）',seq(['我是聽別人講的。','我那時候開的條件，你還記得嗎？','……我不行了。','我們分開吧。','……你不用送我。'])&&!H.has('你又騙我一次。')&&!H.has('我們的日子先停。')&&!H.G.flags.dating_kexin&&ROM.get(H.G,KX).by==='her'&&(H.G.flags.KX_WITHDREW||{}).why===2&&!H.has('你上次跟我講的時候，就已經有她了嗎？'),J(T()));
   acc=await kxAccept('2026-10-05'); setT('2026-10-07',12); H.CLOSE(ZQ); ROM.start(H.G,ZQ); ROM.tellBy(H.G,KX,ZQ); X().scan(H.G); X().phone(H.G,GM);
   check('7. 接受以後、祐廷自己先跟她講子晴（yt_told）＝不是收回（照一般的那一套）',acc&&!X().rec(H.G).kwp&&!H.G.flags.KX_WITHDREW);
   /* ③ 學期末她的戀愛 < 80（她自己改變想法）*/
@@ -206,8 +206,8 @@ await sec('8-2',async()=>{
   check('8-2. 以安、她知道祐廷和可昕交往：說出來＝接 KNOW.say「你先講完。」「你們現在還在一起？」→「我還是跟她在一起。」→ 接受＝交往＋OPEN_OK（沒有原本的「……嗯。這次換你先說了。」）',
     seq(['你先講完。','你們現在還在一起？','……所以你要我跟她一起。','我不知道我為什麼會答應。','……可是我想答應。'])&&!H.has('……嗯。這次換你先說了。')&&H.G.flags.dating_heroine_01===true&&okOpen(A1,KX)&&H.G.flags.HEART_JULY.res==='yes',J(T()));
   await july(A1,[3,'我會跟她講清楚','跟她分手'],{fl:{BAR_REG:true}});
-  check('8-2. 先不說＝她七月那幾句（手帳寫滿了、「你回答。」）接 KNOW.she「你們現在還在一起？」；「我會跟她講清楚。」→「跟她分手。」＝不交往：朋友那一句「好。……八月四號，你考試加油。」、HEART_LAST（最後一次）、記承諾',
-    seq(['（她把手帳翻到最後一頁，推到你面前。那一行字的下面，寫滿了。）','我寫完了。這次我不等下一次。','你回答。','你們現在還在一起？','好。那你分完，再來找我。','好。……八月四號，你考試加油。'])&&!H.opts.some(o=>J(o)===J(['「好。」','「我們還是朋友。」']))&&!H.G.flags.dating_heroine_01&&H.G.flags.HEART_LAST_heroine_01===true&&H.G.flags.HEART_FRIEND_heroine_01===true&&H.G.flags.YT_PROMISED[A1]==='exclusive'&&H.G.flags.HEART_JULY.res==='friend'&&TERMEND.rec(H.G).think[A1]==null,J(T()));
+  check('8-2. 先不說＝她七月那幾句（手帳寫滿了、「你回答。」）接 KNOW.she「你們現在還在一起？」；「我會跟她講清楚。」→「跟她分手。」＝不交往：演完她那一句「好。那你分完，再來找我。」就結束、不接朋友那一句（AA_481 4-2）、HEART_LAST（最後一次）、HEART_FRIEND、記承諾',
+    seq(['（她把手帳翻到最後一頁，推到你面前。那一行字的下面，寫滿了。）','我寫完了。這次我不等下一次。','你回答。','你們現在還在一起？','好。那你分完，再來找我。'])&&!H.said.some(s=>/八月四號，你考試加油。/.test(s.t))&&!H.opts.some(o=>J(o)===J(['「好。」','「我們還是朋友。」']))&&!H.G.flags.dating_heroine_01&&H.G.flags.HEART_LAST_heroine_01===true&&H.G.flags.HEART_FRIEND_heroine_01===true&&H.G.flags.YT_PROMISED[A1]==='exclusive'&&H.G.flags.HEART_JULY.res==='friend'&&TERMEND.rec(H.G).think[A1]==null,J(T()));
   await july(SIS,[0,'她知道','她說可以'],{rom:80,fl:{YT_HONEST:{heroine_05:true}},pre:()=>{ setT('2029-06-20',15); X().meetAction(H.G,SIS,'talk'); setT('2029-06-27',15); X().meetAction(H.G,SIS,'talk'); }});
   check('8-2. 學姊七月算第二次：中間兩次見面、照實、戀愛 80＝「……嗯。」「這學期我一直在想這件事。」「……好。我們試試看。」交往＋OPEN_OK',seq(['……她怎麼說？','……嗯。','這學期我一直在想這件事。','……好。我們試試看。'])&&H.G.flags.dating_heroine_05===true&&okOpen(SIS,KX),J(T()));
   await july(SIS,[0,'她知道','她說可以'],{rom:80,fl:{YT_HONEST:{heroine_05:true}}});
@@ -266,7 +266,7 @@ await sec('8-6',async()=>{
     seq(['可昕知道嗎？','……她怎麼說？','……好。我想一下。','十二月二十三號，晚上八點落地。你來接我。'])&&!H.has('……我以為我要先說。')&&!H.has('我們試試看。'),J(T()));
   check('8-6. 不交往：行程照算兩次約會＋心願地點、SIS_GF_CANYON 不記、不叫書瑀（SIS_CANYON knows）',!H.G.flags.dating_heroine_05&&H.G.flags.SIS_CANYON==='knows'&&H.G.flags.SIS_GF_CANYON==null&&!H.G.flags.CALLED_SHUYU&&DATE.log(H.G,SIS).count===6&&DATE.log(H.G,SIS).wish===true);
   await canyon([1,'我會跟她說','說我們分手']);
-  check('8-6. 她先說（看著峽谷）：她原本三句接「可昕知道嗎？」；「我會跟她說。」→「說我們分手。」＝不交往、記承諾（exclusive）',seq(['那我先說。','我喜歡你。……我想了很久，要不要在這裡說。','你要說好，還是要我再說一次。','可昕知道嗎？','那等你說完。'])&&!H.G.flags.dating_heroine_05&&H.G.flags.YT_PROMISED[SIS]==='exclusive'&&H.G.flags.SIS_CANYON==='knows',J(T()));
+  check('8-6. 她先說（看著峽谷）、她知道：只說前兩句就接「可昕知道嗎？」（AA_481 第 2 節：沒有「你要說好，還是要我再說一次。」）；「我會跟她說。」→「說我們分手。」＝不交往、記承諾（exclusive）',seq(['那我先說。','我喜歡你。……我想了很久，要不要在這裡說。','可昕知道嗎？','那等你說完。'])&&!H.has('你要說好，還是要我再說一次。')&&!H.G.flags.dating_heroine_05&&H.G.flags.YT_PROMISED[SIS]==='exclusive'&&H.G.flags.SIS_CANYON==='knows',J(T()));
   await canyon([0,'她知道','她說可以'],()=>{ TERMEND.rec(H.G).think[SIS]='Y3S2'; H.G.termend.Y3S2=Object.assign(H.G.termend.Y3S2||{},{done:{who:SIS,kind:'heart',day:D('2028-06-12')}}); setT('2028-09-02',15); X().meetAction(H.G,SIS,'talk'); setT('2028-09-20',15); X().meetAction(H.G,SIS,'talk'); setT('2028-10-07',7); });
   check('8-6. 上學期心意邀約讓我想想過、中間兩次見面、照實、戀愛 80＝第二次：「……嗯。」「這學期我一直在想這件事。」「……好。我們試試看。」交往＋OPEN_OK、SIS_GF_CANYON、叫書瑀',
     seq(['可昕知道嗎？','……嗯。','這學期我一直在想這件事。','……好。我們試試看。'])&&H.G.flags.dating_heroine_05===true&&okOpen(SIS,KX)&&H.G.flags.SIS_GF_CANYON!=null&&H.G.flags.CALLED_SHUYU===true&&H.G.flags.SIS_CANYON==='confess',J(T()));
@@ -285,13 +285,13 @@ await sec('8-7',async()=>{
 /* ---------------- 9. 台詞照稿（第 3 節、第 5 節；企劃線 020f695a3）---------------- */
 await sec(9,async()=>{
   const cp=require('child_process'); let doc='';
-  for(const r of ['020f695a3','origin/claude/magical-albattani-bk7b4n']){ try{ doc=cp.execSync('git show '+r+':"docs/story_planning/AA_474_acceptsOpen使用者回答C_七位各自的條件.md"',{cwd:H.ROOT,encoding:'utf8',stdio:['ignore','pipe','ignore']}); if(doc) break; }catch(e){ doc=''; } }
+  for(const r of ['187584ca8','origin/claude/cool-heisenberg-o8kuqx']){ try{ doc=['AA_474_acceptsOpen使用者回答C_七位各自的條件','AA_483_回LAWWW_AA474子代理八題_BB審稿定稿_美國秋假自習室提示'].map(f=>cp.execSync('git show '+r+':"docs/story_planning/'+f+'.md"',{cwd:H.ROOT,encoding:'utf8',stdio:['ignore','pipe','ignore']})).join('\n'); if(doc) break; }catch(e){ doc=''; } }   /* AA_474（第 3、5 節）＋AA_483（第 1 節第 1、2 點、第 2-1、2-2 節取代 ①② 與視訊的字）*/
   const inDoc=t=>doc.indexOf(t)>=0, K5=KNOWL(SIS).opts.find(o=>o.t==='「她知道。」').sub.find(q=>q.t==='「她說可以。」');
   check('9. 第 5 節三處：學姊 Byes 第三句「……你去見她那天，出門前傳一句給我就好。」；沛珊知情心意邀約的接受「好。可是她那邊也要知道喔。兩邊都不要偷偷的。」；學姊「她說可以。」第二次 then「……嗯。」、yes「這學期我一直在想這件事。」「……好。我們試試看。」（第一次照原本「……好。我想一下。」）',
     Lm().REPAIR.heroine_05.result.Byes[2]==='……你去見她那天，出門前傳一句給我就好。'&&J(KNOWL(PS).opts.find(o=>o.t==='「我想跟妳們都在一起。」').accept.yes)===J(['好。可是她那邊也要知道喔。兩邊都不要偷偷的。'])
     &&J(K5.then)===J(['……好。我想一下。'])&&K5.first==='think'&&J(K5.again.then)===J(['……嗯。'])&&J(K5.again.accept.yes)===J(['這學期我一直在想這件事。','……好。我們試試看。'])&&J(K5.again.accept.no)===J(['我還沒準備好。']));
-  const all=[].concat(W().broke,W().self,W().pause,W().end,W().told).filter(x=>x!=null).map(x=>typeof x==='string'?x:String(x.n).replace(/^（|）$/g,''));
-  check('9. 可昕收回的台詞（第 3 節，13 句）、第 5 節改的句子都在企劃線的稿裡（一字不改）',!!doc&&all.length===13&&all.every(inDoc)&&['……你去見她那天，出門前傳一句給我就好。','好。可是她那邊也要知道喔。兩邊都不要偷偷的。','這學期我一直在想這件事。','……好。我們試試看。'].every(inDoc),doc?J(all.filter(t=>!inDoc(t))):'讀不到企劃線 020f695a3（先 git fetch origin claude/magical-albattani-bk7b4n）');
+  const all=[].concat(W().broke,W().heard,W().self,W().pause,W().end,W().endVideo,W().told,W().videoOpen).filter(x=>x!=null).map(x=>typeof x==='string'?x:String(x.n).replace(/^（|）$/g,''));
+  check('9. 可昕收回的台詞（AA_474 第 3 節＋AA_483 第 1 節第 1、2 點、第 2-1、2-2 節，24 句）、第 5 節改的句子都在企劃線的稿裡（一字不改）',!!doc&&all.length===24&&all.every(inDoc)&&['……你去見她那天，出門前傳一句給我就好。','好。可是她那邊也要知道喔。兩邊都不要偷偷的。','這學期我一直在想這件事。','……好。我們試試看。'].every(inDoc),doc?J(all.filter(t=>!inDoc(t))):'讀不到企劃線 187584ca8（先 git fetch origin claude/cool-heisenberg-o8kuqx）');
   check('9. 七位「接受」的說法都不一樣（第 5 節：改過以後沒有撞句）',(()=>{ const ys=[Lm().REPAIR.heroine_05.result.Byes,Lm().REPAIR.kexin.result.Byes,Lm().REPAIR.heroine_04.result.Byes,Lm().REPAIR.heroine_02.result.Byes,Lm().REPAIR.heroine_03.result.B,Lm().REPAIR.heroine_01.result.C,
       KNOWL(PS).opts.find(o=>o.t==='「我想跟妳們都在一起。」').accept.yes,KNOWL(YT).opts.find(o=>o.accept).accept.yes].map(x=>J(x)); return new Set(ys).size===ys.length&&!ys.some(y=>/她的事，你要自己跟我講/.test(y)); })());
 });

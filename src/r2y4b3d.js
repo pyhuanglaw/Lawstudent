@@ -367,7 +367,7 @@ const R2Y4B=(function(){
   S.tellScene=async function(GM,id,y30){ const G=GM.G, C=S.TELL[id]; if(!C||!dating(G,id)) return false; const A=adv();
     let L=C.lines.slice(); if(y30&&C.first30) L.splice(0,C.first30n||1,C.first30); if(y30&&C.last30) L[L.length-1]=C.last30;
     await scene(GM,async()=>{ if(A&&A.begin) A.begin({background:'dark',right:{charId:id,expression:'neutral'}}); if(GM.caption) GM.caption('',(y30&&C.loc30)||C.loc,2600); await play(GM,id,L); });
-    S.tellRec(G,id); return true; };
+    S.tellRec(G,id,((G.flags[y30?'MULTI_TELL30':'MULTI_TELL29'])||{}).list); return true; };
   /* AA_482 第 1～2 節：伴侶＝ROM.partners；都同意＝每一位伴侶 x 對每一位別的伴侶 y 都有 OPEN_OK[x][y]。
      說的對象（MULTI_TELL29／30.list）只排「還沒和每一位別的伴侶都 OPEN_OK」的那幾位；那一場演完＝祐廷先坦白（MREL.tellQuiet：tellBy、YT_CONFESSED、disc、冷靜期），
      之後照她自己那一套（談話、結果 A／B／C／D；接不接受照 AA_474 第 1 節）。沒有 MREL（只載這個檔的測試）＝只記她知道、YT_CONFESSED */
@@ -375,7 +375,10 @@ const R2Y4B=(function(){
   S.notAgreed=(G,x)=>partners(G).filter(y=>y!==x&&!S.openOk(G,x,y));
   S.allAgree=G=>{ const P=partners(G); return P.length>=2&&P.every(x=>!S.notAgreed(G,x).length); };
   S.tellList=G=>partners(G).filter(x=>S.notAgreed(G,x).length>0);
-  S.tellRec=function(G,id){ const ys=S.notAgreed(G,id); if(!ys.length) return null;
+  S.ZZ_PAIR={heroine_04:'heroine_02',heroine_02:'heroine_04'};
+  S.tellRec=function(G,id,list){ const o=S.ZZ_PAIR[id];
+    if(o&&(dating(G,o)||(Array.isArray(list)&&list.includes(o)))){ S.toFriend(G,id); return null; }   /* list：選的那一刻排的名單（另一位那一場先演完、已經離開的也算）*/
+    const ys=S.notAgreed(G,id); if(!ys.length) return null;   /* 子晴＋芷若都是伴侶：照 AA_474 第 2 節兩人都離開，不變（AA_482 第 2 節）——照原本的退回朋友，各自那一場演完就結束 */
     if(typeof MREL!=='undefined'&&MREL.tellQuiet) return MREL.tellQuiet(G,id,ys);
     const F=G.flags, C=F.YT_CONFESSED||(F.YT_CONFESSED={}), M=C[id]||(C[id]={}); for(const y of ys){ if(typeof ROM!=='undefined'&&ROM.tellBy) ROM.tellBy(G,id,y); M[y]=G.day; } return null; };
   const tellSteps=(tag,key)=>[0,1,2,3,4,5,6].map(i=>({id:'r2y4b_'+tag+'_'+i,at:G=>{ const M=G.flags[key]; return M&&typeof M.from==='number'?T(M.from+i,21):Infinity; },until:G=>{ const M=G.flags[key]; return M&&typeof M.from==='number'?T(M.from+i+7,24):Infinity; },
