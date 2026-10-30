@@ -1,19 +1,26 @@
 # LAWWW2 交接紀錄（隨時更新；工作階段中斷時從這裡接）
 
-## ⏱ 現況（LAWWW2-B，2026-10-30 22:5x UTC；帳號 B 七天額度已到警示，隨時可能被切斷——接手的先讀這一段）
+## ⏱ 現況（LAWWW2-B，2026-10-30 23:3x UTC；帳號 B 七天額度已到警示，隨時可能被切斷——接手的先讀這一段）
 
 - **剛交、已整合：NOODLE-LM-1030 麵店＋LM-COLLAPSE-1030 第一間（法律學院圖書館）**（`ee96b798f`→LAWWW-B 整合 2c65d66f1；`test_shots/noodle_lm_1030/README.md`、`test_shots/lm_collapse_1030/README.md`）。樓梯間欄杆影子糊：LAWWW-B 先不排（D99 只記錄）。
 - **LM-COLLAPSE-1030 四間都交了**（`test_shots/lm_collapse_1030/README.md` 有總結表）：法圖、總圖大廳、宿舍四人房已整合；201 也已整合（LAWWW-B 22:09，全部 Node 773／0）。
-- **正在做：PERF-ZONE-ENTER-1018（P1，LAWWW-B 22:09）**：使用者 X14「換畫面卡一兩秒」。README 草稿 `test_shots/zone_enter_interior_1030/README.md`。
-  - 查到的：`Z3.prewarm`、`Z3.warmup` 本來就每個區域都做；室內淡入以後新編的 shader 只有 0～5 個。真正停最久的是 `zones3d.js` 兩段讀像素（`wzAtlasFaces` 平均色、`lmMean` 光照貼圖平均亮度），每站 1.4～5.1 秒（SwiftShader）。
-  - 改了（只動 `zones3d.js`）：`patches/zone_enter_readback_1030.patch`（對開發 610d74642；檢查點 fedd9c5ed）→ getImageData 每站 0～3 ms。
-  - 還要做：Node 全套（跑到一半：aa497 FAIL＝開發原樣也 FAIL，讀不到 AA 的稿）、18 站改後量測（`interior_enter_probe.py --desktop`）、招牌同角度比對（scratchpad/perf_enter/signs_*）、perf_scenes 溫州街兩景 → 交 LAWWW-B。測試樹 slwt（:8796）＝610d74642＋patch、devclean（:8795）＝610d74642 原樣。
+- **剛交：PERF-ZONE-ENTER-1018 第三輪（室內）**（README `test_shots/zone_enter_interior_1030/README.md`；patch `patches/zone_enter_readback_1030.patch`，只改 `zones3d.js`，最新開發 890f8f3f7 套得上）。
+  - 讀像素（`wzAtlasFaces` 平均色、`lmMean` 光照貼圖平均亮度）每站 1.4～5.1 秒 → 0～3 ms；招牌同角度一樣；rtNight 13 間一樣；Node 772／3（三支開發原樣也 FAIL）。
+  - **18 站整體在 SwiftShader 看不出變快**（雜訊比省下的大）；剩下的是 prewarm settle、等 GPU——載入流程，等 LAWWW-B 決定、要實機數字。
+  - 等 LAWWW-B 回 ACK／決定整不整合。下一件照 LAWWW-B 的候選：ART-ECON-3D-GAP-1021 剩下的（j7～j13）或 CLOSED-SPACES-1023 博雅討論室。
 - **NAV-LIBHALL-ISLAND-1030 已交、已整合（cfb70a5fd，`patches/libhall_island_1030.patch`；LAWWW-B 21:37）**（P2）：總圖大廳一樓約 (5.85,-8.4) 2 格導航孤島（換回舊 GLB 也一樣）；改 `library_layout.js` 阻擋接回大塊或封掉；`tests/library_copier_unit.js` 有 FAIL 就 exit 1（原本 FAIL 也 exit 0）；跑 `nav_buildings_unit`。
 - 已交、已整合：SOCLIB-LM-1030＋BOYA n19（3bc7a8800）。
 - **X133 第二版等使用者的地圖或照片**（使用者 10-30 16:5x 回 LAWWW-B）：第一版照舊在遊戲裡（f75d60a4c），第二版不要再猜。
 - **重烘要從 `claude/funny-albattani-iawshm` 拿烘焙用的原始貼圖**（LAWWW-B 21:37 同意留在這裡、不搬進開發分支：遊戲不讀）：`tools/blender/env_second/textures/` 底下 asphalt_02、castle_brick_02_white、concrete_floor_painted、floor_tiles_06、grass_ground、large_sandstone_blocks、linoleum_brown、red_brick_03、snow_02、white_sandstone_bricks、withered_grass 這 11 種開發分支沒有（宿舍四人房的 `floor_tiles_06` 就是因為這樣第一次烘不起來）。在開發分支的測試樹重烘以前，先把這些資料夾複製進去。
 - **注意**：我的分支 10-16 以後沒有合併開發分支（直接 merge 一百多個衝突），一律在開發分支的測試樹上做、只把自己負責的檔案搬回來。測試樹 `scratchpad/slwt`、`scratchpad/devclean` 都在開發 610d74642（slwt 加了這一包）。
 - **沒有遠端備份的**：scratchpad 的截圖、測試樹、總圖大廳的重烘輸出（重做就有：`bash tools/blender/env_second/lightbake/bake_library_hall.sh 512`）。
+
+## 📣 給 LAWWW-B（2026-10-30 23:3x UTC｜PERF-ZONE-ENTER-1018 第三輪（室內）交件；send_message 另外傳）
+
+- README：`docs/art-rebuild/second_ai/test_shots/zone_enter_interior_1030/README.md`；patch：`docs/art-rebuild/second_ai/patches/zone_enter_readback_1030.patch`（只改 `src/zones3d.js`）。
+- `Z3.prewarm`／`warmup` 本來就每個區域都做；室內淡入後新編 shader 只有 0～5 個。真正停最久的是兩段讀像素，已拿掉。
+- **18 站整體在 SwiftShader 看不出變快**——照實寫在 README 第三節第 2 點；剩下的三種停頓（第四節）在載入流程，你決定。
+- Node 772／3（aa497、whois、xinci_romance 開發原樣也 FAIL：讀不到 AA 的稿）。
 
 ## 📣 給 LAWWW-B（2026-10-30 21:1x UTC｜NOODLE-LM-1030＋LM-COLLAPSE 法律學院圖書館 交件；send_message 另外傳）
 

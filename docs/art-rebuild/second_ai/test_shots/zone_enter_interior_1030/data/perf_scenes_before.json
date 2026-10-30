@@ -1,0 +1,70 @@
+{
+ "wenzhou_mid": {
+  "night": {
+   "refresh": {
+    "calls": 304,
+    "tris": 495430,
+    "renderMs": 111
+   },
+   "normal": {
+    "calls": 304,
+    "tris": 495430,
+    "renderMs": 15.9
+   },
+   "refreshEverySec": 2,
+   "autoUpdate": true
+  },
+  "calls": 300,
+  "tris": 492882,
+  "avg": {
+   "calls": 303,
+   "tris": 494775
+  },
+  "shadowCasters": 66,
+  "visibleMeshes": 283,
+  "materials": 256,
+  "renderMs": 17.3,
+  "noShadow": {
+   "calls": 245,
+   "tris": 407111,
+   "renderMs": 14
+  },
+  "shadowMap": 1024,
+  "fps": 0.9,
+  "secs": 61.8
+ },
+ "wenzhou_cafe": {
+  "night": {
+   "refresh": {
+    "calls": 251,
+    "tris": 399110,
+    "renderMs": 17
+   },
+   "normal": {
+    "calls": 251,
+    "tris": 399110,
+    "renderMs": 13.1
+   },
+   "refreshEverySec": 2,
+   "autoUpdate": true
+  },
+  "calls": 233,
+  "tris": 349512,
+  "avg": {
+   "calls": 242,
+   "tris": 374311
+  },
+  "shadowCasters": 66,
+  "visibleMeshes": 257,
+  "materials": 229,
+  "renderMs": 13.1,
+  "noShadow": {
+   "calls": 189,
+   "tris": 310150,
+   "renderMs": 12.1
+  },
+  "shadowMap": 1024,
+  "fps": 1.1,
+  "secs": 55.4
+ }
+}
