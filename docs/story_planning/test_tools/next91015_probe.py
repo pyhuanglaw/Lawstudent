@@ -30,6 +30,9 @@ MODE（環境變數）：
           中軸南、北各坐一張「坐在總圖前的長椅上」→ 起身走得開；進出總圖兩次，草皮模型還在、石板廣場沒疊上來。
   lawlib  LAWLIB-LM-1030（6e3a95623，LAWWW-B 10:44，低優先）：法律學院圖書館光照烘焙。14:00、20:30 各拍一樓閱覽區、長桌往南看窗、櫃台入口、二樓書庫、二樓閱覽區
           （玩家鏡頭；站位＝【捷徑】placeAt）；每張算黑（亮度 <12）和死白（>248）的比例；人站在長桌燈下近拍；走出去回法律系館B 大廳再走進來兩次照樣。
+  multiroom MULTI-ROOM-V2-1030（LAWWW-B 11:42，低優先）：法律系館B 多功能教室 v2。14:00、20:30 三個方向拍＋黑／死白比例＋光照貼圖；坐下、起身、走得開；
+          找一堂在多功能教室的課（手機「直接去上課」）：同學坐好、老師站著；走出去回大廳再走進來兩次。
+  rtnight  RT-NIGHT-1028（bbe0c9469）：晚上 20:30 宿舍房間、兩點半 Café、法律系館A 大廳各四個方向（門框、小東西不要比牆亮、不要像浮在畫面上：看截圖＋亮度）。
 不是 iPhone：Playwright＋SwiftShader。用法：LW_TESTS=<工作樹>/tests MODE=<上面> python3 next91015_probe.py '<URL>/index.html' <輸出資料夾> <存檔.json>"""
 import os, sys, json, asyncio, re, math, time
 sys.path.insert(0, os.environ['LW_TESTS']); import playlib as L
@@ -728,6 +731,78 @@ async def cafe2diag(pg, cdp, run):   # BB-B 10-30：n15_cafe2／2b 站到「坐�
     run.check('站到每個「坐下讀書」的 seatApproach：遊戲判定最近的互動就是那個座位（nearestInteractable）', bool(rows) and all(r['near'] and r['near']['label'] == '坐下讀書' for r in rows), J(rows))
 
 
+LMCOUNT = "(()=>{ let n=0; GAME.E.scene.traverse(o=>{ if(o.isMesh){ const ms=Array.isArray(o.material)?o.material:[o.material]; for(const q of ms) if(q&&q.lightMap) n++; } }); return {n, zone:GAME.G.zone}; })()"
+
+
+async def yaw_shots(pg, run, tag, yaws=(0, PI / 2, PI, -PI / 2), pitch=0.14, dist=3.6):
+    out = []
+    for k, y in enumerate(yaws):
+        await pg.evaluate("(([y,p,d])=>{ const C=GAME.E.cam; C.yaw=y; C.pitch=p; C.distTarget=d; C.manualT=1e9; })", [y, pitch, dist]); await pg.wait_for_timeout(2500)
+        f = await run.shot(pg, '%s_y%d' % (tag, k)); out.append(lum_stats(f))
+    return out
+
+
+async def multiroom(pg, cdp, run):
+    for hh, tg in ((14.0, 'day'), (20.5, 'night')):
+        st, d = await P.base(pg, SAVE, '2025-09-27', hh, 'wancai_multi'); await P.load(pg, cdp, st); await pg.wait_for_timeout(9000)
+        lm = await pg.evaluate(LMCOUNT); ls = await yaw_shots(pg, run, 'multi_%s' % tg, yaws=(0, PI / 2, PI))
+        run.note('%s：光照 %s；亮度 %s' % (tg, J(lm), J(ls)))
+        run.check('%s：多功能教室接到光照貼圖、黑不超過 25%%、死白不超過 15%%' % tg, lm['n'] > 0 and all(x.get('dark', 1) <= 0.25 and x.get('white', 1) <= 0.15 for x in ls), J({'lm': lm, 'lum': ls}))
+    # 坐下、起身
+    seats = await pg.evaluate("""(()=>{ const E=GAME.E; return E.interactables.filter(i=>i.seat&&!E.npcs.some(n=>n.seat&&Math.hypot(n.seat.x-i.seat.x,n.seat.z-i.seat.z)<0.35)).map(i=>{ const a=GAME.seatApproach?GAME.seatApproach(i.seat):null; return {x:i.x,z:i.z,label:i.label,ap:a?[a[0],a[1]]:null}; }); })()""")
+    run.note('空座位：%d 個，前三個 %s' % (len(seats), J(seats[:3])))
+    if seats and seats[0]['ap']:
+        q = seats[0]; await L.go_to(pg, cdp, run, q['ap'][0], q['ap'][1], 0.35, '座位旁邊', max_s=150, stop=lambda s: s['interact'] == q['label'])
+        lab = (await P.ts(pg))['lab']; await L.tap(pg, cdp, '#interact'); sat = False; t0 = time.time()
+        while time.time() - t0 < 60:
+            s = await P.ts(pg)
+            if not sat and await pg.evaluate("!!(GAME.E.player.seat||GAME.E.player.pose==='sit')"): sat = True; await run.shot(pg, 'multi_sit')
+            if s['ch']:
+                k = next((i for i, o in enumerate(s['ch']) if re.match(r'^(起身|站起來|就這樣|算了)', o['t'])), len(s['ch']) - 1)
+                await P.tap_choice(pg, cdp, k); await pg.wait_for_timeout(1500); continue
+            if s['dlg']: await L.tap(pg, cdp, '#dlg'); await pg.wait_for_timeout(650); continue
+            if sat and not await pg.evaluate("!!(GAME.E.player.seat||GAME.E.player.pose==='sit')") and not s['busy']: break
+            await pg.wait_for_timeout(800)
+        p0 = await pg.evaluate("[GAME.E.player.obj.position.x, GAME.E.player.obj.position.z]")
+        sp = await pg.evaluate("(()=>{ const s=GAME.E.zone.spawn||{x:0,z:0}; return [s.x,s.z]; })()")
+        await L.go_to(pg, cdp, run, sp[0], sp[1], 0.9, '起身走回門口', max_s=90)
+        p1 = await pg.evaluate("[GAME.E.player.obj.position.x, GAME.E.player.obj.position.z]")
+        run.check('多功能教室：按「%s」坐得下、起身走得開（沒卡住）' % lab, bool(lab) and sat and math.hypot(p1[0] - p0[0], p1[1] - p0[1]) > 0.8, J({'sat': sat, 'from': p0, 'to': p1}))
+    # 上課：找一堂在多功能教室的課
+    it = await pg.evaluate("""(()=>{ const G=GAME.G; for(let d=G.day; d<=G.day+40; d++){ const q=(CLS.dayItems(G,d)||[]).find(x=>x.room&&(x.room.zone==='wancai_multi'||x.room.via==='wancai_multi'||x.room.door==='multi')&&!x.exam); if(q) return {d, key:CALENDAR.dateOf(d).key, t0:q.t0, name:q.c&&q.c.name, k:q.key}; } return null; })()""")
+    run.note('多功能教室的課：%s' % J(it))
+    if it:
+        await P.jump(pg, cdp, run, it['key'], it['t0'] - 0.5, zone='wancai', pos=None, quiet=False, note='上課前 30 分鐘在法律系館B 大廳')
+        await P.phone_tab(pg, cdp, 'today')
+        bt = await pg.evaluate("(k=>{ const e=[...document.querySelectorAll('#phoneBody [data-go]')].find(b=>b.dataset.go===k); return e?(e.textContent||'').trim():null; })", it['k'])
+        if bt: await L.tap(pg, cdp, '#phoneBody [data-go="%s"]' % it['k'])
+        t0 = time.time(); shot = None
+        while time.time() - t0 < 300:
+            s = await P.ts(pg)
+            if s['ch']: k, _ = P.pick_of(s['ch'], ['坐']); await P.tap_choice(pg, cdp, k); await pg.wait_for_timeout(900); continue
+            if s['dlg']: await L.tap(pg, cdp, '#dlg'); await pg.wait_for_timeout(650); continue
+            if await pg.evaluate("GAME.G.zone") == 'wancai_multi' and await pg.evaluate("GAME.G.hour") >= it['t0'] + 0.05: break
+            await pg.wait_for_timeout(1500)
+        await pg.wait_for_timeout(3000)
+        cl = await pg.evaluate("(()=>{ const E=GAME.E; const v=E.npcs.filter(n=>n.obj&&!n.hidden); return {zone:GAME.G.zone, h:+(+GAME.G.hour).toFixed(2), n:v.length, sit:v.filter(n=>n.seat||n.pose==='sit').length, stand:v.filter(n=>!(n.seat||n.pose==='sit')).map(n=>n.name||n.charId||'?')}; })()")
+        await yaw_shots(pg, run, 'multi_class', yaws=(0, PI))
+        run.note('上課（%s）：手機按鈕「%s」；教室裡 %s' % (it['name'], bt, J(cl)))
+        run.check('多功能教室上課：同學坐好（坐著的 ≥ 3）、站著的只有老師等少數人（≤ 2）', cl['zone'] == 'wancai_multi' and cl['sit'] >= 3 and len(cl['stand']) <= 2, J(cl))
+    for k in (1, 2):
+        ok1 = await door_to(pg, cdp, run, 'wancai', '回法律系館B 大廳（第 %d 次）' % k, max_s=150); await pg.wait_for_timeout(4000)
+        ok2 = await door_to(pg, cdp, run, 'wancai_multi', '再走進多功能教室（第 %d 次）' % k, max_s=150); await pg.wait_for_timeout(8000)
+        lm = await pg.evaluate(LMCOUNT); ls = await yaw_shots(pg, run, 'multi_reenter_%d' % k, yaws=(0,))
+        run.check('進出第 %d 次：出得去、進得來，光照貼圖照樣接上' % k, ok1 and ok2 and lm['zone'] == 'wancai_multi' and lm['n'] > 0, J({'out': ok1, 'in': ok2, 'lm': lm, 'lum': ls}))
+
+
+async def rtnight(pg, cdp, run):
+    for zone, pos, label in (('dorm', None, '宿舍房間'), ('cafe', {'x': 0, 'z': 0.5, 'yaw': 0, 'lv': 0, 'y': 0}, '兩點半 Café'), ('linze', {'x': 0, 'z': -1, 'yaw': PI, 'lv': 0, 'y': 0}, '法律系館A 大廳')):
+        st, d = await P.base(pg, SAVE, '2025-09-26', 20.5, zone, pos=pos); await P.load(pg, cdp, st); await pg.wait_for_timeout(9000)
+        lm = await pg.evaluate(LMCOUNT); ls = await yaw_shots(pg, run, 'rtnight_%s' % zone)
+        run.note('%s 20:30：光照 %s；亮度 %s' % (label, J(lm), J(ls)))
+        run.check('%s 晚上：四個方向拍到（門框、小東西看截圖）；死白不超過 15%%' % label, len(ls) == 4 and all(x.get('white', 1) <= 0.15 for x in ls), J(ls))
+
+
 async def main():
     run = L.Run('next91015_' + MODE + ('' if VP == 'landscape' else '_' + VP), OUT); os.makedirs(OUT, exist_ok=True)
     async with async_playwright() as p:
@@ -739,7 +814,7 @@ async def main():
             b, ctx, pg, cdp, errs = await L.launch(p, landscape=(VP != 'portrait'))
         pg.on('dialog', lambda d: asyncio.ensure_future(d.accept()))
         await pg.goto(URL); run.check('遊戲載入', await L.wait_loaded(pg)); await pg.evaluate("localStorage.clear()"); await P.init(pg)
-        await {'phone': phone, 'bball': bball, 'rooms': rooms, 'cafewin': cafewin, 'noodle': noodle, 'cafe2': cafe2, 'invite': invite, 'jacket': jacket, 'badclip': badclip, 'bigmap': bigmap, 'bballrain': bballrain, 'renart': renart, 'libla': libla, 'lawlib': lawlib, 'cafe2diag': cafe2diag}[MODE](pg, cdp, run)
+        await {'phone': phone, 'bball': bball, 'rooms': rooms, 'cafewin': cafewin, 'noodle': noodle, 'cafe2': cafe2, 'invite': invite, 'jacket': jacket, 'badclip': badclip, 'bigmap': bigmap, 'bballrain': bballrain, 'renart': renart, 'libla': libla, 'lawlib': lawlib, 'cafe2diag': cafe2diag, 'multiroom': multiroom, 'rtnight': rtnight}[MODE](pg, cdp, run)
         run.check('沒有 JS 例外', not errs, J(errs[:3]))
         print('SHA', os.environ.get('SHA', '?'), 'MODE', MODE)
         await b.close()
