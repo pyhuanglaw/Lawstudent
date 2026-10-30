@@ -9,7 +9,8 @@
 //   3-1 朋友版六則私訊（2026-07-20、12-20、2028-02-27、04-12、06-20、2029-02-14）：朋友以上、有聯絡方式、交往中／不熟／前任不發；7/20 有選項——
 //       「我在附近。」＝當天下午慢讀的邀約（INV，by npc）、「今天不行。」＝「好。」
 //   3-2 沒認識的玩家：家族群組 2026-07-05 畢業照、12-24、2027-07-15（在群組就收到；不在群組沒有；交往中也收到）
-// 修改前（開發分支 ca5f3381c）：見檔尾執行結果的說明（FAIL 的項目數寫在 LAWWW-B 報告；0 的「讀稿」、3-1／3-2 的「不該發的不發」修改前就通過）。
+// 修改前（開發分支 ca5f3381c）：50 項 FAIL 45 項（0 全部 12、1-1 1、1-2 3、1-3 7、1-4 3、1-5 3、2 7、3-1 6、3-2 3）；修改前就通過的 5 項＝不該變的：
+//   1-1 臺灣、日本路線照原句；1-4 快轉停點照舊；3-1 交往中／熟悉／前任／沒認識不發、過了回覆期限不補。
 // 用法：node tests/aa539_sis_reread_unit.js
 require('./alison.js');
 const H=require('./pg_harness.js');
@@ -161,13 +162,13 @@ await sec('2',()=>{
   const term=['2027-02-22','2027-06-13'];
   const F=simHask(term[0],term[1],'friend'), Fl=F.filter(x=>x.from==='library');
   check('2. 朋友版大二下（2027-02-22～06-13）：同一句四週內不重複（原本同一句一學期 7～10 次）',F.length>=4&&!dupIn28(F).length,J({dup:dupIn28(F),L:show(F)}));
-  const LV=v=>[v.line].concat(v.alt.map(a=>a.line)), fl=LV(entry('library').pre), seqOk=(L,pool)=>L.every((x,i)=>pool.indexOf(x.text)===(i%pool.length));
+  const LV=v=>[v&&v.line].concat(((v&&v.alt)||[]).map(a=>a.line)), fl=LV(entry('library').pre), seqOk=(L,pool)=>L.every((x,i)=>pool.indexOf(x.text)===(i%pool.length));
   check('2. 朋友版總圖照稿的順序輪（1→2→3→4→1…），四句都用到',Fl.length>=4&&seqOk(Fl,fl)&&new Set(Fl.map(x=>x.text)).size===4,J(show(Fl)));
   const Dt=simHask(term[0],term[1],'dating'), Dl=Dt.filter(x=>x.from==='library'), Dr=Dt.filter(x=>x.from==='run_avenue');
   check('2. 交往版大二下：同一句四週內不重複（總圖、晨跑、其他地點）',Dt.length>=6&&!dupIn28(Dt).length,J({dup:dupIn28(Dt),L:show(Dt)}));
   const dl=LV(entry('library').dat), dr=LV(entry('run_avenue').dat);
-  check('2. 交往版總圖、晨跑各照稿的順序輪（大二下已經有研究室：晨跑第一句是原句）',Dl.length>=2&&seqOk(Dl,dl)&&Dr.length>=2&&seqOk(Dr,dr),J({lib:show(Dl),run:show(Dr)}));
-  check('2. 輪流的時間照句子：「五點」17:00、「五點以後」17:30（朋友版第 3 句）',Fl.every(x=>x.h===(/五點以後/.test(x.text)?17.5:17))&&Dl.every(x=>x.h===17),J(Fl.concat(Dl).map(x=>[x.h,x.text])));
+  check('2. 交往版總圖、晨跑各照稿的順序輪（大二下已經有研究室：晨跑第一句是原句）',dl.length===4&&dr.length===4&&Dl.length>=3&&seqOk(Dl,dl)&&Dr.length>=3&&seqOk(Dr,dr),J({lib:show(Dl),run:show(Dr)}));
+  check('2. 輪流的時間照句子：「五點」17:00、「五點以後」17:30（朋友版第 3 句）',new Set(Fl.map(x=>x.h)).size===2&&Fl.every(x=>x.h===(/五點以後/.test(x.text)?17.5:17))&&Dl.every(x=>x.h===17),J(Fl.concat(Dl).map(x=>[x.h,x.text])));
   /* 四句都在四週內傳過＝這次不約那個地方 */
   const K=HA(), e=entry('library'); fresh('2027-03-29',12,'friend'); const R=K?K.rec(H.G):{sent:[]}, d0=D('2027-03-29');
   fl.forEach((t,i)=>R.sent.push({sid:100+i,id:ID,k:'d',vk:'pre',place:'library',h:17,day:d0-20+i*5+1,send:{day:d0-20+i*5,h:22.5},state:'sent',alt:i||undefined,line:t}));
@@ -195,7 +196,7 @@ await sec('3-1',()=>{
   check('3-1. 交往中、熟悉、前任、沒認識：都不發',Object.values(no).every(x=>x===0),J(no));
   /* 7/20：下午 14:00、有選項 */
   run1('2026-07-20','friend',{},14.05); const m0=byTag('sis539_fdm_0'), last=m0[m0.length-1];
-  check('3-1. 2026-07-20 14:00 兩則「學生證停了。今天第一次在總圖門口被擋下來。」「……我在慢讀。你如果在附近。」；最後一則有選項「我在附近。」「今天不行。」',J(m0.map(m=>m.text))===J(A[0].L)&&m0.every(m=>keyOf(m.day)==='2026-07-20'&&near(m.h,14))&&!!last&&!!last.ask&&J(last.ask.opts.map(o=>o.t))===J(['我在附近。','今天不行。']),J(m0.map(m=>[keyOf(m.day),m.h,m.text,m.ask&&m.ask.opts.map(o=>o.t)])));
+  check('3-1. 2026-07-20 14:00 兩則「學生證停了。今天第一次在總圖門口被擋下來。」「……我在慢讀。你如果在附近。」；最後一則有選項「我在附近。」「今天不行。」',J(m0.map(m=>m.text))===J((A[0]||{}).L)&&m0.every(m=>keyOf(m.day)==='2026-07-20'&&near(m.h,14))&&!!last&&!!last.ask&&J(last.ask.opts.map(o=>o.t))===J(['我在附近。','今天不行。']),J(m0.map(m=>[keyOf(m.day),m.h,m.text,m.ask&&m.ask.opts.map(o=>o.t)])));
   fresh('2026-07-20',9,'friend'); at('2026-07-20',9); rules(); at('2026-07-20',14.2); rules(); const r0=PHONE.answer(H.G,'sis539_fdm_0',0); const iv=(H.G.invites||[]).find(q=>q.who===ID&&q.place==='slowread');
   check('3-1. 回「我在附近。」：當天下午慢讀的邀約（INV、她約的 by npc、已答應、15:30），見面照慢讀（INV 的 slowread）',!!iv&&keyOf(iv.day)==='2026-07-20'&&iv.h===15.5&&iv.by==='npc'&&iv.state==='accepted'&&H.G.flags.SIS539_SR===iv.id,J({iv,f:H.G.flags.SIS539_SR,r0:!!r0}));
   fresh('2026-07-20',9,'friend'); at('2026-07-20',9); rules(); at('2026-07-20',14.2); rules(); PHONE.answer(H.G,'sis539_fdm_0',1); const th=(H.G.msgs||[]).filter(m=>m.th==='p:'+ID).map(m=>(m.from==='player'?'你':'她')+'：'+m.text);
