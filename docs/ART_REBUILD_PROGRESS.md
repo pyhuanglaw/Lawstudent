@@ -10,7 +10,7 @@
 
 ## 交接（最新）——工作階段隨時可能因額度中斷（D45 緊急保存規則）
 
-**現況（帳號 B LAWWW-B，2026-10-30 16:1x UTC；帳號 B 七天額度已到警示 allowed_warning，2026-11-06 02:00 UTC 重置——隨時可能被切斷）**
+**現況（帳號 B LAWWW-B，2026-10-30 16:4x UTC；帳號 B 七天額度已到警示 allowed_warning，2026-11-06 02:00 UTC 重置——隨時可能被切斷）**
 - 線上：**v9.10.14**（main `271cd2305`，PR #20，Pages 07:52:40 成功；BB-B main deploy_check ALL PASS）：快速存檔獨立一格、開新遊戲前先備份、經濟系那一年可昕不主動約。BB 對 main 補跑剩下的情境（AA_520／523／518／515_zq、R43、libhall、R44）。
 - **下一版在開發分支**（`55b49aa11` 以後；全部 Node：`fe3cee955` 763／0，之後只多 AA_539 第 5 節（子代理 763／0）與 7/20 旁白）：
   - postrel-1030 全部（`b576263b6`）；改名 D115（`ba315523b`、`ea67b0cb4`、舊存檔出遊 `ca5f3381c`、開發文件 `052d589d2`）；Café 室內光照（CAFE-LM-1030）；學姊 AA_539（`fe3cee955`、`101f841c8`、`55b49aa11`）。
@@ -29,7 +29,7 @@
     - 第一天阿哲約吃麵的舊生法只在約的那天（32dd6ae75，BB 找到考試週阿哲還在麵店）。
     - 全部 Node 771／0（6d358e159）→ NOODLE-TEAM-SHRINK-1030 已整合待測試，BB 照 AA_542 第 8 節玩；AA 第 9 節（c2e442b57）兩處：春假那則第 7～10 週、舊開局 312 z2（`3183b49c2`）。
     - X145：AA_543（企劃線 d483ecbbf＋第 5 節 f726507f7）做完：src/whois3d.js（13 人「你們」一段，條件成立才顯示；最多 8 行，①②、哥、在一起那一行不擠掉；宿營＋遊覽車、室友＋搬走、系籃＋17 號＋隊長合併）、個性改 8 人（`9597ffa34`）、Alison 個性兩段、9/2 搬進 412 記韋綸唐睿 FIRST_MET（`f4adf6cb7`、`c4fc0d4fe`、`bcec62805`）；全部 Node 771／1（v0_dorm_props 原始碼順序，已修）；tests/whois_unit.js 53 項。CHAR-WHOIS-1030 已整合待測試，BB 排在 shrink_b 後面。
-  - 16:1x XINCI-ROMANCE-1030（X139 芯慈可以交往，AA_537 2f523e21a＋537b 508568ae5）開工：第 4 段（一）約會台詞匯入（`4c587168a`，import_date_lines.py 加 AA_537b、白名單登記）；第 1 段告白做完（`f802dcfe5`）：src/xcrom3d.js 門檻 G1～G10＋開關 XCROM.CFG（noAnEx、noOpen：使用者還沒回 AA）、termend HEART／NOPE（AA_537b 第 7 節 5ba143d2c）、她先問有沒有交往對象（有＝others）、confess_lines、DATE.HEROINES、YES_LINE 75、心願 D04 晚上場、6 次；tests/xinci_romance_unit.js ALL PASS；全部 Node 背景跑中。下一步第 2 段：3-1～3-6 新時刻、G5 半夜訊息（XC_NIGHT）。已問 AA：交往中期末約會 GF 的 invite／地點、心願事件其他幾塊。
+  - 16:1x XINCI-ROMANCE-1030（X139 芯慈可以交往，AA_537 2f523e21a＋537b 508568ae5）開工：第 4 段（一）約會台詞匯入（`4c587168a`，import_date_lines.py 加 AA_537b、白名單登記）；第 1 段告白做完（`f802dcfe5`）：src/xcrom3d.js 門檻 G1～G10＋開關 XCROM.CFG（noAnEx、noOpen：使用者還沒回 AA）、termend HEART／NOPE（AA_537b 第 7 節 5ba143d2c）、她先問有沒有交往對象（有＝others）、confess_lines、DATE.HEROINES、YES_LINE 75、心願 D04 晚上場、6 次；tests/xinci_romance_unit.js ALL PASS；全部 Node 背景跑中。第 4 段（二）AA_537b 8-0、8-1（`f61e36c26`、`901cc2810`：飯桌換句、交往中期末飯提前一天 21:00 約；D04 芷若子晴照舊）；第 2 段（`b7f993806`～`ada5e3c49`）：3-1 麵店補問、3-2 G3 提醒、3-3 補演的電話、3-4 G7 當天約＋家常菜、3-5 空白的週三下午（＋大四上再問）、3-6、第 2 節分手那晚；全部 Node 背景跑中。**還沒做**：G5 半夜訊息（等 AA 給 12～16 則她半夜先傳的句子，msg_pool 是回覆用的不適用）、心願午夜場（AA 8-2 全套；要擴充約會系統到 02:30，AA 同意）、第 3 段交往以後（msg L、以安那則、她爸爸、MREL 不接受、尾聲）、節日（537b 第 5 節）。
   - 16:0x BB n19_boyaecon：預設經濟系流程不上經原（不進博思）＝D102 的設計（KEEP 29 場照 AA），不改；BB 用 &nofastecon 驗博思 101、另看法律系 B4 演講。BB 麵店兩個阿姨＝不是重複（阿姨在時店員藏），阿姨模型晚 20 秒＝NDL-AUNT-VIS-1030（P3）等讀數。
   - LAWWW2 下一批（D99 經濟系優先）：BOYA-LM-1030 博思教學館 → SOCLIB-LM-1030 社科圖 → NOODLE-LM-1030 麵店；ART-ZR-PS-3D-1022 回報進度。AA_541 改名最終一致性報告（企劃線 bc3f0ad97）：約 95%，剩 BB 近拍＋使用者真機；發布條件含**使用者同意**、README 同一次換。
 - **改名版（D115）發布前一定要先問使用者同意**（使用者 04:31 原話「不得未經我同意直接合併 main 或正式發布」）；發布時根目錄 README 換 AA 草稿（企劃線 f745e8ab9）。
