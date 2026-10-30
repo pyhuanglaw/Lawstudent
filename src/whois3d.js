@@ -2,7 +2,8 @@
    畫面在 game3d.js 的 personHTML（「現在大概在」和個性中間），一行一句、前面加「· 」。
    - 每一行有條件：條件成立才顯示，沒發生的不先寫（第 0 節）。
    - 順序：①他是誰 ②怎麼認識 ③之後發生的事（照時間排）。同一件事有新的說法就換掉舊的（rep：這一行顯示時，拿掉 rep 列的那幾行）。
-   - 一個人最多 6 行；超過的話第 ③ 類從最舊的拿掉。
+   - 一個人最多 8 行（第 5 節 5-1，企劃線 f726507f7；原本 6 行）：①②、叫你「哥」、任何「在一起了／在一起過」那一行（keep）永遠不擠掉，其他超過的從最舊的拿掉（ord：預設＝表上的順序）。
+   - 合併（5-1）：宿營＋遊覽車一行（阿哲、明軒）、阿哲室友＋大三搬走一行、阿哲系籃＋17 號＋隊長一行。
    - 字一字照稿；群組名照 AA_542（STORY.ndlGroupName，法一吃飯……）。
    名單：法律系 阿哲、Alison、柏翰、芯慈、明軒、宥辰、阿凱；經濟系那年 阿勳、品妤、韋綸、唐睿；其他 方奕廷、黃筱涵（七位女主角、宋家豪、Kevin 不做，第 0 節）。
    個性那一行（characters.js personality）8 人改字在 characters.js；Alison 照進度換段在 S.desc（1-2）。 */
@@ -21,7 +22,8 @@ const WHOIS=(()=>{
   S.helpers={done,mem,got,heard,camp,since,fromKey,year};
 
   /* 一列：{c:1|2|3, id, if:G=>bool, t:字串或 G=>字串, rep:[被換掉的 id]}
-     c：1＝他是誰（全名那一行，和緊接在後面的同一類：家鄉、社團）、2＝怎麼認識（含室友那一行：他跟你是什麼關係）、3＝之後發生的事（超過 6 行從這一類最舊的拿掉）*/
+     c：1＝他是誰（全名那一行，和緊接在後面的同一類：家鄉、社團）、2＝怎麼認識（含室友那一行：他跟你是什麼關係）、3＝之後發生的事；
+     keep：第 ③ 類裡永遠不擠掉的（「哥」、在一起）；ord：擠的順序（數字或 G=>數字，小的先擠；沒寫＝表上的順序）*/
   const R={};
   S.R=R; S.DESC={};
   const f=k=>G=>{ const v=F(G)[k]; return v!=null&&v!==false; };   /* 旗標有值（字串、數字、true）*/
@@ -37,20 +39,17 @@ const WHOIS=(()=>{
   R.zhe=[
     {c:1,id:'name',if:zheMet,t:'張哲維，大家叫他阿哲。法律系，跟你同班。高雄人。'},
     {c:1,id:'name0',if:G=>!zheMet(G),t:'阿哲。法律系，跟你同班。'},   /* 舊開局，從來沒講過全名 */
-    {c:2,id:'camp',if:G=>camp(G,'zhe'),t:'宿營同一小隊，第一天就認識了。'},
-    {c:2,id:'bus',if:G=>F(G).CAMP_BUS==='zhe',t:'去程的遊覽車上，他坐你旁邊。'},
+    {c:2,id:'camp',if:G=>camp(G,'zhe'),t:G=>'宿營同一小隊，第一天就認識了。'+(F(G).CAMP_BUS==='zhe'?'去程的遊覽車上，他坐你旁邊。':'')},   /* 5-1：宿營＋遊覽車一行 */
+    {c:2,id:'bus',if:G=>F(G).CAMP_BUS==='zhe'&&!camp(G,'zhe'),t:'去程的遊覽車上，他坐你旁邊。'},
     {c:2,id:'w1',if:G=>done(G,'ev_zhe_w1_meet')&&!camp(G,'zhe'),t:'開學第一堂課，他從後面戳你肩膀，問附近中午吃什麼。'},
-    {c:2,id:'room',if:G=>{ const r=rm(G); return r.four||r.y2; },t:G=>{ const r=rm(G); return r.y2?(r.four?'室友：大一 203、大二 312。':'大二同住 312。'):'大一同住 203。'; }},
-    {c:3,id:'room3',if:G=>{ const r=rm(G); return (r.y3||r.y4)&&y(G,3); },t:'大三起他搬去別間。'},
-    {c:3,id:'ge',if:f('ZHE_CALLS_GE'),t:'知道你比大家大一歲以後，他都叫你「哥」。'},
+    {c:2,id:'room',if:G=>{ const r=rm(G); return r.four||r.y2; },t:G=>{ const r=rm(G); return (r.y2?(r.four?'室友：大一 203、大二 312。':'大二同住 312。'):'大一同住 203。')+((r.y3||r.y4)&&y(G,3)?'大三起他搬去別間。':''); }},   /* 5-1：室友＋大三搬走一行 */
+    {c:3,id:'ge',keep:true,if:f('ZHE_CALLS_GE'),t:'知道你比大家大一歲以後，他都叫你「哥」。'},
     {c:3,id:'grp',if:G=>{ const d=F(G).noodleTableDay; return d!=null&&(G.day>d||inGrp(G,'noodle_team')); },t:G=>'常揪大家吃飯。群組「'+grp(G)+'」是他建的。'},   /* 群組那天 21:00 才建好 */
-    {c:3,id:'ball',t:'打系籃。'},
-    {c:3,id:'ball17',if:ev('ev_zhe_game_y2'),t:'打系籃，17 號。',rep:['ball']},
+    {c:3,id:'ball',t:G=>(done(G,'ev_zhe_game_y2')?'打系籃，17 號。':'打系籃。')+(F(G).ZHE3?'大三當上隊長。':''),ord:G=>F(G).ZHE3?R.zhe.findIndex(r=>r.id==='fin')-0.5:(done(G,'ev_zhe_game_y2')?R.zhe.findIndex(r=>r.id==='yu')-0.5:R.zhe.findIndex(r=>r.id==='ball'))},   /* 5-1：系籃一行（演過 ev_zhe_game_y2＝17 號、ZHE3＝隊長）；擠的順序照最後一次換說法的時候 */
     {c:3,id:'ballyou',if:G=>!!(F(G).CLUB_dept_basketball||F(G).ball_invite),t:'你也在系籃，幫忙記分。'},
     {c:3,id:'z2s',if:G=>F(G).ZHE2==='study',t:'大二上他民法差點被當，你陪他念了四個禮拜。'},
     {c:3,id:'z2n',if:G=>F(G).ZHE2==='notes',t:'大二上他民法差點被當，你借了他筆記。'},
-    {c:3,id:'yu',if:f('YU_ZHE_TOLD'),t:'大二上學期末，他和 Alison 在一起了。'},
-    {c:3,id:'cap',if:f('ZHE3'),t:'大三當上系籃隊長。'},
+    {c:3,id:'yu',keep:true,if:f('YU_ZHE_TOLD'),t:'大二上學期末，他和 Alison 在一起了。'},
     {c:3,id:'fin',if:G=>F(G).FINAL_GAME_Y3==='went',t:'大三下的冠軍賽贏了。你在場邊。'},
     {c:3,id:'fins',if:G=>F(G).FINAL_GAME_Y3==='stream',t:'大三下的冠軍賽贏了。你看的是直播。'} ];
 
@@ -61,9 +60,9 @@ const WHOIS=(()=>{
     {c:1,id:'home',if:ev('ev_yu_breakfast'),t:'從板橋通勤。'},
     {c:2,id:'camp',if:G=>Array.isArray(F(G).CAMP_SEEN)&&F(G).CAMP_SEEN.includes('yu'),t:'宿營時隔壁小隊帶隊呼的那個女生，開學以後才說上話。'},
     {c:3,id:'bkf1',if:ev('ev_yu_breakfast'),t:'大一上，在晨思鐘旁邊一起吃過早餐。'},
-    {c:3,id:'zh',if:G=>F(G).YU_ZHE_TOLD==='here',t:'大二上學期末，她和阿哲在一起了。是她在麵店親口跟你說的。'},
-    {c:3,id:'zc',if:G=>F(G).YU_ZHE_TOLD==='call',t:'大二上學期末，她和阿哲在一起了。她打電話跟你說的。'},
-    {c:3,id:'zp',if:G=>F(G).YU_ZHE_TOLD==='photo',t:'大二上學期末，她和阿哲在一起了。你是看到群組的照片才知道的。'},
+    {c:3,id:'zh',keep:true,if:G=>F(G).YU_ZHE_TOLD==='here',t:'大二上學期末，她和阿哲在一起了。是她在麵店親口跟你說的。'},
+    {c:3,id:'zc',keep:true,if:G=>F(G).YU_ZHE_TOLD==='call',t:'大二上學期末，她和阿哲在一起了。她打電話跟你說的。'},
+    {c:3,id:'zp',keep:true,if:G=>F(G).YU_ZHE_TOLD==='photo',t:'大二上學期末，她和阿哲在一起了。你是看到群組的照片才知道的。'},
     {c:3,id:'bkf',if:f('YU_BKF'),t:'大二下有一陣子，她一個人吃早餐。'},
     {c:3,id:'lib',if:f('YU_Y4_LIB'),t:'大四上，她說她在練習一個人念書。'} ];
   S.DESC.yu=(G,base)=>(yuQuit(G)?'精力旺盛；吉他社、系學會都有她':'精力旺盛；吉他社、辯論社、系學會都有她')+(f('YU_BKF')(G)?'；其實很怕一個人':'');   /* 1-2：大二下第 3 週以後退了辯論社；一個人的早餐（YU_BKF）以後才寫「其實很怕一個人」*/
@@ -83,8 +82,8 @@ const WHOIS=(()=>{
       if(r.y2) return r.four?'室友：大一 203、大二 312。':'室友：大二 312。';
       return '大一同住 203，他比你先搬進去。'; }},
     {c:3,id:'score',if:f('BOHAN_SCORE'),t:'大一上期中考完，他問過你考幾分。'},
-    {c:3,id:'ps',if:psBh,t:'大一下，他和沛珊在一起了。'},
-    {c:3,id:'split',if:f('PEISHAN_BOHAN_SPLIT'),t:'大一下他和沛珊在一起過，大二上分開了。',rep:['ps']},
+    {c:3,id:'ps',keep:true,if:psBh,t:'大一下，他和沛珊在一起了。'},
+    {c:3,id:'split',keep:true,if:f('PEISHAN_BOHAN_SPLIT'),t:'大一下他和沛珊在一起過，大二上分開了。',rep:['ps']},
     {c:3,id:'club',if:G=>y(G,2)&&heard(G,BH,'「法服的值班表，我排到十二月了。」'),t:'大二當法服社長。'},
     {c:3,id:'grp',if:f('BOHAN_GROUP'),t:'大二上，他找你進他的考古題小組。'},
     {c:3,id:'honest',if:G=>mem(G,BH,'BOHAN_HONEST'),t:'大三上，他在四樓樓梯間跟你說了，為什麼每天要念六小時。'},
@@ -113,8 +112,8 @@ const WHOIS=(()=>{
     {c:1,id:'name0',if:mxOld,t:'江明軒。法律系，跟你同班。阿哲的系籃隊友。'},   /* 舊開局（演過 ev_mingxuan_ball）*/
     {c:1,id:'dorm',if:f('DORM_FOUR'),t:'也住宿舍，在別棟。'},
     {c:1,id:'home',if:G=>F(G).MX_3ON3==='went'||done(G,'ev_mx_3on3'),t:'彰化人。'},
-    {c:2,id:'camp',if:G=>camp(G,MX),t:'宿營同一小隊。'},
-    {c:2,id:'bus',if:G=>F(G).CAMP_BUS==='mx',t:'去程的遊覽車上，他坐你旁邊。'},   /* 宿營的旗標寫 'mx'（camp_y1.js）*/
+    {c:2,id:'camp',if:G=>camp(G,MX),t:G=>'宿營同一小隊。'+(F(G).CAMP_BUS==='mx'?'去程的遊覽車上，他坐你旁邊。':'')},   /* 5-1：宿營＋遊覽車一行（宿營的旗標寫 'mx'，camp_y1.js）*/
+    {c:2,id:'bus',if:G=>F(G).CAMP_BUS==='mx'&&!camp(G,MX),t:'去程的遊覽車上，他坐你旁邊。'},
     {c:2,id:'why',if:f('WHY_RETAKE_ASKED'),t:'宿營夜談，是他問你為什麼重考。'},
     {c:3,id:'ball',if:G=>!mxOld(G),t:'打系籃，是阿哲的隊友。'},   /* 舊開局的第一行已經寫了，不重複 */
     {c:3,id:'study',if:G=>mem(G,MX,'SAW_HIM_STUDY'),t:'他看起來都沒念書。你撞見過他偷偷念。'},
@@ -162,7 +161,7 @@ const WHOIS=(()=>{
     {c:2,id:'cls0',if:noY0,t:'回到法律系以後才說上話。'},
     {c:3,id:'worry',if:f('PINYU_WORRY'),t:'想當精算師。精算要一科一科考。'},
     {c:3,id:'act',if:G=>got(G,'r3_py_actuary'),t:'大四上，精算第一科過了。'},
-    {c:3,id:'tr',if:G=>got(G,'b106_42_photo'),t:'她和唐睿在一起了。'} ];
+    {c:3,id:'tr',keep:true,if:G=>got(G,'b106_42_photo'),t:'她和唐睿在一起了。'} ];
   R.econ_weilun=[
     {c:1,id:'name',t:'邱韋綸。經濟系，口頭禪「走啦！」'},
     {c:2,id:'room',if:y0,t:'你經濟系那年的室友（412），宿營同一小隊。「走啦」群組是他建的。'},
@@ -174,7 +173,7 @@ const WHOIS=(()=>{
     {c:2,id:'room',if:y0,t:'你經濟系那年的室友（412）。'},
     {c:2,id:'sticky',if:G=>noY0(G)&&!!F(G).STICKY_NOTES,t:'大一上，你桌上一直出現便利貼，後來才知道是他。'},
     {c:3,id:'night',if:G=>done(G,'ev_econ_night_y2')||mem(G,'econ_tangrui','ECON_NIGHT')||mem(G,'econ_pinyu','ECON_NIGHT'),t:'經濟系之夜是他主持的。'},   /* 記憶 ECON_NIGHT 記在品妤（ev_econ_night_y2）*/
-    {c:3,id:'py',if:G=>got(G,'b106_42_photo'),t:'他和品妤在一起了。'} ];
+    {c:3,id:'py',keep:true,if:G=>got(G,'b106_42_photo'),t:'他和品妤在一起了。'} ];
   R.npc_fangyt=[
     {c:1,id:'name',t:'方奕廷。森林系。'},
     {c:1,id:'zr',if:G=>mem(G,'npc_fangyt','FANG_HINT'),t:'跟芷若高中同校。'},
@@ -189,14 +188,15 @@ const WHOIS=(()=>{
     {c:3,id:'yt',if:G=>{ const T=F(G).AA519&&F(G).AA519.talk&&F(G).AA519.talk.npc_huangxh; return !!(T&&T.said&&T.said.y1_1!=null); },t:'跟語彤高中同班。'},   /* 「我跟語彤高中同班。她那時候就坐第一排。」（aa519_lines.js hxh 大一第 2 句，sup519_3d.js 記在 AA519.talk.npc_huangxh.said）*/
     {c:3,id:'subj',if:G=>!!F(G).HXH_SUBJECT||mem(G,'npc_huangxh','HXH_SUBJECT'),t:'大二上，你當過她實驗的受試者。'} ];
 
-  /* 第 0 節：條件成立的列 → 拿掉被換掉的 → 超過 6 行從第 ③ 類最舊的拿掉 */
-  S.MAX=6;
+  /* 第 0 節：條件成立的列 → 拿掉被換掉的 → 超過 8 行從能擠的（第 ③ 類、不是 keep）最舊的拿掉；都不能擠就全部顯示 */
+  S.MAX=8;
   S.lines=function(G,id){ const rows=R[id]; if(!G||!rows) return [];
     let on=rows.filter(r=>{ try{ return !r.if||!!r.if(G); }catch(e){ return false; } });
     const gone=new Set(); for(const r of on) for(const x of (r.rep||[])) gone.add(x);
     on=on.filter(r=>!gone.has(r.id));
-    while(on.length>S.MAX){ const i=on.findIndex(r=>r.c===3); if(i<0) break; on.splice(i,1); }
-    return on.slice(0,S.MAX).map(r=>{ try{ return typeof r.t==='function'?r.t(G):r.t; }catch(e){ return ''; } }).filter(Boolean); };
+    const ord=r=>{ try{ return typeof r.ord==='function'?r.ord(G):(r.ord!=null?r.ord:rows.indexOf(r)); }catch(e){ return rows.indexOf(r); } };
+    while(on.length>S.MAX){ let k=-1; for(let i=0;i<on.length;i++){ const r=on[i]; if(r.c!==3||r.keep) continue; if(k<0||ord(r)<ord(on[k])) k=i; } if(k<0) break; on.splice(k,1); }
+    return on.map(r=>{ try{ return typeof r.t==='function'?r.t(G):r.t; }catch(e){ return ''; } }).filter(Boolean); };
 
   /* 個性那一行照進度換（1-2 Alison 在上面 S.DESC.yu）；其他人照 characters.js */
   S.desc=function(G,id,base){ const f=S.DESC[id]; if(!f||!G) return base; try{ const v=f(G,base); return v==null?base:v; }catch(e){ return base; } };
