@@ -127,7 +127,7 @@ assets/cg/<character_id>/<cg_id>.webp
 
 ## 7. 背景圖需求（bg_id）
 
-law_classroom_day / law_classroom_evening / library_day / library_night / cafe_day / cafe_evening / cafe_rain / dorm_night / campus_sunset / campus_rain / royal_palm_road_day（椰林大道） / gate_night（校門） / noodle_shop_night / gongguan_night / wenzhou_alley_dusk。
+law_classroom_day / law_classroom_evening / library_day / library_night / cafe_day / cafe_evening / cafe_rain / dorm_night / campus_sunset / campus_rain / royal_palm_road_day（椰影大道） / gate_night（校門） / noodle_shop_night / gongguan_night / wenzhou_alley_dusk。
 目前事件用 `background:'blur'|'freeze'` 直接以 3D 當背景；提供圖片後在事件把 background 改為 `{image:'assets/backgrounds/<bg_id>.webp'}`。
 
 ## 8. Event CG 需求（第一批）

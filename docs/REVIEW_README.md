@@ -32,7 +32,7 @@ src/assets3d.js       ASSET LAYER：manifest、loader、fallback、instance
 src/character3d.js    CHARACTER LAYER：build/animate/setExpr 統一介面；GLB driver（Mixamo 重定向）
 src/world3d.js        LEVEL_BLOCKOUT 產生器：貼圖、建築、樹（fallback）、路燈、腳踏車…、風動 shader
 src/engine3d.js       渲染、時間光線、天氣、鏡頭、觸控、導航格 A*、碰撞、NPC 行為、LOD
-src/zones3d.js        區域定義（校園、公館、溫州街、教室、萬才館、總圖、咖啡廳、便利商店、麵店、書店、宿舍）
+src/zones3d.js        區域定義（校園、公館、溫州街、教室、法律系館B、總圖、咖啡廳、便利商店、麵店、書店、宿舍）
 src/audio3d.js        WebAudio 合成環境音
 src/data/characters.js CHARACTERS / UNFAMILIAR_POOL / SOCIAL_GRAPH / PORTRAITS
 src/data/legal_qbank.js 刑訴題庫（使用者提供，Q001–Q084）
@@ -74,7 +74,7 @@ test_*.html           子系統測試頁；play.py / shot3d.py 自動測試
 
 ## F. Gameplay loop
 
-第一天晚上宿舍（讀或不讀案例）→ 第二天民總（周教授提問，答案取決於是否讀案例）→ 走出霖澤館、小安追上來 → 一起走到咖啡廳／總圖 → 對話與選擇 → 黃昏 → 公館吃麵（阿哲）→ 宿舍 → 之後自由：課表（週二刑訴、週四民總）、讀書會（週三法服）、圖書館讀書（把混淆的爭點讀懂）、咖啡廳、公館、溫州街；資料驅動事件依地點／時間／天氣／關係／記憶觸發；NPC 依日程出現。時間在自由行動時流動（1 小時≈2.5 分鐘）。
+第一天晚上宿舍（讀或不讀案例）→ 第二天民總（周教授提問，答案取決於是否讀案例）→ 走出法律系館A、小安追上來 → 一起走到咖啡廳／總圖 → 對話與選擇 → 黃昏 → 公館吃麵（阿哲）→ 宿舍 → 之後自由：課表（週二刑訴、週四民總）、讀書會（週三法服）、圖書館讀書（把混淆的爭點讀懂）、咖啡廳、公館、溫州街；資料驅動事件依地點／時間／天氣／關係／記憶觸發；NPC 依日程出現。時間在自由行動時流動（1 小時≈2.5 分鐘）。
 
 ## G. Rendering architecture
 
@@ -110,7 +110,7 @@ three.js WebGLRenderer、ACES tone mapping、sRGB；HemisphereLight＋Directiona
 
 - **PLACEHOLDER_CHARACTER**：除主角與小安外的所有 NPC 與路人（`src/people3d.js`）。主角為 RPM 範例 avatar（棕西裝、光頭；casting 不符，僅證明 pipeline）；小安為 three-vrm 範例 VRM（白 T 黑短褲、棕長髮；不是依 Character Bible 製作的，僅證明 VRM pipeline）。
 - **PLACEHOLDER_2D_PORTRAIT**：全部立繪（圖片尚未提供）。
-- **LEVEL_BLOCKOUT**：所有建築（`W3.building` 方盒＋貼圖立面）、道路、室內牆面桌椅書櫃、公館店面、溫州街公寓、校門／傅鐘／總圖門廊等地標。
+- **LEVEL_BLOCKOUT**：所有建築（`W3.building` 方盒＋貼圖立面）、道路、室內牆面桌椅書櫃、公館店面、溫州街公寓、校門／晨思鐘／總圖門廊等地標。
 - 程序化 fallback 樹（W3.banyan/palm/bush）與腳踏車、路燈、販賣機等 props。
 - 天空 shader、雨、環境音（合成）。
 
@@ -157,7 +157,7 @@ three.js WebGLRenderer、ACES tone mapping、sRGB；HemisphereLight＋Directiona
 
 ## S2. v7（2026-09-27 傍晚）P0 修復與角色視覺整合
 
-- **P0 root cause**：校園 NavGrid 只涵蓋 z ∈ [-85,85]，法學院前庭（z -84～-124）全在格外＝阻擋 → 霖澤館前不能動；公館店門口出口在 blockOutside 之外；宿舍書桌起身位置只檢查中心點不檢查半徑。修法見 `tests/p0_movement.py`、`tests/movement_regression.py` 與 REVIEW_NOTES 13。
+- **P0 root cause**：校園 NavGrid 只涵蓋 z ∈ [-85,85]，法學院前庭（z -84～-124）全在格外＝阻擋 → 法律系館A前不能動；公館店門口出口在 blockOutside 之外；宿舍書桌起身位置只檢查中心點不檢查半徑。修法見 `tests/p0_movement.py`、`tests/movement_regression.py` 與 REVIEW_NOTES 13。
 - 玩家模型：`char.vrm_player`（Seed-san 改色、隱藏機械配件）；RPM 範例降為 `TEMP_PLAYER_DEV_MODEL`（fallbackModel）。`CHAR.build`：VRM → GLB → fallbackModel GLB → 程序化。
 - 2D：五位女主角 `campus/neutral` 由使用者合圖切出（production）；`PORTRAIT_FILES` manifest；`ADV.hasProductionPortrait / portraitQuality`；沒圖的人物走 compact 模式，玩家版本沒有 placeholder 標籤。
 - 資料：五位女主角 `height_cm`、`zodiac`（正式），3D 身高同步。
