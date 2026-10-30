@@ -215,6 +215,7 @@ async def noodle_days_after(pg, start_key, n):
 
 async def visit_noodle(pg, cdp, run, key, tag, hh=17.9):
     await P.jump(pg, cdp, run, key, hh, zone='gongguan', pos='keep', quiet=False)
+    await P.events_on(pg)   # b3：前面 quiet 讀檔把 EVENTS.onEnter／tick 換成空函式，quiet=False 再讀檔不會還原——麵店裡三個事件都沒演（探針問題）
     it = await pg.evaluate("(()=>{ const it=GAME.E.interactables.find(i=>i.exit&&i.exit.to==='noodle'); return it?[it.x,it.z]:null; })()")
     if it: await P.place_near(pg, run, it[0], it[1], 5.0, what='阿鳳麵店門口')
     n0 = await P.say_hook(pg); ok = await door_to(pg, cdp, run, 'noodle', tag)
@@ -243,7 +244,9 @@ async def mode_b(pg, cdp, run):
     run.note('六個麵店日沒去以後，群組：%s' % J(gm['msgs'][-8:]))
     run.check('之後六個麵店日沒去：阿哲沒有 17:30 揪人、沒有「你最近都沒來」', not rt and not [m for m in zt if m['h'] and 17.2 <= m['h'] <= 17.8], J({'rt': rt, 'zhe': zt[:6]}))
     # B 下一個麵店日在麵店遇到阿哲：第一次併桌
-    ok, lines = await visit_noodle(pg, cdp, run, nds[0] if nds else info['key'], 'b_meet', hh=17.9)
+    meet = nds[6] if len(nds) > 6 else (nds[-1] if nds else info['key'])   # b3 用 nds[0]＝倒回 9/30（玩家不可能），改成沒去的六個麵店日之後的下一個
+    run.note('沒答應：第一次走進麵店的那一天 %s' % meet)
+    ok, lines = await visit_noodle(pg, cdp, run, meet, 'b_meet', hh=17.9)
     got = [l[1] for l in lines if l[1] in FIRST_TABLE]
     run.note('沒答應的玩家第一次走進麵店：%s' % J(lines[:12]))
     run.check('沒答應：之後在麵店遇到阿哲才演「第一次併桌」（七句照順序）', ok and got == FIRST_TABLE, J({'got': got, 'zhe': await P.who(pg, 'zhe')}))
@@ -253,10 +256,13 @@ async def mode_b(pg, cdp, run):
     y2 = await pg.evaluate("(()=>{ const T=CALENDAR.TERMS.find(t=>t.id==='Y2S1'); return T.start; })()")
     await P.jump(pg, cdp, run, y2, 11.8, zone='dorm', pos=None, snap=snapG, quiet=False, note='大二上開學那天 11:48')
     g0 = await pg.evaluate(GRP)
-    await P.wait_play(pg, cdp, 12.1, max_s=300, run=run, tag='rename'); await pg.wait_for_timeout(3000); g1 = await pg.evaluate(GRP)
+    await P.events_on(pg)
+    okw = await P.wait_play(pg, cdp, 12.1, max_s=900, run=run, tag='rename'); await pg.wait_for_timeout(3000); g1 = await pg.evaluate(GRP)
+    hh1 = await pg.evaluate("(()=>CALENDAR.dateOf(GAME.G.day).key+' '+(+GAME.G.hour).toFixed(2))()")
     nar = [m for m in g1['msgs'] if '改成' in (m['text'] or '')]
-    run.note('大二上 %s 11:48 群組名 %s → 12:06 %s；旁白 %s' % (y2, g0['name'], g1['name'], J(nar)))
-    run.check('大二上開學那天 12:00 群組改名「法二吃飯」', g0['name'] == '法一吃飯' and g1['name'] == '法二吃飯', J([g0['name'], g1['name']]))
+    run.note('大二上 %s 11:48 群組名 %s → %s %s；旁白 %s' % (y2, g0['name'], hh1, g1['name'], J(nar)))
+    run.check('前置——照玩家等到 12:06（現在 %s）' % hh1, okw, hh1)
+    run.check('大二上開學那天 12:00 群組改名「法二吃飯」', g0['name'] == '法一吃飯' and g1['name'] == '法二吃飯', J([g0['name'], hh1, g1['name']]))
     run.check('改名有一則系統旁白「（阿哲把群組名稱改成「法二吃飯」。）」、12:00', any(m['text'] == '（阿哲把群組名稱改成「法二吃飯」。）' and not m['from'] and abs((m['h'] or 0) - 12) < 0.1 for m in nar), J(nar))
     # F2 舊開局（沒有 DORM_FOUR）大二 312：第一天 z1、第二天 z2
     df = await pg.evaluate("!!GAME.G.flags.DORM_FOUR"); run.note('DORM_FOUR：%s（使用者存檔是舊開局）' % df)
