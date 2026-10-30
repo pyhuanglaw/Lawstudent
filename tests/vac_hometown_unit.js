@@ -88,7 +88,7 @@ const txt=(th)=>TH(th).map(m=>(m.from||'')+':'+m.text);
     law('2026-07-10',20,{dating_kexin:true}); R('kexin',40,30,30); G.contacts.kexin=G.day-200; picks=['我去高雄找妳？',0]; await INV.flow(GM,'kexin',null,false);
     check('7. 交往中答應：「你要來？……好。幾點的車，我去接你。」',said0().includes('你要來？……好。幾點的車，我去接你。'),J(said0().slice(-2)));
     const q2=OUT.rec(G).find(x=>x.hv&&x.hv.id==='kexin'); said=[]; G.flags.HV_N={kexin:3}; G.day=q2.day; G.hour=10.5; await HV.play(GM,q2);
-    check('7. 交往中第四次（河邊）：多一句「……下次住一晚啦。」；送上車是「開學我就上去了。」',said0().includes('……下次住一晚啦。')&&said0().includes('開學我就上去了。……到時候換你來接我。'),J(said0()));
+    check('7. 交往中第四次（河邊）：多一句「……下次住一晚啦。」；送上車是「開學我就上去了。台北見。」（AA_525 3-8 K-10 改句）',said0().includes('……下次住一晚啦。')&&said0().includes('開學我就上去了。台北見。'),J(said0()));
     law('2026-07-10',20); R('classmate_peishan',40,30,30); G.contacts.classmate_peishan=G.day-200; G.flags.dating_classmate_peishan=true;
     picks=['我去台中找妳？',0]; await INV.flow(GM,'classmate_peishan',null,false); const q3=OUT.rec(G).find(x=>x.hv&&x.hv.id==='classmate_peishan');
     said=[]; opts=[]; picks=['常笑']; G.day=q3.day; G.hour=10.5; await HV.play(GM,q3); const o3=opts[opts.length-1]||[];

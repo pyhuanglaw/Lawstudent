@@ -91,7 +91,7 @@ const W1S=STORY.week1Start, noZhe=()=>{ STORY.week1Start=()=>true; }, zheBack=()
   fresh('2027-07-20',21.5,'dorm',{HV_N:{kexin:1}}); date('kexin'); run('2027-07-20',21.5,21.75); ans('y3_kh_inv',0); picks=[1,2]; await go('y3_kh',7.4);
   check('1. 去過高雄（HV_N）：接人用 pickAgain「這次換這頂安全帽了。……上車。」',has('這次換這頂安全帽了。……上車。')&&!has('你真的來了。'),JSON.stringify(all().slice(0,4)));
   fresh('2027-07-20',21.5,'dorm'); date('kexin'); { said=[]; picks=[1]; await play('ev_kexin_trip_summer_y2',[1]); check('1. 選「上面風好大。」→「下面更熱。……再站一下。」（她靠著欄杆，看了很久的海。）',has('下面更熱。……再站一下。')&&has('（她靠著欄杆，看了很久的海。）')); }
-  fresh('2027-07-20',21.5,'dorm'); date('kexin'); { await play('ev_kexin_trip_summer_y2',[2,2]); check('1. 選陪她看海：「……好。下次換你。去一個你也沒去過的地方。」；七夕選靠肩：「……很重。」（她沒有推開。）',has('……好。下次換你。去一個你也沒去過的地方。')&&has('……很重。')&&has('（她沒有推開。）'),JSON.stringify(all())); }
+  fresh('2027-07-20',21.5,'dorm'); date('kexin'); { await play('ev_kexin_trip_summer_y2',[2,2]); check('1. 選陪她看海：「……好。下次找一個我們都沒去過的地方。」（AA_525 3-8 K-12 改句，原「……好。下次換你。去一個你也沒去過的地方。」）；七夕選靠肩：「……很重。」（她沒有推開。）',has('……好。下次找一個我們都沒去過的地方。')&&has('……很重。')&&has('（她沒有推開。）'),JSON.stringify(all())); }
   fresh('2027-07-20',21.5,'dorm'); date('kexin'); run('2027-07-20',21.5,21.75); ans('y3_kh_inv',1);
   check('1. K3 婉拒：「好。那寒假。……行程表我先留著。」、KX_TRIP_DEFERRED、沒有出遊',txt('p:kexin').slice(-1)[0]===K('好。那寒假。……行程表我先留著。')&&!!G.flags.KX_TRIP_DEFERRED&&!OUT.get(G,'y3_kh'));
   run('2027-08-08',20,20.25); { const q=OUT.get(G,'kx_qixi_2027'); check('1. K3 婉拒的：8/8 21:00 七夕視訊（接起來）',!!q&&q.day===D('2027-08-08')&&q.h===21&&q.verb==='接起來'&&q.ev==='ev_kexin_qixi_video'); }

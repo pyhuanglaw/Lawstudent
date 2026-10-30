@@ -30,6 +30,9 @@ const AA525=(function(){
   if(typeof STORY.ladReply==='function'&&!STORY._aa525Lad){ const r0=STORY.ladReply;
     STORY.ladReply=function(st,ch,G,id){ try{ S.onLad(G,st,ch,id); }catch(e){ console.warn('AA525 lad',e); } return r0.apply(this,arguments); }; STORY._aa525Lad=true; }
 
+  /* 2-2 沛珊國中走路上學的那條路（hometown_lines.js schoolroad）：2D 背景還沒有圖＝深色底＋地點字幕（BB 要圖）*/
+  if(typeof OUT!=='undefined'&&OUT.BG&&!OUT.BG.tc_schoolroad) OUT.BG.tc_schoolroad={label:'台中・她國中走路上學的那條路',image:null};
+
   /* ---------------- 2-3 沛珊：課輔班的卡片 ---------------- */
   const PS='classmate_peishan';
   S.cardsDue=G=>law(G)&&!!G.flags&&G.flags.PS_CARDS_GIVEN==null&&sent(G,'wz_p4_cards');

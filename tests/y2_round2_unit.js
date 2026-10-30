@@ -191,7 +191,8 @@ const K=t=>'kexin:'+t;
   G.money=5000; ans('y2r2_kh_ask',0); { const q=OUT.get(G,'y2r2_kh'); check('8. 「可以。」→「好。幾點的車，我去接你。」→ 1/14 14:00',txt('p:kexin').slice(-1)[0]===K('好。幾點的車，我去接你。')&&q&&q.day===D('2027-01-14')&&q.h===14); }
   G.flags.KX_GRADES_Y2S1='asked'; await go('y2r2_kh',12.4); picks=[0];
   check('8. H1 左營接人（第一次 pick）、夜市三句、打賭「成績那一攤，你請。說好的。」（這次是你請。）',has('（左營站。出口外面的太陽比臺北大。她站在柱子旁邊，戴著帽子。）')&&has('你真的來了。')&&has('（一月的高雄，傍晚還有二十度。夜市的燈從巷口一路亮到底。）')&&has('一攤只能買一樣。吃不完的你吃。')&&has('成績那一攤，你請。說好的。')&&has('（這次是你請。）')&&G.flags.KX_BET_Y2S1_PAID===true,JSON.stringify(said.map(s=>s.t)));
-  check('8. 三選一（新寫）、送上車 dating 兩句；高鐵 2980 照扣；KX_TRIP.Y2W kaohsiung；21:00 回到臺北',JSON.stringify(opts[0])===JSON.stringify(['「妳從小吃到大的是哪一攤？」','「六攤吃得完嗎？」','（跟在她後面走）'])&&has('這攤。……老闆以前都多給我一顆。現在不給了。')&&has('開學我就上去了。……到時候換你來接我。')&&has('（她站在閘門外面，等你走到看不見。）')&&G.money===5000-2980&&G.flags.KX_TRIP.Y2W==='kaohsiung'&&G.day===D('2027-01-14')&&Math.abs(G.hour-21)<0.01,G.money+' '+G.hour);
+  check('8. 三選一（新寫）、送上車 dating 兩句；高鐵 2980 照扣；KX_TRIP.Y2W kaohsiung；21:00 回到臺北',JSON.stringify(opts[0])===JSON.stringify(['「妳從小吃到大的是哪一攤？」','「六攤吃得完嗎？」','（跟在她後面走）'])&&has('這攤。……老闆以前都多給我一顆。現在不給了。')&&has('開學我就上去了。台北見。')&&has('（她站在閘門外面，等你走到看不見。）')   /* AA_525 3-8 K-10 改句（原「開學我就上去了。……到時候換你來接我。」）*/
+    &&G.money===5000-2980&&G.flags.KX_TRIP.Y2W==='kaohsiung'&&G.day===D('2027-01-14')&&Math.abs(G.hour-21)<0.01,G.money+' '+G.hour);
   { const L=[]; Y2R2.roomExtra(G,L); check('8. 房間物件「旅行照片：高雄的夜市」',L.some(x=>x[0]==='旅行照片：高雄的夜市'&&x[1]==='她拿著第一攤的東西，後面的燈全糊了。你拍的。')); }
   /* AA_338 第 4 題：1/14 這一趟算進「第一次／再來」的輪替 */
   /* AA_343 A4（改了這一項的期待值）：1/14 是夜市——下一次先演港邊（first），again 第一輪跳過夜市、從下雨開始，輪完一圈夜市照常回來 */

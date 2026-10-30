@@ -189,7 +189,7 @@ sec('7',()=>{ const TUE=TD(10,2);
   const ps=(lv,pick)=>{ fresh(TUE,20); who('classmate_peishan',lv); walk(TUE,23.3); const m=dm('ps_phil'); const n=th('classmate_peishan').length; if(m&&pick!=null) PHONE.answer(H.G,m.ask.id,pick); return {m,L:th('classmate_peishan').slice(n)}; };
   let {m}=ps('FAM',null);
   check('7. 沛珊（有點熟）第 10 週週二 23:15 四則、三個選項',!!m&&Math.abs(m.h-(23+15/60))<0.02&&J(th('classmate_peishan').filter(x=>x.tag==='aa503_ps_phil').map(x=>x.text))===J(['欸，我跟你說一件事，你不用回喔。','哲學概論的期中報告，我交給老師了。我沒有修那門課。','老師還是改了，最後寫了一行：「為什麼不修？」','……你覺得我要怎麼回他？'])&&J(m.ask.opts.map(o=>o.t))===J(['說妳是法律系的。','明年修。','不用回，繼續旁聽。']));
-  for(const [k,flag,want] of [[0,'law',['好。可是這樣他一定會問第二個問題。']],[1,'next',['明年……好！！我寫在行事曆上。']],[2,'audit',['嗯。我比較喜歡旁聽。修了會有分數。']]]){ const {L}=ps('FRIEND',k); check('7. 沛珊選第 '+(k+1)+' 個 → '+want[0]+'（PS_PHIL_DM '+flag+'）',J(L.slice(1).map(x=>x.text))===J(want)&&H.G.flags.PS_PHIL_DM===flag); }
+  for(const [k,flag,want] of [[0,'law',['好。可是這樣他一定會問第二個問題。']],[1,'next',['明年……好！！']]/* AA_525 2-4 P-4 改句（企劃線 6081f725f），原「明年……好！！我寫在行事曆上。」*/,[2,'audit',['嗯。我比較喜歡旁聽。修了會有分數。']]]){ const {L}=ps('FRIEND',k); check('7. 沛珊選第 '+(k+1)+' 個 → '+want[0]+'（PS_PHIL_DM '+flag+'）',J(L.slice(1).map(x=>x.text))===J(want)&&H.G.flags.PS_PHIL_DM===flag); }
   ({m}=ps('ACQ',null)); check('7. 沛珊只認識：沒有',!m&&R().dm.ps_phil==='x:stage');
   /* 芷若 */
   const W13=TD(13,7); fresh(W13,20); who('heroine_02','FRIEND'); walk(W13,22.2);
