@@ -35893,6 +35893,35 @@
    "notes": "【05:4x】子代理交件：走到梯子→爬四階→躺→熄燈（暫用曝光壓暗，z.lightsOff 有就用）→淡出；醒來在床上→爬下來站梯子前；小睡、經濟系「睡到下一件事」醒來直接站梯子前（沒有床上醒來那段）；室友照舊；存檔存梯子前；新測試 dorm_sleep_scene_unit（基準 FAILED 1→ALL PASS），全部 Node 739／0；截圖 7 張（SwiftShader）｜ 【LAWWW2-B 04:26】先交數字 98f8a41f7（dorm_room4.layout.json 每組床桌 sleep_scene：approach、steps 四階、bed_entry、lie head/feet/頭向、cam eye/look）；床墊 1.85→1.92 m、床尾擋板移到走道那一半（GLB 和熄燈光照之後交）→ LAWWW 接睡覺流程 ｜ LAWWW 部分（人物動作、流程）等 LAWWW2 的 layout；203 光照第四輪照舊，兩點半 Café 往後排"
   },
   {
+   "id": "DORM203-LM-1030",
+   "title": "宿舍四人房光照烘焙（白天、晚上、熄燈三張）、床墊 1.92 m、床尾擋板移到走道那一半、五個年份書桌不重疊（使用者 X125 室內廉價感、X128 床的比例與書桌重疊）",
+   "area": "ART",
+   "owner": "LAWWW2",
+   "status": "已實作待整合",
+   "next": "已合進 postrel-1030（dorm203-lm ff443f5fc，LAWWW2-B 2082cdfc1）→ v9.10.14 後進開發分支 → BB 測（睡覺畫面重拍、熄燈）；床欄透空 LAWWW2 做（E.cam.seeThru）",
+   "priority": "P1",
+   "first": {
+    "term": "Y1S1",
+    "week": 1,
+    "earliest": "法律系大一第一晚睡覺（宿舍 203）",
+    "mainline": true,
+    "blocks": false,
+    "prereq": false,
+    "parallel": true,
+    "confirmed": true
+   },
+   "source": "使用者 X125、X128（10-30）；LAWWW2-B 交件 2082cdfc1",
+   "authorized": "D108、D111",
+   "xai": {
+    "spec": "X125、X128",
+    "branch": "claude/funny-albattani-iawshm",
+    "acceptance": "光照貼圖三張、熄燈、書桌不重疊、dorm_lightmap_unit",
+    "receiver": "LAWWW",
+    "ack": "ACTIONED"
+   },
+   "notes": "【06:2x】整合：patch＋二進位＋layout 重產；熄燈半球光方向光乘 0.15（STORY.DARK_LIGHTS，dorm_dark_lights_unit）；READY_FOR_ART_REVIEW（建築場景 ART_APPROVED 只有使用者能標）"
+  },
+  {
    "id": "NPC-STALL-1030",
    "title": "NPC 離開空間卡在門口一直走（原地踏步）",
    "area": "SYS",
@@ -36116,7 +36145,7 @@
    },
    "source": "使用者 10-30 04:5x 兩則（UA-LAWWW-1030-14、15；X136、X137；前面 H05、X110）",
    "authorized": "使用者",
-   "notes": "【06:0x】子代理交件：朋友頁人在哪都有「直接過去（約 N 分鐘）」（不能去的寫原因：機場、國外、休學退宿、退宿宿舍；關門照 zoneShut）；訊息頁上面一排聯絡人（七位女生在前、沒聯絡方式灰著寫原因）、子晴不再等 Q6（遊戲那兩句擋掉）；對話串傳不了一律寫原因；新測試 phone_unify_unit（基準 FAILED 39→ALL PASS），全部 Node 742／0；22 個清單外區域實際直接過去；截圖 3 張。未改：休學退宿以後新體育館照「地點」清單可以去 ｜ 使用者說講很多次了：這次一次統一到位"
+   "notes": "【06:2x】AA_538 第 4 節照做（子晴 openText、分享 A 層各補兩則、兩句系統說明；postrel 0f7a16c9e）｜ 【06:0x】子代理交件：朋友頁人在哪都有「直接過去（約 N 分鐘）」（不能去的寫原因：機場、國外、休學退宿、退宿宿舍；關門照 zoneShut）；訊息頁上面一排聯絡人（七位女生在前、沒聯絡方式灰著寫原因）、子晴不再等 Q6（遊戲那兩句擋掉）；對話串傳不了一律寫原因；新測試 phone_unify_unit（基準 FAILED 39→ALL PASS），全部 Node 742／0；22 個清單外區域實際直接過去；截圖 3 張。未改：休學退宿以後新體育館照「地點」清單可以去 ｜ 使用者說講很多次了：這次一次統一到位"
   },
   {
    "id": "XINCI-ROMANCE-1030",
@@ -36174,8 +36203,8 @@
    "title": "經濟系以前的同學在社科院圖書館遇得到（法律系以後的作息＋偶遇台詞）",
    "area": "STORY",
    "owner": "LAWWW",
-   "status": "進行中",
-   "next": "子代理照 AA_536 實作（分支 econ-soclib-1030，基準 postrel 3808792fe）→ 審 → 合進 postrel-1030 → BB 測",
+   "status": "已實作待整合",
+   "next": "已合進 postrel-1030（econ-soclib-1030 f96898e47）→ v9.10.14 後進開發分支 → BB 測（社科圖品妤、唐睿、韋綸考試週）；10 個細節轉 AA",
    "priority": "P1",
    "first": {
     "term": "Y1S1",
@@ -36196,7 +36225,7 @@
     "receiver": "LAWWW",
     "ack": "ACTIONED"
    },
-   "notes": "【05:3x】AA-B 05:12 交 AA_536：品妤常客（SK12 長桌）、阿勳、唐睿、韋綸考試週；不新增邀約訊息事件；沒玩前傳先自我介紹記 MET_*；派子代理 ｜ "
+   "notes": "【06:2x】子代理交件：四人作息（品妤座位 16＝SK12 長桌、阿勳窗邊、唐睿沙發、韋綸考試週四）、src/data/econfr_soclib.js＋src/econsl3d.js、雙向逐字對稿；新測試 econ_soclib_1030_unit 75 項（基準 FAILED 51）｜ 【05:3x】AA-B 05:12 交 AA_536：品妤常客（SK12 長桌）、阿勳、唐睿、韋綸考試週；不新增邀約訊息事件；沒玩前傳先自我介紹記 MET_*；派子代理 ｜ "
   },
   {
    "id": "BBALL-PRESENT-1030",
@@ -36204,7 +36233,7 @@
    "area": "SYS",
    "owner": "LAWWW",
    "status": "已實作待整合",
-   "next": "campus-ux-1030 b26c4ca7d 合進 postrel-1030 → v9.10.14 後進開發分支 → BB 測；AA：下雨天室外練球要不要停",
+   "next": "campus-ux-1030 b26c4ca7d 已合進 postrel-1030 → v9.10.14 後進開發分支 → BB 測；AA：下雨天室外練球要不要停",
    "priority": "P1",
    "first": {
     "term": "Y1S1",
@@ -36226,7 +36255,7 @@
    "area": "SYS",
    "owner": "LAWWW",
    "status": "已實作待整合",
-   "next": "campus-ux-1030 b26c4ca7d 合進 postrel-1030 → v9.10.14 後進開發分支 → BB 測；已知：大地圖同學名字會壓到今天那間的第二行",
+   "next": "campus-ux-1030 b26c4ca7d 已合進 postrel-1030 → v9.10.14 後進開發分支 → BB 測；已知：大地圖同學名字會壓到今天那間的第二行",
    "priority": "P1",
    "first": {
     "term": "Y1S1",
