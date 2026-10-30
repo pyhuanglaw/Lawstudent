@@ -408,6 +408,7 @@ const CLS=(function(){
   S.attendActivity=async function(GM,a,o){ o=o||{}; const G=GM.G; if(!a||typeof ACTIVITIES==='undefined'||ACTIVITIES.attended(G,a.id,G.day)) return false;
     if(a.id==='lib_tour_y1s1'&&GM.E&&GM.E.player&&GM.E.moveTo&&typeof CHAR!=='undefined'&&GM.G.zone==='library_hall'&&!o.inScene) return S.runLibTour(GM,a);   /* 沒有 3D 引擎（單元測試）照舊快轉 */   /* 總圖新生導覽：館員帶著走一圈（AA_134 第 2 節）*/
     const lec=a.kind==='lecture', tour=a.kind==='tour', club=a.kind==='club';
+    const rainNarr=a.rain&&ACTIVITIES.rainy&&ACTIVITIES.rainy(a,G,true)&&a.narr?a.narr[a.rain.narr]:null;   /* 下雨場（BBALL-RAIN-1030）：17:30 以前就參加＝參加的那一刻照當下的天氣定；旁白固定用走廊那一句（不佔晴天照順序輪的那一格）*/
     ACTIVITIES.markAttended(G,a); if(a.id==='public_law_group'&&typeof STORY!=='undefined'&&STORY.mootTogetherCheck) STORY.mootTogetherCheck(G,'plg');   /* 模擬法庭準備分第 4 項（AA_143 3-3）*/ if(a.id==='B4'&&G.flags) G.flags.B4_ATTENDED=true;   /* AA_140 G07：聽過 B4 演講（重訪日 1 的「那場演講。」、C15 回想讀它）*/ if(club&&G.flags){ G.flags['CLUB_'+a.id]=true; if(a.id==='lawclub_study') G.flags.lawclub=true; }   /* 第一次去社課就算加入（AA_110 6-3：CLUB_<id>）；法服另外記 lawclub（看過招募公告的那個旗標）*/
     const ev=club?S.clubEvent(G,a):(a.event?S.actEvent(G,a):null);   /* 活動的事件（event：迎新，交接包 v1 A11）*/
     if(ev) await EVENTS.run(ev);   /* 人物事件（6-8 (a)）：自己的 ADV 畫面；播完再快轉到社課結束 */
@@ -415,7 +416,7 @@ const CLS=(function(){
     try{
       if(GM.E&&GM.E.zone&&GM.E.zone.setBoard) GM.E.zone.setBoard(a.title,lec?'演講':'活動',hhmm(a.t0)+'–'+hhmm(a.t1));
       if(!ev&&!(club&&a.spot)) await GM.say(null,tour?(hr(G)<a.t0?'你在集合點等「'+a.title+'」開始。':'你跟上「'+a.title+'」的隊伍。'):hr(G)<a.t0?(lec?'你找了位子坐下。台上的人在試麥克風，投影片停在第一頁：「'+a.title+'」。':'你找了位子坐下，等「'+a.title+'」開始。'):(lec?'你輕輕坐下。台上已經開始講「'+a.title+'」了。':'你輕輕坐下。「'+a.title+'」已經開始了。'));   /* 系籃（集合點的社課）：AA 6-8 (c) 選「去練球」→ 直接轉暗 */
-      let narr=''; if(club&&!ev){ narr=S.clubNarr(G,a); if(narr&&a.narrAt==='start') await GM.say(null,narr); if(a.id==='lawclub_study') await S.studyQs(GM); }
+      let narr=''; if(club&&!ev){ narr=rainNarr||S.clubNarr(G,a); if(narr&&a.narrAt==='start') await GM.say(null,narr); if(a.id==='lawclub_study') await S.studyQs(GM); }
       if(GM.E&&roomy(GM.E.zone)) S.syncRooms(GM);   /* 快轉前聽眾先坐好（2026-10-13 批次 3：演講開始前 5 分鐘坐下選「聽演講」，聽眾還沒排進來就快轉到結束，散場時沒有人站起來）*/
       await GM.fade(true); S.settleRoom(GM); const h=hr(G); if(h<a.t1) GM.advance(a.t1-h); keepCrowd(G); await GM.fade(false);
       if(narr&&a.narrAt!=='start') await GM.say(null,narr);   /* 社課的旁白：做完以後的一句（系籃：轉暗、時間過去、播旁白）*/
@@ -451,7 +452,13 @@ const CLS=(function(){
       E.interactables.push(Object.assign({x:d.x,z:d.z,radius:d.radius,lv:0,label:d.label,door:k,mark:!!d.mark,onInteract:()=>S.doorInteract(GM,k)},d.enter&&typeof Z3!=='undefined'&&Z3.ZONES[d.enter]?{exit:{to:d.enter}}:{})); } };   /* exit：讓目標導航知道這個門通到館裡（按下去照樣走 onInteract）*/
   /* 沒有座位的活動（總圖新生導覽…）在集合點參加（AA_110 6-3）：今天有這個活動就放一個互動點；時間到了按下去參加，還沒到寫幾點集合 */
   S.addActSpots=function(GM,zoneId){ if(typeof ACTIVITIES==='undefined'||!ACTIVITIES.spotsIn) return; const E=GM.E, G=GM.G;
-    for(const a of ACTIVITIES.spotsIn(G,zoneId)){ const sp=a.spot; E.interactables.push({x:sp.x,z:sp.z,radius:sp.r||1.2,lv:sp.lv|0,label:sp.label||a.title,mark:true,actSpot:a.id,onInteract:()=>S.spotInteract(GM,a)}); } };
+    for(const a of ACTIVITIES.spotsIn(G,zoneId)){ const sp=a.spot, it={x:sp.x,z:sp.z,radius:sp.r||1.2,lv:sp.lv|0,label:sp.label||a.title,mark:true,actSpot:a.id,onInteract:()=>S.spotInteract(GM,a)};
+      if(a.rain) Object.defineProperty(it,'look',{enumerable:true,get(){ return GM.G&&ACTIVITIES.rainy&&ACTIVITIES.rainy(a,GM.G)?a.rain.hint:undefined; }});   /* 下雨場（BBALL-RAIN-1030）：這裡只剩提示——按了寫 a.rain.hint（spotInteract），只看、不參加 */
+      E.interactables.push(it); }
+    /* 下雨的備案的集合點（系籃練球下雨＝新體育館一樓走廊，BBALL-RAIN-1030）：那一場的那一天都放，不是下雨場就藏起來（17:30 以前照現在的天氣、17:30 定了以後整場照定的：ACTIVITIES.rainy）。
+       mark 跟著 hidden（遠遠的名牌、大地圖）；參加照同一套（spotInteract → attendActivity）*/
+    if(ACTIVITIES.rainy) for(const a of ACTIVITIES.list){ const R=a.rain; if(!R||R.zone!==zoneId||!R.spot||!ACTIVITIES.on(a,G.day,G)) continue; const sp=R.spot;
+      E.interactables.push({x:sp.x,z:sp.z,radius:sp.r||1.2,lv:sp.lv|0,label:sp.label||a.title,actSpot:a.id,rainSpot:true,get hidden(){ return !(GM.G&&ACTIVITIES.rainy(a,GM.G)); },get mark(){ return !this.hidden; },onInteract:()=>S.spotInteract(GM,a)}); } };
   /* 集合點的社課（系籃練球：球場沒有門口）今天沒有的時候（BBALL-PRESENT-1030；使用者 2026-10-30「系藍練團時間到 根本球場空的」——週四 17:45 站在球場邊）：
      這學期有這個社課、今天不是那一天（或國定假日停練）＝集合點放一個只看不參加的提示：名牌寫星期幾幾點（mark：遠遠看得到），按了寫時間地點和下一次是哪一天。
      今天有（ACTIVITIES.on）就藏起來（真正的集合點由 addActSpots 放）。和 addActSpots 分開：集合點只在活動那一天出現（activities_aa110_unit 的規則照舊）*/
@@ -467,6 +474,9 @@ const CLS=(function(){
       E.interactables.push({x:sp.x,z:sp.z,radius:sp.r||1.2,lv:sp.lv|0,label:S.actHintLabel(a),mark:true,actHint:a.id,get look(){ return S.actHintText(GM.G,a); },get hidden(){ return !!(GM.G&&ACTIVITIES.on(a,GM.G.day,GM.G)); }}); } };
   S.spotInteract=async function(GM,a){ const G=GM.G, h=hr(G);
     if(a.kind==='fair') return S.fairMenu(GM,a);   /* 社團博覽會：選社團（6-8 (b)）*/
+    if(a.rain&&ACTIVITIES.rainy){ const atRain=G.zone===a.rain.zone, rain=ACTIVITIES.rainy(a,G);   /* 下雨的備案（BBALL-RAIN-1030）*/
+      if(rain&&!atRain){ GM.caption('',a.rain.hint,4600); return; }   /* 下雨場：球場的集合點只剩提示（系統字，AA 原句）*/
+      if(!rain&&atRain) return; }   /* 不是下雨場：體育館那一點藏著（防呆）*/
     if(ACTIVITIES.canJoin(G,a)){ GM.sceneBegin(); let i=1; try{ i=await GM.choose([{t:(a.verb||'參加')+'：'+a.title,hint:hhmm(a.t0)+'–'+hhmm(a.t1)+'　'+(a.desc||'')},{t:'先不要'}]); } finally { GM.sceneEnd(); } if(i===0) await S.attendActivity(GM,a); return; }
     const s=ACTIVITIES.onceDone(G,a)?'你已經參加過了。':(ACTIVITIES.attended(G,a.id,G.day)?'今天這一場你參加過了。':(h<a.t0-0.25?'今天 '+hhmm(a.t0)+' 在這裡集合。':(h>=a.t1?'今天這一場已經結束了。':'今天這一場已經開始一段時間了。')));   /* 結束以後（BBALL-PRESENT-1030）：原本也寫「已經開始一段時間了」*/
     GM.caption('',a.title+'：'+s+(a.desc?a.desc:''),4200); };
@@ -645,6 +655,7 @@ const CLS=(function(){
   // ---------- 每 0.5 秒（story3d.js 的 S.tick）：上課前 30 分鐘的提醒、目標更新、教室裡的同學 ----------
   let lastT=null, lastRoomT=null;
   S.tick=function(GM){ const G=GM.G; if(!G||!G.flags) return; const R=S.rec(G), h=hr(G);
+    if(typeof ACTIVITIES!=='undefined'&&ACTIVITIES.rainLock) ACTIVITIES.rainLock(G);   /* 下雨的備案（系籃練球）：17:30 一到照那時的天氣定整場（BBALL-RAIN-1030）*/
     if(!(typeof ECONFF!=='undefined'&&ECONFF.on(G))&&!(typeof PG!=='undefined'&&PG.on&&PG.on(G))) for(const it of S.dayItems(G)){ if(S.storyClass(G,it)) continue; const k='rem_'+it.key; if(R.note[k]) continue; if(h>=it.t0-WIN0&&h<it.t0&&!R.done[it.key]){ R.note[k]=1; if((!GM.S||GM.S.classRemind!==false)&&!R.note['plan_skip_'+it.key]) GM.toast('30 分鐘後上課：'+S.itemText(it),4200); } }
     const sig=G.day+':'+Math.floor(h*4); if(sig!==lastT){ lastT=sig; S.skipNotes(GM); S.refreshGoal(GM); }
     { const sg=G.day+':'+Math.floor(h*30); if(sg!==lastRoomT){ lastRoomT=sg; if(G.zone==='classroom'||roomy(GM.E.zone)) S.syncRoom(GM); } }   /* 教室的人每 2 遊戲分鐘排一次（陸續進來）；其他照舊每 15 分鐘 */

@@ -234,6 +234,7 @@ const CROWD=(function(){
     const shuffle=(a,r)=>{ a=a.slice(); for(let i=a.length-1;i>0;i--){ const j=Math.floor(r()*(i+1)); [a[i],a[j]]=[a[j],a[i]]; } return a; };
     return { id:'bball_practice', zone:'campus', label:'系籃練球（籃球場）', c:B.c, spread:[1,1], door:B.door, road:B.road, fidget:true, bball:true,
       slots(G){ if(typeof ACTIVITIES==='undefined'||!ACTIVITIES.list) return []; const a=ACTIVITIES.list.find(q=>q.id===B.act); if(!a||!ACTIVITIES.on(a,G.day,G)) return [];
+        if(ACTIVITIES.rainy&&ACTIVITIES.rainy(a,G)) return [];   /* 下雨的週五（BBALL-RAIN-1030，AA 10-30）：系籃改到新體育館走廊——球場沒有人、路人也不打球（17:30 的天氣一次定整場：ACTIVITIES.rainy）*/
         return [{key:'practice',t0:a.t0,t1:a.t1,n:[8,11],fixed:true,pose:'idle',talk:0,enter:'door',leave:'road'}]; },
       people(G,slot,r){ const n=slot.n[0]+Math.floor(r()*(slot.n[1]-slot.n[0]+1)), side=n>=10?3:2, np=n-side, base=5000+Math.floor(r()*90)*2, out=[];
         const mk=(k,o)=>Object.assign({key:this.id+'|'+slot.key+'|'+k,pose:'idle',yaw:0,spec:base+k*2+(r()<0.7?1:0)},o);   /* 路人編號（偶數＝女生）：5000 起一段，不和體育館（3000）、小公園（2000）撞 */
