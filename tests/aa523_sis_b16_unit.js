@@ -67,7 +67,7 @@ const relOf=()=>{ const r=SOCIAL.rel(ID); return {fam:r.fam,trust:r.trust,comf:r
 const L=()=>typeof SISB16_LINES!=='undefined'?SISB16_LINES:{};
 
 /* ---------- 讀稿 ---------- */
-const SHA='28c56dfdc', DOCF='docs/story_planning/AA_523_學姊第十六批_回臺灣以後的最後半年.md';
+const SHA='bfede0a62', DOCF='docs/story_planning/AA_523_學姊第十六批_回臺灣以後的最後半年.md';
 let DOC=''; try{ DOC=cp.execSync('git -c core.quotepath=false show '+SHA+':"'+DOCF+'"',{cwd:process.env.AA523_DOCREPO||H.ROOT,encoding:'utf8',maxBuffer:1<<24}); }catch(e){ DOC=''; }
 const part=(a,b,src)=>{ const S=src==null?DOC:src, i=S.indexOf(a); if(i<0) return ''; const j=b?S.indexOf(b,i+1):-1; return S.slice(i,j<0?S.length:j); };
 const S0=part('## 0. ','## 1. '), S1=part('## 1. A（交往中）','## 2. '), S2=part('## 2. B（朋友以上）','## 3. '), S3=part('## 3. 家族','## 4. '), S4=part('## 4. R','## 5. '), S5=part('## 5. 說了沒發生的','## 6. '), S6=part('## 6. 對不上的','## 7. '), S7=part('## 7. 新旗標','## 8. '), S9=part('## 9. 給 LAWWW、BB');
@@ -121,7 +121,7 @@ await sec(0,()=>{ const a=s=>html.indexOf(s);
   const G0=mine().concat(changed()), GS=new Set(G0.concat(G0.map(t=>t.replace(/^「|」$/g,''))));
   /* 稿 → 遊戲 */
   const lostQ=QUOTES.filter(t=>!covered(GS,t)), lostO=OPTS.filter(o=>!covered(GS,o.o)&&!covered(GS,o.o.replace(/^「|」$/g,''))), lostR=[].concat(...OPTS.map(o=>o.r)).filter(t=>!covered(GS,t)), lostP=PHONES.filter(p=>!covered(GS,p.o)||(p.r!=null&&!covered(GS,p.r)));
-  check('0. 稿 → 遊戲：第 1～5 節每一句「>」（'+QUOTES.length+' 句）都在遊戲裡',QUOTES.length===132&&!lostQ.length,J({n:QUOTES.length,lostQ}));
+  check('0. 稿 → 遊戲：第 1～5 節每一句「>」（'+QUOTES.length+' 句）都在遊戲裡（AA_527 3-1 明信片兩則換三則：132→133）',QUOTES.length===133&&!lostQ.length,J({n:QUOTES.length,lostQ}));
   check('0. 稿 → 遊戲：每個選項（'+OPTS.length+' 個）、→ 後面的回覆、私訊群組的回覆（'+PHONES.length+' 組）都在遊戲裡',OPTS.length===27&&PHONES.length===8&&!lostO.length&&!lostR.length&&!lostP.length,J({o:OPTS.length,p:PHONES.length,lostO,lostR,lostP}));
   const INLINE=['Shu，謝謝。'];   /* 稿寫在說明句裡的（「」括起來）*/
   check('0. 稿寫在說明裡的句子（1-2 多的那個選項「Shu，謝謝。」）都在稿裡、也在遊戲裡',INLINE.every(t=>DOC.indexOf('「'+t+'」')>=0&&covered(GS,t)),J(INLINE));
@@ -291,7 +291,7 @@ await sec(2,async()=>{
 await sec(3,async()=>{
   /* 3-1 1/10 明信片 */
   { const d=D('2029-01-10'); fresh(d,20.8,'none'); ph(); const n0=byTag('sisb16_postcard').length; phAt(d,21.1); const M=byTag('sisb16_postcard'), want=quotesOf(sub('3-1','3-2',S3));
-    check('3. 3-1 1/10（三）21:00 家族群組六則（照稿；Kevin、學姊）；D（沒見過）也收得到；21:00 以前沒有',n0===0&&J(M.map(m=>m.text))===J(want)&&J(M.map(m=>m.from))===J(['kevin','kevin','kevin',ID,'kevin',ID])&&want.length===6,J({M:M.map(m=>[m.from,m.text]),want}));
+    check('3. 3-1 1/10（三）21:00 家族群組七則（照稿；Kevin、學姊、佳穎——AA_527 1-2 後兩則換三則）；D（沒見過）也收得到；21:00 以前沒有',n0===0&&J(M.map(m=>m.text))===J(want)&&J(M.map(m=>m.from))===J(['kevin','kevin','kevin',ID,'kevin','family_junior',ID])&&want.length===7,J({M:M.map(m=>[m.from,m.text]),want}));
     fresh(d,21.1,'friend',{},{grp:false}); ph(); check('3. 3-1 不在家族群組：沒有',!byTag('sisb16_postcard').length); }
   /* 3-2 3/20 群組、3/22 讀書會 */
   { const a=D('2029-03-20'), d=D('2029-03-22'), e=ev('ev_sis16_study_visit'), b=blk(sub('3-2','3-3',S3));
@@ -426,7 +426,7 @@ await sec(6,async()=>{
     check('6. 6-13 期末飯話題第一句（非美國）「行李箱還沒收。打開它，就要整理美國的資料。」；美國版「回來那班飛機，你睡得比我好。」照舊',tw==='行李箱還沒收。打開它，就要整理美國的資料。'&&us2==='回來那班飛機，你睡得比我好。'&&(ROW['6-13']||{toQ:[]}).toQ.includes(tw),J([tw,us,us2])); }
   { const run=async y=>{ fresh(y+'-03-14',13,'dating'); H.said=[]; await FEST.play(GM,{id:ID,k:'white',y}); return said(); };
     const s29=await run(2029), s28=await run(2028), s27=await run(2027);
-    check('6. 6-14 白色情人節交往版：2029 年那一張「（背面寫著：「明年也要。上班以後也要。」）」；2027、2028 照舊「明年也要。」',s29.includes('（背面寫著：「明年也要。上班以後也要。」）')&&!s29.includes('（背面寫著：「明年也要。」）')&&s28.includes('（背面寫著：「明年也要。」）')&&s27.includes('（背面寫著：「明年也要。」）'),J({s29,s28}));
+    check('6. 6-14 白色情人節交往版：2029 年那一張「（背面寫著：「上班以後也要。」）」（AA_527 1-1：便條一張一句）；2027、2028 照舊「明年也要。」',s29.includes('（背面寫著：「上班以後也要。」）')&&!s29.includes('（背面寫著：「明年也要。」）')&&s28.includes('（背面寫著：「明年也要。」）')&&s27.includes('（背面寫著：「明年也要。」）'),J({s29,s28}));
     const yrs=FEST.YEARS&&FEST.YEARS.white; check('6. 6-14（LAWWW 順便查）白色情人節交往中每年都演（FEST.YEARS.white 2026～2029、學姊沒有 dedicated 擋）',J(yrs)===J([2026,2027,2028,2029])&&!((FEST_DATA.PEOPLE[ID].fest.white||{}).dedicated),J(yrs)); }
   { fresh('2028-12-25',15,'friend'); const W=[]; for(let i=0;i<7;i++) W.push(X().winterLine(H.G)); at('2029-02-19',15); const after=X().winterLine(H.G); at('2028-12-24',15); const before=X().winterLine(H.G);
     const want=(ROW['6-15']||{toQ:[]}).toQ;

@@ -1113,8 +1113,8 @@ const STORY_EVENTS=[
     dialogue:[ {speaker:null,text:'你還記得哪一台電梯比較快。只是公告欄上，已經沒有一張是寫給你的。'},
       {scene:'經濟系系辦',bg:'soc_office'},
       {speaker:'系辦助理',text:'學號給我。……這個學號，不在我們系的名單上了耶。'},
-      {speaker:'player',text:'我現在是法律系的。'},
-      {speaker:'系辦助理',text:'……喔，那個轉系的。外套在這裡，等你快一年了。'},
+      {speaker:'player',text:'我重考了。現在念法律系。'},   /* SK02-LINE-JACKET-1030（使用者 10-30「怎麼說我轉系 我是重考欸」；AA-B 05:04 第①級）*/
+      {speaker:'系辦助理',text:'……喔，重考的那個。外套在這裡，等你快一年了。'},
       {if:{custom:G=>STORY.xunNear()&&!!G.flags.PLAYED_Y0},speaker:'阿勳',text:'家豪學長說得對。真的重三倍。'},
       {if:{custom:G=>STORY.xunNear()&&!G.flags.PLAYED_Y0},speaker:'阿勳',text:'……法律系的書，真的比較重。'},
       {choice:[{text:'（穿去霖澤館上課）',set:{ECON_JACKET:'wear'},goto:'end'},{text:'（送給阿勳）',set:{ECON_JACKET:'xun'},goto:'xun'},{text:'（收進衣櫃）',set:{ECON_JACKET:'closet'},goto:'end'}]},
@@ -3013,7 +3013,11 @@ const STORY_EVENTS=[
       {speaker:null,text:'（巷口的便利商店，門口有一張小鐵桌。她買了關東煮，你買了兩瓶熱的。）'},
       {speaker:null,text:'（沒有人提期中。她把蘿蔔分你一半。）'},
       {speaker:null,text:'（十一點半，她說：「好，這次真的要回去了。」）'},{speaker:null,text:'（她走進女舍以前，回頭揮了一下手。）'},{set:{KX_STAYED:true}},{rel:{kexin:{comf:2}}},
-      {set:{E10_EVE:'went'}} ],
+      {set:{E10_EVE:'went'}},
+      /* AA_529 第 2 節：回家的路上建「走啦」（30 分鐘版 P2、P2b 都剪了，原本一般玩家建不起來）；系統一則＋三則在聚會演完那一刻（story3d.js S.zoulaGather）。
+         已經在群組裡的（長版 P2、P2b 演過）不重複建、這句旁白也不出 */
+      {call:(G,GM,ev)=>{ if(typeof STORY!=='undefined'&&STORY.zoulaGather) STORY.zoulaGather(G,G.hour+((ev&&ev.hours)||0)); }},
+      {if:{flagIs:{Y0_ZOULA:'gather'}},speaker:null,text:'（回家的路上，手機震了一下。）'} ],
     afterOuting:(G,GM)=>{ if(GM.money) GM.money(-100); } },
   /* ★E10「我們去總圖念書吧」——其實沒念多少（BB_104 8b-4；AA_154 第 117 行；固定核心）：10/15 22:30 可昕私訊邀（story3d.js），回「好。」＝10/16 晚上走進總圖三樓（library）就開始。
      第一句旁白照前一晚有沒有去群組聚會（E10_EVE＝'went'；10/15 的聚會一律是「群組裡一整晚都在聊天」——AA_355 第 2 節照用，30 分鐘版不演那幾場）。邀約那則已經在手機上，事件從「隔天晚上，總圖三樓」開始。

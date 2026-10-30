@@ -60,7 +60,7 @@ const NM=id=>SOCIAL.displayName(id);
 
 /* ---------- 讀稿 ---------- */
 const git=(sha,f)=>{ try{ return cp.execSync('git -c core.quotepath=false show '+sha+':"docs/story_planning/'+f+'"',{cwd:process.env.AA497_DOCREPO||H.ROOT,encoding:'utf8',maxBuffer:1<<26}); }catch(e){ return ''; } };
-const DOC0=git('b70bed855','AA_497_五位配角改稿_宥辰_芯慈_Alison_明軒_Kevin.md'),   /* b70bed855＝60fc3b9a3＋第 8 節後補（芯慈公車沒回那一句、豆干量詞）*/ BB70=git('60fc3b9a3','BB_70_日常與邀約_芷若_子晴_溫學姊_配角.md'), BB113=git('60fc3b9a3','BB_113_BB角色的同行聊天與手機小事池.md');
+const DOC0=git('bfede0a62','AA_497_五位配角改稿_宥辰_芯慈_Alison_明軒_Kevin.md'),   /* b70bed855＝60fc3b9a3＋第 8 節後補（芯慈公車沒回那一句、豆干量詞）；bfede0a62＝AA_527 改字（1-6 宥辰第 7 則拿掉「模擬法庭」，2026-10-30）*/ BB70=git('60fc3b9a3','BB_70_日常與邀約_芷若_子晴_溫學姊_配角.md'), BB113=git('60fc3b9a3','BB_113_BB角色的同行聊天與手機小事池.md');
 const DOC=DOC0.split('宜蓁').join('佳穎');   /* 第 8 節第 5 點：學妹改名「佳穎」（稿的 5-2、5-3 還寫宜蓁；整份稿只有學妹叫宜蓁）*/
 const S8=(()=>{ const i=DOC0.indexOf('## 8.'); return i<0?'':DOC0.slice(i); })();   /* 第 8 節原文（換句的新舊兩邊都要在這裡）*/
 const part=(doc,a,b)=>{ const i=doc.indexOf(a); if(i<0) return ''; const j=b?doc.indexOf(b,i+1):-1; return doc.slice(i,j<0?doc.length:j); };
@@ -88,7 +88,8 @@ const inDoc=t=>DOC.indexOf(t)>=0;
       '（聽出來的人會笑。）':'BB_70 7b「聽出來的人會笑」（旁白）',
       '（照片）':'2-6 第一列「拍給你。（照片）」（訊息分兩則）',
       '筆記第 7 頁的圖畫反了。我改好了，拍給你。':'2-6 第一列（同上）',
-      '走出總圖。':'4-1「「走到校門口」改「走出總圖」」（原句的句號照舊）','宥辰：霖澤館的電梯':'順手的事的標題（介面的字）','總圖 B1 討論室':'介面的字' };
+      '走出總圖。':'4-1「「走到校門口」改「走出總圖」」（原句的句號照舊）','宥辰：霖澤館的電梯':'順手的事的標題（介面的字）','總圖 B1 討論室':'介面的字',
+      '（轉貼宥辰）':'AA_527 2-4（企劃線 bfede0a62）：阿哲在麵店團再貼一次宥辰的邀請＝顯示成轉貼（後面接宥辰原文）' };
     const QUOTED=t=>inDoc('「'+t+'」')||(/^「[^「」]+」$/.test(t)&&inDoc(t.slice(1,-1)));   /* 手機的回覆選項：稿寫成「…」，遊戲的按鈕不加引號；閒聊（SMALLTALK 的寫法是「…」）稿寫成「> 芯慈：…」 */
     const bad=[...new Set(out)].filter(t=>!(inDoc(t)||B7B.indexOf(t)>=0||BB113.indexOf(t)>=0||QUOTED(t)||DERIVED[t]));
     check('0a. sup497_lines.js 每一句（台詞、旁白、選項、手機訊息）都在稿裡：AA_497 60fc3b9a3（學妹照第 8 節第 5 點叫佳穎）／BB_70 7b／BB_113（一字不差；推導的 '+Object.keys(DERIVED).length+' 句另外列）',out.length>350&&!bad.length,out.length+' 句；不在稿裡：'+J(bad));
@@ -225,7 +226,7 @@ const inDoc=t=>DOC.indexOf(t)>=0;
     check('1-6. 日子：2026-11-14 是期中考後的週六；邀請 11/9（一）',CALENDAR.dateOf(g).wd===6&&CALENDAR.dateOf(d).wd===1&&!CALENDAR.termOf(g).exam&&CALENDAR.termOf(g-7).exam);
     fresh(d,12,'dorm'); PHONE.join(H.G,'law_class','法律系（全班）'); PHONE.join(H.G,'noodle_team','麵店團'); ruleAt(d,21.1);
     const q=OUT.get(H.G,'yc_gig');
-    check('1-6. 11/9 21:00 班級群組宥辰貼「週六晚上八點。……」、麵店團阿哲再貼一次；排進行程 11/14 20:00（時間到才問出發）',texts('g:law_class').includes(G0.invite)&&thread('g:noodle_team').some(m=>m.from===ZHE&&m.text===G0.invite)&&!!q&&q.day===g&&q.h===20&&q.ev==='ev_yc_gig',J(q));
+    check('1-6. 11/9 21:00 班級群組宥辰貼「週六晚上八點。……」、麵店團阿哲再貼一次；排進行程 11/14 20:00（時間到才問出發）',texts('g:law_class').includes(G0.invite)&&thread('g:noodle_team').some(m=>m.from===ZHE&&m.text==='（轉貼宥辰）'+G0.invite)&&G0.zheRepost==='（轉貼宥辰）'&&!!q&&q.day===g&&q.h===20&&q.ev==='ev_yc_gig',J(q));
     { fresh(d,12,'dorm'); ruleAt(d,21.1); check('1-6. 兩個群組都不在：沒有邀請、不排',!OUT.get(H.G,'yc_gig')&&!byTag('yc_gig_ask').length); }
     const gig=async(pk,flags,mem)=>{ fresh(g,20,'gongguan',flags); if(mem) for(const m of mem) SOCIAL.remember(m,'FIRST_MET',''); await play('ev_yc_gig',pk); return H.said.map(s=>(s.who?s.who+'：':'')+s.t); };
     let r=await gig([0,0]);
@@ -500,7 +501,7 @@ const inDoc=t=>DOC.indexOf(t)>=0;
   await sec('3-6',async()=>{ const C=L().yu.c6, d0=D('2028-03-16');
     const run=(v,o)=>{ o=o||{}; fresh(d0,13,'linze',{YU_C6:v,YU_C6_DAY:d0}); fam(YU); contact(YU); if(o.bear) H.G.msgs.push({th:'p:'+YU,from:YU,text:'（熊）',tag:'y3_yu_c6_bear',day:d0+7,h:21}); ruleAt(d0+7,20); ruleAt(d0+7,21.5); const bear=(H.G.msgs||[]).filter(m=>m.tag==='y3_yu_c6_bear'&&m.text!=='（熊）').length; ruleAt(d0+14,20); ruleAt(d0+14,21); return {rows:byTag('yu_c6_after').map(m=>m.text),bear}; };
     const a=run('pay'), b=run('open'), c=run('rule');
-    check('3-6. C6 之後第 14 天 21:00，一則一則：「要學弟賠」（我先不要這樣）、「把帳攤開」（不像在抓人）＝第 1 列；「社團的規則」＝第 2 列',J(a.rows)===J(C.soft)&&J(b.rows)===J(C.soft)&&J(c.rows)===J(C.rule),J([a.rows,c.rows]));
+    check('3-6. C6 之後第 14 天 21:00，一則一則：「要學弟賠」（我先不要這樣）＝第 1 列；「把帳攤開」（不像在抓人）＝第 3 列（指導老師；AA_527 2-3）；「社團的規則」＝第 2 列',J(a.rows)===J(C.soft)&&J(b.rows)===J(C.teacher)&&J(c.rows)===J(C.rule),J([a.rows,b.rows,c.rows]));
     check('3-6. 第 7 天那一則熊（y3_yu_c6_bear）拿掉了',a.bear===0&&c.bear===0);
     check('3-6. 舊存檔已經收過熊：不再收第 14 天那幾則（不留兩份）',!run('pay',{bear:true}).rows.length); });
 
@@ -625,7 +626,7 @@ const inDoc=t=>DOC.indexOf(t)>=0;
     check('5-2. 回「去。」＝排進行程：9/17 18:30 118 巷的定食店（時間到問出發）',!!q&&q.day===h&&q.h===18.5&&q.ev==='ev_kv_handover'&&q.place==='118 巷・定食店',J(q));
     /* 2026-10-28 AA_512 13-1（企劃線 c444f0757）：交棒那一晚學姊也在——她那幾句（開場那句旁白後面、交棒以後的書單；SISB13_HAND）在 tests/aa512_sis_b13_unit.js 對 AA_512 的稿，
        這裡只看 AA_497 的句子（拿掉 AA_512 那幾句以後順序、內容照舊）*/
-    const AA512H=new Set(typeof SISB13_HAND!=='undefined'?SISB13_HAND.open.concat(SISB13_HAND.after).map(l=>l.text).filter(Boolean):[]);
+    const AA512H=new Set(typeof SISB13_HAND!=='undefined'?SISB13_HAND.open.concat(SISB13_HAND.after).map(l=>l.text).filter(Boolean).flatMap(t=>[t,t.replace(/\{name\}/g,'祐廷')]):[]);   /* AA_527 1-3：13-1 那一句是 {name}（說出來換成名字）*/
     const run=async k=>{ fresh(h,18.5,'l118'); joinFam(); await play('ev_kv_handover',[k]); return H.said.filter(x=>!AA512H.has(x.t)).map(x=>(x.who?x.who+'：':'')+x.t); };
     let r=await run(0);
     check('5-2. 開場：定食店、Kevin「學弟，這是佳穎。……」（第 8 節第 5 點）、佳穎「學、學長好。」、Kevin「考古題的資料夾，……交給你。」；三個選項',K.hand.open[1][1]==='學弟，這是佳穎。你的直屬學妹。……對，你現在是學長了。'&&J(r.slice(0,4))===J(K.hand.open.map(([w,t])=>(w==='kv'?'Kevin：':w==='yz'?'佳穎：':'')+t))&&J(H.opts[0])===J(K.hand.opts),J(r.slice(0,4)));
