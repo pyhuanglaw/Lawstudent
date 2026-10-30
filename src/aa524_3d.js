@@ -34,7 +34,7 @@ const AA524=(function(){
   /* ---------------- 台詞（稿逐字）---------------- */
   S.L={
     a2:[{who:'heroine_01',t:'（把手帳翻到園區那一天）上次沒給你看的那一行。'},{narr:'（理由欄寫著：「想到{name}。」）'}],
-    z3:{msg:['明天早場。九點十分。','你說過你起得來。'],go:'我去。',goR:'好。',no:'起不來。',noR:'我就知道。'},
+    z3:{msg:['明天早場。九點十分。','你說過你起得來。'],go:'我去。',goR:'好。',no:'起不來。',noR:'我就知道。',card:'09:10',sum:['（早場。戲院裡加上你們兩個，一共七個人。）','（散場的時候十一點多。她在門口拍了兩張票根。）']},   /* sum、card：AA_526 Z3（企劃線 4ada43291）去了的，當天早上的摘要 */
     z5:[{narr:'（她買的票是倒數第三排。）'},{who:'heroine_02',t:'說好的。'}],
     z6:['回來了。','台中帶來的行李，比我去的時候重。'],
     z8:[{narr:'（放的是海報上那一部。）'},{who:'heroine_02',t:'第五次。'}],
@@ -74,6 +74,13 @@ const AA524=(function(){
   S.y5Door=async function(GM){ const G=GM.G; if(!S.y5Due(G)) return false; const R=rec(G); R.y5=G.day;
     GM.sceneBegin(); try{ const h=+G.hour||0; if(h<21+50/60&&GM.advance) GM.advance(21+50/60-h); for(const x of S.L.y5.scene) await say(GM,x); } finally { GM.sceneEnd(); } return true; };
   S.phone=function(G){ if(!G||!G.flags||!law(G)||typeof PHONE==='undefined') return; for(const f of [S.z3,S.z6,S.y5]){ try{ f(G); }catch(e){ console.warn('AA524 phone',e); } } };
+  /* Z3 去了早場的，當天早上的摘要（AA_526，企劃線 4ada43291）：週日早上回了「我去。」＝回完就演；週六晚上就回的＝週日起床那一刻演（STORY.TICKS：那一天 05:00 以後第一次空下來）。
+     字卡＝那一天的日期、09:10；旁白兩句；時間跳到 11:30（已經過了不跳），人在原地——她 11:20 那則動態（兩張票根）接得上。不寫倒數第三排、不寫睡著。演過記 G.flags.AA524.z3s */
+  S.z3SumDue=function(G){ const F=G&&G.flags; if(!F||!F.ZR_EARLY_GO||(F.AA524&&F.AA524.z3s!=null)) return false; const sat=S.z3Sat(); return sat!=null&&G.day===sat+1&&(+G.hour||0)>=5; };
+  S.z3Sum=async function(GM){ const G=GM.G; if(!S.z3SumDue(G)) return false; rec(G).z3s=G.day; const d=CALENDAR.dateOf(G.day), L=S.L.z3;
+    GM.sceneBegin(); try{ if(GM.fade) await GM.fade(true); if(GM.titleCard) await GM.titleCard(d.m+' 月 '+d.d+' 日（日）',L.card,2200); if(GM.fade) await GM.fade(false);
+      for(const t of L.sum) await GM.say(null,t); const h=+G.hour||0; if(h<11.5&&GM.advance) GM.advance(11.5-h); } finally { GM.sceneEnd(); } return true; };
+  S.tick=function(GM){ const G=GM&&GM.G; if(!G||!law(G)||!S.z3SumDue(G)) return false; void S.z3Sum(GM).catch(e=>console.warn('AA524 z3',e)); return true; };
 
   /* ---------------- Y8 滷蛋（story3d.js noodleScene）---------------- */
   S.ytEggDue=G=>!!G&&!!G.flags&&!!G.flags.YT_BDAY_Y1&&!G.flags.YT_BDAY_EGG;
@@ -100,6 +107,7 @@ const AA524=(function(){
 
   /* ---------------- 掛上去 ---------------- */
   if(typeof STORY!=='undefined'&&Array.isArray(STORY.PHONE_RULES)) STORY.PHONE_RULES.push(G=>S.phone(G));
+  if(typeof STORY!=='undefined'&&Array.isArray(STORY.TICKS)) STORY.TICKS.push(GM=>S.tick(GM));   /* AA_526 Z3 早場的摘要 */
   if(typeof STORY!=='undefined'&&typeof STORY.ladReply==='function'&&!STORY._aa524Lad){ const r0=STORY.ladReply;
     STORY.ladReply=function(st,ch,G,id){ try{ S.onLad(G,st,ch,id); }catch(e){ console.warn('AA524 lad',e); } return r0.apply(this,arguments); }; STORY._aa524Lad=true; }
   if(typeof FEED!=='undefined'&&FEED.WENT) FEED.WENT.zrEarly=G=>!!(G&&G.flags&&G.flags.ZR_EARLY_GO);   /* Z3：動態 zr3c（feed_y2s1.js went:'zrEarly'）*/
