@@ -263,7 +263,13 @@ const Y2B_EVENTS=(function(){
   const XMAS_VIDEO={ id:'ev_zhiruo_xmas_video', title:'聖誕的視訊', participants:['heroine_02'], location:'any', trigger:'outing', once:true, background:'dark', hours:0.5,
     dialogue:[ {scene:'視訊',bg:'video'},
       {speaker:'heroine_02',text:'這裡的聖誕節，店都關了。'},
-      {speaker:'heroine_02',text:'我很想做一杯給你。'} ] };
+      {speaker:'heroine_02',text:'我很想做一杯給你。'},
+      /* AA_524 Z1：送別那天說了「我去看妳。」（y2r2_3d.js d2，ZR_VISIT_PROMISE）——英國那一趟不在遊戲裡，改在這通視訊兌現 */
+      {if:{flags:['ZR_VISIT_PROMISE']},speaker:'heroine_02',text:'（把筆電轉過去，螢幕上是一部片的片頭）……我排的那部。'},
+      {if:{flags:['ZR_VISIT_PROMISE']},speaker:'heroine_02',text:'機票太貴了，你不用來。我們一人一邊，按同一個播放。'},
+      {if:{flags:['ZR_VISIT_PROMISE']},speaker:null,text:'（你們隔著視訊看完一部片。她那邊下午，你這邊半夜。）'},
+      {if:{flags:['ZR_VISIT_PROMISE']},advance:2},   /* 一部片：時間往後兩小時（稿沒寫，LAWWW 子代理照「看完一部片」補）*/
+      {if:{flags:['ZR_VISIT_PROMISE']},speaker:'heroine_02',text:'……好。看過了。'} ] };
 
   /* ---- 1B-10 芷若英國的生日（AA_336 B6；BB_124 第 1 節「她在國外」2027）：9/24 那張背面「9/28，台灣晚上十點。打給我。」→ 9/28 21:55 選「打給她。」（y2b3d.js S.bdayCall）＝22:00 視訊（倫敦 15:00）。
      前兩句 BB_124、第三句是 AA_336 新寫的收尾；ZR_BDAY_CALL 在選的時候記 ---- */

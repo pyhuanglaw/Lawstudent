@@ -146,7 +146,8 @@ const ENCOUNTERS={
     ENC_D18_ZQ:{who:'heroine_04',lines:['九份那些燈籠，我做成一關了。下次給你玩。']},
     ENC_D24_SIS:{who:'heroine_05',lines:['礁溪那天以後，我媽問了你好幾次。我跟她說你很好。']},
     ENC_D20_PS:{who:'classmate_peishan',lines:['烏來那天回去，有個小孩寫作文寫到你。']},
-    ENC_D25_ZR:{who:'heroine_02',place:['cafe'],lines:['外澳那卷底片洗出來了。有一張你在角落，我拿給你。']}
+    ENC_D25_ZR:{who:'heroine_02',place:['cafe'],lines:['外澳那卷底片洗出來了。有一張你在角落，我拿給你。']},
+    ENC_D04_ZR:{who:'heroine_02',place:['cafe'],lines:['上次那部片。……結局我猜錯了。']}   /* AA_524 Z11：西門偶遇「今天的片，下次在 Café 說。」（enc_walk.js）——照 ENC_D02_ZR 的做法，下一次在 Café 說 */
   },
   /* 人物頁「記得的事」的字 */
   labels:{ENC_D04_ZR:'在西門町的電影院門口遇到她',ENC_D12_ZQ:'在大稻埕碼頭遇到她',ENC_D06_SIS:'在美術館遇到學姊',ENC_D12_PS:'在迪化街的舊書店門口遇到她',ENC_D13_KX:'在淡水遇到她',

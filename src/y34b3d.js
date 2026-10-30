@@ -489,7 +489,7 @@ const Y34B=(function(){
     {if:C(()=>met('yu')),speaker:'yu',text:'要傳照片喔。每天。'},{if:C(()=>met('yu')),speaker:'heroine_01',text:'……每天太多了。一個禮拜一張。'},
     {if:C(()=>met('heroine_03')),speaker:'heroine_03',text:'（端麵過來）日本有乾麵嗎。'},{if:C(()=>met('heroine_03')),speaker:'heroine_01',text:'應該沒有這種的。'},   /* Alison、語彤不認識的就跳過她們的句子（以安回她們的那一句一起跳）*/
     {if:C(JP),speaker:'zhe',text:'（轉向你）還有你。兩個都要傳。'},
-    {unless:C(JP),choice:[{text:'「一路順風。」',goto:'fw_a'},{text:'「回來第一碗我請。」',goto:'fw_b'}]},
+    {unless:C(JP),choice:[{text:'「一路順風。」',goto:'fw_a'},{text:'「回來第一碗我請。」',set:{AN_FIRST_BOWL:true},goto:'fw_b'}]},
     {if:C(JP),choice:[{text:'「到了我幫妳顧行李。」',goto:'fw_c'},{text:'「（舉杯）」',goto:'fw_d'}]},
     {label:'fw_a'},{speaker:'heroine_01',text:'嗯。……八月見。'},{goto:'fw_end'},
     {label:'fw_b'},{speaker:'heroine_01',text:'好。我要加滷蛋。'},{goto:'fw_end'},
@@ -747,6 +747,7 @@ const Y34B=(function(){
     {speaker:null,text:'（麵店牆上，二十年那張泛黃的紅紙旁邊，多了一張新的：「感謝各位二十三年來的照顧。明年繼續煮。」）'},
     {speaker:null,text:'（店裡坐滿，外面還有人排隊。新屋主也來排隊。）'},
     {speaker:null,text:'（阿姨一碗一碗煮，語彤端，工讀生在洗碗。語彤的媽媽坐在角落，對每個人說：「我女兒很少講話，她今天講太多了。」）'},
+    {if:C(G=>ytDt(G)&&G.flags.YT_MOM_ASKED!=null),speaker:'語彤的媽媽',text:'問了好幾年，終於看到人了。'},   /* AA_524 Y1：交往中、學期末約會聽過「我媽問你……」其中一句（termend3d.js 記 YT_MOM_ASKED）——她媽媽第一次看到你 */
     {if:C(ytDt),speaker:'語彤的媽媽',text:'……他也很少講話。你們兩個怎麼聊天的？'},
     {if:C(()=>met('yu')),speaker:null,text:'（Alison 進門。阿哲旁邊的位子空著，大家都知道是留給誰的。）'},
     {if:C(()=>met('yu')),speaker:'yu',text:'（坐下）第四年了。這兩個位子，本來就是我們的。'},   /* AA_378 #6：麵店團 2025-09 才開始（到 2028-12 是第四年）*/

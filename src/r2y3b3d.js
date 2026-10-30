@@ -353,7 +353,7 @@ const R2Y3B=(function(){
         if(O) L[L.length-1].ask={id:tag,until:T(w.day+1,18),opts:O.map(([t,r])=>({t,say:[{from:'heroine_01',text:r}]}))};
         PHONE.at(G,w.day,S.jp(21),L,tag); R.log.push({day:w.day,h:S.jp(21),kind:'msg',wk:w.wk,tier:1,dating:true}); continue; }
       const tier=S.abTier(G), tag='y3_ab_w'+w.wk; R.tier=tier; F.AN_ABROAD_TIER=tier;
-      if(tier===1){ if(w.wk%2!==1) continue; const i=S.abPickT1(G,R,w.day,AB.t1.length); if(i<0) continue; const L=AB.t1[i].map(A), O=(AB.t1O||[])[i];   /* T1 也有兩個回覆按鈕，她回一句（AA_343 D3）；十則照順序各一次、有月份的照月份（S.abPickT1，AA_463 第 1 節）*/
+      if(tier===1){ if(w.wk%2!==1) continue; const i=S.abPickT1(G,R,w.day,AB.t1.length); if(i<0) continue; const L=AB.t1[i].map(A), OF=(AB.t1OFriend||{})[i], O=OF?((AB.t1O||[])[i]||[]).map(([t,r])=>[t,OF[t]!=null?OF[t]:r]):(AB.t1O||[])[i];   /* AA_524 A10：沒交往的回覆（AB.t1OFriend）*/   /* T1 也有兩個回覆按鈕，她回一句（AA_343 D3）；十則照順序各一次、有月份的照月份（S.abPickT1，AA_463 第 1 節）*/
         if(O) L[L.length-1].ask={id:tag,until:T(w.day+1,18),opts:O.map(([t,r])=>({t,say:[{from:'heroine_01',text:r}]}))};
         PHONE.at(G,w.day,S.jp(21),L,tag); R.log.push({day:w.day,h:S.jp(21),kind:'msg',wk:w.wk,tier}); }
       else if(tier===2){ const i2=S.abPick(G,R,'n2',AB.t2.length,'t2',w.day); if(i2<0) continue; const x=AB.t2[i2], L=x.L.map(A); L[L.length-1].ask={id:tag,until:T(w.day+1,18),opts:x.O.map(o=>({t:o,say:[]}))}; PHONE.at(G,w.day,S.jp(21),L,tag); R.log.push({day:w.day,h:S.jp(21),kind:'msg',wk:w.wk,tier}); }   /* 她不再回（一來一回就停）*/
