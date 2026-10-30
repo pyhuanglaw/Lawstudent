@@ -35728,8 +35728,8 @@
    "title": "快速存檔獨立一格：💾 存到 fatiao3d_quick（不被自動存檔蓋掉），選單存檔頁與標題讀取看得到、可讀取；自動存檔、欄位 1～3 不變",
    "area": "SYS",
    "owner": "LAWWW",
-   "status": "進行中",
-   "next": "postrel-1030 實作＋單元測試，v9.10.14 發布後進開發分支，BB 瀏覽器測",
+   "status": "已實作待整合",
+   "next": "v9.10.14 發布後隨 postrel-1030 進開發分支；BB 瀏覽器測：按 💾 → 選單存檔頁「快速存檔」那一格有、讀得回來；自動存檔、欄位 1～3 不受影響",
    "priority": "P1",
    "first": {
     "term": "Y0S1",
@@ -35743,7 +35743,7 @@
    },
    "source": "使用者 10-30 03:5x 選擇題（UA-LAWWW-1030-05，USER_WANTS X126）",
    "authorized": "使用者",
-   "notes": "延續 QUICK-SAVE-EXPORT-1027（X115）"
+   "notes": "【LAWWW-B 04:0x】postrel-1030 7a6c12473：💾 存 fatiao3d_quick（上一份備份 fatiao3d_backup），存檔頁「自動存檔」下面一格「快速存檔（右上 💾）」只有讀取（第一個「存檔」鈕照舊是欄位 1，瀏覽器測試不受影響）；quick_save_unit 修改前 FAILED 6 → ALL PASS"
   }
  ]
 }
