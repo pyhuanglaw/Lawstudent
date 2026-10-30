@@ -1,0 +1,74 @@
+{
+ "scale": 2.0,
+ "intensity": 6.283185307179586,
+ "res": 1024,
+ "samples": 512,
+ "emit": {},
+ "dayemit": {
+  "lb_skylight": 1.0
+ },
+ "sun": [
+  200.0,
+  45.0,
+  2.2
+ ],
+ "sky": 0.15,
+ "nightsky": 0.03,
+ "shell": "S,W,N",
+ "daylights": 1.0,
+ "lights": "5.6,12.0,-8.5,8.3,9.58,2,4,20,1.2,0.6;-12.0,-5.6,-8.5,8.3,9.58,2,4,20,1.2,0.6;5.4,11.8,-9.0,9.0,4.69,2,5,14,0.28,0.28;-11.8,-5.4,-9.0,9.0,4.69,2,5,14,0.28,0.28;-4.8,4.8,0.4,0.4,4.69,4,1,14,0.28,0.28;-3.4,3.4,-8.2,-1.0,9.29,2,3,22,0.15,0.15;-6.54,6.54,1.9,8.5,9.29,2,3,22,0.15,0.15;-10.30,-6.10,-6.8,-6.8,6.115,4,1,3,0.2,0.2,1.0,0.82,0.62;-10.30,-6.10,-3.8,-3.8,6.115,4,1,3,0.2,0.2,1.0,0.82,0.62;-10.70,-6.50,3.0,3.0,6.115,4,1,3,0.2,0.2,1.0,0.82,0.62;-10.70,-6.50,6.6,6.6,6.115,4,1,3,0.2,0.2,1.0,0.82,0.62",
+ "points": "-4.75,7.45,1.4,28,1.0,0.82,0.62;4.75,7.45,1.4,28,1.0,0.82,0.62;-4.75,7.45,5.4,28,1.0,0.82,0.62;4.75,7.45,5.4,28,1.0,0.82,0.62;-3.45,4.65,-8.77,15,1.0,0.82,0.62;3.45,4.65,-8.77,15,1.0,0.82,0.62",
+ "wb": {
+  "day": [
+   0.85,
+   0.8,
+   0.72
+  ],
+  "night": [
+   1.0,
+   0.92,
+   0.8
+  ]
+ },
+ "objects": [
+  "L0_c_body",
+  "L0_entrance_mat",
+  "L0_floor",
+  "L0_landing",
+  "L0_lb_granite",
+  "L0_lb_leather",
+  "L0_lb_locker",
+  "L0_lb_plaster_hupN",
+  "L0_lb_slab",
+  "L0_lb_step",
+  "L0_lb_step_lm1.4_hdownN",
+  "L0_lb_step_lm1.4_hdownS",
+  "L0_lb_walnut",
+  "L0_lb_wood_light",
+  "L0_rb_body_1",
+  "L0_WALL_wall+0+0+1_lb_plaster_hupdownEW",
+  "L0_WALL_wall+0+0-1_lb_plaster",
+  "L0_WALL_wall+0+0-1_lb_plaster_hupdownEW",
+  "L0_WALL_wall+1+0+0_lb_plaster_hupdownNS",
+  "L0_WALL_wall-1+0+0_lb_plaster_hupdownNS",
+  "L0_WALL_Wdoor_lb_locker",
+  "L0_WALL_Wwin_lb_walnut",
+  "L1_band_floor",
+  "L1_ceiling",
+  "L1_lb_granite",
+  "L1_lb_leather",
+  "L1_lb_locker",
+  "L1_lb_parquet_lm1.3_hsidedown",
+  "L1_lb_plaster",
+  "L1_lb_slab_hup",
+  "L1_lb_walnut",
+  "L1_WALL_Edoor_lb_locker",
+  "L1_WALL_Edoor_lb_walnut",
+  "L1_WALL_Ndoor_lb_walnut",
+  "L1_WALL_wall+0+0+1_lb_plaster_hupdownEW",
+  "L1_WALL_wall+0+0-1_lb_plaster_hupdownEW",
+  "L1_WALL_wall+1+0+0_lb_plaster_hupdownNS",
+  "L1_WALL_wall-1+0+0_lb_plaster_hupdownNS",
+  "L1_WALL_Wwin_lb_walnut"
+ ]
+}

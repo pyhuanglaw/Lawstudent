@@ -18,7 +18,7 @@
   "Y2_BOXES_OPEN": 58
  },
  "tris_total": 950,
- "bytes": 240484,
+ "bytes": 240480,
  "nodes": {
   "WALL_left_Y2_BOARD": "軟木板（左牆、祐廷書桌前＝layout 的 wall_spot_by_desk；ROOM_Y2 以後一直有；牆淡出時一起淡出，dir＝[1,0,0]）；下面的 ITEM_duty／report／film／y1_ferris／sticky 是釘在板上的；社團傳單之後也釘在板上（x 往房間 +0.02）",
   "ITEM_film": "S.ROOM_Y2_TEXT.film",

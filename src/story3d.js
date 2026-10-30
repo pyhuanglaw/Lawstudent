@@ -3239,8 +3239,11 @@ const STORY = (function(){
   S.sleepJumpMode=G=>!!((typeof ECONFF!=='undefined'&&ECONFF.on&&ECONFF.on(G)&&ECONFF.next&&ECONFF.next(G))||(typeof PG!=='undefined'&&PG.bedOptions&&PG.bedOptions(G)));   /* 「睡覺＝到下一件事」（S.bedOptions 同一個判斷）*/
   /* 熄燈的程度 k（0＝照原本、1＝熄燈）：z.lightsOff 優先；沒有就壓曝光。k 回到 0＝曝光還原成原本的值 */
   let darkSave=null;
+  S.DARK_LIGHTS=0.85;   /* 熄燈時半球光、方向光降掉的比例（剩一成五）*/
   S.roomDark=function(GM,k){ const E=GM&&GM.E, z=E&&E.zone, lm=!!z&&typeof z.lightsOff==='function'; k=Math.max(0,Math.min(1,+k||0)); S._dark=k;
-    if(lm){ try{ z.lightsOff(k); }catch(e){ console.warn('lightsOff',e); } }
+    if(lm){ try{ z.lightsOff(k); }catch(e){ console.warn('lightsOff',e); }
+      if(!z._darkLit&&E){ z._darkLit=true; const at0=z.applyTime; z.applyTime=function(h,w){ if(at0) at0.call(this,h,w); const q=+z.lightsOffK||0; if(q>0){ const f=1-S.DARK_LIGHTS*q; if(E.hemi) E.hemi.intensity*=f; if(E.sun) E.sun.intensity*=f; if(E.fill) E.fill.intensity*=f; } }; }   /* 熄燈：沒烘焙的小東西（紙、塑膠椅、螢幕）靠半球光、方向光，跟著降到一成五（LAWWW2-B 05:36 DORM203-LM-1030）；engine 每 5 格 applyTime 重設，所以包在區域的 applyTime 後面 */
+      if(E&&E.applyTime) try{ E.applyTime(E.hour); }catch(e){} }
     if(k>0&&!lm&&E){ if(!darkSave) darkSave={E,k0:E.toneK}; E.toneK=(darkSave.k0||1)*(1-S.DARK_MAX*k); }
     else if(darkSave){ darkSave.E.toneK=darkSave.k0; darkSave=null; }   /* 開燈、或熄燈途中正式模型（有光照貼圖）才載好：曝光還原 */
     if(E&&!lm&&E.applyTime) try{ E.applyTime(E.hour); }catch(e){} return k; };
