@@ -36117,6 +36117,35 @@
    "source": "使用者 10-30 04:5x 兩則（UA-LAWWW-1030-14、15；X136、X137；前面 H05、X110）",
    "authorized": "使用者",
    "notes": "使用者說講很多次了：這次一次統一到位"
+  },
+  {
+   "id": "XINCI-ROMANCE-1030",
+   "title": "吳芯慈可攻略、要很難達成：AA 規劃感情線（門檻、時間線、事件、告白條件、多段感情規則、和現有設定一致）→ LAWWW 實作",
+   "area": "STORY",
+   "owner": "AA",
+   "status": "待開工",
+   "next": "AA 交企劃（第③級：人物感情走向——使用者已決定「可攻略、要很難」，細節 AA 定，大方向有疑問再問使用者）→ LAWWW 排實作",
+   "priority": "P1",
+   "first": {
+    "term": "Y1S1",
+    "week": 1,
+    "earliest": "法律系大一上認識芯慈（麵店團）",
+    "mainline": false,
+    "blocks": false,
+    "prereq": false,
+    "parallel": true,
+    "confirmed": true
+   },
+   "source": "使用者 10-30 05:0x（UA-LAWWW-1030-17，X139）",
+   "authorized": "使用者",
+   "xai": {
+    "spec": "使用者原話＋characters.js classmate_xinci 現有設定",
+    "branch": "claude/cool-heisenberg-o8kuqx",
+    "acceptance": "AA 企劃：門檻（很難）、各學年事件、告白與交往、多段感情、結局；可直接實作",
+    "receiver": "LAWWW",
+    "ack": "SENT"
+   },
+   "notes": ""
   }
  ]
 }
