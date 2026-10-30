@@ -36668,6 +36668,28 @@
    },
    "notes": "阿哲＝張哲維（ev_zhe_w1_meet 最後一句才報全名）；personHTML 目前只有 personality 一句",
    "sha": "f4adf6cb7"
+  },
+  {
+   "id": "NDL-AUNT-VIS-1030",
+   "title": "麵店：語彤顧店那一列走近聽到的兩句（阿姨「語彤，那桌的乾麵不要蔥。」）說的時候 3D 阿姨還沒出現（BB-B BB_218 n14 10/2，P3 外觀）",
+   "area": "BUG",
+   "owner": "LAWWW",
+   "status": "待開工",
+   "priority": "P3",
+   "next": "BB 下次進麵店那一刻抓 GM.npc.hc_ayi 的 hidden、_hcWait、obj.visible、CHAR.isDegraded(obj)，和 HCIRCLE.together 的結果；照讀數改 S.together（同伴模型還沒載好不算在旁邊）",
+   "first": {
+    "term": "Y1S1",
+    "week": 5,
+    "earliest": "大一上週二、四 17:30～20:30 語彤在麵店顧店、阿姨在廚房（c503_6_2）",
+    "mainline": false,
+    "blocks": false,
+    "prereq": false,
+    "parallel": true,
+    "confirmed": true
+   },
+   "source": "BB-B BB_218（企劃線 elegant-brown-fcos7n）n14：NPC 清單兩個阿姨——無名店員（照設計：阿姨在時藏起來，PRIV-AUNT-1028）＋ hc_ayi（20 秒後才顯示＝模型載入，src/hcircle3d.js S.modelWait）",
+   "authorized": "D85",
+   "notes": "兩筆不是重複：店員藏起來、hc_ayi 換上（S.arrange／S.kitchen）。S.together 已經看 cn.hidden，可能是模型非同步載入時 hidden 還是 false。D99：外觀問題只記錄、不擋流程"
   }
  ]
 }
