@@ -42,7 +42,7 @@ async def main():
             st, d = await P.base(pg, SAVE, '2025-12-06', 22.5, 'dorm'); await P.load(pg, cdp, st)
             run.setup('[前置] 使用者存檔 → 2025-12-06（六）22:30 宿舍')
             await meet_yule(pg, cdp, run)
-            ok = await P.wait_hour(pg, cdp, 22.84, max_s=600)
+            ok = await P.wait_play(pg, cdp, 22.84, max_s=600)
             m = await pg.evaluate(MSGS + "('p:yule')"); t = [x['t'] for x in m if x['d'] == '2025-12-06']
             run.note('等到 22:50：%s；p:yule 這一天 %s' % (ok, J(t)))
             for w in ('可昕說我太吵 叫我去跑步', '我去了', '現在停不下來'):
@@ -53,7 +53,7 @@ async def main():
             st, d = await P.base(pg, SAVE, '2026-05-13', 21.33, 'dorm'); await P.load(pg, cdp, st)
             run.setup('[前置] 使用者存檔 → 2026-05-13（三）21:20 宿舍')
             inG = await pg.evaluate("!!PHONE.inGroup(GAME.G,'econ_friends')"); run.note('在「走啦」群組：%s' % inG)
-            ok = await P.wait_hour(pg, cdp, 21.67, max_s=600)
+            ok = await P.wait_play(pg, cdp, 21.67, max_s=600)
             m = await pg.evaluate(MSGS + "('g:econ_friends')"); t = [x['t'] for x in m if x['d'] == '2026-05-13']
             run.note('等到 21:40：%s；g:econ_friends 這一天 %s' % (ok, J(t)))
             if inG:
@@ -67,7 +67,7 @@ async def main():
             st, d = await P.base(pg, SAVE, '2027-10-14', 21.83, 'dorm', flags=fl); await P.load(pg, cdp, st)
             run.setup('[前置] 使用者存檔 → 2027-10-14（四）21:50 宿舍；%s' % J(fl))
             await meet_yule(pg, cdp, run)
-            ok = await P.wait_hour(pg, cdp, 22.08, max_s=600)
+            ok = await P.wait_play(pg, cdp, 22.08, max_s=600)
             m = await pg.evaluate(MSGS + "('p:yule')"); t = [x['t'] for x in m if x['d'] == '2027-10-14']
             run.note('等到 22:05：%s；p:yule 這一天 %s' % (ok, J(t)))
             run.check('AA_520 4-1 邀請「下週三晚上七點 我要去你們學校聽一場演講」', '下週三晚上七點 我要去你們學校聽一場演講' in t, J(t))

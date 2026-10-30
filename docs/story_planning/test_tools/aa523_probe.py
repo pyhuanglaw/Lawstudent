@@ -34,7 +34,7 @@ async def main():
             if(!SOCIAL.has(id,'FIRST_MET')) SOCIAL.meet(id,'lawlib'); G.contacts=G.contacts||{}; if(G.contacts[id]==null) G.contacts[id]=G.day-400;
             try{ ROM.start(G,id); }catch(e){} G.flags['dating_'+id]=true; if(G.flags.SIS_DATING_D==null) G.flags.SIS_DATING_D=STORY.dayOfKey('2028-12-24');
             return {partners:ROM.partners?ROM.partners(G):null, route:typeof R3!=='undefined'&&R3.route?R3.route(G):null, job:G.flags.SIS16_JOB_A==null?null:G.flags.SIS16_JOB_A}; })(%s)""" % J(SIS), label='只和學姊交往中（2028-12-24 起）、認識、聯絡方式')
-        ok = await P.wait_hour(pg, cdp, 21.08, max_s=600)
+        ok = await P.wait_play(pg, cdp, 21.08, max_s=600)
         m = await pg.evaluate(MSGS + "('p:%s')" % SIS); t = [x['t'] for x in m if x['d'] == '2029-02-26']
         run.note('2/26 21:05：%s；p:%s 這一天 %s' % (ok, SIS, J(t)))
         run.check('前置：2/26 21:00 學姊「每週三晚上，研究室。」', '每週三晚上，研究室。' in t, J(t))

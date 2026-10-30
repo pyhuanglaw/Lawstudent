@@ -167,7 +167,7 @@ async def main():
                 h0 = xt[0]; st, d = await P.base(pg, SAVE, key, h0 - 0.1, 'cafe', flags=fl); await P.load(pg, cdp, st, quiet=True)
                 run.setup('[前置] %s %.2f Café（小婷 %.2f 接班之前 6 分鐘），站著等' % (key, h0 - 0.1, h0))
                 b0 = [s for s in await pg.evaluate(STAFF, 'cafe') if s['vis'] and s['clerk']]
-                ok = await P.wait_hour(pg, cdp, h0 + 0.05, max_s=480)
+                ok = await P.wait_play(pg, cdp, h0 + 0.05, max_s=480)
                 await pg.wait_for_timeout(3000); b1 = [s for s in await pg.evaluate(STAFF, 'cafe') if s['vis'] and s['clerk']]
                 run.note('接班前 %s → 接班後 %s（等到了 %s，%s）' % (J([s['who'] for s in b0]), J([s['who'] for s in b1]), ok, J(await P.clock(pg))))
                 if ok:
@@ -221,7 +221,7 @@ async def main():
             st, d = await P.base(pg, SAVE, key, 20.75, 'dorm', flags=fl); await P.load(pg, cdp, st)
             run.setup('[前置] 使用者存檔 → %s（二）20:45 宿舍' % key)
             await P.prep(pg, cdp, run, "(()=>{ if(!SOCIAL.has('npc_ta_chen','FIRST_MET')) SOCIAL.meet('npc_ta_chen','classroom'); return SOCIAL.has('npc_ta_chen','FIRST_MET'); })()", label='見過陳助教')
-            ok = await P.wait_hour(pg, cdp, 21.08, max_s=540)
+            ok = await P.wait_play(pg, cdp, 21.08, max_s=540)
             m = await pg.evaluate("(()=>(GAME.G.msgs||[]).filter(m=>m.from==='npc_ta_chen').map(m=>({t:m.text,d:m.day,h:m.h==null?null:+(+m.h).toFixed(2)})))()")
             run.note('等到 21:05：%s；陳助教的訊息 %s' % (ok, J(m)))
             run.check('2-3 2028-06-20 21:00 收到陳助教「過了。」', ok and any(x['t'] == '過了。' for x in m), J(m))

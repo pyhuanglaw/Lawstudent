@@ -53,7 +53,7 @@ async def main():
             q = await pg.evaluate("(id=>(FEED.rec(GAME.G).items||[]).filter(i=>String(i.id||'').startsWith('dt_')).map(i=>({id:i.id,who:i.who,day:CALENDAR.dateOf(i.day).key,h:i.h,pic:i.pic||i.photo||null,text:i.text==null?null:i.text})))(%s)" % J(WHO))
             run.note('回來時排好的約會動態：%s' % J(q))
             target_h = 21.55 if MODE == 'an' else 24.6
-            got = await P.wait_hour(pg, cdp, target_h if target_h < 24 else 23.95, max_s=900)
+            got = await P.wait_play(pg, cdp, target_h if target_h < 24 else 23.95, max_s=900)
             if target_h >= 24:   # 子晴 00:30：過午夜，等日子換了再等到 0:35
                 d0 = await pg.evaluate("GAME.G.day")
                 t0 = time.time()

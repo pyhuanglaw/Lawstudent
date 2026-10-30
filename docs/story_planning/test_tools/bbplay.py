@@ -313,3 +313,22 @@ async def talk_full(pg, cdp, run, cid, tag, picks=(), max_s=480):
     if r is not None: r['lines'] = list(r.get('lines', [])) + s
     elif s: r = {'lines': s, 'opts': [], 'picked': [], 'started': True, 'label': None}
     return r
+
+
+async def wait_play(pg, cdp, h, max_s=600, day=None, picks=(), run=None, tag=''):
+    """同 wait_hour，但像玩家一樣：途中跳出來的對話點過去、選單照 picks（沒有就婉拒那一類、再沒有就第一個）、手機收起來。
+    BB-B 10-30：wait_hour 不點對話——2028-06-20 期末考完的旁白停在畫面上，遊戲時間不走，等 9 分鐘都到不了 21:05。回傳是否等到"""
+    t0 = time.time(); seen = []
+    while time.time() - t0 < max_s:
+        c = await clock(pg)
+        if (day is None or c['day'] >= day) and (c['h'] >= h or (day is not None and c['day'] > day)):
+            if run and seen: run.note('%s 等的途中點過的對話：%s' % (tag, J(clean(seen))[:1500]))
+            return True
+        s = await ts(pg)
+        if s['txt'] and (not seen or seen[-1] != [s['name'], s['txt']]): seen.append([s['name'], s['txt']])
+        if s['ch']:
+            k, _ = pick_of(s['ch'], picks); await tap_choice(pg, cdp, k); await pg.wait_for_timeout(1000); continue
+        if s['dlg']: await L.tap(pg, cdp, '#dlg'); await pg.wait_for_timeout(650); continue
+        await L.phone_away(pg, cdp); await pg.wait_for_timeout(1500)
+    if run and seen: run.note('%s 等的途中點過的對話：%s' % (tag, J(clean(seen))[:1500]))
+    return False
