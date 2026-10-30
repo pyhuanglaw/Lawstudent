@@ -1553,14 +1553,14 @@
    "id": "WIP-LAWWW-AA527-1030",
    "role": "LAWWW",
    "task": "AA527-FIX-1030",
-   "state": "WIP",
-   "sha": "66293d4cd",
+   "state": "已交付",
+   "sha": "2637ea798",
    "branch": "aa527-fix（子代理；D113 備份 wip_backup/aa527_1030.bundle，基準 3035cc66b）",
    "files": [
     "wip_backup/aa527_1030.bundle"
    ],
-   "todo": "AA_527／528（LAWWW-B 10-30 子代理）",
-   "next": "子代理做完回報 → LAWWW 合併、相關測試、全部 Node、SHA 給 BB",
+   "todo": "AA_527 第 1、2 節＋AA_528 全部做完（第 4 節許教授等使用者）；aa527_528_unit 基準 FAILED 73 → ALL PASS 89；全部 Node 734／0；改 16 支舊測試",
+   "next": "合進 postrel-1030（和 NDL-PRESENT 的 ndlTalkPick、characters.js 會衝突，兩邊都留）、全部 Node；AA 確認 13 個細節",
    "noDirectIntegrate": true,
    "source": "AA_527／528；LAWWW-B 10-30 派子代理"
   },
@@ -1569,7 +1569,7 @@
    "role": "LAWWW",
    "task": "PROMISES-REDO-1030",
    "state": "WIP",
-   "sha": "5b48dc350",
+   "sha": "c1658d38c",
    "branch": "postrel-1030（子代理；D113 備份 wip_backup/postrel_1030.bundle，基準 5457e7c95）",
    "files": [
     "wip_backup/postrel_1030.bundle"
@@ -1584,7 +1584,7 @@
    "role": "LAWWW",
    "task": "AA529-ECON-FIX-1030",
    "state": "WIP",
-   "sha": "0dcdece9a",
+   "sha": "6909f43bf",
    "branch": "aa529-econ（子代理；D113 備份 wip_backup/aa529_1030.bundle，基準 acc883b3e）",
    "files": [
     "wip_backup/aa529_1030.bundle"
@@ -1599,7 +1599,7 @@
    "role": "LAWWW",
    "task": "AA532-VAC-FIX-1030",
    "state": "WIP",
-   "sha": "4c81ef7df",
+   "sha": "b28b48591",
    "branch": "aa532-vac（子代理；D113 備份 wip_backup/aa532_1030.bundle，基準 d531b973f）",
    "files": [
     "wip_backup/aa532_1030.bundle"
@@ -1608,6 +1608,21 @@
    "next": "子代理做完回報 → LAWWW 合併、相關測試、全部 Node、SHA 給 BB",
    "noDirectIntegrate": true,
    "source": "AA_532 寒暑假；LAWWW-B 10-30 派子代理"
+  },
+  {
+   "id": "WIP-LAWWW-DORMSLEEP-1030",
+   "role": "LAWWW",
+   "task": "DORM-SLEEP-VISUAL-1030",
+   "state": "WIP",
+   "sha": "c8b306a2f",
+   "branch": "dorm-sleep（子代理；D113 備份 wip_backup/dormsleep_1030.bundle，基準 5b48dc350）",
+   "files": [
+    "wip_backup/dormsleep_1030.bundle"
+   ],
+   "todo": "宿舍睡覺畫面（LAWWW-B 10-30 子代理）",
+   "next": "子代理做完回報 → LAWWW 合併、相關測試、全部 Node、SHA 給 BB",
+   "noDirectIntegrate": true,
+   "source": "宿舍睡覺畫面；LAWWW-B 10-30 派子代理"
   }
  ]
 }
