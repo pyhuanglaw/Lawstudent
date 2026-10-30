@@ -36702,7 +36702,7 @@
    "owner": "LAWWW",
    "status": "進行中",
    "priority": "P0",
-   "next": "第一批 AA_546（企劃線 a2769f464）：換句部分已接（b76e835f7，nocmp_fix.json）；柏翰翰 1～翰 4 的選項／條件／旗標（ASKED_SLOW、BOHAN_GROUP slow）、宿營破冰「從哪裡來」、人物頁柏翰那一行還在做；第二批（灰色地帶）等 AA 問使用者；改完 AA 再掃一次",
+   "next": "第一批（AA_546）全部實作：3281a122c、a68622d52、43b7877f4（測試改新句）；AA 照 §6 重掃讀一遍（10-30 18:3x 已發）；第二批灰色地帶（芷若、語彤、學姊、書卷獎 honor3d.js:40、明軒）等 AA 交稿；芯慈整條線等 AA_547（XCROM.ON false 不進下一版）；BB 測柏翰翰 1～翰 4",
    "first": {
     "term": "Y1S1",
     "week": 1,

@@ -3555,7 +3555,7 @@ const STORY_EVENTS=[
       {speaker:'classmate_peishan',expression:'serious',text:'只有一個條件：要好玩。'},
       {choice:[{text:'「我接。」',if:{custom:G=>typeof STORY!=='undefined'&&STORY.plgY1Count&&STORY.plgY1Count(G)>=5},set:{STUDYGROUP_LEADER:true}},{text:'（不說話）'}]} ] },
   /* 柏翰 翰 3 分數表（AA_40、AA_177 第 5 節；柏翰接題目整理的版本）：第二次聚會＝大二下第 2 週週三 3/3 的讀書會，白板上多了一張分數表；可以去找他談，或什麼都不做（都不改變翰 4）。
-     沒去讀書會＝沒有。一個月後（第 6 週起第一次去讀書會）：來對題目的人從八個變四個。祐廷接的版本：3/3 21:00 柏翰在全班群組貼分布圖（story3d.js）*/
+     沒去讀書會＝沒有。一個月後（第 6 週起第一次去讀書會）：白板那張表每個人的格子都寫滿了（AA_546 1-4；原本「從八個變四個」）。祐廷接的版本：3/3 21:00 柏翰在全班群組貼白板的照片（story3d.js）*/
   { id:'ev_bohan_scores', title:'白板',   /* AA_546 1-4（D116）：每個人只寫自己的目標 */ participants:['classmate_bohan'], location:'wancai', trigger:'club', term:['Y2S2'], weeks:[2], weekday:[4], once:true, background:'blur',   /* 公法讀書會（週四，BB_191 §8-7）*/
     prereq:{memory:[{npc:'classmate_bohan',tag:'FIRST_MET'}],custom:G=>!G.flags.STUDYGROUP_LEADER},
     dialogue:[ {speaker:null,text:'（白板上多了一張表：每個人寫自己這週要讀到哪裡。）'},{speaker:'classmate_bohan',expression:'neutral',text:'寫下來比較不會忘。只寫自己的。'},{speaker:null,text:'（以安看了白板一眼，在自己那一格寫「刑總 第五章」。）'},
