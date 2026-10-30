@@ -88,8 +88,31 @@ def norm_state(s):
     return STATE_ALIAS.get(s, s)
 
 
-def outbox_problems(ob, tasks):
+def _task_ok(task, tids):
+    """outbox 的 task：整個是任務 ID；或開頭是任務 ID、後面接空白或括號的說明（例「BADMINTON-CLIP-1027 第二版」「PARK-ENTRY-B-1027（B08）」）。
+    只看開頭那一段是不是總表的 ID，不做「包含」的判斷（D94）。"""
+    if task in tids:
+        return True
+    m = re.match(r'[A-Za-z0-9][A-Za-z0-9_.-]*', task or '')
+    return bool(m) and m.group(0) in tids and task[m.end()] in ' （(　'
+
+
+def delivered_tasks(dv, tids):
+    """交付登記（LAWWW 已經對到總表任務的）：commit 前 7 碼 → 任務。一筆交付寫好幾個任務的（「、」分隔），每一個都要在總表。"""
+    out = {}
+    for d in (dv or {}).get('deliveries', []):
+        ts = [x for x in re.split(r'[、,\s]+', str(d.get('task') or '')) if x]
+        if not ts or any(x not in tids for x in ts):
+            continue
+        for s in re.split(r'[／/、,\s]+', str(d.get('sha', ''))):
+            if len(s) >= 7:
+                out[s[:7]] = d.get('id')
+    return out
+
+
+def outbox_problems(ob, tasks, dv=None):
     tids = {t['id'] for t in tasks.get('tasks', [])} | {a for t in tasks.get('tasks', []) for a in t.get('aliases') or []}
+    dlt = delivered_tasks(dv, tids)
     out = []
     if not isinstance(ob, dict) or not isinstance(ob.get('entries'), list):
         return ['outbox 格式不對（要有 entries 陣列）']
@@ -110,8 +133,8 @@ def outbox_problems(ob, tasks):
             out.append(f'{tag}：WIP 要寫 remaining（還沒做完的）')
         if e.get('ack') and e['ack'] not in ACKS:
             out.append(f'{tag}：ack「{e["ack"]}」不是 {"／".join(ACKS)} 之一')
-        if e.get('task') and e['task'] not in tids:
-            out.append(f'{tag}：任務 {e["task"]} 不在總表')
+        if e.get('task') and not _task_ok(e['task'], tids) and str(e.get('sha', ''))[:7] not in dlt:
+            out.append(f'{tag}：任務 {e["task"]} 不在總表（同一個 commit 也沒有對到總表任務的交付登記）')
     return out
 
 
@@ -174,7 +197,7 @@ def _ref(branch, remote):
     return f'origin/{branch}' if remote and not branch.startswith('origin/') else branch
 
 
-REGISTRY = re.compile(r'^docs/handoff/(outbox_[A-Z0-9]+\.json|duty_[A-Z0-9]+\.json|snapshots/.+\.json)$')
+REGISTRY = re.compile(r'^docs/handoff/(outbox_[A-Z0-9]+\.json|duty_[A-Z0-9]+\.json|user_asks_[A-Z0-9]+\.json|snapshots/.+\.json)$')   # user_asks：HV-18 各職位的使用者要求檔（INCR-CLEANUP-1021 加）
 
 
 def only_registry(root, sha):
@@ -267,7 +290,7 @@ def scan(root, wm, dv, tasks, duty, remote=True, outboxes=None, roles=None):
             shas[s] = f'ignored {e.get("kind")}'
     ob_probs = {}
     for role, ob in outboxes.items():
-        ob_probs[role] = outbox_problems(ob, tasks)
+        ob_probs[role] = outbox_problems(ob, tasks, dv)
         for e in ob.get('entries', []):
             if len(str(e.get('sha', ''))) >= 7:
                 shas[str(e['sha'])[:7]] = f'outbox {role} {norm_state(e.get("state"))} {e.get("task")}'

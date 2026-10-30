@@ -338,6 +338,14 @@ def check(args):
     except FileNotFoundError:
         A(9, f'{MATRIX} 不存在')
 
+    # 分支定期唯讀稽核（BRANCH-AUDIT-1028，使用者 2026-10-28 01:4x）：只提醒、不算異常；超過 24 小時沒做就寫出來
+    try:
+        import branch_audit
+        d, msg = branch_audit.due(args.root)
+        info.append(('該做分支唯讀稽核了（python3 tools/handoff/branch_audit.py --write，結果 commit＋push）：' if d else '分支唯讀稽核：') + msg)
+    except Exception as e:
+        info.append(f'分支唯讀稽核：讀不到紀錄（{e}）')
+
     # 報告
     open_ = [t for t in tasks if t.get('status') not in CLOSED]
     cnt = {}
@@ -485,7 +493,7 @@ ASK_ROLES = ['LAWWW', 'LAWWW2', 'AA', 'BB']
 ASK_FILE = 'docs/handoff/user_asks_{}.json'
 ASK_KINDS = ['原話', '選擇題答案', '轉述', 'AI解讀']   # AI解讀＝AI 自己擴大或推論的，不是使用者的話：要 confirmed:true（問過使用者）才算數
 ASK_STATUS = ['還沒做', '進行中', '做好了沒進遊戲', '在開發分支', '在遊戲裡', '暫停', '已取消', '規則（永久）', '已完成']
-WANT_ROW = re.compile(r'^\| ([A-Z]\d+)(?: ★)? \| ')
+WANT_ROW = re.compile(r'^\| ([A-Z]\d+[a-z]?)(?: ★)? \| ')   # 列號可以帶一個小寫尾碼（例：D35a；10-27 AA-C 的 UA-AA-1027-49 對不到）
 
 
 def wants_rows(text):
@@ -522,7 +530,12 @@ def ask_check(role, data, rows, have):
         if a.get('kind') and a['kind'] not in ASK_KINDS:
             bad.append(f'{role} {aid}：kind「{a["kind"]}」不是 {ASK_KINDS}')
         if a.get('kind') == 'AI解讀' and not a.get('confirmed'):
-            bad.append(f'{role} {aid}：AI 自己的解讀還沒問使用者（confirmed 不是 true）：{a.get("quote", "")[:40]}')
+            dg = a.get('delegatedBy')   # 使用者授權這個職位自己決定（例：D109「以後你劇情自己決定」UA-AA-1021-43）：紀錄照留、不必再問
+            src = next((b for b in items if b.get('id') == dg), None) if dg else None
+            dropped = a.get('status') == '已取消' and bool((a.get('cancelReason') or '').strip())   # 已經不照這個解讀做（寫明原因）＝沒有照沒確認的解讀行動的風險
+            if not dropped and not (src and src.get('kind') in ('原話', '選擇題答案') and src.get('status') == '規則（永久）'):
+                bad.append(f'{role} {aid}：AI 自己的解讀還沒問使用者（confirmed 不是 true）：{a.get("quote", "")[:40]}'
+                           + (f'（delegatedBy {dg} 不是這個職位檔裡、status 規則（永久）的使用者原話或選擇題答案）' if dg else ''))
         st = a.get('status') or ''
         if st and st not in ASK_STATUS:
             bad.append(f'{role} {aid}：status「{st}」不是 {ASK_STATUS}')

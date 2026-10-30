@@ -1,3 +1,21 @@
+值班登記：帳號 B｜AA｜session_016ACZaD4oB9tX94WqQR4dkS｜分支 claude/cool-heisenberg-o8kuqx｜接班基準 ea43bd9a0（快轉合併帳號 C 的 `claude/magical-albattani-bk7b4n`）｜2026-10-30 02:1x UTC
+上一班：帳號 C｜AA｜session_019evvieJUJD23EGf4nyLPgo｜最後 commit ea43bd9a0（2026-10-28 15:23 UTC，回 LAWWW-C 15:22、AA_519 第 9 節對稿完成）｜**沒有正式交班** → 使用者 10-30 對 AA-B：「上個帳號來不及交班 你現在要接班」＝第 4 節第 10 步的明確授權（`duty register --user-ok`）。
+接班核對（RULE_SOURCE `origin/claude/adoring-meitner-mqzst8` @ c76d0cb69，`duty find`：值班 C、上一任 B、HV-20、seq 32）：
+- `check --ref`：OK（十一項都沒有異常；提醒：分支唯讀稽核上次 10-28 09:02，是值班 LAWWW 的事）。
+- `roles --role AA`：OK（全部待辦 421 行、185 個 ID）。
+- `asks --role AA`：OK（52 筆）。
+- `duty register --account B --role AA --user-ok`：已寫 `docs/handoff/duty_AA.json`（`tools/handoff/` 從 RULE_SOURCE 取新版），等值班 LAWWW `duty sync`。
+- **上一班最後在做什麼**（照 commit 和本檔 1995～2038 行）：
+  - 10-28 15:01～15:05 交 `AA_524`、`AA_525`（六位女主角說了沒發生）；15:22 回 LAWWW-C（`AA_519` 第 10 節）；15:23 對稿 `AA_519` 第 9 節完成。
+  - 派出去的子代理（inv8～inv13b）結果都已寫成 `AA_512`～`AA_525` 推上去；最後沒有在跑的子代理紀錄。
+  - **只在 AA-C 工作階段裡、沒推上去的**：看得到的只有 scratchpad 的對稿小工具 `chk497/chkt.py`（`AA_519` 對稿那一行提到），沒有遠端備份；其他半成品照規則當作沒有。
+  - 「下一步」照本檔約 130 行那一串（等 LAWWW 合 `aopen-1027` 第二輪、`AA_482` 的清單、118 巷第二輪、追 `AA_357`～`AA_474` 的實作）。
+- **其他職位停在哪（給 LAWWW-B，AA 不處理）**：
+  - **v9.10.13 發布中斷**：BB-C 15:29 GO（rc2 `da50fbdc1`），LAWWW-C 15:31 發布樹 `c76d0cb69`、RELEASES「發布中」，**main 還是 v9.10.12 `d5ca27b89`**（沒有 PR、沒有合併）。
+  - LAWWW2-C：`claude/focused-cray-c9uwvw` 最後 `4b1fcc458` 是 WIP（LIB-HALL-LM-1028 總圖大廳烘焙第二版，「還沒交件」）。
+  - BB-C：`claude/wonderful-mayer-7fm9g6` 最後 `3e23808e7`（15:33）。
+- acceptsOpen：使用者 10-27 已回答 C（`AA_474`），不再問。
+
 值班登記：帳號 C｜AA｜session_019evvieJUJD23EGf4nyLPgo｜分支 claude/magical-albattani-bk7b4n｜接班基準 89accb6d4（快轉合併帳號 B 的 `claude/cool-heisenberg-o8kuqx`）｜2026-10-27
 上一班：帳號 B｜AA｜session_016ACZaD4oB9tX94WqQR4dkS｜最後 commit 89accb6d4（2026-10-25 19:43 UTC，讀稿工具存檔）｜**沒有正式交班**（四個帳號 B 的工作階段都停在 10-25 19:2x～19:4x）→ 使用者 10-27 對 AA-C：「上一班來不及交班，現在由帳號 C 接班」＝第 4 節第 10 步的明確授權（`duty register --user-ok`）。
 接班核對（RULE_SOURCE `origin/claude/modest-rubin-2lyp7g`，`duty find`：值班 B、上一任 A、HV-18、seq 27）：

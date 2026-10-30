@@ -21,7 +21,7 @@ register 的安全規則：
     加了也會記一筆異常 no-handoff（上一班來不及交班：以遠端最後 push 的狀態為準）。
   - 不覆寫別的帳號的分支、不改任務；只更新值班狀態。
 """
-import json, os, subprocess, sys
+import json, os, re, subprocess, sys
 from datetime import datetime, timezone
 
 DUTY = 'docs/handoff/duty.json'
@@ -37,6 +37,12 @@ ACCOUNT_STATES = ('on', 'off', 'unused')
 
 def now():
     return datetime.now(timezone.utc).strftime('%Y-%m-%dT%H:%MZ')
+
+
+def _ts(s):
+    """時間字串 → 可以比大小的 tuple：'2026-10-27'、'2026-10-27T16:46Z'、'…T16:46:30Z'、手寫的 '16:4x'（x 當 0）都吃；看不懂回 None"""
+    m = re.match(r'(\d{4})-(\d{2})-(\d{2})(?:[T ](\d{1,2}):(\d{2})(?::(\d{2}))?)?', str(s or '').replace('x', '0'))
+    return tuple(int(g) if g else 0 for g in m.groups()) if m else None
 
 
 def session_name(role, account):
@@ -311,7 +317,11 @@ def _write(root, path, obj):
 
 def register(args):
     src = Src(args.root)
-    d, err = load(src, getattr(args, 'ref', None))
+    ref, err = _role_ref(args)
+    if err:
+        print(f'[致命] {err}——沒有值班狀態不能登記；回報使用者')
+        return 2
+    d, err = load(src, ref)
     if err:
         print(f'[致命] {err}——沒有值班狀態不能登記；回報使用者')
         return 2
@@ -378,9 +388,26 @@ def register(args):
     return 0
 
 
+def _role_ref(args):
+    """LAWWW 以外的職位在自己的分支（企劃線、美術分支）上沒有 duty.json：沒給 --ref 就自己找 RULE_SOURCE 讀（同 check_handoff.py snapshot；TOOL-DUTY-HANDOFF-BRANCH-1022，BB 10-22 15:08 交班跑不起來）。
+    回傳 (ref, 錯誤)；LAWWW、或本機有 duty.json＝照舊讀本機。"""
+    ref = getattr(args, 'ref', None)
+    if ref or args.role == 'LAWWW' or os.path.exists(os.path.join(args.root, DUTY)):
+        return ref, None
+    code, b = find(args, quiet=True)
+    if code or not b:
+        return None, f'這條分支沒有 {DUTY}，也找不到 RULE_SOURCE（先 git fetch --all；或加 --ref origin/<規則來源分支>）'
+    print(f'值班狀態從 origin/{b} 讀（這條分支沒有 {DUTY}）')
+    return 'origin/' + b, None
+
+
 def handoff(args):
     src = Src(args.root)
-    d, err = load(src, getattr(args, 'ref', None))
+    ref, err = _role_ref(args)
+    if err:
+        print(f'[致命] {err}')
+        return 2
+    d, err = load(src, ref)
     if err:
         print(f'[致命] {err}')
         return 2
@@ -486,6 +513,29 @@ def sync(args):
         if not mine:
             continue
         ref, reg = mine[0]
+        # 擋舊登記（HV-20；兩次事故：10-23 本機的遠端分支沒 fetch、讀到上一次交班的檔；10-27 職位分支上留著 10-20 的 state on）
+        # ① 本機的遠端分支要和 GitHub 一樣新：不一樣就先 fetch 那一條再讀；查不到遠端就不收
+        br = ref.split('origin/', 1)[1] if ref.startswith('origin/') else ref
+        rc_r, rem = git(args.root, 'ls-remote', 'origin', 'refs/heads/' + br)
+        rsha = rem.split()[0] if rc_r == 0 and rem.strip() else None
+        if not rsha:
+            print(f'[略過] {r}：查不到遠端分支 {br}（ls-remote 失敗）——不收，連得上 GitHub 再 sync')
+            continue
+        if rsha != git(args.root, 'rev-parse', ref)[1]:
+            git(args.root, 'fetch', '-q', 'origin', f'+refs/heads/{br}:refs/remotes/{ref}')
+            try:
+                reg = json.loads(src.read(ROLE_FILE.format(role=r), ref))
+            except Exception:
+                print(f'[略過] {r}：{ref} fetch 以後讀不到 {ROLE_FILE.format(role=r)}——不收')
+                continue
+            if reg.get('account') != mine[0][1].get('account'):
+                print(f'[略過] {r}：{ref} fetch 以後帳號變了——不收，重新 sync')
+                continue
+        # ② 只收比 duty.json 現在這一筆新的登記：職位交班沒用 duty handoff 改自己的 duty_<職位>.json 時，檔案會一直寫 state on，下次那個帳號回來就被當成新登記
+        rt, ct = _ts(reg.get('since')), _ts(cur.get('since'))
+        if rt and ct and rt < ct:
+            print(f'[略過] {r}：{ref} 的登記（帳號 {reg.get("account")}，since {reg.get("since")}）比 duty.json 現在的（帳號 {cur.get("account")}，since {cur.get("since")}）舊——是上一次值班留下的檔，等它重新 duty register')
+            continue
         tip = git(args.root, 'rev-parse', '--short=8', ref)[1]
         new = {'account': reg['account'], 'session': reg.get('session'), 'branch': reg.get('branch'), 'sha': reg.get('sha') or tip,
                'sinceSha': reg.get('sinceSha'), 'since': reg.get('since'), 'state': reg.get('state', 'on')}
