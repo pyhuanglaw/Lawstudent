@@ -54,8 +54,29 @@ _CJK = _re.compile('[\u3400-\u4dbf\u4e00-\u9fff\u3040-\u30ff\uf900-\ufaff]')
 
 
 def read_fix(s):
-    """匯入工具讀稿一律走這裡：先 alison()，再照 docs/WORLD_NAMING.md 換名（world()）。"""
-    return world(alison(s))
+    """匯入工具讀稿一律走這裡：先 alison()，再照 docs/WORLD_NAMING.md 換名（world()），再照 AA_542 換麵店團的字（ndl542()）。"""
+    return ndl542(world(alison(s)))
+
+
+_NDL = None
+
+
+def ndl542(s):
+    """NOODLE-TEAM-SHRINK-1030（AA_542 企劃線 6b33b4012，使用者 10-30 X144）：舊稿裡的麵店團字句照 tools/story/ndl542_fix.json 換（長的先換）。"""
+    global _NDL
+    if not isinstance(s, str):
+        return s
+    if _NDL is None:
+        import json as _json, os as _os
+        try:
+            with open(_os.path.join(_os.path.dirname(_os.path.abspath(__file__)), 'ndl542_fix.json'), encoding='utf-8') as f:
+                _NDL = _json.load(f)['pairs']
+        except (OSError, ValueError, KeyError):
+            _NDL = []
+    for a, b in _NDL:
+        if a in s:
+            s = s.replace(a, b)
+    return s
 
 
 # 虛構校名（WORLD-RENAME-1030，D115，使用者 2026-10-30）：讀稿時照 docs/WORLD_NAMING.md 換名，規則和企劃線換稿用的同一支

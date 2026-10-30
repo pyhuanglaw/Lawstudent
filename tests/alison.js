@@ -13,11 +13,14 @@ const GUARD=path.join(__dirname,'..','tools','story','import_guard.py');
 const ef0=cp.__worldEf||cp.execFileSync;
 function world(s){ if(typeof s!=='string'||!OLD.test(s)) return s;
   return ef0.call(cp,'python3',[GUARD,'world'],{input:s,encoding:'utf8',maxBuffer:256*1024*1024}); }
-const fix=r=>typeof r==='string'?world(alison(r)):(Buffer.isBuffer(r)?Buffer.from(world(alison(r.toString('utf8'))),'utf8'):r);
+// NOODLE-TEAM-SHRINK-1030（AA_542 企劃線 6b33b4012，使用者 10-30 X144 麵店團縮小成背景）：遊戲照 AA_542 換了玩家看得到的字，舊稿讀進來照同一張表換（tools/story/ndl542_fix.json，長的先換）
+let NDL=null; function ndl(s){ if(typeof s!=='string') return s; if(!NDL){ try{ NDL=JSON.parse(require('fs').readFileSync(path.join(__dirname,'..','tools','story','ndl542_fix.json'),'utf8')).pairs; }catch(e){ NDL=[]; } }
+  for(const [a,b] of NDL) if(s.indexOf(a)>=0) s=s.split(a).join(b); return s; }
+const fix=r=>typeof r==='string'?ndl(world(alison(r))):(Buffer.isBuffer(r)?Buffer.from(ndl(world(alison(r.toString('utf8')))),'utf8'):r);
 const isDoc=s=>/\bshow\b/.test(s)&&/docs\/story_planning\//.test(s);
 if(!cp.__alison){
   const ex=cp.execSync, ef=cp.execFileSync; cp.__worldEf=ef;
   cp.execSync=function(cmd){ const r=ex.apply(this,arguments); return typeof cmd==='string'&&isDoc(cmd)?fix(r):r; };
   cp.execFileSync=function(file,args){ const r=ef.apply(this,arguments); return Array.isArray(args)&&isDoc(args.join(' '))?fix(r):r; };
   cp.__alison=true; }
-module.exports={alison,world};
+module.exports={alison,world,ndl};
