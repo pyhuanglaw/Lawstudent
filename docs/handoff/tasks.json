@@ -36407,7 +36407,7 @@
    },
    "source": "D111 INTERIOR-AAA（使用者 10-28「校內建築 空間內配置 有很大的美術提升空間」）",
    "authorized": "D108、D111",
-   "sha": "PENDING",
+   "sha": "6e3a95623",
    "xai": {
     "spec": "INTERIOR_AAA_REVIEW_1028",
     "branch": "claude/funny-albattani-iawshm",
