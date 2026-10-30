@@ -47,13 +47,14 @@ const SIS539=(function(){
     if(q&&q.items&&q.items[0]&&q.items[0].text===a.L[0]) q.items=a.card.map(dm); };
   /* 「我在附近。」：約當天 15:30 總圖，見面直接演 12-1（PHONE.ON_ANSWER；回的當下就約）*/
   S.SR_H=15.5;
+  S.SR_UP='（你走上三樓。她坐在靠窗的位子。）';   /* AA-B 10-30 09:11（AA_539 第 5 節第 4 點的退路）：INV 的總圖在大廳那一層，見面前這一句旁白再演 12-1 */
   S.onAsk=function(G,m,o,k){ const id=m&&m.ask&&m.ask.id; if(id!==S.dmTag(0)||k!==0||!G||!G.flags||G.flags.SIS539_SR!=null||typeof INV==='undefined'||!INV.accept) return;
     const d=D((L.friendDm||[])[0].day), P=INV.place?INV.place('library'):null;
     if(d==null||!P||(INV.freeAt&&!INV.freeAt(G,ID,P,d,S.SR_H))){ G.flags.SIS539_SR='none'; return; }   /* 那個時間你已經約了別人、考試：不約（不另外寫句子）*/
-    const iv=INV.accept(G,ID,'library',d,S.SR_H,{by:'npc'}); if(iv&&!S.cardDone(G)) iv.ev=CARD_EV; G.flags.SIS539_SR=iv?iv.id:'none'; };
+    const iv=INV.accept(G,ID,'library',d,S.SR_H,{by:'npc'}); if(iv&&!S.cardDone(G)){ iv.ev=CARD_EV; iv.preNarr=S.SR_UP; } G.flags.SIS539_SR=iv?iv.id:'none'; };
   /* 約好的那一次：見面以前 12-1 自己先演了＝拿掉 iv.ev（照一般的見面）；從見面演完的＝補記 SIS_CARD_DAY（第 21 天的私訊）*/
   S.srFix=function(G){ const F=G.flags, ivId=F.SIS539_SR; if(!ivId||ivId==='none'||typeof INV==='undefined'||!INV.byId) return; const iv=INV.byId(G,ivId); if(!iv) return;
-    if(iv.ev===CARD_EV&&iv.state==='accepted'&&S.cardDone(G)) delete iv.ev;
+    if(iv.ev===CARD_EV&&iv.state==='accepted'&&S.cardDone(G)){ delete iv.ev; delete iv.preNarr; }
     if(iv.ev===CARD_EV&&iv.state==='done'&&F.SIS_CARD_DAY==null){ const R=G.events&&G.events.last; F.SIS_CARD_DAY=R&&R[CARD_EV]!=null?R[CARD_EV]:iv.day; } };
 
   /* ---------------- 3-2 家族群組 ---------------- */

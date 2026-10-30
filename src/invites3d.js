@@ -296,7 +296,7 @@ const INV=(function(){
      見面那一段演這一場（取代地點的一般旁白、第一次的那一句、道別句）；之後照舊時間往後、地點記憶、熟一點點、對方約的又赴約信任 +1。找不到那一場＝照一般的見面 */
   S.meetEv=async function(GM,iv,n){ const G=GM.G, P=S.place(iv.place), nm=nameOf(iv.who), ev=iv.ev&&typeof STORY_EVENTS!=='undefined'?STORY_EVENTS.find(e=>e.id===iv.ev):null;
     if(!P||!ev||typeof EVENTS==='undefined'||!EVENTS.runLines) return false;
-    iv.state='done'; GM.sceneBegin({adv:iv.who}); try{ await EVENTS.runLines(ev.dialogue||[],ev);
+    iv.state='done'; GM.sceneBegin({adv:iv.who}); try{ if(iv.preNarr) await GM.say(null,iv.preNarr);   /* iv.preNarr：那一場前面先一句旁白（AA_539 7/20：見面在總圖大廳那一層，先「（你走上三樓。她坐在靠窗的位子。）」）*/ await EVENTS.runLines(ev.dialogue||[],ev);
       if(G.events){ G.events.done=G.events.done||{}; G.events.last=G.events.last||{}; G.events.done[ev.id]=(G.events.done[ev.id]||0)+1; G.events.last[ev.id]=G.day; }
       if(typeof ev.after==='function'){ try{ ev.after(G,GM,iv); }catch(e){ console.warn('INV.meetEv after',e); } }
       await GM.fade(true); GM.advance(P.stay); await GM.fade(false); GM.caption('',[P.name,nm,'（'+(P.stay>=1?P.stay+' 小時':Math.round(P.stay*60)+' 分鐘')+'）'].join('・'),2600);

@@ -221,11 +221,11 @@ await sec('3-1',async()=>{
   const th0=(H.G.msgs||[]).filter(m=>m.th==='p:'+ID).map(m=>(m.from==='player'?'你':'她')+'：'+m.text), iv=(H.G.invites||[]).find(q=>q.who===ID&&q.place==='library');
   check('3-1. 回「我在附近。」：她「'+C720_YES+'」；當天 15:30 總圖的邀約（她約的 by npc、已答應），見面那一次是 12-1（iv.ev）',th0.slice(-2).join('｜')==='你：我在附近。｜她：'+C720_YES&&!!iv&&keyOf(iv.day)==='2026-07-20'&&iv.h===15.5&&iv.by==='npc'&&iv.state==='accepted'&&iv.ev==='ev_sis_borrowed_card'&&H.G.flags.SIS539_SR===iv.id,J({th:th0.slice(-3),iv}));
   let L1=[]; if(iv){ at('2026-07-20',15.5); H.G.zone='library_hall'; H.said=[]; H.opts=[]; H.picks=[0,0]; await INV.meet(GM,iv,null); L1=H.said.map(s=>s.t); rules(); }
-  check('3-1. 見面：直接演 12-1（「（總圖三樓靠窗的位子。…）」「…你的學生證，借我一下。」），不演一般的總圖見面；演完記 12-1、補 SIS_CARD_DAY（第 21 天的私訊）',L1[0]==='（總圖三樓靠窗的位子。她面前疊著五本書，最上面夾著一張手寫的書單。）'&&L1.some(t=>/你的學生證，借我一下。$/.test(t))&&!L1.some(t=>/^你和.*在總圖/.test(t))&&!!(H.G.events.done.ev_sis_borrowed_card)&&H.G.flags.SIS_CARD_DAY===D('2026-07-20')&&!!iv&&iv.state==='done',J({L:L1.slice(0,3),card:H.G.flags.SIS_CARD_DAY,st:iv&&iv.state}));
+  check('3-1. 見面：先「（你走上三樓。她坐在靠窗的位子。）」（AA-B 09:11 第 4 點的退路：見面在總圖大廳那一層），再直接演 12-1（「（總圖三樓靠窗的位子。…）」「…你的學生證，借我一下。」），不演一般的總圖見面；演完記 12-1、補 SIS_CARD_DAY（第 21 天的私訊）',L1[0]==='（你走上三樓。她坐在靠窗的位子。）'&&L1[1]==='（總圖三樓靠窗的位子。她面前疊著五本書，最上面夾著一張手寫的書單。）'&&L1.some(t=>/你的學生證，借我一下。$/.test(t))&&!L1.some(t=>/^你和.*在總圖/.test(t))&&!!(H.G.events.done.ev_sis_borrowed_card)&&H.G.flags.SIS_CARD_DAY===D('2026-07-20')&&!!iv&&iv.state==='done',J({L:L1.slice(0,3),card:H.G.flags.SIS_CARD_DAY,st:iv&&iv.state}));
   /* 約好以後、見面以前 12-1 自己先演了＝照一般的見面 */
   fresh('2026-07-20',9,'friend'); at('2026-07-20',9); rules(); at('2026-07-20',14.2); rules(); PHONE.answer(H.G,'sis539_fdm_0',0); const iv2=(H.G.invites||[]).find(q=>q.who===ID&&q.place==='library');
   H.G.events.done.ev_sis_borrowed_card=1; H.G.flags.SIS_CARD_DAY=H.G.day; at('2026-07-20',14.5); rules();
-  check('3-1. 約好以後、見面以前 12-1 在總圖先演了：那一次照一般的總圖見面（拿掉 iv.ev，不演第二次）',!!iv2&&iv2.ev===undefined&&iv2.state==='accepted',J(iv2));
+  check('3-1. 約好以後、見面以前 12-1 在總圖先演了：那一次照一般的總圖見面（拿掉 iv.ev，不演第二次）',!!iv2&&iv2.ev===undefined&&iv2.preNarr===undefined&&iv2.state==='accepted',J(iv2));
   /* 「今天不行。」＝「好。」；12-1 照原規則 */
   fresh('2026-07-20',9,'friend'); at('2026-07-20',9); rules(); at('2026-07-20',14.2); rules(); PHONE.answer(H.G,'sis539_fdm_0',1); const th=(H.G.msgs||[]).filter(m=>m.th==='p:'+ID).map(m=>(m.from==='player'?'你':'她')+'：'+m.text);
   H.G.zone='library'; at('2026-07-21',10); const due=typeof SISB12!=='undefined'&&SISB12.cardDue?SISB12.cardDue(H.G):'?';
