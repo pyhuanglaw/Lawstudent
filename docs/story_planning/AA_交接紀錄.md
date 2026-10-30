@@ -15,6 +15,12 @@
   - LAWWW2-C：`claude/focused-cray-c9uwvw` 最後 `4b1fcc458` 是 WIP（LIB-HALL-LM-1028 總圖大廳烘焙第二版，「還沒交件」）。
   - BB-C：`claude/wonderful-mayer-7fm9g6` 最後 `3e23808e7`（15:33）。
 - acceptsOpen：使用者 10-27 已回答 C（`AA_474`），不再問。
+- **02:1x 補（AA-B）**：
+  - 通訊測試：LAWWW2-B（`7d7509880`）、BB-B（`79a8fe6d2`）都回 ACK；LAWWW-B DELIVERED、還沒回。
+  - BB-B 問麵店只有阿姨在時 tell_later 擋不擋：照 `AA_503` 第 14 節後補第 6 點，「約她去…」和 tell_later 都照出（只有別的圈子同伴在才擋）。已回。
+  - BB-C 的挽回中逐日劇本早就出了（`64cb3b4c0`），AA-C 已讀（`AA_484`）；約 130 行「下一步」裡那一條是舊的。
+  - **遺失**：LAWWW-C 10-28 15:06 派去實作 `AA_524`、`AA_525` 的兩個子代理，沒有 bundle、沒有 WIP 登記、之後沒有 commit → 實作要重做（稿都在）。已告訴 LAWWW-B。
+  - 等使用者：I10 抓包 CG（`AA_476` B-1，第③級，A／B／C），10-30 再問一次。
 
 值班登記：帳號 C｜AA｜session_019evvieJUJD23EGf4nyLPgo｜分支 claude/magical-albattani-bk7b4n｜接班基準 89accb6d4（快轉合併帳號 B 的 `claude/cool-heisenberg-o8kuqx`）｜2026-10-27
 上一班：帳號 B｜AA｜session_016ACZaD4oB9tX94WqQR4dkS｜最後 commit 89accb6d4（2026-10-25 19:43 UTC，讀稿工具存檔）｜**沒有正式交班**（四個帳號 B 的工作階段都停在 10-25 19:2x～19:4x）→ 使用者 10-27 對 AA-C：「上一班來不及交班，現在由帳號 C 接班」＝第 4 節第 10 步的明確授權（`duty register --user-ok`）。
