@@ -41,7 +41,7 @@ const L118=(function(){
   /* 一起吃的人：店門口真的站著、見過面的常客＋約好的午餐那幾個人 */
   S.companions=function(GM,shopId){ const G=GM.G, out=[]; const met=id=>typeof SOCIAL==='undefined'||!SOCIAL.has||SOCIAL.has(id,'FIRST_MET');
     const L=S.lunchNow(G); if(L&&L.shop===shopId) for(const id of L.with) if(met(id)&&!out.includes(id)) out.push(id);
-    if(L&&L.shop===shopId&&S.LUNCH_ONLY.includes(shopId)) return out;   /* 阿哲約的午餐在好家：那一場優先，柏翰（明軒）那一桌不另外演（AA_480 第 4 節）*/
+    if(L&&L.shop===shopId&&S.LUNCH_ONLY.includes(shopId)) return out;   /* 阿哲約的午餐在好家：那一場優先，柏翰那一桌（AA_311 H6）不另外演（AA_480 第 4 節）*/
     for(const r of S.regularsAt(G,shopId)) if(GM.npc&&GM.npc[r.id]&&met(r.id)&&!out.includes(r.id)) out.push(r.id);
     return out; };
   S.LUNCH_ONLY=['self'];
