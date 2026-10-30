@@ -33222,7 +33222,7 @@
    "title": "七位接不接受同時交往（acceptsOpen）照使用者 C＝逐一決定：AA_474 七位各自的條件、子晴＋芷若同時兩人都離開、可昕收回",
    "area": "v6",
    "owner": "LAWWW",
-   "status": "進行中",
+   "status": "已實作待整合",
    "priority": "P2",
    "source": "使用者 10-27 對 AA-C 回答 C（UA-AA-1027-49）；AA_474（企劃線 claude/magical-albattani-bk7b4n：第一版 d03d5da1a、第 5 節 fc961b2c5、更正 314c61ce4、**第二版 7e3f8ed4c＋3b 通則 020f695a3 為準**）",
    "first": {
@@ -33235,13 +33235,13 @@
     "parallel": true,
     "confirmed": true
    },
-   "next": "【LAWWW-C 2026-10-27 20:3x UTC】第二輪暫停（見 pausedReason）｜【LAWWW-C 2026-10-27 20:1x UTC】AA_482（7620d336e）加進子代理第二輪、排在 AA_481 之後（2-Y4-54 坦白照她的條件、都同意不問選誰、尾聲兩邊坐；子代理另列畢業以後七位談話演不到的地方給 AA）｜【LAWWW-C 2026-10-27 20:1x UTC】第一輪合進開發分支 fb8d27888（子代理 aopen-1027 eb97e846c：七位 acceptsOpen true＋各自條件、MREL.knowGate 3b 七處、可昕收回 ①②③；新測試 aa474_acceptsopen_unit 58 項，基底 53 FAIL；子代理分支 Node 653/0）。第二輪：AA_481（265f54809）五處前後句＋AA 回答第一輪八題（已轉 AA-C 20:1x），子代理同一分支做（基底 fb8d27888）；之後 BB 測 BB_TEST_QUEUE_1027 第 5c 節｜【LAWWW-C 2026-10-27 19:2x UTC】子代理開工（worktree wt_aopen，分支 aopen-1027，基底 d5ce20a40；照 AA_474 最後版本 020f695a3）；D113 每 15～20 分鐘 bundle（wip_backup/aopen_1027.bundle）｜【LAWWW-C 2026-10-27 17:2x UTC】**以 AA_474 第二版（7e3f8ed4c）＋第 4 節 3b 通則（020f695a3）為準，下面舊紀錄裡和它不同的都作廢**。要做的：①romance3d.js 第 20 行七位 acceptsOpen 改 true；②S.knowOpts 不加各人條件（AA 第一版讀漏 termend3d.js S.KNOWS_OK＝BB_203 5-3，她知道時要先過這張表心意邀約才會發），只改學姊：第一次一律讓我想想、第二次中間要兩次 L1/L2；③發現以後的結果照現在不改（以安 YT_INTENT、芷若約會 ≥8 次都作廢）；④3b 通則：開始交往前 knownOthers 有人＝先演 KNOW＋S.knowOpts（芷若照三問），七處：以安七夕 r2y3b3d.js S.romStart、七月最後一次 r2y4b3d.js S.julyScene start、芷若 8/26 zr_last3d.js S.start、Z13（z13Dinner＋hisOrderStart）、Q15（q15Walk＋貼紙）、學姊大峽谷 tw canyonAfter（連 OPEN_OK 都沒記）、學姊重新開始的約會結尾告白 date3d S.confess；Z13／Q15 在她知道時改走一般的 knowWalk；每處「還沒」那一條照 3b 的表；不在通則裡：jp3d 187、r2y4a3d S.restart、termend 295（只有可昕走得到，她沒有心意邀約）；⑤可昕收回（第 3 節）；⑥第 5 節 multirel_lines.js 三句改字＋aa423_multirel_unit.js 第 95 行；⑦romance_unit #14、mrel_ps_turn_unit #6 照新決定改寫。r2y4b3d.js 和 PG-FIX-471-473 改到同一檔 → PG-FIX 合進開發分支以後才開工（子代理照 D113 開工就備份）｜（以下舊紀錄）【LAWWW-C 2026-10-27 17:1x UTC】AA-C 更正（企劃線 314c61ce4）：「S.anResult 的 C 補 YT_INTENT both」作廢——以安、可昕的談話沒有心意那一題、從來不記 YT_INTENT，加了就永遠到不了接受；程式用「結果那天 Y 還在交往」判斷，照現在就對。發現以後的結果只剩一處要補：芷若 Byes 加約會 ≥8 次 ｜ 【LAWWW-C 2026-10-27 17:0x UTC】AA_474 加第 5 節（企劃線 fc961b2c5）：multirel_lines.js 接受那幾句兩組撞句改三處——學姊 Byes 第三句、沛珊知情心意邀約 accept.yes、學姊第二次「她說可以」的 then／yes（第一次照舊）；aa423_multirel_unit.js 第 95 行寫死學姊 Byes 要一起改 ｜ 【LAWWW-C 2026-10-27 17:0x UTC】照 AA_474 第 4 節：先補 multirel3d.js S.knowOpts 答應前的各人條件（現在只看開關、心意邀約 npcRom≥30＝開關一開就當場接受；表在第 1-8 節）→ 再把 romance3d.js 第 20 行七位改 true；學姊第一次「她說可以」一律讓我想想；S.anResult 的 C 補 YT_INTENT both；芷若補約會 ≥8 次；可昕收回（第 3 節新規格＋台詞）；romance_unit #14、mrel_ps_turn_unit #6「七位都 false」照新決定改寫。排在 v9.10.11 發布、PG-FIX-471-473 之後（子代理照 D113 開工就備份）",
+   "next": "aopen-r2（268c65322，wip_backup/aopen_r2_1030.bundle）合進 postrel-1030，v9.10.14 發布後進開發分支，BB 瀏覽器測",
    "sha": "fb8d27888",
    "pausedBy": "使用者（20:13 前後在工作階段裡停下了第二輪的子代理；系統訊息：只有使用者明確要求才再開新的代理）",
    "pausedReason": "第一輪已合進開發分支 fb8d27888；第二輪（AA_481 五處、AA_483 八題答案與定稿字、AA_482 坦白與尾聲）的子代理被使用者停下（很可能是使用者中斷 LAWWW-C 回合時一起停的），半成品 LAWWW 存成 aopen-1027 f642d440f（沒測、不能直接合）",
    "resumeWhen": "使用者說要繼續（LAWWW-C 在進度回報裡問了）；繼續時從 aopen-1027 f642d440f 接，照 AA_481、AA_483 第 1～2 節、AA_482",
    "recheckOn": "2026-11-03（或使用者下一次回覆時）",
-   "notes": "LAWWW-B 10-30 03:0x：照使用者 02:2x「接下來你自己安排有什麼規劃要做還沒做的」（UA-LAWWW-1030-04 AI 解讀，delegatedBy 1030-03）恢復第二輪，AA_524／525 子代理做完後派子代理續做（D113 備份），v9.10.14 發布後合。 ｜ 03:2x 派子代理（aopen-r2，基準 9bc01f480＋合併上一班半成品），D113 備份。"
+   "notes": "【LAWWW-B 10-30 03:5x】第二輪子代理做完 268c65322（AA_481、AA_483 第 1～2 節、AA_482；全部 Node 734／0）；問 AA 五個細節＋2030 畢業後「說實話」台詞還是學生口吻、芷若語彤子晴學姊第一步後停住 ｜ LAWWW-B 10-30 03:0x：照使用者 02:2x「接下來你自己安排有什麼規劃要做還沒做的」（UA-LAWWW-1030-04 AI 解讀，delegatedBy 1030-03）恢復第二輪，AA_524／525 子代理做完後派子代理續做（D113 備份），v9.10.14 發布後合。 ｜ 03:2x 派子代理（aopen-r2，基準 9bc01f480＋合併上一班半成品），D113 備份。"
   },
   {
    "id": "LAWWW2-REEXPORT-US-1027",
