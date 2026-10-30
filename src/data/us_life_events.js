@@ -200,11 +200,11 @@ const US_LIFE_EVENTS=(function(){
     {scene:'Legal Writing for International Students',bg:'us_classroom'},
     nar('（最後一堂。教授讓每個人念自己寫得最好的一句。）'),
     IF(LONG,nar('（何俊朗念的那一句，沒有 however。全班拍手。）')),UN(LONG,nar('（一個香港來的交換生念的那一句，沒有 however。全班拍手。）')) ]});   /* AA_370 L1：沒見過他（MET_LONG）；AA_451 1-2：「同一組的交換生」→「一個香港來的交換生」（不認識的人不是同一組）*/
-  /* AA_531 5-2（企劃線 475f55fe6）：另外兩門的最後一堂各一場——12/7（四）Comparative 期末報告、12/6（三）Introduction 期末考（USL.special；沒去上最後一堂的不補）*/
+  /* AA_531 5-2（企劃線 475f55fe6；第 8-1 節 41ec9a6ac：德國同學是女生、期末考可以翻書）：另外兩門的最後一堂各一場——12/7（四）Comparative 期末報告、12/6（三）Introduction 期末考（USL.special；沒去上最後一堂的不補）*/
   ev('ev_usl_comp_final','Comparative Constitutional Law',{background:'dark',dialogue:[
     {scene:'Comparative Constitutional Law',bg:'us_classroom'},
     nar('（期末報告。你和德國來的交換生站在講台前面，投影片第一頁寫著 Privacy。）'),
-    nar('（他講德國的部分講了十二分鐘。輪到你的時候，教授看了一下錶。）'),
+    nar('（她講德國的部分講了十二分鐘。輪到你的時候，教授看了一下錶。）'),
     {speaker:'教授',text:'Five minutes.'},
     {choice:[{text:'（照稿念完）',goto:'a'},{text:'（只講臺灣那一個案子）',goto:'b'}]},
     {label:'a'},nar('（你講得很快。最後一張投影片放上去的時候，剛好五分鐘。）'),{set:{USL_COMP_FINAL:'all'}},{goto:'e'},
@@ -212,7 +212,7 @@ const US_LIFE_EVENTS=(function(){
     {label:'e'} ]});
   ev('ev_usl_intro_final','Introduction to the U.S. Legal System',{background:'dark',dialogue:[
     {scene:'Introduction to the U.S. Legal System',bg:'us_classroom'},
-    nar('（期末考。三題申論，都是陪審團。寫到第三題，你的手開始痠。）'),
+    nar('（期末考，可以翻書。三題申論，都是陪審團。寫到第三題，你的手開始痠。）'),
     nar('（交卷的時候，教授對每個人都說了一次 Happy holidays.）') ]});
 
   /* ---------------- AA_531 第 2 節：和臺灣的人交往中、人在美國——以安、語彤、子晴、沛珊的視訊（出遊 call:true，她打來）；私訊在 DATA.aa531、時間在 USL.twPhone ---------------- */
@@ -299,18 +299,18 @@ const US_LIFE_EVENTS=(function(){
       /* AA_531 第 4 節（企劃線 475f55fe6）：9/3（日）21:00 勞動節烤肉——交往中學姊私訊（選項 → 她回）；挽回中是社區寄來的信（系統訊息）*/
       bbqAsk:['明天勞動節。會所後面有烤肉，五點。','社區辦的。不用帶東西。'], bbqAskOpts:[['好。','好。'],['我想在家休息。','嗯。']],
       bbqMail:'（社區寄來的信：明天 17:00，會所後面的草地，勞動節烤肉。）', bbqMailOpts:['（去）','（不去）'] },
-    /* AA_531 第 2 節（企劃線 475f55fe6）：和臺灣的人交往中、人在美國——以安、語彤、子晴、沛珊各五樣。d、h＝臺灣的日子和時間（送到時照時差換成當地，USL.twPhone）；
+    /* AA_531 第 2 節（企劃線 475f55fe6；第 8-1 節 41ec9a6ac 改了以安 8/26 第二則、12/23 以安／子晴／沛珊三則）：和臺灣的人交往中、人在美國——以安、語彤、子晴、沛珊各五樣。d、h＝臺灣的日子和時間（送到時照時差換成當地，USL.twPhone）；
        msgs＝私訊（不用回、沒有選項）；video＝視訊（出遊，她打來；台詞在上面的 ev_usl_tw_*）。ret＝12/23 回國那天（人已經在臺灣）。
        子晴的視訊 AA 沒寫時間：排臺灣 20:00（美東 08:00，「你那邊天亮了嗎」；回報 AA）。以安第一次視訊 10/22：10/19 那一通（y34b3d.js 的決定）有接的話離得太近，挪到 10/29（稿第 2-1 節）*/
     aa531:{
-      heroine_01:[ {k:'qixi',d:'2028-08-26',h:21,msgs:['今天七夕。手帳上有寫。','你那邊是早上。先去上課。']}, {k:'moon',d:'2028-10-03',h:20,msgs:['家裡在烤肉。我在陽台讀書。','月亮很圓。你那邊看得到嗎？']},
-        {k:'v1',d:'2028-10-22',alt:'2028-10-29',h:21,video:'ev_usl_tw_an_v1'}, {k:'v2',d:'2028-11-19',h:21,video:'ev_usl_tw_an_v2',after:'USL_TW_AN_V1'}, {k:'ret',d:'2028-12-23',h:20,ret:true,msgs:['到了傳一句。','明天見。']} ],
+      heroine_01:[ {k:'qixi',d:'2028-08-26',h:21,msgs:['今天七夕。手帳上有寫。','你那邊是早上。週末，你多睡一點。']}, {k:'moon',d:'2028-10-03',h:20,msgs:['家裡在烤肉。我在陽台讀書。','月亮很圓。你那邊看得到嗎？']},
+        {k:'v1',d:'2028-10-22',alt:'2028-10-29',h:21,video:'ev_usl_tw_an_v1'}, {k:'v2',d:'2028-11-19',h:21,video:'ev_usl_tw_an_v2',after:'USL_TW_AN_V1'}, {k:'ret',d:'2028-12-23',h:20,ret:true,msgs:['你的班機早上五點四十落地。我查過了。','明天見。']} ],
       heroine_03:[ {k:'qixi',d:'2028-08-26',h:22,msgs:['今天七夕。','店裡很忙。']}, {k:'moon',d:'2028-10-03',h:21,msgs:['📷（麵店門口的烤肉架，阿姨在翻香腸）','阿姨問你那邊有沒有月餅。']},
         {k:'v',d:'2028-11-12',h:22.5,video:'ev_usl_tw_yt_v'}, {k:'ret',d:'2028-12-23',h:21,ret:true,msgs:['回來了？','明天店裡。']} ],
       heroine_04:[ {k:'qixi',d:'2028-08-26',h:23.5,msgs:['今天七夕','公司沒人放假']}, {k:'moon',d:'2028-10-03',h:22,msgs:['公司發月餅','我吃了你的那份']},
-        {k:'v',d:'2028-10-15',h:20,video:'ev_usl_tw_zq_v'}, {k:'ret',d:'2028-12-23',h:23,ret:true,msgs:['落地了嗎','時差記得調']} ],
+        {k:'v',d:'2028-10-15',h:20,video:'ev_usl_tw_zq_v'}, {k:'ret',d:'2028-12-23',h:23,ret:true,msgs:['你今天回來對吧','時差記得調']} ],
       classmate_peishan:[ {k:'qixi',d:'2028-08-26',h:21.5,msgs:['七夕快樂～','你那邊是早上吧？早安～']}, {k:'moon',d:'2028-10-03',h:20.5,msgs:['📷（台南家裡的頂樓，一盤月餅）','我們家中秋不烤肉～我媽說煙太大','美國看得到月亮嗎～']},
-        {k:'v',d:'2028-11-26',h:21,video:'ev_usl_tw_ps_v'}, {k:'ret',d:'2028-12-23',h:21.5,ret:true,msgs:['到了嗎～','好好睡一覺～']} ] },
+        {k:'v',d:'2028-11-26',h:21,video:'ev_usl_tw_ps_v'}, {k:'ret',d:'2028-12-23',h:21.5,ret:true,msgs:['回到家了嗎～','好好睡一覺～']} ] },
     /* 「看」：湖邊（4-4）、會所門口的公告（G3）、超市換季（G5）、公寓門口（G7）、10/3 亞洲超市的月餅（G3）*/
     looks:{ lakeOct:'（湖面很平。對岸的樹，一棵一棵變顏色。）', lakeSnow:'（湖邊的長椅積了雪。）', bbqPoster:'（公告上畫了一個烤肉架。下面寫：自己帶飲料。）',
       lakeSummer:'（湖邊有人在遛狗。太陽很晚才下山。）', lakeNov:'（樹葉都掉光了。湖面的顏色比天還灰。）',   /* AA_345 I4：8～9 月、11 月～12/1（新寫）*/
