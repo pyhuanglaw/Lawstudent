@@ -45,7 +45,10 @@ const ROOMMAP=(function(){
   /* 今天還要上的課（還沒下課；過了午夜不算）*/
   S.todayItems=function(G){ if(!G||typeof CLS==='undefined'||!CLS.dayItems) return []; if(G.hour>=24) return []; const h=G.hour%24; let L=[]; try{ L=CLS.dayItems(G)||[]; }catch(e){ return []; } return L.filter(it=>h<it.t1); };
   /* 名牌（玩家那一層；lv==null＝全部）：rooms 再加 today（今天的那一堂：{t0, name}）*/
-  S.labels=function(G,zone,lv){ const R=S.rooms(zone); if(!R.length) return []; const T=S.todayItems(G);
+  let memo=null;   /* 小地圖每兩格畫一次：同一區、同一層、同一分鐘的結果先記著（課表 CLS.dayItems 不用每格算）*/
+  S.labels=function(G,zone,lv){ if(!S.ZONES.includes(zone)) return []; const key=zone+'|'+lv+'|'+(G&&G.day)+'|'+(G?Math.floor(G.hour*60):'')+'|'+(G&&G.stage);
+    if(memo&&memo.key===key&&memo.G===G) return memo.v; const v=S.labelsNow(G,zone,lv); memo={key,G,v}; return v; };
+  S.labelsNow=function(G,zone,lv){ const R=S.rooms(zone); if(!R.length) return []; const T=S.todayItems(G);
     return R.filter(q=>lv==null||(q.lv|0)===(lv|0)).map(q=>{ const it=T.find(t=>S.matches(zone,q,t)); return Object.assign({},q,{today:it?{t0:it.t0,t1:it.t1,name:it.c&&it.c.name||''}:null}); }); };
   const hhmm=x=>{ x=((x%24)+24)%24; return String(Math.floor(x+1e-6)).padStart(2,'0')+':'+String(Math.round((x%1)*60)%60).padStart(2,'0'); };
   S.hhmm=hhmm;
@@ -54,7 +57,8 @@ const ROOMMAP=(function(){
   /* 小地圖：game3d.js 的 drawMinimap 在 x.restore() 以後呼叫（字不跟著地圖轉：位置照旋轉算、字正著寫）。
      nav、cx、cz、scale＝drawMinimap 那一套（玩家所在那一格、一格幾像素）；yaw＝E.cam.yaw（地圖轉的角度）。回傳畫了哪些（測試用）。
      名牌的位置：房間正中間在小地圖裡＝寫在正中間；不在（小地圖只看得到附近幾公尺）＝寫在那一間離玩家最近、看得到的那一角（往裡 1.2 m）——走廊上看得出兩邊各是哪一間。
-     門口那一型（霖澤館、萬才館）寫在門口。不蓋住玩家的箭頭、互相不重疊、超出小地圖就不寫；今天的那一間先排 */
+     門口那一型（霖澤館、萬才館）寫在門口。不蓋住玩家的箭頭、互相不重疊、超出小地圖就不寫；今天的那一間先排。
+     沒有門號的（萬才館的多功能教室、研討室 A）放不下時改寫短的（去掉「教室」「室」：多功能、研討A），字小一點（最小 16 px＝8 CSS px），還是放不下就不寫 */
   S.drawMini=function(x,nav,cx,cz,scale,yaw,W,H,G,zone,lv){ if(!x||!nav) return []; const L=S.labels(G,zone,lv); if(!L.length) return [];
     const c=Math.cos(yaw||0), s=Math.sin(yaw||0), px=W/2, py=H/2, M=4, fs=Math.max(15,Math.round(Math.min(W,H)*0.125)), drawn=[];
     const boxes=[[px-11,py-11,px+11,py+11]];   /* 玩家的箭頭 */
@@ -63,12 +67,17 @@ const ROOMMAP=(function(){
     const clamp=(v,a,b)=>a>b?(a+b)/2:Math.max(a,Math.min(b,v));
     const cands=q=>{ const out=[[q.x,q.z]]; const r=q.room; if(r){ const ix=Math.min(1.2,(r.x1-r.x0)/2), iz=Math.min(1.2,(r.z1-r.z0)/2); out.push([clamp(pw[0],r.x0+ix,r.x1-ix),clamp(pw[1],r.z0+iz,r.z1-iz)]); } return out; };
     const L2=L.map(q=>{ const [sx,sy]=pos(q.x,q.z); return {q,d:Math.hypot(sx-px,sy-py)}; }).sort((a,b)=>(b.q.today?1:0)-(a.q.today?1:0)||a.d-b.d);
-    x.save(); x.textAlign='center'; x.textBaseline='middle'; x.lineJoin='round'; x.font='bold '+fs+'px sans-serif';
-    for(const r of L2){ const t=(r.q.today?'★':'')+r.q.mini, tw=x.measureText(t).width, th=fs; let hit=null;
-      for(const [wx,wz] of cands(r.q)){ const [sx,sy]=pos(wx,wz), b=[sx-tw/2-2,sy-th/2-1,sx+tw/2+2,sy+th/2+1]; if(b[0]<M||b[2]>W-M||b[1]<M||b[3]>H-M) continue; if(boxes.some(o=>overlap(b,o))) continue; hit={sx,sy,b}; break; }
+    const fs2=Math.max(16,Math.round(fs*0.8));
+    x.save(); x.textAlign='center'; x.textBaseline='middle'; x.lineJoin='round';
+    for(const r of L2){ const st=r.q.today?'★':'', tries=[[st+r.q.mini,fs]]; if(!r.q.num){ const sh=S.shortName(r.q.mini); if(sh!==r.q.mini) tries.push([st+sh,fs]); tries.push([st+sh,fs2]); }
+      let hit=null;
+      for(const [t,f] of tries){ x.font='bold '+f+'px sans-serif'; const tw=x.measureText(t).width, th=f;
+        for(const [wx,wz] of cands(r.q)){ const [sx,sy]=pos(wx,wz), b=[sx-tw/2-2,sy-th/2-1,sx+tw/2+2,sy+th/2+1]; if(b[0]<M||b[2]>W-M||b[1]<M||b[3]>H-M) continue; if(boxes.some(o=>overlap(b,o))) continue; hit={sx,sy,b,t,f}; break; }
+        if(hit) break; }
       if(!hit) continue; boxes.push(hit.b);
-      x.lineWidth=3.5; x.strokeStyle=LINE; x.strokeText(t,hit.sx,hit.sy); x.fillStyle=r.q.today?GOLD:TXT; x.fillText(t,hit.sx,hit.sy); drawn.push({id:r.q.id,text:t,x:hit.sx,y:hit.sy,box:hit.b,today:!!r.q.today}); }
+      x.font='bold '+hit.f+'px sans-serif'; x.lineWidth=3.5; x.strokeStyle=LINE; x.strokeText(hit.t,hit.sx,hit.sy); x.fillStyle=r.q.today?GOLD:TXT; x.fillText(hit.t,hit.sx,hit.sy); drawn.push({id:r.q.id,text:hit.t,x:hit.sx,y:hit.sy,box:hit.b,today:!!r.q.today,px:hit.f}); }
     x.restore(); return drawn; };
+  S.shortName=t=>String(t||'').replace(/教室$/,'').replace(/室\s*/,'').replace(/\s+/g,'');   /* 多功能教室→多功能、研討室 A→研討A、演講廳→演講廳 */
   /* 大地圖：guide3d.js 的 drawMap 在畫入口以前呼叫（toS＝世界座標轉畫面；free＝drawMap 那一套「這一塊還空著就佔用」）。
      字：配置的名字去掉館名（「101（階梯教室）」）；今天的那一間金色「★ 101」、下面一行小字「13:20 憲法（上）」。
      放不下（比那一間在畫面上窄、或和旁邊的名牌太近）就先拿掉第二行、再只寫門號；還是和別的字重疊就不寫（今天的那一間一定寫門號）*/

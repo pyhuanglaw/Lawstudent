@@ -65,6 +65,11 @@ const draw=(px,pz,yaw,lv)=>{ const x=mockCtx(224,160), [cx,cz]=nav.toCell(px,pz)
   /* yaw＝π/2：鏡頭在玩家東邊、前方＝西：101 在玩家西北 → 畫面上方偏右（地圖轉 90°）*/
   const exp=(()=>{ const [cx,cz]=nav.toCell(-8,-1.6), u=((q=>((q.x-nav.ox)/nav.cell-cx-0.5)*4.5)(R('putong').find(q=>q.id==='101'))), v=((R('putong').find(q=>q.id==='101').z-nav.oz)/nav.cell-cz-0.5)*4.5; return [112+u*Math.cos(Math.PI/2)-v*Math.sin(Math.PI/2),80+u*Math.sin(Math.PI/2)+v*Math.cos(Math.PI/2)]; })();
   check('4. 小地圖跟著鏡頭轉：yaw π/2 時 101 的位置＝地圖旋轉以後的那一點（字還是正的）',!!a&&!!b&&Math.abs(b.x-exp[0])<0.01&&Math.abs(b.y-exp[1])<0.01&&(Math.abs(a.x-b.x)>5||Math.abs(a.y-b.y)>5),b&&(b.x.toFixed(1)+','+b.y.toFixed(1)+' 期望 '+exp.map(v=>v.toFixed(1)).join(','))); }
+{ /* 萬才館 2F 走廊（研討室 A x −3.0、B x 1.5，門相距 4.5 m）：沒有門號的名字長，放不下改短的（研討A）、字小一點（≥ 16 px），兩間都寫、不重疊 */
+  const wn={cell:WANCAI_LAYOUT.cell,ox:-WANCAI_LAYOUT.W/2-1,oz:-WANCAI_LAYOUT.D/2-1,toCell(x,z){ return [Math.floor((x-this.ox)/this.cell),Math.floor((z-this.oz)/this.cell)]; }};
+  const x=mockCtx(224,160), [cx,cz]=wn.toCell(-0.75,-4.2), d=ROOMMAP.drawMini(x,wn,cx,cz,4.5,0,224,160,{day:1,hour:8,flags:{}},'wancai',1);
+  const ov=d.some((a,i)=>d.some((b,j)=>j>i&&a.box[0]<b.box[2]&&a.box[2]>b.box[0]&&a.box[1]<b.box[3]&&a.box[3]>b.box[1]));
+  check('4. 小地圖（萬才館 2F 走廊）：研討室 A、B 都寫（放不下改短的「研討A」）、不重疊、字 ≥ 16 px',d.length===2&&!ov&&d.every(q=>/研討/.test(q.text)&&q.px>=16)&&ROOMMAP.shortName('研討室 A')==='研討A'&&ROOMMAP.shortName('多功能教室')==='多功能',d.map(q=>q.text+'@'+q.px).join(',')); }
 { const d=draw(-8,-1.6,0,1).d; check('4. 小地圖在 2F：只畫 2F 的教室',d.length>0&&d.every(q=>/^20/.test(q.text.replace('★',''))),d.map(q=>q.text).join(',')); }
 { const x=mockCtx(360,600), boxes=[]; const free=(u,w,tw,th)=>{ const b=[u-tw/2-2,w-th/2-1,u+tw/2+2,w+th/2+1]; for(const q of boxes) if(b[0]<q[2]&&b[2]>q[0]&&b[1]<q[3]&&b[3]>q[1]) return false; boxes.push(b); return true; };
   const toS=(wx,wz)=>[180+wx*10,300+wz*10]; const d=ROOMMAP.drawBig(x,toS,GP,'putong',0,free), t=d.find(q=>q.today);
