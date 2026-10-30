@@ -4350,7 +4350,7 @@
    "sha": "5552cb6eb",
    "noDirectIntegrate": false,
    "receiver": "LAWWW",
-   "ack": "",
+   "ack": "ACK＋已整合 a63eb8072（LAWWW-B 10-30 14:12）",
    "task": "BOYA-LM-1030：博思教學館室內——101／102 階梯教室長桌、翻椅做進模型＋T5 格柵燈具＋光照烘焙（LAWWW-B 10-30 派工，D99 經濟系那一年）",
    "files": [
     "assets/models/env/second_ai/boya_interior.glb",
