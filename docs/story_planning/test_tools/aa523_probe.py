@@ -69,7 +69,7 @@ async def main():
         run.check('1-3 選項三個（恭喜／妳想去嗎／走過去看那封信）', any(set(o) >= {'「恭喜。」', '「妳想去嗎？」'} for o in opts), J(opts))
         run.check('1-3 記 SIS16_JOB_A＝desk', f['job'] == 'desk', J(f))
         run.check('第 6 節：輪流旁白那一句沒有出（這一晚換成回信）', not any(w in lines for w in ('（十一點。她的螢幕上還是第四章。你的筆記寫到第三頁。）', '（她把頭髮夾起來，又放下來。）')), J(lines))
-        hk = await pg.evaluate("""(id=>{ const G=GAME.G, d=STORY.dayOfKey('2029-03-28'), wd=CALENDAR.dateOf(d).wd%7, w=d-((wd+6)%7);
+        hk = await pg.evaluate("""(id=>{ const G=GAME.G, d=STORY.dayOfKey('2029-03-28'), wd=CALENDAR.dateOf(d).wd%%7, w=d-((wd+6)%%7);
             const q=(G.outings||[]).filter(x=>x&&x.ev==='ev_sis_y4_desks'&&x.day>=w&&x.day<w+7); return {deskThatWeek:q.length, storyOut:typeof HASK!=='undefined'&&HASK.storyOut?HASK.storyOut(G,id,w):null, skip:typeof HASK!=='undefined'&&HASK.OUT_SKIP?[...HASK.OUT_SKIP]:null}; })(%s)""" % J(SIS))
         run.note('第 10 節：%s' % J(hk))
         run.check('第 10 節：3/28 那一週排著書桌夜，它不算她那一週的劇情出遊（HASK.storyOut＝false）', hk['deskThatWeek'] >= 1 and hk['storyOut'] is False and 'ev_sis_y4_desks' in (hk['skip'] or []), J(hk))

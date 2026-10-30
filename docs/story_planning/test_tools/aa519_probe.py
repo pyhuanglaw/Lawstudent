@@ -138,7 +138,7 @@ async def main():
 
         elif MODE == 'cafe27':
             key = '2027-06-10'; fl = await rooms(pg, key)
-            slot = await pg.evaluate("""(k=>{ const d=STORY.dayOfKey(k), o=[]; for(let h=11;h<26.5;h+=0.25){ const G=Object.assign({},GAME.G,{day:d,hour:h,weekday:CALENDAR.dateOf(d).wd%7}); o.push([h,!!EAT.cafeXt(G)]); } return o; })(%s)""" % J(key))
+            slot = await pg.evaluate("""(k=>{ const d=STORY.dayOfKey(k), o=[]; for(let h=11;h<26.5;h+=0.25){ const G=Object.assign({},GAME.G,{day:d,hour:h,weekday:CALENDAR.dateOf(d).wd%%7}); o.push([h,!!EAT.cafeXt(G)]); } return o; })(%s)""" % J(key))
             xt = [h for h, v in slot if v]; bs = [h for h, v in slot if not v and 13 <= h <= 18]
             run.note('%s EAT.cafeXt：小婷站櫃台的時間 %s' % (key, J(xt)))
             run.check('前置：那一天有芷若原本的班（小婷站櫃台的時間）', bool(xt), J(slot))
