@@ -8,6 +8,7 @@ MODE（環境變數）：
   quick   💾 →「快速存檔」：提示「已快速存檔：…（選單 → 存檔 →「快速存檔」讀取）」、寫在 fatiao3d_quick、自動存檔那一格不變；
           重新整理 → 讀取 →「快速存檔（右上 💾）」那一格（只有讀取鈕）讀得回來；欄位 1 存檔／讀取照舊；標題「繼續（自動存檔）」照舊
   cap     ④ 有進度 → 連按開新遊戲 4 次（每次玩到自動存檔、重新整理）→ fatiao3d_backup_new_* 最多 3 份，原本那一份（進度最多）還在
+          PROG=1（ccdff6d53 以後）：超過 3 份刪「實際玩得最少」（演過的事件數、步數），被刪的都比留下的少；原本那一份是玩得最多的
   pre     ⑤ 修正前（92e9bca92）照 new（btnNewLaw）做一次＝原本進度讀不到（照預期 FAIL）
 不是 iPhone：Playwright 手機橫向模擬（SwiftShader）。用法：LW_TESTS=<工作樹>/tests MODE=… [BTN=…] python3 savebak_probe.py '<URL>/index.html' <輸出資料夾> <存檔.json>"""
 import os, sys, json, asyncio, time
@@ -18,6 +19,8 @@ SAVE = json.load(open(SAVEF, encoding='utf-8')); SAVE = SAVE.get('G', SAVE)
 MODE = os.environ.get('MODE', 'new'); BTN = os.environ.get('BTN', 'btnNewLaw')
 J = lambda o: json.dumps(o, ensure_ascii=False)
 KEYS = """(()=>{ const o={}; for(let i=0;i<localStorage.length;i++){ const k=localStorage.key(i); if(!/^fatiao3d_/.test(k)||k==='fatiao3d_settings') continue; let s=null; try{ s=JSON.parse(localStorage.getItem(k)); }catch(e){} o[k]=s&&typeof s==='object'?{day:s.day,hour:s.hour==null?null:+(+s.hour).toFixed(2),zone:s.zone,savedAt:s.savedAt,label:s.backupLabel||null}:null; } return o; })()"""
+PROGJS = """(()=>{ const o={}; for(let i=0;i<localStorage.length;i++){ const k=localStorage.key(i); if(k.indexOf('fatiao3d_backup_new_')!==0) continue; let b=null; try{ b=JSON.parse(localStorage.getItem(k)); }catch(e){} b=b&&(b.G||b);
+  o[k]={day:b&&b.day, stage:(b&&b.stage)||'law', prog:((b&&b.events&&+b.events.count)||0)*100000+((b&&b.stats&&+b.stats.steps)||0), savedAt:b&&b.savedAt}; } return o; })()"""
 STATE = "(()=>({day:GAME.G.day,hour:+(+GAME.G.hour).toFixed(2),zone:GAME.G.zone,stage:GAME.G.stage||null}))()"
 ITEMS = """(sel=>[...document.querySelectorAll(sel+' .item')].map((it,i)=>({i, b:((it.querySelector('b')||{}).textContent||'').trim(), t:(it.innerText||'').replace(/\\n/g,'｜').slice(0,160), btns:[...it.querySelectorAll('button')].map(x=>x.textContent.trim())})))"""
 BTNXY = """(([sel,i,txt])=>{ const it=document.querySelectorAll(sel+' .item')[i]; if(!it) return null; const b=[...it.querySelectorAll('button')].find(x=>x.textContent.trim()===txt); if(!b) return null; b.scrollIntoView({block:'center'}); const r=b.getBoundingClientRect(); return [r.left+r.width/2,r.top+r.height/2]; })"""
@@ -152,13 +155,25 @@ async def main():
             run.check('③ 標題「繼續（自動存檔）」照舊＝原本的進度', same(got, orig), J({'btn': cont, 'got': got}))
 
         elif MODE == 'cap':
-            hist = []
+            hist = []; progs = {}
             for n, btn in enumerate(['btnNewLaw', 'btnNew', 'btnNewLaw', 'btnNew'], 1):   # btnNewEcon 只在網址 ?y0 才看得到（開發中），cap 用玩家看得到的兩個
                 k0, k2, k1 = await new_game_once(pg, cdp, run, btn, 'cap%d' % n)
                 bk = {k: v for k, v in k2.items() if k.startswith('fatiao3d_backup_new_')}; hist.append(bk)
+                if os.environ.get('PROG'): progs.update(await pg.evaluate(PROGJS))
                 run.note('第 %d 次開新遊戲以後的備份：%s' % (n, J(bk)))
             last = hist[-1]
             run.check('④ 連按開新遊戲 4 次：fatiao3d_backup_new_* 最多 3 份', 0 < len(last) <= 3, J(last))
+            if os.environ.get('PROG'):   # ccdff6d53 以後：超過 3 份刪「實際玩得最少」（演過的事件數×100000＋步數），不是 day 最小（BB-B 10-30：照 day 會先刪經濟系序章）
+                pr = await pg.evaluate(PROGJS)
+                run.note('最後留下的備份（實際玩的量）：%s' % J(pr))
+                seen = {}
+                for h in hist:
+                    for k, v in h.items():
+                        if v: seen[k] = v
+                run.note('四次裡出現過的備份：%s' % J(seen))
+                gone = {k: progs.get(k) for k in progs if k not in pr}
+                run.check('④ 被刪的那幾份都是實際玩得最少的（不是日子最小的）', bool(pr) and all(g and g['prog'] <= min(x['prog'] for x in pr.values()) for g in gone.values()), J({'kept': pr, 'gone': gone}))
+                run.check('④ 原本的進度（演過最多事件）那一份在留下的裡面、而且是玩得最多的', bool(pr) and max(pr.values(), key=lambda x: x['prog'])['day'] == orig['day'], J(pr))
             run.check('④ 原本的進度（日子 %s，進度最多）那一份還在（刪的是進度最少的）' % orig['day'], any(v and v['day'] == orig['day'] for v in last.values()), J(last))
             slots, backs = await open_load_menu(pg, cdp)
             run.note('存檔頁 #saveBackups：%s' % J(backs)); await run.shot(pg, 'cap_loadmenu')
