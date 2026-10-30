@@ -828,6 +828,156 @@ async def rtnight(pg, cdp, run):
         run.check('%s 晚上：四個方向拍到（門框、小東西看截圖）；死白不超過 15%%' % label, len(ls) == 4 and all(x.get('white', 1) <= 0.15 for x in ls), J(ls))
 
 
+# ---------- boya：博思教學館室內 v2（BOYA-LM-1030，a63eb8072；LAWWW-B 14:12）----------
+# 鏡頭照 LAWWW2-B tools/blender/env_second/shots/boya_lm_shots.py（101 最後一排往講台、講台往座位、座位近看）；102 在東邊，x 鏡像
+BOYA_CAMS = [('back', (-8.0, 3.7, -8.4), (-12.4, 1.0, 6.5)), ('stage', (-8.6, 1.75, 8.3), (-12.0, 1.4, -5.0)), ('seats', (-12.2, 2.35, 0.2), (-13.8, 0.85, 3.4))]
+BOYA_CHK = """(()=>{ const E=GAME.E, Z=E.zone, F=Z&&Z.seatFold, S=(Z&&Z.seats)||[]; const lec=S.map((s,i)=>i).filter(i=>S[i].kind==='lecture'); let lm=0; E.scene.traverse(o=>{ if(o.isMesh){ const ms=Array.isArray(o.material)?o.material:[o.material]; for(const q of ms) if(q&&q.lightMap) lm++; } });
+  return {zone:GAME.G.zone, formal:!!(Z&&Z.formal), lmInfo:!!(Z&&Z.formalInfo&&Z.formalInfo.lightmapped), lm, pans:!!(Z&&Z.group&&Z.group.getObjectByName('SEATPANS')), fallback:((Z&&Z.lectFurn)||[]).map(g=>g.visible), fold:!!F, lecture:lec.length,
+    emptyDown:F?lec.filter(i=>!F.occupied(E,i)&&F.ang[i]<=1.5).length:-1, busyUp:F?lec.filter(i=>F.occupied(E,i)&&F.ang[i]!==0).length:-1, busy:F?lec.filter(i=>F.occupied(E,i)).length:-1}; })()"""
+
+
+def band_stats(path, y0=0.0, y1=0.3):
+    try:
+        from PIL import Image
+        im = Image.open(path).convert('RGB'); w, h = im.size
+        im = im.crop((0, int(h * y0), w, int(h * y1))); im = im.resize((max(1, im.width // 4), max(1, im.height // 4))); px = list(im.getdata()); n = len(px)
+        r, g, b = (sum(q[k] for q in px) / n for k in range(3)); lum = [0.299 * q[0] + 0.587 * q[1] + 0.114 * q[2] for q in px]
+        return {'mean': round(sum(lum) / n, 1), 'dark': round(sum(1 for v in lum if v < 12) / n, 3), 'white': round(sum(1 for v in lum if v > 248) / n, 3), 'rgb': [round(r), round(g), round(b)], 'warm': round((r - b) / max(1.0, (r + g + b) / 3), 2)}
+    except Exception as e:
+        return {'err': str(e)}
+
+
+async def shot_path(run, pg, tag):
+    f = await run.shot(pg, tag)
+    if isinstance(f, str) and os.path.exists(f): return f
+    cand = sorted([q for q in os.listdir(OUT) if tag in q], key=lambda q: os.path.getmtime(os.path.join(OUT, q)))
+    return os.path.join(OUT, cand[-1]) if cand else None
+
+
+async def boya_wait_formal(pg, s=40):
+    for _ in range(s * 2):
+        if await pg.evaluate("GAME.G.zone==='boya'&&!!GAME.E.zone&&!!GAME.E.zone.formal"): break
+        await pg.wait_for_timeout(500)
+    await pg.wait_for_timeout(3000)
+    return await pg.evaluate(BOYA_CHK)
+
+
+async def boya_fixed(pg, run, tg):
+    rows = []
+    await pg.evaluate("(()=>{ GAME.E.player.obj.visible=false; })()")
+    for room, sx in (('101', 1), ('102', -1)):
+        for key, e, lk in BOYA_CAMS:
+            pos = [e[0] * sx, e[1], e[2]]; look = [lk[0] * sx, lk[1], lk[2]]
+            await pg.evaluate("((p,l)=>{ const E=GAME.E; E.cinematic(new THREE.Vector3(...p),new THREE.Vector3(...l)); E.camera.position.set(...p); E.cam.look=new THREE.Vector3(...l); E.camera.lookAt(E.cam.look); })(%s,%s)" % (J(pos), J(look)))
+            await pg.wait_for_timeout(3500); f = await shot_path(run, pg, 'boya_%s_%s_%s' % (tg, room, key))
+            whole = lum_stats(f) if f else {'err': 'no file'}; top = band_stats(f, 0.0, 0.3) if f else {'err': 'no file'}
+            rows.append((room, key, whole, top)); run.note('%s %s %s：整張 %s；上面三成（天花板） %s' % (tg, room, key, J(whole), J(top)))
+    return rows
+
+
+async def boya(pg, cdp, run):
+    # ① 14:00、20:30：直接讀檔在博思一樓大廳（[前置]），正式模型＋光照、固定鏡頭（藏玩家；NPC 照常）
+    allrows = []
+    for hh, tg in ((14.0, '1400'), (20.5, '2030')):
+        st, d = await P.base(pg, SAVE, '2025-10-15', hh, 'boya', pos={'x': 0.0, 'z': 6.8, 'yaw': PI, 'lv': 0}); await P.load(pg, cdp, st)
+        run.setup('[前置] 使用者存檔改到 %s %s 博思一樓大廳' % (d['key'], tg))
+        ck = await boya_wait_formal(pg); run.note('%s 進來以後：%s' % (tg, J(ck)))
+        run.check('%s：正式模型＋光照貼圖、SEATPANS 在、備用方塊桌椅（lectFurn）全部藏起來、132 張翻椅' % tg,
+                  ck['formal'] and ck['lm'] > 0 and ck['pans'] and len(ck['fallback']) == 2 and not any(ck['fallback']) and ck['fold'] and ck['lecture'] == 132, J(ck))
+        run.check('%s：沒人坐的椅面掀起來、有人坐的放下' % tg, ck['emptyDown'] == 0 and ck['busyUp'] == 0, J({k: ck[k] for k in ('emptyDown', 'busyUp', 'busy')}))
+        if hh == 14.0:   # ② 坐下、起身（照玩家：走到座位旁邊、按「坐下」）
+            q = await pg.evaluate("""(()=>{ const E=GAME.E, Z=E.zone, F=Z.seatFold; const i=Z.seats.findIndex((s,k)=>s.kind==='lecture'&&s.room==='101'&&(s.row|0)>=2&&!(F&&F.occupied(E,k))&&!E.npcs.some(n=>n.seat===s||n.seatTarget===s));
+                if(i<0) return null; const s=Z.seats[i], a=GAME.seatApproach?GAME.seatApproach(s):null; return {i, x:s.x, z:s.z, row:s.row, ap:a?[a[0],a[1]]:null}; })()""")
+            run.note('101 挑的空位：%s' % J(q))
+            if q and q['ap']:
+                await L.go_to(pg, cdp, run, q['ap'][0], q['ap'][1], 0.4, '101 座位旁邊', max_s=240, stop=lambda s: bool(s.get('interact')) and '坐' in s['interact'])
+                lab = (await P.ts(pg))['lab']; await L.tap(pg, cdp, '#interact'); sat = None; t0 = time.time()
+                while time.time() - t0 < 40:
+                    s = await P.ts(pg)
+                    if await pg.evaluate("!!GAME.E.player.seat"): break
+                    if s['ch']: k, _ = P.pick_of(s['ch'], ['坐']); await P.tap_choice(pg, cdp, k); await pg.wait_for_timeout(1200); continue
+                    if s['dlg']: await L.tap(pg, cdp, '#dlg'); await pg.wait_for_timeout(600); continue
+                    await pg.wait_for_timeout(700)
+                await pg.wait_for_timeout(1500)
+                sat = await pg.evaluate("""(k=>{ const E=GAME.E, Z=E.zone, F=Z.seatFold; const me=Z.seats.indexOf(E.player.seat); const lec=Z.seats.map((s,i)=>i).filter(i=>Z.seats[i].kind==='lecture');
+                    return {seated:!!E.player.seat, me, want:k, mine:me>=0?F.ang[me]:null, wrong:lec.filter(i=>i!==me&&(F.occupied(E,i)?F.ang[i]!==0:F.ang[i]<=1.5)).length}; })(%d)""" % q['i'])
+                await pg.evaluate("(()=>{ const C=GAME.E.cam; C.distTarget=2.4; C.pitch=0.25; C.manualT=1e9; })()"); await pg.wait_for_timeout(2500); await run.shot(pg, 'boya_101_sit')
+                run.check('101 坐下（按「%s」）：那一張椅面放下（ang 0）、其他照舊' % lab, sat['seated'] and sat['mine'] == 0 and sat['wrong'] == 0, J(sat))
+                how = None; t0 = time.time()
+                while time.time() - t0 < 40 and await pg.evaluate("!!GAME.E.player.seat"):
+                    s = await P.ts(pg)
+                    if s['ch']:
+                        k = next((i for i, o in enumerate(s['ch']) if re.match(r'^(起身|站起來|離開|算了|不了)', o['t'])), None)
+                        if k is None: k = len(s['ch']) - 1
+                        how = '選項「%s」' % s['ch'][k]['t']; await P.tap_choice(pg, cdp, k); await pg.wait_for_timeout(1500); continue
+                    if s['dlg']: await L.tap(pg, cdp, '#dlg'); await pg.wait_for_timeout(600); continue
+                    if s['lab'] and re.search(r'起身|站起來|離開', s['lab']): how = '按鈕「%s」' % s['lab']; await L.tap(pg, cdp, '#interact'); await pg.wait_for_timeout(1500); continue
+                    await L.joystick(pg, cdp, 0, -60, 700); how = how or '搖桿往前推'; await pg.wait_for_timeout(800)
+                await pg.wait_for_timeout(2500)
+                up = await pg.evaluate("(k=>{ const E=GAME.E, F=E.zone.seatFold; return {seated:!!E.player.seat, occupied:F.occupied(E,k), ang:F.ang[k]}; })(%d)" % (sat['me'] if sat['me'] is not None and sat['me'] >= 0 else q['i']))
+                await run.shot(pg, 'boya_101_stand')
+                run.check('101 起身（%s）：椅面掀回去（ang > 1.5）' % how, not up['seated'] and not up['occupied'] and isinstance(up['ang'], (int, float)) and up['ang'] > 1.5, J(up))
+        rows = await boya_fixed(pg, run, tg); allrows += [(tg,) + r for r in rows]
+    bad = [(r[0], r[1], r[2], r[3]) for r in allrows if r[3].get('dark', 1) > 0.25 or r[3].get('white', 1) > 0.15]
+    run.check('固定鏡頭 12 張：黑（<12）不超過 25%、死白（>248）不超過 15%（細節看截圖）', len(allrows) == 12 and not bad, J(bad))
+    dim = [(r[0], r[1], r[2], r[4]) for r in allrows if r[2] != 'seats' and (r[4].get('mean', 0) < 35 or r[4].get('dark', 1) > 0.3)]
+    run.check('天花板（往講台、往座位那兩張的上面三成）沒有整片暗（平均 ≥ 35、黑 ≤ 30%；偏不偏咖啡色看 warm 和截圖）', not dim, J(dim or [(r[0], r[1], r[2], r[4].get('mean'), r[4].get('warm')) for r in allrows if r[2] != 'seats']))
+    # ③ 進出兩次（從大廳門口出去回校園、再走進來）
+    st, d = await P.base(pg, SAVE, '2025-10-15', 14.5, 'boya', pos={'x': 0.0, 'z': 6.8, 'yaw': PI, 'lv': 0}); await P.load(pg, cdp, st); await boya_wait_formal(pg)
+    for k in (1, 2):
+        ok1 = await door_to(pg, cdp, run, 'campus', '從博思大廳出去（第 %d 次）' % k, max_s=150); await pg.wait_for_timeout(4000)
+        ok2 = await door_to(pg, cdp, run, 'boya', '再走進博思（第 %d 次）' % k, max_s=150); ck = await boya_wait_formal(pg)
+        await pg.evaluate("(()=>{ const C=GAME.E.cam; C.yaw=0; C.pitch=0.14; C.distTarget=3.6; C.manualT=1e9; })()"); await pg.wait_for_timeout(2500); f = await shot_path(run, pg, 'boya_reenter_%d' % k)
+        run.check('進出第 %d 次：出得去、進得來，正式模型＋光照照樣接上、方塊桌椅照樣藏著' % k, ok1 and ok2 and ck['zone'] == 'boya' and ck['formal'] and ck['lm'] > 0 and not any(ck['fallback']), J({'out': ok1, 'in': ok2, 'ck': ck, 'lum': lum_stats(f) if f else None}))
+
+
+CLASSJS = """(()=>{ const E=GAME.E, Z=E.zone, F=Z&&Z.seatFold; const v=E.npcs.filter(n=>n.obj&&!n.hidden&&n.obj.visible!==false);
+  return {zone:GAME.G.zone, key:CALENDAR.dateOf(GAME.G.day).key, h:+(+GAME.G.hour).toFixed(2), n:v.length, sit:v.filter(n=>n.seat||n.pose==='sit').length,
+    stand:v.filter(n=>!(n.seat||n.pose==='sit')).map(n=>[n.charId||n.name||'?', n.pose||'', +n.obj.position.x.toFixed(1), +n.obj.position.z.toFixed(1)]),
+    named:v.filter(n=>n.charId).map(n=>[n.charId, !!(n.seat||n.pose==='sit')]), player:{seat:!!E.player.seat, x:+E.player.obj.position.x.toFixed(1), z:+E.player.obj.position.z.toFixed(1)},
+    fold:F?{busy:Z.seats.filter((s,i)=>s.kind==='lecture'&&F.occupied(E,i)).length, busyUp:Z.seats.filter((s,i)=>s.kind==='lecture'&&F.occupied(E,i)&&F.ang[i]!==0).length}:null,
+    fallback:((Z&&Z.lectFurn)||[]).map(g=>g.visible), formal:!!(Z&&Z.formal)}; })()"""
+
+
+async def boyaecon(pg, cdp, run):
+    # 經濟系第一堂經原（博思 101，2024-09-09）：標題「從經濟系大一開始」（?y0）→ 照事件接事件的流程站著、點對話（選第一個），走到 9/9 那一堂
+    u = URL + ('&' if '?' in URL else '?') + 'y0'
+    await pg.goto(u); await L.wait_loaded(pg); await pg.evaluate("localStorage.clear()"); await pg.goto(u); await L.wait_loaded(pg); await pg.wait_for_timeout(1500); await P.init(pg)
+    vis = await pg.evaluate("(()=>{ const b=document.getElementById('btnNewEcon'); return b?{t:b.textContent.trim(),vis:!!b.offsetParent}:null; })()")
+    run.check('前置：標題有「從經濟系大一開始」（網址 ?y0）', bool(vis) and vis['vis'], J(vis))
+    await L.tap(pg, cdp, '#btnNewEcon'); await pg.wait_for_timeout(2000)
+    it = await pg.evaluate("(()=>{ const d=STORY.dayOfKey('2024-09-09'); const it=ECONFF.clsItem(GAME.G,d,'econ_principles_y0'); return it?{d, key:it.key, t0:it.t0, t1:it.t1, zone:it.room&&it.room.zone, room:it.room&&(it.room.room||it.room.id||it.room.name)||null, name:it.c&&it.c.name}:null; })()")
+    run.note('9/9 那一堂：%s' % J(it))
+    run.check('前置：9/9 經濟學原理在博思 101', bool(it) and it['zone'] == 'boya' and '101' in str(it.get('room')), J(it))
+    if not it: return
+    n0 = await P.say_hook(pg); t0 = time.time(); cap = None; cap2 = None; seen_boya = None; done = False
+    while time.time() - t0 < 2400:
+        c = await pg.evaluate("(k=>({zone:GAME.G.zone, day:GAME.G.day, h:+GAME.G.hour, done:!!(CLS.rec(GAME.G).done||{})[k]}))", it['key'])
+        if c['done']: done = True
+        s = await P.ts(pg)
+        if c['zone'] == 'boya' and c['day'] == it['d']:
+            if seen_boya is None: seen_boya = time.time()
+            if cap is None and time.time() - seen_boya > 5:
+                cap = await pg.evaluate(CLASSJS); await run.shot(pg, 'econ_class_a'); run.note('上課中（進教室 5 秒）：%s' % J(cap))
+            elif cap is not None and cap2 is None and time.time() - seen_boya > 40:
+                cap2 = await pg.evaluate(CLASSJS)
+                await pg.evaluate("(()=>{ const C=GAME.E.cam; C.yaw=0; C.pitch=0.3; C.distTarget=5; C.manualT=1e9; })()"); await pg.wait_for_timeout(1500); await run.shot(pg, 'econ_class_b'); run.note('上課中（40 秒）：%s' % J(cap2))
+        if done and not s['dlg'] and not s['ch'] and cap is not None: break
+        if s['ch']: k, _ = P.pick_of(s['ch'], []); await P.tap_choice(pg, cdp, k); await pg.wait_for_timeout(1000); continue
+        if s['dlg']: await L.tap(pg, cdp, '#dlg'); await pg.wait_for_timeout(500); continue
+        await L.phone_away(pg, cdp)   # 手機收起來（同 bbplay.wait_play）
+        await pg.wait_for_timeout(1200)
+    lines = await P.said(pg, n0)
+    cls_lines = [l for l in lines if l[0] and ('魏' in l[0] or '教授' in l[0] or '老師' in l[0])]
+    run.note('從開局到 9/9 下課，說的話最後 20 句：%s' % J(lines[-20:]))
+    run.check('照玩家流程走到 9/9 經原，而且這一堂上完（CLS done）', done and cap is not None, J({'done': done, 'cap': bool(cap), 'secs': round(time.time() - t0)}))
+    if cap:
+        cc = cap2 or cap
+        run.check('經原上課：在博思（正式模型、方塊桌椅藏著）', cc['zone'] == 'boya' and cc['formal'] and not any(cc['fallback']), J({k: cc[k] for k in ('zone', 'formal', 'fallback')}))
+        run.check('經原上課：同學坐好（坐著 ≥ 3），站著的只有老師等少數（≤ 2）', cc['sit'] >= 3 and len(cc['stand']) <= 2, J({'sit': cc['sit'], 'stand': cc['stand'], 'named': cc['named']}))
+        run.check('經原上課：有人坐的椅面都放下（busyUp＝0）', bool(cc['fold']) and cc['fold']['busyUp'] == 0, J(cc['fold']))
+    run.check('經原上課：魏教授的課堂內容有演（說話的人是魏教授／老師）', bool(cls_lines), J(cls_lines[:4]))
+
 async def main():
     run = L.Run('next91015_' + MODE + ('' if VP == 'landscape' else '_' + VP), OUT); os.makedirs(OUT, exist_ok=True)
     async with async_playwright() as p:
@@ -839,7 +989,7 @@ async def main():
             b, ctx, pg, cdp, errs = await L.launch(p, landscape=(VP != 'portrait'))
         pg.on('dialog', lambda d: asyncio.ensure_future(d.accept()))
         await pg.goto(URL); run.check('遊戲載入', await L.wait_loaded(pg)); await pg.evaluate("localStorage.clear()"); await P.init(pg)
-        await {'phone': phone, 'bball': bball, 'rooms': rooms, 'cafewin': cafewin, 'noodle': noodle, 'cafe2': cafe2, 'invite': invite, 'jacket': jacket, 'badclip': badclip, 'bigmap': bigmap, 'bballrain': bballrain, 'renart': renart, 'libla': libla, 'lawlib': lawlib, 'cafe2diag': cafe2diag, 'multiroom': multiroom, 'rtnight': rtnight}[MODE](pg, cdp, run)
+        await {'phone': phone, 'bball': bball, 'rooms': rooms, 'cafewin': cafewin, 'noodle': noodle, 'cafe2': cafe2, 'invite': invite, 'jacket': jacket, 'badclip': badclip, 'bigmap': bigmap, 'bballrain': bballrain, 'renart': renart, 'libla': libla, 'lawlib': lawlib, 'cafe2diag': cafe2diag, 'multiroom': multiroom, 'rtnight': rtnight, 'boya': boya, 'boyaecon': boyaecon}[MODE](pg, cdp, run)
         run.check('沒有 JS 例外', not errs, J(errs[:3]))
         print('SHA', os.environ.get('SHA', '?'), 'MODE', MODE)
         await b.close()
