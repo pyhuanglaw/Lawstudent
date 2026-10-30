@@ -1,0 +1,38 @@
+diff --git a/src/data/library_layout.js b/src/data/library_layout.js
+index 41d0c94a0..a8ba2ae5d 100644
+--- a/src/data/library_layout.js
++++ b/src/data/library_layout.js
+@@ -90,7 +90,7 @@ const LIBRARY_LAYOUT={
+     {"type":"prop","kind":"selfcheck","lv":0,"x":4.3,"z":3.3,"w":0.62,"d":0.5,"h":1.5,"ry":-1.5708,"nav":[4.3,3.3,0.56,0.68],"note":"自助借書機（閘門裡面東側，正面朝西：借好書往南出閘門）"},
+     {"type":"prop","kind":"bookcart","lv":0,"x":-6.45,"z":-6.4,"w":0.9,"d":0.45,"h":1.05,"ry":1.5708,"nav":[-6.45,-6.4,0.5,0.98],"note":"還書車（西側書架前，館員整理到一半）"},
+     {"type":"prop","kind":"water","lv":0,"x":11.65,"z":-4.3,"w":0.42,"d":0.42,"h":1.25,"ry":-1.5708,"note":"飲水機（電梯北邊的東牆，正面朝西）"},
+-    {"type":"prop","kind":"extinguisher","lv":0,"x":6.5,"z":-8.65,"w":0.3,"d":0.3,"h":0.6,"note":"滅火器：一樓東側北牆（消防栓箱旁）"},
++    {"type":"prop","kind":"extinguisher","lv":0,"x":6.5,"z":-8.65,"w":0.3,"d":0.3,"h":0.6,"nav":[5.975,-8.7,1.35,0.4],"note":"滅火器：一樓東側北牆（消防栓箱旁）。導航往西接到樓梯核心（x 5.3）：滅火器和核心中間 1 m 的牆角，只有一點站得住、又走不出去（NAV-LIBHALL-ISLAND-1030，LAWWW2-B 10-30）"},
+     {"type":"prop","kind":"extinguisher","lv":1,"x":-10.8,"z":-8.65,"w":0.3,"d":0.3,"h":0.6,"note":"滅火器：二樓自習區北牆（消防栓箱旁）"},
+     {"type":"prop","kind":"bookcart","lv":1,"x":9.2,"z":-7.55,"w":0.9,"d":0.45,"h":1.05,"ry":0,"nav":[9.2,-7.55,0.98,0.5],"note":"還書車：二樓東翼書架前"},
+     {"type":"prop","kind":"sidetable","lv":1,"x":8.1,"z":7.7,"w":0.52,"d":0.52,"h":0.5,"note":"兩張單人沙發中間的小茶几（雜誌、報紙）"}
+diff --git a/src/library3d.js b/src/library3d.js
+index 4a0447a39..88a6e5dcb 100644
+--- a/src/library3d.js
++++ b/src/library3d.js
+@@ -150,7 +150,7 @@ const LB3=(function(){
+       else if(f.type==='copier'){ const n=f.nav; nav.blockRect(n[0],n[1],n[2],n[3],0,0.05);   /* 影印機（NPC-STORY-1028，LAWWW2-C）：導航一直擋；畫面先放一個方塊（不放在 fb：正式大廳模型載好會藏 fb），影印機的正式模型 ASSETS 'bldg.library_copier' 載好換掉 */
+         const host=f.lv?lv1:lv0, cb=new THREE.Mesh(new THREE.BoxGeometry(0.6,1.0,0.62),M('#e3e0d6',{rough:0.5})); cb.position.set(f.x,y+0.5,f.z); cb.rotation.y=ry; cb.castShadow=cb.receiveShadow=true; host.add(cb);
+         if(typeof ASSETS!=='undefined'&&ASSETS.manifest['bldg.library_copier']) ASSETS.loadOne('bldg.library_copier').then(c=>{ if(!c||!c.scene||E.zone!==zone) return; const r=c.scene.clone(true); r.position.set(f.x,y,f.z); r.rotation.y=ry; r.traverse(o=>{ if(o.isMesh){ o.castShadow=true; o.receiveShadow=true; } }); host.add(r); cb.visible=false; }).catch(e=>console.warn('影印機正式模型載入失敗，用方塊',e)); }
+-      else if(f.type==='prop'){ const n=f.nav||[f.x,f.z,f.w,f.d], h=f.h||1; b.add(MAT.woodD(),TK.boxG(n[2],h,n[3]),n[0],y+h/2,n[1]); nav.blockRect(n[0],n[1],n[2],n[3],0,0.05); }   /* 地上的小擺設（傘架、雨傘套袋機、查詢電腦、自助借書機、還書車、飲水機、滅火器、小茶几；LIB-HALL-LM-1028，LAWWW2-C）：備用方塊＋導航，和 dorm3d.js、building3d.js 的 prop 一樣 */
++      else if(f.type==='prop'){ const n=f.nav||[f.x,f.z,f.w,f.d], h=f.h||1; b.add(MAT.woodD(),TK.boxG(f.w,h,f.d),f.x,y+h/2,f.z); nav.blockRect(n[0],n[1],n[2],n[3],0,0.05); }   /* 備用方塊照東西本身的大小（nav 可以比東西大：滅火器的導航接到樓梯核心，NAV-LIBHALL-ISLAND-1030）*/   /* 地上的小擺設（傘架、雨傘套袋機、查詢電腦、自助借書機、還書車、飲水機、滅火器、小茶几；LIB-HALL-LM-1028，LAWWW2-C）：備用方塊＋導航，和 dorm3d.js、building3d.js 的 prop 一樣 */
+       else if(f.type==='partition'){ b.add(MAT.woodD(),TK.boxG(f.w+0.05,1.2,f.d),f.x,y+0.6,f.z); }
+       else if(f.type==='officeWall'){ const w=f.x1-f.x0; b.add(MAT.plaster(),TK.boxG(w,Y1-L.slabT,0.2,1.2),(f.x0+f.x1)/2,y+(Y1-L.slabT)/2,f.z); nav.blockRect((f.x0+f.x1)/2,(f.z+L.D/2)/2,w+0.1,L.D/2-f.z+0.1,0,0); }
+       else if(f.type==='display'){ b.add(MAT.woodD(),TK.boxG(f.w,0.8,f.d),f.x,y+0.4,f.z); for(let i=0;i<5;i++) b.add(M(['#c46a4a','#4a6c8c','#e0b95b','#2f5d50','#d9d3c6'][i]),TK.boxG(0.22,0.03,0.3),f.x-f.w/2+0.3+i*0.45,y+0.82,f.z+(i%2?0.15:-0.15),0.2*(i-2));
+diff --git a/tests/library_copier_unit.js b/tests/library_copier_unit.js
+index dbd3672ab..792fa6134 100644
+--- a/tests/library_copier_unit.js
++++ b/tests/library_copier_unit.js
+@@ -42,4 +42,4 @@ function islands(n,lv){ const a=n.toWorld(0,0), b=n.toWorld(n.cols-1,n.rows-1);
+   const ev=E.interactables.find(i=>i.elevator&&(i.lv|0)===0); const r3=both([sp.x,sp.z,0],[ev.x,ev.z,0]); check('一樓電梯的點照樣走得到', r3.ok, fmt(r3));
+   const c=islands(E.levels?E.levels[0]:E.nav,0); check('一樓沒有小孤島（只有一塊可站的地方，或其他塊都很大）', c.slice(1).every(q=>q.n>200), '區塊 '+c.length+'：'+JSON.stringify(c.slice(0,4)));
+ }
+-console.log(fails?('FAILED '+fails):'ALL PASS');
+\ No newline at end of file
++console.log(fails?('FAILED '+fails):'ALL PASS'); process.exit(fails?1:0);   // 原本 FAIL 也 exit 0：全部 Node 一直把這支算成通過（NAV-LIBHALL-ISLAND-1030）
+\ No newline at end of file
