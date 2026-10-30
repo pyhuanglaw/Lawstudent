@@ -36416,6 +36416,36 @@
     "ack": "ACTIONED"
    },
    "notes": "LAWWW2 交件 015221528：GLB 多 TEXCOORD_1＋extras.lightmap，lm_day／lm_night 共 200 KB；不用改程式（B3.attachFormal 接）；READY_FOR_ART_REVIEW（建築場景 ART_APPROVED 只有使用者能標）"
+  },
+  {
+   "id": "MULTI-ROOM-V2-1030",
+   "title": "法律系館B 多功能教室 v2：一體成形塑膠椅、單人桌封邊、0.6 m 輕鋼架＋T5 格柵燈、白牆調暗、光照重烘（照 202 v2）",
+   "area": "ART",
+   "owner": "LAWWW2",
+   "status": "已整合待測試",
+   "next": "BB 測（法律系館B 多功能教室 14:00／20:30、坐下起身、上課同學坐好、進兩次）",
+   "priority": "P2",
+   "first": {
+    "term": "Y1S1",
+    "week": 1,
+    "earliest": "法律系館B 多功能教室第一次上課",
+    "mainline": true,
+    "blocks": false,
+    "prereq": false,
+    "parallel": true,
+    "confirmed": true
+   },
+   "source": "VISUAL_REVIEW 26.3；D111 INTERIOR-AAA",
+   "authorized": "D108、D111",
+   "sha": "PENDING",
+   "xai": {
+    "spec": "VISUAL_REVIEW 26.3",
+    "branch": "claude/funny-albattani-iawshm",
+    "acceptance": "同鏡頭改前改後四個 × 白天晚上、layout 不變、效能",
+    "receiver": "LAWWW",
+    "ack": "ACTIONED"
+   },
+   "notes": "LAWWW2 交件 2b5704f2a；layout 和開發分支一樣；flat_classroom.py 換 LAWWW2 的 v2＋改名版（開發分支原本是 10-22 舊版）；draw call 75→80；READY_FOR_ART_REVIEW"
   }
  ]
 }

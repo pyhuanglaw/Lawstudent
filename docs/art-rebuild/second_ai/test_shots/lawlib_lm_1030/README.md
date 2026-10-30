@@ -59,9 +59,10 @@
 
 ## 四、測試、效能
 
-- **全部 Node**（測試樹＝開發 `f75d60a4c`＋這一包）：766 支過、2 支 FAIL。
-  - FAIL 的是 `aa393_sis_jp_unit.js`、`aa539_sis_reread_unit.js`。
-  - 乾淨的開發分支 `f75d60a4c` 一樣 FAIL：要讀企劃線的稿（`git fetch origin claude/cool-heisenberg-o8kuqx`），稿和遊戲的句子對不上。不是這一包造成的。
+- **全部 Node**（測試樹＝開發 `f75d60a4c`＋這一包）：766 支過、2 支 FAIL → **都是我這邊沒有 fetch 企劃線**。
+  - FAIL 的兩支：`aa393_sis_jp_unit.js`、`aa539_sis_reread_unit.js`，它們用 `git show` 讀企劃線的稿。
+  - `git fetch origin claude/cool-heisenberg-o8kuqx` 以後重跑：兩支都 ALL PASS。
+  - 所以實際是 768／0。LAWWW-B 在乾淨的 checkout 上也是全過。
 - **效能**（`tools/shots/interior_review/survey.py` 同一個玩家鏡頭，14:00，SwiftShader 量的，手機實機沒有量）：
 
 | 方向 | draw call | 三角形 |

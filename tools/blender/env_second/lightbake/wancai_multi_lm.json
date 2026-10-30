@@ -4,6 +4,7 @@
  "res": 1024,
  "samples": 512,
  "emit": {},
+ "dayemit": {},
  "sun": [
   160.0,
   35.0,
@@ -12,6 +13,13 @@
  "sky": 1.0,
  "nightsky": 0.03,
  "shell": "S",
+ "daylights": 1.0,
+ "lights": "-6,6,-4.8,4.8,3.345,4,2,30,1.14,0.54",
+ "points": null,
+ "wb": {
+  "day": null,
+  "night": null
+ },
  "objects": [
   "WALL_E_print",
   "WALL_E_trim",
