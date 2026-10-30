@@ -185,7 +185,7 @@ const FEST=(function(){
     for(let guard=0;guard<10;guard++){ const L=S.giftList(G,id), opts=L.map(g=>({t:g.name,hint:g.price?g.price+' 元':'',dim:(G.money|0)<g.price})).concat([{t:'（沒有準備）'}]);
       const i=await GM.choose(opts); if(i>=L.length||i<0){ await runLines((P.noneBy&&P.noneBy[k])||P.none||[],id); return 'none'; }   /* 不扣分 */
       const g=L[i]; if((G.money|0)<g.price){ await GM.say(null,'錢不夠。'); continue; }
-      if(g.price&&GM.money) GM.money(-g.price,'禮物'); const R=S.rec(G); (R.gifts[id]||(R.gifts[id]=[])).push(g.id);
+      if(g.price&&GM.money) GM.money(-g.price,'禮物'); const R=S.rec(G); (R.gifts[id]||(R.gifts[id]=[])).push(g.id); if(g.set) for(const f in g.set) G.flags[f]=g.set[f];   /* 禮物的旗標（AA_524 Z8 芷若的老電影海報 ZR_POSTER）*/
       await runLines(g.lines,id); if(typeof SOCIAL!=='undefined'&&SOCIAL.adjust) SOCIAL.adjust(id,g.ok?X.REL.giftOk:X.REL.giftNo); return g.id; }
     return null; };
 

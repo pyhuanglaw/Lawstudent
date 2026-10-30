@@ -9,6 +9,7 @@ AA_376（大三上修正稿）第 9 項以安三句、第 18 項日本路線兩�
 AA_377（大三下修正稿）第 4 項以安 A6-L2 一句、第 6 項語彤 Y6-L3 杜鵑花（linesIf、選項）、第 15、16 項語彤 Y6-L1、Y6-L4 的 linesIf 疊在大三下的階梯上（byTerm.Y3S2）；A6 挽回中略過在 src/story3d.js 的 LADDER_SKIP。
 AA_518（學姊第十五批）第 4 節 4-2、4-15：學姊 S4-L7 一句＋註解、S4-L8 的 linesIf 用 _fix 疊在大二下的階梯上（byTerm.Y2S2）。
 AA_523（學姊第十六批）第 6 節 6-1、6-2：學姊 S7-L3 週次、S7-L8 選項②的回覆用 _fix 疊在大四下的階梯上（byTerm.Y4S2）；6-10：大四上招呼的 base 加一句（_fix_greet_base，byTerm.Y4S1）。
+AA_524（說了沒發生（一））：以安 A2-L5、A4-L6 選項②的回覆、A3-L8 extraIf，芷若 Z3-L4 選項②的回覆、Z5-L5 extraIf 用 _fix 疊上去（旗標 AN_COOK_PROMISE、ZR_LUROU_HALF 在 src/aa524_3d.js 記）。
 用法：python3 tools/ladder/import_ladder.py [--check 企劃線ref]（--check：只列出分支上和白名單版本不同、或不在名單的檔，不寫檔）"""
 import json, os, re, subprocess, sys
 ROOT = os.path.dirname(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
@@ -292,6 +293,19 @@ _fix('docs/story_planning/AA_523_', '學姊 S7-L3 週次、S7-L8 選項②', [
 _SIS_Y4S1_BASE = ['吃了沒。', '（她把保溫瓶遞過來）熱水。這邊的飲水機只有冰的。', '我剛從圖書館回來。今天坐到靠窗的位子。', '（她手上拿著一本很厚的判例集）……嗯。', '你今天有課嗎？']
 _fix_greet_base('docs/story_planning/AA_523_', '學姊大四上回來以後的招呼', [
     ('6-10', 'Y4S1', 'heroine_05', _SIS_Y4S1_BASE, _SIS_Y4S1_BASE[:2] + ['（她把保溫瓶遞過來）……回來了。這邊的飲水機有熱水。'] + _SIS_Y4S1_BASE[2:], '「（她把保溫瓶遞過來）……回來了。這邊的飲水機有熱水。」')])
+#      AA_524（HEROINE-LIFE-1028；AA-C 10-28 8fd10848d 定稿）說了沒發生（一）：A14 以安 A2-L5、A4-L6 選項②的回覆不留「下禮拜」；A4 交往中、說過「下次做給我吃。」（AN_COOK_PROMISE，src/aa524_3d.js 記）的
+#      A3-L8（番茄炒蛋那一版）後面多兩句（extraIf）；Z10 芷若 Z3-L4 選項②的回覆拿掉「小罐的可以」、Z5-L5 說過「一半也想吃。」（ZR_LUROU_HALF，src/aa524_3d.js 記）的多一句（extraIf）。A7-L7 照留（稿第 1 節 A14）
+_fix('docs/story_planning/AA_524_', '以安 A2-L5、A4-L6、A3-L8，芷若 Z3-L4、Z5-L5', [
+    ('A14', 'Y1S2', 'heroine_01', 'A2-L5', 'choices', [{'t': '「刑總本來就難。」', 'reply': '聽說全班平均也不高。'}, {'t': '「我也考得不太好。」', 'reply': '那下禮拜找一天一起對考卷吧。', 'rel': {'comf': 1}}],
+     [{'t': '「刑總本來就難。」', 'reply': '聽說全班平均也不高。'}, {'t': '「我也考得不太好。」', 'reply': '考卷發回來你先對。不懂的問我。', 'rel': {'comf': 1}}], '「考卷發回來你先對。不懂的問我。」'),
+    ('A14', 'Y2S2', 'heroine_01', 'A4-L6', 'choices', [{'t': '「那不是很好嗎？」', 'reply': '我也覺得很好。可是 Alison 說她都在打瞌睡。'}, {'t': '「排一題好玩的。」', 'reply': '例如？……你下禮拜來講，我給你十五分鐘。', 'rel': {'comf': 1}}],
+     [{'t': '「那不是很好嗎？」', 'reply': '我也覺得很好。可是 Alison 說她都在打瞌睡。'}, {'t': '「排一題好玩的。」', 'reply': '例如？……你講。我聽十五分鐘。', 'rel': {'comf': 1}}], '「例如？……你講。我聽十五分鐘。」'),
+    ('A4', 'Y2S1', 'heroine_01', 'A3-L8', 'extraIf', None,
+     [{'if': {'flags': ['dating_heroine_01', 'AN_COOK_PROMISE'], 'memory': [{'npc': 'heroine_01', 'tag': 'AN2_TOMATO_EGG'}]}, 'lines': ['（她從背包拿出一個保鮮盒。）', '番茄炒蛋。練好了。……冷了，你自己熱。']}], '番茄炒蛋。練好了。……冷了，你自己熱。'),
+    ('Z10', 'Y2S1', 'heroine_02', 'Z3-L4', 'choices', [{'t': '「牠有名字嗎？」', 'reply': '有三個。每個常客叫的都不一樣。牠每個都答應。'}, {'t': '「下次我帶罐頭。」', 'reply': '不行。牠已經很胖了。……小罐的可以。'}],
+     [{'t': '「牠有名字嗎？」', 'reply': '有三個。每個常客叫的都不一樣。牠每個都答應。'}, {'t': '「下次我帶罐頭。」', 'reply': '不行。牠已經很胖了。'}], '「不行。牠已經很胖了。」'),
+    ('Z10', 'Y3S2', 'heroine_02', 'Z5-L5', 'extraIf', None,
+     [{'if': {'flags': ['ZR_LUROU_HALF']}, 'lines': ['上次說的一半。我媽這次寄了一整罐。……分你。']}], '上次說的一半。我媽這次寄了一整罐。……分你。')])
 with open(dst, 'w', encoding='utf8') as fo:
     fo.write('/* 閒聊階梯（大一上；AA_135、AA_136、BB_130；README 在企劃線 docs/story_planning/ladder/）。產生器：tools/ladder/import_ladder.py（不要手改）。來源：' + out['source'] + ' */\n')
     fo.write("'use strict';\nconst LADDER=" + json.dumps(out, ensure_ascii=False) + ';\nLADDER.byTerm.Y1S1=LADDER.characters;   /* 大一上：舊的 characters／terms 照留（舊程式、舊測試讀得到）*/\n')

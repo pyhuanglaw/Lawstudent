@@ -9,7 +9,7 @@
 //     以安見過才記 KNOWS_ECON_YEAR；'half'、'full' 不會被蓋掉）；只放認識的人（Alison、柏翰沒見過就跳過）；沛珊 P0 原文、FIRST_MET、聯絡方式；只一次。
 //   A12 以安的報告分工（交接包_v1 第 3 節）：第 4 週週四民總上完就演（翹課、沒有第二天下午、第 6 週、以安不在、已經演過「報告的結論」的舊存檔都沒有）；
 //     第 4 週沒上的第 5 週那堂；「好，一起寫。」照 cafeView 分工＋REPORT_PARTNER；「我已經有組了。」→「好。那我自己寫，寫完給你看。」；
-//     「報告的結論」只給說了有組的玩家、在分工之後；「報告發回來了」第 6 週起，一起寫過的選項是「下次也一起寫。」（AA）。
+//     「報告的結論」只給說了有組的玩家、在分工之後；「報告發回來了」第 6 週起，一起寫過的選項是「下次也一起寫。」（AA）——2026-10-30 AA_524 A5 兩種玩家都改「這份我學到很多。」。
 // 用法：node tests/v1_batch6_unit.js
 const fs=require('fs'), vm=require('vm'), path=require('path');
 const ROOT=path.resolve(__dirname,'..');
@@ -141,7 +141,7 @@ const meet=id=>SOCIAL.remember(id,'FIRST_MET','');
     check('A12 「報告的結論」（她寫完給你看）：分工之前沒有、說有組的有、一起寫的沒有',!r.before&&r.declined&&!r.partner,JSON.stringify(r));
     const f={w5:chk(fb,termDay(5,5)),w6:chk(fb,W6MON)};
     check('A4／A12 「報告發回來了」第 6 週起（第 5 週沒有）',!f.w5&&f.w6,JSON.stringify(f));
-    for(const [partner,want] of [[true,'「下次也一起寫。」'],[false,'「下次一起寫。」']]){ fresh(W6MON,10,'library',{afternoonDone:true}); G.choices.cafeView='C'; SOCIAL.remember('heroine_01','CAFE_AFTERNOON',''); if(partner) SOCIAL.remember('heroine_01','REPORT_PARTNER',''); npc('an',1,1); picks=[0]; await EVENTS.run(fb);
+    for(const [partner,want] of [[true,'「這份我學到很多。」'],[false,'「這份我學到很多。」']]){   /* AA_524 A5（企劃線 8fd10848d）：模擬法庭刪掉以後沒有合寫報告的場合，兩種玩家都改「這份我學到很多。」（原本「下次也一起寫。」／「下次一起寫。」）*/ fresh(W6MON,10,'library',{afternoonDone:true}); G.choices.cafeView='C'; SOCIAL.remember('heroine_01','CAFE_AFTERNOON',''); if(partner) SOCIAL.remember('heroine_01','REPORT_PARTNER',''); npc('an',1,1); picks=[0]; await EVENTS.run(fb);
       check('A12 報告發回來：'+(partner?'一起寫過':'沒有一起寫')+'的第一個選項是'+want+'（數值照舊）',opts[0][0]===want&&opts[0].length===2&&SOCIAL.rel('heroine_01').fam>=5,JSON.stringify(opts[0])); }
     /* AA_358 2-4（AA-C 2026-10-21 659d9d81）：「謝謝你那天陪我」有 cafeView（A、B）照原句和原選項；沒有 cafeView（拒絕咖啡廳）的換「（小聲）……寫完了，先給你看。」、
        選項「妳寫得出來的。」「改天請妳喝咖啡。」（記憶的 note 改「你說改天請她喝咖啡」）。修改前 FAIL：沒有 cafeView 也說「謝謝你那天陪我」*/

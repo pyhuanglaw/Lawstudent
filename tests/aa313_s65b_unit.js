@@ -31,7 +31,7 @@ MEM={heroine_04:{PLAYTESTED:true}}; check('1. 看過 Q6＝出', !!H&&typeof H.if
   check('4. 「交換申請交了嗎」交件以後不問（unless ev_zhiruo_applied）', !!c3&&c3.unless&&c3.unless.events.includes('ev_zhiruo_applied')); }
 // 5
 { const ev=EV('ev_cafe_barista_zhiruo'); const i=ev.dialogue.findIndex(l=>l.label==='dept'); const seg=ev.dialogue.slice(i,i+8);
-  const named=seg.filter(l=>/林芷若/.test(l.text||'')), plain=seg.filter(l=>/好，你贏了。要不要一起修/.test(l.text||''));
+  const named=seg.filter(l=>/林芷若/.test(l.text||'')), plain=seg.filter(l=>/好，你贏了。……你們法律系/.test(l.text||''));   /* 2026-10-30 AA_524 Z2：「要不要一起修下學期的『法律與電影』？」改「……你們法律系，有人看老片嗎？」（課不存在）；兩版照舊只差名字 */
   check('5. #dept：沒認識的照舊報名字、已經 FIRST_MET 的不報（同一句拿掉名字）', named.length===1&&named[0].unless&&named[0].unless.memory[0].tag==='FIRST_MET'&&plain.length===1&&plain[0].if&&plain[0].if.memory[0].tag==='FIRST_MET'); }
 // 6
 check('6. 「公館的晚上」「半夜」「妳自己喝什麼」只在大一（term Y1S1、Y1S2）', ['ev_ziqing_gongguan_night','ev_dorm_late_kai','ev_zhiruo_own_drink'].every(id=>{ const e=EV(id); return e&&JSON.stringify(e.term)==='["Y1S1","Y1S2"]'; }));

@@ -43,7 +43,7 @@ const txt=(th)=>TH(th).map(m=>(m.from||'')+':'+m.text);
     const m=PHONE.byAsk(G,'cny_noodle_reply');
     check('可以回兩種（牛肉麵的照片／貼圖）；不回就只是沒回',!!m&&JSON.stringify(m.ask.opts.map(o=>o.t))==='["（傳姊姊帶你去吃的牛肉麵）","（傳一張「新年快樂」的貼圖）"]',m&&JSON.stringify(m.ask.opts.map(o=>o.t)));
     PHONE.answer(G,'cny_noodle_reply',0); const A=txt('g:noodle_team').slice(-3);
-    check('回牛肉麵：你「📷（姊姊帶你去吃的牛肉麵）」→ 阿哲「牛肉麵！！開學帶我們去」、以安「哪一家？開學那週去吃。」（AA_313 4-3：不用「記下來了」收尾）',JSON.stringify(A)===JSON.stringify(['player:📷（姊姊帶你去吃的牛肉麵）','zhe:牛肉麵！！開學帶我們去','heroine_01:哪一家？開學那週去吃。']),JSON.stringify(A));
+    check('回牛肉麵：你「📷（姊姊帶你去吃的牛肉麵）」→ 阿哲「牛肉麵！！看起來好好吃」、以安「哪一家？……看起來比麵店的辣。」（AA_313 4-3：不用「記下來了」收尾；AA_524 A13 改原句，不約開學）',JSON.stringify(A)===JSON.stringify(['player:📷（姊姊帶你去吃的牛肉麵）','zhe:牛肉麵！！看起來好好吃','heroine_01:哪一家？……看起來比麵店的辣。']),JSON.stringify(A));
     setup(ny,8); run(8,12); PHONE.answer(G,'cny_noodle_reply',1); const B=txt('g:noodle_team').slice(-2);
     check('回貼圖：你「（貼圖：新年快樂）」→ 阿哲回一張一樣的貼圖',JSON.stringify(B)===JSON.stringify(['player:（貼圖：新年快樂）','zhe:（貼圖：新年快樂）']),JSON.stringify(B));
     setup(ny,8,{group:false}); run(8,12); check('不在麵店團群組：沒有',!TH('g:noodle_team').length);

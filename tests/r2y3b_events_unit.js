@@ -188,7 +188,7 @@ const IDS=['ev_y3s2_first_meal','ev_y3s2_228','ev_an_azalea_y3','ev_yu_club_mone
   check('S1. 交往中、去了：CG-23（她把手帳轉過來那一拍）；手帳「理由：櫻花只開一個禮拜。」；「……所以這週的讀書會，改在這裡。」；AN_SAKURA went', cgs.join()==='cg_sakura_riverbank_heroine01'&&has('理由：櫻花只開一個禮拜。')&&has('……所以這週的讀書會，改在這裡。')&&has('（她看了你一眼，繼續讀。過了一頁，她把保溫杯推過來一點。）')&&G.flags.AN_SAKURA==='went');
   fresh('2028-04-07',21.1,'dorm',{EXCHANGE_ROUTE:'JP'}); R('heroine_01','FRI'); rules(); check('S2. 挽回中：沒有這一場', txt('p:heroine_01').length===0);
   fresh('2028-04-07',21.1,'dorm',{EXCHANGE_ROUTE:'JP'}); date('heroine_01'); rules(); answer('y3_an_sakura',1); at('2028-04-08',18.1); rules();
-  check('S. 「明天不行。」→「好。那下週。」；日本 18:00 照片「今天在這裡讀完一章。」；AN_SAKURA missed', txt('p:heroine_01').includes('heroine_01:好。那下週。')&&txt('p:heroine_01').includes('heroine_01:今天在這裡讀完一章。')&&G.flags.AN_SAKURA==='missed');
+  check('S. 「明天不行。」→「好。……櫻花下週就謝了。我拍給你。」（AA_524 A7 改原句）；日本 18:00 照片「今天在這裡讀完一章。」；AN_SAKURA missed', txt('p:heroine_01').includes('heroine_01:好。……櫻花下週就謝了。我拍給你。')&&txt('p:heroine_01').includes('heroine_01:今天在這裡讀完一章。')&&G.flags.AN_SAKURA==='missed');
 
   // ---------- 2-Y3-38 主線 8「遠方」（日本路線）----------
   fresh('2028-04-12',22.1,'dorm',{EXCHANGE_ROUTE:'JP'}); grpJoin(); ['zhe','yu','classmate_bohan','classmate_xinci','heroine_03'].forEach(id=>R(id,'FRI')); date('heroine_01'); rules();
