@@ -4127,10 +4127,10 @@
   },
   {
    "branch": "claude/funny-albattani-iawshm",
-   "sha": "（本 commit）",
+   "sha": "c48a5c310",
    "noDirectIntegrate": false,
    "receiver": "LAWWW",
-   "ack": "",
+   "ack": "ACKNOWLEDGED",
    "task": "LIB-HALL-LM-1028",
    "files": [
     "docs/art-rebuild/second_ai/patches/library_hall_lm_1028.patch（library_layout.js、library3d.js、library_interior.py、LICENSES.md、新 tests/library_hall_lightmap_unit.js、tests/singleside_interiors_unit.js 拿掉總圖樓梯踏面那一項）",
@@ -4140,15 +4140,15 @@
    ],
    "state": "已交付",
    "remaining": "光照貼圖解析度偏低（填滿率 28.7%、地板 9 px/m；之後可分兩張或 2048，要先量手機記憶體）；瀏覽器流程測試 flow_library_floors／flow_library_scene、整套回歸、iPhone 實機沒跑；三樓閱覽室沒動",
-   "next": "LAWWW-B 在獨立工作樹套 patch＋checkout 二進位檔（v9.10.14 發布後合）；BB-B 畫面驗收（白天、晚上、第一次和第二次進去）",
+   "next": "LAWWW-B 10-30 03:26 ACK：登記 DL-LW2-LIBHALL-LM-1030／DL-LW2-RTNIGHT-1030，v9.10.14 發布後在獨立工作樹套；BB-B 03:24 ACK 畫面驗收（排在 release_suite 後，結果寫 BB_218）",
    "note": "上一任 LAWWW2-C 的 WIP（4b1fcc458），LAWWW2-B 10-30 收尾：開發 c76d0cb69 上兩份 patch apply --check 過；全部 Node 725 支 0 失敗；效能 fps 看不出變慢、draw call −4～+3%、三角形 +3～8%；進兩次（lm_reentry.py）0 錯誤；和 RT-NIGHT-1028 一起套晚上天窗才會暗"
   },
   {
    "branch": "claude/funny-albattani-iawshm",
-   "sha": "（本 commit）",
+   "sha": "c48a5c310",
    "noDirectIntegrate": false,
    "receiver": "LAWWW",
-   "ack": "",
+   "ack": "ACKNOWLEDGED",
    "task": "RT-NIGHT-1028",
    "files": [
     "docs/art-rebuild/second_ai/patches/rt_night_1028.patch（src/zones3d.js 的 Z3.roomLightmap：rtK、dayEmit；新 tests/room_rtnight_unit.js）",
@@ -4156,7 +4156,7 @@
    ],
    "state": "已交付",
    "remaining": "瀏覽器流程測試、整套回歸、iPhone 實機沒跑",
-   "next": "LAWWW-B 和 LIB-HALL-LM-1028 一起套；BB-B 看晚上四個大廳",
+   "next": "LAWWW-B 10-30 03:26 ACK：登記 DL-LW2-LIBHALL-LM-1030／DL-LW2-RTNIGHT-1030，v9.10.14 發布後在獨立工作樹套；BB-B 03:24 ACK 畫面驗收（排在 release_suite 後，結果寫 BB_218）",
    "note": "上一任 LAWWW2-C 寫的 patch，LAWWW2-B 10-30 收尾：room_rtnight_unit 開發 FAILED 9 → ALL PASS；晚上 20:30 四個大廳同角度（總圖閘門等小東西跟著地板暗，萬才館、男一舍幾乎一樣）；進兩次 0 錯誤；改的是 zones3d.js（不是 engine3d／story3d／us3d）"
   }
  ]
