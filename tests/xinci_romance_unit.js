@@ -50,7 +50,7 @@ const walk=async(picks,term)=>{ H.said=[]; H.opts=[]; H.picks=picks.slice(); ret
   await sec(0,()=>{ check('0. 全部的檔載入沒有錯誤；XCROM 載得到',!loadErr.length&&!!X(),J(loadErr));
     const html=fs.readFileSync(path.join(H.ROOT,'index.html'),'utf8'), a=s=>html.indexOf(s);
     check('0. index.html：xcrom3d.js 在 date3d.js、termend3d.js、story3d.js 以後、GAME.boot() 以前',a('src/xcrom3d.js')>Math.max(a('src/date3d.js'),a('src/termend3d.js'),a('src/story3d.js'))&&a('src/xcrom3d.js')<a('GAME.boot()'));
-    check('0. 兩個開關集中在 XCROM.CFG（使用者還沒回：G10 跟以安交往過就不開、不接受多段＝照 AA 的建議先開著）',J(X().CFG)===J({noAnEx:true,noOpen:true}));
+    check('0. 兩個開關集中在 XCROM.CFG：G10 跟以安交往過＝使用者 10-30 選「照樣可以開」（noAnEx false）；不接受多段＝還在討論，照 AA 的建議（noOpen true）',J(X().CFG)===J({noAnEx:false,noOpen:true}));
     check('0. DATE.HEROINES 有芯慈；YES_LINE 75；心願地點 D04、要午夜場（DATE.MIDNIGHT）；告白要 6 次正式約會',DATE.HEROINES.includes(XC)&&DATE.YES_LINE[XC]===75&&DATE.wishOf(XC)==='D04'&&!!DATE.MIDNIGHT[XC]&&DATE.MIDNIGHT[XC].loc==='D04'&&DATE.COUNT_NEED[XC]===6);
     const C=CONFESS_LINES[XC];
     check('0. confess_lines（AA_537 第 4 節）：say、三句、yes、notYet、unwilling、others 照稿；notYetFlag XC_NOT_YET',!!C&&C.notYetFlag==='XC_NOT_YET'&&[].concat(C.say,C.yes,C.notYet,C.unwilling,C.others).every(x=>DOC537.includes(typeof x==='string'?x:x.text))&&C.yes.length===4&&C.others.length===3&&C.choice.length===3,'');
@@ -64,12 +64,12 @@ const walk=async(picks,term)=>{ H.said=[]; H.opts=[]; H.picks=picks.slice(); ret
     check('1. 全部門檻都過的存檔：G1～G10 都 true、心意邀約發（heartWhy true）',Object.values(g).every(Boolean)&&heart()===true,J(g));
     const OFF={G1:G=>{ delete G.contacts[XC]; },G2:G=>{ G.social.mem[XC]=G.social.mem[XC].filter(m=>m.tag!=='TALKED_FAMILY'); },G3:G=>{ G.l118.once={}; },G4:G=>{ G.flags.XC_FIX='yes'; },
       G5:G=>{ G.flags.XC_NIGHT=5; },G6:G=>{ delete G.flags.XC5_RECONCILE; },G7:G=>{ delete G.flags.XC_SAMEDAY; },G8:G=>{ delete G.flags.XC_BLANK; },
-      G9a:G=>{ SOCIAL.rel(XC).npcRom=69; },G9b:G=>{ SOCIAL.rel(XC).trust=59; },G9c:G=>{ DATE.log(G,XC).count=5; },G9d:G=>{ DATE.log(G,XC).wish=false; },G10:G=>{ G.flags.EX_heroine_01=true; }};
+      G9a:G=>{ SOCIAL.rel(XC).npcRom=69; },G9b:G=>{ SOCIAL.rel(XC).trust=59; },G9c:G=>{ DATE.log(G,XC).count=5; },G9d:G=>{ DATE.log(G,XC).wish=false; }};
     const bad=[]; for(const k of Object.keys(OFF)){ full(null); OFF[k](H.G); if(heart()!==false) bad.push(k); H.G.flags.NOPE_SENT=0; }
-    check('1. 每一道單獨拿掉＝不發、也不傳 NOPE（heartWhy false）：G1 聯絡方式、G2、G3 H7c、G4（補演沒接電話）、G5 5 次、G6、G7、G8、G9 戀愛 69／信任 59／5 次／沒去心願、G10 跟以安分開過',bad.length===0,J(bad));
+    check('1. 每一道單獨拿掉＝不發、也不傳 NOPE（heartWhy false）：G1 聯絡方式、G2、G3 H7c、G4（補演沒接電話）、G5 5 次、G6、G7、G8、G9 戀愛 69／信任 59／5 次／沒去心願',bad.length===0,J(bad));
     full(); H.G.flags.XC_FIX='yes'; H.G.flags.XC_CALL1=true; check('1. G4：補演的玩家接了 3-3 那通電話（XC_CALL1）＝過',X().gates(H.G).G4===true&&heart()===true);
-    full(); H.G.flags['dating_'+AN]=true; check('1. G10：正在跟以安交往＝不開',X().gates(H.G).G10===false&&heart()===false);
-    X().CFG.noAnEx=false; check('1. G10 的開關關掉（使用者如果說可以）＝跟以安交往過也照常算',X().gates(H.G).G10===true); X().CFG.noAnEx=true;
+    full(G=>{ G.flags.EX_heroine_01=true; }); check('1. G10：跟以安交往過（分開了）＝照樣可以開（使用者 10-30）',X().gates(H.G).G10===true&&heart()===true);
+    X().CFG.noAnEx=true; check('1. G10 的開關打開（AA 原本的建議）＝跟以安交往過就不開',X().gates(H.G).G10===false&&heart()===false); X().CFG.noAnEx=false;
     full(); STORY._abroadT=STORY.abroad; STORY.abroad=()=>true; const ab=heart(); STORY.abroad=STORY._abroadT;
     check('1. 人在國外那一學期沒有（AA_537 1-1）',ab===false);
     full(); check('1. hideIf（confess_lines）：全過＝不藏；G7 沒過＝藏',CONFESS_LINES[XC].hideIf(H.G)===false&&(delete H.G.flags.XC_SAMEDAY,CONFESS_LINES[XC].hideIf(H.G)===true));
@@ -176,12 +176,14 @@ const walk=async(picks,term)=>{ H.said=[]; H.opts=[]; H.picks=picks.slice(); ret
     H.fresh(CALENDAR.dateOf(d-1).key,20,'dorm',{introDone:true}); at(d-1,20); check('8. 慈 3 照常演過的（沒有 XC_FIX）：沒有這通電話',!OUT.get(H.G,'xc_call1')); });
 
   /* ===== 第 9 節：第 2 節 和以安分開以後那一則 ===== */
-  await sec(9,()=>{ const d=D('2027-11-10'); H.fresh('2027-11-10',20,'dorm',{introDone:true}); H.G.contacts={[XC]:1}; H.G.l118={once:{H7c:1}}; SOCIAL.remember(XC,'XINCI_SECOND','');
+  await sec(9,()=>{ const d=D('2027-11-10'); X().CFG.noAnEx=true; H.fresh('2027-11-10',20,'dorm',{introDone:true});   /* 這一則只在 G10 開關打開時傳（使用者 10-30 選「照樣可以開」＝現在不傳，最後一項查）*/ H.G.contacts={[XC]:1}; H.G.l118={once:{H7c:1}}; SOCIAL.remember(XC,'XINCI_SECOND','');
     ROM.start(H.G,AN); ROM.end(H.G,AN,'apart_talk'); STORY.phoneRules(GM); PHONE.tick(H.G); const before=(H.G.msgs||[]).filter(m=>m.tag==='xc_an_break').length; H.G.day=d+1; H.G.hour=1.2; STORY.phoneRules(GM); PHONE.tick(H.G);
     const m=(H.G.msgs||[]).filter(x=>x.tag==='xc_an_break');
     check('9. 和以安分開那晚 01:10（過了 G3、G4）：「今天的劇很難看。」「我看完了。」；G10 不過',before===0&&!!m[0]&&m[0].day===d+1&&m[0].h>=1.16&&J(m.map(x=>x.text))===J(X().AN_BREAK)&&X().AN_BREAK.every(t=>DOC537.includes('> 芯慈：'+t))&&X().gates(H.G).G10===false,J(m.map(x=>[x.day,x.h,x.text])));
     H.fresh('2027-11-10',20,'dorm',{introDone:true}); H.G.contacts={[XC]:1}; ROM.start(H.G,AN); ROM.end(H.G,AN,'apart_talk'); H.G.day=d+1; H.G.hour=1.2; STORY.phoneRules(GM); PHONE.tick(H.G);
-    check('9. 還沒過 G3、G4 的：不傳',!(H.G.msgs||[]).some(x=>x.tag==='xc_an_break')); });
+    check('9. 還沒過 G3、G4 的：不傳',!(H.G.msgs||[]).some(x=>x.tag==='xc_an_break')); X().CFG.noAnEx=false;
+    H.fresh('2027-11-10',20,'dorm',{introDone:true}); H.G.contacts={[XC]:1}; H.G.l118={once:{H7c:1}}; SOCIAL.remember(XC,'XINCI_SECOND',''); ROM.start(H.G,AN); ROM.end(H.G,AN,'apart_talk'); H.G.day=d+1; H.G.hour=1.2; STORY.phoneRules(GM); PHONE.tick(H.G);
+    check('9. 使用者 10-30 選「照樣可以開」（開關關著）：分開那晚不傳這一則、G10 照樣過',!(H.G.msgs||[]).some(x=>x.tag==='xc_an_break')&&X().gates(H.G).G10===true); });
 
   /* ===== 第 10 節：G5 半夜訊息（AA_537b 第 9 節 8acf3b308）===== */
   await sec(10,()=>{ const DOC9=doc('8acf3b308','AA_537b_吳芯慈_第二份_約會台詞_校外地點_期末飯_節日.md'), N=X();

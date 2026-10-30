@@ -1,15 +1,17 @@
 /* 吳芯慈可以交往（很難）：XINCI-ROMANCE-1030（使用者 2026-10-30 X139「芯慈可攻略 但要很難達成 請AA規劃」；AA_537 企劃線 2f523e21a、AA_537b 5ba143d2c）。
    這一支管：門檻 G1～G10（S.gates）、心意邀約發不發（S.heartOk：學期末 termend3d.js S.cond 問）、告白那一刻有沒有別的交往對象（S.othersNow）、她接不接受多段（S.acceptsOpen）。
    - 告白只在學期末（TERMEND.ON）：心意邀約 → 期末飯 → 回家的路上（termend_lines.js HEART.classmate_xinci，AA_537b 第 7 節）。
-   - 「跟以安交往過就不開」（G10）、「不接受多段」（AA_537 5-5）是 AA 的建議，使用者 05:4x 還沒回（AA-B 16:18）：各做成一個開關，集中在 S.CFG。
+   - 「跟以安交往過就不開」（G10）：使用者 10-30 選「照樣可以開」（CFG.noAnEx false）；「不接受多段」（AA_537 5-5）：使用者要先討論她的個性，還沒定（CFG.noOpen 照 AA 的建議）。
    - 新的時刻（3-1～3-6）、半夜訊息（G5 XC_NIGHT）、交往以後（第 5、6 節）在後面幾段加（同一支）。 */
 'use strict';
 const XCROM=(()=>{
   const S={};
   const XC='classmate_xinci', AN='heroine_01';
   S.XC=XC;
-  /* 使用者還沒定的兩條（AA_537 第 2 節、5-5）：改這裡就好 */
-  S.CFG={noAnEx:true,noOpen:true};
+  /* 兩條開關（AA_537 第 2 節、5-5）：
+     noAnEx＝跟以安交往過就不開——使用者 2026-10-30 選「照樣可以開」（UA-LAWWW-1030-26）＝false；
+     noOpen＝不接受多段——使用者 10-30：「我們要討論一下他的個性再來討論……應該是他主觀要知道如果玩家有跟別人交往，如果只是客觀有這件事情他不知道的話那他也無從在意吧」（UA-LAWWW-1030-27）＝還在討論，先照 AA 的建議 */
+  S.CFG={noAnEx:false,noOpen:true};
   const F=G=>(G&&G.flags)||{};
   const done=(G,id)=>!!(G&&G.events&&G.events.done&&G.events.done[id]);
   const mem=(G,tag)=>!!(G&&G.social&&G.social.mem&&(G.social.mem[XC]||[]).some(m=>m.tag===tag));
