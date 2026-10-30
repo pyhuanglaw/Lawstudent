@@ -3431,6 +3431,8 @@ R43 = [
        countMsg={'司法官上了。': 1, '二試過了。一月面試。': 0}, msgAt={'司法官上了。': ('2030-01-25', 21.0, 0.1)},
        jsok=[ANLV, NOCALL, ('12/14 那時候還不到 FRIEND：沒有 pg_an_ex1', "PHONE.sent(GAME.G,'pg_an_ex1')", False)]),
 ]
+for _s in R43:   # BB-B 10-30 13:2x：R43 原本沒有 SAYH，3D 對話框的旁白（PG.STEPS 的 GM.say：12/26 延畢旁白、6/17 系辦）記不到，只記得到日期卡和手機＝r43_fd 兩輪 FAIL 都是探針
+    if SAYH not in _s.get('js', ''): _s['js'] = SAYH + _s.get('js', '')
 SCENS = SCENS + R43
 # ---------- R44（BB-C 10-27 23:xx）：學姊第十二批 SIS-B12（AA_470，合併 7b1b1abcc；AA_490 修正 SIS-B12-FIX-1027 也在 de75d3106 裡）瀏覽器驗收 ----------
 # 開發分支 de75d3106（src/sis_b12_3d.js、src/data/sis_b12_events.js；單元測試 tests/aa470_sis_b12_unit.js 118/0）。逐條照 BB-C 助手讀程式後寫的 15 條步驟。
