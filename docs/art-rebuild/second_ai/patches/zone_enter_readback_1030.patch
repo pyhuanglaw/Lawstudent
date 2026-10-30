@@ -1,5 +1,5 @@
 diff --git a/src/zones3d.js b/src/zones3d.js
-index 82ce47142..5c2dd1e3a 100644
+index 82ce47142..18668e51c 100644
 --- a/src/zones3d.js
 +++ b/src/zones3d.js
 @@ -980,7 +980,8 @@ const Z3 = (function(){
@@ -43,7 +43,7 @@ index 82ce47142..5c2dd1e3a 100644
 +     第一次讀像素要等 GPU 把排在前面的工作都做完（字牌的字、上一個區域的貼圖、shader），SwiftShader 電腦模式量到黑畫面裡停 1.4～3.4 秒（溫州街每次進來都停）。
 +     現在：同一張 canvas、或內容一樣（key：板面資料＋大小）的格子用記下來的值；字牌、門牌畫在 CPU 上的 canvas（wzCanvas），讀的時候不經過 GPU。
 +     店內景深卡（TK.interiorTex，townkit3d.js 的 canvas，跨區域共用同一張）第一次照舊要讀一次。 */
-+  const wzAvgC=new Map();
++  const wzAvgK=new Map(), wzAvgW=new WeakMap();   /* 內容的 key → 平均（字串，數量＝不同的板面）；canvas → 平均（WeakMap：不留住已經丟掉的 canvas） */
    function wzAtlasFaces(root,faces,name,nightI,dayI){ root.updateMatrixWorld(true); const inv=new THREE.Matrix4().copy(root.matrixWorld).invert(); const P=2;
      const items=faces.map(o=>{ const c=o.material.map.image; o.geometry.computeBoundingBox(); const s=o.geometry.boundingBox.getSize(new THREE.Vector3()); const rot=c.height>c.width;   /* 直的字牌轉 90° 放（全部變成橫條，排得比較密）*/
        return {o, c, w:c.width, h:c.height, rot, bw:rot?c.height:c.width, bh:rot?c.width:c.height, board:Math.max(s.x,s.z)/Math.max(1e-6,s.y), key:JSON.stringify(Object.assign({},o.userData,{name:0}))+'|'+c.width+'x'+c.height}; });   /* userData.name＝GLTFLoader 放的原始節點名稱（每一面不同），比對內容時不算 */
@@ -54,9 +54,9 @@ index 82ce47142..5c2dd1e3a 100644
 -    { const sm=document.createElement('canvas'); sm.width=sm.height=4; const sx=sm.getContext('2d'); let r=0,g=0,b=0,n=0;
 -      for(const it of cells){ sx.clearRect(0,0,4,4); sx.drawImage(it.c,0,0,4,4); const d=sx.getImageData(0,0,4,4).data, wt=it.bw*it.bh; for(let i=0;i<64;i+=4){ r+=d[i]*wt; g+=d[i+1]*wt; b+=d[i+2]*wt; n+=wt; } }
 +    { let sx=null, r=0,g=0,b=0,n=0;
-+      for(const it of cells){ let a=wzAvgC.get(it.c)||wzAvgC.get(it.key), wt=it.bw*it.bh;
++      for(const it of cells){ let a=wzAvgW.get(it.c)||wzAvgK.get(it.key), wt=it.bw*it.bh;
 +        if(!a){ if(!sx){ const sm=document.createElement('canvas'); sm.width=sm.height=4; sx=sm.getContext('2d',{willReadFrequently:true}); }
-+          sx.clearRect(0,0,4,4); sx.drawImage(it.c,0,0,4,4); const d=sx.getImageData(0,0,4,4).data; a=[0,0,0]; for(let i=0;i<64;i+=4){ a[0]+=d[i]; a[1]+=d[i+1]; a[2]+=d[i+2]; } wzAvgC.set(it.c,a); wzAvgC.set(it.key,a); }
++          sx.clearRect(0,0,4,4); sx.drawImage(it.c,0,0,4,4); const d=sx.getImageData(0,0,4,4).data; a=[0,0,0]; for(let i=0;i<64;i+=4){ a[0]+=d[i]; a[1]+=d[i+1]; a[2]+=d[i+2]; } wzAvgW.set(it.c,a); wzAvgK.set(it.key,a); }
 +        r+=a[0]*wt; g+=a[1]*wt; b+=a[2]*wt; n+=16*wt; }
        cx.fillStyle=n?'rgb('+Math.round(r/n)+','+Math.round(g/n)+','+Math.round(b/n)+')':'#808080'; cx.fillRect(0,0,AW,AH); }
      for(const it of cells){ const k=it.k; it.dw=it.w*k; it.dh=it.h*k; if(!it.rot){ cx.drawImage(it.c,it.x-P,it.y-P,it.dw+P*2,it.dh+P*2); cx.drawImage(it.c,it.x,it.y,it.dw,it.dh); continue; } cx.save(); cx.translate(it.x+it.dh,it.y); cx.rotate(Math.PI/2); cx.drawImage(it.c,-P,-P,it.dw+P*2,it.dh+P*2); cx.drawImage(it.c,0,0,it.dw,it.dh); cx.restore(); }   /* 轉 90°：canvas 的 (cx,cy) → atlas (x+h−cy, y+cx)（h、w 是縮放後的大小）*/
