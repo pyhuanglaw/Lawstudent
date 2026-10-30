@@ -36046,6 +36046,35 @@
     "ack": "ACK"
    },
    "notes": "許教授全名使用者選 A（只改全名），AA 擬三個待使用者挑"
+  },
+  {
+   "id": "L118-CAFE2-STUDY-1030",
+   "title": "118 巷慢讀咖啡：能念書（座位標自習）、有 NPC 去念書（作息）、能約人去（邀約地點）",
+   "area": "SYS",
+   "owner": "LAWWW",
+   "status": "進行中",
+   "next": "LAWWW 在 postrel-1030 開自習座位（l118_shops3d.js cafe2 的座位 study:true，吧檯高腳椅除外）；AA 定誰平常在那裡念書＋約去慢讀的台詞 → 作息與邀約地點",
+   "priority": "P1",
+   "first": {
+    "term": "Y1S1",
+    "week": 1,
+    "earliest": "法律系大一上第一次去 118 巷",
+    "mainline": true,
+    "blocks": false,
+    "prereq": false,
+    "parallel": true,
+    "confirmed": true
+   },
+   "source": "使用者 10-30 04:4x（UA-LAWWW-1030-12，X134）",
+   "authorized": "使用者",
+   "xai": {
+    "spec": "使用者原話",
+    "branch": "claude/cool-heisenberg-o8kuqx",
+    "acceptance": "慢讀坐下有「讀書」；平常有人在那裡念書；約她選單有慢讀",
+    "receiver": "LAWWW",
+    "ack": "SENT"
+   },
+   "notes": ""
   }
  ]
 }
