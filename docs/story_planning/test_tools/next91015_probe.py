@@ -157,7 +157,7 @@ async def cafewin(pg, cdp, run):
                 await pg.wait_for_timeout(1000)
                 if await pg.evaluate("GAME.G.zone") == 'cafe': break
             await pg.wait_for_timeout(5000)
-            await pg.evaluate("(()=>{ const E=GAME.E; E.placeAt(E.player,0,0.5,0); const C=E.cam; C.yaw=0; C.pitch=0.12; C.manualT=1e9; })()"); await pg.wait_for_timeout(2500)
+            await pg.evaluate("(()=>{ const E=GAME.E; E.placeAt(E.player,0,0.5,0); const C=E.cam; C.yaw=Math.PI; C.pitch=0.12; C.manualT=1e9; })()"); await pg.wait_for_timeout(2500)
             await run.shot(pg, 'cafe_reentry_yaw0')
     run.check('Café：拍完（窗景要看截圖：白天、晚上、進兩次）', True, '')
 
