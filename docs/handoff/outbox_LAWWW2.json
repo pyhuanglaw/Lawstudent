@@ -4455,7 +4455,7 @@
    "sha": "c1f95420a",
    "noDirectIntegrate": false,
    "receiver": "LAWWW",
-   "ack": "",
+   "ack": "ACK＋已整合 4470ef1a9（LAWWW-B 10-30 21:27；DL-LW2-LMCOLLAPSE-LIBHALL-1030；BB 排看東西兩面牆）",
    "task": "LM-COLLAPSE-1030 第二間：總圖大廳用修好的 bake_room.py 重烘",
    "files": [
     "assets/models/env/library_interior.glb",
