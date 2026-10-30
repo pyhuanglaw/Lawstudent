@@ -1135,6 +1135,38 @@ async def lhlm(pg, cdp, run):
     run.check('鏡頭白天、晚上都站得到', all(r[3] for r in rows), J([(r[0], r[1]) for r in rows if not r[3]]))
 
 
+# LM-COLLAPSE-1030 第三、四間（610d74642）：宿舍四人房（dorm_room4.glb；左牆＝從門口往窗看的左手邊 x=-3，上半原本偏灰的漸層要沒了）、
+# 201 階梯教室（classroom_201.glb；西牆 x=-8 的木護牆板明暗）。固定鏡頭在房間裡（藏玩家，淡出的牆不擋），再加一張一般跟隨鏡頭
+DMCAMS = [('window', (0.0, 1.6, 2.9), (0.0, 1.4, -3.5)), ('left', (1.5, 1.6, 0.8), (-3.0, 1.9, -0.6)), ('left_up', (1.2, 1.3, 0.2), (-3.0, 2.6, -1.0)),
+          ('left_door', (1.2, 1.6, -2.6), (-3.0, 2.0, 1.8)), ('right', (-1.5, 1.6, 0.8), (3.0, 1.9, -0.6)), ('door', (0.0, 1.6, -3.0), (0.0, 1.3, 3.5))]
+CRCAMS = [('room', (0.0, 3.6, 8.0), (0.0, 1.2, -8.0)), ('west', (6.5, 2.6, 0.0), (-8.0, 1.2, -1.0)), ('west_front', (-2.0, 1.7, -6.0), (-8.0, 0.9, -3.0)),
+          ('west_back', (2.0, 3.2, 6.5), (-8.0, 1.6, 3.0)), ('west_close', (-4.5, 1.9, -2.0), (-8.0, 1.1, -1.0)), ('east', (-6.5, 2.6, 0.0), (8.0, 1.2, -1.0))]
+LMVIS = "(()=>{ let n=0, m=0; GAME.E.scene.traverse(o=>{ if(o.isMesh&&o.visible){ m++; const ms=Array.isArray(o.material)?o.material:[o.material]; if(ms.some(q=>q&&q.lightMap)) n++; } }); return {zone:GAME.G.zone, lightmapped:n, meshes:m}; })()"
+
+
+async def roomlm(pg, cdp, run):
+    rows = []
+    for zone, label, cams, follow in (('dorm', '宿舍四人房', DMCAMS, (0.0, 2.2, 0, 0.0, -3.5)), ('classroom', '201 階梯教室', CRCAMS, (0.0, 7.0, 0, 0.0, -8.0))):
+        for hh, tg in ((14.0, 'day'), (20.5, 'night')):
+            st, d = await P.base(pg, SAVE, '2025-09-27', hh, zone); await P.load(pg, cdp, st); await pg.wait_for_timeout(9000)
+            run.setup('[前置] 使用者存檔改到 %s（六）%s %s（出生點）；讀檔後有劇情對話就點過去' % (d['key'], tg, label))
+            await drain_free(pg, cdp, 60); await pg.wait_for_timeout(2000)
+            lm = await pg.evaluate(LMVIS); run.note('%s %s：%s' % (label, tg, J(lm)))
+            run.check('%s %s：有接到光照貼圖（lightMap 的網格 > 0）' % (label, tg), lm['zone'] == zone and lm['lightmapped'] > 0, J(lm))
+            fx, fz, flv, ftx, ftz = follow
+            p, stt = await ll_shot(pg, run, 'roomlm_%s_%s_follow' % (zone, tg), fx, fz, flv, ftx, ftz)
+            rows.append((label, tg, 'follow', stt)); run.note('%s %s 一般鏡頭（站 %s）：%s' % (label, tg, J(p), J(stt)))
+            await pg.evaluate("(()=>{ GAME.E.player.obj.visible=false; })()")
+            for key, e, lk in cams:
+                await pg.evaluate("((p,l)=>{ const E=GAME.E; E.cinematic(new THREE.Vector3(...p),new THREE.Vector3(...l)); E.camera.position.set(...p); E.cam.look=new THREE.Vector3(...l); E.camera.lookAt(E.cam.look); })(%s,%s)" % (J(list(e)), J(list(lk))))
+                await pg.wait_for_timeout(3500); f = await shot_path(run, pg, 'roomlm_%s_%s_%s' % (zone, tg, key))
+                whole = lum_stats(f) if f else {'err': 'no file'}; rows.append((label, tg, key, whole)); run.note('%s %s %s：%s' % (label, tg, key, J(whole)))
+            await pg.evaluate("(()=>{ const E=GAME.E; E.player.obj.visible=true; if(E.endCinematic) E.endCinematic(); })()")
+    bad = [r for r in rows if r[3].get('dark', 1) > 0.25 or r[3].get('white', 1) > 0.15]
+    run.check('宿舍四人房、201 白天晚上 %d 張：黑（<12）不超過 25%%、死白（>248）不超過 15%%（左牆上半的灰漸層、西牆護牆板的明暗、接縫看截圖）' % len(rows),
+              len(rows) == 2 * 2 * 7 and not bad, J(bad))
+
+
 async def boyab4(pg, cdp, run):
     # 法律系 B4 演講（大一下第 11 週週四 19:00 博思 101，ACTIVITIES B4）：預設流程裡看得到博思 101 的地方（LAWWW-B 16:04）。手機「今天」按去聽
     d = await pg.evaluate("(()=>{ const T=CALENDAR.TERMS.find(t=>t.id==='Y1S2'); const a=STORY.dayOfKey(T.start); let d=a+10*7; while(CALENDAR.dateOf(d).wd!==4) d++; return CALENDAR.dateOf(d).key; })()")
@@ -1186,7 +1218,7 @@ async def main():
             b, ctx, pg, cdp, errs = await L.launch(p, landscape=(VP != 'portrait'))
         pg.on('dialog', lambda d: asyncio.ensure_future(d.accept()))
         await pg.goto(URL); run.check('遊戲載入', await L.wait_loaded(pg)); await pg.evaluate("localStorage.clear()"); await P.init(pg)
-        await {'phone': phone, 'bball': bball, 'rooms': rooms, 'cafewin': cafewin, 'noodle': noodle, 'cafe2': cafe2, 'invite': invite, 'jacket': jacket, 'badclip': badclip, 'bigmap': bigmap, 'bballrain': bballrain, 'renart': renart, 'libla': libla, 'lawlib': lawlib, 'cafe2diag': cafe2diag, 'multiroom': multiroom, 'rtnight': rtnight, 'boya': boya, 'boyaecon': boyaecon, 'boyab4': boyab4, 'soclm': soclm, 'noodlm': noodlm, 'lhlm': lhlm}[MODE](pg, cdp, run)
+        await {'phone': phone, 'bball': bball, 'rooms': rooms, 'cafewin': cafewin, 'noodle': noodle, 'cafe2': cafe2, 'invite': invite, 'jacket': jacket, 'badclip': badclip, 'bigmap': bigmap, 'bballrain': bballrain, 'renart': renart, 'libla': libla, 'lawlib': lawlib, 'cafe2diag': cafe2diag, 'multiroom': multiroom, 'rtnight': rtnight, 'boya': boya, 'boyaecon': boyaecon, 'boyab4': boyab4, 'soclm': soclm, 'noodlm': noodlm, 'lhlm': lhlm, 'roomlm': roomlm}[MODE](pg, cdp, run)
         run.check('沒有 JS 例外', not errs, J(errs[:3]))
         print('SHA', os.environ.get('SHA', '?'), 'MODE', MODE)
         await b.close()
