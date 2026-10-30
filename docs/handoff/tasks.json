@@ -35692,7 +35692,7 @@
     "receiver": "LAWWW",
     "ack": "SENT"
    },
-   "notes": ""
+   "notes": "【AA-B 04:10】AA_529 經濟系交（企劃線 881029f98）；AA_531 美國、AA_532 寒暑假接著交。第 1 點（可昕主動約沒擋 econ）LAWWW 已修 b38b112a8 進 v9.10.14；第 2～6 點排 AA529-ECON-FIX-1030 ｜ "
   },
   {
    "id": "AA530-PG-CONFESS-1030",
@@ -35782,7 +35782,7 @@
    "area": "SYS",
    "owner": "LAWWW",
    "status": "已實作待整合",
-   "next": "v9.10.14 新候選 007000868（全部 Node 734／0）→ BB 跑 save_compat＋release_suite＋瀏覽器①～⑤ → GO 後發布",
+   "next": "v9.10.14 候選 b38b112a8（含 AA_529 第 1 點）→ BB 跑 save_compat＋release_suite＋瀏覽器①～⑤＋經濟系沒有可昕主動約 → GO 後發布",
    "priority": "P0",
    "first": {
     "term": "Y0S1",
@@ -35797,6 +35797,28 @@
    "source": "使用者 10-30 04:0x（UA-LAWWW-1030-06，USER_WANTS X127）",
    "authorized": "使用者",
    "notes": "dda717bdd：開新遊戲（三個按鈕）先備份自動存檔、快速存檔到 fatiao3d_backup_new_<savedAt>（最多 3 份，刪進度最少的）、寫不進去先問；存檔頁 #saveBackups 列出全部 fatiao3d_backup* 可讀取；save_newgame_backup_unit 修改前 FAILED → ALL PASS。使用者這一次被蓋掉的自動存檔救不回來；可能還在的：fatiao3d_backup（覆蓋欄位、匯入前）、fatiao3d_backup_y0end（經濟系最後一天）、欄位 1～3 → 新版的「備份」區看得到。已請使用者新版上線前別按欄位存檔、匯入（會蓋 fatiao3d_backup）"
+  },
+  {
+   "id": "AA529-ECON-FIX-1030",
+   "title": "AA_529 經濟系第 2～6 點：走啦群組改 10/15 聚會回家路上建（舊存檔補）、10/16 總圖與 7/13 對答案兩張日期卡掛到 10/17 14:40、7/13 10:00 空白卡下、K7 週年卡 p4 換句、長頸鹿鑰匙圈補兩句旁白、小的五處（K0b-L1 國界 2/15～3/15、品妤 10/31 換句、8/29 換字、9/21 社團群組每社團三則、4/25～6/7 日期卡拆兩張）",
+   "area": "STORY",
+   "owner": "LAWWW",
+   "status": "待開工",
+   "next": "v9.10.14 發布後派子代理（D99 第一優先，排在 AA527／528 之前合）",
+   "priority": "P1",
+   "first": {
+    "term": "Y0S1",
+    "week": 1,
+    "earliest": "經濟系大一（新遊戲開局）",
+    "mainline": true,
+    "blocks": false,
+    "prereq": false,
+    "parallel": true,
+    "confirmed": true
+   },
+   "source": "AA_529（企劃線 881029f98）",
+   "authorized": "D99、D109、D111",
+   "notes": "第 1 點已修 b38b112a8（v9.10.14）。USER_WANTS X27 寫成「預設版用日期卡、長版有場景」（AA）"
   }
  ]
 }
