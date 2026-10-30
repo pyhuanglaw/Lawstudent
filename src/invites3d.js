@@ -516,7 +516,8 @@ const INV=(function(){
     const norm=L=>{ const out=[]; for(const x of L||[]){ if(!x) continue; if(!x.items){ out.push(x); continue; } const it=norm(x.items); if(!it.length) continue; if(it.length===1){ out.push(it[0]); continue; }
         const live=it.filter(q=>!q.dim); out.push(Object.assign({},x,{items:it,dim:!live.length,hint:live.length?(x.hint!=null?x.hint:live.map(q=>q.short||q.t).join('、')):(it[0].hint||it[0].why||''),why:live.length?null:(it[0].why||it[0].hint||'')})); }
       return out; };
-    const level=async(L,sub)=>{ for(;;){ const opts=L.map(x=>({t:x.items?x.t+'…':x.t,hint:x.hint||'',dim:!!x.dim})); opts.push({t:sub?'返回':(o.cancel||'算了')});
+    const leaves=x=>x.items?[].concat(...x.items.map(leaves)):[x.t];
+    const level=async(L,sub)=>{ for(;;){ const opts=L.map(x=>x.items?{t:x.t+'…',hint:x.hint||'',dim:!!x.dim,sub:leaves(x)}:{t:x.t,hint:x.hint||'',dim:!!x.dim}); opts.push({t:sub?'返回':(o.cancel||'算了')});   /* sub：這一類裡面每一項的名稱（畫面不用；測試照名稱找到那一類）*/
         const k=await GM.choose(opts); if(!(k>=0&&k<L.length)) return sub?BACK:null; const x=L[k];
         if(x.items){ if(x.dim){ await GM.say(null,String(x.why||x.hint||'').replace(/([^。！？」）])$/,'$1。')); continue; } const r=await level(x.items,true); if(r===BACK) continue; return r; }
         const r=pick?await pick(x):x; if(r===S.STAY_MENU) continue; return r; } };

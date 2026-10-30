@@ -126,11 +126,11 @@ await sec(6,()=>{ fresh('2025-12-10','heroine_05',3); const s1=ask('heroine_05',
   fresh('2027-03-10','classmate_peishan',3); const p1=ask('classmate_peishan','gym_badminton',15.5);
   check('6. 沛珊大二下（重考、聯絡不到）：照舊約不到',p1.res==='decline'&&p1.why==='away',p1.res+'/'+p1.why); });
 
-await sec(7,async()=>{ fresh('2026-03-11','heroine_04',3); H.said=[]; H.opts=[]; H.picks=['去椰林大道晨跑','明天 06:30'];
+await sec(7,async()=>{ fresh('2026-03-11','heroine_04',3); H.said=[]; H.opts=[]; H.picks=['運動','去椰林大道晨跑','明天 06:30'];   /* INVITE-MENU-1030：清單分層，晨跑在「運動…」裡；時間多「其他日子…」*/
   const iv=await INV.flow(GM,'heroine_04',null,false); const said=H.said.map(s=>s.t);
-  check('7. 手機約子晴晨跑：時間只列「明天 06:30」、念 §3 的答應句、約在明天 06:30',!!iv&&iv.place==='run_avenue'&&iv.h===6.5&&iv.day===H.G.day+1&&J(H.opts[1])===J(['明天 06:30','算了'])&&said.includes('「早上我在睡。……好啦，一次。」'),J(H.opts)+' '+J(said));
-  fresh('2026-03-11','kexin','d'); H.said=[]; H.opts=[]; H.picks=['算了']; await INV.flow(GM,'kexin',null,false);
-  check('7. 可昕交往中（手機）：清單有羽球、晨跑（她下山來），其他台大的地點照舊沒有',(H.opts[0]||[]).includes('去新體育館打羽球')&&(H.opts[0]||[]).includes('去椰林大道晨跑')&&!(H.opts[0]||[]).includes('去兩點半 Café 坐坐'),J(H.opts[0])); });
+  check('7. 手機約子晴晨跑：時間只列「明天 06:30」（＋其他日子…）、念 §3 的答應句、約在明天 06:30',!!iv&&iv.place==='run_avenue'&&iv.h===6.5&&iv.day===H.G.day+1&&J(H.opts[2])===J(['明天 06:30','其他日子…','算了'])&&said.includes('「早上我在睡。……好啦，一次。」'),J(H.opts)+' '+J(said));
+  fresh('2026-03-11','kexin','d'); H.said=[]; H.opts=[]; H.picks=['運動','返回','算了']; await INV.flow(GM,'kexin',null,false);
+  check('7. 可昕交往中（手機）：「運動…」有羽球、晨跑（她下山來）；台大的其他地點照現有台詞也開了（INVITE-MENU-1030 D，tests/invite_menu_unit.js）',J(H.opts[1])===J(['去新體育館打羽球','去椰林大道晨跑','返回'])&&(H.opts[0]||[]).includes('坐坐・喝茶…'),J(H.opts.slice(0,2))); });
 
 H.done();
 })();

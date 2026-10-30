@@ -83,7 +83,7 @@ rel('zhe',30,10,5); r=ask('zhe','noodle',MON,12+10/60); check('8. 阿哲約吃�
 // 9 時間
 check('9. 時間的中文：21:10＝九點十分、21:30＝九點半、22:30＝十點半、12:10＝十二點十分、9:00＝九點',INV.zhTime(21+10/60)==='九點十分'&&INV.zhTime(21.5)==='九點半'&&INV.zhTime(22.5)==='十點半'&&INV.zhTime(12+10/60)==='十二點十分'&&INV.zhTime(9)==='九點',[21+10/60,21.5,22.5,12+10/60,9].map(INV.zhTime).join('、'));
 // 10 流程（手機）
-const GMk=(picks)=>{ const out=[]; return {out,G,say:async(w,t)=>{ out.push((w?w.name+'：':'旁白：')+t); },choose:async o=>{ const want=picks.shift(); out.push('選：'+o.map(q=>q.t).join('/')); if(typeof want==='string'){ const k=o.findIndex(q=>q.t.includes(want)); return k<0?o.length-1:k; } return want|0; }}; };
+const GMk=(picks)=>{ const out=[]; return {out,G,say:async(w,t)=>{ out.push((w?w.name+'：':'旁白：')+t); },choose:async o=>{ const want=picks.shift(); out.push('選：'+o.map(q=>q.t).join('/')); if(typeof want==='string'){ let k=o.findIndex(q=>q.t.includes(want)); if(k<0){ k=o.findIndex(q=>(q.sub||[]).some(s=>s.includes(want))); if(k>=0) picks.unshift(want); } /* INVITE-MENU-1030 分層：要選的名稱在某一類裡（選項的 sub）＝先選那一類，這個 pick 留給下一層 */ return k<0?o.length-1:k; } return want|0; }}; };
 fresh(MON,10); G.contacts.classmate_bohan=1; rel('classmate_bohan',25,8,4); let gm=GMk(['兩點半','15:30','好，就']); gm.G=G; await0();
 async function await0(){}
 (async()=>{
