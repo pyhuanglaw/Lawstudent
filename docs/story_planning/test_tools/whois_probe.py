@@ -150,19 +150,60 @@ async def mode_econ(pg, cdp, run):
         if await pg.evaluate("!!document.querySelector('#phoneBody [data-person]')"): break
         await L.phone_away(pg, cdp); await pg.wait_for_timeout(2000)
     await run.shot(pg, 'econ_friends')
-    ids = ['econ_weilun', 'econ_tangrui', 'econ_zhengxun', 'econ_pinyu']
+    ids = ['econ_zhengxun', 'econ_weilun', 'econ_tangrui', 'econ_pinyu']
     nm = await pg.evaluate("(ids=>ids.map(id=>[id,SOCIAL.displayName(id)]))", ids)
     run.note('朋友清單：%s' % txt[:400])
-    run.check('經濟系開局搬進 412 以後，朋友清單有韋綸、唐睿（CHAR-WHOIS 第 5 項）', all(n in txt for i0, n in nm[:2]), J({'names': nm[:2], 'list': txt[:300]}))
-    BAN = ['回到法律系以後', '那年的室友', '住了兩個月']
-    for pid, n in nm:   # 469bdde7c（BUG-WHOIS-ECONYEAR-1030）：經濟系那一年回頭看的列都不顯示，只留名字那一行
-        o = await person(pg, cdp, run, pid, 'econ'); l = ln(o)
-        if o['inList']: lay_ok(run, 'econ %s' % pid, o)
-        bad = [x for x in l + (o['api'] or []) if any(b in x for b in BAN)]
-        run.check('經濟系那一年 %s（%s）那一頁：沒有「回到法律系以後」「那年的室友」「住了兩個月」（畫面＋WHOIS.lines）' % (n, pid), not bad, J({'inList': o['inList'], 'lines': l, 'api': o['api']}))
-    camp = await pg.evaluate("!!GAME.G.flags.ECON_CAMP_DONE")
-    allL = await pg.evaluate("(ids=>ids.map(id=>WHOIS.lines(GAME.G,id)))", ids)
-    run.check('經濟系宿營還沒去（ECON_CAMP_DONE＝%s）＝沒有「經濟系宿營同一小隊。」' % camp, camp or not any('經濟系宿營同一小隊' in x for L1 in allL for x in L1), J(allL))
+    run.check('經濟系開局搬進 412 以後，朋友清單有韋綸、唐睿（CHAR-WHOIS 第 5 項）', all(n in txt for i0, n in nm[1:3]), J({'names': nm, 'list': txt[:300]}))
+    BAN = ['回到法律系以後', '你經濟系那年']
+    W1 = {'econ_zhengxun': ['盧正勳，大家叫他阿勳。經濟系，跟你同班。', '男宿 412 的室友。'],
+          'econ_weilun': ['邱韋綸。經濟系，跟你同班。口頭禪「走啦！」', '男宿 412 的室友，九月二號搬進來的。'],
+          'econ_tangrui': ['唐睿。經濟系，跟你同班。', '男宿 412 的室友，九月二號搬進來的。'],
+          'econ_pinyu': ['曾品妤。經濟系，跟你同班。']}
+    FL = "(()=>{ const F=GAME.G.flags; return {key:CALENDAR.dateOf(GAME.G.day).key, h:+(+GAME.G.hour).toFixed(2), stage:GAME.G.stage, camp:!!F.ECON_CAMP_DONE, moved:!!F.Y0_MOVED_OUT, e01:!!F.E01_DONE, zoula:!!(PHONE.inGroup&&PHONE.inGroup(GAME.G,'econ_friends')), kx:!!(STORY.knows&&STORY.knows('kexin',GAME.G))}; })()"
+    API = "(ids=>ids.map(id=>WHOIS.lines(GAME.G,id)))"
+    async def cp(tag, want, ui=True):
+        fl = await pg.evaluate(FL); out = {}
+        for pid, n in nm:
+            if ui: o = await person(pg, cdp, run, pid, tag); l = ln(o) if o['inList'] else (o['api'] or [])
+            else: o = None; l = (await pg.evaluate("(id=>WHOIS.lines(GAME.G,id))", pid)) or []
+            out[pid] = l
+            if ui and o['inList']: lay_ok(run, '%s %s' % (tag, pid), o)
+            bad = [x for x in l if any(b in x for b in BAN)]
+            run.check('%s（%s %.2f）%s：沒有「回到法律系以後」「你經濟系那年」' % (tag, fl['key'], fl['h'], n), not bad, J(l))
+            ww = want(pid, fl)
+            if ww is not None: run.check('%s（%s）%s：有 %s' % (tag, fl['key'], n, '／'.join(ww)), all(w in l for w in ww), J(l))
+        return fl, out
+    def want1(pid, fl):
+        w = list(W1[pid])
+        if pid == 'econ_zhengxun' and not fl['e01']: w = w[:1]
+        if pid == 'econ_pinyu' and fl['kx']: w.append('可昕的室友。')
+        return w
+    fl1, o1 = await cp('econ_9月', want1)
+    run.note('第一個檢查點：%s；%s' % (J(fl1), J(o1, 1200)))
+    seen = {'camp': None, 'zoula': None}; t2 = time.time(); last2 = 0
+    while time.time() - t2 < 2400:   # 照玩家往下玩到 10/19 退宿（Y0_MOVED_OUT），途中宿營過了、進「走啦」群組各看一次（WHOIS.lines）
+        s = await P.ts(pg)
+        if s['ch']: k, _ = P.pick_of(s['ch'], []); await P.tap_choice(pg, cdp, k); await pg.wait_for_timeout(1000); continue
+        if s['dlg']: await L.tap(pg, cdp, '#dlg'); await pg.wait_for_timeout(500); continue
+        await L.phone_away(pg, cdp)
+        fl = await pg.evaluate(FL)
+        if fl['stage'] != 'econ' or fl['moved']: break
+        if fl['camp'] and seen['camp'] is None:
+            L2 = await pg.evaluate(API, ids); seen['camp'] = [fl['key'], L2]
+            run.check('宿營過了（%s）：阿勳、韋綸有「經濟系宿營同一小隊。」' % fl['key'], all('經濟系宿營同一小隊。' in L2[k] for k in (0, 1)), J(L2))
+        if fl['zoula'] and seen['zoula'] is None:
+            L2 = await pg.evaluate(API, ids); seen['zoula'] = [fl['key'], L2]
+            run.check('進「走啦」群組以後（%s）：韋綸「「走啦」群組是他建的。」、品妤「「走啦」群組裡也有她。」' % fl['key'], '「走啦」群組是他建的。' in L2[1] and '「走啦」群組裡也有她。' in L2[3], J(L2))
+        if time.time() - last2 > 120: last2 = time.time(); run.note('經濟系往下玩：%s' % J(fl))
+        await pg.wait_for_timeout(1200)
+    fl2 = await pg.evaluate(FL); run.note('往下玩停在：%s；宿營那一點 %s；走啦那一點 %s' % (J(fl2), J(seen['camp'] and seen['camp'][0]), J(seen['zoula'] and seen['zoula'][0])))
+    run.check('前置：照玩家玩到 10/19 退宿（Y0_MOVED_OUT）', fl2['moved'], J(fl2))
+    if fl2['moved'] and fl2['stage'] == 'econ':
+        await pg.wait_for_timeout(3000)
+        def want2(pid, fl):
+            return ['男宿 412 的室友，住了兩個月。'] if pid != 'econ_pinyu' else None
+        fl3, o3 = await cp('econ_退宿後', want2)
+        run.check('退宿以後三個室友都沒有「男宿 412 的室友。」「九月二號搬進來的」（換成住了兩個月那一行）', not any(x in ('男宿 412 的室友。', '男宿 412 的室友，九月二號搬進來的。') for pid in ids[:3] for x in o3[pid]), J({k: o3[k] for k in ids[:3]}))
 
 
 async def main():
