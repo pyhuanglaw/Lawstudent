@@ -28,7 +28,10 @@
 2026-10-28 202 v2（INTERIOR-AAA-REVIEW-1028，LAWWW2-C；使用者「廉價手遊感」，和 201 v2 同一棟要一樣）：
   課椅＝模壓夾板（ply_shell：椅面微凹、前緣往下彎，椅背弧形往後仰）＋鐵管椅腳、橡膠腳套；長桌＝C 形鋼腳（原本整片 4 cm 鐵板）＋腳墊＋桌上電源盒；
   天花板＝0.6 m 輕鋼架格子＋T5 格柵燈具（WALL_ceil_*，dir 朝下：鏡頭在天花板上面時藏起來）。座位、碰撞框、配置 JSON 都不變。
-  光照貼圖：tools/blender/env_second/lightbake/bake_flat_rooms.sh（燈的位置照這裡的燈具）。"""
+  光照貼圖：tools/blender/env_second/lightbake/bake_flat_rooms.sh（燈的位置照這裡的燈具）。
+2026-10-30 多功能教室 v2（MULTI-ROOM-V2-1030，LAWWW2-B；VISUAL_REVIEW 26.3「家具沒有換……下一輪要照 202 換家具」、LAWWW-B D111 佇列）：
+  塑膠椅＝一體成形的殼（ply_shell：座面微凹、前緣瀑布邊、椅背彎上來往前包）＋側框、橫桿、腳套；單人桌＝深灰 PVC 封邊＋腳墊；
+  天花板＝和 202 同一套的 0.6 m 輕鋼架＋T5 格柵燈具（x ±1.5、±4.5、z ±2.4）；白牆調暗一點（#f0eee9 → #e7e3da）。座位、碰撞框、配置 JSON 都不變。"""
 import json, math, os, random, sys
 HERE = os.path.dirname(os.path.abspath(__file__))
 sys.path.insert(0, HERE); sys.path.insert(0, os.path.join(HERE, '..'))
@@ -46,12 +49,12 @@ REG = {'PLATE': (0, 0, 512, 128), 'RULES': (512, 0, 1024, 384), 'BOARD': (0, 128
        'FLY1': (512, 384, 682, 672), 'FLY2': (682, 384, 852, 672), 'FLY3': (852, 384, 1022, 672), 'FIRE': (768, 768, 1024, 864),
        'SLIDE': (768, 864, 1024, 1024)}   # 講桌筆電的螢幕（投影片；原本借 118 巷收銀機的「小計 0」畫面）
 ROOMS = {
-    'linze_202': dict(name='霖澤館 202 教室', plate='202 教室', W=13.6, D=9.6, H=3.4, door_x=5.9, wins=[-4.0, -0.4, 3.2], rows=[-3.4, -1.5, 0.4, 2.3, 4.2], tables=[(-3.6, -0.8), (0.8, 3.6)],
+    'linze_202': dict(name='法律系館A 202 教室', plate='202 教室', W=13.6, D=9.6, H=3.4, door_x=5.9, wins=[-4.0, -0.4, 3.2], rows=[-3.4, -1.5, 0.4, 2.3, 4.2], tables=[(-3.6, -0.8), (0.8, 3.6)],
                       style='lecture', floor=('large_floor_tiles_02', '#c2c1bb', 1.8), wall='#ece6da', wain=('walnut_veneer', '#5f4a3a'), back='lockers',
                       src='LAWWW-C 10-20 15:51 回覆 Q1（B：開成第二間平面教室）', door_id='c202', host='linze', host_lv=1, view='linze_201'),   # 窗景用 201 的（同一層樓；往北拍到的是很近的背景大樓牆）
     # rows：排距 1.9；最後一排往西一點（3.55）：進門的出生點 (4.8, −3.05) 離最近的椅子 0.7 m 以上，一進來不會就貼著椅背、出現「坐下」（原本長桌版也是這樣）
-    'wancai_multi': dict(name='萬才館 多功能教室', plate='多功能教室', W=11.6, D=9.0, H=3.4, door_x=4.8, wins=[-3.2, 0.0, 3.2], rows=[-2.15, -0.25, 1.65, 3.55],
-                         style='multi', floor=('laminate_floor_02', '#c4a47e', 2.4), wall='#f0eee9', wain=('painted_plaster_wall', '#d5d3cb'), back='shelf', blinds=[0.45, 0.0, 0.7],
+    'wancai_multi': dict(name='法律系館B 多功能教室', plate='多功能教室', W=11.6, D=9.0, H=3.4, door_x=4.8, wins=[-3.2, 0.0, 3.2], rows=[-2.15, -0.25, 1.65, 3.55],
+                         style='multi', floor=('laminate_floor_02', '#c4a47e', 2.4), wall='#e7e3da', wain=('painted_plaster_wall', '#d5d3cb'), back='shelf', blinds=[0.45, 0.0, 0.7],
                          src='LAWWW-C 10-20 15:51 回覆 Q2（多功能教室走進去：吉他社）', door_id='multi', host='wancai', host_lv=0),
 }
 RIGHT = {'N': 1, 'S': -1, 'W': -1, 'E': 1}   # 從室內看牆：沿牆的座標（N／S 是 x、W／E 是 z）往右是 +1 還是 −1
@@ -258,13 +261,29 @@ SHELL = ['#2f7f86', '#2f7f86', '#2f7f86', '#8d949b', '#8d949b', '#d39a35']   # �
 
 
 def shell_chair(c, x, z, yaw, col, y0=0.0, mv=None, mm=None):
-    """可以移動、可以疊的塑膠椅（萬才館多功能教室）：一體成形的座面＋椅背、四支銀色鐵腳；(x, z) 是坐的位置、面向 yaw；y0＝疊起來時往上的高度"""
+    """可以移動、可以疊的塑膠椅（萬才館多功能教室）：一體成形的座面＋椅背、四支銀色鐵腳；(x, z) 是坐的位置、面向 yaw；y0＝疊起來時往上的高度。
+    v2（MULTI-ROOM-V2-1030，LAWWW2-B；照 202 v2 的做法）：原本座面、椅背、中間那段是三塊倒角方塊 → 一體成形的塑膠殼（ply_shell）：
+    座面中間微凹、兩側和後緣往上翹、前緣往下彎（瀑布邊），椅背從座面後緣一路彎上去、左右往前包一點；鐵腳多了座面下的側框、前後的橫桿和黑色腳套。
+    座面上緣照舊約 0.46（坐姿高度不變）、腳的位置照舊（碰撞框不變）"""
     mv = mv or c.vc; mm = mm or c.vm; M = Mloc(x, y0, z, yaw); T = lw(x, z, yaw)
-    part(mv, M, 0, 0.445, 0.01, 0.44, 0.03, 0.42, col, r=0.014)                    # 座面（上緣 0.46）
-    part(mv, M, 0, 0.745, -0.215, 0.42, 0.28, 0.024, col, r=0.012, rx=-0.13)        # 椅背（往後仰一點）
-    part(mv, M, 0, 0.53, -0.2, 0.16, 0.17, 0.022, col, rx=-0.06)                   # 座面和椅背中間連起來的那一段
+    def seat(u, v):
+        xx = -0.22 + 0.44 * u; xn = xx / 0.22; zz = -0.19 + 0.41 * v
+        y = 0.45 + 0.014 * xn ** 4 - (0.04 * ((v - 0.84) / 0.16) ** 2 if v > 0.84 else 0.0) + (0.035 * ((0.14 - v) / 0.14) ** 2 if v < 0.14 else 0.0)
+        e = max(0.0, abs(2 * v - 1) - 0.7) / 0.3; xx *= 1 - 0.07 * e * e                  # 前後兩角收圓
+        return (xx, y, zz)
+    mv.paint(ply_shell(mv, M, seat, 6, 5, (0.0, -0.016, 0.0)), col)   # 格子比 202 的木頭椅粗一點：這間有 47 張（含疊起來的）
+    def back(u, v):
+        xx = -0.215 + 0.43 * u; xn = xx / 0.215; y = 0.485 + 0.42 * v
+        zz = -0.19 - 0.075 * v - 0.02 * v * v + 0.035 * xn * xn * min(1.0, v * 2.5)      # 往後仰；左右往前包（上半部）
+        e = max(0.0, 2 * v - 1.4) / 0.6; xx *= 1 - 0.1 * e * e                          # 上緣兩角收圓
+        return (xx, y, zz)
+    mv.paint(ply_shell(mv, M, back, 6, 5, (0.0, 0.0, -0.015)), col)
+    g = '#c4c8cb'
     for sx in (-1, 1):
-        for sz in (-1, 1): lcyl(mm, T, (sx * 0.205, y0, sz * 0.195), (sx * 0.175, y0 + 0.43, sz * 0.165), 0.011, '#c4c8cb')
+        for sz in (-1, 1): lcyl(mm, T, (sx * 0.205, y0, sz * 0.195), (sx * 0.175, y0 + 0.43, sz * 0.165), 0.011, g)
+        lcyl(mm, T, (sx * 0.175, y0 + 0.43, 0.165), (sx * 0.175, y0 + 0.43, -0.165), 0.009, g)     # 座面下的側框
+        for sz in (-1, 1): lcyl(c.vc if mm is c.vm else mv, T, (sx * 0.205, y0, sz * 0.195), (sx * 0.205, y0 + 0.014, sz * 0.195), 0.013, '#1d1d1f', seg=6, caps=True)   # 黑色腳套
+    for sz in (-1, 1): lcyl(mm, T, (-0.19, y0 + 0.2, sz * 0.18), (0.19, y0 + 0.2, sz * 0.18), 0.008, g)   # 前後的橫桿
 
 
 def ply_shell(m, M, P, nu, nv, off):
@@ -340,6 +359,11 @@ def single_desk(c, x, z, yaw):
         lcyl(c.vm, T, (lx, 0.012, -0.2), (lx, 0.012, 0.2), 0.012, g); lcyl(c.vm, T, (lx, 0.69, -0.19), (lx, 0.69, 0.19), 0.01, g)
     part(c.vm, M, 0, 0.58, 0.18, 0.5, 0.24, 0.006, '#c9cdd0')                      # 前擋板（朝講台那一面）
     part(c.vm, M, 0, 0.6, 0.02, 0.48, 0.012, 0.3, '#8f959a')                       # 桌下置物架
+    # v2（MULTI-ROOM-V2-1030）：桌面一圈深灰的 PVC 封邊（原本白色方板看起來像紙板）、四支腳的黑色腳墊
+    for (lx, lz, w, d) in ((0, 0.219, 0.56, 0.006), (0, -0.219, 0.56, 0.006), (0.279, 0, 0.006, 0.44), (-0.279, 0, 0.006, 0.44)):
+        part(c.vc, M, lx, 0.7275, lz, w + 0.002, 0.026, d, '#5d6064')
+    for sx in (-1, 1):
+        for sz in (-1, 1): lcyl(c.vc, T, (sx * 0.25, 0.0, sz * 0.17), (sx * 0.25, 0.012, sz * 0.17), 0.016, '#1d1d1f', seg=6, caps=True)
     obb_block(c, x, z, yaw, 0.28, 0.22, 'desk')
 
 
@@ -746,25 +770,24 @@ def build(rid):
             if bag == 'tote': jacket(c.vc, Mloc(x, 0.0, z, yaw), '#55708f', seed=1)   # 牛仔外套（原本咖啡色的方板看起來像木板）
             obb_block(c, x, z, yaw, 0.24, 0.24, 'chair')
     # 燈
-    if lec:   # 202（INTERIOR-AAA-REVIEW-1028 v2，和 201 同一套）：輕鋼架 0.6 m 格子＋T5 格柵燈具（1.2×0.6，對齊格子；烘焙的面光源在同一個位置：lightbake/bake_flat_rooms.sh）。
-        # 天花板上的東西（格子、燈具、格柵）名字含 WALL_ceil_、dir 朝下：鏡頭比天花板高時和牆一樣藏起來（201 的做法；不然從上面看是一張白色的網）
-        cg, cl, cv = CMesh(f'WALL_ceil_{rid}_grid', M['vc']), Mesh(f'WALL_ceil_{rid}_light', M['tube']), CMesh(f'WALL_ceil_{rid}_louvre', M['vcm'])
-        for xg in [0.2 + 0.6 * k for k in range(-14, 14)]:
-            if X0 + 0.05 < xg < X1 - 0.05: cg.cbox(xg - 0.012, xg + 0.012, H - 0.015, H - 0.001, Z0, Z1, '#e6e5e1')
-        for zg in [0.6 * k for k in range(-10, 11)]:
-            if Z0 + 0.05 < zg < Z1 - 0.05: cg.cbox(X0, X1, H - 0.015, H - 0.001, zg - 0.012, zg + 0.012, '#e6e5e1')
-        for x in [X0 + 1.6 + k * 2.4 for k in range(5)]:
-            for z in (-2.7, 2.7):
-                cg.cbox(x - 0.6, x + 0.6, H - 0.04, H - 0.002, z - 0.3, z + 0.3, '#ecebe7')                    # 燈具外殼（凸出天花板 4 cm）
-                cl.box(x - 0.57, x + 0.57, H - 0.044, H - 0.04, z - 0.27, z + 0.27)                             # 發光面
-                for oz in (-0.18, -0.09, 0.0, 0.09, 0.18): cv.cbox(x - 0.57, x + 0.57, H - 0.058, H - 0.044, z + oz - 0.004, z + oz + 0.004, '#d3d6d9')   # 不要用 dx、dz：build() 後面的門、出生點用 dx
-                for ox in (-0.38, 0.0, 0.38): cv.cbox(x + ox - 0.004, x + ox + 0.004, H - 0.058, H - 0.044, z - 0.27, z + 0.27, '#d3d6d9')
-        for m_ in (cg, cl, cv): m_.finish(c.root, props={'dir': [0, -1, 0]}, uv=False)
-    else:
-        for x in [X0 + 1.6 + k * 2.8 for k in range(int((R['W'] - 2.0) / 2.8) + 1)]:
-            for z in (-R['D'] / 4 - 0.3, R['D'] / 4 + 0.3):
-                if x > X1 - 0.8: continue
-                c.vc.cbox(x - 0.62, x + 0.62, H - 0.02, H, z - 0.32, z + 0.32, '#f4f4f1'); c.tube.box(x - 0.58, x + 0.58, H - 0.026, H - 0.02, z - 0.28, z + 0.28)
+    # 202（INTERIOR-AAA-REVIEW-1028 v2，和 201 同一套）、多功能教室（MULTI-ROOM-V2-1030，LAWWW2-B 10-30：照 202 v2）：輕鋼架 0.6 m 格子＋T5 格柵燈具
+    # （1.2×0.6，對齊格子；烘焙的面光源在同一個位置：lightbake/bake_flat_rooms.sh）。
+    # 天花板上的東西（格子、燈具、格柵）名字含 WALL_ceil_、dir 朝下：鏡頭比天花板高時和牆一樣藏起來（201 的做法；不然從上面看是一張白色的網）
+    # 多功能教室原本是貼在天花板上的兩排平板燈：格子線放在 0.3＋0.6k（房間置中），燈具 x ±1.5、±4.5、z ±2.4（燈具的邊剛好在格子線上）；嵌入式冷氣照舊
+    if lec: GX0, GZ0, LXS, LZS = 0.2, 0.0, [X0 + 1.6 + k * 2.4 for k in range(5)], (-2.7, 2.7)
+    else: GX0, GZ0, LXS, LZS = 0.3, 0.3, [-4.5, -1.5, 1.5, 4.5], (-2.4, 2.4)
+    cg, cl, cv = CMesh(f'WALL_ceil_{rid}_grid', M['vc']), Mesh(f'WALL_ceil_{rid}_light', M['tube']), CMesh(f'WALL_ceil_{rid}_louvre', M['vcm'])
+    for xg in [GX0 + 0.6 * k for k in range(-14, 14)]:
+        if X0 + 0.05 < xg < X1 - 0.05: cg.cbox(xg - 0.012, xg + 0.012, H - 0.015, H - 0.001, Z0, Z1, '#e6e5e1')
+    for zg in [GZ0 + 0.6 * k for k in range(-10, 11)]:
+        if Z0 + 0.05 < zg < Z1 - 0.05: cg.cbox(X0, X1, H - 0.015, H - 0.001, zg - 0.012, zg + 0.012, '#e6e5e1')
+    for x in LXS:
+        for z in LZS:
+            cg.cbox(x - 0.6, x + 0.6, H - 0.04, H - 0.002, z - 0.3, z + 0.3, '#ecebe7')                    # 燈具外殼（凸出天花板 4 cm）
+            cl.box(x - 0.57, x + 0.57, H - 0.044, H - 0.04, z - 0.27, z + 0.27)                             # 發光面
+            for oz in (-0.18, -0.09, 0.0, 0.09, 0.18): cv.cbox(x - 0.57, x + 0.57, H - 0.058, H - 0.044, z + oz - 0.004, z + oz + 0.004, '#d3d6d9')   # 不要用 dx、dz：build() 後面的門、出生點用 dx
+            for ox in (-0.38, 0.0, 0.38): cv.cbox(x + ox - 0.004, x + ox + 0.004, H - 0.058, H - 0.044, z - 0.27, z + 0.27, '#d3d6d9')
+    for m_ in (cg, cl, cv): m_.finish(c.root, props={'dir': [0, -1, 0]}, uv=False)
     c.look('board', round(X0 + 1.0, 3), round(bw - 0.6, 3), 0.9, '黑板' if lec else '白板', '', dev=('黑板' if lec else '白板') + '上的字由課堂或事件決定；遊戲裡顯示的字等 AA 寫')
     c.look('notice', round(X1 - 0.9, 3), 1.4, 0.9, '公告欄', '', dev='公告欄；遊戲裡顯示的字等 AA 寫')
     c.door = dict(x=dx, w=dw, z=Z0, note=f"−z 那一面靠東（後門）；從{'霖澤館 2F 迴廊的 202 門（linze_layout.js doors.c202，lv 1、x 3.0）' if rid == 'linze_202' else '萬才館 1F 大廳北牆的「多功能教室」門（wancai_layout.js doors.multi，lv 0、x 2.0）'}進來")
