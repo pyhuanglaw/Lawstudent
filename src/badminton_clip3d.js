@@ -82,14 +82,14 @@ const BADCLIP=(function(){
     const C=court(), half=4.4, P1=E.player, keep=[]; let partner=GM.npc&&GM.npc[id], spawned=false;
     if(!partner&&GM.spawnCharacter&&id){ partner=GM.spawnCharacter(id,C.x,C.z-half,{yaw:0}); spawned=!!partner; }
     if(!partner){ S.busy=false; return false; }
-    for(const e of [P1,partner]) keep.push({e,x:e.obj.position.x,z:e.obj.position.z,y:e.obj.position.y,ry:e.obj.rotation.y,pose:e.pose,frozen:e.frozen,path:e.path,
+    for(const e of [P1,partner]) keep.push({e,x:e.obj.position.x,z:e.obj.position.z,y:e.obj.position.y,ry:e.obj.rotation.y,pose:e.pose,frozen:e.frozen,path:e.path,beh:e.beh,
       bags:typeof CHAR!=='undefined'&&CHAR.carryOff?CHAR.carryOff(e.obj):null});   /* 打球不背包：後背包、托特包、吉他、資料夾…先拿下來，演完（含跳過、出錯）照原本還原（BADCLIP-BAG-1027，使用者 10-27 22:4x）*/
     const grp=new THREE.Group(); grp.name='badclip'; E.scene.add(grp);
     let props={}; try{ if(typeof ASSETS!=='undefined'&&ASSETS.manifest['bldg.badminton_props']) props=propsFrom(await ASSETS.loadOne('bldg.badminton_props')); }catch(e){ console.warn('羽球道具載入失敗，用簡單的',e); }
     const rA=attachRacket(P1,props.racketA||simpleRacket(0x1d2b57)), rB=attachRacket(partner,props.racketB||simpleRacket(0xeef1f4));
     const sh=(props.shuttle||simpleShuttle()).clone(true); sh.traverse(o=>{ if(o.isMesh){ o.castShadow=true; o.frustumCulled=false; } }); sh.scale.multiplyScalar(1.5); grp.add(sh);   /* 放大 1.5 倍：側面中景裡真實大小只有幾個像素（v1）*/
     // 站位：玩家在南半場（面向北）、她在北半場（面向南）
-    const place=(e,x,z,yaw)=>{ e.path=null; e.frozen=true; e.pose='idle'; e.speed=0; e.obj.position.set(x,e.obj.position.y,z); e.obj.rotation.y=yaw; };
+    const place=(e,x,z,yaw)=>{ e.path=null; e.frozen=true; e.pose='idle'; e.speed=0; if(e!==P1&&(e.beh==='follow'||e.beh==='buddy'||e.beh==='passenger')) e.beh='idle'; e.obj.position.set(x,e.obj.position.y,z); e.obj.rotation.y=yaw; };   /* 一起走過去的人（follow）：引擎的跟著走每一格會把她拉回玩家身邊（使用者 2026-10-30「沈以安直接跑到我面前 沒有隔著網子打」，BADCLIP-FOLLOW-1030）——演出期間換成 idle，演完照 keep 還原 */
     place(P1,C.x+0.4,C.z+half,PI); place(partner,C.x-0.4,C.z-half,0);
     const ov=(e,bones,k)=>{ e.obj.userData.overlay={bones,k:k==null?1:k}; };
     ov(P1,still('ready')); ov(partner,still('ready'));
@@ -120,7 +120,7 @@ const BADCLIP=(function(){
     } catch(e){ console.warn('羽球短片',e); }
     finally{
       undo(); for(const r of [rA,rB]) if(r&&r.parent) r.parent.remove(r); E.scene.remove(grp);
-      for(const k of keep){ const e=k.e; e.obj.userData.overlay=null; e.obj.position.set(k.x,k.y,k.z); e.obj.rotation.y=k.ry; e.pose=k.pose||'idle'; e.frozen=k.frozen; e.path=null; if(k.bags) k.bags(e.obj); }
+      for(const k of keep){ const e=k.e; e.obj.userData.overlay=null; e.obj.position.set(k.x,k.y,k.z); e.obj.rotation.y=k.ry; e.pose=k.pose||'idle'; e.frozen=k.frozen; e.path=null; if(k.beh!==undefined&&e!==P1) e.beh=k.beh; if(k.bags) k.bags(e.obj); }
       if(spawned&&GM.removeNPC) GM.removeNPC(id); if(E.endCinematic) E.endCinematic(); if(GM.sceneEnd) GM.sceneEnd(); S.busy=false; }
     return !skipped;
     // 鏡頭 3：照人換
