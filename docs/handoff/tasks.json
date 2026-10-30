@@ -36448,6 +36448,93 @@
     "ack": "ACTIONED"
    },
    "notes": "LAWWW2 交件 2b5704f2a；layout 和開發分支一樣；flat_classroom.py 換 LAWWW2 的 v2＋改名版（開發分支原本是 10-22 舊版）；draw call 75→80；READY_FOR_ART_REVIEW"
+  },
+  {
+   "id": "BOYA-LM-1030",
+   "title": "博思教學館室內光照烘焙＋照 202 v2 換家具與天花板（boya_interior：101／102 階梯教室、走廊；經濟系第一堂經原在博思 101）",
+   "area": "ART",
+   "owner": "LAWWW2",
+   "status": "待開工",
+   "next": "LAWWW2 做（照 INTERIOR_AAA_REVIEW_1028 P1 光照＋P5 燈具；layout、座位、碰撞不動）→ 交件 → LAWWW 整合 → BB 測",
+   "priority": "P1",
+   "first": {
+    "term": "Y0S1",
+    "week": 1,
+    "earliest": "經濟系第一堂經原（博思 101）",
+    "mainline": true,
+    "blocks": false,
+    "prereq": false,
+    "parallel": true,
+    "confirmed": true
+   },
+   "source": "X125 室內廉價感（使用者 10-28）；D111 INTERIOR-AAA；D99 經濟系優先",
+   "authorized": "D108、D111（LAWWW-B 派工 10-30 11:5x）",
+   "xai": {
+    "spec": "docs/art-rebuild/second_ai/INTERIOR_AAA_REVIEW_1028.md 第 5 節",
+    "branch": "claude/funny-albattani-iawshm",
+    "acceptance": "同鏡頭改前改後白天晚上、layout 不變、效能",
+    "receiver": "LAWWW",
+    "ack": "SENT"
+   },
+   "notes": "D99 第一優先經濟系那一年玩家最常待的室內，還沒有光照貼圖（10-30 盤點：GLB 的 extras.lightmap）"
+  },
+  {
+   "id": "SOCLIB-LM-1030",
+   "title": "社科院圖書館室內光照烘焙（soclib_interior；經濟系那一年念書、經濟系朋友在社科圖遇得到 ECON-FRIENDS-SOCLIB-1030）",
+   "area": "ART",
+   "owner": "LAWWW2",
+   "status": "待開工",
+   "next": "LAWWW2 做（照 INTERIOR_AAA_REVIEW_1028 P1 光照＋P5 燈具；layout、座位、碰撞不動）→ 交件 → LAWWW 整合 → BB 測",
+   "priority": "P1",
+   "first": {
+    "term": "Y0S1",
+    "week": 1,
+    "earliest": "經濟系那一年第一次進社科院圖書館",
+    "mainline": true,
+    "blocks": false,
+    "prereq": false,
+    "parallel": true,
+    "confirmed": true
+   },
+   "source": "X125；D111；D99",
+   "authorized": "D108、D111（LAWWW-B 派工 10-30 11:5x）",
+   "xai": {
+    "spec": "docs/art-rebuild/second_ai/INTERIOR_AAA_REVIEW_1028.md 第 5 節",
+    "branch": "claude/funny-albattani-iawshm",
+    "acceptance": "同鏡頭改前改後白天晚上、layout 不變、效能",
+    "receiver": "LAWWW",
+    "ack": "SENT"
+   },
+   "notes": "D99 第一優先經濟系那一年玩家最常待的室內，還沒有光照貼圖（10-30 盤點：GLB 的 extras.lightmap）"
+  },
+  {
+   "id": "NOODLE-LM-1030",
+   "title": "麵店室內光照烘焙（noodle_interior；麵店團每週二、四）",
+   "area": "ART",
+   "owner": "LAWWW2",
+   "status": "待開工",
+   "next": "LAWWW2 做（照 INTERIOR_AAA_REVIEW_1028 P1 光照＋P5 燈具；layout、座位、碰撞不動）→ 交件 → LAWWW 整合 → BB 測",
+   "priority": "P1",
+   "first": {
+    "term": "Y1S1",
+    "week": 1,
+    "earliest": "第一次和阿哲去麵店",
+    "mainline": true,
+    "blocks": false,
+    "prereq": false,
+    "parallel": true,
+    "confirmed": true
+   },
+   "source": "X125；X131 麵店團在場；D111",
+   "authorized": "D108、D111（LAWWW-B 派工 10-30 11:5x）",
+   "xai": {
+    "spec": "docs/art-rebuild/second_ai/INTERIOR_AAA_REVIEW_1028.md 第 5 節",
+    "branch": "claude/funny-albattani-iawshm",
+    "acceptance": "同鏡頭改前改後白天晚上、座位不變、效能",
+    "receiver": "LAWWW",
+    "ack": "SENT"
+   },
+   "notes": "D99 第一優先經濟系那一年玩家最常待的室內，還沒有光照貼圖（10-30 盤點：GLB 的 extras.lightmap）"
   }
  ]
 }
