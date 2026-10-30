@@ -240,6 +240,7 @@ async def noodle(pg, cdp, run):
 async def cafe2(pg, cdp, run):
     st, d = await P.base(pg, SAVE, '2025-09-27', 14.0, 'l118_cafe2'); await P.load(pg, cdp, st); await pg.wait_for_timeout(3000)
     run.setup('[前置] 使用者存檔改到 %s 14:00 慢讀咖啡（118 巷）' % d['key'])
+    r0 = await P.dialog(pg, cdp, run, picks=['不去了'], max_s=60, start_s=6, tag='cafe2_prompt')   # 使用者存檔 9/27 14:00 有「出發：去木柵大學找可昕」：玩家選不去了（BB-B 10-30：沒處理＝出遊走掉，時間到 18:03）
     its = await pg.evaluate("(()=>GAME.E.interactables.filter(i=>i.seat).map(i=>({x:+i.x.toFixed(2),z:+i.z.toFixed(2),label:i.label,study:!!i.study,lift:!!(i.seat&&i.seat.lift)})))()")
     run.note('慢讀的座位：%s' % J(its)); await run.shot(pg, 'cafe2_in')
     desk = [i for i in its if i['label'] == '坐下讀書']
@@ -248,7 +249,10 @@ async def cafe2(pg, cdp, run):
     if not desk: return
     pp = await pg.evaluate("(()=>{ const p=GAME.E.player.obj.position; return [p.x,p.z]; })()")
     tg = sorted(desk, key=lambda i: math.hypot(i['x'] - pp[0], i['z'] - pp[1]))[0]
-    await L.go_to(pg, cdp, run, tg['x'], tg['z'], 0.6, '坐下讀書的座位', max_s=200, stop=lambda s: s['interact'].startswith('坐下讀書'))
+    ap = await pg.evaluate("(([x,z])=>{ const it=GAME.E.interactables.find(i=>i.seat&&Math.abs(i.x-x)<0.01&&Math.abs(i.z-z)<0.01); if(!it||!GAME.seatApproach) return null; const a=GAME.seatApproach(it.seat); return a?[a[0],a[1]]:null; })", [tg['x'], tg['z']])
+    run.note('座位 %s 旁邊（GAME.seatApproach）：%s' % (J(tg), J(ap)))
+    gx, gz = (ap[0], ap[1]) if ap else (tg['x'], tg['z'])   # 站到椅子旁邊（坐下時走過去的那一點），不是椅子正中間
+    await L.go_to(pg, cdp, run, gx, gz, 0.35, '坐下讀書的座位旁邊', max_s=200, stop=lambda s: s['interact'].startswith('坐下讀書'))
     lab = (await P.ts(pg))['lab']; run.check('走到桌位旁：按鈕是「坐下讀書」', lab.startswith('坐下讀書'), lab)
     st0 = await pg.evaluate("(()=>({study:GAME.G.stats.study|0, h:+GAME.G.hour, day:GAME.G.day}))()")
     await L.tap(pg, cdp, '#interact'); menus = []; picked = []; t0 = time.time(); seated_shot = False
