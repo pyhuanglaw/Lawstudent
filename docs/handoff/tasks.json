@@ -36760,7 +36760,7 @@
    "owner": "LAWWW",
    "status": "已整合待測試",
    "priority": "P1",
-   "next": "程式（LAWWW-B 19:2x）：whois3d.js 經濟系那一年不顯示回頭看的列（y0／noY0 都排除 stage econ），宿營同一小隊等 ECON_CAMP_DONE；whois_unit 第 5 節兩項（修改前 FAIL、修改後 PASS）。經濟系當下的寫法（現在式，例：「你的室友，男宿 412。」）等 AA 給（已問）→ 接上 → BB n21_whois_econ4 重看",
+   "next": "469bdde7c 先不顯示回頭看的列；AA_543 第 6 節（企劃線 30e7b0311）經濟系那一年現在式四人接上（阿勳 E01_DONE、韋綸唐睿 E412_MOVEIN、宿營 ECON_CAMP_DONE、走啦群組 econ_friends、退宿 Y0_MOVED_OUT 換「住了兩個月」、轉法律系＝stage law 照第 2 節）；whois_unit 第 5 節 6 項、第 0 項稿換 30e7b0311 → BB n21_whois_econ4 重看",
    "first": {
     "term": "Y0S1",
     "week": 1,
@@ -36774,7 +36774,7 @@
    "source": "BB-B 10-30 19:08 訊息",
    "authorized": "D99 第一項（經濟系完整流程）、AA_543 第 0 節",
    "xai": {
-    "spec": "AA_543 第 0 節、第 2 節",
+    "spec": "AA_543 第 0、2、6 節（企劃線 30e7b0311）",
     "branch": "claude/modest-rubin-2lyp7g",
     "acceptance": "經濟系那一年人物頁沒有回頭看的句子；AA 給的現在式那幾句照稿",
     "receiver": "BB",

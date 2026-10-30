@@ -146,33 +146,47 @@ const WHOIS=(()=>{
 
   /* ---------------- 2 經濟系那年（玩過 PLAYED_Y0／從法律系開始：那一年發生在遊戲開始以前，人照樣記得你）、其他 ---------------- */
   /* 經濟系那一年本身（stage econ，從開局到轉法律系）：下面「那年的室友、住了兩個月」「回到法律系以後」都是回頭看的寫法，那一年還沒過完就先不顯示（AA_543 第 0 節「沒發生的不先寫」；
-     BB-B 10-30 BUG-WHOIS-ECONYEAR-1030：PLAYED_Y0 到 Y1 宿營才記，經濟系那年原本走 noY0 那幾列）。經濟系當下的寫法等 AA 給；宿營同一小隊等宿營過了才寫 */
+     BB-B 10-30 BUG-WHOIS-ECONYEAR-1030：經濟系那年原本走 noY0 那幾列）。經濟系當下的寫法＝AA_543 第 6 節（企劃線 30e7b0311，「_e」那幾列）；轉進法律系那天（stage law，PLAYED_Y0 也在那時記）起照第 2 節 */
   const econNow=G=>!!G&&G.stage==='econ';
+  const econF=k=>G=>econNow(G)&&!!F(G)[k];
+  const zoula=G=>econNow(G)&&typeof PHONE!=='undefined'&&!!PHONE.inGroup&&!!PHONE.inGroup(G,'econ_friends');   /* 「走啦」群組：10/15 聚會以後（Y0_ZOULA gather／load）*/
+  const ROOM_E2={c:2,id:'room_e2',if:econF('Y0_MOVED_OUT'),t:'男宿 412 的室友，住了兩個月。',rep:['room_e']};   /* 10/19 退宿以後換掉上一行 */
   const y0=G=>!econNow(G)&&f('PLAYED_Y0')(G), noY0=G=>!econNow(G)&&!f('PLAYED_Y0')(G);
   R.econ_zhengxun=[
-    {c:1,id:'name',t:'盧正勳，大家叫他阿勳。經濟系。'},
+    {c:1,id:'name',if:G=>!econNow(G),t:'盧正勳，大家叫他阿勳。經濟系。'},
+    {c:1,id:'name_e',if:econNow,t:'盧正勳，大家叫他阿勳。經濟系，跟你同班。'},
     {c:2,id:'room',if:y0,t:'你經濟系那年的室友，男宿 412，住了兩個月。'},
     {c:2,id:'camp',if:G=>(y0(G)||econNow(G))&&!!F(G).ECON_CAMP_DONE,t:'經濟系宿營同一小隊。'},
+    {c:2,id:'room_e',if:econF('E01_DONE'),t:'男宿 412 的室友。'},ROOM_E2,
     {c:2,id:'room0',if:noY0,t:'你經濟系那年的室友。回到法律系以後，他傳訊息來：「是我，阿勳。」'},
     {c:3,id:'treat',if:G=>F(G).A3_TREAT===true,t:'你退宿那天，他幫你封箱。'},
     {c:3,id:'why',if:f('E24C_REASON'),t:'他問過你，為什麼要重考。'},
     {c:3,id:'day',if:f('XUN_DAY'),t:'法律系大一下，在共同教學館聊到很晚。'} ];
   R.econ_pinyu=[
-    {c:1,id:'name',t:'曾品妤。經濟系，可昕大一的室友。'},
+    {c:1,id:'name',if:G=>!econNow(G),t:'曾品妤。經濟系，可昕大一的室友。'},
+    {c:1,id:'name_e',if:econNow,t:'曾品妤。經濟系，跟你同班。'},
+    {c:2,id:'kx_e',if:G=>econNow(G)&&typeof STORY!=='undefined'&&!!STORY.knows&&STORY.knows('kexin',G),t:'可昕的室友。'},
+    {c:2,id:'zoula_e',if:zoula,t:'「走啦」群組裡也有她。'},
     {c:2,id:'cls',if:y0,t:'經濟系同班，「走啦」群組裡也有她。'},
     {c:2,id:'cls0',if:noY0,t:'回到法律系以後才說上話。'},
     {c:3,id:'worry',if:f('PINYU_WORRY'),t:'想當精算師。精算要一科一科考。'},
     {c:3,id:'act',if:G=>got(G,'r3_py_actuary'),t:'大四上，精算第一科過了。'},
     {c:3,id:'tr',keep:true,if:G=>got(G,'b106_42_photo'),t:'她和唐睿在一起了。'} ];
   R.econ_weilun=[
-    {c:1,id:'name',t:'邱韋綸。經濟系，口頭禪「走啦！」'},
+    {c:1,id:'name',if:G=>!econNow(G),t:'邱韋綸。經濟系，口頭禪「走啦！」'},
+    {c:1,id:'name_e',if:econNow,t:'邱韋綸。經濟系，跟你同班。口頭禪「走啦！」'},
+    {c:2,id:'camp_e',if:econF('ECON_CAMP_DONE'),t:'經濟系宿營同一小隊。'},
+    {c:2,id:'room_e',if:econF('E412_MOVEIN'),t:'男宿 412 的室友，九月二號搬進來的。'},ROOM_E2,
+    {c:2,id:'zoula_e',if:zoula,t:'「走啦」群組是他建的。'},
     {c:2,id:'room',if:y0,t:'你經濟系那年的室友（412），宿營同一小隊。「走啦」群組是他建的。'},
     {c:2,id:'room0',if:noY0,t:'你經濟系那年的室友。回到法律系以後，在法學院廣場遇到他。'},
     {c:3,id:'game',if:f('WL_GAME'),t:'大四下，跟他去看了一場球賽。'} ];
   R.econ_tangrui=[
-    {c:1,id:'name',t:'唐睿。經濟系。'},
+    {c:1,id:'name',if:G=>!econNow(G),t:'唐睿。經濟系。'},
+    {c:1,id:'name_e',if:econNow,t:'唐睿。經濟系，跟你同班。'},
     {c:1,id:'improv',if:G=>done(G,'ev_sk07_improv')||f('IMPROV_WORD')(G),t:'在即興劇社。'},
     {c:2,id:'room',if:y0,t:'你經濟系那年的室友（412）。'},
+    {c:2,id:'room_e',if:econF('E412_MOVEIN'),t:'男宿 412 的室友，九月二號搬進來的。'},ROOM_E2,
     {c:2,id:'sticky',if:G=>noY0(G)&&!!F(G).STICKY_NOTES,t:'大一上，你桌上一直出現便利貼，後來才知道是他。'},
     {c:3,id:'night',if:G=>done(G,'ev_econ_night_y2')||mem(G,'econ_tangrui','ECON_NIGHT')||mem(G,'econ_pinyu','ECON_NIGHT'),t:'經濟系之夜是他主持的。'},   /* 記憶 ECON_NIGHT 記在品妤（ev_econ_night_y2）*/
     {c:3,id:'py',keep:true,if:G=>got(G,'b106_42_photo'),t:'他和品妤在一起了。'} ];

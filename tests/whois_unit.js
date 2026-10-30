@@ -28,7 +28,7 @@ const W=()=>typeof WHOIS!=='undefined'?WHOIS:null;
 const D=k=>STORY.dayOfKey(k);
 const sec=async(n,f)=>{ try{ await f(); }catch(e){ check(n+'. 丟出例外（這一節中斷）',false,String(e&&e.stack||e).split('\n').slice(0,3).join(' / ')); } };
 let DOC='';
-try{ DOC=cp.execSync('git show 0342b98ec:"docs/story_planning/AA_543_手機人物頁_他跟你_分段稿.md"',{cwd:process.env.WHOIS_GIT_DIR||H.ROOT,encoding:'utf8',stdio:['ignore','pipe','ignore']}); }catch(e){ DOC=''; }
+try{ DOC=cp.execSync('git show 30e7b0311:"docs/story_planning/AA_543_手機人物頁_他跟你_分段稿.md"',{cwd:process.env.WHOIS_GIT_DIR||H.ROOT,encoding:'utf8',stdio:['ignore','pipe','ignore']}); }catch(e){ DOC=''; }
 /* 一份存檔：日子、旗標；camp＝宿營認識的人（FIRST_MET note camp）*/
 const save=(key,flags,camp)=>{ const G=H.fresh(key,20,'dorm',Object.assign({introDone:true},flags||{})); for(const id of (camp||[])) SOCIAL.remember(id,'FIRST_MET','camp'); return G; };
 const L=id=>W().lines(H.G,id);
@@ -42,7 +42,7 @@ const done=(id,n)=>{ H.G.events.done[id]=n||1; (H.G.events.last||(H.G.events.las
     const g=fs.readFileSync(path.join(H.ROOT,'src/game3d.js'),'utf8'), ph=g.slice(g.indexOf('function personHTML'),g.indexOf('function friendsHTML'));
     check('0. personHTML：WHOIS.desc 換個性那一行、WHOIS.lines 一行一句「· 」，放在「現在大概在」和個性中間',/WHOIS\.desc\(G,id,desc0\)/.test(ph)&&/WHOIS\.lines\(G,id\)/.test(ph)&&/現在大概在：'\+esc\(wt\)\+'<\/div>':''\)\+\(who\.length\?[^\n]*'<div>· '\+esc\(x\)\+'<\/div>'[^\n]*\+'<div>'\+esc\(desc\)/.test(ph)); });
 
-  await sec(0,()=>{ check('0. 拿得到稿（git show 0342b98ec＝d483ecbbf＋第 5 節實作確認＋芯慈兩行拿掉（D116）；有第 1、2、3、4、5 節）',DOC.length>3000&&DOC.indexOf('## 1. 法律系')>0&&DOC.indexOf('## 3. 個性那一行')>0&&DOC.indexOf('## 4. 測試')>0&&DOC.indexOf('### 5-1')>0,'長度 '+DOC.length);
+  await sec(0,()=>{ check('0. 拿得到稿（git show 30e7b0311＝d483ecbbf＋第 5 節實作確認＋芯慈兩行拿掉（D116）＋第 6 節經濟系那一年；有第 1、2、3、4、5 節）',DOC.length>3000&&DOC.indexOf('## 1. 法律系')>0&&DOC.indexOf('## 3. 個性那一行')>0&&DOC.indexOf('## 4. 測試')>0&&DOC.indexOf('### 5-1')>0,'長度 '+DOC.length);
     if(!DOC||!W()) return;
     /* 遊戲 → 稿：每一行（字串）都在稿的表格裡；函式的幾種結果另外列 */
     const COMPOSED=new Set(['室友：大二 312。','室友：大二 312、大三 507。','室友：大二 312、大三 507、大四 409。',   /* 柏翰沒有 DORM_FOUR：1-3「從有的那一年寫起」*/
@@ -115,7 +115,18 @@ const done=(id,n)=>{ H.G.events.done[id]=n||1; (H.G.events.last||(H.G.events.las
     check('5. 9/2 17:00 以後回 412（E412_MOVEIN）：韋綸、唐睿記 FIRST_MET（note dorm）；朋友清單的條件（SOCIAL.has FIRST_MET）成立',r===true&&!!G.flags.E412_MOVEIN&&J(before)===J([false,false])&&SOCIAL.has('econ_weilun','FIRST_MET')&&SOCIAL.has('econ_tangrui','FIRST_MET')&&!!G.flags.met_econ_weilun&&!!G.flags.met_econ_tangrui,J([r,before]));
     { const xs=['econ_zhengxun','econ_weilun','econ_tangrui','econ_pinyu'].map(id=>[id,WHOIS.lines(G,id)]);
       check('5. 經濟系那一年本身（stage econ，BB-B BUG-WHOIS-ECONYEAR-1030）：沒有「回到法律系以後」「那年的室友」「住了兩個月」「宿營同一小隊」（宿營還沒去）這些回頭看的列',xs.every(([id,a])=>!a.some(t=>/回到法律系以後|那年的室友|住了兩個月|宿營同一小隊|走啦」群組/.test(t))),J(xs));
-      G.flags.ECON_CAMP_DONE=true; check('5. 經濟系宿營過了：阿勳「經濟系宿營同一小隊。」',WHOIS.lines(G,'econ_zhengxun').includes('經濟系宿營同一小隊。'),J(WHOIS.lines(G,'econ_zhengxun'))); delete G.flags.ECON_CAMP_DONE; }
+      const W6=id=>WHOIS.lines(G,id);
+      check('5. AA_543 第 6 節：9/2 搬進 412 以後（現在式）：阿勳「…經濟系，跟你同班。」「男宿 412 的室友。」；韋綸、唐睿「男宿 412 的室友，九月二號搬進來的。」；品妤「曾品妤。經濟系，跟你同班。」',
+        J(W6('econ_zhengxun'))===J(['盧正勳，大家叫他阿勳。經濟系，跟你同班。','男宿 412 的室友。'])&&J(W6('econ_weilun'))===J(['邱韋綸。經濟系，跟你同班。口頭禪「走啦！」','男宿 412 的室友，九月二號搬進來的。'])&&J(W6('econ_tangrui'))===J(['唐睿。經濟系，跟你同班。','男宿 412 的室友，九月二號搬進來的。'])&&W6('econ_pinyu')[0]==='曾品妤。經濟系，跟你同班。',J(xs));
+      G.flags.ECON_CAMP_DONE=true;
+      check('5. 經濟系宿營過了：阿勳、韋綸「經濟系宿營同一小隊。」（在室友那一行前面，照表）',J(W6('econ_zhengxun'))===J(['盧正勳，大家叫他阿勳。經濟系，跟你同班。','經濟系宿營同一小隊。','男宿 412 的室友。'])&&J(W6('econ_weilun').slice(0,3))===J(['邱韋綸。經濟系，跟你同班。口頭禪「走啦！」','經濟系宿營同一小隊。','男宿 412 的室友，九月二號搬進來的。']),J([W6('econ_zhengxun'),W6('econ_weilun')]));
+      PHONE.join(G,'econ_friends','走啦');
+      check('5. 在「走啦」群組：韋綸「「走啦」群組是他建的。」、品妤「「走啦」群組裡也有她。」',W6('econ_weilun').includes('「走啦」群組是他建的。')&&W6('econ_pinyu').includes('「走啦」群組裡也有她。'),J([W6('econ_weilun'),W6('econ_pinyu')]));
+      G.flags.Y0_MOVED_OUT=true;
+      check('5. 退宿以後（Y0_MOVED_OUT）：三個人都換成「男宿 412 的室友，住了兩個月。」，原本那一行拿掉',['econ_zhengxun','econ_weilun','econ_tangrui'].every(id=>W6(id).includes('男宿 412 的室友，住了兩個月。')&&!W6(id).some(t=>/^男宿 412 的室友(。|，九月)/.test(t))),J(['econ_zhengxun','econ_weilun','econ_tangrui'].map(W6)));
+      G.stage='law'; G.flags.PLAYED_Y0=true;
+      check('5. 轉進法律系以後（stage law）：照第 2 節（「你經濟系那年的室友，男宿 412，住了兩個月。」、名字那一行「經濟系。」），沒有「_e」那幾列',J(W6('econ_zhengxun').slice(0,3))===J(['盧正勳，大家叫他阿勳。經濟系。','你經濟系那年的室友，男宿 412，住了兩個月。','經濟系宿營同一小隊。'])&&!['econ_zhengxun','econ_weilun','econ_tangrui','econ_pinyu'].some(id=>W6(id).some(t=>/跟你同班。|九月二號搬進來|^男宿 412 的室友/.test(t))),J(['econ_zhengxun','econ_weilun','econ_tangrui','econ_pinyu'].map(W6)));
+      G.stage='econ'; for(const k of ['ECON_CAMP_DONE','Y0_MOVED_OUT','PLAYED_Y0']) delete G.flags[k]; }
     const g=fs.readFileSync(path.join(H.ROOT,'src/game3d.js'),'utf8'); check('5. knownIds 認 FIRST_MET（朋友清單）',/function knownIds\(\)\{[^\n]*SOCIAL\.has\(id,'FIRST_MET'\)/.test(g)); });
 
   /* ===== 第 6 節：最多 8 行、不擠掉的、換說法 ===== */
