@@ -39,9 +39,23 @@ for line in section('晚餐').splitlines():
     act = re.search(r'」（([^）]*)）$', dad)
     if act: d['dadAct'] = act.group(1)
     dinner.append(d)
+# AA_532 第 7 節（AA-B 定稿 D109，任務 AA532-VAC-FIX-1030）：晚餐選項「我才大一。」大四還會出現 → 換成稿上那一句（媽媽的收尾照舊）。
+# 讀白名單（docs/handoff/story_import_allow.json）上 approved 的 AA_532 那一版；稿裡找不到這一句就不換
+from import_guard import load as _load, allowed as _allowed, approved_files as _approved
+A532 = 'docs/story_planning/AA_532_D99寒暑假一_過年期間別約_除夕年夜飯_家人群組_她們的放假版.md'
+_allow = _load(ROOT); a532_sha = _approved(_allow, 'docs/story_planning/AA_532').get(A532)
+if a532_sha:
+    ok, why = _allowed(A532, a532_sha, _allow)
+    if not ok: raise SystemExit(why)
+    a532 = subprocess.check_output(['git', '-C', ROOT, 'show', f'{a532_sha}:{A532}'], text=True)
+    m532 = re.search(r'「我才大一。」.*?改成「([^」]+)」', a532, re.S)
+    if m532:
+        for d in dinner:
+            for o in d['opts']:
+                if o['t'] == '我才大一。': o['t'] = m532.group(1)
 reply = section('群組')
 rep = {'yes': q(re.search(r'「會回去」→ 媽媽：(.*?)；', reply).group(1)), 'no': q(re.search(r'「這週不回」→ 媽媽：(.*?)；', reply).group(1)), 'none': q(re.search(r'不回 → 爸爸(?:（[^）]*）)?兩小時後：(.*)$', reply, re.M).group(1))}
-out = {'source': REF.replace('origin/', '') + ' ' + sha, 'group': group, 'groupReply': rep, 'arrive': arrive, 'dinner': dinner, 'sisDinner': sis, 'morning': morning, 'car': car, 'back': back}
+out = {'source': REF.replace('origin/', '') + ' ' + sha + (('＋AA_532 ' + a532_sha) if a532_sha else ''),'group': group, 'groupReply': rep, 'arrive': arrive, 'dinner': dinner, 'sisDinner': sis, 'morning': morning, 'car': car, 'back': back}
 dst = os.path.join(ROOT, 'src', 'data', 'home_lines.js')
 with open(dst, 'w', encoding='utf8') as fo:
     fo.write('/* 週末回臺北的家：家人台詞池（AA_138；產生器 tools/home/import_home_lines.py，不要手改）。來源：' + out['source'] + ' */\n')

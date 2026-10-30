@@ -201,8 +201,8 @@ const VAC_DATA=(function(){
       hallLines:[{who:'heroine_04',text:'我在飛機上要睡覺。到了再叫我。'},{who:'kai',text:'遊戲展第一天要排隊。……我查過了，九點開門。'}],   /* 進 3D 出境大廳演一次、不用選項（AA_478 第 3 節；src/vac3d.js S.hallKeys）*/
       keys:[
         {day:'07-04',h:14,title:'遊戲展',bg:null,lines:[{narr:'（展場很小，攤位一個挨著一個。子晴在一個攤位前站了二十分鐘，一直玩同一關。）'},{who:'heroine_04',text:'這關設計得很爛。……可是我停不下來。'}]},
-        {day:'07-05',h:20,title:'夜市',bg:'trip_th_nightmarket',lines:[{narr:'（阿凱一個人吃了三份炒河粉。）'},{who:'kai',text:'……還有一攤。'}]},
-        {day:'07-06',h:21,title:'最後一晚',bg:null,lines:[{who:'heroine_04',text:'回去我就要進工作室了。……先吃這一攤。'}]} ],
+        {day:'07-05',h:20,title:'夜市',bg:'trip_th_nightmarket',lines:[{narr:'（阿凱一個人吃了三份炒河粉。）'},{who:'kai',text:'……還有一攤。'},G=>Y(G).dating_heroine_04===true?[{narr:'（回旅館的路上，阿凱走在前面。子晴的手指勾了一下你的。）'},{who:'heroine_04',text:'……他看不到。'}]:null]},   /* AA_532 6-2：和子晴交往中照朋友版演，只加這兩處 */
+        {day:'07-06',h:21,title:'最後一晚',bg:null,lines:[{who:'heroine_04',text:'回去我就要進工作室了。……先吃這一攤。'},G=>Y(G).dating_heroine_04===true?[{who:'heroine_04',text:'工作室在信義區。……週末我還是回公館。'}]:null]} ],
       miss:{day:'07-07',h:21,who:'heroine_04',min:'FAMILIAR',msgs:['📷（夜市）','阿凱吃了三份'],unless:G=>typeof STORY!=='undefined'&&STORY.routeAbroadRoute&&STORY.routeAbroadRoute(G)==='JP'} },
     /* ===== 出國的活動（AA_242 18fe1b6a 照抄；AA_199 7-4）：學校、團隊、新 NPC 全部虛構；海外的關鍵事件是 2D 場景（底圖等使用者給，先用暗底）=====
        沒錄取（BB-C 13:03，AA_199 3-5／3-7「限制玩家的是時間」）：C08、C11 要用掉一個時段寫申請資料（報名隔天 20:00 宿舍書桌）、C09 面試人要到；沒做＝公布那天「很遺憾」＋阿哲一句，可以改報別的。日子 BB 確認（C08 說明會第 14 週週三 12:20、C09 面試第 7 週週三 19:00、C11 結果第 8 週週一 12:00）。 */
@@ -309,7 +309,7 @@ const VAC_DATA=(function(){
       depart:{zhe:'又去日本',yu:'你是不是住在日本了'}, back:{},
       trip:{ start:{day:'08-09',h:7}, end:{day:'08-27',h:22}, placeName:'京都', home:'auto' },
       keys:[
-        {day:'08-10',h:9,title:'第一堂',bg:'intl_kyoto_school',lines:[G=>AN_C12(G)?[{narr:'（休息時間，走廊另一頭有人叫你的名字。是以安，她在中級班。）'},{who:'heroine_01',text:'你也來了？'},{who:'heroine_01',text:'我七月考完日檢，想說趁暑假多練口說。'}]:[{narr:'（教室裡有十二個人，來自八個國家。老師用日文說了一句話，大家都笑了，你沒聽懂。）'}]],
+        {day:'08-10',h:9,title:'第一堂',bg:'intl_kyoto_school',lines:[G=>AN_C12(G)?(Y(G).dating_heroine_01===true?[{narr:'（休息時間，以安在走廊等你。她在中級班。）'},{who:'heroine_01',text:'分班考分的。我中級，你初級。'},{who:'heroine_01',text:'……下課我在這裡等你。'}]:[{narr:'（休息時間，走廊另一頭有人叫你的名字。是以安，她在中級班。）'},{who:'heroine_01',text:'你也來了？'},{who:'heroine_01',text:'我七月考完日檢，想說趁暑假多練口說。'}]):[{narr:'（教室裡有十二個人，來自八個國家。老師用日文說了一句話，大家都笑了，你沒聽懂。）'}]],   /* AA_532 6-1（企劃線 ade80d22f）：和以安交往中的第一堂換版（她知道你也報了，不說「你也來了？」）；選項、回覆照舊 */
           choiceIf:G=>AN_C12(G), choice:[{t:'「妳是中級喔。」',say:[{who:'heroine_01',text:'分班考分的。……你不要叫我老師。'}]},{t:'「下課一起吃飯？」',say:[{who:'heroine_01',text:'好。我知道一間便宜的，我查過了。'}]}]},
         {day:'08-19',h:14,title:'文化課：茶道',bg:'intl_kyoto_tearoom',lines:[{narr:'（跪坐十分鐘以後，你的腳麻了。老師說，茶碗要轉兩次。）'},{narr:'（你轉了三次。老師看了一眼，沒說話，笑了一下。）'}]},
         {day:'08-27',h:15,title:'最後一天',bg:'intl_kyoto_school',lines:[{narr:'（老師發了結業證書，上面的名字用片假名寫，你念了兩次才念對。）'},G=>AN_C12(G)?[{who:'heroine_01',text:'你的名字片假名好長。'},{who:'heroine_01',text:'……我幫你念一次。'}]:null]} ] },

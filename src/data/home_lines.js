@@ -1,7 +1,7 @@
-/* 週末回臺北的家：家人台詞池（AA_138；產生器 tools/home/import_home_lines.py，不要手改）。來源：claude/magical-albattani-bk7b4n 1c341e21 */
+/* 週末回臺北的家：家人台詞池（AA_138；產生器 tools/home/import_home_lines.py，不要手改）。來源：claude/magical-albattani-bk7b4n ea43bd9a0＋AA_532 ade80d22f */
 'use strict';
 const HOME_LINES={
-"source": "claude/magical-albattani-bk7b4n 1c341e21",
+"source": "claude/magical-albattani-bk7b4n ea43bd9a0＋AA_532 ade80d22f",
 "group": [
 {
 "who": null,
@@ -146,7 +146,7 @@ const HOME_LINES={
 "mom": "你爸問，你以後當律師，要不要幫他看合約？",
 "opts": [
 {
-"t": "我才大一。"
+"t": "我還在念書。"
 },
 {
 "t": "好，但要收錢。"
