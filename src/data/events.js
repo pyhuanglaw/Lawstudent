@@ -2522,7 +2522,7 @@ const STORY_EVENTS=[
      取代舊 E19 誤會、E21 除夕「不然要在一起嗎」、E25 醉月湖告白、3/22 的摩天輪。三個回答都是接受，記 KX_CAR（camp／only_me／take_back）。
      這天開始交往：dating_kexin、Y0_DATING、KX_DATING_SINCE、E26_DAY（法律系房間的票根「兩個人開始交往的那一天」）。排程在 story3d.js（15:30 私訊之後的固定出遊 y0_e26）。
      「睡醒的時候。」AA_224 表格寫在她那一欄，照語意是祐廷的回答（她問「你那天一直在睡覺」）*/
-  { id:'ev_y0_e26', stage:'econ', title:'車上', participants:['kexin'], location:'any', trigger:'outing', once:true, background:'dark', hours:5.17, kxAway:true,   /* AA_309 第 2 列：17:40 到社科院門口（回家拿車鑰匙、跟媽媽說在那之前：econff3d.js 16:10 出發）→ 回到宿舍「快十一點」（22:50）。原本 17:40 才出發、19:10 才到，她等了兩個多小時。
+  { id:'ev_y0_e26', stage:'econ', title:'車上', participants:['kexin'], location:'any', trigger:'outing', once:true, get background(){ return typeof OUT!=='undefined'&&OUT.bg?OUT.bg('home_entry_night'):'dark'; }, hours:5.17, kxAway:true,   /* 開頭「（你拿了車鑰匙出門。）」的底圖：家裡的玄關（BLACK-BG-AUDIT-1018，BB_132 第 100 組；稿沒有地點字幕＝不加場景，事件的 background 讀 OUT.BG，getter）*/   /* AA_309 第 2 列：17:40 到社科院門口（回家拿車鑰匙、跟媽媽說在那之前：econff3d.js 16:10 出發）→ 回到宿舍「快十一點」（22:50）。原本 17:40 才出發、19:10 才到，她等了兩個多小時。
      kxAway：結尾在 412、她不在（AA_309 第 3 列：可昕不在場的場景後面不接她的閒聊階梯，outings3d.js）*/
     dialogue:[ {speaker:null,text:'（你拿了車鑰匙出門。）'},   /* AA_308 第 4 節：到家、跟媽媽說在 ev_y0_e30 結尾 */
       {scene:'首都帝大・社科院門口',bg:'car_night'},{speaker:null,text:'（社科院門口。她拉開車門坐進來。）'},
@@ -2715,6 +2715,10 @@ const STORY_EVENTS=[
     const rsLines=[]; [['「你又比我早起。……今天早餐我請。」'],['（她放下包包）','「你讀到哪了？……三章？好，我也要到第三章。」'],['「你的螢光筆快沒水了。我這支先借你。」'],['「我帶了兩杯飲料。你那杯是賄賂：等一下讓我先問問題。」'],['（她把包包放下，先趴在桌上一下。）','「……好，我可以了。」']]
       .forEach((L,i)=>{ for(const t of L){ const narr=/^（/.test(t); rsLines.push({if:{custom:G=>{ const S=ST(); return !!S&&S.rsPick(G)===i; }},speaker:narr?null:'kexin',...(narr?{}:{expression:'smile'}),text:narr?t:t.replace(/^「|」$/g,'')}); } });
     const rpLines=[{if:{custom:G=>!!G.flags.RP_TXT},speaker:null,text:'{flag:RP_TXT}'}];   /* 出門前（beforeOuting）選好那一句 */
+    /* 那一句的地方有現成的背景就換（BLACK-BG-AUDIT-1018，BB_132 第 100 組「用那次出門目的地的背景」；STORY.RP 的第幾句＝RP_LAST）：
+       0 公館的二輪戲院＝gongguan_cinema、3 淡水看海＝d13_base_sunset（淡水）。溫州街（wenzhou 沒有圖）、映月湖（只有晚上的 zuiyue_night，這裡是白天）、公館的咖啡店、芒果冰沒有現成的，照舊深色底 */
+    const RP_BG={0:['公館・二輪戲院','gongguan_cinema'],3:['淡水','d13_base_sunset']};
+    const rpScene=Object.keys(RP_BG).map(i=>({if:{custom:G=>G.flags.RP_LAST===+i},scene:RP_BG[i][0],bg:RP_BG[i][1]}));
     return [
       study('ev_y0_r1','互相出題的第一天','r1',[ {speaker:null,text:'（她搬來的第一天。你媽端了一盤水果出來，放下就回廚房了。）'},{scene:'祐廷家・你的房間',bg:'home_room_day'},{speaker:'kexin',expression:'teasing',text:'如果憲法是一間餐廳，第七條是什麼菜？'},
         {choice:[{text:'「白飯。每一桌都有，每個人拿到的一樣多。」',goto:'a'},{text:'「套餐。男女、宗教、種族、階級、黨派，都是同一份菜單。」',goto:'b'},{text:'「主廚推薦。主廚說了算。」',goto:'c'}]},
@@ -2735,7 +2739,7 @@ const STORY_EVENTS=[
         {label:'e'},{speaker:'kexin',expression:'smile',text:'好了。去吃東西。'} ]),
       play('ev_y0_r6','河濱的休息日','riverside',4,[ {scene:'河濱',bg:'riverside'},{speaker:null,text:'（騎到河濱，風從河面吹過來，有一點草的味道。）'},{speaker:'kexin',expression:'teasing',text:'今天不讀書。這是規定。'},{speaker:'player',text:'誰規定的？'},{speaker:'kexin',expression:'laugh',text:'我。剛剛。'},
         {speaker:null,text:'（她把手機收進包包，在草地上躺下來。）'},{speaker:'kexin',expression:'teasing',text:'你手機也收起來。'},{speaker:null,text:'（你也把手機收起來。你們躺到太陽快下山，才騎回去。）'} ]),
-      Object.assign(play('ev_y0_rp','和可昕出門','dark',3,[ ...rpLines ]),{ beforeOuting:(G)=>{ const S=ST(); if(!S) return; const i=S.rpPick(G); G.flags.RP_LAST=i; G.flags.RP_TXT=i>=0?S.RP[i][2]:''; },
+      Object.assign(play('ev_y0_rp','和可昕出門','dark',3,[ ...rpScene, ...rpLines ]),{ beforeOuting:(G)=>{ const S=ST(); if(!S) return; const i=S.rpPick(G); G.flags.RP_LAST=i; G.flags.RP_TXT=i>=0?S.RP[i][2]:''; },
         after:(G)=>{ if(typeof EVENTS!=='undefined'&&EVENTS.habit) EVENTS.habit('retake:play'); const S=ST(), i=G.flags.RP_LAST; if(S&&i!=null&&i>=0) S.rUse(G,'RP_USED',i); } }),
       { id:'ev_y0_r4', retired:'AA_298 第 2 節（使用者「根本沒有模擬考」），定義留給已經演過的舊存檔', stage:'econ', title:'模擬考很爛的那一天', participants:['kexin'], location:'campus', trigger:'auto', term:['Y0S2'], once:true, background:'blur',
         prereq:{custom:G=>{ const S=ST(); if(!S) return false; const d=S.dayOfKey('2025-04-19'); if(G.day!==d||G.zone!=='campus'||G.hour<16||G.hour>=18) return false;
@@ -2863,10 +2867,11 @@ const STORY_EVENTS=[
       {speaker:'kexin',expression:'smile',text:'……早點睡。不要躺在床上難過。'},{speaker:'player',text:'妳也是。'},{set:{KH_MADEUP:true}} ];
     const madeDue=G=>{ const d=DK('2025-07-25'); return d!=null&&(G.day>d||(G.day===d&&G.hour>=22.5))&&G.day<=d+1&&!!G.flags.KH_CALL_DONE&&!G.flags.KH_MADEUP; };
     const d25=G=>{ const d=DK('2025-07-25'); return d!=null&&G.day===d&&!!G.flags.dating_kexin&&!G.flags.KH_DAY; };
-    const busDue=G=>d25(G)&&G.hour>=2.5&&G.flags.KH_GO==='bus', homeDue=G=>d25(G)&&G.hour>=7.5&&G.flags.KH_GO!=='bus';   /* AA_368 M7：客運版 02:30 開始（原本 06:00）*/
+    const busDue=G=>d25(G)&&G.hour>=2.5&&G.flags.KH_GO==='bus', homeDue=G=>d25(G)&&G.hour>=7.5&&G.flags.KH_GO!=='bus';
+    const BUS_BG=()=>typeof OUT!=='undefined'&&OUT.bg?OUT.bg('bus_night'):'dark';   /* 客運版開頭「（凌晨兩點半，你搭上南下的夜班客運。）」先借夜裡的客運 bus_night（BLACK-BG-AUDIT-1018，BB_132 第 100 組；夜班客運車廂另外要一張 coach_night）*/   /* AA_368 M7：客運版 02:30 開始（原本 06:00）*/
     return [
-      { id:'ev_y0_kh_bus_h', stage:'econ', title:'成績公布', participants:['kexin'], location:'any', trigger:'home', once:true, background:'dark', prereq:{custom:busDue}, dialogue:busLines, after:busAfter },
-      { id:'ev_y0_kh_bus', stage:'econ', title:'成績公布', participants:['kexin'], location:'any', trigger:'auto', once:true, background:'dark', prereq:{custom:G=>busDue(G)&&!atHome(G)}, dialogue:busLines, after:busAfter },
+      { id:'ev_y0_kh_bus_h', stage:'econ', title:'成績公布', participants:['kexin'], location:'any', trigger:'home', once:true, get background(){ return BUS_BG(); }, prereq:{custom:busDue}, dialogue:busLines, after:busAfter },
+      { id:'ev_y0_kh_bus', stage:'econ', title:'成績公布', participants:['kexin'], location:'any', trigger:'auto', once:true, get background(){ return BUS_BG(); }, prereq:{custom:G=>busDue(G)&&!atHome(G)}, dialogue:busLines, after:busAfter },
       { id:'ev_y0_kh_home_h', stage:'econ', title:'成績公布', participants:['kexin'], location:'any', trigger:'home', once:true, background:'dark', prereq:{custom:homeDue}, dialogue:homeLines },
       { id:'ev_y0_kh_home', stage:'econ', title:'成績公布', participants:['kexin'], location:'any', trigger:'auto', once:true, background:'blur', prereq:{custom:G=>homeDue(G)&&!atHome(G)}, dialogue:homeLines },
       { id:'ev_y0_kh_call_h', stage:'econ', title:'電話', participants:['kexin'], location:'any', trigger:'home', once:true, background:'dark', prereq:{custom:callDue}, dialogue:callLines },
@@ -2895,7 +2900,7 @@ const STORY_EVENTS=[
     const rdue=G=>{ const d=D(); return d!=null&&G.day===d&&G.hour>=10&&!G.flags.E36_RESULT; }, rlines=[ {speaker:null,text:'（八月十三日，早上十點。榜單公布了。）'},{speaker:null,text:'（首都帝大法律學系，財經法學組。你的名字在上面。）'},{speaker:null,text:'（分數只比那一組的錄取分數高 0.1。）'},{set:{E36_RESULT:true}} ];   /* AA_224 6-6：0.1 只出現在旁白和他那一句 */
     return [
       /* 白天看到結果（AA_154 A49：兩句系統旁白，接著可昕 10:05 的私訊）：ev_y0_e36r＝不在家；ev_y0_e36rh＝在臺北的家 */
-      { id:'ev_y0_e36r', stage:'econ', title:'八月放榜', participants:[], location:'any', trigger:'auto', once:true, background:'dark', prereq:{custom:G=>rdue(G)&&!atHome(G)}, dialogue:rlines },
+      { id:'ev_y0_e36r', stage:'econ', title:'八月放榜', participants:[], location:'any', trigger:'auto', once:true, get background(){ return typeof OUT!=='undefined'&&OUT.bg?OUT.bg('home_room_day'):'dark'; }, prereq:{custom:G=>rdue(G)&&!atHome(G)}, dialogue:rlines },   /* 底圖 home_room_day（BLACK-BG-AUDIT-1018，BB_132 第 100 組；不加地點字幕）*/
       { id:'ev_y0_e36rh', stage:'econ', title:'八月放榜', participants:[], location:'any', trigger:'home', once:true, background:'dark', prereq:{custom:rdue}, dialogue:[{scene:'臺北的家',bg:'home_room'}].concat(rlines) },   /* BB_216 B：在家看榜接 home_room */
       { id:'ev_y0_e36', stage:'econ', title:'放榜的電話', participants:['kexin'], location:'any', trigger:'auto', once:true, background:'blur', prereq:{custom:G=>due(G)&&!atHome(G)}, dialogue:lines },
       { id:'ev_y0_e36h', stage:'econ', title:'放榜的電話', participants:['kexin'], location:'any', trigger:'home', once:true, background:'dark', prereq:{custom:due}, dialogue:lines },
