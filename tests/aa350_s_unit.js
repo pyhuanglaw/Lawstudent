@@ -110,6 +110,8 @@ const txt=th=>(G.msgs||[]).filter(m=>m.th===th).map(m=>(m.from||'')+':'+m.text);
     check('S6. 以安：約 D26 臺中不擋（她人在臺中）；8/9（回來了）、7/24（還沒走）照常',b.why!==AN&&c.why!==AN&&d.why!==AN,JSON.stringify([b.ok,b.why,c.ok,c.why,d.ok,d.why])); }
   { const ZR='「那個禮拜我回台中了。換一天好不好？」', a=ask('heroine_02','2026-06-29','2026-07-02','D13',10,{dating_heroine_02:true}), b=ask('heroine_02','2026-06-29','2026-07-04','D26',8,{dating_heroine_02:true}), c=ask('heroine_02','2026-06-29','2026-06-30','D13',10,{dating_heroine_02:true});
     check('S6. 芷若：6/29 約 7/2（她回台中了）淡水＝擋，「那個禮拜我回台中了。換一天好不好？」；D26 臺中不擋；6/30 照常',!a.ok&&a.why===ZR&&b.why!==ZR&&c.why!==ZR,JSON.stringify([a.why,b.why,c.why])); }
+  { const e=ask('heroine_02','2026-07-03','2026-07-06','D26',8,{dating_heroine_02:true}), f=ask('heroine_02','2026-07-03','2026-07-08','D26',15,{dating_heroine_02:true});
+    check('S6b. 芷若在台中（7/6 週一、7/8 週三）：去台中找她（D26）不會被她臺北的 Café 班表擋成「她那時候有事」（子代理 10-31 讀碼：INV.busyAt 不看 presence）',!/她那時候|隔天她/.test(e.why||'')&&!/她那時候|隔天她/.test(f.why||''),JSON.stringify([e.ok,e.why,f.ok,f.why])); }
   { fresh(D('2026-07-23'),9,'dorm',{dating_heroine_01:true}); know('heroine_01',60); const t=DATE.book(G,{who:'heroine_01',locs:['D13'],day:D('2026-07-24'),depart:10,by:'player'}); const q=OUT.rec(G).find(x=>x.dateTrip===t.trip);
     const keep=GM.toast; let toasts=[]; GM.toast=m=>toasts.push(m); picks=[1,0]; G.day=D('2026-07-24'); G.weekday=wdOf(G.day); G.hour=10; const r=await DATE.move(GM,q,t); GM.toast=keep;
     check('S6. 改時間「改到明天同一個時間」撞到她回台中（7/25）：說那一句、不改',toasts.includes('「那幾天我在台中。……換一天。」')&&t.day===D('2026-07-24'),JSON.stringify([toasts,K(t.day),r])); }
