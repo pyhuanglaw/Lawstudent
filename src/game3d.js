@@ -635,7 +635,7 @@ const GAME = (function(){
   /* 手機「訊息」（交接包 v1：群組、置頂、可以回的訊息，src/phone3d.js）：最上面是「待回覆」（邀約、可以回的訊息）、對話串（點了看整段，群組的置頂在最上面），下面照舊是最近的訊息 */
   let phoneThread=null, phoneMsgPick=null, phoneMsgShare=false;
   const escH=s=>String(s).replace(/[&<>"]/g,ch=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'})[ch]);
-  const msgWhen=m=>(m.day===G.day?'今天':(m.day===G.day-1?'昨天':(CALENDAR.dateOf(m.day).m+'/'+CALENDAR.dateOf(m.day).d)))+' '+INV.hhmm(m.h);
+  const msgWhen=m=>{ const ed=G.day+Math.floor((+G.hour||0)/24); return (m.day===ed?'今天':(m.day===ed-1?'昨天':(CALENDAR.dateOf(m.day).m+'/'+CALENDAR.dateOf(m.day).d)))+' '+INV.hhmm(m.h); };   /* 過了半夜 G.day 不換、G.hour 超過 24：照實際的那一天比（BB-B 10-31 n27 NIGHT_REAL：一路玩過午夜，01:31 的訊息寫成「3/14 01:31」，直接跳到 01:15 才寫「今天」）*/
   const askBtns=m=>'<div class="row2" style="gap:6px;margin-top:6px;flex-wrap:wrap">'+m.ask.opts.map((o,k)=>{ const blk=typeof PHONE!=='undefined'&&PHONE.optBlocked&&PHONE.optBlocked(G,o); return '<button class="btn'+(k===0&&!blk?' pri':'')+'"'+(blk?' disabled style="opacity:.5"':'')+' data-ask="'+escH(m.ask.id+'|'+k)+'">'+escH(o.t)+(blk&&o.need.why?'（'+escH(o.need.why)+'）':'')+(o.hint?'<div style="font-size:12px;opacity:.75;line-height:1.3;margin-top:2px">'+escH(o.hint)+'</div>':'')+'</button>'; }).join('')+'</div>';   /* o.hint：選項旁邊的小字（同對話選項的 hint；例：學姊第十二批撞期「那天晚上也是公法讀書會」，AA_490）；字色跟著按鈕（pri 是亮底深字）*/
   /* 訊息帶的照片是一張 CG（m.cg，phone3d.js；例：CG-2b Alison 在公法讀書會群組傳的白板，AA_343 E2）：在文字下面顯示，白邊像手機照片 */
   const msgPhoto=m=>m&&m.cg&&typeof CG_REGISTRY!=='undefined'&&CG_REGISTRY[m.cg]?'<div style="margin-top:6px"><img src="'+escH(CG_REGISTRY[m.cg].file)+'" alt="" style="display:block;width:100%;max-width:300px;border:4px solid #fff;border-radius:6px;box-shadow:0 1px 4px rgba(0,0,0,.35)"></div>':'';
