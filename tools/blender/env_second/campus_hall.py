@@ -88,6 +88,11 @@ def build(c, out=None):
         # 總圖第一版用 concrete_wall_006（清水混凝土）：遊戲裡門廊的柱子滿是褐色水痕，比套件的切石還髒（library_after_porch 第一版）
         'trim': L.pbr('ck_trim', 'sandstone_blocks_08', tile=3.0, sat=0.45, target=c['trim'], normal=0.6, maps=('diff', 'nor'), res=512, rough_value=0.8),
         'trimw': L.pbr('ck_trim_win', 'sandstone_blocks_08', tile=3.0, sat=0.45, target=c['trim'], maps=('diff',), res=512, rough_value=0.8),   # 同一張顏色貼圖（GLB 裡只存一份）
+        # 柱子（CAM-PILLAR-HALLS-1031，LAWWW2-B 2026-10-31）：和石材、面磚同一張貼圖，另外一個材質。名字 seethru_ 開頭：遊戲（zones3d.js attachWenzhouModel）標成樹幹透視，
+        #   擋在跟隨鏡頭和玩家之間時網點透空（從門廊側邊走向大門時柱子把人切掉一半）。收邊（簷口、拱圈、門廊頂板）、牆照舊不透
+        'col': L.pbr('seethru_ck_col', 'sandstone_blocks_08', tile=3.0, sat=0.45, target=c['trim'], normal=0.6, maps=('diff', 'nor'), res=512, rough_value=0.8),   # 門廊石柱（柱身、柱頭、柱礎）、拱廊柱墩的柱頭柱腳
+        'pier': L.pbr('seethru_ck_pier', 'exterior_wall_cladding_02', tile=2.0, target=c['wall'], normal=0.8, maps=('diff', 'nor'), rough_value=0.88,
+                      **({'sat': c['wall_sat']} if c.get('wall_sat') else {})),   # 拱廊的面磚柱墩
         'base': L.pbr('ck_stone_base', 'granite_tile_03', tile=1.2, target='#9a948a', maps=('diff',), res=256, rough_value=0.7),
         'roof': L.pbr('ck_roof', 'grey_roof_tiles', tile=3.0, target=c['roof'], normal=0.8, maps=('diff', 'nor'), rough_value=0.82),   # 實際 3 m 一張
         'ceil': L.flat('ck_ceiling', '#e2dccf', rough=0.95),
@@ -307,12 +312,13 @@ def build(c, out=None):
     wall_strip(ARC_BACK, -W / 2, W / 2, 0.0, GFH, holes)
     for sx in (-1, 1): face(acc('wall'), [(sx * W / 2, GFH - 0.3, D / 2 - AD), (sx * W / 2, GFH - 0.3, D / 2 - 0.6), (sx * W / 2, GFH, D / 2 - 0.6), (sx * W / 2, GFH, D / 2 - AD)], (sx, 0, 0))   # 拱廊兩端：天花板到樓板腰帶之間的端牆
     wm, tm = acc('wall'), acc('trim')
+    pm, cm = acc('pier'), acc('col')   # 柱子：網點透空的材質（見 M 的 col、pier）
     for i in range(NB + 1):   # 柱墩（面磚）＋柱頭、柱腳（石材）
         x = -W / 2 + BW * i; corner = i in (0, NB)
         # 轉角的柱墩一路到樓板腰帶（套件的轉角柱子上面是空的，從側面看像一根柱子頂著空氣）
-        box(wm, x - APW / 2, x + APW / 2, 0.4, GFH if corner else AYS - 0.11, FZ - 0.3, FZ + 0.3, skip=('bottom', 'top'))
-        box(tm, x - APW / 2 - 0.08, x + APW / 2 + 0.08, AYS - 0.11, AYS + 0.11, FZ - 0.39, FZ + 0.39)   # 柱頭正面比拱圈石材（外凸 6 cm）再凸一點：同一平面會閃爍
-        box(tm, x - APW / 2 - 0.06, x + APW / 2 + 0.06, 0.0, 0.4, FZ - 0.35, FZ + 0.35, skip=('bottom',))
+        box(pm, x - APW / 2, x + APW / 2, 0.4, GFH if corner else AYS - 0.11, FZ - 0.3, FZ + 0.3, skip=('bottom', 'top'))
+        box(cm, x - APW / 2 - 0.08, x + APW / 2 + 0.08, AYS - 0.11, AYS + 0.11, FZ - 0.39, FZ + 0.39)   # 柱頭正面比拱圈石材（外凸 6 cm）再凸一點：同一平面會閃爍
+        box(cm, x - APW / 2 - 0.06, x + APW / 2 + 0.06, 0.0, 0.4, FZ - 0.35, FZ + 0.35, skip=('bottom',))
 
     def arch_bay(m, mring, xc, bw, ys, top, r, zf, zb, n=NSEG_A, ring=0.14, clip=(-1e9, 1e9)):
         """一個開間的拱圈牆：正面（zf）、背面（zb）、拱腹；正面加石材拱圈。clip：左右兩塊不超出這個範圍（被轉角的柱子、門廊側牆蓋住的部分不做，避免同一平面重疊）"""
@@ -405,17 +411,17 @@ def build(c, out=None):
                      (xc + rb * math.cos(a1), yb, zc + rb * math.sin(a1)), (xc + rb * math.cos(a0), yb, zc + rb * math.sin(a0))],
                  (math.cos(am) * (yb - ya), ra - rb, math.sin(am) * (yb - ya)))
 
-    rcol = Mesh(c['prefix'] + 'col', M['trim']) if po.get('cols') == 'round' else None   # 圓柱另外一個網格（平滑著色），最後和石材合併成同一個（同一個材質）
+    rcol = Mesh(c['prefix'] + 'rcol', M['col']) if po.get('cols') == 'round' else None   # 圓柱另外一個網格（平滑著色），最後和柱子合併成同一個（同一個材質 seethru_ck_col）
     for i in range(1, PB):
         x = -PWID / 2 + PBW * i
         if rcol:   # 圓石柱：方形柱礎（0.8 m）＋柱腳圓盤＋圓柱身（直徑 0.6 m，往上稍微收分）＋喇叭形柱頭；上面的拱墩照舊（導航阻擋是套件的 0.9 m 方形，柱子在裡面）
             zc = (pzb + pzf) / 2
-            box(tm, x - 0.4, x + 0.4, 0.0, 0.3, zc - 0.4, zc + 0.4, skip=('bottom',))
+            box(cm, x - 0.4, x + 0.4, 0.0, 0.3, zc - 0.4, zc + 0.4, skip=('bottom',))
             ring(rcol, x, zc, 0.3, 0.37, 0.42, 0.31); ring(rcol, x, zc, 0.42, 0.31, PYS - 0.42, 0.28)
             ring(rcol, x, zc, PYS - 0.42, 0.28, PYS - 0.34, 0.32); ring(rcol, x, zc, PYS - 0.34, 0.32, PYS - 0.12, 0.44)
         else:
-            box(tm, x - PPW / 2, x + PPW / 2, 0.0, PYS - 0.12, pzb, pzf, skip=('bottom', 'top'))
-        box(tm, x - PPW / 2 - 0.08, x + PPW / 2 + 0.08, PYS - 0.12, PYS + 0.1, pzb - 0.09, pzf + 0.09)
+            box(cm, x - PPW / 2, x + PPW / 2, 0.0, PYS - 0.12, pzb, pzf, skip=('bottom', 'top'))
+        box(cm, x - PPW / 2 - 0.08, x + PPW / 2 + 0.08, PYS - 0.12, PYS + 0.1, pzb - 0.09, pzf + 0.09)   # 柱頭（拱墩）
     for i in range(PB): arch_bay(tm, acc('trimw'), -PWID / 2 + PBW * (i + 0.5), PBW, PYS, PH, PR, pzf, pzb, ring=0.16, clip=(-PWID / 2 + 0.45, PWID / 2 - 0.45))
     for sx in (-1, 1):
         x0, x1 = sx * PWID / 2 - 0.45, sx * PWID / 2 + 0.45

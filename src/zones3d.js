@@ -1207,7 +1207,7 @@ const Z3 = (function(){
       const nn=WZ_NIGHT[nm]; if(nn){ mt.emissive=new THREE.Color(nn[0]); TK.addNight(mt,nn[1],nn[2]); }
       if((nm==='ck_glass'||nm==='ck_pav_dark')&&mt.emissiveMap){ const t=mt.emissiveMap; t.generateMipmaps=false; t.minFilter=THREE.LinearFilter; t.needsUpdate=true; }   /* 校園地標的玻璃：亮燈、沒亮燈的窗同一個材質，自發光貼圖左半黑、右半燈光（campus_hall.py）；不用 mipmap，遠處左右兩半才不會混在一起（沒亮燈的窗發光） */
       if(nm==='jp_shoji'){ mt.emissiveMap=mt.map; }   /* 紙拉門：亮燈時整片紙發光、木格比較暗 */
-      if((/^wz_pillar_/.test(nm)||nm==='wz_pole_concrete'||nm==='gt_palm_bark'||nm==='gt_palm')&&E.patchSeeThrough){ mt.userData.seeThrough=true; E.patchSeeThrough(mt); }   /* 騎樓柱子、共同教學館前的蒲葵：擋住玩家時網點透空（和套件的柱子、樹一樣） */
+      if((/^wz_pillar_/.test(nm)||/^seethru_/.test(nm)||nm==='wz_pole_concrete'||nm==='gt_palm_bark'||nm==='gt_palm')&&E.patchSeeThrough){ mt.userData.seeThrough=true; E.patchSeeThrough(mt); }   /* seethru_ 開頭：校舍門廊、拱廊的柱子（campus_hall.py 的 seethru_ck_col、seethru_ck_pier；CAM-PILLAR-HALLS-1031，測試 node tests/campus_hall_pillar_seethru_unit.js）*/ /* 騎樓柱子、共同教學館前的蒲葵：擋住玩家時網點透空（和套件的柱子、樹一樣） */
       if(nm&&nm.indexOf('cafe_leaf_')===0){ mt.alphaTest=Math.max(mt.alphaTest||0,0.5); mt.side=THREE.DoubleSide; }
       if(nm==='ck_bell_wash'){ mt.emissive=new THREE.Color(0xffffff); mt.emissiveMap=mt.map; mt.map=null; mt.color=new THREE.Color(0x000000); mt.roughness=1; mt.metalness=0; mt.transparent=true; mt.depthWrite=false; mt.blending=THREE.AdditiveBlending; mt.fog=false; TK.addNight(mt,0.75,0); mt.needsUpdate=true; } });   /* 傅鐘柱面的暖光（和套件一樣）：黑色底＋由下往上淡出的自發光、加法混合——白天看不到，晚上像地燈往上打的光 */
     /* 招牌（橫、直立）、門牌告示牌：每一面原本各自一張 canvas、各自一次 draw call（整條巷子 29 面）→ 合成一張 atlas、一個網格 */

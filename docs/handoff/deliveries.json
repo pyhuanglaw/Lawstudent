@@ -16506,6 +16506,19 @@
    "task": "BUG-CAM-PILLAR-LAWA-1031",
    "integration": "已驗收",
    "note": "LAWWW-B 05:5x 套上：apply 乾淨、linze_pillar_seethru、r2y4b、nav_buildings、linze_lightmap、kit_nav_check ALL PASS｜10-31 06:2x BB n27_xcrom_d ALL PASS"
+  },
+  {
+   "id": "DL-LW2-CAM-HALLS-1031",
+   "date": "2026-10-31",
+   "from": "LAWWW2-B",
+   "account": "B",
+   "branch": "claude/funny-albattani-iawshm",
+   "sha": "df50d290f",
+   "msg": "ACK",
+   "what": "CAM-PILLAR-HALLS-1031：總圖、行政大樓、文學院、校史館門廊柱子／拱廊柱墩 seethru_ 材質，四棟 GLB 重新匯出；attachWenzhouModel 認 seethru_（cam_pillar_halls_1031.patch、campus_hall_pillar_seethru_unit）",
+   "task": "CAM-PILLAR-HALLS-1031",
+   "integration": "已整合待測試",
+   "note": "LAWWW-B 06:4x 套上：apply 乾淨、campus_hall_pillar_seethru、linze_pillar_seethru、nav_buildings、kit_nav_check ALL PASS"
   }
  ],
  "ignored": [
