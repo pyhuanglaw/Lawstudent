@@ -16662,6 +16662,19 @@
    "task": "HISTORY-AUDIT-1031",
    "integration": "已驗收",
    "note": "稽核結果：history_audit.py 合併重算；tier 4 接回 V6-B2、V6-B5、BB198-VACB22、SYS-13，新開 BB152-SPORT-DATES-1031"
+  },
+  {
+   "id": "DL-LW2-GYM-B1-LM-1031",
+   "date": "2026-10-31",
+   "from": "LAWWW2-B",
+   "account": "B",
+   "branch": "claude/funny-albattani-iawshm",
+   "sha": "2875f8aef",
+   "msg": "ACK",
+   "what": "體育館 B1 光照烘焙（gym_b1.glb＋光照貼圖；bake_room.py 只留第一套 UV；gym_b1_lm_unit；wz_park_people_unit 第 4 項說明）",
+   "task": "INTERIOR-AAA-REVIEW-1028",
+   "integration": "未整合",
+   "note": "LAWWW-B 23:3x：發布基準 39f68236c 凍結，整合在本機分支 feat-art-1031 1c380b649（備份 wip_backup/feat-art-1031.bundle），體育館 13 支 Node ALL PASS；發布後合進開發分支、交 BB 看畫面；READY_FOR_ART_REVIEW"
   }
  ],
  "ignored": [
