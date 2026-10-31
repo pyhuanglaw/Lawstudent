@@ -82,7 +82,7 @@ const atHome=()=>{ const Hm=HOME.rec(H.G); Hm.at=true; Hm.day=H.G.day; const B=H
     const c=fz(await playEv('ev_vf_y2_0801',['好'])), o2=H.opts[0], d=fz(await playEv('ev_vf_y2_0801',['實習']));
     check('3-3. 2027-08-01 子晴的 Café：場景＋「好。」→（你玩了三分鐘，死了四次。）「很好。這就是我要的難度。」',J(c)===J(zh.concat(['（你玩了三分鐘，死了四次。）','高子晴：很好。這就是我要的難度。']))&&J(o2)===J(['「好。」','「妳在實習耶，週末還做？」']),J([c,o2]));
     check('3-3. 「妳在實習耶，週末還做？」→「實習是別人的遊戲。這個是我的。」',J(d)===J(zh.concat(['高子晴：實習是別人的遊戲。這個是我的。'])),J(d));
-    const all=a.concat(b,c,d,o,o2).map(t=>t.replace(/^[^：（「]{1,4}：/,''));
+    const all=a.concat(b,c,d,o||[],o2||[]).map(t=>String(t).replace(/^[^：（「]{1,4}：/,''));
     check('3-3. 台詞都在 AA_549 稿裡',!notIn(all).length,J(notIn(all))); }
 
   /* ================= 3-1 大三暑假三選一：九個小場景 ================= */
@@ -121,7 +121,7 @@ const atHome=()=>{ const Hm=HOME.rec(H.G); Hm.at=true; Hm.day=H.G.day; const B=H
     check('3-1. 讀書 8/21、不認識以安：原本那一句→（隔壁的考生今天沒有來。…「我上了。這個位子給你。」）',J(L)===J([first8,'（隔壁的考生今天沒有來。他的位子上放了一張紙條：「我上了。這個位子給你。」）']),J(L));
     L=after(await arrive('2028-07-31',Object.assign({EXCHANGE_ROUTE:'US'},S),[],()=>{ H.FAMILIAR('heroine_01'); }),first8);
     check('3-1. 美國路線第三場在 7/31：以安還在日本＝紙條那一版',J(L)===J([first8,'（隔壁的考生今天沒有來。他的位子上放了一張紙條：「我上了。這個位子給你。」）']),J(L));
-    const all=[]; for(const k in R2Y3B.SUMMER_SCENES) for(const x0 of R2Y3B.SUMMER_SCENES[k]){ const xs=typeof x0==='function'?[x0({flags:{},day:D('2028-08-21')})]:[x0]; for(const x of xs){ if(!x) continue; for(const l of x.lines) all.push(l.narr||l.text); for(const c of (x.choice||[])){ all.push(c.t); for(const l of c.say) all.push(l.text); } } }
+    const all=[]; const SC=R2Y3B.SUMMER_SCENES||{}; for(const k in SC) for(const x0 of SC[k]){ const xs=typeof x0==='function'?[x0({flags:{},day:D('2028-08-21')})]:[x0]; for(const x of xs){ if(!x) continue; for(const l of x.lines) all.push(l.narr||l.text); for(const c of (x.choice||[])){ all.push(c.t); for(const l of c.say) all.push(l.text); } } }
     check('3-1. 小場景的台詞都在 AA_549 稿裡（'+all.length+' 句）',all.length>=20&&!notIn(all).length,J(notIn(all))); }
 
   H.done();
