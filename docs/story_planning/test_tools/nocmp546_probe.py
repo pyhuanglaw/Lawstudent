@@ -474,6 +474,10 @@ async def s_zql3(p, run, base, sid, out):
             # n29_nocmp_a2 12:0x：站 4 m 外還是追不到（go_to 走到她「出發那一刻」的位置，她已經走開；走走的人要玩家 2.8 m 內才停下來，engine3d.js:361）——改站 1.5～2.5 m 內
             near = await pg.evaluate("(([x,z])=>{ const E=GAME.E; for(const R of [1.5,2.0,2.5]) for(let i=0;i<16;i++){ const a=i*Math.PI/8, px=x+Math.cos(a)*R, pz=z+Math.sin(a)*R; if(E.canStand&&!E.canStand(px,pz,0.35,0)) continue; E.placeAt(E.player,px,pz,0); E.player.path=null; return [+px.toFixed(2),+pz.toFixed(2),R]; } return null; })(%s)" % json.dumps(pos[:2]))
             run.setup('【捷徑】%s：站到子晴 2.8 m 內 %s（瞬移；她走走時玩家在 2.8 m 內會停下來看玩家；之後照玩家走過去、點「說話」）' % (sid, J(near))); await pg.wait_for_timeout(2500)
+            # n29_nocmp_a2：ZQL3（有 CONTEST_DAY）兩次都沒出現「說話」、ZQL3_W（沒有）兩次都有——記下她的 talk／beh／held，分清探針還是遊戲
+            dg = await pg.evaluate("(()=>{ const E=GAME.E, n=(E.npcs||[]).find(x=>x&&(x.charId==='heroine_04'||x.id==='heroine_04')); if(!n) return null; const p=E.player.obj.position, o=n.obj.position; const b=document.getElementById('interact');"
+                                   " return {beh:n.beh, held:!!n.held, leaving:!!n.leaving, talk:typeof n.talk, talkLabel:n.talkLabel||null, hidden:!!n.hidden, d:+Math.hypot(p.x-o.x,p.z-o.z).toFixed(2), busy:!!E.player.busy, lab:b&&!b.classList.contains('hide')?b.textContent.trim():''}; })()")
+            run.note('%s 站好 2.5 秒後子晴的狀態：%s' % (sid, J(dg)))
         n0 = await log_len(pg)
         ch, lab = await talk(pg, cdp, run, [ZQ], ['子晴', '高子晴'], picks=['「妳還好嗎？」'], label=sid, shot_at=('第二名',))
         lg = await log_since(pg, n0); T = texts(lg); CS = choice_sets(lg); res.update({'said': T, 'choices': CS, 'lab': lab}); await run.shot(pg, '%s_after' % sid)
