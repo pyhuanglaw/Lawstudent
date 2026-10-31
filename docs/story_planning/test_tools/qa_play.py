@@ -21,7 +21,14 @@ PREF = {'sleep': ['睡到明天早上', '睡覺', '睡', '出發', '直接去'],
         'ff': ['快轉', '到下一個有事的日子', '跳過', '出發', '直接去']}[MODE]
 DECLINE_LAST = MODE == 'decline'
 SNAP_BEFORE = ['2024-11-01', '2024-12-01', '2025-02-14', '2025-06-08', '2025-09-01']   # 匯款、重考班、衝刺班、法律系的前一刻：存「跨過這一天之前最後看到的狀態」（事件接事件會跳日子，不能等剛好那一天）
-HOOK = r"""(()=>{ window.__bb={money:[],toasts:[],kx:[]}; let lastMoney=null, lastToast='', lastKx='';
+HOOK = r"""(()=>{ window.__bb={money:[],toasts:[],kx:[],ev:[],fl:[],say:[]}; let lastMoney=null, lastToast='', lastKx='';
+  /* 2026-10-31 BB-B：AA_269 第 6 節 15 點要對事件時間線、旗標、台詞——每 300 毫秒記新演完的事件、改過的旗標、對話框的每一句（日期、時間、區域） */
+  let evSeen=null, flSeen=null, lastSay='';
+  setInterval(()=>{ try{ if(typeof GAME==='undefined'||!GAME.G) return; const G=GAME.G, m=meta();
+    const dn=(G.events&&G.events.done)||{}; if(evSeen===null){ evSeen=Object.assign({},dn); } else for(const k in dn){ if(evSeen[k]!==dn[k]){ window.__bb.ev.push(Object.assign({id:k,n:dn[k]},m)); evSeen[k]=dn[k]; } }
+    const F=G.flags||{}; if(flSeen===null){ flSeen={}; for(const k in F){ try{ flSeen[k]=JSON.stringify(F[k]); }catch(e){} } } else for(const k in F){ let v; try{ v=JSON.stringify(F[k]); }catch(e){ continue; } if(flSeen[k]!==v){ window.__bb.fl.push(Object.assign({k,v:(v||'').slice(0,120)},m)); flSeen[k]=v; } }
+    const nm=((document.getElementById('dlgName')||{}).textContent||'').trim(); const full=(GAME.D&&GAME.D.active&&GAME.D.full)||''; const ky=nm+'|'+full; if(full&&ky!==lastSay){ lastSay=ky; window.__bb.say.push(Object.assign({n:nm,t:full.slice(0,200)},m)); }
+  }catch(e){} },300);
   const meta=()=>{ try{ const G=GAME.G; return {d:CALENDAR.dateOf(G.day).key, h:Math.round(G.hour*100)/100, z:G.zone}; }catch(e){ return {}; } };
   setInterval(()=>{ try{ if(typeof GAME==='undefined'||!GAME.G) return; const m=GAME.G.money; if(lastMoney!==null&&m!==lastMoney){ const t=document.getElementById('toast'); window.__bb.money.push(Object.assign({from:lastMoney,to:m,delta:m-lastMoney,toast:t&&!t.classList.contains('hide')?t.textContent:'',lastToast},meta())); } lastMoney=m; }catch(e){} },200);
   document.addEventListener('DOMContentLoaded',()=>{ const t=document.getElementById('toast'); let lastVis=false; if(t) new MutationObserver(()=>{ const x=t.textContent, vis=!t.classList.contains('hide'), now=performance.now(); if(window.__bbCur&&window.__bbCur.dur==null&&(!vis||(x&&x!==window.__bbCur.t))) window.__bbCur.dur=Math.round(now-window.__bbT0);   /* UI-MONEY-TOAST-ADV-1021：每一則實際留在畫面上多久（毫秒） */
@@ -127,6 +134,10 @@ async def main():
         print('結束', json.dumps(g, ensure_ascii=False), '手機回覆', answered, '收起自動打開的手機', phone_closed, flush=True)
         print('問題：'); [print('   -', x) for x in problems]
         bb = await pg.evaluate("window.__bb||{}")
+        try: open(os.path.join(OUT, 'final_snap.json'), 'w', encoding='utf-8').write(await pg.evaluate("JSON.stringify(GAME.snapshot())"))
+        except Exception as e: print('   存最後狀態失敗', e, flush=True)
+        for k in ('ev', 'fl', 'say'): json.dump(bb.get(k, []), open(os.path.join(OUT, k + '.json'), 'w', encoding='utf-8'), ensure_ascii=False, indent=0)
+        print('事件時間線 %d 筆、旗標變動 %d 筆、台詞 %d 句（ev.json／fl.json／say.json）' % (len(bb.get('ev', [])), len(bb.get('fl', [])), len(bb.get('say', []))), flush=True)
         for k in ('money', 'toasts', 'kx'): json.dump(bb.get(k, []), open(os.path.join(OUT, {'kx': 'kexin'}.get(k, k) + '.json'), 'w', encoding='utf-8'), ensure_ascii=False, indent=0)
         al = [m for m in bb.get('money', []) if m['delta'] in (5000, 20000, 30000)]
         print('生活費入帳：'); [print('   ', m['d'], m['h'], '+%d' % m['delta'], '提示：', m['toast'] or m['lastToast']) for m in al]
