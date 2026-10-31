@@ -22,7 +22,7 @@
   REPAIR_NO     挽回第 60 天（2029-01-27）21:00：私訊「我想好了。我們當朋友就好。」
  四、她爸爸 8-1、冷落 8-3
   DAD2          2029-04-27（五）17:25 法律系館A門口、交往中：四句 → 三個選項 →「她去哪，我都會在台北。」→「……走吧。他等一下會問你喜歡吃什麼。我會說。」；沒有「誰最強」
-  DAD2_NO       同一天 17:48、沒交往：站在門口等到 18:02，不演
+  DAD2_NO       同一天 17:53、沒交往：站在門口等到 18:02，不演
   COLD          交往中 30 天沒約會，熬夜到 00:35（遊戲的寫法：前一天 24:35）→ 00:40 一則（不用回）、不分手；【前置】隔一晚同一時間不再傳；訊息時間
  五、新的時刻（AA_548 第 2、3、5 節）
   G2_DAD        3-1 大二上第 3 週週二 2026-09-22 17:56 巷口家常菜 → 18:00「我昨天又在幫我媽對帳。……」→「我想聽。」兩句、TALKED_FAMILY
@@ -31,10 +31,11 @@
   G6_MAKEUP     G6 補一次：大三下第 3 週週一 2028-03-06 18:02 從總圖大廳二樓的樓梯間走進三樓 → 對答案（看到就算）、XC5_RECONCILE
   NIGHT_A       半夜訊息 A3、A4、A5、A7、A8（大二下，慈 3 以後、慈 5 以前）：手機泡泡、三個選項、她回的一句、30 分鐘內回 XC_NIGHT +1
   NIGHT_B       半夜訊息 B1、B3、B8（大三上，慈 5 以後）：同上
-  NIGHT_REAL    同 A3 那一則，但用遊戲熬夜的寫法讀檔（週六 25:26＝週日 01:26）：看半夜訊息會不會來（NIGHT_A／B 讀檔寫成「那一天 01:26」，和單元測試同一種）
+  NIGHT_REAL    同 A3 那一則，但用遊戲熬夜的寫法讀檔（週六 25:26＝週日 01:26）：看半夜訊息會不會來；【前置】隔一晚（週日 25:26＝週一 01:26）再看一次、訊息時間
+                （NIGHT_A／B 讀檔寫成「那一天 01:26」，和單元測試同一種；遊戲裡過了半夜是前一天、G.hour 24 以上，見 COLD）
  每一場都查：說的話、芯慈／以安的手機訊息裡沒有「第二名」「第一名」「誰最強」「我問過你」
 用法：LW_TESTS=<工作樹>/tests SCEN=TE_ME_YES,... SHA=254bcfb35 python3 xcrom_probe.py <URL>/index.html <輸出資料夾> <使用者存檔>"""
-import os, sys, json, asyncio, time, re
+import os, sys, json, asyncio, time, re, math
 sys.path.insert(0, os.environ['LW_TESTS']); import playlib as L
 from playwright.async_api import async_playwright
 URL, OUT, SAVE = sys.argv[1], sys.argv[2], sys.argv[3]
@@ -192,7 +193,9 @@ async def talk(pg, cdp, run, ids, names, picks=None, label=''):
             lab = await pg.evaluate(LAB)
             if hit(lab): break
             pos = await pg.evaluate(NPC + "(%s)" % json.dumps(ids))
-            if pos: await L.go_to(pg, cdp, run, pos[0], pos[1], 0.9, name, max_s=30, lv=pos[2], stop=STOP)
+            if pos:   # n25 ZRL3：她跟一群人在一起時，互動鈕會抓到旁邊的人——繞著她換方向靠近（0.7 m，四個方向輪流）
+                ang = j * math.pi / 2; tx, tz = pos[0] + 0.7 * math.cos(ang), pos[1] + 0.7 * math.sin(ang)
+                await L.go_to(pg, cdp, run, tx, tz, 0.35, name, max_s=30, lv=pos[2], stop=STOP)
             await pg.wait_for_timeout(500)
         say('   %s 互動鈕：「%s」' % (label, lab))
         if hit(lab):
@@ -429,8 +432,8 @@ async def te_invite(pg, cdp, run, sid, res, term, want_text, label=''):
 
 
 async def te_dinner(pg, cdp, run, sid, res, term, din_key, picks, label=''):
-    """【前置】跳到期末飯那天 17:22（宿舍）→ 照玩家等「出發：學期末的飯」→ 飯 → 回家的路上（picks）→ 回傳 (log, T, CS)"""
-    await jump(pg, run, din_key, 17.37, 'dorm', '%s：期末飯那天' % sid)
+    """【前置】跳到期末飯那天 17:25（宿舍）→ 照玩家等「出發：學期末的飯」→ 飯 → 回家的路上（picks）→ 回傳 (log, T, CS)"""
+    await jump(pg, run, din_key, 17.42, 'dorm', '%s：期末飯那天' % sid)
     n0 = await log_len(pg)
     ok, ch = await wait_for(pg, cdp, run, "!!(%s)('%s').result" % (TE_RES, term), max_s=900, picks=picks + ['「那天有約了。」'], go=('出發：學期末的飯',), label=label or sid)
     lg = await log_since(pg, n0); T = texts(lg); CS = choice_sets(lg)
@@ -451,7 +454,7 @@ def te_common(run, sid, lg, T, CS, table=True):
 @guard
 async def s_te_me(p, run, base, sid, out):
     res = out.setdefault(sid, {}); rom = 76 if sid == 'TE_ME_YES' else 72
-    b, pg, cdp, errs, r = await launch(p, run, base, '2028-06-08', 20.35, 'campus', preflags=TWF, quiet=False, label=sid + '（大三下期末時段第一天 2028-06-08（四）20:21 校園；臺灣路線）')
+    b, pg, cdp, errs, r = await launch(p, run, base, '2028-06-08', 20.43, 'campus', preflags=TWF, quiet=False, label=sid + '（大三下期末時段第一天 2028-06-08（四）20:26 校園；臺灣路線）')
     try:
         g = await pg.evaluate(GATES + "(%s)" % json.dumps({'npcRom': rom, 'term': 'Y3S2'})); res['gates'] = g
         run.setup('【前置】%s：門檻 G1～G9 全過（照 xinci_romance_unit.js full()），她的戀愛 %d；讀檔時先算的學期末 plan 清掉重算 → %s' % (sid, rom, J(g, 700)))
@@ -477,7 +480,7 @@ async def s_te_me(p, run, base, sid, out):
 @guard
 async def s_te_she(p, run, base, sid, out):
     res = out.setdefault(sid, {})
-    b, pg, cdp, errs, r = await launch(p, run, base, '2028-06-08', 20.35, 'campus', preflags=TWF, quiet=False, label=sid + '（大三下期末時段第一天 2028-06-08 20:21 校園；臺灣路線）')
+    b, pg, cdp, errs, r = await launch(p, run, base, '2028-06-08', 20.43, 'campus', preflags=TWF, quiet=False, label=sid + '（大三下期末時段第一天 2028-06-08 20:26 校園；臺灣路線）')
     try:
         g = await pg.evaluate(GATES + "(%s)" % json.dumps({'npcRom': 76, 'term': 'Y3S2'})); res['gates'] = g
         run.setup('【前置】%s：門檻 G1～G9 全過、戀愛 76；學期末 plan 清掉重算 → %s' % (sid, J(g, 600)))
@@ -493,9 +496,11 @@ async def s_te_she(p, run, base, sid, out):
         run.check('%s：選「讓我想想」→「%s」、記 think Y3S2、不交往' % (sid, THINK), THINK in T and res['te']['think'] == 'Y3S2' and res['te']['result'] == 'think' and not res['xc']['dating'], J({'te': res['te'], 'T': T[-3:]}))
         if res['te']['result'] != 'think': return
         # 第二次：大四上期末（最後一科 12/22，時段 12/21～12/31；12/23 20:30 邀約）
-        await jump(pg, run, '2028-12-23', 20.35, 'campus', '%s：大四上期末時段（最後一科 12/22 考完）' % sid)
+        await jump(pg, run, '2028-12-23', 20.43, 'campus', '%s：大四上期末時段（最後一科 12/22 考完）' % sid)
         g2 = await pg.evaluate(GATES + "(%s)" % json.dumps({'npcRom': 76, 'term': 'Y4S1'})); res['gates2'] = g2
         run.setup('【前置】%s：大四上門檻照舊（同一份），plan 清掉重算 → %s' % (sid, J(g2, 500)))
+        run.check('%s：前置——大四上門檻照舊全過、心意邀約要發（上學期讓我想想＝第二次）' % sid, g2['all'] and g2['heartWhy'] is True, J(g2, 400))
+        if not (g2['all'] and g2['heartWhy'] is True): return
         q2 = await te_invite(pg, cdp, run, sid, res, 'Y4S1', INVITE2, label=sid + '_Y4S1')
         run.check('%s：第二次的期末飯排在 2028-12-25 18:00' % sid, bool(q2) and q2['key'] == '2028-12-25' and q2['h'] == 18, J(q2))
         if not q2: return
@@ -511,14 +516,15 @@ async def s_te_she(p, run, base, sid, out):
 async def s_te_other(p, run, base, sid, out):
     """TE_TELL／TE_KNOWN：交往中（子晴）；TELL＝她不知道、KNOWN＝之前親口說過（ROM.tellBy）"""
     res = out.setdefault(sid, {})
-    b, pg, cdp, errs, r = await launch(p, run, base, '2028-06-08', 20.35, 'campus', preflags=TWF, dating=[ZQ], quiet=False, label=sid + '（2028-06-08 20:21 校園；和子晴交往中）')
+    b, pg, cdp, errs, r = await launch(p, run, base, '2028-06-08', 20.43, 'campus', preflags=TWF, dating=[ZQ], quiet=False, label=sid + '（2028-06-08 20:26 校園；和子晴交往中）')
     try:
         if sid == 'TE_KNOWN': await pre(pg, run, '%s：之前就親口跟芯慈說過子晴（ROM.tellBy；source yt_told）' % sid, "ROM.tellBy(G,XC,ZQ); return {knows:(ROM.relRec(G)[XC]||{})[ZQ]};")
         g = await pg.evaluate(GATES + "(%s)" % json.dumps({'npcRom': 76, 'term': 'Y3S2'})); res['gates'] = g
         run.setup('【前置】%s：門檻全過、戀愛 76；學期末 plan 清掉重算 → %s' % (sid, J(g, 600)))
         want_hidden = [ZQ] if sid == 'TE_TELL' else []
-        run.check('%s：前置——門檻全過、心意邀約照發；交往中 %s、她不知道的 %s' % (sid, g['others'], g['hidden']), g['all'] and g['heartWhy'] is True and g['others'] == [ZQ] and g['hidden'] == want_hidden, J(g, 500))
-        if not (g['all'] and g['heartWhy'] is True): return
+        okp = g['all'] and g['heartWhy'] is True and g['others'] == [ZQ] and g['hidden'] == want_hidden
+        run.check('%s：前置——門檻全過、心意邀約照發；交往中 %s、她不知道的 %s' % (sid, g['others'], g['hidden']), okp, J(g, 500))
+        if not okp: return
         q = await te_invite(pg, cdp, run, sid, res, 'Y3S2', INVITE)
         if not q: run.check('%s：期末飯排好了' % sid, False, J(q)); return
         picks = [TELL_OPT, '「我喜歡妳。」'] if sid == 'TE_TELL' else ['「我喜歡妳。」']
@@ -543,19 +549,21 @@ async def s_te_other(p, run, base, sid, out):
 @guard
 async def s_te_foundout(p, run, base, sid, out):
     res = out.setdefault(sid, {})
-    b, pg, cdp, errs, r = await launch(p, run, base, '2028-06-08', 20.35, 'campus', preflags=TWF, dating=[ZQ], quiet=False, label=sid + '（2028-06-08 20:21 校園；和子晴交往中）')
+    b, pg, cdp, errs, r = await launch(p, run, base, '2028-06-08', 20.43, 'campus', preflags=TWF, dating=[ZQ], quiet=False, label=sid + '（2028-06-08 20:26 校園；和子晴交往中）')
     try:
         await pre(pg, run, '%s：芯慈從別的地方知道子晴（ROM.learn source seen；你沒說過）' % sid, "ROM.learn(G,XC,ZQ,'seen'); return {knows:(ROM.relRec(G)[XC]||{})[ZQ]};")
         g = await pg.evaluate(GATES + "(%s)" % json.dumps({'npcRom': 76, 'term': 'Y3S2'})); res['gates'] = g
         run.setup('【前置】%s：門檻全過、戀愛 76；學期末 plan 清掉重算 → %s' % (sid, J(g, 600)))
-        run.check('%s：前置——門檻全過、她自己知道子晴（foundOut）；heartWhy＝{nope:knows}' % sid, g['all'] and g['foundOut'] == [ZQ] and isinstance(g['heartWhy'], dict) and g['heartWhy'].get('nope') == 'knows', J(g, 500))
-        ok, _ = await wait_for(pg, cdp, run, "GAME.G.hour>=20.85", max_s=600, picks=['「那天有約了。」'], label=sid)
+        okp = g['all'] and g['foundOut'] == [ZQ] and isinstance(g['heartWhy'], dict) and g['heartWhy'].get('nope') == 'knows'
+        run.check('%s：前置——門檻全過、她自己知道子晴（foundOut）；heartWhy＝{nope:knows}' % sid, okp, J(g, 500))
+        if not okp: return
+        ok, _ = await wait_for(pg, cdp, run, "GAME.G.hour>=20.6", max_s=600, picks=['「那天有約了。」'], label=sid)
         ms = await msgs(pg, 'p:' + XC); te = await pg.evaluate(TE_RES + "('Y3S2')"); res.update({'msgs1': ms[-3:], 'te': te})
-        run.check('%s：6/8 20:30 以後沒有她的心意邀約（也沒有朋友的邀約）' % sid, ok and not any((m['tag'] or '').startswith('te_') for m in ms), J({'reached': ok, 'msgs': ms[-3:], 'plan': te.get('plan')}))
-        await jump(pg, run, '2028-06-18', 19.9, 'campus', '%s：時段最後一天（6/18）' % sid)
-        ok2, _ = await wait_for(pg, cdp, run, "GAME.G.hour>=20.15", max_s=500, picks=['「那天有約了。」'], label=sid)
+        run.check('%s：6/8 20:30 以後（等到 20:36）沒有她的心意邀約（也沒有朋友的邀約）' % sid, ok and not any((m['tag'] or '').startswith('te_') for m in ms), J({'reached': ok, 'msgs': ms[-3:], 'plan': te.get('plan')}))
+        await jump(pg, run, '2028-06-18', 19.95, 'campus', '%s：時段最後一天（6/18）' % sid)
+        ok2, _ = await wait_for(pg, cdp, run, "GAME.G.hour>=20.1", max_s=500, picks=['「那天有約了。」'], label=sid)
         ms2 = await msgs(pg, 'p:' + XC); res['msgs2'] = ms2[-3:]; await run.shot(pg, '%s_after' % sid)
-        run.check('%s：6/18 20:00 以後也沒有 NOPE 那一句（NOPE.knows 沒有她）' % sid, ok2 and not any((m['tag'] or '').startswith('te_') for m in ms2), J({'reached': ok2, 'msgs': ms2[-3:]}))
+        run.check('%s：6/18 20:00 以後（等到 20:06）也沒有 NOPE 那一句（NOPE.knows 沒有她）' % sid, ok2 and not any((m['tag'] or '').startswith('te_') for m in ms2), J({'reached': ok2, 'msgs': ms2[-3:]}))
         await banned_check(pg, run, sid, [])
     finally: await finish_page(run, sid, res, errs, b)
 
@@ -568,8 +576,9 @@ async def s_after_tell(p, run, base, sid, out):
     try:
         p0 = await pre(pg, run, '%s：和芯慈交往 10 天（confessed 10/7）；子晴的事她不知道' % sid, "(F.confessed||(F.confessed={}))[XC]=G.day-10; G.contacts[XC]=G.contacts[XC]||1; return {hidden:XCROM.hidden(G),foundOut:XCROM.foundOut(G),company:STORY.companyOf(G,XC,null,GAME)};")
         pos = await pg.evaluate(NPC + "(%s)" % json.dumps([XC])); res['pos'] = pos
-        run.check('%s：前置——她在總圖三樓、子晴的事她不知道' % sid, bool(pos) and p0['hidden'] == [ZQ] and not p0['foundOut'], J({'pos': pos, 'pre': p0}))
-        if not pos: return
+        okp = bool(pos) and p0['hidden'] == [ZQ] and not p0['foundOut']
+        run.check('%s：前置——她在總圖三樓、子晴的事她不知道' % sid, okp, J({'pos': pos, 'pre': p0}))
+        if not okp: return
         res['company'] = await pg.evaluate(COMPANY)
         n0 = await log_len(pg)
         ch1, lab1 = await talk(pg, cdp, run, [XC], XCN, picks=['自己跟她講'], label=sid + '_1')
@@ -590,10 +599,13 @@ async def s_after_tell(p, run, base, sid, out):
 async def s_an_knows(p, run, base, sid, out):
     res = out.setdefault(sid, {}); both = sid == 'AN_KNOWS_NO'
     dating = [XC, AN] if both else [XC]
-    b, pg, cdp, errs, r = await launch(p, run, base, '2028-09-20', 20.92, 'dorm', preflags=TWF, rels={AN: 'FRIEND'}, dating=dating, quiet=False,
-                                       label=sid + '（2028-09-20（三）20:55 宿舍；和芯慈交往%s；以安 FRIEND＋聯絡方式）' % ('、也和以安交往' if both else ''))
+    b, pg, cdp, errs, r = await launch(p, run, base, '2028-09-20', 20.95 if both else 20.92, 'dorm', preflags=TWF, rels={AN: 'FRIEND'}, dating=dating, quiet=False,
+                                       label=sid + '（2028-09-20（三）%s 宿舍；和芯慈交往%s；以安 FRIEND＋聯絡方式）' % ('20:57' if both else '20:55', '、也和以安交往' if both else ''))
     try:
-        await pre(pg, run, '%s：和芯慈交往從昨天開始（confessed 9/19）' % sid, "(F.confessed||(F.confessed={}))[XC]=G.day-1; G.contacts[XC]=G.contacts[XC]||1; return {start:XCROM.startDay(G),anContact:INV.hasContact(G,AN),datingAN:F['dating_'+AN]===true};")
+        p0 = await pre(pg, run, '%s：和芯慈交往從昨天開始（confessed 9/19）' % sid, "(F.confessed||(F.confessed={}))[XC]=G.day-1; G.contacts[XC]=G.contacts[XC]||1; return {start:XCROM.startDay(G),day:G.day,anContact:INV.hasContact(G,AN),datingAN:F['dating_'+AN]===true,datingXC:F['dating_'+XC]===true};")
+        okp = p0['start'] == p0['day'] - 1 and p0['anContact'] and p0['datingXC'] and p0['datingAN'] == both
+        run.check('%s：前置——和芯慈交往第 2 天、有以安的聯絡方式%s' % (sid, '、也和以安交往' if both else '、沒有和以安交往'), okp, J(p0))
+        if not okp: return
         if not both:
             ok, _ = await wait_for(pg, cdp, run, "(GAME.G.msgs||[]).some(m=>m.tag==='xc_an_knows')", max_s=600, label=sid)
             ms = [m for m in await msgs(pg, 'p:' + AN) if m['tag'] == 'xc_an_knows']; res['msgs'] = ms
@@ -603,9 +615,9 @@ async def s_an_knows(p, run, base, sid, out):
                       ok and [m['text'] for m in ms] == AN_KNOWS_L and all(m['d'] == '2028-09-20' and m['h'] >= 21 for m in ms), J(ms))
             run.check('%s：手機以安的對話串看得到兩則' % sid, all(t in a['before'] for t in AN_KNOWS_L), J(a['before'][-300:]))
         else:
-            ok, _ = await wait_for(pg, cdp, run, "GAME.G.hour>=21.3", max_s=600, label=sid)
+            ok, _ = await wait_for(pg, cdp, run, "GAME.G.hour>=21.1", max_s=600, label=sid)
             ms = [m for m in await msgs(pg, 'p:' + AN) if m['tag'] == 'xc_an_knows']; res['msgs'] = ms; await run.shot(pg, '%s_after' % sid)
-            run.check('%s：以安自己在跟你交往：21:18 以後還是沒有那兩則' % sid, ok and not ms, J({'reached': ok, 'msgs': ms}))
+            run.check('%s：以安自己在跟你交往：等到 21:06 還是沒有那兩則（21:00 第一次看就會傳）' % sid, ok and not ms, J({'reached': ok, 'msgs': ms}))
             await banned_check(pg, run, sid, [])
     finally: await finish_page(run, sid, res, errs, b)
 
@@ -618,8 +630,9 @@ async def s_found(p, run, base, sid, out):
         p0 = await pre(pg, run, '%s：和芯慈交往 10 天；芯慈從別的地方知道子晴（ROM.learn seen，你沒說過）' % sid,
                        "(F.confessed||(F.confessed={}))[XC]=G.day-10; ROM.learn(G,XC,ZQ,'seen'); return {foundOut:XCROM.foundOut(G),due:XCROM.foundDue(G)};")
         pos = await pg.evaluate(NPC + "(%s)" % json.dumps([XC])); res['pos'] = pos
-        run.check('%s：前置——她在總圖三樓、foundOut＝子晴' % sid, bool(pos) and p0['foundOut'] == [ZQ] and p0['due'], J({'pos': pos, 'pre': p0}))
-        if not pos: return
+        okp = bool(pos) and p0['foundOut'] == [ZQ] and p0['due']
+        run.check('%s：前置——她在總圖三樓、foundOut＝子晴' % sid, okp, J({'pos': pos, 'pre': p0}))
+        if not okp: return
         n0 = await log_len(pg)
         ch, lab = await talk(pg, cdp, run, [XC], XCN, picks=[], label=sid)
         if not await pg.evaluate(DONE + "('ev_xc_found')"):
@@ -646,7 +659,9 @@ async def s_repair_open(p, run, base, sid, out):
         p0 = await pre(pg, run, '%s：%s' % (sid, REPAIR_HIST_TXT), REPAIR_HIST + " return {due:XCROM.repairDue(G),lastEnd:CALENDAR.dateOf(XCROM.lastEndOther(G)).key,dating:XCROM.othersDating(G),rom:ROM.get(G,XC).status};")
         d29 = await pg.evaluate("(()=>{ const G=GAME.G; G.day-=1; const a=XCROM.repairOpts(G,'classmate_xinci').map(o=>o.t); G.day+=1; return a; })()")
         run.note('%s【程式檢查，不是玩家動作】前一天（單身第 29 天）選單會不會有：%s' % (sid, J(d29))); res['day29'] = d29
-        run.check('%s：前置——和另一位結束、單身滿 30 天、畢業以前＝挽回的條件成立（前一天 29 天不成立）' % sid, p0['due'] is True and p0['lastEnd'] == '2028-10-29' and not d29, J({'pre': p0, 'd29': d29}))
+        okp = p0['due'] is True and p0['lastEnd'] == '2028-10-29' and not d29
+        run.check('%s：前置——和另一位結束、單身滿 30 天、畢業以前＝挽回的條件成立（前一天 29 天不成立）' % sid, okp, J({'pre': p0, 'd29': d29}))
+        if not okp: return
         pos = await pg.evaluate(NPC + "(%s)" % json.dumps([XC])); res['pos'] = pos
         run.check('%s：前置——她在總圖三樓' % sid, bool(pos), J(pos))
         if not pos: return
@@ -670,8 +685,9 @@ async def s_repair_yes(p, run, base, sid, out):
                        REPAIR_HIST + " const L=DATE.log(G,XC); L.count=4; F.XC_NIGHT=4; F.XC_REPAIR={state:'wait',day:D('2028-11-28'),d0:2,n0:2};"
                        " const t=DATE.book(G,{who:XC,locs:['D06'],day:G.day,depart:13,by:'npc'}); return {trip:t&&{ok:t.ok,why:t.why,trip:t.trip,depart:t.depart,back:t.back},progress:XCROM.repairProgress(G),rom:ROM.get(G,XC).status};")
         res['pre'] = p0
-        run.check('%s：前置——約好今天 13:00 北美館；挽回進度 約會 2、半夜訊息 2' % sid, bool(p0['trip']) and p0['trip'].get('ok') and p0['progress'] == {'dates': 2, 'nights': 2}, J(p0))
-        if not (p0['trip'] and p0['trip'].get('ok')): return
+        okp = bool(p0['trip']) and p0['trip'].get('ok') and p0['progress'] == {'dates': 2, 'nights': 2} and p0['rom'] == 'ex'
+        run.check('%s：前置——約好今天 13:00 北美館；挽回進度 約會 2、半夜訊息 2；她和你是分開的（ROM ex）' % sid, okp, J(p0))
+        if not okp: return
         tid = p0['trip']['trip']; n0 = await log_len(pg)
         ok, ch = await wait_for(pg, cdp, run, "(GAME.G.trips||[]).some(t=>t.trip===%s&&t.status==='done')" % json.dumps(tid), max_s=1200,
                                 picks=['現在出發', '出發', '大展廳', '只有空畫框的作品', '差不多了，回去吧'], label=sid)
@@ -693,6 +709,7 @@ async def s_repair_no(p, run, base, sid, out):
         p0 = await pre(pg, run, '%s：XC_FOUND 第 1 次（10/18）、XC_REPAIR wait 從 11/28 開始、約會和半夜訊息都沒達到（d0、n0 等於現在）' % sid,
                        "F.XC_FOUND={n:1,day:D('2028-10-18')}; F.XC_REPAIR={state:'wait',day:D('2028-11-28'),d0:DATE.log(G,XC).count|0,n0:F.XC_NIGHT|0}; return {days:G.day-F.XC_REPAIR.day,rep:F.XC_REPAIR};")
         run.check('%s：前置——今天是第 60 天' % sid, p0['days'] == 60, J(p0))
+        if p0['days'] != 60: return
         ok, _ = await wait_for(pg, cdp, run, "(GAME.G.msgs||[]).some(m=>m.tag==='xc_repair_no')", max_s=600, label=sid)
         ms = [m for m in await msgs(pg, 'p:' + XC) if m['tag'] == 'xc_repair_no']; res['msgs'] = ms
         a = await answer2(pg, cdp, run, 'p:' + XC, '-', None, label=sid); res['thread'] = a['before'][-300:]
@@ -710,18 +727,21 @@ DAD_POS = {'x': 34.0, 'z': -99.0, 'yaw': 3.14159, 'lv': 0}
 @guard
 async def s_dad2(p, run, base, sid, out):
     res = out.setdefault(sid, {}); no = sid == 'DAD2_NO'
-    b, pg, cdp, errs, r = await launch(p, run, base, '2029-04-27', 17.8 if no else 17.42, 'campus', preflags=TWF, rels={XC: 'FRIEND'} if no else None, dating=[] if no else [XC], quiet=False, pos=DAD_POS,
-                                       label=sid + '（2029-04-27（五）%s 校園、法律系館A前面約 10 m；%s）' % ('17:48' if no else '17:25', '沒有交往' if no else '和芯慈交往中'))
+    b, pg, cdp, errs, r = await launch(p, run, base, '2029-04-27', 17.88 if no else 17.42, 'campus', preflags=TWF, rels={XC: 'FRIEND'} if no else None, dating=[] if no else [XC], quiet=False, pos=DAD_POS,
+                                       label=sid + '（2029-04-27（五）%s 校園、法律系館A前面約 10 m；%s）' % ('17:53' if no else '17:25', '沒有交往' if no else '和芯慈交往中'))
     try:
         if not no:
-            await pre(pg, run, '%s：交往從 2029-01-10 開始' % sid, "(F.confessed||(F.confessed={}))[XC]=D('2029-01-10'); return {due:STORY_EVENTS.find(e=>e.id==='ev_xc_dad2').prereq.custom(G)};")
+            p0 = await pre(pg, run, '%s：交往從 2029-01-10 開始' % sid, "(F.confessed||(F.confessed={}))[XC]=D('2029-01-10'); return {due:STORY_EVENTS.find(e=>e.id==='ev_xc_dad2').prereq.custom(G),where:STORY.whereIs(GAME,XC)};")
+            run.check('%s：前置——交往中、2029-04 的週五、不在國外（ev_xc_dad2 的條件成立）' % sid, p0['due'] is True, J(p0))
+            if p0['due'] is not True: return
             ok, ch, T, C, CS = await near_wait(pg, cdp, run, sid, 'ev_xc_dad2', 34.0, -106.5, 0, ['「她去哪，我都會在台北。」'], max_s=900, r=2.0)
             lg = await log_since(pg, 0); await report(pg, run, sid, res, T, CS, C, lg)
             run.check('%s：17:30～18:00 法律系館A門口演「銀色的車」（ev_xc_dad2 done）' % sid, ok, J(ch[-2:]))
             if not ok: return
             run.check('%s：爸爸「這是上次那位同學？」→ 她「嗯。……現在不只是同學了。」→「（笑）我知道。妳媽說了。」→「她說畢業要去國際所。我們很放心。……你呢？」' % sid, has_seq(T, DAD2_OPEN), J(T[:8], 600))
             run.check('%s：三個選項「「還在準備國考。」」／「「還在想。」」／「「她去哪，我都會在台北。」」' % sid, any(c == DAD2_OPTS for c in CS), J(CS[-2:]))
-            run.check('%s：選「她去哪，我都會在台北。」→「（芯慈看了你一眼，耳朵有點紅。）」「……好。」→ 最後「……走吧。他等一下會問你喜歡吃什麼。我會說。」' % sid, has_seq(T, DAD2_C) and NOPAREN(T[-1]) == NOPAREN(DAD2_C[-1]), J(T[-4:]))
+            run.check('%s：選「她去哪，我都會在台北。」→「（芯慈看了你一眼，耳朵有點紅。）」「……好。」→ 最後「……走吧。他等一下會問你喜歡吃什麼。我會說。」' % sid, has_seq(T, DAD2_OPEN + DAD2_C), J(T[-4:]))
+            run.check('%s：沒有「誰最強」那一段（AA_537 5-4 換成 8-1）' % sid, not any('誰最強' in t or '最強' in t for t in T), J([t for t in T if '強' in t]))
         else:
             await L.go_to(pg, cdp, run, 34.0, -106.5, 2.0, sid, max_s=240, lv=0, stop=lambda s: s['dlg'] or s['choices'])
             n0 = await log_len(pg)
@@ -740,6 +760,8 @@ async def s_cold(p, run, base, sid, out):
     try:
         p0 = await pre(pg, run, '%s：交往從 9/17 開始、最後一次正式約會也是 9/17（之後 30 天沒約會）；這學期還沒傳過' % sid,
                        "const c0=D('2028-09-17'); (F.confessed||(F.confessed={}))[XC]=c0; DATE.log(G,XC).last={trip:'T0',day:c0}; F.XCN_MISS=0; delete F.XC_COLD; G.contacts[XC]=G.contacts[XC]||1; return {days:G.day-c0,h:G.hour,term:CALENDAR.termOf(G.day).id};")
+        run.check('%s：前置——交往中、30 天沒有正式約會、大四上' % sid, p0['days'] >= 28 and p0['term'] == 'Y4S1', J(p0))
+        if not (p0['days'] >= 28 and p0['term'] == 'Y4S1'): return
         ok, _ = await wait_for(pg, cdp, run, "(GAME.G.msgs||[]).some(m=>/^xc_cold_/.test(m.tag||''))", max_s=600, label=sid)
         now = await pg.evaluate("GAME.G.day*24+GAME.G.hour")
         ms = [m for m in await msgs(pg, 'p:' + XC) if (m['tag'] or '').startswith('xc_cold_')]; res['msgs'] = ms
@@ -751,9 +773,9 @@ async def s_cold(p, run, base, sid, out):
             ab = ms[0]['day'] * 24 + ms[0]['h']
             run.check('%s：訊息的時間＝現在（10/18 00:40），不是前一天的 00:40' % sid, abs(now - ab) < 0.5, J({'msg': [ms[0]['d'], ms[0]['h']], 'now_abs': round(now, 2), 'msg_abs': round(ab, 2)}))
         await jump(pg, run, '2028-10-18', 24.58, 'dorm', '%s：隔一晚（10/18 24:35＝10/19 00:35）' % sid)
-        ok2, _ = await wait_for(pg, cdp, run, "GAME.G.hour>=24.85", max_s=500, label=sid)
+        ok2, _ = await wait_for(pg, cdp, run, "GAME.G.hour>=24.75", max_s=500, label=sid)
         ms2 = [m for m in await msgs(pg, 'p:' + XC) if (m['tag'] or '').startswith('xc_cold_')]; res['msgs2'] = ms2; await run.shot(pg, '%s_after' % sid)
-        run.check('%s：同一學期只一次：隔一晚 00:51 以後還是只有一則' % sid, ok2 and len(ms2) == 1, J({'reached': ok2, 'msgs': ms2}))
+        run.check('%s：同一學期只一次：隔一晚等到 00:45 還是只有一則' % sid, ok2 and len(ms2) == 1, J({'reached': ok2, 'msgs': ms2}))
         await banned_check(pg, run, sid, [])
     finally: await finish_page(run, sid, res, errs, b)
 
@@ -766,6 +788,7 @@ async def s_g2(p, run, base, sid, out):
     try:
         g0 = await pg.evaluate("({g2:XCROM.g2Done(GAME.G),done:!!(GAME.G.events.done||{}).ev_xc_g2_dad,where:STORY.whereIs(GAME,'classmate_xinci')})")
         run.check('%s：前置——慈 2 兩個都沒記（TALKED_FAMILY、ECON_TOGETHER）、3-1 還沒演' % sid, not g0['g2'] and not g0['done'], J(g0))
+        if g0['g2'] or g0['done']: return
         n0 = await log_len(pg)
         ok, ch = await wait_for(pg, cdp, run, DONE + "('ev_xc_g2_dad')", max_s=700, picks=['「我想聽。」'], label=sid)
         lg = await log_since(pg, n0); T = texts(lg); CS = choice_sets(lg); await report(pg, run, sid, res, T, CS, caps(lg), lg)
@@ -784,6 +807,7 @@ async def s_blank(p, run, base, sid, out):
     b, pg, cdp, errs, r = await launch(p, run, base, '2028-05-04', 18.92, 'noodle', rels={XC: 'FAMILIAR'}, preflags=TWF, quiet=False, label=sid + '（2028-05-04（四）18:55 阿鳳麵店；跟芯慈 FAMILIAR；臺灣路線）')
     try:
         on = await pg.evaluate("XCROM.ON"); run.check('%s：前置——XCROM.ON＝true' % sid, on is True, J(on))
+        if on is not True: return
         n0 = await log_len(pg)
         ok, ch = await wait_for(pg, cdp, run, DONE + "('ev_xinci_first_place')", max_s=900, picks=['「妳爸媽怎麼說？」', '「我可以一起嗎？」'], label=sid)
         lg = await log_since(pg, n0); T = texts(lg); CS = choice_sets(lg); await report(pg, run, sid, res, T, CS, caps(lg), lg)
@@ -804,7 +828,9 @@ async def s_blank_again(p, run, base, sid, out):
     try:
         p0 = await pre(pg, run, '%s：慈 6 演過、那天沒選「我可以一起嗎？」（ev_xinci_first_place done、沒有 XC_BLANK）' % sid,
                        "G.events.done.ev_xinci_first_place=D('2028-05-04'); delete F.XC_BLANK; return {wd:CALENDAR.dateOf(G.day).wd%7,term:CALENDAR.termOf(G.day)};")
-        run.check('%s：前置——大四上第 6 週週六' % sid, p0['wd'] == 6 and (p0['term'] or {}).get('id') == 'Y4S1' and (p0['term'] or {}).get('week') == 6, J(p0))
+        okp = p0['wd'] == 6 and (p0['term'] or {}).get('id') == 'Y4S1' and (p0['term'] or {}).get('week') == 6
+        run.check('%s：前置——大四上第 6 週週六' % sid, okp, J(p0))
+        if not okp: return
         ok, _ = await wait_for(pg, cdp, run, "(GAME.G.msgs||[]).some(m=>m.tag==='xc_blank_again')", max_s=600, label=sid)
         ms = [m for m in await msgs(pg, 'p:' + XC) if m['tag'] == 'xc_blank_again']; res['msgs'] = ms
         run.check('%s：14:00 私訊「%s」、回覆鍵「我也去。」' % (sid, BLANK_AGAIN_L), ok and len(ms) == 1 and ms[0]['text'] == BLANK_AGAIN_L and ms[0]['ask'] == ['我也去。'] and abs(ms[0]['h'] - 14) < 0.3, J(ms))
@@ -827,7 +853,9 @@ async def s_g6(p, run, base, sid, out):
         await pg.wait_for_timeout(3000)
         p0 = await pg.evaluate("({rec:!!GAME.G.flags.XC5_RECONCILE, xc:STORY.whereIs(GAME,'classmate_xinci'), an:STORY.whereIs(GAME,'heroine_01'), afternoonDone:!!GAME.G.flags.afternoonDone, term:CALENDAR.termOf(GAME.G.day)})")
         res['pre'] = p0
-        run.check('%s：前置——還沒有 XC5_RECONCILE；照作息以安、芯慈都在總圖三樓（library）' % sid, not p0['rec'] and (p0['xc'] or {}).get('zone') == 'library' and (p0['an'] or {}).get('zone') == 'library', J(p0))
+        okp = not p0['rec'] and (p0['xc'] or {}).get('zone') == 'library' and (p0['an'] or {}).get('zone') == 'library'
+        run.check('%s：前置——還沒有 XC5_RECONCILE；照作息以安、芯慈都在總圖三樓（library；以安要 S.tick 先補 afternoonDone）' % sid, okp, J(p0))
+        if not okp: return
         lab = await pg.evaluate(LAB)
         if '樓梯間' not in lab:
             await L.go_to(pg, cdp, run, 11.1, -6.0, 0.6, '樓梯間門口', max_s=120, lv=1, stop=lambda s: s['dlg'] or s['choices']); lab = await pg.evaluate(LAB)
@@ -901,10 +929,20 @@ async def s_night_real(p, run, base, sid, out):
         info = await pre(pg, run, '%s：同 NIGHT_A 的 A3（慈 3 演過、XCN.a＝2、XC_NIGHT 2）' % sid,
                          NIGHT_PRE % ('2027-03-01', 'delete F.XC5_RECONCILE;') + " F.XCN=Object.assign({a:0,b:0,l:0},F.XCN||{},{a:2}); " + NIGHT_INFO)
         res['pre'] = info
-        ok, _ = await wait_for(pg, cdp, run, "GAME.G.hour>=%.2f||GAME.G.day>%d" % (24 + h + 0.3, await dayk(pg, prev)), max_s=500, label=sid)
+        ok, _ = await wait_for(pg, cdp, run, "GAME.G.hour>=%.2f||GAME.G.day>%d" % (24 + h + 0.15, await dayk(pg, prev)), max_s=500, label=sid)
         ms = [m for m in await msgs(pg, 'p:' + XC) if (m['tag'] or '').startswith('xcn_')]; st = await pg.evaluate(STATE); res.update({'msgs': ms, 'state': st}); await run.shot(pg, '%s_after' % sid)
-        run.check('%s：熬夜到 %s（日）%s 以後，她的半夜訊息 A3「%s」有來' % (sid, dkey, hm(h + 0.3), N['m'][0]), ok and any(m['text'] == N['m'][0] for m in ms),
+        run.check('%s：熬夜到 %s（日）%s 以後，她的半夜訊息 A3「%s」有來' % (sid, dkey, hm(h + 0.15), N['m'][0]), ok and any(m['text'] == N['m'][0] for m in ms),
                   J({'reached': ok, 'state': st, 'msgs': ms, 'pre': info}, 600))
+        # 第二段（觀察）：隔一晚（週日熬夜到週一 01:26，遊戲寫法＝週日 25:26）——Node 看到的是這一晚才來、訊息時間寫成週日 01:30（早了 24 小時）
+        await jump(pg, run, dkey, 24 + h - 0.06, 'dorm', '%s：隔一晚（%s（日）%s＝週一 %s）' % (sid, dkey, hm(24 + h - 0.06), hm(h - 0.06)))
+        ok2, _ = await wait_for(pg, cdp, run, "GAME.G.hour>=%.2f||GAME.G.day>%d" % (24 + h + 0.15, await dayk(pg, dkey)), max_s=500, label=sid)
+        now = await pg.evaluate("GAME.G.day*24+GAME.G.hour")
+        ms2 = [m for m in await msgs(pg, 'p:' + XC) if (m['tag'] or '').startswith('xcn_')]; res['msgs2'] = ms2; await run.shot(pg, '%s_next' % sid)
+        got = [m for m in ms2 if m['text'] == N['m'][0]]
+        run.note('%s（觀察）隔一晚熬夜到週一 %s：A3 %s；訊息時間 %s（現在＝第 %.2f 小時）' % (sid, hm(h + 0.15), '有來' if got else '沒來', J([[m['d'], m['h']] for m in got]), now))
+        if got:
+            ab = got[0]['day'] * 24 + got[0]['h']
+            run.check('%s：隔一晚才來的那一則，訊息時間＝現在（不是前一天的 %s）' % (sid, hm(h)), abs(now - ab) < 0.5, J({'msg': [got[0]['d'], got[0]['h']], 'now_abs': round(now, 2), 'msg_abs': round(ab, 2)}))
         await banned_check(pg, run, sid, [])
     finally: await finish_page(run, sid, res, errs, b)
 
