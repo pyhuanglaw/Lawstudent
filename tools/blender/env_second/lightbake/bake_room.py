@@ -213,6 +213,7 @@ for o in objs:
 
 # ---- 5. 光：天空（Nishita）＋太陽（白天）；晚上只有夜空 ----
 sc.render.engine = 'CYCLES'; sc.cycles.device = 'CPU'; sc.cycles.samples = SAMPLES
+if os.environ.get('BAKE_THREADS'): sc.render.threads_mode = 'FIXED'; sc.render.threads = int(os.environ['BAKE_THREADS'])   # 環境變數 BAKE_THREADS＝只用幾個執行緒（同時跑測試時讓出 CPU；10-31 加）
 sc.cycles.max_bounces = 6; sc.cycles.diffuse_bounces = 4; sc.cycles.glossy_bounces = 1; sc.cycles.transparent_max_bounces = 16
 w = bpy.data.worlds.new('w'); sc.world = w; w.use_nodes = True; nt = w.node_tree; bg = nt.nodes['Background']
 sky = nt.nodes.new('ShaderNodeTexSky')
