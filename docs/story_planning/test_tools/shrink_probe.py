@@ -291,13 +291,41 @@ async def mode_b(pg, cdp, run):
         run.check('大二下春假那則：%s（%s）' % ('第 7 週沒去、第 10 週第一個麵店日才去' if tag == 'spring_w10' else '第 7 週麵店日去', days[0]), ok and any(l[1] == want for l in lines), J(lines[:6]))
 
 
+async def mode_e1d(pg, cdp, run):
+    """n20_shrink_b4 14:14：大二上開學那天（2026-09-07）11:48 跳過去、等到 12:32，群組還是「法一吃飯」、沒有改名旁白。
+    診斷：使用者存檔直接放一個 2025-09-25 建的「法一吃飯」群組（【前置】），跳到 2026-09-07 11:48 宿舍，照玩家等到 12:06 以後；
+    記群組名、F.ndlRen、改名旁白、這段時間的 console.warn（S.tick 的 PHONE try/catch 吃掉的例外）；沒改名就再直接叫 STORY.ndlGroupFix 看是不是函式本身的條件"""
+    d0 = (await P.day_of(pg, '2025-09-25'))['d']
+    st, d = await P.base(pg, SAVE, '2026-09-07', 11.8, 'dorm', flags={'noodleTableDay': d0, 'zheNoodleInvDay': d0, 'ZHE_NOODLE_INV': 'no', 'ndlTrack0': d0})
+    ph = st.setdefault('phone', {}); ph.setdefault('groups', {})['noodle_team'] = {'name': '法一吃飯', 'day': d0}
+    await pg.evaluate("(()=>{ window.__WARN=[]; const w0=console.warn; console.warn=function(){ try{ window.__WARN.push([].map.call(arguments,x=>String(x&&x.stack||x)).join(' ').slice(0,400)); }catch(e){} return w0.apply(this,arguments); }; })()")
+    await P.load(pg, cdp, st, quiet=False)
+    run.setup('[前置] 使用者存檔改到 %s（%s 第 %s 週）11:48 宿舍；【前置】群組「法一吃飯」2025-09-25 建（noodleTableDay、zheNoodleInvDay＝那天，沒答應）' % (d['key'], d['term'], d['week']))
+    st0 = await pg.evaluate("(()=>({ren:GAME.G.flags.ndlRen||null, y2:CALENDAR.TERMS.find(t=>t.id==='Y2S1').start, now:CALENDAR.dateOf(GAME.G.day).key+' '+(+GAME.G.hour).toFixed(2)}))()")
+    g0 = await pg.evaluate(GRP); run.note('讀進來：%s；群組 %s' % (J(st0), J({k: g0[k] for k in ('joined', 'name', 'gday')})))
+    await P.events_on(pg)
+    okw = await P.wait_play(pg, cdp, 12.1, max_s=900, run=run, tag='e1d'); await pg.wait_for_timeout(4000)
+    g1 = await pg.evaluate(GRP); st1 = await pg.evaluate("(()=>({ren:GAME.G.flags.ndlRen||null, now:CALENDAR.dateOf(GAME.G.day).key+' '+(+GAME.G.hour).toFixed(2), zone:GAME.G.zone}))()")
+    warn = await pg.evaluate("(window.__WARN||[]).slice(0,12)")
+    nar = [m for m in g1['msgs'] if '改成' in (m['text'] or '')]
+    run.note('等到 %s：群組 %s；ndlRen %s；改名旁白 %s；console.warn %s' % (st1['now'], g1['name'], J(st1['ren']), J(nar), J(warn, 2000)))
+    await run.shot(pg, 'e1d_after')
+    run.check('E1 診斷：照玩家等到 12:06 以後（現在 %s）' % st1['now'], okw, st1['now'])
+    run.check('E1 診斷：大二上開學那天 12:00 以後群組是「法二吃飯」', g1['name'] == '法二吃飯', J([g0['name'], st1['now'], g1['name']]))
+    run.check('E1 診斷：改名旁白「（阿哲把群組名稱改成「法二吃飯」。）」', any(m['text'] == '（阿哲把群組名稱改成「法二吃飯」。）' for m in nar), J(nar))
+    if g1['name'] != '法二吃飯':
+        dd = await pg.evaluate("(()=>{ const G=GAME.G, out={}; try{ STORY.ndlGroupFix(G); out.fix='ok'; }catch(e){ out.fix='ERR '+e.message; } out.nameAfterFix=PHONE.rec(G).groups.noodle_team.name; out.ren=G.flags.ndlRen||null;"
+                               " try{ STORY.phoneRules(GAME); out.rules='ok'; }catch(e){ out.rules='ERR '+(e.stack||e.message).slice(0,600); } return out; })()")
+        run.note('E1 診斷：直接叫 STORY.ndlGroupFix／phoneRules：%s' % J(dd, 1500))
+
+
 async def main():
     run = L.Run('shrink_' + MODE, OUT); os.makedirs(OUT, exist_ok=True)
     async with async_playwright() as p:
         b, ctx, pg, cdp, errs = await L.launch(p, landscape=True)
         pg.on('dialog', lambda dd: asyncio.ensure_future(dd.accept()))
         await pg.goto(URL); run.check('遊戲載入', await L.wait_loaded(pg)); await pg.evaluate("localStorage.clear()"); await P.init(pg)
-        await {'a': mode_a, 'b': mode_b}[MODE](pg, cdp, run)
+        await {'a': mode_a, 'b': mode_b, 'e1d': mode_e1d}[MODE](pg, cdp, run)
         run.check('沒有 JS 例外', not errs, J(errs[:3]))
         print('SHA', os.environ.get('SHA', '?'), 'MODE', MODE)
         await b.close()
