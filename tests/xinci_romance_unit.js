@@ -275,6 +275,14 @@ const walk=async(picks,term)=>{ H.said=[]; H.opts=[]; H.picks=picks.slice(); ret
     full(G=>{ G.flags['dating_'+XC]=true; G.flags['dating_'+AN]=true; (G.flags.confessed||(G.flags.confessed={}))[XC]=G.day-1; G.contacts[AN]=1; }); H.G.hour=21.2; STORY.phoneRules(GM); PHONE.tick(H.G);
     check('12. 5-3 以安：交往後第一週 21:00 以後一則「芯慈跟我說了。她自己來跟我說的。」「我很高興。是真的。」；以安自己在跟祐廷交往＝不傳（AA_548 第 8 節同意）',J(an)===J(X().AN_KNOWS)&&!(H.G.msgs||[]).some(m=>m.tag==='xc_an_knows'),J(an)); });
 
+  /* ===== 第 12c 節：巷口家常菜期末飯的開場、收尾（AA_537b 8-4，企劃線 18795bc0c；心意那一頓、交往後那一頓共用；深色底＋字幕「巷口家常菜」）===== */
+  await sec('12c',async()=>{ const D84=doc('18795bc0c','AA_537b_吳芯慈_第二份_約會台詞_校外地點_期末飯_節日.md'), PL=TERMEND_LINES.PLACE.l118_home||{};
+    const OPEN='（傍晚的巷口家常菜。菜擺在玻璃櫃裡，用手指一指，老闆娘就幫你夾。）', CLOSE='（老闆娘開始收玻璃櫃裡的菜。你們走出巷口，路燈剛亮。）';
+    check('12c. 地點表：l118_home 開場、收尾逐字照 8-4、沒有底圖（深色底）、字幕「巷口家常菜」；芯慈心意、交往後兩頓都用它',PL.open===OPEN&&PL.close===CLOSE&&!PL.bg&&PL.caption==='巷口家常菜'&&TERMEND_LINES.HEART[XC].place==='l118_home'&&TERMEND_LINES.GF[XC].place==='l118_home'&&(!D84||(D84.includes(OPEN)&&D84.includes(CLOSE))),J(PL));
+    for(const kind of ['heart','gf']){ full(kind==='gf'?(G=>{ G.flags['dating_'+XC]=true; }):null); H.said=[]; H.picks=[]; await TERMEND.dinner(GM,{te:{term:'Y3S2',who:XC,kind}});
+      const ci=T().indexOf(CLOSE), wi=T().indexOf(TERMEND_LINES.HEART[XC].walk[0]);   /* 心意那一頓：收尾以後接回家的路（walkHome） */
+      check('12c. 演出來（'+kind+'）：第一句是開場；收尾在飯桌之後'+(kind==='heart'?'、回家的路之前':'、是最後一句'),T()[0]===OPEN&&ci>1&&(kind==='heart'?wi>ci:ci===T().length-1),J(T())); } });
+
   /* ===== 第 12b 節：心意邀約當天才約（BB-B 10-31：原本時段第一天 20:30 傳、飯排兩天後，「今天晚上有空嗎。……我沒有提前一天。」的「今天」不對）===== */
   await sec('12b',async()=>{ full(null,'2028-06-07'); H.G.hour=0; const w=TERMEND.windowOf('Y3S2'), tag='te_Y3S2_'+XC; let m=null;
     for(let d=w.from;d<=w.to&&!m;d++) for(const h of [9,12.05,15,20.6,21]){ H.G.day=d; H.G.hour=h; TERMEND.phone(GM); PHONE.tick(H.G); m=(H.G.msgs||[]).find(x=>x.tag===tag&&x.ask); if(m) break; }

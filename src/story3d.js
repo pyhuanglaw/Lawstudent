@@ -455,7 +455,11 @@ const STORY = (function(){
   const zheClassOk=(id,c,G)=>{ if(id!=='zhe'||!S.week1Start(G)||!G.flags.MET_ZHE) return false; const e=schedEnt(c,G); return !!(e&&e.act==='class'); };
   /* AA_379 1-4（企劃線 19a4414e；BUG-SIS-PRE94-PRESENCE-1022）：學姊開學（新局 9/1）起照作息出現，不等第二天下午的劇情（afternoonDone）——她的第一次見面是玩家自己去找；9/4 以前找她只有 SIS_PRE_W1 那一句。以安、阿哲、Alison、阿凱、周教授照舊（第一次見面在主線裡）*/
   S.sisEarly=G=>!!G&&(G.stage||'law')==='law'&&!!G.flags&&!G.flags.afternoonDone&&G.day>=S.dayOfKey('2025-09-01');
-  const legacyOk=(id,c,G)=>G.flags.afternoonDone||zheClassOk(id,c,G)||(id==='heroine_05'&&S.sisEarly(G));
+  /* BUG-C5-AN-NOT-SPAWNED（BB-B 10-31 n25：大三上慈 5，總圖三樓只有芯慈）：afternoonDone 是主線第 2 天下午那一段的旗標，第 3 天起 S.tick 會補（BUG-MEET-HEROINES-1020），
+     但進區域生人（populate）比第一次 S.tick 早：沒有這個旗標的存檔一讀進來，以安、阿哲、學姊…（LEGACY_IDS）這一區就不生；接著有場景在演、時間不走，每 3 秒的補人也補不到。
+     另外「認識了以安、下午那段沒走完」（metAn、沒有 afternoonDone）S.tick 也不補。改成法律系主線第 3 天起一律照作息（和 S.tick 那一段同一個門檻）*/
+  S.pastDay2=G=>!!G&&!S.isEcon(G)&&S.mainDay(G)>=3;
+  const legacyOk=(id,c,G)=>G.flags.afternoonDone||S.pastDay2(G)||zheClassOk(id,c,G)||(id==='heroine_05'&&S.sisEarly(G));
   function schedFor(id,zoneId,G){ const c=CHARACTERS[id], F=G.flags, hr=h(G), wd=G.weekday; if(!c) return null; if(c.presence&&!S.reachable(id,G)) return null;   /* 這學期不在學校（presence，AA_110 第 3 節）；「在臺北、不在台大」（kind taipei，BB_163）照她自己那份作息 */
     if(LEGACY_IDS.includes(id)){ if(!legacyOk(id,c,G)||F.classNow) return null; const al=LEGACY_ALIAS[id]||id; if(F.companion===al) return null; }
     if(c.social_layer==='E'&&typeof CLS!=='undefined'&&typeof CALENDAR!=='undefined'){ const w=CLS.profWhere(G,id); if(!w) return S.profLobby(c,G)&&zoneId===c.lobby?{prof:'lobby'}:(S.profOffice(id,G)&&zoneId==='wancai'?{prof:'wancai'}:null); if(w.zone==='classroom'&&zoneId==='classroom') return {prof:'class',until:null}; if(w.act==='class'&&w.room&&w.zone===zoneId) return {prof:'class',until:null,room:w.room}; if(w.zone==='wancai'&&zoneId==='wancai') return {prof:'wancai'}; return null; }   /* 課表（D52）：上課時在教室、下課後 1.5 小時在萬才館 */

@@ -44,7 +44,7 @@ for lv, y in ((0, C0), (1, RY)):
     for x in LP['xs']:
         for z in LP['zs']:
             if lv == 0 and WL['x0'] - 0.7 < x < WL['x1'] + 0.7 and WL['z0'] - 0.2 < z < WL['z1'] + 0.2: continue
-            cx, cz = trof(x, z); out.append(f'{cx:.3f},{y - 0.9:.3f},{cz:.3f},{up},1.0,0.96,0.9')
+            cx, cz = trof(x, z); out.append(f'{cx:.3f},{y - 0.9:.3f},{cz:.3f},{up},1.0,0.96,0.9,0.6')   # 半徑 0.6 m（BB-B n19：原本 6 cm，101 講桌在後牆、講台前的地上打出一塊硬的深色影子）
 print(';'.join(out))
 EOF
 )

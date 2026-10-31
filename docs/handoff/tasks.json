@@ -26279,7 +26279,7 @@
     "parallel": true,
     "confirmed": true
    },
-   "next": "【LAWWW2-B 10-30 23:3x 現況清單 274e4d47f（docs/art-rebuild/second_ai/ECON_3D_GAP_STATUS_1030.md）】j7～j13 全部已整合；還沒做：A 共同教學館室內正式模型、B 普通教學館光照、C 總圖 3F 閱覽區光照（LAWWW2 照 A→B→C 開工）；D 醉月湖晚上（這輪不做）、E 玩家四季服裝（人物＋系統，另案）、F 兩段沒演到的劇情背景、G X14 載入流程（LAWWW）、H ART_APPROVED 等使用者｜【LAWWW-C 2026-10-27 19:0x UTC】BB-C 10-27 盤點（BB_INTEGRATED_TRIAGE_1027，BB 分支 claude/wonderful-mayer-7fm9g6 8f1315a7c） D 類：場景／建築美術要使用者看畫面標 ART_APPROVED（D59／D110）；經濟系 3D 缺口＝場景美術（窗景、捲簾、補光）；L966-977 大榕樹看過——列進 docs/handoff/USER_ART_REVIEW_1027.md｜【LAWWW-B 10-24 10:3x】LAWWW2 盤點完經濟系路線（宿舍 412→共同→椰林大道→文學院→普通，日夜 18 張，沒有方盒、黑塊、穿模）；三件交付：社科院捲簾（b9d19d8a6）、普通／共同教室窗景（aef97e506）、博雅寬窗景（d123fcbc5，整合中）。BB 驗：經濟系那年在普通上課看窗外、社科院外觀日夜 ｜ 【LAWWW（帳號 A）2026-10-22 02:4x】LAWWW2 2ccd1e60：宿舍 412 洗手間牆磚地磚補光（dorm_seethru.diff 第三版）整合進 e8c4ce7a；室內網點透空（宿舍上舖、Café 電線）一起進 ｜ 【LAWWW（帳號 A）2026-10-22 01:5x】LAWWW2 交件 223252e5（四棟拱廊大門雙開玻璃木門、博雅東側一樓玻璃帶，READY_FOR_ART_REVIEW）只換 GLB，整合進開發分支 7b4fb34b（原始檔 9f187fed）；宿舍 412 的對照（259d2ceb）LAWWW2 還在交。BB 看畫面 ｜ 【LAWWW（帳號 A）21:3x】第一批整合：榕樹氣根（f858b47c）、椰林大道路燈（5f03d748）；其餘照 LAWWW2 截圖佇列（博雅東側＋三棟大門 j8、j9 → 美國超市街 j7 → 412 洗手間＋Café 地板 j12、j13 → 路人遠距離 j10）｜ 【LAWWW（帳號 A）19:51 UTC】LAWWW2 巡場景 WIP（claude/second-ai-env-art f858b47c 榕樹氣根、89655410 四棟拱廊大門、fa34a418／30e9cb84 椰林大道路燈、0343b994 博雅東側一樓、71ca706a Café 吊燈、b47d499b 宿舍網點透空、2bc9992d 宿舍洗手間頂板）；交件後 LAWWW 整合 ｜ LAWWW2 照清查 B8 列出的缺口做，D99 第一優先",
+   "next": "【LAWWW-B 10-31 02:0x】A 共同教學館室內正式模型整合（LAWWW2 c1a2026b4：gongtong_interior.glb＋光照貼圖兩張、assets3d 一行、gongtong_interior_glb_unit、room_ceiling 清單；lightbake_tools_1031：bake_room collapse_black、lm_squash_scan、四支烘焙腳本）→ BB 看畫面；LAWWW2 接 B 普通教學館光照、再 C 總圖 3F｜【LAWWW2-B 10-30 23:3x 現況清單 274e4d47f（docs/art-rebuild/second_ai/ECON_3D_GAP_STATUS_1030.md）】j7～j13 全部已整合；還沒做：A 共同教學館室內正式模型、B 普通教學館光照、C 總圖 3F 閱覽區光照（LAWWW2 照 A→B→C 開工）；D 醉月湖晚上（這輪不做）、E 玩家四季服裝（人物＋系統，另案）、F 兩段沒演到的劇情背景、G X14 載入流程（LAWWW）、H ART_APPROVED 等使用者｜【LAWWW-C 2026-10-27 19:0x UTC】BB-C 10-27 盤點（BB_INTEGRATED_TRIAGE_1027，BB 分支 claude/wonderful-mayer-7fm9g6 8f1315a7c） D 類：場景／建築美術要使用者看畫面標 ART_APPROVED（D59／D110）；經濟系 3D 缺口＝場景美術（窗景、捲簾、補光）；L966-977 大榕樹看過——列進 docs/handoff/USER_ART_REVIEW_1027.md｜【LAWWW-B 10-24 10:3x】LAWWW2 盤點完經濟系路線（宿舍 412→共同→椰林大道→文學院→普通，日夜 18 張，沒有方盒、黑塊、穿模）；三件交付：社科院捲簾（b9d19d8a6）、普通／共同教室窗景（aef97e506）、博雅寬窗景（d123fcbc5，整合中）。BB 驗：經濟系那年在普通上課看窗外、社科院外觀日夜 ｜ 【LAWWW（帳號 A）2026-10-22 02:4x】LAWWW2 2ccd1e60：宿舍 412 洗手間牆磚地磚補光（dorm_seethru.diff 第三版）整合進 e8c4ce7a；室內網點透空（宿舍上舖、Café 電線）一起進 ｜ 【LAWWW（帳號 A）2026-10-22 01:5x】LAWWW2 交件 223252e5（四棟拱廊大門雙開玻璃木門、博雅東側一樓玻璃帶，READY_FOR_ART_REVIEW）只換 GLB，整合進開發分支 7b4fb34b（原始檔 9f187fed）；宿舍 412 的對照（259d2ceb）LAWWW2 還在交。BB 看畫面 ｜ 【LAWWW（帳號 A）21:3x】第一批整合：榕樹氣根（f858b47c）、椰林大道路燈（5f03d748）；其餘照 LAWWW2 截圖佇列（博雅東側＋三棟大門 j8、j9 → 美國超市街 j7 → 412 洗手間＋Café 地板 j12、j13 → 路人遠距離 j10）｜ 【LAWWW（帳號 A）19:51 UTC】LAWWW2 巡場景 WIP（claude/second-ai-env-art f858b47c 榕樹氣根、89655410 四棟拱廊大門、fa34a418／30e9cb84 椰林大道路燈、0343b994 博雅東側一樓、71ca706a Café 吊燈、b47d499b 宿舍網點透空、2bc9992d 宿舍洗手間頂板）；交件後 LAWWW 整合 ｜ LAWWW2 照清查 B8 列出的缺口做，D99 第一優先",
    "xai": {
     "spec": "LAWWW2 清查 B8",
     "branch": "claude/focused-cray-c9uwvw",
@@ -36195,7 +36195,7 @@
    "area": "STORY",
    "owner": "AA",
    "status": "已整合待測試",
-   "next": "【10-31 00:5x】AA_548 第 1～8 節全部接好、XCROM.ON 打開：告白不問、沒騙就接受（第 7 節）、她爸爸 8-1、挽回 8-2、冷落 8-3、以安 5-3；xinci_romance_unit ALL PASS（第 12、13 節新加）→ BB 測整條線（n27_xinci_romance）｜【10-31 00:4x】使用者點選 4a、4b（告白不問、沒騙就接受）→ AA_548 第 7 節接好、XCROM.ON 打開（b399adf57）；測試照新規則改中；還沒做：AA_537 5-4 她爸爸（要換稿，D116）、5-5 挽回觸發、冷落（已問 AA）→ BB 測整條線｜AA_548（企劃線 265cca815）程式接好（門檻 G1～G9、G6 補一次、3-1／3-3／3-5、others、半夜訊息八則；xinci_romance_unit ALL PASS），XCROM.ON 照舊 false：等使用者對 AA 點選 4a（告白時她問不問）、4b（知道你有別人接不接受），AA 回了再打開 → BB 測整條線",
+   "next": "【10-31 02:0x】AA_537b 8-4 巷口家常菜期末飯開場、收尾（termend_lines PLACE.l118_home；心意、交往後兩頓）；xinci_romance_unit 12c｜【10-31 00:5x】AA_548 第 1～8 節全部接好、XCROM.ON 打開：告白不問、沒騙就接受（第 7 節）、她爸爸 8-1、挽回 8-2、冷落 8-3、以安 5-3；xinci_romance_unit ALL PASS（第 12、13 節新加）→ BB 測整條線（n27_xinci_romance）｜【10-31 00:4x】使用者點選 4a、4b（告白不問、沒騙就接受）→ AA_548 第 7 節接好、XCROM.ON 打開（b399adf57）；測試照新規則改中；還沒做：AA_537 5-4 她爸爸（要換稿，D116）、5-5 挽回觸發、冷落（已問 AA）→ BB 測整條線｜AA_548（企劃線 265cca815）程式接好（門檻 G1～G9、G6 補一次、3-1／3-3／3-5、others、半夜訊息八則；xinci_romance_unit ALL PASS），XCROM.ON 照舊 false：等使用者對 AA 點選 4a（告白時她問不問）、4b（知道你有別人接不接受），AA 回了再打開 → BB 測整條線",
    "priority": "P1",
    "first": {
     "term": "Y1S1",
@@ -36864,6 +36864,34 @@
     "ack": "SENT"
    },
    "evidence": "BB-B n25_xinci547（890f8f3f7，BB_218 c2039b606）：讀檔後 SUP497.bind() 是空的，影印機 COPY_REAL、宥辰電梯 ELEV_ASK／ELEV_DONE 都照玩家站著就演；台詞、YQ_ELEV open→done、YC_ELEVATOR 對；aa497 2-2 沒有 bind 那一項（修改前 FAIL）"
+  },
+  {
+   "id": "BUG-C5-AN-NOT-SPAWNED-1031",
+   "title": "慈 5「對答案」（大三上第 13 週總圖三樓）以安不在場：作息有她、3D 沒生（BB-B 10-31 n25）。原因：LEGACY_IDS（以安、阿哲、學姊、Alison、阿凱、周教授）照作息要 afternoonDone；進區域生人比第一次 S.tick（第 3 天起補旗標）早，沒有旗標的存檔讀進來那一區就不生，接著有畫面在等、時間不走，3 秒一次的補人也補不到；「認識了以安、下午那段沒走完」（metAn、沒有 afternoonDone）S.tick 也不補",
+   "area": "STORY",
+   "owner": "LAWWW",
+   "status": "已整合待測試",
+   "priority": "P1",
+   "next": "【10-31 02:0x】story3d.js legacyOk 加 S.pastDay2（法律系主線第 3 天起照作息，和 S.tick 那一段同一個門檻）；an_missed_day2_unit 第 7 項（修改前 FAIL）；LAWWW-B 用 BB 的存檔在瀏覽器重現過（讀檔時 afternoonDone null、以安不在 GAME.npc；8 秒後旗標補上、時間停在 18:09、還是沒生）→ BB 重跑 n25 C5DIAG／C5",
+   "first": {
+    "term": "Y3S1",
+    "week": 13,
+    "earliest": "大三上第 13 週週一～四 18:00 總圖三樓",
+    "mainline": false,
+    "blocks": false,
+    "prereq": false,
+    "parallel": true,
+    "confirmed": true
+   },
+   "source": "BB-B 10-31 01:24 訊息（elegant-brown 0eb6b05d0）",
+   "authorized": "D85（bug 修正）",
+   "xai": {
+    "spec": "AA_547 2-3（慈 5）",
+    "branch": "claude/modest-rubin-2lyp7g",
+    "acceptance": "同一個存檔讀到 2027-11-29 18:08 總圖三樓：以安、芯慈都在、慈 5 會演",
+    "receiver": "BB",
+    "ack": "未派"
+   }
   }
  ]
 }

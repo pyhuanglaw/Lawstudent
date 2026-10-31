@@ -15,6 +15,7 @@ const GLBS=['l118_dian','l118_self','l118_tea','l118_home','l118_cafe2','l118_pa
   'jp_room','linze_202','linze_3f','linze_4f','wancai_multi','wancai_sema','airport_arr','airport_dep','us_market',
   '../classroom_201','../dorm_hall','../linze_interior','../wancai_interior',   /* LAWWW 的四份（assets/models/env/；ART-CEIL-LAWWW-ROOMS-1022）*/
   'boya_interior','putong_interior','library_3f','../lawlib_interior',   /* 博雅、普通、總圖 3F、法律學院圖書館：輕鋼架、燈框（LAWWW2 10-22）*/
+  'gongtong_interior',   /* 共同教學館（ART-ECON-3D-GAP-1021 A，LAWWW2-B 10-30）*/
   'wz_print_interior','wz_lin_interior','wz_teishoku_interior','wz_brunch_interior','wz_teahouse_interior','cvs_interior','cafe_interior','noodle_interior','bookstore_interior','dorm_interior','dorm_room4'];
 const CEIL=/(ceiling(_boards)?|_deck)$/, HUNG=/(ceiling_grid|^cls_grid|^cls_light|(^|_)light_panel|^dm_fixture|^dm_tube)$/;   /* 天花板本身／掛在天花板上的 */
 let fails=0; const check=(name,ok,info)=>{ console.log((ok?'PASS ':'FAIL ')+name+(info?'　'+info:'')); if(!ok) fails++; };

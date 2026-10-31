@@ -7,6 +7,7 @@
 //   4. 開放以後第一次跟以安說話：她自我介紹「你好，我是沈以安。大家都叫我小安。」「……同班的，你不記得？」（AA_313 第 4 節第 10 點）、記 met_an 與 FIRST_MET；不說咖啡廳那段的回聲；
 //   5. 第二次說話不再自我介紹。
 //   6. 照作息出現的以安（heroine_01，S.talkCharacter）也一樣：第一次自我介紹、記 FIRST_MET（BB-C 10-20 重現：原本只有一句旁白）。
+//   7. BUG-C5-AN-NOT-SPAWNED（BB-B 10-31）：主線第 3 天起 LEGACY_IDS 照作息，不等 S.tick 補 afternoonDone（讀檔時、認識了以安但下午沒走完）。
 // 用法：node tests/an_missed_day2_unit.js
 const fs=require('fs'), vm=require('vm'), path=require('path');
 const ROOT=path.resolve(__dirname,'..');
@@ -48,5 +49,13 @@ const F=()=>G.flags;
   if(STORY._bindGM) STORY._bindGM(GM); said=[]; await STORY.talkCharacter('heroine_01',h1);
   check('6. 照作息出現的以安第一次被搭話：自我介紹「你好，我是沈以安。大家都叫我小安。」「……同班的，你不記得？」、記 FIRST_MET、met_an', said.includes('你好，我是沈以安。大家都叫我小安。')&&said.includes('……同班的，你不記得？')&&SOCIAL.has('heroine_01','FIRST_MET')&&F().met_an===true, JSON.stringify(said));
   said=[]; await STORY.talkCharacter('heroine_01',h1); check('6. 第二次不再自我介紹', !said.includes('你好，我是沈以安。大家都叫我小安。'), JSON.stringify(said.slice(0,2)));
+  /* 7. BUG-C5-AN-NOT-SPAWNED（BB-B 10-31：大三上慈 5 總圖三樓只有芯慈）：進區域生人比第一次 S.tick 早——沒有 afternoonDone 的存檔一讀進來，以安照作息該在的地方也不生；
+     認識了以安（metAn）、下午那段沒走完的，S.tick 也不補 afternoonDone。主線第 3 天起照作息（STORY.whereIs 和 populate 用同一個 legacyOk）——修改前兩項都 FAIL */
+  at(9); G.hour=18.5; const w7=STORY.whereIs(GM,'heroine_01');
+  check('7. 主線第 9 天 18:30、還沒跑過 S.tick（沒有 afternoonDone）：以安照作息有地方（不是 null）', !!w7&&!!w7.zone&&!F().afternoonDone, JSON.stringify(w7));
+  at(9,{metAn:true}); G.hour=18.5; STORY.tick(GM,0.016); const w7b=STORY.whereIs(GM,'heroine_01');
+  check('7. 認識了以安、下午那段沒走完（metAn、沒有 afternoonDone）：S.tick 不補旗標，以安照樣照作息出現', !F().afternoonDone&&!!w7b&&!!w7b.zone, JSON.stringify({a:F().afternoonDone,w:w7b}));
+  at(2); G.hour=18.5; check('7. 主線第 2 天：照舊等她追上來（不照作息出現）', STORY.whereIs(GM,'heroine_01')===null&&!STORY.pastDay2(G));
+  at(9,{},'econ'); check('7. 經濟系那一年：不動（pastDay2 false）', STORY.pastDay2(G)===false);
   console.log(fails?('FAILED '+fails):'ALL PASS'); process.exit(fails?1:0);
 })().catch(e=>{ console.log('FAIL 例外',e&&e.stack||e); process.exit(1); });
