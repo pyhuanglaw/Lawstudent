@@ -36815,7 +36815,7 @@
    "owner": "LAWWW",
    "status": "已整合待測試",
    "priority": "P1",
-   "next": "【巡查 10-31 01:5x】BB-B n25（890f8f3f7）：COPY_REAL、宥辰電梯、COPY_BACK／RPS、C3A／B／C、C3FIX、DAY1 PASS；C5 遊戲 FAIL（以安不在場）＝BUG-C5-AN-NOT-SPAWNED-1031 已修（753df5a8c）等 BB 重跑；ZRL3「和不認識的女生說話」BB 在診斷（n25_xinci_e）｜46e36f86b＋ccbb72422 照 AA_547 第 2～4 節做完（13 支測試照新稿改，全部 Node 過）→ BB n25_xinci547",
+   "next": "【10-31 02:0x】n25 只剩 ZRL3（Café 上班中的芷若：老闆比較近、互動鈕一直是「和老闆說話」——BB n25_xinci_h 換靠近點在跑；還是不行＝玩家也會遇到，再報）；C5 已 PASS｜【巡查 10-31 01:5x】BB-B n25（890f8f3f7）：COPY_REAL、宥辰電梯、COPY_BACK／RPS、C3A／B／C、C3FIX、DAY1 PASS；C5 遊戲 FAIL（以安不在場）＝BUG-C5-AN-NOT-SPAWNED-1031 已修（753df5a8c）等 BB 重跑；ZRL3「和不認識的女生說話」BB 在診斷（n25_xinci_e）｜46e36f86b＋ccbb72422 照 AA_547 第 2～4 節做完（13 支測試照新稿改，全部 Node 過）→ BB n25_xinci547",
    "first": {
     "term": "Y1S1",
     "week": 1,
@@ -36870,9 +36870,9 @@
    "title": "慈 5「對答案」（大三上第 13 週總圖三樓）以安不在場：作息有她、3D 沒生（BB-B 10-31 n25）。原因：LEGACY_IDS（以安、阿哲、學姊、Alison、阿凱、周教授）照作息要 afternoonDone；進區域生人比第一次 S.tick（第 3 天起補旗標）早，沒有旗標的存檔讀進來那一區就不生，接著有畫面在等、時間不走，3 秒一次的補人也補不到；「認識了以安、下午那段沒走完」（metAn、沒有 afternoonDone）S.tick 也不補",
    "area": "STORY",
    "owner": "LAWWW",
-   "status": "已整合待測試",
+   "status": "已驗收",
    "priority": "P1",
-   "next": "【10-31 02:0x】修後 LAWWW-B 用同一個存檔在瀏覽器確認：讀進來第一秒 GAME.npc 就有 heroine_01、classmate_xinci；全部 Node 775／0（b90fbfd47）；已派 BB 重跑 n25 C5DIAG／C5｜【10-31 02:0x】story3d.js legacyOk 加 S.pastDay2（法律系主線第 3 天起照作息，和 S.tick 那一段同一個門檻）；an_missed_day2_unit 第 7 項（修改前 FAIL）；LAWWW-B 用 BB 的存檔在瀏覽器重現過（讀檔時 afternoonDone null、以安不在 GAME.npc；8 秒後旗標補上、時間停在 18:09、還是沒生）→ BB 重跑 n25 C5DIAG／C5",
+   "next": "已驗收（10-31 02:0x）｜【10-31 02:0x】修後 LAWWW-B 用同一個存檔在瀏覽器確認：讀進來第一秒 GAME.npc 就有 heroine_01、classmate_xinci；全部 Node 775／0（b90fbfd47）；已派 BB 重跑 n25 C5DIAG／C5｜【10-31 02:0x】story3d.js legacyOk 加 S.pastDay2（法律系主線第 3 天起照作息，和 S.tick 那一段同一個門檻）；an_missed_day2_unit 第 7 項（修改前 FAIL）；LAWWW-B 用 BB 的存檔在瀏覽器重現過（讀檔時 afternoonDone null、以安不在 GAME.npc；8 秒後旗標補上、時間停在 18:09、還是沒生）→ BB 重跑 n25 C5DIAG／C5",
    "first": {
     "term": "Y3S1",
     "week": 13,
@@ -36890,8 +36890,9 @@
     "branch": "claude/modest-rubin-2lyp7g",
     "acceptance": "同一個存檔讀到 2027-11-29 18:08 總圖三樓：以安、芯慈都在、慈 5 會演",
     "receiver": "BB",
-    "ack": "SENT"
-   }
+    "ack": "ACTIONED"
+   },
+   "evidence": "BB-B n25_xinci_g（c3a8aded9，紀錄 6a30ecf0f）：C5DIAG、C5 ALL PASS——讀進來第一次就有 heroine_01 (5.6,5.1)、classmate_xinci (4,5.1)；18:11 走過去演慈 5 近版（CI5 near），開場、分工抄筆記三句、三個選項照 AA_547，選項回答對、沒有禁用字"
   }
  ]
 }
