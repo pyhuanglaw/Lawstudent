@@ -463,7 +463,7 @@ async def te_invite(pg, cdp, run, sid, res, term, want_text, din_key, label=''):
     return q
 
 
-async def te_dinner(pg, cdp, run, sid, res, term, din_key, picks, label=''):
+async def te_dinner(pg, cdp, run, sid, res, term, din_key, picks, label='', again=False):
     """【前置】同一天跳到 17:25（宿舍；12:0x 回完邀約到 17:25 的時間沒有玩）→ 照玩家等「出發：學期末的飯」→ 飯 → 回家的路上（picks）→ 回傳 (log, T, CS)"""
     await jump(pg, run, din_key, 17.42, 'dorm', '%s：期末飯那天（同一天）' % sid)
     n0 = await log_len(pg)
@@ -484,7 +484,13 @@ async def te_dinner(pg, cdp, run, sid, res, term, din_key, picks, label=''):
     io, ic = (seq.index(OPEN_L) if OPEN_L in seq else -1), (seq.index(CLOSE_L) if CLOSE_L in seq else -1)
     # n27（03:0x）：回家路上＝termend_lines.js classmate_xinci.walk 那兩句（走出巷口以後講）；walkPlace「羅斯福路・往公館站」只寫在資料裡、沒有程式讀它（不會出字幕），不拿它當判斷
     WALK0 = await pg.evaluate("(()=>{ try{ const x=TERMEND_LINES.HEART&&TERMEND_LINES.HEART.classmate_xinci; return x&&x.walk?x.walk[0]:null; }catch(e){ return null; } })()") or '這學期，我有一天沒有排讀書。'
-    iw = seq.index(WALK0) if WALK0 in seq else -1
+    # LAWWW-B 0eb633624（AA_537b 8-5）：第二次（上學期「讓我想想」）回家路上換 walkAgain「這學期，我每個禮拜都留了一天。」「……你應該知道是哪一天。」
+    WA = await pg.evaluate("(()=>{ try{ const x=TERMEND_LINES.HEART&&TERMEND_LINES.HEART.classmate_xinci; return x&&x.walkAgain?x.walkAgain:null; }catch(e){ return null; } })()")
+    if again and WA:
+        iw = seq.index(WA[0]) if WA[0] in seq else -1
+        run.check('%s：第二次的回家路上換 walkAgain「%s」（AA_537b 8-5），沒有第一次那句「%s」' % (sid, '」「'.join(WA), WALK0), has_seq(T, WA) and WALK0 not in T, J(T[-8:], 600))
+    else:
+        iw = seq.index(WALK0) if WALK0 in seq else -1
     run.check('%s：巷口家常菜開場「%s」、收尾「%s」，收尾在回家路上之前；字幕「巷口家常菜」' % (sid, OPEN_L, CLOSE_L),
               io >= 0 and ic > io and iw > ic and any('巷口家常菜' in c for c in cp) and not any('簡餐店' in t for t in T),
               J({'open': io, 'close': ic, 'walk': iw, 'caps': cp[:4], 'narr': narr[:3]}, 800))
@@ -562,7 +568,7 @@ async def s_te_she(p, run, base, sid, out):
         q2 = await te_invite(pg, cdp, run, sid, res, 'Y4S1', INVITE2, '2028-12-25', label=sid + '_Y4S1')
         if not q2: return
         res.pop('te', None)
-        lg2, T2, CS2 = await te_dinner(pg, cdp, run, sid, res, 'Y4S1', q2['key'], [NOT_YET_OPT, '「好。」'], label=sid + '_Y4S1')
+        lg2, T2, CS2 = await te_dinner(pg, cdp, run, sid, res, 'Y4S1', q2['key'], [NOT_YET_OPT, '「好。」'], label=sid + '_Y4S1', again=True)
         await report(pg, run, sid, res, T + T2, CS + CS2, caps(lg2), lg + lg2)
         run.check('%s：第二次選「（先不說）」→ she2「上次那件事，我的答案沒變。」「……你的呢。」→「好／讓我想想」' % sid, has_seq(T2, SHE2) and any(c == ANSWER for c in CS2) and not has_seq(T2, SHE[:1]), J(T2[-6:]))
         run.check('%s：選「好。」＝交往（sheSaid）' % sid, res['te']['result'] == 'sheSaid' and res['xc']['dating'], J({'te': res['te'], 'xc': res['xc']}))
@@ -1022,6 +1028,11 @@ async def s_night_real(p, run, base, sid, out):
         after = await msgs(pg, 'p:' + XC); xn = await pg.evaluate("GAME.G.flags.XC_NIGHT|0"); res.update({'reply': [m['text'] for m in after[-2:]], 'XC_NIGHT': xn})
         run.check('%s：手機看得到泡泡、三個回覆鍵；回「%s」→ 她回「%s」' % (sid, want[0], want[1]),
                   all(t in a['before'] for t in N['m']) and a['btns'] == [o[0] for o in N['o']] and a['got'] == want[0] and want[1] in a['after'], J({k: a[k] for k in ('btns', 'got')}))
+        # LAWWW-B 0eb633624（BUG-MSG-MIDNIGHT-DAY-1031）：一路玩過半夜（G.day 不換、hour ≥ 24），手機的時間字照實際那一天比——01:2x 的訊息寫「今天 01:2x」，不是「3/14 01:2x」
+        bf = a['before']; k = bf.find(N['m'][0]); seg = bf[:k] if k >= 0 else bf
+        lbl = re.findall(r'(今天|昨天|\d+/\d+) (\d\d:\d\d)', seg); lbl = lbl[-1] if lbl else None
+        res['when_label'] = lbl
+        run.check('%s：熬夜那一晚手機上那一則的時間字是「今天 %s」（不是日期）' % (sid, hm(h)), bool(lbl) and lbl[0] == '今天', J({'label': lbl, 'seg': seg[-120:]}))
         run.check('%s：熬夜的寫法下 30 分鐘內回照樣算＝XC_NIGHT +1（%d → %d）' % (sid, n_before, xn), xn == n_before + 1, J({'before': n_before, 'after': xn}))
         await report(pg, run, sid, res, [m['text'] for m in ms] + [want[1]], [])
     finally: await finish_page(run, sid, res, errs, b)
