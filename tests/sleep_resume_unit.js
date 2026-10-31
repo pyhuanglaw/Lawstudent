@@ -39,7 +39,7 @@ const d16=D('2027-11-16'), d17=D('2027-11-17'), d18=D('2027-11-18');
   const p=STORY.sleepNow(GM,w.wake,w.alarm); const mid=STORY._sleeping; await p;
   check('1. 睡覺的整段 STORY._sleeping＝true（醒來的字卡那時候也是），睡完放開', mid===true&&during.length>0&&during.every(x=>x===true)&&STORY._sleeping===false&&G.day===d17, 'mid='+mid+' cards='+JSON.stringify(during)+' after='+STORY._sleeping+' day='+CALENDAR.dateOf(G.day).key);
   // 2. S.tick 不開新的事件
-  fresh(d16,21,'dorm',{ROOM_Y3:null}); let started=0; const o3=STORY.roomY3InDorm; STORY.roomY3InDorm=async()=>{ started++; return true; };
+  fresh(d16,21,'dorm',{ROOM_Y3:null,ROOM_Y3_MOVING:true});   /* BUG-ROOMY3-LATE-1031 起 11 月沒搬的舊存檔直接記、不演：用「已經開始搬」讓拆箱照舊到期 */ let started=0; const o3=STORY.roomY3InDorm; STORY.roomY3InDorm=async()=>{ started++; return true; };
   STORY._sleeping=true; await tick(3); const a=started; STORY._sleeping=false; await tick(1); const b=started; STORY.roomY3InDorm=o3;
   check('2. S.tick：睡覺中（_sleeping）宿舍的拆箱到期也不開；放開以後照舊開', a===0&&b===1, a+'/'+b);
   // 3. 11/17 22:00 可昕的電話
