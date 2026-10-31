@@ -410,8 +410,10 @@ HALL_PTS = """(tag=>{ const E=GAME.E; let b=null; E.zone.group.traverse(o=>{ if(
     start:[+(d0[0]+out[0]*8).toFixed(2),+(d0[1]+out[1]*8).toFixed(2)], inside:[+(d0[0]-out[0]*4).toFixed(2),+(d0[1]-out[1]*4).toFixed(2)]}; })"""
 # n27_halls_b 09:06：校史館斜看時有 4 張整個畫面是米色石面、玩家看不到（vis＝null，柱子只佔 0.4～2.8%）——記下鏡頭到玩家胸口中間擋著的是哪些網格、什麼材質
 HITJS = """(()=>{ const E=GAME.E, c=E.camera, o=E.player.obj.position; c.updateMatrixWorld(); const from=c.position.clone(), to=new THREE.Vector3(o.x,o.y+1.2,o.z);
-  const dir=to.clone().sub(from); const dist=dir.length(); dir.normalize(); const rc=new THREE.Raycaster(from,dir,0,dist);
-  const hits=rc.intersectObjects(E.scene.children,true).filter(h=>h.object.isMesh&&h.object.visible&&h.object!==E.player.obj&&!E.player.obj.getObjectById(h.object.id));
+  const dir=to.clone().sub(from); const dist=dir.length(); dir.normalize(); const rc=new THREE.Raycaster(from,dir,0,dist); rc.camera=c;
+  /* n27_halls_c 09:45：整個場景一起 intersectObjects 碰到 Sprite（要 raycaster.camera）丟例外——一個一個網格打、出錯的跳過 */
+  const hits=[]; E.scene.traverse(o=>{ if(!o.isMesh||o.isSprite||!o.visible) return; let p=o, vis=true; while(p){ if(p.visible===false){ vis=false; break; } p=p.parent; } if(!vis) return;
+    if(o===E.player.obj||E.player.obj.getObjectById(o.id)) return; try{ rc.intersectObject(o,false,hits); }catch(e){} }); hits.sort((a,b)=>a.distance-b.distance);
   return {cam:[+from.x.toFixed(2),+from.y.toFixed(2),+from.z.toFixed(2)], dist:+dist.toFixed(2), hits:hits.slice(0,6).map(h=>{ const m=Array.isArray(h.object.material)?h.object.material[0]:h.object.material; let p=h.object, path=[]; for(let k=0;k<4&&p;k++){ path.push(p.name||p.type); p=p.parent; }
     return {d:+h.distance.toFixed(2), mat:m&&m.name, st:!!(m&&m.userData&&m.userData.seeThrough), obj:path.join('<')}; }), colliders:(E.colliders||[]).length}; })()"""
 HALLS = [('library', '總圖'), ('admin', '行政大樓'), ('arts', '文學院'), ('hist', '校史館')]
