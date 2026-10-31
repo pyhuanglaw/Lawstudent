@@ -498,6 +498,66 @@ async def s_lhcore(p, run, base, sid, out):
     finally: await finish_page(run, sid, res, errs, b)
 
 
+
+# LAWWW-B 18:30（baec2acc2，LAWWW2 3094e123b，總圖大廳核心鏡頭第二輪）：
+#   平常（不碰鏡頭）朝外牆＝自動轉到走道、鏡頭離頭 3.5～4.5 m；拖著鏡頭＝鏡頭退進核心、書架／葉子網點透空、離頭約 2.3 m、不是頭頂正上方；已知畫面下方是書架背板。
+#   照 16:02 的規則：量遮擋只用跟隨鏡頭原本的俯角、距離（不設 C.pitch／distTarget）。「朝外牆」＝照玩家點地面往外牆走 1.4 m（人面向外牆、鏡頭本來會落在核心那一側）。
+#   拖著＝一根手指按住拖到「看向外牆」那麼多，手指不放開時量一次、放開 2.5 秒後再量一次。
+LH_WALLS = [('east_n', 6.2, -2.65, [(1.0, 0.0, '往正東'), (0.85, -0.53, '往東南東')]), ('west_n', -6.2, -3.35, [(-1.0, 0.0, '往正西'), (-0.85, -0.53, '往西南西')])]
+HEADJS = """(()=>{ const E=GAME.E, c=E.camera.position, p=E.player.obj.position, hy=p.y+1.6, C=E.cam||{}; const dx=c.x-p.x, dz=c.z-p.z, dy=c.y-hy;
+  let st=0; E.scene.traverse(o=>{ if(!o.isMesh||!o.visible) return; const ms=Array.isArray(o.material)?o.material:[o.material]; for(const m of ms){ if(m&&m.userData&&m.userData.seeThrough&&m.uniforms===undefined&&(m.userData.stOn||(m.userData.stAmt||0)>0)) st++; } });
+  return {cam:[+c.x.toFixed(2),+c.y.toFixed(2),+c.z.toFixed(2)], player:[+p.x.toFixed(2),+p.y.toFixed(2),+p.z.toFixed(2)], head3d:+Math.hypot(dx,dy,dz).toFixed(2), horiz:+Math.hypot(dx,dz).toFixed(2), above:+dy.toFixed(2),
+    elevDeg:+(Math.atan2(dy,Math.hypot(dx,dz))*180/Math.PI).toFixed(1), yaw:C.yaw!=null?+(+C.yaw).toFixed(2):null, dist:C.dist!=null?+(+C.dist).toFixed(2):null, stMats:st}; })()"""
+
+
+async def drag_hold(pg, cdp, px):
+    """一根手指按住、往旁邊拖 px 像素（不放開）；回傳放開用的函式"""
+    pt = await pg.evaluate("""(px=>{ for(const fy of [0.4,0.33,0.5,0.27]){ const y=innerHeight*fy, x0=innerWidth/2-px/2; const a=document.elementFromPoint(x0,y), b=document.elementFromPoint(x0+px,y); if(a&&a.id==='c'&&b&&b.id==='c') return {x0,y}; } return null; })(%s)""" % px)
+    if not pt: return None
+    await cdp.send('Input.dispatchTouchEvent', {'type': 'touchStart', 'touchPoints': [{'x': pt['x0'], 'y': pt['y']}]})
+    for i in range(1, 13):
+        await cdp.send('Input.dispatchTouchEvent', {'type': 'touchMove', 'touchPoints': [{'x': pt['x0'] + px * i / 12, 'y': pt['y']}]}); await pg.wait_for_timeout(50)
+    async def release(): await cdp.send('Input.dispatchTouchEvent', {'type': 'touchEnd', 'touchPoints': []})
+    return release
+
+
+@guard
+async def s_lhcore2(p, run, base, sid, out):
+    """總圖大廳核心鏡頭第二輪：照玩家點地面往外牆走（不碰鏡頭）量自動轉的鏡頭；再用手指按住拖向外牆、按著量一次、放開量一次"""
+    res = out.setdefault(sid, {})
+    b, pg, cdp, errs, r = await launch(p, run, base, '2025-09-26', 14.0, 'library_hall', quiet=True, label=sid + '（2025-09-26（五）14:00 總圖大廳出生點；quiet 讀檔）')
+    try:
+        await pg.wait_for_timeout(6000); rows = []
+        for tag, x, z, dirs in LH_WALLS:
+            for ux, uz, lab in dirs:
+                ok = await L.go_to(pg, cdp, run, x, z, 0.4, '%s 走到 %s' % (sid, tag), max_s=200, lv=0, stop=lambda s: s['dlg'] or s['choices'])
+                ok2 = await L.go_to(pg, cdp, run, x + ux * 1.4, z + uz * 1.4, 0.35, '%s %s %s 點地面往外牆走 1.4 m' % (sid, tag, lab), max_s=120, lv=0, stop=lambda s: s['dlg'] or s['choices'])
+                await pg.wait_for_timeout(3500)
+                c = await pg.evaluate(HEADJS); await run.shot(pg, '%s_%s_%s_natural' % (sid, tag, lab[:3])); v = await simple_vis(pg)
+                inside = LH_CORE[0] < c['cam'][0] < LH_CORE[1] and LH_CORE[2] < c['cam'][2] < LH_CORE[3]
+                row = {'spot': tag, 'look': lab, 'how': 'natural', 'walked': ok and ok2, 'inCore': inside, 'vis': v.get('ratio'), **c}
+                rows.append(row); run.note('%s %s %s 不碰鏡頭：%s' % (sid, tag, lab, J(row, 900)))
+                s0 = await L.state(pg); want = math.atan2(-ux, -uz); dy = (want - s0['camYaw'] + math.pi) % (2 * math.pi) - math.pi
+                px = max(-240.0, min(240.0, -dy / 0.0075))
+                rel = await drag_hold(pg, cdp, px)
+                if rel:
+                    await pg.wait_for_timeout(1200); c = await pg.evaluate(HEADJS); await run.shot(pg, '%s_%s_%s_hold' % (sid, tag, lab[:3]))
+                    inside = LH_CORE[0] < c['cam'][0] < LH_CORE[1] and LH_CORE[2] < c['cam'][2] < LH_CORE[3]
+                    rows.append({'spot': tag, 'look': lab, 'how': 'hold', 'px': round(px), 'inCore': inside, **c}); run.note('%s %s %s 手指按著（拖 %d px）：%s' % (sid, tag, lab, px, J(rows[-1], 900)))
+                    await rel(); await pg.wait_for_timeout(2500)
+                    c = await pg.evaluate(HEADJS); await run.shot(pg, '%s_%s_%s_release' % (sid, tag, lab[:3])); v = await simple_vis(pg)
+                    inside = LH_CORE[0] < c['cam'][0] < LH_CORE[1] and LH_CORE[2] < c['cam'][2] < LH_CORE[3]
+                    rows.append({'spot': tag, 'look': lab, 'how': 'release', 'inCore': inside, 'vis': v.get('ratio'), **c}); run.note('%s %s %s 放開 2.5 秒：%s' % (sid, tag, lab, J(rows[-1], 900)))
+        res['rows'] = rows
+        nat = [x for x in rows if x['how'] == 'natural']; hold = [x for x in rows if x['how'] == 'hold']
+        run.check('%s：兩個點、四個朝外牆的方向都照玩家走得到' % sid, all(x['walked'] for x in nat), J([(x['spot'], x['look'], x['walked']) for x in nat]))
+        run.check('%s：不碰鏡頭朝外牆＝鏡頭不在核心、離頭 3.5～4.5 m、玩家框裡看得到（≥ 5%%）' % sid, all(not x['inCore'] and 3.5 <= x['head3d'] <= 4.5 and (x['vis'] or 0) >= 0.05 for x in nat), J([(x['spot'], x['look'], x['inCore'], x['head3d'], x['vis'], x['elevDeg']) for x in nat]))
+        run.check('%s：手指按著拖向外牆＝鏡頭離頭約 2.3 m（2.0～2.8）、不是頭頂正上方（仰角 < 70°）' % sid, bool(hold) and all(2.0 <= x['head3d'] <= 2.8 and x['elevDeg'] < 70 for x in hold), J([(x['spot'], x['look'], x['inCore'], x['head3d'], x['elevDeg'], x['stMats']) for x in hold]))
+        rel_ = [x for x in rows if x['how'] == 'release']
+        run.note('%s 放開以後（只記，看截圖）：%s' % (sid, J([(x['spot'], x['look'], x['inCore'], x['head3d'], x['elevDeg'], x['vis']) for x in rel_])))
+    finally: await finish_page(run, sid, res, errs, b)
+
+
 # n31_lhcore 10:42：手指轉鏡頭會進核心（E.colliders＝0）——再照玩家平常的走法量：從出生點先把鏡頭轉成看路線前方，點地面走去 B1 樓梯間門、去電梯，路上每隔幾步量一次
 LH_ROUTES = [('b1', '往 B1 樓梯間門（西牆 −11.8, −2.4）', [(-4.0, 3.0), (-6.4, -1.0), (-8.6, -2.4), (-10.1, -2.4)], (-11.8, -2.4)),
              ('elev', '往電梯（東側 10.4, −3.6）', [(4.0, 3.0), (6.4, -1.2), (8.2, -3.4), (10.0, -3.6)], (10.4, -1.5))]
@@ -1265,12 +1325,12 @@ async def s_night_real(p, run, base, sid, out):
 ORDER = ['TE_ME_YES', 'TE_ME_NOTYET', 'TE_SHE_THINK', 'TE_TELL', 'TE_KNOWN', 'TE_FOUNDOUT',
          'AFTER_TELL', 'AN_KNOWS', 'AN_KNOWS_NO', 'FOUND',
          'REPAIR_OPEN', 'REPAIR_YES', 'REPAIR_NO',
-         'DAD2', 'DAD2_NO', 'WALK_LAWA', 'HALLS', 'LHCORE', 'LHROUTE', 'LHNAV', 'COLD',
+         'DAD2', 'DAD2_NO', 'WALK_LAWA', 'HALLS', 'LHCORE', 'LHROUTE', 'LHNAV', 'LHCORE2', 'COLD',
          'G2_DAD', 'BLANK', 'BLANK_AGAIN', 'G6_MAKEUP', 'NIGHT_A', 'NIGHT_B', 'NIGHT_REAL']
 FN = {'TE_ME_YES': s_te_me, 'TE_ME_NOTYET': s_te_me, 'TE_SHE_THINK': s_te_she, 'TE_TELL': s_te_other, 'TE_KNOWN': s_te_other, 'TE_FOUNDOUT': s_te_foundout,
       'AFTER_TELL': s_after_tell, 'AN_KNOWS': s_an_knows, 'AN_KNOWS_NO': s_an_knows, 'FOUND': s_found,
       'REPAIR_OPEN': s_repair_open, 'REPAIR_YES': s_repair_yes, 'REPAIR_NO': s_repair_no,
-      'DAD2': s_dad2, 'DAD2_NO': s_dad2, 'WALK_LAWA': s_walk_lawa, 'HALLS': s_halls, 'LHCORE': s_lhcore, 'LHROUTE': s_lhroute, 'LHNAV': s_lhnav, 'COLD': s_cold,
+      'DAD2': s_dad2, 'DAD2_NO': s_dad2, 'WALK_LAWA': s_walk_lawa, 'HALLS': s_halls, 'LHCORE': s_lhcore, 'LHROUTE': s_lhroute, 'LHNAV': s_lhnav, 'LHCORE2': s_lhcore2, 'COLD': s_cold,
       'G2_DAD': s_g2, 'BLANK': s_blank, 'BLANK_AGAIN': s_blank_again, 'G6_MAKEUP': s_g6, 'NIGHT_A': s_night, 'NIGHT_B': s_night, 'NIGHT_REAL': s_night_real}
 
 

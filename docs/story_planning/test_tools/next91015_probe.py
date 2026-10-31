@@ -1426,6 +1426,39 @@ async def ptlm(pg, cdp, run):
     run.check('普通晚上 20:30 燈是白光（最亮 5%% 像素 R−B ≤ 25；輔助數字，看截圖）', bool(night) and all(x[2] is not None and x[2] <= 25 for x in night), J(night))
 
 
+
+# LAWWW-B 18:30（baec2acc2，LAWWW2 3094e123b）：體育館 1F 室內光照——大廳＋1F 球場白天 14:00、晚上 20:30，照 ptlm 的固定鏡頭量法（光照截圖才用固定角度）。
+# LAWWW2 已知：大廳天花板比改前暗、靠玻璃石材偏冷、往 B1 樓梯下半段很暗——量了給數字，要不要調由 LAWWW-B 定（不判 FAIL）。
+# gym：x −20～20；球場 z −19～11（挑高 9 m）、大廳 z 11～19（天花板 4.2 m）；玻璃立面 z 19；往 B1 樓梯井 x 16.6～19.4、z 12.6～17.6
+GYM_CAMS = [('lobby_in', (0.0, 1.7, 18.2), (0.0, 1.4, 11.2)), ('lobby_glass', (-6.0, 1.7, 12.4), (-13.0, 1.2, 18.9)),
+            ('court_in', (0.0, 1.8, 10.4), (0.0, 1.6, -12.0)), ('court_side', (-18.6, 2.4, -4.0), (14.0, 1.2, -4.0)),
+            ('b1_stair', (18.0, 2.6, 18.6), (18.0, -1.2, 13.2))]
+
+
+async def gymlm(pg, cdp, run):
+    rows = []
+    for hh, tg in ((14.0, '1400'), (20.5, '2030')):
+        st, d = await P.base(pg, SAVE, '2025-10-15', hh, 'gym'); await P.load(pg, cdp, st)
+        run.setup('[前置] 使用者存檔改到 %s %s 體育館大廳（出生點）' % (d['key'], tg))
+        for _ in range(80):
+            if await pg.evaluate("GAME.G.zone==='gym'&&!!GAME.E.zone&&!!(GAME.E.zone.formal||GAME.E.zone.formalInfo)"): break
+            await pg.wait_for_timeout(500)
+        await pg.wait_for_timeout(3000); ck = await pg.evaluate(GT_CHK); run.note('%s 體育館：%s' % (tg, J(ck)))
+        run.check('%s 體育館 1F：正式模型、有烘焙光照（lightMap）、沒有純黑（#000000）材質' % tg, ck['zone'] == 'gym' and ck['formal'] and ck['lm'] > 0 and not ck['black'], J(ck))
+        await pg.evaluate("(()=>{ GAME.E.player.obj.visible=false; })()"); home = await pg.evaluate("(()=>{ const o=GAME.E.player.obj.position; return [o.x,o.z]; })()")
+        for key, e, lk in GYM_CAMS:
+            await pg.evaluate("((p,l)=>{ const E=GAME.E; E.cinematic(new THREE.Vector3(...p),new THREE.Vector3(...l)); E.camera.position.set(...p); E.cam.look=new THREE.Vector3(...l); E.camera.lookAt(E.cam.look); })(%s,%s)" % (J(list(e)), J(list(lk))))
+            await pg.wait_for_timeout(3500); f = await shot_path(run, pg, 'gym_%s_%s' % (tg, key))
+            whole = lum_stats(f) if f else {'err': 'no file'}; col = col_stats(f) if f else {'err': 'no file'}; con = contrast(f) if f else {}
+            rows.append((tg, key, whole, col, con)); run.note('%s %s：%s %s 明暗差 %s' % (tg, key, J(whole), J(col), J(con)))
+        await pg.evaluate("(()=>{ const E=GAME.E; E.player.obj.visible=true; if(E.endCinematic) E.endCinematic(); })()")
+    run.note('體育館 RGB（中間區域平均、偏暖 R−B、最亮 5%%）：%s' % J([(r[0], r[1], r[3].get('rgb'), r[3].get('warm'), r[3].get('bright')) for r in rows])[:3000])
+    run.check('體育館固定鏡頭 %d 張都拍得到' % (2 * len(GYM_CAMS)), len(rows) == 2 * len(GYM_CAMS) and all('err' not in r[2] for r in rows), J([(r[0], r[1], r[2].get('err')) for r in rows]))
+    bad = [r[:3] for r in rows if r[2].get('dark', 1) > 0.25 or r[2].get('white', 1) > 0.15]
+    run.check('大廳、球場每張：沒有整片純黑（黑 <12 不超過 25%%）、死白（>248）不超過 15%%（往 B1 樓梯另外列，LAWWW2 已知偏暗）', not [b for b in bad if b[1] != 'b1_stair'], J(bad))
+    run.note('往 B1 樓梯（LAWWW2 已知下半段很暗，量給 LAWWW-B 定）：%s' % J([(r[0], r[2], r[3].get('rgb')) for r in rows if r[1] == 'b1_stair']))
+
+
 GTCLASS = """((room)=>{ const E=GAME.E, Z=E.zone, F=Z&&Z.seatFold, S=(Z&&Z.seats)||[]; const lec=S.map((s,i)=>i).filter(i=>S[i].kind==='lecture'||S[i].room==='101');
   /* n28_gongtong_econ：經濟系微積分在 102——那一間的範圍照 GONGTONG_LAYOUT；在不在場看 n.hidden（obj.visible 是視錐裁切）*/
   const R=(GONGTONG_LAYOUT.rooms||[]).find(r=>r.id===(room||'101'))||{x0:3.6,x1:11.9,z0:-6.9,z1:6.9,lv:0};
@@ -1677,7 +1710,7 @@ async def main():
             b, ctx, pg, cdp, errs = await L.launch(p, landscape=(VP != 'portrait'))
         pg.on('dialog', lambda d: asyncio.ensure_future(d.accept()))
         await pg.goto(URL); run.check('遊戲載入', await L.wait_loaded(pg)); await pg.evaluate("localStorage.clear()"); await P.init(pg)
-        await {'phone': phone, 'bball': bball, 'rooms': rooms, 'cafewin': cafewin, 'noodle': noodle, 'cafe2': cafe2, 'invite': invite, 'jacket': jacket, 'badclip': badclip, 'bigmap': bigmap, 'bballrain': bballrain, 'renart': renart, 'libla': libla, 'lawlib': lawlib, 'cafe2diag': cafe2diag, 'multiroom': multiroom, 'rtnight': rtnight, 'boya': boya, 'boyaecon': boyaecon, 'boyab4': boyab4, 'soclm': soclm, 'noodlm': noodlm, 'lhlm': lhlm, 'roomlm': roomlm, 'gtlm': gtlm, 'ptlm': ptlm, 'seatreach': seatreach, 'cvslm': cvslm, 'shoplm': shoplm, 'lib3lm': lib3lm, 'gtecon': gtecon}[MODE](pg, cdp, run)
+        await {'phone': phone, 'bball': bball, 'rooms': rooms, 'cafewin': cafewin, 'noodle': noodle, 'cafe2': cafe2, 'invite': invite, 'jacket': jacket, 'badclip': badclip, 'bigmap': bigmap, 'bballrain': bballrain, 'renart': renart, 'libla': libla, 'lawlib': lawlib, 'cafe2diag': cafe2diag, 'multiroom': multiroom, 'rtnight': rtnight, 'boya': boya, 'boyaecon': boyaecon, 'boyab4': boyab4, 'soclm': soclm, 'noodlm': noodlm, 'lhlm': lhlm, 'roomlm': roomlm, 'gtlm': gtlm, 'ptlm': ptlm, 'seatreach': seatreach, 'cvslm': cvslm, 'shoplm': shoplm, 'gymlm': gymlm, 'lib3lm': lib3lm, 'gtecon': gtecon}[MODE](pg, cdp, run)
         run.check('沒有 JS 例外', not errs, J(errs[:3]))
         print('SHA', os.environ.get('SHA', '?'), 'MODE', MODE)
         await b.close()
