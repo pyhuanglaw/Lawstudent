@@ -408,6 +408,17 @@ def main():
             row['judged_at'] = j.get('at')
             row['judgment_history'] = len(J[r['id']])
         ledger.append(row)
+    seen = {r['id'] for r in ledger}
+    for k, rows in J.items():   # 各職位查到、10/21 稽核 B 段沒有的 ID（企劃、交付、美術資產、使用者需求）：照最新一行列進來
+        if k in seen:
+            continue
+        j = rows[-1]
+        t = j.get('tier')
+        ledger.append({'id': k, 'src': j.get('src', 'other'), 'audit_verdict': None, 'audit_severity': None, 'title': (T.get(k) or {}).get('title', j.get('note', '') or j.get('evidence', ''))[:160],
+                       'task_status': (T.get(j.get('task')) or {}).get('status') if j.get('task') else None, 'owner': j.get('owner'), 'priority': j.get('severity'),
+                       'tier': t if isinstance(t, int) else 5, 'auto': False, 'main': j.get('main', 'unknown'), 'bb': [j['bb']] if j.get('bb') and j.get('bb') != 'none' else [],
+                       'bb_pass': 0, 'evidence_gap': bool(j.get('evidence_gap')), 'why': j.get('missing') or j.get('need') or j.get('basis') or j.get('next', ''), 'evidence': j.get('evidence', ''),
+                       'task': j.get('task'), 'next': j.get('next'), 'judged_by': j.get('by'), 'judged_at': j.get('at'), 'judgment_history': len(rows)})
     if '--id' in args:
         k = args[args.index('--id') + 1]
         for row in ledger:
@@ -426,6 +437,8 @@ def main():
 
 
 def summarize(ledger):
+    other = [r for r in ledger if r['src'] != 'audit_B']
+    ledger = [r for r in ledger if r['src'] == 'audit_B']
     by = collections.Counter(r['tier'] for r in ledger)
     done = [r for r in ledger if r['audit_verdict'] == 'done']
     bd = collections.Counter(r['tier'] for r in done)
@@ -433,6 +446,9 @@ def summarize(ledger):
              '其中原本 done 的 %d 項：' % len(done) + '、'.join(f'tier {k} {bd[k]}' for k in sorted(bd)),
              '原本 done、證據在開發分支找不到（要人工查）：%d' % sum(1 for r in done if r['evidence_gap']),
              '原本 done、main 狀態：' + str(dict(collections.Counter(r['main'] for r in done)))]
+    if other:
+        bo = collections.Counter(r['tier'] for r in other)
+        lines.append('各職位另外查到的 %d 項（企劃、美術、交付；以各職位的人工判定為準）：' % len(other) + '、'.join(f'{k} {TIER_NAME[k]} {bo[k]}' for k in sorted(bo)))
     return {'by': by, 'done': bd, 'text': '\n'.join(lines)}
 
 
@@ -453,6 +469,20 @@ def report(ledger, meta, summary):
             tag = ('' if not r['auto'] else '（auto）') + ('⚠證據缺' if r['evidence_gap'] else '')
             why = r.get('missing') or r['why']
             out.append(f"| {r['id']} | {r['tier']} {TIER_NAME[r['tier']]}{tag} | {r['task_status'] or '—'} | {r['main']} | {bb} | {r['owner'] or '—'} | {why[:140].replace('|', '／')} |")
+    other = [r for r in ledger if r['src'] != 'audit_B']
+    if other:
+        by_role = collections.defaultdict(list)
+        for r in other:
+            by_role[r.get('judged_by') or '?'].append(r)
+        for role, rows in sorted(by_role.items()):
+            out += ['', f'## {role} 另外查到的 {len(rows)} 項（不在 10/21 稽核 B 段）', '', '| ID | 現在 | main | 負責 | 證據 | 缺的／下一步 |', '|---|---|---|---|---|---|']
+            for r in sorted(rows, key=lambda r: (r['tier'], r['id'])):
+                if r['tier'] in (1, 2) and len(rows) > 60:
+                    continue
+                out.append(f"| {r['id']} | {r['tier']} {TIER_NAME.get(r['tier'], '?')} | {r['main']} | {r['owner'] or '—'} | {str(r.get('evidence', ''))[:90].replace('|', '／')} | {str(r['why'] or r.get('next') or '')[:120].replace('|', '／')} |")
+            n12 = sum(1 for r in rows if r['tier'] in (1, 2))
+            if len(rows) > 60 and n12:
+                out.append(f'| （另有第 1、2 類 {n12} 項：見 ledger.json） | | | | | |')
     return '\n'.join(out) + '\n'
 
 
