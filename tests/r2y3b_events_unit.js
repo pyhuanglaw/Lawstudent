@@ -464,7 +464,7 @@ const IDS=['ev_y3s2_first_meal','ev_y3s2_228','ev_an_azalea_y3','ev_yu_club_mone
   answer('y3_summer_plan',0); check('S1. 選實習：SUMMER_Y3 intern（選項不當成你傳出去的話）', G.flags.SUMMER_Y3==='intern'&&!txt('sys').some(t=>/^player:/.test(t)));
   at('2028-06-26',18.5); said=[]; await HOME.breakArrive(GM); check('S1. 6/26 摘要日「實習第一天，你負責影印。影印機比你還資深。」', has('實習第一天，你負責影印。影印機比你還資深。'), JSON.stringify(lines()));
   at('2028-07-24',18.5); said=[]; await HOME.breakArrive(GM); check('S1. 7/24「你第一次自己寫完一份初談紀錄。律師只改了兩個字。」', has('你第一次自己寫完一份初談紀錄。律師只改了兩個字。'));
-  at('2028-08-21',18.5); said=[]; await HOME.breakArrive(GM); check('S1. 8/21「最後一天，主任說：『明年考完，再來。』」', has('最後一天，主任說：『明年考完，再來。』'));
+  at('2028-08-21',18.5); said=[]; await HOME.breakArrive(GM); check('S1. 8/21 主任開口「明年考完，再來。」（AA_549 回第 5 題：取代原本的旁白「最後一天，主任說：『明年考完，再來。』」）', has('明年考完，再來。')&&!has('最後一天，主任說：『明年考完，再來。』'));
   /* AA_343 D7（改了期待值）：實習的物件名稱「空白的初談紀錄表」、拿起來的旁白 */
   { const L=STORY.roomY4Items(G), r=L.find(x=>x[0]==='sum_intern'); check('S1. D7 9/3 第四個房間多一件「空白的初談紀錄表」＋旁白「（實習帶回來的初談紀錄表，空白的。第一次自己寫完的那一份，交給律師了。）」（收拾的名字也對得到）', !!r&&r[1]==='空白的初談紀錄表'&&JSON.stringify(r[2])===JSON.stringify(['（實習帶回來的初談紀錄表，空白的。第一次自己寫完的那一份，交給律師了。）'])&&STORY.roomItemName(G,'sum_intern')==='空白的初談紀錄表', JSON.stringify(r)); }
   /* AA_343 D6（改了期待值）：家教那一套換字，住宿舍的也有自己那一句 */

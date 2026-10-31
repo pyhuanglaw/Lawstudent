@@ -437,7 +437,7 @@ const R2Y3B=(function(){
     study:['你把大一的《民法》從紙箱裡拿出來。書角都翻捲了。','七月。冷氣開著，你讀完第一本。','姊姊回家，看到你的筆記：『這是你寫的？字變小了。』']};
   S.sumLine=function(G,i){ const k=G.flags&&G.flags.SUMMER_Y3; const x=(S.SUMMER_LINES[k]||[])[i]; return typeof x==='function'?x(G):(x||null); };
   /* AA_549 3-1（企劃線 AA_549 第 3 節 3-1；第①級）：三選一整個暑假只有三句旁白＝改成九個小場景。日子照 S.SUM_DAYS（臺灣 6/26、7/24、8/21；美國 6/26、7/24、7/31；日本沒有）。
-     每一場：原本那一句旁白（S.sumLine）先演，接這裡的台詞，演完照舊。稿上第一行就是原本那一句的（實習 6/26、7/24、8/21「主任：明年考完，再來。」，家教 7/24）不重複演。
+     每一場：原本那一句旁白（S.sumLine）先演，接這裡的台詞，演完照舊。稿上第一行就是原本那一句的（實習 6/26、7/24，家教 7/24）不重複演；replace＝這一場取代原本那一句（實習 8/21 主任開口，AA 回第 5 題）。
      {lines, choice:[{t, say}]}；函式＝照打工的種類、以安回來了沒；null＝只有原本那一句（其他打工的 6/26）。不取名的人照稿寫稱呼（指導律師、主任、學生、學生的媽媽、老闆、隔壁的考生）*/
   const NPS=(name,text)=>({who:'npc_aa549',name,text});
   S.anBackY3=G=>{ const d=D('2028-08-05'); return d!=null&&G.day>=d&&knows('heroine_01',G)&&!!(typeof STORY!=='undefined'&&STORY.presence&&STORY.presence('heroine_01',G).here); };   /* 「認識以安、她從日本回來（8/5 起）」*/
@@ -446,7 +446,7 @@ const R2Y3B=(function(){
       {lines:[NPS('指導律師','影印完，順便看一下你印的是什麼。'),NPS('指導律師','……看懂了嗎？')],
         choice:[{t:'「一半。」',say:[NPS('指導律師','一半很好。我第一年只看懂三分之一。')]},{t:'「看懂了。」',say:[NPS('指導律師','那明天你來寫摘要。')]}]},
       {lines:[NPS('指導律師','這兩個字很重要。「可能」跟「應該」，不一樣。')]},
-      {lines:[{narr:'（你的桌上多了一張卡片，事務所五個人的字。最下面那個字最醜，是主任寫的。）'}]}],   /* 稿上「主任：明年考完，再來。」＝原本那一句（「最後一天，主任說：『明年考完，再來。』」），不重複（問 AA）*/
+      {replace:true,lines:[NPS('主任','明年考完，再來。'),{narr:'（你的桌上多了一張卡片，事務所五個人的字。最下面那個字最醜，是主任寫的。）'}]}],   /* AA 回第 5 題：主任開口取代原本那一句旁白（「最後一天，主任說：『明年考完，再來。』」不再說）*/
     work:[
       G=>tutor(G)?{lines:[NPS('學生','老師，暑假也要上喔？')],choice:[{t:'「暑假才要上。」',say:[NPS('學生','……好啦。')]},{t:'「上完帶你去吃冰。」',say:[NPS('學生','說好的喔。')]}]}:null,   /* 家教：原本那一句（在家／宿舍兩版）＋；其他打工的 6/26 稿上沒有 */
       G=>tutor(G)?{lines:[NPS('學生','那我不要念法律。……我要念背完就結束的。')]}:{lines:[NPS('老闆','冷氣修好了。這三天辛苦你了。')]},
@@ -509,7 +509,7 @@ const R2Y3B=(function(){
   S.breakArrive=async function(GM){ const G=GM.G, t=now(G), r=rk(G), at=(k,h)=>{ const d=D(k); return d!=null&&Math.abs(T(d,h)-t)<1e-6; };
     if(at('2028-07-15',10)&&r!=='JP'){ phoneNow(GM); await GM.say(null,'（最後一次抽籤。四樓。）'); }   /* lottery4（2-Y3-49；台灣、美國路線）*/
     for(const [k,i] of (S.SUM_DAYS[r]||[])){ if(!at(k,18.5)) continue; const d=D(k); if(typeof HOME!=='undefined'&&HOME.sumSkip&&HOME.sumSkip(G,d)) continue;
-      const l=S.sumLine(G,i); if(l){ await GM.say(null,l); await S.playSumScene(GM,i); } } };   /* 8/21 的「信封到了」作廢（AA_343 D8）；AA_549 3-1：原本那一句之後接小場景 */
+      const l=S.sumLine(G,i), sc=S.sumScene(G,i); if(l&&sc&&sc.replace){ await S.playSumScene(GM,i); continue; } if(l){ await GM.say(null,l); await S.playSumScene(GM,i); } } };   /* 8/21 的「信封到了」作廢（AA_343 D8）；AA_549 3-1：原本那一句之後接小場景（replace＝小場景取代那一句）*/
   if(typeof HOME!=='undefined'&&!HOME._r2y3bBreak){ if(Array.isArray(HOME.STOPS)) HOME.STOPS.push((G,nowT)=>S.stops(G,nowT));
     if(HOME.breakArrive){ const ba0=HOME.breakArrive; HOME.breakArrive=async function(GM){ const r=await ba0.apply(this,arguments); try{ await S.breakArrive(GM); }catch(e){ console.warn('R2Y3B breakArrive',e); } return r; }; }
     HOME._r2y3bBreak=true; }
