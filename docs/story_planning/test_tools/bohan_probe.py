@@ -3,7 +3,7 @@
   H1_TOLD／H1_UNSURE／H1_ASKED  翰 1：大一上第 10 週民總那一天上課前 30 分鐘在校園 → 手機「今天」「直接去上課」→ 下課演「第三題」：
       字幕標題「第三題」、三個選項（講你怎麼寫的）／「我也不確定。」／「你錯哪裡？」各一次，各自的回應照 AA_546 1-2；畫面上沒有分數、名次；
       H1_TOLD 再看人物頁柏翰那一行「大一上期中考完，他問過你第三題怎麼寫。」（畫面＋WHOIS.lines）
-  H2_SLOW  翰 2：大二上第 7 週週一 18:05 總圖閱覽室，【前置】翰 1 演過（BOHAN_SCORE told）、跟他 FAMILIAR → 走到柏翰旁邊 → 選「我寫得很慢，可以嗎？」→「……我也是。所以才組的。」
+  H2_SLOW  翰 2：大二上第 7 週週一 18:05 總圖閱覽室，【前置】翰 1 演過（BOHAN_SCORE told）、跟他 FAMILIAR → 走到柏翰旁邊 → 選「我寫得很慢，可以嗎？」→「……我也是。所以才組的。」；0098cbe10 起算加入（AA_546 1-3，AA-B 回 A）：接著照 H2_YES 走第 7、8、9 週週六小組，阿哲「我去了一次」不演
   H2_YES   同上選「好。」→ 那一週起每週六 16:00 考古題小組（出發選單「出發：」）；【前置】跳到第 7、8、9 週週六 15:30（中間的日子沒有玩）→ 去三次；第一次「四個人，一張考古題…」、第三次「寫完，柏翰把每個人的寫法抄在白板上…」
   H3_MESS／H3_WRITE  翰 3：大二下第 2 週週四 19:45 萬才館，【前置】參加過公法讀書會（CLUB_public_law_group）、認識柏翰 → 研討室 A 門口「參加：公法讀書會」→ 白板三句、三個選項、回應
   H4_GOOD／H4_SIT  翰 4：大三上第 10 週週一 12:12 霖澤館 4F，【前置】FAMILIAR＋記憶 ASKED_BACK → 走到柏翰旁邊 → AA_546 1-5 每一句、舊句（平均以下、我哥念電機…）都沒有
@@ -410,10 +410,11 @@ async def s_h2(p, run, base, sid, out):
         if sid == 'H2_SLOW':
             run.check('%s：選「我寫得很慢，可以嗎？」→「他愣了一下。」「……我也是。所以才組的。」、記憶 ASKED_SLOW' % sid,
                       has_seq(T, ['他愣了一下。', '……我也是。所以才組的。']) and await pg.evaluate("((GAME.G.social.mem||{}).classmate_bohan||[]).some(m=>m.tag==='ASKED_SLOW')"), J(T[-4:]))
-            g = await pg.evaluate("GAME.G.flags.BOHAN_GROUP||null"); res['group'] = g
-            run.note('H2_SLOW 結束時 BOHAN_GROUP＝%s：照程式（story3d.js 考古題小組只排 BOHAN_GROUP===\'yes\'）這個選項之後週六不會排小組（給 LAWWW-B 確認是不是要這樣）' % J(g))
-            return
-        run.check('%s：選「好。」→「小組每週六下午，總圖 B1 的討論室。寫完，一個人講一題。」' % sid, has_seq(T, ['小組每週六下午，總圖 B1 的討論室。寫完，一個人講一題。']), J(T[-3:]))
+            g = await pg.evaluate("({g:GAME.G.flags.BOHAN_GROUP||null, day:GAME.G.flags.BOHAN_GROUP_DAY==null?null:GAME.G.flags.BOHAN_GROUP_DAY})"); res['group'] = g
+            # AA_546 1-3（企劃線 84b6c298f，AA-B 回 A；LAWWW-B 0098cbe10）：選「我寫得很慢，可以嗎？」算加入——BOHAN_GROUP_DAY 照記、第 7～9 週週六小組照排
+            run.check('%s：選「我寫得很慢」算加入小組（BOHAN_GROUP＝slow、BOHAN_GROUP_DAY 有記）' % sid, g.get('g') == 'slow' and g.get('day') is not None, J(g))
+        else:
+            run.check('%s：選「好。」→「小組每週六下午，總圖 B1 的討論室。寫完，一個人講一題。」' % sid, has_seq(T, ['小組每週六下午，總圖 B1 的討論室。寫完，一個人講一題。']), J(T[-3:]))
         sess = []
         for w in (7, 8, 9):
             sk = await day_in_week(pg, 'Y2S1', w, 6)
@@ -431,6 +432,10 @@ async def s_h2(p, run, base, sid, out):
         hasx = lambda s, t: any(NOPAREN(x) == t for x in s['said'])
         run.check('%s：第一次旁白「（%s）」' % (sid, F1), len(sess) > 0 and hasx(sess[0], F1), J(sess[0]['said'] if sess else None))
         run.check('%s：第三次旁白「（%s）」（第一、二次沒有）' % (sid, F3), len(sess) == 3 and hasx(sess[2], F3) and not hasx(sess[0], F3) and not hasx(sess[1], F3), J([s['said'] for s in sess]))
+        heard = await pg.evaluate("(()=>{ const e=STORY_EVENTS.find(q=>q.id==='ev_bohan_group_heard'); return {exists:!!e, ok:e?!!EVENTS.check(e):null, done:!!(GAME.G.events&&GAME.G.events.done&&GAME.G.events.done.ev_bohan_group_heard)}; })()")
+        said_all = [x for s_ in sess for x in s_['said']]
+        run.note('%s 阿哲「沒去的版本」ev_bohan_group_heard：%s' % (sid, J(heard)))
+        run.check('%s：去過小組的玩家不會聽到阿哲「我去了一次」（ev_bohan_group_heard 不成立、沒演過）' % sid, heard.get('exists') and not heard.get('ok') and not heard.get('done') and not any('我去了一次' in x for x in said_all), J(heard))
     finally: await finish_page(run, sid, res, errs, b)
 
 
