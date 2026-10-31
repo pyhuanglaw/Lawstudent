@@ -108,5 +108,6 @@ python3 -c "import json,sys; d=json.load(open(sys.argv[1])); d['out']='assets/mo
 python3 tools/blender/env_second/lightbake/to_webp.py "$TMP/lm" "$OUTDIR/${NAME}_lm" 90
 /opt/blenv/bin/python tools/blender/env_second/lightbake/lm_fix_hidden.py -- --in "$OUTDIR/$NAME.glb" --out "$OUTDIR/$NAME.glb" --lm "$OUTDIR/${NAME}_lm"
 python3 tools/blender/env_second/lightbake/glb_restore_sides.py "$OUTDIR/$NAME.glb" "$REF" $DROPDE   # 材質單面／雙面照部署中的那一份還原（見 bake_gym.sh）
-cp "$TMP/lm.json" tools/blender/env_second/lightbake/${NAME}_lm.json
+# 烘焙紀錄：輸出到正式資料夾時才寫進 tools/（試烘到別的資料夾時放在那裡，不覆蓋 repo 裡定案那一份）
+if [ "$OUTDIR" = "assets/models/env/second_ai" ]; then cp "$TMP/lm.json" tools/blender/env_second/lightbake/${NAME}_lm.json; else cp "$TMP/lm.json" "$OUTDIR/${NAME}_lm.json"; fi
 echo "done: $OUTDIR/$NAME.glb + ${NAME}_lm_day/night.webp"
