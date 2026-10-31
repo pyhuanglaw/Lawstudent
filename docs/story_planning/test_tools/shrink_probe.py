@@ -330,22 +330,39 @@ async def mode_e1d(pg, cdp, run):
 
 
 async def mode_y2late(pg, cdp, run):
-    """n20_e1d_new3 14:35 附帶（LAWWW-B 14:28 問「玩家也會遇到嗎」）：S.roomY2Due 只看 day ≥ 2026-09-06、沒有 ROOM_Y2，沒有上限（大三有 S.roomY3Late，大二沒有）。
-    舊存檔（大二開學以後、還沒搬 312）讀進來走進宿舍，會不會在開學好幾週以後還演「明天開學。今天搬進新的房間。」——三個日期各讀一次、在宿舍等 10 分鐘遊戲時間"""
+    """BUG-ROOMY2-LATE-1031：舊存檔（沒有 ROOM_Y2／ROOM_Y3）讀進來走進宿舍，會不會在開學好幾週以後還演搬房間。
+    YR=2（預設）：拿掉 ROOM_Y2，9/06 照演「明天開學。今天搬進新的房間。」；10/15、2027-10-13 不演 312（5db371b5d：S.roomY2Late 直接記 ROOM_Y2＝9/06）。
+    YR=3：ROOM_Y2 記 9/06、拿掉 ROOM_Y3，2027-09-05 照演「（明天開學。今天搬進第三個房間。）」；2027-10-13、2027-12-15、2028-02-15 演到就是不該演（LAWWW-B 14:52）。
+    台詞包 GAME.say 記（14:39 那一輪 __BBP.cap 是空的，判斷寫反）"""
+    yr = os.environ.get('YR', '2')
+    d906 = (await P.day_of(pg, '2026-09-06'))['d']
+    if yr == '3':
+        cases = [('2027-09-05', True), ('2027-10-13', False), ('2027-12-15', False), ('2028-02-15', False)]; key3 = '搬進第三個房間'
+    else:
+        cases = [('2026-09-06', True), ('2026-10-15', False), ('2027-10-13', False)]; key3 = '搬進新的房間'
     rows = []
-    for key, hh in (('2026-09-06', 20.0), ('2026-10-15', 20.0), ('2027-10-13', 20.0)):
-        st, d = await P.base(pg, SAVE, key, hh, 'dorm'); st.setdefault('flags', {}).pop('ROOM_Y2', None)
-        # n20_y2late 14:39：__BBP.cap（字幕擷取）是空的、兩行判斷寫反——改成包 GAME.say 記台詞
+    for key, want in cases:
+        st, d = await P.base(pg, SAVE, key, 20.0, 'dorm'); F = st.setdefault('flags', {})
+        for k in ('ROOM_Y2', 'ROOM_Y3', 'ROOM_Y2_MOVING', 'ROOM_Y3_MOVING'): F.pop(k, None)
+        if yr == '3': F['ROOM_Y2'] = d906
         await pg.evaluate("(()=>{ window.__SAYS=[]; if(!window.__SAYH){ window.__SAYH=1; const s0=GAME.say; GAME.say=function(w,t){ try{ window.__SAYS.push(String(t||'')); }catch(e){} return s0.apply(this,arguments); }; } })()")
-        await P.load(pg, cdp, st, quiet=False); n0 = await P.cap_n(pg)
-        run.setup('[前置] 使用者存檔改到 %s（%s 第 %s 週）%.2f 宿舍；ROOM_Y2 沒有（舊存檔、還沒搬 312）' % (d['key'], d['term'], d['week'], hh))
-        await P.events_on(pg); await P.wait_play(pg, cdp, hh + 0.2, max_s=600, run=run, tag='y2late_%s' % key); await pg.wait_for_timeout(2000)
+        await P.load(pg, cdp, st, quiet=False)
+        run.setup('[前置] 使用者存檔改到 %s（%s 第 %s 週）20:00 宿舍；%s' % (d['key'], d['term'], d['week'], 'ROOM_Y2＝2026-09-06、沒有 ROOM_Y3' if yr == '3' else '沒有 ROOM_Y2'))
+        await P.events_on(pg); await P.wait_play(pg, cdp, 20.2, max_s=600, run=run, tag='y%slate_%s' % (yr, key)); await pg.wait_for_timeout(2000)
         txt = await pg.evaluate("(window.__SAYS||[]).slice(0,40)")
-        r = await pg.evaluate("(()=>({room:GAME.G.flags.ROOM_Y2!=null?CALENDAR.dateOf(GAME.G.flags.ROOM_Y2).key:null, now:CALENDAR.dateOf(GAME.G.day).key+' '+(+GAME.G.hour).toFixed(2)}))()")
-        hit = any('明天開學' in (t or '') for t in txt); rows.append((key, hit, r))
-        run.note('%s：演了「明天開學」%s；ROOM_Y2 %s；說過的 %s' % (key, hit, J(r), J(txt[:12])[:1200])); await run.shot(pg, 'y2late_%s' % key)
-    run.check('9/06（開學前一天）舊存檔走進宿舍：演搬房間（「明天開學。今天搬進新的房間。」）', rows[0][1], J(rows[0]))
-    run.check('開學以後才讀進來的舊存檔（10/15、隔年 10/13）不演「明天開學」（開學日已經過了）', not rows[1][1] and not rows[2][1], J(rows[1:]))
+        r = await pg.evaluate("(()=>{ const F=GAME.G.flags, k=d=>d==null?null:CALENDAR.dateOf(d).key; return {y2:k(F.ROOM_Y2), y3:k(F.ROOM_Y3), now:CALENDAR.dateOf(GAME.G.day).key+' '+(+GAME.G.hour).toFixed(2)}; })()")
+        y2t = any('搬進新的房間' in t for t in txt); y3t = any('搬進第三個房間' in t for t in txt)
+        rows.append({'key': key, 'want': want, 'y2text': y2t, 'y3text': y3t, **r})
+        run.note('%s：演 312「搬進新的房間」%s、演 507「搬進第三個房間」%s；%s；說過的 %s' % (key, y2t, y3t, J(r), J(txt[:14])[:1200])); await run.shot(pg, 'y%slate_%s' % (yr, key))
+    first = rows[0]; rest = rows[1:]
+    if yr == '3':
+        run.check('大三開學前一天 2027-09-05 舊存檔：照演 507「（明天開學。今天搬進第三個房間。）」', first['y3text'], J(first))
+        run.check('大三開學以後才讀進來（10/13、12/15、2/15）：不演 507、也不演 312', not any(x['y3text'] or x['y2text'] for x in rest), J(rest))
+    else:
+        run.check('9/06 舊存檔：照演 312「明天開學。今天搬進新的房間。」', first['y2text'], J(first))
+        run.check('開學以後才讀進來（10/15、2027-10-13）：不演 312，ROOM_Y2 直接記 2026-09-06', not any(x['y2text'] for x in rest) and all(x['y2'] == '2026-09-06' for x in rest), J(rest))
+        y3 = [x for x in rest if x['key'] >= '2027-09-05']
+        if y3: run.note('附帶：2027-10-13 那一筆有沒有演 507（YR=3 那一輪專門看）：%s' % J([(x['key'], x['y3text'], x['y3']) for x in y3]))
 
 
 async def main():

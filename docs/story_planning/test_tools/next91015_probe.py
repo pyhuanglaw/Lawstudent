@@ -1354,6 +1354,43 @@ async def cvslm(pg, cdp, run):
     run.check('便利商店有影子（畫面中間亮度第 10／90 百分位差 ≥ 50；輔助數字，看截圖：貨架層板底下、櫃檯正面、牆角）', all((r[5].get('spread') or 0) >= 50 for r in rows), J([(r[0], r[1], r[5]) for r in rows]))
 
 
+# INTERIOR-AAA（LAWWW-B 14:52，5db371b5d）：書店（舊路書房，bookstore）白天晚上各兩張、溫州街三家（半熟 wz_brunch、阿德影印 wz_print、一盞 wz_teahouse）各一張——照 cvslm 的量法
+SHOP_LM = [('bookstore', '舊路書房', 2), ('wz_brunch', '半熟', 1), ('wz_print', '阿德影印輸出', 1), ('wz_teahouse', '一盞', 1)]
+SHOP_CHK = """(()=>{ const E=GAME.E; let lm=0, mesh=0, black=[]; E.scene.traverse(o=>{ if(!o.isMesh||!o.visible) return; mesh++; const ms=Array.isArray(o.material)?o.material:[o.material]; if(ms.some(m=>m&&m.lightMap)) lm++;
+    for(const m of ms){ if(m&&m.color&&m.color.getHex()===0&&!m.map) black.push(o.name||m.name); } });
+  const ex=E.interactables.find(i=>i.exit); const b=new THREE.Box3(); if(E.zone&&E.zone.group) b.setFromObject(E.zone.group); const c=new THREE.Vector3(); b.getCenter(c);
+  return {zone:GAME.G.zone, lm, mesh, black:[...new Set(black)].slice(0,6), exit:ex?[+ex.x.toFixed(2),+ex.z.toFixed(2),ex.label]:null, c:[+c.x.toFixed(2),+c.z.toFixed(2)], h:+(+GAME.G.hour).toFixed(2)}; })()"""
+
+
+async def shoplm(pg, cdp, run):
+    rows = []
+    for zone, nm, nshot in SHOP_LM:
+        for hh, tg in ((14.0, '1400'), (20.5, '2030')):
+            st, d = await P.base(pg, SAVE, '2025-10-15', hh, zone); await P.load(pg, cdp, st)
+            run.setup('[前置] 使用者存檔改到 %s %s %s（出生點）' % (d['key'], tg, nm))
+            for _ in range(80):
+                ck = await pg.evaluate(SHOP_CHK)
+                if ck['zone'] == zone and ck['lm'] > 0: break
+                await pg.wait_for_timeout(500)
+            await pg.wait_for_timeout(3000); info = await pg.evaluate(SHOP_CHK); run.note('%s %s：%s' % (tg, nm, J(info)[:800]))
+            run.check('%s %s：有烘焙光照（lightMap）、沒有純黑（#000000、沒有貼圖）材質' % (tg, nm), info['zone'] == zone and info['lm'] > 0 and not info['black'], J({k: info[k] for k in ('zone', 'lm', 'mesh', 'black', 'h')}))
+            ex, c = info['exit'], info['c']
+            shots = []
+            if ex:   # 門口往裡面看（站在門口往中間走 1 m）、從裡面往門口看（書店多一張）
+                dx, dz = c[0] - ex[0], c[1] - ex[1]; L = max(0.01, (dx * dx + dz * dz) ** 0.5); ux, uz = dx / L, dz / L
+                shots.append(('in', '門口往裡面', ex[0] + ux * 1.0, ex[1] + uz * 1.0, c[0] + ux * 3, c[1] + uz * 3, 3.0))
+                if nshot > 1: shots.append(('out', '裡面往門口', c[0] + ux * 1.5, c[1] + uz * 1.5, ex[0], ex[1], 3.0))
+            for key, label, x, z, tx, tz, dist in shots:
+                pp, stt = await ll_shot(pg, run, 'shop_%s_%s_%s' % (zone, tg, key), x, z, 0, tx, tz, dist=dist)
+                f = last_shot('shop_%s_%s_%s' % (zone, tg, key)); con = contrast(f) if f else {}
+                rows.append((zone, nm, tg, key, label, pp, stt, con)); run.note('%s %s %s：站 %s；亮度 %s；明暗差 %s' % (tg, nm, label, J(pp), J(stt), J(con)))
+            await pg.evaluate("(()=>{ const C=GAME.E.cam; C.manualT=0; })()")
+    run.check('每間白天、晚上都拍得到（書店 2 張、溫州街三家各 1 張）', len(rows) == 10 and all(r[5] for r in rows), J([(r[0], r[2], r[3], r[5]) for r in rows]))
+    bad = [(r[1], r[2], r[4], r[6]) for r in rows if r[6].get('dark', 0) > 0.25 or r[6].get('white', 0) > 0.15]
+    run.check('每張：沒有整片純黑（黑 <12 不超過 25%）、死白（>248）不超過 15%', not bad, J(bad))
+    run.check('有影子（畫面中間亮度第 10／90 百分位差 ≥ 50；輔助數字，看截圖）', all((r[7].get('spread') or 0) >= 50 for r in rows), J([(r[1], r[2], r[3], r[7]) for r in rows]))
+
+
 # LAWWW-B 03:28（3f67ec44a）：普通教學館室內光照（ART-ECON-3D-GAP-1021 B，LAWWW2 1154ef5da）——同一套 gtlm 看普通：白天 14:00、晚上 20:30，101、一樓走廊、樓梯、二樓走廊；
 # 看三件事：教室牆面不偏桃橘、沒有整片純黑、晚上燈是白光。已知不報：一樓樓梯井偏暗（沒燈）、101 門邊牆偏奶油色、單人桌椅是方塊。
 # 普通：101 在 x −16.9～−4.4、z −7.9～−1.2（黑板在西牆 x −16.85）；走廊 z −1.2～1.6；樓梯 x −1.9～1.9、z −6.6～−1.2；2F 高 4.2
@@ -1640,7 +1677,7 @@ async def main():
             b, ctx, pg, cdp, errs = await L.launch(p, landscape=(VP != 'portrait'))
         pg.on('dialog', lambda d: asyncio.ensure_future(d.accept()))
         await pg.goto(URL); run.check('遊戲載入', await L.wait_loaded(pg)); await pg.evaluate("localStorage.clear()"); await P.init(pg)
-        await {'phone': phone, 'bball': bball, 'rooms': rooms, 'cafewin': cafewin, 'noodle': noodle, 'cafe2': cafe2, 'invite': invite, 'jacket': jacket, 'badclip': badclip, 'bigmap': bigmap, 'bballrain': bballrain, 'renart': renart, 'libla': libla, 'lawlib': lawlib, 'cafe2diag': cafe2diag, 'multiroom': multiroom, 'rtnight': rtnight, 'boya': boya, 'boyaecon': boyaecon, 'boyab4': boyab4, 'soclm': soclm, 'noodlm': noodlm, 'lhlm': lhlm, 'roomlm': roomlm, 'gtlm': gtlm, 'ptlm': ptlm, 'seatreach': seatreach, 'cvslm': cvslm, 'lib3lm': lib3lm, 'gtecon': gtecon}[MODE](pg, cdp, run)
+        await {'phone': phone, 'bball': bball, 'rooms': rooms, 'cafewin': cafewin, 'noodle': noodle, 'cafe2': cafe2, 'invite': invite, 'jacket': jacket, 'badclip': badclip, 'bigmap': bigmap, 'bballrain': bballrain, 'renart': renart, 'libla': libla, 'lawlib': lawlib, 'cafe2diag': cafe2diag, 'multiroom': multiroom, 'rtnight': rtnight, 'boya': boya, 'boyaecon': boyaecon, 'boyab4': boyab4, 'soclm': soclm, 'noodlm': noodlm, 'lhlm': lhlm, 'roomlm': roomlm, 'gtlm': gtlm, 'ptlm': ptlm, 'seatreach': seatreach, 'cvslm': cvslm, 'shoplm': shoplm, 'lib3lm': lib3lm, 'gtecon': gtecon}[MODE](pg, cdp, run)
         run.check('沒有 JS 例外', not errs, J(errs[:3]))
         print('SHA', os.environ.get('SHA', '?'), 'MODE', MODE)
         await b.close()

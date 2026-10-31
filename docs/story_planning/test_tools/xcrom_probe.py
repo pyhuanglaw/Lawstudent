@@ -529,6 +529,32 @@ async def s_lhroute(p, run, base, sid, out):
     finally: await finish_page(run, sid, res, errs, b)
 
 
+# NAV-LIBHALL-ISLAND-1030（LAWWW-B 14:52，cfb70a5fd 起）：總圖大廳一樓滅火器（6.5,−8.65）旁原本有 2 格的小孤島（約 5.85,−8.4，比人窄的縫，滑進去出不來）——
+# 照玩家走到滅火器旁、用搖桿往牆角推幾次，再點地面走回大廳中間，看出不出得來；孤島那幾點站不站得住
+@guard
+async def s_lhnav(p, run, base, sid, out):
+    res = out.setdefault(sid, {})
+    b, pg, cdp, errs, r = await launch(p, run, base, '2025-09-26', 14.0, 'library_hall', quiet=True, label=sid + '（2025-09-26（五）14:00 總圖大廳出生點；quiet 讀檔）')
+    try:
+        await pg.wait_for_timeout(6000)
+        isl = await pg.evaluate("(()=>{ const E=GAME.E, P=[[5.85,-8.4],[5.85,-8.6],[6.0,-8.4],[5.7,-8.5]]; return P.map(([x,z])=>[x,z,E.canStand?!!E.canStand(x,z,0.33,0):null]); })()")
+        run.note('%s 原本孤島那幾點站不站得住（半徑 0.33）：%s' % (sid, J(isl)))
+        ok1 = await L.go_to(pg, cdp, run, 7.0, -7.9, 0.5, '%s 走到滅火器旁' % sid, max_s=240, lv=0, stop=lambda s: s['dlg'] or s['choices'])
+        await run.shot(pg, '%s_ext' % sid); tracks = []
+        for dx in (0, -15, 15, 0):   # 鏡頭轉成看牆角（原本孤島那裡），搖桿往前推（joystick 的 dx、dy 是像素；dy<0＝往前）
+            await L.turn_camera_to(pg, cdp, 5.6, -8.7); await L.joystick(pg, cdp, dx, -45, 1800); await pg.wait_for_timeout(600)
+            c = await pg.evaluate(CAMJS); tracks.append(c['player'])
+        await run.shot(pg, '%s_corner' % sid)
+        run.note('%s 往牆角推以後的位置：%s' % (sid, J(tracks)))
+        ok2 = await L.go_to(pg, cdp, run, 6.0, 2.0, 0.6, '%s 從牆角走回大廳中間' % sid, max_s=240, lv=0, stop=lambda s: s['dlg'] or s['choices'])
+        c2 = await pg.evaluate(CAMJS); await run.shot(pg, '%s_back' % sid)
+        res.update({'isl': isl, 'tracks': tracks, 'back': c2['player']})
+        run.check('%s：照玩家走得到滅火器旁 (7.0, −7.9)' % sid, ok1, '')
+        run.check('%s：原本孤島那幾點站不住（不會滑進去）' % sid, not any(x[2] for x in isl if x[2] is not None), J(isl))
+        run.check('%s：往牆角推過以後，點地面走得回大廳中間 (6, 2)' % sid, ok2, J(c2['player']))
+    finally: await finish_page(run, sid, res, errs, b)
+
+
 @guard
 async def s_walk_lawa(p, run, base, sid, out):
     """BUG-CAM-PILLAR-LAWA-1031：平常從南邊走到法律系館A穿堂門口（沒有劇情、跟隨鏡頭），路上、到門口、3 秒、6 秒都量玩家看得到幾成"""
@@ -1239,12 +1265,12 @@ async def s_night_real(p, run, base, sid, out):
 ORDER = ['TE_ME_YES', 'TE_ME_NOTYET', 'TE_SHE_THINK', 'TE_TELL', 'TE_KNOWN', 'TE_FOUNDOUT',
          'AFTER_TELL', 'AN_KNOWS', 'AN_KNOWS_NO', 'FOUND',
          'REPAIR_OPEN', 'REPAIR_YES', 'REPAIR_NO',
-         'DAD2', 'DAD2_NO', 'WALK_LAWA', 'HALLS', 'LHCORE', 'LHROUTE', 'COLD',
+         'DAD2', 'DAD2_NO', 'WALK_LAWA', 'HALLS', 'LHCORE', 'LHROUTE', 'LHNAV', 'COLD',
          'G2_DAD', 'BLANK', 'BLANK_AGAIN', 'G6_MAKEUP', 'NIGHT_A', 'NIGHT_B', 'NIGHT_REAL']
 FN = {'TE_ME_YES': s_te_me, 'TE_ME_NOTYET': s_te_me, 'TE_SHE_THINK': s_te_she, 'TE_TELL': s_te_other, 'TE_KNOWN': s_te_other, 'TE_FOUNDOUT': s_te_foundout,
       'AFTER_TELL': s_after_tell, 'AN_KNOWS': s_an_knows, 'AN_KNOWS_NO': s_an_knows, 'FOUND': s_found,
       'REPAIR_OPEN': s_repair_open, 'REPAIR_YES': s_repair_yes, 'REPAIR_NO': s_repair_no,
-      'DAD2': s_dad2, 'DAD2_NO': s_dad2, 'WALK_LAWA': s_walk_lawa, 'HALLS': s_halls, 'LHCORE': s_lhcore, 'LHROUTE': s_lhroute, 'COLD': s_cold,
+      'DAD2': s_dad2, 'DAD2_NO': s_dad2, 'WALK_LAWA': s_walk_lawa, 'HALLS': s_halls, 'LHCORE': s_lhcore, 'LHROUTE': s_lhroute, 'LHNAV': s_lhnav, 'COLD': s_cold,
       'G2_DAD': s_g2, 'BLANK': s_blank, 'BLANK_AGAIN': s_blank_again, 'G6_MAKEUP': s_g6, 'NIGHT_A': s_night, 'NIGHT_B': s_night, 'NIGHT_REAL': s_night_real}
 
 
