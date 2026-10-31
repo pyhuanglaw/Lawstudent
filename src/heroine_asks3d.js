@@ -75,8 +75,8 @@ const HASK=(function(){
   S.lineOf=rec=>{ if(rec&&rec.line) return rec.line; const ev=rec?S.entryOf(rec):null; return ev&&ev.v?ev.v.line:null; };
   /* 她 day0 以前四週內傳過的句子（傳了的、排好要傳的；沒傳出去的 dropped 不算）*/
   S.usedLines=function(G,id,day0){ const out=new Set(); for(const x of S.rec(G).sent){ if(!x||x.id!==id||x.state==='dropped'||!x.send||day0-x.send.day>=S.ROT_DAYS) continue; const t=S.lineOf(x); if(t) out.add(t); } return out; };
-  /* 同一組（她、地點、交往前／交往中）最近一次用的是第幾句（放假版、慢讀版不算進輪流）*/
-  S.lastAlt=function(G,id,from,vk){ let best=null; for(const x of S.rec(G).sent){ if(!x||x.id!==id||x.k!=='d'||x.vk!==vk||(x.from||x.place)!==from||x.vac||x.state==='dropped') continue; if(!best||x.send.day>best.send.day||(x.send.day===best.send.day&&x.sid>best.sid)) best=x; } return best?(best.alt|0):null; };
+  /* 同一組（她、地點、交往前／交往中）最近一次用的是第幾句（放假版、慢讀版、AA_549 假期版不算進輪流）*/
+  S.lastAlt=function(G,id,from,vk){ let best=null; for(const x of S.rec(G).sent){ if(!x||x.id!==id||x.k!=='d'||x.vk!==vk||(x.from||x.place)!==from||x.vac||x.vs||x.state==='dropped') continue; if(!best||x.send.day>best.send.day||(x.send.day===best.send.day&&x.sid>best.sid)) best=x; } return best?(best.alt|0):null; };
   /* 這一則用哪一句：沒有 alt／noLab 的照舊（vac 照 AA_532）；有的（學姊三種）——放假版照 AA_532；其他＝從上一次的下一句開始輪，
      四週內傳過的、那一天那個時間不行的（fits：慢讀店休、她平日 9～17 不約）跳過；都不行＝這次不約這個地方（null）*/
   S.pickVar=function(G,id,e,vk,v0,vac,day,day0,fits){ if(!v0) return null; const fit=v=>!fits||fits(v);

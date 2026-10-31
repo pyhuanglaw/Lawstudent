@@ -22,6 +22,8 @@ GM.toast=t=>{ toasts.push(t); };
 const items=(key)=>CLS.dayItems(H.G,D(key));
 const evPush=e=>{ STORY_EVENTS.push(e); return ()=>{ const i=STORY_EVENTS.indexOf(e); if(i>=0) STORY_EVENTS.splice(i,1); }; };
 const reset=()=>{ phoneCalls=[]; onPhone=null; toasts=[]; };
+/* AA_549 3-5：寒假團 C18W 大一也開＝大一上第 6 週週一 12:00（10/6）全班群組多一則公告（收到訊息快轉會停）。2a、2b 測的是課的停點：先當作公告看過、不報（reg 'no'，公告不再傳）*/
+const noC18W=()=>{ if(typeof VAC!=='undefined'&&VAC.rec) VAC.rec(H.G).reg['C18W@Y1']='no'; };
 
 (async()=>{
 /* ---- 0 ---- */
@@ -56,11 +58,11 @@ await sec(1,async()=>{ fresh('2025-09-28',22); reset(); const R=CLS.rec(H.G), be
 /* ---- 2 停點 ---- */
 await sec(2,async()=>{
   // 2a 有課前事件的課（大一英文 10/9 的 beforeClass）：停在課前 20 分鐘，不自動上
-  fresh('2025-10-05',22); reset(); { const r=await X().jump(GM,now()+7*24); const en=items('2025-10-09').find(it=>it.c.id==='english_y1');
+  fresh('2025-10-05',22); reset(); noC18W(); { const r=await X().jump(GM,now()+7*24); const en=items('2025-10-09').find(it=>it.c.id==='english_y1');
     check('2a. 10/5 跳一週：停在 10/9 大一英文前 20 分鐘（有課前事件），那堂沒記',r.why==='stop'&&!!en&&Math.abs(now()-(Tm(en.day,en.t0)-1/3))<1e-6&&!CLS.rec(H.G).done[en.key]&&/大一英文/.test(r.stop.why),J({stop:r.stop,at:lbl(now())}));
     check('2a. 字卡：日期＋停下來的原因',/^10\/9（四）08:50$/.test((H.cards.slice(-1)[0]||[])[0])&&/大一英文/.test((H.cards.slice(-1)[0]||[])[1]),J(H.cards.slice(-1))); }
   // 2b 考試（期中考第 8 週）：停在考前 1 小時（床的鬧鐘那個時間）
-  fresh('2025-10-19',22); reset(); { const r=await X().jump(GM,now()+7*24); const ex=items('2025-10-20').find(it=>it.exam);
+  fresh('2025-10-19',22); reset(); noC18W(); { const r=await X().jump(GM,now()+7*24); const ex=items('2025-10-20').find(it=>it.exam);
     check('2b. 10/19 跳一週：停在 10/20 第一科期中考前 1 小時（鬧鐘），考試沒有被自動上',r.why==='stop'&&!!ex&&Math.abs(now()-(Tm(ex.day,ex.t0)-1))<1e-6&&!CLS.rec(H.G).done[ex.key],J({stop:r.stop,at:lbl(now())}));
     const exs=[]; for(let d=D('2025-10-20');d<=D('2025-10-31');d++) for(const it of CLS.dayItems(H.G,d)) if(it.exam) exs.push(it);
     check('2b. 期中考每一科都算有劇情（classEventful＝exam）',exs.length>=3&&exs.every(it=>X().classEventful(H.G,it)==='exam'),exs.length); }
