@@ -4,7 +4,8 @@ BB-B 的重現：2029-04-27 17:25，校園 (34,−99) 走到 A館門口 (34,−1
 [捷徑] 讀檔直接放到位置、條件事件關閉、路人拿掉。手機橫向模擬（SwiftShader），不是 iPhone。
 用法：python3 tools/blender/env_second/shots/cam_pillar_probe.py 工作樹 URL 輸出資料夾 '名字:x,z,鏡頭yaw;…' [日期 2029-04-27] [時間 17.42]
 環境變數（BUG-CAM-LIBHALL-CORE-1031 加的）：ZONE＝區域（預設 campus；例 library_hall）、LV＝樓層（預設 0）、
-  SWING=1＝鏡頭照平常一樣：沒在拖鏡頭，貼牆時 autoSwing 自己轉開，等 WAIT 毫秒（預設 6000）再拍；沒設＝當作剛拖過鏡頭（manualT 999，不轉），等 3 秒。"""
+  SWING=1＝鏡頭照平常一樣：沒在拖鏡頭，貼牆時 autoSwing 自己轉開，等 WAIT 毫秒（預設 6000）再拍；沒設＝當作剛拖過鏡頭（manualT 999，不轉），等 3 秒。
+  DIST＝鏡頭距離（玩家兩指縮放拉近、拉遠；沒設＝區域預設 camDist）。"""
 import asyncio, json, sys, os
 sys.path.insert(0, sys.argv[1] + '/tests')
 import playlib as L
@@ -15,6 +16,7 @@ for t in sys.argv[4].split(';'):
     n, v = t.split(':'); v = [float(a) for a in v.split(',')]; SPOTS.append((n, v[0], v[1], v[2]))
 DATE = sys.argv[5] if len(sys.argv) > 5 else '2029-04-27'
 HOUR = float(sys.argv[6]) if len(sys.argv) > 6 else 17.42
+DIST = float(os.environ['DIST']) if os.environ.get('DIST') else None
 ZONE = os.environ.get('ZONE', 'campus'); LV = int(os.environ.get('LV', '0')); SWING = os.environ.get('SWING') == '1'; WAIT = int(os.environ.get('WAIT', '6000' if SWING else '3000'))
 HIDE = "#hud,#hudR,#joy,#interact,#minimap,#btnMenu,#btnRun,#ctlR,#goal,#toast,#caption,#clock,#bar,#energy,#money,#mdbg,#fps,#devErr,#rotate,#btnPhone,#btnSave{display:none!important}"
 async def main():
@@ -31,7 +33,7 @@ async def main():
             await pg.wait_for_timeout(8000); await L.close_panels(pg, cdp)
             await pg.evaluate("(css=>{ let el=document.getElementById('ivCss'); if(!el){ el=document.createElement('style'); el.id='ivCss'; document.head.appendChild(el); } el.textContent=css; })(%s)" % json.dumps(HIDE))
             await pg.evaluate("GAME.E.npcs.slice().forEach(n=>{ n.obj.visible=false; if(n.obj.parent) n.obj.parent.remove(n.obj); }); (GAME.E.extras||[]).forEach(x=>{ if(x.rider&&x.obj.parent) x.obj.parent.remove(x.obj); })")
-            await pg.evaluate("((c,sw)=>{ const C=GAME.E.cam, P=GAME.E.player; C.mode='follow'; C.yaw=c; C.manualT=sw?0:999; C.dragging=false; C.swing=0; P.obj.rotation.y=c+Math.PI; P.busy=true; })(%s,%s)" % (json.dumps(cy), json.dumps(SWING)))   # 人面向鏡頭的反方向（背對鏡頭）
+            await pg.evaluate("((c,sw)=>{ const C=GAME.E.cam, P=GAME.E.player; C.mode='follow'; C.yaw=c; C.manualT=sw?0:999; if(%s!=null){ C.dist=C.distTarget=%s; } C.dragging=false; C.swing=0; P.obj.rotation.y=c+Math.PI; P.busy=true; })(%s,%s)" % (json.dumps(DIST), json.dumps(DIST), json.dumps(cy), json.dumps(SWING)))   # 人面向鏡頭的反方向（背對鏡頭）
             await pg.wait_for_timeout(WAIT)
             st = await pg.evaluate("""(()=>{ const E=GAME.E, P=E.player.obj.position, c=E.camera.position, V=new THREE.Vector3(); const R=E.renderer, S=new THREE.Vector2(); R.getDrawingBufferSize(S);
               const pr=(y)=>{ V.set(P.x,P.y+y,P.z).project(E.camera); return [(V.x*0.5+0.5), (1-(V.y*0.5+0.5))]; }; const t=pr(1.75), f=pr(0.05);
