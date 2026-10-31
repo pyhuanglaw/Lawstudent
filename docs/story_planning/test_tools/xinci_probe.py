@@ -408,9 +408,12 @@ async def s_day1(p, run, base, sid, out):
         run.check('%s：前置——標題「從法律系開始」真的開局' % sid, not st0['title'], J(st0))
         snap = await pg.evaluate("()=>GAME.snapshot()"); d = await dayk(pg, '2025-09-01')
         snap.update({'day': d, 'hour': 8.6, 'zone': 'campus', 'pos': None, 'weekday': await pg.evaluate("CALENDAR.dateOf(%d).wd%%7" % d)})
+        # n25_xinci_b：按開局 4 秒時還在回顧（day＝預設 9/17），選 1 的旗標要等 8/29 搬宿舍（STORY.startLawWeek1）才設——照它設 LAW_START_DAY、MAIN_D1
+        lw = await pg.evaluate("(()=>({d0:STORY.dayOfKey('2025-08-29'), m1:STORY.MAIN_D1_NEW}))()")
+        snap.setdefault('flags', {}).update({'LAW_START_DAY': lw['d0'], 'MAIN_D1': lw['m1']})
         await L.load_state(pg, snap, quiet_events=False); await pg.wait_for_timeout(5000); await pg.evaluate(HOOK)
         w1 = await pg.evaluate("(()=>({week1Start:STORY.week1Start?STORY.week1Start(GAME.G):null, key:CALENDAR.dateOf(GAME.G.day).key, h:+(+GAME.G.hour).toFixed(2)}))()")
-        run.setup('【前置】%s：新開局（%s）的進度直接跳到 2025-09-01 08:36 校園（中間幾天沒有照玩家走）；%s' % (sid, st0.get('key'), J(w1)))
+        run.setup('【前置】%s：新開局（按開局時 %s）的進度直接跳到 2025-09-01 08:36 校園，照 STORY.startLawWeek1 設 LAW_START_DAY＝8/29、MAIN_D1＝主線第一天（中間的宿營、搬宿舍沒有照玩家走）；%s' % (sid, st0.get('key'), J(w1)))
         it = await pg.evaluate("(()=>{ const it=(CLS.dayItems(GAME.G)||[]).find(x=>x.c&&x.c.kind==='required'&&!x.exam); return it?{k:it.key, t0:it.t0, name:it.c.name}:null; })()"); res['class'] = it
         run.check('%s：前置——那一天第一堂必修（%s）' % (sid, J(it)), bool(it), J(it))
         if not it: return
