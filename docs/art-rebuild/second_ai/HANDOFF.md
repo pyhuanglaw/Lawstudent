@@ -9,6 +9,8 @@
   - 開工順序：A 共同教學館室內正式模型（`teach_interior.py --set gongtong`，現在是程序化）→ B 普通教學館光照烘焙 → C 總圖 3F 閱覽區光照烘焙。
   - **A 進行中**（測試樹 `scratchpad/slwt`＝開發 44337adcb＋改動）：`teach_interior.py --set gongtong` 已建好（69 物件、28,990 三角形、31 材質）；manifest＋`tests/gongtong_interior_glb_unit.js`＋`room_ceiling_unit.js` 的 patch 在 `patches/gongtong_interior_1030.patch`（檢查點 4bbea100a）；`bake_gongtong.sh` 512 取樣烘焙中；改前截圖在 `scratchpad/gongtong/before`（`shots/gongtong_int_shots.py`）。
   - 下一步：烘完 → 改後截圖 → 看門牌（furniture_study 的門跟著備用群組藏起來）→ Node 全套 → README `test_shots/gongtong_int_1030/` → 交件。
+  - **注意（00:2x 查到）：開發分支的 `tools/blender/env_second/lightbake/bake_room.py` 是舊版**（沒有 10-30 的 collapse_black 整面取樣修正、沒有 --points 半徑）；`lm_squash_scan.py`、`bake_boya.sh` 也舊、沒有 `bake_soclib.sh`。開發分支只整合了重烘出來的 GLB，工具沒進去。
+    在開發分支的測試樹重烘前，**先從 `claude/funny-albattani-iawshm` 複製 lightbake 的工具**（第一次烘共同教學館用到舊版：一樓地板一半 168 m²、北牆被壓扁；已重烘）。
 - **NAV-LIBHALL-ISLAND-1030 已交、已整合（cfb70a5fd，`patches/libhall_island_1030.patch`；LAWWW-B 21:37）**（P2）：總圖大廳一樓約 (5.85,-8.4) 2 格導航孤島（換回舊 GLB 也一樣）；改 `library_layout.js` 阻擋接回大塊或封掉；`tests/library_copier_unit.js` 有 FAIL 就 exit 1（原本 FAIL 也 exit 0）；跑 `nav_buildings_unit`。
 - 已交、已整合：SOCLIB-LM-1030＋BOYA n19（3bc7a8800）。
 - **X133 第二版等使用者的地圖或照片**（使用者 10-30 16:5x 回 LAWWW-B）：第一版照舊在遊戲裡（f75d60a4c），第二版不要再猜。

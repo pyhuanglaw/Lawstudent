@@ -6,7 +6,7 @@
 # 座標＝配置（src/data/gongtong_layout.js）：24 × 14 m，x 往東、z 往南（+z＝南牆：入口）；一樓地板 0、天花板 3.6；二樓地板 4.2、屋頂 7.8（兩層都 3.6 m 高，比博思低）。
 # 燈（面光源）：T5 格柵燈具，位置照 teach_interior.py 的 trof()；配置沒寫 lightPanels，用 teach3d.js 備用模型的預設燈位（DEFAULT_LP）。一樓樓梯井那一塊沒有燈。
 #   窗：一樓南面（休息區）、北面（102、101 的後面），二樓南北兩排；天光＋下午的太陽（方位 200°、仰角 38°）。
-#   天花板比博思低 0.2～0.6 m：燈的瓦數先用 11（博思一樓 14、二樓 12）。
+#   天花板比博思低 0.2～0.6 m：燈的瓦數 12（博思一樓 14、二樓 12；64 取樣試烘 11 的晚上比博思暗 15%）。
 # --nolm（照舊即時光）：階梯教室的長桌、翻椅（LECT_*、SEATPANS：椅面會掀起來）、燈具、格柵、輕鋼架、鋼、窗框、止滑條、小零件。
 set -e
 SAMPLES=${1:-512}
@@ -20,7 +20,7 @@ import json, os
 s = open('src/data/gongtong_layout.js', encoding='utf8').read(); J = json.loads(s[s.index('{', s.index('GONGTONG_LAYOUT')):s.rindex('}') + 1])
 C0, RY = J['ceil0'], J['roofY']; WL = J['stair']['well']; LP = J.get('lightPanels') or {'xs': [-9.6, -6.0, -1.2, 1.2, 6.0, 9.6], 'zs': [-5.2, -2.0, 1.0, 4.6]}   # 照 teach_interior.py 的 DEFAULT_LP
 trof = lambda x, z: (round(0.6 * round(x / 0.6), 3), round(0.4 + 0.6 * round((z - 0.4) / 0.6), 3))   # 照 teach_interior.py（改那邊要一起改）
-w0, w1 = os.environ.get('TROFW', '11'), os.environ.get('TROFW2', '11')   # 兩層天花板都 3.6 m
+w0, w1 = os.environ.get('TROFW', '12'), os.environ.get('TROFW2', '12')   # 兩層天花板都 3.6 m（64 取樣試烘：11 的晚上比博思暗 15%）
 out = []
 for lv, y, w in ((0, C0, w0), (1, RY, w1)):
     for x in LP['xs']:
@@ -38,7 +38,7 @@ import json, os
 s = open('src/data/gongtong_layout.js', encoding='utf8').read(); J = json.loads(s[s.index('{', s.index('GONGTONG_LAYOUT')):s.rindex('}') + 1])
 C0, RY = J['ceil0'], J['roofY']; WL = J['stair']['well']; LP = J.get('lightPanels') or {'xs': [-9.6, -6.0, -1.2, 1.2, 6.0, 9.6], 'zs': [-5.2, -2.0, 1.0, 4.6]}   # 照 teach_interior.py 的 DEFAULT_LP
 trof = lambda x, z: (round(0.6 * round(x / 0.6), 3), round(0.4 + 0.6 * round((z - 0.4) / 0.6), 3))
-up = os.environ.get('UPW', '7')
+up = os.environ.get('UPW', '8')
 out = []
 for lv, y in ((0, C0), (1, RY)):
     for x in LP['xs']:
