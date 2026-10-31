@@ -361,7 +361,7 @@ async def mode_y2late(pg, cdp, run):
         await P.events_on(pg); await P.wait_play(pg, cdp, 20.2, max_s=600, run=run, tag='y%slate_%s' % (yr, key)); await pg.wait_for_timeout(2000)
         txt = await pg.evaluate("(window.__SAYS||[]).slice(0,40)")
         r = await pg.evaluate("(()=>{ const F=GAME.G.flags, k=d=>d==null?null:CALENDAR.dateOf(d).key; return {y2:k(F.ROOM_Y2), y3:k(F.ROOM_Y3), y4:k(F.ROOM_Y4), zone:GAME.G.zone, now:CALENDAR.dateOf(GAME.G.day).key+' '+(+GAME.G.hour).toFixed(2)}; })()")
-        y2t = any('搬進新的房間' in t for t in txt); y3t = any('搬進第三個房間' in t for t in txt); y4t = any('最後一次搬進宿舍' in t or '409 的床位' in t or '你從家裡出發，回宿舍' in t for t in txt)
+        y2t = any('搬進新的房間' in t for t in txt); y3t = any('搬進第三個房間' in t for t in txt); y4t = any('最後一次搬進宿舍' in t or '409 的床位' in t or '你從家裡出發，回宿舍' in t or '這是最後一次拆箱' in t for t in txt)   # 美國路線沒有「明天開學」，只有字卡＋拆箱（n34_y4late_us 16:05）
         rows.append({'key': key, 'want': want, 'route': route, 'y2text': y2t, 'y3text': y3t, 'y4text': y4t, **r})
         run.note('%s%s：演 312 %s、507 %s、409 %s；%s；說過的 %s' % (key, ('（%s）' % route) if route else '', y2t, y3t, y4t, J(r), J(txt[:14])[:1200])); await run.shot(pg, 'y%slate_%s' % (yr, key))
     first = rows[0]; rest = rows[1:]
