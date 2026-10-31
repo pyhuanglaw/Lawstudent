@@ -329,13 +329,30 @@ async def mode_e1d(pg, cdp, run):
         run.note('E1 診斷：直接叫 STORY.ndlGroupFix／phoneRules：%s' % J(dd)[:1500])
 
 
+async def mode_y2late(pg, cdp, run):
+    """n20_e1d_new3 14:35 附帶（LAWWW-B 14:28 問「玩家也會遇到嗎」）：S.roomY2Due 只看 day ≥ 2026-09-06、沒有 ROOM_Y2，沒有上限（大三有 S.roomY3Late，大二沒有）。
+    舊存檔（大二開學以後、還沒搬 312）讀進來走進宿舍，會不會在開學好幾週以後還演「明天開學。今天搬進新的房間。」——三個日期各讀一次、在宿舍等 10 分鐘遊戲時間"""
+    rows = []
+    for key, hh in (('2026-09-06', 20.0), ('2026-10-15', 20.0), ('2027-10-13', 20.0)):
+        st, d = await P.base(pg, SAVE, key, hh, 'dorm'); st.setdefault('flags', {}).pop('ROOM_Y2', None)
+        await P.load(pg, cdp, st, quiet=False); n0 = await P.cap_n(pg)
+        run.setup('[前置] 使用者存檔改到 %s（%s 第 %s 週）%.2f 宿舍；ROOM_Y2 沒有（舊存檔、還沒搬 312）' % (d['key'], d['term'], d['week'], hh))
+        await P.events_on(pg); await P.wait_play(pg, cdp, hh + 0.2, max_s=600, run=run, tag='y2late_%s' % key); await pg.wait_for_timeout(2000)
+        caps = await P.captions(pg, n0); txt = [c[1] if isinstance(c, (list, tuple)) and len(c) > 1 else (c.get('t') if isinstance(c, dict) else str(c)) for c in caps]
+        r = await pg.evaluate("(()=>({room:GAME.G.flags.ROOM_Y2!=null?CALENDAR.dateOf(GAME.G.flags.ROOM_Y2).key:null, now:CALENDAR.dateOf(GAME.G.day).key+' '+(+GAME.G.hour).toFixed(2)}))()")
+        hit = any('明天開學' in (t or '') for t in txt); rows.append((key, hit, r))
+        run.note('%s：演了「明天開學」%s；ROOM_Y2 %s；說過的 %s' % (key, hit, J(r), J(txt[:12])[:1200])); await run.shot(pg, 'y2late_%s' % key)
+    run.check('9/06（開學前一天）舊存檔走進宿舍：演搬房間（「明天開學。今天搬進新的房間。」）', rows[0][1], J(rows[0]))
+    run.check('開學以後才讀進來的舊存檔（10/15、隔年 10/13）不演「明天開學」（開學日已經過了）', not rows[1][1] and not rows[2][1], J(rows[1:]))
+
+
 async def main():
     run = L.Run('shrink_' + MODE, OUT); os.makedirs(OUT, exist_ok=True)
     async with async_playwright() as p:
         b, ctx, pg, cdp, errs = await L.launch(p, landscape=True)
         pg.on('dialog', lambda dd: asyncio.ensure_future(dd.accept()))
         await pg.goto(URL); run.check('遊戲載入', await L.wait_loaded(pg)); await pg.evaluate("localStorage.clear()"); await P.init(pg)
-        await {'a': mode_a, 'b': mode_b, 'e1d': mode_e1d}[MODE](pg, cdp, run)
+        await {'a': mode_a, 'b': mode_b, 'e1d': mode_e1d, 'y2late': mode_y2late}[MODE](pg, cdp, run)
         run.check('沒有 JS 例外', not errs, J(errs[:3]))
         print('SHA', os.environ.get('SHA', '?'), 'MODE', MODE)
         await b.close()
