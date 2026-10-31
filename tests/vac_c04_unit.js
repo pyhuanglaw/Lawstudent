@@ -36,7 +36,7 @@ GM.money=function(n){ G.money+=n; };
   const I1=VAC.inst('C04','Y1'), I2=VAC.inst('C04','Y2'), W2=VAC.inst('C04W','Y2'), W3=VAC.inst('C04W','Y3');
   check('1. 大一暑假 7/6～8/12 週一、三晚上（12 堂）；大二暑假 7/12～8/18',!!I1&&I1.from===D('2026-07-06')&&I1.to===D('2026-08-12')&&VAC.daysOf(I1).length===12&&!!I2&&I2.from===D('2027-07-12'),JSON.stringify(I1&&VAC.daysOf(I1).length));
   check('1. 考試：8/22（六）、2027-08-28（六）、寒假 2027-01-23（六）、大三寒假多益 2028-01-16（日）',[I1,I2,W2,W3].map(I=>CALENDAR.dateOf(VAC.dayOf(I.yk,I.A.season,I.A.keys[3].day)).key).join()==='2026-08-22,2027-08-28,2027-01-23,2028-01-16');
-  check('1. 大一寒假不開（AA_199，AA-C 16:51 確認）',VAC.inst('C04W','Y1')===null);
+  { const W1=VAC.inst('C04W','Y1'); check('1. 大一寒假也開（AA_549 3-5；原本 AA_199、AA-C 16:51 不開）：2026-01-05～01-16 週一、三晚上；報名照上學期第 12 週起的行事曆',!!W1&&W1.from===D('2026-01-05')&&W1.to===D('2026-01-16')&&VAC.daysOf(W1).length===4&&VAC.signupOpen(Object.assign({},G||{}),W1).from===termDay('Y1S1',12,1),JSON.stringify(W1&&[W1.from,W1.to])); }
   check('1. 大三寒假是多益',W3.A.title==='多益補習（寒假班）'&&W3.A.score.test==='toeic');
   // 2. 報名（假期行事曆）→ 當晚 21:00 家人群組兩則 → 關鍵事件排好
   const w12=termDay('Y1S2',12,1); fresh(w12,11.9,'dorm',{}); G.stage='law'; run(11.9,12.2);

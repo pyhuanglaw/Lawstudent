@@ -154,9 +154,11 @@ const VAC_DATA=(function(){
       signup:C04_SIGNUP('S2','VAC_C04'), rep:C04_REP, keys:C04_KEYS('summer',['07-06','07-22','08-03','08-22']),
       byYear:{ Y2:{ days:['07-12','08-18'], keys:C04_KEYS('summer',['07-12','07-28','08-09','08-28']) } },
       remind:C04_REMIND, score:{days:10,h:21,test:'toefl',name:'托福'} },
-    C04W:{ id:'C04W', series:'C04', title:'托福補習（寒假班）', cat:'學習考試', season:'winter', years:['Y2','Y3'], days:['12-28','01-20'], wd:[1,3], slot:'eve', place:{kind:'taipei',name:'公館的英語補習班'}, cost:{payer:'family'}, free:'yes',
+    C04W:{ id:'C04W', series:'C04', title:'托福補習（寒假班）', cat:'學習考試', season:'winter', years:['Y1','Y2','Y3'], days:['12-28','01-20'], wd:[1,3], slot:'eve', place:{kind:'taipei',name:'公館的英語補習班'}, cost:{payer:'family'}, free:'yes',
       signup:C04_SIGNUP('S1','VAC_C04W'), rep:C04_REP, keys:C04_KEYS('winter',['12-28','01-06','01-11','01-23']),
-      byYear:{ Y3:{ title:'多益補習（寒假班）', days:['12-27','01-12'], keys:C04_KEYS('winter',['12-27','01-05','01-10','01-16']), score:{days:10,h:21,test:'toeic',name:'多益'} } },   /* 大三寒假考多益（Alison 也考這一天）*/
+      byYear:{ Y1:{ days:['01-05','01-16'], keys:C04_KEYS('winter',['01-05','01-07','01-12','01-16']) },   /* AA_549 3-5：大一寒假也開（原本大二起），2026-01-05～01-16；報名照現有（上學期第 12 週起行事曆）、台詞照現有。
+             四個關鍵日稿上沒寫：照上課日（週一、三）排第一堂 1/5、模擬考 1/7、累到不行 1/12，正式考試放在 1/16（稿上那一段的最後一天；問 AA）*/
+        Y3:{ title:'多益補習（寒假班）', days:['12-27','01-12'], keys:C04_KEYS('winter',['12-27','01-05','01-10','01-16']), score:{days:10,h:21,test:'toeic',name:'多益'} } },   /* 大三寒假考多益（Alison 也考這一天）*/
       remind:C04_REMIND, score:{days:10,h:21,test:'toefl',name:'托福'} },
     /* VAC-C05 日本五天（阿凱那一團）：AA_241 第 3 節。只有大一暑假（之後是 C13 出國旅遊）；機票家裡出、當地自己出 */
     C05:{ id:'C05', title:'日本五天（阿凱那一團）', cat:'海外交流', season:'summer', year:'Y1', days:['08-24','08-28'], slot:'night', place:{kind:'abroad',name:'日本',tz:1}, cost:{payer:'family',local:'self'}, free:'partial',
@@ -370,7 +372,7 @@ const VAC_DATA=(function(){
     /* VAC-C18 海外見習團【虛構：法律與社會見習團，新加坡；時差 0】：AA_242 第 11 節。暑假團 C18、寒假團 C18W，同一系列（第幾次照兩團合計）；不限年級（AA_199 7-5），大四下以後沒有。
        甄選＋獎學金一起審：暑假團下學期第 6 週週一 12:00 公告、第 10 週週五截止、第 11 週面試、第 13 週週一 12:00 結果、行前說明會第 15 週週三 12:20；
        寒假團上學期第 6 週公告、第 9 週截止、第 10 週面試、第 12 週結果、說明會第 14 週週三 12:20（面試、結果、說明會的日子照暫排，AA_242 12-1 第 3 點）。面試人要到：美國路線大四上人在美國＝寒假團不能報（blockPre）。
-       寒假團大一寒假不開、大二寒假起照開（12-1 第 2 點：大一上第 6 週才剛入學；寒假第 2 週撞跨年、麵店團海邊，座談那天是元旦）。
+       寒假團大一寒假不開、大二寒假起照開（12-1 第 2 點：大一上第 6 週才剛入學；寒假第 2 週撞跨年、麵店團海邊，座談那天是元旦）——AA_549 3-5 改成大一寒假起（下面 C18W 的 byYear.Y1）。
        行前說明會（12-5）：錄取的時候排一趟（select.brief，src/vac3d.js），第一次參加的多三行（思穎第一次出現）；沒去照樣出發。
        團費、機票家裡出（獎學金補一部分；不扣生活費，AA_199 3-7），當地零用自己出。出國期間的訊息、回來重逢、回來後的招呼照 AA_242 第 6、8 節（和 C08～C12 同一套）；出發那天麵店團 0-2、回來 0-3。
        第二次、第三次以後（兩團合計）：三場換成 rep 的日誌一句（12-3）。思穎回國後一則（12-6，第一次參加的那一團）。
@@ -385,7 +387,7 @@ const VAC_DATA=(function(){
       trip:C18_TRIP('07-20','07-28'), keys:C18_KEYS(['07-21','07-23','07-27']),
       byYear:{ Y2:{ days:['07-19','07-27'], trip:C18_TRIP('07-19','07-27'), keys:C18_KEYS(['07-20','07-22','07-26']) },
                Y3:{ days:['07-17','07-25'], trip:C18_TRIP('07-17','07-25'), keys:C18_KEYS(['07-18','07-20','07-24']) } } },   /* 大三暑假：日本路線人在日本、美國路線 7/25 退宿＝都不能報 */
-    C18W:{ id:'C18W', series:'C18', title:'海外見習團（新加坡）・寒假團', cat:'海外交流', season:'winter', years:['Y2','Y3','Y4'], days:['01-04','01-10'], slot:'night',   /* 大二寒假起（AA_242 12-1 第 2 點）*/
+    C18W:{ id:'C18W', series:'C18', title:'海外見習團（新加坡）・寒假團', cat:'海外交流', season:'winter', years:['Y1','Y2','Y3','Y4'], days:['01-04','01-10'], slot:'night',   /* 大二寒假起（AA_242 12-1 第 2 點）；AA_549 3-5：改成大一寒假起，日子照它自己的週期（寒假第 2 週起 7 天：大一＝2025-12-29～2026-01-04）*/
       place:{kind:'abroad',name:'新加坡',tz:0}, cost:{payer:'family',local:'self',note:'獎學金補一部分'}, free:'partial', blockPre:true,
       rep:C18_REP,
       signup:{kind:'group', th:'g:law_class', term:'S1', week:6, wd:1, h:12, until:{term:'S1',week:9,wd:5}, flag:'VAC_C18W', board:true, msgs:C18_MSG, yes:{t:'（報名）',say:[]} },
@@ -393,7 +395,8 @@ const VAC_DATA=(function(){
       select:{term:'S1',week:12,wd:1,h:12,name:'法律與社會海外見習團（新加坡）',briefAt:{term:'S1',week:14,wd:3,h:12+20/60},brief:C18_BRIEF,needI:'INT'},
       depart:{zhe:'新加坡很熱喔',yu:'聽說口香糖不能帶'}, back:{}, follow:C18_FOLLOW,
       trip:C18_TRIP('01-04','01-10'), keys:C18_KEYS(['01-05','01-07','01-09']),   /* 大二寒假 */
-      byYear:{ Y3:{ days:['01-03','01-09'], trip:C18_TRIP('01-03','01-09'), keys:C18_KEYS(['01-04','01-06','01-08']) },
+      byYear:{ Y1:{ days:['12-29','01-04'], trip:C18_TRIP('12-29','01-04'), keys:C18_KEYS(['12-30','01-01','01-03']) },   /* AA_549 3-5（照 Y2～Y4：寒假第 2 週週一出發、第 2、4、6 天三場）*/
+               Y3:{ days:['01-03','01-09'], trip:C18_TRIP('01-03','01-09'), keys:C18_KEYS(['01-04','01-06','01-08']) },
                Y4:{ days:['01-01','01-07'], trip:C18_TRIP('01-01','01-07'), keys:C18_KEYS(['01-02','01-04','01-06']) } } } };
   /* ===== 出國期間的訊息（台詞 AA_242 第 6、8 節 18fe1b6a；頻率、時差、柬埔寨只有晚上有訊號、停電、加州第 3 週、可昕週末視訊照 BB_200 第 2～3 節）=====
      陣列裡一個元素＝一則訊息；「（照片：…）」寫成 📷（…）（手機的寫法）。dep 出發那天、mid 中間一則、back 回來那天；pool 每天輪播（8 則，用完第二圈只用前半）；rep 兩個回覆（她不再回）。
