@@ -16649,6 +16649,19 @@
    "task": "HISTORY-AUDIT-1031",
    "integration": "已驗收",
    "note": "稽核結果、不是遊戲內容：history_audit.py 直接讀 AA 分支合併重算（09704f48a）；AA_277 判錯一項由 judgments_LAWWW 更正"
+  },
+  {
+   "id": "DL-AA-HIST-B6-1031",
+   "date": "2026-10-31",
+   "from": "AA-B",
+   "account": "B",
+   "branch": "claude/cool-heisenberg-o8kuqx",
+   "sha": "ab7bce454",
+   "msg": "ACK",
+   "what": "歷史待辦複核 AA 第 6 批（BB_*＋交接包＋現行設定總表，179 行；AA 部分全部 640 個 id 合完）",
+   "task": "HISTORY-AUDIT-1031",
+   "integration": "已驗收",
+   "note": "稽核結果：history_audit.py 合併重算；tier 4 接回 V6-B2、V6-B5、BB198-VACB22、SYS-13，新開 BB152-SPORT-DATES-1031"
   }
  ],
  "ignored": [
