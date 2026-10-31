@@ -54,5 +54,13 @@ let cards=[]; GM.titleCard=async(a,b)=>{ cards.push(a+'｜'+b); };
   // 5. 人在外面：phoneRules 的電話
   back(); HOME.rec(G).at=false; G.day=D; G.weekday=wdOf(D); G.zone='gongguan'; G.hour=14.3; said=[]; script=['我也以為']; run(14.3,14.3); await new Promise(r=>setTimeout(r,50)); L=said.map(x=>x.t);
   check('5. 14:15 在公館：可昕打電話 → 出遊',L[0]==='你在哪？行李我都搬到樓下了。'&&!!G.events.done.ev_y0_e37,JSON.stringify(L.slice(0,2)));
+  // 6. BUG-E37-NAP-CEREMONY-1031（BB-B QA-PLAYTHROUGH ①）：8/29 搬進法律系宿舍以後（stage law、PLAYED_Y0），8/30 睡著也要在 14:15 被叫醒接電話；8/31 不再打（原本撞上開學典禮）
+  back(); HOME.rec(G).at=false; G.stage='law'; G.flags.PLAYED_Y0=true; G.zone='dorm'; G.day=D; G.weekday=wdOf(D); G.hour=12;
+  { const w=STORY.coreCallAt(G); check('6. 法律系階段 8/30 12:00 睡覺：coreCallAt 停在 14:15（原本 null → 一覺睡過、拖到 8/31 典禮中間）',w!=null&&Math.abs(w-14.25)<1e-6,String(w)); }
+  G.hour=15; check('6. 法律系階段 8/30 15:00（已過 14:15）：不再叫醒（睡下去照常）、電話照打',STORY.coreCallAt(G)==null&&STORY.e37CallDue(G));
+  G.hour=25; check('6. 8/30 過了半夜（G.day 不換）：電話還在當天',STORY.e37CallDue(G));
+  G.day=D+1; G.weekday=wdOf(D+1); G.hour=18; check('6. 8/31 18:00（開學典禮）：不打「你在哪？行李我都搬到樓下了。」、不叫醒',!STORY.e37CallDue(G)&&STORY.coreCallAt(G)==null);
+  back(); G.stage='law'; G.day=D; G.weekday=wdOf(D); G.hour=12; delete G.flags.PLAYED_Y0; check('6. 沒玩過經濟系、也沒和可昕交往的法律系：不叫醒',STORY.coreCallAt(G)==null);
+  back(); HOME.rec(G).at=false; G.stage='law'; G.flags.PLAYED_Y0=true; G.events.done.ev_y0_e37=G.day; G.day=D; G.weekday=wdOf(D); G.hour=12; check('6. E37 演過了：不叫醒',STORY.coreCallAt(G)==null);
   console.log(fails?'FAILED '+fails:'ALL PASS'); process.exit(fails?1:0);
 })().catch(e=>{ console.error(e); process.exit(1); });

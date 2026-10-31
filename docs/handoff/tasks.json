@@ -37337,6 +37337,34 @@
     "receiver": "LAWWW",
     "ack": "ACTIONED"
    }
+  },
+  {
+   "id": "BUG-E37-NAP-CEREMONY-1031",
+   "title": "經濟系路線 8/29 轉法律系以後，8/30 睡覺不會在 14:15 被叫醒，「載可昕上山」(E37) 被拖到 8/31 開學典禮中間才打電話、旁白還說「八月三十日」（BB-B QA-PLAYTHROUGH ① 天天睡覺）",
+   "area": "STORY",
+   "owner": "LAWWW",
+   "status": "已實作待整合",
+   "priority": "P1",
+   "next": "【10-31 19:4x】S.coreCallAt 在法律系階段也停 y0_e37（PLAYED_Y0 或 e37LawOn、還沒演；14:15）；S.e37CallDue 只在 8/30（原本到 8/31）；v0_e37_unit 第 6 項（修改前 2 項 FAIL）；E37 相關 17 支 Node 全過 → 全部 Node 跑完、BB 在 QA-PLAYTHROUGH 重跑 ① 那段",
+   "first": {
+    "term": "Y0S1",
+    "week": 0,
+    "earliest": "經濟系路線 8/30（轉法律系隔天）睡午覺",
+    "mainline": true,
+    "blocks": false,
+    "prereq": false,
+    "parallel": true,
+    "confirmed": true
+   },
+   "source": "BB-B 10-31 QA-PLAYTHROUGH-1018 ① 回報",
+   "authorized": "D85（bug 修正）",
+   "xai": {
+    "spec": "—",
+    "branch": "claude/modest-rubin-2lyp7g",
+    "acceptance": "10/15、2027-10-13 讀進來不演搬 312；9/6 照演；9/7 照演但沒有「明天開學」",
+    "receiver": "BB",
+    "ack": "ACTIONED"
+   }
   }
  ]
 }
