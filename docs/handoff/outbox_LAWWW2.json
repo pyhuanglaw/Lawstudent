@@ -4606,7 +4606,7 @@
    "sha": "(這一次 commit)",
    "noDirectIntegrate": false,
    "receiver": "LAWWW",
-   "ack": "SENT",
+   "ack": "ACTIONED（LAWWW-B 05:52 整合 3ba38e34a）",
    "task": "BUG-CAM-PILLAR-LAWA-1031：法律系館A（霖澤館）穿堂柱子擋住跟隨鏡頭",
    "files": [
     "assets/models/env/linze_exterior.glb",
@@ -4616,6 +4616,25 @@
    "state": "已交付（等 BB 驗 DAD2／DAD2_NO）",
    "remaining": "總圖門廊往旁邊 2.6 m 柱子切掉人一半（campus_hall.py 四棟 GLB 要重新匯出，問 LAWWW-B）；劇情固定運鏡若本身放在柱子裡要用 E.cam.seeThru",
    "next": "LAWWW 整合：換 linze_exterior.glb＋cam_pillar_linze_1031.patch（zones3d.js attachExterior 一行、linze_exterior.py、linze_pillar_seethru_unit.js）；對 61bf5e485 apply --check 通過、相關測試 ALL PASS；Node 780／1（r2y4b，你 0447c75bb 已修）"
+  },
+  {
+   "branch": "claude/funny-albattani-iawshm",
+   "sha": "(這一次 commit)",
+   "noDirectIntegrate": false,
+   "receiver": "LAWWW",
+   "ack": "SENT",
+   "task": "CAM-PILLAR-HALLS-1031：總圖、行政大樓、文學院、校史館門廊、拱廊柱子網點透空",
+   "files": [
+    "assets/models/env/second_ai/campus_library.glb",
+    "assets/models/env/second_ai/campus_admin.glb",
+    "assets/models/env/second_ai/campus_arts.glb",
+    "assets/models/env/second_ai/campus_hist.glb",
+    "docs/art-rebuild/second_ai/patches/cam_pillar_halls_1031.patch",
+    "docs/art-rebuild/second_ai/test_shots/cam_pillar_halls_1031/"
+   ],
+   "state": "已交付",
+   "remaining": "行政大樓門廊旁鏡頭跑進傅鐘（鐘亭不在鏡頭碰撞，沒改，問 LAWWW-B）；每個方向 draw call +2～10（+3%）",
+   "next": "LAWWW 整合：換四棟 GLB（＋json）＋cam_pillar_halls_1031.patch（zones3d.js attachWenzhouModel 一行、campus_hall.py、campus_hall_pillar_seethru_unit.js）；Node 783／0；對 e2eb4cce4 apply --check 通過"
   }
  ]
 }
