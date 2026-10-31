@@ -10,7 +10,13 @@
 
 ## 交接（最新）——工作階段隨時可能因額度中斷（D45 緊急保存規則）
 
-**現況（帳號 B LAWWW-B，2026-10-31 18:3x UTC；帳號 B 七天額度已到警示 allowed_warning，2026-11-06 02:00 UTC 重置——隨時可能被切斷）**
+**現況（帳號 B LAWWW-B，2026-10-31 22:5x UTC；帳號 B 七天額度已到警示 allowed_warning，2026-11-06 02:00 UTC 重置——隨時可能被切斷）**
+- **10-31 18:3x～22:5x（使用者 19:0x「好 發布了再告訴我」＝改名版 D115 發布同意，條件 BB GO＋發布前清單；19:5x HISTORY-AUDIT-1031 歷史待辦全面複核）**：
+  - **發布基準凍結 `39f68236c`**（BB-B 20:09 要求：回歸約 4～5 小時，P0 才換）。之後開發分支只放文件、總表、註解；新功能在本機分支 `feat-1031`（備份 `wip_backup/feat-1031.bundle`），發布後才合進來。全部 Node：`7060bdb66` 790／0（39f68236c 只多 E37 小睡停點、跨年訊息）。
+  - 基準裡的修正：BUG-E37-NAP-CEREMONY（`24aebe913`＋小睡停點 `39f68236c`）、BUG-CER831-SLEEP（8/31 典禮 14:00 叫醒、點床先演，`f32a11388`）、體育館 1F 第五版＋3F 主球場光照（`43e5f1b88`）、I10 門鈴（`9c84a54f9`＋AA 換句）、大二跨年芷若／子晴／Kevin、Kevin 大阪照片、507／409 室友旁白（DORM-Y34）。
+  - 本機分支 feat-1031：BUG-DATE-AWAY-BUSY（`caabccf30`）；子代理在做 VAC-GAP-1031（AA_549 寒暑假缺口第一批）。
+  - 歷史複核：工具 `tools/handoff/history_audit.py`（每次從 GitHub 重算）→ `docs/handoff/history_audit/`（README 七類、ledger.json、REPORT.md、bb_batches.md 740 項照 BB 10-27 十二段流程分批、judgments_<職位>.jsonl）。10/21 的 133 項 done：第 1 類 6、第 2 類 126、第 4 類 1。AA 五批企劃複核合併（剩 BB＋交接包一批）；找到的部分完成開成任務或接回既有任務。LAWWW2 複核進行中。BB 回歸完照 bb_batches 補驗。
+  - 下一步：BB GO → 發布前清單 → README 換 AA 草稿（企劃線 f745e8ab9）→ PR 合併 main（基準 39f68236c＋之後的文件 commit）→ 告訴使用者；審子代理 AA_549；AA 回芷若暑假五題、I10 已定。
 - 線上：**v9.10.14**（main `271cd2305`，PR #20，Pages 07:52:40 成功；BB-B main deploy_check ALL PASS）：快速存檔獨立一格、開新遊戲前先備份、經濟系那一年可昕不主動約。BB 對 main 補跑剩下的情境（AA_520／523／518／515_zq、R43、libhall、R44）。
 - **下一版在開發分支**（`55b49aa11` 以後；全部 Node：`fe3cee955` 763／0，之後只多 AA_539 第 5 節（子代理 763／0）與 7/20 旁白）：
   - postrel-1030 全部（`b576263b6`）；改名 D115（`ba315523b`、`ea67b0cb4`、舊存檔出遊 `ca5f3381c`、開發文件 `052d589d2`）；Café 室內光照（CAFE-LM-1030）；學姊 AA_539（`fe3cee955`、`101f841c8`、`55b49aa11`）。
