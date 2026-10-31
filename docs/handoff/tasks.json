@@ -37075,9 +37075,9 @@
    "title": "階梯教室走道邊的座位：遊戲挑的「坐下前站的位置」（GAME.seatApproach 側邊 0.55 m，走道上）離互動點 0.65 m、範圍 0.62 m，點椅子走過去以後沒有「坐下」（共同 101 七個、博思 101／102 四個；BB-B 10-31 n28_seatreach）",
    "area": "UI",
    "owner": "LAWWW",
-   "status": "已整合待測試",
+   "status": "已驗收",
    "priority": "P1",
-   "next": "【10-31 07:1x】全部 Node 782／0（be7b5bcac）；已派 BB n28_seatreach_b｜【10-31 07:0x】seatApproach 先只挑那張椅子按鈕範圍內的走近點，一個都沒有才照舊；tests/seat_approach_reach_unit.js（三棟教學館、照遊戲跑 fitSeatRadius、和 nearestInteractable 一樣用「小於」；修改前 FAIL：共同 7、博思 4，和 BB 量的一樣）→ BB n28_seatreach_b 真的點椅子",
+   "next": "已驗收（10-31 07:1x）｜【10-31 07:1x】全部 Node 782／0（be7b5bcac）；已派 BB n28_seatreach_b｜【10-31 07:0x】seatApproach 先只挑那張椅子按鈕範圍內的走近點，一個都沒有才照舊；tests/seat_approach_reach_unit.js（三棟教學館、照遊戲跑 fitSeatRadius、和 nearestInteractable 一樣用「小於」；修改前 FAIL：共同 7、博思 4，和 BB 量的一樣）→ BB n28_seatreach_b 真的點椅子",
    "first": {
     "term": "Y0S1",
     "week": 1,
@@ -37095,8 +37095,9 @@
     "branch": "claude/modest-rubin-2lyp7g",
     "acceptance": "共同 101 第 0 排走道邊的椅子：點椅子走過去有「坐下」、坐得下；博思 101／102 同理",
     "receiver": "BB",
-    "ack": "SENT"
-   }
+    "ack": "ACTIONED"
+   },
+   "evidence": "BB-B n28_seatreach_b（be7b5bcac，截圖 6 張）ALL PASS：照玩家點椅子，共同 101 第 0 排 0 號、博思 101 第 0 排 0 號、博思 102 第 0 排 10 號都走過去停在離互動點 0.19～0.25 m、出現「坐下」、坐得下；掃描共同 76、普通 120、博思 164 個座位，走近點在範圍外 0 個；沒有 JS 例外"
   }
  ]
 }
