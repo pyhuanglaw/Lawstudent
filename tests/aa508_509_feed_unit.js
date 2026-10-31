@@ -51,7 +51,8 @@ const SET={Y3S2:typeof FEED_Y3S2!=='undefined'?FEED_Y3S2:null,Y4S1:typeof FEED_Y
 const sec=async(name,fn)=>{ try{ await fn(); }catch(e){ check(name+'（例外）',false,String(e&&e.stack||e).split('\n').slice(0,2).join(' | ').slice(0,240)); } };
 const html=fs.readFileSync(path.join(H.ROOT,'index.html'),'utf8');
 const show=(sha,f)=>{ try{ return cp.execSync('git show '+sha+':"'+f+'"',{cwd:H.ROOT,encoding:'utf8',maxBuffer:1<<24}); }catch(e){ return ''; } };
-const doc={Y3S2:show(SHA508,DOC.Y3S2.spec),Y4S1:show(SHA,DOC.Y4S1.spec)}, mid508=show(SHA,DOC.Y3S2.spec), old={Y3S2:show(OLD508,DOC.Y3S2.spec),Y4S1:show(OLD509,DOC.Y4S1.spec)};
+const NDL=require('./alison.js').ndl;   /* AA_546（NO-COMPARE-1030，D116）後來改的句子照 tools/story/nocmp_fix.json 換（第三批第 8 節：可昕 kx3g「他講得很好。我抄了兩頁筆記。」）*/
+const doc={Y3S2:NDL(show(SHA508,DOC.Y3S2.spec)),Y4S1:NDL(show(SHA,DOC.Y4S1.spec))}, mid508=show(SHA,DOC.Y3S2.spec), old={Y3S2:show(OLD508,DOC.Y3S2.spec),Y4S1:show(OLD509,DOC.Y4S1.spec)};
 
 /* ---------- 共用 ---------- */
 const DK=k=>PG.DK(k);
