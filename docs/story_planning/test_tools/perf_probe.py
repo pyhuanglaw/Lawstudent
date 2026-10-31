@@ -15,7 +15,8 @@ from playwright.async_api import async_playwright
 URL, OUT, SAVEF = sys.argv[1], sys.argv[2], sys.argv[3]
 SAVE = json.load(open(SAVEF, encoding='utf-8'))
 J = lambda x: json.dumps(x, ensure_ascii=False)[:1500]
-ROW = re.compile(r'^(.+)：黑畫面 [\d.]+ 秒（建區域 [\d.]+、預熱 [\d.]+）；淡入後 10 秒最長一格 [\d.]+ 秒、卡 \d+ 次；shader 黑畫面 \+\d+、淡入後 \+\d+$')
+ROW = re.compile(r'^(.+)：黑畫面 [\d.]+ 秒（建區域 [\d.]+、預熱 [\d.]+）；淡入後 10 秒最長一格 [\d.]+ 秒、卡 \d+ 次；shader 黑畫面 \+-?\d+、淡入後 \+-?\d+$')
+ROW_NEG = re.compile(r'shader 黑畫面 \+-\d+')   # n26：小框印出「+-6」＝shader 數是負的（遊戲顯示的問題，另外記，不讓格式那一項跟著 FAIL）
 HEAD = '換場景量測（?perf，按一下複製）'
 PANEL = """(()=>{ const d=document.getElementById('perfPanel'); const on=typeof PERFPANEL!=='undefined'?PERFPANEL.on:null;
   if(!d) return {exists:false, on}; const r=d.getBoundingClientRect();
@@ -28,9 +29,10 @@ EXITS = "(()=>GAME.E.interactables.filter(i=>i.exit).map(i=>({to:i.exit.to, x:+i
 
 
 async def door_to(pg, cdp, run, to, max_s=420):
-    it = await pg.evaluate("(to=>{ const it=GAME.E.interactables.find(i=>i.exit&&i.exit.to===to); return it?[it.x,it.z,it.label]:null; })", to)
+    # n26_perfpanel_b 09:34：宿舍走廊在二樓（lv 1），「離開宿舍」在一樓（lv 0）——沒給 lv，go_to 一直在二樓點地面、走不到樓梯下面＝探針；照互動點的 lv 走
+    it = await pg.evaluate("(to=>{ const it=GAME.E.interactables.find(i=>i.exit&&i.exit.to===to); return it?[it.x,it.z,it.label,it.lv==null?null:(it.lv|0)]:null; })", to)
     if not it: return False
-    await L.go_to(pg, cdp, run, it[0], it[1], 0.9, it[2], max_s=max_s, stop=lambda s: s['dlg'] or s['choices']); await L.tap(pg, cdp, '#interact')
+    await L.go_to(pg, cdp, run, it[0], it[1], 0.9, it[2], max_s=max_s, lv=it[3], stop=lambda s: s['dlg'] or s['choices']); await L.tap(pg, cdp, '#interact')
     for _ in range(60):
         await pg.wait_for_timeout(1000)
         if await pg.evaluate("GAME.G.zone") == to: return True
@@ -98,6 +100,8 @@ async def main():
         run.check('橫向：右上角有小框、標題「%s」' % HEAD, pn['exists'] and head == HEAD and pn['rect'][0] + pn['rect'][2] >= pn['vw'] - 40 and pn['rect'][1] <= 60, J({k: pn.get(k) for k in ('exists', 'rect', 'vw', 'vh')}) + ' ' + head)
         nin = len([h for h in hops if h['ok']])
         run.check('橫向：一行一次（行數 ≥ 換區域次數 %d）、每行照格式' % nin, len(rows) >= nin and all(ROW.match(r) for r in rows), J(rows))
+        neg = [r for r in rows if ROW_NEG.search(r)]
+        run.check('橫向：shader 黑畫面的數字不是負的（n26 看到「+-6」）', not neg, J(neg))
         z_last = hops[-1]['to'] if hops else None; z_names = [ROW.match(r).group(1) if ROW.match(r) else None for r in rows]
         run.note('每行的區域：%s；走過的順序：%s' % (J(z_names), J([h['to'] for h in hops])))
         run.check('橫向：新的在上面（第一行是最後進的 %s）' % z_last, bool(rows) and bool(z_last) and bool(z_names[0]) and (z_last in z_names[0] or z_names[0] in (await pg.evaluate("GAME.E.zone&&GAME.E.zone.name||''"))), J(z_names))
