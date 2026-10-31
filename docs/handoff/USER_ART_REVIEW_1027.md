@@ -91,3 +91,7 @@
 | ART-WZ-MARKET-1023 | 溫州街小公園二手市集的攤位 3D（WZ-P2，AA_420 第 12-2 節；每月第一個週六 09:00～13:00，入 | 二手市集攤位 3D＝場景美術（使用者看） |
 | ART-US-ROUTE-1024 | D99 路線巡查②美國交換（LAWWW2 美術總監巡查）：社區西邊出口外面補街道與對面平房、法圖彩色玻璃與天窗晚上變暗、 | 美國路線夜景、路燈、社區西邊＝場景美術；L3007-3052 功能與效能看過 |
 | ART-HALL-WINDOW-DUSK-1025 | 臺灣大廳窗外白天照片在 12/10 17:20 比屋外亮（窗景換夜景以前那段，白天照片沒跟著變暗） | 窗景黃昏變暗＝場景美術；L4073-4111（1dacc06af）方向對 |
+| ART-ECON-3D-GAP-1021 A（10-31） | 共同教學館室內正式模型（磨石子、輕鋼架＋T5、101 長桌＋翻椅；光照貼圖白天／晚上；LAWWW2 c1a2026b4，開發 753df5a8c） | BB-B n28 功能面 PASS（固定鏡頭 12 張、經濟系在共同上課）；截圖 docs/art-rebuild/second_ai/test_shots/gongtong_int_1030/ |
+| ART-ECON-3D-GAP-1021 B（10-31） | 普通教學館室內光照（冷白燈、白天降色溫；LAWWW2 1154ef5da，開發 3f67ec44a） | BB-B n28 PASS；已知：一樓樓梯井偏暗、101 門邊牆偏奶油色、101 後面看白天右邊窗整片黑（LAWWW2 判斷中）；截圖 test_shots/putong_lm_1031/ |
+| ART-ECON-3D-GAP-1021 C（10-31） | 總圖 3F 閱覽區光照（冷白燈＋燈下點光源；LAWWW2 3ce25a2f1，開發 1e910aa6c） | BB-B n28 PASS；截圖 test_shots/library3f_lm_1031/ |
+| BUG-CAM-PILLAR-LAWA／CAM-PILLAR-HALLS（10-31） | 法律系館A穿堂柱子、總圖／行政大樓／文學院／校史館門廊柱子擋到玩家時網點透空（和行道樹同一套） | 法律系館A BB 已驗收（玩家看得到 84%～92%）；四棟 BB 測中；截圖 test_shots/cam_pillar_1031/、cam_pillar_halls_1031/ |
