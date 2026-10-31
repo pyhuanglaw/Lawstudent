@@ -5,7 +5,7 @@
  "tris_drawn": 9316,
  "materials": 25,
  "out": "assets/models/env/second_ai/putong_interior.glb",
- "bytes": 1043604,
+ "bytes": 1043984,
  "texres": 512,
  "tris_total": 9316,
  "layout": "src/data/putong_layout.js",

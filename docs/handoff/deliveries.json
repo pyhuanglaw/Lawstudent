@@ -16454,6 +16454,19 @@
    "task": "XINCI-ROMANCE-1030",
    "integration": "已整合待測試",
    "note": "termend_lines.js PLACE.l118_home、HEART／GF 芯慈 place 改 l118_home；xinci_romance_unit 12c（逐字比對 8-4）"
+  },
+  {
+   "id": "DL-LW2-PUTONG-LM-1031",
+   "date": "2026-10-31",
+   "from": "LAWWW2-B",
+   "account": "B",
+   "branch": "claude/funny-albattani-iawshm",
+   "sha": "1154ef5da",
+   "msg": "ACK",
+   "what": "ART-ECON-3D-GAP-1021 B：普通教學館室內光照烘焙（putong_interior.glb 加光照 UV＋extras.lightmap、白天／晚上光照貼圖；putong_lm_1031.patch：putong_interior_lm_unit、bake_putong.sh、烘焙紀錄）",
+   "task": "ART-ECON-3D-GAP-1021",
+   "integration": "已整合待測試",
+   "note": "LAWWW-B 03:2x 套上：git apply 乾淨、putong_interior_lm_unit 與教學館相關 10 支 Node ALL PASS；READY_FOR_ART_REVIEW"
   }
  ],
  "ignored": [
