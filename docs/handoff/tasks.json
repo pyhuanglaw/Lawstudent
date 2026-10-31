@@ -37077,7 +37077,7 @@
    "owner": "LAWWW",
    "status": "已整合待測試",
    "priority": "P1",
-   "next": "【10-31 07:0x】seatApproach 先只挑那張椅子按鈕範圍內的走近點，一個都沒有才照舊；tests/seat_approach_reach_unit.js（三棟教學館、照遊戲跑 fitSeatRadius、和 nearestInteractable 一樣用「小於」；修改前 FAIL：共同 7、博思 4，和 BB 量的一樣）→ BB n28_seatreach_b 真的點椅子",
+   "next": "【10-31 07:1x】全部 Node 782／0（be7b5bcac）；已派 BB n28_seatreach_b｜【10-31 07:0x】seatApproach 先只挑那張椅子按鈕範圍內的走近點，一個都沒有才照舊；tests/seat_approach_reach_unit.js（三棟教學館、照遊戲跑 fitSeatRadius、和 nearestInteractable 一樣用「小於」；修改前 FAIL：共同 7、博思 4，和 BB 量的一樣）→ BB n28_seatreach_b 真的點椅子",
    "first": {
     "term": "Y0S1",
     "week": 1,
@@ -37095,7 +37095,7 @@
     "branch": "claude/modest-rubin-2lyp7g",
     "acceptance": "共同 101 第 0 排走道邊的椅子：點椅子走過去有「坐下」、坐得下；博思 101／102 同理",
     "receiver": "BB",
-    "ack": "未派"
+    "ack": "SENT"
    }
   }
  ]
