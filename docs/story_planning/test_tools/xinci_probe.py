@@ -724,6 +724,10 @@ async def s_zrl3(p, run, base, sid, out):
         # n25_xinci_k（04:2x）：關係是讀檔時直接設成 FRIEND 的，遊戲把這次見面當成「升級後第一次見面」先說門檻台詞（social3d.js S.playUp：「欸，你也在！剛好，我正想找人講話。」），那一次不走閒聊階梯（story3d.js:905）——當作升級後已經見過一次
         ups = await pg.evaluate("(()=>{ const id='heroine_02', out=[]; for(let i=0;i<6;i++){ const U=SOCIAL.upLine&&SOCIAL.upLine(id); if(!U) break; out.push(U.stage); SOCIAL.markUp(id,U.k); } return {marked:out, relUp:(GAME.G.social.relUp||{})[id]||0}; })()")
         run.setup('【前置】升級後的門檻台詞當作說過了（SOCIAL.markUp）：%s' % J(ups))
+        if direct:   # n25_xinci_m（05:24）：直接讀檔時她在關係設好以前就生成了（使用者存檔第 9 天還不認識她）＝按鈕停在「和不認識的女生說話」——同 ZRCAFE，設好以後同一份進度重讀
+            snap = await pg.evaluate("()=>GAME.snapshot()"); dd = await dayk(pg, '2027-03-23')
+            snap.update({'day': dd, 'hour': 14.5, 'zone': 'library_media', 'pos': None}); await L.load_state(pg, snap, quiet_events=False); await pg.wait_for_timeout(6000); await pg.evaluate(HOOK)
+            run.setup('【前置】關係、閒聊進度、門檻台詞設好以後，同一份進度重讀 2027-03-23 14:30 多媒體中心（存檔裡已經認識芷若）')
         await pg.evaluate("(()=>{ const c=document.querySelector('#phone .close, #phoneClose, #btnPhoneClose'); if(c) c.click(); })()")
         if not direct:
             ex = await pg.evaluate("(()=>{ const it=GAME.E.interactables.find(i=>i.exit&&i.exit.to==='library_media'); return it?[it.x,it.z,it.lv|0,it.label]:null; })()")
