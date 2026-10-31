@@ -36901,7 +36901,7 @@
    "owner": "LAWWW",
    "status": "已整合待測試",
    "priority": "P2",
-   "next": "【10-31 02:5x】生成時照 FIRST_MET（和 talkCharacter 點完餐那一行同一套）；cafe_barista_unit 第 5 項加一條（修改前 FAIL）；Café 相關 13 支 Node ALL PASS → BB n25_xinci_j ZRCAFE 驗",
+   "next": "【10-31 03:0x】BB-B 02:53 正式報同一件（BUG-CAFE-BARISTA-NAME，BB_218 1d1a07077）；7cb058610 全部 Node 775／0；已派 BB 用 0098cbe10 跑 ZRCAFE｜【10-31 02:5x】生成時照 FIRST_MET（和 talkCharacter 點完餐那一行同一套）；cafe_barista_unit 第 5 項加一條（修改前 FAIL）；Café 相關 13 支 Node ALL PASS → BB n25_xinci_j ZRCAFE 驗",
    "first": {
     "term": "Y1S1",
     "week": 3,
@@ -36919,7 +36919,7 @@
     "branch": "claude/modest-rubin-2lyp7g",
     "acceptance": "認識芷若以後，她在吧檯上班，站吧檯前的按鈕是「和林芷若說話」；不認識是「和店員說話」",
     "receiver": "BB",
-    "ack": "未派"
+    "ack": "SENT"
    }
   }
  ]
