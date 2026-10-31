@@ -109,9 +109,9 @@ async def wait_for(pg, cdp, run, cond, max_s=400, picks=None, go=(), label='', s
     """時間照走（不跳過時間），遇到對話、選項照 pick_idx 點，直到 cond（JS）成立"""
     t0 = time.time(); ch = []; shot = False
     while time.time() - t0 < max_s:
-        if await pg.evaluate(cond): return True, ch
-        if await phone_open(pg): await L.phone_away(pg, cdp); continue
         s = await L.state(pg)
+        if await pg.evaluate(cond) and not (s['dlg'] or s['choices'] or s['busy']): return True, ch   # done 可能在事件一開始就記：等對話演完才回
+        if await phone_open(pg): await L.phone_away(pg, cdp); continue
         if s['choices']:
             ops = await opts(pg)
             if ops:
@@ -395,7 +395,7 @@ async def s_h2(p, run, base, sid, out):
         pos = await pg.evaluate(NPC + "(%s)" % json.dumps([BH])); say('   %s 柏翰在：%s；位置 %s' % (sid, J(where), J(pos)))
         run.check('%s：前置——柏翰在總圖閱覽室（作息 %s）' % (sid, J(where)), bool(pos), J({'where': where, 'pos': pos}))
         if not pos: return
-        await L.go_to(pg, cdp, run, pos[0], pos[1], 2.0, '柏翰旁邊', max_s=240, lv=pos[2])
+        await L.go_to(pg, cdp, run, pos[0], pos[1], 2.0, '柏翰旁邊', max_s=240, lv=pos[2], stop=lambda s: s['dlg'] or s['choices'])   # n23：沒給 stop 時 go_to 途中自動點對話、選第一個（H2_SLOW 被選成「好。」）
         ok, ch = await wait_for(pg, cdp, run, DONE + "('ev_bohan_exam_group')", max_s=600, picks=[pick], label=sid)
         lg = await log_since(pg, n0); T = texts(lg); CS = choice_sets(lg); res.update({'said': T, 'choices': CS}); await run.shot(pg, '%s_after' % sid)
         say('   %s 說的：%s；選項 %s' % (sid, J(T[-12:], 900), J(CS[-2:])))
@@ -411,7 +411,7 @@ async def s_h2(p, run, base, sid, out):
             run.check('%s：選「我寫得很慢，可以嗎？」→「他愣了一下。」「……我也是。所以才組的。」、記憶 ASKED_SLOW' % sid,
                       has_seq(T, ['他愣了一下。', '……我也是。所以才組的。']) and await pg.evaluate("((GAME.G.social.mem||{}).classmate_bohan||[]).some(m=>m.tag==='ASKED_SLOW')"), J(T[-4:]))
             g = await pg.evaluate("GAME.G.flags.BOHAN_GROUP||null"); res['group'] = g
-            run.note('選「我寫得很慢」以後 BOHAN_GROUP＝%s：照程式（story3d.js 考古題小組只排 BOHAN_GROUP===\'yes\'）這個選項之後週六不會排小組（給 LAWWW-B 確認是不是要這樣）' % J(g))
+            run.note('H2_SLOW 結束時 BOHAN_GROUP＝%s：照程式（story3d.js 考古題小組只排 BOHAN_GROUP===\'yes\'）這個選項之後週六不會排小組（給 LAWWW-B 確認是不是要這樣）' % J(g))
             return
         run.check('%s：選「好。」→「小組每週六下午，總圖 B1 的討論室。寫完，一個人講一題。」' % sid, has_seq(T, ['小組每週六下午，總圖 B1 的討論室。寫完，一個人講一題。']), J(T[-3:]))
         sess = []
@@ -491,7 +491,7 @@ async def s_h4(p, run, base, sid, out):
         run.check('%s：前置——柏翰在 4F 樓梯間' % sid, bool(pos), J(pos))
         if not pos: return
         n0 = await log_len(pg)
-        await L.go_to(pg, cdp, run, pos[0], pos[1], 1.6, '柏翰旁邊', max_s=240, lv=pos[2])
+        await L.go_to(pg, cdp, run, pos[0], pos[1], 1.6, '柏翰旁邊', max_s=240, lv=pos[2], stop=lambda s: s['dlg'] or s['choices'])
         ok, ch = await wait_for(pg, cdp, run, DONE + "('ev_bohan_third_floor')", max_s=600, picks=[pick], label=sid)
         lg = await log_since(pg, n0); T = texts(lg); CS = choice_sets(lg); res.update({'said': T, 'choices': CS}); await run.shot(pg, '%s_after' % sid)
         say('   %s 說的：%s；選項 %s' % (sid, J(T, 1200), J(CS[-2:])))
