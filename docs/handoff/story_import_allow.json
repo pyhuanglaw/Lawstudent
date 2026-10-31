@@ -225,11 +225,15 @@
   },
   {
    "path": "docs/story_planning/ladder/ladder_bb_y2s1.json",
-   "sha": "ffd7eef8",
+   "sha": "06ff0acc6",
    "status": "approved",
-   "approvedBy": "AA-C 定稿（2026-10-21 AA_362 禁用句型第三輪「不是 X，是 Y」，企劃分支 bde0df0a；D100 台詞歸 AA）｜AA_398 第 20 列（學姊不數件數）企劃線 ffd7eef8：LAWWW-B 10-23 換版重新匯入",
+   "approvedBy": "AA-B 2026-11-01 定稿（AA_560 2-7 C2：沛珊 P3-L4「問我以後要做什麼、有沒有好好睡、有沒有好好吃飯。」；同一版另含 D115 改名，遊戲已照 WORLD_NAMING 換過）；LAWWW-B 換版重新匯入",
    "task": "AB65-3-Y2S1-L",
    "history": [
+    {
+     "sha": "ffd7eef8",
+     "approvedBy": "AA-C 定稿（2026-10-21 AA_362 禁用句型第三輪「不是 X，是 Y」，企劃分支 bde0df0a；D100 台詞歸 AA）｜AA_398 第 20 列（學姊不數件數）企劃線 ffd7eef8：LAWWW-B 10-23 換版重新匯入"
+    },
     {
      "sha": "49ed7e6a",
      "approvedBy": "AA-C 定稿（2026-10-20 交付：企劃分支 49ed7e6a——AA_313 第 1 節以安不延畢（A8-L1、L3、L7、L8 換掉補修班、明年才考、證書明年）、第 4、6 節芷若、子晴、學姊、沛珊；AA_306 經濟系那一年的層；D100 台詞歸 AA）"

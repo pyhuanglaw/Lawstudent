@@ -24,9 +24,9 @@ const file=f=>fs.readFileSync(path.join(H.ROOT,f),'utf8');
 
 check('0. 讀得到 AA_560 第 2-7 節（企劃線 '+SHA+'）、資料檔載得到',SEC.length>200&&!loadErr.length,J(loadErr));
 
-/* C2：還沒改（找不到稿上的原句），也沒有被改壞 */
+/* C2：稿上的原句遊戲裡沒有；AA-B 11-01 指定改大二上沛珊 P3-L4 整句（來源 ladder_bb_y2s1.json @06ff0acc6，白名單換版） */
 { const lad=file('src/data/ladder.js');
-  check('C2. 稿上的原句「媽媽問錢夠不夠」遊戲裡沒有（先不改、問 AA）；大二上沛珊 P3-L4 那一句照舊',SEC.includes('C2：沛珊「媽媽問錢夠不夠」→「媽媽問吃飽沒」')&&!inSrc('媽媽問錢夠不夠').length&&lad.includes('"reply": "問我以後要做什麼、錢夠不夠、有沒有好好吃飯。"')); }
+  check('C2. 大二上沛珊 P3-L4 改成「問我以後要做什麼、有沒有好好睡、有沒有好好吃飯。」（AA-B 11-01）；舊句「錢夠不夠」不在',SEC.includes('C2：沛珊「媽媽問錢夠不夠」→「媽媽問吃飽沒」')&&!inSrc('媽媽問錢夠不夠').length&&lad.includes('問我以後要做什麼、有沒有好好睡、有沒有好好吃飯。')&&!lad.includes('錢夠不夠')); }
 
 /* C3 柏翰志向（資料欄位）*/
 { const B=CHARACTERS.classmate_bohan;
@@ -56,7 +56,7 @@ check('0. 讀得到 AA_560 第 2-7 節（企劃線 '+SHA+'）、資料檔載得�
 
 /* 只做了這七處：AA_559～AA_564 的台詞改稿沒有進來（白名單、閒聊階梯、阿哲四場、媽媽的句子照舊）*/
 { const A=JSON.parse(file('docs/handoff/story_import_allow.json')).files;
-  check('9. 沒有匯入 AA_559～AA_564（白名單沒有那幾份；閒聊階梯 A-L7、阿哲初遇、媽媽「上禮拜煮多了」照舊）',!A.some(e=>/AA_5(59|6[0-4])_/.test(e.path))&&file('src/data/ladder.js').includes('"那時候人比較少。"')&&file('src/data/events.js').includes("text:'我阿哲。張哲維。'")&&file('src/homepromise3d.js').includes("'上禮拜煮多了 吃了三天'")); }
+  check('9. 沒有匯入 AA_559～AA_564（白名單沒有那幾份，C2 只換 ladder_bb_y2s1.json 的版本；閒聊階梯 A-L7、阿哲初遇、媽媽「上禮拜煮多了」照舊）',!A.some(e=>/AA_5(59|6[0-4])_/.test(e.path))&&file('src/data/ladder.js').includes('"那時候人比較少。"')&&file('src/data/events.js').includes("text:'我阿哲。張哲維。'")&&file('src/homepromise3d.js').includes("'上禮拜煮多了 吃了三天'")); }
 
 /* AA-B 11-01 回 C4 兩題（D109）*/
 { const src=file('src/data/postgrad_lines.js')+file('src/data/needed_msgs.js');
