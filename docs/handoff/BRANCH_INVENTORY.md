@@ -20,15 +20,15 @@
 <!-- BRANCH-AUDIT:BEGIN（tools/handoff/branch_audit.py --write 產生，不要手改）-->
 ## 定期唯讀稽核（最新一次；BRANCH-AUDIT-1028）
 
-**稽核時間**：2026-10-30T18:22Z（`tools/handoff/branch_audit.py`，只讀）；main＝`271cd2305`；共 26 條遠端分支：保留｜主線 1、保留｜崗位在用 4、保留｜WIP 沒整合完 4、保留｜main 沒有的內容 4、清理候選 13
+**稽核時間**：2026-10-31T10:12Z（`tools/handoff/branch_audit.py`，只讀）；main＝`271cd2305`；共 26 條遠端分支：保留｜主線 1、保留｜崗位在用 4、保留｜WIP 沒整合完 4、保留｜main 沒有的內容 4、清理候選 13
 
 | 分類 | 分支 | 最後 commit | 誰的（duty.json） | main 沒有的 commit | 判斷 |
 |---|---|---|---|---|---|
 | 保留｜主線 | `main` | `271cd2305`（2026-10-30） | — | 0 | GitHub Pages 正式版 |
-| 保留｜崗位在用 | `claude/cool-heisenberg-o8kuqx` | `6f81fc9d9`（2026-10-30） | AA-B | 5018 | duty.json：AA-B |
-| 保留｜崗位在用 | `claude/elegant-brown-fcos7n` | `6587f307e`（2026-10-30） | BB-B | 4994 | duty.json：BB-B |
-| 保留｜崗位在用 | `claude/funny-albattani-iawshm` | `ac3a8ffbb`（2026-10-30） | LAWWW2-B | 1300 | duty.json：LAWWW2-B |
-| 保留｜崗位在用 | `claude/modest-rubin-2lyp7g` | `a72578731`（2026-10-30） | LAWWW-B、RULE_SOURCE | 304 | duty.json：LAWWW-B、RULE_SOURCE |
+| 保留｜崗位在用 | `claude/cool-heisenberg-o8kuqx` | `b3df9c4e9`（2026-10-31） | AA-B | 5030 | duty.json：AA-B |
+| 保留｜崗位在用 | `claude/elegant-brown-fcos7n` | `468f31c92`（2026-10-31） | BB-B | 5099 | duty.json：BB-B |
+| 保留｜崗位在用 | `claude/funny-albattani-iawshm` | `49809174c`（2026-10-31） | LAWWW2-B | 1378 | duty.json：LAWWW2-B |
+| 保留｜崗位在用 | `claude/modest-rubin-2lyp7g` | `40539e05b`（2026-10-31） | LAWWW-B、RULE_SOURCE | 384 | duty.json：LAWWW-B、RULE_SOURCE |
 | 保留｜WIP 沒整合完 | `claude/adoring-meitner-mqzst8` | `c76d0cb69`（2026-10-28） | LAWWW-C（交班過） | 0 | wip.json：WIP-DORM-ROOM4-0829、WIP-AB65-3-Y1S2-L、WIP-V0-REWRITE-L、WIP-LAWWW-RC4-1021 |
 | 保留｜WIP 沒整合完 | `claude/focused-cray-c9uwvw` | `4b1fcc458`（2026-10-28） | LAWWW2-C（交班過） | 1201 | wip.json：WIP-L2-YUTING-FACE、WIP-L2-SHOP-BG、WIP-L2-DATE-CUTOUTS、WIP-L2-SOP、WIP-L2-PS-SKIRT-LEG、WIP-L2-SOC-COURT-1021 |
 | 保留｜WIP 沒整合完 | `claude/magical-albattani-bk7b4n` | `ea43bd9a0`（2026-10-28） | AA-C（交班過） | 4325 | wip.json：WIP-AA-211、WIP-AA-194-L12、WIP-AA-199-VAC、WIP-AA-210-NYE、WIP-AA-212-AB655、WIP-AA-208-ROOM4、WIP-AA-103-SP、WIP-AA-213-US |
@@ -81,6 +81,7 @@
 
 | 時間（UTC） | 誰 | 動作 | 分支與 SHA | 結果 |
 |---|---|---|---|---|
+| 2026-10-31 10:1x | LAWWW-B | 定期唯讀稽核（D114，branch_audit.py --write）：26 條＝主線 1、四個崗位在用 4、WIP 沒整合完 4、main 沒有的內容 4（企劃線、second-ai-env-art 舊線、postrel-1030 誤推的那條）、清理候選 13（全部是 main 的祖先，release-v9.8／9.9 系列、second-ai-env-art-wip-* 舊 WIP、confident-ritchie、friendly-brahmagupta） | 見上表（branch_audit.json 同一份） | 雲端工作階段刪不了別的分支：13 條只標記、不刪（D85 第 8 點）；休班帳號 C 的四條交接分支照舊保留（D88 第 5 點） |
 | 2026-10-30 05:3x | LAWWW-B | **誤推**：本機整合分支 `postrel-1030` 誤推到遠端（`git push origin HEAD:postrel-1030`，應該只推指定的開發分支），遠端多出一條 `postrel-1030`；馬上試刪被權限擋下，照 D88 第 4 點不重試 | `postrel-1030` 3808792fe | 內容另有 D113 bundle 在開發分支 `wip_backup/postrel_1030.bundle`；v9.10.14 發布後整條合進開發分支，之後內容全部在開發分支＝**清理候選（權限受阻）**。之後只推 `claude/modest-rubin-2lyp7g` |
 | 2026-10-30 03:2x | LAWWW-B | 定期唯讀稽核（D114；容器是淺層 clone，先 `git fetch --unshallow`；第一次和另一個 fetch 同時跑撞到 ref lock，重跑）：25 條＝主線 1、崗位在用 4（B 帳號四職位）、WIP 沒整合完 4（C 帳號四職位交班分支，wip.json 有未結項目）、main 沒有的內容 3、清理候選 13 | 清理候選和 10-28 同一批 13 條（confident-ritchie、friendly-brahmagupta、release-v9.8／rc2、v9.9-rc2、v9.9.1、second-ai-env-art-wip-bike／lane118／lawlib／pavsoc／props／props6／soclib），SHA 見上表 | 只標記不刪（雲端工作階段刪不了別的分支，D85 第 8 點）；C 帳號四條交班分支照留（休班帳號、WIP 沒結） |
 | 2026-10-28 01:2x | LAWWW-C | 第一次定期唯讀稽核（`branch_audit.py`，先 `git fetch --unshallow`：雲端 clone 原本是淺層的，祖先判斷會錯，工具現在遇到淺層 clone 直接報錯）：25 條遠端分支＝主線 1、崗位在用 4（C 帳號四職位）、main 沒有的內容 6、清理候選 14。**整理**：①14 條清理候選（帳號 A 的 `confident-ritchie`、帳號 B 的 `modest-rubin`、`friendly-brahmagupta`、四條 release、七條 LAWWW2 舊 WIP）全部整條是 main 的祖先＝內容都在 main，標「可刪、權限受阻」（雲端工作階段刪不了別的分支，不重試；還原指令在稽核一節）；休班帳號 A、B 回來時系統指定同一個分支名，push 就會重建，交接狀態在 duty.json；②`second-ai-env-art-wip-trees` 有 5 個 commit 的內容不在 main（16 個檔案不同）：10-16 D88 人工判定已被新版本取代、有 bundle 備份，但不符合「完全併入 main」→ 照規則保留；③帳號 A、B 的企劃線、美術線（`story-planning`、`cool-heisenberg`、`elegant-brown`、`funny-albattani`、`second-ai-env-art`）內容都已經在 C 帳號的分支裡、還沒到 main（企劃文件本來就不進 main）→ 保留 | 25 條（HEAD 見稽核一節） | 沒有刪任何分支；清理候選 14 條 |

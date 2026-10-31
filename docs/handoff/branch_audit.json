@@ -1,5 +1,5 @@
 {
- "at": "2026-10-30T18:22Z",
+ "at": "2026-10-31T10:12Z",
  "main": "271cd2305",
  "ruleSource": "claude/modest-rubin-2lyp7g",
  "counts": {
@@ -23,42 +23,42 @@
   {
    "ref": "origin/claude/cool-heisenberg-o8kuqx",
    "branch": "claude/cool-heisenberg-o8kuqx",
-   "sha": "6f81fc9d9e2e884580f509ebd2ecbf6449fb80ab",
-   "date": "2026-10-30T17:57:55+00:00",
+   "sha": "b3df9c4e9ef68fab5d9544164a7324ee10cdf9ec",
+   "date": "2026-10-31T04:22:39+00:00",
    "who": "AA-B",
    "kind": "保留｜崗位在用",
    "why": "duty.json：AA-B",
-   "ahead": 5018
+   "ahead": 5030
   },
   {
    "ref": "origin/claude/elegant-brown-fcos7n",
    "branch": "claude/elegant-brown-fcos7n",
-   "sha": "6587f307e7fdeb5112a6816a6d94d99502443de8",
-   "date": "2026-10-30T18:12:01+00:00",
+   "sha": "468f31c92ec53d85c65cb654dd1a6216fd132b6b",
+   "date": "2026-10-31T10:00:22+00:00",
    "who": "BB-B",
    "kind": "保留｜崗位在用",
    "why": "duty.json：BB-B",
-   "ahead": 4994
+   "ahead": 5099
   },
   {
    "ref": "origin/claude/funny-albattani-iawshm",
    "branch": "claude/funny-albattani-iawshm",
-   "sha": "ac3a8ffbb97dd6c9892d5b94112b44238cc1b50e",
-   "date": "2026-10-30T18:10:52+00:00",
+   "sha": "49809174c9b1b6178f525c58ca326b7ebc930390",
+   "date": "2026-10-31T10:07:22+00:00",
    "who": "LAWWW2-B",
    "kind": "保留｜崗位在用",
    "why": "duty.json：LAWWW2-B",
-   "ahead": 1300
+   "ahead": 1378
   },
   {
    "ref": "origin/claude/modest-rubin-2lyp7g",
    "branch": "claude/modest-rubin-2lyp7g",
-   "sha": "a72578731e1244d399db701b285664753b5a444b",
-   "date": "2026-10-30T18:20:26+00:00",
+   "sha": "40539e05b173545391aaee98a5618994d6ceaf6b",
+   "date": "2026-10-31T10:01:29+00:00",
    "who": "LAWWW-B、RULE_SOURCE",
    "kind": "保留｜崗位在用",
    "why": "duty.json：LAWWW-B、RULE_SOURCE",
-   "ahead": 304
+   "ahead": 384
   },
   {
    "ref": "origin/claude/adoring-meitner-mqzst8",
