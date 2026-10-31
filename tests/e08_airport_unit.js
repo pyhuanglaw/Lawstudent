@@ -72,8 +72,8 @@ const atDue=q=>{ H.G.day=q.day; H.G.weekday=CALENDAR.dateOf(q.day).wd%7; H.G.hou
     check('E5. 登機、整趟演完：回臺北的家（字卡「回臺北的家」、人在家、放假模式還在）',r.done===true&&HOME.at(H.G)&&HOME.breakMode(H.G)&&H.cards.some(c=>c[0]==='回臺北的家')&&!pending(H.G),JSON.stringify([r.done,HOME.at(H.G),H.cards.slice(-2)])); }
 
   /* ===================== E6 一起出發的人 ===================== */
-  { const {q}=await plan('2026-07-01',10,'zhe'); atDue(q); hall(); await OUT.go(GM,q); const A=H.G.flags.AIR_DEP||{}, n=GM.npc.zhe;
-    check('E6. C13 和阿哲去：大廳裡阿哲跟著你（follow、不能搭話、不揮手）',JSON.stringify(A.with)===JSON.stringify(['zhe'])&&!!n&&n.beh==='follow'&&n.talk===null&&n.talkLabel===null&&n.greet===false,JSON.stringify([A.with,n&&{beh:n.beh,talk:n.talk,greet:n.greet}])); }
+  { const {q}=await plan('2026-07-01',10,'kai'); atDue(q); hall(); await OUT.go(GM,q); const A=H.G.flags.AIR_DEP||{}, n=GM.npc.kai;   /* AA_549 2-6：七月阿哲在高雄＝約不到，改阿凱 */
+    check('E6. C13 和阿凱去：大廳裡阿凱跟著你（follow、不能搭話、不揮手）',JSON.stringify(A.with)===JSON.stringify(['kai'])&&!!n&&n.beh==='follow'&&n.talk===null&&n.talkLabel===null&&n.greet===false,JSON.stringify([A.with,n&&{beh:n.beh,talk:n.talk,greet:n.greet}])); }
   { H.fresh('2026-07-20',10,'dorm'); H.FAMILIAR('kai'); H.FAMILIAR('heroine_01'); H.FAMILIAR('zhe'); H.FAMILIAR('yu'); H.FAMILIAR('classmate_bohan');
     const w=(key,k)=>VAC.airWith?VAC.airWith(H.G,{vac:{key,k}}):[];
     check('E6. 一起出發的人：C05 阿凱、VA10 麵店團（阿哲、Alison、柏翰）；C11、C12 大二的以安是到了才遇到（不算）；C08 首爾（系上的團）沒有',

@@ -346,6 +346,15 @@ const VAC=(function(){
     if(id==='heroine_05'&&typeof DATE!=='undefined'&&DATE.SIS_RESULT_DAY){ const r=DK(DATE.SIS_RESULT_DAY); if(r!=null&&from<r) return 'no'; }
     if(D.dest[dest].far&&S.datingDays(G,id)<90) return 'later';
     return 'yes'; };
+  /* AA_549 2-6（企劃線 AA_549 第 2 節第 6 點）：帶朋友出國原本不看朋友在不在臺北（例：七月約阿哲，他在高雄）。朋友那幾天（from～to）有一天不在臺北（presence 不在、不是 kind 'taipei'），
+     或有自己的活動卡（活動卡的 mates：C05 阿凱、VA10 麵店團香港；VA-09 芯慈實習的平日），就約不到——回傳現有邀約的婉拒句（INV.reply 的 away／busy；不另外寫台詞），可以約＝null。
+     選朋友的清單在選日子以前，「只列那幾天都在臺北的人」排不出來（問 AA）：清單照舊，選完日子不行的照婉拒句回、不排 */
+  S.friendNo=function(G,id,from,to){ const D=Dt(), rep=(d,why)=>typeof INV!=='undefined'&&INV.reply?INV.reply(Object.assign({},G,{day:d}),id,null,{res:'decline',why}):(nm(id)+'說改天。');
+    for(let d=from;d<=to;d++){ if(typeof STORY!=='undefined'&&STORY.presence){ const pr=STORY.presence(id,Object.assign({},G,{day:d})); if(!pr.here&&pr.kind!=='taipei') return rep(d,'away'); } }
+    for(const J of S.all()){ if(!S.mates(J).has(id)) continue; const a=Math.max(from,J.from), b=Math.min(to,J.to); if(a<=b) return rep(a,'busy'); }
+    const V10=D&&D.VA10; if(V10&&(V10.mates||[]).includes(id)){ const a=Math.max(from,DK(V10.from)), b=Math.min(to,DK(V10.to)); if(a<=b) return rep(a,'busy'); }
+    const V9=D&&D.VA09; if(V9&&V9.who===id){ const a=DK(V9.lunchFrom), b=DK(V9.lunchTo); for(let d=Math.max(from,a);d<=Math.min(to,b);d++){ const w=CALENDAR.dateOf(d).wd%7; if(w>=1&&w<=5) return rep(d,'busy'); } }   /* 實習的日子＝lunchFrom～lunchTo 的平日（AA_256 第 1 節；characters.js 芯慈的作息）*/
+    return null; };
   /* 手機活動頁的「安排出國旅遊」→ 一連串選擇（目的地、和誰、幾天、哪天出發）*/
   S.plan13=async function(GM){ const G=GM.G, D=TV(), B=S.nextBreak(G); if(!D||!B){ if(GM.toast) GM.toast('現在離假期還太遠，第 10 週以後可以排',3000); return false; }
     const keys=Object.keys(D.dest).filter(k=>!D.dest[k].far||B.kind==='summer'); const o1=keys.map(k=>({t:D.dest[k].name})).concat([{t:'不去了'}]); const a=await GM.choose(o1); if(a>=keys.length) return false; const dest=keys[a], far=D.dest[dest].far;
@@ -354,6 +363,7 @@ const VAC=(function(){
     const lens=far?[7,10,14]:[3,5,7]; const c=await GM.choose(lens.map(n=>({t:n+' 天'})).concat([{t:'不去了'}])); if(c>=lens.length) return false; const len=lens[c];
     const lo=Math.max(B.from,G.day+3), starts=[]; for(let d=lo;d+len-1<=B.to&&starts.length<4;d+=7) starts.push(d); if(!starts.length){ if(GM.toast) GM.toast('這個假期排不下 '+len+' 天',3000); return false; }
     const e=await GM.choose(starts.map(d=>({t:dl(d)+' 出發（'+dl(d+len-1)+' 回來）'})).concat([{t:'不去了'}])); if(e>=starts.length) return false; const from=starts[e], to=from+len-1;
+    if(W.id&&!W.gf){ const no=S.friendNo(G,W.id,from,to); if(no){ await GM.say(null,no); return false; } }   /* AA_549 2-6：朋友那幾天不在臺北、有活動卡＝現有邀約的婉拒句，不排 */
     if(W.gf){ const P=D.gf[W.id], me={name:nm(W.id),charId:W.id}; await GM.say({name:G.name||'祐廷'},'要不要一起出國？'); const r=S.gfCan(G,W.id,dest,from,to);
       if(r!=='yes'){ await GM.say(me,r==='later'?P.later:P.no); return false; } for(const t of P.yes) await GM.say(me,t);
       if(P.next&&typeof PHONE!=='undefined') PHONE.at(G,G.day+1,21,P.next.map(t=>({th:'p:'+W.id,from:W.id,text:t})),'vac_t13next_'+G.day+'_'+W.id); }

@@ -135,5 +135,20 @@ const atHome=()=>{ const Hm=HOME.rec(H.G); Hm.at=true; Hm.day=H.G.day; const B=H
     const m=(H.G.msgs||[]).find(x=>x.ask&&x.ask.id==='vac_ask_C18W@Y1');
     check('3-5. C18W 大一：上學期第 6 週週一 12:00 全班群組公告＋「（報名）」（照現有；面試第 10 週）',!!m&&m.ask.opts[0].t==='（報名）'&&!!S1&&!!(S1.A.pre||[])[0]&&S1.A.pre[0].week===10,J(m&&m.text)); }
 
+  /* ================= 2-6 C13 帶朋友出國：不在臺北、有活動卡的朋友婉拒 ================= */
+  { const plan=async(k,who,dest,len,prep)=>{ fresh(k,10); H.FAMILIAR(who); if(prep) prep(); H.said=[]; H.picks=[dest,'和'+SOCIAL.displayName(who),len,0]; const ok=await VAC.plan13(GM); return {ok,rec:(VAC.rec(H.G).t13||[])[0]||null,q:OUT.get(H.G,'vac_t13_1'),L:H.lines()}; };
+    let r=await plan('2026-07-01','zhe','韓國','5 天');
+    check('2-6. 2026 七月約阿哲（7/4～7/8，他在高雄）：照邀約的婉拒句「阿哲寒暑假回高雄了，不在臺北。」、沒有排',!r.ok&&!r.rec&&!r.q&&r.L.includes(SOCIAL.displayName('zhe')+'寒暑假回高雄了，不在臺北。'),J(r.L));
+    r=await plan('2026-07-01','kai','韓國','5 天');
+    check('2-6. 同一段約阿凱（在臺北、沒有活動卡）：照常排',r.ok===true&&!!r.rec&&r.rec.with==='kai'&&!!r.q,J(r.rec));
+    r=await plan('2027-07-07','yu','韓國','3 天');
+    check('2-6. 2027-07-10～12 約 Alison（7/12 起在營隊）：「Alison在營隊當小隊長，不在臺北。」、沒有排',!r.ok&&!r.rec&&r.L.includes(SOCIAL.displayName('yu')+'在營隊當小隊長，不在臺北。'),J(r.L));
+    r=await plan('2027-08-20','zhe','日本','3 天');
+    check('2-6. 2027-08-23～25 約阿哲（8/21 回臺北，8/25 起麵店團去香港＝有活動卡）：「阿哲那時候有事。」、沒有排',!r.ok&&!r.rec&&r.L.includes(SOCIAL.displayName('zhe')+'那時候有事。'),J(r.L));
+    r=await plan('2027-07-01','classmate_xinci','日本','3 天');
+    check('2-6. 2027-07-04～06 約芯慈（7/5 起平日實習）：「…那時候有事。」、沒有排',!r.ok&&!r.rec&&r.L.some(t=>/那時候有事。$/.test(t)),J(r.L));
+    r=await plan('2026-08-20','kai','日本','5 天');
+    check('2-6. 2026-08-23～27 約阿凱（8/24 起 C05 日本＝不在臺北）：婉拒、沒有排',!r.ok&&!r.rec&&r.L.length===1&&/不在臺北。$/.test(r.L[0]),J(r.L)); }
+
   H.done();
 })().catch(e=>{ console.log('FAIL 例外 '+(e&&e.stack||e)); process.exit(1); });
