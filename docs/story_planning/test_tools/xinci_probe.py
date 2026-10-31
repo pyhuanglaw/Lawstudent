@@ -697,10 +697,11 @@ ROOMWHO = """(()=>{ const E=GAME.E; return {G:GAME.G.zone, E:E.zone&&E.zone.id||
     spots:E.zone&&E.zone.spots?Object.keys(E.zone.spots):null, busy:!!(GAME.busy||GAME.G._busy), where:(()=>{ try{ const w=STORY.whereIs(GAME,'heroine_02'); return w?{zone:w.zone,act:w.act||null}:null; }catch(e){ return 'ERR '+e.message; } })() }; })()"""
 
 
-async def wait_zr(pg, run, sid, max_s=60):
+async def wait_zr(pg, cdp, run, sid, max_s=60):
     """多媒體中心是 GLB 房間：讀檔／進門以後模型可能還在載，人還沒放——每 5 秒記一次房間裡有誰，最多等 max_s 秒"""
     t0 = time.time(); seen = []
     while time.time() - t0 < max_s:
+        if await pg.evaluate("(()=>{ const p=document.getElementById('phone'); return !!p&&!!p.offsetParent; })()"): await L.phone_away(pg, cdp)   # n25_xinci_k：手機開著＝遊戲暫停，補進來的人（從門口走進來）一直是隱藏的
         w = await pg.evaluate(ROOMWHO); seen.append([round(time.time() - t0), w])
         if await pg.evaluate(NPC + "(%s)" % json.dumps([ZR])): break
         await pg.wait_for_timeout(5000)
@@ -719,6 +720,9 @@ async def s_zrl3(p, run, base, sid, out):
     try:
         await pg.evaluate("(()=>{ const G=GAME.G; G.social.ladder=G.social.ladder||{}; G.social.ladder['heroine_02@Y2S2']=2; G.social.ladderDay=G.social.ladderDay||{}; delete G.social.ladderDay.heroine_02; G.flags=G.flags||{}; G.flags.ZR_MEDIA_TALK='Y2S2'; })()")
         run.setup('【前置】芷若大二下閒聊停在第 2 句（ladder heroine_02@Y2S2＝2、今天還沒聊過）；這學期在多媒體中心第一次說話的那段（closed2_3d.js zrMediaTalk）當作講過了（G.flags.ZR_MEDIA_TALK＝Y2S2）——只測閒聊階梯')
+        # n25_xinci_k（04:2x）：關係是讀檔時直接設成 FRIEND 的，遊戲把這次見面當成「升級後第一次見面」先說門檻台詞（social3d.js S.playUp：「欸，你也在！剛好，我正想找人講話。」），那一次不走閒聊階梯（story3d.js:905）——當作升級後已經見過一次
+        ups = await pg.evaluate("(()=>{ const id='heroine_02', out=[]; for(let i=0;i<6;i++){ const U=SOCIAL.upLine&&SOCIAL.upLine(id); if(!U) break; out.push(U.stage); SOCIAL.markUp(id,U.k); } return {marked:out, relUp:(GAME.G.social.relUp||{})[id]||0}; })()")
+        run.setup('【前置】升級後的門檻台詞當作說過了（SOCIAL.markUp）：%s' % J(ups))
         await pg.evaluate("(()=>{ const c=document.querySelector('#phone .close, #phoneClose, #btnPhoneClose'); if(c) c.click(); })()")
         if not direct:
             ex = await pg.evaluate("(()=>{ const it=GAME.E.interactables.find(i=>i.exit&&i.exit.to==='library_media'); return it?[it.x,it.z,it.lv|0,it.label]:null; })()")
@@ -732,7 +736,7 @@ async def s_zrl3(p, run, base, sid, out):
                     await pg.wait_for_timeout(1000)
                     if await pg.evaluate("GAME.G.zone") == 'library_media': break
             zn = await pg.evaluate("GAME.G.zone"); run.check('%s：照玩家的路從總圖大廳走進多媒體中心' % sid, zn == 'library_media', J({'door': ex, 'zone': zn}))
-        res['seen'] = await wait_zr(pg, run, sid)
+        res['seen'] = await wait_zr(pg, cdp, run, sid)
         n0 = await log_len(pg)
         ch, lab = await talk(pg, cdp, run, [ZR], ['芷若', '林芷若'], picks=['「為什麼？」'], label=sid)
         dg = await pg.evaluate("""(()=>{ const E=GAME.E, p=E.player.obj.position; const near=(E.npcs||[]).filter(n=>n&&n.obj&&n.obj.visible!==false).map(n=>({id:n.id, charId:n.charId||null, d:+Math.hypot(n.obj.position.x-p.x,n.obj.position.z-p.z).toFixed(2)})).slice(0,6);
@@ -753,6 +757,11 @@ async def s_zrcafe(p, run, base, sid, out):
     res = out.setdefault(sid, {})
     b, pg, cdp, errs, r = await launch(p, run, base, '2027-03-24', 11.5, 'cafe', rels={ZR: 'FRIEND'}, quiet=False, label=sid + '（大二下第 5 週週三 11:30 兩點半 Café；芷若在吧檯上班；芷若 FRIEND）')
     try:
+        # n25_xinci_k（04:2x）：使用者存檔（第 9 天）還沒認識芷若，關係是讀檔、她生成以後才設的——7cb058610 的修法在「生成時」看 FIRST_MET，這樣永遠量到「店員」。
+        # 設好以後同一份進度重讀一次（玩家的存檔裡本來就認識她），她重新生成時就看得到 FIRST_MET
+        snap = await pg.evaluate("()=>GAME.snapshot()"); d = await dayk(pg, '2027-03-24')
+        snap.update({'day': d, 'hour': 11.5, 'zone': 'cafe', 'pos': None}); await L.load_state(pg, snap, quiet_events=False); await pg.wait_for_timeout(6000); await pg.evaluate(HOOK)
+        run.setup('【前置】關係設好以後，同一份進度重讀 2027-03-24 11:30 Café（存檔裡已經認識芷若＝她生成時就是 FIRST_MET）')
         cp = await pg.evaluate("""(()=>{ const E=GAME.E; const me=(E.npcs||[]).find(x=>x&&(x.charId==='heroine_02'||x.id==='heroine_02')&&x.obj); const it=E.interactables.find(i=>i.counter==='cafe');
             return me&&it?[+me.obj.position.x.toFixed(2), +(it.z-0.1).toFixed(2), me.lv|0, me.staff||null, me.talkLabel||null]:null; })()""")
         run.note('%s 芷若（吧檯後）：%s' % (sid, J(cp)))
