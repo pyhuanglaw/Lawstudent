@@ -80,12 +80,13 @@ await sec(0,()=>{ const html=fs.readFileSync(path.join(H.ROOT,'index.html'),'utf
   const lost=Q.filter(q=>q.t.indexOf('{稱呼}')>=0?!(mine.has(q.t.replace('{稱呼}','學弟'))&&mine.has(q.t.replace('{稱呼}','{name}'))):!mine.has(q.t)).map(q=>q.who+'：'+q.t);
   /* 2026-10-28 改：AA_497 第 5 節（企劃線 7a38216ca；tests/aa497_supporting_unit.js 5-2、5-4）換掉、拿掉的 AA_470 句子：Kevin 動物影片第 6 則（10/26）、2027-03-08 學妹在群組問考古題那一段（改成宜蓁私訊）、gradPost「學姊多講兩個字」 */
   const AA497_OUT=new Set(['Kevin：📹（一隻貓趴在鍵盤上睡著，螢幕上一整排 j）','Kevin：學姊這次有看完嗎','學姊：有。牠到最後都沒醒。','家族的學妹：請問民總的考古題在哪裡🙏','學姊：置頂第二個資料夾。去年的我也放進去了。','Kevin：學姊回得比我快','Kevin：我還在找置頂在哪','Kevin：學姊多講兩個字','學姊：恭喜畢業。']);
-  const AA523_OUT=new Set(['學姊：好玩。……照片你都看過了。']), AA523_OUT_O=new Set(['「美國好玩嗎？」']);   /* AA_523 6-12 換掉的（12/28、12-7 兩週問兩次）*/
+  const AA523_OUT=new Set(['學姊：好玩。……照片你都看過了。','Kevin：我回家第三天 已經被我媽唸兩次了']), AA523_OUT_O=new Set(['「美國好玩嗎？」']);   /* AA_523 6-12 換掉的（12/28、12-7 兩週問兩次）；DIALOGUE-DEPTH-1031 AA_560 2-7 C8 換掉的 Kevin 那一句（他是臺北人）*/
   check('0. 第 3 節每一句（'+Q.length+' 句，誰：台詞）都在遊戲裡（{稱呼}＝「學弟」「{name}」兩版；AA_497 換掉的 '+AA497_OUT.size+' 句、AA_523 6-12 換掉的 '+AA523_OUT.size+' 句除外、而且真的不在遊戲裡）',Q.length>=120&&!lost.filter(x=>!AA497_OUT.has(x)&&!AA523_OUT.has(x)).length&&[...AA497_OUT,...AA523_OUT].every(x=>lost.includes(x)),J(lost.filter(x=>!AA497_OUT.has(x)&&!AA523_OUT.has(x))));
   const O=optsOf(S3), G0=new Set(gameTexts().map(t=>String(t))), lostO=O.filter(o=>!G0.has(o)&&!G0.has(o.replace(/^「|」$/g,'')));
   check('0. 第 3 節每個選項（'+O.length+' 個）都在遊戲裡（AA_523 6-12 換掉的「美國好玩嗎？」除外、而且真的不在遊戲裡）',O.length>=25&&!lostO.filter(o=>!AA523_OUT_O.has(o)).length&&[...AA523_OUT_O].every(o=>lostO.includes(o)),J(lostO.filter(o=>!AA523_OUT_O.has(o))));
   const EXTRA=['「妳大一的時候呢？」','「妳以前不睡覺？」',   /* 交往中祐廷的選項用「妳」（AA_470 第 2 節稱呼）*/
-    '家聚吃什麼 不要再吃咖哩了','學姊 八月國考 妳幫我集氣一次就好','好。日子跟我說。'];   /* AA_497 5-4 換上的句子（對 AA_497 的稿：tests/aa497_supporting_unit.js）*/
+    '家聚吃什麼 不要再吃咖哩了','學姊 八月國考 妳幫我集氣一次就好','好。日子跟我說。',   /* AA_497 5-4 換上的句子（對 AA_497 的稿：tests/aa497_supporting_unit.js）*/
+    '寒假第三天 已經被我媽唸兩次了'];   /* DIALOGUE-DEPTH-1031 AA_560 2-7 C8（對 AA_560 的稿：tests/dd_batch1_unit.js）*/
   const AA523_IN=['「回來以後，習慣嗎？」','……法圖的椅子比較矮。'];   /* AA_523 6-12 換上的句子：下一項對 AA_523 第 6 節 6-12 那一列 */
   const notIn=[...new Set(gameTexts())].filter(t=>!EXTRA.includes(t)&&!AA523_IN.includes(t)&&doc.indexOf(String(t).replace(/^學弟。/,'{稱呼}。').replace(/^\{name\}。(你的學生證|坐。)/,'{稱呼}。$1'))<0);
   check('0. 遊戲裡這一批的每一句、選項、群組句都在稿裡（一字不差；交往中「妳」兩個選項除外）',!!doc&&!notIn.length,J(notIn));
@@ -131,7 +132,7 @@ await sec(2,()=>{ const want=[['2026-09-07',['新學期！！下禮拜新的學�
 /* ---- 3 12-3 ---- */
 await sec(3,async()=>{ const a=D('2027-01-12'), b=D('2027-01-13');
   fresh('2027-01-12',20,'none'); ph(); const e0=byTag('sisb12_hot_ask').length; at(a,21); ph(); const M=byTag('sisb12_hot_ask');
-  check('3. 沒認識學姊：1/12 21:00 群組「寒假還有誰在台北的」「我回家第三天 已經被我媽唸兩次了」「我在。」；沒有選項',e0===0&&J(M.map(m=>m.text))===J(['寒假還有誰在台北的','我回家第三天 已經被我媽唸兩次了','我在。'])&&M.every(m=>!m.ask&&m.th==='g:family_law'&&m.h===21)&&M[2].from===ID,J(M));
+  check('3. 沒認識學姊：1/12 21:00 群組「寒假還有誰在台北的」「寒假第三天 已經被我媽唸兩次了」（AA_560 C8 換字）「我在。」；沒有選項',e0===0&&J(M.map(m=>m.text))===J(['寒假還有誰在台北的','寒假第三天 已經被我媽唸兩次了','我在。'])&&M.every(m=>!m.ask&&m.th==='g:family_law'&&m.h===21)&&M[2].from===ID,J(M));
   at(b,11.9); ph(); const n1=byTag('sisb12_hot_none').length; at(b,12); ph(); const N=byTag('sisb12_hot_none');
   check('3. 沒有選項的：1/13 12:00「好吧 那學姊幫大家吃一份」「不要。」（12:00 以前沒有）；不排出遊',n1===0&&J(N.map(m=>m.text))===J(['好吧 那學姊幫大家吃一份','不要。'])&&N[0].h===12&&!OUT.get(H.G,'sisb12_hotpot'),J(N));
   fresh('2027-01-12',21,'fam'); ph(); const m=byTag('sisb12_hot_ask').find(x=>x.ask);
