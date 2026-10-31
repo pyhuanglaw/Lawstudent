@@ -25,6 +25,8 @@
 #     → 太陽方位改 180（入口那一側，強度照樣 0：高窗不是真的開口），入口看出去是靠太陽、偏白的天；天光 0.3、白平衡 1.0,0.96,0.9。
 #   第三版：大廳的石牆、地板是中性灰（石材本身就是灰色花崗石 #8e8b85；改前偏咖啡是暖色的即時環境光），球場白天、晚上都比改前自然；
 #     但大廳天花板只有地板反彈的光，白天 0.126（畫面上深灰）→ 第四版加天花板補光（見下面）。
+#   第五版：第四版交件以後才發現高窗四周的牆一圈白光暈（光照貼圖 1.97～2.0＝上限，窗下面 0.27）：高窗的發光面補了反面（PERF-SINGLESIDE），
+#     反過來那一片朝著牆、離牆 4 cm，烘焙時把牆照爆。→ gym_interior.py 高窗不補反面＋--emit-oneside（發光面只有正面發光）。
 set -e
 ZONE=${1:?interior|arena}
 SAMPLES=${2:-256}
@@ -46,7 +48,7 @@ interior)
   # 大廳天花板的補光（第四版）：嵌燈只往下照，天花板只吃到地板反彈的光，第三版白天只有 0.126（畫面上深灰，比改前的白天花板暗很多）。
   #   嵌燈正下方 2.3 m 高（離天花板 1.9 m）各一顆柔和的點光源（半徑 0.6 m），把天花板提亮一些；嵌燈 25 → 20 W，地板不要跟著變太亮。
   PT=""; for zz in 13 17; do for x in -14 -7 0 7 14; do PT="$PT;$x,2.3,$zz,${FILLW:-8},$WARM,0.6"; done; done; PT=${PT#;}
-  EXTRA=(--points "$PT" --dayemit "gym_window_sky=${SKYWIN:-3.0}" --sun 180,25,0 --sky "${SKY:-0.3}" --daywb ${DAYWB:-1.0,0.96,0.9} --daylights "${DAYL:-0.7}" --shell S --keep-instances) ;;
+  EXTRA=(--points "$PT" --dayemit "gym_window_sky=${SKYWIN:-3.0}" --sun 180,25,0 --sky "${SKY:-0.3}" --daywb ${DAYWB:-1.0,0.96,0.9} --daylights "${DAYL:-0.7}" --shell S --keep-instances --emit-oneside) ;;
 arena)
   # 3F 主球場（gym_arena 區域，gym_arena.glb；gym_arena.py）：場地 44×39 m、東西南三面下層看台、上層看台（4、5F）、北牆大螢幕、屋頂桁架 23 m 高。
   # 燈（照 gym_arena.py；改那邊要一起改）：屋頂桁架下的 LED（燈罩下緣 20.4 m，x −36～36 每 6 m × z −19～29 每 6 m，117 盞；v8 以前只有場地上方 56 盞）：
