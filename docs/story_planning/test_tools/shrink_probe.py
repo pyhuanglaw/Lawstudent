@@ -308,7 +308,7 @@ async def mode_e1d(pg, cdp, run):
     g1 = await pg.evaluate(GRP); st1 = await pg.evaluate("(()=>({ren:GAME.G.flags.ndlRen||null, now:CALENDAR.dateOf(GAME.G.day).key+' '+(+GAME.G.hour).toFixed(2), zone:GAME.G.zone}))()")
     warn = await pg.evaluate("(window.__WARN||[]).slice(0,12)")
     nar = [m for m in g1['msgs'] if '改成' in (m['text'] or '')]
-    run.note('等到 %s：群組 %s；ndlRen %s；改名旁白 %s；console.warn %s' % (st1['now'], g1['name'], J(st1['ren']), J(nar), J(warn, 2000)))
+    run.note('等到 %s：群組 %s；ndlRen %s；改名旁白 %s；console.warn %s' % (st1['now'], g1['name'], J(st1['ren']), J(nar), J(warn)[:2000]))
     await run.shot(pg, 'e1d_after')
     run.check('E1 診斷：照玩家等到 12:06 以後（現在 %s）' % st1['now'], okw, st1['now'])
     run.check('E1 診斷：大二上開學那天 12:00 以後群組是「法二吃飯」', g1['name'] == '法二吃飯', J([g0['name'], st1['now'], g1['name']]))
@@ -316,7 +316,7 @@ async def mode_e1d(pg, cdp, run):
     if g1['name'] != '法二吃飯':
         dd = await pg.evaluate("(()=>{ const G=GAME.G, out={}; try{ STORY.ndlGroupFix(G); out.fix='ok'; }catch(e){ out.fix='ERR '+e.message; } out.nameAfterFix=PHONE.rec(G).groups.noodle_team.name; out.ren=G.flags.ndlRen||null;"
                                " try{ STORY.phoneRules(GAME); out.rules='ok'; }catch(e){ out.rules='ERR '+(e.stack||e.message).slice(0,600); } return out; })()")
-        run.note('E1 診斷：直接叫 STORY.ndlGroupFix／phoneRules：%s' % J(dd, 1500))
+        run.note('E1 診斷：直接叫 STORY.ndlGroupFix／phoneRules：%s' % J(dd)[:1500])
 
 
 async def main():
