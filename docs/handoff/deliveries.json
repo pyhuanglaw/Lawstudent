@@ -16480,6 +16480,19 @@
    "task": "XINCI-ROMANCE-1030",
    "integration": "已整合待測試",
    "note": "termend_lines HEART classmate_xinci.walkAgain、termend3d walkHome 第二次用 walkAgain；xinci_romance 第 2 節（逐字比對 8-5）"
+  },
+  {
+   "id": "DL-LW2-LIB3F-LM-1031",
+   "date": "2026-10-31",
+   "from": "LAWWW2-B",
+   "account": "B",
+   "branch": "claude/funny-albattani-iawshm",
+   "sha": "3ce25a2f1",
+   "msg": "ACK",
+   "what": "ART-ECON-3D-GAP-1021 C：總圖 3F 閱覽區光照烘焙（library_3f.glb＋光照貼圖兩張）；法律學院圖書館 GPU instancing 修正（lawlib_interior.glb 重烘、光照貼圖逐像素相同）；library3f_lm_1031.patch：library_3f_lm_unit、lm_instancing_unit、bake_room／lm_fix_hidden 保留實例、bake_library_3f.sh",
+   "task": "ART-ECON-3D-GAP-1021",
+   "integration": "已整合待測試",
+   "note": "LAWWW-B 05:1x 套上：apply 乾淨、圖書館與光照相關 17 支 Node ALL PASS；READY_FOR_ART_REVIEW"
   }
  ],
  "ignored": [

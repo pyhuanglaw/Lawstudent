@@ -32,6 +32,10 @@ from PIL import Image
 A = sys.argv[sys.argv.index('--') + 1:]
 def arg(k, d=None): return A[A.index(k) + 1] if k in A else d
 IN, OUT, LMP = arg('--in'), arg('--out'), arg('--lm'); THR = float(arg('--thr', '0.004')); LIT = float(arg('--lit', '0.02')); REPORT = arg('--report'); DEBUG = arg('--debug')
+def gpu_inst(p):   # 輸入的 GLB 有沒有用 EXT_mesh_gpu_instancing（bake_room.py --keep-instances 留下的書）：有才照樣寫回去（10-31）
+    import struct
+    with open(p, 'rb') as f: h = f.read(20); n = struct.unpack('<I', h[12:16])[0]; return 'EXT_mesh_gpu_instancing' in json.loads(f.read(n)).get('extensionsUsed', [])
+KEEP_INST = gpu_inst(IN)
 
 def load(p):
     a = np.asarray(Image.open(p).convert('RGB')).astype(np.float32) / 255
@@ -166,6 +170,8 @@ for (o, bm, uv, bad, mw, mn) in OBJ:
 print(json.dumps({'lm_fix_hidden': st}, ensure_ascii=False), flush=True)
 if DEBUG: json.dump(DBG, open(DEBUG, 'w', encoding='utf-8'), ensure_ascii=False)
 if REPORT: json.dump({k: {h: [n, round(a, 3)] for h, (n, a) in v.items()} for k, v in REP.items()}, open(REPORT, 'w', encoding='utf-8'), ensure_ascii=False, indent=1)
+# export_gpu_instances（10-31）：輸入有實例（bake_room.py --keep-instances 留下的書）才照舊寫成 EXT_mesh_gpu_instancing。
+#   不能一律打開：其他模型共用網格的物件（遊戲照名字找的節點）會被改成實例
 bpy.ops.export_scene.gltf(filepath=os.path.abspath(OUT), export_format='GLB', export_texcoords=True, export_normals=True, export_extras=True,
-                          export_yup=True, export_image_format='AUTO', export_lights=False, export_cameras=False)
+                          export_yup=True, export_image_format='AUTO', export_lights=False, export_cameras=False, export_gpu_instances=KEEP_INST)
 print('exported', OUT, flush=True)

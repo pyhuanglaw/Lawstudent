@@ -41,8 +41,11 @@ sc = bpy.context.scene
 print('import', len(bpy.data.objects), 'objects', flush=True)
 
 # ---- 1. 實例展開：同一個網格被好幾個物件共用（或幾何節點的實例）→ 各自一份，再照材質合併 ----
+# --keep-instances：實例不展開（書：不烘、照舊即時光），匯出時也要照舊寫成 EXT_mesh_gpu_instancing（10-31 改；之前沒寫，
+#   法律學院圖書館烘完書變成 800 個各自的節點，遊戲裡一個節點一次 draw call；總圖 3F 試烘時查到）
+KEEP_INST = '--keep-instances' in A
 def realize():
-    if '--keep-instances' in A: return
+    if KEEP_INST: return
     # 幾何節點的實例（新版匯入器可能用這個處理 EXT_mesh_gpu_instancing）：套用修改器
     for o in list(bpy.data.objects):
         if o.type == 'MESH' and any(m.type == 'NODES' for m in o.modifiers):
@@ -184,7 +187,7 @@ if '--uvonly' in A:   # 只看 UV 排版、不烘焙（幾十秒）：輸出加�
     for o in bpy.data.objects:
         if o.type == 'MESH' and len(o.data.uv_layers) and o.data.uv_layers[0].name != 'LM': o.data.uv_layers.active = o.data.uv_layers[0]; o.data.uv_layers[0].active_render = True
     bpy.ops.export_scene.gltf(filepath=os.path.abspath(OUT), export_format='GLB', export_texcoords=True, export_normals=True, export_extras=True,
-                              export_yup=True, export_image_format='AUTO', export_lights=False, export_cameras=False)
+                              export_yup=True, export_image_format='AUTO', export_lights=False, export_cameras=False, export_gpu_instances=KEEP_INST)
     print('uvonly exported', OUT, flush=True); sys.exit(0)
 
 # ---- 4. 貼圖＋每個材質裡一個「要寫進去」的貼圖節點（Cycles 烘焙寫到作用中的貼圖節點，用作用中的 UV）----
@@ -416,5 +419,5 @@ if URL:
     if DAYEMIT: LMX['dayEmit'] = sorted(DAYEMIT)   # 只在白天那一張發光的材質（--dayemit：天窗）：遊戲的 Z3.roomLightmap 晚上把它們調暗（不然遊戲裡整晚照樣亮；RT-NIGHT-1028）
     sc['lightmap'] = LMX
 bpy.ops.export_scene.gltf(filepath=os.path.abspath(OUT), export_format='GLB', export_texcoords=True, export_normals=True, export_extras=True,
-                          export_yup=True, export_image_format='AUTO', export_lights=False, export_cameras=False)
+                          export_yup=True, export_image_format='AUTO', export_lights=False, export_cameras=False, export_gpu_instances=KEEP_INST)
 print('exported', OUT, flush=True)
