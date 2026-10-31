@@ -1,7 +1,7 @@
 #!/bin/bash
 # 綜合體育館室內（INTERIOR-AAA-REVIEW-1028，LAWWW2-B 2026-10-31；照 bake_library_hall.sh、bake_cvs.sh）：建模 → 光照烘焙（白天／晚上）→ WebP。repo 根目錄跑：
 #   bash tools/blender/env_second/lightbake/bake_gym.sh interior [取樣數，預設 256] [輸出資料夾，預設 assets/models/env/second_ai] [貼圖邊長，預設 1024]
-# interior＝大廳＋1F 球場（gym 區域，gym_interior.glb；gym_interior.py）。3F 主球場（arena）、B1 之後再加。
+# interior＝大廳＋1F 球場（gym 區域，gym_interior.glb；gym_interior.py）；arena＝3F 主球場（gym_arena 區域，gym_arena.glb；gym_arena.py）。B1 之後再加。
 # 輸出：gym_interior.glb（多一套 UV＝TEXCOORD_1、extras.lightmap）＋ gym_interior_lm_day.webp、_night.webp。
 #   遊戲：gym3d.js 的 gym → Z3.attachRoomGLB 看到 GLB 的 extras.lightmap 就接，不用改程式。
 # 座標＝遊戲區域座標（gym_interior.py；配置 src/data/gym_layout.js）：球場 x ±20、z −19～11、高 9 m；大廳 z 11～19、高 4.2 m；入口（玻璃）在 +z。
@@ -26,7 +26,7 @@
 #   第三版：大廳的石牆、地板是中性灰（石材本身就是灰色花崗石 #8e8b85；改前偏咖啡是暖色的即時環境光），球場白天、晚上都比改前自然；
 #     但大廳天花板只有地板反彈的光，白天 0.126（畫面上深灰）→ 第四版加天花板補光（見下面）。
 set -e
-ZONE=${1:?interior}
+ZONE=${1:?interior|arena}
 SAMPLES=${2:-256}
 OUTDIR=${3:-assets/models/env/second_ai}
 RES=${4:-1024}
@@ -47,6 +47,24 @@ interior)
   #   嵌燈正下方 2.3 m 高（離天花板 1.9 m）各一顆柔和的點光源（半徑 0.6 m），把天花板提亮一些；嵌燈 25 → 20 W，地板不要跟著變太亮。
   PT=""; for zz in 13 17; do for x in -14 -7 0 7 14; do PT="$PT;$x,2.3,$zz,${FILLW:-8},$WARM,0.6"; done; done; PT=${PT#;}
   EXTRA=(--points "$PT" --dayemit "gym_window_sky=${SKYWIN:-3.0}" --sun 180,25,0 --sky "${SKY:-0.3}" --daywb ${DAYWB:-1.0,0.96,0.9} --daylights "${DAYL:-0.7}" --shell S --keep-instances) ;;
+arena)
+  # 3F 主球場（gym_arena 區域，gym_arena.glb；gym_arena.py）：場地 44×39 m、東西南三面下層看台、上層看台（4、5F）、北牆大螢幕、屋頂桁架 23 m 高。
+  # 燈（照 gym_arena.py；改那邊要一起改）：屋頂桁架下的 LED（燈罩下緣 20.4 m，x −18～18 每 6 m × z −19～23 每 6 m，56 盞）：往下照的面光源（0.7 m 見方），冷白。白天燈也開著。
+  # 東西兩面看台頂上的高窗（arena_window_sky：gym_arena.py v8 從 LED 的發光面 arena_light 分出來）：外面沒做東西。烘焙時整間包黑殼（--shell NONE：沒有開著的面），
+  #   白天那一張讓高窗發光（--dayemit：天光只從高窗進來），晚上不亮。
+  #   遊戲的 gym_arena 區域沒有照時段調高窗（原本和 LED 共用材質，一直亮），所以不用像 1F 那樣拿掉 dayEmit：Z3.roomLightmap 晚上把它調暗，高窗晚上不再是白的。
+  # --hide：玻璃（門）、布置（SET_：舞台、典禮、演講、演唱會，平常藏著——影子不能烘進地板）。
+  # --nolm：下層看台的座位（GPU instancing：一個網格給幾百個座位用，第二套 UV 沒辦法每個座位不同）、桁架鋼管、深色鋼件（欄杆、燈罩）、
+  #   燈和高窗的發光面、大螢幕、記分板、出口燈、布旗。場地、看台踏面、上層的座位帶、牆、吸音板、屋頂板照樣烘。
+  NAME=gym_arena; SCRIPT=tools/blender/env_second/gym_arena.py
+  HIDE='glass|SET_'
+  NOLM='arena_seats_lower|arena_steel|arena_light|arena_sky|arena_screen|arena_score|arena_exit|arena_banner'
+  COOL=${HBCOL:-0.97,0.98,1.0}
+  LIGHTS=""
+  for zz in -19 -13 -7 -1 5 11 17 23; do for x in -18 -12 -6 0 6 12 18; do
+    LIGHTS="$LIGHTS;$(python3 -c "print(f'{$x-0.01:.3f},{$x+0.01:.3f},{$zz-0.01:.3f},{$zz+0.01:.3f},20.38,1,1,${LEDW:-220},0.7,0.7,$COOL')")"; done; done
+  LIGHTS=${LIGHTS#;}
+  EXTRA=(--dayemit "arena_window_sky=${SKYWIN:-3.0}" --sun 180,25,0 --sky 0 --daywb ${DAYWB:-1.0,0.97,0.93} --daylights "${DAYL:-0.8}" --shell NONE --keep-instances) ;;
 *) echo "未知的區域：$ZONE"; exit 1 ;;
 esac
 /opt/blenv/bin/python $SCRIPT -- --out "$TMP/plain.glb"
@@ -56,8 +74,8 @@ python3 -c "import json,sys; d=json.load(open(sys.argv[1])); d['out']='assets/mo
   --lights "$LIGHTS" "${EXTRA[@]}" --smooth ${SMOOTH:-2}
 python3 tools/blender/env_second/lightbake/to_webp.py "$TMP/lm" "$OUTDIR/${NAME}_lm" 90
 /opt/blenv/bin/python tools/blender/env_second/lightbake/lm_fix_hidden.py -- --in "$OUTDIR/$NAME.glb" --out "$OUTDIR/$NAME.glb" --lm "$OUTDIR/${NAME}_lm"
-# 高窗的亮度由遊戲的 gym 區域自己照時段調（見開頭）：extras.lightmap.dayEmit 拿掉
-python3 - "$OUTDIR/$NAME.glb" <<'PY'
+# interior：高窗的亮度由遊戲的 gym 區域自己照時段調（見開頭）：extras.lightmap.dayEmit 拿掉（arena 留著）
+[ "$ZONE" = interior ] && python3 - "$OUTDIR/$NAME.glb" <<'PY'
 import json, struct, sys
 p = sys.argv[1]; b = bytearray(open(p, 'rb').read()); n = struct.unpack('<I', b[12:16])[0]; j = json.loads(b[20:20 + n])
 for sc in j.get('scenes', []):

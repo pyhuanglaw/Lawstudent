@@ -70,6 +70,9 @@ M = {
     'roof': L.flat(P + 'roof', '#4c5156', rough=0.85, cull=True), 'glass': base['glass'],
     'seat': L.flat(P + 'seat', '#1f4c97', rough=0.45), 'seat_strip': seat_strip_mat(),
     'light': L.flat(P + 'light', '#ffffff', rough=0.3, emit=B.srgb('#f4f8ff')),
+    # 高窗（v8，2026-10-31 光照烘焙）：原本和 LED 的發光面共用 light（白色、一直亮）。分開成天空色（和 1F 的 gym_window_sky 同色）：
+    #   烘焙時只有高窗在白天那一張發光（--dayemit arena_window_sky），遊戲的 Z3.roomLightmap 晚上把它調暗；LED 照舊一直亮
+    'sky': L.flat(P + 'window_sky', '#e8eff6', rough=0.2, emit=B.srgb('#c4d6e8')),
     'screen': img_mat(P + 'screen', 'arena_screen.png', rough=0.3, emit=1.2), 'score': img_mat(P + 'score', 'gym_score.png', rough=0.3, emit=0.8),
     'door': L.flat(P + 'door', '#3b4652', rough=0.5, metal=0.2),
     # 舞台台面（v7，2026-10-25）：原本深色木板（dark_planks #3a2e26）——使用者「不要出現這種深色木地板 整個遊戲都不要」（D112，10-23 清查漏掉：
@@ -146,7 +149,7 @@ for x in (-EX + 0.2, EX - 0.2):                                     # 東西牆�
         if z1 > SZ - 1: break
         sgn = 1 if x < 0 else -1
         acc('steel_dk').box(min(x, x + sgn * 0.1), max(x, x + sgn * 0.1), TOPH + 1.0, TOPH + 1.08, z0, z1); acc('steel_dk').box(min(x, x + sgn * 0.1), max(x, x + sgn * 0.1), TOPH + 4.92, TOPH + 5.0, z0, z1)
-        acc('light').quad([(x + sgn * 0.12, TOPH + 1.08, z1 if sgn > 0 else z0), (x + sgn * 0.12, TOPH + 1.08, z0 if sgn > 0 else z1), (x + sgn * 0.12, TOPH + 4.92, z0 if sgn > 0 else z1), (x + sgn * 0.12, TOPH + 4.92, z1 if sgn > 0 else z0)])
+        acc('sky').quad([(x + sgn * 0.12, TOPH + 1.08, z1 if sgn > 0 else z0), (x + sgn * 0.12, TOPH + 1.08, z0 if sgn > 0 else z1), (x + sgn * 0.12, TOPH + 4.92, z0 if sgn > 0 else z1), (x + sgn * 0.12, TOPH + 4.92, z1 if sgn > 0 else z0)])
 # 北牆：大螢幕（待機畫面）＋外框；下面一圈深藍的牆裙
 acc('fascia').box(-EX, EX, 0.0, 2.4, NZ, NZ + 0.12)
 acc('steel_dk').box(-9.3, 9.3, 9.2, 17.3, NZ, NZ + 0.35)
