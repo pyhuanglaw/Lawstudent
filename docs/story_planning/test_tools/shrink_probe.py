@@ -335,10 +335,12 @@ async def mode_y2late(pg, cdp, run):
     rows = []
     for key, hh in (('2026-09-06', 20.0), ('2026-10-15', 20.0), ('2027-10-13', 20.0)):
         st, d = await P.base(pg, SAVE, key, hh, 'dorm'); st.setdefault('flags', {}).pop('ROOM_Y2', None)
+        # n20_y2late 14:39：__BBP.cap（字幕擷取）是空的、兩行判斷寫反——改成包 GAME.say 記台詞
+        await pg.evaluate("(()=>{ window.__SAYS=[]; if(!window.__SAYH){ window.__SAYH=1; const s0=GAME.say; GAME.say=function(w,t){ try{ window.__SAYS.push(String(t||'')); }catch(e){} return s0.apply(this,arguments); }; } })()")
         await P.load(pg, cdp, st, quiet=False); n0 = await P.cap_n(pg)
         run.setup('[前置] 使用者存檔改到 %s（%s 第 %s 週）%.2f 宿舍；ROOM_Y2 沒有（舊存檔、還沒搬 312）' % (d['key'], d['term'], d['week'], hh))
         await P.events_on(pg); await P.wait_play(pg, cdp, hh + 0.2, max_s=600, run=run, tag='y2late_%s' % key); await pg.wait_for_timeout(2000)
-        caps = await P.captions(pg, n0); txt = [c[1] if isinstance(c, (list, tuple)) and len(c) > 1 else (c.get('t') if isinstance(c, dict) else str(c)) for c in caps]
+        txt = await pg.evaluate("(window.__SAYS||[]).slice(0,40)")
         r = await pg.evaluate("(()=>({room:GAME.G.flags.ROOM_Y2!=null?CALENDAR.dateOf(GAME.G.flags.ROOM_Y2).key:null, now:CALENDAR.dateOf(GAME.G.day).key+' '+(+GAME.G.hour).toFixed(2)}))()")
         hit = any('明天開學' in (t or '') for t in txt); rows.append((key, hit, r))
         run.note('%s：演了「明天開學」%s；ROOM_Y2 %s；說過的 %s' % (key, hit, J(r), J(txt[:12])[:1200])); await run.shot(pg, 'y2late_%s' % key)
