@@ -36517,8 +36517,8 @@
    "title": "麵店室內光照烘焙（noodle_interior；麵店團每週二、四）",
    "area": "ART",
    "owner": "LAWWW2",
-   "status": "已整合待測試",
-   "next": "BB 在瀏覽器看阿鳳麵店白天／晚上（晚上是日光燈白光、不是整間橘色；煮麵台、湯鍋不是黑的；櫃門、湯鍋晚上不變咖啡色）",
+   "status": "已驗收",
+   "next": "已驗收（10-31 10:5x）｜BB 在瀏覽器看阿鳳麵店白天／晚上（晚上是日光燈白光、不是整間橘色；煮麵台、湯鍋不是黑的；櫃門、湯鍋晚上不變咖啡色）",
    "priority": "P1",
    "first": {
     "term": "Y1S1",
@@ -36539,7 +36539,8 @@
     "receiver": "LAWWW",
     "ack": "ACTIONED"
    },
-   "notes": "D99 第一優先經濟系那一年玩家最常待的室內，還沒有光照貼圖（10-30 盤點：GLB 的 extras.lightmap）"
+   "notes": "D99 第一優先經濟系那一年玩家最常待的室內，還沒有光照貼圖（10-30 盤點：GLB 的 extras.lightmap）",
+   "evidence": "BB-B n24_noodle_lm（1e910aa6c，BB_218 fc4aef570）ALL PASS"
   },
   {
    "id": "BUG-PG-MOON-STOP",
@@ -36729,9 +36730,9 @@
    "title": "光照烘焙工具 collapse_black 的舊 bug（只看面的中心）重烘舊房間：法律學院圖書館 91 m²（東牆兩層）、總圖大廳 83、宿舍四人房 21（左右牆）、201 6（LAWWW2 lm_squash_scan.py 掃出；Café、霖澤、202、宿舍大廳、萬才館沒有）",
    "area": "ART",
    "owner": "LAWWW2",
-   "status": "已整合待測試",
+   "status": "已驗收",
    "priority": "P2",
-   "next": "四間都整合（法圖 91→0、總圖大廳 83→0、四人房 21→0、201 5.8→0；看得到的差別只有總圖大廳明顯）→ BB 看四間",
+   "next": "已驗收（10-31 10:5x）｜四間都整合（法圖 91→0、總圖大廳 83→0、四人房 21→0、201 5.8→0；看得到的差別只有總圖大廳明顯）→ BB 看四間",
    "first": {
     "term": "Y1S1",
     "week": 1,
@@ -36750,7 +36751,8 @@
     "acceptance": "lm_squash_scan 朝室內看得到的面壓扁 0 m²；改前改後同鏡頭",
     "receiver": "LAWWW",
     "ack": "ACTIONED"
-   }
+   },
+   "evidence": "BB-B n24（1e910aa6c，BB_218 fc4aef570）四間 ALL PASS：法律學院圖書館光照 43 個材質白天晚上都接上、9 個鏡頭站得到、進出兩次正常；總圖大廳 36 個網格接上、東西牆黑三角沒有、影印機旁往東不再一大塊純黑；宿舍四人房左牆上半灰漸層沒有、201 西牆護牆板明暗均勻"
   },
   {
    "id": "BUG-WHOIS-ECONYEAR-1030",
@@ -36788,7 +36790,7 @@
    "owner": "LAWWW2",
    "status": "已整合待測試",
    "priority": "P2",
-   "next": "LAWWW2 cfb70a5fd 套上（滅火器 nav 往西接到樓梯核心，孤島封掉；可站 22,629→22,623 格）；BB 瀏覽器走一次總圖大廳一樓滅火器那個牆角（tests/reachability_all.py 沒跑）",
+   "next": "【10-31 10:5x】BB n24_libhall 光照 PASS，但滅火器牆角沒專門走（「影印機斜後方站不住」是探針挑到隔間牆）→ 併進 BB 的 LHCORE 那輪走一次｜LAWWW2 cfb70a5fd 套上（滅火器 nav 往西接到樓梯核心，孤島封掉；可站 22,629→22,623 格）；BB 瀏覽器走一次總圖大廳一樓滅火器那個牆角（tests/reachability_all.py 沒跑）",
    "first": {
     "term": "Y1S1",
     "week": 1,
@@ -37098,6 +37100,34 @@
     "ack": "ACTIONED"
    },
    "evidence": "BB-B n28_seatreach_b（be7b5bcac，截圖 6 張）ALL PASS：照玩家點椅子，共同 101 第 0 排 0 號、博思 101 第 0 排 0 號、博思 102 第 0 排 10 號都走過去停在離互動點 0.19～0.25 m、出現「坐下」、坐得下；掃描共同 76、普通 120、博思 164 個座位，走近點在範圍外 0 個；沒有 JS 例外"
+  },
+  {
+   "id": "BUG-CAM-LIBHALL-CORE-1031",
+   "title": "總圖大廳一樓：跟隨鏡頭穿進中央樓梯核心（x −5.2～5.2、z −8.9～−0.6）的牆後面，畫面整個是室內樹葉子和灰泥牆、看不到玩家（東側北段 (6.2,−2.6) 看東、西側北段 (−6.2,−3.2) 看西，4 個方向 0%；這一區 E.colliders＝0、葉子和灰泥牆沒有網點透空）——BB-B 10-31 n31_lhcore",
+   "area": "ART",
+   "owner": "LAWWW2",
+   "status": "待開工",
+   "priority": "P1",
+   "next": "【10-31 10:5x】派 LAWWW2-B（D108 場景鏡頭碰撞）：做法 LAWWW2 定（樓梯核心的牆加鏡頭碰撞、或牆和室內樹標 seethru_、或兩者）；排在校史館角柱之後、書店之前",
+   "first": {
+    "term": "Y0S1",
+    "week": 1,
+    "earliest": "經濟系那年第一次進總圖大廳",
+    "mainline": true,
+    "blocks": false,
+    "prereq": false,
+    "parallel": true,
+    "confirmed": true
+   },
+   "source": "BB-B 10-31 10:43 訊息（2a3e53b59 重現）",
+   "authorized": "D108",
+   "xai": {
+    "spec": "BB 重現：2025-09-26 14:00 總圖大廳，走到 (6.2,−2.6) 或 (−6.2,−3.2)，鏡頭轉看外牆；鏡頭在 (2.10,3.43,−0.80)、(1.76,3.43,−2.20)、(−1.86,3.43,−2.25)、(−1.78,3.43,−2.75)，跟隨距離 4.8 m；擋著的是 lb_leaf_small、L0_lb_plaster_hupN、lb_walnut、lb_slab",
+    "branch": "claude/funny-albattani-iawshm",
+    "acceptance": "BB 重跑 LHCORE：四個方向看得到玩家；走去 B1 樓梯間門、電梯的路上不被核心擋住",
+    "receiver": "LAWWW",
+    "ack": "SENT"
+   }
   }
  ]
 }

@@ -16335,8 +16335,8 @@
    "msg": "ACK",
    "what": "NOODLE-LM-1030 阿鳳麵店光照烘焙（noodle_interior.glb＋_lm_day／_lm_night.webp＋json；日光燈 6 支、店面天光、512 取樣；煮麵台湯鍋金屬度 0.6→0.2、燈座白色；晚上日光燈白光；draw call 不變、lm_squash_scan 0 m²）＋LM-COLLAPSE-1030 第一間法律學院圖書館重烘（lawlib_interior.glb＋兩張光照；朝室內壓扁 91.4→0 m²）",
    "task": "NOODLE-LM-1030",
-   "integration": "已整合待測試",
-   "note": "【LAWWW-B 21:0x ACK】只拿 7 個資產檔（登記 03ecc90d1）；lightmap／room 相關 Node 7 支 ALL PASS；BB 排測"
+   "integration": "已驗收",
+   "note": "【LAWWW-B 21:0x ACK】只拿 7 個資產檔（登記 03ecc90d1）；lightmap／room 相關 Node 7 支 ALL PASS；BB 排測｜10-31 10:5x BB n24 PASS"
   },
   {
    "id": "DL-LW2-LMCOLLAPSE-LIBHALL-1030",
@@ -16348,8 +16348,8 @@
    "msg": "ACK",
    "what": "LM-COLLAPSE-1030 第二間：總圖大廳重烘（library_interior.glb＋兩張光照；朝室內壓扁 83.2→0 m²，東西兩面牆的斜黑三角不見）",
    "task": "LM-COLLAPSE-1030",
-   "integration": "已整合待測試",
-   "note": "LAWWW-B 21:2x 只拿 3 個資產檔；library／lightmap 相關 Node 58 支 ALL PASS（library_copier_unit 一樓 2 格小孤島 FAIL＝換回舊 GLB 也一樣、結束碼 0，另開 NAV-LIBHALL-ISLAND-1030）"
+   "integration": "已驗收",
+   "note": "LAWWW-B 21:2x 只拿 3 個資產檔；library／lightmap 相關 Node 58 支 ALL PASS（library_copier_unit 一樓 2 格小孤島 FAIL＝換回舊 GLB 也一樣、結束碼 0，另開 NAV-LIBHALL-ISLAND-1030）｜10-31 10:5x BB n24 PASS"
   },
   {
    "id": "DL-LW2-LIBHALL-ISLAND-1030",
@@ -16400,8 +16400,8 @@
    "msg": "ACK",
    "what": "LM-COLLAPSE-1030 第三間：宿舍四人房重烘（dorm_room4.glb＋_lm_day／_lm_night／_lm_dark；朝室內壓扁 21.0→0 m²，模型不變；左牆上半偏灰漸層不見）",
    "task": "LM-COLLAPSE-1030",
-   "integration": "已整合待測試",
-   "note": "LAWWW-B 22:0x 只拿 4 個資產檔；dorm_room4 相關 Node 八支 ALL PASS"
+   "integration": "已驗收",
+   "note": "LAWWW-B 22:0x 只拿 4 個資產檔；dorm_room4 相關 Node 八支 ALL PASS｜10-31 10:5x BB n24 PASS"
   },
   {
    "id": "DL-LW2-LMCOLLAPSE-201-1030",
@@ -16413,8 +16413,8 @@
    "msg": "ACK",
    "what": "LM-COLLAPSE-1030 第四間：201 重烘（classroom_201.glb＋兩張光照；朝室內壓扁 5.8→0 m²；檔案在 WIP c5782aa91，交件 19c3cb4c3 補說明和截圖）",
    "task": "LM-COLLAPSE-1030",
-   "integration": "已整合待測試",
-   "note": "LAWWW-B 22:1x 只拿 3 個資產檔（GLB 4.10→3.92 MB）；room_ceiling、room_rtnight、seat_fold、linze_lightmap ALL PASS"
+   "integration": "已驗收",
+   "note": "LAWWW-B 22:1x 只拿 3 個資產檔（GLB 4.10→3.92 MB）；room_ceiling、room_rtnight、seat_fold、linze_lightmap ALL PASS｜10-31 10:5x BB n24 PASS"
   },
   {
    "id": "DL-LW2-ZONEENTER-1030",
