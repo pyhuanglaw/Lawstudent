@@ -16493,6 +16493,19 @@
    "task": "ART-ECON-3D-GAP-1021",
    "integration": "已整合待測試",
    "note": "LAWWW-B 05:1x 套上：apply 乾淨、圖書館與光照相關 17 支 Node ALL PASS；READY_FOR_ART_REVIEW"
+  },
+  {
+   "id": "DL-LW2-CAM-PILLAR-1031",
+   "date": "2026-10-31",
+   "from": "LAWWW2-B",
+   "account": "B",
+   "branch": "claude/funny-albattani-iawshm",
+   "sha": "769bada15",
+   "msg": "ACK",
+   "what": "BUG-CAM-PILLAR-LAWA-1031：法律系館A穿堂柱子獨立材質 seethru_ext_granite_col＋attachExterior 標樹幹透視（cam_pillar_linze_1031.patch、linze_exterior.glb、linze_pillar_seethru_unit）",
+   "task": "BUG-CAM-PILLAR-LAWA-1031",
+   "integration": "已整合待測試",
+   "note": "LAWWW-B 05:5x 套上：apply 乾淨、linze_pillar_seethru、r2y4b、nav_buildings、linze_lightmap、kit_nav_check ALL PASS"
   }
  ],
  "ignored": [

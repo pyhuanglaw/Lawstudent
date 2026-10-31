@@ -10,6 +10,7 @@
 真實霖澤館的細部（窗數、樓層數、轉角）沒有圖面，是照照片概略重建，不是精確複製。
 貼圖：Poly Haven CC0（tools/blender/fetch_polyhaven.py）。座標：遊戲 (x 東, y 上, z 南；正面朝 +z) ＝ Blender (x, -z, y)。
 材質名稱約定（遊戲依名稱處理）：ext_glass_lit＝晚上會亮的窗；ext_glass_lobby＝大廳玻璃（晚上亮）；ext_downlight＝穿堂嵌燈（晚上更亮）。
+  seethru_ 開頭＝擋住跟隨鏡頭時網點透空（穿堂的柱子 seethru_ext_granite_col）。
 用法：/opt/blenv/bin/python tools/blender/linze_exterior.py [--out assets/models/env/linze_exterior.glb] [--tex 512] [--render 輸出資料夾]
 """
 import math, os, sys
@@ -43,6 +44,9 @@ def lit(x, y, z):   # 晚上哪些窗亮著（和 campuskit3d.js 的 winLit 同�
 MAT = {
     'granite': B.pbr('ext_granite', 'granite_tile_03', tile=2.4, sat=0.12, target='#aeaca7', cull=True),   # 照片：淺灰花崗石（貼圖偏棕：去彩度、平均顏色校正到照片）
     'graniteD': B.pbr('ext_granite_dark', 'granite_tile_03', tile=2.4, sat=0.12, target='#8f8d89', cull=True),       # 台階、基座頂的石材帶
+    # 穿堂的柱子：同一種花崗石，另外一個材質（BUG-CAM-PILLAR-LAWA-1031，LAWWW2-B 2026-10-31）：名字 seethru_ 開頭，遊戲（zones3d.js attachExterior）標成樹幹透視，
+    #   擋在跟隨鏡頭和玩家之間時網點透空。原本和台階、牆一起合併成 ext_granite，從南邊走到穿堂門口時前排中柱把人整個擋住
+    'graniteCol': B.pbr('seethru_ext_granite_col', 'granite_tile_03', tile=2.4, sat=0.12, target='#aeaca7', cull=True),
     'precast': B.pbr('ext_precast', 'granular_concrete', tile=2.0, sat=0.2, target='#bdbcb6', cull=True), # 灰色預鑄：遮陽板、窗楣盒、帶窗層（照片淺灰）
     'brick': B.pbr('ext_brick', 'red_brick', tile=1.0, sat=0.85, target='#a35a45', cull=True),                        # 照片：紅褐色面磚
     'paver': B.pbr('ext_paver', 'large_floor_tiles_02', tile=1.2, sat=0.3, target='#b5b3ad', cull=True),             # 穿堂地坪
@@ -221,7 +225,7 @@ for rx in (-SW / 2 + 0.3, SW / 2 - 0.3, -(PW / 2 - 0.6), PW / 2 - 0.6):         
         B.cyl(nm('post'), MAT['steel'], (rx, base, zz), (rx, top, zz), 0.025, root, seg=6)
 colH0, colH1 = PF, PH - BH
 for (cx, cz) in [(sx * (PW / 2 - 0.6), zc) for sx in (-1, 1) for zc in (d / 2 - 0.6, 0.0, -d / 2 + 0.6)] + [(0.0, d / 2 - 0.6)]:
-    B.box(nm('pcol'), MAT['granite'], cx - 0.6, cx + 0.6, colH0, colH1, cz - 0.6, cz + 0.6, root)
+    B.box(nm('pcol'), MAT['graniteCol'], cx - 0.6, cx + 0.6, colH0, colH1, cz - 0.6, cz + 0.6, root)
 for zs in (1, -1):
     B.box(nm('beam'), MAT['granite'], -PW / 2 - 1.2, PW / 2 + 1.2, PH - BH, PH, zs * (d / 2 - 0.45) - 0.75, zs * (d / 2 - 0.45) + 0.75, root)
 B.quad('pass_ceiling', MAT['ceiling'], [(-PW / 2, PH, -d / 2 + 1.2), (PW / 2, PH, -d / 2 + 1.2), (PW / 2, PH, d / 2 - 1.2), (-PW / 2, PH, d / 2 - 1.2)], root)
