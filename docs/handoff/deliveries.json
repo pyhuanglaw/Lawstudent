@@ -16623,6 +16623,19 @@
    "task": "INTERIOR-AAA-REVIEW-1028",
    "integration": "已整合待測試",
    "note": "LAWWW-B 20:5x：最終檔案從 63de770d5 取（WIP 不帶）、patch apply 乾淨；體育館 11 支 Node ALL PASS；READY_FOR_ART_REVIEW（場景美術 ART_APPROVED 只有使用者）；上層看台偏暗、布置日地板沒有椅子影子＝LAWWW2 照實寫的限制；BB 看畫面"
+  },
+  {
+   "id": "DL-AA-HIST-B1-1031",
+   "date": "2026-10-31",
+   "from": "AA-B",
+   "account": "B",
+   "branch": "claude/cool-heisenberg-o8kuqx",
+   "sha": "7d8949098",
+   "msg": "ACK",
+   "what": "歷史待辦複核 AA 第 1 批 judgments_AA.jsonl：audit_1021 needs_aa 28 項（DATE-L01～L32 約會地點台詞）全部已匯入、main 也有，沒有 BB 實際約會紀錄＝tier 2；三條企劃線對過（cool-heisenberg 是 A、C 的超集）",
+   "task": "HISTORY-AUDIT-1031",
+   "integration": "已驗收",
+   "note": "稽核結果、不是遊戲內容：LAWWW-B 20:5x 由 history_audit.py 直接讀 AA 分支合併重算（c97f25fd0）；BB 補驗在 bb_batches.md ⑨"
   }
  ],
  "ignored": [

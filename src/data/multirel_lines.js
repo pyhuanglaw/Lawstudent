@@ -269,6 +269,13 @@ const MULTIREL_LINES=(function(){
     splitZq:[ '我跟芷若講好了。我不要了。' ],
     splitZr:[ '我跟子晴說好了。……我們分開吧。' ] };
 
+  /* ---------- 門鈴（I10 抓包 CG，使用者 2026-10-30 選 A：AA_476 B-1；條件 AA_126 9-4；台詞 BB_125 第 6 節 6-2、場面逐字）----------
+     hint＝芷若在那一週的週一或週二提一次（在 Café／校園說話時多一句；沒遇到＝週二 22:10 傳訊息），三句輪流、同一學期不重複；只是作息閒聊，不提「你們」。
+     scene＝那一晚的場面；CG cg_doorbell 用在子晴推門那一刻（AA_476 B-1）。之後接《你出來一下》（ZZ.call／callout，BB_194 §22）*/
+  const ZZ_BELL={
+    hint:[ '週三晚上子晴會來等我下班。她練完吉他，會把剩下的蛋糕吃完。','這週三我會晚一點走。子晴要來，我們去公館。','週三打烊前店裡會很吵。子晴一來就開始講她的關卡。' ],
+    scene:[ N('（打烊前的 Café。店裡只剩你一個客人。）'),N('（芷若在你的杯子上寫了一行字，推過來。她的手沒有馬上放開。）'),N('（門口的鈴響了。）'),{cg:'cg_doorbell'},Q('芷若，我來——'),N('（她停在門口。）'),Q('……我走錯時間了。'),N('（她把門輕輕關上。鈴又響了一次。）') ] };
+
   /* ---------- AA_423：挽回、結果、第二次冷靜（AA_425 2-6 的結果、開場換句）---------- */
   const REPAIR={
     /* 以安《今天本來不想見你》（AA_423 1-1；AA_227 3-6）*/
@@ -410,6 +417,6 @@ const MULTIREL_LINES=(function(){
       driftOpts:[ {t:'「那時候我不知道怎麼說。」',then:['……現在知道了？',P('知道一點。'),'一點就可以。']},{t:'「對不起。」',again:true,then:['……道歉收到。然後呢？']} ] },
     heroine_03:{ seat:[N('（她把斜對面的位子留出來。）'),'……坐著也是坐著。'], opt:'「我想把那個問題回答完。」', answer:['……嗯。這次，不要讓我等。'] } };
 
-  return { ASK, ZR_Q2, KNOW, KNOW_AT, BROKE, DISC, CONF, KX_E, PS_E, SELF, ZQ_DAD, ZZ, REPAIR, KX_WITHDRAW, ZZ_AFTER, YC, PS_TURN, REBUILD, src:'AA_422@5156f143、AA_423@26357a44、AA_425@310d6cc67（AA_227、AA_228 原句；企劃線 claude/cool-heisenberg-o8kuqx）；AA_474@020f695a3（第 3 節可昕收回、第 5 節三處改字；企劃線 claude/magical-albattani-bk7b4n）；AA_481、AA_483@187584ca8（可昕收回 ①② 定稿、視訊版、她約的訊息、「我說過了。」前的旁白、芷若 8/26 騎樓下的旁白；企劃線 claude/cool-heisenberg-o8kuqx）' };
+  return { ASK, ZR_Q2, KNOW, KNOW_AT, BROKE, DISC, CONF, KX_E, PS_E, SELF, ZQ_DAD, ZZ, ZZ_BELL, REPAIR, KX_WITHDRAW, ZZ_AFTER, YC, PS_TURN, REBUILD, src:'AA_422@5156f143、AA_423@26357a44、AA_425@310d6cc67（AA_227、AA_228 原句；企劃線 claude/cool-heisenberg-o8kuqx）；AA_474@020f695a3（第 3 節可昕收回、第 5 節三處改字；企劃線 claude/magical-albattani-bk7b4n）；AA_481、AA_483@187584ca8（可昕收回 ①② 定稿、視訊版、她約的訊息、「我說過了。」前的旁白、芷若 8/26 騎樓下的旁白；企劃線 claude/cool-heisenberg-o8kuqx）' };
 })();
 if(typeof window!=='undefined') window.MULTIREL_LINES=MULTIREL_LINES;

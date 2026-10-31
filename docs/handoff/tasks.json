@@ -33449,8 +33449,8 @@
    "id": "I10-CG-DOORBELL-1027",
    "title": "抓包 CG（I10「至少一張」）：圖 cg_doorbell 在，但 BCG-36 被 AA／BB 標舊方案、現在沒有任何「被發現」場景用到；取消要使用者原話（HV-15）",
    "area": "Y1S2",
-   "owner": "AA",
-   "status": "待開工",
+   "owner": "LAWWW",
+   "status": "已整合待測試",
    "priority": "P2",
    "source": "USER_WANTS I10；USER_WANTS_AUDIT_1027 第 3 節第 4 點",
    "first": {
@@ -33463,7 +33463,7 @@
     "parallel": true,
     "confirmed": true
    },
-   "next": "使用者 10-30 選 A（AA_476 B-1 已加註，企劃線 e2b2939a6）：門鈴＝子晴×芷若第二種發現方式，只在完整動線成立時；條件照 AA_126 9-4（AA-B 10-16 版）；接 BB_194 第 22 節攤牌，CG 在子晴推門那一刻；一學期最多一次，聊天發現先發生就沒有門鈴 → LAWWW 派子代理",
+   "next": "【10-31 21:1x LAWWW-B】實作進開發分支（multirel3d.js 門鈴：S.bellNightOk／bellSecret／bellHint*／bellDue／zzBell／bellGone；multirel_lines.js ZZ_BELL 照 BB_125 第 6 節逐字；characters.js 子晴週三 21:00 走到溫州街、21:40～22:10 在兩點半等芷若）：條件 AA_126 9-4（子晴不知道芷若、芷若週三晚班 21:40 以後、祐廷坐吧檯高腳椅、第 5 週起非考試週、那一週芷若週一／二說過或週二 22:10 傳過）、子晴已經在店裡不演；CG cg_doorbell 在推門那一刻；之後隔天 19:30《你出來一下》（§22 兩段同時結束；AA-B 可改時間、門鈴版要不要換「你真的以為我們不會聊天喔？」已問）；tests/i10_doorbell_unit.js（修改前 FAIL）→ BB 瀏覽器：存檔同時和芷若、子晴交往（互不知道）→ 第 5 週週一和芷若說話聽到提示 → 週三 21:40 坐吧檯｜使用者 10-30 選 A（AA_476 B-1 已加註，企劃線 e2b2939a6）：門鈴＝子晴×芷若第二種發現方式，只在完整動線成立時；條件照 AA_126 9-4（AA-B 10-16 版）；接 BB_194 第 22 節攤牌，CG 在子晴推門那一刻；一學期最多一次，聊天發現先發生就沒有門鈴 → LAWWW 派子代理",
    "xai": {
     "spec": "USER_WANTS I10；企劃線 00_文件狀態表.md:295",
     "branch": "claude/magical-albattani-bk7b4n",
@@ -37376,7 +37376,7 @@
    "owner": "LAWWW",
    "status": "進行中",
    "priority": "P0",
-   "next": "【10-31 20:3x】第一輪：tools/handoff/history_audit.py（每次從 GitHub 重算；證據＝origin/main 有沒有、BB_218＋BB test_shots log 同一行 PASS、BB 10-27 盤點 A、tasks.json 驗收證據）→ docs/handoff/history_audit/ledger.json、REPORT.md；10/21 的 133 項 done：第 1 類 6、第 2 類 126（main 都有，沒有 BB 實際操作紀錄）、第 4 類 1（V5-B01 交往中版沒跑完）；抽查兩項自動誤判已改（V4-E18、V5-B04）；派 AA／BB／LAWWW2 各自寫 judgments_<職位>.jsonl｜【10-31 19:5x】開工：登記、派 AA（劇情企劃已定稿未實作）、BB（done 沒玩過的分批補驗，發布前回歸優先）、LAWWW2（舊美術未接入）；LAWWW 先做 B 段 133 項 done 的七類判定與十大遺漏（第一輪回報）",
+   "next": "【10-31 21:1x】十大遺漏第 3 項 I10 已實作（I10-CG-DOORBELL-1027 已整合待測試）；bb_batches.md 給 BB；AA 第 1 批 28 項合併｜【10-31 20:3x】第一輪：tools/handoff/history_audit.py（每次從 GitHub 重算；證據＝origin/main 有沒有、BB_218＋BB test_shots log 同一行 PASS、BB 10-27 盤點 A、tasks.json 驗收證據）→ docs/handoff/history_audit/ledger.json、REPORT.md；10/21 的 133 項 done：第 1 類 6、第 2 類 126（main 都有，沒有 BB 實際操作紀錄）、第 4 類 1（V5-B01 交往中版沒跑完）；抽查兩項自動誤判已改（V4-E18、V5-B04）；派 AA／BB／LAWWW2 各自寫 judgments_<職位>.jsonl｜【10-31 19:5x】開工：登記、派 AA（劇情企劃已定稿未實作）、BB（done 沒玩過的分批補驗，發布前回歸優先）、LAWWW2（舊美術未接入）；LAWWW 先做 B 段 133 項 done 的七類判定與十大遺漏（第一輪回報）",
    "first": {
     "term": "META",
     "week": 0,
