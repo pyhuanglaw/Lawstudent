@@ -1,11 +1,11 @@
 {
  "objects": 351,
  "unique_meshes": 52,
- "tris": 33326,
- "tris_drawn": 78774,
+ "tris": 33298,
+ "tris_drawn": 78746,
  "materials": 79,
  "out": "assets/models/env/second_ai/gym_interior.glb",
- "bytes": 2500512,
+ "bytes": 2498636,
  "texres": 512,
  "layout": 5,
  "set_second_hall_chairs": 300
