@@ -6,6 +6,7 @@
 //   ④照條件出現的東西：羽球網（SET_NETS）節點還在、不烘；第二會場（SET_SECONDHALL，畢業典禮那天才打開）的折疊椅照舊是 GPU instancing，
 //     第二套 UV 取到的光照貼圖是亮的（白天、晚上最暗的 10% 都 > 0.1：不會整排黑椅子）
 //   ⑤gym 區域照舊用 attachRoomGLB 接正式模型
+//   ⑥高窗（WALL_*_sky）只有一面：補了反面的話，反過來那一片朝著牆、離牆 4 cm，烘焙時把高窗四周的牆照爆（第四版交件以後才發現，第五版修好）
 // 用法：node tests/gym_lm_unit.js
 const fs=require('fs'), path=require('path');
 const ROOT=path.resolve(__dirname,'..');
@@ -34,4 +35,12 @@ const acc=i=>{ const a=j.accessors[i], bv=j.bufferViews[a.bufferView], off=BIN+(
   check('④ 折疊椅的第二套 UV 都在光照貼圖裡（取得到烘焙的光；亮度見 README：白天、晚上最暗的 10% 都 > 0.3）',inside,uv?`${uv.length/2} 個頂點`:'沒有第二套 UV'); }
 { const src=fs.readFileSync(path.join(ROOT,'src/gym3d.js'),'utf8'), i=src.indexOf("ASSETS.loadOne('bldg.gym_interior')"), body=i>=0?src.slice(i,i+400):'';
   check('⑤ gym 區域照舊用 attachRoomGLB 接正式模型（看到 extras.lightmap 就接光照貼圖）',/Z3\.attachRoomGLB\(z,g0,fb,root\)/.test(body),body?'':'找不到 gym_interior 的載入'); }
+{ let ok=0, nt=0; const acc3=i=>{ const a=j.accessors[i], bv=j.bufferViews[a.bufferView], off=BIN+(bv.byteOffset||0)+(a.byteOffset||0), k={SCALAR:1,VEC3:3}[a.type], T={5126:Float32Array,5125:Uint32Array,5123:Uint16Array}[a.componentType];
+    return new T(b.buffer.slice(b.byteOffset+off,b.byteOffset+off+a.count*k*T.BYTES_PER_ELEMENT)); };
+  for(const nm of ['WALL_left_left_sky','WALL_right_right_sky']){ const nd=node(nm); if(!nd||nd.mesh==null) continue;
+    for(const p of j.meshes[nd.mesh].primitives){ const P=acc3(p.attributes.POSITION), I=p.indices!=null?acc3(p.indices):null, cnt=(I?I.length:P.length/3)/3;
+      const key=k=>{ const v=I?I[k]:k; return P[v*3].toFixed(4)+','+P[v*3+1].toFixed(4)+','+P[v*3+2].toFixed(4); }; const set=new Set(), tri=[];
+      for(let t=0;t<cnt;t++){ const a=key(t*3), b2=key(t*3+1), c=key(t*3+2); tri.push([a,b2,c]); set.add([a,b2,c].join('|')); }
+      for(const [a,b2,c] of tri) if([[a,c,b2],[c,b2,a],[b2,a,c]].some(r=>set.has(r.join('|')))) ok++; nt+=cnt; } }
+  check('⑥ 高窗只有一面（沒有反過來的分身）',nt>0&&ok===0,'反面 '+ok+'/'+nt); }
 console.log(fails?('FAIL '+fails):'ALL PASS'); process.exit(fails?1:0);

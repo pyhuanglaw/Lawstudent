@@ -16610,6 +16610,19 @@
    "task": "BUG-CAM-LIBHALL-CORE-1031",
    "integration": "已整合待測試",
    "note": "LAWWW-B 18:3x 套上：apply 乾淨；gym 系列 10 支、library_hall_cam_core、library_copier、nav_buildings ALL PASS"
+  },
+  {
+   "id": "DL-LW2-GYM-V5-ARENA-1031",
+   "date": "2026-10-31",
+   "from": "LAWWW2-B",
+   "account": "B",
+   "branch": "claude/funny-albattani-iawshm",
+   "sha": "63de770d5",
+   "msg": "ACK",
+   "what": "體育館 1F 光照第五版（高窗不補反面、只有正面發光：窗間牆光暈 2.0→0.12～0.14；樓梯口指標字面還原單面）＋3F 主球場 gym_arena 光照烘焙（看台上方 LED 117 盞、高窗分出 arena_window_sky、晚上 dayEmit 調暗）；gym_lm_v5_arena_1031.patch：新 gym_arena_lm_unit、gym_lm ⑥、singleside_gym 2b",
+   "task": "INTERIOR-AAA-REVIEW-1028",
+   "integration": "已整合待測試",
+   "note": "LAWWW-B 20:5x：最終檔案從 63de770d5 取（WIP 不帶）、patch apply 乾淨；體育館 11 支 Node ALL PASS；READY_FOR_ART_REVIEW（場景美術 ART_APPROVED 只有使用者）；上層看台偏暗、布置日地板沒有椅子影子＝LAWWW2 照實寫的限制；BB 看畫面"
   }
  ],
  "ignored": [
