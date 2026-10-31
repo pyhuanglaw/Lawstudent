@@ -395,7 +395,7 @@ async def s_h2(p, run, base, sid, out):
         pos = await pg.evaluate(NPC + "(%s)" % json.dumps([BH])); say('   %s 柏翰在：%s；位置 %s' % (sid, J(where), J(pos)))
         run.check('%s：前置——柏翰在總圖閱覽室（作息 %s）' % (sid, J(where)), bool(pos), J({'where': where, 'pos': pos}))
         if not pos: return
-        await L.go_to(pg, cdp, run, pos[0], pos[1], 2.0, '柏翰旁邊', max_s=240, lv=pos[2], stop=lambda s: s['dlg'] or s['choices'])   # n23：沒給 stop 時 go_to 途中自動點對話、選第一個（H2_SLOW 被選成「好。」）
+        await L.go_to(pg, cdp, run, pos[0], pos[1], 2.0, '柏翰旁邊', max_s=240, lv=pos[2], stop=lambda s: s['dlg'] or s['choices'] or s['busy'])   # n23：沒給 stop 時 go_to 途中自動點對話、選第一個（H2_SLOW 被選成「好。」）
         ok, ch = await wait_for(pg, cdp, run, DONE + "('ev_bohan_exam_group')", max_s=600, picks=[pick], label=sid)
         lg = await log_since(pg, n0); T = texts(lg); CS = choice_sets(lg); res.update({'said': T, 'choices': CS}); await run.shot(pg, '%s_after' % sid)
         say('   %s 說的：%s；選項 %s' % (sid, J(T[-12:], 900), J(CS[-2:])))
@@ -491,7 +491,7 @@ async def s_h4(p, run, base, sid, out):
         run.check('%s：前置——柏翰在 4F 樓梯間' % sid, bool(pos), J(pos))
         if not pos: return
         n0 = await log_len(pg)
-        await L.go_to(pg, cdp, run, pos[0], pos[1], 1.6, '柏翰旁邊', max_s=240, lv=pos[2], stop=lambda s: s['dlg'] or s['choices'])
+        await L.go_to(pg, cdp, run, pos[0], pos[1], 1.6, '柏翰旁邊', max_s=240, lv=pos[2], stop=lambda s: s['dlg'] or s['choices'] or s['busy'])
         ok, ch = await wait_for(pg, cdp, run, DONE + "('ev_bohan_third_floor')", max_s=600, picks=[pick], label=sid)
         lg = await log_since(pg, n0); T = texts(lg); CS = choice_sets(lg); res.update({'said': T, 'choices': CS}); await run.shot(pg, '%s_after' % sid)
         say('   %s 說的：%s；選項 %s' % (sid, J(T, 1200), J(CS[-2:])))

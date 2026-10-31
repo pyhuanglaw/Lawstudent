@@ -203,11 +203,11 @@ async def talk(pg, cdp, run, ids, names, picks=None, label=''):
     for k in range(3):
         pos = await pg.evaluate(NPC + "(%s)" % json.dumps(ids))
         if not pos: say('   %s 不在這一區' % name); return None, ''
-        STOP = lambda s: s['dlg'] or s['choices']   # n25 C3FIX：走近時事件就開始，go_to 沒給 stop 會自動點掉、選第一個
+        STOP = lambda s: s['dlg'] or s['choices'] or s['busy']   # n25 C3FIX：走近時事件就開始，go_to 沒給 stop 會自動點掉、選第一個
         await L.go_to(pg, cdp, run, pos[0], pos[1], 1.2, name, max_s=90, lv=pos[2], stop=STOP)
         for j in range(6):
             st = await L.state(pg)
-            if st['dlg'] or st['choices']:
+            if st['dlg'] or st['choices'] or st['busy']:
                 ch = await drive(pg, cdp, run, picks=picks, max_s=150, label=label); return ch, '（走近就開始）'
             lab = await pg.evaluate(LAB)
             if hit(lab): break
@@ -385,7 +385,7 @@ async def go_class(pg, cdp, run, k, label):
 
 async def near_wait(pg, cdp, run, sid, ev, x, z, lv, picks, max_s=600, r=1.2):
     n0 = await log_len(pg)   # n25：先記再走（走近時事件可能就開始）；go_to 有對話就停，交給 wait_for 照 picks 選
-    await L.go_to(pg, cdp, run, x, z, r, sid, max_s=240, lv=lv, stop=lambda s: s['dlg'] or s['choices'])
+    await L.go_to(pg, cdp, run, x, z, r, sid, max_s=240, lv=lv, stop=lambda s: s['dlg'] or s['choices'] or s['busy'])
     ok, ch = await wait_for(pg, cdp, run, DONE + "('%s')" % ev, max_s=max_s, picks=picks, label=sid)
     lg = await log_since(pg, n0); return ok, ch, texts(lg), caps(lg), choice_sets(lg)
 
@@ -438,7 +438,7 @@ async def s_copy(p, run, base, sid, out):
     b, pg, cdp, errs, r = await launch(p, run, base, '2026-04-08', 12.2, 'library_hall', rels={AN: 'FAMILIAR', XC: 'FAMILIAR'}, quiet=False, label=sid + '（大一下第 7 週週三 12:12 總圖大廳；認識以安、芯慈）')
     try:
         n0 = await log_len(pg)
-        await L.go_to(pg, cdp, run, 10.35, 3.2, 0.8, '影印機旁', max_s=240, lv=0, stop=lambda s: s['dlg'] or s['choices'])   # n25：沒給 stop 時 go_to 自動點掉對話、選第一個
+        await L.go_to(pg, cdp, run, 10.35, 3.2, 0.8, '影印機旁', max_s=240, lv=0, stop=lambda s: s['dlg'] or s['choices'] or s['busy'])   # n25：沒給 stop 時 go_to 自動點掉對話、選第一個
         pos = await pg.evaluate("(()=>{ const P=GAME.E.player; return {x:+P.obj.position.x.toFixed(2), z:+P.obj.position.z.toFixed(2), lv:P.lv|0, bound:!!(SUP497.bind&&SUP497.bind()), due:!!(SUP497.copyDue&&SUP497.copyDue(GAME.G)), h:+(+GAME.G.hour).toFixed(2)}; })()")
         res['pos'] = pos; say('   %s 站到影印機旁：%s' % (sid, J(pos)))
         if sid == 'COPY_REAL':
@@ -481,7 +481,7 @@ async def s_elev(p, run, base, sid, out):
             await pg.evaluate("SUP497.acceptElev(GAME)"); run.setup('【前置】SUP497.acceptElev(GAME)：順手的事「電梯」已答應（期限這一週週五）；%s' % J(await pg.evaluate(ELEVQ)))
         bound = await pg.evaluate("!!SUP497.bind()"); run.note('%s：讀檔以後有沒有人 bind（應該沒有）：%s' % (sid, bound))
         n0 = await log_len(pg)
-        await L.go_to(pg, cdp, run, 4.6, -4.4, 0.6, '一樓電梯前', max_s=200, lv=0, stop=lambda s: s['dlg'] or s['choices'])
+        await L.go_to(pg, cdp, run, 4.6, -4.4, 0.6, '一樓電梯前', max_s=200, lv=0, stop=lambda s: s['dlg'] or s['choices'] or s['busy'])
         evid = 'ev_yc_elev_ask' if sid == 'ELEV_ASK' else 'ev_yc_elev_done'
         ok, ch = await wait_for(pg, cdp, run, DONE + "('%s')" % evid, max_s=900 if sid == 'ELEV_DONE' else 300, picks=[ELEV_OPTS[0]], label=sid)
         lg = await log_since(pg, n0); T = texts(lg); CS = choice_sets(lg); await report(pg, run, sid, res, T, CS)

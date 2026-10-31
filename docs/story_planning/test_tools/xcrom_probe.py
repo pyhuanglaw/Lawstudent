@@ -184,11 +184,11 @@ async def talk(pg, cdp, run, ids, names, picks=None, label=''):
     for k in range(3):
         pos = await pg.evaluate(NPC + "(%s)" % json.dumps(ids))
         if not pos: say('   %s 不在這一區' % name); return None, ''
-        STOP = lambda s: s['dlg'] or s['choices']   # n25 C3FIX：走近時事件就開始，go_to 沒給 stop 會自動點掉、選第一個
+        STOP = lambda s: s['dlg'] or s['choices'] or s['busy']   # n25 C3FIX：走近時事件就開始，go_to 沒給 stop 會自動點掉、選第一個
         await L.go_to(pg, cdp, run, pos[0], pos[1], 1.2, name, max_s=90, lv=pos[2], stop=STOP)
         for j in range(6):
             st = await L.state(pg)
-            if st['dlg'] or st['choices']:
+            if st['dlg'] or st['choices'] or st['busy']:
                 ch = await drive(pg, cdp, run, picks=picks, max_s=150, label=label); return ch, '（走近就開始）'
             lab = await pg.evaluate(LAB)
             if hit(lab): break
@@ -309,7 +309,7 @@ def choice_sets(log):
 
 async def near_wait(pg, cdp, run, sid, ev, x, z, lv, picks, max_s=600, r=1.2):
     n0 = await log_len(pg)   # n25：先記再走（走近時事件可能就開始）；go_to 有對話就停，交給 wait_for 照 picks 選
-    await L.go_to(pg, cdp, run, x, z, r, sid, max_s=240, lv=lv, stop=lambda s: s['dlg'] or s['choices'])
+    await L.go_to(pg, cdp, run, x, z, r, sid, max_s=240, lv=lv, stop=lambda s: s['dlg'] or s['choices'] or s['busy'])
     ok, ch = await wait_for(pg, cdp, run, DONE + "('%s')" % ev, max_s=max_s, picks=picks, label=sid)
     lg = await log_since(pg, n0); return ok, ch, texts(lg), caps(lg), choice_sets(lg)
 
@@ -743,7 +743,7 @@ async def s_dad2(p, run, base, sid, out):
             run.check('%s：選「她去哪，我都會在台北。」→「（芯慈看了你一眼，耳朵有點紅。）」「……好。」→ 最後「……走吧。他等一下會問你喜歡吃什麼。我會說。」' % sid, has_seq(T, DAD2_OPEN + DAD2_C), J(T[-4:]))
             run.check('%s：沒有「誰最強」那一段（AA_537 5-4 換成 8-1）' % sid, not any('誰最強' in t or '最強' in t for t in T), J([t for t in T if '強' in t]))
         else:
-            await L.go_to(pg, cdp, run, 34.0, -106.5, 2.0, sid, max_s=240, lv=0, stop=lambda s: s['dlg'] or s['choices'])
+            await L.go_to(pg, cdp, run, 34.0, -106.5, 2.0, sid, max_s=240, lv=0, stop=lambda s: s['dlg'] or s['choices'] or s['busy'])
             n0 = await log_len(pg)
             ok, _ = await wait_for(pg, cdp, run, "GAME.G.hour>=18.03", max_s=600, label=sid)
             lg = await log_since(pg, n0); T = texts(lg); await report(pg, run, sid, res, T, choice_sets(lg), None, lg)
@@ -858,7 +858,7 @@ async def s_g6(p, run, base, sid, out):
         if not okp: return
         lab = await pg.evaluate(LAB)
         if '樓梯間' not in lab:
-            await L.go_to(pg, cdp, run, 11.1, -6.0, 0.6, '樓梯間門口', max_s=120, lv=1, stop=lambda s: s['dlg'] or s['choices']); lab = await pg.evaluate(LAB)
+            await L.go_to(pg, cdp, run, 11.1, -6.0, 0.6, '樓梯間門口', max_s=120, lv=1, stop=lambda s: s['dlg'] or s['choices'] or s['busy']); lab = await pg.evaluate(LAB)
         run.check('%s：互動鈕「樓梯間：往 3F 閱覽區」' % sid, '樓梯間' in lab, J(lab))
         n0 = await log_len(pg)
         if '樓梯間' in lab: await L.tap(pg, cdp, '#interact')
