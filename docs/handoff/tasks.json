@@ -36959,9 +36959,9 @@
    "title": "法律系館A門口跟隨鏡頭停在柱廊裡，穿堂前的柱子把玩家整個擋住（從南邊走到門口就會遇到；劇情運鏡拉回時還會穿進柱子）——BB-B 10-31 n27_xcrom_b 重現",
    "area": "ART",
    "owner": "LAWWW2",
-   "status": "已整合待測試",
+   "status": "已驗收",
    "priority": "P1",
-   "next": "【10-31 05:5x】LAWWW2 769bada15 整合：穿堂七根柱子改 seethru_ext_granite_col 材質（畫面不變）、attachExterior 把 seethru_ 開頭的材質標樹幹透視；不加鏡頭碰撞；BB 位置玩家看得到 0%→39%；linze_pillar_seethru_unit（修改前 FAIL 4）→ BB 跑 DAD2／DAD2_NO 3 秒、6 秒＋平常從南邊走到門口｜總圖等四棟門廊柱子（campus_hall.py，ck_trim 共用）另開 CAM-PILLAR-HALLS-1031 給 LAWWW2｜【10-31 05:0x】派 LAWWW2-B（D108 場景鏡頭碰撞）：ckPlace 鏡頭碰撞只有本體＋拱廊上方樓層、柱子不在；linze_exterior.glb 照材質合併、柱子和台階共用 ext_granite（不能整個材質標透視）；做法 LAWWW2 定（柱子獨立材質＋seeThrough，或加鏡頭碰撞）；C 總圖 3F 交完再做",
+   "next": "已驗收（10-31 06:2x）｜【10-31 05:5x】LAWWW2 769bada15 整合：穿堂七根柱子改 seethru_ext_granite_col 材質（畫面不變）、attachExterior 把 seethru_ 開頭的材質標樹幹透視；不加鏡頭碰撞；BB 位置玩家看得到 0%→39%；linze_pillar_seethru_unit（修改前 FAIL 4）→ BB 跑 DAD2／DAD2_NO 3 秒、6 秒＋平常從南邊走到門口｜總圖等四棟門廊柱子（campus_hall.py，ck_trim 共用）另開 CAM-PILLAR-HALLS-1031 給 LAWWW2｜【10-31 05:0x】派 LAWWW2-B（D108 場景鏡頭碰撞）：ckPlace 鏡頭碰撞只有本體＋拱廊上方樓層、柱子不在；linze_exterior.glb 照材質合併、柱子和台階共用 ext_granite（不能整個材質標透視）；做法 LAWWW2 定（柱子獨立材質＋seeThrough，或加鏡頭碰撞）；C 總圖 3F 交完再做",
    "first": {
     "term": "Y1S1",
     "week": 1,
@@ -36980,7 +36980,8 @@
     "acceptance": "BB：DAD2／DAD2_NO 演完 3 秒、6 秒＋平常從南邊走到門口，玩家看得到；萬才館等有拱廊的一起看",
     "receiver": "BB",
     "ack": "ACTIONED"
-   }
+   },
+   "evidence": "BB-B n27_xcrom_d（4a9c7472e，截圖 10 張）ALL PASS：照玩家從 (34,−99) 走到 A館門口，玩家看得到 84%～92%（修前 0%），柱子佔畫面 12%～17%（玩家周圍網點、人從頭到腳看得清楚）；DAD2 演完 6 秒 86%、DAD2_NO 86%，演完當下不再貼臉柱面；鏡頭位置和修前一樣（不加碰撞、柱子透空）；劇情照舊、沒有 JS 例外"
   },
   {
    "id": "BUG-MEDIA-LOAD-HIDDEN-1031",

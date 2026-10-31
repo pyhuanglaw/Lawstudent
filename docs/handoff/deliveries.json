@@ -16504,8 +16504,8 @@
    "msg": "ACK",
    "what": "BUG-CAM-PILLAR-LAWA-1031：法律系館A穿堂柱子獨立材質 seethru_ext_granite_col＋attachExterior 標樹幹透視（cam_pillar_linze_1031.patch、linze_exterior.glb、linze_pillar_seethru_unit）",
    "task": "BUG-CAM-PILLAR-LAWA-1031",
-   "integration": "已整合待測試",
-   "note": "LAWWW-B 05:5x 套上：apply 乾淨、linze_pillar_seethru、r2y4b、nav_buildings、linze_lightmap、kit_nav_check ALL PASS"
+   "integration": "已驗收",
+   "note": "LAWWW-B 05:5x 套上：apply 乾淨、linze_pillar_seethru、r2y4b、nav_buildings、linze_lightmap、kit_nav_check ALL PASS｜10-31 06:2x BB n27_xcrom_d ALL PASS"
   }
  ],
  "ignored": [
