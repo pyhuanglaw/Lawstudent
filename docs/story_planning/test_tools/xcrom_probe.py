@@ -457,6 +457,47 @@ async def s_halls(p, run, base, sid, out):
     finally: await finish_page(run, sid, res, errs, b)
 
 
+# n24_libhall 10:31（1e910aa6c）：總圖大廳一樓東北、西北段（6.2,−2.65）、（−6.2,−3.35）的固定鏡頭整個畫面是米色牆、看不到玩家——
+# 鏡頭應該落在樓梯核心（core x −5.2～5.2、z −8.9～−0.6）裡面。照玩家走過去、用手指轉鏡頭，看跟隨鏡頭會不會跑進牆後面（分清探針還是遊戲）
+LH_CORE = (-5.2, 5.2, -8.9, -0.6)
+LH_SPOTS = [('east_n', 6.2, -2.65, [(11.9, -5.0, '往東南東（鏡頭在核心那一側）'), (11.9, -2.65, '往正東'), (8.0, 4.0, '往南')]),
+            ('west_n', -6.2, -3.35, [(-11.9, -5.0, '往西南西（鏡頭在核心那一側）'), (-11.9, -3.35, '往正西'), (-8.0, 4.0, '往南')])]
+
+
+async def simple_vis(pg):
+    """玩家框裡，把玩家藏起來前後有變的像素佔框的比例（不靠柱子；整面牆擋住≈0）"""
+    box = await pg.evaluate(VIS_BOX); bx = tuple(box) if box and box[2] > box[0] and box[3] > box[1] else None
+    if not bx: return {'box': box, 'ratio': None}
+    try:
+        await pg.wait_for_timeout(500); s1 = await pg.screenshot()
+        await pg.evaluate("GAME.E.player.obj.visible=false"); await pg.wait_for_timeout(500); s2 = await pg.screenshot()
+    finally: await pg.evaluate("GAME.E.player.obj.visible=true")
+    seen, tot = _changed(s1, s2, bx); return {'box': box, 'ratio': round(seen / tot, 3) if tot else None}
+
+
+@guard
+async def s_lhcore(p, run, base, sid, out):
+    """總圖大廳一樓北段：照玩家走到兩個點，手指轉鏡頭三個方向，記鏡頭位置、在不在樓梯核心裡、玩家框裡看得到多少、中間擋著什麼"""
+    res = out.setdefault(sid, {})
+    b, pg, cdp, errs, r = await launch(p, run, base, '2025-09-26', 14.0, 'library_hall', quiet=True, label=sid + '（2025-09-26（五）14:00 總圖大廳出生點；quiet 讀檔）')
+    try:
+        await pg.wait_for_timeout(6000); rows = []
+        for tag, x, z, looks in LH_SPOTS:
+            ok = await L.go_to(pg, cdp, run, x, z, 0.4, '%s 走到 %s' % (sid, tag), max_s=200, lv=0, stop=lambda s: s['dlg'] or s['choices'])
+            for tx, tz, lab in looks:
+                t_ok = await L.turn_camera_to(pg, cdp, tx, tz); await pg.wait_for_timeout(2500)
+                c = await pg.evaluate(CAMJS); f = await run.shot(pg, '%s_%s_%s' % (sid, tag, lab[:4])); v = await simple_vis(pg)
+                cx, cz = c['cam'][0], c['cam'][2]; inside = LH_CORE[0] < cx < LH_CORE[1] and LH_CORE[2] < cz < LH_CORE[3]
+                row = {'spot': tag, 'look': lab, 'walked': ok, 'turned': t_ok, 'cam': c['cam'], 'player': c['player'], 'd': c['d'], 'dist': c['dist'], 'mode': c['mode'], 'inCore': inside, 'vis': v.get('ratio')}
+                if inside or (v.get('ratio') or 0) < 0.05: row['hit'] = await pg.evaluate(HITJS)
+                rows.append(row); run.note('%s %s %s：%s' % (sid, tag, lab, J(row, 1200)))
+        res['rows'] = rows
+        run.check('%s：兩個點都照玩家走得到' % sid, all(x['walked'] for x in rows), J([(x['spot'], x['walked']) for x in rows]))
+        run.check('%s：跟隨鏡頭不在樓梯核心的牆後面（core x −5.2～5.2、z −8.9～−0.6）' % sid, not any(x['inCore'] for x in rows), J([(x['spot'], x['look'], x['cam']) for x in rows if x['inCore']]))
+        run.check('%s：每個方向玩家框裡都看得到（變的像素 ≥ 5%%；整面牆擋住≈0）' % sid, all((x['vis'] or 0) >= 0.05 for x in rows), J([(x['spot'], x['look'], x['vis']) for x in rows]))
+    finally: await finish_page(run, sid, res, errs, b)
+
+
 @guard
 async def s_walk_lawa(p, run, base, sid, out):
     """BUG-CAM-PILLAR-LAWA-1031：平常從南邊走到法律系館A穿堂門口（沒有劇情、跟隨鏡頭），路上、到門口、3 秒、6 秒都量玩家看得到幾成"""
@@ -1167,12 +1208,12 @@ async def s_night_real(p, run, base, sid, out):
 ORDER = ['TE_ME_YES', 'TE_ME_NOTYET', 'TE_SHE_THINK', 'TE_TELL', 'TE_KNOWN', 'TE_FOUNDOUT',
          'AFTER_TELL', 'AN_KNOWS', 'AN_KNOWS_NO', 'FOUND',
          'REPAIR_OPEN', 'REPAIR_YES', 'REPAIR_NO',
-         'DAD2', 'DAD2_NO', 'WALK_LAWA', 'HALLS', 'COLD',
+         'DAD2', 'DAD2_NO', 'WALK_LAWA', 'HALLS', 'LHCORE', 'COLD',
          'G2_DAD', 'BLANK', 'BLANK_AGAIN', 'G6_MAKEUP', 'NIGHT_A', 'NIGHT_B', 'NIGHT_REAL']
 FN = {'TE_ME_YES': s_te_me, 'TE_ME_NOTYET': s_te_me, 'TE_SHE_THINK': s_te_she, 'TE_TELL': s_te_other, 'TE_KNOWN': s_te_other, 'TE_FOUNDOUT': s_te_foundout,
       'AFTER_TELL': s_after_tell, 'AN_KNOWS': s_an_knows, 'AN_KNOWS_NO': s_an_knows, 'FOUND': s_found,
       'REPAIR_OPEN': s_repair_open, 'REPAIR_YES': s_repair_yes, 'REPAIR_NO': s_repair_no,
-      'DAD2': s_dad2, 'DAD2_NO': s_dad2, 'WALK_LAWA': s_walk_lawa, 'HALLS': s_halls, 'COLD': s_cold,
+      'DAD2': s_dad2, 'DAD2_NO': s_dad2, 'WALK_LAWA': s_walk_lawa, 'HALLS': s_halls, 'LHCORE': s_lhcore, 'COLD': s_cold,
       'G2_DAD': s_g2, 'BLANK': s_blank, 'BLANK_AGAIN': s_blank_again, 'G6_MAKEUP': s_g6, 'NIGHT_A': s_night, 'NIGHT_B': s_night, 'NIGHT_REAL': s_night_real}
 
 
