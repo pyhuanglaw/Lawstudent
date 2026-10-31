@@ -23,22 +23,26 @@ apartment)
   #   書桌檯燈 (4.57,1.11,−0.78)、邊桌燈 (−4.29,1.03,−2.6)：燈罩裡的光暈（US_glow）位置各一顆小點光源（遊戲沒有這兩盞的點光源，只有光暈）。
   #   衣物間的吸頂燈（usa_sconce 的扁球，2.48～2.6 m）：面光源放在燈下面 2.46 m（放進球裡光出不來）。
   #   模型本身會發光的材質（usa_sconce：壁燈、衣物間吸頂燈、衛浴鏡燈的燈泡）烘焙時不發光（--emit usa_sconce=0）：很小的發光面取樣很吵，光改用上面的燈。
-  #   白天：房間的燈開一半（--daylights 0.5），天光從北窗、陽台門進來（--sky 0.45）；不放太陽（--sun 強度 0）。
+  #   白天：房間的燈開一部分（--daylights 0.4），天光從北窗、陽台門進來（--sky 0.8）；不放太陽（--sun 強度 0）。
   #   試過的（README）：第一版天光 1.0／燈 0.2（壁板擋住窗，天光進不來）→ 第二版天光 1.5／燈 0.3／太陽 3（床中間、陽台過曝）→
   #   第三版天光 0.7／燈 0.4／太陽 1.5（大門開著，太陽從門照進走道一塊 2.0；烘進去的太陽整天同一個位置，早上八點、下午五點都在那裡）→ 第四版太陽 0
-  #   （白天床面中間還是一塊 2.0：不是太陽，是北窗低角度的天光照在白色床單上）→ 第五版天光 0.45／燈 0.5
-  # --hide：玻璃、窗外的景（usa_view_*、usa_lot_*：在窗外 9 m 的平面、樓下的停車場；烘焙時不拿掉，天光進不來）、燈的光暈（GLOW、US_glow）。
+  #   （白天床面中間還是一塊 2.0：不是太陽，是北窗低角度的天光照在白色床單上）→ 第五版天光 0.45／燈 0.5（床尾照舊一塊 2.0）→
+  #   第六版：窗外景春天那一組留著擋低角度的天空（見下面 --hide），天光 0.8／燈 0.4
+  # --hide：玻璃、雪景那一組窗外景（usa_view_on、usa_lot_on）、燈的光暈（GLOW、US_glow）。
+  # 窗外景春天那一組（usa_view_off：窗外 9 m 對面的公寓、樹林；usa_lot_off：樓下的停車場）烘焙時留著（--nolm，不烘）：
+  #   對面的公寓擋住低角度的天空、停車場把天光反上來（第二～五版藏起來：窗外整片是最亮的地平線天空，北窗正前方的床尾白天一大塊 2.0，天光從 1.5 降到 0.45 都還在）；
+  #   景本身是自發光的貼圖：只在白天那一張發光（--dayemit），晚上暗；烘完拿掉 dayEmit（遊戲 viewTint 自己照時段調，和法學院圖書館一樣）。
   # --nolm：GPU instancing 的椅子（陽台椅、吧檯椅：匯入以後叫 US_BALCONY_CHAIR.NNN、US_BARSTOOL.NNN）、百葉（半透明的貼圖：照舊擋光、透光，但不烘）、
   #   黑色小零件、鍍鉻、壁燈、門牌（遊戲畫字）、廚房檯面的小東西、毛巾架、梯子書架、衣物間的衣服和鐵線層架、陽台和平台的欄杆（細）。
   # 外殼（--shell N,S）：北牆的窗、南邊門外的走廊平台不包（天光從這兩邊來）。
-  NAME=us_apartment; SCRIPT=tools/blender/env_second/us_apartment.py
-  HIDE='glass|usa_view|usa_lot|GLOW|US_glow'
-  NOLM='US_BALCONY_CHAIR|US_BARSTOOL|usa_blinds|usa_black|usa_chrome|usa_sconce|PLATE_FACE|US_KITCHEN_LIFE|US_TOWELBAR|US_LADDER|usa_closet_clothes|usa_closet_shelf|usa_rail'
+  NAME=us_apartment; SCRIPT=tools/blender/env_second/us_apartment.py; DROPDE=--drop-dayemit
+  HIDE='glass|usa_view_on|usa_lot_on|usa_view_snow|GLOW|US_glow'
+  NOLM='usa_view|usa_lot|US_BALCONY_CHAIR|US_BARSTOOL|usa_blinds|usa_black|usa_chrome|usa_sconce|PLATE_FACE|US_KITCHEN_LIFE|US_TOWELBAR|US_LADDER|usa_closet_clothes|usa_closet_shelf|usa_rail'
   WARM=${LCOL:-1.0,0.87,0.7}
   for xz in "-1.6 -1.0 2.16 ${FANW:-35} 0.4" "3.2 -1.0 2.43 ${BEDW:-30} 0.3" "-3.2 2.0 2.56 ${KITW:-22} 0.3" "-1.0 2.0 2.56 ${HALW:-12} 0.25" "1.6 2.0 2.46 ${CLOW:-8} 0.25" "3.9 1.6 2.56 ${BATHW:-15} 0.25"; do
     set -- $xz; LIGHTS="$LIGHTS;$(python3 -c "print(f'{$1-0.01:.3f},{$1+0.01:.3f},{$2-0.01:.3f},{$2+0.01:.3f},$3,1,1,$4,$5,$5,$WARM')")"; done
   PT="-1.6,2.05,-1.0,${FANUP:-6},$WARM,0.3;3.2,2.3,-1.0,${BEDUP:-4},$WARM,0.25;0.0,2.3,4.0,${LANDW:-10},$WARM,0.15;4.57,1.06,-0.78,${DESKW:-5},$WARM,0.05;-4.29,0.98,-2.6,${ENDW:-5},$WARM,0.05"
-  EXTRA=(--emit usa_sconce=0 --sun 180,35,${SUNW:-0} --sky "${SKY:-0.45}" --daywb ${DAYWB:-0.98,0.98,1.0} --daylights "${DAYL:-0.5}" --shell N,S --keep-instances) ;;
+  EXTRA=(--emit usa_sconce=0 --dayemit "usa_view_spring=${VIEWW:-1.0}" --sun 180,35,${SUNW:-0} --sky "${SKY:-0.8}" --daywb ${DAYWB:-0.98,0.98,1.0} --daylights "${DAYL:-0.4}" --shell N,S --keep-instances) ;;
 lawlib)
   # 法學院圖書館（us_lawlib 區域，us_lawlib.glb；us_lawlib.py，配置 assets/models/env/second_ai/us_lawlib.layout.json）：四層樓的中庭（一樓走得到，樓上看得到），屋頂中間一片天窗。
   #   遊戲：us3d.js 的 us_lawlib 區域走 Z3.attachRoomGLB；嵌燈、樓梯小燈的發光面整天都亮（圖書館白天也開燈），天窗、彩色玻璃照時段變暗（skyTint）。
