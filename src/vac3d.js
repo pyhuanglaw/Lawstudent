@@ -61,7 +61,7 @@ const VAC=(function(){
   /* 公館的補習班門口：平日 18:00～18:30，Kevin 招呼一次（AA_241 9-2 台詞；一個假期一次；ev_kevin_cram_door）。大一寒假每個玩家都有（BB-C 17:17）；大二寒假起只給沒報 C04 的 */
   S.kevinDoor=function(G){ if(typeof HOME==='undefined'||!HOME.breakOf) return null; const B=HOME.breakOf(G.day); if(!B||!/^Y[123]W$/.test(B.key)) return null; const yk=B.key.slice(0,2);
     if(yk==='Y1'){ const j0=DK('2026-01-24'), j1=DK('2026-01-31'); if(j0!=null&&G.day>=j0&&G.day<=j1) return null; }   /* 大一寒假：他已經在補習班當助教、每個玩家都有一次（BB-C 17:17，BB_198 d142d98d）；1/24～1/31 他在日本 */
-    else if(S.enrolled(G,'C04W',yk)) return null;   /* 大二寒假起：報了寒假班的不在門口招呼（他是那一班的助教）*/ const K=G.flags.KEVIN_DOOR; if(K&&K[B.key]!=null) return null; return B.key; };
+    if(S.enrolled(G,'C04W',yk)) return null;   /* 大二寒假起：報了寒假班的不在門口招呼（他是那一班的助教）。AA_549 回第 7 題：C04W 開到大一，大一和大二以後同一個規則（大一報了班的也不在門口招呼；第一堂就遇到他）*/ const K=G.flags.KEVIN_DOOR; if(K&&K[B.key]!=null) return null; return B.key; };
   S.all=function(){ const out=[]; const D=Dt(); if(!D) return out; for(const yk of S.YEARS) for(const id of Object.keys(D.A)){ const I=S.inst(id,yk); if(I) out.push(I); } return out; };
   /* 這一趟同行的人（AA_369 H4）：出國期間的訊息、回國重逢、回來後第一次在 3D 遇到的招呼，都不算他們（人就在旁邊）。
      C13 自己排的 I.with，加上活動卡的 mates（陣列＝每年；{年份:[…]}＝那一年才同行：C11、C12 的以安只有大二）*/

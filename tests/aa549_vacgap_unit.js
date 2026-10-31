@@ -2,7 +2,7 @@
 //   2-1 芯慈大二暑假：作息平日 9～17「在證券公司實習」、VA-09 第二則換證券公司版（c14 版也換）
 //   2-2 阿凱 2027-08-01～08-20 回宜蘭　2-3 Alison 2027-07-12～07-21 營隊（7/17 探班照舊）　2-7 語彤 2027-07-19～07-30 台東田野＋兩則私訊
 //   2-4／3-2 2028 除夕的年夜飯　2-5／3-3 語彤 2/7 麵店、子晴 8/1 Café 的場景　2-6 C13 帶朋友出國：那幾天不在臺北、有活動卡的朋友婉拒
-//   3-1 大三暑假三選一的九個小場景　3-4 回家住「出門」、晚餐多十二題　3-5 C04W、C18W 大一寒假開　3-6 女主角假期版邀約（她傳、見面第一句）
+//   3-1 大三暑假三選一的九個小場景　3-4 回家住「出門」、晚餐多十二題　3-5 C04W 大一寒假開（C18W 大一照舊不開）　3-6 女主角假期版邀約（她傳、見面第一句）
 // 台詞一字不差照 AA_549（企劃線）；每一項在修改前（caabccf30）都會 FAIL（第 0 節「稿讀得到」除外）。
 const H=require('./pg_harness.js');
 const fs=require('fs'), vm=require('vm'), path=require('path'), cp=require('child_process');
@@ -129,16 +129,18 @@ const atHome=()=>{ const Hm=HOME.rec(H.G); Hm.at=true; Hm.day=H.G.day; const B=H
     const all=[]; const SC=R2Y3B.SUMMER_SCENES||{}; for(const k in SC) for(const x0 of SC[k]){ const xs=typeof x0==='function'?[x0({flags:{},day:D('2028-08-21')})]:[x0]; for(const x of xs){ if(!x) continue; for(const l of x.lines) all.push(l.narr||l.text); for(const c of (x.choice||[])){ all.push(c.t); for(const l of c.say) all.push(l.text); } } }
     check('3-1. 小場景的台詞都在 AA_549 稿裡（'+all.length+' 句）',all.length>=20&&!notIn(all).length,J(notIn(all))); }
 
-  /* ================= 3-5 大一寒假開兩張活動卡 ================= */
-  { const W1=VAC.inst('C04W','Y1'), S1=VAC.inst('C18W','Y1'), key=d=>CALENDAR.dateOf(d).key;
+  /* ================= 3-5 大一寒假開 C04W（AA 回第 7 題：C18W 大一照舊不開）================= */
+  { const W1=VAC.inst('C04W','Y1'), key=d=>CALENDAR.dateOf(d).key;
     check('3-5. C04W 大一寒假：2026-01-05～01-16（週一、三晚上四堂）；台詞照現有（keys 和大二寒假同一套）',!!W1&&key(W1.from)==='2026-01-05'&&key(W1.to)==='2026-01-16'&&VAC.daysOf(W1).length===4&&J(W1.A.keys.map(k=>k.lines))===J(VAC.inst('C04W','Y2').A.keys.map(k=>k.lines)),J(W1&&[key(W1.from),key(W1.to)]));
-    check('3-5. C18W 大一寒假：照它自己的週期（寒假第 2 週起 7 天）2025-12-29～2026-01-04；大二～大四照舊',!!S1&&key(S1.from)==='2025-12-29'&&key(S1.to)==='2026-01-04'&&key(VAC.inst('C18W','Y2').from)==='2027-01-04'&&key(VAC.inst('C18W','Y4').from)==='2029-01-01',J(S1&&[key(S1.from),key(S1.to)]));
+    check('3-5. C18W 大一寒假不開（AA 回第 7 題：座談撞元旦、出發撞 12/29 海邊）；大二～大四照舊',VAC.inst('C18W','Y1')===null&&key(VAC.inst('C18W','Y2').from)==='2027-01-04'&&key(VAC.inst('C18W','Y4').from)==='2029-01-01');
     const w12=STORY.termDay('Y1S1',12,1); fresh(CALENDAR.dateOf(w12).key,12.1); STORY.phoneRules(GM); const o=W1?VAC.signupOpen(H.G,W1):null; if(W1) VAC.signup(H.G,'C04W@Y1','yes');
     const q=[0,1,2,3].map(i=>OUT.get(H.G,'vac_C04W@Y1_'+i)), qk=q.map(x=>x&&key(x.day));
-    check('3-5. C04W 大一：上學期第 12 週起行事曆報名（照現有），報了排四個關鍵日（第一堂 1/5）',!!o&&o.from===w12&&qk[0]==='2026-01-05'&&q.every(Boolean)&&qk.every(k=>k>='2026-01-05'&&k<='2026-01-16'),J(qk));
+    check('3-5. C04W 大一：上學期第 12 週起行事曆報名（照現有），報了排四個關鍵日 1/5、1/7、1/12、1/16（AA 回第 7 題：照這四天）',!!o&&o.from===w12&&J(qk)===J(['2026-01-05','2026-01-07','2026-01-12','2026-01-16']),J(qk));
     const w6=STORY.termDay('Y1S1',6,1); fresh(CALENDAR.dateOf(w6).key,11.9); PHONE.join(H.G,'law_class','法律系一年級'); at(w6,12.1); STORY.phoneRules(GM); PHONE.tick(H.G);
-    const m=(H.G.msgs||[]).find(x=>x.ask&&x.ask.id==='vac_ask_C18W@Y1');
-    check('3-5. C18W 大一：上學期第 6 週週一 12:00 全班群組公告＋「（報名）」（照現有；面試第 10 週）',!!m&&m.ask.opts[0].t==='（報名）'&&!!S1&&!!(S1.A.pre||[])[0]&&S1.A.pre[0].week===10,J(m&&m.text)); }
+    check('3-5. 大一上第 6 週週一沒有寒假團的公告、報名選項（大一不開）',!(H.G.msgs||[]).some(x=>x.tag==='vac_ask_C18W@Y1'||(x.ask&&/^vac_ask_C18W/.test(x.ask.id)))&&!PHONE.sent(H.G,'vac_ask_C18W@Y1'));
+    /* Kevin 補習班門口（AA 回第 7 題：大一和大二以後同一個規則＝報了寒假班的不在門口招呼）*/
+    fresh('2026-01-12',18.1,'gongguan'); const d0=VAC.kevinDoor(H.G); VAC.rec(H.G).reg['C04W@Y1']='yes'; const d1=VAC.kevinDoor(H.G); fresh('2027-01-12',18.1,'gongguan'); VAC.rec(H.G).reg['C04W@Y2']='yes'; const d2=VAC.kevinDoor(H.G);
+    check('3-5. Kevin 門口：大一沒報＝照舊有一次（Y1W）；大一報了 C04W＝沒有（同大二以後）；大二報了＝沒有',d0==='Y1W'&&d1===null&&d2===null,J([d0,d1,d2])); }
 
   /* ================= 2-6 C13 帶朋友出國：不在臺北、有活動卡的朋友婉拒 ================= */
   { const plan=async(k,who,dest,len,prep)=>{ fresh(k,10); H.FAMILIAR(who); if(prep) prep(); H.said=[]; H.picks=[dest,'和'+SOCIAL.displayName(who),len,0]; const ok=await VAC.plan13(GM); return {ok,rec:(VAC.rec(H.G).t13||[])[0]||null,q:OUT.get(H.G,'vac_t13_1'),L:H.lines()}; };
