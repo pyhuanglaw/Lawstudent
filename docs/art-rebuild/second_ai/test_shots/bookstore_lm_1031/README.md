@@ -13,7 +13,7 @@
    - 新的 `bookstore_interior_lm_day.webp`、`bookstore_interior_lm_night.webp`。
    - 模型和開發分支一樣（重匯的白模和部署的 GLB 同大小），只多光照 UV 和 extras.lightmap。節點、三角形不變。
    - 開發分支的 `bookstore_interior.json` 統計是舊的（bytes 寫 1,393,400，實際 1,384,772），這次一起更新。
-2. **patch**：`docs/art-rebuild/second_ai/patches/bookstore_lm_1031.patch`（對開發 `d5bfed485`）。
+2. **patch**：`docs/art-rebuild/second_ai/patches/bookstore_lm_1031.patch`（對開發 `d5bfed485`；最新 `f79dc8b9e` 也套得上）。
    - `src/zones3d.js` 的 `attachBookstoreInterior` 改一行：有光照貼圖的材質不加補光（`BK_BOUNCE`）。和便利商店 `CVS_BOUNCE` 同一個理由：均勻的自發光會把影子洗掉。
    - 新測試 `tests/bookstore_interior_lm_unit.js`：
      - 光照貼圖兩張都在；
@@ -70,4 +70,5 @@
 
 ## 五、測試
 
-（Node 全部跑完補）
+- **全部 Node**（開發 `d5bfed485`＋這一包）：**786 過、0 失敗**。
+- 對最新開發 `f79dc8b9e` `git apply --check` 通過。

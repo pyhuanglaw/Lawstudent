@@ -4667,6 +4667,31 @@
    "state": "收到、開工（門廊兩端側牆改 seethru_ck_col，四棟重匯）",
    "remaining": "書店光照已 push（d92c8a58b），Node 跑完一起交",
    "next": "交件時附 Node 測試＋BB 那 4 個角度的截圖"
+  },
+  {
+   "branch": "claude/funny-albattani-iawshm",
+   "sha": "(這一次 commit)",
+   "noDirectIntegrate": false,
+   "receiver": "LAWWW",
+   "ack": "SENT",
+   "task": "INTERIOR-AAA-REVIEW-1028：書店（舊路書房）光照烘焙；CAM-PILLAR-HALLS-1031 續：門廊兩端側牆",
+   "files": [
+    "assets/models/env/second_ai/bookstore_interior.glb",
+    "assets/models/env/second_ai/bookstore_interior.json",
+    "assets/models/env/second_ai/bookstore_interior_lm_day.webp",
+    "assets/models/env/second_ai/bookstore_interior_lm_night.webp",
+    "docs/art-rebuild/second_ai/patches/bookstore_lm_1031.patch",
+    "docs/art-rebuild/second_ai/test_shots/bookstore_lm_1031/",
+    "assets/models/env/second_ai/campus_library.glb",
+    "assets/models/env/second_ai/campus_admin.glb",
+    "assets/models/env/second_ai/campus_arts.glb",
+    "assets/models/env/second_ai/campus_hist.glb",
+    "docs/art-rebuild/second_ai/patches/cam_pillar_halls_endwall_1031.patch",
+    "docs/art-rebuild/second_ai/test_shots/cam_pillar_halls_1031/"
+   ],
+   "state": "已交付（書店 READY_FOR_ART_REVIEW）",
+   "remaining": "書店地板比改前暗（走道兩邊深色書架擋光），晚上蜂蜜色，要再亮再說；擺設沒做",
+   "next": "LAWWW 整合：書店（GLB＋json＋兩張光照貼圖＋bookstore_lm_1031.patch；Node 786／0）；四棟 GLB＋cam_pillar_halls_endwall_1031.patch（校史館 3 個角度 0%→16～25%）；兩份對 f79dc8b9e apply --check 通過"
   }
  ]
 }

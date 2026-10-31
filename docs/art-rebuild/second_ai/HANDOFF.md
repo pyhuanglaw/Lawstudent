@@ -1,6 +1,6 @@
 # LAWWW2 交接紀錄（隨時更新；工作階段中斷時從這裡接）
 
-## ⏱ 現況（LAWWW2-B，2026-10-31 08:5x UTC；帳號 B 七天額度已到警示，隨時可能被切斷——接手的先讀這一段）
+## ⏱ 現況（LAWWW2-B，2026-10-31 10:4x UTC；帳號 B 七天額度已到警示，隨時可能被切斷——接手的先讀這一段）
 
 - **剛交、已整合：NOODLE-LM-1030 麵店＋LM-COLLAPSE-1030 第一間（法律學院圖書館）**（`ee96b798f`→LAWWW-B 整合 2c65d66f1；`test_shots/noodle_lm_1030/README.md`、`test_shots/lm_collapse_1030/README.md`）。樓梯間欄杆影子糊：LAWWW-B 先不排（D99 只記錄）。
 - **LM-COLLAPSE-1030 四間都交了**（`test_shots/lm_collapse_1030/README.md` 有總結表）：法圖、總圖大廳、宿舍四人房已整合；201 也已整合（LAWWW-B 22:09，全部 Node 773／0）。
@@ -26,7 +26,9 @@
   - 找到：行政大樓門廊往旁邊 1.3 m，鏡頭跑進傅鐘（鐘亭不在鏡頭碰撞裡），沒改，問 LAWWW-B。
 - **正在做：INTERIOR-AAA-REVIEW-1028（#113）**（LAWWW-B 05:52：四棟做完回這個）。06:5x 排的順序（已告訴 LAWWW-B）：
   - 還沒有光照貼圖的正式室內：便利商店 cvs_interior → 書店 bookstore_interior → 溫州街三家（wz_brunch／print／teahouse）→ 體育館（gym_interior、gym_b1）→ 美國 us_*。
-  - **便利商店：已交（08:5x）**（README `test_shots/cvs_lm_1031/README.md`；patch `patches/cvs_lm_1031.patch`）。下一間：書店。以下是做法紀錄：照 bake_noodle.sh（同一排公館南側店面、店面朝東、太陽 0）寫 bake_cvs.sh。
+  - 便利商店：已交、已整合（d5bfed485）。**書店：已交（10:4x）**（README `test_shots/bookstore_lm_1031/README.md`；patch `patches/bookstore_lm_1031.patch`；Node 786／0）。下一間：溫州街三家（wz_brunch／print／teahouse）。
+  - CAM-PILLAR-HALLS 續（門廊兩端側牆）：已交（patch `cam_pillar_halls_endwall_1031.patch`）。
+  - 便利商店的做法紀錄：照 bake_noodle.sh（同一排公館南側店面、店面朝東、太陽 0）寫 bake_cvs.sh。
     - 燈：天花板十條 LED 燈條（cvs_interior.py：z −3.2～3.2 每 1.6 m、x ±0.6～±5.4，H−0.05）＋飲料櫃背光（右牆 x≈5.9、z 0～4）。
     - --nolm：cvs_led、cvs_cooler_light、cvs_goods_items（四萬多個三角形的商品）、SIGN_FACE、glass、rail、tag、black、steel 等小零件。
     - 注意：attachCvsInterior 對 cvs_wall／floor／shelf／counter 加 TK.bounce（自發光）——麵店也是這樣、遊戲內一起調參數。

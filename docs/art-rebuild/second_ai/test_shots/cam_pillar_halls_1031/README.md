@@ -72,3 +72,30 @@
 - **全部 Node**（測試樹＝開發 `3ba38e34a`＋這一包）：**783 過、0 失敗**。
 - 對最新開發 `e2eb4cce4`：`git apply --check` 通過（這三個檔案、四棟 GLB 在 3ba38e34a 以後都沒變）。
 - **還沒驗的**：手機實機；傅鐘那一處（第三節）。
+
+## 七、續：門廊兩端的側牆（LAWWW-B 10:00；BB-B n27_halls_b／d）
+
+- **BB-B 驗收**：
+  - 總圖 75～100%、行政大樓 92～100%、文學院 98～100%：PASS。
+  - 校史館 15 張裡 4 張整個畫面是米色石面，擋住的是 his_trim（ck_trim）：門廊兩端那兩塊 0.9 m 寬、通高的側牆。
+  - 第一版我刻意把它們當成「牆」留在 ck_trim。
+- **改法**：`campus_hall.py` 門廊兩端的側牆也改用 `seethru_ck_col`。簷口、拱圈、山牆照舊不透。四棟同一支腳本，一起重匯（三角形不變）。
+- **BB 的角度**（2029-04-26 15:00，校史館門廊；鏡頭位置和 BB 量到的一樣，在 (−82～−83.6, 2.96, −18.8)）：
+
+| 位置 | 改前 | 改後 |
+|---|---|---|
+| 門口往西 1.3 m、斜看 | **0%** | 25% |
+| 門口往東 2.6 m、斜看 | **0%** | 22% |
+| 門口往西 2.6 m、斜看 | **0%** | 16% |
+| 門口往西 2.6 m、正對 | 25% | 25%（我這邊沒擋到；BB 那張的鏡頭位置可能不一樣） |
+
+![校史館門廊（上到下：往西 1.3 m 斜看、往東 2.6 m 斜看、往西 2.6 m 斜看、往西 2.6 m 正對；左＝改前，右＝改後）](hist_endwall_before_after.webp)
+
+- **怎麼套**：
+  - 換四棟 GLB（＋json）。
+  - 套 `docs/art-rebuild/second_ai/patches/cam_pillar_halls_endwall_1031.patch`：`campus_hall.py`、`tests/campus_hall_pillar_seethru_unit.js`。
+    - 測試加 ①b：柱子材質的最高點＝門廊高度（總圖 9 m、行政 4.8、文學院 5.4、校史館 5.6），表示兩端側牆在裡面。
+    - 總圖門廊 9 m 高，① 的上限從 8 m 放寬到 10 m。
+    - 開發分支的 GLB 原樣 FAIL 4（四棟的 ①b），改後 ALL PASS。
+  - 對最新開發 `f79dc8b9e` `git apply --check` 通過。
+- **測試**：蓋校園的 Node 測試 15 支全部 ALL PASS（含 campus_hall_pillar_seethru、linze_pillar_seethru、campus_lamps、campus_public）。
