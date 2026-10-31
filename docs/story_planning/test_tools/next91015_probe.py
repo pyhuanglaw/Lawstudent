@@ -1207,6 +1207,58 @@ async def gtlm(pg, cdp, run):
         run.check('共同教學館 101：按「%s」坐得下' % lab, bool(lab) and sat, J({'lab': lab, 'sat': sat}))
 
 
+GTCLASS = """(()=>{ const E=GAME.E, Z=E.zone, F=Z&&Z.seatFold, S=(Z&&Z.seats)||[]; const lec=S.map((s,i)=>i).filter(i=>S[i].kind==='lecture'||S[i].room==='101');
+  const v=E.npcs.filter(n=>n.obj&&!n.hidden&&n.obj.visible!==false); const in101=n=>n.obj.position.x>3.6&&n.obj.position.x<11.9&&(n.lv|0)===0;
+  const sitBad=v.filter(n=>(n.seat||n.pose==='sit')&&in101(n)).filter(n=>{ const p=n.obj.position; return !S.some(s=>Math.hypot(s.x-p.x,s.z-p.z)<0.45); }).map(n=>[n.charId||n.id||'?',+n.obj.position.x.toFixed(2),+n.obj.position.z.toFixed(2)]);
+  const stand=v.filter(n=>!(n.seat||n.pose==='sit')&&in101(n)).map(n=>({id:n.charId||n.id||n.name||'?', role:n.role||n.kind||null, x:+n.obj.position.x.toFixed(2), z:+n.obj.position.z.toFixed(2), ok:!E.canStand||E.canStand(n.obj.position.x,n.obj.position.z,0.2,n.lv|0)}));
+  return {zone:GAME.G.zone, key:CALENDAR.dateOf(GAME.G.day).key, h:+(+GAME.G.hour).toFixed(2), sit:v.filter(n=>(n.seat||n.pose==='sit')&&in101(n)).length, sitBad, stand,
+    player:{seat:!!E.player.seat, x:+E.player.obj.position.x.toFixed(1), z:+E.player.obj.position.z.toFixed(1)}, fold:!!F, lecture:lec.length,
+    emptyDown:F?lec.filter(i=>!F.occupied(E,i)&&F.ang[i]<=1.5).length:-1, busyUp:F?lec.filter(i=>F.occupied(E,i)&&F.ang[i]!==0).length:-1, busy:F?lec.filter(i=>F.occupied(E,i)).length:-1,
+    formal:!!(Z&&(Z.formal||Z.formalInfo))}; })()"""
+
+
+async def gtecon(pg, cdp, run):
+    # LAWWW-B 01:56：經濟系存檔，上課時段進共同 101、坐下——翻椅（有人坐放下、沒人坐收起）、同學沒有穿過長桌、老師在講台
+    u = URL + ('&' if '?' in URL else '?') + 'y0&nofastecon'
+    await pg.goto(u); await L.wait_loaded(pg); await pg.evaluate("localStorage.clear()"); await pg.goto(u); await L.wait_loaded(pg); await pg.wait_for_timeout(1500); await P.init(pg)
+    if await pg.evaluate("(()=>{ const r=document.getElementById('rotate'); return !!r&&!!r.offsetParent; })()"): await L.tap(pg, cdp, '#rotate'); await pg.wait_for_timeout(800)
+    await L.tap(pg, cdp, '#btnNewEcon'); await pg.wait_for_timeout(2500)
+    run.check('前置：標題「從經濟系大一開始」開局', await pg.evaluate("GAME.G&&GAME.G.stage==='econ'"), await pg.evaluate("GAME.G&&GAME.G.stage"))
+    await drain_free(pg, cdp)
+    it = await pg.evaluate("""(()=>{ const G=GAME.G; let any=null; for(let d=G.day; d<=G.day+120; d++){ const L=(CLS.dayItems(G,d)||[]).filter(x=>x.room&&x.room.zone==='gongtong'&&!x.exam); const q=L.find(x=>String(x.room.room)==='101')||L[0]; if(q&&String(q.room.room)==='101') return {d, key:CALENDAR.dateOf(d).key, t0:q.t0, t1:q.t1, k:q.key, name:q.c&&q.c.name, room:q.room.room}; if(q&&!any) any={d, key:CALENDAR.dateOf(d).key, t0:q.t0, t1:q.t1, k:q.key, name:q.c&&q.c.name, room:q.room.room}; } return any; })()""")
+    run.note('經濟系那一年在共同教學館的第一堂（優先 101）：%s' % J(it))
+    run.check('前置：經濟系那一年有一堂在共同教學館（%s）' % J(it), bool(it), J(it))
+    if not it: return
+    await P.jump(pg, cdp, run, it['key'], it['t0'] - 0.5, zone='campus', pos=None, quiet=False, note='?nofastecon：同一份進度跳到那一堂上課前 30 分鐘')
+    bt = None
+    for _ in range(4):
+        await drain_free(pg, cdp, secs=60); await P.phone_tab(pg, cdp, 'today')
+        bt = await pg.evaluate("(k=>{ const e=[...document.querySelectorAll('#phoneBody [data-go]')].find(b=>b.dataset.go===k); return e?(e.textContent||'').trim():null; })", it['k'])
+        if bt: break
+        await L.phone_away(pg, cdp); await pg.wait_for_timeout(1500)
+    run.note('手機「今天」那一堂：%s' % bt)
+    if bt: await L.tap(pg, cdp, '#phoneBody [data-go="%s"]' % it['k'])
+    else: await L.phone_away(pg, cdp)
+    t0 = time.time(); cap = None; done = False
+    while time.time() - t0 < 1800:
+        c = await pg.evaluate("(k=>({zone:GAME.G.zone, h:+GAME.G.hour, done:!!(CLS.rec(GAME.G).done||{})[k], seat:!!GAME.E.player.seat}))", it['k'])
+        if c['done']: done = True
+        s = await P.ts(pg)
+        if cap is None and c['zone'] == 'gongtong' and c['seat'] and c['h'] >= it['t0'] + 0.03:
+            await pg.wait_for_timeout(2500); cap = await pg.evaluate(GTCLASS); await run.shot(pg, 'gtecon_class')
+            await pg.evaluate("(()=>{ const C=GAME.E.cam; C.yaw=Math.PI; C.pitch=0.35; C.distTarget=6; C.manualT=1e9; })()"); await pg.wait_for_timeout(2000); await run.shot(pg, 'gtecon_class_front')
+            run.note('上課中（坐下、上課時間到）：%s' % J(cap, 2500))
+        if done and cap is not None and not s['dlg'] and not s['ch']: break
+        if s['ch']: k, _ = P.pick_of(s['ch'], ['坐']); await P.tap_choice(pg, cdp, k); await pg.wait_for_timeout(1000); continue
+        if s['dlg']: await L.tap(pg, cdp, '#dlg'); await pg.wait_for_timeout(500); continue
+        await L.phone_away(pg, cdp); await pg.wait_for_timeout(1200)
+    run.check('照玩家流程走進共同教學館、坐下、這一堂上完', bool(cap) and done, J({'cap': bool(cap), 'done': done}))
+    if not cap: return
+    run.check('翻椅：有人坐的椅面都放下（busyUp＝0）、沒人坐的都收起（emptyDown＝0）', cap['fold'] and cap['busyUp'] == 0 and cap['emptyDown'] == 0, J({k: cap[k] for k in ('fold', 'lecture', 'busy', 'busyUp', 'emptyDown')}))
+    run.check('同學沒有穿過長桌：坐著的都在座位上、站著的都站在走得到的地方', not cap['sitBad'] and all(x['ok'] for x in cap['stand']), J({'sitBad': cap['sitBad'], 'stand': cap['stand']}))
+    run.check('老師在講台（101 前面 z ≥ 4 有站著的人）', any(x['z'] >= 4.0 for x in cap['stand']), J(cap['stand']))
+
+
 async def boyab4(pg, cdp, run):
     # 法律系 B4 演講（大一下第 11 週週四 19:00 博思 101，ACTIVITIES B4）：預設流程裡看得到博思 101 的地方（LAWWW-B 16:04）。手機「今天」按去聽
     d = await pg.evaluate("(()=>{ const T=CALENDAR.TERMS.find(t=>t.id==='Y1S2'); const a=STORY.dayOfKey(T.start); let d=a+10*7; while(CALENDAR.dateOf(d).wd!==4) d++; return CALENDAR.dateOf(d).key; })()")
@@ -1258,7 +1310,7 @@ async def main():
             b, ctx, pg, cdp, errs = await L.launch(p, landscape=(VP != 'portrait'))
         pg.on('dialog', lambda d: asyncio.ensure_future(d.accept()))
         await pg.goto(URL); run.check('遊戲載入', await L.wait_loaded(pg)); await pg.evaluate("localStorage.clear()"); await P.init(pg)
-        await {'phone': phone, 'bball': bball, 'rooms': rooms, 'cafewin': cafewin, 'noodle': noodle, 'cafe2': cafe2, 'invite': invite, 'jacket': jacket, 'badclip': badclip, 'bigmap': bigmap, 'bballrain': bballrain, 'renart': renart, 'libla': libla, 'lawlib': lawlib, 'cafe2diag': cafe2diag, 'multiroom': multiroom, 'rtnight': rtnight, 'boya': boya, 'boyaecon': boyaecon, 'boyab4': boyab4, 'soclm': soclm, 'noodlm': noodlm, 'lhlm': lhlm, 'roomlm': roomlm, 'gtlm': gtlm}[MODE](pg, cdp, run)
+        await {'phone': phone, 'bball': bball, 'rooms': rooms, 'cafewin': cafewin, 'noodle': noodle, 'cafe2': cafe2, 'invite': invite, 'jacket': jacket, 'badclip': badclip, 'bigmap': bigmap, 'bballrain': bballrain, 'renart': renart, 'libla': libla, 'lawlib': lawlib, 'cafe2diag': cafe2diag, 'multiroom': multiroom, 'rtnight': rtnight, 'boya': boya, 'boyaecon': boyaecon, 'boyab4': boyab4, 'soclm': soclm, 'noodlm': noodlm, 'lhlm': lhlm, 'roomlm': roomlm, 'gtlm': gtlm, 'gtecon': gtecon}[MODE](pg, cdp, run)
         run.check('沒有 JS 例外', not errs, J(errs[:3]))
         print('SHA', os.environ.get('SHA', '?'), 'MODE', MODE)
         await b.close()
