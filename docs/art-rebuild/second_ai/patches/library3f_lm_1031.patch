@@ -1,0 +1,321 @@
+diff --git a/tests/library_3f_lm_unit.js b/tests/library_3f_lm_unit.js
+new file mode 100644
+index 000000000..a29a19cf3
+--- /dev/null
++++ b/tests/library_3f_lm_unit.js
+@@ -0,0 +1,20 @@
++// 總圖 3F 閱覽區正式模型的光照貼圖（ART-ECON-3D-GAP-1021 C，LAWWW2-B 2026-10-31）——不需要瀏覽器。
++// zones3d.js 的 library 區域用 attachRoomGLB 接 library_3f.glb，看到場景的 extras.lightmap 就接光照貼圖（Z3.roomLightmap）。這支檢查：
++//   ①extras.lightmap 的白天、晚上兩張都在
++//   ②地板、天花板、四面牆、長桌、書櫃有第二套 UV（TEXCOORD_1）：沒有的話這些面吃不到光照貼圖
++//   ③燈框發光面、桌燈燈泡、燈罩、輕鋼架、椅子不烘（--nolm）：沒有第二套 UV，照舊即時光
++// 書照舊是 EXT_mesh_gpu_instancing：tests/lm_instancing_unit.js
++// 用法：node tests/library_3f_lm_unit.js
++const fs=require('fs'), path=require('path');
++const ROOT=path.resolve(__dirname,'..'), REL='assets/models/env/second_ai/library_3f.glb';
++let fails=0; const check=(name,ok,info)=>{ console.log((ok?'PASS ':'FAIL ')+name+(info?'　'+info:'')); if(!ok) fails++; };
++const b=fs.readFileSync(path.join(ROOT,REL)), n=b.readUInt32LE(12), j=JSON.parse(b.slice(20,20+n).toString('utf8'));
++const sc=j.scenes[j.scene||0], lm=sc.extras&&sc.extras.lightmap;
++const files=lm?['day','night'].map(k=>lm[k]):[];
++check('① 光照貼圖：extras.lightmap 的白天、晚上兩張都在',!!lm&&files.length===2&&files.every(f=>f&&fs.existsSync(path.join(ROOT,f))),JSON.stringify(lm||null).slice(0,160));
++const uv1=nm=>{ const nd=j.nodes.find(x=>x.name===nm); if(!nd||nd.mesh==null) return null; return j.meshes[nd.mesh].primitives.every(p=>p.attributes.TEXCOORD_1!=null); };
++const want=['l3_floor','l3_ceil','l3_top','l3_walnut','l3_bc0','WALL_back_plaster','WALL_front_plaster','WALL_left_plaster','WALL_right_plaster'], got=want.map(k=>[k,uv1(k)]);
++check('② 地板、天花板、四面牆、長桌、書櫃有第二套 UV',got.every(([,v])=>v===true),JSON.stringify(got));
++const live=['l3_light','l3_glow','l3_shade','WALL_ceil_tbar','l3_chairwood','l3_seat'].map(k=>[k,uv1(k)]);
++check('③ 燈框發光面、桌燈、燈罩、輕鋼架、椅子沒有第二套 UV（照舊即時光）',live.every(([,v])=>v===false),JSON.stringify(live));
++console.log(fails?('FAIL '+fails):'ALL PASS'); process.exit(fails?1:0);
+diff --git a/tests/lm_instancing_unit.js b/tests/lm_instancing_unit.js
+new file mode 100644
+index 000000000..dadc1496a
+--- /dev/null
++++ b/tests/lm_instancing_unit.js
+@@ -0,0 +1,16 @@
++// 光照烘焙以後書照舊是 GPU instancing（LAWWW2-B 2026-10-31）——不需要瀏覽器。
++// tools/blender/env_second/lightbake/bake_room.py --keep-instances：書不展開、不烘，照舊即時光。10-31 以前匯出時沒寫 export_gpu_instances，
++//   書變成一本一個節點：法律學院圖書館 137 節點（27 個實例）→ 800 節點（0 個實例），遊戲裡一個節點一次 draw call。
++// 這支檢查用 --keep-instances 烘的模型：①有 EXT_mesh_gpu_instancing 的節點 ②節點數沒有暴增
++// 用法：node tests/lm_instancing_unit.js
++const fs=require('fs'), path=require('path');
++const ROOT=path.resolve(__dirname,'..');
++const LIST=[['assets/models/env/lawlib_interior.glb',20,200],['assets/models/env/second_ai/library_3f.glb',16,100]];   // [檔案, 至少幾個實例節點, 節點數上限]
++let fails=0; const check=(name,ok,info)=>{ console.log((ok?'PASS ':'FAIL ')+name+(info?'　'+info:'')); if(!ok) fails++; };
++for(const [rel,minInst,maxNodes] of LIST){
++  const b=fs.readFileSync(path.join(ROOT,rel)), n=b.readUInt32LE(12), j=JSON.parse(b.slice(20,20+n).toString('utf8'));
++  const sc=j.scenes[j.scene||0], lm=sc.extras&&sc.extras.lightmap;
++  const inst=j.nodes.filter(x=>x.extensions&&x.extensions.EXT_mesh_gpu_instancing).length;
++  check(path.basename(rel)+'：有光照貼圖、書照舊是 GPU instancing、節點數沒有暴增',!!lm&&inst>=minInst&&j.nodes.length<=maxNodes&&(j.extensionsUsed||[]).includes('EXT_mesh_gpu_instancing'),'實例節點 '+inst+'（至少 '+minInst+'）、節點 '+j.nodes.length+'（上限 '+maxNodes+'）');
++}
++console.log(fails?('FAIL '+fails):'ALL PASS'); process.exit(fails?1:0);
+diff --git a/tools/blender/env_second/lightbake/bake_library_3f.sh b/tools/blender/env_second/lightbake/bake_library_3f.sh
+new file mode 100644
+index 000000000..3ff41edfd
+--- /dev/null
++++ b/tools/blender/env_second/lightbake/bake_library_3f.sh
+@@ -0,0 +1,57 @@
++#!/bin/bash
++# 總圖書館 3F 閱覽區（遊戲 library 區域；ART-ECON-3D-GAP-1021 C，經濟系那一年 10/16 19:00 那一場在這裡；LAWWW2-B 2026-10-31；照 bake_lawlib.sh）：
++#   建模 → 光照烘焙（白天／晚上）→ WebP。repo 根目錄跑：
++#   bash tools/blender/env_second/lightbake/bake_library_3f.sh [取樣數，預設 512] [輸出資料夾，預設 assets/models/env/second_ai] [貼圖邊長，預設 1024]
++# 輸出：library_3f.glb（多一套 UV＝TEXCOORD_1、extras.lightmap）＋ library_3f_lm_day.webp、_night.webp。
++#   遊戲：zones3d.js 的 library 區域用 attachRoomGLB 接正式模型，看到 extras.lightmap 就接（Z3.roomLightmap；和 Café、社科圖同一套），不用改程式。
++# 座標＝遊戲 library 區域（room() 22×16×4.0 m）：x −11～11、z −8～8；後牆（北，z=−8）四扇窗，前牆中間是樓梯間的門。
++# 燈（照 library_3f.py 算出來的燈框；燈框本身 l3_light_panel 不烘、照舊自己發光；改那邊要一起改）：
++#   六張長桌正上方各一條長燈（4.4×0.24 m）；走道十二片方燈（1.2×0.6 m）；每張長桌三盞綠色燈罩的桌燈（點光源，燈罩下方）。
++# 窗只在北面：太陽照不進來（方位 200°），白天主要是天光＋燈（圖書館白天燈照樣開）。--shell N。
++# 10-31 遊戲內試了三版（截圖在 docs/art-rebuild/second_ai/test_shots/library3f_lm_1031/README.md）：
++#   第一版（燈暖白 1,0.97,0.92、長燈 12 W、方燈 9 W、沒有往上的點光源）：天花板整片咖啡色 (113,88,56)、牆偏桃色，白天比晚上暗。
++#     面光源只往下照，天花板只吃到人字拼地板、胡桃木桌櫃反彈上來的光，顏色越疊越暖（和普通教學館同一個問題）。
++#   定案：燈晝光色 0.95,0.98,1.0、長燈 16 W、方燈 12 W；每盞燈下 0.9 m 點光源 12 W（長燈兩顆、方燈一顆）；
++#     天光 0.12、太陽 0.6、白天燈 1.0；白天整張乘 0.86,0.9,0.98（稍微偏冷）。
++# --nolm（照舊即時光）：書（EXT_mesh_gpu_instancing，--keep-instances 不展開）、書封、椅子、黃銅、燈罩、發光面、輕鋼架、鋼、黑白紅小零件、紙、百葉、冷氣出風口、牌子。窗框照樣烘。
++set -e
++SAMPLES=${1:-512}
++OUTDIR=${2:-assets/models/env/second_ai}
++RES=${3:-1024}
++TMP=$(mktemp -d)
++HIDE='l3_glass'
++NOLM='bk_|l3_books|chair|seat|brass|l3_shade|l3_glow|l3_light|tbar|steel|black|white|red|paper|blind|grille|sign|exit'   # 比對物件名（library_3f.py 照材質分物件：l3_light＝燈框發光面、l3_glow＝桌燈燈泡、l3_shade＝綠色燈罩）
++LIGHTS=$(python3 - <<'PY'
++import os
++H = 4.0
++TABLES = [(-4 + 8 * c, -3 + 3.6 * r) for r in range(3) for c in range(2)]   # 照 library_3f.py
++AISLE = [(0.0, -5.4), (0.0, -1.2), (0.0, 2.4), (0.0, 6.2), (-8.6, 6.4), (8.6, 6.4), (-8.4, -5.8), (8.4, -5.8), (-8.4, 0.6), (-8.4, 3.0), (7.6, 3.6), (7.6, -4.2)]
++sw, aw, col = os.environ.get('STRIPW', '16'), os.environ.get('AISLEW', '12'), os.environ.get('LCOL', '0.95,0.98,1.0')   # 晝光色（冷白）：見檔頭的紀錄
++out = [f'{x-0.01:.3f},{x+0.01:.3f},{z-0.01:.3f},{z+0.01:.3f},{H-0.04:.3f},1,1,{sw},4.36,0.2,{col}' for (x, z) in TABLES]
++out += [f'{x-0.01:.3f},{x+0.01:.3f},{z-0.01:.3f},{z+0.01:.3f},{H-0.03:.3f},1,1,{aw},1.14,0.54,{col}' for (x, z) in AISLE]
++print(';'.join(out))
++PY
++)
++POINTS=$(python3 - <<'PY'
++import os
++TOP = 0.77
++TABLES = [(-4 + 8 * c, -3 + 3.6 * r) for r in range(3) for c in range(2)]
++lw = os.environ.get('LAMPW', '3')
++out = [f'{tx - 1.6 + i * 1.6:.3f},{TOP + 0.29:.3f},{tz:.3f},{lw},1.0,0.82,0.6' for (tx, tz) in TABLES for i in range(3)]   # 燈罩下緣往下一點，暖黃
++# 燈具往四周散出去的光（照普通教學館：面光源只往下照，天花板只吃到地板、木桌反彈上來的光，整片暗、偏咖啡色）：長燈下 0.9 m 兩顆、方燈下 0.9 m 一顆
++H = 4.0; up, pcol = os.environ.get('UPW', '12'), os.environ.get('LCOL', '0.95,0.98,1.0')
++AISLE = [(0.0, -5.4), (0.0, -1.2), (0.0, 2.4), (0.0, 6.2), (-8.6, 6.4), (8.6, 6.4), (-8.4, -5.8), (8.4, -5.8), (-8.4, 0.6), (-8.4, 3.0), (7.6, 3.6), (7.6, -4.2)]   # 同上面的 LIGHTS
++out += [f'{tx + dx:.3f},{H - 0.9:.3f},{tz:.3f},{up},{pcol}' for (tx, tz) in TABLES for dx in (-1.1, 1.1)]
++out += [f'{x:.3f},{H - 0.9:.3f},{z:.3f},{up},{pcol}' for (x, z) in AISLE]
++print(';'.join(out))
++PY
++)
++/opt/blenv/bin/python tools/blender/env_second/library_3f.py -- --out "$TMP/l3_plain.glb"
++python3 -c "import json,sys; d=json.load(open(sys.argv[1])); d['out']='assets/models/env/second_ai/library_3f.glb'; json.dump(d,open(sys.argv[2],'w'),ensure_ascii=False,indent=1)" "$TMP/l3_plain.json" "$OUTDIR/library_3f.json"   # 統計（三角形、材質）
++/opt/blenv/bin/python tools/blender/env_second/lightbake/bake_room.py -- --in "$TMP/l3_plain.glb" --out "$OUTDIR/library_3f.glb" \
++  --lm "$TMP/l3" --url assets/models/env/second_ai/library_3f_lm --res "$RES" --samples "$SAMPLES" --hide "$HIDE" --nolm "$NOLM" --keep-instances \
++  --sun 200,${SUNEL:-38},${SUNW:-0.6} --sky "${SKY:-0.12}" --daywb ${DAYWB:-0.86,0.9,0.98} --lights "$LIGHTS" --points "$POINTS" --daylights "${DAYL:-1.0}" --smooth 1 --shell N
++python3 tools/blender/env_second/lightbake/to_webp.py "$TMP/l3" "$OUTDIR/library_3f_lm" 90
++/opt/blenv/bin/python tools/blender/env_second/lightbake/lm_fix_hidden.py -- --in "$OUTDIR/library_3f.glb" --out "$OUTDIR/library_3f.glb" --lm "$OUTDIR/library_3f_lm"
++cp "$TMP/l3.json" tools/blender/env_second/lightbake/library_3f_lm.json
++echo "done: $OUTDIR/library_3f.glb + library_3f_lm_day/night.webp"
+diff --git a/tools/blender/env_second/lightbake/bake_room.py b/tools/blender/env_second/lightbake/bake_room.py
+index 5c8395f4e..adb49d89e 100644
+--- a/tools/blender/env_second/lightbake/bake_room.py
++++ b/tools/blender/env_second/lightbake/bake_room.py
+@@ -41,8 +41,11 @@ sc = bpy.context.scene
+ print('import', len(bpy.data.objects), 'objects', flush=True)
+ 
+ # ---- 1. 實例展開：同一個網格被好幾個物件共用（或幾何節點的實例）→ 各自一份，再照材質合併 ----
++# --keep-instances：實例不展開（書：不烘、照舊即時光），匯出時也要照舊寫成 EXT_mesh_gpu_instancing（10-31 改；之前沒寫，
++#   法律學院圖書館烘完書變成 800 個各自的節點，遊戲裡一個節點一次 draw call；總圖 3F 試烘時查到）
++KEEP_INST = '--keep-instances' in A
+ def realize():
+-    if '--keep-instances' in A: return
++    if KEEP_INST: return
+     # 幾何節點的實例（新版匯入器可能用這個處理 EXT_mesh_gpu_instancing）：套用修改器
+     for o in list(bpy.data.objects):
+         if o.type == 'MESH' and any(m.type == 'NODES' for m in o.modifiers):
+@@ -184,7 +187,7 @@ if '--uvonly' in A:   # 只看 UV 排版、不烘焙（幾十秒）：輸出加
+     for o in bpy.data.objects:
+         if o.type == 'MESH' and len(o.data.uv_layers) and o.data.uv_layers[0].name != 'LM': o.data.uv_layers.active = o.data.uv_layers[0]; o.data.uv_layers[0].active_render = True
+     bpy.ops.export_scene.gltf(filepath=os.path.abspath(OUT), export_format='GLB', export_texcoords=True, export_normals=True, export_extras=True,
+-                              export_yup=True, export_image_format='AUTO', export_lights=False, export_cameras=False)
++                              export_yup=True, export_image_format='AUTO', export_lights=False, export_cameras=False, export_gpu_instances=KEEP_INST)
+     print('uvonly exported', OUT, flush=True); sys.exit(0)
+ 
+ # ---- 4. 貼圖＋每個材質裡一個「要寫進去」的貼圖節點（Cycles 烘焙寫到作用中的貼圖節點，用作用中的 UV）----
+@@ -416,5 +419,5 @@ if URL:
+     if DAYEMIT: LMX['dayEmit'] = sorted(DAYEMIT)   # 只在白天那一張發光的材質（--dayemit：天窗）：遊戲的 Z3.roomLightmap 晚上把它們調暗（不然遊戲裡整晚照樣亮；RT-NIGHT-1028）
+     sc['lightmap'] = LMX
+ bpy.ops.export_scene.gltf(filepath=os.path.abspath(OUT), export_format='GLB', export_texcoords=True, export_normals=True, export_extras=True,
+-                          export_yup=True, export_image_format='AUTO', export_lights=False, export_cameras=False)
++                          export_yup=True, export_image_format='AUTO', export_lights=False, export_cameras=False, export_gpu_instances=KEEP_INST)
+ print('exported', OUT, flush=True)
+diff --git a/tools/blender/env_second/lightbake/library_3f_lm.json b/tools/blender/env_second/lightbake/library_3f_lm.json
+new file mode 100644
+index 000000000..7ca4d2c72
+--- /dev/null
++++ b/tools/blender/env_second/lightbake/library_3f_lm.json
+@@ -0,0 +1,145 @@
++{
++ "scale": 2.0,
++ "intensity": 6.283185307179586,
++ "res": 1024,
++ "samples": 512,
++ "emit": {},
++ "dayemit": {},
++ "sun": [
++  200.0,
++  38.0,
++  0.6
++ ],
++ "sky": 0.12,
++ "nightsky": 0.03,
++ "shell": "N",
++ "daylights": 1.0,
++ "lights": "-4.010,-3.990,-3.010,-2.990,3.960,1,1,16,4.36,0.2,0.95,0.98,1.0;3.990,4.010,-3.010,-2.990,3.960,1,1,16,4.36,0.2,0.95,0.98,1.0;-4.010,-3.990,0.590,0.610,3.960,1,1,16,4.36,0.2,0.95,0.98,1.0;3.990,4.010,0.590,0.610,3.960,1,1,16,4.36,0.2,0.95,0.98,1.0;-4.010,-3.990,4.190,4.210,3.960,1,1,16,4.36,0.2,0.95,0.98,1.0;3.990,4.010,4.190,4.210,3.960,1,1,16,4.36,0.2,0.95,0.98,1.0;-0.010,0.010,-5.410,-5.390,3.970,1,1,12,1.14,0.54,0.95,0.98,1.0;-0.010,0.010,-1.210,-1.190,3.970,1,1,12,1.14,0.54,0.95,0.98,1.0;-0.010,0.010,2.390,2.410,3.970,1,1,12,1.14,0.54,0.95,0.98,1.0;-0.010,0.010,6.190,6.210,3.970,1,1,12,1.14,0.54,0.95,0.98,1.0;-8.610,-8.590,6.390,6.410,3.970,1,1,12,1.14,0.54,0.95,0.98,1.0;8.590,8.610,6.390,6.410,3.970,1,1,12,1.14,0.54,0.95,0.98,1.0;-8.410,-8.390,-5.810,-5.790,3.970,1,1,12,1.14,0.54,0.95,0.98,1.0;8.390,8.410,-5.810,-5.790,3.970,1,1,12,1.14,0.54,0.95,0.98,1.0;-8.410,-8.390,0.590,0.610,3.970,1,1,12,1.14,0.54,0.95,0.98,1.0;-8.410,-8.390,2.990,3.010,3.970,1,1,12,1.14,0.54,0.95,0.98,1.0;7.590,7.610,3.590,3.610,3.970,1,1,12,1.14,0.54,0.95,0.98,1.0;7.590,7.610,-4.210,-4.190,3.970,1,1,12,1.14,0.54,0.95,0.98,1.0",
++ "points": "-5.600,1.060,-3.000,3,1.0,0.82,0.6;-4.000,1.060,-3.000,3,1.0,0.82,0.6;-2.400,1.060,-3.000,3,1.0,0.82,0.6;2.400,1.060,-3.000,3,1.0,0.82,0.6;4.000,1.060,-3.000,3,1.0,0.82,0.6;5.600,1.060,-3.000,3,1.0,0.82,0.6;-5.600,1.060,0.600,3,1.0,0.82,0.6;-4.000,1.060,0.600,3,1.0,0.82,0.6;-2.400,1.060,0.600,3,1.0,0.82,0.6;2.400,1.060,0.600,3,1.0,0.82,0.6;4.000,1.060,0.600,3,1.0,0.82,0.6;5.600,1.060,0.600,3,1.0,0.82,0.6;-5.600,1.060,4.200,3,1.0,0.82,0.6;-4.000,1.060,4.200,3,1.0,0.82,0.6;-2.400,1.060,4.200,3,1.0,0.82,0.6;2.400,1.060,4.200,3,1.0,0.82,0.6;4.000,1.060,4.200,3,1.0,0.82,0.6;5.600,1.060,4.200,3,1.0,0.82,0.6;-5.100,3.100,-3.000,12,0.95,0.98,1.0;-2.900,3.100,-3.000,12,0.95,0.98,1.0;2.900,3.100,-3.000,12,0.95,0.98,1.0;5.100,3.100,-3.000,12,0.95,0.98,1.0;-5.100,3.100,0.600,12,0.95,0.98,1.0;-2.900,3.100,0.600,12,0.95,0.98,1.0;2.900,3.100,0.600,12,0.95,0.98,1.0;5.100,3.100,0.600,12,0.95,0.98,1.0;-5.100,3.100,4.200,12,0.95,0.98,1.0;-2.900,3.100,4.200,12,0.95,0.98,1.0;2.900,3.100,4.200,12,0.95,0.98,1.0;5.100,3.100,4.200,12,0.95,0.98,1.0;0.000,3.100,-5.400,12,0.95,0.98,1.0;0.000,3.100,-1.200,12,0.95,0.98,1.0;0.000,3.100,2.400,12,0.95,0.98,1.0;0.000,3.100,6.200,12,0.95,0.98,1.0;-8.600,3.100,6.400,12,0.95,0.98,1.0;8.600,3.100,6.400,12,0.95,0.98,1.0;-8.400,3.100,-5.800,12,0.95,0.98,1.0;8.400,3.100,-5.800,12,0.95,0.98,1.0;-8.400,3.100,0.600,12,0.95,0.98,1.0;-8.400,3.100,3.000,12,0.95,0.98,1.0;7.600,3.100,3.600,12,0.95,0.98,1.0;7.600,3.100,-4.200,12,0.95,0.98,1.0",
++ "wb": {
++  "day": [
++   0.86,
++   0.9,
++   0.98
++  ],
++  "night": null
++ },
++ "objects": [
++  "l3_base",
++  "l3_bc0",
++  "l3_bc1",
++  "l3_bc2",
++  "l3_bc3",
++  "l3_bookmod_gen0",
++  "l3_bookmod_gen0.001",
++  "l3_bookmod_gen0.002",
++  "l3_bookmod_gen0.003",
++  "l3_bookmod_gen0.004",
++  "l3_bookmod_gen0.005",
++  "l3_bookmod_gen0.006",
++  "l3_bookmod_gen0.007",
++  "l3_bookmod_gen0.008",
++  "l3_bookmod_gen0.009",
++  "l3_bookmod_gen1",
++  "l3_bookmod_gen1.001",
++  "l3_bookmod_gen1.002",
++  "l3_bookmod_gen1.003",
++  "l3_bookmod_gen1.004",
++  "l3_bookmod_gen1.005",
++  "l3_bookmod_gen1.006",
++  "l3_bookmod_gen1.007",
++  "l3_bookmod_gen1.008",
++  "l3_bookmod_gen1.009",
++  "l3_bookmod_gen1.010",
++  "l3_bookmod_gen1.011",
++  "l3_bookmod_gen1.012",
++  "l3_bookmod_gen1.013",
++  "l3_bookmod_gen2",
++  "l3_bookmod_gen2.001",
++  "l3_bookmod_gen2.002",
++  "l3_bookmod_gen2.003",
++  "l3_bookmod_gen2.004",
++  "l3_bookmod_gen3",
++  "l3_bookmod_gen3.001",
++  "l3_bookmod_gen3.002",
++  "l3_bookmod_gen3.003",
++  "l3_bookmod_gen3.004",
++  "l3_bookmod_gen3.005",
++  "l3_bookmod_gen4",
++  "l3_bookmod_gen4.001",
++  "l3_bookmod_gen4.002",
++  "l3_bookmod_gen4.003",
++  "l3_bookmod_gen4.004",
++  "l3_bookmod_gen5",
++  "l3_bookmod_gen5.001",
++  "l3_bookmod_gen5.002",
++  "l3_bookmod_gen5.003",
++  "l3_bookmod_gen5.004",
++  "l3_bookmod_gen5.005",
++  "l3_bookmod_gen6",
++  "l3_bookmod_gen6.001",
++  "l3_bookmod_gen6.002",
++  "l3_bookmod_gen6.003",
++  "l3_bookmod_gen6.004",
++  "l3_bookmod_gen6.005",
++  "l3_bookmod_gen6.006",
++  "l3_bookmod_gen7",
++  "l3_bookmod_gen7.001",
++  "l3_bookmod_gen7.002",
++  "l3_bookmod_gen7.003",
++  "l3_bookmod_gen7.004",
++  "l3_bookmod_gen7.005",
++  "l3_bookmod_gen8",
++  "l3_bookmod_gen8.001",
++  "l3_bookmod_gen8.002",
++  "l3_bookmod_gen8.003",
++  "l3_bookmod_gen8.004",
++  "l3_bookmod_gen8.005",
++  "l3_bookmod_gen8.006",
++  "l3_bookmod_gen8.007",
++  "l3_bookmod_gen8.008",
++  "l3_bookmod_journal1",
++  "l3_bookmod_journal1.001",
++  "l3_bookmod_journal1.002",
++  "l3_bookmod_journal3",
++  "l3_bookmod_journal3.001",
++  "l3_bookmod_journal4",
++  "l3_bookmod_journal4.001",
++  "l3_bookmod_journal4.002",
++  "l3_bookmod_ref0",
++  "l3_bookmod_ref0.001",
++  "l3_bookmod_ref2",
++  "l3_bookmod_ref2.001",
++  "l3_bookmod_ref2.002",
++  "l3_bookmod_ref2.003",
++  "l3_bookmod_ref2.004",
++  "l3_bookmod_ref2.005",
++  "l3_bookmod_ref3",
++  "l3_bookmod_ref3.001",
++  "l3_bookmod_ref3.002",
++  "l3_bookmod_ref3.003",
++  "l3_bookmod_ref4",
++  "l3_bookmod_ref4.001",
++  "l3_ceil",
++  "l3_floor",
++  "l3_top",
++  "l3_walnut",
++  "WALL_back_base",
++  "WALL_back_cornice",
++  "WALL_back_frame",
++  "WALL_back_plaster",
++  "WALL_back_walnut",
++  "WALL_front_base",
++  "WALL_front_cornice",
++  "WALL_front_plaster",
++  "WALL_front_walnut",
++  "WALL_left_base",
++  "WALL_left_cornice",
++  "WALL_left_plaster",
++  "WALL_left_walnut",
++  "WALL_right_base",
++  "WALL_right_cornice",
++  "WALL_right_plaster",
++  "WALL_right_walnut"
++ ]
++}
+\ No newline at end of file
+diff --git a/tools/blender/env_second/lightbake/lm_fix_hidden.py b/tools/blender/env_second/lightbake/lm_fix_hidden.py
+index e2c5b3b8a..64e6b36ec 100644
+--- a/tools/blender/env_second/lightbake/lm_fix_hidden.py
++++ b/tools/blender/env_second/lightbake/lm_fix_hidden.py
+@@ -32,6 +32,10 @@ from PIL import Image
+ A = sys.argv[sys.argv.index('--') + 1:]
+ def arg(k, d=None): return A[A.index(k) + 1] if k in A else d
+ IN, OUT, LMP = arg('--in'), arg('--out'), arg('--lm'); THR = float(arg('--thr', '0.004')); LIT = float(arg('--lit', '0.02')); REPORT = arg('--report'); DEBUG = arg('--debug')
++def gpu_inst(p):   # 輸入的 GLB 有沒有用 EXT_mesh_gpu_instancing（bake_room.py --keep-instances 留下的書）：有才照樣寫回去（10-31）
++    import struct
++    with open(p, 'rb') as f: h = f.read(20); n = struct.unpack('<I', h[12:16])[0]; return 'EXT_mesh_gpu_instancing' in json.loads(f.read(n)).get('extensionsUsed', [])
++KEEP_INST = gpu_inst(IN)
+ 
+ def load(p):
+     a = np.asarray(Image.open(p).convert('RGB')).astype(np.float32) / 255
+@@ -166,6 +170,8 @@ for (o, bm, uv, bad, mw, mn) in OBJ:
+ print(json.dumps({'lm_fix_hidden': st}, ensure_ascii=False), flush=True)
+ if DEBUG: json.dump(DBG, open(DEBUG, 'w', encoding='utf-8'), ensure_ascii=False)
+ if REPORT: json.dump({k: {h: [n, round(a, 3)] for h, (n, a) in v.items()} for k, v in REP.items()}, open(REPORT, 'w', encoding='utf-8'), ensure_ascii=False, indent=1)
++# export_gpu_instances（10-31）：輸入有實例（bake_room.py --keep-instances 留下的書）才照舊寫成 EXT_mesh_gpu_instancing。
++#   不能一律打開：其他模型共用網格的物件（遊戲照名字找的節點）會被改成實例
+ bpy.ops.export_scene.gltf(filepath=os.path.abspath(OUT), export_format='GLB', export_texcoords=True, export_normals=True, export_extras=True,
+-                          export_yup=True, export_image_format='AUTO', export_lights=False, export_cameras=False)
++                          export_yup=True, export_image_format='AUTO', export_lights=False, export_cameras=False, export_gpu_instances=KEEP_INST)
+ print('exported', OUT, flush=True)

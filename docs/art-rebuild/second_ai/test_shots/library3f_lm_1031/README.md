@@ -28,7 +28,7 @@
      - `bake_room.py`、`lm_fix_hidden.py`：匯出時保留 GPU instancing（第五節）；
      - 新的 `bake_library_3f.sh`；
      - 烘焙紀錄 `library_3f_lm.json`。
-3. **法律學院圖書館**（第五節）：換 `assets/models/env/lawlib_interior.glb`＋`lawlib_interior_lm_day.webp`、`_night.webp`，烘焙紀錄 `lawlib_interior_lm.json` 在同一份 patch。
+3. **法律學院圖書館**（第五節）：只換 `assets/models/env/lawlib_interior.glb`。光照貼圖兩張、烘焙紀錄和開發分支一模一樣，不用換。
 
 ## 二、白天、晚上的參數（遊戲內試了三版）
 
@@ -88,8 +88,36 @@
 
 ## 五、法律學院圖書館的書：GPU instancing 遺失（我 10-30 交件的問題）
 
-（法圖重烘完補）
+- **怎麼發現的**：總圖 3F 試烘以後，書從 16 個實例節點變成 165 個節點。
+  - 書照 `--keep-instances` 不展開、不烘，可是 `bake_room.py`、`lm_fix_hidden.py` 匯出時沒寫 `export_gpu_instances`。
+  - Blender 匯出的時候把每一個實例寫成各自的節點；遊戲裡一個節點一次 draw call。
+- **查了全部有光照貼圖的模型**：只有法律學院圖書館（10-30 LAWLIB-LM、LM-COLLAPSE 兩次都是我烘的）受影響。
+  - 開發分支現在的 `lawlib_interior.glb`：800 節點、0 個實例。烘以前（`a743e092a`）是 137 節點、27 個實例。
+  - 其他烘過的模型沒有用 `--keep-instances`，不受影響。
+- **工具修好**：
+  - `bake_room.py`：`--keep-instances` 時匯出也寫 GPU instancing。
+  - `lm_fix_hidden.py`：輸入的 GLB 有 GPU instancing 才照樣寫回去。不能一律打開：其他模型共用網格的物件（遊戲照名字找的節點）會被改成實例。
+- **法圖重烘**（`bake_lawlib.sh 512`，參數沒改）：
+  - 137 節點、27 個實例（一、二樓的書，和烘以前同一組）。
+  - **光照貼圖和開發分支逐像素相同**（白天、晚上兩張），烘焙紀錄 json 也相同：只要換 `lawlib_interior.glb`。
+- **效能**（藏路人；`interior_perf.py` `HIDE_NPC=1`；14:00；SwiftShader，手機實機沒量）：
+
+| 位置 | draw call（前／左／右／後） | 三角形（前／左／右／後） |
+|---|---|---|
+| 一樓入口 | 253／140／266／165 → 226／147／262／157 | 11.3／10.3／11.0／10.5 萬 → 17.8／10.9／20.3／11.6 萬 |
+| 二樓書庫（584 民法前） | **1008／453／758／303 → 417／291／388／258** | 19.6／12.8／16.0／11.2 萬 → 20.2／17.4／20.1／17.3 萬 |
+
+- 二樓書庫往前看 draw call 少了六成。三角形多一點：實例的書是整組一起畫，不像一本一個節點的時候，看不到的書會先被剔掉。
+- 畫面一模一樣（同角度，左＝開發分支現在，右＝重烘）：
+
+![法圖：上＝二樓書庫，下＝一樓入口](lawlib_instancing_cmp.webp)
 
 ## 六、測試
 
-（全部 Node 跑完補）
+- **全部 Node**（測試樹＝最新開發 `a54a7d860`＋這一包＋重烘的法圖）：780 支裡 778 過，2 支 FAIL，都不是這一包的：
+  - `xinci_romance_unit.js`：用 `git show` 讀企劃線的稿，我這邊沒 fetch。fetch `claude/cool-heisenberg-o8kuqx` 以後 ALL PASS。
+  - `r2y4b_events_unit.js`（PS1 台南的期末飯，地點字幕台南）：**開發分支原樣也 FAIL**（拿掉這一包重跑一樣），應該和 `a54a7d860`（walkPlace 地點字幕）有關，給你看。
+- 新測試：
+  - `library_3f_lm_unit.js`：開發分支原樣 FAIL 2（沒有光照貼圖、沒有第二套 UV），改後 ALL PASS。
+  - `lm_instancing_unit.js`：開發分支原樣 FAIL（法圖 800 節點、0 個實例），換重烘的法圖以後 ALL PASS。
+- patch 對最新開發 `a54a7d860` 用 `git apply --check` 檢查通過。
