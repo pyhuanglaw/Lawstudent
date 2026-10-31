@@ -37019,9 +37019,9 @@
    "title": "總圖、行政大樓、文學院、校史館的門廊柱子擋跟隨鏡頭（總圖門口往旁邊 2.6 m 柱子切掉半個人）：照法律系館A的做法，campus_hall.py 柱子拆 seethru_ 材質、重新匯出四棟 GLB、attachWenzhouModel 認 seethru_",
    "area": "ART",
    "owner": "LAWWW2",
-   "status": "已整合待測試",
+   "status": "進行中",
    "priority": "P2",
-   "next": "【10-31 09:4x】BB-B n27_halls：總圖、行政大樓、文學院 PASS（正對、左右斜 35°，總圖 75%～100%）；校史館 4 張整個畫面是米色石面（柱子只佔 0.4～2.8%＝擋住的不是 seethru 柱子），BB n27_halls_c 用射線記擋著的網格｜【10-31 06:4x】LAWWW2 df50d290f 整合：campus_hall.py 門廊石柱 seethru_ck_col、拱廊柱墩 seethru_ck_pier（收邊、牆不透），四棟重新匯出（三角形、貼圖不變）；attachWenzhouModel 認 seethru_；校史館往西 1.3 m 0%→35%、文學院 28%→43%；draw call 最多 +3%；campus_hall_pillar_seethru_unit（修改前 FAIL 11）→ BB 看四棟門廊往旁邊走｜晨思鐘鐘亭擋鏡頭另開 CAM-BELL-1031（P3）｜【10-31 05:5x】LAWWW-B 決定做（總圖經濟系那年、法律系都常去）；LAWWW2 BUG-CAM-PILLAR-LAWA-1031 順便看到的；做完回 INTERIOR-AAA-REVIEW-1028",
+   "next": "【10-31 10:0x】BB-B n27_halls_b／d：總圖 75%～100%、行政大樓 92%～100%、文學院 98%～100% PASS；校史館 4 個角度被門廊兩端 his_trim（ck_trim，不透、沒碰撞）整片擋住＝遊戲，已派 LAWWW2 把角柱從 ck_trim 分出來標 seethru_（書店做到安全點先做）→ 交件後 BB 重量校史館 4 個角度｜【10-31 09:4x】BB-B n27_halls：總圖、行政大樓、文學院 PASS（正對、左右斜 35°，總圖 75%～100%）；校史館 4 張整個畫面是米色石面（柱子只佔 0.4～2.8%＝擋住的不是 seethru 柱子），BB n27_halls_c 用射線記擋著的網格｜【10-31 06:4x】LAWWW2 df50d290f 整合：campus_hall.py 門廊石柱 seethru_ck_col、拱廊柱墩 seethru_ck_pier（收邊、牆不透），四棟重新匯出（三角形、貼圖不變）；attachWenzhouModel 認 seethru_；校史館往西 1.3 m 0%→35%、文學院 28%→43%；draw call 最多 +3%；campus_hall_pillar_seethru_unit（修改前 FAIL 11）→ BB 看四棟門廊往旁邊走｜晨思鐘鐘亭擋鏡頭另開 CAM-BELL-1031（P3）｜【10-31 05:5x】LAWWW-B 決定做（總圖經濟系那年、法律系都常去）；LAWWW2 BUG-CAM-PILLAR-LAWA-1031 順便看到的；做完回 INTERIOR-AAA-REVIEW-1028",
    "first": {
     "term": "Y0S1",
     "week": 1,
@@ -37038,8 +37038,8 @@
     "spec": "同 BUG-CAM-PILLAR-LAWA-1031 的做法",
     "branch": "claude/funny-albattani-iawshm",
     "acceptance": "四棟門口往旁邊走，柱子擋到玩家時網點透空；牆、收邊不透",
-    "receiver": "BB",
-    "ack": "ACTIONED"
+    "receiver": "LAWWW",
+    "ack": "SENT"
    }
   },
   {
