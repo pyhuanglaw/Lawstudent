@@ -8,6 +8,7 @@
     - 公寓：重匯的白模和部署中的一模一樣（三角形、材質、3,914,088 bytes）→ 可以直接烘；改前截圖在 scratchpad `usapt/before_*`；第一版烘焙中（`usapt/v1`）。
     - 新測試 `tests/us_apartment_lm_unit.js`（只在 scratchpad 的 devclean，交件時進 patch；開發原樣 FAIL 2）。
     - 法學院圖書館、亞洲超市的改前截圖在拍（`uslib/`、`usam/`；鏡頭 `shots/us_rooms_lm_shots.py`）。法圖的天窗、彩色玻璃烘完要 `--drop-dayemit`（遊戲 skyTint 自己調）。
+  - LAWWW-B 21:03 知會 X150（使用者：台詞之後整批照影劇參照重寫，AA 分批交）：場景、模型不受影響；圖上有字的東西 AA 改了那句才會另外派，現在不動。
 - **20:5x**：
   - 已交（發布基準 39f68236c 凍結中，LAWWW-B 先放本機分支 feat-art-1031，發布後合）：B1 光照（2875f8aef）、CAM-BELL（8119766b1，已進 feat-art-1031）、
     LAMPSHADE-FLIP（9cc4810f2：118 巷 8＋溫州街 3，`glb_flip_insideout.py` 只翻燈罩＋腳本輪廓反過來）、D88 搬檔清單（5a9ca703f：`patches/D88_support_sources_1031.md/.txt`）。
