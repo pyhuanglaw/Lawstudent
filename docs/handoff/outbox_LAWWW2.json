@@ -4542,6 +4542,26 @@
    "state": "已交付（READY_FOR_REVIEW）",
    "remaining": "讀像素那一段拿掉了（每站 1.4～5.1 秒 → 0～3 ms），但 18 站整體在 SwiftShader 看不出變快（雜訊 ±5～12 秒；室內第一次黑畫面合計 37.6→19.1 秒，但淡入後新編 shader 變多）；剩下的是 prewarm settle 4～7 秒、等 GPU 的長格——載入流程，要你決定；要實機數字",
    "next": "LAWWW 看 README 決定要不要整合 patch（對 610d74642 做的，最新 890f8f3f7 git apply --check 通過）；Node 772／3（三支開發原樣也 FAIL：讀不到 AA 的稿）；招牌同角度一樣、rtNight 13 間一樣"
+  },
+  {
+   "branch": "claude/funny-albattani-iawshm",
+   "sha": "(這一次 commit)",
+   "noDirectIntegrate": false,
+   "receiver": "LAWWW",
+   "ack": "SENT",
+   "task": "ART-ECON-3D-GAP-1021 A：共同教學館室內正式模型（原本程序化）＋光照烘焙；lightbake 工具 patch（LAWWW-B 10-31 00:4x 要的）",
+   "files": [
+    "assets/models/env/second_ai/gongtong_interior.glb",
+    "assets/models/env/second_ai/gongtong_interior.json",
+    "assets/models/env/second_ai/gongtong_interior_lm_day.webp",
+    "assets/models/env/second_ai/gongtong_interior_lm_night.webp",
+    "docs/art-rebuild/second_ai/patches/gongtong_interior_1030.patch",
+    "docs/art-rebuild/second_ai/patches/lightbake_tools_1031.patch",
+    "docs/art-rebuild/second_ai/test_shots/gongtong_int_1030/"
+   ],
+   "state": "已交付（READY_FOR_ART_REVIEW）",
+   "remaining": "教室單人桌椅、休息區、自習區桌椅還是遊戲的方塊；關著的房間門牌跟著備用群組藏起來（teach3d.js 的事，你決定）；102、201 白天稍暖",
+   "next": "LAWWW 整合：換二進位＋套 gongtong_interior_1030.patch（assets3d.js 一行＋測試）＋lightbake_tools_1031.patch（工具）；Node 776／0；兩份對 d9a3691a4 apply --check 通過"
   }
  ]
 }

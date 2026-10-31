@@ -97,4 +97,7 @@
 
 ## 測試
 
-（量測中）
+- 全部 Node：**776 過、0 失敗**。測試樹＝開發 `44337adcb`＋這一包，同時套了 `lightbake_tools_1031.patch`。
+  - 新的 `gongtong_interior_glb_unit.js` ALL PASS。
+  - `room_ceiling_unit.js`（加了共同）ALL PASS。
+- 兩份 patch 對最新開發 `d9a3691a4` 都 `git apply --check` 通過。

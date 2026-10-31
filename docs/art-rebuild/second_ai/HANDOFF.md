@@ -1,16 +1,16 @@
 # LAWWW2 交接紀錄（隨時更新；工作階段中斷時從這裡接）
 
-## ⏱ 現況（LAWWW2-B，2026-10-30 23:3x UTC；帳號 B 七天額度已到警示，隨時可能被切斷——接手的先讀這一段）
+## ⏱ 現況（LAWWW2-B，2026-10-31 01:5x UTC；帳號 B 七天額度已到警示，隨時可能被切斷——接手的先讀這一段）
 
 - **剛交、已整合：NOODLE-LM-1030 麵店＋LM-COLLAPSE-1030 第一間（法律學院圖書館）**（`ee96b798f`→LAWWW-B 整合 2c65d66f1；`test_shots/noodle_lm_1030/README.md`、`test_shots/lm_collapse_1030/README.md`）。樓梯間欄杆影子糊：LAWWW-B 先不排（D99 只記錄）。
 - **LM-COLLAPSE-1030 四間都交了**（`test_shots/lm_collapse_1030/README.md` 有總結表）：法圖、總圖大廳、宿舍四人房已整合；201 也已整合（LAWWW-B 22:09，全部 Node 773／0）。
 - **PERF-ZONE-ENTER-1018 第三輪已整合**（LAWWW-B 23:2x，`44337adcb`）。剩下的載入流程（prewarm settle、等 GPU、路人 VRM）LAWWW-B 先做量測面板，我不接。
 - **正在做：ART-ECON-3D-GAP-1021**（LAWWW-B 23:2x）：清單 `docs/art-rebuild/second_ai/ECON_3D_GAP_STATUS_1030.md`（j7～j13 全部已整合、各自的 commit；還沒做 A～H）。
   - 開工順序：A 共同教學館室內正式模型（`teach_interior.py --set gongtong`，現在是程序化）→ B 普通教學館光照烘焙 → C 總圖 3F 閱覽區光照烘焙。
-  - **A 進行中**（測試樹 `scratchpad/slwt`＝開發 44337adcb＋改動）：`teach_interior.py --set gongtong` 已建好（69 物件、28,990 三角形、31 材質）；manifest＋`tests/gongtong_interior_glb_unit.js`＋`room_ceiling_unit.js` 的 patch 在 `patches/gongtong_interior_1030.patch`（檢查點 4bbea100a）；`bake_gongtong.sh` 512 取樣烘焙中；改前截圖在 `scratchpad/gongtong/before`（`shots/gongtong_int_shots.py`）。
-  - 下一步：烘完 → 改後截圖 → 看門牌（furniture_study 的門跟著備用群組藏起來）→ Node 全套 → README `test_shots/gongtong_int_1030/` → 交件。
-  - **注意（00:2x 查到）：開發分支的 `tools/blender/env_second/lightbake/bake_room.py` 是舊版**（沒有 10-30 的 collapse_black 整面取樣修正、沒有 --points 半徑）；`lm_squash_scan.py`、`bake_boya.sh` 也舊、沒有 `bake_soclib.sh`。開發分支只整合了重烘出來的 GLB，工具沒進去。
-    在開發分支的測試樹重烘前，**先從 `claude/funny-albattani-iawshm` 複製 lightbake 的工具**（第一次烘共同教學館用到舊版：一樓地板一半 168 m²、北牆被壓扁；已重烘）。
+  - **A 已交**（共同教學館室內正式模型＋光照烘焙；README `test_shots/gongtong_int_1030/README.md`；patch `gongtong_interior_1030.patch`＋`lightbake_tools_1031.patch`；Node 776／0）。等 LAWWW-B ACK／整合。
+    - 白天參數不能照博思（天光 0.18、白平衡 1.0,0.98,0.95、白天燈 0.6，理由在 `bake_gongtong.sh` 開頭）。
+  - 下一件：B 普通教學館光照烘焙（`putong_interior.glb`；窗大的教室白天參數照共同的試）→ C 總圖 3F 閱覽區。
+  - **注意**：開發分支的 `lightbake/bake_room.py` 是舊版（沒有 collapse_black 整面取樣）：LAWWW-B 整合 `lightbake_tools_1031.patch` 以前，在開發分支測試樹重烘要先從這個分支複製工具。
 - **NAV-LIBHALL-ISLAND-1030 已交、已整合（cfb70a5fd，`patches/libhall_island_1030.patch`；LAWWW-B 21:37）**（P2）：總圖大廳一樓約 (5.85,-8.4) 2 格導航孤島（換回舊 GLB 也一樣）；改 `library_layout.js` 阻擋接回大塊或封掉；`tests/library_copier_unit.js` 有 FAIL 就 exit 1（原本 FAIL 也 exit 0）；跑 `nav_buildings_unit`。
 - 已交、已整合：SOCLIB-LM-1030＋BOYA n19（3bc7a8800）。
 - **X133 第二版等使用者的地圖或照片**（使用者 10-30 16:5x 回 LAWWW-B）：第一版照舊在遊戲裡（f75d60a4c），第二版不要再猜。
