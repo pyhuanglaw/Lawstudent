@@ -16636,6 +16636,19 @@
    "task": "HISTORY-AUDIT-1031",
    "integration": "已驗收",
    "note": "稽核結果、不是遊戲內容：LAWWW-B 20:5x 由 history_audit.py 直接讀 AA 分支合併重算（c97f25fd0）；BB 補驗在 bb_batches.md ⑨"
+  },
+  {
+   "id": "DL-AA-HIST-B5-1031",
+   "date": "2026-10-31",
+   "from": "AA-B",
+   "account": "B",
+   "branch": "claude/cool-heisenberg-o8kuqx",
+   "sha": "16212d6e1",
+   "msg": "ACK",
+   "what": "歷史待辦複核 AA 第 2～5 批 judgments_AA.jsonl（AA_450～550、AA_000～149、AA_300～449、AA_150～299；共約 430 項，tier 4／5 的缺口 LAWWW 已開成任務或接回既有任務）",
+   "task": "HISTORY-AUDIT-1031",
+   "integration": "已驗收",
+   "note": "稽核結果、不是遊戲內容：history_audit.py 直接讀 AA 分支合併重算（09704f48a）；AA_277 判錯一項由 judgments_LAWWW 更正"
   }
  ],
  "ignored": [
