@@ -37941,6 +37941,35 @@
     "receiver": "LAWWW-B",
     "ack": "ACK"
    }
+  },
+  {
+   "id": "DIALOGUE-DEPTH-1031",
+   "title": "台詞深度（使用者 10-31 21:0x 對 AA-B，USER_WANTS X150，永久）：每個角色至少一個影劇參照對象，照「這個人會怎麼說」重寫台詞，不改故事；先閒聊階梯 → 走路／邀約回覆 → 手機 → 事件 → 配角",
+   "area": "STORY",
+   "owner": "AA",
+   "status": "進行中",
+   "priority": "P1",
+   "next": "【10-31 23:5x】AA_557（企劃線 508af2a80）參照表＋九段樣本，AA 用點選題問使用者方向；確認後分批交 LAWWW 換字（只換字：旗標、條件、選項數、結果不動；import 工具、白名單照舊）；BB 每批照舊測；日本／美國路線缺口表暫停到第一批交出以後（AA scratchpad 有掃描結果）",
+   "first": {
+    "term": "META",
+    "week": 0,
+    "earliest": "全遊戲",
+    "mainline": true,
+    "blocks": false,
+    "prereq": false,
+    "parallel": true,
+    "confirmed": true
+   },
+   "source": "使用者 10-31 21:0x 直接對 AA-B（UA-AA-1031-02）",
+   "authorized": "使用者原話",
+   "xai": {
+    "spec": "AA_557（企劃線 508af2a80）",
+    "owner": "BB",
+    "branch": "claude/elegant-brown-fcos7n",
+    "acceptance": "照規格交付、互審紀錄",
+    "receiver": "LAWWW",
+    "ack": "ACK"
+   }
   }
  ]
 }
