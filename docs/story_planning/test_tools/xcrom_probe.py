@@ -567,7 +567,17 @@ async def s_te_other(p, run, base, sid, out):
         okp = g['all'] and g['heartWhy'] is True and g['others'] == [ZQ] and g['hidden'] == want_hidden
         run.check('%s：前置——門檻全過、心意邀約照發；交往中 %s、她不知道的 %s' % (sid, g['others'], g['hidden']), okp, J(g, 500))
         if not okp: return
-        q = await te_invite(pg, cdp, run, sid, res, 'Y3S2', INVITE, '2028-06-10')
+        # n27（03:4x）：c3a8aded9 起兩頓期末飯不排同一晚（TERMEND.teBusy 看 heartDay／gfDay）——和子晴交往中，子晴的女朋友期末約也在這個時段，
+        # 芯慈的心意飯（HEART.sameDay）可能排到別的晚上；先讓手機規則跑一下、讀 heartDay，再跳到那一天 11:52 等 12:00 的邀約
+        await pg.wait_for_timeout(6000)
+        TD = await pg.evaluate("(()=>{ const G=GAME.G, R=TERMEND.rec(G,'Y3S2')||{}, k=d=>d==null||d<0?d:CALENDAR.dateOf(d).key; const H={}, F={}; for(const i in (R.heartDay||{})) H[i]=k(R.heartDay[i]); for(const i in (R.gfDay||{})) F[i]=k(R.gfDay[i]);"
+                               " return {heart:H, gf:F, outs:((OUT.rec(G))||[]).filter(q=>q&&/^te_/.test(q.id||'')).map(q=>[q.id, CALENDAR.dateOf(q.day).key, q.h, q.state||null])}; })()")
+        res['te_days'] = TD; run.note('%s 學期末的日子：芯慈 heartDay %s、子晴 gfDay %s、已排的 %s' % (sid, J(TD.get('heart')), J(TD.get('gf')), J(TD.get('outs'))))
+        hk = (TD.get('heart') or {}).get(XC); gk = (TD.get('gf') or {}).get(ZQ)
+        run.check('%s：芯慈的心意飯和子晴的期末約不在同一晚（heartDay %s、gfDay %s）' % (sid, hk, gk), isinstance(hk, str) and (gk is None or gk != hk), J(TD))
+        if not isinstance(hk, str): return
+        if hk != '2028-06-10': await jump(pg, run, hk, 11.87, 'campus', sid)
+        q = await te_invite(pg, cdp, run, sid, res, 'Y3S2', INVITE, hk)
         if not q: return
         picks = [TELL_OPT, '「我喜歡妳。」'] if sid == 'TE_TELL' else ['「我喜歡妳。」']
         lg, T, CS = await te_dinner(pg, cdp, run, sid, res, 'Y3S2', q['key'], picks)
