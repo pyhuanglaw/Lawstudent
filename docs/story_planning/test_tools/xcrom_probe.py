@@ -498,6 +498,37 @@ async def s_lhcore(p, run, base, sid, out):
     finally: await finish_page(run, sid, res, errs, b)
 
 
+# n31_lhcore 10:42：手指轉鏡頭會進核心（E.colliders＝0）——再照玩家平常的走法量：從出生點先把鏡頭轉成看路線前方，點地面走去 B1 樓梯間門、去電梯，路上每隔幾步量一次
+LH_ROUTES = [('b1', '往 B1 樓梯間門（西牆 −11.8, −2.4）', [(-4.0, 3.0), (-6.4, -1.0), (-8.6, -2.4), (-10.1, -2.4)], (-11.8, -2.4)),
+             ('elev', '往電梯（東側 10.4, −3.6）', [(4.0, 3.0), (6.4, -1.2), (8.2, -3.4), (10.0, -3.6)], (10.4, -1.5))]
+
+
+@guard
+async def s_lhroute(p, run, base, sid, out):
+    """總圖大廳一樓：照玩家走去 B1 門、電梯；每一段先用手指把鏡頭轉成看下一個點（鏡頭在背後），走到再量鏡頭位置、在不在核心、玩家框裡看得到多少"""
+    res = out.setdefault(sid, {}); rows = []
+    b, pg, cdp, errs, r = await launch(p, run, base, '2025-09-26', 14.0, 'library_hall', quiet=True, label=sid + '（2025-09-26（五）14:00 總圖大廳出生點；quiet 讀檔）')
+    try:
+        await pg.wait_for_timeout(6000)
+        for tag, lab, pts, face in LH_ROUTES:
+            await pg.evaluate("(()=>{ const E=GAME.E; E.placeAt(E.player,0,6.6,0); E.player.path=null; })()"); await pg.wait_for_timeout(2500)
+            run.setup('[前置] %s：%s——回到出生點 (0, 6.6)（瞬移；之後照玩家轉鏡頭、點地面走）' % (sid, lab))
+            for i, (x, z) in enumerate(pts):
+                await L.turn_camera_to(pg, cdp, x, z); await pg.wait_for_timeout(800)
+                ok = await L.go_to(pg, cdp, run, x, z, 0.5, '%s %s 第 %d 點' % (sid, tag, i + 1), max_s=150, lv=0, stop=lambda s: s['dlg'] or s['choices'])
+                nx, nz = pts[i + 1] if i + 1 < len(pts) else face
+                await L.turn_camera_to(pg, cdp, nx, nz); await pg.wait_for_timeout(2500)
+                c = await pg.evaluate(CAMJS); await run.shot(pg, '%s_%s_%d' % (sid, tag, i + 1)); v = await simple_vis(pg)
+                cx, cz = c['cam'][0], c['cam'][2]; inside = LH_CORE[0] < cx < LH_CORE[1] and LH_CORE[2] < cz < LH_CORE[3]
+                row = {'route': tag, 'pt': i + 1, 'walked': ok, 'cam': c['cam'], 'player': c['player'], 'dist': c['dist'], 'mode': c['mode'], 'inCore': inside, 'vis': v.get('ratio')}
+                if inside or (v.get('ratio') or 0) < 0.05: row['hit'] = await pg.evaluate(HITJS)
+                rows.append(row); run.note('%s %s 第 %d 點：%s' % (sid, lab, i + 1, J(row, 1200)))
+        res['rows'] = rows
+        run.check('%s：兩條路都照玩家走得到' % sid, all(x['walked'] for x in rows), J([(x['route'], x['pt'], x['walked']) for x in rows]))
+        run.check('%s：走去 B1 門、電梯的路上，鏡頭看著前方時玩家框裡都看得到（≥ 5%%）' % sid, all((x['vis'] or 0) >= 0.05 for x in rows), J([(x['route'], x['pt'], x['vis'], x['cam'], x['inCore']) for x in rows]))
+    finally: await finish_page(run, sid, res, errs, b)
+
+
 @guard
 async def s_walk_lawa(p, run, base, sid, out):
     """BUG-CAM-PILLAR-LAWA-1031：平常從南邊走到法律系館A穿堂門口（沒有劇情、跟隨鏡頭），路上、到門口、3 秒、6 秒都量玩家看得到幾成"""
@@ -1208,12 +1239,12 @@ async def s_night_real(p, run, base, sid, out):
 ORDER = ['TE_ME_YES', 'TE_ME_NOTYET', 'TE_SHE_THINK', 'TE_TELL', 'TE_KNOWN', 'TE_FOUNDOUT',
          'AFTER_TELL', 'AN_KNOWS', 'AN_KNOWS_NO', 'FOUND',
          'REPAIR_OPEN', 'REPAIR_YES', 'REPAIR_NO',
-         'DAD2', 'DAD2_NO', 'WALK_LAWA', 'HALLS', 'LHCORE', 'COLD',
+         'DAD2', 'DAD2_NO', 'WALK_LAWA', 'HALLS', 'LHCORE', 'LHROUTE', 'COLD',
          'G2_DAD', 'BLANK', 'BLANK_AGAIN', 'G6_MAKEUP', 'NIGHT_A', 'NIGHT_B', 'NIGHT_REAL']
 FN = {'TE_ME_YES': s_te_me, 'TE_ME_NOTYET': s_te_me, 'TE_SHE_THINK': s_te_she, 'TE_TELL': s_te_other, 'TE_KNOWN': s_te_other, 'TE_FOUNDOUT': s_te_foundout,
       'AFTER_TELL': s_after_tell, 'AN_KNOWS': s_an_knows, 'AN_KNOWS_NO': s_an_knows, 'FOUND': s_found,
       'REPAIR_OPEN': s_repair_open, 'REPAIR_YES': s_repair_yes, 'REPAIR_NO': s_repair_no,
-      'DAD2': s_dad2, 'DAD2_NO': s_dad2, 'WALK_LAWA': s_walk_lawa, 'HALLS': s_halls, 'LHCORE': s_lhcore, 'COLD': s_cold,
+      'DAD2': s_dad2, 'DAD2_NO': s_dad2, 'WALK_LAWA': s_walk_lawa, 'HALLS': s_halls, 'LHCORE': s_lhcore, 'LHROUTE': s_lhroute, 'COLD': s_cold,
       'G2_DAD': s_g2, 'BLANK': s_blank, 'BLANK_AGAIN': s_blank_again, 'G6_MAKEUP': s_g6, 'NIGHT_A': s_night, 'NIGHT_B': s_night, 'NIGHT_REAL': s_night_real}
 
 
