@@ -336,25 +336,36 @@ async def mode_y2late(pg, cdp, run):
     台詞包 GAME.say 記（14:39 那一輪 __BBP.cap 是空的，判斷寫反）"""
     yr = os.environ.get('YR', '2')
     d906 = (await P.day_of(pg, '2026-09-06'))['d']
-    if yr == '3':
-        cases = [('2027-09-05', True), ('2027-10-13', False), ('2027-12-15', False), ('2028-02-15', False)]; key3 = '搬進第三個房間'
+    d905 = (await P.day_of(pg, '2027-09-05'))['d']
+    # YR=4（LAWWW-B 15:22，8d8aaad46）：ROOM_Y2、ROOM_Y3 都記、拿掉 ROOM_Y4。台灣路線 9/03 照演「（明天開學。最後一次搬進宿舍。）」、10/16、12/15 演到＝不該演；
+    # 美國路線 12/23 返台那天照演（「（傍晚，你從家裡出發，回宿舍。）」），1/10 演到＝別天；大四下 3/10 roomY4Late 直接記
+    if yr == '4':
+        cases = [('2028-09-03', True, 'TW'), ('2028-10-16', False, 'TW'), ('2028-12-15', False, 'TW'), ('2028-12-23', True, 'US'), ('2029-01-10', False, 'US'), ('2029-03-10', False, 'TW')]
+    elif yr == '3':
+        cases = [('2027-09-05', True, None), ('2027-10-13', False, None), ('2027-12-15', False, None), ('2028-02-15', False, None)]
     else:
-        cases = [('2026-09-06', True), ('2026-10-15', False), ('2027-10-13', False)]; key3 = '搬進新的房間'
+        cases = [('2026-09-06', True, None), ('2026-10-15', False, None), ('2027-10-13', False, None)]
     rows = []
-    for key, want in cases:
+    for key, want, route in cases:
         st, d = await P.base(pg, SAVE, key, 20.0, 'dorm'); F = st.setdefault('flags', {})
-        for k in ('ROOM_Y2', 'ROOM_Y3', 'ROOM_Y2_MOVING', 'ROOM_Y3_MOVING'): F.pop(k, None)
-        if yr == '3': F['ROOM_Y2'] = d906
+        for k in ('ROOM_Y2', 'ROOM_Y3', 'ROOM_Y4', 'ROOM_Y2_MOVING', 'ROOM_Y3_MOVING', 'ROOM_Y4_MOVING'): F.pop(k, None)
+        if yr in ('3', '4'): F['ROOM_Y2'] = d906
+        if yr == '4': F['ROOM_Y3'] = d905
+        if route: F['EXCHANGE_ROUTE'] = route; F['EXCH_RULE'] = 1
         await pg.evaluate("(()=>{ window.__SAYS=[]; if(!window.__SAYH){ window.__SAYH=1; const s0=GAME.say; GAME.say=function(w,t){ try{ window.__SAYS.push(String(t||'')); }catch(e){} return s0.apply(this,arguments); }; } })()")
         await P.load(pg, cdp, st, quiet=False)
-        run.setup('[前置] 使用者存檔改到 %s（%s 第 %s 週）20:00 宿舍；%s' % (d['key'], d['term'], d['week'], 'ROOM_Y2＝2026-09-06、沒有 ROOM_Y3' if yr == '3' else '沒有 ROOM_Y2'))
+        run.setup('[前置] 使用者存檔改到 %s（%s 第 %s 週）20:00 宿舍；%s%s' % (d['key'], d['term'], d['week'], {'3': 'ROOM_Y2＝2026-09-06、沒有 ROOM_Y3', '4': 'ROOM_Y2、ROOM_Y3 有、沒有 ROOM_Y4'}.get(yr, '沒有 ROOM_Y2'), ('；路線 %s' % route) if route else ''))
         await P.events_on(pg); await P.wait_play(pg, cdp, 20.2, max_s=600, run=run, tag='y%slate_%s' % (yr, key)); await pg.wait_for_timeout(2000)
         txt = await pg.evaluate("(window.__SAYS||[]).slice(0,40)")
-        r = await pg.evaluate("(()=>{ const F=GAME.G.flags, k=d=>d==null?null:CALENDAR.dateOf(d).key; return {y2:k(F.ROOM_Y2), y3:k(F.ROOM_Y3), now:CALENDAR.dateOf(GAME.G.day).key+' '+(+GAME.G.hour).toFixed(2)}; })()")
-        y2t = any('搬進新的房間' in t for t in txt); y3t = any('搬進第三個房間' in t for t in txt)
-        rows.append({'key': key, 'want': want, 'y2text': y2t, 'y3text': y3t, **r})
-        run.note('%s：演 312「搬進新的房間」%s、演 507「搬進第三個房間」%s；%s；說過的 %s' % (key, y2t, y3t, J(r), J(txt[:14])[:1200])); await run.shot(pg, 'y%slate_%s' % (yr, key))
+        r = await pg.evaluate("(()=>{ const F=GAME.G.flags, k=d=>d==null?null:CALENDAR.dateOf(d).key; return {y2:k(F.ROOM_Y2), y3:k(F.ROOM_Y3), y4:k(F.ROOM_Y4), zone:GAME.G.zone, now:CALENDAR.dateOf(GAME.G.day).key+' '+(+GAME.G.hour).toFixed(2)}; })()")
+        y2t = any('搬進新的房間' in t for t in txt); y3t = any('搬進第三個房間' in t for t in txt); y4t = any('最後一次搬進宿舍' in t or '409 的床位' in t or '你從家裡出發，回宿舍' in t for t in txt)
+        rows.append({'key': key, 'want': want, 'route': route, 'y2text': y2t, 'y3text': y3t, 'y4text': y4t, **r})
+        run.note('%s%s：演 312 %s、507 %s、409 %s；%s；說過的 %s' % (key, ('（%s）' % route) if route else '', y2t, y3t, y4t, J(r), J(txt[:14])[:1200])); await run.shot(pg, 'y%slate_%s' % (yr, key))
     first = rows[0]; rest = rows[1:]
+    if yr == '4':
+        for x in rows:
+            run.check('大四 409：%s（%s）%s' % (x['key'], x['route'], '照演' if x['want'] else '不演（也不演 312、507）'), (x['y4text'] if x['want'] else not (x['y4text'] or x['y3text'] or x['y2text'])), J(x))
+        return
     if yr == '3':
         run.check('大三開學前一天 2027-09-05 舊存檔：照演 507「（明天開學。今天搬進第三個房間。）」', first['y3text'], J(first))
         run.check('大三開學以後才讀進來（10/13、12/15、2/15）：不演 507、也不演 312', not any(x['y3text'] or x['y2text'] for x in rest), J(rest))
