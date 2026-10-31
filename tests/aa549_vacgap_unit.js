@@ -52,4 +52,38 @@ const txt=th=>(H.G.msgs||[]).filter(m=>PHONE.th(m)===th).map(m=>m.text);
   fresh('2027-07-20',20); H.FAMILIAR(yt); H.G.contacts[yt]=H.G.day-200; run('2027-07-21',21.1); run('2027-07-28',21.1);
   check('2-7. 只有有點熟（FAMILIAR）：收不到',!txt('p:'+yt).length,J(txt('p:'+yt))); }
 
-H.done();
+const ev=id=>STORY_EVENTS.find(e=>e.id===id);
+const playEv=async(id,picks)=>{ H.said=[]; H.opts=[]; H.picks=(picks||[]).slice(); await EVENTS.run(ev(id)); return H.lines(); };
+const atHome=()=>{ const Hm=HOME.rec(H.G); Hm.at=true; Hm.day=H.G.day; const B=HOME.lawBreak(H.G); Hm.lbreak=B.key; Hm.brk=B.key; Hm.bskip={key:B.key,n:0,last:-1}; };
+(async()=>{
+  /* ================= 2-4／3-2 2028 除夕的年夜飯 ================= */
+  { const k='2028-01-25'; fresh(k,18,{},'dorm'); atHome(); const e18=HOME.breakEvent(H.G); at(k,18.5); const e=HOME.breakEvent(H.G);
+    const stops=typeof HOLFF!=='undefined'?HOLFF.stops(Object.assign({},H.G,{hour:12}),T(D(k),12)):[];
+    check('3-2. 2028-01-25 除夕：18:00 還沒、18:30 在家＝ev_aa549_eve_y3；快轉／睡覺的停點有 18:30',!(e18&&e18.id==='ev_aa549_eve_y3')&&!!e&&e.id==='ev_aa549_eve_y3'&&(stops||[]).includes(T(D(k),18.5)),J([e18&&e18.id,e&&e.id]));
+    const head=['（除夕。爸爸今年早一天從上海回來，在廚房幫媽媽切菜，切得很慢。）','媽媽：你爸切的，每一塊大小都不一樣。','爸爸：法律系第三年。……明年要考了吧？'], tail=['姊姊：（塞給你一個紅包）這是我第一次包給你。不准拆給媽看。','（十點，爸爸在沙發上睡著了。電視在重播去年的跨年。）'];
+    const La=e?await playEv(e.id,['明年考']):[];
+    check('3-2. 選「明年考。」：開頭三句→爸爸「考試的事我不懂。你需要什麼，跟你媽說。」→姊姊的紅包、十點的旁白；演一次',J(La)===J(head.concat(['爸爸：考試的事我不懂。你需要什麼，跟你媽說。'],tail))&&J(H.opts[0])===J(['「明年考。」','「還沒決定考什麼。」'])&&!!H.G.events.done.ev_aa549_eve_y3&&!(HOME.breakEvent(H.G)&&HOME.breakEvent(H.G).id==='ev_aa549_eve_y3'),J(La));
+    fresh(k,18.5,{EXCHANGE_ROUTE:'JP'},'dorm'); atHome(); const ej=HOME.breakEvent(H.G); const Lb=ej?await playEv(ej.id,['還沒決定']):[];
+    check('3-2. 日本路線（2/20 才出發）照演；選「還沒決定考什麼。」：爸爸「不急。你姊也是大四才決定的。」、姊姊「我是大四下。」',!!ej&&ej.id==='ev_aa549_eve_y3'&&J(Lb)===J(head.concat(['爸爸：不急。你姊也是大四才決定的。','姊姊：我是大四下。'],tail)),J(Lb));
+    const all=head.concat(tail,['考試的事我不懂。你需要什麼，跟你媽說。','不急。你姊也是大四才決定的。','我是大四下。','明年考。','還沒決定考什麼。']).map(t=>t.replace(/^[^：（]{1,3}：/,''));
+    check('3-2. 台詞都在 AA_549 稿裡',!notIn(all).length,J(notIn(all)));
+    fresh(k,19,{},'dorm'); const ed=HOME.breakEvent(H.G);
+    check('3-2. 人不在家（宿舍）不演',!(ed&&ed.id==='ev_aa549_eve_y3'),J(ed&&ed.id)); }
+
+  /* ================= 2-5／3-3 只有一句旁白的兩次「約」 ================= */
+  { fresh('2026-02-07',18);
+    const head=['（寒假的麵店，客人只有兩桌。語彤在櫃台後面包餛飩。）','陳語彤：你來了。','陳語彤：今天的餛飩是我包的。形狀不一樣，味道一樣。','阿姨：她包的比我包的好看。不要跟她說。'];
+    const nm=SOCIAL.npcName('heroine_03'), fix=L=>L.map(t=>t.replace(nm+'：','陳語彤：'));
+    const a=fix(await playEv('ev_y1w_noodle_last',['點一碗'])), o=H.opts[0], b=fix(await playEv('ev_y1w_noodle_last',['寒假都在']));
+    check('3-3. 2026-02-07 語彤的麵店：場景＋「（點一碗餛飩湯）」→（她端過來。）「最醜的那顆是第一顆。你吃到了。」',J(a)===J(head.concat(['（她端過來。）','陳語彤：最醜的那顆是第一顆。你吃到了。']))&&J(o)===J(['「（點一碗餛飩湯）」','「妳寒假都在店裡？」']),J([a,o]));
+    check('3-3. 「妳寒假都在店裡？」→「嗯。過年那一個禮拜休息。」；Y1W_NOODLE_LAST 記 went',J(b)===J(head.concat(['陳語彤：嗯。過年那一個禮拜休息。']))&&H.G.flags.Y1W_NOODLE_LAST==='went',J(b));
+    fresh('2027-08-01',15); const zn=SOCIAL.npcName('heroine_04'), fz=L=>L.map(t=>t.replace(zn+'：','高子晴：'));
+    const zh=['（下午的兩點半 Café。子晴坐在最裡面，筆電貼滿貼紙，桌上兩杯冰美式。）','高子晴：一杯是你的。我猜你會遲到，所以先點了。冰塊都化了。','高子晴：我在做一個小遊戲。你幫我玩一關。'];
+    const c=fz(await playEv('ev_vf_y2_0801',['好'])), o2=H.opts[0], d=fz(await playEv('ev_vf_y2_0801',['實習']));
+    check('3-3. 2027-08-01 子晴的 Café：場景＋「好。」→（你玩了三分鐘，死了四次。）「很好。這就是我要的難度。」',J(c)===J(zh.concat(['（你玩了三分鐘，死了四次。）','高子晴：很好。這就是我要的難度。']))&&J(o2)===J(['「好。」','「妳在實習耶，週末還做？」']),J([c,o2]));
+    check('3-3. 「妳在實習耶，週末還做？」→「實習是別人的遊戲。這個是我的。」',J(d)===J(zh.concat(['高子晴：實習是別人的遊戲。這個是我的。'])),J(d));
+    const all=a.concat(b,c,d,o,o2).map(t=>t.replace(/^[^：（「]{1,4}：/,''));
+    check('3-3. 台詞都在 AA_549 稿裡',!notIn(all).length,J(notIn(all))); }
+
+  H.done();
+})().catch(e=>{ console.log('FAIL 例外 '+(e&&e.stack||e)); process.exit(1); });
