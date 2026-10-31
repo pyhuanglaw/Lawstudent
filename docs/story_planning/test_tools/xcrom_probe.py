@@ -25,6 +25,7 @@
  四、她爸爸 8-1、冷落 8-3
   DAD2          2029-04-27（五）17:25 法律系館A門口、交往中：四句 → 三個選項 →「她去哪，我都會在台北。」→「……走吧。他等一下會問你喜歡吃什麼。我會說。」；沒有「誰最強」
   DAD2_NO       同一天 17:53、沒交往：站在門口等到 18:02，不演
+  WALK_LAWA     BUG-CAM-PILLAR-LAWA-1031（3ba38e34a）：2029-04-26 16:00 從 (34,−99) 照玩家走到穿堂門口，路上、門口、3 秒、6 秒量玩家看得到幾成（DAD2／DAD2_NO 演完 3、6 秒也量）
   COLD          交往中 30 天沒約會，熬夜到 00:35（遊戲的寫法：前一天 24:35）→ 00:40 一則（不用回）、不分手、訊息時間＝現在；【前置】隔一晚同一時間不再傳
  五、新的時刻（AA_548 第 2、3、5 節）
   G2_DAD        3-1 大二上第 3 週週二 2026-09-22 17:56 巷口家常菜 → 18:00「我昨天又在幫我媽對帳。……」→「我想聽。」兩句、TALKED_FAMILY
@@ -348,12 +349,76 @@ CAMJS = """(()=>{ const E=GAME.E, c=E.camera.position, p=E.player.obj.position, 
     d:+Math.hypot(c.x-p.x,c.z-p.z).toFixed(2), yaw:C.yaw!=null?+(+C.yaw).toFixed(2):null, dist:C.dist!=null?+(+C.dist).toFixed(2):null, distTarget:C.distTarget!=null?+(+C.distTarget).toFixed(2):null, blend:!!C.blend, zone:GAME.G.zone}; })()"""
 
 
+# BUG-CAM-PILLAR-LAWA-1031（3ba38e34a）：柱子擋在鏡頭和玩家中間時網點透空——量「玩家看得到幾成」：
+#   同一個鏡頭拍四張（玩家／柱子各開關），玩家框裡「有玩家 vs 沒玩家」變了的像素 ÷ 柱子藏起來時同樣的數＝看得到的比例（LAWWW2 量 0%→39%）
+#   柱子＝材質 seethru_ext_granite_col 的網格；鏡頭不動（跟隨鏡頭只跟位置，藏玩家不影響）。路人在框裡走動會有一點誤差，看截圖為準
+PILLAR_MAT = 'seethru_ext_granite_col'
+VIS_BOX = """(()=>{ const E=GAME.E, o=E.player.obj.position, c=E.camera; c.updateMatrixWorld(); const xs=[], ys=[];
+  for(const dx of [-0.35,0.35]) for(const dz of [-0.35,0.35]) for(const dy of [0,1.8]){ const v=new THREE.Vector3(o.x+dx,o.y+dy,o.z+dz).project(c); xs.push((v.x*0.5+0.5)*innerWidth); ys.push((-v.y*0.5+0.5)*innerHeight); }
+  return [Math.max(0,Math.floor(Math.min(...xs))), Math.max(0,Math.floor(Math.min(...ys))), Math.min(innerWidth,Math.ceil(Math.max(...xs))), Math.min(innerHeight,Math.ceil(Math.max(...ys)))]; })()"""
+PILLAR_SET = """(on=>{ let n=0; GAME.E.scene.traverse(m=>{ if(!m.isMesh) return; const ms=Array.isArray(m.material)?m.material:[m.material]; if(!ms.some(x=>x&&x.name==='%s')) return; n++; if(on!==null) m.visible=on; }); return n; })""" % PILLAR_MAT
+ST_JS = "(()=>{ const S=GAME.E.seeThrough; return S?{r:+(+S.uSeeR.value).toFixed(1), mode:GAME.E.cam.mode}:null; })()"
+
+
+def _changed(a, b, box, thr=40):
+    import io
+    from PIL import Image, ImageChops
+    A = Image.open(io.BytesIO(a)).convert('RGB'); B = Image.open(io.BytesIO(b)).convert('RGB')
+    if box: A = A.crop(box); B = B.crop(box)
+    r, g, bb = ImageChops.difference(A, B).split(); d = ImageChops.lighter(ImageChops.lighter(r, g), bb)
+    px = list(d.getdata()); return sum(1 for v in px if v > thr), len(px)
+
+
+async def player_vis(pg):
+    """回傳 {vis:看得到的比例, seen, full, box, pillarScreen:柱子佔整個畫面的比例, st:網點透空半徑}；柱子不在場景裡就 None"""
+    n = await pg.evaluate(PILLAR_SET + "(null)")
+    if not n: return {'pillars': 0}
+    box = await pg.evaluate(VIS_BOX); st = await pg.evaluate(ST_JS)
+    async def shot(): await pg.wait_for_timeout(700); return await pg.screenshot()
+    try:
+        s1 = await shot()
+        await pg.evaluate("GAME.E.player.obj.visible=false"); s2 = await shot()
+        await pg.evaluate(PILLAR_SET + "(false)"); s4 = await shot()
+        await pg.evaluate("GAME.E.player.obj.visible=true"); s3 = await shot()
+    finally:
+        await pg.evaluate(PILLAR_SET + "(true)"); await pg.evaluate("GAME.E.player.obj.visible=true")
+    bx = tuple(box) if box and box[2] > box[0] and box[3] > box[1] else None
+    seen, _ = _changed(s1, s2, bx); full, _ = _changed(s3, s4, bx); pil, tot = _changed(s2, s4, None)
+    return {'pillars': n, 'vis': round(seen / full, 3) if full else None, 'seen': seen, 'full': full, 'box': box, 'pillarScreen': round(pil / tot, 3), 'st': st}
+
+
 async def cam_after(pg, run, sid, res):
-    """n27（04:2x）：DAD／DAD2 演完的截圖三次都是鏡頭貼著法律系館A的牆或柱子——演完以後 3 秒、6 秒再看一次，記鏡頭和玩家的位置（分清是演完那一下的運鏡還是跟隨鏡頭卡在牆裡）"""
+    """n27（04:2x）：DAD／DAD2 演完的截圖三次都是鏡頭貼著法律系館A的牆或柱子——演完以後 3 秒、6 秒再看一次，記鏡頭和玩家的位置（分清是演完那一下的運鏡還是跟隨鏡頭卡在牆裡）；
+    3ba38e34a 起加量玩家看得到幾成（player_vis）"""
     out = []
     for t in (3, 6):
-        await pg.wait_for_timeout(3000); c = await pg.evaluate(CAMJS); out.append({'t': t, **c}); await run.shot(pg, '%s_after%ds' % (sid, t))
-    res['cam'] = out; run.note('%s 演完以後的鏡頭：%s' % (sid, J(out, 1200)))
+        await pg.wait_for_timeout(3000); c = await pg.evaluate(CAMJS); await run.shot(pg, '%s_after%ds' % (sid, t)); v = await player_vis(pg); out.append({'t': t, **c, 'vis': v})
+    res['cam'] = out; run.note('%s 演完以後的鏡頭：%s' % (sid, J(out, 1600)))
+    v6 = out[-1]['vis']
+    run.check('%s：演完 6 秒（跟隨鏡頭）看得到玩家——玩家框裡看得到 ≥ 25%%（柱子擋住的地方網點透空；看截圖 after3s／after6s）' % sid,
+              out[-1].get('mode') == 'follow' and (v6.get('vis') or 0) >= 0.25, J(out[-1], 600))
+
+
+@guard
+async def s_walk_lawa(p, run, base, sid, out):
+    """BUG-CAM-PILLAR-LAWA-1031：平常從南邊走到法律系館A穿堂門口（沒有劇情、跟隨鏡頭），路上、到門口、3 秒、6 秒都量玩家看得到幾成"""
+    res = out.setdefault(sid, {})
+    b, pg, cdp, errs, r = await launch(p, run, base, '2029-04-26', 16.0, 'campus', preflags=TWF, quiet=True, pos=DAD_POS,
+                                       label=sid + '（2029-04-26（四）16:00 校園、法律系館A前面約 10 m；quiet 讀檔，平常走過去）')
+    try:
+        rows = []
+        for (x, z, tol, tag) in ((34.0, -103.2, 0.6, 'mid'), (34.0, -106.5, 0.5, 'door')):
+            await L.go_to(pg, cdp, run, x, z, tol, '%s %s' % (sid, tag), max_s=240, lv=0, stop=lambda s: s['dlg'] or s['choices'])
+            await pg.wait_for_timeout(1500); c = await pg.evaluate(CAMJS); await run.shot(pg, '%s_%s' % (sid, tag)); v = await player_vis(pg); rows.append({'at': tag, **c, 'vis': v})
+        for t in (3, 6):
+            await pg.wait_for_timeout(3000); c = await pg.evaluate(CAMJS); await run.shot(pg, '%s_door_%ds' % (sid, t)); v = await player_vis(pg); rows.append({'at': 'door+%ds' % t, **c, 'vis': v})
+        res['rows'] = rows; run.note('%s 鏡頭與看得到的比例：%s' % (sid, J(rows, 3000)))
+        dr = [x for x in rows if x['at'].startswith('door')]
+        run.check('%s：走到穿堂門口 (34, −106.5)' % sid, bool(dr) and abs(dr[0]['player'][2] + 106.5) < 0.8, J(dr[0] if dr else None, 300))
+        run.check('%s：門口、3 秒、6 秒都看得到玩家（玩家框裡 ≥ 25%%；柱子在玩家周圍那一圈網點透空）' % sid,
+                  len(dr) == 3 and all((x['vis'].get('vis') or 0) >= 0.25 for x in dr), J([(x['at'], x['vis'].get('vis'), x['vis'].get('pillarScreen'), x['cam']) for x in dr]))
+        run.check('%s：鏡頭沒有在柱子裡（柱子佔畫面 < 60%%）' % sid, all((x['vis'].get('pillarScreen') or 0) < 0.6 for x in rows), J([(x['at'], x['vis'].get('pillarScreen')) for x in rows]))
+    finally: await finish_page(run, sid, res, errs, b)
 
 
 async def report(pg, run, sid, res, T, CS, C=None, log=None):
@@ -1044,12 +1109,12 @@ async def s_night_real(p, run, base, sid, out):
 ORDER = ['TE_ME_YES', 'TE_ME_NOTYET', 'TE_SHE_THINK', 'TE_TELL', 'TE_KNOWN', 'TE_FOUNDOUT',
          'AFTER_TELL', 'AN_KNOWS', 'AN_KNOWS_NO', 'FOUND',
          'REPAIR_OPEN', 'REPAIR_YES', 'REPAIR_NO',
-         'DAD2', 'DAD2_NO', 'COLD',
+         'DAD2', 'DAD2_NO', 'WALK_LAWA', 'COLD',
          'G2_DAD', 'BLANK', 'BLANK_AGAIN', 'G6_MAKEUP', 'NIGHT_A', 'NIGHT_B', 'NIGHT_REAL']
 FN = {'TE_ME_YES': s_te_me, 'TE_ME_NOTYET': s_te_me, 'TE_SHE_THINK': s_te_she, 'TE_TELL': s_te_other, 'TE_KNOWN': s_te_other, 'TE_FOUNDOUT': s_te_foundout,
       'AFTER_TELL': s_after_tell, 'AN_KNOWS': s_an_knows, 'AN_KNOWS_NO': s_an_knows, 'FOUND': s_found,
       'REPAIR_OPEN': s_repair_open, 'REPAIR_YES': s_repair_yes, 'REPAIR_NO': s_repair_no,
-      'DAD2': s_dad2, 'DAD2_NO': s_dad2, 'COLD': s_cold,
+      'DAD2': s_dad2, 'DAD2_NO': s_dad2, 'WALK_LAWA': s_walk_lawa, 'COLD': s_cold,
       'G2_DAD': s_g2, 'BLANK': s_blank, 'BLANK_AGAIN': s_blank_again, 'G6_MAKEUP': s_g6, 'NIGHT_A': s_night, 'NIGHT_B': s_night, 'NIGHT_REAL': s_night_real}
 
 
