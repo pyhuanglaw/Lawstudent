@@ -8730,7 +8730,7 @@
    "area": "SYS",
    "owner": "LAWWW",
    "status": "進行中",
-   "next": "【LAWWW-C 2026-10-21 稽核 C】做了一部分：新增打工系統（JOBS.at／any、每週兩個班、薪水 toast、每種 3～4 件小故事）照 AA_289 第 1～3 節（AA-C 6574fe73／3a26e94a，已是可實作的規格、標 v9.10 以後交）；先做大一下就能做的 Café、舊路書房、便利商店、溫州街三家；白名單由 LAWWW 照 AA 的 commit 加 ｜ 家教最小版已做（V2-B32）；其他打工（Café 外場、書店、便利商店夜班…）照 AA_72 3-1 的「什麼時候可以做」，每一種要 3～5 段事件的規格（AA／BB）｜【10-18】AA_289 第 1～3 節是其他打工種類的規格（AA-C 6574fe73），施工在 SYS-13-EV、v9.10 以後",
+   "next": "【10-31 22:3x 歷史複核（AA-B 第 4、5 批）】AA_289 3-7 學姊研究助理打工整段沒做（遊戲裡沒有 JOB_RA）｜【LAWWW-C 2026-10-21 稽核 C】做了一部分：新增打工系統（JOBS.at／any、每週兩個班、薪水 toast、每種 3～4 件小故事）照 AA_289 第 1～3 節（AA-C 6574fe73／3a26e94a，已是可實作的規格、標 v9.10 以後交）；先做大一下就能做的 Café、舊路書房、便利商店、溫州街三家；白名單由 LAWWW 照 AA 的 commit 加 ｜ 家教最小版已做（V2-B32）；其他打工（Café 外場、書店、便利商店夜班…）照 AA_72 3-1 的「什麼時候可以做」，每一種要 3～5 段事件的規格（AA／BB）｜【10-18】AA_289 第 1～3 節是其他打工種類的規格（AA-C 6574fe73），施工在 SYS-13-EV、v9.10 以後",
    "priority": "P2",
    "first": {
     "term": "Y1S2",
@@ -13328,8 +13328,8 @@
    "title": "自由出行第三批景點的偶遇：AA 六位（AA_271：以安 D26、語彤 D14、柏翰 D11、小語 D01、芯慈 D02、阿哲 D29）＋BB 五位（BB_213：子晴 D01、芷若 D02、學姊 D11、沛珊 D08、可昕 D10）",
    "area": "DL",
    "owner": "LAWWW",
-   "status": "已整合待測試",
-   "next": "瀏覽器：寒暑假週六去臺中／高雄、大一下第 6 週週日去新北投各遇到一次（打招呼、一起走一段、離開、之後在學校的一句）。「你來過一次」（solo_before_aa_v1.json）和以安 D07 心願的 freeVisited（wish_aa.json 0b478a53）要等約會地點台詞（DATE-S6 各地點 lines）和心願事件做好才接，見 DATE-S6。BB 五位已接（BB_213＋bb_walk_v1 batch:3 @b0c20f70）；solo_before_bb、wish_bb（芷若 D05、子晴 D03 freeVisited）同樣等 DATE-S6。（BB-C 0544a147：子晴 D01 改雙週 4、10；芷若生態池那句掛散步，已改）",
+   "status": "進行中",
+   "next": "【10-31 22:3x 歷史複核（AA-B 第 4、5 批）】AA_271「你來過一次」（solo_before_aa_v1.json）沒匯入，約會時的「你來過一次」（AA_160#4-4，G.places.soloSaid 只有初始化）也沒做——原本標已整合待測試是錯的｜瀏覽器：寒暑假週六去臺中／高雄、大一下第 6 週週日去新北投各遇到一次（打招呼、一起走一段、離開、之後在學校的一句）。「你來過一次」（solo_before_aa_v1.json）和以安 D07 心願的 freeVisited（wish_aa.json 0b478a53）要等約會地點台詞（DATE-S6 各地點 lines）和心願事件做好才接，見 DATE-S6。BB 五位已接（BB_213＋bb_walk_v1 batch:3 @b0c20f70）；solo_before_bb、wish_bb（芷若 D05、子晴 D03 freeVisited）同樣等 DATE-S6。（BB-C 0544a147：子晴 D01 改雙週 4、10；芷若生態池那句掛散步，已改）",
    "priority": "P2",
    "first": {
     "term": "Y1S1",
@@ -13527,7 +13527,7 @@
    "area": "DL",
    "owner": "LAWWW",
    "status": "進行中",
-   "next": "【LAWWW-C 2026-10-21 稽核 C】做了一部分：照 AA_160 第 3 節 R1／R2 與 3-4 表：一鍵上課翹課確認、travelOvernight、捷運出遊出發前列出會錯過的【固】【必】事件（最多三件）；3-4 表的事件補 keep:'must'／'fixed' ｜ 第 2 批（本批）：家族聚餐窗口 18:00～19:30＋先到旁白、前一天 21:00 群組提醒、當天 17:30 toast；校慶前一天法服群組提醒、沒加入法服的公告欄旁白（BB_95 3-7、3-8；AA_173 第 3 節）。還沒：v0 keep must、捷運出遊 R1",
+   "next": "【10-31 22:3x 歷史複核（AA-B 第 4、5 批）】AA_160（classes3d.js:886 自己記的兩項）：一鍵上課路上遇到固定／必演事件要停下來演；翹課確認要列出會錯過的事件｜【LAWWW-C 2026-10-21 稽核 C】做了一部分：照 AA_160 第 3 節 R1／R2 與 3-4 表：一鍵上課翹課確認、travelOvernight、捷運出遊出發前列出會錯過的【固】【必】事件（最多三件）；3-4 表的事件補 keep:'must'／'fixed' ｜ 第 2 批（本批）：家族聚餐窗口 18:00～19:30＋先到旁白、前一天 21:00 群組提醒、當天 17:30 toast；校慶前一天法服群組提醒、沒加入法服的公告欄旁白（BB_95 3-7、3-8；AA_173 第 3 節）。還沒：v0 keep must、捷運出遊 R1",
    "priority": "P1",
    "first": {
     "term": "Y1S1",
@@ -14105,8 +14105,8 @@
    "title": "AA_170 大二：社團博覽會（站在攤位後面，第一次被叫學長）、大二暑假（營隊或打工、宿舍抽籤）",
    "area": "V3",
    "owner": "LAWWW",
-   "status": "已整合待測試",
-   "next": "【LAWWW-C 2026-10-21 稽核 C】程式已在開發分支（BB 照事件包清單瀏覽器驗收）｜ X02 社團博覽會大二版已接（9/16～9/17 11～17 椰林大道攤位那一排；五種攤位＋沒加入；Y2_EXPO_BOOTH、Y2_EXPO_SENIOR、同社團熟悉 +1；帳篷在大二兩天也擺；tests/v3_batch1_unit.js 1～5）。X15 大二暑假：放假模式的日子已排（6/28、7/15 抽籤「換一層樓…三年，第三個房間。」、7/20、8/25、9/5 回宿舍；home3d.js BREAK_PTS.Y2S）；6/27 晚上的三選一（營隊／打工／回家）、摘要日依選項的旁白、+22000、主線 5 房間物件還沒做",
+   "status": "進行中",
+   "next": "【10-31 22:3x 歷史複核（AA-B 第 4、5 批）】還缺：營隊那一支的房間物件「法律系的大哥哥」卡片、記憶 Y2_CAMP——原本標已整合待測試是錯的｜【LAWWW-C 2026-10-21 稽核 C】程式已在開發分支（BB 照事件包清單瀏覽器驗收）｜ X02 社團博覽會大二版已接（9/16～9/17 11～17 椰林大道攤位那一排；五種攤位＋沒加入；Y2_EXPO_BOOTH、Y2_EXPO_SENIOR、同社團熟悉 +1；帳篷在大二兩天也擺；tests/v3_batch1_unit.js 1～5）。X15 大二暑假：放假模式的日子已排（6/28、7/15 抽籤「換一層樓…三年，第三個房間。」、7/20、8/25、9/5 回宿舍；home3d.js BREAK_PTS.Y2S）；6/27 晚上的三選一（營隊／打工／回家）、摘要日依選項的旁白、+22000、主線 5 房間物件還沒做",
    "priority": "P3",
    "first": {
     "term": "Y2S1",
@@ -17214,7 +17214,7 @@
    "owner": "LAWWW",
    "status": "進行中",
    "priority": "P1",
-   "next": "【LAWWW-C 2026-10-21 稽核 C】做了一部分：LAWWW 在 1/2、1/9 當天回宿舍房間時加 AA_208 那兩句旁白（同寢室、在房間）；v0 宿舍紙箱位置等四人房模型確認後再調 ｜ 已做：8/29 兩段＋阿凱（f642fddc、a943ea1d）、9/1 阿哲宿舍早上版（05fb5af2）、颱風夜＋深夜旁白（9d92f88e）、經濟系 412：E01 紙箱在書桌上、另外兩組床桌貼名字、先睡推到書桌旁邊地上、9/2 晚上韋綸唐睿搬進來（本 commit）。CHARACTERS 沒有住處欄位（不適用）。作息（阿哲 22:00、柏翰 22:30 在 203，第一年、四人房）已跟 DORM-LOFT-L 一起做；剩：返鄉 1/2、1/9 旁白跟 HOLIDAY-SYS；E02、T0a 的 BB 句子跟 BB_179；兩句旁白等 AA-B 定字（另一張書桌前也有人、你和阿凱的書桌中間）；v0 宿舍 3D 紙箱位置（v0Box onbed 等）等四人房模型一起改",
+   "next": "【10-31 22:3x 歷史複核（AA-B 第 4、5 批）】AA_208 還缺：1/9、1/2 返鄉當天旁白兩句（AA_502 以為做了）、312 拆箱前兩句；507／409 搬入旁白已做（DORM-Y34）；柏翰大四上桌燈到 01:00 記在 DORM-Y34｜【LAWWW-C 2026-10-21 稽核 C】做了一部分：LAWWW 在 1/2、1/9 當天回宿舍房間時加 AA_208 那兩句旁白（同寢室、在房間）；v0 宿舍紙箱位置等四人房模型確認後再調 ｜ 已做：8/29 兩段＋阿凱（f642fddc、a943ea1d）、9/1 阿哲宿舍早上版（05fb5af2）、颱風夜＋深夜旁白（9d92f88e）、經濟系 412：E01 紙箱在書桌上、另外兩組床桌貼名字、先睡推到書桌旁邊地上、9/2 晚上韋綸唐睿搬進來（本 commit）。CHARACTERS 沒有住處欄位（不適用）。作息（阿哲 22:00、柏翰 22:30 在 203，第一年、四人房）已跟 DORM-LOFT-L 一起做；剩：返鄉 1/2、1/9 旁白跟 HOLIDAY-SYS；E02、T0a 的 BB 句子跟 BB_179；兩句旁白等 AA-B 定字（另一張書桌前也有人、你和阿凱的書桌中間）；v0 宿舍 3D 紙箱位置（v0Box onbed 等）等四人房模型一起改",
    "first": {
     "term": "Y1S1",
     "week": 0,
@@ -19159,9 +19159,9 @@
    "title": "AA_204 大一寒假（27711a39）：跨年四段＋交往中版（2-5）、12/29 海邊一日遊、返鄉回臺北訊息、ZHE_SNACK_Y1；1-4 聖誕群戲後和以安、語彤單獨（另做）",
    "area": "STORY",
    "owner": "LAWWW",
-   "status": "已整合待測試",
+   "status": "進行中",
    "priority": "P1",
-   "next": "【LAWWW-C 12:4x 81778de0】第 2～4 節做好：12/26 阿哲揪＋海邊六則、跨年麵店→管制線（明軒定稿）→頂樓→群組、交往中以安跑步、語彤電話（頂樓在事件裡、不在頂樓出遊系統接起來）、12/29 海邊、返鄉六則、ZHE_SNACK_Y1；tests/y1_winter_aa204_unit 全過。還沒：1-4 聖誕群戲後單獨約（要先有 AA_127 聖誕單獨約）、瀏覽器流程",
+   "next": "【10-31 22:3x 歷史複核（AA-B 第 4、5 批）】AA_204#1-4 大一聖誕散場後以安、語彤兩人段落四段沒做（AA 判定沒被 AA_416 取代：416 是單獨約會版，團體事件保留）——原本標已整合待測試是錯的｜【LAWWW-C 12:4x 81778de0】第 2～4 節做好：12/26 阿哲揪＋海邊六則、跨年麵店→管制線（明軒定稿）→頂樓→群組、交往中以安跑步、語彤電話（頂樓在事件裡、不在頂樓出遊系統接起來）、12/29 海邊、返鄉六則、ZHE_SNACK_Y1；tests/y1_winter_aa204_unit 全過。還沒：1-4 聖誕群戲後單獨約（要先有 AA_127 聖誕單獨約）、瀏覽器流程",
    "first": {
     "term": "Y1S1",
     "week": 17,
@@ -37559,6 +37559,90 @@
    "authorized": "已定稿（D109）",
    "xai": {
     "spec": "AA_548 第 9 節、AA_537b 第 5 節（企劃線 claude/cool-heisenberg-o8kuqx）",
+    "branch": "claude/modest-rubin-2lyp7g",
+    "acceptance": "照稿進遊戲＋Node 測試，BB 瀏覽器",
+    "receiver": "LAWWW",
+    "ack": "ACTIONED"
+   }
+  },
+  {
+   "id": "AA187-PAIR-GAPS-1031",
+   "title": "以安、語彤交往中缺的幾段（AA_187）：以安 1-1「反駁的次數」、1-6 散會後那段路；語彤 2-1 傘的旁白、2-3 打烊後那一桌（YT_FAMILY_DINNER）、2-4 週四斜對面四個小動作",
+   "area": "STORY",
+   "owner": "LAWWW",
+   "status": "待開工",
+   "priority": "P2",
+   "next": "【10-31 22:3x 歷史複核（AA-B 第 4、5 批）】LAWWW 照稿實作，排在 D99 寒暑假（AA_549）之後",
+   "first": {
+    "term": "Y1S2",
+    "week": 0,
+    "earliest": "和以安或語彤交往中",
+    "mainline": false,
+    "blocks": false,
+    "prereq": false,
+    "parallel": true,
+    "confirmed": true
+   },
+   "source": "AA-B 歷史複核 judgments_AA.jsonl（10-31）",
+   "authorized": "已定稿（D109）",
+   "xai": {
+    "spec": "AA_187（企劃線 claude/cool-heisenberg-o8kuqx）",
+    "branch": "claude/modest-rubin-2lyp7g",
+    "acceptance": "照稿進遊戲＋Node 測試，BB 瀏覽器",
+    "receiver": "LAWWW",
+    "ack": "ACTIONED"
+   }
+  },
+  {
+   "id": "AA258-SIS-GAPS-1031",
+   "title": "學姊相關缺的（AA_258）：大二下家族聚餐沒有事件（學姊 S4-L8 的條件永遠不成立）；學姊交往中初一私訊、美國路線 11/08、11/10 兩則；芷若 12/17 明信片最後一行",
+   "area": "STORY",
+   "owner": "LAWWW",
+   "status": "待開工",
+   "priority": "P2",
+   "next": "【10-31 22:3x 歷史複核（AA-B 第 4、5 批）】LAWWW 照稿實作，排在 D99 寒暑假（AA_549）之後",
+   "first": {
+    "term": "Y2S2",
+    "week": 0,
+    "earliest": "大二下家族聚餐",
+    "mainline": false,
+    "blocks": false,
+    "prereq": false,
+    "parallel": true,
+    "confirmed": true
+   },
+   "source": "AA-B 歷史複核 judgments_AA.jsonl（10-31）",
+   "authorized": "已定稿（D109）",
+   "xai": {
+    "spec": "AA_258（企劃線 claude/cool-heisenberg-o8kuqx）",
+    "branch": "claude/modest-rubin-2lyp7g",
+    "acceptance": "照稿進遊戲＋Node 測試，BB 瀏覽器",
+    "receiver": "LAWWW",
+    "ack": "ACTIONED"
+   }
+  },
+  {
+   "id": "AA407-LOANS-1031",
+   "title": "總圖借書（AA_407）：R1《臺灣原生植物圖鑑》服務台「那本只能在館內看。」可以接了（loans3d.js:8 寫等 5F，5F 書庫和方奕廷都有了）；借書期間「（你翻了一下借來的那本。）」（原稿可選）",
+   "area": "STORY",
+   "owner": "LAWWW",
+   "status": "待開工",
+   "priority": "P2",
+   "next": "【10-31 22:3x 歷史複核（AA-B 第 4、5 批）】LAWWW 照稿實作，排在 D99 寒暑假（AA_549）之後",
+   "first": {
+    "term": "Y1S1",
+    "week": 0,
+    "earliest": "總圖服務台借書",
+    "mainline": false,
+    "blocks": false,
+    "prereq": false,
+    "parallel": true,
+    "confirmed": true
+   },
+   "source": "AA-B 歷史複核 judgments_AA.jsonl（10-31）",
+   "authorized": "已定稿（D109）",
+   "xai": {
+    "spec": "AA_407（企劃線 claude/cool-heisenberg-o8kuqx）",
     "branch": "claude/modest-rubin-2lyp7g",
     "acceptance": "照稿進遊戲＋Node 測試，BB 瀏覽器",
     "receiver": "LAWWW",
