@@ -29999,7 +29999,7 @@
    "title": "溫州街小公園入口 B 進不了主園區：遊戲場的導航阻擋把整段 B 步道擋住，從 B 只能退回北巷繞到 A（AA_283 子代理發現；課輔班程式會先試 B，打通後自動改走 B）",
    "area": "ART",
    "owner": "LAWWW2",
-   "status": "待開工",
+   "status": "取消／被取代",
    "priority": "P3",
    "first": {
     "term": "Y1S1",
@@ -30013,14 +30013,17 @@
    },
    "source": "AA283-PARK-1021 子代理 cfb6f492 回報",
    "authorized": "D108（場景導航歸 LAWWW2）",
-   "next": "【LAWWW（帳號 A）15:0x】派 LAWWW2：zones3d.js buildWzPark 遊戲場的 blockRect 讓出 B 步道（照 layout 的 B 步道寬度），跑 nav_buildings_unit、wz_park_people_unit、tools/dev_scratch/nav_islands.py；交件給 LAWWW 合併、BB 看畫面",
+   "next": "【10-31 20:4x】關掉重複任務 → PARK-ENTRY-B-1027（BB 測）｜【LAWWW（帳號 A）15:0x】派 LAWWW2：zones3d.js buildWzPark 遊戲場的 blockRect 讓出 B 步道（照 layout 的 B 步道寬度），跑 nav_buildings_unit、wz_park_people_unit、tools/dev_scratch/nav_islands.py；交件給 LAWWW 合併、BB 看畫面",
    "xai": {
     "spec": "AA_283 第 1 節（課輔班從入口 B 進來）；src/wzpark3d.js、src/crowd3d.js（試 B 路線）",
     "branch": "claude/second-ai-env-art",
     "acceptance": "從入口 B 走得到主園區（NavGrid 路線存在）；課輔班從 B 進來；nav、wz_park 單元測試照過",
     "receiver": "LAWWW",
     "ack": "SENT"
-   }
+   },
+   "reason": "重複：同一個需求（USER_WANTS B08 小公園入口 B）10-27 已由 PARK-ENTRY-B-1027 做完、合進開發分支 13a7c8692（合併 213d6dd7a），這筆沒關；歷史待辦複核查到（HISTORY-AUDIT-1031）",
+   "replacedBy": "PARK-ENTRY-B-1027",
+   "authorizedBy": "不是取消需求：需求由 PARK-ENTRY-B-1027 滿足（待 BB 瀏覽器）；LAWWW-B 10-31 依 D110 關重複任務"
   },
   {
    "id": "HANDOFF-A-1022",
