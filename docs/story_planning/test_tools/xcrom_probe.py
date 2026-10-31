@@ -344,6 +344,18 @@ async def banned_check(pg, run, sid, T, log=None):
     run.check('%s：說的話、芯慈／以安的手機訊息裡沒有「第二名」「第一名」「誰最強」「我問過你」' % sid, not bad, J({'bad': bad, 'who': who}, 600))
 
 
+CAMJS = """(()=>{ const E=GAME.E, c=E.camera.position, p=E.player.obj.position, C=E.cam||{}; return {mode:C.mode||null, cam:[+c.x.toFixed(2),+c.y.toFixed(2),+c.z.toFixed(2)], player:[+p.x.toFixed(2),+p.y.toFixed(2),+p.z.toFixed(2)],
+    d:+Math.hypot(c.x-p.x,c.z-p.z).toFixed(2), yaw:C.yaw!=null?+(+C.yaw).toFixed(2):null, dist:C.dist!=null?+(+C.dist).toFixed(2):null, distTarget:C.distTarget!=null?+(+C.distTarget).toFixed(2):null, blend:!!C.blend, zone:GAME.G.zone}; })()"""
+
+
+async def cam_after(pg, run, sid, res):
+    """n27（04:2x）：DAD／DAD2 演完的截圖三次都是鏡頭貼著法律系館A的牆或柱子——演完以後 3 秒、6 秒再看一次，記鏡頭和玩家的位置（分清是演完那一下的運鏡還是跟隨鏡頭卡在牆裡）"""
+    out = []
+    for t in (3, 6):
+        await pg.wait_for_timeout(3000); c = await pg.evaluate(CAMJS); out.append({'t': t, **c}); await run.shot(pg, '%s_after%ds' % (sid, t))
+    res['cam'] = out; run.note('%s 演完以後的鏡頭：%s' % (sid, J(out, 1200)))
+
+
 async def report(pg, run, sid, res, T, CS, C=None, log=None):
     res.update({'said': T, 'choices': CS, 'caps': C}); await run.shot(pg, '%s_after' % sid)
     say('   %s 說的：%s；選項 %s；字幕 %s' % (sid, J(T[-16:], 1200), J(CS[-3:]), J((C or [])[-4:])))
@@ -798,7 +810,7 @@ async def s_dad2(p, run, base, sid, out):
             run.check('%s：前置——交往中、2029-04 的週五、不在國外（ev_xc_dad2 的條件成立）' % sid, p0['due'] is True, J(p0))
             if p0['due'] is not True: return
             ok, ch, T, C, CS = await near_wait(pg, cdp, run, sid, 'ev_xc_dad2', 34.0, -106.5, 0, ['「她去哪，我都會在台北。」'], max_s=900, r=2.0)
-            lg = await log_since(pg, 0); await report(pg, run, sid, res, T, CS, C, lg)
+            lg = await log_since(pg, 0); await report(pg, run, sid, res, T, CS, C, lg); await cam_after(pg, run, sid, res)
             run.check('%s：17:30～18:00 法律系館A門口演「銀色的車」（ev_xc_dad2 done）' % sid, ok, J(ch[-2:]))
             if not ok: return
             run.check('%s：爸爸「這是上次那位同學？」→ 她「嗯。……現在不只是同學了。」→「（笑）我知道。妳媽說了。」→「她說畢業要去國際所。我們很放心。……你呢？」' % sid, has_seq(T, DAD2_OPEN), J(T[:8], 600))
@@ -809,7 +821,7 @@ async def s_dad2(p, run, base, sid, out):
             await L.go_to(pg, cdp, run, 34.0, -106.5, 2.0, sid, max_s=240, lv=0, stop=lambda s: s['dlg'] or s['choices'] or s['busy'])
             n0 = await log_len(pg)
             ok, _ = await wait_for(pg, cdp, run, "GAME.G.hour>=18.03", max_s=600, label=sid)
-            lg = await log_since(pg, n0); T = texts(lg); await report(pg, run, sid, res, T, choice_sets(lg), None, lg)
+            lg = await log_since(pg, n0); T = texts(lg); await report(pg, run, sid, res, T, choice_sets(lg), None, lg); await cam_after(pg, run, sid, res)
             dn = await pg.evaluate(DONE + "('ev_xc_dad2')"); wh = await pg.evaluate("JSON.stringify(STORY.whereIs(GAME,'classmate_xinci'))"); res.update({'done': dn, 'where': wh})
             run.check('%s：沒有交往：站在門口等到 18:02，「銀色的車」（她爸爸 8-1）不演' % sid, ok and not dn and not any(t in T for t in DAD2_OPEN[:2]), J({'reached': ok, 'done': dn, 'where': wh}))
     finally: await finish_page(run, sid, res, errs, b)
