@@ -1445,6 +1445,58 @@ async def boyab4(pg, cdp, run):
         run.check('B4 演講：有人坐的椅面都放下（busyUp＝0）', bool(cc['fold']) and cc['fold']['busyUp'] == 0, J(cc['fold']))
     run.check('B4 演講：有演講內容（說了話）', len(lines) >= 3, J(lines[:6]))
 
+# n28_gongtong_b 06:07：共同 101 走道邊的座位，seatApproach 挑的「坐下前站的位置」在走道上（4.7, 2.75），離互動點 (5.25, 2.4) 0.65 m，按鈕範圍 0.62 m＝站在那裡看不到「坐下」。
+#   ① 三棟教學館（共同、普通、博思）所有階梯教室座位：從進門的出生點算 seatApproach，列出走近點在按鈕範圍外的座位（只算，不走）
+#   ② 照玩家：點第一張那樣的椅子（點在椅子上＝遊戲改走到坐下前站的位置，E.tapRedirect）→ 停下來以後有沒有「坐下」；對照：點同一排第二張
+SEATSWEEP = """(()=>{ const E=GAME.E, its=E.interactables.filter(i=>i.seat&&i.seat.kind==='lecture'); const bad=[]; let n=0;
+  for(const i of its){ n++; const a=GAME.seatApproach?GAME.seatApproach(i.seat):null; const r=i.radius||1.8; const st=i.seat;
+    const row={room:st.room, row:st.row, col:st.col, seat:[+st.x.toFixed(2),+st.z.toFixed(2)], it:[+i.x.toFixed(2),+i.z.toFixed(2)], r, rFit:i.radiusFit||null};
+    if(!a){ bad.push({...row, ap:null}); continue; } const d=Math.hypot(a[0]-i.x,a[1]-i.z); if(d>r) bad.push({...row, ap:[+a[0].toFixed(2),+a[1].toFixed(2)], d:+d.toFixed(2)}); }
+  const o=E.player.obj.position; return {zone:GAME.G.zone, from:[+o.x.toFixed(2),+o.z.toFixed(2)], n, bad:bad.length, list:bad}; })()"""
+MOVEJS = "(()=>{ const P=GAME.E.player, o=P.obj.position; return {x:+o.x.toFixed(2), z:+o.z.toFixed(2), moving:!!(P.path&&P.path.length), pose:P.pose||null}; })()"
+
+
+async def tap_seat(pg, cdp, run, i, tag):
+    """照玩家點椅子：鏡頭轉向椅子、點椅子在畫面上的位置；停下來以後看按鈕"""
+    st = i['seat']; await L.turn_camera_to(pg, cdp, st[0], st[1]); await pg.wait_for_timeout(800)
+    redir = await pg.evaluate("(([x,z])=>{ const E=GAME.E; return E.tapRedirect?E.tapRedirect(x,z,0):null; })(%s)" % J(st))
+    pt = await L.tap_ground(pg, cdp, st[0], st[1], lv=0)
+    still = 0; t0 = time.time()
+    while time.time() - t0 < 45:
+        await pg.wait_for_timeout(700); m = await pg.evaluate(MOVEJS)
+        still = still + 1 if not m['moving'] else 0
+        if still >= 3 and time.time() - t0 > 3: break
+    await pg.wait_for_timeout(800)
+    lab = (await P.ts(pg))['lab']; m = await pg.evaluate(MOVEJS); await run.shot(pg, 'seat_%s' % tag)
+    d = math.hypot(m['x'] - i['it'][0], m['z'] - i['it'][1])
+    res = {'tapped': pt and [round(pt['sx']), round(pt['sy'])], 'hit': pt and pt.get('hit'), 'redirect': redir, 'stopped': [m['x'], m['z']], 'd_it': round(d, 2), 'r': i['r'], 'lab': lab}
+    run.note('%s：點椅子 %s → %s' % (tag, J(st), J(res))); return res
+
+
+async def seatreach(pg, cdp, run):
+    first = None
+    for zone in ('gongtong', 'putong', 'boya'):
+        st, d = await P.base(pg, SAVE, '2025-10-15', 14.0, zone); await P.load(pg, cdp, st)
+        run.setup('[前置] 使用者存檔改到 %s 14:00 %s（出生點＝進門的地方）' % (d['key'], zone)); await pg.wait_for_timeout(4000)
+        sw = await pg.evaluate(SEATSWEEP)
+        run.note('%s 階梯教室座位 %d 個，走近點在「坐下」範圍外 %d 個（從 %s 算）：%s' % (zone, sw['n'], sw['bad'], J(sw['from']), J(sw['list'])[:3000]))
+        run.check('%s：階梯教室每個座位「坐下前站的位置」都在「坐下」按鈕的範圍裡（從進門的地方算）' % zone, sw['n'] > 0 and sw['bad'] == 0, J({'n': sw['n'], 'bad': sw['bad'], 'first': sw['list'][:4]})[:900])
+        if zone == 'gongtong' and sw['list']: first = sw['list'][0]
+    if not first: return
+    st, d = await P.base(pg, SAVE, '2025-10-15', 14.0, 'gongtong'); await P.load(pg, cdp, st)
+    run.setup('[前置] 重讀 %s 14:00 共同教學館出生點' % d['key']); await pg.wait_for_timeout(4000)
+    door = await pg.evaluate("(()=>{ const it=GAME.E.interactables.find(i=>i.label&&i.label.indexOf('101')>=0&&!i.seat); return it?[it.x,it.z,it.label]:null; })()")
+    run.note('101 的門：%s' % J(door))
+    await L.go_to(pg, cdp, run, first['it'][0] - 0.8, first['it'][1] + 2.6, 0.6, '101 門口內側（講台前，離那張椅子約 2.7 m）', max_s=180, lv=0, stop=lambda s: s['dlg'] or s['choices'])
+    r1 = await tap_seat(pg, cdp, run, first, 'aisle')
+    run.check('照玩家點走道邊那張椅子（%s 排 %s 號）→ 走過去停下來 → 有「坐下」' % (first['row'], first['col']), r1['lab'] == '坐下', J(r1))
+    sib = await pg.evaluate("""(([room,row,col])=>{ const its=GAME.E.interactables.filter(i=>i.seat&&i.seat.kind==='lecture'&&i.seat.room===room&&i.seat.row===row&&i.seat.col===col+1);
+        const i=its[0]; return i?{seat:[i.seat.x,i.seat.z], it:[i.x,i.z], r:i.radius||1.8, row, col:col+1}:null; })(%s)""" % J([first['room'], first['row'], first['col']]))
+    if sib:
+        r2 = await tap_seat(pg, cdp, run, sib, 'next')
+        run.note('對照：同一排下一張（%s 號）點下去 → 「%s」（%s）' % (sib['col'], r2['lab'], J(r2)))
+
+
 async def main():
     run = L.Run('next91015_' + MODE + ('' if VP == 'landscape' else '_' + VP), OUT); os.makedirs(OUT, exist_ok=True)
     async with async_playwright() as p:
@@ -1456,7 +1508,7 @@ async def main():
             b, ctx, pg, cdp, errs = await L.launch(p, landscape=(VP != 'portrait'))
         pg.on('dialog', lambda d: asyncio.ensure_future(d.accept()))
         await pg.goto(URL); run.check('遊戲載入', await L.wait_loaded(pg)); await pg.evaluate("localStorage.clear()"); await P.init(pg)
-        await {'phone': phone, 'bball': bball, 'rooms': rooms, 'cafewin': cafewin, 'noodle': noodle, 'cafe2': cafe2, 'invite': invite, 'jacket': jacket, 'badclip': badclip, 'bigmap': bigmap, 'bballrain': bballrain, 'renart': renart, 'libla': libla, 'lawlib': lawlib, 'cafe2diag': cafe2diag, 'multiroom': multiroom, 'rtnight': rtnight, 'boya': boya, 'boyaecon': boyaecon, 'boyab4': boyab4, 'soclm': soclm, 'noodlm': noodlm, 'lhlm': lhlm, 'roomlm': roomlm, 'gtlm': gtlm, 'ptlm': ptlm, 'lib3lm': lib3lm, 'gtecon': gtecon}[MODE](pg, cdp, run)
+        await {'phone': phone, 'bball': bball, 'rooms': rooms, 'cafewin': cafewin, 'noodle': noodle, 'cafe2': cafe2, 'invite': invite, 'jacket': jacket, 'badclip': badclip, 'bigmap': bigmap, 'bballrain': bballrain, 'renart': renart, 'libla': libla, 'lawlib': lawlib, 'cafe2diag': cafe2diag, 'multiroom': multiroom, 'rtnight': rtnight, 'boya': boya, 'boyaecon': boyaecon, 'boyab4': boyab4, 'soclm': soclm, 'noodlm': noodlm, 'lhlm': lhlm, 'roomlm': roomlm, 'gtlm': gtlm, 'ptlm': ptlm, 'seatreach': seatreach, 'lib3lm': lib3lm, 'gtecon': gtecon}[MODE](pg, cdp, run)
         run.check('沒有 JS 例外', not errs, J(errs[:3]))
         print('SHA', os.environ.get('SHA', '?'), 'MODE', MODE)
         await b.close()
