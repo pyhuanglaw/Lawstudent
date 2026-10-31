@@ -216,6 +216,20 @@ async def talk(pg, cdp, run, ids, names, picks=None, label=''):
                 ang = j * math.pi / 2; tx, tz = pos[0] + 0.7 * math.cos(ang), pos[1] + 0.7 * math.sin(ang)
                 await L.go_to(pg, cdp, run, tx, tz, 0.35, name, max_s=30, lv=pos[2], stop=STOP)
             await pg.wait_for_timeout(500)
+        if not hit(lab):   # n25_xinci_f：芷若在吧檯後面、老闆比較近——在她周圍 1.2～1.6 m 找站得到、而且離她比離別人近的點（吧檯客人那一側）
+            best = await pg.evaluate("""(ids=>{ const E=GAME.E; const me=(E.npcs||[]).find(x=>x&&ids.some(id=>x.charId===id||x.id===id)&&x.obj); if(!me) return null; const q=me.obj.position, lv=me.lv|0;
+                const others=(E.npcs||[]).filter(x=>x&&x!==me&&x.obj&&x.obj.visible!==false&&!x.hidden); const out=[];
+                for(const r of [1.2,1.6]) for(let k=0;k<8;k++){ const a=k*Math.PI/4, x=q.x+r*Math.cos(a), z=q.z+r*Math.sin(a); if(E.canStand&&!E.canStand(x,z,0.3,lv)) continue;
+                  const dMe=Math.hypot(x-q.x,z-q.z), dO=Math.min(9,...others.map(o=>Math.hypot(o.obj.position.x-x,o.obj.position.z-z))); if(dO>dMe+0.2) out.push([+x.toFixed(2),+z.toFixed(2),lv,+(dO-dMe).toFixed(2)]); }
+                out.sort((u,v)=>v[3]-u[3]); return out.slice(0,3); })""", ids)
+            say('   %s 換到她身邊（離她比離別人近）的點：%s' % (label, J(best)))
+            for bp in (best or []):
+                await L.go_to(pg, cdp, run, bp[0], bp[1], 0.3, name, max_s=40, lv=bp[2], stop=STOP)
+                st = await L.state(pg)
+                if st['dlg'] or st['choices'] or st['busy']:
+                    ch = await drive(pg, cdp, run, picks=picks, max_s=150, label=label); return ch, '（走近就開始）'
+                lab = await pg.evaluate(LAB)
+                if hit(lab): break
         say('   %s 互動鈕：「%s」' % (label, lab))
         if hit(lab):
             await L.tap(pg, cdp, '#interact'); await pg.wait_for_timeout(1200)
