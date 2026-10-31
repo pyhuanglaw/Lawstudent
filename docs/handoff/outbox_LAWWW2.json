@@ -4722,7 +4722,8 @@
    "shots": "BB 4 個方向：改前 0/2/5/0% → 改後（自己轉開）40/31/27/43%、剛拖過鏡頭 89～92%（頭頂近景，放開 1.5 秒後轉開）",
    "remaining": "手機實機沒測；nav_islands.py 沒跑（導航沒改）",
    "next": "LAWWW 整合 patch（對 3438bf10a apply --check 通過）；BB 重跑 LHCORE（README 第五節有指令）",
-   "channel": "send_message 這個工作階段沒有，交件寫在這裡"
+   "channel": "send_message 這個工作階段沒有，交件寫在這裡",
+   "note": "LAWWW-B 11:32 降 P2（BB_218 38fe44ed6：平常走法 8 點都看得到，只有核心旁轉向外牆才會；main v9.10.14 一樣，不是回歸），註明不用回。這件 11:5x 已經交了，照舊可以整合。"
   }
  ]
 }
