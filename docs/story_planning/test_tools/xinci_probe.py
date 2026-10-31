@@ -203,12 +203,16 @@ async def talk(pg, cdp, run, ids, names, picks=None, label=''):
     for k in range(3):
         pos = await pg.evaluate(NPC + "(%s)" % json.dumps(ids))
         if not pos: say('   %s 不在這一區' % name); return None, ''
-        await L.go_to(pg, cdp, run, pos[0], pos[1], 1.2, name, max_s=90, lv=pos[2])
+        STOP = lambda s: s['dlg'] or s['choices']   # n25 C3FIX：走近時事件就開始，go_to 沒給 stop 會自動點掉、選第一個
+        await L.go_to(pg, cdp, run, pos[0], pos[1], 1.2, name, max_s=90, lv=pos[2], stop=STOP)
         for j in range(6):
+            st = await L.state(pg)
+            if st['dlg'] or st['choices']:
+                ch = await drive(pg, cdp, run, picks=picks, max_s=150, label=label); return ch, '（走近就開始）'
             lab = await pg.evaluate(LAB)
             if hit(lab): break
             pos = await pg.evaluate(NPC + "(%s)" % json.dumps(ids))
-            if pos: await L.go_to(pg, cdp, run, pos[0], pos[1], 0.9, name, max_s=30, lv=pos[2])
+            if pos: await L.go_to(pg, cdp, run, pos[0], pos[1], 0.9, name, max_s=30, lv=pos[2], stop=STOP)
             await pg.wait_for_timeout(500)
         say('   %s 互動鈕：「%s」' % (label, lab))
         if hit(lab):
