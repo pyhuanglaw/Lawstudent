@@ -1,8 +1,8 @@
 {
  "scale": 2.0,
  "intensity": 6.283185307179586,
- "res": 2048,
- "samples": 64,
+ "res": 1024,
+ "samples": 256,
  "emit": {},
  "dayemit": {
   "gym_window_sky": 3.0
@@ -20,9 +20,9 @@
  "points": null,
  "wb": {
   "day": [
-   0.96,
-   0.97,
-   1.0
+   1.0,
+   0.98,
+   0.95
   ],
   "night": null
  },
