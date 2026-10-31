@@ -37676,6 +37676,35 @@
     "receiver": "BB",
     "ack": "ACTIONED"
    }
+  },
+  {
+   "id": "VAC-GAP-1031",
+   "title": "寒暑假空白缺口（AA_549，D99 第二優先）：第 2 節七處對不上（芯慈大二暑假證券公司實習與 VA-09、阿凱／Alison／語彤不在日期、語彤兩則私訊、C13 選朋友過濾）＋第 3 節第一批稿（大三暑假九個小場景、2028 年夜飯、語彤 2/7 麵店與子晴 8/1 Café 場景、回家住可以出門＋晚餐十二題、C04W／C18W 開放到大一寒假、五位女主角假期版邀約句）",
+   "area": "STORY",
+   "owner": "LAWWW",
+   "status": "進行中",
+   "priority": "P1",
+   "next": "【10-31 22:5x】子代理在本機分支 feat-1031 照 AA_549（企劃線 da56f3a68 之後最新）實作；發布基準 39f68236c 凍結，BB 回歸跑完、發布後合進開發分支；第二批（旅行、大二暑假日常、阿凱 6/24、大二寒假）等 AA 下一份",
+   "first": {
+    "term": "Y1S1",
+    "week": 0,
+    "earliest": "大一寒假",
+    "mainline": true,
+    "blocks": false,
+    "prereq": false,
+    "parallel": true,
+    "confirmed": true
+   },
+   "source": "AA-B 10-31 19:46 交付 AA_549（企劃線 da56f3a68）",
+   "authorized": "D109（AA 第①②級）、D99 第二優先",
+   "xai": {
+    "spec": "AA_549（企劃線 claude/cool-heisenberg-o8kuqx）",
+    "owner": "BB",
+    "branch": "claude/elegant-brown-fcos7n",
+    "acceptance": "照規格交付、互審紀錄",
+    "receiver": "LAWWW-B",
+    "ack": "ACK"
+   }
   }
  ]
 }
