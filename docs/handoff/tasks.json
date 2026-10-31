@@ -36987,9 +36987,9 @@
    "title": "存檔直接讀在總圖多媒體中心（library_media）時，作息在那裡的芷若有生成、但一直隱藏（57 秒以上），跟她說不到話；從總圖大廳走門進去就看得到（BB-B 10-31 n25_xinci_l ZRL3D）",
    "area": "STORY",
    "owner": "LAWWW",
-   "status": "等待其他AI／素材",
+   "status": "取消／被取代",
    "priority": "P2",
-   "next": "【10-31 05:3x】等 BB 用「走過去」確認｜【10-31 05:1x】LAWWW-B 寫好瀏覽器探針（同條件讀檔，記 hidden／visible／seat／path），等全套跑完再跑；BB 另提：讀檔出生點在木隔板後面、鏡頭被擋（不一定要修）",
+   "next": "取消（10-31 06:0x，不是遊戲問題）｜【10-31 05:3x】等 BB 用「走過去」確認｜【10-31 05:1x】LAWWW-B 寫好瀏覽器探針（同條件讀檔，記 hidden／visible／seat／path），等全套跑完再跑；BB 另提：讀檔出生點在木隔板後面、鏡頭被擋（不一定要修）",
    "first": {
     "term": "Y2S2",
     "week": 4,
@@ -37007,10 +37007,11 @@
     "branch": "claude/modest-rubin-2lyp7g",
     "acceptance": "存檔在 2027-03-23 14:30 多媒體中心、芷若 FRIEND，讀檔後看得到她、說得到話",
     "receiver": "BB",
-    "ack": "SENT"
+    "ack": "ACTIONED"
    },
-   "pausedReason": "LAWWW-B 05:3x 瀏覽器重現（1e910aa6c）：芷若有生成在位子 (−4.05,0.3)、seat、n.hidden false；obj.visible 8 秒後 false＝engine3d 每格的鏡頭畫面剔除（不在畫面裡），BB 那輪讀檔出生點在木隔板後面（pos 空才用區域出生點），看起來不是遊戲問題",
-   "resumeWhen": "BB 讀檔後走到她旁邊量 n.hidden＋互動鈕「和林芷若說話」：過了就取消（不是遊戲問題）；走過去還是不見就繼續查"
+   "replacedBy": "NONE",
+   "authorizedBy": "BB-B 10-31 05:59（n25_xinci_n ALL PASS）＋LAWWW-B 瀏覽器重現",
+   "reason": "不是遊戲問題：BB 探針拿 obj.visible（鏡頭畫面剔除）當在不在場、關係值在 NPC 生成以後才設；BB n25_xinci_n（1e910aa6c）先設關係再讀檔：芷若在場 hidden false、「和林芷若說話」、Z4-L3 照稿"
   },
   {
    "id": "CAM-PILLAR-HALLS-1031",
