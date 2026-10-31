@@ -37352,7 +37352,7 @@
    "owner": "LAWWW",
    "status": "已實作待整合",
    "priority": "P1",
-   "next": "【10-31 22:1x】BB-B 43e5f1b88 twice＝PARTIAL：13:10 以後第二次上床「睡到傍晚」一路睡到 18:00（小睡、跳過時間走 CLS.skipStops／outStopsToday，不看 coreCallAt）→ 修：CLS.STOP_FNS 第一個＝STORY.coreCallAt、outStopsToday 也加（床的提示寫 14:15 會叫醒你）；v0_e37_unit 6b（修改前 FAIL）；經濟系那幾場核心出遊同樣受益；noon PASS｜【10-31 20:3x】全部 Node 787／0（24aebe913）；BB 在 QA-PLAYTHROUGH ① 重跑 8/30 那段｜【10-31 19:4x】S.coreCallAt 在法律系階段也停 y0_e37（PLAYED_Y0 或 e37LawOn、還沒演；14:15）；S.e37CallDue 只在 8/30（原本到 8/31）；v0_e37_unit 第 6 項（修改前 2 項 FAIL）；E37 相關 17 支 Node 全過 → 全部 Node 跑完、BB 在 QA-PLAYTHROUGH 重跑 ① 那段",
+   "next": "【11-01 01:3x】BB-B ③（39f68236c）非 P0：14:15 醒來、電話還沒來就點床只剩「睡到 18:00」→ 第三輪修在本機分支 feat-art-1031（點床先接電話：S.e37CallReady／e37CallRun，同典禮 bedScene；v0_e37_unit 6c），發布後合、BB 補驗；③ 本身 ALL PASS｜【10-31 22:1x】BB-B 43e5f1b88 twice＝PARTIAL：13:10 以後第二次上床「睡到傍晚」一路睡到 18:00（小睡、跳過時間走 CLS.skipStops／outStopsToday，不看 coreCallAt）→ 修：CLS.STOP_FNS 第一個＝STORY.coreCallAt、outStopsToday 也加（床的提示寫 14:15 會叫醒你）；v0_e37_unit 6b（修改前 FAIL）；經濟系那幾場核心出遊同樣受益；noon PASS｜【10-31 20:3x】全部 Node 787／0（24aebe913）；BB 在 QA-PLAYTHROUGH ① 重跑 8/30 那段｜【10-31 19:4x】S.coreCallAt 在法律系階段也停 y0_e37（PLAYED_Y0 或 e37LawOn、還沒演；14:15）；S.e37CallDue 只在 8/30（原本到 8/31）；v0_e37_unit 第 6 項（修改前 2 項 FAIL）；E37 相關 17 支 Node 全過 → 全部 Node 跑完、BB 在 QA-PLAYTHROUGH 重跑 ① 那段",
    "first": {
     "term": "Y0S1",
     "week": 0,
