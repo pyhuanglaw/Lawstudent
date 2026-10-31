@@ -190,10 +190,12 @@ PRESENT = """(()=>GAME.E.npcs.filter(n=>n.obj&&!n.hidden).map(n=>({id:n.charId||
 HIDDEN = """(()=>GAME.E.npcs.filter(n=>n.obj&&n.hidden).map(n=>({id:n.charId||null, name:n.name||null})))()"""   # 藏著的（模型還沒載完先藏，pool3d.js 2-1）   # 店員（阿姨）沒有 charId 也算在場
 
 
-async def door_to(pg, cdp, run, to, label, max_s=200):
+async def door_to(pg, cdp, run, to, label, max_s=200, stop=None):
     it = await pg.evaluate("(to=>{ const it=GAME.E.interactables.find(i=>i.exit&&i.exit.to===to); return it?[it.x,it.z,it.label]:null; })", to)
     if not it: run.note('%s：找不到往 %s 的門' % (label, to)); return False
-    await L.go_to(pg, cdp, run, it[0], it[1], 0.9, it[2], max_s=max_s); await L.tap(pg, cdp, '#interact')
+    await L.go_to(pg, cdp, run, it[0], it[1], 0.9, it[2], max_s=max_s, stop=stop)
+    if stop and stop(await L.state(pg)): return False   # 路上有對話／選項：交給呼叫的人處理，再走一次
+    await L.tap(pg, cdp, '#interact')
     for _ in range(40):
         await pg.wait_for_timeout(1000)
         if await pg.evaluate("GAME.G.zone") == to: return True
@@ -1264,18 +1266,30 @@ async def boyab4(pg, cdp, run):
     d = await pg.evaluate("(()=>{ const T=CALENDAR.TERMS.find(t=>t.id==='Y1S2'); const a=STORY.dayOfKey(T.start); let d=a+10*7; while(CALENDAR.dateOf(d).wd!==4) d++; return CALENDAR.dateOf(d).key; })()")
     st, dd = await P.base(pg, SAVE, d, 18.3, 'campus'); await P.load(pg, cdp, st, quiet=False)
     run.setup('[前置] 使用者存檔改到 %s（%s 第 %s 週）18:18 校園' % (dd['key'], dd['term'], dd['week']))
-    it = await pg.evaluate("(()=>{ const q=(CLS.dayItems(GAME.G)||[]).find(x=>x.room&&x.room.zone==='boya'); return q?{key:q.key, t0:q.t0, t1:q.t1, room:q.room.room||null, name:(q.c&&q.c.name)||q.title||null}:null; })()")
-    run.note('那一天博思的項目：%s' % J(it))
-    run.check('前置：%s 手機「今天」有博思 101 的演講' % d, bool(it) and str(it.get('room')) == '101', J(it))
-    if not it: return
-    await P.phone_tab(pg, cdp, 'today')
-    bt = await pg.evaluate("(k=>{ const e=[...document.querySelectorAll('#phoneBody [data-go]')].find(b=>b.dataset.go===k); return e?(e.textContent||'').trim():null; })", it['key'])
-    if not bt:   # 讀檔以後先有對話（事件開著）時手機打不開：對話點完再找一次；找不到就把手機收起來（手機開著時間不走）
-        await L.phone_away(pg, cdp); await drain_free(pg, cdp, secs=60); await P.phone_tab(pg, cdp, 'today')
-        bt = await pg.evaluate("(k=>{ const e=[...document.querySelectorAll('#phoneBody [data-go]')].find(b=>b.dataset.go===k); return e?(e.textContent||'').trim():null; })", it['key'])
-    run.note('手機按鈕：%s' % bt)
-    if bt: await L.tap(pg, cdp, '#phoneBody [data-go="%s"]' % it['key'])
-    else: await L.phone_away(pg, cdp)
+    # n19_boyab4（02:48）：B4 是活動（activities.js），不是課——CLS.dayItems／手機「今天」只列課，探針找錯地方。玩家的路：走進博思 101、坐下、選「聽演講」（classes3d.js:338）
+    it = await pg.evaluate("(()=>{ const a=(ACTIVITIES.list||[]).find(q=>q.id==='B4'); return a?{key:'B4', t0:a.t0, t1:a.t1, room:a.room, zone:a.zone, on:!!ACTIVITIES.on(a,GAME.G.day,GAME.G)}:null; })()")
+    run.note('B4 活動：%s' % J(it))
+    run.check('前置：%s 有 B4 演講（ACTIVITIES，博思 101，今天開）' % d, bool(it) and it.get('on') and str(it.get('room')) == '101', J(it))
+    if not it or not it.get('on'): return
+    await drain_free(pg, cdp, secs=40); await L.phone_away(pg, cdp)
+    ok = False
+    for _ in range(4):   # 路上碰到對話或選項就停下來，點完（drain_free）再走——不讓 go_to 自動選第一個
+        ok = await door_to(pg, cdp, run, 'boya', 'B4 走進博思', stop=lambda s: s['dlg'] or s['choices'] or s['busy'])
+        if ok: break
+        await drain_free(pg, cdp, secs=40)
+    run.check('B4：照玩家的路從校園走門進博思', ok and await pg.evaluate("GAME.G.zone") == 'boya', await pg.evaluate("GAME.G.zone"))
+    if not ok: return
+    await pg.wait_for_timeout(3000)
+    seat = await pg.evaluate("""(()=>{ const E=GAME.E, R=(BOYA_LAYOUT.rooms||[]).find(r=>r.id==='101'); if(!R) return null; const occ=st=>E.npcs.some(n=>n.seat&&Math.hypot(n.seat.x-st.x,n.seat.z-st.z)<0.35);
+        const L=E.interactables.filter(i=>i.seat&&!i.hidden&&(i.lv|0)===(R.lv|0)&&i.x>R.x0&&i.x<R.x1&&i.z>R.z0&&i.z<R.z1&&!occ(i.seat)&&!i.seat.taken);
+        const p=E.player.obj.position; L.sort((u,v)=>Math.hypot(u.x-p.x,u.z-p.z)-Math.hypot(v.x-p.x,v.z-p.z)); const q=L[Math.min(2,L.length-1)];
+        return q?{x:q.x, z:q.z, lv:q.lv|0, label:q.label, n:L.length}:null; })()""")
+    run.note('101 裡的空位（離門口近的第三個）：%s' % J(seat))
+    if seat:
+        await L.go_to(pg, cdp, run, seat['x'], seat['z'], 0.5, seat['label'], max_s=200, lv=seat['lv'], stop=lambda s: s['dlg'] or s['choices'] or s['busy'])
+        lab = await pg.evaluate("(()=>{ const b=document.getElementById('interact'); return b&&!b.classList.contains('hide')?b.textContent.trim():''; })()")
+        run.note('走到位子旁的互動鈕：「%s」' % lab)
+        if '坐' in lab: await L.tap(pg, cdp, '#interact'); await pg.wait_for_timeout(1200)
     n0 = await P.say_hook(pg); t0 = time.time(); cap = None; cap2 = None; seen = None
     while time.time() - t0 < 1500:
         c = await pg.evaluate("(()=>({zone:GAME.G.zone, h:+GAME.G.hour}))()")

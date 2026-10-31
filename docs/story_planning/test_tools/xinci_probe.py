@@ -693,30 +693,61 @@ async def s_zrfeed(p, run, base, sid, out):
     finally: await finish_page(run, sid, res, errs, b)
 
 
+ROOMWHO = """(()=>{ const E=GAME.E; return {G:GAME.G.zone, E:E.zone&&E.zone.id||null, h:+GAME.G.hour.toFixed(2), npcs:(E.npcs||[]).map(n=>[n.charId||n.id, n.obj&&n.obj.visible!==false&&!n.hidden?1:0]).slice(0,12),
+    spots:E.zone&&E.zone.spots?Object.keys(E.zone.spots):null, busy:!!(GAME.busy||GAME.G._busy), where:(()=>{ try{ const w=STORY.whereIs(GAME,'heroine_02'); return w?{zone:w.zone,act:w.act||null}:null; }catch(e){ return 'ERR '+e.message; } })() }; })()"""
+
+
+async def wait_zr(pg, run, sid, max_s=60):
+    """多媒體中心是 GLB 房間：讀檔／進門以後模型可能還在載，人還沒放——每 5 秒記一次房間裡有誰，最多等 max_s 秒"""
+    t0 = time.time(); seen = []
+    while time.time() - t0 < max_s:
+        w = await pg.evaluate(ROOMWHO); seen.append([round(time.time() - t0), w])
+        if await pg.evaluate(NPC + "(%s)" % json.dumps([ZR])): break
+        await pg.wait_for_timeout(5000)
+    run.note('%s 房間裡有誰（秒, 狀態）：%s' % (sid, J(seen[:3] + seen[-2:], 2500)))
+    return seen
+
+
 @guard
 async def s_zrl3(p, run, base, sid, out):
     res = out.setdefault(sid, {})
     # n25_xinci_i：在吧檯上班時找她說話＝點餐（story3d.js talkCharacter 的 staff 分支），閒聊階梯本來就不在吧檯——改到她沒上班、一個人的時段：週二 14～17 總圖多媒體中心（spots.zhiruo）
-    b, pg, cdp, errs, r = await launch(p, run, base, '2027-03-23', 14.5, 'library_media', rels={ZR: 'FRIEND'}, quiet=False, label=sid + '（大二下第 5 週週二 14:30 總圖多媒體中心；芷若一個人看片（作息週二四 14～17）；芷若 FRIEND）')   # n25_xinci_e：週二 10:18 在傅鐘附近她跟別人一起走、一下就離開這一區，改到她固定在的 Café
+    # n25_xinci_j：直接讀檔進多媒體中心，房間裡一個人都沒有（連館員都沒有）——ZRL3 改照玩家的路：讀檔在總圖大廳，走門進多媒體中心；ZRL3D 留著直接讀檔的版本當診斷
+    direct = sid == 'ZRL3D'
+    zone = 'library_media' if direct else 'library_hall'
+    b, pg, cdp, errs, r = await launch(p, run, base, '2027-03-23', 14.5, zone, rels={ZR: 'FRIEND'}, quiet=False, label=sid + '（大二下第 5 週週二 14:30；芷若一個人在總圖多媒體中心看片（作息週二四 14～17）；芷若 FRIEND；%s）' % ('直接讀檔進多媒體中心' if direct else '讀檔在總圖大廳，走門進多媒體中心'))
     try:
-        await pg.evaluate("(()=>{ const G=GAME.G; G.social.ladder=G.social.ladder||{}; G.social.ladder['heroine_02@Y2S2']=2; G.social.ladderDay=G.social.ladderDay||{}; delete G.social.ladderDay.heroine_02; })()")
-        run.setup('【前置】芷若大二下閒聊停在第 2 句（ladder heroine_02@Y2S2＝2、今天還沒聊過）')
-        await pg.evaluate("(()=>{ const G=GAME.G; G.flags=G.flags||{}; G.flags.ZR_MEDIA_TALK='Y2S2'; })()")
-        run.setup('【前置】這學期在多媒體中心第一次說話的那段（closed2_3d.js zrMediaTalk）當作講過了（G.flags.ZR_MEDIA_TALK＝Y2S2）——只測閒聊階梯')
+        await pg.evaluate("(()=>{ const G=GAME.G; G.social.ladder=G.social.ladder||{}; G.social.ladder['heroine_02@Y2S2']=2; G.social.ladderDay=G.social.ladderDay||{}; delete G.social.ladderDay.heroine_02; G.flags=G.flags||{}; G.flags.ZR_MEDIA_TALK='Y2S2'; })()")
+        run.setup('【前置】芷若大二下閒聊停在第 2 句（ladder heroine_02@Y2S2＝2、今天還沒聊過）；這學期在多媒體中心第一次說話的那段（closed2_3d.js zrMediaTalk）當作講過了（G.flags.ZR_MEDIA_TALK＝Y2S2）——只測閒聊階梯')
+        await pg.evaluate("(()=>{ const c=document.querySelector('#phone .close, #phoneClose, #btnPhoneClose'); if(c) c.click(); })()")
+        if not direct:
+            ex = await pg.evaluate("(()=>{ const it=GAME.E.interactables.find(i=>i.exit&&i.exit.to==='library_media'); return it?[it.x,it.z,it.lv|0,it.label]:null; })()")
+            run.note('%s 大廳裡往多媒體中心的門：%s' % (sid, J(ex)))
+            res['door'] = ex
+            if ex:
+                await L.go_to(pg, cdp, run, ex[0], ex[1], 0.9, ex[3], max_s=300, lv=ex[2], stop=lambda s: s['dlg'] or s['choices'] or s['busy'])
+                lab0 = await pg.evaluate(LAB); run.note('%s 門口互動鈕：「%s」' % (sid, lab0))
+                await L.tap(pg, cdp, '#interact')
+                for _ in range(40):
+                    await pg.wait_for_timeout(1000)
+                    if await pg.evaluate("GAME.G.zone") == 'library_media': break
+            zn = await pg.evaluate("GAME.G.zone"); run.check('%s：照玩家的路從總圖大廳走進多媒體中心' % sid, zn == 'library_media', J({'door': ex, 'zone': zn}))
+        res['seen'] = await wait_zr(pg, run, sid)
         n0 = await log_len(pg)
         ch, lab = await talk(pg, cdp, run, [ZR], ['芷若', '林芷若'], picks=['「為什麼？」'], label=sid)
-        # n25_xinci_c：繞了四個方向互動鈕還是「和不認識的女生說話」、截圖旁邊只有一個女生——查她是誰、芷若算不算認識了
-        dg = await pg.evaluate("""(()=>{ const E=GAME.E, p=E.player.obj.position; const near=(E.npcs||[]).filter(n=>n&&n.obj&&n.obj.visible!==false).map(n=>({id:n.id, charId:n.charId||null, d:+Math.hypot(n.obj.position.x-p.x,n.obj.position.z-p.z).toFixed(2), name:(n.id&&SOCIAL.displayName)?SOCIAL.displayName(n.id):null})).sort((a,b)=>a.d-b.d).slice(0,4);
-            const it=(E.interactables||[]).filter(i=>i.npc||i.npcId).map(i=>({label:i.label, npc:i.npc&&i.npc.id||i.npcId||null})).slice(0,4);
-            return {near, it, metD:SOCIAL.metD?SOCIAL.metD('heroine_02'):null, first:SOCIAL.has('heroine_02','FIRST_MET'), disp:SOCIAL.displayName('heroine_02'), layer:(CHARACTERS.heroine_02||{}).social_layer}; })()""")
-        run.note('%s 診斷：身邊的人與互動點 %s' % (sid, J(dg, 1500))); res['diag'] = dg
+        dg = await pg.evaluate("""(()=>{ const E=GAME.E, p=E.player.obj.position; const near=(E.npcs||[]).filter(n=>n&&n.obj&&n.obj.visible!==false).map(n=>({id:n.id, charId:n.charId||null, d:+Math.hypot(n.obj.position.x-p.x,n.obj.position.z-p.z).toFixed(2)})).slice(0,6);
+            return {near, zone:GAME.G.zone, metD:SOCIAL.metD?SOCIAL.metD('heroine_02'):null, first:SOCIAL.has('heroine_02','FIRST_MET'), disp:SOCIAL.displayName('heroine_02')}; })()""")
+        run.note('%s 診斷：%s' % (sid, J(dg, 1500))); res['diag'] = dg
+        await run.shot(pg, sid + '_room')
         lg = await log_since(pg, n0); T = texts(lg); CS = choice_sets(lg); await report(pg, run, sid, res, T, CS)
+        run.check('%s：多媒體中心裡有芷若（作息週二 14～17 library_media）' % sid, bool(await pg.evaluate(NPC + "(%s)" % json.dumps([ZR]))) or bool(T), J(res['seen'][-1:]))
         run.check('%s：和林芷若說話＝Z4-L3「我帶的那個工讀生，已經記得所有常客的名字了。」「……她記得比我那時候快。我好高興。」' % sid,
                   has_seq(T, ['我帶的那個工讀生，已經記得所有常客的名字了。', '……她記得比我那時候快。我好高興。']), J({'lab': lab, 'said': T[-6:]}))
         run.check('%s：選「為什麼？」→「因為常客會被記得。被記得的人，會再來。」' % sid, has_seq(T, ['因為常客會被記得。被記得的人，會再來。']), J(T[-3:]))
     finally: await finish_page(run, sid, res, errs, b)
 
 
+@guard
 async def s_zrcafe(p, run, base, sid, out):
     """n25_xinci_i 看到的：已經認識一年半的芷若在吧檯上班，按鈕是「和店員說話」（story3d.js:480 生成時寫死；:889 點完餐才換成名字）。只量，不點。"""
     res = out.setdefault(sid, {})
@@ -734,9 +765,9 @@ async def s_zrcafe(p, run, base, sid, out):
     finally: await finish_page(run, sid, res, errs, b)
 
 
-ORDER = ['DAY1', 'COPY_REAL', 'COPY_BACK', 'COPY_RPS', 'ELEV_ASK', 'ELEV_DONE', 'C2', 'C3A', 'C3B', 'C3C', 'C3B1', 'C3FIX', 'DAD', 'C5DIAG', 'C5', 'C6', 'ZRFEED', 'ZRL3', 'ZRCAFE']
+ORDER = ['DAY1', 'COPY_REAL', 'COPY_BACK', 'COPY_RPS', 'ELEV_ASK', 'ELEV_DONE', 'C2', 'C3A', 'C3B', 'C3C', 'C3B1', 'C3FIX', 'DAD', 'C5DIAG', 'C5', 'C6', 'ZRFEED', 'ZRL3', 'ZRL3D', 'ZRCAFE']
 FN = {'DAY1': s_day1, 'COPY_REAL': s_copy, 'COPY_BACK': s_copy, 'COPY_RPS': s_copy, 'ELEV_ASK': s_elev, 'ELEV_DONE': s_elev, 'C2': s_c2, 'C3A': s_c3, 'C3B': s_c3, 'C3C': s_c3, 'C3B1': s_c3, 'C3FIX': s_c3fix,
-      'DAD': s_dad, 'C5DIAG': s_c5diag, 'C5': s_c5, 'C6': s_c6, 'ZRFEED': s_zrfeed, 'ZRL3': s_zrl3, 'ZRCAFE': s_zrcafe}
+      'DAD': s_dad, 'C5DIAG': s_c5diag, 'C5': s_c5, 'C6': s_c6, 'ZRFEED': s_zrfeed, 'ZRL3': s_zrl3, 'ZRL3D': s_zrl3, 'ZRCAFE': s_zrcafe}
 
 
 async def main():
