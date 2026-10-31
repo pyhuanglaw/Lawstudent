@@ -123,7 +123,9 @@ WM['S'].quad([(sf['x1'], sf['glass_h'], Z1), (sf['x0'], sf['glass_h'], Z1), (sf[
 for k, (a, b) in (('N', ((X0, Z0 + 0.01), (X1, Z0 + 0.01))), ('W', ((X0 + 0.01, Z1), (X0 + 0.01, Z0))), ('E', ((X1 - 0.01, Z0), (X1 - 0.01, Z1)))):
     BM[k].quad([(a[0], 2.6, a[1]), (b[0], 2.6, b[1]), (b[0], 2.9, b[1]), (a[0], 2.9, a[1])])
 sk = Mesh('usam_skirt', M['kick']); sk.box(X0, X1, 0.0, 0.1, Z0, Z0 + 0.03); sk.box(X0, X0 + 0.03, 0.0, 0.1, Z0, Z1); sk.box(X1 - 0.03, X1, 0.0, 0.1, Z0, Z1); sk.finish(root, uv=False)
-ce = Mesh('usam_ceiling', M['ceil']); ce.quad([(X0, H, Z1), (X1, H, Z1), (X1, H, Z0), (X0, H, Z0)]); ce.finish(root, uv=False)
+# 天花板朝下（LAWWW2-B 10-31 美國室內光照烘焙時找到：原本這片的正面朝上，遊戲裡看得到是靠單面化補的反面——
+# 光照烘焙會拿掉疊在一起的反面、留下原本的那一面，烘完天花板從店裡往上看整片不見）
+ce = Mesh('usam_ceiling', M['ceil']); ce.quad([(X0, H, Z0), (X1, H, Z0), (X1, H, Z1), (X0, H, Z1)]); ce.finish(root, uv=False)
 gr = Mesh('usam_grid', M['grid']); pn = Mesh('GLOW_usam_troffers', M['panel'])
 x = X0
 while x <= X1 + 1e-6: gr.box(x - 0.012, x + 0.012, H - 0.025, H - 0.002, Z0, Z1); x += 0.6
