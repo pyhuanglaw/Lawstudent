@@ -1479,11 +1479,16 @@ async def boyab4(pg, cdp, run):
 # n28_gongtong_b 06:07：共同 101 走道邊的座位，seatApproach 挑的「坐下前站的位置」在走道上（4.7, 2.75），離互動點 (5.25, 2.4) 0.65 m，按鈕範圍 0.62 m＝站在那裡看不到「坐下」。
 #   ① 三棟教學館（共同、普通、博思）所有階梯教室座位：從進門的出生點算 seatApproach，列出走近點在按鈕範圍外的座位（只算，不走）
 #   ② 照玩家：點第一張那樣的椅子（點在椅子上＝遊戲改走到坐下前站的位置，E.tapRedirect）→ 停下來以後有沒有「坐下」；對照：點同一排第二張
-SEATSWEEP = """(()=>{ const E=GAME.E, its=E.interactables.filter(i=>i.seat&&i.seat.kind==='lecture'); const bad=[]; let n=0;
+SEATSWEEP = """(()=>{ const E=GAME.E, its=E.interactables.filter(i=>i.seat&&(i.seat.kind==='lecture'||i.seat.kind==='class')); const bad=[]; let n=0;
   for(const i of its){ n++; const a=GAME.seatApproach?GAME.seatApproach(i.seat):null; const r=i.radius||1.8; const st=i.seat;
     const row={room:st.room, row:st.row, col:st.col, seat:[+st.x.toFixed(2),+st.z.toFixed(2)], it:[+i.x.toFixed(2),+i.z.toFixed(2)], r, rFit:i.radiusFit||null};
     if(!a){ bad.push({...row, ap:null}); continue; } const d=Math.hypot(a[0]-i.x,a[1]-i.z); if(d>r) bad.push({...row, ap:[+a[0].toFixed(2),+a[1].toFixed(2)], d:+d.toFixed(2)}); }
   const o=E.player.obj.position; return {zone:GAME.G.zone, from:[+o.x.toFixed(2),+o.z.toFixed(2)], n, bad:bad.length, list:bad}; })()"""
+TAPCHAIR = """(([x,z])=>{ const E=GAME.E; const ok=(sx,sy)=>[[0,0],[10,0],[-10,0],[0,10],[0,-10]].every(([dx,dy])=>{ const e=document.elementFromPoint(sx+dx,sy+dy); return !!e&&e.id==='c'; });
+  for(const r of [0,0.15,0.3]) for(let a=0;a<8;a++){ const wx=x+Math.cos(a*Math.PI/4)*r, wz=z+Math.sin(a*Math.PI/4)*r; for(const dy of [0.45,0.2,0.0]){ const y=(E.heightAt?E.heightAt(wx,wz,0):0)+dy;
+    const v=new THREE.Vector3(wx,y,wz).project(E.camera); if(v.z>1) continue; const sx=(v.x*0.5+0.5)*innerWidth, sy=(-v.y*0.5+0.5)*innerHeight; if(sx<20||sy<20||sx>innerWidth-20||sy>innerHeight-20||!ok(sx,sy)) continue;
+    const h=E.screenToFloor?E.screenToFloor(sx,sy):null; if(!h) continue; if(Math.hypot(h.x-x,h.z-z)>0.45) continue; if(E.canStand&&E.canStand(h.x,h.z,0.3,h.lv|0)) continue;
+    return {sx, sy, hit:[+h.x.toFixed(2),+h.z.toFixed(2),h.lv|0]}; } } return null; })"""
 MOVEJS = "(()=>{ const P=GAME.E.player, o=P.obj.position; return {x:+o.x.toFixed(2), z:+o.z.toFixed(2), moving:!!(P.path&&P.path.length), pose:P.pose||null}; })()"
 
 
@@ -1491,7 +1496,10 @@ async def tap_seat(pg, cdp, run, i, tag):
     """照玩家點椅子：鏡頭轉向椅子、點椅子在畫面上的位置；停下來以後看按鈕"""
     st = i['seat']; await L.turn_camera_to(pg, cdp, st[0], st[1]); await pg.wait_for_timeout(800)
     redir = await pg.evaluate("(([x,z])=>{ const E=GAME.E; return E.tapRedirect?E.tapRedirect(x,z,0):null; })(%s)" % J(st))
-    pt = await L.tap_ground(pg, cdp, st[0], st[1], lv=0)
+    # n28_seatreach 06:39：L.tap_ground 對椅子回 None（椅子那一點的螢幕位置檢查沒過）＝探針沒點下去。改成：椅子周圍 0.3 m 內找一點，
+    #   螢幕上是遊戲畫面、E.screenToFloor 落在離椅子 0.45 m 內又站不住的地方（＝遊戲會當成點椅子）才用手指點
+    pt = await pg.evaluate(TAPCHAIR + "(%s)" % J(st))
+    if pt: await L.touch_tap(cdp, pt['sx'], pt['sy'])
     still = 0; t0 = time.time()
     while time.time() - t0 < 45:
         await pg.wait_for_timeout(700); m = await pg.evaluate(MOVEJS)
@@ -1511,7 +1519,7 @@ async def seatreach(pg, cdp, run):
         run.setup('[前置] 使用者存檔改到 %s 14:00 %s（出生點＝進門的地方）' % (d['key'], zone)); await pg.wait_for_timeout(4000)
         sw = await pg.evaluate(SEATSWEEP)
         run.note('%s 階梯教室座位 %d 個，走近點在「坐下」範圍外 %d 個（從 %s 算）：%s' % (zone, sw['n'], sw['bad'], J(sw['from']), J(sw['list'])[:3000]))
-        run.check('%s：階梯教室每個座位「坐下前站的位置」都在「坐下」按鈕的範圍裡（從進門的地方算）' % zone, sw['n'] > 0 and sw['bad'] == 0, J({'n': sw['n'], 'bad': sw['bad'], 'first': sw['list'][:4]})[:900])
+        run.check('%s：教室每個座位（階梯＋平面）「坐下前站的位置」都在「坐下」按鈕的範圍裡（從進門的地方算）' % zone, sw['n'] > 0 and sw['bad'] == 0, J({'n': sw['n'], 'bad': sw['bad'], 'first': sw['list'][:4]})[:900])
         if zone == 'gongtong' and sw['list']: first = sw['list'][0]
     if not first: return
     st, d = await P.base(pg, SAVE, '2025-10-15', 14.0, 'gongtong'); await P.load(pg, cdp, st)
