@@ -70,7 +70,7 @@ const CONFESS_LINES={
     yes:['……你說完了嗎。',{who:'narr',text:'（她把杯子轉了半圈，又轉回來。）'},'我本來以為，這件事我會先想好。','……我沒有想好。可是好。'],
     notYet:['我還沒想好。想好了，我會先跟你說。','這不是拒絕。你不要聽成拒絕。'], notYetFlag:'XC_NOT_YET',
     unwilling:['……謝謝你。','我現在沒辦法回答。不是因為你。'],
-    others:['你現在有在跟誰交往嗎。',{who:'narr',text:'（她沒等你回答。）'},'我只想要一對一。這句話很直接，可是是真的。'],
+    /* others 拿掉（AA_548 第 7 節：她不問、只要沒騙她就接受——XCROM.othersNow 一直是空的）*/
     hideIf:G=>!(typeof XCROM!=='undefined'&&XCROM.allGates(G)) },   /* G1～G10 沒全過（含跟以安交往過）＝不出（沛珊重考期同一種做法）*/
   classmate_peishan:{ src:'AA_223 第 4 節 @52702c92',
     say:['今天謝謝你約我。……你要講什麼嗎？'],

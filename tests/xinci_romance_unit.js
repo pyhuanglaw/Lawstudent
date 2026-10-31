@@ -64,7 +64,7 @@ const walk=async(picks,term)=>{ H.said=[]; H.opts=[]; H.picks=picks.slice(); ret
     check('0. 開關集中在 XCROM.CFG：G10 拿掉（noAnEx false 已經沒有用）；只要沒騙她就接受＝noOpen false（使用者 10-31 00:0x 點選，AA_548 第 7 節）',J(X().CFG)===J({noAnEx:false,noOpen:false}));
     check('0. DATE.HEROINES 有芯慈；YES_LINE 75；心願地點 D04、要午夜場（DATE.MIDNIGHT）；告白要 6 次正式約會',DATE.HEROINES.includes(XC)&&DATE.YES_LINE[XC]===75&&DATE.wishOf(XC)==='D04'&&!!DATE.MIDNIGHT[XC]&&DATE.MIDNIGHT[XC].loc==='D04'&&DATE.COUNT_NEED[XC]===6);
     const C=CONFESS_LINES[XC];
-    check('0. confess_lines（AA_537 第 4 節；others 那一句照 AA_548 第 4 節）：say、三句、yes、notYet、unwilling、others 照稿；notYetFlag XC_NOT_YET',!!C&&C.notYetFlag==='XC_NOT_YET'&&[].concat(C.say,C.yes,C.notYet,C.unwilling,C.others).every(x=>{ const t=typeof x==='string'?x:x.text; return DOC537.includes(t)||DOC548.includes(t); })&&C.others[2]==='我只想要一對一。這句話很直接，可是是真的。'&&C.yes.length===4&&C.others.length===3&&C.choice.length===3,'');
+    check('0. confess_lines（AA_537 第 4 節）：say、三句、yes、notYet、unwilling 照稿、others 拿掉（AA_548 第 7 節）；notYetFlag XC_NOT_YET',!!C&&C.notYetFlag==='XC_NOT_YET'&&[].concat(C.say,C.yes,C.notYet,C.unwilling).every(x=>{ const t=typeof x==='string'?x:x.text; return DOC537.includes(t)||DOC548.includes(t); })&&C.others===undefined&&C.yes.length===4&&C.choice.length===3,'');
     const Hx=TERMEND_LINES.HEART[XC];
     const strs=[Hx.invite,Hx.decline,Hx.table,Hx.think,Hx.invite2].concat(Hx.walk,Hx.she,Hx.she2,Hx.yes2);   /* askFirst／noOther／othersTail 拿掉（AA_548 第 7 節：她不問）*/
     check('0. termend_lines HEART.classmate_xinci（AA_537b 第 7 節；othersTail 照 AA_548 第 4 節）：每一句都在稿裡；巷口家常菜 18:00、羅斯福路・往公館站',!!Hx&&strs.every(t=>DOC537b.includes(t)||DOC537.includes(t)||DOC548.includes(t))&&Hx.placeName==='巷口家常菜'&&Hx.h===18&&Hx.walkPlace==='羅斯福路・往公館站',J(strs.filter(t=>!DOC537b.includes(t)&&!DOC537.includes(t)&&!DOC548.includes(t))));
@@ -200,6 +200,11 @@ const walk=async(picks,term)=>{ H.said=[]; H.opts=[]; H.picks=picks.slice(); ret
     check('10. 慈 3 以後每週一則：A1、A2、A3、A4 照順序；週三、週日一週一週輪流；00:30～01:30',g.length===4&&J(g.map(x=>x[1]))===J(N.NIGHT_A.slice(0,4).map(x=>x.m[x.m.length-1]))&&g.every(x=>x[0]===3||x[0]===0)&&g[0][0]!==g[1][0],J(g));
     check('10. 每一則都在 30 分鐘內回＝XC_NIGHT 4',(H.G.flags.XC_NIGHT|0)===4,H.G.flags.XC_NIGHT);
     run(d0+29,d0+36,0.75); check('10. 超過 30 分鐘才回＝不算（XC_NIGHT 還是 4）',(H.G.flags.XC_NIGHT|0)===4,H.G.flags.XC_NIGHT);
+    { /* 遊戲裡過了半夜不換日（G.hour 加到 24 以上、睡覺才換 G.day；BB-B 10-31 讀程式找到）：前一天熬夜到那個時段也要收到 */
+      H.fresh('2026-12-14',12,'dorm',{introDone:true}); H.G.contacts={[XC]:1}; H.G.events.done.ev_xinci_second=1; H.G.flags.XCN_START=d0;
+      let sd=null, sh=0; for(let d=d0+2;d<d0+16&&sd==null;d++){ const sl=N.nightSlot(d); if(sl.day===d){ sd=d; sh=sl.h; } }
+      H.G.day=sd-1; H.G.hour=24+sh+0.02; STORY.phoneRules(GM); PHONE.tick(H.G); const m=(H.G.msgs||[]).filter(x=>x.th==='p:'+XC&&x.ask&&/^xcn_/.test(x.ask.id)).pop();
+      check('10. 熬夜：G.day 還是前一天、G.hour＝24＋時段（遊戲裡真正的狀態）＝照樣收到那一則、時間戳是那一天（修改前收不到）',!!m&&m.day===sd&&Math.abs(m.h-(sh+0.02))<0.05,J(m&&[m.day,m.h,sd,sh])); }
     H.fresh('2027-10-04',12,'dorm',{introDone:true,XC5_RECONCILE:true}); H.G.contacts={[XC]:1}; H.G.events.done.ev_xinci_second=1; H.G.flags.XCN_START=D('2027-10-03');
     const gb=run(D('2027-10-04'),D('2027-10-04')+20); check('10. 慈 5 以後換 B：B1、B2、B3',J(gb.map(x=>x[1]))===J(N.NIGHT_B.slice(0,3).map(x=>x.m[x.m.length-1])),J(gb));
     H.fresh('2028-05-10',12,'dorm',{introDone:true,XC5_RECONCILE:true,XCN:{a:0,b:2,l:0}}); H.G.contacts={[XC]:1}; H.G.events.done.ev_xinci_second=1; H.G.events.done.ev_xinci_first_place=1; H.G.flags.XCN_START=D('2028-05-09');
@@ -270,6 +275,13 @@ const walk=async(picks,term)=>{ H.said=[]; H.opts=[]; H.picks=picks.slice(); ret
     full(G=>{ G.flags['dating_'+XC]=true; G.flags['dating_'+AN]=true; (G.flags.confessed||(G.flags.confessed={}))[XC]=G.day-1; G.contacts[AN]=1; }); H.G.hour=21.2; STORY.phoneRules(GM); PHONE.tick(H.G);
     check('12. 5-3 以安：交往後第一週 21:00 以後一則「芯慈跟我說了。她自己來跟我說的。」「我很高興。是真的。」；以安自己在跟祐廷交往＝不傳（AA_548 第 8 節同意）',J(an)===J(X().AN_KNOWS)&&!(H.G.msgs||[]).some(m=>m.tag==='xc_an_knows'),J(an)); });
 
+  /* ===== 第 12b 節：心意邀約當天才約（BB-B 10-31：原本時段第一天 20:30 傳、飯排兩天後，「今天晚上有空嗎。……我沒有提前一天。」的「今天」不對）===== */
+  await sec('12b',async()=>{ full(null,'2028-06-07'); H.G.hour=0; const w=TERMEND.windowOf('Y3S2'), tag='te_Y3S2_'+XC; let m=null;
+    for(let d=w.from;d<=w.to&&!m;d++) for(const h of [9,12.05,15,20.6,21]){ H.G.day=d; H.G.hour=h; TERMEND.phone(GM); PHONE.tick(H.G); m=(H.G.msgs||[]).find(x=>x.tag===tag&&x.ask); if(m) break; }
+    const R=H.G.termend.Y3S2||{}, dd=(R.heartDay||{})[XC];
+    let q=null; if(m){ H.G.hour=Math.max(H.G.hour,12.2); PHONE.answer(H.G,tag,0); TERMEND.pickCheck(GM); q=OUT.get(H.G,'te_Y3S2'); }
+    check('12b. 芯慈的心意邀約（HEART.sameDay）：那一天 12:00 才傳「考完了。今天晚上有空嗎。……我沒有提前一天。」、回覆到 17:30；答應＝飯就在那天 18:00',!!m&&dd!=null&&m.day===dd&&m.h>=12&&m.h<17.5&&m.text===TERMEND_LINES.HEART[XC].invite&&m.ask.until===dd*24+17.5&&!!q&&q.day===dd&&q.h===18,J([m&&[m.day,m.h,m.text],dd,q&&[q.day,q.h]])); });
+
   /* ===== 第 13 節：AA_548 第 8 節（她爸爸、挽回、冷落）===== */
   await sec(13,async()=>{ const DOC8=doc('8e0de1663','AA_548_芯慈戀愛線重寫_門檻與半夜訊息.md'), ZQ_='heroine_04';
     const fri=(()=>{ for(let d=D('2029-04-01');d<=D('2029-04-30');d++) if(CALENDAR.dateOf(d).wd%7===5) return d; return null; })();
@@ -284,9 +296,9 @@ const walk=async(picks,term)=>{ H.said=[]; H.opts=[]; H.picks=picks.slice(); ret
     const ro=()=>[].concat(...STORY.TALK_OPTS.map(f=>{ try{ return f(H.G,XC,GM)||[]; }catch(e){ return []; } })).find(o=>o&&o.t===X().REPAIR_OPT);
     H.G.day=d0+29; const before=!!ro(); H.G.day=d0+30; const o2=ro(); H.said=[]; if(o2) await o2.run(GM);
     check('13. 8-2 挽回：和另一位結束、單身滿 30 天才有「（跟她說，你已經結束了那一段）」→「……我知道。以安說了。」「我需要時間。我會自己決定要多久。」；XC_REPAIR wait',!before&&!!o2&&J(T())===J(X().REPAIR_OPEN)&&X().REPAIR_OPEN.every(t=>DOC8.includes(t))&&H.G.flags.XC_REPAIR&&H.G.flags.XC_REPAIR.state==='wait',J(T()));
-    DATE.log(H.G,XC).count+=2; H.G.flags.XC_NIGHT=(H.G.flags.XC_NIGHT|0)+1; H.said=[]; await X().repairClose(GM,{who:XC}); const a1=H.G.flags['dating_'+XC]===true;
-    H.G.flags.XC_NIGHT+=1; await X().repairClose(GM,{who:XC});
-    check('13. 8-2 第三次約會結束時，兩樣都滿（約會 3、半夜訊息回 2）＝「我排好了。」「……這次，你什麼都先告訴我。」→ 回到交往；只滿一樣不行',!a1&&J(T())===J(X().REPAIR_YES)&&X().REPAIR_YES.every(t=>DOC8.includes(t))&&H.G.flags['dating_'+XC]===true&&H.G.flags.XC_REPAIR.state==='done',J(T()));
+    DATE.log(H.G,XC).count+=3; H.G.flags.XC_NIGHT=(H.G.flags.XC_NIGHT|0)+1; H.said=[]; await X().repairClose(GM,{who:XC},{counted:true}); const a1=H.G.flags['dating_'+XC]===true;
+    H.G.flags.XC_NIGHT+=1; await X().repairClose(GM,{who:XC},{counted:true});   /* 接在 DATE.settle 之後（count 已經算進第三次）*/
+    check('13. 8-2 第三次約會結束時（DATE.settle 之後：一般、快速、心願都經過），兩樣都滿（約會 3、半夜訊息回 2）＝「我排好了。」「……這次，你什麼都先告訴我。」→ 回到交往；只滿一樣不行',!a1&&J(T())===J(X().REPAIR_YES)&&X().REPAIR_YES.every(t=>DOC8.includes(t))&&H.G.flags['dating_'+XC]===true&&H.G.flags.XC_REPAIR.state==='done',J(T()));
     full(G=>{ G.flags.XC_FOUND={n:1,day:d0}; G.flags.XC_REPAIR={state:'wait',day:d0,d0:0,n0:0}; },CALENDAR.dateOf(d0+60).key); H.G.hour=21.1; STORY.phoneRules(GM); PHONE.tick(H.G);
     check('13. 8-2 60 天沒滿＝「我想好了。我們當朋友就好。」、之後不能再挽回',(H.G.msgs||[]).some(m=>m.tag==='xc_repair_no'&&m.text===X().REPAIR_NO)&&H.G.flags.XC_REPAIR.state==='friend'&&!ro()&&DOC8.includes(X().REPAIR_NO));
     full(G=>{ G.flags.XC_FOUND={n:2,day:d0}; },CALENDAR.dateOf(d0+40).key); check('13. 第二次被發現不能挽回',!ro());

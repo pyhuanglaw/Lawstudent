@@ -69,6 +69,10 @@ const PRIVTALK=(function(){
       note:'選項不出；沒有期限（她一個人的時候出；等了 7 天照出）'},
     {key:'tell_later',cat:'坦白有別人',who:['heroine_05','heroine_04','heroine_02','heroine_03','kexin'],kind:'opt',gate:'priv',desc:'src/multirel3d.js STORY.TALK_OPTS（S.confLaterFor：「（下次見面，自己跟她講…的事）」；交往中才有；privKey tell_later）',
       note:'選項不出；沒有期限；語彤在麵店、旁邊只有阿姨＝照出（後補第 6 點，S.PLACE_EXCEPT）'},
+    {key:'xc_tell',cat:'坦白有別人',who:['classmate_xinci'],kind:'opt',gate:'priv',desc:'src/xcrom3d.js STORY.TALK_OPTS（S.talkOpts：「（自己跟她講…的事）」；芯慈交往中、還沒跟她說的；AA_548 第 7 節；privKey xc_tell）',
+      note:'選項不出；沒有期限（同 tell_later）'},
+    {key:'xc_repair',cat:'挽回',who:['classmate_xinci'],kind:'opt',gate:'priv',desc:'src/xcrom3d.js STORY.TALK_OPTS（S.repairOpts：「（跟她說，你已經結束了那一段）」；AA_548 8-2；privKey xc_repair）',
+      note:'選項不出；沒有期限（條件本身有畢業典禮前的期限）'},
     /* ---- 她知情以後那幾場 ---- */
     {key:'knows_talk',cat:'她知情以後',who:MR,kind:'pre',gate:'wrap',except:{heroine_03:KNOW.ytMom},desc:'src/multirel3d.js 包 STORY.talkCharacter 的那一層：MREL.meetAction（kind talk／noodle）＝和她說話時演的發現、冷靜、挽回、結果',
       note:'這一次不演、不前進、不算次數（AA_503 第 14 節後補第 3 項：學姊一般見面〔meets、MREL.sisMet〕、語彤被打擾〔dist〕，擋下來沒演的不算），照常說話；流程沒有期限，下次她一個人時演、算；等了 7 天照演、照算（開頭旁白）；語彤旁邊只有阿姨（hc_ayi）＝照演、不加旁白（後補第 5 點；第 6 點起麵店裡她所有私密的都一樣，S.PLACE_EXCEPT）'},

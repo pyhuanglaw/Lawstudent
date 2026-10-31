@@ -112,7 +112,7 @@ const TERMEND_LINES=(function(){
       table:'我今天點了一道沒吃過的。……你不要笑。',   /* AA_537b 8-0（86659bbc1）：第 7 節那句和學姊 GF 太像，換這句（接 G3 想換菜）*/
       walk:['這學期，我有一天沒有排讀書。','……是跟你吃飯那天。'],
       optsFrom:'confess',   /* 玩家先說：confess_lines 的三句 */
-      decideYes:true, tellOpt:true,   /* AA_548 第 7 節（使用者 10-31 點選）：她不問；玩家先說的照 YES_LINE 75 答應或 notYet；交往中、她不知道＝多一個選項「（先告訴她，你在跟誰交往）」（XCROM.TELL_OPT）；她已經知道＝答應時多 XCROM.KNOWN_LINE */   /* 不管誰先說她都先問（AA_537b 第 7 節）：沒有對象＝祐廷自動「沒有。」；有對象（她不知道）＝接 others 後兩行、不交往；玩家先說的照 YES_LINE 75 答應或 notYet（AA_537 第 4 節）*/
+      decideYes:true, tellOpt:true, sameDay:true,   /* sameDay：心意邀約當天 12:00 才傳、飯在那天（「今天晚上有空嗎。……我沒有提前一天。」，termend3d.js send）*/   /* AA_548 第 7 節（使用者 10-31 點選）：她不問；玩家先說的照 YES_LINE 75 答應或 notYet；交往中、她不知道＝多一個選項「（先告訴她，你在跟誰交往）」（XCROM.TELL_OPT）；她已經知道＝答應時多 XCROM.KNOWN_LINE */   /* 不管誰先說她都先問（AA_537b 第 7 節）：沒有對象＝祐廷自動「沒有。」；有對象（她不知道）＝接 others 後兩行、不交往；玩家先說的照 YES_LINE 75 答應或 notYet（AA_537 第 4 節）*/
       she:['……你不說，那我說。','我排了一個晚上要講這個。講稿寫了三版，都很爛。','我喜歡你。'],   /* AA_548 第 7 節：最後的問句拿掉，後面直接出「好／讓我想想」*/
       think:'好。我把它排進下學期。……不要讓我排到畢業。',
       invite2:'考完了。今天晚上有空嗎。……上次那件事，我還放著。',
