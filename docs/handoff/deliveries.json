@@ -16727,6 +16727,19 @@
    "task": "AA554-ZRZQ-DATING-1031",
    "integration": "未整合",
    "note": "發布基準 39f68236c 凍結中，發布後在本機分支實作再合"
+  },
+  {
+   "id": "DL-LW2-LAMPSHADE-1031",
+   "date": "2026-10-31",
+   "from": "LAWWW2-B",
+   "account": "B",
+   "branch": "claude/funny-albattani-iawshm",
+   "sha": "9cc4810f2",
+   "msg": "ACK",
+   "what": "店內吊燈燈罩裡外相反 11 個（l118_cafe2、l118_pasta、wenzhou_street GLB 只翻零件；glb_flip_insideout.py；lane118_shops.py、wz_shopkit.py；lampshade_flip_unit）",
+   "task": "ART-LAMPSHADE-FLIP-1027",
+   "integration": "未整合",
+   "note": "LAWWW-B：整合在本機分支 feat-art-1031（lane118_shops.py 三方合併）；7 支 Node ALL PASS；發布後合進開發分支；溫州街 Café 附近金屬圓盤 cafe_vc_wz_metal 也裡外相反，LAWWW2 記在 README 沒動"
   }
  ],
  "ignored": [
