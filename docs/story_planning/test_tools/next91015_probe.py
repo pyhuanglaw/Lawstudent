@@ -1489,6 +1489,12 @@ TAPCHAIR = """(([x,z])=>{ const E=GAME.E; const ok=(sx,sy)=>[[0,0],[10,0],[-10,0
     const v=new THREE.Vector3(wx,y,wz).project(E.camera); if(v.z>1) continue; const sx=(v.x*0.5+0.5)*innerWidth, sy=(-v.y*0.5+0.5)*innerHeight; if(sx<20||sy<20||sx>innerWidth-20||sy>innerHeight-20||!ok(sx,sy)) continue;
     const h=E.screenToFloor?E.screenToFloor(sx,sy):null; if(!h) continue; if(Math.hypot(h.x-x,h.z-z)>0.45) continue; if(E.canStand&&E.canStand(h.x,h.z,0.3,h.lv|0)) continue;
     return {sx, sy, hit:[+h.x.toFixed(2),+h.z.toFixed(2),h.lv|0]}; } } return null; })"""
+SEAT_TGT = """(([room,row,col])=>{ const E=GAME.E; const i=E.interactables.find(q=>q.seat&&q.seat.room===room&&q.seat.row===row&&q.seat.col===col); if(!i) return null;
+  const st=i.seat, L=(typeof GONGTONG_LAYOUT!=='undefined'&&GAME.G.zone==='gongtong')?GONGTONG_LAYOUT:(typeof BOYA_LAYOUT!=='undefined'?BOYA_LAYOUT:null); const R=L&&L.rooms.find(r=>r.id===room);
+  const p=E.player.obj.position; let best=null, bd=1e9;
+  for(const rr of [2.5,2.0,3.0]) for(let a=0;a<24;a++){ const x=st.x+Math.cos(a*Math.PI/12)*rr, z=st.z+Math.sin(a*Math.PI/12)*rr; if(R&&!(x>R.x0+0.3&&x<R.x1-0.3&&z>R.z0+0.3&&z<R.z1-0.3)) continue;
+    if(E.canStand&&!E.canStand(x,z,0.35,0)) continue; const d=Math.hypot(x-p.x,z-p.z); if(d<bd){ bd=d; best=[+x.toFixed(2),+z.toFixed(2),rr]; } }
+  return {seat:[st.x,st.z], it:[i.x,i.z], r:i.radius||1.8, row, col, stand:best, ap:GAME.seatApproach?GAME.seatApproach(st):null}; })"""
 MOVEJS = "(()=>{ const P=GAME.E.player, o=P.obj.position; return {x:+o.x.toFixed(2), z:+o.z.toFixed(2), moving:!!(P.path&&P.path.length), pose:P.pose||null}; })()"
 
 
@@ -1513,28 +1519,29 @@ async def tap_seat(pg, cdp, run, i, tag):
 
 
 async def seatreach(pg, cdp, run):
-    first = None
     for zone in ('gongtong', 'putong', 'boya'):
         st, d = await P.base(pg, SAVE, '2025-10-15', 14.0, zone); await P.load(pg, cdp, st)
         run.setup('[前置] 使用者存檔改到 %s 14:00 %s（出生點＝進門的地方）' % (d['key'], zone)); await pg.wait_for_timeout(4000)
         sw = await pg.evaluate(SEATSWEEP)
         run.note('%s 階梯教室座位 %d 個，走近點在「坐下」範圍外 %d 個（從 %s 算）：%s' % (zone, sw['n'], sw['bad'], J(sw['from']), J(sw['list'])[:3000]))
         run.check('%s：教室每個座位（階梯＋平面）「坐下前站的位置」都在「坐下」按鈕的範圍裡（從進門的地方算）' % zone, sw['n'] > 0 and sw['bad'] == 0, J({'n': sw['n'], 'bad': sw['bad'], 'first': sw['list'][:4]})[:900])
-        if zone == 'gongtong' and sw['list']: first = sw['list'][0]
-    if not first: return
-    st, d = await P.base(pg, SAVE, '2025-10-15', 14.0, 'gongtong'); await P.load(pg, cdp, st)
-    run.setup('[前置] 重讀 %s 14:00 共同教學館出生點' % d['key']); await pg.wait_for_timeout(4000)
-    door = await pg.evaluate("(()=>{ const it=GAME.E.interactables.find(i=>i.label&&i.label.indexOf('101')>=0&&!i.seat); return it?[it.x,it.z,it.label]:null; })()")
-    run.note('101 的門：%s' % J(door))
-    await L.go_to(pg, cdp, run, first['it'][0] - 0.8, first['it'][1] + 2.6, 0.6, '101 門口內側（講台前，離那張椅子約 2.7 m）', max_s=180, lv=0, stop=lambda s: s['dlg'] or s['choices'])
-    r1 = await tap_seat(pg, cdp, run, first, 'aisle')
-    run.check('照玩家點走道邊那張椅子（%s 排 %s 號）→ 走過去停下來 → 有「坐下」' % (first['row'], first['col']), r1['lab'] == '坐下', J(r1))
-    sib = await pg.evaluate("""(([room,row,col])=>{ const its=GAME.E.interactables.filter(i=>i.seat&&i.seat.kind==='lecture'&&i.seat.room===room&&i.seat.row===row&&i.seat.col===col+1);
-        const i=its[0]; return i?{seat:[i.seat.x,i.seat.z], it:[i.x,i.z], r:i.radius||1.8, row, col:col+1}:null; })(%s)""" % J([first['room'], first['row'], first['col']]))
-    if sib:
-        r2 = await tap_seat(pg, cdp, run, sib, 'next')
-        run.note('對照：同一排下一張（%s 號）點下去 → 「%s」（%s）' % (sib['col'], r2['lab'], J(r2)))
-
+    # 06:54 LAWWW-B be7b5bcac 修好（seatApproach 先挑「坐下」範圍內的走近點）：照玩家點椅子確認共同 101 第 0 排走道邊、博思 101／102 走道邊各一張（修好以後掃描找不到壞的，所以固定這三張）
+    for zone, room, row, col in (('gongtong', '101', 0, 0), ('boya', '101', 0, 0), ('boya', '102', 0, 10)):
+        st, d = await P.base(pg, SAVE, '2025-10-15', 14.0, zone); await P.load(pg, cdp, st)
+        run.setup('[前置] 重讀 %s 14:00 %s 出生點' % (d['key'], zone)); await pg.wait_for_timeout(4000)
+        tgt = await pg.evaluate(SEAT_TGT + "(%s)" % J([room, row, col]))
+        run.note('%s %s 第 %s 排 %s 號：%s' % (zone, room, row, col, J(tgt)))
+        if not tgt or not tgt.get('stand'): run.check('%s %s 第 %s 排 %s 號：找得到座位和 2～3 m 外站得住的點' % (zone, room, row, col), False, J(tgt)); continue
+        await L.go_to(pg, cdp, run, tgt['stand'][0], tgt['stand'][1], 0.6, '%s %s 教室裡、離那張椅子 %.1f m' % (zone, room, tgt['stand'][2]), max_s=240, lv=0, stop=lambda s: s['dlg'] or s['choices'])
+        r1 = await tap_seat(pg, cdp, run, tgt, '%s_%s_r%sc%s' % (zone, room, row, col))
+        sat = None
+        if r1['lab'] == '坐下':
+            await L.tap(pg, cdp, '#interact'); await pg.wait_for_timeout(2500)
+            sat = await pg.evaluate("!!GAME.E.player.seat"); await run.shot(pg, 'sat_%s_%s_r%sc%s' % (zone, room, row, col))
+            s0 = await P.ts(pg)
+            if s0['ch']: run.note('坐下的選單：%s（選最後一個離開）' % J([o['t'] for o in s0['ch']])); await P.tap_choice(pg, cdp, len(s0['ch']) - 1); await pg.wait_for_timeout(1500)
+        run.check('照玩家點 %s %s 第 %s 排 %s 號（走道邊）→ 走過去停下來有「坐下」、坐得下' % (zone, room, row, col), r1['lab'] == '坐下' and bool(sat) and bool(r1.get('tapped')),
+                  J({**r1, 'sat': sat}))
 
 async def main():
     run = L.Run('next91015_' + MODE + ('' if VP == 'landscape' else '_' + VP), OUT); os.makedirs(OUT, exist_ok=True)
