@@ -37912,6 +37912,35 @@
     "receiver": "LAWWW-B",
     "ack": "ACK"
    }
+  },
+  {
+   "id": "VAC-GAP2-1031",
+   "title": "寒暑假第二批（AA_556，接 AA_549 第 4 節）：C13 自己排的出國中間那天一段（自己去＝7 個目的地、和朋友去＝5 位）；C10 加州三場、C11 東京兩場；大一暑假 6/24 阿凱線上語音；大二暑假 7/10→7/11 阿凱冰店、8/12→8/13 語彤修鞋店田野（FIELD_WITH_YT）；大二寒假 2/11→2/12 芯慈永和豆漿店",
+   "area": "STORY",
+   "owner": "LAWWW",
+   "status": "待開工",
+   "priority": "P1",
+   "next": "【10-31 23:5x】AA-B 交付（企劃線 3d7ad0024）；接在 VAC-GAP-1031（第一批，子代理做中）之後，同一個本機分支做、發布後合；D99 第二優先",
+   "first": {
+    "term": "Y1S2",
+    "week": 0,
+    "earliest": "大一暑假 6/24",
+    "mainline": true,
+    "blocks": false,
+    "prereq": false,
+    "parallel": true,
+    "confirmed": true
+   },
+   "source": "AA-B 10-31 20:47（AUDIT-AA-FOLLOWUP 第 9 項）",
+   "authorized": "D109、D99 第二優先",
+   "xai": {
+    "spec": "AA_556（企劃線 3d7ad0024）",
+    "owner": "BB",
+    "branch": "claude/elegant-brown-fcos7n",
+    "acceptance": "照規格交付、互審紀錄",
+    "receiver": "LAWWW-B",
+    "ack": "ACK"
+   }
   }
  ]
 }
