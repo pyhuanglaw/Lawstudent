@@ -696,10 +696,13 @@ async def s_zrfeed(p, run, base, sid, out):
 @guard
 async def s_zrl3(p, run, base, sid, out):
     res = out.setdefault(sid, {})
-    b, pg, cdp, errs, r = await launch(p, run, base, '2027-03-24', 11.5, 'cafe', rels={ZR: 'FRIEND'}, quiet=False, label=sid + '（大二下第 5 週週三 11:30 兩點半 Café；芷若在班上（作息週一三五 11～15）；芷若 FRIEND）')   # n25_xinci_e：週二 10:18 在傅鐘附近她跟別人一起走、一下就離開這一區，改到她固定在的 Café
+    # n25_xinci_i：在吧檯上班時找她說話＝點餐（story3d.js talkCharacter 的 staff 分支），閒聊階梯本來就不在吧檯——改到她沒上班、一個人的時段：週二 14～17 總圖多媒體中心（spots.zhiruo）
+    b, pg, cdp, errs, r = await launch(p, run, base, '2027-03-23', 14.5, 'library_media', rels={ZR: 'FRIEND'}, quiet=False, label=sid + '（大二下第 5 週週二 14:30 總圖多媒體中心；芷若一個人看片（作息週二四 14～17）；芷若 FRIEND）')   # n25_xinci_e：週二 10:18 在傅鐘附近她跟別人一起走、一下就離開這一區，改到她固定在的 Café
     try:
         await pg.evaluate("(()=>{ const G=GAME.G; G.social.ladder=G.social.ladder||{}; G.social.ladder['heroine_02@Y2S2']=2; G.social.ladderDay=G.social.ladderDay||{}; delete G.social.ladderDay.heroine_02; })()")
         run.setup('【前置】芷若大二下閒聊停在第 2 句（ladder heroine_02@Y2S2＝2、今天還沒聊過）')
+        await pg.evaluate("(()=>{ const G=GAME.G; G.flags=G.flags||{}; G.flags.ZR_MEDIA_TALK='Y2S2'; })()")
+        run.setup('【前置】這學期在多媒體中心第一次說話的那段（closed2_3d.js zrMediaTalk）當作講過了（G.flags.ZR_MEDIA_TALK＝Y2S2）——只測閒聊階梯')
         n0 = await log_len(pg)
         ch, lab = await talk(pg, cdp, run, [ZR], ['芷若', '林芷若'], picks=['「為什麼？」'], label=sid)
         # n25_xinci_c：繞了四個方向互動鈕還是「和不認識的女生說話」、截圖旁邊只有一個女生——查她是誰、芷若算不算認識了
@@ -714,9 +717,26 @@ async def s_zrl3(p, run, base, sid, out):
     finally: await finish_page(run, sid, res, errs, b)
 
 
-ORDER = ['DAY1', 'COPY_REAL', 'COPY_BACK', 'COPY_RPS', 'ELEV_ASK', 'ELEV_DONE', 'C2', 'C3A', 'C3B', 'C3C', 'C3B1', 'C3FIX', 'DAD', 'C5DIAG', 'C5', 'C6', 'ZRFEED', 'ZRL3']
+async def s_zrcafe(p, run, base, sid, out):
+    """n25_xinci_i 看到的：已經認識一年半的芷若在吧檯上班，按鈕是「和店員說話」（story3d.js:480 生成時寫死；:889 點完餐才換成名字）。只量，不點。"""
+    res = out.setdefault(sid, {})
+    b, pg, cdp, errs, r = await launch(p, run, base, '2027-03-24', 11.5, 'cafe', rels={ZR: 'FRIEND'}, quiet=False, label=sid + '（大二下第 5 週週三 11:30 兩點半 Café；芷若在吧檯上班；芷若 FRIEND）')
+    try:
+        cp = await pg.evaluate("""(()=>{ const E=GAME.E; const me=(E.npcs||[]).find(x=>x&&(x.charId==='heroine_02'||x.id==='heroine_02')&&x.obj); const it=E.interactables.find(i=>i.counter==='cafe');
+            return me&&it?[+me.obj.position.x.toFixed(2), +(it.z-0.1).toFixed(2), me.lv|0, me.staff||null, me.talkLabel||null]:null; })()""")
+        run.note('%s 芷若（吧檯後）：%s' % (sid, J(cp)))
+        if cp: await L.go_to(pg, cdp, run, cp[0], cp[1], 0.3, '吧檯前', max_s=90, lv=cp[2], stop=lambda s: s['dlg'] or s['choices'] or s['busy'])
+        lab = await pg.evaluate(LAB)
+        st = await pg.evaluate("({first:SOCIAL.has('heroine_02','FIRST_MET'), stage:SOCIAL.stage('heroine_02'), disp:SOCIAL.displayName('heroine_02'), npcName:SOCIAL.npcName('heroine_02')})")
+        await run.shot(pg, sid + '_counter'); res.update({'lab': lab, 'st': st, 'cp': cp})
+        run.note('%s 站在吧檯前的互動鈕：「%s」；%s' % (sid, lab, J(st)))
+        run.check('%s：已經認識（FIRST_MET）的芷若在吧檯上班，按鈕寫她的名字（「和林芷若說話」，不是「和店員說話」）' % sid, bool(st.get('first')) and '林芷若' in (lab or ''), J({'lab': lab, 'st': st}))
+    finally: await finish_page(run, sid, res, errs, b)
+
+
+ORDER = ['DAY1', 'COPY_REAL', 'COPY_BACK', 'COPY_RPS', 'ELEV_ASK', 'ELEV_DONE', 'C2', 'C3A', 'C3B', 'C3C', 'C3B1', 'C3FIX', 'DAD', 'C5DIAG', 'C5', 'C6', 'ZRFEED', 'ZRL3', 'ZRCAFE']
 FN = {'DAY1': s_day1, 'COPY_REAL': s_copy, 'COPY_BACK': s_copy, 'COPY_RPS': s_copy, 'ELEV_ASK': s_elev, 'ELEV_DONE': s_elev, 'C2': s_c2, 'C3A': s_c3, 'C3B': s_c3, 'C3C': s_c3, 'C3B1': s_c3, 'C3FIX': s_c3fix,
-      'DAD': s_dad, 'C5DIAG': s_c5diag, 'C5': s_c5, 'C6': s_c6, 'ZRFEED': s_zrfeed, 'ZRL3': s_zrl3}
+      'DAD': s_dad, 'C5DIAG': s_c5diag, 'C5': s_c5, 'C6': s_c6, 'ZRFEED': s_zrfeed, 'ZRL3': s_zrl3, 'ZRCAFE': s_zrcafe}
 
 
 async def main():
