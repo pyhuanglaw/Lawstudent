@@ -14,7 +14,7 @@
   ZRL3  2027-03-23（週二）10:20 傅鐘附近，【前置】芷若大二下閒聊停在第 2 句：和芷若說話 → Z4-L3「……她記得比我那時候快。我好高興。」
   每一場都查：說的話裡沒有「第二名」「第一名」「補習班」「排名出來了。我第一。」「芯慈跟以安吵架了」
 用法：LW_TESTS=<工作樹>/tests SCEN=DAY1,... python3 xinci_probe.py <URL>/index.html <輸出資料夾> <使用者存檔>"""
-import os, sys, json, asyncio, time, re
+import os, sys, json, asyncio, time, re, math
 sys.path.insert(0, os.environ['LW_TESTS']); import playlib as L
 from playwright.async_api import async_playwright
 URL, OUT, SAVE = sys.argv[1], sys.argv[2], sys.argv[3]
@@ -212,7 +212,9 @@ async def talk(pg, cdp, run, ids, names, picks=None, label=''):
             lab = await pg.evaluate(LAB)
             if hit(lab): break
             pos = await pg.evaluate(NPC + "(%s)" % json.dumps(ids))
-            if pos: await L.go_to(pg, cdp, run, pos[0], pos[1], 0.9, name, max_s=30, lv=pos[2], stop=STOP)
+            if pos:   # n25 ZRL3：她跟一群人走在一起，互動鈕抓到旁邊不認識的女生——繞著她換方向靠近（0.7 m，四個方向輪流）
+                ang = j * math.pi / 2; tx, tz = pos[0] + 0.7 * math.cos(ang), pos[1] + 0.7 * math.sin(ang)
+                await L.go_to(pg, cdp, run, tx, tz, 0.35, name, max_s=30, lv=pos[2], stop=STOP)
             await pg.wait_for_timeout(500)
         say('   %s 互動鈕：「%s」' % (label, lab))
         if hit(lab):
