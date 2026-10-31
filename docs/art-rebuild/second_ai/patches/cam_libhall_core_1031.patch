@@ -1,0 +1,146 @@
+diff --git a/src/library3d.js b/src/library3d.js
+index 88a6e5dcb..f0655c452 100644
+--- a/src/library3d.js
++++ b/src/library3d.js
+@@ -197,6 +197,25 @@ const LB3=(function(){
+   function hallFloors(L){ return L.elevator.floors.map((f,i)=>Object.assign({num:i+1},f,f.zone?{spawn:elevSpawn(zoneElev(L,f.zone),f.zone==='library'?0:f.lv)}:{})); }
+   function readingFloors(L){ return L.reading.elevator.floors.map((f,i)=>Object.assign({num:i+1},f,f.zone?{spawn:elevSpawn(zoneElev(L,f.zone),f.lv)}:{})); }
+ 
++  // ---- 跟隨鏡頭的隔間牆（BUG-CAM-LIBHALL-CORE-1031，LAWWW2-B；BB n31_lhcore）----
++  /* 大樓梯兩側的實心核心（一樓：樓梯外側欄杆 → 核心外牆，外面再靠一排書架；高到二樓樓板）：交給 engine3d.js 的 followCam 當隔間牆（zone.camCols[0]）。
++     原本大廳一樓沒有鏡頭碰撞：玩家在核心東邊、西邊背對核心時，鏡頭退 4.8 m 穿過書架和灰泥牆，停在樓梯底下（BB 量到 4 個方向玩家 0%）。
++     現在擋到就拉近、抬高，autoSwing 轉向空的那一邊（和教學館、美國公寓同一套）。碰撞盒：x＝欄杆內側 → 書架外緣（導航阻擋的外緣）、z＝核心南北、y＝0 → 二樓樓面；
++     兩端各多 6 cm（視線剛好擦過角落時照樣擋得到）。核心上面（二樓）是挑空，碰撞盒只到二樓樓面。
++     兩側那一跑的下面（地面 → 踏面的梯形斜塊）也算：人走不到，原本站在核心南邊、往南看時，鏡頭往北退、從樓梯底下穿上來停在踏面上，中間隔著樓梯底板。
++     站在樓梯上的人：鏡頭在頭的後上方（俯角 0.38），視線一直在踏面上面，擋不到。中庭四角的柱子也算（見下面）。測試：node tests/library_hall_cam_core_unit.js */
++  function coreCamCols(L,g){ const S=L.stair, CO=L.core, Y1=L.floors[1].y, inv=new THREE.MeshBasicMaterial({visible:false,side:THREE.DoubleSide}), out=[];
++    for(const sx of [-1,1]){ const sh=L.furniture.find(f=>f.type==='coreShelf'&&Math.sign(f.x)===sx); const xa=S.railX-0.1-0.06, xb=(sh?Math.abs(sh.x)+0.2:CO.x1)+0.06, z0=CO.z0-0.06, z1=CO.z1+0.06;
++      const m=new THREE.Mesh(new THREE.BoxGeometry(xb-xa,Y1,z1-z0),inv); m.position.set(sx*(xa+xb)/2,Y1/2,(z0+z1)/2); m.name='CAMCOL_core_'+(sx<0?'W':'E'); m.userData.noMerge=true; m.userData.dyn=true; g.add(m); out.push(m);
++      const sd=S.sides[sx<0?0:1], SD=S.side, LD=S.landing, a0=Math.min(Math.abs(sd.x0),Math.abs(sd.x1))-0.06, a1=Math.max(Math.abs(sd.x0),Math.abs(sd.x1)), ya=LD.y, yb=Y1;   /* 兩側那一跑：z0（平台那一端，平台高）往 z1 爬到二樓；頂面＝走路的連續面（畫面上一階一階的踏步比它高一點，視線擦過踏步也擋）*/
++      const P=[[a0,0,SD.z0],[a0,0,SD.z1],[a0,yb,SD.z1],[a0,ya,SD.z0],[a1,0,SD.z0],[a1,0,SD.z1],[a1,yb,SD.z1],[a1,ya,SD.z0]].map(([x,y,z])=>[sx*x,y,z]);
++      const F=[[0,1,2],[0,2,3],[4,6,5],[4,7,6],[0,4,5],[0,5,1],[3,2,6],[3,6,7],[0,3,7],[0,7,4],[1,5,6],[1,6,2]], pos=[]; for(const f of F) for(const i of f) pos.push(...P[i]);
++      const wg=new THREE.BufferGeometry(); wg.setAttribute('position',new THREE.Float32BufferAttribute(pos,3)); wg.computeVertexNormals();
++      const w=new THREE.Mesh(wg,inv); w.name='CAMCOL_underStair_'+(sx<0?'W':'E'); w.userData.noMerge=true; w.userData.dyn=true; g.add(w); out.push(w); }
++    /* 中庭四角的柱子（一樓花崗石 r 0.3、柱座 0.36；二樓粉光 r 0.26，到屋頂）：自動轉開的鏡頭原本會停在柱子裡面（BB 的「往東」第二個方向，轉開後鏡頭離柱子中心 0.25 m） */
++    const U=L.upper, GT=L.gates; for(const [x,zz] of [[-CO.x1,U.band.z1],[CO.x1,U.band.z1],[-CO.x1,GT.z],[CO.x1,GT.z]]){ const c=new THREE.Mesh(new THREE.CylinderGeometry(0.34,0.34,L.roofY,16),inv); c.position.set(x,L.roofY/2,zz); c.name='CAMCOL_column'; c.userData.noMerge=true; c.userData.dyn=true; g.add(c); out.push(c); }
++    return out; }
++
+   // ---- 區域 ----
+   const library_hall={ id:'library_hall', name:'總圖書館 大廳', indoor:true, camDist:4.8, build(E){ const L=LAYOUT(), W=L.W, D=L.D, Y1=L.floors[1].y, EL=L.elevator;
+     const g=new THREE.Group(); const lv0=new THREE.Group(), lv1=new THREE.Group(); lv0.name='L0'; lv1.name='L1'; lv0.userData.dyn=true; lv1.userData.dyn=true; g.add(lv0); g.add(lv1);
+@@ -208,6 +227,7 @@ const LB3=(function(){
+         for(const o of (zone.pOuts||[])){ const v=viewOf(o.userData.view,night), u=o.material.uniforms; u.map.value=v||outsideTex(night); u.photo.value=v?1:0; u.tint.value.set(v?W3.photoTint(h,weather==='rain'):0xffffff); const v2=(v&&!night&&W3.photoFade&&W3.photoFade(h)>0)?viewOf(o.userData.view,true):null; if(u.xf){ u.map2.value=v2; u.near2.value=0; u.xf.value=v2?W3.photoFade(h):0; } } },   /* 有景深的窗景（parallaxViews）*/
+       onLamps(on){ for(const l of lights) l.intensity=on?l.userData.on:l.userData.off; } };
+     buildFallback(L,lv0,lv1,fb0,fb1,walls,walkMeshes,outs,slabs); buildFurniture(E,L,lv0,lv1,fb0,fb1,nav0,nav1,zone);
++    { const cc=coreCamCols(L,g); zone.camCols=[cc,cc]; }   /* 大樓梯兩側的實心核心、兩側那一跑的下面、中庭四角的柱子擋跟隨鏡頭（BUG-CAM-LIBHALL-CORE-1031）；第 1 層也查：兩側那一跑兩層共用，從二樓走下來的人還在第 1 層（二樓樓面上的人鏡頭在頭的後上方，碰撞盒都在二樓樓面以下，擋不到）*/
+     // 劇情：小安「總圖的下午」坐的那一桌（二樓西側、靠窗的那一張長桌，面對面的兩個座位）
+     { const s=zone.seats, T=L.furniture.find(f=>f.type==='studyTable'&&f.z>0); const row=(zz)=>s.filter(q=>Math.abs(q.z-zz)<0.05).sort((p,q)=>p.x-q.x)[0];
+       const a=T&&row(T.z-0.8), b2=T&&row(T.z+0.8); if(a&&b2){ s.splice(s.indexOf(a),1); s.splice(s.indexOf(b2),1); s.unshift(a,b2); } }   /* seats[0]：玩家（−z 那一側，面向 +z）、seats[1]：小安（對面）；和閱覽室 seats 的排法一樣 */
+@@ -226,7 +246,9 @@ const LB3=(function(){
+     if(L.b1Door&&typeof LIBRARY_B1_LAYOUT!=='undefined'){ const BD=L.b1Door, sp=LIBRARY_B1_LAYOUT.stairs.spawn; IT.push({x:BD.x+0.55,z:BD.z,radius:0.8,lv:0,label:BD.label,exit:{to:'library_b1',spawn:{x:sp.x,z:sp.z,yaw:sp.yaw}}}); }   /* 往 B1（src/library_b1_3d.js）：站到 B1 樓梯間的門前 */
+     for(const lv of [0,1]) IT.push({x:zone.elev.cx,z:EL.callZ,radius:1.0,lv,label:'搭電梯',elevator:true});
+     // 正式模型（GLB）：載入成功就藏起程序化備用模型（導航、互動點不變）
+-    zone.formal=false; if(typeof ASSETS!=='undefined'&&ASSETS.manifest['bldg.library_interior']){ ASSETS.loadOne('bldg.library_interior').then(c=>{ if(!c||!c.scene||E.zone!==zone) return; B3.attachFormal(zone,c.scene.clone(true),fb0,fb1,lv0,lv1,walls,walkMeshes); for(const o of outs) o.visible=false;   /* 正式模型的牆有窗洞：改用有景深的窗景（下面），原本一扇窗一張平面貼圖的藏起來（載入失敗時照舊用它們）*/
++    zone.formal=false; if(typeof ASSETS!=='undefined'&&ASSETS.manifest['bldg.library_interior']){ ASSETS.loadOne('bldg.library_interior').then(c=>{ if(!c||!c.scene||E.zone!==zone) return; const root=c.scene.clone(true); B3.attachFormal(zone,root,fb0,fb1,lv0,lv1,walls,walkMeshes); for(const o of outs) o.visible=false;
++      /* 室內樹、盆栽的葉子：擋住人、或離鏡頭太近時網點透空（engine3d.js updateSeeThrough；室內要區域 seeThru 才開，只作用在標了 seeThrough 的材質）。BUG-CAM-LIBHALL-CORE-1031：鏡頭在樓梯旁邊時室內樹的葉子貼在鏡頭前面 */
++      zone.seeThru=true; root.traverse(o=>{ if(!o.isMesh) return; for(const m of [].concat(o.material)){ if(!m||m.userData.seeThrough||!/leaf/.test(m.name||'')) continue; m.userData.seeThrough=true; if(E.patchSeeThrough) E.patchSeeThrough(m); } });   /* 正式模型的牆有窗洞：改用有景深的窗景（下面），原本一扇窗一張平面貼圖的藏起來（載入失敗時照舊用它們）*/
+       parallaxViews(zone,L,lv0,lv1); }).catch(e=>console.warn('總圖大廳正式模型載入失敗，用程序化備用模型',e)); }
+     return zone; } };
+ 
+diff --git a/tests/library_hall_cam_core_unit.js b/tests/library_hall_cam_core_unit.js
+new file mode 100644
+index 000000000..621f361d8
+--- /dev/null
++++ b/tests/library_hall_cam_core_unit.js
+@@ -0,0 +1,91 @@
++// 總圖大廳：跟隨鏡頭不會穿進中央大樓梯兩側的實心核心、兩側那一跑的下面（BUG-CAM-LIBHALL-CORE-1031，LAWWW2-B 2026-10-31；BB n31_lhcore）——不需要瀏覽器。
++// 原本大廳沒有鏡頭碰撞（只有電梯井道）：玩家在核心東邊 (6.2,−2.6)、西邊 (−6.2,−3.2) 背對核心時，鏡頭退 4.8 m 穿過書架和灰泥牆，停在樓梯底下，
++//   BB 量到 4 個方向玩家 0%（鏡頭 (2.10,3.43,−0.80)、(1.76,3.43,−2.20)、(−1.86,3.43,−2.25)、(−1.78,3.43,−2.75)）。
++// 做法（src/library3d.js 的 coreCamCols）：核心兩塊（欄杆內側 → 書架外緣、高到二樓樓面）、兩側那一跑的下面（梯形斜塊）交給 engine3d.js 的 followCam 當隔間牆（zone.camCols），
++//   擋到就拉近、抬高，autoSwing 轉向空的那一邊（和教學館、美國公寓同一套）；室內樹、盆栽的葉子網點透空（zone.seeThru、材質 seeThrough）。
++// 這裡在 Node 建出遊戲真正的總圖大廳（程序化備用模型＝和正式模型同一份配置 src/data/library_layout.js），照引擎的跟隨鏡頭（camDist 4.8、俯角 0.38）算鏡頭位置，
++//   看「頭 → 鏡頭」有沒有穿過實心的地方。「修改前」＝同一個引擎、把核心的碰撞盒拿掉（電梯井道照舊）：一定要量得到穿過去的方向（證明測試抓得到這個 bug）。
++// 用法：node tests/library_hall_cam_core_unit.js
++const fs=require('fs'), vm=require('vm'), path=require('path');
++const ROOT=path.resolve(__dirname,'..');
++global.window=global; global.self=global;
++const ctx2d=new Proxy({}, {get:(o,k)=>k==='createRadialGradient'||k==='createLinearGradient'||k==='createPattern'?()=>({addColorStop(){}}):(k==='getImageData'?()=>({data:new Uint8ClampedArray(16)}):(k==='measureText'?()=>({width:10}):(()=>{})))});
++global.document={ createElementNS:()=>({getContext:()=>ctx2d,style:{}}), createElement:()=>({width:1,height:1,getContext:()=>ctx2d,style:{}}), getElementById:()=>null, addEventListener(){} };
++global.navigator={userAgent:'node'}; global.addEventListener=()=>{}; global.innerWidth=844; global.innerHeight=390; global.location={search:''};
++process.on('unhandledRejection',()=>{}); global.fetch=()=>Promise.reject(new Error('no fetch in node'));
++const _warn=console.warn; console.warn=(...a)=>{ if(/正式模型載入失敗/.test(String(a[0]))) return; _warn(...a); };   /* Node 沒有 fetch：正式模型載入失敗、用備用模型（預期的）*/
++const files=['lib/three.bundle.js','lib/three.jsm.bundle.js','src/people3d.js','src/assets3d.js','src/world3d.js','src/engine3d.js','src/townkit3d.js','src/campuskit3d.js','src/zones3d.js','src/data/socsci_layout.js','src/data/linze_layout.js','src/data/classroom_layout.js','src/building3d.js','src/data/library_layout.js','src/library3d.js'];
++for(const f of files){ let src=fs.readFileSync(path.join(ROOT,f),'utf8'); src=src.replace(/^const (\w+)\s*=/m,'globalThis.$1='); vm.runInThisContext(src,{filename:f}); }
++let fails=0; const check=(name,ok,info)=>{ console.log((ok?'PASS ':'FAIL ')+name+(info?'　'+info:'')); if(!ok) fails++; };
++const E=E3; E.scene=new THREE.Scene(); E.q={level:'medium'}; E.ray=E.ray||new THREE.Raycaster();
++E.interactables=[]; E.colliders=[]; E.lampGlows=[]; E.seats=[]; E.npcs=[]; E.spawnHint=null;
++const z=Z3.ZONES.library_hall.build(E); E.zone=z; E.levels=z.levels; E.nav=z.nav; for(const n of E.levels) n._cm=null;
++E.player={obj:{position:new THREE.Vector3(),rotation:{y:0}},radius:0.32,lv:0}; z.group.updateMatrixWorld(true);
++const L=LIBRARY_LAYOUT, S=L.stair, CO=L.core, Y1=L.floors[1].y, DIST=Z3.ZONES.library_hall.camDist||4.8, PITCH=0.38, DT=1/30;
++
++/* ---- 1. 碰撞盒 ---- */
++const cols=(z.camCols||[])[0]||[], cols1=(z.camCols||[])[1]||[], byName=n=>cols.find(m=>m.name===n);
++check('1. zone.camCols：第 0、1 層都有核心兩塊＋兩側那一跑的下面＋中庭四角的柱子（8 個）',cols.length===8&&cols1.length===8&&['CAMCOL_core_W','CAMCOL_core_E','CAMCOL_underStair_W','CAMCOL_underStair_E'].every(byName)&&cols.filter(m=>m.name==='CAMCOL_column').length===4,
++  (z.camCols||[]).map(a=>a?a.map(m=>m.name).join('+'):'—').join(' / '));
++{ const sh=L.furniture.find(f=>f.type==='coreShelf'&&f.x>0), b=new THREE.Box3().setFromObject(byName('CAMCOL_core_E')||new THREE.Object3D());
++  check('1b. 東側核心的碰撞盒：x 從欄杆內側到書架外緣（導航阻擋的外緣）、z 涵蓋核心、高到二樓樓面',
++    Math.abs(b.min.x-(S.railX-0.1-0.06))<0.01&&Math.abs(b.max.x-(sh.x+0.2+0.06))<0.01&&b.min.z<=CO.z0&&b.max.z>=CO.z1&&b.min.y<=0.01&&Math.abs(b.max.y-Y1)<0.01,
++    `x ${b.min.x.toFixed(2)}～${b.max.x.toFixed(2)}、z ${b.min.z.toFixed(2)}～${b.max.z.toFixed(2)}、y ${b.min.y.toFixed(2)}～${b.max.y.toFixed(2)}`);
++  check('1c. 碰撞盒看不見、不參加合併',cols.every(m=>m.material.visible===false&&m.userData.noMerge)); }
++
++/* 實心的地方：核心兩塊（欄杆 → 書架外緣、二樓樓面以下）、兩側那一跑的下面（踏面以下）、中庭四角的柱子（一樓 r 0.3、二樓 0.26：量 0.26 以內）*/
++const COLS=[[-CO.x1,L.upper.band.z1],[CO.x1,L.upper.band.z1],[-CO.x1,L.gates.z],[CO.x1,L.gates.z]];
++const rx=S.railX-0.1, shX=L.furniture.find(f=>f.type==='coreShelf'&&f.x>0).x+0.2, ys=zz=>S.landing.y+(zz-S.side.z0)/(S.side.z1-S.side.z0)*(Y1-S.landing.y);
++const sideX0=Math.min(Math.abs(S.sides[1].x0),Math.abs(S.sides[1].x1)), sideX1=Math.max(Math.abs(S.sides[1].x0),Math.abs(S.sides[1].x1));
++const solid=p=>(Math.abs(p.x)>rx&&Math.abs(p.x)<shX&&p.z>CO.z0&&p.z<CO.z1&&p.y<Y1)||(Math.abs(p.x)>sideX0&&Math.abs(p.x)<sideX1&&p.z>S.side.z0&&p.z<S.side.z1&&p.y<ys(p.z)-0.02)||COLS.some(([cx,cz])=>Math.hypot(p.x-cx,p.z-cz)<0.26);
++const through=(a,b)=>{ const n=Math.ceil(a.distanceTo(b)/0.02); for(let i=1;i<=n;i++) if(solid(a.clone().lerp(b,i/n))) return true; return false; };
++/* 修改前＝同一個引擎、把核心的碰撞盒拿掉（電梯井道照舊）*/
++const keep=z.camCols; function camNow(t,yaw,lv,out){ z._lcAll=null; return E.followCam(t,yaw,PITCH,DIST,lv,out); }
++function camBefore(t,yaw,lv,out){ z.camCols=null; z._lcAll=null; const r=E.followCam(t,yaw,PITCH,DIST,lv,out); z.camCols=keep; z._lcAll=null; return r; }
++
++/* ---- 2. 一樓大廳（地面上每 0.5 m、8 個方向）、樓梯和平台（每 0.25 m，第 0、1 層）、二樓樓面 ---- */
++const REPORT={};
++function sweep(name,lv,step,pick){ let n=0,bad=0,badOld=0,same=0,ex=null; E.player.lv=lv;
++  for(let x=-L.W/2+0.5;x<=L.W/2-0.5;x+=step) for(let zz=-L.D/2+0.3;zz<=L.D/2-0.3;zz+=step){ if(!E.canStand(x,zz,0.32,lv)) continue; const fy=E.heightAt(x,zz,lv); if(!pick(x,zz,fy)) continue;
++    const t=new THREE.Vector3(x,fy+1.45,zz);
++    for(let k=0;k<8;k++){ const yaw=k*Math.PI/4; n++; const c=new THREE.Vector3(), o=new THREE.Vector3(); camNow(t,yaw,lv,c); camBefore(t,yaw,lv,o);
++      if(through(t,c)){ bad++; if(!ex) ex={x:+x.toFixed(2),z:+zz.toFixed(2),yaw:+yaw.toFixed(2),cam:c.toArray().map(v=>+v.toFixed(2))}; } if(through(t,o)) badOld++; if(c.distanceTo(o)<1e-6) same++; } }
++  REPORT[name]={samples:n,before:badOld,after:bad,unchanged:same}; return {n,bad,badOld,same,ex}; }
++const onStairs=(x,zz)=>Math.abs(x)<S.railX&&zz>CO.z0&&zz<CO.z1+0.05;
++{ const r=sweep('1F 大廳',0,0.5,(x,zz,fy)=>fy<0.05&&!onStairs(x,zz));
++  check('2a. 1F 大廳：修改前量得到鏡頭穿進核心（測試抓得到這個 bug）',r.badOld>0,`${r.badOld}/${r.n}（${(100*r.badOld/r.n).toFixed(1)}%）`);
++  check('2b. 1F 大廳：頭 → 鏡頭沒有穿過核心、兩側那一跑的下面',r.bad===0,`${r.bad}/${r.n}`+(r.ex?' 例：'+JSON.stringify(r.ex):''));
++  check('2c. 1F 大廳：離核心遠的地方鏡頭和修改前一樣（大部分方向沒變）',r.same>=r.n*0.6,`沒變 ${r.same}/${r.n}`); }
++for(const lv of [0,1]){ const r=sweep('樓梯、平台（第 '+lv+' 層）',lv,0.25,(x,zz,fy)=>onStairs(x,zz)&&fy>0.05&&fy<Y1-0.05);
++  check(`2d. 樓梯、平台（第 ${lv} 層）：修改前量得到穿過去的方向`,r.badOld>0,`${r.badOld}/${r.n}`);
++  check(`2e. 樓梯、平台（第 ${lv} 層）：頭 → 鏡頭沒有穿過實心的地方`,r.bad===0,`${r.bad}/${r.n}`+(r.ex?' 例：'+JSON.stringify(r.ex):'')); }
++{ const r=sweep('2F 樓面',1,0.5,(x,zz,fy)=>fy>Y1-0.05);
++  check('2f. 2F 樓面：頭 → 鏡頭沒有穿過柱子（修改前量得到）',r.bad===0&&r.badOld>0,`修改前 ${r.badOld}、修改後 ${r.bad}/${r.n}`+(r.ex?' 例：'+JSON.stringify(r.ex):''));
++  check('2g. 2F 樓面：除了柱子附近，鏡頭和修改前一樣（核心、樓梯下面的碰撞盒都在二樓樓面以下）',r.same>=r.n*0.97,`沒變 ${r.same}/${r.n}`); }
++
++/* ---- 3. BB 的 4 個方向（n31_lhcore）：修改前鏡頭在 BB 量到的位置（穿進核心）；修改後 3 秒內轉開、看得到人 ---- */
++const hz=(a,b)=>Math.hypot(a.x-b.x,a.z-b.z);
++function sim(lv,x,zz,yaw){ const P=E.player; P.lv=lv; const fy=E.heightAt(x,zz,lv); P.obj.position.set(x,fy,zz); P.obj.rotation.y=yaw+Math.PI; P.seat=null; P.pose='idle';
++  const C=E.cam={yaw,pitch:PITCH,dist:DIST,distTarget:DIST,target:new THREE.Vector3(x,fy+1.45,zz),mode:'follow',manualT:0,dragging:false,ctl:false,swing:0,swingAcc:0};
++  const cam=new THREE.Vector3(); let flips=0, last=0; z._lcAll=null;
++  for(let i=0;i<90;i++){ const r=E.followCam(C.target,C.yaw,PITCH,DIST,lv,cam); const st=E.autoSwing(C,P,PITCH,r,DT); if(st&&last&&Math.sign(st)!==Math.sign(last)) flips++; if(st) last=st; }
++  const r1=E.followCam(C.target,C.yaw,PITCH,DIST,lv,cam); return {cam:cam.clone(),tgt:C.target.clone(),d:r1.dist,h:hz(cam,C.target),turned:(C.yaw-yaw)*180/Math.PI,flips}; }
++const BB=[[6.2,-2.6,[2.10,3.43,-0.80]],[6.2,-2.6,[1.76,3.43,-2.20]],[-6.2,-3.2,[-1.86,3.43,-2.25]],[-6.2,-3.2,[-1.78,3.43,-2.75]]];
++const R3={};
++for(const [x,zz,bc] of BB){ const yaw=Math.atan2(bc[0]-x,bc[2]-zz), t=new THREE.Vector3(x,E.heightAt(x,zz,0)+1.45,zz), o=new THREE.Vector3(); E.player.lv=0; camBefore(t,yaw,0,o);
++  const name=`(${x},${zz}) → 鏡頭 (${bc.join(',')})`, r=sim(0,x,zz,yaw);
++  R3[name]={before:o.toArray().map(v=>+v.toFixed(2)),after:r.cam.toArray().map(v=>+v.toFixed(2)),horiz:+r.h.toFixed(2),turned:+r.turned.toFixed(0)};
++  check('3a. BB '+name+'：修改前的鏡頭就在 BB 量到的位置、穿進核心（重現）',o.distanceTo(new THREE.Vector3(...bc))<0.15&&through(t,o),`修改前 ${o.toArray().map(v=>v.toFixed(2)).join(',')}`);
++  check('3b. BB '+name+'：3 秒內轉開——水平離頭 ≥ 1.2 m、頭 → 鏡頭沒有穿過實心的地方、沒有左右來回',r.h>=1.2&&!through(r.tgt,r.cam)&&r.flips===0,
++    `鏡頭 ${r.cam.toArray().map(v=>v.toFixed(2)).join(',')}、水平 ${r.h.toFixed(2)} m、轉了 ${r.turned.toFixed(0)}°、來回 ${r.flips} 次`); }
++
++/* ---- 4. 室內樹、盆栽的葉子網點透空（正式模型載入時；Node 載不到 GLB，查程式和模型的材質）---- */
++{ const src=fs.readFileSync(path.join(ROOT,'src/library3d.js'),'utf8');
++  check('4a. library3d.js：正式模型載入後區域打開 seeThru、名字有 leaf 的材質標 seeThrough＋patchSeeThrough',/zone\.seeThru=true;\s*root\.traverse\([\s\S]{0,200}\/leaf\/\.test\(m\.name[\s\S]{0,120}m\.userData\.seeThrough=true;\s*if\(E\.patchSeeThrough\) E\.patchSeeThrough\(m\)/.test(src));
++  const b=fs.readFileSync(path.join(ROOT,'assets/models/env/library_interior.glb')), n=b.readUInt32LE(12), j=JSON.parse(b.slice(20,20+n).toString('utf8'));
++  const leaf=j.materials.map(m=>m.name).filter(n_=>/leaf/.test(n_));
++  check('4b. 正式模型 library_interior.glb 有葉子的材質（室內樹 lb_leaf_small、盆栽）',leaf.includes('lb_leaf_small')&&leaf.length>=3,leaf.join(', '));
++  check('4c. 引擎有 E.patchSeeThrough（室內要區域 seeThru 才開）',typeof E.patchSeeThrough==='function'); }
++
++console.log(JSON.stringify({sweep:REPORT,bb:R3}));
++console.log(fails?('FAILED '+fails):'ALL PASS'); process.exit(fails?1:0);
