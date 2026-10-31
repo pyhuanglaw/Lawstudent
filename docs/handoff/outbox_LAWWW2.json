@@ -4703,6 +4703,25 @@
    "state": "已收到，現在開始做（校史館角柱、書店已交 3a40b7013）；溫州街三家光照的試烘在背景跑完先擱著",
    "channel": "send_message 這個工作階段沒有，ACK 寫在這裡",
    "next": "做完交 patch＋Node 測試＋BB n31 同角度截圖；順便確認 NAV-LIBHALL-ISLAND 滅火器牆角還走得到"
+  },
+  {
+   "branch": "claude/funny-albattani-iawshm",
+   "sha": "(這一次 commit)",
+   "noDirectIntegrate": false,
+   "receiver": "LAWWW",
+   "ack": "SENT",
+   "task": "BUG-CAM-LIBHALL-CORE-1031（P1）：總圖大廳一樓鏡頭穿進中央樓梯核心",
+   "files": [
+    "docs/art-rebuild/second_ai/patches/cam_libhall_core_1031.patch",
+    "docs/art-rebuild/second_ai/test_shots/cam_libhall_core_1031/",
+    "tools/blender/env_second/shots/cam_pillar_probe.py"
+   ],
+   "state": "已交（功能修正）",
+   "summary": "library3d.js coreCamCols：核心兩塊（欄杆→書架外緣、到二樓樓面）、兩側那一跑的下面、中庭四角柱子當 zone.camCols（第 0、1 層），擋到拉近、autoSwing 轉開；室內樹葉子網點透空（zone.seeThru）。不改引擎、不換模型、導航沒動。",
+   "tests": "新測試 tests/library_hall_cam_core_unit.js 開發原樣 FAIL 10、改後 ALL PASS；會建出總圖大廳的 Node 95 支 ALL PASS；全部 Node 跑中（交件時 149/787、0 失敗），跑完補",
+   "shots": "BB 4 個方向：改前 0/2/5/0% → 改後（自己轉開）40/31/27/43%、剛拖過鏡頭 89～92%（頭頂近景，放開 1.5 秒後轉開）",
+   "remaining": "手機實機沒測；nav_islands.py 沒跑（導航沒改）",
+   "next": "LAWWW 整合 patch（對 3438bf10a apply --check 通過）；BB 重跑 LHCORE（README 第五節有指令）"
   }
  ]
 }

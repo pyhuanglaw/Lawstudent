@@ -3,9 +3,9 @@
 ## ⏱ 現況（LAWWW2-B，2026-10-31 11:2x UTC；帳號 B 七天額度已到警示，隨時可能被切斷——接手的先讀這一段）
 
 - **11:2x 正在做（最新，先讀這裡）**：
-  - **BUG-CAM-LIBHALL-CORE-1031（LAWWW-B 10:45 P1）**：patch＋README 已 push（WIP `c4ed34ed9`）：`patches/cam_libhall_core_1031.patch`、`test_shots/cam_libhall_core_1031/README.md`。
+  - **BUG-CAM-LIBHALL-CORE-1031（LAWWW-B 10:45 P1）**：**已交（11:5x，outbox）**：`patches/cam_libhall_core_1031.patch`、`test_shots/cam_libhall_core_1031/README.md`。
     - 新測試開發原樣 FAIL 10、改後 ALL PASS；95 支會建出總圖大廳的 Node 都過；BB 的 4 個方向 0～5% → 27～43%。
-    - **還差**：全部 Node（測試樹 `devclean`＝開發 `f79dc8b9e`＋書店＋門廊側牆＋這一包，在背景跑）→ README 第四節補數字 → outbox 交件。
+    - **還差**：全部 Node 跑完（測試樹 `devclean`，背景）→ 結果補 outbox。
   - **溫州街三家光照**（INTERIOR-AAA，#140）：`tools/blender/env_second/lightbake/bake_wz_shops.sh brunch|print|teahouse`、鏡頭 `shots/wz_lm_shots.py`。
     - 64 取樣試烘：半熟、一盞好了（scratchpad，沒進 repo）；影印店重烘中（第一次烘到一半我改了腳本，bash 讀到錯位，`lm: command not found`——**跑著的 bash 腳本不要改**）。
     - 半熟下一版：軌道燈的點光源離天花板 15 cm，天花板有亮斑，改成往下照的小面光源。

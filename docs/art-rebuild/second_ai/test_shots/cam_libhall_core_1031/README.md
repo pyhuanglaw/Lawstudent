@@ -79,12 +79,12 @@
   - 葉子：程式有接上、正式模型有 4 個葉子材質。Node 載不到 GLB，實際的網點透空沒有在這支測試裡跑；上面的遊戲截圖是正式模型。
   - **開發分支原樣 FAIL 10，改後 ALL PASS**。
 - 會建出總圖大廳的 Node 測試 95 支（`nav_buildings_unit`、`stairs_cam_slab_unit`、`teach_cam_walls_unit`、`library_*`、劇情裡會進總圖的……）全部 ALL PASS。
-- 全部 Node：跑中（完成後補在這裡）。
+- 全部 Node（測試樹＝開發 `f79dc8b9e`＋書店＋門廊側牆＋這一包）：**跑中**，交件時跑了 149／787 支、0 失敗。這一包 P1 先交，跑完補在 outbox。
 - 沒跑：`tools/dev_scratch/nav_islands.py`（導航沒改）、手機實機。
 
 ## 五、怎麼套（給 LAWWW-B）
 
-- patch：`docs/art-rebuild/second_ai/patches/cam_libhall_core_1031.patch`（`src/library3d.js`＋新測試 `tests/library_hall_cam_core_unit.js`）。對最新開發 `f79dc8b9e` `git apply --check` 通過。
+- patch：`docs/art-rebuild/second_ai/patches/cam_libhall_core_1031.patch`（`src/library3d.js`＋新測試 `tests/library_hall_cam_core_unit.js`）。對最新開發 `3438bf10a`（和 `f79dc8b9e`）`git apply --check` 通過。
 - 不用換模型、不用改引擎。
 - 量畫面用的工具：`tools/blender/env_second/shots/cam_pillar_probe.py` 加了環境變數 `ZONE`（區域）、`LV`（樓層）、`SWING=1`（鏡頭自己轉開）。BB 要重拍 LHCORE 可以直接用：
   ```
