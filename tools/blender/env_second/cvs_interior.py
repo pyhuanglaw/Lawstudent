@@ -49,7 +49,7 @@ M = {
     'glass': L.flat('cvs_glass', '#dfe9ec', rough=0.05, alpha=0.18), 'black': L.flat('cvs_black', '#222325', rough=0.45),
     'counter': L.flat('cvs_counter', '#f3f2ee', rough=0.4), 'top': L.pbr('cvs_countertop', 'granite_tile_03', tile=0.8, target='#8d9093', maps=('diff',), res=256, rough_value=0.3),
     'steel': L.flat('cvs_steel', '#b8bcbf', rough=0.25, metal=0.6), 'mat': L.flat('cvs_mat', '#3a3d40', rough=0.95),
-    'board': L.flat('cvs_sign_face', '#ffffff', rough=0.7), 'poster': vc_mat('cvs_poster', rough=0.7), 'oden': L.flat('cvs_oden', '#b98a4e', rough=0.4),
+    'board': L.flat('cvs_sign_face', '#ffffff', rough=0.7, cull=True), 'poster': vc_mat('cvs_poster', rough=0.7), 'oden': L.flat('cvs_oden', '#b98a4e', rough=0.4),
     'bun': L.flat('cvs_bun', '#f1e9da', rough=0.6), 'frame': L.flat('cvs_frame', '#9aa0a5', rough=0.35, metal=0.5),
 }
 PALETTE = ['#d8432f', '#f0b429', '#2f7ed8', '#3fa34d', '#f4f1ea', '#e86f2c', '#7a4fb3', '#1d1d1f', '#c9e2f2', '#e8d5b0', '#d64b8a', '#5bb6c9', '#a6c34a', '#f29fb5']
@@ -283,6 +283,8 @@ L.merge_by_material(root, keep=lambda ob: 'FACE' in ob.name, key=lambda ob: ('WA
 # PERF-SINGLESIDE-GLB-1025（LAWWW2-B 2026-10-25）：材質改單面（lib2.single_side）——遊戲把 WALL_* 設成 transparent 才能淡出，雙面又半透明要畫兩次。
 # 封閉的殼直接單面；開口的零件（牆面、葉片卡、薄板）補反面，看起來和原本一樣；玻璃照舊雙面；遊戲照名字接手的板面（*_FACE_*）不動網格
 # 開口但背面看不到的不補：架上的商品（正面朝走道，後面是層架）
+# 分類牌、促銷看板（cvs_sign_face，只有 SIGN_FACE 在用）：明確單面（cull=True）。single_side 會跳過只有 SIGN_FACE 在用的材質（照舊雙面，第四份改的規則），
+#   但部署的 GLB（10-25 第一份）是單面、tests/singleside_interiors_unit.js 也要單面；吊牌兩面各自一片、看板只從店裡看，單面就對（10-31 光照烘焙重匯時發現兩邊不一樣）
 _ss = L.single_side(root, keep=r'glass', nodup=r'^cvs_goods_atlas', skip=lambda ob: 'FACE' in ob.name)
 print('{"single_side": %s}' % json.dumps({k: v for k, v in sorted(_ss.items(), key=lambda kv: -kv[1][1])}, ensure_ascii=False))
 info = L.export(OUT, gpu_instances=True)

@@ -1714,7 +1714,7 @@ const Z3 = (function(){
       if(!mt||mt.userData.cvsReg) return; mt.userData.cvsReg=true;
       if(nm==='cvs_led'){ mt.emissive=new THREE.Color(0xffffff); mt.emissiveIntensity=1.5; }
       if(nm==='cvs_cooler_light'){ mt.emissive=new THREE.Color(0xe9f4ff); mt.emissiveIntensity=1.1; }
-      const b=CVS_BOUNCE[nm]; if(b) TK.bounce(mt,b[0],b[1]);
+      const b=CVS_BOUNCE[nm]; if(b&&!mt.lightMap) TK.bounce(mt,b[0],b[1]);   /* 有光照貼圖（tools/blender/env_second/lightbake/bake_cvs.sh；attachRoomGLB 先接好）的材質不加補光：燈的光、貨架和櫃檯的影子都在貼圖裡，再加一層均勻的自發光會把影子洗掉（和宿舍四人房 DORM_BOUNCE 一樣）。測試：node tests/cvs_interior_lm_unit.js */
       if(nm==='cvs_goods'||nm==='cvs_poster'){ /* 商品與海報的顏色在頂點色：自發光也照頂點色加一點（店裡很亮，只靠燈光會偏暗） */ mt.onBeforeCompile=sh=>{ sh.fragmentShader=sh.fragmentShader.replace('#include <emissivemap_fragment>','#include <emissivemap_fragment>\n#if defined( USE_COLOR ) || defined( USE_COLOR_ALPHA )\n totalEmissiveRadiance += vColor.rgb * 0.32;\n#endif'); }; mt.customProgramCacheKey=()=>'cvsVcGlow'; mt.needsUpdate=true; } });
     if(z.wins&&z.wins[0]){ const v=new THREE.Mesh(new THREE.PlaneGeometry(2.6,2.7),z.wins[0].material); v.position.set(0,1.25,4.5+0.35); v.rotation.y=Math.PI; g0.add(v); (z.winParts=z.winParts||[]).push({obj:v,at:new THREE.Vector3(0,1.25,4.5),dir:new THREE.Vector3(0,0,-1)}); }
     return root; }

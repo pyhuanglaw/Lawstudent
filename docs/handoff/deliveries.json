@@ -16519,6 +16519,19 @@
    "task": "CAM-PILLAR-HALLS-1031",
    "integration": "已整合待測試",
    "note": "LAWWW-B 06:4x 套上：apply 乾淨、campus_hall_pillar_seethru、linze_pillar_seethru、nav_buildings、kit_nav_check ALL PASS"
+  },
+  {
+   "id": "DL-LW2-CVS-LM-1031",
+   "date": "2026-10-31",
+   "from": "LAWWW2-B",
+   "account": "B",
+   "branch": "claude/funny-albattani-iawshm",
+   "sha": "1908a3c83",
+   "msg": "ACK",
+   "what": "INTERIOR-AAA-REVIEW-1028：便利商店（日日便利）室內光照烘焙（cvs_interior.glb＋光照貼圖兩張；cvs_lm_1031.patch：attachCvsInterior 有光照貼圖不加 CVS_BOUNCE、cvs_sign_face 單面、singleside 2c、bake_cvs.sh、cvs_interior_lm_unit）",
+   "task": "INTERIOR-AAA-REVIEW-1028",
+   "integration": "已整合待測試",
+   "note": "LAWWW-B 09:1x 套上：apply 乾淨、cvs_interior_lm、singleside_interiors、closed、noodle_closed ALL PASS；READY_FOR_ART_REVIEW"
   }
  ],
  "ignored": [

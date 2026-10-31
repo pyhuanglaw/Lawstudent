@@ -95,3 +95,5 @@
 | ART-ECON-3D-GAP-1021 B（10-31） | 普通教學館室內光照（冷白燈、白天降色溫；LAWWW2 1154ef5da，開發 3f67ec44a） | BB-B n28 PASS；已知：一樓樓梯井偏暗、101 門邊牆偏奶油色、101 後面看白天右邊窗整片黑（LAWWW2 判斷中）；截圖 test_shots/putong_lm_1031/ |
 | ART-ECON-3D-GAP-1021 C（10-31） | 總圖 3F 閱覽區光照（冷白燈＋燈下點光源；LAWWW2 3ce25a2f1，開發 1e910aa6c） | BB-B n28 PASS；截圖 test_shots/library3f_lm_1031/ |
 | BUG-CAM-PILLAR-LAWA／CAM-PILLAR-HALLS（10-31） | 法律系館A穿堂柱子、總圖／行政大樓／文學院／校史館門廊柱子擋到玩家時網點透空（和行道樹同一套） | 法律系館A BB 已驗收（玩家看得到 84%～92%）；四棟 BB 測中；截圖 test_shots/cam_pillar_1031/、cam_pillar_halls_1031/ |
+| INTERIOR-AAA-REVIEW-1028 便利商店（10-31） | 日日便利室內光照（貨架底下、櫃檯正面、牆角有影子；LAWWW2 1908a3c83） | BB 待看；截圖 test_shots/cvs_lm_1031/ |
+| 普通 101 北窗（10-31，只記錄） | 從教室後面往黑板看，白天右邊窗整片深藍黑：對面是博思一樓深色玻璃帷幕，遊戲的玻璃不反射天空（窗景沒缺）。要改：博思一樓玻璃白天調亮＋重拍兩張窗景（校園裡看博思玻璃也會變亮） | LAWWW2 判斷、LAWWW-B 先不改；截圖 test_shots/putong_winview_1031/ |
