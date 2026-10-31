@@ -17,14 +17,15 @@ SAVE = json.load(open(SAVEF, encoding='utf-8'))
 J = lambda x: json.dumps(x, ensure_ascii=False)[:1500]
 ROW = re.compile(r'^(.+)：黑畫面 [\d.]+ 秒（建區域 [\d.]+、預熱 [\d.]+）；淡入後 10 秒最長一格 [\d.]+ 秒、卡 \d+ 次；shader 黑畫面 \+-?\d+、淡入後 \+-?\d+$')
 ROW_NEG = re.compile(r'shader 黑畫面 \+-\d+')   # n26：小框印出「+-6」＝shader 數是負的（遊戲顯示的問題，另外記，不讓格式那一項跟著 FAIL）
-HEAD = '換場景量測（?perf，按一下複製）'
+HEAD = '換場景量測（?perf）'   # 2a3e53b59 起（原本「換場景量測（?perf，按一下複製）」）
 PANEL = """(()=>{ const d=document.getElementById('perfPanel'); const on=typeof PERFPANEL!=='undefined'?PERFPANEL.on:null;
   if(!d) return {exists:false, on}; const r=d.getBoundingClientRect();
   const hud={}; for(const id of ['joy','interact','minimap','btnPhone','btnMenu','hudR','hud','btnBigMap','nextClass','guide']){ const e=document.getElementById(id); if(!e) continue; const q=e.getBoundingClientRect(); const vis=!!e.offsetParent&&q.width>0&&q.height>0&&getComputedStyle(e).visibility!=='hidden'&&getComputedStyle(e).opacity!=='0';
     const ix=Math.max(0,Math.min(r.right,q.right)-Math.max(r.left,q.left)), iy=Math.max(0,Math.min(r.bottom,q.bottom)-Math.max(r.top,q.top));
     const cx=q.left+q.width/2, cy=q.top+q.height/2, top=vis?document.elementFromPoint(cx,cy):null;   /* 鈕的正中間按下去，最上面是誰（被小框蓋住＝按不到）*/
     hud[id]={vis, rect:[Math.round(q.left),Math.round(q.top),Math.round(q.width),Math.round(q.height)], overlap:Math.round(ix*iy), tapOK:vis?!!(top&&(e===top||e.contains(top))):null, topId:top?(top.id||top.className||top.tagName):null}; }
-  return {exists:true, on, text:d.textContent, rect:[Math.round(r.left),Math.round(r.top),Math.round(r.width),Math.round(r.height)], vw:innerWidth, vh:innerHeight, hud}; })()"""
+  const tx=document.getElementById('perfPanelText'), cp=document.getElementById('perfPanelCopy'); const cr=cp?cp.getBoundingClientRect():null;
+  return {exists:true, on, text:(tx||d).textContent, n:typeof PERFPANEL!=='undefined'&&PERFPANEL.log?PERFPANEL.log.length:null, copy:cr?{rect:[Math.round(cr.left),Math.round(cr.top),Math.round(cr.width),Math.round(cr.height)], pe:getComputedStyle(cp).pointerEvents}:null, pe:getComputedStyle(d).pointerEvents, rect:[Math.round(r.left),Math.round(r.top),Math.round(r.width),Math.round(r.height)], vw:innerWidth, vh:innerHeight, hud}; })()"""
 EXITS = "(()=>GAME.E.interactables.filter(i=>i.exit).map(i=>({to:i.exit.to, x:+i.x.toFixed(1), z:+i.z.toFixed(1), label:i.label})))()"
 
 
@@ -81,7 +82,7 @@ async def walk_route(pg, cdp, run, tag, targets, max_hops=4):
 
 def rows_of(pn):
     t = (pn.get('text') or '').split('\n')
-    return t[0] if t else '', [x for x in t[1:] if x.strip()]
+    return t[0] if t else '', [x for x in t[1:] if x.strip() and not x.startswith('（共 ')]
 
 
 async def main():
@@ -97,7 +98,17 @@ async def main():
         pn = await pg.evaluate(PANEL); head, rows = rows_of(pn)
         await run.shot(pg, 'land_final')
         run.note('橫向最後的小框（%s）：\n%s' % (J(pn.get('rect')), pn.get('text')))
-        run.check('橫向：右上角有小框、標題「%s」' % HEAD, pn['exists'] and head == HEAD and pn['rect'][0] + pn['rect'][2] >= pn['vw'] - 40 and pn['rect'][1] <= 60, J({k: pn.get(k) for k in ('exists', 'rect', 'vw', 'vh')}) + ' ' + head)
+        mm = (pn.get('hud') or {}).get('minimap') or {}
+        run.check('橫向：小框在右邊、小地圖下面（不和小地圖重疊）、標題「%s」' % HEAD, pn['exists'] and head == HEAD and pn['rect'][0] + pn['rect'][2] >= pn['vw'] - 40 and (not mm.get('vis') or pn['rect'][1] >= mm['rect'][1] + mm['rect'][3] - 1), J({k: pn.get(k) for k in ('exists', 'rect', 'vw', 'vh', 'pe')}) + ' 小地圖 ' + J(mm.get('rect')) + ' ' + head)
+        run.check('橫向：小框本身不吃點擊（pointer-events:none），只有「複製」可以按', pn.get('pe') == 'none' and bool(pn.get('copy')) and pn['copy']['pe'] == 'auto', J({'pe': pn.get('pe'), 'copy': pn.get('copy')}))
+        shown = len(rows); total = pn.get('n') or 0
+        run.check('橫向：畫面上最多 3 筆；超過時寫「（共 N 筆，按複製拿全部）」', shown <= 3 and ((total <= 3) or ('（共 %d 筆，按複製拿全部）' % total) in (pn.get('text') or '')), J({'shown': shown, 'total': total, 'text': (pn.get('text') or '')[-60:]}))
+        await pg.evaluate("(()=>{ window.__copied=null; try{ navigator.clipboard.writeText=t=>{ window.__copied=String(t); return Promise.resolve(); }; }catch(e){ window.__copyErr=String(e); } })()")
+        await L.tap(pg, cdp, '#perfPanelCopy'); await pg.wait_for_timeout(800)
+        cpd = await pg.evaluate("(()=>({t:window.__copied, err:window.__copyErr||null, btn:(document.getElementById('perfPanelCopy')||{}).textContent}))()")
+        cl = (cpd.get('t') or '').split('\n'); crow = [x for x in cl[1:] if x.strip()]
+        run.note('橫向：按「複製」→ %s' % J(cpd)[:900])
+        run.check('橫向：按「複製」拿到全部（第一行瀏覽器、後面每一筆照格式，筆數＝記錄數 %d、最多 8）' % total, bool(cpd.get('t')) and len(crow) == min(total, 8) and all(ROW.match(r) for r in crow), J({'n': len(crow), 'first': cl[:1], 'btn': cpd.get('btn')}))
         nin = len([h for h in hops if h['ok']])
         run.check('橫向：一行一次（行數 ≥ 換區域次數 %d）、每行照格式' % nin, len(rows) >= nin and all(ROW.match(r) for r in rows), J(rows))
         neg = [r for r in rows if ROW_NEG.search(r)]
