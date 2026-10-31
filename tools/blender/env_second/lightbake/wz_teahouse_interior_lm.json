@@ -1,0 +1,53 @@
+{
+ "scale": 2.0,
+ "intensity": 6.283185307179586,
+ "res": 1024,
+ "samples": 64,
+ "emit": {},
+ "dayemit": {},
+ "sun": [
+  40.0,
+  40.0,
+  1.4
+ ],
+ "sky": 1.0,
+ "nightsky": 0.03,
+ "shell": "S,UP",
+ "daylights": 0.5,
+ "lights": null,
+ "points": "-1.6,1.95,0.8,40,1.0,0.84,0.64,0.12;-1.6,1.95,2.4,40,1.0,0.84,0.64,0.12;-2.15,2.05,-2.8,40,1.0,0.84,0.64,0.12;2.15,2.05,-2.8,40,1.0,0.84,0.64,0.12",
+ "wb": {
+  "day": [
+   0.97,
+   0.96,
+   0.94
+  ],
+  "night": null
+ },
+ "objects": [
+  "WALL_back_back_plaster",
+  "WALL_back_back_post",
+  "WALL_engawa_engawa_batten",
+  "WALL_engawa_engawa_post",
+  "WALL_engawa_engawa_shoji",
+  "WALL_left_left_plaster",
+  "WALL_left_left_post",
+  "WALL_right_right_plaster",
+  "WALL_right_right_post",
+  "wzs_ceiling_batten",
+  "wzs_ceiling_boards",
+  "wzs_cushion",
+  "wzs_cushion2",
+  "wzs_fence",
+  "wzs_fusuma",
+  "wzs_garden_moss",
+  "wzs_gravel",
+  "wzs_heri",
+  "wzs_lacquer",
+  "wzs_planks",
+  "wzs_post",
+  "wzs_shoji",
+  "wzs_stone",
+  "wzs_tatami"
+ ]
+}

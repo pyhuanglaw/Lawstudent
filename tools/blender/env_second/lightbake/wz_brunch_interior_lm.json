@@ -1,0 +1,49 @@
+{
+ "scale": 2.0,
+ "intensity": 6.283185307179586,
+ "res": 1024,
+ "samples": 64,
+ "emit": {},
+ "dayemit": {},
+ "sun": [
+  215.0,
+  38.0,
+  1.6
+ ],
+ "sky": 0.8,
+ "nightsky": 0.03,
+ "shell": "S",
+ "daylights": 0.6,
+ "lights": null,
+ "points": "-2.35,2.21,-1.3,60,1.0,0.86,0.68,0.04;-2.35,2.21,0.5,60,1.0,0.86,0.68,0.04;-2.35,2.21,2.3,60,1.0,0.86,0.68,0.04;1.95,2.21,1.0,60,1.0,0.86,0.68,0.04;2.35,2.21,3.35,60,1.0,0.86,0.68,0.04;-1.7,1.83,-2.7,12,1.0,0.72,0.48,0.03;0.3,1.83,-2.7,12,1.0,0.72,0.48,0.03;-0.6,3.05,-1.0,15,1.0,0.86,0.68,0.03;0.2,3.05,-1.0,15,1.0,0.86,0.68,0.03;1.0,3.05,-1.0,15,1.0,0.86,0.68,0.03;-0.6,3.05,1.8,15,1.0,0.86,0.68,0.03;0.2,3.05,1.8,15,1.0,0.86,0.68,0.03;1.0,3.05,1.8,15,1.0,0.86,0.68,0.03",
+ "wb": {
+  "day": [
+   0.97,
+   0.93,
+   0.86
+  ],
+  "night": null
+ },
+ "objects": [
+  "WALL_back_back_paint",
+  "WALL_back_back_steel",
+  "WALL_back_back_tile",
+  "WALL_back_back_wood_dk",
+  "WALL_back_back_wood_lt",
+  "WALL_front_front_paint",
+  "WALL_front_front_wood_dk",
+  "WALL_front_front_wood_lt",
+  "WALL_left_left_paint",
+  "WALL_left_left_wood_dk",
+  "WALL_left_left_wood_lt",
+  "WALL_right_right_paint",
+  "WALL_right_right_wood_dk",
+  "WALL_right_right_wood_lt",
+  "wzs_ceiling",
+  "wzs_floor",
+  "wzs_griddle",
+  "wzs_steel",
+  "wzs_wood_dk",
+  "wzs_wood_lt"
+ ]
+}
