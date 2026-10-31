@@ -290,6 +290,17 @@ const walk=async(picks,term)=>{ H.said=[]; H.opts=[]; H.picks=picks.slice(); ret
     let q=null; if(m){ H.G.hour=Math.max(H.G.hour,12.2); PHONE.answer(H.G,tag,0); TERMEND.pickCheck(GM); q=OUT.get(H.G,'te_Y3S2'); }
     check('12b. 芯慈的心意邀約（HEART.sameDay）：那一天 12:00 才傳「考完了。今天晚上有空嗎。……我沒有提前一天。」、回覆到 17:30；答應＝飯就在那天 18:00',!!m&&dd!=null&&m.day===dd&&m.h>=12&&m.h<17.5&&m.text===TERMEND_LINES.HEART[XC].invite&&m.ask.until===dd*24+17.5&&!!q&&q.day===dd&&q.h===18,J([m&&[m.day,m.h,m.text],dd,q&&[q.day,q.h]])); });
 
+  /* 12b 續（BB-B 10-31 疑點 1、2）：那天 12:00～17:30 手機規則都沒跑到＝不傳過期的、改排下一個晚上；別人的期末飯已經佔了那一晚＝她排別天 */
+  await sec('12b2',async()=>{ full(null,'2028-06-07'); const w=TERMEND.windowOf('Y3S2'), tag='te_Y3S2_'+XC;
+    let dd=null; for(let d=w.from;d<=w.to&&dd==null;d++){ H.G.day=d; H.G.hour=9; TERMEND.phone(GM); const R=(H.G.termend||{}).Y3S2||{}; if(R.heartDay&&R.heartDay[XC]!=null) dd=R.heartDay[XC]; }
+    H.G.day=dd; H.G.hour=19; TERMEND.phone(GM); PHONE.tick(H.G); const R=H.G.termend.Y3S2, d2=R.heartDay[XC], m0=(H.G.msgs||[]).find(x=>x.tag===tag);
+    H.G.day=d2; H.G.hour=12.1; TERMEND.phone(GM); PHONE.tick(H.G); const m=(H.G.msgs||[]).find(x=>x.tag===tag&&x.ask);
+    check('12b2. 疑點 1：排好的那天（第 '+dd+' 天）19:00 才第一次跑手機規則＝那天不傳（不傳過期的）、改排下一個晚上；那天 12:00 傳、回覆到 17:30',dd!=null&&!m0&&d2>dd&&!!m&&m.day===d2&&m.ask.until===d2*24+17.5,J({dd,d2,m0:!!m0,m:m&&[m.day,m.h]}));
+    full(null,'2028-06-07'); let d1=null; for(let d=w.from;d<=w.to&&d1==null;d++){ H.G.day=d; H.G.hour=9; TERMEND.phone(GM); const RR=(H.G.termend||{}).Y3S2||{}; if(RR.heartDay&&RR.heartDay[XC]!=null) d1=RR.heartDay[XC]; }
+    full(null,'2028-06-07'); H.G.day=w.from; H.G.hour=9; OUT.plan(H.G,{id:'te_gf_Y3S2_heroine_04',ev:'ev_termend_dinner',day:d1,h:22,place:'公館宵夜',title:'學期末的飯：子晴',te:{term:'Y3S2',who:'heroine_04',kind:'gf'}});
+    let d3=null; for(let d=w.from;d<=w.to&&d3==null;d++){ H.G.day=d; H.G.hour=9; TERMEND.phone(GM); const RR=(H.G.termend||{}).Y3S2||{}; if(RR.heartDay&&RR.heartDay[XC]!=null) d3=RR.heartDay[XC]; }
+    check('12b2. 疑點 2：那一晚已經排了子晴的期末宵夜（te_gf_）＝芯慈的心意飯排別天（TERMEND.teBusy）',d1!=null&&d3!=null&&d3!==d1&&TERMEND.teBusy(H.G,w,d1,XC)===true&&TERMEND.teBusy(H.G,w,d1,'heroine_04')===false,J({d1,d3})); });
+
   /* ===== 第 13 節：AA_548 第 8 節（她爸爸、挽回、冷落）===== */
   await sec(13,async()=>{ const DOC8=doc('8e0de1663','AA_548_芯慈戀愛線重寫_門檻與半夜訊息.md'), ZQ_='heroine_04';
     const fri=(()=>{ for(let d=D('2029-04-01');d<=D('2029-04-30');d++) if(CALENDAR.dateOf(d).wd%7===5) return d; return null; })();

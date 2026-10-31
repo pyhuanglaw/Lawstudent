@@ -128,6 +128,7 @@ const TERMEND=(function(){
       /* 當天才約（HEART.sameDay，芯慈 AA_537b 第 7 節「考完了。今天晚上有空嗎。……我沒有提前一天。」）：先排好日子，那一天 12:00 傳、回覆到 17:30，飯就在那天（BB-B 10-31：原本時段第一天 20:30 傳、飯排在兩天後，「今天」不對）*/
       const hs=kind==='heart'?S.heart(id,w.id):null;
       if(hs&&hs.sameDay){ const RH=R.heartDay||(R.heartDay={}); if(PHONE.sent(G,tag)||R.picked) return; if(RH[id]==null){ if(now<T(d0,0)) return; const dd0=S.dinnerDay(G,w,Object.assign({},hs,{h:hs.h||18.5}),id); RH[id]=dd0==null?-1:dd0; }
+        if(RH[id]>=0&&now>=T(RH[id],17.5)){ const d2=S.dinnerDay(G,w,Object.assign({},hs,{h:hs.h||18.5}),id); RH[id]=d2==null?-1:d2; }   /* 那天 12:00～17:30 手機規則都沒跑到（一直在劇情、出遊、上課、睡過）＝還沒傳就過了期限：不傳過期的，改排下一個能約的晚上（BB-B 10-31 疑點 1）*/
         const dd=RH[id]; if(dd<0||now<T(dd,12)) return; const T3=lines(txt,G); if(!T3.length) return;
         const ask={id:tag,until:T(dd,17.5),opts:[{t:'好。',set:{TE_PICK:w.id+'|'+id+'|'+kind}},{t:'那天有約了。',set:{TE_NO:w.id+'|'+id},say:no?[{from:id,text:no}]:[]}]};
         PHONE.at(G,dd,Math.min(Math.max(12,G.day===dd?(+G.hour||0):12),17),T3.map((t,i)=>Object.assign({th:'p:'+id,from:id,text:t},i===T3.length-1?{ask}:{})),tag); R.asks[id]=tag; return; }
@@ -165,7 +166,11 @@ const TERMEND=(function(){
       const a=dd-q.day; if(ago<0||a<ago) ago=a; }
     return ago>=0?ago:(wait?'wait':-1); };
   /* 接了一個：排出遊、其他的自動婉拒；女朋友的學期末約會另外排 */
-  S.eveningBusy=(G,d)=>typeof OUT!=='undefined'&&OUT.rec(G).some(q=>q&&q.day===d&&(q.state==='planned'||q.state==='done')&&!/^te_/.test(q.id||'')&&q.h>=17);   /* AA_378 S4：那天晚上已經有別的出遊（例：12/23 20:30 接學姊的飛機）*/
+  S.eveningBusy=(G,d)=>typeof OUT!=='undefined'&&OUT.rec(G).some(q=>q&&q.day===d&&(q.state==='planned'||q.state==='done')&&!/^te_/.test(q.id||'')&&q.h>=17);
+  /* 那天晚上已經排了別人的期末飯（BB-B 10-31 疑點 2：芯慈當天約的心意飯 18:00 和子晴的期末宵夜 22:00 排在同一晚）：排好的出遊（te_ 開頭、te.who 不是她）、還沒傳的保留日（heartDay、gfDay）都算。
+     eveningBusy 不算 te_ 是因為她自己那一頓排好以後不能把自己擋掉（line 144 的 pick）*/
+  S.teBusy=function(G,w,d,who){ const R=S.rec(G,w.id); if(typeof OUT!=='undefined'&&OUT.rec(G).some(q=>q&&q.day===d&&q.state==='planned'&&/^te_/.test(q.id||'')&&q.te&&q.te.who!==who)) return true;
+    for(const m of [R.heartDay||{},R.gfDay||{}]) for(const k in m) if(k!==who&&m[k]===d) return true; return false; };   /* AA_378 S4：那天晚上已經有別的出遊（例：12/23 20:30 接學姊的飛機）*/
   /* 女朋友版的學期末約會要避開的那一天（AA_386 第 3 節）：學姊交往中，大二上、大三上的 12/24 晚上是她約的聖誕（Café 門口、研究室；src/sis_b4_3d.js）*/
   S.XMAS_GF={heroine_05:{Y2S1:'2026-12-24',Y3S1:'2027-12-24'}};
   /* 女朋友版的學期末約會固定那一天（AA_386 3-3，企劃線 d0468be4）：學姊大四上 12/24 18:30（她 12/23 回來的隔天；兩條路線一樣）。其他人照 S.dinnerDay 的規則 */
@@ -173,7 +178,7 @@ const TERMEND=(function(){
   /* 固定那一天沒排成（那天晚上有別的約、往後讓了）＝AA_386 3-3 備援：12/24 21:00 她私訊（sis_b4_3d.js SISB4.xm3Fallback；3-2 有來才有）*/
   S.gfOff=function(G,w,id){ const fx=S.GF_FIXED[id]&&S.GF_FIXED[id][w.id]?DK(S.GF_FIXED[id][w.id]):null; if(fx==null) return; const dd=S.rec(G,w.id).gfDay[id]; if(dd===fx) return;
     if(id==='heroine_05'&&w.id==='Y4S1'&&typeof SISB4!=='undefined'&&SISB4.xm3Fallback) SISB4.xm3Fallback(G); };
-  S.dinnerDay=function(G,w,spec,who){ const hh=spec.h||18.5, xm=who==='kexin'&&w.id==='Y2S1'?DK('2026-12-25'):null, xg=spec.gf&&S.XMAS_GF[who]&&S.XMAS_GF[who][w.id]?DK(S.XMAS_GF[who][w.id]):null, ok=d=>d!==xm&&d!==xg&&!S.eveningBusy(G,d)&&(d>G.day||(d===G.day&&G.hour<hh-0.5)), pb=(S.rec(G,w.id).plan||{}).back||w.from; let lo=Math.max(w.from+1,pb+1,G.day);
+  S.dinnerDay=function(G,w,spec,who){ const hh=spec.h||18.5, xm=who==='kexin'&&w.id==='Y2S1'?DK('2026-12-25'):null, xg=spec.gf&&S.XMAS_GF[who]&&S.XMAS_GF[who][w.id]?DK(S.XMAS_GF[who][w.id]):null, ok=d=>d!==xm&&d!==xg&&!S.eveningBusy(G,d)&&!S.teBusy(G,w,d,who)&&(d>G.day||(d===G.day&&G.hour<hh-0.5)), pb=(S.rec(G,w.id).plan||{}).back||w.from; let lo=Math.max(w.from+1,pb+1,G.day);
     if(who==='heroine_03'&&w.id==='Y1S2'){ const d=DK('2026-06-19'); if(d!=null) lo=Math.max(lo,d); }   /* 語彤 6/18 雙主修筆試以前不來（AA_250 第 2 節）*/   /* xm：可昕大二上的期末約會避開 12/25（那天晚上是她排的聖誕行程，AA_325 2-Y2-07）*/
     const c=CHARACTERS[who], hi=c&&c.presence&&c.presence.home?Math.min(w.to,w.termTo):w.to;   /* 寒暑假回老家的（可昕、沛珊，AA_276 第 3 節第 2 點）：限定在期末考最後一天後第 2 天以前，第 3 天她們就回老家了 */
     { const fx=spec.gf&&S.GF_FIXED[who]&&S.GF_FIXED[who][w.id]?DK(S.GF_FIXED[who][w.id]):null; if(fx!=null&&fx>=w.from&&fx<=hi&&ok(fx)) return fx; }   /* 固定那一天（那天晚上已經有別的約＝照下面的規則往後讓）*/
