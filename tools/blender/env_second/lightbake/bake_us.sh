@@ -51,7 +51,7 @@ lawlib)
   # 烘完拿掉 extras.lightmap.dayEmit（glb_restore_sides.py --drop-dayemit）：天窗、彩色玻璃晚上變暗是 us3d.js 的 skyTint 在調，roomLightmap 再調一次會變兩倍暗（照體育館 1F 的高窗）。
   NAME=us_lawlib; SCRIPT=tools/blender/env_second/us_lawlib.py; DROPDE=--drop-dayemit
   HIDE='rail_glass|GLOW_|usll_rope|usll_stanchions'
-  NOLM='usll_skylight|usll_stained|usll_rail_posts|usll_wire_spheres|_steel'
+  NOLM='usll_skylight|_stained|usll_rail_posts|usll_wire_spheres|_steel'   # 彩色玻璃的物件叫 WALL_N_stained（--nolm 比對物件名字；第一版寫 usll_stained 沒對到，彩色玻璃被烘了）
   LIGHTS=$(python3 - "${DLW:-45}" <<'PY'
 import json, sys
 J = json.load(open('assets/models/env/second_ai/us_lawlib.layout.json')); W = sys.argv[1]
