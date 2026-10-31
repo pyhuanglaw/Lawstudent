@@ -2,7 +2,13 @@
 
 ## ⏱ 現況（LAWWW2-B，2026-10-31 20:5x UTC；帳號 B 七天額度已到警示，隨時可能被切斷——接手的先讀這一段）
 
-- **20:5x（最新）**：
+- **21:0x（最新）**：
+  - LAWWW-B 20:44 的排序（D88 → 美國室內 → JIAHAO-JOY 只在擋經濟系時做）收到；D88 已在 5a9ca703f 交過。
+  - **美國室內光照進行中**：`tools/blender/env_second/lightbake/bake_us.sh apartment|lawlib|market`（75f0c616b；燈位照配置算）。
+    - 公寓：重匯的白模和部署中的一模一樣（三角形、材質、3,914,088 bytes）→ 可以直接烘；改前截圖在 scratchpad `usapt/before_*`；第一版烘焙中（`usapt/v1`）。
+    - 新測試 `tests/us_apartment_lm_unit.js`（只在 scratchpad 的 devclean，交件時進 patch；開發原樣 FAIL 2）。
+    - 法學院圖書館、亞洲超市的改前截圖在拍（`uslib/`、`usam/`；鏡頭 `shots/us_rooms_lm_shots.py`）。法圖的天窗、彩色玻璃烘完要 `--drop-dayemit`（遊戲 skyTint 自己調）。
+- **20:5x**：
   - 已交（發布基準 39f68236c 凍結中，LAWWW-B 先放本機分支 feat-art-1031，發布後合）：B1 光照（2875f8aef）、CAM-BELL（8119766b1，已進 feat-art-1031）、
     LAMPSHADE-FLIP（9cc4810f2：118 巷 8＋溫州街 3，`glb_flip_insideout.py` 只翻燈罩＋腳本輪廓反過來）、D88 搬檔清單（5a9ca703f：`patches/D88_support_sources_1031.md/.txt`）。
   - ENTRY-B 查過已修好、結案；ART-13、JIAHAO-JOY 照 D99「人物美術凍結」先不做（已告訴 LAWWW-B）。
