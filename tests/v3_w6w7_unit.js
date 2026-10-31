@@ -54,6 +54,8 @@ const meet=id=>SOCIAL.remember(id,'FIRST_MET','');
   check('2. 第三次：「（寫完，柏翰把每個人的寫法抄在白板上。同一題有四種寫法，都說得通。）」（AA_546 1-3；原本「柏翰把分數寫在白板上……先找的是自己的名字」）',lines()[0]==='（寫完，柏翰把每個人的寫法抄在白板上。同一題有四種寫法，都說得通。）'&&G.flags.BOHAN_GROUP_N===3,JSON.stringify(lines()));
   fresh(w7,18.5,'library',{}); G.stage='law'; BH1(); put(); picks=['寫得很慢']; tick(); await wait(); L=norm(lines());
   check('2. 「我寫得很慢，可以嗎？」→（他愣了一下。）「……我也是。所以才組的。」；ASKED_SLOW、BOHAN_GROUP slow',L.slice(3).join('|')==='他愣了一下。|……我也是。所以才組的。'&&SOCIAL.has('classmate_bohan','ASKED_SLOW')&&!SOCIAL.has('classmate_bohan','ASKED_LOW_SCORE')&&G.flags.BOHAN_GROUP==='slow',JSON.stringify(L));
+  { const dSlow=G.day, sat=termDay('Y2S1',7,6); G.day=sat; G.weekday=6; G.zone='dorm'; run(10,10.1);   /* AA_546 1-3（企劃線 84b6c298f，AA-B 10-31 回 A）：slow 算加入——週六小組照排、阿哲「沒去」那一句不演；修改前 FAIL */
+    check('2. 「我寫得很慢」算加入（AA_546 1-3）：記 BOHAN_GROUP_DAY、週六 16:00 小組照排、阿哲「我去了一次」那一句（沒去的版本）不演',G.flags.BOHAN_GROUP_DAY===dSlow&&!!OUT.get(G,'bohan_group_'+sat)&&!EVENTS.check(ev('ev_bohan_group_heard')),JSON.stringify({day:G.flags.BOHAN_GROUP_DAY,dSlow,out:!!OUT.get(G,'bohan_group_'+sat)})); }
   fresh(w7,18.5,'library',{}); G.stage='law'; BH1(); put(); picks=['「不了。」']; tick(); await wait(); L=norm(lines());
   check('2. 「不了。」→「好。想來再跟我說。」；沒有劃掉名字',L.slice(-1)[0]==='好。想來再跟我說。'&&!L.some(t=>/劃掉/.test(t))&&G.flags.BOHAN_GROUP==='no',JSON.stringify(L));
   GM.npc={}; E.npcs=[];

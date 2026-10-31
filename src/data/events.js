@@ -4064,14 +4064,14 @@ const STORY_EVENTS=[
       {label:'n'},{speaker:'classmate_bohan',expression:'neutral',text:'好。想來再跟我說。'},{goto:'end'},
       {label:'q'},{speaker:null,text:'他愣了一下。'},{speaker:'classmate_bohan',expression:'neutral',text:'……我也是。所以才組的。'},{mem:[{npc:'classmate_bohan',tag:'ASKED_SLOW',note:''}]},
       {label:'end'} ],
-    after:G=>{ if(G.flags.BOHAN_GROUP==='yes') G.flags.BOHAN_GROUP_DAY=G.day; } },
+    after:G=>{ if(G.flags.BOHAN_GROUP==='yes'||G.flags.BOHAN_GROUP==='slow') G.flags.BOHAN_GROUP_DAY=G.day; } },   /* 「我寫得很慢，可以嗎？」也算加入（AA_546 1-3，企劃線 84b6c298f）*/
   { id:'ev_bohan_group_session', title:'考古題小組', participants:[], location:'any', trigger:'outing', background:'dark', hours:2,
     dialogue:[ {scene:'總圖 B1・討論室',bg:'library_b1'},
       {if:{custom:G=>!(G.flags.BOHAN_GROUP_N|0)},speaker:null,text:'（四個人，一張考古題。柏翰按下手機的計時器。）'},   /* AB65-3（AA_211 附錄 A 第 3 節第 7 點）：第一次補一句旁白 */
       {if:{custom:G=>(G.flags.BOHAN_GROUP_N|0)===2},speaker:null,text:'（寫完，柏翰把每個人的寫法抄在白板上。同一題有四種寫法，都說得通。）'} ],   /* AA_546 1-3 */
     after:G=>{ G.flags.BOHAN_GROUP_N=(G.flags.BOHAN_GROUP_N|0)+1; } },
   { id:'ev_bohan_group_heard', title:'', participants:['zhe'], location:'noodle', trigger:'auto', term:['Y2S1'], weeks:[7,8], once:true, background:'blur', near:{npc:'zhe',r:4},
-    prereq:{custom:G=>G.flags.BOHAN_GROUP!=='yes'},   /* 沒去的玩家（AA_546 1-3）*/
+    prereq:{custom:G=>G.flags.BOHAN_GROUP!=='yes'&&G.flags.BOHAN_GROUP!=='slow'},   /* 沒去的玩家（AA_546 1-3；slow 算加入，84b6c298f）*/
     dialogue:[ {speaker:'zhe',expression:'neutral',text:'柏翰組了一個考古題小組。我去了一次。……他講第三題講了四十分鐘。'} ] },
   /* 以安新 8 讀書會的規則太多（交接包 v3 3b，AA；後半照 AA_140 G13、AA_177 撞期 #2）：大二上第 7 週週四 20:00 的公法讀書會（萬才館研討室，classes3d.js clubEvent 先演這件），加入過的玩家在場（PUBLIC_LAW_GROUP）。
      沒加入的、在麵店團：Alison 在群組傳撕掉一半的規則＋以安一句（記「聽說」）。後半：同一週週六 14:00 期中前的補讀（以安在群組約、出發選單）＝人回來了（CG-2，檔案還沒有）；記 PLG_RULES。
