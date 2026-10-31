@@ -16439,8 +16439,8 @@
    "msg": "ACK",
    "what": "ART-ECON-3D-GAP-1021 A：共同教學館室內正式模型（gongtong_interior.glb 69 物件 2.9 萬三角形＋光照貼圖白天、晚上；gongtong_interior_1030.patch）＋光照烘焙工具（lightbake_tools_1031.patch：bake_room collapse_black 整面取樣、lm_squash_scan、bake_boya／soclib／noodle／gongtong）",
    "task": "ART-ECON-3D-GAP-1021",
-   "integration": "已整合待測試",
-   "note": "LAWWW-B 02:0x 套上：git apply 乾淨、gongtong_interior_glb_unit、room_ceiling_unit ALL PASS；READY_FOR_ART_REVIEW（建築、場景只有使用者能標 ART_APPROVED）；關著的房間沿用模型的門（沒有門牌），和博思、普通一樣"
+   "integration": "已驗收",
+   "note": "LAWWW-B 02:0x 套上：git apply 乾淨、gongtong_interior_glb_unit、room_ceiling_unit ALL PASS；READY_FOR_ART_REVIEW（建築、場景只有使用者能標 ART_APPROVED）；關著的房間沿用模型的門（沒有門牌），和博思、普通一樣｜10-31 08:1x BB n28 功能面 PASS（ART_APPROVED 等使用者）"
   },
   {
    "id": "DL-AA-537B-84-1031",
@@ -16465,8 +16465,8 @@
    "msg": "ACK",
    "what": "ART-ECON-3D-GAP-1021 B：普通教學館室內光照烘焙（putong_interior.glb 加光照 UV＋extras.lightmap、白天／晚上光照貼圖；putong_lm_1031.patch：putong_interior_lm_unit、bake_putong.sh、烘焙紀錄）",
    "task": "ART-ECON-3D-GAP-1021",
-   "integration": "已整合待測試",
-   "note": "LAWWW-B 03:2x 套上：git apply 乾淨、putong_interior_lm_unit 與教學館相關 10 支 Node ALL PASS；READY_FOR_ART_REVIEW"
+   "integration": "已驗收",
+   "note": "LAWWW-B 03:2x 套上：git apply 乾淨、putong_interior_lm_unit 與教學館相關 10 支 Node ALL PASS；READY_FOR_ART_REVIEW｜10-31 08:1x BB n28 功能面 PASS（ART_APPROVED 等使用者）"
   },
   {
    "id": "DL-AA-537B-85-1031",
@@ -16491,8 +16491,8 @@
    "msg": "ACK",
    "what": "ART-ECON-3D-GAP-1021 C：總圖 3F 閱覽區光照烘焙（library_3f.glb＋光照貼圖兩張）；法律學院圖書館 GPU instancing 修正（lawlib_interior.glb 重烘、光照貼圖逐像素相同）；library3f_lm_1031.patch：library_3f_lm_unit、lm_instancing_unit、bake_room／lm_fix_hidden 保留實例、bake_library_3f.sh",
    "task": "ART-ECON-3D-GAP-1021",
-   "integration": "已整合待測試",
-   "note": "LAWWW-B 05:1x 套上：apply 乾淨、圖書館與光照相關 17 支 Node ALL PASS；READY_FOR_ART_REVIEW"
+   "integration": "已驗收",
+   "note": "LAWWW-B 05:1x 套上：apply 乾淨、圖書館與光照相關 17 支 Node ALL PASS；READY_FOR_ART_REVIEW｜10-31 08:1x BB n28 功能面 PASS（ART_APPROVED 等使用者）"
   },
   {
    "id": "DL-LW2-CAM-PILLAR-1031",
