@@ -36872,7 +36872,7 @@
    "owner": "LAWWW",
    "status": "已整合待測試",
    "priority": "P1",
-   "next": "【10-31 02:0x】story3d.js legacyOk 加 S.pastDay2（法律系主線第 3 天起照作息，和 S.tick 那一段同一個門檻）；an_missed_day2_unit 第 7 項（修改前 FAIL）；LAWWW-B 用 BB 的存檔在瀏覽器重現過（讀檔時 afternoonDone null、以安不在 GAME.npc；8 秒後旗標補上、時間停在 18:09、還是沒生）→ BB 重跑 n25 C5DIAG／C5",
+   "next": "【10-31 02:0x】修後 LAWWW-B 用同一個存檔在瀏覽器確認：讀進來第一秒 GAME.npc 就有 heroine_01、classmate_xinci；全部 Node 775／0（b90fbfd47）；已派 BB 重跑 n25 C5DIAG／C5｜【10-31 02:0x】story3d.js legacyOk 加 S.pastDay2（法律系主線第 3 天起照作息，和 S.tick 那一段同一個門檻）；an_missed_day2_unit 第 7 項（修改前 FAIL）；LAWWW-B 用 BB 的存檔在瀏覽器重現過（讀檔時 afternoonDone null、以安不在 GAME.npc；8 秒後旗標補上、時間停在 18:09、還是沒生）→ BB 重跑 n25 C5DIAG／C5",
    "first": {
     "term": "Y3S1",
     "week": 13,
@@ -36890,7 +36890,7 @@
     "branch": "claude/modest-rubin-2lyp7g",
     "acceptance": "同一個存檔讀到 2027-11-29 18:08 總圖三樓：以安、芯慈都在、慈 5 會演",
     "receiver": "BB",
-    "ack": "未派"
+    "ack": "SENT"
    }
   }
  ]
