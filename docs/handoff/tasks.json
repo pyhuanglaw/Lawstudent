@@ -36701,7 +36701,7 @@
    "owner": "LAWWW",
    "status": "已整合待測試",
    "priority": "P0",
-   "next": "【10-31 04:5x】柏翰 slow 算加入已驗收（BB-B n23_bohan_c 0447c75bb，BB_218 e6355cf03：H2_SLOW 13 行 ALL PASS——BOHAN_GROUP_DAY、第 7～9 週週六小組三次、旁白照稿、ev_bohan_group_heard 沒演）；柏翰全部 PASS；剩芷若 zr2d、Z4-L3（BB n25_xinci_l ZRL3）｜【10-31 03:0x】AA-B 回 A（AA_546 1-3，企劃線 84b6c298f）：選「我寫得很慢」算加入——BOHAN_GROUP_DAY、週六小組照排、阿哲「沒去」那句不演；v3_w6w7 第 2 項加一條（修改前 FAIL）→ BB 驗｜【10-31 02:5x】BB-B n23_bohan_b（fdac7f6e2，BB_218 416b81f9f）ALL PASS 30 行：翰 2（H2_SLOW、H2_YES 三次小組旁白照 1-3）、翰 4（H4_GOOD、H4_SIT），舊句都沒有；BB 問的「slow 算不算加入小組」已轉 AA-B（A／B 選一）；剩芷若 zr2d、Z4-L3 與芯慈 ZRL3 待測｜第一批 AA_546（3281a122c、a68622d52、43b7877f4）＋第二批 AA_546 第 7 節（企劃線 a6372e188：芷若 zr2d、Z4-L3、明軒個性；語彤吃醋、學姊研究小間、書卷獎門檻、柏翰鬧鐘、公園阿嬤、阿哲「問沈以安」照留）＋芯慈 AA_547（46e36f86b、ccbb72422）都進開發分支；AA 重掃過沒有漏的（AA 這邊結了）→ BB 測（n23_bohan_nocmp＋芯慈各場＋芷若 zr2d、Z4-L3）；改名版發布前用選擇題問使用者",
+   "next": "【10-31 05:1x】芷若 ZRFEED（zr2d）、ZRL3（Z4-L3）PASS；柏翰、芯慈各場 PASS；還沒在瀏覽器看過的：明軒個性、AA_546 第一批的子晴、可昕、宿營破冰｜【10-31 04:5x】柏翰 slow 算加入已驗收（BB-B n23_bohan_c 0447c75bb，BB_218 e6355cf03：H2_SLOW 13 行 ALL PASS——BOHAN_GROUP_DAY、第 7～9 週週六小組三次、旁白照稿、ev_bohan_group_heard 沒演）；柏翰全部 PASS；剩芷若 zr2d、Z4-L3（BB n25_xinci_l ZRL3）｜【10-31 03:0x】AA-B 回 A（AA_546 1-3，企劃線 84b6c298f）：選「我寫得很慢」算加入——BOHAN_GROUP_DAY、週六小組照排、阿哲「沒去」那句不演；v3_w6w7 第 2 項加一條（修改前 FAIL）→ BB 驗｜【10-31 02:5x】BB-B n23_bohan_b（fdac7f6e2，BB_218 416b81f9f）ALL PASS 30 行：翰 2（H2_SLOW、H2_YES 三次小組旁白照 1-3）、翰 4（H4_GOOD、H4_SIT），舊句都沒有；BB 問的「slow 算不算加入小組」已轉 AA-B（A／B 選一）；剩芷若 zr2d、Z4-L3 與芯慈 ZRL3 待測｜第一批 AA_546（3281a122c、a68622d52、43b7877f4）＋第二批 AA_546 第 7 節（企劃線 a6372e188：芷若 zr2d、Z4-L3、明軒個性；語彤吃醋、學姊研究小間、書卷獎門檻、柏翰鬧鐘、公園阿嬤、阿哲「問沈以安」照留）＋芯慈 AA_547（46e36f86b、ccbb72422）都進開發分支；AA 重掃過沒有漏的（AA 這邊結了）→ BB 測（n23_bohan_nocmp＋芯慈各場＋芷若 zr2d、Z4-L3）；改名版發布前用選擇題問使用者",
    "first": {
     "term": "Y1S1",
     "week": 1,
@@ -36813,9 +36813,9 @@
    "title": "芯慈新個性 AA_547（使用者 10-30 19:2x 點選「照這份寫」；USER_WANTS X148）：開學第一排、影印機、慈 2、爸爸接她、事務所、寒暑假、畢業以後、個性、人物頁改；慈 3／5／6 新寫；慈 4、Alison「吵架了」、改輔系、隔天「我第一」、msg2「第二名也是名」拿掉",
    "area": "STORY",
    "owner": "LAWWW",
-   "status": "已整合待測試",
+   "status": "已驗收",
    "priority": "P1",
-   "next": "【巡查 02:4x】ZRL3 是探針問題（吧檯上班＝點餐，BB 改到多媒體中心重跑 n25_xinci_j）；附帶抓到 BUG-CAFE-STAFF-LABEL-1031（已修）｜【10-31 02:0x】n25 只剩 ZRL3（Café 上班中的芷若：老闆比較近、互動鈕一直是「和老闆說話」——BB n25_xinci_h 換靠近點在跑；還是不行＝玩家也會遇到，再報）；C5 已 PASS｜【巡查 10-31 01:5x】BB-B n25（890f8f3f7）：COPY_REAL、宥辰電梯、COPY_BACK／RPS、C3A／B／C、C3FIX、DAY1 PASS；C5 遊戲 FAIL（以安不在場）＝BUG-C5-AN-NOT-SPAWNED-1031 已修（753df5a8c）等 BB 重跑；ZRL3「和不認識的女生說話」BB 在診斷（n25_xinci_e）｜46e36f86b＋ccbb72422 照 AA_547 第 2～4 節做完（13 支測試照新稿改，全部 Node 過）→ BB n25_xinci547",
+   "next": "已驗收（10-31 05:1x）｜【巡查 02:4x】ZRL3 是探針問題（吧檯上班＝點餐，BB 改到多媒體中心重跑 n25_xinci_j）；附帶抓到 BUG-CAFE-STAFF-LABEL-1031（已修）｜【10-31 02:0x】n25 只剩 ZRL3（Café 上班中的芷若：老闆比較近、互動鈕一直是「和老闆說話」——BB n25_xinci_h 換靠近點在跑；還是不行＝玩家也會遇到，再報）；C5 已 PASS｜【巡查 10-31 01:5x】BB-B n25（890f8f3f7）：COPY_REAL、宥辰電梯、COPY_BACK／RPS、C3A／B／C、C3FIX、DAY1 PASS；C5 遊戲 FAIL（以安不在場）＝BUG-C5-AN-NOT-SPAWNED-1031 已修（753df5a8c）等 BB 重跑；ZRL3「和不認識的女生說話」BB 在診斷（n25_xinci_e）｜46e36f86b＋ccbb72422 照 AA_547 第 2～4 節做完（13 支測試照新稿改，全部 Node 過）→ BB n25_xinci547",
    "first": {
     "term": "Y1S1",
     "week": 1,
@@ -36834,7 +36834,8 @@
     "acceptance": "每場照稿逐字；遊戲裡沒有「第二名」「第一名」「吵架」「改輔系」",
     "receiver": "BB",
     "ack": "SENT"
-   }
+   },
+   "evidence": "BB-B n25（890f8f3f7～0447c75bb，BB_218）十五場全部 PASS：DAY1、COPY_REAL／COPY_BACK／COPY_RPS、宥辰電梯、C2、C3A／C3B／C3C、C3B1、C3FIX、DAD、C5（BUG-C5 修後 n25_xinci_g）、C6、ZRFEED、ZRL3（n25_xinci_l 從總圖大廳走進多媒體中心）；台詞照 AA_547、沒有禁用字"
   },
   {
    "id": "BUG-SUP497-BIND-1030",
@@ -36899,9 +36900,9 @@
    "title": "Café 吧檯上班的芷若：已經認識（FIRST_MET）按鈕還寫「和店員說話」，要點過一次餐才換成她的名字（BB-B 10-31 n25_xinci_i 量到；story3d.js 生成時寫死）",
    "area": "STORY",
    "owner": "LAWWW",
-   "status": "已整合待測試",
+   "status": "已驗收",
    "priority": "P2",
-   "next": "【10-31 03:0x】BB-B 02:53 正式報同一件（BUG-CAFE-BARISTA-NAME，BB_218 1d1a07077）；7cb058610 全部 Node 775／0；已派 BB 用 0098cbe10 跑 ZRCAFE｜【10-31 02:5x】生成時照 FIRST_MET（和 talkCharacter 點完餐那一行同一套）；cafe_barista_unit 第 5 項加一條（修改前 FAIL）；Café 相關 13 支 Node ALL PASS → BB n25_xinci_j ZRCAFE 驗",
+   "next": "已驗收（10-31 05:1x）｜【10-31 03:0x】BB-B 02:53 正式報同一件（BUG-CAFE-BARISTA-NAME，BB_218 1d1a07077）；7cb058610 全部 Node 775／0；已派 BB 用 0098cbe10 跑 ZRCAFE｜【10-31 02:5x】生成時照 FIRST_MET（和 talkCharacter 點完餐那一行同一套）；cafe_barista_unit 第 5 項加一條（修改前 FAIL）；Café 相關 13 支 Node ALL PASS → BB n25_xinci_j ZRCAFE 驗",
    "first": {
     "term": "Y1S1",
     "week": 3,
@@ -36919,8 +36920,9 @@
     "branch": "claude/modest-rubin-2lyp7g",
     "acceptance": "認識芷若以後，她在吧檯上班，站吧檯前的按鈕是「和林芷若說話」；不認識是「和店員說話」",
     "receiver": "BB",
-    "ack": "SENT"
-   }
+    "ack": "ACTIONED"
+   },
+   "evidence": "BB-B n25_xinci_l（0447c75bb，BB_218 97a29de7e）：存檔裡已經認識芷若，進 Café 時吧檯按鈕就寫「和林芷若說話」"
   },
   {
    "id": "BUG-MSG-MIDNIGHT-DAY-1031",
@@ -36977,6 +36979,34 @@
     "acceptance": "BB：DAD2／DAD2_NO 演完 3 秒、6 秒＋平常從南邊走到門口，玩家看得到；萬才館等有拱廊的一起看",
     "receiver": "LAWWW",
     "ack": "SENT"
+   }
+  },
+  {
+   "id": "BUG-MEDIA-LOAD-HIDDEN-1031",
+   "title": "存檔直接讀在總圖多媒體中心（library_media）時，作息在那裡的芷若有生成、但一直隱藏（57 秒以上），跟她說不到話；從總圖大廳走門進去就看得到（BB-B 10-31 n25_xinci_l ZRL3D）",
+   "area": "STORY",
+   "owner": "LAWWW",
+   "status": "進行中",
+   "priority": "P2",
+   "next": "【10-31 05:1x】LAWWW-B 寫好瀏覽器探針（同條件讀檔，記 hidden／visible／seat／path），等全套跑完再跑；BB 另提：讀檔出生點在木隔板後面、鏡頭被擋（不一定要修）",
+   "first": {
+    "term": "Y2S2",
+    "week": 4,
+    "earliest": "大二下多媒體中心芷若的班（讀檔在那裡）",
+    "mainline": false,
+    "blocks": false,
+    "prereq": false,
+    "parallel": true,
+    "confirmed": true
+   },
+   "source": "BB-B 10-31 05:06 訊息（BB_218 97a29de7e）",
+   "authorized": "D85（bug 修正）",
+   "xai": {
+    "spec": "—",
+    "branch": "claude/modest-rubin-2lyp7g",
+    "acceptance": "存檔在 2027-03-23 14:30 多媒體中心、芷若 FRIEND，讀檔後看得到她、說得到話",
+    "receiver": "BB",
+    "ack": "未派"
    }
   }
  ]
