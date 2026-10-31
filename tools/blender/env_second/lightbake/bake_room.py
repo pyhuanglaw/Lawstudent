@@ -370,6 +370,16 @@ def smooth(px, r):
     return np.where(m[:, :, None] > 0, out, px)
 SMOOTH = int(arg('--smooth', '0'))
 
+# --knee K,A（10-31 LAWWW2-B，美國公寓）：白天那一張超過 K 的亮度平滑壓到最多 A（K 以下完全不變；顏色比例不變）。
+# 為什麼：遊戲沒有曝光調整，光照貼圖 × 底色超過 1 就是一片白——北窗前的白色床單白天到 2 以上（物理上靠窗本來就亮好幾倍），
+#   把天光整體調暗到床單不過曝，房間其他地方就太暗。只壓亮的那一段：靠窗那塊還是最亮，但看得到床單的花紋。
+KNEE = [float(t) for t in arg('--knee').split(',')] if arg('--knee') else None
+def knee(px):
+    if not KNEE: return px
+    K, A_ = KNEE; m = px.max(axis=2, keepdims=True); hi = m > K
+    mm = np.where(hi, K + (A_ - K) * (1 - np.exp(-(m - K) / (A_ - K))), m)
+    return np.where(hi, px * (mm / np.maximum(m, 1e-6)), px)
+
 def save(px, path):
     px = smooth(px, SMOOTH)
     v = np.clip(px / SCALE, 0, 1)
@@ -384,7 +394,7 @@ def save(px, path):
 WB = {k: [float(t) for t in arg('--' + k + 'wb').split(',')] if arg('--' + k + 'wb') else None for k in ('day', 'night')}
 def wb(px, k): return px * np.array(WB[k], dtype=np.float32)[None, None, :] if WB[k] else px
 os.makedirs(os.path.dirname(os.path.abspath(LM)), exist_ok=True)
-day = bake('day', SKY, SUN[2], 1.0, DAYL); save(wb(day, 'day'), LM + '_day.png')
+day = bake('day', SKY, SUN[2], 1.0, DAYL); save(knee(wb(day, 'day')), LM + '_day.png')
 night = bake('night', NIGHTSKY, 0.0, 1.0); save(wb(night, 'night'), LM + '_night.png')
 # 第三張「熄燈」（--dark；宿舍睡覺 DORM-SLEEP-VISUAL-1030，使用者 10-30「睡覺要真的有畫面」）：室內的燈（--lights、--points）全關、所有發光材質（燈管、燈條、螢幕）也關，
 # 只剩夜空（--darksky，預設 --nightsky 的 1.5 倍）＋窗外的路燈（--darkpoints x,y,z,W[,r,g,b];…，只在這一張）。遊戲：Z3.roomLightmap 的 z.lightsOff(0～1) 從晚上那張換到這張
@@ -474,7 +484,7 @@ for o in SHELL: bpy.data.objects.remove(o)   # 外殼只在烘焙時用
 if arg('--drop'):
     _drop = re.compile(arg('--drop'))
     for o in [o for o in bpy.data.objects if _drop.search(o.name)]: bpy.data.objects.remove(o)
-json.dump({'scale': SCALE, 'intensity': math.pi * SCALE, 'res': RES, 'samples': SAMPLES, 'emit': EMIT, 'dayemit': DAYEMIT, 'sun': SUN, 'sky': SKY, 'nightsky': NIGHTSKY, 'shell': arg('--shell'), 'daylights': DAYL, 'lights': arg('--lights'), 'points': arg('--points'), 'wb': WB,
+json.dump({'scale': SCALE, 'intensity': math.pi * SCALE, 'res': RES, 'samples': SAMPLES, 'emit': EMIT, 'dayemit': DAYEMIT, 'sun': SUN, 'sky': SKY, 'nightsky': NIGHTSKY, 'shell': arg('--shell'), 'daylights': DAYL, 'knee': KNEE, 'lights': arg('--lights'), 'points': arg('--points'), 'wb': WB,
            'objects': [o.name for o in objs]}, open(LM + '.json', 'w'), ensure_ascii=False, indent=1)
 URL = arg('--url')   # 遊戲裡光照貼圖的路徑前綴（例：assets/models/env/classroom_201_lm）→ 寫進 GLB 場景的 extras.lightmap，遊戲的 attachRoomGLB 看到就自動接
 if URL:
