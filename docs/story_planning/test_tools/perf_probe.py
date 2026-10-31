@@ -21,7 +21,8 @@ PANEL = """(()=>{ const d=document.getElementById('perfPanel'); const on=typeof 
   if(!d) return {exists:false, on}; const r=d.getBoundingClientRect();
   const hud={}; for(const id of ['joy','interact','minimap','btnPhone','btnMenu','hudR','hud','btnBigMap','nextClass','guide']){ const e=document.getElementById(id); if(!e) continue; const q=e.getBoundingClientRect(); const vis=!!e.offsetParent&&q.width>0&&q.height>0&&getComputedStyle(e).visibility!=='hidden'&&getComputedStyle(e).opacity!=='0';
     const ix=Math.max(0,Math.min(r.right,q.right)-Math.max(r.left,q.left)), iy=Math.max(0,Math.min(r.bottom,q.bottom)-Math.max(r.top,q.top));
-    hud[id]={vis, rect:[Math.round(q.left),Math.round(q.top),Math.round(q.width),Math.round(q.height)], overlap:Math.round(ix*iy)}; }
+    const cx=q.left+q.width/2, cy=q.top+q.height/2, top=vis?document.elementFromPoint(cx,cy):null;   /* 鈕的正中間按下去，最上面是誰（被小框蓋住＝按不到）*/
+    hud[id]={vis, rect:[Math.round(q.left),Math.round(q.top),Math.round(q.width),Math.round(q.height)], overlap:Math.round(ix*iy), tapOK:vis?!!(top&&(e===top||e.contains(top))):null, topId:top?(top.id||top.className||top.tagName):null}; }
   return {exists:true, on, text:d.textContent, rect:[Math.round(r.left),Math.round(r.top),Math.round(r.width),Math.round(r.height)], vw:innerWidth, vh:innerHeight, hud}; })()"""
 EXITS = "(()=>GAME.E.interactables.filter(i=>i.exit).map(i=>({to:i.exit.to, x:+i.x.toFixed(1), z:+i.z.toFixed(1), label:i.label})))()"
 
@@ -103,6 +104,9 @@ async def main():
         hud = pn.get('hud', {}); bad = {k: v for k, v in hud.items() if k in ('joy', 'interact', 'minimap') and v['vis'] and v['overlap'] > 0}
         run.note('橫向 HUD 重疊（面積 px²）：%s' % J({k: (v['vis'], v['overlap'], v['rect']) for k, v in hud.items()}))
         run.check('橫向：小框不擋搖桿、互動鈕、小地圖', not bad, J(bad))
+        blocked = {k: v.get('topId') for k, v in hud.items() if v.get('vis') and v.get('tapOK') is False}
+        run.note('橫向：哪些鈕正中間按下去被別的東西蓋住：%s' % J(blocked))
+        run.check('橫向：手機鈕、選單鈕正中間按得到（不被小框蓋住；只有 ?perf 才有小框）', not any(k in blocked for k in ('btnPhone', 'btnMenu')), J(blocked))
         run.check('沒有 JS 例外（橫向）', not errs, J(errs[:3]))
         await b.close()
         # 2 直向 ?perf：宿舍 → 校園
