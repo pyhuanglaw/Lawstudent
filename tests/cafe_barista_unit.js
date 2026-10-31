@@ -44,6 +44,7 @@ E.npcs=[]; { E.player.obj.position.set(-2.5,0,-3.1); const it=E.nearestInteracta
 // 5. 原始碼
 const st=fs.readFileSync(path.join(ROOT,'src/story3d.js'),'utf8');
 check('5. 作息 barista 生出來的人標 staff',/act==='barista'\)\{[^\n]*n\.staff='cafe'/.test(st));
+check('5. 作息 barista 生出來的人：認識了按鈕就是她的名字（「和林芷若說話」），不認識才是「和店員說話」（BB-B 10-31 n25_xinci_i；修改前生出來一律「和店員說話」）',/act==='barista'\)\{[^\n]*n\.talkLabel=SOCIAL\.has\(id,'FIRST_MET'\)\?'和'\+n\.name\+'說話':'和店員說話'/.test(st));
 const tc=st.slice(st.indexOf('S.talkCharacter=async function'),st.indexOf('let GM_ref=null'));
 const iEv=tc.indexOf('EVENTS.onInteract(id)'), iInv=tc.indexOf('INV.meetable(G,id)'), iStaff=tc.indexOf("n.staff==='cafe'");
 check('5. 和店員說話：先跑她的事件、再看約好的見面、都沒有才點餐',iEv>0&&iInv>iEv&&iStaff>iInv,[iEv,iInv,iStaff].join(','));

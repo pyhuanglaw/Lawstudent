@@ -36815,7 +36815,7 @@
    "owner": "LAWWW",
    "status": "已整合待測試",
    "priority": "P1",
-   "next": "【10-31 02:0x】n25 只剩 ZRL3（Café 上班中的芷若：老闆比較近、互動鈕一直是「和老闆說話」——BB n25_xinci_h 換靠近點在跑；還是不行＝玩家也會遇到，再報）；C5 已 PASS｜【巡查 10-31 01:5x】BB-B n25（890f8f3f7）：COPY_REAL、宥辰電梯、COPY_BACK／RPS、C3A／B／C、C3FIX、DAY1 PASS；C5 遊戲 FAIL（以安不在場）＝BUG-C5-AN-NOT-SPAWNED-1031 已修（753df5a8c）等 BB 重跑；ZRL3「和不認識的女生說話」BB 在診斷（n25_xinci_e）｜46e36f86b＋ccbb72422 照 AA_547 第 2～4 節做完（13 支測試照新稿改，全部 Node 過）→ BB n25_xinci547",
+   "next": "【巡查 02:4x】ZRL3 是探針問題（吧檯上班＝點餐，BB 改到多媒體中心重跑 n25_xinci_j）；附帶抓到 BUG-CAFE-STAFF-LABEL-1031（已修）｜【10-31 02:0x】n25 只剩 ZRL3（Café 上班中的芷若：老闆比較近、互動鈕一直是「和老闆說話」——BB n25_xinci_h 換靠近點在跑；還是不行＝玩家也會遇到，再報）；C5 已 PASS｜【巡查 10-31 01:5x】BB-B n25（890f8f3f7）：COPY_REAL、宥辰電梯、COPY_BACK／RPS、C3A／B／C、C3FIX、DAY1 PASS；C5 遊戲 FAIL（以安不在場）＝BUG-C5-AN-NOT-SPAWNED-1031 已修（753df5a8c）等 BB 重跑；ZRL3「和不認識的女生說話」BB 在診斷（n25_xinci_e）｜46e36f86b＋ccbb72422 照 AA_547 第 2～4 節做完（13 支測試照新稿改，全部 Node 過）→ BB n25_xinci547",
    "first": {
     "term": "Y1S1",
     "week": 1,
@@ -36893,6 +36893,34 @@
     "ack": "ACTIONED"
    },
    "evidence": "BB-B n25_xinci_g（c3a8aded9，紀錄 6a30ecf0f）：C5DIAG、C5 ALL PASS——讀進來第一次就有 heroine_01 (5.6,5.1)、classmate_xinci (4,5.1)；18:11 走過去演慈 5 近版（CI5 near），開場、分工抄筆記三句、三個選項照 AA_547，選項回答對、沒有禁用字"
+  },
+  {
+   "id": "BUG-CAFE-STAFF-LABEL-1031",
+   "title": "Café 吧檯上班的芷若：已經認識（FIRST_MET）按鈕還寫「和店員說話」，要點過一次餐才換成她的名字（BB-B 10-31 n25_xinci_i 量到；story3d.js 生成時寫死）",
+   "area": "STORY",
+   "owner": "LAWWW",
+   "status": "已整合待測試",
+   "priority": "P2",
+   "next": "【10-31 02:5x】生成時照 FIRST_MET（和 talkCharacter 點完餐那一行同一套）；cafe_barista_unit 第 5 項加一條（修改前 FAIL）；Café 相關 13 支 Node ALL PASS → BB n25_xinci_j ZRCAFE 驗",
+   "first": {
+    "term": "Y1S1",
+    "week": 3,
+    "earliest": "大一上芷若在 Café 上班（認識以後）",
+    "mainline": false,
+    "blocks": false,
+    "prereq": false,
+    "parallel": true,
+    "confirmed": true
+   },
+   "source": "BB-B 10-31 02:32（elegant-brown d8f6aebdf）",
+   "authorized": "D85（bug 修正）",
+   "xai": {
+    "spec": "—（介面字）",
+    "branch": "claude/modest-rubin-2lyp7g",
+    "acceptance": "認識芷若以後，她在吧檯上班，站吧檯前的按鈕是「和林芷若說話」；不認識是「和店員說話」",
+    "receiver": "BB",
+    "ack": "未派"
+   }
   }
  ]
 }
