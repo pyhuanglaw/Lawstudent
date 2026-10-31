@@ -79,7 +79,7 @@
   - 葉子：程式有接上、正式模型有 4 個葉子材質。Node 載不到 GLB，實際的網點透空沒有在這支測試裡跑；上面的遊戲截圖是正式模型。
   - **開發分支原樣 FAIL 10，改後 ALL PASS**。
 - 會建出總圖大廳的 Node 測試 95 支（`nav_buildings_unit`、`stairs_cam_slab_unit`、`teach_cam_walls_unit`、`library_*`、劇情裡會進總圖的……）全部 ALL PASS。
-- 全部 Node（測試樹＝開發 `f79dc8b9e`＋書店＋門廊側牆＋這一包）：**跑中**，交件時跑了 149／787 支、0 失敗。這一包 P1 先交，跑完補在 outbox。
+- **全部 Node**（測試樹＝開發 `f79dc8b9e`＋書店＋門廊側牆＋這一包）：**787 過、0 失敗**（交件後跑完，12:1x）。
 - 沒跑：`tools/dev_scratch/nav_islands.py`（導航沒改）、手機實機。
 
 ## 五、怎麼套（給 LAWWW-B）
