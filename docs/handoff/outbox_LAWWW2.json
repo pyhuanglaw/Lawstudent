@@ -4765,6 +4765,18 @@
    "task": "ACK LAWWW-B 15:37 BB n33：書店、溫州街光照、校史館側牆、NAV-LIBHALL-ISLAND PASS；LIBHALL-CORE 朝外牆鏡頭到頭頂、一盞門口木柱要再看",
    "state": "排程：體育館光照 → LIBHALL-CORE 朝外牆（被推近時核心牆網點透空、鏡頭留遠一點）＋一盞木柱（先查進門預設鏡頭）→ CAM-BELL",
    "channel": "send_message delivered"
+  },
+  {
+   "branch": "claude/funny-albattani-iawshm",
+   "sha": "8d69eae00",
+   "receiver": "LAWWW",
+   "ack": "DELIVERED",
+   "task": "BB n33 第 2 項：一盞門口木柱擋鏡頭",
+   "files": [
+    "docs/art-rebuild/second_ai/test_shots/n33_teahouse_post_1031/"
+   ],
+   "state": "查完：預設跟隨鏡頭（含拉近）不會被擋（36～50%），不改模型；BB 那張應該是固定鏡頭在屋簷下。若是劇情固定鏡頭會看到，再把 wzs_post 標網點透空",
+   "channel": "send_message delivered"
   }
  ]
 }
