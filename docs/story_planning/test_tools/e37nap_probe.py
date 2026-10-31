@@ -5,6 +5,7 @@
   noon    8/30 12:00 宿舍 → 睡到傍晚 → 14:15 被叫醒 → 可昕電話「你在哪？行李我都搬到樓下了。」→ E37 → 回宿舍（LAWWW-B 要的）
   twice   8/30 07:30 宿舍 → 睡到傍晚（出發前被叫醒）→ 再按床「睡到傍晚」（n36 出事的那一步）→ 一樣要在 14:15 叫醒、電話、E37 在 8/30 演
   skip830 8/31 09:00 宿舍、E37 還沒演（8/30 整天錯過的舊存檔）→ 睡到傍晚 → 18:00 開學典禮 → 典禮裡不能接到那通電話、不能演 E37
+  cer1800 8/31 18:00 宿舍、E37 已演完、典禮還沒演（18:00 才讀進來）→ 按床 → 要先演開學典禮（LAWWW-B f32a11388 的 bedScene）
   cer831  8/31 09:00 宿舍、E37 已演完 → 床「睡到傍晚」（看選項有沒有提醒 14:00 開學典禮）→ 醒來馬上再按床睡到隔天（n36_qa_nophone 的走法）→ 開學典禮有沒有演、幾點演
 用法：LW_TESTS=<工作樹>/tests SHA=<sha> CASE=noon,twice,skip830,cer831 python3 e37nap_probe.py <URL> <輸出資料夾> <final_snap.json>"""
 import os, sys, json, asyncio, time
@@ -34,7 +35,7 @@ def make_state(day, hour, keep_e37=False):
 async def loop_until(pg, cdp, run, stop, max_s, label):
     t0 = time.time(); n = 0
     while time.time() - t0 < max_s:
-        g = await pg.evaluate("({day:GAME.G.day,h:+GAME.G.hour.toFixed(2),z:GAME.G.zone,e37:!!(GAME.G.events.done||{}).ev_y0_e37})")
+        g = await pg.evaluate("({day:GAME.G.day,h:+GAME.G.hour.toFixed(2),z:GAME.G.zone,e37:!!(GAME.G.events.done||{}).ev_y0_e37,busy:!!(GAME.E.player.busy||(GAME.D&&GAME.D.active))})")
         if stop(g): return g
         s = await L.state(pg)
         if await pg.evaluate("!document.getElementById('phone').classList.contains('hide')"): await L.tap(pg, cdp, '#btnPhoneClose'); await pg.wait_for_timeout(600); continue
@@ -66,8 +67,8 @@ async def main():
             b, ctx, pg, cdp, errs = await L.launch(p, landscape=True)
             await pg.add_init_script(HOOK); await pg.goto(URL)
             if not await L.wait_loaded(pg): run.check('%s 遊戲載入' % case, False); await b.close(); continue
-            day, hour = {'noon': (-17, 12.0), 'twice': (-17, 7.5), 'skip830': (-16, 9.0), 'cer831': (-16, 9.0)}[case]
-            await L.load_state(pg, make_state(day, hour, keep_e37=(case == 'cer831'))); await pg.wait_for_timeout(5000)
+            day, hour = {'noon': (-17, 12.0), 'twice': (-17, 7.5), 'skip830': (-16, 9.0), 'cer831': (-16, 9.0), 'cer1800': (-16, 18.0)}[case]
+            await L.load_state(pg, make_state(day, hour, keep_e37=(case in ('cer831', 'cer1800')))); await pg.wait_for_timeout(5000)
             run.setup('[前置] %s：讀 n36_qa_sleep 的最後狀態改到 %s %.1f 宿舍；拿掉 E37／開學典禮紀錄、y0_e37 約改回 planned（SHA %s）' % (case, '2025-08-30' if day == -17 else '2025-08-31', hour, SHA))
             info = {}
             if case in ('noon', 'twice'):
@@ -78,9 +79,16 @@ async def main():
                     if not g['e37'] and g['day'] == -17:
                         c2 = await nap(pg, cdp, run, case + ' 第二次'); info['nap2'] = c2 and c2.get('t')
                 g = await loop_until(pg, cdp, run, lambda g: g['e37'] and g['z'] == 'dorm' or g['day'] >= -15, 900, case)
+            elif case == 'cer1800':
+                bed = await pg.evaluate("(()=>{ const it=GAME.E.interactables.find(i=>i.sleep&&!i.hidden); return it?[it.x,it.z]:null; })()")
+                if bed: await L.go_to(pg, cdp, run, bed[0], bed[1], 0.8, case + ' 床', max_s=120); await L.tap(pg, cdp, '#interact'); await pg.wait_for_timeout(2500)
+                info['afterTap'] = await pg.evaluate("({zone:GAME.G.zone,cer:!!GAME.G.flags.CEREMONY_Y1,choices:[...document.querySelectorAll('#choices button')].map(b=>b.textContent.trim().slice(0,30)),dlg:!!(GAME.D&&GAME.D.active)})")
+                g = await loop_until(pg, cdp, run, lambda g: g['day'] >= -15, 900, case)
+                info['cer'] = await pg.evaluate("!!GAME.G.flags.CEREMONY_Y1")
             elif case == 'cer831':
                 c1 = await nap(pg, cdp, run, case + ' 早上'); info['nap1'] = c1 and c1.get('t'); info['menu1'] = c1 and c1.get('all')
                 g = await loop_until(pg, cdp, run, lambda g: g['day'] != -16 or g['h'] >= 13.0, 300, case); info['wake1'] = g
+                g = await loop_until(pg, cdp, run, lambda g: g['day'] != -16 or g['h'] >= 20.0 or (g['z'] == 'dorm' and not g.get('busy')), 600, case + ' 醒來以後')   # 醒來的那一刻可能已經在演典禮：點完再按床
                 c2 = await nap(pg, cdp, run, case + ' 醒來馬上再睡'); info['nap2'] = c2 and c2.get('t'); info['menu2'] = c2 and c2.get('all')
                 if c2 and 'x' not in c2:   # 沒有「睡到傍晚」（晚上了）＝選「睡到明天早上」
                     c3 = await pg.evaluate("(()=>{ const bs=[...document.querySelectorAll('#choices button')]; const e=bs.find(x=>/^睡到明天/.test(x.textContent.trim())); if(!e) return null; const r=e.getBoundingClientRect(); return [r.left+r.width/2,r.top+r.height/2,e.textContent.trim()]; })()")
@@ -100,10 +108,15 @@ async def main():
                 run.check('%s：8/30 電話「%s」在 14:15～15:00 之間（宿舍）' % (case, CALL), bool(call) and call[0]['day'] == -17 and 14.2 <= call[0]['h'] <= 15.0, J(call))
                 run.check('%s：E37 在 8/30 演（「（八月三十日。…）」那天是 8/30）' % case, bool(e37) and e37[0]['day'] == -17, J(e37))
                 run.check('%s：演完回到宿舍（8/30 晚上）' % case, g.get('e37') and g['z'] == 'dorm' and g['day'] == -17, J(g))
+            elif case == 'cer1800':
+                cer = [x for x in S if x['z'] == 'gym_arena']
+                run.note('cer1800 按床以後：%s；典禮 %d 句、第一句 %s' % (J(info.get('afterTap')), len(cer), J(cer[:1])))
+                run.check('cer1800：18:00 才讀進來、典禮還沒演＝按床先演開學典禮（8/31 當天）', info.get('cer') and bool(cer) and cer[0]['day'] == -16, J({'cer': info.get('cer'), 'first': cer[:1], 'afterTap': info.get('afterTap')}))
             elif case == 'cer831':
                 cer = [x for x in S if x['z'] == 'gym_arena']
                 run.note('cer831 床的選項：早上 %s；醒來 %s' % (J(info.get('menu1')), J(info.get('menu2'))))
-                run.check('cer831：8/31 早上床的「睡到傍晚」有提醒 14:00 開學典禮（或會叫醒）', any('典禮' in (t or '') for t in (info.get('menu1') or [])), J(info.get('menu1')))
+                run.note('cer831：8/31 早上床的選項有沒有寫典禮（只記；f32a11388 的修法是任何選項都 14:00 醒）：%s' % J([t for t in (info.get('menu1') or []) if '典禮' in (t or '')]))
+                run.check('cer831：早上睡到傍晚＝14:00 前後醒來（第一次醒來 13.9～14.6）', (info.get('wake1') or {}).get('day') == -16 and 13.9 <= (info.get('wake1') or {}).get('h', 0) <= 14.6, J(info.get('wake1')))
                 run.check('cer831：開學典禮有演（CEREMONY_Y1），8/31 當天', info.get('cer') and bool(cer) and cer[0]['day'] == -16, J({'cer': info.get('cer'), 'first': cer[:1], 'n': len(cer)}))
                 run.note('cer831 典禮第一句的時間（照設計 14:00）：%s' % J(cer[:1]))
             else:
