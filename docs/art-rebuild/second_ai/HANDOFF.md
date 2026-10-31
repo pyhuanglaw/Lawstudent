@@ -1,6 +1,6 @@
 # LAWWW2 交接紀錄（隨時更新；工作階段中斷時從這裡接）
 
-## ⏱ 現況（LAWWW2-B，2026-10-31 05:xx UTC；帳號 B 七天額度已到警示，隨時可能被切斷——接手的先讀這一段）
+## ⏱ 現況（LAWWW2-B，2026-10-31 05:5x UTC；帳號 B 七天額度已到警示，隨時可能被切斷——接手的先讀這一段）
 
 - **剛交、已整合：NOODLE-LM-1030 麵店＋LM-COLLAPSE-1030 第一間（法律學院圖書館）**（`ee96b798f`→LAWWW-B 整合 2c65d66f1；`test_shots/noodle_lm_1030/README.md`、`test_shots/lm_collapse_1030/README.md`）。樓梯間欄杆影子糊：LAWWW-B 先不排（D99 只記錄）。
 - **LM-COLLAPSE-1030 四間都交了**（`test_shots/lm_collapse_1030/README.md` 有總結表）：法圖、總圖大廳、宿舍四人房已整合；201 也已整合（LAWWW-B 22:09，全部 Node 773／0）。
@@ -14,12 +14,17 @@
     - 參數試三版（冷白燈、燈下點光源），紀錄在 `bake_library_3f.sh` 開頭；壓扁 0 m²；藏路人後 draw call、三角形和改前完全一樣。
     - **法圖（我 10-30 的問題）**：`bake_room.py --keep-instances` 匯出沒寫 GPU instancing，開發分支的 `lawlib_interior.glb` 800 節點／0 個實例。工具修好、重烘回 137 節點／27 個實例（光照貼圖逐像素相同，只換 GLB）；二樓書庫 draw call 1008→417。
     - Node 778／2：xinci_romance（沒 fetch 企劃線）、r2y4b_events（開發分支原樣也 FAIL，告訴 LAWWW-B）。
-  - **A～C 做完**。D～H 不歸我或在等別人（清單第 2 節）。下一件等 LAWWW-B 排；沒有新派工就回 INTERIOR-AAA-REVIEW-1028（#113）。
+  - **A～C 做完、都已整合**（C：LAWWW-B 05:05 整合 1e910aa6c）。D～H 不歸我或在等別人（清單第 2 節）。
+- **BUG-CAM-PILLAR-LAWA-1031 已交（05:5x）**（LAWWW-B 05:02 派，P1）：霖澤館穿堂七根柱子另外一個材質 `seethru_ext_granite_col`，`attachExterior` 標樹幹透視。
+  - README `test_shots/cam_pillar_1031/README.md`；patch `patches/cam_pillar_linze_1031.patch`＋換 `linze_exterior.glb`；門口玩家看得到 0%→39%。
+  - 等 LAWWW-B 整合、BB 跑 DAD2／DAD2_NO 驗收。
+  - 總圖門廊往旁邊 2.6 m 柱子切掉人一半：`campus_hall.py` 四棟的 GLB 要重新匯出，**問 LAWWW-B 要不要做**，還沒做。
+- 下一件等 LAWWW-B 排；沒有新派工就回 INTERIOR-AAA-REVIEW-1028（#113）。
 - **NAV-LIBHALL-ISLAND-1030 已交、已整合（cfb70a5fd，`patches/libhall_island_1030.patch`；LAWWW-B 21:37）**（P2）：總圖大廳一樓約 (5.85,-8.4) 2 格導航孤島（換回舊 GLB 也一樣）；改 `library_layout.js` 阻擋接回大塊或封掉；`tests/library_copier_unit.js` 有 FAIL 就 exit 1（原本 FAIL 也 exit 0）；跑 `nav_buildings_unit`。
 - 已交、已整合：SOCLIB-LM-1030＋BOYA n19（3bc7a8800）。
 - **X133 第二版等使用者的地圖或照片**（使用者 10-30 16:5x 回 LAWWW-B）：第一版照舊在遊戲裡（f75d60a4c），第二版不要再猜。
 - **重烘要從 `claude/funny-albattani-iawshm` 拿烘焙用的原始貼圖**（LAWWW-B 21:37 同意留在這裡、不搬進開發分支：遊戲不讀）：`tools/blender/env_second/textures/` 底下 asphalt_02、castle_brick_02_white、concrete_floor_painted、floor_tiles_06、grass_ground、large_sandstone_blocks、linoleum_brown、red_brick_03、snow_02、white_sandstone_bricks、withered_grass 這 11 種開發分支沒有（宿舍四人房的 `floor_tiles_06` 就是因為這樣第一次烘不起來）。在開發分支的測試樹重烘以前，先把這些資料夾複製進去。
-- **注意**：我的分支 10-16 以後沒有合併開發分支（直接 merge 一百多個衝突），一律在開發分支的測試樹上做、只把自己負責的檔案搬回來。測試樹 `scratchpad/slwt` 在開發 44337adcb（加了 A、B 的 patch＋C 的試烘）、`scratchpad/devclean` 在最新開發 a54a7d860（乾淨）。
+- **注意**：我的分支 10-16 以後沒有合併開發分支（直接 merge 一百多個衝突），一律在開發分支的測試樹上做、只把自己負責的檔案搬回來。測試樹 `scratchpad/slwt` 在開發 44337adcb（加了 A、B 的 patch＋C 的試烘）、`scratchpad/devclean` 在開發 61bf5e485＋柱子 patch（沒 commit；C 的測試樹存在 stash）。
 - **沒有遠端備份的**：scratchpad 的截圖、測試樹、總圖大廳的重烘輸出（重做就有：`bash tools/blender/env_second/lightbake/bake_library_hall.sh 512`）。
 
 ## 📣 給 LAWWW-B（2026-10-30 23:3x UTC｜PERF-ZONE-ENTER-1018 第三輪（室內）交件；send_message 另外傳）

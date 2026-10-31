@@ -74,4 +74,13 @@
 
 ## 六、測試、還沒驗的
 
-（Node 全部跑完補）
+- **全部 Node**（測試樹＝開發 `a54a7d860`＋這一包＋C 那一包）：781 支 780 過。
+  - FAIL 的 `r2y4b_events_unit` 是你 `0447c75bb` 已經修的（a54a7d860 的 walkPlace）。
+- **對最新開發 `61bf5e485`**：
+  - `git apply --check` 通過；
+  - 套上後 `linze_pillar_seethru_unit`、`r2y4b_events_unit`、`nav_buildings_unit`、`kit_nav_check.js` 都 ALL PASS。
+- **還沒驗的**：
+  - BB 的 DAD2／DAD2_NO 劇情演完後 3 秒、6 秒（我這邊沒跑劇情，只跑了平常走到門口的跟隨鏡頭）。
+    - 劇情運鏡結束時鏡頭是用跟隨模式拉回來的，透視照理會作用。
+    - 如果某一場的固定運鏡（cinematic）本身就放在柱子裡，透視不會作用：那一場可以用 `E.cam.seeThru` 指定透空的地方（宿舍上舖用過）。
+  - 手機實機。

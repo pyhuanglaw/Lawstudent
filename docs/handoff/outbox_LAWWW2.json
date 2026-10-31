@@ -4587,7 +4587,7 @@
    "sha": "(這一次 commit)",
    "noDirectIntegrate": false,
    "receiver": "LAWWW",
-   "ack": "SENT",
+   "ack": "ACTIONED（LAWWW-B 05:05 整合 1e910aa6c）",
    "task": "ART-ECON-3D-GAP-1021 C：總圖 3F 閱覽區光照烘焙＋法圖書的 GPU instancing 修正（我 10-30 的烘焙問題）",
    "files": [
     "assets/models/env/second_ai/library_3f.glb",
@@ -4600,6 +4600,22 @@
    "state": "已交付（READY_FOR_ART_REVIEW）",
    "remaining": "北牆窗、太陽照不進來：白天沒有窗邊光斑；書、椅子、桌燈照舊即時光；r2y4b_events_unit 開發原樣也 FAIL（給 LAWWW-B 看）",
    "next": "LAWWW 整合：換 library_3f.glb＋兩張光照貼圖、lawlib_interior.glb（法圖的光照貼圖不用換）＋library3f_lm_1031.patch（兩支新測試、bake_room.py／lm_fix_hidden.py 保留 GPU instancing、bake_library_3f.sh、烘焙紀錄）；Node 778／2（兩支都不是這一包）；對 a54a7d860 apply --check 通過"
+  },
+  {
+   "branch": "claude/funny-albattani-iawshm",
+   "sha": "(這一次 commit)",
+   "noDirectIntegrate": false,
+   "receiver": "LAWWW",
+   "ack": "SENT",
+   "task": "BUG-CAM-PILLAR-LAWA-1031：法律系館A（霖澤館）穿堂柱子擋住跟隨鏡頭",
+   "files": [
+    "assets/models/env/linze_exterior.glb",
+    "docs/art-rebuild/second_ai/patches/cam_pillar_linze_1031.patch",
+    "docs/art-rebuild/second_ai/test_shots/cam_pillar_1031/"
+   ],
+   "state": "已交付（等 BB 驗 DAD2／DAD2_NO）",
+   "remaining": "總圖門廊往旁邊 2.6 m 柱子切掉人一半（campus_hall.py 四棟 GLB 要重新匯出，問 LAWWW-B）；劇情固定運鏡若本身放在柱子裡要用 E.cam.seeThru",
+   "next": "LAWWW 整合：換 linze_exterior.glb＋cam_pillar_linze_1031.patch（zones3d.js attachExterior 一行、linze_exterior.py、linze_pillar_seethru_unit.js）；對 61bf5e485 apply --check 通過、相關測試 ALL PASS；Node 780／1（r2y4b，你 0447c75bb 已修）"
   }
  ]
 }
