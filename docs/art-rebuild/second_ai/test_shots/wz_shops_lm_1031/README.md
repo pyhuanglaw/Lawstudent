@@ -133,4 +133,36 @@
 
 ## 四、檢查、效能、測試
 
-（補）
+- `lm_squash_scan.py`：朝室內被壓扁的面——影印店 0、一盞 0、半熟 1 面（1.8 m²）。
+  - 半熟那一面是料理台不鏽鋼檯面的**底面**（朝下，y 0.9），檯面下 2 cm 就是櫃身，整面被蓋住，只有前緣 2 cm 的出簷從很低的角度看得到。
+  - 掃描工具把 5 cm 以內碰到的東西當成「看不到」，所以這面被算成看得到，應該是誤報。
+- 效能（藏路人；`interior_perf.py` `HIDE_NPC=1`；14:00；SwiftShader，手機實機沒量）：門口、店中間各四個方向，draw call 和三角形和改前**完全一樣**。
+  - 改後那一組的截圖和改前每個像素平均差 29～51，確定量到的是有光照貼圖的模型。
+  - 工具的 `lm` 欄位兩組都是 false：它讀的是 `zone.formalInfo`，只有教學館那幾個區域會設，和這一包無關。
+
+| 店 | 門口（前方） | 店中間（前方） |
+|---|---|---|
+| 半熟 | 98 calls／96,522 三角形 | 102／93,188 |
+| 阿德影印 | 79／90,050 | 79／90,050 |
+| 一盞 | 82／90,106 | 82／90,124 |
+
+- 光照貼圖（1024²、WebP）：半熟兩張約 180 KB、影印店 225 KB、一盞 230 KB。
+- GLB 多一套光照 UV：半熟 1.03→1.25 MB、影印店 0.82→1.24 MB、一盞 1.72→2.00 MB。節點、材質、三角形不變。
+- **新測試** `tests/wz_shops_lm_unit.js`：
+  - ①三家的白天、晚上光照貼圖都在；
+  - ②地板、天花板、牆、家具有第二套 UV；
+  - ③燈、燈罩、小東西、背景沒有第二套 UV（照舊即時光）；
+  - ④照條件出現的證書、貓照片、貓碗節點還在、不烘；
+  - ⑤wzShop 照舊用 attachRoomGLB。
+  - 開發分支原樣 FAIL 6，改後 ALL PASS。
+- 全部 Node：（跑中，補）
+
+## 五、怎麼套（給 LAWWW-B）
+
+1. **換二進位**（三家各四個檔）：
+   - `assets/models/env/second_ai/wz_brunch_interior.glb`、`wz_print_interior.glb`、`wz_teahouse_interior.glb`（＋`.json`）；
+   - 新的 `wz_<店>_interior_lm_day.webp`、`wz_<店>_interior_lm_night.webp`（六張）。
+2. **patch** `docs/art-rebuild/second_ai/patches/wz_shops_lm_1031.patch`：只有新測試 `tests/wz_shops_lm_unit.js`。**遊戲程式不用改**。
+   - 對最新開發 `3438bf10a` `git apply --check` 通過。
+3. 工具：`tools/blender/env_second/lightbake/bake_wz_shops.sh`、烘焙紀錄 `wz_<店>_interior_lm.json`、鏡頭 `shots/wz_lm_shots.py`。
+   - `bake_room.py` 多一個環境變數 `BAKE_THREADS`：只用幾個執行緒，同時跑測試時讓出 CPU。不設和原本一樣。
