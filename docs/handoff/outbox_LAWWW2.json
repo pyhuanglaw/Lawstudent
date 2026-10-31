@@ -4879,6 +4879,39 @@
    "remaining": "大廳走廊天花板偏暗、池邊很白",
    "next": "LAWWW-B 整合；我做 CAM-BELL",
    "noDirectIntegrate": false
+  },
+  {
+   "branch": "claude/funny-albattani-iawshm",
+   "sha": "9cc4810f2",
+   "receiver": "LAWWW",
+   "ack": "DELIVERED",
+   "task": "ART-LAMPSHADE-FLIP-1027 店內燈罩裡外相反",
+   "files": [
+    "assets/models/env/second_ai/l118_cafe2.glb",
+    "assets/models/env/second_ai/l118_pasta.glb",
+    "assets/models/env/second_ai/wenzhou_street.glb",
+    "docs/art-rebuild/second_ai/patches/lampshade_flip_1031.patch",
+    "docs/art-rebuild/second_ai/test_shots/lampshade_flip_1031/"
+   ],
+   "state": "已交付（21:0x）；118 巷 8＋溫州街 3；lampshade_flip_unit 開發 FAIL 3→ALL PASS",
+   "remaining": "Café 附近金屬圓盤 cafe_vc_wz_metal 也裡外相反，沒動",
+   "next": "發布後 feat-art-1031",
+   "noDirectIntegrate": false
+  },
+  {
+   "branch": "claude/funny-albattani-iawshm",
+   "sha": "9cc4810f2",
+   "receiver": "LAWWW",
+   "ack": "SENT",
+   "task": "D88 搬檔：被烘進去的原始 GLB＋產生腳本（LAWWW2-REEXPORT-US-1027 擴大）",
+   "files": [
+    "docs/art-rebuild/second_ai/patches/D88_support_sources_1031.md",
+    "docs/art-rebuild/second_ai/patches/D88_support_sources_1031.txt"
+   ],
+   "state": "整理好（71 個檔：支援 GLB 21＋腳本、鏡頭清單、貼圖；README 兩份較新）；LICENSES 要補 6 行（清單在 .md）",
+   "remaining": "",
+   "next": "發布後 LAWWW-B 用 xargs git checkout 搬進開發分支",
+   "noDirectIntegrate": false
   }
  ]
 }
