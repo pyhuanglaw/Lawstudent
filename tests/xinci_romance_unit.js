@@ -102,7 +102,9 @@ const walk=async(picks,term)=>{ H.said=[]; H.opts=[]; H.picks=picks.slice(); ret
     check('2. 她先說、你有別的交往對象：答案的選項多「（先告訴她，你在跟誰交往）」→ 你的三句 → 再選「好」＝交往、記 XC_TOLD',r==='sheSaid'&&H.G.flags['dating_'+XC]===true&&!!H.G.flags.XC_TOLD&&H.opts[1].slice(-1)[0]===X().TELL_OPT&&T().includes('好。知道了，我才排得出來。'),J([T(),H.opts]));
     full(); r=await walk(['先不說','讓我想想']); const th=H.G.termend.think[XC];
     check('2. 她先說、選「讓我想想」：「好。我把它排進下學期。……不要讓我排到畢業。」',r==='think'&&T().slice(-1)[0]===Hx.think&&th==='Y3S2',J(T()));
-    r=await walk(['先不說','好'],'Y4S1'); check('2. 第二次（上學期讓我想想）：she2「上次那件事，我的答案沒變。」「……你的呢。」→ 好',r==='sheSaid'&&J(T().slice(-2))===J(Hx.she2),J(T())); });
+    r=await walk(['先不說','好'],'Y4S1'); check('2. 第二次（上學期讓我想想）：she2「上次那件事，我的答案沒變。」「……你的呢。」→ 好',r==='sheSaid'&&J(T().slice(-2))===J(Hx.she2),J(T()));
+    { const D85=doc('b3df9c4e9','AA_537b_吳芯慈_第二份_約會台詞_校外地點_期末飯_節日.md'), WA=['這學期，我每個禮拜都留了一天。','……你應該知道是哪一天。'];   /* AA_537b 8-5（AA-B 10-31，BB-B n27 觀察：第二次回家路上和第一次一字不差）；修改前 FAIL */
+      check('2. 第二次的回家路上換 walkAgain（8-5）兩句、不是第一次那兩句；接 she2',J(Hx.walkAgain)===J(WA)&&J(T().slice(0,2))===J(WA)&&!T().includes(Hx.walk[0])&&(!D85||WA.every(t=>D85.includes(t))),J(T().slice(0,3))); } });
 
   /* ===== 第 3 節：她知道你有別人 ===== */
   await sec(3,()=>{ full(G=>{ G.flags['dating_'+ZQ]=true; ROM.learn(G,XC,ZQ,'test'); }); const h=heart();
