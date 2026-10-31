@@ -1364,12 +1364,12 @@ const STORY_EVENTS=[
     beforeOuting:async(G,GM,q)=>{ if(typeof VAC!=='undefined') await VAC.outing(GM,q); },
     outingMissed:(G,GM,q)=>{ if(typeof VAC!=='undefined'&&VAC.missed) VAC.missed(GM,q); } },
   /* 學期末的飯帶出的單日小活動（AA_251：C14 事務所參觀、C15 朋友約的單日小事；termend3d.js 的 dayOuting）*/
-  /* VA-09 芯慈事務所樓下的午餐（AA_256 第 1 節；src/vac3d.js 的 va09Phone 排；她只有五十分鐘）*/
-  { id:'ev_va09_lunch', title:'事務所樓下的午餐', participants:['classmate_xinci'], location:'any', trigger:'outing', once:true, background:'dark', hours:50/60,
-    dialogue:[ {speaker:null,text:'（事務所那棟大樓的一樓，自助餐。芯慈的識別證反過來別在衣服上。）'},
+  /* VA-09 芯慈實習公司樓下的午餐（AA_256 第 1 節；src/vac3d.js 的 va09Phone 排；她只有五十分鐘）。AA_549 2-1（AA 回第 1 題）：證券公司法務部，換掉「事務所」三處 */
+  { id:'ev_va09_lunch', title:'實習公司樓下的午餐', participants:['classmate_xinci'], location:'any', trigger:'outing', once:true, background:'dark', hours:50/60,
+    dialogue:[ {speaker:null,text:'（那棟大樓的一樓，自助餐。芯慈的識別證反過來別在衣服上。）'},
       {speaker:'classmate_xinci',text:'我只有五十分鐘。……先拿菜。'},
       {speaker:null,text:'（她夾了三樣，每一樣都很少。）'},
-      {speaker:'classmate_xinci',text:'事務所比我想的安靜。大部分的時間，大家都在打字。'},
+      {speaker:'classmate_xinci',text:'法務部比我想的安靜。大部分的時間，大家都在看合約。'},
       {speaker:'classmate_xinci',text:'（看了一下錶）還有十二分鐘。你吃慢一點沒關係，我先上去。'},
       {set:{VA09_LUNCH:'done'}} ] },
   /* 寒暑假去她的縣市（AA_276 第 5 節；src/hometown3d.js 演，台詞 src/data/hometown_lines.js）：hours＝回程的高鐵（高雄一個半小時、台中一小時）*/

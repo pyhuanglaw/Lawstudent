@@ -193,9 +193,10 @@ const VAC=(function(){
       if(!m.dating&&m.th.startsWith('p:')&&F['dating_'+m.th.slice(2)]&&/^va02_/.test(m.tag)) continue;   /* 交往中的返鄉訊息另外補（AA_241 第 6 節最後一點）*/
       PHONE.at(G,d,m.h,m.ms.map(x=>Object.assign({th:m.th},x)),m.tag); } };
   /* ---- VA-09 芯慈的事務所暑假（AA_256 第 1 節）：她自己過，玩家有沒有回都照常；第 2、3 則可以約一次午餐 ---- */
+  /* AA_549 2-1（AA 回第 1 題）：行事曆地點「芯慈實習公司樓下的自助餐」；標題的「（事務所樓下）」照她那一句改「（公司樓下）」*/
   S.va09Phone=function(G){ const C=Dt().VA09, F=G.flags, now=T(G.day,G.hour); if(!C) return; const who=C.who, th='p:'+who;
     if(F.VA09_LUNCH_ASK===true){ F.VA09_LUNCH_ASK='planned'; const d1=DK(C.lunchTo); const wkend=x=>{ const w=CALENDAR.dateOf(x).wd%7; return w===0||w===6; }; let d=G.hour<11?G.day:G.day+1; while(d1!=null&&d<=d1&&wkend(d)) d++;   /* 最近的平日（今天 11 點以前問的＝今天）*/
-      if(d1!=null&&d<=d1&&typeof OUT!=='undefined') OUT.plan(G,{id:'va09_lunch',ev:'ev_va09_lunch',day:d,h:12,late:0.5,place:'芯慈爸爸事務所樓下的自助餐',title:'和芯慈吃午餐（事務所樓下）',travel:'捷運約 25 分鐘',travelH:0.4}); }
+      if(d1!=null&&d<=d1&&typeof OUT!=='undefined') OUT.plan(G,{id:'va09_lunch',ev:'ev_va09_lunch',day:d,h:12,late:0.5,place:'芯慈實習公司樓下的自助餐',title:'和芯慈吃午餐（公司樓下）',travel:'捷運約 25 分鐘',travelH:0.4}); }
     if(!atLeast(who,C.min)) return;
     for(const m of C.msgs){ if(PHONE.sent(G,m.tag)) continue; const d=DK(m.day); if(d==null||now<T(d,m.h)||G.day>d+2) continue;
       const L=(m.c14&&F.C14_VISITED!=null?m.c14:m.ms), R=C.replies.slice(); if(m.lunch&&!F.VA09_LUNCH_ASK) R.push(Object.assign({set:{VA09_LUNCH_ASK:true}},C.lunchAsk));
