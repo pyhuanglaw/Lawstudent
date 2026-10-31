@@ -36701,9 +36701,9 @@
    "title": "遊戲裡的人不跟別人比（D116、USER_WANTS X146；使用者 10-30 17:3x 對 AA-B）：刪掉所有跟別人比、嫉妒、因為別人厲害覺得自己很爛的台詞與事件（芯慈×以安第一名／第二名、柏翰、以安「我怕她追上來」……）",
    "area": "STORY",
    "owner": "LAWWW",
-   "status": "已整合待測試",
+   "status": "已驗收",
    "priority": "P0",
-   "next": "【10-31 12:2x】BB-B n29_nocmp_b 第二批 ALL PASS（子晴 ZQ3_CM／DM、可昕四則一字不差）；第一批 CAMP、MX7、ZQL3_W、KAI203 PASS；剩 ZQL3（子晴 CONTEST_DAY 版按不到說話，BB n29_nocmp_a3 站進 2.8 m 重跑）；灰色三句（子晴 Q2-L3「恭喜我傳了…大部分是」、可昕「好到我很生氣」×2）已轉 AA-B 判斷｜【10-31 05:1x】芷若 ZRFEED（zr2d）、ZRL3（Z4-L3）PASS；柏翰、芯慈各場 PASS；還沒在瀏覽器看過的：明軒個性、AA_546 第一批的子晴、可昕、宿營破冰｜【10-31 04:5x】柏翰 slow 算加入已驗收（BB-B n23_bohan_c 0447c75bb，BB_218 e6355cf03：H2_SLOW 13 行 ALL PASS——BOHAN_GROUP_DAY、第 7～9 週週六小組三次、旁白照稿、ev_bohan_group_heard 沒演）；柏翰全部 PASS；剩芷若 zr2d、Z4-L3（BB n25_xinci_l ZRL3）｜【10-31 03:0x】AA-B 回 A（AA_546 1-3，企劃線 84b6c298f）：選「我寫得很慢」算加入——BOHAN_GROUP_DAY、週六小組照排、阿哲「沒去」那句不演；v3_w6w7 第 2 項加一條（修改前 FAIL）→ BB 驗｜【10-31 02:5x】BB-B n23_bohan_b（fdac7f6e2，BB_218 416b81f9f）ALL PASS 30 行：翰 2（H2_SLOW、H2_YES 三次小組旁白照 1-3）、翰 4（H4_GOOD、H4_SIT），舊句都沒有；BB 問的「slow 算不算加入小組」已轉 AA-B（A／B 選一）；剩芷若 zr2d、Z4-L3 與芯慈 ZRL3 待測｜第一批 AA_546（3281a122c、a68622d52、43b7877f4）＋第二批 AA_546 第 7 節（企劃線 a6372e188：芷若 zr2d、Z4-L3、明軒個性；語彤吃醋、學姊研究小間、書卷獎門檻、柏翰鬧鐘、公園阿嬤、阿哲「問沈以安」照留）＋芯慈 AA_547（46e36f86b、ccbb72422）都進開發分支；AA 重掃過沒有漏的（AA 這邊結了）→ BB 測（n23_bohan_nocmp＋芯慈各場＋芷若 zr2d、Z4-L3）；改名版發布前用選擇題問使用者",
+   "next": "已驗收（10-31 12:3x）；灰色三句另列 NO-COMPARE-GRAY-1031（AA 判斷）｜【10-31 12:2x】BB-B n29_nocmp_b 第二批 ALL PASS（子晴 ZQ3_CM／DM、可昕四則一字不差）；第一批 CAMP、MX7、ZQL3_W、KAI203 PASS；剩 ZQL3（子晴 CONTEST_DAY 版按不到說話，BB n29_nocmp_a3 站進 2.8 m 重跑）；灰色三句（子晴 Q2-L3「恭喜我傳了…大部分是」、可昕「好到我很生氣」×2）已轉 AA-B 判斷｜【10-31 05:1x】芷若 ZRFEED（zr2d）、ZRL3（Z4-L3）PASS；柏翰、芯慈各場 PASS；還沒在瀏覽器看過的：明軒個性、AA_546 第一批的子晴、可昕、宿營破冰｜【10-31 04:5x】柏翰 slow 算加入已驗收（BB-B n23_bohan_c 0447c75bb，BB_218 e6355cf03：H2_SLOW 13 行 ALL PASS——BOHAN_GROUP_DAY、第 7～9 週週六小組三次、旁白照稿、ev_bohan_group_heard 沒演）；柏翰全部 PASS；剩芷若 zr2d、Z4-L3（BB n25_xinci_l ZRL3）｜【10-31 03:0x】AA-B 回 A（AA_546 1-3，企劃線 84b6c298f）：選「我寫得很慢」算加入——BOHAN_GROUP_DAY、週六小組照排、阿哲「沒去」那句不演；v3_w6w7 第 2 項加一條（修改前 FAIL）→ BB 驗｜【10-31 02:5x】BB-B n23_bohan_b（fdac7f6e2，BB_218 416b81f9f）ALL PASS 30 行：翰 2（H2_SLOW、H2_YES 三次小組旁白照 1-3）、翰 4（H4_GOOD、H4_SIT），舊句都沒有；BB 問的「slow 算不算加入小組」已轉 AA-B（A／B 選一）；剩芷若 zr2d、Z4-L3 與芯慈 ZRL3 待測｜第一批 AA_546（3281a122c、a68622d52、43b7877f4）＋第二批 AA_546 第 7 節（企劃線 a6372e188：芷若 zr2d、Z4-L3、明軒個性；語彤吃醋、學姊研究小間、書卷獎門檻、柏翰鬧鐘、公園阿嬤、阿哲「問沈以安」照留）＋芯慈 AA_547（46e36f86b、ccbb72422）都進開發分支；AA 重掃過沒有漏的（AA 這邊結了）→ BB 測（n23_bohan_nocmp＋芯慈各場＋芷若 zr2d、Z4-L3）；改名版發布前用選擇題問使用者",
    "first": {
     "term": "Y1S1",
     "week": 1,
@@ -36723,7 +36723,8 @@
     "receiver": "LAWWW",
     "ack": "ACK"
    },
-   "notes": "芯慈的線（XINCI-ROMANCE-1030）已關、暫停；人物頁三行（第二名、第一次考第一、改輔系）在 AA 清單裡；芯慈爸爸會計師為什麼雙主修經濟不主修會計＝AA 問使用者"
+   "notes": "芯慈的線（XINCI-ROMANCE-1030）已關、暫停；人物頁三行（第二名、第一次考第一、改輔系）在 AA 清單裡；芯慈爸爸會計師為什麼雙主修經濟不主修會計＝AA 問使用者",
+   "evidence": "BB-B n29（00a88c56f，BB_218 c4be33c61）瀏覽器 12 個情境全部 PASS：CAMP（宿營破冰 9 句）、MX7（明軒人物頁）、KAI203、ZQL3（子晴 CONTEST_DAY 版）、ZQL3_W、ZQ3_CM、ZQ3_DM、KX5、KXY2S1、KXWIN、KX2E，一字不差、沒有 AA_546 列的舊句；另有柏翰 n23（翰 2、翰 4、slow）、芯慈 n25、芷若 ZRFEED／ZRL3 PASS；阿凱秋葉原、可昕視訊、可昕重考、feed_pg 四處前置太長只 Node 確認"
   },
   {
    "id": "LM-COLLAPSE-1030",
@@ -37125,6 +37126,36 @@
     "spec": "BB 重現：2025-09-26 14:00 總圖大廳，走到 (6.2,−2.6) 或 (−6.2,−3.2)，鏡頭轉看外牆；鏡頭在 (2.10,3.43,−0.80)、(1.76,3.43,−2.20)、(−1.86,3.43,−2.25)、(−1.78,3.43,−2.75)，跟隨距離 4.8 m；擋著的是 lb_leaf_small、L0_lb_plaster_hupN、lb_walnut、lb_slab",
     "branch": "claude/funny-albattani-iawshm",
     "acceptance": "BB 重跑 LHCORE：四個方向看得到玩家；走去 B1 樓梯間門、電梯的路上不被核心擋住",
+    "receiver": "LAWWW",
+    "ack": "SENT"
+   }
+  },
+  {
+   "id": "NO-COMPARE-GRAY-1031",
+   "title": "D116 灰色三句（AA_546 沒列，BB-B 標）：子晴 Q2-L3「我沒去。……恭喜我傳了。真心的。大部分是。」、可昕 feed_y2s1「很好。好到我很生氣。」、feed_y4s1 kx3g「好到我很生氣。」——AA 判斷要不要換",
+   "area": "STORY",
+   "owner": "AA",
+   "status": "等待其他AI／素材",
+   "priority": "P2",
+   "next": "【10-31 12:3x】LAWWW-B 已問 AA-B（換就給新句、不換回「不換」）；AA 給新句 → LAWWW 匯入 → BB 驗",
+   "pausedReason": "等 AA-B 判斷（D109 劇情 AA 定）",
+   "resumeWhen": "AA-B 回覆換或不換",
+   "first": {
+    "term": "Y2S1",
+    "week": 1,
+    "earliest": "大二上子晴閒聊階梯、可昕動態",
+    "mainline": false,
+    "blocks": false,
+    "prereq": false,
+    "parallel": true,
+    "confirmed": true
+   },
+   "source": "BB-B 10-31 12:20 訊息（BB_218 fab8ec19e）",
+   "authorized": "D116、D109",
+   "xai": {
+    "spec": "AA_546 的格式（哪一則換成什麼）",
+    "branch": "claude/cool-heisenberg-o8kuqx",
+    "acceptance": "AA 回覆；換的話新句匯入後 BB 照 n29 看",
     "receiver": "LAWWW",
     "ack": "SENT"
    }
