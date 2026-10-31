@@ -37767,6 +37767,64 @@
     "receiver": "LAWWW-B",
     "ack": "ACK"
    }
+  },
+  {
+   "id": "ZR-CUP-AA551-1031",
+   "title": "芷若 9/1 回 Café（沒交往的玩家，ticket_again）杯子上的字：zr_last_events.js again.keepN 換 AA_551 那句（「熱可可＋濃縮」「不用還了。」）；她那句「……那這杯，也是你的。」不動（USER_WANTS X36）",
+   "area": "STORY",
+   "owner": "LAWWW",
+   "status": "待開工",
+   "priority": "P2",
+   "next": "【10-31 23:5x】AA-B AUDIT-AA-FOLLOWUP 交付；發布基準凍結中→本機分支做、發布後合（VAC-GAP-1031 子代理做完以後，免得撞檔）",
+   "first": {
+    "term": "Y4S2",
+    "week": 0,
+    "earliest": "2029-09-01 芷若回 Café（沒交往）",
+    "mainline": false,
+    "blocks": false,
+    "prereq": false,
+    "parallel": true,
+    "confirmed": true
+   },
+   "source": "AA-B 10-31 20:30 訊息（歷史複核後續）",
+   "authorized": "D109",
+   "xai": {
+    "spec": "AA_551（企劃線 231db3a40）",
+    "owner": "BB",
+    "branch": "claude/elegant-brown-fcos7n",
+    "acceptance": "照規格交付、互審紀錄",
+    "receiver": "LAWWW-B",
+    "ack": "ACK"
+   }
+  },
+  {
+   "id": "SIS-BOOKS-Y2S1-1031",
+   "title": "學姊第二次傳書 ev_sis_books_y2s1（AA_552 第 2 節，取代 BB_156 大二下版本；她碩一搬研究室）：2026-09-05 17:05 私訊 → 9/6 管理室（接在「明天開學。今天搬進新的房間。」之後）→ 9/7 第一堂行政法課前兩句；一般／朋友以上／交往中三版；條件、舊存檔、測試 7 條照稿",
+   "area": "STORY",
+   "owner": "LAWWW",
+   "status": "待開工",
+   "priority": "P2",
+   "next": "【10-31 23:5x】AA-B AUDIT-AA-FOLLOWUP 交付；發布基準凍結中→本機分支做、發布後合（VAC-GAP-1031 子代理做完以後，免得撞檔）",
+   "first": {
+    "term": "Y2S1",
+    "week": 0,
+    "earliest": "大二開學前一天搬房間",
+    "mainline": false,
+    "blocks": false,
+    "prereq": false,
+    "parallel": true,
+    "confirmed": true
+   },
+   "source": "AA-B 10-31 20:30 訊息（歷史複核後續）",
+   "authorized": "D109",
+   "xai": {
+    "spec": "AA_552 第 2 節（企劃線 231db3a40）",
+    "owner": "BB",
+    "branch": "claude/elegant-brown-fcos7n",
+    "acceptance": "照規格交付、互審紀錄",
+    "receiver": "LAWWW-B",
+    "ack": "ACK"
+   }
   }
  ]
 }
