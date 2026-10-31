@@ -7,16 +7,19 @@
 - **PERF-ZONE-ENTER-1018 第三輪已整合**（LAWWW-B 23:2x，`44337adcb`）。剩下的載入流程（prewarm settle、等 GPU、路人 VRM）LAWWW-B 先做量測面板，我不接。
 - **正在做：ART-ECON-3D-GAP-1021**（LAWWW-B 23:2x）：清單 `docs/art-rebuild/second_ai/ECON_3D_GAP_STATUS_1030.md`（j7～j13 全部已整合、各自的 commit；還沒做 A～H）。
   - 開工順序：A 共同教學館室內正式模型（`teach_interior.py --set gongtong`，現在是程序化）→ B 普通教學館光照烘焙 → C 總圖 3F 閱覽區光照烘焙。
-  - **A 已交**（共同教學館室內正式模型＋光照烘焙；README `test_shots/gongtong_int_1030/README.md`；patch `gongtong_interior_1030.patch`＋`lightbake_tools_1031.patch`；Node 776／0）。等 LAWWW-B ACK／整合。
+  - **A 已交、已整合**（共同教學館室內正式模型＋光照烘焙；README `test_shots/gongtong_int_1030/README.md`；patch `gongtong_interior_1030.patch`＋`lightbake_tools_1031.patch`；Node 776／0）。開發分支 a54a7d860 已經有。
     - 白天參數不能照博思（天光 0.18、白平衡 1.0,0.98,0.95、白天燈 0.6，理由在 `bake_gongtong.sh` 開頭）。
-  - **B 已交**（普通教學館光照烘焙；README `test_shots/putong_lm_1031/README.md`；patch `putong_lm_1031.patch`；Node 777／0）。白天參數試了六版（冷白燈、白天曝光降兩成），理由在 `bake_putong.sh` 開頭。
-  - **C 進行中**：總圖 3F 閱覽區光照烘焙（`lightbake/bake_library_3f.sh`，照 bake_lawlib.sh：書 --keep-instances；鏡頭 `shots/library3f_lm_shots.py`；改前、64 取樣試烘在 `scratchpad/lib3f/`）。
-  - **注意**：開發分支的 `lightbake/bake_room.py` 是舊版（沒有 collapse_black 整面取樣）：LAWWW-B 整合 `lightbake_tools_1031.patch` 以前，在開發分支測試樹重烘要先從這個分支複製工具。
+  - **B 已交、已整合**（開發 3f67ec44a；普通教學館光照烘焙；README `test_shots/putong_lm_1031/README.md`；Node 777／0）。白天參數試了六版（冷白燈、白天曝光降兩成），理由在 `bake_putong.sh` 開頭。
+  - **C 進行中**（04:xx 正在跑 512 取樣正式烘焙）：總圖 3F 閱覽區光照烘焙（`lightbake/bake_library_3f.sh`，參數試三版已定案，紀錄在檔頭；鏡頭 `shots/library3f_lm_shots.py`；README 草稿 `test_shots/library3f_lm_1031/README.md`；改前、試烘在 `scratchpad/lib3f/`）。
+    - 還要做：改後截圖 → 新測試 `library_3f_lm_unit.js`、`lm_instancing_unit.js`（寫好了，在 `scratchpad/slwt/tests/`，交件時放進 patch）→ Node 全部 → 交件。
+  - **10-31 找到的（我 10-30 交件的問題）**：`bake_room.py --keep-instances` 匯出時沒寫 GPU instancing，**開發分支的 `lawlib_interior.glb` 書從 137 節點／27 個實例變成 800 節點／0 個實例**（遊戲裡入口四個方向 draw call 286／164／302／183）。
+    - 工具已修：`bake_room.py`（4b60e9ede）、`lm_fix_hidden.py`（8b6523b86：輸入有實例才寫回去）。開發分支的工具還是舊的，要跟 C 一起給 patch。
+    - 下一步：用修好的工具重跑 `bake_lawlib.sh`、量 draw call，跟 C 一起交。其他烘過的模型都沒有用 --keep-instances，不受影響（10-31 查過全部有光照貼圖的 GLB）。
 - **NAV-LIBHALL-ISLAND-1030 已交、已整合（cfb70a5fd，`patches/libhall_island_1030.patch`；LAWWW-B 21:37）**（P2）：總圖大廳一樓約 (5.85,-8.4) 2 格導航孤島（換回舊 GLB 也一樣）；改 `library_layout.js` 阻擋接回大塊或封掉；`tests/library_copier_unit.js` 有 FAIL 就 exit 1（原本 FAIL 也 exit 0）；跑 `nav_buildings_unit`。
 - 已交、已整合：SOCLIB-LM-1030＋BOYA n19（3bc7a8800）。
 - **X133 第二版等使用者的地圖或照片**（使用者 10-30 16:5x 回 LAWWW-B）：第一版照舊在遊戲裡（f75d60a4c），第二版不要再猜。
 - **重烘要從 `claude/funny-albattani-iawshm` 拿烘焙用的原始貼圖**（LAWWW-B 21:37 同意留在這裡、不搬進開發分支：遊戲不讀）：`tools/blender/env_second/textures/` 底下 asphalt_02、castle_brick_02_white、concrete_floor_painted、floor_tiles_06、grass_ground、large_sandstone_blocks、linoleum_brown、red_brick_03、snow_02、white_sandstone_bricks、withered_grass 這 11 種開發分支沒有（宿舍四人房的 `floor_tiles_06` 就是因為這樣第一次烘不起來）。在開發分支的測試樹重烘以前，先把這些資料夾複製進去。
-- **注意**：我的分支 10-16 以後沒有合併開發分支（直接 merge 一百多個衝突），一律在開發分支的測試樹上做、只把自己負責的檔案搬回來。測試樹 `scratchpad/slwt`、`scratchpad/devclean` 都在開發 610d74642（slwt 加了這一包）。
+- **注意**：我的分支 10-16 以後沒有合併開發分支（直接 merge 一百多個衝突），一律在開發分支的測試樹上做、只把自己負責的檔案搬回來。測試樹 `scratchpad/slwt` 在開發 44337adcb（加了 A、B 的 patch＋C 的試烘）、`scratchpad/devclean` 在最新開發 a54a7d860（乾淨）。
 - **沒有遠端備份的**：scratchpad 的截圖、測試樹、總圖大廳的重烘輸出（重做就有：`bash tools/blender/env_second/lightbake/bake_library_hall.sh 512`）。
 
 ## 📣 給 LAWWW-B（2026-10-30 23:3x UTC｜PERF-ZONE-ENTER-1018 第三輪（室內）交件；send_message 另外傳）
