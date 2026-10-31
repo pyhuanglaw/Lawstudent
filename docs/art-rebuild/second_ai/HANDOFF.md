@@ -1,8 +1,16 @@
 # LAWWW2 交接紀錄（隨時更新；工作階段中斷時從這裡接）
 
-## ⏱ 現況（LAWWW2-B，2026-10-31 20:3x UTC；帳號 B 七天額度已到警示，隨時可能被切斷——接手的先讀這一段）
+## ⏱ 現況（LAWWW2-B，2026-10-31 20:5x UTC；帳號 B 七天額度已到警示，隨時可能被切斷——接手的先讀這一段）
 
-- **20:3x（最新）**：
+- **20:5x（最新）**：
+  - 已交（發布基準 39f68236c 凍結中，LAWWW-B 先放本機分支 feat-art-1031，發布後合）：B1 光照（2875f8aef）、CAM-BELL（8119766b1，已進 feat-art-1031）、
+    LAMPSHADE-FLIP（9cc4810f2：118 巷 8＋溫州街 3，`glb_flip_insideout.py` 只翻燈罩＋腳本輪廓反過來）、D88 搬檔清單（5a9ca703f：`patches/D88_support_sources_1031.md/.txt`）。
+  - ENTRY-B 查過已修好、結案；ART-13、JIAHAO-JOY 照 D99「人物美術凍結」先不做（已告訴 LAWWW-B）。
+  - Café 附近金屬圓盤 `cafe_vc_wz_metal` (37.3,1.09,5.3) 也裡外相反，沒找到哪支腳本做的，沒動（lampshade_flip README 有記）。
+  - **正在做：美國室內光照**（INTERIOR-AAA 最後一批；順序：公寓 us_apartment → 法學院圖書館 us_lawlib → 亞洲超市 us_asian_market）。都是 attachRoomGLB（us3d.js:192、342、401）。
+    - 公寓：`us_apartment.py`（同一支也做學姊 C 棟 us_shared）；北窗、陽台玻璃門；窗外雪景／春天兩套（SEASON_SNOW_on/off）；燈具要看家具 GLB。
+  - 之後：ART-PHOTO-CMP-1021（P3）。
+- **20:3x**：
   - **體育館三區光照都交完**：1F 第五版＋3F 已整合（43e5f1b88）；**B1 已交**（2875f8aef，patch `gym_b1_lm_1031.patch`，含 wz_park_people_unit 第 4 項說明文字）。
     - B1 第一版抓到 bake_room.py 的問題：原本就有兩套 UV 的網格，光照 UV 被擠到 TEXCOORD_2 → 已修（烘焙物件只留第一套）；掃過之前所有烘過的 GLB 都沒有。
   - **HISTORY-AUDIT-1031 第一批已交**（b4fb653b8；`docs/handoff/history_audit/judgments_LAWWW2.jsonl`＋`summary_LAWWW2.md`）。tier 5 做好沒接：I08 約會去背 53 檔（只在我的分支）、AA185 三張背景、BG-19／14 第五版。
