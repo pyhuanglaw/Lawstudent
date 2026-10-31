@@ -16246,7 +16246,7 @@
    "owner": "LAWWW",
    "status": "已實作待整合",
    "priority": "P2",
-   "next": "【LAWWW-C 2026-10-21 稽核 C】做了一部分：LAWWW-C 10-21 開的 HOLIDAY-PRESENCE-1021 只列以安、阿哲、柏翰，請一併補芷若（寒假 1/26～2/18、暑假 7/1～8/31）、阿凱（2/13～2/20 宜蘭等，BB_198 7-1）、Kevin（1/24～1/31 日本）的 absentDates；跨年 00:00 芷若、子晴、沛珊、Kevin 的訊息請 AA 寫字（D100），收到再接 ｜ BB-B 02:40 交班：BB 部分已交付（等 LAWWW 整合，跟 VAC-L1）。｜BB_171 假期所在地與跨年已交 AA-B（BB-B 00:08）。｜AA-B 00:0x 全部待辦交接補登；細節見 AA_交接紀錄（a2621bfa）",
+   "next": "【10-31 19:3x】剩的（芷若、阿凱、Kevin 的 absentDates、跨年 00:00 四人訊息）問 AA-B 確認表格與寫字（D100），芷若的日期怕和 Café 暑假班衝突不直接加｜【LAWWW-C 2026-10-21 稽核 C】做了一部分：LAWWW-C 10-21 開的 HOLIDAY-PRESENCE-1021 只列以安、阿哲、柏翰，請一併補芷若（寒假 1/26～2/18、暑假 7/1～8/31）、阿凱（2/13～2/20 宜蘭等，BB_198 7-1）、Kevin（1/24～1/31 日本）的 absentDates；跨年 00:00 芷若、子晴、沛珊、Kevin 的訊息請 AA 寫字（D100），收到再接 ｜ BB-B 02:40 交班：BB 部分已交付（等 LAWWW 整合，跟 VAC-L1）。｜BB_171 假期所在地與跨年已交 AA-B（BB-B 00:08）。｜AA-B 00:0x 全部待辦交接補登；細節見 AA_交接紀錄（a2621bfa）",
    "first": {
     "term": "Y1S1",
     "week": null,
@@ -17620,7 +17620,7 @@
    "owner": "LAWWW",
    "status": "已實作待整合",
    "priority": "P2",
-   "next": "【LAWWW-C 2026-10-21 稽核 C】做了一部分：請 AA 一句話確認 AA_208 第 8 節的室友旁白要不要接在 AA_315 拆箱旁白前；LAWWW 加柏翰大三／大四晚上在房間的作息（AA_208 第 8 節） ｜ AA_208 第 8 節已交付（DL-AA-DORMY34，4a6841eb）：大三 507、大四 409。美術 ART-DORM-Y34（LAWWW2）；程式在大三、大四施工時做（拆箱前旁白、晚上作息）",
+   "next": "【10-31 19:3x】問 AA-B 確認 AA_208 第 8 節室友旁白接在 AA_315 拆箱旁白前的順序；柏翰大三大四晚上作息照稿接｜【LAWWW-C 2026-10-21 稽核 C】做了一部分：請 AA 一句話確認 AA_208 第 8 節的室友旁白要不要接在 AA_315 拆箱旁白前；LAWWW 加柏翰大三／大四晚上在房間的作息（AA_208 第 8 節） ｜ AA_208 第 8 節已交付（DL-AA-DORMY34，4a6841eb）：大三 507、大四 409。美術 ART-DORM-Y34（LAWWW2）；程式在大三、大四施工時做（拆箱前旁白、晚上作息）",
    "first": {
     "term": "Y3S1",
     "week": 0,
@@ -24571,7 +24571,7 @@
    "title": "118 巷每間店配合故事（店員是誰、和哪條故事有關、去了有什麼）",
    "area": "V1",
    "owner": "LAWWW",
-   "status": "已實作待整合",
+   "status": "已整合待測試",
    "priority": "P2",
    "first": {
     "term": "Y1S1",
@@ -24585,7 +24585,7 @@
    },
    "source": "使用者 2026-10-20 13:0x 試玩 v9.10.2 回報：「最好配合故事?劇情?」",
    "authorized": "使用者直接指示（10-20 試玩回報）",
-   "next": "v9.10.14 發布後合 l118-r2（bc1f1f6b3，wip_backup/l118_r2_1030.bundle），全部 Node，BB 瀏覽器測 H9 與九間「老樣子」",
+   "next": "【10-31 19:3x 盤點】commit bc1f1f6b3 已在開發分支（postrel-1030 全部進來了），狀態從「已實作待整合」改成已整合待測試 → BB 測｜v9.10.14 發布後合 l118-r2（bc1f1f6b3，wip_backup/l118_r2_1030.bundle），全部 Node，BB 瀏覽器測 H9 與九間「老樣子」",
    "xai": {
     "receiver": "LAWWW",
     "branch": "claude/magical-albattani-bk7b4n",
@@ -33222,7 +33222,7 @@
    "title": "七位接不接受同時交往（acceptsOpen）照使用者 C＝逐一決定：AA_474 七位各自的條件、子晴＋芷若同時兩人都離開、可昕收回",
    "area": "v6",
    "owner": "LAWWW",
-   "status": "已實作待整合",
+   "status": "已整合待測試",
    "priority": "P2",
    "source": "使用者 10-27 對 AA-C 回答 C（UA-AA-1027-49）；AA_474（企劃線 claude/magical-albattani-bk7b4n：第一版 d03d5da1a、第 5 節 fc961b2c5、更正 314c61ce4、**第二版 7e3f8ed4c＋3b 通則 020f695a3 為準**）",
    "first": {
@@ -33235,7 +33235,7 @@
     "parallel": true,
     "confirmed": true
    },
-   "next": "aopen-r2（268c65322，wip_backup/aopen_r2_1030.bundle）合進 postrel-1030，v9.10.14 發布後進開發分支，BB 瀏覽器測",
+   "next": "【10-31 19:3x 盤點】commit 268c65322 已在開發分支（postrel-1030 全部進來了），狀態從「已實作待整合」改成已整合待測試 → BB 測｜aopen-r2（268c65322，wip_backup/aopen_r2_1030.bundle）合進 postrel-1030，v9.10.14 發布後進開發分支，BB 瀏覽器測",
    "sha": "fb8d27888",
    "pausedBy": "使用者（20:13 前後在工作階段裡停下了第二輪的子代理；系統訊息：只有使用者明確要求才再開新的代理）",
    "pausedReason": "第一輪已合進開發分支 fb8d27888；第二輪（AA_481 五處、AA_483 八題答案與定稿字、AA_482 坦白與尾聲）的子代理被使用者停下（很可能是使用者中斷 LAWWW-C 回合時一起停的），半成品 LAWWW 存成 aopen-1027 f642d440f（沒測、不能直接合）",
@@ -35653,8 +35653,8 @@
    "title": "AA_528（讀 AA_499～502 實作）照改：入口（二十位同學大二起還能第一次說話、佳蓉萬才館值班入口、圈子同框記 FIRST_MET 與晨希吉他社不同時在萬才館、佳蓉「其實……」第 8 週起、乃文 B1 借筆記 NW_BORROW）、時間（宗霖大二下在日本、日本路線畢業私訊一天最多兩人、阿凱上次宵夜第 13 週後）、口氣八句、白名單補 AA_502、AA_498～502 sha 換新",
    "area": "STORY",
    "owner": "LAWWW",
-   "status": "已實作待整合",
-   "next": "aa527-fix 2637ea798 合進 postrel-1030 → v9.10.14 發布後進開發分支 → BB 測",
+   "status": "已整合待測試",
+   "next": "【10-31 19:3x 盤點】commit 2637ea798 已在開發分支（postrel-1030 全部進來了），狀態從「已實作待整合」改成已整合待測試 → BB 測｜aa527-fix 2637ea798 合進 postrel-1030 → v9.10.14 發布後進開發分支 → BB 測",
    "priority": "P2",
    "first": {
     "term": "Y1S1",
@@ -36322,8 +36322,8 @@
    "title": "AA_533 寒暑假活動內容（C13 和女朋友出國七位到了／中間、活動卡第一次、回她的縣市再去、小出遊、快轉旁白分年、摘要池接著輪、晚餐三題）——和 AA532-VAC-FIX-1030 同一個子代理",
    "area": "STORY",
    "owner": "LAWWW",
-   "status": "已實作待整合",
-   "next": "aa532-vac 7f75195ab 合進 postrel-1030 → BB 測",
+   "status": "已整合待測試",
+   "next": "【10-31 19:3x 盤點】commit 7f75195ab 已在開發分支（postrel-1030 全部進來了），狀態從「已實作待整合」改成已整合待測試 → BB 測｜aa532-vac 7f75195ab 合進 postrel-1030 → BB 測",
    "priority": "P1",
    "first": {
     "term": "Y1S1",
@@ -37317,7 +37317,7 @@
    "owner": "LAWWW",
    "status": "進行中",
    "priority": "P1",
-   "next": "【10-31 19:1x】盤點：待開工 LAWWW 23、LAWWW2 12、BB 10、AA 2；已整合待測試 LAWWW 652、LAWWW2 60、AA 18、BB 6。照 D99（經濟系 → 寒暑假 → 美國）分派：LAWWW 先做 VAC-A1 收文件結案、再看 BUG-03／04、AA290-INTAKE 剩的；LAWWW2 體育館 → CAM-BELL → ART-WZPARK-ENTRY-B（導航）→ 燈罩反面 → 明軒小語模型；BB 發布前回歸 → BB-TEST-US-LIFE（D99 第三）→ BUG-03／04 重現 → 黑畫面盤點經濟系；AA I10 抓包 CG、AA530、自己清查寒暑假（D99 第二）劇情缺口",
+   "next": "【10-31 19:4x】已做：VAC-A1 結案（文件收進開發分支）；四件「已實作待整合」查證已在開發分支→改已整合待測試（AA533 寒暑假活動、118 巷店家故事、acceptsOpen、AA528）；VAC-B1、DORM-Y34 卡 AA 的問題已問；LAWWW2、BB、AA 都已派下一批｜【10-31 19:1x】盤點：待開工 LAWWW 23、LAWWW2 12、BB 10、AA 2；已整合待測試 LAWWW 652、LAWWW2 60、AA 18、BB 6。照 D99（經濟系 → 寒暑假 → 美國）分派：LAWWW 先做 VAC-A1 收文件結案、再看 BUG-03／04、AA290-INTAKE 剩的；LAWWW2 體育館 → CAM-BELL → ART-WZPARK-ENTRY-B（導航）→ 燈罩反面 → 明軒小語模型；BB 發布前回歸 → BB-TEST-US-LIFE（D99 第三）→ BUG-03／04 重現 → 黑畫面盤點經濟系；AA I10 抓包 CG、AA530、自己清查寒暑假（D99 第二）劇情缺口",
    "first": {
     "term": "META",
     "week": 0,
