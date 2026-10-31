@@ -37345,7 +37345,7 @@
    "owner": "LAWWW",
    "status": "已實作待整合",
    "priority": "P1",
-   "next": "【10-31 19:4x】S.coreCallAt 在法律系階段也停 y0_e37（PLAYED_Y0 或 e37LawOn、還沒演；14:15）；S.e37CallDue 只在 8/30（原本到 8/31）；v0_e37_unit 第 6 項（修改前 2 項 FAIL）；E37 相關 17 支 Node 全過 → 全部 Node 跑完、BB 在 QA-PLAYTHROUGH 重跑 ① 那段",
+   "next": "【10-31 20:3x】全部 Node 787／0（24aebe913）；BB 在 QA-PLAYTHROUGH ① 重跑 8/30 那段｜【10-31 19:4x】S.coreCallAt 在法律系階段也停 y0_e37（PLAYED_Y0 或 e37LawOn、還沒演；14:15）；S.e37CallDue 只在 8/30（原本到 8/31）；v0_e37_unit 第 6 項（修改前 2 項 FAIL）；E37 相關 17 支 Node 全過 → 全部 Node 跑完、BB 在 QA-PLAYTHROUGH 重跑 ① 那段",
    "first": {
     "term": "Y0S1",
     "week": 0,
@@ -37373,7 +37373,7 @@
    "owner": "LAWWW",
    "status": "進行中",
    "priority": "P0",
-   "next": "【10-31 19:5x】開工：登記、派 AA（劇情企劃已定稿未實作）、BB（done 沒玩過的分批補驗，發布前回歸優先）、LAWWW2（舊美術未接入）；LAWWW 先做 B 段 133 項 done 的七類判定與十大遺漏（第一輪回報）",
+   "next": "【10-31 20:3x】第一輪：tools/handoff/history_audit.py（每次從 GitHub 重算；證據＝origin/main 有沒有、BB_218＋BB test_shots log 同一行 PASS、BB 10-27 盤點 A、tasks.json 驗收證據）→ docs/handoff/history_audit/ledger.json、REPORT.md；10/21 的 133 項 done：第 1 類 6、第 2 類 126（main 都有，沒有 BB 實際操作紀錄）、第 4 類 1（V5-B01 交往中版沒跑完）；抽查兩項自動誤判已改（V4-E18、V5-B04）；派 AA／BB／LAWWW2 各自寫 judgments_<職位>.jsonl｜【10-31 19:5x】開工：登記、派 AA（劇情企劃已定稿未實作）、BB（done 沒玩過的分批補驗，發布前回歸優先）、LAWWW2（舊美術未接入）；LAWWW 先做 B 段 133 項 done 的七類判定與十大遺漏（第一輪回報）",
    "first": {
     "term": "META",
     "week": 0,
