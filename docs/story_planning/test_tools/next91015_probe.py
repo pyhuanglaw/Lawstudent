@@ -1435,27 +1435,38 @@ GYM_CAMS = [('lobby_in', (0.0, 1.7, 18.2), (0.0, 1.4, 11.2)), ('lobby_glass', (-
             ('b1_stair', (18.0, 2.6, 18.6), (18.0, -1.2, 13.2))]
 
 
+# LAWWW-B 19:42（43e5f1b88）：3F 主球場 gym_arena 光照烘焙也一起看（看台上方 LED、晚上高窗會暗）；已知只記錄：上層看台偏暗、布置打開的日子地板上沒有椅子／舞台的影子
+# gym_arena：場地 x −22～22、z −22～17；南看台入口通道 x −2～2、z 17～27.2；上層看台 4、5 樓 y 7.6～12.1（z 前緣 32.6）；8/31 開學典禮布置（SET_CEREMONY）
+ARENA_CAMS = [('entry', (0.0, 1.8, 18.6), (0.0, 1.4, -16.0)), ('east_stand', (19.5, 4.8, 8.0), (-12.0, 1.0, -10.0)), ('upper_stand', (0.0, 1.7, -6.0), (0.0, 9.5, 30.0))]
+GYM_SETS = [('gym', '體育館 1F', GYM_CAMS, (('2025-10-15', 14.0, '1400'), ('2025-10-15', 20.5, '2030'))),
+            ('gym_arena', '3F 主球場', ARENA_CAMS, (('2025-10-15', 14.0, '1400'), ('2025-10-15', 20.5, '2030'), ('2025-08-31', 14.0, 'cer1400')))]
+
+
 async def gymlm(pg, cdp, run):
     rows = []
-    for hh, tg in ((14.0, '1400'), (20.5, '2030')):
-        st, d = await P.base(pg, SAVE, '2025-10-15', hh, 'gym'); await P.load(pg, cdp, st)
-        run.setup('[前置] 使用者存檔改到 %s %s 體育館大廳（出生點）' % (d['key'], tg))
+    for zone, nm, cams, times in GYM_SETS:
+      for key0, hh, tg in times:
+        st, d = await P.base(pg, SAVE, key0, hh, zone); await P.load(pg, cdp, st)
+        run.setup('[前置] 使用者存檔改到 %s %s %s（出生點）' % (d['key'], tg, nm))
         for _ in range(80):
-            if await pg.evaluate("GAME.G.zone==='gym'&&!!GAME.E.zone&&!!(GAME.E.zone.formal||GAME.E.zone.formalInfo)"): break
+            if await pg.evaluate("GAME.G.zone===%s&&!!GAME.E.zone&&!!(GAME.E.zone.formal||GAME.E.zone.formalInfo)" % J(zone)): break
             await pg.wait_for_timeout(500)
-        await pg.wait_for_timeout(3000); ck = await pg.evaluate(GT_CHK); run.note('%s 體育館：%s' % (tg, J(ck)))
-        run.check('%s 體育館 1F：正式模型、有烘焙光照（lightMap）、沒有純黑（#000000）材質' % tg, ck['zone'] == 'gym' and ck['formal'] and ck['lm'] > 0 and not ck['black'], J(ck))
+        await pg.wait_for_timeout(3000); ck = await pg.evaluate(GT_CHK); ck['cer'] = await pg.evaluate("!!(GAME.E.zone&&GAME.E.zone.ceremonyOn)"); run.note('%s %s：%s' % (tg, nm, J(ck)))
+        run.check('%s %s：正式模型、有烘焙光照（lightMap）、沒有純黑（#000000）材質' % (tg, nm), ck['zone'] == zone and ck['formal'] and ck['lm'] > 0 and not ck['black'], J(ck))
         await pg.evaluate("(()=>{ GAME.E.player.obj.visible=false; })()"); home = await pg.evaluate("(()=>{ const o=GAME.E.player.obj.position; return [o.x,o.z]; })()")
-        for key, e, lk in GYM_CAMS:
+        for key, e, lk in cams:
+            key = ('' if zone == 'gym' else 'arena_') + key
             await pg.evaluate("((p,l)=>{ const E=GAME.E; E.cinematic(new THREE.Vector3(...p),new THREE.Vector3(...l)); E.camera.position.set(...p); E.cam.look=new THREE.Vector3(...l); E.camera.lookAt(E.cam.look); })(%s,%s)" % (J(list(e)), J(list(lk))))
             await pg.wait_for_timeout(3500); f = await shot_path(run, pg, 'gym_%s_%s' % (tg, key))
             whole = lum_stats(f) if f else {'err': 'no file'}; col = col_stats(f) if f else {'err': 'no file'}; con = contrast(f) if f else {}
             rows.append((tg, key, whole, col, con)); run.note('%s %s：%s %s 明暗差 %s' % (tg, key, J(whole), J(col), J(con)))
         await pg.evaluate("(()=>{ const E=GAME.E; E.player.obj.visible=true; if(E.endCinematic) E.endCinematic(); })()")
     run.note('體育館 RGB（中間區域平均、偏暖 R−B、最亮 5%%）：%s' % J([(r[0], r[1], r[3].get('rgb'), r[3].get('warm'), r[3].get('bright')) for r in rows])[:3000])
-    run.check('體育館固定鏡頭 %d 張都拍得到' % (2 * len(GYM_CAMS)), len(rows) == 2 * len(GYM_CAMS) and all('err' not in r[2] for r in rows), J([(r[0], r[1], r[2].get('err')) for r in rows]))
+    nwant = sum(len(c) * len(t) for _, _, c, t in GYM_SETS)
+    run.check('體育館 1F＋3F 固定鏡頭 %d 張都拍得到' % nwant, len(rows) == nwant and all('err' not in r[2] for r in rows), J([(r[0], r[1], r[2].get('err')) for r in rows]))
     bad = [r[:3] for r in rows if r[2].get('dark', 1) > 0.25 or r[2].get('white', 1) > 0.15]
-    run.check('大廳、球場每張：沒有整片純黑（黑 <12 不超過 25%%）、死白（>248）不超過 15%%（往 B1 樓梯另外列，LAWWW2 已知偏暗）', not [b for b in bad if b[1] != 'b1_stair'], J(bad))
+    run.check('大廳、球場、3F 每張：沒有整片純黑（黑 <12 不超過 25%%）、死白（>248）不超過 15%%（往 B1 樓梯、3F 上層看台另外列，LAWWW2 已知偏暗）', not [b for b in bad if b[1] not in ('b1_stair', 'arena_upper_stand')], J(bad))
+    run.note('3F 上層看台（LAWWW2 已知偏暗，只記）：%s' % J([(r[0], r[2], r[3].get('rgb')) for r in rows if r[1] == 'arena_upper_stand']))
     run.note('往 B1 樓梯（LAWWW2 已知下半段很暗，量給 LAWWW-B 定）：%s' % J([(r[0], r[2], r[3].get('rgb')) for r in rows if r[1] == 'b1_stair']))
 
 
