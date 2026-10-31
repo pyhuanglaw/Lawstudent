@@ -926,7 +926,7 @@ def shallow_interior(spec, xf, iw, gz, ih, bright=0.62):
             for sz in (-0.5, 0.5):
                 vb(tx - 0.2, tx + 0.2, y0 + 0.43, y0 + 0.47, tz + sz - 0.2, tz + sz + 0.2, '#a07850', r=0.012); vb(tx - 0.19, tx + 0.19, y0 + 0.7, y0 + 0.86, tz + sz + (0.2 if sz > 0 else -0.23), tz + sz + (0.23 if sz > 0 else -0.2), '#a07850', r=0.008)
             acc(SK['lamp']).sphere(xf.p(tx, y0 + 1.95, tz), 0.06, seg=8, rings=5); xf_cyl(cp('#2a2a2c'), xf, (tx, yt, tz), (tx, y0 + 2.0, tz), 0.004, seg=4)
-            _lathe(cp('#2a2a2c'), xf, [(0.02, 0.16), (0.04, 0.14), (0.14, 0.0), (0.15, 0.0)], tx, y0 + 1.97, tz, seg=14)
+            _lathe(cp('#2a2a2c'), xf, [(0.15, 0.0), (0.14, 0.0), (0.04, 0.14), (0.02, 0.16)], tx, y0 + 1.97, tz, seg=14)   # 輪廓由下往上（ART-LAMPSHADE-FLIP-1027：原本由上往下＝裡外相反；部署的 wenzhou_street.glb 用 glb_flip_insideout.py 修過）
         vb(-iw / 2 + 0.4, iw / 2 - 0.4, y0, y0 + 0.95, zb, zb + 0.55, '#5a3c28', r=0.015); vb(-iw / 2 + 0.35, iw / 2 - 0.35, y0 + 0.95, y0 + 0.99, zb, zb + 0.6, '#b48a5e', r=0.01)
         vb(0.4, 0.95, y0 + 0.99, y0 + 1.4, zb + 0.05, zb + 0.5, '#b9bdc0', r=0.03)
         uvq(f'sk_in_board_{pid}', in_mat('board'), xf, [(-1.6, 1.55, zb + 0.01), (0.2, 1.55, zb + 0.01), (0.2, 2.15, zb + 0.01), (-1.6, 2.15, zb + 0.01)], (0, 0, 1, 1))
