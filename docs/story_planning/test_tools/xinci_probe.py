@@ -114,9 +114,9 @@ async def wait_for(pg, cdp, run, cond, max_s=400, picks=None, go=(), label='', s
     """時間照走（不跳過時間），遇到對話、選項照 pick_idx 點，直到 cond（JS）成立"""
     t0 = time.time(); ch = []; shot = False
     while time.time() - t0 < max_s:
-        if await pg.evaluate(cond): return True, ch
-        if await phone_open(pg): await L.phone_away(pg, cdp); continue
         s = await L.state(pg)
+        if await pg.evaluate(cond) and not (s['dlg'] or s['choices'] or s['busy']): return True, ch   # n25：done 可能在事件一開始就記，等對話演完才回
+        if await phone_open(pg): await L.phone_away(pg, cdp); continue
         if s['choices']:
             ops = await opts(pg)
             if ops:
@@ -378,8 +378,8 @@ async def go_class(pg, cdp, run, k, label):
 
 
 async def near_wait(pg, cdp, run, sid, ev, x, z, lv, picks, max_s=600, r=1.2):
-    await L.go_to(pg, cdp, run, x, z, r, sid, max_s=240, lv=lv)
-    n0 = await log_len(pg)
+    n0 = await log_len(pg)   # n25：先記再走（走近時事件可能就開始）；go_to 有對話就停，交給 wait_for 照 picks 選
+    await L.go_to(pg, cdp, run, x, z, r, sid, max_s=240, lv=lv, stop=lambda s: s['dlg'] or s['choices'])
     ok, ch = await wait_for(pg, cdp, run, DONE + "('%s')" % ev, max_s=max_s, picks=picks, label=sid)
     lg = await log_since(pg, n0); return ok, ch, texts(lg), caps(lg), choice_sets(lg)
 
@@ -393,8 +393,18 @@ async def report(pg, run, sid, res, T, CS, C=None):
 @guard
 async def s_day1(p, run, base, sid, out):
     res = out.setdefault(sid, {})
-    b, pg, cdp, errs, r = await launch(p, run, base, '2025-09-01', 8.6, 'campus', quiet=False, label=sid + '（大一上第 1 週週一 08:36 校園；事件系統開著）')
+    # n25：使用者存檔是舊開局（主線第一天＝第三週），9/1 沒有課（CLS.dayItems 空、STORY.week1Start false），「第一排」只有新開局才有
+    b, ctx, pg, cdp, errs = await L.launch(p, landscape=True)
     try:
+        await pg.goto(URL); await L.wait_loaded(pg); await pg.evaluate("localStorage.clear()"); await pg.goto(URL); await L.wait_loaded(pg); await pg.wait_for_timeout(1500)
+        await L.tap(pg, cdp, '#btnNewLaw'); await pg.wait_for_timeout(4000)
+        st0 = await pg.evaluate("(()=>({title:!document.getElementById('titleScreen').classList.contains('hide'), stage:GAME.G&&GAME.G.stage, key:GAME.G&&CALENDAR.dateOf(GAME.G.day).key}))()")
+        run.check('%s：前置——標題「從法律系開始」真的開局' % sid, not st0['title'], J(st0))
+        snap = await pg.evaluate("()=>GAME.snapshot()"); d = await dayk(pg, '2025-09-01')
+        snap.update({'day': d, 'hour': 8.6, 'zone': 'campus', 'pos': None, 'weekday': await pg.evaluate("CALENDAR.dateOf(%d).wd%%7" % d)})
+        await L.load_state(pg, snap, quiet_events=False); await pg.wait_for_timeout(5000); await pg.evaluate(HOOK)
+        w1 = await pg.evaluate("(()=>({week1Start:STORY.week1Start?STORY.week1Start(GAME.G):null, key:CALENDAR.dateOf(GAME.G.day).key, h:+(+GAME.G.hour).toFixed(2)}))()")
+        run.setup('【前置】%s：新開局（%s）的進度直接跳到 2025-09-01 08:36 校園（中間幾天沒有照玩家走）；%s' % (sid, st0.get('key'), J(w1)))
         it = await pg.evaluate("(()=>{ const it=(CLS.dayItems(GAME.G)||[]).find(x=>x.c&&x.c.kind==='required'&&!x.exam); return it?{k:it.key, t0:it.t0, name:it.c.name}:null; })()"); res['class'] = it
         run.check('%s：前置——那一天第一堂必修（%s）' % (sid, J(it)), bool(it), J(it))
         if not it: return
@@ -418,7 +428,8 @@ async def s_copy(p, run, base, sid, out):
     res = out.setdefault(sid, {})
     b, pg, cdp, errs, r = await launch(p, run, base, '2026-04-08', 12.2, 'library_hall', rels={AN: 'FAMILIAR', XC: 'FAMILIAR'}, quiet=False, label=sid + '（大一下第 7 週週三 12:12 總圖大廳；認識以安、芯慈）')
     try:
-        await L.go_to(pg, cdp, run, 10.35, 3.2, 0.8, '影印機旁', max_s=240, lv=0)
+        n0 = await log_len(pg)
+        await L.go_to(pg, cdp, run, 10.35, 3.2, 0.8, '影印機旁', max_s=240, lv=0, stop=lambda s: s['dlg'] or s['choices'])   # n25：沒給 stop 時 go_to 自動點掉對話、選第一個
         pos = await pg.evaluate("(()=>{ const P=GAME.E.player; return {x:+P.obj.position.x.toFixed(2), z:+P.obj.position.z.toFixed(2), lv:P.lv|0, bound:!!(SUP497.bind&&SUP497.bind()), due:!!(SUP497.copyDue&&SUP497.copyDue(GAME.G)), h:+(+GAME.G.hour).toFixed(2)}; })()")
         res['pos'] = pos; say('   %s 站到影印機旁：%s' % (sid, J(pos)))
         if sid == 'COPY_REAL':
@@ -430,7 +441,6 @@ async def s_copy(p, run, base, sid, out):
         # 890f8f3f7 起（BUG-SUP497-BIND-1030）沒有 GMr 時用 GAME.E：不再 SUP497.bind，照玩家站著等；XC_BIND=1 才用舊捷徑
         if os.environ.get('XC_BIND') == '1':
             run.setup('【捷徑】SUP497.bind(GAME)'); await pg.evaluate("SUP497.bind(GAME)")
-        n0 = await log_len(pg)
         ok, ch = await wait_for(pg, cdp, run, DONE + "('ev_xc_copy')", max_s=300, picks=[COPYP[sid]], label=sid)
         lg = await log_since(pg, n0); T = texts(lg); CS = choice_sets(lg); await report(pg, run, sid, res, T, CS, caps(lg))
         run.check('%s：不做捷徑、站在影印機旁等，演「影印機」' % sid, ok, J({'pos': pos, 'ch': ch[-2:]}))
@@ -461,8 +471,9 @@ async def s_elev(p, run, base, sid, out):
         if sid == 'ELEV_DONE':
             await pg.evaluate("SUP497.acceptElev(GAME)"); run.setup('【前置】SUP497.acceptElev(GAME)：順手的事「電梯」已答應（期限這一週週五）；%s' % J(await pg.evaluate(ELEVQ)))
         bound = await pg.evaluate("!!SUP497.bind()"); run.note('%s：讀檔以後有沒有人 bind（應該沒有）：%s' % (sid, bound))
-        await L.go_to(pg, cdp, run, 4.6, -4.4, 0.6, '一樓電梯前', max_s=200, lv=0)
-        n0 = await log_len(pg); evid = 'ev_yc_elev_ask' if sid == 'ELEV_ASK' else 'ev_yc_elev_done'
+        n0 = await log_len(pg)
+        await L.go_to(pg, cdp, run, 4.6, -4.4, 0.6, '一樓電梯前', max_s=200, lv=0, stop=lambda s: s['dlg'] or s['choices'])
+        evid = 'ev_yc_elev_ask' if sid == 'ELEV_ASK' else 'ev_yc_elev_done'
         ok, ch = await wait_for(pg, cdp, run, DONE + "('%s')" % evid, max_s=900 if sid == 'ELEV_DONE' else 300, picks=[ELEV_OPTS[0]], label=sid)
         lg = await log_since(pg, n0); T = texts(lg); CS = choice_sets(lg); await report(pg, run, sid, res, T, CS)
         q = await pg.evaluate(ELEVQ); fl = await pg.evaluate("GAME.G.flags.YC_ELEVATOR||null"); st = await pg.evaluate(STATE)
