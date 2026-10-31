@@ -4641,7 +4641,7 @@
    "sha": "(這一次 commit)",
    "noDirectIntegrate": false,
    "receiver": "LAWWW",
-   "ack": "SENT",
+   "ack": "ACTIONED（LAWWW-B 09:07 整合 d5bfed485；普通北窗先不改、列進使用者美術清單）",
    "task": "INTERIOR-AAA-REVIEW-1028：便利商店（日日便利）室內光照烘焙＋普通 101 北窗判斷",
    "files": [
     "assets/models/env/second_ai/cvs_interior.glb",
