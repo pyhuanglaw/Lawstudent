@@ -1171,6 +1171,42 @@ async def roomlm(pg, cdp, run):
               len(rows) == 2 * 2 * 7 and not bad, J(bad))
 
 
+# ART-ECON-3D-GAP-1021 A：共同教學館室內正式模型（LAWWW2 c1a2026b4，c3a8aded9 接上）——經濟系那一年上課的 101（長桌＋翻椅、階梯）、走廊、樓梯、二樓走廊；白天 14:00、晚上 20:30
+GT_CAMS = [('101_back', (7.8, 3.4, -6.4), (7.8, 1.0, 6.5)), ('101_stage', (7.8, 1.8, 6.3), (7.8, 1.3, -5.5)), ('101_seats', (5.0, 2.4, 1.6), (8.8, 0.9, -1.8)),
+           ('hall_1f', (-11.0, 1.7, 3.2), (3.4, 1.3, 3.2)), ('stair', (-1.6, 1.8, 2.2), (-2.6, 2.2, -4.8)), ('hall_2f', (-11.0, 5.9, 2.0), (11.0, 5.6, 2.0))]
+GT_CHK = """(()=>{ const E=GAME.E, Z=E.zone; let lm=0, mesh=0, dark=[], names={}; E.scene.traverse(o=>{ if(!o.isMesh||!o.visible) return; mesh++; const ms=Array.isArray(o.material)?o.material:[o.material];
+    if(ms.some(m=>m&&m.lightMap)) lm++; for(const m of ms){ if(m&&m.color&&m.color.getHex()===0) dark.push(o.name||m.name); } });
+  const F=Z&&Z.seatFold; return {zone:GAME.G.zone, formal:!!(Z&&(Z.formal||Z.formalInfo)), lmInfo:!!(Z&&Z.formalInfo&&Z.formalInfo.lightmapped), lm, mesh, black:[...new Set(dark)].slice(0,8), fold:!!F, h:+(+GAME.G.hour).toFixed(2)}; })()"""
+
+
+async def gtlm(pg, cdp, run):
+    rows = []
+    for hh, tg in ((14.0, '1400'), (20.5, '2030')):
+        st, d = await P.base(pg, SAVE, '2025-10-15', hh, 'gongtong'); await P.load(pg, cdp, st)
+        run.setup('[前置] 使用者存檔改到 %s %s 共同教學館（出生點）' % (d['key'], tg))
+        for _ in range(80):
+            if await pg.evaluate("GAME.G.zone==='gongtong'&&!!GAME.E.zone&&!!(GAME.E.zone.formal||GAME.E.zone.formalInfo)"): break
+            await pg.wait_for_timeout(500)
+        await pg.wait_for_timeout(3000); ck = await pg.evaluate(GT_CHK); run.note('%s 共同教學館：%s' % (tg, J(ck)))
+        run.check('%s 共同教學館：正式模型、沒有純黑（#000000）材質' % tg, ck['zone'] == 'gongtong' and ck['formal'] and not ck['black'], J(ck))
+        await pg.evaluate("(()=>{ GAME.E.player.obj.visible=false; })()")
+        for key, e, lk in GT_CAMS:
+            await pg.evaluate("((p,l)=>{ const E=GAME.E; E.cinematic(new THREE.Vector3(...p),new THREE.Vector3(...l)); E.camera.position.set(...p); E.cam.look=new THREE.Vector3(...l); E.camera.lookAt(E.cam.look); })(%s,%s)" % (J(list(e)), J(list(lk))))
+            await pg.wait_for_timeout(3500); f = await shot_path(run, pg, 'gongtong_%s_%s' % (tg, key))
+            whole = lum_stats(f) if f else {'err': 'no file'}; rows.append((tg, key, whole)); run.note('%s %s：%s' % (tg, key, J(whole)))
+        await pg.evaluate("(()=>{ const E=GAME.E; E.player.obj.visible=true; if(E.endCinematic) E.endCinematic(); })()")
+    bad = [r for r in rows if r[2].get('dark', 1) > 0.25 or r[2].get('white', 1) > 0.15]
+    run.check('共同教學館固定鏡頭 %d 張：黑（<12）不超過 25%%、死白（>248）不超過 15%%（翻椅、長桌、樓梯、接縫看截圖）' % len(rows), len(rows) == 2 * len(GT_CAMS) and not bad, J(bad))
+    # 走進 101、坐下、起身（玩家）
+    seats = await pg.evaluate("""(()=>{ const E=GAME.E; return E.interactables.filter(i=>i.seat&&(i.seat.room==='101'||(i.x>3.6&&i.z<6.9))).slice(0,3).map(i=>{ const a=GAME.seatApproach?GAME.seatApproach(i.seat):null; return {x:i.x,z:i.z,label:i.label,ap:a?[a[0],a[1]]:null}; }); })()""")
+    run.note('101 的座位（前三個）：%s' % J(seats))
+    if seats and seats[0]['ap']:
+        q = seats[0]; await L.go_to(pg, cdp, run, q['ap'][0], q['ap'][1], 0.35, '101 座位旁邊', max_s=180, stop=lambda s: s['interact'] == q['label'])
+        lab = (await P.ts(pg))['lab']; await L.tap(pg, cdp, '#interact'); await pg.wait_for_timeout(2500)
+        sat = await pg.evaluate("!!(GAME.E.player.seat||GAME.E.player.pose==='sit')"); await run.shot(pg, 'gongtong_101_sit')
+        run.check('共同教學館 101：按「%s」坐得下' % lab, bool(lab) and sat, J({'lab': lab, 'sat': sat}))
+
+
 async def boyab4(pg, cdp, run):
     # 法律系 B4 演講（大一下第 11 週週四 19:00 博思 101，ACTIVITIES B4）：預設流程裡看得到博思 101 的地方（LAWWW-B 16:04）。手機「今天」按去聽
     d = await pg.evaluate("(()=>{ const T=CALENDAR.TERMS.find(t=>t.id==='Y1S2'); const a=STORY.dayOfKey(T.start); let d=a+10*7; while(CALENDAR.dateOf(d).wd!==4) d++; return CALENDAR.dateOf(d).key; })()")
@@ -1222,7 +1258,7 @@ async def main():
             b, ctx, pg, cdp, errs = await L.launch(p, landscape=(VP != 'portrait'))
         pg.on('dialog', lambda d: asyncio.ensure_future(d.accept()))
         await pg.goto(URL); run.check('遊戲載入', await L.wait_loaded(pg)); await pg.evaluate("localStorage.clear()"); await P.init(pg)
-        await {'phone': phone, 'bball': bball, 'rooms': rooms, 'cafewin': cafewin, 'noodle': noodle, 'cafe2': cafe2, 'invite': invite, 'jacket': jacket, 'badclip': badclip, 'bigmap': bigmap, 'bballrain': bballrain, 'renart': renart, 'libla': libla, 'lawlib': lawlib, 'cafe2diag': cafe2diag, 'multiroom': multiroom, 'rtnight': rtnight, 'boya': boya, 'boyaecon': boyaecon, 'boyab4': boyab4, 'soclm': soclm, 'noodlm': noodlm, 'lhlm': lhlm, 'roomlm': roomlm}[MODE](pg, cdp, run)
+        await {'phone': phone, 'bball': bball, 'rooms': rooms, 'cafewin': cafewin, 'noodle': noodle, 'cafe2': cafe2, 'invite': invite, 'jacket': jacket, 'badclip': badclip, 'bigmap': bigmap, 'bballrain': bballrain, 'renart': renart, 'libla': libla, 'lawlib': lawlib, 'cafe2diag': cafe2diag, 'multiroom': multiroom, 'rtnight': rtnight, 'boya': boya, 'boyaecon': boyaecon, 'boyab4': boyab4, 'soclm': soclm, 'noodlm': noodlm, 'lhlm': lhlm, 'roomlm': roomlm, 'gtlm': gtlm}[MODE](pg, cdp, run)
         run.check('沒有 JS 例外', not errs, J(errs[:3]))
         print('SHA', os.environ.get('SHA', '?'), 'MODE', MODE)
         await b.close()

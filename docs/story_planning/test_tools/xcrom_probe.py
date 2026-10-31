@@ -444,10 +444,22 @@ async def te_dinner(pg, cdp, run, sid, res, term, din_key, picks, label=''):
     ok, ch = await wait_for(pg, cdp, run, "!!(%s)('%s').result" % (TE_RES, term), max_s=900, picks=picks + ['「那天有約了。」'], go=('出發：學期末的飯',), label=label or sid)
     lg = await log_since(pg, n0); T = texts(lg); CS = choice_sets(lg)
     res['te'] = await pg.evaluate(TE_RES + "('%s')" % term); res['xc'] = await pg.evaluate(XCSTATE)
+    # c3a8aded9 TERMEND.teBusy：兩頓期末飯不排同一晚（TE_TELL＝和子晴交往中，子晴的期末約也在這個時段）
+    tes = await pg.evaluate("(()=>(GAME.G.outings||[]).filter(o=>o&&/^te_/.test(o.id||'')).map(o=>({id:o.id, day:CALENDAR.dateOf(o.day).key, h:o.h, state:o.state||null})))()")
+    res['te_outings'] = tes; days = [t['day'] for t in tes]
+    run.check('%s：期末飯（te_ 出遊）沒有兩頓排在同一晚' % sid, len(days) == len(set(days)), J(tes))
     run.check('%s：%s 期末飯演完、回家的路上有結果（%s）' % (sid, din_key, J(res['te'].get('result'))), ok, J(ch[-3:], 600))
     gos = [o for c in CS for o in c if o.startswith('出發：學期末的飯')]; res['go_opt'] = gos[:1]
-    narr = [t for t in T if t.startswith('（')]; res['open_close'] = [narr[:1], [t for t in narr if '餐盤' in t or '回收' in t][:1]]
-    run.note('%s【已知，不算 FAIL】巷口家常菜的開場旁白、底圖還是簡餐店那一套（等 AA 寫）：開場 %s；收尾 %s' % (sid, J(res['open_close'][0]), J(res['open_close'][1])))
+    narr = [t for t in T if t.startswith('（')]; res['open_close'] = [narr[:1], narr[-3:]]
+    # c3a8aded9（AA_537b 8-4）：PLACE.l118_home——開場、收尾旁白、字幕「巷口家常菜」；收尾在回家路上之前
+    OPEN_L, CLOSE_L = '（傍晚的巷口家常菜。菜擺在玻璃櫃裡，用手指一指，老闆娘就幫你夾。）', '（老闆娘開始收玻璃櫃裡的菜。你們走出巷口，路燈剛亮。）'
+    cp = [x['t'] for x in lg if x.get('n') == '［字幕］']; res['captions'] = cp[:6]
+    seq = [x['t'] for x in lg]   # 含字幕、選項：比收尾和「羅斯福路・往公館站」（回家路上的字幕或旁白）誰先
+    io, ic = (seq.index(OPEN_L) if OPEN_L in seq else -1), (seq.index(CLOSE_L) if CLOSE_L in seq else -1)
+    iw = next((k for k, t in enumerate(seq) if '羅斯福路' in t or '公館站' in t), -1)
+    run.check('%s：巷口家常菜開場「%s」、收尾「%s」，收尾在回家路上之前；字幕「巷口家常菜」' % (sid, OPEN_L, CLOSE_L),
+              io >= 0 and ic > io and iw > ic and any('巷口家常菜' in c for c in cp) and not any('簡餐店' in t for t in T),
+              J({'open': io, 'close': ic, 'walk': iw, 'caps': cp[:4], 'narr': narr[:3]}, 800))
     run.check('%s：出發的選項「出發：學期末的飯：（芯慈）（巷口家常菜）」' % sid, any('芯慈' in o and '巷口家常菜' in o for o in gos), J(CS[:2]))
     return lg, T, CS
 
