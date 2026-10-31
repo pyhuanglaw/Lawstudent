@@ -1,6 +1,6 @@
 # 歷史待辦複核報告（工具產生，不要手改）
 
-- 產生：`tools/handoff/history_audit.py`；開發分支 HEAD `cdb729d59104`、main `271cd2305892`
+- 產生：`tools/handoff/history_audit.py`；開發分支 HEAD `43e5f1b88b5b`、main `271cd2305892`
 - 七類定義與判定規則：同資料夾 README.md。auto＝工具自動判定（只看總表狀態、程式識別字在不在 main、BB 實測紀錄有沒有 PASS），還沒有人工看過；人工判定寫進 judgments_<職位>.jsonl 以後改成人工。
 - BB 實際操作證據來源：elegant-brown-fcos7n:BB_218_瀏覽器實測紀錄.md、wonderful-mayer-7fm9g6:BB_218_瀏覽器實測紀錄.md、story-planning:BB_218_瀏覽器實測紀錄.md、BB 分支 test_shots/*.log 64 個
 

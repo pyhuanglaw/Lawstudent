@@ -5,6 +5,7 @@
   python3 tools/handoff/history_audit.py            # 重算，寫 docs/handoff/history_audit/ledger.json、REPORT.md
   python3 tools/handoff/history_audit.py --print    # 只印摘要，不寫檔
   python3 tools/handoff/history_audit.py --id X     # 印一項的完整證據
+  python3 tools/handoff/history_audit.py --bb-batches  # 重產 BB 補驗批次表 bb_batches.md（總表裡所有「已整合待測試」，照 BB 10-27 十二段流程分組）
 
 讀：docs/handoff/audit_1021/out_*.jsonl（10/21 稽核原始結果）、tasks.json、deliveries.json、
     origin/main 與目前 HEAD 的 src/、tests/（找得到哪些事件 ID、函式、檔案）、
@@ -319,6 +320,64 @@ def judge(rec, T, D_by_task, repo):
     }
 
 
+FLOW_ORDER = ['②', '②＋大一上', '③', '④', '①', '⑩Y1S1', '⑩Y1S2', '⑩Y2S1', '⑩Y2S2', '⑩Y3S1', '⑩Y3S2', '⑩Y4S1', '⑩Y4S2', '⑧', '⑦', '⑨', '⑪', '⑫', '⑤', '⑥']
+FLOW_NAME = {'①': '新遊戲「從法律系開始」→ 宿營 → 8/29 搬宿舍 → 主線第 1、2 天 → 大一上第 1～3 週', '②': '新遊戲「從經濟系前傳開始」一路玩到 8/29 搬進法律系', '②＋大一上': '② 的存檔接著玩法律系大一上第 1～7 週（經濟系回聲）',
+             '③': '寒暑假（大一～大四每個寒暑假，含除夕、成績單、假期活動、搬房間）', '④': '美國交換整學期（交往中／挽回中／單身）', '⑤': '日本路線整學期', '⑥': '畢業以後（大五延畢／國考／PG／尾聲）',
+             '⑦': '某位女主角戀愛線：認識 → 熟悉 → 約會 → 告白 → 交往後', '⑧': '一個學期的上課＋期中期末考', '⑨': '約會地點逐處（D01～D32）', '⑪': '街區與店家巡迴', '⑫': '場景與座位巡檢（四方向鏡頭、座位、樓梯、晝夜、直向）'}
+TERM_FLOW = {'Y0S1': '②', 'Y0S2': '②', 'Y1S1': '⑩Y1S1', 'Y1S2': '⑩Y1S2', 'Y2S1': '⑩Y2S1', 'Y2S2': '⑩Y2S2', 'Y3S1': '⑩Y3S1', 'Y3S2': '⑩Y3S2', 'Y4S1': '⑩Y4S1', 'Y4S2': '⑩Y4S2'}
+
+
+def bb_batches(repo, T):
+    """總表所有「已整合待測試」照 BB 10-27 盤點的流程分組；10-27 以後才有的照 first.term 歸到那學期的巡迴（D99：經濟系 → 寒暑假 → 美國先）。"""
+    groups = collections.defaultdict(list)
+    for t in T.values():
+        if t.get('status') != '已整合待測試':
+            continue
+        tri = repo.triage.get(t['id'])
+        if tri and tri['cat'] == 'B' and tri['flow']:
+            g = tri['flow']
+        elif tri and tri['cat'] == 'C':
+            g = 'C'
+        elif tri and tri['cat'] == 'D':
+            g = 'D'
+        else:
+            title = t.get('title', '') + ' ' + t.get('next', '')[:200]
+            term = (t.get('first') or {}).get('term', '')
+            if re.search(r'寒暑假|寒假|暑假|除夕|過年|VAC', t['id'] + title):
+                g = '③'
+            elif re.search(r'美國|US-|\bUS\b', t['id'] + title):
+                g = '④'
+            elif t.get('owner') == 'LAWWW2' or t['id'].startswith(('ART-', 'CAM-', 'PERF-', 'LM-', 'NAV-')):
+                g = '⑫'
+            else:
+                g = TERM_FLOW.get(term, '新（沒有學期）')
+            g = '新：' + g
+        groups[g].append(t)
+    order = []
+    for f in FLOW_ORDER:
+        order += [f, '新：' + f]
+    order += ['C', '新：新（沒有學期）', 'D']
+    out = ['# BB 補驗批次表（工具產生：`python3 tools/handoff/history_audit.py --bb-batches`，不要手改）', '',
+           '- 來源：總表 `tasks.json` 裡所有「已整合待測試」。分組沿用 BB-C 10-27 的 `BB_INTEGRATED_TRIAGE_1027`（十二段流程）；10-27 以後才整合的標「新：」，照任務的學期、主題歸組。',
+           '- 順序照 D99（經濟系 → 寒暑假 → 美國）再照玩家遇到的時間（D81）。一段流程玩一次，涵蓋那一組全部；組裡個別項目沒演到的，在 judgments_BB.jsonl 寫 tier 2＋原因。',
+           '- 每批結果：BB 分支 `docs/handoff/history_audit/judgments_BB.jsonl`（一行一項；bb 欄寫 BB_218 行號＋截圖）。玩過 PASS → LAWWW 改總表「已驗收」。',
+           '- C＝條件特殊要單獨測；D＝不是 BB 能驗（場景美術給使用者看、文件、工具、已退場）——D 由 LAWWW 另外處理，不排給 BB。', '']
+    total = 0
+    for g in order:
+        rows = groups.get(g)
+        if not rows:
+            continue
+        total += len(rows)
+        base = g.replace('新：', '')
+        name = ('學期劇情巡迴：讀檔到該學期第 1 週（主要人物朋友以上、群組都在、可昕交往中），每週照作息到 Café、總圖、麵店、法律系館、溫州街走一圈，手機要回的都回' if base.startswith('⑩') else '') or FLOW_NAME.get(base, {'C': '要單獨測（條件特殊）', 'D': '不是 BB 能驗的', '新（沒有學期）': '沒有學期資料的新項目'}.get(base, ''))
+        pri = collections.Counter(r.get('priority') for r in rows)
+        out += ['', f'## {g}　{name}（{len(rows)} 項；' + '、'.join(f'{k} {pri[k]}' for k in ('P0', 'P1', 'P2', 'P3') if pri[k]) + '）', '']
+        for r in sorted(rows, key=lambda r: (r.get('priority') or 'P9', r['id'])):
+            out.append(f"- `{r['id']}`（{r.get('priority') or '—'}、{r.get('owner')}）{r.get('title', '')[:90]}")
+    out.insert(6, f'- 合計 {total} 項。')
+    return '\n'.join(out) + '\n'
+
+
 def main():
     args = sys.argv[1:]
     repo = Repo()
@@ -333,6 +392,10 @@ def main():
         for r in jl(os.path.join(AUDIT, f + '.jsonl')):
             r['_src'] = src
             recs.append(r)
+    if '--bb-batches' in args:
+        open(os.path.join(OUT, 'bb_batches.md'), 'w', encoding='utf-8').write(bb_batches(repo, T))
+        print('寫了 bb_batches.md')
+        return
     J = load_judgments()
     ledger = []
     for r in recs:
