@@ -1,16 +1,16 @@
 # 歷史待辦複核報告（工具產生，不要手改）
 
-- 產生：`tools/handoff/history_audit.py`；開發分支 HEAD `825229ae526d`、main `271cd2305892`
+- 產生：`tools/handoff/history_audit.py`；開發分支 HEAD `9568a47859f0`、main `271cd2305892`
 - 七類定義與判定規則：同資料夾 README.md。auto＝工具自動判定（只看總表狀態、程式識別字在不在 main、BB 實測紀錄有沒有 PASS），還沒有人工看過；人工判定寫進 judgments_<職位>.jsonl 以後改成人工。
 - BB 實際操作證據來源：elegant-brown-fcos7n:BB_218_瀏覽器實測紀錄.md、wonderful-mayer-7fm9g6:BB_218_瀏覽器實測紀錄.md、story-planning:BB_218_瀏覽器實測紀錄.md、BB 分支 test_shots/*.log 64 個
 
 ## 摘要
 
-- 10/21 稽核 B 段 263 項（重算）：1 正式版已完成且實際驗收 14、2 已實作但尚未實際驗收 204、4 部分完成 18、5 完全未開工 5、6 等待素材或使用者決定 3、7 經確認取消或被取代 19
+- 10/21 稽核 B 段 263 項（重算）：1 正式版已完成且實際驗收 14、2 已實作但尚未實際驗收 204、4 部分完成 17、5 完全未開工 5、6 等待素材或使用者決定 4、7 經確認取消或被取代 19
 - 其中原本 done 的 133 項：tier 1 6、tier 2 126、tier 4 1
 - 原本 done、證據在開發分支找不到（要人工查）：0
 - 原本 done、main 狀態：{'yes': 133}
-- 各職位另外查到的 432 項（企劃、美術、交付；以各職位的人工判定為準）：2 已實作但尚未實際驗收 354、3 已驗收但尚未發布 5、4 部分完成 21、5 完全未開工 5、6 等待素材或使用者決定 4、7 經確認取消或被取代 43
+- 各職位另外查到的 624 項（企劃、美術、交付；以各職位的人工判定為準）：1 正式版已完成且實際驗收 5、2 已實作但尚未實際驗收 417、3 已驗收但尚未發布 5、4 部分完成 34、5 完全未開工 19、6 等待素材或使用者決定 89、7 經確認取消或被取代 55
 
 ## 10/21 判 done 的 133 項
 
@@ -234,13 +234,13 @@
 | V6-B1 | 2 已實作但尚未實際驗收（auto） | 已驗收 | yes | — | LAWWW | 總表：已驗收；沒有找到 BB 實際操作紀錄 |
 | V6-B4 | 2 已實作但尚未實際驗收（auto） | 已整合待測試 | yes | — | LAWWW | 總表：已整合待測試；沒有找到 BB 實際操作紀錄；BB 盤點 C：要單獨測 |
 | V6-S4 | 2 已實作但尚未實際驗收（auto） | 已整合待測試 | yes | — | LAWWW | 總表：已整合待測試；沒有找到 BB 實際操作紀錄；BB 盤點 C：要單獨測 |
-| PERF-ZONE-ENTER-1018 | 4 部分完成（auto） | 進行中 | partial | elegant-brown-fcos7n:BB_218_瀏覽器實測紀錄.md:5386（mention） | LAWWW2 | 總表：進行中 |
 | ANIM-BENCH-SIT | 5 完全未開工（auto） | 待開工 | yes | — | LAWWW | 總表：待開工 |
 | BUG-04 | 5 完全未開工（auto） | 待開工 | unknown | elegant-brown-fcos7n:BB_218_瀏覽器實測紀錄.md:2625（mention） | LAWWW | 總表：待開工 |
 | SYS-19 | 5 完全未開工（auto） | 待開工 | yes | — | LAWWW | 總表：待開工 |
 | V6-B2 | 5 完全未開工（auto） | 待開工 | yes | — | LAWWW | 總表：待開工 |
 | V6-B5 | 5 完全未開工（auto） | 待開工 | yes | — | LAWWW | 總表：待開工 |
-| GRADE-GOLDEN-DEFAULT | 6 等待素材或使用者決定（auto） | 等待其他AI／素材 | yes | — | LAWWW2 | 總表：等待其他AI／素材 |
+| GRADE-GOLDEN-DEFAULT | 6 等待素材或使用者決定 | 等待其他AI／素材 | yes | — | LAWWW2 | 總表：等待其他AI／素材 |
+| PERF-ZONE-ENTER-1018 | 6 等待素材或使用者決定 | 進行中 | partial | elegant-brown-fcos7n:BB_218_瀏覽器實測紀錄.md:5386（mention） | LAWWW2 | 總表：進行中 |
 | REL-9102-POSTCHECK-1019 | 7 經確認取消或被取代（auto） | 取消／被取代 | yes | — | LAWWW | 取消依據：v9.10.3～v9.10.5 已發布、各自跑過發布前測試；剩下的 TESTING 第五節幾支併進 RELEASE-9106 的發布前清單（LAWWW 帳號 A 10-22 14:1x，D85） |
 
 ## 10/21 判 needs_aa 的 28 項
@@ -395,3 +395,133 @@
 |---|---|---|---|---|---|
 | AA_277 | 2 已實作但尚未實際驗收 | partial | LAWWW | CLAUDE.md 開發分支有 10 處過時標記（第 420 行 v9.7 後面「【過時（2026-10-30 LAWWW-B 更新）：線上是 v9.10.14…】」、第 439  | 下一次發布帶上；AA-B 第 5 批判 tier 5 是看漏了標記 |
 | AA_476#B-1 | 2 已實作但尚未實際驗收 | no | BB | 開發分支 9c84a54f9＋f32a11388：src/multirel3d.js 門鈴（bellNightOk／bellSecret／bellHint*／bellDue／zzB | BB 瀏覽器：同時和芷若、子晴交往（互不知道）→ 第 5 週週一和芷若說話聽到提示 → 週三 21:40 坐吧檯 → 門鈴＋CG → 隔天 19:30 攤牌 |
+
+## LAWWW2-B 另外查到的 192 項（不在 10/21 稽核 B 段）
+
+| ID | 現在 | main | 負責 | 證據 | 缺的／下一步 |
+|---|---|---|---|---|---|
+| ART-13 | 4 部分完成 | yes | LAWWW2 | tasks.json ART-13「待開工」已過時：wip.json WIP-L2-CHAR-SCRIPTS closedBy 55b67ccf——小語 bl_yu.vrm＋bag | 明軒模型（凍結中） |
+| ART-POLISH | 4 部分完成 | partial | LAWWW2 | tasks.json ART-POLISH 進行中 P1（總項）。已做：疊面修正（BUG-COPLANAR-DEV 已整合待測試）、色調映射 ACES→Neutral（ART-TO | 第 0 批基準截圖補齊；人物五官、臉型、2D 設定圖辨識度（使用者 10-17 05:0x 暫停人物修改、D99 凍結）；ART-WZ0 溫州街舊店面（使用者 10-17 05:0x 暫停） |
+| ART-PS-SKIRT-HAND | 4 部分完成 | yes | LAWWW2 | 手臂擺幅 patch：LAWWW2-C cfd0e566 → 開發 1a76beab2「沛珊走路、上樓梯手不再穿進長裙」（main 祖先）；膝蓋、小腿從裙子前面穿出來另成 WIP- | 平地走路膝蓋穿裙（WIP-L2-PS-SKIRT-LEG）沒修；BB 平地走路近拍沒做 |
+| ART-SOP | 4 部分完成 | no | LAWWW | 同 WIP-L2-SOP：ART_SOP.md、SCENE_RULES.md、sop_demo 只在 LAWWW2 分支（69e4b181、644a322f、5c6a0391），開 | 三份文件複製進開發分支後結案 |
+| BACKLOG-SWEEP-LAWWW2-1021 | 4 部分完成 | no | LAWWW | 清查報告 docs/art-rebuild/second_ai/BACKLOG_SWEEP_1021.md、SOURCE_FILES_1021.md 只在 LAWWW2 分支（fo | ①總表狀態沒結；②SOURCE_FILES 漏列被烘焙的支援 GLB 原檔（soy、wz7、park2、park3、tutor、us_*_props.glb），開發分支沒有；③兩份清查文件沒進開發分支；④ART-BALCONY-POTS 公 |
+| C24 | 4 部分完成 | partial | BB | 3D 人物線索：①博雅 101 披頭散髮（BUG-03）——坐著的替身第二版 0f4d8e03（LAWWW2-C 24923842）、頭頂白塊修正 cb83b62e2（LAWWW2 | BUG-03、BUG-04 都沒重現過；BUG-02 根因沒找到、沒有 iPhone 數字 |
+| I07 | 4 部分完成 | yes | LAWWW | 約會底圖：main 的 assets/bg 有 32 個 d*_base 檔（d15_base_night、d16_base_afternoon、d22_base_afternoo | DATE-S6 的 2D 疊圖模式（底圖上的熱區、人物圖層）沒做；人物圖層要 I08 的去背圖 |
+| PERF-CAMPUS-SHADOW-1020 | 4 部分完成 | yes | LAWWW2 | 影子閃 shadowSnap（src/engine3d.js:143-146）、晚上 2 秒重畫 ddfd1d5e、停著的腳踏車分區合併（LAWWW2 49b26ecb）、路人遠距 | 校園投影子物件 857、draw calls 516 的合併／不投影沒做完；真機沒量 |
+| WIP-L2-SOC-COURT-1021 | 4 部分完成 | no | LAWWW2 | wip.json：社科院中庭夜間光＋院系公告欄，tools/blender/env_second/campus_socsci.py 改了（2b4f2028）、GLB 沒重新匯出（r | 重新匯出 campus_socsci.glb＋疊面檢查、遊戲截圖、交 LAWWW 整合 |
+| WIP-L2-SOP（ART_SOP.md） | 4 部分完成 | no | LAWWW | docs/art-rebuild/second_ai/ART_SOP.md、SCENE_RULES.md、sop_demo 只在 LAWWW2 分支（69e4b181、644a32 | 三份文件複製進開發分支（D88：不要只存在一條分支） |
+| X79 | 4 部分完成 | yes | LAWWW2 | 影子閃：src/engine3d.js:143-146 shadowSnap、晚上陰影 2 秒重畫 ddfd1d5e（main）；白天校園卡：PERF-CAMPUS-DAY-102 | 白天校園卡頓只修了 shader 編譯那一段；投影物件、draw call 合併沒做完；沒有真機數字 |
+| claude/focused-cray-c9uwvw | 4 部分完成 | partial | LAWWW2 | 帳號 C LAWWW2 交班分支 4b1fcc458（10-28）：assets／src 缺開發分支的 119 個檔和 claude/second-ai-env-art 同一批（逐 | 上列 6 筆 WIP 各自判定（本檔其他行）；branch_audit 10-31 列「保留｜WIP 沒整合完」正確 |
+| claude/second-ai-env-art | 4 部分完成 | partial | LAWWW2 | 帳號 A LAWWW2 交接分支 ff339df10（10-22）：850 個 commit 不在開發分支／main（LAWWW 用 patch、複製整合，不是 merge）。逐檔 | 沒進遊戲的：約會去背 assets/date/（I08，等 DATE-S6）、video_far_*／old_school_playground（沒有戲用）、BG 第五版兩張（D99 凍結）；以 Blender 中間素材身分「烘進」其他模型 |
+| ART-BG-AA185（video_far_jp／video_far_us／old_school_playground） | 5 完全未開工 | no | BB | 三張 2D 背景只在 LAWWW2 分支（23456747、9442e59b）；開發分支、main 沒有；DL-LAWWW2-23456747「不整合：video_far_jp 沒 | 登記（做好沒接，因為沒有戲要用）；有戲要用時 BB 先看這三張能不能用，不重做 |
+| ART-JIAHAO-JOY | 5 完全未開工 | no | LAWWW2 | tasks.json 待開工；開發分支 log 沒有 ART-JIAHAO-JOY 的 commit；LAWWW2 BACKLOG_SWEEP_1021 B 節列為人物凍結（D99 | 登記，暫停中（人物凍結 D99） |
+| ART-LAMPSHADE-FLIP-1027 | 5 完全未開工 | no | LAWWW2 | tasks.json 待開工；開發分支只有 00fef3f22 一筆提到（登記），沒有修正 commit | 登記；LAWWW2 自己排（D111），不擋 |
+| ART-PHOTO-CMP-1021 | 5 完全未開工 | no | LAWWW2 | tasks.json 待開工；開發分支 log 沒有這個 ID 的 commit；沒有差異清單 | 登記；LAWWW2 有空時先列共同教學館、女舍和參考照片的差異清單（共同室內 10-31 已換正式模型 753df5a8c，可一起比） |
+| ART-PLAYER-SEASON-OUTFIT-1024 | 5 完全未開工 | no | LAWWW2 | tasks.json 暫停（D99 三項驗收完以前）；0d3125c88 只是登記 | 登記，暫停中 |
+| CAM-BELL-1031 | 5 完全未開工 | no | LAWWW2 | tasks.json 待開工（10-31 06:4x 新登記）；LAWWW2 做 CAM-PILLAR-HALLS 時找到；campus_bell.py 沒改 | 登記；排在 INTERIOR-AAA-REVIEW-1028 之後 |
+| CHAR-TEMPLATE | 5 完全未開工 | no | LAWWW2 | tasks.json 暫停；USER_WANTS.md:49 X39 暫停五欄 | 登記，暫停中 |
+| CROWD-DEPTS-LOOK-1028 | 5 完全未開工 | no | LAWWW2 | tasks.json 待開工；開發分支 7ced0bee1 只是登記；src 沒有測量腳架、實驗衣等道具 | 登記；排在 X125 室內之後（LAWWW-C 10-28 02:3x） |
+| DL-LAWWW2-236edded／01fee6a1（BG-19、BG-14 第五版） | 5 完全未開工 | no | LAWWW2 | gongguan_cinema.webp（236edded0）、yongkang_curry.webp（01fee6a14）第五版只在 LAWWW2 分支；開發分支、main 還是 | 登記，暫停中（D99 凍結；BB 驗第四版有退件再換第五版） |
+| I08 | 5 完全未開工 | no | LAWWW | 做好沒接：約會人物去背 v1（LAWWW2-B 20adecf4）、v1.1 anchors（d93b47e2）、v1.2（50152b12）＝ assets/date/<id>/ | DATE-S6 開工時把 LAWWW2 分支的 assets/date/ 整組（含 anchors.json）搬進開發分支；扶欄杆、坐姿照 D97 由 BB 跟使用者要（使用者 X94「再緩緩」，不催） |
+| I16 | 5 完全未開工 | no | LAWWW2 | USER_WANTS.md:41 暫停五欄：使用者 D70（10-14）「盆栽、杯子、桌上擺設不單獨排緊急工作，集中成一批環境細節，主要工作穩定後一起做」；tasks.json 沒 | 登記，暫停中（D70；下次檢查 11-03，不主動恢復） |
+| LAWWW2-REEXPORT-US-1027 | 5 完全未開工 | no | LAWWW2 | tasks.json 待開工；開發分支沒有 tools/blender/env_second/aa_support/us_*_props.py、bb_support/us_bedr | 擴大範圍：所有被烘焙的支援 GLB（soy、wz7、park2、park3、tutor、us_*）連同產生腳本一次搬進開發分支（D88「不要只存在一條分支」） |
+| X39 | 5 完全未開工 | no | LAWWW2 | USER_WANTS.md:49 暫停五欄（LAWWW-C 10-17 23:49 不排；人物凍結 D99）；tasks.json CHAR-TEMPLATE 暫停 | 登記，暫停中（下次檢查 11-03；D111 起 LAWWW 可自己決定） |
+| ZQ-ARCADE-SEAT-1028 | 5 完全未開工 | no | LAWWW2 | tasks.json 待開工；BB_218（elegant-brown-fcos7n@d12d567be）L4455 觀察：c509_4_1 字幕寫坐在騎樓插座旁開筆電，3D 子晴 | 登記；排在 X125 室內後面 |
+| A16 | 6 等待素材或使用者決定 | yes | LAWWW | 10-21 稽核 D 判「模型做好了沒接」已過時：gym_arena 接成區域 a3837c1c0（ART-GYM2-INT，LAWWW2 c1e65c33）、v9.10.8 起開 | 體育館 3F＝場景美術，使用者看畫面標 ART_APPROVED（ART-GYM2-INT 已列 docs/handoff/USER_ART_REVIEW_1027.md） |
+| ART-02 | 6 等待素材或使用者決定 | yes | LAWWW2 | tasks.json ART-02「等待其他AI／素材」；開發分支整合 commit e95666d94（1 筆；main 祖先：是） | 場景／建築美術：使用者看畫面標 ART_APPROVED（D59／D110；已列 docs/handoff/USER_ART_REVIEW_1027.md，不用重新要） |
+| ART-10 | 6 等待素材或使用者決定 | yes | LAWWW2 | tasks.json ART-10「等待其他AI／素材」；開發分支整合 commit 971db04b9～f75d60a4c（2 筆；main 祖先：部分）；assets/bg/n | 場景／建築美術：使用者看畫面標 ART_APPROVED（D59／D110；已列 docs/handoff/USER_ART_REVIEW_1027.md，不用重新要） |
+| ART-11 | 6 等待素材或使用者決定 | yes | LAWWW2 | tasks.json ART-11「等待其他AI／素材」；開發分支整合 commit 920948958（1 筆；main 祖先：是）；assets/bg/nccu_campus. | 場景／建築美術：使用者看畫面標 ART_APPROVED（D59／D110；已列 docs/handoff/USER_ART_REVIEW_1027.md，不用重新要） |
+| ART-12 | 6 等待素材或使用者決定 | yes | LAWWW2 | tasks.json ART-12「等待其他AI／素材」；開發分支整合 commit 792946fdc～030c51b0b（2 筆；main 祖先：是）；assets/bg/ho | 場景／建築美術：使用者看畫面標 ART_APPROVED（D59／D110；已列 docs/handoff/USER_ART_REVIEW_1027.md，不用重新要） |
+| ART-BG-COURT | 6 等待素材或使用者決定 | yes | LAWWW2 | tasks.json ART-BG-COURT「等待其他AI／素材」；assets/bg/ntu_court_night.webp 開發分支、main 都有，程式有引用 | 場景／建築美術：使用者看畫面標 ART_APPROVED（D59／D110；已列 docs/handoff/USER_ART_REVIEW_1027.md，不用重新要） |
+| ART-BG02 | 6 等待素材或使用者決定 | yes | LAWWW2 | tasks.json ART-BG02「等待其他AI／素材」；開發分支整合 commit 920948958（1 筆；main 祖先：是；DLV-1016-110 cee40151 | 場景／建築美術：使用者看畫面標 ART_APPROVED（D59／D110；已列 docs/handoff/USER_ART_REVIEW_1027.md，不用重新要） |
+| ART-BG05 | 6 等待素材或使用者決定 | yes | LAWWW2 | tasks.json ART-BG05「等待其他AI／素材」；開發分支整合 commit 030c51b0b（1 筆；main 祖先：是）；assets/bg/dorm_roof. | 場景／建築美術：使用者看畫面標 ART_APPROVED（D59／D110；已列 docs/handoff/USER_ART_REVIEW_1027.md，不用重新要） |
+| ART-BG08 | 6 等待素材或使用者決定 | yes | LAWWW2 | tasks.json ART-BG08「等待其他AI／素材」；assets/bg/car.webp 開發分支、main 都有，程式有引用 | 場景／建築美術：使用者看畫面標 ART_APPROVED（D59／D110；已列 docs/handoff/USER_ART_REVIEW_1027.md，不用重新要） |
+| ART-BG11 | 6 等待素材或使用者決定 | yes | LAWWW2 | tasks.json ART-BG11「等待其他AI／素材」；assets/bg/trip_mountain.webp 開發分支、main 都有，程式有引用 | 場景／建築美術：使用者看畫面標 ART_APPROVED（D59／D110；已列 docs/handoff/USER_ART_REVIEW_1027.md，不用重新要） |
+| ART-BG13 | 6 等待素材或使用者決定 | yes | LAWWW2 | tasks.json ART-BG13「等待其他AI／素材」；assets/bg/wenzhou_tutoring.webp 開發分支、main 都有，程式有引用 | 場景／建築美術：使用者看畫面標 ART_APPROVED（D59／D110；已列 docs/handoff/USER_ART_REVIEW_1027.md，不用重新要） |
+| ART-BG14 | 6 等待素材或使用者決定 | yes | LAWWW2 | tasks.json ART-BG14「等待其他AI／素材」；開發分支整合 commit f93ba38ab（1 筆；main 祖先：是；DL-BB-BG14-CURRY 125c | 場景／建築美術：使用者看畫面標 ART_APPROVED（D59／D110；已列 docs/handoff/USER_ART_REVIEW_1027.md，不用重新要） |
+| ART-BG15 | 6 等待素材或使用者決定 | yes | LAWWW2 | tasks.json ART-BG15「等待其他AI／素材」；assets/bg/ntu_soc.webp 開發分支、main 都有，程式有引用 | 場景／建築美術：使用者看畫面標 ART_APPROVED（D59／D110；已列 docs/handoff/USER_ART_REVIEW_1027.md，不用重新要） |
+| ART-BG16 | 6 等待素材或使用者決定 | yes | LAWWW2 | tasks.json ART-BG16「等待其他AI／素材」；assets/bg/ntu_linze.webp 開發分支、main 都有，程式有引用 | 場景／建築美術：使用者看畫面標 ART_APPROVED（D59／D110；已列 docs/handoff/USER_ART_REVIEW_1027.md，不用重新要） |
+| ART-BG17 | 6 等待素材或使用者決定 | yes | LAWWW2 | tasks.json ART-BG17「等待其他AI／素材」；assets/bg/ntu_avenue.webp 開發分支、main 都有，程式有引用 | 場景／建築美術：使用者看畫面標 ART_APPROVED（D59／D110；已列 docs/handoff/USER_ART_REVIEW_1027.md，不用重新要） |
+| ART-BG18 | 6 等待素材或使用者決定 | yes | LAWWW2 | tasks.json ART-BG18「等待其他AI／素材」；開發分支整合 commit 5ec6a388f（1 筆；main 祖先：是；DLV-1016-144 3a85d367 | 場景／建築美術：使用者看畫面標 ART_APPROVED（D59／D110；已列 docs/handoff/USER_ART_REVIEW_1027.md，不用重新要） |
+| ART-BG19 | 6 等待素材或使用者決定 | yes | LAWWW2 | tasks.json ART-BG19「等待其他AI／素材」；開發分支整合 commit 9c8310904（1 筆；main 祖先：是；DL-BB-BG19-CINEMA f2a | 場景／建築美術：使用者看畫面標 ART_APPROVED（D59／D110；已列 docs/handoff/USER_ART_REVIEW_1027.md，不用重新要） |
+| ART-BG20 | 6 等待素材或使用者決定 | yes | LAWWW2 | tasks.json ART-BG20「等待其他AI／素材」；assets/bg/soymilk_shop.webp 開發分支、main 都有，程式有引用 | 場景／建築美術：使用者看畫面標 ART_APPROVED（D59／D110；已列 docs/handoff/USER_ART_REVIEW_1027.md，不用重新要） |
+| ART-BIKES2-F | 6 等待素材或使用者決定 | yes | LAWWW2 | tasks.json ART-BIKES2-F「等待其他AI／素材」；開發分支整合 bikes_v2f.patch＋scooters_v2 已套（wip.json WIP-L2-B | 場景／建築美術：使用者看畫面標 ART_APPROVED（D59／D110；已列 docs/handoff/USER_ART_REVIEW_1027.md，不用重新要） |
+| ART-CAFE-FLOOR | 6 等待素材或使用者決定 | yes | LAWWW2 | tasks.json ART-CAFE-FLOOR「等待其他AI／素材」；開發分支整合 commit 2d1e264ca（1 筆；main 祖先：是） | 場景／建築美術：使用者看畫面標 ART_APPROVED（D59／D110；已列 docs/handoff/USER_ART_REVIEW_1027.md，不用重新要） |
+| ART-DORM-LOFT | 6 等待素材或使用者決定 | yes | LAWWW2 | tasks.json ART-DORM-LOFT「等待其他AI／素材」；開發分支整合 commit 69e744608～5d66f7bbe（2 筆；main 祖先：是；tasks. | 場景／建築美術：使用者看畫面標 ART_APPROVED（D59／D110；已列 docs/handoff/USER_ART_REVIEW_1027.md，不用重新要） |
+| ART-DORM-LOUNGE-1021 | 6 等待素材或使用者決定 | yes | LAWWW2 | tasks.json ART-DORM-LOUNGE-1021「等待其他AI／素材」；開發分支整合 commit 2a67b1443～f23362955（2 筆；main 祖先：是 | 場景／建築美術：使用者看畫面標 ART_APPROVED（D59／D110；已列 docs/handoff/USER_ART_REVIEW_1027.md，不用重新要） |
+| ART-ECON-3D-GAP-1021 | 6 等待素材或使用者決定 | partial | LAWWW2 | A 共同教學館室內 753df5a8c、B 普通室內光照 3f67ec44a、C 總圖 3F 光照 1e910aa6c（10-31，開發分支，還沒到 main）；之前的拱廊大門等  | 經濟系 3D 缺口＝場景美術，使用者看畫面標 ART_APPROVED（已列 docs/handoff/USER_ART_REVIEW_1027.md，不用重新要）；剩 D 醉月湖晚上、E 四季服裝、F 兩段劇情背景另案 |
+| ART-EXT-GATE | 6 等待素材或使用者決定 | yes | LAWWW2 | tasks.json ART-EXT-GATE「等待其他AI／素材」；開發分支整合 commit 20b1631a4（1 筆；main 祖先：是；DL-LAWWW2-a852d6f | 場景／建築美術：使用者看畫面標 ART_APPROVED（D59／D110；已列 docs/handoff/USER_ART_REVIEW_1027.md，不用重新要） |
+| ART-EXT-M1 | 6 等待素材或使用者決定 | yes | LAWWW2 | tasks.json ART-EXT-M1「等待其他AI／素材」；開發分支整合 commit 4146a2edb（1 筆；main 祖先：是；DL-LAWWW2-a9a77bde  | 場景／建築美術：使用者看畫面標 ART_APPROVED（D59／D110；已列 docs/handoff/USER_ART_REVIEW_1027.md，不用重新要） |
+| ART-EXT-MRT | 6 等待素材或使用者決定 | yes | LAWWW2 | tasks.json ART-EXT-MRT「等待其他AI／素材」；開發分支整合 commit 3500146c4（1 筆；main 祖先：是；DL-LAWWW2-ca3e14d5 | 場景／建築美術：使用者看畫面標 ART_APPROVED（D59／D110；已列 docs/handoff/USER_ART_REVIEW_1027.md，不用重新要） |
+| ART-EXT-TEACH | 6 等待素材或使用者決定 | yes | LAWWW2 | tasks.json ART-EXT-TEACH「等待其他AI／素材」；開發分支整合 commit 55b67ccf9～2cd8825fc（2 筆；main 祖先：是；DL-LAW | 場景／建築美術：使用者看畫面標 ART_APPROVED（D59／D110；已列 docs/handoff/USER_ART_REVIEW_1027.md，不用重新要） |
+| ART-GG-FACADE-3D-1023 | 6 等待素材或使用者決定 | yes | LAWWW2 | tasks.json ART-GG-FACADE-3D-1023「等待其他AI／素材」；開發分支整合 commit 6b2827942（1 筆；main 祖先：是） | 場景／建築美術：使用者看畫面標 ART_APPROVED（D59／D110；已列 docs/handoff/USER_ART_REVIEW_1027.md，不用重新要） |
+| ART-GG-SHOPS-1018 | 6 等待素材或使用者決定 | yes | LAWWW2 | tasks.json ART-GG-SHOPS-1018「等待其他AI／素材」；開發分支整合 1e1ed51a1（LAWWW2 307787c1） | 場景／建築美術：使用者看畫面標 ART_APPROVED（D59／D110；已列 docs/handoff/USER_ART_REVIEW_1027.md，不用重新要） |
+| ART-GG-SIGNS | 6 等待素材或使用者決定 | yes | LAWWW2 | tasks.json ART-GG-SIGNS「等待其他AI／素材」；開發分支整合 commit f57f42975～66b28a897（2 筆；main 祖先：是） | 場景／建築美術：使用者看畫面標 ART_APPROVED（D59／D110；已列 docs/handoff/USER_ART_REVIEW_1027.md，不用重新要） |
+| ART-GG-STREETLIFE-1023 | 6 等待素材或使用者決定 | yes | LAWWW2 | tasks.json ART-GG-STREETLIFE-1023「等待其他AI／素材」；開發分支整合 commit 85ddeeef4（1 筆；main 祖先：是） | 場景／建築美術：使用者看畫面標 ART_APPROVED（D59／D110；已列 docs/handoff/USER_ART_REVIEW_1027.md，不用重新要） |
+| ART-GYM-BG1 | 6 等待素材或使用者決定 | yes | LAWWW2 | tasks.json ART-GYM-BG1「等待其他AI／素材」；開發分支整合 commit 0c5a9acce（1 筆；main 祖先：是）；assets/bg/ntu_gym | 場景／建築美術：使用者看畫面標 ART_APPROVED（D59／D110；已列 docs/handoff/USER_ART_REVIEW_1027.md，不用重新要） |
+| ART-GYM2-INT | 6 等待素材或使用者決定 | yes | LAWWW2 | tasks.json ART-GYM2-INT「等待其他AI／素材」；開發分支整合 commit a3837c1c0（1 筆；main 祖先：是） | 場景／建築美術：使用者看畫面標 ART_APPROVED（D59／D110；已列 docs/handoff/USER_ART_REVIEW_1027.md，不用重新要） |
+| ART-HALL-WINDOW-DUSK-1025 | 6 等待素材或使用者決定 | yes | LAWWW2 | tasks.json ART-HALL-WINDOW-DUSK-1025「等待其他AI／素材」；開發分支整合 commit 1dacc06af（1 筆；main 祖先：是） | 場景／建築美術：使用者看畫面標 ART_APPROVED（D59／D110；已列 docs/handoff/USER_ART_REVIEW_1027.md，不用重新要） |
+| ART-L118-FACADE-3D-1023 | 6 等待素材或使用者決定 | yes | LAWWW2 | tasks.json ART-L118-FACADE-3D-1023「等待其他AI／素材」；開發分支整合 commit 6b2827942（1 筆；main 祖先：是） | 場景／建築美術：使用者看畫面標 ART_APPROVED（D59／D110；已列 docs/handoff/USER_ART_REVIEW_1027.md，不用重新要） |
+| ART-L118-LANE-1020 | 6 等待素材或使用者決定 | yes | LAWWW2 | tasks.json ART-L118-LANE-1020「等待其他AI／素材」；開發分支整合 commit 18da74d65（1 筆；main 祖先：是） | 場景／建築美術：使用者看畫面標 ART_APPROVED（D59／D110；已列 docs/handoff/USER_ART_REVIEW_1027.md，不用重新要） |
+| ART-LIB-VIEW-1018 | 6 等待素材或使用者決定 | yes | LAWWW2 | tasks.json ART-LIB-VIEW-1018「等待其他AI／素材」；開發分支整合 commit 55b67ccf9（1 筆；main 祖先：是；DL-LAWWW2-ed | 場景／建築美術：使用者看畫面標 ART_APPROVED（D59／D110；已列 docs/handoff/USER_ART_REVIEW_1027.md，不用重新要） |
+| ART-ROOM-LIFE-1020 | 6 等待素材或使用者決定 | yes | LAWWW2 | tasks.json ART-ROOM-LIFE-1020「等待其他AI／素材」；開發分支整合 commit 76cf1bd85（1 筆；main 祖先：是） | 場景／建築美術：使用者看畫面標 ART_APPROVED（D59／D110；已列 docs/handoff/USER_ART_REVIEW_1027.md，不用重新要） |
+| ART-ROOM-MULTI-1020 | 6 等待素材或使用者決定 | yes | LAWWW2 | tasks.json ART-ROOM-MULTI-1020「等待其他AI／素材」；開發分支整合 commit 76cf1bd85（1 筆；main 祖先：是） | 場景／建築美術：使用者看畫面標 ART_APPROVED（D59／D110；已列 docs/handoff/USER_ART_REVIEW_1027.md，不用重新要） |
+| ART-SHOP-VIEWS-1023 | 6 等待素材或使用者決定 | yes | LAWWW2 | tasks.json ART-SHOP-VIEWS-1023「等待其他AI／素材」；開發分支整合 commit b57a2a79c（1 筆；main 祖先：是） | 場景／建築美術：使用者看畫面標 ART_APPROVED（D59／D110；已列 docs/handoff/USER_ART_REVIEW_1027.md，不用重新要） |
+| ART-SOY1 | 6 等待素材或使用者決定 | yes | LAWWW2 | soy_props.glb 只在 LAWWW2 分支 assets/models/env/second_ai/aa_support/（開發分支、main 都沒有）；但它是 BG-2 | BG-20 soymilk_shop 是場景美術，等使用者看畫面標 ART_APPROVED（ART-BG20 已列 USER_ART_REVIEW_1027.md，不用重新要） |
+| ART-TONE-NEUTRAL-1022 | 6 等待素材或使用者決定 | yes | LAWWW2 | tasks.json ART-TONE-NEUTRAL-1022「等待其他AI／素材」；開發分支整合 tone_neutral_default.diff 已套（main src/e | 場景／建築美術：使用者看畫面標 ART_APPROVED（D59／D110；已列 docs/handoff/USER_ART_REVIEW_1027.md，不用重新要） |
+| ART-TUTOR1 | 6 等待素材或使用者決定 | yes | LAWWW2 | tutor_props.glb 原檔只在 LAWWW2 分支 bb_support/；tools/blender/env_second/bg_tutor.py:3、:143 用它算 | 家教學生家客廳 2D 背景＝場景美術，等使用者 ART_APPROVED（已列 USER_ART_REVIEW_1027.md ART-TUTOR1） |
+| ART-US-ROUTE-1024 | 6 等待素材或使用者決定 | yes | LAWWW2 | tasks.json ART-US-ROUTE-1024「等待其他AI／素材」；開發分支 7770155b4「美國交換路線巡查（LAWWW2）：社區西邊出口外面補上街道、公車站、對 | 場景／建築美術：使用者看畫面標 ART_APPROVED（D59／D110；已列 docs/handoff/USER_ART_REVIEW_1027.md，不用重新要） |
+| ART-US-SEASON | 6 等待素材或使用者決定 | yes | LAWWW2 | tasks.json ART-US-SEASON「等待其他AI／素材」；開發分支整合 commit 974ab8a00（1 筆；main 祖先：是；DL-LW2-407ec3f5  | 場景／建築美術：使用者看畫面標 ART_APPROVED（D59／D110；已列 docs/handoff/USER_ART_REVIEW_1027.md，不用重新要） |
+| ART-US1 | 6 等待素材或使用者決定 | yes | LAWWW2 | 原檔 us_*_props.glb 只在 LAWWW2 分支；由 tools/blender/env_second/us_apartment.py 烘進 us_apartment. | 場景美術 ART_APPROVED 歸使用者（已列 docs/handoff/USER_ART_REVIEW_1027.md，不用重新要） |
+| ART-US1／ART-US2／ART-US3（us_*_props） | 6 等待素材或使用者決定 | yes | LAWWW2 | us_living_props、us_kitchen_props、us_bath_props（aa_support）、us_bedroom_props（bb_support）原檔只 | 美國公寓家具＝場景美術，等使用者 ART_APPROVED（ART-US1／US2／US3、SCN-US-01 已列 USER_ART_REVIEW_1027.md） |
+| ART-US2 | 6 等待素材或使用者決定 | yes | LAWWW2 | 原檔 us_*_props.glb 只在 LAWWW2 分支；由 tools/blender/env_second/us_apartment.py 烘進 us_apartment. | 場景美術 ART_APPROVED 歸使用者（已列 docs/handoff/USER_ART_REVIEW_1027.md，不用重新要） |
+| ART-US3 | 6 等待素材或使用者決定 | yes | LAWWW2 | 原檔 us_*_props.glb 只在 LAWWW2 分支；由 tools/blender/env_second/us_apartment.py 烘進 us_apartment. | 場景美術 ART_APPROVED 歸使用者（已列 docs/handoff/USER_ART_REVIEW_1027.md，不用重新要） |
+| ART-V0-DORM | 6 等待素材或使用者決定 | yes | LAWWW2 | tasks.json ART-V0-DORM「等待其他AI／素材」；開發分支整合 commit 907a92927（1 筆；main 祖先：是；tasks.json next 提到 | 場景／建築美術：使用者看畫面標 ART_APPROVED（D59／D110；已列 docs/handoff/USER_ART_REVIEW_1027.md，不用重新要） |
+| ART-VAC-AIRPORT-1021 | 6 等待素材或使用者決定 | yes | LAWWW2 | tasks.json ART-VAC-AIRPORT-1021「等待其他AI／素材」；開發分支整合 commit 1c53b3971～7da537dc4（2 筆；main 祖先：是 | 場景／建築美術：使用者看畫面標 ART_APPROVED（D59／D110；已列 docs/handoff/USER_ART_REVIEW_1027.md，不用重新要） |
+| ART-WZ-MARKET-1023 | 6 等待素材或使用者決定 | yes | LAWWW2 | tasks.json ART-WZ-MARKET-1023「等待其他AI／素材」；開發分支整合 commit 025ab4f30（1 筆；main 祖先：是） | 場景／建築美術：使用者看畫面標 ART_APPROVED（D59／D110；已列 docs/handoff/USER_ART_REVIEW_1027.md，不用重新要） |
+| ART-WZ0 | 6 等待素材或使用者決定 | yes | LAWWW2 | tasks.json ART-WZ0「等待其他AI／素材」；開發分支整合 commit 2a67b1443～f23362955（2 筆；main 祖先：是） | 場景／建築美術：使用者看畫面標 ART_APPROVED（D59／D110；已列 docs/handoff/USER_ART_REVIEW_1027.md，不用重新要） |
+| ART-WZ1 | 6 等待素材或使用者決定 | yes | LAWWW2 | wz_park.glb（含 park2、park3、park_play 節點）與 wz_park_layout 在 main；v7 5e688f34、入口 B 13a7c8692 | 場景美術 ART_APPROVED 歸使用者（已列 docs/handoff/USER_ART_REVIEW_1027.md，不用重新要） |
+| ART-WZ3 | 6 等待素材或使用者決定 | yes | LAWWW2 | tasks.json ART-WZ3「等待其他AI／素材」；開發分支整合 commit 861ec9f1c（2 筆；main 祖先：是；DLV-1016-167 31323eb9） | 場景／建築美術：使用者看畫面標 ART_APPROVED（D59／D110；已列 docs/handoff/USER_ART_REVIEW_1027.md，不用重新要） |
+| ART-WZ4 | 6 等待素材或使用者決定 | yes | LAWWW2 | tasks.json ART-WZ4「等待其他AI／素材」；開發分支整合 commit 0e34ab932（1 筆；main 祖先：是） | 場景／建築美術：使用者看畫面標 ART_APPROVED（D59／D110；已列 docs/handoff/USER_ART_REVIEW_1027.md，不用重新要） |
+| ART-WZ5 | 6 等待素材或使用者決定 | yes | LAWWW2 | tasks.json ART-WZ5「等待其他AI／素材」；開發分支整合 commit 0050847b1（1 筆；main 祖先：是） | 場景／建築美術：使用者看畫面標 ART_APPROVED（D59／D110；已列 docs/handoff/USER_ART_REVIEW_1027.md，不用重新要） |
+| ART-WZ6 | 6 等待素材或使用者決定 | yes | LAWWW2 | dorm_wz_items.glb（src/assets3d.js:106、src/zones3d.js:1890-1898、src/jobs3d.js:400；main 有）取代 | 場景美術 ART_APPROVED 歸使用者（已列 docs/handoff/USER_ART_REVIEW_1027.md，不用重新要） |
+| ART-WZ7 | 6 等待素材或使用者決定 | yes | LAWWW2 | wz7_street_props.glb 原檔只在 LAWWW2 分支 aa_support/；tools/blender/env_second/wz_street.py:840- | 溫州街路邊小物＝場景美術，等使用者看畫面標 ART_APPROVED（已列 USER_ART_REVIEW_1027.md ART-WZ7） |
+| B07 | 6 等待素材或使用者決定 | yes | LAWWW2 | 三組都已以某種形式在遊戲裡（USER_WANTS.md:28「豆漿店道具、寶特瓶袋 v2 只在 LAWWW2 分支、做好了沒進遊戲」不對）：①故事小物 ART-WZ6 → dorm | 三組都是場景美術：使用者看畫面標 ART_APPROVED（ART-WZ6、ART-WZ7、ART-BG20 已列 docs/handoff/USER_ART_REVIEW_1027.md，不用重新要） |
+| BG-DARK-SCENES-1024 | 6 等待素材或使用者決定 | yes | USER | LAWWW2 兩批 12 張整合（DL-LW2-BG-DARK-1、-2，開發 64397615a 起，main 祖先） | 還缺 4 張要使用者生成：ntu_library_rain、community_room、us_club_lawn、botanical_lotus（BB_132 第 98、99 組＋附圖批已向使用者要過，不重複要） |
+| BUG-CAFE-FLOOR-MIRROR-1021 | 6 等待素材或使用者決定 | yes | LAWWW2 | tasks.json BUG-CAFE-FLOOR-MIRROR-1021「等待其他AI／素材」；開發分支整合 commit e8c4ce7a3（1 筆；main 祖先：是；tas | 場景／建築美術：使用者看畫面標 ART_APPROVED（D59／D110；已列 docs/handoff/USER_ART_REVIEW_1027.md，不用重新要） |
+| BUG-WZFLICKER-2 | 6 等待素材或使用者決定 | yes | LAWWW2 | tasks.json BUG-WZFLICKER-2「等待其他AI／素材」；開發分支整合 commit 0f430885d（2 筆；main 祖先：是；DL-LAWWW2-0acf | 場景／建築美術：使用者看畫面標 ART_APPROVED（D59／D110；已列 docs/handoff/USER_ART_REVIEW_1027.md，不用重新要） |
+| F04 | 6 等待素材或使用者決定 | yes | LAWWW2 | src/us3d.js us_campus（公車站→法學院前人行道→台階下進教室）、assets/models/env/second_ai/us_campus.glb（main 有 | 美國校園＝場景美術，使用者看畫面標 ART_APPROVED（SCN-US-IU-1018、ART-US-ROUTE-1024 已列 USER_ART_REVIEW_1027.md） |
+| F05 | 6 等待素材或使用者決定 | yes | LAWWW2 | src/us3d.js us_lawlib（挑高中庭、彩色玻璃）、us_lawlib.glb（main 有）；v9.10.9 起 2F 書庫 | 場景美術 ART_APPROVED 歸使用者（SCN-US-LIB 已列 USER_ART_REVIEW_1027.md） |
+| GG-STREETVIEW-1020 | 6 等待素材或使用者決定 | yes | LAWWW2 | 第一階段 e7b96f705（LAWWW2-C 2c09476d）、第二階段 0582af9f（c491405c）、七樓以上不投影 1475d312、校門口合批 114a69fa  | 從學校看出去的公館街景＝場景美術，使用者看畫面標 ART_APPROVED（已列 USER_ART_REVIEW_1027.md） |
+| INTERIOR-AAA-REVIEW-1028 | 6 等待素材或使用者決定 | partial | LAWWW2 | 201 v2 7b90397a4（main）；霖澤館大廳、萬才館、男一舍門廳、總圖大廳光照（LOBBY-*／WANCAI-LM／DORM-HALL-LM／LIB-HALL-LM，m | 室內美術提升（X125）＝場景美術，使用者看畫面；使用者說「廉價手遊感」以後還沒看過新版 |
+| SCN-US-01 | 6 等待素材或使用者決定 | yes | LAWWW2 | tasks.json SCN-US-01「等待其他AI／素材」；開發分支整合 commit 5d9a2b4d2（1 筆；main 祖先：是；DL-LW2-USCOMM 8825be | 場景／建築美術：使用者看畫面標 ART_APPROVED（D59／D110；已列 docs/handoff/USER_ART_REVIEW_1027.md，不用重新要） |
+| SCN-US-02 | 6 等待素材或使用者決定 | yes | LAWWW2 | tasks.json SCN-US-02「等待其他AI／素材」；開發分支整合 commit f7c9c8920～73b55ef8f（4 筆；main 祖先：是；DL-LAWWW2- | 場景／建築美術：使用者看畫面標 ART_APPROVED（D59／D110；已列 docs/handoff/USER_ART_REVIEW_1027.md，不用重新要） |
+| SCN-US-03 | 6 等待素材或使用者決定 | yes | LAWWW2 | tasks.json SCN-US-03「等待其他AI／素材」；開發分支整合 commit 725c684a7（1 筆；main 祖先：是；DL-LW2-USMKT 2f4ae94 | 場景／建築美術：使用者看畫面標 ART_APPROVED（D59／D110；已列 docs/handoff/USER_ART_REVIEW_1027.md，不用重新要） |
+| SCN-US-IU-1018 | 6 等待素材或使用者決定 | yes | LAWWW2 | tasks.json SCN-US-IU-1018「等待其他AI／素材」；開發分支整合 commit d3fdab822～f7c9c8920（3 筆；main 祖先：是；tasks | 場景／建築美術：使用者看畫面標 ART_APPROVED（D59／D110；已列 docs/handoff/USER_ART_REVIEW_1027.md，不用重新要） |
+| SCN-US-LIB | 6 等待素材或使用者決定 | yes | LAWWW2 | src/us3d.js us_lawlib 區域、src/assets3d.js bldg.us_lawlib（us_lawlib.glb main 有）；v9.10.9 起 2F | 美國法學院圖書館＝場景美術，使用者看畫面標 ART_APPROVED（已列 USER_ART_REVIEW_1027.md） |
+| US-MS-NIGHT-1021 | 6 等待素材或使用者決定 | yes | LAWWW2 | tasks.json US-MS-NIGHT-1021「等待其他AI／素材」；開發分支整合 commit 1c53b3971～7da537dc4（2 筆；main 祖先：是；DL- | 場景／建築美術：使用者看畫面標 ART_APPROVED（D59／D110；已列 docs/handoff/USER_ART_REVIEW_1027.md，不用重新要） |
+| V0-ART-DORM | 6 等待素材或使用者決定 | yes | LAWWW2 | tasks.json V0-ART-DORM「等待其他AI／素材」；開發分支整合 commit 4b70156ad（1 筆；main 祖先：是；DLV-1016-182 f2beb | 場景／建築美術：使用者看畫面標 ART_APPROVED（D59／D110；已列 docs/handoff/USER_ART_REVIEW_1027.md，不用重新要） |
+| WZ-SHOP-AA364-ART | 6 等待素材或使用者決定 | yes | LAWWW2 | tasks.json WZ-SHOP-AA364-ART「等待其他AI／素材」；開發分支整合 commit 2a67b1443～f23362955（2 筆；main 祖先：是） | 場景／建築美術：使用者看畫面標 ART_APPROVED（D59／D110；已列 docs/handoff/USER_ART_REVIEW_1027.md，不用重新要） |
+| X04 | 6 等待素材或使用者決定 | yes | LAWWW2 | 男一舍 bldg.campus_male1、校門 bldg.campus_gate、普通／博雅 campus_putong／campus_boya／putong_interior／ | 四座建築外觀＝建築美術，使用者看畫面標 ART_APPROVED（ART-EXT-M1、ART-EXT-GATE、ART-EXT-TEACH、ART-EXT-MRT 已列 USER_ART_REVIEW_1027.md） |
+| X06 | 6 等待素材或使用者決定 | partial | LAWWW2 | 社科院夜景蓮花柱修正 56b55edec（LAWWW2-B 7e84496c，main）；窗戶捲簾、普通／共同窗景、博雅二樓長窗 v9.10.9（main）；LAWWW2 10-2 | 經濟系 3D 缺口＝場景美術，使用者看畫面標 ART_APPROVED（ART-ECON-3D-GAP-1021 已列 USER_ART_REVIEW_1027.md）；普通 101 北窗整片深藍黑是已知限制（LAWWW2 判斷中） |
+| X14 | 6 等待素材或使用者決定 | partial | LAWWW2 | 換區域預熱 Z3.prewarm／warmup（main、開發分支 src/zones3d.js 都有）、路人分批（PERF-NPC-POOL）在 main；量測小框 ?perf（ | 使用者用自己的電腦、手機開 ?perf 換區域，回報小框的數字（之前沒給過；要等 ?perf 隨下一版發布） |
+| X16 | 6 等待素材或使用者決定 | yes | LAWWW2 | 公館店面第一輪 LAWWW2 307787c1 → 開發 1e1ed51a1（main）；第二輪 X86（0582af9f、1475d312，main）；店面立體淺店內 I19（v | 公館店面外觀＝場景美術，使用者看畫面（ART-GG-SHOPS-1018、ART-GG-FACADE-3D-1023 已列 USER_ART_REVIEW_1027.md；使用者 10-18 說醜之後還沒看過新版） |
+| X21 | 6 等待素材或使用者決定 | yes | LAWWW2 | src/library3d.js parallaxViews（LAWWW2 ed0196e4 → 開發 55b67ccf9，main）；v9.10.8～v9.10.10 窗景換季、 | 總圖窗景＝場景美術，使用者看畫面標 ART_APPROVED（ART-LIB-VIEW-1018 已列 USER_ART_REVIEW_1027.md） |
+| X69 | 6 等待素材或使用者決定 | yes | LAWWW2 | 騎車路人畫面外不畫 156430a20、晚上陰影 2 秒重畫 ddfd1d5e、溫州街／118 巷單面 GLB 1dacc06af（LAWWW2 bae544475）都在 main | 使用者要「修正前後的效能數據」：真電腦、手機都沒量——要使用者用電腦或手機再試一次（以前沒給過） |
+| X86 | 6 等待素材或使用者決定 | yes | LAWWW2 | 同 GG-STREETVIEW-1020：e7b96f705、0582af9f、1475d312（main 祖先） | 使用者看畫面標 ART_APPROVED（GG-STREETVIEW-1020 已列 USER_ART_REVIEW_1027.md） |
+| aa_support/park2_props.glb＋bb_support/park3_props.glb | 6 等待素材或使用者決定 | yes | LAWWW2 | 兩個原檔只在 LAWWW2 分支；開發分支與 main 的 wz_park.glb 節點有 park2、park3、park_play（解析 GLB JSON），已烘進小公園模型； | 小公園模型＝場景美術，等使用者 ART_APPROVED（ART-WZ1 已列 USER_ART_REVIEW_1027.md） |
+| claude/second-ai-env-art-wip-pavsoc | 6 等待素材或使用者決定 | yes | LAWWW2 | 8c6f1fe02 是 main 祖先；內容⑤洞洞館 campus_pavilion.glb（src/assets3d.js:97、src/zones3d.js:231／488）、 | 社科院外觀（ART-01）、洞洞館外觀是建築美術：等使用者看畫面標 ART_APPROVED（D59／D110）；已列 docs/handoff/USER_ART_REVIEW_1027.md 第一列 ART-01，不用重新要 |
+| claude/second-ai-env-art-wip-soclib | 6 等待素材或使用者決定 | yes | LAWWW2 | af7de02eb 是 main 祖先；⑬社科院圖書館一樓 soclib_interior.glb（src/assets3d.js:114、src/soclib3d.js:3、sr | 社科院圖書館室內＝場景美術，等使用者看畫面標 ART_APPROVED（ART-01 同一棟，已列 USER_ART_REVIEW_1027.md） |
+| ART-VSLICE（src/post3d.js 後製模組） | 7 經確認取消或被取代 | no | LAWWW2 | src/post3d.js 只在 LAWWW2 分支（28deae9e2 10-16 WIP「未驗收、未交付」）；開發分支、main 沒有；tasks.json ART-VSLIC | 使用者 2026-10-21 15:3x 對 LAWWW2（帳號 A）「黃昏收尾」（UA-LAWWW2-1021-09）：做到一半的做完就結案；LAWWW 17:5x 決定 post3d 不接（效能、會改人物樣子、人物凍結） |
+| DL-LAWWW2-60322c02（BG-25 ntu_gym_graduation.webp） | 7 經確認取消或被取代 | no | LAWWW2 | assets/bg/ntu_gym_graduation.webp 只在 LAWWW2 分支；deliveries.json「未整合」（等 G6 畢業典禮）；tasks.json  | SCN-V5-02 被取代（LAWWW-C 10-21，LAWWW2 BACKLOG_SWEEP_1021 C 節）；使用者 10-18 02:3x 回答 3F 主球場「開」（USER_WANTS A16）→ 典禮改在 3D 演 |
+| DL-LW2-SOCSCI1F | 7 經確認取消或被取代 | no | LAWWW2 | socsci_bldg1f.glb＋layout.json（LAWWW2-C 906beabe）只在 LAWWW2 分支；deliveries.json「不整合」 | 使用者 2026-10-17 05:4x（對 AA-C）「社科院不做 3D 室內」→ SCN-V0-01 取消（AA_173 第 1 節；tasks.json SCN-V0-01 取消／被取代） |
+| DL-LW2-USSTREET1 | 7 經確認取消或被取代 | no | LAWWW2 | us_street.glb＋layout（Kirkwood 主街 14 棟，LAWWW2-C 1f488eb9）只在 LAWWW2 分支；deliveries.json「不整合」 | 使用者 10-18 02:3x 主街「不需要」（USER_WANTS F04 第 2 節） |
+| DL-LW2-ee91df8f（court_props＋法院 2D 兩張） | 7 經確認取消或被取代 | no | LAWWW2 | court_props.glb、assets/bg/court_corridor.webp 只在 LAWWW2 分支；court_gallery.webp LAWWW2 版（83f | 使用者 10-18 選擇題「大四那次拿掉」（AA_252 5-1；tasks.json AA252-COURT 取消／被取代） |
+| WIP-L2-SHOP-BG | 7 經確認取消或被取代 | no | LAWWW2 | scooter_shop_props.glb（BB-B d9388b2a 做、LAWWW2-B 5d5bb8aa 驗收）只在 LAWWW2 分支；deliveries.json D | 使用者 10-18 選擇題「大四那次拿掉」（AA_252 5-1，tasks.json AA252-COURT）連帶刪掉機車行那場；ART-BG-AA185 標題「公館機車行那張已依 AA_252 刪，89c856f8」 |
+| WIP-L2-YUTING-FACE（vroid_yuting_facetest.vrm） | 7 經確認取消或被取代 | no | LAWWW2 | assets/models/char/vroid_yuting_facetest.vrm 只在 LAWWW2 分支（8496bf9d）；tasks.json ART-YUTING- | 使用者 10-18 02:2x「不要再管臉了」（擱著，不再改）——docs/handoff/USER_WANTS.md:129（開發分支 c97f25fd0） |
+| claude/second-ai-env-art-wip-lane118 | 7 經確認取消或被取代 | yes | LAWWW2 | 0b1788b9e 是 main、開發分支的祖先；commit 全部包含在 wip-bike 裡（bike ⊃ lane118 ⊃ lawlib，LAWWW2-B 逐檔比對報告 d | 使用者 2026-10-16「GitHub 分支收斂與永久管理」（D88）＋LAWWW-B 10-16 05:0x 複核：這三條一串，內容同 wip-bike |
+| claude/second-ai-env-art-wip-lawlib | 7 經確認取消或被取代 | yes | LAWWW2 | 3ba830573 是 main、開發分支的祖先；commit 全部包含在 wip-lane118／wip-bike 裡；lawlib_layout.js 草案 v1 被開發線 1 | D88（使用者 10-16 分支收斂指示）＋LAWWW-B 10-16 複核 |
+| claude/second-ai-env-art-wip-props | 7 經確認取消或被取代 | yes | LAWWW2 | fa626b9df 是 main 祖先；⑥販賣機在 street_props.glb（src/assets3d.js:109 prop.street、src/world3d.js: | D88（使用者 10-16 分支收斂指示）＋LAWWW-B 10-16 複核：props6、soclib、props、pavsoc 互相包含 |
+| claude/second-ai-env-art-wip-trees | 7 經確認取消或被取代 | yes | LAWWW2 | 22ff594d7 不是 main 祖先：7 個 commit 不在 main／開發分支；內容⑦行道樹＋seated_figures 第一版。開發分支 src/townkit3d. | D88（使用者 10-16 分支收斂指示）＋LAWWW-B 10-16 複核：trees 的 17 個檔案「已由更新版本取代」；branch_audit 10-31 仍列「保留｜main 沒有的內容」（只是 commit 不同） |
+| 沛珊第 29～31 版（DL-LAWWW2-9b0ec2db、7e64ec43、DL-LW2-PS31） | 7 經確認取消或被取代 | no | LAWWW2 | bl_classmate_peishan.vrm 第 30 版（7e64ec436）、glasses_peishan.glb（f510b1b70）只在 LAWWW2 分支；開發分支 | D100（使用者授權 LAWWW 驗收人物修正）：LAWWW 10-22 12:5x／13:5x、LAWWW-B 10-23 16:5x 逐版退件 |
+| （另有第 1、2 類 68 項：見 ledger.json） | | | | | |
