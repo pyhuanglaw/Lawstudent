@@ -4264,7 +4264,7 @@
    "area": "V4",
    "owner": "LAWWW",
    "status": "待開工",
-   "next": "【LAWWW-C 2026-10-21 稽核 B1】做了一部分：BB 跟使用者要日本 2D 背景：jp_konbini、jp_dorm_lobby、jp_riverbank、jp_station、jp_street_day、jp_town_hall（assets/bg 沒有，SCN-JP-2D）；5/20 子晴發表會直播畫面沒做 ｜ SYS-10 之後依劇情順序",
+   "next": "【10-31 22:2x】歷史複核（AA_145）：日本 J2 町公所 jp_town_hall 沒有底圖——2D 背景照 D100 由 BB 照 D97 跟使用者要（日本沒有 3D 場景可拍）｜【LAWWW-C 2026-10-21 稽核 B1】做了一部分：BB 跟使用者要日本 2D 背景：jp_konbini、jp_dorm_lobby、jp_riverbank、jp_station、jp_street_day、jp_town_hall（assets/bg 沒有，SCN-JP-2D）；5/20 子晴發表會直播畫面沒做 ｜ SYS-10 之後依劇情順序",
    "priority": "P2",
    "first": {
     "term": "Y3S1",
@@ -8758,8 +8758,8 @@
    "title": "班級群組（法律系一年級）",
    "area": "SYS",
    "owner": "LAWWW",
-   "status": "已整合待測試",
-   "next": "第 2 級：手機群組頁看得到「法律系 大一（全班）」；之後 AA_13 G2 放榜、BB_113 明軒「收到」、宥辰的訊息照這個群組接（一天最多一則自動小事）",
+   "status": "進行中",
+   "next": "【10-31 22:2x】歷史複核（AA-B 第 3 批，AA_13）：只做了一部分——G2 放榜的同班群組畫面、「要不要先看自己的成績」選擇點還沒有（原本標已整合待測試是錯的）；G3 另開 AA13-G3-SHOWCASE-1031｜第 2 級：手機群組頁看得到「法律系 大一（全班）」；之後 AA_13 G2 放榜、BB_113 明軒「收到」、宥辰的訊息照這個群組接（一天最多一則自動小事）",
    "priority": "P1",
    "first": {
     "term": "Y1S1",
@@ -37422,6 +37422,146 @@
     "branch": "claude/modest-rubin-2lyp7g",
     "acceptance": "10/15、2027-10-13 讀進來不演搬 312；9/6 照演；9/7 照演但沒有「明天開學」",
     "receiver": "BB",
+    "ack": "ACTIONED"
+   }
+  },
+  {
+   "id": "AA121-CG20-SEAT-1031",
+   "title": "CG-20 cg_saved_seat_heroine03（斜對面的位子）有登錄、沒有事件放它：放在大四下律師讀書小組第一晚，語彤先占好斜對面、放一杯熱茶（AA_121；AA-B 歷史複核第 3 批 tier 4）",
+   "area": "STORY",
+   "owner": "LAWWW",
+   "status": "待開工",
+   "priority": "P2",
+   "next": "【10-31 22:2x】歷史複核找到（HISTORY-AUDIT-1031）→ LAWWW 照稿實作，排在 D99 寒暑假（AA_549）之後",
+   "first": {
+    "term": "Y4S2",
+    "week": 0,
+    "earliest": "大四下律師讀書小組第一晚",
+    "mainline": false,
+    "blocks": false,
+    "prereq": false,
+    "parallel": true,
+    "confirmed": true
+   },
+   "source": "AA-B 歷史複核 judgments_AA.jsonl（10-31）",
+   "authorized": "已定稿（D109）",
+   "xai": {
+    "spec": "AA_121（企劃線 claude/cool-heisenberg-o8kuqx）",
+    "branch": "claude/modest-rubin-2lyp7g",
+    "acceptance": "照稿進遊戲＋Node 測試，BB 瀏覽器",
+    "receiver": "LAWWW",
+    "ack": "ACTIONED"
+   }
+  },
+  {
+   "id": "AA143-Y2S2-LASTMEAL-1031",
+   "title": "大二下期末最後一頓（ev_term_last_meal_y2s2）沒有事件：阿姨「明年你們大三了。……我記得你們大一的樣子。」＋當天 17:00 阿哲那則（AA_143；歷史複核第 3 批 tier 4；V3-D7／V3-G11 是同一份稿的其他項）",
+   "area": "STORY",
+   "owner": "LAWWW",
+   "status": "待開工",
+   "priority": "P2",
+   "next": "【10-31 22:2x】歷史複核找到（HISTORY-AUDIT-1031）→ LAWWW 照稿實作，排在 D99 寒暑假（AA_549）之後",
+   "first": {
+    "term": "Y2S2",
+    "week": 0,
+    "earliest": "大二下期末",
+    "mainline": false,
+    "blocks": false,
+    "prereq": false,
+    "parallel": true,
+    "confirmed": true
+   },
+   "source": "AA-B 歷史複核 judgments_AA.jsonl（10-31）",
+   "authorized": "已定稿（D109）",
+   "xai": {
+    "spec": "AA_143（企劃線 claude/cool-heisenberg-o8kuqx）",
+    "branch": "claude/modest-rubin-2lyp7g",
+    "acceptance": "照稿進遊戲＋Node 測試，BB 瀏覽器",
+    "receiver": "LAWWW",
+    "ack": "ACTIONED"
+   }
+  },
+  {
+   "id": "AA117-CASE-NOTES-1031",
+   "title": "朋友的案子 C0～C8 都在，「誰／向誰／依據什麼／請求什麼」手機筆記畫面只有 C1 有（r2y3a3d.js:260 註解寫還沒有）：其他八件補筆記畫面（AA_117；歷史複核第 3 批 tier 4）",
+   "area": "STORY",
+   "owner": "LAWWW",
+   "status": "待開工",
+   "priority": "P2",
+   "next": "【10-31 22:2x】歷史複核找到（HISTORY-AUDIT-1031）→ LAWWW 照稿實作，排在 D99 寒暑假（AA_549）之後",
+   "first": {
+    "term": "Y2S1",
+    "week": 0,
+    "earliest": "朋友的案子 C0",
+    "mainline": false,
+    "blocks": false,
+    "prereq": false,
+    "parallel": true,
+    "confirmed": true
+   },
+   "source": "AA-B 歷史複核 judgments_AA.jsonl（10-31）",
+   "authorized": "已定稿（D109）",
+   "xai": {
+    "spec": "AA_117（企劃線 claude/cool-heisenberg-o8kuqx）",
+    "branch": "claude/modest-rubin-2lyp7g",
+    "acceptance": "照稿進遊戲＋Node 測試，BB 瀏覽器",
+    "receiver": "LAWWW",
+    "ack": "ACTIONED"
+   }
+  },
+  {
+   "id": "AA13-G3-SHOWCASE-1031",
+   "title": "G3 成發觀眾群戲（阿凱、Alison、芷若、隔天阿凱）沒有（AA_13；歷史複核第 3 批 tier 4；G2 的缺口記在 SYS-14）",
+   "area": "STORY",
+   "owner": "LAWWW",
+   "status": "待開工",
+   "priority": "P2",
+   "next": "【10-31 22:2x】歷史複核找到（HISTORY-AUDIT-1031）→ LAWWW 照稿實作，排在 D99 寒暑假（AA_549）之後",
+   "first": {
+    "term": "Y1S2",
+    "week": 0,
+    "earliest": "子晴的成發",
+    "mainline": false,
+    "blocks": false,
+    "prereq": false,
+    "parallel": true,
+    "confirmed": true
+   },
+   "source": "AA-B 歷史複核 judgments_AA.jsonl（10-31）",
+   "authorized": "已定稿（D109）",
+   "xai": {
+    "spec": "AA_13（企劃線 claude/cool-heisenberg-o8kuqx）",
+    "branch": "claude/modest-rubin-2lyp7g",
+    "acceptance": "照稿進遊戲＋Node 測試，BB 瀏覽器",
+    "receiver": "LAWWW",
+    "ack": "ACTIONED"
+   }
+  },
+  {
+   "id": "XINCI-EPI-FEST-1031",
+   "title": "芯慈交往中：尾聲兩句＋畢業禮物「這一頁你寫。」（AA_548 第 9 節，取代 AA_537#6；第二句換「……今天想吃的就是它。」、工作改國際所）；交往中五個節日（AA_537b 第 5 節，fest_events.js 沒有她）（歷史複核第 2 批 tier 4）",
+   "area": "STORY",
+   "owner": "LAWWW",
+   "status": "待開工",
+   "priority": "P2",
+   "next": "【10-31 22:2x】歷史複核找到（HISTORY-AUDIT-1031）→ LAWWW 照稿實作，排在 D99 寒暑假（AA_549）之後",
+   "first": {
+    "term": "Y2S1",
+    "week": 0,
+    "earliest": "和芯慈交往中的第一個節日",
+    "mainline": false,
+    "blocks": false,
+    "prereq": false,
+    "parallel": true,
+    "confirmed": true
+   },
+   "source": "AA-B 歷史複核 judgments_AA.jsonl（10-31）",
+   "authorized": "已定稿（D109）",
+   "xai": {
+    "spec": "AA_548 第 9 節、AA_537b 第 5 節（企劃線 claude/cool-heisenberg-o8kuqx）",
+    "branch": "claude/modest-rubin-2lyp7g",
+    "acceptance": "照稿進遊戲＋Node 測試，BB 瀏覽器",
+    "receiver": "LAWWW",
     "ack": "ACTIONED"
    }
   }
