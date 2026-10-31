@@ -37167,7 +37167,7 @@
    "owner": "LAWWW",
    "status": "已整合待測試",
    "priority": "P2",
-   "next": "【10-31 15:0x】roomY2Due 只在 9/6、9/7（已經開始搬、人在臺北的家照舊）；9/7 演的時候不說「明天開學」（S.roomY2Line，宿舍和家兩處）；9/8 以後才讀進來的 S.roomY2Late 直接記 ROOM_Y2＝9/6、不演（照 roomY3Late；房間照大一經歷過的東西擺）；v3_room2_unit 1b（修改前 FAIL）→ BB 重跑 MODE=y2late｜BB 另提：大三 2027-09-05～2028-02-20 讀進來、沒有 ROOM_Y3 的舊存檔可能也演 507（roomY3Late 2028-02-21 才生效），請 BB 排一輪看",
+   "next": "【10-31 15:1x】全部 Node 786／0（5db371b5d）；已派 BB MODE=y2late＋大三 507 一輪｜【10-31 15:0x】roomY2Due 只在 9/6、9/7（已經開始搬、人在臺北的家照舊）；9/7 演的時候不說「明天開學」（S.roomY2Line，宿舍和家兩處）；9/8 以後才讀進來的 S.roomY2Late 直接記 ROOM_Y2＝9/6、不演（照 roomY3Late；房間照大一經歷過的東西擺）；v3_room2_unit 1b（修改前 FAIL）→ BB 重跑 MODE=y2late｜BB 另提：大三 2027-09-05～2028-02-20 讀進來、沒有 ROOM_Y3 的舊存檔可能也演 507（roomY3Late 2028-02-21 才生效），請 BB 排一輪看",
    "first": {
     "term": "Y2S1",
     "week": 1,
@@ -37185,7 +37185,7 @@
     "branch": "claude/modest-rubin-2lyp7g",
     "acceptance": "10/15、2027-10-13 讀進來不演搬 312；9/6 照演；9/7 照演但沒有「明天開學」",
     "receiver": "BB",
-    "ack": "未派"
+    "ack": "SENT"
    }
   }
  ]
