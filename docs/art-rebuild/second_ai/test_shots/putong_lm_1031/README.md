@@ -65,4 +65,7 @@
 
 ## 測試
 
-（量測中）
+- 全部 Node：**777 過、0 失敗**。
+  - 測試樹＝開發 `44337adcb`＋共同教學館那兩份 patch＋這一包。
+  - 新的 `putong_interior_lm_unit.js` ALL PASS。
+- patch 對最新開發 `9dd9d460d` 用 `git apply --check` 檢查通過。

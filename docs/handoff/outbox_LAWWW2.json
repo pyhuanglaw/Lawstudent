@@ -4562,6 +4562,25 @@
    "state": "已交付（READY_FOR_ART_REVIEW）",
    "remaining": "教室單人桌椅、休息區、自習區桌椅還是遊戲的方塊；關著的房間門牌跟著備用群組藏起來（teach3d.js 的事，你決定）；102、201 白天稍暖",
    "next": "LAWWW 整合：換二進位＋套 gongtong_interior_1030.patch（assets3d.js 一行＋測試）＋lightbake_tools_1031.patch（工具）；Node 776／0；兩份對 d9a3691a4 apply --check 通過"
+  },
+  {
+   "branch": "claude/funny-albattani-iawshm",
+   "sha": "(這一次 commit)",
+   "noDirectIntegrate": false,
+   "receiver": "LAWWW",
+   "ack": "SENT",
+   "task": "ART-ECON-3D-GAP-1021 B：普通教學館室內光照烘焙",
+   "files": [
+    "assets/models/env/second_ai/putong_interior.glb",
+    "assets/models/env/second_ai/putong_interior.json",
+    "assets/models/env/second_ai/putong_interior_lm_day.webp",
+    "assets/models/env/second_ai/putong_interior_lm_night.webp",
+    "docs/art-rebuild/second_ai/patches/putong_lm_1031.patch",
+    "docs/art-rebuild/second_ai/test_shots/putong_lm_1031/"
+   ],
+   "state": "已交付（READY_FOR_ART_REVIEW）",
+   "remaining": "從大廳看樓梯間偏暗（一樓樓梯井沒有燈，配置）；101 靠門那面牆偏奶油色；教室單人桌椅還是方塊",
+   "next": "LAWWW 整合：換二進位（遊戲程式不用改）＋putong_lm_1031.patch（新測試、bake_putong.sh、烘焙紀錄）；Node 777／0；對 9dd9d460d apply --check 通過"
   }
  ]
 }
