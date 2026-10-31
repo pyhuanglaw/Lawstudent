@@ -119,9 +119,10 @@ async def main():
                     c = await pg.evaluate("(()=>{ const bs=[...document.querySelectorAll('#choices button')]; const e=bs.find(x=>/^睡到明天早上|^睡覺|^睡/.test(x.textContent.trim())); if(!e) return null; const r=e.getBoundingClientRect(); return [r.left+r.width/2,r.top+r.height/2,e.textContent.trim().slice(0,20)]; })()")
                     if c: await L.touch_tap(cdp, c[0], c[1]); await pg.wait_for_timeout(1200); print('   去睡：', c[2], flush=True)
                     continue
-            if idle >= 40 and not g['home'] and g['zone'] == 'campus' and g['stage'] == 'law':   # 法律系住宿舍：下課後人在校園＝自己走回宿舍（不開手機）；校門口的「回臺北的家」平日按了不會回家（10-22 v9.10.4 候選 nophone 9/1 晚上在校門口來回四次）
+            if idle >= 40 and not g['home'] and g['zone'] in ('campus', 'dorm_hall') and g['stage'] == 'law':   # 法律系住宿舍：下課後人在校園＝自己走回宿舍（不開手機）；校門口的「回臺北的家」平日按了不會回家（10-22 v9.10.4 候選 nophone 9/1 晚上在校門口來回四次）
                 problems.append('下課後留在校園、自己走回宿舍：%s %.2f' % (g['key'], g['h'])); print('   ' + problems[-1], flush=True)
-                door = await pg.evaluate("(()=>{ const i=(GAME.E.interactables||[]).find(q=>q.exit&&q.exit.to==='dorm'&&!q.hidden); return i?[i.x,i.z,i.lv|0,i.label||'宿舍']:null; })()")
+                door = await pg.evaluate("(()=>{ const its=GAME.E.interactables||[], to=GAME.G.zone==='campus'?['dorm_hall','dorm']:['dorm']; for(const t of to){ const i=its.find(q=>q.exit&&q.exit.to===t&&!q.hidden); if(i) return [i.x,i.z,i.lv|0,i.label||'宿舍']; } return null; })()")   # 2026-10-31 BB-B：校園的宿舍入口現在先進宿舍門廳（dorm_hall），再從走廊進房間（原本只找 to:'dorm'，n36_qa_sleep 9/1 晚上在校園空轉）
+                if not door: print('   找不到回宿舍的出口（%s）' % g['zone'], flush=True)
                 if door and await L.go_to(pg, cdp, run, door[0], door[1], 0.9, door[3], max_s=300, lv=door[2]): await L.tap(pg, cdp, '#interact'); await pg.wait_for_timeout(2500)
                 idle = 0; continue
             if idle >= 40 and not g['home'] and g['zone'] == 'campus':   # 出遊演完人留在校園：走到校門口「回臺北的家」（玩家會做的）
