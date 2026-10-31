@@ -1,0 +1,126 @@
+diff --git a/src/zones3d.js b/src/zones3d.js
+index fdb84743c..583f0c56e 100644
+--- a/src/zones3d.js
++++ b/src/zones3d.js
+@@ -1207,7 +1207,7 @@ const Z3 = (function(){
+       const nn=WZ_NIGHT[nm]; if(nn){ mt.emissive=new THREE.Color(nn[0]); TK.addNight(mt,nn[1],nn[2]); }
+       if((nm==='ck_glass'||nm==='ck_pav_dark')&&mt.emissiveMap){ const t=mt.emissiveMap; t.generateMipmaps=false; t.minFilter=THREE.LinearFilter; t.needsUpdate=true; }   /* 校園地標的玻璃：亮燈、沒亮燈的窗同一個材質，自發光貼圖左半黑、右半燈光（campus_hall.py）；不用 mipmap，遠處左右兩半才不會混在一起（沒亮燈的窗發光） */
+       if(nm==='jp_shoji'){ mt.emissiveMap=mt.map; }   /* 紙拉門：亮燈時整片紙發光、木格比較暗 */
+-      if((/^wz_pillar_/.test(nm)||nm==='wz_pole_concrete'||nm==='gt_palm_bark'||nm==='gt_palm')&&E.patchSeeThrough){ mt.userData.seeThrough=true; E.patchSeeThrough(mt); }   /* 騎樓柱子、共同教學館前的蒲葵：擋住玩家時網點透空（和套件的柱子、樹一樣） */
++      if((/^wz_pillar_/.test(nm)||/^seethru_/.test(nm)||nm==='wz_pole_concrete'||nm==='gt_palm_bark'||nm==='gt_palm')&&E.patchSeeThrough){ mt.userData.seeThrough=true; E.patchSeeThrough(mt); }   /* seethru_ 開頭：校舍門廊、拱廊的柱子（campus_hall.py 的 seethru_ck_col、seethru_ck_pier；CAM-PILLAR-HALLS-1031，測試 node tests/campus_hall_pillar_seethru_unit.js）*/ /* 騎樓柱子、共同教學館前的蒲葵：擋住玩家時網點透空（和套件的柱子、樹一樣） */
+       if(nm&&nm.indexOf('cafe_leaf_')===0){ mt.alphaTest=Math.max(mt.alphaTest||0,0.5); mt.side=THREE.DoubleSide; }
+       if(nm==='ck_bell_wash'){ mt.emissive=new THREE.Color(0xffffff); mt.emissiveMap=mt.map; mt.map=null; mt.color=new THREE.Color(0x000000); mt.roughness=1; mt.metalness=0; mt.transparent=true; mt.depthWrite=false; mt.blending=THREE.AdditiveBlending; mt.fog=false; TK.addNight(mt,0.75,0); mt.needsUpdate=true; } });   /* 傅鐘柱面的暖光（和套件一樣）：黑色底＋由下往上淡出的自發光、加法混合——白天看不到，晚上像地燈往上打的光 */
+     /* 招牌（橫、直立）、門牌告示牌：每一面原本各自一張 canvas、各自一次 draw call（整條巷子 29 面）→ 合成一張 atlas、一個網格 */
+diff --git a/tests/campus_hall_pillar_seethru_unit.js b/tests/campus_hall_pillar_seethru_unit.js
+new file mode 100644
+index 000000000..2ece32295
+--- /dev/null
++++ b/tests/campus_hall_pillar_seethru_unit.js
+@@ -0,0 +1,52 @@
++// 總圖、行政大樓、文學院、校史館的門廊、拱廊柱子擋住跟隨鏡頭（CAM-PILLAR-HALLS-1031，LAWWW2-B 2026-10-31）——不需要瀏覽器。
++// 總圖門口往旁邊 2.6 m，門廊的石柱把人切掉一半（tests/linze_pillar_seethru_unit.js 是霖澤館同一個問題）。四棟都是 tools/blender/env_second/campus_hall.py 匯出的正式模型，
++//   柱子原本和收邊（ck_trim）、牆（ck_wall）合併在一起，不能整個材質標透視。
++// 做法：門廊石柱（柱身、柱頭、柱礎）、拱廊柱墩的柱頭柱腳 → seethru_ck_col；拱廊的面磚柱墩 → seethru_ck_pier（同一張貼圖）；
++//   zones3d.js 的 attachWenzhouModel 把 seethru_ 開頭的材質標 userData.seeThrough、E.patchSeeThrough（和騎樓柱子 wz_pillar_ 同一套）。
++// 檢查：①真的 GLB：兩個柱子材質都在、只在一樓（柱子，不含簷口、屋頂）；收邊、牆照舊在、比柱子高 3 m 以上 ②在 Node 建出校園、四棟正式模型換成假的：
++//   seethru_ 材質標了透視、patch 過 shader，收邊、牆、玻璃沒有。
++// 用法：node tests/campus_hall_pillar_seethru_unit.js
++const fs=require('fs'), vm=require('vm'), path=require('path');
++const ROOT=path.resolve(__dirname,'..');
++global.window=global; global.self=global;
++const ctx2d=new Proxy({}, {get:(o,k)=>k==='createRadialGradient'||k==='createLinearGradient'||k==='createPattern'?()=>({addColorStop(){}}):(k==='getImageData'?()=>({data:new Uint8ClampedArray(16)}):(k==='measureText'?()=>({width:10}):(()=>{})))});
++global.document={ createElementNS:()=>({getContext:()=>ctx2d,style:{}}), createElement:()=>({width:1,height:1,getContext:()=>ctx2d,style:{}}), getElementById:()=>null, addEventListener(){} };
++global.navigator={userAgent:'node'}; global.addEventListener=()=>{}; global.innerWidth=844; global.innerHeight=390; global.location={search:''};
++const files=['lib/three.bundle.js','lib/three.jsm.bundle.js','src/people3d.js','src/assets3d.js','src/world3d.js','src/engine3d.js','src/townkit3d.js','src/campuskit3d.js','src/zones3d.js','src/data/dorm_room_layout.js','src/data/socsci_layout.js',
++  'src/data/linze_layout.js','src/data/classroom_layout.js','src/building3d.js','src/data/wancai_layout.js','src/wancai3d.js','src/data/library_layout.js','src/library3d.js','src/data/lawlib_layout.js','src/lawlib3d.js','src/data/gongtong_layout.js','src/data/boya_layout.js','src/data/putong_layout.js','src/teach3d.js',
++  'src/data/calendar.js','src/data/places.js','src/data/characters.js','src/data/courses.js','src/data/activities.js','src/classes3d.js'];
++for(const f of files){ let src=fs.readFileSync(path.join(ROOT,f),'utf8'); src=src.replace(/^const (\w+)\s*=/mg,(m,n)=>/^(THREE|THREE_JSM|P3|ASSETS|W3|E3|TK|CK|Z3|B3|WC3|LB3|LL3|LINZE_LAYOUT|CLASSROOM_LAYOUT|WANCAI_LAYOUT|LIBRARY_LAYOUT|LAWLIB_LAYOUT|GONGTONG_LAYOUT|BOYA_LAYOUT|PUTONG_LAYOUT|TB3|ACTIVITIES|CALENDAR|PLACES|CHARACTERS|UNFAMILIAR_POOL|SOCIAL_GRAPH|PORTRAITS|COURSES|CLS|PROPS|CHAR)$/.test(n)?'globalThis.'+n+'=':m); vm.runInThisContext(src,{filename:f}); }
++
++let fails=0; const check=(name,ok,info)=>{ console.log((ok?'PASS ':'FAIL ')+name+(info?'　'+info:'')); if(!ok) fails++; };
++process.on('unhandledRejection',()=>{});
++const SETS={library:'總圖',admin:'行政大樓',arts:'文學院',hist:'校史館'};
++function yRange(j,bin,pred){ let lo=Infinity, hi=-Infinity, tri=0; const names=j.materials.map(m=>m.name);
++  for(const nd of j.nodes){ if(nd.mesh==null) continue; const t=nd.translation||[0,0,0];
++    for(const pr of j.meshes[nd.mesh].primitives){ if(!pred(names[pr.material])) continue; const a=j.accessors[pr.attributes.POSITION], bv=j.bufferViews[a.bufferView], o=(bv.byteOffset||0)+(a.byteOffset||0), st=bv.byteStride||12;
++      tri+=(pr.indices!=null?j.accessors[pr.indices].count:a.count)/3; for(let k=0;k<a.count;k++){ const y=bin.readFloatLE(o+k*st+4)+t[1]; if(y<lo) lo=y; if(y>hi) hi=y; } } }
++  return {lo,hi,tri}; }
++/* ① 真的 GLB */
++for(const [k,nm] of Object.entries(SETS)){
++  const b=fs.readFileSync(path.join(ROOT,'assets/models/env/second_ai/campus_'+k+'.glb')), n=b.readUInt32LE(12), j=JSON.parse(b.slice(20,20+n).toString('utf8')), off=20+n, bin=b.slice(off+8,off+8+b.readUInt32LE(off));
++  const col=yRange(j,bin,x=>x==='seethru_ck_col'), pier=yRange(j,bin,x=>x==='seethru_ck_pier'), trim=yRange(j,bin,x=>x==='ck_trim'), wall=yRange(j,bin,x=>x==='ck_wall');
++  check(`① ${nm}：門廊石柱（seethru_ck_col）、拱廊柱墩（seethru_ck_pier）都在，只在一樓（8 m 以下：柱子，不含簷口、屋頂）`,col.tri>0&&pier.tri>0&&col.hi<8&&pier.hi<8&&col.lo<0.05&&pier.lo<0.5,`柱子 ${col.tri} 個三角形、高 ${col.lo.toFixed(2)}～${col.hi.toFixed(2)} m；柱墩 ${pier.tri} 個、${pier.lo.toFixed(2)}～${pier.hi.toFixed(2)} m`);
++  check(`① ${nm}：收邊（ck_trim）、牆（ck_wall）照舊在、比柱子高 3 m 以上（簷口、上面的樓層照舊不透視）`,trim.tri>0&&wall.tri>0&&trim.hi>col.hi+3&&wall.hi>pier.hi+3,`收邊到 ${trim.hi.toFixed(1)} m、牆到 ${wall.hi.toFixed(1)} m`);
++  const st=j.materials.map(m=>m.name).filter(x=>/^seethru_/.test(x)).sort().join();
++  check(`① ${nm}：seethru_ 開頭的只有這兩個材質`,st==='seethru_ck_col,seethru_ck_pier',st);
++}
++/* ② 校園：四棟正式模型換成假的（每一種材質一個小網格）*/
++const MATS=['seethru_ck_col','seethru_ck_pier','ck_trim','ck_trim_win','ck_wall','ck_roof','ck_glass'];
++function fakeModel(){ const g=new THREE.Group(); for(const nm of MATS){ const me=new THREE.Mesh(new THREE.BoxGeometry(0.1,0.1,0.1),new THREE.MeshStandardMaterial({name:nm})); me.name=nm; g.add(me); } return g; }
++const KEYS=Object.keys(SETS).map(k=>'bldg.campus_'+k), pend=[], got={};
++ASSETS.loadOne=k=>{ if(KEYS.includes(k)){ const p=Promise.resolve({scene:fakeModel()}); pend.push(p); return p; } return new Promise(()=>{}); };
++const E=E3; E.scene=new THREE.Scene(); E.q={level:'medium'}; E.interactables=[]; E.colliders=[]; E.lampGlows=[]; E.seats=[]; E.npcs=[]; E.spawnHint=null; E.ray=E.ray||new THREE.Raycaster();
++global.GAME={G:{hour:14,weather:'clear',flags:{},zone:'campus'}};
++(async()=>{
++  const z=Z3.ZONES.campus.build(E); z.def=Z3.ZONES.campus; E.zone=z; await Promise.all(pend); await new Promise(r=>setTimeout(r,0));
++  check('② 四棟的正式模型都接上了（假的模型）',pend.length===4,pend.length+' 棟');
++  const bad=[], ok={}; z.group.traverse(o=>{ if(!o.isMesh||!o.material||!MATS.includes(o.material.name)) return; const m=o.material, see=/^seethru_/.test(m.name);
++    if(see){ ok[m.name]=(ok[m.name]||0)+((m.userData.seeThrough&&m.userData._st)?1:0); if(!(m.userData.seeThrough&&m.userData._st)) bad.push(m.name); } else if(m.userData.seeThrough) bad.push(m.name); });
++  check('② 柱子（seethru_ck_col、seethru_ck_pier）標了透視、patch 過 shader',(ok.seethru_ck_col||0)>=4&&(ok.seethru_ck_pier||0)>=4,JSON.stringify(ok));
++  check('② 收邊、窗、牆、屋頂、玻璃不透；柱子沒有漏標',bad.length===0,bad.join('、'));
++  console.log(fails?'FAILED '+fails:'ALL PASS'); process.exit(fails?1:0);
++})();
+diff --git a/tools/blender/env_second/campus_hall.py b/tools/blender/env_second/campus_hall.py
+index d9b263ec0..9c0bfba5e 100644
+--- a/tools/blender/env_second/campus_hall.py
++++ b/tools/blender/env_second/campus_hall.py
+@@ -88,6 +88,11 @@ def build(c, out=None):
+         # 總圖第一版用 concrete_wall_006（清水混凝土）：遊戲裡門廊的柱子滿是褐色水痕，比套件的切石還髒（library_after_porch 第一版）
+         'trim': L.pbr('ck_trim', 'sandstone_blocks_08', tile=3.0, sat=0.45, target=c['trim'], normal=0.6, maps=('diff', 'nor'), res=512, rough_value=0.8),
+         'trimw': L.pbr('ck_trim_win', 'sandstone_blocks_08', tile=3.0, sat=0.45, target=c['trim'], maps=('diff',), res=512, rough_value=0.8),   # 同一張顏色貼圖（GLB 裡只存一份）
++        # 柱子（CAM-PILLAR-HALLS-1031，LAWWW2-B 2026-10-31）：和石材、面磚同一張貼圖，另外一個材質。名字 seethru_ 開頭：遊戲（zones3d.js attachWenzhouModel）標成樹幹透視，
++        #   擋在跟隨鏡頭和玩家之間時網點透空（從門廊側邊走向大門時柱子把人切掉一半）。收邊（簷口、拱圈、門廊頂板）、牆照舊不透
++        'col': L.pbr('seethru_ck_col', 'sandstone_blocks_08', tile=3.0, sat=0.45, target=c['trim'], normal=0.6, maps=('diff', 'nor'), res=512, rough_value=0.8),   # 門廊石柱（柱身、柱頭、柱礎）、拱廊柱墩的柱頭柱腳
++        'pier': L.pbr('seethru_ck_pier', 'exterior_wall_cladding_02', tile=2.0, target=c['wall'], normal=0.8, maps=('diff', 'nor'), rough_value=0.88,
++                      **({'sat': c['wall_sat']} if c.get('wall_sat') else {})),   # 拱廊的面磚柱墩
+         'base': L.pbr('ck_stone_base', 'granite_tile_03', tile=1.2, target='#9a948a', maps=('diff',), res=256, rough_value=0.7),
+         'roof': L.pbr('ck_roof', 'grey_roof_tiles', tile=3.0, target=c['roof'], normal=0.8, maps=('diff', 'nor'), rough_value=0.82),   # 實際 3 m 一張
+         'ceil': L.flat('ck_ceiling', '#e2dccf', rough=0.95),
+@@ -307,12 +312,13 @@ def build(c, out=None):
+     wall_strip(ARC_BACK, -W / 2, W / 2, 0.0, GFH, holes)
+     for sx in (-1, 1): face(acc('wall'), [(sx * W / 2, GFH - 0.3, D / 2 - AD), (sx * W / 2, GFH - 0.3, D / 2 - 0.6), (sx * W / 2, GFH, D / 2 - 0.6), (sx * W / 2, GFH, D / 2 - AD)], (sx, 0, 0))   # 拱廊兩端：天花板到樓板腰帶之間的端牆
+     wm, tm = acc('wall'), acc('trim')
++    pm, cm = acc('pier'), acc('col')   # 柱子：網點透空的材質（見 M 的 col、pier）
+     for i in range(NB + 1):   # 柱墩（面磚）＋柱頭、柱腳（石材）
+         x = -W / 2 + BW * i; corner = i in (0, NB)
+         # 轉角的柱墩一路到樓板腰帶（套件的轉角柱子上面是空的，從側面看像一根柱子頂著空氣）
+-        box(wm, x - APW / 2, x + APW / 2, 0.4, GFH if corner else AYS - 0.11, FZ - 0.3, FZ + 0.3, skip=('bottom', 'top'))
+-        box(tm, x - APW / 2 - 0.08, x + APW / 2 + 0.08, AYS - 0.11, AYS + 0.11, FZ - 0.39, FZ + 0.39)   # 柱頭正面比拱圈石材（外凸 6 cm）再凸一點：同一平面會閃爍
+-        box(tm, x - APW / 2 - 0.06, x + APW / 2 + 0.06, 0.0, 0.4, FZ - 0.35, FZ + 0.35, skip=('bottom',))
++        box(pm, x - APW / 2, x + APW / 2, 0.4, GFH if corner else AYS - 0.11, FZ - 0.3, FZ + 0.3, skip=('bottom', 'top'))
++        box(cm, x - APW / 2 - 0.08, x + APW / 2 + 0.08, AYS - 0.11, AYS + 0.11, FZ - 0.39, FZ + 0.39)   # 柱頭正面比拱圈石材（外凸 6 cm）再凸一點：同一平面會閃爍
++        box(cm, x - APW / 2 - 0.06, x + APW / 2 + 0.06, 0.0, 0.4, FZ - 0.35, FZ + 0.35, skip=('bottom',))
+ 
+     def arch_bay(m, mring, xc, bw, ys, top, r, zf, zb, n=NSEG_A, ring=0.14, clip=(-1e9, 1e9)):
+         """一個開間的拱圈牆：正面（zf）、背面（zb）、拱腹；正面加石材拱圈。clip：左右兩塊不超出這個範圍（被轉角的柱子、門廊側牆蓋住的部分不做，避免同一平面重疊）"""
+@@ -405,17 +411,17 @@ def build(c, out=None):
+                      (xc + rb * math.cos(a1), yb, zc + rb * math.sin(a1)), (xc + rb * math.cos(a0), yb, zc + rb * math.sin(a0))],
+                  (math.cos(am) * (yb - ya), ra - rb, math.sin(am) * (yb - ya)))
+ 
+-    rcol = Mesh(c['prefix'] + 'col', M['trim']) if po.get('cols') == 'round' else None   # 圓柱另外一個網格（平滑著色），最後和石材合併成同一個（同一個材質）
++    rcol = Mesh(c['prefix'] + 'rcol', M['col']) if po.get('cols') == 'round' else None   # 圓柱另外一個網格（平滑著色），最後和柱子合併成同一個（同一個材質 seethru_ck_col）
+     for i in range(1, PB):
+         x = -PWID / 2 + PBW * i
+         if rcol:   # 圓石柱：方形柱礎（0.8 m）＋柱腳圓盤＋圓柱身（直徑 0.6 m，往上稍微收分）＋喇叭形柱頭；上面的拱墩照舊（導航阻擋是套件的 0.9 m 方形，柱子在裡面）
+             zc = (pzb + pzf) / 2
+-            box(tm, x - 0.4, x + 0.4, 0.0, 0.3, zc - 0.4, zc + 0.4, skip=('bottom',))
++            box(cm, x - 0.4, x + 0.4, 0.0, 0.3, zc - 0.4, zc + 0.4, skip=('bottom',))
+             ring(rcol, x, zc, 0.3, 0.37, 0.42, 0.31); ring(rcol, x, zc, 0.42, 0.31, PYS - 0.42, 0.28)
+             ring(rcol, x, zc, PYS - 0.42, 0.28, PYS - 0.34, 0.32); ring(rcol, x, zc, PYS - 0.34, 0.32, PYS - 0.12, 0.44)
+         else:
+-            box(tm, x - PPW / 2, x + PPW / 2, 0.0, PYS - 0.12, pzb, pzf, skip=('bottom', 'top'))
+-        box(tm, x - PPW / 2 - 0.08, x + PPW / 2 + 0.08, PYS - 0.12, PYS + 0.1, pzb - 0.09, pzf + 0.09)
++            box(cm, x - PPW / 2, x + PPW / 2, 0.0, PYS - 0.12, pzb, pzf, skip=('bottom', 'top'))
++        box(cm, x - PPW / 2 - 0.08, x + PPW / 2 + 0.08, PYS - 0.12, PYS + 0.1, pzb - 0.09, pzf + 0.09)   # 柱頭（拱墩）
+     for i in range(PB): arch_bay(tm, acc('trimw'), -PWID / 2 + PBW * (i + 0.5), PBW, PYS, PH, PR, pzf, pzb, ring=0.16, clip=(-PWID / 2 + 0.45, PWID / 2 - 0.45))
+     for sx in (-1, 1):
+         x0, x1 = sx * PWID / 2 - 0.45, sx * PWID / 2 + 0.45

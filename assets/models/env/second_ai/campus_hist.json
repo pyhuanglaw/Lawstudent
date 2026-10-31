@@ -1,10 +1,10 @@
 {
- "objects": 9,
- "unique_meshes": 9,
+ "objects": 11,
+ "unique_meshes": 11,
  "tris": 6432,
  "tris_drawn": 6432,
- "materials": 9,
- "out": "assets/models/env/second_ai/campus_hist.glb",
- "bytes": 510904,
+ "materials": 11,
+ "out": "../halls/new/hist.glb",
+ "bytes": 513292,
  "texres": 512
 }
