@@ -109,6 +109,10 @@ for o in objs:
     # 沒有 UV 的網格（頂點色的零件：鐵腳、收邊、格柵；10-28 202 v2 查到）：先放一套空的 UVMap，LM 才會是第二套（glTF 的 TEXCOORD_1＝遊戲的 uv1）。
     # 原本 LM 變成唯一的一套、匯出成 TEXCOORD_0：遊戲裡這些零件沒有吃到光照貼圖，還白白佔了貼圖的位置
     if 'LM' not in uv and len(uv) == 0: uv.new(name='UVMap')
+    # 原本就有兩套以上 UV 的網格（10-31 體育館 B1 的花崗石：幾個零件合併成一個，帶了第二套貼圖 UV）：LM 會變成第三套（TEXCOORD_2），
+    # 遊戲照 TEXCOORD_1 取光照貼圖，取到的是第二套貼圖 UV（數值 −11～16）→ 走廊地板、樓梯整片黑。烘焙的物件只留第一套（材質都用 TEXCOORD_0，烘焙前檢查過）
+    while 'LM' not in uv and len(uv) > 1:
+        print('extra uv removed', o.name, uv[len(uv) - 1].name, flush=True); uv.remove(uv[len(uv) - 1])
     if 'LM' not in uv: uv.new(name='LM')
     uv.active = uv['LM']
 bpy.ops.object.select_all(action='DESELECT')

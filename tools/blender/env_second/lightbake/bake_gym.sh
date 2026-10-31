@@ -82,6 +82,9 @@ b1)
   #   健身中心：線型燈（x −21～7 每 4 m × z 5.5、9.0、12.2，24 條，3.56 m，2.4×0.12 m）：往下照的面光源，中性白，FITW。
   #   走廊：嵌燈（x −21～9 每 5 m、z 1.4，7 盞，3.0 m）、大廳：嵌燈（x 14、18、22 × z 2、6，3.6 m）：往下照的小面光源，暖白，CORW／LOBW。
   # --hide：玻璃（健身中心、泳池的玻璃牆）、燈面（下面放面光源）、水面（半透明：光要照到池底的馬賽克）。
+  # 第一版（10-31）：泳池 150 W、健身 60 W、大廳 25 W → 池邊、健身房地墊過曝（光照貼圖 1.8、1.3）；走廊地板、樓梯整片黑——
+  #   花崗石的網格本來就有兩套 UV，光照貼圖的 UV 被擠到第三套（bake_room.py 已修：烘焙的物件只留第一套）；樓梯井往 1F 的開口上面是黑殼 → 樓梯井頂加燈。
+  #   定案參數：泳池 80、健身 35、大廳 18 W；樓梯井頂三盞；走廊、大廳天花板補光。
   # --nolm：器材、置物櫃、櫃台道具（GPU instancing 的 gymb1_／gymb2_*，和照位置擺的 GYM_／GYM2_）、鋼件、水道繩、電視、計時器、牌子、旗子、白色小東西、植物、門牌。
   #   地板、池底、池邊、牆、天花板、鏡子、木頭、花崗石照樣烘（器材的影子會烘進地板）。
   NAME=gym_b1; SCRIPT=tools/blender/env_second/gym_b1.py
@@ -90,15 +93,20 @@ b1)
   COOL=${HBCOL:-0.97,0.98,1.0}; NEU=${FITCOL:-1.0,0.97,0.92}; WARM=${DLCOL:-1.0,0.9,0.76}
   LIGHTS=""
   for zz in -21 -15 -9 -3.5; do for x in -18.4 -12.4 -6.4 -0.4 5.6 11.6 17.6 23.6; do
-    LIGHTS="$LIGHTS;$(python3 -c "print(f'{$x-0.01:.3f},{$x+0.01:.3f},{$zz-0.01:.3f},{$zz+0.01:.3f},6.68,1,1,${POOLW:-150},0.5,0.5,$COOL')")"; done; done
+    LIGHTS="$LIGHTS;$(python3 -c "print(f'{$x-0.01:.3f},{$x+0.01:.3f},{$zz-0.01:.3f},{$zz+0.01:.3f},6.68,1,1,${POOLW:-80},0.5,0.5,$COOL')")"; done; done
   for zz in 5.5 9.0 12.2; do for x in -21 -17 -13 -9 -5 -1 3 7; do
-    LIGHTS="$LIGHTS;$(python3 -c "print(f'{$x-0.01:.3f},{$x+0.01:.3f},{$zz-0.01:.3f},{$zz+0.01:.3f},3.55,1,1,${FITW:-60},2.4,0.12,$NEU')")"; done; done
+    LIGHTS="$LIGHTS;$(python3 -c "print(f'{$x-0.01:.3f},{$x+0.01:.3f},{$zz-0.01:.3f},{$zz+0.01:.3f},3.55,1,1,${FITW:-35},2.4,0.12,$NEU')")"; done; done
   for x in -21 -16 -11 -6 -1 4 9; do
     LIGHTS="$LIGHTS;$(python3 -c "print(f'{$x-0.01:.3f},{$x+0.01:.3f},1.390,1.410,2.98,1,1,${CORW:-20},0.2,0.2,$WARM')")"; done
   for zz in 2 6; do for x in 14 18 22; do
-    LIGHTS="$LIGHTS;$(python3 -c "print(f'{$x-0.01:.3f},{$x+0.01:.3f},{$zz-0.01:.3f},{$zz+0.01:.3f},3.58,1,1,${LOBW:-25},0.25,0.25,$WARM')")"; done; done
+    LIGHTS="$LIGHTS;$(python3 -c "print(f'{$x-0.01:.3f},{$x+0.01:.3f},{$zz-0.01:.3f},{$zz+0.01:.3f},3.58,1,1,${LOBW:-18},0.25,0.25,$WARM')")"; done; done
+  for zz in 9.5 11.5 13.5; do   # 樓梯井頂（往 1F 的開口，3.6 m）：1F 大廳的光從上面下來（烘焙時開口上面只有黑殼）
+    LIGHTS="$LIGHTS;$(python3 -c "print(f'17.99,18.01,{$zz-0.01:.3f},{$zz+0.01:.3f},3.55,1,1,${STAIRW:-25},1.2,0.8,$WARM')")"; done
   LIGHTS=${LIGHTS#;}
-  EXTRA=(--sun 180,25,0 --sky 0 --daylights 1.0 --shell NONE --keep-instances) ;;
+  # 天花板補光（照 1F 大廳第四版）：嵌燈只往下照，天花板只吃反彈光 → 嵌燈正下方各一顆柔和的點光源
+  PT=""; for x in -21 -16 -11 -6 -1 4 9; do PT="$PT;$x,1.8,1.4,${CFILLW:-3},$WARM,0.5"; done
+  for zz in 2 6; do for x in 14 18 22; do PT="$PT;$x,2.2,$zz,${LFILLW:-5},$WARM,0.5"; done; done; PT=${PT#;}
+  EXTRA=(--points "$PT" --sun 180,25,0 --sky 0 --daylights 1.0 --shell NONE --keep-instances) ;;
 *) echo "未知的區域：$ZONE"; exit 1 ;;
 esac
 # 單面／雙面的對照：開發分支部署中的那一份（烘焙前先複製；沒有才用白模）。白模裡樓梯口指標字面 cafe_sign_face 本來就是雙面
