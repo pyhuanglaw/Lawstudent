@@ -590,7 +590,10 @@ async def s_te_other(p, run, base, sid, out):
         if not okp: return
         # n27（03:4x）：c3a8aded9 起兩頓期末飯不排同一晚（TERMEND.teBusy 看 heartDay／gfDay）——和子晴交往中，子晴的女朋友期末約也在這個時段，
         # 芯慈的心意飯（HEART.sameDay）可能排到別的晚上；先讓手機規則跑一下、讀 heartDay，再跳到那一天 11:52 等 12:00 的邀約
-        await pg.wait_for_timeout(6000)
+        # n27_xcrom_b（04:5x）：讀檔後 6 秒 heartDay／gfDay 都還是空的（學期末的排程要遊戲時間走了才算）——最多等 240 秒到 heartDay 有她
+        for _ in range(80):
+            if await pg.evaluate("(()=>{ const R=TERMEND.rec(GAME.G,'Y3S2')||{}; return (R.heartDay||{}).classmate_xinci!=null; })()"): break
+            await pg.wait_for_timeout(3000)
         TD = await pg.evaluate("(()=>{ const G=GAME.G, R=TERMEND.rec(G,'Y3S2')||{}, k=d=>d==null||d<0?d:CALENDAR.dateOf(d).key; const H={}, F={}; for(const i in (R.heartDay||{})) H[i]=k(R.heartDay[i]); for(const i in (R.gfDay||{})) F[i]=k(R.gfDay[i]);"
                                " return {heart:H, gf:F, outs:((OUT.rec(G))||[]).filter(q=>q&&/^te_/.test(q.id||'')).map(q=>[q.id, CALENDAR.dateOf(q.day).key, q.h, q.state||null])}; })()")
         res['te_days'] = TD; run.note('%s 學期末的日子：芯慈 heartDay %s、子晴 gfDay %s、已排的 %s' % (sid, J(TD.get('heart')), J(TD.get('gf')), J(TD.get('outs'))))
