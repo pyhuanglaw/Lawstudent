@@ -470,9 +470,10 @@ async def s_zql3(p, run, base, sid, out):
             if pos: break
             await pg.wait_for_timeout(5000)
         run.check('%s：前置——子晴在校園（作息 %s）、下一層是 Q2-L3' % (sid, J(w)), bool(pos) and nxt == 'Q2-L3', J({'pos': pos, 'next': nxt}))
-        if pos:   # n29_nocmp_a 10:5x：子晴在 110 m 外，SwiftShader 每秒 1 格走了 6 分鐘還走不到（中途手機跳出來暫停）——先站到她 4～6 m 外
-            near = await pg.evaluate("(([x,z])=>{ const E=GAME.E; for(const R of [4,5,6,8]) for(let i=0;i<16;i++){ const a=i*Math.PI/8, px=x+Math.cos(a)*R, pz=z+Math.sin(a)*R; if(E.canStand&&!E.canStand(px,pz,0.35,0)) continue; E.placeAt(E.player,px,pz,0); E.player.path=null; return [+px.toFixed(2),+pz.toFixed(2),R]; } return null; })(%s)" % json.dumps(pos[:2]))
-            run.setup('【捷徑】%s：站到子晴旁邊 %s（瞬移；之後照玩家走過去、點「說話」）' % (sid, J(near))); await pg.wait_for_timeout(2500)
+        if pos:   # n29_nocmp_a 10:5x：子晴在 110 m 外，SwiftShader 每秒 1 格走了 6 分鐘還走不到（中途手機跳出來暫停）——先站到她旁邊。
+            # n29_nocmp_a2 12:0x：站 4 m 外還是追不到（go_to 走到她「出發那一刻」的位置，她已經走開；走走的人要玩家 2.8 m 內才停下來，engine3d.js:361）——改站 1.5～2.5 m 內
+            near = await pg.evaluate("(([x,z])=>{ const E=GAME.E; for(const R of [1.5,2.0,2.5]) for(let i=0;i<16;i++){ const a=i*Math.PI/8, px=x+Math.cos(a)*R, pz=z+Math.sin(a)*R; if(E.canStand&&!E.canStand(px,pz,0.35,0)) continue; E.placeAt(E.player,px,pz,0); E.player.path=null; return [+px.toFixed(2),+pz.toFixed(2),R]; } return null; })(%s)" % json.dumps(pos[:2]))
+            run.setup('【捷徑】%s：站到子晴 2.8 m 內 %s（瞬移；她走走時玩家在 2.8 m 內會停下來看玩家；之後照玩家走過去、點「說話」）' % (sid, J(near))); await pg.wait_for_timeout(2500)
         n0 = await log_len(pg)
         ch, lab = await talk(pg, cdp, run, [ZQ], ['子晴', '高子晴'], picks=['「妳還好嗎？」'], label=sid, shot_at=('第二名',))
         lg = await log_since(pg, n0); T = texts(lg); CS = choice_sets(lg); res.update({'said': T, 'choices': CS, 'lab': lab}); await run.shot(pg, '%s_after' % sid)
