@@ -108,7 +108,7 @@ const TERMEND_LINES=(function(){
         {terms:['Y4S1'],   /* 她 2028-06 畢業、在工作室上班（AA_254 第 5 節大四上，8c76052b）*/
         invite:G=>[US4(G)?'欸 你回來了齁 宵夜':'欸 你考完了吧 宵夜','只有我們兩個 不要找阿凱'],
         table:G=>Q6(G)?'最近做了一個關卡，還沒給任何人玩。……你先玩。不准放水。':'最近寫了很多東西。……還沒給任何人看。' }] },
-    classmate_xinci:{ src:'AA_537b 第 7 節（5ba143d2c）、8-0（86659bbc1）', place:'l118_home', placeName:'巷口家常菜', h:18, walkBg:null, walkPlace:'羅斯福路・往公館站',   /* XINCI-ROMANCE-1030（使用者 X139）：發不發看 src/xcrom3d.js XCROM.heartOk（G1～G10；最早大三下期末）*/
+    classmate_xinci:{ src:'AA_537b 第 7 節（5ba143d2c）、8-0（86659bbc1）', place:'l118_home', placeName:'巷口家常菜', h:18, walkBg:null, walkPlace:'羅斯福路・往公館站', walkCaption:'羅斯福路・往公館站',   /* 沒有底圖＝深色底＋字幕（和巷口家常菜那一段一樣；BB-B 10-31 n27）*/   /* XINCI-ROMANCE-1030（使用者 X139）：發不發看 src/xcrom3d.js XCROM.heartOk（G1～G10；最早大三下期末）*/
       invite:'考完了。今天晚上有空嗎。……我沒有提前一天。', decline:'好。……那我再排一次。',
       table:'我今天點了一道沒吃過的。……你不要笑。',   /* AA_537b 8-0（86659bbc1）：第 7 節那句和學姊 GF 太像，換這句（接 G3 想換菜）*/
       walk:['這學期，我有一天沒有排讀書。','……是跟你吃飯那天。'],
