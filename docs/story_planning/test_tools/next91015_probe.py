@@ -1380,6 +1380,19 @@ async def gtecon(pg, cdp, run):
     run.check('老師在講台（101 前面 z ≥ 4 有站著的人）', any(x['z'] >= 4.0 for x in cap['stand']), J(cap['stand']))
 
 
+# n19_boyab4e 06:5x：A 18:55 坐下，選單沒有「聽演講」（Node 同一份存檔 canJoin＝true）——沒有的時候把遊戲判斷的每一條記下來
+B4DIAG = """(()=>{ const G=GAME.G, E=GAME.E, a=(ACTIVITIES.list||[]).find(q=>q.id==='B4'), st=E.player.seat||null; const h=G.hour%24;
+  return {zone:G.zone, day:CALENDAR.dateOf(G.day).key, h:+h.toFixed(2), seat:st&&{room:st.room, row:st.row, col:st.col, kind:st.kind}, on:!!ACTIVITIES.on(a,G.day,G), att:ACTIVITIES.attended(G,'B4',G.day),
+    once:ACTIVITIES.onceDone?ACTIVITIES.onceDone(G,a):null, win:[a.t0-0.25,(a.t0+a.t1)/2], canJoin:ACTIVITIES.canJoin(G,a), atSeat:!!(st&&ACTIVITIES.atSeat(G,G.zone,st.room)),
+    seatClass:(()=>{ try{ const c=CLS.seatClass(G,st); return c?(c.c&&c.c.name)||'?':null; }catch(e){ return 'ERR '+e.message; } })(), actsRec:JSON.stringify((G.acts||G.activities||null)).slice(0,200)}; })()"""
+
+
+B4_SEAT = """(()=>{ const E=GAME.E, R=(BOYA_LAYOUT.rooms||[]).find(r=>r.id==='101'); if(!R) return null; const occ=st=>E.npcs.some(n=>n.seat&&Math.hypot(n.seat.x-st.x,n.seat.z-st.z)<0.35);
+        const L=E.interactables.filter(i=>i.seat&&!i.hidden&&(i.lv|0)===(R.lv|0)&&i.x>R.x0&&i.x<R.x1&&i.z>R.z0&&i.z<R.z1&&!occ(i.seat)&&!i.seat.taken);
+        const p=E.player.obj.position; L.sort((u,v)=>Math.hypot(u.x-p.x,u.z-p.z)-Math.hypot(v.x-p.x,v.z-p.z)); const q=L[Math.min(2,L.length-1)];
+        return q?{x:q.x, z:q.z, lv:q.lv|0, label:q.label, n:L.length}:null; })()"""
+
+
 async def b4_part(pg, cdp, run, it, d, tag, load_h, sit_at, watch_s):
     """B4 一段：load_h 讀檔在校園 → 照玩家走進博思 → 走到 101 空位旁邊 →（站著）等到 sit_at、每 30 秒記聽眾（watch_s：至少看幾秒）→ 按「坐下」選「聽演講」→ 演完。
     n19_boyab4d（06:2x）：「聽演講」只在 t0−0.25～(t0+t1)/2 出現（ACTIVITIES.canJoin）；之前探針挑「坐」開頭的選項＝「坐一下，看看四周」（+20 分鐘）連按四次，跳過了開講＝探針錯"""
@@ -1395,10 +1408,7 @@ async def b4_part(pg, cdp, run, it, d, tag, load_h, sit_at, watch_s):
     run.check('%s：照玩家的路從校園走門進博思（%.2f 到）' % (tag, h_in), ok and await pg.evaluate("GAME.G.zone") == 'boya', await pg.evaluate("GAME.G.zone"))
     if not ok: return None
     await pg.wait_for_timeout(3000)
-    seat = await pg.evaluate("""(()=>{ const E=GAME.E, R=(BOYA_LAYOUT.rooms||[]).find(r=>r.id==='101'); if(!R) return null; const occ=st=>E.npcs.some(n=>n.seat&&Math.hypot(n.seat.x-st.x,n.seat.z-st.z)<0.35);
-        const L=E.interactables.filter(i=>i.seat&&!i.hidden&&(i.lv|0)===(R.lv|0)&&i.x>R.x0&&i.x<R.x1&&i.z>R.z0&&i.z<R.z1&&!occ(i.seat)&&!i.seat.taken);
-        const p=E.player.obj.position; L.sort((u,v)=>Math.hypot(u.x-p.x,u.z-p.z)-Math.hypot(v.x-p.x,v.z-p.z)); const q=L[Math.min(2,L.length-1)];
-        return q?{x:q.x, z:q.z, lv:q.lv|0, label:q.label, n:L.length}:null; })()""")
+    seat = await pg.evaluate(B4_SEAT)
     run.note('%s：101 裡的空位（離門口近的第三個）：%s' % (tag, J(seat)))
     if not seat: return None
     await L.go_to(pg, cdp, run, seat['x'], seat['z'], 0.5, seat['label'], max_s=200, lv=seat['lv'], stop=lambda s: s['dlg'] or s['choices'] or s['busy'])
@@ -1421,7 +1431,8 @@ async def b4_part(pg, cdp, run, it, d, tag, load_h, sit_at, watch_s):
         if s0['ch']:
             ts = [o['t'] for o in s0['ch']]; menus.append(ts)
             k = next((i for i, t in enumerate(ts) if t.startswith('聽演講')), None)
-            if k is None: run.note('%s：選單沒有「聽演講」：%s' % (tag, J(ts))); k = len(ts) - 1
+            if k is None:
+                dg = await pg.evaluate(B4DIAG); run.note('%s：選單沒有「聽演講」：%s；遊戲狀態 %s' % (tag, J(ts), J(dg)[:900])); k = len(ts) - 1
             else: picked = ts[k]
             await P.tap_choice(pg, cdp, k); await pg.wait_for_timeout(1500)
             if picked: break
@@ -1429,7 +1440,10 @@ async def b4_part(pg, cdp, run, it, d, tag, load_h, sit_at, watch_s):
         if s0['dlg']: await L.tap(pg, cdp, '#dlg'); await pg.wait_for_timeout(600); continue
         lab = await pg.evaluate("(()=>{ const b=document.getElementById('interact'); return b&&!b.classList.contains('hide')?b.textContent.trim():''; })()")
         if '坐' in lab: await L.tap(pg, cdp, '#interact')
-        else: await L.go_to(pg, cdp, run, seat['x'], seat['z'], 0.4, seat['label'], max_s=60, lv=seat['lv'], stop=lambda s: s['dlg'] or s['choices'] or s['busy'])
+        else:   # n19_boyab4e C：等到 19:06，原本挑的位子已經有聽眾坐了（有人坐的位子沒有「坐下」）——像玩家一樣換一個空位
+            seat2 = await pg.evaluate(B4_SEAT); run.note('%s：位子旁邊的按鈕是「%s」，換空位 %s' % (tag, lab, J(seat2)))
+            if seat2: seat = seat2
+            await L.go_to(pg, cdp, run, seat['x'], seat['z'], 0.4, seat['label'], max_s=90, lv=seat['lv'], stop=lambda s: s['dlg'] or s['choices'] or s['busy'])
         await pg.wait_for_timeout(1500)
     run.note('%s：坐下的選單 %s；選了 %s' % (tag, J(menus), picked))
     run.check('%s：坐下的選單有「聽演講：…」（%.2f，開放 %.2f～%.2f）' % (tag, await pg.evaluate("+GAME.G.hour"), it['t0'] - 0.25, (it['t0'] + it['t1']) / 2), bool(picked), J(menus))
