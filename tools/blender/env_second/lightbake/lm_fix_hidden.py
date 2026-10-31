@@ -166,6 +166,7 @@ for (o, bm, uv, bad, mw, mn) in OBJ:
 print(json.dumps({'lm_fix_hidden': st}, ensure_ascii=False), flush=True)
 if DEBUG: json.dump(DBG, open(DEBUG, 'w', encoding='utf-8'), ensure_ascii=False)
 if REPORT: json.dump({k: {h: [n, round(a, 3)] for h, (n, a) in v.items()} for k, v in REP.items()}, open(REPORT, 'w', encoding='utf-8'), ensure_ascii=False, indent=1)
+# export_gpu_instances（10-31）：共用網格的物件（bake_room.py --keep-instances 留下的書）照舊寫成 EXT_mesh_gpu_instancing；有光照貼圖的網格都是各自一份，不受影響
 bpy.ops.export_scene.gltf(filepath=os.path.abspath(OUT), export_format='GLB', export_texcoords=True, export_normals=True, export_extras=True,
-                          export_yup=True, export_image_format='AUTO', export_lights=False, export_cameras=False)
+                          export_yup=True, export_image_format='AUTO', export_lights=False, export_cameras=False, export_gpu_instances=True)
 print('exported', OUT, flush=True)
