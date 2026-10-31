@@ -17381,9 +17381,9 @@
    "title": "寒暑假活動既有美術資產盤點（只盤點不製作，交 AA-B）",
    "area": "ART",
    "owner": "LAWWW2",
-   "status": "待開工",
+   "status": "已驗收",
    "priority": "P2",
-   "next": "【LAWWW-C 2026-10-21 稽核 C】沒做：暫停條件前半（LAWWW2 放進交付分支）已成立：LAWWW 把這份從 focused-cray 合進開發分支（D88），然後結案 ｜ 【02:3x LAWWW2：四份文件就在 claude/focused-cray-c9uwvw（和 funny 分支一模一樣），從那條分支拿，不用再複製】｜4e4f4f36 完成並交 AA-B（企劃線 eaa92b52 已收）；文件 docs/art-rebuild/second_ai/VAC_A1_既有資產盤點.md 只在 funny 分支，參考用；建議複製進開發分支（D88）",
+   "next": "已驗收（10-31 19:2x，文件收進開發分支）｜【LAWWW-C 2026-10-21 稽核 C】沒做：暫停條件前半（LAWWW2 放進交付分支）已成立：LAWWW 把這份從 focused-cray 合進開發分支（D88），然後結案 ｜ 【02:3x LAWWW2：四份文件就在 claude/focused-cray-c9uwvw（和 funny 分支一模一樣），從那條分支拿，不用再複製】｜4e4f4f36 完成並交 AA-B（企劃線 eaa92b52 已收）；文件 docs/art-rebuild/second_ai/VAC_A1_既有資產盤點.md 只在 funny 分支，參考用；建議複製進開發分支（D88）",
    "first": {
     "term": "Y1S1",
     "week": null,
@@ -17415,7 +17415,8 @@
      "evidence": "docs/art-rebuild/second_ai/VAC_A1_既有資產盤點.md 只在 origin/claude/focused-cray-c9uwvw（和 funny 分支），開發分支 docs/art-rebuild/second_ai/ 沒有這個檔",
      "note": "只差把文件合進開發分支"
     }
-   ]
+   ],
+   "evidence": "LAWWW2-B 4e4f4f36 盤點完、AA-B 企劃線 eaa92b52 已收；10-31 19:2x LAWWW-B 把 docs/art-rebuild/second_ai/VAC_A1_既有資產盤點.md 從 funny 分支收進開發分支（D88）＝暫停條件成立、結案（只盤點不製作）"
   },
   {
    "id": "ART-SOP",
@@ -37308,6 +37309,34 @@
    "replacedBy": "QA-PLAYTHROUGH-1018",
    "authorizedBy": "LAWWW-B 10-31（同一件：發布前真實玩家玩法回歸，併進既有任務）",
    "reason": "和 QA-PLAYTHROUGH-1018 重複，要求寫進那一筆"
+  },
+  {
+   "id": "BACKLOG-START-1031",
+   "title": "使用者 10-31 19:1x：檢查待辦清單，已經說好、規劃好但還沒開始的現在做，並分配工作給其他 AI",
+   "area": "MGMT",
+   "owner": "LAWWW",
+   "status": "進行中",
+   "priority": "P1",
+   "next": "【10-31 19:1x】盤點：待開工 LAWWW 23、LAWWW2 12、BB 10、AA 2；已整合待測試 LAWWW 652、LAWWW2 60、AA 18、BB 6。照 D99（經濟系 → 寒暑假 → 美國）分派：LAWWW 先做 VAC-A1 收文件結案、再看 BUG-03／04、AA290-INTAKE 剩的；LAWWW2 體育館 → CAM-BELL → ART-WZPARK-ENTRY-B（導航）→ 燈罩反面 → 明軒小語模型；BB 發布前回歸 → BB-TEST-US-LIFE（D99 第三）→ BUG-03／04 重現 → 黑畫面盤點經濟系；AA I10 抓包 CG、AA530、自己清查寒暑假（D99 第二）劇情缺口",
+   "first": {
+    "term": "META",
+    "week": 0,
+    "earliest": "—",
+    "mainline": true,
+    "blocks": false,
+    "prereq": false,
+    "parallel": true,
+    "confirmed": true
+   },
+   "source": "使用者 10-31 19:1x 對 LAWWW-B",
+   "authorized": "使用者原話；D110、D111",
+   "xai": {
+    "spec": "—",
+    "branch": "claude/modest-rubin-2lyp7g",
+    "acceptance": "每個職位手上都有照 D99 排好的下一批、LAWWW 自己的已規劃項目開工",
+    "receiver": "LAWWW",
+    "ack": "ACTIONED"
+   }
   }
  ]
 }
