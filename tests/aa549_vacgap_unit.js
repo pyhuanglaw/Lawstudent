@@ -150,5 +150,26 @@ const atHome=()=>{ const Hm=HOME.rec(H.G); Hm.at=true; Hm.day=H.G.day; const B=H
     r=await plan('2026-08-20','kai','日本','5 天');
     check('2-6. 2026-08-23～27 約阿凱（8/24 起 C05 日本＝不在臺北）：婉拒、沒有排',!r.ok&&!r.rec&&r.L.length===1&&/不在臺北。$/.test(r.L[0]),J(r.L)); }
 
+  /* ================= 3-4 回家住：「出門」、晚餐多十二題 ================= */
+  { fresh('2027-08-03',10,'dorm',{ROOM_Y2:true}); atHome(); let menu=null, nm=0;   /* ROOM_Y2：大二的房間 2026-09-06 搬過了（新存檔沒有這個旗標＝在家會先演搬房間）*/ const ch=GM.choose; GM.choose=async o=>{ const L=o.map(q=>q.t||q.text); nm++; if(!menu&&L.includes('睡覺')) menu=L; const k=L.indexOf('出門'); if(k>=0) return k; const g=L.indexOf('公館商圈'); if(g>=0) return g; return nm>12&&L.includes('回宿舍住')?L.indexOf('回宿舍住'):0; };
+    let back=null; try{ back=await HOME.loop(GM); } finally { GM.choose=ch; }
+    check('3-4. 暑假住家裡的選單有「出門」；選公館商圈＝進 3D 的公館、人不在家，放假模式照舊（晚上回家睡）',!!menu&&menu.includes('出門')&&H.G.zone==='gongguan'&&!HOME.at(H.G)&&HOME.breakMode(H.G)===true,J([menu,H.G.zone,HOME.at(H.G),HOME.breakMode(H.G)]));
+    at(H.G.day,26.6); const g0=HOME.go; let went=false; HOME.go=async()=>{ went=true; return true; }; try{ await STORY.forceHome(GM); } finally { HOME.go=g0; }
+    check('3-4. 出門那天凌晨 2:30 還在外面：回家（HOME.go），不是回宿舍',went&&H.G.zone==='gongguan',J([went,H.G.zone]));
+    fresh('2027-08-03',10,'dorm',{ROOM_Y2:true}); atHome(); let m2=null; GM.choose=async o=>{ const L=o.map(q=>q.t||q.text); if(!m2) m2=L; return L.indexOf('不用了')>=0?L.indexOf('不用了'):(L.indexOf('出門')>=0?L.indexOf('出門'):L.indexOf('回宿舍住')); };
+    try{ await HOME.loop(GM); } finally { GM.choose=ch; }
+    check('3-4. 「出門」→「不用了」＝回到家裡的選單（沒有出門）',!!m2&&!H.entered.includes('gongguan')&&!H.entered.includes('campus')&&!H.entered.includes('wenzhou'),J(H.entered)); }
+  { const MORE=HOME.DINNER_549||[], momL=MORE.filter(d=>!d.momW).map(d=>d.mom).concat(MORE.some(d=>d.momW)?['暑假（寒假）有沒有要出去玩？']:[]), optL=[].concat(...MORE.map(d=>d.opts.map(o=>o.t))), repL=[].concat(...MORE.map(d=>d.opts.map(o=>o.r)));
+    check('3-4. 晚餐多十二題（媽媽問、兩個選項、媽媽回），台詞都在稿裡',MORE.length===12&&MORE.every(d=>d.opts.length===2&&d.opts.every(o=>!!o.r))&&!notIn(momL.concat(optL,repL)).length,J(notIn(momL.concat(optL,repL))));
+    const pool=k=>{ const G=fresh(k,19,'dorm'); const seen=new Set(); for(let i=0;i<60;i++){ HOME.rec(G).ate={}; for(let j=0;j<i;j++) HOME.rec(G).ate['x'+j]=0; const d=HOME.dinnerPick(G); if(d) seen.add(d.n); } return seen; };
+    const sum=pool('2027-07-10'), term=pool('2027-04-10'), eve=pool('2027-02-05');
+    check('3-4. 寒暑假才有新的十二題（2027-07-10 挑得到；學期中 4/10 挑不到）；除夕（爸爸在家）不問「你爸昨天視訊」',[...sum].filter(n=>/^aa549_/.test(n)).length>=10&&![...term].some(n=>/^aa549_/.test(n))&&!eve.has('aa549_8')&&eve.has('aa549_1'),J([[...sum],[...term].length,[...eve]]));
+    { const G=fresh('2027-07-01',19,'dorm'); const seen=[]; for(let k=0;k<20;k++){ const d=HOME.dinnerPick(G); seen.push(d&&d.n); if(d) HOME.rec(G).ate[d.n]=G.day; at(G.day+1,19); }
+      check('3-4. 暑假連續 20 天：問的都不一樣（28 天不重複照舊）',new Set(seen).size===20&&seen.some(n=>/^aa549_/.test(String(n))),J(seen)); }
+    const eat=async(k,n,pick)=>{ fresh(k,19,'dorm'); const real=HOME.dinnerPick; HOME.dinnerPick=()=>MORE.find(d=>d.n===n); H.said=[]; H.opts=[]; H.picks=[pick]; try{ await HOME.dinner(GM); } finally { HOME.dinnerPick=real; } return H.lines(); };
+    const a=await eat('2027-07-10','aa549_1',1), oa=H.opts[0], b=await eat('2027-07-10','aa549_7',0), c=await eat('2028-01-10','aa549_7',1);
+    check('3-4. 「宿舍的床，比家裡的硬嗎？」→「硬很多。」→ 媽媽「我寄一個床墊過去。……」（沒有共用的收尾）',a.includes('媽媽：宿舍的床，比家裡的硬嗎？')&&a.includes('媽媽：我寄一個床墊過去。……不要跟你爸說，他會說我寵你。')&&J(oa)===J(['「差不多。」','「硬很多。」'])&&a.filter(t=>/^媽媽：/.test(t)).length===2,J([a,oa]));
+    check('3-4. 第 7 題照季節：暑假「暑假有沒有要出去玩？」、寒假「寒假有沒有要出去玩？」，選項各自的一句',b.includes('媽媽：暑假有沒有要出去玩？')&&b.includes('媽媽：錢夠嗎？不夠跟我說。')&&c.includes('媽媽：寒假有沒有要出去玩？')&&c.includes('媽媽：不要整天在家。在家我也會叫你做事。'),J([b,c])); }
+
   H.done();
 })().catch(e=>{ console.log('FAIL 例外 '+(e&&e.stack||e)); process.exit(1); });

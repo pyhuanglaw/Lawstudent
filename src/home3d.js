@@ -39,7 +39,24 @@ const HOME=(function(){
   const phoneTick=GM=>{ const G=GM.G; if(typeof PHONE==='undefined') return; try{ if(typeof STORY!=='undefined'&&STORY.phoneRules) STORY.phoneRules(GM); PHONE.tick(G,out=>{ if(out.length&&GM.toast) GM.toast('手機｜'+PHONE.notice(G,out[0]),3800); if(GM.phoneBadge) GM.phoneBadge(); }); }catch(e){ console.warn('HOME phone',e); } };
   const firstWeekend=G=>{ if(typeof CALENDAR==='undefined') return false; const d=CALENDAR.dateOf(G.day); return d&&d.d<=7; };   /* 每月第一個週末（日期 1～7 號）姊姊在家 */
   /* 晚餐：媽媽問（四週內同一句不重複；第 4 句的第一個選項要 KAI_ROOM_RULES；第 8 句只在第 8～10 週）→ 玩家二選一 → 媽媽收尾 */
-  S.dinnerPick=function(G){ let D=(L()||{}).dinner||[];const H=S.rec(G), T=typeof CALENDAR!=='undefined'?CALENDAR.termOf(G.day):null;
+  /* AA_549 3-4（企劃線 AA_549 第 3 節 3-4；第①級）：回家住的晚餐問答多十二題（媽媽問、祐廷答、媽媽回：每個選項自己的一句 r）。跟現有的題目一起輪、28 天不重複照舊。
+     只在法律系的寒暑假（S.lawBreak：回家住）；第 7 題照季節換「暑假／寒假」（momW＝寒假那一句）；第 8 題「你爸昨天視訊」爸爸在家的那幾天（S.dadHome）不問。
+     n 用字串（'aa549_1'…）：home_lines.js 是匯入工具產生的（不要手改），這十二題寫在這裡，n 不會跟之後匯入的題目撞到 */
+  S.DINNER_549=[
+    {n:'aa549_1',mom:'宿舍的床，比家裡的硬嗎？',opts:[{t:'差不多。',r:'那就好。'},{t:'硬很多。',r:'我寄一個床墊過去。……不要跟你爸說，他會說我寵你。'}]},
+    {n:'aa549_2',mom:'你們系上有沒有很會煮飯的？',opts:[{t:'沒有。',r:'那你們都吃什麼。'},{t:'阿哲很會找店。',r:'會找店也是一種本事。'}]},
+    {n:'aa549_3',mom:'你姊說你上次打給她，講了一個小時。',opts:[{t:'問她工作的事。',r:'她很高興。她不會說，可是她很高興。'},{t:'她講比較多。',r:'她講話像你爸。'}]},
+    {n:'aa549_4',mom:'今天的魚是市場那個阿伯的。他問你念什麼。',opts:[{t:'法律。',r:'他說他有一塊地的事要問你。我說你還沒畢業。'},{t:'妳怎麼說？',r:'我說念書的。他說喔。'}]},
+    {n:'aa549_5',mom:'你房間的燈管該換了。',opts:[{t:'我明天換。',r:'好。你爸上次換，換到一半去接電話。'},{t:'還看得到。',r:'看得到跟看清楚不一樣。'}]},
+    {n:'aa549_6',mom:'你們老師凶嗎？',opts:[{t:'還好。',r:'還好就好。'},{t:'有一個會點名問問題。',r:'那你要坐後面一點。……不對，坐前面。'}]},
+    {n:'aa549_7',mom:'暑假有沒有要出去玩？',momW:'寒假有沒有要出去玩？',opts:[{t:'有，跟同學。',r:'錢夠嗎？不夠跟我說。'},{t:'還沒想。',r:'不要整天在家。在家我也會叫你做事。'}]},
+    {n:'aa549_8',mom:'你爸昨天視訊，問你瘦了沒有。',noDad:true,opts:[{t:'沒有。',r:'我也是這樣跟他說。'},{t:'好像有。',r:'那今天多吃一碗。'}]},
+    {n:'aa549_9',mom:'我們家樓下開了一家新的早餐店。',opts:[{t:'好吃嗎？',r:'蛋餅很薄。我還是喜歡舊的那家。'},{t:'明天去吃。',r:'幫我買一杯豆漿。無糖。'}]},
+    {n:'aa549_10',mom:'你小時候說要當警察。',opts:[{t:'現在也差不多。',r:'差很多。……可是我知道你的意思。'},{t:'我不記得了。',r:'你那時候五歲。我記得就好。'}]},
+    {n:'aa549_11',mom:'記帳的那家公司，今年要我多做兩家。',opts:[{t:'會很累嗎？',r:'還好。數字對起來的時候，我很開心。'},{t:'妳可以教我。',r:'你先把你自己的帳記好。'}]},
+    {n:'aa549_12',mom:'這幾天睡得好嗎？',opts:[{t:'好。',r:'家裡的床還是比較好吧。'},{t:'還好。',r:'那今天早點睡。我不會叫你起床。……大概不會。'}]}];
+  S.momOf=(G,d)=>{ if(!d||!d.momW) return d&&d.mom; const B=S.breakOf(G.day); return B&&B.kind==='winter'?d.momW:d.mom; };
+  S.dinnerPick=function(G){ let D=((L()||{}).dinner||[]).concat(S.lawBreak(G)?S.DINNER_549.filter(d=>!(d.noDad&&S.dadHome(G.day))):[]);const H=S.rec(G), T=typeof CALENDAR!=='undefined'?CALENDAR.termOf(G.day):null;   /* AA_549 3-4：寒暑假多十二題 */
     const sisHome=firstWeekend(G), okSis=d=>!(sisHome&&/你姊說/.test(d.mom||''));   /* AA_140 G49：「你姊說她下個月回來。」姊姊在家的週末不問 */
     const home=S.livesHome&&S.livesHome(G), D0=D; D=D0.filter(d=>!(home&&S.DINNER_SKIP.includes(d.mom)));
     const okWin=d=>!d.winter||S.winterBeforeEve(G.day);   /* AA_533 5-3：第一題只在寒假（12 月～除夕前）*/
@@ -49,9 +66,10 @@ const HOME=(function(){
   S.winterBeforeEve=function(day){ if(typeof CALENDAR==='undefined'||!CALENDAR.dateOf||!CALENDAR.holiday) return false; const m=CALENDAR.dateOf(day).m; if(m===12) return true; if(m!==1&&m!==2) return false; for(let x=day+1;x<=day+60;x++) if(CALENDAR.holiday(x)==='除夕') return CALENDAR.dateOf(x).m<=2; return false; };
   S.dadHome=function(day){ if(typeof JPPREP!=='undefined'&&JPPREP.dadHome) return !!JPPREP.dadHome(day); if(typeof CALENDAR==='undefined'||!CALENDAR.holiday) return false; for(let x=day-5;x<=day+3;x++) if(CALENDAR.holiday(x)==='除夕') return true; return false; };
   S.dinner=async function(GM){ const G=GM.G, H=S.rec(G), d=S.dinnerPick(G); if(!d) return; H.eat={day:G.day}; H.ate[d.n]=G.day;
-    { const late=S.lateDinner?S.lateDinner(G):null; if(late) await GM.say(null,late); else { await GM.say(null,firstWeekend(G)?'（晚餐。媽媽煮了一桌，姊姊也回來了。）':'（晚餐。媽媽煮了一桌。）'); { const x=S.grpDinner(G); if(x) await GM.say(null,x); } } }   /* 「回來了沒」回了現在回去、過了 20:00 才到＝「（媽媽把菜熱了一次。）」，沒有晚餐旁白（AA_488 第 3-2 節）*/ await GM.say(MOM,d.mom);   /* 爸爸長期在上海工作，家裡只有媽媽（AA_298 第 8 節）*/   /* 這週四群組說了月餅、湯圓、點心……、回了「會回去」＝多一句旁白（AA_458 1-5）*/
-    const opts=d.opts.filter(o=>!o.ifMem||(typeof SOCIAL!=='undefined'&&SOCIAL.has(o.ifMem[0],o.ifMem[1]))); await GM.choose(opts.map(o=>({t:'「'+o.t+'」'})));
-    if(d.dadOnly){ if(S.dadHome(G.day)){ if(/^（.*）$/.test(d.dad)) await GM.say(null,d.dad.replace(/^（/,'（爸爸')); else await GM.say(DAD,d.dad); } }   /* AA_533 5-3：新加的三題，爸爸那一句只在爸爸在家的時候出（在上海＝不出，不改成媽媽說）*/
+    { const late=S.lateDinner?S.lateDinner(G):null; if(late) await GM.say(null,late); else { await GM.say(null,firstWeekend(G)?'（晚餐。媽媽煮了一桌，姊姊也回來了。）':'（晚餐。媽媽煮了一桌。）'); { const x=S.grpDinner(G); if(x) await GM.say(null,x); } } }   /* 「回來了沒」回了現在回去、過了 20:00 才到＝「（媽媽把菜熱了一次。）」，沒有晚餐旁白（AA_488 第 3-2 節）*/ await GM.say(MOM,S.momOf(G,d));   /* 爸爸長期在上海工作，家裡只有媽媽（AA_298 第 8 節）*/   /* 這週四群組說了月餅、湯圓、點心……、回了「會回去」＝多一句旁白（AA_458 1-5）*/
+    const opts=d.opts.filter(o=>!o.ifMem||(typeof SOCIAL!=='undefined'&&SOCIAL.has(o.ifMem[0],o.ifMem[1]))); const pk=opts[await GM.choose(opts.map(o=>({t:'「'+o.t+'」'})))]||opts[0];
+    if(pk&&pk.r!=null) await GM.say(MOM,pk.r);   /* AA_549 3-4：選項自己的一句（媽媽回），沒有共用的收尾 */
+    else if(d.dadOnly){ if(S.dadHome(G.day)){ if(/^（.*）$/.test(d.dad)) await GM.say(null,d.dad.replace(/^（/,'（爸爸')); else await GM.say(DAD,d.dad); } }   /* AA_533 5-3：新加的三題，爸爸那一句只在爸爸在家的時候出（在上海＝不出，不改成媽媽說）*/
     else if(/^（.*）$/.test(d.dad)) await GM.say(null,d.dad.replace(/^（/,'（媽媽')); else await GM.say(MOM,d.dad); if(d.dadAct) await GM.say(null,'（媽媽'+d.dadAct.replace(/給他$/,'給你')+'）');   /* 收尾改媽媽（AA_138 2026-10-18；欄位名 dad 照舊）*/
     if(firstWeekend(G)){ const s=S.pick(G,'sisDinner'); if(s) await GM.say(SIS,s.t); }
     GM.advance(1); };
@@ -417,6 +435,7 @@ const HOME=(function(){
     for(const iv of S.dueInvites(G)){ const P=INV.place(iv.place)||{}; O.push({t:'出發：和'+(typeof SOCIAL!=='undefined'?SOCIAL.displayName(iv.who):iv.who)+'約在'+(P.name||''),hint:hm(iv.h)+'　捷運＋公車 約 30 分鐘',k:'inv',iv,P}); }
     if(!ateToday&&h>=18.5&&h<20) O.push({t:'吃晚餐',k:'eat'});
     if(S.ffOpts(G)) O.push({t:'快轉',hint:'到下一個有事的日子、過三天、過一週',k:'ff'});   /* AA_197 1-2：快轉是玩家自己選的（取代「過幾天」）*/
+    if(S.goList().length) O.push({t:'出門',hint:'校門口、公館、溫州街　捷運＋公車 約 30 分鐘',k:'go'});   /* AA_549 3-4：回家住也能出門（臺北的家就在臺北，同退宿以後的「出門」三選一）；晚上回家睡（手機「地點」回臺北的家，凌晨 2:30 照 STORY.forceHome 回家）*/
     O.push({t:'存檔',hint:'存到存檔欄位',k:'save'});
     O.push({t:'睡覺',hint:'隔天早上在家醒來',k:'sleep'});
     O.push({t:'回宿舍住',hint:'捷運＋公車 約 40 分鐘',k:'dorm'});   /* AA_197 1-3：隨時可以再回宿舍（房間還在）*/
@@ -427,6 +446,7 @@ const HOME=(function(){
       if(ok&&o.q.goto&&GM.toast) GM.toast('要回家：手機「地點」→ 回臺北的家（或走到校門口）。',5200);   /* 到現場的出遊演完人留在那裡（2026-10-18 BB-C）*/
       return false; }
     if(o.k==='inv'){ await S.leaveTo(GM,o.P); return false; }
+    if(o.k==='go'){ const L=S.goList(), k=await GM.choose(L.map(p=>({t:p[1]})).concat([{t:'不用了'}]),{menu:true}), p=L[k]; if(!p) return H.at; await S.leaveTo(GM,{name:p[1],zone:p[0],spawn:p[2]?Object.assign({},p[2]):undefined}); if(GM.toast) GM.toast('要回家：手機「地點」→ 回臺北的家（或走到校門口）。',5200); return false; }   /* AA_549 3-4：進 3D 世界（放假模式照舊：H.lbreak 不清，回家照住家裡）*/
     if(o.k==='eat'){ if(await confirmMiss(GM,G.hour+1)) await S.dinner(GM); return H.at; }   /* BB_214 第 1 點：吃晚餐一小時，會錯過約好的出遊、當面約要先問 */
     if(o.k==='ff'){ await S.ffMenu(GM,'home'); return H.at; }
     if(o.k==='dorm'){ H.lbreak=null; H.bskip=null; await S.back(GM); return false; }
