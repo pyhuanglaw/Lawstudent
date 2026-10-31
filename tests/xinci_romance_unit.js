@@ -282,6 +282,9 @@ const walk=async(picks,term)=>{ H.said=[]; H.opts=[]; H.picks=picks.slice(); ret
     for(const kind of ['heart','gf']){ full(kind==='gf'?(G=>{ G.flags['dating_'+XC]=true; }):null); H.said=[]; H.picks=[]; await TERMEND.dinner(GM,{te:{term:'Y3S2',who:XC,kind}});
       const ci=T().indexOf(CLOSE), wi=T().indexOf(TERMEND_LINES.HEART[XC].walk[0]);   /* 心意那一頓：收尾以後接回家的路（walkHome） */
       check('12c. 演出來（'+kind+'）：第一句是開場；收尾在飯桌之後'+(kind==='heart'?'、回家的路之前':'、是最後一句'),T()[0]===OPEN&&ci>1&&(kind==='heart'?wi>ci:ci===T().length-1),J(T())); } });
+  await sec('12d',async()=>{ const caps=[], c0=GM.caption; GM.caption=(a,b)=>{ caps.push(b); }; full(); H.said=[]; H.picks=['我喜歡妳。'];   /* BB-B 10-31：walkPlace 原本沒有程式讀；沒有底圖（walkBg null）、沒寫 walkCaption 的回家路改用 walkPlace 當字幕（修改前 FAIL）*/
+    try{ await TERMEND.walkHome(GM,XC,'Y3S2'); } finally { GM.caption=c0; }
+    check('12d. 回家的路上：沒有底圖＝深色底＋字幕「羅斯福路・往公館站」（walkPlace）',caps[0]==='羅斯福路・往公館站'&&!TERMEND_LINES.HEART[XC].walkBg,J(caps)); });
 
   /* ===== 第 12b 節：心意邀約當天才約（BB-B 10-31：原本時段第一天 20:30 傳、飯排兩天後，「今天晚上有空嗎。……我沒有提前一天。」的「今天」不對）===== */
   await sec('12b',async()=>{ full(null,'2028-06-07'); H.G.hour=0; const w=TERMEND.windowOf('Y3S2'), tag='te_Y3S2_'+XC; let m=null;
