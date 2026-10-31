@@ -25,6 +25,7 @@
  四、她爸爸 8-1、冷落 8-3
   DAD2          2029-04-27（五）17:25 法律系館A門口、交往中：四句 → 三個選項 →「她去哪，我都會在台北。」→「……走吧。他等一下會問你喜歡吃什麼。我會說。」；沒有「誰最強」
   DAD2_NO       同一天 17:53、沒交往：站在門口等到 18:02，不演
+  HALLS         CAM-PILLAR-HALLS-1031（421943397）：總圖、行政大樓、文學院、校史館門廊（門口、±1.3、±2.6 m），鏡頭轉到外面量玩家看得到幾成（行政大樓往旁邊＝已知 CAM-BELL-1031）
   WALK_LAWA     BUG-CAM-PILLAR-LAWA-1031（3ba38e34a）：2029-04-26 16:00 從 (34,−99) 照玩家走到穿堂門口，路上、門口、3 秒、6 秒量玩家看得到幾成（DAD2／DAD2_NO 演完 3、6 秒也量）
   COLD          交往中 30 天沒約會，熬夜到 00:35（遊戲的寫法：前一天 24:35）→ 00:40 一則（不用回）、不分手、訊息時間＝現在；【前置】隔一晚同一時間不再傳
  五、新的時刻（AA_548 第 2、3、5 節）
@@ -356,7 +357,9 @@ PILLAR_MAT = 'seethru_ext_granite_col'
 VIS_BOX = """(()=>{ const E=GAME.E, o=E.player.obj.position, c=E.camera; c.updateMatrixWorld(); const xs=[], ys=[];
   for(const dx of [-0.35,0.35]) for(const dz of [-0.35,0.35]) for(const dy of [0,1.8]){ const v=new THREE.Vector3(o.x+dx,o.y+dy,o.z+dz).project(c); xs.push((v.x*0.5+0.5)*innerWidth); ys.push((-v.y*0.5+0.5)*innerHeight); }
   return [Math.max(0,Math.floor(Math.min(...xs))), Math.max(0,Math.floor(Math.min(...ys))), Math.min(innerWidth,Math.ceil(Math.max(...xs))), Math.min(innerHeight,Math.ceil(Math.max(...ys)))]; })()"""
-PILLAR_SET = """(on=>{ let n=0; GAME.E.scene.traverse(m=>{ if(!m.isMesh) return; const ms=Array.isArray(m.material)?m.material:[m.material]; if(!ms.some(x=>x&&x.name==='%s')) return; n++; if(on!==null) m.visible=on; }); return n; })""" % PILLAR_MAT
+# CAM-PILLAR-HALLS-1031（421943397）：總圖、行政大樓、文學院、校史館的門廊石柱 seethru_ck_col、拱廊柱墩 seethru_ck_pier 也算柱子
+PILLAR_MATS = [PILLAR_MAT, 'seethru_ck_col', 'seethru_ck_pier']
+PILLAR_SET = """(on=>{ const N=%s; let n=0; GAME.E.scene.traverse(m=>{ if(!m.isMesh) return; const ms=Array.isArray(m.material)?m.material:[m.material]; if(!ms.some(x=>x&&N.includes(x.name))) return; n++; if(on!==null) m.visible=on; }); return n; })""" % json.dumps(PILLAR_MATS)
 ST_JS = "(()=>{ const S=GAME.E.seeThrough; return S?{r:+(+S.uSeeR.value).toFixed(1), mode:GAME.E.cam.mode}:null; })()"
 
 
@@ -397,6 +400,44 @@ async def cam_after(pg, run, sid, res):
     v6 = out[-1]['vis']
     run.check('%s：演完 6 秒（跟隨鏡頭）看得到玩家——玩家框裡看得到 ≥ 25%%（柱子擋住的地方網點透空；看截圖 after3s／after6s）' % sid,
               out[-1].get('mode') == 'follow' and (v6.get('vis') or 0) >= 0.25, J(out[-1], 600))
+
+
+HALL_PTS = """(tag=>{ const E=GAME.E; let b=null; E.zone.group.traverse(o=>{ if(!b&&o.userData&&o.userData.ckTag===tag&&o.userData.ck) b=o; }); if(!b) return null; b.updateMatrixWorld(true);
+  const ck=b.userData.ck, dx=ck.doorX||0, dz=ck.doorZ!=null?ck.doorZ:0; const W=(x,z)=>{ const v=new THREE.Vector3(x,0,z); b.localToWorld(v); return [v.x,v.z]; };
+  const d0=W(dx,dz), f=W(dx,dz+1), out=[f[0]-d0[0],f[1]-d0[1]], lat=[out[1],-out[0]]; const pts=[];
+  for(const off of [0,1.3,-1.3,2.6,-2.6]){ let ok=null; for(const back of [0,0.25,0.5,0.75,1.0,1.25,1.5]){ const x=d0[0]+lat[0]*off+out[0]*back, z=d0[1]+lat[1]*off+out[1]*back; if(!E.canStand||E.canStand(x,z,0.35,0)){ ok=[+x.toFixed(2),+z.toFixed(2),back]; break; } } pts.push({off, p:ok}); }
+  return {tag, door:[+d0[0].toFixed(2),+d0[1].toFixed(2)], out:[+out[0].toFixed(3),+out[1].toFixed(3)], lat:[+lat[0].toFixed(3),+lat[1].toFixed(3)], pts,
+    start:[+(d0[0]+out[0]*8).toFixed(2),+(d0[1]+out[1]*8).toFixed(2)], inside:[+(d0[0]-out[0]*4).toFixed(2),+(d0[1]-out[1]*4).toFixed(2)]}; })"""
+HALLS = [('library', '總圖'), ('admin', '行政大樓'), ('arts', '文學院'), ('hist', '校史館')]
+
+
+@guard
+async def s_halls(p, run, base, sid, out):
+    """CAM-PILLAR-HALLS-1031：四棟（總圖、行政大樓、文學院、校史館）從門外 8 m 照玩家走到門廊（門口、往旁邊 ±1.3、±2.6 m），
+    鏡頭用手指轉到外面（看著建築裡面），量玩家看得到幾成（player_vis）。行政大樓往旁邊時鏡頭會落進晨思鐘鐘亭＝已知（CAM-BELL-1031），只記不判"""
+    res = out.setdefault(sid, {})
+    b, pg, cdp, errs, r = await launch(p, run, base, '2029-04-26', 15.0, 'campus', preflags=TWF, quiet=True, label=sid + '（2029-04-26（四）15:00 校園；quiet 讀檔）')
+    try:
+        await pg.wait_for_timeout(6000)
+        for tag, nm in HALLS:
+            hp = await pg.evaluate(HALL_PTS + "(%s)" % json.dumps(tag)); res[tag] = {'pts': hp}
+            run.note('%s %s 門口與量測點：%s' % (sid, nm, J(hp, 1200)))
+            if not hp: run.check('%s：%s 找得到（ckTag %s）' % (sid, nm, tag), False, ''); continue
+            await pg.evaluate("(([x,z])=>{ const E=GAME.E; E.placeAt(E.player,x,z,0); E.player.path=null; })(%s)" % json.dumps(hp['start']))
+            run.setup('[前置] %s：站到%s門外 8 m %s（瞬移；之後照玩家點地面走）' % (sid, nm, json.dumps(hp['start'])))
+            await pg.wait_for_timeout(2500); rows = []
+            for q in hp['pts']:
+                if not q['p']: rows.append({'off': q['off'], 'skip': '站不住'}); continue
+                await L.go_to(pg, cdp, run, q['p'][0], q['p'][1], 0.45, '%s %s %+.1f m' % (sid, nm, q['off']), max_s=150, lv=0, stop=lambda s: s['dlg'] or s['choices'])
+                await L.turn_camera_to(pg, cdp, hp['inside'][0], hp['inside'][1]); await pg.wait_for_timeout(2000)
+                c = await pg.evaluate(CAMJS); await run.shot(pg, '%s_%s_%+.1f' % (sid, tag, q['off'])); v = await player_vis(pg)
+                rows.append({'off': q['off'], 'at': c['player'], 'cam': c['cam'], 'mode': c['mode'], 'vis': v.get('vis'), 'pillarScreen': v.get('pillarScreen'), 'pillars': v.get('pillars'), 'st': v.get('st')})
+            res[tag]['rows'] = rows; run.note('%s %s：%s' % (sid, nm, J(rows, 2000)))
+            judged = [x for x in rows if 'vis' in x and (tag != 'admin' or x['off'] == 0)]
+            run.check('%s：%s 門廊（門口%s）鏡頭在外面看得到玩家（≥ 25%%）、鏡頭不在柱子裡（柱子佔畫面 < 60%%）' % (sid, nm, '' if tag == 'admin' else '、往旁邊 ±1.3、±2.6 m'),
+                      bool(judged) and all((x['vis'] or 0) >= 0.25 and (x['pillarScreen'] or 0) < 0.6 for x in judged), J([(x['off'], x.get('vis'), x.get('pillarScreen')) for x in rows]))
+            if tag == 'admin': run.note('%s 行政大樓往旁邊（已知 CAM-BELL-1031，只記）：%s' % (sid, J([(x['off'], x.get('vis'), x.get('pillarScreen'), x.get('cam')) for x in rows if x['off'] != 0])))
+    finally: await finish_page(run, sid, res, errs, b)
 
 
 @guard
@@ -1109,12 +1150,12 @@ async def s_night_real(p, run, base, sid, out):
 ORDER = ['TE_ME_YES', 'TE_ME_NOTYET', 'TE_SHE_THINK', 'TE_TELL', 'TE_KNOWN', 'TE_FOUNDOUT',
          'AFTER_TELL', 'AN_KNOWS', 'AN_KNOWS_NO', 'FOUND',
          'REPAIR_OPEN', 'REPAIR_YES', 'REPAIR_NO',
-         'DAD2', 'DAD2_NO', 'WALK_LAWA', 'COLD',
+         'DAD2', 'DAD2_NO', 'WALK_LAWA', 'HALLS', 'COLD',
          'G2_DAD', 'BLANK', 'BLANK_AGAIN', 'G6_MAKEUP', 'NIGHT_A', 'NIGHT_B', 'NIGHT_REAL']
 FN = {'TE_ME_YES': s_te_me, 'TE_ME_NOTYET': s_te_me, 'TE_SHE_THINK': s_te_she, 'TE_TELL': s_te_other, 'TE_KNOWN': s_te_other, 'TE_FOUNDOUT': s_te_foundout,
       'AFTER_TELL': s_after_tell, 'AN_KNOWS': s_an_knows, 'AN_KNOWS_NO': s_an_knows, 'FOUND': s_found,
       'REPAIR_OPEN': s_repair_open, 'REPAIR_YES': s_repair_yes, 'REPAIR_NO': s_repair_no,
-      'DAD2': s_dad2, 'DAD2_NO': s_dad2, 'WALK_LAWA': s_walk_lawa, 'COLD': s_cold,
+      'DAD2': s_dad2, 'DAD2_NO': s_dad2, 'WALK_LAWA': s_walk_lawa, 'HALLS': s_halls, 'COLD': s_cold,
       'G2_DAD': s_g2, 'BLANK': s_blank, 'BLANK_AGAIN': s_blank_again, 'G6_MAKEUP': s_g6, 'NIGHT_A': s_night, 'NIGHT_B': s_night, 'NIGHT_REAL': s_night_real}
 
 
