@@ -16740,6 +16740,32 @@
    "task": "ART-LAMPSHADE-FLIP-1027",
    "integration": "未整合",
    "note": "LAWWW-B：整合在本機分支 feat-art-1031（lane118_shops.py 三方合併）；7 支 Node ALL PASS；發布後合進開發分支；溫州街 Café 附近金屬圓盤 cafe_vc_wz_metal 也裡外相反，LAWWW2 記在 README 沒動"
+  },
+  {
+   "id": "DL-AA-555-1031",
+   "date": "2026-10-31",
+   "from": "AA-B",
+   "account": "B",
+   "branch": "claude/cool-heisenberg-o8kuqx",
+   "sha": "56c11668d",
+   "msg": "DELIVERED",
+   "what": "AA_555：AA_118 一起走路、手機小事、L1～L3 要改／刪的句子；BB_98、BB_113、AA_230 裁定不另做",
+   "task": "AA555-WALK-TALK-1031",
+   "integration": "未整合",
+   "note": "發布基準凍結中，發布後在本機分支實作"
+  },
+  {
+   "id": "DL-LW2-D88-SOURCES-1031",
+   "date": "2026-10-31",
+   "from": "LAWWW2-B",
+   "account": "B",
+   "branch": "claude/funny-albattani-iawshm",
+   "sha": "5a9ca703f",
+   "msg": "ACK",
+   "what": "D88 搬檔：被烘進別的模型／2D 背景的支援 GLB＋統計 21 個、產生腳本、鏡頭清單、CC0 貼圖等 71 個檔（遊戲不讀）；LICENSES.md 補 6 行（文字在 D88_support_sources_1031.md 最後）",
+   "task": "HISTORY-AUDIT-1031",
+   "integration": "未整合",
+   "note": "發布後搬：xargs -a docs/art-rebuild/second_ai/patches/D88_support_sources_1031.txt git checkout 9cc4810f2 --；LICENSES 照 .md 補"
   }
  ],
  "ignored": [
