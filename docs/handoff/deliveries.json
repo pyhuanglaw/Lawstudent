@@ -16530,8 +16530,8 @@
    "msg": "ACK",
    "what": "INTERIOR-AAA-REVIEW-1028：便利商店（日日便利）室內光照烘焙（cvs_interior.glb＋光照貼圖兩張；cvs_lm_1031.patch：attachCvsInterior 有光照貼圖不加 CVS_BOUNCE、cvs_sign_face 單面、singleside 2c、bake_cvs.sh、cvs_interior_lm_unit）",
    "task": "INTERIOR-AAA-REVIEW-1028",
-   "integration": "已整合待測試",
-   "note": "LAWWW-B 09:1x 套上：apply 乾淨、cvs_interior_lm、singleside_interiors、closed、noodle_closed ALL PASS；READY_FOR_ART_REVIEW"
+   "integration": "已驗收",
+   "note": "LAWWW-B 09:1x 套上：apply 乾淨、cvs_interior_lm、singleside_interiors、closed、noodle_closed ALL PASS；READY_FOR_ART_REVIEW｜10-31 12:2x BB n30_cvslm ALL PASS"
   }
  ],
  "ignored": [
