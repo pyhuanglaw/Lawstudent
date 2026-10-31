@@ -4724,6 +4724,28 @@
    "next": "LAWWW 整合 patch（對 3438bf10a apply --check 通過）；BB 重跑 LHCORE（README 第五節有指令）",
    "channel": "send_message 這個工作階段沒有，交件寫在這裡",
    "note": "LAWWW-B 11:32 降 P2（BB_218 38fe44ed6：平常走法 8 點都看得到，只有核心旁轉向外牆才會；main v9.10.14 一樣，不是回歸），註明不用回。這件 11:5x 已經交了，照舊可以整合。"
+  },
+  {
+   "branch": "claude/funny-albattani-iawshm",
+   "sha": "(這一次 commit)",
+   "noDirectIntegrate": false,
+   "receiver": "LAWWW",
+   "ack": "SENT",
+   "task": "INTERIOR-AAA-REVIEW-1028：溫州街三家（半熟、阿德影印輸出、一盞）室內光照烘焙",
+   "files": [
+    "assets/models/env/second_ai/wz_brunch_interior.glb",
+    "assets/models/env/second_ai/wz_print_interior.glb",
+    "assets/models/env/second_ai/wz_teahouse_interior.glb",
+    "assets/models/env/second_ai/wz_{brunch,print,teahouse}_interior.json",
+    "assets/models/env/second_ai/wz_{brunch,print,teahouse}_interior_lm_{day,night}.webp",
+    "docs/art-rebuild/second_ai/patches/wz_shops_lm_1031.patch",
+    "docs/art-rebuild/second_ai/test_shots/wz_shops_lm_1031/"
+   ],
+   "state": "已交（READY_FOR_ART_REVIEW）",
+   "summary": "三家 512 取樣光照烘焙；遊戲程式不用改（wzShop→attachRoomGLB 自動接）；patch 只有新測試 wz_shops_lm_unit.js（開發原樣 FAIL 6、改後 ALL PASS）；照條件出現的證書、貓照片、貓碗烘焙時當作不存在",
+   "tests": "全部 Node 788／0；draw call、三角形、節點、材質和改前完全一樣；壓扁 0／0／1 面（半熟檯面底面，判斷為誤報）",
+   "remaining": "擺設（P4）沒做；杯盤、燈罩、植物照舊即時光；一盞樟樹和隔壁的牆沒烘；手機實機沒測",
+   "next": "LAWWW 換 12 個二進位檔＋套 patch（對 6a86f9c2c apply --check 通過）；我接下來做體育館光照，再來 CAM-BELL-1031"
   }
  ]
 }

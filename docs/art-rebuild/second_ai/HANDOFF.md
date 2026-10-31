@@ -1,12 +1,13 @@
 # LAWWW2 交接紀錄（隨時更新；工作階段中斷時從這裡接）
 
-## ⏱ 現況（LAWWW2-B，2026-10-31 11:2x UTC；帳號 B 七天額度已到警示，隨時可能被切斷——接手的先讀這一段）
+## ⏱ 現況（LAWWW2-B，2026-10-31 13:xx UTC；帳號 B 七天額度已到警示，隨時可能被切斷——接手的先讀這一段）
 
 - **11:2x 正在做（最新，先讀這裡）**：
   - **BUG-CAM-LIBHALL-CORE-1031（LAWWW-B 10:45 P1）**：**已交（11:5x，outbox）**：`patches/cam_libhall_core_1031.patch`、`test_shots/cam_libhall_core_1031/README.md`。
     - 新測試開發原樣 FAIL 10、改後 ALL PASS；95 支會建出總圖大廳的 Node 都過；BB 的 4 個方向 0～5% → 27～43%。
     - 全部 Node 787／0（12:1x 跑完，已補 outbox）。等 LAWWW-B ACK／整合、BB 重跑 LHCORE。
-  - **溫州街三家光照**（INTERIOR-AAA，#140）：`tools/blender/env_second/lightbake/bake_wz_shops.sh brunch|print|teahouse`、鏡頭 `shots/wz_lm_shots.py`。
+  - **溫州街三家光照：已交（13:xx，outbox）**（README `test_shots/wz_shops_lm_1031/README.md`；patch `wz_shops_lm_1031.patch`；全部 Node 788／0）。下一間：體育館。以下是做法紀錄：
+  - 溫州街三家光照（INTERIOR-AAA，#140）：`tools/blender/env_second/lightbake/bake_wz_shops.sh brunch|print|teahouse`、鏡頭 `shots/wz_lm_shots.py`。
     - 64 取樣試烘：半熟、一盞好了（scratchpad，沒進 repo）；影印店重烘中（第一次烘到一半我改了腳本，bash 讀到錯位，`lm: command not found`——**跑著的 bash 腳本不要改**）。
     - 半熟下一版：軌道燈的點光源離天花板 15 cm，天花板有亮斑，改成往下照的小面光源。
     - 還沒拍遊戲內截圖、還沒調參數。

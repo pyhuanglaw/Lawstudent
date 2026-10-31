@@ -155,7 +155,7 @@
   - ④照條件出現的證書、貓照片、貓碗節點還在、不烘；
   - ⑤wzShop 照舊用 attachRoomGLB。
   - 開發分支原樣 FAIL 6，改後 ALL PASS。
-- 全部 Node：（跑中，補）
+- **全部 Node**（測試樹＝開發 `f79dc8b9e`＋書店＋門廊側牆＋總圖核心鏡頭＋這一包）：**788 過、0 失敗**。
 
 ## 五、怎麼套（給 LAWWW-B）
 
@@ -163,6 +163,6 @@
    - `assets/models/env/second_ai/wz_brunch_interior.glb`、`wz_print_interior.glb`、`wz_teahouse_interior.glb`（＋`.json`）；
    - 新的 `wz_<店>_interior_lm_day.webp`、`wz_<店>_interior_lm_night.webp`（六張）。
 2. **patch** `docs/art-rebuild/second_ai/patches/wz_shops_lm_1031.patch`：只有新測試 `tests/wz_shops_lm_unit.js`。**遊戲程式不用改**。
-   - 對最新開發 `3438bf10a` `git apply --check` 通過。
+   - 對最新開發 `6a86f9c2c` `git apply --check` 通過（`3438bf10a` 之後只動到劇情資料）。
 3. 工具：`tools/blender/env_second/lightbake/bake_wz_shops.sh`、烘焙紀錄 `wz_<店>_interior_lm.json`、鏡頭 `shots/wz_lm_shots.py`。
    - `bake_room.py` 多一個環境變數 `BAKE_THREADS`：只用幾個執行緒，同時跑測試時讓出 CPU。不設和原本一樣。
