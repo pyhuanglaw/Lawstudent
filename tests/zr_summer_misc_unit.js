@@ -136,5 +136,8 @@ const queued=th=>[].concat(...(PHONE.rec(H.G).q||[]).map(q=>(q.items||[]).filter
       const rows=(out.split('## 2.')[1]||'').split('## 3.')[0].split('\n').filter(l=>/^\| ev_/.test(l)), wrong=(out.split('## 3.')[1]||'').split('## 4.')[0].split('\n').filter(l=>/^\| ev_y0/.test(l));
       check('C. tools/story/black_bg_audit.js --stage econ：經濟系 0 段深色底；ev_y0_e26 不被當成「3D 模糊底」',!!out&&rows.length===0&&wrong.length===0,J({rows,wrong})); }
   });
+  /* AA-B 11-01：8/26 她沒上班，「下班」「客人」那類訊息、邀約句照 STORY.zrNoShift 一起擋 */
+  { const D=k=>STORY.dayOfKey(k), G0={day:D('2026-08-26')};
+    check('A4b. STORY.zrNoShift：2026-08-26＝不上班；08-27 照常上班',STORY.zrNoShift(G0)===true&&STORY.zrNoShift({day:D('2026-08-27')})===false); }
   H.done();
 })();
