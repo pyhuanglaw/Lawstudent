@@ -22,7 +22,12 @@
 - **CAM-PILLAR-HALLS-1031 已交（06:4x）**（LAWWW-B 05:52 派，P2）：總圖、行政、文學院、校史館門廊石柱、拱廊柱墩 → `seethru_ck_col`、`seethru_ck_pier`；`attachWenzhouModel` 認 `seethru_`。
   - README `test_shots/cam_pillar_halls_1031/README.md`；patch `patches/cam_pillar_halls_1031.patch`＋換四棟 GLB；Node 783／0；校史館圓柱 0%→35%。
   - 找到：行政大樓門廊往旁邊 1.3 m，鏡頭跑進傅鐘（鐘亭不在鏡頭碰撞裡），沒改，問 LAWWW-B。
-- **下一件：INTERIOR-AAA-REVIEW-1028（#113）**（LAWWW-B 05:52：四棟做完回這個）。
+- **正在做：INTERIOR-AAA-REVIEW-1028（#113）**（LAWWW-B 05:52：四棟做完回這個）。06:5x 排的順序（已告訴 LAWWW-B）：
+  - 還沒有光照貼圖的正式室內：便利商店 cvs_interior → 書店 bookstore_interior → 溫州街三家（wz_brunch／print／teahouse）→ 體育館（gym_interior、gym_b1）→ 美國 us_*。
+  - **便利商店（進行中）**：照 bake_noodle.sh（同一排公館南側店面、店面朝東、太陽 0）寫 bake_cvs.sh。
+    - 燈：天花板十條 LED 燈條（cvs_interior.py：z −3.2～3.2 每 1.6 m、x ±0.6～±5.4，H−0.05）＋飲料櫃背光（右牆 x≈5.9、z 0～4）。
+    - --nolm：cvs_led、cvs_cooler_light、cvs_goods_items（四萬多個三角形的商品）、SIGN_FACE、glass、rail、tag、black、steel 等小零件。
+    - 注意：attachCvsInterior 對 cvs_wall／floor／shelf／counter 加 TK.bounce（自發光）——麵店也是這樣、遊戲內一起調參數。
 - **NAV-LIBHALL-ISLAND-1030 已交、已整合（cfb70a5fd，`patches/libhall_island_1030.patch`；LAWWW-B 21:37）**（P2）：總圖大廳一樓約 (5.85,-8.4) 2 格導航孤島（換回舊 GLB 也一樣）；改 `library_layout.js` 阻擋接回大塊或封掉；`tests/library_copier_unit.js` 有 FAIL 就 exit 1（原本 FAIL 也 exit 0）；跑 `nav_buildings_unit`。
 - 已交、已整合：SOCLIB-LM-1030＋BOYA n19（3bc7a8800）。
 - **X133 第二版等使用者的地圖或照片**（使用者 10-30 16:5x 回 LAWWW-B）：第一版照舊在遊戲裡（f75d60a4c），第二版不要再猜。
