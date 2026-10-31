@@ -10,7 +10,7 @@
 
 ## 交接（最新）——工作階段隨時可能因額度中斷（D45 緊急保存規則）
 
-**現況（帳號 B LAWWW-B，2026-10-31 07:1x UTC；帳號 B 七天額度已到警示 allowed_warning，2026-11-06 02:00 UTC 重置——隨時可能被切斷）**
+**現況（帳號 B LAWWW-B，2026-10-31 15:1x UTC；帳號 B 七天額度已到警示 allowed_warning，2026-11-06 02:00 UTC 重置——隨時可能被切斷）**
 - 線上：**v9.10.14**（main `271cd2305`，PR #20，Pages 07:52:40 成功；BB-B main deploy_check ALL PASS）：快速存檔獨立一格、開新遊戲前先備份、經濟系那一年可昕不主動約。BB 對 main 補跑剩下的情境（AA_520／523／518／515_zq、R43、libhall、R44）。
 - **下一版在開發分支**（`55b49aa11` 以後；全部 Node：`fe3cee955` 763／0，之後只多 AA_539 第 5 節（子代理 763／0）與 7/20 旁白）：
   - postrel-1030 全部（`b576263b6`）；改名 D115（`ba315523b`、`ea67b0cb4`、舊存檔出遊 `ca5f3381c`、開發文件 `052d589d2`）；Café 室內光照（CAFE-LM-1030）；學姊 AA_539（`fe3cee955`、`101f841c8`、`55b49aa11`）。
@@ -34,6 +34,7 @@
   - 16:0x BB n19_boyaecon：預設經濟系流程不上經原（不進博思）＝D102 的設計（KEEP 29 場照 AA），不改；BB 用 &nofastecon 驗博思 101、另看法律系 B4 演講。BB 麵店兩個阿姨＝不是重複（阿姨在時店員藏），阿姨模型晚 20 秒＝NDL-AUNT-VIS-1030（P3）等讀數。
   - **18:0x～18:4x D116（遊戲裡的人不跟別人比，永久）、D117（要使用者決定的一律用可點選的選擇題）**：NO-COMPARE-1030 第一批 AA_546 全部實作——`3281a122c`（13 支測試期待句）、`a68622d52`（柏翰結構：翰 1「第三題」、翰 2 不看分數＋「我寫得很慢」、翰 3 白板只寫自己的、翰 4 念得慢記得久、阿哲、宿營破冰「從哪裡來」）、`43b7877f4`（另 7 支測試照新稿；全部 Node 773／0）；AA 照 §6 重掃已發；第二批灰色地帶等 AA；芯慈整條線等 AA_547（使用者給的新設定在 USER_WANTS X139），XCROM.ON false 不進下一版。BB 排 n23_bohan_nocmp。
   - **10-31 01:1x～02:1x**：BB-B n27 讀程式疑點修五點（`bcb788dec`，全部 Node 774／0）；**BUG-C5-AN-NOT-SPAWNED-1031**（BB n25：慈 5 總圖三樓沒有以安）——舊角色（LEGACY_IDS）照作息要 afternoonDone，進區域生人比 S.tick 補旗標早；改成法律系主線第 3 天起照作息（S.pastDay2）。LAWWW-B 用 BB 的存檔在瀏覽器重現過；AA_537b 8-4 巷口家常菜期末飯開場收尾（PLACE.l118_home）；LAWWW2 ART-ECON A 共同教學館室內正式模型（c1a2026b4）＋烘焙工具：`753df5a8c`，全部 Node 背景跑中 → BB 重跑 n25 C5、看共同教學館畫面；LAWWW2 接 B 普通教學館光照。
+  - **10-31 07:1x～15:1x**：已驗收：BUG-SEAT-AISLE-REACH、LM-COLLAPSE（四間）、NOODLE-LM、NO-COMPARE（12 個情境）、NO-COMPARE-GRAY（AA_546 第 8 節三句）、NOODLE-TEAM-SHRINK（X144 改「在開發分支」，AA 要求檔請 AA 改）；ART-ECON A／B／C 功能面 PASS；?perf 小框修好並驗（不擋按鈕、shader 不再負數 `2a3e53b59`）；整合 LAWWW2 便利商店（`d5bfed485`）、書店＋溫州街三家光照＋校史館側牆＋總圖大廳核心鏡頭（`f275a620f`）；BUG-ROOMY2-LATE（舊存檔大二以後還演搬 312，`5db371b5d`）；分支唯讀稽核（26 條、13 條候選只標記）；普通 101 北窗、四棟場景記進 USER_ART_REVIEW；全部 Node 786／0。BB 待驗：y2late、校史館 4 角度、LHCORE、書店與溫州街光照。LAWWW2 做體育館光照→CAM-BELL。
   - **10-31 03:1x～07:1x**：ART-ECON-3D-GAP-1021 A／B／C 都整合（共同室內 `753df5a8c`、普通光照 `3f67ec44a`、總圖 3F 光照＋法圖 instancing `1e910aa6c`）→ BB 看畫面；已驗收：XINCI-ROMANCE、XINCI-REWRITE、BUG-C5、BUG-CAFE-STAFF-LABEL、BUG-MSG-MIDNIGHT-DAY、BUG-CAM-PILLAR-LAWA（柱子網點透空 `3ba38e34a`）、柏翰 slow；芯慈 walkCaption、walkAgain（AA_537b 8-5）；CAM-PILLAR-HALLS（總圖等四棟 `421943397`）、BUG-SEAT-AISLE-REACH（`be7b5bcac`）待 BB；BUG-MEDIA-LOAD-HIDDEN 取消（探針）；全部 Node 782／0。LAWWW2 接便利商店光照（INTERIOR-AAA-REVIEW），CAM-BELL-1031 排後面。
   - **10-31 02:1x～03:1x**：BUG-C5-AN-NOT-SPAWNED-1031 **已驗收**（BB n25_xinci_g）；期末飯疑點 1、2（心意邀約當天下午沒跑到手機改排下一晚、兩頓不同晚 TERMEND.teBusy，`b90fbfd47`）；BUG-CAFE-STAFF-LABEL-1031（認識的芷若在吧檯按鈕寫名字，`7cb058610`）；柏翰 slow 算加入小組（AA-B 回 A，`0098cbe10`）；全部 Node 775／0（0098cbe10）→ BB 跑 ZRCAFE、H2_SLOW、n27、n28 共同教學館（含經濟系上課）。LAWWW2 B 普通教學館光照 WIP。
   - **10-31 00:0x～01:0x 芯慈戀愛線打開**：使用者 00:0x 對 AA-B 點選「告白時她不問」「只要沒騙她就接受」→ AA_548 第 7 節 `b399adf57`（she 拿掉問句、交往中她不知道＝多「（先告訴她，你在跟誰交往）」、她已知＝答應時多一句、KNOWS_OK＝她知道的都是你說的、NOPE.knows 拿掉、noOpen false、交往後自己跟她講、她自己發現＝分手、5-3 以安）＋第 8 節 `254bcfb35`（她爸爸 8-1 取代「誰最強」、挽回 8-2、冷落 8-3）；**XCROM.ON true**；全部 Node 774／0；BB 排 n27_xinci_romance；USER_WANTS X139 已記。
