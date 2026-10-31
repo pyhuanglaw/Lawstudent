@@ -74,16 +74,10 @@ python3 -c "import json,sys; d=json.load(open(sys.argv[1])); d['out']='assets/mo
   --lights "$LIGHTS" "${EXTRA[@]}" --smooth ${SMOOTH:-2}
 python3 tools/blender/env_second/lightbake/to_webp.py "$TMP/lm" "$OUTDIR/${NAME}_lm" 90
 /opt/blenv/bin/python tools/blender/env_second/lightbake/lm_fix_hidden.py -- --in "$OUTDIR/$NAME.glb" --out "$OUTDIR/$NAME.glb" --lm "$OUTDIR/${NAME}_lm"
-# interior：高窗的亮度由遊戲的 gym 區域自己照時段調（見開頭）：extras.lightmap.dayEmit 拿掉（arena 留著）
-[ "$ZONE" = interior ] && python3 - "$OUTDIR/$NAME.glb" <<'PY'
-import json, struct, sys
-p = sys.argv[1]; b = bytearray(open(p, 'rb').read()); n = struct.unpack('<I', b[12:16])[0]; j = json.loads(b[20:20 + n])
-for sc in j.get('scenes', []):
-    lm = (sc.get('extras') or {}).get('lightmap')
-    if lm and 'dayEmit' in lm: del lm['dayEmit']
-s = json.dumps(j, ensure_ascii=False, separators=(',', ':')).encode('utf8'); s += b' ' * ((4 - len(s) % 4) % 4)
-rest = bytes(b[20 + n:]); out = struct.pack('<III', 0x46546C67, 2, 12 + 8 + len(s) + len(rest)) + struct.pack('<II', len(s), 0x4E4F534A) + s + rest
-open(p, 'wb').write(out); print('dayEmit 拿掉', p)
-PY
+# 匯出以後的兩件事（不用重烘）：
+#   ①材質的單面／雙面照白模（$TMP/plain.glb）還原：bake_room.py 重匯以後，樓梯口指標的字面 cafe_sign_face 變成雙面（白模是單面：PERF-SINGLESIDE-GLB-1025；
+#     tests/singleside_gym_unit.js 第 1 項抓到）
+#   ②interior：高窗的亮度由遊戲的 gym 區域自己照時段調（見開頭）：extras.lightmap.dayEmit 拿掉（arena 留著）
+python3 tools/blender/env_second/lightbake/glb_restore_sides.py "$OUTDIR/$NAME.glb" "$TMP/plain.glb" $([ "$ZONE" = interior ] && echo --drop-dayemit)
 cp "$TMP/lm.json" tools/blender/env_second/lightbake/${NAME}_lm.json
 echo "done: $OUTDIR/$NAME.glb + ${NAME}_lm_day/night.webp"
