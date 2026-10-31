@@ -513,11 +513,13 @@ const VAC_DATA=(function(){
   function AN_C12(G){ return AN_IN(G)&&AN_YR(G,['Y2']); }
   function AN_C11(G){ return AN_YR(G,['Y2'])&&(typeof STORY!=='undefined'&&STORY.knows?!!STORY.knows('heroine_01',G):false); }   /* AA_533 2-3：同 C11 第一堂她那一句的條件 */
   function ST(t){ return {who:'npc_c11_student',name:'同團的學生',text:t}; }   /* 她只有大二暑假在京都（大三暑假她在日本交換、剛回來：AA_369 M4）*/
-  /* ===== VA-09 芯慈大二暑假在爸爸的事務所（AA_256 第 1 節，AA-C 71b184ba；2027-07-05～08-27 平日 9:00～17:00）=====
-     她傳（和她 FAMILIAR 以上）；回覆兩個照順序，第 2、3 則多一個「要不要一起吃午餐？」（一次）→ 最近的平日 12:00；她不講案子的細節 */
+  /* ===== VA-09 芯慈大二暑假的實習（AA_256 第 1 節，AA-C 71b184ba；2027-07-05～08-27 平日 9:00～17:00）=====
+     她傳（和她 FAMILIAR 以上）；回覆兩個照順序，第 2、3 則多一個「要不要一起吃午餐？」（一次）→ 最近的平日 12:00；她不講案子的細節。
+     AA_549 2-1（企劃線 AA_549 第 2 節第 1 點）：期末飯說她在證券公司法務部實習（AA_547）——va09_2 換成證券公司的版本（c14 版也換）；va09_1 照舊；第三則沒有「我爸」（照舊）。
+       3D 作息：characters.js 芯慈那幾天平日 9:00～17:00「在證券公司實習」。午餐（lunchAsk、ev_va09_lunch）的「事務所樓下」稿上沒寫要不要換，照舊（問 AA）*/
   const VA09={who:'classmate_xinci',min:'FAMILIAR',
     msgs:[{tag:'va09_1',day:'2027-07-05',h:18+10/60,ms:['第一天。我負責影印。','影印機會卡紙，卡在第三格。我已經會修了。']},
-          {tag:'va09_2',day:'2027-07-14',h:21.5,ms:['今天幫忙排一個查帳的時間表。很長。','我爸說排得很好。……他說的時候沒有看我。'],c14:['今天幫忙排一個查帳的時間表。很長。','就是你上次來，白板上那種。現在是我排的。'],lunch:true},
+          {tag:'va09_2',day:'2027-07-14',h:21.5,ms:['今天幫忙整理一份併購的時程表。很長。','主管說排得很清楚。我很高興。'],c14:['今天幫忙整理一份併購的時程表。很長。','跟你上次在我家事務所看到的白板很像。現在換我排。'],lunch:true},   /* AA_549 2-1 */
           {tag:'va09_3',day:'2027-07-28',h:12+40/60,ms:['（照片：便當，旁邊是一疊卷宗的側面，看不到字）','午餐。'],lunch:true},
           {tag:'va09_4',day:'2027-08-27',h:18,ms:['最後一天。','我把我的位子擦乾淨了。……明年還要不要來，我還沒想。']}],
     replies:[{t:'辛苦了。',r:['還好。']},{t:'好厲害。',r:['沒有，只是照著做。']}],
@@ -559,7 +561,10 @@ const VAC_DATA=(function(){
     {tag:'va11_exam_yt',day:'2026-06-18',h:18,th:'p:heroine_03',dating:'heroine_03',ms:[{from:'heroine_03',text:'考完了'},{from:'heroine_03',text:'憲法最後一題我寫不完'},{from:'heroine_03',text:'……不要問我分數 7/3 才知道'}]},
     /* va11_exam_yt：雙主修筆試 6/18 考完那天傍晚（AA_313 4-4，原本 6/19 中午）；收過這則的人，期末飯她只說「成績單七月三號才寄。」（termend_lines.js POOL.Y1S2）*/
     {tag:'va11_idle_an',day:'2026-07-31',h:21,th:'p:heroine_01',dating:'heroine_01',idle:true,ms:[{from:'heroine_01',text:'你這個暑假在做什麼？'},{from:'heroine_01',text:'我不是在檢查。我在想要不要排一天一起去哪裡。'}]},
-    {tag:'va11_idle_yt',day:'2026-07-31',h:21,th:'p:heroine_03',dating:'heroine_03',idle:true,ms:[{from:'heroine_03',text:'你暑假是不是很閒'},{from:'heroine_03',text:'那明天下午陪我去進貨'}]} ];
+    {tag:'va11_idle_yt',day:'2026-07-31',h:21,th:'p:heroine_03',dating:'heroine_03',idle:true,ms:[{from:'heroine_03',text:'你暑假是不是很閒'},{from:'heroine_03',text:'那明天下午陪我去進貨'}]},
+    /* AA_549 2-7（企劃線 AA_549 第 2 節第 7 點）：語彤大二暑假在台東做田野（characters.js 2027-07-19～07-30）——她傳兩則私訊，和她朋友（FRIEND）以上 */
+    {tag:'va549_yt_field_1',day:'2027-07-21',h:21,th:'p:heroine_03',min:['heroine_03','FRIEND'],ms:[{from:'heroine_03',text:'這裡的阿嬤說話很快。我錄音錄了兩小時，聽懂一半。'}]},
+    {tag:'va549_yt_field_2',day:'2027-07-28',h:21,th:'p:heroine_03',min:['heroine_03','FRIEND'],ms:[{from:'heroine_03',text:'明天最後一天。阿嬤問我要不要留下來嫁給她孫子。我說要回去顧店。'}]} ];
   /* ===== 登機以後的「飛往〇〇」字卡（AA_478 第 1 節、1-1，企劃線 f1afaf4f1）：E08 3D 出境大廳「登機」（或一小時以後自動登機）以後、第一張日期卡以前出（src/vac3d.js S.flyCard），
      格式同日本路線的 GM.titleCard('飛往日本','關西　約 3 小時')：[第一行, 第二行]，第二行地名和「約」中間是全形空白。
      T02 的稿子沒寫到哪一座山、飛哪一個機場：第二行只寫時間，不編地名。C13（手機自己排的出國旅遊）照目的地：TRAVEL.dest 的 fly；和女朋友、朋友一起去的字卡一樣 */
