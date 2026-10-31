@@ -1685,6 +1685,17 @@
    "task": "LIB-LAWN-PLAN-1030",
    "src": "使用者對 LAWWW-B，2026-10-30 16:5x UTC",
    "checked": "第一版照舊在遊戲裡；第二版等使用者傳校內地圖或照片（LAWWW2 不再猜）"
+  },
+  {
+   "id": "UA-LAWWW-1031-01",
+   "at": "2026-10-31T19:0x",
+   "quote": "好 發布了再告訴我",
+   "kind": "原話",
+   "status": "進行中",
+   "wants": "X138",
+   "task": "QA-PLAYTHROUGH-1018",
+   "src": "使用者對 LAWWW-B，2026-10-31 19:0x UTC（回 LAWWW-B「BB 給出能不能發布的結論後……再用選擇題問您要不要發布改名版」）",
+   "checked": "當作改名版（v9.10.15，D115）發布的同意：等 BB QA-PLAYTHROUGH-1018 給 GO、發布前清單（docs/TESTING.md 第五節）通過才合併 main；發布後告訴使用者版本、SHA、內容"
   }
  ]
 }
