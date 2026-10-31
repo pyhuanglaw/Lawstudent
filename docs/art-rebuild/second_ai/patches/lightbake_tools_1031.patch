@@ -1,0 +1,478 @@
+diff --git a/tools/blender/env_second/lightbake/bake_boya.sh b/tools/blender/env_second/lightbake/bake_boya.sh
+index 7ff912b21..3667666c0 100644
+--- a/tools/blender/env_second/lightbake/bake_boya.sh
++++ b/tools/blender/env_second/lightbake/bake_boya.sh
+@@ -44,7 +44,7 @@ for lv, y in ((0, C0), (1, RY)):
+     for x in LP['xs']:
+         for z in LP['zs']:
+             if lv == 0 and WL['x0'] - 0.7 < x < WL['x1'] + 0.7 and WL['z0'] - 0.2 < z < WL['z1'] + 0.2: continue
+-            cx, cz = trof(x, z); out.append(f'{cx:.3f},{y - 0.9:.3f},{cz:.3f},{up},1.0,0.96,0.9')
++            cx, cz = trof(x, z); out.append(f'{cx:.3f},{y - 0.9:.3f},{cz:.3f},{up},1.0,0.96,0.9,0.6')   # 半徑 0.6 m（BB-B n19：原本 6 cm，101 講桌在後牆、講台前的地上打出一塊硬的深色影子）
+ print(';'.join(out))
+ EOF
+ )
+diff --git a/tools/blender/env_second/lightbake/bake_gongtong.sh b/tools/blender/env_second/lightbake/bake_gongtong.sh
+new file mode 100644
+index 000000000..c71a0bae0
+--- /dev/null
++++ b/tools/blender/env_second/lightbake/bake_gongtong.sh
+@@ -0,0 +1,60 @@
++#!/bin/bash
++# 共同教學館室內（ART-ECON-3D-GAP-1021 A；經濟系那一年在共同上課；LAWWW2-B 2026-10-30；照 bake_boya.sh）：建模 → 光照烘焙（白天／晚上）→ WebP。repo 根目錄跑：
++#   bash tools/blender/env_second/lightbake/bake_gongtong.sh [取樣數，預設 512] [輸出資料夾，預設 assets/models/env/second_ai] [貼圖邊長，預設 1024]
++# 輸出：gongtong_interior.glb（多一套 UV＝TEXCOORD_1、extras.lightmap）＋ gongtong_interior_lm_day.webp、_night.webp。
++#   遊戲：teach3d.js 照 ASSETS 'bldg.gongtong_interior' 接正式模型（B3.attachFormal），看到 extras.lightmap 就接（Z3.roomLightmap）；看到 SEATPANS 就藏起備用的方塊桌椅（博思那一包已整合）。
++# 座標＝配置（src/data/gongtong_layout.js）：24 × 14 m，x 往東、z 往南（+z＝南牆：入口）；一樓地板 0、天花板 3.6；二樓地板 4.2、屋頂 7.8（兩層都 3.6 m 高，比博思低）。
++# 燈（面光源）：T5 格柵燈具，位置照 teach_interior.py 的 trof()；配置沒寫 lightPanels，用 teach3d.js 備用模型的預設燈位（DEFAULT_LP）。一樓樓梯井那一塊沒有燈。
++#   窗：一樓南面（休息區）、北面（102、101 的後面），二樓南北兩排；天光＋下午的太陽（方位 200°、仰角 38°）。
++#   天花板比博思低 0.2～0.6 m：燈的瓦數 12（博思一樓 14、二樓 12；64 取樣試烘 11 的晚上比博思暗 15%）。
++#   白天比博思暗、不偏黃（10-31 遊戲內試了三版）：博思的參數（天光 0.5、白平衡 0.92,0.88,0.8、白天燈 0.9）在這裡教室牆面 (248,220,176)，紅色爆掉、整間偏橘黃——
++#   教室小、窗大（博思的階梯教室沒有窗），遊戲裡白天還有即時的太陽（×0.3）和跟著玩家的三盞燈。改成天光 0.18、白平衡 1.0,0.98,0.95、白天燈 0.6：(214,191,158)，晚上 (168,159,139)。
++# --nolm（照舊即時光）：階梯教室的長桌、翻椅（LECT_*、SEATPANS：椅面會掀起來）、燈具、格柵、輕鋼架、鋼、窗框、止滑條、小零件。
++set -e
++SAMPLES=${1:-512}
++OUTDIR=${2:-assets/models/env/second_ai}
++RES=${3:-1024}
++TMP=$(mktemp -d)
++HIDE='glass'
++NOLM='LECT_|SEATPANS|_light|louvre|tbar|trof|steel|sofaleg|frame|nosing|stepvinyl|tray|_dark'
++LIGHTS=$(python3 - <<'EOF'
++import json, os
++s = open('src/data/gongtong_layout.js', encoding='utf8').read(); J = json.loads(s[s.index('{', s.index('GONGTONG_LAYOUT')):s.rindex('}') + 1])
++C0, RY = J['ceil0'], J['roofY']; WL = J['stair']['well']; LP = J.get('lightPanels') or {'xs': [-9.6, -6.0, -1.2, 1.2, 6.0, 9.6], 'zs': [-5.2, -2.0, 1.0, 4.6]}   # 照 teach_interior.py 的 DEFAULT_LP
++trof = lambda x, z: (round(0.6 * round(x / 0.6), 3), round(0.4 + 0.6 * round((z - 0.4) / 0.6), 3))   # 照 teach_interior.py（改那邊要一起改）
++w0, w1 = os.environ.get('TROFW', '12'), os.environ.get('TROFW2', '12')   # 兩層天花板都 3.6 m（64 取樣試烘：11 的晚上比博思暗 15%）
++out = []
++for lv, y, w in ((0, C0, w0), (1, RY, w1)):
++    for x in LP['xs']:
++        for z in LP['zs']:
++            if lv == 0 and WL['x0'] - 0.7 < x < WL['x1'] + 0.7 and WL['z0'] - 0.2 < z < WL['z1'] + 0.2: continue
++            cx, cz = trof(x, z)
++            out.append(f'{cx-0.01:.3f},{cx+0.01:.3f},{cz-0.01:.3f},{cz+0.01:.3f},{y-0.05:.3f},1,1,{w},1.14,0.54')
++print(';'.join(out))
++EOF
++)
++# 燈具往四周散出去的光（點光源，燈具下方 0.9 m、8 W；10-30 第二次試烘焙 0.4 m、3 W：天花板上只有一個一個小亮點，整片照樣暗）：面光源只往下照，試烘焙（64 取樣）階梯教室的天花板只吃到木桌、地毯反彈上來的光，整片暗、偏咖啡色
++# （T5 格柵燈具的「洞穴效應」，遊戲裡看起來像髒的）。真的燈具格柵、燈管旁邊也會漏光到天花板：每盞燈下面一顆小點光源，天花板在燈的四周亮一圈
++POINTS=$(python3 - <<'EOF'
++import json, os
++s = open('src/data/gongtong_layout.js', encoding='utf8').read(); J = json.loads(s[s.index('{', s.index('GONGTONG_LAYOUT')):s.rindex('}') + 1])
++C0, RY = J['ceil0'], J['roofY']; WL = J['stair']['well']; LP = J.get('lightPanels') or {'xs': [-9.6, -6.0, -1.2, 1.2, 6.0, 9.6], 'zs': [-5.2, -2.0, 1.0, 4.6]}   # 照 teach_interior.py 的 DEFAULT_LP
++trof = lambda x, z: (round(0.6 * round(x / 0.6), 3), round(0.4 + 0.6 * round((z - 0.4) / 0.6), 3))
++up = os.environ.get('UPW', '8')
++out = []
++for lv, y in ((0, C0), (1, RY)):
++    for x in LP['xs']:
++        for z in LP['zs']:
++            if lv == 0 and WL['x0'] - 0.7 < x < WL['x1'] + 0.7 and WL['z0'] - 0.2 < z < WL['z1'] + 0.2: continue
++            cx, cz = trof(x, z); out.append(f'{cx:.3f},{y - 0.9:.3f},{cz:.3f},{up},1.0,0.96,0.9')
++print(';'.join(out))
++EOF
++)
++/opt/blenv/bin/python tools/blender/env_second/teach_interior.py -- --set gongtong --out "$TMP/gt_plain.glb"
++python3 -c "import json,sys; d=json.load(open(sys.argv[1])); d['out']='assets/models/env/second_ai/gongtong_interior.glb'; json.dump(d,open(sys.argv[2],'w'),ensure_ascii=False,indent=1)" "$TMP/gt_plain.json" "$OUTDIR/gongtong_interior.json"   # 統計（三角形、材質）
++/opt/blenv/bin/python tools/blender/env_second/lightbake/bake_room.py -- --in "$TMP/gt_plain.glb" --out "$OUTDIR/gongtong_interior.glb" \
++  --lm "$TMP/gt" --url assets/models/env/second_ai/gongtong_interior_lm --res "$RES" --samples "$SAMPLES" --hide "$HIDE" --nolm "$NOLM" \
++  --sun 200,${SUNEL:-38},${SUNW:-1.8} --sky "${SKY:-0.18}" --daywb ${DAYWB:-1.0,0.98,0.95} --lights "$LIGHTS" --points "$POINTS" --daylights "${DAYL:-0.6}" --smooth 1 --shell S,N
++python3 tools/blender/env_second/lightbake/to_webp.py "$TMP/gt" "$OUTDIR/gongtong_interior_lm" 90
++/opt/blenv/bin/python tools/blender/env_second/lightbake/lm_fix_hidden.py -- --in "$OUTDIR/gongtong_interior.glb" --out "$OUTDIR/gongtong_interior.glb" --lm "$OUTDIR/gongtong_interior_lm"
++cp "$TMP/gt.json" tools/blender/env_second/lightbake/gongtong_interior_lm.json
+diff --git a/tools/blender/env_second/lightbake/bake_noodle.sh b/tools/blender/env_second/lightbake/bake_noodle.sh
+new file mode 100644
+index 000000000..f081c3209
+--- /dev/null
++++ b/tools/blender/env_second/lightbake/bake_noodle.sh
+@@ -0,0 +1,38 @@
++#!/bin/bash
++# 阿鳳麵店室內（NOODLE-LM-1030；LAWWW-B 10-30 派工，INTERIOR-AAA；LAWWW2-B 2026-10-30）：建模 → 光照烘焙（白天／晚上）→ WebP。repo 根目錄跑：
++#   bash tools/blender/env_second/lightbake/bake_noodle.sh [取樣數，預設 512] [輸出資料夾，預設 assets/models/env/second_ai] [貼圖邊長，預設 1024]
++# 輸出：noodle_interior.glb（多一套 UV＝TEXCOORD_1、extras.lightmap）＋ noodle_interior_lm_day.webp、_night.webp。
++#   遊戲：zones3d.js 的 noodle → attachRoomGLB 看到 GLB 的 extras.lightmap 就接（和 Café 同一套），光照不用改程式。
++# 座標＝遊戲 noodle 區域（room() 10×9×3.2 m）：店面在 +z（中間玻璃門、x＝±3 兩扇窗），後牆 −z 是煮麵台、價目板。
++#   店面朝東（公館南側店面：公館 −z＝真的東邊，見 CLAUDE.md 公館 (gx,gz) → 校園 (x=−170−gz, z=gx)）：下午的太陽在屋子後面，白天只有店面進來的天光（太陽 0 W）。
++# 燈：六支日光燈管（x＝±2.5、z＝−2.6／0.5／3.0，燈管在天花板下 0.12 m、長 1.2 m，上面一片燈座）。
++#   每支燈管三顆點光源（燈管中間和兩邊 0.4 m，半徑 4 cm：再大會碰到上面的燈座），燈管本身烘焙時當作不存在（照舊自己發光）；燈座照樣擋光（燈管上面那一塊天花板暗一點）。
++#   日光燈偏白，比 Café 的暖色燈冷；小麵店白天燈也開著（--daylights）。
++# 外殼（--shell S）：店面（+z）有玻璃，天光從這一面進來；其他包黑殼。
++# --nolm（照舊即時光）：燈管、燈座、碗、麵、湯、滷味、調味罐、筷筒、黑色小東西、椅腳桌腳、桌邊、面紙盒、湯鍋煮麵爐（深色不鏽鋼）、
++#   紅紙菜單／價目板（SIGN_FACE：字由遊戲 canvas 畫）、窗框、電扇、電視（小零件，分不到像素）。桌面、椅子（方塊）、煮麵台（櫃身、櫃門、湯鍋、煮麵爐）照樣烘（有接觸陰影）。
++#   櫃門、湯鍋、煮麵爐（ndl_steel_dark）第一次正式烘焙沒烘：晚上照遊戲的暖色即時燈，變成咖啡色，和烘過的櫃身（灰的）不搭——第二次一起烘。
++set -e
++SAMPLES=${1:-512}
++OUTDIR=${2:-assets/models/env/second_ai}
++RES=${3:-1024}
++TMP=$(mktemp -d)
++HIDE='glass|^ndl_tubes$|^ndl_tube$'
++NOLM='tube|bowl|noodle|soup|food|jar|black|legs|table_edges|tissue|SIGN_FACE|frame|fan|_tv'
++COOL='1.0,0.97,0.9'
++TW=${TUBEW:-17}   # 64 取樣試烘焙 20 W：牆整片偏白（日光燈小店本來就平均地亮，但和改前比太亮）
++PT=""
++for z in -2.6 0.5 3.0; do for x in -2.5 2.5; do for dx in -0.4 0 0.4; do
++  PT="$PT;$(python3 -c "print(f'{$x+$dx:.2f}')"),3.04,$z,$TW,$COOL,0.04"
++done; done; done
++PT=${PT#;}
++/opt/blenv/bin/python tools/blender/env_second/noodle_interior.py -- --out "$TMP/noodle_plain.glb"
++python3 -c "import json,sys; d=json.load(open(sys.argv[1])); d['out']='assets/models/env/second_ai/noodle_interior.glb'; json.dump(d,open(sys.argv[2],'w'),ensure_ascii=False,indent=1)" "$TMP/noodle_plain.json" "$OUTDIR/noodle_interior.json"
++/opt/blenv/bin/python tools/blender/env_second/lightbake/bake_room.py -- --in "$TMP/noodle_plain.glb" --out "$OUTDIR/noodle_interior.glb" \
++  --lm "$TMP/nd" --url assets/models/env/second_ai/noodle_interior_lm --res "$RES" --samples "$SAMPLES" --hide "$HIDE" --nolm "$NOLM" \
++  --sun 90,30,0 --sky "${SKY:-0.8}" --daywb 0.96,0.96,0.94 --nightwb 0.97,0.98,1.0 --points "$PT" --daylights "${DAYL:-0.9}" --smooth 1 --shell S
++python3 tools/blender/env_second/lightbake/to_webp.py "$TMP/nd" "$OUTDIR/noodle_interior_lm" 90
++/opt/blenv/bin/python tools/blender/env_second/lightbake/lm_fix_hidden.py -- --in "$OUTDIR/noodle_interior.glb" --out "$OUTDIR/noodle_interior.glb" --lm "$OUTDIR/noodle_interior_lm"
++cp "$TMP/nd.json" tools/blender/env_second/lightbake/noodle_interior_lm.json
++rm -rf "$TMP"
++echo "done: $OUTDIR/noodle_interior.glb + noodle_interior_lm_day/night.webp"
+diff --git a/tools/blender/env_second/lightbake/bake_room.py b/tools/blender/env_second/lightbake/bake_room.py
+index 2c654f18c..5c8395f4e 100644
+--- a/tools/blender/env_second/lightbake/bake_room.py
++++ b/tools/blender/env_second/lightbake/bake_room.py
+@@ -225,7 +225,7 @@ so.rotation_euler = to_sun.to_track_quat('Z', 'Y').to_euler()
+ 
+ # 日光燈：在燈具的位置放真的面光源（發光的網格本身也亮，但 Cycles 從很小的發光面取樣很吵：10-28 第一次烘焙牆上一塊一塊的）
+ # --lights x0,x1,z0,z1,y,nx,nz,W[,sx,sz[,r,g,b]]（可以重複，用 ; 分開）：x0..x1 × z0..z1 的格子中心、高 y，nx×nz 盞，每盞 W 瓦，燈的大小 sx×sz（預設 1.2×0.3 m），顏色（預設日光燈 1,0.97,0.92；檯燈偏暖）
+-# --points x,y,z,W[,r,g,b]（用 ; 分開）：點光源（壁燈、往上打的燈；總圖大廳 LIB-HALL-LM-1028）
++# --points x,y,z,W[,r,g,b[,半徑]]（用 ; 分開）：點光源（壁燈、往上打的燈；總圖大廳 LIB-HALL-LM-1028）；半徑預設 0.06 m（影子很硬），補光用大一點（0.4～0.6）
+ AREAS = []
+ for spec in (arg('--lights', '') or '').split(';'):
+     if not spec.strip(): continue
+@@ -238,7 +238,7 @@ for spec in (arg('--lights', '') or '').split(';'):
+ for spec in (arg('--points', '') or '').split(';'):
+     if not spec.strip(): continue
+     v = [float(t) for t in spec.split(',')]; x, y, z, Wt = v[:4]; col = tuple(v[4:7]) if len(v) >= 7 else (1.0, 0.85, 0.7)
+-    ld = bpy.data.lights.new('pt', 'POINT'); ld.energy = Wt; ld.color = col; ld.shadow_soft_size = 0.06
++    ld = bpy.data.lights.new('pt', 'POINT'); ld.energy = Wt; ld.color = col; ld.shadow_soft_size = v[7] if len(v) >= 8 else 0.06   # 第 8 個數＝光源半徑（影子的軟硬；BOYA-LM-1030 燈具下方的補光原本 6 cm，講桌在後牆、地上打出一塊硬影子）
+     lo = bpy.data.objects.new(ld.name, ld); sc.collection.objects.link(lo); lo.location = Vector((x, -z, y)); AREAS.append(lo)
+ print('area lights', len(AREAS), flush=True)
+ 
+@@ -347,17 +347,34 @@ if '--dark' in A:
+ # ---- 5b. 夾在零件中間、烘出來全黑的面（白天、晚上兩張都 < 0.003：完全照不到光，只有被包住的面會這樣）：和看不到的面一樣，UV 收到同一個物件最大那一面的中心 ----
+ # 為什麼（LIB-HALL-LM-1028）：方塊拼起來的牆、台座，兩塊接在一起的那一面夾在中間烘成黑的；正面在接縫是 T 形接頭（一邊有頂點、一邊沒有），
+ # 畫的時候接縫露出一點一點的縫，就看得到後面黑的那一面——男一舍門廳第一次正式烘焙，門框上方一條條點狀黑線。收到最大那一面的中心以後，縫裡看到的是牆的顏色
++# 「全黑」要整面每一處都黑（10-30 改，BB-B n19）：原本只看面的中心，大的面中心剛好被東西擋住（貼著牆的講桌、閱覽桌底下）就整面收掉——
++#   博思 101、102 講台那面牆下半個三角形（28 m²）、社科圖地板的一半（330 m²），光照變成對角線那一條拉開來的光（講台前一塊深色的斜影、地板沒有柱子的影子）。
++#   現在和 lm_fix_hidden.py 的 lmmax 一樣：中心、角、邊的中點（往中心縮 20%），面積超過 8 個像素的再加一張格子（往中心縮 10%），取最亮的。
+ def collapse_black(day, night, thr=0.003):
+     n_all = 0
++    def px(u):
++        x = min(RES - 1, max(0, int(u.x * RES))); y = min(RES - 1, max(0, int(u.y * RES)))
++        return max(float(day[y, x].max()), float(night[y, x].max()))
+     for o in objs:
+         me = o.data; hs = HID[o.name]
+         bm = bmesh.new(); bm.from_mesh(me); uv = bm.loops.layers.uv['LM']; bm.faces.ensure_lookup_table()
+         vis = [f for f in bm.faces if f.index not in hs]
+         if len(vis) < 2: bm.free(); continue
+         def val(f):
+-            cu = sum((l[uv].uv for l in f.loops), Vector((0, 0))) / len(f.loops)
+-            x = min(RES - 1, max(0, int(cu.x * RES))); y = min(RES - 1, max(0, int(cu.y * RES)))
+-            return max(float(day[y, x].max()), float(night[y, x].max()))
++            pts = [l[uv].uv.copy() for l in f.loops]; n_ = len(pts); c = sum(pts, Vector((0, 0))) / n_
++            smp = [c] + [p.lerp(c, 0.2) for p in pts] + [((pts[i] + pts[(i + 1) % n_]) / 2).lerp(c, 0.2) for i in range(n_)]
++            apx = sum(abs((pts[i].x - pts[0].x) * (pts[i + 1].y - pts[0].y) - (pts[i + 1].x - pts[0].x) * (pts[i].y - pts[0].y)) / 2 for i in range(1, n_ - 1)) * RES * RES
++            if apx > 8:
++                k = min(32, int(math.sqrt(apx)) + 1)
++                for i in range(1, n_ - 1):
++                    p0, p1, p2 = pts[0], pts[i], pts[i + 1]
++                    for a in range(k + 1):
++                        for b_ in range(k + 1 - a): q = p0 + (p1 - p0) * (a / k) + (p2 - p0) * (b_ / k); smp.append(c + (q - c) * 0.9)
++            best = 0.0
++            for u in smp:
++                best = max(best, px(u))
++                if best >= thr: break
++            return best
+         big = max(vis, key=lambda f: f.calc_area())
+         if val(big) < thr: bm.free(); continue
+         c = sum((l[uv].uv for l in big.loops), Vector((0, 0))) / len(big.loops); n = 0
+diff --git a/tools/blender/env_second/lightbake/bake_soclib.sh b/tools/blender/env_second/lightbake/bake_soclib.sh
+new file mode 100644
+index 000000000..8f915209e
+--- /dev/null
++++ b/tools/blender/env_second/lightbake/bake_soclib.sh
+@@ -0,0 +1,36 @@
++#!/bin/bash
++# 社科院圖書館（辜先生紀念圖書館一樓開架閱覽室；SOCLIB-LM-1030，LAWWW-B 10-30 派工、D99 經濟系那一年念書的地方；LAWWW2-B 2026-10-30）：建模 → 光照烘焙（白天／晚上）→ WebP。repo 根目錄跑：
++#   bash tools/blender/env_second/lightbake/bake_soclib.sh [取樣數，預設 512] [輸出資料夾，預設 assets/models/env/second_ai] [貼圖邊長，預設 1024]
++# 輸出：soclib_interior.glb（多一套 UV＝TEXCOORD_1、extras.lightmap）＋ soclib_interior_lm_day.webp、_night.webp（＋soclib_interior.json 統計）。
++#   遊戲：soclib3d.js 用 Z3.attachRoomGLB 接正式模型，看到 GLB 的 extras.lightmap 就接（和 Café 同一套），不用改程式；天窗（--dayemit）晚上由 Z3.roomLightmap 調暗（RT-NIGHT-1028）。
++# 座標＝配置（src/data/soclib_layout.js）：30 × 22 m、天花板 5.6 m；x 往東、z 往南（+z＝南牆：入口、服務台）；北牆、西牆是玻璃帷幕（--shell N,W＝這兩面開著）。
++# 燈（位置照 soclib_interior.py 寫進統計 JSON 的 lights：down 筒燈、up 荷葉上照燈、lamps 閱覽桌檯燈頭）：
++#   筒燈＝面光源 0.13 m 見方往下照；荷葉上照燈＝荷葉頂面上方 0.35 m 的點光源（葉子擋住往下的光，只照天花板和四周）；檯燈＝燈頭下方的小面光源（暖色）。
++# 白天：天光＋下午的太陽（方位 200°）從西面、北面的玻璃帷幕進來；圓形天窗（soclib_skylight）只在白天那一張發光（--dayemit）。白天燈照樣開（圖書館）。
++#   亮度（10-30 試烘焙）：第一次天光 0.6、太陽 2.0、天窗 1.0——兩整面 5.6 m 高的玻璃帷幕，白天平均亮度 1.73（其他室內約 0.2），遊戲裡整片過曝 → 天光 0.12、太陽 0.9、天窗 0.4；
++#   白平衡、燈色調白一點（第一次晚上整間偏黃）；第二次白天磨石子地偏奶油色、晚上偏咖啡色 → 白天 0.88,0.9,0.96、晚上 0.9,0.94,1.04（改前是淺灰地）。
++# --nolm（照舊即時光）：竹書架、長桌、椅子、書（幾千本）、金屬、白色小零件、窗框、發光面、螢幕、招牌板面。
++set -e
++SAMPLES=${1:-512}
++OUTDIR=${2:-assets/models/env/second_ai}
++RES=${3:-1024}
++TMP=$(mktemp -d)
++NOLM='bamboo|books|chair_seats|skylights|metal|white|mull|black|downlight|uplight|lamps|screens|steel|glass|SIGN_FACE'
++/opt/blenv/bin/python tools/blender/env_second/soclib_interior.py -- --out "$TMP/soclib_plain.glb"
++python3 -c "import json,sys; d=json.load(open(sys.argv[1])); d['out']='assets/models/env/second_ai/soclib_interior.glb'; json.dump(d,open(sys.argv[2],'w'),ensure_ascii=False,indent=1)" "$TMP/soclib_plain.json" "$OUTDIR/soclib_interior.json"   # 統計（三角形、燈的位置）
++read -r LIGHTS POINTS < <(python3 - "$TMP/soclib_plain.json" <<'EOF'
++import json, os, sys
++L = json.load(open(sys.argv[1]))['lights']; H = L['H']
++dw, uw, lw = os.environ.get('DOWNW', '8'), os.environ.get('UPW', '30'), os.environ.get('LAMPW', '3')
++lights = [f'{x-0.01:.3f},{x+0.01:.3f},{z-0.01:.3f},{z+0.01:.3f},{H-0.008:.3f},1,1,{dw},0.13,0.13,1.0,0.95,0.88' for (x, z) in L['down']]
++lights += [f'{x-0.01:.3f},{x+0.01:.3f},{z-0.01:.3f},{z+0.01:.3f},1.150,1,1,{lw},0.05,0.3,1.0,0.82,0.62' for (x, z) in L['lamps']]
++points = [f'{x:.3f},{y+0.35:.3f},{z:.3f},{uw},1.0,0.92,0.8,0.4' for (x, y, z) in L['up']]   # 半徑 0.4 m：荷葉邊在天花板上的影子軟一點
++print(';'.join(lights), ';'.join(points))
++EOF
++)
++/opt/blenv/bin/python tools/blender/env_second/lightbake/bake_room.py -- --in "$TMP/soclib_plain.glb" --out "$OUTDIR/soclib_interior.glb" \
++  --lm "$TMP/sl" --url assets/models/env/second_ai/soclib_interior_lm --res "$RES" --samples "$SAMPLES" --hide glass --nolm "$NOLM" \
++  --sun "${SUN:-200,38,0.9}" --sky "${SKY:-0.12}" --dayemit "soclib_skylight=${SKYLIGHT:-0.4}" --daywb 0.88,0.9,0.96 --nightwb 0.9,0.94,1.04 --lights "$LIGHTS" --points "$POINTS" --daylights "${DAYL:-0.9}" --smooth 1 --shell N,W
++python3 tools/blender/env_second/lightbake/to_webp.py "$TMP/sl" "$OUTDIR/soclib_interior_lm" 90
++/opt/blenv/bin/python tools/blender/env_second/lightbake/lm_fix_hidden.py -- --in "$OUTDIR/soclib_interior.glb" --out "$OUTDIR/soclib_interior.glb" --lm "$OUTDIR/soclib_interior_lm"
++cp "$TMP/sl.json" tools/blender/env_second/lightbake/soclib_interior_lm.json
+diff --git a/tools/blender/env_second/lightbake/gongtong_interior_lm.json b/tools/blender/env_second/lightbake/gongtong_interior_lm.json
+new file mode 100644
+index 000000000..2b689152d
+--- /dev/null
++++ b/tools/blender/env_second/lightbake/gongtong_interior_lm.json
+@@ -0,0 +1,69 @@
++{
++ "scale": 2.0,
++ "intensity": 6.283185307179586,
++ "res": 512,
++ "samples": 64,
++ "emit": {},
++ "dayemit": {},
++ "sun": [
++  200.0,
++  38.0,
++  1.8
++ ],
++ "sky": 0.18,
++ "nightsky": 0.03,
++ "shell": "S,N",
++ "daylights": 0.6,
++ "lights": "-9.610,-9.590,-5.010,-4.990,3.550,1,1,12,1.14,0.54;-9.610,-9.590,-2.010,-1.990,3.550,1,1,12,1.14,0.54;-9.610,-9.590,0.990,1.010,3.550,1,1,12,1.14,0.54;-9.610,-9.590,4.590,4.610,3.550,1,1,12,1.14,0.54;-6.010,-5.990,-5.010,-4.990,3.550,1,1,12,1.14,0.54;-6.010,-5.990,-2.010,-1.990,3.550,1,1,12,1.14,0.54;-6.010,-5.990,0.990,1.010,3.550,1,1,12,1.14,0.54;-6.010,-5.990,4.590,4.610,3.550,1,1,12,1.14,0.54;-1.210,-1.190,0.990,1.010,3.550,1,1,12,1.14,0.54;-1.210,-1.190,4.590,4.610,3.550,1,1,12,1.14,0.54;1.190,1.210,-5.010,-4.990,3.550,1,1,12,1.14,0.54;1.190,1.210,-2.010,-1.990,3.550,1,1,12,1.14,0.54;1.190,1.210,0.990,1.010,3.550,1,1,12,1.14,0.54;1.190,1.210,4.590,4.610,3.550,1,1,12,1.14,0.54;5.990,6.010,-5.010,-4.990,3.550,1,1,12,1.14,0.54;5.990,6.010,-2.010,-1.990,3.550,1,1,12,1.14,0.54;5.990,6.010,0.990,1.010,3.550,1,1,12,1.14,0.54;5.990,6.010,4.590,4.610,3.550,1,1,12,1.14,0.54;9.590,9.610,-5.010,-4.990,3.550,1,1,12,1.14,0.54;9.590,9.610,-2.010,-1.990,3.550,1,1,12,1.14,0.54;9.590,9.610,0.990,1.010,3.550,1,1,12,1.14,0.54;9.590,9.610,4.590,4.610,3.550,1,1,12,1.14,0.54;-9.610,-9.590,-5.010,-4.990,7.750,1,1,12,1.14,0.54;-9.610,-9.590,-2.010,-1.990,7.750,1,1,12,1.14,0.54;-9.610,-9.590,0.990,1.010,7.750,1,1,12,1.14,0.54;-9.610,-9.590,4.590,4.610,7.750,1,1,12,1.14,0.54;-6.010,-5.990,-5.010,-4.990,7.750,1,1,12,1.14,0.54;-6.010,-5.990,-2.010,-1.990,7.750,1,1,12,1.14,0.54;-6.010,-5.990,0.990,1.010,7.750,1,1,12,1.14,0.54;-6.010,-5.990,4.590,4.610,7.750,1,1,12,1.14,0.54;-1.210,-1.190,-5.010,-4.990,7.750,1,1,12,1.14,0.54;-1.210,-1.190,-2.010,-1.990,7.750,1,1,12,1.14,0.54;-1.210,-1.190,0.990,1.010,7.750,1,1,12,1.14,0.54;-1.210,-1.190,4.590,4.610,7.750,1,1,12,1.14,0.54;1.190,1.210,-5.010,-4.990,7.750,1,1,12,1.14,0.54;1.190,1.210,-2.010,-1.990,7.750,1,1,12,1.14,0.54;1.190,1.210,0.990,1.010,7.750,1,1,12,1.14,0.54;1.190,1.210,4.590,4.610,7.750,1,1,12,1.14,0.54;5.990,6.010,-5.010,-4.990,7.750,1,1,12,1.14,0.54;5.990,6.010,-2.010,-1.990,7.750,1,1,12,1.14,0.54;5.990,6.010,0.990,1.010,7.750,1,1,12,1.14,0.54;5.990,6.010,4.590,4.610,7.750,1,1,12,1.14,0.54;9.590,9.610,-5.010,-4.990,7.750,1,1,12,1.14,0.54;9.590,9.610,-2.010,-1.990,7.750,1,1,12,1.14,0.54;9.590,9.610,0.990,1.010,7.750,1,1,12,1.14,0.54;9.590,9.610,4.590,4.610,7.750,1,1,12,1.14,0.54",
++ "points": "-9.600,2.700,-5.000,8,1.0,0.96,0.9;-9.600,2.700,-2.000,8,1.0,0.96,0.9;-9.600,2.700,1.000,8,1.0,0.96,0.9;-9.600,2.700,4.600,8,1.0,0.96,0.9;-6.000,2.700,-5.000,8,1.0,0.96,0.9;-6.000,2.700,-2.000,8,1.0,0.96,0.9;-6.000,2.700,1.000,8,1.0,0.96,0.9;-6.000,2.700,4.600,8,1.0,0.96,0.9;-1.200,2.700,1.000,8,1.0,0.96,0.9;-1.200,2.700,4.600,8,1.0,0.96,0.9;1.200,2.700,-5.000,8,1.0,0.96,0.9;1.200,2.700,-2.000,8,1.0,0.96,0.9;1.200,2.700,1.000,8,1.0,0.96,0.9;1.200,2.700,4.600,8,1.0,0.96,0.9;6.000,2.700,-5.000,8,1.0,0.96,0.9;6.000,2.700,-2.000,8,1.0,0.96,0.9;6.000,2.700,1.000,8,1.0,0.96,0.9;6.000,2.700,4.600,8,1.0,0.96,0.9;9.600,2.700,-5.000,8,1.0,0.96,0.9;9.600,2.700,-2.000,8,1.0,0.96,0.9;9.600,2.700,1.000,8,1.0,0.96,0.9;9.600,2.700,4.600,8,1.0,0.96,0.9;-9.600,6.900,-5.000,8,1.0,0.96,0.9;-9.600,6.900,-2.000,8,1.0,0.96,0.9;-9.600,6.900,1.000,8,1.0,0.96,0.9;-9.600,6.900,4.600,8,1.0,0.96,0.9;-6.000,6.900,-5.000,8,1.0,0.96,0.9;-6.000,6.900,-2.000,8,1.0,0.96,0.9;-6.000,6.900,1.000,8,1.0,0.96,0.9;-6.000,6.900,4.600,8,1.0,0.96,0.9;-1.200,6.900,-5.000,8,1.0,0.96,0.9;-1.200,6.900,-2.000,8,1.0,0.96,0.9;-1.200,6.900,1.000,8,1.0,0.96,0.9;-1.200,6.900,4.600,8,1.0,0.96,0.9;1.200,6.900,-5.000,8,1.0,0.96,0.9;1.200,6.900,-2.000,8,1.0,0.96,0.9;1.200,6.900,1.000,8,1.0,0.96,0.9;1.200,6.900,4.600,8,1.0,0.96,0.9;6.000,6.900,-5.000,8,1.0,0.96,0.9;6.000,6.900,-2.000,8,1.0,0.96,0.9;6.000,6.900,1.000,8,1.0,0.96,0.9;6.000,6.900,4.600,8,1.0,0.96,0.9;9.600,6.900,-5.000,8,1.0,0.96,0.9;9.600,6.900,-2.000,8,1.0,0.96,0.9;9.600,6.900,1.000,8,1.0,0.96,0.9;9.600,6.900,4.600,8,1.0,0.96,0.9",
++ "wb": {
++  "day": [
++   1.0,
++   0.98,
++   0.95
++  ],
++  "night": null
++ },
++ "objects": [
++  "L0_base",
++  "L0_board",
++  "L0_carpet",
++  "L0_ceil",
++  "L0_door",
++  "L0_floor",
++  "L0_granite",
++  "L0_mat",
++  "L0_part",
++  "L0_riser",
++  "L0_wall",
++  "L0_WALL_E_base",
++  "L0_WALL_E_wall",
++  "L0_WALL_N_base",
++  "L0_WALL_N_wall",
++  "L0_WALL_N_wood",
++  "L0_WALL_S_base",
++  "L0_WALL_S_wall",
++  "L0_WALL_S_wood",
++  "L0_WALL_W_base",
++  "L0_WALL_W_wall",
++  "L0_wood",
++  "L1_base",
++  "L1_board",
++  "L1_ceil",
++  "L1_door",
++  "L1_floor",
++  "L1_part",
++  "L1_slab",
++  "L1_WALL_E_base",
++  "L1_WALL_E_wall",
++  "L1_WALL_N_base",
++  "L1_WALL_N_wall",
++  "L1_WALL_N_wood",
++  "L1_WALL_S_base",
++  "L1_WALL_S_wall",
++  "L1_WALL_S_wood",
++  "L1_WALL_W_base",
++  "L1_WALL_W_wall",
++  "L1_wood"
++ ]
++}
+\ No newline at end of file
+diff --git a/tools/blender/env_second/lightbake/lm_squash_scan.py b/tools/blender/env_second/lightbake/lm_squash_scan.py
+new file mode 100644
+index 000000000..789040b1b
+--- /dev/null
++++ b/tools/blender/env_second/lightbake/lm_squash_scan.py
+@@ -0,0 +1,62 @@
++"""光照貼圖的「壓扁的面」檢查（LM-COLLAPSE-1030，LAWWW2-B 2026-10-30）：讀烘焙好的 GLB（TEXCOORD_1），找世界面積大（> 1 m²）、
++光照 UV 面積卻不到整個模型平均密度 10% 的三角形，再從面上 21 個點沿法線射線，有碰到東西（> 5 cm）、而且碰到的是正面的點＝朝室內、看得到（碰到背面＝起點在別的實心零件裡面：被蓋住）。
++為什麼：bake_room.py 的 collapse_black（夾在中間、烘成全黑的面收成一點）10-30 以前只看面的中心——大的牆、地板中心剛好在黑板、講桌、
++書架後面就整面收掉，lm_fix_hidden.py 再接到共用邊上，變成對角線那一條光拉開來（博思 101 講台旁一塊斜的深色影子：BB-B n19；社科圖地板一半）。
++用法：python3 tools/blender/env_second/lightbake/lm_squash_scan.py 房間.glb [...]（不用 Blender；每間幾十秒）
++輸出：每個 GLB 朝室內、被壓扁的三角形數、面積、最大的幾個（物件名、中心、法線、21 點裡看得到幾點）。重烘（bake_room.py 10-30 以後）才會好。"""
++import json, struct, sys
++import numpy as np
++def load(path):
++    b=open(path,'rb').read(); n=struct.unpack('<I',b[12:16])[0]; J=json.loads(b[20:20+n]); off=20+n; bin_=b[off+8:off+8+struct.unpack('<I',b[off:off+4])[0]]
++    def acc(i):
++        a=J['accessors'][i]; bv=J['bufferViews'][a['bufferView']]; o=bv.get('byteOffset',0)+a.get('byteOffset',0)
++        nc={'SCALAR':1,'VEC2':2,'VEC3':3,'VEC4':4}[a['type']]; dt={5126:np.float32,5125:np.uint32,5123:np.uint16,5121:np.uint8}[a['componentType']]
++        st=bv.get('byteStride',0) or nc*np.dtype(dt).itemsize
++        arr=np.frombuffer(bin_,dtype=np.uint8,count=a['count']*st,offset=o).reshape(a['count'],st)
++        return np.frombuffer(arr[:,:nc*np.dtype(dt).itemsize].tobytes(),dtype=dt).reshape(a['count'],nc)
++    return J,acc
++def allTris(J,acc):
++    out=[]
++    for nd in J['nodes']:
++        if 'mesh' not in nd: continue
++        t=np.array(nd.get('translation',[0,0,0]))
++        for pr in J['meshes'][nd['mesh']]['primitives']:
++            if pr.get('mode',4)!=4: continue
++            P=acc(pr['attributes']['POSITION'])+t; I=acc(pr['indices']).ravel().reshape(-1,3) if 'indices' in pr else np.arange(len(P)).reshape(-1,3)
++            m=J['materials'][pr['material']]['name'] if 'material' in pr else ''
++            if 'glass' in m: continue
++            out.append(P[I])
++    return np.concatenate(out)
++def hit(T,o,d,tmax=60.0):
++    """沿 d 最近碰到的三角形的距離；碰到的是背面（起點在別的實心零件裡面，例如貼著牆、伸進牆裡的樓梯）回傳 None——看不到"""
++    e1=T[:,1]-T[:,0]; e2=T[:,2]-T[:,0]; p=np.cross(d,e2); det=(e1*p).sum(1); ok=np.abs(det)>1e-9
++    inv=np.where(ok,1/np.where(ok,det,1),0); s=o-T[:,0]; u=(s*p).sum(1)*inv; q=np.cross(s,e1); v=(q*d).sum(1)*inv; t=(e2*q).sum(1)*inv
++    m=ok&(u>=0)&(v>=0)&(u+v<=1)&(t>1e-3)&(t<tmax)
++    if not m.any(): return None
++    i=np.nonzero(m)[0][np.argmin(t[m])]
++    return None if np.dot(np.cross(e1[i],e2[i]),d)>0 else t[i]   # 背面：法線和射線同方向
++for path in sys.argv[1:]:
++    J,acc=load(path); T=allTris(J,acc); rows=[]; aA=aU=0
++    for nd in J['nodes']:
++        if 'mesh' not in nd: continue
++        t=np.array(nd.get('translation',[0,0,0]))
++        for pr in J['meshes'][nd['mesh']]['primitives']:
++            if 'TEXCOORD_1' not in pr['attributes']: continue
++            P=acc(pr['attributes']['POSITION'])+t; U=acc(pr['attributes']['TEXCOORD_1']); I=acc(pr['indices']).ravel().reshape(-1,3)
++            n=np.cross(P[I[:,1]]-P[I[:,0]],P[I[:,2]]-P[I[:,0]]); A=np.linalg.norm(n,axis=1)/2
++            du1=U[I[:,1]]-U[I[:,0]]; du2=U[I[:,2]]-U[I[:,0]]; UA=np.abs(du1[:,0]*du2[:,1]-du1[:,1]*du2[:,0])/2
++            aA+=A.sum(); aU+=UA.sum()
++            for k in np.nonzero(A>1.0)[0]: rows.append((nd['name'],int(k),A[k],UA[k],P[I[k]],n[k]/np.linalg.norm(n[k])))
++    if not aA: print(path.split('/')[-1],'沒有光照貼圖 UV（TEXCOORD_1），不用查'); continue
++    dens=aU/aA; vis=[]
++    for r in rows:
++        if not (1e-12<r[3]<0.1*dens*r[2]): continue
++        V=r[4]; c=V.mean(0); best=None; ns=0
++        for a in range(6):
++            for b in range(6-a):
++                q=V[0]+(V[1]-V[0])*(a/5)+(V[2]-V[0])*(b/5); q=c+(q-c)*0.9; d=hit(T,q+r[5]*0.01,r[5])
++                if d is not None and d>0.05: ns+=1; best=d if best is None else max(best,d)
++        if ns: vis.append((r[0],r[1],r[2],r[3],c,r[5],best,ns))
++    vis.sort(key=lambda r:-r[2])
++    print(path.split('/')[-1],'朝室內、被壓扁',len(vis),'面積',round(sum(r[2] for r in vis),1),'m2')
++    for r in vis[:6]: print('   %-30s %7.2f m2 at %s n %s 前方最遠 %.1f m（21 點有 %d 點看得到）'%(r[0][:30],r[2],r[4].round(1),r[5].round(1),r[6],r[7]))
+diff --git a/tools/blender/env_second/lightbake/noodle_interior_lm.json b/tools/blender/env_second/lightbake/noodle_interior_lm.json
+new file mode 100644
+index 000000000..3ee44b1eb
+--- /dev/null
++++ b/tools/blender/env_second/lightbake/noodle_interior_lm.json
+@@ -0,0 +1,52 @@
++{
++ "scale": 2.0,
++ "intensity": 6.283185307179586,
++ "res": 1024,
++ "samples": 512,
++ "emit": {},
++ "dayemit": {},
++ "sun": [
++  90.0,
++  30.0,
++  0.0
++ ],
++ "sky": 0.8,
++ "nightsky": 0.03,
++ "shell": "S",
++ "daylights": 0.9,
++ "lights": null,
++ "points": "-2.90,3.04,-2.6,17,1.0,0.97,0.9,0.04;-2.50,3.04,-2.6,17,1.0,0.97,0.9,0.04;-2.10,3.04,-2.6,17,1.0,0.97,0.9,0.04;2.10,3.04,-2.6,17,1.0,0.97,0.9,0.04;2.50,3.04,-2.6,17,1.0,0.97,0.9,0.04;2.90,3.04,-2.6,17,1.0,0.97,0.9,0.04;-2.90,3.04,0.5,17,1.0,0.97,0.9,0.04;-2.50,3.04,0.5,17,1.0,0.97,0.9,0.04;-2.10,3.04,0.5,17,1.0,0.97,0.9,0.04;2.10,3.04,0.5,17,1.0,0.97,0.9,0.04;2.50,3.04,0.5,17,1.0,0.97,0.9,0.04;2.90,3.04,0.5,17,1.0,0.97,0.9,0.04;-2.90,3.04,3.0,17,1.0,0.97,0.9,0.04;-2.50,3.04,3.0,17,1.0,0.97,0.9,0.04;-2.10,3.04,3.0,17,1.0,0.97,0.9,0.04;2.10,3.04,3.0,17,1.0,0.97,0.9,0.04;2.50,3.04,3.0,17,1.0,0.97,0.9,0.04;2.90,3.04,3.0,17,1.0,0.97,0.9,0.04",
++ "wb": {
++  "day": [
++   0.96,
++   0.96,
++   0.94
++  ],
++  "night": [
++   0.97,
++   0.98,
++   1.0
++  ]
++ },
++ "objects": [
++  "ndl_ceiling",
++  "ndl_chairs",
++  "ndl_counter",
++  "ndl_floor",
++  "ndl_steel_dark",
++  "ndl_tables",
++  "WALL_back_paint",
++  "WALL_back_tile",
++  "WALL_back_trim",
++  "WALL_back_wood",
++  "WALL_front_paint",
++  "WALL_front_tile",
++  "WALL_front_trim",
++  "WALL_left_paint",
++  "WALL_left_tile",
++  "WALL_left_trim",
++  "WALL_right_paint",
++  "WALL_right_tile",
++  "WALL_right_trim"
++ ]
++}
+\ No newline at end of file
+diff --git a/tools/blender/env_second/teach_interior.py b/tools/blender/env_second/teach_interior.py
+index 8a73cf22c..57c8ab61b 100644
+--- a/tools/blender/env_second/teach_interior.py
++++ b/tools/blender/env_second/teach_interior.py
+@@ -1,7 +1,7 @@
+-"""普通教學館、博雅教學館的室內（兩層）正式模型 → assets/models/env/second_ai/{putong,boya}_interior.glb。LAWWW2-C 2026-10-18（ART-EXT-TEACH 第二批）：
+-  /opt/blenv/bin/python tools/blender/env_second/teach_interior.py -- --set putong|boya [--out 輸出.glb]
++"""普通、博雅、共同教學館的室內（兩層）正式模型 → assets/models/env/second_ai/{putong,boya,gongtong}_interior.glb。LAWWW2-C 2026-10-18（ART-EXT-TEACH 第二批）：
++  /opt/blenv/bin/python tools/blender/env_second/teach_interior.py -- --set putong|boya|gongtong [--out 輸出.glb]
+ 
+-配置讀 src/data/{putong,boya}_layout.js（遊戲 src/teach3d.js 的導航、座位、互動點讀同一份，兩邊的牆、樓梯、階梯教室的平台一定一致）。
++配置讀 src/data/{putong,boya,gongtong}_layout.js（遊戲 src/teach3d.js 的導航、座位、互動點讀同一份，兩邊的牆、樓梯、階梯教室的平台一定一致）。
+ 座標＝配置的座標：x 往東、z 往南（+z＝南牆：入口）、y 往上；一樓地板 y=0、二樓 floors[1].y、屋頂 roofY。
+ 節點命名（src/building3d.js 的 B3.attachFormal）：L0_root（一樓＋整座樓梯）、L1_root（二樓：玩家在一樓、鏡頭高過二樓樓板時藏起來）；
+   名字含 WALL_ 的是外牆和貼在外牆上的東西（窗框、窗台、入口的門、往空橋的玻璃門；擋住鏡頭時一起淡出），自訂屬性 dir＝往室內的法線。
+@@ -12,7 +12,9 @@
+ 真實性：房間配置是遊戲的模板（docs/campus/TEACHING_BUILDINGS_PLAN.md），材料是台灣大學教學館常見的做法（磨石子地板、輕鋼架礦纖天花板、白牆、綠黑板），不宣稱還原真實室內。
+ 2026-10-30 博思（BOYA-LM-1030，LAWWW2-B；LAWWW-B 派工、INTERIOR_AAA_REVIEW_1028 第 5 節 P1 光照＋P5 燈具）：
+   階梯教室的長桌、翻椅改在模型裡（LECT_<房號>_*、SEATPANS；照霖澤館 201 v2）：遊戲 patch（patches/boya_lecture_furn_1030.patch）看到 SEATPANS 就藏起備用的方塊桌椅、空位椅面掀起來（Z3.seatFold）；
+-  天花板的燈板換成 T5 格柵燈具（1.2×0.6，格子線 x＝0.6k、z＝0.6k＋0.1）；光照烘焙 lightbake/bake_boya.sh。普通（--set putong）照舊：沒有階梯教室、燈板和格子不變。"""
++  天花板的燈板換成 T5 格柵燈具（1.2×0.6，格子線 x＝0.6k、z＝0.6k＋0.1）；光照烘焙 lightbake/bake_boya.sh。普通（--set putong）照舊：沒有階梯教室、燈板和格子不變。
++2026-10-30 共同（--set gongtong，ART-ECON-3D-GAP-1021 A，LAWWW2-B）：原本沒有正式模型（遊戲一直是 teach3d.js 的程序化備用畫面）。做法和博思一樣：T5 格柵燈具、101 階梯教室的長桌翻椅在模型裡。
++  配置沒有 lightPanels：燈位照 teach3d.js 備用模型的預設（DEFAULT_LP，兩邊一致）。休息區的圓桌、自習區的桌椅（配置的 lounge／study，舊寫法）照舊是遊戲畫的，不在這裡。"""
+ import json, math, os, sys
+ HERE = os.path.dirname(os.path.abspath(__file__))
+ sys.path.insert(0, HERE)
+@@ -21,7 +23,7 @@ from lib2 import B, Mesh, g2b, bpy   # noqa: E402
+ 
+ ARGS = sys.argv[sys.argv.index('--') + 1:] if '--' in sys.argv else []
+ def arg(n, d=None): return ARGS[ARGS.index(n) + 1] if n in ARGS else d
+-SET = arg('--set', 'boya'); KEY = {'boya': 'BOYA_LAYOUT', 'putong': 'PUTONG_LAYOUT'}[SET]
++SET = arg('--set', 'boya'); KEY = {'boya': 'BOYA_LAYOUT', 'putong': 'PUTONG_LAYOUT', 'gongtong': 'GONGTONG_LAYOUT'}[SET]
+ OUT = os.path.join(L.ROOT, arg('--out', f'assets/models/env/second_ai/{SET}_interior.glb'))
+ src = open(os.path.join(L.ROOT, f'src/data/{SET}_layout.js'), encoding='utf8').read()
+ J = json.loads(src[src.index('{', src.index(KEY)):src.rindex('}') + 1])
+@@ -101,11 +103,12 @@ for (a, b, c, d) in QS:
+     mk(1, 'slab').box(a, b, Y1 - ST, Y1 - 0.012, c, d)
+     mk(1, 'floor').box(max(a, XI0), min(b, XI1), Y1 - 0.012, Y1, max(c, ZI0), min(d, ZI1))
+ # 一樓天花板（ceil0）：樓梯井那一塊不做（往上看得到樓梯）；井的四周從天花板到二樓樓板之間封板
+-LP = J.get('lightPanels') or {'xs': [], 'zs': []}
++DEFAULT_LP = {'xs': [-9.6, -6.0, -1.2, 1.2, 6.0, 9.6], 'zs': [-5.2, -2.0, 1.0, 4.6]}   # teach3d.js：配置沒寫 lightPanels 時的燈位（共同）
++LP = J.get('lightPanels') or DEFAULT_LP
+ # 博思（BOYA-LM-1030，LAWWW2-B 10-30；照 202 v2、多功能教室 v2）：原本 1.2×0.3 的平板燈貼在格子上、對不上格子線 → T5 格柵燈具（1.2×0.6，佔兩格：外殼、發光面、格柵）。
+ # 格子線改成 x＝0.6k、z＝0.6k＋0.1：配置的燈位 x 都是 0.6 的倍數（燈具的長邊兩端剛好在格子線上），z 對到最近一格的中心（7.2 → 7.0，其他不動）。
+ # 烘焙的面光源用同一個位置（lightbake/bake_boya.sh 的 trof()）。普通照舊（燈板、格子從外牆內面量）。
+-TROF = SET == 'boya'
++TROF = SET in ('boya', 'gongtong')
+ GXO, GZO = (0.0, 0.1) if TROF else (XI0, ZI0)
+ def trof(x, z): return (round(0.6 * round(x / 0.6), 3), round(0.4 + 0.6 * round((z - 0.4) / 0.6), 3))
+ if TROF:
