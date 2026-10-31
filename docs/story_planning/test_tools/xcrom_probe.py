@@ -468,9 +468,11 @@ async def te_dinner(pg, cdp, run, sid, res, term, din_key, picks, label=''):
     # c3a8aded9（AA_537b 8-4）：PLACE.l118_home——開場、收尾旁白、字幕「巷口家常菜」；收尾在回家路上之前
     OPEN_L, CLOSE_L = '（傍晚的巷口家常菜。菜擺在玻璃櫃裡，用手指一指，老闆娘就幫你夾。）', '（老闆娘開始收玻璃櫃裡的菜。你們走出巷口，路燈剛亮。）'
     cp = [x['t'] for x in lg if x.get('n') == '［字幕］']; res['captions'] = cp[:6]
-    seq = [x['t'] for x in lg]   # 含字幕、選項：比收尾和「羅斯福路・往公館站」（回家路上的字幕或旁白）誰先
+    seq = [x['t'] for x in lg]   # 含字幕、選項：比收尾和回家路上的第一句誰先
     io, ic = (seq.index(OPEN_L) if OPEN_L in seq else -1), (seq.index(CLOSE_L) if CLOSE_L in seq else -1)
-    iw = next((k for k, t in enumerate(seq) if '羅斯福路' in t or '公館站' in t), -1)
+    # n27（03:0x）：回家路上＝termend_lines.js classmate_xinci.walk 那兩句（走出巷口以後講）；walkPlace「羅斯福路・往公館站」只寫在資料裡、沒有程式讀它（不會出字幕），不拿它當判斷
+    WALK0 = await pg.evaluate("(()=>{ try{ const x=TERMEND_LINES.HEART&&TERMEND_LINES.HEART.classmate_xinci; return x&&x.walk?x.walk[0]:null; }catch(e){ return null; } })()") or '這學期，我有一天沒有排讀書。'
+    iw = seq.index(WALK0) if WALK0 in seq else -1
     run.check('%s：巷口家常菜開場「%s」、收尾「%s」，收尾在回家路上之前；字幕「巷口家常菜」' % (sid, OPEN_L, CLOSE_L),
               io >= 0 and ic > io and iw > ic and any('巷口家常菜' in c for c in cp) and not any('簡餐店' in t for t in T),
               J({'open': io, 'close': ic, 'walk': iw, 'caps': cp[:4], 'narr': narr[:3]}, 800))
