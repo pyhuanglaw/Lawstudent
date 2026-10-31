@@ -7,12 +7,12 @@
 const fs=require('fs'), path=require('path'), vm=require('vm');
 const ROOT=path.join(__dirname,'..');
 let fails=0; const check=(n,ok,info)=>{ console.log((ok?'PASS ':'FAIL ')+n+(ok||info===undefined?'':'　'+info)); if(!ok) fails++; };
-const load=search=>{ let t=0; const q=[]; const progs=[];
+const load=(search,doc)=>{ let t=0; const q=[]; const progs=[];
   const ctx={ location:{search}, performance:{now:()=>t}, requestAnimationFrame:f=>{ q.push(f); return q.length; }, navigator:{userAgent:'test'},
-    GAME:{E:{renderer:{info:{programs:progs}}}}, document:undefined, console };
+    GAME:{E:{renderer:{info:{programs:progs}}}}, document:doc, innerWidth:844, innerHeight:390, WeakSet, console };
   vm.createContext(ctx); vm.runInContext(fs.readFileSync(path.join(ROOT,'src/perfpanel3d.js'),'utf8')+'\nthis.P=PERFPANEL;',ctx);
   const step=(dt,addProgs)=>{ t+=dt; for(let i=0;i<(addProgs|0);i++) progs.push({}); const f=q.shift(); if(f) f(t); };
-  return {P:ctx.P, step, setT:v=>{ t=v; }, add:n=>{ for(let i=0;i<n;i++) progs.push({}); }, queue:q}; };
+  return {P:ctx.P, step, setT:v=>{ t=v; }, add:n=>{ for(let i=0;i<n;i++) progs.push({}); }, drop:n=>{ progs.splice(0,n); }, queue:q}; };
 
 { const X=load(''); X.P.mark('start','cafe'); X.P.mark('loaded'); X.P.mark('warmed'); X.P.mark('shown');
   check('1. 沒有 ?perf：on false、mark 不記、不排格子',X.P.on===false&&X.P.log.length===0&&X.queue.length===0); }
@@ -31,5 +31,16 @@ const load=search=>{ let t=0; const q=[]; const progs=[];
   check('3. game3d.js enter()：start → loaded → warmed（Z3.prewarm 之後）→ shown（淡入之後）',at('start')>0&&at('loaded')>at('start')&&at('warmed')>body.indexOf('Z3.prewarm(E')&&at('warmed')>at('loaded')&&at('shown')>body.indexOf('await fade(false)')&&at('shown')>at('warmed'));
   const h=fs.readFileSync(path.join(ROOT,'index.html'),'utf8'), a=h.indexOf('src/perfpanel3d.js');
   check('3. index.html：perfpanel3d.js 在 game3d.js 後面、GAME.boot() 前面',a>h.indexOf('src/game3d.js')&&a<h.indexOf('GAME.boot()')); }
+
+{ const X=load('?perf'); X.add(9); X.P.mark('start','dorm_hall'); X.drop(9); X.add(3); X.P.mark('loaded'); X.P.mark('warmed'); X.P.mark('shown'); X.add(2); for(let i=0;i<700;i++) X.step(16);
+  const c=X.P.log[0], ln=X.P.line(c||{});
+  check('4. 換區域丟掉舊區域 9 個 shader、新編 3 個：黑畫面 +3、淡入後 +2（不是 +-6）',!!c&&/shader 黑畫面 \+3、淡入後 \+2$/.test(ln)&&!/\+-/.test(ln),ln); }
+{ const mk=tag=>({tagName:tag,style:{},children:[],textContent:'',appendChild(x){ this.children.push(x); return x; },set id(v){ this._id=v; els[v]=this; },get id(){ return this._id; }}); const els={};
+  const doc={body:mk('body'),createElement:mk,getElementById:k=>els[k]||null}; doc.body.appendChild=function(x){ this.children.push(x); return x; };
+  const X=load('?perf',doc); for(let k=0;k<5;k++){ X.P.mark('start','z'+k); X.P.mark('shown'); for(let i=0;i<700;i++) X.step(16); }
+  const d=els.perfPanel, b=els.perfPanelCopy, t=els.perfPanelText, css=(d&&d.style.cssText)||'';
+  check('5. 小框不吃點擊（pointer-events:none）、「複製」可以按、在小地圖下面（橫向 top+142 px）',!!d&&/pointer-events:none/.test(css)&&!!b&&/pointer-events:auto/.test(b.style.cssText)&&/\+ 142px/.test(d.style.top||''),JSON.stringify({css,top:d&&d.style.top}));
+  const lines=(t&&t.textContent||'').split('\n').filter(x=>/：黑畫面/.test(x));
+  check('5. 畫面上最多 3 筆（共 5 筆＝多一行「按複製拿全部」）；複製的文字照舊 5 筆',lines.length===3&&/共 5 筆/.test(t.textContent)&&X.P.text().split('\n').length===6,t&&t.textContent); }
 
 console.log(fails?'FAILED '+fails:'ALL PASS'); process.exit(fails?1:0);
