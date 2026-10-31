@@ -1188,6 +1188,15 @@ async def roomlm(pg, cdp, run):
 
 
 # ART-ECON-3D-GAP-1021 A：共同教學館室內正式模型（LAWWW2 c1a2026b4，c3a8aded9 接上）——經濟系那一年上課的 101（長桌＋翻椅、階梯）、走廊、樓梯、二樓走廊；白天 14:00、晚上 20:30
+# n28_gongtong 05:59：固定鏡頭拍 2F 時玩家還在 1F——遊戲把玩家那一層以上切掉（剖面視角，updateLevelVis 只在跟隨鏡頭時跑），
+#   畫面變成從牆頂看下去、看得到天空＝探針的問題。拍 2F（鏡頭 y > 4）前把（藏起來的）玩家放到 2F 鏡頭附近站得住的地方、手動跑一次 updateLevelVis；拍 1F 放回原處
+LV_FOR_CAM = """((p,l,home)=>{ const E=GAME.E, P=E.player; const want=p[1]>4.0?1:0;
+  if(want===0){ if(home) E.placeAt(P,home[0],home[1],0); }
+  else { let best=null, bd=1e9; for(let dx=-6;dx<=6;dx+=0.4) for(let dz=-6;dz<=6;dz+=0.4){ const x=p[0]+(l[0]-p[0])*0.25+dx, z=p[2]+(l[2]-p[2])*0.25+dz; if(E.canStand&&!E.canStand(x,z,0.35,1)) continue; const d=dx*dx+dz*dz; if(d<bd){ bd=d; best=[x,z]; } }
+    if(best) E.placeAt(P,best[0],best[1],1); }
+  if(E.updateLevelVis) E.updateLevelVis(); const o=P.obj.position; return {lv:P.lv|0, x:+o.x.toFixed(2), y:+o.y.toFixed(2), z:+o.z.toFixed(2)}; })"""
+
+
 GT_CAMS = [('101_back', (7.8, 3.4, -6.4), (7.8, 1.0, 6.5)), ('101_stage', (7.8, 1.8, 6.3), (7.8, 1.3, -5.5)), ('101_seats', (5.0, 2.4, 1.6), (8.8, 0.9, -1.8)),
            ('hall_1f', (-11.0, 1.7, 3.2), (3.4, 1.3, 3.2)), ('stair', (-1.6, 1.8, 2.2), (-2.6, 2.2, -4.8)), ('hall_2f', (-11.0, 5.9, 2.0), (11.0, 5.6, 2.0))]
 GT_CHK = """(()=>{ const E=GAME.E, Z=E.zone; let lm=0, mesh=0, dark=[], names={}; E.scene.traverse(o=>{ if(!o.isMesh||!o.visible) return; mesh++; const ms=Array.isArray(o.material)?o.material:[o.material];
@@ -1205,11 +1214,13 @@ async def gtlm(pg, cdp, run):
             await pg.wait_for_timeout(500)
         await pg.wait_for_timeout(3000); ck = await pg.evaluate(GT_CHK); run.note('%s 共同教學館：%s' % (tg, J(ck)))
         run.check('%s 共同教學館：正式模型、沒有純黑（#000000）材質' % tg, ck['zone'] == 'gongtong' and ck['formal'] and not ck['black'], J(ck))
-        await pg.evaluate("(()=>{ GAME.E.player.obj.visible=false; })()")
+        await pg.evaluate("(()=>{ GAME.E.player.obj.visible=false; })()"); home = await pg.evaluate("(()=>{ const o=GAME.E.player.obj.position; return [o.x,o.z]; })()")
         for key, e, lk in GT_CAMS:
+            pl = await pg.evaluate(LV_FOR_CAM + "(%s,%s,%s)" % (J(list(e)), J(list(lk)), J(home))); run.note('%s %s：玩家（藏著）放在 %s' % (tg, key, J(pl)))
             await pg.evaluate("((p,l)=>{ const E=GAME.E; E.cinematic(new THREE.Vector3(...p),new THREE.Vector3(...l)); E.camera.position.set(...p); E.cam.look=new THREE.Vector3(...l); E.camera.lookAt(E.cam.look); })(%s,%s)" % (J(list(e)), J(list(lk))))
             await pg.wait_for_timeout(3500); f = await shot_path(run, pg, 'gongtong_%s_%s' % (tg, key))
             whole = lum_stats(f) if f else {'err': 'no file'}; rows.append((tg, key, whole)); run.note('%s %s：%s' % (tg, key, J(whole)))
+        await pg.evaluate(LV_FOR_CAM + "([0,1,0],[0,1,0],%s)" % J(home))
         await pg.evaluate("(()=>{ const E=GAME.E; E.player.obj.visible=true; if(E.endCinematic) E.endCinematic(); })()")
     bad = [r for r in rows if r[2].get('dark', 1) > 0.25 or r[2].get('white', 1) > 0.15]
     run.check('共同教學館固定鏡頭 %d 張：黑（<12）不超過 25%%、死白（>248）不超過 15%%（翻椅、長桌、樓梯、接縫看截圖）' % len(rows), len(rows) == 2 * len(GT_CAMS) and not bad, J(bad))
@@ -1299,14 +1310,16 @@ async def ptlm(pg, cdp, run):
             await pg.wait_for_timeout(500)
         await pg.wait_for_timeout(3000); ck = await pg.evaluate(GT_CHK); run.note('%s 普通教學館：%s' % (tg, J(ck)))
         run.check('%s 普通教學館：正式模型、有烘焙光照（lightMap）、沒有純黑（#000000）材質' % tg, ck['zone'] == 'putong' and ck['formal'] and ck['lm'] > 0 and not ck['black'], J(ck))
-        await pg.evaluate("(()=>{ GAME.E.player.obj.visible=false; })()")
+        await pg.evaluate("(()=>{ GAME.E.player.obj.visible=false; })()"); home = await pg.evaluate("(()=>{ const o=GAME.E.player.obj.position; return [o.x,o.z]; })()")
         for key, e, lk in PT_CAMS:
+            pl = await pg.evaluate(LV_FOR_CAM + "(%s,%s,%s)" % (J(list(e)), J(list(lk)), J(home))); run.note('%s %s：玩家（藏著）放在 %s' % (tg, key, J(pl)))
             await pg.evaluate("((p,l)=>{ const E=GAME.E; E.cinematic(new THREE.Vector3(...p),new THREE.Vector3(...l)); E.camera.position.set(...p); E.cam.look=new THREE.Vector3(...l); E.camera.lookAt(E.cam.look); })(%s,%s)" % (J(list(e)), J(list(lk))))
             await pg.wait_for_timeout(3500); f = await shot_path(run, pg, 'putong_%s_%s' % (tg, key))
             whole = lum_stats(f) if f else {'err': 'no file'}; col = col_stats(f) if f else {'err': 'no file'}
             rows.append((tg, key, whole, col)); run.note('%s %s：%s %s' % (tg, key, J(whole), J(col)))
+        await pg.evaluate(LV_FOR_CAM + "([0,1,0],[0,1,0],%s)" % J(home))
         await pg.evaluate("(()=>{ const E=GAME.E; E.player.obj.visible=true; if(E.endCinematic) E.endCinematic(); })()")
-    run.note('普通教學館 RGB（中間區域平均、偏暖 R−B、最亮 5%）：%s' % J([(r[0], r[1], r[3].get('rgb'), r[3].get('warm'), r[3].get('bright')) for r in rows], 3000))
+    run.note('普通教學館 RGB（中間區域平均、偏暖 R−B、最亮 5%）：%s' % J([(r[0], r[1], r[3].get('rgb'), r[3].get('warm'), r[3].get('bright')) for r in rows])[:3000])
     bad = [r[:3] for r in rows if r[2].get('dark', 1) > 0.25 or r[2].get('white', 1) > 0.15]
     run.check('普通教學館固定鏡頭 %d 張：沒有整片純黑（黑 <12 不超過 25%%）、死白（>248）不超過 15%%（已知：一樓樓梯井偏暗不算）' % len(rows), len(rows) == 2 * len(PT_CAMS) and not [b for b in bad if b[1] != 'stair'], J(bad))
     warm = [(r[0], r[1], r[3].get('warm'), r[3].get('rgb')) for r in rows if r[1].startswith('101') and (r[3].get('warm') is None or r[3]['warm'] > 30)]
@@ -1355,7 +1368,7 @@ async def gtecon(pg, cdp, run):
         if cap is None and c['zone'] == 'gongtong' and c['seat'] and c['h'] >= it['t0'] + 0.03:
             await pg.wait_for_timeout(2500); cap = await pg.evaluate(GTCLASS); await run.shot(pg, 'gtecon_class')
             await pg.evaluate("(()=>{ const C=GAME.E.cam; C.yaw=Math.PI; C.pitch=0.35; C.distTarget=6; C.manualT=1e9; })()"); await pg.wait_for_timeout(2000); await run.shot(pg, 'gtecon_class_front')
-            run.note('上課中（坐下、上課時間到）：%s' % J(cap, 2500))
+            run.note('上課中（坐下、上課時間到）：%s' % J(cap)[:2500])
         if done and cap is not None and not s['dlg'] and not s['ch']: break
         if s['ch']: k, _ = P.pick_of(s['ch'], ['坐']); await P.tap_choice(pg, cdp, k); await pg.wait_for_timeout(1000); continue
         if s['dlg']: await L.tap(pg, cdp, '#dlg'); await pg.wait_for_timeout(500); continue
@@ -1413,7 +1426,7 @@ async def boyab4(pg, cdp, run):
         if c['zone'] == 'boya':
             if seen is None: seen = time.time()
             if cap2 is None and time.time() - (globals().get('_b4last') or 0) > 30:   # 每 30 秒記聽眾在哪、在做什麼（05:56：19:07 十幾個人疊在東側階梯走道上——分清是還在走還是卡住）
-                globals()['_b4last'] = time.time(); crowd = await pg.evaluate(CLASSJS); run.note('聽眾 %.2f：坐 %s、站 %s' % (c['h'], crowd.get('sit'), J([(q[2], q[3], q[1]) for q in crowd.get('stand', [])][:20], 900)))
+                globals()['_b4last'] = time.time(); crowd = await pg.evaluate(CLASSJS); run.note('聽眾 %.2f：坐 %s、站 %s' % (c['h'], crowd.get('sit'), J([(q[2], q[3], q[1]) for q in crowd.get('stand', [])][:20])[:900]))
             if not await pg.evaluate("!!GAME.E.player.seat") and '坐' in (s.get('lab') or ''): await L.tap(pg, cdp, '#interact'); await pg.wait_for_timeout(1200); continue
             if cap is None and c['h'] >= it['t0'] + 0.05:
                 cap = await pg.evaluate(CLASSJS); await run.shot(pg, 'b4_a'); run.note('演講（進博思 6 秒）：%s' % J(cap))
