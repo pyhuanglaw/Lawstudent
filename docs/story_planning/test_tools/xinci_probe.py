@@ -672,7 +672,7 @@ async def s_zrfeed(p, run, base, sid, out):
 @guard
 async def s_zrl3(p, run, base, sid, out):
     res = out.setdefault(sid, {})
-    b, pg, cdp, errs, r = await launch(p, run, base, '2027-03-23', 10.3, 'campus', rels={ZR: 'FRIEND'}, quiet=False, label=sid + '（大二下第 5 週週二 10:18 校園傅鐘附近；芷若 FRIEND）')
+    b, pg, cdp, errs, r = await launch(p, run, base, '2027-03-24', 11.5, 'cafe', rels={ZR: 'FRIEND'}, quiet=False, label=sid + '（大二下第 5 週週三 11:30 兩點半 Café；芷若在班上（作息週一三五 11～15）；芷若 FRIEND）')   # n25_xinci_e：週二 10:18 在傅鐘附近她跟別人一起走、一下就離開這一區，改到她固定在的 Café
     try:
         await pg.evaluate("(()=>{ const G=GAME.G; G.social.ladder=G.social.ladder||{}; G.social.ladder['heroine_02@Y2S2']=2; G.social.ladderDay=G.social.ladderDay||{}; delete G.social.ladderDay.heroine_02; })()")
         run.setup('【前置】芷若大二下閒聊停在第 2 句（ladder heroine_02@Y2S2＝2、今天還沒聊過）')
