@@ -974,8 +974,8 @@ async def boya(pg, cdp, run):
         run.check('進出第 %d 次：出得去、進得來，正式模型＋光照照樣接上、方塊桌椅照樣藏著' % k, ok1 and ok2 and ck['zone'] == 'boya' and ck['formal'] and ck['lm'] > 0 and not any(ck['fallback']), J({'out': ok1, 'in': ok2, 'ck': ck, 'lum': lum_stats(f) if f else None}))
 
 
-CLASSJS = """(()=>{ const E=GAME.E, Z=E.zone, F=Z&&Z.seatFold; const v=E.npcs.filter(n=>n.obj&&!n.hidden&&n.obj.visible!==false);
-  return {zone:GAME.G.zone, key:CALENDAR.dateOf(GAME.G.day).key, h:+(+GAME.G.hour).toFixed(2), n:v.length, sit:v.filter(n=>n.seat||n.pose==='sit').length,
+CLASSJS = """(()=>{ const E=GAME.E, Z=E.zone, F=Z&&Z.seatFold; const v=E.npcs.filter(n=>n.obj&&!n.hidden);   /* 在不在場看 n.hidden；obj.visible 是視錐裁切（n25_xinci_m 學到的），另外記在 inView */
+  return {zone:GAME.G.zone, key:CALENDAR.dateOf(GAME.G.day).key, h:+(+GAME.G.hour).toFixed(2), n:v.length, inView:v.filter(n=>n.obj.visible!==false).length, sit:v.filter(n=>n.seat||n.pose==='sit').length,
     stand:v.filter(n=>!(n.seat||n.pose==='sit')).map(n=>[n.charId||n.name||'?', n.pose||'', +n.obj.position.x.toFixed(1), +n.obj.position.z.toFixed(1)]),
     named:v.filter(n=>n.charId).map(n=>[n.charId, !!(n.seat||n.pose==='sit')]), player:{seat:!!E.player.seat, x:+E.player.obj.position.x.toFixed(1), z:+E.player.obj.position.z.toFixed(1)},
     fold:F?{busy:Z.seats.filter((s,i)=>s.kind==='lecture'&&F.occupied(E,i)).length, busyUp:Z.seats.filter((s,i)=>s.kind==='lecture'&&F.occupied(E,i)&&F.ang[i]!==0).length}:null,
@@ -1380,70 +1380,101 @@ async def gtecon(pg, cdp, run):
     run.check('老師在講台（101 前面 z ≥ 4 有站著的人）', any(x['z'] >= 4.0 for x in cap['stand']), J(cap['stand']))
 
 
-async def boyab4(pg, cdp, run):
-    # 法律系 B4 演講（大一下第 11 週週四 19:00 博思 101，ACTIVITIES B4）：預設流程裡看得到博思 101 的地方（LAWWW-B 16:04）。手機「今天」按去聽
-    d = await pg.evaluate("(()=>{ const T=CALENDAR.TERMS.find(t=>t.id==='Y1S2'); const a=STORY.dayOfKey(T.start); let d=a+10*7; while(CALENDAR.dateOf(d).wd!==4) d++; return CALENDAR.dateOf(d).key; })()")
-    st, dd = await P.base(pg, SAVE, d, 17.5, 'campus'); await P.load(pg, cdp, st, quiet=False)   # n19_boyab4b（05:56）：18:18 出發走到 101 已經 19:0x、還沒坐好；提早到 17:30，開講前坐好
-    run.setup('[前置] 使用者存檔改到 %s（%s 第 %s 週）17:30 校園' % (dd['key'], dd['term'], dd['week']))
-    # n19_boyab4（02:48）：B4 是活動（activities.js），不是課——CLS.dayItems／手機「今天」只列課，探針找錯地方。玩家的路：走進博思 101、坐下、選「聽演講」（classes3d.js:338）
-    it = await pg.evaluate("(()=>{ const a=(ACTIVITIES.list||[]).find(q=>q.id==='B4'); return a?{key:'B4', t0:a.t0, t1:a.t1, room:a.room, zone:a.zone, on:!!ACTIVITIES.on(a,GAME.G.day,GAME.G)}:null; })()")
-    run.note('B4 活動：%s' % J(it))
-    run.check('前置：%s 有 B4 演講（ACTIVITIES，博思 101，今天開）' % d, bool(it) and it.get('on') and str(it.get('room')) == '101', J(it))
-    if not it or not it.get('on'): return
+async def b4_part(pg, cdp, run, it, d, tag, load_h, sit_at, watch_s):
+    """B4 一段：load_h 讀檔在校園 → 照玩家走進博思 → 走到 101 空位旁邊 →（站著）等到 sit_at、每 30 秒記聽眾（watch_s：至少看幾秒）→ 按「坐下」選「聽演講」→ 演完。
+    n19_boyab4d（06:2x）：「聽演講」只在 t0−0.25～(t0+t1)/2 出現（ACTIVITIES.canJoin）；之前探針挑「坐」開頭的選項＝「坐一下，看看四周」（+20 分鐘）連按四次，跳過了開講＝探針錯"""
+    st, dd = await P.base(pg, SAVE, d, load_h, 'campus'); await P.load(pg, cdp, st, quiet=False)
+    run.setup('[前置] %s：使用者存檔改到 %s（%s 第 %s 週）%s 校園' % (tag, dd['key'], dd['term'], dd['week'], '%02d:%02d' % (int(load_h), round(load_h % 1 * 60))))
     await drain_free(pg, cdp, secs=40); await L.phone_away(pg, cdp)
     ok = False
     for _ in range(4):   # 路上碰到對話或選項就停下來，點完（drain_free）再走——不讓 go_to 自動選第一個
-        ok = await door_to(pg, cdp, run, 'boya', 'B4 走進博思', stop=lambda s: s['dlg'] or s['choices'] or s['busy'])
+        ok = await door_to(pg, cdp, run, 'boya', '%s 走進博思' % tag, stop=lambda s: s['dlg'] or s['choices'] or s['busy'])
         if ok: break
         await drain_free(pg, cdp, secs=40)
-    run.check('B4：照玩家的路從校園走門進博思', ok and await pg.evaluate("GAME.G.zone") == 'boya', await pg.evaluate("GAME.G.zone"))
-    if not ok: return
+    h_in = await pg.evaluate("+GAME.G.hour")
+    run.check('%s：照玩家的路從校園走門進博思（%.2f 到）' % (tag, h_in), ok and await pg.evaluate("GAME.G.zone") == 'boya', await pg.evaluate("GAME.G.zone"))
+    if not ok: return None
     await pg.wait_for_timeout(3000)
     seat = await pg.evaluate("""(()=>{ const E=GAME.E, R=(BOYA_LAYOUT.rooms||[]).find(r=>r.id==='101'); if(!R) return null; const occ=st=>E.npcs.some(n=>n.seat&&Math.hypot(n.seat.x-st.x,n.seat.z-st.z)<0.35);
         const L=E.interactables.filter(i=>i.seat&&!i.hidden&&(i.lv|0)===(R.lv|0)&&i.x>R.x0&&i.x<R.x1&&i.z>R.z0&&i.z<R.z1&&!occ(i.seat)&&!i.seat.taken);
         const p=E.player.obj.position; L.sort((u,v)=>Math.hypot(u.x-p.x,u.z-p.z)-Math.hypot(v.x-p.x,v.z-p.z)); const q=L[Math.min(2,L.length-1)];
         return q?{x:q.x, z:q.z, lv:q.lv|0, label:q.label, n:L.length}:null; })()""")
-    run.note('101 裡的空位（離門口近的第三個）：%s' % J(seat))
-    if seat:
-        await L.go_to(pg, cdp, run, seat['x'], seat['z'], 0.5, seat['label'], max_s=200, lv=seat['lv'], stop=lambda s: s['dlg'] or s['choices'] or s['busy'])
-        lab = await pg.evaluate("(()=>{ const b=document.getElementById('interact'); return b&&!b.classList.contains('hide')?b.textContent.trim():''; })()")
-        run.note('走到位子旁的互動鈕：「%s」' % lab)
-        for _ in range(8):   # n19_boyab4b：按一次「坐下」沒坐上去（player.seat false），之後就沒再按——坐上去為止
-            if await pg.evaluate("!!GAME.E.player.seat"): break
-            s0 = await P.ts(pg)
-            if s0['ch']: k, _ = P.pick_of(s0['ch'], ['坐', '聽']); await P.tap_choice(pg, cdp, k); await pg.wait_for_timeout(1200); continue
-            if s0['dlg']: await L.tap(pg, cdp, '#dlg'); await pg.wait_for_timeout(600); continue
-            lab = await pg.evaluate("(()=>{ const b=document.getElementById('interact'); return b&&!b.classList.contains('hide')?b.textContent.trim():''; })()")
-            if '坐' in lab: await L.tap(pg, cdp, '#interact')
-            else: await L.go_to(pg, cdp, run, seat['x'], seat['z'], 0.4, seat['label'], max_s=60, lv=seat['lv'], stop=lambda s: s['dlg'] or s['choices'] or s['busy'])
-            await pg.wait_for_timeout(1500)
-        sat = await pg.evaluate("({seat:!!GAME.E.player.seat, h:+(+GAME.G.hour).toFixed(2)})"); run.note('坐下了沒：%s' % J(sat))
-        run.check('B4：走到 101 的空位、坐得下（開講前）', sat['seat'], J(sat))
-    n0 = await P.say_hook(pg); t0 = time.time(); cap = None; cap2 = None; seen = None
-    while time.time() - t0 < 1500:
-        c = await pg.evaluate("(()=>({zone:GAME.G.zone, h:+GAME.G.hour}))()")
-        s = await P.ts(pg)
-        if c['zone'] == 'boya':
-            if seen is None: seen = time.time()
-            if cap2 is None and time.time() - (globals().get('_b4last') or 0) > 30:   # 每 30 秒記聽眾在哪、在做什麼（05:56：19:07 十幾個人疊在東側階梯走道上——分清是還在走還是卡住）
-                globals()['_b4last'] = time.time(); crowd = await pg.evaluate(CLASSJS); run.note('聽眾 %.2f：坐 %s、站 %s' % (c['h'], crowd.get('sit'), J([(q[2], q[3], q[1]) for q in crowd.get('stand', [])][:20])[:900]))
-            if not await pg.evaluate("!!GAME.E.player.seat") and '坐' in (s.get('lab') or ''): await L.tap(pg, cdp, '#interact'); await pg.wait_for_timeout(1200); continue
-            if cap is None and c['h'] >= it['t0'] + 0.05:
-                cap = await pg.evaluate(CLASSJS); await run.shot(pg, 'b4_a'); run.note('演講（進博思 6 秒）：%s' % J(cap))
-            elif cap is not None and cap2 is None and c['h'] >= it['t0'] + 0.3:
-                cap2 = await pg.evaluate(CLASSJS); await pg.evaluate("(()=>{ const C=GAME.E.cam; C.yaw=0; C.pitch=0.3; C.distTarget=5; C.manualT=1e9; })()"); await pg.wait_for_timeout(1500); await run.shot(pg, 'b4_b'); run.note('演講（45 秒）：%s' % J(cap2))
-        if cap2 is not None and c['h'] > it['t1'] - 0.05 and not s['dlg']: break
-        if s['ch']: k, _ = P.pick_of(s['ch'], ['坐', '聽']); await P.tap_choice(pg, cdp, k); await pg.wait_for_timeout(1000); continue
+    run.note('%s：101 裡的空位（離門口近的第三個）：%s' % (tag, J(seat)))
+    if not seat: return None
+    await L.go_to(pg, cdp, run, seat['x'], seat['z'], 0.5, seat['label'], max_s=200, lv=seat['lv'], stop=lambda s: s['dlg'] or s['choices'] or s['busy'])
+    crowd_log = []; t0 = time.time(); last = 0
+    while True:   # 站在位子旁邊等（照玩家：時間自己走），每 30 秒記一次聽眾
+        h = await pg.evaluate("+GAME.G.hour"); s = await P.ts(pg)
+        if s['ch']: run.note('%s：等的時候跳出選項 %s → 選最後一個' % (tag, J([o['t'] for o in s['ch']]))); await P.tap_choice(pg, cdp, len(s['ch']) - 1); await pg.wait_for_timeout(900); continue
         if s['dlg']: await L.tap(pg, cdp, '#dlg'); await pg.wait_for_timeout(500); continue
-        if c['h'] > it['t1'] + 0.5: break
-        await pg.wait_for_timeout(1200)
-    lines = await P.said(pg, n0); run.note('說的話（前 14 句）：%s' % J(lines[:14]))
-    cc = cap2 or cap
-    run.check('B4 演講：進了博思 101（正式模型、方塊桌椅藏著）', bool(cc) and cc['zone'] == 'boya' and cc['formal'] and not any(cc['fallback']), J(cc and {k: cc[k] for k in ('zone', 'formal', 'fallback')}))
-    if cc:
-        run.check('B4 演講：聽眾坐好（坐著 ≥ 5），站著的只有講者等少數（≤ 3）', cc['sit'] >= 5 and len(cc['stand']) <= 3, J({'sit': cc['sit'], 'stand': cc['stand'], 'player': cc['player']}))
-        run.check('B4 演講：有人坐的椅面都放下（busyUp＝0）', bool(cc['fold']) and cc['fold']['busyUp'] == 0, J(cc['fold']))
-    run.check('B4 演講：有演講內容（說了話）', len(lines) >= 3, J(lines[:6]))
+        if time.time() - last > 30:
+            last = time.time(); cw = await pg.evaluate(CLASSJS); crowd_log.append(cw)
+            run.note('%s 聽眾 %.2f：在場 %s（畫面裡 %s）、坐 %s、站 %s' % (tag, h, cw['n'], cw.get('inView'), cw['sit'], J([(q[2], q[3], q[1]) for q in cw['stand']][:20])[:900]))
+        if h >= sit_at and time.time() - t0 >= watch_s: break
+        if h > it['t1'] or time.time() - t0 > 1500: break
+        await pg.wait_for_timeout(1500)
+    pre = crowd_log[-1] if crowd_log else None
+    if pre: await run.shot(pg, '%s_before_sit' % tag)
+    n0 = await P.say_hook(pg); menus = []; picked = None
+    for _ in range(10):   # 按「坐下」→ 選「聽演講：…」；沒有就記下來、選最後一個（不選「坐一下」那種會快轉的）
+        s0 = await P.ts(pg)
+        if s0['ch']:
+            ts = [o['t'] for o in s0['ch']]; menus.append(ts)
+            k = next((i for i, t in enumerate(ts) if t.startswith('聽演講')), None)
+            if k is None: run.note('%s：選單沒有「聽演講」：%s' % (tag, J(ts))); k = len(ts) - 1
+            else: picked = ts[k]
+            await P.tap_choice(pg, cdp, k); await pg.wait_for_timeout(1500)
+            if picked: break
+            continue
+        if s0['dlg']: await L.tap(pg, cdp, '#dlg'); await pg.wait_for_timeout(600); continue
+        lab = await pg.evaluate("(()=>{ const b=document.getElementById('interact'); return b&&!b.classList.contains('hide')?b.textContent.trim():''; })()")
+        if '坐' in lab: await L.tap(pg, cdp, '#interact')
+        else: await L.go_to(pg, cdp, run, seat['x'], seat['z'], 0.4, seat['label'], max_s=60, lv=seat['lv'], stop=lambda s: s['dlg'] or s['choices'] or s['busy'])
+        await pg.wait_for_timeout(1500)
+    run.note('%s：坐下的選單 %s；選了 %s' % (tag, J(menus), picked))
+    run.check('%s：坐下的選單有「聽演講：…」（%.2f，開放 %.2f～%.2f）' % (tag, await pg.evaluate("+GAME.G.hour"), it['t0'] - 0.25, (it['t0'] + it['t1']) / 2), bool(picked), J(menus))
+    if not picked: return {'pre': pre, 'crowd': crowd_log}
+    mid = None; t1 = time.time()
+    while time.time() - t1 < 300:   # 聽演講：旁白 → 轉暗快轉到結束 → 「演講結束了。」；中間對話照點
+        s = await P.ts(pg); h = await pg.evaluate("+GAME.G.hour")
+        if await pg.evaluate("!!GAME.E.player.seat"):   # 旁白 → syncRooms（聽眾坐好）→ 轉暗快轉：每一圈都記，取坐著最多的那一次
+            cw = await pg.evaluate(CLASSJS)
+            if mid is None or cw['sit'] > mid['sit']: mid = cw
+        if s['ch']: k, _ = P.pick_of(s['ch'], []); await P.tap_choice(pg, cdp, k); await pg.wait_for_timeout(900); continue
+        if s['dlg']: await L.tap(pg, cdp, '#dlg'); await pg.wait_for_timeout(500); continue
+        if h >= it['t1'] - 0.01 and not s['busy']: break
+        await pg.wait_for_timeout(1000)
+    await pg.wait_for_timeout(2500); end = await pg.evaluate(CLASSJS); await run.shot(pg, '%s_end' % tag)
+    lines = await P.said(pg, n0); att = await pg.evaluate("ACTIVITIES.attended(GAME.G,'B4',GAME.G.day)")
+    run.note('%s：說的話 %s；坐下時的聽眾 %s；結束 %s；到場 %s' % (tag, J(lines[:14])[:1500], J(mid)[:900], J(end)[:900], att))
+    return {'pre': pre, 'crowd': crowd_log, 'mid': mid, 'end': end, 'lines': lines, 'att': att, 'picked': picked}
+
+
+async def boyab4(pg, cdp, run):
+    # 法律系 B4 演講（大一下第 11 週週四 19:00 博思 101，ACTIVITIES B4）。玩家的路：走進博思 101、坐下、選「聽演講」（classes3d.js attendActivity；activities.js canJoin：t0−0.25～中場）
+    # A 提早到：18:20 出發，站在位子旁邊等到 18:48（記聽眾怎麼進場）再坐下選「聽演講」
+    # B 晚到：19:00 出發（n19_boyab4b 那次 19:07 十八個聽眾都在東側走道台階 walk）——進門後至少看 120 秒，看擠著的人會不會散開、坐下，再坐下選「聽演講」
+    d = await pg.evaluate("(()=>{ const T=CALENDAR.TERMS.find(t=>t.id==='Y1S2'); const a=STORY.dayOfKey(T.start); let d=a+10*7; while(CALENDAR.dateOf(d).wd!==4) d++; return CALENDAR.dateOf(d).key; })()")
+    it = await pg.evaluate("(()=>{ const a=(ACTIVITIES.list||[]).find(q=>q.id==='B4'); return a?{key:'B4', t0:a.t0, t1:a.t1, room:a.room, zone:a.zone, title:a.title, on:!!ACTIVITIES.on(a,GAME.G.day,GAME.G)}:null; })()")
+    run.note('B4 活動：%s' % J(it))
+    if not it: run.check('前置：有 B4 活動', False, ''); return
+    # C 提早到、站著等到開講以後（19:06）：n19_boyab4d 玩家從 17:56 一直在 101 裡，19:17～20:30 一個聽眾都沒有——分清是「坐一下」快轉跳過了聽眾進場，還是玩家在場時聽眾本來就不會進來
+    for tag, load_h, sit_at, watch in (('A 提早到', 18.33, it['t0'] - 0.2, 0), ('C 等到開講', 18.33, it['t0'] + 0.1, 0), ('B 晚到', 19.0, 0, 120)):
+        r = await b4_part(pg, cdp, run, it, d, tag, load_h, sit_at, watch)
+        if not r or not r.get('picked'): continue
+        T = r['lines']; mid = r.get('mid') or {}; end = r.get('end') or {}
+        want = '你找了位子坐下。台上的人在試麥克風' if tag.startswith('A') else '你輕輕坐下。台上已經開始講'
+        if tag.startswith('C') and r['crowd']:
+            aft = [c for c in r['crowd'] if c['h'] >= it['t0'] + 0.03]
+            run.check('C 等到開講：玩家站在 101 裡等，開講以後聽眾在場（在場 ≥ 8）', bool(aft) and max(c['n'] for c in aft) >= 8, J([(c['h'], c['n'], c['sit'], len(c['stand'])) for c in r['crowd']])[:900])
+        run.check('%s：旁白「%s…「%s」」' % (tag, want, it.get('title')), any(t.startswith(want) for t in T), J(T[:4]))
+        run.check('%s：演講結束了（時間到 %.2f、ACTIVITIES 記到場）' % (tag, it['t1']), r['att'] and end.get('h', 0) >= it['t1'] - 0.02, J({'att': r['att'], 'h': end.get('h')}))
+        run.check('%s：坐下聽的時候聽眾在場、大部分坐著（在場 ≥ 8、坐 ≥ 一半）' % tag, mid.get('n', 0) >= 8 and mid.get('sit', 0) * 2 >= mid.get('n', 0), J({k: mid.get(k) for k in ('h', 'n', 'inView', 'sit')}) + ' 站：' + J(mid.get('stand', [])[:12])[:600])
+        run.check('%s：有人坐的椅面都放下（busyUp＝0）' % tag, bool(end.get('fold')) and end['fold']['busyUp'] == 0, J(end.get('fold')))
+        if tag.startswith('B') and r['crowd']:
+            first, last = r['crowd'][0], r['crowd'][-1]
+            run.check('B 晚到：進門以後看 ≥ 120 秒，站著走來走去的聽眾有沒有坐下（最後一次站著 ≤ 3）', len(last['stand']) <= 3, J({'first': [first['h'], first['n'], first['sit'], len(first['stand'])], 'last': [last['h'], last['n'], last['sit'], len(last['stand'])], 'stand': [(q[2], q[3], q[1]) for q in last['stand']][:12]})[:900])
+
 
 # n28_gongtong_b 06:07：共同 101 走道邊的座位，seatApproach 挑的「坐下前站的位置」在走道上（4.7, 2.75），離互動點 (5.25, 2.4) 0.65 m，按鈕範圍 0.62 m＝站在那裡看不到「坐下」。
 #   ① 三棟教學館（共同、普通、博思）所有階梯教室座位：從進門的出生點算 seatApproach，列出走近點在按鈕範圍外的座位（只算，不走）
