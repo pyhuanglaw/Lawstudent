@@ -402,7 +402,9 @@ def main():
         row = judge(r, T, D_by_task, repo)
         if r['id'] in J:
             j = J[r['id']][-1]
-            row.update({k: j[k] for k in ('tier', 'evidence', 'main', 'missing', 'basis', 'covered', 'need', 'task', 'owner', 'severity', 'next', 'evidence_gap') if k in j})
+            row.update({k: j[k] for k in ('tier', 'evidence', 'main', 'missing', 'basis', 'covered', 'need', 'task', 'owner', 'severity', 'next', 'evidence_gap') if k in j and not (k == 'main' and j[k] in ('unknown', '', None))})
+            if row.get('tier') == 3 and row.get('main') == 'yes':
+                row['tier'] = 1   # 判定的人寫「已驗收、main 不知道」：工具查得到程式都在 main＝正式版已驗收（BB-B 11-01 第 1 批）
             row['auto'] = False
             row['judged_by'] = j.get('by')
             row['judged_at'] = j.get('at')
@@ -414,9 +416,19 @@ def main():
             continue
         j = rows[-1]
         t = j.get('tier')
+        mn = j.get('main', 'unknown')
+        if mn in ('unknown', '', None):   # 判定沒寫 main：用任務的標題、進度、證據裡的事件／檔案／函式查（同 audit_B 的做法）
+            tk = T.get(k) or T.get(j.get('task') or '') or {}
+            pres = repo.presence('\n'.join([tk.get('title', ''), tk.get('next', '')[:2000], tk.get('evidence', '') or '', str(j.get('evidence', ''))]))
+            if pres['head']:
+                mn = 'yes' if len(pres['main']) == len(pres['head']) else ('partial' if pres['main'] else 'no')
+            elif pres['sha_head']:
+                mn = 'yes' if len(pres['sha_main']) == len(pres['sha_head']) else ('partial' if pres['sha_main'] else 'no')
+        if t == 3 and mn == 'yes':
+            t = 1
         ledger.append({'id': k, 'src': j.get('src', 'other'), 'audit_verdict': None, 'audit_severity': None, 'title': (T.get(k) or {}).get('title', j.get('note', '') or j.get('evidence', ''))[:160],
                        'task_status': (T.get(j.get('task')) or {}).get('status') if j.get('task') else None, 'owner': j.get('owner'), 'priority': j.get('severity'),
-                       'tier': t if isinstance(t, int) else 5, 'auto': False, 'main': j.get('main', 'unknown'), 'bb': [j['bb']] if j.get('bb') and j.get('bb') != 'none' else [],
+                       'tier': t if isinstance(t, int) else 5, 'auto': False, 'main': mn, 'bb': [j['bb']] if j.get('bb') and j.get('bb') != 'none' else [],
                        'bb_pass': 0, 'evidence_gap': bool(j.get('evidence_gap')), 'why': j.get('missing') or j.get('need') or j.get('basis') or j.get('next', ''), 'evidence': j.get('evidence', ''),
                        'task': j.get('task'), 'next': j.get('next'), 'judged_by': j.get('by'), 'judged_at': j.get('at'), 'judgment_history': len(rows)})
     if '--id' in args:

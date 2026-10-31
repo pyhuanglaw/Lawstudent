@@ -1653,8 +1653,8 @@
    "title": "BB_110 F1、T0a、T0b、C1、C2、L5a、L5b",
    "area": "V0",
    "owner": "LAWWW",
-   "status": "已整合待測試",
-   "next": "【LAWWW-C 2026-10-21 稽核 C】程式已在開發分支（BB 照事件包清單瀏覽器驗收）｜ 【經濟系那年 10 月以後的事件施工暫停（使用者 2026-10-17 05:2x「祐廷人生主線全面修訂」（經 AA-C；AA_218 批准前））；10 月以前、不衝突的照做】【部分暫停：E24c 決定、E25 摩天輪、可昕告白與交往起點、AA_106 2-5 節拍（腳踏車、入門書、旁聽）、法律系開場的重考旁白——等 AA_217（MAIN-MOTIVE-1017）；其他照做】T0b（9/29 21:58 兩封信＋新聞＋群組，可昕的假設題三種回）、T0a 泡麵之夜（9/30 颱風假在宿舍，Y0_SAUCE；阿勳那天整天在房間）、XL-1（第 8 週阿勳問肉燥）已接（tests/v0_t0_unit.js）；C1 即興劇社的熱身已接（第 6 週第一個平日 17:30 可昕邀→19:00 博雅；IMPROV_LINE；沒去 22:00「你錯過了一隻企鵝」；tests/v0_c1_unit.js）；C2 自己的社團已接（AA_154 A37：社團群組＋出發選單，吉他社萬才館 3D、登山社 2D、羽球社新體 3D、不參加＝唐睿私訊 Y0_EXTRA；tests/v0_c2_unit.js）；P2b 門口有人在揪＋L5b 已接（60bedabc：AA_154 2-5a、BB-B 6d59df01；tests/v0_p2b_unit.js）；F1 小年夜已接（d833d3a5；tests/v0_f1_unit.js；Y0_UNCLE 回聲的時間已問 AA-B）；L5a 待開工（時間已問 AA-B）",
+   "status": "進行中",
+   "next": "【11-01 02:2x BB-B 歷史複核第 1 批（b3bf2bd74，基準 39f68236c 瀏覽器）】10/12 長頸鹿拉花演完，又跳出「出發：兩點半 Café 14:00：長頸鹿拉花／晚一點／不去了」——bug，非 P0、發布後修｜【LAWWW-C 2026-10-21 稽核 C】程式已在開發分支（BB 照事件包清單瀏覽器驗收）｜ 【經濟系那年 10 月以後的事件施工暫停（使用者 2026-10-17 05:2x「祐廷人生主線全面修訂」（經 AA-C；AA_218 批准前））；10 月以前、不衝突的照做】【部分暫停：E24c 決定、E25 摩天輪、可昕告白與交往起點、AA_106 2-5 節拍（腳踏車、入門書、旁聽）、法律系開場的重考旁白——等 AA_217（MAIN-MOTIVE-1017）；其他照做】T0b（9/29 21:58 兩封信＋新聞＋群組，可昕的假設題三種回）、T0a 泡麵之夜（9/30 颱風假在宿舍，Y0_SAUCE；阿勳那天整天在房間）、XL-1（第 8 週阿勳問肉燥）已接（tests/v0_t0_unit.js）；C1 即興劇社的熱身已接（第 6 週第一個平日 17:30 可昕邀→19:00 博雅；IMPROV_LINE；沒去 22:00「你錯過了一隻企鵝」；tests/v0_c1_unit.js）；C2 自己的社團已接（AA_154 A37：社團群組＋出發選單，吉他社萬才館 3D、登山社 2D、羽球社新體 3D、不參加＝唐睿私訊 Y0_EXTRA；tests/v0_c2_unit.js）；P2b 門口有人在揪＋L5b 已接（60bedabc：AA_154 2-5a、BB-B 6d59df01；tests/v0_p2b_unit.js）；F1 小年夜已接（d833d3a5；tests/v0_f1_unit.js；Y0_UNCLE 回聲的時間已問 AA-B）；L5a 待開工（時間已問 AA-B）",
    "priority": "P2",
    "first": {
     "term": "Y0S1",
@@ -13576,8 +13576,8 @@
    "title": "v0 可昕手機小事 8 則（BB_113「經濟系那一年的可昕」，BB-B 5b6e88fb）",
    "area": "V0",
    "owner": "LAWWW",
-   "status": "已整合待測試",
-   "next": "已接（AA-B 10-16 確認 BB_113 三段定稿）：經濟系大一上 8 則、可昕 8 則（大一上 E06 以後 E19 以前、一則雨天；大一下 Y0_DATING、3/26～7/10）、經濟系大一下 8 則；重考期暑假 6/23～7/10 接著第 18 週算（STORY.dpTerm）；時間技術預設；tests/v0_kxphone_unit.js",
+   "status": "進行中",
+   "next": "【11-01 02:2x BB-B 歷史複核第 1 批（b3bf2bd74，基準 39f68236c 瀏覽器）】可昕經濟系那年的手機小事三輪 qa_play 都收不到：30 分鐘版的格子被別人搶光——非 P0、發布後修｜已接（AA-B 10-16 確認 BB_113 三段定稿）：經濟系大一上 8 則、可昕 8 則（大一上 E06 以後 E19 以前、一則雨天；大一下 Y0_DATING、3/26～7/10）、經濟系大一下 8 則；重考期暑假 6/23～7/10 接著第 18 週算（STORY.dpTerm）；時間技術預設；tests/v0_kxphone_unit.js",
    "priority": "P2",
    "first": {
     "term": "Y0S1",
@@ -22039,7 +22039,7 @@
    "title": "換場景以後前一段說話的人的立繪還留在舞台上，看起來像祐廷（使用者 10-18 截圖：E20 火鍋店門口可昕塞鑰匙圈，左邊是阿勳——「這是我嗎？」）",
    "area": "P0",
    "owner": "LAWWW",
-   "status": "已整合待測試",
+   "status": "進行中",
    "priority": "P1",
    "first": {
     "term": "Y0S1",
@@ -22053,7 +22053,7 @@
    },
    "source": "使用者 2026-10-18 06:4x",
    "authorized": "使用者回報",
-   "next": "events3d.js：{scene,bg} 換背景時把左右立繪都收掉，下一個說話的人才出現（bg:false 只出字幕的 3D 事件不收）。祐廷本來就沒有立繪。待 BB-C 看 E20 火鍋店門口"
+   "next": "【11-01 02:2x BB-B 歷史複核第 1 批（b3bf2bd74，基準 39f68236c 瀏覽器）】還有：10/17「（你拿了車鑰匙出門。）」、7/25 夜班客運第一句，可昕的立繪還站著——原本標已整合待測試，實際沒修乾淨｜events3d.js：{scene,bg} 換背景時把左右立繪都收掉，下一個說話的人才出現（bg:false 只出字幕的 3D 事件不收）。祐廷本來就沒有立繪。待 BB-C 看 E20 火鍋店門口"
   },
   {
    "id": "Q-NYE-E21A-1018",
@@ -23651,7 +23651,7 @@
    },
    "source": "使用者 2026-10-18 14:2x：「桌遊也沒畫面 類似的事情幫我檢查哪些都黑畫面等下一個帳號BB教我補充」",
    "authorized": "使用者直接指示",
-   "next": "【10-31 23:1x】BB-B：第 100 組（4713c4d0c）黑畫面 10 張、第 101 組（9d5968c0b）家裡的車三張＋芯慈 CG（有人物，照 X94 緩緩），使用者回來時一起給；經濟系 5 段過場不用新圖、改代號（ev_y0_e26→home_entry_night、ev_y0_e36r→home_room_day、ev_y0_rp→目的地背景、ev_y0_kh_bus／_h→bus_night；公車上 bus_day、小鎮市場 market、左營站 kh_station）→ LAWWW 在 feat-1031 改（發布後合）｜經濟系第一批四張 15:3x 已向使用者要（BG-ECON-B1-1018）；在家的電話改用家裡背景（不用圖）。清單：docs/handoff/BLACK_BG_AUDIT_1018.md（node tools/story/black_bg_audit.js --md 重產）；第 1 節依背景代號分組（補一張就補好一組），第 3 節地點不對，第 4 節使用者回報（桌遊店、系烤 CG）。下一班 BB：先排經濟系（D99 第一優先），純場景一次四份不附圖、有人物單獨一輪附參考圖；電話場景要不要圖先用選擇題問使用者。和 ART-17 對過、不重複",
+   "next": "【11-01 02:2x BB-B 歷史複核第 1 批（b3bf2bd74，基準 39f68236c 瀏覽器）】BB E30-PLACE：ev_y0_e26 底下露出 3D Café → feat-1031 5329ba228 已改 home_entry_night（發布後合）｜【10-31 23:1x】BB-B：第 100 組（4713c4d0c）黑畫面 10 張、第 101 組（9d5968c0b）家裡的車三張＋芯慈 CG（有人物，照 X94 緩緩），使用者回來時一起給；經濟系 5 段過場不用新圖、改代號（ev_y0_e26→home_entry_night、ev_y0_e36r→home_room_day、ev_y0_rp→目的地背景、ev_y0_kh_bus／_h→bus_night；公車上 bus_day、小鎮市場 market、左營站 kh_station）→ LAWWW 在 feat-1031 改（發布後合）｜經濟系第一批四張 15:3x 已向使用者要（BG-ECON-B1-1018）；在家的電話改用家裡背景（不用圖）。清單：docs/handoff/BLACK_BG_AUDIT_1018.md（node tools/story/black_bg_audit.js --md 重產）；第 1 節依背景代號分組（補一張就補好一組），第 3 節地點不對，第 4 節使用者回報（桌遊店、系烤 CG）。下一班 BB：先排經濟系（D99 第一優先），純場景一次四份不附圖、有人物單獨一輪附參考圖；電話場景要不要圖先用選擇題問使用者。和 ART-17 對過、不重複",
    "xai": {
     "receiver": "LAWWW",
     "branch": "claude/wonderful-mayer-7fm9g6",
@@ -35816,8 +35816,8 @@
    "title": "AA_529 經濟系第 2～6 點：走啦群組改 10/15 聚會回家路上建（舊存檔補）、10/16 總圖與 7/13 對答案兩張日期卡掛到 10/17 14:40、7/13 10:00 空白卡下、K7 週年卡 p4 換句、長頸鹿鑰匙圈補兩句旁白、小的五處（K0b-L1 國界 2/15～3/15、品妤 10/31 換句、8/29 換字、9/21 社團群組每社團三則、4/25～6/7 日期卡拆兩張）",
    "area": "STORY",
    "owner": "LAWWW",
-   "status": "已整合待測試",
-   "next": "已進開發分支（postrel-1030 合併 b576263b6、改名 ba315523b）→ BB 測（下一版）",
+   "status": "進行中",
+   "next": "【11-01 02:2x BB-B 歷史複核第 1 批（b3bf2bd74，基準 39f68236c 瀏覽器）】4/25～6/7 第二張日期卡（電風扇、衝刺班）出不來——非 P0、發布後修｜已進開發分支（postrel-1030 合併 b576263b6、改名 ba315523b）→ BB 測（下一版）",
    "priority": "P1",
    "first": {
     "term": "Y0S1",
@@ -37715,9 +37715,9 @@
    "title": "芷若大一暑假在台中（7/1～8/25）讀起來怪的五處（AA-B 10-31 20:14 回）：七夕台中版加「我在家裡的廚房試做了一杯特調。很甜。……想給你喝。」；vac_activities.js:418「我媽打來，問你回來了沒。」在台中那段換「我媽在旁邊一直問我在跟誰傳訊息。」；深夜「剛洗完澡。下班回來都這個時間。」7/1～8/25 換「剛洗完澡。台中的晚上比臺北安靜。」；8/26 不排班、重逢改 8/27 22:00；termend_lines.js:225 改「暑假我回台中，八月二十六號回來。」",
    "area": "STORY",
    "owner": "LAWWW",
-   "status": "待開工",
+   "status": "已實作待整合",
    "priority": "P2",
-   "next": "【10-31 23:1x】在本機分支 feat-1031 做，等 VAC-GAP-1031 子代理做完（vac_activities.js 會撞）；發布後合進開發分支",
+   "next": "【11-01 02:2x】子代理做完（feat-1031 15d58e729；七夕台中版、出國私訊 homePool、深夜回覆按日期、8/26 不排班＋8/27 重逢、期末飯那句），zr_summer_misc_unit（修改前 19 項 FAIL）、全部 Node 792／0；AA 兩問：A2 寒假回台中也換嗎、8/26 訊息裡「下班、客人」要不要擋｜【10-31 23:1x】在本機分支 feat-1031 做，等 VAC-GAP-1031 子代理做完（vac_activities.js 會撞）；發布後合進開發分支",
    "first": {
     "term": "Y1S2",
     "week": 0,
@@ -37773,9 +37773,9 @@
    "title": "芷若 9/1 回 Café（沒交往的玩家，ticket_again）杯子上的字：zr_last_events.js again.keepN 換 AA_551 那句（「熱可可＋濃縮」「不用還了。」）；她那句「……那這杯，也是你的。」不動（USER_WANTS X36）",
    "area": "STORY",
    "owner": "LAWWW",
-   "status": "待開工",
+   "status": "已實作待整合",
    "priority": "P2",
-   "next": "【10-31 23:5x】AA-B AUDIT-AA-FOLLOWUP 交付；發布基準凍結中→本機分支做、發布後合（VAC-GAP-1031 子代理做完以後，免得撞檔）",
+   "next": "【11-01 02:2x】feat-1031 e12097855 照 AA_551（aa387_zr_last_unit 跟著改）｜【10-31 23:5x】AA-B AUDIT-AA-FOLLOWUP 交付；發布基準凍結中→本機分支做、發布後合（VAC-GAP-1031 子代理做完以後，免得撞檔）",
    "first": {
     "term": "Y4S2",
     "week": 0,
@@ -37969,6 +37969,34 @@
     "acceptance": "照規格交付、互審紀錄",
     "receiver": "LAWWW",
     "ack": "ACK"
+   }
+  },
+  {
+   "id": "BUG-KAI-SHEET-Y0-1031",
+   "title": "經濟系那年還不認識的阿凱傳了四次「泡麵評鑑表」（dp_kai_sheet）：story3d.js kai_sheet 的 term 把 Y0 也算進去（BB-B 歷史複核第 1 批 ECON-FRIENDS，P1）",
+   "area": "STORY",
+   "owner": "LAWWW",
+   "status": "待開工",
+   "priority": "P1",
+   "next": "【11-01 02:2x BB-B 歷史複核第 1 批（b3bf2bd74，基準 39f68236c 瀏覽器）】非 P0、不是這一版才壞的；發布後在本機分支修（kai_sheet 排除 Y0／經濟系那年）",
+   "first": {
+    "term": "Y0S1",
+    "week": 0,
+    "earliest": "經濟系那年",
+    "mainline": true,
+    "blocks": false,
+    "prereq": false,
+    "parallel": true,
+    "confirmed": true
+   },
+   "source": "BB-B 11-01 歷史複核第 1 批（judgments_BB.jsonl b3bf2bd74）",
+   "authorized": "D85（bug 修正）",
+   "xai": {
+    "spec": "—",
+    "branch": "claude/modest-rubin-2lyp7g",
+    "acceptance": "10/15、2027-10-13 讀進來不演搬 312；9/6 照演；9/7 照演但沒有「明天開學」",
+    "receiver": "BB",
+    "ack": "ACTIONED"
    }
   }
  ]
