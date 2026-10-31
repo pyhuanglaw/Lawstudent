@@ -1481,7 +1481,9 @@ async def boyab4(pg, cdp, run):
         if tag.startswith('C') and r['crowd']:
             aft = [c for c in r['crowd'] if c['h'] >= it['t0'] + 0.03]
             run.check('C 等到開講：玩家站在 101 裡等，開講以後聽眾在場（在場 ≥ 8）', bool(aft) and max(c['n'] for c in aft) >= 8, J([(c['h'], c['n'], c['sit'], len(c['stand'])) for c in r['crowd']])[:900])
-        run.check('%s：旁白「%s…「%s」」' % (tag, want, it.get('title')), any(t.startswith(want) for t in T), J(T[:4]))
+        # B4 有自己的事件（ACTIVITIES B4 event＝ev_b4_lecture）：attendActivity 有事件時不播一般的「你找了位子坐下…」旁白（classes3d.js），改看講者的台詞
+        spk = [t for t in T if isinstance(t, (list, tuple)) and t[0] == '講者']
+        run.check('%s：演講內容（ev_b4_lecture：講者說了 ≥ 3 句，最後一句「被限制的那個人，最後可以去哪裡？」）' % tag, len(spk) >= 3 and any(t[1] == '被限制的那個人，最後可以去哪裡？' for t in spk), J(T[:8]))
         run.check('%s：演講結束了（時間到 %.2f、ACTIVITIES 記到場）' % (tag, it['t1']), r['att'] and end.get('h', 0) >= it['t1'] - 0.02, J({'att': r['att'], 'h': end.get('h')}))
         run.check('%s：坐下聽的時候聽眾在場、大部分坐著（在場 ≥ 8、坐 ≥ 一半）' % tag, mid.get('n', 0) >= 8 and mid.get('sit', 0) * 2 >= mid.get('n', 0), J({k: mid.get(k) for k in ('h', 'n', 'inView', 'sit')}) + ' 站：' + J(mid.get('stand', [])[:12])[:600])
         run.check('%s：有人坐的椅面都放下（busyUp＝0）' % tag, bool(end.get('fold')) and end['fold']['busyUp'] == 0, J(end.get('fold')))
