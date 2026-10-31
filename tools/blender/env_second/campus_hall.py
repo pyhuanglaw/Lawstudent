@@ -423,9 +423,9 @@ def build(c, out=None):
             box(cm, x - PPW / 2, x + PPW / 2, 0.0, PYS - 0.12, pzb, pzf, skip=('bottom', 'top'))
         box(cm, x - PPW / 2 - 0.08, x + PPW / 2 + 0.08, PYS - 0.12, PYS + 0.1, pzb - 0.09, pzf + 0.09)   # 柱頭（拱墩）
     for i in range(PB): arch_bay(tm, acc('trimw'), -PWID / 2 + PBW * (i + 0.5), PBW, PYS, PH, PR, pzf, pzb, ring=0.16, clip=(-PWID / 2 + 0.45, PWID / 2 - 0.45))
-    for sx in (-1, 1):
+    for sx in (-1, 1):   # 門廊兩端的側牆（0.9 m 寬、通高）：也是柱子，seethru_ck_col（CAM-PILLAR-HALLS-1031 續，LAWWW-B 10:00：BB-B 校史館門廊往旁邊 1.3～2.6 m 斜看時整個畫面是這一塊石面）
         x0, x1 = sx * PWID / 2 - 0.45, sx * PWID / 2 + 0.45
-        box(tm, x0, x1, 0.0, PH, Z0, pzf, skip=('bottom', 'top', 'back'))
+        box(cm, x0, x1, 0.0, PH, Z0, pzf, skip=('bottom', 'top', 'back'))
     box(tm, -PWID / 2 - 0.6, PWID / 2 + 0.6, PH, PH + 0.45, Z0 - 0.15, Z0 + PD + 0.15, skip=('back',))           # 檐部
     hw = PWID / 2 + 0.6; py0 = PH + 0.45; pz1 = Z0 + PD + 0.15
     if po.get('pediment'):

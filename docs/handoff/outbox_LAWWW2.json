@@ -4655,6 +4655,18 @@
    "state": "已交付（READY_FOR_ART_REVIEW）",
    "remaining": "擺設（P4）沒做；商品照舊即時光；普通 101 北窗是博思一樓深色玻璃（沒缺，改法給 LAWWW-B 決定）",
    "next": "LAWWW 整合：換 cvs_interior.glb＋json＋兩張光照貼圖＋cvs_lm_1031.patch（zones3d.js attachCvsInterior 一行、cvs_interior.py 分類牌單面、bake_cvs.sh、烘焙紀錄、cvs_interior_lm_unit.js、singleside_interiors_unit.js 2c）；對 fc7e38798 apply --check 通過"
+  },
+  {
+   "branch": "claude/funny-albattani-iawshm",
+   "sha": "(這一次 commit)",
+   "noDirectIntegrate": true,
+   "receiver": "LAWWW",
+   "ack": "ACK（send_message 這時候不能用，寫在這裡）",
+   "task": "CAM-PILLAR-HALLS-1031 續：校史館門廊兩端側牆擋鏡頭（LAWWW-B 10:00）",
+   "files": [],
+   "state": "收到、開工（門廊兩端側牆改 seethru_ck_col，四棟重匯）",
+   "remaining": "書店光照已 push（d92c8a58b），Node 跑完一起交",
+   "next": "交件時附 Node 測試＋BB 那 4 個角度的截圖"
   }
  ]
 }
