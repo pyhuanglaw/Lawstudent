@@ -23,6 +23,8 @@
 #   正式第一版（1024²、256）：大廳白天照樣偏藍（分隔牆的石材、地板）——入口大片玻璃進來的天光本身偏藍 → 白平衡 1.0,0.93,0.84、天光 0.5→0.4（大廳多靠嵌燈的暖光）。
 #   第二版：還是藍（石牆原本深咖啡 61,54,41 → 98,110,110）。原因是烘焙的天空（Nishita）照太陽方位上色：--sun 90（東）時，入口（+z＝南）看出去是背對太陽、偏藍的那一片天。
 #     → 太陽方位改 180（入口那一側，強度照樣 0：高窗不是真的開口），入口看出去是靠太陽、偏白的天；天光 0.3、白平衡 1.0,0.96,0.9。
+#   第三版：大廳的石牆、地板是中性灰（石材本身就是灰色花崗石 #8e8b85；改前偏咖啡是暖色的即時環境光），球場白天、晚上都比改前自然；
+#     但大廳天花板只有地板反彈的光，白天 0.126（畫面上深灰）→ 第四版加天花板補光（見下面）。
 set -e
 ZONE=${1:?interior}
 SAMPLES=${2:-256}
@@ -39,9 +41,12 @@ interior)
   for zz in -14 -9 -4 1 6; do for x in -12 -4 4 12; do
     LIGHTS="$LIGHTS;$(python3 -c "print(f'{$x-0.01:.3f},{$x+0.01:.3f},{$zz-0.01:.3f},{$zz+0.01:.3f},7.22,1,1,${HBW:-150},0.5,0.5,$COOL')")"; done; done
   for zz in 13 17; do for x in -14 -7 0 7 14; do
-    LIGHTS="$LIGHTS;$(python3 -c "print(f'{$x-0.01:.3f},{$x+0.01:.3f},{$zz-0.01:.3f},{$zz+0.01:.3f},4.17,1,1,${DLW:-25},0.36,0.36,$WARM')")"; done; done
+    LIGHTS="$LIGHTS;$(python3 -c "print(f'{$x-0.01:.3f},{$x+0.01:.3f},{$zz-0.01:.3f},{$zz+0.01:.3f},4.17,1,1,${DLW:-20},0.36,0.36,$WARM')")"; done; done
   LIGHTS=${LIGHTS#;}
-  EXTRA=(--dayemit "gym_window_sky=${SKYWIN:-3.0}" --sun 180,25,0 --sky "${SKY:-0.3}" --daywb ${DAYWB:-1.0,0.96,0.9} --daylights "${DAYL:-0.7}" --shell S --keep-instances) ;;
+  # 大廳天花板的補光（第四版）：嵌燈只往下照，天花板只吃到地板反彈的光，第三版白天只有 0.126（畫面上深灰，比改前的白天花板暗很多）。
+  #   嵌燈正下方 2.3 m 高（離天花板 1.9 m）各一顆柔和的點光源（半徑 0.6 m），把天花板提亮一些；嵌燈 25 → 20 W，地板不要跟著變太亮。
+  PT=""; for zz in 13 17; do for x in -14 -7 0 7 14; do PT="$PT;$x,2.3,$zz,${FILLW:-8},$WARM,0.6"; done; done; PT=${PT#;}
+  EXTRA=(--points "$PT" --dayemit "gym_window_sky=${SKYWIN:-3.0}" --sun 180,25,0 --sky "${SKY:-0.3}" --daywb ${DAYWB:-1.0,0.96,0.9} --daylights "${DAYL:-0.7}" --shell S --keep-instances) ;;
 *) echo "未知的區域：$ZONE"; exit 1 ;;
 esac
 /opt/blenv/bin/python $SCRIPT -- --out "$TMP/plain.glb"
