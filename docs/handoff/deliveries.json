@@ -16805,6 +16805,19 @@
    "task": "DIALOGUE-DEPTH-1031",
    "integration": "未整合",
    "note": "和 1-A 一起在發布後匯入，只換字"
+  },
+  {
+   "id": "DL-AA-DD-1B2-1031",
+   "date": "2026-10-31",
+   "from": "AA-B",
+   "account": "B",
+   "branch": "claude/cool-heisenberg-o8kuqx",
+   "sha": "20859378c",
+   "msg": "DELIVERED",
+   "what": "DIALOGUE-DEPTH 第一批 1-B 之二：AA_562 大一上個別事件（柏翰考古、芯慈筆記、方奕廷黃金葛、以安報告回饋、語彤轉傳）、AA_563 招呼語（六位 greet.base 各加兩句、kaiDorm K-D1）；第一批＝AA_558～563＋voice_canon",
+   "task": "DIALOGUE-DEPTH-1031",
+   "integration": "未整合",
+   "note": "第一批（大一上）齊了：發布後一起匯入、BB 三種抽樣；AA 接著寫第 2 批（大一寒假＋大一下）"
   }
  ],
  "ignored": [
