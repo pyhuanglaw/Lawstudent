@@ -85,10 +85,11 @@ ZQP_LINES = ['你室友第一', '他都沒講？', '……他真的很不會講'
 ZQP = {'他沒講。': ['欸 你幫我恭喜他 他那題寫得好漂亮'], '妳第三也很強。': ['謝謝', '下次換我教他一題']}
 KAI_T = '系上那個練習賽，子晴第三。她跑來問我那題怎麼寫，問了一個小時。'
 ZQL3_T = ['比賽的結果出來了。我們系拿了第二名。', '……我傳了恭喜。他們熬了三個禮拜，很值得。']
-ZQL3_W = ['程式比賽的結果出來了。我們系拿了第二名。', '我沒去。……恭喜我傳了。真心的。大部分是。']
+# NO-COMPARE-GRAY-1031（AA_546 第 8 節，6a86f9c2c）：灰色三句換掉——沒去那一版、可昕「他講得很好嗎？」
+ZQL3_W = ['程式比賽的結果出來了。我們系拿了第二名。', '我沒去。……恭喜我傳了。他們熬了三個禮拜，很值得。']
 KX5 = dict(pic='宿舍交誼廳的白板，寫滿了期末考倒數', say='予樂寫的。她自己都還沒念。', cm=['妳呢？', '我念了。她寫的倒數我也用了。'])
 KXMOOT = ['輸了。', '對方的律師是大三的。', '……我下次要寫得更好。']
-KXMOOT_R = {'妳一定可以。': ['我知道。……你不用安慰我。'], '他講得很好嗎？': ['很好。好到我很生氣。'], '下次我去看。': ['不要。你在我會看你。……好啦，下次。']}
+KXMOOT_R = {'妳一定可以。': ['我知道。……你不用安慰我。'], '他講得很好嗎？': ['很好。好到我回去把自己那份重寫了一次。'], '下次我去看。': ['不要。你在我會看你。……好啦，下次。']}
 YULE135 = ['可昕輸了以後回宿舍 一句話都沒講 直接開始寫下一份', '她好認真']
 PINYU137 = ['可昕說她模擬法庭沒過。她講的時候一直在笑，你知道那代表她很在意。']
 KXWIN = ['贏了。', '對方是大一的。他們的書狀寫得很好。', '我們的也是。']
@@ -107,7 +108,7 @@ OLD = ['第二個。名字接龍，順便講你今天早餐吃什麼。要先把
        '六份。你呢？……不要說比我多。', '「你讀到哪了？……三章？我才讀到第二章。」', MX_OLD]
 COMPARE = re.compile(r'排名|第一名|第二名|誰比較強|贏他|贏我|輸給|比我|比她|不服氣|不真心')
 ALLOW = set(ZQL3_T + ZQL3_W + [KX2E['cm'][1]])   # AA_546 新句（或留下的那一版）自己有的「第二名」「比我早到」
-GRAY = ['真心的。大部分是。', '好到我很生氣。']   # AA_546 沒列、同一段裡的句子（只記，不判）
+GRAY = ['真心的。大部分是。', '好到我很生氣。']   # 原本 AA_546 沒列的灰色句；NO-COMPARE-GRAY-1031 起已換掉＝出現就 FAIL
 
 
 def is_old(x):
@@ -121,7 +122,7 @@ def cmp_check(run, sid, lines):
     hits = [x for x in lines if COMPARE.search(x) and x not in ALLOW]
     run.check('%s：沒有別的比較字（排名、第一名、第二名、誰比較強、贏他、贏我、輸給、比我、比她、不服氣、不真心；新句留下的「第二名」「比我早到」不算）' % sid, not hits, J(hits))
     gray = [x for x in lines if any(g in x for g in GRAY)]
-    if gray: run.note('%s 灰色（AA_546 沒列，只記不判）：%s' % (sid, J(gray)))
+    run.check('%s：灰色舊句（「真心的。大部分是。」「好到我很生氣。」）不出現（NO-COMPARE-GRAY-1031）' % sid, not gray, J(gray))
 
 
 def has_seq(T, seq):
@@ -486,8 +487,8 @@ async def s_zql3(p, run, base, sid, out):
             run.check('%s：和子晴說話＝Q2-L3（CONTEST_DAY）「%s」「%s」' % (sid, ZQL3_T[0], ZQL3_T[1]), has_seq(T, ZQL3_T), J({'lab': lab, 'said': T[:8]}, 700))
             run.check('%s：選「妳還好嗎？」→「還好啦。……幹嘛突然這樣問。」' % sid, has_seq(T, ['還好啦。……幹嘛突然這樣問。']), J(T[-3:]))
         else:
-            run.check('%s：和子晴說話＝Q2-L3（第 10～16 週那一版）' % sid, has_seq(T, ZQL3_W) or has_seq(T, ZQL3_T), J({'lab': lab, 'said': T[:8]}, 700))
-            run.note('%s 看到的那一版：%s（「真心的。大部分是。」AA_546 沒列，灰色）' % (sid, J([t for t in T if '第二名' in t or '恭喜' in t])))
+            run.check('%s：和子晴說話＝Q2-L3（第 10～16 週、沒去那一版）「%s」「%s」（一字不差，AA_546 第 8 節）' % (sid, ZQL3_W[0], ZQL3_W[1]), has_seq(T, ZQL3_W), J({'lab': lab, 'said': T[:8]}, 700))
+            run.note('%s 看到的那一版：%s' % (sid, J([t for t in T if '第二名' in t or '恭喜' in t])))
         cmp_check(run, sid, T + [o for c in CS for o in c])
     finally: await finish_page(run, sid, res, errs, b)
 
