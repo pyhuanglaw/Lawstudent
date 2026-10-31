@@ -37648,6 +37648,34 @@
     "receiver": "LAWWW",
     "ack": "ACTIONED"
    }
+  },
+  {
+   "id": "BUG-DATE-AWAY-BUSY-1031",
+   "title": "她回老家那幾天約 D26（去台中找她）被她臺北的 Café 班表擋成「她那時候有事」（INV.busyAt 查 schedEnt，schedEnt 不看 presence）",
+   "area": "SYS",
+   "owner": "LAWWW",
+   "status": "已實作待整合",
+   "priority": "P2",
+   "next": "【10-31 22:4x】本機分支 feat-1031 caabccf30（發布基準 39f68236c 凍結中，BB 回歸跑完、發布後才合進開發分支；備份 wip_backup/feat-1031.bundle）：DATE.check 對她不在臺北的日子跳過 busyAt；aa350_s_unit S6b（修改前 FAIL）、約會 18 支 ALL PASS",
+   "first": {
+    "term": "Y1S2",
+    "week": 0,
+    "earliest": "大一暑假和芷若交往中、去台中找她",
+    "mainline": false,
+    "blocks": false,
+    "prereq": false,
+    "parallel": true,
+    "confirmed": true
+   },
+   "source": "LAWWW-B 子代理 10-31 讀碼（芷若大一暑假衝突盤點）",
+   "authorized": "D85（bug 修正）",
+   "xai": {
+    "spec": "—",
+    "branch": "claude/modest-rubin-2lyp7g",
+    "acceptance": "10/15、2027-10-13 讀進來不演搬 312；9/6 照演；9/7 照演但沒有「明天開學」",
+    "receiver": "BB",
+    "ack": "ACTIONED"
+   }
   }
  ]
 }
