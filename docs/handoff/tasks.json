@@ -37252,10 +37252,10 @@
    "id": "Y4PATH-LATE-1031",
    "title": "舊存檔大四上中後段、大四下才讀進來、沒有 Y4_PATH：ev_y4_path「（最後一科考完……）（大四，要怎麼過？）」照演（S.y4PathDue 沒有上限；BB-B 10-31 n34_y4late 觀察）",
    "area": "STORY",
-   "owner": "AA",
-   "status": "等待其他AI／素材",
+   "owner": "LAWWW",
+   "status": "已整合待測試",
    "priority": "P3",
-   "next": "【10-31 16:1x】牽涉選項後果，已問 AA-B 選 A（過了某天直接記預設 Y4_PATH）／B（照演、開頭換句）／C；AA 回了照做",
+   "next": "【10-31 16:3x】AA-B 回 C：大四上開學～10/15 照演、開頭換「（大四開學一陣子了。）」「（你在書桌前坐了很久。）」「（大四，要怎麼過？）」（events.js y4Late）；10/16 以後 S.y4PathAfter 直接記 undecided、Y4_PATH_ASK2＝那天（不補 ev_y4_path_again）、不記 Y4_PATH_DAY（不傳姊姊那則）；y4_path_unit 第 9 項（修改前 FAIL）→ BB 重跑 YR=4 時看｜【10-31 16:1x】牽涉選項後果，已問 AA-B 選 A（過了某天直接記預設 Y4_PATH）／B（照演、開頭換句）／C；AA 回了照做",
    "first": {
     "term": "Y4S1",
     "week": 1,
@@ -37272,11 +37272,9 @@
     "spec": "—",
     "branch": "claude/cool-heisenberg-o8kuqx",
     "acceptance": "AA 回覆後照做、BB 驗",
-    "receiver": "LAWWW",
-    "ack": "SENT"
-   },
-   "pausedReason": "等 AA-B 選 A／B／C（D109）",
-   "resumeWhen": "AA-B 回覆"
+    "receiver": "BB",
+    "ack": "ACTIONED"
+   }
   }
  ]
 }

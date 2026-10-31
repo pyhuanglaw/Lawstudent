@@ -4724,9 +4724,11 @@ const Y4_EVENTS=(function(){
     {label:'p_und'},{speaker:null,text:'（你把四個選項寫在便利貼上，貼在檯燈旁邊。）'},
     {label:'p_end'} ];
   const homeBg=G=>JP(G)||atHome(G);
+  const y4Late=G=>typeof STORY!=='undefined'&&!!STORY.y4PathLate&&STORY.y4PathLate(G);
   const PATH=[ {if:{custom:homeBg},scene:'臺北・你的房間',bg:'home_room_night'},
-    {if:{custom:G=>!homeBg(G)},speaker:null,text:'（最後一科考完。宿舍很安靜，隔壁在收行李。）'},{if:{custom:G=>!homeBg(G)},speaker:null,text:'（你在書桌前坐了很久。）'},
-    {if:{custom:JP},speaker:null,text:'（日本的行李還沒拆完。客廳傳來電視的聲音。）'},{if:{custom:JP},speaker:null,text:'（一個月以後就大四了。）'},
+    /* Y4PATH-LATE-1031（AA-B 10-31 回 C）：大四上開學以後才演（舊存檔晚讀進來、10/15 以前）＝開頭換成「（大四開學一陣子了。）」「（你在書桌前坐了很久。）」「（大四，要怎麼過？）」，選項照舊；10/16 以後不演（story3d.js S.y4PathAfter 直接記 undecided）*/
+    {if:{custom:G=>!homeBg(G)&&!y4Late(G)},speaker:null,text:'（最後一科考完。宿舍很安靜，隔壁在收行李。）'},{if:{custom:y4Late},speaker:null,text:'（大四開學一陣子了。）'},{if:{custom:G=>!homeBg(G)||y4Late(G)},speaker:null,text:'（你在書桌前坐了很久。）'},
+    {if:{custom:G=>JP(G)&&!y4Late(G)},speaker:null,text:'（日本的行李還沒拆完。客廳傳來電視的聲音。）'},{if:{custom:G=>JP(G)&&!y4Late(G)},speaker:null,text:'（一個月以後就大四了。）'},
     {speaker:null,text:'（大四，要怎麼過？）'} ].concat(PATH_Q);
   const PATH_AGAIN=[ {if:{custom:atHome},scene:'臺北・你的房間',bg:'home_room_night'},{speaker:null,text:'（大四，要怎麼過？）'} ].concat(PATH_Q);
   /* 1A-10 R1「時差」（AA_318 第 2 節＋e75ebc69 芯慈兩句）：每一段要說話的人、被問到的人都 FAMILIAR 以上（不熟的人不到場、句子跳過）；語彤那三句：日本路線對祐廷、台灣路線對以安；

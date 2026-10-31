@@ -4250,7 +4250,11 @@ const STORY = (function(){
     let v=null; try{ v=typeof CLS!=='undefined'&&CLS.lastExamEnd?CLS.lastExamEnd(G,'Y3S2','final'):null; }catch(e){ v=null; } if(!v){ const d=termDay('Y3S2',16,5); v=d!=null?{day:d,h:17}:null; }   /* 沒有考試的課表：第 16 週週五（2028-06-02）*/
     Y3S2_FE.set(G,{key,v}); return v; };
   S.y4PathAt=function(G){ if(S.route(G)==='JP'){ const d=S.dayOfKey(ROUTE_DATES.JP.ret); return d!=null?{day:d,h:20}:null; } const e=S.y3s2FinalEnd(G); return e?{day:e.day,h:21}:null; };   /* 日本：8/5 返台那晚；台灣、美國：最後一科考完那天 21:00 */
-  S.y4PathDue=function(G){ const F=(G&&G.flags)||{}; if(!y4Law(G)||F.Y4_PATH||y4Done(G,'ev_y4_path')) return false; const w16=S.dayOfKey('2028-06-05'); if(w16!=null&&G.day<w16) return false;   /* 大三下第 16 週以前不用算（每 0.5 秒叫一次）*/ const a=S.y4PathAt(G); return !!a&&y4Past(G,a.day,a.h)&&!S.abroad(G); };
+  /* Y4PATH-LATE-1031（AA-B 10-31 回 C；BB-B n34_y4late 觀察：舊存檔大四下讀進來還演「（最後一科考完……）（大四，要怎麼過？）」）：
+     大四上開學～10/15 還沒選＝照演、開頭換句（events.js y4Late）；10/16 以後還沒選＝不演、直接記 Y4_PATH 'undecided'，10/16 的再問一次（ev_y4_path_again）也不補（Y4_PATH_ASK2 記這天）*/
+  S.y4PathLate=G=>{ const T=typeof CALENDAR!=='undefined'&&CALENDAR.TERMS&&CALENDAR.TERMS.find(x=>x.id==='Y4S1'), d=T?S.dayOfKey(T.start):null; return !!G&&d!=null&&G.day>=d; };
+  S.y4PathAfter=G=>{ const F=G&&G.flags; if(!F||!y4Law(G)||F.Y4_PATH||y4Done(G,'ev_y4_path')) return false; const d=y4D('again'); if(d==null||G.day<d) return false; F.Y4_PATH='undecided'; F.Y4_PATH_ASK2=G.day; return true; };   /* 不記 Y4_PATH_DAY：那是「選完隔天 09:00 姊姊一則」的起點，沒演就不傳 */
+  S.y4PathDue=function(G){ const F=(G&&G.flags)||{}; if(!y4Law(G)||F.Y4_PATH||y4Done(G,'ev_y4_path')) return false; const w16=S.dayOfKey('2028-06-05'); if(w16!=null&&G.day<w16) return false; { const dA=y4D('again'); if(dA!=null&&G.day>=dA) return false; }   /* 大三下第 16 週以前不用算（每 0.5 秒叫一次）*/ const a=S.y4PathAt(G); return !!a&&y4Past(G,a.day,a.h)&&!S.abroad(G); };
   S.y4Path2Due=function(G){ const F=(G&&G.flags)||{}, d=y4D('again'); return y4Law(G)&&d!=null&&F.Y4_PATH==='undecided'&&F.Y4_PATH_ASK2==null&&(F.Y4_PATH_DAY==null||F.Y4_PATH_DAY<d)&&y4Past(G,d,21); };   /* 選④：大四上 10/16 21:00 再問一次（AA_181 2-4）*/
   S.y4Path=async function(GM){ const G=GM.G, F=G.flags, again=!S.y4PathDue(G)&&S.y4Path2Due(G); if(!again&&!S.y4PathDue(G)) return false; const ev=y4Ev(again?'ev_y4_path_again':'ev_y4_path'); if(!ev||typeof EVENTS==='undefined') return false;
     const E=GM.E, P=E&&E.player, desk=G.zone==='dorm'&&!y4AtHome(G)&&E&&(E.interactables||[]).find(x=>x.deskStudy), seat=desk&&desk.seat; if(seat&&P&&GM.sitAt) GM.sitAt(P,seat);   /* 宿舍書桌前（AA_317 第 6 節第 1 點）*/
@@ -4419,7 +4423,7 @@ const STORY = (function(){
   (globalThis.LOADLOCKS=globalThis.LOADLOCKS||{})['story3d:y4Busy']=()=>{ y4Busy=false; };   /* 讀檔時放開（LOADGEN-LOCKS-1028）：讀檔凍住的舊劇情走不到 finally，只把旗標設回初始值 */
   S.y4Tick=function(GM){ const G=GM.G; if(y4Busy||!y4Law(G)||!G.flags||y4AtHome(G)) return false; if(typeof TRIP!=='undefined'&&TRIP.at&&TRIP.at(G)) return false;
     const go=f=>{ y4Busy=true; Promise.resolve().then(f).catch(e=>console.warn('Y4',e)).finally(()=>{ y4Busy=false; }); return true; };
-    S.roomY4Late(G);
+    S.roomY4Late(G); S.y4PathAfter(G);
     if(G.zone==='noodle'&&typeof OUT!=='undefined'&&G.day===y4D('r1')&&G.hour>=18){ const q=OUT.get(G,'y4_r1'); if(q&&q.state==='planned') q.state='done'; }   /* 9/7 傍晚自己走到麵店了：不用再問「出發」*/
     if(S.r1Due(G)) return go(()=>S.r1Table(GM));
     if((S.y4PathDue(G)&&(S.route(G)==='JP'||G.zone==='dorm'))||(!S.y4PathDue(G)&&S.y4Path2Due(G)&&(G.zone==='dorm'||G.zone==='us_apartment'))) return go(()=>S.y4Path(GM));
@@ -4431,7 +4435,7 @@ const STORY = (function(){
     if(S.moveOutDue(G)) return go(()=>S.moveOutY4(GM));
     return false; };
   /* ---- 在臺北的家（home3d.js 的 loop 每一輪問）：'stay'＝在家演（1A-08）；其他＝先離開家再演 ---- */
-  S.y4HomeDue=function(G){ if(!y4Law(G)) return null; S.roomY4Late(G); if(S.y4PathDue(G)||S.y4Path2Due(G)) return 'stay'; if(S.roomY4Due(G)) return 'room'; if(S.packDue(G)) return 'pack'; if(S.gradMorningDue(G)) return 'grad'; if(S.gradLunchDue(G)) return 'lunch'; if(S.moveOutDue(G)) return 'out'; return null; };
+  S.y4HomeDue=function(G){ if(!y4Law(G)) return null; S.roomY4Late(G); S.y4PathAfter(G); if(S.y4PathDue(G)||S.y4Path2Due(G)) return 'stay'; if(S.roomY4Due(G)) return 'room'; if(S.packDue(G)) return 'pack'; if(S.gradMorningDue(G)) return 'grad'; if(S.gradLunchDue(G)) return 'lunch'; if(S.moveOutDue(G)) return 'out'; return null; };
   S.y4HomeScene=GM=>S.y4Path(GM);
   S.y4FromHome=async function(GM,k){ const G=GM.G;
     if(k==='room') return S.roomY4FromHome(GM); if(k==='pack') return S.packY4(GM,{fromHome:true}); if(k==='out') return S.moveOutY4(GM,{fromHome:true});
