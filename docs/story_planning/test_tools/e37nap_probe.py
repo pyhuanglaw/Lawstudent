@@ -32,7 +32,8 @@ def make_state(day, hour, keep_e37=False):
     return s
 
 
-async def loop_until(pg, cdp, run, stop, max_s, label):
+async def loop_until(pg, cdp, run, stop, max_s, label, sleepy=False):
+    """sleepy＝照 qa_play MODE=sleep 的選法：選項裡有「睡…／再睡／先不要」就先選它（n36 第一次被叫醒時就是這樣又睡回去）"""
     t0 = time.time(); n = 0
     while time.time() - t0 < max_s:
         g = await pg.evaluate("({day:GAME.G.day,h:+GAME.G.hour.toFixed(2),z:GAME.G.zone,e37:!!(GAME.G.events.done||{}).ev_y0_e37,busy:!!(GAME.E.player.busy||(GAME.D&&GAME.D.active))})")
@@ -41,8 +42,8 @@ async def loop_until(pg, cdp, run, stop, max_s, label):
         if await pg.evaluate("!document.getElementById('phone').classList.contains('hide')"): await L.tap(pg, cdp, '#btnPhoneClose'); await pg.wait_for_timeout(600); continue
         if s['dlg']: await L.tap(pg, cdp, '#dlg'); await pg.wait_for_timeout(450); continue
         if s['choices']:
-            c = await pg.evaluate("(()=>{ const bs=[...document.querySelectorAll('#choices button')].filter(b=>!b.disabled); if(!bs.length) return null; const e=bs.find(x=>/^(出發|直接去|照樣跳過)/.test(x.textContent.trim()))||bs[0]; e.scrollIntoView({block:'center'}); const r=e.getBoundingClientRect(); return [r.left+r.width/2,r.top+r.height/2,e.textContent.trim().slice(0,30)]; })()")
-            if c: await L.touch_tap(cdp, c[0], c[1]); n += 1; run.note('%s 選：%s' % (label, c[2])); await pg.wait_for_timeout(800)
+            c = await pg.evaluate("(()=>{ const bs=[...document.querySelectorAll('#choices button')].filter(b=>!b.disabled); if(!bs.length) return null; const e=(%s?bs.find(x=>/^(睡|再睡|先不要|晚點|等一下)/.test(x.textContent.trim())):null)||bs.find(x=>/^(出發|直接去|照樣跳過)/.test(x.textContent.trim()))||bs[0]; e.scrollIntoView({block:'center'}); const r=e.getBoundingClientRect(); return [r.left+r.width/2,r.top+r.height/2,e.textContent.trim().slice(0,30),bs.map(b=>b.textContent.trim().slice(0,20))]; })()" % ('true' if sleepy else 'false'))
+            if c: await L.touch_tap(cdp, c[0], c[1]); n += 1; run.note('%s 選：%s（選項 %s）' % (label, c[2], J(c[3]))); await pg.wait_for_timeout(800)
             continue
         await pg.wait_for_timeout(500)
     return await pg.evaluate("({day:GAME.G.day,h:+GAME.G.hour.toFixed(2),z:GAME.G.zone,e37:!!(GAME.G.events.done||{}).ev_y0_e37,timeout:true})")
@@ -74,7 +75,7 @@ async def main():
             if case in ('noon', 'twice'):
                 c1 = await nap(pg, cdp, run, case + ' 第一次'); info['nap1'] = c1 and c1.get('t')
                 if case == 'twice':
-                    g = await loop_until(pg, cdp, run, lambda g: g['day'] != -17 or g['h'] >= 12.9 or g['e37'], 240, case)
+                    g = await loop_until(pg, cdp, run, lambda g: g['day'] != -17 or (g['h'] >= 12.9 and not g.get('busy')) or g['e37'], 240, case, sleepy=True)   # 叫醒後出發提示要是有「先不要／再睡」就照 n36 選它，空下來再按床
                     run.note('twice 第一次醒來：%s' % J(g)); info['wake1'] = g
                     if not g['e37'] and g['day'] == -17:
                         c2 = await nap(pg, cdp, run, case + ' 第二次'); info['nap2'] = c2 and c2.get('t')
