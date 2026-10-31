@@ -197,6 +197,25 @@ const LB3=(function(){
   function hallFloors(L){ return L.elevator.floors.map((f,i)=>Object.assign({num:i+1},f,f.zone?{spawn:elevSpawn(zoneElev(L,f.zone),f.zone==='library'?0:f.lv)}:{})); }
   function readingFloors(L){ return L.reading.elevator.floors.map((f,i)=>Object.assign({num:i+1},f,f.zone?{spawn:elevSpawn(zoneElev(L,f.zone),f.lv)}:{})); }
 
+  // ---- 跟隨鏡頭的隔間牆（BUG-CAM-LIBHALL-CORE-1031，LAWWW2-B；BB n31_lhcore）----
+  /* 大樓梯兩側的實心核心（一樓：樓梯外側欄杆 → 核心外牆，外面再靠一排書架；高到二樓樓板）：交給 engine3d.js 的 followCam 當隔間牆（zone.camCols[0]）。
+     原本大廳一樓沒有鏡頭碰撞：玩家在核心東邊、西邊背對核心時，鏡頭退 4.8 m 穿過書架和灰泥牆，停在樓梯底下（BB 量到 4 個方向玩家 0%）。
+     現在擋到就拉近、抬高，autoSwing 轉向空的那一邊（和教學館、美國公寓同一套）。碰撞盒：x＝欄杆內側 → 書架外緣（導航阻擋的外緣）、z＝核心南北、y＝0 → 二樓樓面；
+     兩端各多 6 cm（視線剛好擦過角落時照樣擋得到）。核心上面（二樓）是挑空，碰撞盒只到二樓樓面。
+     兩側那一跑的下面（地面 → 踏面的梯形斜塊）也算：人走不到，原本站在核心南邊、往南看時，鏡頭往北退、從樓梯底下穿上來停在踏面上，中間隔著樓梯底板。
+     站在樓梯上的人：鏡頭在頭的後上方（俯角 0.38），視線一直在踏面上面，擋不到。中庭四角的柱子也算（見下面）。測試：node tests/library_hall_cam_core_unit.js */
+  function coreCamCols(L,g){ const S=L.stair, CO=L.core, Y1=L.floors[1].y, inv=new THREE.MeshBasicMaterial({visible:false,side:THREE.DoubleSide}), out=[];
+    for(const sx of [-1,1]){ const sh=L.furniture.find(f=>f.type==='coreShelf'&&Math.sign(f.x)===sx); const xa=S.railX-0.1-0.06, xb=(sh?Math.abs(sh.x)+0.2:CO.x1)+0.06, z0=CO.z0-0.06, z1=CO.z1+0.06;
+      const m=new THREE.Mesh(new THREE.BoxGeometry(xb-xa,Y1,z1-z0),inv); m.position.set(sx*(xa+xb)/2,Y1/2,(z0+z1)/2); m.name='CAMCOL_core_'+(sx<0?'W':'E'); m.userData.noMerge=true; m.userData.dyn=true; g.add(m); out.push(m);
+      const sd=S.sides[sx<0?0:1], SD=S.side, LD=S.landing, a0=Math.min(Math.abs(sd.x0),Math.abs(sd.x1))-0.06, a1=Math.max(Math.abs(sd.x0),Math.abs(sd.x1)), ya=LD.y, yb=Y1;   /* 兩側那一跑：z0（平台那一端，平台高）往 z1 爬到二樓；頂面＝走路的連續面（畫面上一階一階的踏步比它高一點，視線擦過踏步也擋）*/
+      const P=[[a0,0,SD.z0],[a0,0,SD.z1],[a0,yb,SD.z1],[a0,ya,SD.z0],[a1,0,SD.z0],[a1,0,SD.z1],[a1,yb,SD.z1],[a1,ya,SD.z0]].map(([x,y,z])=>[sx*x,y,z]);
+      const F=[[0,1,2],[0,2,3],[4,6,5],[4,7,6],[0,4,5],[0,5,1],[3,2,6],[3,6,7],[0,3,7],[0,7,4],[1,5,6],[1,6,2]], pos=[]; for(const f of F) for(const i of f) pos.push(...P[i]);
+      const wg=new THREE.BufferGeometry(); wg.setAttribute('position',new THREE.Float32BufferAttribute(pos,3)); wg.computeVertexNormals();
+      const w=new THREE.Mesh(wg,inv); w.name='CAMCOL_underStair_'+(sx<0?'W':'E'); w.userData.noMerge=true; w.userData.dyn=true; g.add(w); out.push(w); }
+    /* 中庭四角的柱子（一樓花崗石 r 0.3、柱座 0.36；二樓粉光 r 0.26，到屋頂）：自動轉開的鏡頭原本會停在柱子裡面（BB 的「往東」第二個方向，轉開後鏡頭離柱子中心 0.25 m） */
+    const U=L.upper, GT=L.gates; for(const [x,zz] of [[-CO.x1,U.band.z1],[CO.x1,U.band.z1],[-CO.x1,GT.z],[CO.x1,GT.z]]){ const c=new THREE.Mesh(new THREE.CylinderGeometry(0.34,0.34,L.roofY,16),inv); c.position.set(x,L.roofY/2,zz); c.name='CAMCOL_column'; c.userData.noMerge=true; c.userData.dyn=true; g.add(c); out.push(c); }
+    return out; }
+
   // ---- 區域 ----
   const library_hall={ id:'library_hall', name:'總圖書館 大廳', indoor:true, camDist:4.8, build(E){ const L=LAYOUT(), W=L.W, D=L.D, Y1=L.floors[1].y, EL=L.elevator;
     const g=new THREE.Group(); const lv0=new THREE.Group(), lv1=new THREE.Group(); lv0.name='L0'; lv1.name='L1'; lv0.userData.dyn=true; lv1.userData.dyn=true; g.add(lv0); g.add(lv1);
@@ -208,6 +227,7 @@ const LB3=(function(){
         for(const o of (zone.pOuts||[])){ const v=viewOf(o.userData.view,night), u=o.material.uniforms; u.map.value=v||outsideTex(night); u.photo.value=v?1:0; u.tint.value.set(v?W3.photoTint(h,weather==='rain'):0xffffff); const v2=(v&&!night&&W3.photoFade&&W3.photoFade(h)>0)?viewOf(o.userData.view,true):null; if(u.xf){ u.map2.value=v2; u.near2.value=0; u.xf.value=v2?W3.photoFade(h):0; } } },   /* 有景深的窗景（parallaxViews）*/
       onLamps(on){ for(const l of lights) l.intensity=on?l.userData.on:l.userData.off; } };
     buildFallback(L,lv0,lv1,fb0,fb1,walls,walkMeshes,outs,slabs); buildFurniture(E,L,lv0,lv1,fb0,fb1,nav0,nav1,zone);
+    { const cc=coreCamCols(L,g); zone.camCols=[cc,cc]; }   /* 大樓梯兩側的實心核心、兩側那一跑的下面、中庭四角的柱子擋跟隨鏡頭（BUG-CAM-LIBHALL-CORE-1031）；第 1 層也查：兩側那一跑兩層共用，從二樓走下來的人還在第 1 層（二樓樓面上的人鏡頭在頭的後上方，碰撞盒都在二樓樓面以下，擋不到）*/
     // 劇情：小安「總圖的下午」坐的那一桌（二樓西側、靠窗的那一張長桌，面對面的兩個座位）
     { const s=zone.seats, T=L.furniture.find(f=>f.type==='studyTable'&&f.z>0); const row=(zz)=>s.filter(q=>Math.abs(q.z-zz)<0.05).sort((p,q)=>p.x-q.x)[0];
       const a=T&&row(T.z-0.8), b2=T&&row(T.z+0.8); if(a&&b2){ s.splice(s.indexOf(a),1); s.splice(s.indexOf(b2),1); s.unshift(a,b2); } }   /* seats[0]：玩家（−z 那一側，面向 +z）、seats[1]：小安（對面）；和閱覽室 seats 的排法一樣 */
@@ -226,7 +246,9 @@ const LB3=(function(){
     if(L.b1Door&&typeof LIBRARY_B1_LAYOUT!=='undefined'){ const BD=L.b1Door, sp=LIBRARY_B1_LAYOUT.stairs.spawn; IT.push({x:BD.x+0.55,z:BD.z,radius:0.8,lv:0,label:BD.label,exit:{to:'library_b1',spawn:{x:sp.x,z:sp.z,yaw:sp.yaw}}}); }   /* 往 B1（src/library_b1_3d.js）：站到 B1 樓梯間的門前 */
     for(const lv of [0,1]) IT.push({x:zone.elev.cx,z:EL.callZ,radius:1.0,lv,label:'搭電梯',elevator:true});
     // 正式模型（GLB）：載入成功就藏起程序化備用模型（導航、互動點不變）
-    zone.formal=false; if(typeof ASSETS!=='undefined'&&ASSETS.manifest['bldg.library_interior']){ ASSETS.loadOne('bldg.library_interior').then(c=>{ if(!c||!c.scene||E.zone!==zone) return; B3.attachFormal(zone,c.scene.clone(true),fb0,fb1,lv0,lv1,walls,walkMeshes); for(const o of outs) o.visible=false;   /* 正式模型的牆有窗洞：改用有景深的窗景（下面），原本一扇窗一張平面貼圖的藏起來（載入失敗時照舊用它們）*/
+    zone.formal=false; if(typeof ASSETS!=='undefined'&&ASSETS.manifest['bldg.library_interior']){ ASSETS.loadOne('bldg.library_interior').then(c=>{ if(!c||!c.scene||E.zone!==zone) return; const root=c.scene.clone(true); B3.attachFormal(zone,root,fb0,fb1,lv0,lv1,walls,walkMeshes); for(const o of outs) o.visible=false;
+      /* 室內樹、盆栽的葉子：擋住人、或離鏡頭太近時網點透空（engine3d.js updateSeeThrough；室內要區域 seeThru 才開，只作用在標了 seeThrough 的材質）。BUG-CAM-LIBHALL-CORE-1031：鏡頭在樓梯旁邊時室內樹的葉子貼在鏡頭前面 */
+      zone.seeThru=true; root.traverse(o=>{ if(!o.isMesh) return; for(const m of [].concat(o.material)){ if(!m||m.userData.seeThrough||!/leaf/.test(m.name||'')) continue; m.userData.seeThrough=true; if(E.patchSeeThrough) E.patchSeeThrough(m); } });   /* 正式模型的牆有窗洞：改用有景深的窗景（下面），原本一扇窗一張平面貼圖的藏起來（載入失敗時照舊用它們）*/
       parallaxViews(zone,L,lv0,lv1); }).catch(e=>console.warn('總圖大廳正式模型載入失敗，用程序化備用模型',e)); }
     return zone; } };
 

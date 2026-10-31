@@ -1759,7 +1759,7 @@ const Z3 = (function(){
         cafeFacePaint(o,t,null); o.material.emissive=new THREE.Color(0xffffff); o.material.emissiveMap=t; o.material.emissiveIntensity=0.3; return; }
       if(!mt||mt.userData.bkReg) return; mt.userData.bkReg=true;
       if(nm==='bk_lampshade'){ mt.emissive=new THREE.Color(0xffcf8a); mt.emissiveIntensity=1.2; }
-      const b=BK_BOUNCE[nm]; if(b) TK.bounce(mt,b[0],b[1]);
+      const b=BK_BOUNCE[nm]; if(b&&!mt.lightMap) TK.bounce(mt,b[0],b[1]);   /* 有光照貼圖（tools/blender/env_second/lightbake/bake_bookstore.sh；attachRoomGLB 先接好）的材質不加補光：吊燈的光、書架和櫃台桌的影子都在貼圖裡（和便利商店 CVS_BOUNCE 一樣）。測試：node tests/bookstore_interior_lm_unit.js */
       if(nm==='bk_books'||nm==='bk_poster'){ mt.onBeforeCompile=sh=>{ sh.fragmentShader=sh.fragmentShader.replace('#include <emissivemap_fragment>','#include <emissivemap_fragment>\n#if defined( USE_COLOR ) || defined( USE_COLOR_ALPHA )\n totalEmissiveRadiance += vColor.rgb * 0.28;\n#endif'); }; mt.customProgramCacheKey=()=>'bkVcGlow'; mt.needsUpdate=true; } });
     if(z.wins&&z.wins[0]){ const v=new THREE.Mesh(new THREE.PlaneGeometry(2.6,2.7),z.wins[0].material); v.position.set(0,1.25,5+0.35); v.rotation.y=Math.PI; g0.add(v); (z.winParts=z.winParts||[]).push({obj:v,at:new THREE.Vector3(0,1.25,5),dir:new THREE.Vector3(0,0,-1)}); }
     return root; }
