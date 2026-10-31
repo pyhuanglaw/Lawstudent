@@ -15,7 +15,7 @@
    - `assets/models/env/second_ai/cvs_interior.glb`（＋`.json`）；
    - 新的 `cvs_interior_lm_day.webp`、`cvs_interior_lm_night.webp`。
    - 模型和開發分支一樣，只多一套光照 UV 和 extras.lightmap。節點不變；三角形少 144 個（看不到的面被收掉）。
-2. **patch**：`docs/art-rebuild/second_ai/patches/cvs_lm_1031.patch`（對開發 `74fbc5a32`）。
+2. **patch**：`docs/art-rebuild/second_ai/patches/cvs_lm_1031.patch`（對最新開發 `fc7e38798` `git apply --check` 通過）。
    - `src/zones3d.js` 的 `attachCvsInterior` 改一行：有光照貼圖的材質不加補光（`CVS_BOUNCE`），理由見第二節。
    - 新測試 `tests/cvs_interior_lm_unit.js`：
      - 光照貼圖兩張都在；
@@ -86,4 +86,8 @@
 
 ## 五、測試
 
-（Node 全部跑完補）
+- 第一次全部 Node（開發 `74fbc5a32`＋這一包）：784 過、1 FAIL＝`singleside_interiors_unit.js`，原因有兩個，都修了：
+  - 分類牌的材質變雙面：模型腳本改明確單面，重烘。
+  - 牆面的反面被烘焙拿掉：測試改成 2c。
+- 修完重烘（光照貼圖和第一次逐像素相同）。讀便利商店模型的 21 支測試（含 `cvs_interior_lm_unit`、`singleside_interiors_unit`、`room_ceiling_unit`）全部 ALL PASS。
+- 全部 Node 第二次：（跑完補）

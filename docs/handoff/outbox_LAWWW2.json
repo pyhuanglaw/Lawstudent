@@ -4635,6 +4635,26 @@
    "state": "已交付",
    "remaining": "行政大樓門廊旁鏡頭跑進傅鐘（鐘亭不在鏡頭碰撞，沒改，問 LAWWW-B）；每個方向 draw call +2～10（+3%）",
    "next": "LAWWW 整合：換四棟 GLB（＋json）＋cam_pillar_halls_1031.patch（zones3d.js attachWenzhouModel 一行、campus_hall.py、campus_hall_pillar_seethru_unit.js）；Node 783／0；對 e2eb4cce4 apply --check 通過"
+  },
+  {
+   "branch": "claude/funny-albattani-iawshm",
+   "sha": "(這一次 commit)",
+   "noDirectIntegrate": false,
+   "receiver": "LAWWW",
+   "ack": "SENT",
+   "task": "INTERIOR-AAA-REVIEW-1028：便利商店（日日便利）室內光照烘焙＋普通 101 北窗判斷",
+   "files": [
+    "assets/models/env/second_ai/cvs_interior.glb",
+    "assets/models/env/second_ai/cvs_interior.json",
+    "assets/models/env/second_ai/cvs_interior_lm_day.webp",
+    "assets/models/env/second_ai/cvs_interior_lm_night.webp",
+    "docs/art-rebuild/second_ai/patches/cvs_lm_1031.patch",
+    "docs/art-rebuild/second_ai/test_shots/cvs_lm_1031/",
+    "docs/art-rebuild/second_ai/test_shots/putong_winview_1031/"
+   ],
+   "state": "已交付（READY_FOR_ART_REVIEW）",
+   "remaining": "擺設（P4）沒做；商品照舊即時光；普通 101 北窗是博思一樓深色玻璃（沒缺，改法給 LAWWW-B 決定）",
+   "next": "LAWWW 整合：換 cvs_interior.glb＋json＋兩張光照貼圖＋cvs_lm_1031.patch（zones3d.js attachCvsInterior 一行、cvs_interior.py 分類牌單面、bake_cvs.sh、烘焙紀錄、cvs_interior_lm_unit.js、singleside_interiors_unit.js 2c）；對 fc7e38798 apply --check 通過"
   }
  ]
 }
