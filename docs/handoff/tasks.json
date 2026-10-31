@@ -37408,7 +37408,7 @@
    "owner": "LAWWW",
    "status": "已實作待整合",
    "priority": "P1",
-   "next": "【10-31 21:3x】S.ceremonyDue（8/31、法律系、KAI_MOVEIN、還沒演）；lawWakeAt 8/31 14:00 前睡著在 14:00 醒來；14:00 以後點床先演典禮（bedScene，同 HOLFF-EVE-SKIP：S.tick 不是每格都跑、醒來馬上點床會跳過）；camp_y1_unit H0（修改前 FAIL）→ BB n37_cer831 在新 SHA 重跑",
+   "next": "【10-31 23:4x】BB-B 39f68236c cer831：早上「睡到傍晚」一路睡到 18:00 才演典禮（小睡走 CLS.skipStops，只接 coreCallAt）→ 第二輪修在本機分支 feat-art-1031（STOP_FNS 加 lawWakeAt、outStopsToday 白天加；camp_y1_unit H0b 修改前 FAIL），發布後合、BB 補驗；典禮本身有演、不會被跳過（非 P0，不換基準）｜【10-31 21:3x】S.ceremonyDue（8/31、法律系、KAI_MOVEIN、還沒演）；lawWakeAt 8/31 14:00 前睡著在 14:00 醒來；14:00 以後點床先演典禮（bedScene，同 HOLFF-EVE-SKIP：S.tick 不是每格都跑、醒來馬上點床會跳過）；camp_y1_unit H0（修改前 FAIL）→ BB n37_cer831 在新 SHA 重跑",
    "first": {
     "term": "Y1S1",
     "week": 0,
