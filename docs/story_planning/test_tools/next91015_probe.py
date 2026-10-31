@@ -1368,16 +1368,19 @@ async def gtecon(pg, cdp, run):
         if c['done']: done = True
         s = await P.ts(pg)
         # n28_gongtong_econ 07:50：原本等 2.5 秒才記，記到的是 12:10「下課了。」以後（上課是坐下選課 → 旁白 → 轉暗快轉）——坐下以後第一句上課的對話一出現就記
-        if cap is None and c['zone'] == 'gongtong' and c['seat'] and (s['dlg'] or c['h'] >= it['t0'] + 0.03) and c['h'] < it['t1'] - 0.05:
-            cap = await pg.evaluate(GTCLASS + '(%s)' % J(str(it.get('room')))); await run.shot(pg, 'gtecon_class')
-            await pg.evaluate("(()=>{ const C=GAME.E.cam; C.yaw=Math.PI; C.pitch=0.35; C.distTarget=6; C.manualT=1e9; })()"); await pg.wait_for_timeout(2000); await run.shot(pg, 'gtecon_class_front')
-            run.note('上課中（坐下、上課時間到）：%s' % J(cap)[:2500])
+        # n28_gongtong_econ_b 07:58：第一句對話是 9:00 黑畫面「（你在座位上等。教室慢慢坐滿了。）」，那時只有 1 個同學——改成上課時間裡（t0 以後、下課前）每一圈都記，取坐著最多的那一次
+        if c['zone'] == 'gongtong' and c['seat'] and it['t0'] - 0.01 <= c['h'] < it['t1'] - 0.05 and '你在座位上等' not in (s.get('txt') or ''):
+            cw = await pg.evaluate(GTCLASS + '(%s)' % J(str(it.get('room'))))
+            if cap is None or cw['sit'] > cap['sit']:
+                cap = cw; await run.shot(pg, 'gtecon_class')
+                run.note('上課中（%.2f）：%s' % (c['h'], J(cap)[:2500]))
         if done and cap is not None and not s['dlg'] and not s['ch']: break
-        if s['ch']: k, _ = P.pick_of(s['ch'], ['坐']); await P.tap_choice(pg, cdp, k); await pg.wait_for_timeout(1000); continue
+        if s['ch']: k, _ = P.pick_of(s['ch'], ['上課', '坐下']); await P.tap_choice(pg, cdp, k); await pg.wait_for_timeout(1000); continue
         if s['dlg']: await L.tap(pg, cdp, '#dlg'); await pg.wait_for_timeout(500); continue
         await L.phone_away(pg, cdp); await pg.wait_for_timeout(1200)
     run.check('照玩家流程走進共同教學館、坐下、這一堂上完', bool(cap) and done, J({'cap': bool(cap), 'done': done}))
     if not cap: return
+    run.check('上課中（%.2f）教室裡有同學坐著（≥ 3；不是開課前、也不是下課後）' % cap['h'], cap['sit'] >= 3 and it['t0'] - 0.01 <= cap['h'] < it['t1'] - 0.05, J({k: cap[k] for k in ('h', 'sit', 'player')}))
     run.check('翻椅：有人坐的椅面都放下（busyUp＝0）、沒人坐的都收起（emptyDown＝0）', cap['fold'] and cap['busyUp'] == 0 and cap['emptyDown'] == 0, J({k: cap[k] for k in ('fold', 'lecture', 'busy', 'busyUp', 'emptyDown')}))
     run.check('同學沒有穿過長桌：坐著的都在座位上、站著的都站在走得到的地方', not cap['sitBad'] and all(x['ok'] for x in cap['stand']), J({'sitBad': cap['sitBad'], 'stand': cap['stand']}))
     tch = await pg.evaluate("(room=>{ const R=(GONGTONG_LAYOUT.rooms||[]).find(r=>r.id===room); return R&&R.teacher?[R.teacher.x,R.teacher.z]:(R&&R.lectern?[R.lectern.x,R.lectern.z]:null); })", str(it.get('room')))
