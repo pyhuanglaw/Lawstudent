@@ -5,6 +5,7 @@
   直向：同樣讀檔，宿舍 → 校園一次，量重疊、截圖。
   沒有 ?perf：宿舍 → 校園一次，不能有 #perfPanel。
   數字是 SwiftShader 的，照實記，不判斷好壞。
+n26_perfpanel（08:26）：宿舍房間的出口現在是「走出房間」→ dorm_hall（宿舍走廊），路線表沒有它，一步都沒走＝探針；路線前面加 dorm_hall。
 用法：LW_TESTS=<工作樹>/tests python3 perf_probe.py '<URL>/index.html' <輸出資料夾> <存檔.json>"""
 import os, sys, json, asyncio, re, time
 sys.path.insert(0, os.environ['LW_TESTS']); import playlib as L
@@ -87,7 +88,7 @@ async def main():
         b, pg, cdp, errs, ok = await start(p, run, True, True, '橫向 ?perf')
         run.check('遊戲載入（?perf）', ok)
         pn0 = await pg.evaluate(PANEL); run.note('讀檔進宿舍以後的小框：%s' % J(pn0))
-        hops = await walk_route(pg, cdp, run, 'land', {'order': ['campus', 'wenzhou', 'cafe', 'gongguan'], 'done': ['wenzhou', 'cafe']})
+        hops = await walk_route(pg, cdp, run, 'land', {'order': ['dorm_hall', 'campus', 'wenzhou', 'cafe', 'gongguan'], 'done': ['wenzhou', 'cafe']}, max_hops=5)
         run.note('橫向路線：%s' % J(hops))
         run.check('橫向：照玩家走門換了 ≥ 2 次區域，最後在溫州街或 Café', len([h for h in hops if h['ok']]) >= 2 and hops and hops[-1]['ok'] and hops[-1]['to'] in ('wenzhou', 'cafe'), J(hops))
         pn = await pg.evaluate(PANEL); head, rows = rows_of(pn)
@@ -106,7 +107,7 @@ async def main():
         await b.close()
         # 2 直向 ?perf：宿舍 → 校園
         b, pg, cdp, errs, ok = await start(p, run, True, False, '直向 ?perf')
-        hops = await walk_route(pg, cdp, run, 'port', {'order': ['campus'], 'done': ['campus']}, max_hops=1)
+        hops = await walk_route(pg, cdp, run, 'port', {'order': ['dorm_hall', 'campus'], 'done': ['campus']}, max_hops=2)
         pn = await pg.evaluate(PANEL); head, rows = rows_of(pn); await run.shot(pg, 'port_final')
         run.note('直向小框（%s，畫面 %sx%s）：\n%s' % (J(pn.get('rect')), pn.get('vw'), pn.get('vh'), pn.get('text')))
         run.check('直向：有小框、標題對、每行照格式', pn['exists'] and head == HEAD and bool(rows) and all(ROW.match(r) for r in rows), J(rows))
@@ -117,7 +118,7 @@ async def main():
         await b.close()
         # 3 沒有 ?perf
         b, pg, cdp, errs, ok = await start(p, run, False, True, '沒有 ?perf')
-        hops = await walk_route(pg, cdp, run, 'noperf', {'order': ['campus'], 'done': ['campus']}, max_hops=1)
+        hops = await walk_route(pg, cdp, run, 'noperf', {'order': ['dorm_hall', 'campus'], 'done': ['campus']}, max_hops=2)
         pn = await pg.evaluate(PANEL); await run.shot(pg, 'noperf_final')
         run.check('沒有 ?perf：換區域以後也沒有 #perfPanel（PERFPANEL.on＝false）', not pn['exists'] and pn.get('on') is False and bool(hops) and hops[0]['ok'], J({'pn': pn, 'hops': hops}))
         run.check('沒有 JS 例外（沒有 ?perf）', not errs, J(errs[:3]))
