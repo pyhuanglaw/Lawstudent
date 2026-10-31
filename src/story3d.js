@@ -3219,10 +3219,13 @@ const STORY = (function(){
       G.flags.ROOM_Y3_MOVING=true; if(GM.enter) await GM.enter('dorm',{x:0,z:2.4,yaw:Math.PI}); await GM.fade(false); }   /* ROOM_Y3_MOVING：房間直接蓋成 507、紙箱封好，拆完 unboxY3 清掉 */
     finally{ GM.sceneEnd(); }
     return S.unboxY3(GM); };
+  S.ROOM_MATE_Y3='（507。柏翰的檯燈又放在靠窗那張書桌上。阿哲傳訊息：『我在二樓，抽籤輸了。……』）';   /* AA_208 第 8 節（AA_550 第 3 節定順序）*/
+  S.ROOM_MATE_Y4='（409。最後一次搬。柏翰比你早到，耳塞已經放在枕頭旁邊。）';
   S.unboxY3=async function(GM){ const G=GM.G, F=G.flags; if(!S.roomY3Due(G)) return false; F.ROOM_Y3=G.day; if(typeof DM3!=='undefined'&&DM3.fixRoomExit&&G.zone==='dorm') DM3.fixRoomExit(GM.E,G);
     const old=Array.isArray(F.ROOM_Y2_ITEMS)?F.ROOM_Y2_ITEMS.slice():S.roomY2Items(G).map(r=>r[0]), L=S.roomY3Items(G), shown=[]; F.ROOM_Y3_ITEMS=shown; F.ROOM_Y3_DISCARD=null;
     const Z=GM.E&&GM.E.zone, vis=st=>{ if(Z&&Z.setY2Items) Z.setY2Items(st); }; GM.sceneBegin(); vis({shown:[],boxes:'closed'});
-    try{ await GM.say(null,'（三個紙箱。比去年少一個。）');
+    try{ await GM.say(null,S.ROOM_MATE_Y3);   /* DORM-Y34（AA_550 第 3 節）：字卡「搬到新的房間」以後、拆箱以前，AA_208 第 8 節的室友旁白 */
+      await GM.say(null,'（三個紙箱。比去年少一個。）');
       await GM.choose([{t:'（把去年的東西拿出來）'}]); vis({shown:old.slice()}); await GM.say(null,'（去年拆過的東西，今年一次拿出來就好。每一件都知道自己要放哪裡。）');
       for(let guard=0;guard<40&&L.length;guard++){ const i=await GM.choose(L.map(r=>({t:'（拿出'+r[1]+'）'}))); const r=L.splice(i>=0&&i<L.length?i:0,1)[0]; shown.push(r[0]); vis({shown:old.concat(shown)}); for(const t of r[2]) await GM.say(null,t); }
       if(F.POTHOS) await GM.say(null,(F.pothosWaterN|0)>0?'黃金葛。第三個房間，第三個窗台。它又長了一點。':'黃金葛。第三個房間。它還是沒死。');   /* 已經在房間裡的照舊跟著搬過來，不用拿 */
@@ -4325,7 +4328,8 @@ const STORY = (function(){
     const old=y2.concat(y3).filter(id=>id!==F.ROOM_Y3_DISCARD), L=S.roomY4Items(G), shown=[]; F.ROOM_Y4_ITEMS=shown; F.BOX_KEPT_Y4=null;
     const Z=GM.E&&GM.E.zone, vis=st=>{ if(Z&&Z.setY2Items) Z.setY2Items(st); }, has=keep=>old.concat(shown).filter(id=>id!==keep);   /* 3D：大二那組（dorm_y2_items.glb）＋大三、大四的（dorm_y3_items.glb）*/
     GM.sceneBegin(); vis({shown:[],boxes:'closed'});
-    try{ await GM.say(null,'（這是最後一次拆箱。）');
+    try{ await GM.say(null,S.ROOM_MATE_Y4);   /* DORM-Y34（AA_550 第 3 節）：同大三的順序 */
+      await GM.say(null,'（這是最後一次拆箱。）');
       vis({shown:has(null)}); await GM.say(null,'（這些東西，閉著眼睛也知道要放哪裡。）');   /* 第一步：前兩年的東西一次拿出來（扣掉大三丟掉的）*/
       for(let guard=0;guard<40&&L.length;guard++){ const i=await GM.choose(L.map(r=>({t:'（拿出'+r[1]+'）'}))); const r=L.splice(i>=0&&i<L.length?i:0,1)[0]; shown.push(r[0]); vis({shown:has(null)}); for(const t of r[2]) await GM.say(null,t); }   /* 第二步：大三這一年的東西，一件一件 */
       if(F.POTHOS) await GM.say(null,(F.pothosWaterN|0)>0?'黃金葛。第四個窗台。它已經垂到書桌了。':'黃金葛。第四個房間。它還是沒死。');   /* 照舊跟著搬，第二步最後一句 */

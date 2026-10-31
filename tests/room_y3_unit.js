@@ -57,7 +57,7 @@ const meet=id=>SOCIAL.remember(id,'FIRST_MET','');
   // 3
   const vis=[]; GM.E.zone={setY2Items:st=>vis.push(JSON.stringify(st))};
   base(d5); G.vac.reg['C08@Y2']='done'; G.flags.pothosWaterN=2; picks=[0,0,0,'丟掉一本只讀了三分之一的民總課本']; await STORY.unboxY3(GM); let T=lines();
-  check('3. 拆箱的順序和台詞', T[0]==='（三個紙箱。比去年少一個。）'&&T[1]==='（去年拆過的東西，今年一次拿出來就好。每一件都知道自己要放哪裡。）'&&T.includes('比大一的薄。字比大一的小。')&&T.includes('裡面還有一點錢。你算過，不夠回去。')&&T.includes('黃金葛。第三個房間，第三個窗台。它又長了一點。')&&T.includes('（房間滿了。開始有東西要丟掉。）')&&T.includes('（你把它放進回收的袋子。房間多了一點空。）')&&T[T.length-1]==='（兩年。房間比去年滿，你也比去年知道哪些要留。）', JSON.stringify(T));
+  check('3. 拆箱的順序和台詞（DORM-Y34：先 AA_208 第 8 節室友旁白）', T.shift()==='（507。柏翰的檯燈又放在靠窗那張書桌上。阿哲傳訊息：『我在二樓，抽籤輸了。……』）'&&T[0]==='（三個紙箱。比去年少一個。）'&&T[1]==='（去年拆過的東西，今年一次拿出來就好。每一件都知道自己要放哪裡。）'&&T.includes('比大一的薄。字比大一的小。')&&T.includes('裡面還有一點錢。你算過，不夠回去。')&&T.includes('黃金葛。第三個房間，第三個窗台。它又長了一點。')&&T.includes('（房間滿了。開始有東西要丟掉。）')&&T.includes('（你把它放進回收的袋子。房間多了一點空。）')&&T[T.length-1]==='（兩年。房間比去年滿，你也比去年知道哪些要留。）', JSON.stringify(T));
   const dropOpts=opts.find(o=>o.some(x=>/都留著/.test(x)))||[];
   check('3. 丟掉的選單：大二的、大三新的都可以丟；黃金葛、大一的五件不列；最後是「（都留著。擠一點就好。）」', dropOpts.includes('（丟掉一本只讀了三分之一的民總課本）')&&dropOpts.includes('（丟掉首爾地鐵的交通卡）')&&!dropOpts.some(x=>/黃金葛|舊《民法》/.test(x))&&dropOpts[dropOpts.length-1]==='（都留著。擠一點就好。）', JSON.stringify(dropOpts));
   check('3. 旗標：ROOM_Y3＝那天、ROOM_Y3_ITEMS＝新拿出來的、ROOM_Y3_DISCARD＝丟掉的', G.flags.ROOM_Y3===d5&&JSON.stringify(G.flags.ROOM_Y3_ITEMS)===JSON.stringify(['notes_y2','vac_C08'])&&G.flags.ROOM_Y3_DISCARD==='civ'&&!G.flags.ROOM_Y3_MOVING, JSON.stringify({it:G.flags.ROOM_Y3_ITEMS,d:G.flags.ROOM_Y3_DISCARD}));
