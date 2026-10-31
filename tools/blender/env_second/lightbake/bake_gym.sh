@@ -1,7 +1,7 @@
 #!/bin/bash
 # 綜合體育館室內（INTERIOR-AAA-REVIEW-1028，LAWWW2-B 2026-10-31；照 bake_library_hall.sh、bake_cvs.sh）：建模 → 光照烘焙（白天／晚上）→ WebP。repo 根目錄跑：
 #   bash tools/blender/env_second/lightbake/bake_gym.sh interior [取樣數，預設 256] [輸出資料夾，預設 assets/models/env/second_ai] [貼圖邊長，預設 1024]
-# interior＝大廳＋1F 球場（gym 區域，gym_interior.glb；gym_interior.py）；arena＝3F 主球場（gym_arena 區域，gym_arena.glb；gym_arena.py）。B1 之後再加。
+# interior＝大廳＋1F 球場（gym 區域，gym_interior.glb；gym_interior.py）；arena＝3F 主球場（gym_arena 區域，gym_arena.glb；gym_arena.py）；b1＝B1（gym_b1 區域，gym_b1.glb；gym_b1.py）。
 # 輸出：gym_interior.glb（多一套 UV＝TEXCOORD_1、extras.lightmap）＋ gym_interior_lm_day.webp、_night.webp。
 #   遊戲：gym3d.js 的 gym → Z3.attachRoomGLB 看到 GLB 的 extras.lightmap 就接，不用改程式。
 # 座標＝遊戲區域座標（gym_interior.py；配置 src/data/gym_layout.js）：球場 x ±20、z −19～11、高 9 m；大廳 z 11～19、高 4.2 m；入口（玻璃）在 +z。
@@ -28,7 +28,7 @@
 #   第五版：第四版交件以後才發現高窗四周的牆一圈白光暈（光照貼圖 1.97～2.0＝上限，窗下面 0.27）：高窗的發光面補了反面（PERF-SINGLESIDE），
 #     反過來那一片朝著牆、離牆 4 cm，烘焙時把牆照爆。→ gym_interior.py 高窗不補反面＋--emit-oneside（發光面只有正面發光）。
 set -e
-ZONE=${1:?interior|arena}
+ZONE=${1:?interior|arena|b1}
 SAMPLES=${2:-256}
 OUTDIR=${3:-assets/models/env/second_ai}
 RES=${4:-1024}
@@ -74,6 +74,31 @@ arena)
     LIGHTS="$LIGHTS;$(python3 -c "print(f'{$x-0.01:.3f},{$x+0.01:.3f},{$zz-0.01:.3f},{$zz+0.01:.3f},20.38,1,1,$W,0.7,0.7,$COOL')")"; done; done
   LIGHTS=${LIGHTS#;}
   EXTRA=(--dayemit "arena_window_sky=${SKYWIN:-3.0}" --sun 180,25,0 --sky 0 --daywb ${DAYWB:-1.0,0.97,0.93} --daylights "${DAYL:-0.8}" --shell NONE --keep-instances --emit-oneside) ;;
+b1)
+  # B1（gym_b1 區域，gym_b1.glb；gym_b1.py）：游泳池（x ±24、z −24～−0.2，天花板 7 m）、走廊（z −0.2～3，3.0 m）、健身中心（x −24～10、z 3～14，3.6 m 輕鋼架）、大廳（x 12～24、z 2～14）。
+  # 地下室，沒有窗：整間包黑殼（--shell NONE）、天光 0；白天、晚上同一套燈（--daylights 1.0：兩張光照貼圖一樣亮）。
+  # 燈（照 gym_b1.py；改那邊要一起改）：
+  #   泳池：吸音板旁的圓燈（x −18.4～23.6 每 6 m × z −21、−15、−9、−3.5，32 盞，6.7 m）：往下照的面光源（0.5 m 見方），冷白，POOLW。
+  #   健身中心：線型燈（x −21～7 每 4 m × z 5.5、9.0、12.2，24 條，3.56 m，2.4×0.12 m）：往下照的面光源，中性白，FITW。
+  #   走廊：嵌燈（x −21～9 每 5 m、z 1.4，7 盞，3.0 m）、大廳：嵌燈（x 14、18、22 × z 2、6，3.6 m）：往下照的小面光源，暖白，CORW／LOBW。
+  # --hide：玻璃（健身中心、泳池的玻璃牆）、燈面（下面放面光源）、水面（半透明：光要照到池底的馬賽克）。
+  # --nolm：器材、置物櫃、櫃台道具（GPU instancing 的 gymb1_／gymb2_*，和照位置擺的 GYM_／GYM2_）、鋼件、水道繩、電視、計時器、牌子、旗子、白色小東西、植物、門牌。
+  #   地板、池底、池邊、牆、天花板、鏡子、木頭、花崗石照樣烘（器材的影子會烘進地板）。
+  NAME=gym_b1; SCRIPT=tools/blender/env_second/gym_b1.py
+  HIDE='glass|b1_light|b1_water'
+  NOLM='gymb1_|gymb2_|GYM2?_|_steel|_rope|_tv|_timer|_hours|_notice|_rules|desk_sign|_flag|_white|_pl_|PLATE_FACE'
+  COOL=${HBCOL:-0.97,0.98,1.0}; NEU=${FITCOL:-1.0,0.97,0.92}; WARM=${DLCOL:-1.0,0.9,0.76}
+  LIGHTS=""
+  for zz in -21 -15 -9 -3.5; do for x in -18.4 -12.4 -6.4 -0.4 5.6 11.6 17.6 23.6; do
+    LIGHTS="$LIGHTS;$(python3 -c "print(f'{$x-0.01:.3f},{$x+0.01:.3f},{$zz-0.01:.3f},{$zz+0.01:.3f},6.68,1,1,${POOLW:-150},0.5,0.5,$COOL')")"; done; done
+  for zz in 5.5 9.0 12.2; do for x in -21 -17 -13 -9 -5 -1 3 7; do
+    LIGHTS="$LIGHTS;$(python3 -c "print(f'{$x-0.01:.3f},{$x+0.01:.3f},{$zz-0.01:.3f},{$zz+0.01:.3f},3.55,1,1,${FITW:-60},2.4,0.12,$NEU')")"; done; done
+  for x in -21 -16 -11 -6 -1 4 9; do
+    LIGHTS="$LIGHTS;$(python3 -c "print(f'{$x-0.01:.3f},{$x+0.01:.3f},1.390,1.410,2.98,1,1,${CORW:-20},0.2,0.2,$WARM')")"; done
+  for zz in 2 6; do for x in 14 18 22; do
+    LIGHTS="$LIGHTS;$(python3 -c "print(f'{$x-0.01:.3f},{$x+0.01:.3f},{$zz-0.01:.3f},{$zz+0.01:.3f},3.58,1,1,${LOBW:-25},0.25,0.25,$WARM')")"; done; done
+  LIGHTS=${LIGHTS#;}
+  EXTRA=(--sun 180,25,0 --sky 0 --daylights 1.0 --shell NONE --keep-instances) ;;
 *) echo "未知的區域：$ZONE"; exit 1 ;;
 esac
 # 單面／雙面的對照：開發分支部署中的那一份（烘焙前先複製；沒有才用白模）。白模裡樓梯口指標字面 cafe_sign_face 本來就是雙面
