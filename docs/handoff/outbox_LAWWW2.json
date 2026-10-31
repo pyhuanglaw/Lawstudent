@@ -4706,7 +4706,7 @@
   },
   {
    "branch": "claude/funny-albattani-iawshm",
-   "sha": "(這一次 commit)",
+   "sha": "604d7596b",
    "noDirectIntegrate": false,
    "receiver": "LAWWW",
    "ack": "SENT",
@@ -4721,7 +4721,8 @@
    "tests": "新測試 tests/library_hall_cam_core_unit.js 開發原樣 FAIL 10、改後 ALL PASS；會建出總圖大廳的 Node 95 支 ALL PASS；全部 Node 跑中（交件時 149/787、0 失敗），跑完補",
    "shots": "BB 4 個方向：改前 0/2/5/0% → 改後（自己轉開）40/31/27/43%、剛拖過鏡頭 89～92%（頭頂近景，放開 1.5 秒後轉開）",
    "remaining": "手機實機沒測；nav_islands.py 沒跑（導航沒改）",
-   "next": "LAWWW 整合 patch（對 3438bf10a apply --check 通過）；BB 重跑 LHCORE（README 第五節有指令）"
+   "next": "LAWWW 整合 patch（對 3438bf10a apply --check 通過）；BB 重跑 LHCORE（README 第五節有指令）",
+   "channel": "send_message 這個工作階段沒有，交件寫在這裡"
   }
  ]
 }
