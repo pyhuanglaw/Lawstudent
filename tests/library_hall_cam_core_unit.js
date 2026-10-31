@@ -3,6 +3,9 @@
 //   BB 量到 4 個方向玩家 0%（鏡頭 (2.10,3.43,−0.80)、(1.76,3.43,−2.20)、(−1.86,3.43,−2.25)、(−1.78,3.43,−2.75)）。
 // 做法（src/library3d.js 的 coreCamCols）：核心兩塊（欄杆內側 → 書架外緣、高到二樓樓面）、兩側那一跑的下面（梯形斜塊）交給 engine3d.js 的 followCam 當隔間牆（zone.camCols），
 //   擋到就拉近、抬高，autoSwing 轉向空的那一邊（和教學館、美國公寓同一套）；室內樹、盆栽的葉子網點透空（zone.seeThru、材質 seeThrough）。
+// 第二輪（BB n33）：玩家拖著鏡頭（或剛放開）朝外牆看時，鏡頭被核心推到頭頂正上方（水平 0.36～0.43 m）——這時換成只擋靠樓梯井那一面的薄板（zone.camColsThin），
+//   鏡頭退進實心核心，書架（胡桃木、書、鋼件）網點透空；平常照舊整塊擋（autoSwing 轉到走道）。第一輪的網點透空走訪的是 root，attachFormal 把 L0_root／L1_root 搬走以後是空的：
+//   一個材質都沒標到（4a 原本只比對程式碼文字，沒抓到）——4a 改成照遊戲真正的載入流程（ASSETS.loadOne 回傳假的正式模型）檢查材質。
 // 這裡在 Node 建出遊戲真正的總圖大廳（程序化備用模型＝和正式模型同一份配置 src/data/library_layout.js），照引擎的跟隨鏡頭（camDist 4.8、俯角 0.38）算鏡頭位置，
 //   看「頭 → 鏡頭」有沒有穿過實心的地方。「修改前」＝同一個引擎、把核心的碰撞盒拿掉（電梯井道照舊）：一定要量得到穿過去的方向（證明測試抓得到這個 bug）。
 // 用法：node tests/library_hall_cam_core_unit.js
@@ -19,6 +22,11 @@ for(const f of files){ let src=fs.readFileSync(path.join(ROOT,f),'utf8'); src=sr
 let fails=0; const check=(name,ok,info)=>{ console.log((ok?'PASS ':'FAIL ')+name+(info?'　'+info:'')); if(!ok) fails++; };
 const E=E3; E.scene=new THREE.Scene(); E.q={level:'medium'}; E.ray=E.ray||new THREE.Raycaster();
 E.interactables=[]; E.colliders=[]; E.lampGlows=[]; E.seats=[]; E.npcs=[]; E.spawnHint=null;
+/* 假的正式模型（L0_root／L1_root＋幾種材質）：照遊戲真正的流程載入（attachFormal 會把 L0_root／L1_root 搬到區域的樓層群組）*/
+const FAKE=(()=>{ const r=new THREE.Group(), r0=new THREE.Group(), r1=new THREE.Group(); r0.name='L0_root'; r1.name='L1_root'; r.add(r0); r.add(r1);
+  for(const [nm,par] of [['lb_leaf_small',r0],['lb_leaf_dark',r1],['lb_walnut',r0],['lb_vc',r0],['lb_steel',r0],['lb_plaster',r0],['lb_terrazzo',r0]]){ const m=new THREE.Mesh(new THREE.BoxGeometry(0.1,0.1,0.1),new THREE.MeshStandardMaterial({name:nm})); m.name='FAKE_'+nm; par.add(m); }
+  return r; })();
+let fakeLoaded=null; { const lo=ASSETS.loadOne; ASSETS.loadOne=function(k){ if(k==='bldg.library_interior'){ return (fakeLoaded=Promise.resolve({scene:FAKE})); } return lo.apply(this,arguments); }; }
 const z=Z3.ZONES.library_hall.build(E); E.zone=z; E.levels=z.levels; E.nav=z.nav; for(const n of E.levels) n._cm=null;
 E.player={obj:{position:new THREE.Vector3(),rotation:{y:0}},radius:0.32,lv:0}; z.group.updateMatrixWorld(true);
 const L=LIBRARY_LAYOUT, S=L.stair, CO=L.core, Y1=L.floors[1].y, DIST=Z3.ZONES.library_hall.camDist||4.8, PITCH=0.38, DT=1/30;
@@ -27,6 +35,11 @@ const L=LIBRARY_LAYOUT, S=L.stair, CO=L.core, Y1=L.floors[1].y, DIST=Z3.ZONES.li
 const cols=(z.camCols||[])[0]||[], cols1=(z.camCols||[])[1]||[], byName=n=>cols.find(m=>m.name===n);
 check('1. zone.camCols：第 0、1 層都有核心兩塊＋兩側那一跑的下面＋中庭四角的柱子（8 個）',cols.length===8&&cols1.length===8&&['CAMCOL_core_W','CAMCOL_core_E','CAMCOL_underStair_W','CAMCOL_underStair_E'].every(byName)&&cols.filter(m=>m.name==='CAMCOL_column').length===4,
   (z.camCols||[]).map(a=>a?a.map(m=>m.name).join('+'):'—').join(' / '));
+{ const T=z.camColsThin||[];
+  check('1d. 拖鏡頭時用的 zone.camColsThin：靠樓梯井那一面的薄板兩片＋兩側那一跑的下面＋四根柱子（8 個），薄板在欄杆內側（|x| 3.54～3.66）',
+    T.length===8&&T.filter(m=>/CAMCOL_coreThin_/.test(m.name)).length===2&&T.filter(m=>/underStair/.test(m.name)).length===2&&T.filter(m=>m.name==='CAMCOL_column').length===4&&
+    T.filter(m=>/coreThin/.test(m.name)).every(m=>{ const b=new THREE.Box3().setFromObject(m); return Math.abs(Math.min(Math.abs(b.min.x),Math.abs(b.max.x))-(S.railX-0.1-0.06))<0.01&&Math.abs(Math.max(Math.abs(b.min.x),Math.abs(b.max.x))-(S.railX-0.1+0.06))<0.01; }),
+    T.map(m=>m.name).join('+')); }
 { const sh=L.furniture.find(f=>f.type==='coreShelf'&&f.x>0), b=new THREE.Box3().setFromObject(byName('CAMCOL_core_E')||new THREE.Object3D());
   check('1b. 東側核心的碰撞盒：x 從欄杆內側到書架外緣（導航阻擋的外緣）、z 涵蓋核心、高到二樓樓面',
     Math.abs(b.min.x-(S.railX-0.1-0.06))<0.01&&Math.abs(b.max.x-(sh.x+0.2+0.06))<0.01&&b.min.z<=CO.z0&&b.max.z>=CO.z1&&b.min.y<=0.01&&Math.abs(b.max.y-Y1)<0.01,
@@ -80,12 +93,43 @@ for(const [x,zz,bc] of BB){ const yaw=Math.atan2(bc[0]-x,bc[2]-zz), t=new THREE.
     `鏡頭 ${r.cam.toArray().map(v=>v.toFixed(2)).join(',')}、水平 ${r.h.toFixed(2)} m、轉了 ${r.turned.toFixed(0)}°、來回 ${r.flips} 次`); }
 
 /* ---- 4. 室內樹、盆栽的葉子網點透空（正式模型載入時；Node 載不到 GLB，查程式和模型的材質）---- */
-{ const src=fs.readFileSync(path.join(ROOT,'src/library3d.js'),'utf8');
-  check('4a. library3d.js：正式模型載入後區域打開 seeThru、名字有 leaf 的材質標 seeThrough＋patchSeeThrough',/zone\.seeThru=true;\s*root\.traverse\([\s\S]{0,200}\/leaf\/\.test\(m\.name[\s\S]{0,120}m\.userData\.seeThrough=true;\s*if\(E\.patchSeeThrough\) E\.patchSeeThrough\(m\)/.test(src));
+(async()=>{ await fakeLoaded; await new Promise(r=>setTimeout(r,0));
+{ const mats={}; z.group.traverse(o=>{ if(o.isMesh&&/^FAKE_/.test(o.name)) mats[o.material.name]=o.material; });
+  const want=['lb_leaf_small','lb_leaf_dark','lb_walnut','lb_vc','lb_steel'], no=['lb_plaster','lb_terrazzo'];
+  check('4a. 正式模型照遊戲的流程載入後：區域 seeThru 打開；葉子、書架（胡桃木、書、鋼件）標 seeThrough、patch 過；灰泥、地板不標（第一輪走訪 root，一個都沒標到）',
+    z.seeThru===true&&want.every(k=>mats[k]&&mats[k].userData.seeThrough&&mats[k].userData._st)&&no.every(k=>mats[k]&&!mats[k].userData.seeThrough),
+    JSON.stringify(Object.fromEntries(Object.entries(mats).map(([k,m])=>[k,!!m.userData.seeThrough])))); }
+{
   const b=fs.readFileSync(path.join(ROOT,'assets/models/env/library_interior.glb')), n=b.readUInt32LE(12), j=JSON.parse(b.slice(20,20+n).toString('utf8'));
   const leaf=j.materials.map(m=>m.name).filter(n_=>/leaf/.test(n_));
   check('4b. 正式模型 library_interior.glb 有葉子的材質（室內樹 lb_leaf_small、盆栽）',leaf.includes('lb_leaf_small')&&leaf.length>=3,leaf.join(', '));
   check('4c. 引擎有 E.patchSeeThrough（室內要區域 seeThru 才開）',typeof E.patchSeeThrough==='function'); }
 
+/* ---- 5. 拖鏡頭時（BB n33）：換薄板、鏡頭不被推到頭頂、不進樓梯井 ---- */
+{ E.cam={manualT:0,dragging:false}; z.update(1/30); const thick=z.camCols[0]===z.camColsThick;
+  E.cam.manualT=1.2; z.update(1/30); const thin=z.camCols[0]===z.camColsThin&&z.camCols[1]===z.camColsThin;
+  E.cam.manualT=0; E.cam.dragging=true; z.update(1/30); const drag=z.camCols[0]===z.camColsThin;
+  E.cam.dragging=false; z.update(1/30); const back=z.camCols[0]===z.camColsThick;
+  check('5a. zone.update：平常用整塊（camColsThick）；拖著鏡頭、剛放開（manualT>0）換薄板；放開以後換回來',thick&&thin&&drag&&back,JSON.stringify({thick,thin,drag,back}));
+  const stairwell=p=>Math.abs(p.x)<S.railX-0.1-0.07&&p.z>CO.z0&&p.z<CO.z1&&p.y<Y1;   /* 樓梯井（欄杆內側）*/
+  const RX=S.railX-0.1;   /* 核心實心塊和樓梯井的分界（薄板的中線）*/
+  const R5={}; E.cam.manualT=1.2; z.update(1/30);
+  for(const [x,zz,bc] of BB){ const yaw=Math.atan2(bc[0]-x,bc[2]-zz), t=new THREE.Vector3(x,E.heightAt(x,zz,0)+1.45,zz), c=new THREE.Vector3(), o=new THREE.Vector3(); E.player.lv=0;
+    z.camCols=[z.camColsThick,z.camColsThick]; z._lcAll=null; E.followCam(t,yaw,PITCH,DIST,0,o);   /* 第一輪（整塊擋）*/
+    z.camCols=[z.camColsThin,z.camColsThin]; z._lcAll=null; E.followCam(t,yaw,PITCH,DIST,0,c);
+    const hO=hz(o,t), hN=hz(c,t), bad=(()=>{ const n=Math.ceil(t.distanceTo(c)/0.02); for(let i=1;i<=n;i++){ const p=t.clone().lerp(c,i/n); if(stairwell(p)||COLS.some(([cx,cz])=>Math.hypot(p.x-cx,p.z-cz)<0.26)) return true; } return false; })();
+    R5[`(${x},${zz})→${bc.join(',')}`]={before:{horiz:+hO.toFixed(2),up:+(o.y-t.y).toFixed(2)},after:{horiz:+hN.toFixed(2),up:+(c.y-t.y).toFixed(2)}};
+    check(`5b. 拖鏡頭朝外牆 (${x},${zz})：第一輪鏡頭在頭頂（水平 < 0.5 m）；換薄板後水平 ≥ 1.2 m、沒進樓梯井、沒穿柱子`,hO<0.5&&hN>=1.2&&!bad,`第一輪水平 ${hO.toFixed(2)} m、現在 ${hN.toFixed(2)} m、高 ${(c.y-t.y).toFixed(2)} m`); }
+  /* 薄板模式下全掃：一樓大廳每 0.5 m、8 個方向，鏡頭不進樓梯井、不穿柱子、不進兩側那一跑的下面 */
+  let n=0,bad=0,ex=null; E.player.lv=0;
+  for(let x=-L.W/2+0.5;x<=L.W/2-0.5;x+=0.5) for(let zz=-L.D/2+0.3;zz<=L.D/2-0.3;zz+=0.5){ if(!E.canStand(x,zz,0.32,0)) continue; const fy=E.heightAt(x,zz,0); if(fy>0.05||onStairs(x,zz)) continue;
+    const t=new THREE.Vector3(x,fy+1.45,zz);
+    for(let k=0;k<8;k++){ const yaw=k*Math.PI/4; n++; const c=new THREE.Vector3(); z._lcAll=null; E.followCam(t,yaw,PITCH,DIST,0,c);
+      const nn=Math.ceil(t.distanceTo(c)/0.02); let hit=false, q=t.clone(); for(let i=1;i<=nn&&!hit;i++){ const p=t.clone().lerp(c,i/nn);
+        const crossWall=(Math.abs(q.x)-RX)*(Math.abs(p.x)-RX)<0&&p.z>CO.z0&&p.z<CO.z1&&p.y<Y1;   /* 穿過靠樓梯井那一面（核心實心塊 ↔ 樓梯井）；從核心南邊的開口進樓梯井是正常的 */
+        if(crossWall||COLS.some(([cx,cz])=>Math.hypot(p.x-cx,p.z-cz)<0.26)||(Math.abs(p.x)>sideX0&&Math.abs(p.x)<sideX1&&p.z>S.side.z0&&p.z<S.side.z1&&p.y<ys(p.z)-0.02)) hit=true; q=p; }
+      if(hit){ bad++; if(!ex) ex={x,z:zz,yaw:+yaw.toFixed(2),cam:c.toArray().map(v=>+v.toFixed(2))}; } } }
+  check('5c. 拖鏡頭時（薄板）全掃一樓大廳：視線不從核心穿過靠樓梯井那一面、不穿柱子、不進兩側那一跑的下面',bad===0,`${bad}/${n}`+(ex?' 例：'+JSON.stringify(ex):''));
+  E.cam.manualT=0; z.update(1/30); console.log(JSON.stringify({drag:R5})); }
 console.log(JSON.stringify({sweep:REPORT,bb:R3}));
-console.log(fails?('FAILED '+fails):'ALL PASS'); process.exit(fails?1:0);
+console.log(fails?('FAILED '+fails):'ALL PASS'); process.exit(fails?1:0); })();

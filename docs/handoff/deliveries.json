@@ -16584,6 +16584,32 @@
    "task": "INTERIOR-AAA-REVIEW-1028",
    "integration": "已驗收",
    "note": "LAWWW-B 14:4x 從 outbox 收、四個 patch 依序套上；相關 Node（bookstore／wz_shops／library_hall_cam_core／campus_hall_pillar／nav_buildings／singleside）ALL PASS｜10-31 15:4x BB n33 PASS"
+  },
+  {
+   "id": "DL-LW2-GYM-LM-1031",
+   "date": "2026-10-31",
+   "from": "LAWWW2-B",
+   "account": "B",
+   "branch": "claude/funny-albattani-iawshm",
+   "sha": "3094e123b",
+   "msg": "ACK",
+   "what": "體育館 1F（大廳＋1F 球場）室內光照烘焙（gym_interior.glb＋光照貼圖；gym_lm_1031.patch：gym_lm_unit、singleside_gym 2b）",
+   "task": "INTERIOR-AAA-REVIEW-1028",
+   "integration": "已整合待測試",
+   "note": "LAWWW-B 18:3x 套上：apply 乾淨；gym 系列 10 支、library_hall_cam_core、library_copier、nav_buildings ALL PASS"
+  },
+  {
+   "id": "DL-LW2-LIBHALL-CORE-V2-1031",
+   "date": "2026-10-31",
+   "from": "LAWWW2-B",
+   "account": "B",
+   "branch": "claude/funny-albattani-iawshm",
+   "sha": "3094e123b",
+   "msg": "ACK",
+   "what": "總圖大廳核心鏡頭第二輪（cam_libhall_core_v2_1031.patch：library3d.js 拖鏡頭時只擋樓梯井薄板＋書架葉子網點透空、更正第一輪葉子透空沒作用；library_hall_cam_core_unit）",
+   "task": "BUG-CAM-LIBHALL-CORE-1031",
+   "integration": "已整合待測試",
+   "note": "LAWWW-B 18:3x 套上：apply 乾淨；gym 系列 10 支、library_hall_cam_core、library_copier、nav_buildings ALL PASS"
   }
  ],
  "ignored": [

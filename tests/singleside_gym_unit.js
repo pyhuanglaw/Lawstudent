@@ -1,7 +1,8 @@
 // 體育館三個室內 GLB 單面（PERF-SINGLESIDE-GLB-1025 第二份，LAWWW2-B 2026-10-25）——不需要瀏覽器，讀 GLB。
 //   同一頁全部改單面的上限：3F 主球場 1.55→2.3、1F 大廳 3.6→4.6、B1 5.0→6.0（Z3.attachRoomGLB 把 WALL_* 設成 transparent，雙面又半透明要畫兩次）。
 //   1. gym_interior、gym_b1、gym_arena 除了玻璃都單面；玻璃照舊雙面；大廳的木格柵（gym_wood）照舊雙面（LAWWW-B 10-25：單面以後木條的條紋放大看有斜波紋，近景）；
-//   2. 開口的零件補了反面（每個三角形都有反過來的分身）：主球場的看台踢面、盆栽葉片卡；B1 的盆栽葉片卡；大廳的石牆；
+//   2. 開口的零件補了反面（每個三角形都有反過來的分身）：主球場的看台踢面、盆栽葉片卡；B1 的盆栽葉片卡；
+//      2b. 大廳的石牆原本也在這裡：INTERIOR-AAA 光照烘焙（10-31）烘焙前拿掉了反面，改成檢查都有光照貼圖、沒有反面；
 //   3. 原本就單面的天花板、屋頂（朝下：鏡頭超過天花板高度時看得穿）沒有補朝上的那一面；
 //   4. B1 的器材（gym_b1_props.glb 22 件）、櫃台置物櫃（gym_b1_entry.glb 8 件）都在——匯出時少了這兩個檔，腳本會安靜地跳過（第一次重匯就少了 1.7 萬個三角形）；
 //   5. 沒有裡外相反的薄零件（封閉、方向一致、體積是負的、有一邊 1 mm～1 m）：主球場的欄杆收邊、樓梯防滑條、門板、大廳的鐵盒子原本是反的，
@@ -23,9 +24,15 @@ const GL={ gym_interior:load('gym_interior'), gym_b1:load('gym_b1'), gym_arena:l
 const KEEP2={gym_interior:/^gym_wood$/};
 for(const [k,G] of Object.entries(GL)){ const kp=KEEP2[k], ds=G.mats.filter(m=>m.doubleSided&&!/glass/.test(m.name)&&!(kp&&kp.test(m.name))).map(m=>m.name), gl=G.mats.filter(m=>/glass/.test(m.name)), kk=kp?G.mats.filter(m=>kp.test(m.name)):[];
   check('1. '+k+'：除了玻璃'+(kp?'、木格柵':'')+'都單面（'+G.mats.length+' 個材質）；玻璃'+(kp?'、木格柵':'')+'照舊雙面', !ds.length&&gl.length>0&&gl.every(m=>m.doubleSided)&&kk.every(m=>m.doubleSided)&&(!kp||kk.length===1), ds.length?'雙面：'+ds.slice(0,8).join(' '):gl.concat(kk).map(m=>m.name+(m.doubleSided?'':'(單面)')).join(' ')); }
-const P2=[['主球場 看台踢面',GL.gym_arena,/^arena_riser$/],['主球場 葉片卡',GL.gym_arena,/^arena_pl_leaf_/],['B1 葉片卡',GL.gym_b1,/^b1_pl_leaf_/],['大廳 石牆',GL.gym_interior,/^gym_stone_wall$/]];
+const P2=[['主球場 看台踢面',GL.gym_arena,/^arena_riser$/],['主球場 葉片卡',GL.gym_arena,/^arena_pl_leaf_/],['B1 葉片卡',GL.gym_b1,/^b1_pl_leaf_/]];   /* 大廳的石牆（樓梯）：光照烘焙以後拿掉反面（見 2b）*/
 const r2=P2.map(([n,G,re])=>{ const [ok,nt]=paired(G,re); return [n,ok,nt]; });
 check('2. 開口的零件有反面（至少一半的三角形有反過來的分身）', r2.every(([,ok,nt])=>nt>0&&ok>=nt*0.5), r2.map(([n,ok,nt])=>n+' '+ok+'/'+nt).join('  '));
+{ /* 2b. 大廳的石牆（INTERIOR-AAA 光照烘焙 10-31，bake_gym.sh）：烘焙前拿掉有光照貼圖的物件的反面（bake_room.py 的 drop_backfaces：反面的光照貼圖是黑的；
+     和便利商店的牆面、社科圖的天井同一個做法，tests/singleside_interiors_unit.js 2b、2c）。留下來的是原本的那一面（樓梯一階一階、扶手牆從外面看得到：
+     同角度截圖 docs/art-rebuild/second_ai/test_shots/gym_lm_1031/），裡外相反的薄零件照樣由第 5 項檢查 */
+  const G=GL.gym_interior, [ok,nt]=paired(G,/^gym_stone_wall$/); let lm=0, all=0;
+  for(const x of G.prims){ if(x.mat!=='gym_stone_wall') continue; all++; if(x.p.attributes.TEXCOORD_1!=null) lm++; }
+  check('2b. 大廳的石牆（光照烘焙以後拿掉反面）：都有光照貼圖、沒有反過來的分身', nt>0&&ok===0&&all>0&&lm===all, '有光照貼圖 '+lm+'/'+all+'；反面 '+ok+'/'+nt); }
 const P3=[['大廳 天花板',GL.gym_interior,'gym_ceiling_lobby'],['大廳 屋頂',GL.gym_interior,'gym_roof_deck'],['B1 天花板',GL.gym_b1,'b1_ceiling'],['B1 泳池天花板',GL.gym_b1,'b1_ceiling_pool'],['B1 輕鋼架天花板',GL.gym_b1,'b1_ceiling_tile'],['主球場 屋頂',GL.gym_arena,'arena_roof']];
 const r3=P3.map(([n,G,m])=>{ const [ok,nt]=paired(G,new RegExp('^'+m+'$')); const mm=G.mats.find(x=>x.name===m); return [n,ok,nt,mm&&!mm.doubleSided]; });
 check('3. 原本就單面的天花板、屋頂沒有補朝上的面（照舊單面）', r3.every(([,ok,nt,ss])=>nt>0&&ok===0&&ss), r3.map(([n,ok,nt])=>n+' '+ok+'/'+nt).join('  '));
