@@ -34,9 +34,9 @@ check('0. 讀得到 AA_560 第 2-7 節（企劃線 '+SHA+'）、資料檔載得�
 
 /* C4 芯慈：畢業照片、needed_msgs 那一句 */
 { const pg=file('src/data/postgrad_lines.js');
-  check('C4. 芯慈畢業照片「（照片：國際法律事務所的電腦螢幕，一排 Excel）」；稿上「國際法律事務所」；src/ 沒有「會計師事務所的電腦螢幕」',SEC.includes('→「國際法律事務所」')&&pg.includes("['classmate_xinci','（照片：國際法律事務所的電腦螢幕，一排 Excel）','法遵。四色筆還是要帶。']")&&!inSrc('會計師事務所的電腦螢幕').length,J(inSrc('會計師事務所的電腦螢幕')));
+  check('C4. 芯慈畢業照片「（照片：國際法律事務所的電腦螢幕，一排 Excel）」；稿上「國際法律事務所」；src/ 沒有「會計師事務所的電腦螢幕」',SEC.includes('→「國際法律事務所」')&&pg.includes("['classmate_xinci','（照片：國際法律事務所的電腦螢幕，一排 Excel）','併購組。四色筆還是要帶。']")&&!inSrc('會計師事務所的電腦螢幕').length,J(inSrc('會計師事務所的電腦螢幕')));
   const x=(NEEDED_MSGS.list||[]).find(e=>e.id==='xc_grade')||{};
-  check('C4. needed_msgs xc_grade：「期中成績出來，不要跟我說以安考幾分。……我想先自己對完。」（D116）；稿上「不要跟我說以安考幾分。……我想先自己對完。」；其他欄位照舊',SEC.includes('→「不要跟我說以安考幾分。……我想先自己對完。」')&&J(x.msg)===J(['期中成績出來，不要跟我說以安考幾分。……我想先自己對完。'])&&x.who==='classmate_xinci'&&x.term==='Y2S2'&&J(x.w)===J([5,7])&&x.reply==='好。'&&J(x.resp)===J(['謝啦。不然我一定會去算差幾分。'])&&(x.miss||[]).length===1,J(x)); }
+  check('C4. needed_msgs xc_grade：「期中成績出來，不要跟我說以安考幾分。……我想先自己對完。」（D116）；稿上「不要跟我說以安考幾分。……我想先自己對完。」；其他欄位照舊',SEC.includes('→「不要跟我說以安考幾分。……我想先自己對完。」')&&J(x.msg)===J(['期中成績出來，不要跟我說以安考幾分。……我想先自己對完。'])&&x.who==='classmate_xinci'&&x.term==='Y2S2'&&J(x.w)===J([5,7])&&x.reply==='好。'&&J(x.resp)===J(['謝啦。對完我再請你喝飲料。'])&&(x.miss||[]).length===1,J(x)); }
 
 /* C5 學姊 enc_walk（不數件數）*/
 { const L=(ENC_WALK.leave||[]).filter(e=>e.who==='heroine_05'&&e.spot==='D11'), e=L[0]||{};
@@ -57,5 +57,9 @@ check('0. 讀得到 AA_560 第 2-7 節（企劃線 '+SHA+'）、資料檔載得�
 /* 只做了這七處：AA_559～AA_564 的台詞改稿沒有進來（白名單、閒聊階梯、阿哲四場、媽媽的句子照舊）*/
 { const A=JSON.parse(file('docs/handoff/story_import_allow.json')).files;
   check('9. 沒有匯入 AA_559～AA_564（白名單沒有那幾份；閒聊階梯 A-L7、阿哲初遇、媽媽「上禮拜煮多了」照舊）',!A.some(e=>/AA_5(59|6[0-4])_/.test(e.path))&&file('src/data/ladder.js').includes('"那時候人比較少。"')&&file('src/data/events.js').includes("text:'我阿哲。張哲維。'")&&file('src/homepromise3d.js').includes("'上禮拜煮多了 吃了三天'")); }
+
+/* AA-B 11-01 回 C4 兩題（D109）*/
+{ const src=file('src/data/postgrad_lines.js')+file('src/data/needed_msgs.js');
+  check('C4b. 照片後面那句「併購組。四色筆還是要帶。」、xc_grade 回覆「謝啦。對完我再請你喝飲料。」（不再提比分數）；舊句不在',src.includes('併購組。四色筆還是要帶。')&&src.includes('謝啦。對完我再請你喝飲料。')&&!src.includes('法遵。四色筆還是要帶。')&&!src.includes('算差幾分')); }
 
 H.done?H.done():(console.log(H.fails?('FAILED '+H.fails):'ALL PASS'),process.exit(H.fails?1:0));
