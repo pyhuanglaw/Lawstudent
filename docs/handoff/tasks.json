@@ -37227,7 +37227,7 @@
    "owner": "LAWWW",
    "status": "已整合待測試",
    "priority": "P2",
-   "next": "【10-31 16:1x】照大二、大三：搬的那天（台灣、日本 9/3；美國 12/23 返台，S.roomY4Day）和隔天演、隔天不說「明天開學」；已經開始搬、人在臺北的家照舊；再晚才讀進來的 S.roomY4Late 直接記（美國人在國外那段不記）；room_y4_unit 1b（修改前 FAIL）→ BB 重跑台灣與美國（n34_y4late_us）",
+   "next": "【10-31 16:4x】全部 Node 786／0（184efc3da）；已派 BB YR=4（台灣＋美國）＋YR=2／3｜【10-31 16:1x】照大二、大三：搬的那天（台灣、日本 9/3；美國 12/23 返台，S.roomY4Day）和隔天演、隔天不說「明天開學」；已經開始搬、人在臺北的家照舊；再晚才讀進來的 S.roomY4Late 直接記（美國人在國外那段不記）；room_y4_unit 1b（修改前 FAIL）→ BB 重跑台灣與美國（n34_y4late_us）",
    "first": {
     "term": "Y4S1",
     "week": 1,
@@ -37245,7 +37245,7 @@
     "branch": "claude/modest-rubin-2lyp7g",
     "acceptance": "10/16、12/15 讀進來不演 409；9/3 照演；9/4 照演但沒有「明天開學」；美國 12/23 照演、12/26 不演",
     "receiver": "BB",
-    "ack": "未派"
+    "ack": "SENT"
    }
   },
   {
@@ -37255,7 +37255,7 @@
    "owner": "LAWWW",
    "status": "已整合待測試",
    "priority": "P3",
-   "next": "【10-31 16:3x】AA-B 回 C：大四上開學～10/15 照演、開頭換「（大四開學一陣子了。）」「（你在書桌前坐了很久。）」「（大四，要怎麼過？）」（events.js y4Late）；10/16 以後 S.y4PathAfter 直接記 undecided、Y4_PATH_ASK2＝那天（不補 ev_y4_path_again）、不記 Y4_PATH_DAY（不傳姊姊那則）；y4_path_unit 第 9 項（修改前 FAIL）→ BB 重跑 YR=4 時看｜【10-31 16:1x】牽涉選項後果，已問 AA-B 選 A（過了某天直接記預設 Y4_PATH）／B（照演、開頭換句）／C；AA 回了照做",
+   "next": "【10-31 16:4x】全部 Node 786／0（184efc3da）；已派 BB YR=4（台灣＋美國）＋YR=2／3｜【10-31 16:3x】AA-B 回 C：大四上開學～10/15 照演、開頭換「（大四開學一陣子了。）」「（你在書桌前坐了很久。）」「（大四，要怎麼過？）」（events.js y4Late）；10/16 以後 S.y4PathAfter 直接記 undecided、Y4_PATH_ASK2＝那天（不補 ev_y4_path_again）、不記 Y4_PATH_DAY（不傳姊姊那則）；y4_path_unit 第 9 項（修改前 FAIL）→ BB 重跑 YR=4 時看｜【10-31 16:1x】牽涉選項後果，已問 AA-B 選 A（過了某天直接記預設 Y4_PATH）／B（照演、開頭換句）／C；AA 回了照做",
    "first": {
     "term": "Y4S1",
     "week": 1,
@@ -37273,7 +37273,7 @@
     "branch": "claude/cool-heisenberg-o8kuqx",
     "acceptance": "AA 回覆後照做、BB 驗",
     "receiver": "BB",
-    "ack": "ACTIONED"
+    "ack": "SENT"
    }
   }
  ]
