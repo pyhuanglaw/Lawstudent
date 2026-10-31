@@ -1223,6 +1223,50 @@ async def gtlm(pg, cdp, run):
         run.check('共同教學館 101：按「%s」坐得下' % lab, bool(lab) and sat, J({'lab': lab, 'sat': sat}))
 
 
+def ceil_white(path):
+    """畫面上半（天花板常在的地方：高 22%～45%、寬 30%～95%，避開左上 HUD）有幾成是近白（>235）——天花板整片發亮的白板會很高。只當輔助，看截圖"""
+    try:
+        from PIL import Image
+        im = Image.open(path).convert('L'); w, h = im.size; im = im.crop((int(w * 0.30), int(h * 0.22), int(w * 0.95), int(h * 0.45))); im = im.resize((max(1, im.width // 4), max(1, im.height // 4)))
+        px = list(im.getdata()); return round(sum(1 for v in px if v > 235) / max(1, len(px)), 3)
+    except Exception as e:
+        return None
+
+
+def last_shot(tag):
+    cand = sorted([q for q in os.listdir(OUT) if tag in q], key=lambda q: os.path.getmtime(os.path.join(OUT, q)))
+    return os.path.join(OUT, cand[-1]) if cand else None
+
+
+# LAWWW-B 05:11（1e910aa6c）：LAWWW2 的 C 總圖 3F 閱覽區光照——白天 14:00、晚上 20:30，門口往長桌、長桌旁各一張：天花板不是整片發亮的白板，桌下和書櫃底有陰影
+async def lib3lm(pg, cdp, run):
+    rows = []
+    for hh, tg in ((14.0, '1400'), (20.5, '2030')):
+        st, d = await P.base(pg, SAVE, '2025-10-15', hh, 'library'); await P.load(pg, cdp, st); await pg.wait_for_timeout(9000)
+        run.setup('[前置] 使用者存檔改到 %s %s 總圖 3F 閱覽區（出生點）' % (d['key'], tg))
+        info = await pg.evaluate("""(()=>{ const E=GAME.E; const ex=E.interactables.find(i=>i.exit); const S=E.interactables.filter(i=>i.seat&&!(i.lv|0));
+            const cx=S.length?S.reduce((a,i)=>a+i.x,0)/S.length:0, cz=S.length?S.reduce((a,i)=>a+i.z,0)/S.length:0; let lm=0, mesh=0, black=[];
+            E.scene.traverse(o=>{ if(!o.isMesh||!o.visible) return; mesh++; const ms=Array.isArray(o.material)?o.material:[o.material]; if(ms.some(m=>m&&m.lightMap)) lm++; for(const m of ms){ if(m&&m.color&&m.color.getHex()===0) black.push(o.name||m.name); } });
+            const s0=S.slice().sort((a,b)=>Math.hypot(a.x-cx,a.z-cz)-Math.hypot(b.x-cx,b.z-cz))[0]||null;
+            return {zone:GAME.G.zone, formal:!!(E.zone&&(E.zone.formal||E.zone.formalInfo)), lm, mesh, black:[...new Set(black)].slice(0,6), exit:ex?[ex.x,ex.z,ex.label]:null, seats:S.length, c:[+cx.toFixed(2),+cz.toFixed(2)], s0:s0?[s0.x,s0.z]:null}; })()""")
+        run.note('%s 總圖 3F：%s' % (tg, J(info)))
+        run.check('%s 總圖 3F：有烘焙光照（lightMap）、沒有純黑（#000000）材質' % tg, info['zone'] == 'library' and info['lm'] > 0 and not info['black'], J(info))
+        shots = []
+        if info['exit'] and info['seats']:
+            shots.append(('door', '門口往長桌', info['exit'][0], info['exit'][1], info['c'][0], info['c'][1], 3.4))
+        if info['s0']:
+            shots.append(('table', '長桌旁', info['s0'][0], info['s0'][1], info['c'][0], info['c'][1] - 0.01, 2.2))
+        for key, label, x, z, tx, tz, dist in shots:
+            pp, stt = await ll_shot(pg, run, 'lib3f_%s_%s' % (tg, key), x, z, 0, tx, tz, dist=dist)
+            f = last_shot('lib3f_%s_%s' % (tg, key)); cw = ceil_white(f) if f else None; col = col_stats(f) if f else {}
+            rows.append((tg, key, label, pp, stt, cw, col)); run.note('%s %s：站 %s；亮度 %s；天花板近白 %s；顏色 %s' % (tg, label, J(pp), J(stt), cw, J(col)))
+        await pg.evaluate("(()=>{ const C=GAME.E.cam; C.manualT=0; })()")
+    run.check('總圖 3F 白天、晚上各兩張都拍得到（門口往長桌、長桌旁）', len(rows) == 4 and all(r[3] for r in rows), J([(r[0], r[1], r[3]) for r in rows]))
+    bad = [(r[0], r[2], r[4]) for r in rows if r[4].get('dark', 0) > 0.25 or r[4].get('white', 0) > 0.15]
+    run.check('總圖 3F 每張：沒有整片純黑（黑 <12 不超過 25%%）、死白（>248）不超過 15%%', not bad, J(bad))
+    run.check('總圖 3F 天花板不是整片發亮的白板（畫面上半近白 ≤ 35%%；輔助數字，看截圖）', all(r[5] is not None and r[5] <= 0.35 for r in rows), J([(r[0], r[1], r[5]) for r in rows]))
+
+
 # LAWWW-B 03:28（3f67ec44a）：普通教學館室內光照（ART-ECON-3D-GAP-1021 B，LAWWW2 1154ef5da）——同一套 gtlm 看普通：白天 14:00、晚上 20:30，101、一樓走廊、樓梯、二樓走廊；
 # 看三件事：教室牆面不偏桃橘、沒有整片純黑、晚上燈是白光。已知不報：一樓樓梯井偏暗（沒燈）、101 門邊牆偏奶油色、單人桌椅是方塊。
 # 普通：101 在 x −16.9～−4.4、z −7.9～−1.2（黑板在西牆 x −16.85）；走廊 z −1.2～1.6；樓梯 x −1.9～1.9、z −6.6～−1.2；2F 高 4.2
@@ -1371,7 +1415,7 @@ async def main():
             b, ctx, pg, cdp, errs = await L.launch(p, landscape=(VP != 'portrait'))
         pg.on('dialog', lambda d: asyncio.ensure_future(d.accept()))
         await pg.goto(URL); run.check('遊戲載入', await L.wait_loaded(pg)); await pg.evaluate("localStorage.clear()"); await P.init(pg)
-        await {'phone': phone, 'bball': bball, 'rooms': rooms, 'cafewin': cafewin, 'noodle': noodle, 'cafe2': cafe2, 'invite': invite, 'jacket': jacket, 'badclip': badclip, 'bigmap': bigmap, 'bballrain': bballrain, 'renart': renart, 'libla': libla, 'lawlib': lawlib, 'cafe2diag': cafe2diag, 'multiroom': multiroom, 'rtnight': rtnight, 'boya': boya, 'boyaecon': boyaecon, 'boyab4': boyab4, 'soclm': soclm, 'noodlm': noodlm, 'lhlm': lhlm, 'roomlm': roomlm, 'gtlm': gtlm, 'ptlm': ptlm, 'gtecon': gtecon}[MODE](pg, cdp, run)
+        await {'phone': phone, 'bball': bball, 'rooms': rooms, 'cafewin': cafewin, 'noodle': noodle, 'cafe2': cafe2, 'invite': invite, 'jacket': jacket, 'badclip': badclip, 'bigmap': bigmap, 'bballrain': bballrain, 'renart': renart, 'libla': libla, 'lawlib': lawlib, 'cafe2diag': cafe2diag, 'multiroom': multiroom, 'rtnight': rtnight, 'boya': boya, 'boyaecon': boyaecon, 'boyab4': boyab4, 'soclm': soclm, 'noodlm': noodlm, 'lhlm': lhlm, 'roomlm': roomlm, 'gtlm': gtlm, 'ptlm': ptlm, 'lib3lm': lib3lm, 'gtecon': gtecon}[MODE](pg, cdp, run)
         run.check('沒有 JS 例外', not errs, J(errs[:3]))
         print('SHA', os.environ.get('SHA', '?'), 'MODE', MODE)
         await b.close()
