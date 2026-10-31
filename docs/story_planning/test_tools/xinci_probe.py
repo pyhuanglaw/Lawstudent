@@ -42,7 +42,8 @@ SETUP = """(([rels,dating,flags,groups,mems])=>{ const G=GAME.G, F=G.flags; cons
   const ids=Object.keys(rels).concat(dating||[]);
   return {stages:Object.fromEntries(ids.map(id=>[id,SOCIAL.stage(id)])), knows:Object.fromEntries(['classmate_peishan','classmate_bohan','zhe'].map(id=>[id,!!(STORY.knows&&STORY.knows(id,G))])),
     partners:(typeof ROM!=='undefined'&&ROM.partners?ROM.partners(G):[]), groups:(groups||[]).map(g=>[g[0],!!(PHONE.inGroup&&PHONE.inGroup(G,g[0]))]), route:STORY.route?STORY.route(G):null}; })"""
-NPC = """(ids=>{ const n=(GAME.E.npcs||[]).find(x=>x&&ids.some(id=>x.charId===id||x.id===id)&&x.obj&&x.obj.visible!==false&&!x.hidden); return n?[+n.obj.position.x.toFixed(2),+n.obj.position.z.toFixed(2),n.lv|0,n.id]:null; })"""
+# n25（05:13 LAWWW-B）：obj.visible 是「在不在鏡頭畫面裡」（畫面外的人不畫），不是藏起來——人在不在場只看 n.hidden
+NPC = """(ids=>{ const n=(GAME.E.npcs||[]).find(x=>x&&ids.some(id=>x.charId===id||x.id===id)&&x.obj&&!x.hidden); return n?[+n.obj.position.x.toFixed(2),+n.obj.position.z.toFixed(2),n.lv|0,n.id]:null; })"""
 LAB = "(()=>{ const b=document.getElementById('interact'); return b&&!b.classList.contains('hide')?b.textContent.trim():''; })()"
 ROOMS = (('ROOM_Y2', '2026-09-06'), ('ROOM_Y3', '2027-09-05'), ('ROOM_Y4', '2028-09-03'))
 TWF = {'EXCHANGE_ROUTE': 'TW', 'EXCH_RULE': 1}
@@ -228,7 +229,7 @@ async def talk(pg, cdp, run, ids, names, picks=None, label=''):
                 lab = await pg.evaluate(LAB)
         if not hit(lab):   # n25_xinci_f：芷若在吧檯後面、老闆比較近——在她周圍 1.2～2.1 m 找站得到、而且離她比離別人近的點（吧檯客人那一側；n25_xinci_h 1.6 m 以內都被吧檯擋住）
             best = await pg.evaluate("""(ids=>{ const E=GAME.E; const me=(E.npcs||[]).find(x=>x&&ids.some(id=>x.charId===id||x.id===id)&&x.obj); if(!me) return null; const q=me.obj.position, lv=me.lv|0;
-                const others=(E.npcs||[]).filter(x=>x&&x!==me&&x.obj&&x.obj.visible!==false&&!x.hidden); const out=[];
+                const others=(E.npcs||[]).filter(x=>x&&x!==me&&x.obj&&!x.hidden); const out=[];
                 for(const r of [1.2,1.6,1.9,2.1]) for(let k=0;k<8;k++){ const a=k*Math.PI/4, x=q.x+r*Math.cos(a), z=q.z+r*Math.sin(a); if(E.canStand&&!E.canStand(x,z,0.3,lv)) continue;
                   const dMe=Math.hypot(x-q.x,z-q.z), dO=Math.min(9,...others.map(o=>Math.hypot(o.obj.position.x-x,o.obj.position.z-z))); if(dO>dMe+0.2) out.push([+x.toFixed(2),+z.toFixed(2),lv,+(dO-dMe).toFixed(2)]); }
                 out.sort((u,v)=>v[3]-u[3]); return out.slice(0,3); })""", ids)
@@ -693,7 +694,7 @@ async def s_zrfeed(p, run, base, sid, out):
     finally: await finish_page(run, sid, res, errs, b)
 
 
-ROOMWHO = """(()=>{ const E=GAME.E; return {G:GAME.G.zone, E:E.zone&&E.zone.id||null, h:+GAME.G.hour.toFixed(2), npcs:(E.npcs||[]).map(n=>[n.charId||n.id, n.obj&&n.obj.visible!==false&&!n.hidden?1:0]).slice(0,12),
+ROOMWHO = """(()=>{ const E=GAME.E; return {G:GAME.G.zone, E:E.zone&&E.zone.id||null, h:+GAME.G.hour.toFixed(2), npcs:(E.npcs||[]).map(n=>[n.charId||n.id, n.hidden?0:1, n.obj&&n.obj.visible!==false?1:0, n.seat?1:0]).slice(0,12),
     spots:E.zone&&E.zone.spots?Object.keys(E.zone.spots):null, busy:!!(GAME.busy||GAME.G._busy), where:(()=>{ try{ const w=STORY.whereIs(GAME,'heroine_02'); return w?{zone:w.zone,act:w.act||null}:null; }catch(e){ return 'ERR '+e.message; } })() }; })()"""
 
 
