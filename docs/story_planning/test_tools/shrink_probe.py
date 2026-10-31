@@ -340,7 +340,9 @@ async def mode_y2late(pg, cdp, run):
     # YR=4（LAWWW-B 15:22，8d8aaad46）：ROOM_Y2、ROOM_Y3 都記、拿掉 ROOM_Y4。台灣路線 9/03 照演「（明天開學。最後一次搬進宿舍。）」、10/16、12/15 演到＝不該演；
     # 美國路線 12/23 返台那天照演（「（傍晚，你從家裡出發，回宿舍。）」），1/10 演到＝別天；大四下 3/10 roomY4Late 直接記
     if yr == '4':
-        cases = [('2028-09-03', True, 'TW'), ('2028-10-16', False, 'TW'), ('2028-12-15', False, 'TW'), ('2028-12-23', True, 'US'), ('2029-01-10', False, 'US'), ('2029-03-10', False, 'TW')]
+        # 184efc3da（LAWWW-B 16:18）：409 搬的那天、隔天演（隔天不說「明天開學」）；ev_y4_path：大四上開學～10/15 才讀進來＝新開頭「（大四開學一陣子了。）」，10/16 以後不演、Y4_PATH＝'undecided'
+        cases = [('2028-09-03', True, 'TW'), ('2028-09-04', True, 'TW'), ('2028-10-01', False, 'TW'), ('2028-10-16', False, 'TW'), ('2028-12-15', False, 'TW'), ('2028-12-23', True, 'US'), ('2029-01-10', False, 'US'), ('2029-03-10', False, 'TW')]
+        PATH_WANT = {'2028-09-03': 'any', '2028-09-04': 'new', '2028-10-01': 'new'}   # 其他＝不演
         if os.environ.get('Y4ROUTE'): cases = [c for c in cases if c[2] == os.environ['Y4ROUTE']]
     elif yr == '3':
         cases = [('2027-09-05', True, None), ('2027-10-13', False, None), ('2027-12-15', False, None), ('2028-02-15', False, None)]
@@ -360,7 +362,8 @@ async def mode_y2late(pg, cdp, run):
         run.setup('[前置] 使用者存檔改到 %s（%s 第 %s 週）20:00 宿舍；%s%s' % (d['key'], d['term'], d['week'], {'3': 'ROOM_Y2＝2026-09-06、沒有 ROOM_Y3', '4': 'ROOM_Y2、ROOM_Y3 有、沒有 ROOM_Y4'}.get(yr, '沒有 ROOM_Y2'), ('；路線 %s' % route) if route else ''))
         await P.events_on(pg); await P.wait_play(pg, cdp, 20.2, max_s=600, run=run, tag='y%slate_%s' % (yr, key)); await pg.wait_for_timeout(2000)
         txt = await pg.evaluate("(window.__SAYS||[]).slice(0,40)")
-        r = await pg.evaluate("(()=>{ const F=GAME.G.flags, k=d=>d==null?null:CALENDAR.dateOf(d).key; return {y2:k(F.ROOM_Y2), y3:k(F.ROOM_Y3), y4:k(F.ROOM_Y4), zone:GAME.G.zone, now:CALENDAR.dateOf(GAME.G.day).key+' '+(+GAME.G.hour).toFixed(2)}; })()")
+        r = await pg.evaluate("(()=>{ const F=GAME.G.flags, k=d=>d==null?null:CALENDAR.dateOf(d).key; return {y2:k(F.ROOM_Y2), y3:k(F.ROOM_Y3), y4:k(F.ROOM_Y4), path:F.Y4_PATH==null?null:F.Y4_PATH, zone:GAME.G.zone, now:CALENDAR.dateOf(GAME.G.day).key+' '+(+GAME.G.hour).toFixed(2)}; })()")
+        r['pathOld'] = any('最後一科考完' in t for t in txt); r['pathNew'] = any('大四開學一陣子了' in t for t in txt); r['tomorrow'] = any('明天開學' in t for t in txt)
         y2t = any('搬進新的房間' in t for t in txt); y3t = any('搬進第三個房間' in t for t in txt); y4t = any('最後一次搬進宿舍' in t or '409 的床位' in t or '你從家裡出發，回宿舍' in t or '這是最後一次拆箱' in t for t in txt)   # 美國路線沒有「明天開學」，只有字卡＋拆箱（n34_y4late_us 16:05）
         rows.append({'key': key, 'want': want, 'route': route, 'y2text': y2t, 'y3text': y3t, 'y4text': y4t, **r})
         run.note('%s%s：演 312 %s、507 %s、409 %s；%s；說過的 %s' % (key, ('（%s）' % route) if route else '', y2t, y3t, y4t, J(r), J(txt[:14])[:1200])); await run.shot(pg, 'y%slate_%s' % (yr, key))
@@ -368,6 +371,10 @@ async def mode_y2late(pg, cdp, run):
     if yr == '4':
         for x in rows:
             run.check('大四 409：%s（%s）%s' % (x['key'], x['route'], '照演' if x['want'] else '不演（也不演 312、507）'), (x['y4text'] if x['want'] else not (x['y4text'] or x['y3text'] or x['y2text'])), J(x))
+            if x['key'] == '2028-09-04': run.check('大四 409：9/04（搬的隔天）演的時候不說「明天開學」', not x['tomorrow'], J(x))
+            pw = PATH_WANT.get(x['key'])
+            if pw == 'new': run.check('ev_y4_path：%s 讀進來＝新開頭「（大四開學一陣子了。）」、沒有「最後一科考完」' % x['key'], x['pathNew'] and not x['pathOld'], J(x))
+            elif pw is None: run.check('ev_y4_path：%s（%s）讀進來不演那段獨白，Y4_PATH＝undecided' % (x['key'], x['route']), not x['pathOld'] and not x['pathNew'] and x['path'] == 'undecided', J(x))
         return
     if yr == '3':
         run.check('大三開學前一天 2027-09-05 舊存檔：照演 507「（明天開學。今天搬進第三個房間。）」', first['y3text'], J(first))
