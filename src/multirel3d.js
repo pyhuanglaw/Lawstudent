@@ -805,7 +805,7 @@ const MREL=(function(){
     Object.assign(c,{durZq:S.durText(dq),durZr:S.durText(dr),dateZq:S.dateText(sq),dateZr:S.dateText(sr)});
     const nx=(G.trips||[]).filter(t=>t.who===ZQ&&t.status==='booked'&&t.day>=G.day).sort((a,b)=>a.day-b.day)[0], last=(G.trips||[]).filter(t=>t.who===ZQ&&t.counted).pop(), tr=nx||last;
     c.dloc=tr&&typeof DATE!=='undefined'?((DATE.loc(tr.locs[0])||{}).name||''):''; const C=c.cond;
-    C.drive=()=>!!(nx&&nx.transport==='car'); C.same=()=>Math.abs(sq-sr)<=7; C.zqFirst=()=>!C.same()&&sq<sr; C.zrFirst=()=>!C.same()&&sr<sq; return c; };
+    C.bell=()=>!!S.rec(G).zz.bell; C.drive=()=>!!(nx&&nx.transport==='car'); C.same=()=>Math.abs(sq-sr)<=7; C.zqFirst=()=>!C.same()&&sq<sr; C.zrFirst=()=>!C.same()&&sr<sq; return c; };
   S.zzFriday=async function(GM){ const G=GM.G, Z=S.rec(G).zz; Z.knewBefore=knows(G,ZQ,ZR)||knows(G,ZR,ZQ); Z.friday=G.day; const c=S.zzCtx(G);
     await S.run(GM,ZQ,L().ZZ.friday,c); ROM.learn(G,ZQ,ZR,'ev_zq_zr_friday'); ROM.learn(G,ZR,ZQ,'ev_zq_zr_friday');
     let d=G.day+1; while(wdOf(d)!==6&&d<G.day+8) d++; Z.calloutAt=T(d,19.5); if(Z.knewBefore) Z.splitZrAt=T(d+1,21.5); };

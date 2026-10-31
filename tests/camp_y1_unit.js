@@ -88,11 +88,15 @@ const day=k=>STORY.dayOfKey(k);
   // ---------- H 8/31：開學典禮 14:00、班群（系學會茶會公告）、可昕開學前一晚 22:10（AA_195 4-4、BB_168 6-2）----------
   { const q=(G.phone.q||[]).map(x=>x.tag);
     check('H1. 搬宿舍時就排好 8/31 22:10 可昕開學前一晚（KX_EVE_MSG）',q.includes('kx_eve')&&G.flags.KX_EVE_MSG===true,q.join(' '));
-    G.day=day('2025-08-31'); G.weekday=0; G.hour=14.05; said=[]; cards=[]; await STORY.ceremonyY1(GM);
+    G.day=day('2025-08-31'); G.weekday=0; G.hour=7.5;
+    check('H0. BUG-CER831-SLEEP-1031（BB-B n36 ②）：8/31 典禮還沒演＝ceremonyDue；早上睡覺（睡到傍晚）在 14:00 被叫醒（lawWakeAt＝14）',STORY.ceremonyDue(G)&&STORY.lawWakeAt(G)===14,String(STORY.lawWakeAt(G)));
+    G.hour=18; check('H0. 14:00 以後不再叫醒（睡下去前床先演典禮：bedScene）',STORY.lawWakeAt(G)==null&&STORY.ceremonyDue(G));
+    G.hour=14.05; said=[]; cards=[]; await STORY.ceremonyY1(GM);
     check('H2. 典禮：日期卡「8 月 31 日（日）｜14:00 · 綜合體育館」、三句旁白照順序、演完 15:30',cards.includes('8 月 31 日（日）｜14:00 · 綜合體育館')&&said.join('|')==='四千多個新生，每個人都穿著同一件新生上衣。|法律系的位置在二樓看台的右邊。旁邊的人在對手冊上的流程，前面的人在傳訊息問晚上要不要一起吃飯。|校長致詞講到一半，手機震了一下。你被加進一個群組。'&&Math.abs(G.hour-15.5)<1e-6&&G.flags.CEREMONY_Y1===true,cards.join('/')+' '+said.join('|'));
     PHONE.tick(G); const lc=G.msgs.filter(m=>m.th==='g:law_class').map(m=>(m.name||'')+':'+m.text);
     check('H3. 班群：加入的系統字、系學會「新生茶會：9/2（二）18:30，法律系館B一樓大廳。會說家族怎麼分，有點心。」（AA_372 第 12 項：原本「會公布直屬」）「不用報名，來就好。」、不具名的同學問系服',PHONE.inGroup(G,'law_class')&&lc.join('|')===':你被加進「法律系（全班）」。|系學會:新生茶會：9/2（二）18:30，法律系館B一樓大廳。會說家族怎麼分，有點心。|系學會:不用報名，來就好。|同學:請問要穿系服嗎|同學:我們還沒有系服吧',lc.join(' | '));
     const n0=said.length; await STORY.ceremonyY1(GM); check('H4. 典禮只演一次',said.length===n0);
+    { const h0=G.hour; G.hour=7.5; check('H4. 演完以後：ceremonyDue 關掉、不再叫醒',!STORY.ceremonyDue(G)&&STORY.lawWakeAt(G)==null); G.hour=h0; }
     G.hour=22.2; PHONE.tick(G); const kx=G.msgs.filter(m=>m.th==='p:kexin'), last=kx[kx.length-1];
     check('H5. 22:10 可昕：「明天開學了。」「你課表都排好了嗎？」（沒玩過經濟系：沒有「第二次的大一欸。」）、三個回覆',kx.map(m=>m.text).join('|')==='明天開學了。|你課表都排好了嗎？'&&last.ask&&last.ask.opts.map(o=>o.t).join('/')==='排好了，週四有民總。/還在等加選。/有點緊張。',kx.map(m=>m.text).join(' | '));
     PHONE.answer(G,last.ask.id,2); check('H6. 回「有點緊張。」→「我也是。」「早點睡。」',G.msgs.filter(m=>m.th==='p:kexin').slice(-2).map(m=>m.text).join('|')==='我也是。|早點睡。'); }

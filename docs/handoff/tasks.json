@@ -33463,7 +33463,7 @@
     "parallel": true,
     "confirmed": true
    },
-   "next": "【10-31 21:1x LAWWW-B】實作進開發分支（multirel3d.js 門鈴：S.bellNightOk／bellSecret／bellHint*／bellDue／zzBell／bellGone；multirel_lines.js ZZ_BELL 照 BB_125 第 6 節逐字；characters.js 子晴週三 21:00 走到溫州街、21:40～22:10 在兩點半等芷若）：條件 AA_126 9-4（子晴不知道芷若、芷若週三晚班 21:40 以後、祐廷坐吧檯高腳椅、第 5 週起非考試週、那一週芷若週一／二說過或週二 22:10 傳過）、子晴已經在店裡不演；CG cg_doorbell 在推門那一刻；之後隔天 19:30《你出來一下》（§22 兩段同時結束；AA-B 可改時間、門鈴版要不要換「你真的以為我們不會聊天喔？」已問）；tests/i10_doorbell_unit.js（修改前 FAIL）→ BB 瀏覽器：存檔同時和芷若、子晴交往（互不知道）→ 第 5 週週一和芷若說話聽到提示 → 週三 21:40 坐吧檯｜使用者 10-30 選 A（AA_476 B-1 已加註，企劃線 e2b2939a6）：門鈴＝子晴×芷若第二種發現方式，只在完整動線成立時；條件照 AA_126 9-4（AA-B 10-16 版）；接 BB_194 第 22 節攤牌，CG 在子晴推門那一刻；一學期最多一次，聊天發現先發生就沒有門鈴 → LAWWW 派子代理",
+   "next": "【10-31 21:3x】AA-B 19:48 定：攤牌照隔天週四 19:30；門鈴版 callout 換「你以為那天我只看到一個杯子喔？……那天晚上，我們聊到兩點。」（其他照用）已接、i10_doorbell_unit 加一項｜【10-31 21:1x LAWWW-B】實作進開發分支（multirel3d.js 門鈴：S.bellNightOk／bellSecret／bellHint*／bellDue／zzBell／bellGone；multirel_lines.js ZZ_BELL 照 BB_125 第 6 節逐字；characters.js 子晴週三 21:00 走到溫州街、21:40～22:10 在兩點半等芷若）：條件 AA_126 9-4（子晴不知道芷若、芷若週三晚班 21:40 以後、祐廷坐吧檯高腳椅、第 5 週起非考試週、那一週芷若週一／二說過或週二 22:10 傳過）、子晴已經在店裡不演；CG cg_doorbell 在推門那一刻；之後隔天 19:30《你出來一下》（§22 兩段同時結束；AA-B 可改時間、門鈴版要不要換「你真的以為我們不會聊天喔？」已問）；tests/i10_doorbell_unit.js（修改前 FAIL）→ BB 瀏覽器：存檔同時和芷若、子晴交往（互不知道）→ 第 5 週週一和芷若說話聽到提示 → 週三 21:40 坐吧檯｜使用者 10-30 選 A（AA_476 B-1 已加註，企劃線 e2b2939a6）：門鈴＝子晴×芷若第二種發現方式，只在完整動線成立時；條件照 AA_126 9-4（AA-B 10-16 版）；接 BB_194 第 22 節攤牌，CG 在子晴推門那一刻；一學期最多一次，聊天發現先發生就沒有門鈴 → LAWWW 派子代理",
    "xai": {
     "spec": "USER_WANTS I10；企劃線 00_文件狀態表.md:295",
     "branch": "claude/magical-albattani-bk7b4n",
@@ -37394,6 +37394,34 @@
     "branch": "claude/modest-rubin-2lyp7g",
     "acceptance": "可持續更新、可追溯的報告：去重總數與七類數量；133 項 done 各自層級；48 partial／35 not_done 現況；誤標完成／取消；找回的遺漏；未開工 P0～P3；各職位正在做的任務 ID；做完未發布與擋發布原因",
     "receiver": "LAWWW",
+    "ack": "ACTIONED"
+   }
+  },
+  {
+   "id": "BUG-CER831-SLEEP-1031",
+   "title": "8/31 開學典禮會被睡掉：早上「睡到傍晚」睡過 14:00 不叫醒、18:00 醒來馬上再睡＝整場沒演（CEREMONY_Y1 一直沒有）（BB-B QA-PLAYTHROUGH ② 不開手機）",
+   "area": "STORY",
+   "owner": "LAWWW",
+   "status": "已實作待整合",
+   "priority": "P1",
+   "next": "【10-31 21:3x】S.ceremonyDue（8/31、法律系、KAI_MOVEIN、還沒演）；lawWakeAt 8/31 14:00 前睡著在 14:00 醒來；14:00 以後點床先演典禮（bedScene，同 HOLFF-EVE-SKIP：S.tick 不是每格都跑、醒來馬上點床會跳過）；camp_y1_unit H0（修改前 FAIL）→ BB n37_cer831 在新 SHA 重跑",
+   "first": {
+    "term": "Y1S1",
+    "week": 0,
+    "earliest": "8/31 開學典禮那天在宿舍睡午覺",
+    "mainline": true,
+    "blocks": false,
+    "prereq": false,
+    "parallel": true,
+    "confirmed": true
+   },
+   "source": "BB-B 10-31 19:50 訊息（BB_218 eeb13d7f6）",
+   "authorized": "D85（bug 修正）",
+   "xai": {
+    "spec": "—",
+    "branch": "claude/modest-rubin-2lyp7g",
+    "acceptance": "10/15、2027-10-13 讀進來不演搬 312；9/6 照演；9/7 照演但沒有「明天開學」",
+    "receiver": "BB",
     "ack": "ACTIONED"
    }
   }

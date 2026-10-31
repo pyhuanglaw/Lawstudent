@@ -75,6 +75,7 @@ await sec(2,async()=>{
   H.said=[]; setD(W5+1,19.6); H.G.zone='dorm'; H.E.player.seat=null; H.E.player.pose='idle'; GM.npc={}; const c=X().dueAuto(H.G);
   check('2. 隔天 19:30《你出來一下》',!!c&&c.k==='zz_callout',J(c&&c.k));
   H.picks=['對不起。我應該先講']; await play(c);
+  check('2. 門鈴版那一句（AA-B 10-31）：「你以為那天我只看到一個杯子喔？……那天晚上，我們聊到兩點。」，沒有「你真的以為我們不會聊天喔？」',H.has('你以為那天我只看到一個杯子喔？……那天晚上，我們聊到兩點。')&&!H.has('你真的以為我們不會聊天喔？'));
   check('2. 兩段同時結束（BB_194 §22）：「我們兩個都決定分手。」、dating 清掉、ZQ_ZR_ENDED_DAY',seq(['你現在在哪？','我們兩個都決定分手。','芷若，走了。'])&&!H.G.flags.dating_heroine_04&&!H.G.flags.dating_heroine_02&&H.G.flags.ZQ_ZR_ENDED_DAY===W5+1,J(T().slice(-3)));
   check('2. 同一學期最多一次（記在 bellT）',X().rec(H.G).zz.bellT&&X().rec(H.G).zz.bellT.Y2S1===W5);
 });
