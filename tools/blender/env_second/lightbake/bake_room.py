@@ -126,7 +126,10 @@ def drop_backfaces(o):
         g = seen.get(k)
         if g is not None and g.normal.dot(f.normal) < -0.99:
             rg = _reach(o, g)[-1]   # 原本那一面：中心＋往各頂點 80% 的點，取最遠的（地板中心被沙發蓋住，其他點照樣看得到天花板 → 不翻）
-            if rg < 0.5:
+            _L = max((e.verts[0].co - e.verts[1].co).length for e in g.edges)
+            # 太窄的不翻（2×面積÷最長邊 < 0.3 m）：牆盒子的頂面、端面（牆厚 0.2 m）反面朝下是牆盒子的內部，射線一路穿到地板，看起來像「朝著房間」——
+            #   10-31 公寓第九版牆頂被翻成朝下，鏡頭在天花板以上（剖面視角）時牆頂會透空一條縫
+            if rg < 0.5 and 2 * g.calc_area() / max(_L, 1e-6) >= 0.3:
                 rl = _reach(o, f, True); far = sum(1 for x in rl if x > 2.0 and x > 4 * rg) / len(rl)
                 # 反面：每個三角形 10 個均勻的格點，一半以上朝著開闊的地方（> 2 m、是原本那面的 4 倍以上）才翻。
                 # 10-31：取最遠的（第七版）、取中位數（第八版）都被公寓東西牆的壁板騙了——壁板比牆高 0.4 m，上緣的點越過牆頂一路穿過整戶；4 個取樣點裡 2 個在上緣
