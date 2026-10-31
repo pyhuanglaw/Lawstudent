@@ -1328,14 +1328,16 @@ async def ptlm(pg, cdp, run):
     run.check('普通晚上 20:30 燈是白光（最亮 5%% 像素 R−B ≤ 25；輔助數字，看截圖）', bool(night) and all(x[2] is not None and x[2] <= 25 for x in night), J(night))
 
 
-GTCLASS = """(()=>{ const E=GAME.E, Z=E.zone, F=Z&&Z.seatFold, S=(Z&&Z.seats)||[]; const lec=S.map((s,i)=>i).filter(i=>S[i].kind==='lecture'||S[i].room==='101');
-  const v=E.npcs.filter(n=>n.obj&&!n.hidden&&n.obj.visible!==false); const in101=n=>n.obj.position.x>3.6&&n.obj.position.x<11.9&&(n.lv|0)===0;
+GTCLASS = """((room)=>{ const E=GAME.E, Z=E.zone, F=Z&&Z.seatFold, S=(Z&&Z.seats)||[]; const lec=S.map((s,i)=>i).filter(i=>S[i].kind==='lecture'||S[i].room==='101');
+  /* n28_gongtong_econ：經濟系微積分在 102——那一間的範圍照 GONGTONG_LAYOUT；在不在場看 n.hidden（obj.visible 是視錐裁切）*/
+  const R=(GONGTONG_LAYOUT.rooms||[]).find(r=>r.id===(room||'101'))||{x0:3.6,x1:11.9,z0:-6.9,z1:6.9,lv:0};
+  const v=E.npcs.filter(n=>n.obj&&!n.hidden); const in101=n=>n.obj.position.x>R.x0&&n.obj.position.x<R.x1&&n.obj.position.z>R.z0&&n.obj.position.z<R.z1&&(n.lv|0)===(R.lv|0);
   const sitBad=v.filter(n=>(n.seat||n.pose==='sit')&&in101(n)).filter(n=>{ const p=n.obj.position; return !S.some(s=>Math.hypot(s.x-p.x,s.z-p.z)<0.45); }).map(n=>[n.charId||n.id||'?',+n.obj.position.x.toFixed(2),+n.obj.position.z.toFixed(2)]);
   const stand=v.filter(n=>!(n.seat||n.pose==='sit')&&in101(n)).map(n=>({id:n.charId||n.id||n.name||'?', role:n.role||n.kind||null, x:+n.obj.position.x.toFixed(2), z:+n.obj.position.z.toFixed(2), ok:!E.canStand||E.canStand(n.obj.position.x,n.obj.position.z,0.2,n.lv|0)}));
   return {zone:GAME.G.zone, key:CALENDAR.dateOf(GAME.G.day).key, h:+(+GAME.G.hour).toFixed(2), sit:v.filter(n=>(n.seat||n.pose==='sit')&&in101(n)).length, sitBad, stand,
     player:{seat:!!E.player.seat, x:+E.player.obj.position.x.toFixed(1), z:+E.player.obj.position.z.toFixed(1)}, fold:!!F, lecture:lec.length,
     emptyDown:F?lec.filter(i=>!F.occupied(E,i)&&F.ang[i]<=1.5).length:-1, busyUp:F?lec.filter(i=>F.occupied(E,i)&&F.ang[i]!==0).length:-1, busy:F?lec.filter(i=>F.occupied(E,i)).length:-1,
-    formal:!!(Z&&(Z.formal||Z.formalInfo))}; })()"""
+    formal:!!(Z&&(Z.formal||Z.formalInfo))}; })"""
 
 
 async def gtecon(pg, cdp, run):
@@ -1365,8 +1367,9 @@ async def gtecon(pg, cdp, run):
         c = await pg.evaluate("(k=>({zone:GAME.G.zone, h:+GAME.G.hour, done:!!(CLS.rec(GAME.G).done||{})[k], seat:!!GAME.E.player.seat}))", it['k'])
         if c['done']: done = True
         s = await P.ts(pg)
-        if cap is None and c['zone'] == 'gongtong' and c['seat'] and c['h'] >= it['t0'] + 0.03:
-            await pg.wait_for_timeout(2500); cap = await pg.evaluate(GTCLASS); await run.shot(pg, 'gtecon_class')
+        # n28_gongtong_econ 07:50：原本等 2.5 秒才記，記到的是 12:10「下課了。」以後（上課是坐下選課 → 旁白 → 轉暗快轉）——坐下以後第一句上課的對話一出現就記
+        if cap is None and c['zone'] == 'gongtong' and c['seat'] and (s['dlg'] or c['h'] >= it['t0'] + 0.03) and c['h'] < it['t1'] - 0.05:
+            cap = await pg.evaluate(GTCLASS + '(%s)' % J(str(it.get('room')))); await run.shot(pg, 'gtecon_class')
             await pg.evaluate("(()=>{ const C=GAME.E.cam; C.yaw=Math.PI; C.pitch=0.35; C.distTarget=6; C.manualT=1e9; })()"); await pg.wait_for_timeout(2000); await run.shot(pg, 'gtecon_class_front')
             run.note('上課中（坐下、上課時間到）：%s' % J(cap)[:2500])
         if done and cap is not None and not s['dlg'] and not s['ch']: break
@@ -1377,7 +1380,10 @@ async def gtecon(pg, cdp, run):
     if not cap: return
     run.check('翻椅：有人坐的椅面都放下（busyUp＝0）、沒人坐的都收起（emptyDown＝0）', cap['fold'] and cap['busyUp'] == 0 and cap['emptyDown'] == 0, J({k: cap[k] for k in ('fold', 'lecture', 'busy', 'busyUp', 'emptyDown')}))
     run.check('同學沒有穿過長桌：坐著的都在座位上、站著的都站在走得到的地方', not cap['sitBad'] and all(x['ok'] for x in cap['stand']), J({'sitBad': cap['sitBad'], 'stand': cap['stand']}))
-    run.check('老師在講台（101 前面 z ≥ 4 有站著的人）', any(x['z'] >= 4.0 for x in cap['stand']), J(cap['stand']))
+    tch = await pg.evaluate("(room=>{ const R=(GONGTONG_LAYOUT.rooms||[]).find(r=>r.id===room); return R&&R.teacher?[R.teacher.x,R.teacher.z]:(R&&R.lectern?[R.lectern.x,R.lectern.z]:null); })", str(it.get('room')))
+    run.note('%s 的講桌：%s；記的時間 %s' % (it.get('room'), J(tch), cap.get('h')))
+    # 教室不一定是 101（經濟系微積分在 102，黑板在西邊）：看那一間的講桌（layout 的 teacher／lectern）2 m 內有沒有站著的人
+    run.check('老師在講台（%s 講桌 %s 2 m 內有站著的人；上課中記的）' % (it.get('room'), J(tch)), bool(tch) and cap['h'] < it['t1'] - 0.05 and any(math.hypot(x['x'] - tch[0], x['z'] - tch[1]) <= 2.0 for x in cap['stand']), J({'h': cap['h'], 'stand': cap['stand']})[:900])
 
 
 # n19_boyab4e 06:5x：A 18:55 坐下，選單沒有「聽演講」（Node 同一份存檔 canJoin＝true）——沒有的時候把遊戲判斷的每一條記下來
