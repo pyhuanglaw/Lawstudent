@@ -2,7 +2,13 @@
 
 ## ⏱ 現況（LAWWW2-B，2026-10-31 20:5x UTC；帳號 B 七天額度已到警示，隨時可能被切斷——接手的先讀這一段）
 
-- **21:0x（最新）**：
+- **22:0x（最新）**：
+  - **美國公寓找到模型 bug 並修好**：外牆壁板（WALL_N/S_siding）整面一片沒挖窗、門的洞——屋裡看窗外是自己壁板的背面、大門從平台看是牆（走得過去）。
+    `us_apartment.py` 照牆的開口分段（4fd15dc53）；C 棟合租戶 `us_shared.glb` 一起重匯（只有壁板變）；遊戲內改前改後 `test_shots/us_apartment_lm_1031/siding_before_after.webp`；新測試 `us_apt_siding_unit.js`（scratchpad devclean，開發原樣 FAIL 2）。
+  - 公寓烘焙第四版（天光 0.7、白天燈 0.4、不放太陽）在 scratchpad `usapt/v4`，遊戲內截圖拍攝中；床面白天還有 3 成到 2.0、大門口走道 1.97（南邊天空從開著的大門進來）——看截圖決定要不要再調。
+  - 法學院圖書館：第二版（嵌燈 45 W、天窗 3.0、彩色玻璃 1.5、中庭補光）亮度可以（一樓晚上 0.2～0.64）；但第一、二版都把彩色玻璃 WALL_N_stained 烘了（--nolm 寫錯），已改（64052559b），定案要再烘一次。
+  - 亞洲超市第一版烘焙中（`usam/v1`）。三間重匯的白模都和部署中的一模一樣。
+- **21:0x**：
   - LAWWW-B 20:44 的排序（D88 → 美國室內 → JIAHAO-JOY 只在擋經濟系時做）收到；D88 已在 5a9ca703f 交過。
   - **美國室內光照進行中**：`tools/blender/env_second/lightbake/bake_us.sh apartment|lawlib|market`（75f0c616b；燈位照配置算）。
     - 公寓：重匯的白模和部署中的一模一樣（三角形、材質、3,914,088 bytes）→ 可以直接烘；改前截圖在 scratchpad `usapt/before_*`；第一版烘焙中（`usapt/v1`）。
