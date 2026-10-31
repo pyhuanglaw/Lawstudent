@@ -1,8 +1,14 @@
 # LAWWW2 交接紀錄（隨時更新；工作階段中斷時從這裡接）
 
-## ⏱ 現況（LAWWW2-B，2026-10-31 19:4x UTC；帳號 B 七天額度已到警示，隨時可能被切斷——接手的先讀這一段）
+## ⏱ 現況（LAWWW2-B，2026-10-31 20:3x UTC；帳號 B 七天額度已到警示，隨時可能被切斷——接手的先讀這一段）
 
-- **19:4x（最新）**：
+- **20:3x（最新）**：
+  - **體育館三區光照都交完**：1F 第五版＋3F 已整合（43e5f1b88）；**B1 已交**（2875f8aef，patch `gym_b1_lm_1031.patch`，含 wz_park_people_unit 第 4 項說明文字）。
+    - B1 第一版抓到 bake_room.py 的問題：原本就有兩套 UV 的網格，光照 UV 被擠到 TEXCOORD_2 → 已修（烘焙物件只留第一套）；掃過之前所有烘過的 GLB 都沒有。
+  - **HISTORY-AUDIT-1031 第一批已交**（b4fb653b8；`docs/handoff/history_audit/judgments_LAWWW2.jsonl`＋`summary_LAWWW2.md`）。tier 5 做好沒接：I08 約會去背 53 檔（只在我的分支）、AA185 三張背景、BG-19／14 第五版。
+  - 角色美術驗收：D100 寫 LAWWW 驗收（取代 D59），ART-13 交件給 LAWWW-B（參考圖路徑＋遊戲內正面／側面／背面白天截圖＋SHA）。
+  - **下一件：CAM-BELL-1031**（晨思鐘鐘亭擋跟隨鏡頭；campus_bell.py 柱子、石碑 seethru_），再來 LAMPSHADE-FLIP → ART-13 → JIAHAO-JOY → 美國室內 → PHOTO-CMP。
+- **19:4x**：
   - **體育館 1F 第五版（高窗光暈更正）＋3F 主球場光照：已交**（63de770d5；patch `gym_lm_v5_arena_1031.patch`；等 LAWWW-B 整合）。
     - 光暈原因：高窗發光面補了反面（PERF-SINGLESIDE），反面朝牆把牆照爆 → 高窗 `nodup` ＋ `bake_room.py --emit-oneside`。
     - `bake_gym.sh` 單面還原改對照部署中的 GLB（白模裡 cafe_sign_face 是雙面）。

@@ -4827,7 +4827,7 @@
    "branch": "claude/funny-albattani-iawshm",
    "sha": "63de770d5",
    "receiver": "LAWWW",
-   "ack": "DELIVERED",
+   "ack": "ACKNOWLEDGED",
    "task": "體育館 1F 第五版（高窗光暈）＋3F 主球場光照烘焙",
    "files": [
     "assets/models/env/second_ai/gym_interior.glb",
@@ -4842,9 +4842,42 @@
     "docs/art-rebuild/second_ai/test_shots/gym_lm_1031/",
     "docs/art-rebuild/second_ai/test_shots/gym_arena_lm_1031/"
    ],
-   "state": "已交付（19:4x DELIVERED）；READY_FOR_ART_REVIEW；不用改程式；patch 只有測試（gym_arena_lm_unit 開發 FAIL 6→ALL PASS）；體育館 Node 19 支全過",
+   "state": "已交付（19:4x DELIVERED）；READY_FOR_ART_REVIEW；不用改程式；patch 只有測試（gym_arena_lm_unit 開發 FAIL 6→ALL PASS）；體育館 Node 19 支全過；LAWWW-B 19:42 ACK、已整合 43e5f1b88",
    "remaining": "上層看台偏暗（深色座位帶）；布置日地板沒有影子；ENTRY-B 已修好可結案",
    "next": "LAWWW-B 整合；BB 看 1F 第五版、3F；我做 B1",
+   "noDirectIntegrate": false
+  },
+  {
+   "branch": "claude/funny-albattani-iawshm",
+   "sha": "b4fb653b8",
+   "receiver": "LAWWW",
+   "ack": "DELIVERED",
+   "task": "HISTORY-AUDIT-1031 LAWWW2 美術複核第一批",
+   "files": [
+    "docs/handoff/history_audit/judgments_LAWWW2.jsonl",
+    "docs/handoff/history_audit/summary_LAWWW2.md"
+   ],
+   "state": "已交付（20:1x）；194 項：tier1 5、2 63、4 13、5 14、6 87、7 12",
+   "remaining": "tier 2 的 63 項沒逐一翻 BB log",
+   "next": "LAWWW-B 合併、處理紀錄錯誤",
+   "noDirectIntegrate": false
+  },
+  {
+   "branch": "claude/funny-albattani-iawshm",
+   "sha": "2875f8aef",
+   "receiver": "LAWWW",
+   "ack": "DELIVERED",
+   "task": "INTERIOR-AAA 體育館 B1 光照烘焙",
+   "files": [
+    "assets/models/env/second_ai/gym_b1.glb",
+    "assets/models/env/second_ai/gym_b1_lm_day.webp",
+    "assets/models/env/second_ai/gym_b1_lm_night.webp",
+    "docs/art-rebuild/second_ai/patches/gym_b1_lm_1031.patch",
+    "docs/art-rebuild/second_ai/test_shots/gym_b1_lm_1031/"
+   ],
+   "state": "已交付（20:3x）；READY_FOR_ART_REVIEW；不用改程式；gym_b1_lm_unit 開發 FAIL 3→ALL PASS；bake_room 只留第一套 UV 修正",
+   "remaining": "大廳走廊天花板偏暗、池邊很白",
+   "next": "LAWWW-B 整合；我做 CAM-BELL",
    "noDirectIntegrate": false
   }
  ]
