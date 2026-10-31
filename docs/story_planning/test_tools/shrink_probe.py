@@ -341,6 +341,7 @@ async def mode_y2late(pg, cdp, run):
     # 美國路線 12/23 返台那天照演（「（傍晚，你從家裡出發，回宿舍。）」），1/10 演到＝別天；大四下 3/10 roomY4Late 直接記
     if yr == '4':
         cases = [('2028-09-03', True, 'TW'), ('2028-10-16', False, 'TW'), ('2028-12-15', False, 'TW'), ('2028-12-23', True, 'US'), ('2029-01-10', False, 'US'), ('2029-03-10', False, 'TW')]
+        if os.environ.get('Y4ROUTE'): cases = [c for c in cases if c[2] == os.environ['Y4ROUTE']]
     elif yr == '3':
         cases = [('2027-09-05', True, None), ('2027-10-13', False, None), ('2027-12-15', False, None), ('2028-02-15', False, None)]
     else:
@@ -352,6 +353,8 @@ async def mode_y2late(pg, cdp, run):
         if yr in ('3', '4'): F['ROOM_Y2'] = d906
         if yr == '4': F['ROOM_Y3'] = d905
         if route: F['EXCHANGE_ROUTE'] = route; F['EXCH_RULE'] = 1
+        if route == 'US':   # n34_y4late 16:01：只設路線＝遊戲當作還沒出國、讀進來就送去桃園機場出境大廳（exchange3d.js S.depart）——補「已經出國、已經返台」
+            F['US_DEPARTED'] = True; F['US_ARRIVED'] = True; F['US_ARRIVED_DAY'] = (await P.day_of(pg, '2028-08-02'))['d']; F['US_RETURNED'] = (await P.day_of(pg, '2028-12-23'))['d']
         await pg.evaluate("(()=>{ window.__SAYS=[]; if(!window.__SAYH){ window.__SAYH=1; const s0=GAME.say; GAME.say=function(w,t){ try{ window.__SAYS.push(String(t||'')); }catch(e){} return s0.apply(this,arguments); }; } })()")
         await P.load(pg, cdp, st, quiet=False)
         run.setup('[前置] 使用者存檔改到 %s（%s 第 %s 週）20:00 宿舍；%s%s' % (d['key'], d['term'], d['week'], {'3': 'ROOM_Y2＝2026-09-06、沒有 ROOM_Y3', '4': 'ROOM_Y2、ROOM_Y3 有、沒有 ROOM_Y4'}.get(yr, '沒有 ROOM_Y2'), ('；路線 %s' % route) if route else ''))
