@@ -1319,7 +1319,7 @@ async def ptlm(pg, cdp, run):
             rows.append((tg, key, whole, col)); run.note('%s %s：%s %s' % (tg, key, J(whole), J(col)))
         await pg.evaluate(LV_FOR_CAM + "([0,1,0],[0,1,0],%s)" % J(home))
         await pg.evaluate("(()=>{ const E=GAME.E; E.player.obj.visible=true; if(E.endCinematic) E.endCinematic(); })()")
-    run.note('普通教學館 RGB（中間區域平均、偏暖 R−B、最亮 5%）：%s' % J([(r[0], r[1], r[3].get('rgb'), r[3].get('warm'), r[3].get('bright')) for r in rows])[:3000])
+    run.note('普通教學館 RGB（中間區域平均、偏暖 R−B、最亮 5%%）：%s' % J([(r[0], r[1], r[3].get('rgb'), r[3].get('warm'), r[3].get('bright')) for r in rows])[:3000])
     bad = [r[:3] for r in rows if r[2].get('dark', 1) > 0.25 or r[2].get('white', 1) > 0.15]
     run.check('普通教學館固定鏡頭 %d 張：沒有整片純黑（黑 <12 不超過 25%%）、死白（>248）不超過 15%%（已知：一樓樓梯井偏暗不算）' % len(rows), len(rows) == 2 * len(PT_CAMS) and not [b for b in bad if b[1] != 'stair'], J(bad))
     warm = [(r[0], r[1], r[3].get('warm'), r[3].get('rgb')) for r in rows if r[1].startswith('101') and (r[3].get('warm') is None or r[3]['warm'] > 30)]
