@@ -37825,6 +37825,64 @@
     "receiver": "LAWWW-B",
     "ack": "ACK"
    }
+  },
+  {
+   "id": "AA553-GRADES-REACT-1031",
+   "title": "成績出來以後 BB 人物的反應（AA_553：BB_120 第 2 節照現行設定與 D116 不跟別人比重寫）；可昕被當了還說「都過了」＝現有錯，照稿改",
+   "area": "STORY",
+   "owner": "LAWWW",
+   "status": "待開工",
+   "priority": "P2",
+   "next": "【10-31 23:5x】AA-B AUDIT-AA-FOLLOWUP 交付；發布基準凍結中→本機分支做、發布後合",
+   "first": {
+    "term": "Y1S1",
+    "week": 0,
+    "earliest": "大一上成績公布",
+    "mainline": false,
+    "blocks": false,
+    "prereq": false,
+    "parallel": true,
+    "confirmed": true
+   },
+   "source": "AA-B 歷史複核後續（AUDIT-AA-FOLLOWUP）",
+   "authorized": "D109",
+   "xai": {
+    "spec": "AA_553（企劃線 904808784）",
+    "owner": "BB",
+    "branch": "claude/elegant-brown-fcos7n",
+    "acceptance": "照規格交付、互審紀錄",
+    "receiver": "LAWWW-B",
+    "ack": "ACK"
+   }
+  },
+  {
+   "id": "AA554-ZRZQ-DATING-1031",
+   "title": "芷若、子晴和祐廷交往中的版本＝BB_187／189（照 AA_230 改過）：時間線修正五處、第一次在英國交往中每週視訊（AA_554）",
+   "area": "STORY",
+   "owner": "LAWWW",
+   "status": "待開工",
+   "priority": "P2",
+   "next": "【10-31 23:5x】AA-B AUDIT-AA-FOLLOWUP 交付；發布基準凍結中→本機分支做、發布後合",
+   "first": {
+    "term": "Y2S1",
+    "week": 0,
+    "earliest": "和芷若或子晴交往中",
+    "mainline": false,
+    "blocks": false,
+    "prereq": false,
+    "parallel": true,
+    "confirmed": true
+   },
+   "source": "AA-B 歷史複核後續（AUDIT-AA-FOLLOWUP）",
+   "authorized": "D109",
+   "xai": {
+    "spec": "AA_554（企劃線 a5da1abbe）",
+    "owner": "BB",
+    "branch": "claude/elegant-brown-fcos7n",
+    "acceptance": "照規格交付、互審紀錄",
+    "receiver": "LAWWW-B",
+    "ack": "ACK"
+   }
   }
  ]
 }
