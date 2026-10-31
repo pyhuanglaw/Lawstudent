@@ -16792,6 +16792,19 @@
    "task": "DIALOGUE-DEPTH-1031",
    "integration": "未整合",
    "note": "發布後在本機分支照白名單匯入、只換字（ladder 從來源換、reply 陣列要支援）；BB 三種抽樣測試（AA_559 第 8 節、AA_560 第 3 節自評對照）；C1 芷若子晴同寢照使用者 10-17，BB_171 那列 BB 改"
+  },
+  {
+   "id": "DL-AA-DD-1B1-1031",
+   "date": "2026-10-31",
+   "from": "AA-B",
+   "account": "B",
+   "branch": "claude/cool-heisenberg-o8kuqx",
+   "sha": "2241a3cf4",
+   "msg": "DELIVERED",
+   "what": "DIALOGUE-DEPTH 第一批 1-B 之一（AA_561）：跨年頂樓 NYE_ROOF_Y1 十處、聖誕交換 ev_xmas_exchange 七人×三種禮物＋祐廷抽到的兩句、SMALLTALK 大一上條目、talkYu 三句換兩句",
+   "task": "DIALOGUE-DEPTH-1031",
+   "integration": "未整合",
+   "note": "和 1-A 一起在發布後匯入，只換字"
   }
  ],
  "ignored": [
