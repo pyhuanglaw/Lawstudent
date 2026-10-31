@@ -1,11 +1,12 @@
 #!/bin/bash
 # 綜合體育館室內（INTERIOR-AAA-REVIEW-1028，LAWWW2-B 2026-10-31；照 bake_library_hall.sh、bake_cvs.sh）：建模 → 光照烘焙（白天／晚上）→ WebP。repo 根目錄跑：
-#   bash tools/blender/env_second/lightbake/bake_gym.sh interior [取樣數，預設 512] [輸出資料夾，預設 assets/models/env/second_ai] [貼圖邊長，預設 2048]
+#   bash tools/blender/env_second/lightbake/bake_gym.sh interior [取樣數，預設 256] [輸出資料夾，預設 assets/models/env/second_ai] [貼圖邊長，預設 1024]
 # interior＝大廳＋1F 球場（gym 區域，gym_interior.glb；gym_interior.py）。3F 主球場（arena）、B1 之後再加。
 # 輸出：gym_interior.glb（多一套 UV＝TEXCOORD_1、extras.lightmap）＋ gym_interior_lm_day.webp、_night.webp。
 #   遊戲：gym3d.js 的 gym → Z3.attachRoomGLB 看到 GLB 的 extras.lightmap 就接，不用改程式。
 # 座標＝遊戲區域座標（gym_interior.py；配置 src/data/gym_layout.js）：球場 x ±20、z −19～11、高 9 m；大廳 z 11～19、高 4.2 m；入口（玻璃）在 +z。
-# 空間大（40×38 m）：貼圖 2048²（1024² 只有一公尺 15 個像素左右）。
+# 空間大（40×38 m）：10-31 第一次試烘用 2048²、64 取樣就花了一小時（321 個要烘的物件，每個都要烘白天、晚上兩次）。
+#   1024² 看得到的面大約 3000 m²，一公尺 19 個像素（5 cm 一格），體育館柔和的光夠用；正式烘焙 1024²、256 取樣、平滑 2。
 # 燈（照 gym_interior.py；改那邊要一起改）：
 #   球場：屋頂桁架下的高天井燈（燈面 7.25 m，x −12、−4、4、12 × z −14、−9、−4、1、6）：往下照的面光源（0.5 m 見方），冷白。
 #     模型裡 z 11 還有一排，剛好嵌在大廳和球場之間的牆裡（gym_interior.py 10-16 的小錯，README 有寫）：烘焙不放。
@@ -18,11 +19,12 @@
 #   照條件出現的東西，影子不能烘進地板。第二會場的折疊椅是 GPU instancing：--keep-instances 照舊輸出成實例。
 # --nolm（照舊即時光）：桁架（細的鋼管，幾千個小島）、燈罩、黃銅、小零件、籃框、膠帶、牌子（記分板、指標、公告、開館時間、樓層指引、樓梯口的告示）、高窗發光面、窗框。
 #   地板、球場、天花板、屋頂板、牆、護牆軟墊、石材、看台、木格柵、服務台照樣烘。
+# 10-31 試烘（64 取樣、2048²）：大廳白天整片偏藍灰（入口玻璃的天光＋白平衡 0.96,0.97,1.0）→ 白平衡改 1.0,0.98,0.95；球場地板 64 取樣的雜訊明顯。
 set -e
 ZONE=${1:?interior}
-SAMPLES=${2:-512}
+SAMPLES=${2:-256}
 OUTDIR=${3:-assets/models/env/second_ai}
-RES=${4:-2048}
+RES=${4:-1024}
 TMP=$(mktemp -d)
 case "$ZONE" in
 interior)
@@ -36,14 +38,14 @@ interior)
   for zz in 13 17; do for x in -14 -7 0 7 14; do
     LIGHTS="$LIGHTS;$(python3 -c "print(f'{$x-0.01:.3f},{$x+0.01:.3f},{$zz-0.01:.3f},{$zz+0.01:.3f},4.17,1,1,${DLW:-25},0.36,0.36,$WARM')")"; done; done
   LIGHTS=${LIGHTS#;}
-  EXTRA=(--dayemit "gym_window_sky=${SKYWIN:-3.0}" --sun 90,30,0 --sky "${SKY:-0.5}" --daywb ${DAYWB:-0.96,0.97,1.0} --daylights "${DAYL:-0.7}" --shell S --keep-instances) ;;
+  EXTRA=(--dayemit "gym_window_sky=${SKYWIN:-3.0}" --sun 90,30,0 --sky "${SKY:-0.5}" --daywb ${DAYWB:-1.0,0.98,0.95} --daylights "${DAYL:-0.7}" --shell S --keep-instances) ;;
 *) echo "未知的區域：$ZONE"; exit 1 ;;
 esac
 /opt/blenv/bin/python $SCRIPT -- --out "$TMP/plain.glb"
 python3 -c "import json,sys; d=json.load(open(sys.argv[1])); d['out']='assets/models/env/second_ai/$NAME.glb'; json.dump(d,open(sys.argv[2],'w'),ensure_ascii=False,indent=1)" "$TMP/plain.json" "$OUTDIR/$NAME.json"   # 統計（三角形、材質）
 /opt/blenv/bin/python tools/blender/env_second/lightbake/bake_room.py -- --in "$TMP/plain.glb" --out "$OUTDIR/$NAME.glb" \
   --lm "$TMP/lm" --url assets/models/env/second_ai/${NAME}_lm --res "$RES" --samples "$SAMPLES" --hide "$HIDE" --nolm "$NOLM" \
-  --lights "$LIGHTS" "${EXTRA[@]}" --smooth 1
+  --lights "$LIGHTS" "${EXTRA[@]}" --smooth ${SMOOTH:-2}
 python3 tools/blender/env_second/lightbake/to_webp.py "$TMP/lm" "$OUTDIR/${NAME}_lm" 90
 /opt/blenv/bin/python tools/blender/env_second/lightbake/lm_fix_hidden.py -- --in "$OUTDIR/$NAME.glb" --out "$OUTDIR/$NAME.glb" --lm "$OUTDIR/${NAME}_lm"
 # 高窗的亮度由遊戲的 gym 區域自己照時段調（見開頭）：extras.lightmap.dayEmit 拿掉
