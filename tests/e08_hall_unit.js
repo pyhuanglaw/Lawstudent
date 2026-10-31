@@ -50,7 +50,7 @@ const J=x=>JSON.stringify(x);
   { H.fresh('2026-07-01',10,'dorm'); const V=VAC.rec(H.G), want={jp:['飛往日本','東京'+W+'約 3 小時'],kr:['飛往韓國','首爾'+W+'約 2 小時半'],th:['飛往泰國','曼谷'+W+'約 4 小時'],vn:['飛往越南','河內'+W+'約 3 小時'],hk:['飛往香港','約 1 小時半'],eu:['飛往歐洲','約 14 小時'],us:['飛往美國','約 12 小時']};
     V.t13=Object.keys(want).map((d,i)=>({n:i+1,dest:d,from:H.G.day+3,to:H.G.day+7,with:null,gf:false,season:'summer'})); const fc=q=>typeof VAC.flyCard==='function'?VAC.flyCard(H.G,q):null, bad=Object.keys(want).filter((d,i)=>J(fc({vac:{key:'T13#'+(i+1),k:'trip'}}))!==J(want[d]));   /* 修改前沒有 VAC.flyCard：照樣跑完、各自 FAIL */
     check('F2. C13 照目的地（1-1 的表）：日本 東京、韓國 首爾、泰國 曼谷、越南 河內、香港、歐洲、美國',bad.length===0,J(bad)); }
-  { H.fresh('2026-07-01',10,'dorm'); H.FAMILIAR('kai'); spawned.length=0; H.picks=['日本','和'+SOCIAL.displayName('kai'),'5 天',0]; await VAC.plan13(GM); const q=OUT.get(H.G,'vac_t13_1');   /* AA_549 2-6：七月阿哲在高雄＝約不到，改阿凱 */
+  { H.fresh('2026-07-01',10,'dorm'); H.FAMILIAR('kai'); spawned.length=0; H.picks=['日本','5 天',0,'和'+SOCIAL.displayName('kai')]; await VAC.plan13(GM); const q=OUT.get(H.G,'vac_t13_1');   /* AA_549 2-6：七月阿哲在高雄＝約不到，改阿凱 */
     H.G.day=q.day; H.G.hour=q.h-1; hall(); H.said=[]; await OUT.go(GM,q); const hallSaid=H.lines(); hall(); H.cards=[]; H.bgs=[]; await board();
     check('F2. C13 和阿凱去日本：大廳裡阿凱跟著、不加話；登機以後字卡一樣是「飛往日本｜東京　約 3 小時」',!!GM.npc.kai&&GM.npc.kai.beh==='follow'&&hallSaid.length===0&&J(H.cards[0])===J(['飛往日本','東京'+W+'約 3 小時'])&&H.bgs[0]==='dark',J([hallSaid,H.cards.slice(0,2)])); }
   { H.fresh('2027-08-25',6,'dorm'); for(const p of ['zhe','yu','classmate_bohan']) H.FAMILIAR(p); PHONE.join(H.G,'noodle_team','麵店團'); H.G.flags.VA10='yes'; VAC.va10Phone(H.G); const q=OUT.get(H.G,'vac_va10');

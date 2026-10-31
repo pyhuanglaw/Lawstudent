@@ -142,20 +142,22 @@ const atHome=()=>{ const Hm=HOME.rec(H.G); Hm.at=true; Hm.day=H.G.day; const B=H
     fresh('2026-01-12',18.1,'gongguan'); const d0=VAC.kevinDoor(H.G); VAC.rec(H.G).reg['C04W@Y1']='yes'; const d1=VAC.kevinDoor(H.G); fresh('2027-01-12',18.1,'gongguan'); VAC.rec(H.G).reg['C04W@Y2']='yes'; const d2=VAC.kevinDoor(H.G);
     check('3-5. Kevin 門口：大一沒報＝照舊有一次（Y1W）；大一報了 C04W＝沒有（同大二以後）；大二報了＝沒有',d0==='Y1W'&&d1===null&&d2===null,J([d0,d1,d2])); }
 
-  /* ================= 2-6 C13 帶朋友出國：不在臺北、有活動卡的朋友婉拒 ================= */
-  { const plan=async(k,who,dest,len,prep)=>{ fresh(k,10); H.FAMILIAR(who); if(prep) prep(); H.said=[]; H.picks=[dest,'和'+SOCIAL.displayName(who),len,0]; const ok=await VAC.plan13(GM); return {ok,rec:(VAC.rec(H.G).t13||[])[0]||null,q:OUT.get(H.G,'vac_t13_1'),L:H.lines()}; };
-    let r=await plan('2026-07-01','zhe','韓國','5 天');
-    check('2-6. 2026 七月約阿哲（7/4～7/8，他在高雄）：照邀約的婉拒句「阿哲寒暑假回高雄了，不在臺北。」、沒有排',!r.ok&&!r.rec&&!r.q&&r.L.includes(SOCIAL.displayName('zhe')+'寒暑假回高雄了，不在臺北。'),J(r.L));
-    r=await plan('2026-07-01','kai','韓國','5 天');
-    check('2-6. 同一段約阿凱（在臺北、沒有活動卡）：照常排',r.ok===true&&!!r.rec&&r.rec.with==='kai'&&!!r.q,J(r.rec));
-    r=await plan('2027-07-07','yu','韓國','3 天');
-    check('2-6. 2027-07-10～12 約 Alison（7/12 起在營隊）：「Alison在營隊當小隊長，不在臺北。」、沒有排',!r.ok&&!r.rec&&r.L.includes(SOCIAL.displayName('yu')+'在營隊當小隊長，不在臺北。'),J(r.L));
-    r=await plan('2027-08-20','zhe','日本','3 天');
-    check('2-6. 2027-08-23～25 約阿哲（8/21 回臺北，8/25 起麵店團去香港＝有活動卡）：「阿哲那時候有事。」、沒有排',!r.ok&&!r.rec&&r.L.includes(SOCIAL.displayName('zhe')+'那時候有事。'),J(r.L));
-    r=await plan('2027-07-01','classmate_xinci','日本','3 天');
-    check('2-6. 2027-07-04～06 約芯慈（7/5 起平日實習）：「…那時候有事。」、沒有排',!r.ok&&!r.rec&&r.L.some(t=>/那時候有事。$/.test(t)),J(r.L));
-    r=await plan('2026-08-20','kai','日本','5 天');
-    check('2-6. 2026-08-23～27 約阿凱（8/24 起 C05 日本＝不在臺北）：婉拒、沒有排',!r.ok&&!r.rec&&r.L.length===1&&/不在臺北。$/.test(r.L[0]),J(r.L)); }
+  /* ================= 2-6 C13 帶朋友出國（AA 回第 4 題：先選日子再選人；清單只列那幾天都在臺北、沒有活動卡的朋友）================= */
+  { const plan=async(k,dest,len,whoPick,fam)=>{ fresh(k,10); for(const id of fam) H.FAMILIAR(id); H.said=[]; H.opts=[]; H.picks=[dest,len,0,whoPick||'自己去']; const ok=await VAC.plan13(GM); return {ok,rec:(VAC.rec(H.G).t13||[])[0]||null,menus:H.opts.slice()}; };
+    const F=['zhe','kai','yu','classmate_bohan','classmate_xinci'], nm=id=>'和'+SOCIAL.displayName(id), whoM=r=>r.menus[3]||[];
+    let r=await plan('2026-07-01','韓國','5 天','自己去',F);
+    check('2-6. 選單順序：目的地→幾天→哪天出發→和誰（最後）',/天$/.test(String((r.menus[1]||[])[0]))&&/出發/.test(String((r.menus[2]||[])[0]))&&whoM(r)[0]==='自己去',J(r.menus.map(m=>m.slice(0,3))));
+    check('2-6. 2026-07-04～08（阿哲在高雄）：清單沒有阿哲；阿凱、柏翰…在臺北的有',!whoM(r).includes(nm('zhe'))&&whoM(r).includes(nm('kai')),J(whoM(r)));
+    r=await plan('2026-07-01','韓國','5 天',nm('kai'),['kai']);
+    check('2-6. 同一段選阿凱：照常排',r.ok===true&&!!r.rec&&r.rec.with==='kai',J(r.rec));
+    r=await plan('2027-07-07','韓國','3 天','自己去',F);
+    check('2-6. 2027-07-10～12（7/12 起 Alison 在營隊；芯慈 7/12 平日實習）：清單沒有 Alison、芯慈',!whoM(r).includes(nm('yu'))&&!whoM(r).includes(nm('classmate_xinci'))&&whoM(r).includes(nm('kai')),J(whoM(r)));
+    r=await plan('2027-08-20','日本','3 天','自己去',F);
+    check('2-6. 2027-08-23～25（阿哲 8/21 回臺北，8/25 起麵店團去香港＝有活動卡）：清單沒有阿哲、Alison、柏翰（VA10 同行）',!whoM(r).includes(nm('zhe'))&&!whoM(r).includes(nm('yu'))&&!whoM(r).includes(nm('classmate_bohan')),J(whoM(r)));
+    r=await plan('2026-08-20','日本','5 天','自己去',F);
+    check('2-6. 2026-08-23～27（阿凱 8/24 起 C05 日本）：清單沒有阿凱',!whoM(r).includes(nm('kai')),J(whoM(r)));
+    { fresh('2026-07-01',10); H.FAMILIAR('zhe'); const no=VAC.friendNo(H.G,'zhe',H.G.day+3,H.G.day+7);
+      check('2-6. 不在的原因照現有邀約的婉拒句（VAC.friendNo；清單篩掉的人）',no===SOCIAL.displayName('zhe')+'寒暑假回高雄了，不在臺北。',J(no)); } }
 
   /* ================= 3-4 回家住：「出門」、晚餐多十二題 ================= */
   { fresh('2027-08-03',10,'dorm',{ROOM_Y2:true}); atHome(); let menu=null, nm=0;   /* ROOM_Y2：大二的房間 2026-09-06 搬過了（新存檔沒有這個旗標＝在家會先演搬房間）*/ const ch=GM.choose; GM.choose=async o=>{ const L=o.map(q=>q.t||q.text); nm++; if(!menu&&L.includes('睡覺')) menu=L; const k=L.indexOf('出門'); if(k>=0) return k; const g=L.indexOf('公館商圈'); if(g>=0) return g; return nm>12&&L.includes('回宿舍住')?L.indexOf('回宿舍住'):0; };

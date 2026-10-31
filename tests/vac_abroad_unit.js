@@ -156,15 +156,15 @@ GM.money=function(n){ G.money+=n; };
     const J=txt('p:heroine_04'); check('13. 日本路線（人在日本）：沒有邀約；7/5 子晴「📷（遊戲展的入口）」「你不在 好可惜」；沒有「沒去」那則',noAsk&&J.includes('heroine_04:你不在 好可惜')&&!J.includes('heroine_04:阿凱吃了三份'),JSON.stringify(J)); }
   // 14. 出國旅遊（C13，自己排；AA_244 第 2 節、3-1）
   { fresh(D('2026-07-01'),10,'dorm',{}); G.stage='law'; PHONE.join(G,'noodle_team','麵店團'); check('14. 暑假：手機活動頁有「安排」出國旅遊',VAC.html(G).includes('data-vac13="1"'));
-    picks=['韓國','自己去','5 天',0]; said=[]; opts=[]; const ok=await VAC.plan13(GM); PHONE.tick(G); const r=VAC.rec(G).t13[0], q=OUT.get(G,'vac_t13_1');
+    picks=['韓國','5 天',0,'自己去']; said=[]; opts=[]; const ok=await VAC.plan13(GM); PHONE.tick(G); const r=VAC.rec(G).t13[0], q=OUT.get(G,'vac_t13_1');
     check('14. 自己排：首爾 5 天、媽媽「要去哪？」「機票我買給你，到那邊自己顧好」、排好出遊',ok&&r.dest==='kr'&&r.to-r.from===4&&!!q&&q.day===r.from&&txt('g:home').includes('mom:機票我買給你，到那邊自己顧好'),JSON.stringify([r,opts[0]]));
     G.day=r.from; G.hour=8; said=[]; await VAC.outing(GM,q); const L=lines(); run(18,20.2);
     check('14. 首爾三場：機場快線的阿姨、炸物攤、漢江邊的炸雞；回來阿哲「伴手禮咧」',L.some(t=>t.includes('機場快線上'))&&L.some(t=>t.includes('用手比了一個「吃」'))&&L.some(t=>t.includes('漢江邊'))&&txt('g:noodle_team').includes('zhe:伴手禮咧'),JSON.stringify(L)); }
   { fresh(D('2026-07-01'),10,'dorm',{dating_heroine_01:true}); G.stage='law'; meet('heroine_01'); G.flags.romance={heroine_01:{status:'dating',history:[{ev:'start',day:D('2026-07-01')-10}]}};
-    picks=['泰國','和沈以安','3 天',0]; said=[]; await VAC.plan13(GM); check('14. 交往未滿 28 天：「出國……我們先在臺北多走幾個地方。好不好？」、沒有排',lines().some(t=>t.endsWith('出國……我們先在臺北多走幾個地方。好不好？'))&&!(VAC.rec(G).t13||[]).length,JSON.stringify(lines()));
-    G.flags.romance.heroine_01.history[0].day=D('2026-07-01')-40; DATE.log(G,'heroine_01').count=2; picks=['歐洲','和沈以安','7 天',0]; said=[]; await VAC.plan13(GM);
+    picks=['泰國','3 天',0,'和沈以安']; said=[]; await VAC.plan13(GM); check('14. 交往未滿 28 天：「出國……我們先在臺北多走幾個地方。好不好？」、沒有排',lines().some(t=>t.endsWith('出國……我們先在臺北多走幾個地方。好不好？'))&&!(VAC.rec(G).t13||[]).length,JSON.stringify(lines()));
+    G.flags.romance.heroine_01.history[0].day=D('2026-07-01')-40; DATE.log(G,'heroine_01').count=2; picks=['歐洲','7 天',0,'和沈以安']; said=[]; await VAC.plan13(GM);
     check('14. 歐洲、未滿 90 天：「歐洲……我想去。可是要排十天以上，我們下次。」',lines().some(t=>t.endsWith('我們下次。'))&&!(VAC.rec(G).t13||[]).length,JSON.stringify(lines()));
-    picks=['泰國','和沈以安','3 天',0]; said=[]; await VAC.plan13(GM); const r=VAC.rec(G).t13[0];
+    picks=['泰國','3 天',0,'和沈以安']; said=[]; await VAC.plan13(GM); const r=VAC.rec(G).t13[0];
     check('14. 滿 28 天、2 次約會：「要不要一起出國？」→「哪裡？……給我三天，我排一份行程給你看。」、排好',lines().some(t=>t.endsWith('要不要一起出國？'))&&lines().some(t=>t.endsWith('給我三天，我排一份行程給你看。'))&&!!r&&r.with==='heroine_01');
     const c0=DATE.log(G,'heroine_01').count, n0=SOCIAL.rel('heroine_01').npcRom||0; G.day=r.from; G.hour=8; said=[]; await VAC.outing(GM,OUT.get(G,'vac_t13_1')); const L=lines();
     check('14. 和以安：最後一晚夜市果汁＋「行程表上的都走完了。……」、雙床房「（燈關了。）」；算一次正式約會、她的戀愛 +5',L.some(t=>t.includes('顏色最奇怪的那杯'))&&L.some(t=>t.endsWith('多出來的那一個小時，我沒寫。'))&&L.includes('（燈關了。）')&&DATE.log(G,'heroine_01').count===c0+1&&(SOCIAL.rel('heroine_01').npcRom||0)===n0+5,JSON.stringify(L));
@@ -189,7 +189,7 @@ GM.money=function(n){ G.money+=n; };
   { fresh(D('2028-06-01'),10,'dorm',{EXCHANGE_ROUTE:'JP'}); G.stage='law'; check('15. 日本路線大三暑假（在日本到 8/5）：首爾 7/13 不能報；京都 8/9 可以',VAC.blocked(G,VAC.inst('C08','Y3'))&&!VAC.blocked(G,VAC.inst('C12','Y3')));
     G.flags.EXCHANGE_ROUTE='US'; check('15. 美國路線（7/25 退宿、8/2 出發）：京都 8/9 不能報',VAC.blocked(G,VAC.inst('C12','Y3'))); }
   // 16. 同一個目的地第二次（AA_264 C05／C13；阿凱的日本團算一次）
-  { fresh(D('2027-07-01'),10,'dorm',{}); G.stage='law'; VAC.rec(G).reg['C05@Y1']='done'; picks=['日本','自己去','3 天',0]; await VAC.plan13(GM); const r=VAC.rec(G).t13[0]; G.day=r.from; G.hour=8; said=[]; await VAC.outing(GM,OUT.get(G,'vac_t13_1')); const L=lines();
+  { fresh(D('2027-07-01'),10,'dorm',{}); G.stage='law'; VAC.rec(G).reg['C05@Y1']='done'; picks=['日本','3 天',0,'自己去']; await VAC.plan13(GM); const r=VAC.rec(G).t13[0]; G.day=r.from; G.hour=8; said=[]; await VAC.outing(GM,OUT.get(G,'vac_t13_1')); const L=lines();
     check('16. 日本第二次：機場「這次你記得先把行動電源拿出來。」、「第二次來。你沒看地圖就找到了住的地方。」、最後一晚伴手禮那句',L.includes('機場。這次你記得先把行動電源拿出來。')&&L.includes('第二次來。你沒看地圖就找到了住的地方。')&&L.includes('最後一晚。伴手禮買得比上次少，因為知道誰會吃。')&&!L.some(t=>t.includes('電路板')),JSON.stringify(L)); }
   // 17. C01 麵店團海邊每年寒假（AA_264）：大一去過＝大二「今年還去海邊嗎」「一樣禮拜一」→ 日誌；大三「海邊」「照舊」
   { const d=VAC.c01Day('Y2'), da=VAC.c01Ask(d), K=x=>{ const t=CALENDAR.dateOf(x); return t.m+'/'+t.d; };
