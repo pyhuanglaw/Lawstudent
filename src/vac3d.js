@@ -153,10 +153,10 @@ const VAC=(function(){
       const dp=I.A.depart; if(dp&&I.A.trip&&['yes','done'].includes(V.reg[I.key])&&PHONE.inGroup(G,'noodle_team')){ const sd=S.dayOf(I.yk,I.A.season,I.A.trip.start.day), sh=I.A.trip.start.h; if(sd!=null&&now>=T(sd,sh)&&G.day<=sd+1&&!PHONE.sent(G,'vac_dep_'+I.key)) PHONE.at(G,sd,sh,[{th:'g:noodle_team',from:'zhe',text:dp.zhe},{th:'g:noodle_team',from:'yu',text:dp.yu}],'vac_dep_'+I.key); }
       /* 回來以後（AA_242 0-3：出國回來的第一次「伴手禮咧」、第二次「這次伴手禮咧」、第三次以後貼圖）*/
       const bk=I.A.back; if(bk&&V.reg[I.key]==='done'&&PHONE.inGroup(G,'noodle_team')){ const bd=S.dayOf(I.yk,I.A.season,bk.day||I.A.days[1]); if(bd!=null&&now>=T(bd,20)&&G.day<=bd+3&&!PHONE.sent(G,'vac_back_'+I.key)){ const n=S.all().filter(J=>J.A.back&&PHONE.sent(G,'vac_back_'+J.key)).length+((V.t13||[]).filter(r=>PHONE.sent(G,'vac_back_T13#'+r.n)).length); PHONE.at(G,bd,20,[{th:'g:noodle_team',from:'zhe',text:n===0?'伴手禮咧':(n===1?'這次伴手禮咧':'（貼圖：伸出手）')}],'vac_back_'+I.key); } }
-      /* 回來重逢（AA_242 8-6、BB_200 第 4 節）：交往中、她在臺北＝回國當天 21:00 她約、隔天排出遊；她不在臺北（芷若大一暑假在台中）＝先傳一句，回臺北前一天晚上再約 */
+      /* 回來重逢（AA_242 8-6、BB_200 第 4 節）：交往中、她在臺北＝回國當天 21:00 她約、隔天排出遊；她不在臺北（芷若大一暑假在台中）＝先傳一句，回臺北前一天晚上再約（寫了 away.inviteOn 的照那一天：芷若 8/26 回臺北當天晚上約、8/27 見，AA_550 第 4 節第 4 點）*/
       const M2=Dt().TRIP_MSG; if(I.A.place.kind==='abroad'&&V.reg[I.key]==='done'&&M2&&M2.reunion){ const rd=I.to;
         for(const id in M2.reunion){ if(!F['dating_'+id]||S.mates(I).has(id)) continue; const R=M2.reunion[id], tg='vac_re_'+I.key+'_'+id; if(PHONE.sent(G,tg)||G.day>rd+45) continue;   /* 同行的人不約重逢（AA_369 H4）*/
-          const aw=R.away&&DK(R.away.until), inv=aw!=null&&rd<=aw?aw:rd;   /* 約的那一天（回國當天，或她回臺北的前一天）*/
+          const aw=R.away&&DK(R.away.until), ao=R.away&&R.away.inviteOn?DK(R.away.inviteOn):null, inv=aw!=null&&rd<=aw?(ao!=null?ao:aw):rd;   /* 約的那一天（回國當天，或她回臺北的前一天；away.inviteOn＝寫了約的那一天：芷若 8/26 回臺北當天才約、8/27 見，AA_550 第 4 節第 4 點）*/
           if(aw!=null&&rd<=aw&&now>=T(rd,21)&&!PHONE.sent(G,tg+'_away')) PHONE.at(G,rd,21,[{th:'p:'+id,from:id,text:R.away.text}],tg+'_away');
           { const RB=M2.reunionHomeBack&&M2.reunionHomeBack[id]; if(RB&&typeof STORY!=='undefined'&&STORY.presence){ const p0=STORY.presence(id,Object.assign({},G,{day:rd})); if(!p0.here&&p0.kind==='home'){ if(now>=T(rd,21)) PHONE.at(G,rd,21,RB.map(t=>({th:'p:'+id,from:id,text:t})),tg); continue; } } }   /* AA_350 S5：以安交往中、回國那天她在老家（台中）＝那天晚上兩則，不約見面、不約下次（C08、C09、2027 C10、T02）；她回臺北那天照原本的「回臺北了。」*/
           if(typeof STORY!=='undefined'&&STORY.presence){ const pr=STORY.presence(id,Object.assign({},G,{day:inv+1})); if(!pr.here&&pr.kind!=='home') continue;   /* 她那時不在臺灣：不約 */
@@ -297,6 +297,7 @@ const VAC=(function(){
     const mid=Math.floor((sd+ed)/2), depH=Math.max(7,tr.start.h-1), T0='vac_tm_'+I.key+'_', mates=S.mates(I);   /* 同行的人不傳（AA_369 H4：活動卡的 mates 也算，不只 C13 的 I.with）*/
     /* 她那天在不在臺北（AA_369 M3：Café 的班、總圖的照片只在人在臺北的日子用；P.tp＝那幾則：pool 的第幾則、mid、back）*/
     const inTP=(id,d)=>{ if(typeof STORY==='undefined'||!STORY.presence) return true; const p=STORY.presence(id,Object.assign({},G,{day:d})); return p.here!==false||p.kind==='taipei'; };
+    const inHome=(id,d)=>{ if(typeof STORY==='undefined'||!STORY.presence) return false; const p=STORY.presence(id,Object.assign({},G,{day:d})); return p.here===false&&p.kind==='home'; };   /* 她在老家（回台中那幾段）*/
     for(const id in M.gf){ if(!F['dating_'+id]||mates.has(id)) continue; const P=M.gf[id], fr=P.freq; if(off(P.off,sd)) continue;   /* 一起去的那一位不傳 */
       const at=d=>{ const h=(fr.tt&&[2,4].includes(wdOf(d)))?fr.tt:fr.h; return fr.nextDay?{d:d+1,h}:{d,h}; };
       const TP=P.tp||{}, tpSet=new Set(TP.pool||[]), alt=P.pool.map((x,i)=>i).filter(i=>!tpSet.has(i)); let j=0;   /* 不在臺北的那幾天：跳過 tp 的那幾則，照順序用其他的 */
@@ -312,7 +313,7 @@ const VAC=(function(){
       let k=0; for(let d=sd+1;d<ed;d++){ if(fr.every&&(d-sd)%fr.every!==1%fr.every) continue; const w=at(d), away=(tpSet.size||TP.mid)&&!work(w.d), closed=!!SH&&shut(w.d);
         if(d===mid&&!(TP.mid&&away)){ if(!(SO.mid&&shut(w.d))){ put(id,w.d,w.h,P.mid,T0+id+'_mid'); continue; } if(!SH) continue; }   /* 店休那天的中間那則：有 shut＝換店休的句子（下面），沒有＝那一天不傳 */
         let idx=null, texts; if(closed){ texts=shutPick(w.d); if(!texts) continue; }
-        else { if(away&&tpSet.size&&alt.length){ idx=alt[(j++)%alt.length]; } else { idx=k<8?k:(k-8)%4; k++; } texts=tx(P.pool[idx]); }
+        else { if(away&&tpSet.size&&alt.length){ idx=alt[(j++)%alt.length]; } else { idx=k<8?k:(k-8)%4; k++; } texts=tx(P.homePool&&P.homePool[idx]&&inHome(id,w.d)?P.homePool[idx]:P.pool[idx]); }   /* homePool：那一天她在老家（presence home）換的那幾則（芷若在台中「我媽在旁邊一直問我在跟誰傳訊息。」，AA_550 第 4 節第 2 點）*/
         const ask={id:T0+id+'_p'+d,until:T(w.d+1,24),opts:(closed&&SH.rep?SH.rep:P.rep).map(t=>({t,say:[]}))}; put(id,w.d,w.h,texts,T0+id+'_p'+d,ask);   /* 店休那幾天玩家能回的換 shut.rep（AA_369 第 9 節第 3 題）*/
         if(id==='heroine_04'&&w.d<ed&&idx!=null){ const V=S.rec(G), Z=(V.zq2||(V.zq2={}))[I.key]||(V.zq2[I.key]=[]); Z.push({d:w.d,tag:T0+id+'_p'+d,texts:tx(P.pool[(idx+4)%8])}); } }   /* 子晴第二則：池子另一半的那一則 */
       if(!(TP.back&&!work(ed))&&!(TP.backNext&&!inTP(id,ed+1))) put(id,ed,Math.max(8,tr.end.h-3),SH&&SO.back&&SH.back&&shut(ed)?SH.back:P.back,T0+id+'_back');   /* backNext：以安「明天見。……」限臺北＝隔天（見面那天）她在臺北才傳（AA_369 第 7 節第 7 題）；隔天她在台中＝重逢走 reunionHome（第 2 題那句、AA_350 S5 那兩則）。回國那天麵店店休＝shut.back（第 8 節第 5 題）*/
