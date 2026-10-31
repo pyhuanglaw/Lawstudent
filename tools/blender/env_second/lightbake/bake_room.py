@@ -84,7 +84,7 @@ print('bake objects', len(objs), flush=True)
 #   美國亞洲超市的天花板（原本朝上）、美國法學院圖書館的四面牆（原本朝外）：烘完只剩朝外那面，從室內往上看天花板、看牆整片不見。
 #   改成：兩面各從正面往外打幾條射線（面的中心＋往各頂點 80% 的點），量正面前面空多遠（打到東西的距離；沒打到：往外殼開著的那一邊算無限遠、
 #   往包起來的那一邊算到房間邊界的距離）。原本那一面正面前面最遠都 < 0.5 m（一出去就是外殼、牆裡面；牆外面的護牆板、彩色玻璃凸出 0.2～0.4 m）、
-#   反面那一面 > 2 m 而且是原本那面的 4 倍以上（朝著房間）才改留反面；
+#   反面那一面（取樣點的中位數）> 2 m 而且是原本那面的 4 倍以上（朝著房間）才改留反面；
 #   其他情況照舊留原本那一面（地板中心被沙發蓋住這種情況，取樣點取最遠的，不會翻錯）。
 _BB = [Vector((1e9, 1e9, 1e9)), Vector((-1e9, -1e9, -1e9))]
 for o in objs:
@@ -107,7 +107,7 @@ def _free(p, n):
     return 1e9 if side in _OPEN else max(best, 0.0)
 def _reach(o, f):
     M = o.matrix_world; R = M.to_3x3(); n = (R @ f.normal).normalized(); c = f.calc_center_median()
-    return max(_free(M @ q, n) for q in [c] + [c.lerp(v.co, 0.8) for v in f.verts])
+    return sorted(_free(M @ q, n) for q in [c] + [c.lerp(v.co, 0.8) for v in f.verts])
 FLIP = []
 def drop_backfaces(o):
     bm = bmesh.new(); bm.from_mesh(o.data); seen = {}; kill = []
@@ -115,9 +115,9 @@ def drop_backfaces(o):
         k = tuple(sorted((round(v.co.x, 4), round(v.co.y, 4), round(v.co.z, 4)) for v in f.verts))
         g = seen.get(k)
         if g is not None and g.normal.dot(f.normal) < -0.99:
-            rg = _reach(o, g)
+            rg = _reach(o, g)[-1]   # 原本那一面：取最遠的取樣點（地板中心被沙發蓋住，其他點照樣看得到天花板 → 不翻）
             if rg < 0.5:
-                rf = _reach(o, f)
+                rl = _reach(o, f); rf = rl[len(rl) // 2]   # 反面：取中位數（公寓東西牆的壁板比牆高 0.4 m，上緣的取樣點越過牆頂一路穿過整戶；取最遠的會被騙，10-31 第七版）
                 if rf > 2.0 and rf > 4 * rg: kill.append(g); seen[k] = f; FLIP.append((o.name, round(g.calc_area(), 3))); continue
             kill.append(f)
         elif g is None: seen[k] = f
