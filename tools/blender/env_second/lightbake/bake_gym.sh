@@ -76,6 +76,9 @@ arena)
   EXTRA=(--dayemit "arena_window_sky=${SKYWIN:-3.0}" --sun 180,25,0 --sky 0 --daywb ${DAYWB:-1.0,0.97,0.93} --daylights "${DAYL:-0.8}" --shell NONE --keep-instances --emit-oneside) ;;
 *) echo "未知的區域：$ZONE"; exit 1 ;;
 esac
+# 單面／雙面的對照：開發分支部署中的那一份（烘焙前先複製；沒有才用白模）。白模裡樓梯口指標字面 cafe_sign_face 本來就是雙面
+#   （PERF-SINGLESIDE 的單面化是匯出後另外做的），10-31 第五版拿白模對照就沒還原到
+REF="$TMP/plain.glb"; [ -f "assets/models/env/second_ai/$NAME.glb" ] && cp "assets/models/env/second_ai/$NAME.glb" "$TMP/ref.glb" && REF="$TMP/ref.glb"
 /opt/blenv/bin/python $SCRIPT -- --out "$TMP/plain.glb"
 python3 -c "import json,sys; d=json.load(open(sys.argv[1])); d['out']='assets/models/env/second_ai/$NAME.glb'; json.dump(d,open(sys.argv[2],'w'),ensure_ascii=False,indent=1)" "$TMP/plain.json" "$OUTDIR/$NAME.json"   # 統計（三角形、材質）
 /opt/blenv/bin/python tools/blender/env_second/lightbake/bake_room.py -- --in "$TMP/plain.glb" --out "$OUTDIR/$NAME.glb" \
@@ -84,9 +87,9 @@ python3 -c "import json,sys; d=json.load(open(sys.argv[1])); d['out']='assets/mo
 python3 tools/blender/env_second/lightbake/to_webp.py "$TMP/lm" "$OUTDIR/${NAME}_lm" 90
 /opt/blenv/bin/python tools/blender/env_second/lightbake/lm_fix_hidden.py -- --in "$OUTDIR/$NAME.glb" --out "$OUTDIR/$NAME.glb" --lm "$OUTDIR/${NAME}_lm"
 # 匯出以後的兩件事（不用重烘）：
-#   ①材質的單面／雙面照白模（$TMP/plain.glb）還原：bake_room.py 重匯以後，樓梯口指標的字面 cafe_sign_face 變成雙面（白模是單面：PERF-SINGLESIDE-GLB-1025；
+#   ①材質的單面／雙面照部署中的那一份（$REF；沒有才用白模）還原：bake_room.py 重匯以後，樓梯口指標的字面 cafe_sign_face 變成雙面（白模是單面：PERF-SINGLESIDE-GLB-1025；
 #     tests/singleside_gym_unit.js 第 1 項抓到）
 #   ②interior：高窗的亮度由遊戲的 gym 區域自己照時段調（見開頭）：extras.lightmap.dayEmit 拿掉（arena 留著）
-python3 tools/blender/env_second/lightbake/glb_restore_sides.py "$OUTDIR/$NAME.glb" "$TMP/plain.glb" $([ "$ZONE" = interior ] && echo --drop-dayemit)
+python3 tools/blender/env_second/lightbake/glb_restore_sides.py "$OUTDIR/$NAME.glb" "$REF" $([ "$ZONE" = interior ] && echo --drop-dayemit)
 cp "$TMP/lm.json" tools/blender/env_second/lightbake/${NAME}_lm.json
 echo "done: $OUTDIR/$NAME.glb + ${NAME}_lm_day/night.webp"
