@@ -90,6 +90,7 @@
 5. **分清楚模擬與實機**：雲端沙盒沒有 GPU，Playwright 用 SwiftShader（每秒 1–4 格）。「手機模擬通過」≠「真實手機驗證通過」；沒在真手機上試過的，一律寫「尚未實機驗證」。效能數字不能代表手機。
 6. **不能用數字代替驗收**：報告要寫哪些是真實玩家流程通過、哪些只通過單元／整合、哪些尚未驗證，不寫「N 項全部通過」了事。
 7. **每次改場景、碰撞、人物、劇情、UI、遊戲機制，都跑相關回歸測試**；正式發布前必跑「發布前必跑」那一組（見第五節）。
+8. **對稿的測試要讀得到企劃線**（2026-10-31，BB-B 問、LAWWW-B 決定）：很多 Node 測試用 `git show <企劃線 commit>:docs/story_planning/…` 逐字對稿（aa497、whois、xinci_romance…）。checkout 裡沒有那些 commit 時「台詞不在稿裡」會 FAIL——**照舊 FAIL、不改成 SKIP**（讀不到稿＝沒有驗到）。跑之前先 `git fetch origin claude/cool-heisenberg-o8kuqx`（帳號 B 的 AA 企劃線；別的帳號照 duty.json 的 AA 分支），再看 FAIL 是不是真的。
 
 ## 二、四層測試
 
