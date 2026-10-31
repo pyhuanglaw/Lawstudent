@@ -732,6 +732,20 @@ def lum_stats(path):
         return {'err': str(e)}
 
 
+def col_stats(path):
+    """畫面中間（扣掉上面 22% 的 HUD、下面 12%）的平均 RGB、偏暖（R−B）；最亮 5% 像素的平均 RGB（晚上燈的顏色）。只當輔助，判斷看截圖"""
+    try:
+        from PIL import Image
+        im = Image.open(path).convert('RGB'); w, h = im.size; im = im.crop((int(w * 0.05), int(h * 0.22), int(w * 0.95), int(h * 0.88))); im = im.resize((im.width // 4, im.height // 4))
+        px = list(im.getdata()); n = len(px)
+        mr, mg, mb = (round(sum(p[i] for p in px) / n, 1) for i in range(3))
+        top = sorted(px, key=lambda p: p[0] + p[1] + p[2])[-max(1, n // 20):]
+        br = [round(sum(p[i] for p in top) / len(top), 1) for i in range(3)]
+        return {'rgb': [mr, mg, mb], 'warm': round(mr - mb, 1), 'bright': br, 'bright_warm': round(br[0] - br[2], 1)}
+    except Exception as e:
+        return {'err': str(e)}
+
+
 async def ll_shot(pg, run, tag, x, z, lv, tx, tz, dist=3.2):
     p = await pg.evaluate("""(([x,z,lv,tx,tz,dist])=>{ const E=GAME.E; for(const R of [0,0.4,0.8,1.2]){ for(let i=0;i<12;i++){ const a=i*Math.PI/6, px=x+Math.sin(a)*R, pz=z+Math.cos(a)*R; if(E.canStand&&!E.canStand(px,pz,0.3,lv)) continue;
         E.placeAt(E.player,px,pz,lv); const C=E.cam; C.yaw=Math.atan2(px-tx,pz-tz); C.pitch=0.14; C.distTarget=dist; C.manualT=1e9; return {x:+px.toFixed(2),z:+pz.toFixed(2),lv}; } } return null; })""", [x, z, lv, tx, tz, dist])
@@ -1209,6 +1223,39 @@ async def gtlm(pg, cdp, run):
         run.check('共同教學館 101：按「%s」坐得下' % lab, bool(lab) and sat, J({'lab': lab, 'sat': sat}))
 
 
+# LAWWW-B 03:28（3f67ec44a）：普通教學館室內光照（ART-ECON-3D-GAP-1021 B，LAWWW2 1154ef5da）——同一套 gtlm 看普通：白天 14:00、晚上 20:30，101、一樓走廊、樓梯、二樓走廊；
+# 看三件事：教室牆面不偏桃橘、沒有整片純黑、晚上燈是白光。已知不報：一樓樓梯井偏暗（沒燈）、101 門邊牆偏奶油色、單人桌椅是方塊。
+# 普通：101 在 x −16.9～−4.4、z −7.9～−1.2（黑板在西牆 x −16.85）；走廊 z −1.2～1.6；樓梯 x −1.9～1.9、z −6.6～−1.2；2F 高 4.2
+PT_CAMS = [('101_back', (-5.2, 1.7, -4.6), (-16.8, 1.3, -4.6)), ('101_front', (-15.6, 1.8, -4.6), (-5.0, 1.0, -4.6)), ('101_seats', (-6.0, 2.4, -1.8), (-12.0, 0.8, -6.4)),
+           ('hall_1f', (-15.5, 1.7, 0.2), (15.0, 1.3, 0.2)), ('stair', (0.0, 1.8, 1.3), (-1.0, 2.2, -5.6)), ('hall_2f', (-15.5, 5.9, 0.2), (15.0, 5.6, 0.2))]
+
+
+async def ptlm(pg, cdp, run):
+    rows = []
+    for hh, tg in ((14.0, '1400'), (20.5, '2030')):
+        st, d = await P.base(pg, SAVE, '2025-10-15', hh, 'putong'); await P.load(pg, cdp, st)
+        run.setup('[前置] 使用者存檔改到 %s %s 普通教學館（出生點）' % (d['key'], tg))
+        for _ in range(80):
+            if await pg.evaluate("GAME.G.zone==='putong'&&!!GAME.E.zone&&!!(GAME.E.zone.formal||GAME.E.zone.formalInfo)"): break
+            await pg.wait_for_timeout(500)
+        await pg.wait_for_timeout(3000); ck = await pg.evaluate(GT_CHK); run.note('%s 普通教學館：%s' % (tg, J(ck)))
+        run.check('%s 普通教學館：正式模型、有烘焙光照（lightMap）、沒有純黑（#000000）材質' % tg, ck['zone'] == 'putong' and ck['formal'] and ck['lm'] > 0 and not ck['black'], J(ck))
+        await pg.evaluate("(()=>{ GAME.E.player.obj.visible=false; })()")
+        for key, e, lk in PT_CAMS:
+            await pg.evaluate("((p,l)=>{ const E=GAME.E; E.cinematic(new THREE.Vector3(...p),new THREE.Vector3(...l)); E.camera.position.set(...p); E.cam.look=new THREE.Vector3(...l); E.camera.lookAt(E.cam.look); })(%s,%s)" % (J(list(e)), J(list(lk))))
+            await pg.wait_for_timeout(3500); f = await shot_path(run, pg, 'putong_%s_%s' % (tg, key))
+            whole = lum_stats(f) if f else {'err': 'no file'}; col = col_stats(f) if f else {'err': 'no file'}
+            rows.append((tg, key, whole, col)); run.note('%s %s：%s %s' % (tg, key, J(whole), J(col)))
+        await pg.evaluate("(()=>{ const E=GAME.E; E.player.obj.visible=true; if(E.endCinematic) E.endCinematic(); })()")
+    run.note('普通教學館 RGB（中間區域平均、偏暖 R−B、最亮 5%）：%s' % J([(r[0], r[1], r[3].get('rgb'), r[3].get('warm'), r[3].get('bright')) for r in rows], 3000))
+    bad = [r[:3] for r in rows if r[2].get('dark', 1) > 0.25 or r[2].get('white', 1) > 0.15]
+    run.check('普通教學館固定鏡頭 %d 張：沒有整片純黑（黑 <12 不超過 25%%）、死白（>248）不超過 15%%（已知：一樓樓梯井偏暗不算）' % len(rows), len(rows) == 2 * len(PT_CAMS) and not [b for b in bad if b[1] != 'stair'], J(bad))
+    warm = [(r[0], r[1], r[3].get('warm'), r[3].get('rgb')) for r in rows if r[1].startswith('101') and (r[3].get('warm') is None or r[3]['warm'] > 30)]
+    run.check('普通 101 牆面不偏桃橘（101 三個鏡頭中間區域 R−B ≤ 30；輔助數字，看截圖）', not warm, J(warm))
+    night = [(r[1], r[3].get('bright'), r[3].get('bright_warm')) for r in rows if r[0] == '2030' and r[1] != 'stair']
+    run.check('普通晚上 20:30 燈是白光（最亮 5%% 像素 R−B ≤ 25；輔助數字，看截圖）', bool(night) and all(x[2] is not None and x[2] <= 25 for x in night), J(night))
+
+
 GTCLASS = """(()=>{ const E=GAME.E, Z=E.zone, F=Z&&Z.seatFold, S=(Z&&Z.seats)||[]; const lec=S.map((s,i)=>i).filter(i=>S[i].kind==='lecture'||S[i].room==='101');
   const v=E.npcs.filter(n=>n.obj&&!n.hidden&&n.obj.visible!==false); const in101=n=>n.obj.position.x>3.6&&n.obj.position.x<11.9&&(n.lv|0)===0;
   const sitBad=v.filter(n=>(n.seat||n.pose==='sit')&&in101(n)).filter(n=>{ const p=n.obj.position; return !S.some(s=>Math.hypot(s.x-p.x,s.z-p.z)<0.45); }).map(n=>[n.charId||n.id||'?',+n.obj.position.x.toFixed(2),+n.obj.position.z.toFixed(2)]);
@@ -1324,7 +1371,7 @@ async def main():
             b, ctx, pg, cdp, errs = await L.launch(p, landscape=(VP != 'portrait'))
         pg.on('dialog', lambda d: asyncio.ensure_future(d.accept()))
         await pg.goto(URL); run.check('遊戲載入', await L.wait_loaded(pg)); await pg.evaluate("localStorage.clear()"); await P.init(pg)
-        await {'phone': phone, 'bball': bball, 'rooms': rooms, 'cafewin': cafewin, 'noodle': noodle, 'cafe2': cafe2, 'invite': invite, 'jacket': jacket, 'badclip': badclip, 'bigmap': bigmap, 'bballrain': bballrain, 'renart': renart, 'libla': libla, 'lawlib': lawlib, 'cafe2diag': cafe2diag, 'multiroom': multiroom, 'rtnight': rtnight, 'boya': boya, 'boyaecon': boyaecon, 'boyab4': boyab4, 'soclm': soclm, 'noodlm': noodlm, 'lhlm': lhlm, 'roomlm': roomlm, 'gtlm': gtlm, 'gtecon': gtecon}[MODE](pg, cdp, run)
+        await {'phone': phone, 'bball': bball, 'rooms': rooms, 'cafewin': cafewin, 'noodle': noodle, 'cafe2': cafe2, 'invite': invite, 'jacket': jacket, 'badclip': badclip, 'bigmap': bigmap, 'bballrain': bballrain, 'renart': renart, 'libla': libla, 'lawlib': lawlib, 'cafe2diag': cafe2diag, 'multiroom': multiroom, 'rtnight': rtnight, 'boya': boya, 'boyaecon': boyaecon, 'boyab4': boyab4, 'soclm': soclm, 'noodlm': noodlm, 'lhlm': lhlm, 'roomlm': roomlm, 'gtlm': gtlm, 'ptlm': ptlm, 'gtecon': gtecon}[MODE](pg, cdp, run)
         run.check('沒有 JS 例外', not errs, J(errs[:3]))
         print('SHA', os.environ.get('SHA', '?'), 'MODE', MODE)
         await b.close()
