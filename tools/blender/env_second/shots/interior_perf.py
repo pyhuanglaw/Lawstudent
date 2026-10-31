@@ -1,7 +1,8 @@
 """室內效能（通用版；SOCLIB-LM-1030 起，LAWWW2-B 2026-10-30；博思用 boya_perf.py）：tools/shots/interior_review/survey.py 的做法（玩家鏡頭，前、左、右、後各量一次 draw call、三角形），
 站在指定的位置（spawn＝區域的出生點）。
 [捷徑] 讀檔直接進區域（GAME.applySave）、條件事件關閉。手機橫向模擬（SwiftShader），不是 iPhone。
-用法：python3 tools/blender/env_second/shots/interior_perf.py 工作樹 URL 輸出資料夾 區域 '名字:x,z,yaw,lv;名字:spawn;…' [hour]"""
+用法：python3 tools/blender/env_second/shots/interior_perf.py 工作樹 URL 輸出資料夾 區域 '名字:x,z,yaw,lv;名字:spawn;…' [hour]
+環境變數 HIDE_NPC=1：量以前把路人、NPC 拿掉（10-31：總圖 3F 改前改後兩次量的路人不一樣，draw call 差 80 次，看不出模型本身的差別）"""
 import asyncio, json, sys, math, os
 sys.path.insert(0, sys.argv[1] + '/tests')
 import playlib as L
@@ -25,6 +26,7 @@ async def main():
                 if await pg.evaluate("GAME.G.zone===%s&&!!GAME.E.zone&&GAME.E.zone.formal" % json.dumps(ZONE)): break
                 await pg.wait_for_timeout(500)
             await pg.wait_for_timeout(6000); await L.close_panels(pg, cdp)
+            if os.environ.get('HIDE_NPC'): await pg.evaluate("GAME.E.npcs.slice().forEach(n=>{ n.obj.visible=false; if(n.obj.parent) n.obj.parent.remove(n.obj); }); (GAME.E.extras||[]).forEach(x=>{ if(x.rider&&x.obj.parent) x.obj.parent.remove(x.obj); })")   # 照 fast_shots.py 的 hideNPCs
             await pg.evaluate("(css=>{ let el=document.getElementById('ivCss'); if(!el){ el=document.createElement('style'); el.id='ivCss'; document.head.appendChild(el); } el.textContent=css; })(%s)" % json.dumps(HIDE))
             st = await pg.evaluate("(()=>{ const E=GAME.E, P=E.player.obj, Z=E.zone||{}; return {x:+P.position.x.toFixed(2),z:+P.position.z.toFixed(2),y:+P.position.y.toFixed(2),ry:+P.rotation.y.toFixed(3),formal:!!Z.formal,lm:!!(Z.formalInfo&&Z.formalInfo.lightmapped),fold:!!Z.seatFold}; })()")
             info[name0] = {'spot': st, 'shots': []}
