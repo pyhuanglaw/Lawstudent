@@ -239,8 +239,12 @@ const GAME = (function(){
      走到那裡看不到按鈕）：備用的路要短 0.5 m 以上才選 */
   /* 坐下前站的位置：椅子前 0.5、後 0.6、兩側 0.55，再來後 0.7、0.75（2026-10-14 v9.6 回歸：社科院北側長桌後 0.6 那一點碰到椅背，原本直接跳到 0.9——比「坐下」按鈕的範圍 0.8 m 遠），最後才是前 0.8、後 0.9 */
   function seatApproach(seat){ const yaw=seat.yaw||0, fx=Math.sin(yaw), fz=Math.cos(yaw), P=E.player.obj.position; let best=null, bd=1e9;
+    /* 走近點要在那張椅子「坐下」按鈕的範圍裡（BUG-SEAT-AISLE-REACH-1031，BB-B n28_seatreach：階梯教室走道邊的座位，側邊 0.55 m 那一點離互動點 0.65 m、範圍 0.62 m，站到那裡沒有「坐下」；共同 101 七個、博思四個）。
+       先只挑範圍內的；一個都沒有才照舊（NPC、沒有互動點的座位一樣照舊）*/
+    const sit=(E.interactables||[]).find(q=>q&&q.seat===seat), reach=sit?(sit.radius||1.8)-0.05:Infinity;
+    for(const inR of (sit?[true,false]:[false])){ if(best) break;
     for(const [dx,dz,pen] of [...(seat.ap?[[seat.ap[0]-seat.x,seat.ap[1]-seat.z,-1]]:[]),   /* seat.ap：座位指定的走近點（Café 的沙發：前面是矮桌，從桌子的一端走近）*/
-      [fx*0.5,fz*0.5,0],[-fx*0.6,-fz*0.6,0],[fz*0.55,-fx*0.55,0],[-fz*0.55,fx*0.55,0],[-fx*0.7,-fz*0.7,0.1],[-fx*0.75,-fz*0.75,0.2],[fx*0.8,fz*0.8,0.5],[-fx*0.9,-fz*0.9,0.5]]){ const x=seat.x+dx, z=seat.z+dz, slv=seat.lv!==undefined?seat.lv|0:(E.player.lv|0); if(E.canStand&&!E.canStand(x,z,0.3,slv)) continue; if(seat.y!=null&&Math.abs(E.heightAt(x,z,slv)-seat.y)>0.2) continue; /* 階梯教室：要站在座位那一排的平台上 */ const pth=E.nav?E.pathTo(P.x,P.z,E.player.lv|0,x,z,slv):[[x,z]]; if(!pth||!pth.length) continue; let L=0, px=P.x, pz=P.z; for(const q of pth){ L+=Math.hypot(q[0]-px,q[1]-pz); px=q[0]; pz=q[1]; } if(Math.hypot(px-x,pz-z)>0.6) continue; L+=pen; if(L<bd){ bd=L; best=[x,z]; } }
+      [fx*0.5,fz*0.5,0],[-fx*0.6,-fz*0.6,0],[fz*0.55,-fx*0.55,0],[-fz*0.55,fx*0.55,0],[-fx*0.7,-fz*0.7,0.1],[-fx*0.75,-fz*0.75,0.2],[fx*0.8,fz*0.8,0.5],[-fx*0.9,-fz*0.9,0.5]]){ const x=seat.x+dx, z=seat.z+dz, slv=seat.lv!==undefined?seat.lv|0:(E.player.lv|0); if(E.canStand&&!E.canStand(x,z,0.3,slv)) continue; if(seat.y!=null&&Math.abs(E.heightAt(x,z,slv)-seat.y)>0.2) continue; /* 階梯教室：要站在座位那一排的平台上 */ const pth=E.nav?E.pathTo(P.x,P.z,E.player.lv|0,x,z,slv):[[x,z]]; if(!pth||!pth.length) continue; let L=0, px=P.x, pz=P.z; for(const q of pth){ L+=Math.hypot(q[0]-px,q[1]-pz); px=q[0]; pz=q[1]; } if(Math.hypot(px-x,pz-z)>0.6) continue; if(inR&&Math.hypot(x-sit.x,z-sit.z)>reach) continue; L+=pen; if(L<bd){ bd=L; best=[x,z]; } } }
     return best||[seat.x+fx*0.5,seat.z+fz*0.5]; }
   GM.seatApproach=seatApproach;
   /* 點地面點在椅子上（那一點站不住、離座位 0.45 m 內、同一層）：改成走到那張椅子坐下前站的位置，到了就看得到「坐下」按鈕（engine3d.js 的 E.tapRedirect）。
