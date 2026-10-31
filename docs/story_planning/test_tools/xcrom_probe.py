@@ -432,10 +432,16 @@ async def s_halls(p, run, base, sid, out):
                 await L.turn_camera_to(pg, cdp, hp['inside'][0], hp['inside'][1]); await pg.wait_for_timeout(2000)
                 c = await pg.evaluate(CAMJS); await run.shot(pg, '%s_%s_%+.1f' % (sid, tag, q['off'])); v = await player_vis(pg)
                 rows.append({'off': q['off'], 'at': c['player'], 'cam': c['cam'], 'mode': c['mode'], 'vis': v.get('vis'), 'pillarScreen': v.get('pillarScreen'), 'pillars': v.get('pillars'), 'st': v.get('st')})
+                if os.environ.get('HALLS_DIAG'):   # n27_halls 08:23：鏡頭正對建築時柱子多半不在鏡頭和人中間（看得到 85～100%）——再斜 35° 左右各量一次，讓柱子擋在中間
+                    for side in (1, -1):
+                        tx = hp['inside'][0] + hp['lat'][0] * side * 2.8; tz = hp['inside'][1] + hp['lat'][1] * side * 2.8
+                        await L.turn_camera_to(pg, cdp, tx, tz); await pg.wait_for_timeout(2000)
+                        c2 = await pg.evaluate(CAMJS); await run.shot(pg, '%s_%s_%+.1f_diag%+d' % (sid, tag, q['off'], side)); v2 = await player_vis(pg)
+                        rows.append({'off': q['off'], 'diag': side, 'at': c2['player'], 'cam': c2['cam'], 'mode': c2['mode'], 'vis': v2.get('vis'), 'pillarScreen': v2.get('pillarScreen'), 'pillars': v2.get('pillars'), 'st': v2.get('st')})
             res[tag]['rows'] = rows; run.note('%s %s：%s' % (sid, nm, J(rows, 2000)))
             judged = [x for x in rows if 'vis' in x and (tag != 'admin' or x['off'] == 0)]
-            run.check('%s：%s 門廊（門口%s）鏡頭在外面看得到玩家（≥ 25%%）、鏡頭不在柱子裡（柱子佔畫面 < 60%%）' % (sid, nm, '' if tag == 'admin' else '、往旁邊 ±1.3、±2.6 m'),
-                      bool(judged) and all((x['vis'] or 0) >= 0.25 and (x['pillarScreen'] or 0) < 0.6 for x in judged), J([(x['off'], x.get('vis'), x.get('pillarScreen')) for x in rows]))
+            run.check('%s：%s 門廊（門口%s%s）鏡頭在外面看得到玩家（≥ 25%%）、鏡頭不在柱子裡（柱子佔畫面 < 60%%）' % (sid, nm, '' if tag == 'admin' else '、往旁邊 ±1.3、±2.6 m', '；正對＋左右斜 35°' if os.environ.get('HALLS_DIAG') else ''),
+                      bool(judged) and all((x['vis'] or 0) >= 0.25 and (x['pillarScreen'] or 0) < 0.6 for x in judged), J([(x['off'], x.get('diag', 0), x.get('vis'), x.get('pillarScreen')) for x in rows]))
             if tag == 'admin': run.note('%s 行政大樓往旁邊（已知 CAM-BELL-1031，只記）：%s' % (sid, J([(x['off'], x.get('vis'), x.get('pillarScreen'), x.get('cam')) for x in rows if x['off'] != 0])))
     finally: await finish_page(run, sid, res, errs, b)
 
