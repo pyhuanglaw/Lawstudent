@@ -16387,8 +16387,8 @@
    "msg": "ACK",
    "what": "AA_548 芯慈戀愛線重寫：門檻 G1～G9（拿掉舊 G6 關線、G10）、G6 補一次（大三下第 3 週總圖三樓）、3-1 補問（媽媽、對帳、財金，巷口家常菜）、3-3 電話（劇的內容）、3-5 週六晚上（取代空白的週三下午）、others 一句、半夜訊息換八則；第 7 節（使用者 10-31 點選：告白不問、沒騙就接受）、第 8 節（她爸爸 8-1、挽回 8-2、冷落 8-3）",
    "task": "XINCI-ROMANCE-1030",
-   "integration": "已整合待測試",
-   "note": "LAWWW-B 照稿接進 xcrom3d.js／r2y3b_events.js／termend_lines.js／confess_lines.js；XCROM.ON 已打開（10-31 00:4x）；xinci_romance_unit ALL PASS；第 7、8 節 LAWWW-B 00:5x 接好，xinci_romance 第 12、13 節"
+   "integration": "已驗收",
+   "note": "LAWWW-B 照稿接進 xcrom3d.js／r2y3b_events.js／termend_lines.js／confess_lines.js；XCROM.ON 已打開（10-31 00:4x）；xinci_romance_unit ALL PASS；第 7、8 節 LAWWW-B 00:5x 接好，xinci_romance 第 12、13 節｜10-31 05:2x BB n27 23 個情境全部 PASS（BB_218 1c2668b91）"
   },
   {
    "id": "DL-LW2-LMCOLLAPSE-DORM4-1030",
@@ -16452,8 +16452,8 @@
    "msg": "不用回",
    "what": "AA_537b 8-4：巷口家常菜期末飯的開場、收尾旁白（芯慈心意、交往後兩頓共用；深色底＋字幕）",
    "task": "XINCI-ROMANCE-1030",
-   "integration": "已整合待測試",
-   "note": "termend_lines.js PLACE.l118_home、HEART／GF 芯慈 place 改 l118_home；xinci_romance_unit 12c（逐字比對 8-4）"
+   "integration": "已驗收",
+   "note": "termend_lines.js PLACE.l118_home、HEART／GF 芯慈 place 改 l118_home；xinci_romance_unit 12c（逐字比對 8-4）｜10-31 05:2x BB n27 23 個情境全部 PASS（BB_218 1c2668b91）"
   },
   {
    "id": "DL-LW2-PUTONG-LM-1031",
@@ -16478,8 +16478,8 @@
    "msg": "不用回",
    "what": "AA_537b 8-5：芯慈第二次心意飯回家路上 walkAgain 兩句（BB-B n27 觀察：和第一次一字不差）",
    "task": "XINCI-ROMANCE-1030",
-   "integration": "已整合待測試",
-   "note": "termend_lines HEART classmate_xinci.walkAgain、termend3d walkHome 第二次用 walkAgain；xinci_romance 第 2 節（逐字比對 8-5）"
+   "integration": "已驗收",
+   "note": "termend_lines HEART classmate_xinci.walkAgain、termend3d walkHome 第二次用 walkAgain；xinci_romance 第 2 節（逐字比對 8-5）｜10-31 05:2x BB n27 23 個情境全部 PASS（BB_218 1c2668b91）"
   },
   {
    "id": "DL-LW2-LIB3F-LM-1031",

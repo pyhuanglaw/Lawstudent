@@ -36194,8 +36194,8 @@
    "title": "吳芯慈可攻略、要很難達成：AA 規劃感情線（門檻、時間線、事件、告白條件、多段感情規則、和現有設定一致）→ LAWWW 實作",
    "area": "STORY",
    "owner": "AA",
-   "status": "已整合待測試",
-   "next": "【10-31 05:0x】BB-B n27_xcrom_b（0eb633624）PASS：三頓期末飯 收尾→字幕「羅斯福路・往公館站」→回家路上；第二次心意飯換 walkAgain；剩 TE_TELL／TE_KNOWN（探針等 heartDay，n27_xcrom_c 重跑）｜【10-31 04:4x】AA_537b 8-5（企劃線 b3df9c4e9）：第二次心意飯回家路上 walkAgain 兩句（「這學期，我每個禮拜都留了一天。」「……你應該知道是哪一天。」）接好，xinci_romance 第 2 節加一條（修改前 FAIL）｜【10-31 04:3x】BB-B n27（c3a8aded9）23 個情境 197 行 PASS、6 行 FAIL 全是探針；n27_xcrom_b（0447c75bb）重跑 walkCaption、TE_TELL／TE_KNOWN；大四上第二次心意飯回家路上那兩句和大三下一樣→已問 AA-B 要不要換｜【10-31 04:0x】BB-B n27 觀察 walkPlace 沒有程式讀：芯慈回家的路加 walkCaption「羅斯福路・往公館站」（深色底＋字幕；xinci_romance 12d，修改前 FAIL）；通用改法（walkPlace 當字幕）撤回——沛珊大四下飯在台南、walkPlace 是新生南路會對不上（r2y4b PS1 抓到）；BB n27 的巷口家常菜、TE_TELL FAIL 都是探針（BB 已改）｜【10-31 02:2x】BB-B 疑點 1、2：心意邀約那天下午手機規則沒跑到＝不傳過期的、改排下一個晚上；期末飯不排在別人已經佔了的晚上（TERMEND.teBusy：te_ 出遊、heartDay、gfDay）；疑點 3（沒有圈子那一列）照現狀；xinci_romance 12b2（修改前 FAIL）｜【10-31 02:0x】AA_537b 8-4 巷口家常菜期末飯開場、收尾（termend_lines PLACE.l118_home；心意、交往後兩頓）；xinci_romance_unit 12c｜【10-31 00:5x】AA_548 第 1～8 節全部接好、XCROM.ON 打開：告白不問、沒騙就接受（第 7 節）、她爸爸 8-1、挽回 8-2、冷落 8-3、以安 5-3；xinci_romance_unit ALL PASS（第 12、13 節新加）→ BB 測整條線（n27_xinci_romance）｜【10-31 00:4x】使用者點選 4a、4b（告白不問、沒騙就接受）→ AA_548 第 7 節接好、XCROM.ON 打開（b399adf57）；測試照新規則改中；還沒做：AA_537 5-4 她爸爸（要換稿，D116）、5-5 挽回觸發、冷落（已問 AA）→ BB 測整條線｜AA_548（企劃線 265cca815）程式接好（門檻 G1～G9、G6 補一次、3-1／3-3／3-5、others、半夜訊息八則；xinci_romance_unit ALL PASS），XCROM.ON 照舊 false：等使用者對 AA 點選 4a（告白時她問不問）、4b（知道你有別人接不接受），AA 回了再打開 → BB 測整條線",
+   "status": "已驗收",
+   "next": "已驗收（10-31 05:2x）｜【10-31 05:0x】BB-B n27_xcrom_b（0eb633624）PASS：三頓期末飯 收尾→字幕「羅斯福路・往公館站」→回家路上；第二次心意飯換 walkAgain；剩 TE_TELL／TE_KNOWN（探針等 heartDay，n27_xcrom_c 重跑）｜【10-31 04:4x】AA_537b 8-5（企劃線 b3df9c4e9）：第二次心意飯回家路上 walkAgain 兩句（「這學期，我每個禮拜都留了一天。」「……你應該知道是哪一天。」）接好，xinci_romance 第 2 節加一條（修改前 FAIL）｜【10-31 04:3x】BB-B n27（c3a8aded9）23 個情境 197 行 PASS、6 行 FAIL 全是探針；n27_xcrom_b（0447c75bb）重跑 walkCaption、TE_TELL／TE_KNOWN；大四上第二次心意飯回家路上那兩句和大三下一樣→已問 AA-B 要不要換｜【10-31 04:0x】BB-B n27 觀察 walkPlace 沒有程式讀：芯慈回家的路加 walkCaption「羅斯福路・往公館站」（深色底＋字幕；xinci_romance 12d，修改前 FAIL）；通用改法（walkPlace 當字幕）撤回——沛珊大四下飯在台南、walkPlace 是新生南路會對不上（r2y4b PS1 抓到）；BB n27 的巷口家常菜、TE_TELL FAIL 都是探針（BB 已改）｜【10-31 02:2x】BB-B 疑點 1、2：心意邀約那天下午手機規則沒跑到＝不傳過期的、改排下一個晚上；期末飯不排在別人已經佔了的晚上（TERMEND.teBusy：te_ 出遊、heartDay、gfDay）；疑點 3（沒有圈子那一列）照現狀；xinci_romance 12b2（修改前 FAIL）｜【10-31 02:0x】AA_537b 8-4 巷口家常菜期末飯開場、收尾（termend_lines PLACE.l118_home；心意、交往後兩頓）；xinci_romance_unit 12c｜【10-31 00:5x】AA_548 第 1～8 節全部接好、XCROM.ON 打開：告白不問、沒騙就接受（第 7 節）、她爸爸 8-1、挽回 8-2、冷落 8-3、以安 5-3；xinci_romance_unit ALL PASS（第 12、13 節新加）→ BB 測整條線（n27_xinci_romance）｜【10-31 00:4x】使用者點選 4a、4b（告白不問、沒騙就接受）→ AA_548 第 7 節接好、XCROM.ON 打開（b399adf57）；測試照新規則改中；還沒做：AA_537 5-4 她爸爸（要換稿，D116）、5-5 挽回觸發、冷落（已問 AA）→ BB 測整條線｜AA_548（企劃線 265cca815）程式接好（門檻 G1～G9、G6 補一次、3-1／3-3／3-5、others、半夜訊息八則；xinci_romance_unit ALL PASS），XCROM.ON 照舊 false：等使用者對 AA 點選 4a（告白時她問不問）、4b（知道你有別人接不接受），AA 回了再打開 → BB 測整條線",
    "priority": "P1",
    "first": {
     "term": "Y1S1",
@@ -36217,7 +36217,8 @@
     "ack": "ACK"
    },
    "notes": "【05:3x】AA_537 補兩處：G5 半夜訊息每週一則（週三／週日 00:30～01:30，30 分鐘內回算一次，快轉要停）；1-1 國外那一學期（當面的門延到回臺第一週、日本 G7 第二次大四上第 2 週、G8 視訊版、美國大四上不能告白）｜ 【05:2x】AA-B 交兩份：十道門（G1～G10，G7、G8 新）、跟以安交往過不開、不接受多段（AA 向使用者回報這兩個決定）｜ ；10-30 17:2x 暫停：xcrom3d.js 加 XCROM.ON／setOn，DATE.HEROINES 預設不含芯慈；r2y3b_events.js 的 3-5／3-6 還原",
-   "pausedBy": "使用者（經 AA-B 轉）"
+   "pausedBy": "使用者（經 AA-B 轉）",
+   "evidence": "BB-B n27_xinci_romance（c3a8aded9）＋n27_xcrom_b（0eb633624）＋n27_xcrom_c（0eb633624，BB_218 1c2668b91）：AA_548 的 23 個情境全部 PASS——TE_ME_YES／NOTYET（巷口家常菜開場→收尾→字幕「羅斯福路・往公館站」→回家路上）、TE_TELL／TE_KNOWN（和子晴交往中 gfDay 6/10、heartDay 6/11 不同晚；先告訴她三句、KNOWN_LINE 照稿）、TE_FOUNDOUT、AFTER_TELL、AN_KNOWS×2、FOUND、REPAIR×3、DAD2×2、COLD、G2_DAD、BLANK×2、G6_MAKEUP、NIGHT_A／B／REAL（手機時間字「今天 01:31」）、第二次心意飯 walkAgain；法律系館A門口鏡頭被柱子擋＝場景問題另列 BUG-CAM-PILLAR-LAWA-1031（LAWWW2）"
   },
   {
    "id": "SK02-LINE-JACKET-1030",
