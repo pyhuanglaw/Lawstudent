@@ -54,11 +54,13 @@ arena)
   #   白天那一張讓高窗發光（--dayemit：天光只從高窗進來），晚上不亮。
   #   遊戲的 gym_arena 區域沒有照時段調高窗（原本和 LED 共用材質，一直亮），所以不用像 1F 那樣拿掉 dayEmit：Z3.roomLightmap 晚上把它調暗，高窗晚上不再是白的。
   # --hide：玻璃（門）、布置（SET_：舞台、典禮、演講、演唱會，平常藏著——影子不能烘進地板）。
+  #   布置的折疊椅是 GPU instancing：Blender 匯入以後每一張是 arena_chair_proto.NNN（父物件才是 SET_CEREMONY／SET_LECTURE），名字要另外列；
+  #   下層看台的座位同樣是 arena_seat_proto.NNN（父物件 arena_seats_lower）。10-31 第一次試烘沒列，3,834 個物件要烘（停掉重來）。
   # --nolm：下層看台的座位（GPU instancing：一個網格給幾百個座位用，第二套 UV 沒辦法每個座位不同）、桁架鋼管、深色鋼件（欄杆、燈罩）、
   #   燈和高窗的發光面、大螢幕、記分板、出口燈、布旗。場地、看台踏面、上層的座位帶、牆、吸音板、屋頂板照樣烘。
   NAME=gym_arena; SCRIPT=tools/blender/env_second/gym_arena.py
-  HIDE='glass|SET_'
-  NOLM='arena_seats_lower|arena_steel|arena_light|arena_sky|arena_screen|arena_score|arena_exit|arena_banner'
+  HIDE='glass|SET_|arena_chair_proto'
+  NOLM='arena_seat_proto|arena_steel|arena_light|arena_sky|arena_screen|arena_score|arena_exit|arena_banner'
   COOL=${HBCOL:-0.97,0.98,1.0}
   LIGHTS=""
   for zz in -19 -13 -7 -1 5 11 17 23; do for x in -18 -12 -6 0 6 12 18; do
