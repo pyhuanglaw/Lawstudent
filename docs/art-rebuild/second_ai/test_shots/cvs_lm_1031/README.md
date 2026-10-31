@@ -25,6 +25,13 @@
      - 開發分支原樣 FAIL，改後 ALL PASS。
    - 新工具 `tools/blender/env_second/lightbake/bake_cvs.sh`（照麵店：同一排公館南側店面、店面朝東、太陽 0）。
    - 烘焙紀錄 `cvs_interior_lm.json`。
+   - `tools/blender/env_second/cvs_interior.py`：分類牌、促銷看板的材質（`cvs_sign_face`）明確單面。
+     - 現在的腳本匯出來是雙面：single_side 第四份改了規則，只有 SIGN_FACE 在用的材質照舊雙面。
+     - 部署的 GLB（10-25 第一份）是單面，`singleside_interiors_unit.js` 也要單面。重匯時才發現兩邊不一樣。
+     - 吊牌兩面各自一片，看板只從店裡看，單面就對。改後重匯的模型材質和部署的一樣。
+   - `tests/singleside_interiors_unit.js`：便利商店的牆面原本檢查「開口的零件有反面」。
+     - 光照烘焙會拿掉有光照貼圖的物件的反面（反面的光照貼圖是黑的；社科圖的天井 10-30 也一樣）。
+     - 改成 2c：牆裡面那一面（x=±5.88、z=±4.38）都朝店裡。實測朝店裡 115.7 m²、朝外 0。
 
 ## 二、參數（遊戲內試了三版）
 
