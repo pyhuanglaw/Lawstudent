@@ -3398,8 +3398,9 @@ const STORY = (function(){
     for(const f of S.ALARMS){ try{ for(const a of (f(G,day)||[])) out.push(a); }catch(e){ console.warn('STORY.ALARMS',e); } }   /* 事件包各自的鬧鐘（STORY.ALARMS.push(fn)：fn(G,day) 回傳 [{h,why}]）*/
     return out.sort((a,b)=>a.h-b.h); };
   /* 今天標 alarm 的出遊（X81：8/30 載可昕上山）在白天的床邊選項也要寫：跳過時間會停在出發前 10 分鐘（CLS.skipStops 同一個時間），原本只有晚上的選項有寫（BUG-E37-DORM-SLEEP-1021，BB 10-21）*/
-  S.outStopsToday=function(G,h0){ const out=[]; if(typeof OUT==='undefined'||!OUT.rec) return out; for(const q of OUT.rec(G)){ if(!q.alarm||q.state!=='planned'||q.day!==G.day) continue; const dep=q.h-(OUT.trip?OUT.trip(G,q).travelH:(q.travelH||0)); if(dep-1/6>h0+0.05) out.push({h:dep-1/6,why:'約好的時間：'+q.title}); }
-    { const cw=S.coreCallAt?S.coreCallAt(G):null; if(cw!=null&&cw>h0+0.05&&!out.some(o=>o.h<=cw+0.02)) out.push({h:cw,why:'約好的時間過了，對方會打電話來'}); }   /* 出發前 10 分鐘那個點過了、還沒出發：她打來的那個時間也叫醒（BB-B 10-31 E37 twice：13:10 以後再睡「睡到傍晚」一路睡到 18:00；coreCallAt＝經濟系那幾場、法律系 8/30 E37）*/
+  S.outStopsToday=function(G,h0){ const out=[]; if(typeof OUT!=='undefined'&&OUT.rec) for(const q of OUT.rec(G)){ if(!q.alarm||q.state!=='planned'||q.day!==G.day) continue; const dep=q.h-(OUT.trip?OUT.trip(G,q).travelH:(q.travelH||0)); if(dep-1/6>h0+0.05) out.push({h:dep-1/6,why:'約好的時間：'+q.title}); }
+    { const cw=S.coreCallAt?S.coreCallAt(G):null; if(cw!=null&&cw>h0+0.05&&!out.some(o=>o.h<=cw+0.02)) out.push({h:cw,why:'約好的時間過了，對方會打電話來'}); }
+    { const lw=S.lawWakeAt?S.lawWakeAt(G):null; if(lw!=null&&lw<17.5&&lw>h0+0.05&&!out.some(o=>Math.abs(o.h-lw)<0.02)) out.push({h:lw,why:S.ceremonyDue(G)&&lw===14?'開學典禮 14:00（綜合體育館）':'有約好的事'}); }   /* 8/31 開學典禮（BB-B 10-31 cer831）等 lawWakeAt：白天的床（小睡、睡到傍晚）寫幾點會叫醒你；17:30 以後的（10/24 21:00、11/17 22:00…）照舊由睡覺本身叫醒（sleepBody），床照樣有「睡到明天」*/   /* 出發前 10 分鐘那個點過了、還沒出發：她打來的那個時間也叫醒（BB-B 10-31 E37 twice：13:10 以後再睡「睡到傍晚」一路睡到 18:00；coreCallAt＝經濟系那幾場、法律系 8/30 E37）*/
     return out.sort((x,y)=>x.h-y.h); };
   /* 今天晚上（h0 以後、午夜以前）第一個鬧鐘：S.wakeAlarms 的今天（出發前 30 分鐘）；那個已經過了、出遊還沒出發的，出發前 10 分鐘（S.outStopsToday，和跳過時間同一個停點）*/
   S.tonightAlarm=function(G,h0){ const A=S.wakeAlarms(G,G.day).filter(a=>a.h>h0+0.05&&a.h<24).concat(S.outStopsToday(G,h0).filter(a=>a.h<24)); A.sort((a,b)=>a.h-b.h); return A[0]||null; };
