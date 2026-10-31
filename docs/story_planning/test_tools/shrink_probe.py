@@ -305,12 +305,22 @@ async def mode_e1d(pg, cdp, run):
     g0 = await pg.evaluate(GRP); run.note('讀進來：%s；群組 %s' % (J(st0), J({k: g0[k] for k in ('joined', 'name', 'gday')})))
     await P.events_on(pg)
     okw = await P.wait_play(pg, cdp, 12.1, max_s=900, run=run, tag='e1d'); await pg.wait_for_timeout(4000)
+    # n20_e1d_new2／old2 14:2x：9/07 讀進來先演「明天開學。今天搬進新的房間。」→ 字卡 → GM.advance(0.5)（story3d.js:3168），12:31 時可能還在搬房間的畫面裡（S.tick 一開頭 busy／D.active 就 return）——
+    # 記那一刻的狀態，再等玩家空下來、照玩家多玩到 12:50 才看
+    BUSY = "(()=>({busy:!!GAME.E.player.busy, dlg:!!(GAME.D&&GAME.D.active), sleeping:!!(STORY._sleeping), name:(PHONE.rec(GAME.G).groups.noodle_team||{}).name, now:CALENDAR.dateOf(GAME.G.day).key+' '+(+GAME.G.hour).toFixed(2)}))()"
+    b0 = await pg.evaluate(BUSY); run.note('12:06 以後第一次看的那一刻：%s' % J(b0))
+    for _ in range(30):
+        bb = await pg.evaluate(BUSY)
+        if not bb['busy'] and not bb['dlg'] and not bb['sleeping']: break
+        await pg.wait_for_timeout(2000)
+    run.note('玩家空下來：%s' % J(bb))
+    await P.wait_play(pg, cdp, 12.83, max_s=900, run=run, tag='e1d_more'); await pg.wait_for_timeout(3000)
     g1 = await pg.evaluate(GRP); st1 = await pg.evaluate("(()=>({ren:GAME.G.flags.ndlRen||null, now:CALENDAR.dateOf(GAME.G.day).key+' '+(+GAME.G.hour).toFixed(2), zone:GAME.G.zone}))()")
     warn = await pg.evaluate("(window.__WARN||[]).slice(0,12)")
     nar = [m for m in g1['msgs'] if '改成' in (m['text'] or '')]
     run.note('等到 %s：群組 %s；ndlRen %s；改名旁白 %s；console.warn %s' % (st1['now'], g1['name'], J(st1['ren']), J(nar), J(warn)[:2000]))
     await run.shot(pg, 'e1d_after')
-    run.check('E1 診斷：照玩家等到 12:06 以後（現在 %s）' % st1['now'], okw, st1['now'])
+    run.check('E1 診斷：照玩家等到 12:50 以後（現在 %s）' % st1['now'], okw, st1['now'])
     run.check('E1 診斷：大二上開學那天 12:00 以後群組是「法二吃飯」', g1['name'] == '法二吃飯', J([g0['name'], st1['now'], g1['name']]))
     run.check('E1 診斷：改名旁白「（阿哲把群組名稱改成「法二吃飯」。）」', any(m['text'] == '（阿哲把群組名稱改成「法二吃飯」。）' for m in nar), J(nar))
     if g1['name'] != '法二吃飯':
