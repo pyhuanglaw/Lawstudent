@@ -591,6 +591,24 @@ async def s_dad(p, run, base, sid, out):
 
 
 @guard
+async def s_c5diag(p, run, base, sid, out):
+    # n25 C5：2027-11-29 18:08 總圖三樓只有芯慈、以安不在（作息 r2y3a3d.js:64 寫 Y3S1 第 13 週週一～三 18～21 在 library）——列出場上所有人、作息查詢、交往旗標，分清楚是探針找人還是遊戲沒放人
+    res = out.setdefault(sid, {})
+    b, pg, cdp, errs, r = await launch(p, run, base, '2027-11-29', 18.08, 'library', rels={XC: 'FAMILIAR', AN: 'FRIEND'}, quiet=False, label=sid + '（同 C5）')
+    try:
+        await drive(pg, cdp, run, max_s=40, label=sid); await pg.wait_for_timeout(4000)
+        info = await pg.evaluate("""(()=>{ const G=GAME.G, E=GAME.E; const npcs=(E.npcs||[]).map(n=>({id:n.id, charId:n.charId||null, vis:!!(n.obj&&n.obj.visible!==false), hidden:!!n.hidden, x:n.obj?+n.obj.position.x.toFixed(1):null, z:n.obj?+n.obj.position.z.toFixed(1):null}));
+          const w=id=>{ try{ return STORY.whereIs(GAME,id); }catch(e){ return 'ERR '+e.message; } };
+          const t=CALENDAR.termOf(G.day); const F=G.flags; const dating=Object.keys(F).filter(k=>/^dating_/.test(k)&&F[k]);
+          return {key:CALENDAR.dateOf(G.day).key, wd:G.weekday, h:+(+G.hour).toFixed(2), zone:G.zone, term:t, npcs, whereAN:w('heroine_01'), whereAn:w('an'), whereXC:w('classmate_xinci'), dating, route:F.EXCHANGE_ROUTE||null, jp:Object.keys(F).filter(k=>/JP|JAPAN/.test(k)).slice(0,8)}; })()""")
+        res['info'] = info; say('   %s：%s' % (sid, J(info, 3000)))
+        run.note('%s 場上的人與作息：%s' % (sid, J(info, 3000)))
+        await run.shot(pg, '%s_scene' % sid)
+        run.check('%s：（診斷）以安在總圖三樓（NPC 列表有 heroine_01／an）' % sid, any((n['charId'] == AN or n['id'] in (AN, 'an')) and n['vis'] for n in info['npcs']), J({'where': info['whereAN'], 'whereAn': info['whereAn'], 'ids': [n['id'] for n in info['npcs']]}))
+    finally: await finish_page(run, sid, res, errs, b)
+
+
+@guard
 async def s_c5(p, run, base, sid, out):
     res = out.setdefault(sid, {})
     b, pg, cdp, errs, r = await launch(p, run, base, '2027-11-29', 18.08, 'library', rels={XC: 'FAMILIAR', AN: 'FRIEND'}, quiet=False, label=sid + '（大三上第 13 週週一 18:05 總圖三樓；認識以安、芯慈）')
@@ -662,9 +680,9 @@ async def s_zrl3(p, run, base, sid, out):
     finally: await finish_page(run, sid, res, errs, b)
 
 
-ORDER = ['DAY1', 'COPY_REAL', 'COPY_BACK', 'COPY_RPS', 'ELEV_ASK', 'ELEV_DONE', 'C2', 'C3A', 'C3B', 'C3C', 'C3B1', 'C3FIX', 'DAD', 'C5', 'C6', 'ZRFEED', 'ZRL3']
+ORDER = ['DAY1', 'COPY_REAL', 'COPY_BACK', 'COPY_RPS', 'ELEV_ASK', 'ELEV_DONE', 'C2', 'C3A', 'C3B', 'C3C', 'C3B1', 'C3FIX', 'DAD', 'C5DIAG', 'C5', 'C6', 'ZRFEED', 'ZRL3']
 FN = {'DAY1': s_day1, 'COPY_REAL': s_copy, 'COPY_BACK': s_copy, 'COPY_RPS': s_copy, 'ELEV_ASK': s_elev, 'ELEV_DONE': s_elev, 'C2': s_c2, 'C3A': s_c3, 'C3B': s_c3, 'C3C': s_c3, 'C3B1': s_c3, 'C3FIX': s_c3fix,
-      'DAD': s_dad, 'C5': s_c5, 'C6': s_c6, 'ZRFEED': s_zrfeed, 'ZRL3': s_zrl3}
+      'DAD': s_dad, 'C5DIAG': s_c5diag, 'C5': s_c5, 'C6': s_c6, 'ZRFEED': s_zrfeed, 'ZRL3': s_zrl3}
 
 
 async def main():
