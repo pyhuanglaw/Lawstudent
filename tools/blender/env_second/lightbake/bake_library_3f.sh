@@ -13,14 +13,14 @@
 #     面光源只往下照，天花板只吃到人字拼地板、胡桃木桌櫃反彈上來的光，顏色越疊越暖（和普通教學館同一個問題）。
 #   定案：燈晝光色 0.95,0.98,1.0、長燈 16 W、方燈 12 W；每盞燈下 0.9 m 點光源 12 W（長燈兩顆、方燈一顆）；
 #     天光 0.12、太陽 0.6、白天燈 1.0；白天整張乘 0.86,0.9,0.98（稍微偏冷）。
-# --nolm（照舊即時光）：書（EXT_mesh_gpu_instancing，--keep-instances 不展開）、書封、椅子、黃銅、燈罩、發光面、輕鋼架、鋼、黑白紅小零件、紙、窗框、百葉、冷氣出風口、牌子。
+# --nolm（照舊即時光）：書（EXT_mesh_gpu_instancing，--keep-instances 不展開）、書封、椅子、黃銅、燈罩、發光面、輕鋼架、鋼、黑白紅小零件、紙、百葉、冷氣出風口、牌子。窗框照樣烘。
 set -e
 SAMPLES=${1:-512}
 OUTDIR=${2:-assets/models/env/second_ai}
 RES=${3:-1024}
 TMP=$(mktemp -d)
 HIDE='l3_glass'
-NOLM='bk_|l3_books|book|bookcover|chair|seat|brass|lampshade|lamp_glow|light_panel|ceiling_grid|tbar|steel|black|white|red|paper|window_frame|blind|grille|sign|exit'
+NOLM='bk_|l3_books|chair|seat|brass|l3_shade|l3_glow|l3_light|tbar|steel|black|white|red|paper|blind|grille|sign|exit'   # 比對物件名（library_3f.py 照材質分物件：l3_light＝燈框發光面、l3_glow＝桌燈燈泡、l3_shade＝綠色燈罩）
 LIGHTS=$(python3 - <<'PY'
 import os
 H = 4.0
