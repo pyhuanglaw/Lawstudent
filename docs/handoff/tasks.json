@@ -36815,7 +36815,7 @@
    "owner": "LAWWW",
    "status": "已整合待測試",
    "priority": "P1",
-   "next": "46e36f86b＋ccbb72422 照 AA_547 第 2～4 節做完（13 支測試照新稿改，全部 Node 過）→ BB n25_xinci547",
+   "next": "【巡查 10-31 01:5x】BB-B n25（890f8f3f7）：COPY_REAL、宥辰電梯、COPY_BACK／RPS、C3A／B／C、C3FIX、DAY1 PASS；C5 遊戲 FAIL（以安不在場）＝BUG-C5-AN-NOT-SPAWNED-1031 已修（753df5a8c）等 BB 重跑；ZRL3「和不認識的女生說話」BB 在診斷（n25_xinci_e）｜46e36f86b＋ccbb72422 照 AA_547 第 2～4 節做完（13 支測試照新稿改，全部 Node 過）→ BB n25_xinci547",
    "first": {
     "term": "Y1S1",
     "week": 1,
