@@ -9,7 +9,7 @@
   - 開工順序：A 共同教學館室內正式模型（`teach_interior.py --set gongtong`，現在是程序化）→ B 普通教學館光照烘焙 → C 總圖 3F 閱覽區光照烘焙。
   - **A 已交**（共同教學館室內正式模型＋光照烘焙；README `test_shots/gongtong_int_1030/README.md`；patch `gongtong_interior_1030.patch`＋`lightbake_tools_1031.patch`；Node 776／0）。等 LAWWW-B ACK／整合。
     - 白天參數不能照博思（天光 0.18、白平衡 1.0,0.98,0.95、白天燈 0.6，理由在 `bake_gongtong.sh` 開頭）。
-  - 下一件：B 普通教學館光照烘焙（`putong_interior.glb`；窗大的教室白天參數照共同的試）→ C 總圖 3F 閱覽區。
+  - **B 進行中**：`lightbake/bake_putong.sh`（照共同；平板燈 1.2×0.3、配置的 lightPanels）；鏡頭 `shots/putong_int_shots.py`；改前截圖、64 取樣試烘在 `scratchpad/putong/`。之後 → C 總圖 3F 閱覽區。
   - **注意**：開發分支的 `lightbake/bake_room.py` 是舊版（沒有 collapse_black 整面取樣）：LAWWW-B 整合 `lightbake_tools_1031.patch` 以前，在開發分支測試樹重烘要先從這個分支複製工具。
 - **NAV-LIBHALL-ISLAND-1030 已交、已整合（cfb70a5fd，`patches/libhall_island_1030.patch`；LAWWW-B 21:37）**（P2）：總圖大廳一樓約 (5.85,-8.4) 2 格導航孤島（換回舊 GLB 也一樣）；改 `library_layout.js` 阻擋接回大塊或封掉；`tests/library_copier_unit.js` 有 FAIL 就 exit 1（原本 FAIL 也 exit 0）；跑 `nav_buildings_unit`。
 - 已交、已整合：SOCLIB-LM-1030＋BOYA n19（3bc7a8800）。
