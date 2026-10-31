@@ -471,7 +471,7 @@ const HOME=(function(){
     if(typeof STORY!=='undefined'&&STORY.unboxY2) await STORY.unboxY2(GM); return true; };
   /* ★主線 5 第三個房間（1A-03，AA_315）：2027-09-05 以後在臺北的家＝旁白一句 → 字卡「回宿舍」→ 507 → 拆箱（STORY.unboxY3）*/
   S.roomY3FromHome=async function(GM){ const G=GM.G, H=S.rec(G); GM.sceneBegin();
-    try{ if(typeof ADV!=='undefined') ADV.begin({background:bg()}); await GM.say(null,'（明天開學。今天搬進第三個房間。）');
+    try{ if(typeof ADV!=='undefined') ADV.begin({background:bg()}); { const ln=typeof STORY!=='undefined'&&STORY.roomY3Line?STORY.roomY3Line(G):'（明天開學。今天搬進第三個房間。）'; if(ln) await GM.say(null,ln); }   /* 9/6 才回宿舍＝不說「明天開學」（BUG-ROOMY3-LATE-1031）*/
       await GM.fade(true); if(GM.titleCard){ await GM.titleCard('回宿舍','捷運＋公車 約 40 分鐘',2400); await GM.titleCard('搬到新的房間','五樓 507 號房',2000); } GM.advance(0.7); H.at=false; H.wakeAsk=null; H.lbreak=null; H.bskip=null; if(typeof ADV!=='undefined'&&ADV.end) ADV.end();
       G.flags.ROOM_Y3_MOVING=true; if(GM.enter) await GM.enter('dorm',{x:0,z:2.4,yaw:Math.PI}); await GM.fade(false); }   /* 房間直接蓋成 507（zones3d.js dormSetKey）、紙箱封好 */
     finally{ GM.sceneEnd(); }

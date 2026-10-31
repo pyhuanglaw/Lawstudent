@@ -41,6 +41,11 @@ const meet=id=>SOCIAL.remember(id,'FIRST_MET','');
   const base=(day)=>{ fresh(day,20,'dorm',{ROOM_Y2:STORY.dayOfKey('2026-09-06'),ROOM_Y2_ITEMS:['civ','noodle','pothos','y1_0','y1_1','y1_2','y1_3','y1_4'],POTHOS:true}); G.stage='law'; G.vac={reg:{}}; return G; };
   base(d5-1); check('1. 9/4 還沒到', !STORY.roomY3Due(G)); G.day=d5; check('1. 9/5 到了', STORY.roomY3Due(G)); G.stage='econ'; check('1. 經濟系那年不算', !STORY.roomY3Due(G)); G.stage='law';
   base(late+3); check('1. 大三下以後才讀檔：不演、直接記 ROOM_Y3', !STORY.roomY3Due(G)&&STORY.roomY3Late(G)&&G.flags.ROOM_Y3===late+3&&G.flags.ROOM_Y3_DISCARD===null);
+  /* BUG-ROOMY3-LATE-1031（BB-B n33_y3late）：只在 9/5、9/6 演（9/6 不說「明天開學」）；9/7 以後才讀進來、還沒搬的直接記；修改前 FAIL */
+  base(d5+1); check('1b. 9/6 還照演；旁白不說「明天開學」', STORY.roomY3Due(G)&&STORY.roomY3Line(G)===null&&(G.day=d5,STORY.roomY3Line(G))==='（明天開學。今天搬進第三個房間。）');
+  for(const k of ['2027-10-13','2027-12-15','2028-02-15']){ const dd=STORY.dayOfKey(k); base(dd); const due0=STORY.roomY3Due(G), r=STORY.roomY3Late(G);
+    check('1b. '+k+' 才讀進來、沒有 ROOM_Y3：不演、S.roomY3Late 直接記', !due0&&r===true&&G.flags.ROOM_Y3===dd&&!STORY.roomY3Due(G), JSON.stringify({due0,r,R:G.flags.ROOM_Y3})); }
+  base(d5+2); G.flags.ROOM_Y3_MOVING=true; check('1b. 已經開始搬（ROOM_Y3_MOVING）：9/7 照舊算到期、roomY3Late 不動', STORY.roomY3Due(G)&&STORY.roomY3Late(G)===false&&!G.flags.ROOM_Y3); delete G.flags.ROOM_Y3_MOVING;
   // 2
   base(d5); let ks=STORY.roomY3Items(G).map(r=>r[0]); check('2. R1 大二什麼都沒做：新東西只有「一疊大二的筆記」', JSON.stringify(ks)===JSON.stringify(['notes_y2']), JSON.stringify(ks));
   base(d5); G.vac.reg['C08@Y2']='done'; G.vac.reg['C09@Y1']='done'; ks=STORY.roomY3Items(G).map(r=>r[0]); check('2. R2 大二暑假 C08 首爾：有交通卡；大一的 C09 不算', JSON.stringify(ks)===JSON.stringify(['notes_y2','vac_C08']), JSON.stringify(ks));

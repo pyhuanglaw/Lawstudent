@@ -37165,9 +37165,9 @@
    "title": "沒有 ROOM_Y2 的舊存檔在大二開學以後、甚至大三讀進來，還演「明天開學。今天搬進新的房間。」＋拆大一的箱子（S.roomY2Due 沒有上限；BB-B 10-31 n20_y2late 瀏覽器確認 10/15、2027-10-13）",
    "area": "STORY",
    "owner": "LAWWW",
-   "status": "已整合待測試",
+   "status": "已驗收",
    "priority": "P2",
-   "next": "【10-31 15:1x】全部 Node 786／0（5db371b5d）；已派 BB MODE=y2late＋大三 507 一輪｜【10-31 15:0x】roomY2Due 只在 9/6、9/7（已經開始搬、人在臺北的家照舊）；9/7 演的時候不說「明天開學」（S.roomY2Line，宿舍和家兩處）；9/8 以後才讀進來的 S.roomY2Late 直接記 ROOM_Y2＝9/6、不演（照 roomY3Late；房間照大一經歷過的東西擺）；v3_room2_unit 1b（修改前 FAIL）→ BB 重跑 MODE=y2late｜BB 另提：大三 2027-09-05～2028-02-20 讀進來、沒有 ROOM_Y3 的舊存檔可能也演 507（roomY3Late 2028-02-21 才生效），請 BB 排一輪看",
+   "next": "已驗收（10-31 15:1x）｜【10-31 15:1x】全部 Node 786／0（5db371b5d）；已派 BB MODE=y2late＋大三 507 一輪｜【10-31 15:0x】roomY2Due 只在 9/6、9/7（已經開始搬、人在臺北的家照舊）；9/7 演的時候不說「明天開學」（S.roomY2Line，宿舍和家兩處）；9/8 以後才讀進來的 S.roomY2Late 直接記 ROOM_Y2＝9/6、不演（照 roomY3Late；房間照大一經歷過的東西擺）；v3_room2_unit 1b（修改前 FAIL）→ BB 重跑 MODE=y2late｜BB 另提：大三 2027-09-05～2028-02-20 讀進來、沒有 ROOM_Y3 的舊存檔可能也演 507（roomY3Late 2028-02-21 才生效），請 BB 排一輪看",
    "first": {
     "term": "Y2S1",
     "week": 1,
@@ -37185,7 +37185,36 @@
     "branch": "claude/modest-rubin-2lyp7g",
     "acceptance": "10/15、2027-10-13 讀進來不演搬 312；9/6 照演；9/7 照演但沒有「明天開學」",
     "receiver": "BB",
-    "ack": "SENT"
+    "ack": "ACTIONED"
+   },
+   "evidence": "BB-B n33_y2late（5db371b5d，BB_218 4ade3b735）ALL PASS：9/6 照演「明天開學。今天搬進新的房間。」＋拆箱；2026-10-15、2027-10-13 讀進來不演、ROOM_Y2 直接記 2026-09-06、人在房間裡"
+  },
+  {
+   "id": "BUG-ROOMY3-LATE-1031",
+   "title": "沒有 ROOM_Y3 的舊存檔在大三上整學期（10/13、12/15、2/15）讀進來，還演「（明天開學。今天搬進第三個房間。）」＋拆箱 507（S.roomY3Due 到 2028-02-21 都成立；BB-B 10-31 n33_y3late）",
+   "area": "STORY",
+   "owner": "LAWWW",
+   "status": "已整合待測試",
+   "priority": "P2",
+   "next": "【10-31 15:2x】照大二：roomY3Due 只在 9/5、9/6（已經開始搬、人在臺北的家照舊）；9/6 不說「明天開學」（S.roomY3Line，宿舍和家兩處）；9/7 以後才讀進來的 S.roomY3Late 直接記（原本要等大三下）；room_y3_unit 1b（修改前 FAIL）→ BB 重跑 YR=3＋大二那輪｜大四 409（roomY4Due 到大四下都成立、美國路線 12/23 回台才搬）請 BB 先測一輪再決定",
+   "first": {
+    "term": "Y3S1",
+    "week": 1,
+    "earliest": "舊存檔在大三開學以後讀進來",
+    "mainline": false,
+    "blocks": false,
+    "prereq": false,
+    "parallel": true,
+    "confirmed": true
+   },
+   "source": "BB-B 10-31 15:04 訊息（BB_218 4ade3b735）",
+   "authorized": "D85（bug 修正）",
+   "xai": {
+    "spec": "—",
+    "branch": "claude/modest-rubin-2lyp7g",
+    "acceptance": "2027-10-13、12-15、2028-02-15 讀進來不演 507；9/5 照演；9/6 照演但沒有「明天開學」",
+    "receiver": "BB",
+    "ack": "未派"
    }
   }
  ]

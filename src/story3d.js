@@ -3186,8 +3186,11 @@ const STORY = (function(){
      （只有經歷過的才有）→ 可以丟一件（黃金葛和大一的五件不列）或都留著。記 ROOM_Y3（第幾天）、ROOM_Y3_ITEMS（新拿出來的）、ROOM_Y3_DISCARD（id 或 null）。
      新東西拿一件、房間多一件（dorm_y3_items.glb，2026-10-20）；去年的東西照舊是 dorm_y2_items.glb（312、507 同一組家具）。舊存檔：9/5 以後還沒有 ROOM_Y3＝下一次進宿舍補演；
      大三下（2028-02-21）以後才讀檔＝直接記 ROOM_Y3、不演（roomY3Late，S.tick）*/
-  S.roomY3Due=G=>{ if(!G||(G.stage||'law')!=='law'||!G.flags||G.flags.ROOM_Y3) return false; const d=S.dayOfKey('2027-09-05'), late=S.dayOfKey('2028-02-21'); return d!=null&&G.day>=d&&!(late!=null&&G.day>=late); };
-  S.roomY3Late=G=>{ const F=G&&G.flags; if(!F||F.ROOM_Y3||(G.stage||'law')!=='law') return false; const late=S.dayOfKey('2028-02-21'); if(late==null||G.day<late) return false; F.ROOM_Y3=G.day; F.ROOM_Y3_ITEMS=[]; F.ROOM_Y3_DISCARD=null; return true; };
+  /* BUG-ROOMY3-LATE-1031（BB-B n33_y3late）：原本大三上整學期（9/5～2028-02-20）都算到期——沒有 ROOM_Y3 的舊存檔在 10/13、12/15、2/15 讀進來，還演「（明天開學。今天搬進第三個房間。）」＋拆箱。
+     照大二（BUG-ROOMY2-LATE-1031）：只在 9/5（開學前一天）、9/6 演，9/6 不說「明天開學」；已經開始搬（ROOM_Y3_MOVING）、人在臺北的家照舊；9/7 以後才讀進來的 S.roomY3Late 直接記（原本要等大三下）*/
+  S.roomY3Due=G=>{ if(!G||(G.stage||'law')!=='law'||!G.flags||G.flags.ROOM_Y3) return false; const d=S.dayOfKey('2027-09-05'), late=S.dayOfKey('2028-02-21'); if(d==null||G.day<d||(late!=null&&G.day>=late)) return false; return G.day<=d+1||!!G.flags.ROOM_Y3_MOVING||atHome(G); };
+  S.roomY3Line=G=>G&&G.day===S.dayOfKey('2027-09-05')?'（明天開學。今天搬進第三個房間。）':null;
+  S.roomY3Late=G=>{ const F=G&&G.flags; if(!F||F.ROOM_Y3||F.ROOM_Y3_MOVING||(G.stage||'law')!=='law'||atHome(G)) return false; const d=S.dayOfKey('2027-09-05'); if(d==null||G.day<d+2) return false; F.ROOM_Y3=G.day; F.ROOM_Y3_ITEMS=[]; F.ROOM_Y3_DISCARD=null; return true; };
   S.ROOM_Y3_TEXT={notes_y2:['一疊大二的筆記','比大一的薄。字比大一的小。'],fafu_form:['一張空白的筆錄紙','值班那天多帶回來的。上面只寫了日期。'],
     sis_plan:['學姊研究計畫的第二段，印出來的','『學弟看第二段。』你真的看了。邊邊都是你的鉛筆字。'],article:['學姊給的那篇文章','讀了三次。第三次讀完，你開始想『如果是我會怎麼寫』。'],
     zq_usb:['一支隨身碟，標籤「測試版　不准外流」','子晴說測完要還。她沒來要，你也忘了還。'],zhe_notes:['阿哲還回來的民法筆記','借出去的時候是一本。還回來的時候，多了兩張他的便利貼。'],
@@ -3210,7 +3213,7 @@ const STORY = (function(){
     for(const id of ['C02','C03','C08','C09','C10','C11','C12']) if(V[id+'@Y2']==='done') it('vac_'+id,T['vac_'+id]);   /* 大二寒暑假做完的活動 */
     return L; };
   S.roomY3InDorm=async function(GM){ const G=GM.G; if(!S.roomY3Due(G)) return false; GM.sceneBegin();
-    try{ await GM.say(null,'（明天開學。今天搬進第三個房間。）'); await GM.fade(true); if(GM.titleCard) await GM.titleCard('搬到新的房間','五樓 507 號房',2400); GM.advance(0.5);
+    try{ const ln=S.roomY3Line(G); if(ln) await GM.say(null,ln); await GM.fade(true); if(GM.titleCard) await GM.titleCard('搬到新的房間','五樓 507 號房',2400); GM.advance(0.5);
       G.flags.ROOM_Y3_MOVING=true; if(GM.enter) await GM.enter('dorm',{x:0,z:2.4,yaw:Math.PI}); await GM.fade(false); }   /* ROOM_Y3_MOVING：房間直接蓋成 507、紙箱封好，拆完 unboxY3 清掉 */
     finally{ GM.sceneEnd(); }
     return S.unboxY3(GM); };
