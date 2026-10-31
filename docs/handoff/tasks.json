@@ -36841,9 +36841,9 @@
    "title": "影印機（ev_xc_copy，大一下）、宥辰兩場電梯事件在實際遊戲裡不會演：條件要 GMr.E，GMr 只有宥辰課堂那一場（S.meetIn）會設，讀檔以後一直是 null（BB-B 10-30 讀程式找到；Node 測試手動 bind 所以沒抓到）",
    "area": "STORY",
    "owner": "LAWWW",
-   "status": "已整合待測試",
+   "status": "已驗收",
    "priority": "P1",
-   "next": "sup497_3d.js：curE()＝GMr.E 或 GAME.E，三場條件改用 onFloor0()；aa497_supporting_unit 2-2 加「沒有人 bind」那一項（原始碼＋實跑，修改前 FAIL）→ BB 瀏覽器 COPY_REAL（不用捷徑，讀檔後站在影印機旁 12:15 等）",
+   "next": "已驗收（10-31 01:1x）",
    "first": {
     "term": "Y1S2",
     "week": 7,
@@ -36862,7 +36862,8 @@
     "acceptance": "不用捷徑、讀檔以後影印機那場會演；宥辰兩場電梯同理",
     "receiver": "BB",
     "ack": "SENT"
-   }
+   },
+   "evidence": "BB-B n25_xinci547（890f8f3f7，BB_218 c2039b606）：讀檔後 SUP497.bind() 是空的，影印機 COPY_REAL、宥辰電梯 ELEV_ASK／ELEV_DONE 都照玩家站著就演；台詞、YQ_ELEV open→done、YC_ELEVATOR 對；aa497 2-2 沒有 bind 那一項（修改前 FAIL）"
   }
  ]
 }
