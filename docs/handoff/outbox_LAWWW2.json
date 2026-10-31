@@ -4727,7 +4727,7 @@
   },
   {
    "branch": "claude/funny-albattani-iawshm",
-   "sha": "(這一次 commit)",
+   "sha": "267c6a804",
    "noDirectIntegrate": false,
    "receiver": "LAWWW",
    "ack": "SENT",
@@ -4745,7 +4745,8 @@
    "summary": "三家 512 取樣光照烘焙；遊戲程式不用改（wzShop→attachRoomGLB 自動接）；patch 只有新測試 wz_shops_lm_unit.js（開發原樣 FAIL 6、改後 ALL PASS）；照條件出現的證書、貓照片、貓碗烘焙時當作不存在",
    "tests": "全部 Node 788／0；draw call、三角形、節點、材質和改前完全一樣；壓扁 0／0／1 面（半熟檯面底面，判斷為誤報）",
    "remaining": "擺設（P4）沒做；杯盤、燈罩、植物照舊即時光；一盞樟樹和隔壁的牆沒烘；手機實機沒測",
-   "next": "LAWWW 換 12 個二進位檔＋套 patch（對 6a86f9c2c apply --check 通過）；我接下來做體育館光照，再來 CAM-BELL-1031"
+   "next": "LAWWW 換 12 個二進位檔＋套 patch（對 6a86f9c2c apply --check 通過）；我接下來做體育館光照，再來 CAM-BELL-1031",
+   "channel": "send_message 這個工作階段沒有，交件寫在這裡"
   }
  ]
 }
