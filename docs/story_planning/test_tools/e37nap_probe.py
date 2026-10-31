@@ -36,7 +36,7 @@ async def loop_until(pg, cdp, run, stop, max_s, label, sleepy=False):
     """sleepy＝照 qa_play MODE=sleep 的選法：選項裡有「睡…／再睡／先不要」就先選它（n36 第一次被叫醒時就是這樣又睡回去）"""
     t0 = time.time(); n = 0
     while time.time() - t0 < max_s:
-        g = await pg.evaluate("({day:GAME.G.day,h:+GAME.G.hour.toFixed(2),z:GAME.G.zone,e37:!!(GAME.G.events.done||{}).ev_y0_e37,busy:!!(GAME.E.player.busy||(GAME.D&&GAME.D.active))})")
+        g = await pg.evaluate("({day:GAME.G.day,h:+GAME.G.hour.toFixed(2),z:GAME.G.zone,e37:!!(GAME.G.events.done||{}).ev_y0_e37,busy:!!(GAME.E.player.busy||(GAME.D&&GAME.D.active)),cer:!!GAME.G.flags.CEREMONY_Y1})")
         if stop(g): return g
         s = await L.state(pg)
         if await pg.evaluate("!document.getElementById('phone').classList.contains('hide')"): await L.tap(pg, cdp, '#btnPhoneClose'); await pg.wait_for_timeout(600); continue
@@ -84,7 +84,7 @@ async def main():
                 bed = await pg.evaluate("(()=>{ const it=GAME.E.interactables.find(i=>i.sleep&&!i.hidden); return it?[it.x,it.z]:null; })()")
                 if bed: await L.go_to(pg, cdp, run, bed[0], bed[1], 0.8, case + ' 床', max_s=120); await L.tap(pg, cdp, '#interact'); await pg.wait_for_timeout(2500)
                 info['afterTap'] = await pg.evaluate("({zone:GAME.G.zone,cer:!!GAME.G.flags.CEREMONY_Y1,choices:[...document.querySelectorAll('#choices button')].map(b=>b.textContent.trim().slice(0,30)),dlg:!!(GAME.D&&GAME.D.active)})")
-                g = await loop_until(pg, cdp, run, lambda g: g['day'] >= -15, 900, case)
+                g = await loop_until(pg, cdp, run, lambda g: g['day'] >= -15 or (g.get('cer') and not g.get('busy')), 600, case)   # 典禮演完、空下來就停（演完人留在會場，不會自己睡到隔天）
                 info['cer'] = await pg.evaluate("!!GAME.G.flags.CEREMONY_Y1")
             elif case == 'cer831':
                 c1 = await nap(pg, cdp, run, case + ' 早上'); info['nap1'] = c1 and c1.get('t'); info['menu1'] = c1 and c1.get('all')
