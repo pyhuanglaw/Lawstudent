@@ -37135,11 +37135,9 @@
    "title": "D116 灰色三句（AA_546 沒列，BB-B 標）：子晴 Q2-L3「我沒去。……恭喜我傳了。真心的。大部分是。」、可昕 feed_y2s1「很好。好到我很生氣。」、feed_y4s1 kx3g「好到我很生氣。」——AA 判斷要不要換",
    "area": "STORY",
    "owner": "AA",
-   "status": "等待其他AI／素材",
+   "status": "已整合待測試",
    "priority": "P2",
-   "next": "【10-31 12:3x】LAWWW-B 已問 AA-B（換就給新句、不換回「不換」）；AA 給新句 → LAWWW 匯入 → BB 驗",
-   "pausedReason": "等 AA-B 判斷（D109 劇情 AA 定）",
-   "resumeWhen": "AA-B 回覆換或不換",
+   "next": "【10-31 12:4x】AA-B 回都換（AA_546 第 8 節，企劃線 86b121f42）：子晴 Q2-L3「……恭喜我傳了。他們熬了三個禮拜，很值得。」（ladder.js 照 import_ladder.py 重產，只改這一句）、可昕 KX_MOOT_DM「很好。好到我回去把自己那份重寫了一次。」、kx3g「他講得很好。我抄了兩頁筆記。」；nocmp_fix.json 加三組；相關測試跑中 → BB 看 ZQL3_W、KXY2S1｜【10-31 12:3x】LAWWW-B 已問 AA-B（換就給新句、不換回「不換」）；AA 給新句 → LAWWW 匯入 → BB 驗",
    "first": {
     "term": "Y2S1",
     "week": 1,
@@ -37156,8 +37154,8 @@
     "spec": "AA_546 的格式（哪一則換成什麼）",
     "branch": "claude/cool-heisenberg-o8kuqx",
     "acceptance": "AA 回覆；換的話新句匯入後 BB 照 n29 看",
-    "receiver": "LAWWW",
-    "ack": "SENT"
+    "receiver": "BB",
+    "ack": "ACTIONED"
    }
   }
  ]
