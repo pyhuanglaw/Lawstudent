@@ -37196,9 +37196,9 @@
    "title": "沒有 ROOM_Y3 的舊存檔在大三上整學期（10/13、12/15、2/15）讀進來，還演「（明天開學。今天搬進第三個房間。）」＋拆箱 507（S.roomY3Due 到 2028-02-21 都成立；BB-B 10-31 n33_y3late）",
    "area": "STORY",
    "owner": "LAWWW",
-   "status": "已整合待測試",
+   "status": "已驗收",
    "priority": "P2",
-   "next": "【10-31 15:3x】全部 Node 786／0（8d8aaad46；sleep_resume、story_hooks 前置改 ROOM_Y3_MOVING）；已派 BB YR=3＋大二＋大四 409 一輪｜【10-31 15:2x】照大二：roomY3Due 只在 9/5、9/6（已經開始搬、人在臺北的家照舊）；9/6 不說「明天開學」（S.roomY3Line，宿舍和家兩處）；9/7 以後才讀進來的 S.roomY3Late 直接記（原本要等大三下）；room_y3_unit 1b（修改前 FAIL）→ BB 重跑 YR=3＋大二那輪｜大四 409（roomY4Due 到大四下都成立、美國路線 12/23 回台才搬）請 BB 先測一輪再決定",
+   "next": "已驗收（10-31 16:1x）｜【10-31 15:3x】全部 Node 786／0（8d8aaad46；sleep_resume、story_hooks 前置改 ROOM_Y3_MOVING）；已派 BB YR=3＋大二＋大四 409 一輪｜【10-31 15:2x】照大二：roomY3Due 只在 9/5、9/6（已經開始搬、人在臺北的家照舊）；9/6 不說「明天開學」（S.roomY3Line，宿舍和家兩處）；9/7 以後才讀進來的 S.roomY3Late 直接記（原本要等大三下）；room_y3_unit 1b（修改前 FAIL）→ BB 重跑 YR=3＋大二那輪｜大四 409（roomY4Due 到大四下都成立、美國路線 12/23 回台才搬）請 BB 先測一輪再決定",
    "first": {
     "term": "Y3S1",
     "week": 1,
@@ -37216,8 +37216,67 @@
     "branch": "claude/modest-rubin-2lyp7g",
     "acceptance": "2027-10-13、12-15、2028-02-15 讀進來不演 507；9/5 照演；9/6 照演但沒有「明天開學」",
     "receiver": "BB",
-    "ack": "SENT"
+    "ack": "ACTIONED"
+   },
+   "evidence": "BB-B n34_y3late（8d8aaad46，BB_218 f1b32f1d4）ALL PASS：2027-09-05 照演＋拆箱；10/13、12/15、2/15 不演、ROOM_Y3 記讀進來那天；大二那輪 n34_y2late 再過一次"
+  },
+  {
+   "id": "BUG-ROOMY4-LATE-1031",
+   "title": "沒有 ROOM_Y4 的舊存檔在大四上（10/16、12/15）讀進來，還演「（明天開學。最後一次搬進宿舍。）」＋拆箱 409（S.roomY4Due 整個大四上成立；BB-B 10-31 n34_y4late）",
+   "area": "STORY",
+   "owner": "LAWWW",
+   "status": "已整合待測試",
+   "priority": "P2",
+   "next": "【10-31 16:1x】照大二、大三：搬的那天（台灣、日本 9/3；美國 12/23 返台，S.roomY4Day）和隔天演、隔天不說「明天開學」；已經開始搬、人在臺北的家照舊；再晚才讀進來的 S.roomY4Late 直接記（美國人在國外那段不記）；room_y4_unit 1b（修改前 FAIL）→ BB 重跑台灣與美國（n34_y4late_us）",
+   "first": {
+    "term": "Y4S1",
+    "week": 1,
+    "earliest": "舊存檔在大四開學以後讀進來",
+    "mainline": false,
+    "blocks": false,
+    "prereq": false,
+    "parallel": true,
+    "confirmed": true
+   },
+   "source": "BB-B 10-31 16:03 訊息（BB_218 f1b32f1d4）",
+   "authorized": "D85（bug 修正）",
+   "xai": {
+    "spec": "—",
+    "branch": "claude/modest-rubin-2lyp7g",
+    "acceptance": "10/16、12/15 讀進來不演 409；9/3 照演；9/4 照演但沒有「明天開學」；美國 12/23 照演、12/26 不演",
+    "receiver": "BB",
+    "ack": "未派"
    }
+  },
+  {
+   "id": "Y4PATH-LATE-1031",
+   "title": "舊存檔大四上中後段、大四下才讀進來、沒有 Y4_PATH：ev_y4_path「（最後一科考完……）（大四，要怎麼過？）」照演（S.y4PathDue 沒有上限；BB-B 10-31 n34_y4late 觀察）",
+   "area": "STORY",
+   "owner": "AA",
+   "status": "等待其他AI／素材",
+   "priority": "P3",
+   "next": "【10-31 16:1x】牽涉選項後果，已問 AA-B 選 A（過了某天直接記預設 Y4_PATH）／B（照演、開頭換句）／C；AA 回了照做",
+   "first": {
+    "term": "Y4S1",
+    "week": 1,
+    "earliest": "舊存檔在大四開學以後讀進來",
+    "mainline": false,
+    "blocks": false,
+    "prereq": false,
+    "parallel": true,
+    "confirmed": true
+   },
+   "source": "BB-B 10-31 16:03 訊息（BB_218 f1b32f1d4）",
+   "authorized": "D109（劇情 AA 定）",
+   "xai": {
+    "spec": "—",
+    "branch": "claude/cool-heisenberg-o8kuqx",
+    "acceptance": "AA 回覆後照做、BB 驗",
+    "receiver": "LAWWW",
+    "ack": "SENT"
+   },
+   "pausedReason": "等 AA-B 選 A／B／C（D109）",
+   "resumeWhen": "AA-B 回覆"
   }
  ]
 }

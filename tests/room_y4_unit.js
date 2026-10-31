@@ -39,6 +39,13 @@ const lines=()=>said.map(s=>(s.who?s.who+'：':'')+s.t);
   G.flags.EXCHANGE_ROUTE='JP'; check('1. 日本 9/3 到了（8/5 已經回來）', STORY.roomY4Due(G));
   G.flags.EXCHANGE_ROUTE='US'; check('1. 美國 9/3 不搬（8/2 出發、人在美國）', !STORY.roomY4Due(G)); G.day=ret; check('1. 美國 12/23 返台才搬', STORY.roomY4Due(G));
   G.stage='econ'; check('1. 經濟系那年不算', !STORY.roomY4Due(G));
+  /* BUG-ROOMY4-LATE-1031（BB-B n34_y4late）：搬的那天（台灣、日本 9/3；美國 12/23）和隔天演，隔天不說「明天開學」；再晚才讀進來、還沒搬的直接記；修改前 FAIL */
+  fresh(d3+1,20,'dorm'); check('1b. 台灣 9/4 還照演；不說「明天開學」', STORY.roomY4Due(G)&&!STORY.roomY4Lines(G).includes('（明天開學。最後一次搬進宿舍。）')&&(G.day=d3,STORY.roomY4Lines(G)[0])==='（明天開學。最後一次搬進宿舍。）');
+  for(const k of ['2028-10-16','2028-12-15']){ const dd=STORY.dayOfKey(k); fresh(dd,20,'dorm'); const due0=STORY.roomY4Due(G), r=STORY.roomY4Late(G);
+    check('1b. 台灣 '+k+' 才讀進來、沒有 ROOM_Y4：不演、S.roomY4Late 直接記', !due0&&r===true&&G.flags.ROOM_Y4===dd&&!STORY.roomY4Due(G), JSON.stringify({due0,r,R:G.flags.ROOM_Y4})); }
+  fresh(STORY.dayOfKey('2028-10-16'),20,'dorm'); G.flags.ROOM_Y4_MOVING=true; check('1b. 已經開始搬（ROOM_Y4_MOVING）：10/16 照舊算到期、roomY4Late 不動', STORY.roomY4Due(G)&&STORY.roomY4Late(G)===false&&!G.flags.ROOM_Y4); delete G.flags.ROOM_Y4_MOVING;
+  fresh(STORY.dayOfKey('2028-10-16'),20,'dorm'); G.flags.EXCHANGE_ROUTE='US'; check('1b. 美國路線 10/16（人在美國、還沒返台）：不演、roomY4Late 也不記', !STORY.roomY4Due(G)&&STORY.roomY4Late(G)===false&&!G.flags.ROOM_Y4);
+  G.day=ret+1; check('1b. 美國 12/24（返台隔天）照演', STORY.roomY4Due(G)); G.day=ret+3; check('1b. 美國 12/26 才讀進來：不演、直接記', !STORY.roomY4Due(G)&&STORY.roomY4Late(G)===true&&G.flags.ROOM_Y4===ret+3);
   fresh(late+3,20,'dorm'); check('1. 大四下以後才讀檔：不演、直接記 ROOM_Y4（BOX_KEPT_Y4 null）', !STORY.roomY4Due(G)&&STORY.roomY4Late(G)&&G.flags.ROOM_Y4===late+3&&G.flags.BOX_KEPT_Y4===null&&JSON.stringify(G.flags.ROOM_Y4_ITEMS)==='[]');
   // 2. 新東西
   const items=()=>STORY.roomY4Items(G).map(r=>r[0]);

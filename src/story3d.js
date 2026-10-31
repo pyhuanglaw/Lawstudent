@@ -4269,10 +4269,14 @@ const STORY = (function(){
     if(tw&&F.YT_T1) it('field');   /* 台灣路線、語彤週四的田野（1B-13，AA_322 YT_T1）*/
     return L; };
   S.roomItemName=function(G,id){ const m=/^y1_(\d+)$/.exec(id||''); if(m) return (ROOM_ITEMS[+m[1]]||[])[0]||null; return ((S.ROOM_Y4_TEXT[id]||S.ROOM_Y3_TEXT[id]||S.ROOM_Y2_TEXT[id])||[])[0]||null; };   /* 大一的五件（y1_0＝書架上的舊《民法》）、大二、大三、大四拆出來的東西的名字 */
+  /* BUG-ROOMY4-LATE-1031（BB-B n34_y4late）：原本整個大四上都算到期——沒有 ROOM_Y4 的舊存檔在 10/16、12/15 讀進來，還演「（明天開學。最後一次搬進宿舍。）」＋拆箱。
+     照大二、大三：搬的那天（台灣、日本 9/3；美國 12/23 返台）和隔天演，隔天不說「明天開學」；已經開始搬（ROOM_Y4_MOVING）、人在臺北的家照舊；再晚才讀進來的 S.roomY4Late 直接記 */
+  S.roomY4Day=G=>S.route(G)==='US'?S.dayOfKey(ROUTE_DATES.US.ret):y4D('room');
   S.roomY4Due=G=>{ if(!y4Law(G)||!G.flags||G.flags.ROOM_Y4) return false; const d=y4D('room'), late=y4D('y4s2'); if(d==null||G.day<d||(late!=null&&G.day>=late)) return false;
-    if(S.route(G)==='US'){ const r=S.dayOfKey(ROUTE_DATES.US.ret); return r!=null&&G.day>=r; } return true; };   /* 美國路線：12/23 返台才搬（exchange3d.js 的返台直接接）*/
-  S.roomY4Late=G=>{ const F=G&&G.flags; if(!F||F.ROOM_Y4||!y4Law(G)) return false; const late=y4D('y4s2'); if(late==null||G.day<late) return false; F.ROOM_Y4=G.day; F.ROOM_Y4_ITEMS=[]; F.BOX_KEPT_Y4=null; return true; };   /* 大四下以後才讀檔、還沒搬：直接記、不演 */
-  S.roomY4Lines=G=>['（明天開學。最後一次搬進宿舍。）'].concat(S.route(G)==='JP'?['（抽籤是姊姊幫你填的表。）']:[]);
+    const s0=S.roomY4Day(G); if(s0==null||G.day<s0) return false; return G.day<=s0+1||!!G.flags.ROOM_Y4_MOVING||atHome(G); };   /* 美國路線：12/23 返台才搬（exchange3d.js 的返台直接接）*/   /* 美國路線：12/23 返台才搬（exchange3d.js 的返台直接接）*/
+  S.roomY4Late=G=>{ const F=G&&G.flags; if(!F||F.ROOM_Y4||!y4Law(G)) return false; const late=y4D('y4s2'), s0=S.roomY4Day(G);
+    const go=(late!=null&&G.day>=late)||(s0!=null&&G.day>=s0+2&&!F.ROOM_Y4_MOVING&&!atHome(G)); if(!go) return false; F.ROOM_Y4=G.day; F.ROOM_Y4_ITEMS=[]; F.BOX_KEPT_Y4=null; return true; };   /* 大四下以後才讀檔、還沒搬：直接記、不演 */
+  S.roomY4Lines=G=>(G&&G.day===y4D('room')?['（明天開學。最後一次搬進宿舍。）']:[]).concat(S.route(G)==='JP'?['（抽籤是姊姊幫你填的表。）']:[]);   /* 9/4 才搬＝不說「明天開學」（BUG-ROOMY4-LATE-1031）*/
   S.ROOM_Y4_US=['（傍晚，你從家裡出發，回宿舍。）','（409 的床位七月就抽好了。鑰匙在舍監那裡等你。）'];   /* AA-C bf349b96：清晨 05:40 落地、上午回家，第一句改（原本「機場出來，你沒有回家，直接去宿舍。」對不上）*/   /* e75ebc69（AA_326 裁定 #39）：美國路線 7/15 在臺灣，自己抽 */
   S.roomY4InDorm=async function(GM){ const G=GM.G; if(!S.roomY4Due(G)) return false; const us=S.route(G)==='US'; GM.sceneBegin();
     try{ if(!us) for(const t of S.roomY4Lines(G)) await GM.say(null,t); await GM.fade(true); if(GM.titleCard) await GM.titleCard(us?'四樓 409 號房':'搬到新的房間',us?'':'四樓 409 號房',2400); GM.advance(0.5);
