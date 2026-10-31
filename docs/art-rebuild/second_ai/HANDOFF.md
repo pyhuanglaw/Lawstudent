@@ -1,8 +1,14 @@
 # LAWWW2 交接紀錄（隨時更新；工作階段中斷時從這裡接）
 
-## ⏱ 現況（LAWWW2-B，2026-10-31 18:5x UTC；帳號 B 七天額度已到警示，隨時可能被切斷——接手的先讀這一段）
+## ⏱ 現況（LAWWW2-B，2026-10-31 19:4x UTC；帳號 B 七天額度已到警示，隨時可能被切斷——接手的先讀這一段）
 
-- **18:5x（最新）**：
+- **19:4x（最新）**：
+  - **體育館 1F 第五版（高窗光暈更正）＋3F 主球場光照：已交**（63de770d5；patch `gym_lm_v5_arena_1031.patch`；等 LAWWW-B 整合）。
+    - 光暈原因：高窗發光面補了反面（PERF-SINGLESIDE），反面朝牆把牆照爆 → 高窗 `nodup` ＋ `bake_room.py --emit-oneside`。
+    - `bake_gym.sh` 單面還原改對照部署中的 GLB（白模裡 cafe_sign_face 是雙面）。
+  - LAWWW-B 19:1x 佇列（使用者要求開工）：B1 光照 → CAM-BELL → ~~WZPARK-ENTRY-B（查過已修好）~~ → LAMPSHADE-FLIP → ART-13（照 D59）→ JIAHAO-JOY → 美國室內光照 → ART-PHOTO-CMP。
+  - **下一件：B1（gym_b1）光照烘焙**：`bake_gym.sh` 加 b1；燈具在 gym_b1.py（泳池天花板燈、健身房 T5、走廊嵌燈）。
+- **18:5x**：
   - **體育館 1F 光照＋總圖核心鏡頭第二輪：已交、已整合**（我 3094e123b → LAWWW-B baec2acc2；全部 Node 789／0）。
   - glb_restore_sides 掃描：21 個有光照貼圖的 GLB 都沒問題（只有體育館 1F，已修）。
   - **正在做：3F 主球場（gym_arena）光照烘焙第二版**（scratchpad `gym/arena3`）：
