@@ -437,7 +437,8 @@ async def s_zq3(p, run, base, sid, out):
 @guard
 async def s_kai203(p, run, base, sid, out):
     res = out.setdefault(sid, {})
-    b, pg, cdp, errs, r = await launch(p, run, base, '2025-11-18', 20.25, 'dorm', preflags={'DORM_FOUR': True}, rels={ZQ: 'ACQ'}, label=sid + '（大一上第 12 週週二 20:15 宿舍；【捷徑】DORM_FOUR＝203 四人房；認識子晴）')
+    b, pg, cdp, errs, r = await launch(p, run, base, '2025-11-18', 20.25, 'dorm', preflags={'DORM_FOUR': True}, rels={ZQ: 'ACQ'}, flags={'kaiAsked': True},
+                                       label=sid + '（大一上第 12 週週二 20:15 宿舍；【捷徑】DORM_FOUR＝203 四人房；認識子晴；【前置】kaiAsked＝第二天下午那一題「下午去哪了？」當作問過了——n29_nocmp_a 10:5x 使用者存檔沒有這個旗標，第一次說話先演那一題）')
     try:
         ups = await pg.evaluate(UPS + "(['kai'])"); run.setup('【前置】阿凱的升級門檻台詞當作說過了（SOCIAL.markUp）：%s' % J(ups))
         pre = await pg.evaluate("(()=>{ const G=GAME.G; return {era:!!(DORM203.era&&DORM203.era(G)), r203:!!(STORY.r203On&&STORY.r203On(G)), due:(HEARD.kaiDue&&(HEARD.kaiDue(G)||{}).id)||null, zq:G.flags.ZQ_PRACTICE||null, knowsZq:SOCIAL.has('heroine_04','FIRST_MET')}; })()")
@@ -469,6 +470,9 @@ async def s_zql3(p, run, base, sid, out):
             if pos: break
             await pg.wait_for_timeout(5000)
         run.check('%s：前置——子晴在校園（作息 %s）、下一層是 Q2-L3' % (sid, J(w)), bool(pos) and nxt == 'Q2-L3', J({'pos': pos, 'next': nxt}))
+        if pos:   # n29_nocmp_a 10:5x：子晴在 110 m 外，SwiftShader 每秒 1 格走了 6 分鐘還走不到（中途手機跳出來暫停）——先站到她 4～6 m 外
+            near = await pg.evaluate("(([x,z])=>{ const E=GAME.E; for(const R of [4,5,6,8]) for(let i=0;i<16;i++){ const a=i*Math.PI/8, px=x+Math.cos(a)*R, pz=z+Math.sin(a)*R; if(E.canStand&&!E.canStand(px,pz,0.35,0)) continue; E.placeAt(E.player,px,pz,0); E.player.path=null; return [+px.toFixed(2),+pz.toFixed(2),R]; } return null; })(%s)" % json.dumps(pos[:2]))
+            run.setup('【捷徑】%s：站到子晴旁邊 %s（瞬移；之後照玩家走過去、點「說話」）' % (sid, J(near))); await pg.wait_for_timeout(2500)
         n0 = await log_len(pg)
         ch, lab = await talk(pg, cdp, run, [ZQ], ['子晴', '高子晴'], picks=['「妳還好嗎？」'], label=sid, shot_at=('第二名',))
         lg = await log_since(pg, n0); T = texts(lg); CS = choice_sets(lg); res.update({'said': T, 'choices': CS, 'lab': lab}); await run.shot(pg, '%s_after' % sid)
