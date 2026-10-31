@@ -7,6 +7,8 @@
 # 燈（面光源）：T5 格柵燈具，位置照 teach_interior.py 的 trof()；配置沒寫 lightPanels，用 teach3d.js 備用模型的預設燈位（DEFAULT_LP）。一樓樓梯井那一塊沒有燈。
 #   窗：一樓南面（休息區）、北面（102、101 的後面），二樓南北兩排；天光＋下午的太陽（方位 200°、仰角 38°）。
 #   天花板比博思低 0.2～0.6 m：燈的瓦數 12（博思一樓 14、二樓 12；64 取樣試烘 11 的晚上比博思暗 15%）。
+#   白天比博思暗、不偏黃（10-31 遊戲內試了三版）：博思的參數（天光 0.5、白平衡 0.92,0.88,0.8、白天燈 0.9）在這裡教室牆面 (248,220,176)，紅色爆掉、整間偏橘黃——
+#   教室小、窗大（博思的階梯教室沒有窗），遊戲裡白天還有即時的太陽（×0.3）和跟著玩家的三盞燈。改成天光 0.18、白平衡 1.0,0.98,0.95、白天燈 0.6：(214,191,158)，晚上 (168,159,139)。
 # --nolm（照舊即時光）：階梯教室的長桌、翻椅（LECT_*、SEATPANS：椅面會掀起來）、燈具、格柵、輕鋼架、鋼、窗框、止滑條、小零件。
 set -e
 SAMPLES=${1:-512}
@@ -52,7 +54,7 @@ EOF
 python3 -c "import json,sys; d=json.load(open(sys.argv[1])); d['out']='assets/models/env/second_ai/gongtong_interior.glb'; json.dump(d,open(sys.argv[2],'w'),ensure_ascii=False,indent=1)" "$TMP/gt_plain.json" "$OUTDIR/gongtong_interior.json"   # 統計（三角形、材質）
 /opt/blenv/bin/python tools/blender/env_second/lightbake/bake_room.py -- --in "$TMP/gt_plain.glb" --out "$OUTDIR/gongtong_interior.glb" \
   --lm "$TMP/gt" --url assets/models/env/second_ai/gongtong_interior_lm --res "$RES" --samples "$SAMPLES" --hide "$HIDE" --nolm "$NOLM" \
-  --sun 200,${SUNEL:-38},${SUNW:-1.8} --sky "${SKY:-0.5}" --daywb 0.92,0.88,0.8 --lights "$LIGHTS" --points "$POINTS" --daylights "${DAYL:-0.9}" --smooth 1 --shell S,N
+  --sun 200,${SUNEL:-38},${SUNW:-1.8} --sky "${SKY:-0.18}" --daywb ${DAYWB:-1.0,0.98,0.95} --lights "$LIGHTS" --points "$POINTS" --daylights "${DAYL:-0.6}" --smooth 1 --shell S,N
 python3 tools/blender/env_second/lightbake/to_webp.py "$TMP/gt" "$OUTDIR/gongtong_interior_lm" 90
 /opt/blenv/bin/python tools/blender/env_second/lightbake/lm_fix_hidden.py -- --in "$OUTDIR/gongtong_interior.glb" --out "$OUTDIR/gongtong_interior.glb" --lm "$OUTDIR/gongtong_interior_lm"
 cp "$TMP/gt.json" tools/blender/env_second/lightbake/gongtong_interior_lm.json

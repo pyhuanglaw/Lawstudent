@@ -225,15 +225,15 @@ index 000000000..8f915209e
 +cp "$TMP/sl.json" tools/blender/env_second/lightbake/soclib_interior_lm.json
 diff --git a/tools/blender/env_second/lightbake/gongtong_interior_lm.json b/tools/blender/env_second/lightbake/gongtong_interior_lm.json
 new file mode 100644
-index 000000000..2b689152d
+index 000000000..a8b8e9f53
 --- /dev/null
 +++ b/tools/blender/env_second/lightbake/gongtong_interior_lm.json
 @@ -0,0 +1,69 @@
 +{
 + "scale": 2.0,
 + "intensity": 6.283185307179586,
-+ "res": 512,
-+ "samples": 64,
++ "res": 1024,
++ "samples": 512,
 + "emit": {},
 + "dayemit": {},
 + "sun": [
