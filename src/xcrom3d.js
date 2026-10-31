@@ -11,11 +11,11 @@ const XCROM=(()=>{
   /* 兩條開關（AA_537 第 2 節、5-5）：
      noAnEx＝跟以安交往過就不開——使用者 2026-10-30 選「照樣可以開」（UA-LAWWW-1030-26）＝false；
      noOpen＝不接受多段——使用者 10-30：「我們要討論一下他的個性再來討論……應該是他主觀要知道如果玩家有跟別人交往，如果只是客觀有這件事情他不知道的話那他也無從在意吧」（UA-LAWWW-1030-27）＝還在討論，先照 AA 的建議 */
-  S.CFG={noAnEx:false,noOpen:true};
+  S.CFG={noAnEx:false,noOpen:false};   /* noOpen：使用者 10-31 00:0x 點選「只要沒騙她就接受」（AA_548 第 7 節）＝false；noAnEx 已經沒有用了（G10 拿掉）*/
   /* 整條線的開關（2026-10-30 17:1x AA-B 轉：使用者直接對 AA 否決芯慈×以安「第一名／第二名」整條劇情——「拜託你把那個第一第二名刪掉，這個爛劇情」；
      這條線用「第二名」撐，先停、不進下一版，等 AA 重寫）：false＝芯慈不在 DATE.HEROINES、沒有心意邀約、告白、半夜訊息、新的時刻、心願午夜場；
      程式留著（tests/xinci_romance_unit.js 用 XCROM.setOn(true) 測），AA 重寫以後照新稿改、再打開 */
-  S.ON=false;
+  S.ON=true;   /* 2026-10-31 打開：AA_548 第 1～7 節做完（芯慈新個性 AA_547 使用者 10-30 19:2x 點選、告白不問／沒騙就接受 10-31 00:0x 點選；AA-B 00:25「XCROM.ON 可以打開」）*/
   /* 慈 3、慈 5、慈 6 的開關（名字 OLD 是歷史：10-30 19:0x 先關掉舊的「第二名」四場，D116）：AA_547（企劃線 c746f364d，使用者 19:2x 點選「照這份寫」）已經把它們換成新稿——
      慈 3「凌晨的便利商店」（＋B1、Café 補演、第 11 週提示）、慈 5「對答案」（分工抄筆記）、慈 6「暑期實習」；慈 4、Alison「吵架了」整場拿掉。true＝照新稿演；
      要整批再關掉時改 false（各支的條件問 XCROM.OLD）。戀愛線（S.ON）照舊關著，等 AA_548 重寫門檻 */
@@ -29,6 +29,19 @@ const XCROM=(()=>{
   S.anDated=G=>{ const f=F(G); return f['dating_'+AN]===true||!!f['EX_'+AN]; };
   /* 多段那一條：她接不接受祐廷同時和別人交往（termend3d.js 的 KNOWS_OK、告白那一刻的 others 都問這裡）*/
   S.acceptsOpen=G=>!S.CFG.noOpen;
+  /* ===================== AA_548 第 7 節（使用者 10-31 00:0x 點選：告白時她不問；只要沒騙她就接受）=====================
+     她自己知道了才算：你親口說（ROM.tellBy，source yt_told）＝接受；她從別的地方知道、你沒說過＝分手（挽回一次）。不問、也就沒有「騙」的那一句 */
+  const romOk=()=>typeof ROM!=='undefined'&&!!ROM.knowsOf;
+  S.othersDating=G=>{ const f=F(G); return Object.keys(f).filter(k=>/^dating_/.test(k)&&f[k]===true).map(k=>k.slice(7)).filter(id=>id!==XC); };
+  S.toldOf=(G,p)=>romOk()&&!!ROM.relRec&&(((ROM.relRec(G)||{})[XC]||{})[p]||{}).source==='yt_told';
+  S.hidden=G=>S.othersDating(G).filter(p=>!S.toldOf(G,p));   /* 交往中、還沒親口跟她說的 */
+  S.foundOut=G=>S.othersDating(G).filter(p=>romOk()&&ROM.knowsOf(G,XC,p)&&!S.toldOf(G,p));   /* 她自己知道了、你沒說過的 */
+  S.knowsOk=G=>!S.foundOut(G).length;   /* termend3d.js KNOWS_OK：她知道的每一段都是你說的 */
+  S.tell=G=>{ for(const p of S.hidden(G)) if(typeof ROM!=='undefined'&&ROM.tellBy) ROM.tellBy(G,XC,p); F(G).XC_TOLD=G.day; };
+  S.TELL_OPT='（先告訴她，你在跟誰交往）';
+  S.TELL_LINES=['……我要知道是誰。',{narr:'（你說了。）'},'好。知道了，我才排得出來。'];   /* 告白那時（termend3d.js 回家的路上）*/
+  S.KNOWN_LINE='你跟她的事，我知道。……我排得出來。';   /* 告白那時她已經知道（之前說過）：她答應的時候 */
+
   /* G9：交往前第 6 階、她的戀愛 ≥ 70、信任 ≥ 60（一般 55／45）、正式約會 ≥ 6 次（一般 4）、去過她的心願地點 */
   S.NUM={npcRom:70,trust:60,count:6};
   S.numbers=function(G){ if(typeof DATE==='undefined'||!DATE.stageNum||!DATE.log) return false; const r=rel(), L=DATE.log(G,XC);
@@ -182,7 +195,7 @@ const XCROM=(()=>{
   /* 30 分鐘內回＝XC_NIGHT +1 */
   S.onAnswer=function(G,m,o){ if(m&&m.ask&&m.ask.id==='xc_blank_again'){ try{ S.onBlank(G,m,o); }catch(e){ console.warn('XCROM.onBlank',e); } return; }
     if(!m||!m.ask||!/^xcn_/.test(m.ask.id)||!o||o.noCount) return; const sentAt=T(m.day,m.h), at=now(G); if(at-sentAt<=0.5+1e-6){ const f=F(G); f.XC_NIGHT=(f.XC_NIGHT|0)+1; } };
-  S.phone=function(G){ if(!S.ON) return; for(const f of [S.g3Remind,S.blankAgain,S.g7,S.call1,S.night,S.wake]){ try{ f(G); }catch(e){ console.warn('XCROM.phone',e); } } };
+  S.phone=function(G){ if(!S.ON) return; for(const f of [S.g3Remind,S.blankAgain,S.g7,S.call1,S.night,S.wake,S.anKnows]){ try{ f(G); }catch(e){ console.warn('XCROM.phone',e); } } };
   S.EVENTS=[S.EV_G2,S.EV_G6,S.EV_SAMEDAY,S.EV_CALL1];
   /* ---------- 心願那一場：午夜場（AA_537b 8-2，企劃線 86659bbc1；DATE_WISH 的格式，同沛珊 D06）----------
      mention 不放在這裡（在半夜訊息，S.MENTION）：見面時不說。herInvite：交往前第 5 階以上＋XC_BLANK、兩個人都單身（交往中可以），一學期一次，週五 00:40 傳、約週六 22:30 出發（23:30 開演；DATE.MIDNIGHT）。
@@ -207,6 +220,28 @@ const XCROM=(()=>{
       choices:[{t:'「我也是。」',reply:[ME('嗯。')]},{t:'「下次再來。」',reply:[ME('好。下次不是午夜場也可以。')]},{t:'（陪她等車）',reply:[NR('（計程車來了。她上車以前，回頭看了你一眼。）')]}]} };
   S.wireWish=function(){   /* 記憶 XC_MIDNIGHT 的名稱在 social3d.js MEMORY_LABEL */
     if(typeof WISH!=='undefined'&&WISH.record&&!WISH.record._xc){ const r0=WISH.record; WISH.record=Object.assign(function(G,t,ev){ const r=r0.apply(this,arguments); try{ if(t&&t.who===XC&&G&&G.flags) G.flags.XC_MIDNIGHT_DAY=G.day; }catch(e){} return r; },{_xc:true}); } };
+  /* ===================== 交往以後（AA_548 第 7 節＋AA_537 5-3）=====================
+     ①你自己先說＝接受：和她說話的選單多「（自己跟她講<她>的事）」，當場說（STORY.TALK_OPTS）；記 XC_TOLD、ROM.tellBy（之後她知道、算你說的）
+     ②她自己發現、你沒說過（ROM 記她知道、來源不是你）＝下次走到她旁邊演分手兩句、ROM.end（XC_FOUND＝第幾次、那一天）；挽回（一次，AA_537 5-5）的觸發 AA 還沒給，先不做
+     ③以安知道（5-3）：交往後第一週，以安有聯絡方式、沒在和祐廷交往＝一則私訊 */
+  const dating=G=>F(G)['dating_'+XC]===true;
+  const nm=id=>typeof SOCIAL!=='undefined'&&SOCIAL.displayName?SOCIAL.displayName(id):id;
+  S.TELL_AFTER=['我要知道是誰。……知道了，我才排得出來。','你跟她約的那幾天，先告訴我。我排別的。'];
+  S.FOUND=['我沒有問你，是因為我以為你會說。','……我們到這裡就好。'];
+  S.AN_KNOWS=['芯慈跟我說了。她自己來跟我說的。','我很高興。是真的。'];
+  S.tellAfterOpt=p=>'（自己跟她講'+nm(p)+'的事）';
+  S.talkOpts=function(G,id){ if(!S.ON||id!==XC||!dating(G)) return []; const h=S.hidden(G).filter(p=>!S.foundOut(G).includes(p)); if(!h.length) return [];
+    return [{t:S.tellAfterOpt(h[0]),priv:true,privKey:'xc_tell',run:async GM=>{ for(const t of S.TELL_AFTER) await GM.say({charId:XC,name:nm(XC)},t); S.tell(GM.G); }}]; };
+  S.foundDue=G=>S.ON&&law(G)&&dating(G)&&S.foundOut(G).length>0;
+  S.EV_FOUND={ id:'ev_xc_found', title:'', participants:[XC], location:'any', trigger:'auto', once:false, near:{npc:XC,r:3}, background:'blur',
+    prereq:{custom:G=>S.foundDue(G)},
+    dialogue:[ {speaker:XC,text:S.FOUND[0]},{speaker:XC,text:S.FOUND[1]} ],
+    after:G=>{ const f=F(G); if(typeof ROM!=='undefined'&&ROM.end) ROM.end(G,XC,'found'); else f['dating_'+XC]=false; f.XC_FOUND={n:((f.XC_FOUND&&f.XC_FOUND.n)|0)+1,day:G.day}; } };
+  S.EVENTS.push(S.EV_FOUND);
+  S.startDay=G=>{ const f=F(G), c=f.confessed&&f.confessed[XC]; if(c!=null) return c; if(dating(G)&&f.XC_DATING_DAY==null) f.XC_DATING_DAY=G.day; return f.XC_DATING_DAY; };
+  S.anKnows=function(G){ if(!law(G)||!dating(G)||sent(G,'xc_an_knows')||F(G)['dating_'+AN]===true) return; const d0=S.startDay(G); if(d0==null||G.day<d0+1||G.day>d0+7) return;
+    if(typeof INV!=='undefined'&&INV.hasContact&&!INV.hasContact(G,AN)) return; if((G.hour%24)<21) return;
+    PHONE.at(G,G.day,G.hour%24,S.AN_KNOWS.map(t=>({th:'p:'+AN,from:AN,text:t})),'xc_an_knows'); };
   /* ---------- 接線（載入時一次）---------- */
   /* 打開／關掉整條線：DATE.HEROINES、事件、心願事件一起加或拿掉 */
   S.setOn=function(v){ S.ON=!!v;
@@ -217,6 +252,7 @@ const XCROM=(()=>{
   S.wire=function(){ if(S._wired) return; S._wired=true;
     if(typeof STORY!=='undefined'&&Array.isArray(STORY.PHONE_RULES)) STORY.PHONE_RULES.push(G=>S.phone(G));
     if(typeof PHONE!=='undefined'&&Array.isArray(PHONE.ON_ANSWER)) PHONE.ON_ANSWER.push((G,m,o,k)=>S.onAnswer(G,m,o,k));
+    if(typeof STORY!=='undefined'&&Array.isArray(STORY.TALK_OPTS)) STORY.TALK_OPTS.push((G,id)=>S.talkOpts(G,id));   /* 交往以後自己跟她講（AA_548 第 7 節）*/
     S.wireWish(); S.wireSched(); S.setOn(S.ON); };
   /* AA_548 新加的兩個地方要有人在（只在線打開、條件成立時；放在最前面＝蓋過同時段的一般作息）：3-1 巷口家常菜、G6 補一次的總圖三樓 */
   S.SCHED=[
