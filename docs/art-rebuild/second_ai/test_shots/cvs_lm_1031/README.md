@@ -90,4 +90,4 @@
   - 分類牌的材質變雙面：模型腳本改明確單面，重烘。
   - 牆面的反面被烘焙拿掉：測試改成 2c。
 - 修完重烘（光照貼圖和第一次逐像素相同）。讀便利商店模型的 21 支測試（含 `cvs_interior_lm_unit`、`singleside_interiors_unit`、`room_ceiling_unit`）全部 ALL PASS。
-- 全部 Node 第二次：（跑完補）
+- **全部 Node 第二次**（開發 `74fbc5a32`＋這一包最後的版本）：**785 過、0 失敗**。
