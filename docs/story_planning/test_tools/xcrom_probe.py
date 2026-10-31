@@ -1,29 +1,31 @@
-"""BB-B 10-31：芯慈戀愛線（AA_548，XCROM.ON＝true）瀏覽器探針；遊戲工作樹 254bcfb35（LAWWW-B 的清單）。
+"""BB-B 10-31：芯慈戀愛線（AA_548，XCROM.ON＝true）瀏覽器探針；遊戲工作樹 bcb788dec（LAWWW-B 的清單；254bcfb35 起寫，bcb788dec 照新行為改：心意邀約當天 12:00、過了半夜的日期、挽回接 DATE.settle、privtalk 清單）。
 走真實流程（不用 ?turbo）；日期、地點、關係、門檻是【前置】（使用者存檔改日子，讀檔後設關係與旗標），每一個都用 run.setup 標出來。Playwright 手機橫向模擬，不是 iPhone。
 前置的標準答案照 tests/xinci_romance_unit.js；每一支的前置先在 Node（tests/pg_harness.js＋同一份使用者存檔）驗過：那一天那一刻條件成立。
 玩家動作（走到她旁邊、按「和吳芯慈說話」、點選項、手機回訊息、等時間到）照畫面做，不直接呼叫事件。
- 一、回家的路上（大三下期末時段 2028-06-08～06-18；最後一科 6/8 上午考完，20:30 心意邀約 → 回「好。」→ 6/10 18:00 巷口家常菜 → 羅斯福路・往公館站）
-  TE_ME_YES     戀愛 76：玩家先說「我喜歡妳。」→ 答應（yes 四句）；她不問「你現在有在跟誰交往嗎。」、祐廷沒有「沒有。」
-  TE_ME_NOTYET  戀愛 72（< 75）：玩家先說 → notYet 兩句、XC_NOT_YET、這學期記 think、不交往
-  TE_SHE_THINK  （先不說）→ she 三句 → 直接「好／讓我想想」選「讓我想想」；【前置】跳到大四上期末（最後一科 12/22）12/23 20:30 第二次邀約（invite2）
-                → 12/25 → she2「上次那件事，我的答案沒變。」「……你的呢。」→「好。」交往
-  TE_TELL       交往中（子晴）、她不知道：選項多「（先告訴她，你在跟誰交往）」→「……我要知道是誰。」「（你說了。）」「好。知道了，我才排得出來。」→ 再選一次（沒有那一個）→ 答應
+ 一、回家的路上（大三下期末時段 2028-06-08～06-18；最後一科 6/8 上午考完；HEART.sameDay：排好 6/10，那天 12:00 心意邀約、回覆到 17:30 → 回「好。」
+     →【前置】同一天跳到 17:25 → 18:00 巷口家常菜 → 羅斯福路・往公館站；開場旁白、底圖還是簡餐店那一套＝已知，只 run.note）
+  TE_ME_YES     先從 6/8 20:26 等到 20:36：不再傳（排好的那一天＝6/10）；【前置】跳到 6/10 11:52；戀愛 76：玩家先說「我喜歡妳。」→ 答應（yes 四句）；
+                她不問「你現在有在跟誰交往嗎。」、祐廷沒有「沒有。」
+  TE_ME_NOTYET  6/10 11:52 起；戀愛 72（< 75）：玩家先說 → notYet 兩句、XC_NOT_YET、這學期記 think、不交往
+  TE_SHE_THINK  6/10 11:52 起；（先不說）→ she 三句 → 直接「好／讓我想想」選「讓我想想」；【前置】跳到大四上期末（最後一科 12/22）12/25 11:52 → 12:00 第二次邀約（invite2）
+                → 當天 18:00 → she2「上次那件事，我的答案沒變。」「……你的呢。」→「好。」交往
+  TE_TELL       6/10 11:52 起；交往中（子晴）、她不知道：選項多「（先告訴她，你在跟誰交往）」→「……我要知道是誰。」「（你說了。）」「好。知道了，我才排得出來。」→ 再選一次（沒有那一個）→ 答應
   TE_KNOWN      之前就親口跟她說過子晴：心意邀約照發、選項沒有「先告訴她」、答應時多「你跟她的事，我知道。……我排得出來。」
-  TE_FOUNDOUT   她從別的地方知道子晴、你沒說過：20:30 沒有心意邀約；【前置】跳到時段最後一天 6/18 20:00 也沒有 NOPE
+  TE_FOUNDOUT   她從別的地方知道子晴、你沒說過：6/10 12:00（等到 12:06）沒有心意邀約；【前置】跳到時段最後一天 6/18 20:00 也沒有 NOPE
  二、交往以後（大四上）
-  AFTER_TELL    交往中、又在跟子晴交往（她不知道）2028-10-17（二）15:36 總圖三樓：選單「（自己跟她講子晴的事）」→ 兩句；再和她說一次話，選單沒有那一個
+  AFTER_TELL    交往中、又在跟子晴交往（她不知道）2028-10-17（二）15:36 總圖三樓（前置：companyOf 空的、記 note）：選單「（自己跟她講子晴的事）」→ 兩句；再和她說一次話，選單沒有那一個
   AN_KNOWS      交往後第 2 天 20:55 宿舍 → 21:00 以後以安私訊兩則
   AN_KNOWS_NO   以安自己也在跟你交往：21:00 以後沒有那兩則
   FOUND         她從別的地方知道子晴（你沒說過）2028-10-18 15:36 總圖三樓：走到她旁邊 →「我沒有問你，是因為我以為你會說。」「……我們到這裡就好。」→ 分手
  三、挽回（8-2）
   REPAIR_OPEN   10/18 她自己發現而分手、10/29 和子晴結束、11/28 單身滿 30 天 15:36 總圖三樓：選單「（跟她說，你已經結束了那一段）」→ 兩句
-  REPAIR_YES    挽回中、60 天內已經正式約會 2 次＋半夜訊息 30 分鐘內回 2 次；12/2（六）她約的北美館：提醒時「現在出發」→ 兩個互動點 → 收尾時
-                「我排好了。」「……這次，你什麼都先告訴我。」→ 回到交往
+  REPAIR_YES    挽回中、60 天內已經正式約會 2 次＋半夜訊息 30 分鐘內回 2 次；12/2（六）她約的北美館：提醒時「現在出發」→ 兩個互動點 → 回去，
+                結算以後（bcb788dec 改接 DATE.settle）「我排好了。」「……這次，你什麼都先告訴我。」→ 回到交往
   REPAIR_NO     挽回第 60 天（2029-01-27）21:00：私訊「我想好了。我們當朋友就好。」
  四、她爸爸 8-1、冷落 8-3
   DAD2          2029-04-27（五）17:25 法律系館A門口、交往中：四句 → 三個選項 →「她去哪，我都會在台北。」→「……走吧。他等一下會問你喜歡吃什麼。我會說。」；沒有「誰最強」
   DAD2_NO       同一天 17:53、沒交往：站在門口等到 18:02，不演
-  COLD          交往中 30 天沒約會，熬夜到 00:35（遊戲的寫法：前一天 24:35）→ 00:40 一則（不用回）、不分手；【前置】隔一晚同一時間不再傳；訊息時間
+  COLD          交往中 30 天沒約會，熬夜到 00:35（遊戲的寫法：前一天 24:35）→ 00:40 一則（不用回）、不分手、訊息時間＝現在；【前置】隔一晚同一時間不再傳
  五、新的時刻（AA_548 第 2、3、5 節）
   G2_DAD        3-1 大二上第 3 週週二 2026-09-22 17:56 巷口家常菜 → 18:00「我昨天又在幫我媽對帳。……」→「我想聽。」兩句、TALKED_FAMILY
   BLANK         3-5 慈 6（2028-05-04（四）19:00 麵店）結尾「週六晚上」→「我可以一起嗎？」→「……可以。不要遲到。」、XC_BLANK
@@ -31,10 +33,10 @@
   G6_MAKEUP     G6 補一次：大三下第 3 週週一 2028-03-06 18:02 從總圖大廳二樓的樓梯間走進三樓 → 對答案（看到就算）、XC5_RECONCILE
   NIGHT_A       半夜訊息 A3、A4、A5、A7、A8（大二下，慈 3 以後、慈 5 以前）：手機泡泡、三個選項、她回的一句、30 分鐘內回 XC_NIGHT +1
   NIGHT_B       半夜訊息 B1、B3、B8（大三上，慈 5 以後）：同上
-  NIGHT_REAL    同 A3 那一則，但用遊戲熬夜的寫法讀檔（週六 25:26＝週日 01:26）：看半夜訊息會不會來；【前置】隔一晚（週日 25:26＝週一 01:26）再看一次、訊息時間
-                （NIGHT_A／B 讀檔寫成「那一天 01:26」，和單元測試同一種；遊戲裡過了半夜是前一天、G.hour 24 以上，見 COLD）
+  NIGHT_REAL    同 A3 那一則，但用遊戲熬夜的寫法讀檔（週六 25:26＝週日 01:26）：那一晚就收到、訊息時間對、手機回了 30 分鐘內照樣算
+                （NIGHT_A／B 讀檔寫成「那一天 01:26」，和單元測試同一種；bcb788dec 以後兩種寫法 Node 都收得到）
  每一場都查：說的話、芯慈／以安的手機訊息裡沒有「第二名」「第一名」「誰最強」「我問過你」
-用法：LW_TESTS=<工作樹>/tests SCEN=TE_ME_YES,... SHA=254bcfb35 python3 xcrom_probe.py <URL>/index.html <輸出資料夾> <使用者存檔>"""
+用法：LW_TESTS=<工作樹>/tests SCEN=TE_ME_YES,... SHA=bcb788dec python3 xcrom_probe.py <URL>/index.html <輸出資料夾> <使用者存檔>"""
 import os, sys, json, asyncio, time, re, math
 sys.path.insert(0, os.environ['LW_TESTS']); import playlib as L
 from playwright.async_api import async_playwright
@@ -415,31 +417,37 @@ XCSTATE = """(()=>{ const G=GAME.G, F=G.flags, XC='classmate_xinci', ZQ='heroine
 COMPANY = "(()=>{ try{ return STORY.companyOf(GAME.G,'classmate_xinci',null,GAME); }catch(e){ return 'ERR '+e.message; } })()"
 
 
-async def te_invite(pg, cdp, run, sid, res, term, want_text, label=''):
-    """等 20:30 心意邀約（在畫面上照玩家等）→ 打開手機、看泡泡 → 回「好。」→ 期末飯排好了沒"""
-    tag = 'te_%s_%s' % (term, XC)
+async def te_invite(pg, cdp, run, sid, res, term, want_text, din_key, label=''):
+    """bcb788dec（HEART.sameDay）：那一天 12:00 才傳心意邀約、回覆到 17:30、飯就在那天 18:00。在畫面上照玩家等 12:00 → 打開手機、看泡泡 → 回「好。」→ 期末飯排好了沒"""
+    tag = 'te_%s_%s' % (term, XC); dd = await dayk(pg, din_key)
     ok, ch = await wait_for(pg, cdp, run, "!!(%s)('%s')" % (TE_MSG, tag), max_s=600, picks=['「那天有約了。」'], label=label or sid)
-    m = await pg.evaluate(TE_MSG + "('%s')" % tag); res['invite'] = m and {'text': m['text'], 'day': m['day'], 'h': m['h'], 'ask': [o['t'] for o in (m.get('ask') or {}).get('opts', [])]}
-    run.check('%s：%s 20:30 以後收到心意邀約「%s」（回覆鍵「好。」／「那天有約了。」）' % (sid, term, want_text),
+    m = await pg.evaluate(TE_MSG + "('%s')" % tag)
+    res['invite'] = m and {'text': m['text'], 'day': m['day'], 'key': din_key if m['day'] == dd else m['day'], 'h': m['h'], 'ask': [o['t'] for o in (m.get('ask') or {}).get('opts', [])], 'until': (m.get('ask') or {}).get('until')}
+    run.check('%s：%s 12:00 收到心意邀約「%s」（回覆鍵「好。」／「那天有約了。」）' % (sid, din_key, want_text),
               bool(m) and m['text'] == want_text and bool(res['invite']['ask']) and res['invite']['ask'][:2] == ['好。', '那天有約了。'], J({'ok': ok, 'm': res['invite']}))
     if not m: return None
+    run.check('%s：邀約是那一天 12:00 傳的、回覆期限同一天 17:30（不是時段第一天 20:30）' % sid,
+              m['day'] == dd and 12 <= m['h'] < 12.3 and res['invite']['until'] is not None and abs(res['invite']['until'] - (dd * 24 + 17.5)) < 0.01, J(res['invite']))
     a = await answer2(pg, cdp, run, 'p:' + XC, tag, '好。', label='%s_%s' % (sid, term)); res['invite_ui'] = a
     run.check('%s：手機對話串看得到那一則、回「好。」' % sid, want_text in a['before'] and a['got'] == '好。', J({k: a[k] for k in ('btns', 'got')}))
     # 回「好。」只記 TE_PICK，期末飯是下一次 STORY.tick（手機收起來、遊戲在跑）才排（TERMEND.pickCheck）
     await wait_for(pg, cdp, run, "!!(%s)('te_%s')" % (OUTQ1, term), max_s=120, picks=['「那天有約了。」'], label=label or sid)
     q = await pg.evaluate(OUTQ1 + "('te_%s')" % term); res['dinner'] = q
+    run.check('%s：回「好。」→ 期末飯就在同一天（%s）18:00 巷口家常菜' % (sid, din_key), bool(q) and q['key'] == din_key and q['h'] == 18 and q['place'] == '巷口家常菜', J(q))
     return q
 
 
 async def te_dinner(pg, cdp, run, sid, res, term, din_key, picks, label=''):
-    """【前置】跳到期末飯那天 17:25（宿舍）→ 照玩家等「出發：學期末的飯」→ 飯 → 回家的路上（picks）→ 回傳 (log, T, CS)"""
-    await jump(pg, run, din_key, 17.42, 'dorm', '%s：期末飯那天' % sid)
+    """【前置】同一天跳到 17:25（宿舍；12:0x 回完邀約到 17:25 的時間沒有玩）→ 照玩家等「出發：學期末的飯」→ 飯 → 回家的路上（picks）→ 回傳 (log, T, CS)"""
+    await jump(pg, run, din_key, 17.42, 'dorm', '%s：期末飯那天（同一天）' % sid)
     n0 = await log_len(pg)
     ok, ch = await wait_for(pg, cdp, run, "!!(%s)('%s').result" % (TE_RES, term), max_s=900, picks=picks + ['「那天有約了。」'], go=('出發：學期末的飯',), label=label or sid)
     lg = await log_since(pg, n0); T = texts(lg); CS = choice_sets(lg)
     res['te'] = await pg.evaluate(TE_RES + "('%s')" % term); res['xc'] = await pg.evaluate(XCSTATE)
     run.check('%s：%s 期末飯演完、回家的路上有結果（%s）' % (sid, din_key, J(res['te'].get('result'))), ok, J(ch[-3:], 600))
     gos = [o for c in CS for o in c if o.startswith('出發：學期末的飯')]; res['go_opt'] = gos[:1]
+    narr = [t for t in T if t.startswith('（')]; res['open_close'] = [narr[:1], [t for t in narr if '餐盤' in t or '回收' in t][:1]]
+    run.note('%s【已知，不算 FAIL】巷口家常菜的開場旁白、底圖還是簡餐店那一套（等 AA 寫）：開場 %s；收尾 %s' % (sid, J(res['open_close'][0]), J(res['open_close'][1])))
     run.check('%s：出發的選項「出發：學期末的飯：（芯慈）（巷口家常菜）」' % sid, any('芯慈' in o and '巷口家常菜' in o for o in gos), J(CS[:2]))
     return lg, T, CS
 
@@ -454,14 +462,21 @@ def te_common(run, sid, lg, T, CS, table=True):
 @guard
 async def s_te_me(p, run, base, sid, out):
     res = out.setdefault(sid, {}); rom = 76 if sid == 'TE_ME_YES' else 72
-    b, pg, cdp, errs, r = await launch(p, run, base, '2028-06-08', 20.43, 'campus', preflags=TWF, quiet=False, label=sid + '（大三下期末時段第一天 2028-06-08（四）20:26 校園；臺灣路線）')
+    yes = sid == 'TE_ME_YES'   # YES 這一支從時段第一天 6/8 20:26 開始，看 20:30 不再傳（bcb788dec 以前的時間）；NOTYET 直接從 6/10 11:52 開始
+    b, pg, cdp, errs, r = await launch(p, run, base, '2028-06-08' if yes else '2028-06-10', 20.43 if yes else 11.87, 'campus', preflags=TWF, quiet=False,
+                                       label=sid + ('（大三下期末時段第一天 2028-06-08（四）20:26 校園；臺灣路線）' if yes else '（大三下期末 2028-06-10（六）11:52 校園；臺灣路線）'))
     try:
         g = await pg.evaluate(GATES + "(%s)" % json.dumps({'npcRom': rom, 'term': 'Y3S2'})); res['gates'] = g
         run.setup('【前置】%s：門檻 G1～G9 全過（照 xinci_romance_unit.js full()），她的戀愛 %d；讀檔時先算的學期末 plan 清掉重算 → %s' % (sid, rom, J(g, 700)))
         run.check('%s：前置——門檻全過、心意邀約要發（heartWhy true）' % sid, g['all'] and g['heartWhy'] is True, J(g, 500))
         if not (g['all'] and g['heartWhy'] is True): return
-        q = await te_invite(pg, cdp, run, sid, res, 'Y3S2', INVITE)
-        run.check('%s：期末飯排在 2028-06-10 18:00 巷口家常菜' % sid, bool(q) and q['key'] == '2028-06-10' and q['h'] == 18 and q['place'] == '巷口家常菜', J(q))
+        if yes:
+            ok0, _ = await wait_for(pg, cdp, run, "GAME.G.hour>=20.6", max_s=600, picks=['「那天有約了。」'], label=sid)
+            m0 = await pg.evaluate(TE_MSG + "('te_Y3S2_%s')" % XC); hd = await pg.evaluate("(((GAME.G.termend||{}).Y3S2||{}).heartDay||{})['classmate_xinci']")
+            res['first_night'] = {'reached': ok0, 'msg': m0 and m0['text'], 'heartDay': hd}
+            run.check('%s：6/8 20:30 以後（等到 20:36）還沒有心意邀約（當天才約）；排好的那一天＝6/10' % sid, ok0 and not m0 and hd == await dayk(pg, '2028-06-10'), J(res['first_night']))
+            await jump(pg, run, '2028-06-10', 11.87, 'campus', '%s：6/10（六）11:52（6/9 一整天沒有玩）' % sid)
+        q = await te_invite(pg, cdp, run, sid, res, 'Y3S2', INVITE, '2028-06-10')
         if not q: return
         lg, T, CS = await te_dinner(pg, cdp, run, sid, res, 'Y3S2', q['key'], ['「我喜歡妳。」'])
         await report(pg, run, sid, res, T, CS, caps(lg), lg)
@@ -480,14 +495,14 @@ async def s_te_me(p, run, base, sid, out):
 @guard
 async def s_te_she(p, run, base, sid, out):
     res = out.setdefault(sid, {})
-    b, pg, cdp, errs, r = await launch(p, run, base, '2028-06-08', 20.43, 'campus', preflags=TWF, quiet=False, label=sid + '（大三下期末時段第一天 2028-06-08 20:26 校園；臺灣路線）')
+    b, pg, cdp, errs, r = await launch(p, run, base, '2028-06-10', 11.87, 'campus', preflags=TWF, quiet=False, label=sid + '（大三下期末 2028-06-10（六）11:52 校園；臺灣路線）')
     try:
         g = await pg.evaluate(GATES + "(%s)" % json.dumps({'npcRom': 76, 'term': 'Y3S2'})); res['gates'] = g
         run.setup('【前置】%s：門檻 G1～G9 全過、戀愛 76；學期末 plan 清掉重算 → %s' % (sid, J(g, 600)))
         run.check('%s：前置——門檻全過、心意邀約要發' % sid, g['all'] and g['heartWhy'] is True, J(g, 400))
         if not (g['all'] and g['heartWhy'] is True): return
-        q = await te_invite(pg, cdp, run, sid, res, 'Y3S2', INVITE)
-        if not q: run.check('%s：期末飯排好了' % sid, False, J(q)); return
+        q = await te_invite(pg, cdp, run, sid, res, 'Y3S2', INVITE, '2028-06-10')
+        if not q: return
         lg, T, CS = await te_dinner(pg, cdp, run, sid, res, 'Y3S2', q['key'], [NOT_YET_OPT, '「讓我想想。」'])
         res['y3s2'] = {'said': T, 'choices': CS, 'invite': res.get('invite'), 'dinner': res.get('dinner'), 'te': res.get('te')}
         te_common(run, sid, lg, T, CS)
@@ -495,14 +510,13 @@ async def s_te_she(p, run, base, sid, out):
         run.check('%s：三句以後直接「好／讓我想想」（沒有問句、沒有別的選項）' % sid, any(c == ANSWER for c in CS) and not has_seq(T, SHE + [ASK_Q]), J(CS[-2:]))
         run.check('%s：選「讓我想想」→「%s」、記 think Y3S2、不交往' % (sid, THINK), THINK in T and res['te']['think'] == 'Y3S2' and res['te']['result'] == 'think' and not res['xc']['dating'], J({'te': res['te'], 'T': T[-3:]}))
         if res['te']['result'] != 'think': return
-        # 第二次：大四上期末（最後一科 12/22，時段 12/21～12/31；12/23 20:30 邀約）
-        await jump(pg, run, '2028-12-23', 20.43, 'campus', '%s：大四上期末時段（最後一科 12/22 考完）' % sid)
+        # 第二次：大四上期末（最後一科 12/22，時段 12/21～12/31；bcb788dec：排在 12/25，那天 12:00 邀約、18:00 吃飯）
+        await jump(pg, run, '2028-12-25', 11.87, 'campus', '%s：大四上期末 12/25（一）11:52（最後一科 12/22 考完）' % sid)
         g2 = await pg.evaluate(GATES + "(%s)" % json.dumps({'npcRom': 76, 'term': 'Y4S1'})); res['gates2'] = g2
         run.setup('【前置】%s：大四上門檻照舊（同一份），plan 清掉重算 → %s' % (sid, J(g2, 500)))
         run.check('%s：前置——大四上門檻照舊全過、心意邀約要發（上學期讓我想想＝第二次）' % sid, g2['all'] and g2['heartWhy'] is True, J(g2, 400))
         if not (g2['all'] and g2['heartWhy'] is True): return
-        q2 = await te_invite(pg, cdp, run, sid, res, 'Y4S1', INVITE2, label=sid + '_Y4S1')
-        run.check('%s：第二次的期末飯排在 2028-12-25 18:00' % sid, bool(q2) and q2['key'] == '2028-12-25' and q2['h'] == 18, J(q2))
+        q2 = await te_invite(pg, cdp, run, sid, res, 'Y4S1', INVITE2, '2028-12-25', label=sid + '_Y4S1')
         if not q2: return
         res.pop('te', None)
         lg2, T2, CS2 = await te_dinner(pg, cdp, run, sid, res, 'Y4S1', q2['key'], [NOT_YET_OPT, '「好。」'], label=sid + '_Y4S1')
@@ -516,7 +530,7 @@ async def s_te_she(p, run, base, sid, out):
 async def s_te_other(p, run, base, sid, out):
     """TE_TELL／TE_KNOWN：交往中（子晴）；TELL＝她不知道、KNOWN＝之前親口說過（ROM.tellBy）"""
     res = out.setdefault(sid, {})
-    b, pg, cdp, errs, r = await launch(p, run, base, '2028-06-08', 20.43, 'campus', preflags=TWF, dating=[ZQ], quiet=False, label=sid + '（2028-06-08 20:26 校園；和子晴交往中）')
+    b, pg, cdp, errs, r = await launch(p, run, base, '2028-06-10', 11.87, 'campus', preflags=TWF, dating=[ZQ], quiet=False, label=sid + '（2028-06-10（六）11:52 校園；和子晴交往中）')
     try:
         if sid == 'TE_KNOWN': await pre(pg, run, '%s：之前就親口跟芯慈說過子晴（ROM.tellBy；source yt_told）' % sid, "ROM.tellBy(G,XC,ZQ); return {knows:(ROM.relRec(G)[XC]||{})[ZQ]};")
         g = await pg.evaluate(GATES + "(%s)" % json.dumps({'npcRom': 76, 'term': 'Y3S2'})); res['gates'] = g
@@ -525,8 +539,8 @@ async def s_te_other(p, run, base, sid, out):
         okp = g['all'] and g['heartWhy'] is True and g['others'] == [ZQ] and g['hidden'] == want_hidden
         run.check('%s：前置——門檻全過、心意邀約照發；交往中 %s、她不知道的 %s' % (sid, g['others'], g['hidden']), okp, J(g, 500))
         if not okp: return
-        q = await te_invite(pg, cdp, run, sid, res, 'Y3S2', INVITE)
-        if not q: run.check('%s：期末飯排好了' % sid, False, J(q)); return
+        q = await te_invite(pg, cdp, run, sid, res, 'Y3S2', INVITE, '2028-06-10')
+        if not q: return
         picks = [TELL_OPT, '「我喜歡妳。」'] if sid == 'TE_TELL' else ['「我喜歡妳。」']
         lg, T, CS = await te_dinner(pg, cdp, run, sid, res, 'Y3S2', q['key'], picks)
         await report(pg, run, sid, res, T, CS, caps(lg), lg)
@@ -549,7 +563,7 @@ async def s_te_other(p, run, base, sid, out):
 @guard
 async def s_te_foundout(p, run, base, sid, out):
     res = out.setdefault(sid, {})
-    b, pg, cdp, errs, r = await launch(p, run, base, '2028-06-08', 20.43, 'campus', preflags=TWF, dating=[ZQ], quiet=False, label=sid + '（2028-06-08 20:26 校園；和子晴交往中）')
+    b, pg, cdp, errs, r = await launch(p, run, base, '2028-06-10', 11.87, 'campus', preflags=TWF, dating=[ZQ], quiet=False, label=sid + '（2028-06-10（六）11:52 校園；和子晴交往中）')
     try:
         await pre(pg, run, '%s：芯慈從別的地方知道子晴（ROM.learn source seen；你沒說過）' % sid, "ROM.learn(G,XC,ZQ,'seen'); return {knows:(ROM.relRec(G)[XC]||{})[ZQ]};")
         g = await pg.evaluate(GATES + "(%s)" % json.dumps({'npcRom': 76, 'term': 'Y3S2'})); res['gates'] = g
@@ -557,9 +571,9 @@ async def s_te_foundout(p, run, base, sid, out):
         okp = g['all'] and g['foundOut'] == [ZQ] and isinstance(g['heartWhy'], dict) and g['heartWhy'].get('nope') == 'knows'
         run.check('%s：前置——門檻全過、她自己知道子晴（foundOut）；heartWhy＝{nope:knows}' % sid, okp, J(g, 500))
         if not okp: return
-        ok, _ = await wait_for(pg, cdp, run, "GAME.G.hour>=20.6", max_s=600, picks=['「那天有約了。」'], label=sid)
+        ok, _ = await wait_for(pg, cdp, run, "GAME.G.hour>=12.1", max_s=600, picks=['「那天有約了。」'], label=sid)
         ms = await msgs(pg, 'p:' + XC); te = await pg.evaluate(TE_RES + "('Y3S2')"); res.update({'msgs1': ms[-3:], 'te': te})
-        run.check('%s：6/8 20:30 以後（等到 20:36）沒有她的心意邀約（也沒有朋友的邀約）' % sid, ok and not any((m['tag'] or '').startswith('te_') for m in ms), J({'reached': ok, 'msgs': ms[-3:], 'plan': te.get('plan')}))
+        run.check('%s：6/10 12:00 以後（等到 12:06；心意邀約本來會在這時候傳）沒有她的心意邀約（也沒有朋友的邀約）' % sid, ok and not any((m['tag'] or '').startswith('te_') for m in ms), J({'reached': ok, 'msgs': ms[-3:], 'plan': te.get('plan')}))
         await jump(pg, run, '2028-06-18', 19.95, 'campus', '%s：時段最後一天（6/18）' % sid)
         ok2, _ = await wait_for(pg, cdp, run, "GAME.G.hour>=20.1", max_s=500, picks=['「那天有約了。」'], label=sid)
         ms2 = await msgs(pg, 'p:' + XC); res['msgs2'] = ms2[-3:]; await run.shot(pg, '%s_after' % sid)
@@ -580,6 +594,10 @@ async def s_after_tell(p, run, base, sid, out):
         run.check('%s：前置——她在總圖三樓、子晴的事她不知道' % sid, okp, J({'pos': pos, 'pre': p0}))
         if not okp: return
         res['company'] = await pg.evaluate(COMPANY)
+        # bcb788dec：privtalk 清單有 xc_tell、xc_repair——她圈子的人在旁邊時選項不出、沒有期限（照舊用 STORY.companyOf 看；heroine_circle 目前沒有芯慈的列＝應該一直是空的）
+        run.note('%s：說話前 companyOf（她旁邊、她圈子的人）＝%s' % (sid, J(res['company'])))
+        run.check('%s：前置——她旁邊沒有她圈子的人（companyOf 空的；不然私密選項照規則不出）' % sid, res['company'] == [], J(res['company']))
+        if res['company'] != []: return
         n0 = await log_len(pg)
         ch1, lab1 = await talk(pg, cdp, run, [XC], XCN, picks=['自己跟她講'], label=sid + '_1')
         x1 = await pg.evaluate(XCSTATE)
@@ -666,6 +684,10 @@ async def s_repair_open(p, run, base, sid, out):
         run.check('%s：前置——她在總圖三樓' % sid, bool(pos), J(pos))
         if not pos: return
         res['company'] = await pg.evaluate(COMPANY)
+        # bcb788dec：privtalk 清單有 xc_tell、xc_repair——她圈子的人在旁邊時選項不出、沒有期限（照舊用 STORY.companyOf 看；heroine_circle 目前沒有芯慈的列＝應該一直是空的）
+        run.note('%s：說話前 companyOf（她旁邊、她圈子的人）＝%s' % (sid, J(res['company'])))
+        run.check('%s：前置——她旁邊沒有她圈子的人（companyOf 空的；不然私密選項照規則不出）' % sid, res['company'] == [], J(res['company']))
+        if res['company'] != []: return
         n0 = await log_len(pg)
         ch, lab = await talk(pg, cdp, run, [XC], XCN, picks=[REPAIR_OPT], label=sid)
         lg = await log_since(pg, n0); T = texts(lg); CS = choice_sets(lg); x = await pg.evaluate(XCSTATE); res.update({'ch': ch, 'lab': lab, 'xc': x})
@@ -696,7 +718,7 @@ async def s_repair_yes(p, run, base, sid, out):
         res.update({'trip': tr, 'xc': x, 'count': await pg.evaluate("DATE.log(GAME.G,'classmate_xinci').count")})
         await report(pg, run, sid, res, T, CS, caps(lg), lg)
         run.check('%s：照玩家走完北美館的約會（提醒時「現在出發」、兩個互動點、回去）' % sid, ok and bool(tr) and tr['status'] == 'done', J({'tr': tr, 'ch': ch[-3:]}, 600))
-        run.check('%s：第三次約會結束時「我排好了。」「……這次，你什麼都先告訴我。」' % sid, has_seq(T, REPAIR_YES_L), J(T[-8:], 600))
+        run.check('%s：第三次約會結束時（結算以後）「我排好了。」「……這次，你什麼都先告訴我。」' % sid, has_seq(T, REPAIR_YES_L), J(T[-8:], 600))
         run.check('%s：回到交往（dating、ROM dating）、XC_REPAIR done' % sid, x['dating'] and x['rom'] == 'dating' and bool(x['XC_REPAIR']) and x['XC_REPAIR'].get('state') == 'done', J(x))
     finally: await finish_page(run, sid, res, errs, b)
 
@@ -929,21 +951,26 @@ async def s_night_real(p, run, base, sid, out):
         info = await pre(pg, run, '%s：同 NIGHT_A 的 A3（慈 3 演過、XCN.a＝2、XC_NIGHT 2）' % sid,
                          NIGHT_PRE % ('2027-03-01', 'delete F.XC5_RECONCILE;') + " F.XCN=Object.assign({a:0,b:0,l:0},F.XCN||{},{a:2}); " + NIGHT_INFO)
         res['pre'] = info
-        ok, _ = await wait_for(pg, cdp, run, "GAME.G.hour>=%.2f||GAME.G.day>%d" % (24 + h + 0.15, await dayk(pg, prev)), max_s=500, label=sid)
-        ms = [m for m in await msgs(pg, 'p:' + XC) if (m['tag'] or '').startswith('xcn_')]; st = await pg.evaluate(STATE); res.update({'msgs': ms, 'state': st}); await run.shot(pg, '%s_after' % sid)
-        run.check('%s：熬夜到 %s（日）%s 以後，她的半夜訊息 A3「%s」有來' % (sid, dkey, hm(h + 0.15), N['m'][0]), ok and any(m['text'] == N['m'][0] for m in ms),
-                  J({'reached': ok, 'state': st, 'msgs': ms, 'pre': info}, 600))
-        # 第二段（觀察）：隔一晚（週日熬夜到週一 01:26，遊戲寫法＝週日 25:26）——Node 看到的是這一晚才來、訊息時間寫成週日 01:30（早了 24 小時）
-        await jump(pg, run, dkey, 24 + h - 0.06, 'dorm', '%s：隔一晚（%s（日）%s＝週一 %s）' % (sid, dkey, hm(24 + h - 0.06), hm(h - 0.06)))
-        ok2, _ = await wait_for(pg, cdp, run, "GAME.G.hour>=%.2f||GAME.G.day>%d" % (24 + h + 0.15, await dayk(pg, dkey)), max_s=500, label=sid)
-        now = await pg.evaluate("GAME.G.day*24+GAME.G.hour")
-        ms2 = [m for m in await msgs(pg, 'p:' + XC) if (m['tag'] or '').startswith('xcn_')]; res['msgs2'] = ms2; await run.shot(pg, '%s_next' % sid)
-        got = [m for m in ms2 if m['text'] == N['m'][0]]
-        run.note('%s（觀察）隔一晚熬夜到週一 %s：A3 %s；訊息時間 %s（現在＝第 %.2f 小時）' % (sid, hm(h + 0.15), '有來' if got else '沒來', J([[m['d'], m['h']] for m in got]), now))
-        if got:
-            ab = got[0]['day'] * 24 + got[0]['h']
-            run.check('%s：隔一晚才來的那一則，訊息時間＝現在（不是前一天的 %s）' % (sid, hm(h)), abs(now - ab) < 0.5, J({'msg': [got[0]['d'], got[0]['h']], 'now_abs': round(now, 2), 'msg_abs': round(ab, 2)}))
-        await banned_check(pg, run, sid, [])
+        okp = info['pick'] == 'A3' and info['slot'] == [dkey, h]
+        run.check('%s：前置——這一週輪到 A3（%s %s）' % (sid, dkey, hm(h)), okp, J(info))
+        if not okp: return
+        tag = info['tag']; n_before = info['XC_NIGHT']
+        # bcb788dec：xcrom3d 改用 G.day＋floor(hour/24)——熬夜那一晚（週六 25:30＝週日 01:30）就收到、訊息時間對
+        ok, _ = await wait_for(pg, cdp, run, "(GAME.G.msgs||[]).some(m=>m.tag===%s)" % json.dumps(tag), max_s=500, label=sid)
+        now = await pg.evaluate("GAME.G.day*24+GAME.G.hour"); st = await pg.evaluate(STATE)
+        ms = [m for m in await msgs(pg, 'p:' + XC) if m['tag'] == tag]; res.update({'msgs': ms, 'state': st, 'now_abs': round(now, 2)})
+        run.check('%s：熬夜那一晚（%s 週六 %s＝週日 %s）就收到 A3「%s」（泡泡 %d 則照稿）' % (sid, prev, hm(24 + h), hm(h), '／'.join(N['m']), len(N['m'])),
+                  ok and [m['text'] for m in ms] == N['m'], J({'reached': ok, 'state': st, 'msgs': ms, 'pre': info}, 600))
+        if not ms: return
+        ab = ms[0]['day'] * 24 + ms[0]['h']
+        run.check('%s：訊息時間＝現在（%s %s，不是早 24 小時）' % (sid, dkey, hm(h)), ms[0]['d'] == dkey and abs(ms[0]['h'] - h) < 0.3 and abs(now - ab) < 0.5, J({'msg': [ms[0]['d'], ms[0]['h']], 'now_abs': round(now, 2), 'msg_abs': round(ab, 2)}))
+        want = N['o'][1]
+        a = await answer2(pg, cdp, run, 'p:' + XC, tag, want[0], label=sid); res['ui'] = a
+        after = await msgs(pg, 'p:' + XC); xn = await pg.evaluate("GAME.G.flags.XC_NIGHT|0"); res.update({'reply': [m['text'] for m in after[-2:]], 'XC_NIGHT': xn})
+        run.check('%s：手機看得到泡泡、三個回覆鍵；回「%s」→ 她回「%s」' % (sid, want[0], want[1]),
+                  all(t in a['before'] for t in N['m']) and a['btns'] == [o[0] for o in N['o']] and a['got'] == want[0] and want[1] in a['after'], J({k: a[k] for k in ('btns', 'got')}))
+        run.check('%s：熬夜的寫法下 30 分鐘內回照樣算＝XC_NIGHT +1（%d → %d）' % (sid, n_before, xn), xn == n_before + 1, J({'before': n_before, 'after': xn}))
+        await report(pg, run, sid, res, [m['text'] for m in ms] + [want[1]], [])
     finally: await finish_page(run, sid, res, errs, b)
 
 
