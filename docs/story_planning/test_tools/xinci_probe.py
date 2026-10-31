@@ -678,6 +678,11 @@ async def s_zrl3(p, run, base, sid, out):
         run.setup('【前置】芷若大二下閒聊停在第 2 句（ladder heroine_02@Y2S2＝2、今天還沒聊過）')
         n0 = await log_len(pg)
         ch, lab = await talk(pg, cdp, run, [ZR], ['芷若', '林芷若'], picks=['「為什麼？」'], label=sid)
+        # n25_xinci_c：繞了四個方向互動鈕還是「和不認識的女生說話」、截圖旁邊只有一個女生——查她是誰、芷若算不算認識了
+        dg = await pg.evaluate("""(()=>{ const E=GAME.E, p=E.player.obj.position; const near=(E.npcs||[]).filter(n=>n&&n.obj&&n.obj.visible!==false).map(n=>({id:n.id, charId:n.charId||null, d:+Math.hypot(n.obj.position.x-p.x,n.obj.position.z-p.z).toFixed(2), name:(n.id&&SOCIAL.displayName)?SOCIAL.displayName(n.id):null})).sort((a,b)=>a.d-b.d).slice(0,4);
+            const it=(E.interactables||[]).filter(i=>i.npc||i.npcId).map(i=>({label:i.label, npc:i.npc&&i.npc.id||i.npcId||null})).slice(0,4);
+            return {near, it, metD:SOCIAL.metD?SOCIAL.metD('heroine_02'):null, first:SOCIAL.has('heroine_02','FIRST_MET'), disp:SOCIAL.displayName('heroine_02'), layer:(CHARACTERS.heroine_02||{}).social_layer}; })()""")
+        run.note('%s 診斷：身邊的人與互動點 %s' % (sid, J(dg, 1500))); res['diag'] = dg
         lg = await log_since(pg, n0); T = texts(lg); CS = choice_sets(lg); await report(pg, run, sid, res, T, CS)
         run.check('%s：和林芷若說話＝Z4-L3「我帶的那個工讀生，已經記得所有常客的名字了。」「……她記得比我那時候快。我好高興。」' % sid,
                   has_seq(T, ['我帶的那個工讀生，已經記得所有常客的名字了。', '……她記得比我那時候快。我好高興。']), J({'lab': lab, 'said': T[-6:]}))
