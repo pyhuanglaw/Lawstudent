@@ -36929,7 +36929,7 @@
    "owner": "LAWWW",
    "status": "已整合待測試",
    "priority": "P2",
-   "next": "【10-31 04:3x】msgWhen 照實際那一天（G.day＋floor(G.hour/24)）比；tests/msg_when_unit.js（修改前 FAIL 2）→ BB 照 n27 NIGHT_REAL 看手機時間字",
+   "next": "【10-31 04:5x】全部 Node 777／0（0eb633624）；已派 BB 併進 n27_xcrom_b NIGHT_REAL｜【10-31 04:3x】msgWhen 照實際那一天（G.day＋floor(G.hour/24)）比；tests/msg_when_unit.js（修改前 FAIL 2）→ BB 照 n27 NIGHT_REAL 看手機時間字",
    "first": {
     "term": "Y1S1",
     "week": 1,
@@ -36947,7 +36947,7 @@
     "branch": "claude/modest-rubin-2lyp7g",
     "acceptance": "一路玩過午夜，01:31 的訊息寫「今天 01:31」、前一晚的寫「昨天」",
     "receiver": "BB",
-    "ack": "未派"
+    "ack": "SENT"
    }
   }
  ]
