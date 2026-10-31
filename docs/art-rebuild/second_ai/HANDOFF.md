@@ -1,8 +1,16 @@
 # LAWWW2 交接紀錄（隨時更新；工作階段中斷時從這裡接）
 
-## ⏱ 現況（LAWWW2-B，2026-10-31 17:5x UTC；帳號 B 七天額度已到警示，隨時可能被切斷——接手的先讀這一段）
+## ⏱ 現況（LAWWW2-B，2026-10-31 18:5x UTC；帳號 B 七天額度已到警示，隨時可能被切斷——接手的先讀這一段）
 
-- **17:5x（最新）**：
+- **18:5x（最新）**：
+  - **體育館 1F 光照＋總圖核心鏡頭第二輪：已交、已整合**（我 3094e123b → LAWWW-B baec2acc2；全部 Node 789／0）。
+  - glb_restore_sides 掃描：21 個有光照貼圖的 GLB 都沒問題（只有體育館 1F，已修）。
+  - **正在做：3F 主球場（gym_arena）光照烘焙第二版**（scratchpad `gym/arena3`）：
+    - 第一版：看台幾乎全黑、高窗四周白光暈 → `gym_arena.py` v8 看台上方加 LED（117 盞）、高窗分出 `arena_window_sky`；`bake_room.py --emit-oneside`（發光面只有正面發光）。
+    - 鏡頭 `shots/gym_arena_lm_shots.py`；改前截圖在 scratchpad `gym/arena_shots/before_*`。
+    - 交件時：`singleside_gym_unit.js` 第 2 項的「主球場 看台踢面」要照 1F 石牆的做法移到 2b（烘焙後沒有反面）；新測試 `gym_arena_lm_unit.js`；README `test_shots/gym_arena_lm_1031/`。
+  - 之後：B1 → CAM-BELL。
+- **17:5x**：
   - **體育館大廳＋1F 球場（gym_interior）光照**：第三版已 push（`4985a13fe`，assets 裡的 GLB＋白天貼圖）。球場白天晚上都比改前自然；大廳石牆、地板是中性灰（石材本來就是灰色花崗石 #8e8b85，改前偏咖啡是暖色的即時環境光）。
     - 第三版大廳天花板只有地板反彈的光（白天 0.126，畫面深灰）→ **第四版**：嵌燈正下方 2.3 m 十顆柔和點光源（`bake_gym.sh` 的 `FILLW`）、嵌燈 25→20 W，烘焙中（scratchpad `gym/out4`，約 18:05 好）。
     - 新測試 `tests/gym_lm_unit.js` 寫好（在 scratchpad 的 devclean，交件時進 patch）。還沒：第四版截圖、效能、README（`test_shots/gym_lm_1031/`）、全部 Node、交件。
