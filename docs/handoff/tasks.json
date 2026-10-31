@@ -37365,6 +37365,34 @@
     "receiver": "BB",
     "ack": "ACTIONED"
    }
+  },
+  {
+   "id": "HISTORY-AUDIT-1031",
+   "title": "歷史待辦全面複核：10/21 稽核 858 筆（B 263 項、A 316 交付、C 132、D 147）＋USER_WANTS＋各職位要求檔＋舊分支 WIP，以使用者原始需求為核心，七類完成狀態（正式版已驗收／已實作未驗收／已驗收未發布／部分／未開工／等素材或決定／確認取消），每項附 GitHub 證據；查出的缺漏直接派工",
+   "area": "MGMT",
+   "owner": "LAWWW",
+   "status": "進行中",
+   "priority": "P0",
+   "next": "【10-31 19:5x】開工：登記、派 AA（劇情企劃已定稿未實作）、BB（done 沒玩過的分批補驗，發布前回歸優先）、LAWWW2（舊美術未接入）；LAWWW 先做 B 段 133 項 done 的七類判定與十大遺漏（第一輪回報）",
+   "first": {
+    "term": "META",
+    "week": 0,
+    "earliest": "—",
+    "mainline": true,
+    "blocks": false,
+    "prereq": false,
+    "parallel": true,
+    "confirmed": true
+   },
+   "source": "使用者 10-31 19:5x 對 LAWWW-B（UA-LAWWW-1031-03）",
+   "authorized": "使用者原話；D110、D111",
+   "xai": {
+    "spec": "使用者原話（user_asks_LAWWW.json UA-LAWWW-1031-03）",
+    "branch": "claude/modest-rubin-2lyp7g",
+    "acceptance": "可持續更新、可追溯的報告：去重總數與七類數量；133 項 done 各自層級；48 partial／35 not_done 現況；誤標完成／取消；找回的遺漏；未開工 P0～P3；各職位正在做的任務 ID；做完未發布與擋發布原因",
+    "receiver": "LAWWW",
+    "ack": "ACTIONED"
+   }
   }
  ]
 }
