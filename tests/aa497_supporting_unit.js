@@ -401,10 +401,10 @@ const inDoc=t=>DOC.indexOf(t)>=0||X547.indexOf(t)>=0;
   await sec('2-5',async()=>{ const d=D('2028-05-04');
     const run=async(flags,k)=>{ fresh(d,19.2,'noodle',flags); fam(XC); await play('ev_xinci_first_place',[k]); return H.said.map(q=>q.t); };
     let r=await run({},0);
-    check('2-5. 慈 6（AA_547 2-4）：「我申請了國際所的暑期實習。台灣分所。」「……錄取了。金融那一組。」；「恭喜！」→「謝謝。我想做的就是這個。」；記 XINCI_FIRST；沒有第一名、改輔系',J(r)===J(['我申請了國際所的暑期實習。台灣分所。','……錄取了。金融那一組。','謝謝。我想做的就是這個。'])&&H.G.flags.XINCI_FIRST===true&&ev('ev_xinci_first_place').title==='暑期實習',J(r));
+    check('2-5. 慈 6（AA_547 2-4）：「我申請了國際所的暑期實習。台灣分所。」「……錄取了。金融那一組。」；「恭喜！」→「謝謝。我想做的就是這個。」；記 XINCI_FIRST；沒有第一名、改輔系',J(r.slice(0,3))===J(['我申請了國際所的暑期實習。台灣分所。','……錄取了。金融那一組。','謝謝。我想做的就是這個。'])&&J(r.slice(3,5))===J(['實習是週一到週五。','週六晚上，我還是會去西門町，看七點那一場。'])&&H.G.flags.XINCI_FIRST===true&&ev('ev_xinci_first_place').title==='暑期實習',J(r));
     r=await run({XC_RPS:true,XC_DAD_AN:true},1);
-    check('2-5. 猜拳、爸爸那一場的記號不再多加句子；「為什麼是金融那一組？」→「因為那裡的合約，數字跟條文一樣多。」',J(r)===J(['我申請了國際所的暑期實習。台灣分所。','……錄取了。金融那一組。','因為那裡的合約，數字跟條文一樣多。']),J(r));
-    r=await run({},2); check('2-5. 「妳爸媽怎麼說？」→「我媽說：那家樓下的咖啡很好喝。」',r.slice(-1)[0]==='我媽說：那家樓下的咖啡很好喝。',J(r));
+    check('2-5. 猜拳、爸爸那一場的記號不再多加句子；「為什麼是金融那一組？」→「因為那裡的合約，數字跟條文一樣多。」',J(r.slice(0,3))===J(['我申請了國際所的暑期實習。台灣分所。','……錄取了。金融那一組。','因為那裡的合約，數字跟條文一樣多。'])&&J(r.slice(3,5))===J(['實習是週一到週五。','週六晚上，我還是會去西門町，看七點那一場。']),J(r));
+    r=await run({},2); check('2-5. 「妳爸媽怎麼說？」→「我媽說：那家樓下的咖啡很好喝。」；芯慈戀愛線打開（XCROM.ON）＝接 AA_548 3-5「週六晚上」那一段',r[2]==='我媽說：那家樓下的咖啡很好喝。'&&J(r.slice(3,5))===J(['實習是週一到週五。','週六晚上，我還是會去西門町，看七點那一場。']),J(r));
     { fresh(d,22,'dorm'); fam(XC); contact(XC); ruleAt(d,22); ruleAt(d+1,11); ruleAt(d+1,12.05); check('2-5. 沒演到慈 6：隔天不傳「排名出來了。我第一。」（AA_547 2-4 拿掉）',!byTag('xc_first_miss').length); } });
 
   await sec('2-6',async()=>{ const A=L().xc.ask;
@@ -696,7 +696,7 @@ const inDoc=t=>DOC.indexOf(t)>=0||X547.indexOf(t)>=0;
     { const d=TD('Y2S2',4,3); fresh(d,20,'dorm'); fam(YU); contact(YU); ruleAt(d,21.1); if(byTag('yu_quit').length) past.push('3-4 退社（下一週才讀）'); }
     check('7. 已經過了的場景、訊息不補（1-3、2-3、2-4、3-1、3-4、5-2）',!past.length,J(past));
     /* 記號沒有的照「沒選」：各節已經測過（2-5 沒有 XC_*、3-2 沒有 YU2_PICK、3-3 沒有 YU_BKF、3-5 沒有 YU_C4、4-2 沒有 MX_UMB、1-6 沒有 YC_GIG）——這裡再跑一次舊存檔的旗標全空 */
-    { fresh(D('2028-05-04'),19.2,'noodle'); fam(XC); await play('ev_xinci_first_place',[0]); const r=H.said.map(x=>x.t); const a=J(r)===J(['我申請了國際所的暑期實習。台灣分所。','……錄取了。金融那一組。','謝謝。我想做的就是這個。']);   /* AA_547 2-4：慈 6 沒有記號那幾句了，舊存檔照新稿 */
+    { fresh(D('2028-05-04'),19.2,'noodle'); fam(XC); await play('ev_xinci_first_place',[0]); const r=H.said.map(x=>x.t); const a=J(r.slice(0,3))===J(['我申請了國際所的暑期實習。台灣分所。','……錄取了。金融那一組。','謝謝。我想做的就是這個。']);   /* AA_547 2-4：慈 6 沒有記號那幾句了，舊存檔照新稿 */
       fresh(D('2028-03-08'),8.6,'campus'); await play('ev_yu_alone_breakfast',[0]); const b=H.said[1]&&!Object.values(L().yu.bkf.yu4).includes(H.said[1].t);
       fresh(D('2027-11-23'),19,'noodle'); await play('ev_zhe_scooter',[0]); const c=H.said[0]&&H.said[0].t!==L().yu.c4.scooter;
       check('7. 舊存檔沒有新記號（XC_RPS、XC_DAD_*、YU_BKF、YU_C4）：慈 6、語 4、阿哲的機車照原本',a&&b&&c,J([a,b,c])); }

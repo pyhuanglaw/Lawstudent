@@ -188,14 +188,15 @@ const XCROM=(()=>{
     const x=S.nightPick(G); if(!x) return; const R=rec(G), tg=x.mention?'xcn_wish':tag;
     const M=x.m.map(P);
     if(x.o){ M[M.length-1].ask={id:x.mention?'xcn_wish':tag,until:T(sl.day,8),opts:x.o.map(([t,r])=>r==null?{t,post:false,noCount:true}:{t,say:[{from:XC,text:r}]})}; }
+    if(!x.mention){ const prev=(G.msgs||[]).filter(m=>m.ask&&/^xcn_\d/.test(m.ask.id)).pop(); if(prev&&prev.ans==null) f.XCN_MISS=(f.XCN_MISS|0)+1; }   /* 8-3：上一則沒回＝連續沒回 +1 */
     PHONE.at(G,sl.day,sl.h,M,tg); if(x.mention){ if(typeof DATE!=='undefined'&&DATE.knowWish) DATE.knowWish(G,XC); f.XCN_WISH_WK=sl.mon; }   /* 那一週用 mention 代替（不佔順序）*/
     else if(x.L) R.l=(R.l|0)+1; else R[x.key]=(R[x.key]|0)+x.adv; };
   /* 大二下第 6 週還不到 2 次：週三 00:45「你應該睡了吧。」（不用回） */
   S.wake=function(G){ const f=F(G), d=TD('Y2S2',6,3); if(!law(G)||!hasP()||!contact(G)||!S.nightStart(G)||S.closed(G)||!due(G,d,0.75,1)||sent(G,'xcn_wake')||(f.XC_NIGHT|0)>=2) return; PHONE.at(G,d,0.75,[P(S.WAKE)],'xcn_wake'); };
   /* 30 分鐘內回＝XC_NIGHT +1 */
   S.onAnswer=function(G,m,o){ if(m&&m.ask&&m.ask.id==='xc_blank_again'){ try{ S.onBlank(G,m,o); }catch(e){ console.warn('XCROM.onBlank',e); } return; }
-    if(!m||!m.ask||!/^xcn_/.test(m.ask.id)||!o||o.noCount) return; const sentAt=T(m.day,m.h), at=now(G); if(at-sentAt<=0.5+1e-6){ const f=F(G); f.XC_NIGHT=(f.XC_NIGHT|0)+1; } };
-  S.phone=function(G){ if(!S.ON) return; for(const f of [S.g3Remind,S.blankAgain,S.g7,S.call1,S.night,S.wake,S.anKnows]){ try{ f(G); }catch(e){ console.warn('XCROM.phone',e); } } };
+    if(!m||!m.ask||!/^xcn_/.test(m.ask.id)||!o||o.noCount) return; const sentAt=T(m.day,m.h), at=now(G); F(G).XCN_MISS=0; if(at-sentAt<=0.5+1e-6){ const f=F(G); f.XC_NIGHT=(f.XC_NIGHT|0)+1; } };
+  S.phone=function(G){ if(!S.ON) return; for(const f of [S.g3Remind,S.blankAgain,S.g7,S.call1,S.night,S.wake,S.anKnows,S.repairExpire,S.cold]){ try{ f(G); }catch(e){ console.warn('XCROM.phone',e); } } };
   S.EVENTS=[S.EV_G2,S.EV_G6,S.EV_SAMEDAY,S.EV_CALL1];
   /* ---------- 心願那一場：午夜場（AA_537b 8-2，企劃線 86659bbc1；DATE_WISH 的格式，同沛珊 D06）----------
      mention 不放在這裡（在半夜訊息，S.MENTION）：見面時不說。herInvite：交往前第 5 階以上＋XC_BLANK、兩個人都單身（交往中可以），一學期一次，週五 00:40 傳、約週六 22:30 出發（23:30 開演；DATE.MIDNIGHT）。
@@ -225,11 +226,11 @@ const XCROM=(()=>{
      ②她自己發現、你沒說過（ROM 記她知道、來源不是你）＝下次走到她旁邊演分手兩句、ROM.end（XC_FOUND＝第幾次、那一天）；挽回（一次，AA_537 5-5）的觸發 AA 還沒給，先不做
      ③以安知道（5-3）：交往後第一週，以安有聯絡方式、沒在和祐廷交往＝一則私訊 */
   const dating=G=>F(G)['dating_'+XC]===true;
-  const nm=id=>typeof SOCIAL!=='undefined'&&SOCIAL.displayName?SOCIAL.displayName(id):id;
+  const nm=id=>typeof SOCIAL!=='undefined'?(SOCIAL.npcName?SOCIAL.npcName(id):(SOCIAL.displayName?SOCIAL.displayName(id):id)):id;   /* 真名（同 multirel3d.js）：交往中的人一定認識 */
   S.TELL_AFTER=['我要知道是誰。……知道了，我才排得出來。','你跟她約的那幾天，先告訴我。我排別的。'];
   S.FOUND=['我沒有問你，是因為我以為你會說。','……我們到這裡就好。'];
   S.AN_KNOWS=['芯慈跟我說了。她自己來跟我說的。','我很高興。是真的。'];
-  S.tellAfterOpt=p=>'（自己跟她講'+nm(p)+'的事）';
+  S.tellAfterOpt=p=>'（自己跟她講'+((typeof MREL!=='undefined'&&MREL.BASE&&MREL.BASE[p])||nm(p))+'的事）';   /* 名字同 multirel3d.js 的「（下次見面，自己跟她講…的事）」（MREL.BASE：以安、芷若…）*/
   S.talkOpts=function(G,id){ if(!S.ON||id!==XC||!dating(G)) return []; const h=S.hidden(G).filter(p=>!S.foundOut(G).includes(p)); if(!h.length) return [];
     return [{t:S.tellAfterOpt(h[0]),priv:true,privKey:'xc_tell',run:async GM=>{ for(const t of S.TELL_AFTER) await GM.say({charId:XC,name:nm(XC)},t); S.tell(GM.G); }}]; };
   S.foundDue=G=>S.ON&&law(G)&&dating(G)&&S.foundOut(G).length>0;
@@ -242,6 +243,44 @@ const XCROM=(()=>{
   S.anKnows=function(G){ if(!law(G)||!dating(G)||sent(G,'xc_an_knows')||F(G)['dating_'+AN]===true) return; const d0=S.startDay(G); if(d0==null||G.day<d0+1||G.day>d0+7) return;
     if(typeof INV!=='undefined'&&INV.hasContact&&!INV.hasContact(G,AN)) return; if((G.hour%24)<21) return;
     PHONE.at(G,G.day,G.hour%24,S.AN_KNOWS.map(t=>({th:'p:'+AN,from:AN,text:t})),'xc_an_knows'); };
+  /* ===================== AA_548 第 8 節：她爸爸（8-1）、挽回（8-2）、冷落（8-3）===================== */
+  const DKx=k=>typeof STORY!=='undefined'&&STORY.dayOfKey?STORY.dayOfKey(k):null;
+  const wd=d=>typeof CALENDAR!=='undefined'?CALENDAR.dateOf(d).wd%7:-1;
+  /* 8-1 她爸爸（取代 AA_537 5-4「誰最強」）：大四下 2029-04 的週五 17:30～18:00，法律系館A門口（同 ev_xc_dad 那一台車），交往中才演；演過一次就不再 */
+  S.APR29=G=>{ const a=DKx('2029-04-01'), b=DKx('2029-04-30'); return a!=null&&b!=null&&G.day>=a&&G.day<=b; };
+  S.EV_DAD2={ id:'ev_xc_dad2', title:'銀色的車', participants:[XC], location:'campus', trigger:'auto', once:true, time:[17.5,18], background:'blur', near:{x:34,z:-109,r:7},
+    prereq:{custom:G=>S.ON&&law(G)&&dating(G)&&S.APR29(G)&&wd(G.day)===5&&!(typeof STORY!=='undefined'&&STORY.abroad&&STORY.abroad(G))},
+    dialogue:[ {speaker:'xinci_dad',name:'芯慈的爸爸',text:'這是上次那位同學？'},{speaker:XC,text:'嗯。……現在不只是同學了。'},
+      {speaker:'xinci_dad',name:'芯慈的爸爸',text:'（笑）我知道。妳媽說了。'},{speaker:'xinci_dad',name:'芯慈的爸爸',text:'她說畢業要去國際所。我們很放心。……你呢？'},
+      {choice:[{text:'「還在準備國考。」',goto:'a'},{text:'「還在想。」',goto:'b'},{text:'「她去哪，我都會在台北。」',goto:'c'}]},
+      {label:'a'},{speaker:'xinci_dad',name:'芯慈的爸爸',text:'好。考完來事務所坐坐，我請你喝咖啡。'},{goto:'end'},
+      {label:'b'},{speaker:'xinci_dad',name:'芯慈的爸爸',text:'還在想很好。我大四也還在想。'},{goto:'end'},
+      {label:'c'},{speaker:null,text:'（芯慈看了你一眼，耳朵有點紅。）'},{speaker:'xinci_dad',name:'芯慈的爸爸',text:'……好。'},
+      {label:'end'},{speaker:XC,text:'……走吧。他等一下會問你喜歡吃什麼。我會說。'} ] };
+  S.EVENTS.push(S.EV_DAD2);
+  /* 8-2 挽回（一次）：她自己發現而分手（XC_FOUND n＝1）以後，你先和另一位結束、單身滿 30 天、畢業典禮（2029-06-02）以前 → 和她說話的選單多一個；
+     之後 60 天內正式約會 3 次＋半夜訊息 30 分鐘內回 2 次 → 第三次約會結束時回到交往（ROM.start）；60 天沒滿＝當朋友，不能再挽回 */
+  S.REPAIR_OPT='（跟她說，你已經結束了那一段）';
+  S.REPAIR_OPEN=['……我知道。以安說了。','我需要時間。我會自己決定要多久。'];
+  S.REPAIR_YES=['我排好了。','……這次，你什麼都先告訴我。'];
+  S.REPAIR_NO='我想好了。我們當朋友就好。';
+  S.lastEndOther=G=>{ const R=(F(G).romance)||{}; let d=null; for(const id in R){ if(id===XC) continue; for(const h of (R[id].history||[])) if(h.ev==='end'&&h.day!=null&&(d==null||h.day>d)) d=h.day; } return d; };
+  S.repairDue=function(G){ const f=F(G), fo=f.XC_FOUND; if(!S.ON||!law(G)||!fo||fo.n!==1||f.XC_REPAIR||dating(G)||S.othersDating(G).length) return false;
+    const e=S.lastEndOther(G), grad=DKx('2029-06-02'); return e!=null&&G.day>=e+30&&(grad==null||G.day<grad); };
+  S.repairOpts=function(G,id){ if(id!==XC||!S.repairDue(G)) return [];
+    return [{t:S.REPAIR_OPT,priv:true,privKey:'xc_repair',run:async GM=>{ const G2=GM.G; for(const t of S.REPAIR_OPEN) await GM.say({charId:XC,name:nm(XC)},t);
+      F(G2).XC_REPAIR={state:'wait',day:G2.day,d0:typeof DATE!=='undefined'&&DATE.log?(DATE.log(G2,XC).count|0):0,n0:F(G2).XC_NIGHT|0}; }}]; };
+  S.repairProgress=G=>{ const r=F(G).XC_REPAIR; if(!r) return null; return {dates:(typeof DATE!=='undefined'&&DATE.log?(DATE.log(G,XC).count|0):0)-r.d0,nights:(F(G).XC_NIGHT|0)-r.n0}; };
+  /* 第三次約會結束時（DATE.closeLine 之後；這一次還沒算進 count）*/
+  S.repairClose=async function(GM,t){ const G=GM.G, r=F(G).XC_REPAIR; if(!r||r.state!=='wait'||!t||t.who!==XC||G.day>r.day+60) return; const p=S.repairProgress(G); if(p.dates+1<3||p.nights<2) return;
+    for(const x of S.REPAIR_YES) await GM.say({charId:XC,name:nm(XC)},x); r.state='done'; r.doneDay=G.day; if(typeof ROM!=='undefined'&&ROM.start) ROM.start(G,XC); else F(G)['dating_'+XC]=true; };
+  S.repairExpire=function(G){ const r=F(G).XC_REPAIR; if(!r||r.state!=='wait'||G.day<r.day+60||(G.hour%24)<21||sent(G,'xc_repair_no')) return; r.state='friend'; PHONE.at(G,G.day,G.hour%24,[P(S.REPAIR_NO)],'xc_repair_no'); };
+  /* 8-3 冷落：交往中連續 28 天沒有正式約會、或她的半夜訊息連續 5 則沒回；一學期最多一次；00:40 一則（不用回），不會因為冷落分手 */
+  S.COLD='你最近很忙。我不是在怪你，我只是先說出來，免得我自己亂想。';
+  S.cold=function(G){ const f=F(G); if(!law(G)||!dating(G)||!contact(G)) return; const t=typeof CALENDAR!=='undefined'&&CALENDAR.termOf?CALENDAR.termOf(G.day):null, tk=t?t.id:'x';
+    if((f.XC_COLD||{})[tk]!=null) return; const h=G.hour%24; if(!(h>=40/60&&h<1.5)) return;
+    const L=typeof DATE!=='undefined'&&DATE.log?DATE.log(G,XC):{}, lastDate=L.last&&L.last.day!=null?L.last.day:null, d0=Math.max(S.startDay(G)||0,lastDate||0);
+    if(!(G.day-d0>=28||(f.XCN_MISS|0)>=5)) return; (f.XC_COLD||(f.XC_COLD={}))[tk]=G.day; f.XCN_MISS=0; PHONE.at(G,G.day,h,[P(S.COLD)],'xc_cold_'+tk); };
   /* ---------- 接線（載入時一次）---------- */
   /* 打開／關掉整條線：DATE.HEROINES、事件、心願事件一起加或拿掉 */
   S.setOn=function(v){ S.ON=!!v;
@@ -253,12 +292,15 @@ const XCROM=(()=>{
     if(typeof STORY!=='undefined'&&Array.isArray(STORY.PHONE_RULES)) STORY.PHONE_RULES.push(G=>S.phone(G));
     if(typeof PHONE!=='undefined'&&Array.isArray(PHONE.ON_ANSWER)) PHONE.ON_ANSWER.push((G,m,o,k)=>S.onAnswer(G,m,o,k));
     if(typeof STORY!=='undefined'&&Array.isArray(STORY.TALK_OPTS)) STORY.TALK_OPTS.push((G,id)=>S.talkOpts(G,id));   /* 交往以後自己跟她講（AA_548 第 7 節）*/
+    if(typeof STORY!=='undefined'&&Array.isArray(STORY.TALK_OPTS)) STORY.TALK_OPTS.push((G,id)=>S.repairOpts(G,id));   /* 8-2 挽回 */
+    if(typeof DATE!=='undefined'&&DATE.closeLine&&!DATE.closeLine._xc){ const c0=DATE.closeLine; DATE.closeLine=Object.assign(async function(GM,t){ const r=await c0.apply(this,arguments); try{ if(S.ON) await S.repairClose(GM,t); }catch(e){ console.warn('XCROM.repairClose',e); } return r; },{_xc:true}); }   /* 8-2 第三次約會結束時 */
     S.wireWish(); S.wireSched(); S.setOn(S.ON); };
   /* AA_548 新加的兩個地方要有人在（只在線打開、條件成立時；放在最前面＝蓋過同時段的一般作息）：3-1 巷口家常菜、G6 補一次的總圖三樓 */
   S.SCHED=[
     [XC,{days:[1,2,3,4,5],from:18,to:19.5,zone:'l118_home',act:'eat',terms:['Y2S1'],weeks:[3],noHoliday:true,if:{custom:G=>S.ON&&!S.g2Done(G)},label:'在巷口家常菜吃飯',note:'AA_548 3-1：G2 補問'}],
     [XC,{days:[1,2,3],from:18,to:21,zone:'library',act:'read',terms:['Y3S2'],weeks:[3],if:{custom:G=>S.ON&&!F(G).XC5_RECONCILE},note:'AA_548 第 2 節：G6 補一次（和以安對民訴考古題）'}],
-    [AN,{days:[1,2,3],from:18,to:21,zone:'library',act:'read',terms:['Y3S2'],weeks:[3],if:{custom:G=>S.ON&&!F(G).XC5_RECONCILE},note:'AA_548 第 2 節：G6 補一次（和芯慈對民訴考古題）'}] ];
+    [AN,{days:[1,2,3],from:18,to:21,zone:'library',act:'read',terms:['Y3S2'],weeks:[3],if:{custom:G=>S.ON&&!F(G).XC5_RECONCILE},note:'AA_548 第 2 節：G6 補一次（和芯慈對民訴考古題）'}],
+    [XC,{days:[5],from:17.5,to:18,zone:'campus',act:'linger',at:[35,-108.4,0],terms:['Y4S2'],label:'在法律系館A門口',if:{custom:G=>S.ON&&dating(G)&&S.APR29(G)&&!done(G,'ev_xc_dad2')},note:'AA_548 8-1：她爸爸來接（2029-04 的週五）'}] ];
   S.wireSched=function(){ if(typeof CHARACTERS==='undefined') return; for(const [id,e] of S.SCHED){ const c=CHARACTERS[id]; if(!c) continue; c.daily_schedule=c.daily_schedule||[]; if(!c.daily_schedule.includes(e)) c.daily_schedule.unshift(e); } };
   S.wire();
   return S;
