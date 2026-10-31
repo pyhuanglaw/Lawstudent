@@ -4670,7 +4670,7 @@
   },
   {
    "branch": "claude/funny-albattani-iawshm",
-   "sha": "(這一次 commit)",
+   "sha": "3a40b7013",
    "noDirectIntegrate": false,
    "receiver": "LAWWW",
    "ack": "SENT",
@@ -4691,7 +4691,8 @@
    ],
    "state": "已交付（書店 READY_FOR_ART_REVIEW）",
    "remaining": "書店地板比改前暗（走道兩邊深色書架擋光），晚上蜂蜜色，要再亮再說；擺設沒做",
-   "next": "LAWWW 整合：書店（GLB＋json＋兩張光照貼圖＋bookstore_lm_1031.patch；Node 786／0）；四棟 GLB＋cam_pillar_halls_endwall_1031.patch（校史館 3 個角度 0%→16～25%）；兩份對 f79dc8b9e apply --check 通過"
+   "next": "LAWWW 整合：書店（GLB＋json＋兩張光照貼圖＋bookstore_lm_1031.patch；Node 786／0）；四棟 GLB＋cam_pillar_halls_endwall_1031.patch（校史館 3 個角度 0%→16～25%）；兩份對 f79dc8b9e apply --check 通過",
+   "channel": "send_message 工具這個工作階段沒有（MCP 伺服器連著但不提供），ListAgents 也找不到 LAWWW-B；改用這份 outbox＋HANDOFF（GitHub）。"
   }
  ]
 }
