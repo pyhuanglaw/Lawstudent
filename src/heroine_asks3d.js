@@ -12,9 +12,9 @@
    AA_539（企劃線 c9f6dd6cb → 90d0a41d0，SIS-LEAD-1021）學姊三種通用邀約輪流（總圖五句、晨跑四句）、同一句四週內不重複；有研究室以前的晨跑換句（S.pickVar；sent 多記 alt／nl／from／line）。
      第 5 節：1-3（學生證停掉的暑假改約慢讀）作廢，慢讀那一句改當總圖的第五句。
      測試：node tests/aa539_sis_reread_unit.js
-   AA_549 3-6（企劃線 AA_549 第 3 節 3-6；第①級）：寒暑假的假期版（data 的 vacTerm）——那一天是寒暑假、她有那一季的一句（學姊只在週末）＝日常只傳這一句、取代那時候的一般邀約（校外照舊）；
-     見面時她的第一句換成 first：INV 的見面（invites3d.js S.meet 叫 S.meetFirst）、她本來就在那裡的（here：語彤的麵店、芷若上班的 Café）＝那天到了那裡跟她說話的時候（STORY.PRE_TALK）。
-     sent 多記 vs（'summer'／'winter'）、co（學姊學生證停掉的暑假改約總圖三樓）、firstSaid（第一句說過了）。測試：node tests/aa549_vacgap_unit.js */
+   AA_549 3-6（企劃線 AA_549 第 3 節 3-6；第①級；AA 回 11 題第 8～10 題）：寒暑假的假期版（data 的 vacTerm）——那一天是寒暑假、她有那一季的一句（學姊只在週末）＝只換同一個地點的那一句
+     （其他地點照 AA_532 的放假版；daily 沒有那個地點的＝多一筆）；見面時她的第一句換成 first：INV 的見面（invites3d.js S.meet 叫 S.meetFirst）、
+     她本來就在那裡的（here：語彤的麵店、芷若上班的 Café）＝那天到了那裡跟她說話的時候（STORY.PRE_TALK）。sent 多記 vs（'summer'／'winter'）、firstSaid（第一句說過了）。測試：node tests/aa549_vacgap_unit.js */
 'use strict';
 const HASK=(function(){
   const S={};
@@ -61,9 +61,11 @@ const HASK=(function(){
   /* AA_549 3-6：那一天她的假期版（{e, season}；不是寒暑假、她沒有那一季、學姊的平日＝null）*/
   S.vacTermOn=function(G,id,day){ const p=P(id), VT=p&&p.vacTerm; if(!VT) return null; const B=typeof HOME!=='undefined'&&HOME.breakOf?HOME.breakOf(day):null; if(!B||!VT[B.kind]) return null;
     const e=VT[B.kind], wd=wdOf(G,day); if(e.wkend&&wd!==0&&wd!==6) return null;
-    { const Q=typeof INV!=='undefined'&&INV.place?INV.place(S.vacTermV(e,day).v.place||e.place):null; if(Q&&Q.hoursFrom&&typeof PLACES!=='undefined'&&PLACES.windowsOf&&PLACES.windowsOf(Q.hoursFrom,day)===null) return null; }   /* 那個地點那一天整天不開（法圖寒暑假的週末）＝這一天不算假期版、照一般的邀約（不然她那一天什麼都不約）*/
+    { const Q=typeof INV!=='undefined'&&INV.place?INV.place(e.place):null; if(Q&&Q.hoursFrom&&typeof PLACES!=='undefined'&&PLACES.windowsOf&&PLACES.windowsOf(Q.hoursFrom,day)===null) return null; }   /* 那個地點那一天整天不開＝這一天不算假期版、照一般的邀約 */
     return {e,season:B.kind}; };
-  S.vacTermV=function(e,day){ const co=e&&e.cardOff, a=co?dk(co.from):null, b=co?dk(co.to):null; return co&&a!=null&&b!=null&&day>=a&&day<=b?{v:Object.assign({},e.v,{place:co.place,line:co.line}),co:true}:{v:e.v,co:false}; };   /* cardOff：學姊學生證停掉的暑假（AA_539 5-1）*/
+  /* 這一筆日常（e0）在寒暑假換不換成假期版：{k, x, day}（x＝vacTerm 那一季、day＝照假期版的 d 算的那一天）；不換＝null。e0.vs＝daily 沒有那個地點、多出來的那一筆 */
+  S.vacRep=function(G,id,e0,day0){ const VT=(P(id)||{}).vacTerm||{}; for(const k in VT){ const x=VT[k]; if(x.place!==e0.place||(e0.vs&&e0.vs!==k)) continue; const d=day0+(x.v.d==='today'?0:1), on=S.vacTermOn(G,id,d); if(on&&on.season===k) return {k,x,day:d}; } return null; };
+  S.vacEntry=(e0,x)=>Object.assign({},e0,{here:x.here!=null?!!x.here:!!e0.here});   /* here 寫在假期版的蓋過那一筆原本的（芷若寒假的 Café）*/
   /* ---- AA_539（企劃線 c9f6dd6cb → 90d0a41d0；第①、②級）學姊的通用邀約：data 的 alt（原句以外的句子，可以有自己的 place、h：總圖第五句是慢讀）、noLab（有研究室以前）----
      S.variant：照 sent 記的 {vac, alt（0＝原句、1～＝alt 的第幾句）, nl（noLab）} 拼出那一則；舊存檔沒有這幾個＝原句（和以前一樣）*/
   S.variant=function(v0,o){ o=o||{}; if(!v0) return v0;
@@ -136,15 +138,16 @@ const HASK=(function(){
           const c=DATE.check(G,{who:id,locs:[e.loc],day,depart:v.depart,kind}); if(!c.ok||(c.warns||[]).length) continue;
           out.push({id,k:'o',e,v,vk:dat?'dat':'pre',vac,loc:e.loc,day,depart:v.depart,kind,send:{day:day0,h:sendH}}); } }
       /* 日常：前一天晚上傳（沛珊的「今天晚上」那天 17:00）*/
-      const VTL=Object.keys(p.vacTerm||{}).map(k=>({vs:k,src:p.vacTerm[k],place:p.vacTerm[k].place,th:p.vacTerm[k].th,here:!!p.vacTerm[k].here}));   /* AA_549 3-6：假期版也是日常的一則 */
-      if(!(id==='kexin'&&dat)&&(!redo||rd('d'))&&(rd('d')||s.d==null||day0-s.d>=(dat?7:14))) for(const e of p.daily.concat(VTL)){ if(!dat&&e.th>sn) continue; const v0=e.vs?e.src.v:(dat?e.dat:e.pre); if(!v0) continue;
-        const day=day0+(v0.d==='today'?0:1), wd=wdOf(G,day); if((v0.d==='sat'&&wd!==6)||(v0.d==='sun'&&wd!==0)) continue;
-        { const vt=S.vacTermOn(G,id,day); if(e.vs?!(vt&&vt.season===e.vs):!!vt) continue; }   /* AA_549 3-6：寒暑假有她那一季的＝只傳假期版（取代一般的日常邀約）；假期版只在那一季 */
+      const VT=p.vacTerm||{}, VTL=Object.keys(VT).filter(k=>!p.daily.some(q=>q.place===VT[k].place)).map(k=>({vs:k,place:VT[k].place,th:VT[k].th!=null?VT[k].th:3,here:!!VT[k].here}));   /* AA_549 3-6：daily 沒有那個地點的假期版＝多一筆 */
+      if(!(id==='kexin'&&dat)&&(!redo||rd('d'))&&(rd('d')||s.d==null||day0-s.d>=(dat?7:14))) for(const e0 of p.daily.concat(VTL)){ if(!dat&&e0.th>sn) continue;
+        const rep=S.vacRep(G,id,e0,day0); if(e0.vs&&!rep) continue;   /* AA_549 3-6（AA 回第 10 題）：寒暑假只換同一個地點的那一句 */
+        const e=rep?S.vacEntry(e0,rep.x):e0, v0=rep?rep.x.v:(dat?e0.dat:e0.pre); if(!v0) continue;
+        const day=rep?rep.day:day0+(v0.d==='today'?0:1), wd=wdOf(G,day); if((v0.d==='sat'&&wd!==6)||(v0.d==='sun'&&wd!==0)) continue;
         const vac0=S.vacDay(day)&&!!v0.vac&&(!v0.vac.wkend||wd===0||wd===6);   /* AA_532 第 3 節：放假版（句子、學姊的時間）；wkend：學姊平日照學期中（AA-B 10-30 05:12 第 1 點）*/
         if(S.block(G,id,day)||S.storyAsk(G,id,day,'d')) continue;
         const firstH=v=>{ const sh=v.d==='today'?17:sendH; if(v.d==='today'&&now>abs(day0,18)) return null;   /* 「今天晚上」那則（沛珊）：那天 17:00 傳；已經過了 18:00 就不傳 */
           for(const h of v.h){ if(abs(day,h)<=Math.max(now,abs(day0,sh))+0.5) continue; if(!S.dailyOk(G,id,e,v,day,h)) continue; return {h,sh}; } return null; };
-        if(e.vs){ const vv=S.vacTermV(e.src,day), t=firstH(vv.v); if(!t) continue; out.push({id,k:'d',e,v:vv.v,vk:dat?'dat':'pre',vac:false,vs:e.vs,co:vv.co,place:vv.v.place||e.place,from:e.place,alt:0,nl:false,day,h:t.h,send:{day:day0,h:t.sh}}); continue; }   /* AA_549 3-6 */
+        if(rep){ const t=firstH(v0); if(!t) continue; out.push({id,k:'d',e,v:v0,vk:dat?'dat':'pre',vac:false,vs:rep.k,place:e0.place,from:e0.place,alt:0,nl:false,day,h:t.h,send:{day:day0,h:t.sh}}); continue; }   /* AA_549 3-6 */
         const pk=S.pickVar(G,id,e,dat?'dat':'pre',v0,vac0,day,day0,v=>!!firstH(v)); if(!pk) continue; const v=pk.v, vac=!!pk.vac, t=firstH(v);   /* AA_539：學姊的輪流（那一天不行的句子跳過）、研究室以前 */
         out.push({id,k:'d',e,v,vk:dat?'dat':'pre',vac,place:v.place||e.place,from:e.place,alt:pk.alt|0,nl:!!pk.nl,day,h:t.h,send:{day:day0,h:t.sh}}); } }
     return out; };
@@ -158,11 +161,11 @@ const HASK=(function(){
   S.redoCands=function(G,day0){ const R=S.rec(G), out=[]; for(const r of R.redo){ if(r.done||day0<r.due) continue; const all=S.candidates(G,day0,{id:r.id,k:r.k}).filter(c=>(c.from||c.place||c.loc)===(r.from||r.place||r.loc)); if(all.length) out.push(Object.assign(all[0],{redo:r.sid})); else if(day0>r.due+10) r.done=true; } return out; };   /* 10 天內一直約不成＝這一次的改天作廢 */
   S.plan=function(G){ const R=S.rec(G), day0=G.day; if(R.plan===day0) return null; R.plan=day0;
     const rc=S.redoCands(G,day0); const x=S.pick(G,day0,rc.length?rc:S.candidates(G,day0)); if(!x) return null;
-    R.seq=(R.seq|0)+1; const rec={sid:R.seq,id:x.id,k:x.k,vk:x.vk,day:x.day,send:x.send,state:'planned'}; if(x.vac) rec.vac=true;   /* AA_532 第 3 節：放假版（舊存檔沒有＝學期中那一句）*/ if(x.k==='o') Object.assign(rec,{loc:x.loc,depart:x.depart,kind:x.kind}); else { Object.assign(rec,{place:x.place,h:x.h,here:!!x.e.here}); if(x.from&&x.from!==x.place) rec.from=x.from; if(x.alt) rec.alt=x.alt; if(x.nl) rec.nl=true; const v0=x.e[x.vk]; if(v0&&(v0.alt||v0.noLab)) rec.line=x.v.line; if(x.vs){ rec.vs=x.vs; if(x.co) rec.co=true; rec.line=x.v.line; } }   /* AA_539：記用了哪一句（四週內不重複看 line）；AA_549 3-6：假期版記 vs、co */ if(x.redo){ rec.redo=x.redo; const r=R.redo.find(q=>q.sid===x.redo); if(r) r.done=true; }
+    R.seq=(R.seq|0)+1; const rec={sid:R.seq,id:x.id,k:x.k,vk:x.vk,day:x.day,send:x.send,state:'planned'}; if(x.vac) rec.vac=true;   /* AA_532 第 3 節：放假版（舊存檔沒有＝學期中那一句）*/ if(x.k==='o') Object.assign(rec,{loc:x.loc,depart:x.depart,kind:x.kind}); else { Object.assign(rec,{place:x.place,h:x.h,here:!!x.e.here}); if(x.from&&x.from!==x.place) rec.from=x.from; if(x.alt) rec.alt=x.alt; if(x.nl) rec.nl=true; const v0=x.e[x.vk]; if(v0&&(v0.alt||v0.noLab)) rec.line=x.v.line; if(x.vs){ rec.vs=x.vs; rec.line=x.v.line; } }   /* AA_539：記用了哪一句（四週內不重複看 line）；AA_549 3-6：假期版記 vs */ if(x.redo){ rec.redo=x.redo; const r=R.redo.find(q=>q.sid===x.redo); if(r) r.done=true; }
     R.sent.push(rec); const s=st(G,x.id); s.last=day0; if(x.k==='o') s.o=day0; else s.d=day0; s.places[x.from||x.place||x.loc]=day0;
     if(R.sent.length>60) R.sent.splice(0,R.sent.length-60); return rec; };
   S.entryOf=function(rec){ const p=P(rec.id); if(!p) return null;
-    if(rec.vs&&rec.k!=='o'){ const src=(p.vacTerm||{})[rec.vs]; if(!src) return null; const v=rec.co&&src.cardOff?Object.assign({},src.v,{place:src.cardOff.place,line:src.cardOff.line}):src.v; return {e:{place:src.place,th:src.th,here:!!src.here},v}; }   /* AA_549 3-6 */
+    if(rec.vs&&rec.k!=='o'){ const src=(p.vacTerm||{})[rec.vs]; if(!src) return null; const e0=p.daily.find(q=>q.place===src.place)||{place:src.place,th:src.th,here:!!src.here}; return {e:S.vacEntry(e0,src),v:src.v}; }   /* AA_549 3-6：那一筆（here 照假期版蓋過）＋假期版的句子 */
     const list=rec.k==='o'?p.out:p.daily; const e=list.find(q=>(q.place||q.loc)===(rec.from||rec.place||rec.loc)); return e?{e,v:S.variant(e[rec.vk],{vac:!!rec.vac,alt:rec.alt|0,nl:!!rec.nl})}:null; };   /* from：那一句自己的地點（AA_539 總圖第五句：place 是慢讀、句子在總圖那一筆）*/
   /* 到了她傳訊息的時間：真的傳（訊息時間＝原本排的時間；睡過、跳過也一樣）。那時候已經不行了（約的時間過了、有人先約了）＝這次不傳 */
   S.fire=function(G,rec){ const ev=S.entryOf(rec); if(!ev||!ev.v){ rec.state='dropped'; return false; } const at=rec.send, line=ev.v.line;
