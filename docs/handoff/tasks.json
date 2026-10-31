@@ -23651,7 +23651,7 @@
    },
    "source": "使用者 2026-10-18 14:2x：「桌遊也沒畫面 類似的事情幫我檢查哪些都黑畫面等下一個帳號BB教我補充」",
    "authorized": "使用者直接指示",
-   "next": "經濟系第一批四張 15:3x 已向使用者要（BG-ECON-B1-1018）；在家的電話改用家裡背景（不用圖）。清單：docs/handoff/BLACK_BG_AUDIT_1018.md（node tools/story/black_bg_audit.js --md 重產）；第 1 節依背景代號分組（補一張就補好一組），第 3 節地點不對，第 4 節使用者回報（桌遊店、系烤 CG）。下一班 BB：先排經濟系（D99 第一優先），純場景一次四份不附圖、有人物單獨一輪附參考圖；電話場景要不要圖先用選擇題問使用者。和 ART-17 對過、不重複",
+   "next": "【10-31 23:1x】BB-B：第 100 組（4713c4d0c）黑畫面 10 張、第 101 組（9d5968c0b）家裡的車三張＋芯慈 CG（有人物，照 X94 緩緩），使用者回來時一起給；經濟系 5 段過場不用新圖、改代號（ev_y0_e26→home_entry_night、ev_y0_e36r→home_room_day、ev_y0_rp→目的地背景、ev_y0_kh_bus／_h→bus_night；公車上 bus_day、小鎮市場 market、左營站 kh_station）→ LAWWW 在 feat-1031 改（發布後合）｜經濟系第一批四張 15:3x 已向使用者要（BG-ECON-B1-1018）；在家的電話改用家裡背景（不用圖）。清單：docs/handoff/BLACK_BG_AUDIT_1018.md（node tools/story/black_bg_audit.js --md 重產）；第 1 節依背景代號分組（補一張就補好一組），第 3 節地點不對，第 4 節使用者回報（桌遊店、系烤 CG）。下一班 BB：先排經濟系（D99 第一優先），純場景一次四份不附圖、有人物單獨一輪附參考圖；電話場景要不要圖先用選擇題問使用者。和 ART-17 對過、不重複",
    "xai": {
     "receiver": "LAWWW",
     "branch": "claude/wonderful-mayer-7fm9g6",
@@ -37703,6 +37703,35 @@
    "authorized": "D109（AA 第①②級）、D99 第二優先",
    "xai": {
     "spec": "AA_549（企劃線 claude/cool-heisenberg-o8kuqx）",
+    "owner": "BB",
+    "branch": "claude/elegant-brown-fcos7n",
+    "acceptance": "照規格交付、互審紀錄",
+    "receiver": "LAWWW-B",
+    "ack": "ACK"
+   }
+  },
+  {
+   "id": "ZR-SUMMER-LINES-1031",
+   "title": "芷若大一暑假在台中（7/1～8/25）讀起來怪的五處（AA-B 10-31 20:14 回）：七夕台中版加「我在家裡的廚房試做了一杯特調。很甜。……想給你喝。」；vac_activities.js:418「我媽打來，問你回來了沒。」在台中那段換「我媽在旁邊一直問我在跟誰傳訊息。」；深夜「剛洗完澡。下班回來都這個時間。」7/1～8/25 換「剛洗完澡。台中的晚上比臺北安靜。」；8/26 不排班、重逢改 8/27 22:00；termend_lines.js:225 改「暑假我回台中，八月二十六號回來。」",
+   "area": "STORY",
+   "owner": "LAWWW",
+   "status": "待開工",
+   "priority": "P2",
+   "next": "【10-31 23:1x】在本機分支 feat-1031 做，等 VAC-GAP-1031 子代理做完（vac_activities.js 會撞）；發布後合進開發分支",
+   "first": {
+    "term": "Y1S2",
+    "week": 0,
+    "earliest": "大一暑假（芷若在台中）",
+    "mainline": false,
+    "blocks": false,
+    "prereq": false,
+    "parallel": true,
+    "confirmed": true
+   },
+   "source": "LAWWW-B 子代理盤點 → AA-B 10-31 20:14 回五題",
+   "authorized": "D109",
+   "xai": {
+    "spec": "AA-B 10-31 20:14 訊息（AA_550 衍生）",
     "owner": "BB",
     "branch": "claude/elegant-brown-fcos7n",
     "acceptance": "照規格交付、互審紀錄",
