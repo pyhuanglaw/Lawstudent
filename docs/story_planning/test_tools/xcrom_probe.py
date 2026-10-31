@@ -476,6 +476,9 @@ async def te_dinner(pg, cdp, run, sid, res, term, din_key, picks, label=''):
     run.check('%s：巷口家常菜開場「%s」、收尾「%s」，收尾在回家路上之前；字幕「巷口家常菜」' % (sid, OPEN_L, CLOSE_L),
               io >= 0 and ic > io and iw > ic and any('巷口家常菜' in c for c in cp) and not any('簡餐店' in t for t in T),
               J({'open': io, 'close': ic, 'walk': iw, 'caps': cp[:4], 'narr': narr[:3]}, 800))
+    # LAWWW-B 0447c75bb（BB-B n27 觀察）：芯慈回家的路加 walkCaption「羅斯福路・往公館站」（深色底＋字幕）——收尾之後、回家路上第一句之前
+    WC = '羅斯福路・往公館站'; icap = next((k for k, x in enumerate(lg) if x.get('n') == '［字幕］' and WC in x['t']), -1)
+    run.check('%s：收尾之後、回家路上第一句之前有字幕「%s」（0447c75bb 起）' % (sid, WC), icap >= 0 and ic < icap < iw, J({'close': ic, 'caption': icap, 'walk': iw, 'caps': cp[:6]}))
     run.check('%s：出發的選項「出發：學期末的飯：（芯慈）（巷口家常菜）」' % sid, any('芯慈' in o and '巷口家常菜' in o for o in gos), J(CS[:2]))
     return lg, T, CS
 
