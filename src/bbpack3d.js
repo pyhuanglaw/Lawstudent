@@ -141,7 +141,15 @@ const BBPACK=(function(){
         nyMsg('classmate_mingxuan','FAMILIAR',ny,6/60,['📷（從高處拍的人潮，一整片手機的光）','時薪兩倍','可是我從十點到現在都沒去廁所'],[['辛苦了。',['再一個小時','下班我要吃一碗很大的麵']],['CP 值還是很高。',['對','廁所不算進去的話']]],u1,'bb_nye_mx_y1');
         nyMsg('npc_fangyt','FAMILIAR',ny,15+10/60,['📷（山上的日出，下面是一整片雲）','下山了，有訊號','山上零下三度，水壺結冰','明年要不要一起來'],[['好啊。',['那我先跟社長說','名額很少']],['我怕冷。',['會借你外套','……睡袋就沒辦法了']]],u2,'bb_nye_fy_y1');
         /* BB_171 第 3 節（AA_432 4-6「照 BB_171」）：沒上頂樓的玩家，1/1 中午阿凱一則 */
-        if(win(G,ny,12,ny+2,0)&&F.NYE_Y1!=='roof'&&knows('kai')) ph.at(G,ny,12,[{th:'p:kai',from:'kai',text:'昨天頂樓好吵 我在打團戰'}],'bb_nye_kai_y1'); } }
+        if(win(G,ny,12,ny+2,0)&&F.NYE_Y1!=='roof'&&knows('kai')) ph.at(G,ny,12,[{th:'p:kai',from:'kai',text:'昨天頂樓好吵 我在打團戰'}],'bb_nye_kai_y1'); } 
+      /* AA_550 第 2 節（VAC-B1，企劃線 da56f3a68）：大二跨年（2027-01-01）芷若 00:04（FAMILIAR 以上）、子晴 00:00（FRIEND 以上，她的訊息不加句號）；沒有回覆選項（稿沒寫）、不回也可以。
+         沛珊大二是重考消失期：沒有。Kevin 大二那則等 AA 回（「學姊今年也只會貼圖」和 AA_218 刪掉學姊貼圖不一致）*/
+      const ny2=D('2027-01-01'), plain=(id,min,day,h,texts,until,tag)=>{ const t=now(G); if(t<day*24+h||t>=until) return; if(!knows(id)||!stageAt(id,min)||ph.sent(G,tag)) return; ph.at(G,day,h,texts.map(x=>({th:'p:'+id,from:id,text:x})),tag); };
+      if(ny2!=null){ const u=(ny2+1)*24;
+        plain('heroine_04','FRIEND',ny2,0,['📷（遊戲裡的煙火，這次只有她的角色）','新年快樂','阿凱在他們那棟頂樓 我自己放'],u,'bb_nye_zq_y2');
+        plain('heroine_02','FAMILIAR',ny2,4/60,['今年一百六十杯。','店長說明年要再請一個人。','新年快樂。'],u,'bb_nye_zr_y2'); }
+      /* AA_550 第 1 節：Kevin 2026-01-24～01-31 在日本，只出現在家族群組的照片（1/25 20:00）*/
+      { const d=D('2026-01-25'); if(d!=null&&win(G,d,20,d+3,0)&&ph.inGroup(G,'family_law')) ph.at(G,d,20,[{th:'g:family_law',from:'kevin',name:'Kevin',text:'📷（大阪的路口，一隻在吃章魚燒的鹿）'},{th:'g:family_law',from:'kevin',name:'Kevin',text:'鹿是我亂講的 是狗'}],'bb_kevin_osaka_y1'); } }
     /* D5：沛珊的講義（公法讀書會的前一天；冷卻四週）*/
     /* AA_458 第 2 節（企劃線 b01e32018）：原本每次都是同一句（大一上兩次、到大二上十次左右）→ 照第幾次輪：第 1 次原句，用到第 5 句以後從第 2 句再輪（照 cracktalk3d.js 的 yt2）。
        選項、她回的「好，明天直接給你。」照舊；tag 照舊 bb_d5_<日>。第幾次記 F.D5_ASK_N（D5_N 是 ev_d5_handout 去拿了幾次，不一樣）；舊存檔沒有＝照手機裡看得到、已經收過的 bb_d5_ 則數算（沒收過＝第 1 句）*/
