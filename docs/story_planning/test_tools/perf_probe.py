@@ -64,12 +64,15 @@ async def start(p, run, perf, landscape, tag):
 
 
 async def walk_route(pg, cdp, run, tag, targets, max_hops=4):
-    hops = []
+    hops = []; seq = list(targets.get('seq') or [])   # seq：照順序走（可以來回，例：宿舍走廊 ↔ 校園），走完就停
     for _ in range(max_hops):
         z = await pg.evaluate("GAME.G.zone")
-        if z in targets['done']: break
+        if not seq and z in targets['done']: break
         ex = await pg.evaluate(EXITS); tos = [e['to'] for e in ex]
-        nxt = next((t for t in targets['order'] if t in tos and t not in [h['to'] for h in hops] and t != z), None)
+        if seq:
+            nxt = seq.pop(0) if seq[0] in tos else None
+        else:
+            nxt = next((t for t in targets['order'] if t in tos and t not in [h['to'] for h in hops] and t != z), None)
         run.note('%s：在 %s，出口 %s → 下一站 %s' % (tag, z, J(ex), nxt))
         if not nxt: break
         t0 = time.time(); ok = await door_to(pg, cdp, run, nxt)
@@ -92,9 +95,10 @@ async def main():
         b, pg, cdp, errs, ok = await start(p, run, True, True, '橫向 ?perf')
         run.check('遊戲載入（?perf）', ok)
         pn0 = await pg.evaluate(PANEL); run.note('讀檔進宿舍以後的小框：%s' % J(pn0))
-        hops = await walk_route(pg, cdp, run, 'land', {'order': ['dorm_hall', 'campus', 'wenzhou', 'cafe', 'gongguan'], 'done': ['wenzhou', 'cafe']}, max_hops=5)
+        # n26_perfpanel_d：校園走到校門（−125.5, ±5.3）SwiftShader 要 8 分鐘以上、走不到——改成宿舍走廊 ↔ 校園來回（宿舍門口就在校園出生點旁），換 4 次區域＝5 筆，才看得到「最多 3 筆＋共 N 筆」
+        hops = await walk_route(pg, cdp, run, 'land', {'seq': ['dorm_hall', 'campus', 'dorm_hall', 'campus'], 'done': []}, max_hops=4)
         run.note('橫向路線：%s' % J(hops))
-        run.check('橫向：照玩家走門換了 ≥ 2 次區域，最後在溫州街或 Café', len([h for h in hops if h['ok']]) >= 2 and hops and hops[-1]['ok'] and hops[-1]['to'] in ('wenzhou', 'cafe'), J(hops))
+        run.check('橫向：照玩家走門換了 4 次區域（宿舍 → 走廊 → 校園 → 走廊 → 校園）', len([h for h in hops if h['ok']]) == 4, J(hops))
         pn = await pg.evaluate(PANEL); head, rows = rows_of(pn)
         await run.shot(pg, 'land_final')
         run.note('橫向最後的小框（%s）：\n%s' % (J(pn.get('rect')), pn.get('text')))
@@ -110,7 +114,8 @@ async def main():
         run.note('橫向：按「複製」→ %s' % J(cpd)[:900])
         run.check('橫向：按「複製」拿到全部（第一行瀏覽器、後面每一筆照格式，筆數＝記錄數 %d、最多 8）' % total, bool(cpd.get('t')) and len(crow) == min(total, 8) and all(ROW.match(r) for r in crow), J({'n': len(crow), 'first': cl[:1], 'btn': cpd.get('btn')}))
         nin = len([h for h in hops if h['ok']])
-        run.check('橫向：一行一次（行數 ≥ 換區域次數 %d）、每行照格式' % nin, len(rows) >= nin and all(ROW.match(r) for r in rows), J(rows))
+        tot = pn.get('n') or 0   # 2a3e53b59 起畫面上只列最近 3 筆：記錄數＝換區域次數＋讀檔進宿舍那一次；畫面上的筆數＝min(3, 記錄數)
+        run.check('橫向：一次一筆（記錄數 %s ≥ 換區域次數 %d＋1）、畫面上 min(3, 記錄數) 筆、每行照格式' % (tot, nin), tot >= nin + 1 and len(rows) == min(3, tot) and all(ROW.match(r) for r in rows), J({'n': tot, 'rows': rows})[:900])
         neg = [r for r in rows if ROW_NEG.search(r)]
         run.check('橫向：shader 黑畫面的數字不是負的（n26 看到「+-6」）', not neg, J(neg))
         z_last = hops[-1]['to'] if hops else None; z_names = [ROW.match(r).group(1) if ROW.match(r) else None for r in rows]
