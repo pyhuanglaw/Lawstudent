@@ -408,6 +408,12 @@ HALL_PTS = """(tag=>{ const E=GAME.E; let b=null; E.zone.group.traverse(o=>{ if(
   for(const off of [0,1.3,-1.3,2.6,-2.6]){ let ok=null; for(const back of [0,0.25,0.5,0.75,1.0,1.25,1.5]){ const x=d0[0]+lat[0]*off+out[0]*back, z=d0[1]+lat[1]*off+out[1]*back; if(!E.canStand||E.canStand(x,z,0.35,0)){ ok=[+x.toFixed(2),+z.toFixed(2),back]; break; } } pts.push({off, p:ok}); }
   return {tag, door:[+d0[0].toFixed(2),+d0[1].toFixed(2)], out:[+out[0].toFixed(3),+out[1].toFixed(3)], lat:[+lat[0].toFixed(3),+lat[1].toFixed(3)], pts,
     start:[+(d0[0]+out[0]*8).toFixed(2),+(d0[1]+out[1]*8).toFixed(2)], inside:[+(d0[0]-out[0]*4).toFixed(2),+(d0[1]-out[1]*4).toFixed(2)]}; })"""
+# n27_halls_b 09:06：校史館斜看時有 4 張整個畫面是米色石面、玩家看不到（vis＝null，柱子只佔 0.4～2.8%）——記下鏡頭到玩家胸口中間擋著的是哪些網格、什麼材質
+HITJS = """(()=>{ const E=GAME.E, c=E.camera, o=E.player.obj.position; c.updateMatrixWorld(); const from=c.position.clone(), to=new THREE.Vector3(o.x,o.y+1.2,o.z);
+  const dir=to.clone().sub(from); const dist=dir.length(); dir.normalize(); const rc=new THREE.Raycaster(from,dir,0,dist);
+  const hits=rc.intersectObjects(E.scene.children,true).filter(h=>h.object.isMesh&&h.object.visible&&h.object!==E.player.obj&&!E.player.obj.getObjectById(h.object.id));
+  return {cam:[+from.x.toFixed(2),+from.y.toFixed(2),+from.z.toFixed(2)], dist:+dist.toFixed(2), hits:hits.slice(0,6).map(h=>{ const m=Array.isArray(h.object.material)?h.object.material[0]:h.object.material; let p=h.object, path=[]; for(let k=0;k<4&&p;k++){ path.push(p.name||p.type); p=p.parent; }
+    return {d:+h.distance.toFixed(2), mat:m&&m.name, st:!!(m&&m.userData&&m.userData.seeThrough), obj:path.join('<')}; }), colliders:(E.colliders||[]).length}; })()"""
 HALLS = [('library', '總圖'), ('admin', '行政大樓'), ('arts', '文學院'), ('hist', '校史館')]
 
 
@@ -419,7 +425,7 @@ async def s_halls(p, run, base, sid, out):
     b, pg, cdp, errs, r = await launch(p, run, base, '2029-04-26', 15.0, 'campus', preflags=TWF, quiet=True, label=sid + '（2029-04-26（四）15:00 校園；quiet 讀檔）')
     try:
         await pg.wait_for_timeout(6000)
-        for tag, nm in HALLS:
+        for tag, nm in [h for h in HALLS if not os.environ.get('HALLS_ONLY') or h[0] in os.environ['HALLS_ONLY'].split(',')]:
             hp = await pg.evaluate(HALL_PTS + "(%s)" % json.dumps(tag)); res[tag] = {'pts': hp}
             run.note('%s %s 門口與量測點：%s' % (sid, nm, J(hp, 1200)))
             if not hp: run.check('%s：%s 找得到（ckTag %s）' % (sid, nm, tag), False, ''); continue
@@ -431,13 +437,16 @@ async def s_halls(p, run, base, sid, out):
                 await L.go_to(pg, cdp, run, q['p'][0], q['p'][1], 0.45, '%s %s %+.1f m' % (sid, nm, q['off']), max_s=150, lv=0, stop=lambda s: s['dlg'] or s['choices'])
                 await L.turn_camera_to(pg, cdp, hp['inside'][0], hp['inside'][1]); await pg.wait_for_timeout(2000)
                 c = await pg.evaluate(CAMJS); await run.shot(pg, '%s_%s_%+.1f' % (sid, tag, q['off'])); v = await player_vis(pg)
+                if (v.get('vis') or 0) < 0.25 and v.get('pillars'): run.note('%s %s %+.1f 正對看不到玩家，中間擋著：%s' % (sid, nm, q['off'], J(await pg.evaluate(HITJS), 900)))
                 rows.append({'off': q['off'], 'at': c['player'], 'cam': c['cam'], 'mode': c['mode'], 'vis': v.get('vis'), 'pillarScreen': v.get('pillarScreen'), 'pillars': v.get('pillars'), 'st': v.get('st')})
                 if os.environ.get('HALLS_DIAG'):   # n27_halls 08:23：鏡頭正對建築時柱子多半不在鏡頭和人中間（看得到 85～100%）——再斜 35° 左右各量一次，讓柱子擋在中間
                     for side in (1, -1):
                         tx = hp['inside'][0] + hp['lat'][0] * side * 2.8; tz = hp['inside'][1] + hp['lat'][1] * side * 2.8
                         await L.turn_camera_to(pg, cdp, tx, tz); await pg.wait_for_timeout(2000)
                         c2 = await pg.evaluate(CAMJS); await run.shot(pg, '%s_%s_%+.1f_diag%+d' % (sid, tag, q['off'], side)); v2 = await player_vis(pg)
-                        rows.append({'off': q['off'], 'diag': side, 'at': c2['player'], 'cam': c2['cam'], 'mode': c2['mode'], 'vis': v2.get('vis'), 'pillarScreen': v2.get('pillarScreen'), 'pillars': v2.get('pillars'), 'st': v2.get('st')})
+                        row = {'off': q['off'], 'diag': side, 'at': c2['player'], 'cam': c2['cam'], 'mode': c2['mode'], 'vis': v2.get('vis'), 'pillarScreen': v2.get('pillarScreen'), 'pillars': v2.get('pillars'), 'st': v2.get('st')}
+                        if (v2.get('vis') or 0) < 0.25: row['hit'] = await pg.evaluate(HITJS); run.note('%s %s %+.1f 斜 %+d 看不到玩家，中間擋著：%s' % (sid, nm, q['off'], side, J(row['hit'], 900)))
+                        rows.append(row)
             res[tag]['rows'] = rows; run.note('%s %s：%s' % (sid, nm, J(rows, 2000)))
             judged = [x for x in rows if 'vis' in x and (tag != 'admin' or x['off'] == 0)]
             run.check('%s：%s 門廊（門口%s%s）鏡頭在外面看得到玩家（≥ 25%%）、鏡頭不在柱子裡（柱子佔畫面 < 60%%）' % (sid, nm, '' if tag == 'admin' else '、往旁邊 ±1.3、±2.6 m', '；正對＋左右斜 35°' if os.environ.get('HALLS_DIAG') else ''),
