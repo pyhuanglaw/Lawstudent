@@ -20,6 +20,7 @@
 # --nolm（照舊即時光）：桁架（細的鋼管，幾千個小島）、燈罩、黃銅、小零件、籃框、膠帶、牌子（記分板、指標、公告、開館時間、樓層指引、樓梯口的告示）、高窗發光面、窗框。
 #   地板、球場、天花板、屋頂板、牆、護牆軟墊、石材、看台、木格柵、服務台照樣烘。
 # 10-31 試烘（64 取樣、2048²）：大廳白天整片偏藍灰（入口玻璃的天光＋白平衡 0.96,0.97,1.0）→ 白平衡改 1.0,0.98,0.95；球場地板 64 取樣的雜訊明顯。
+#   正式第一版（1024²、256）：大廳白天照樣偏藍（分隔牆的石材、地板）——入口大片玻璃進來的天光本身偏藍 → 白平衡 1.0,0.93,0.84、天光 0.5→0.4（大廳多靠嵌燈的暖光）。
 set -e
 ZONE=${1:?interior}
 SAMPLES=${2:-256}
@@ -38,7 +39,7 @@ interior)
   for zz in 13 17; do for x in -14 -7 0 7 14; do
     LIGHTS="$LIGHTS;$(python3 -c "print(f'{$x-0.01:.3f},{$x+0.01:.3f},{$zz-0.01:.3f},{$zz+0.01:.3f},4.17,1,1,${DLW:-25},0.36,0.36,$WARM')")"; done; done
   LIGHTS=${LIGHTS#;}
-  EXTRA=(--dayemit "gym_window_sky=${SKYWIN:-3.0}" --sun 90,30,0 --sky "${SKY:-0.5}" --daywb ${DAYWB:-1.0,0.98,0.95} --daylights "${DAYL:-0.7}" --shell S --keep-instances) ;;
+  EXTRA=(--dayemit "gym_window_sky=${SKYWIN:-3.0}" --sun 90,30,0 --sky "${SKY:-0.4}" --daywb ${DAYWB:-1.0,0.93,0.84} --daylights "${DAYL:-0.7}" --shell S --keep-instances) ;;
 *) echo "未知的區域：$ZONE"; exit 1 ;;
 esac
 /opt/blenv/bin/python $SCRIPT -- --out "$TMP/plain.glb"
