@@ -169,11 +169,11 @@ async def answer2(pg, cdp, run, th, ask_id, want, label=''):
     await pg.wait_for_timeout(700); before = await pg.evaluate(BODY); await run.shot(pg, '%s_dm' % label)
     btns = await pg.evaluate("(id=>[...document.querySelectorAll('#phoneBody [data-ask]')].filter(b=>(b.dataset.ask||'').split('|')[0]===id).map(b=>(b.textContent||'').trim()))(%s)" % json.dumps(ask_id))
     o = await pg.evaluate("(id=>{ const m=PHONE.pending(GAME.G).find(x=>x.ask&&x.ask.id===id); return m?m.ask.opts.map(o=>o.t):null; })(%s)" % json.dumps(ask_id))
-    r = {'thread': bool(hit), 'before': before[-900:], 'btns': btns, 'opts': o, 'got': None, 'after': ''}
+    r = {'thread': bool(hit), 'before': before[-1500:], 'btns': btns, 'opts': o, 'got': None, 'after': ''}
     if want is None or not o: await L.phone_away(pg, cdp); return r
     k = next((i for i, t in enumerate(o) if t.startswith(want)), 0)
     r['got'] = await tap_sel_js(pg, cdp, "[...document.querySelectorAll('#phoneBody [data-ask]')].find(b=>b.dataset.ask===%s)" % json.dumps('%s|%d' % (ask_id, k)))
-    await pg.wait_for_timeout(1500); r['after'] = (await pg.evaluate(BODY))[-900:]; await run.shot(pg, '%s_dm_answered' % label)
+    await pg.wait_for_timeout(1500); r['after'] = (await pg.evaluate(BODY))[-1500:]; await run.shot(pg, '%s_dm_answered' % label)
     say('   %s 手機回 %s：「%s」' % (label, ask_id, r['got'])); await L.phone_away(pg, cdp); return r
 
 
@@ -422,6 +422,8 @@ async def te_invite(pg, cdp, run, sid, res, term, want_text, label=''):
     if not m: return None
     a = await answer2(pg, cdp, run, 'p:' + XC, tag, '好。', label='%s_%s' % (sid, term)); res['invite_ui'] = a
     run.check('%s：手機對話串看得到那一則、回「好。」' % sid, want_text in a['before'] and a['got'] == '好。', J({k: a[k] for k in ('btns', 'got')}))
+    # 回「好。」只記 TE_PICK，期末飯是下一次 STORY.tick（手機收起來、遊戲在跑）才排（TERMEND.pickCheck）
+    await wait_for(pg, cdp, run, "!!(%s)('te_%s')" % (OUTQ1, term), max_s=120, picks=['「那天有約了。」'], label=label or sid)
     q = await pg.evaluate(OUTQ1 + "('te_%s')" % term); res['dinner'] = q
     return q
 
@@ -434,7 +436,8 @@ async def te_dinner(pg, cdp, run, sid, res, term, din_key, picks, label=''):
     lg = await log_since(pg, n0); T = texts(lg); CS = choice_sets(lg)
     res['te'] = await pg.evaluate(TE_RES + "('%s')" % term); res['xc'] = await pg.evaluate(XCSTATE)
     run.check('%s：%s 期末飯演完、回家的路上有結果（%s）' % (sid, din_key, J(res['te'].get('result'))), ok, J(ch[-3:], 600))
-    run.check('%s：出發的選項「出發：學期末的飯：吳芯慈（巷口家常菜）」' % sid, any(any(o.startswith('出發：學期末的飯：吳芯慈（巷口家常菜）') for o in c) for c in CS), J(CS[:2]))
+    gos = [o for c in CS for o in c if o.startswith('出發：學期末的飯')]; res['go_opt'] = gos[:1]
+    run.check('%s：出發的選項「出發：學期末的飯：（芯慈）（巷口家常菜）」' % sid, any('芯慈' in o and '巷口家常菜' in o for o in gos), J(CS[:2]))
     return lg, T, CS
 
 
@@ -483,7 +486,7 @@ async def s_te_she(p, run, base, sid, out):
         q = await te_invite(pg, cdp, run, sid, res, 'Y3S2', INVITE)
         if not q: run.check('%s：期末飯排好了' % sid, False, J(q)); return
         lg, T, CS = await te_dinner(pg, cdp, run, sid, res, 'Y3S2', q['key'], [NOT_YET_OPT, '「讓我想想。」'])
-        res['y3s2'] = {'said': T, 'choices': CS}
+        res['y3s2'] = {'said': T, 'choices': CS, 'invite': res.get('invite'), 'dinner': res.get('dinner'), 'te': res.get('te')}
         te_common(run, sid, lg, T, CS)
         run.check('%s：選「（先不說）」→ she 三句「……你不說，那我說。」「我排了一個晚上要講這個。講稿寫了三版，都很爛。」「我喜歡你。」' % sid, has_seq(T, SHE), J(T[-8:]))
         run.check('%s：三句以後直接「好／讓我想想」（沒有問句、沒有別的選項）' % sid, any(c == ANSWER for c in CS) and not has_seq(T, SHE + [ASK_Q]), J(CS[-2:]))
