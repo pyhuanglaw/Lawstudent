@@ -36195,7 +36195,7 @@
    "area": "STORY",
    "owner": "AA",
    "status": "已整合待測試",
-   "next": "【10-31 04:4x】AA_537b 8-5（企劃線 b3df9c4e9）：第二次心意飯回家路上 walkAgain 兩句（「這學期，我每個禮拜都留了一天。」「……你應該知道是哪一天。」）接好，xinci_romance 第 2 節加一條（修改前 FAIL）｜【10-31 04:3x】BB-B n27（c3a8aded9）23 個情境 197 行 PASS、6 行 FAIL 全是探針；n27_xcrom_b（0447c75bb）重跑 walkCaption、TE_TELL／TE_KNOWN；大四上第二次心意飯回家路上那兩句和大三下一樣→已問 AA-B 要不要換｜【10-31 04:0x】BB-B n27 觀察 walkPlace 沒有程式讀：芯慈回家的路加 walkCaption「羅斯福路・往公館站」（深色底＋字幕；xinci_romance 12d，修改前 FAIL）；通用改法（walkPlace 當字幕）撤回——沛珊大四下飯在台南、walkPlace 是新生南路會對不上（r2y4b PS1 抓到）；BB n27 的巷口家常菜、TE_TELL FAIL 都是探針（BB 已改）｜【10-31 02:2x】BB-B 疑點 1、2：心意邀約那天下午手機規則沒跑到＝不傳過期的、改排下一個晚上；期末飯不排在別人已經佔了的晚上（TERMEND.teBusy：te_ 出遊、heartDay、gfDay）；疑點 3（沒有圈子那一列）照現狀；xinci_romance 12b2（修改前 FAIL）｜【10-31 02:0x】AA_537b 8-4 巷口家常菜期末飯開場、收尾（termend_lines PLACE.l118_home；心意、交往後兩頓）；xinci_romance_unit 12c｜【10-31 00:5x】AA_548 第 1～8 節全部接好、XCROM.ON 打開：告白不問、沒騙就接受（第 7 節）、她爸爸 8-1、挽回 8-2、冷落 8-3、以安 5-3；xinci_romance_unit ALL PASS（第 12、13 節新加）→ BB 測整條線（n27_xinci_romance）｜【10-31 00:4x】使用者點選 4a、4b（告白不問、沒騙就接受）→ AA_548 第 7 節接好、XCROM.ON 打開（b399adf57）；測試照新規則改中；還沒做：AA_537 5-4 她爸爸（要換稿，D116）、5-5 挽回觸發、冷落（已問 AA）→ BB 測整條線｜AA_548（企劃線 265cca815）程式接好（門檻 G1～G9、G6 補一次、3-1／3-3／3-5、others、半夜訊息八則；xinci_romance_unit ALL PASS），XCROM.ON 照舊 false：等使用者對 AA 點選 4a（告白時她問不問）、4b（知道你有別人接不接受），AA 回了再打開 → BB 測整條線",
+   "next": "【10-31 05:0x】BB-B n27_xcrom_b（0eb633624）PASS：三頓期末飯 收尾→字幕「羅斯福路・往公館站」→回家路上；第二次心意飯換 walkAgain；剩 TE_TELL／TE_KNOWN（探針等 heartDay，n27_xcrom_c 重跑）｜【10-31 04:4x】AA_537b 8-5（企劃線 b3df9c4e9）：第二次心意飯回家路上 walkAgain 兩句（「這學期，我每個禮拜都留了一天。」「……你應該知道是哪一天。」）接好，xinci_romance 第 2 節加一條（修改前 FAIL）｜【10-31 04:3x】BB-B n27（c3a8aded9）23 個情境 197 行 PASS、6 行 FAIL 全是探針；n27_xcrom_b（0447c75bb）重跑 walkCaption、TE_TELL／TE_KNOWN；大四上第二次心意飯回家路上那兩句和大三下一樣→已問 AA-B 要不要換｜【10-31 04:0x】BB-B n27 觀察 walkPlace 沒有程式讀：芯慈回家的路加 walkCaption「羅斯福路・往公館站」（深色底＋字幕；xinci_romance 12d，修改前 FAIL）；通用改法（walkPlace 當字幕）撤回——沛珊大四下飯在台南、walkPlace 是新生南路會對不上（r2y4b PS1 抓到）；BB n27 的巷口家常菜、TE_TELL FAIL 都是探針（BB 已改）｜【10-31 02:2x】BB-B 疑點 1、2：心意邀約那天下午手機規則沒跑到＝不傳過期的、改排下一個晚上；期末飯不排在別人已經佔了的晚上（TERMEND.teBusy：te_ 出遊、heartDay、gfDay）；疑點 3（沒有圈子那一列）照現狀；xinci_romance 12b2（修改前 FAIL）｜【10-31 02:0x】AA_537b 8-4 巷口家常菜期末飯開場、收尾（termend_lines PLACE.l118_home；心意、交往後兩頓）；xinci_romance_unit 12c｜【10-31 00:5x】AA_548 第 1～8 節全部接好、XCROM.ON 打開：告白不問、沒騙就接受（第 7 節）、她爸爸 8-1、挽回 8-2、冷落 8-3、以安 5-3；xinci_romance_unit ALL PASS（第 12、13 節新加）→ BB 測整條線（n27_xinci_romance）｜【10-31 00:4x】使用者點選 4a、4b（告白不問、沒騙就接受）→ AA_548 第 7 節接好、XCROM.ON 打開（b399adf57）；測試照新規則改中；還沒做：AA_537 5-4 她爸爸（要換稿，D116）、5-5 挽回觸發、冷落（已問 AA）→ BB 測整條線｜AA_548（企劃線 265cca815）程式接好（門檻 G1～G9、G6 補一次、3-1／3-3／3-5、others、半夜訊息八則；xinci_romance_unit ALL PASS），XCROM.ON 照舊 false：等使用者對 AA 點選 4a（告白時她問不問）、4b（知道你有別人接不接受），AA 回了再打開 → BB 測整條線",
    "priority": "P1",
    "first": {
     "term": "Y1S1",
@@ -36927,9 +36927,9 @@
    "title": "手機訊息時間字過了半夜寫成日期：一路玩過午夜（G.day 不換、G.hour 超過 24）時 01:31 的訊息寫「3/14 01:31」，直接跳到 01:15 才寫「今天」（BB-B 10-31 n27 NIGHT_REAL 觀察；game3d.js msgWhen 拿 m.day 和 G.day 比）",
    "area": "UI",
    "owner": "LAWWW",
-   "status": "已整合待測試",
+   "status": "已驗收",
    "priority": "P2",
-   "next": "【10-31 04:5x】全部 Node 777／0（0eb633624）；已派 BB 併進 n27_xcrom_b NIGHT_REAL｜【10-31 04:3x】msgWhen 照實際那一天（G.day＋floor(G.hour/24)）比；tests/msg_when_unit.js（修改前 FAIL 2）→ BB 照 n27 NIGHT_REAL 看手機時間字",
+   "next": "已驗收（10-31 05:0x）｜【10-31 04:5x】全部 Node 777／0（0eb633624）；已派 BB 併進 n27_xcrom_b NIGHT_REAL｜【10-31 04:3x】msgWhen 照實際那一天（G.day＋floor(G.hour/24)）比；tests/msg_when_unit.js（修改前 FAIL 2）→ BB 照 n27 NIGHT_REAL 看手機時間字",
    "first": {
     "term": "Y1S1",
     "week": 1,
@@ -36947,6 +36947,35 @@
     "branch": "claude/modest-rubin-2lyp7g",
     "acceptance": "一路玩過午夜，01:31 的訊息寫「今天 01:31」、前一晚的寫「昨天」",
     "receiver": "BB",
+    "ack": "ACTIONED"
+   },
+   "evidence": "BB-B n27_xcrom_b（0eb633624，BB_218 b9d037cdf）：熬夜那晚一路玩過午夜，手機時間字是「今天 01:31」"
+  },
+  {
+   "id": "BUG-CAM-PILLAR-LAWA-1031",
+   "title": "法律系館A門口跟隨鏡頭停在柱廊裡，穿堂前的柱子把玩家整個擋住（從南邊走到門口就會遇到；劇情運鏡拉回時還會穿進柱子）——BB-B 10-31 n27_xcrom_b 重現",
+   "area": "ART",
+   "owner": "LAWWW2",
+   "status": "待開工",
+   "priority": "P1",
+   "next": "【10-31 05:0x】派 LAWWW2-B（D108 場景鏡頭碰撞）：ckPlace 鏡頭碰撞只有本體＋拱廊上方樓層、柱子不在；linze_exterior.glb 照材質合併、柱子和台階共用 ext_granite（不能整個材質標透視）；做法 LAWWW2 定（柱子獨立材質＋seeThrough，或加鏡頭碰撞）；C 總圖 3F 交完再做",
+   "first": {
+    "term": "Y1S1",
+    "week": 1,
+    "earliest": "法律系大一第一次走到法律系館A門口",
+    "mainline": true,
+    "blocks": false,
+    "prereq": false,
+    "parallel": true,
+    "confirmed": true
+   },
+   "source": "BB-B 10-31 05:01 訊息（BB_218 b9d037cdf）",
+   "authorized": "D108（場景鏡頭碰撞歸 LAWWW2）",
+   "xai": {
+    "spec": "BB 重現：2029-04-27 17:25 從 (34,−99) 走到 (34,−106.5)；鏡頭 (34.18,3.84,−100.4)、玩家 (34.13,0.9,−106.2)",
+    "branch": "claude/funny-albattani-iawshm",
+    "acceptance": "BB：DAD2／DAD2_NO 演完 3 秒、6 秒＋平常從南邊走到門口，玩家看得到；萬才館等有拱廊的一起看",
+    "receiver": "LAWWW",
     "ack": "SENT"
    }
   }
