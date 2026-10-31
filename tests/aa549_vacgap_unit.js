@@ -171,5 +171,48 @@ const atHome=()=>{ const Hm=HOME.rec(H.G); Hm.at=true; Hm.day=H.G.day; const B=H
     check('3-4. 「宿舍的床，比家裡的硬嗎？」→「硬很多。」→ 媽媽「我寄一個床墊過去。……」（沒有共用的收尾）',a.includes('媽媽：宿舍的床，比家裡的硬嗎？')&&a.includes('媽媽：我寄一個床墊過去。……不要跟你爸說，他會說我寵你。')&&J(oa)===J(['「差不多。」','「硬很多。」'])&&a.filter(t=>/^媽媽：/.test(t)).length===2,J([a,oa]));
     check('3-4. 第 7 題照季節：暑假「暑假有沒有要出去玩？」、寒假「寒假有沒有要出去玩？」，選項各自的一句',b.includes('媽媽：暑假有沒有要出去玩？')&&b.includes('媽媽：錢夠嗎？不夠跟我說。')&&c.includes('媽媽：寒假有沒有要出去玩？')&&c.includes('媽媽：不要整天在家。在家我也會叫你做事。'),J([b,c])); }
 
+  /* ================= 3-6 女主角主動約：假期版 ================= */
+  { const HK=typeof HASK!=='undefined'?HASK:null, friend=id=>{ const r=SOCIAL.rel(id); Object.assign(r,{fam:45,trust:30,comf:10,npcRom:0,rom:0}); SOCIAL.remember(id,'FIRST_MET',''); H.G.contacts[id]=H.G.day-30; };
+    const cands=(k,h,id,flags)=>{ fresh(k,h,'dorm',flags); friend(id); return HK?HK.candidates(H.G,H.G.day).filter(x=>x.id===id&&x.k==='d'):[]; };
+    const sum=L=>L.map(x=>[x.place,x.h,x.v.line,x.vs||'']);
+    const VL={an_s:'暑假總圖開到九點。明天下午，我在三樓。',an_w:'寒假人少。明天要不要來總圖？我帶熱茶。',yt_s:'明天店裡不忙。你要來就來。',yt_w:'店裡有麻油雞。明天晚上。',zr_w:'店裡今天很冷清。你要不要來陪我一下？我請你一杯熱的。',sis_s:'明天下午有空嗎。法圖冷氣很強，帶外套。',sis_w:'明天早上，總圖。一起讀到中午，然後吃熱的。',sis_co:'明天下午，總圖三樓。'};
+    let c=cands('2026-07-14',13,'heroine_01');
+    check('3-6. 以安暑假（7/14 傳、7/15 約）：日常只有假期版「暑假總圖開到九點。明天下午，我在三樓。」（總圖、15:30）',c.length===1&&c[0].v.line===VL.an_s&&c[0].place==='library'&&c[0].h===15.5&&c[0].vs==='summer',J(sum(c)));
+    c=cands('2026-01-06',13,'heroine_01');
+    check('3-6. 以安寒假（1/6 傳、1/7 約）：「寒假人少。明天要不要來總圖？我帶熱茶。」',c.length===1&&c[0].v.line===VL.an_w&&c[0].vs==='winter',J(sum(c)));
+    c=cands('2026-03-10',13,'heroine_01');
+    check('3-6. 學期中照舊（沒有假期版）',c.length>=1&&c.every(x=>!x.vs)&&!c.some(x=>x.v.line===VL.an_s||x.v.line===VL.an_w),J(sum(c)));
+    c=cands('2026-07-13',13,'heroine_03');
+    check('3-6. 語彤暑假（週一傳、週二她顧店）：「明天店裡不忙。你要來就來。」（麵店，她本來就在那裡）',c.length===1&&c[0].v.line===VL.yt_s&&c[0].place==='noodle'&&c[0].e.here===true,J(sum(c)));
+    c=cands('2026-01-12',13,'heroine_03');
+    check('3-6. 語彤寒假：「店裡有麻油雞。明天晚上。」',c.length===1&&c[0].v.line===VL.yt_w&&c[0].vs==='winter',J(sum(c)));
+    c=cands('2026-01-13',13,'heroine_02');
+    check('3-6. 芷若寒假（她上班的日子）：今天 19:00「店裡今天很冷清。你要不要來陪我一下？我請你一杯熱的。」（17:00 傳）',c.length===1&&c[0].v.line===VL.zr_w&&c[0].place==='cafe'&&c[0].h===19&&c[0].send.h===17&&c[0].e.here===true,J(sum(c)));
+    c=cands('2026-07-14',13,'heroine_02'); const z=cands('2026-07-14',13,'heroine_04');
+    check('3-6. 芷若暑假（河堤）、子晴兩季（冷氣房、火鍋）INV 沒有那個地點：照舊一般的邀約（問 AA）',c.every(x=>!x.vs)&&z.every(x=>!x.vs),J([sum(c),sum(z)]));
+    c=cands('2027-07-16',13,'heroine_05');
+    check('3-6. 學姊暑假的週末（7/17 週六）：法圖寒暑假週末不開＝「法圖冷氣很強」那一句排不進去，照一般的邀約（AA_532 放假版；不會整天不約；問 AA）',c.length===1&&!c[0].vs&&c[0].v.line==='明天下午，總圖三樓。放假了，題目照帶。'&&!c.some(x=>x.v.line===VL.sis_s),J(sum(c)));
+    c=cands('2026-07-17',13,'heroine_05');
+    check('3-6. 學姊學生證停掉的暑假（2026-06-30～09-20）：不約法圖，改「明天下午，總圖三樓。」（總圖）',c.length===1&&c[0].v.line===VL.sis_co&&c[0].place==='library'&&c[0].co===true,J(sum(c)));
+    c=cands('2027-07-13',13,'heroine_05');
+    check('3-6. 學姊放假的平日：照學期中（平日 9～17 在研究室；AA-B 10-30 05:12 第 1 點），不是假期版',c.every(x=>!x.vs),J(sum(c)));
+    c=cands('2028-01-07',13,'heroine_05');
+    check('3-6. 學姊寒假的週末（1/7 傳、1/8 週六）：早上 10:00「明天早上，總圖。一起讀到中午，然後吃熱的。」',c.length===1&&c[0].v.line===VL.sis_w&&c[0].place==='library'&&c[0].h===10,J(sum(c)));
+    /* 見面：INV 的（以安）＝她的第一句換成假期版的 first；之後照一般的場景 */
+    { fresh('2026-07-14',9); friend('heroine_01'); let x=null; for(let d=H.G.day;d<H.G.day+10&&!x;d++){ at(d,12); if(HK) HK.phone(H.G); at(d,23.98); if(HK) HK.phone(H.G); x=HK?HK.rec(H.G).sent.find(q=>q.id==='heroine_01'&&q.state==='sent'):null; }
+      const iv=x&&x.iv?INV.byId(H.G,x.iv):null, msg=iv&&(H.G.msgs||[]).find(q=>q.iv===iv.id);
+      check('3-6. 真的傳出去：以安 21:30 私訊假期版（INV 的邀約，sent 記 vs）',!!x&&x.vs==='summer'&&!!msg&&msg.text===VL.an_s,J(x));
+      if(iv){ INV.answer(H.G,iv.id,'yes'); at(iv.day,iv.h); H.G.zone='library_hall'; H.said=[]; await INV.meet(GM,iv,null); }
+      const her=H.said.filter(q=>q.who===SOCIAL.displayName('heroine_01'));
+      check('3-6. 見面：以安的第一句「暑假的總圖，冷氣比較冷。你有帶外套嗎？」，之後照一般的見面（地點字幕、時間過去）',!!iv&&her.length>=1&&her[0].t==='暑假的總圖，冷氣比較冷。你有帶外套嗎？'&&iv.state==='done'&&(!HK||HK.meetFirst(H.G,iv)===null),J(H.lines())); }
+    /* 她本來就在那裡的（語彤的麵店）：答應了、那天到麵店跟她說話＝先說 first（STORY.PRE_TALK），一次 */
+    { fresh('2026-07-13',9); friend('heroine_03'); at(H.G.day,12); if(HK) HK.phone(H.G); at(H.G.day,23.98); if(HK) HK.phone(H.G); const x=HK?HK.rec(H.G).sent.find(q=>q.id==='heroine_03'):null;
+      if(x&&x.ask) PHONE.answer(H.G,x.ask,0); const who={name:SOCIAL.displayName('heroine_03'),charId:'heroine_03'};
+      at(x?x.day:H.G.day,19); H.G.zone='campus'; H.said=[]; const PT=HK&&HK.preTalk?HK.preTalk:null, a=PT?await PT(GM,who,'heroine_03'):false;
+      H.G.zone='noodle'; const b=PT?await PT(GM,who,'heroine_03'):false, L=H.lines(); const c2=PT?await PT(GM,who,'heroine_03'):false;
+      check('3-6. 語彤（here）：答應了，7/14 19:00 在麵店跟她說話＝先說「阿姨說夏天要吃涼麵。我做的。」；在別的地方不說、說過一次就不再說；掛在 STORY.PRE_TALK',!!x&&x.here===true&&x.ans==='yes'&&!a&&b===true&&J(L)===J([who.name+'：阿姨說夏天要吃涼麵。我做的。'])&&!c2&&STORY.PRE_TALK.length>0&&!!STORY._haskPreTalk,J([x,L])); }
+    const all=Object.values(HASK_DATA.people).reduce((A,p)=>{ for(const k in (p.vacTerm||{})){ const e=p.vacTerm[k]; A.push(e.v.line,e.v.first); if(e.cardOff) A.push(e.cardOff.line); } return A; },[]);
+    check('3-6. 假期版的句子（她傳、見面第一句、學姊總圖那一句）都在稿裡（'+all.length+' 句）',all.length===15&&!notIn(all).length,J(notIn(all))); }
+
   H.done();
 })().catch(e=>{ console.log('FAIL 例外 '+(e&&e.stack||e)); process.exit(1); });

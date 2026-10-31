@@ -310,6 +310,7 @@ const INV=(function(){
         if(typeof SOCIAL!=='undefined'&&SOCIAL.activity) SOCIAL.activity(iv.who,'meal'); S.msg(G,iv.who,'和'+nm+'吃了學期末的飯。',iv); } finally { GM.sceneEnd(); } if(n){ n.beh='idle'; n.path=null; } if(GM.autosave) GM.autosave(); return; }   /* 玩家自己約的期末飯：整場照 TERMEND.dinner（心意的接回家的路上）*/
     iv.state='done'; GM.sceneBegin({adv:iv.who}); try{ const lines=((D().people[iv.who]||{}).scene||{})[P.id], who={name:nm,obj:n&&n.obj,charId:iv.who}, SO=typeof SOCIAL!=='undefined'?SOCIAL:{};
       if(iv.ask) await S.walkAsk(GM,iv,who);   /* 一起走路時抽到的選項句：走到了、見面開始前選（BB_120 1-7c） */
+      { const vf=typeof HASK!=='undefined'&&HASK.meetFirst?HASK.meetFirst(G,iv):null; if(vf) await GM.say(who,vf); }   /* AA_549 3-6：她寒暑假約的（假期版）：見面時她的第一句；之後照一般的場景 */
       if(iv.fest&&typeof FEST!=='undefined'&&FEST.meet) await FEST.meet(GM,iv,who);   /* 約在她節日的見面（AA_416）：先演節日那一段，再照那個地方原本的內容 */
       if(SO.playUp) await SO.playUp(GM,who,iv.who,{place:P.id,outing:true});   /* 升階以後的下一次見面：先說門檻台詞（AA_124 1-6、BB_120 第 1 節）；傳見面的地點（學姊在一盞這類不讀書的地方升到朋友換一版，AA_383 第 6 節） */
       const ml=SO.meetLine?SO.meetLine(iv.who,P.id):null;   /* 見面時的旁白：地點×階段（BB_120 第 1 節；沒有那一格照舊） */
