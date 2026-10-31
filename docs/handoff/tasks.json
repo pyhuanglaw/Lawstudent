@@ -37196,7 +37196,7 @@
    "owner": "LAWWW",
    "status": "已整合待測試",
    "priority": "P2",
-   "next": "【10-31 15:2x】照大二：roomY3Due 只在 9/5、9/6（已經開始搬、人在臺北的家照舊）；9/6 不說「明天開學」（S.roomY3Line，宿舍和家兩處）；9/7 以後才讀進來的 S.roomY3Late 直接記（原本要等大三下）；room_y3_unit 1b（修改前 FAIL）→ BB 重跑 YR=3＋大二那輪｜大四 409（roomY4Due 到大四下都成立、美國路線 12/23 回台才搬）請 BB 先測一輪再決定",
+   "next": "【10-31 15:3x】全部 Node 786／0（8d8aaad46；sleep_resume、story_hooks 前置改 ROOM_Y3_MOVING）；已派 BB YR=3＋大二＋大四 409 一輪｜【10-31 15:2x】照大二：roomY3Due 只在 9/5、9/6（已經開始搬、人在臺北的家照舊）；9/6 不說「明天開學」（S.roomY3Line，宿舍和家兩處）；9/7 以後才讀進來的 S.roomY3Late 直接記（原本要等大三下）；room_y3_unit 1b（修改前 FAIL）→ BB 重跑 YR=3＋大二那輪｜大四 409（roomY4Due 到大四下都成立、美國路線 12/23 回台才搬）請 BB 先測一輪再決定",
    "first": {
     "term": "Y3S1",
     "week": 1,
@@ -37214,7 +37214,7 @@
     "branch": "claude/modest-rubin-2lyp7g",
     "acceptance": "2027-10-13、12-15、2028-02-15 讀進來不演 507；9/5 照演；9/6 照演但沒有「明天開學」",
     "receiver": "BB",
-    "ack": "未派"
+    "ack": "SENT"
    }
   }
  ]
