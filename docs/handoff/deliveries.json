@@ -16361,8 +16361,8 @@
    "msg": "ACK",
    "what": "NAV-LIBHALL-ISLAND-1030：總圖大廳一樓滅火器（6.5,−8.65）加 nav 封掉樓梯核心和滅火器中間的 2 格孤島；library3d.js 備用方塊照 f.w／f.d 畫；library_copier_unit 有 FAIL 就 exit 1（libhall_island_1030.patch）",
    "task": "NAV-LIBHALL-ISLAND-1030",
-   "integration": "已整合待測試",
-   "note": "LAWWW-B 21:4x 套 patch；library_copier（ALL PASS、exit 0）、nav_buildings、library_hall_lightmap、library_b1、library_upper ALL PASS"
+   "integration": "已驗收",
+   "note": "LAWWW-B 21:4x 套 patch；library_copier（ALL PASS、exit 0）、nav_buildings、library_hall_lightmap、library_b1、library_upper ALL PASS｜10-31 15:4x BB LHNAV PASS"
   },
   {
    "id": "DL-AA-547",
@@ -16517,8 +16517,8 @@
    "msg": "ACK",
    "what": "CAM-PILLAR-HALLS-1031：總圖、行政大樓、文學院、校史館門廊柱子／拱廊柱墩 seethru_ 材質，四棟 GLB 重新匯出；attachWenzhouModel 認 seethru_（cam_pillar_halls_1031.patch、campus_hall_pillar_seethru_unit）",
    "task": "CAM-PILLAR-HALLS-1031",
-   "integration": "已整合待測試",
-   "note": "LAWWW-B 06:4x 套上：apply 乾淨、campus_hall_pillar_seethru、linze_pillar_seethru、nav_buildings、kit_nav_check ALL PASS"
+   "integration": "已驗收",
+   "note": "LAWWW-B 06:4x 套上：apply 乾淨、campus_hall_pillar_seethru、linze_pillar_seethru、nav_buildings、kit_nav_check ALL PASS｜10-31 15:4x BB n33 PASS"
   },
   {
    "id": "DL-LW2-CVS-LM-1031",
@@ -16543,8 +16543,8 @@
    "msg": "ACK",
    "what": "書店（舊路書房）室內光照烘焙（bookstore_interior.glb＋光照貼圖；bookstore_lm_1031.patch、bookstore_interior_lm_unit、bake_bookstore.sh）",
    "task": "INTERIOR-AAA-REVIEW-1028",
-   "integration": "已整合待測試",
-   "note": "LAWWW-B 14:4x 從 outbox 收、四個 patch 依序套上；相關 Node（bookstore／wz_shops／library_hall_cam_core／campus_hall_pillar／nav_buildings／singleside）ALL PASS"
+   "integration": "已驗收",
+   "note": "LAWWW-B 14:4x 從 outbox 收、四個 patch 依序套上；相關 Node（bookstore／wz_shops／library_hall_cam_core／campus_hall_pillar／nav_buildings／singleside）ALL PASS｜10-31 15:4x BB n33 PASS"
   },
   {
    "id": "DL-LW2-HALLS-ENDWALL-1031",
@@ -16556,8 +16556,8 @@
    "msg": "ACK",
    "what": "CAM-PILLAR-HALLS 續：門廊兩端側牆 seethru_ck_col、四棟重新匯出（cam_pillar_halls_endwall_1031.patch）",
    "task": "CAM-PILLAR-HALLS-1031",
-   "integration": "已整合待測試",
-   "note": "LAWWW-B 14:4x 從 outbox 收、四個 patch 依序套上；相關 Node（bookstore／wz_shops／library_hall_cam_core／campus_hall_pillar／nav_buildings／singleside）ALL PASS"
+   "integration": "已驗收",
+   "note": "LAWWW-B 14:4x 從 outbox 收、四個 patch 依序套上；相關 Node（bookstore／wz_shops／library_hall_cam_core／campus_hall_pillar／nav_buildings／singleside）ALL PASS｜10-31 15:4x BB n33 PASS"
   },
   {
    "id": "DL-LW2-LIBHALL-CORE-1031",
@@ -16582,8 +16582,8 @@
    "msg": "ACK",
    "what": "溫州街三家（半熟、阿德影印輸出、一盞）室內光照烘焙（GLB＋光照貼圖；wz_shops_lm_1031.patch、wz_shops_lm_unit）",
    "task": "INTERIOR-AAA-REVIEW-1028",
-   "integration": "已整合待測試",
-   "note": "LAWWW-B 14:4x 從 outbox 收、四個 patch 依序套上；相關 Node（bookstore／wz_shops／library_hall_cam_core／campus_hall_pillar／nav_buildings／singleside）ALL PASS"
+   "integration": "已驗收",
+   "note": "LAWWW-B 14:4x 從 outbox 收、四個 patch 依序套上；相關 Node（bookstore／wz_shops／library_hall_cam_core／campus_hall_pillar／nav_buildings／singleside）ALL PASS｜10-31 15:4x BB n33 PASS"
   }
  ],
  "ignored": [
