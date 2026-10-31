@@ -10,7 +10,7 @@ GLB → Blender Cycles 烘焙「光照貼圖」（只有光、不含顏色：直
 /opt/blenv/bin/python tools/blender/env_second/lightbake/bake_room.py -- --in <房間.glb> --out <輸出.glb> --lm <輸出前綴（不含 _day.png）> --url <遊戲裡的路徑前綴>
    [--res 1024] [--samples 64] [--emit 材質名=強度,...] [--hide 材質名或物件名的正規式（烘焙時當作不存在：玻璃）]
    [--sun 方位角,仰角,強度（白天的太陽，遊戲座標的羅盤方位）] [--dark [--darksky 0.045] [--darkpoints x,y,z,W[,r,g,b];…]（第三張：熄燈）] [--sky 1.0] [--nightsky 0.03] [--scale 2.0] [--keep-instances]
-   [--dayemit 材質名=強度,...（只在白天那一張發光、晚上不亮：天窗）] [--points x,y,z,W[,r,g,b];...（點光源）] [--nolm 正規式（不做光照貼圖、照舊即時光的物件：發光的燈面；烘焙時照樣看得到、照樣發光）] [--lights …（見下面）] [--daylights 1.0（白天那一張的燈乘多少）] [--daywb r,g,b] [--nightwb r,g,b]（白平衡） [--smooth 像素] [--uvonly（只排 UV、不烘焙）] [--shell 窗那一面（N/S/E/W，見下面）] [--drop 正規式（只在烘焙時擋光、不輸出的物件）]
+   [--dayemit 材質名=強度,...（只在白天那一張發光、晚上不亮：天窗）] [--points x,y,z,W[,r,g,b];...（點光源）] [--nolm 正規式（不做光照貼圖、照舊即時光的物件：發光的燈面；烘焙時照樣看得到、照樣發光）] [--lights …（見下面）] [--daylights 1.0（白天那一張的燈乘多少）] [--daywb r,g,b] [--nightwb r,g,b]（白平衡） [--smooth 像素] [--uvonly（只排 UV、不烘焙）] [--shell 窗那一面（N/S/E/W，見下面）] [--emit-oneside（發光材質只有正面發光）] [--drop 正規式（只在烘焙時擋光、不輸出的物件）]
 物件的自訂屬性 lm（GLB extras）：光照貼圖分給它的比例（1＝照面積平均；小東西、天花板上的東西 0.2～0.5）；lmhide＝[x,y,z]：朝這個方向的面看不到、不分像素（'side'＝所有側面）。
 之後用系統的 python3 把 _day.png／_night.png 轉成 WebP（lightbake/to_webp.py），放到 --url 指的位置。
 --scale：貼圖存 (光/π)/scale（8 位元存不下太亮的地方），遊戲的 lightMapIntensity＝π×scale（寫進 <prefix>.json）。
@@ -211,6 +211,21 @@ for o in objs:
                     if not any(bsdf.inputs['Emission Color'].default_value[:3]): bsdf.inputs['Emission Color'].default_value = (1.0, 0.97, 0.9, 1.0)
                     print('emit', m.name, v, flush=True)
 
+# --emit-oneside（10-31 體育館 3F 主球場加）：--emit／--dayemit 的發光材質只有正面發光。Cycles 的發光面兩面都發光：
+#   高窗的發光面離牆 12 cm，背面把後面那一片牆照爆（第一次試烘，每扇高窗四周一圈白光暈）。發光顏色接一個「背面＝黑」的混合；匯出以前接回原本的（下面拿掉 LM_target 那裡）
+ONESIDE = []
+if '--emit-oneside' in A:
+    for m in bpy.data.materials:
+        if not m.node_tree or not any(k in m.name for k in list(EMIT) + list(DAYEMIT)): continue
+        nt = m.node_tree; b = next((x for x in nt.nodes if x.type == 'BSDF_PRINCIPLED'), None)
+        if not b: continue
+        inp = b.inputs['Emission Color']; src = inp.links[0].from_socket if inp.is_linked else None; dv = tuple(inp.default_value)
+        geo = nt.nodes.new('ShaderNodeNewGeometry'); geo.name = 'ONESIDE_geo'; mx = nt.nodes.new('ShaderNodeMix'); mx.name = 'ONESIDE_mix'; mx.data_type = 'RGBA'
+        if src: nt.links.new(src, mx.inputs[6])
+        else: mx.inputs[6].default_value = dv
+        mx.inputs[7].default_value = (0.0, 0.0, 0.0, 1.0); nt.links.new(geo.outputs['Backfacing'], mx.inputs[0]); nt.links.new(mx.outputs[2], inp)
+        ONESIDE.append((m, src, dv)); print('emit oneside', m.name, flush=True)
+
 # ---- 5. 光：天空（Nishita）＋太陽（白天）；晚上只有夜空 ----
 sc.render.engine = 'CYCLES'; sc.cycles.device = 'CPU'; sc.cycles.samples = SAMPLES
 if os.environ.get('BAKE_THREADS'): sc.render.threads_mode = 'FIXED'; sc.render.threads = int(os.environ['BAKE_THREADS'])   # 環境變數 BAKE_THREADS＝只用幾個執行緒（同時跑測試時讓出 CPU；10-31 加）
@@ -399,6 +414,11 @@ for m in bpy.data.materials:
         if k in m.name and m.node_tree:
             b = next((x for x in m.node_tree.nodes if x.type == 'BSDF_PRINCIPLED'), None)
             if b: b.inputs['Emission Strength'].default_value = 1.0
+for m, src, dv in ONESIDE:   # --emit-oneside 的混合拿掉、發光顏色接回原本的（匯出的材質和白模一樣）
+    nt = m.node_tree; b = next((x for x in nt.nodes if x.type == 'BSDF_PRINCIPLED'), None); inp = b.inputs['Emission Color']
+    for n in [x for x in nt.nodes if x.name in ('ONESIDE_geo', 'ONESIDE_mix')]: nt.nodes.remove(n)
+    if src: nt.links.new(src, inp)
+    else: inp.default_value = dv
 for o in bpy.data.objects:
     if o.type == 'MESH':
         o.hide_render = False

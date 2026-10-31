@@ -176,8 +176,8 @@ while z < SZ - 1:
     for j in range(int(2 * EX / 3.0)):
         xa = -EX + j * 3.0; xb = xa + 3.0
         st.cyl((xa, HH - 1.8, z), (xb, HH + 0.6, z), 0.05, seg=5); st.cyl((xb, HH - 1.8, z), (xb, HH + 0.6, z), 0.045, seg=5)
-    for x in range(-18, 19, 6):                                     # 場地上方的 LED 燈（燈罩＋發光面）
-        if abs(z - (-2)) < 30:
+    for x in range(-36, 37, 6):                                     # LED 燈（燈罩＋發光面）：場地上方 x ±18；v8（2026-10-31 光照烘焙）加看台上方 x ±24～±36、南看台上方 z 29
+        if abs(z - (-2)) < 32:                                      #   （原本只有場地上方，烘焙以後東西南看台、上層看台幾乎全黑：光只從 20 m 高的場地燈斜照過去）
             bm = L.lathe([(0.08, 0.5), (0.14, 0.45), (0.42, 0.06), (0.45, 0.0), (0.0, 0.0)], seg=14); acc('steel_dk').add_bm(bm, Matrix.Translation(g2b(x, HH - 2.6, z))); bm.free()
             acc('light').cyl((x, HH - 2.606, z), (x, HH - 2.602, z), 0.41, seg=14)   # 發光面在燈罩底面下面 2～6 mm（原本 1 mm，從場地看會閃）; acc('steel_dk').cyl((x, HH - 2.1, z), (x, HH - 1.8, z), 0.012, seg=4)
             CL.glow(root, 'led', x, HH - 3.0, z, color='rgba(245,250,255,1)', size=4.0, day=0.5, night=1.0)

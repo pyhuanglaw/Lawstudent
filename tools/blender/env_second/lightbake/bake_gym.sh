@@ -49,7 +49,10 @@ interior)
   EXTRA=(--points "$PT" --dayemit "gym_window_sky=${SKYWIN:-3.0}" --sun 180,25,0 --sky "${SKY:-0.3}" --daywb ${DAYWB:-1.0,0.96,0.9} --daylights "${DAYL:-0.7}" --shell S --keep-instances) ;;
 arena)
   # 3F 主球場（gym_arena 區域，gym_arena.glb；gym_arena.py）：場地 44×39 m、東西南三面下層看台、上層看台（4、5F）、北牆大螢幕、屋頂桁架 23 m 高。
-  # 燈（照 gym_arena.py；改那邊要一起改）：屋頂桁架下的 LED（燈罩下緣 20.4 m，x −18～18 每 6 m × z −19～23 每 6 m，56 盞）：往下照的面光源（0.7 m 見方），冷白。白天燈也開著。
+  # 燈（照 gym_arena.py；改那邊要一起改）：屋頂桁架下的 LED（燈罩下緣 20.4 m，x −36～36 每 6 m × z −19～29 每 6 m，117 盞；v8 以前只有場地上方 56 盞）：
+  #   往下照的面光源（0.7 m 見方），冷白。白天燈也開著。
+  # 第一版（10-31，只有場地上方的燈）：東西看台、上層看台、高窗下面那一段牆幾乎全黑；高窗四周的牆一圈白光暈——
+  #   高窗的發光面離牆 12 cm，Cycles 的發光面兩面都發光，背面把後面的牆照爆。→ --emit-oneside：發光材質只有正面發光（bake_room.py）。
   # 東西兩面看台頂上的高窗（arena_window_sky：gym_arena.py v8 從 LED 的發光面 arena_light 分出來）：外面沒做東西。烘焙時整間包黑殼（--shell NONE：沒有開著的面），
   #   白天那一張讓高窗發光（--dayemit：天光只從高窗進來），晚上不亮。
   #   遊戲的 gym_arena 區域沒有照時段調高窗（原本和 LED 共用材質，一直亮），所以不用像 1F 那樣拿掉 dayEmit：Z3.roomLightmap 晚上把它調暗，高窗晚上不再是白的。
@@ -63,10 +66,12 @@ arena)
   NOLM='arena_seat_proto|arena_steel|arena_light|arena_sky|arena_screen|arena_score|arena_exit|arena_banner'
   COOL=${HBCOL:-0.97,0.98,1.0}
   LIGHTS=""
-  for zz in -19 -13 -7 -1 5 11 17 23; do for x in -18 -12 -6 0 6 12 18; do
-    LIGHTS="$LIGHTS;$(python3 -c "print(f'{$x-0.01:.3f},{$x+0.01:.3f},{$zz-0.01:.3f},{$zz+0.01:.3f},20.38,1,1,${LEDW:-220},0.7,0.7,$COOL')")"; done; done
+  # 第二版：gym_arena.py v8 加了看台上方的 LED（x ±24～±36、南看台 z 29）；場地上方 LEDW，看台上方 STANDW（看台比場地暗一點：比賽時場地最亮）
+  for zz in -19 -13 -7 -1 5 11 17 23 29; do for x in -36 -30 -24 -18 -12 -6 0 6 12 18 24 30 36; do
+    W=${STANDW:-140}; [ "$zz" != 29 ] && [ "${x#-}" -le 18 ] && W=${LEDW:-220}
+    LIGHTS="$LIGHTS;$(python3 -c "print(f'{$x-0.01:.3f},{$x+0.01:.3f},{$zz-0.01:.3f},{$zz+0.01:.3f},20.38,1,1,$W,0.7,0.7,$COOL')")"; done; done
   LIGHTS=${LIGHTS#;}
-  EXTRA=(--dayemit "arena_window_sky=${SKYWIN:-3.0}" --sun 180,25,0 --sky 0 --daywb ${DAYWB:-1.0,0.97,0.93} --daylights "${DAYL:-0.8}" --shell NONE --keep-instances) ;;
+  EXTRA=(--dayemit "arena_window_sky=${SKYWIN:-3.0}" --sun 180,25,0 --sky 0 --daywb ${DAYWB:-1.0,0.97,0.93} --daylights "${DAYL:-0.8}" --shell NONE --keep-instances --emit-oneside) ;;
 *) echo "未知的區域：$ZONE"; exit 1 ;;
 esac
 /opt/blenv/bin/python $SCRIPT -- --out "$TMP/plain.glb"
