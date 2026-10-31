@@ -160,7 +160,18 @@ for w in LAY['walls'][0]['list']:
     if cur < w['to']: wall_seg(w, cur, w['to'], 0.0, H, key)
     if w['id'] in OUTER:   # 外牆外面一層灰褐色壁板（陽台、樓梯平台看得到）
         dx, _, dz = OUTER[w['id']]; at = w['at']
-        for (a, b_, y0, y1) in [(w['from'], w['to'], 0.0, H + 0.4)]:
+        # 窗、門的地方挖洞（和上面的牆同一組開口；LAWWW2-B 10-31 美國公寓光照烘焙時找到）：原本整面一片蓋過去，
+        # 從屋裡看窗外、陽台玻璃門外，看到的是自己這片壁板的背面（一條一條的色帶），做好的窗外景（usa_view）整個被擋住；烘焙時天光也進不來
+        sid, cur = [], w['from']
+        for (a, b_, kind) in opens:
+            if a > cur: sid.append((cur, a, 0.0, H + 0.4))
+            if kind == 'window': sill, head = 0.9, 2.1
+            elif kind == 'passThrough': sill, head = w.get('sill', 1.05), w.get('head', 2.05)
+            else: sill, head = 0.0, DOOR_H
+            if sill > 0: sid.append((a, b_, 0.0, sill))
+            sid.append((a, b_, head, H + 0.4)); cur = b_
+        if cur < w['to']: sid.append((cur, w['to'], 0.0, H + 0.4))
+        for (a, b_, y0, y1) in sid:
             if w['axis'] == 'x': wm(w['id'], 'siding').quad(([(a, y0, at + dz * (T / 2 + 0.01)), (b_, y0, at + dz * (T / 2 + 0.01)), (b_, y1, at + dz * (T / 2 + 0.01)), (a, y1, at + dz * (T / 2 + 0.01))])[::(1 if dz > 0 else -1)])
             else: wm(w['id'], 'siding').quad(([(at + dx * (T / 2 + 0.01), y0, b_), (at + dx * (T / 2 + 0.01), y0, a), (at + dx * (T / 2 + 0.01), y1, a), (at + dx * (T / 2 + 0.01), y1, b_)])[::(1 if dx > 0 else -1)])
 # 踢腳板（每個房間沿牆；簡化：每段牆兩面各一條，開口處不做）
