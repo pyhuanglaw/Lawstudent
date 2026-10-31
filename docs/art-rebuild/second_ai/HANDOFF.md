@@ -2,7 +2,8 @@
 
 ## ⏱ 現況（LAWWW2-B，2026-10-31 13:xx UTC；帳號 B 七天額度已到警示，隨時可能被切斷——接手的先讀這一段）
 
-- **14:3x**：書店＋門廊側牆（3a40b7013）、總圖核心鏡頭（604d7596b）、溫州街三家光照（267c6a804）LAWWW-B 都已整合（f275a620f）。send_message 恢復了（下午一直失敗）；交件照舊送訊息。**下一件：體育館光照**，再來 CAM-BELL-1031。
+- **15:3x**：BB n33：書店、溫州街光照、校史館側牆、NAV-LIBHALL-ISLAND PASS。要再看兩件（排在體育館之後、CAM-BELL 之前）：①總圖核心朝外牆的 4 個方向，鏡頭被推到頭頂正上方（水平 0.36～0.43 m）——打算被推近時核心牆網點透空；②一盞門口往裡，一根木柱擋住、晚上幾乎全黑——先查進門的預設鏡頭，是的話柱子標 seethru_。截圖在 BB 的 bbtest/dyn14/n33_lhcore、n33_shoplm。
+- 14:3x：書店＋門廊側牆（3a40b7013）、總圖核心鏡頭（604d7596b）、溫州街三家光照（267c6a804）LAWWW-B 都已整合（f275a620f）。send_message 恢復了（下午一直失敗）；交件照舊送訊息。**下一件：體育館光照**，再來 CAM-BELL-1031。
 - 11:2x（舊）：
   - **BUG-CAM-LIBHALL-CORE-1031（LAWWW-B 10:45 P1）**：**已交（11:5x，outbox）**：`patches/cam_libhall_core_1031.patch`、`test_shots/cam_libhall_core_1031/README.md`。
     - 新測試開發原樣 FAIL 10、改後 ALL PASS；95 支會建出總圖大廳的 Node 都過；BB 的 4 個方向 0～5% → 27～43%。
