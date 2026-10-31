@@ -37159,6 +37159,34 @@
     "ack": "ACTIONED"
    },
    "evidence": "BB-B n32_gray（6a86f9c2c）ALL PASS：ZQL3_W 子晴「我沒去。……恭喜我傳了。他們熬了三個禮拜，很值得。」、KXY2S1 可昕「很好。好到我回去把自己那份重寫了一次。」一字不差、沒有舊句；kx3g 前置太長 Node 確認（aa508_509_feed_unit）"
+  },
+  {
+   "id": "BUG-ROOMY2-LATE-1031",
+   "title": "沒有 ROOM_Y2 的舊存檔在大二開學以後、甚至大三讀進來，還演「明天開學。今天搬進新的房間。」＋拆大一的箱子（S.roomY2Due 沒有上限；BB-B 10-31 n20_y2late 瀏覽器確認 10/15、2027-10-13）",
+   "area": "STORY",
+   "owner": "LAWWW",
+   "status": "已整合待測試",
+   "priority": "P2",
+   "next": "【10-31 15:0x】roomY2Due 只在 9/6、9/7（已經開始搬、人在臺北的家照舊）；9/7 演的時候不說「明天開學」（S.roomY2Line，宿舍和家兩處）；9/8 以後才讀進來的 S.roomY2Late 直接記 ROOM_Y2＝9/6、不演（照 roomY3Late；房間照大一經歷過的東西擺）；v3_room2_unit 1b（修改前 FAIL）→ BB 重跑 MODE=y2late｜BB 另提：大三 2027-09-05～2028-02-20 讀進來、沒有 ROOM_Y3 的舊存檔可能也演 507（roomY3Late 2028-02-21 才生效），請 BB 排一輪看",
+   "first": {
+    "term": "Y2S1",
+    "week": 1,
+    "earliest": "舊存檔在大二開學以後讀進來",
+    "mainline": false,
+    "blocks": false,
+    "prereq": false,
+    "parallel": true,
+    "confirmed": true
+   },
+   "source": "BB-B 10-31 14:40 訊息（BB_218 8f11054e9）",
+   "authorized": "D85（bug 修正）",
+   "xai": {
+    "spec": "—",
+    "branch": "claude/modest-rubin-2lyp7g",
+    "acceptance": "10/15、2027-10-13 讀進來不演搬 312；9/6 照演；9/7 照演但沒有「明天開學」",
+    "receiver": "BB",
+    "ack": "未派"
+   }
   }
  ]
 }

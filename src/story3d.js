@@ -1181,7 +1181,7 @@ const STORY = (function(){
     if(F.FAM_GROUP_SENT&&S.week1Start(G)&&typeof SOCIAL!=='undefined'&&!SOCIAL.has('kevin','FIRST_MET')&&(G.day>S.dayOfKey('2025-08-30')||(G.day===S.dayOfKey('2025-08-30')&&h(G)>=21))) SOCIAL.meet('kevin','family_group');   /* 8/30 家族群組＝認識 Kevin（BB_168 第 7 節，AA_200 2-12a）*/   /* 8/30 新手教學的三個目標（AA_195 4-3）*/
     S.careerTick(G);   /* 1A-01：職涯傾向的兩個起點（STUDY_AT_LAW、CAREER_Y4_BASE）*/
     if(S.cleanupTick(GM)) return;   /* V6-S4：分開以後一週都沒收拾＝補一句旁白（AA_123 2-3）*/
-    S.roomY3Late(G);   /* 1A-03：大三下以後才讀檔、還沒搬到 507 的舊存檔直接記（不演）*/
+    S.roomY2Late(G); S.roomY3Late(G);   /* 1A-03：大三下以後才讀檔、還沒搬到 507 的舊存檔直接記（不演）；大二同理：9/8 以後才讀檔、還沒搬到 312 的（BUG-ROOMY2-LATE-1031）*/
     S.routeWatch(G);   /* 交換路線（1A-02，AA_315）：截止 11/18 12:00 照交往狀態定；舊選單選過、還沒截止的清掉（主迴圈每一格、跳時間、讀檔、ROM 改狀態之前也都叫，不靠這裡）*/
     schedT-=dt; if(schedT<=0){ schedT=3; refreshSchedule(GM); }
     if(typeof CLS!=='undefined'&&typeof CALENDAR!=='undefined'){ try{ CLS.tick(GM); }catch(e){ console.warn('CLS.tick',e); } }   /* 課表（D52）*/
@@ -3145,7 +3145,12 @@ const STORY = (function(){
      在臺北的家（週末回家）＝下一輪選單之前：旁白「明天開學。今天搬進新的房間。」→ 字卡「回宿舍」「捷運＋公車 約 40 分鐘」→ 新房間（home3d.js 的 loop）；
      人在宿舍房間＝直接拆箱。四個紙箱，物件一件一件拿出來（只有大一經歷過的才有，AA_12 的表；驗收要點：不能出現玩家沒經歷過的東西），
      全部放好以後「一年。房間比去年滿一點。」。記 ROOM_Y2（第幾天），沒有數值。新房號：三樓 312 號房（AA_208 7-1，下面 S.roomY2；AA_355 第 3 節）；同一個宿舍模型 */
-  S.roomY2Due=G=>{ if(!G||(G.stage||'law')!=='law'||(G.flags&&G.flags.ROOM_Y2)) return false; const d=S.dayOfKey('2026-09-06'); return d!=null&&G.day>=d; };
+  /* BUG-ROOMY2-LATE-1031（BB-B n20_y2late）：原本沒有上限——沒有 ROOM_Y2 的舊存檔在大二上第 6 週、甚至大三讀進來，還演「明天開學。今天搬進新的房間。」＋拆大一的箱子。
+     改成只在 9/6（開學前一天）、9/7（開學那天；9/6 不在宿舍、隔天才回來的）演；9/8 以後才讀進來的照 S.roomY3Late 的做法直接記（S.roomY2Late，不演：ROOM_Y2＝9/6，房間照大一經歷過的東西擺）*/
+  const atHome=G=>typeof HOME!=='undefined'&&HOME.at&&HOME.at(G);
+  S.roomY2Due=G=>{ if(!G||(G.stage||'law')!=='law'||(G.flags&&G.flags.ROOM_Y2)) return false; const d=S.dayOfKey('2026-09-06'); return d!=null&&G.day>=d&&(G.day<=d+1||!!G.flags.ROOM_Y2_MOVING||atHome(G)); };   /* 已經開始搬（ROOM_Y2_MOVING：拆箱拆到一半）、人在臺北的家（要靠 roomY2FromHome 回宿舍）＝照舊 */
+  S.roomY2Line=G=>G&&G.day===S.dayOfKey('2026-09-06')?'明天開學。今天搬進新的房間。':null;   /* 9/7 才搬＝不說「明天開學」*/
+  S.roomY2Late=G=>{ const F=G&&G.flags; if(!F||F.ROOM_Y2||F.ROOM_Y2_MOVING||(G.stage||'law')!=='law'||atHome(G)) return false; const d=S.dayOfKey('2026-09-06'); if(d==null||G.day<d+2) return false; F.ROOM_Y2=d; return true; };
   S.ROOM_Y2_TEXT={film:['一張《進城的那一週》的電影票根','票根上的日期，是星期六早上十點。'],pick:['一片吉他彈片','C 和弦。手指上的繭已經沒了。'],civ:['一本只讀了三分之一的民總課本','這本還有三分之二，跟去年九月一樣新。'],
     report:['一張周老師寫評語的報告影本',null],noodle:['阿凱留下的一包泡麵','紙箱裡夾著一張便條：「宵夜基金。過期前吃完。——凱」'],duty:['法服的值班表','單週週六，早上九點。'],
     pothos:['一盆黃金葛',null],green:['一支綠色螢光筆','你的螢光筆本來只有一種顏色。'],sticky:['一張便利貼：「第 12 頁，要件少一個。」','她改了你的筆記。']};
@@ -3165,7 +3170,7 @@ const STORY = (function(){
   /* 9/6 人在宿舍（暑假留在宿舍的舊存檔；在家模式 AA_183 做好以後很少走到）：旁白＋字卡 → 換到新的房間 112 → 拆箱（AA_177 第 10 節）。
      字卡兩行：「搬到新的房間」＋「三樓 312 號房」（AA_208 7-1，AA-C e36f0d20；原「一樓 112 號房」隨 312 房間作廢）；大三 507、大四 409 的字卡跟主線 5、10 一起做。*/
   S.roomY2InDorm=async function(GM){ const G=GM.G; if(!S.roomY2Due(G)) return false; GM.sceneBegin();
-    try{ await GM.say(null,'明天開學。今天搬進新的房間。'); await GM.fade(true); if(GM.titleCard) await GM.titleCard('搬到新的房間','三樓 312 號房',2400); GM.advance(0.5);
+    try{ const ln=S.roomY2Line(G); if(ln) await GM.say(null,ln); await GM.fade(true); if(GM.titleCard) await GM.titleCard('搬到新的房間','三樓 312 號房',2400); GM.advance(0.5);
       G.flags.ROOM_Y2_MOVING=true; if(GM.enter) await GM.enter('dorm',{x:0,z:2.4,yaw:Math.PI}); await GM.fade(false); }   /* ROOM_Y2_MOVING：房間直接蓋成 312（封好的紙箱），拆完 unboxY2 清掉 */
     finally{ GM.sceneEnd(); }
     return S.unboxY2(GM); };

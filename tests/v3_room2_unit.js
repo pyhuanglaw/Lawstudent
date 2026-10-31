@@ -32,6 +32,12 @@ const meet=id=>SOCIAL.remember(id,'FIRST_MET','');
   if(!STORY.unboxY2||!STORY.roomY2Items){ console.log('FAIL 0. 沒有 STORY.unboxY2'); console.log('FAILED 1'); process.exit(1); }
   const d6=STORY.dayOfKey('2026-09-06'); check('0. 9/6 是週日、大二上開學前一天',CALENDAR.dateOf(d6).wd===7&&CALENDAR.termOf(d6+1).id==='Y2S1'&&CALENDAR.termOf(d6+1).week===1);
   fresh(d6-1,20,'dorm',{}); G.stage='law'; check('1. 9/5 還沒到',!STORY.roomY2Due(G)); G.day=d6; check('1. 9/6 到了',STORY.roomY2Due(G)); G.stage='econ'; check('1. 經濟系那年不算',!STORY.roomY2Due(G)); G.stage='law';
+  /* BUG-ROOMY2-LATE-1031（BB-B n20_y2late）：只在 9/6、9/7 演；9/8 以後才讀進來、還沒搬的直接記（不演）；修改前 FAIL */
+  fresh(d6+1,20,'dorm',{}); G.stage='law'; check('1b. 9/7（開學那天）還照演；旁白不說「明天開學」',STORY.roomY2Due(G)&&STORY.roomY2Line(G)===null&&(G.day=d6,STORY.roomY2Line(G))==='明天開學。今天搬進新的房間。');
+  for(const k of ['2026-10-15','2027-10-13']){ fresh(STORY.dayOfKey(k),20,'dorm',{}); G.stage='law'; const due0=STORY.roomY2Due(G), r=STORY.roomY2Late(G);
+    check('1b. '+k+' 才讀進來、沒有 ROOM_Y2：不演（roomY2Due false），S.roomY2Late 直接記 ROOM_Y2＝9/6',!due0&&r===true&&G.flags.ROOM_Y2===d6&&!STORY.roomY2Due(G),JSON.stringify({due0,r,R:G.flags.ROOM_Y2})); }
+  fresh(d6+2,20,'dorm',{ROOM_Y2_MOVING:true}); G.stage='law'; check('1b. 已經開始搬（ROOM_Y2_MOVING，拆箱拆到一半）：9/8 照舊算到期、roomY2Late 不動',STORY.roomY2Due(G)&&STORY.roomY2Late(G)===false&&!G.flags.ROOM_Y2);
+  fresh(d6+1,20,'dorm',{}); G.stage='law'; check('1b. 9/7 roomY2Late 不動（留給拆箱）',STORY.roomY2Late(G)===false&&!G.flags.ROOM_Y2);
   // 2. 什麼都沒經歷過的玩家
   let L=STORY.roomY2Items(G), ks=L.map(r=>r[0]);
   check('2. 最少：民總課本、阿凱的泡麵＋大一房間的五件（沒有票根、彈片、報告、值班表、黃金葛、螢光筆、便利貼）',JSON.stringify(ks)===JSON.stringify(['civ','noodle','y1_0','y1_1','y1_2','y1_3','y1_4']),JSON.stringify(ks));

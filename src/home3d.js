@@ -464,7 +464,7 @@ const HOME=(function(){
     await EVENTS.run(ev); return true; };   /* A3 的 after 接 HOME.moveOut（搬回家、家裡的選單）*/
   /* ★主線 3 第二個房間（AA_177 第 7 節）：9/6 以後在臺北的家＝旁白一句 → 字卡「回宿舍」→ 新房間 → 拆箱（STORY.unboxY2）*/
   S.roomY2FromHome=async function(GM){ const G=GM.G, H=S.rec(G); GM.sceneBegin();
-    try{ if(typeof ADV!=='undefined') ADV.begin({background:bg()}); await GM.say(null,'明天開學。今天搬進新的房間。');
+    try{ if(typeof ADV!=='undefined') ADV.begin({background:bg()}); { const ln=typeof STORY!=='undefined'&&STORY.roomY2Line?STORY.roomY2Line(G):'明天開學。今天搬進新的房間。'; if(ln) await GM.say(null,ln); }   /* 9/7 才回宿舍＝不說「明天開學」（BUG-ROOMY2-LATE-1031）*/
       await GM.fade(true); if(GM.titleCard) await GM.titleCard('回宿舍','捷運＋公車 約 40 分鐘',2400); GM.advance(0.7); H.at=false; H.wakeAsk=null; H.lbreak=null; H.bskip=null; if(typeof ADV!=='undefined'&&ADV.end) ADV.end();
       G.flags.ROOM_Y2_MOVING=true; if(GM.enter) await GM.enter('dorm',{x:0,z:2.4,yaw:Math.PI}); await GM.fade(false); }   /* 房間直接蓋成 312（zones3d.js dormSetKey）*/
     finally{ GM.sceneEnd(); }
