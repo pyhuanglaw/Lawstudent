@@ -21,6 +21,8 @@ const NY2=H.D('2027-01-01');
   setT(NY2,0.1); rules();
   check('2. 芷若（有點熟以上）00:04：「今年一百六十杯。」「店長說明年要再請一個人。」「新年快樂。」',J(tx('p:'+ZR))===J(['今年一百六十杯。','店長說明年要再請一個人。','新年快樂。']),J(tx('p:'+ZR)));
   check('3. 沛珊大二沒有（重考那段）',!tx('p:'+PS).some(t=>/新年快樂/.test(t)));
+  H.fresh('2026-12-31',23,'dorm',{}); PHONE.join(H.G,'family_law'); setT(NY2,0.02); rules();
+  check('4. Kevin 大二家族群組 00:00：「📷（信義區的煙火，比去年近）」「新年快樂！！！今年家族火鍋我訂好了！！」（AA-B 20:04）',J(tx('g:family_law').slice(-2))===J(['📷（信義區的煙火，比去年近）','新年快樂！！！今年家族火鍋我訂好了！！']),J(tx('g:family_law')));
   H.fresh('2026-12-31',23,'dorm',{}); H.FAMILIAR(ZQ); setT(NY2,0.5); rules();
   check('1. 子晴只到有點熟＝不傳',tx('p:'+ZQ).length===0);
   H.fresh('2026-01-24',12,'dorm',{}); PHONE.join&&PHONE.join(H.G,'family_law'); const inG=PHONE.inGroup(H.G,'family_law'); setT(H.D('2026-01-25'),20.1); rules();

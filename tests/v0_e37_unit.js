@@ -57,6 +57,8 @@ let cards=[]; GM.titleCard=async(a,b)=>{ cards.push(a+'｜'+b); };
   // 6. BUG-E37-NAP-CEREMONY-1031（BB-B QA-PLAYTHROUGH ①）：8/29 搬進法律系宿舍以後（stage law、PLAYED_Y0），8/30 睡著也要在 14:15 被叫醒接電話；8/31 不再打（原本撞上開學典禮）
   back(); HOME.rec(G).at=false; G.stage='law'; G.flags.PLAYED_Y0=true; G.zone='dorm'; G.day=D; G.weekday=wdOf(D); G.hour=12;
   { const w=STORY.coreCallAt(G); check('6. 法律系階段 8/30 12:00 睡覺：coreCallAt 停在 14:15（原本 null → 一覺睡過、拖到 8/31 典禮中間）',w!=null&&Math.abs(w-14.25)<1e-6,String(w)); }
+  G.hour=13.25; { const st=STORY.outStopsToday(G,13.25), bo=STORY.bedOptions(G).find(o=>o.t==='睡到傍晚（不設鬧鐘）'), sk=typeof CLS!=='undefined'&&CLS.skipStops?CLS.skipStops({G},18):[];
+    check('6b. BB-B 10-31 twice：13:15 第二次上床（出發前 10 分鐘那個點過了）——停點有 14:15（她打來）、「睡到傍晚」寫 14:15 會叫醒你、小睡／跳過時間停在 14:15',st.some(o=>Math.abs(o.h-14.25)<1e-6)&&!!bo&&/14:15/.test(bo.hint)&&sk.length>0&&Math.abs(sk[0].h-14.25)<1e-6,JSON.stringify([st,bo&&bo.hint,sk[0]])); }
   G.hour=15; check('6. 法律系階段 8/30 15:00（已過 14:15）：不再叫醒（睡下去照常）、電話照打',STORY.coreCallAt(G)==null&&STORY.e37CallDue(G));
   G.hour=25; check('6. 8/30 過了半夜（G.day 不換）：電話還在當天',STORY.e37CallDue(G));
   G.day=D+1; G.weekday=wdOf(D+1); G.hour=18; check('6. 8/31 18:00（開學典禮）：不打「你在哪？行李我都搬到樓下了。」、不叫醒',!STORY.e37CallDue(G)&&STORY.coreCallAt(G)==null);

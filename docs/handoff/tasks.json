@@ -16246,7 +16246,7 @@
    "owner": "LAWWW",
    "status": "進行中",
    "priority": "P2",
-   "next": "【10-31 21:5x LAWWW-B】查證：芷若、阿凱的 absentDates 10-21 已經做了（HOLIDAY-PRESENCE-1021／AA_350 S4，和 AA_550 第 1 節一致，含芷若 2027 寒假 1/17～2/18）；新做：AA_550 第 2 節大二跨年芷若 00:04、子晴 00:00、第 1 節 Kevin 2026-01-25 大阪照片（bbpack3d.js；tests/aa550_nye_y2_unit.js 修改前 FAIL）；剩：①大一跨年 AA_432 第 4 節 10-23 已經做了（字不一樣、有回覆選項）→ 問 AA 要不要換成 AA_550 的字；②Kevin 大二那則「學姊今年也只會貼圖」和 AA_218 刪掉學姊群組貼圖不一致 → 問 AA；③芷若大一暑假衝突清單（子代理掃中）交 AA｜【10-31 19:3x】剩的（芷若、阿凱、Kevin 的 absentDates、跨年 00:00 四人訊息）問 AA-B 確認表格與寫字（D100），芷若的日期怕和 Café 暑假班衝突不直接加｜【LAWWW-C 2026-10-21 稽核 C】做了一部分：LAWWW-C 10-21 開的 HOLIDAY-PRESENCE-1021 只列以安、阿哲、柏翰，請一併補芷若（寒假 1/26～2/18、暑假 7/1～8/31）、阿凱（2/13～2/20 宜蘭等，BB_198 7-1）、Kevin（1/24～1/31 日本）的 absentDates；跨年 00:00 芷若、子晴、沛珊、Kevin 的訊息請 AA 寫字（D100），收到再接 ｜ BB-B 02:40 交班：BB 部分已交付（等 LAWWW 整合，跟 VAC-L1）。｜BB_171 假期所在地與跨年已交 AA-B（BB-B 00:08）。｜AA-B 00:0x 全部待辦交接補登；細節見 AA_交接紀錄（a2621bfa）",
+   "next": "【10-31 22:1x】AA-B 20:04：大一照 AA_432（AA_550 大一那一欄作廢）；Kevin 大二換「新年快樂！！！今年家族火鍋我訂好了！！」已接（aa550_nye_y2_unit）；剩芷若大一暑假衝突清單交 AA｜【10-31 21:5x LAWWW-B】查證：芷若、阿凱的 absentDates 10-21 已經做了（HOLIDAY-PRESENCE-1021／AA_350 S4，和 AA_550 第 1 節一致，含芷若 2027 寒假 1/17～2/18）；新做：AA_550 第 2 節大二跨年芷若 00:04、子晴 00:00、第 1 節 Kevin 2026-01-25 大阪照片（bbpack3d.js；tests/aa550_nye_y2_unit.js 修改前 FAIL）；剩：①大一跨年 AA_432 第 4 節 10-23 已經做了（字不一樣、有回覆選項）→ 問 AA 要不要換成 AA_550 的字；②Kevin 大二那則「學姊今年也只會貼圖」和 AA_218 刪掉學姊群組貼圖不一致 → 問 AA；③芷若大一暑假衝突清單（子代理掃中）交 AA｜【10-31 19:3x】剩的（芷若、阿凱、Kevin 的 absentDates、跨年 00:00 四人訊息）問 AA-B 確認表格與寫字（D100），芷若的日期怕和 Café 暑假班衝突不直接加｜【LAWWW-C 2026-10-21 稽核 C】做了一部分：LAWWW-C 10-21 開的 HOLIDAY-PRESENCE-1021 只列以安、阿哲、柏翰，請一併補芷若（寒假 1/26～2/18、暑假 7/1～8/31）、阿凱（2/13～2/20 宜蘭等，BB_198 7-1）、Kevin（1/24～1/31 日本）的 absentDates；跨年 00:00 芷若、子晴、沛珊、Kevin 的訊息請 AA 寫字（D100），收到再接 ｜ BB-B 02:40 交班：BB 部分已交付（等 LAWWW 整合，跟 VAC-L1）。｜BB_171 假期所在地與跨年已交 AA-B（BB-B 00:08）。｜AA-B 00:0x 全部待辦交接補登；細節見 AA_交接紀錄（a2621bfa）",
    "first": {
     "term": "Y1S1",
     "week": null,
@@ -37348,7 +37348,7 @@
    "owner": "LAWWW",
    "status": "已實作待整合",
    "priority": "P1",
-   "next": "【10-31 20:3x】全部 Node 787／0（24aebe913）；BB 在 QA-PLAYTHROUGH ① 重跑 8/30 那段｜【10-31 19:4x】S.coreCallAt 在法律系階段也停 y0_e37（PLAYED_Y0 或 e37LawOn、還沒演；14:15）；S.e37CallDue 只在 8/30（原本到 8/31）；v0_e37_unit 第 6 項（修改前 2 項 FAIL）；E37 相關 17 支 Node 全過 → 全部 Node 跑完、BB 在 QA-PLAYTHROUGH 重跑 ① 那段",
+   "next": "【10-31 22:1x】BB-B 43e5f1b88 twice＝PARTIAL：13:10 以後第二次上床「睡到傍晚」一路睡到 18:00（小睡、跳過時間走 CLS.skipStops／outStopsToday，不看 coreCallAt）→ 修：CLS.STOP_FNS 第一個＝STORY.coreCallAt、outStopsToday 也加（床的提示寫 14:15 會叫醒你）；v0_e37_unit 6b（修改前 FAIL）；經濟系那幾場核心出遊同樣受益；noon PASS｜【10-31 20:3x】全部 Node 787／0（24aebe913）；BB 在 QA-PLAYTHROUGH ① 重跑 8/30 那段｜【10-31 19:4x】S.coreCallAt 在法律系階段也停 y0_e37（PLAYED_Y0 或 e37LawOn、還沒演；14:15）；S.e37CallDue 只在 8/30（原本到 8/31）；v0_e37_unit 第 6 項（修改前 2 項 FAIL）；E37 相關 17 支 Node 全過 → 全部 Node 跑完、BB 在 QA-PLAYTHROUGH 重跑 ① 那段",
    "first": {
     "term": "Y0S1",
     "week": 0,

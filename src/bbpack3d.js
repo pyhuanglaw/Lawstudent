@@ -143,11 +143,12 @@ const BBPACK=(function(){
         /* BB_171 第 3 節（AA_432 4-6「照 BB_171」）：沒上頂樓的玩家，1/1 中午阿凱一則 */
         if(win(G,ny,12,ny+2,0)&&F.NYE_Y1!=='roof'&&knows('kai')) ph.at(G,ny,12,[{th:'p:kai',from:'kai',text:'昨天頂樓好吵 我在打團戰'}],'bb_nye_kai_y1'); } 
       /* AA_550 第 2 節（VAC-B1，企劃線 da56f3a68）：大二跨年（2027-01-01）芷若 00:04（FAMILIAR 以上）、子晴 00:00（FRIEND 以上，她的訊息不加句號）；沒有回覆選項（稿沒寫）、不回也可以。
-         沛珊大二是重考消失期：沒有。Kevin 大二那則等 AA 回（「學姊今年也只會貼圖」和 AA_218 刪掉學姊貼圖不一致）*/
+         沛珊大二是重考消失期：沒有。Kevin 大二家族群組 00:00（AA-B 10-31 20:04 換句）。大一照 AA_432 第 4 節（AA_550 大一那一欄作廢）*/
       const ny2=D('2027-01-01'), plain=(id,min,day,h,texts,until,tag)=>{ const t=now(G); if(t<day*24+h||t>=until) return; if(!knows(id)||!stageAt(id,min)||ph.sent(G,tag)) return; ph.at(G,day,h,texts.map(x=>({th:'p:'+id,from:id,text:x})),tag); };
       if(ny2!=null){ const u=(ny2+1)*24;
         plain('heroine_04','FRIEND',ny2,0,['📷（遊戲裡的煙火，這次只有她的角色）','新年快樂','阿凱在他們那棟頂樓 我自己放'],u,'bb_nye_zq_y2');
-        plain('heroine_02','FAMILIAR',ny2,4/60,['今年一百六十杯。','店長說明年要再請一個人。','新年快樂。'],u,'bb_nye_zr_y2'); }
+        plain('heroine_02','FAMILIAR',ny2,4/60,['今年一百六十杯。','店長說明年要再請一個人。','新年快樂。'],u,'bb_nye_zr_y2');
+        if(win(G,ny2,0,ny2+3,0)&&ph.inGroup(G,'family_law')) ph.at(G,ny2,0,[{th:'g:family_law',from:'kevin',name:'Kevin',text:'📷（信義區的煙火，比去年近）'},{th:'g:family_law',from:'kevin',name:'Kevin',text:'新年快樂！！！今年家族火鍋我訂好了！！'}],'bb_nye_kevin_y2'); }   /* AA-B 10-31 20:04：學姊貼圖那句作廢，換這句 */
       /* AA_550 第 1 節：Kevin 2026-01-24～01-31 在日本，只出現在家族群組的照片（1/25 20:00）*/
       { const d=D('2026-01-25'); if(d!=null&&win(G,d,20,d+3,0)&&ph.inGroup(G,'family_law')) ph.at(G,d,20,[{th:'g:family_law',from:'kevin',name:'Kevin',text:'📷（大阪的路口，一隻在吃章魚燒的鹿）'},{th:'g:family_law',from:'kevin',name:'Kevin',text:'鹿是我亂講的 是狗'}],'bb_kevin_osaka_y1'); } }
     /* D5：沛珊的講義（公法讀書會的前一天；冷卻四週）*/
