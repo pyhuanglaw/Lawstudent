@@ -1218,9 +1218,24 @@ async def gtlm(pg, cdp, run):
     run.note('101 的座位（前三個）：%s' % J(seats))
     if seats and seats[0]['ap']:
         q = seats[0]; await L.go_to(pg, cdp, run, q['ap'][0], q['ap'][1], 0.35, '101 座位旁邊', max_s=180, stop=lambda s: s['interact'] == q['label'])
-        lab = (await P.ts(pg))['lab']; await L.tap(pg, cdp, '#interact'); await pg.wait_for_timeout(2500)
+        lab = (await P.ts(pg))['lab']
+        if not lab:   # n28_gongtong 05:59：走到 seatApproach 那一點沒有按鈕——先記下附近互動點被哪一條條件擋掉（工具或遊戲）
+            dg = await pg.evaluate(GT_SEATDIAG); run.note('座位旁邊沒有按鈕，附近的互動點：%s' % J(dg))
+            for q2 in seats[1:]:
+                await L.go_to(pg, cdp, run, q2['ap'][0], q2['ap'][1], 0.35, '101 下一個座位旁邊', max_s=120, stop=lambda s: s['interact'] == q2['label'])
+                lab = (await P.ts(pg))['lab']; run.note('下一個座位（%s）旁邊的按鈕：「%s」' % (J(q2), lab))
+                if lab: break
+                run.note('附近的互動點：%s' % J(await pg.evaluate(GT_SEATDIAG)))
+        await L.tap(pg, cdp, '#interact'); await pg.wait_for_timeout(2500)
         sat = await pg.evaluate("!!(GAME.E.player.seat||GAME.E.player.pose==='sit')"); await run.shot(pg, 'gongtong_101_sit')
         run.check('共同教學館 101：按「%s」坐得下' % lab, bool(lab) and sat, J({'lab': lab, 'sat': sat}))
+
+
+GT_SEATDIAG = """(()=>{ const E=GAME.E, P=E.player, p=P.obj.position, plv=P.lv|0;
+  const occ=st=>E.npcs.some(n=>n.seat&&Math.hypot(n.seat.x-st.x,n.seat.z-st.z)<0.35);
+  const near=E.interactables.map(it=>({it, d:Math.hypot(it.x-p.x,it.z-p.z)})).filter(o=>o.d<2.6).sort((a,b)=>a.d-b.d).slice(0,8).map(({it,d})=>({label:it.label, x:+it.x.toFixed(2), z:+it.z.toFixed(2), d:+d.toFixed(2), r:it.radius||1.8, rFit:it.radiusFit, lv:it.lv, y:it.y!=null?+it.y.toFixed(2):null, hidden:!!it.hidden, occ:it.seat?occ(it.seat):null, taken:it.seat?!!it.seat.taken:null}));
+  const ni=E.nearestInteractable();
+  return {player:{x:+p.x.toFixed(2), z:+p.z.toFixed(2), y:+p.y.toFixed(2), lv:plv, busy:!!P.busy}, dlg:!!(GAME.D&&GAME.D.active), cam:E.cam.mode, nearest:ni?ni.label:null, levels:!!E.levels, near}; })()"""
 
 
 def ceil_white(path):
@@ -1355,8 +1370,8 @@ async def gtecon(pg, cdp, run):
 async def boyab4(pg, cdp, run):
     # 法律系 B4 演講（大一下第 11 週週四 19:00 博思 101，ACTIVITIES B4）：預設流程裡看得到博思 101 的地方（LAWWW-B 16:04）。手機「今天」按去聽
     d = await pg.evaluate("(()=>{ const T=CALENDAR.TERMS.find(t=>t.id==='Y1S2'); const a=STORY.dayOfKey(T.start); let d=a+10*7; while(CALENDAR.dateOf(d).wd!==4) d++; return CALENDAR.dateOf(d).key; })()")
-    st, dd = await P.base(pg, SAVE, d, 18.3, 'campus'); await P.load(pg, cdp, st, quiet=False)
-    run.setup('[前置] 使用者存檔改到 %s（%s 第 %s 週）18:18 校園' % (dd['key'], dd['term'], dd['week']))
+    st, dd = await P.base(pg, SAVE, d, 17.5, 'campus'); await P.load(pg, cdp, st, quiet=False)   # n19_boyab4b（05:56）：18:18 出發走到 101 已經 19:0x、還沒坐好；提早到 17:30，開講前坐好
+    run.setup('[前置] 使用者存檔改到 %s（%s 第 %s 週）17:30 校園' % (dd['key'], dd['term'], dd['week']))
     # n19_boyab4（02:48）：B4 是活動（activities.js），不是課——CLS.dayItems／手機「今天」只列課，探針找錯地方。玩家的路：走進博思 101、坐下、選「聽演講」（classes3d.js:338）
     it = await pg.evaluate("(()=>{ const a=(ACTIVITIES.list||[]).find(q=>q.id==='B4'); return a?{key:'B4', t0:a.t0, t1:a.t1, room:a.room, zone:a.zone, on:!!ACTIVITIES.on(a,GAME.G.day,GAME.G)}:null; })()")
     run.note('B4 活動：%s' % J(it))
@@ -1380,16 +1395,29 @@ async def boyab4(pg, cdp, run):
         await L.go_to(pg, cdp, run, seat['x'], seat['z'], 0.5, seat['label'], max_s=200, lv=seat['lv'], stop=lambda s: s['dlg'] or s['choices'] or s['busy'])
         lab = await pg.evaluate("(()=>{ const b=document.getElementById('interact'); return b&&!b.classList.contains('hide')?b.textContent.trim():''; })()")
         run.note('走到位子旁的互動鈕：「%s」' % lab)
-        if '坐' in lab: await L.tap(pg, cdp, '#interact'); await pg.wait_for_timeout(1200)
+        for _ in range(8):   # n19_boyab4b：按一次「坐下」沒坐上去（player.seat false），之後就沒再按——坐上去為止
+            if await pg.evaluate("!!GAME.E.player.seat"): break
+            s0 = await P.ts(pg)
+            if s0['ch']: k, _ = P.pick_of(s0['ch'], ['坐', '聽']); await P.tap_choice(pg, cdp, k); await pg.wait_for_timeout(1200); continue
+            if s0['dlg']: await L.tap(pg, cdp, '#dlg'); await pg.wait_for_timeout(600); continue
+            lab = await pg.evaluate("(()=>{ const b=document.getElementById('interact'); return b&&!b.classList.contains('hide')?b.textContent.trim():''; })()")
+            if '坐' in lab: await L.tap(pg, cdp, '#interact')
+            else: await L.go_to(pg, cdp, run, seat['x'], seat['z'], 0.4, seat['label'], max_s=60, lv=seat['lv'], stop=lambda s: s['dlg'] or s['choices'] or s['busy'])
+            await pg.wait_for_timeout(1500)
+        sat = await pg.evaluate("({seat:!!GAME.E.player.seat, h:+(+GAME.G.hour).toFixed(2)})"); run.note('坐下了沒：%s' % J(sat))
+        run.check('B4：走到 101 的空位、坐得下（開講前）', sat['seat'], J(sat))
     n0 = await P.say_hook(pg); t0 = time.time(); cap = None; cap2 = None; seen = None
     while time.time() - t0 < 1500:
         c = await pg.evaluate("(()=>({zone:GAME.G.zone, h:+GAME.G.hour}))()")
         s = await P.ts(pg)
         if c['zone'] == 'boya':
             if seen is None: seen = time.time()
-            if cap is None and time.time() - seen > 6:
+            if cap2 is None and time.time() - (globals().get('_b4last') or 0) > 30:   # 每 30 秒記聽眾在哪、在做什麼（05:56：19:07 十幾個人疊在東側階梯走道上——分清是還在走還是卡住）
+                globals()['_b4last'] = time.time(); crowd = await pg.evaluate(CLASSJS); run.note('聽眾 %.2f：坐 %s、站 %s' % (c['h'], crowd.get('sit'), J([(q[2], q[3], q[1]) for q in crowd.get('stand', [])][:20], 900)))
+            if not await pg.evaluate("!!GAME.E.player.seat") and '坐' in (s.get('lab') or ''): await L.tap(pg, cdp, '#interact'); await pg.wait_for_timeout(1200); continue
+            if cap is None and c['h'] >= it['t0'] + 0.05:
                 cap = await pg.evaluate(CLASSJS); await run.shot(pg, 'b4_a'); run.note('演講（進博思 6 秒）：%s' % J(cap))
-            elif cap is not None and cap2 is None and time.time() - seen > 45:
+            elif cap is not None and cap2 is None and c['h'] >= it['t0'] + 0.3:
                 cap2 = await pg.evaluate(CLASSJS); await pg.evaluate("(()=>{ const C=GAME.E.cam; C.yaw=0; C.pitch=0.3; C.distTarget=5; C.manualT=1e9; })()"); await pg.wait_for_timeout(1500); await run.shot(pg, 'b4_b'); run.note('演講（45 秒）：%s' % J(cap2))
         if cap2 is not None and c['h'] > it['t1'] - 0.05 and not s['dlg']: break
         if s['ch']: k, _ = P.pick_of(s['ch'], ['坐', '聽']); await P.tap_choice(pg, cdp, k); await pg.wait_for_timeout(1000); continue
