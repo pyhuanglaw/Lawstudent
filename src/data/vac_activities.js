@@ -270,7 +270,7 @@ const VAC_DATA=(function(){
           opts:[{t:'我想想。',say:['好。說明會在禮拜三。'],set:{C09_AGAIN:true}},{t:'今年不行。',say:['好。我幫你跟小朋友說。']}]} ] },
     /* VAC-C10 海外大學暑期課（加州的大學，虛構）：AA_242 第 3 節。大二暑假 6/21～7/31（六週、兩門）；大二下第 10～13 週報名，報名隔天去系辦送課程大綱＝C10_CREDIT_FILED；回來大三上第 2 週系辦學分採計 */
     C10:{ id:'C10', title:'海外大學暑期課（加州）', cat:'學習考試', season:'summer', years:['Y2','Y3'], days:['06-21','07-31'],
-      rep:{ pre2:[null], keys2:['第二次飛加州。這次你在飛機上睡得著。','第一堂。教授問誰去年來過，你舉了手。','報告。這次你沒有先寫好講稿。','週末。你帶同組的人去去年那家漢堡店。','期末考。考場的冷氣一樣冷，你帶了外套。'],
+      rep:{ pre2:[null], keys2:['第二次飛加州。這次你在飛機上睡得著。','第一堂。教授問誰去年來過，你舉了手。','報告。這次你沒有先寫好講稿。',null,'週末。你帶同組的人去去年那家漢堡店。',null,null,'期末考。考場的冷氣一樣冷，你帶了外套。'],   /* 照 keys 的位置（S.repKey 用 keys 的第幾個對）；null＝AA_556 第 2 節加的三場，第二次不演 */
         post2:'學分採計。系辦的人說這次你的表格填得很快。' },   /* 最多兩次（大二、大三暑假）；第二次沒有成績信、Priya */ slot:'night', place:{kind:'abroad',name:'加州',tz:-15}, cost:{payer:'family'}, free:'partial',
       signup:{kind:'board', term:'S2', week:10, wd:1, h:9, until:{term:'S2',week:13,wd:5}, flag:'VAC_C10', board:true, yes:{t:'（報名）',say:[]} },
       pre:[{afterSignup:1,h:14,title:'系辦（學分採計）',place:'法律系辦',bg:'classroom_small',lines:[{who:'npc_office',name:'系辦助理',text:'要採計的話，先把課程大綱給我，系上審過才算。出國前送，回來帶成績單。'},{who:'npc_office',name:'系辦助理',text:'……國外的課不一定都抵得掉。先問清楚比較好。'}],set:{C10_CREDIT_FILED:true}}],
@@ -282,8 +282,14 @@ const VAC_DATA=(function(){
         {day:'06-23',h:9,title:'第一堂課',bg:'intl_ca_classroom',lines:[{narr:'（教室比法律系館A的小。教授穿短褲，第一句話是「叫我名字就好」。）'},{narr:'（旁邊的女生轉過來，自我介紹她叫 Priya，從印度來，念經濟。）'},{who:'npc_priya',name:'Priya',text:'Law? In Taiwan? ……You have a lot of reading, right?'}],
           choice:[{t:'「Yes. Too much.」',say:[{who:'npc_priya',name:'Priya',text:'Same.'},{narr:'（她把讀本攤開給你看，滿滿的螢光筆。）'}]},{t:'「I used to study economics.」',say:[{who:'npc_priya',name:'Priya',text:'Really? Why did you switch?'},{narr:'（你想了一下，只說「Long story.」她點頭，沒有再問。）'}]}]},
         {day:'07-02',h:10,title:'第一次報告',bg:'intl_ca_classroom',lines:[{narr:'（輪到你報告。講到第二張投影片，你忘了一個字。教授等了三秒，幫你接下去。）'},{who:'npc_prof_ca',name:'教授',text:'Take your time.'}]},
+        /* AA_556 第 2 節（企劃線 3d7ad0024；VAC-GAP2-1031；D109 AA 定稿）：照日期插在中間的三場。第二次去（rep.keys2 那幾個位置是 null）不演 */
+        {day:'07-04',h:21,title:'國慶日的煙火',bg:'intl_ca_beach',lines:[{narr:'（七月四號。宿舍頂樓，大家等煙火。）'},{who:'npc_priya',name:'Priya',text:'In Mumbai we have Diwali. Louder than this.'}],
+          choice:[{t:'「Taiwan has New Year fireworks.」',say:[{who:'npc_priya',name:'Priya',text:'Show me.'},{narr:'（你找了一段跨年煙火的影片給她看。她看完說：「OK. That\'s louder.」）'}]},{t:'（安靜看煙火）',say:[{narr:'（煙火放完，有人開始唱歌。你只聽得懂最後一句。）'}]}]},
         {day:'07-11',h:13,title:'週末',bg:'intl_ca_beach',lines:[],
           choice:[{t:'海邊',say:[{narr:'（風很大。Priya 說她第一次看到太平洋的另一邊。）'}]},{t:'校園的圖書館',say:[{narr:'（週末的圖書館沒什麼人。你在窗邊讀了一下午，窗外的草地有人在丟飛盤。）'}],set:{C10_STUDY:true}}]},   /* 成績 A／B＋：AA「照讀書的次數」——遊戲沒有假期日誌，這一版看週末有沒有去圖書館（C10_STUDY，等 BB 定）*/
+        {day:'07-15',h:16,title:'圖書館的讀書小組',bg:'intl_ca_classroom',lines:[{narr:'（期中前，Priya 找了兩個美國同學一起讀。休息的時候，其中一個問你。）'},{who:'npc_ca_classmate',name:'同學',text:'Law in Taiwan is four years? And then the bar?'},{who:'player',text:'Then the bar.'},{who:'npc_ca_classmate',name:'同學',text:'……Respect. I\'m still deciding my major.'}]},
+        {day:'07-24',h:20,title:'最後一週的晚餐',bg:'intl_ca_classroom',lines:[{narr:'（每個人帶一道家鄉的菜。你帶的是一包從臺灣帶來的泡麵，煮好放在中間，最後只剩湯。）'},{who:'npc_priya',name:'Priya',text:'Next summer, Taiwan?'}],
+          choice:[{t:'「Come to Taiwan.」',say:[{who:'npc_priya',name:'Priya',text:'I\'ll come for the food. Not for you.'},{narr:'（她笑了。）'}]},{t:'「Maybe.」',say:[{who:'npc_priya',name:'Priya',text:'Maybe is a yes in economics.'}]}]},
         {day:'07-30',h:9,title:'期末考',bg:'intl_ca_classroom',lines:[{narr:'（考卷四題，三小時。你寫完第三題的時候，旁邊的 Priya 已經在檢查了。）'}]} ],
       /* 成績（AA_242 3-6 79adc9f2）：8/10 學校的信；A 版截圖傳家人群組、媽媽兩句；B＋版不傳。Priya 8/10 問成績、2027-09-14 問學分（7-1）*/
       grades:{day:'08-10',h:9,mail:'（學校的信）Final grades are now available.',A:{narr:'（兩門課都是 A。你截了圖，傳到家人群組。）',mom:['好棒！','那邊吃得飽嗎']},B:{narr:'（一門 A−，一門 B＋。B＋那門的期末考，你寫到第三題，時間就到了。）'}},
@@ -295,7 +301,7 @@ const VAC_DATA=(function(){
     /* VAC-C11 臺大提名的姊妹校短期課程（東京）：AA_242 第 4 節＋AA_244 第 1 節以安版。大二寒假 1/17～1/30；大二上第 5 週公告、第 6 週截止（甄審結果 LAWWW 排第 8 週週一 12:00）*/
     /* AA_533 2-3：以安也在東京（同第一堂那一句的條件）；同團的學生（虛構）*/
     C11:{ id:'C11', title:'姊妹校冬季短期課程（東京）', cat:'海外交流', season:'winter', years:['Y2','Y3','Y4'], days:['01-17','01-30'],
-      rep:{ keys2:['第一堂。這次你聽得懂老師的玩笑。','參訪。去年那間法院的導覽員換人了。'], keys3:['第一堂。同團的學弟妹問你要坐哪裡。','參訪。你在同一個地方等大家集合。'] }, slot:'night', place:{kind:'abroad',name:'東京',tz:1}, cost:{payer:'family'}, free:'partial',
+      rep:{ keys2:['第一堂。這次你聽得懂老師的玩笑。',null,'參訪。去年那間法院的導覽員換人了。'], keys3:['第一堂。同團的學弟妹問你要坐哪裡。',null,'參訪。你在同一個地方等大家集合。'] }, slot:'night', place:{kind:'abroad',name:'東京',tz:1}, cost:{payer:'family'}, free:'partial',   /* 照 keys 的位置（S.repKey）；null 和後面沒寫的＝第二次以後不演（AA_556 第 3 節加的 01-20、01-26，AA_533 的 01-29）*/
       mates:{Y2:['heroine_01']},   /* 以安只有大二寒假報了東京（AA_369 H4、M4）*/
       signup:{kind:'board', term:'S1', week:5, wd:1, h:9, until:{term:'S1',week:6,wd:5}, flag:'VAC_C11', board:true, yes:{t:'（報名）',say:[]} },
       select:{term:'S1',week:8,wd:1,h:12,name:'姊妹校冬季短期課程（東京）',need:'VAC_C11_APP'},
@@ -305,7 +311,13 @@ const VAC_DATA=(function(){
       keys:[
         {day:'01-18',h:9,title:'第一堂',bg:'intl_tokyo_classroom',lines:[{narr:'（教室的暖氣很強，窗戶上都是霧。老師在黑板上寫了今天的主題：「大學生與地方社區」。）'},{narr:'（同團的首都帝大學生小聲說：「好像通識課。」）'},
           G=>!AN_YR(G,['Y2'])?{narr:'（教室裡都是不認識的人。）'}:(typeof STORY!=='undefined'&&STORY.knows&&STORY.knows('heroine_01',G)?{narr:'（休息時間，以安坐在你斜前方，回頭用嘴型說：好冷。）'}:null)]},   /* 以安報了東京（AA_244 第 1 節大二寒假）；大三、大四她沒去（AA_369 M4：拿掉她的句子、教室旁白換這一句）*/
+        /* AA_556 第 3 節（企劃線 3d7ad0024；VAC-GAP2-1031；D109 AA 定稿）：照日期插入兩場（01-20、01-26）。以安也在東京＝同第一堂她那一句的條件（AN_C11）*/
+        {day:'01-20',h:7+40/60,title:'宿舍樓下的便利商店',bg:'intl_tokyo_classroom',lines:[{narr:'（早上七點多。你和同團的學生各拿了一個熱的飯糰，站在店門口吃。）'},
+          G=>AN_C11(G)?[{who:'heroine_01',text:'書我帶了兩本。……打開了一本。'},{who:'heroine_01',text:'另一本是用來壓行李的。'}]:ST('你們法律系寒假不用念書嗎？')],
+          choiceIf:G=>!AN_C11(G), choice:[{t:'「要啊。書在行李箱裡。」',say:[ST('我的也是。還沒打開過。')]},{t:'「這就是在念書。」',say:[ST('……好，我回去跟我媽這樣說。')]}]},   /* AA-B 11-01 回第 1 題：時間改 07:40（旁白「早上七點多」照留）。原本稿：08:00（旁白「早上七點多」照稿不改；時間照稿標題）*/
         {day:'01-23',h:14,title:'參訪',bg:'intl_tokyo_shotengai',lines:[{narr:'（參訪的是一個商店街的協會。會長是一位七十幾歲的伯伯，講話很快，翻譯跟不上。）'},{narr:'（最後他拿出一張商店街五十年前的照片。照片裡人很多。）'}]},
+        {day:'01-26',h:15,title:'自由活動',bg:'intl_tokyo_shotengai',lines:[],
+          choice:[{t:'舊書店街',say:[{narr:'（一整條街的舊書店。你在一間店裡看到一本很舊的日文六法，封面是綠色的。你翻了一下，又放回去。）'}]},{t:'錢湯',say:[{narr:'（錢湯的牆上畫著一座很大的山。旁邊的伯伯泡到臉紅，對你點了一下頭。你也點頭。）'}]}]},
         /* AA_533 2-3（企劃線 cf0066ed2）：第一次去加最後一晚（宿舍交誼廳，bg 照第一堂）；以安也去的換成她那一句（同第一堂的條件）。第二次以後 rep.keys2／keys3 沒有這一場＝不演 */
         {day:'01-29',h:20,title:'最後一晚',bg:'intl_tokyo_classroom',lines:[{narr:'（最後一晚。同團的人在交誼廳煮泡麵，有人帶了一包臺灣的辣椒醬。）'},G=>AN_C11(G)?{who:'heroine_01',text:'明天的飛機十點。……行李我昨天就收好了。'}:ST('你明年還要來嗎？')],
           choiceIf:G=>!AN_C11(G), choice:[{t:'「看情況。」',say:[ST('我是不會了。太冷了。')]},{t:'「會吧。」',say:[ST('……你是真的喜歡這裡。')]}]} ] },
@@ -500,6 +512,20 @@ const VAC_DATA=(function(){
       us:{name:'美國',tz:-15,far:true,keys:['（海關排了一個多小時。出來的時候，天已經黑了。）',G=>{ const B=typeof HOME!=='undefined'&&HOME.breakOf?HOME.breakOf(G.day):null; return B&&B.kind==='winter'?'（街口在下雪，咖啡店的玻璃上都是霧。）':'（海邊的公路一直往前，路邊的招牌越來越少。）'; },'（街口的熱狗攤收得很晚。你們站著吃完。）']} },
     /* 和朋友去：最後一晚多一句朋友的話 */
     friend:{kai:'下次換你排行程。',zhe:'伴手禮要買到哪個時候。',yu:'我們拍一張合照啦。',classmate_bohan:'明天幾點的飛機？我算一下要幾點出門。',classmate_xinci:'我把明天的行程再看一次。'},
+    /* AA_556 第 1 節（企劃線 3d7ad0024；VAC-GAP2-1031；D109 AA 定稿，一字不改）：中間那天目的地第二句後面接一段有人說話的（src/vac3d.js S.trip13）。
+       local＝自己去（照目的地；當地的人，name 照稿的稱呼）；friendMid＝和朋友去（照朋友；字串＝朋友說的一句、{narr}＝旁白）。和女朋友去的照 gf 的 mid（AA_533）不動；
+       同一個目的地第二次以後（again）不演。稿上寫在表格一格裡的「站務員：「まっすぐ。……まっすぐ。」」拆成旁白、人說話（引號拿掉，同遊戲裡其他台詞）、旁白 */
+    local:{
+      jp:[{narr:'（你問站務員怎麼轉車。他拿出一張紙，畫了一張很醜的地圖。）'},{who:'npc_trip_local',name:'站務員',text:'まっすぐ。……まっすぐ。'},{narr:'（他比了三次直走。你照著走，真的到了。）'}],
+      kr:[{narr:'（租腳踏車的櫃台，大學生看了你的護照。）'},{who:'npc_trip_local',name:'大學生',text:'謝謝。'},{narr:'（他笑了一下，說他只會這一句中文。）'}],
+      th:[{narr:'（嘟嘟車停紅燈。司機回頭。）'},{who:'npc_trip_local',name:'司機',text:'First time?'},{narr:'（你點頭。他把音樂開大聲：「Welcome!」）'}],
+      vn:[{narr:'（咖啡店的老闆娘端來一杯上面有一層蛋的咖啡。你看了很久。）'},{who:'npc_trip_local',name:'老闆娘',text:'Stir. Stir.'},{narr:'（她比了一個攪拌的手勢。很甜。）'}],
+      hk:[{narr:'（茶餐廳客滿。阿姐把你帶到一張已經坐了兩個人的桌子。）'},{who:'npc_trip_local',name:'阿姐',text:'搭枱啊，坐。'},{narr:'（對面的大叔把報紙收起來一半，讓出位子。）'}],
+      eu:[{narr:'（火車上，對面的老太太問你從哪裡來。）'},{who:'npc_trip_local',name:'老太太',text:'Taiwan? ……Far.'},{narr:'（她從包包拿出一顆蘋果，切了一半給你。）'}],
+      us:[{narr:'（公路旁的餐廳。服務生第三次走過來。）'},{who:'npc_trip_local',name:'服務生',text:'Refill?'},{narr:'（你的咖啡還是滿的。她還是幫你加了一點。）'}] },
+    friendMid:{kai:['所以我們今天走了兩萬步。我的腳在抗議。','可是那家拉麵要排一個小時。……我還是要排。'],zhe:['我們中午吃了三餐。早餐、早午餐、午餐。','……晚餐吃什麼？'],
+      yu:['你幫我拍一張。不對，蹲下來拍，這樣我比較高。',{narr:'（你蹲下來。她看了照片：「……好，你以後都這樣拍。」）'}],
+      classmate_bohan:['今天的行程延誤了四十分鐘。','……可是你走錯路才找到那家店。很好吃。我寫進明天的行程了。'],classmate_xinci:['每天花多少我都記在手機裡。今天超支一百二十塊。','……是那杯咖啡。值得。']},
     /* 和戀人：被問「要不要一起出國？」（next＝隔天她再傳一則）、最後一晚、婉拒、歐美的「下次」
        arr、mid（AA_533 第 1 節，企劃線 cf0066ed2；不分目的地）：[旁白, 她的一句]——和她去的那一趟，第一天下午「到了」取代目的地第一句、中間那天目的地第二句後面接「中間」；
        firstOnly：「我第一次出國耶」那句 last 只給第一次和她出國的（沛珊，AA_533 第 1 節）*/

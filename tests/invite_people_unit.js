@@ -101,10 +101,12 @@ async function await0(){}
   // 12 一起走過去的路上聊一句
   fresh(MON,10); rel('heroine_01',45,30,10);
   let pk=INV.walkPick(G,'heroine_01','cafe'); check('12. 以安去 Café 的路上：先說去 Café 的那句（寫題目先想要件還是結論；AA_194 第 4 節）',!!pk&&pk.lines[0]==='「你寫題目都先想要件，還是先想結論？我都先想結論，最近在改。」',pk&&pk.lines.join('｜'));
-  pk.next(); pk=INV.walkPick(G,'heroine_01','cafe'); check('12. 下一次去 Café：輪到「任何目的地」那句（宿舍門禁）',!!pk&&/宿舍門禁是十二點/.test(pk.lines[0]),pk&&pk.lines.join('｜'));
+  pk.next(); pk=INV.walkPick(G,'heroine_01','cafe'); check('12. 下一次去 Café：輪到下一句——AA_555（企劃線 56c11668d）以後去 Café 多了 AA_118「民總下課，A館 → Café」那句（只說一次；原本輪到的「任何目的地」宿舍門禁排在它後面）',!!pk&&pk.lines[0]==='「你剛剛在課上點頭。我想知道你是同意，還是想睡。」',pk&&pk.lines.join('｜'));
+  { const seen=[]; for(let i=0;i<8;i++){ pk.next(); pk=INV.walkPick(G,'heroine_01','cafe'); if(!pk) break; seen.push(pk.lines[0]); if(/宿舍門禁是十二點/.test(pk.lines[0])) break; }
+    check('12. 之後幾次去 Café：會輪到「任何目的地」那句（宿舍門禁）',seen.some(t=>/宿舍門禁是十二點/.test(t)),seen.join('｜')); }
   G.flags.walkChatN={}; pk=INV.walkPick(G,'heroine_01','wenzhou'); check('12. 以安大一去溫州街：「這條巷子我走過一百次」是大二以後的，這次說門禁那句',!!pk&&/宿舍門禁/.test(pk.lines[0]),pk&&pk.lines.join('｜'));
   G.weather='rain'; rel('heroine_03',45,30,10); pk=INV.walkPick(G,'heroine_03','noodle'); check('12. 語彤下雨天：她撐傘偏向你那一邊（旁白＋「沒事啦。」，AA_194 第 4 節）',!!pk&&pk.lines.length===2&&/傘偏向你那一邊/.test(pk.lines[0])&&pk.lines[1]==='「沒事啦。」',pk&&pk.lines.join('｜')); G.weather='clear';
-  check('12. Alison 沒有「一起走路」的台詞：不說',INV.walkPick(G,'yu','cafe')===null);
+  { const p=INV.walkPick(G,'yu','cafe'); check('12. Alison 原本沒有「一起走路」的台詞；AA_555 以後有 AA_118 第 2 節那幾句（INVITE_DATA.walk118.yu）',!!p&&(INVITE_DATA.walk118.yu||[]).some(e=>e.l.join('')===p.lines.join('')),p&&p.lines.join('｜')); }
   const caps=[]; INV._later=(f)=>f(); const npcObj={position:{x:1,z:0}};
   const gmW={G,npc:{heroine_02:{obj:npcObj}},E:{player:{obj:{position:{x:0,z:0}}}},caption:(w,t)=>caps.push((w||'旁白')+'：'+t)};
   fresh(MON,10); gmW.G=G; rel('heroine_02',45,30,10); G.invites.push({id:'w1',who:'heroine_02',place:'noodle',zone:'noodle',day:MON,h:10,state:'going'});

@@ -51,7 +51,7 @@ const keyOf=(id,title)=>(A[id].keys||[]).find(k=>k.title===title);
   { const L1=await trip('classmate_peishan','kr','2026-08-03',3), L2=await trip('classmate_peishan','hk','2027-07-12',3,[{n:1,dest:'kr',from:D('2026-08-03'),to:D('2026-08-06'),with:'classmate_peishan',gf:true,done:true,season:'summer'}]);
     check('1. 沛珊「我第一次出國耶。……好好玩。」只給第一次和她出國的',L1.some(t=>t.endsWith('我第一次出國耶。……好好玩。'))&&!L2.some(t=>t.includes('我第一次出國耶')),J([L1.slice(-2),L2.slice(-2)])); }
   { const G=H.fresh('2027-07-12',7,'dorm'); const V=VAC.rec(G); V.t13=[{n:1,dest:'jp',from:D('2027-07-12'),to:D('2027-07-16'),with:'kai',season:'summer'}]; H.said=[]; await VAC.trip13(GM,'T13#1',null); const L=H.lines();
-    check('1. 和朋友去照舊（目的地三句＋最後一晚朋友一句）',L[0]===TV.dest.jp.keys[0]&&L.length===4&&L[3].endsWith('下次換你排行程。'),J(L)); }
+    check('1. 和朋友去照舊（目的地三句＋最後一晚朋友一句；AA_556 1-2 起中間那天目的地第二句後面多朋友的兩句，tests/aa556_vacgap2_unit.js）',L[0]===TV.dest.jp.keys[0]&&L.length===6&&L[2].endsWith('所以我們今天走了兩萬步。我的腳在抗議。')&&L[5].endsWith('下次換你排行程。'),J(L)); }
 
   /* ================= 2 活動卡 ================= */
   const play=async(k,I,picks)=>{ H.said=[]; H.picks=picks||[]; await VAC.key(GM,k,I); return H.lines(); };
@@ -70,7 +70,7 @@ const keyOf=(id,title)=>(A[id].keys||[]).find(k=>k.title===title);
     const G3=H.fresh('2028-01-29',19,'dorm'); const Lb=c11?await play(c11,VAC.inst('C11','Y3'),['會吧']):[]; const ob=H.opts[0];
     check('2-3. C11 第一次去：01-29 20:00 最後一晚（交誼廳煮泡麵）＋同團的學生「你明年還要來嗎？」＋「看情況。」「會吧。」→「……你是真的喜歡這裡。」',!!c11&&c11.day==='01-29'&&c11.h===20&&J(Lb)===J(['（最後一晚。同團的人在交誼廳煮泡麵，有人帶了一包臺灣的辣椒醬。）','同團的學生：你明年還要來嗎？','同團的學生：……你是真的喜歡這裡。'])&&J(ob)===J(['「看情況。」','「會吧。」']),J([Lb,ob]));
     check('2-3. 以安也去（大二）：換成她「明天的飛機十點。……行李我昨天就收好了。」、沒有選項',La.length===2&&La[1].endsWith('明天的飛機十點。……行李我昨天就收好了。')&&oa===0,J(La));
-    const I3=VAC.inst('C11','Y3'), V=VAC.rec(H.G); V.nth=V.nth||{}; V.nth[I3.key]=2; check('2-3. 第二次以後：這一場不演（rep.keys2 照舊兩句）',c11&&VAC.repKey(H.G,I3,2,c11)===null&&A.C11.rep.keys2.length===2); }
+    const I3=VAC.inst('C11','Y3'), V=VAC.rec(H.G); V.nth=V.nth||{}; V.nth[I3.key]=2; check('2-3. 第二次以後：這一場不演（rep.keys2 照舊兩句；AA_556 第 3 節照日期插了兩場，keys2 照 keys 的位置補 null）',c11&&VAC.repKey(H.G,I3,A.C11.keys.indexOf(c11),c11)===null&&A.C11.rep.keys2.filter(x=>x!=null).length===2); }
   { const k=keyOf('C12','文化課：茶道'); const G=H.fresh('2028-08-19',13,'dorm'); const L=await play(k,VAC.inst('C12','Y3'));
     const G2=H.fresh('2027-08-19',13,'dorm'); SOCIAL.rel('heroine_01').fam=30; SOCIAL.remember('heroine_01','FIRST_MET',''); const La=await play(k,VAC.inst('C12','Y2'));
     check('2-4. C12 以安不在：茶道課後面老師「轉兩次，是讓客人看到最漂亮的那一面。」；以安在的那一年沒有',L.length===3&&L[2]==='茶道老師：轉兩次，是讓客人看到最漂亮的那一面。'&&La.length===2,J([L,La])); }
