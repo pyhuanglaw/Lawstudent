@@ -216,11 +216,11 @@ for lp in f.loops:
 t.finish(g)
 # 綠色螢光筆：斜放在攤開的筆記本上（筆記本跟著這一組：大一的房間裡筆記本是 dorm_room4 的 Y203_YUTING，大二起祐廷的桌面留空）
 g = node('ITEM_green'); cm = CMesh('ITEM_green_pen', M['vc'])
-nx0, nx1, nz0, nz1 = -2.47, -2.32, -0.115, 0.055
+nx0, nx1, nz0, nz1 = -2.45, -2.30, -0.185, -0.015   # 10-30（DORM203-LM-1030）往筆電那邊移 7 cm、往前 2 cm：原本和黃金葛的盆子、藤疊在一起（使用者「書桌上東西不要重疊」）；不碰筆電（v ≤ 0.44）、vac_C08（z ≤ −0.2）
 cm.cbox(nx0, nx1, Y, Y + 0.008, nz0, (nz0 + nz1) / 2 - 0.002, '#f4f1e8'); cm.cbox(nx0, nx1, Y, Y + 0.008, (nz0 + nz1) / 2 + 0.002, nz1, '#f4f1e8')   # 左右兩頁
 cm.cbox(nx0, nx1, Y, Y + 0.006, (nz0 + nz1) / 2 - 0.002, (nz0 + nz1) / 2 + 0.002, '#cfc9b8')                                                       # 中間的摺線
 for k in range(5): cm.cbox(nx0 + 0.02, nx1 - 0.02, Y + 0.0082, Y + 0.0086, nz0 + 0.02 + k * 0.014, nz0 + 0.021 + k * 0.014, '#9fb4c8')               # 左頁的格線
-a0, a1 = (-2.43, Y + 0.0175, -0.07), (-2.36, Y + 0.0175, 0.02)
+a0, a1 = (-2.41, Y + 0.0175, -0.14), (-2.34, Y + 0.0175, -0.05)
 before = set(cm.bm.faces); cm.cyl(a0, a1, 0.0085, seg=10); cm.paint([q for q in cm.bm.faces if q not in before], '#45b64f')
 mid = tuple(a0[i] + (a1[i] - a0[i]) * 0.78 for i in range(3)); before = set(cm.bm.faces); cm.cyl(mid, a1, 0.0092, seg=10); cm.paint([q for q in cm.bm.faces if q not in before], '#2b7a34')
 before = set(cm.bm.faces); cm.cyl(a1, (a1[0] + 0.0045, a1[1], a1[2] + 0.011), 0.0035, seg=8); cm.paint([q for q in cm.bm.faces if q not in before], '#7be36f')

@@ -78,5 +78,11 @@ const OPTS=['「準備國考。律師，可以的話司法官也考。」','「�
     check('6. S.tick：S.y4Tick 在 coldWeekTick 之前（HOME 那一段之前）', /if\(S\.y4Tick\(GM\)\) return;[^\n]*\n\s*if\(S\.coldWeekTick\(GM\)\) return;/.test(s));
     check('6. home3d.js：loop 每一輪問 STORY.y4HomeDue（stay＝在家演；其他＝離開家以後 STORY.y4FromHome）', /STORY\.y4HomeDue\(G\):null; if\(y4==='stay'\)\{ await STORY\.y4HomeScene\(GM\);/.test(hm)&&/if\(y4Go\)\{ const k=y4Go; y4Go=null; await STORY\.y4FromHome\(GM,k\); \}/.test(hm));
     check('6. 事件不是 auto（不會在別的地方自己跳出來）、記 Y4_PATH_DAY', !!ev&&ev.trigger==='manual'&&JSON.stringify(ev.consequences)==='{"stamp":["Y4_PATH_DAY"]}'); }
+  /* Y4PATH-LATE-1031（AA-B 10-31 回 C）：大四上開學～10/15 才讀進來＝照演、開頭換句；10/16 以後＝不演、直接記 undecided、不補 10/16 的再問一次；修改前 FAIL */
+  { const d1=STORY.dayOfKey('2028-10-01'); fresh(d1,21.5,'dorm'); check('9. 大四上 10/1 才讀進來、沒有 Y4_PATH：照舊到期', STORY.y4PathDue(G)&&!STORY.y4PathAfter(G));
+    picks=[3]; await STORY.y4Path(GM); const T=lines();
+    check('9. 開頭換成「（大四開學一陣子了。）」「（你在書桌前坐了很久。）」「（大四，要怎麼過？）」；沒有「最後一科考完」；選項照舊', JSON.stringify(T.slice(0,3))===JSON.stringify(['（大四開學一陣子了。）','（你在書桌前坐了很久。）','（大四，要怎麼過？）'])&&!T.some(t=>/最後一科考完/.test(t))&&JSON.stringify(opts[0])===JSON.stringify(OPTS), JSON.stringify(T.slice(0,4)));
+    for(const k of ['2028-10-20','2029-03-10']){ const d2=STORY.dayOfKey(k); fresh(d2,21.5,'dorm'); const due=STORY.y4PathDue(G), r=STORY.y4PathAfter(G);
+      check('9. '+k+' 才讀進來：不演、直接記 Y4_PATH undecided、10/16 的再問一次也不補（y4Path2Due false）、不記 Y4_PATH_DAY（不傳姊姊那則）', !due&&r===true&&G.flags.Y4_PATH==='undecided'&&G.flags.Y4_PATH_ASK2===d2&&G.flags.Y4_PATH_DAY==null&&!STORY.y4Path2Due(G), JSON.stringify({due,r,F:[G.flags.Y4_PATH,G.flags.Y4_PATH_ASK2]})); } }
   console.log(fails?('FAILED '+fails):'ALL PASS'); process.exit(fails?1:0);
 })().catch(e=>{ console.log('FAIL 例外',e&&e.stack||e); process.exit(1); });

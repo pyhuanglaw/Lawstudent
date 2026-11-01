@@ -263,7 +263,8 @@ const CRACKTALK=(function(){
   S.monthNext=m=>{ let [y,mo]=m.split('-').map(Number); mo++; if(mo>12){ mo=1; y++; } return y+'-'+String(mo).padStart(2,'0'); };
   S.monthLast=m=>{ const n=S.monthFirst(S.monthNext(m)); return n==null?null:n-1; };
   /* 算不算一個月（她在台南的學期中）：那個月有 15 天以上是學期中、而且月中她在台南——寒暑假（她在台中）不算 */
-  const mcCache={}; S.monthCounts=function(G,m){ const k=m; if(k in mcCache) return mcCache[k]; const a=S.monthFirst(m), b=S.monthLast(m); if(a==null||b==null) return mcCache[k]=false; let n=0; for(let d=a;d<=b;d++) if(CALENDAR.termOf(d)&&!(CALENDAR.holiday&&CALENDAR.holiday(d))) n++;
+  /* AA_531 3-1：祐廷人在國外的日子（交換）和寒暑假一樣不算——原本美國那一學期照算，10/31 照發「這個月你也沒來。」還加裂縫（避不掉）。快取照路線分（國外的日子只看路線）*/
+  const mcCache={}; S.monthCounts=function(G,m){ const ar=typeof STORY.routeAbroadRoute==='function'?(STORY.routeAbroadRoute(G)||''):'', k=m+'|'+ar; if(k in mcCache) return mcCache[k]; const a=S.monthFirst(m), b=S.monthLast(m); if(a==null||b==null) return mcCache[k]=false; let n=0; for(let d=a;d<=b;d++) if(CALENDAR.termOf(d)&&!(CALENDAR.holiday&&CALENDAR.holiday(d))&&!(ar&&abroad(Object.assign({},G,{day:d})))) n++;
     return mcCache[k]=n>=15&&S.psTN(G,a+14); };
   S.psTN=(G,d)=>{ const p=pres(PS,Object.assign({},G,{day:d})); return p.kind==='city'&&p.city==='台南'; };
   /* 去台南找她（hometown3d.js 的出遊 ev_hv_ps_tn）：每一次的日子記下來（G.events.last 只留最後一次）*/
@@ -288,7 +289,8 @@ const CRACKTALK=(function(){
       if(a===2){ R.streak=(R.streak|0)+1; if(R.streak>=2){ R.streak=0; S.add(G,AN); } } else R.streak=0; } };   /* 中間有一題認真回答＝重新算 */
 
   /* ---------- 1-3 語彤②：每 4 週一次，A 顧店那天 16:30／B 媽媽回診的前一晚（週五 21:00），二選一輪流 ---------- */
-  S.ytShop=(G,d)=>{ const w=wdOf(d); return w===2||(w===4&&!(STORY.ytThuFree&&STORY.ytThuFree(Object.assign({},G,{day:d})))); };   /* 事件 13 以後週四是她自己的 */
+  S.ytShop=(G,d)=>{ if(typeof NOODLE_CLOSED!=='undefined'&&NOODLE_CLOSED.closed&&NOODLE_CLOSED.closed(G,d)) return false;   /* AA_532 第 1 節（企劃線 ade80d22f）：麵店過年店休（除夕前 6 天～初三，noodle_closed3d.js）＝沒顧店（原本 2028 除夕她說「今天顧店到九點。」）*/
+    const w=wdOf(d); return w===2||(w===4&&!(STORY.ytThuFree&&STORY.ytThuFree(Object.assign({},G,{day:d})))); };   /* 事件 13 以後週四是她自己的 */
   S.yt2=function(G){ const R=sub(S.src(G),'yt2'), tag=n=>'ct_yt2_'+n;
     if(dating(G,YT)){ if(R.next==null){ const since=(ROM.get(G,YT)||{}).sinceDay; R.next=(since!=null?since:G.day)+28; R.n=0; }
       if(G.day>=R.next&&!abroad(G)&&pres(YT,G).here){ const k=(R.n|0)%2===0?'A':'B', h=hh(G), X=X2.yt2[k];
@@ -354,7 +356,10 @@ const CRACKTALK=(function(){
         c.o.zqOT=true; c.cancel(); const m=monthOf(c.day), M=sub(R,'ot'); M[m]=(M[m]|0)+1;
         S.sendAsk(G,ZQ,c.day,17.5,[X2.zq1.msg].concat(M[m]===3?[X2.zq1.third]:[]),c.key,[{t:X2.zq1.opt[0],say:[DM(ZQ,X2.zq1.opt[1])]}],T(c.day+1,23)); if(M[m]===3) S.add(G,ZQ,{unavoidable:true}); } }
     /* ② 每個月第一個週三 23:30「今天又改了三個 bug」*/
-    if(dating(G,ZQ)&&S.zqWork(G)&&wdOf(d)===3&&CALENDAR.dateOf(d).d<=7&&h>=23.5){ const S1=sub(R,'sent2'), m=monthOf(d); if(!S1[m]){ const M2=X2.zq2.msgs, k=Object.keys(S1).length, vi=Array.isArray(M2[0])?k%M2.length:0, mg=Array.isArray(M2[0])?M2[vi]:M2, O=(X2.zq2.optsBy&&X2.zq2.optsBy[vi])||X2.zq2.opts; S1[m]=d; S.sendAsk(G,ZQ,d,23.5,mg,'ct_zq2_'+m,opt3(ZQ,O),T(d+1,23.5)); } }   /* 她回的照那一組換（AA_464 第 3 節；會不會加裂縫照 opts）*/   /* 開頭兩則照第幾個月輪流（AA_456 1-6）：已經收過幾個月（sent2 的筆數，舊存檔照算）→ 第 k%4 組；tag 照舊 ct_zq2_<年-月> */
+    /* AA_531 3-2：祐廷人在美國＝照她那邊（臺灣）的時間（每個月第一個週三 23:30＝美東中午前後）、第二個選項換國外版「我這邊中午。開視訊陪妳？」（數值照原本的第二個選項）；
+       人在日本不傳（「要我過去陪妳加班嗎？」過不去、「我這邊中午」對不上；稿只寫美國）*/
+    const zab=abroad(G), zus=zab&&typeof STORY.routeAbroadRoute==='function'&&STORY.routeAbroadRoute(G)==='US', ztn=twNow(G), zd=zab?Math.floor(ztn/24+1e-9):d, zh=zab?ztn-zd*24:h;
+    if(dating(G,ZQ)&&(!zab||zus)&&S.zqWork(G,zd)&&wdOf(zd)===3&&CALENDAR.dateOf(zd).d<=7&&zh>=23.5){ const S1=sub(R,'sent2'), m=monthOf(zd); if(!S1[m]){ const M2=X2.zq2.msgs, k=Object.keys(S1).length, vi=Array.isArray(M2[0])?k%M2.length:0, mg=Array.isArray(M2[0])?M2[vi]:M2, O0=(X2.zq2.optsBy&&X2.zq2.optsBy[vi])||X2.zq2.opts, O=zus&&X2.zq2.abroadOpt?[O0[0],X2.zq2.abroadOpt]:O0, c=zab?toGame(G,zd,23.5):{day:d,h:23.5}; S1[m]=c.day; S.sendAsk(G,ZQ,c.day,c.h,mg,'ct_zq2_'+m,opt3(ZQ,O),T(c.day,c.h)+24); } }   /* 她回的照那一組換（AA_464 第 3 節；會不會加裂縫照 opts）*/   /* 開頭兩則照第幾個月輪流（AA_456 1-6）：已經收過幾個月（sent2 的筆數，舊存檔照算）→ 第 k%4 組；tag 照舊 ct_zq2_<年-月> */
     for(const m of Object.keys(R.sent2||{})){ const P=sub(R,'done2'); if(P[m]) continue; const a=ansOf('ct_zq2_'+m); if(a==null) continue; P[m]=true; if(X2.zq2.opts[a]&&X2.zq2.opts[a][2]) S.add(G,ZQ); } };
   /* ③ 等她下班：手機私訊選「我去妳公司樓下等妳」（MSG 的話題；她上班以後、交往中、平日 19:00～21:30）→ 2D 短場景、1 小時；30 天內第三次＝+1 */
   S.zq3On=G=>law(G)&&dating(G,ZQ)&&S.zqWork(G)&&!abroad(G)&&wdOf(G.day)>=1&&wdOf(G.day)<=5&&hh(G)>=19&&hh(G)<21.5;

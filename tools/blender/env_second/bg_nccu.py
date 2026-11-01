@@ -620,9 +620,12 @@ else:
     building(-11, 11, -82, -62, 14.0)            # 四維堂（方正）
     building(-38, -18, -62, -44, 30.0, fh=3.4); building(-34, -22, -60, -46, 37.0, fh=3.4)    # 照片：校門左後方很高的白色大樓（上面退縮一段）
     building(16, 36, -50, -30, 13.0)
-    # 公車站牌「政大」（查證：站名「政大」「政大一」；路線 236、237、282、295、530、611、1503、小10…）——鏡頭這一側的人行道
+    # 公車站牌（查證：真實站名「政大」「政大一」，遊戲寫「木柵大學」；路線 236、237、282、295、530、611、1503、小10…）——鏡頭這一側的人行道
     sign = Image.new('RGB', (360, 520), '#1f4e8c'); dd = ImageDraw.Draw(sign); fbig = ImageFont.truetype(FONT, 110); fsm = ImageFont.truetype(FONT, 46)
-    dd.rectangle([0, 0, 360, 150], fill='#ffffff'); dd.text((180, 78), '政大', fill='#1f4e8c', font=fbig, anchor='mm')
+    # D115（2026-10-30）：政大改虛構的「木柵大學」（docs/WORLD_NAMING.md）。四個字放不下 110 px：縮到站牌寬度以內。
+    # 註：nccu_gate.webp 的鏡頭看不到這塊站牌（在畫面左邊外面），現有的背景圖不用重算。
+    while fbig.size > 40 and dd.textlength('木柵大學', font=fbig) > 330: fbig = ImageFont.truetype(FONT, fbig.size - 4)
+    dd.rectangle([0, 0, 360, 150], fill='#ffffff'); dd.text((180, 78), '木柵大學', fill='#1f4e8c', font=fbig, anchor='mm')
     for k, rt in enumerate(('236', '237', '282', '295', '530', '611', '1503', '小10')): dd.text((90 + (k % 2) * 180, 200 + (k // 2) * 78), rt, fill='#ffffff', font=fsm, anchor='mm')
     sp = os.path.join(TMP, 'bus_sign.png'); sign.save(sp)
     box('bus_pole', -6.05, -5.95, 0.15, 3.2, 6.55, 6.65, METAL)

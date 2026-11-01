@@ -66,7 +66,7 @@ def make_tex():
 
 class Room(K.Shop):
     def __init__(self):
-        self.sid = 'wancai_sema'; self.T = {'name': '萬才館 研討室 A', 'sub': '研討室'}; self.S = dict(trim='#5a4a3e', wainH=0.9)
+        self.sid = 'wancai_sema'; self.T = {'name': '法律系館B 研討室 A', 'sub': '研討室'}; self.S = dict(trim='#5a4a3e', wainH=0.9)
         self.W, self.D = 9.0, 6.6; self.X0, self.X1, self.Z0, self.Z1 = -4.5, 4.5, -3.3, 3.3
         self.rng = random.Random(2027); self.extra = {}
         B.reset(texres=512)
@@ -271,7 +271,7 @@ def build():
     tris = 0
     for ob in bpy.data.objects:
         if ob.type == 'MESH': ob.data.calc_loop_triangles(); tris += len(ob.data.loop_triangles)
-    lay = dict(version=1, zone='wancai_sema', name='萬才館 研討室 A', type='研討室', src='使用者 10-20 第二項；LAWWW-C 15:51 回覆 Q2（WANCAI-SEMA）',
+    lay = dict(version=1, zone='wancai_sema', name='法律系館B 研討室 A', type='研討室', src='使用者 10-20 第二項；LAWWW-C 15:51 回覆 Q2（WANCAI-SEMA）',
                bounds=dict(x0=X0, x1=X1, z0=Z0, z1=Z1), h=H, cam_dist=4.2, door=c.door, spawn=c.spawn, exits=c.exits, windows=c.wins,
                counter=None, clerk=c.clerk, teacherSpot=c.teacher, order=None, seats=c.seats, interact=c.inter, blocks=c.blocks,
                host_door=dict(zone='wancai', id='seminarA', lv=1, note='wancai_layout.js 的 doors.seminarA：拿掉 closed、加 to，出生點用這裡的 spawn；上課、社課從「門口上課」改成走進來由 LAWWW-C 改'))

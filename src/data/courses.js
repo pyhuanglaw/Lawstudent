@@ -14,16 +14,16 @@ const COURSES={
   version:2,   /* 2：課程代號照 AA_103 第 8 節（2026-10-13）；1：舊代號（classes3d.js 的 OLD_IDS 轉換）*/
   blocks:{ am:{t0:9+10/60,t1:12+10/60,label:'上午'}, pm1:{t0:13+20/60,t1:15+10/60,label:'下午一'}, pm2:{t0:15.5,t1:17+20/60,label:'下午二'} },
   rooms:{
-    L201:{name:'霖澤館 201',zone:'classroom'},                                  /* AA_103 第 8 節 linze_201 */
-    LINZE:{name:'霖澤館 201',zone:'classroom'},                                 /* linze_class（霖澤館其他教室）：遊戲裡還是 201（AA_103 第 1 節）*/
-    WMULTI:{name:'萬才館 多功能教室',zone:'wancai_multi',room:'multi',via:'wancai',whole:true},   /* X78（使用者 10-20「法律系的課不要都在霖澤館，萬才也要有」；AA_330 48845c36）：走得進去的教室（rooms_glb3d.js，LAWWW2-C 0a5cc70a）；whole＝整個區域就是這間教室 */
-    L202:{name:'霖澤館 202',zone:'linze_202',room:'c202',via:'linze',whole:true},   /* X78：原本 LINZE 門口上課的八門選修搬進來（AA_330）*/
-    WSEM:{name:'萬才館研討室',door:'wancai_seminar',zone:'wancai',label:'研討室 A',lv:1},   /* 萬才館二樓的研討室 A：門口上課（classes3d.js 的 DOORS.wancai_seminar，門在 wancai3d.js）；2026-10-13 審查：原本沒有這個門，大四的研討課上不了 */                           /* wancai_sem：門口上課（2D）*/
+    L201:{name:'法律系館A 201',zone:'classroom'},                                  /* AA_103 第 8 節 linze_201 */
+    LINZE:{name:'法律系館A 201',zone:'classroom'},                                 /* linze_class（霖澤館其他教室）：遊戲裡還是 201（AA_103 第 1 節）*/
+    WMULTI:{name:'法律系館B 多功能教室',zone:'wancai_multi',room:'multi',via:'wancai',whole:true},   /* X78（使用者 10-20「法律系的課不要都在霖澤館，萬才也要有」；AA_330 48845c36）：走得進去的教室（rooms_glb3d.js，LAWWW2-C 0a5cc70a）；whole＝整個區域就是這間教室 */
+    L202:{name:'法律系館A 202',zone:'linze_202',room:'c202',via:'linze',whole:true},   /* X78：原本 LINZE 門口上課的八門選修搬進來（AA_330）*/
+    WSEM:{name:'法律系館B 研討室',door:'wancai_seminar',zone:'wancai',label:'研討室 A',lv:1},   /* 萬才館二樓的研討室 A：門口上課（classes3d.js 的 DOORS.wancai_seminar，門在 wancai3d.js）；2026-10-13 審查：原本沒有這個門，大四的研討課上不了 */                           /* wancai_sem：門口上課（2D）*/
     GONGTONG:{name:'共同教學館 102',zone:'gongtong',room:'102',door:'common'},  /* gongtong_hall：英文、日文（AA_107：共同教學館是小班的語言教室）*/
     PUTONG:{name:'普通教學館 101',zone:'putong',room:'101',door:'putong'},   /* putong_hall（方案 A，D55）：文學院正後方；重修經濟學原理（AA 2026-10-13）*/
-    BOYA:{name:'博雅教學館 101',zone:'boya',room:'101',door:'boya'},           /* boya_hall（方案 A）：普通北邊；經濟系大一的經濟學原理（D56，劇情做好之前不會排到）*/
+    BOYA:{name:'博思教學館 101',zone:'boya',room:'101',door:'boya'},           /* boya_hall（方案 A）：普通北邊；經濟系大一的經濟學原理（D56，劇情做好之前不會排到）*/
     LAWLIB_DESK:{name:'法律學院圖書館 櫃台',door:'lawlib_desk',zone:'lawlib'},     /* 服務學習（一）：在櫃台報到，和門口上課一樣用 2D 帶過（AA_110 6-1）*/
-    CAMPUS_SVC:{name:'傅鐘旁的服務學習集合點',door:'campus_service'},                /* 服務學習（二）：椰林大道、醉月湖的校園環境（大二上；內容 AA 大二前再補）*/
+    CAMPUS_SVC:{name:'晨思鐘旁的服務學習集合點',door:'campus_service'},                /* 服務學習（二）：椰林大道、醉月湖的校園環境（大二上；內容 AA 大二前再補）*/
     GYM:{name:'體育館',door:'gym'},                                             /* field：企劃寫操場、程式寫體育館，兩個都可以（AA_110）*/
     OFF:{name:'法扶・臺北的辦公室',offsite:true,bg:'legal_aid_office'}   /* AA_441 第 0 節：大四下法律實習在法扶（韓律師）；黑底 legal_aid_office 同 C16、大五上的實習 */                               /* offsite */
   },

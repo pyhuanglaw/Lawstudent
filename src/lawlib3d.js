@@ -182,7 +182,7 @@ const LL3=(function(){
     const lights=[]; for(const [x,y,z,on,off] of L.lights){ const l=new THREE.PointLight(0xfff0d8,off,18,2); l.position.set(x,y,z); l.userData.on=on; l.userData.off=off; g.add(l); lights.push(l); }
     // 互動點（每一個都標樓層）
     const IT=E.interactables, EN=L.entrance;
-    IT.push({x:EN.exit.x,z:EN.exit.z,radius:EN.exit.r,lv:0,label:'回萬才館大廳',exit:{to:'wancai',spawn:Object.assign({},HALL)}});
+    IT.push({x:EN.exit.x,z:EN.exit.z,radius:EN.exit.r,lv:0,label:'回法律系館B大廳',exit:{to:'wancai',spawn:Object.assign({},HALL)}});
     // 正式模型（GLB）：載入成功就藏起程序化備用模型（導航、互動點不變）；書架和書的材質加上網點透空（擋住鏡頭時）
     zone.formal=false; if(typeof ASSETS!=='undefined'&&ASSETS.manifest['bldg.lawlib_interior']){ ASSETS.loadOne('bldg.lawlib_interior').then(c=>{ if(!c||!c.scene||E.zone!==zone) return; const root=c.scene.clone(true);
       B3.attachFormal(zone,root,fb0,fb1,lv0,lv1,walls,walkMeshes);

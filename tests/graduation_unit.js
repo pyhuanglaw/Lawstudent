@@ -20,7 +20,7 @@ const sayIdx=t=>H.said.findIndex(s=>s.t===t);
     check('2. 家人那一段演完（撥穗＝GRADUATED 是那一天；11:55 霖澤館大廳）→ 12:00 拍照',G.flags.GRADUATED===PG.gradDay()&&Math.abs(G.hour-12)<1e-6&&PG.due(G)&&PG.due(G).id==='grad');
     H.said=[]; H.cards=[]; H.cgs=[]; H.opts=[]; H.entered=[];
     await H.run('grad'); const L=H.lines();
-    const i0=sayIdx('（傅鐘前，同班的人擠成三排。有人在喊「中間的蹲下」。）'), i1=sayIdx('（以安的媽媽站在傅鐘旁邊。）'), i2=sayIdx('（她還穿著碩士服，手上拿著一個新的保溫瓶。）'), i3=sayIdx('欸不是，今天禮拜六欸，我本來要睡到中午。');
+    const i0=sayIdx('（晨思鐘前，同班的人擠成三排。有人在喊「中間的蹲下」。）'), i1=sayIdx('（以安的媽媽站在晨思鐘旁邊。）'), i2=sayIdx('（她還穿著碩士服，手上拿著一個新的保溫瓶。）'), i3=sayIdx('欸不是，今天禮拜六欸，我本來要睡到中午。');
     check('2. D1 順序：大合照 → 以安和媽媽 → 保溫瓶 → 子晴「本來要睡到中午」',i0===0&&i0<i1&&i1<i2&&i2<i3,JSON.stringify([i0,i1,i2,i3]));
     check('2. D1：CG-9 在「謝謝你們這四年陪她吵架。」',H.cgs[0]==='cg_graduation_mother_heroine01'&&H.has('（對大家，很平常）謝謝你們這四年陪她吵架。'));
     check('2. D1：沒有伴侶那一段（可昕、「媽，這是祐廷。」）',!H.has('媽，這是祐廷。')&&!H.has('你的那天，我到了。'));
@@ -52,7 +52,7 @@ const sayIdx=t=>H.said.findIndex(s=>s.t===t);
     check('4. AA_392 第 8 節 沒交往：沒有那一小段',!H.has('……上次的飯沒吃到。畢業快樂。')); }
   // ---- D2：和可昕交往 ----
   { const G=H.fresh('2029-06-02',12,'campus',{GIRAFFE_KEYCHAIN:true}); H.FRIEND('kexin'); H.date('kexin'); H.FRIEND('heroine_01'); await H.run('grad');
-    const k=sayIdx('（她看到你鑰匙上的長頸鹿。）'), m=sayIdx('（以安的媽媽站在傅鐘旁邊。）'), g=sayIdx('那是妳的帽子。');
+    const k=sayIdx('（她看到你鑰匙上的長頸鹿。）'), m=sayIdx('（以安的媽媽站在晨思鐘旁邊。）'), g=sayIdx('那是妳的帽子。');
     check('5. D2：大合照之後第一個是可昕（長頸鹿：「它還在。脖子還是很短。」）',g>0&&k===g+1&&H.has('它還在。脖子還是很短。')&&k<m,JSON.stringify(H.lines().slice(0,7))); }
   { const G=H.fresh('2029-06-02',12,'campus'); H.FRIEND('kexin'); H.date('kexin'); await H.run('grad'); check('5. 沒有長頸鹿：「你的那天，我到了。」',H.has('你的那天，我到了。')); }
   // ---- D3：和芷若交往 ----
@@ -61,7 +61,7 @@ const sayIdx=t=>H.said.findIndex(s=>s.t===t);
     H.at('2029-06-02',8); await STORY.gradFamily(GM); const a=sayIdx('這裡凌晨三點。……學士服是不是借太大件？'), b=sayIdx('（撥穗。帽子上的穗從右邊換到左邊，只有一秒。）');
     check('6. D3：視訊在家人那一段裡、校級典禮完、法律學院典禮（撥穗）以前（10:30＝英國凌晨三點多）',a>=0&&a<b&&sayIdx('（看台上，媽媽一直在揮手。爸爸舉著手機，沒有放下來過。）')<a&&G.flags.PG_ZR_VIDEO===true,JSON.stringify([a,b]));
     await H.run('grad'); check('6. D3：拍照那一段不再視訊一次',H.said.filter(s=>s.t==='這裡凌晨三點。……學士服是不是借太大件？').length===1);
-    check('6. D3：典禮開始前視訊（video 背景）；合照時阿凱舉高手機，螢幕裡有她',H.bgs.some(b=>b&&b.image==='assets/bg/video.webp')&&sayIdx('這裡凌晨三點。……學士服是不是借太大件？')<sayIdx('（傅鐘前，同班的人擠成三排。有人在喊「中間的蹲下」。）')&&H.has('（合照時，阿凱把手機舉高，螢幕裡的她也在。）')); }
+    check('6. D3：典禮開始前視訊（video 背景）；合照時阿凱舉高手機，螢幕裡有她',H.bgs.some(b=>b&&b.image==='assets/bg/video.webp')&&sayIdx('這裡凌晨三點。……學士服是不是借太大件？')<sayIdx('（晨思鐘前，同班的人擠成三排。有人在喊「中間的蹲下」。）')&&H.has('（合照時，阿凱把手機舉高，螢幕裡的她也在。）')); }
   // ---- D4：和學姊分手過 ----
   { const G=H.fresh('2029-06-02',11.6,'campus'); H.FRIEND('heroine_05'); H.date('heroine_05'); ROM.end(G,'heroine_05'); H.FRIEND('heroine_05'); PG.rules(GM); H.at('2029-06-02',12.1); PHONE.tick(G);
     check('7. D4：學姊前任＝只有「畢業快樂。」訊息',H.msgs('p:heroine_05').includes('畢業快樂。'));
@@ -116,7 +116,7 @@ const sayIdx=t=>H.said.findIndex(s=>s.t===t);
   { const G=H.fresh('2029-06-02',12,'campus'); H.FRIEND('kexin'); H.date('kexin'); await H.run('grad');
     check('14. 6/2 傍晚可昕不發約會邀約',!(G.outings||[]).some(q=>/kexin|kx/.test(q.id)));
     H.at('2029-06-03',20.6); PG.rules(GM); H.at('2029-06-03',21.1); PHONE.tick(G);
-    check('14. 6/3 21:00「下週六，我的畢業典禮。你要來嗎？」→ 6/9 出遊（政大）',H.msgs('p:kexin').includes('下週六，我的畢業典禮。你要來嗎？')&&OUT.get(G,'pg_kx_grad')&&OUT.get(G,'pg_kx_grad').day===PG.DK('2029-06-09'));
+    check('14. 6/3 21:00「下週六，我的畢業典禮。你要來嗎？」→ 6/9 出遊（木柵大學）',H.msgs('p:kexin').includes('下週六，我的畢業典禮。你要來嗎？')&&OUT.get(G,'pg_kx_grad')&&OUT.get(G,'pg_kx_grad').day===PG.DK('2029-06-09'));
     H.said=[]; H.cgs=[]; await PG.EVS[1].beforeOuting(G,GM,OUT.get(G,'pg_kx_grad'));
     check('14. 去：「你來了。」「等我拍完。晚上吃山下那家。」BCG-07、飯桌「八月四號以前，我們還有八週。」；KX_GRAD both、KX_TERMEND_Y4S2',H.has('你來了。')&&H.cgs.includes('cg_two_graduations_kexin')&&H.has('八月四號以前，我們還有八週。')&&G.flags.KX_GRAD==='both'&&G.flags.KX_TERMEND_Y4S2===G.day,JSON.stringify(H.lines())); }
   { const G=H.fresh('2029-06-09',12,'dorm',{GRADUATED:1355}); PG.rec(G).done.grad=1; H.date('kexin'); PG.planKx(G); const q=OUT.get(G,'pg_kx_grad'); H.at('2029-06-09',18); OUT.expire(G); OUT.onMissed(GM,q); H.at('2029-06-09',18.6); PHONE.tick(G);

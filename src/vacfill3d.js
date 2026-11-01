@@ -132,7 +132,7 @@ const VACFILL=(function(){
   const NOODLE={zone:'noodle',x:0,z:3.4,yaw:Math.PI};   /* 「照麵店一般的吃飯」：一鍵到麵店（同 story3d.js 的 y3_cold_noodle）*/
   S.OUTS=[
     {flag:'VF_Y0_0719',v:['go'],stage:'econ',q:{id:'vf_y0_0719',ev:'ev_vf_y0_0719',day:'2025-07-19',h:19,late:0.5,place:'公館',title:'和經濟系那一群吃飯',travel:'捷運＋公車 約 30 分鐘',travelH:0.5}},
-    {flag:'VF_Y0_0727',v:['go'],stage:'econ',q:{id:'vf_y0_0727',goto:{zone:'campus',x:-112,z:0,yaw:-Math.PI/2},day:'2025-07-27',h:15,late:0.75,place:'臺大校門口',title:'去學校走一走',travel:'捷運＋公車 約 30 分鐘',travelH:0.5}},
+    {flag:'VF_Y0_0727',v:['go'],stage:'econ',q:{id:'vf_y0_0727',goto:{zone:'campus',x:-112,z:0,yaw:-Math.PI/2},day:'2025-07-27',h:15,late:0.75,place:'首都帝大校門口',title:'去學校走一走',travel:'捷運＋公車 約 30 分鐘',travelH:0.5}},
     {flag:'VF_Y0_0818',v:['go'],stage:'econ',q:{id:'vf_y0_0818',ev:'ev_vf_y0_0818',day:'2025-08-18',h:19,late:0.5,place:'公館',title:'和經濟系那一群吃飯',travel:'捷運＋公車 約 30 分鐘',travelH:0.5}},
     {flag:'VF_Y2_0623',v:['go'],q:{id:'vf_y2_0623',goto:NOODLE,day:'2027-06-23',h:18,late:0.75,place:'公館',title:'阿鳳麵店',travel:'走過去約 15 分鐘',travelH:0.25}},
     {flag:'VF_Y2_0729',v:['go','find'],q:{id:'vf_y2_0729',ev:'ev_vf_y2_0729',day:'2027-07-29',h:14,late:0.5,place:'法圖',title:'法圖',travel:'走過去約 10 分鐘',travelH:1/6}},
@@ -166,7 +166,11 @@ const VACFILL=(function(){
   S.cardLine=function(G,t,o){ const d=S.sumDue(G); if(d==null||Math.abs(t-T(d,S.SUM_H))>1e-6) return null; return (o&&o.dorm)||!(typeof HOME!=='undefined'&&HOME.at&&HOME.at(G))?X.y3_0219.dorm:X.y3_0219.home; };
 
   /* ===================== 第 5 節 摘要池：醒來的那一天沒有任何一件 ===================== */
-  S.poolNext=function(G,key,place,kind){ const P=((X.POOL||{})[place]||{})[kind]||[]; if(!P.length) return null; const R=S.rec(G), k=key+':'+place, n=R.pool[k]|0; R.pool[k]=n+1; return P[n%P.length]; };
+  /* AA_533 5-2（企劃線 cf0066ed2）：不分假期，同一池（住家裡／留宿舍 × 寒假／暑假）接著上一次往下輪，輪完才從頭（原本 key 帶假期、每個假期從第 1 句重來）。
+     計數 R.pool['*:'+place+':'+kind]；舊存檔沒有＝從舊的各假期計數（'Y1W:home' 一類，同一季的）加起來接下去 */
+  S.poolNext=function(G,key,place,kind){ const P=((X.POOL||{})[place]||{})[kind]||[]; if(!P.length) return null; const R=S.rec(G), k='*:'+place+':'+kind;
+    if(R.pool[k]==null){ let n0=0; const suf=kind==='winter'?'W':'S'; for(const q in R.pool){ const m=/^Y\d([WS]):(.+)$/.exec(q); if(m&&m[1]===suf&&m[2]===place) n0+=R.pool[q]|0; } R.pool[k]=n0; }
+    const n=R.pool[k]|0; R.pool[k]=n+1; return P[n%P.length]; };
   S.poolSay=async function(GM,key,place,kind){ const l=S.poolNext(GM.G,key,place,kind); if(l) await GM.say(null,l); return l; };
   /* 這一天有沒有事：快轉的停點（表上的日子、成績、出遊、當面約、事件包的停點、這個檔的停點）、今天演過的事件、一定要演的事件、今天的出遊、當面約、今天的訊息（已經收到的、排好的）*/
   S.dayBusy=function(GM,day){ const G=GM.G, a=T(day,0), b=T(day+1,0);

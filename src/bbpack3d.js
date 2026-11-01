@@ -97,30 +97,30 @@ const BBPACK=(function(){
   S.phone=function(G){ const ph=P(); if(!ph||!law(G)||!G.flags) return; const F=G.flags;
     /* B6：芯慈私訊（BB_137 2-1）*/
     { const sat=TD('Y2S1',5,6), tue=TD('Y2S1',6,2); if(win(G,sat,20,tue,18.5)&&knows(XC)&&typeof INV!=='undefined'&&INV.hasContact&&INV.hasContact(G,XC))
-        ph.at(G,sat,20,[{th:'p:'+XC,from:XC,text:'週二晚上博雅有一場講座。「經濟和法律，在同一張桌子上」。'},{th:'p:'+XC,from:XC,text:'這場你應該會想聽。阿勳也會去。'}],'bb_b6_dm');
+        ph.at(G,sat,20,[{th:'p:'+XC,from:XC,text:'週二晚上博思有一場講座。「經濟和法律，在同一張桌子上」。'},{th:'p:'+XC,from:XC,text:'這場你應該會想聽。阿勳也會去。'}],'bb_b6_dm');
       /* SK09 沒去（BB_106 SK09「沒去時」）*/
       if(win(G,tue,21,tue+3,0)&&F.ECON_LAW_BRIDGE&&!done(G,'ev_sk09')&&ph.inGroup(G,'noodle_team'))
-        ph.at(G,tue,21,[{th:'g:noodle_team',from:XC,text:'我和統計課那個人在博雅吵了一小時，違約只要賠錢就好嗎。'},{th:'g:noodle_team',from:XC,text:'結論：活大的吸管太細。'}],'bb_sk09_miss'); }
+        ph.at(G,tue,21,[{th:'g:noodle_team',from:XC,text:'我和統計課那個人在博思吵了一小時，違約只要賠錢就好嗎。'},{th:'g:noodle_team',from:XC,text:'結論：學活的吸管太細。'}],'bb_sk09_miss'); }
     /* B7：語彤轉海報（稿：「語彤在麵店團群組轉了一張海報」；照片的說明是這裡寫的）*/
     { const mon=TD('Y2S2',6,1); if(win(G,mon,21,mon+2,19)&&knows(YT)&&ph.inGroup(G,'noodle_team')) ph.at(G,mon,21,[{th:'g:noodle_team',from:YT,text:'📷（海報：「老房子、租屋與城市」）'}],'bb_b7_poster'); }
     /* B6b：講座前兩天 21:00 麵店團群組（AA_430 第 1 節）；沒去（missed）＝那天 21:30 柏翰（稿沒寫時間：照 B4 沒去的轉述 21:30）*/
     { const mon=TD('Y2S1',10,1), wed=TD('Y2S1',10,3), th='g:noodle_team';
-      if(win(G,mon,21,wed,19)&&knows(AN)&&ph.inGroup(G,'noodle_team')) ph.at(G,mon,21,[{th,from:AN,text:'週三晚上七點，博雅 102。「一條法律是怎麼被寫出來的」。'},{th,from:AN,text:'這場我一定去。'},{th,from:'classmate_bohan',text:'我去。國考會考立法程序。'}],'bb_b6b_invite');
+      if(win(G,mon,21,wed,19)&&knows(AN)&&ph.inGroup(G,'noodle_team')) ph.at(G,mon,21,[{th,from:AN,text:'週三晚上七點，博思 102。「一條法律是怎麼被寫出來的」。'},{th,from:AN,text:'這場我一定去。'},{th,from:'classmate_bohan',text:'我去。國考會考立法程序。'}],'bb_b6b_invite');
       if(win(G,wed,21.5,wed+2,0)&&ph.inGroup(G,'noodle_team')&&typeof ACTIVITIES!=='undefined'&&ACTIVITIES.missed(G,'B6b')) ph.at(G,wed,21.5,[{th,from:'classmate_bohan',text:'講義我多拿了一份。要的話明天給你。'}],'bb_b6b_missed'); }
     /* B12：講座前三天 21:00 麵店團群組（AA_430 2-1）；這一場沒去或中途離開＝那天 21:30 Alison（稿沒寫時間：照 B4）*/
     { const mon=TD('Y3S1',10,1), thu=TD('Y3S1',10,4), th='g:noodle_team';
-      if(win(G,mon,21,thu,19)&&knows(AN)&&ph.inGroup(G,'noodle_team')) ph.at(G,mon,21,[{th,from:AN,text:'大一那場「政府可以為了大家，限制一個人嗎」，同一個講者又來了。'},{th,from:AN,text:'週四晚上七點，博雅 101。'},{th,from:'yu',text:'我要去！！這次我要聽懂'},{th,from:'zhe',text:'我也去 散場有宵夜嗎'}],'bb_b12_invite');
+      if(win(G,mon,21,thu,19)&&knows(AN)&&ph.inGroup(G,'noodle_team')) ph.at(G,mon,21,[{th,from:AN,text:'大一那場「政府可以為了大家，限制一個人嗎」，同一個講者又來了。'},{th,from:AN,text:'週四晚上七點，博思 101。'},{th,from:'yu',text:'我要去！！這次我要聽懂'},{th,from:'zhe',text:'我也去 散場有宵夜嗎'}],'bb_b12_invite');
       if(win(G,thu,21.5,thu+2,0)&&ph.inGroup(G,'noodle_team')&&typeof ACTIVITIES!=='undefined'&&ACTIVITIES.lastEnded(G,'B12')===thu&&!ACTIVITIES.attended(G,'B12',thu)) ph.at(G,thu,21.5,[{th,from:'yu',text:'以安今天有舉手！！問得超好'}],'bb_b12_missed'); }
     /* SK08：阿勳私訊；沒去＝當晚的大合照 */
     { const wed=TD('Y2S1',1,3); if(win(G,wed,12,wed,17)&&(S.knowXun(G)||(typeof INV!=='undefined'&&INV.hasContact&&INV.hasContact(G,'econ_zhengxun')))) ph.at(G,wed,12,[{th:'p:econ_zhengxun',from:'econ_zhengxun',text:'我在帶迎新。你在對面，走過來就好。神秘嘉賓。'}],'bb_sk08_dm');
       if(win(G,wed,21,wed+3,0)&&ph.sent(G,'bb_sk08_dm')&&!done(G,'ev_sk08_guest')) ph.at(G,wed,21,[{th:'p:econ_zhengxun',from:'econ_zhengxun',text:'📷（一張大合照）'},{th:'p:econ_zhengxun',from:'econ_zhengxun',text:'今年有一個學弟說他是『看不見的手』，然後一直揮手。'}],'bb_sk08_miss'); }
     /* SK10：芯慈在小群組貼時間地點（稿沒有寫訊息的字：只寫時間、地點）；上一場沒去 */
     if(F.ECON_LAW_BRIDGE) for(const t of ['Y2S1','Y2S2','Y3S1','Y3S2']) for(const w of [6,15]){ const mon=TD(t,w,1), wed=TD(t,w,3); if(mon==null||wed==null) continue; const k=t+'_'+w;
-      if(win(G,mon,21,wed,21)&&!S.abroad(Object.assign({},G,{day:wed}))){ ph.join(G,'swap_study','一題換一題'); ph.at(G,mon,21,[{th:'g:swap_study',from:XC,text:'週三晚上七點，博雅小桌子。'}],'bb_sk10_'+k); }
+      if(win(G,mon,21,wed,21)&&!S.abroad(Object.assign({},G,{day:wed}))){ ph.join(G,'swap_study','一題換一題'); ph.at(G,mon,21,[{th:'g:swap_study',from:XC,text:'週三晚上七點，博思小桌子。'}],'bb_sk10_'+k); }
       if(now(G)>=wed*24+21&&ph.sent(G,'bb_sk10_'+k)&&!(F.SK10_CHK||[]).includes(k)){ if(!Array.isArray(F.SK10_CHK)) F.SK10_CHK=[]; F.SK10_CHK.push(k); if(!(Array.isArray(F.SK10_DONE)&&F.SK10_DONE.includes(k))) F.SK10_MISSED=true; } }
     /* G4c：口試前一晚；沒去＝隔天中午 */
     if(F.JP_MET) for(const [t,ev,topic] of [['Y2S1','ev_jp_g4c1','點餐'],['Y2S2','ev_jp_g4c2','問路']]){ const sun=TD(t,15,7), mon=TD(t,16,1); if(sun==null) continue;
-      if(win(G,sun,20,sun,21.5)){ S.jpJoin(G); ph.at(G,sun,20,[{th:'g:jp_class',name:'采蓁',text:'明天口試，今晚要不要一起練？博雅小桌，九點。'}],'jp_g4c_'+t); }
+      if(win(G,sun,20,sun,21.5)){ S.jpJoin(G); ph.at(G,sun,20,[{th:'g:jp_class',name:'采蓁',text:'明天口試，今晚要不要一起練？博思小桌，九點。'}],'jp_g4c_'+t); }
       if(mon!=null&&win(G,mon,12,mon+2,0)&&ph.sent(G,'jp_g4c_'+t)&&!done(G,ev)) ph.at(G,mon,12,[{th:'g:jp_class',name:'采蓁',text:'我們昨天練了'+topic+'那題。'}],'jp_g4c_no_'+t); }
     /* BB_154 S-3：問學長＝當晚 23:00 家族群組 Kevin 三句（BB_70 8b）＋23:05 阿凱私訊；週六法服沒去＝那天 12:30 阿凱私訊兩句（稿「學姊講了三分鐘」：大一的週六法服是社長帶，換成「社長」）。都記 KAI_KEYBOARD */
     if(F.KAI_KB_ASK==='kevin'&&F.KAI_KB_DAY!=null&&!ph.sent(G,'bb_kai_kb_kevin')){ const d=F.KAI_KB_DAY, kv=t=>({th:'g:family_law',from:'kevin',name:'Kevin',text:t});
@@ -141,7 +141,16 @@ const BBPACK=(function(){
         nyMsg('classmate_mingxuan','FAMILIAR',ny,6/60,['📷（從高處拍的人潮，一整片手機的光）','時薪兩倍','可是我從十點到現在都沒去廁所'],[['辛苦了。',['再一個小時','下班我要吃一碗很大的麵']],['CP 值還是很高。',['對','廁所不算進去的話']]],u1,'bb_nye_mx_y1');
         nyMsg('npc_fangyt','FAMILIAR',ny,15+10/60,['📷（山上的日出，下面是一整片雲）','下山了，有訊號','山上零下三度，水壺結冰','明年要不要一起來'],[['好啊。',['那我先跟社長說','名額很少']],['我怕冷。',['會借你外套','……睡袋就沒辦法了']]],u2,'bb_nye_fy_y1');
         /* BB_171 第 3 節（AA_432 4-6「照 BB_171」）：沒上頂樓的玩家，1/1 中午阿凱一則 */
-        if(win(G,ny,12,ny+2,0)&&F.NYE_Y1!=='roof'&&knows('kai')) ph.at(G,ny,12,[{th:'p:kai',from:'kai',text:'昨天頂樓好吵 我在打團戰'}],'bb_nye_kai_y1'); } }
+        if(win(G,ny,12,ny+2,0)&&F.NYE_Y1!=='roof'&&knows('kai')) ph.at(G,ny,12,[{th:'p:kai',from:'kai',text:'昨天頂樓好吵 我在打團戰'}],'bb_nye_kai_y1'); } 
+      /* AA_550 第 2 節（VAC-B1，企劃線 da56f3a68）：大二跨年（2027-01-01）芷若 00:04（FAMILIAR 以上）、子晴 00:00（FRIEND 以上，她的訊息不加句號）；沒有回覆選項（稿沒寫）、不回也可以。
+         沛珊大二是重考消失期：沒有。Kevin 大二家族群組 00:00（AA-B 10-31 20:04 換句）。大一照 AA_432 第 4 節（AA_550 大一那一欄作廢）*/
+      const ny2=D('2027-01-01'), plain=(id,min,day,h,texts,until,tag)=>{ const t=now(G); if(t<day*24+h||t>=until) return; if(!knows(id)||!stageAt(id,min)||ph.sent(G,tag)) return; ph.at(G,day,h,texts.map(x=>({th:'p:'+id,from:id,text:x})),tag); };
+      if(ny2!=null){ const u=(ny2+1)*24;
+        plain('heroine_04','FRIEND',ny2,0,['📷（遊戲裡的煙火，這次只有她的角色）','新年快樂','阿凱在他們那棟頂樓 我自己放'],u,'bb_nye_zq_y2');
+        plain('heroine_02','FAMILIAR',ny2,4/60,['今年一百六十杯。','店長說明年要再請一個人。','新年快樂。'],u,'bb_nye_zr_y2');
+        if(win(G,ny2,0,ny2+3,0)&&ph.inGroup(G,'family_law')) ph.at(G,ny2,0,[{th:'g:family_law',from:'kevin',name:'Kevin',text:'📷（信義區的煙火，比去年近）'},{th:'g:family_law',from:'kevin',name:'Kevin',text:'新年快樂！！！今年家族火鍋我訂好了！！'}],'bb_nye_kevin_y2'); }   /* AA-B 10-31 20:04：學姊貼圖那句作廢，換這句 */
+      /* AA_550 第 1 節：Kevin 2026-01-24～01-31 在日本，只出現在家族群組的照片（1/25 20:00）*/
+      { const d=D('2026-01-25'); if(d!=null&&win(G,d,20,d+3,0)&&ph.inGroup(G,'family_law')) ph.at(G,d,20,[{th:'g:family_law',from:'kevin',name:'Kevin',text:'📷（大阪的路口，一隻在吃章魚燒的鹿）'},{th:'g:family_law',from:'kevin',name:'Kevin',text:'鹿是我亂講的 是狗'}],'bb_kevin_osaka_y1'); } }
     /* D5：沛珊的講義（公法讀書會的前一天；冷卻四週）*/
     /* AA_458 第 2 節（企劃線 b01e32018）：原本每次都是同一句（大一上兩次、到大二上十次左右）→ 照第幾次輪：第 1 次原句，用到第 5 句以後從第 2 句再輪（照 cracktalk3d.js 的 yt2）。
        選項、她回的「好，明天直接給你。」照舊；tag 照舊 bb_d5_<日>。第幾次記 F.D5_ASK_N（D5_N 是 ev_d5_handout 去拿了幾次，不一樣）；舊存檔沒有＝照手機裡看得到、已經收過的 bb_d5_ 則數算（沒收過＝第 1 句）*/

@@ -41,7 +41,9 @@ res = CL.interior(mat, root, lite=False, walls=walls)
 menu = res['menu']; menu.name = 'WALL_back_MENU_FACE'
 CL.uv01(menu.finish(root, props={'dir': DIRS['back'], 'menu': ['今日手沖', '衣索比亞　耶加雪菲', '瓜地馬拉　安提瓜', '拿鐵　120　・　檸檬塔　90']}))
 CL.finish_walls(walls, root, DIRS)
-for (x, y, z) in res['glows']: CL.glow(root, 'pendant', x, y, z, color='rgba(255,200,130,1)', size=1.2, day=0.45, night=0.45)
+# 吊燈的光暈（ART-ECON-3D-GAP-1021，2026-10-21）：原本 1.2 m、白天晚上都 0.45——跟隨鏡頭從上面往下看，燈泡的光暈剛好疊在桌面、地上，像飄在地上的白點（巡場景）。
+# 白天不亮（燈泡本身是發光材質，看得出開著），晚上 0.4；大小 0.55 m＝燈泡周圍一圈
+for (x, y, z) in res['glows']: CL.glow(root, 'pendant', x, y, z, color='rgba(255,200,130,1)', size=0.55, day=0.0, night=0.4)
 
 # 合併同材質的零件：牆面依「哪一面牆」分開合併（每面牆各自淡出，自訂屬性 dir 保留）；黑板菜單單獨（遊戲換 canvas 貼圖）
 L.merge_by_material(root, keep=lambda ob: 'MENU_FACE' in ob.name,

@@ -255,6 +255,19 @@ for key, g in SIZES.items():
     obs += [vo, lo]; nleaf[key] = NLEAF[0] - n0
     drop[key] = round(-min(min(v.co.z for v in o.data.vertices) for o in (vo, lo)), 3)    # 最低點（Blender z＝遊戲 y）在桌面以下幾公尺
 
+# 四人房祐廷書桌（L2）的實際範圍（DORM203-LM-1030，使用者 10-30「書桌上東西不要重疊」）：這株是照「桌角」做的（左緣 x=−0.11、前緣 z=+0.11 兩邊都垂藤），
+# 但四人房的書桌往局部 −x 還有 8.5 cm 才到盡頭、盡頭是衣櫃（不是桌緣）。往 −x 垂下去的藤、S4 盆緣下垂的葉子原本穿過桌板、伸進衣櫃。
+# 改法：桌面範圍裡低於桌面的點抬到桌面上（藤平躺在桌上）；越過書桌盡頭、在衣櫃前面那一段的點拉回桌子盡頭。前緣（局部 +z）往走道垂下去的照舊。
+DESK = dict(x0=round(PLACE['z'] - 0.34, 3), x1=round(PLACE['z'] + 0.96, 3), z0=round(0.005 - (PLACE['x'] + 2.9), 3), z1=round(0.62 - (PLACE['x'] + 2.9), 3), wz=round(0.6 - (PLACE['x'] + 2.9), 3))
+def fit_desk(ob):
+    n = 0
+    for v in ob.data.vertices:
+        x, gz, y = v.co.x, -v.co.y, v.co.z            # Blender → 局部遊戲座標（x、z、y＝高）
+        if x < DESK['x0'] and gz < DESK['wz']: v.co.x = DESK['x0'] + 0.005; x = v.co.x; n += 1      # 衣櫃前面：拉回書桌盡頭
+        if DESK['x0'] <= x <= DESK['x1'] and DESK['z0'] <= gz <= DESK['z1'] and y < 0.002: v.co.z = 0.002; n += 1   # 桌面上：不低於桌面
+    ob.data.update(); return n
+fitted = {ob.name: fit_desk(ob) for ob in obs}
+print('fit desk', DESK, fitted)
 tris = {ob.name: sum(len(p.vertices) - 2 for p in ob.data.polygons) for ob in obs}
 print('pothos tris', tris, 'leaves', nleaf, 'drop below desk', drop)
 st = L.export(OUT, gpu_instances=False)

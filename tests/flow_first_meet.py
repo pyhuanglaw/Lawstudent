@@ -1,7 +1,7 @@
 """真實玩家流程：女主角的第一次見面（AA_120 3-1、AA 2026-10-13 回報的 P1-1／P1-2／P1-3）。不用 ?turbo。
 [前置／捷徑] 每一段讀檔到那一天、那個時間、那一區（位置與時間是設定的；D2 從 D 結束時的存檔接著讀，只改日期、時間、天氣）；之後都走真的介面（點地面走路、互動按鈕、點對話、點選項）。
-A. 傅鐘（芷若還沒見過）：9/23 週二 11:20 在傅鐘附近找到她、按「和不認識的女生說話」→ 只有一句旁白；名字還是「不認識的女生」、熟悉度 0、沒有 FIRST_MET、
-   「傅鐘旁邊」（認識以後的日常）沒有播。修改前：搭話一次名字就出現、熟悉度 5、直接演「剛下外文系的課」並記下 FIRST_MET。
+A. 晨思鐘（芷若還沒見過）：9/23 週二 11:20 在晨思鐘附近找到她、按「和不認識的女生說話」→ 只有一句旁白；名字還是「不認識的女生」、熟悉度 0、沒有 FIRST_MET、
+   「晨思鐘旁邊」（認識以後的日常）沒有播。修改前：搭話一次名字就出現、熟悉度 5、直接演「剛下外文系的課」並記下 FIRST_MET。
 B1. 經原分組（P1-3）：9/26 週五 12:06（大一上第 4 週）在普通的門廳。她在 101 上經原；12:10 下課後起身、走到 101 門口的走廊（一步一步走過去，不瞬移）；玩家離她超過 5 m，不會開始。
 B2. 同一天 12:15 在 101 裡面的東門旁（她在門口的走廊，離玩家 3.7 m、隔著牆）：不會開始；走出 101 到走廊 → 自動開始：「不好意思，你是法律系的嗎？剛剛點名有聽到。」（AA_207 §2；原本「欸！法律系！你也修「經濟學原理」？」）「林芷若，外文二。」→ 選第一個 → 記下 FIRST_MET。
    修改前：她 12:10 就去吃飯（作息 zone:null），經原分組幾乎碰不到。
@@ -73,7 +73,7 @@ async def chase(pg, cdp, run, cid, label, max_s=420, tries=90):
     if n and n['d'] > 2.0:
         q = await L.state(pg)
         run.note(f"{label}：追了 {k} 次（{int(time.time() - t0)} 秒、用跑的）沒追到——最近 {best:.1f} m、最後 {n['d']:.1f} m；她在 ({n['x']},{n['z']})、pose {n['pose']}、path {n['path']} 段、"
-                 f"要走去 {n.get('tgt')}、行為 {n.get('beh')}、leaving {n['leaving']}；遊戲時間 {q['hour']:.2f}（作息：週二 10–12 在傅鐘附近）")
+                 f"要走去 {n.get('tgt')}、行為 {n.get('beh')}、leaving {n['leaving']}；遊戲時間 {q['hour']:.2f}（作息：週二 10–12 在晨思鐘附近）")
     return n and n['d']
 
 
@@ -113,11 +113,11 @@ async def main():
         await pg.goto(URL)
         run.check('遊戲載入', await L.wait_loaded(pg))
         # ---------- A：傅鐘，芷若還沒見過 ----------
-        run.setup('讀檔：第 7 天（9/23 週二）11:20，校園傅鐘附近 (-38,6)；林芷若週二 10–12 在傅鐘附近；還沒見過她')
+        run.setup('讀檔：第 7 天（9/23 週二）11:20，校園晨思鐘附近 (-38,6)；林芷若週二 10–12 在晨思鐘附近；還沒見過她')
         await L.load_state(pg, {'zone': 'campus', 'hour': 11.33, 'day': 7, 'weekday': 2, 'weather': 'clear', 'pos': {'x': -38, 'z': 6, 'yaw': 0}, 'flags': BASE_FLAGS})
         await pg.wait_for_timeout(4000)
         z0 = await npc(pg, 'heroine_02')
-        run.check('A 林芷若在傅鐘附近（作息：週二 10–12）', bool(z0), json.dumps(z0, ensure_ascii=False))
+        run.check('A 林芷若在晨思鐘附近（作息：週二 10–12）', bool(z0), json.dumps(z0, ensure_ascii=False))
         if z0:
             d = await chase(pg, cdp, run, 'heroine_02', '林芷若旁邊')
             s = await L.state(pg)
@@ -127,7 +127,7 @@ async def main():
                 await run.shot(pg, 'A_after_talk')
                 run.check('A 搭話：只有一句旁白（她點個頭又忙自己的事），沒有選單', len(lines) == 1 and lines[0].startswith('（她') and not menus, ' / '.join(lines[:3]))
             w = await who(pg, 'heroine_02'); s = await L.state(pg)
-            run.check('A 之後：名字還是「不認識的女生」、熟悉度 0、沒有 FIRST_MET、「傅鐘旁邊」沒有播', w['name'] == '不認識的女生' and w['fam'] == 0 and not w['met'] and 'ev_zhiruo_bell' not in w['done'], json.dumps(w, ensure_ascii=False) + ' interact=' + s['interact'])
+            run.check('A 之後：名字還是「不認識的女生」、熟悉度 0、沒有 FIRST_MET、「晨思鐘旁邊」沒有播', w['name'] == '不認識的女生' and w['fam'] == 0 and not w['met'] and 'ev_zhiruo_bell' not in w['done'], json.dumps(w, ensure_ascii=False) + ' interact=' + s['interact'])
         # ---------- B：經原分組 ----------
         run.setup('讀檔：第 10 天（9/26 週五，大一上第 4 週）12:06，普通教學館門廳 (2.5,6)；林芷若在 101 上重修的經原（09:10–12:10）；還沒見過她')
         await L.load_state(pg, {'zone': 'putong', 'hour': 12.1, 'day': 10, 'weekday': 5, 'weather': 'clear', 'pos': {'x': 2.5, 'z': 6.0, 'yaw': 3.14, 'lv': 0}, 'flags': BASE_FLAGS})

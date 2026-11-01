@@ -2,7 +2,7 @@
 //   1  茶席：學姊（有／沒有 SIS_TEAHOUSE 兩句）、芷若、子晴、沛珊、可昕各一句；學姊在美國、芷若在英國、沛珊 2026-12-16 以後選項不出現
 //   2  WZ-P3 颱風後的早上：颱風假隔天 08:00～11:00 進公園；三個選項（幫忙＝1 小時、WZ_P3_HELPED、貓那一句）；下雨延到第一個沒下雨的早上（三天內）；茶屋打工＝不演、同一個颱風只演一個；一學年一次；幫過就不再演
 //   3  讓你一隻馬：WZ_P3_HELPED 以後開局四種輪流；讓馬那一盤贏的機率 +20%（最多 70%）、結果句換一組（大四起「律師」）；前四盤的順序不變
-//   4  麵店團的早午餐：週四、週五 19:00～23:00 群組裡的「約」；四個人照順序回（能來／不能來）；成立＝排出門提醒到半熟、10:00 那一場（開場兩句、結尾一句、熟悉 +1）；
+//   4  大家的早午餐：週四、週五 19:00～23:00 群組裡的「約」；四個人照順序回（能來／不能來）；成立＝排出門提醒到半熟、10:00 那一場（開場兩句、結尾一句、熟悉 +1）；
 //      四個都不能＝最後一個人「那下週」；祐廷在早午餐店打工（多一則／那天有班＝阿哲兩則＋上班時一句旁白）；「哥」看 ZHE_CALLS_GE；阿哲第 6 週週四 21:00 揪（+1／這週不行）
 // 修改前（開發分支 HEAD）：沒有這些——FAIL。用法：node tests/aa427_wz_unit.js
 const H=require('./pg_harness.js');
@@ -89,7 +89,7 @@ await sec(4,async()=>{ const busy0=INV.busyAt, reach0=STORY.reachable; INV.busyA
   setup(key(thu),20); H.picks=['週六 10:00']; await A.run(GM); at(thu,20.5); const M=msgs(TH);
   check('4. 祐廷「週末要不要吃早午餐」',M.includes('我：週末要不要吃早午餐'),J(M));
   check('4. 四個人照順序：阿哲「好啊」、Alison 兩則、柏翰「週六十點。我先去占位子。」、芯慈',J(M.slice(1))===J(['zhe：好啊','yu：十點可以！！','yu：九點以前的我不算人','classmate_bohan：週六十點。我先去占位子。','classmate_xinci：好。我會晚十分鐘，先幫我點。']),J(M));
-  const q=OUT.get(H.G,'wz_grpb_'+sat); check('4. 成立：出門提醒那週六 10:00、帶到半熟',!!q&&q.h===10&&q.goto&&q.goto.zone==='wz_brunch'&&q.title==='麵店團的早午餐',J(q));
+  const q=OUT.get(H.G,'wz_grpb_'+sat); check('4. 成立：出門提醒那週六 10:00、帶到半熟',!!q&&q.h===10&&q.goto&&q.goto.zone==='wz_brunch'&&q.title==='大家的早午餐',J(q));
   check('4. 那一週不能再約',!A.show(H.G));
   at(sat,10,'wz_brunch'); H.said=[]; const m0={}; for(const id of ['zhe','yu','classmate_bohan','classmate_xinci']) m0[id]=SOCIAL.rel(id).fam; await tickUntil();
   check('4. 那一場：（四人桌，加一張椅子。）、Alison「欸，這裡的蛋好好吃。為什麼我們都在吃麵？」、阿哲「下次換晚餐。」、（他說的晚餐，還是麵店。）',J(H.said.map(s=>s.t))===J(['（四人桌，加一張椅子。）','欸，這裡的蛋好好吃。為什麼我們都在吃麵？','下次換晚餐。','（他說的晚餐，還是麵店。）']),J(L()));

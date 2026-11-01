@@ -25,7 +25,7 @@ const Y2B_EVENTS=(function(){
 
   /* ---- 1B-01 可昕 K10c「她第一次考壞一科」（AA_316；BB_97 9-4、AA_177 第 8 節②）：11/19 20:30 政大自強十舍樓下的長椅 ---- */
   const BAD_EXAM={ id:'ev_kexin_bad_exam', title:'她第一次考壞一科', participants:['kexin'], location:'any', trigger:'outing', once:true, background:'dark', hours:2/3, kxAway:true,
-    dialogue:[ {scene:'政大・宿舍樓下',bg:'nccu_dorm'},
+    dialogue:[ {scene:'木柵大學・宿舍樓下',bg:'nccu_dorm'},
       {speaker:null,text:'（她坐在長椅上，膝蓋上攤著物權的課本。看到你，把課本闔起來一半。）'},
       {speaker:'kexin',expression:'surprised',text:'你真的來了。'},
       {speaker:'kexin',expression:'serious',text:'先說好，你一安慰我就回去。'},
@@ -68,7 +68,7 @@ const Y2B_EVENTS=(function(){
 
   const anAdminHeard=G=>!!(G.needed&&G.needed.shown&&G.needed.shown.an_admin!=null);   /* 大二上「這週的訊息」an_admin 發過＝聽過（story3d.js 的 S.neededRules 記 shown；AA_375 第 17 項）*/
   /* ---- 1B-04 以安新 12「媽媽的晚餐（二）」：大二下第 10～14 週，第一個週二或週四晚上的麵店（週四 20:00 她有公法讀書會：只到 19:30）---- */
-  const MOTHER_MAP={ id:'ev_an_mother_map', title:'媽媽的晚餐（二）', participants:['heroine_01'], location:'noodle', trigger:'auto', once:true, term:['Y2S2'], weeks:[10,11,12,13,14], weekday:[2,4], time:[17.5,20.5], background:'blur',
+  const MOTHER_MAP={ id:'ev_an_mother_map', title:'媽媽的晚餐（二）', participants:['heroine_01'], location:'noodle', trigger:'auto', once:true, term:['Y2S2'], weeks:[10,11,12,13,14], weekday:[1,2,3,4,5],ndlDay:true, time:[17.5,20.5], background:'blur',
     prereq:{stage:{npc:'heroine_01',min:'FAMILIAR'},custom:G=>knows('heroine_01',G)&&!(G.weekday===4&&((G.hour%24)+24)%24>=19.5)},
     dialogue:[ {unless:{flags:['AN_TUTOR_FAMILY']},if:{custom:G=>!anAdminHeard(G)},speaker:'heroine_01',text:'我家教的學生，家裡申請的補助被駁回了。我在幫他們看那份公文。'},
       {unless:{flags:['AN_TUTOR_FAMILY']},if:{custom:anAdminHeard},speaker:'heroine_01',text:'上次那份公文，你還記得嗎？我後來陪他們寫了申覆。'},   /* AA_375 第 17 項：大二上 an_admin 發過的（聽過）不再當新消息講 */
@@ -143,9 +143,9 @@ const Y2B_EVENTS=(function(){
   const TWO_CIRCLES={ id:'ev_kexin_two_circles', title:'兩邊的朋友', participants:['kexin'], location:'any', trigger:'outing', once:true, background:'dark', hours:0.25,
     dialogue:[ {scene:'阿鳳麵店',bg:'noodle_table'},
       {if:{flags:['KX_MET_NOODLE_TEAM']},speaker:'kexin',expression:'smile',text:'上次是烤肉，這次是麵。'},
-      {unless:{flags:['KX_MET_NOODLE_TEAM']},speaker:'kexin',expression:'surprised',text:'你們就是麵店團？我聽了一年半。'},
+      {unless:{flags:['KX_MET_NOODLE_TEAM']},speaker:'kexin',expression:'surprised',text:'你們就是他一直講的那群人？我聽了一年半。'},
       {if:{flagIs:{KX_INTRO:'gf'}},goto:'yl'},   /* K3 已經說了「我女朋友」：大家已經知道，不另外介紹 */
-      {choice:[{text:'「這是可昕。我女朋友。」',set:{KX_CIRCLES_INTRO:'gf'},goto:'ig'},{text:'「這是可昕，政大法律。」',set:{KX_CIRCLES_INTRO:'school'},goto:'is'}]},
+      {choice:[{text:'「這是可昕。我女朋友。」',set:{KX_CIRCLES_INTRO:'gf'},goto:'ig'},{text:'「這是可昕，木柵大學法律。」',set:{KX_CIRCLES_INTRO:'school'},goto:'is'}]},
       {label:'ig'},{speaker:'zhe',text:'……喔。'},{if:{custom:G=>knows('yu',G)},speaker:'yu',text:'你都不講！'},{goto:'yl'},
       {label:'is'},{speaker:null,text:'（可昕看了你一眼，沒說什麼。）'},
       {label:'yl'},
@@ -263,7 +263,13 @@ const Y2B_EVENTS=(function(){
   const XMAS_VIDEO={ id:'ev_zhiruo_xmas_video', title:'聖誕的視訊', participants:['heroine_02'], location:'any', trigger:'outing', once:true, background:'dark', hours:0.5,
     dialogue:[ {scene:'視訊',bg:'video'},
       {speaker:'heroine_02',text:'這裡的聖誕節，店都關了。'},
-      {speaker:'heroine_02',text:'我很想做一杯給你。'} ] };
+      {speaker:'heroine_02',text:'我很想做一杯給你。'},
+      /* AA_524 Z1：送別那天說了「我去看妳。」（y2r2_3d.js d2，ZR_VISIT_PROMISE）——英國那一趟不在遊戲裡，改在這通視訊兌現 */
+      {if:{flags:['ZR_VISIT_PROMISE']},speaker:'heroine_02',text:'（把筆電轉過去，螢幕上是一部片的片頭）……我排的那部。'},
+      {if:{flags:['ZR_VISIT_PROMISE']},speaker:'heroine_02',text:'機票太貴了，你不用來。我們一人一邊，按同一個播放。'},
+      {if:{flags:['ZR_VISIT_PROMISE']},speaker:null,text:'（你們隔著視訊看完一部片。她那邊下午，你這邊半夜。）'},
+      {if:{flags:['ZR_VISIT_PROMISE']},advance:2},   /* 一部片：時間往後兩小時（稿沒寫，LAWWW 子代理照「看完一部片」補）*/
+      {if:{flags:['ZR_VISIT_PROMISE']},speaker:'heroine_02',text:'……好。看過了。'} ] };
 
   /* ---- 1B-10 芷若英國的生日（AA_336 B6；BB_124 第 1 節「她在國外」2027）：9/24 那張背面「9/28，台灣晚上十點。打給我。」→ 9/28 21:55 選「打給她。」（y2b3d.js S.bdayCall）＝22:00 視訊（倫敦 15:00）。
      前兩句 BB_124、第三句是 AA_336 新寫的收尾；ZR_BDAY_CALL 在選的時候記 ---- */

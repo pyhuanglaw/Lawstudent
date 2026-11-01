@@ -34,7 +34,7 @@ const SISY23=(function(){
   /* ---------------- 2-1、2-2、2-5：她私訊約隔天 ---------------- */
   S.ASKS=[
     {k:'lab',ask:'2026-09-21',h:21,min:'FAMILIAR',lines:L.labAsk,yes:L.labYes,noT:L.labNoT,no:L.labNo,flag:'SIS_LAB_DESK',go:'SIS_LAB_GO',
-      out:{id:'sisy23_lab',ev:'ev_sis_lab_desk',day:'2026-09-22',h:12+20/60,late:0.25,place:'霖澤館・研究室',title:'研究室（幫學姊搬書）',travel:'走路 約 10 分鐘',travelH:1/6},
+      out:{id:'sisy23_lab',ev:'ev_sis_lab_desk',day:'2026-09-22',h:12+20/60,late:0.25,place:'法律系館A・研究室',title:'研究室（幫學姊搬書）',travel:'走路 約 10 分鐘',travelH:1/6},
       miss:{day:'2026-09-22',h:18,lines:L.labMissed}},
     {k:'sem',ask:'2026-11-17',h:21,min:'FAMILIAR',lines:L.semAsk,yes:L.semYes,noT:L.semNoT,no:L.semNo,flag:'SIS_SEMINAR_Y2',go:'SIS_SEM_GO',
       out:{id:'sisy23_sem',ev:'ev_sis_seminar_y2',day:'2026-11-18',h:19,late:0.25,place:'法圖・討論室',title:'法圖・討論室（聽學姊練 seminar）',travel:'走路 約 10 分鐘',travelH:1/6},

@@ -9,6 +9,7 @@
 //   4  12-3 1/12 群組「我也在。」的小字「那天晚上有托福班」：報了 C04W 大二寒假班（12/28～1/20 週一、三晚上；1/13 週三有課）才有（yes、done 都算）；
 //        沒報、報的是 C04W 別年、C04 暑期班：沒有；托福班白天上課（slot 改 day）、1/13 不是上課日（只上週一）：沒有
 //   5  日本路線 2028-05-29：第二句換成「讀書會還在。Kevin 說考完國考才算結束。」，照片那一則照舊；舊句「柏翰在帶」不在遊戲裡
+//      （2026-10-30 AA_539 1-5，企劃線 c9f6dd6cb：第二句再換成「讀書會還在。Kevin 說要讀到考前一個月。」——期待值跟著改，見 tests/aa539_sis_reread_unit.js 1-5）
 //   6  ② 12-6b 寒暑假出國中（VAC.abroadOn：C10 加州 6/21～7/31、C08 首爾 7/13 出發）：7/10 群組三則照收、沒有「我去。」（AA_492 第 1 節起改成「我在〇〇。」，見 tests/aa492_sis_b12_fix2_unit.js）、不排、不記 missed；
 //        曼谷 7/3～7/7 回來了、沒報出國：照舊有「我去。」／「這週不行。」、回了照排；
 //        舊存檔（改之前已經收到有選項的那一則）：出國中回「我去。」不排；已經排好的取消（cancelled，同 VAC.drop），過了時間也不變 missed
@@ -52,14 +53,14 @@ const askBtns=m=>{ if(!g3m) return ''; return new Function('escH','G','PHONE','r
 
 (async()=>{
 let doc=''; try{ doc=cp.execSync('git show a4f530c11:"docs/story_planning/AA_490_回LAWWW_學姊第十二批三件_法圖午休改週五_書推過去_讀書會撞期.md"',{cwd:H.ROOT,encoding:'utf8'}); }catch(e){ doc=''; }
-const JP0529=['（照片：法圖討論室的白板，寫滿了字）','讀書會還在。Kevin 說考完國考才算結束。'];
+const JP0529=['（照片：法圖討論室的白板，寫滿了字）','讀書會還在。Kevin 說要讀到考前一個月。'];   /* 2026-10-30 AA_539 1-5（企劃線 c9f6dd6cb）再換第二句：讀書會最後一次 7/13、國考 8/26（AA_490 的「Kevin 說考完國考才算結束。」對不上）*/
 
 /* ---- 0 讀稿 ---- */
 await sec(0,()=>{
   check('0. 讀得到稿（AA_490 a4f530c11）、檔都載得到',!!doc&&doc.indexOf('## 5. 給 LAWWW')>0&&!loadErr.length&&!!X(),J(loadErr));
   check('0. 稿裡的兩句小字：「那天晚上也是公法讀書會」「那天晚上有托福班」；遊戲裡（SISB12_LINES）一字不差',doc.includes('加小字：「那天晚上也是公法讀書會」')&&doc.includes('加小字「那天晚上有托福班」')&&LN().studyHint==='那天晚上也是公法讀書會'&&LN().hotHint==='那天晚上有托福班',J({studyHint:LN().studyHint,hotHint:LN().hotHint}));
   const m=(typeof SISJP_LINES!=='undefined'&&SISJP_LINES.msgs||[]).find(x=>x.day==='2028-05-29');
-  check('0. 日本路線 5/29：稿「學姊：讀書會還在。Kevin 說考完國考才算結束。」＝遊戲第二句；照片那一則照舊',doc.includes('> 學姊：讀書會還在。Kevin 說考完國考才算結束。')&&!!m&&J(m.L)===J(JP0529),J(m)); });
+  check('0. 日本路線 5/29：稿 AA_490「學姊：讀書會還在。Kevin 說考完國考才算結束。」（AA_539 1-5 再換成「讀書會還在。Kevin 說要讀到考前一個月。」）＝遊戲第二句；照片那一則照舊',doc.includes('> 學姊：讀書會還在。Kevin 說考完國考才算結束。')&&!!m&&J(m.L)===J(JP0529),J(m)); });
 
 /* ---- 1 12-5 法圖的午休：週五 ---- */
 await sec(1,async()=>{ const c=CHARACTERS[ID], L5=(c.daily_schedule||[]).filter(e=>e.zone==='linze_5f'&&!/^AA_51[28]/.test(e.note||''));   /* 2026-10-28 AA_518 1-9（企劃線 973dd1b74）：2028-06-28 那一晚清研究室的一筆也不算（tests/aa518_sis_b15_unit.js）*/   /* 2026-10-28 AA_512（企劃線 c444f0757）另外加的兩筆 linze_5f（13-3 兩天傍晚、交往中週一三晚上）不算在「不改」的這兩筆裡（tests/aa512_sis_b13_unit.js）*/
@@ -144,7 +145,7 @@ await sec(4,async()=>{ const a=D('2027-01-12'), HINT='那天晚上有托福班';
 await sec(5,async()=>{
   fresh('2028-03-24',10,'friend',{},{route:'JP'}); for(let d=D('2028-03-24');d<=D('2028-05-30');d++){ at(d,20); ph(); at(d,22.5); ph(); }
   const M=TH('p:'+ID).filter(m=>keyOf(m.day)==='2028-05-29');
-  check('5. 日本路線 5/29 她私訊：「（照片：法圖討論室的白板，寫滿了字）」「讀書會還在。Kevin 說考完國考才算結束。」',J(M.map(m=>m.text))===J(JP0529),J(M.map(m=>m.text)));
+  check('5. 日本路線 5/29 她私訊：「（照片：法圖討論室的白板，寫滿了字）」「讀書會還在。Kevin 說要讀到考前一個月。」（AA_539 1-5）',J(M.map(m=>m.text))===J(JP0529),J(M.map(m=>m.text)));
   const src=fs.readFileSync(path.join(H.ROOT,'src/data/sis_jp_events.js'),'utf8');
   check('5. 舊句「讀書會還在，柏翰在帶。……他比我凶。」不在遊戲裡（註解以外）',!/'讀書會還在，柏翰在帶。……他比我凶。'/.test(src)&&!TH('p:'+ID).some(m=>/柏翰在帶/.test(m.text))); });
 

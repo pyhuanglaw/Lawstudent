@@ -72,7 +72,8 @@ const angEq=(a,b)=>Math.abs(Math.atan2(Math.sin(a-b),Math.cos(a-b)))<0.01;
   { const sofaSeats=z.seats.filter(s=>s.kind==='sofa'); check('B 沙發照舊（'+sofaSeats.length+' 個位子，不在換掉的那一組裡）',sofaSeats.length>0); }
   check('B 座位、互動點、導航和載入失敗時完全一樣（換的只是畫面）',JSON.stringify(z.seats)===seatsF&&JSON.stringify(E.interactables.map(i=>[i.x,i.z,i.lv,i.label]))===itF&&z.levels.map(n=>Array.from(n.b).join('')).join('|')===navF);
   /* ---------- C：階梯教室的長桌桌面 ---------- */
-  { const r=L.rooms.find(q=>q.id==='101'); let fur=null; z.levelGroups[0].group.traverse(o=>{ if(!fur&&o.name==='furniture'&&o.parent&&o.parent.name==='furniture0') fur=o; });   /* 2026-10-18 ART-EXT-TEACH：桌椅從備用模型群組 fallback0 搬到 furniture0（正式室內模型載入後藏起 fallback0，桌椅要留著）；量法不變 */
+  { const r=L.rooms.find(q=>q.id==='101'); let fur=null; z.levelGroups[0].group.traverse(o=>{ if(!fur&&o.name==='furniture'&&o.parent&&o.parent.name==='lecture_furniture') fur=o; });   /* 2026-10-18 ART-EXT-TEACH：桌椅從備用模型群組 fallback0 搬到 furniture0（正式室內模型載入後藏起 fallback0，桌椅要留著）；量法不變。
+       2026-10-30 BOYA-LM-1030：階梯教室的長桌、椅子再放進 furniture0 底下自己的 lecture_furniture（一間一組，正式模型有 SEATPANS 時整組藏起來）；第一組是 101 */
     /* 從桌子正上方往下打射線，第一個打到的就是桌面（同一排的椅子在桌子後面、下一排更後面）；合成的家具座標換回 fallback0 的座標（＝區域座標）*/
     const res=[]; if(fur){ z.group.updateMatrixWorld(true); const base=new THREE.Vector3().setFromMatrixPosition(fur.parent.matrixWorld), rc=new THREE.Raycaster();
       for(const q of r.rowsData){ const xs=[r.seatX0+0.6,(r.seatX0+r.seatX1)/2,r.seatX1-0.6];

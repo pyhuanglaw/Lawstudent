@@ -1,8 +1,8 @@
-"""聽眾、同學坐好才出現（2026-10-13 LAWWW2 審查：博雅 101 的聽眾出現後前幾秒有一半以上是站姿、站在椅子和桌板中間；
+"""聽眾、同學坐好才出現（2026-10-13 LAWWW2 審查：博思 101 的聽眾出現後前幾秒有一半以上是站姿、站在椅子和桌板中間；
 使用者經 LAWWW2 轉達：坐姿要在顯示之前就正確，測試進教室、演講開始、讀檔、跳時間）。不用 ?turbo。
 做法：包住 E.render——每一幀畫面送出前，檢查座位上（姿勢 sit／read）、畫面裡看得到的人，真實骨架的臀部離他所在的地面多高：
 坐著約 0.45–0.6 m、站著約 0.9–1.0 m（LAWWW2 量的）；超過 0.75 m 記一筆「站著被畫出來」（只閃一幀也抓得到）。
-A. 進教室：[前置／捷徑] 讀檔在博雅大廳、演講已經開始 20 分鐘（測試活動：遊戲的活動清單是空的）→ 走到 101 門口、走進去、走到第 3 排
+A. 進教室：[前置／捷徑] 讀檔在博思大廳、演講已經開始 20 分鐘（測試活動：遊戲的活動清單是空的）→ 走到 101 門口、走進去、走到第 3 排
 B. 演講開始：[前置／捷徑] 讀檔在 101 裡、離演講開始 15 分鐘前還有半分鐘 → 站著等（遊戲時間自己走）→ 聽眾在 15 分鐘前進場坐好
 C. 讀檔：演講中用選單存檔（欄位 1）→ 選單讀取欄位 1（在遊戲裡讀；重新整理的話測試活動會不見）
 D. 跳時間：[前置／捷徑] 讀檔在 101 裡 12:50（14:00 有演講）→ 手機「跳過時間」→「等到下午」
@@ -34,7 +34,7 @@ RESET = "(()=>{ const S=window.__seat; const r={frames:S.frames,seen:S.seen,bad:
 
 
 def act_js(t0, t1, n=14):
-    return "(()=>{ const d=CALENDAR.dateOf(%d); ACTIVITIES.list=ACTIVITIES.list.filter(a=>a.id!=='t_seat'); ACTIVITIES.list.push({id:'t_seat',title:'測試演講（坐姿測試）',kind:'lecture',zone:'boya',room:'101',roomName:'博雅 101',dates:[d.key],t0:%f,t1:%f,crowd:{n:%d}}); })()" % (DAY_FRI, t0, t1, n)
+    return "(()=>{ const d=CALENDAR.dateOf(%d); ACTIVITIES.list=ACTIVITIES.list.filter(a=>a.id!=='t_seat'); ACTIVITIES.list.push({id:'t_seat',title:'測試演講（坐姿測試）',kind:'lecture',zone:'boya',room:'101',roomName:'博思 101',dates:[d.key],t0:%f,t1:%f,crowd:{n:%d}}); })()" % (DAY_FRI, t0, t1, n)
 
 
 async def frames(pg, n):
@@ -59,14 +59,14 @@ async def main():
         run.check('遊戲載入', await L.wait_loaded(pg))
         await pg.evaluate(HOOK)
         # ---------- A：進教室 ----------
-        run.setup('測試活動：第 3 天 10:00–12:00 博雅 101 演講（14 人）；讀檔在博雅大廳 10:20（演講已經開始）')
+        run.setup('測試活動：第 3 天 10:00–12:00 博思 101 演講（14 人）；讀檔在博思大廳 10:20（演講已經開始）')
         await pg.evaluate(act_js(10.0, 12.0))
         await L.load_state(pg, {'zone': 'boya', 'hour': 10.33, 'day': DAY_FRI, 'weekday': 5, 'weather': 'sunny', 'pos': {'x': 0, 'z': 6.8, 'yaw': 3.14}, 'flags': BASE_FLAGS})
         await pg.wait_for_timeout(3000); await pg.evaluate(RESET)
         n = await seated_count(pg)
-        run.check('A 進博雅時演講已經開始：101 裡有坐著的聽眾（還在畫面外）', n >= 8, f'{n} 人')
-        d = await L.find_it(pg, '看看博雅 101')
-        ok = await L.go_to(pg, cdp, run, d['x'], d['z'], 0.8, '博雅 101 門口')
+        run.check('A 進博思時演講已經開始：101 裡有坐著的聽眾（還在畫面外）', n >= 8, f'{n} 人')
+        d = await L.find_it(pg, '看看博思 101')
+        ok = await L.go_to(pg, cdp, run, d['x'], d['z'], 0.8, '博思 101 門口')
         seat = await pg.evaluate("(()=>{ const s=GAME.E.zone.seats.find(q=>q.room==='101'&&q.row===2&&q.col===5); const ap=GAME.seatApproach(s)||[s.x,s.z]; return {ax:ap[0],az:ap[1]}; })()")
         ok2 = await L.go_to(pg, cdp, run, seat['ax'], seat['az'], 0.4, '101 第 3 排', lv=0)
         await frames(pg, 6)
@@ -94,14 +94,14 @@ async def main():
         c = await pg.evaluate("(()=>{ const it=[...document.querySelectorAll('#saveSlots .item')].find(x=>x.textContent.includes('欄位 1')); const e=it&&[...it.querySelectorAll('button')].find(x=>x.textContent==='存檔'); if(!e) return null; e.scrollIntoView({block:'center'}); const r=e.getBoundingClientRect(); return [r.left+r.width/2,r.top+r.height/2]; })()")
         if c: await L.touch_tap(cdp, c[0], c[1]); await pg.wait_for_timeout(1500)
         saved = await pg.evaluate("(()=>{ const t=localStorage.getItem('fatiao3d_slot_1'); if(!t) return null; const s=JSON.parse(t); return {zone:s.zone,hour:s.hour,pos:s.pos}; })()")
-        run.check('C 用選單存檔（欄位 1）：在博雅、演講時段', bool(saved) and saved['zone'] == 'boya', json.dumps(saved, ensure_ascii=False))
+        run.check('C 用選單存檔（欄位 1）：在博思、演講時段', bool(saved) and saved['zone'] == 'boya', json.dumps(saved, ensure_ascii=False))
         await pg.evaluate(RESET)
         c = await pg.evaluate("(()=>{ const it=[...document.querySelectorAll('#saveSlots .item')].find(x=>x.textContent.includes('欄位 1')); const e=it&&[...it.querySelectorAll('button')].find(x=>x.textContent==='讀取'); if(!e) return null; e.scrollIntoView({block:'center'}); const r=e.getBoundingClientRect(); return [r.left+r.width/2,r.top+r.height/2]; })()")
         run.check('C 選單裡有欄位 1 的「讀取」', bool(c))
         if c: await L.touch_tap(cdp, c[0], c[1])
         await pg.wait_for_timeout(5000); await frames(pg, 10)
         s = await L.state(pg); n = await seated_count(pg)
-        run.check('C 讀取欄位 1：回到博雅 101、聽眾坐著', s['zone'] == 'boya' and n >= 8, f"{s['zone']} {n} 人")
+        run.check('C 讀取欄位 1：回到博思 101、聽眾坐著', s['zone'] == 'boya' and n >= 8, f"{s['zone']} {n} 人")
         await run.shot(pg, 'C_after_load')
         report(run, 'C 讀檔', await pg.evaluate(RESET))
         # ---------- D：跳時間 ----------

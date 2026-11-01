@@ -482,8 +482,9 @@ await sec('8-3',async()=>{
   check('8-3 那一天演了麵店的 2D 事件（ev_zhe_long_table）或排了麵店的出遊＝阿姨那幾列擲骰當成功（3D 一定有阿姨）；別天照原本擲的',a===false&&b===true&&c===true&&e===false,J({d:keyOf(d),a,b,c,e})); });
 await sec('8-4',async()=>{
   const GRP=quotes(part('4/23（一）21:00 群組換這四則','- 沒有麵店日的就不用',S8));
-  check('8-4 對稿：群組四則（阿哲兩則、Alison、語彤）＝aunt.tripGroup；語彤那一週在總圖（4/19 那則的回覆）；門口那張紙照第 1 節',
-    GRP.length===4&&J(GRP)===J(LN().aunt.tripGroup.map(([w,t])=>pairDoc(w,t,NM)))&&S8.includes('「我在總圖。期中考，店剛好也沒開。」')&&S8.includes('「出國，休息七天。——阿鳳」'),J(GRP));
+  const A527={'這週麵店沒開':'這週麵店沒開。'};   /* AA_527 2-4（企劃線 bfede0a62）：阿哲的訊息不加句號（口氣表 2-1）——AA_519 原稿那一句有句號，遊戲照 AA_527 拿掉 */
+  check('8-4 對稿：群組四則（阿哲兩則、Alison、語彤）＝aunt.tripGroup（阿哲「這週麵店沒開」照 AA_527 2-4 不加句號）；語彤那一週在總圖（4/19 那則的回覆）；門口那張紙照第 1 節',
+    GRP.length===4&&J(GRP)===J(LN().aunt.tripGroup.map(([w,t])=>pairDoc(w,A527[t]||t,NM)))&&LN().aunt.tripGroup[0][1]==='這週麵店沒開'&&S8.includes('「我在總圖。期中考，店剛好也沒開。」')&&S8.includes('「出國，休息七天。——阿鳳」'),J(GRP));
   /* 語彤：那一週顧店的時段在總圖 */
   const Y=[]; for(const [k,h] of [['2029-04-19',18],['2029-04-21',10],['2029-04-24',18.5],['2029-04-28',10],['2029-05-01',18.5],['2029-04-17',18.5]]){ fresh(k,h,'dorm'); const e=ytEnt(); Y.push([k,e&&e.zone]); }
   check('8-4 語彤那一週（4/19～4/25）週二、四晚上、週六早上在總圖；回來以後（4/28 週六早上、5/1 週二晚上）、出國前（4/17）在麵店',J(Y.map(x=>x[1]))===J(['library','library','library','noodle','noodle','noodle']),J(Y));
@@ -492,8 +493,8 @@ await sec('8-4',async()=>{
   fresh('2029-04-23',20.5,'dorm',{noodleTableDay:D('2028-09-06')}); for(const id of ['zhe','yu','heroine_03']) H.FAMILIAR(id); PHONE.join(H.G,'noodle_team','麵店團'); ph(); const g0=txt('g:noodle_team').length; phAt('2029-04-23',21.1);
   const g1=TH('g:noodle_team').filter(m=>m.tag==='aa519_ndl_trip'); phAt('2029-04-24',17.6); const ping=PHONE.sent(H.G,'rt_zhe_ndl_'+D('2029-04-24'));
   fresh('2029-04-23',20.5,'dorm'); phAt('2029-04-23',21.1); const g2=(H.G.msgs||[]).filter(m=>m.tag==='aa519_ndl_trip').length;
-  check('8-4 STORY.noodleDay：4/24（週二）原本是麵店日、那一週不是；4/26 照常；4/23（一）21:00 麵店團四則（20:30 還沒有；阿哲的揪那一週沒有）；不在群組沒有',
-    J(nd)===J([['2029-04-19',false,false],['2029-04-24',false,true],['2029-04-26',true,true]])&&g0===0&&J(g1.map(m=>[m.from,m.text]))===J(LN().aunt.tripGroup)&&!ping&&g2===0,J({nd,g0,g1:g1.map(m=>m.text),ping,g2}));
+  check('8-4 STORY.noodleDay：4/24（週二）原本是麵店日、那一週不是；4/26 照常（照原本的算法；AA_542 起麵店日每週不固定兩天）；4/23（一）21:00 麵店團四則（20:30 還沒有；阿哲的揪那一週沒有）；不在群組沒有',
+    J(nd.slice(0,2))===J([['2029-04-19',false,false],['2029-04-24',false,true]])&&nd[2][1]===nd[2][2]&&g0===0&&J(g1.map(m=>[m.from,m.text]))===J(LN().aunt.tripGroup)&&!ping&&g2===0,J({nd,g0,g1:g1.map(m=>m.text),ping,g2}));
   /* 不排新的麵店出遊、邀約；舊存檔已經排好的照演 */
   fresh('2029-04-20',10,'dorm'); const p1=OUT.plan(H.G,{id:'t_ndl1',day:D('2029-04-24'),h:19,place:'阿鳳麵店',title:'麵店',travel:'',travelH:0}), p2=OUT.plan(H.G,{id:'t_ndl2',day:D('2029-04-27'),h:19,place:'阿鳳麵店',title:'麵店',travel:'',travelH:0}), p3=OUT.plan(H.G,{id:'t_lib',day:D('2029-04-24'),h:19,place:'總圖',title:'總圖',travel:'',travelH:0});
   const q1=!!OUT.get(H.G,'t_ndl1'), q2=!!OUT.get(H.G,'t_ndl2'), q3=!!OUT.get(H.G,'t_lib');

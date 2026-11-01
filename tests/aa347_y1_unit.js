@@ -122,7 +122,7 @@ const J=x=>JSON.stringify(x);
   chk('4. 回「去。」＝排出遊 2/7（六）18:00 麵店',()=>{ ans('y1w_noodle_last_ask',0); STORY.phoneRules(GM); const q=OUT.get(G,'y1w_noodle_last'); return [!!q&&q.day===w7&&q.h===18&&q.ev==='ev_y1w_noodle_last'&&CALENDAR.dateOf(w7).wd===6,J(q)]; });
   await achk('4. 2/7 麵店：「（過年前最後一個週末。長桌只坐了三個人，阿姨多給每個人一顆滷蛋，說是提早發的紅包。）」（阿鳳麵店・長桌）',async()=>{ G.day=w7; G.hour=18; const T=await play('ev_y1w_noodle_last'); return [J(T)===J(['（過年前最後一個週末。長桌只坐了三個人，阿姨多給每個人一顆滷蛋，說是提早發的紅包。）'])&&caps.includes('阿鳳麵店・長桌'),J(T)]; });
   chk('4. 回「不去。」或沒回：沒有後續',()=>{ fresh(w6,20,'dorm'); noodle(); runTo(w6,21.25); ans('y1w_noodle_last_ask',1); runTo(w7,20); const a=!OUT.get(G,'y1w_noodle_last'); fresh(w6,20,'dorm'); noodle(); runTo(w7,20); return a&&!OUT.get(G,'y1w_noodle_last'); });
-  await achk('4. 寒假在宿舍快轉：2/6 21:00 收到要回的訊息就停下來、打開手機',async()=>{ fresh(w5,19,'dorm'); noodle(); picks=['到下一個有事的日子']; await HOME.ffMenu(GM,'dorm'); return [phoneCalls.length>0&&phoneCalls[0].day===w6&&Math.abs(phoneCalls[0].hour-21)<0.3,J(phoneCalls)]; });
+  await achk('4. 寒假在宿舍快轉：2/6 21:00 收到要回的訊息就停下來、打開手機',async()=>{ fresh(w5,19,'dorm'); noodle(); picks=['到下一個有事的日子']; await HOME.ffMenu(GM,'dorm'); const c=phoneCalls.find(x=>x.th==='g:noodle_team'); return [!!c&&c.day===w6&&Math.abs(c.hour-21)<0.3,J(phoneCalls)]; });   /* AA_532 第 4 節：留宿舍的寒假週四也有家人群組（2/5 20:00、22:00 爸爸「？」先停，X58）——找麵店團那一次 */
 
   // ===== 5. 3-1 期中考完 =====
   const m24=D('2026-04-24');

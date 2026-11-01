@@ -56,7 +56,7 @@ const night=async()=>{ G.day=d24; G.hour=21.5; G.zone='dorm'; said=[]; cgs=[]; r
   fresh(d23,8,'dorm'); PHONE.join(G,'noodle_team','麵店團'); for(const id of ['zhe','yu','classmate_bohan']) R(id,'CLO'); R('zhe','CLO',20); R('heroine_03','CLO');
   check('1. C1 10/23 早上在房間：打噴嚏到期（起床選單之前，S.tick）', STORY.coldSneezeDue(G)===true);
   picks=['在麵店團群組']; await STORY.coldWeekSneeze(GM);
-  check('1. C1 打噴嚏兩句（逐字）、選項（群組、誰都不說）', said[0]&&said[0].t==='（起床的時候，你打了三個噴嚏。）'&&said[1]&&said[1].t==='（頭有點重。）'&&opts[0].join('|')==='（在麵店團群組說一聲。）|（誰都不說。睡一下就好了。）', JSON.stringify(opts[0]));
+  check('1. C1 打噴嚏兩句（逐字）、選項（群組、誰都不說）', said[0]&&said[0].t==='（起床的時候，你打了三個噴嚏。）'&&said[1]&&said[1].t==='（頭有點重。）'&&opts[0].join('|')==='（在群組說一聲。）|（誰都不說。睡一下就好了。）', JSON.stringify(opts[0]));
   check('1. C1 群組：你傳「我好像感冒了。」、阿哲「收到」Alison「多喝水。」柏翰「刑訴筆記我有。」', JSON.stringify(txt('g:noodle_team'))===JSON.stringify(['player:我好像感冒了。','zhe:收到','yu:多喝水。','classmate_bohan:刑訴筆記我有。'])&&G.flags.COLD_WEEK==='night'&&G.flags.COLD_WEEK_TOLD==='group', JSON.stringify(txt('g:noodle_team')));
   { const C=STORY.coldWeekCast(G); check('1. C1 名單：語彤、阿哲、Alison、柏翰（3-2 的順序）；CG；最熟的人問（阿哲）', JSON.stringify(C.visitors)===JSON.stringify(['heroine_03','zhe','yu','classmate_bohan'])&&C.cg===true&&C.asker==='zhe'&&!C.partner, JSON.stringify(C)); }
   G.money=5000; G.energy=70; picks=[1]; await night(); const L1=lines();

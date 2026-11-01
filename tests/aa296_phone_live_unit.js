@@ -100,7 +100,7 @@ const memNote=(id,tag)=>{ const L=(H.G.social&&H.G.social.mem&&H.G.social.mem[id
     check('① 那一段沒跑到規則（11:00 才進遊戲）＝不排視訊、照兩則私訊',!OUT.get(G,V)&&J(th('p:heroine_01'))===J(DM1)&&G.flags.AN_CHOICE==='dm');
     /* 沒交往＝照舊（群組）；臺灣路線＝照舊 */
     G=fresh('2028-10-19',8,'us_apartment',{US_DEPARTED:true,US_ARRIVED:true},'US'); H.FAMILIAR('heroine_01'); PHONE.join(G,'noodle_team','麵店團'); rules(); at('2028-10-19',10.1); rules();
-    check('① 美國路線、沒交往：不打視訊，照舊麵店團群組一則（AN_CHOICE group）',!OUT.get(G,V)&&th('g:noodle_team').includes('我決定了。考台大法研所，商法組。')&&G.flags.AN_CHOICE==='group');
+    check('① 美國路線、沒交往：不打視訊，照舊麵店團群組一則（AN_CHOICE group）',!OUT.get(G,V)&&th('g:noodle_team').includes('我決定了。考首都帝大法研所，商法組。')&&G.flags.AN_CHOICE==='group');
     G=fresh('2028-10-19',20,'dorm'); H.FAMILIAR('heroine_01'); date('heroine_01'); PHONE.join(G,'noodle_team','麵店團'); rules(); at('2028-10-19',22.1); rules();
     check('① 臺灣路線、交往中、不在萬才館：照舊群組（不打視訊）',!OUT.get(G,V)&&G.flags.AN_CHOICE==='group');
     G=usAn(8); rules(); G.flags.dating_heroine_01=false; ROM.get(G,'heroine_01').status='ex'; at('2028-10-19',9.8); rules(); const qc=OUT.get(G,V);

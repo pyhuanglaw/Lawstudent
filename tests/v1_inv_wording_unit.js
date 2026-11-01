@@ -7,6 +7,7 @@
 //   5  AA_415 的「現有」沒動（以安、語彤、可昕那幾格照 AA_415；build_replies.py 照樣通過）
 //   6  手機約、當面約（INV.flow）：手機念手機版、當面念當面版
 // 修改前（開發分支 74667bd2b）：這幾句還是舊的——FAIL。用法：node tests/v1_inv_wording_unit.js
+require('./alison.js');   // 讀企劃稿（git show）照匯入工具同一套換：Alison、虛構校名（WORLD-RENAME-1030，docs/WORLD_NAMING.md）
 const H=require('./pg_harness.js');
 const fs=require('fs'), vm=require('vm'), path=require('path'), cp=require('child_process');
 const {check,GM}=H, J=JSON.stringify;
@@ -30,7 +31,7 @@ const NEW=[['A','「好。」'],['A','（她把手機遞過來，自己先掃了
   ['B','「好。二四六晚上我在家教，九點以後才會回。」'],['B','「我家教那個學生問我，念法律是不是要背很多東西。」'],['B','「我跟他說，要背，背完還要會用。」'],['B','「我爸之前傳訊息問我『籃球的三分線是畫在哪裡』。」'],['B','「他在看我們比賽的直播。……到現在還是看不懂。」'],['B','「這條路我每個禮拜都走好幾次，去家教都走這邊。」'],
   ['B','「早午餐？CP 值不高喔……好啦，週末可以。」'],['B','「一盞？我很少喝茶，我爸才喝。……好啊。」'],['B','「走啊，阿鳳便宜又大碗。」'],['B','「可以啊。走一走也好，我最近都坐著。」'],['B','「那時候我在家教 九點以後可以」'],['B','「那時候我在家教，九點以後可以。」'],
   ['B','「我七點要家教 {zh}可以嗎」'],['B','「我七點要家教，{zh}可以嗎？」'],['B','「家教完 {zh} 吃便宜的那家」'],['B','「家教完，{zh}，吃便宜的那家。」'],['B','「那天我要家教 {zh}可以嗎」'],['B','「那天我要家教，{zh}可以嗎？」'],
-  ['B','（他的大頭貼是一棵樹。）'],['B','「椰林大道的大王椰子，葉子一片好幾公斤，掉下來會砸傷人。」'],['B','「走那邊我都走中間。」'],['B','「這棵是樟樹。這棵是菩提。那棵……我不知道欸，我回去查。」'],['B','「芷若高中就這樣，下課都是她在講。」'],
+  ['B','（他的大頭貼是一棵樹。）'],['B','「椰影大道的大王椰子，葉子一片好幾公斤，掉下來會砸傷人。」'],['B','「走那邊我都走中間。」'],['B','「這棵是樟樹。這棵是菩提。那棵……我不知道欸，我回去查。」'],['B','「芷若高中就這樣，下課都是她在講。」'],
   ['B','「好。聽說那邊院子有一棵很老的樟樹，我想去看看。」'],['B','「好。順便看一下 Café 窗台那盆植物。」'],['B','「好。我在總圖門口等你。」']];
 
 (async()=>{
@@ -57,7 +58,7 @@ await sec(2,()=>{ fresh('2025-10-15','heroine_01',45,30); let pk=INV.walkPick(H.
   check('2. 阿凱 K2：問句＋三個回答（③「好，你吃。」（過了十秒）「……吃完了嗎？」）；選項照舊',!!e&&e.l[0]==='「欸，你們法律系的，路邊機車停在騎樓擋路，可以告嗎？」'&&J(e.ch.map(c=>c.t))===J(['不一定是告，可以請警察來看','你想告誰','先讓我吃完'])
     &&J(e.ch[0].r)===J(['「喔，所以告跟叫警察不一樣。好，我學到了。」'])&&J(e.ch[1].r)===J(['「沒有啦，我只是想知道我能不能。」'])&&J(e.ch[2].r)===J(['「好，你吃。」','（過了十秒）','「……吃完了嗎？」']),J(e));
   check('2. 明軒三句（M2 10-1 第 16 點、M3 10-1 第 7 點、M4）',J(P.classmate_mingxuan.walk.any)===J([['「我家教那個學生問我，念法律是不是要背很多東西。」','「我跟他說，要背，背完還要會用。」'],['「我爸之前傳訊息問我『籃球的三分線是畫在哪裡』。」','「他在看我們比賽的直播。……到現在還是看不懂。」'],['「這條路我每個禮拜都走好幾次，去家教都走這邊。」']]));
-  const F=P.npc_fangyt.walk.any; check('2. 方奕廷 F2、F3',J(F[0])===J(['「椰林大道的大王椰子，葉子一片好幾公斤，掉下來會砸傷人。」','「走那邊我都走中間。」'])&&J(F[1])===J(['「這棵是樟樹。這棵是菩提。那棵……我不知道欸，我回去查。」']));
+  const F=P.npc_fangyt.walk.any; check('2. 方奕廷 F2、F3',J(F[0])===J(['「椰影大道的大王椰子，葉子一片好幾公斤，掉下來會砸傷人。」','「走那邊我都走中間。」'])&&J(F[1])===J(['「這棵是樟樹。這棵是菩提。那棵……我不知道欸，我回去查。」']));
   fresh('2025-10-15','npc_fangyt',45,30); SOCIAL.remember('heroine_02','FIRST_MET',''); const seen=[]; for(let i=0;i<6;i++){ const q=INV.walkPick(H.G,'npc_fangyt','cafe'); seen.push(txt(q.lines)); q.next(); }
   check('2. 方奕廷 F4：認識芷若、還沒看過 Z6（FANG_HINT）不說芷若那句（10-1 第 9 點改條件）',!seen.some(t=>/芷若/.test(t)),J(seen));
   SOCIAL.remember('npc_fangyt','FANG_HINT',''); const seen2=[]; for(let i=0;i<3;i++){ const q=INV.walkPick(H.G,'npc_fangyt','cafe'); seen2.push(txt(q.lines)); q.next(); }
@@ -107,7 +108,7 @@ await sec(4,()=>{ const d1=termDay('Y1S1',6,3); fresh(key(d1),'heroine_01',45,30
 
 await sec(5,()=>{ const MON=termDay('Y1S1',6,1); fresh(key(MON),'heroine_01',25,8);
   check('5. 以安的 acc、here、plan 照 AA_415（10-23 較新）：「可以。條件：我會帶東西來寫。」等不改成 AA_194 的稿',J(P.heroine_01.acc.cafe)===J({A:['「可以。條件：我會帶東西來寫。」']})&&J(P.heroine_01.here.library)===J(['「我本來就在總圖。二樓靠窗。」'])&&J(P.heroine_01.plan.cafe)===J(['「今天排滿了。……這個時間可以嗎？」']));
-  check('5. 語彤的 acc 照 AA_415；可昕的半熟、一盞照 AA_415（AA_255 T5）',J(P.heroine_03.acc.noodle)===J({A:['「……我阿姨的店？」','「好。阿姨會多給你一顆滷蛋。」']})&&J(P.kexin.acc.brunch)===J({A:['「半熟？我從政大過來要四十分鐘。好，我十點到。」'],R:['「好啊，我先查一下菜單。」']}));
+  check('5. 語彤的 acc 照 AA_415；可昕的半熟、一盞照 AA_415（AA_255 T5）',J(P.heroine_03.acc.noodle)===J({A:['「……我阿姨的店？」','「好。阿姨會多給你一顆滷蛋。」']})&&J(P.kexin.acc.brunch)===J({A:['「半熟？我從木柵大學過來要四十分鐘。好，我十點到。」'],R:['「好啊，我先查一下菜單。」']}));
   let out='', rc=0; try{ out=cp.execSync('python3 "'+path.join(H.ROOT,'tools/invite/build_replies.py')+'"',{encoding:'utf8'}); }catch(e){ rc=1; out=String(e.stdout||e); }
   const same=cp.execSync('git -C "'+H.ROOT+'" status --porcelain -- src/data/invite_replies.js',{encoding:'utf8'}).trim()==='';
   check('5. build_replies.py 照樣通過（AA_415 的「現有」都對得上），重新產生的檔案沒有變',rc===0&&/heroine_01 36 列/.test(out)&&same,out.slice(0,160)); });

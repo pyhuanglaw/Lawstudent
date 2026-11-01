@@ -259,7 +259,7 @@ const JP=(function(){
   /* 跳到 t（where＝'jp'：日本的據點；'home'：臺北的家）：每 15 分鐘看要不要停；整點跑手機規則、生活費。
      X58（使用者 10-18 15:4x「跳過途中收到訊息就跳出來、按了繼續跳；不要跳完才說「收到 N 則」」）：途中收到任何一則別人傳的訊息（不用回的也算）就停在那一刻（回傳 'msg'）——
      呼叫的人打開手機（S.ffPhone，「跳過」）、關掉以後接著跳（S.ff 快轉、S.sleep 睡覺）；跳完不再說「收到 N 則」（同 home3d.js 的 breakJump、經濟系 y0Jump）*/
-  const recvN=out=>(out||[]).filter(m=>m&&m.from!=='player').length;   /* 這一批裡別人傳的（祐廷自己那一句不算「收到」；同 HOME.recvN）*/
+  const recvN=out=>(out||[]).filter(m=>m&&m.from!=='player'&&!m.quiet).length;   /* 這一批裡別人傳的（祐廷自己那一句不算「收到」；同 HOME.recvN）*/
   S.FF_MAX=200;   /* 一次快轉、睡覺最多停幾次（每一次都要玩家按「跳過」；只是防呆）*/
   S.jump=async function(GM,t,where,o){ o=o||{}; const G=GM.G, E=GM.E, P=P_(); await GM.fade(true); let n=0, mo=null, why=null, tt=NOW(G); const t0=tt, d0=G.day, w0=o.ff?S.waitSnap(G):null;   /* o.ff：玩家選的快轉（要回的訊息也停）*/
     { const nx=S.nextStop(G,tt,where); if(nx!=null&&nx<t) t=nx; }
@@ -405,7 +405,7 @@ const JP=(function(){
     if(q){ const tr=OUT.trip?OUT.trip(G,q,true):{travel:q.travel||''}; O.push({t:(q.verb||'出發')+'：'+q.title,hint:(S.callLike(q)?'':'從家裡出發　')+(q.place||'')+'　'+hm(q.h)+(tr.travel?'　'+tr.travel:''),k:'out',q}); }
     for(const iv of (HOME.dueInvites?HOME.dueInvites(G):[])){ const P=INV.place(iv.place)||{}; O.push({t:'出發：和'+(typeof SOCIAL!=='undefined'?SOCIAL.displayName(iv.who):iv.who)+'約在'+(P.name||''),hint:hm(iv.h)+'　捷運＋公車 約 30 分鐘',k:'inv',iv,P}); }
     if(!ateToday&&h>=18.5&&h<20) O.push({t:'吃晚餐',k:'eat'});
-    if(h<22) O.push({t:'出門',hint:'公館、溫州街、台大　捷運＋公車 約 30 分鐘',k:'go'});
+    if(h<22) O.push({t:'出門',hint:'公館、溫州街、首都帝大　捷運＋公車 約 30 分鐘',k:'go'});
     O.push({t:'看手機',hint:'和朋友聯絡',k:'phone'});
     const ff=S.ffOpts(G,'home'); if(ff) O.push({t:'快轉',hint:'到下一個有事的日子、過三天、過一週',k:'ff'});
     O.push({t:'存檔',hint:'存到存檔欄位',k:'save'});

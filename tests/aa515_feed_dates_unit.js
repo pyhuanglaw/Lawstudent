@@ -27,7 +27,7 @@
 const H=require('./pg_harness.js');
 const fs=require('fs'), vm=require('vm'), path=require('path'), cp=require('child_process');
 const {check,GM}=H, J=JSON.stringify;
-const GIT=process.env.SPEC_GIT_DIR||H.ROOT, SHA='aec3d3d67', SPEC='docs/story_planning/AA_515_交往中約會後的動態.md';
+const GIT=process.env.SPEC_GIT_DIR||H.ROOT, SHA='bfede0a62', SPEC='docs/story_planning/AA_515_交往中約會後的動態.md';
 const load=f=>{ const p=path.join(H.ROOT,f); if(!fs.existsSync(p)) return false; let s=fs.readFileSync(p,'utf8'); s=s.replace(/^const ([A-Z][A-Z0-9_]*)\s*=/mg,'globalThis.$1='); vm.runInThisContext(s,{filename:f}); return true; };
 const errs=[]; for(const f of ['src/data/date_wish.js','src/wish3d.js','src/data/feed_dates.js','src/feed3d.js']){ try{ if(!load(f)) errs.push('沒有 '+f); }catch(e){ errs.push(f+'：'+(e&&e.message||e)); } }
 const sec=async(name,fn)=>{ try{ await fn(); }catch(e){ check(name+'（例外）',false,String(e&&e.stack||e).split('\n').slice(0,2).join(' | ').slice(0,260)); } };
@@ -191,11 +191,11 @@ await sec('5',async()=>{ need(); setup('2025-10-04',8,[YT,ZQ]); const d=H.G.day;
   const d2=d+2, r2=await goDate(ZQ,['D15'],d2,19), e=dq(r2.trip);
   check('5. 子晴：晚上的約會（D15）回到臺北 22 點多，還沒到 00:30＝隔天凌晨 00:30',!!e&&r2.end<T(d2,24.5)&&e.day===d2+1&&hh(e.h)===hh(0.5),J([e,r2.end-T(d2,0)]));
   const y=postAt(T(d2+1,0.5),'dt_zq_1'), q=P('dt_zq_1');
-  check('5. 子晴：00:29 還沒有、00:30 出（隔天的動態）；一句「存檔」沒有句號',!y.before&&!!y.it&&y.it.day===d2+1&&!!q&&q.say==='存檔'&&!/。/.test(q.say),J([y.it,q]));
+  check('5. 子晴：00:29 還沒有、00:30 出（隔天的動態）；一句「走了一整天」沒有句號（AA_527 1-4：原本「存檔」）',!y.before&&!!y.it&&y.it.day===d2+1&&!!q&&q.say==='走了一整天'&&!/。/.test(q.say),J([y.it,q]));
   const b=resp('dt_zq_1','cm');
-  check('5. 子晴：留言她回的拆成兩則（「嗯」「怕忘記」：三則訊息）',J(b.txt)===J(['存檔？','嗯','怕忘記']),J(b.txt));
+  check('5. 子晴：留言她回的拆成兩則（「剛到家」「等一下就睡」：三則訊息；AA_527 1-4）',J(b.txt)===J(['妳還沒睡？','剛到家','等一下就睡']),J(b.txt));
   const d3=d2+3, r3=await goDate(ZQ,['D02'],d3,15); postAt(expect(ZQ,d3,r3.end),'dt_zq_2'); const c=resp('dt_zq_2','dm');
-  check('5. 子晴：第二則用第 2 組；私訊問一句她答的也拆成兩則（「好」「選難一點的」）',J(c.txt)===J(['下次換妳選地方','好','選難一點的'])&&P('dt_zq_2').say==='今天的存檔點',J(c.txt));
+  check('5. 子晴：第二則用第 2 組；私訊問一句她答的也拆成兩則（「好」「選難一點的」）',J(c.txt)===J(['下次換妳選地方','好','選難一點的'])&&P('dt_zq_2').say==='今天沒寫程式',J(c.txt));
 });
 
 /* ======================= 6 七位的時間、過時間回家 30 分鐘 ======================= */
@@ -298,7 +298,7 @@ await sec('11',async()=>{ need(); setup('2025-10-04',8,[AN]); const d=H.G.day;
   check('11. 按愛心：她不回（沒有新訊息）、熟悉 +1',!!a.r&&!a.txt.length&&SOCIAL.rel(AN).fam===f0+1,J([a.txt,SOCIAL.rel(AN).fam-f0]));
   check('11. 一則只回一次',FEED.respond(H.G,'dt_an_1','cm')===null);
   const b=resp('dt_an_2','cm');
-  check('11. 留言（第 2 則＝第 2 組）：你「照片好看。」→ 她「你站得很好。」，進私訊對話串、標「動態「（她那一則的一句，超過十四個字截短）」」',J(b.txt)===J(['照片好看。','你站得很好。'])&&!!b.m&&b.m.fk==='cm'&&(H.G.msgs||[]).filter(m=>m.text==='你站得很好。').every(m=>m.th==='p:'+AN)&&FEED.refLabel(H.G,b.m)===' · 動態「今天沒有照計畫走。……也很…」',J([b.txt,b.m&&FEED.refLabel(H.G,b.m)]));
+  check('11. 留言（第 2 則＝第 2 組）：你「照片好看。」→ 她「你站得很好。」，進私訊對話串、標「動態「（她那一則的一句，超過十四個字截短）」」',J(b.txt)===J(['照片好看。','你站得很好。'])&&!!b.m&&b.m.fk==='cm'&&(H.G.msgs||[]).filter(m=>m.text==='你站得很好。').every(m=>m.th==='p:'+AN)&&FEED.refLabel(H.G,b.m)===' · 動態「今天沒有照計畫走。」',J([b.txt,b.m&&FEED.refLabel(H.G,b.m)]));
   check('11. 同一個人一天只加一次熟悉（留言那一次不再加）',SOCIAL.rel(AN).fam===f0+1);
   const c=resp('dt_an_3','dm');
   check('11. 私訊問一句（第 3 則＝第 1 組）：「手帳上寫了什麼？」→「日期和地點。還有一句，不給你看。」',J(c.txt)===J(['手帳上寫了什麼？','日期和地點。還有一句，不給你看。'])&&!!c.m&&c.m.fk==='dm',J(c.txt));

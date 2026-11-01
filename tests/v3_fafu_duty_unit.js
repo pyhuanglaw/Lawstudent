@@ -44,7 +44,7 @@ GM.money=function(n){ G.money+=n; };
   mem(sat('Y1S2',3),10); check('1. 大一的社員照舊旁觀（志工從大二開始）',STORY.fafuWatchable(G)&&!STORY.fafuShiftable(G));
   // 2. 出發選單
   mem(sat('Y2S1',7),8); STORY.phoneRules(GM); const q=OUT.get(G,'fafu_'+G.day);
-  check('2. 08:30 出發選單「法服值班（萬才館一樓 9:00）」（出發／這週請假），到萬才館一樓',!!q&&q.title==='法服值班（萬才館一樓 9:00）'&&q.no==='這週請假'&&q.goto&&q.goto.zone==='wancai'&&!OUT.due(G)&&(G.hour=8.5,!!OUT.due(G)),JSON.stringify(q));
+  check('2. 08:30 出發選單「法服值班（萬才館一樓 9:00）」（出發／這週請假），到萬才館一樓',!!q&&q.title==='法服值班（法律系館B一樓 9:00）'&&q.no==='這週請假'&&q.goto&&q.goto.zone==='wancai'&&!OUT.due(G)&&(G.hour=8.5,!!OUT.due(G)),JSON.stringify(q));
   // 3. 第一次一般值班（10/24）：2026-10-17 起學姊四年都不在法律服務現場（AA_218 17-7、AA_238 第 2 節）——志工值班的學姊句子（BB_160 第 1 節 ①～⑪）跟著拿掉；值班本身照舊
   const SISRE=/^(溫書瑀|溫學姊)：|學姊在最下面簽名|她坐到十二點/;
   mem(sat('Y2S1',7),9); picks=['從頭講','再待到十二點']; said=[]; opts=[]; await STORY.fafuShift(GM); let L=lines();

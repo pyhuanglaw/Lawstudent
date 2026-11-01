@@ -64,12 +64,13 @@ const EAT=(function(){
   /* 第 5 次那一句的換句（AA_336 A4，只有便利商店：上次沒加熱＝「一樣不用加熱，對吧。」＋祐廷回「好。」）；不符合＝null（照表上那一句）*/
   S.line5Alt=function(T,last){ const a=T&&T.line5Alt, f=a&&S.ALT_TEST[a.when]; return f&&last!=null&&f(String(last))?a:null; };
   /* 點餐選單（取代各店原本的 GM.choose）：opts 是原本的選項（品項在前、後面是「不用了」之類），names／prices 是品項。
-     第 5 次起先說那一句（只說一次）、多一個「老樣子」（放在品項後面）；回傳原本 opts 的序號（老樣子＝上一次那一樣的序號） */
-  S.choose=async function(GM,key,opts,names,prices){ const G=GM.G, R=S.rec(G), T=S.staffOn(GM,key), n=S.count(G,key); S._at={key,day:G.day,hour:G.hour};   /* 點餐那一刻（吃完時間往前走了，她的時段可能剛好結束：一起吃照點餐那一刻判斷）*/
-    if(T&&n>=4&&R.l5[key]==null){ R.l5[key]=G.day; if(key==='阿鳳麵店'&&S.yutongMinding(GM)&&L().staffYutong){ const [id,t]=L().staffYutong; await GM.say(GM.npc[id]||{name:typeof SOCIAL!=='undefined'?SOCIAL.displayName(id):id,charId:id},t); }
+     第 5 次起先說那一句（只說一次）、多一個「老樣子」（放在品項後面）；回傳原本 opts 的序號（老樣子＝上一次那一樣的序號）。
+     o（118 巷九間，lane118.js；AA_480 第 2 節和 AA_311 熟客合併）：line5:false＝不說第 5 次那一句；usual:false＝這一次不加「老樣子」（店員已經主動問過）；who＝回答的說話人（AA_311 第 1 節的稱呼）。其他店不給 o＝照舊 */
+  S.choose=async function(GM,key,opts,names,prices,o){ o=o||{}; const G=GM.G, R=S.rec(G), T0=S.staffOn(GM,key), T=T0&&o.who?Object.assign({},T0,{who:o.who}):T0, n=S.count(G,key); S._at={key,day:G.day,hour:G.hour};   /* 點餐那一刻（吃完時間往前走了，她的時段可能剛好結束：一起吃照點餐那一刻判斷）*/
+    if(T&&n>=4&&R.l5[key]==null&&o.line5!==false){ R.l5[key]=G.day; if(key==='阿鳳麵店'&&S.yutongMinding(GM)&&L().staffYutong){ const [id,t]=L().staffYutong; await GM.say(GM.npc[id]||{name:typeof SOCIAL!=='undefined'?SOCIAL.displayName(id):id,charId:id},t); }
       else { const A5=S.line5Alt(T,R.last[key]); if(A5){ await GM.say(who(T,G,key),A5.t); if(A5.reply) await GM.say({name:G.name},A5.reply); } else if(T.line5) await GM.say(who(T,G,key),T.line5); } }   /* line5 是 null（AA_364 的四家：熟客的招呼 wzshops3d.js 自己演，AA_364 第 5 節第 3 點）＝不說 */
     let O=opts, same=-1; const last=R.last[key];
-    if(T&&n>=4&&last!=null){ const i=names.indexOf(last); if(i>=0&&!(opts[i]&&opts[i].dim)&&!(prices&&prices[i]!=null&&(G.money|0)<prices[i])){ same=i; O=opts.slice(); O.splice(names.length,0,{t:'老樣子',hint:last}); } }
+    if(T&&n>=4&&last!=null&&o.usual!==false){ const i=names.indexOf(last); if(i>=0&&!(opts[i]&&opts[i].dim)&&!(prices&&prices[i]!=null&&(G.money|0)<prices[i])){ same=i; O=opts.slice(); O.splice(names.length,0,{t:'老樣子',hint:last}); } }
     const k=await GM.choose(O); if(same<0) return k;
     if(k===names.length){ const t=S.sameLine(T,last); if(t&&!S.staffAway(GM,key)) await GM.say(who(T,G,key),t); return same; }   /* 沒有回答＝不說；阿姨不在店裡（麵店語彤在顧店、阿姨去買東西）＝不說 */
     return k>names.length?k-1:k; };

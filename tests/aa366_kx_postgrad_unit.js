@@ -96,8 +96,8 @@ const untilOut=async(G,n)=>{ for(let i=0;i<(n||30)&&!OUT.due(G);i++){ const s=PG
       all.length===11&&miss(a,'2030-03')&&miss(b,'2030-08','2030-12')&&miss(c,'2030-10')&&miss(d,'2030-12'),JSON.stringify({all,a,b,c,d})); });
   /* ---------- 4 地點 ---------- */
   await sec('4',async()=>{ const G=fresh('2029-06-03',10); const L=PGDATE.kxList(G), meet=L.filter(s=>s.kind==='meet'), call=L.filter(s=>s.kind==='call');
-    const R=['公館','河濱','政大・山下的小吃街'];
-    check('4. 見面的地點照稿「公館、河濱、政大小吃街輪流」（一格換一個）',meet.length===22&&meet.every((s,i)=>s.place===R[i%3]),meet.map(s=>s.place).join(' '));
+    const R=['公館','河濱','木柵大學・山下的小吃街'];
+    check('4. 見面的地點照稿「公館、河濱、木柵大學小吃街輪流」（一格換一個）',meet.length===22&&meet.every((s,i)=>s.place===R[i%3]),meet.map(s=>s.place).join(' '));
     check('4. P4 是電話：地點字幕「電話」、手機的選項「打給她」、不用出門',call.length===3&&call.every(s=>s.place==='電話'&&PGDATE.outOf(G,s).verb==='打給她'&&PGDATE.outOf(G,s).call===true&&PGDATE.outOf(G,s).travelH===0)); });
   /* ---------- 5 開頭那一則 ---------- */
   await sec('5',async()=>{ { const G=fresh('2029-06-10',20.9); H.at('2029-06-10',21); H.tick(); const K=(G.msgs||[]).filter(m=>m.th==='p:kexin');
@@ -126,7 +126,7 @@ const untilOut=async(G,n)=>{ for(let i=0;i<(n||30)&&!OUT.due(G);i++){ const s=PG
           if(G.day*24+G.hour<before-1e-6) bad.push('倒退 '+lab(G.day,G.hour)); } }catch(e){ err=e; } finally { console.warn=ow; }
       check('6. 一路跳的途中不丟例外、沒有警告（被吞掉的錯誤）',!err&&!warns.length,(err&&err.stack||'')+warns.slice(0,3).join('｜'));
       const want=DOC_SLOT.map(s=>{ const d=D(iso(s.seg,s.md))+(s.week?6:0); return 'kx_od_'+d; });   /* P3：週日（那一週的週一＋6）*/
-      const TRAVEL={'公館':1/6,'河濱':0.25,'政大・山下的小吃街':2/3,'電話':0};
+      const TRAVEL={'公館':1/6,'河濱':0.25,'木柵大學・山下的小吃街':2/3,'電話':0};
       for(const x of seen){ const tr=TRAVEL[x.cap]; if(tr==null||Math.abs(x.at-(x.slot-tr-0.25))>1e-6) bad.push(x.id+' 停在 '+lab(Math.floor(x.at/24),x.at%24)+'（'+x.cap+'）'); }
       check('6. 一路「跳到下一件事」到 2030-12-13：25 格每一格都停（停的時間就是該問的時間：約好的時間減車程再減 15 分鐘）、照順序、每一句照稿',!err&&!bad.length&&want.length===25&&JSON.stringify(seen.map(x=>x.id))===JSON.stringify(want)&&seen.every((x,i)=>x.t===DOC_SLOT[i].line),(err&&err.stack||'')+bad.join('、')+' '+seen.length+'/'+want.length+' it='+it);
       check('6. 五段的開頭那一則都在 21:00 傳到了（KX_OD_PG 最後是 p5）',['p1','p2','p3','p4','p5'].every(sg=>PHONE.sent(G,'kx_od_pg_'+sg))&&G.flags.KX_OD_PG==='p5'); } });

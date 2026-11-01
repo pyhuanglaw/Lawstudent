@@ -58,6 +58,7 @@ let money=[]; GM.money=(n,why)=>{ money.push([n,why]); H.G.money+=n; };
     for(const k in ANYTHOL_LINES){ const v=ANYTHOL_LINES[k]; if(k==='grp') v.forEach(x=>T(x[1])); else if(Array.isArray(v)) v.forEach(T); else T(v); }
     for(const e of ANYTHOL_EVENTS) for(const l of e.dialogue){ if(l.text!==undefined) T(l.text); if(l.scene!==undefined) T(l.scene); if(l.name!==undefined) T(l.name); for(const c of (l.choice||[])) T(c.text); }
     for(const a of X().HOL) T(a.out.title);
+    { const A524=new Set(['（指了一下對岸）去年想帶你去的地方，在那邊。','山坡上那一排房子。','……今年從這裡看就好。']); for(let i=bad.length-1;i>=0;i--) if(A524.has(bad[i])) bad.splice(i,1); }   /* 2026-10-30 AA_524 Y4（企劃線 8fd10848d）在 2029 河濱加的三句：tests/aa524_promises_unit.js 對 AA_524 的稿 */
     check('0. 每一句台詞、選項、地點字幕、私訊、群組、出遊標題都在稿裡（一字不差）',!bad.length,J(bad)); }
   { const bad=[]; for(const e of ANYTHOL_EVENTS){ const Ls=new Set(e.dialogue.filter(l=>l.label).map(l=>l.label)); for(const l of e.dialogue){ if(l.goto&&!Ls.has(l.goto)) bad.push(e.id+':'+l.goto); for(const c of (l.choice||[])) if(c.goto&&!Ls.has(c.goto)) bad.push(e.id+':'+c.goto); } }
     check('0. 每一個 goto 都有 label',!bad.length,J(bad)); }
@@ -124,7 +125,7 @@ let money=[]; GM.money=(n,why)=>{ money.push([n,why]); H.G.money+=n; };
     PHONE.answer(H.G,'anyt_an_y3_ask',0); rules(); const r=dms(AN).slice(-1)[0], q=OUT.get(H.G,'anyt_an_vday_y3');
     check('1-3. 「好。」→「嗯。不要遲到。」；出遊 2/14 14:00 走路、late 0.25、標題「情人節（總圖門口）」',r==='嗯。不要遲到。'&&!!q&&q.h===14&&q.travel==='走路'&&q.late===0.25&&q.title==='情人節（總圖門口）'&&q.day===H.D('2028-02-14'),J(q));
     at('2028-02-14',13.7); const a=relOf(AN); const {L}=await goOut('anyt_an_vday_y3',[0]);
-    check('1-3. 背景 ntu_avenue；「（給她一支鋼筆）」→「……你知道我的筆快沒水了。」「去日本帶這支。」；最後「三月十四號那天，你不要排別的。」',img(H.bgs[0])==='ntu_avenue'&&J(L)===J(['（寒假的椰林大道，腳踏車比平常少一半。）','再一個多月就去日本了。','行李我列好了。衣服帶太少，書帶太多。','……你知道我的筆快沒水了。','去日本帶這支。','三月十四號那天，你不要排別的。'])&&J(H.opts[0])===J(['（給她一支鋼筆）','（給她一盒巧克力）']),J(L));
+    check('1-3. 背景 ntu_avenue；「（給她一支鋼筆）」→「……你知道我的筆快沒水了。」「去日本帶這支。」；最後「三月十四號那天，你不要排別的。」',img(H.bgs[0])==='ntu_avenue'&&J(L)===J(['（寒假的椰影大道，腳踏車比平常少一半。）','再一個多月就去日本了。','行李我列好了。衣服帶太少，書帶太多。','……你知道我的筆快沒水了。','去日本帶這支。','三月十四號那天，你不要排別的。'])&&J(H.opts[0])===J(['（給她一支鋼筆）','（給她一盒巧克力）']),J(L));
     check('1-3. AN_VDAY_GIFT pen、AN_VDAY_Y3 went、記憶 AN_VDAY_PEN、+3／+6／+5',H.G.flags.AN_VDAY_GIFT==='pen'&&H.G.flags.AN_VDAY_Y3==='went'&&SOCIAL.has(AN,'AN_VDAY_PEN')&&!SOCIAL.has(AN,'AN_VDAY_CHOCO')&&dRel(AN,a)===VDAY,dRel(AN,a));
     at('2028-03-14',18); const W=await play('ev_an_white_day',[0]);
     check('1-3. 接 3/14：ev_an_white_day 演「（她拿出一個小紙袋）一個月前你送的。這是回禮。」那一版（不改 r2y3b_events.js）',W.includes('（她拿出一個小紙袋）一個月前你送的。這是回禮。')&&!W.includes('二月十四號那天，我在讀書。……你也沒說什麼。'),J(W)); }

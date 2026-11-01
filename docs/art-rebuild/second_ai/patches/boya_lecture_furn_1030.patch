@@ -1,0 +1,97 @@
+diff --git a/src/teach3d.js b/src/teach3d.js
+index 15204e79a..6fb4ea885 100644
+--- a/src/teach3d.js
++++ b/src/teach3d.js
+@@ -269,6 +269,8 @@ const TB3=(function(){
+ 
+   // ---- 階梯教室（備用模型）：每排的平台、兩側走道的台階（每排兩階）、前緣收邊、長桌、椅子、講桌、黑板、投影幕；門口的「看看」；點地面用的平面 ----
+   function buildLecture(L,r,grp,bb,IT,lvGrp,zone){ const MAT=B3.MAT, Y=L.floors[r.lv].y, up=r.stage==='S'?-1:1, dummy={blockRect(){}};
++    /* 長桌、椅子（備用）放在自己的群組：正式室內模型有階梯教室的桌椅（SEATPANS）時整組藏起來（BOYA-LM-1030，LAWWW2-B 10-30；博思 teach_interior.py）*/
++    const lf=new THREE.Group(); lf.name='lecture_furniture'; grp.add(lf); (zone.lectFurn=zone.lectFurn||[]).push(lf);
+     const platM=TK.std({map:W3.stoneTex('#c4c2bd'),roughness:0.8}), riserM=TK.std({color:0x8f8b84,roughness:0.85}), noseM=TK.std({color:0x55595e,roughness:0.6}), stepM=TK.std({color:0xd8d2c4,roughness:0.7});
+     const sw=r.seatX1-r.seatX0, sx=(r.seatX0+r.seatX1)/2, wx0=Math.min(...r.aisles.map(a=>a[0])), wx1=Math.max(...r.aisles.map(a=>a[1]));
+     for(const q of r.rowsData){ const za=Math.min(q.front,q.back), zb=Math.max(q.front,q.back), half=(q.y-q.yPrev)/2;
+@@ -280,9 +282,10 @@ const TB3=(function(){
+         bb.add(platM,TK.boxG(aw,q.y,r.stepD,2.4),ac,Y+q.y/2,q.front+up*r.stepD*1.5);
+         bb.add(platM,TK.boxG(aw,q.y,fb-fa,2.4),ac,Y+q.y/2,(fa+fb)/2);
+         for(const [zz,yy] of [[q.front,q.yPrev+half],[z1,q.y]]) bb.add(stepM,TK.boxG(aw,0.02,0.06),ac,Y+yy+0.005,zz+up*0.03); }   // 每一階前緣的止滑條
+-      { const dk=Z3.desk(grp,dummy,sx,q.deskZ,0,sw,r.deskD,'#3b3330'); dk.position.y=q.y-(0.77-LECT_DESK_TOP); }   /* 桌面在那一排的平台上 0.75 m（Z3.desk 的桌面 0.77）：和正式的講堂桌板、替身抄筆記的手、桌上小物同一個高度 */
++      { const dk=Z3.desk(lf,dummy,sx,q.deskZ,0,sw,r.deskD,'#3b3330'); dk.position.y=q.y-(0.77-LECT_DESK_TOP); }   /* 桌面在那一排的平台上 0.75 m（Z3.desk 的桌面 0.77）：和正式的講堂桌板、替身抄筆記的手、桌上小物同一個高度 */
+       const wp=new THREE.Mesh(new THREE.PlaneGeometry(wx1-wx0,zb-za),new THREE.MeshBasicMaterial({visible:false})); wp.rotation.x=-Math.PI/2; wp.position.set((wx0+wx1)/2,Y+q.y+0.01,(za+zb)/2); wp.userData.walkLv=r.lv; wp.userData.dyn=true; lvGrp.add(wp); zone.walkMeshes.push(wp); }
+-    for(const st of r.seats){ const c=Z3.chair(grp,st.x,st.z,st.yaw,'#8a5f3c'); c.position.y=st.y; }
++    for(const st of r.seats){ const c=Z3.chair(lf,st.x,st.z,st.yaw,'#8a5f3c'); c.position.y=st.y; }
++    mergeFurniture(lf);
+     if(r.lectern){ const lc=r.lectern; bb.add(MAT.wood(),TK.boxG(lc.w,1.05,lc.d),lc.x,Y+0.525,lc.z); bb.add(MAT.woodD(),TK.boxG(lc.w+0.1,0.05,lc.d+0.1),lc.x,Y+1.075,lc.z); }
+     const wz=up<0?r.z1:r.z0;   // 講台那一面牆
+     if(r.board){ const b=r.board; bb.add(TK.std({color:0x2f4a3a,roughness:0.6}),TK.boxG(b.w,b.y1-b.y0,0.04),b.x,Y+(b.y0+b.y1)/2,wz+up*0.03); bb.add(MAT.frame(),TK.boxG(b.w+0.1,0.05,0.09),b.x,Y+b.y0-0.02,wz+up*0.06); }
+@@ -351,6 +354,8 @@ const TB3=(function(){
+        隔間牆（tb_partition）擋住鏡頭時照樣網點透空。導航、座位、互動點、桌椅都不變；載入前、載入失敗照舊是備用模型 */
+     zone.formal=false; { const GK='bldg.'+id+'_interior'; if(typeof ASSETS!=='undefined'&&ASSETS.manifest&&ASSETS.manifest[GK]) ASSETS.loadOne(GK).then(c=>{ if(!c||!c.scene||E.zone!==zone) return; const root=c.scene.clone(true);
+       B3.attachFormal(zone,root,fb0,fb1,lv0,lv1,walls,walkMeshes);
++      /* 階梯教室的長桌、翻椅在正式模型裡（BOYA-LM-1030，LAWWW2-B 10-30；SEATPANS＝所有椅面一個網格）：藏起備用的方塊桌椅；沒有人坐的椅面掀起來（Z3.seatFold，和法律系館A 201 同一套）*/
++      if(lv0.getObjectByName('SEATPANS')){ for(const f of zone.lectFurn||[]) f.visible=false; if(Z3.seatFold) Z3.seatFold(zone,lv0); }
+       for(const r of [lv0,lv1]) r.traverse(o=>{ if(o.isMesh&&o.material&&/^tb_partition/.test(o.material.name||'')&&!o.material.userData.seeThrough){ o.material.userData.seeThrough=true; if(E.patchSeeThrough) E.patchSeeThrough(o.material); } });
+     }).catch(e=>console.warn(L.name+' 室內正式模型載入失敗，用備用模型',e)); }
+     const EN=L.entrance; E.interactables.push({x:EN.exit.x,z:EN.exit.z,radius:EN.exit.r,lv:0,label:'走出'+L.name,exit:{to:'campus',spawn:EN.campus?Object.assign({},EN.campus):undefined}});   /* campus 還沒定（博雅：校園的位置等使用者決定）＝校園的預設出生點 */
+diff --git a/tests/boya_lecture_glb_unit.js b/tests/boya_lecture_glb_unit.js
+new file mode 100644
+index 000000000..7c78a0d66
+--- /dev/null
++++ b/tests/boya_lecture_glb_unit.js
+@@ -0,0 +1,42 @@
++// 博思教學館室內正式模型的階梯教室桌椅（BOYA-LM-1030，LAWWW2-B 2026-10-30）——不需要瀏覽器。
++// teach_interior.py 把 101／102 的長桌、翻椅做進 boya_interior.glb；遊戲（teach3d.js）看到 SEATPANS 就藏起備用的方塊桌椅、用 Z3.seatFold 掀椅面。這支檢查模型和配置對得上：
++//   ①節點：SEATPANS、LECT_<房號>_desk／_seat／_steel／_panel（不能被合併進大網格：遊戲用名字找）
++//   ②翻椅：每個座位都分得到椅面頂點（zones3d.js seatFold 的分組規則：水平距離² < 0.2、高度在座位地面上 0.45 ± 0.3），每個椅面頂點都有座位（沒有分不到、轉不動的椅面）
++//   ③長桌：每一排的桌面在那一排的平台上 0.75 m（teach3d.js LECT_DESK_TOP；替身抄筆記的手、桌上小物照這個高度）
++//   ④光照貼圖：GLB 場景的 extras.lightmap 指到的白天、晚上兩張圖都在
++// 用法：node tests/boya_lecture_glb_unit.js
++const fs=require('fs'), path=require('path');
++const ROOT=path.resolve(__dirname,'..'), REL='assets/models/env/second_ai/boya_interior.glb';
++let fails=0; const check=(name,ok,info)=>{ console.log((ok?'PASS ':'FAIL ')+name+(info?'　'+info:'')); if(!ok) fails++; };
++const src=fs.readFileSync(path.join(ROOT,'src/data/boya_layout.js'),'utf8'), L=JSON.parse(src.slice(src.indexOf('{',src.indexOf('BOYA_LAYOUT')),src.lastIndexOf('}')+1));
++/* 讀 GLB：每個網格節點（套上節點的位移、旋轉、縮放）的頂點（世界座標）；場景的 extras */
++const b=fs.readFileSync(path.join(ROOT,REL)), n=b.readUInt32LE(12), j=JSON.parse(b.slice(20,20+n).toString('utf8')), off=20+n, bin=b.slice(off+8,off+8+b.readUInt32LE(off));
++const acc=i=>{ const a=j.accessors[i], bv=j.bufferViews[a.bufferView], o=(bv.byteOffset||0)+(a.byteOffset||0), nc={SCALAR:1,VEC2:2,VEC3:3,VEC4:4}[a.type], st=bv.byteStride||nc*4, out=[];
++  for(let k=0;k<a.count;k++) for(let c=0;c<nc;c++) out.push(bin.readFloatLE(o+k*st+c*4)); return out; };
++const mul=(A,B)=>{ const C=new Array(16).fill(0); for(let r=0;r<4;r++) for(let c=0;c<4;c++) for(let k=0;k<4;k++) C[c*4+r]+=A[k*4+r]*B[c*4+k]; return C; };
++const trs=nd=>{ if(nd.matrix) return nd.matrix; const [x,y,z,w]=nd.rotation||[0,0,0,1], [sx,sy,sz]=nd.scale||[1,1,1], [tx,ty,tz]=nd.translation||[0,0,0];
++  return [(1-2*(y*y+z*z))*sx,(2*(x*y+z*w))*sx,(2*(x*z-y*w))*sx,0,(2*(x*y-z*w))*sy,(1-2*(x*x+z*z))*sy,(2*(y*z+x*w))*sy,0,(2*(x*z+y*w))*sz,(2*(y*z-x*w))*sz,(1-2*(x*x+y*y))*sz,0,tx,ty,tz,1]; };
++const V={};
++const walk=(i,M)=>{ const nd=j.nodes[i], W=mul(M,trs(nd));
++  if(nd.mesh!=null){ const out=V[nd.name]=V[nd.name]||[]; for(const pr of j.meshes[nd.mesh].primitives){ const P=acc(pr.attributes.POSITION);
++    for(let k=0;k<P.length;k+=3){ const x=P[k], y=P[k+1], z=P[k+2]; out.push([W[0]*x+W[4]*y+W[8]*z+W[12], W[1]*x+W[5]*y+W[9]*z+W[13], W[2]*x+W[6]*y+W[10]*z+W[14]]); } } }
++  for(const c of nd.children||[]) walk(c,W); };
++const sc=j.scenes[j.scene||0]; for(const r of sc.nodes) walk(r,[1,0,0,0,0,1,0,0,0,0,1,0,0,0,0,1]);
++const LECT=L.rooms.filter(r=>r.kind==='lecture');
++// ①
++const want=['SEATPANS',...LECT.flatMap(r=>['desk','seat','steel','panel'].map(k=>'LECT_'+r.id+'_'+k))];
++check('① 節點都在、沒有被合併（'+want.length+' 個）',want.every(k=>V[k]&&V[k].length),want.filter(k=>!V[k]).join('、')||want.join('、'));
++// ②
++const seats=LECT.flatMap(r=>r.seats.map(s=>({x:s.x,z:s.z,y:L.floors[s.lv|0].y+s.y,room:r.id}))), cnt=seats.map(()=>0); let orphan=0;
++for(const v of V.SEATPANS||[]){ let bi=-1, bd=0.2; seats.forEach((s,k)=>{ const d=(v[0]-s.x)**2+(v[2]-s.z)**2; if(d<bd&&Math.abs(v[1]-s.y-0.45)<0.3){ bd=d; bi=k; } }); if(bi>=0) cnt[bi]++; else orphan++; }
++const empty=cnt.filter(c=>c===0).length;
++check('② 翻椅：'+seats.length+' 個座位都分得到椅面、每個椅面頂點都有座位',seats.length===132&&empty===0&&orphan===0&&(V.SEATPANS||[]).length>0,'沒有椅面的座位 '+empty+'、沒有座位的頂點 '+orphan+'、每個座位 '+Math.min(...cnt)+'～'+Math.max(...cnt)+' 個頂點');
++// ③
++const res=[]; for(const r of LECT){ const Y=L.floors[r.lv|0].y, D=V['LECT_'+r.id+'_desk']||[];
++  for(const q of r.rowsData){ const z0=q.deskZ-r.deskD/2-0.01, z1=q.deskZ+r.deskD/2+0.01, ys=D.filter(v=>v[2]>=z0&&v[2]<=z1&&v[0]>=r.seatX0-0.01&&v[0]<=r.seatX1+0.01).map(v=>v[1]);
++    res.push(ys.length?+(Math.max(...ys)-Y-q.y).toFixed(3):null); } }
++check('③ 長桌：每一排的桌面在平台上 0.75 m（'+res.length+' 排）',res.length===LECT.reduce((a,r)=>a+r.rowsData.length,0)&&res.every(h=>h!==null&&Math.abs(h-0.75)<0.003),JSON.stringify(res));
++// ④
++const lm=sc.extras&&sc.extras.lightmap; const files=lm?['day','night'].map(k=>lm[k]||(lm.url?lm.url+'_'+k+'.webp':null)):[];
++check('④ 光照貼圖：extras.lightmap 的白天、晚上兩張都在',!!lm&&files.length===2&&files.every(f=>f&&fs.existsSync(path.join(ROOT,f))),JSON.stringify(lm||null).slice(0,160));
++console.log(fails?('FAIL '+fails):'ALL PASS'); process.exit(fails?1:0);
+diff --git a/tests/desk_furniture_unit.js b/tests/desk_furniture_unit.js
+index bc2ff25b7..03a73c04c 100644
+--- a/tests/desk_furniture_unit.js
++++ b/tests/desk_furniture_unit.js
+@@ -72,7 +72,8 @@ const angEq=(a,b)=>Math.abs(Math.atan2(Math.sin(a-b),Math.cos(a-b)))<0.01;
+   { const sofaSeats=z.seats.filter(s=>s.kind==='sofa'); check('B 沙發照舊（'+sofaSeats.length+' 個位子，不在換掉的那一組裡）',sofaSeats.length>0); }
+   check('B 座位、互動點、導航和載入失敗時完全一樣（換的只是畫面）',JSON.stringify(z.seats)===seatsF&&JSON.stringify(E.interactables.map(i=>[i.x,i.z,i.lv,i.label]))===itF&&z.levels.map(n=>Array.from(n.b).join('')).join('|')===navF);
+   /* ---------- C：階梯教室的長桌桌面 ---------- */
+-  { const r=L.rooms.find(q=>q.id==='101'); let fur=null; z.levelGroups[0].group.traverse(o=>{ if(!fur&&o.name==='furniture'&&o.parent&&o.parent.name==='furniture0') fur=o; });   /* 2026-10-18 ART-EXT-TEACH：桌椅從備用模型群組 fallback0 搬到 furniture0（正式室內模型載入後藏起 fallback0，桌椅要留著）；量法不變 */
++  { const r=L.rooms.find(q=>q.id==='101'); let fur=null; z.levelGroups[0].group.traverse(o=>{ if(!fur&&o.name==='furniture'&&o.parent&&o.parent.name==='lecture_furniture') fur=o; });   /* 2026-10-18 ART-EXT-TEACH：桌椅從備用模型群組 fallback0 搬到 furniture0（正式室內模型載入後藏起 fallback0，桌椅要留著）；量法不變。
++       2026-10-30 BOYA-LM-1030：階梯教室的長桌、椅子再放進 furniture0 底下自己的 lecture_furniture（一間一組，正式模型有 SEATPANS 時整組藏起來）；第一組是 101 */
+     /* 從桌子正上方往下打射線，第一個打到的就是桌面（同一排的椅子在桌子後面、下一排更後面）；合成的家具座標換回 fallback0 的座標（＝區域座標）*/
+     const res=[]; if(fur){ z.group.updateMatrixWorld(true); const base=new THREE.Vector3().setFromMatrixPosition(fur.parent.matrixWorld), rc=new THREE.Raycaster();
+       for(const q of r.rowsData){ const xs=[r.seatX0+0.6,(r.seatX0+r.seatX1)/2,r.seatX1-0.6];

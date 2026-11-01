@@ -69,6 +69,10 @@ const PRIVTALK=(function(){
       note:'選項不出；沒有期限（她一個人的時候出；等了 7 天照出）'},
     {key:'tell_later',cat:'坦白有別人',who:['heroine_05','heroine_04','heroine_02','heroine_03','kexin'],kind:'opt',gate:'priv',desc:'src/multirel3d.js STORY.TALK_OPTS（S.confLaterFor：「（下次見面，自己跟她講…的事）」；交往中才有；privKey tell_later）',
       note:'選項不出；沒有期限；語彤在麵店、旁邊只有阿姨＝照出（後補第 6 點，S.PLACE_EXCEPT）'},
+    {key:'xc_tell',cat:'坦白有別人',who:['classmate_xinci'],kind:'opt',gate:'priv',desc:'src/xcrom3d.js STORY.TALK_OPTS（S.talkOpts：「（自己跟她講…的事）」；芯慈交往中、還沒跟她說的；AA_548 第 7 節；privKey xc_tell）',
+      note:'選項不出；沒有期限（同 tell_later）'},
+    {key:'xc_repair',cat:'挽回',who:['classmate_xinci'],kind:'opt',gate:'priv',desc:'src/xcrom3d.js STORY.TALK_OPTS（S.repairOpts：「（跟她說，你已經結束了那一段）」；AA_548 8-2；privKey xc_repair）',
+      note:'選項不出；沒有期限（條件本身有畢業典禮前的期限）'},
     /* ---- 她知情以後那幾場 ---- */
     {key:'knows_talk',cat:'她知情以後',who:MR,kind:'pre',gate:'wrap',except:{heroine_03:KNOW.ytMom},desc:'src/multirel3d.js 包 STORY.talkCharacter 的那一層：MREL.meetAction（kind talk／noodle）＝和她說話時演的發現、冷靜、挽回、結果',
       note:'這一次不演、不前進、不算次數（AA_503 第 14 節後補第 3 項：學姊一般見面〔meets、MREL.sisMet〕、語彤被打擾〔dist〕，擋下來沒演的不算），照常說話；流程沒有期限，下次她一個人時演、算；等了 7 天照演、照算（開頭旁白）；語彤旁邊只有阿姨（hc_ayi）＝照演、不加旁白（後補第 5 點；第 6 點起麵店裡她所有私密的都一樣，S.PLACE_EXCEPT）'},
@@ -139,6 +143,9 @@ const PRIVTALK=(function(){
       note:'旁邊有人＝這一次不演；期限 12/7（AA 08:29）：那天照演、開頭旁白'},
     {key:'sis13_laundry',cat:'感情',topic:'學姊美國洗衣間（挽回中）',who:'heroine_05',kind:'event',gate:'prereq',ev:'ev_sis13_laundry',due:'2028-10-20',desc:'src/data/sis_b13_events.js 13-6 洗衣間（美國路線、沒交往，2028-10-08～20 21:00～22:00 社區戶外）',
       note:'旁邊有人＝這一次不演；那一段最後一天 10/20 當期限（稿沒寫期限；AA 確認）'},
+    /* ---- AA_525 2-3（企劃線 6081f725f）：沛珊課輔班的卡片（稿寫「保底 7 天照 privtalk3d.js」）---- */
+    {key:'ps_cards',cat:'說了沒發生',topic:'沛珊課輔班的卡片',who:'classmate_peishan',kind:'pre',gate:'edit',desc:'src/aa525_3d.js STORY.PRE_TALK（2026-06-25 18:30「她們有做卡片給你。我先收著。」以後第一次和她說話：她拿出三張卡片）',
+      note:'這一次不給（照常說話）；沒有期限：等了 7 天照給（開頭一句旁白）'},
     /* ---- 3D 說話裡沒有入口的（寫明在哪裡；之後加入口就用這個 key 問 PRIVTALK.ok）---- */
     {key:'sis_oral',cat:'還沒公開',topic:'學姊口試結果',who:'heroine_05',kind:'none',gate:'none',from:'2029-05-29',until:'2029-05-30',
       desc:'沒有 3D 入口：結果在 5/29 16:00～18:00 研究室走廊的出遊（y34b3d.js M9，2D）、家族群組、電話（ev_sis_defense_call）；她 5/29 08～18 點不在 3D（characters.js）'},

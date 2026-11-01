@@ -33,7 +33,7 @@ const Y2B=(function(){
       if(d18!=null&&G.day>=d18&&G.day<=d05+2){ const until=T(d19,19+50/60);
         if(dating(G,'kexin')&&past(G,'2026-11-18',21)&&now(G)<until&&!PHONE.sent(G,'y2_kx_bad_exam'))
           PHONE.at(G,d18,21,[K('物權。'),K('我考壞了。'),Object.assign(K('……不要安慰我。'),{ask:{id:'y2_kx_bad_exam',until,opts:[{t:'明天晚上我過去。不安慰。',say:[K('……好。八點半，樓下。')],set:{KX_BAD_EXAM_GO:true}},{t:'好。不安慰。',say:[K('嗯。')],set:{KX_BAD_EXAM:'self'}}]}})],'y2_kx_bad_exam');
-        if(F.KX_BAD_EXAM_GO===true&&typeof OUT!=='undefined'&&!OUT.get(G,'y2_kx_bad_exam')) OUT.plan(G,{id:'y2_kx_bad_exam',ev:'ev_kexin_bad_exam',day:d19,h:20.5,late:0.25,place:'政大・宿舍樓下',title:'政大・宿舍樓下 20:30',travel:'開車 約 40 分鐘',travelH:2/3});
+        if(F.KX_BAD_EXAM_GO===true&&typeof OUT!=='undefined'&&!OUT.get(G,'y2_kx_bad_exam')) OUT.plan(G,{id:'y2_kx_bad_exam',ev:'ev_kexin_bad_exam',day:d19,h:20.5,late:0.25,place:'木柵大學・宿舍樓下',title:'木柵大學・宿舍樓下 20:30',travel:'開車 約 40 分鐘',travelH:2/3});
         { const m=PHONE.byAsk(G,'y2_kx_bad_exam'); if(m&&m.ans==null&&now(G)>until&&!F.KX_BAD_EXAM) F.KX_BAD_EXAM='self'; }   /* 不回 */
         if(F.KX_BAD_EXAM==='self'&&dating(G,'kexin')&&!PHONE.sent(G,'y2_kx_bad_self')) PHONE.at(G,d22,22,[K('解決了。不用安慰我。')],'y2_kx_bad_self');
         if(dating(G,'kexin')&&past(G,'2026-12-02',21)&&!PHONE.sent(G,'y2_kx_bad_1202')){ const v=F.KX_BAD_EXAM;
@@ -129,7 +129,7 @@ const Y2B=(function(){
     F.LAWCLUB_SAT_LAST=G.day; F.LAWCLUB_SAT_VISITS=(F.LAWCLUB_SAT_VISITS|0)+1; F.FAFU_SHIFT_N=(F.FAFU_SHIFT_N|0)+1; mark(G,'ev_yt_aunt_consult');   /* 值班照樣算一次（同 S.fafuShift）*/
     const yt=who('heroine_03'), bh=who('classmate_bohan'), aunt={name:'阿姨'}, me={name:G.name||'祐廷'}, dt=dating(G,'heroine_03'), aK=dt&&S.auntKnows(G);
     GM.sceneBegin(); try{ if(typeof ADV!=='undefined'&&ADV.begin){ if(ADV.preload) ADV.preload(['heroine_03','classmate_bohan']); ADV.begin({background:typeof OUT!=='undefined'&&OUT.bg?OUT.bg('wancai_seminar'):'blur',right:{charId:'heroine_03',expression:'neutral'},left:{charId:'classmate_bohan',expression:'serious'}}); }
-      await GM.say(null,'（萬才館的諮詢室。門開了，進來的是阿鳳阿姨，後面跟著語彤。）');
+      await GM.say(null,'（法律系館B的諮詢室。門開了，進來的是阿鳳阿姨，後面跟著語彤。）');
       await GM.say(yt,'（看到你，停了一下）……嗯。我陪阿姨來的。');
       await GM.say(bh,'你們認識？');
       if(aK){ await GM.say(aunt,'認識啊，我們語彤的男朋友。'); await GM.say(yt,'阿姨。'); await GM.say(bh,'……喔。那這件你不要做紀錄，坐旁邊聽就好。紀錄我自己來。'); await GM.say(null,'（你把筆放下。語彤沒有看你，耳朵有點紅。）');
@@ -148,7 +148,7 @@ const Y2B=(function(){
       await GM.say(yt,'阿姨，所以才要準備。');
       await GM.say(null,'（阿姨看了她一眼，笑出來。第一次。）');
       await GM.say(aunt,'好啦，聽妳們的。');
-      if(typeof ADV!=='undefined'&&ADV.hide) ADV.hide('left'); if(GM.caption) GM.caption('','萬才館門口',2400);   /* 散會。萬才館門口，阿姨先去騎車 */
+      if(typeof ADV!=='undefined'&&ADV.hide) ADV.hide('left'); if(GM.caption) GM.caption('','法律系館B門口',2400);   /* 散會。萬才館門口，阿姨先去騎車 */
       await GM.say(yt,'剛剛他講的那個，我這學期也在上。');
       await GM.say(yt,'在課本上看的時候，覺得好整齊。坐在阿姨旁邊聽，就不整齊了。');
       const k=await GM.choose([{t:'「整齊的部分，我可以再講給妳聽。」'},{t:'「阿姨會沒事的。」'},{t:'「妳要不要先陪阿姨回去？」'}]);

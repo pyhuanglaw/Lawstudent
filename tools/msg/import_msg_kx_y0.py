@@ -14,7 +14,7 @@ def src_of(prefix):
     P, SHA = next(iter(APPROVED.items()))
     ok, why = G.allowed(P, SHA, ALLOW)
     if not ok: sys.exit('拒絕匯入：' + why)
-    return P, SHA, G.alison(subprocess.check_output(['git', '-C', ROOT, 'show', f'{SHA}:{P}'], text=True))  # AA_380：讀稿先把「小語」換成 Alison（import_guard.alison）
+    return P, SHA, G.read_fix(subprocess.check_output(['git', '-C', ROOT, 'show', f'{SHA}:{P}'], text=True))  # AA_380：讀稿先把「小語」換成 Alison（import_guard.alison）
 P, SHA, md = src_of('docs/story_planning/AA_301_')
 sec = md[md.index('## 3.'):]
 m = re.search(r'```json\n(.*?)\n```', sec, re.S)

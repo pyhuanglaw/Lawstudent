@@ -56,12 +56,12 @@ async def main():
         s = await L.state(pg); await run.shot(pg, 'platform')
         run.check('在平台上（校園第 1 層、3.63 m）', s['zone'] == 'campus' and s['lv'] == 1 and abs(s['y'] - 3.63) < 0.05, json.dumps(s, ensure_ascii=False))
         # 1. 二樓入口
-        d2 = await L.find_it(pg, '進入萬才館（二樓）')
-        run.check('平台上有「進入萬才館（二樓）」', bool(d2) and d2['lv'] == 1, json.dumps(d2, ensure_ascii=False))
+        d2 = await L.find_it(pg, '進入法律系館B（二樓）')
+        run.check('平台上有「進入法律系館B（二樓）」', bool(d2) and d2['lv'] == 1, json.dumps(d2, ensure_ascii=False))
         ok = await L.go_to(pg, cdp, run, d2['x'], d2['z'] + 0.4, 0.8, '二樓入口', lv=1)
-        run.check('進入萬才館（二樓）→ 室內二樓', ok and await press(pg, cdp, run, '進入萬才館（二樓）', 'wancai'))
+        run.check('進入法律系館B（二樓）→ 室內二樓', ok and await press(pg, cdp, run, '進入法律系館B（二樓）', 'wancai'))
         await pg.wait_for_timeout(2500); s = await L.state(pg); await run.shot(pg, 'foyer_2f')
-        run.check('在萬才館二樓的門廳（第 1 層、4.2 m）、站得住；不會一進來就跳出「走出去」', s['zone'] == 'wancai' and s['lv'] == 1 and abs(s['y'] - Y1) < 0.05 and s['stand'] and not s['interact'].startswith('走出去'),
+        run.check('在法律系館B二樓的門廳（第 1 層、4.2 m）、站得住；不會一進來就跳出「走出去」', s['zone'] == 'wancai' and s['lv'] == 1 and abs(s['y'] - Y1) < 0.05 and s['stand'] and not s['interact'].startswith('走出去'),
                   json.dumps(s, ensure_ascii=False))
         # 2. 迴廊 → 北側走廊 → 研討室 A
         da = await L.find_it(pg, '進入 研討室 A') or await L.find_it(pg, '研討室 A')   # 6ac74b063 起門的字是「進入 研討室 A」
@@ -136,7 +136,7 @@ async def main():
         c = await pg.evaluate("(()=>{ const b=[...document.querySelectorAll('#saveSlots button')].filter(x=>x.textContent==='存檔'); const e=b[b.length-1]; if(!e) return null; e.scrollIntoView({block:'center'}); const r=e.getBoundingClientRect(); return [r.left+r.width/2,r.top+r.height/2]; })()")
         if c: await L.touch_tap(cdp, c[0], c[1]); await pg.wait_for_timeout(1500)
         saved = await pg.evaluate("(()=>{ for(const k of ['fatiao3d_slot_3','fatiao3d_slot_2','fatiao3d_slot_1']){ const t=localStorage.getItem(k); if(t){ const s=JSON.parse(t); if(s.zone==='wancai'&&s.pos&&s.pos.lv===1) return {k,pos:s.pos}; } } return null; })()")
-        run.check('在萬才館二樓存檔：存檔記錄區域、樓層（lv=1）、位置與高度', bool(saved) and abs(saved['pos'].get('y', 0) - Y1) < 0.1, json.dumps(saved, ensure_ascii=False))
+        run.check('在法律系館B二樓存檔：存檔記錄區域、樓層（lv=1）、位置與高度', bool(saved) and abs(saved['pos'].get('y', 0) - Y1) < 0.1, json.dumps(saved, ensure_ascii=False))
         await L.tap(pg, cdp, '#btnClose') if await L.center_of(pg, '#btnClose') else None
         await pg.reload(); run.check('重新整理', await L.wait_loaded(pg))
         await L.no_phone_auto(pg)   # [前置] 讀進來的存檔有要回的訊息：手機自己打開會擋住搖桿（D103）
@@ -144,19 +144,19 @@ async def main():
         c = await pg.evaluate("(k=>{ const n=k.replace('fatiao3d_slot_',''); const b=[...document.querySelectorAll('#saveSlots button')].filter(x=>x.textContent==='讀取'); const e=b.find(x=>x.closest('.item')&&x.closest('.item').textContent.includes('欄位 '+n)); if(!e) return null; e.scrollIntoView({block:'center'}); const r=e.getBoundingClientRect(); return [r.left+r.width/2,r.top+r.height/2]; })(%s)" % json.dumps(saved['k'] if saved else 'fatiao3d_slot_3'))
         if c: await L.touch_tap(cdp, c[0], c[1])
         await pg.wait_for_timeout(4000); s = await L.state(pg); await run.shot(pg, 'after_load_2f')
-        run.check('讀檔：回到萬才館二樓（第 1 層、4.2 m）', s['zone'] == 'wancai' and s['lv'] == 1 and abs(s['y'] - Y1) < 0.1, json.dumps(s, ensure_ascii=False))
+        run.check('讀檔：回到法律系館B二樓（第 1 層、4.2 m）', s['zone'] == 'wancai' and s['lv'] == 1 and abs(s['y'] - Y1) < 0.1, json.dumps(s, ensure_ascii=False))
         ok = await L.go_to(pg, cdp, run, -6.0, 2.0, 0.7, '西側迴廊', lv=1)
         s = await L.state(pg)
         run.check('讀檔之後走得動（走到西側迴廊，還在二樓）', ok and s['lv'] == 1 and abs(s['y'] - Y1) < 0.05, json.dumps(s, ensure_ascii=False))
         # 7. 走樓梯下一樓 → 離開萬才館
-        ex = await L.find_it(pg, '離開萬才館')
+        ex = await L.find_it(pg, '離開法律系館B')
         ys.clear()
         wt = asyncio.ensure_future(watch_y(lambda st: st['lv'] == 0 and abs(st['y']) < 0.05 and st['z'] > 4.0))
         ok = await L.go_to(pg, cdp, run, ex['x'], ex['z'] - 0.4, 0.9, '一樓出口（走樓梯下來）', lv=0)
         await asyncio.sleep(1.0); wt.cancel()
         s = await L.state(pg); mids = [y for (y, lv, z) in ys if 1.0 < y < 3.0]
-        run.check('從二樓走樓梯下一樓、走到出口（經過樓梯中段、第 0 層、地面）', ok and s['lv'] == 0 and abs(s['y']) < 0.05 and len(mids) >= 1 and s['interact'].startswith('離開萬才館'), f'中段取樣 {len(mids)} 個；' + json.dumps(s, ensure_ascii=False))
-        run.check('離開萬才館 → 回到校園', await press(pg, cdp, run, '離開萬才館', 'campus'))
+        run.check('從二樓走樓梯下一樓、走到出口（經過樓梯中段、第 0 層、地面）', ok and s['lv'] == 0 and abs(s['y']) < 0.05 and len(mids) >= 1 and s['interact'].startswith('離開法律系館B'), f'中段取樣 {len(mids)} 個；' + json.dumps(s, ensure_ascii=False))
+        run.check('離開法律系館B → 回到校園', await press(pg, cdp, run, '離開法律系館B', 'campus'))
         await pg.wait_for_timeout(2000); s = await L.state(pg); await run.shot(pg, 'out_1f')
         run.check('回到校園：陽台下的一樓入口前面、地面那一層、站得住', s['zone'] == 'campus' and s['lv'] == 0 and abs(s['y']) < 0.05 and s['stand'] and abs(s['x'] - 93.8) < 0.5 and abs(s['z'] + 98.4) < 0.5, json.dumps(s, ensure_ascii=False))
         # 8.

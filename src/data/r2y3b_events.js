@@ -33,7 +33,7 @@ const R2Y3B_EVENTS=(function(){
       {if:kn('zhe','heroine_01'),speaker:'zhe',text:'這學期以安只吃一個月。'},
       {if:kn('heroine_01'),speaker:'heroine_01',text:'一個月又三天。三月二十五號的飛機。'},
       {if:kn('yu','heroine_01'),speaker:'yu',text:'那三月以前每一頓都要來喔。'},
-      {if:kn('heroine_01','yu'),speaker:'heroine_01',text:'……好。週二、週四。'},
+      {if:kn('heroine_01','yu'),speaker:'heroine_01',text:'……好。我盡量。'},
       {if:{custom:G=>route(G)==='JP'&&knows('zhe',G)&&knows('heroine_01',G)},speaker:'zhe',text:'（轉向你）你也是。一個月又三天。'},   /* 日本路線多一句 */
       {if:kn('heroine_03'),speaker:'heroine_03',text:'（端麵過來）……今天週二。週四我不在店裡了。'},
       {if:kn('heroine_03','zhe'),speaker:'zhe',text:'她週四有自己的事了。'},
@@ -64,7 +64,7 @@ const R2Y3B_EVENTS=(function(){
   /* ---------- 2-Y3-28 杜鵑花第三張：2028-03-09（四）12:00～12:40 椰林大道（以安的作息只有這一天，r2y3b3d.js 加）；和以安 FAMILIAR 以上、走過去和她說話 ---------- */
   const AZALEA={ id:'ev_an_azalea_y3', title:'四年，四張（第三張）', participants:['heroine_01'], location:'campus', trigger:'interact', priority:8, once:true, term:['Y3S2'], weeks:[3], weekday:[4], time:[12,12+40/60], background:'blur',
     prereq:{stage:{npc:'heroine_01',min:'FAMILIAR'}},
-    dialogue:[ {speaker:null,text:'（椰林大道的杜鵑開了。以安拿著手機，站在和前兩年同一個位置。）'},
+    dialogue:[ {speaker:null,text:'（椰影大道的杜鵑開了。以安拿著手機，站在和前兩年同一個位置。）'},
       {speaker:'heroine_01',text:'第三張。你幫我拍。'},
       {speaker:null,text:'（你拍了兩張。她看了一下。）'},
       {speaker:'heroine_01',text:'可以。花有拍到。'},
@@ -144,7 +144,7 @@ const R2Y3B_EVENTS=(function(){
     {if:{flagIs:{YU_BKF:'WAKE'}},speaker:'yu',text:'阿哲現在起得來了。……可是我還是想要一個晚上，只有我。'},
     {if:{flagIs:{YU_BKF:'ALONE'}},speaker:'yu',text:'你大二說一個人吃也不錯。我那時候覺得你很怪。'} ];
   const YU4_W=[ {label:'w'},{speaker:'yu',text:'對。'},{speaker:null,text:'（她笑。）'},{speaker:'yu',text:'他昨天傳了十二部電影給我。……我一部都不要看他選的。'},{goto:'end'},
-    {label:'q'},{speaker:'yu',text:'……還不知道。'},{speaker:null,text:'（她看著傅鐘。）'},{speaker:'yu',text:'所以才要留一個晚上。'},{goto:'end'} ];   /* 檔尾裁定 #17 */
+    {label:'q'},{speaker:'yu',text:'……還不知道。'},{speaker:null,text:'（她看著晨思鐘。）'},{speaker:'yu',text:'所以才要留一個晚上。'},{goto:'end'} ];   /* 檔尾裁定 #17 */
   const YU4={ id:'ev_yu_alone_breakfast', title:'一個人的晚上', participants:['yu'], location:'campus', trigger:'auto', once:true, term:['Y3S2'], weeks:[3,4,5,6], weekday:[1,2,3,4,5], time:[9.5,12], npcNear:'yu', background:'blur',
     prereq:{stage:{npc:'yu',min:'FAMILIAR'},custom:G=>{ const x=X(); return !!x&&!x.inJP(G); }},
     dialogue:[ {speaker:null,text:'（她一個人在吃早餐。這次她沒有戴耳機。）'} ].concat(YU4_BKF,[
@@ -309,32 +309,33 @@ const R2Y3B_EVENTS=(function(){
     dialogue:[ {if:KXV,scene:'視訊',bg:'video'},{unless:KXV,scene:'公館',bg:'gongguan_cake'},   /* 公館的甜點店 2D 沒有＝深色底＋字幕 */
       {if:KXV,speaker:null,text:'（她把一片蛋糕舉到鏡頭前。）'},{if:KXV,speaker:'kexin',expression:'teasing',text:'這片是你的。我幫你吃。'},
       {speaker:'kexin',expression:'smile',text:'生日願望。一，報告寫完。二，你的報告也寫完。'},
-      {speaker:'kexin',expression:'laugh',text:'三……三十分鐘到了。第三個明年說。'},
+      {speaker:'kexin',expression:'laugh',text:'三……三十分鐘到了。第三個明年說。'},{set:{KX_WISH3:true}},   /* AA_525 3-3（K-4）：2029-04-23 21:00 她的私訊多兩句（r2y4b3d.js）*/
       {if:{custom:G=>KXV.custom(G)&&!!(G.flags&&G.flags.KX_EXCHANGE_ASKED)},speaker:'kexin',expression:'smile',text:'沒關係，你先睡。填交換志願的時候，你有先問我。'},   /* AA_344 ⑤：日本路線視訊的最後（三十分鐘到了、她掛之前），交換志願表那一場先問過她的（KX_EXCHANGE_ASKED，story3d.js 1A-05）；BB_98 9-5 */
       {unless:KXV,speaker:null,text:'（她把最後一口蛋糕吃完，拿了包包就走。走到門口又回頭。）'},   /* 收尾（新寫）：當面那一版 */
       {unless:KXV,speaker:'kexin',expression:'smile',text:'報告寫完了跟我說。'} ],
     after:G=>{ const x=X(); if(x) x.kxBdayDone(G); },
     outingMissed:G=>{ const x=X(); if(x) x.kxBdayMissed(G); } };
 
-  /* ---------- 2-Y3-42 慈 6「第一名」：5/4（四）19:00～20:00 麵店長桌（芯慈在；一天的作息）；日本路線＝21:40 視訊（日本 22:40）---------- */
-  const XC_LINES=[ {speaker:'classmate_xinci',text:'以安不在的這學期，我第一次考第一。'},
-    {speaker:'classmate_xinci',text:'一點都不好玩。'},
-    /* AA_497 2-5：照記憶多一句，可以疊（影印機猜拳 XC_RPS、她爸爸那一場選的 XC_DAD_*；src/sup497_3d.js）；沒演到慈 6 的＝隔天 12:00 私訊 */
-    {if:{flags:['XC_RPS']},speaker:'classmate_xinci',text:'我上一次贏她，是大一在影印機前面猜拳。'},
-    {if:{flags:['XC_DAD_AN']},speaker:'classmate_xinci',text:'我打電話跟我爸說了。他問：那沈以安第幾？'},
-    {if:{flags:['XC_DAD_XC']},speaker:'classmate_xinci',text:'我打電話跟我爸說了。他說，你那個同學早就說了。'},
-    {if:{flags:['XC_DAD_NO']},speaker:null,text:'（她看著手機很久，最後沒有打給任何人。）'},
-    {speaker:'classmate_xinci',text:'我把雙主修改成輔系了。經濟我還是喜歡。只是不用拿第一了。'},
-    {speaker:'classmate_xinci',text:'昨天晚上追劇追到兩點。……那部劇真的很好看。'},
-    {choice:[{text:'「恭喜。」',goto:'a'},{text:'「哪一部劇？」',goto:'b'}]},
-    {label:'a'},{speaker:'classmate_xinci',text:'嗯。……第二句你也聽到了吧。'},{goto:'end'},
-    {label:'b'},{speaker:'classmate_xinci',text:'你要聽嗎？'},
-    {unless:JP,speaker:null,text:'（她講了十分鐘。阿哲吃完了兩碗。）'},   /* 視訊版沒有阿哲在旁邊：只到「你要聽嗎？」 */
-    {label:'end'},{set:{XINCI_FIRST:true}},{mem:[{npc:'classmate_xinci',tag:'XINCI_FIRST',note:''}]} ];   /* XINCI_FIRST：記憶＋旗標（events.js 大四上 R1 讀旗標）*/
-  const XC={ id:'ev_xinci_first_place', title:'第一名', participants:['classmate_xinci'], location:'noodle', trigger:'auto', once:true, time:[19,20], npcPresent:'classmate_xinci', background:'blur',
-    prereq:{stage:{npc:'classmate_xinci',min:'FAMILIAR'},custom:G=>{ const x=X(); return !!x&&x.isDay(G,'2028-05-04')&&!x.inJP(G); }},
+  /* ---------- 2-Y3-42 慈 6「暑期實習」（AA_547 2-4 新寫，D116：原本「第一名」、改輔系、隔天「排名出來了。我第一。」都拿掉）：5/4（四）19:00～20:00 麵店長桌（芯慈在；一天的作息）；日本路線＝21:40 視訊（日本 22:40）---------- */
+  const XON={custom:()=>typeof XCROM!=='undefined'&&!!XCROM.ON};   /* 芯慈戀愛線開關（src/xcrom3d.js）*/
+  const XC_LINES=[ {speaker:'classmate_xinci',text:'我申請了國際所的暑期實習。台灣分所。'},
+    {speaker:'classmate_xinci',expression:'smile',text:'……錄取了。金融那一組。'},
+    {choice:[{text:'「恭喜！」',goto:'a'},{text:'「為什麼是金融那一組？」',goto:'b'},{text:'「妳爸媽怎麼說？」',goto:'c'}]},
+    {label:'a'},{speaker:'classmate_xinci',expression:'smile',text:'謝謝。我想做的就是這個。'},{goto:'end'},
+    {label:'b'},{speaker:'classmate_xinci',text:'因為那裡的合約，數字跟條文一樣多。'},{goto:'end'},
+    {label:'c'},{speaker:'classmate_xinci',expression:'laugh',text:'我媽說：那家樓下的咖啡很好喝。'},
+    {label:'end'},
+    /* AA_548 3-5（G8「週六晚上」，取代「空白的週三下午」）：芯慈戀愛線打開（XCROM.ON）才有；選「我可以一起嗎？」記 XC_BLANK，另外兩個＝大四上第 6 週週六她再傳一則（xcrom3d.js blankAgain）*/
+    {if:XON,speaker:'classmate_xinci',text:'實習是週一到週五。'},{if:XON,speaker:'classmate_xinci',text:'週六晚上，我還是會去西門町，看七點那一場。'},
+    {if:XON,choice:[{text:'「我可以一起嗎？」',set:{XC_BLANK:true},goto:'s1'},{text:'「妳一個人看嗎？」',goto:'s2'},{text:'「好好實習。」',goto:'s3'}]},{goto:'fin'},
+    {label:'s1'},{speaker:'classmate_xinci',text:'……可以。不要遲到。'},{goto:'fin'},
+    {label:'s2'},{speaker:'classmate_xinci',text:'一直都是。'},{goto:'fin'},
+    {label:'s3'},{speaker:'classmate_xinci',text:'嗯。'},
+    {label:'fin'},{set:{XINCI_FIRST:true}},{mem:[{npc:'classmate_xinci',tag:'XINCI_FIRST',note:''}]} ];   /* XINCI_FIRST（id 照舊）＝慈 6 演過：記憶＋旗標（events.js 大四上 R1 讀旗標）*/
+  const XC={ id:'ev_xinci_first_place', title:'暑期實習', participants:['classmate_xinci'], location:'noodle', trigger:'auto', once:true, time:[19,20], npcPresent:'classmate_xinci', background:'blur',
+    prereq:{stage:{npc:'classmate_xinci',min:'FAMILIAR'},custom:G=>{ const x=X(); return typeof XCROM!=='undefined'&&!!XCROM.OLD&&!!x&&x.isDay(G,'2028-05-04')&&!x.inJP(G); }},   /* XCROM.OLD：D116 先關 */
     dialogue:XC_LINES };
-  const XC_VIDEO={ id:'ev_xinci_first_place_video', title:'第一名', participants:['classmate_xinci'], location:'any', trigger:'outing', once:true, background:'dark', hours:0.25,
+  const XC_VIDEO={ id:'ev_xinci_first_place_video', title:'暑期實習', participants:['classmate_xinci'], location:'any', trigger:'outing', once:true, background:'dark', hours:0.25,
     dialogue:[ {scene:'視訊',bg:'video'} ].concat(XC_LINES) };
 
   /* ---------- 2-Y3-43 日本 J2「町公所的一張通知」（以安新 17；CG-17）：日本路線交往中＝5/6 日本 15:00 町公所門口；挽回中＝日本 22:00 宿舍大廳；台灣、美國路線＝20:00 群組（r2y3b3d.js）---------- */
@@ -348,8 +349,8 @@ const R2Y3B_EVENTS=(function(){
       {label:'b'},{speaker:'heroine_01',text:'那沒照做的那一家，鄰居會怎麼看他？'},{goto:'end'},
       {label:'c'},{speaker:'heroine_01',text:'（把這句抄進手帳）……好。那我想研究的，就是這兩個中間的線。'},
       {label:'end'},
-      {speaker:null,text:'（她把那張通知拍下來。這次，沒有傳到麵店團。）'},   /* AA_187 1-5 交往中的結尾 */
-      {speaker:'heroine_01',text:'這張不用傳給麵店團了。'},
+      {speaker:null,text:'（她把那張通知拍下來。這次，沒有傳到群組。）'},   /* AA_187 1-5 交往中的結尾 */
+      {speaker:'heroine_01',text:'這張不用傳到群組了。'},
       {set:{AN_TOWN_NOTICE:'there'}} ],   /* 法律：旁白不說這張通知是行政指導（AA_30 J2）*/
     outingMissed:G=>{ const x=X(); if(x) x.noticePhoto(G); } };
   const J2_REPAIR={ id:'ev_an_town_notice_repair', title:'町公所的一張通知', participants:['heroine_01'], location:'any', trigger:'outing', once:true, background:'dark', hours:0.5,
@@ -439,6 +440,8 @@ const R2Y3B_EVENTS=(function(){
         [['比臺灣難嗎？','比較難。可是規則寫得很清楚。'],['妳一定都記得。','記得。上禮拜鄰居還問我。']],[['後來呢？','後面的阿姨帶我換過去。沒說話。'],['妳也會排錯？','會。只有一次。']],
         [['公寓有烘衣機嗎？','樓下有。一次一百圓。我又記了一筆。'],['臺北也在下。','那我們一樣。']],[['一定是答對了。','下次我問老師。'],['安靜是好的意思嗎？','我也不知道。我查了。']],
         [['我去機場接妳。','好。……我記在手帳了。'],['東西變多了嗎？','多了一本手帳。寫滿了。']]],   /* T1 也有回覆按鈕（AA_343 D3）：每則兩個，她回一句；原本四則的回覆照舊 */
+    /* AA_524 A10：沒交往的朋友（r2y3b3d.js 的 tier 1）沒有接機那一場——「我去機場接妳。」她的回覆換這一句；交往中照上面（8/5 接機）*/
+    t1OFriend:{9:{'我去機場接妳。':'不用。我爸會來。……謝謝。'}},
     t2:[{L:['上課聽懂七成了。剩下三成，我回房間查字典。','你那邊期中考了嗎？'],O:['考了。','下禮拜。']},{L:['町公所前面的阿伯一直跟我講話，我只聽懂『學生』兩個字。','你最近都去哪裡讀書？'],O:['總圖。','麵店。']},
         {L:['讀書會 Alison 有沒有好好排題目？……你不要幫她排。讓她自己排。','你那邊還好嗎？'],O:['她排得很好。','還好。']},{L:['這邊下了一整天的雨。','你那邊在下雨嗎？'],O:['也在下。','晴天。']}],   /* 回覆按鈕新寫，每則兩個 */
     t3:[ [ {speaker:null,text:'（畫面裡是她房間的書桌，手帳攤在旁邊。）'},{speaker:'heroine_01',text:'你那邊幾點？……我算了一下，你應該剛吃完晚餐。'},{speaker:'heroine_01',text:'這禮拜的課很難。先不講課了，你那邊最近怎樣？'},{speaker:'heroine_01',text:'好，我要去睡了。下禮拜同一個時間。'} ],
@@ -457,8 +460,8 @@ const R2Y3B_EVENTS=(function(){
       {choice:[{text:'「以安，我喜歡妳。」',set:{AN_TANABATA_SAID:'player'},goto:'p'},{text:'（把短冊掛上去）',set:{AN_TANABATA_SAID:'her'},goto:'h'}]},
       {label:'p'},{goto:'pk',if:AN_KNOWS},{speaker:'heroine_01',text:'……我知道。我等你說，等了三個月。'},{speaker:'heroine_01',text:'好。'},{goto:'e'},
       {label:'pk'},{speaker:'heroine_01',text:'……我知道。'},{call:async(G,GM)=>{ const x=X(); if(x) await x.tanabataKnow(GM,true); }},{goto:'e'},   /* AA_474 3b：她知道祐廷有別人＝「……我知道。」接 KNOW.say、三個選項（R2Y3B.tanabataKnow）*/
-      {label:'h'},{speaker:'heroine_01',text:'你不說，那我說。'},{speaker:'heroine_01',text:'我喜歡你。理由我寫在手帳裡，回臺灣再給你看。'},{speaker:'heroine_01',text:'……你不准賴。'},
-      {if:AN_KNOWS,call:async(G,GM)=>{ const x=X(); if(x) await x.tanabataKnow(GM,false); }},   /* AA_474 3b：她原本三句接 KNOW.she、三個選項 */
+      {label:'h'},{speaker:'heroine_01',text:'你不說，那我說。'},{goto:'hk',if:AN_KNOWS},{speaker:'heroine_01',text:'我喜歡你。理由我寫在手帳裡，回臺灣再給你看。'},{speaker:'heroine_01',text:'……你不准賴。'},{goto:'e'},
+      {label:'hk'},{speaker:'heroine_01',text:'我喜歡你。'},{call:async(G,GM)=>{ const x=X(); if(x) await x.tanabataKnow(GM,false); }},   /* AA_481 第 1 節：她知道＝只說兩句就接 KNOW.she（「理由我寫在手帳裡」沒答應就沒有下文、「……你不准賴。」和她接著問的打架，都不說）；答應的照原本排 ev_an_notebook */
       {label:'e'} ],
     d3:[ {scene:'關西・大學城',bg:'jp_street_day'},{speaker:null,text:'（她排的行程表上，每一格都有時間。你們只走完一半。）'} ],   /* 7/8、7/9 兩個摘要日（新寫）*/
     d4:[ {scene:'大學城的河堤',bg:'jp_riverbank'},{speaker:null,text:'（大學城的河堤。她讀書，你坐在旁邊看河。）'} ],
@@ -560,7 +563,8 @@ const R2Y3B_EVENTS=(function(){
     run:['（她講話變快）我、我家到了。我先上去。',{narr:'（她跑進巷子。）'}],   /* BB_98 4-6 原文 */
     exe:'（《找插座的貓》的新關卡。貓找到了插座，插座旁邊坐著另一隻貓。兩隻貓一起充電。）',
     noReply:'好，我收到你的不回答了。我們還是最好的朋友。這次是直述句。', noReplyNQ:'好，我收到你的不回答了。我們還是最好的朋友。',   /* 選「這不是問句」的那一支拿掉「這次是直述句。」（裁定 #27）；AA_296 2-3-1 ② 起是不回的那通電話沒接的替代版 */
-    exeOpts:['（回一張插座貓貼紙）','（還沒想好怎麼回）'] };   /* AA_296 2-3-1 ②（企劃線 3f406dbc）：回答.exe 最後那一行字疊完，直接在場面裡給的兩個選項 */
+    exeOpts:['（回一張插座貓貼紙）','（還沒想好怎麼回）'],
+    knowsMsg:['我才知道{她}的事','電話先不打了 我要想一下'] };   /* AA_483 第 1 節第 6 點：回答.exe 傳了、玩家也回了貼紙，之後她才知道祐廷有別人＝原本她打來的時間改傳這兩則（子晴的手機訊息不加句號；{她}＝她知道的那一位，同 KNOW 的寫法）*/   /* AA_296 2-3-1 ②（企劃線 3f406dbc）：回答.exe 最後那一行字疊完，直接在場面裡給的兩個選項 */
   /* ---------- 2-Y3-47 Q15 的兩通電話（AA_296 2-3-1 ②，企劃線 3f406dbc；新寫）：有沒有在一起不再只靠手機回貼紙 ----------
      回了貼紙＝她馬上打來（場面裡選的＝回答.exe 演完接著演；手機回的＝OUT 的電話）；到期限（收到檔案的隔天 21:00）還是沒回＝21:00 她打來（沒接＝原本那一則私訊，r2y3b3d.js 的 q15NoReplyDm）*/
   const NQ={custom:G=>((G.flags||{}).ZQ_Q15||{}).k==='not_question'};

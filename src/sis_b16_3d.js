@@ -94,7 +94,7 @@ const SISB16=(function(){
 
   /* ---------------- 1-5 6/5 修正本 ---------------- */
   S.REV={ask:'2029-06-04',day:'2029-06-05'};
-  S.REV_OUT={id:'sisb16_rev',ev:'ev_sis16_rev',h:19,late:0.5,place:'霖澤館・研究室',title:'研究室（學姊的修正本）',travel:'走路 約 10 分鐘',travelH:1/6,hours:4};
+  S.REV_OUT={id:'sisb16_rev',ev:'ev_sis16_rev',h:19,late:0.5,place:'法律系館A・研究室',title:'研究室（學姊的修正本）',travel:'走路 約 10 分鐘',travelH:1/6,hours:4};
   S.rev=function(G){ const F=G.flags, a=D(S.REV.ask), d=D(S.REV.day), tag='sisb16_rev_dm'; if(a==null||d==null||G.day<a||G.day>d+1||!F.SIS16_REV_PROMISE) return;
     if(!sent(G,tag)&&now(G)>=T(a,21)&&now(G)<T(d,S.REV_OUT.h)&&law(G)&&S.dating(G)) PHONE.at(G,a,21,(L.revDm||[]).map(dm),tag);   /* 不用回：送到就排（照畢業以後篇的出遊）*/
     if(got(G,tag)&&F.SIS16_REV==null){ const q=outGet(G,S.REV_OUT.id);
@@ -199,8 +199,11 @@ const SISB16=(function(){
   if(typeof SISY23!=='undefined'&&typeof SISY23.preTalk==='function'&&!SISY23.preTalk._sisb16){ const p0=SISY23.preTalk;
     SISY23.preTalk=Object.assign(async function(GM){ try{ S.bookReturn(GM); }catch(e){ console.warn('SISB16 book',e); } return p0.apply(this,arguments); },p0,{_sisb16:true}); }
   /* 6-10 大四上的招呼：美國那一句只在她回來以前（12/23 以前）說；回來以後換新的那一句（字在 ladder.js，tools/ladder/import_ladder.py）*/
-  if(typeof STORY!=='undefined'&&STORY.LADDER_GREET_IF&&L.greetUS&&L.greetBack){ const back=()=>D('2028-12-23');
-    STORY.LADDER_GREET_IF[L.greetUS]={test:G=>{ const b=back(); return b==null||G.day<b; }};
+  /* AA_531 7-3：美國路線、挽回中（沒在交往）不遞保溫瓶，換「這邊的飲水機只有冰的。我自己帶。」（字也在 ladder.js 的 base，tools/ladder/import_ladder.py 疊上去）；
+     遞保溫瓶那一句給交往中（臺灣、日本路線她 12/23 以前在美國，碰不到，照原本）*/
+  if(typeof STORY!=='undefined'&&STORY.LADDER_GREET_IF&&L.greetUS&&L.greetBack){ const back=()=>D('2028-12-23'), repair=G=>route(G)==='US'&&!S.dating(G);
+    STORY.LADDER_GREET_IF[L.greetUS]={test:G=>{ const b=back(); return (b==null||G.day<b)&&!repair(G); }};
+    if(L.greetUSRepair) STORY.LADDER_GREET_IF[L.greetUSRepair]={test:G=>{ const b=back(); return (b==null||G.day<b)&&repair(G); }};
     STORY.LADDER_GREET_IF[L.greetBack]={test:G=>{ const b=back(); return b!=null&&G.day>=b; }}; }
   /* 2D 背景：新體育館游泳池沒有圖＝深色底＋地點字幕（BB 跟使用者要圖）*/
   if(typeof OUT!=='undefined'&&OUT.BG&&!OUT.BG.gym_pool) OUT.BG.gym_pool={label:'新體育館・游泳池',image:null};

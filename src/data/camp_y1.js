@@ -11,7 +11,7 @@ if(typeof PORTRAITS!=='undefined'&&!PORTRAITS.npc_kevin){ const o={campus:{}}; f
 const CAMP_Y1_EVENTS=[
   /* 8/22 08:30 校門集合、遊覽車（AA_205 2-2 開頭旁白、6-1 坐阿哲旁邊；BB_177 第 1 節坐明軒旁邊；AA_195 4-10 坐窗邊、經濟系玩家到營地那句）*/
   { id:'ev_camp_d1_bus', stage:'any', title:'迎新宿營：遊覽車', participants:[], location:'any', trigger:'camp', once:true, background:'dark',
-    dialogue:[ {scene:'臺大校門口',bg:'dark'},
+    dialogue:[ {scene:'首都帝大校門口',bg:'dark'},
       {speaker:null,text:'放榜以後，系學會建了一個新生群組。宿營的通知是一個禮拜前貼的，新生都要去。'},
       {speaker:null,text:'（早上八點半，校門口停了兩台遊覽車。小隊名單前一天晚上貼出來了，你那一隊有七個人。）'},
       {scene:'遊覽車上',bg:'tour_bus'},
@@ -63,17 +63,17 @@ const CAMP_Y1_EVENTS=[
       {speaker:'npc_kevin',name:'凱文',text:'……我記錯了。'},
       {speaker:null,text:'（他走到中間去。小隊輔低頭看名單，嘴角動了一下。）'},
       {inc:{CAMP_MOLE_CLUE:1},set:{CAMP_CLUE1:true}},
-      {speaker:'小隊輔',text:'第二個。名字接龍，順便講你今天早餐吃什麼。要先把前面的人念一遍。'},
-      {speaker:'zhe',text:'張哲維，叫我阿哲。早餐……車上那包洋芋片算嗎？'},
-      {speaker:'classmate_xinci',text:'阿哲。我吳芯慈。早餐是我家樓下的燒餅，七點吃的。'},
+      {speaker:'小隊輔',text:'第二個。名字接龍，順便講你從哪裡來。要先把前面的人念一遍。'},
+      {speaker:'zhe',text:'張哲維，叫我阿哲。高雄上來的。'},
+      {speaker:'classmate_xinci',text:'阿哲。吳芯慈，永和。我應該是全隊住最近的。'},
       {speaker:'classmate_peishan',text:'……前面是阿哲、還有、呃……'},
       {speaker:'npc_kevin',name:'凱文',text:'（小聲）芯慈。'},
-      {speaker:'classmate_peishan',text:'芯慈，謝謝。我是郭沛珊。早餐是我媽做的蛋餅，帶在車上吃的。'},
-      {speaker:'classmate_mingxuan',text:'（一口氣念完前面的名字）江明軒。沒吃，五點的客運。'},
-      {speaker:'classmate_bohan',text:'阿哲、芯慈、沛珊、明軒。許柏翰。早餐一個饅頭。'},
-      {speaker:'npc_kevin',name:'凱文',text:'（念完，一個都沒漏）凱文！早餐兩個飯糰，一個鮪魚一個肉鬆，還有一杯豆漿！'},
+      {speaker:'classmate_peishan',text:'芯慈，謝謝。我是郭沛珊，台中來的。'},
+      {speaker:'classmate_mingxuan',text:'（一口氣念完前面的名字）江明軒。彰化，五點的客運。'},
+      {speaker:'classmate_bohan',text:'阿哲、芯慈、沛珊、明軒。許柏翰。新竹。'},
+      {speaker:'npc_kevin',name:'凱文',text:'（念完，一個都沒漏）凱文！台北人，土生土長！'},
       {speaker:null,text:'（輪到你。你把前面六個人念了一遍，念到「凱文」的時候，他比了一個讚。）'},
-      {choice:[{text:'「便利商店的飯糰。」'},{text:'「一杯豆漿，在車上喝完了。」'},{text:'「我媽塞給我的三明治。」'}]},   /* AA_205 6-12 定版（10-17）*/
+      {choice:[{text:'「臺北。我家就在這附近。」'},{text:'「臺北人。」'}]},   /* AA_205 6-12 定版（10-17）；AA_546 第 0 節（NO-COMPARE-1030）早餐改「從哪裡來」 */
       {speaker:'小隊輔',text:'好，七個人都記住了吧。'},
       {speaker:'npc_kevin',name:'凱文',text:'記住了！'},
       {set:{MET_ZHE:true,CAMP_KEVIN:true},rel:{zhe:{fam:1}},meet:[{id:'kevin',where:'camp'},{id:'zhe',where:'camp'},{id:'classmate_xinci',where:'camp'},{id:'classmate_peishan',where:'camp'},{id:'classmate_mingxuan',where:'camp'},{id:'classmate_bohan',where:'camp'}]} ] },
@@ -304,7 +304,7 @@ const CAMP_Y1_EVENTS=[
       {speaker:null,text:'（結業式很短。系學會會長說了一句「開學見」，大家就去搬行李了。）'},
       {scene:'遊覽車上',bg:'tour_bus'},
       {speaker:null,text:'（回程的車上，大部分的人都睡著了。阿哲睡得最早。）'},
-      {advance:2},{scene:'臺大校門口',bg:'dark'},   /* 10:30 結業式 → 12:30 回到校門（6-14 程式 4）*/
+      {advance:2},{scene:'首都帝大校門口',bg:'dark'},   /* 10:30 結業式 → 12:30 回到校門（6-14 程式 4）*/
       {speaker:null,text:'（十二點半，遊覽車停在校門口。大家拖著行李，往不同的方向走。）'},
       {speaker:'zhe',text:'我先回高雄，29 號再上來搬宿舍。'},
       {choice:[{text:'「好，開學見。」'},{text:'「這麼遠還跑一趟？」',goto:'far'}]},

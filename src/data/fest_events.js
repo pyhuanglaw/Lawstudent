@@ -71,7 +71,7 @@ const FEST_DATA=(function(){
           s6:[N('（打烊後只剩吧檯的燈，她做了一杯拉花是聖誕樹的拿鐵。）'),cg('cg_one_cup_heroine02'),Z('今年只做一杯。'),Z('……給你的。')]} },   /* CG：第 6 階以上（單身也可以）*/
       ask:{lines:['明天我跟店長請假了。','晚上七點，Café 門口。……今天我是客人。'],by:{vday:['明天情人節。我跟店長請假了。','晚上七點，Café 門口。……今天我是客人。'],white:['明天三月十四。我跟店長請假了。','晚上七點，Café 門口。這次我想坐在吧檯外面。'],qixi:['明天七夕。我跟店長請假了。','晚上七點，Café 門口。我想吃別人煮的東西。'],bday:['明天我生日。店長叫我不要來上班。','晚上七點，Café 門口。'],xmas:['明天聖誕節。店長說我可以早走。','晚上七點，Café 門口。……今天我是客人。']},no:['好。那我去上班。'],h:19,place:'Café 門口',bg:'dark'},
       gifts:[ {id:'filmbook',name:'一本絕版的電影書',price:900,ok:true,lines:[Z('你在哪裡找到的？……我找了兩年。')]},
-        {id:'poster',name:'一張老電影的海報',price:400,ok:true,lines:[Z('這部我看過四次。……第五次要跟你看。')]},
+        {id:'poster',name:'一張老電影的海報',price:400,ok:true,set:{ZR_POSTER:true},lines:[Z('這部我看過四次。……第五次要跟你看。')]},   /* AA_524 Z8：記 ZR_POSTER（她主動約的 D04 西門老片開頭讀，src/aa524_3d.js）*/
         {id:'mug',name:'一個新的馬克杯',price:350,ok:true,lines:[Z('店裡的杯子都是客人的。這個是我的。')]},
         {id:'beans',name:'一包咖啡豆',price:450,ok:false,lines:[Z('送咖啡師咖啡豆，很像送醫生 OK 繃。'),N('（她笑了）'),Z('……我會喝的。')]} ],
       none:[Z('沒關係。我請你喝一杯，就當你送我了。')],
@@ -119,7 +119,7 @@ const FEST_DATA=(function(){
         vday:{s6:[{if:inY(2026),speaker:SIS,text:'筆試考完了。……今天我什麼都沒排。'},{unless:inY(2026),speaker:SIS,text:'情人節。……我今年沒排別的事。'}],
           dedicated:{dt:[2027,2028,2029]}},   /* sis_b4_3d.js S.HOL、S.CALL */
         white:{s6:[W('回禮。'),N('（一張便條，上面寫：「謝謝你。」）')],dt:[W('回禮。'),N('（一張便條，背面也有字。）'),W('背面，回去再看。'),Object.assign({unless:inY(2029)},N('（背面寫著：「明年也要。」）')),
-          Object.assign({if:inY(2029),aa523:true},N('（背面寫著：「明年也要。上班以後也要。」）'))]},   /* AA_523 6-14（企劃線 0d7b5388b）：交往中每年同一張便條——2029 年那一張多「上班以後也要。」（2026～2028 照舊；交往中、那一年有演到的每年都演，S.YEARS.white 2026～2029）*/
+          Object.assign({if:inY(2029),aa523:true},N('（背面寫著：「上班以後也要。」）'))]},   /* AA_523 6-14（企劃線 0d7b5388b）：交往中每年同一張便條——2029 年那一張多「上班以後也要。」（2026～2028 照舊；交往中、那一年有演到的每年都演，S.YEARS.white 2026～2029）*/
         qixi:{s6:[W('一年見一次，很辛苦吧。'),W('我以前覺得，排好的話，一年一次也可以。')],drive:'D15',dedicated:{dt:[2026,2027,2028]}},   /* 開車上陽明山（她的心願地點 D15）；交往中 AA_388 */
         bday:{years:[2028],   /* 2026、2027：ev_sis_bday_*；2029：畢業後篇 ev_pg_sis_bday */
           s6:[W('生日？期末考前。我從來沒有好好過過。'),W('……今年讓你排。我不看時間。')],
@@ -139,12 +139,12 @@ const FEST_DATA=(function(){
         vday:{s6:[P('情人節？我在台中。早餐店情人節也開。'),P('你要來吃蛋餅嗎？')],dt:[P('我爸在蛋餅上畫了愛心。他不知道是給誰的。'),P('……現在知道了。')],
           vid:{years:[2027],call:true,dtOnly:true,her:true,lines:[P('情人節。我在讀書。'),P('……可是我想聽你的聲音。五分鐘就好。')]}},   /* 消失期、交往中：21:00 電話 */
         white:{years:[2026,2028,2029],   /* 2027 消失期不演 */
-          s6:[{if:{custom:tainan},speaker:PS,text:'這裡沒有醉月湖。……運河也可以。'},N('（她拿出一本筆記本。）'),P('這一年我問你的問題，我自己的答案都寫在這裡。'),
+          s6:[{if:{custom:tainan},speaker:PS,text:'這裡沒有映月湖。……運河也可以。'},N('（她拿出一本筆記本。）'),P('這一年我問你的問題，我自己的答案都寫在這裡。'),
             cg('cg_last_page_peishan',G=>!tainan(G)&&!F(G,'PS_WHITE_CG')),{if:{custom:G=>!tainan(G)&&hasCG('cg_last_page_peishan')},set:{PS_WHITE_CG:true}},
             P('最後一頁是空的。……那一題，你來回答。')],
           dt:[cg('cg_last_page_peishan',G=>!tainan(G)&&!F(G,'PS_WHITE_CG')),{if:{custom:G=>!tainan(G)&&hasCG('cg_last_page_peishan')},set:{PS_WHITE_CG:true}},
             P('最後一頁我寫了：『明年也一起問嗎？』'),P('……你可以用一個字回答。')],
-          fixed:{2026:{place:'醉月湖邊',bg:'dark',h:19}}},   /* 2026 醉月湖邊（晚上）；2028、2029 台南的運河邊（tn_canal，不放 CG）*/
+          fixed:{2026:{place:'映月湖邊',bg:'dark',h:19}}},   /* 2026 醉月湖邊（晚上）；2028、2029 台南的運河邊（tn_canal，不放 CG）*/
         qixi:{s6:[P('七夕的故事有一個問題：為什麼是喜鵲？')],dt:[P('我查到了。……不告訴你。明年再問我。')]},
         bday:{s6:[P('你怎麼知道？……我只在讀書會說過一次。'),P('我們家的生日蛋糕是蛋餅疊起來的，三層。我爸的發明。')],dt:[P('我爸說今年要做兩份蛋餅蛋糕。……他沒問為什麼，可是他知道。')],
           vid:{years:[2027],call:true,dtOnly:true,lines:[P('今天生日。我還是在讀書。'),P('……你打來，就算過了。')]}},   /* 消失期、交往中：電話（你打來）*/

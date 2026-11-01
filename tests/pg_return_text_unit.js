@@ -10,9 +10,9 @@ const grad=(key,h,flags)=>{ const G=H.fresh(key,h==null?10:h,'dorm',Object.assig
 (async()=>{
   const bt=fl=>{ const G=grad('2029-07-10',10,fl); return typeof OUT.backText==='function'?OUT.backText(G):'（沒有 OUT.backText）'; };
   const home=bt({MOVED_OUT:D('2029-06-28'),HOME_AFTER:'home'}), suite=bt({MOVED_OUT:D('2029-06-28'),HOME_AFTER:'gongguan'}), dorm=bt({});
-  check('1. 退宿住家裡＝「回到家。」；住公館的套房＝「回到公館的套房。」；還沒退宿＝「回到台大。」',home==='回到家。'&&suite==='回到公館的套房。'&&dorm==='回到台大。',JSON.stringify([home,suite,dorm]));
-  for(const [lab,fl,want] of [['退宿住家裡',{MOVED_OUT:D('2029-06-08'),HOME_AFTER:'home'},'回到家。'],['還沒退宿',{},'回到台大。']]){
+  check('1. 退宿住家裡＝「回到家。」；住公館的套房＝「回到公館的套房。」；還沒退宿＝「回到首都帝大。」',home==='回到家。'&&suite==='回到公館的套房。'&&dorm==='回到首都帝大。',JSON.stringify([home,suite,dorm]));
+  for(const [lab,fl,want] of [['退宿住家裡',{MOVED_OUT:D('2029-06-08'),HOME_AFTER:'home'},'回到家。'],['還沒退宿',{},'回到首都帝大。']]){
     const G=grad('2029-06-09',15.5,fl); H.FRIEND('kexin'); H.date('kexin'); PG.planKx(G); const q=OUT.get(G,'pg_kx_grad'); caps.length=0; H.said=[]; H.picks=[0,0,0];
-    if(q) await OUT.go(GM,q); check('2. 可昕的典禮（6/9，出遊沒寫 back）演完：'+lab+'＝「'+want+'」',!!q&&!q.back&&caps.includes(want)&&!caps.includes(want==='回到家。'?'回到台大。':'回到家。'),JSON.stringify(caps)); }
+    if(q) await OUT.go(GM,q); check('2. 可昕的典禮（6/9，出遊沒寫 back）演完：'+lab+'＝「'+want+'」',!!q&&!q.back&&caps.includes(want)&&!caps.includes(want==='回到家。'?'回到首都帝大。':'回到家。'),JSON.stringify(caps)); }
   H.done();
 })().catch(e=>{ console.log('FAIL 例外 '+(e&&e.stack||e)); process.exit(1); });

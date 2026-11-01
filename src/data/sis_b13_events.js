@@ -23,7 +23,7 @@ const SISB13_LINES={
   /* AA_512 第 7 節第 12 點：研究室晚上 21:30 一起出去，一學期一次 */
   labEveOut:'（九點半。她把筆電闔上，關了桌燈。你們一起走下樓。）',
   /* 第 2 節第 3 點：2029-07-15（日）21:00 修正本（有 SIS6_FATHER_COPY）*/
-  thesisMsg:['修正本印好了。','第一本給我爸了。他放在辦公室書架最上面。','第二本。……你說過要的。'],
+  thesisMsg:['修正本印好了。','一本給我爸了。他放在辦公室書架最上面。','另一本。……你說過要的。'],
   thesisOpts:[{t:'要。',k:'yes',r:'週五晚上，公館。我放在陳助教那桌。'},{t:'不用了，給更需要的人。',k:'no',r:'……好。那我留一本在研究室，給學弟妹。'}],
   /* 第 2 節第 6 點：美國路線交往中 2028-09-11（第四十天）22:00；湖邊問過「想家嗎？」的多一句 */
   day40:['今天第四十天。','……想。一點點。'], day40Asked:'你之前問我想不想家。',
@@ -52,7 +52,7 @@ const SISB13_HAND=(function(){
     open:[ N('（長桌另一頭，一個抱著一疊講義的女生坐得很直，面前的茶還沒喝。）'),
       Object.assign(KV('學弟，這是溫學姊。我們家族最大的。'),{unless:noW1,meet:{id:ID,where:'lane118'}}),
       Object.assign(SIS('……溫書瑀。碩一。'),{unless:noW1}),
-      Object.assign(SIS('你是祐廷吧。群組裡的照片，看起來比本人緊張。'),{unless:noW1}),
+      Object.assign(SIS('你是{name}吧。群組裡的照片，看起來比本人緊張。'),{unless:noW1}),
       Object.assign(SIS('（對你點了一下頭）來了。'),{if:noW1}) ],
     after:[ N('（學姊把一張紙推到佳穎面前。）'),
       SIS('書單。大一上先讀前面三本，後面的不急。'),
@@ -88,18 +88,18 @@ const SISB13_EVENTS=(function(){
     /* ---------- 13-3 論文卡住，出來走一圈（2027-12-06～12-07 週一、二 17:00～18:00；走過霖澤館門口，3D 位置觸發＋2D 旁白）---------- */
     { id:'ev_sis13_walk', title:'出來走一圈', participants:[ID], location:'campus', trigger:'auto', once:true, time:[17,18], near:{x:34,z:-109,r:7}, background:'blur',   /* 霖澤館穿堂的門口（同 sup497_3d.js S.DAD_AT）*/
       prereq:{custom:G=>!!X()&&X().walkOk(G)},
-      dialogue:[ N('（學姊從霖澤館走出來，抱著一件外套，看到你，停了一下。）'),
+      dialogue:[ N('（學姊從法律系館A走出來，抱著一件外套，看到你，停了一下。）'),
         SIS('論文卡住了。出來走一下。……你要一起嗎？'),
         {choice:[{text:'「好。」',goto:'go'},{text:'「我等一下有課。」',goto:'no'}]},
         {label:'no'},SIS('好。那你去。'),{end:true},   /* 結束，不再演（once）*/
-        {label:'go'},{scene:'椰林大道',bg:'ntu_avenue'},
-        N('（傍晚的椰林大道。腳踏車一台一台從你們旁邊過去。）'),
+        {label:'go'},{scene:'椰影大道',bg:'ntu_avenue'},
+        N('（傍晚的椰影大道。腳踏車一台一台從你們旁邊過去。）'),
         SIS('咖哩的「適量」，我改成兩匙了。我自己決定的。'),
         SIS('我爸寄了一份剪報給我。法律扶助的新聞。旁邊用原子筆寫：「妳寫的這個。」'),
         {choice:[{text:'「他在關心妳。」',goto:'a'},{text:'「剪報上寫什麼？」',goto:'b'}]},
         {label:'a'},SIS('他不會說。……他會寄剪報。'),{goto:'m'},
         {label:'b'},SIS('等的人越來越多。……我的論文寫的就是他們。'),
-        {label:'m'},{scene:'霖澤館門口',bg:'ntu_linze'},
+        {label:'m'},{scene:'法律系館A門口',bg:'ntu_linze'},
         SIS('好。可以回去寫了。'),
         N('（她走上樓梯，走到一半回頭。）'),
         SIS('謝謝你走這一圈。'),

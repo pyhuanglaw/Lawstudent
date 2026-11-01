@@ -177,7 +177,7 @@ const CLOSED2=(function(){
   S.examEnd=async function(GM){ if(!S._ex) return; S._ex=false; S.examDone(GM);
     if(S.anFam(GM.G)&&GM.enter){ if(GM.fade) await GM.fade(true); try{ await GM.enter('campus',Object.assign({},S.EX_SPAWN),ENTER_O); } finally { if(GM.fade) await GM.fade(false); } } };   /* 以安「……考完，門口。」：12:30 在教學館門口演 */
   /* 事件裡插兩步（call）：那一場以前換到房間、最後收尾。台詞的步驟不動；房間不在＝兩步什麼都不做（照原本的 2D）*/
-  S.EV3D={ ev_push_interview:{at:l=>!!l&&l.scene==='萬才館二樓',pre:GM=>S.ivEnter(GM),post:GM=>S.ivEnd(GM)},
+  S.EV3D={ ev_push_interview:{at:l=>!!l&&l.scene==='法律系館B二樓',pre:GM=>S.ivEnter(GM),post:GM=>S.ivEnd(GM)},
     ev_grad_exam:{at:l=>!!l&&l.scene==='考場',pre:GM=>S.examEnter(GM),post:GM=>S.examEnd(GM)} };
   S.inject=function(ev){ const c=ev&&S.EV3D[ev.id]; if(!c||ev._rab3||!Array.isArray(ev.dialogue)) return ev; const i=ev.dialogue.findIndex(c.at); if(i<0) return ev;
     const L=ev.dialogue.slice(); L.splice(i,0,{call:(G,GM)=>c.pre(GM)}); L.push({call:(G,GM)=>c.post(GM)}); return Object.assign({},ev,{dialogue:L,_rab3:true}); };

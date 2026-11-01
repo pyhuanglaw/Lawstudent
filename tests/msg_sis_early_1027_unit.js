@@ -36,10 +36,10 @@ check('0. STORY.week1Start（新局）',STORY.week1Start(fresh('2025-09-03',10))
 /* 3 */
 { fresh('2025-09-08',10,{SIS_CONTACTED:true,SIS_CLUB_EXPO:true,lawclub:true,CLUB_lawclub_study:true}); check('3. 社博以後、加入了法服：「問法服」（第一版）',keys().includes('sis_fafu_in')&&!keys().includes('sis_fafu_out'),J(keys()));
   MSG.send(H.G,S5,'sis_fafu_in'); tickTo(H.G.day,12.2);
-  check('3. 「法服第一次去要準備什麼？」→「不用準備。站旁邊聽，做紀錄。」「隔週週六九點，萬才館一樓。不要遲到。」',J(thread().slice(-3))===J(['我：法服第一次去要準備什麼？','不用準備。站旁邊聽，做紀錄。','隔週週六九點，萬才館一樓。不要遲到。']),J(thread()));
+  check('3. 「法服第一次去要準備什麼？」→「不用準備。站旁邊聽，做紀錄。」「隔週週六九點，B館一樓。不要遲到。」',J(thread().slice(-3))===J(['我：法服第一次去要準備什麼？','不用準備。站旁邊聽，做紀錄。','隔週週六九點，B館一樓。不要遲到。']),J(thread()));
   H.G.day+=1; H.G.hour=10; check('3. 只一次',!keys().some(k=>/^sis_fafu/.test(k)),J(keys()));
   fresh('2025-09-08',10,{SIS_CONTACTED:true}); MSG.send(H.G,S5,'sis_fafu_out'); tickTo(H.G.day,12.2);
-  check('3. 沒加入法服：「法服現在還能報名嗎？」→「可以。週六上午去萬才館一樓，找值班的學長姊。」',J(thread().slice(-2))===J(['我：法服現在還能報名嗎？','可以。週六上午去萬才館一樓，找值班的學長姊。']),J(thread()));
+  check('3. 沒加入法服：「法服現在還能報名嗎？」→「可以。週六上午去B館一樓，找值班的學長姊。」',J(thread().slice(-2))===J(['我：法服現在還能報名嗎？','可以。週六上午去B館一樓，找值班的學長姊。']),J(thread()));
   H.G.flags.lawclub=true; H.G.day+=1; check('3. 問過沒加入版以後加入了：不再出第一版（兩版共用一次）',!keys().includes('sis_fafu_in'),J(keys()));
   fresh('2026-03-03',10,{SIS_CONTACTED:true}); check('3. 大一下：沒有「問法服」（稿上沒寫到什麼時候，先放到大一上結束）',!keys().some(k=>/^sis_/.test(k)),J(keys())); }
 /* 4 */

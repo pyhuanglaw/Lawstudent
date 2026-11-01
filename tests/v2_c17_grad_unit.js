@@ -37,7 +37,7 @@ const txt=(th)=>TH(th).map(m=>(m.name||m.from||'')+':'+m.text);
     const r={ok:at(gd,10.5),late:at(gd,15.5),fri:at(gd-1,11),w14:at(termDay('Y1S2',14,6),11),lib:at(gd,11,'library')};
     check('C17：大一下第 15 週週六 10～15、在校園（15:30、週五、第 14 週、總圖都沒有）',r.ok&&!r.late&&!r.fri&&!r.w14&&!r.lib,JSON.stringify(r));
     fresh(gd,11,'campus'); await EVENTS.run(e); const L=lines();
-    check('C17：（椰林大道。學士帽丟上天。）（一位學長把手機塞給你。）學長「學弟，幫我們拍一張！」（拍完。）學長「謝啦！三年後換你。」',JSON.stringify(L)===JSON.stringify(['（椰林大道。學士帽丟上天。）','（一位學長把手機塞給你。）','學長：學弟，幫我們拍一張！','（拍完。）','學長：謝啦！三年後換你。']),JSON.stringify(L));
+    check('C17：（椰影大道。學士帽丟上天。）（一位學長把手機塞給你。）學長「學弟，幫我們拍一張！」（拍完。）學長「謝啦！三年後換你。」',JSON.stringify(L)===JSON.stringify(['（椰影大道。學士帽丟上天。）','（一位學長把手機塞給你。）','學長：學弟，幫我們拍一張！','（拍完。）','學長：謝啦！三年後換你。']),JSON.stringify(L));
     check('C17：只一次',!EVENTS.check(e)); }
   { fresh(gd,8,'dorm'); PHONE.join(G,'lawclub_study','法服讀書會'); PHONE.join(G,'family_law','法律系直屬家族'); run(8,14);
     const A=txt('g:lawclub_study').slice(-2), B=txt('g:family_law').slice(-3);

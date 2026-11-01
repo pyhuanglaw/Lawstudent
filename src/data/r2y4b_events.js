@@ -18,7 +18,7 @@ const R2Y4B_BAR_NARR={
   kexin:{   /* 2-1 可昕（視訊；週六在政大）*/
     wd:['（視訊開著。兩個人都沒說話，只有翻頁的聲音。）','（她把今天的考古題拍給你，紅筆圈了三題。）','（十點半，她說要去倒水。回來的時候拿著兩杯，看了一下螢幕，自己笑了。）','（她讀到一半睡著了。你等了十分鐘才叫她。）',
       '（你們互相出了五題。她錯兩題，你錯三題。）','（今天讀民訴。她說民訴讀起來像在排隊。）','（掛之前，她把桌上的日曆翻給你看：又劃掉一格。）'],
-    sat:['（政大山上的自習室。她占了靠窗的兩個位子。）','（山下買的便當，你們坐在自習室外面的樓梯吃完。）'],
+    sat:['（木柵大學山上的自習室。她占了靠窗的兩個位子。）','（山下買的便當，你們坐在自習室外面的樓梯吃完。）'],
     wdEnd:'（讀到十一點。）', satEnd:'（讀到傍晚。）' },
   yutong:{   /* 2-2 語彤（麵店；週六在總圖）*/
     wd:['（十點，阿姨把燈關掉一半，留長桌那一盞。）','（語彤把今天讀的抄在一張小卡上，放進圍裙口袋。）','（你講完一段，她說：「再一次。」你又講了一次。）','（阿姨端了兩碗湯過來，沒說話，又走回廚房。）',
@@ -158,11 +158,11 @@ const R2Y4B_EVENTS=(function(){
       {scene:'高速公路',bg:'car_night'},
       {speaker:null,text:'（回程的高速公路。後座的人都睡著了。以安沒有睡，一直看窗外。）'},
       {if:kn('heroine_01'),speaker:'heroine_01',text:'（小聲）……謝謝你開車。'} ],
-    consequences:{memo:'最後一個春假：開車載麵店團去宜蘭'},
+    consequences:{memo:'最後一個春假：開車載阿哲他們去宜蘭'},
     outingMissed:G=>{ const r=R(); if(r) r.springPhoto(G); } },
   /* 和可昕開車（照 AA_324 1C-01 可昕那一選：目的地從還沒去過的裡面選；都去過＝迷路到的地方；沒有假設題）。車上開場、回程照 AA_345 G3。記 KX_TRIP.Y4S2 */
   { id:'ev_kexin_trip_spring_y4', title:'春假：開車旅行（大四）', participants:['kexin'], location:'any', trigger:'outing', once:true, background:'dark', hours:13.5,
-    dialogue:[ {scene:'政大・校門口',bg:'nccu_gate'},{scene:'車上',bg:'car'},
+    dialogue:[ {scene:'木柵大學・校門口',bg:'nccu_gate'},{scene:'車上',bg:'car'},
       {speaker:'kexin',expression:'smile',text:'沒有行程表。音樂我管，方向你管。'},   /* 車上開場、回程：大四版（AA_345 G3 新寫），不沿用大一、大二；三個地方都去過（迷路那一版）也一樣（AA_350 N3）*/
       {speaker:'kexin',expression:'smile',text:'……目的地也你管。我只是想坐在車上。'},
       {if:{custom:G=>R().kxAllSeen(G)},goto:'lost'},
@@ -208,7 +208,7 @@ const R2Y4B_EVENTS=(function(){
     outingMissed:G=>{ const r=R(); if(r) r.psOpenMissed(G); } },
   /* ---------- 2-Y4-38 可昕的生日「今年不要慶祝」：開車上山，送一碗山下那家的酸辣湯餃，不進去（4/24 晚上；nccu_dorm）---------- */
   { id:'ev_kexin_bday_visit_y4', title:'生日（大四）', participants:['kexin'], location:'any', trigger:'outing', once:true, background:'dark', hours:2/3, kxAway:true,
-    dialogue:[ {scene:'政大・宿舍樓下',bg:'nccu_dorm'},
+    dialogue:[ {scene:'木柵大學・宿舍樓下',bg:'nccu_dorm'},
       {speaker:'kexin',expression:'surprised',text:'……你開上山就為了這個？'},
       {speaker:'kexin',expression:'smile',text:'湯還是熱的。'} ],
     after:G=>{ const r=R(); if(r) r.kxBdaySet(G,'visit'); },   /* KX_BDAY:{4:'visit'}（AA_327 2-Y4-38 第 4 節）*/
@@ -228,7 +228,7 @@ const R2Y4B_EVENTS=(function(){
       {set:{BALL_Y4:'went'}} ],
     outingMissed:G=>{ const r=R(); if(r) r.ballMissed(G); } },
   { id:'ev_concert_y4', title:'吉他社成發', participants:[], location:'any', trigger:'outing', once:true, background:'dark', hours:2,
-    dialogue:[ {scene:'萬才館大廳',bg:'dark'},   /* 場地照 AA_13 G3（大一的成發在萬才館大廳，activities.js guitar_show_y1s2）；沒有 2D 底圖＝dark＋字幕 */
+    dialogue:[ {scene:'法律系館B大廳',bg:'dark'},   /* 場地照 AA_13 G3（大一的成發在萬才館大廳，activities.js guitar_show_y1s2）；沒有 2D 底圖＝dark＋字幕 */
       {speaker:null,text:'（Alison 拿著流程表跑來跑去。）'},
       {if:kn('yu'),speaker:'yu',text:'最後一首！最後一首！誰把麥克風拿走了！'},
       {if:{custom:G=>R().friendUp(G,'heroine_04')&&R().has('heroine_04','CLAPPED')},speaker:'heroine_04',text:'原來坐這裡是這種感覺。你以前都這麼大聲喔？'},   /* 子晴回來當評審（BB_70 8d）*/
@@ -239,7 +239,7 @@ const R2Y4B_EVENTS=(function(){
   /* ---------- 2-Y4-40 可昕 K25 讀書會的最後一晚（5/16（三）21:00；BB_99 9-16）：開車送宵夜（政大）／視訊。互考的比數拿掉（AA_263）---------- */
   { id:'ev_kexin_last_study_night', title:'讀書會的最後一晚', participants:['kexin'], location:'any', trigger:'outing', once:true, background:'dark', hours:1,
     dialogue:[ {if:{flagIs:{KX_K25:'video'}},goto:'v'},
-      {scene:'政大・宿舍樓下',bg:'nccu_dorm'},
+      {scene:'木柵大學・宿舍樓下',bg:'nccu_dorm'},
       {speaker:'予樂',text:'司機升級成外送員。'},{goto:'shelf'},
       {label:'v'},{scene:'視訊',bg:'video'},
       {speaker:null,text:'（邵鈞對著鏡頭點頭致意。）'},
@@ -263,7 +263,7 @@ const R2Y4B_EVENTS=(function(){
       {label:'p3'},{speaker:'阿姨',text:'找不到就下次帶一張來。'},
       {label:'end'},
       {if:kn('yu'),speaker:'yu',text:'這是最後一頓了。'},
-      {if:kn('zhe'),speaker:'zhe',text:'這不是最後一頓。下週二還是麵店。'},   /* AA_71 2-13 */
+      {if:kn('zhe'),speaker:'zhe',text:'這不是最後一頓。下禮拜還是麵店。'},   /* AA_71 2-13 */
       {set:{LAST_MEAL_Y4:'went'}} ],
     consequences:{memo:'期末最後一頓（麵店）'},
     outingMissed:G=>{ const r=R(); if(r) r.lastMealMissed(G); } },
@@ -323,7 +323,7 @@ const R2Y4B_EVENTS=(function(){
   { id:'ev_an_ny_sendoff', title:'紐約', participants:[], location:'any', trigger:'outing', once:true, background:'dark', hours:1.5,
     dialogue:[ {scene:'桃園機場・出境',bg:'airport_departure'},
       {if:{custom:dating('heroine_01')},goto:'gf'},
-      {unless:sawJP,speaker:null,text:'（桃園機場，出境的門口。麵店團站成一排。）'},
+      {unless:sawJP,speaker:null,text:'（桃園機場，出境的門口。大家站成一排。）'},
       {unless:sawJP,speaker:'heroine_01',text:'（看了一下手錶）你們不用全部都來的。'},
       {unless:sawJP,if:kn('zhe'),speaker:'zhe',text:'要。'},
       {if:sawJP,speaker:null,text:'（桃園機場，出境的門口。兩年多前送她去日本，也是這個門口。）'},   /* AA_447 1-1：看過 2028-03-25 那一場的（送過機或日本路線一起出發）*/
@@ -335,7 +335,7 @@ const R2Y4B_EVENTS=(function(){
       {label:'f1'},{speaker:'heroine_01',text:'……嗯。'},{speaker:null,text:'（她走進去。）'},{goto:'end'},
       {label:'f2'},{speaker:null,text:'（她走到一半，回頭揮了一下。）'},{goto:'end'},
       {label:'gf'},
-      {unless:sawJP,speaker:null,text:'（桃園機場，出境的門口。麵店團站成一排。）'},
+      {unless:sawJP,speaker:null,text:'（桃園機場，出境的門口。大家站成一排。）'},
       {unless:sawJP,speaker:'heroine_01',text:'（看了一下手錶）你們不用全部都來的。'},   /* 她先跟大家說完，再轉過來；交往版的那幾句是大家看不到的時候說的（不演公開戀情）*/
       {unless:sawJP,if:kn('zhe'),speaker:'zhe',text:'要。'},
       {if:sawJP,speaker:null,text:'（桃園機場，出境的門口。兩年多前送她去日本，也是這個門口。）'},
@@ -359,8 +359,10 @@ const R2Y4B_EVENTS=(function(){
       {speaker:'heroine_05',text:'路線我排好了。上車。'},
       {advance:toDay('2028-10-08',12)},{titleCard:'10/8（日）',sub:'亞利桑那'},{speaker:null,text:'（沙漠裡的加油站，她買了兩瓶很大的水。）'},
       {advance:toDay('2028-10-09',12)},{titleCard:'10/9（一）',sub:'亞利桑那'},{speaker:null,text:'（第一眼看到峽谷的時候，你們兩個都沒說話。）'},
+      {speaker:'heroine_05',text:'……照片拍不進去。',aa531:true},{speaker:null,text:'（她還是拍了一張，看了一眼，刪掉。）',aa531:true},{speaker:'heroine_05',text:'用看的就好。',aa531:true},   /* AA_531 第 6 節（企劃線 475f55fe6）：交往中 10/9 補句 */
       {advance:toDay('2028-10-10',12)},{titleCard:'10/10（二）',sub:'亞利桑那'},{speaker:null,text:'（她在步道上走得比你快。走到一半，她回頭把手伸給你。）'},
       {advance:toDay('2028-10-11',21)},{titleCard:'10/11（三）',sub:'汽車旅館'},{scene:'汽車旅館',bg:'trip_hotel_twin'},{speaker:null,text:'（汽車旅館的電視只有三台。她轉到氣象台，看了很久。）'},
+      {speaker:'heroine_05',text:'明天峽谷那邊風大。外套帶厚的。',aa531:true},{speaker:null,text:'（她把兩支手機的鬧鐘都設好，才關燈。）',aa531:true},   /* AA_531 第 6 節：交往中 10/11 補句 */
       {advance:toDay('2028-10-12',12)},{titleCard:'10/12（四）',sub:'亞利桑那'},{speaker:null,text:'（她的論文第四章帶來了，還在背包最下面。）'},
       {advance:toDay('2028-10-13',18)},{scene:'峽谷',bg:'dark'},   /* gc_rim_sunset 沒有：dark＋字幕 */
       {speaker:null,text:'（太陽慢慢沉到峽谷另一邊。風很大，她把外套拉鍊拉到最上面。）'},
@@ -404,7 +406,13 @@ const R2Y4B_EVENTS=(function(){
       {choice:[{text:'「回來見。」',goto:'t7a',aa516:true},{text:'「那換我打給妳。」',set:{SIS16_T7B:true},goto:'t7b',aa516:true}]},   /* AA_523 2-5（企劃線 0d7b5388b）：選 t7b 記 SIS16_T7B＝12/25 14:00「白天了。」（src/sis_b16_3d.js）*/
       {label:'t7a'},{speaker:'heroine_05',text:'嗯。回去見。',aa516:true},{goto:'inv'},
       {label:'t7b'},{speaker:'heroine_05',text:'……白天打。我會醒著。',aa516:true},{goto:'inv'},
-      {label:'vn'},{speaker:null,text:'（視訊。她那邊是週六晚上。這個禮拜的事，你們講了半個小時。）'},   /* R().SA_V_NARR */
+      {label:'vn'},{unless:{custom:G=>R().sisVNarr(G)>0},speaker:null,text:'（視訊。她那邊是週六晚上。這個禮拜的事，你們講了半個小時。）'},   /* R().SA_V_NARR（AA_531 7-4 第 1 句）*/
+      {if:{custom:G=>R().sisVNarr(G)===1},speaker:null,text:'（視訊。她那邊在下雨，窗戶的聲音比她的聲音還大。）',aa531:true},   /* AA_531 7-4（企劃線 475f55fe6）：七句輪流（r2y4b3d.js S.saVNarrNext）*/
+      {if:{custom:G=>R().sisVNarr(G)===2},speaker:null,text:'（視訊。她一邊講一邊在計畫本上劃掉東西。你看不到她劃的是哪一格。）',aa531:true},
+      {if:{custom:G=>R().sisVNarr(G)===3},speaker:null,text:'（視訊。她問你這週讀到哪一章。你說了，她點頭，沒有說好或不好。）',aa531:true},
+      {if:{custom:G=>R().sisVNarr(G)===4},speaker:null,text:'（視訊。她室友在後面走過去，跟你揮了一下手。）',aa531:true},
+      {if:{custom:G=>R().sisVNarr(G)===5},speaker:null,text:'（視訊。訊號斷了兩次。第三次接通，她說：「好，繼續。」）',aa531:true},
+      {if:{custom:G=>R().sisVNarr(G)===6},speaker:null,text:'（視訊。她那邊的暖氣太熱，講到一半，她起來去開窗。）',aa531:true},
       {label:'inv'},{unless:{custom:G=>R().sisInviteDue(G)},end:true},
       {speaker:'heroine_05',text:'十月有一個禮拜的秋假。我想開車去大峽谷。'},
       {speaker:'heroine_05',text:'……一個人開太遠。你要不要來？'},
@@ -504,8 +512,10 @@ const R2Y4B_EVENTS=(function(){
       {speaker:'heroine_05',text:'路線我排好了。你坐副駕，負責放音樂。'},
       {advance:toDay('2028-10-09',3)},{titleCard:'10/8（日）',sub:'亞利桑那'},{speaker:null,text:'（沙漠裡的加油站，她買了兩瓶很大的水。）'},
       {advance:toDay('2028-10-10',3)},{titleCard:'10/9（一）',sub:'亞利桑那'},{speaker:null,text:'（第一眼看到峽谷的時候，你們兩個都沒說話。）'},
+      {speaker:'heroine_05',text:'……照片拍不進去。',aa531:true},{speaker:null,text:'（她拍了一張，看了一下，沒有刪。）',aa531:true},   /* AA_531 第 6 節（企劃線 475f55fe6）：還沒交往 10/9 補句 */
       {advance:toDay('2028-10-11',3)},{titleCard:'10/10（二）',sub:'亞利桑那'},{speaker:null,text:'（她在步道上走得比你快。走到一半，她停下來等你。）'},   /* 裁定 #50：還沒交往，不牽手 */
       {advance:toDay('2028-10-12',12)},{titleCard:'10/11（三）',sub:'汽車旅館'},{scene:'汽車旅館',bg:'trip_hotel_twin'},{speaker:null,text:'（汽車旅館的電視只有三台。她轉到氣象台，看了很久。）'},
+      {speaker:'heroine_05',text:'明天風大。外套帶厚的。',aa531:true},{speaker:null,text:'（關燈以前，她問你鬧鐘設幾點。）',aa531:true},   /* AA_531 第 6 節：還沒交往 10/11 補句 */
       {advance:toDay('2028-10-13',3)},{titleCard:'10/12（四）',sub:'亞利桑那'},{speaker:null,text:'（她的論文第四章帶來了，還在背包最下面。）'},
       {advance:toDay('2028-10-14',9)},{scene:'峽谷',bg:'dark'},   /* 亞利桑那 10/13 傍晚＝臺灣 10/14 早上 */
       {speaker:null,text:'（太陽慢慢沉到峽谷另一邊。風很大，她把外套拉鍊拉到最上面。）'},
@@ -514,8 +524,9 @@ const R2Y4B_EVENTS=(function(){
       {speaker:'heroine_05',text:'……我以為我要先說。'},{speaker:'heroine_05',text:'好。'},{goto:'yes'},
       {label:'she'},{speaker:'heroine_05',text:'那我先說。'},
       {speaker:'heroine_05',text:'我喜歡你。……我想了很久，要不要在這裡說。'},
-      {speaker:'heroine_05',text:'你要說好，還是要我再說一次。'},
-      {if:SIS_KNOWS,call:async(G,GM)=>{ const r=R(); if(r) await r.canyonKnow(GM,false); }},{goto:'air',if:CANYON_KNEW},
+      {goto:'shek',if:SIS_KNOWS},   /* AA_481 第 2 節：她知道＝只說前兩句就接知情對話（「你要說好，還是要我再說一次。」接著又先問另一個人，玩家還沒開口就被換了題目）*/
+      {speaker:'heroine_05',text:'你要說好，還是要我再說一次。'},{goto:'yes'},
+      {label:'shek'},{call:async(G,GM)=>{ const r=R(); if(r) await r.canyonKnow(GM,false); }},{goto:'air',if:CANYON_KNEW},
       {label:'yes'},{set:{SIS_CANYON:'confess',CALLED_SHUYU:true}},
       {label:'air'},   /* 知情對話演過（SIS_CANYON 由 canyonKnow 記：答應＝confess，不交往＝knows）*/
       {advance:toDay('2028-10-15',3)},{scene:'鳳凰城的機場',bg:'us_airport'},   /* BB_220★：鳳凰城機場→us_airport（AA_370 合併以後接，BG-DARK-70-1021 最後一列）*/
@@ -560,7 +571,7 @@ const R2Y4B_EVENTS=(function(){
       {speaker:'heroine_03',text:'買賣不破租賃那一條。你講給我聽，講到我聽得懂。'} ],
     after:G=>{ const r=R(); if(r) r.groupNightDone(G,'noodle'); } },
   { id:'ev_bar_group_video', title:'律師讀書小組（視訊）', participants:['kexin'], location:'any', trigger:'outing', background:'dark', hours:2, kxAway:true,
-    dialogue:[ {if:{custom:G=>R().isSat(G)},scene:'政大・宿舍樓下',bg:'nccu_dorm'},{unless:{custom:G=>R().isSat(G)},scene:'視訊',bg:'video'},   /* 只有可昕：週六在政大（AA_253 第 11 節）*/
+    dialogue:[ {if:{custom:G=>R().isSat(G)},scene:'木柵大學・宿舍樓下',bg:'nccu_dorm'},{unless:{custom:G=>R().isSat(G)},scene:'視訊',bg:'video'},   /* 只有可昕：週六在政大（AA_253 第 11 節）*/
       {if:{custom:G=>R().groupLine(G,'kexin')==='k1'},speaker:'kexin',expression:'serious',text:'刑總那題，你先講結論，再講理由。講完我再問。'},
       {if:{custom:G=>R().groupLine(G,'kexin')==='k2'},speaker:'kexin',expression:'teasing',text:'這題你上禮拜錯過。……我記得。再一次。'},
       {if:{custom:G=>R().groupLine(G,'kexin')==='k3'},speaker:'kexin',expression:'teasing',text:'你講得太快了。慢一點，講給一個不懂法律的人聽。……就是我那個室友。'},

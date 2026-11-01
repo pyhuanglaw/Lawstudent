@@ -103,7 +103,7 @@ VIEWS = [('gate_avenue', (-110, 1.7, 0.5), (100, 8, 0)),     # 進校門往東�
 
 
 async def check(pg, run, formal):
-    run.setup('讀檔到椰林大道 (74,2) 17:30，關掉條件事件' + ('' if formal else '；進校園前先把 manifest 裡地標的 key 拿掉（＝改之前）'))
+    run.setup('讀檔到椰影大道 (74,2) 17:30，關掉條件事件' + ('' if formal else '；進校園前先把 manifest 裡地標的 key 拿掉（＝改之前）'))
     if not formal: await pg.evaluate("(()=>{ for(const k of %s) delete ASSETS.manifest[k]; })()" % json.dumps([v[0] for v in TAGS.values()]))
     # 建校園之前也要等：開機預載的街道道具（路燈、腳踏車）在「建校園的那一刻」有沒有載好，決定那一輪用正式模型還是合併過的套件（W3.lampPost()／W3.bike() 是同步建立的），
     # 之後再等也換不回來。2026-10-11 行政大樓那一輪：「改之前」建的時候還沒載好（套件版、draw call 297）、「一般」已經載好（358），比的不是同一種路燈
@@ -209,13 +209,13 @@ async def check(pg, run, formal):
             E.applyTime(11); const day=read(); E.applyTime(20.5); const night=read(); E.applyTime(17.5);
             return {screen:sc?{alphaTest:sc.alphaTest, transparent:sc.transparent, map:!!sc.map, cast:cast.ck_pav_screen, doubleSide:sc.side===THREE.DoubleSide}:null,
               dark:dk?{day, night, map:!!dk.emissiveMap, mip:dk.emissiveMap?dk.emissiveMap.generateMipmaps:null, cast:cast.ck_pav_dark}:null}; })()""")
-        run.check('洞洞館的鏤空牆：貼圖透明度挖洞（alphaTest、不是半透明）、兩面都畫、會投影（陽光從洞裡穿過，影子一點一點）', bool(pv['screen']) and pv['screen']['alphaTest'] > 0.3 and not pv['screen']['transparent'] and pv['screen']['map'] and pv['screen']['cast'] and pv['screen']['doubleSide'], json.dumps(pv))
-        run.check('洞洞館鏤空牆後面的房間：20:30 從洞裡透出暖光、11:00 不發光（自發光貼圖、不用 mipmap、不投影）', bool(pv['dark']) and pv['dark']['night'] > 0.5 and pv['dark']['day'] < 0.05 and pv['dark']['map'] and pv['dark']['mip'] is False and not pv['dark']['cast'], json.dumps(pv))
+        run.check('圓窗館的鏤空牆：貼圖透明度挖洞（alphaTest、不是半透明）、兩面都畫、會投影（陽光從洞裡穿過，影子一點一點）', bool(pv['screen']) and pv['screen']['alphaTest'] > 0.3 and not pv['screen']['transparent'] and pv['screen']['map'] and pv['screen']['cast'] and pv['screen']['doubleSide'], json.dumps(pv))
+        run.check('圓窗館鏤空牆後面的房間：20:30 從洞裡透出暖光、11:00 不發光（自發光貼圖、不用 mipmap、不投影）', bool(pv['dark']) and pv['dark']['night'] > 0.5 and pv['dark']['day'] < 0.05 and pv['dark']['map'] and pv['dark']['mip'] is False and not pv['dark']['cast'], json.dumps(pv))
         bd = await pg.evaluate(BELL_NIGHT + '(11)'); bn = await pg.evaluate(BELL_NIGHT + '(20.5)'); await pg.evaluate('GAME.E.applyTime(17.5)')
-        run.check('傅鐘的地燈燈罩、柱面暖光：20:30 發光、11:00 不發光；暖光片是加法混合（白天看不到）',
+        run.check('晨思鐘的地燈燈罩、柱面暖光：20:30 發光、11:00 不發光；暖光片是加法混合（白天看不到）',
                   bn['lens'] > 1.0 and bd['lens'] < 0.05 and bn['wash'] > 0.5 and bd['wash'] < 0.05 and bn['washAdditive'], json.dumps({'11:00': bd, '20:30': bn}))
-        run.check('傅鐘的光暈：兩個（GLOW_* 空節點），20:30 亮、11:00 不亮', bn['glows'] == 2 and bn['glowsOn'] == 2 and bd['glowsOn'] == 0, json.dumps({'11:00': bd, '20:30': bn}))
-        run.check('傅鐘：藏起來的套件光暈晚上不會跑回來（TK.setNight 會重設 visible）', bn['kitSpritesOn'] == 0 and bd['kitSpritesOn'] == 0, json.dumps({'11:00': bd, '20:30': bn}))
+        run.check('晨思鐘的光暈：兩個（GLOW_* 空節點），20:30 亮、11:00 不亮', bn['glows'] == 2 and bn['glowsOn'] == 2 and bd['glowsOn'] == 0, json.dumps({'11:00': bd, '20:30': bn}))
+        run.check('晨思鐘：藏起來的套件光暈晚上不會跑回來（TK.setNight 會重設 visible）', bn['kitSpritesOn'] == 0 and bd['kitSpritesOn'] == 0, json.dumps({'11:00': bd, '20:30': bn}))
         neg2 = await pg.evaluate("""(()=>{ const E=GAME.E, kit=E.zone.group.children.find(o=>o.userData&&o.userData.ckTag==='bell'); const sp=kit.children.filter(o=>o.isSprite);
             const saved=sp.map(s=>[s.userData.nightO,s.userData.dayO]); sp.forEach(s=>{ s.userData.nightO=0.55; s.userData.dayO=0; });   /* 模擬沒修的版本：藏起來的套件光暈還是照時段開關 */
             E.applyTime(11); E.applyTime(20.5); const n=sp.filter(s=>s.visible).length; sp.forEach((s,i)=>{ s.userData.nightO=saved[i][0]; s.userData.dayO=saved[i][1]; }); E.applyTime(11); E.applyTime(17.5); return n; })()""")
@@ -241,7 +241,7 @@ async def check(pg, run, formal):
     if formal:   # 夜裡才進校園：模型在路燈已經開著的時候才載入，光暈要直接是亮的（校園的夜間只在路燈開關時切換）
         await PL.load_state(pg, {'zone': 'campus', 'hour': 20.5, 'pos': {'x': -38, 'z': 6, 'yaw': 3.1416}}, quiet_events=True)
         ok = await pg.evaluate(WAIT_FORMAL % 'campus_bell_glb'); bl = await pg.evaluate(BELL_NIGHT + '(null)')
-        run.check('夜裡（20:30）才進校園：傅鐘模型載入後光暈、地燈直接是亮的', ok and bl['lampsOn'] and bl['glowsOn'] == 2 and bl['lens'] > 1.0 and bl['kitSpritesOn'] == 0, json.dumps(bl))
+        run.check('夜裡（20:30）才進校園：晨思鐘模型載入後光暈、地燈直接是亮的', ok and bl['lampsOn'] and bl['glowsOn'] == 2 and bl['lens'] > 1.0 and bl['kitSpritesOn'] == 0, json.dumps(bl))
         await run.shot(pg, 'bell_night_2030')
     return res
 

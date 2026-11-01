@@ -14,6 +14,7 @@
 //   11 條件的列：語彤續約前後的週四、芷若週六、子晴「昨天才約過」、學姊口試前一週（改到下週）、以安的現有 plan、芷若「上班」
 //   12 手機約（INV.flow）：念的是表上的句子，第二次換一句
 // 修改前（開發分支 888f3e175）：沒有 src/data/invite_replies.js、INV.replyPick——FAIL。用法：node tests/aa415_invite_replies_unit.js
+require('./alison.js');   // 讀企劃稿（git show）照匯入工具同一套換：Alison、虛構校名（WORLD-RENAME-1030，docs/WORLD_NAMING.md）
 const H=require('./pg_harness.js');
 const fs=require('fs'), vm=require('vm'), path=require('path'), cp=require('child_process');
 const {check,GM}=H, J=JSON.stringify;
@@ -182,7 +183,7 @@ await sec(9,()=>{ fresh('2026-03-14');
 await sec(10,()=>{ fresh('2025-03-12','kexin',1,{econ:true}); const k1=INV.personal(H.G,'kexin',INV.place('library'),H.G.day,15.5,{res:'accept'});
   check('10. 可昕經濟系那一年第 1 階約總圖：「總圖？好。……你是會計課坐我斜前面的那個？」',txt(k1.lines)==='「總圖？好。……你是會計課坐我斜前面的那個？」',txt(k1.lines));
   fresh('2026-03-11','kexin','d'); const k2=INV.personal(H.G,'kexin',INV.place('cafe'),H.G.day,15.5,{res:'accept'});
-  check('10. 法律系交往中約 Café：「台大的 Café？好。我要坐你平常坐的那張。」',txt(k2.lines)==='「台大的 Café？好。我要坐你平常坐的那張。」',txt(k2.lines));
+  check('10. 法律系交往中約 Café：「首都帝大的 Café？好。我要坐你平常坐的那張。」',txt(k2.lines)==='「首都帝大的 Café？好。我要坐你平常坐的那張。」',txt(k2.lines));
   fresh('2026-03-11','kexin',6); H.G.flags.EX_kexin=true; const st=INV.replyStage(H.G,'kexin'); const ex=[]; for(let i=0;i<4;i++) ex.push(INV.personal(H.G,'kexin',INV.place('cafe'),H.G.day,19,{res:'accept'}));
   const rows=ex.map(r=>rowOf('kexin',r.lines));
   check('10. 分開以後：最多第 4 階、只用「4（分開以後）」的句子（沒有交往中、第 5、6 階）',st===4&&rows.every(r=>r&&r.apart&&r.st[0]===4),st+' '+J(ex.map(r=>txt(r.lines))));

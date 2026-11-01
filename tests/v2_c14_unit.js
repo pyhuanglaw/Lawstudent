@@ -53,7 +53,7 @@ const txt=(th)=>TH(th).map(m=>(m.from||'')+':'+m.text);
     check('不在場的玩家（沒去那晚的讀書會）：週四 22:00 Alison 連發三則（AA_238 5-4），記「聽說」',JSON.stringify(L)===JSON.stringify(['yu:我跟以安吵架了','yu:不是真的吵啦 是在講上街要不要申請','yu:柏翰還幫我們計時'])&&SOCIAL.has('heroine_01','HEARD_ABOUT'),JSON.stringify(L));
     fresh(T11,17,'dorm'); PHONE.join(G,'noodle_team','麵店團'); G.events.done.ev_an_yu_argument=1; run(17,23.9); check('在場看過的玩家：群組沒有這兩句',!txt('g:noodle_team').some(t=>/吵架/.test(t))); }
   /* 後半：被拱出來＋邀請（AA_238 5-1、5-2：大一上第 10 週週一 20:30 全班群組被拱出來、21:00 邀請＋Alison「+1 可以帶宵夜嗎」） */
-  { const M=termDay('Y1S1',10,1), want=['同學:憲法期中有人知道第三題到底在問什麼嗎','同學:我到現在還是不知道憲法在幹嘛','zhe:問沈以安啊 她考超高','同學:真的假的 以安開課','heroine_01:……我不是老師。','heroine_01:可是可以一起讀。','heroine_01:公法讀書會。週四晚上八點，萬才館研討室。想來的就來，不用報名。','yu:+1 可以帶宵夜嗎','heroine_01:……可以。'];
+  { const M=termDay('Y1S1',10,1), want=['同學:憲法期中有人知道第三題到底在問什麼嗎','同學:我到現在還是不知道憲法在幹嘛','zhe:問沈以安啊 她考超高','同學:真的假的 以安開課','heroine_01:……我不是老師。','heroine_01:可是可以一起讀。','heroine_01:公法讀書會。週四晚上八點，B館研討室。想來的就來，不用報名。','yu:+1 可以帶宵夜嗎','heroine_01:……可以。'];
     const cls=()=>TH('g:law_class').filter(m=>/plg_/.test(String(m.tag||''))||/公法|憲法|沈以安|以安開課|不是老師|一起讀|宵夜|可以。/.test(m.text)).map(m=>(m.from||m.name||'')+':'+m.text);
     fresh(M,18,'dorm'); PHONE.join(G,'law_class','法律系（全班）'); PHONE.join(G,'noodle_team','麵店團'); run(18,20.45); check('20:27 還沒有',!TH('g:law_class').some(m=>/以安開課|公法讀書會/.test(m.text)));
     run(20.5,22); check('20:30 被全班拱出來、21:00 邀請（AA_238 原文；麵店團沒有）',JSON.stringify(cls())===JSON.stringify(want)&&!txt('g:noodle_team').some(t=>/公法讀書會/.test(t)),JSON.stringify(cls()));
@@ -74,7 +74,7 @@ const txt=(th)=>TH(th).map(m=>(m.from||'')+':'+m.text);
       check('C21：大一下第 4 週公法讀書會結束後、認識沛珊＝演；不認識、第 5 週都沒有',at(4,true)===e&&!at(4,false)&&!at(5,true));
       fresh(termDay('Y1S2',4,4),19.9,'wancai'); SOCIAL.meet('classmate_peishan','campus'); G.flags.PUBLIC_LAW_GROUP=true; G.events.done.ev_public_law_group=1;
       await CLS.attendActivity(GM,A,{door:true}); const Ls=lines();
-      check('C21：照玩家流程參加（attendActivity）——讀書會結束以後接著演：（讀書會結束。沛珊和柏翰一起走出萬才館，一路在爭下週誰報告哪一題。）（你在後面收白板。）',Ls.includes('（讀書會結束。沛珊和柏翰一起走出萬才館，一路在爭下週誰報告哪一題。）')&&Ls[Ls.length-1]==='（你在後面收白板。）'&&G.events.done.ev_peishan_bohan_w4===1,JSON.stringify(Ls.slice(-3)));
+      check('C21：照玩家流程參加（attendActivity）——讀書會結束以後接著演：（讀書會結束。沛珊和柏翰一起走出法律系館B，一路在爭下週誰報告哪一題。）（你在後面收白板。）',Ls.includes('（讀書會結束。沛珊和柏翰一起走出法律系館B，一路在爭下週誰報告哪一題。）')&&Ls[Ls.length-1]==='（你在後面收白板。）'&&G.events.done.ev_peishan_bohan_w4===1,JSON.stringify(Ls.slice(-3)));
       check('C21：只有畫面——沒有選項、沒有訊息',!opts.length&&!(G.msgs||[]).some(m=>/柏翰/.test(m.text||''))); } }
   console.log(fails?('FAILED '+fails):'ALL PASS'); process.exit(fails?1:0);
 })().catch(e=>{ console.log('FAIL 例外 '+e.stack); process.exit(1); });

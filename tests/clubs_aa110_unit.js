@@ -42,9 +42,9 @@ const W=[5,6,7,10,11,12,13,14,15];   /* 16 週制：第 16 週期末，社課停
   fresh(monOK,18.5); await CLS.roomDoor(GM,'wancai','multi',{look:'多功能教室。這個時段沒有排課，門鎖著。'});
   check('週一 18:30 按多功能教室的門：「吉他社社課：今天 19:00 在這裡」，不能參加',!chose.length&&/吉他社社課：今天 19:00 在這裡/.test(caps[0]||''),caps[0]);
   /* AA 2026-10-13 P2：沒有社課的日子按多功能教室的門，寫社課的時間＋「今天沒有社課。」（原本只寫「門鎖著」，玩家不知道什麼時候來）*/
-  const LOOK='多功能教室。這個時段沒有排課，門鎖著。', WHEN='吉他社社課：每週一、三 19:00–21:00，萬才館 多功能教室（第 5 週起）。';
+  const LOOK='多功能教室。這個時段沒有排課，門鎖著。', WHEN='吉他社社課：每週一、三 19:00–21:00，法律系館B 多功能教室（第 5 週起）。';
   fresh(monOK+1,19.1); await CLS.roomDoor(GM,'wancai','multi',{look:LOOK});
-  check('週二按多功能教室的門：「吉他社社課：每週一、三 19:00–21:00，萬才館 多功能教室（第 5 週起）。今天沒有社課。」',!chose.length&&caps[0]===WHEN+'今天沒有社課。',caps[0]);
+  check('週二按多功能教室的門：「吉他社社課：每週一、三 19:00–21:00，法律系館B 多功能教室（第 5 週起）。今天沒有社課。」',!chose.length&&caps[0]===WHEN+'今天沒有社課。',caps[0]);
   fresh(monOK,20.5); await CLS.roomDoor(GM,'wancai','multi',{look:LOOK});
   check('週一 20:30（社課過了一半、不能再參加）：不說「今天沒有社課」，說「已經過了一半」',!chose.length&&caps[0]===WHEN+'今天的社課已經過了一半，下次再來。',caps[0]);
   fresh(monOK,21.5); await CLS.roomDoor(GM,'wancai','multi',{look:LOOK});
@@ -52,12 +52,12 @@ const W=[5,6,7,10,11,12,13,14,15];   /* 16 週制：第 16 週期末，社課停
   fresh(dayOf('2026-02-10'),19.1); await CLS.roomDoor(GM,'wancai','multi',{look:LOOK});
   check('寒假（不是吉他社的學期）：照舊是門鎖著',!chose.length&&caps[0]===LOOK,caps[0]);
   fresh(monOK+1,19.1); await CLS.roomDoor(GM,'wancai','seminarA',{door:'wancai_seminar'});
-  check('週二按研討室 A 的門：法服讀書會已經停用（AA_218 17-4），不寫它的時間（AA_372 第 1 項：原本「法服讀書會：每週三 19:00–21:00，萬才館 研討室 A（第 5 週起）。今天沒有社課。」）；同一間別的讀書會（公法讀書會，週四）照寫，後面照舊是研討室的說明和今天的課',!chose.length&&/研討室 A：萬才館二樓的小教室/.test(caps[0]||'')&&!/法服|每週三/.test(caps[0]||''),caps[0]);
-  { const l0=ACTIVITIES.list.find(a=>a.id==='lawclub_study'); check('AA_372 第 1 項：博覽會選單、填表後那句的法服時間是「隔週週六上午，萬才館一樓（法律服務）」，不是停用的週三讀書會',CLS.clubWhen(l0)==='隔週週六上午，萬才館一樓（法律服務）'&&CLS.clubWhen(ACTIVITIES.list.find(a=>a.id==='club_guitar'))!=='隔週週六上午，萬才館一樓（法律服務）',CLS.clubWhen(l0)); }
+  check('週二按研討室 A 的門：法服讀書會已經停用（AA_218 17-4），不寫它的時間（AA_372 第 1 項：原本「法服讀書會：每週三 19:00–21:00，法律系館B 研討室 A（第 5 週起）。今天沒有社課。」）；同一間別的讀書會（公法讀書會，週四）照寫，後面照舊是研討室的說明和今天的課',!chose.length&&/研討室 A：法律系館B二樓的小教室/.test(caps[0]||'')&&!/法服|每週三/.test(caps[0]||''),caps[0]);
+  { const l0=ACTIVITIES.list.find(a=>a.id==='lawclub_study'); check('AA_372 第 1 項：博覽會選單、填表後那句的法服時間是「隔週週六上午，法律系館B一樓（法律服務）」，不是停用的週三讀書會',CLS.clubWhen(l0)==='隔週週六上午，法律系館B一樓（法律服務）'&&CLS.clubWhen(ACTIVITIES.list.find(a=>a.id==='club_guitar'))!=='隔週週六上午，法律系館B一樓（法律服務）',CLS.clubWhen(l0)); }
   { const ev=STORY_EVENTS.find(e=>e.id==='ev_kai_mentions_ziqing'), g=ev&&ev.dialogue.find(d=>d.choice).choice[0].consequences.goal;
-    check('阿凱轉述子晴、問「什麼時候？」的目標：「吉他社：第 5 週起，週一、週三 19:00，萬才館一樓多功能教室」（AA P2；原本「萬才館」沒寫哪一間、沒寫第 5 週起）',g==='吉他社：第 5 週起，週一、週三 19:00，萬才館一樓多功能教室',g);
+    check('阿凱轉述子晴、問「什麼時候？」的目標：「吉他社：第 5 週起，週一、週三 19:00，萬才館一樓多功能教室」（AA P2；原本「萬才館」沒寫哪一間、沒寫第 5 週起）',g==='吉他社：第 5 週起，週一、週三 19:00，法律系館B一樓多功能教室',g);
     const i=ev.dialogue.findIndex(d=>d.label==='when'), line=ev.dialogue[i+1]&&ev.dialogue[i+1].text;   /* f99f664 只改了目標、阿凱這句沒改到（還寫「萬才館旁邊的社辦」），2026-10-14 補上 */
-    check('阿凱接著說的時間地點和目標一致：「第五週開始，週一、週三晚上七點，在萬才館一樓的多功能教室。她說不用會彈。」（AA_110）',line==='第五週開始，週一、週三晚上七點，在萬才館一樓的多功能教室。她說不用會彈。'&&!/社辦/.test(JSON.stringify(ev.dialogue)),line); }
+    check('阿凱接著說的時間地點和目標一致：「第五週開始，週一、週三晚上七點，在B館一樓的多功能教室。她說不用會彈。」（AA_110）',line==='第五週開始，週一、週三晚上七點，在B館一樓的多功能教室。她說不用會彈。'&&!/社辦/.test(JSON.stringify(ev.dialogue)),line); }
   /* C：吉他社——還沒認識子晴：第一次自動播初遇、不播旁白 */
   fresh(monOK,19.1); delete MEM.heroine_04; ran.length=0; await CLS.roomDoor(GM,'wancai','multi',{});
   check('19:06 按門：「參加：吉他社社課」→ 參加',(chose[0]||[])[0]==='參加：吉他社社課'&&ACTIVITIES.attended(G,'club_guitar',G.day),JSON.stringify(chose[0]));
@@ -90,7 +90,7 @@ const W=[5,6,7,10,11,12,13,14,15];   /* 16 週制：第 16 週期末，社課停
   /* H：系籃 */
   const friDay=W.map(w=>dOf(w,5)).find(d=>d&&!CALENDAR.holiday(d)); fresh(friDay,17.6); G.zone='campus'; answers=[0]; await CLS.spotInteract(GM,b);
   { const iF=log.indexOf('〔轉暗〕'), iN=log.indexOf(b.narr[0]);
-    check('系籃：球場（醉月湖東側）「去練球：系籃練球」→ 沒去社博、第一次去＝「（你在場邊填了表。）」（AA_485 3-4；AA_491 C：系籃在球場、沒有門口）→ 沒有入座的句子、直接轉暗 → 19:00 → 旁白 → 社課結束了',(chose[0]||[])[0]==='去練球：系籃練球'&&log[0]==='（你在場邊填了表。）'&&iF===1&&iN>iF&&Math.abs(G.hour-19)<0.01&&caps[caps.length-1]==='社課結束了。'&&G.flags.CLUB_dept_basketball===true,JSON.stringify(log)); }
+    check('系籃：球場（映月湖東側）「去練球：系籃練球」→ 沒去社博、第一次去＝「（你在場邊填了表。）」（AA_485 3-4；AA_491 C：系籃在球場、沒有門口）→ 沒有入座的句子、直接轉暗 → 19:00 → 旁白 → 社課結束了',(chose[0]||[])[0]==='去練球：系籃練球'&&log[0]==='（你在場邊填了表。）'&&iF===1&&iN>iF&&Math.abs(G.hour-19)<0.01&&caps[caps.length-1]==='社課結束了。'&&G.flags.CLUB_dept_basketball===true,JSON.stringify(log)); }
   /* I：事件的條件 */
   const ez=STORY_EVENTS.find(e=>e.id==='ev_ziqing_club'), es=STORY_EVENTS.find(e=>e.id==='ev_studygroup_wed');
   const why=ez.dialogue.find(d=>d.choice).choice.find(c=>/程式比賽/.test(c.text));

@@ -42,11 +42,11 @@ const W5TUE=termDay('Y1S1',5,2), W5WED=termDay('Y1S1',5,3), W6THU=termDay('Y1S1'
   if(!D('zq_a1')){ console.log('FAILED '+fails); process.exit(1); }
   /* ---------- A 子晴 ---------- */
   { fresh(W5TUE,8,'dorm'); PHONE.join(G,'guitar','吉他社'); R('heroine_04',...LV.ACQ);
-    check('A 認識：社課前一天 21:00 吉他社群組「明天社課 19:00。萬才館一樓。帶琴。」（多功能教室在萬才館一樓）',D('zq_a1').ok(G,W5TUE)&&D('zq_a1').h(G)===21&&JSON.stringify(txt('zq_a1'))===JSON.stringify(['g:guitar｜明天社課 19:00。萬才館一樓。帶琴。']),JSON.stringify(txt('zq_a1')));
+    check('A 認識：社課前一天 21:00 吉他社群組「明天社課 19:00。萬才館一樓。帶琴。」（多功能教室在萬才館一樓）',D('zq_a1').ok(G,W5TUE)&&D('zq_a1').h(G)===21&&JSON.stringify(txt('zq_a1'))===JSON.stringify(['g:guitar｜明天社課 19:00。B館一樓。帶琴。']),JSON.stringify(txt('zq_a1')));
     check('A 認識：不是社課前一天不傳',!D('zq_a1').ok(G,W5WED));
     check('A 認識：22:10 群組「📎 練習曲_v2.pdf」「新的譜。」（BB_175 D11：貓的遊戲檔名 Q6 以前不出現）',D('zq_a2').ok(G,W5TUE)&&hm(D('zq_a2').h(G))==='22:10'&&JSON.stringify(txt('zq_a2'))===JSON.stringify(['g:guitar｜📎 練習曲_v2.pdf','g:guitar｜新的譜。｜+1分']),JSON.stringify(txt('zq_a2')));
     run(8,24); const L=dp().map(m=>m.th+'｜'+m.text);
-    check('A 認識：實際走過一天，21:00 收到群組的社課提醒（一天一則）',JSON.stringify(L)===JSON.stringify(['g:guitar｜明天社課 19:00。萬才館一樓。帶琴。']),JSON.stringify(L));
+    check('A 認識：實際走過一天，21:00 收到群組的社課提醒（一天一則）',JSON.stringify(L)===JSON.stringify(['g:guitar｜明天社課 19:00。B館一樓。帶琴。']),JSON.stringify(L));
     G.contacts.heroine_04=W5TUE-3; check('A 有點熟以前，私訊的幾則都不傳',['zq_f1','zq_f2','zq_r1','zq_c1','zq_c2'].every(id=>!D(id).ok(G,W5TUE)));
     R('heroine_04',...LV.FAM); check('A 有點熟：認識的兩則不再傳（只在那個階段）',!D('zq_a1').ok(G,W5TUE)&&!D('zq_a2').ok(G,W5TUE));
     check('A 有點熟：私訊一句拆好幾則（滷味 21:30、貓卡在牆裡 23:00；BB_175 D12、D13 拿掉「欸不是」）',D('zq_f1').ok(G,W5TUE)&&D('zq_f2').ok(G,W5TUE)&&D('zq_f1').h(G)===21.5&&D('zq_f2').h(G)===23&&txt('zq_f1').join('/')==='p:heroine_04｜滷味/p:heroine_04｜十點後半價/p:heroine_04｜你要來嗎'&&txt('zq_f2').join('/')==='p:heroine_04｜我的貓/p:heroine_04｜卡在牆裡/p:heroine_04｜出不來/p:heroine_04｜……不用回',txt('zq_f1').join('/')+' ＃ '+txt('zq_f2').join('/'));

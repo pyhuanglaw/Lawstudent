@@ -52,9 +52,9 @@ const run=(h0,h1,st)=>{ st=st||0.05; for(let h=h0;h<=h1+1e-9;h+=st){ G.hour=+h.t
     let P=TH('p:kexin').filter(m=>m.tag==='kx_our_day'); const msg=P.map(m=>m.text);
     check('6. K5 第 2 週週一 21:00：「我們選一天。……」（「名字很重要。」刪掉，AA_389 第 4 點）、情人節說過想見她的多一句接在後面（BB_161 ⑰）、最後一則帶三個日子',msg.join('｜')==='我們選一天。不是約會日，是「我們的日子」。｜你情人節說想見我。這個週末我已經空下來了。'/* AA_373 #10 */&&JSON.stringify(P[P.length-1].ask.opts.map(o=>o.t))==='["週五晚上。","週六。","週日下午。"]',msg.join('｜'));
     PHONE.answer(G,P[P.length-1].ask.id,2); run(21.1,21.2); P=TH('p:kexin'); const m2=P.find(m=>m.text==='週日下午很好。隔天要上課，我們不會玩太晚。');
-    check('6. 選「週日下午。」：她的回覆帶四種方式',!!m2&&JSON.stringify(m2.ask.opts.map(o=>o.t))==='["我開車去政大。","妳來台大。","約在外面。","視訊也算。"]',JSON.stringify(P.map(m=>m.text)));
+    check('6. 選「週日下午。」：她的回覆帶四種方式',!!m2&&JSON.stringify(m2.ask.opts.map(o=>o.t))==='["我開車去木柵大學。","妳來首都帝大。","約在外面。","視訊也算。"]',JSON.stringify(P.map(m=>m.text)));
     PHONE.answer(G,m2.ask.id,0); run(21.2,21.3); const q=OUT.get(G,'kx_our_day1');
-    check('6. 選「我開車去政大。」：「好。我負責選宵夜。」、KX_OUR_DAY {sun, nccu}、排同一週週日 14:00（提案值）',TH('p:kexin').some(m=>m.text==='好。我負責選宵夜。')&&JSON.stringify(G.flags.KX_OUR_DAY)==='{"day":"sun","mode":"nccu"}'&&!!q&&q.day===termDay('Y1S2',2,7)&&q.h===14,JSON.stringify({od:G.flags.KX_OUR_DAY,q}));
+    check('6. 選「我開車去木柵大學。」：「好。我負責選宵夜。」、KX_OUR_DAY {sun, nccu}、排同一週週日 14:00（提案值）',TH('p:kexin').some(m=>m.text==='好。我負責選宵夜。')&&JSON.stringify(G.flags.KX_OUR_DAY)==='{"day":"sun","mode":"nccu"}'&&!!q&&q.day===termDay('Y1S2',2,7)&&q.h===14,JSON.stringify({od:G.flags.KX_OUR_DAY,q}));
     picks=[]; said=[]; G.day=q.day; G.hour=13.5; await OUT.go(GM,q); const L=lines();
     check('6. 第一次的那一天（AA_313 第 21 列）：「她把手機上的行事曆對著你。」「那一格我寫了『我們』。……『約會』兩個字太噁心了。」',JSON.stringify(L)===JSON.stringify(['她把手機上的行事曆對著你。','杜可昕：那一格我寫了『我們』。……『約會』兩個字太噁心了。']),JSON.stringify(L));
     fresh(M2,21.2,'dorm',{introDone:true,dating_kexin:true,KX_OUR_DAY:{day:'fri',mode:'video'}}); run(21.2,21.3); const q2=OUT.get(G,'kx_our_day1');
@@ -81,7 +81,7 @@ const run=(h0,h1,st)=>{ st=st||0.05; for(let h=h0;h<=h1+1e-9;h+=st){ G.hour=+h.t
     check('7a. 單純略過：沒有「這週換一天」「我等了一下」、不扣分',SW()===before); }
   // ---- 9-4 K7 週年 ----
   { const A1=STORY.dayOfKey('2025-10-17'), A0=A1-7;   /* AA_224 第 2 組：每年 10/17；邀約前一週 10/10 21:00 */ fresh(A0,20.9,'dorm',{introDone:true,classDone:true,afternoonDone:true,dating_kexin:true}); run(20.9,21.1);
-    let P=TH('p:kexin').filter(m=>m.tag==='kx_anniv_ask'); check('7. K7 一週前 10/10 21:00：「下禮拜五是我們的週年。」「地點你選。……」三個地點',P.map(m=>m.text).join('｜')==='下禮拜五是我們的週年。｜地點你選。我準備一樣東西，你也準備一樣。'&&JSON.stringify(P[1].ask.opts.map(o=>o.t))==='["摩天輪。","政大山下，我們的店。","河堤。"]');
+    let P=TH('p:kexin').filter(m=>m.tag==='kx_anniv_ask'); check('7. K7 一週前 10/10 21:00：「下禮拜五是我們的週年。」「地點你選。……」三個地點',P.map(m=>m.text).join('｜')==='下禮拜五是我們的週年。｜地點你選。我準備一樣東西，你也準備一樣。'&&JSON.stringify(P[1].ask.opts.map(o=>o.t))==='["摩天輪。","木柵大學山下，我們的店。","河堤。"]');
     PHONE.answer(G,P[1].ask.id,0); run(21.1,21.2); const q=OUT.get(G,'kx_anniv1');
     check('7. 選摩天輪：「……回到最高點。好。」、排 10/17 18:30',TH('p:kexin').some(m=>m.text==='……回到最高點。好。')&&!!q&&q.day===A1&&q.h===18.5,JSON.stringify(q));
     const play=async(pk)=>{ said=[]; opts=[]; picks=pk.slice(); delete G.flags.K7_GIFT; G.events.done.ev_k7_gift_prep=0; G.day=A1-1; G.hour=21.05; const gp=STORY_EVENTS.find(e=>e.id==='ev_k7_gift_prep'); if(EVENTS.check(gp)) await EVENTS.run(gp); G.day=A1; G.hour=17.5; const qq=OUT.get(G,'kx_anniv1'); qq.state='planned'; G.events.done.ev_kexin_anniversary_y1=0; await OUT.go(GM,qq); return lines(); };
@@ -94,7 +94,7 @@ const run=(h0,h1,st)=>{ st=st||0.05; for(let h=h0;h<=h1+1e-9;h+=st){ G.hour=+h.t
       check('7. 準備的東西：10/16 21:00 才問、10/17 起床再問（「今天是週年。…」）、18:30 以後不問；都沒選＝什麼都沒準備（不再出門前問）',!c0&&c1&&c2&&!c3&&g8==='今天是週年。你準備的東西：'&&G.flags.K7_GIFT==='none'&&Ln.includes('杜可昕：你人來了就好。')&&!Ln.includes('出門前，你準備的東西：'),JSON.stringify([c0,c1,c2,c3,g8,Ln.slice(0,2)]));
       const RI=STORY.roomItemList(G).find(r=>r[0]==='她的週年卡片'); check('7. 去了週年：房間物件「她的週年卡片」＝「那天在最高的地方，你說在一起吧。我說好。」（AA_303 第 2 節 9）',!!RI&&RI[1]==='那天在最高的地方，你說在一起吧。我說好。'); }
     { const gp=STORY_EVENTS.find(e=>e.id==='ev_k7_gift_prep'); G.flags.KX_ANNIV_PLACE='shop'; delete G.flags.K7_GIFT; G.events.done.ev_k7_gift_prep=0; G.day=A1-1; G.hour=21.1; said=[]; opts=[]; picks=['行事曆']; await EVENTS.run(gp);
-      check('7. 地點選政大山下：準備的東西只剩三樣，沒有「山下那家的酸辣湯餃（外帶）」（AA_313 第 2 節第 10 列）',JSON.stringify(opts[0])==='["摩天輪票根的影本，背面寫那天的日期","一本空白的行事曆，第一頁寫今天的日期","什麼都沒準備"]',JSON.stringify(opts[0])); }
+      check('7. 地點選木柵大學山下：準備的東西只剩三樣，沒有「山下那家的酸辣湯餃（外帶）」（AA_313 第 2 節第 10 列）',JSON.stringify(opts[0])==='["摩天輪票根的影本，背面寫那天的日期","一本空白的行事曆，第一頁寫今天的日期","什麼都沒準備"]',JSON.stringify(opts[0])); }
     fresh(A0,20.9,'dorm',{introDone:true,dating_kexin:true}); run(20.9,21.1); G.day=A1; run(19.4,19.7);
     const qc=OUT.get(G,'kx_anniv_call1');
     check('7. 沒選地點：KX_ANNIV {1:missed}；當晚不再傳卡片的照片，改排 21:00 她打來（演出來的電話，AA_313 2-3 A）',G.flags.KX_ANNIV&&G.flags.KX_ANNIV[1]==='missed'&&!TH('p:kexin').some(m=>m.text==='週年快樂。下次你準備。')&&!!qc&&qc.day===A1&&qc.h===21&&qc.ev==='ev_kexin_anniv_missed_call'&&qc.verb==='接起來',JSON.stringify(qc));
@@ -131,7 +131,7 @@ const run=(h0,h1,st)=>{ st=st||0.05; for(let h=h0;h<=h1+1e-9;h+=st){ G.hour=+h.t
     check('10. 9-8 六則在每天的手機小事裡（交往中、照週次）',ids.every(id=>D.some(d=>d.id===id)),ids.filter(id=>!D.some(d=>d.id===id)).join(','));
     /* AA_504 第 0 節第 1 點：kx2_late（第 1～2 週）、kx2_azalea（第 3 週）在手機小事永遠不出（第 4 週才開始），改成可昕的動態第 1、2 則（src/data/feed_y1s2.js kx1b、kx2b，原句照用；tests/aa504_505_feed_unit.js）*/
     const FS=fs.readFileSync(path.join(ROOT,'src/data/feed_y1s2.js'),'utf8');
-    check('10. kx2_late、kx2_azalea 不在手機小事，原句搬到可昕大一下的動態第 1、2 則（AA_504 第 0 節）',!D.some(d=>d.id==='kx2_late'||d.id==='kx2_azalea')&&FS.includes("id:'kx1b',who:'kexin',t:'W1三 08:40',st:'認識',pic:'政大宿舍的走廊，予樂的房門關著',say:'開學了。予樂說這學期要每天早到。今天她遲到。'")&&FS.includes("id:'kx2b',who:'kexin',t:'W3六 10:30',st:'認識',pic:'政大山上的杜鵑花，霧很重',say:'政大也有杜鵑花。可是開在山上，要爬上去才看得到。'"));
+    check('10. kx2_late、kx2_azalea 不在手機小事，原句搬到可昕大一下的動態第 1、2 則（AA_504 第 0 節）',!D.some(d=>d.id==='kx2_late'||d.id==='kx2_azalea')&&FS.includes("id:'kx1b',who:'kexin',t:'W1三 08:40',st:'認識',pic:'木柵大學宿舍的走廊，予樂的房門關著',say:'開學了。予樂說這學期要每天早到。今天她遲到。'")&&FS.includes("id:'kx2b',who:'kexin',t:'W3六 10:30',st:'認識',pic:'木柵大學山上的杜鵑花，霧很重',say:'木柵大學也有杜鵑花。可是開在山上，要爬上去才看得到。'"));
     const ex=D.find(d=>d.id==='kx2_example'); fresh(termDay('Y1S2',10,2),10,'dorm',{dating_kexin:true}); const T=CALENDAR.termOf(G.day);
     check('10. 「答案被拿去當範例」：K6b 之後才成立',ex.term(T)&&!ex.ok(G,G.day)&&(G.flags.KX_DIR={Y1:'reasons'},ex.ok(G,G.day))); }
   console.log(fails?('FAILED '+fails):'ALL PASS'); process.exit(fails?1:0);

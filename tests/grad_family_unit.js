@@ -39,7 +39,7 @@ const lines=()=>said.map(s=>(s.who?s.who+'：':'')+s.t);
   check('1. 校級典禮（2D ntu_gym_ceremony）：「（看台上，媽媽一直在揮手。爸爸舉著手機，沒有放下來過。）」', T[1]==='（看台上，媽媽一直在揮手。爸爸舉著手機，沒有放下來過。）'&&JSON.stringify(bgs).includes('ntu_gym_ceremony'));
   check('1. 法律學院（2D linze_auditorium）：「（撥穗。帽子上的穗從右邊換到左邊，只有一秒。）」、GRADUATED＝那天；台灣路線沒有「還差一門實習」', T[2]==='（撥穗。帽子上的穗從右邊換到左邊，只有一秒。）'&&JSON.stringify(bgs).includes('linze_auditorium')&&G.flags.GRADUATED===dg&&!T.some(t=>/還差一門實習/.test(t)));
   check('1. 撥穗以後 GRAD_DONE（閒聊階梯 A8-L6「畢業典禮，我媽要來。」等 skipIf GRAD_DONE 的不再播；BB210-Y4S2，修改前沒有人設）',G.flags.GRAD_DONE===true&&!!LADDER.byTerm.Y4S2.heroine_01.steps.find(x=>x.id==='A8-L6'&&x.skipIf&&(x.skipIf.flags||[]).includes('GRAD_DONE')));
-  check('1. 11:55 霖澤館大廳（3D linze）：媽媽、姊姊（AA_12 原文）', entered.includes('linze')&&JSON.stringify(T.slice(3,9))===JSON.stringify(['媽媽：我們家第一個台大畢業的。','（媽媽哭了。）','（爸爸沒有說話，拍照拍了五十張。）','姊姊：媽，不要哭了，妝。','媽媽：（從包包裡拿出一個信封）對了，大伯叫我拿給你——','姊姊：媽！今天！今天不要！']), JSON.stringify(T.slice(3,9)));
+  check('1. 11:55 霖澤館大廳（3D linze）：媽媽、姊姊（AA_12 原文）', entered.includes('linze')&&JSON.stringify(T.slice(3,9))===JSON.stringify(['媽媽：我們家第一個首都帝大畢業的。','（媽媽哭了。）','（爸爸沒有說話，拍照拍了五十張。）','姊姊：媽，不要哭了，妝。','媽媽：（從包包裡拿出一個信封）對了，大伯叫我拿給你——','姊姊：媽！今天！今天不要！']), JSON.stringify(T.slice(3,9)));
   check('1. 兩個選項都在（不讀傾向）', JSON.stringify(opts[0])===JSON.stringify(['「好。我回去看。」','「媽，今天先拍照。」']));
   check('1. 選①：GRAD_ENVELOPE took、「祐廷接過信封，放進學士服的口袋。」「（媽媽擦了一下眼睛。）」；12:00', G.flags.GRAD_ENVELOPE==='took'&&T.slice(-2).join('|')==='祐廷接過信封，放進學士服的口袋。|（媽媽擦了一下眼睛。）'&&Math.abs(G.hour-12)<0.01);
   check('1. 演過了不再演', !STORY.gradMorningDue(G));

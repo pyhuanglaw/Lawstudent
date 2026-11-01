@@ -19,6 +19,7 @@
 // AA_514（企劃線 964d01175；任務 KX-MOOT3-1028）：大二上多一則 kx4bc（可昕 1/29 嘉義予樂家，第 4、5 則中間）——大二上則數 37→38、三個學期的 id 148→149；
 //   ①②對稿不算它（ADD514；它的稿是 AA_514，tests/aa514_kx_moot3_unit.js 逐字對）；可昕第 11 週「下次我去看。」的選項多 set KX_WATCH（這裡不比 set）。
 'use strict';
+require('./alison.js');   // 讀企劃稿（git show）照匯入工具同一套換：Alison、虛構校名（WORLD-RENAME-1030，docs/WORLD_NAMING.md）
 const H=require('./pg_harness.js');
 const fs=require('fs'), vm=require('vm'), path=require('path'), cp=require('child_process');
 const {check,GM}=H, J=JSON.stringify;
@@ -94,7 +95,9 @@ sec('0',()=>{ const sc=f=>html.indexOf('<script src="'+f), i1=sc('src/data/feed_
     J([SET.Y1S2&&SET.Y1S2.posts.length,SET.Y1S2&&SET.Y1S2.dms.length,SET.Y2S1&&SET.Y2S1.posts.length,SET.Y2S1&&SET.Y2S1.dms.length]));
   const ids=[]; for(const S of (HAS()?FEED.SETS():[])){ for(const p of S.posts) ids.push('p:'+p.id); for(const q of S.dms) ids.push('d:'+q.id); }
   check('0. 三個學期的 id 都不重複（動態 44＋47＋38、私訊 10＋7＋3）',ids.length===149&&new Set(ids).size===ids.length,J(ids.filter((x,i)=>ids.indexOf(x)!==i)));
-  for(const term of ['Y1S2','Y2S1']){ const S0=SET[term], S=S0&&Object.assign({},S0,{posts:S0.posts.filter(p=>!ADD514.includes(p.id))}), md=doc[term], D=DOC[term];   /* AA_514 加的那一則不在 AA_505 的表裡（tests/aa514_kx_moot3_unit.js 對 AA_514）*/
+  /* 2026-10-30 AA_524 Z3（企劃線 8fd10848d）：芷若 zr3c 多了 yes 版（前一晚回「我去。」去看了早場的玩家：圖、私訊的回答）——對 AA_505 的稿用 no 版（原句）；yes 版在 tests/aa524_promises_unit.js 對 AA_524 的稿 */
+  const A524=p=>p.id!=='zr3c'?p:Object.assign({},p,{went:undefined,pic:p.pic&&typeof p.pic==='object'?p.pic.no:p.pic,dm:(p.dm||[]).map(x=>x&&typeof x==='object'&&x.no!=null?x.no:x)});
+  for(const term of ['Y1S2','Y2S1']){ const S0=SET[term], S=S0&&Object.assign({},S0,{posts:S0.posts.filter(p=>!ADD514.includes(p.id)).map(A524)}), md=doc[term], D=DOC[term];   /* AA_514 加的那一則不在 AA_505 的表裡（tests/aa514_kx_moot3_unit.js 對 AA_514）*/
     if(!S||!md){ check('0. '+term+' 對稿（'+D.sha+'）',false,!md?'git fetch origin claude/magical-albattani-bk7b4n':'沒有資料'); continue; }
     /* ① 遊戲 → 稿 */
     const L=strs(S), bad=L.filter(t=>!md.includes(t));
@@ -190,8 +193,8 @@ sec('3',()=>{ if(!HAS()||!SET.Y1S2){ check('3. 私訊',false,'沒有資料'); re
   for(const [k,flag,want] of [[0,'where',['基隆。她說她年輕的時候常去。']],[1,'happy',['她回來的路上一直睡。……應該是。']],[2,'none',[]]]){ fresh(D23,16); who('heroine_03','CLOSE'); walk(D23,21.1); const got=answer('yt_sea',k);
     check('3. 語彤（很熟）2/3 17:00 第 4 則、21:00 看海三則（在沙灘上坐了很久），選第 '+(k+1)+' 個 → YT_SEA_DM '+flag,!!item('yt4c')&&J(tagged('yt_sea').slice(0,3))===J(['帶阿姨去看海了。','她說很冷。','然後在沙灘上坐了很久。'])&&J(got)===J(want)&&H.G.flags.YT_SEA_DM===flag,J(got)); }
   const W11=TDt('Y2S1',11,6);
-  for(const [k,flag,want] of [[0,'can',['我知道。……你不用安慰我。']],[1,'good',['很好。好到我很生氣。']],[2,'watch',['不要。你在我會看你。……好啦，下次。']]]){ fresh(W11,21); who('kexin','FRIEND'); walk(W11,22.6); const got=answer('kx_moot',k);
-    check('3. 可昕（朋友）大二上第 11 週週六 22:30 模擬法庭輸了，選第 '+(k+1)+' 個 → KX_MOOT_DM '+flag,J(tagged('kx_moot').slice(0,3))===J(['輸了。','對方的律師是大三的。','……我下次要贏他。'])&&J(got)===J(want)&&H.G.flags.KX_MOOT_DM===flag,J(got)); }
+  for(const [k,flag,want] of [[0,'can',['我知道。……你不用安慰我。']],[1,'good',['很好。好到我回去把自己那份重寫了一次。']]   /* AA_546 第 8 節（企劃線 86b121f42，D116）：原本「很好。好到我很生氣。」 */,[2,'watch',['不要。你在我會看你。……好啦，下次。']]]){ fresh(W11,21); who('kexin','FRIEND'); walk(W11,22.6); const got=answer('kx_moot',k);
+    check('3. 可昕（朋友）大二上第 11 週週六 22:30 模擬法庭輸了，選第 '+(k+1)+' 個 → KX_MOOT_DM '+flag,J(tagged('kx_moot').slice(0,3))===J(['輸了。','對方的律師是大三的。','……我下次要寫得更好。'])&&J(got)===J(want)&&H.G.flags.KX_MOOT_DM===flag,J(got)); }
   fresh(W11,21); who('kexin','ACQ'); walk(W11,23); check('3. 可昕只認識：沒有模擬法庭那一則',!tagged('kx_moot').length); });
 
 /* ---------- 4 稿的測試建議 ---------- */
@@ -220,10 +223,10 @@ sec('4b',()=>{ if(!HAS()||!SET.Y1S2) return;
   check('4. AA_504：沛珊第 3 則（4/9 23:40）沒和她交往＝有；交往中＝沒有（x:if）',!!a&&!item('ps3b')&&R().done.ps3b==='x:if',J(R().done.ps3b));
   /* 可昕第 1、2 則：一定出（只認識、沒有交往也有）；手機小事那兩則不出 */
   fresh(TDt('Y1S2',1,1),8); who('kexin','ACQ'); walk(TDt('Y1S2',3,6),11,{step:0.5});
-  check('4. AA_504：可昕第 1 則（第 1 週週三 08:40）、第 2 則（第 3 週週六 10:30）只認識也有；原句照用',R().done.kx1b==='p'&&!!item('kx2b')&&post('kx1b').say==='開學了。予樂說這學期要每天早到。今天她遲到。'&&post('kx2b').say==='政大也有杜鵑花。可是開在山上，要爬上去才看得到。');
+  check('4. AA_504：可昕第 1 則（第 1 週週三 08:40）、第 2 則（第 3 週週六 10:30）只認識也有；原句照用',R().done.kx1b==='p'&&!!item('kx2b')&&post('kx1b').say==='開學了。予樂說這學期要每天早到。今天她遲到。'&&post('kx2b').say==='木柵大學也有杜鵑花。可是開在山上，要爬上去才看得到。');
   check('4. AA_504：手機小事沒有 kx2_late、kx2_azalea',!STORY.DAILY_PHONE.some(d=>d.id==='kx2_late'||d.id==='kx2_azalea'));
   fresh(TDt('Y1S2',1,1),8,{dating_kexin:true}); rel('kexin','ACQ'); contact('kexin'); walk(TDt('Y1S2',3,7),23,{rules:true,step:1});
-  check('4. 交往中走第 1～3 週（整套手機規則）：私訊裡沒有那兩句（只有動態）',!(H.G.msgs||[]).some(m=>m.text==='開學了。予樂說這學期要每天早到。今天她遲到。'||m.text==='政大也有杜鵑花。可是開在山上，要爬上去才看得到。')&&R().done.kx1b==='p'&&R().done.kx2b==='p');   /* 動態只留十五天：第 1 週那一則看 done */
+  check('4. 交往中走第 1～3 週（整套手機規則）：私訊裡沒有那兩句（只有動態）',!(H.G.msgs||[]).some(m=>m.text==='開學了。予樂說這學期要每天早到。今天她遲到。'||m.text==='木柵大學也有杜鵑花。可是開在山上，要爬上去才看得到。')&&R().done.kx1b==='p'&&R().done.kx2b==='p');   /* 動態只留十五天：第 1 週那一則看 done */
   /* 分開以後一學期（大一下）*/
   fresh(TDt('Y1S2',1,1),10,{dating_kexin:true}); rel('kexin','ACQ'); contact('kexin'); ROM.end(H.G,'kexin','apart_talk'); walk(TDt('Y1S2',3,7),23,{step:1});
   check('4. 大一下第 1 週分開：這一學期可昕的動態不出現（x:cool）',FEED.kxCool(H.G)===true&&R().done.kx1b==='x:cool'&&R().done.kx2b==='x:cool',J([R().done.kx1b,R().done.kx2b])); });

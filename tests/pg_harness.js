@@ -21,7 +21,7 @@ const GM={get G(){ return H.G; },E,D:{active:false},npc:{},running:true,
   titleCard:async(a,b)=>{ H.cards.push([a,b]); },enter:async(z)=>{ H.entered.push(z); H.G.zone=z; },advance(h){ H.G.hour+=h; },fade:()=>Promise.resolve(),rel(){},walkTo:()=>Promise.resolve(true),sitAt(){},
   phoneThread:async()=>{}, openPhone(){},
   say:async(who,t)=>{ H.said.push({who:who?(who.name||String(who)):null,t:String(t).replace('{name}',H.G&&H.G.name||'祐廷')}); },
-  choose:async o=>{ H.opts.push(o.map(q=>q.t||q.text)); const want=H.picks.shift(); if(typeof want==='string'){ const k=o.findIndex(q=>(q.t||q.text).includes(want)); return k<0?0:k; } return want||0; }};
+  choose:async o=>{ H.opts.push(Object.assign(o.map(q=>q.t||q.text),{all:[].concat(...o.map(q=>q.sub||[q.t||q.text]))}));   /* all：分層的一類（sub）展開成裡面每一項（INVITE-MENU-1030）*/ const want=H.picks.shift(); if(typeof want==='string'){ let k=o.findIndex(q=>(q.t||q.text).includes(want)); if(k<0){ k=o.findIndex(q=>(q.sub||[]).some(s=>s.includes(want))); if(k>=0&&!o[k].dim) H.picks.unshift(want); } return k<0?0:k; }   /* INVITE-MENU-1030 分層：要選的名稱在某一類裡（選項的 sub）＝先選那一類，這個 pick 留給下一層（那一類整個灰掉＝和原本選到灰掉的那一項一樣，用掉這個 pick）*/ return want||0; }};
 H.GM=GM; H.E=E;
 const wdOf=d=>{ const w=CALENDAR.dateOf(d).wd; return w===7?0:w; };
 H.D=k=>PG.DK(k);

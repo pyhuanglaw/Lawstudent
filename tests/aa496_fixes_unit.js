@@ -136,16 +136,16 @@ const BOSS_FAFU=BOSS.find(s=>/法服/.test(s)), BOSS_GT=BOSS.find(s=>/吉他/.te
     check('3. 阿哲在旁邊（6 m 內）才演：阿哲當面「欸，你還沒進群組？我拉你。」',far===0&&said(SOCIAL.displayName('zhe'),ZHE_LINE),J(H.said));
     check('3. 記 noodleTableDay（同哲 1）、只一次；說話那個入口也關了',H.G.flags.noodleTableDay===W2&&!EVENTS.check(L)&&(H.FAMILIAR('zhe'),!EVENTS.check(T)));
     rules(); const gm=(H.G.msgs||[]).filter(m=>m.th==='g:noodle_team');
-    check('3. 加進麵店團：系統訊息「阿哲把你加進了群組「麵店團」。」（不是「建立了」）＋阿哲「以後週二週四 麵店長桌」「有空就來 沒空不用講」（長桌那一場的做法）',PHONE.inGroup(H.G,'noodle_team')&&J(gm.map(m=>[m.from||null,m.text]))===J([[null,'阿哲把你加進了群組「麵店團」。'],['zhe','以後週二週四 麵店長桌'],['zhe','有空就來 沒空不用講']]),J(gm.map(m=>m.text)));
+    check('3. 加進群組：系統訊息「阿哲把你加進了群組「法一吃飯」。」（不是「建立了」；AA_542 2-2 群組名照當學年）＋阿哲「吃飯用」「誰要吃什麼就喊」',PHONE.inGroup(H.G,'noodle_team')&&J(gm.map(m=>[m.from||null,m.text]))===J([[null,'阿哲把你加進了群組「'+STORY.ndlGroupName(H.G)+'」。'],['zhe','吃飯用'],['zhe','誰要吃什麼就喊']]),J(gm.map(m=>m.text)));
     const talk=(d,lv,flags)=>{ fresh(d,10,'campus',flags); if(lv==='FAM') H.FAMILIAR('zhe'); else H.rel('zhe',10,0,0); return EVENTS.check(T); };
     const q={fam:talk(TD('Y1S2',3,3),'FAM'),acq:talk(TD('Y1S2',3,3),'ACQ'),w1:talk(TD('Y1S2',1,3),'FAM'),y1s1:talk(TD('Y1S1',12,3),'FAM'),y4:talk(TD('Y4S1',3,3),'FAM'),longTable:talk(TD('Y1S2',3,3),'FAM',{noodleTableDay:TD('Y1S1',4,4)})};
     check('3. 說話那個入口：大一下第 2 週起、有點熟以上（FAMILIAR）＝有；不熟（ACQUAINTANCE）、大一下第 1 週、大一上、做過哲 1＝沒有；大四也還有',q.fam&&q.y4&&!q.acq&&!q.w1&&!q.y1s1&&!q.longTable,J(q));
     fresh(TD('Y1S2',3,3),10,'campus'); H.FAMILIAR('zhe'); H.said=[]; const took=EVENTS.onInteract('zhe'); await wait(); await wait();
     check('3. 找阿哲說話（talkZhe 先問 EVENTS.onInteract）：演這一句、記 noodleTableDay；麵店那個入口也關了',took===true&&said(SOCIAL.displayName('zhe'),ZHE_LINE)&&H.G.flags.noodleTableDay===TD('Y1S2',3,3)&&(H.G.zone='noodle',!EVENTS.check(L)),J(H.said));
-    rules(); check('3. 說話入口加群組也是「把你加進了」',PHONE.inGroup(H.G,'noodle_team')&&(H.G.msgs||[]).some(m=>m.th==='g:noodle_team'&&m.text==='阿哲把你加進了群組「麵店團」。')&&!(H.G.msgs||[]).some(m=>m.text==='阿哲建立了群組「麵店團」，把你加了進來。'));
+    rules(); check('3. 說話入口加群組也是「把你加進了」',PHONE.inGroup(H.G,'noodle_team')&&(H.G.msgs||[]).some(m=>m.th==='g:noodle_team'&&m.text==='阿哲把你加進了群組「'+STORY.ndlGroupName(H.G)+'」。')&&!(H.G.msgs||[]).some(m=>/^阿哲建立了群組/.test(m.text||'')));
     /* 長桌照舊 */
     fresh(TD('Y1S1',4,4),18,'noodle'); await play('ev_zhe_long_table'); rules(); const g0=(H.G.msgs||[]).filter(m=>m.th==='g:noodle_team');
-    check('3. 哲 1 長桌照舊：系統訊息還是「阿哲建立了群組「麵店團」，把你加了進來。」',g0.length>0&&g0[0].text==='阿哲建立了群組「麵店團」，把你加了進來。',J(g0.map(m=>m.text)));
+    check('3. 哲 1 長桌照舊：系統訊息還是「阿哲建立了群組「法一吃飯」，把你加了進來。」（AA_542 2-2）',g0.length>0&&g0[0].text==='阿哲建立了群組「法一吃飯」，把你加了進來。',J(g0.map(m=>m.text)));
   });
 
   /* ===== 4 宥辰的出席 ===== */

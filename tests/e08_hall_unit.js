@@ -62,7 +62,7 @@ const J=x=>JSON.stringify(x);
     check('H1. C05：進大廳就演「出發」——「（早上六點的機場。阿凱的背包比行李箱還大。）」「裡面是空的。回來會滿。」，疊在模糊的大廳上（不是深色底）；還沒登機',r.h.zone==='airport_dep'&&r.h.said.includes('（早上六點的機場。阿凱的背包比行李箱還大。）')&&r.h.said.some(t=>/裡面是空的。回來會滿。$/.test(t))&&J(r.h.bgs)===J(['blur'])&&r.q.airHall===true,J([r.h.said,r.h.bgs]));
     check('H1. C05：登機以後不再演一次「出發」；秋葉原照演',!r.a.said.includes('（早上六點的機場。阿凱的背包比行李箱還大。）')&&r.a.said.includes('（二手遊戲店的樓梯很窄。一層一層往上，每一層賣的東西都比下面那層舊。）'),J(r.a.said.slice(0,3))); }
   { const r=R['C08@Y1'], all=r.h.bgs.concat(r.a.bgs);
-    check('H2. C08：報到櫃台、帶隊老師在大廳演（模糊的大廳）；整趟沒有用 2D 出境機場圖；登機以後不再演',r.h.said.includes('（報到櫃台前，九個不認識的臺大學生，每個人的行李都比你小。）')&&r.h.said.some(t=>/法律系的？好，十個到齊了。$/.test(t))&&J(r.h.bgs)===J(['blur'])&&!all.some(b=>img(b,/airport_departure/))&&!r.a.said.includes('（報到櫃台前，九個不認識的臺大學生，每個人的行李都比你小。）'),J([r.h.said,all.filter(b=>typeof b==='object').slice(0,3)])); }
+    check('H2. C08：報到櫃台、帶隊老師在大廳演（模糊的大廳）；整趟沒有用 2D 出境機場圖；登機以後不再演',r.h.said.includes('（報到櫃台前，九個不認識的首都帝大學生，每個人的行李都比你小。）')&&r.h.said.some(t=>/法律系的？好，十個到齊了。$/.test(t))&&J(r.h.bgs)===J(['blur'])&&!all.some(b=>img(b,/airport_departure/))&&!r.a.said.includes('（報到櫃台前，九個不認識的首都帝大學生，每個人的行李都比你小。）'),J([r.h.said,all.filter(b=>typeof b==='object').slice(0,3)])); }
   { const r=await fly('C08@Y2','2027-07-13',()=>{ VAC.rec(H.G).reg['C08@Y1']='done'; });
     check('H2. C08 第二次（第二次沒有「出發」那一場）：大廳不演、登機以後也不演；字卡照出',!!r.q&&r.h.said.length===0&&!r.a.said.some(t=>/報到櫃台前/.test(t))&&J(r.a.cards[0])===J(['飛往韓國','首爾'+W+'約 2 小時半']),J([r.h.said,r.a.said.slice(0,2)])); }
   { const r=R['T02@Y2'], L=r.h.said, i=L.indexOf('（早上五點的機場。方奕廷的背包上掛著一個水壺，已經裝滿了。）');
@@ -70,7 +70,7 @@ const J=x=>JSON.stringify(x);
   { const r=R['T03@Y3'], L=r.h.said;
     check('H4. T03：進大廳演一次——子晴「我在飛機上要睡覺。到了再叫我。」、阿凱「遊戲展第一天要排隊。……我查過了，九點開門。」，不用選項；登機以後不再演',L.length===2&&/^高子晴：我在飛機上要睡覺。到了再叫我。$/.test(L[0])&&/^阿凱：遊戲展第一天要排隊。……我查過了，九點開門。$/.test(L[1])&&J(r.h.bgs)===J(['blur'])&&!r.a.said.some(t=>/九點開門/.test(t)),J([L,r.h.bgs]));
     hall(); const t0=H.said.length; tick(); tick(); check('H4. 在大廳走動（每一格 airTick）不會再演',H.said.length===t0); }
-  { const r=R['C10@Y2'], a=r.a, iA=a.said.indexOf('（飛機飛了十二個小時。下飛機的時候，手機的時間往回跳了一天。）'), iC=a.said.findIndex(t=>/教室比霖澤館的小/.test(t)), i623=a.cards.findIndex(c=>/^6\/23（/.test(c[0])), bA=a.bgs.findIndex(b=>img(b,/us_airport/));
+  { const r=R['C10@Y2'], a=r.a, iA=a.said.indexOf('（飛機飛了十二個小時。下飛機的時候，手機的時間往回跳了一天。）'), iC=a.said.findIndex(t=>/教室比法律系館A的小/.test(t)), i623=a.cards.findIndex(c=>/^6\/23（/.test(c[0])), bA=a.bgs.findIndex(b=>img(b,/us_airport/));
     check('H5. C10：大廳不演；登機以後「飛往美國」→「抵達」那一幕（飛機飛了十二個小時…，美國的機場大廳圖 us_airport）→ 6/23 的日期卡 → 第一堂課；沒有出境的 2D 機場圖',r.h.said.length===0&&J(a.cards[0])===J(['飛往美國','加州'+W+'約 12 小時'])&&iA>=0&&iC>iA&&i623>0&&a.bgs[0]==='dark'&&bA===1&&!a.bgs.some(b=>img(b,/airport_departure/)),J([iA,iC,i623,a.cards.slice(0,3),a.bgs.slice(0,3)]));
     const A=VAC_DATA.A.C10.keys[0]; check('H5. C10 第一場的標題「抵達」（原本「出發」）',A.title==='抵達'&&A.bg==='us_airport'); }
   { const quiet=['C09@Y1','C11@Y2','C12@Y2','C18@Y1','C18W@Y2'].filter(k=>R[k]&&R[k].h.said.length===0&&R[k].h.bgs.length===0);

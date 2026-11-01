@@ -55,7 +55,7 @@ const SRC=f=>fs.readFileSync(path.join(ROOT,f),'utf8');
     check('4-3. 大一寒假（12/24，也沒有學期）同樣不說周老師那句',!y1.some(t=>/周老師說錯誤和撤銷/.test(t)),J(y1)); }
   // 日語課 C03：還不認識以安（公告欄報名）＝照其他年份的旁白、沒有她的選項（4-1 第 6 點）
   { fresh(D('2026-07-07'),18,'dorm',{}); VAC.signup(G,'C03@Y1','yes'); said=[]; opts=[]; const q=OUT.get(G,'vac_C03@Y1_0'); G.day=q.day; G.hour=19; await VAC.outing(GM,q);
-    const L=lines(); check('4-1 第 6 點. C03 大一、不認識以安：「（教室裡都是不認識的人。）」、沒有「你也來了。」、沒有她的選項',L.includes('（教室裡都是不認識的人。）')&&!L.some(t=>/你也來了|以安/.test(t))&&!opts.length,J([L,opts]));
+    const L=lines(); check('4-1 第 6 點. C03 大一、不認識以安：AA_533 2-1 起是上班族大姊那一版（原本「（教室裡都是不認識的人。）」）、沒有「你也來了。」、沒有她的選項',L.includes('（教室很小，十二個位子。你旁邊坐著一個上班族大姊，筆記本上已經寫滿了平假名。）')&&!L.some(t=>/你也來了|以安/.test(t))&&J(opts)===J([['「我也是。」','「想去日本交換。」']]),J([L,opts]));
     fresh(D('2026-07-07'),18,'dorm',{}); R('heroine_01','FRI'); VAC.signup(G,'C03@Y1','yes'); said=[]; const q2=OUT.get(G,'vac_C03@Y1_0'); G.day=q2.day; G.hour=19; await VAC.outing(GM,q2);
     check('4-1 第 6 點. C03 大一、認識以安：照稿「你也來了。」',lines().includes('沈以安：你也來了。'),J(lines())); }
   // C05 日本五天：以安、語彤同一天不再收到兩次（拿掉 va11_jp_*；出國輪播照舊）
@@ -67,7 +67,7 @@ const SRC=f=>fs.readFileSync(path.join(ROOT,f),'utf8');
   // 貓空 D09：大四下她已經交棒（4-3）
   { const row=ENCOUNTERS.rows.find(r=>r.who==='heroine_01'&&r.spot==='D09'), sch=CHARACTERS.heroine_01.daily_schedule.find(q=>q.enc==='D09');
     check('4-3. 偶遇 D09 以安：terms 拿掉 Y4S2（encounters.js、characters.js 作息兩邊）',!!row&&!row.terms.includes('Y4S2')&&row.terms.includes('Y4S1')&&!!sch&&!sch.terms.includes('Y4S2'),J([row&&row.terms,sch&&sch.terms])); }
-  check('4-3. 以安 career_goal 照 AA_285 第 5 節',CHARACTERS.heroine_01.career_goal==='一定考台大法研所；司法官或大事務所律師還沒決定',CHARACTERS.heroine_01.career_goal);
+  check('4-3. 以安 career_goal 照 AA_285 第 5 節',CHARACTERS.heroine_01.career_goal==='一定考首都帝大法研所；司法官或大事務所律師還沒決定',CHARACTERS.heroine_01.career_goal);
   { const H=TERMEND_LINES.HEART.heroine_01, all=J(H); check('4-1 第 12 點. 告白白板不寫死「祐廷」：「沈以安喜歡{name}。理由：還在寫。」（GM.say 會代換 {name}）',all.includes('沈以安喜歡{name}。理由：還在寫。')&&!all.includes('沈以安喜歡祐廷')&&/function subst\(t\)\{ return t\.replace\(\/\\\{name\\\}\/g,G\.name\)/.test(SRC('src/game3d.js'))); }
   check('4-1 第 7 點. ev_an_report_split_late 不說「理由：」',evTexts('ev_an_report_split_late').some(t=>t==='我把你寫在我這組了。……不用謝。剩下的人裡，你最不會遲交。'));
   // ===================== 第 4 節：語彤 =====================
@@ -85,7 +85,7 @@ const SRC=f=>fs.readFileSync(path.join(ROOT,f),'utf8');
     const pool=x=>TERMEND_LINES.POOL.Y1S2.heroine_03.map(f=>typeof f==='function'?f(x):f).filter(v=>v!=null);
     check('4-4. 交往中 6/18 18:00 收到「考完了」那幾則；期末飯她只說「成績單七月三號才寄。」',got&&txt('p:heroine_03')[0]==='考完了'&&J(pool(G))===J(['成績單七月三號才寄。']),J([txt('p:heroine_03'),pool(G)]));
     fresh(D('2026-06-20'),17,'dorm',{}); check('4-4. 沒收過那則（沒交往）：期末飯照舊兩句',J(pool(G))===J(['考完了。……憲法最後一題寫不完。','成績單七月三號才寄。']),J(pool(G))); }
-  check('4-4. 邀約選單「去阿鳳麵店吃飯」（台大就在公館，不說「去公館」）',INVITE_DATA.places.find(p=>p.id==='noodle').verb==='去阿鳳麵店吃飯',INVITE_DATA.places.find(p=>p.id==='noodle').verb);
+  check('4-4. 邀約選單「去阿鳳麵店吃飯」（首都帝大就在公館，不說「去公館」）',INVITE_DATA.places.find(p=>p.id==='noodle').verb==='去阿鳳麵店吃飯',INVITE_DATA.places.find(p=>p.id==='noodle').verb);
   // 語彤大三跨年（4-1 第 13 點）：交往中 00:01 她打電話來
   { const nye=D('2027-12-31'); fresh(nye,22.8,'dorm',{dating_heroine_03:true}); R('heroine_03','CLO'); run(22.8,23.2); const c=OUT.get(G,'yt_nye_call_y3');
     check('4-1 第 13 點. 大三跨年和語彤交往中：00:01 她打電話來（接起來／先不接）',!!c&&c.ev==='ev_yt_nye_call_y3'&&c.day===nye+1&&Math.abs(c.h-1/60)<1e-6&&c.verb==='接起來',J(c));
@@ -163,7 +163,7 @@ const SRC=f=>fs.readFileSync(path.join(ROOT,f),'utf8');
   { const S=SRC('src/story3d.js'), xs=ev('ev_xinci_second').dialogue, beach=evTexts('ev_va03_beach'), m=STORY_EVENTS.find(e=>e.id==='ev_va03_beach');
     check('5-5. 海邊：柏翰那句改旁白「（柏翰站在離浪最遠的地方，鞋子拿在手上。）」',beach.includes('（柏翰站在離浪最遠的地方，鞋子拿在手上。）')&&!beach.includes('冬天的海大概十八度。')&&m.dialogue.find(l=>l.text==='（柏翰站在離浪最遠的地方，鞋子拿在手上。）').speaker===null);
     check('5-6. 大二拆箱的便利貼：刪「……她改得對。」（旁白不替玩家下結論）',S.includes("'她改了你的筆記。'")&&!S.includes('她改得對'));
-    check('5-6. 慈 3（溫州街便利商店）開頭旁白加「（她背包還背著，手機上是叫車的畫面。）」',xs[1]&&xs[1].text==='（她背包還背著，手機上是叫車的畫面。）'&&xs[1].speaker===null);
+    check('5-6. 慈 3（溫州街便利商店）開頭旁白：AA_547 2-1 新稿「（B1 自習室關燈以後，她在便利商店等一杯熱拿鐵。）」（原本 AA_313 5-6 的「叫車」那一句，新稿沒有）',xs[0]&&xs[0].text==='（B1 自習室關燈以後，她在便利商店等一杯熱拿鐵。）'&&xs[0].speaker===null);
     check('5-5. 美術館之後柏翰的一句：暫代「美術館那張長椅，我下個月還會去坐。」（不說「阿哲問的話，就說我在總圖」）',J(ENCOUNTERS.school.ENC_D06_BH.lines)===J(['美術館那張長椅，我下個月還會去坐。']));
     { const ops=['ev_zhe_w1_dorm','ev_zhe_w1_meet'].map(id=>choiceTexts(id).filter(t=>/麵店/.test(t)));
       check('5-3. 開學第一週阿哲問吃什麼：選項「校門對面那排有一間麵店，便宜，份量也夠。」（阿鳳麵店在公館那排店面；AA_389 第 6 點照逐場表）',ops.every(o=>J(o)===J(['「校門對面那排有一間麵店，便宜，份量也夠。」'])),J(ops)); }

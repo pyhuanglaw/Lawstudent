@@ -33,19 +33,19 @@ const txt=(th)=>TH(th).map(m=>(m.from||'')+':'+m.text);
 const meet=id=>SOCIAL.remember(id,'FIRST_MET','');
 (async()=>{
   const A=ACTIVITIES.list.find(a=>a.id==='B4');
-  check('1. 活動 B4 在：博雅 101、大一下第 11 週週四 19:00～20:30、選「聽演講」＝ev_b4_lecture',!!A&&A.zone==='boya'&&A.room==='101'&&JSON.stringify(A.term)==='["Y1S2"]'&&JSON.stringify(A.weeks)==='[11]'&&A.weekday===4&&A.t0===19&&A.t1===20.5&&A.event==='ev_b4_lecture'&&A.story===true,JSON.stringify(A));
+  check('1. 活動 B4 在：博思 101、大一下第 11 週週四 19:00～20:30、選「聽演講」＝ev_b4_lecture',!!A&&A.zone==='boya'&&A.room==='101'&&JSON.stringify(A.term)==='["Y1S2"]'&&JSON.stringify(A.weeks)==='[11]'&&A.weekday===4&&A.t0===19&&A.t1===20.5&&A.event==='ev_b4_lecture'&&A.story===true,JSON.stringify(A));
   if(!A){ console.log('FAILED '+fails); process.exit(1); }
   const tue=termDay('Y1S2',11,2), thu=termDay('Y1S2',11,4);
   check('1. 第 11 週週四是 2026-05-07',CALENDAR.dateOf(thu).m===5&&CALENDAR.dateOf(thu).d===7,JSON.stringify(CALENDAR.dateOf(thu)));
   /* 作息 */
   const at=(id,day,h)=>{ fresh(day,h,'campus'); const e=STORY.schedEnt(CHARACTERS[id],G); return e?[e.zone,e.room||null].join('/'):'-'; };
-  check('2. 第 11 週週四 19:30：以安、Alison、阿哲都在博雅 101',['heroine_01','yu','zhe'].every(id=>at(id,thu,19.5)==='boya/101'),JSON.stringify(['heroine_01','yu','zhe'].map(id=>at(id,thu,19.5))));
-  check('2. 20:45：以安、Alison 在博雅的圓桌；阿哲不在',at('heroine_01',thu,20.75)==='boya/round'&&at('yu',thu,20.75)==='boya/round'&&!at('zhe',thu,20.75).startsWith('boya'),JSON.stringify(['heroine_01','yu','zhe'].map(id=>at(id,thu,20.75))));
-  check('2. 第 10 週、第 12 週的週四晚上不在博雅（只有這一週）',[termDay('Y1S2',10,4),termDay('Y1S2',12,4)].every(d=>d==null||['heroine_01','yu','zhe'].every(id=>!at(id,d,19.5).startsWith('boya'))));
+  check('2. 第 11 週週四 19:30：以安、Alison、阿哲都在博思 101',['heroine_01','yu','zhe'].every(id=>at(id,thu,19.5)==='boya/101'),JSON.stringify(['heroine_01','yu','zhe'].map(id=>at(id,thu,19.5))));
+  check('2. 20:45：以安、Alison 在博思的圓桌；阿哲不在',at('heroine_01',thu,20.75)==='boya/round'&&at('yu',thu,20.75)==='boya/round'&&!at('zhe',thu,20.75).startsWith('boya'),JSON.stringify(['heroine_01','yu','zhe'].map(id=>at(id,thu,20.75))));
+  check('2. 第 10 週、第 12 週的週四晚上不在博思（只有這一週）',[termDay('Y1S2',10,4),termDay('Y1S2',12,4)].every(d=>d==null||['heroine_01','yu','zhe'].every(id=>!at(id,d,19.5).startsWith('boya'))));
   /* 週二揪人 */
   fresh(tue,8,'campus'); PHONE.join(G,'noodle_team','麵店團'); run(8,13);
   const inv=G.msgs.filter(m=>m.tag==='b4_invite');
-  check('3. 週二 12:30 麵店團：以安兩句、Alison、阿哲（原文）',JSON.stringify(inv.map(m=>m.from+':'+m.text))===JSON.stringify(['heroine_01:週四晚上七點，博雅 101 有演講。','heroine_01:「政府可以為了大家，限制一個人嗎？」誰要去？','yu:我！我是憲法迷。','zhe:……我跟 散場有宵夜嗎？'])&&inv.every(m=>m.h===12.5&&m.th==='g:noodle_team'),JSON.stringify(inv.map(m=>[m.h,m.from,m.text])));
+  check('3. 週二 12:30 麵店團：以安兩句、Alison、阿哲（原文）',JSON.stringify(inv.map(m=>m.from+':'+m.text))===JSON.stringify(['heroine_01:週四晚上七點，博思 101 有演講。','heroine_01:「政府可以為了大家，限制一個人嗎？」誰要去？','yu:我！我是憲法迷。','zhe:……我跟 散場有宵夜嗎？'])&&inv.every(m=>m.h===12.5&&m.th==='g:noodle_team'),JSON.stringify(inv.map(m=>[m.h,m.from,m.text])));
   const q=inv.find(m=>m.ask); check('3. 可以回「我去。」／「我看看。」（不回也可以，到週四 19:00）',!!q&&JSON.stringify(q.ask.opts.map(o=>o.t))==='["我去。","我看看。"]'&&q.ask.until===thu*24+19,JSON.stringify(q&&q.ask));
   PHONE.answer(G,q.ask.id,0); check('3. 回「我去。」只記 B4_REPLY（不影響週四能不能去）',G.flags.B4_REPLY==='go'&&TH('g:noodle_team').some(m=>m.from==='player'&&m.text==='我去。'));
   fresh(tue,8,'campus'); run(8,13); check('3. 不在麵店團：沒有這幾則',!G.msgs.some(m=>m.tag==='b4_invite'));
@@ -62,7 +62,7 @@ const meet=id=>SOCIAL.remember(id,'FIRST_MET','');
   const mark=(st)=>{ const att=ACTIVITIES.rec(G).att; if(st==='full') att['B4@'+G.day]={h:19,end:'full'}; else if(st==='left') att['B4@'+G.day]={h:19,end:'left',lh:19.6}; };
   const afterOK=(st,h,know)=>{ fresh(thu,h,'boya'); if(know!==false) meet('heroine_01'); mark(st); return EVENTS.check(ev2); };
   check('5. 散場 20:35：聽完（認識以安）＝以安問；中途離開、沒去＝不問',afterOK('full',20.6)&&!afterOK('left',20.6)&&!afterOK(null,20.6),JSON.stringify([afterOK('full',20.6),afterOK('left',20.6),afterOK(null,20.6)]));
-  check('5. 演講還沒結束（20:20）、結束 20 分鐘以後（20:55）、不在博雅：都不問',!afterOK('full',20.33)&&!afterOK('full',20.92)&&(()=>{ afterOK('full',20.6); G.zone='campus'; return !EVENTS.check(ev2); })());
+  check('5. 演講還沒結束（20:20）、結束 20 分鐘以後（20:55）、不在博思：都不問',!afterOK('full',20.33)&&!afterOK('full',20.92)&&(()=>{ afterOK('full',20.6); G.zone='campus'; return !EVENTS.check(ev2); })());
   afterOK('full',20.6); meet('yu'); picks=[0]; await EVENTS.run(ev2);
   check('5. 「好。」：以安「要不要去小桌子整理一下？」→ 記 B5_GO＝今天',JSON.stringify(lines())==='["沈以安：要不要去小桌子整理一下？"]'&&G.flags.B5_GO===thu&&!G.flags.LEFT_AFTER_B4,JSON.stringify({L:lines(),f:G.flags}));
   afterOK('full',20.6); meet('yu'); picks=[1]; await EVENTS.run(ev2);

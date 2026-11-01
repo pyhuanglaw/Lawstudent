@@ -199,7 +199,7 @@ GM.money=function(n){ G.money+=n; };
     PHONE.answer(G,'vac_c01ask_Y2',0); STORY.phoneRules(GM); const q=OUT.get(G,'vac_c01_Y2'); check('17. 我去＝那個週一 08:50 臺北車站，標題「禮拜一 08:50 臺北車站集合」',!!q&&q.day===d&&q.title==='海邊一日遊（禮拜一 08:50 臺北車站集合）',q&&q.title);
     G.day=d; G.hour=8.9; said=[]; await VAC.outing(GM,q); G.hour=21.1; STORY.phoneRules(GM); PHONE.tick(G);
     check('17. 阿哲海邊那天 21:00 群組「明天回高雄 回來帶烏魚子」（AA_264 第 5 節第 1 點；不在 1/1；大二的字 AA_456 1-4 換）',txt('g:noodle_team').includes('zhe:明天回高雄 回來帶烏魚子')&&PHONE.sent(G,'nye_y2_zhe'));
-    check('17. 第二次的日誌三行',JSON.stringify(lines())===JSON.stringify(['第二次去海邊。阿哲說他記得帶防曬，結果帶的是乳液。','浪比去年大。柏翰坐在離海最遠的地方看書。','回程的車上，一半的人睡著了。']),JSON.stringify(lines()));
+    check('17. 第二次的日誌三行（AA_533 4-5：第一句後面阿哲一句）',JSON.stringify(lines())===JSON.stringify(['第二次去海邊。阿哲說他記得帶防曬，結果帶的是乳液。','阿哲：防曬跟乳液，差很多嗎？','浪比去年大。柏翰坐在離海最遠的地方看書。','回程的車上，一半的人睡著了。']),JSON.stringify(lines()));
     const d3=VAC.c01Day('Y3'); G.day=VAC.c01Ask(d3); G.hour=21; run(21,21.2); check('17. 大三：「海邊」「照舊」',txt('g:noodle_team').includes('zhe:海邊')&&txt('g:noodle_team').includes('zhe:照舊'));
     { const d4=VAC.c01Day('Y4'); G.day=VAC.c01Ask(d4); G.hour=21; run(21,21.2); const Z4=txt('g:noodle_team');
       check('17. 大四是週二（1/2）：第三次以後「海邊」「照舊 禮拜二」',CALENDAR.dateOf(d4).wd%7===2&&Z4.includes('zhe:照舊 禮拜二'),JSON.stringify(Z4.slice(-3)));

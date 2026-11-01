@@ -131,7 +131,7 @@ await sec(4,async()=>{
   toAsk(true); await choose('和可昕開車旅行'); const P=byTag('y2s2_spring_kx_pick');
   check('4. 交往中選「和可昕開車旅行」：私訊祐廷「'+(Q6y2[0]||{}).t+'」→ 可昕「'+(Q6y2[1]||{}).t+'」（第 6 節④；祐廷那一則是玩家傳的）',P.length===2&&J(kxPick('y2s2_spring_kx_pick'))===J(wantQ(Q6y2))&&P.every(m=>m.th==='p:kexin')&&P[0].who===null,J(kxPick('y2s2_spring_kx_pick')));
   check('4. 群組那一句（「'+T1.kexin.me+'」→ 柏翰）照第 1 節一起傳',J(grpPick())===J(want('kexin')),J(grpPick()));
-  check('4. 七點四十：那一趟出遊照舊 07:40 政大校門口',(()=>{ const q=OUT.get(H.G,'kx_trip_y2s2'); return !!q&&Math.abs(q.h-(7+40/60))<1e-6&&/政大校門口/.test(q.place); })());
+  check('4. 七點四十：那一趟出遊照舊 07:40 木柵大學校門口',(()=>{ const q=OUT.get(H.G,'kx_trip_y2s2'); return !!q&&Math.abs(q.h-(7+40/60))<1e-6&&/木柵大學校門口/.test(q.place); })());
   fresh(SP.inv,20,{}); H.FRIEND('kexin'); H.date('kexin'); H.G.flags.dating_kexin=true; run(SP.inv,20.5,21.75); await choose('和可昕開車旅行');
   check('4. 不在群組（只和可昕交往）：私訊照傳、群組沒有',byTag('y2s2_spring_kx_pick').length===2&&J(kxPick('y2s2_spring_kx_pick'))===J(wantQ(Q6y2))&&!byTag('y2s2_spring_pick').length);
   toAsk(true); await choose('跟麵店團出去');

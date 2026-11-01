@@ -1,0 +1,13 @@
+{
+ "objects": 69,
+ "unique_meshes": 69,
+ "tris": 28990,
+ "tris_drawn": 28990,
+ "materials": 31,
+ "out": "assets/models/env/second_ai/gongtong_interior.glb",
+ "bytes": 2116284,
+ "texres": 512,
+ "tris_total": 28990,
+ "layout": "src/data/gongtong_layout.js",
+ "note": "兩層室內的殼＋固定設備（黑板、講桌、階梯教室平台、沙發、關著的門）＋階梯教室的長桌、翻椅（LECT_*、SEATPANS：遊戲看到就藏起備用的方塊桌椅、空位掀起來）；其他桌椅由遊戲放"
+}

@@ -71,7 +71,7 @@ global.STORY={inTerms:(GG,rr)=>rr.from==='Y1S1',presence:()=>({here:true}),prese
 check('8. 祐廷單身、學姊沒有伴侶（使用者 2026-10-17 P0：學姊一開始就沒有男朋友，AA_218 第 16 節、BB_122 ★ 節）：學姊吃飯不會出現「兩個人單獨去吃飯不太好」',I.placeWhy(G,'heroine_05',P('noodle'))!==W.partnerMeal,I.placeWhy(G,'heroine_05',P('noodle')));
 check('8. 沛珊（大一下才有伴侶）：大一上照常（吃飯只看熟不熟）',I.partnerBlock(G,'classmate_peishan',P('noodle'))===false);
 delete global.STORY;
-check('8. 選地點時寫原因、選了約不到的地方先說原因再選一次（invites3d.js flow）',/hint:S\.placeWhy\(G,id,Q\)/.test(fs.readFileSync(path.join(ROOT,'src/invites3d.js'),'utf8')));
+check('8. 選地點時寫原因、選了約不到的地方先說原因再選一次（invites3d.js flow；INVITE-MENU-1030 分層以後寫在每一項的 hint、灰掉）',/const w=S\.placeWhy\(G,id,Q\); return \{t:Q\.verb,short:Q\.name,hint:w,dim:!!w,P:Q\}/.test(fs.readFileSync(path.join(ROOT,'src/invites3d.js'),'utf8')));
 // 9. 畫面
 const g3=fs.readFileSync(path.join(ROOT,'src/game3d.js'),'utf8');
 check('9. 手機朋友頁：有原因就寫原因、不出「約」按鈕',/const why=typeof INV!=='undefined'&&INV\.whyNot\?INV\.whyNot\(G,id\):''/.test(g3)&&/const canInv=typeof INV!=='undefined'&&!why&&/.test(g3)&&/canInv\?'<button class="btn pri" data-inv="'\+esc\(id\)\+'">約<\/button>':\(why\?/.test(g3));
@@ -82,5 +82,5 @@ check('9. AA 的五位都有保底的一句（AA_124 1-7 的表）：以安、�
 check('9. 交換以後就有聯絡方式、手機上可以約',(()=>{ const g={contacts:{},msgs:[],invites:[],day:20,hour:10}; const ok=I.addContact(g,'yu'); return ok&&I.hasContact(g,'yu'); })());
 { const D0=globalThis.DATE; globalThis.DATE={canAsk:()=>({ok:true}),HEROINES:['kexin']}; const gk={stage:'law',flags:{dating_kexin:true},contacts:{},day:20,hour:10}, ge={stage:'econ',flags:{dating_kexin:true},contacts:{},day:20,hour:10}, gn={stage:'law',flags:{},contacts:{},day:20,hour:10};
   const src=fs.readFileSync(path.join(ROOT,'src/invites3d.js'),'utf8');
-  check('10. 女朋友可昕（法律系、交往中）手機可以約；只有「去校外…」；經濟系那一年、沒交往不開（使用者 10-18「我還是不能聯絡女朋友啊，可昕？」）',I.canInvite(gk,'kexin')===true&&I.canInvite(ge,'kexin')===false&&I.canInvite(gn,'kexin')===false&&I.whyNot(gk,'kexin')===''&&/const PL=\(?kxGF\(G,id\)\?D\(\)\.places\.filter\(Q=>Q\.sport\):D\(\)\.places/.test(src)); globalThis.DATE=D0; }   /* AA_417 3-2：台大校園的地點照舊不列，只多一起運動的兩個（羽球、晨跑；她下山來），其他照「去校外…」*/
+  check('10. 女朋友可昕（法律系、交往中）手機可以約；校內地點照現有台詞接得上的開（INVITE-MENU-1030 D：原本只有羽球、晨跑＋「去校外…」）；經濟系那一年、沒交往不開（使用者 10-18「我還是不能聯絡女朋友啊，可昕？」）',I.canInvite(gk,'kexin')===true&&I.canInvite(ge,'kexin')===false&&I.canInvite(gn,'kexin')===false&&I.whyNot(gk,'kexin')===''&&/D\(\)\.places\.filter\(Q=>!kxGF\(G,id\)\|\|S\.kxPlaceOk\(G,Q\)\)/.test(src)); globalThis.DATE=D0; }   /* AA_417 3-2：羽球、晨跑她下山來；INVITE-MENU-1030：其他台大的地點照 AA_415 的答應句也開（tests/invite_menu_unit.js D）*/
 console.log(fails?'FAILED: '+fails:'ALL PASS'); process.exit(fails?1:0);

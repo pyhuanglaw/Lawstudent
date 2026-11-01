@@ -37,7 +37,7 @@ const after=async(day)=>{ G.day=day; G.weekday=wdOf(day); G.hour=12.17; G.zone='
   const F2=termDay('Y1S2',2,5), F3=termDay('Y1S2',3,5), W11T=termDay('Y1S2',11,4), F11=termDay('Y1S2',11,5), F12=termDay('Y1S2',12,5), W10T=termDay('Y1S2',10,4), F8=termDay('Y1S2',8,5), F9=termDay('Y1S2',9,5);
   /* 1. AA_155 作息 */
   { const a=at(F3,12.15), b=at(F3,12.15,{MET_XUN:true}), c=at(F3,12.5,{MET_XUN:true}), d=at(W11T,20.9), e=at(W10T,19.5), f=at(W10T,19.5,{MET_XUN:true}), g=at(termDay('Y1S2',16,2),22), y4=at(termDay('Y1S2',3,5),12.15,{MET_XUN:true});
-    check('1. 阿勳：P4d 之前（沒有 MET_XUN）週五 12:15 不在走廊；之後在普通教學館走廊；12:30「在活大吃午餐」（AA_373 #23：小福已拆）',!(a&&a.zone)&&b&&b.zone==='putong'&&b.act==='linger'&&c&&c.zone===null&&c.away==='在活大吃午餐',JSON.stringify([a&&a.zone,b&&b.zone,c&&c.away]));
+    check('1. 阿勳：P4d 之前（沒有 MET_XUN）週五 12:15 不在走廊；之後在普通教學館走廊；12:30「在學活吃午餐」（AA_373 #23：小松已拆）',!(a&&a.zone)&&b&&b.zone==='putong'&&b.act==='linger'&&c&&c.zone===null&&c.away==='在學活吃午餐',JSON.stringify([a&&a.zone,b&&b.zone,c&&c.away]));
     check('1. 阿勳：第 11 週週四 20:54 共同教學館自習區（沒見過也在）；第 10 週週四 19:30 要 MET_XUN',d&&d.zone==='gongtong'&&d.room==='study'&&!(e&&e.zone)&&f&&f.zone==='gongtong',JSON.stringify([d,e&&e.zone,f&&f.zone]));
     check('1. 阿勳：期末考週 22:00「在社科院四樓的窗邊讀書」',g&&g.zone===null&&g.away==='在社科院四樓的窗邊讀書',JSON.stringify(g));
     const lab=termDay('Y1S2',10,5); fresh(lab,12.15,'campus',{MET_XUN:true,MET_PINYU:true}); const hol=CALENDAR.holiday(lab);
@@ -61,7 +61,7 @@ const after=async(day)=>{ G.day=day; G.weekday=wdOf(day); G.hour=12.17; G.zone='
   /* 4. 10-4 還債（ev_sk03_lunch） */
   const lunch=async(day,flags,pick)=>{ fresh(day,12.17,'putong',Object.assign({introDone:true,classDone:true,afternoonDone:true,P4D_ANSWER:'retake',ECON_HALLWAY_DAY:F2,MET_XUN:true,MET_PINYU:true},flags)); picks=[pick||'一起去']; said=[]; opts=[]; caps=[]; await CLS.afterClassEvent(GM,{c:{id:'econ_principles_2'}}); return lines(); };
   { const L=await lunch(F11,{XUN_NIGHT:true,XUN_DAY:W11T,SK03_FIRST:true});
-    check('4. 第 11 週週五：走廊「昨天那題我想通了。」→「活大。走不走？」→ 去了＝還債三句（不是平常的輪替句）、XUN_REPAID',L[0]==='阿勳：昨天那題我想通了。'&&L[1]==='阿勳：活大。走不走？'&&L.includes('阿勳：（把一個便當推過來）昨天那題的。還債。')&&L.includes('品妤：他從來沒請過我。')&&L.includes('阿勳：妳又沒教過我統計。')&&!L.includes('吳芯慈：……經濟系的人也會還債。')&&!L.some(t=>t.includes('永遠在講統計'))&&G.flags.XUN_REPAID,JSON.stringify(L));
+    check('4. 第 11 週週五：走廊「昨天那題我想通了。」→「學活。走不走？」→ 去了＝還債三句（不是平常的輪替句）、XUN_REPAID',L[0]==='阿勳：昨天那題我想通了。'&&L[1]==='阿勳：學活。走不走？'&&L.includes('阿勳：（把一個便當推過來）昨天那題的。還債。')&&L.includes('品妤：他從來沒請過我。')&&L.includes('阿勳：妳又沒教過我統計。')&&!L.includes('吳芯慈：……經濟系的人也會還債。')&&!L.some(t=>t.includes('永遠在講統計'))&&G.flags.XUN_REPAID,JSON.stringify(L));
     const L2=await lunch(F11,{XUN_NIGHT:true,XUN_DAY:W11T});
     check('4. 還債那天也是第一次去：先 1-1（品妤「重修生？…」，最後一句 AA_305 第 9 節「……你講話還是一樣，不留情。」）再還債三句',L2.indexOf('品妤：重修生？你看起來很有覺悟。')>0&&L2.indexOf('阿勳：（把一個便當推過來）昨天那題的。還債。')>L2.indexOf('品妤：……你講話還是一樣，不留情。')&&G.flags.SK03_FIRST,JSON.stringify(L2));
     const L3=await lunch(F11,{XUN_NIGHT:true,XUN_DAY:W11T,SK03_FIRST:true,ECON_LAW_BRIDGE:true});
@@ -79,17 +79,17 @@ const after=async(day)=>{ G.day=day; G.weekday=wdOf(day); G.hour=12.17; G.zone='
   /* 4b. 只在 10-3 見過阿勳（沒有 P4d）：第 11 週週五開 SK03（AA-B 2026-10-16） */
   { const only=async(day,flags,pick)=>{ fresh(day,12.17,'putong',Object.assign({introDone:true,classDone:true,afternoonDone:true,MET_XUN:true,XUN_DAY:W11T},flags)); picks=[pick||'一起去']; said=[]; opts=[]; await CLS.afterClassEvent(GM,{c:{id:'econ_principles_2'}}); return lines(); };
     const before=await only(W11T,{}), L=await only(F11,{XUN_NIGHT:true});
-    check('4b. 10-3 那天（週四）不問；第 11 週週五：「昨天那題我想通了。」→ 邀約照用 P4d 原句「週五中午，我們在活大。你要來就來。」',!before.length&&L[0]==='阿勳：昨天那題我想通了。'&&L[1]==='阿勳：週五中午，我們在活大。你要來就來。',JSON.stringify(L));
+    check('4b. 10-3 那天（週四）不問；第 11 週週五：「昨天那題我想通了。」→ 邀約照用 P4d 原句「週五中午，我們在學活。你要來就來。」',!before.length&&L[0]==='阿勳：昨天那題我想通了。'&&L[1]==='阿勳：週五中午，我們在學活。你要來就來。',JSON.stringify(L));
     check('4b. 去了：1-1 品妤沒見過先「曾品妤。經濟系，可昕以前的室友。」、記 MET_PINYU，再接還債三句',L.indexOf('品妤：曾品妤。經濟系，可昕以前的室友。')>0&&L.indexOf('品妤：曾品妤。經濟系，可昕以前的室友。')<L.indexOf('品妤：重修生？你看起來很有覺悟。')&&L.includes('阿勳：（把一個便當推過來）昨天那題的。還債。')&&G.flags.MET_PINYU,JSON.stringify(L));
     const L2=await only(F12,{XUN_NIGHT:true,SK03_INV1:true,SK03_FIRST:true,MET_PINYU:true,XUN_REPAID:true,SK03_N:0});
-    check('4b. 之後的週五照一般邀約「活大。走不走？」',L2[0]==='阿勳：活大。走不走？',JSON.stringify(L2));
+    check('4b. 之後的週五照一般邀約「學活。走不走？」',L2[0]==='阿勳：學活。走不走？',JSON.stringify(L2));
     await only(F11,{XUN_NIGHT:true},'今天不行'); G.hour=12.7; STORY.phoneRules(GM); PHONE.tick(G);
     check('4b. 沒去：便當照片照發',G.msgs.some(m=>m.th==='g:econ_friends'&&m.text==='欠你的，下週。')); }
   /* 5. 1-4 芯慈在重修教室（上課前） */
   { const e4=ev('ev_sk03_xinci_class'); check('5. ev_sk03_xinci_class：beforeClass econ_principles_2、週五、大一下',!!e4&&e4.beforeClass==='econ_principles_2');
     const before=async(day,flags)=>{ fresh(day,9.05,'putong',Object.assign({P4D_ANSWER:'retake',ECON_HALLWAY_DAY:F2,MET_XUN:true},flags)); said=[]; await CLS.beforeClassEvent(GM,{c:{id:'econ_principles_2'}}); return lines(); };
     const a=await before(F3,{}), b=await before(F8,{}), brB=G.flags.ECON_LAW_BRIDGE===true, c=await before(F8,{ECON_PAST_SHARED:'full'}), d=await before(F9,{}), e=await before(F8,{ECON_LAW_BRIDGE:true}), f=await before(F8,{P4D_ANSWER:null});
-    check('5. 第 8 週之前沒有；第 8 週（期中考）先「考卷還沒發。」再芯慈四句（「他說你還欠他一場保齡球。」AA_305 第 9 節）、記 ECON_LAW_BRIDGE',!a.length&&b[0]==='考卷還沒發。'&&b.includes('吳芯慈：盧正勳。他說你還欠他一場保齡球。')&&b.includes('吳芯慈：你沒說過。……沒關係，不用說。')&&b[b.length-1]==='吳芯慈：你們週五都在活大吃？那我下次可以一起嗎？'&&brB,JSON.stringify([a,b]));
+    check('5. 第 8 週之前沒有；第 8 週（期中考）先「考卷還沒發。」再芯慈四句（「他說你還欠他一場保齡球。」AA_305 第 9 節）、記 ECON_LAW_BRIDGE',!a.length&&b[0]==='考卷還沒發。'&&b.includes('吳芯慈：盧正勳。他說你還欠他一場保齡球。')&&b.includes('吳芯慈：你沒說過。……沒關係，不用說。')&&b[b.length-1]==='吳芯慈：你們週五都在學活吃？那我下次可以一起嗎？'&&brB,JSON.stringify([a,b]));
     check('5. full＝「原來你們以前住同一間。」（AA_209）；第 9 週（延到下一個有去的週五）沒有「考卷還沒發。」；已經有 ECON_LAW_BRIDGE、沒有 P4d＝沒有',c.includes('吳芯慈：原來你們以前住同一間。')&&d.length&&d[0]!=='考卷還沒發。'&&!e.length&&!f.length,JSON.stringify([c,d,e,f])); }
   /* 6. SK05 三閃，販賣機見（大一版） */
   { const D17=termDay('Y1S2',16,2)   /* SK05 三閃改第 16 週（AA_198 第 5 節）*/, XM=()=>G.msgs.filter(m=>m.th==='p:econ_zhengxun');
@@ -136,8 +136,8 @@ const after=async(day)=>{ G.day=day; G.weekday=wdOf(day); G.hour=12.17; G.zone='
   { const seat=async(day,hour,flags)=>{ fresh(day,hour,'putong',Object.assign({introDone:true,classDone:true,afternoonDone:true},flags)); said=[]; opts=[]; caps=[]; picks=['今天不行']; if(flags.P4D_ANSWER) G.events.done.ev_econ_hallway=1; const it=CLS.dayItems(G).find(x=>x.c.id==='econ_principles_2'); if(!it) return null; await CLS.attend(GM,it,{inScene:true}); return lines(); };
     const F3=termDay('Y1S2',3,5), F8=termDay('Y1S2',8,5);
     const a=await seat(F3,9.05,{P4D_ANSWER:'retake',ECON_HALLWAY_DAY:termDay('Y1S2',2,5),MET_XUN:true,MET_PINYU:true});
-    check('9. 坐在普通 101 的座位上「上課：經原（下）」：下課後照樣演 SK03（「活大。走不走？」）',!!a&&a.includes('阿勳：活大。走不走？'),JSON.stringify(a&&a.slice(-4)));
+    check('9. 坐在普通 101 的座位上「上課：經原（下）」：下課後照樣演 SK03（「學活。走不走？」）',!!a&&a.includes('阿勳：學活。走不走？'),JSON.stringify(a&&a.slice(-4)));
     const b=await seat(F8,9.05,{P4D_ANSWER:'retake',ECON_HALLWAY_DAY:termDay('Y1S2',2,5),MET_XUN:true});
-    check('9. 坐著上第 8 週（期中考）：考卷發下來之前先演 1-4「考卷還沒發。」芯慈那段（課前事件）',!!b&&b[0]==='考卷還沒發。'&&b.includes('吳芯慈：你們週五都在活大吃？那我下次可以一起嗎？'),JSON.stringify(b&&b.slice(0,3))); }
+    check('9. 坐著上第 8 週（期中考）：考卷發下來之前先演 1-4「考卷還沒發。」芯慈那段（課前事件）',!!b&&b[0]==='考卷還沒發。'&&b.includes('吳芯慈：你們週五都在學活吃？那我下次可以一起嗎？'),JSON.stringify(b&&b.slice(0,3))); }
   console.log(fails?('FAILED '+fails):'ALL PASS'); process.exit(fails?1:0);
 })().catch(e=>{ console.log('FAIL 例外 '+(e&&e.stack||e)); process.exit(1); });

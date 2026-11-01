@@ -1,5 +1,8 @@
 # 雙 AI 工作看板
 
+> **歷史紀錄（2026-10-30 起，RENAME-1030）**：本文件記的是當時的決定和原話，裡面的「臺大、政大、霖澤館、萬才館、傅鐘、椰林大道……」照原文保留。遊戲現行名稱以 `docs/WORLD_NAMING.md`（企劃線）為準；新的決定照新名寫。
+
+
 > **【歷史（2026-10-18 AA-C 依使用者授權標記）】**兩個 AI 時期（2026-10-10～10-14）的工作看板，已停用。現行：四職位分工照 `CLAUDE.md` D100／D100a；任務總表 `docs/HANDOFF_GAP_MATRIX.md`；值班 `docs/AI_SESSION_HANDOFF.md`。
 
 - 分工與規則：[`docs/SECOND_AI_HANDOFF.md`](SECOND_AI_HANDOFF.md)。

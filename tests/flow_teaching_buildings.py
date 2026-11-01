@@ -1,11 +1,11 @@
-"""真實玩家流程：台大總校區的公共教學館（使用者 2026-10-13；docs/campus/TEACHING_BUILDINGS_PLAN.md）。不用 ?turbo。
-第一階段：共同教學館（普通、博雅等使用者決定位置後加進來）。
+"""真實玩家流程：首都帝大總校區的公共教學館（使用者 2026-10-13；docs/campus/TEACHING_BUILDINGS_PLAN.md）。不用 ?turbo。
+第一階段：共同教學館（普通、博思等使用者決定位置後加進來）。
 玩家操作一律走真的介面（觸控點地面、互動按鈕、手機按鈕、小地圖）；前置條件（讀檔到某天某時某地）用 [前置／捷徑] 標示。
-A. 從椰林大道（傅鐘東邊）點地面走到共同教學館正門：不瞬移；到門口出現「共同教學館」按鈕；今天沒有課——按下去就進館；
+A. 從椰影大道（晨思鐘東邊）點地面走到共同教學館正門：不瞬移；到門口出現「共同教學館」按鈕；今天沒有課——按下去就進館；
    自己走進共 101 階梯教室（側邊台階上到第 2 排）坐下、起身；走上樓梯到二樓走廊、自習區；走下樓、走出去回到正門前（D55 第二階段的室內）。
 B. 大地圖：地名「共同教學館」在建築的位置（地名資料＋點小地圖打開大地圖的截圖）。
 C. 手機「活動」分頁（這幾天的活動都列出來；沒有活動時寫「目前沒有」）；手機「地點」快速前往：從宿舍 → 共同教學館：到校園、站在門口前（站得住、不在建築裡）、時間有過（照距離約 5 分鐘）、出現「共同教學館」按鈕；
-   再自己走回椰林大道（不會卡在門口）。
+   再自己走回椰影大道（不會卡在門口）。
 D. 手機「地點」→ 總圖書館：到總圖大廳、站得住。
 E. 舊存檔站在共同教學館的位置（建築裡）：讀檔後移到站得住的地方。
 F. 大一女舍：從校門點地面走到 A 棟門口（傳達室）→「男賓止步」；走過 A、B 之間的天橋下；坐門口的長椅「坐一下」（等人）；手機「地點」→ 大一女舍（門口）站得住。
@@ -37,11 +37,11 @@ async def main():
         await pg.goto(URL)
         run.check('遊戲載入', await L.wait_loaded(pg))
         # ---------- A：走到共同教學館正門 ----------
-        run.setup('讀檔：第 3 天（9/19 週五）10:00，椰林大道上、傅鐘東邊 (-30,3)')
+        run.setup('讀檔：第 3 天（9/19 週五）10:00，椰影大道上、晨思鐘東邊 (-30,3)')
         await L.load_state(pg, {'zone': 'campus', 'hour': 10.0, 'day': DAY_FRI, 'weekday': 5, 'weather': 'sunny', 'pos': {'x': -30, 'z': 3, 'yaw': 1.57}, 'flags': BASE_FLAGS})
         await pg.wait_for_timeout(3500)
         d = await L.find_it(pg, '共同教學館')
-        run.check('校園有共同教學館的門口（行政大樓東邊、正門朝椰林大道）', bool(d) and abs(d['x'] - 2) < 1 and abs(d['z'] - 22.8) < 1, json.dumps(d, ensure_ascii=False))
+        run.check('校園有共同教學館的門口（行政大樓東邊、正門朝椰影大道）', bool(d) and abs(d['x'] - 2) < 1 and abs(d['z'] - 22.8) < 1, json.dumps(d, ensure_ascii=False))
         await run.shot(pg, 'A_start_avenue')
         ok = await L.go_to(pg, cdp, run, d['x'], d['z'], 1.2, '共同教學館正門')
         s = await L.state(pg)
@@ -83,7 +83,7 @@ async def main():
         run.check('自己走下樓、走到出口（出現「走出共同教學館」）', ok and s['interact'].startswith('走出共同教學館'), json.dumps(s, ensure_ascii=False))
         await L.tap(pg, cdp, '#interact'); await pg.wait_for_timeout(5000)
         s = await L.state(pg)
-        run.check('走出去：回到校園共同教學館的正門前、面向椰林大道、不會一出來就跳出「共同教學館」', s['zone'] == 'campus' and s['stand'] and math.hypot(s['x'] - 2, s['z'] - 20.6) < 1.0 and not s['interact'].startswith('共同教學館'), json.dumps(s, ensure_ascii=False))
+        run.check('走出去：回到校園共同教學館的正門前、面向椰影大道、不會一出來就跳出「共同教學館」', s['zone'] == 'campus' and s['stand'] and math.hypot(s['x'] - 2, s['z'] - 20.6) < 1.0 and not s['interact'].startswith('共同教學館'), json.dumps(s, ensure_ascii=False))
         # ---------- B：大地圖 ----------
         lm = await pg.evaluate("(PLACES.landmarks.campus||[]).find(q=>q[0]==='共同教學館')||null")
         run.check('大地圖的地名「共同教學館」在建築的位置 (2,33)', bool(lm) and lm[1] == 2 and lm[2] == 33, json.dumps(lm, ensure_ascii=False))
@@ -118,9 +118,9 @@ async def main():
         run.check('時間有過（照距離約 5 分鐘，不是瞬間）', 4.5 <= dmin < 20, f'{dmin:.1f} 分鐘')
         run.check('門口出現「共同教學館」按鈕', s['interact'].startswith('共同教學館'), s['interact'])
         await run.shot(pg, 'C_arrived')
-        ok = await L.go_to(pg, cdp, run, 2, 4, 1.2, '椰林大道（從門口走回去）')
+        ok = await L.go_to(pg, cdp, run, 2, 4, 1.2, '椰影大道（從門口走回去）')
         s = await L.state(pg)
-        run.check('從門口自己走回椰林大道（不會卡在門口）', ok and s['stand'], json.dumps(s, ensure_ascii=False))
+        run.check('從門口自己走回椰影大道（不會卡在門口）', ok and s['stand'], json.dumps(s, ensure_ascii=False))
         # ---------- D：手機「地點」→ 總圖書館 ----------
         await L.tap(pg, cdp, '#btnPhone'); await pg.wait_for_timeout(1000)
         await L.tap(pg, cdp, '#phoneTabs button[data-ptab="places"]'); await pg.wait_for_timeout(800)

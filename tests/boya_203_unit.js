@@ -36,7 +36,7 @@ check('2. 前一天、後一天、隔週週三的 19:00 關', !op(A-1,19)&&!op(A
   GAME_G.v=G(A,19); loadZone('boya');
   const its=E.interactables.filter(i=>Math.abs(i.x-x)<0.01&&Math.abs(i.z-z)<0.01&&(i.lv|0)===1); const vis=()=>its.filter(i=>!i.hidden).map(i=>i.label);
   const a=vis(); GAME_G.v=G(A,15); const b=vis(); GAME_G.v=G(A+1,19); const c=vis();
-  check('3. 那一晚只有「進入 博雅 203」', a.length===1&&a[0]==='進入 博雅 203', a.join('、'));
+  check('3. 那一晚只有「進入 博思 203」', a.length===1&&a[0]==='進入 博思 203', a.join('、'));
   check('3. 同一天下午、隔天只有原本的門（之後開放）', b.length===1&&b[0]===R.label&&c.length===1&&c[0]===R.label&&its.find(i=>i.label===R.label).look===R.look, b.join('、')+'／'+c.join('、'));
   const en=its.find(i=>i.exit); check('4. 進去的落點＝配置的 spawn', !!en&&en.exit.to==='boya_203'&&Math.abs(en.exit.spawn.x-L.spawn.x)<1e-6&&Math.abs(en.exit.spawn.z-L.spawn.z)<1e-6);
   const bs=L.back_spawn; check('4. 回 2F 的落點（back_spawn，lv 1）＝門口的互動點、站得住', bs.lv===1&&Math.abs(bs.x-x)<1e-6&&Math.abs(bs.z-z)<1e-6&&E.canStand(bs.x,bs.z,0.3,1), JSON.stringify(bs));

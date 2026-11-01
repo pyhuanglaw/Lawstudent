@@ -14,7 +14,7 @@ async def main():
     async with async_playwright() as p:
         b, ctx, pg, cdp, errs = await L.launch(p, landscape=True)
         await pg.goto(URL); assert await L.wait_loaded(pg)
-        run.setup('讀檔：第二天 15:30 校園霖澤館前，舊存檔格式（只有目標文字、沒有 goalDest）')
+        run.setup('讀檔：第二天 15:30 校園A館前，舊存檔格式（只有目標文字、沒有 goalDest）')
         await L.load_state(pg, {'day':2,'weekday':4,'hour':15.5,'zone':'campus','pos':{'x':34,'z':-96,'yaw':3.14},'goal':'和小安一起走到校門，往公館・溫州街','flags':{'introDone':True,'classDone':True,'afternoonDone':True,'metAn':True,'zheInvite':False}}, quiet_events=True)
         await pg.wait_for_timeout(4000)
         st = await pg.evaluate("({dest:GAME.G.goalDest, tgt:GUIDE._st.tgt&&{x:GUIDE._st.tgt.x,z:GUIDE._st.tgt.z,text:GUIDE._st.tgt.text,via:GUIDE._st.tgt.via}, route:GUIDE._st.route&&GUIDE._st.route.length, bar:!document.getElementById('guide').classList.contains('hide'), txt:document.getElementById('guideText').textContent, arrow:document.getElementById('guideArrow').style.transform, markers:GUIDE._st.markers.length})")

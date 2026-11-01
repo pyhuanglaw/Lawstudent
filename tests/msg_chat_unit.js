@@ -1,5 +1,5 @@
 // 玩家主動傳訊息（SYS-PHONE-CHAT／MSG-L1；AA_202 第 1～4 節、BB_178 第 0 節）：
-//   A 開放：沒有聯絡方式不開；可昕只有交往中；子晴要 Q6（ev_ziqing_secret_game）；芷若在英國不開；學姊加了好友（或認識）就開、不到朋友是事務版（MSG-SIS-EARLY-1027）；沛珊重考消失期只顯示已送達、不回。
+//   A 開放：沒有聯絡方式不開；可昕只有交往中；子晴有聯絡方式就開（PHONE-UNIFY-1030；原本要 Q6 ev_ziqing_secret_game）；芷若在英國不開；學姊加了好友（或認識）就開、不到朋友是事務版（MSG-SIS-EARLY-1027）；沛珊重考消失期只顯示已送達、不回。
 //   B 話題：在幹嘛、分享一直有；問課只給同一門課的（語彤沒有；芷若只有大一）；晚安 21:30 以後、好朋友以上或 L 層，祐廷和別人交往中而且她知道就不開。
 //   C 一天一次；回覆照作息排時間（有空幾分鐘、上課等下課、以安 22:30 以後隔天早上「昨天睡了。早。」；傳晚安只回那一句）；回問選項接在最後一則。
 //   D 層：A／R／L；L 只給戀愛對象（交往中，或第 5 階以上而且兩人都單身）；同一層輪流用；情況版（放假、深夜）先用；標籤不對不用。
@@ -46,7 +46,7 @@ const th=id=>PHONE.thread(G,'p:'+id).filter(m=>m.from).map(m=>(m.from==='player'
   check('A2. 沒有聯絡方式：不開',!MSG.open(G,'heroine_01').ok,MSG.open(G,'heroine_01').why);
   INV.addContact(G,'heroine_01'); STAGE.heroine_01=1; check('A3. 有聯絡方式：開',MSG.open(G,'heroine_01').ok);
   STAGE.kexin=4; check('A4. 可昕：交往中才開（法律系開場預設交往）',!MSG.open(G,'kexin').ok&&(G.flags.dating_kexin=true,MSG.open(G,'kexin').ok)); G.flags.dating_kexin=false;
-  INV.addContact(G,'heroine_04'); STAGE.heroine_04=2; check('A5. 子晴：Q6 以前沒有她的私訊',!MSG.open(G,'heroine_04').ok); G.events.done.ev_ziqing_secret_game=1; check('A5. Q6 以後開',MSG.open(G,'heroine_04').ok);
+  INV.addContact(G,'heroine_04'); STAGE.heroine_04=2; check('A5. 子晴：有聯絡方式、Q6 以前也開（PHONE-UNIFY-1030，使用者 10-30「很多女生腳色都不能在訊息頁面傳訊息……請統一」；原本 Q6 以前沒有她的私訊）',MSG.open(G,'heroine_04').ok); G.events.done.ev_ziqing_secret_game=1; check('A5. Q6 以後照舊開',MSG.open(G,'heroine_04').ok);
   STAGE.heroine_05=0; check('A6. 學姊：還沒見過、還沒加好友不開',!MSG.open(G,'heroine_05').ok); G.flags.SIS_CONTACTED=true; check('A6. 加了好友（SIS_CONTACTED）、還沒見過：事務版（MSG-SIS-EARLY-1027，AA_485 第 4 節：不用等第 2 階）',MSG.open(G,'heroine_05').mode==='business'); delete G.flags.SIS_CONTACTED;
   STAGE.heroine_05=1; check('A6. 認識（第 1 階）：事務版（原本「不到有點熟不開」，AA_485 第 4 節改成不用等第 2 階）',MSG.open(G,'heroine_05').mode==='business'); STAGE.heroine_05=2; check('A6. 有點熟：事務版',MSG.open(G,'heroine_05').mode==='business'); STAGE.heroine_05=3; check('A6. 朋友、兩人都單身：閒聊版',!MSG.open(G,'heroine_05').mode);
   G.flags.dating_kexin=true; ROM.learn(G,'heroine_05','kexin','test'); check('A6. 祐廷交往中而且她知道：事務版',MSG.open(G,'heroine_05').mode==='business'); G.flags.dating_kexin=false;
@@ -101,6 +101,8 @@ const th=id=>PHONE.thread(G,'p:'+id).filter(m=>m.from).map(m=>(m.from==='player'
 if(REAL){ global.MSG_POOL=realPool; const P=realPool.people||{}; let src=''; try{ src=cp.execSync('git show '+realPool.source.AA_202+':"docs/story_planning/AA_202_玩家主動傳訊息_規格.md"',{cwd:ROOT,encoding:'utf8',maxBuffer:32<<20,stdio:['ignore','pipe','ignore']})+cp.execSync('git show '+realPool.source.BB_178+':"docs/story_planning/BB_178_玩家主動傳訊息_BB回覆池.md"',{cwd:ROOT,encoding:'utf8',maxBuffer:32<<20,stdio:['ignore','pipe','ignore']}); }catch(e){}
   if(src&&realPool.source.AA_370){ try{ src+=cp.execSync('git show '+realPool.source.AA_370+':"docs/story_planning/AA_370_美國交換_時差與人在哪_修正稿.md"',{cwd:ROOT,encoding:'utf8',maxBuffer:32<<20,stdio:['ignore','pipe','ignore']}); }catch(e){} }   /* AA_370 第 6 節第 3 題：學姊事務版「在圖書館。有事嗎？」（祐廷也在布魯明頓）*/
   if(src&&realPool.source.AA_393){ try{ src+=cp.execSync('git show '+realPool.source.AA_393+':"docs/story_planning/AA_393_學姊第七批_日本路線.md"',{cwd:ROOT,encoding:'utf8',maxBuffer:32<<20,stdio:['ignore','pipe','ignore']}); }catch(e){} }   /* AA_393 第 4 節：學姊「祐廷在日本」 */
+  if(src&&realPool.source.AA_538){ try{ src+=cp.execSync('git -c core.quotepath=false show '+realPool.source.AA_538+':"docs/story_planning/AA_538_實作問答定稿句_佳蓉B館版_SK02系辦三句.md"',{cwd:ROOT,encoding:'utf8',maxBuffer:32<<20,stdio:['ignore','pipe','ignore']}); }catch(e){} }   /* AA_538 4-2：子晴分享 A 層各補兩則（PHONE-UNIFY-1030）*/
+  if(src&&realPool.source.AA_531){ try{ src+=cp.execSync('git -c core.quotepath=false show '+realPool.source.AA_531+':"docs/story_planning/AA_531_D99美國交換_人在美國還被揪118午餐_在臺灣的伴侶四個月沒聯絡_上課期末.md"',{cwd:ROOT,encoding:'utf8',maxBuffer:32<<20,stdio:['ignore','pipe','ignore']}); }catch(e){} }   /* AA_531 3-3：語彤「在店裡。阿姨問你美國有沒有麵。」（祐廷在美國）*/
   src=src.replace(/《東京物語》/g,'《進城的那一週》').replace(/《晚春》/g,'《父親的午後》');   /* AA_313 6-2：真實片名改虛構的（AA 定，原文之後照這張表讀）*/
   src=src.replace(/今天的課講小津。我有舉手。/g,'今天的課講一個日本的老導演。他的鏡頭幾乎都不動。');
   src=src.replace(/在改論文的第二章。/g,'在改論文的第四章。');   /* AA_509 0-2 第 1 點（企劃線 691a26400）：學姊大四上回覆池第二章改第四章（產生器 tools/msg/build_pool.py 的 FIX）*/
@@ -146,9 +148,11 @@ if(typeof MSG2_POOL!=='undefined'){ global.MSG_POOL=REAL?realPool:FAKE; const P2
   const tk=id=>MSG.topics(G,id).map(q=>q.k); const K=k=>STORY.dayOfKey(k);
   const reply=()=>{ const q=PHONE.rec(G).q; return q.length?q[q.length-1].items.map(x=>x.text):[]; };
   { let src=''; try{ for(const [f,k] of [['AA_202_玩家主動傳訊息_規格.md','AA_202'],['AA_257_MSG2_BB九位回覆池.md','AA_257'],['AA_389_回AA313剩下九點.md','AA_389']]) src+=cp.execSync('git show '+MSG2_POOL.source[k]+':"docs/story_planning/'+f+'"',{cwd:ROOT,encoding:'utf8',maxBuffer:32<<20,stdio:['ignore','pipe','ignore']}); }catch(x){ src=''; }
+    if(src&&MSG2_POOL.source.AA_531){ try{ src+=cp.execSync('git -c core.quotepath=false show '+MSG2_POOL.source.AA_531+':"docs/story_planning/AA_531_D99美國交換_人在美國還被揪118午餐_在臺灣的伴侶四個月沒聯絡_上課期末.md"',{cwd:ROOT,encoding:'utf8',maxBuffer:32<<20,stdio:['ignore','pipe','ignore']}); }catch(x){} }   /* AA_531 8-3（企劃線 41ec9a6ac）：語彤生日、還好嗎 L 的國外版 */
     const SUBST={'heroine_02:十點，店門口。':'九點，店門口。'};   /* AA 裁定的改字（原文找改字前的那句）：AA_373 第 6 節第 9 題（企劃線 bdab2f42）「九點」改「十點」——芷若生日 L 回問，只在 2025、2026 開 */
     if(!src) console.log('（略過 H1：沒有企劃原文的歷史）'); else { const miss=[]; let n=0; for(const id in P2) for(const e of P2[id].replies) for(const t of (e.msgs||[]).concat(...(e.ask?e.ask.opts.map(o=>[o.t].concat(o.r||[])):[])).concat(e.ask?[e.ask.q]:[])){ n++; const t0=SUBST[id+':'+t]||t; if(src.indexOf(t0.replace(/\*\*/g,''))<0) miss.push(id+':'+t); }
-      check('H1. MSG-2 每一句（含回問）都在 AA_202 第 7 節／AA_257／AA_389 原文裡（逐字；AA 裁定的改字照 SUBST 找原句）',!miss.length&&n>150,miss.slice(0,6).join(' ｜ ')+' 共 '+n+' 句'); } }
+      for(const id in P2) for(const k in (P2[id].calls||{})) for(const t of (P2[id].calls[k].lines||[])){ n++; if(src.indexOf(t)<0) miss.push(id+':calls.'+k+':'+t); }   /* 回問帶的電話（AA_531 8-5：語彤國外版「打給我」）*/
+      check('H1. MSG-2 每一句（含回問）都在 AA_202 第 7 節／AA_257／AA_389／AA_531 8-3、8-5 原文裡（含電話台詞；逐字；AA 裁定的改字照 SUBST 找原句）',!miss.length&&n>150,miss.slice(0,6).join(' ｜ ')+' 共 '+n+' 句'); } }
   { mk('heroine_01',1,K('2025-09-14'),15); const a=tk('heroine_01').includes('bday'); G.day=K('2025-09-15'); G.weekday=wdOf(G.day); const b=tk('heroine_01').includes('bday');
     check('H2. 以安 9/15：當天才有「生日快樂」',!a&&b); const r=MSG.send(G,'heroine_01','bday'); check('H2. 傳了：回「謝謝。」（A）',r.ok&&r.text==='生日快樂'&&reply()[0]==='謝謝。',JSON.stringify(reply())); }
   { const ny=k=>{ mk('heroine_01',3,K(k),15); return tk('heroine_01').includes('newyear'); };

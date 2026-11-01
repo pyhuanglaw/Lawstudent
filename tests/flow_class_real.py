@@ -21,7 +21,7 @@ async def main():
         b, ctx, pg, cdp, errs = await L.launch(p, landscape=True)
         await pg.goto(URL)
         run.check('遊戲載入', await L.wait_loaded(pg))
-        run.setup('讀檔：星期四 12:55（第 2 天），霖澤館二樓 201 門口 (-2.0,-6.0, 2F)，已讀案例（readCase=full）')
+        run.setup('讀檔：星期四 12:55（第 2 天），法律系館A二樓 201 門口 (-2.0,-6.0, 2F)，已讀案例（readCase=full）')
         await L.load_state(pg, {'zone': 'linze', 'hour': 12.92, 'day': 2, 'weekday': 4, 'weather': 'sunny', 'pos': {'x': -2.0, 'z': -6.0, 'lv': 1, 'yaw': 3.14},
                                 'flags': {'introDone': True, 'campusIntro': True, 'readCase': 'full'}})
         await pg.wait_for_timeout(3000)
@@ -66,7 +66,7 @@ async def main():
             await pg.wait_for_timeout(1500)
             moved, pushes, s2 = await L.push_until(pg, cdp, 0, -40, 0.5)   # 推到走了 0.5 m（最多 4 次）：距離隨幀率變，見 playlib.push_until
             await run.shot(pg, 'back_in_linze_2f')
-            run.check('回到霖澤館二樓、站得住、搖桿走得動', s2['zone'] == 'linze' and s2.get('lv') == 1 and s2['stand'] and moved > 0.5, json.dumps(s2, ensure_ascii=False) + f' 推了 {pushes} 次、走了 {moved:.2f} m')
+            run.check('回到法律系館A二樓、站得住、搖桿走得動', s2['zone'] == 'linze' and s2.get('lv') == 1 and s2['stand'] and moved > 0.5, json.dumps(s2, ensure_ascii=False) + f' 推了 {pushes} 次、走了 {moved:.2f} m')
         run.check('沒有 JS 例外', not errs, json.dumps(errs[:3], ensure_ascii=False))
         await b.close()
     sys.exit(run.finish())

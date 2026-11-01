@@ -82,14 +82,14 @@ GM.money=function(n){ G.money+=n; };
     check('⑮ 豆花那兩句在換到山下那一家的背景以後',is>0&&id>is);
     const boss=b.find(l=>l.speaker==='老闆'); fresh(30,19,'campus',{K1_ORDER:'let_her',NCCU_FOOD_N:3}); check('⑯ 老闆那句：K1 讓她點＋實際吃過 3 次以上（含今天）',EVENTS.cond(boss.if));
     G.flags.NCCU_FOOD_N=2; check('⑯ 2 次＝沒有',!EVENTS.cond(boss.if));
-    fresh(30,19,'campus',{}); G.events.done.ev_kexin_yule_pass=1; G.events.done.ev_kexin_birthday_y1=1; await EVENTS.runLines([{scene:'政大・山下的小吃街',bg:'nccu_food'},{scene:'政大・山下的小吃街',bg:'nccu_food'}],{id:'t'});
+    fresh(30,19,'campus',{}); G.events.done.ev_kexin_yule_pass=1; G.events.done.ev_kexin_birthday_y1=1; await EVENTS.runLines([{scene:'木柵大學・山下的小吃街',bg:'nccu_food'},{scene:'木柵大學・山下的小吃街',bg:'nccu_food'}],{id:'t'});
     check('⑯ 舊存檔：照完成的事件補算，同一個事件只算一次（予樂、12/3＋這次＝3）',G.flags.NCCU_FOOD_N===3,String(G.flags.NCCU_FOOD_N)); }
   // ⑱ SK03：P4d 沒發生的玩家，第 8 週以後第一次去重修的週五＝走廊直接遇到阿勳（完整自我介紹 → 小福邀約）
   { const e=EV('ev_sk03_lunch'), f9=termDay('Y1S2',9,5); fresh(f9,12,'putong',{}); G.stage='law'; const ok9=EVENTS.check(e); G.day=termDay('Y1S2',5,5); G.weekday=5; const ok5=EVENTS.check(e);
     G.day=f9; G.events.done.ev_econ_hallway=1; const okDone=EVENTS.check(e); delete G.events.done.ev_econ_hallway;
     check('⑱ 第 9 週週五、沒有 P4d＝開 SK03；第 5 週（P4d 的窗口內）不開；演過 P4d 的照舊',ok9&&!ok5&&!okDone,JSON.stringify([ok9,ok5,okDone]));
-    picks=['今天不行']; said=[]; await EVENTS.run(e); const L=lines(); check('⑱ 開頭＝「盧正勳。你經濟系那年的室友。……你該不會連我都忘了。」→「週五中午，我們在活大。你要來就來。」；記 MET_XUN',L[0]==='阿勳：盧正勳。你經濟系那年的室友。……你該不會連我都忘了。'&&L[1]==='阿勳：週五中午，我們在活大。你要來就來。'&&!!G.flags.MET_XUN,JSON.stringify(L.slice(0,2)));
-    G.day=f9+7; G.flags.SK03_ASKED=null; said=[]; picks=['今天不行']; await EVENTS.run(e); check('⑱ 下一週：「活大。走不走？」（不再自我介紹）',lines()[0]==='阿勳：活大。走不走？',JSON.stringify(lines().slice(0,1))); }
+    picks=['今天不行']; said=[]; await EVENTS.run(e); const L=lines(); check('⑱ 開頭＝「盧正勳。你經濟系那年的室友。……你該不會連我都忘了。」→「週五中午，我們在學活。你要來就來。」；記 MET_XUN',L[0]==='阿勳：盧正勳。你經濟系那年的室友。……你該不會連我都忘了。'&&L[1]==='阿勳：週五中午，我們在學活。你要來就來。'&&!!G.flags.MET_XUN,JSON.stringify(L.slice(0,2)));
+    G.day=f9+7; G.flags.SK03_ASKED=null; said=[]; picks=['今天不行']; await EVENTS.run(e); check('⑱ 下一週：「學活。走不走？」（不再自我介紹）',lines()[0]==='阿勳：學活。走不走？',JSON.stringify(lines().slice(0,1))); }
   // 第 3 節：法律審查標記
   { const src=fs.readFileSync(path.join(ROOT,'src/data/events.js'),'utf8'); check('第 3 節：B4、B5、以安和 Alison 吵架的 LEGAL_REVIEW_REQUIRED 拿掉（BB_115 L482、L483）',!/比例原則的方向，不給結論（BB_105 4-3）——LEGAL_REVIEW_REQUIRED/.test(src)&&!/法律同 B4：LEGAL_REVIEW_REQUIRED/.test(src)&&!EV('ev_an_yu_argument').legal_review); }
   console.log(fails?'FAILED '+fails:'ALL PASS'); process.exit(fails?1:0);

@@ -109,7 +109,7 @@ const ANYTHOL_EVENTS=(function(){
     /* ---------- 1-3 2028-02-14（一）14:00 總圖門口 → 椰林大道（去日本以前；記 AN_VDAY_GIFT：3/14 ev_an_white_day 演「一個月前你送的」那一版）---------- */
     { id:'ev_an_vday_y3', title:'情人節', participants:[AN], location:'any', trigger:'outing', once:true, get background(){ return BG('ntu_avenue'); }, hours:1.5,
       dialogue:[
-        N('（寒假的椰林大道，腳踏車比平常少一半。）'),
+        N('（寒假的椰影大道，腳踏車比平常少一半。）'),
         A('再一個多月就去日本了。'),
         A('行李我列好了。衣服帶太少，書帶太多。'),
         {choice:[{text:'（給她一支鋼筆）',set:{AN_VDAY_GIFT:'pen'},mem:[{npc:AN,tag:'AN_VDAY_PEN',note:''}],goto:'a'},{text:'（給她一盒巧克力）',set:{AN_VDAY_GIFT:'choco'},mem:[{npc:AN,tag:'AN_VDAY_CHOCO',note:''}],goto:'b'}]},
@@ -146,7 +146,7 @@ const ANYTHOL_EVENTS=(function(){
         {scene:'河濱',bg:'riverside'},
         N('（河濱的風很大。跑步的人一個一個從旁邊過去。）'),
         Y('我很少這個時間出來。平常這時候在店裡。'),
-        {choice:[{text:'「冷嗎？」',goto:'a'},{text:'「下次店休也出來。」',goto:'b'}]},
+        {choice:[{text:'「冷嗎？」',goto:'a'},{text:'「下次店休也出來。」',set:{YT_CLOSED_OUT:true},goto:'b'}]},   /* AA_524 Y3：記 YT_CLOSED_OUT（2027 店休刷椅子腳那一場讀，noodle_closed3d.js）*/
         {label:'a'},Y('……有一點。'),N('（她把手縮進袖子。你們又走了一段。）'),{goto:'c'},
         {label:'b'},Y('下次店休是明年。'),Y('……那明年也出來。'),
         {label:'c'},...endV(YT,'YT_VDAY_Y1','went','YT_VDAY_RIVER') ],
@@ -185,6 +185,10 @@ const ANYTHOL_EVENTS=(function(){
     { id:'ev_yt_vday_y4', title:'情人節', participants:[YT], location:'any', trigger:'outing', once:true, get background(){ return BG('riverside'); }, hours:1,
       dialogue:[
         N('（過年的河濱，跑步的人比平常少。對岸的燈一排一排亮著。）'),
+        /* AA_524 Y4：2028 情人節她說「想帶你去一個地方」，拒絕（no）或答應了沒到（missed）的——第一句旁白之後多三句（沒回 noreply 不算）*/
+        {if:{flagIs:{YT_VDAY_Y3:['no','missed']}},speaker:YT,text:'（指了一下對岸）去年想帶你去的地方，在那邊。'},
+        {if:{flagIs:{YT_VDAY_Y3:['no','missed']}},speaker:YT,text:'山坡上那一排房子。'},
+        {if:{flagIs:{YT_VDAY_Y3:['no','missed']}},speaker:YT,text:'……今年從這裡看就好。'},
         {if:{flagIs:{YT_VDAY_Y1:'went'}},speaker:YT,text:'上次店休碰到情人節，是大一。'},   /* 2026 有去河濱的多一句 */
         Y('阿姨叫我拿年糕給你。'),
         Y('她說你太瘦了。'),

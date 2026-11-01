@@ -46,7 +46,7 @@ await sec(0,()=>{
   check('0. 讀得到稿、修改前的原始碼；打工的檔載得到',!!doc&&!!base&&!loadErr.length&&typeof WZ_JOBS_DATA!=='undefined'&&typeof JOBS!=='undefined',J(loadErr));
   check('0. 稿裡的都讀得到（第 1 節四句＋「還好嗎」、2-1 八列各三句＋第三輪三句、2-2 三句、2-3 三句、第 3 節三列各四句）',NEW_P.length===4&&!!OKQ&&T21.length===8&&T21.every(r=>r.length===3&&r[0][0]==='旁白'&&r[1][0]==='民眾')&&LOG.length===3&&OPEN3.length===3&&YT3.length===3&&['cafe','books','cvs'].every(k=>(T3[k]||[]).length===4)&&!!OLD.P&&!!OLD.OPEN&&!!OLD.YT&&!!OLD.CASES,
     J({NEW_P,OKQ,T21:T21.length,LOG,OPEN3,YT3,T3:Object.keys(T3),OLD:[!!OLD.P,!!OLD.OPEN,!!OLD.YT,!!OLD.CASES]}));
-  check('0. STORY.NDL_PINGS＝原本四句＋第 1 節四句（八句，照順序）、NDL_OK＝「'+OKQ+'」',J(STORY.NDL_PINGS)===J((OLD.P||[]).concat(NEW_P))&&STORY.NDL_OK===OKQ,J([STORY.NDL_PINGS,STORY.NDL_OK]));
+  check('0. 阿哲揪麵店的短句（第 1 節）：AA_542 2-3 拿掉定時揪人（NOODLE-TEAM-SHRINK-1030，使用者 10-30 X144），STORY.NDL_PINGS／NDL_OK 不再有',STORY.NDL_PINGS===undefined&&STORY.NDL_OK===undefined);
   check('0. STORY.FAFU_OPEN＝原本三句＋2-2 三句；FAFU_YT＝原本三句＋2-3 三句',J(STORY.FAFU_OPEN)===J((OLD.OPEN||[]).concat(OPEN3))&&J(STORY.FAFU_YT)===J((OLD.YT||[]).concat(YT3)),J([STORY.FAFU_OPEN,STORY.FAFU_YT]));
   check('0. STORY.FAFU_BACK＝2-1 第二輪八列（旁白、民眾、誰、回的話）、FAFU_LOG＝第三輪三句',J((STORY.FAFU_BACK||[]).map(b=>[['旁白',b[0]],['民眾',b[1]],[b[2],b[3]]]))===J(T21)&&J(STORY.FAFU_LOG)===J(LOG),J([STORY.FAFU_BACK,STORY.FAFU_LOG]));
   const cur=(fs.readFileSync(path.join(H.ROOT,'src/story3d.js'),'utf8').match(/S\.FAFU_CASES=\[[\s\S]*?\]\];/)||[''])[0];
@@ -62,27 +62,10 @@ const pr=()=>{ STORY.phoneRules(GM); PHONE.tick(H.G); };
 const start=(flags)=>{ fresh(W4THU,18,'noodle',Object.assign({noodleTableDay:W4THU},flags||{})); for(let h=18;h<=19;h+=0.25){ at(W4THU,h,'noodle'); pr(); } };
 const day=(d,came)=>{ at(d,8,'dorm'); pr(); if(came){ at(d,18,'noodle'); pr(); at(d,18.5,'noodle'); pr(); } at(d,22,'dorm'); pr(); };
 const NDs=(a,b)=>{ const L=[]; for(let d=a;d<=b;d++) if(STORY.noodleDay(d)) L.push(d); return L; };
-await sec(1,()=>{
-  const R1=CALENDAR.termDays('Y1S1'), R2=CALENDAR.termDays('Y1S2'), ND=NDs(W4THU+1,R1.to), NE=NDs(R2.from,R2.to);
-  /* A：一直沒來 */
-  start(); for(let d=W4THU+1;d<=TD('Y1S2',5,7);d++) day(d,false); const A=pings();
-  check('1. 一直沒來：揪三次（'+P().slice(0,3).join('／')+'）→ 第三次也沒來的下一個麵店日「'+OK()+'」→ 之後不揪（大一上剩下的、大一下前五週都安靜）',J(A.map(x=>x.t))===J(P().slice(0,3).concat([OK()]))&&J(A.map(x=>x.d))===J(ND.slice(1,5))&&A.every(x=>Math.abs(x.h-17.5)<0.01),J(A.map(x=>[keyOf(x.d),x.t])));
-  check('1. 停了以後 ndlMiss＝4（停）、這學期問過（ndlOkT＝Y1S1）',H.G.flags.ndlMiss===4&&H.G.flags.ndlOkT==='Y1S1',J([H.G.flags.ndlMiss,H.G.flags.ndlOkT]));
-  /* B：去一次從頭算、一學期最多一次、八句輪完回第一句 */
-  const came=new Set([ND[6],NE[0]]); start(); for(let d=W4THU+1;d<=NE[7];d++) day(d,came.has(d)); const B=pings(), Bt=B.map(x=>x.t);
-  check('1. 去了一次麵店（'+keyOf(ND[6])+'）從頭算：再揪三次接著輪（第 4～6 句）',J(Bt.slice(0,7))===J(P().slice(0,3).concat([OK()],P().slice(3,6)))&&J(B.slice(4,7).map(x=>x.d))===J(ND.slice(8,11)),J(B.map(x=>[keyOf(x.d),x.t])));
-  check('1. 同一學期第二次連三次沒來：不再問「還好嗎」（一學期最多一次），安靜停到學期結束',B.filter(x=>x.t===OK()&&(CALENDAR.termOf(x.d)||{}).id==='Y1S1').length===1&&!B.some(x=>x.d>ND[10]&&x.d<=R1.to),J(B.map(x=>[keyOf(x.d),x.t])));
-  check('1. 下學期去一次（'+keyOf(NE[0])+'）再連三次沒來：第 7、8 句、輪回第 1 句，再「還好嗎」（新學期可以再問一次）',J(Bt.slice(7))===J([P()[6],P()[7],P()[0],OK()])&&J(B.slice(7).map(x=>x.d))===J(NE.slice(2,6)),J(B.slice(7).map(x=>[keyOf(x.d),x.t])));
-  check('1. 一天最多一則、只在麵店日、17:30、阿哲不加句號',new Set(B.map(x=>x.d)).size===B.length&&B.every(x=>STORY.noodleDay(x.d)&&Math.abs(x.h-17.5)<0.01)&&P().concat([OK()]).every(t=>!/。$/.test(t)));
-  /* C：舊存檔（沒有 ndlMiss）*/
-  const old=(tags,n)=>{ fresh(ND[4],7,'dorm',{noodleTableDay:W4THU,ndlTrack0:W4THU,ndlDays:[W4THU],ndlPingN:n}); PHONE.join(H.G,'noodle_team','麵店團'); for(const d of tags) H.G.msgs.push({day:d,h:17.5,th:'g:noodle_team',from:'zhe',text:OLD.P[(tags.indexOf(d)+n-tags.length)%4],tag:'rt_zhe_ndl_'+d}); day(ND[4],false); return pings().filter(x=>x.d===ND[4]).map(x=>x.t); };
-  const c3=old([ND[1],ND[2],ND[3]],3), cm=H.G.flags.ndlMiss, c2=old([ND[2],ND[3]],5), cm2=H.G.flags.ndlMiss;
-  check('1. 舊存檔（沒有 ndlMiss）：前三個麵店日都揪過、都沒來＝這次「'+OK()+'」（照手機裡的接著算）',J(c3)===J([OK()])&&cm===4,J([c3,cm]));
-  check('1. 舊存檔：前兩個麵店日揪過、ndlPingN＝5＝這次第 6 句「'+P()[5]+'」（八句照原本的次數接著輪），ndlMiss＝3',J(c2)===J([P()[5]])&&cm2===3,J([c2,cm2]));
-  const ab=()=>{ start({abroad:true}); for(const d of ND.slice(0,4)) day(d,false); return pings().length; };
-  check('1. 人在國外（F.abroad）照舊不揪',ab()===0);
-});
-
+await sec(1,()=>{   /* AA_542 2-3：有來沒來都不揪、不問「你最近都沒來 還好嗎」（原本第 1 節八句輪流＋連三次追問）*/
+  const R1=CALENDAR.termDays('Y1S1'), ND=NDs(W4THU+1,R1.to);
+  start(); for(let d=W4THU+1;d<=R1.to;d++) day(d,false);
+  check('1. 大一上一直沒來：群組裡沒有阿哲的定時揪人，也沒有「'+OKQ+'」',ND.length>4&&pings().length===0&&!(H.G.msgs||[]).some(m=>m.text===OKQ),J(pings().slice(0,3))); });
 /* ---- 2 法服值班 ---- */
 const SAT=TD('Y2S1',7,6), MEM={lawclub:true,CLUB_lawclub_study:true};
 const shift=async()=>{ const G=H.G; G.flags.LAWCLUB_SAT_LAST=null; at(SAT,9,'wancai'); H.said=[]; H.opts=[]; H.picks=[]; await STORY.fafuShift(GM); return H.said.map(s=>({w:s.who,t:s.t})); };

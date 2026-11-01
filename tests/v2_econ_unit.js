@@ -41,9 +41,9 @@ const meet=id=>SOCIAL.remember(id,'FIRST_MET','');
   const attendWeek=async(w,setup,pk)=>{ const {d,it}=econOn(w); if(!it) return null; G.hour=it.t0+0.1; if(setup) setup(); picks=pk||[]; said=[]; opts=[]; await CLS.attend(GM,it); return lines(); };
   /* 沒見過品妤 */
   let L=await attendWeek(2,null,['「重修。」']);
-  const want=['阿勳：……你怎麼又在這裡？','阿勳：盧正勳。你經濟系那年的室友。……你該不會連我都忘了。','品妤：曾品妤。經濟系，可昕以前的室友。','阿勳：重修。……你看起來比去年清醒。','阿勳：週五中午，我們在活大。你要來就來。'];
+  const want=['阿勳：……你怎麼又在這裡？','阿勳：盧正勳。你經濟系那年的室友。……你該不會連我都忘了。','品妤：曾品妤。經濟系，可昕以前的室友。','阿勳：重修。……你看起來比去年清醒。','阿勳：週五中午，我們在學活。你要來就來。'];
   const k0=L?L.indexOf(want[0]):-1;
-  check('3. 第 2 週下課：阿勳兩句（重新介紹）→ 沒見過品妤：她先介紹自己 → 選「重修。」→ 阿勳的回答 → 「週五中午，我們在活大。你要來就來。」',k0>=0&&JSON.stringify(L.slice(k0))===JSON.stringify(want),JSON.stringify(L&&L.slice(Math.max(0,k0))));
+  check('3. 第 2 週下課：阿勳兩句（重新介紹）→ 沒見過品妤：她先介紹自己 → 選「重修。」→ 阿勳的回答 → 「週五中午，我們在學活。你要來就來。」',k0>=0&&JSON.stringify(L.slice(k0))===JSON.stringify(want),JSON.stringify(L&&L.slice(Math.max(0,k0))));
   check('3. 三個選項：「重修。」「我在法律系，很好。」「說來話長。」',JSON.stringify(opts[opts.length-1])==='["「重修。」","「我在法律系，很好。」","「說來話長。」"]',JSON.stringify(opts));
   check('3. 記 P4D_ANSWER＝retake、MET_XUN、MET_PINYU、ECON_HALLWAY_DAY＝那一天',G.flags.P4D_ANSWER==='retake'&&G.flags.MET_XUN===true&&G.flags.MET_PINYU===true&&G.flags.ECON_HALLWAY_DAY===termDay('Y1S2',2,5),JSON.stringify(G.flags));
   /* 見過品妤（K2）＋另外兩個選項 */
@@ -58,7 +58,7 @@ const meet=id=>SOCIAL.remember(id,'FIRST_MET','');
   L=await attendWeek(3,null,['「重修。」']); check('5. 第 2 週沒去：第 3 週去了就演',L.includes('阿勳：……你怎麼又在這裡？')&&G.flags.ECON_HALLWAY_DAY===termDay('Y1S2',3,5));
   L=await attendWeek(7,null,['「重修。」']); check('5. 第 2～5 週都沒去：第 7 週去了也演',L.includes('阿勳：……你怎麼又在這裡？'));
   /* AA_294 ②（企劃 b3ec8820，2026-10-18 取代 BB_161 ⑱ 的「第 7 週以後走廊直接遇到」）：不限週次，這學期第一次出席經原下就演 P4d */
-  L=await attendWeek(11,null,['「重修。」']); check('5. 第 7 週以前都沒去：第 11 週第一次去照樣演 P4d「你怎麼又在這裡？」（AA_294 ②：這學期第一次出席就演；原本 BB_161 ⑱ 是走廊直接遇到）',L&&L.includes('阿勳：……你怎麼又在這裡？')&&L.includes('阿勳：盧正勳。你經濟系那年的室友。……你該不會連我都忘了。')&&L.includes('阿勳：週五中午，我們在活大。你要來就來。')&&!!G.flags.MET_XUN&&G.flags.P4D_ANSWER==='retake'&&G.flags.ECON_HALLWAY_DAY===termDay('Y1S2',11,5),JSON.stringify(L));
+  L=await attendWeek(11,null,['「重修。」']); check('5. 第 7 週以前都沒去：第 11 週第一次去照樣演 P4d「你怎麼又在這裡？」（AA_294 ②：這學期第一次出席就演；原本 BB_161 ⑱ 是走廊直接遇到）',L&&L.includes('阿勳：……你怎麼又在這裡？')&&L.includes('阿勳：盧正勳。你經濟系那年的室友。……你該不會連我都忘了。')&&L.includes('阿勳：週五中午，我們在學活。你要來就來。')&&!!G.flags.MET_XUN&&G.flags.P4D_ANSWER==='retake'&&G.flags.ECON_HALLWAY_DAY===termDay('Y1S2',11,5),JSON.stringify(L));
   { const {d,it}=(()=>{ const d=termDay('Y1S2',8,5); fresh(d,8,'putong'); return {d,it:CLS.dayItems(G,d).find(x=>x.c.id==='econ_principles_2')}; })();
     if(it){ G.hour=it.t0+0.1; said=[]; await CLS.attend(GM,it); } check('5. 第 8 週（期中考週）考完經原不演',!it||!lines().some(l=>l.includes('你怎麼又在這裡')),JSON.stringify({exam:it&&it.exam,L:lines()})); }
   /* 大一上 */

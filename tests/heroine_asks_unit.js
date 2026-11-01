@@ -12,6 +12,7 @@
 //   10 經濟系那一年（G.stage econ）不約（AA_529 第 1 點，企劃線 881029f98）：HASK.block＝'econ'
 //   9  個人：子晴週末兩點以前不約；芷若沒班 20:00 傳、上班 22:40 傳；語彤的麵店＝問一聲（here），答應回「好。……我跟阿姨說。」
 // 修改前（開發分支 f534dcc4a）：沒有 src/heroine_asks3d.js——第 0 項 FAIL、結束碼 1。用法：node tests/heroine_asks_unit.js
+require('./alison.js');   // 讀企劃稿（git show）照匯入工具同一套換：Alison、虛構校名（WORLD-RENAME-1030，docs/WORLD_NAMING.md）
 const H=require('./pg_harness.js');
 const fs=require('fs'), vm=require('vm'), path=require('path'), cp=require('child_process');
 const {check,GM}=H, J=JSON.stringify;
@@ -23,7 +24,7 @@ if(!ok){ H.done(); }
 let doc=''; try{ doc=cp.execSync('git show b3ecc563c:"docs/story_planning/AA_494_女主角主動約你_七位的門檻頻率地點時間台詞.md"',{cwd:H.ROOT,encoding:'utf8'}); }catch(e){}
 { const bad=[]; let n=0; for(const [id,p] of Object.entries(HASK_DATA.people)){ const L=[p.later,p.no,p.yes].concat(Object.values(p.yesBy||{})); for(const e of p.daily.concat(p.out)) for(const v of ['pre','dat']) if(e[v]) L.push(e[v].line); for(const t of L){ n++; if(!doc.includes(t)) bad.push(id+'：'+t); } }
   check('0. 每一句都在 AA_494 稿裡（一字不差；'+n+' 句）',doc.length>1000&&!bad.length&&n>=100,doc?J(bad):'git fetch origin claude/magical-albattani-bk7b4n'); }
-{ const W=DATE.HEROINES.map(h=>DATE.wishOf(h)).filter(Boolean), hit=[]; for(const [id,p] of Object.entries(HASK_DATA.people)) for(const e of p.out) if(W.includes(e.loc)) hit.push(id+' '+e.loc);
+{ const W=DATE.HEROINES.filter(h=>!(DATE.WISH_X&&DATE.WISH_X[h])).map(h=>DATE.wishOf(h)).filter(Boolean), hit=[];   /* 2026-10-30 芯慈的 D04（DATE.WISH_X，XINCI-ROMANCE-1030）不算：她的心願是午夜場這件事，芷若、子晴的西門 D04 照舊（AA-B 16:31；heroine_asks3d.js wishLocs 同）*/ for(const [id,p] of Object.entries(HASK_DATA.people)) for(const e of p.out) if(W.includes(e.loc)) hit.push(id+' '+e.loc);
   check('0. 心願地點（七位的）不在任何一位的校外表裡',W.length>=5&&!hit.length,J({W,hit})); }
 
 const wd=d=>CALENDAR.dateOf(d).wd%7;

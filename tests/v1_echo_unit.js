@@ -57,6 +57,6 @@ const after=async(day)=>{ G.day=day; G.weekday=wdOf(day); G.hour=12.17; G.zone='
     const snap=[]; const sayO=GM.say; GM.say=async(who,t)=>{ snap.push([t,slots.left&&slots.left.charId]); said.push({who:who?(who.name||String(who)):null,t}); };
     fresh(termDay('Y1S1',6,6),16,'campus',{dating_kexin:true}); picks=['又是你']; await EVENTS.run(k2); GM.say=sayO; global.ADV=A0;
     const at=t=>(snap.find(x=>x[0]===t)||[])[1];
-    check('6. K2：霖澤館前品妤的立繪還在（不說話）；椰林大道「品妤先回去了」那句時已經收起來',at('霖澤館。以前每天從社科院看過來。……第一次走進來。')==='econ_pinyu'&&at('品妤先回去了。你們沿著椰林大道走出校門，在附近吃晚餐。')==null,JSON.stringify(snap.map(x=>[x[0].slice(0,12),x[1]]))); }
+    check('6. K2：霖澤館前品妤的立繪還在（不說話）；椰林大道「品妤先回去了」那句時已經收起來',at('A館。以前每天從社科院看過來。……第一次走進來。')==='econ_pinyu'&&at('品妤先回去了。你們沿著椰影大道走出校門，在附近吃晚餐。')==null,JSON.stringify(snap.map(x=>[x[0].slice(0,12),x[1]]))); }
   console.log(fails?('FAILED '+fails):'ALL PASS'); process.exit(fails?1:0);
 })().catch(e=>{ console.log('FAIL 例外 '+(e&&e.stack||e)); process.exit(1); });

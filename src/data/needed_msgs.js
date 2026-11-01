@@ -27,14 +27,14 @@ const NEEDED_MSGS=(function(){
     {id:'yt_fafu',who:'heroine_03',term:'Y2S1',w:[2,2],msg:['法律系的課，我上禮拜第一次去上。','教室好大。'],   /* AA_374 第 23 項：9/20（週日）發，第一次去上是上禮拜 */reply:'坐我旁邊。',resp:['……我習慣坐最後一排。你坐過來。'],   /* AA_255：語彤不加入法服，改成雙主修第一週（id 照舊，舊存檔收過法服那則的不再收這則）*/
       miss:['上課那則你沒回。……我找到位子了。'],missDating:['上課那則你沒回。……我找到位子了。你忙的時候，回一個『忙』就好。']},
     {id:'yt_floor',who:'heroine_03',term:'Y2S1',w:[8,9],msg:['期中考你在總圖哪一層？我想找一個不會遇到麵店客人的地方。'],reply:'三樓。最裡面。',resp:['好。……阿姨以為我在家讀。'],
-      miss:['期中那幾天，我找到一個沒有客人的地方了。……不告訴你。'],missDating:['期中那幾天，我找到一個沒有客人的地方了。你要的話，我帶你去。']},
+      miss:['期中那幾天，我找到一個沒有客人的地方了。……不告訴你。'],missDating:['期中那幾天，我找到一個沒有客人的地方了。……不告訴你。']},
     {id:'yt_rent',who:'heroine_03',term:'Y2S2',w:[10,12],tie:true,cond:G=>done(G,'ev_yutong_landlord')||!!F(G).RENT_RUMOR,msg:['仲介又帶人來店裡看了。','沒事，跟你說一聲。'],reply:'要不要帶阿姨去法服問問看？',resp:['我問問看阿姨。'],
       miss:['仲介那件事，你上週很忙吧。沒事。'],missDating:['仲介那件事，沒事了。……你上週是不是很累？']},
     {id:'yt_dish',who:'heroine_03',term:'Y2S2',w:[15,16],tie:true,cond:G=>mem(G,'heroine_03','APOLOGIZED'),   /* 語彤事件 11 洗完碗（AA_325 2-Y2-22；AA_255 第 4 節第 6 點：w[15,16]）*/
      msg:['阿姨說你上次洗的碗還有油。'],reply:'下次我洗兩次。',resp:['……嗯。'],miss:null},
     // 阿哲（AA_179；沒回的那一句都用「你上週很忙齁。」開頭）
     {id:'zhe_book',who:'zhe',term:'Y2S1',w:[1,4],msg:['債總課本借我 我的還在學長那'],reply:'拿去。',resp:['讚。我請你一碗大的。'],miss:['你上週很忙齁。債總我跟學長拿到了。']},
-    {id:'zhe_notes',who:'zhe',term:'Y2S1',w:[9,9],tie:true,   /* AA_313 5-3：只在第 9 週（第 10 週週日是哲 2 之後，可能已經借過筆記）*/msg:['民法借我。筆記。全部。'],reply:'好。週四麵店拿。',resp:['你是神。'],miss:['你上週很忙齁。民法筆記我跟 Alison 借了。……她的字比你的好看。']},
+    {id:'zhe_notes',who:'zhe',term:'Y2S1',w:[9,9],tie:true,   /* AA_313 5-3：只在第 9 週（第 10 週週日是哲 2 之後，可能已經借過筆記）*/msg:['民法借我。筆記。全部。'],reply:'好。明天上課拿給你。',resp:['你是神。'],miss:['你上週很忙齁。民法筆記我跟 Alison 借了。……她的字比你的好看。']},
     {id:'zhe_score',who:'zhe',term:'Y2S1',w:[14,14],tie:true,   /* AA_374 第 4 項（AA_211）：12/6 發會指 12/12，系籃是 12/19 */msg:['週六系籃缺一個記分的。你會加減吧？'],reply:'會。',resp:['那就是你了。不准跑。'],miss:['你上週很忙齁。記分的我抓到別人了。你欠我一次。']},
     {id:'zhe_deposit',who:'zhe',term:'Y2S2',w:[4,4],tie:true,msg:['我學長退租，房東說押金要扣一半。','他叫我問你 押金扣一半可以嗎'],reply:'叫他找搬進去那時候拍的照片。',resp:['照片？……我問他有沒有拍。'],miss:['你上週很忙齁。我學長押金那件，他自己去問了。']},   /* AA_255：押金是學長的、只在第 4 週 */
     {id:'zhe_final',who:'zhe',term:'Y2S2',w:[14,15]/* AA_375 第 22 項（AA_255 第 2 節第 5 點）：6/13（第 16 週）已經考完 */,msg:['期末一起讀？我負責滷味，你負責不要讓我睡著。'],reply:'好。',resp:['成交。'],miss:['你上週很忙齁。滷味我自己吃完了。']},
@@ -47,8 +47,8 @@ const NEEDED_MSGS=(function(){
     // 柏翰（AA_179）
     {id:'bh_handover',who:'classmate_bohan',term:'Y2S1',w:[1,3],tie:true,cond:lawclub,msg:['社長交接的資料有一百頁。你幫我看第一章就好。'],reply:'好。',resp:['……謝謝。我以為社長只要會排值班表。'],miss:['交接資料第一章，我自己看完了。……一百頁都看完了。']},
     {id:'bh_q3',who:'classmate_bohan',term:'Y2S1',w:[6,8],tie:true,msg:['刑分考古題第三題，你寫哪一說？'],reply:'兩說都寫。',resp:['……考試時間不夠。'],miss:['上週問你刑分第三題……算了，我自己查到了。']},
-    {id:'bh_score',who:'classmate_bohan',term:'Y2S1',w:[11,13],tie:true,cond:G=>F(G).BOHAN_GROUP==='ask',msg:['你上次說分數不夠的人。我還在想。'],reply:'想到了跟我說。',resp:['嗯。'],miss:['分數不夠的人那件事……我還在想。']},
-    {id:'bh_scores',who:'classmate_bohan',term:'Y2S2',w:[7,9],tie:true,cond:G=>att(G,'public_law_group')&&done(G,'ev_bohan_scores'),msg:['分數表那件，以安都沒說話。她是不是不高興？'],reply:'你自己問她。',resp:['……好。'],miss:['讀書會那則，你沒回也沒關係。']},   /* 原 bh_moot（模擬法庭刪除）；只在 ev_bohan_scores 演過才出現 */
+    {id:'bh_score',who:'classmate_bohan',term:'Y2S1',w:[11,13],tie:true,cond:G=>F(G).BOHAN_GROUP==='slow'||F(G).BOHAN_GROUP==='ask',msg:['你上次說寫得慢。我現在都等最後一個寫完才對。'],reply:'好。',resp:['嗯。'],miss:['你上次說寫得慢那件事。我現在都等最後一個寫完。']},   /* AA_546 1-3（舊存檔的 ask 一樣）*/
+    {id:'bh_scores',who:'classmate_bohan',term:'Y2S2',w:[7,9],tie:true,cond:G=>att(G,'public_law_group')&&done(G,'ev_bohan_scores'),msg:['以安在白板上寫了她這週的進度。她寫字好工整。'],reply:'你自己跟她說。',resp:['……好。'],miss:['讀書會那則，你沒回也沒關係。']},   /* 原 bh_moot（模擬法庭刪除）；只在 ev_bohan_scores 演過才出現 */
     {id:'bh_final',who:'classmate_bohan',term:'Y2S2',w:[14,15],msg:['期末的考古題整理好了，放在讀書會的雲端。'],reply:'謝謝。',resp:['民法那份少一年，我還在找。'],miss:null},
     // 芯慈（AA_179）
     {id:'xc_econ',who:'classmate_xinci',term:'Y2S1',w:[2,4],tie:true,cond:G=>!!F(G).ECON_TOGETHER,msg:['經濟那邊，這學期你還陪我看嗎？'],reply:'好。',resp:['那週三總圖。'],miss:['經濟那邊，你沒回。……我自己去聽了。']},

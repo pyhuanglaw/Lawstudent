@@ -58,16 +58,16 @@ const D=k=>STORY.dayOfKey(k), Tm=(d,h)=>d*24+h;
     said=[]; opts=[]; picks=[cardPick]; G.day=A(n); G.hour=17.5; const q=OUT.get(G,'kx_anniv'+n); if(q){ q.state='planned'; await OUT.go(GM,q); } return {g,go,L:lines(),o:opts.slice(),q}; };
   { fresh(A(2)-7,20.9,'dorm',{introDone:true,classDone:true,afternoonDone:true,dating_kexin:true,KX_ANNIV:{1:'wheel'}}); run(20.9,21.1);
     const P=TH('p:kexin').filter(m=>m.tag==='kx_anniv_ask2'), q=OUT.get(G,'kx_anniv2');
-    check('Q4 第二年 10/10 21:00：「下禮拜六週年。這次我選地方。」（沒有選項）→ 政大山下、排 10/17 18:30',J(P.map(m=>m.text))===J(['下禮拜六週年。這次我選地方。'])&&!P[0].ask&&G.flags.KX_ANNIV_PLACE_2==='shop'&&q&&q.day===A(2)&&q.h===18.5&&q.ap==='shop'&&q.place==='政大・山下的小吃街',J([P,q]));
+    check('Q4 第二年 10/10 21:00：「下禮拜六週年。這次我選地方。」（沒有選項）→ 木柵大學山下、排 10/17 18:30',J(P.map(m=>m.text))===J(['下禮拜六週年。這次我選地方。'])&&!P[0].ask&&G.flags.KX_ANNIV_PLACE_2==='shop'&&q&&q.day===A(2)&&q.h===18.5&&q.ap==='shop'&&q.place==='木柵大學・山下的小吃街',J([P,q]));
     const r=await playYear(2,'票根','明年也是');
-    check('Q4 第二年 10/16 21:00 選準備的東西（同第一年；第二年地點是政大山下＝沒有湯餃那一樣，AA_313 第 2 節第 10 列）→ K7_GIFT_2；不動第一年的 K7_GIFT',r.g[0]==='明天是週年。你準備的東西：'&&r.go[0].length===3&&!r.go[0].some(t=>t.includes('酸辣湯餃'))&&G.flags.K7_GIFT_2==='ticket'&&G.flags.K7_GIFT===undefined,J([r.g,G.flags.K7_GIFT_2]));
+    check('Q4 第二年 10/16 21:00 選準備的東西（同第一年；第二年地點是木柵大學山下＝沒有湯餃那一樣，AA_313 第 2 節第 10 列）→ K7_GIFT_2；不動第一年的 K7_GIFT',r.g[0]==='明天是週年。你準備的東西：'&&r.go[0].length===3&&!r.go[0].some(t=>t.includes('酸辣湯餃'))&&G.flags.K7_GIFT_2==='ticket'&&G.flags.K7_GIFT===undefined,J([r.g,G.flags.K7_GIFT_2]));
     check('Q4 第二年：反應同第一年（票根「（笑了）好。那這張我收。」，AA_306 附）→ 卡片「第二年。」三選一 →「你說的喔。」；沒有第一年那句；KX_ANNIV {2:shop}、暫存旗標清掉',r.L.includes('杜可昕：（笑了）好。那這張我收。')&&r.L.some(t=>t.endsWith('第二年。'))&&J(r.o[0])===J(['「明年也是。」','「時間好快。」','（握住她的手）'])&&r.L.includes('杜可昕：你說的喔。')&&!r.L.some(t=>t.includes('你說在一起吧'))&&G.flags.KX_ANNIV[2]==='shop'&&G.flags.KX_ANNIV[1]==='wheel'&&G.flags._kxAY===undefined&&G.flags._kxAP===undefined,J(r.L));
     const k=r.L.indexOf('杜可昕：你說的喔。'); check('Q4 第二年：卡片之後是「後面幾頁，她說：『回去再看。』」（同第一年）',k>0&&r.L[k+1]==='後面幾頁，她說：『回去再看。』',J(r.L.slice(k,k+2))); }
   { fresh(A(2)-7,20.9,'dorm',{introDone:true,classDone:true,afternoonDone:true,dating_kexin:true}); run(20.9,21.1); G.day=A(2); G.hour=17.5; const q=OUT.get(G,'kx_anniv2'); q.state='planned'; said=[]; picks=['握住']; await OUT.go(GM,q); const L=lines();
     check('Q4 第二年沒選準備的東西＝「你人來了就好。」；握住她的手＝「（她沒有說話。手握緊了一點。）」',L.includes('杜可昕：你人來了就好。')&&L.includes('（她沒有說話。手握緊了一點。）')&&G.flags.K7_GIFT_2==='none',J(L)); }
   { fresh(A(3)-7,20.9,'dorm',{introDone:true,classDone:true,afternoonDone:true,dating_kexin:true}); run(20.9,21.1);
     const P=TH('p:kexin').filter(m=>m.tag==='kx_anniv_ask3');
-    check('Q4 第三年 10/10 21:00：「下禮拜天。第三年。地點你選。」三個地點（同第一年）',P.length===1&&P[0].text==='下禮拜天。第三年。地點你選。'&&J(P[0].ask.opts.map(o=>o.t))===J(['摩天輪。','政大山下，我們的店。','河堤。']),J(P));
+    check('Q4 第三年 10/10 21:00：「下禮拜天。第三年。地點你選。」三個地點（同第一年）',P.length===1&&P[0].text==='下禮拜天。第三年。地點你選。'&&J(P[0].ask.opts.map(o=>o.t))===J(['摩天輪。','木柵大學山下，我們的店。','河堤。']),J(P));
     PHONE.answer(G,P[0].ask.id,2); run(21.1,21.2); const q=OUT.get(G,'kx_anniv3');
     check('Q4 第三年選河堤：回覆同第一年、排 10/17 18:30 河堤',TH('p:kexin').some(m=>m.text==='好。河堤晚上風大，穿外套。')&&G.flags.KX_ANNIV_PLACE_3==='river'&&q&&q.day===A(3)&&q.ap==='river'&&q.place==='河堤',J(q));
     const r=await playYear(3,'行事曆','每年都寫');   /* AA_259 (b) 第 5 點 K13（AA_312 第 3 節 B-7）：第三年的卡片、b0 選項、回覆 */

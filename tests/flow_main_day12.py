@@ -122,17 +122,17 @@ async def main():
         g = await goal(pg); day = await pg.evaluate("GAME.G.day"); h2 = await pg.evaluate("+GAME.G.hour.toFixed(2)")
         run.note(f'第二天開場時間 {h2:.2f}（13:05＝13.08；12:30 以後空下來 1.5 秒劇情就會帶進 201）')
         await run.shot(pg, 'day2_campus')
-        run.check('睡覺後到第二天 13:05 霖澤館前、阿哲對話結束、目標是進霖澤館上課', day == 2 and s['zone'] == 'campus' and '霖澤館' in g and not s['busy'], f'day={day} goal={g} ' + json.dumps(s, ensure_ascii=False))
-        door = await L.find_it(pg, '進入霖澤館')
-        ok = bool(door) and await L.go_to(pg, cdp, run, door['x'], door['z'], door['r'] * 0.8, '霖澤館門口', max_s=S_(420), stop=TAKEN)
-        took = await taken_over(pg, run, '走到霖澤館門口')   # 找門以前就被帶走也算（門不在場景裡、door＝None；BB-B 10-23 v3 負載 25 時就是這樣）
+        run.check('睡覺後到第二天 13:05 霖澤館前、阿哲對話結束、目標是進霖澤館上課', day == 2 and s['zone'] == 'campus' and '法律系館A' in g and not s['busy'], f'day={day} goal={g} ' + json.dumps(s, ensure_ascii=False))
+        door = await L.find_it(pg, '進入法律系館A')
+        ok = bool(door) and await L.go_to(pg, cdp, run, door['x'], door['z'], door['r'] * 0.8, '法律系館A門口', max_s=S_(420), stop=TAKEN)
+        took = await taken_over(pg, run, '走到法律系館A門口')   # 找門以前就被帶走也算（門不在場景裡、door＝None；BB-B 10-23 v3 負載 25 時就是這樣）
         if took:
-            for n in ('走到霖澤館門口（點地面／搖桿）', '門口出現「進入霖澤館」', '進到霖澤館大廳、目標是上二樓到 201 教室', '走樓梯上二樓、走到 201 教室門口（點地面／搖桿）', '門口出現「進入 201 階梯教室」'): unverified(n)
-        else: run.check('走到霖澤館門口（點地面／搖桿）', ok)
+            for n in ('走到法律系館A門口（點地面／搖桿）', '門口出現「進入法律系館A」', '進到霖澤館大廳、目標是上二樓到 201 教室', '走樓梯上二樓、走到 201 教室門口（點地面／搖桿）', '門口出現「進入 201 階梯教室」'): unverified(n)
+        else: run.check('走到法律系館A門口（點地面／搖桿）', ok)
         if ok:
             if not took:   # 劇情在門口就接手了：直接看上課有沒有照常開始
                 await pg.wait_for_timeout(800)
-                run.check('門口出現「進入霖澤館」', await use_interact(pg, cdp, run, '進入霖澤館'))
+                run.check('門口出現「進入法律系館A」', await use_interact(pg, cdp, run, '進入法律系館A'))
                 # v9.4 起霖澤館是真的大樓：201 階梯教室在二樓（劇情：「民法總則在二樓的 201 階梯教室」、目標「上二樓，到 201 教室上課」），
                 # 玩家自己走樓梯上去、按「進入 201 階梯教室」，上課劇情才開始（2026-10-11 修正：這個測試寫於 v9.3，一進霖澤館就直接到教室，v9.4 之後一直在這裡失敗）
                 s = await wait_story(pg, cdp, run, "GAME.G.zone==='linze'||GAME.G.zone==='classroom'")
@@ -164,7 +164,7 @@ async def main():
             run.check('沒有用到「卡住後放到目的地」的保險', s['fallbacks'] == 0, f"fallbacks={s['fallbacks']}")
             s = await wait_control(pg, cdp, run, pick=0, max_steps=200, extra=lambda q: q['hour'] >= 15.0)
             fl = await pg.evaluate("({done:!!GAME.G.flags.classDone, ans:GAME.G.flags.classAnswer||null})"); g = await goal(pg)
-            run.check('上完課（classDone）、恢復控制、目標是走出霖澤館', fl['done'] and not s['busy'] and '走出' in g, f"{fl} goal={g}")
+            run.check('上完課（classDone）、恢復控制、目標是走出法律系館A', fl['done'] and not s['busy'] and '走出' in g, f"{fl} goal={g}")
             ex = await L.find_it(pg, '離開教室')
             ok = bool(ex) and await L.go_to(pg, cdp, run, ex['x'], ex['z'], ex['r'] * 0.7, '教室後門', max_s=S_(420))
             run.check('下課後走到教室後門（點地面／轉鏡頭／搖桿）', ok)
@@ -172,16 +172,16 @@ async def main():
                 await pg.wait_for_timeout(800)
                 run.check('後門出現「離開教室」', await use_interact(pg, cdp, run, '離開教室'))
                 s = await wait_story(pg, cdp, run, "GAME.G.zone==='linze'")   # v9.4：離開教室回到霖澤館二樓的走廊
-                run.check('離開教室 → 霖澤館二樓（第 1 層）', s['zone'] == 'linze' and s.get('lv') == 1, json.dumps(s, ensure_ascii=False))
-                ex2 = await L.find_it(pg, '走出霖澤館')
+                run.check('離開教室 → 法律系館A二樓（第 1 層）', s['zone'] == 'linze' and s.get('lv') == 1, json.dumps(s, ensure_ascii=False))
+                ex2 = await L.find_it(pg, '走出法律系館A')
                 ok = bool(ex2) and await L.go_to(pg, cdp, run, ex2['x'] - 0.3, ex2['z'], 0.9, '霖澤館大廳出口（走樓梯下一樓）', lv=0, max_s=S_(420))
-                run.check('走樓梯下一樓、走到「走出霖澤館」', ok)
+                run.check('走樓梯下一樓、走到「走出法律系館A」', ok)
                 if ok:
                     await pg.wait_for_timeout(800)
-                    run.check('出口出現「走出霖澤館」', await use_interact(pg, cdp, run, '走出霖澤館'))
+                    run.check('出口出現「走出法律系館A」', await use_interact(pg, cdp, run, '走出法律系館A'))
                 s = await wait_story(pg, cdp, run, "GAME.G.zone==='campus'")   # 走出霖澤館、回到校園
                 g = await goal(pg); await run.shot(pg, 'after_class_campus')
-                run.check('走出霖澤館、回到校園、恢復控制', s['zone'] == 'campus' and not s['busy'] and s['stand'], f'goal={g} ' + json.dumps(s, ensure_ascii=False))
+                run.check('走出法律系館A、回到校園、恢復控制', s['zone'] == 'campus' and not s['busy'] and s['stand'], f'goal={g} ' + json.dumps(s, ensure_ascii=False))
         # ---- 存檔 → 重新整理 → 讀檔 ----
         before = await pg.evaluate("(()=>{ const G=GAME.G; return {day:G.day, zone:G.zone, hour:+G.hour.toFixed(2), classDone:!!G.flags.classDone, readCase:G.flags.readCase||null}; })()")
         await L.tap(pg, cdp, '#btnMenu'); await pg.wait_for_timeout(1200)

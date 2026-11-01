@@ -1,6 +1,6 @@
 // AA_437（企劃線 0c97c3c05＝fc6f20bc0＋第 10 節，AA-B 2026-10-24）第 4、5、6、10 節——不需要瀏覽器。台詞逐字從稿讀出來比對（git show fc6f20bc0:…；B／C 的旁白讀同一個 commit 的 AA_315 2-2）。
 //   4 以安新 15 前任版＝麵店長桌（story3d.js S.an15Noodle）：11/16 21:00 麵店團群組兩則（不是私訊）、11/17 18:15～19:30 阿鳳麵店長桌、阿哲／Alison 照 STORY.knows
-//     （兩個都不認識＝從阿哲到「可以。……先等我上。」整段拿掉）、祐廷寫了什麼＝AA_315 2-2 的 B／C 第一句；新 16 送機前任版「……到了我傳給麵店團。」、AN_PAGE_GIVEN 不記。
+//     （兩個都不認識＝從阿哲到「可以。……先等我上。」整段拿掉）、祐廷寫了什麼＝AA_315 2-2 的 B／C 第一句；新 16 送機前任版「……到了我傳到群組。」、AN_PAGE_GIVEN 不記。
 //   5 新 21／事件 17：抓包以後分手、還沒重建（AA_227 的 D）＝以安只有「（她和媽媽站在傅鐘前面。看到你，點了一下頭。）」、語彤不說話；好好分開的照舊（友情版）。
 //   6 主線 10 拆箱：前任的紙箱（CLEANUP_BOX）在第二步之後、第三步之前；打開＝每位一句（照分開的先後、最多最近兩位）＋蓋起來；不打開＝推到床底下、BOX_KEPT_Y4 'exbox'；
 //     重新交往的不算；子晴照 D03 扭蛋；第三步選單不列；美國路線 12/23 一樣；主線 11 收拾遇到 'exbox' 跳過第一件（AA_318 第 4 節沒有那一句）。
@@ -110,7 +110,7 @@ await sec('4e',async()=>{
   /* 新 16 送機前任版 */
   const ev=STORY_EVENTS.find(e=>e.id==='ev_an_sendoff'), so=ev.dialogue, i=so.findIndex(l=>l&&l.text===SENDOFF), j=so.findIndex(l=>l&&Array.isArray(l.choice)&&l.choice[0]&&l.choice[0].text==='「好。」');
   fresh('2028-03-25',10); exAn(); const exOK=i>=0&&EVENTS.cond(so[i].if); fresh('2028-03-25',10); H.FRIEND(AN); const noEx=i>=0&&EVENTS.cond(so[i].if);
-  check('4e. 新 16 送機前任版：「'+SENDOFF+'」（稿逐字）在「好。」／揮手前面、只給前任；沒有「……理由欄，我自己寫。」',SENDOFF==='……到了我傳給麵店團。'&&i>=0&&j===i+1&&so[i].speaker===AN&&exOK&&!noEx&&!so.some(l=>l&&l.text==='……理由欄，我自己寫。'),J([i,j]));
+  check('4e. 新 16 送機前任版：「'+SENDOFF+'」（稿逐字）在「好。」／揮手前面、只給前任；沒有「……理由欄，我自己寫。」',SENDOFF==='……到了我傳到群組。'&&i>=0&&j===i+1&&so[i].speaker===AN&&exOK&&!noEx&&!so.some(l=>l&&l.text==='……理由欄，我自己寫。'),J([i,j]));
   fresh('2028-03-25',10,'dorm'); exAn(); H.FRIEND(AN); clear(['「好。」']); await EVENTS.run(ev);
   check('4e. 前任演一次：說了那一句、AN_PAGE_GIVEN 不記、AN_SENDOFF went',said().includes(SENDOFF)&&!H.G.flags.AN_PAGE_GIVEN&&H.G.flags.AN_SENDOFF==='went',J(said()));
   const nd=(V6EX.NOT_DONE||[]).join('\n'); check('4e. V6EX.NOT_DONE 不再寫「新 15 志願表……問 AA」「S4 紙箱……沒有接」',!/新 15 志願表（story3d\.js 1A-05/.test(nd)&&!/拆箱「會看到」那一段（AA_123 2-3、AA_182 第 2 節）沒有接/.test(nd));
@@ -122,15 +122,15 @@ const endWith=(id,how)=>{ H.FRIEND(id); ROM.start(H.G,id); ROM.end(H.G,id,how); 
 await sec(5,async()=>{
   check('5. PG.exCaught 有（抓包以後分手、還沒重建）',typeof PG.exCaught==='function');
   await grad(()=>{ endWith(AN,'mrel'); });
-  check('5. 以安抓包以後分手（mrel）：只有「'+NOD+'」（稿逐字），沒有媽媽、沒有 CG-9、不記 IMPORTANT_CONVERSATION',H.has(NOD)&&!H.has('（以安的媽媽站在傅鐘旁邊。）')&&!H.has('這是我媽。她是法官。')&&!H.cgs.includes('cg_graduation_mother_heroine01')&&!SOCIAL.has(AN,'IMPORTANT_CONVERSATION'),J(H.lines()));
+  check('5. 以安抓包以後分手（mrel）：只有「'+NOD+'」（稿逐字），沒有媽媽、沒有 CG-9、不記 IMPORTANT_CONVERSATION',H.has(NOD)&&!H.has('（以安的媽媽站在晨思鐘旁邊。）')&&!H.has('這是我媽。她是法官。')&&!H.cgs.includes('cg_graduation_mother_heroine01')&&!SOCIAL.has(AN,'IMPORTANT_CONVERSATION'),J(H.lines()));
   await grad(()=>{ endWith(AN,'two_hearts'); });
-  check('5. 以安 two_hearts（11/11 攤牌）也是抓包',H.has(NOD)&&!H.has('（以安的媽媽站在傅鐘旁邊。）'));
+  check('5. 以安 two_hearts（11/11 攤牌）也是抓包',H.has(NOD)&&!H.has('（以安的媽媽站在晨思鐘旁邊。）'));
   await grad(()=>{ endWith(AN,'apart_talk'); });
-  check('5. 以安好好分開：照舊友情版（介紹媽媽、CG-9，沒有「媽，這是祐廷」），沒有點頭那句',!H.has(NOD)&&H.has('（以安的媽媽站在傅鐘旁邊。）')&&H.cgs.includes('cg_graduation_mother_heroine01')&&!H.has('媽，這是祐廷。'));
+  check('5. 以安好好分開：照舊友情版（介紹媽媽、CG-9，沒有「媽，這是祐廷」），沒有點頭那句',!H.has(NOD)&&H.has('（以安的媽媽站在晨思鐘旁邊。）')&&H.cgs.includes('cg_graduation_mother_heroine01')&&!H.has('媽，這是祐廷。'));
   await grad(()=>{ endWith(AN,'mrel'); H.CLOSE(AN); ROM.start(H.G,AN); });
   check('5. 抓包以後又重新交往（伴侶）：照伴侶那一段（「媽，這是祐廷。」），沒有點頭那句',!H.has(NOD)&&H.said.some(s=>/^媽，這是/.test(s.t)));
   await grad(()=>{ endWith(AN,'mrel'); ROM.start(H.G,AN); ROM.end(H.G,AN,'apart_talk'); H.G.flags.CLEANUP_DONE=true; H.FRIEND(AN); });
-  check('5. 抓包、重新交往、後來好好分開：照最近那一次（友情版）',!H.has(NOD)&&H.has('（以安的媽媽站在傅鐘旁邊。）'));
+  check('5. 抓包、重新交往、後來好好分開：照最近那一次（友情版）',!H.has(NOD)&&H.has('（以安的媽媽站在晨思鐘旁邊。）'));
   await grad(()=>{ endWith(YT,'two_hearts'); });
   check('5. 語彤抓包以後分手：事件 17 不說話（沒有傘那一段、沒有「恭喜」）',!H.has('（語彤穿著學士服，手上拿著一把深藍色的長柄傘。外面在飄雨。）')&&!H.said.some(s=>/^恭喜/.test(s.t)&&s.who===name(YT)),J(H.lines()));
   await grad(()=>{ endWith(YT,'apart_talk'); });

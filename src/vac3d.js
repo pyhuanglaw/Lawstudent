@@ -201,14 +201,14 @@ const VAC=(function(){
       const L=(m.c14&&F.C14_VISITED!=null?m.c14:m.ms), R=C.replies.slice(); if(m.lunch&&!F.VA09_LUNCH_ASK) R.push(Object.assign({set:{VA09_LUNCH_ASK:true}},C.lunchAsk));
       const M=L.map(t=>({th,from:who,text:t})); M[M.length-1].ask={id:m.tag,until:T(d+2,24),opts:R.map(o=>({t:o.t,set:o.set,say:o.r.map(t=>({th,from:who,text:t}))}))};
       PHONE.at(G,d,m.h,M,m.tag); break; } };   /* 一次一則（一週最多一則，照順序）*/
-  /* ---- VA-10 麵店團出國：香港（AA_256 第 2 節）：群組揪 → 我也去／不行／不回（8/1 阿哲私訊，8/3 以後算不去）；去了照 S.va10Trip 演三場 ---- */
+  /* ---- VA-10 和阿哲他們出國：香港（AA_256 第 2 節）：群組揪 → 我也去／不行／不回（8/1 阿哲私訊，8/3 以後算不去）；去了照 S.va10Trip 演三場 ---- */
   S.va10Phone=function(G){ const C=Dt().VA10, F=G.flags, now=T(G.day,G.hour); if(!C||!PHONE.inGroup(G,'noodle_team')) return; const g='g:noodle_team', P=(th,[w,t])=>({th,from:w,text:t});
     const d0=DK(C.from), d1=DK(C.to), dA=DK(C.ask.day), dN=DK(C.nudge.day), dU=DK(C.nudge.until); if(d0==null||dA==null) return;
     const opts=th=>[{t:C.yes,set:{VA10:'yes'},say:[]},{t:C.no.t,set:{VA10:'no'},say:C.no.r.map(x=>P(th,x))}];
     if(!PHONE.sent(G,'va10_ask')&&now>=T(dA,C.ask.h)&&G.day<=dA+2){ const M=C.ask.ms.map(x=>P(g,x)); M[M.length-1].ask={id:'va10_ask',until:T(d0-1,24),opts:opts(g)}; PHONE.at(G,dA,C.ask.h,M,'va10_ask'); }
     if(!F.VA10&&PHONE.sent(G,'va10_ask')&&!PHONE.sent(G,'va10_nudge')&&dN!=null&&now>=T(dN,C.nudge.h)&&G.day<=dN+1){ const M=C.nudge.ms.map(t=>({th:'p:zhe',from:'zhe',text:t})); M[M.length-1].ask={id:'va10_nudge',until:T(dU,24),opts:opts('p:zhe')}; PHONE.at(G,dN,C.nudge.h,M,'va10_nudge'); }
     if(!F.VA10&&dU!=null&&G.day>dU) F.VA10='no';   /* 再不回就算不去 */
-    if(F.VA10==='yes'&&typeof OUT!=='undefined'&&!OUT.get(G,'vac_va10')) OUT.plan(G,{id:'vac_va10',ev:'ev_vac_key',day:d0,h:8,late:0.5,place:'香港',title:'麵店團出國：香港（'+dl(d0)+'～'+dl(d1)+'）',travel:'去機場 約 1 小時',travelH:1,back:'回到臺北。',vac:{key:'VA10',k:'va10'}});
+    if(F.VA10==='yes'&&typeof OUT!=='undefined'&&!OUT.get(G,'vac_va10')) OUT.plan(G,{id:'vac_va10',ev:'ev_vac_key',day:d0,h:8,late:0.5,place:'香港',title:'和阿哲他們出國：香港（'+dl(d0)+'～'+dl(d1)+'）',travel:'去機場 約 1 小時',travelH:1,back:'回到臺北。',vac:{key:'VA10',k:'va10'}});
     const went=F.VA10==='yes'&&(OUT.get(G,'vac_va10')||{}).state==='done';
     if(F.VA10!=='yes'||(OUT.get(G,'vac_va10')||{}).state==='missed'){ const m=C.missPhoto; if(PHONE.sent(G,'va10_ask')&&!PHONE.sent(G,'va10_photo')&&now>=T(d0+m.d,m.h)&&G.day<=d1) PHONE.at(G,d0+m.d,m.h,m.ms.map(x=>P(g,x)),'va10_photo'); }
     if(PHONE.sent(G,'va10_ask')&&!PHONE.sent(G,'va10_back')&&now>=T(d1,C.back.h)&&G.day<=d1+2){ const M=C.back.ms.map(x=>P(g,x)); if(!went) for(const x of C.missTail) M.push(P(g,x)); PHONE.at(G,d1,C.back.h,M,'va10_back'); } };
@@ -234,7 +234,7 @@ const VAC=(function(){
     { const d=S.c01Day('Y2'); if(d!=null&&!PHONE.sent(G,'nye_y2_zhe')&&now>=T(d,21)&&G.day<=d+1) PHONE.at(G,d,21,[{th:'g:noodle_team',from:'zhe',text:'明天回高雄 回來帶烏魚子'}],'nye_y2_zhe'); } };   /* AA_456 1-4：大二換字（接 AA_446 大二 2/20「這次帶了烏魚子 我阿嬤做的」；大三、大四在 holff3d.js）*/
   /* 大二以後才第一次去（AA_264 第 4 節，e01ee2a8；第 5 節 7fa3660d）：揪人那天（S.c01Ask）21:05 麵店團群組照 AA_204 3-1（阿哲那句換「禮拜一去海邊？過幾天我就回高雄了」，大四週二換「禮拜二…」）；
      以安：和她 FAMILIAR 以上、而且那一天她在臺北，才回、才去（VA03_AN）；我去＝那天 08:50 臺北車站（出遊 ev_va03_beach，第一句旁白每年都是「放寒假的第二個禮拜」）；當晚群組照 AA_204 */
-  S.C01_NONE={Y2:['📷（大家站在防波堤上，頭髮都被吹歪）','今年的風比去年大！！','我在家看照片就好。'],Y3:['📷（沙灘上用樹枝寫的「麵店團」）','浪一下就把它沖掉了','……拍到就好。'],Y4:['📷（大家在月台上，手裡拿著熱的飲料）','最後一次寒假的海！！','下次我去。']};   /* AA_446 第 3 節：沒去海邊的那一則照年份換（Alison 兩句、芯慈一句；大一照舊在 story3d.js）*/
+  S.C01_NONE={Y2:['📷（大家站在防波堤上，頭髮都被吹歪）','今年的風比去年大！！','我在家看照片就好。'],Y3:['📷（沙灘上用樹枝寫的每個人的名字）','浪一下就把它沖掉了','……拍到就好。'],Y4:['📷（大家在月台上，手裡拿著熱的飲料）','最後一次寒假的海！！','下次我去。']};   /* AA_446 第 3 節：沒去海邊的那一則照年份換（Alison 兩句、芯慈一句；大一照舊在 story3d.js）*/
   S.C01F_REPLY={Y2:['又是海邊？？','好啊','一樣九點十分那班。','我一樣不去。照片記得傳。','去年那家熱豆漿還在嗎？'],Y3:['這次我要帶暖暖包','好啊','九點十分。這次不要有人遲到。','不去。我負責看照片。','我可以。這次我帶熱水。'],Y4:['大四了還去？？','……去','九點十分。我查過了，還是那班。','我在家等照片。四年都是。','我可以。幾點集合？']};   /* AA_456 1-3（企劃線 71f260ecc）：一直沒去的玩家每年都收到同一串，回覆照年份換——Alison 兩句、柏翰、芯慈、以安（以安照原本的條件才有）；阿哲那句照 C01.first；大一照舊在 story3d.js；tag 不變 */
   S.c01First=function(G,yk,d){ const V=S.rec(G), F=G.flags, now=T(G.day,G.hour), tg='vac_c01first_'+yk, TH='g:noodle_team', C=V.c01||(V.c01={});
     if(!PHONE.sent(G,tg)){ if(now<T(S.c01Ask(d),21+5/60)||G.day>=d||S.c01N(G)>=1) return;
@@ -251,15 +251,18 @@ const VAC=(function(){
       let t=typeof x.text==='function'?x.text(G):x.text; if(typeof x==='string') await GM.say(null,x);
       else if(x.narr) await GM.say(null,x.narr); else if(x.who==='player') await GM.say({name:G.name||'祐廷'},t); else if(x.who) await GM.say({name:x.name||nm(x.who),charId:x.name?null:x.who},t); } };
   S.key=async function(GM,k,I){ const G=GM.G; if(typeof ADV!=='undefined'&&ADV.begin) ADV.begin({background:k.bg==='blur'?'blur':(k.bg&&typeof OUT!=='undefined'&&OUT.bg?OUT.bg(k.bg):'dark')});   /* 'blur'＝疊在模糊的 3D 上（E08 出境大廳裡的「出發」那一幕）*/
-    await run(GM,k.lines); if(k.choice&&k.choice.length&&(!k.choiceIf||k.choiceIf(G))){ const i=await GM.choose(k.choice.map(c=>({t:c.t}))), c=k.choice[i]||k.choice[0]; await run(GM,c.say); if(c.set) Object.assign(G.flags,c.set); if(c.rel&&typeof SOCIAL!=='undefined') for(const id in c.rel) SOCIAL.adjust(id,c.rel[id]); }
-    if(k.after) await run(GM,k.after); if(k.set) Object.assign(G.flags,k.set); };
+    await run(GM,k.lines); const CH=S.choiceOf(G,k); if(CH){ const i=await GM.choose(CH.map(c=>({t:c.t}))), c=CH[i]||CH[0]; await run(GM,c.say); if(c.set) Object.assign(G.flags,c.set); if(c.rel&&typeof SOCIAL!=='undefined') for(const id in c.rel) SOCIAL.adjust(id,c.rel[id]); }
+    if(k.after) await run(GM,k.after); if(k.set) Object.assign(G.flags,k.set);
+    if(k.msg&&typeof PHONE!=='undefined'){ const M=typeof k.msg==='function'?k.msg(G,I):k.msg; if(M) PHONE.at(G,G.day,M.h,M.items,M.tag+(I&&I.key?'_'+I.key:'')); } };   /* msg：演完以後那一天的一則訊息（AA_533 2-2 C04 考完 12:00 Kevin）*/
+  /* 那一場的選項：choiceIf 成立＝choice；不成立＝choiceElse（AA_533 2-1：C03 以安沒去那一版的上班族大姊）；都沒有＝null */
+  S.choiceOf=(G,k)=>{ if(!k) return null; const on=!k.choiceIf||!!k.choiceIf(G), C=on?k.choice:k.choiceElse; return C&&C.length?C:null; };
   /* 跳到 t（出國、營隊、上班的那幾天：中間的日子不演，手機照時間收）。
      X58（使用者 10-18 15:4x「跳過途中收到訊息就跳出來、按了繼續跳；不要跳完才說「收到 N 則」」）：途中收到任何一則別人傳的訊息（不用回的也算）就停在那一刻——
      日期卡（月/日（星期）時:分＋地點；o.quiet 不出、同一天一小時內不再出）→ 打開手機的對話列表（「收起來」寫「跳過」，同 home3d.js 的 ffPhone）→ 關掉以後接著跳到 t；
      跳完不再說「這幾天收到 N 則」。手機開著的時候 2D 先收起來（S.away：home3d.js 的 backdrop 照樣把 3D 藏著，不露出出發前的宿舍、機場）*/
   const dayCard=G=>{ const x=CALENDAR.dateOf(G.day); return x.m+'/'+x.d+'（'+WDN[x.wd%7]+'）'; };   /* WDN：上面 C01 那一段的「日一二三四五六」*/
   const hhmm=h=>{ const m=Math.round((((h%24)+24)%24)*60); return String(Math.floor(m/60)%24).padStart(2,'0')+':'+String(m%60).padStart(2,'0'); };
-  const recvN=out=>(out||[]).filter(m=>m&&m.from!=='player').length;   /* 這一批裡別人傳的（祐廷自己那一句不算「收到」；同 HOME.recvN）*/
+  const recvN=out=>(out||[]).filter(m=>m&&m.from!=='player'&&!m.quiet).length;   /* 這一批裡別人傳的（祐廷自己那一句不算「收到」；同 HOME.recvN）*/
   S.MSG_STOPS=200;   /* 一次跳過最多停幾次（每一次都要玩家按「跳過」；只是防呆：超過就照舊一路跳到 t）*/
   S.away=false;   /* 跳過途中打開手機的那一下（2D 收起來）：home3d.js 的 S.backdrop 照這個把 3D 藏著 */
   (globalThis.LOADLOCKS=globalThis.LOADLOCKS||{})['vac3d:away']=()=>{ S.away=false; };   /* 讀檔時放開（LOADGEN-LOCKS-1028）：讀檔凍住的舊劇情走不到 finally，只把旗標設回初始值 */
@@ -364,10 +367,12 @@ const VAC=(function(){
     if(q) S.flyStart(GM,q,endT,rec.with?[rec.with]:[]);   /* 時鐘換當地時間（TRAVEL.dest 的 tz；AA_478 第 7 節）*/
     const I={key,with:rec.with,A:{id:'T13',place:{kind:'abroad'},season:rec.season,trip:{sd:rec.from,ed:rec.to,start:{h:8},end:{h:18}}},yk:null}; S.tripMsgs(G,I);
     const mid=Math.floor((rec.from+rec.to)/2), last=rec.to-1, k=x=>typeof x==='function'?x(G):x;
-    const comp=rec.with?(rec.gf?(rec.with==='heroine_02'&&rec.dest!=='hk'?D.gf[rec.with].lastNot:D.gf[rec.with].last):D.friend[rec.with]):null;
+    const GF=rec.gf?D.gf[rec.with]:null, gfOnce=!!(GF&&GF.firstOnly&&V.t13.some(r=>r!==rec&&r.done&&r.gf&&r.with===rec.with));   /* firstOnly：沛珊「我第一次出國耶」只給第一次和她出國的（AA_533 第 1 節）*/
+    const comp=rec.with?(rec.gf?(gfOnce?null:(rec.with==='heroine_02'&&rec.dest!=='hk'?GF.lastNot:GF.last)):D.friend[rec.with]):null;
+    const gfL=x=>x?[{narr:x[0]},{who:rec.with,text:x[1]}]:[];   /* AA_533 第 1 節：和女朋友去的「到了」（取代目的地第一句）、「中間」（接在目的地第二句後面）*/
     const nth=1+V.t13.filter(r=>r!==rec&&r.done&&r.dest===rec.dest).length+(rec.dest==='jp'&&V.reg['C05@Y1']==='done'?1:0), AG=nth>=2&&D.again&&D.again[nth>=3?3:2];   /* 同一個目的地第幾次 */
-    const steps=AG?[{d:rec.from,h:8.5,lines:[{narr:AG.dep}]},{d:rec.from,h:15,lines:[{narr:AG.arr}]},{d:mid,h:14,lines:[{narr:AG.mid}]},{d:last,h:20,lines:[{narr:AG.last}].concat(comp?[{who:rec.with,text:comp}]:[])}]
-      :[{d:rec.from,h:15,lines:[{narr:k(De.keys[0])}]},{d:mid,h:14,lines:[{narr:k(De.keys[1])}]},{d:last,h:20,lines:[{narr:k(De.keys[2])}].concat(comp?[{who:rec.with,text:comp}]:[])}];
+    const steps=AG?[{d:rec.from,h:8.5,lines:[{narr:AG.dep}]},{d:rec.from,h:15,lines:GF&&GF.arr?gfL(GF.arr):[{narr:AG.arr}]},{d:mid,h:14,lines:[{narr:AG.mid}].concat(gfL(GF&&GF.mid))},{d:last,h:20,lines:[{narr:AG.last}].concat(comp?[{who:rec.with,text:comp}]:[])}]
+      :[{d:rec.from,h:15,lines:GF&&GF.arr?gfL(GF.arr):[{narr:k(De.keys[0])}]},{d:mid,h:14,lines:[{narr:k(De.keys[1])}].concat(gfL(GF&&GF.mid))},{d:last,h:20,lines:[{narr:k(De.keys[2])}].concat(comp?[{who:rec.with,text:comp}]:[])}];
     if(rec.gf) steps.push({d:last,h:23,bg:'trip_hotel_twin',lines:[{narr:'（燈關了。）'}]});   /* 雙床房（BB_173 VB-12）：對話在睡前結束 */
     for(const st of steps){ await S.jump(GM,T(st.d,st.h),place); await S.key(GM,{bg:st.bg||null,lines:st.lines},I); }
     await S.jump(GM,S.clockEnd(G,endT),place); S.flyEnd(GM,q); rec.done=true; G.flags.BACK_FROM_T13=G.day;
@@ -384,7 +389,7 @@ const VAC=(function(){
        有人說話（C17 最後一天的馮律師）或 again 有東西演（C16 大三認識語彤）＝要停（AA_275 第 1 節）。
      最後一個上班日去了＝參加過（V.reg done）；去了哪幾天記在 V.work（同一天只算一次；C17 的實習津貼照天數算、C16 的午餐 W.lunch 照天數扣）。交往中的可昕（A.kx，C17 大二暑假）：最後一天 22:00 視訊 */
   const yields=(G,L)=>(L||[]).some(x=>{ if(typeof x==='function') x=x(G); if(x==null) return false; return Array.isArray(x)?yields(G,x):true; });   /* 這幾行對這個玩家有沒有東西演（函式回 null＝沒有）*/
-  S.hasLines=(G,k)=>!!k&&(yields(G,k.lines)||(!!k.choice&&k.choice.length>0&&(!k.choiceIf||!!k.choiceIf(G)))||yields(G,k.after));
+  S.hasLines=(G,k)=>!!k&&(yields(G,k.lines)||!!S.choiceOf(G,k)||yields(G,k.after));
   S.workLine=function(G,I,d){ const W=I.A.work||{}, L=W.diary; if(!L||S.nth(G,I)>=2||keysOn(I,d).length) return null; const days=S.workDays(I);
     let lw=null; if(W.diaryLastWeek&&days.length&&typeof CALENDAR!=='undefined'){ const last=days[days.length-1], mon=last-(CALENDAR.dateOf(last).wd-1); lw=days.find(x=>x>=mon); }   /* 最後一週（最後一個上班日那一週）的第一個上班日 */
     if(d===lw) return W.diaryLastWeek;
@@ -418,13 +423,13 @@ const VAC=(function(){
     if(typeof v.k==='number'){ (V.att||(V.att={}))[I.key]=(V.att[I.key]|0)+1; if(v.k===(I.A.keys.length-1)){ V.reg[I.key]='done'; V.seen[id]=true; } }
     if(/^pre\d+$/.test(String(v.k))){ const p=(I.A.pre||[])[+String(v.k).slice(3)]; if(p&&p.set) Object.assign(G.flags,p.set); if(p&&p.setI) S.markI(G,I,p.setI); } };
   S.outing=async function(GM,q){ const G=GM.G, v=q&&q.vac; if(!v) return false; if(/^T13#/.test(v.key)) return S.trip13(GM,v.key,q); if(v.key==='VA10') return S.va10Trip(GM,q);
-    if(/^C01#/.test(v.key)){ const yk=v.key.slice(4), V=S.rec(G), n=S.c01N(G)+1, L=Dt().C01.diary[n>=3?3:2]; const pts=[[8+50/60],[12],[18]]; for(let i=0;i<3;i++){ if(i) await S.jump(GM,T(G.day,pts[i][0]),'海邊'); await S.key(GM,{bg:null,lines:[{narr:L[i]}]},null); } (V.c01||(V.c01={}))[yk]='done'; return true; } const [id,yk]=v.key.split('@'), I=S.inst(id,yk); if(!I) return false; const A=I.A, V=S.rec(G);
+    if(/^C01#/.test(v.key)){ const yk=v.key.slice(4), V=S.rec(G), n=S.c01N(G)+1, L=Dt().C01.diary[n>=3?3:2], SY=(Dt().C01.diarySay||{})[n>=3?3:2]; const pts=[[8+50/60],[12],[18]]; for(let i=0;i<3;i++){ if(i) await S.jump(GM,T(G.day,pts[i][0]),'海邊'); await S.key(GM,{bg:null,lines:[{narr:L[i]}].concat(i===0&&SY?[{who:SY[0],text:SY[1]}]:[])},null); }   /* AA_533 4-5：第一句後面一句人說話 */ (V.c01||(V.c01={}))[yk]='done'; return true; } const [id,yk]=v.key.split('@'), I=S.inst(id,yk); if(!I) return false; const A=I.A, V=S.rec(G);
     if(v.k==='prep'){ const rl=S.repLine(G,I,'prep'); await S.key(GM,rl!==undefined?{bg:A.prep.bg,lines:[{narr:rl}]}:Object.assign({bg:A.prep.bg},A.prep),I); return true; }
     if(/^pre\d+$/.test(String(v.k))){ const pi=+String(v.k).slice(3), p=(A.pre||[])[pi], rl=S.repLine(G,I,'pre',pi); if(p&&typeof rl==='string'){ await S.key(GM,{bg:p.bg,lines:[{narr:rl}]},I); if(p.set) Object.assign(G.flags,p.set); if(p.setI) S.markI(G,I,p.setI); return true; } if(p){ if(p.lines&&p.lines.length) await S.key(GM,p,I); else if(GM.toast) GM.toast(p.title+'（'+(p.advance||1)+' 小時）',2600); if(p.advance&&GM.advance) GM.advance(p.advance); if(p.set) Object.assign(G.flags,p.set); if(p.setI) S.markI(G,I,p.setI); } return true; }
     if(v.k==='w') return S.workDay(GM,I,q);   /* 上班日（C16、C17）*/
     if(v.k==='brief'){ const b=A.select&&A.select.brief; if(b) await S.key(GM,{bg:b.bg,lines:b.lines.concat(S.nth(G,I)===1&&b.first?b.first:[])},I); return true; }   /* C18 行前說明會（AA_242 12-5）：第一次參加的多三行 */
     if(v.k==='kx'){ if(A.kx) await S.key(GM,A.kx,I); return true; }   /* 可昕的視訊（C17 最後一天 22:00，AA_242 10-6）*/
-    if(v.k==='re'){ const R=Dt().TRIP_MSG.reunion[v.who]; if(R){ const ns=S.reNS(R,q.day); await S.key(GM,{bg:R.bg,lines:(ns&&ns.lines)||R.lines},I); G.flags['REUNION_'+id]=true; } return true; }   /* 她不上班的那段（芷若 2027-06-04～09-02）：noShift 的台詞（AA_369 第 9 節第 2 題）*/
+    if(v.k==='re'){ const R=Dt().TRIP_MSG.reunion[v.who]; if(R){ const ns=S.reNS(R,q.day), mo=R.more&&typeof R.more.if==='function'&&R.more.if(G,I)?R.more.lines:[]; await S.key(GM,{bg:R.bg,lines:((ns&&ns.lines)||R.lines).concat(mo)},I);   /* more：AA_525 1-4 子晴「說好的。玩。」*/ G.flags['REUNION_'+id]=true; } return true; }   /* 她不上班的那段（芷若 2027-06-04～09-02）：noShift 的台詞（AA_369 第 9 節第 2 題）*/
     if(v.k==='trip'){ const abroad=A.place.kind==='abroad', ed=S.dayOf(I.yk,A.season,A.trip.end.day), endT=T(ed,A.trip.end.h);   /* endT：回到臺灣的那一刻（臺灣時間）*/
       if(abroad){ S.flyStart(GM,q,endT,[...S.mates(I)]); S.tripMsgs(G,I); }   /* 出國：時鐘換當地時間（AA_478 第 7 節），之後才排訊息（照臺灣時間排的換算成當地）*/
       const at=k=>k.at!=null?k.at:T(S.dayOf(I.yk,A.season,k.day),k.h);   /* 關鍵事件的 day／h 是當地時間（遊戲時鐘）；可昕的視訊 at＝換算過的 */

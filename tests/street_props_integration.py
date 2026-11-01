@@ -123,7 +123,7 @@ async def main():
         run.check(f'{zid}：下載失敗、網路恢復後＝正式模型（導航格、互動點、座位都一樣：玩家拿到的永遠是正式版）', f['nav'] == k['nav'] and f['it'] == k['it'] and f['seats'] == k['seats'], json.dumps([f['nav'], k['nav']]))
         run.check(f'{zid}：正式模型的材質出現在畫面上（下載失敗、網路恢復後也是）；?nobldg 沒有（照舊程序化）', f['formalMats'] > 0 and n['formalMats'] == 0 and k['formalMats'] > 0, json.dumps([f['formalMats'], n['formalMats'], k['formalMats']]))
         if zid == 'campus':
-            run.check('campus：⑥花台、公告欄、販賣機的正式模型在畫面上（法學院廣場、椰林大道的花台；下載失敗後恢復也是）；?nobldg 沒有', sorted(f['props6']) == ['board_cork', 'planter_conc', 'vend_body'] and not n['props6'] and sorted(k['props6']) == sorted(f['props6']), json.dumps([f['props6'], n['props6'], k['props6']]))
+            run.check('campus：⑥花台、公告欄、販賣機的正式模型在畫面上（法學院廣場、椰影大道的花台；下載失敗後恢復也是）；?nobldg 沒有', sorted(f['props6']) == ['board_cork', 'planter_conc', 'vend_body'] and not n['props6'] and sorted(k['props6']) == sorted(f['props6']), json.dumps([f['props6'], n['props6'], k['props6']]))
         run.note(f'{zid}：同一個鏡頭（藏起路人）的 draw call／三角形，正式 {json.dumps(f["draw"])}｜?nobldg {json.dumps(n["draw"])}')
     sys.exit(run.finish())
 

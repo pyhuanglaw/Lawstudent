@@ -28,12 +28,12 @@ const GUIDE=(function(){
     [/，或|或回|或找|（或/, null],
     [/閉館/, {zone:'campus',name:'離開總圖'}],
     [/睡覺|回宿舍/, {zone:'dorm',label:'睡覺',name:'床（睡覺）'}],
-    [/201|民法總則|上課/, {zone:'classroom',name:'霖澤館 201 教室'}],
-    [/走出霖澤館/, {zone:'campus',name:'霖澤館外面'}],
-    [/霖澤館/, {zone:'linze',name:'霖澤館'}],
+    [/201|民法總則|上課/, {zone:'classroom',name:'法律系館A 201 教室'}],
+    [/走出(?:霖澤館|法律系館A)/, {zone:'campus',name:'法律系館A外面'}],
+    [/霖澤館|法律系館A/, {zone:'linze',name:'法律系館A'}],
     [/法律學院圖書館|法圖/, {zone:'lawlib',name:'法律學院圖書館'}],
     [/社科院圖書館|辜先生/, {zone:'soclib',name:'社科院圖書館'}],
-    [/萬才館/, {zone:'wancai',name:'萬才館'}],
+    [/萬才館|法律系館B/, {zone:'wancai',name:'法律系館B'}],
     [/共同教學館/, {zone:'campus',label:'共同教學館',name:'共同教學館'}],
     [/大一女舍|女舍/, {zone:'campus',label:'大一女舍 A 棟（傳達室）',name:'大一女舍'}],
     [/溫州街|兩點半|Café|咖啡廳/, {zone:'cafe',name:'兩點半 Café'}],
@@ -100,7 +100,7 @@ const GUIDE=(function(){
     else x.arc(u,v,4.5,0,7); x.fill(); x.stroke(); }
 
   /* ---------- 入口標記 ---------- */
-  function exitName(it){ const L=it.label||''; if(it.elevator) return '電梯'; if(/^進入/.test(L)) return L.replace(/^進入\s*/,''); if(/^往/.test(L)) return L; const M={'走出校門':'校門・往公館','回到校園':'台大校門','回公館':'往公館','回宿舍':'男生宿舍'}; if(M[L]) return M[L]; if(/^(離開|走出)/.test(L)) return '出口'; return L; }
+  function exitName(it){ const L=it.label||''; if(it.elevator) return '電梯'; if(/^進入/.test(L)) return L.replace(/^進入\s*/,''); if(/^往/.test(L)) return L; const M={'走出校門':'校門・往公館','回到校園':'首都帝大校門','回公館':'往公館','回宿舍':'男生宿舍'}; if(M[L]) return M[L]; if(/^(離開|走出)/.test(L)) return '出口'; return L; }
   function hoursLine(zone){ const o=PLACES.hours[zone]; if(!o) return ''; const h=GM.G.hour%24; if(o.rules) return (PLACES.isOpen(zone,h,GM.G.day)?'開放・':'已閉館・')+PLACES.todayText(zone,GM.G.day); if(o.open==null) return o.text; return PLACES.isOpen(zone,h)?'開放 '+o.text:'已閉館・開放 '+o.text; }
   function label(text,sub,gold){ const c=document.createElement('canvas'); const x=c.getContext('2d'); const F1='600 40px "Noto Sans TC","PingFang TC","Microsoft JhengHei",sans-serif', F2='28px "Noto Sans TC","PingFang TC","Microsoft JhengHei",sans-serif';
     x.font=F1; const w1=x.measureText(text).width; x.font=F2; const w2=sub?x.measureText(sub).width:0; const W=Math.ceil(Math.max(w1,w2)+48), H=sub?104:68; c.width=W; c.height=H+16;
@@ -149,7 +149,10 @@ const GUIDE=(function(){
     const fit=Math.min(W/ex,H/ez)*0.94; const p=P(); st.view={cx:nav.ox+wW/2,cz:nav.oz+wH/2,k:fit,fit,th,lv,perLv,img:bmImage(nav),nav};
     if(!E.indoor&&fit<2.2){ st.view.k=Math.min(3.2,fit*2.2); st.view.cx=p.x; st.view.cz=p.z; }   // 校園很大：先放大到玩家附近，用「－」看全圖
     const zn=PLACES.names[GM.G.zone]||(E.zone.def&&E.zone.def.name)||''; $('bmTitle').textContent=zn+(perLv?'　'+(lv+1)+'F':''); if($('bmNorth')) $('bmNorth').classList.toggle('hide',!!E.indoor); const d=GM.G.goalDest; $('bmSub').textContent=GM.G.goal?('目標：'+GM.G.goal):'';
-    if($('bmPeople')){ renderPeoplePanel(); $('bmPeople').classList.toggle('hide',!(/自由/.test(GM.G.goal||'')||!GM.G.goalDest)); } drawMap(); }
+    if($('bmPeople')){ renderPeoplePanel(); const w=whoShow(st.who,GM.G.goal,GM.G.goalDest); $('bmPeople').classList.toggle('hide',!w.show); if($('bmWho')) $('bmWho').classList.toggle('hot',w.hot); } drawMap(); }
+  /* 大地圖的「認識的人現在大概在」（BB-B 10-30：一打開地圖清單就蓋住大半張地圖——直向蓋住大半、共同教學館蓋住「★ 102」、寬螢幕蓋住農業陳列館）：
+     預設收起；自由的日子（原本自動打開的時候，使用者 10-11「自由那天根本不知道其他 NPC 在哪」）👥 亮一個點提示；玩家自己按 👥 打開過＝之後打開地圖照樣展開、收起來就照樣收起（st.who）。測試：node tests/bigmap_people_unit.js */
+  function whoShow(who,goal,goalDest){ const free=/自由/.test(goal||'')||!goalDest; return {show:who===true,hot:free&&who!==true}; }
   function renderPeoplePanel(){ const el=$('bmPeople'); if(!el) return; const ppl=people(); el.innerHTML='<b>認識的人現在大概在</b>'+(ppl.length?ppl.map(q=>'<div class="row2" style="justify-content:space-between;gap:6px"><span>'+q.name+'：'+q.text+'</span><button class="btn" data-find="'+q.id+'">帶我去</button></div>').join(''):'<div class="muted">'+((typeof STORY!=='undefined'&&STORY.opening?STORY.opening(GM.G):GM.G.day<=2)&&!GM.G.flags.afternoonDone?'第一、二天的劇情還在進行，大家的行程還沒開始':'現在沒有人有固定的行程。去總圖、公館、溫州街走走，說不定會遇到')+'</div>'); el.querySelectorAll('[data-find]').forEach(b=>b.onclick=()=>{ if(GM.findPerson&&GM.findPerson(b.dataset.find)){ st.routeKey='~'; drawMap(); } }); }
   function closeMap(){ $('bigmap').classList.add('hide'); st.open=false; E.paused=!!st.wasPaused; freeCanvas($('bmCanvas')); }   /* 關掉就釋放大地圖畫布（手機 2 倍解析度約 5 MB；下次打開 drawMap 重設大小）*/
   function toScreen(v,W,H,wx,wz){ const dx=wx-v.cx, dz=wz-v.cz, c=Math.cos(v.th), s=Math.sin(v.th); return [W/2+(dx*c-dz*s)*v.k, H/2+(dx*s+dz*c)*v.k]; }
@@ -159,6 +162,8 @@ const GUIDE=(function(){
     const S=(wx,wz)=>toScreen(v,W,H,wx,wz); const R=st.route; const ppl=people();
     if(R&&R.length>1&&on()){ x.strokeStyle='rgba(255,190,70,0.95)'; x.lineWidth=4; x.lineJoin='round'; x.lineCap='round'; x.beginPath(); R.forEach((q,i)=>{ if(v.perLv&&(q[2]|0)!==v.lv) return; const [u,w]=S(q[0],q[1]); if(i) x.lineTo(u,w); else x.moveTo(u,w); }); x.stroke(); }
     x.textAlign='center'; x.textBaseline='middle'; const boxes=[]; const free=(u,w,tw,th)=>{ const b=[u-tw/2-2,w-th/2-1,u+tw/2+2,w+th/2+1]; for(const q of boxes){ if(b[0]<q[2]&&b[2]>q[0]&&b[1]<q[3]&&b[3]>q[1]) return false; } boxes.push(b); return true; };
+    // 教學館室內的教室（門號、名字；今天的教室金色星號＋幾點哪一門課）：入口以前畫，入口的字和它重疊就不畫（霖澤館「201 階梯教室」的門本來就是入口，不寫兩次）——src/roommap3d.js，ROOM-MAP-LABELS-1030
+    if(typeof ROOMMAP!=='undefined') ROOMMAP.drawBig(x,S,GM.G,GM.G.zone,v.perLv?v.lv:null,free);
     // 入口（青色門牌；目的地的入口金色）
     x.font='12px "Noto Sans TC","PingFang TC",sans-serif'; for(const it of E.interactables){ if(!it.exit&&!it.elevator&&!it.mark) continue;   /* mark：沒有室內、但要讓玩家認得的入口（共同教學館，2026-10-13）*/ if(v.perLv&&(it.lv|0)!==v.lv) continue; const [u,w]=S(it.x,it.z); const gold=st.tgt&&st.tgt.it===it&&on(); x.fillStyle=gold?'#ffc85a':'#7fd0d6'; x.strokeStyle='rgba(20,22,26,0.9)'; x.lineWidth=1.5; x.beginPath(); x.rect(u-5,w-5,10,10); x.fill(); x.stroke();
       const nm=exitName(it), hl=(it.exit&&!E.indoor)?hoursLine(it.exit.to):''; const who=it.exit?(ppl.filter(q=>q.w.zone!==GM.G.zone&&(q.w.zone===it.exit.to||nextZone(GM.G.zone,q.w.zone)===it.exit.to)).map(q=>q.name)):[]; if(!free(u,w-14,x.measureText(nm).width,15)&&!gold&&!who.length) continue;
@@ -169,7 +174,7 @@ const GUIDE=(function(){
     // 目的地（同一區域、有位置）
     if(st.tgt&&!st.tgt.it&&on()){ const [u,w]=S(st.tgt.x,st.tgt.z); x.fillStyle='#ffc85a'; x.beginPath(); x.arc(u,w,7,0,7); x.fill(); x.lineWidth=2; x.strokeStyle='#1d2127'; x.stroke(); }
     // 認識的人（黃點）
-    for(const n of E.npcs){ if(n.isExtra||!n.obj) continue; if(v.perLv&&(n.lv|0)!==v.lv) continue; const [u,w]=S(n.obj.position.x,n.obj.position.z); x.fillStyle='#e9b96a'; x.beginPath(); x.arc(u,w,4.5,0,7); x.fill(); if(n.name){ x.font='600 12px "Noto Sans TC","PingFang TC",sans-serif'; x.textAlign='left'; x.lineWidth=3; x.strokeStyle='rgba(20,22,26,0.9)'; x.strokeText(n.name,u+7,w); x.fillStyle='#ffe2a8'; x.fillText(n.name,u+7,w); x.textAlign='center'; } }
+    for(const n of E.npcs){ if(n.isExtra||!n.obj) continue; if(v.perLv&&(n.lv|0)!==v.lv) continue; const [u,w]=S(n.obj.position.x,n.obj.position.z); x.fillStyle='#e9b96a'; x.beginPath(); x.arc(u,w,4.5,0,7); x.fill(); if(n.name){ x.font='600 12px "Noto Sans TC","PingFang TC",sans-serif'; const tw=x.measureText(n.name).width; if(free(u+7+tw/2,w,tw,14)){ x.textAlign='left'; x.lineWidth=3; x.strokeStyle='rgba(20,22,26,0.9)'; x.strokeText(n.name,u+7,w); x.fillStyle='#ffe2a8'; x.fillText(n.name,u+7,w); x.textAlign='center'; } } }   /* 人名標籤也排隊（free）：會蓋住已經畫的地名、門口、別人的名字就只留點（BB-B 10-30：寬螢幕「總圖書館」被「洪珮瑜」「不認識的女生」蓋住）；測試：node tests/bigmap_people_unit.js */
     // 自己的腳踏車（停在這一區時；src/bike3d.js）：下車走開以後找得到車
     { const bk=typeof BIKE!=='undefined'&&BIKE.parkedAt(GM.G); if(bk&&bk.zone===GM.G.zone&&(!v.perLv||v.lv===0)){ const [u,w]=S(bk.x,bk.z); x.fillStyle='#8fd18a'; x.strokeStyle='rgba(20,22,26,0.9)'; x.lineWidth=1.5; x.beginPath(); x.arc(u,w,6,0,7); x.fill(); x.stroke();
       x.font='600 12px "Noto Sans TC","PingFang TC",sans-serif'; x.lineWidth=3; x.strokeText('🚲 你的腳踏車',u,w-14); x.fillStyle='#d6f5d2'; x.fillText('🚲 你的腳踏車',u,w-14); } }
@@ -190,7 +195,7 @@ const GUIDE=(function(){
     const up=e=>{ pts.delete(e.pointerId); if(pts.size<2) pinch=null; }; cv.addEventListener('pointerup',up); cv.addEventListener('pointercancel',up);
     const zoom=f=>{ const v=st.view; if(!v) return; v.k=Math.max(v.fit*0.9,Math.min(12,v.k*f)); drawMap(); };
     $('bmIn').onclick=()=>zoom(1.6); $('bmOut').onclick=()=>zoom(1/1.6); $('bmMe').onclick=()=>{ const v=st.view; if(!v) return; const p=P(); v.cx=p.x; v.cz=p.z; if(v.k<2.2) v.k=Math.min(3.2,Math.max(v.k,2.2)); drawMap(); };
-    $('bmClose').onclick=closeMap; if($('bmWho')) $('bmWho').onclick=()=>{ const el=$('bmPeople'); renderPeoplePanel(); el.classList.toggle('hide'); }; if($('bmTravel')) $('bmTravel').onclick=()=>{ closeMap(); if(GM.openMenu) GM.openMenu('map'); }; $('minimap').addEventListener('click',()=>openMap()); window.addEventListener('resize',()=>{ if(st.open) drawMap(); }); }
+    $('bmClose').onclick=closeMap; if($('bmWho')) $('bmWho').onclick=()=>{ const el=$('bmPeople'); renderPeoplePanel(); el.classList.toggle('hide'); st.who=!el.classList.contains('hide'); $('bmWho').classList.remove('hot'); }; if($('bmTravel')) $('bmTravel').onclick=()=>{ closeMap(); if(GM.openMenu) GM.openMenu('map'); }; $('minimap').addEventListener('click',()=>openMap()); window.addEventListener('resize',()=>{ if(st.open) drawMap(); }); }
 
   function init(gm){ GM=gm; E=gm.E; bindMap(); }
   function zoneChanged(){ st.routeKey='~'; st.route=null; clearMarkers(); st.markerZone=null; for(const c of st.bmImgs.splice(0)) if(c.nav!==E.nav&&!(E.levels&&E.levels.includes(c.nav))){ freeCanvas(c.img); c.nav._bmImg=null; } else st.bmImgs.push(c); }

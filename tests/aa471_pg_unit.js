@@ -77,6 +77,13 @@ await tsec(4,async()=>{ const S4=sec(4), want={2029:cellMsgs(row(S4,'2029')[2]),
     check('4. 爸爸的照片和住家裡那一版同一張（同一個晚上）',tw[2029].dad[0][1]===want[2029][0][1]&&tw[2030].dad[0][1]===want[2030][0][1]); }
   { const {G,out}=famAt('2029-09-22',{},[20.05]); H.at('2029-09-24',1); STORY.phoneRules(GM); PHONE.tick(G);
     check('4. 第二天以後不再補發、不重複',grpMsgs(G,'g:home').filter(x=>x[0]==='dad'||x[0]==='mom').length===want[2029].length); }
+  /* BUG-PG-MOON-STOP（BB-B 10-30 R43 r43_moon 瀏覽器 FAIL：只停 13:25、23:00）：中秋那幾則要當 PG 的停點（HOME.moonPgStop 登記在 PG.stops）。修改前 FAIL */
+  { const d=D('2029-09-22'), G=grad('2029-09-22',13.4,{}); PHONE.join(G,'home','家人'); STORY.phoneRules(GM); const reg=(PG.stops||[]).some(f=>f&&f._moonPg), t1=HOME.moonPgStop&&HOME.moonPgStop(G), ns=PG.nextStop(G);
+    H.at('2029-09-22',20.05); STORY.phoneRules(GM); PHONE.tick(G); const t2=HOME.moonPgStop(G);
+    check('4. 停點（住家裡）：13:24 的下一個停點不晚於 20:00、中秋那一格＝20:00；發了以後下一格是隔年',reg&&t1===d*24+20&&ns!=null&&ns<=d*24+20&&t2!=null&&t2>d*24+48,J({reg,t1,ns,t2,want:d*24+20})); }
+  { const d=D('2029-09-22'), G=grad('2029-09-22',13.4,{HOME_AFTER:'gongguan',Y4_PATH:'bar'}); PHONE.join(G,'home','家人'); STORY.phoneRules(GM); const t1=HOME.moonPgStop(G);
+    H.at('2029-09-22',18.05); STORY.phoneRules(GM); PHONE.tick(G); const t2=HOME.moonPgStop(G); H.at('2029-09-22',21.05); STORY.phoneRules(GM); PHONE.tick(G); const t3=HOME.moonPgStop(G);
+    check('4. 停點（住公館套房）：18:00 媽媽、21:00 爸爸各停一次；發完下一格是隔年',t1===d*24+18&&t2===d*24+21&&t3!=null&&t3>d*24+48,J({t1,t2,t3,want:[d*24+18,d*24+21]})); }
   { const G=grad('2029-09-23',10,{}); PHONE.join(G,'home','家人'); STORY.phoneRules(GM); PHONE.tick(G);
     check('4. 睡過頭、隔天早上才讀檔：照 20:00 補（同學期裡的做法，兩天內）',J(grpMsgs(G,'g:home').filter(x=>x[0]==='dad'||x[0]==='mom'))===J(want[2029]),J(grpMsgs(G,'g:home'))); }
   { const G=H.fresh('2027-09-15',20.05,'dorm',{}); PHONE.join(G,'home','家人'); const d=D('2027-09-15'), fest=CALENDAR.fest(d); STORY.phoneRules(GM); H.at('2027-09-15',21.05); STORY.phoneRules(GM); PHONE.tick(G);

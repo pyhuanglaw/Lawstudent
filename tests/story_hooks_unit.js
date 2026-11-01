@@ -22,7 +22,7 @@ check('0. 有 STORY.TICKS、PHONE_RULES、WAKE_AT、ALARMS', Array.isArray(STORY
 if(fails){ console.log('FAILED '+fails); process.exit(1); }
 const d=D('2027-11-03');
 // 1
-fresh(d,21,'dorm',{ROOM_Y3:null}); let n3=0; const o3=STORY.roomY3InDorm; STORY.roomY3InDorm=async()=>{ n3++; return true; };
+fresh(d,21,'dorm',{ROOM_Y3:null,ROOM_Y3_MOVING:true});   /* BUG-ROOMY3-LATE-1031 起 11 月沒搬的舊存檔直接記、不演：用「已經開始搬」讓拆箱照舊到期 */ let n3=0; const o3=STORY.roomY3InDorm; STORY.roomY3InDorm=async()=>{ n3++; return true; };
 const seen=[]; const bad=()=>{ seen.push('bad'); throw new Error('boom'); }, mine=(gm,dt)=>{ seen.push('mine'); return true; };
 STORY.TICKS.push(bad,mine); STORY.tick(GM,0.6);
 check('1. TICKS：每一輪都問、丟例外的不影響後面的；回傳 true＝這一輪不再往下（拆箱到期也沒開）', seen.join()==='bad,mine'&&n3===0, seen.join()+' n3='+n3);

@@ -29,7 +29,7 @@ const TH=th=>PHONE.thread(G,th).map(m=>m.text);
   check('1. 值班的週六：第 3、5 週（單週、第 3 週起）；第 1、4 週不是；經濟系那一年不是',STORY.fafuDuty(mk(s3,10))&&STORY.fafuDuty(mk(s5,10))&&!STORY.fafuDuty(mk(s1,10))&&!STORY.fafuDuty(mk(s4,10))&&!STORY.fafuDuty(mk(STORY.dayOfKey('2024-09-21'),10,'econ')));
   check('1. 大一可以旁觀；大二上：沒加入法服的照樣可以旁觀（AA_184：四年都可以），加入法服的社員改做紀錄、不旁觀',STORY.fafuWatchable(mk(s3,10))&&STORY.fafuWatchable(mk(y2,10))&&(()=>{ const g=mk(y2,10); g.flags.lawclub=true; return !STORY.fafuWatchable(g); })());
   const d5=CALENDAR.dateOf(s5);
-  check('2. 告示：值班的上午只寫「法律服務　隔週週六 9:00～12:00　萬才館一樓」；第 4 週寫下一次（第 5 週週六）',STORY.fafuNotice(mk(s3,10))==='法律服務　隔週週六 9:00～12:00　萬才館一樓'&&STORY.fafuNotice(mk(s4,10))==='法律服務　隔週週六 9:00～12:00　萬才館一樓　下一次：'+d5.m+'/'+d5.d+'（六）',STORY.fafuNotice(mk(s4,10)));
+  check('2. 告示：值班的上午只寫「法律服務　隔週週六 9:00～12:00　法律系館B一樓」；第 4 週寫下一次（第 5 週週六）',STORY.fafuNotice(mk(s3,10))==='法律服務　隔週週六 9:00～12:00　法律系館B一樓'&&STORY.fafuNotice(mk(s4,10))==='法律服務　隔週週六 9:00～12:00　法律系館B一樓　下一次：'+d5.m+'/'+d5.d+'（六）',STORY.fafuNotice(mk(s4,10)));
   mk(s3,9.5); said=[]; await STORY.fafuWatch(GM); let L=said.map(x=>x.t);
   check('3. 第一次（AA_238 2-1：學姊換社長）：阿伯押金、社長先問三件事、阿伯「我是不是很麻煩？」、研究所學長、社長「第一次來？站這邊聽就好。」「不要插話，也先不要給意見。……」；沒有學姊',L[0]==='圓桌旁坐著一位阿伯，手上一疊影印的紙。他說房東不還押金。'&&L.includes('社長沒有馬上回答。他先問：「租約還在嗎？什麼時候搬走的？當初押金付了多少？」研究所的學長在旁邊一項一項寫下來。')&&L.includes('不會。您慢慢說，我們先把事情弄清楚。')&&L.includes('第一次來？站這邊聽就好。')&&L[L.length-1]==='不要插話，也先不要給意見。看我們怎麼問。……問題問對了，事情就清楚一半。'&&!said.some(x=>x.who==='溫學姊'||/學姊/.test(x.t)),JSON.stringify(L.slice(-3)));
   check('3. 記 LAWCLUB_SAT_FIRST、LAWCLUB_SAT_VISITS＝1；時間 +30 分鐘',G.flags.LAWCLUB_SAT_FIRST===true&&G.flags.LAWCLUB_SAT_VISITS===1&&Math.abs(G.hour-10)<0.01);

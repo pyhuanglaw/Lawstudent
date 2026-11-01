@@ -60,7 +60,7 @@ const msgOf=tag=>(G.msgs||[]).find(m=>m.tag===tag)||null;
   // ======================= H1 可昕 K23（美國路線＋交往中）：視訊、改天那一場在當地早上 =======================
   fresh('2028-10-18',8.5,'us_apartment',US({Y4_PATH:'grad'})); date('kexin'); runRules('2028-10-18',8.5,9.25);
   { const k=(G.msgs||[]).filter(x=>x.tag==='y4_kx23_ask').map(x=>x.text), m=PHONE.byAsk(G,'y4_kx23');
-    check('H1. 美國路線 10/18 當地 09:00（臺灣 21:00）：第三則「週五晚上七點，你那邊是早上。我們視訊，各自說。」（不約政大）', JSON.stringify(k)===JSON.stringify(['你的那條路，現在走到哪了？不用現在說。','我的也想跟你說。','週五晚上七點，你那邊是早上。我們視訊，各自說。'])&&!!m&&Math.abs(m.h-9)<0.1, JSON.stringify(k)); }
+    check('H1. 美國路線 10/18 當地 09:00（臺灣 21:00）：第三則「週五晚上七點，你那邊是早上。我們視訊，各自說。」（不約木柵大學）', JSON.stringify(k)===JSON.stringify(['你的那條路，現在走到哪了？不用現在說。','我的也想跟你說。','週五晚上七點，你那邊是早上。我們視訊，各自說。'])&&!!m&&Math.abs(m.h-9)<0.1, JSON.stringify(k)); }
   PHONE.answer(G,'y4_kx23',1); rules();
   { const q=OUT.get(G,'y4_kx23b');
     check('H1. 「改天。」→「好。那週六晚上九點，你那邊早上九點。」', txt('p:kexin').slice(-1)[0]==='kexin:好。那週六晚上九點，你那邊早上九點。', JSON.stringify(txt('p:kexin').slice(-2)));
@@ -71,7 +71,7 @@ const msgOf=tag=>(G.msgs||[]).find(m=>m.tag===tag)||null;
   fresh('2028-10-18',8.5,'us_apartment',US({Y4_PATH:'grad',KX23_GO:'later'})); date('kexin'); G.outings.push({id:'y4_kx23b',ev:'ev_kexin_own_paths',day:D('2028-10-21'),h:3,late:0.5,place:'視訊',title:'和可昕視訊',verb:'接起來',travelH:0,hours:1,state:'planned',ask:null});
   at('2028-10-19',12); rules(); check('H1. 舊存檔：已經排在當地 03:00 的改天那一場，改到當地 09:00', Math.abs(OUT.get(G,'y4_kx23b').h-9)<1e-6, String(OUT.get(G,'y4_kx23b').h));
   fresh('2028-10-18',20.5,'dorm',TWF()); date('kexin'); runRules('2028-10-18',20.5,21.25); PHONE.answer(G,'y4_kx23',1); rules();
-  { const q=OUT.get(G,'y4_kx23b'); check('H1. 臺灣路線照舊：「週五晚上七點，政大。……」「好。那週六下午三點，同一個地方。」→ 10/21 15:00 政大', txt('p:kexin').includes('kexin:週五晚上七點，政大。我們走一段路，各自說。')&&txt('p:kexin').slice(-1)[0]==='kexin:好。那週六下午三點，同一個地方。'&&!!q&&q.h===15&&q.place==='政大'); }
+  { const q=OUT.get(G,'y4_kx23b'); check('H1. 臺灣路線照舊：「週五晚上七點，木柵大學。……」「好。那週六下午三點，同一個地方。」→ 10/21 15:00 木柵大學', txt('p:kexin').includes('kexin:週五晚上七點，木柵大學。我們走一段路，各自說。')&&txt('p:kexin').slice(-1)[0]==='kexin:好。那週六下午三點，同一個地方。'&&!!q&&q.h===15&&q.place==='木柵大學'); }
 
   // ======================= H3 8/5 18:30 湖邊（交往中）=======================
   fresh('2028-08-05',18.5,'us_outside',US()); date('heroine_05'); picks=[1]; await run('ev_usl_lake1',{noTitle:true});

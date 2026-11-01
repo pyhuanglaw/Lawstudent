@@ -1,0 +1,44 @@
+diff --git a/src/engine3d.js b/src/engine3d.js
+index 964ef9f15..5b65c07ba 100644
+--- a/src/engine3d.js
++++ b/src/engine3d.js
+@@ -393,19 +393,24 @@ const E3 = (function(){
+   // ---------- 樹幹透視 ----------
+   // 跟隨鏡頭時，擋在鏡頭和玩家之間的樹幹、電線桿，在玩家周圍（直立的橢圓，高約玩家身高的 1.2 倍）變成網點透空（鏡頭本身不動、碰撞不變）；離鏡頭 1.7 m 內的部分也透空。
+   // 只作用在 userData.seeThrough 的材質（大王椰子、行道樹樹幹、電線桿）。用 shader 判斷，所以區域合併過的靜態網格也適用。
+-  const ST={uSeeP:{value:new THREE.Vector3(-1e4,-1e4,0)},uSeeR:{value:0}}; const _stA=new THREE.Vector3(), _stB=new THREE.Vector3(), _stS=new THREE.Vector2();
+-  const ST_GLSL='uniform vec3 uSeeP; uniform float uSeeR;\nconst float ST_B[16]=float[16](0.,8.,2.,10.,12.,4.,14.,6.,3.,11.,1.,9.,15.,7.,13.,5.);\nvoid main() {\n'+
+-    '\tif(uSeeR>0.0){ float stF=0.0; if(gl_FragCoord.z<uSeeP.z){ vec2 stV=gl_FragCoord.xy-uSeeP.xy; float stD=length(vec2(stV.x*2.0,stV.y))/uSeeR; stF=0.85*smoothstep(1.0,0.75,stD); }\n'+
++  const ST={uSeeP:{value:new THREE.Vector3(-1e4,-1e4,0)},uSeeR:{value:0},uSeeA:{value:2}}; const _stA=new THREE.Vector3(), _stB=new THREE.Vector3(), _stS=new THREE.Vector2();
++  const ST_GLSL='uniform vec3 uSeeP; uniform float uSeeR; uniform float uSeeA;\nconst float ST_B[16]=float[16](0.,8.,2.,10.,12.,4.,14.,6.,3.,11.,1.,9.,15.,7.,13.,5.);\nvoid main() {\n'+
++    '\tif(uSeeR>0.0){ float stF=0.0; if(gl_FragCoord.z<uSeeP.z){ vec2 stV=gl_FragCoord.xy-uSeeP.xy; float stD=length(vec2(stV.x*uSeeA,stV.y))/uSeeR; stF=0.85*smoothstep(1.0,0.75,stD); }\n'+
+     '\t\tstF=max(stF,smoothstep(1.7,0.8,length(vViewPosition)));\n'+
+     '\t\tif(stF>0.0){ int stI=int(mod(gl_FragCoord.x,4.0))*4+int(mod(gl_FragCoord.y,4.0)); if((ST_B[stI]+0.5)/16.0<stF) discard; } }\n';
+   function patchSeeThrough(m){ if(!m||m.userData._st||!(m.isMeshStandardMaterial||m.isMeshPhysicalMaterial||m.isMeshLambertMaterial||m.isMeshPhongMaterial)) return; m.userData._st=true; const prev=m.onBeforeCompile;
+-    m.onBeforeCompile=function(sh,r){ if(prev) prev.call(this,sh,r); sh.uniforms.uSeeP=ST.uSeeP; sh.uniforms.uSeeR=ST.uSeeR; sh.fragmentShader=sh.fragmentShader.replace('void main() {',ST_GLSL); };
+-    const pk=m.customProgramCacheKey; m.customProgramCacheKey=function(){ return (pk?pk.call(this):'')+'|seeThrough1'; }; m.needsUpdate=true; }
++    m.onBeforeCompile=function(sh,r){ if(prev) prev.call(this,sh,r); sh.uniforms.uSeeP=ST.uSeeP; sh.uniforms.uSeeR=ST.uSeeR; sh.uniforms.uSeeA=ST.uSeeA; sh.fragmentShader=sh.fragmentShader.replace('void main() {',ST_GLSL); };
++    const pk=m.customProgramCacheKey; m.customProgramCacheKey=function(){ return (pk?pk.call(this):'')+'|seeThrough2'; }; m.needsUpdate=true; }
+   E.patchSeeThrough=patchSeeThrough;
+   function updateSeeThrough(){ const P=E.player; if(!P||E.cam.mode!=='follow'||(E.indoor&&!(E.zone&&E.zone.seeThru))){ ST.uSeeR.value=0; return; }   /* 室內：區域有 seeThru 才用（法律學院圖書館的書架，走道很窄）*/
+     const o=P.obj.position; _stA.set(o.x,o.y+0.9,o.z).project(camera); if(_stA.z>1||_stA.z<-1){ ST.uSeeR.value=0; return; }
+     renderer.getDrawingBufferSize(_stS); _stB.set(o.x,o.y+1.75,o.z).project(camera); const top=_stB.y; _stB.set(o.x,o.y+0.05,o.z).project(camera); const ph=Math.abs(top-_stB.y)*0.5*_stS.y; // 玩家在畫面上的高度（像素）
+-    ST.uSeeP.value.set((_stA.x*0.5+0.5)*_stS.x,(_stA.y*0.5+0.5)*_stS.y,_stA.z*0.5+0.5); ST.uSeeR.value=Math.max(20,ph*0.62); }
++    ST.uSeeP.value.set((_stA.x*0.5+0.5)*_stS.x,(_stA.y*0.5+0.5)*_stS.y,_stA.z*0.5+0.5); ST.uSeeR.value=Math.max(20,ph*0.62); ST.uSeeA.value=2; }
++  /* 固定運鏡（劇情鏡頭、睡覺）也可以指定透空的地方（DORM-SLEEP-VISUAL-1030：躺在上舖時床欄擋住人）：E.cam.seeThru={x,y,z,r,aspect}——
++     世界座標的中心；r＝橢圓的半高佔畫面高度的比例（預設 0.22）；aspect＝橢圓橫向的壓縮（預設 2＝直立的橢圓，和跟隨鏡頭一樣；躺著的人給 0.5＝橫的）。
++     只作用在 userData.seeThrough 的材質（宿舍的床架 seethru_dorm_frame_white、被子…）；室內要區域有 seeThru。沒給就和原本一樣（運鏡時不透空）。設、清由劇情負責 */
++  function cineSeeThrough(){ const f=E.cam.seeThru; if(!f||(E.indoor&&!(E.zone&&E.zone.seeThru))){ ST.uSeeR.value=0; return; } camera.updateMatrixWorld(); _stA.set(f.x,f.y,f.z).project(camera); if(_stA.z>1||_stA.z<-1){ ST.uSeeR.value=0; return; }
++    renderer.getDrawingBufferSize(_stS); ST.uSeeP.value.set((_stA.x*0.5+0.5)*_stS.x,(_stA.y*0.5+0.5)*_stS.y,_stA.z*0.5+0.5); ST.uSeeR.value=Math.max(20,(f.r||0.22)*_stS.y); ST.uSeeA.value=f.aspect||2; }
+   E.seeThrough=ST;
+   /* 跟隨鏡頭的位置：從 target（頭）往 (yaw, pitch) 退 dist0。擋到建築碰撞盒（E.colliders）或玩家那一層的隔間牆（zone.camCols[lv]：教學館，
+      2026-10-13 LAWWW2 審查——原本室內沒有鏡頭碰撞，鏡頭跑到隔間牆後面時整個畫面是那面牆）就拉近到牆前 0.35 m（最近 0.7 m）；
+@@ -435,7 +440,7 @@ const E3 = (function(){
+     C.swing=best; if(!best) return 0; const st=Math.sign(best)*Math.min(Math.abs(best),1.3*dt); C.yaw+=st; if(C.ctl) C.swingAcc=(C.swingAcc||0)+st; return st; }
+   E.autoSwing=autoSwing;
+   const _lookPt=new THREE.Vector3();
+-  function updateCamera(dt){ const C=E.cam; const P=E.player; if(C.mode==='cinematic'&&C.cine){ const s=C.cine; camera.position.lerp(s.pos,Math.min(1,dt*2.4)); C.look=C.look||new THREE.Vector3(); C.look.lerp(s.look,Math.min(1,dt*2.4));   /* 原本 dt*4（約 0.25 秒就轉過去）：轉太快會暈（使用者 2026-10-15），放慢一點 */ slabClip(C.look,camera.position,0.9); camera.lookAt(C.look); if(E.zone&&E.zone.fadeWalls){ E.zone.fadeWalls(camera,P.obj.position); hideFaded(); } updateLevelVis(); ST.uSeeR.value=0; return; }
++  function updateCamera(dt){ const C=E.cam; const P=E.player; if(C.mode==='cinematic'&&C.cine){ const s=C.cine; camera.position.lerp(s.pos,Math.min(1,dt*2.4)); C.look=C.look||new THREE.Vector3(); C.look.lerp(s.look,Math.min(1,dt*2.4));   /* 原本 dt*4（約 0.25 秒就轉過去）：轉太快會暈（使用者 2026-10-15），放慢一點 */ slabClip(C.look,camera.position,0.9); camera.lookAt(C.look); if(E.zone&&E.zone.fadeWalls){ E.zone.fadeWalls(camera,P.obj.position); hideFaded(); } updateLevelVis(); cineSeeThrough(); return; }
+     C.dist+=(C.distTarget-C.dist)*Math.min(1,dt*4); if(C.manualT>0) C.manualT-=dt; C.target.lerp(tmpV2.copy(P.obj.position).add(tmpV3.set(0,1.45,0)),Math.min(1,dt*7));
+     /* 往下走樓梯時鏡頭抬高（戶外：萬才館大樓梯；萬才館第二階段的真實玩家測試抓到）：鏡頭在玩家背後 2.7 m 高，往下走的時候平台邊緣擋住下面的台階，
+        畫面上看不到要走去的地方（點下面的台階會點到平台、又走回去）。前方 3～5.5 m 的地面比腳下低超過 0.4 m 時，俯角最多加 0.32（約 18°），平順地變化；室內維持原本的鏡頭 */

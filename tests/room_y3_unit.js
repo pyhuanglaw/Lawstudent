@@ -41,6 +41,11 @@ const meet=id=>SOCIAL.remember(id,'FIRST_MET','');
   const base=(day)=>{ fresh(day,20,'dorm',{ROOM_Y2:STORY.dayOfKey('2026-09-06'),ROOM_Y2_ITEMS:['civ','noodle','pothos','y1_0','y1_1','y1_2','y1_3','y1_4'],POTHOS:true}); G.stage='law'; G.vac={reg:{}}; return G; };
   base(d5-1); check('1. 9/4 還沒到', !STORY.roomY3Due(G)); G.day=d5; check('1. 9/5 到了', STORY.roomY3Due(G)); G.stage='econ'; check('1. 經濟系那年不算', !STORY.roomY3Due(G)); G.stage='law';
   base(late+3); check('1. 大三下以後才讀檔：不演、直接記 ROOM_Y3', !STORY.roomY3Due(G)&&STORY.roomY3Late(G)&&G.flags.ROOM_Y3===late+3&&G.flags.ROOM_Y3_DISCARD===null);
+  /* BUG-ROOMY3-LATE-1031（BB-B n33_y3late）：只在 9/5、9/6 演（9/6 不說「明天開學」）；9/7 以後才讀進來、還沒搬的直接記；修改前 FAIL */
+  base(d5+1); check('1b. 9/6 還照演；旁白不說「明天開學」', STORY.roomY3Due(G)&&STORY.roomY3Line(G)===null&&(G.day=d5,STORY.roomY3Line(G))==='（明天開學。今天搬進第三個房間。）');
+  for(const k of ['2027-10-13','2027-12-15','2028-02-15']){ const dd=STORY.dayOfKey(k); base(dd); const due0=STORY.roomY3Due(G), r=STORY.roomY3Late(G);
+    check('1b. '+k+' 才讀進來、沒有 ROOM_Y3：不演、S.roomY3Late 直接記', !due0&&r===true&&G.flags.ROOM_Y3===dd&&!STORY.roomY3Due(G), JSON.stringify({due0,r,R:G.flags.ROOM_Y3})); }
+  base(d5+2); G.flags.ROOM_Y3_MOVING=true; check('1b. 已經開始搬（ROOM_Y3_MOVING）：9/7 照舊算到期、roomY3Late 不動', STORY.roomY3Due(G)&&STORY.roomY3Late(G)===false&&!G.flags.ROOM_Y3); delete G.flags.ROOM_Y3_MOVING;
   // 2
   base(d5); let ks=STORY.roomY3Items(G).map(r=>r[0]); check('2. R1 大二什麼都沒做：新東西只有「一疊大二的筆記」', JSON.stringify(ks)===JSON.stringify(['notes_y2']), JSON.stringify(ks));
   base(d5); G.vac.reg['C08@Y2']='done'; G.vac.reg['C09@Y1']='done'; ks=STORY.roomY3Items(G).map(r=>r[0]); check('2. R2 大二暑假 C08 首爾：有交通卡；大一的 C09 不算', JSON.stringify(ks)===JSON.stringify(['notes_y2','vac_C08']), JSON.stringify(ks));
@@ -52,7 +57,7 @@ const meet=id=>SOCIAL.remember(id,'FIRST_MET','');
   // 3
   const vis=[]; GM.E.zone={setY2Items:st=>vis.push(JSON.stringify(st))};
   base(d5); G.vac.reg['C08@Y2']='done'; G.flags.pothosWaterN=2; picks=[0,0,0,'丟掉一本只讀了三分之一的民總課本']; await STORY.unboxY3(GM); let T=lines();
-  check('3. 拆箱的順序和台詞', T[0]==='（三個紙箱。比去年少一個。）'&&T[1]==='（去年拆過的東西，今年一次拿出來就好。每一件都知道自己要放哪裡。）'&&T.includes('比大一的薄。字比大一的小。')&&T.includes('裡面還有一點錢。你算過，不夠回去。')&&T.includes('黃金葛。第三個房間，第三個窗台。它又長了一點。')&&T.includes('（房間滿了。開始有東西要丟掉。）')&&T.includes('（你把它放進回收的袋子。房間多了一點空。）')&&T[T.length-1]==='（兩年。房間比去年滿，你也比去年知道哪些要留。）', JSON.stringify(T));
+  check('3. 拆箱的順序和台詞（DORM-Y34：先 AA_208 第 8 節室友旁白）', T.shift()==='（507。柏翰的檯燈又放在靠窗那張書桌上。阿哲傳訊息：『我在二樓，抽籤輸了。……』）'&&T[0]==='（三個紙箱。比去年少一個。）'&&T[1]==='（去年拆過的東西，今年一次拿出來就好。每一件都知道自己要放哪裡。）'&&T.includes('比大一的薄。字比大一的小。')&&T.includes('裡面還有一點錢。你算過，不夠回去。')&&T.includes('黃金葛。第三個房間，第三個窗台。它又長了一點。')&&T.includes('（房間滿了。開始有東西要丟掉。）')&&T.includes('（你把它放進回收的袋子。房間多了一點空。）')&&T[T.length-1]==='（兩年。房間比去年滿，你也比去年知道哪些要留。）', JSON.stringify(T));
   const dropOpts=opts.find(o=>o.some(x=>/都留著/.test(x)))||[];
   check('3. 丟掉的選單：大二的、大三新的都可以丟；黃金葛、大一的五件不列；最後是「（都留著。擠一點就好。）」', dropOpts.includes('（丟掉一本只讀了三分之一的民總課本）')&&dropOpts.includes('（丟掉首爾地鐵的交通卡）')&&!dropOpts.some(x=>/黃金葛|舊《民法》/.test(x))&&dropOpts[dropOpts.length-1]==='（都留著。擠一點就好。）', JSON.stringify(dropOpts));
   check('3. 旗標：ROOM_Y3＝那天、ROOM_Y3_ITEMS＝新拿出來的、ROOM_Y3_DISCARD＝丟掉的', G.flags.ROOM_Y3===d5&&JSON.stringify(G.flags.ROOM_Y3_ITEMS)===JSON.stringify(['notes_y2','vac_C08'])&&G.flags.ROOM_Y3_DISCARD==='civ'&&!G.flags.ROOM_Y3_MOVING, JSON.stringify({it:G.flags.ROOM_Y3_ITEMS,d:G.flags.ROOM_Y3_DISCARD}));

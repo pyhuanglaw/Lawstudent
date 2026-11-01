@@ -105,7 +105,7 @@ const has=(a,...ids)=>ids.every(id=>a.includes(id)), hasNot=(a,...ids)=>ids.ever
   // ===== 第 10 項：芯慈慈 3 =====
   { const xc=async lent=>{ fresh(termDay('Y2S1',12,1)+1,0.5,'cvs',{}); R('classmate_xinci','FAM'); if(lent) SOCIAL.remember('classmate_xinci','LENT_NOTES',''); said=[]; picks=[0]; await EVENTS.run(ev('ev_xinci_second')); return said.map(s=>s.t); };
     const a=await xc(false), b=await xc(true);
-    check('10. 慈 3：沒借過她筆記＝「我在總圖看過你寫筆記。……你寫得比我想的整齊。」；借過（LENT_NOTES）＝原句「我借你的筆記，是想知道第一名以外的人…」',a.includes('我在總圖看過你寫筆記。……你寫得比我想的整齊。')&&!a.some(t=>/我借你的筆記/.test(t))&&b.some(t=>/我借你的筆記，是想知道第一名以外的人/.test(t))&&!b.includes('我在總圖看過你寫筆記。……你寫得比我想的整齊。'),J([a,b])); }
+    check('10. 慈 3（AA_547 2-1 新稿，取代「第二名」）：借沒借過筆記都同一版（AA_374 第 10 項那兩句跟著拿掉）；沒有「第一名」「第二名」',J(a)===J(b)&&a.includes('我在算財管的作業。……我喜歡數字對起來的那一下。')&&!a.some(t=>/第一名|第二名|我借你的筆記|我在總圖看過你寫筆記/.test(t)),J([a,b])); }
   // ===== 第 11 項：和沛珊交往中，沒有柏翰那一段 =====
   { const P=CHARACTERS.classmate_peishan.partner; fresh(termDay('Y1S2',8,3),12,'campus',{}); const p0=STORY.partnerOn(G,P); G.flags.dating_classmate_peishan=true; const p1=STORY.partnerOn(G,P);
     check('11. 沛珊的 partner（柏翰）：沒交往＝大一下照常；和她交往中＝沒有（unlessFlag）',p0===true&&p1===false,J([p0,p1]));
@@ -159,8 +159,10 @@ const has=(a,...ids)=>ids.every(id=>a.includes(id)), hasNot=(a,...ids)=>ids.ever
     check('18. 手機「還好嗎」（和沛珊分開以後）：演的是合併的那一件也開（原本只認 ev_peishan_bohan_split）',ck.includes('split_peishan')&&cp.includes('bohan_split'),J([ck,cp])); }
   // ===== 第 19 項：作息 =====
   { const at=(id,k,h)=>{ fresh(D(k),h,'campus',{}); return STORY.schedEnt(CHARACTERS[id],G); };
-    const w=at('classmate_bohan','2026-10-07',19.5);
-    check('19. 柏翰週三晚上（大二上 10/7 19:30）：總圖讀書，不在萬才館「社團」（法服週三讀書會已作廢）',!!w&&w.zone==='library'&&w.act==='read',J(w&&[w.zone,w.act]));
+    /* AA_542 第 5 節：麵店日每週不固定兩天（可能是週三）——挑大二上第一個不是麵店日的週三 */
+    let wk='2026-10-07'; for(let d=D('2026-09-09');d<D('2026-12-31');d+=7){ if(CALENDAR.dateOf(d).wd===3&&!STORY.noodleDay(d)&&CALENDAR.termOf(d)&&!CALENDAR.termOf(d).exam){ wk=CALENDAR.dateOf(d).key; break; } }
+    const w=at('classmate_bohan',wk,19.5);
+    check('19. 柏翰週三晚上（大二上不是麵店日的週三 '+wk+' 19:30）：總圖讀書，不在萬才館「社團」（法服週三讀書會已作廢）',!!w&&w.zone==='library'&&w.act==='read',J(w&&[w.zone,w.act]));
     const ids=['classmate_bohan','classmate_xinci','heroine_01','yu','classmate_mingxuan','classmate_peishan'];
     const thu=ids.map(id=>{ const e=at(id,'2026-10-08',14); return e?e.zone+'/'+e.act:'-'; }), thu1=ids.map(id=>{ const e=at(id,'2025-10-09',14); return e?e.zone+'/'+e.act:'-'; });
     check('19. 大二上週四下午（10/8 14:00）沒有課：同學不在 201「上課」',thu.every(x=>!/classroom\/class/.test(x)),J(thu));

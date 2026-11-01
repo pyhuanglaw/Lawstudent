@@ -10,13 +10,59 @@
 
 ## 交接（最新）——工作階段隨時可能因額度中斷（D45 緊急保存規則）
 
-**現況（帳號 B LAWWW-B，2026-10-30 07:4x UTC；帳號 B 七天額度已到警示 allowed_warning，2026-11-06 02:00 UTC 重置——隨時可能被切斷）**
-- 線上：v9.10.13（`37603ad6a`）。**v9.10.14 候選 `b38b112a8`（開發分支）**：快速存檔獨立一格、開新遊戲前備份、經濟系那一年不揪人等；等 BB-B 的 GO（relsuite15，預計 07:30 以後）；GO 才照帳號 C 的發布流程發布（release-tree commit → PR → 還原 → main 合回）。
-- **下一版整合分支 `postrel-1030`（本機；頂端 `dcf33a4e0`）**：不在遠端的正式位置（`origin/postrel-1030` 是 05:3x 誤推、停在 3808792fe 的舊版，清理候選），**完整內容在開發分支 `wip_backup/postrel_1030.bundle`**（`git fetch wip_backup/postrel_1030.bundle postrel-1030:postrel-1030`）。已合：AA_524～529、532／533、535／535b、536、531（含第 8 節、8-5）、538；宿舍睡覺畫面＋DORM203 光照、系外套穿上＋椅背、床欄透空、手機統一（直接過去、聯絡人）、約她選單分層、系籃（晴天球場有人、下雨改體育館）、教室名牌、經濟系同學在社科圖、Café 窗景 3D、NPC 卡門口、麵店團在場、快速存檔、備份保留。全部 Node：`4a4b0cd4a` 760／0（之後只加系外套房間兩句、Café 窗景，各自相關測試過）。
-- **v9.10.14 發布以後**：postrel-1030 合進開發分支 → 全部 Node → 派 BB 測 → 下一版。
-- **還在做（子代理，本機分支，D113 bundle 在 wip_backup）**：`world-rename-1030`（WORLD-RENAME-1030，D115 改虛構校名館名；基準 22b164d64；做完合進 postrel，跑 `tools/rename/scan_game.py --summary` 給 AA）。
-- 待 AA：芯慈可攻略（AA_537／537b）排在下一版合完以後實作。
-- 接手第一步：`check_handoff.py duty find` → 讀本節 → 從 bundle 取 postrel-1030、world-rename-1030 → 看 BB-B 的 BB_218 有沒有 GO。
+**現況（帳號 B LAWWW-B，2026-10-31 22:5x UTC；帳號 B 七天額度已到警示 allowed_warning，2026-11-06 02:00 UTC 重置——隨時可能被切斷）**
+- **10-31 18:3x～22:5x（使用者 19:0x「好 發布了再告訴我」＝改名版 D115 發布同意，條件 BB GO＋發布前清單；19:5x HISTORY-AUDIT-1031 歷史待辦全面複核）**：
+  - **發布基準凍結 `39f68236c`**（BB-B 20:09 要求：回歸約 4～5 小時，P0 才換）。之後開發分支只放文件、總表、註解；新功能在本機分支 `feat-1031`（備份 `wip_backup/feat-1031.bundle`），發布後才合進來。全部 Node：`7060bdb66` 790／0（39f68236c 只多 E37 小睡停點、跨年訊息）。
+  - 基準裡的修正：BUG-E37-NAP-CEREMONY（`24aebe913`＋小睡停點 `39f68236c`）、BUG-CER831-SLEEP（8/31 典禮 14:00 叫醒、點床先演，`f32a11388`）、體育館 1F 第五版＋3F 主球場光照（`43e5f1b88`）、I10 門鈴（`9c84a54f9`＋AA 換句）、大二跨年芷若／子晴／Kevin、Kevin 大阪照片、507／409 室友旁白（DORM-Y34）。
+  - 本機分支 feat-1031：BUG-DATE-AWAY-BUSY（`caabccf30`）；子代理在做 VAC-GAP-1031（AA_549 寒暑假缺口第一批）。
+  - 歷史複核：工具 `tools/handoff/history_audit.py`（每次從 GitHub 重算）→ `docs/handoff/history_audit/`（README 七類、ledger.json、REPORT.md、bb_batches.md 740 項照 BB 10-27 十二段流程分批、judgments_<職位>.jsonl）。10/21 的 133 項 done：第 1 類 6、第 2 類 126、第 4 類 1。AA 五批企劃複核合併（剩 BB＋交接包一批）；找到的部分完成開成任務或接回既有任務。LAWWW2 複核進行中。BB 回歸完照 bb_batches 補驗。
+  - 下一步：BB GO → 發布前清單 → README 換 AA 草稿（企劃線 f745e8ab9）→ PR 合併 main（基準 39f68236c＋之後的文件 commit）→ 告訴使用者；審子代理 AA_549；AA 回芷若暑假五題、I10 已定。
+- 線上：**v9.10.14**（main `271cd2305`，PR #20，Pages 07:52:40 成功；BB-B main deploy_check ALL PASS）：快速存檔獨立一格、開新遊戲前先備份、經濟系那一年可昕不主動約。BB 對 main 補跑剩下的情境（AA_520／523／518／515_zq、R43、libhall、R44）。
+- **下一版在開發分支**（`55b49aa11` 以後；全部 Node：`fe3cee955` 763／0，之後只多 AA_539 第 5 節（子代理 763／0）與 7/20 旁白）：
+  - postrel-1030 全部（`b576263b6`）；改名 D115（`ba315523b`、`ea67b0cb4`、舊存檔出遊 `ca5f3381c`、開發文件 `052d589d2`）；Café 室內光照（CAFE-LM-1030）；學姊 AA_539（`fe3cee955`、`101f841c8`、`55b49aa11`）。
+  - 09:1x 以後：手機「直接過去」到了人還在 8 m 外自動接「帶我去」（`05789d957`，BB-B 實測 ALL PASS）；大地圖人物清單預設收起、自由日 👥 亮點（`4da27563c`，BIGMAP-PEOPLE-1030，等 BB 測）。
+  - BB-B n15（BB_218 `abd7acb40`）：phone2、bball、rooms、cafewin ALL PASS；下雨天體育館沒看到阿哲——Node 查作息與 whereIs 都在體育館走廊（-3.6, 12.6），已請 BB 下次在遊戲裡查 `GM.npc.zhe`，不存在才是遊戲問題。
+  - 09:5x：LAWWW2 交件 0235c71b9 整合 `f75d60a4c`——改名美術字（RENAME-ART-1030：校門石牌、晨思鐘、博思名牌、A館公布欄、201 傳單、博思 203 海報、ntu_linze；長條名牌外框上限 patch）＋總圖前草皮第一版（X133，LIB-LAWN-PLAN-1030）。**全部 Node（乾淨 checkout f75d60a4c）766／0**。
+  - BB-B 在測：v9.10.14 補驗（第二批全 PASS）→ n16（下雨阿哲、大地圖、改名美術字）→ 快速存檔重跑 → next91015；草皮 lib_lawn 排在後面。
+  - 10:4x～10:5x：大地圖人名不蓋地名、HUD 目標兩行（`fc0c0ac69`）；法律學院圖書館光照烘焙（LAWLIB-LM-1030，`6e3a95623`）；LAWWW2 CG 78 張查完沒有舊名。BB 都排進 next91015_probe。
+  - 11:4x～11:5x：多功能教室 v2（MULTI-ROOM-V2-1030，`95da49eab`）；**補套** 03:3x 收的總圖大廳光照＋晚上小零件變暗（LIB-HALL-LM-1028、RT-NIGHT-1028，`bbe0c9469`，v9.10.14 發布後漏套）；麵店閒聊只認 3D 真的在的人（`dd8b216c0`）。**全部 Node（乾淨 checkout bbe0c9469）768／0**。
+  - 12:4x：畢業以後的中秋當 PG 停點（BUG-PG-MOON-STOP，`2ac9e3637`；BB R43 r43_moon 瀏覽器 FAIL）；畢業以後相關 221 支 Node ALL PASS；BB 重跑 r43_moon。
+  - 13:3x～13:4x：以安二試、司法官放榜群組照 AA 回 B 改成到隔天 03:00（PG-AN-EX-WIN-1030，`49ba39d6d`）；BUG-PG-MOON-STOP、PG-AN-EX-WIN 都 BB 驗收通過（修正前 FAIL、修正後 PASS）。R43 其他 FAIL 是探針。
+  - 14:1x～14:4x：博思教學館 v2（BOYA-LM-1030，`a63eb8072`）；麵店團先拿位子（客人先留空位，`5f8b94515`，全部 Node 770／0）；系外套已驗收。
+  - 14:4x：考試週麵店團不去麵店（NDL-EXAM-1030，`1e3ffbb0e`；AA 回 A＋h504 改回頭說 AA_504 da3e72727；四支測試日期改到非考試週），全部 Node 背景跑中；BB 併進 ndlread2。
+  - **15:xx 使用者 X144「麵店團很突兀」→ 選「縮小成背景」；X145「搞不清楚阿哲是誰」**：
+    - AA_542（企劃線 6b33b4012）四段都實作（ca2370142 → 6d358e159）：約 55 句換字、群組「法一吃飯」每學年改名、拿掉 17:30 揪人、麵店日每週不固定兩天（S.noodleDay／ndlPair）、四人作息 ndlDay、長桌一週一則、阿姨考試週那句拿掉、阿哲民總下課約吃麵（ev_zhe_noodle_invite，classAlso）＋第一次併桌。舊稿讀進來照 tools/story/ndl542_fix.json 換字。新測試 ndl_group_unit。全部 Node 在跑；之後給 BB 照 AA_542 第 8 節測、AA 再掃一次。
+    - 第一天阿哲約吃麵的舊生法只在約的那天（32dd6ae75，BB 找到考試週阿哲還在麵店）。
+    - 全部 Node 771／0（6d358e159）→ NOODLE-TEAM-SHRINK-1030 已整合待測試，BB 照 AA_542 第 8 節玩；AA 第 9 節（c2e442b57）兩處：春假那則第 7～10 週、舊開局 312 z2（`3183b49c2`）。
+    - X145：AA_543（企劃線 d483ecbbf＋第 5 節 f726507f7）做完：src/whois3d.js（13 人「你們」一段，條件成立才顯示；最多 8 行，①②、哥、在一起那一行不擠掉；宿營＋遊覽車、室友＋搬走、系籃＋17 號＋隊長合併）、個性改 8 人（`9597ffa34`）、Alison 個性兩段、9/2 搬進 412 記韋綸唐睿 FIRST_MET（`f4adf6cb7`、`c4fc0d4fe`、`bcec62805`）；全部 Node 771／1（v0_dorm_props 原始碼順序，已修）；tests/whois_unit.js 53 項。CHAR-WHOIS-1030 已整合待測試，BB 排在 shrink_b 後面。
+  - **17:2x 芯慈的線暫停**：使用者 16:5x 直接對 AA-B 否決芯慈×以安「第一名／第二名」整條劇情（AA-B 17:14 轉）。`037f79fe2`：XCROM.ON false（DATE.HEROINES 預設不含芯慈、事件與心願事件不登記；程式留著，tests/xinci_romance_unit.js 用 setOn(true) 測）；慈 6 的 3-5／3-6 還原。AA 在列遊戲裡所有「第二名」相關的地方、問使用者新方向；**下一版（改名版）要等 AA 的清單處理完**。同一批使用者答：跟以安交往過照樣可以開（CFG.noAnEx false）、多段要先討論個性、總圖草皮等使用者的地圖或照片（UA-LAWWW-1030-26～28）。
+  - 16:1x XINCI-ROMANCE-1030（X139 芯慈可以交往，AA_537 2f523e21a＋537b 508568ae5）開工：第 4 段（一）約會台詞匯入（`4c587168a`，import_date_lines.py 加 AA_537b、白名單登記）；第 1 段告白做完（`f802dcfe5`）：src/xcrom3d.js 門檻 G1～G10＋開關 XCROM.CFG（noAnEx、noOpen：使用者還沒回 AA）、termend HEART／NOPE（AA_537b 第 7 節 5ba143d2c）、她先問有沒有交往對象（有＝others）、confess_lines、DATE.HEROINES、YES_LINE 75、心願 D04 晚上場、6 次；tests/xinci_romance_unit.js ALL PASS；全部 Node 背景跑中。第 4 段（二）AA_537b 8-0、8-1（`f61e36c26`、`901cc2810`：飯桌換句、交往中期末飯提前一天 21:00 約；D04 芷若子晴照舊）；第 2 段（`b7f993806`～`ada5e3c49`）：3-1 麵店補問、3-2 G3 提醒、3-3 補演的電話、3-4 G7 當天約＋家常菜、3-5 空白的週三下午（＋大四上再問）、3-6、第 2 節分手那晚；全部 Node 背景跑中。G5 半夜訊息做完（`2c95c3a8a`，AA_537b 第 9 節十六則）；心願午夜場做完（`176291a95`：DATE.MIDNIGHT 只為這一場擴充到 02:30、DATE_WISH 登記、隔天睡到十點）；全部 Node 773／0（97cce9e14，午夜場之前）。**還沒做**：第 3 段交往以後（msg L、以安那則、她爸爸、MREL 不接受、尾聲）、節日（537b 第 5 節）。
+  - 16:0x BB n19_boyaecon：預設經濟系流程不上經原（不進博思）＝D102 的設計（KEEP 29 場照 AA），不改；BB 用 &nofastecon 驗博思 101、另看法律系 B4 演講。BB 麵店兩個阿姨＝不是重複（阿姨在時店員藏），阿姨模型晚 20 秒＝NDL-AUNT-VIS-1030（P3）等讀數。
+  - **18:0x～18:4x D116（遊戲裡的人不跟別人比，永久）、D117（要使用者決定的一律用可點選的選擇題）**：NO-COMPARE-1030 第一批 AA_546 全部實作——`3281a122c`（13 支測試期待句）、`a68622d52`（柏翰結構：翰 1「第三題」、翰 2 不看分數＋「我寫得很慢」、翰 3 白板只寫自己的、翰 4 念得慢記得久、阿哲、宿營破冰「從哪裡來」）、`43b7877f4`（另 7 支測試照新稿；全部 Node 773／0）；AA 照 §6 重掃已發；第二批灰色地帶等 AA；芯慈整條線等 AA_547（使用者給的新設定在 USER_WANTS X139），XCROM.ON false 不進下一版。BB 排 n23_bohan_nocmp。
+  - **10-31 01:1x～02:1x**：BB-B n27 讀程式疑點修五點（`bcb788dec`，全部 Node 774／0）；**BUG-C5-AN-NOT-SPAWNED-1031**（BB n25：慈 5 總圖三樓沒有以安）——舊角色（LEGACY_IDS）照作息要 afternoonDone，進區域生人比 S.tick 補旗標早；改成法律系主線第 3 天起照作息（S.pastDay2）。LAWWW-B 用 BB 的存檔在瀏覽器重現過；AA_537b 8-4 巷口家常菜期末飯開場收尾（PLACE.l118_home）；LAWWW2 ART-ECON A 共同教學館室內正式模型（c1a2026b4）＋烘焙工具：`753df5a8c`，全部 Node 背景跑中 → BB 重跑 n25 C5、看共同教學館畫面；LAWWW2 接 B 普通教學館光照。
+  - **10-31 15:1x～18:3x**：已驗收：CAM-PILLAR-HALLS（校史館側牆）、NAV-LIBHALL-ISLAND、書店與溫州街三家光照、BUG-ROOMY2／3／4-LATE（舊存檔搬房間只在搬的那天和隔天演、之後直接記）、Y4PATH-LATE（AA 回 C）；一盞門口木柱是探針固定鏡頭（不改）；整合體育館 1F 光照、總圖核心鏡頭第二輪（`baec2acc2`，全部 Node 787／0）；**BB 在跑改名版發布前回歸 QA-PLAYTHROUGH-1018**（三種玩法、經濟系 15 點照 AA_300／303 的 KEEP、舊存檔、寒暑假、美國，在 184efc3da，估 4～6 小時，給 GO／NO-GO）→ GO 就準備發布前清單、用選擇題問使用者。16:5x～18:3x send_message／send_later 一度不能用（伺服器連著但不提供），改寫總表，BB 照總表開跑；18:3x 恢復。LAWWW2 下一件 3F 主球場 → B1 → CAM-BELL。
+  - **10-31 07:1x～15:1x**：已驗收：BUG-SEAT-AISLE-REACH、LM-COLLAPSE（四間）、NOODLE-LM、NO-COMPARE（12 個情境）、NO-COMPARE-GRAY（AA_546 第 8 節三句）、NOODLE-TEAM-SHRINK（X144 改「在開發分支」，AA 要求檔請 AA 改）；ART-ECON A／B／C 功能面 PASS；?perf 小框修好並驗（不擋按鈕、shader 不再負數 `2a3e53b59`）；整合 LAWWW2 便利商店（`d5bfed485`）、書店＋溫州街三家光照＋校史館側牆＋總圖大廳核心鏡頭（`f275a620f`）；BUG-ROOMY2-LATE（舊存檔大二以後還演搬 312，`5db371b5d`）；分支唯讀稽核（26 條、13 條候選只標記）；普通 101 北窗、四棟場景記進 USER_ART_REVIEW；全部 Node 786／0。BB 待驗：y2late、校史館 4 角度、LHCORE、書店與溫州街光照。LAWWW2 做體育館光照→CAM-BELL。
+  - **10-31 03:1x～07:1x**：ART-ECON-3D-GAP-1021 A／B／C 都整合（共同室內 `753df5a8c`、普通光照 `3f67ec44a`、總圖 3F 光照＋法圖 instancing `1e910aa6c`）→ BB 看畫面；已驗收：XINCI-ROMANCE、XINCI-REWRITE、BUG-C5、BUG-CAFE-STAFF-LABEL、BUG-MSG-MIDNIGHT-DAY、BUG-CAM-PILLAR-LAWA（柱子網點透空 `3ba38e34a`）、柏翰 slow；芯慈 walkCaption、walkAgain（AA_537b 8-5）；CAM-PILLAR-HALLS（總圖等四棟 `421943397`）、BUG-SEAT-AISLE-REACH（`be7b5bcac`）待 BB；BUG-MEDIA-LOAD-HIDDEN 取消（探針）；全部 Node 782／0。LAWWW2 接便利商店光照（INTERIOR-AAA-REVIEW），CAM-BELL-1031 排後面。
+  - **10-31 02:1x～03:1x**：BUG-C5-AN-NOT-SPAWNED-1031 **已驗收**（BB n25_xinci_g）；期末飯疑點 1、2（心意邀約當天下午沒跑到手機改排下一晚、兩頓不同晚 TERMEND.teBusy，`b90fbfd47`）；BUG-CAFE-STAFF-LABEL-1031（認識的芷若在吧檯按鈕寫名字，`7cb058610`）；柏翰 slow 算加入小組（AA-B 回 A，`0098cbe10`）；全部 Node 775／0（0098cbe10）→ BB 跑 ZRCAFE、H2_SLOW、n27、n28 共同教學館（含經濟系上課）。LAWWW2 B 普通教學館光照 WIP。
+  - **10-31 00:0x～01:0x 芯慈戀愛線打開**：使用者 00:0x 對 AA-B 點選「告白時她不問」「只要沒騙她就接受」→ AA_548 第 7 節 `b399adf57`（she 拿掉問句、交往中她不知道＝多「（先告訴她，你在跟誰交往）」、她已知＝答應時多一句、KNOWS_OK＝她知道的都是你說的、NOPE.knows 拿掉、noOpen false、交往後自己跟她講、她自己發現＝分手、5-3 以安）＋第 8 節 `254bcfb35`（她爸爸 8-1 取代「誰最強」、挽回 8-2、冷落 8-3）；**XCROM.ON true**；全部 Node 774／0；BB 排 n27_xinci_romance；USER_WANTS X139 已記。
+  - 22:3x～23:5x：PERF-ZONE-ENTER-1018 第三輪（LAWWW2 95fcbf00c，進室內的兩段同步讀像素改掉）整合 `44337adcb`（模擬器量不出整體變快，README 照實寫）；**?perf 量測小面板** `1df75303c`（使用者回來時請他在自己電腦、手機各開一次 ?perf 走幾個地方、按一下複製貼回來）；全部 Node 774／0。SOCLIB-LM、BOYA-LM 已驗收（BB n22）。LAWWW2 下一件 ART-ECON-3D-GAP-1021：A 共同教學館室內正式模型 → B 普通光照 → C 總圖 3F 光照。BB n20／n19 的 FAIL 都是探針，重跑排著。
+  - 21:2x～22:3x：
+    - **芯慈新個性 AA_547**（使用者 19:2x 點選「照這份寫」，USER_WANTS X148，企劃線 e9504c889）：`46e36f86b`、`ccbb72422`（慈 3 凌晨的便利商店＋B1／Café 版、慈 5 分工抄筆記、慈 6 暑期實習；慈 4、Alison「吵架了」、改輔系、「我第一」、msg2「第二名也是名」拿掉；XCROM.OLD 打開）；13 支測試照新稿改；全部 Node 773／0（e04285759）；BB 排 n25_xinci547。
+    - **芯慈戀愛線 AA_548**（企劃線 265cca815）：`e04285759` 程式接好（門檻 G1～G9、G6 補一次、3-1／3-3／3-5、others「我只想要一對一」、半夜訊息八則），**XCROM.ON 照舊 false：等使用者對 AA 點選 4a、4b**。
+    - NO-COMPARE 第二批（AA_546 第 7 節：芷若 zr2d、Z4-L3、明軒個性）`6289e4762`；NO-COMPARE-1030 改已整合待測試（AA 那邊結了）。
+    - LM-COLLAPSE 四間都整合（總圖大廳 `4470ef1a9`、四人房 `55b077210`、201 `610d74642`）；NAV-LIBHALL-ISLAND-1030 `3b74f9b24`（library_copier_unit 有 FAIL 就 exit 1）；LAWWW2 下一件 PERF-ZONE-ENTER-1018（X14 進室內卡頓，經濟系那一年的地方先）。
+    - BUG-SUP497-BIND-1030（BB 讀程式找到）`890f8f3f7`：影印機、宥辰兩場電梯讀檔以後永遠不演（GMr 只有 meetIn 設）→ 改用 GAME.E。
+    - BUG-WHOIS-ECONYEAR-1030、CHAR-WHOIS-1030 已驗收（BB econ6、law2）；TAKEOVER-B-1030 結案。
+  - 21:0x NOODLE-LM-1030（阿鳳麵店光照：晚上日光燈白光、煮麵台湯鍋不再整片黑）＋LM-COLLAPSE-1030 第一間法律學院圖書館重烘（91.4→0 m²）整合 `2c65d66f1`（LAWWW2 ee96b798f，DL-LW2-NOODLELM-1030；全部 Node 773／0）；BB 排 n24_noodle_lm。CHAR-WHOIS-1030 已驗收（`09bb64445`）。LAWWW2 下一間：總圖大廳 → 宿舍四人房 → 201。
+  - 19:1x～19:2x BUG-WHOIS-ECONYEAR-1030（BB-B n21_whois_econ3）：經濟系那一年人物頁照法律系開局寫 → `469bdde7c` 先不顯示回頭看的列 → AA_543 第 6 節（企劃線 30e7b0311）現在式四人接上 `1d4e7d897`（DL-AA-543-6）；BB 正在驗。AA_547 芯慈新稿（企劃線 cbfc7a7c7，PROPOSAL）第 1 節個性等使用者點選——**AA-B 工作階段停在 AskUserQuestion，使用者點了才會往下**；點完 AA 會說可以開工，照第 2 節逐場改（留：慈 1；改：慈 2、第一排、影印機、爸爸、事務所、寒暑假、畢業以後、個性；新寫：慈 3、慈 5、慈 6；拿掉：慈 4、Alison「吵架了」、改輔系）。
+  - 19:0x 芯慈舊的「第二名」四場先關（XCROM.OLD false，`9c3b61cdb`；測試 `d313922b6`，全部 Node 773／0）：慈 3（＋B1、提示、Café 補演）、慈 4、慈 5（＋遠版）、慈 6（＋日本視訊、錯過那一則）；慈 1、慈 2、AA_497 第一排／影印機／爸爸／讀書會的表照舊，等 AA_547。TAKEOVER-B-1030 結案。
+  - 18:1x SOCLIB-LM-1030（LAWWW2 b659056c6）整合 `3bc7a8800`：社科院圖書館光照＋博思 n19（講桌桌面、講台牆斜影）；新任務 LM-COLLAPSE-1030（舊房間 collapse_black 重烘：法律學院圖書館、總圖大廳、宿舍四人房、201），排在 NOODLE-LM-1030 後。BB 排 n22_soclib_lm。
+  - LAWWW2 下一批（D99 經濟系優先）：BOYA-LM-1030 博思教學館 → SOCLIB-LM-1030 社科圖 → NOODLE-LM-1030 麵店；ART-ZR-PS-3D-1022 回報進度。AA_541 改名最終一致性報告（企劃線 bc3f0ad97）：約 95%，剩 BB 近拍＋使用者真機；發布條件含**使用者同意**、README 同一次換。
+- **改名版（D115）發布前一定要先問使用者同意**（使用者 04:31 原話「不得未經我同意直接合併 main 或正式發布」）；發布時根目錄 README 換 AA 草稿（企劃線 f745e8ab9）。
+- 總圖前草皮：三個問題（草皮形狀、台階、樟樹位置）還在等使用者，回答了 LAWWW2 再出第二版。
+- AA：四年台詞實跑 48,771 句舊名 0（AA_540 e04950f3b）；SIS-LEAD-1021 已關（`680a476e7`）；改名 C 類歷史文件加註做了（`3ad101252`）；改名只剩真機（使用者）＋BB 下一版實測，AA 寫最終一致性報告。芯慈可攻略（AA_537／537b）實作排在這一版之後。
+- `origin/postrel-1030` 是 05:3x 誤推的舊分支（3808792fe），內容已在開發分支＝清理候選（刪除權限受阻）。
+- 接手第一步：`check_handoff.py duty find` → 讀本節 → 看 BB-B 的 BB_218（main 補跑、下一版測試結果）。
 
 **交班（帳號 B LAWWW-B，2026-10-17 02:40 UTC，使用者正式換班）**：交出 `d11fc9d1`（之後只有交班紀錄 commit），快照 `docs/handoff/snapshots/2026-10-17T0240Z_B_LAWWW.json`；六類 A～F 在 `docs/HANDOFF_GAP_MATRIX.md` 第 1 節。沒有合併 main、沒有發布（線上 v9.9.1 `6d5c3279`）。下一班第一步：接班十四步後先做 QA-HANDOFF-B1（整套單元測試＋沒跑完的瀏覽器流程）。
 

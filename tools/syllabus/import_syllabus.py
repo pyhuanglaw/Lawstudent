@@ -21,7 +21,7 @@ TERMS = ['Y0S1', 'Y0S2', 'Y1S1', 'Y1S2', 'Y2S1', 'Y2S2', 'Y3S1', 'Y3S2', 'Y4S1',
 PASS = ('無誤', '已修正', '補充')   # BB_115 的 review.result：通過的三種（沒有 result＝還沒審）
 sha = subprocess.check_output(['git', '-C', ROOT, 'rev-parse', '--short', REF], text=True).strip()
 OVR = dict(a.split('=', 1) for a in sys.argv[2:] if '=' in a)   # 個別檔案改用別的 ref（例：Y0S1.json=9ebf6663）
-show = lambda p: GUARD.alison(subprocess.check_output(['git', '-C', ROOT, 'show', f'{OVR.get(os.path.basename(p), REF)}:{p}'], text=True))  # AA_380：讀稿先把「小語」換成 Alison（import_guard.alison）
+show = lambda p: GUARD.read_fix(subprocess.check_output(['git', '-C', ROOT, 'show', f'{OVR.get(os.path.basename(p), REF)}:{p}'], text=True))  # AA_380：讀稿先把「小語」換成 Alison（import_guard.alison）
 out = {'source': (LABEL or REF.replace('origin/', '')) + ' ' + sha + ''.join(f'＋{k}@{v}' for k, v in OVR.items()), 'courses': {}, 'skip': {}, 'pools': {}, 'second': {}, 'reviewed': [], 'y0': []}   # y0：經濟系那一年的課與台詞池（遊戲裡還沒有）
 KEEP = ('w', 'tpl', 'board', 'line', 'react', 'obs', 'call', 'special', 'second_slot_lines', 'ask', 'recall')   # recall＝週層級的回想（例：大一下憲法二第 12 週回想 B4 演講；v2 C15，AA-B 2026-10-16：要匯入）   # ask＝課堂提問 {qid}（AA_130 第 3 節第 3 點；題目從 EXAM_BANK 讀）
 owner = {}
@@ -53,7 +53,7 @@ if A373:
     P373, S373 = next(iter(A373.items()))
     ok, why = GUARD.allowed(P373, S373, ALLOW)
     if not ok: sys.exit('拒絕匯入：' + why)
-    md373 = GUARD.alison(subprocess.check_output(['git', '-C', ROOT, 'show', f'{S373}:{P373}'], text=True))
+    md373 = GUARD.read_fix(subprocess.check_output(['git', '-C', ROOT, 'show', f'{S373}:{P373}'], text=True))
     w6 = next((w for w in out['courses'].get('ge_y1s2', []) if w.get('w') == 6), None)
     if w6 is None: sys.exit('AA_373 第 9 項：找不到 ge_y1s2 第 6 週')
     for old, new, quote in [('晚上的課，我最清醒。', '關了燈的課，我最清醒。', '宥辰「關了燈的課，我最清醒。」'), ('操場很暗。你……', '圓頂裡很暗。你……', '「操場很暗」→「圓頂裡很暗」')]:
@@ -84,7 +84,7 @@ if A377:
     P377, S377 = next(iter(A377.items()))
     ok, why = GUARD.allowed(P377, S377, ALLOW)
     if not ok: sys.exit('拒絕匯入：' + why)
-    md377 = GUARD.alison(subprocess.check_output(['git', '-C', ROOT, 'show', f'{S377}:{P377}'], text=True))
+    md377 = GUARD.read_fix(subprocess.check_output(['git', '-C', ROOT, 'show', f'{S377}:{P377}'], text=True))
     cw = {w.get('w'): w for w in out['courses'].get('civpro_2', [])}
     if 14 not in cw or 15 not in cw: sys.exit('AA_377 第 9 項：找不到 civpro_2 第 14、15 週')
     OPT_P = {'text': '原告', 'result': '你發現說清楚「我要什麼」比想像中難。'}
@@ -137,7 +137,7 @@ if A123:
     P123, S123 = next(iter(A123.items()))
     ok, why = GUARD.allowed(P123, S123, ALLOW)
     if not ok: sys.exit('拒絕匯入：' + why)
-    md123 = GUARD.alison(subprocess.check_output(['git', '-C', ROOT, 'show', f'{S123}:{P123}'], text=True))
+    md123 = GUARD.read_fix(subprocess.check_output(['git', '-C', ROOT, 'show', f'{S123}:{P123}'], text=True))
     EX9 = '剛剛那個，是課堂上的。'
     if f'下課後多一句：「{EX9}」' not in md123: sys.exit(f'AA_123@{S123} 裡找不到 4-3b 新 9 的前任版：下課後多一句：「{EX9}」')
     w12 = next((w for w in out['courses'].get('admin_law', []) if w.get('w') == 12), None)

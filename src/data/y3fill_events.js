@@ -6,7 +6,7 @@
 'use strict';
 const Y3FILL_LINES={
   /* 3-1 第 3 週 9/21（二）麵店：這學期第一次週二進麵店；只演一次 */
-  tueNoodle:'（大三第一次的週二麵店。阿姨看了一圈：「大三了，點的還是一樣。」）',
+  tueNoodle:'（大三第一次在麵店遇到大家。阿姨看了一圈：「大三了，點的還是一樣。」）',
   /* 3-1 第 4 週 9/28（二）教師節：9/27 21:00 群組；「去。」＝9/28 15:00 河濱（出遊）、「不去。」＝阿哲「好喔」*/
   riverAsk:[['zhe','明天放假 河濱 三對三'],['zhe','輸的請飲料']],
   riverNo:'好喔',
@@ -20,8 +20,8 @@ const Y3FILL_LINES={
   sum1103:'（期中考完的那一週，沒有課。你把刑訴旁聽作業的筆記整理成兩頁。）',
   noClass:[['yu','沒課的一週'],['yu','我睡了三天']],
   /* 3-1 第 14 週：12/8（三）21:00 群組；12/9（四）進麵店的旁白 */
-  lastNoodleAsk:[['zhe','期末前最後一次麵店 禮拜四']],
-  lastNoodle:'（期末前最後一次週四麵店。大家都帶了講義，沒有人翻開。）',
+  lastNoodleAsk:[['zhe','期末前最後一頓 明天 麵店']],
+  lastNoodle:'（期末前最後一次在麵店。大家都帶了講義，沒有人翻開。）',
   /* 3-1 第 15 週：12/18（六）摘要日 */
   sum1218:'（期末考前的週末。總圖的位子早上八點就沒了。）' };
 const Y3FILL_EVENTS=(function(){
@@ -30,14 +30,14 @@ const Y3FILL_EVENTS=(function(){
   const T0=id=>{ const t=typeof CALENDAR!=='undefined'&&CALENDAR.termOf?CALENDAR.termOf:null; return d=>{ const x=t?t(d):null; return !!x&&x.id===id; }; };
   const inY3S1=T0('Y3S1');
   /* 這學期之前的週二有沒有進過麵店（麵店團的紀錄 ndlDays：麵店日 17:00～21:00 在麵店；或習慣記憶 place:noodle:* 的日子）*/
-  const tueBefore=G=>{ const F=G.flags||{}, old=d=>d<G.day&&wdOf(d)===2&&inY3S1(d); if((F.ndlDays||[]).some(old)) return true;
+  const tueBefore=G=>{ const F=G.flags||{}, old=d=>d<G.day&&inY3S1(d)&&(typeof STORY==='undefined'||!STORY.noodleDay||STORY.noodleDay(d));   /* AA_542：原本看週二，麵店日改成每週不固定兩天以後看麵店日 */ if((F.ndlDays||[]).some(old)) return true;
     const H=G.habits||{}; for(const k in H){ if(!/^place:noodle:/.test(k)||!H[k]) continue; if((H[k].days||[]).some(old)) return true; } return false; };
   const member=G=>{ const F=(G&&G.flags)||{}; return !!(F.PUBLIC_LAW_GROUP||F.CLUB_public_law_group); };   /* 參加公法讀書會的（第一次去就算加入，classes3d.js 的 CLUB_<id>）*/
   const here=(id,G)=>typeof STORY==='undefined'||!STORY.present||STORY.present(id,G);
   const L=Y3FILL_LINES;
   return [
     /* ---------- 3-1 第 3 週：這學期第一次週二進麵店（9/21 起、麵店團的時間）---------- */
-    { id:'ev_y3_tue_noodle', title:'阿鳳麵店', participants:[], location:'noodle', trigger:'enter', once:true, term:['Y3S1'], weekday:[2], time:[17,21], background:'blur',
+    { id:'ev_y3_tue_noodle', title:'阿鳳麵店', participants:[], location:'noodle', trigger:'enter', once:true, term:['Y3S1'], weekday:[1,2,3,4,5],ndlDay:true, time:[17,21], background:'blur',
       prereq:{custom:G=>{ const d=D('2027-09-21'); return d!=null&&G.day>=d&&!tueBefore(G); }},
       dialogue:[ {speaker:null,text:L.tueNoodle} ] },
     /* ---------- 3-1 第 4 週：9/28 教師節 15:00 河濱的三對三 ---------- */

@@ -1,0 +1,53 @@
+{
+ "scale": 2.0,
+ "intensity": 6.283185307179586,
+ "res": 1024,
+ "samples": 512,
+ "emit": {},
+ "dayemit": {},
+ "sun": [
+  180.0,
+  28.0,
+  1.6
+ ],
+ "sky": 0.8,
+ "nightsky": 0.03,
+ "shell": "S,E",
+ "daylights": 0.8,
+ "lights": null,
+ "points": "4.5,2.13,-2.5,45,1.0,0.78,0.55;4.5,2.13,1.5,45,1.0,0.78,0.55;0,2.13,1.5,45,1.0,0.78,0.55;-4,2.13,2.5,45,1.0,0.78,0.55;-5,2.22,-4.4,45,1.0,0.78,0.55;-2.5,2.22,-4.4,45,1.0,0.78,0.55;0,2.22,-4.4,45,1.0,0.78,0.55;-4.6,2.27,5.55,22,1.0,0.78,0.55;-2.6,2.27,5.55,22,1.0,0.78,0.55;2.6,2.27,5.55,22,1.0,0.78,0.55;4.6,2.27,5.55,22,1.0,0.78,0.55;-6.55,1.42,4.85,28,1.0,0.78,0.55",
+ "wb": {
+  "day": [
+   0.95,
+   0.88,
+   0.78
+  ],
+  "night": null
+ },
+ "objects": [
+  "cafe_int_bar",
+  "cafe_int_shelf",
+  "int_bartop",
+  "int_beams",
+  "int_ceiling",
+  "int_floor",
+  "int_four_top",
+  "int_sofa",
+  "int_window_counter",
+  "WALL_back_cafe_int_shelf",
+  "WALL_back_plaster",
+  "WALL_back_shelftop",
+  "WALL_back_wainscot",
+  "WALL_front_base_stone",
+  "WALL_front_front_plaster",
+  "WALL_front_piers",
+  "WALL_front_shop_wood",
+  "WALL_left_frames",
+  "WALL_left_plaster",
+  "WALL_left_shelfplants",
+  "WALL_left_wainscot",
+  "WALL_right_plaster",
+  "WALL_right_wainscot",
+  "WALL_right_winframe"
+ ]
+}

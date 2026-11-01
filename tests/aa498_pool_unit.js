@@ -23,7 +23,7 @@ require('./alison.js');
 const H=require('./pg_harness.js');
 const fs=require('fs'), vm=require('vm'), path=require('path'), cp=require('child_process');
 const {check,GM,E}=H, J=JSON.stringify;
-const SRC='56ed354e9', DOCF='docs/story_planning/AA_498_法律系同學二十位_共同做法_改名_第一批五位.md';
+const SRC='7ad5fee84', DOCF='docs/story_planning/AA_498_法律系同學二十位_共同做法_改名_第一批五位.md';
 const Z='pool_7', Y='pool_4', C='pool_1', YS='pool_6', Q='pool_3';
 if(process.argv[2]==='child'){ child(); }
 else main();
@@ -98,7 +98,7 @@ await sec(0,()=>{ check('0. pool_story.js、pool3d.js 載得到；第一批五�
 
 /* ---------- 1 改名 ---------- */
 const OLDN=['\u90b1\u67cf\u52f3','\u912d\u51f1\u6587','\u65bd\u51a0\u5b87','\u8a79\u54f2\u744b','\u56b4\u5b50\u5b89','\u675c\u5b87\u6046'];   /* 六個舊名（pool_3、6、12、16、18、19）：寫成 \u 跳脫，grep 舊名不會找到這個測試 */
-await sec(1,()=>{ const NEW={pool_3:'邱家齊',pool_6:'鄭元碩',pool_12:'施孟儒',pool_16:'詹立群',pool_18:'嚴守誠',pool_19:'蘇承恩'};
+await sec(1,()=>{ const NEW={pool_3:'邱家齊',pool_6:'鄭元碩',pool_12:'施孟儒',pool_16:'詹立群',pool_18:'嚴守誠',pool_19:'蘇維倫'};   /* pool_19：AA_527 1-7 再改「蘇維倫」（企劃線 bfede0a62；舊存檔「蘇○○」也換，tests/aa527_528_unit.js）*/
   check('1. 六位改名（第 1 節）',Object.keys(NEW).every(id=>CHARACTERS[id].name===NEW[id]),J(Object.keys(NEW).map(id=>CHARACTERS[id].name)));
   check('1. 輪轉單車（SQ16）的借車名單：黃惠玲、鄭文彬（和 pool 撞名的兩個）',J(SIDEQ.LINES.SQ16.names)===J(['陳品叡','黃惠玲','張宇翔','劉思妤','鄭文彬']),J(SIDEQ.LINES.SQ16.names));
   const hits=[]; const scan=dir=>{ for(const f of fs.readdirSync(path.join(H.ROOT,dir))){ const p=path.join(dir,f), st=fs.statSync(path.join(H.ROOT,p)); if(st.isDirectory()){ if(!/node_modules|repro_/.test(f)) scan(p); continue; } if(!/\.(js|py|html|json)$/.test(f)||st.size>8e6) continue; const s=fs.readFileSync(path.join(H.ROOT,p),'utf8'); for(const n of OLDN) if(s.indexOf(n)>=0) hits.push(p+':'+n); } };
@@ -108,7 +108,7 @@ await sec(1,()=>{ const NEW={pool_3:'邱家齊',pool_6:'鄭元碩',pool_12:'施�
   const old={msgs:[{th:'p:pool_6',text:OLDN[1]+'：洗出來再給你',ask:{opts:[{t:'問'+OLDN[0],say:[{text:OLDN[2]+'說好'}]}]}}],phone:{q:[{items:[{text:OLDN[3]+'的音響'}]}],groups:{g1:{name:OLDN[4]+'讀書會'}}},
     outings:[{title:'和'+OLDN[5]+'去社福中心',place:'社科院'}],invites:[{label:OLDN[0]+'的魚丸'}],social:{mem:{pool_3:[{tag:'FIRST_MET',note:'dorm_hall'},{tag:'ADJUST',note:'幫'+OLDN[0]+'領箱子'}]}},memo:[{t:'遇到'+OLDN[1]}],notes:[{title:OLDN[4],body:OLDN[4]+'的刑法筆記'}],goal:'找'+OLDN[3],flags:{}};
   const n1=P()?P().migrate(old):0, s1=J(old);
-  check('1. 讀檔換字（POOL.migrate）：存下的舊名都換成新名',n1>=11&&!OLDN.some(t=>s1.indexOf(t)>=0)&&s1.indexOf('鄭元碩：洗出來再給你')>=0&&s1.indexOf('問邱家齊')>=0&&s1.indexOf('施孟儒說好')>=0&&s1.indexOf('詹立群的音響')>=0&&s1.indexOf('嚴守誠讀書會')>=0&&s1.indexOf('和蘇承恩去社福中心')>=0&&old.goal==='找詹立群',n1+' '+s1.slice(0,300));
+  check('1. 讀檔換字（POOL.migrate）：存下的舊名都換成新名',n1>=11&&!OLDN.some(t=>s1.indexOf(t)>=0)&&s1.indexOf('鄭元碩：洗出來再給你')>=0&&s1.indexOf('問邱家齊')>=0&&s1.indexOf('施孟儒說好')>=0&&s1.indexOf('詹立群的音響')>=0&&s1.indexOf('嚴守誠讀書會')>=0&&s1.indexOf('和蘇維倫去社福中心')>=0&&old.goal==='找詹立群',n1+' '+s1.slice(0,300));
   check('1. 換過的再讀一次不變；資料壞掉不丟例外',P().migrate(old)===0&&J(old)===s1&&P().migrate(null)===0&&P().migrate({msgs:{},phone:null,outings:[null],social:{mem:{pool_3:null}}})===0);
   const g=fs.readFileSync(path.join(H.ROOT,'src/game3d.js'),'utf8'), i=g.indexOf('function migrate(s)'), j=g.indexOf('function ls()');
   check('1. game3d.js 的 migrate（讀檔、匯入都走這裡）叫 POOL.migrate',i>0&&j>i&&g.slice(i,j).indexOf('POOL.migrate(s)')>0); });
@@ -134,9 +134,9 @@ await sec(2,async()=>{ const st=fs.readFileSync(path.join(H.ROOT,'src/story3d.js
   { fresh(TD('Y1S1',1,1),10,'campus'); const a=ACTIVITIES.list.find(x=>x.id==='club_expo_y1s1'); const d=a?onDay(a,TD('Y1S1',1,1)-14):null;   /* 這一局的社博那一天（ACTIVITIES.on：新局 9/6、舊局 9/30）*/
     s=d!=null?at(d,(a.t0+a.t1)/2,'campus',camSeats):[]; check('2. 馬佳蓉：社團博覽會那幾天在法服的攤位',s.some(q=>q[0]==='pool_20'&&q[2]===-50),(d!=null?keyOf(d):'')+' '+J(s)); }
   s=at(TD('Y1S1',4,1),6.75,'campus',camSeats); const zz=s.find(q=>q[0]===Z);
-  check('2. 曾靖雯：平日 06:30～07:40 在傅鐘旁的長椅',!!zz&&zz[2]===-30&&zz[3]===20.94,J(s));
+  check('2. 曾靖雯：平日 06:30～07:40 在晨思鐘旁的長椅',!!zz&&zz[2]===-30&&zz[3]===20.94,J(s));
   { const a=at(TD('Y1S1',4,2),16.5,'campus',camSeats), b=at(TD('Y1S1',4,2),16.5,'campus',camSeats,'cloudy'), c=at(TD('Y1S1',4,2),16.5,'campus',camSeats,'rain');
-    check('2. 鄭元碩：晴天 16:00～17:30 在椰林大道（虛線旁 (−10,0.8)）；陰天、雨天不在',a.some(q=>q[0]===YS&&q[2]===-10)&&!b.some(q=>q[0]===YS)&&!c.some(q=>q[0]===YS),J([a,b,c].map(x=>x.map(q=>q[0])))); }
+    check('2. 鄭元碩：晴天 16:00～17:30 在椰影大道（虛線旁 (−10,0.8)）；陰天、雨天不在',a.some(q=>q[0]===YS&&q[2]===-10)&&!b.some(q=>q[0]===YS)&&!c.some(q=>q[0]===YS),J([a,b,c].map(x=>x.map(q=>q[0])))); }
   s=at(TD('Y1S1',4,1),9.5,'classroom',[0,1,2,3,4,5].flatMap(r=>[0,1,2,3,4,5,6,7].map(c=>({x:-5.25+c*1.5,z:-3.45+r*2.1,yaw:Math.PI,row:r,col:c}))));
   check('2. 必修課（大一上週一憲法，霖澤館 201）：曾靖雯第一排正中間、林采潔第三排、黃郁婷上課時坐最後一排',(s.find(q=>q[0]===Z)||[])[3]===-3.45&&(s.find(q=>q[0]===C)||[])[3]===0.75&&!!s.find(q=>q[0]===Y),J(s));
   { const G=fresh(TD('Y1S1',4,1),9+10/60-0.1,'classroom'); const e=STORY.schedEnt(CHARACTERS[Y],G); check('2. 黃郁婷：上課前 10 分鐘在教室門口（站著）',!!e&&e.act==='linger'&&e.door&&J(e.at)===J(P().DOOR.classroom),J(e)); }
@@ -144,7 +144,7 @@ await sec(2,async()=>{ const st=fs.readFileSync(path.join(H.ROOT,'src/story3d.js
     const c0=[...new Set(Object.keys(CHARACTERS).filter(k=>/^pool_/.test(k)).map(id=>{ const w=STORY.whereIs(GM,id); return w&&w.zone; }).filter(Boolean))];
     check('2. 人物線索（STORY.whereIs）照新的作息：認識的邱家齊 21～23 在交誼廳',(()=>{ G.weekday=0; G.day=TD('Y1S1',4,7)+7; G.hour=21.5; const w=STORY.whereIs(GM,Q); return !!w&&w.zone==='dorm_hall'; })()); }
   { const G=fresh(TD('Y1S1',4,1),6.75,'campus'); spawn(Z); const a=SOCIAL.displayName(Z); set(TD('Y1S1',4,1),9.5,'classroom'); GM.npc={}; spawn(Z); const b=SOCIAL.displayName(Z);
-    check('2. 外觀描述和地點對得上（2-2）：傅鐘「傅鐘旁邊吃早餐的人」、教室「坐第一排正中間的女生」',a==='傅鐘旁邊吃早餐的人'&&b==='坐第一排正中間的女生',a+' / '+b); } });
+    check('2. 外觀描述和地點對得上（2-2）：晨思鐘「晨思鐘旁邊吃早餐的人」、教室「坐第一排正中間的女生」',a==='晨思鐘旁邊吃早餐的人'&&b==='坐第一排正中間的女生',a+' / '+b); } });
 
 /* ---------- 3 樣子 ---------- */
 await sec(3,()=>{ const ids=Object.keys(CHARACTERS).filter(k=>/^pool_/.test(k)), specs=ids.map(id=>CHARACTERS[id].char3d&&CHARACTERS[id].char3d.spec);
@@ -164,27 +164,27 @@ function ASSETS_OK(k,g){ try{ const src=fs.readFileSync(path.join(H.ROOT,'src/as
 /* ---------- 4 第 9 節第 5 點 ---------- */
 /* 曾靖雯：傅鐘認識選「剛好路過」；旁聽選「要看他做了什麼」；畢業典禮早上是 depends 版 */
 await sec('4 曾靖雯',async()=>{ const d1=TD('Y1S1',4,2); fresh(d1,6.75,'campus'); spawn(Z);
-  check('4. 曾靖雯：認識前的按鈕「和傅鐘旁邊吃早餐的人說話」',GM.npc[Z].name==='傅鐘旁邊吃早餐的人');
+  check('4. 曾靖雯：認識前的按鈕「和晨思鐘旁邊吃早餐的人說話」',GM.npc[Z].name==='晨思鐘旁邊吃早餐的人');
   await talk(Z,['剛好路過']);
-  check('4. 曾靖雯 傅鐘認識：三句、選「……剛好路過。」→「六點半剛好路過傅鐘？……好，我不問。」；說出名字以前的說話人是外觀描述、之後是名字',has('六點半剛好路過傅鐘？……好，我不問。')&&whoOf('早安。')==='傅鐘旁邊吃早餐的人'&&whoOf('我叫曾靖雯。你這麼早起來做什麼？')==='曾靖雯'&&SOCIAL.has(Z,'FIRST_MET')&&!has('……你呢？'),J(said()));
+  check('4. 曾靖雯 晨思鐘認識：三句、選「……剛好路過。」→「六點半剛好路過晨思鐘？……好，我不問。」；說出名字以前的說話人是外觀描述、之後是名字',has('六點半剛好路過晨思鐘？……好，我不問。')&&whoOf('早安。')==='晨思鐘旁邊吃早餐的人'&&whoOf('我叫曾靖雯。你這麼早起來做什麼？')==='曾靖雯'&&SOCIAL.has(Z,'FIRST_MET')&&!has('……你呢？'),J(said()));
   check('4. 曾靖雯：認識的那一場不加閒聊（第一次說話＝認識，2-3）；熟悉＋3、信任＋3（線的一段）',!H.said.some(x=>/^「/.test(x.t))&&SOCIAL.rel(Z).trust===3,J(SOCIAL.rel(Z)));
   /* 旁聽 */
   const d2=TD('Y1S2',3,2); set(d2,6.75,'campus'); rel(Z,25,3); GM.npc={}; spawn(Z); await talk(Z,[0]);
   const r=SIDEQ.get(H.G,'PQ_ZJW'), q=(H.G.outings||[]).find(x=>x.ev==='ev_pool_zjw_court');
-  check('4. 曾靖雯 4-3：大一下第 3 週平日早上在傅鐘（有點熟）開口 →「我跟妳去。」＝加好友、掛「陪靖雯去旁聽」、排下一個下午沒課的平日 14:00 臺北地方法院（AA_498「實作時定的」第 3 點：大一下平日每天早上都有課）；她問「你哪天下午沒課？」',has('我想去地方法院旁聽。網站上說誰都可以進去，可是我一個人……有點不敢走進去。')&&has('好。那我們加一下好友。')&&!!r&&r.state==='open'&&INV.hasContact(H.G,Z)&&has('你哪天下午沒課？')&&!!q&&q.h===14&&q.place==='臺北地方法院'&&!CLS.dayItems(H.G,q.day).some(it=>it.t0<16.5&&(it.t1==null?it.t0+2:it.t1)>13.5)&&q.day-d2<=7&&/陪靖雯去旁聽/.test(SIDEQ.todayHTML(H.G)),J([said(),q&&keyOf(q.day)]));
+  check('4. 曾靖雯 4-3：大一下第 3 週平日早上在晨思鐘（有點熟）開口 →「我跟妳去。」＝加好友、掛「陪靖雯去旁聽」、排下一個下午沒課的平日 14:00 臺北地方法院（AA_498「實作時定的」第 3 點：大一下平日每天早上都有課）；她問「你哪天下午沒課？」',has('我想去地方法院旁聽。網站上說誰都可以進去，可是我一個人……有點不敢走進去。')&&has('好。那我們加一下好友。')&&!!r&&r.state==='open'&&INV.hasContact(H.G,Z)&&has('你哪天下午沒課？')&&!!q&&q.h===14&&q.place==='臺北地方法院'&&!CLS.dayItems(H.G,q.day).some(it=>it.t0<16.5&&(it.t1==null?it.t0+2:it.t1)>13.5)&&q.day-d2<=7&&/陪靖雯去旁聽/.test(SIDEQ.todayHTML(H.G)),J([said(),q&&keyOf(q.day)]));
   phAt(q.day-1,21.1); check('4. 曾靖雯：前一晚 21:00 她傳「明天兩點，法院門口。早安先說了，我明天會很緊張。」（她下午也說早安）',msgs(Z).includes('明天兩點，法院門口。早安先說了，我明天會很緊張。'),J(msgs(Z)));
   H.said=[]; H.picks=['要看他做了什麼']; set(q.day,13.7); await OUT.go(GM,q);
   check('4. 曾靖雯 旁聽（2D，court_hall 沒有圖＝深色底）：選「要看他做了什麼」→ ZJW_HELP depends；記 SHARED_SECRET；人物頁「陪她去過地方法院旁聽」；做完',has('你講話好像法官。……可是你說得對，我們連他做了什麼都還沒聽完。')&&H.G.flags.ZJW_HELP==='depends'&&SOCIAL.has(Z,'SHARED_SECRET')&&P().deeds(H.G,Z).includes('陪她去過地方法院旁聽')&&r.state==='done'&&OUT.bg('court_hall')==='dark',J(said()));
   /* 畢業典禮早上 */
   const gd=D('2029-06-02'); set(gd,6.4,'campus'); GM.npc={}; spawn(Z); await talk(Z,[]);
-  check('4. 曾靖雯 4-6 畢業典禮早上（傅鐘）：depends 版「你說要看他做了什麼。…」，最後「好了。……再見。這次不說早安了。」',has('早安。……我多買了一個，猜你會來。')&&has('你說要看他做了什麼。我後來每一次旁聽，都先把那個人做了什麼聽完。……考上以後，我想去法扶。')&&!has('我還是不知道要幫誰。可是我會一直找下去。')&&has('好了。……再見。這次不說早安了。'),J(said()));
-  set(gd,8.2); ph(); check('4. 曾靖雯：去了傅鐘就沒有 08:00 那張空長椅的照片',!msgs(Z).includes('（照片：空的長椅）')); });
+  check('4. 曾靖雯 4-6 畢業典禮早上（晨思鐘）：depends 版「你說要看他做了什麼。…」，最後「好了。……再見。這次不說早安了。」',has('早安。……我多買了一個，猜你會來。')&&has('你說要看他做了什麼。我後來每一次旁聽，都先把那個人做了什麼聽完。……考上以後，我想去法扶。')&&!has('我還是不知道要幫誰。可是我會一直找下去。')&&has('好了。……再見。這次不說早安了。'),J(said()));
+  set(gd,8.2); ph(); check('4. 曾靖雯：去了晨思鐘就沒有 08:00 那張空長椅的照片',!msgs(Z).includes('（照片：空的長椅）')); });
 
 /* 曾靖雯 4-7 錯過、不在：國外（照時差）、延畢（大五上第 1 週 06:30）*/
 await sec('4 曾靖雯 不在',async()=>{ const RD=STORY.ROUTE_DATES.JP, dep=D(RD.dep); fresh(dep-3,12,'campus',{EXCHANGE_ROUTE:'JP'}); meet(Z); rel(Z,25,3); INV.addContact(H.G,Z);
   let got=null, at=null; for(let d=dep;d<dep+30&&!got;d++) for(let h=0;h<24&&!got;h+=0.5){ set(d,h); ph(); const m=(H.G.msgs||[]).find(x=>x.tag==='pool_zjw_abroad'); if(m){ got=m; at=[keyOf(d),h]; } }
   const tw=got?got.day*24+got.h-STORY.tzOffset(H.G,got.day):null;   /* 換回臺灣時間 */
-  check('4. 曾靖雯 4-7：祐廷在國外（日本）＝出發後第三週的週一、臺灣早上六點（日本七點）傳「早安。你那邊幾點？我這邊六點。傅鐘的長椅換新的了。」',!!got&&got.text===L()[Z].abroad&&wdOf(Math.floor(tw/24))===1&&Math.abs(tw%24-6)<0.01&&Math.floor(tw/24)>=dep+14&&Math.floor(tw/24)<dep+21,J([got&&got.text,at]));
+  check('4. 曾靖雯 4-7：祐廷在國外（日本）＝出發後第三週的週一、臺灣早上六點（日本七點）傳「早安。你那邊幾點？我這邊六點。晨思鐘的長椅換新的了。」',!!got&&got.text===L()[Z].abroad&&wdOf(Math.floor(tw/24))===1&&Math.abs(tw%24-6)<0.01&&Math.floor(tw/24)>=dep+14&&Math.floor(tw/24)<dep+21,J([got&&got.text,at]));
   const y5=CALENDAR.termDays('Y5S1'); fresh(y5.from-2,12,'campus',{FAIL_DELAY:true}); meet(Z); rel(Z,25,3); INV.addContact(H.G,Z); phAt(y5.from,6.6);
   const a=msgs(Z).includes(L()[Z].y5); fresh(y5.from-2,12,'campus'); meet(Z); INV.addContact(H.G,Z); phAt(y5.from,6.6);
   check('4. 曾靖雯 4-7：延畢（大四下被當）＝大五上第 1 週 06:30「早安。你今年還在學校，幫我看一下那張長椅還在不在。」；沒延畢不送',a&&!msgs(Z).includes(L()[Z].y5),keyOf(y5.from)); });
@@ -198,9 +198,9 @@ await sec('4 黃郁婷',async()=>{ const d0=TD('Y1S1',4,1); fresh(d0,9+10/60-0.1
   check('4. 黃郁婷：下週一 21:00 她私訊「班費。」（全班都會收到的那種，沒加好友也送），回「（轉帳）」→「收到。」',!!fee&&fee.text==='班費。'&&fee.ask&&fee.ask.opts[0].t==='（轉帳）'&&(PHONE.answer(H.G,fee.ask.id,0),msgs(Y).includes('收到。')),J(msgs(Y)));
   const w=P().yt1Day(); set(w,12.3,'classroom'); GM.npc={}; spawn(Y); await talk(Y,[0]);
   const r=SIDEQ.get(H.G,'PQ_YT1');
-  check('4. 黃郁婷 5-3：期中考前一週的週三下課在教室門口 →「我去幫忙。」＝掛「考前補給包」（今天 19:00～21:00 萬才館一樓）',has('明天系學會要在霖澤館一樓發考前補給包。今天晚上要包八十包，人不夠。')&&!!r&&r.state==='open'&&r.step==='pack'&&/考前補給包/.test(SIDEQ.todayHTML(H.G)),J(said()));
+  check('4. 黃郁婷 5-3：期中考前一週的週三下課在教室門口 →「我去幫忙。」＝掛「考前補給包」（今天 19:00～21:00 萬才館一樓）',has('明天系學會要在A館一樓發考前補給包。今天晚上要包八十包，人不夠。')&&!!r&&r.state==='open'&&r.step==='pack'&&/考前補給包/.test(SIDEQ.todayHTML(H.G)),J(said()));
   set(w,19.5,'wancai'); H.said=[]; GM.E.player.busy=false; const started=P().tick(GM); await new Promise(res=>setTimeout(res,20));
-  check('4. 黃郁婷：當晚 19:30 到萬才館一樓＝包補給包那一場、加好友、做完',started&&has('我數一下。……八十。好，都在。')&&has('謝啦。我們加一下好友，以後缺人我直接找你。')&&r.state==='done'&&INV.hasContact(H.G,Y),J(said()));
+  check('4. 黃郁婷：當晚 19:30 到法律系館B一樓＝包補給包那一場、加好友、做完',started&&has('我數一下。……八十。好，都在。')&&has('謝啦。我們加一下好友，以後缺人我直接找你。')&&r.state==='done'&&INV.hasContact(H.G,Y),J(said()));
   set(w+1,10,'linze'); E.interactables=[]; P().populate('linze',GM); const it=E.interactables.find(x=>x.poolAct==='ytTable'); H.said=[]; if(it&&!it.hidden) await STORY.interact(it,GM);
   check('4. 黃郁婷：隔天在霖澤館一樓「看補給的桌子」＝「（郁婷從桌子後面抽出一包…「第三題不會就先寫第四題。」）」；房間物品「考前補給包的小卡」',!!it&&has(L()[Y].tableYes)&&STORY.roomItemList(H.G).some(x=>x[0]==='考前補給包的小卡'),J(said()));
   /* 秘密 */
@@ -238,15 +238,15 @@ await sec('4 林采潔',async()=>{ const a=ACTIVITIES.list.find(x=>x.id==='lib_t
 
 /* 鄭元碩：背影→秘密選「你拍的那張背影」；當主角→展覽的旁白是你的版本 */
 await sec('4 鄭元碩',async()=>{ const d=TD('Y1S1',6,3); fresh(d,16.5,'campus'); spawn(YS); await talk(YS,['可以給我看']);
-  check('4. 鄭元碩 認識（椰林大道，晴天 16:00～17:30）：選「可以給我看嗎？」→ YS_PHOTO',has('我是鄭元碩，大三，法律系。系上活動的照片，十張裡有八張是我拍的。所以照片裡都沒有我。')&&has('洗出來再給你。底片的，要等。')&&H.G.flags.YS_PHOTO===true,J(said()));
+  check('4. 鄭元碩 認識（椰影大道，晴天 16:00～17:30）：選「可以給我看嗎？」→ YS_PHOTO',has('我是鄭元碩，大三，法律系。系上活動的照片，十張裡有八張是我拍的。所以照片裡都沒有我。')&&has('洗出來再給你。底片的，要等。')&&H.G.flags.YS_PHOTO===true,J(said()));
   set(TD('Y1S2',8,3),16.5,'campus'); rel(YS,25,3); GM.npc={}; spawn(YS); await talk(YS,['那張背影']);
   check('4. 鄭元碩 秘密（大一下第 8 週起）：有 YS_PHOTO 才有「你拍的那張背影，我記得。」→ 照片、YS_REMEMBER、房間物品「元碩拍的背影」',(H.opts[0]||[]).includes('「你拍的那張背影，我記得。」')&&has('……那張洗出來了。我一直忘了給你。')&&H.G.flags.YS_REMEMBER===true&&STORY.roomItemList(H.G).some(x=>x[0]==='元碩拍的背影'),J(said()));
   set(TD('Y2S2',4,2),16.5,'campus'); GM.npc={}; spawn(YS); await talk(YS,[0]); const q=(H.G.outings||[]).find(x=>x.ev==='ev_pool_ys_day'), r=SIDEQ.get(H.G,'PQ_YS');
   check('4. 鄭元碩 7-3（大二下第 4～10 週）：「我可以。」＝加好友、掛「法律系的一天」、排下一個週六 07:00',!!r&&r.state==='open'&&INV.hasContact(H.G,YS)&&!!q&&q.h===7&&wdOf(q.day)===6,J(said()));
   H.said=[]; H.picks=[]; set(q.day,6.9); await OUT.go(GM,q);
-  check('4. 鄭元碩：那一天（2D，四段）演完＝YS_MODEL、做完',has('（早上七點，傅鐘。你坐在長椅的一頭，他蹲在遠遠的地方。）')&&has('最後一張了。謝啦。')&&H.G.flags.YS_MODEL===true&&r.state==='done',J(said()));
+  check('4. 鄭元碩：那一天（2D，四段）演完＝YS_MODEL、做完',has('（早上七點，晨思鐘。你坐在長椅的一頭，他蹲在遠遠的地方。）')&&has('最後一張了。謝啦。')&&H.G.flags.YS_MODEL===true&&r.state==='done',J(said()));
   const ex=TD('Y2S2',15,1); set(ex,12.5,'campus'); GM.npc={}; spawn(YS); E.interactables=[]; P().populate('campus',GM); const it=E.interactables.find(x=>x.poolAct==='ysExpo'); H.said=[]; if(it&&!it.hidden) await STORY.interact(it,GM);
-  check('4. 鄭元碩 7-4 展覽（大二下第 15 週週一，霖澤館穿堂「看穿堂的照片」）：你的版本＋最後一張大一的背影＋他在場的那一句',!!it&&has('（照片裡的人是你：傅鐘的早上、穿堂的中午、麵店的傍晚、總圖的晚上。每一張都只拍到你的背影或側臉。）')&&!has('（照片裡的人是邱家齊。每一張，他都在看鏡頭。）')&&has('（最後一張是大一那年，椰林大道下午四點，一個走進鏡頭的背影。）')&&has('展覽的照片，還是沒有我。……這樣剛好。'),J(said())); });
+  check('4. 鄭元碩 7-4 展覽（大二下第 15 週週一，霖澤館穿堂「看穿堂的照片」）：你的版本＋最後一張大一的背影＋他在場的那一句',!!it&&has('（照片裡的人是你：晨思鐘的早上、穿堂的中午、麵店的傍晚、總圖的晚上。每一張都只拍到你的背影或側臉。）')&&!has('（照片裡的人是邱家齊。每一張，他都在看鏡頭。）')&&has('（最後一張是大一那年，椰影大道下午四點，一個走進鏡頭的背影。）')&&has('展覽的照片，還是沒有我。……這樣剛好。'),J(said())); });
 
 /* 邱家齊：魚丸；答應代收但週六沒去領 → 週日那一則、人物頁沒有那一行 */
 await sec('4 邱家齊',async()=>{ const d=TD('Y1S1',5,7); fresh(d,21.5,'dorm_hall'); spawn(Q); await talk(Q,[1]);
@@ -276,7 +276,7 @@ await sec('4 舊存檔',async()=>{ const d=TD('Y1S2',12,2); fresh(d,6.75,'campus
   const s=JSON.parse(J(H.G)); P().migrate(s); Object.assign(H.G.flags,s.flags); H.G.pool=s.pool;
   check('4. 舊存檔：說過秘密（舊的「其實……」）的記成「沒選」（ZJW_HELP none）',H.G.flags.ZJW_HELP==='none'&&H.G.pool.secret[Z]==='none',J([H.G.flags.ZJW_HELP,H.G.pool]));
   spawn(Z); const heard=[]; for(let k=0;k<4;k++){ set(d+k,6.75,'campus'); GM.npc={}; spawn(Z); await talk(Z,[]); heard.push(...H.said.map(x=>x.t)); }
-  check('4. 舊存檔：說過的舊三句（原句）不再說，新的閒聊從沒說過的開始；秘密不重問（大一下第 12 週起在傅鐘也不演）',!heard.some(t=>OLD3.includes(t))&&!heard.includes('其實……我想當律師。可是我還不知道要幫誰。你呢？')&&heard.includes('「民總講到意思表示那天，我寫了三頁。回去看，只看得懂第一頁。」')===false&&heard.some(t=>/^「/.test(t)),J(heard));
+  check('4. 舊存檔：說過的舊三句（原句）不再說，新的閒聊從沒說過的開始；秘密不重問（大一下第 12 週起在晨思鐘也不演）',!heard.some(t=>OLD3.includes(t))&&!heard.includes('其實……我想當律師。可是我還不知道要幫誰。你呢？')&&heard.includes('「民總講到意思表示那天，我寫了三頁。回去看，只看得懂第一頁。」')===false&&heard.some(t=>/^「/.test(t)),J(heard));
   set(D('2029-06-02'),6.4,'campus'); GM.npc={}; spawn(Z); await talk(Z,[]);
   check('4. 舊存檔：畢業典禮早上照「沒選」那一版（「我還是不知道要幫誰。可是我會一直找下去。」）',has('我還是不知道要幫誰。可是我會一直找下去。')&&!has('畢業以後先考試。考上的話，我想去法扶。先說好，你不要笑。'),J(said())); });
 
@@ -322,7 +322,7 @@ await sec(8,async()=>{ const g=fs.readFileSync(path.join(H.ROOT,'src/game3d.js')
   check('8. 沒說過話的人不進朋友頁（game3d.js knownIds：B 層＝ACQUAINTANCE／FRIEND；看過三次的 RECOGNIZABLE 不算）',/if\(c\.social_layer==='B'\) return \['ACQUAINTANCE','FRIEND'\]\.includes\(SOCIAL\.reveal\(id\)\);/.test(g));
   check('8. 人物頁：B 層用 POOL.pageDesc（一句話；朋友＝personality）＋做過的事（POOL.deedsHTML）',/POOL\.pageDesc\(id\)/.test(g)&&/POOL\.deedsHTML\(id,G\)/.test(g));
   fresh(TD('Y1S1',6,2),14,'bookstore'); meet(C); check('8. 人物頁一句話（認識以後、心事說出來以前）：中性的一句「常在舊路書房看推理小說的同學」（AA_498「實作時定的」第 4 點，照 AA_120）；說出來以後換回「在寫一篇兇手是律師的推理小說」',P().pageDesc(C)==='常在舊路書房看推理小說的同學'&&(SOCIAL.remember(C,'SHARED_SECRET',''),P().pageDesc(C)==='在寫一篇兇手是律師的推理小說'));
-  check('8. 何宇軒、葉晨希、詹立群也是：說出來以前「常在總圖問助教問題的同學」「背吉他袋的學妹」「常幫人搬音響的同學」',['pool_10','pool_11','pool_16'].map(id=>P().pageDesc(id)).join('|')==='常在總圖問助教問題的同學|背吉他袋的學妹|常幫人搬音響的同學',['pool_10','pool_11','pool_16'].map(id=>P().pageDesc(id)).join('|'));
+  check('8. 何宇軒、葉晨希、詹立群也是：說出來以前「常在總圖問助教問題的同學」「背吉他袋的學姊」（AA_528 第 3 節：她大祐廷一屆）「常幫人搬音響的同學」',['pool_10','pool_11','pool_16'].map(id=>P().pageDesc(id)).join('|')==='常在總圖問助教問題的同學|背吉他袋的學姊|常幫人搬音響的同學',['pool_10','pool_11','pool_16'].map(id=>P().pageDesc(id)).join('|'));
   check('8. 沒有回答選項的「……你呢？」不再出現（其他十五位照舊自我介紹）',!/。……你呢？」'\)/.test(fs.readFileSync(path.join(H.ROOT,'src/story3d.js'),'utf8')));
   /* 順手的事和店員的一起算（SIDEQ.MAX）*/
   fresh(TD('Y1S2',3,2),6.75,'campus'); meet(Z); rel(Z,25,3); SIDEQ.rec(H.G).SQ01={state:'open',step:'wait',day:H.G.day,term:'Y1S2'}; SIDEQ.rec(H.G).SQ03={state:'open',step:'x',day:H.G.day,term:'Y1S2'}; spawn(Z); await talk(Z,[0]);
@@ -333,6 +333,6 @@ await sec(8,async()=>{ const g=fs.readFileSync(path.join(H.ROOT,'src/game3d.js')
   const ih=fs.readFileSync(path.join(H.ROOT,'index.html'),'utf8'), sc=[...ih.matchAll(/<script src="([^"?]+)/g)].map(m=>m[1]);
   /* heroine_asks.js → heroine_asks3d.js → bbpack_events.js 緊接（tests/heroine_asks_unit.js 查）：pool 的兩個檔放在 heroine_asks 前面（rom1016_3d.js 後面）*/
   const ix=f=>sc.indexOf(f);
-  check('8. index.html：pool_story.js、pool3d.js（緊接）在 story3d.js、sideq3d.js、classes3d.js、outings3d.js 之後、bbpack_events.js 前面；heroine_asks3d.js 在 bbpack_events.js 前面（中間可以有 dorm203、heard）；bbpack3d.js 緊接 GAME.boot()（中間可以是 AA_497 的兩支）',ix('src/data/pool_story.js')>Math.max(ix('src/story3d.js'),ix('src/sideq3d.js'),ix('src/classes3d.js'),ix('src/outings3d.js'))&&ix('src/pool3d.js')===ix('src/data/pool_story.js')+1&&ix('src/pool3d.js')<ix('src/data/bbpack_events.js')&&ix('src/heroine_asks3d.js')>=0&&ix('src/heroine_asks3d.js')<ix('src/data/bbpack_events.js')&&/src\/bbpack3d\.js[^"]*"><\/script>\s*(<script src="src\/data\/sup497_lines\.js[^"]*"><\/script>\s*<script src="src\/sup497_3d\.js[^"]*"><\/script>\s*)?<script>GAME\.boot\(\);/.test(ih),J(sc.slice(-8))); });   /* 2026-10-28 改：bbpack3d.js 和 GAME.boot() 中間可以是 AA_497 的兩支（data/sup497_lines.js、sup497_3d.js；tests/aa497_supporting_unit.js）*/
+  check('8. index.html：pool_story.js、pool3d.js（緊接）在 story3d.js、sideq3d.js、classes3d.js、outings3d.js 之後、bbpack_events.js 前面；heroine_asks3d.js 在 bbpack_events.js 前面（中間可以有 dorm203、heard）；bbpack3d.js 緊接 GAME.boot()（中間可以是 AA_497 的兩支）',ix('src/data/pool_story.js')>Math.max(ix('src/story3d.js'),ix('src/sideq3d.js'),ix('src/classes3d.js'),ix('src/outings3d.js'))&&ix('src/pool3d.js')===ix('src/data/pool_story.js')+1&&ix('src/pool3d.js')<ix('src/data/bbpack_events.js')&&ix('src/heroine_asks3d.js')>=0&&ix('src/heroine_asks3d.js')<ix('src/data/bbpack_events.js')&&/src\/bbpack3d\.js[^"]*"><\/script>\s*(<script src="src\/data\/sup497_lines\.js[^"]*"><\/script>\s*<script src="src\/sup497_3d\.js[^"]*"><\/script>\s*)?(<script src="src\/aa524_3d\.js[^"]*"><\/script>\s*)?<script>GAME\.boot\(\);/.test(ih),J(sc.slice(-8))); });   /* 2026-10-28 改：bbpack3d.js 和 GAME.boot() 中間可以是 AA_497 的兩支（data/sup497_lines.js、sup497_3d.js；tests/aa497_supporting_unit.js）；2026-10-30：再接 AA_524 的 aa524_3d.js（tests/aa524_promises_unit.js）*/
 H.done();
 }

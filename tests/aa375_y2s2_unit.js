@@ -211,17 +211,22 @@ const lad=(term,cid,sid)=>(((LADDER.byTerm[term]||{})[cid]||{}).steps||[]).find(
   // ===== 第 22 項 =====
   { const e=NEEDED_MSGS.list.find(x=>x.id==='zhe_final'); check('22. 阿哲「期末一起讀？」週次 [14,15]（AA_255 第 2 節第 5 點）',!!e&&J(e.w)===J([14,15]),J(e&&e.w)); }
   // ===== 第 23 項 =====
-  { const T=evTexts(ev('ev_bohan_scores')); check('23. 柏翰的表：「（白板上多了一張表：每個人上週讀了幾頁。）」',T.includes('（白板上多了一張表：每個人上週讀了幾頁。）')&&!T.some(t=>/小考的分數/.test(t)),J(T[0]));
+  { const T=evTexts(ev('ev_bohan_scores')); check('23. 柏翰的表（AA_546 1-4 改成只寫自己的目標）：「（白板上多了一張表：每個人寫自己這週要讀到哪裡。）」',T.includes('（白板上多了一張表：每個人寫自己這週要讀到哪裡。）')&&!T.some(t=>/小考的分數|讀了幾頁|差多少/.test(t)),J(T[0]));
     fresh(STORY.termDay('Y2S2',2,4),20.5,'dorm',{STUDYGROUP_LEADER:true}); PHONE.join(G,'law_class','法律系一年級'); run(20.9,21.2); const m=txt('g:law_class');
-    check('23. 祐廷接的版本：柏翰在全班群組貼「（照片：白板上每個人上週讀的頁數）」',m.includes('（照片：白板上每個人上週讀的頁數）')&&!m.some(t=>/分數分布圖/.test(t)),J(m)); }
+    check('23. 祐廷接的版本：柏翰在全班群組貼「（照片：白板上每個人這週要讀到哪裡）」',m.includes('（照片：白板上每個人這週要讀到哪裡）')&&!m.some(t=>/分數分布圖/.test(t)),J(m)); }
   // ===== 第 4 節：AA_342 第 2-2 節（大二下的七則補稿）=====
   { const a=ev('ev_y2s2_thu_noodle_first'), b=ev('ev_y2s2_thu_noodle_spring');
     const okIn=(e,k,h)=>{ fresh(k,h,'noodle'); PHONE.join(G,'noodle_team','麵店團'); return !!e&&EVENTS.check(e); };
-    check('AA_342. 2/25（四）大二下第一次的週四麵店：「（大二下第一次的週四麵店。阿姨說，過年胖了的人自己知道。）」',!!a&&J(evTexts(a))===J(['（大二下第一次的週四麵店。阿姨說，過年胖了的人自己知道。）'])&&okIn(a,'2027-02-25',18)&&!okIn(a,'2027-02-24',18));
-    check('AA_342. 4/8（四）春假回來第一次週四麵店：「（春假回來的第一個週四。長桌的人，每個人都在講自己這幾天去了哪裡。）」',!!b&&J(evTexts(b))===J(['（春假回來的第一個週四。長桌的人，每個人都在講自己這幾天去了哪裡。）'])&&okIn(b,'2027-04-08',18)&&!okIn(b,'2027-04-15',18));
+    const nd1=(()=>{ for(let d=D('2027-02-22');d<D('2027-03-15');d++) if(STORY.noodleDay(d)) return CALENDAR.dateOf(d).key; return null; })(), nn1=(()=>{ for(let d=D('2027-02-22');d<D('2027-03-01');d++){ const w=CALENDAR.dateOf(d).wd; if(w>=1&&w<=5&&!STORY.noodleDay(d)) return CALENDAR.dateOf(d).key; } return null; })();   /* AA_542 第 5 節：麵店日每週不固定兩天 */
+    check('AA_342. 大二下第一個麵店日（'+nd1+'）：「（大二下第一次在麵店遇到大家。阿姨說，過年胖了的人自己知道。）」；不是麵店日（'+nn1+'）不演',!!a&&J(evTexts(a))===J(['（大二下第一次在麵店遇到大家。阿姨說，過年胖了的人自己知道。）'])&&!!nd1&&okIn(a,nd1,18)&&!!nn1&&!okIn(a,nn1,18));
+    { const SP1='（春假回來以後，第一次在麵店遇到大家。每個人都在講自己這幾天去了哪裡。）', SP10='（期中考完，第一次在麵店遇到大家。春假去了哪裡，到現在還有人在講。）';
+      const ndw=w=>{ for(let i=1;i<=5;i++){ const d=STORY.termDay('Y2S2',w,i); if(d!=null&&STORY.noodleDay(d)) return CALENDAR.dateOf(d).key; } return null; }, w7=ndw(7), w10=ndw(10), w11=ndw(11);
+      const sayAt=k=>{ fresh(k,18,'noodle'); return b.dialogue.filter(l=>!l.if||!l.if.custom||l.if.custom(G)).map(l=>l.text); };
+      check('AA_342／AA_542 9-2. 春假回來以後第一個麵店日：第 7 週（'+w7+'）「'+SP1+'」；第 8～9 週期中沒有麵店日；第 7 週錯過、第 10 週（'+w10+'）才遇到換「'+SP10+'」；第 11 週（'+w11+'）不演',
+        !!b&&J(evTexts(b))===J([SP1,SP10])&&w7==='2027-04-08'&&ndw(8)==null&&ndw(9)==null&&!!w10&&!!w11&&okIn(b,w7,18)&&J(sayAt(w7))===J([SP1])&&okIn(b,w10,18)&&J(sayAt(w10))===J([SP10])&&!okIn(b,w11,18),J([w7,w10,w11,w7&&sayAt(w7),w10&&sayAt(w10)])); }
     fresh('2027-03-06',9,'dorm'); said=[]; const t1=Y2R2.fillTick?Y2R2.fillTick(GM):false; await new Promise(r=>setImmediate(r)); const s1=lines(); said=[]; const t1b=Y2R2.fillTick?Y2R2.fillTick(GM):false;
     fresh('2027-05-20',12,'dorm'); said=[]; Y2R2.fillTick&&Y2R2.fillTick(GM); await new Promise(r=>setImmediate(r)); const s2=lines();
-    check('AA_342. 3/6（六）、5/20（四）摘要日的旁白各說一次',t1===true&&J(s1)===J(['（大二下的第二週。你終於記住了這學期的課表：週二要跑萬才館。）'])&&t1b===false&&J(s2)===J(['（五月。宿舍走廊開始有人在討論暑假要去哪裡。）']),J([t1,s1,t1b,s2]));
+    check('AA_342. 3/6（六）、5/20（四）摘要日的旁白各說一次',t1===true&&J(s1)===J(['（大二下的第二週。你終於記住了這學期的課表：週二要跑法律系館B。）'])&&t1b===false&&J(s2)===J(['（五月。宿舍走廊開始有人在討論暑假要去哪裡。）']),J([t1,s1,t1b,s2]));
     fresh('2027-03-12',20.5,'dorm'); R('classmate_bohan','FAM'); run(20.9,21.2); const bh=TH('p:classmate_bohan');
     check('AA_342. 3/12（五）21:00 柏翰私訊「債各第一章的筆記，我做了表格。」「要的話傳給你。」（要。／我自己整理。）',J(bh.map(m=>m.text))===J(['債各第一章的筆記，我做了表格。','要的話傳給你。'])&&!!bh[1].ask&&J(bh[1].ask.opts.map(o=>o.t))===J(['要。','我自己整理。'])&&bh[1].ask.opts[0].say[0].text==='（照片：一張表格，欄位比內容多）',J(bh.map(m=>m.text)));
     fresh('2027-03-12',20.5,'dorm'); R('classmate_bohan','ACQ'); run(20.9,21.2); check('AA_342. 對照：和柏翰不到 FAMILIAR 不傳',TH('p:classmate_bohan').length===0);
@@ -237,8 +242,8 @@ const lad=(term,cid,sid)=>(((LADDER.byTerm[term]||{})[cid]||{}).steps||[]).find(
     const op=am.length?am[am.length-1].ask:null; check('AA_255. 回覆兩個：「沒事就好。」→「嗯」「……其實有一點事 改天講」／「要不要出來走走？」→「今天不要」「明天宵夜」',!!op&&J(op.opts.map(o=>[o.t,o.say.map(x=>x.text)]))===J([['沒事就好。',['嗯','……其實有一點事 改天講']],['要不要出來走走？',['今天不要','明天宵夜']]]),J(op&&op.opts));
     fresh('2027-06-04',21.5,'dorm'); R('heroine_04','FRI'); INV.addContact(G,'heroine_04'); SOCIAL.remember('heroine_04','PLAYTESTED',''); dateWith('heroine_04'); run(21.9,22.2); const b=z();
     check('AA_255. 看過 Q6＝「他問我遊戲做好了沒」；和子晴交往中最後多「下次他來 你要不要在」',J(b)===J(['我爸上禮拜來過','搭計程車來 搭計程車回去','他問我遊戲做好了沒','……我跟芷若去河堤走了一圈 沒事','下次他來 你要不要在']),J(b)); }
-  { const B='這週讀書會在萬才館，有空可以來。', base=(LADDER.byTerm.Y2S2.heroine_01.greet||{}).base||[], R0=STORY.LADDER_GREET_IF&&STORY.LADDER_GREET_IF[B], ok=w=>{ fresh(STORY.termDay('Y2S2',w,2),12,'campus'); return !R0||!R0.test||R0.test(G); };
-    check('AA_255 第 2 節第 5 點. 以安讀書會的招呼避開大二下第 8、9、16 週（base「這週讀書會在萬才館，有空可以來。」也是）',base.includes(B)&&!!R0&&!ok(8)&&!ok(9)&&!ok(16));
+  { const B='這週讀書會在B館，有空可以來。', base=(LADDER.byTerm.Y2S2.heroine_01.greet||{}).base||[], R0=STORY.LADDER_GREET_IF&&STORY.LADDER_GREET_IF[B], ok=w=>{ fresh(STORY.termDay('Y2S2',w,2),12,'campus'); return !R0||!R0.test||R0.test(G); };
+    check('AA_255 第 2 節第 5 點. 以安讀書會的招呼避開大二下第 8、9、16 週（base「這週讀書會在B館，有空可以來。」也是）',base.includes(B)&&!!R0&&!ok(8)&&!ok(9)&&!ok(16));
     check('AA_255 第 2 節第 5 點. 對照：第 3、10 週照常',ok(3)&&ok(10)); }
   console.log(fails?'FAILED '+fails:'ALL PASS'); process.exit(fails?1:0);
 })().catch(e=>{ console.log('FAIL 例外',e&&e.stack||e); process.exit(1); });

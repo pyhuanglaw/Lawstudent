@@ -51,9 +51,9 @@ const keep=()=>JSON.stringify(G), back=s=>{ G=JSON.parse(s); SOCIAL.bind(G); EVE
   L=await runEv('ev_y0_rs');
   check('3. 第一次＝S1「你又比我早起。……今天早餐我請。」；R1 沒演過＝接「我發現我喜歡吵贏……」（只一次）',L.includes('你又比我早起。……今天早餐我請。')&&L.includes('我昨天想一題想到睡不著。等一下要跟你吵。')&&G.flags.R1_LINE===true&&JSON.stringify(G.flags.RS_USED)==='[0]',JSON.stringify(L));
   const s3=keep(); G.day=K('2025-04-01'); G.weekday=wdOf(G.day); G.hour=12.4; G.flags.RT_DAY={day:G.day,type:'study'}; L=await runEv('ev_y0_rs');
-  check('3. 下一個讀書日：S2「（她放下包包）」「你讀到哪了？……三章？我才讀到第二章。」（不再限週四）；R1 那句不再說',L.includes('你讀到哪了？……三章？我才讀到第二章。')&&!L.some(t=>/喜歡吵贏/.test(t)),JSON.stringify(L));
+  check('3. 下一個讀書日：S2「（她放下包包）」「你讀到哪了？……三章？好，我也要到第三章。」（不再限週四）；R1 那句不再說',L.includes('你讀到哪了？……三章？好，我也要到第三章。')&&!L.some(t=>/喜歡吵贏/.test(t)),JSON.stringify(L));
   back(s3); G.day=K('2025-03-28')+7; G.weekday=wdOf(G.day); G.hour=10.2; G.flags.RT_DAY={day:G.day,type:'study'}; L=await runEv('ev_y0_rs');
-  check('3. 週五也一樣輪流（她沒有課了）：S2',L.includes('你讀到哪了？……三章？我才讀到第二章。'),JSON.stringify(L));
+  check('3. 週五也一樣輪流（她沒有課了）：S2',L.includes('你讀到哪了？……三章？好，我也要到第三章。'),JSON.stringify(L));
   // 4. R5
   study('2025-04-02',9.9); check('4. 4/2 09:54：她還沒到',!EVENTS.check(ev('ev_y0_r5'))); G.hour=10.1; G.events.done.ev_y0_r1=1;
   check('4. 10:06：R5',EVENTS.check(ev('ev_y0_r5'))&&!EVENTS.check(ev('ev_y0_rs'))); L=await runEv('ev_y0_r5');
@@ -78,7 +78,7 @@ const keep=()=>JSON.stringify(G), back=s=>{ G=JSON.parse(s); SOCIAL.bind(G); EVE
   G.hour=9.5; said=[]; script=['和可昕出門']; await loop(); L=said.map(x=>x.t);
   check('7. 第一次＝P1「（你們在公館的二輪戲院看了一部老電影。……）」',L.includes('（你們在公館的二輪戲院看了一部老電影。片尾字幕跑完以前，她不准你站起來。）'),JSON.stringify(L));
   const s7=keep(); G.day=K('2025-05-20'); G.weekday=wdOf(G.day); G.flags.RT_DAY={day:G.day,type:'play'}; G.outings=[]; G.hour=8.5; STORY.rtPlanPlay(G); G.hour=STORY.KX_ARRIVE-0.3; said=[]; script=['和可昕出門']; await loop(); L=said.map(x=>x.t);
-  check('7. 5/20：P2 溫州街（到 5/15）過了 → P3 醉月湖',L.includes('（你們坐在醉月湖邊吃雞蛋糕。她說湖裡的魚看起來也在準備考試。）'),JSON.stringify(L));
+  check('7. 5/20：P2 溫州街（到 5/15）過了 → P3 映月湖',L.includes('（你們坐在映月湖邊吃雞蛋糕。她說湖裡的魚看起來也在準備考試。）'),JSON.stringify(L));
   // 8. R6
   homeBase('2025-05-06',8.5); script=['出去走走']; await STORY.retakeWake(GM); check('8. 第 12 週第一個玩樂日（5/6）：R6 河濱',OUT.get(G,'rt_play_'+G.day).ev==='ev_y0_r6');
   L=await runEv('ev_y0_r6'); check('8. R6：「今天不讀書。這是規定。」「誰規定的？」「我。剛剛。」…「好。這一題，七月再對答案。」',L.includes('今天不讀書。這是規定。')&&L.includes('誰規定的？')&&L.includes('我。剛剛。')&&L.includes('你手機也收起來。')&&L[L.length-1]==='（你也把手機收起來。你們躺到太陽快下山，才騎回去。）',JSON.stringify(L));

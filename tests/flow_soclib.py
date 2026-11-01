@@ -61,7 +61,7 @@ async def main():
         await pg.goto(URL)
         run.check('遊戲載入', await L.wait_loaded(pg))
         # ---------- A：從霖澤館前走到社科院正面、進館 ----------
-        run.setup('讀檔：第 3 天（9/19 週五）10:00，霖澤館前 (34,-98)')
+        run.setup('讀檔：第 3 天（9/19 週五）10:00，法律系館A前 (34,-98)')
         await L.load_state(pg, {'zone': 'campus', 'hour': 10.0, 'day': DAY_FRI, 'weekday': 5, 'weather': 'sunny', 'pos': {'x': 34, 'z': -98, 'yaw': 1.57}, 'flags': BASE_FLAGS})
         await pg.wait_for_timeout(3500)
         d = await L.find_it(pg, '進入社科院圖書館')

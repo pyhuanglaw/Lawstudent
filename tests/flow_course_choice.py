@@ -5,7 +5,7 @@
 A. 選非預設：走到床邊「睡覺」→ 9/3（週日）起床 →「選課結果出來了：大四上」→「勞動社會法、財稅法，選一門。」選財稅法 →「刑事判決研討、公法判決研討，選一門。」選公法判決研討
    → 存檔 → 手機「課表」：有財稅法、公法判決研討，沒有勞動社會法、刑事判決研討 → 等到晚上、睡覺 → 9/4（週一，開學第一天）手機「今天」：09:10 強制執行法（不受影響）。
 B. 預設：重新讀同一個前置存檔 → 睡覺 → 兩組都選第一個（預設排第一）→ 勞動社會法、刑事判決研討 → 手機「課表」相反。
-C. 上選的那門課：[前置／捷徑] 讀檔到 9/7（週四）13:00 宿舍、選修照 A（財稅法）→ 手機「今天」13:20 財稅法（霖澤館 201）→「去教室」→ 自己走到座位、坐下「上課：財稅法」→ 下課 15:10、出席 1 次。
+C. 上選的那門課：[前置／捷徑] 讀檔到 9/7（週四）13:00 宿舍、選修照 A（財稅法）→ 手機「今天」13:20 財稅法（法律系館A 201）→「去教室」→ 自己走到座位、坐下「上課：財稅法」→ 下課 15:10、出席 1 次。
 用法：python3 tests/flow_course_choice.py URL [輸出資料夾]"""
 import asyncio, json, sys
 from playwright.async_api import async_playwright
@@ -182,13 +182,13 @@ async def main():
         await L.load_state(pg, C, quiet_events=True)
         await pg.wait_for_timeout(3500)
         txt = await phone(pg, cdp, 'today')
-        run.check('C 手機「今天」：13:20 財稅法（霖澤館 201），沒有勞動社會法', '財稅法' in txt and '霖澤館 201' in txt and '勞動社會法' not in txt, txt[:260])
+        run.check('C 手機「今天」：13:20 財稅法（法律系館A 201），沒有勞動社會法', '財稅法' in txt and '法律系館A 201' in txt and '勞動社會法' not in txt, txt[:260])
         ok = await pg.evaluate("!!document.querySelector('#phoneBody [data-go]')")
         run.check('C 手機「今天」有「去教室」', ok)
         if ok:
             await L.tap(pg, cdp, '#phoneBody [data-go]'); await pg.wait_for_timeout(6000)
         s = await L.state(pg)
-        run.check('C 到霖澤館 201（快速前往）', s['zone'] == 'classroom', json.dumps(s, ensure_ascii=False))
+        run.check('C 到法律系館A 201（快速前往）', s['zone'] == 'classroom', json.dumps(s, ensure_ascii=False))
         if s['zone'] == 'classroom':
             seat = await pg.evaluate("(()=>{ const s=GAME.E.zone.seats.find(q=>q.row===2&&q.col===3); return s?{x:s.x,z:s.z}:null; })()")
             ok = bool(seat) and await L.go_to(pg, cdp, run, seat['x'], seat['z'] + 0.35, 0.3, '座位')

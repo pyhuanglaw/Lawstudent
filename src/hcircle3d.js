@@ -231,15 +231,18 @@ const HCIRCLE=(function(){
     const st=S.seatAtXZ(E,r.seatAt,hn); if(!st) return null; const cur=hn.seat||hn.seatTarget; if(cur&&near(cur,st)) return 'sit';
     hn._hcGo=false; sitMove(GM,hn,st,'read',quiet); return 'sit'; };
   /* 標籤同伴：固定的路人底模（spec.id＝標籤 id，不進無名路人池；模型還沒下載完先藏起來）*/
-  S.specOf=function(cid){ const p=PEOPLE[cid]; if(!p) return null; const ix=Object.keys(PEOPLE).indexOf(cid); const base=typeof STORY!=='undefined'&&STORY.extraSpec?STORY.extraSpec(900+ix*2+(p.sex==='m'?1:0)):{};
-    return Object.assign(base,{id:cid,name:p.label,sex:p.sex,model:p.model},p.height?{height:p.height}:{},p.props?{props:p.props.map(q=>typeof q==='object'?Object.assign({},q):q)}:{}); };   /* props：配件（HEROINE-LIFE-NPC3D-1028，LAWWW2-C）*/
+  /* 配件的 when（AA_527 2-2，企劃線 bfede0a62）：那個條件成立才戴。ayiHand＝麵店阿姨的繃帶只在大一下第 8～9 週（AA_504 阿姨扭到手）；其他時間不戴（櫃台、廚房那位都一樣：src/sup519_3d.js S.clerkSpec 也走這裡）*/
+  S.PROP_WHEN={ ayiHand:G=>{ const T=G&&typeof CALENDAR!=='undefined'&&CALENDAR.termOf?CALENDAR.termOf(G.day):null; return !!T&&T.id==='Y1S2'&&(T.week===8||T.week===9); } };
+  S.propOk=(q,G)=>{ if(!q||typeof q!=='object'||!q.when) return true; const f=S.PROP_WHEN[q.when]; return !!f&&!!G&&!!f(G); };
+  S.specOf=function(cid,G){ const p=PEOPLE[cid]; if(!p) return null; G=G||(GMr&&GMr.G)||null; const ix=Object.keys(PEOPLE).indexOf(cid); const base=typeof STORY!=='undefined'&&STORY.extraSpec?STORY.extraSpec(900+ix*2+(p.sex==='m'?1:0)):{};
+    return Object.assign(base,{id:cid,name:p.label,sex:p.sex,model:p.model},p.height?{height:p.height}:{},p.props?{props:p.props.filter(q=>S.propOk(q,G)).map(q=>{ if(typeof q!=='object') return q; const o=Object.assign({},q); delete o.when; return o; })}:{}); };   /* props：配件（HEROINE-LIFE-NPC3D-1028，LAWWW2-C）；when 不成立的不戴 */
   S._loading={}; S._failed={};
   S.modelWait=function(n){ const m=n&&n.hcModel; if(!m||typeof CHAR==='undefined'||!CHAR.isDegraded||!n.obj) return;
     if(CHAR.isDegraded(n.obj)){ if(S._failed[m]){ const u=n.obj.userData; u.wantModel=null; if(u.degradedHidden){ for(const ch of n.obj.children) ch.visible=true; u.degradedHidden=false; } n.hidden=false; n._hcWait=false; return; }
       n.hidden=true; n._hcWait=true; if(typeof ASSETS!=='undefined'&&ASSETS.loadOne&&ASSETS.has&&!ASSETS.has(m)&&!S._loading[m]){ S._loading[m]=true; ASSETS.loadOne(m).catch(e=>{ S._failed[m]=true; console.warn('HCIRCLE model',m,e&&e.message); }).finally(()=>{ delete S._loading[m]; }); } }
     else if(n._hcWait){ n.hidden=false; n._hcWait=false; } };
   /* at：生出來的位置（店員的位置）；室內、待在區域裡、在玩家眼前＝從門口走進來；室外照她旁邊（S.place 再站好）*/
-  S.spawnLabel=function(GM,cid,hn,refresh,at){ const E=GM.E, spec=S.specOf(cid); if(!spec||!GM.spawnNPC||!P(hn)) return null; const hp=P(hn);
+  S.spawnLabel=function(GM,cid,hn,refresh,at){ const E=GM.E, spec=S.specOf(cid,GM.G); if(!spec||!GM.spawnNPC||!P(hn)) return null; const hp=P(hn);
     const indoor=!!(E.indoor||(E.zone&&E.zone.indoor)), door=!at&&indoor&&refresh&&E.zone&&E.zone.spawn&&quietFor(GM,hn,refresh)===false?E.zone.spawn:null;
     const x=at?at.x:(door?door.x:hp.x+0.9), z=at?at.z:(door?door.z:hp.z);
     const n=GM.spawnNPC(cid,spec,x,z,{lv:door?(door.lv|0):(hn.lv|0),yaw:at&&at.yaw!=null?at.yaw:0,pose:'idle',talk:null,talkLabel:null,greet:false}); if(!n) return null;
@@ -261,6 +264,7 @@ const HCIRCLE=(function(){
         if(!cn||!P(cn)) continue;
         const k=slots[r.who]=(slots[r.who]|0)+1; S.place(GM,r,hn,cn,cid,k-1,refresh);
         const ck=(r.comp&&r.comp[cid]&&r.comp[cid].clerk)||null; if(ck&&isLabel(cid)&&!cn._hcHid){ const c=clerkNpc(E,ck); if(c&&!c.hidden){ c.hidden=true; if(c.obj) c.obj.visible=false; cn._hcHid=c; } } } }
+    if(typeof HEARD!=='undefined'&&HEARD&&typeof HEARD.labelWant==='function'){ try{ for(const c of HEARD.labelWant(GM)) want.add(c); }catch(e){ console.warn('HCIRCLE HEARD.labelWant',e); } }   /* 別人說起她的標籤同伴（AA_527 2-6：語彤走了以後大一的學妹在門口多站一下，src/heard3d.js S.labelTick）*/
     for(const key of Object.keys(GM.npc)){ const n=GM.npc[key]; if(!n||!n.hcLabel) continue; if(want.has(n.hcLabel)){ S.modelWait(n); continue; } S.dropLabel(GM,key,n,refresh); }
     S.release(GM,act,heroes);
     S.kitchen(GM,want);   /* 廚房那位就是阿姨（第五輪）：語彤在顧店、阿姨不在＝店員也不出現 */
@@ -339,9 +343,10 @@ const HCIRCLE=(function(){
   S.intro=function(GM,r,hn){ const G=GM.G, R=S.rec(G), hp=P(hn);
     for(const cid of (r.with||[])){ if(isLabel(cid)||R.intro[cid]!=null) continue; const cn=S.npcOf(GM,cid), cp=P(cn); if(!cp||!hp||Math.hypot(cp.x-hp.x,cp.z-hp.z)>=S.NEAR_R) continue;
       R.intro[cid]=G.day;
-      if(/^pool_/.test(cid)&&typeof SOCIAL!=='undefined'&&SOCIAL.has&&!SOCIAL.has(cid,'FIRST_MET')){ SOCIAL.meet(cid,G.zone);
-        if(typeof POOL!=='undefined'&&POOL.owns&&POOL.owns(cid)&&POOL.afterMeet) POOL.afterMeet(G,cid); else if(SOCIAL.adjust) SOCIAL.adjust(cid,{fam:3});
-        if(SOCIAL.npcName){ cn.name=SOCIAL.npcName(cid); if(cn.talk||cn._poolTalk) cn.talkLabel='和'+cn.name+'說話'; } } } };
+      /* AA_528 1-3（企劃線 7ad5fee84）：同框只顯示名字（名牌），不記 FIRST_MET、不算認識——他們自己的第一場照演（晏如、晨希照他們那一場；芸萱的沛珊介紹版）；
+         看到過名字的（R.intro）頭上、按鈕寫名字（src/pool3d.js POOL.descNow 問 S.named）。原本這裡就認識（SOCIAL.meet、POOL.afterMeet、熟悉＋3）*/
+      if(/^pool_/.test(cid)&&typeof SOCIAL!=='undefined'&&SOCIAL.has&&!SOCIAL.has(cid,'FIRST_MET')&&SOCIAL.npcName){ cn.name=SOCIAL.npcName(cid); if(cn.talk) cn.talkLabel='和'+cn.name+'說話'; } } };
+  S.named=(G,cid)=>{ if(!G||!G.flags) return false; const R=G.flags.HCIRCLE; return !!(R&&R.intro&&R.intro[cid]!=null); };
   S.wrapTalk=function(GM,id,hn){ if(!hn||!hn.talk||hn.talk._hc) return; const t0=hn.talk; const w=async function(nn){ try{ await S.before(GM,id,nn||hn); }catch(e){ console.warn('HCIRCLE.before',e); } return t0.apply(this,arguments); }; w._hc=true; w._t0=t0; hn.talk=w; };
 
   /* ---------- 每 0.5 秒（STORY.TICKS）---------- */

@@ -20,7 +20,7 @@ for p in BATCHES:
     ok, why = G.allowed(p, APPROVED.get(p, ''), ALLOW)
     if not ok:
         sys.exit('拒絕匯入：' + why)
-    d = json.loads(G.alison(subprocess.check_output(['git', '-C', ROOT, 'show', f'{APPROVED[p]}:{p}'], text=True)))  # AA_380：讀稿先把「小語」換成 Alison（import_guard.alison）
+    d = json.loads(G.read_fix(subprocess.check_output(['git', '-C', ROOT, 'show', f'{APPROVED[p]}:{p}'], text=True)))  # AA_380：讀稿先把「小語」換成 Alison（import_guard.alison）
     for s in d['spots']:
         spots[s['id']] = dict(s, batch=d.get('batch', 2))
     used.append(f'{os.path.basename(p)}@{APPROVED[p]}')

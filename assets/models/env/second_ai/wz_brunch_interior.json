@@ -4,7 +4,7 @@
  "tris": 17982,
  "tris_drawn": 17982,
  "materials": 79,
- "out": "../../../tmp/claude-0/-home-user-Lawstudent/62ca4225-4c3d-5d85-9e8d-40846d4f390f/scratchpad/trnew/wz_brunch_interior.glb",
+ "out": "assets/models/env/second_ai/wz_brunch_interior.glb",
  "bytes": 1031500,
  "texres": 512,
  "shop": "brunch",

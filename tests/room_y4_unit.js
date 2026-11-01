@@ -39,6 +39,13 @@ const lines=()=>said.map(s=>(s.who?s.who+'：':'')+s.t);
   G.flags.EXCHANGE_ROUTE='JP'; check('1. 日本 9/3 到了（8/5 已經回來）', STORY.roomY4Due(G));
   G.flags.EXCHANGE_ROUTE='US'; check('1. 美國 9/3 不搬（8/2 出發、人在美國）', !STORY.roomY4Due(G)); G.day=ret; check('1. 美國 12/23 返台才搬', STORY.roomY4Due(G));
   G.stage='econ'; check('1. 經濟系那年不算', !STORY.roomY4Due(G));
+  /* BUG-ROOMY4-LATE-1031（BB-B n34_y4late）：搬的那天（台灣、日本 9/3；美國 12/23）和隔天演，隔天不說「明天開學」；再晚才讀進來、還沒搬的直接記；修改前 FAIL */
+  fresh(d3+1,20,'dorm'); check('1b. 台灣 9/4 還照演；不說「明天開學」', STORY.roomY4Due(G)&&!STORY.roomY4Lines(G).includes('（明天開學。最後一次搬進宿舍。）')&&(G.day=d3,STORY.roomY4Lines(G)[0])==='（明天開學。最後一次搬進宿舍。）');
+  for(const k of ['2028-10-16','2028-12-15']){ const dd=STORY.dayOfKey(k); fresh(dd,20,'dorm'); const due0=STORY.roomY4Due(G), r=STORY.roomY4Late(G);
+    check('1b. 台灣 '+k+' 才讀進來、沒有 ROOM_Y4：不演、S.roomY4Late 直接記', !due0&&r===true&&G.flags.ROOM_Y4===dd&&!STORY.roomY4Due(G), JSON.stringify({due0,r,R:G.flags.ROOM_Y4})); }
+  fresh(STORY.dayOfKey('2028-10-16'),20,'dorm'); G.flags.ROOM_Y4_MOVING=true; check('1b. 已經開始搬（ROOM_Y4_MOVING）：10/16 照舊算到期、roomY4Late 不動', STORY.roomY4Due(G)&&STORY.roomY4Late(G)===false&&!G.flags.ROOM_Y4); delete G.flags.ROOM_Y4_MOVING;
+  fresh(STORY.dayOfKey('2028-10-16'),20,'dorm'); G.flags.EXCHANGE_ROUTE='US'; check('1b. 美國路線 10/16（人在美國、還沒返台）：不演、roomY4Late 也不記', !STORY.roomY4Due(G)&&STORY.roomY4Late(G)===false&&!G.flags.ROOM_Y4);
+  G.day=ret+1; check('1b. 美國 12/24（返台隔天）照演', STORY.roomY4Due(G)); G.day=ret+3; check('1b. 美國 12/26 才讀進來：不演、直接記', !STORY.roomY4Due(G)&&STORY.roomY4Late(G)===true&&G.flags.ROOM_Y4===ret+3);
   fresh(late+3,20,'dorm'); check('1. 大四下以後才讀檔：不演、直接記 ROOM_Y4（BOX_KEPT_Y4 null）', !STORY.roomY4Due(G)&&STORY.roomY4Late(G)&&G.flags.ROOM_Y4===late+3&&G.flags.BOX_KEPT_Y4===null&&JSON.stringify(G.flags.ROOM_Y4_ITEMS)==='[]');
   // 2. 新東西
   const items=()=>STORY.roomY4Items(G).map(r=>r[0]);
@@ -49,7 +56,7 @@ const lines=()=>said.map(s=>(s.who?s.who+'：':'')+s.t);
   G.flags.COLD_WEEK_PRESENT=[]; G.flags.PLAYTESTED=false; G.flags.EXCHANGE_ROUTE='US'; check('2. 感冒那晚沒人來＝沒有塑膠袋；沒有 PLAYTESTED＝沒有製作名單；美國路線＝沒有田野筆記', JSON.stringify(items())==='["form","land","postcards"]', JSON.stringify(items()));
   // 3. 拆箱
   fresh(d3,9,'dorm',{FAMILY_LAND_Y3:'meal'}); picks=[0,0,'全部拿出來']; await STORY.unboxY4(GM); let T=lines(); const keepOpts=opts[opts.length-1];
-  check('3. H1 拆箱的順序和台詞', T[0]==='（這是最後一次拆箱。）'&&T[1]==='（這些東西，閉著眼睛也知道要放哪裡。）'&&T.includes('那張沒交的志願表。空白的，你一直沒丟。')&&T.includes('十六個名字。這次你每一個都看得懂。')&&T.includes('黃金葛。第四個窗台。它已經垂到書桌了。')&&T[T.length-1]==='（三年。這個房間，你只會住一年。）', JSON.stringify(T));
+  check('3. H1 拆箱的順序和台詞（DORM-Y34：先室友旁白）', T.shift()==='（409。最後一次搬。柏翰比你早到，耳塞已經放在枕頭旁邊。）'&&T[0]==='（這是最後一次拆箱。）'&&T[1]==='（這些東西，閉著眼睛也知道要放哪裡。）'&&T.includes('那張沒交的志願表。空白的，你一直沒丟。')&&T.includes('十六個名字。這次你每一個都看得懂。')&&T.includes('黃金葛。第四個窗台。它已經垂到書桌了。')&&T[T.length-1]==='（三年。這個房間，你只會住一年。）', JSON.stringify(T));
   check('3. 第三步：每一件「（把{東西}留在紙箱裡）」、黃金葛不列、最後「（全部拿出來。）」', keepOpts.includes('（把一支隨身碟，標籤「測試版　不准外流」留在紙箱裡）')&&keepOpts.includes('（把書架上的舊《民法》留在紙箱裡）')&&keepOpts.includes('（把志願表留在紙箱裡）')&&!keepOpts.some(t=>/黃金葛/.test(t))&&keepOpts[keepOpts.length-1]==='（全部拿出來。）', JSON.stringify(keepOpts));
   check('3. H4 大三丟掉的那一件（阿凱留下的泡麵）不出現（3D、選單）', !keepOpts.some(t=>/泡麵/.test(t))&&!vis.some(v=>(v.shown||[]).includes('noodle')), JSON.stringify(vis));
   check('3. 旗標：ROOM_Y4＝那天、ROOM_Y4_ITEMS＝新拿出來的、BOX_KEPT_Y4 null、ROOM_Y4_MOVING 清掉', G.flags.ROOM_Y4===d3&&JSON.stringify(G.flags.ROOM_Y4_ITEMS)==='["form","land"]'&&G.flags.BOX_KEPT_Y4===null&&!G.flags.ROOM_Y4_MOVING);
@@ -60,7 +67,7 @@ const lines=()=>said.map(s=>(s.who?s.who+'：':'')+s.t);
   // 4. 9/3 在家、在宿舍
   fresh(d3,8.5,'dorm'); G.home={at:true}; check('4. 9/3 在家：home3d.js 的選單離開家（room）', STORY.y4HomeDue(G)==='room');
   picks=[0,'全部']; await STORY.roomY4FromHome(GM); T=lines();
-  check('4. H1 在家：「（明天開學。最後一次搬進宿舍。）」→ 字卡「回宿舍」「搬到新的房間／四樓 409 號房」→ 409', T[0]==='（明天開學。最後一次搬進宿舍。）'&&T[1]==='（這是最後一次拆箱。）'&&cards[0]==='回宿舍／捷運＋公車 約 40 分鐘'&&cards[1]==='搬到新的房間／四樓 409 號房'&&entered[0]==='dorm'&&!HOME.at(G)&&G.flags.ROOM_Y4===d3, JSON.stringify({T:T.slice(0,2),cards}));
+  check('4. H1 在家：「（明天開學。最後一次搬進宿舍。）」→ 字卡「回宿舍」「搬到新的房間／四樓 409 號房」→ 409', T[0]==='（明天開學。最後一次搬進宿舍。）'&&T[1]==='（409。最後一次搬。柏翰比你早到，耳塞已經放在枕頭旁邊。）'&&T[2]==='（這是最後一次拆箱。）'&&cards[0]==='回宿舍／捷運＋公車 約 40 分鐘'&&cards[1]==='搬到新的房間／四樓 409 號房'&&entered[0]==='dorm'&&!HOME.at(G)&&G.flags.ROOM_Y4===d3, JSON.stringify({T:T.slice(0,2),cards}));
   fresh(d3,8.5,'dorm',{EXCHANGE_ROUTE:'JP'}); G.home={at:true}; picks=[0,0,'全部']; await STORY.roomY4FromHome(GM); T=lines();
   check('4. H2 日本：多「（抽籤是姊姊幫你填的表。）」、有日本鑰匙圈', T[0]==='（明天開學。最後一次搬進宿舍。）'&&T[1]==='（抽籤是姊姊幫你填的表。）'&&T.includes('鑰匙還回去了。圈圈留著。'));
   fresh(d3,15,'dorm'); picks=[0,'全部']; await STORY.roomY4InDorm(GM); T=lines();
@@ -71,7 +78,7 @@ const lines=()=>said.map(s=>(s.who?s.who+'：':'')+s.t);
   G.zone='dorm'; check('5. 不在美國的區域：不演', !EXCH.returnDue(G)); G.zone='us_apartment';
   picks=[0,'全部']; await EXCH.returnHome(GM); T=lines();
   check('5. H3 飛回臺灣（舊金山起飛約 14 小時）→ 12/23 清晨 05:40 落地（日期、星期；AA-C bf349b96）', cards[0]==='飛回臺灣／舊金山起飛　約 14 小時'&&cards[1]==='抵達／桃園機場　清晨 05:40'&&G.day===ret&&G.weekday===6&&G.flags.US_RETURNED===ret, JSON.stringify(cards));
-  check('5. H3 兩句（e75ebc69：床位七月就抽好了，不是姊姊填的）→ 字卡「四樓 409 號房」→ 直接進 409、拆箱', T[0]==='（傍晚，你從家裡出發，回宿舍。）'&&T[1]==='（409 的床位七月就抽好了。鑰匙在舍監那裡等你。）'&&!T.some(t=>/姊姊幫你填/.test(t))&&cards[2]==='四樓 409 號房／'&&entered[0]==='airport_arr'&&entered[1]==='dorm'&&G.flags.ROOM_Y4===ret&&T[2]==='（這是最後一次拆箱。）', JSON.stringify({T:T.slice(0,3),cards,entered}));
+  check('5. H3 兩句（e75ebc69：床位七月就抽好了，不是姊姊填的）→ 字卡「四樓 409 號房」→ 直接進 409、拆箱', T[0]==='（傍晚，你從家裡出發，回宿舍。）'&&T[1]==='（409 的床位七月就抽好了。鑰匙在舍監那裡等你。）'&&!T.some(t=>/姊姊幫你填/.test(t))&&cards[2]==='四樓 409 號房／'&&entered[0]==='airport_arr'&&entered[1]==='dorm'&&G.flags.ROOM_Y4===ret&&T[2]==='（409。最後一次搬。柏翰比你早到，耳塞已經放在枕頭旁邊。）'&&T[3]==='（這是最後一次拆箱。）', JSON.stringify({T:T.slice(0,3),cards,entered}));
   check('5. 美國路線的志願表是影本；返台以後不在國外、不再返台', T.includes('志願表的影本。系辦蓋的章，有一點歪。')&&!STORY.abroad(G)&&!EXCH.returnDue(G)&&G.hour>=19);
   { const src=fs.readFileSync(path.join(ROOT,'src/exchange3d.js'),'utf8'); check('5. EXCH.tick：出發之後也問返台', /if\(S\.returnDue\(G\)\)\{ void S\.returnHome\(GM\); return true; \}/.test(src)); }
   // 6. 409（zones3d.js）

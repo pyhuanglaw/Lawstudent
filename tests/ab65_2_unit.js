@@ -57,7 +57,7 @@ await sec(4,async()=>{
   const ntu=texts(ev('ev_kexin_visits_ntu'));
   check('4-6. 品妤：「好久不見。你現在每天都在對面那棟喔？」（不報全名）',ntu.includes('好久不見。你現在每天都在對面那棟喔？')&&!ntu.some(t=>/曾品妤/.test(t)),J(ntu.slice(0,4)));
   check('4-6. 可昕：「我們的舊系館。……裡面的販賣機還是壞的。」（附錄 §2 的「……你現在每天經過，都不會進去了吧？」緊接品妤的問句，AA_207 §7 第 3 列再改）',ntu.includes('我們的舊系館。……裡面的販賣機還是壞的。')&&!ntu.includes('我們的舊系館。……你現在每天經過，都不會進去了吧？'));
-  check('4-7. kx_nye_ask：已經被後來的改稿取代（現在「我想在臺北跟麵店團跨年。」）；舊的「我答應麵店團要去頂樓了。」沒有',ST.includes("{t:'我想在臺北跟麵店團跨年。'")&&!ST.includes('我答應麵店團要去頂樓了。')&&!ST.includes('麵店團好像要一起跨年，我想跟他們去。'));
+  check('4-7. kx_nye_ask：已經被後來的改稿取代（現在「我想在臺北跟阿哲他們跨年。」）；舊的「我答應麵店團要去頂樓了。」沒有',ST.includes("{t:'我想在臺北跟阿哲他們跨年。'")&&!ST.includes('我答應麵店團要去頂樓了。')&&!ST.includes('麵店團好像要一起跨年，我想跟他們去。'));
   const go=texts(ev('ev_kexin_grades_open'));
   check('4-8. ev_kexin_grades_open：已經被後來的改稿取代（AA-C 11:23「……都過了。好，這次才是真的放假。」）；舊的「好，寒假開始。」沒有',go.includes('……都過了。好，這次才是真的放假。')&&!go.some(t=>/寒假開始/.test(t)),J(go));
   check('4-9. Kevin：「學弟有車！」（已經是；沒有「直屬學弟有車！」）',ST.includes("kv('學弟有車！')")&&!ST.includes('直屬學弟有車！')); });
@@ -83,7 +83,7 @@ await sec(6,async()=>{
     check('6. 方奕廷：「你是住我隔壁那間的吧？我方奕廷，森林系二年級。」接原句；「不用啦。我種太多了，房間放不下。」（BB_167 SC4 第 39 列）',pot[0]==='你是住我隔壁那間的吧？我方奕廷，森林系二年級。'&&pot[1]==='我經過的時候看到，你們房間沒有綠色的東西。'&&pot.includes('不用啦。我種太多了，房間放不下。'),J(pot.slice(0,2))); }
   { H.fresh('2025-10-20',8,'campus',{zhiruoShopContactDay:H.D('2025-10-20'),zhiruoFirstOrder:'拿鐵'}); H.G.hour=22.2; STORY.phoneRules(GM); PHONE.tick(H.G); const m=H.msgs('p:heroine_02');
     check('6. zr_dm1 Café 版：「我是兩點半的芷若。店裡的帳號是我在回。」「要外帶可以先傳，我先做。」「今天那杯拿鐵，奶泡我多打了一點，不知道你喝不喝得出來。」（BB_167 SC3 第 27 列）',J(m)===J(['我是兩點半的芷若。店裡的帳號是我在回。','要外帶可以先傳，我先做。','今天那杯拿鐵，奶泡我多打了一點，不知道你喝不喝得出來。']),J(m)); }
-  check('6. kx_yule_ask 選項②：在麵店團群組＋隔天是麵店日才說「麵店團」，不然「我明天七點有事，晚一點可以嗎？」',ST.includes("{t:PHONE.inGroup(G,'noodle_team')&&S.noodleDay(G.day+1)?'我七點跟麵店團吃飯，晚一點可以嗎？':'我明天七點有事，晚一點可以嗎？'"));
+  check('6. kx_yule_ask 選項②：一律「我明天七點有事，晚一點可以嗎？」（AA_542 第 3 節：沒有固定的麵店日，拿掉「我七點跟麵店團吃飯」那個版本）',ST.includes("{t:'我明天七點有事，晚一點可以嗎？',set:{KX_YULE:'late'}")&&!ST.includes('我七點跟麵店團吃飯'));
   check('6. 可昕大一上的事件、story3d.js 的訊息裡沒有「假設」題（AA_207 §1 第 3 點；kexinFirstMsg、視訊第一題也已經沒有）',!STORY_EVENTS.filter(e=>(e.participants||[]).includes('kexin')).some(e=>texts(e).some(t=>/假設/.test(t)))); });
 
 await sec(7,()=>{

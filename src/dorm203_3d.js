@@ -64,6 +64,7 @@ const DORM203=(function(){
     if(ci<0||ri<0||ci<ri) return false;
     if(r.weeks&&(!T||cur!==r.term||wk<r.weeks[0]||wk>r.weeks[1])) return false;
     if(r.after&&ci===ri&&wk<r.after) return false;
+    if(r.afterSupper&&ci===ri){ const sd=TD('Y1S1',13,4); if(sd==null||now(G)<sd*24+23.5) return false; }   /* AA_528 2-3：第 13 週 3-3 宵夜那一晚以後（大一下照舊）*/
     if(r.counted&&S.supperKai(G)) return false; if(r.needFlag&&!F[r.needFlag]) return false; if(r.need==='supper'&&!S.supperKai(G)) return false;
     if(r.need==='kai'&&!(knows('kai')||F.MET_KAI)) return false;
     if(r.need==='ge'&&!F.ZHE_CALLS_GE) return false;

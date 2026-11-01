@@ -1,13 +1,13 @@
 {
- "objects": 31,
- "unique_meshes": 31,
- "tris": 19176,
- "tris_drawn": 19176,
+ "objects": 33,
+ "unique_meshes": 33,
+ "tris": 41152,
+ "tris_drawn": 41152,
  "materials": 17,
  "out": "assets/models/env/second_ai/wancai_multi.glb",
- "bytes": 1729476,
+ "bytes": 2528400,
  "texres": 512,
- "tris_total": 19176,
+ "tris_total": 41152,
  "layout": "wancai_multi.layout.json",
  "seats": 32
 }

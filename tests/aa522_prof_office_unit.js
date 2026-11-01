@@ -64,7 +64,7 @@ const git=args=>cp.execSync('git -c core.quotepath=false '+args,{cwd:DOCREPO,enc
 const BASE='ccf06cc69';   /* 修改前（開發分支 HEAD，這一批開工的地方）*/
 
 /* ---------- 讀稿 ---------- */
-const SHA='a3ea3918e', DOCF='docs/story_planning/AA_522_教授的研究室_周許林照學期換.md';
+const SHA='50cd33b53', DOCF='docs/story_planning/AA_522_教授的研究室_周許林照學期換.md';   /* 10-30 換 50cd33b53：只多第 9 節第 1 點 half／bold／absent 三句（AA522-ANSVAR-1030，tests/aa522_ansvar_unit.js）*/
 let DOC=''; try{ DOC=git('show '+SHA+':"'+DOCF+'"'); }catch(e){ DOC=''; }
 const part=(a,b)=>{ const i=DOC.indexOf(a); if(i<0) return ''; const j=b?DOC.indexOf(b,i+1):-1; return DOC.slice(i,j<0?DOC.length:j); };
 const S11=part('### 1-1','### 1-2'), S12=part('### 1-2','### 1-3'), S13=part('### 1-3','## 2.'), S2=part('## 2.','## 3.'), S31=part('### 3-1','### 3-2'), S32=part('### 3-2','## 4.'), S4=part('## 4.','## 5.');

@@ -27,15 +27,15 @@ let doc=''; try{ doc=cp.execSync('git show 53af5dfc4:"docs/story_planning/AA_396
 await sec(0,()=>{ const html=fs.readFileSync(path.join(H.ROOT,'index.html'),'utf8');
   check('0. 新檔載得到、index.html 接在 sis_b9_3d.js 後面；STORY.sisNyeDate',ok1&&ok2&&!!X()&&typeof STORY.sisNyeDate==='function'&&/sis_b9_3d\.js\?v=[^"]+"><\/script>\n<script src="src\/data\/sis_b10_events\.js\?v=[^"]+"><\/script>\n<script src="src\/sis_b10_3d\.js\?v=[^"]+"><\/script>/.test(html));
   const all=J(SISB10_EVENTS)+J(SISB10_LINES), q=[...all.matchAll(/"(?:text|t|r)":"([^"]+)"/g)].map(m=>m[1]).concat(Object.values(SISB10_LINES).flat().filter(x=>typeof x==='string'));
-  const notIn=[...new Set(q)].filter(t=>doc.indexOf(t.replace(/^「|」$/g,''))<0&&!['醉月湖','總圖前','學姊家的巷口','跨年：醉月湖','跨年：總圖前','跨年：學姊家的巷口','走路 約 10 分鐘','捷運 約 30 分鐘','總圖・門口','巷口的便利商店前','電話','法圖・二樓','兩點半 Café'].includes(t));
+  const notIn=[...new Set(q)].filter(t=>doc.indexOf(t.replace(/^「|」$/g,''))<0&&!['映月湖','總圖前','學姊家的巷口','跨年：映月湖','跨年：總圖前','跨年：學姊家的巷口','走路 約 10 分鐘','捷運 約 30 分鐘','總圖・門口','巷口的便利商店前','電話','法圖・二樓','兩點半 Café'].includes(t));
   check('0. 每一句台詞、選項都在稿裡（一字不差）',!!doc&&!notIn.length,J(notIn)); });
 /* ---- 1 ---- */
 await sec(1,async()=>{ fresh('2026-12-24',20,'TW','FRIEND'); H.date(ID); H.at('2026-12-24',21); ph(); const m=(H.G.msgs||[]).find(x=>x.ask&&x.ask.id==='sisb10_nye_ask_y2');
   check('1. 大二 12/24 21:00「三十一號晚上，你有事嗎。」；「阿哲他們揪頂樓。」／「沒有。」',!!m&&m.text==='三十一號晚上，你有事嗎。'&&J(m.ask.opts.map(o=>o.t))===J(['阿哲他們揪頂樓。','沒有。']),J(m));
   PHONE.answer(H.G,'sisb10_nye_ask_y2',1); ph(); PHONE.tick(H.G); H.at('2026-12-31',21.2); ph(); STORY.nyeY2&&STORY.nyeY2(GM); const q=OUT.get(H.G,'sisb10_nye_y2');
-  check('1. 「沒有。」→「十一點半，醉月湖。人比較少。」；12/31 23:30「跨年：醉月湖」；頂樓不排',th().some(x=>x.text==='十一點半，醉月湖。人比較少。')&&!!q&&q.h===23.5&&q.title==='跨年：醉月湖'&&!OUT.get(H.G,'nye_y2'),J({q,roof:OUT.get(H.G,'nye_y2')}));
+  check('1. 「沒有。」→「十一點半，映月湖。人比較少。」；12/31 23:30「跨年：映月湖」；頂樓不排',th().some(x=>x.text==='十一點半，映月湖。人比較少。')&&!!q&&q.h===23.5&&q.title==='跨年：映月湖'&&!OUT.get(H.G,'nye_y2'),J({q,roof:OUT.get(H.G,'nye_y2')}));
   H.at('2026-12-31',23.4); await goOut('sisb10_nye_y2',[1]); ph();
-  check('1. 醉月湖照稿；（陪她看湖）；「新年快樂。」；SIS_NYE[2] date',seq(['（湖邊沒有幾個人。遠遠的，聽得到椰林大道那邊有人在倒數。）','我每年這時候都在家，寫明年的計畫本。','（湖心亭的燈映在水上。她把手放進你外套的口袋。）','新年快樂。'])&&H.G.flags.SIS_NYE[2]==='date',J(H.said.map(x=>x.t)));
+  check('1. 映月湖照稿；（陪她看湖）；「新年快樂。」；SIS_NYE[2] date',seq(['（湖邊沒有幾個人。遠遠的，聽得到椰影大道那邊有人在倒數。）','我每年這時候都在家，寫明年的計畫本。','（湖心亭的燈映在水上。她把手放進你外套的口袋。）','新年快樂。'])&&H.G.flags.SIS_NYE[2]==='date',J(H.said.map(x=>x.t)));
   fresh('2026-12-24',21,'TW','FRIEND'); H.date(ID); ph(); PHONE.answer(H.G,'sisb10_nye_ask_y2',0); ph(); H.at('2026-12-31',21.2); ph(); const c=OUT.get(H.G,'sisb10_nye_call_y2');
   check('1. 頂樓：零點「書瑀打電話來」（接起來）',!!c&&c.day===D('2027-01-01')&&c.h===0&&c.verb==='接起來'&&c.title==='書瑀打電話來',J(c));
   H.at('2027-01-01',0.2); await goOut('sisb10_nye_call_y2'); ph();

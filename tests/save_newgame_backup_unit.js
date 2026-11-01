@@ -5,7 +5,7 @@
 // 檢查（從 src/game3d.js 抽出 backupKeys／backupList／backupBeforeNew 原樣執行，假的 localStorage；按鈕、存檔頁看字串）：
 //   1. 有自動存檔＋快速存檔：各備份一份、標籤寫明、原本的兩格不動
 //   2. 再按一次（同一份存檔）：不重複備份
-//   3. 最多 3 份：超過刪進度最少（day 最小）的，真正的進度留著
+//   3. 最多 3 份：超過刪實際玩得最少（演過的事件數、步數）的；同一個開局狀態只留一份；經濟系序章不會因為 day 小先被刪（BB-B 10-30）
 //   4. 備份寫不進去：問玩家（confirm），不要就不開新遊戲
 //   5. 沒有存檔：不備份、照常開新遊戲
 //   6. 三個開新遊戲按鈕都先 backupBeforeNew（不要就 return）再 newGameAbort
@@ -29,7 +29,7 @@ vm.createContext(ctx);
 vm.runInContext(blk[0]+'\nthis.backupKeys=backupKeys; this.backupList=backupList; this.backupBeforeNew=backupBeforeNew;',ctx);
 const put=(k,o)=>st.setItem(k,JSON.stringify(o)), get=k=>JSON.parse(st.getItem(k)||'null'), newKeys=()=>[...st.m.keys()].filter(k=>k.startsWith('fatiao3d_backup_new_')).sort();
 // 1.
-put('fatiao3d_auto',{day:120,hour:14.5,name:'祐廷',zone:'campus',savedAt:1000}); put('fatiao3d_quick',{day:119,hour:9,name:'祐廷',zone:'dorm',savedAt:900});
+put('fatiao3d_auto',{day:120,hour:14.5,name:'祐廷',zone:'campus',savedAt:1000,events:{count:40}}); put('fatiao3d_quick',{day:119,hour:9,name:'祐廷',zone:'dorm',savedAt:900,events:{count:39}});
 let r=ctx.backupBeforeNew();
 check('1. 有自動存檔＋快速存檔：各備份一份（fatiao3d_backup_new_<savedAt>）、標籤寫明、原本兩格不動',r===true&&newKeys().length===2&&get('fatiao3d_backup_new_1000').day===120&&/自動存檔（開新遊戲前）/.test(get('fatiao3d_backup_new_1000').backupLabel)&&/快速存檔（開新遊戲前）/.test(get('fatiao3d_backup_new_900').backupLabel)&&get('fatiao3d_auto').day===120&&get('fatiao3d_quick').day===119,JSON.stringify(newKeys()));
 // 2.
@@ -37,9 +37,14 @@ r=ctx.backupBeforeNew();
 check('2. 同一份存檔再按一次：不重複備份',r===true&&newKeys().length===2,JSON.stringify(newKeys()));
 // 3. 開新遊戲以後玩了一下（第一天），連按幾次開新遊戲
 put('fatiao3d_quick',{day:1,savedAt:2000}); st.removeItem('fatiao3d_quick');
-for(const [d,t] of [[1,3000],[1,4000],[2,5000]]){ put('fatiao3d_auto',{day:d,hour:21,savedAt:t}); ctx.backupBeforeNew(); }
+for(const [d,t,c] of [[1,3000,0],[1,4000,0],[2,5000,1]]){ put('fatiao3d_auto',{day:d,hour:21,savedAt:t,events:{count:c}}); ctx.backupBeforeNew(); }
 const kept=newKeys().map(k=>get(k).day);
-check('3. 最多 3 份：連按開新遊戲擠掉的是進度最少的，day 120 那一份留著',newKeys().length===3&&kept.includes(120)&&kept.includes(119)&&kept.includes(2),JSON.stringify(newKeys().map(k=>[k.slice(21),get(k).day])));
+check('3. 最多 3 份：連按開新遊戲擠掉的是實際玩得最少的（演過的事件數），day 120、119 那兩份留著；同一個開局狀態（day 1 21:00、0 件）只留一份',newKeys().length===3&&kept.includes(120)&&kept.includes(119)&&kept.includes(2)&&kept.filter(x=>x===1).length===0,JSON.stringify(newKeys().map(k=>[k.slice(21),get(k).day])));
+/* BB-B 10-30：經濟系序章（day 很小、但玩了很多）不能因為 day 小就先被刪 */
+st=mkStore(); put('fatiao3d_auto',{day:-380,hour:21,stage:'econ',savedAt:100,events:{count:20}}); ctx.backupBeforeNew();
+for(const t of [200,300,400]){ put('fatiao3d_auto',{day:-25,hour:8.5,stage:'law',savedAt:t,events:{count:0}}); ctx.backupBeforeNew(); }
+put('fatiao3d_auto',{day:9,hour:20,stage:'law',savedAt:500,events:{count:12}}); ctx.backupBeforeNew();
+{ const ks=newKeys().map(k=>get(k)); check('3. 經濟系玩了 20 件那一份留著；剛開局（day −25、0 件）連按三次只留一份；第 9 天那份留著',ks.length===3&&ks.some(b=>b.day===-380)&&ks.filter(b=>b.day===-25).length===1&&ks.some(b=>b.day===9),JSON.stringify(ks.map(b=>[b.day,b.events.count]))); }
 // 4.
 st.full=true; put; asked=[]; answer=false; st.full=false; put('fatiao3d_auto',{day:200,savedAt:9000}); st.full=true;
 r=ctx.backupBeforeNew();

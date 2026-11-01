@@ -44,7 +44,7 @@ GM.money=function(n){ G.money+=n; };
   const Y=ev('ev_yu_together'); { fresh(d19,19,'noodle'); G.flags.met_yu=true; const a=EVENTS.check(Y); fresh(d19,17,'noodle'); G.flags.met_yu=true; const b=EVENTS.check(Y); fresh(d19+7,19,'noodle'); G.flags.met_yu=true; const c=EVENTS.check(Y);
     check('3. 語 3：12/19 19:00 麵店、認識 Alison＝會演；17:00、下週六不演',a&&!b&&!c); }
   fresh(d19,19,'noodle'); G.flags.met_yu=true; meet('yu'); said=[]; await EVENTS.run(Y); L=L0();
-  check('3. Alison 四句照 AA_40（第四句照 AB65-3（AA_211 附錄 A） 小語一列：「反正就這樣。以後週二、四吃完，他說要陪我走去捷運站。」＋旁白「（阿哲端著兩碗麵走過來，她馬上坐正。）」）；之後她和阿哲的伴侶期間開始（startEvent）',L.length===5&&L[1]==='Alison：我跟阿哲在一起了。'&&L[3]==='Alison：反正就這樣。以後週二、四吃完，他說要陪我走去捷運站。'&&L[4]==='（阿哲端著兩碗麵走過來，她馬上坐正。）'&&CHARACTERS.yu.partner.startEvent==='ev_yu_together'&&STORY.partnerOn(G,CHARACTERS.yu.partner),JSON.stringify(L));
+  check('3. Alison 四句照 AA_40（第四句照 AB65-3（AA_211 附錄 A） 小語一列：「反正就這樣。以後在麵店吃完，他說要陪我走去捷運站。」＋旁白「（阿哲端著兩碗麵走過來，她馬上坐正。）」）；之後她和阿哲的伴侶期間開始（startEvent）',L.length===5&&L[1]==='Alison：我跟阿哲在一起了。'&&L[3]==='Alison：反正就這樣。以後在麵店吃完，他說要陪我走去捷運站。'&&L[4]==='（阿哲端著兩碗麵走過來，她馬上坐正。）'&&CHARACTERS.yu.partner.startEvent==='ev_yu_together'&&STORY.partnerOn(G,CHARACTERS.yu.partner),JSON.stringify(L));
   fresh(d19,21,'dorm'); G.flags.met_yu=true; run(21,22.2); const dm=txt('p:yu'), yc=OUT.get(G,'y2_yu_call');
   check('4. 都沒去、認識 Alison：22:00 她打電話來（接起來／先不接；AA_313 5-1 第 4 點，原本私訊三則）',!dm.length&&!!yc&&yc.ev==='ev_yu_together_call'&&yc.day===d19&&yc.h===22&&yc.verb==='接起來'&&yc.no==='先不接',JSON.stringify([dm,yc]));
   { said=[]; picks=[0]; await EVENTS.run(ev('ev_yu_together_call')); const Lc=L0();

@@ -38,6 +38,7 @@ const lines=()=>said.map(s=>s.t);
 const J=JSON.stringify, ZR='heroine_02', PS='classmate_peishan', KX='kexin';
 const git=(sha,f)=>{ try{ return cp.execSync('git show '+sha+':"docs/story_planning/'+f+'"',{cwd:ROOT,encoding:'utf8',maxBuffer:1<<26}); }catch(e){ return ''; } };
 const BB165=git('a54ec2b4a','BB_165_AB61_BB五位戀愛線補拍與矛盾.md');
+const AA529=git('881029f98','AA_529_D99經濟系那一年_可昕主動約你擋掉_走啦群組建不起來_長頸鹿鑰匙圈.md');   /* AA_529 第 4 節：K7 第 4 頁換句（「一起重考」改在 2/2 蓮池潭說），那一頁照 AA_529 */
 const norm=t=>String(t).replace(/[\s　]/g,'');
 const inDoc=t=>{ const n=norm(BB165); return [t,t.replace(/^「|」$/g,''),t.replace(/^（|）$/g,''),t.replace(/^📷（|）$/g,'')].some(x=>x&&n.includes(norm(x))); };
 const tick=async()=>{ const p=OUT.tick(GM); if(p&&p.then) await p; };
@@ -48,8 +49,8 @@ const R13=()=>{ const F=G.flags; F.CAFE_VISITS=6; F.zhiruoFirstOrder='拿鐵'; F
   check('0. 兩個檔載得到（src/data/rom1016_events.js、src/rom1016_3d.js）、事件登記進 STORY_EVENTS',okFiles&&typeof ROM1016!=='undefined'&&['ev_zhiruo_his_order','ev_peishan_waited','ev_peishan_red_pen'].every(id=>STORY_EVENTS.some(e=>e.id===id)));
   if(!okFiles||typeof ROM1016==='undefined'){ console.log(fails?'FAILED '+fails:'ALL PASS'); process.exit(fails?1:0); }
   { const X=ROM1016_EVENTS, bad=[]; let n=0; const walk=o=>{ if(Array.isArray(o)) return o.forEach(walk); if(!o||typeof o!=='object') return; if(typeof o.text==='string'){ n++; if(!inDoc(o.text)) bad.push(o.text); } if(Array.isArray(o.choice)) o.choice.forEach(c=>{ n++; if(!inDoc(c.text)) bad.push(c.text); }); for(const k of ['dialogue']) if(o[k]) walk(o[k]); };
-    walk(X); for(const k in X.MSG) for(const t of X.MSG[k]){ n++; if(!inDoc(t)) bad.push(t); } for(const k in X.PAGES){ if(k==='blank') continue; n++; if(!inDoc(X.PAGES[k])) bad.push(X.PAGES[k]); } for(const x of X.RED_PEN_SHORT){ n++; if(!inDoc(x.text||x.narr)) bad.push(x.text||x.narr); }
-    check('0. 每一句台詞、旁白、選項、私訊、卡片的頁都在 BB_165（企劃線 a54ec2b4a；「（下面空白。）」是頁面的說明，照片寫成「📷（…）」）',!!BB165&&n>60&&bad.length===0,n+' 句；對不到：'+J(bad)); }
+    walk(X); for(const k in X.MSG) for(const t of X.MSG[k]){ n++; if(!inDoc(t)) bad.push(t); } for(const k in X.PAGES){ if(k==='blank') continue; n++; if(k==='p4'?!norm(AA529).includes(norm(X.PAGES[k])):!inDoc(X.PAGES[k])) bad.push(X.PAGES[k]); } for(const x of X.RED_PEN_SHORT){ n++; if(!inDoc(x.text||x.narr)) bad.push(x.text||x.narr); }
+    check('0. 每一句台詞、旁白、選項、私訊、卡片的頁都在 BB_165（企劃線 a54ec2b4a；「（下面空白。）」是頁面的說明，照片寫成「📷（…）」；K7 第 4 頁照 AA_529 第 4 節 881029f98）',!!BB165&&!!AA529&&n>60&&bad.length===0,n+' 句；對不到：'+J(bad)); }
 
   /* ======================= 1 芷若 3-1 ======================= */
   fresh('2028-06-09',15,'cafe'); R13();

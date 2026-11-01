@@ -1,10 +1,10 @@
 {
- "objects": 9,
- "unique_meshes": 9,
+ "objects": 11,
+ "unique_meshes": 11,
  "tris": 6432,
  "tris_drawn": 6432,
- "materials": 9,
- "out": "assets/models/env/second_ai/campus_hist.glb",
- "bytes": 510904,
+ "materials": 11,
+ "out": "../../../tmp/claude-0/-home-user-Lawstudent/62ca4225-4c3d-5d85-9e8d-40846d4f390f/scratchpad/halls2/new/hist.glb",
+ "bytes": 513372,
  "texres": 512
 }

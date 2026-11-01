@@ -48,7 +48,7 @@ const SISB8_EVENTS=(function(){
         {label:'a'},SIS('對。債總是第一個讓人覺得自己不會讀書的科目。……過了就好了。'),{goto:'c'},
         {label:'b'},SIS('期中考完再告訴我一次。'),
         {label:'c'},N('（結帳的時候她已經付好了。）'),
-        {unless:dt,speaker:ID,text:'我大一的時候，我的學姊也請過我。'},{if:dt,speaker:ID,text:'……下次你請。',set:{SIS15_YOUPAY:true}},   /* AA_470 4-3：祐廷不會當別人的直屬（承恩作廢，AA_208）——原句「下次你當直屬的時候，記得也要請。」換掉；交往版照舊。AA_518 第 3 節第 8 點：交往版記 SIS15_YOUPAY（大二上期末飯的收尾，termend_lines.js）*/
+        {unless:dt,speaker:ID,text:'我大一的時候，我的學姊也請過我。'},{if:dt,speaker:ID,text:'……下次你請。',set:{SIS15_YOUPAY:true}},   /* AA_470 4-3：祐廷不會當別人的直屬（直屬學弟那條作廢，AA_208）——原句「下次你當直屬的時候，記得也要請。」換掉；交往版照舊。AA_518 第 3 節第 8 點：交往版記 SIS15_YOUPAY（大二上期末飯的收尾，termend_lines.js）*/
         Object.assign({set:{SIS_LUNCH_Y2:true}},rel({fam:2,comf:2})) ],
       outingMissed:G=>{ const x=X(); if(x) x.missed(G,'lunch'); } },
     /* ---------- 2-3：大二上第 14 週（AA_386 1-2 還沒演＝第 15 週）週三 19:30 以後，法圖：助教的考卷（她碩一當大一民總的課堂助教）---------- */
@@ -91,7 +91,7 @@ const SISB8_EVENTS=(function(){
         {label:'b'},SIS('……我沒睡。我在想第二節。'),N('（她的臉上有一條袖子壓出來的印子。）'),{set:{SIS_HOT_WATER_BACK:'knock'}} ] },
     /* ---------- 第 4 節：2027-07-22（四）15:00 霖澤館研究室：外行人讀一章 ---------- */
     { id:'ev_sis_ch1_read', title:'外行人讀一章', participants:[ID], location:'any', trigger:'outing', once:true, background:'dark', hours:1.5,
-      dialogue:[ {scene:'霖澤館・研究室',bg:'dark'},
+      dialogue:[ {scene:'法律系館A・研究室',bg:'dark'},
         N('（研究室只剩她一個人，冷氣很冷。她給你一份印好的稿子和一支鉛筆。）'),
         SIS('看不懂的地方畫線。不要客氣。'),
         N('（你讀了四十分鐘，畫了三條線。她一條一條看。）'),

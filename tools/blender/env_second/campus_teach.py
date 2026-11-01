@@ -214,7 +214,7 @@ def build_boya():
     for x in (-1.6, 1.6): kit.box(kit.acc('lamp'), x - 0.25, x + 0.25, 3.56, 3.6, zf + 1.0, zf + 1.5, skip=('top',))
     SIGNF = K.Fr((0, 0, zf + 2.4), (1, 0, 0), (0, 0, 1))
     m = Mesh('PLATE_FACE_BOYA', M['board']); kit.face(m, [SIGNF.p(-2.4, 3.62, 0.006), SIGNF.p(2.4, 3.62, 0.006), SIGNF.p(2.4, 3.78, 0.006), SIGNF.p(-2.4, 3.78, 0.006)], SIGNF.N)
-    plates.append((m, {'text': '博雅教學館', 'bg': '#d9d6cf', 'color': '#2c2f33', 'serif': 0, 'fs': 0.8}))
+    plates.append((m, {'text': '博思教學館', 'bg': '#d9d6cf', 'color': '#2c2f33', 'serif': 0, 'fs': 0.8}))
     return finish(root, accs, VC, plates, out, '博雅：五層現代建築（淺灰石材、玻璃大廳、橫向長窗＋鋁鰭）；依文字資料推測（沒有照片）')
 
 

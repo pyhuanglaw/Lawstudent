@@ -88,7 +88,7 @@ const TWFILL=(function(){
     plan(G,{id:'tw_y3_mom_day',ev:'ev_y3_mothers_day',day:d,h:18,late:0.5,place:'臺北的家',title:'母親節（臺北的家）',travel:'捷運＋公車 約 40 分鐘',travelH:2/3,back:'回到宿舍。'}); };
   /* 4-2 學士服拍照：4/26 回「去。」＝4/28（六）10:00 椰林大道；沒去（沒回、沒出發、遲到太久）＝12:30 Alison 在群組傳照片 */
   S.gradPhoto=function(G){ const F=G.flags, d=D('2029-04-28'); if(d==null) return;
-    if(F.Y4_GRAD_PHOTO==='go'&&now(G)<T(d,10.25)) plan(G,{id:'tw_y4_grad_photo',ev:'ev_y4_grad_photo',day:d,h:10,late:0.25,place:'椰林大道',title:'學士服拍照（椰林大道）',travel:'走過去約 10 分鐘',travelH:1/6});
+    if(F.Y4_GRAD_PHOTO==='go'&&now(G)<T(d,10.25)) plan(G,{id:'tw_y4_grad_photo',ev:'ev_y4_grad_photo',day:d,h:10,late:0.25,place:'椰影大道',title:'學士服拍照（椰影大道）',travel:'走過去約 10 分鐘',travelH:1/6});
     if(PHONE.sent(G,'tw_y4s2_grad_ask')&&!done(G,'ev_y4_grad_photo')&&!PHONE.sent(G,'tw_y4s2_grad_miss')&&now(G)>=T(d,12.5)&&G.day<=d+1&&inGrp(G,'noodle_team')){
       PHONE.at(G,d,12.5,(L.gradMiss||[]).map(msg(NG)),'tw_y4s2_grad_miss'); if(F.Y4_GRAD_PHOTO!=='went') F.Y4_GRAD_PHOTO='missed'; } };
 

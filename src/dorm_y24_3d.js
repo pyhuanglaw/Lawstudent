@@ -134,7 +134,7 @@ const DORMY24=(function(){
   S.nextRow=function(G,room,id){ const T=L.room[room]&&L.room[room][id]; if(!T) return null; const R=S.rec(G), said=(R&&R.talk[key(room,id)])||[]; return T.rows.find(r=>!said.includes(r.k)&&S.rowOpen(G,r))||null; };
   S.said=(G,room,id,k)=>{ const R=S.rec(G); return !!R&&(R.talk[key(room,id)]||[]).includes(k); };
   const sayRow=async(GM,who,room,id,r)=>{ const R=S.rec(GM.G,true), kk=key(room,id); (R.talk[kk]||(R.talk[kk]=[])).push(r.k); R.tday[kk]=GM.G.day;
-    if(r.pre) await GM.say(null,r.pre); await GM.say(who,r.t);   /* 「（旁白）「台詞」」那兩格：先旁白、再他說 */
+    if(r.pre) await GM.say(null,r.pre); await GM.say(who,r.noFour&&!(GM.G.flags||{}).DORM_FOUR?r.noFour:r.t);   /* 「（旁白）「台詞」」那兩格：先旁白、再他說 */
     if(typeof SOCIAL!=='undefined'&&SOCIAL.activity){ SOCIAL.activity(id,'chat'); SOCIAL.activity(id,'chatNew'); } };
   S.roomTalk=async function(GM,who,id){ const G=GM.G; if(!G||G.zone!=='dorm') return false; const room=S.room(G), T=room&&L.room[room]&&L.room[room][id]; if(!T) return false;
     const R=S.rec(G,true), kk=key(room,id), r=R.tday[kk]===G.day?null:S.nextRow(G,room,id); if(r){ await sayRow(GM,who,room,id,r); return true; }

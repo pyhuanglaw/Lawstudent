@@ -110,7 +110,9 @@ const POOL=(function(){
     if(pc.seat&&z==='classroom') base.seat=pc.seat.slice(); return base; };
 
   /* 2-2 認識之前的外觀描述：這一筆作息的 desc（同一個人在兩個地方各有一句）；不在這一區＝null（SOCIAL 用 characters.js 的 descriptor）*/
-  S.descNow=function(id,G){ G=G||curG(); if(!G||typeof CHARACTERS==='undefined'||!CHARACTERS[id]) return null; const n=GMr&&GMr.G===G&&GMr.npc&&GMr.npc[id]; if(n&&n.poolDesc) return n.poolDesc; const e=ent(G,id); return e&&e.desc||null; };
+  S.descNow=function(id,G){ G=G||curG(); if(!G||typeof CHARACTERS==='undefined'||!CHARACTERS[id]) return null;
+    if(typeof HCIRCLE!=='undefined'&&HCIRCLE&&HCIRCLE.named&&HCIRCLE.named(G,id)) return CHARACTERS[id].name;   /* 女主角的圈子同框看過名牌（AA_528 1-3）：還沒認識也寫名字 */
+    const n=GMr&&GMr.G===G&&GMr.npc&&GMr.npc[id]; if(n&&n.poolDesc) return n.poolDesc; const e=ent(G,id); return e&&e.desc||null; };
   /* 人物頁（2-2、2-8）：一句話；升到朋友（reveal FRIEND）＝personality（沒寫的照一句話）*/
   S.pageDesc=function(id){ const c=typeof CHARACTERS!=='undefined'&&CHARACTERS[id]; if(!c) return ''; if(c.cardBefore&&!(typeof SOCIAL!=='undefined'&&SOCIAL.has&&SOCIAL.has(id,'SHARED_SECRET'))) return c.cardBefore; const fr=typeof SOCIAL!=='undefined'&&SOCIAL.reveal&&SOCIAL.reveal(id)==='FRIEND'; return fr&&c.personality?c.personality:(c.card||''); };
   const esc=s=>String(s).replace(/[&<>"]/g,ch=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'})[ch]);
@@ -149,12 +151,13 @@ const POOL=(function(){
   /* 這一區、這個時間有沒有寫好的認識版本（沒有＝先不能說話）*/
   S.MEETV={};   /* 第二批以後：id → (G,e)⇒這一區、這個時間的認識版本（LINES[id] 的鍵）或 null（src/pool_more3d.js）*/
   S.meetVersion=function(G,id){ if(!OWN.has(id)) return null; const e=ent(G,id); if(!e) return null; const z=G.zone;
+    if(typeof STORY!=='undefined'&&STORY.presence){ const pr=STORY.presence(id,G); if(pr&&pr.here===false) return null; }   /* 不在（畢業了、交換出國）＝不能認識（AA_528 1-1：他已經畢業的不能再認識）*/
     if(!B1.has(id)) return S.MEETV[id]?(S.MEETV[id](G,e)||null):null;
     if(id===Z){ if(e.seat==='bell') return 'meetBell'; if(e.act==='class'&&hr(G)>=12) return 'meetClass'; return null; }   /* 教室版「早安。……對，下午了。」：下午的課 */
     if(id===Y) return e.door&&(ti(G)>0||week(G)>=2)?'meet':null;   /* 教室門口（上課前、期中考前一週週三下課）。5-1 寫大一上第 2～4 週：第 1 週不演；第 5 週以後沒有別的認識版本，照同一場演（不然她整條線都沒了）*/
     if(id===C){ if(z==='bookstore') return 'meetBook'; if(e.act==='class'&&(ti(G)>0||week(G)>=6)) return 'meetClass'; return null; }   /* 6-6：大一上第 6 週起，必修課第三排 */
-    if(id===YS) return z==='campus'&&!e.terms&&S.py(G)===1?'meet':null;   /* 椰林大道那一筆；「你是大一的吧？」「大三」＝祐廷大一 */
-    if(id===Q) return z==='dorm_hall'&&S.py(G)===1?'meet':null;   /* 交誼廳；「學弟」「大三」＝祐廷大一 */
+    if(id===YS) return z==='campus'&&!e.terms?'meet':null;   /* 椰林大道那一筆；「你是大一的吧？」「大三」＝祐廷大一（AA_528 1-1：大二起照樣可以認識，第一場照演；他畢業以後作息不在）*/
+    if(id===Q) return z==='dorm_hall'?'meet':null;   /* 交誼廳；「學弟」「大三」＝祐廷大一（AA_528 1-1：大二起照樣可以認識）*/
     return null; };
   S.owns=id=>OWN.has(id);
   S.meet=async function(GM,who,id,n){ const G=GM.G; S.bind(GM); const v=S.meetVersion(G,id); const lines=v&&L[id]&&L[id][v]; if(!lines) return false;
@@ -196,8 +199,8 @@ const POOL=(function(){
   /* ---------- 2-6 順手的事（SIDEQ 登記）---------- */
   S.QUEST={ PQ_ZJW:{who:Z,title:'陪靖雯去旁聽'}, PQ_YT1:{who:Y,title:'黃郁婷：考前補給包'}, PQ_YT2:{who:Y,title:'黃郁婷：迎新報到桌'},
     PQ_CJ:{who:C,title:'林采潔：第三章'}, PQ_YS:{who:YS,title:'鄭元碩：法律系的一天'}, PQ_QJQ:{who:Q,title:'邱家齊：代收媽媽的箱子'} };
-  const HINT={ PQ_ZJW:{court:r=>md(r.outDay)+'（'+wdTxt(r.outDay)+'）14:00 陪靖雯去臺北地方法院旁聽'}, PQ_YT1:{pack:()=>'今天 19:00～21:00 到萬才館一樓幫忙包考前補給包'},
-    PQ_YT2:{desk:r=>md(r.outDay)+'（三）08:30 到霖澤館一樓的迎新報到桌'}, PQ_CJ:{read:()=>'在舊路書房或教室找采潔，讀她的第三章'},
+  const HINT={ PQ_ZJW:{court:r=>md(r.outDay)+'（'+wdTxt(r.outDay)+'）14:00 陪靖雯去臺北地方法院旁聽'}, PQ_YT1:{pack:()=>'今天 19:00～21:00 到法律系館B一樓幫忙包考前補給包'},
+    PQ_YT2:{desk:r=>md(r.outDay)+'（三）08:30 到法律系館A一樓的迎新報到桌'}, PQ_CJ:{read:()=>'在舊路書房或教室找采潔，讀她的第三章'},
     PQ_YS:{shoot:r=>md(r.outDay)+'（六）07:00 起當「法律系的一天」的主角'}, PQ_QJQ:{pick:r=>md(r.satDay)+'（六）10:00～18:00 到男一舍門廳領包裹',fridge:()=>'把箱子放進男一舍交誼廳的冰箱'} };
   S.hint=(id,r)=>{ const h=HINT[id]&&HINT[id][r.step]; return typeof h==='function'?h(r):(h||''); };
   S.HINT=HINT;   /* 第二批以後的順手的事在 src/pool_more3d.js 加進來（S.QUEST、S.HINT，再叫一次 S.register）*/
@@ -237,7 +240,7 @@ const POOL=(function(){
   S.ytTableLine=G=>S.qState(G,'PQ_YT1')==='done'?L[Y].tableYes:L[Y].tableNo;
   /* 5-5 郁婷：迎新報到桌（大二上第 1 週週三 08:30，霖澤館一樓，2D）*/
   S.yt2Day=()=>termDay('Y2S1',1,3);
-  S.acceptYt2=function(GM){ const G=GM.G, d=S.yt2Day(); S.openQ(GM,'PQ_YT2','desk',{outDay:d,by:d}); if(d!=null) plan(G,{id:'pool_yt_desk',ev:'ev_pool_yt_desk',day:d,h:8.5,late:0.5,place:'霖澤館一樓',title:'黃郁婷：迎新報到桌（霖澤館一樓 8:30）',travel:'走過去約 10 分鐘',travelH:0.25}); };
+  S.acceptYt2=function(GM){ const G=GM.G, d=S.yt2Day(); S.openQ(GM,'PQ_YT2','desk',{outDay:d,by:d}); if(d!=null) plan(G,{id:'pool_yt_desk',ev:'ev_pool_yt_desk',day:d,h:8.5,late:0.5,place:'法律系館A一樓',title:'黃郁婷：迎新報到桌（法律系館A一樓 8:30）',travel:'走過去約 10 分鐘',travelH:0.25}); };
   S.DESK_EV={ id:'ev_pool_yt_desk', title:'迎新報到桌', participants:[Y], location:'any', trigger:'outing', background:'dark', hours:1.5, dialogue:L[Y]?L[Y].desk:[],
     after:(G,GM)=>{ const r=S.qRec(G,'PQ_YT2'); if(r&&r.state==='open') S.finishQ(GM&&GM.G===G?GM:{G},'PQ_YT2',r,{away:true}); }, outingMissed:lapseQ('PQ_YT2') };
   /* 6-3 采潔：第三章（大一下第 2～12 週，聽過她的秘密；在舊路書房或教室）*/
@@ -245,7 +248,7 @@ const POOL=(function(){
   S.acceptCj=GM=>{ const G=GM.G; if(typeof INV!=='undefined') INV.addContact(G,C); const T=typeof CALENDAR!=='undefined'&&CALENDAR.termDays?CALENDAR.termDays('Y1S2'):null; S.openQ(GM,'PQ_CJ','read',{by:T?T.to:G.day+60}); };
   /* 7-3 元碩：法律系的一天（大二下第 4～10 週；下一個週六 07:00 起，2D 一天四段）*/
   S.acceptYs=function(GM){ const G=GM.G; if(typeof INV!=='undefined') INV.addContact(G,YS); const d=S.nextSat(G); S.openQ(GM,'PQ_YS','shoot',{outDay:d,by:d});
-    plan(G,{id:'pool_ys_day_'+d,ev:'ev_pool_ys_day',day:d,h:7,late:1,place:'台大校園',title:'鄭元碩：法律系的一天（傅鐘 7:00）',travel:'走過去約 10 分鐘',travelH:0.25}); };
+    plan(G,{id:'pool_ys_day_'+d,ev:'ev_pool_ys_day',day:d,h:7,late:1,place:'首都帝大校園',title:'鄭元碩：法律系的一天（晨思鐘 7:00）',travel:'走過去約 10 分鐘',travelH:0.25}); };
   S.DAY_EV={ id:'ev_pool_ys_day', title:'法律系的一天', participants:[YS], location:'any', trigger:'outing', background:'dark', hours:13, dialogue:L[YS]?L[YS].day:[],
     after:(G,GM)=>{ const r=S.qRec(G,'PQ_YS'); if(r&&r.state==='open') S.finishQ(GM&&GM.G===G?GM:{G},'PQ_YS',r,{away:true}); }, outingMissed:lapseQ('PQ_YS') };
   /* 8-3 家齊：代收媽媽的箱子（大一下第 4～10 週，交誼廳，週四晚上；週六 10～18 門廳領 → 交誼廳的冰箱）*/
@@ -307,7 +310,7 @@ const POOL=(function(){
 
   /* 4-5「好。」：下一個值班的週六 9:00 到萬才館一樓（在旁邊看法服值班，照現有的流程）*/
   S.planWatch=function(G){ const s=typeof STORY!=='undefined'&&STORY.fafuSat?STORY.fafuSat(G.day):null; if(!s) return false;
-    return plan(G,{id:'pool_zjw_fafu_'+s.day,day:s.day,h:9,late:1,place:'萬才館一樓',title:'去看法服值班（萬才館一樓 9:00）',travel:'走過去約 10 分鐘',travelH:0.25,goto:{zone:'wancai',x:2.3,z:3.6,yaw:Math.PI}}); };
+    return plan(G,{id:'pool_zjw_fafu_'+s.day,day:s.day,h:9,late:1,place:'法律系館B一樓',title:'去看法服值班（法律系館B一樓 9:00）',travel:'走過去約 10 分鐘',travelH:0.25,goto:{zone:'wancai',x:2.3,z:3.6,yaw:Math.PI}}); };
   /* 4-4 大二起：祐廷也是法服的＝「（值班表上，她的名字排在你下面那一週。）」（值班的週六，她在萬才館一樓的時候一次）*/
   S.DUTY_EV={ id:'ev_pool_zjw_duty', title:'值班表', participants:[], location:'wancai', trigger:'manual', background:'freeze', dialogue:[{speaker:null,text:L[Z]?L[Z].dutyList:''}],
     after:G=>{ S.mark(G,'zjwDuty'); S.seg(G,Z,'fafu'); } };
@@ -429,7 +432,7 @@ const POOL=(function(){
     const e=ent(G,id); return (e&&e.greetAt)||c.poolPlace||'教室'; };   /* 表上的地點；有兩個地點的人照現在這一筆（邱家齊在校園＝總圖門口、馬佳蓉在社博＝社團博覽會）*/
 
   /* ---------- 2-10 舊存檔：讀檔換名、說過秘密的記成「沒選」---------- */
-  S.renameText=function(t){ if(typeof t!=='string') return t; let s=t; for(const id in D.RENAME){ const [a,b]=D.RENAME[id]; if(s.indexOf(a)>=0) s=s.split(a).join(b); } return s; };
+  S.renameText=function(t){ if(typeof t!=='string') return t; let s=t; for(const id in D.RENAME){ const [a,b]=D.RENAME[id]; if(s.indexOf(a)>=0) s=s.split(a).join(b); } for(const [a,b] of (Array.isArray(D.RENAME_MORE)?D.RENAME_MORE:[])){ if(s.indexOf(a)>=0) s=s.split(a).join(b); } return s; };   /* RENAME_MORE：同一個人改第二次名（AA_527 1-7 pool_19）*/
   S.migrate=function(s){ if(!s||typeof s!=='object') return 0; let n=0; const fx=(o,k)=>{ if(!o||typeof o!=='object') return; const v=o[k]; if(typeof v!=='string') return; const w=S.renameText(v); if(w!==v){ o[k]=w; n++; } };
     const msg=m=>{ if(!m||typeof m!=='object') return; fx(m,'text'); fx(m,'name'); if(m.ask&&Array.isArray(m.ask.opts)) for(const o of m.ask.opts){ fx(o,'t'); if(o&&Array.isArray(o.say)) for(const y of o.say) fx(y,'text'); } };
     if(Array.isArray(s.msgs)) s.msgs.forEach(msg); const P=s.phone; if(P&&typeof P==='object'){ if(Array.isArray(P.q)) for(const q of P.q){ msg(q); if(q&&Array.isArray(q.items)) q.items.forEach(msg); } if(P.groups&&typeof P.groups==='object') for(const k in P.groups) fx(P.groups[k],'name'); }

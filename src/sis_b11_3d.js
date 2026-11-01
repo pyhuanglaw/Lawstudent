@@ -54,7 +54,7 @@ const SISB11=(function(){
     if(b!=null&&m!=null&&G.day>=b&&G.day<m&&now(G)>=T(b,21)&&S.defOpen(G)&&!sent(G,'sisb11_def_dm')&&S.ok(G)){ PHONE.at(G,b,21,[dm(L.defDm)],'sisb11_def_dm'); F.SIS_DEF_DATE='msg'; } };   /* 4/27 21:00（跳過時間的照原本的時間補進去）*/
 
   /* ---------------- 11-2 接 5/29：5/28 21:00 私訊 → M9 那一趟 ---------------- */
-  S.M9_OUT={id:'y4_m9',ev:'ev_sis_defense',h:16,late:2,place:'霖澤館・研究室的走廊',title:'學姊的口試',travel:'',travelH:1/6,hours:1};   /* 同 y34b3d.js S.m9Phone 那一趟（同一個 id：那邊排過就不再排）*/
+  S.M9_OUT={id:'y4_m9',ev:'ev_sis_defense',h:16,late:2,place:'法律系館A・研究室的走廊',title:'學姊的口試',travel:'',travelH:1/6,hours:1};   /* 同 y34b3d.js S.m9Phone 那一趟（同一個 id：那邊排過就不再排）*/
   S.m9=function(G){ const F=G.flags, a=D(S.DEF.m9ask), d=a==null?null:a+1, tag='sisb11_m9_dm'; if(a==null||G.day<a||G.day>d+1) return;
     if(!sent(G,tag)&&F.SIS_DEF_DATE==='wait'&&F.SIS_DEFENSE==null&&!inGrp(G,'family_law')&&now(G)>=T(a,21)&&now(G)<T(d,16)&&S.ok(G)) PHONE.at(G,a,21,[dm(L.m9Dm)],tag);   /* 在家族群組的：Kevin 那一則照舊（M9）*/
     if(!sent(G,tag)) return;

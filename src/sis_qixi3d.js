@@ -49,7 +49,7 @@ const SISQX=(function(){
     2026:{day:'2026-08-19',ask:'2026-08-17',h:21,vask:'2026-08-18',
       out:{id:'sisqx_2026',h:19,late:0.25,place:'溫州街・巷子裡定食',title:'七夕（溫州街・定食店）',travel:'走路 約 10 分鐘',travelH:1/6}},   /* 七夕當天晚上照常營業（places.js wz_teishoku 週三 17:30–20:30）*/
     2027:{day:'2027-08-08',ask:'2027-08-06',h:21,
-      out:{id:'sisqx_2027',h:20,late:0.25,place:'霖澤館・研究室門口',title:'七夕（霖澤館・研究室門口）',travel:'走路 約 10 分鐘',travelH:1/6}},
+      out:{id:'sisqx_2027',h:20,late:0.25,place:'法律系館A・研究室門口',title:'七夕（法律系館A・研究室門口）',travel:'走路 約 10 分鐘',travelH:1/6}},
     2028:{day:'2028-08-26',ask:'2028-08-25',vask:'2028-08-25',
       out:{id:'sisqx_2028',h:9,late:0.25,place:'她宿舍門口',title:'七夕（週六市集）',travel:'走路 約 5 分鐘',travelH:1/12}} };
   /* 那一年是哪一版：meet 當面（2026、2027 她在臺北）／video 視訊（2026 她不在臺北、2028 其他路線）／us 美國路線當面（2028）／null 沒有 */

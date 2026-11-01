@@ -39,8 +39,8 @@ const DORM203_LINES=(function(){
         after:[nar('（他把耳塞拿下來一邊，對你點頭。）'),{text:'明天早上我會先走。燈我會關。'}] },
       kai:{ rows:[   /* 阿凱補三句（他原本的房間句照舊：三句說完就是原本的）*/
           {k:'k1',term:'Y1S1',t:'冷氣遙控器我收在抽屜裡。不然他們兩個會一直搶。'},
-          {k:'k2',term:'Y1S1',after:10,t:'上次宵夜是我下去拿的。……沒事，我只是說一下。',counted:'k2c'},   /* 3-3 宵夜那晚算到他（R203_SUPPER_KAI）以後這一句不出現，換成 k2c（AA_502 第 6 節第 9 點：不看 KAI_COUNTED）*/
-          {k:'k2c',term:'Y1S1',after:10,needFlag:'KAI_COUNTED',need:'supper',t:'上次宵夜，你說了謝謝。……沒事，我只是說一下。'},
+          {k:'k2',term:'Y1S1',after:10,afterSupper:true,t:'上次宵夜是我下去拿的。……就這樣。',counted:'k2c'},   /* 3-3 宵夜那晚算到他（R203_SUPPER_KAI）以後這一句不出現，換成 k2c（AA_502 第 6 節第 9 點：不看 KAI_COUNTED）*/
+          {k:'k2c',term:'Y1S1',after:10,afterSupper:true,needFlag:'KAI_COUNTED',need:'supper',t:'上次宵夜，你說了謝謝。……就這樣。'},   /* AA_528 2-3、第 3 節（企劃線 7ad5fee84）：k2、k2c 都在第 13 週 3-3 宵夜那一晚（週四 23:00～23:30）以後才出（afterSupper，src/dorm203_3d.js rowOpen）；收尾「……沒事，我只是說一下。」換「……就這樣。」*/
           {k:'k3',term:'Y1S2',t:'你們三個都念法律，晚上講話我有一半聽不懂。我就當在聽廣播。'} ] } },
     /* 第 3 節：四個人的小事（STORY_EVENTS 的 dialogue 寫法）*/
     ev:{
@@ -92,7 +92,7 @@ const DORM203_LINES=(function(){
         say('zhe','欸，你那件白襯衫可以借我嗎？'),
         say('zhe','……今天晚上有事。沒事啦，就是有事。'),
         {choice:[{text:'「拿去。」',goto:'lend'},{text:'「去哪？」',goto:'where'},{text:'「你穿你的球衣就好。」',goto:'jersey'}]},
-        {label:'where'},say('zhe','麵店團啦！……還有 Alison。好，你知道就好。'),   /* 稿：然後一樣借 → 接「拿去。」那一段 */
+        {label:'where'},say('zhe','吃飯啦！大家都在。……還有 Alison。好，你知道就好。'),   /* 稿：然後一樣借 → 接「拿去。」那一段 */
         {label:'lend'},{set:{R203_SHIRT:true}},nar('（他穿上，在鏡子前面站了很久。）'),say('zhe','會不會太正式？'),nar('（他看著鏡子，自己點了點頭。）'),say('zhe','……會。（他沒有脫下來。）'),{goto:'end'},   /* 第 6 節第 7 點：柏翰週六在總圖，阿哲自己回答 */
         {label:'jersey'},say('zhe','……也對。（他換了三件，最後穿了球衣出門。）'),
         {label:'end'} ],

@@ -74,7 +74,7 @@ async def no_phone_auto(pg):
 
 async def load_state(pg, st, quiet_events=False, quiet_phone=False):
     """[前置] 用遊戲自己的讀檔（GAME.applySave）把玩家放到某個時間地點。quiet_events=True 會關掉條件事件，也關掉「要回覆的訊息自動打開手機」（只給不測劇情、手機的測試用）。
-    手機自動打開（D103，v9.10.1 起）會暫停遊戲；讀檔的狀態有要回的訊息時（例：預設交往中的可昕傳「週末來政大？我當導遊。」），測試跑到一半手機跳出來，
+    手機自動打開（D103，v9.10.1 起）會暫停遊戲；讀檔的狀態有要回的訊息時（例：預設交往中的可昕傳「週末來木柵大學？我當導遊。」），測試跑到一半手機跳出來，
     之後的搖桿、拖曳、小地圖全部不動（2026-10-18 v9.10.1 發布後 minimap_direction、p0_movement 就是這樣失敗，REL-9101-POSTCHECK-1018）。
     quiet_phone=True 只關「要回覆的訊息自動打開手機」，條件事件照舊（測走路、樓梯、上課，但課前課後的劇情要照演的：flow_wancai_stairs、flow_wancai_floors、flow_classes，BB-B v9.10.7 回歸 10-24）"""
     # 直向畫面一開始有「請把手機轉成橫向（或直接點這裡繼續直向遊玩）」（#rotate.want，點一下才關）：玩家在標題畫面就會點掉它；

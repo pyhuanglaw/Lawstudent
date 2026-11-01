@@ -88,7 +88,7 @@ const SISB15=(function(){
 
   /* ---------------- 第 3 節第 1 點 Kevin 畢業、國考那天 ---------------- */
   S.GRAD={ask:'2028-06-01',day:'2028-06-03'};
-  S.GRAD_OUT={id:'sisb15_kv_grad',ev:'ev_sis15_kv_grad',h:10.5,late:0.25,place:'霖澤館門口',title:'霖澤館門口（Kevin 的畢業照）',travel:'走路 約 10 分鐘',travelH:1/6,hours:0.5,back:'回到住的地方。'};   /* 拍照多久稿沒寫：算 30 分鐘 */
+  S.GRAD_OUT={id:'sisb15_kv_grad',ev:'ev_sis15_kv_grad',h:10.5,late:0.25,place:'法律系館A門口',title:'法律系館A門口（Kevin 的畢業照）',travel:'走路 約 10 分鐘',travelH:1/6,hours:0.5,back:'回到住的地方。'};   /* 拍照多久稿沒寫：算 30 分鐘 */
   S.grad=function(G){ const F=G.flags, a=D(S.GRAD.ask), d=D(S.GRAD.day), tag='sisb15_kv_grad_ask'; if(a==null||d==null||G.day<a||G.day>d+1) return;
     if(!sent(G,tag)&&inGrp(G)&&now(G)<T(d,S.GRAD_OUT.h)){ const m=g(['k',L.gradAsk]); if(!S.awayOn(G,d)) m.ask={id:tag,until:T(d,S.GRAD_OUT.h),opts:[{t:L.go,set:{SIS15_KV_GRAD_GO:true}}]}; PHONE.at(G,a,tzH(G,a,21),[m],tag); }
     if(F.SIS15_KV_GRAD_GO===true&&F.SIS15_KV_GRAD==null&&!S.awayOn(G,d)&&now(G)<T(d,S.GRAD_OUT.h+S.GRAD_OUT.late)) plan(G,Object.assign({},S.GRAD_OUT,{day:d})); };
@@ -110,7 +110,7 @@ const SISB15=(function(){
 
   /* ---------------- 第 3 節第 4 點 3/16 12:20 研究室的兩個便當 ---------------- */
   S.LUNCH='2028-03-16';
-  S.LUNCH_OUT={id:'sisb15_lunch0316',ev:'ev_sis15_lunch0316',h:12+20/60,late:0.25,place:'霖澤館・研究室',title:'霖澤館・研究室（中午）',travel:'走路 約 10 分鐘',travelH:1/6,hours:1,back:'回到住的地方。'};
+  S.LUNCH_OUT={id:'sisb15_lunch0316',ev:'ev_sis15_lunch0316',h:12+20/60,late:0.25,place:'法律系館A・研究室',title:'法律系館A・研究室（中午）',travel:'走路 約 10 分鐘',travelH:1/6,hours:1,back:'回到住的地方。'};
   S.lunch=function(G){ const F=G.flags, d=D(S.LUNCH); if(d==null||F.SIS15_LUNCH_GO!==true||F.SIS15_LUNCH_0316!=null||G.day>d) return; const q=outGet(G,S.LUNCH_OUT.id);
     if(!S.dating(G)){ if(q&&q.state==='planned') q.state='cancelled'; return; }   /* 3/16 已經不在交往＝不演 */
     if(now(G)<T(d,S.LUNCH_OUT.h+S.LUNCH_OUT.late)) plan(G,Object.assign({},S.LUNCH_OUT,{day:d})); };
