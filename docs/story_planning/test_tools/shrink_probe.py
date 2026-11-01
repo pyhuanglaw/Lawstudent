@@ -360,11 +360,11 @@ async def mode_y2late(pg, cdp, run):
         await pg.evaluate("(()=>{ window.__SAYS=[]; if(!window.__SAYH){ window.__SAYH=1; const s0=GAME.say; GAME.say=function(w,t){ try{ window.__SAYS.push(String(t||'')); }catch(e){} return s0.apply(this,arguments); }; } })()")
         await P.load(pg, cdp, st, quiet=False)
         run.setup('[前置] 使用者存檔改到 %s（%s 第 %s 週）20:00 宿舍；%s%s' % (d['key'], d['term'], d['week'], {'3': 'ROOM_Y2＝2026-09-06、沒有 ROOM_Y3', '4': 'ROOM_Y2、ROOM_Y3 有、沒有 ROOM_Y4'}.get(yr, '沒有 ROOM_Y2'), ('；路線 %s' % route) if route else ''))
-        await P.events_on(pg); await P.wait_play(pg, cdp, 20.2, max_s=600, run=run, tag='y%slate_%s' % (yr, key)); await pg.wait_for_timeout(2000)
+        await P.events_on(pg); await P.wait_play(pg, cdp, float(os.environ.get('YWAIT', '20.2')), max_s=600, run=run, tag='y%slate_%s' % (yr, key)); await pg.wait_for_timeout(2000)   # YWAIT（BB-B 11-01）：等到幾點再看；9/04 那一場 ev_y4_path 演完才拆箱，20.2 有時候等不到
         txt = await pg.evaluate("(window.__SAYS||[]).slice(0,40)")
         r = await pg.evaluate("(()=>{ const F=GAME.G.flags, k=d=>d==null?null:CALENDAR.dateOf(d).key; return {y2:k(F.ROOM_Y2), y3:k(F.ROOM_Y3), y4:k(F.ROOM_Y4), path:F.Y4_PATH==null?null:F.Y4_PATH, zone:GAME.G.zone, now:CALENDAR.dateOf(GAME.G.day).key+' '+(+GAME.G.hour).toFixed(2)}; })()")
         r['pathOld'] = any('最後一科考完' in t for t in txt); r['pathNew'] = any('大四開學一陣子了' in t for t in txt); r['tomorrow'] = any('明天開學' in t for t in txt)
-        y2t = any('搬進新的房間' in t for t in txt); y3t = any('搬進第三個房間' in t for t in txt); y4t = any('最後一次搬進宿舍' in t or '409 的床位' in t or '你從家裡出發，回宿舍' in t or '這是最後一次拆箱' in t for t in txt)   # 美國路線沒有「明天開學」，只有字卡＋拆箱（n34_y4late_us 16:05）
+        y2t = any('搬進新的房間' in t for t in txt); y3t = any('搬進第三個房間' in t for t in txt); y4t = any('最後一次搬進宿舍' in t or '409 的床位' in t or '你從家裡出發，回宿舍' in t or '這是最後一次拆箱' in t or '409。最後一次搬' in t for t in txt)   # 美國路線沒有「明天開學」，只有字卡＋拆箱（n34_y4late_us 16:05）
         rows.append({'key': key, 'want': want, 'route': route, 'y2text': y2t, 'y3text': y3t, 'y4text': y4t, **r})
         run.note('%s%s：演 312 %s、507 %s、409 %s；%s；說過的 %s' % (key, ('（%s）' % route) if route else '', y2t, y3t, y4t, J(r), J(txt[:14])[:1200])); await run.shot(pg, 'y%slate_%s' % (yr, key))
     first = rows[0]; rest = rows[1:]
