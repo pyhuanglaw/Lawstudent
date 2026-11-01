@@ -3798,7 +3798,7 @@ async def main():
                     elif st[0] == 'dumplog':   # R18（QA-TRANSCRIPT）：把到現在為止畫面上的每一句（__LOG）＋手機訊息（G.msgs）存成 OUT/<st[1]>.json，給 transcript_md 整理
                         J = await pg.evaluate("JSON.stringify({log:window.__LOG||[], msgs:(GAME.G.msgs||[]).map(m=>({th:m.th||'',from:m.from||'',name:m.name||'',text:String(m.text||''),day:m.day,key:(m.day!=null?CALENDAR.dateOf(m.day).key:''),h:m.h,ask:!!m.ask})), at:{d:CALENDAR.dateOf(GAME.G.day).key,h:GAME.G.hour}})")
                         open(os.path.join(OUT, st[1] + '.json'), 'w', encoding='utf-8').write(J); say('   存劇本：%s（%d 字）' % (st[1], len(J)))
-                    elif st[0] == 'use': await B['use'](pg, cdp, run, st[1])
+                    elif st[0] == 'use': await B['use'](pg, cdp, run, st[1], sc.get('pref'))
                     elif st[0] == 'bedpick': await B['bedpick'](pg, cdp, run, st[1], sc, st[2] if len(st) > 2 else None)
                     elif st[0] == 'bedfirst':   # 床的選單第一項要是 st[1]，按它
                         await pg.wait_for_timeout(2500); await B['drain'](pg, cdp, pref=sc.get('pref', []), secs=120)
