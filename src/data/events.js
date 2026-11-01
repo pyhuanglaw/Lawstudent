@@ -3411,7 +3411,9 @@ const STORY_EVENTS=[
       /* 韋綸的腳踏車（BB_112 第 3 節；祐廷的三句 AA_154 2-5b，BB-B 法律審查 7cf231c3）：11/7 的 river 換成這一段；去總圖查（三選一只差時間）＝時間前進一小時 */
       {label:'bike'},{scene:'椰影大道',bg:'ntu_avenue'},{speaker:'陌生人',text:'這台是我的。上個月被偷的。'},{speaker:'韋綸',text:'我上週在網路上買的！跟一個人買的！'},{speaker:'陌生人',text:'車架下面有我刻的字。你看。'},
       {speaker:null,text:'（真的有。）'},{speaker:'韋綸',text:'……{name}，你不是在看法律的書嗎？'},
-      {scene:'總圖'},{choice:[{text:'「買賣」',goto:'bk1'},{text:'「所有權」',goto:'bk2'},{text:'「從目錄翻」',goto:'bk3'}]},
+      {scene:'總圖'},/* 手機筆記（AA_117 C0；AA117-CASE-NOTES-1031，AA-B 2026-11-01 回覆 D109 的字；LEGAL_REVIEW_REQUIRED：只寫方向、不寫結論）：誰、向誰、請求什麼自動填好，依據什麼是玩家選的那一行（經濟系大一：從哪裡翻）*/
+      {speaker:'手機筆記',text:'誰：韋綸（買到別人被偷的車）'},{speaker:'手機筆記',text:'向誰：賣家（原車主會來要車）'},{speaker:'手機筆記',text:'依據什麼：'},{speaker:'手機筆記',text:'請求什麼：跟賣家把錢要回來（車還給原車主）'},
+      {choice:[{text:'「買賣」',goto:'bk1'},{text:'「所有權」',goto:'bk2'},{text:'「從目錄翻」',goto:'bk3'}]},
       {label:'bk1'},{speaker:null,text:'（翻了四十分鐘才繞到所有權那一章）'},{goto:'bk_found'},
       {label:'bk2'},{speaker:null,text:'（十五分鐘就找到）'},{goto:'bk_found'},
       {label:'bk3'},{speaker:null,text:'（半小時）'},

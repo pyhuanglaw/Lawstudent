@@ -326,9 +326,9 @@ const Y2R2=(function(){
       {if:{custom:G=>!depAns(G)&&!GE(G)},speaker:'zhe',expression:'neutral',text:'我學長退租，房東本來說押金扣一半。'},
       {unless:{custom:depAns},speaker:'zhe',expression:'neutral',text:'他自己去問，房東改口說牆上有釘子洞，全部不退。'},
       {speaker:'zhe',expression:'annoyed',text:'兩個月的押金耶。他本來要拿去買系籃鞋。'},
-      {speaker:null,text:'（你打開手機的筆記，先寫了兩行：誰——阿哲的學長；向誰——房東。）'},
-      /* 手機筆記（AA_117 C3，AA117-CASE-NOTES-1031）：格式同 C1（bbpack_events.js 阿凱的鍵盤，說話人「手機筆記」）——誰、向誰照上一句旁白（AA_325）；
-         依據什麼、請求什麼是玩家選的兩行（AA_117 重點一、二）：寫到「：」為止，下面接那一行的選項 */
+      /* 手機筆記（AA_117 C3，AA117-CASE-NOTES-1031）：格式同 C1（bbpack_events.js 阿凱的鍵盤，說話人「手機筆記」）——誰、向誰照 AA_325 原本那句旁白的字；
+         依據什麼、請求什麼是玩家選的兩行（AA_117 重點一、二）：寫到「：」為止，下面接那一行的選項。
+         旁白「（你打開手機的筆記，先寫了兩行：誰——阿哲的學長；向誰——房東。）」拿掉（AA-B 2026-11-01 回覆，D109：和筆記重複）*/
       {speaker:'手機筆記',text:'誰：阿哲的學長'},{speaker:'手機筆記',text:'向誰：房東'},{speaker:'手機筆記',text:'依據什麼：'},
       {choice:[{text:'「先把租約和搬進來的照片給我看。」',set:{_depB:'photos'},goto:'b1'},{text:'「押金是擔保，扣要說得出理由。」',if:{flags:['U_LEASE']},set:{_depB:'lease'},goto:'b2'},{text:'「我不確定。週六去法服問。」',set:{_depB:'fafu'},goto:'b3'}]},
       {label:'b1'},{speaker:'zhe',expression:'surprised',text:'……搬進來時要拍照？'},{goto:'ask'},

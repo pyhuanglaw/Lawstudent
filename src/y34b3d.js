@@ -384,6 +384,9 @@ const Y34B=(function(){
   /* AA_370 M8：美國路線、和學姊去大峽谷（10/7～10/14 不能用手機，USL.canyonBack）＝期限延到回到印第安納的隔天中午（大峽谷那段不算）；Q14 的時間照亞利桑那（USL 的 tzOffset −15）*/
   S.q14Until=function(G){ const d=D('q14'); if(d==null) return null; const u=T(d+2,tzH(G,d+2,0)), b=US(G)&&typeof USL!=='undefined'&&USL.canyonBack?USL.canyonBack(G):null; if(b!=null) return Math.max(u,T(Math.floor(b/24)+1,12));
     const q=!US(G)&&typeof OUT!=='undefined'&&OUT.get?OUT.get(G,'y4_sis_canyon'):null, d16=DK('2028-10-16'); return q&&q.state==='done'&&d16!=null?Math.max(u,T(d16,12)):u; };   /* AA_378 #15（企劃線 5cd35678）：臺灣、日本路線去大峽谷找學姊（10/7～10/15）的，期限延到回到臺北的隔天中午 10/16 12:00（同美國路線，AA_370 M8）*/
+  /* 手機筆記（AA_117 C8；AA117-CASE-NOTES-1031）：請求什麼（她要在合約裡看懂什麼）是玩家選的那一行（下面的選項）；誰、向誰、依據什麼照 AA-B 2026-11-01 回覆（D109）的字。
+     LEGAL_REVIEW_REQUIRED：只寫方向（權利歸誰、錢怎麼分、怎麼解約），不寫結論 */
+  S.Q14_NOTE=['誰：子晴（要簽約的人）','向誰：工作室','依據什麼：合約本身（權利歸誰、錢怎麼分、怎麼解約）','請求什麼：'];
   S.q14Phone=function(G){ const F=G.flags, d=D('q14'); if(d==null||G.day<d||!law(G)||!fri('heroine_04')||sent(G,'y4_q14')) return; const until=S.q14Until(G); if(G.day>Math.max(d+2,Math.floor(until/24))) return; if(NOW(G)<T(d,tzH(G,d,21))) return;
     const Q=t=>DM('heroine_04',t), us=US(G), dt=dating(G,'heroine_04');
     const open=dt?[Q('我們要跟一間發行商簽約。合約四十頁。'),Q('你不用當律師啦。陪我看到第四十頁就好')]:(us?[Q('你那邊是早上吧'),Q('你是法律系的吧'),Q('我們要跟一間發行商簽約。合約四十頁。'),Q('我看不懂'),Q('你看得懂嗎')]:[Q('欸不是，你是法律系的吧。'),Q('我們要跟一間發行商簽約。合約四十頁。'),Q('我看不懂'),Q('你看得懂嗎')]);
@@ -392,7 +395,7 @@ const Y34B=(function(){
     if(fafu) o.push({t:'介紹法服的指導律師給妳。',set:{ZQ_CONTRACT:'legal_aid'},say:[R('法服？你們系上那個社團？……好。')]});   /* AA_378 S5（企劃線 5cd35678）：學姊四年都不在法服 */
     o.push({t:'我還是學生，不能給妳正式的法律意見。',set:{ZQ_CONTRACT:'honest'},say:[R('……你好老實。好，那你陪我去找律師。')]});
     if(three) o.push({t:'先看權利歸誰、錢怎麼分、怎麼解約。然後拿去給律師看。',set:{ZQ_CONTRACT:'lawyer'},say:[R('……你講話越來越像律師了。好，找律師。')]});   /* AA_398 第 33 列 */   /* U_COPYRIGHT（大四上智財法第 4 週 9/27、第 10 週的討論課）＋U_CONTRACT（民總第 14 週、債總的討論課）：classes3d.js 的討論課照 syllabus 的 understand 記（AA_337 第 6 題）*/
-    open[open.length-1].ask={id:'y4_q14',until,opts:o}; at(G,d,tzH(G,d,21),open,'y4_q14'); };
+    open[open.length-1].ask={id:'y4_q14',until,opts:o,note:S.Q14_NOTE.slice()}; at(G,d,tzH(G,d,21),open,'y4_q14'); };
   /* ================= 1B-24 以安新 20 ================= */
   S.an20Mode=G=>datingOther(G,'heroine_01')?'noodle':'cafe';
   S.an20Phone=function(G){ const F=G.flags, a=D('an20ask'), d=D('an20'); if(a==null||G.day<a||G.day>d||!law(G)||!fri('heroine_01')||F.AN_YOUR_TURN!=null) return;
