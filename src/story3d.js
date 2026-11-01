@@ -2714,7 +2714,8 @@ const STORY = (function(){
         if(G.day>dShow||(G.day===dShow&&G.hour>=21.2)){
           if(F.ZQ_SHOW==='half'&&!PHONE.sent(G,'zq_show_half')) PHONE.at(G,dShow+1,10,[Z('你看到一半。後半比較好。')],'zq_show_half');
           const invited=PHONE.sent(G,'zq_show_inv')||!!F.CLUB_club_guitar, went=typeof ACTIVITIES!=='undefined'&&ACTIVITIES.attended(G,'guitar_show_y1s2',dShow);
-          if(F.ZQ_SHOW==null&&invited&&!went&&typeof SOCIAL!=='undefined'&&SOCIAL.has('heroine_04','FIRST_MET')){ F.ZQ_SHOW='absent'; F.zqColdUntil=dShow+8; PHONE.at(G,dShow+1,10,[Z('你沒來')],'zq_show_absent'); } } } }
+          if(F.ZQ_SHOW==null&&invited&&!went&&typeof SOCIAL!=='undefined'&&SOCIAL.has('heroine_04','FIRST_MET')){ F.ZQ_SHOW='absent'; F.zqColdUntil=dShow+8; PHONE.at(G,dShow+1,10,[Z('你沒來')],'zq_show_absent');
+            if(SOCIAL.has('kai','FIRST_MET')&&!PHONE.sent(G,'g3_kai_absent')) PHONE.at(G,dShow+1,12.5,[{th:'p:kai',from:'kai',text:'你沒來。她彈錯了，然後大笑。你錯過了。'}],'g3_kai_absent'); } } } }   /* AA_13 G3（AA13-G3-SHOWCASE-1031）：玩家沒去＝隔天阿凱；時間技術預設 12:30（子晴 10:00 那則之後）*/
     /* 學姊 W2b／W2c、「誰有車？」（BB_96 2-1、2-2、BB_97 2-9；交接包 v2）：大一下的家族群組（法律系直屬家族，給所有人；學姊有伴侶，沒有兩個人的時間）。
        第 3 週週二 21:00 Kevin 開玩笑（說要請全家族飲料＝SAID_TREAT_SIS／貼圖／不回）；週五 21:00 Kevin 揪第 4 週週五 18:30 永康街的咖哩（「去。」＝排出遊 ev_family_dinner；有 SAID_TREAT_SIS 學姊多三句）；
        接著 Kevin「家聚要搬兩箱飲料，誰有車？」（「我有。」＝SAID_HAS_CAR）。聚餐當晚 21:30 學姊「三件事」（W2c，給所有人，沒去也看得到；TREATED_FAMILY 換第三件）。

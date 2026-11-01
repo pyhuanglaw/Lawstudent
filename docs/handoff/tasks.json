@@ -37537,9 +37537,9 @@
    "title": "G3 成發觀眾群戲（阿凱、Alison、芷若、隔天阿凱）沒有（AA_13；歷史複核第 3 批 tier 4；G2 的缺口記在 SYS-14）",
    "area": "STORY",
    "owner": "LAWWW",
-   "status": "待開工",
+   "status": "已整合待測試",
    "priority": "P2",
-   "next": "【10-31 22:2x】歷史複核找到（HISTORY-AUDIT-1031）→ LAWWW 照稿實作，排在 D99 寒暑假（AA_549）之後",
+   "next": "【11-01 07:4x LAWWW-B】實作（開發分支）：ev_ziqing_show 開頭觀眾席阿凱（旁白＋一句）、Alison 一句；沒去隔天 12:30 阿凱「你沒來。她彈錯了，然後大笑。你錯過了。」；芷若「我是被她押來的。」要子晴×芷若友情線，遊戲沒有那條線的紀錄，先不出（問 AA）；tests/aa13_g3_unit.js（修改前 FAIL）→ BB 驗｜【10-31 22:2x】歷史複核找到（HISTORY-AUDIT-1031）→ LAWWW 照稿實作，排在 D99 寒暑假（AA_549）之後",
    "first": {
     "term": "Y1S2",
     "week": 0,
