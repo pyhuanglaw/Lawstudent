@@ -50,12 +50,16 @@ const R3=(function(){
   /* ===================== 3-01 芷若的試譯稿費（BB_70 8b、8b-1 C2；AA_117 C2；BB_97 第 0b 節）===================== */
   /* 第二張換字（AA_461 第 3 節：兩張原本一字不差）*/
   S.ZR_FEE_SHOTS=[R('📷（對話的截圖）'),R('📷（對話的截圖，往上滑的那一段）'),NAR('（你問了四件事：誰找她、要她做什麼、有沒有說好價錢、他們拿去做了什麼。她一題一題回。）')];
+  /* 手機筆記（AA_117 C2；BB_70 8b-1 C2「自動填好的：誰＝芷若；向誰＝出版社；請求什麼＝照用的部分付稿費，或不要用」、玩家選的那一行＝依據什麼；AA117-CASE-NOTES-1031）：
+     回覆按鈕上面顯示（game3d.js noteHint）；「依據什麼：」到冒號為止＝下面兩個按鈕。字照 BB_70 8b-1，格式同 C1（bbpack_events.js 阿凱的鍵盤）。
+     AA_328 3-01 寫「誰、向誰、請求什麼已經填好，不顯示」是筆記畫面還沒做的時候：現在照 AA_117 第 1 節四行都顯示（回報 AA）*/
+  S.ZR_FEE_NOTE=['誰：芷若','向誰：出版社','依據什麼：','請求什麼：照用的部分付稿費，或不要用'];
   S.zrFee=function(G){ const F=G.flags, d=D('2026-11-11'), d2=D('2026-11-25'); if(d==null||now(G)<T(d,0)||now(G)>=T(d2+2,0)) return;
     const ok=met(G,'heroine_02','FAMILIAR')&&contact(G,'heroine_02');
     if(ok&&G.day<=d+1&&now(G)>=T(d,S.zrHour(G))&&!PHONE.sent(G,'r3_zr_fee')){ const h=S.zrHour(G), sh=S.ZR_FEE_SHOTS.map(x=>Object.assign({},x)), mem=[{npc:'heroine_02',tag:'ZR_FEE_LETTER',note:''}];
       const opts=[{t:'妳先把你們的對話拍給我看。',say:sh.concat([{from:'heroine_02',text:'……好。我整理一下。'}]),set:{ZR_FEE:'honest'},mem}];   /* 老實的選項，永遠在；二十分鐘後的時間表在下面 */
       if(F.U_CONTRACT) opts.push({t:'先看你們說好了什麼。',say:[ME('說好試譯不付錢，是試譯。拿去用，就不是試譯了。')].concat(sh,[{from:'heroine_02',text:'……原來我可以這樣講。'},ME('翻譯算不算妳的作品、能不能被拿去用，我還沒學到。這部分我們問法服。'),{from:'heroine_02',text:'好。我先寫信，不行再去問。'}]),set:{ZR_FEE:'contract'},mem});   /* 大一下債總契約成立那幾週（U_CONTRACT）才有 */
-      PHONE.at(G,d,h,[R('我幫一個出版社翻了一篇短文，對方說「先試譯，不付錢」。'),Object.assign(R('可是他們拿去用了。……這樣正常嗎。'),{ask:{id:'r3_zr_fee',until:T(d+1,18),opts}})],'r3_zr_fee'); }
+      PHONE.at(G,d,h,[R('我幫一個出版社翻了一篇短文，對方說「先試譯，不付錢」。'),Object.assign(R('可是他們拿去用了。……這樣正常嗎。'),{ask:{id:'r3_zr_fee',until:T(d+1,18),opts,note:S.ZR_FEE_NOTE.slice()}})],'r3_zr_fee'); }
     if(F.ZR_FEE==='honest'&&!PHONE.sent(G,'r3_zr_fee_tl')){ if(F.ZR_FEE_T==null) F.ZR_FEE_T=now(G); const t=F.ZR_FEE_T+20/60, dd=Math.floor(t/24);   /* （二十分鐘後）*/
       PHONE.at(G,dd,t-dd*24,[R('📷（一張時間表。日期、誰說了什麼，一格一格排好。）'),MEp('heroine_02')('翻譯算不算妳的作品、能不能被拿去用，我還沒學到。這部分我們問法服。'),R('好。我先寫信，不行再去問。')],'r3_zr_fee_tl'); }
     if(F.ZR_FEE==null&&PHONE.sent(G,'r3_zr_fee')&&now(G)>T(d+1,18)){ const m=PHONE.byAsk(G,'r3_zr_fee'); if(!m||m.ans==null){ F.ZR_FEE='missed'; PHONE.at(G,d+1,18,[R('沒事。我自己先問問看。')],'r3_zr_fee_miss'); } }   /* 沒回（隔天 18:00 前）*/
