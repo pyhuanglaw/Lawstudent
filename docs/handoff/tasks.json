@@ -37596,7 +37596,7 @@
    "owner": "LAWWW",
    "status": "已整合待測試",
    "priority": "P2",
-   "next": "【11-01 08:4x LAWWW-B】子代理交（feat-aa187-1101 1e23f2c53）、併進開發分支 c78848d47：src/aa187_3d.js 四段＋2-1(a) 遊戲已有 AA_313 版照留；tests/aa187_pair_unit.js（修改前 FAIL）；8 題技術預設已問 AA-B → BB 驗｜【11-01 06:0x LAWWW-B】子代理開工：本機分支 feat-aa187-1101（worktree scratchpad/feat187，從 97c4f5e7e）；新測試 aa187_pair_unit；LAWWW-B 定時 bundle 備份｜【10-31 22:3x 歷史複核（AA-B 第 4、5 批）】LAWWW 照稿實作，排在 D99 寒暑假（AA_549）之後",
+   "next": "【11-01 09:2x LAWWW-B】AA-B 回 8 題：2-1(a) 照留 AA_313；第 4 題那把傘放寬成大三上任何一個下雨的週二第一次走進麵店；第 6 題她身邊有朋友時 1-6、2-4 不出（PRIVTALK.crowd）；第 7 題送她回去換大一女舍門口的圖（girls_dorm_gate）；其他照預設；aa187_pair_unit ALL PASS｜【11-01 08:4x LAWWW-B】子代理交（feat-aa187-1101 1e23f2c53）、併進開發分支 c78848d47：src/aa187_3d.js 四段＋2-1(a) 遊戲已有 AA_313 版照留；tests/aa187_pair_unit.js（修改前 FAIL）；8 題技術預設已問 AA-B → BB 驗｜【11-01 06:0x LAWWW-B】子代理開工：本機分支 feat-aa187-1101（worktree scratchpad/feat187，從 97c4f5e7e）；新測試 aa187_pair_unit；LAWWW-B 定時 bundle 備份｜【10-31 22:3x 歷史複核（AA-B 第 4、5 批）】LAWWW 照稿實作，排在 D99 寒暑假（AA_549）之後",
    "first": {
     "term": "Y1S2",
     "week": 0,
@@ -38056,7 +38056,7 @@
    "owner": "LAWWW",
    "status": "待開工",
    "priority": "P2",
-   "next": "【11-01 06:3x LAWWW-B】AA555 子代理查明 L1～L3 不是閒聊階梯、遊戲裡都還沒有；照 AA_118 第 5 節＋AA_555 實作（新事件）",
+   "next": "【11-01 09:2x LAWWW-B】AA-B 確認時間：L1 12:10 法律系館A一樓每學期最多兩次（隔兩週）；L2 大一上第 4 週週三 15:00 校史館門口（只大一）；L3 每年第 3 週週五 16:00 圓窗館合照（12:00 約、沒去 18:00 群組照片）｜【11-01 06:3x LAWWW-B】AA555 子代理查明 L1～L3 不是閒聊階梯、遊戲裡都還沒有；照 AA_118 第 5 節＋AA_555 實作（新事件）",
    "first": {
     "term": "Y1S1",
     "week": 1,

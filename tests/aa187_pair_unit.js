@@ -79,6 +79,8 @@ const inDoc=(t,doc)=>{ doc=doc||DOC; return !doc||doc.indexOf(t)>=0||doc.indexOf
     fresh(months[0]+'-01',21.5,'wancai',{}); date(AN); H.FRIEND(AN);
     at(byMonth[months[0]][0]);
     check('2. 和以安交往中、她那晚在讀書會：散會後＝ev_an_walk_home（afterActivity public_law_group）',after()==='ev_an_walk_home',after());
+    { const P0=global.PRIVTALK; global.PRIVTALK={crowd:()=>true}; const w=AA187.walkOk(H.G), st=AA187.seatOk(H.G); global.PRIVTALK=P0; const w2=AA187.walkOk(H.G);
+      check('2. 她身邊有朋友（PRIVTALK.crowd）：1-6 不出；2-4 也不出（AA-B 11-01 第 6 題，AA_503 第 13 節）；沒人時照出',!w&&!st&&w2,J([w,st,w2])); }
     const h0=H.G.hour, L0=await run('ev_an_walk_home',[0]);
     check('2. 選項「（送她回去）」／「（各自回去）」；送她＝第一組（旁白＋對話）、不扣時間、記這個月',J(H.opts[0])===J(['（送她回去）','（各自回去）'])&&J(L0)===J(lines(0))&&H.G.hour===h0&&H.G.flags.AN_WALK_M===months[0],J([H.opts[0],L0,H.G.hour]));
     at(byMonth[months[0]][1]); check('2. 同一個月第二次讀書會：不再出（每個月最多一次）',after()!=='ev_an_walk_home'&&AA187.walkOk(H.G)===false);
@@ -119,7 +121,8 @@ const inDoc=(t,doc)=>{ doc=doc||DOC; return !doc||doc.indexOf(t)>=0||doc.indexOf
     check('3. (b) 那天走進麵店（有 HELPED）：旁白「（那把傘，掛在只有她拿得到的地方。）」，不說話、不選擇、沒有標題',c1&&U.trigger==='auto'&&!U.title&&J(L)===J(['（那把傘，掛在只有她拿得到的地方。）'])&&H.opts.length===0,J(L));
     check('3. (b) 只一次',!EVENTS.check(U));
     { fresh(keyOf(tues[0]),12,'campus',{}); SOCIAL.remember(YT,'HELPED','把傘給她'); at(tues[1],10,'campus','rain'); tick(); at(tues[2],18,'noodle','rain'); tick();
-      check('3. (b) 第一個下雨的週二沒去麵店：下一個下雨的週二不演（只有第一個）',H.G.flags.YT_UMB_TUE===tues[1]&&!EVENTS.check(U)); }
+      check('3. (b) 第一個下雨的週二沒去麵店：下一個下雨的週二走進麵店照演（AA-B 11-01 第 4 題放寬：大三上任何一個下雨的週二，第一次走進麵店那次）',H.G.flags.YT_UMB_TUE===tues[1]&&EVENTS.check(U)); }
+    { fresh(keyOf(tues[0]),12,'campus',{}); SOCIAL.remember(YT,'HELPED','把傘給她'); at(tues[2],18,'noodle','clear'); tick(); check('3. (b) 晴天的週二走進麵店：不演',!EVENTS.check(U)); }
     { fresh(keyOf(tues[0]),12,'campus',{}); at(tues[1],18,'noodle','rain'); tick(); check('3. (b) 沒有 HELPED（大一沒把傘給她）：不演',H.G.flags.YT_UMB_TUE===tues[1]&&!EVENTS.check(U)); }
     { const t2=[]; for(let d=D('2027-02-15');t2.length<1;d++){ const t=CALENDAR.termOf(d); if(t&&t.id==='Y2S2'&&wdOf(d)===2) t2.push(d); } fresh(keyOf(t2[0]),18,'noodle',{}); SOCIAL.remember(YT,'HELPED',''); at(t2[0],18,'noodle','rain'); tick();
       check('3. (b) 大二下的雨天週二：不算',H.G.flags.YT_UMB_TUE==null&&!EVENTS.check(U)); }

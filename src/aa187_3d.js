@@ -76,12 +76,15 @@ const AA187=(function(){
     {lines:[nar('（她走到門口，停下來。）'),an('到了。明天早上的課你不要遲到。')]},
     {rain:true,lines:[nar('（下雨。她撐傘，傘往你這邊歪。）'),an('不要說話。我在算角度。')]},
     {lines:[nar('（她邊走邊背法條，背到一半停住。）'),an('……你剛剛笑什麼？'),me('沒有。'),an('你有。')]} ];
-  S.walkOk=G=>{ const e=D(S.WALK_END); return law(G)&&dating(G,AN)&&plgToday(G)&&here(AN,G)&&!abroad(G)&&e!=null&&G.day<=e&&G.flags.AN_WALK_M!==monthOf(G.day)&&!S.talkToday(G,AN); };
+  /* AA-B 11-01 第 6 題：照 AA_503 第 13 節，她身邊有朋友時 1-6、2-4 不出（不等 7 天，那一次就是沒有；PRIVTALK.crowd＝她旁邊有不知道的人）*/
+  S.crowd=(G,id)=>typeof PRIVTALK!=='undefined'&&!!PRIVTALK.crowd&&!!PRIVTALK.crowd(G,id,null,typeof GAME!=='undefined'?GAME:null);
+  S.walkOk=G=>{ const e=D(S.WALK_END); return law(G)&&dating(G,AN)&&plgToday(G)&&here(AN,G)&&!abroad(G)&&e!=null&&G.day<=e&&G.flags.AN_WALK_M!==monthOf(G.day)&&!S.talkToday(G,AN)&&!S.crowd(G,AN); };
   S.walkPick=G=>{ G.flags.AN_WALK_CUR=S.rotPick(G,'AN_WALK_ROT',S.WALK); G.flags.AN_WALK_M=monthOf(G.day); return G.flags.AN_WALK_CUR; };
-  S.EV_WALK={id:'ev_an_walk_home',participants:[AN],location:['wancai','wancai_sema'],trigger:'activity',afterActivity:'public_law_group',background:'blur',   /* 沒有標題（不送也會跑到這裡：不出字卡、不進日誌；同 2-4、2-1 (b) 的小動作）*/
+  S.WALK_BG=(typeof OUT!=='undefined'&&OUT.BG&&['gdorm_gate','fdorm_gate','girls_dorm_gate','fdorm_night','gdorm_night'].find(k=>OUT.BG[k]&&OUT.BG[k].image))||null;   /* 大一女舍門口的 2D 圖（OUT.BG 有才用；現在沒有＝null）*/
+  S.EV_WALK={id:'ev_an_walk_home',participants:[AN],location:['wancai','wancai_sema'],trigger:'activity',afterActivity:'public_law_group',background:'blur',   /* AA-B 11-01 第 7 題：有大一女舍門口的圖就換（送她回去那一段：S.WALK_BG），沒有先 blur */   /* 沒有標題（不送也會跑到這裡：不出字卡、不進日誌；同 2-4、2-1 (b) 的小動作）*/
     prereq:{custom:G=>S.walkOk(G)},
     dialogue:[ {choice:[{text:'（送她回去）',goto:'go'},{text:'（各自回去）',goto:'end'}]},   /* 「（各自回去）」：稿上沒有，補的系統選項 */
-      {label:'go'},{call:G=>{ S.walkPick(G); }},
+      {label:'go'},{call:G=>{ S.walkPick(G); }},{if:{custom:()=>!!S.WALK_BG},scene:'大一女舍門口',get bg(){ return S.WALK_BG; }},
       ...rotLines(S.WALK,'AN_WALK_CUR'),
       {label:'end'} ]};
 
@@ -89,7 +92,7 @@ const AA187=(function(){
   S.ndlOpen=(G,d)=>!(typeof NOODLE_CLOSED!=='undefined'&&NOODLE_CLOSED.closed&&NOODLE_CLOSED.closed(G,d))&&!(typeof PLACES!=='undefined'&&PLACES.typhoonClosed&&PLACES.typhoonClosed('noodle',d));
   S.umbDay=function(G){ if(!law(G)) return null; const F=G.flags; if(F.YT_UMB_TUE!=null) return F.YT_UMB_TUE;
     if(termId(G)==='Y3S1'&&wdOf(G.day)===2&&rainy(G)&&S.ndlOpen(G,G.day)) F.YT_UMB_TUE=G.day; return F.YT_UMB_TUE!=null?F.YT_UMB_TUE:null; };
-  S.umbOk=G=>{ const d=S.umbDay(G); return d!=null&&d===G.day&&typeof SOCIAL!=='undefined'&&!!SOCIAL.has&&SOCIAL.has(YT,'HELPED'); };
+  S.umbOk=G=>law(G)&&termId(G)==='Y3S1'&&wdOf(G.day)===2&&rainy(G)&&S.ndlOpen(G,G.day)&&typeof SOCIAL!=='undefined'&&!!SOCIAL.has&&SOCIAL.has(YT,'HELPED');   /* AA-B 11-01 第 4 題：放寬成大三上任何一個下雨的週二，第一次走進麵店那次（不只第一個下雨的週二；once）。S.umbDay 照舊記第一個下雨的週二，只當紀錄 */
   S.EV_UMB={id:'ev_yt_umbrella_hook',participants:[],location:'noodle',trigger:'auto',once:true,term:['Y3S1'],weekday:[2],background:'blur',   /* 沒有標題：不出字卡、不進日誌（一句旁白）*/
     prereq:{custom:G=>S.umbOk(G)},
     dialogue:[ nar('（那把傘，掛在只有她拿得到的地方。）') ]};
@@ -126,7 +129,7 @@ const AA187=(function(){
     {rain:true,lines:[nar('（她讀累了，用筆輕輕敲你的書兩下，指指窗外：下雨了。）')]},
     {lines:[nar('（收書包的時候，她把你的筆記也收進她的袋子。）'),yt('……拿錯了。'),me('妳拿著吧。'),yt('……嗯。')]},
     {lines:[nar('（六點半，她看錶，又多坐了十分鐘。）')]} ];
-  S.seatOk=G=>law(G)&&dating(G,YT)&&!!(STORY.ytThuFree&&STORY.ytThuFree(G))&&!abroad(G)&&G.flags.YT_SEAT4_M!==monthOf(G.day)&&!S.talkToday(G,YT);
+  S.seatOk=G=>law(G)&&dating(G,YT)&&!!(STORY.ytThuFree&&STORY.ytThuFree(G))&&!abroad(G)&&G.flags.YT_SEAT4_M!==monthOf(G.day)&&!S.talkToday(G,YT)&&!S.crowd(G,YT);
   S.seatPick=G=>{ G.flags.YT_SEAT4_CUR=S.rotPick(G,'YT_SEAT4_ROT',S.SEAT); G.flags.YT_SEAT4_M=monthOf(G.day); return G.flags.YT_SEAT4_CUR; };
   S.EV_SEAT={id:'ev_yt_thu_seat',participants:[YT],location:'library',trigger:'seat',weekday:[4],time:[17.5,18.5],npcNear:YT,background:'blur',   /* npcNear：她在旁邊（2.5 m 內或同一張桌子）*/
     prereq:{custom:G=>S.seatOk(G)},
