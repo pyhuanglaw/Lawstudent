@@ -1206,6 +1206,40 @@ async def aa529_cardsdiag2(pg, cdp, run, kx):
     run.check('cardsdiag2：按掉手機以後照常跳，「五月，書桌旁邊多了一台電風扇」那張卡有出', any(FAN65 in c[1] for c in cards), J(cards)[:600])
 
 
+async def aa529_cardsdiag3(pg, cdp, run, kx):
+    """BB-B 05:2x：cardsdiag 看到 4/27 21:00 手機只有「跳過」，按了出「先回覆。」——可昕 4/24「蛋糕有你的份。我先吃了。」待回覆。
+    像玩家一樣：手機自己打開時，對話清單裡標「待回覆」的那一串點進去、點第一個能按的回覆鍵；之後照常跳到 6/8，看電風扇那張卡"""
+    st, d = await econ_state(pg, '2025-04-24', 22.67, 'dorm', True)
+    await load(pg, cdp, run, st, 'cardsdiag3：同 cards（2025-04-24 22:40 在家、交往中、30 分鐘版）')
+    n0 = await pl_len(pg); replied = []
+
+    async def on_phone():
+        ths = await pg.evaluate("[...document.querySelectorAll('#phoneBody [data-th]')].filter(e=>(e.innerText||'').includes('待回覆')).map(e=>e.dataset.th)")
+        if not ths:
+            if not await pg.evaluate("!!document.querySelector('#phoneTabs button[data-ptab=\"msg\"]')"): return False
+            await P.phone_tab(pg, cdp, 'msg')
+            ths = await pg.evaluate("[...document.querySelectorAll('#phoneBody [data-th]')].filter(e=>(e.innerText||'').includes('待回覆')).map(e=>e.dataset.th)")
+        for th in ths:
+            if th in [r[0] for r in replied]: continue
+            t = await P.phone_thread(pg, cdp, th, open_folds=False)
+            ok = [a for a in t['asks'] if not a['dis']]
+            await run.shot(pg, 'cardsdiag3_thread_%d' % (len(replied) + 1))
+            if not ok: replied.append((th, None, t['text'][-200:])); continue
+            k = t['asks'].index(ok[0])
+            c = await pg.evaluate("k=>{ const e=document.querySelectorAll('#phoneBody [data-ask]')[k]; e.scrollIntoView({block:'center'}); const r=e.getBoundingClientRect(); return [r.left+r.width/2,r.top+r.height/2]; }", k)
+            await L.touch_tap(cdp, c[0], c[1]); await pg.wait_for_timeout(1500)
+            replied.append((th, ok[0]['t'], (await pg.evaluate("(document.getElementById('phoneBody')||{}).innerText||''"))[-200:]))
+            run.note('cardsdiag3 %s 回覆「%s」' % (th, ok[0]['t']))
+            return True
+        return False
+    ok = await play(pg, cdp, run, "CALENDAR.dateOf(GAME.G.day).key>='2025-06-08'", max_s=900, ff=False, tag='cardsdiag3', on_phone=on_phone, card_watch=('電風扇', 'cardsdiag3_fan_card'))
+    R = await rows(pg, n0); cards = [[r['n'], r['t'], r['d']] for r in R if r['k'] == 'card']
+    run.note('cardsdiag3 回覆過：%s' % J(replied)[:1200])
+    run.note('cardsdiag3 到 6/8 了嗎：%s；日期卡：%s；現在 %s' % (ok, J(cards)[:1500], J(await P.clock(pg))))
+    i1 = next((i for i, c in enumerate(cards) if NEW65 in c[1]), -1); i2 = next((i for i, c in enumerate(cards) if FAN65 in c[1]), -1)
+    run.check('cardsdiag3：回覆以後照常跳到 6/8；「每天早上…」那張卡之後有「五月，書桌旁邊多了一台電風扇…」', ok and i1 >= 0 and i2 >= i1, J(cards)[:600])
+
+
 async def aa529_k7(pg, cdp, run, kx):
     st, d = await state_at(pg, '2025-10-20', 21.0, 'dorm', flags={'dating_kexin': True, 'KX_ANNIV': {'1': 'went'}, 'PLAYED_Y0': True, 'KH_GO': 'home', 'Y0_DATING': True, 'KX_DATING_SINCE': '2024-10-17'})
     await load(pg, cdp, run, st, 'k7：最小存檔 2025-10-20 21:00 宿舍（法律系大一上；和可昕交往、K7 第一年週年去了＝KX_ANNIV 1 went、KH_GO home）', js="F.KX_ANNIV={1:'went'}; return LV('kexin',65,50,45,{npcRom:60,rom:40});")
@@ -1245,7 +1279,7 @@ async def aa529_s829(pg, cdp, run, kx):
 async def m_aa529_cards(pg, cdp, run):
     kx = await names_of(pg, 'kexin')
     for sub in ENV('AA529', 'cards,k7,k0b,s829'):
-        fn = {'cards': aa529_cards, 'cardsdiag': aa529_cardsdiag, 'cardsdiag2': aa529_cardsdiag2, 'k7': aa529_k7, 'k0b': aa529_k0b, 's829': aa529_s829}.get(sub)
+        fn = {'cards': aa529_cards, 'cardsdiag': aa529_cardsdiag, 'cardsdiag2': aa529_cardsdiag2, 'cardsdiag3': aa529_cardsdiag3, 'k7': aa529_k7, 'k0b': aa529_k0b, 's829': aa529_s829}.get(sub)
         if not fn: run.check('AA529＝%s 認得' % sub, False); continue
         run.note('---- aa529_cards：%s ----' % sub)
         try: await fn(pg, cdp, run, kx)
