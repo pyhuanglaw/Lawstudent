@@ -397,6 +397,46 @@ def knee(px):
     mm = np.where(hi, K + (A_ - K) * (1 - np.exp(-(m - K) / (A_ - K))), m)
     return np.where(hi, px * (mm / np.maximum(m, 1e-6)), px)
 
+# --dayscale 'PAT=F[,K,A];…'（11-01 LAWWW2-B，美國公寓門外平台、陽台）：白天那一張，名稱符合 PAT 的物件（屋外的地板、屋簷、外牆）的像素乘 F，
+#   有 K,A 的再把超過 K 的平滑壓到最多 A（和 --knee 同一個公式）。只改這些物件 LM UV 蓋到的像素，加上 Blender 烘焙留的邊（margin）——邊只往沒有別的物件的空白長。
+# 為什麼：屋外天光比屋裡亮好幾倍，遊戲沒有曝光調整，有屋簷的平台、陽台白天照舊 0.85、1.36（淺色水泥看起來一片白）。整體的天光調暗，屋裡就太暗。晚上那一張不動。
+DAYSCALE = [(re.compile(k), [float(t) for t in v.split(',')]) for k, v in (s.split('=') for s in arg('--dayscale', '').split(';') if s)]
+def uvmask(sel, margin=0):
+    """sel 裡的物件的 LM UV 三角形蓋到的像素（像素中心在三角形內）；margin＞0：再往外長 margin 圈，只長進「沒有任何物件」的空白"""
+    def raster(L):
+        m = np.zeros((RES, RES), np.bool_)
+        for o in L:
+            me = o.data; me.calc_loop_triangles(); uvd = me.uv_layers['LM'].data
+            uv = np.empty(len(uvd) * 2, dtype=np.float32); uvd.foreach_get('uv', uv); uv = uv.reshape(-1, 2) * RES
+            for t in me.loop_triangles:
+                P = uv[list(t.loops)]; x0, y0 = np.floor(P.min(0)).astype(int); x1, y1 = np.ceil(P.max(0)).astype(int)
+                x0, y0 = max(x0, 0), max(y0, 0); x1, y1 = min(x1, RES), min(y1, RES)
+                if x1 <= x0 or y1 <= y0: continue
+                X, Y = np.meshgrid(np.arange(x0, x1) + 0.5, np.arange(y0, y1) + 0.5)
+                (ax, ay), (bx, by), (cx, cy) = P; d = (by - cy) * (ax - cx) + (cx - bx) * (ay - cy)
+                if abs(d) < 1e-12: continue
+                w0 = ((by - cy) * (X - cx) + (cx - bx) * (Y - cy)) / d; w1 = ((cy - ay) * (X - cx) + (ax - cx) * (Y - cy)) / d; w2 = 1 - w0 - w1
+                m[y0:y1, x0:x1] |= (w0 >= -1e-4) & (w1 >= -1e-4) & (w2 >= -1e-4)
+        return m
+    m = raster(sel)
+    if margin > 0:
+        free = ~raster(objs)
+        for _ in range(margin):
+            g = m.copy(); g[1:, :] |= m[:-1, :]; g[:-1, :] |= m[1:, :]; g[:, 1:] |= m[:, :-1]; g[:, :-1] |= m[:, 1:]
+            m = m | (g & free)
+    return m
+def dayscale(px):
+    for rx, v in DAYSCALE:
+        sel = [o for o in objs if rx.search(o.name)]
+        if not sel: print('dayscale: 沒有符合', rx.pattern, flush=True); continue
+        msk = uvmask(sel, 6); F = v[0]; q = px[msk] * F
+        if len(v) >= 3:
+            K, A_ = v[1], v[2]; mm = q.max(axis=1, keepdims=True); hi = mm > K
+            q = np.where(hi, q * ((K + (A_ - K) * (1 - np.exp(-(mm - K) / (A_ - K)))) / np.maximum(mm, 1e-6)), q)
+        print('dayscale', rx.pattern, [o.name for o in sel], int(msk.sum()), 'px', 'mean', float(px[msk].mean()), '→', float(q.mean()), flush=True)
+        px = px.copy(); px[msk] = q
+    return px
+
 def save(px, path):
     px = smooth(px, SMOOTH)
     v = np.clip(px / SCALE, 0, 1)
@@ -411,7 +451,7 @@ def save(px, path):
 WB = {k: [float(t) for t in arg('--' + k + 'wb').split(',')] if arg('--' + k + 'wb') else None for k in ('day', 'night')}
 def wb(px, k): return px * np.array(WB[k], dtype=np.float32)[None, None, :] if WB[k] else px
 os.makedirs(os.path.dirname(os.path.abspath(LM)), exist_ok=True)
-day = bake('day', SKY, SUN[2], 1.0, DAYL); save(knee(wb(day, 'day')), LM + '_day.png')
+day = bake('day', SKY, SUN[2], 1.0, DAYL); save(knee(dayscale(wb(day, 'day'))), LM + '_day.png')
 night = bake('night', NIGHTSKY, 0.0, 1.0); save(wb(night, 'night'), LM + '_night.png')
 # 第三張「熄燈」（--dark；宿舍睡覺 DORM-SLEEP-VISUAL-1030，使用者 10-30「睡覺要真的有畫面」）：室內的燈（--lights、--points）全關、所有發光材質（燈管、燈條、螢幕）也關，
 # 只剩夜空（--darksky，預設 --nightsky 的 1.5 倍）＋窗外的路燈（--darkpoints x,y,z,W[,r,g,b];…，只在這一張）。遊戲：Z3.roomLightmap 的 z.lightsOff(0～1) 從晚上那張換到這張
@@ -501,7 +541,7 @@ for o in SHELL: bpy.data.objects.remove(o)   # 外殼只在烘焙時用
 if arg('--drop'):
     _drop = re.compile(arg('--drop'))
     for o in [o for o in bpy.data.objects if _drop.search(o.name)]: bpy.data.objects.remove(o)
-json.dump({'scale': SCALE, 'intensity': math.pi * SCALE, 'res': RES, 'samples': SAMPLES, 'emit': EMIT, 'dayemit': DAYEMIT, 'sun': SUN, 'sky': SKY, 'nightsky': NIGHTSKY, 'shell': arg('--shell'), 'daylights': DAYL, 'knee': KNEE, 'lights': arg('--lights'), 'points': arg('--points'), 'wb': WB,
+json.dump({'scale': SCALE, 'intensity': math.pi * SCALE, 'res': RES, 'samples': SAMPLES, 'emit': EMIT, 'dayemit': DAYEMIT, 'sun': SUN, 'sky': SKY, 'nightsky': NIGHTSKY, 'shell': arg('--shell'), 'daylights': DAYL, 'knee': KNEE, 'dayscale': arg('--dayscale'), 'lights': arg('--lights'), 'points': arg('--points'), 'wb': WB,
            'objects': [o.name for o in objs]}, open(LM + '.json', 'w'), ensure_ascii=False, indent=1)
 URL = arg('--url')   # 遊戲裡光照貼圖的路徑前綴（例：assets/models/env/classroom_201_lm）→ 寫進 GLB 場景的 extras.lightmap，遊戲的 attachRoomGLB 看到就自動接
 if URL:
