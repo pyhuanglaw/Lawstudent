@@ -16831,6 +16831,19 @@
    "task": "DIALOGUE-DEPTH-1031",
    "integration": "未整合",
    "note": "【11-01 01:4x】暫停匯入、保留為草稿（使用者 UA-AA-1101-01：角色定型以後才改）｜轉給 feat-dd-1031 的子代理和第一批一起做；發布後合"
+  },
+  {
+   "id": "DL-LW2-US-LM-1031",
+   "date": "2026-11-01",
+   "from": "LAWWW2-B",
+   "account": "B",
+   "branch": "claude/funny-albattani-iawshm",
+   "sha": "6c0233341",
+   "msg": "ACK",
+   "what": "美國室內光照三間（us_apartment v10、us_lawlib v7、us_asian_market v5）＋公寓外牆壁板開口、超市天花板朝下兩個模型 bug；bake_room.py 射線判斷；四支新測試＋singleside_us 2b",
+   "task": "INTERIOR-AAA-REVIEW-1028",
+   "integration": "未整合",
+   "note": "LAWWW-B：整合在本機分支 feat-art-1031（發布基準凍結），美國相關 Node ALL PASS；發布後合進開發分支、BB 看畫面；C 棟合租戶沒烘；公寓門外平台、陽台白天偏白（LAWWW2 照實寫）"
   }
  ],
  "ignored": [
