@@ -48,6 +48,25 @@ const GY3=(function(){
   function paintPlate(o,lines){ const g=o.geometry; if(!g.attributes.uv){ g.computeBoundingBox(); const bb=g.boundingBox, p=g.attributes.position, uv=new Float32Array(p.count*2), wx=bb.max.x-bb.min.x, wz=bb.max.z-bb.min.z, h=bb.max.y-bb.min.y||1, alongX=wx>=wz;
       for(let i=0;i<p.count;i++){ const a=alongX?(p.getX(i)-bb.min.x)/(wx||1):(p.getZ(i)-bb.min.z)/(wz||1); uv[i*2]=a; uv[i*2+1]=1-(p.getY(i)-bb.min.y)/h; } g.setAttribute('uv',new THREE.BufferAttribute(uv,2)); }
     const t=plateTex(lines); const m=o.material.clone(); m.map=t; m.color=new THREE.Color(0xffffff); m.needsUpdate=true; o.material=m; }
+  /* B1 的門牌（PLATE_FACE_door_b1_*：女更衣室、男更衣室、壁球室・桌球室；GLB 節點 extras 的 text）——GYM-B1-PLATES-1101（LAWWW2-B 2026-11-01）：
+     gym_b1 用 Z3.attachRoomGLB 接正式模型，它不畫 PLATE_FACE_* → 遊戲裡是一塊沒有字的深色牌子。這裡照配置 closedDoors 的 label 對到門牌、畫上字。
+     人站哪一邊照 closedDoors 的 face（門朝哪個方向：south＝+z、north＝−z、east＝+x、west＝−x；B1 門牌的法線朝牆，不能照法線）；
+     UV 照板面重算（u 往看的人右手邊、v 往下，flipY=false），不靠 GLB 的 UV。
+     兩個更衣室的門牌在 gym_b1.glb 裡正面朝門板（gym_b1.py 頂點倒過來了），單面材質從走廊看是背面、整塊不見 → 雙面（UV 已照看的人那一邊重算，字是正的）。*/
+  const DOOR_FACE={south:[0,1],north:[0,-1],east:[1,0],west:[-1,0]};
+  function doorPlateTex(text,aspect){ const H=128, W=Math.max(H,Math.round(H*aspect)), c=document.createElement('canvas'); c.width=W; c.height=H; const x=c.getContext('2d');
+    x.fillStyle='#f4f2ec'; x.fillRect(0,0,W,H); x.fillStyle='#2f3338'; x.textAlign='center'; x.textBaseline='middle';
+    const fam='"Noto Sans TC","PingFang TC","Noto Sans CJK TC","Microsoft JhengHei",sans-serif'; let px=Math.round(H*0.56); x.font='600 '+px+'px '+fam;
+    const tw=x.measureText?(x.measureText(text).width||0):0; if(tw>W*0.88){ px=Math.max(12,Math.floor(px*W*0.88/tw)); x.font='600 '+px+'px '+fam; }   /* 字太長（壁球室・桌球室）就縮小，不超出牌子 */
+    x.fillText(text,W/2,H*0.54); const t=new THREE.CanvasTexture(c); t.colorSpace=THREE.SRGBColorSpace; t.flipY=false; return t; }
+  function paintDoorPlate(o,text,face){ const d=DOOR_FACE[face]; if(!d||!text||!o.geometry) return false; const g=o.geometry, p=g.attributes.position;
+    o.updateWorldMatrix(true,false); const n=new THREE.Vector3(d[0],0,d[1]).transformDirection(new THREE.Matrix4().copy(o.matrixWorld).invert());   /* 門朝的方向換回網格自己的座標 */
+    const rx=n.z, rz=-n.x;   /* 看門牌的人面向 −n，右手邊＝(n.z, 0, −n.x) */
+    let s0=1e9,s1=-1e9,y0=1e9,y1=-1e9; for(let i=0;i<p.count;i++){ const sv=p.getX(i)*rx+p.getZ(i)*rz, y=p.getY(i); s0=Math.min(s0,sv); s1=Math.max(s1,sv); y0=Math.min(y0,y); y1=Math.max(y1,y); }
+    const uv=new Float32Array(p.count*2); for(let i=0;i<p.count;i++){ uv[i*2]=((p.getX(i)*rx+p.getZ(i)*rz)-s0)/((s1-s0)||1); uv[i*2+1]=1-(p.getY(i)-y0)/((y1-y0)||1); }
+    g.setAttribute('uv',new THREE.BufferAttribute(uv,2)); const m=o.material.clone(); m.map=doorPlateTex(text,(s1-s0)/((y1-y0)||1)); m.color=new THREE.Color(0xffffff); m.side=THREE.DoubleSide; m.needsUpdate=true; o.material=m; o.userData.plateText=text; return true; }
+  function b1Plates(root,B){ const doors=(B&&B.closedDoors)||[]; let n=0; root.traverse(o=>{ if(!o.isMesh||!/^PLATE_FACE_door_b1_/.test(o.name||'')) return;
+      const text=(o.userData&&o.userData.text)||o.name.replace(/^PLATE_FACE_door_b1_/,''), dr=doors.find(q=>q.label===text); if(dr&&paintDoorPlate(o,text,dr.face)) n++; }); return n; }
   /* ---------- 一個人打羽球、販賣機、直飲台（AA-B AA_174，93c0bce9）----------
      體能（AA_126 6-1：0～100，玩家看不到數字；這一版只有打羽球會加，其他來源之後接）。存檔：G.daily.gym＝{fit, wk, wkN, joined, seen:[], serveN, sportDay, drinkDay}（舊存檔沒有＝全部 0）*/
   const rec=G=>{ G.daily=G.daily||{}; const r=G.daily.gym=G.daily.gym||{}; if(!Array.isArray(r.seen)) r.seen=[]; return r; };
@@ -154,7 +173,7 @@ const GY3=(function(){
     const IT=E.interactables; z.seats=[]; for(const [x,zz] of B.poolBenches){ const seat={x,z:zz-0.1,yaw:Math.PI}; z.seats.push(Object.assign({kind:'gym'},seat)); IT.push({x,z:zz-0.1,radius:0.8,lv:0,label:'坐在池邊的長椅',seat}); }   /* 面向北邊的泳池 */
     IT.push({x:B.exit.at.x,z:B.exit.at.z,radius:0.6,lv:0,label:B.exit.label,exit:{to:'gym',spawn:{x:16.8,z:18.4,yaw:0}}});   /* 回 1F：落點在「下樓到 B1」範圍外；面向大廳（原本 π 面向剛上來的樓梯井，BB-C X64）*/
     for(const q of B.interact){ if(q.kind==='gym_fitness') IT.push({x:q.x,z:q.z,radius:1.2,lv:0,label:'去健身房',mark:true,onInteract:()=>scene(GAME,workout)}); else if(q.kind==='gym_b1_desk') IT.push({x:q.x,z:q.z,radius:1.1,lv:0,label:'服務櫃台',onInteract:()=>scene(GAME,deskB1)}); }   /* 看游泳池、更衣室：還沒有字（要 AA／BB），先不開 */
-    z.formal=false; if(typeof ASSETS!=='undefined'&&ASSETS.manifest['bldg.gym_b1']){ ASSETS.loadOne('bldg.gym_b1').then(c=>{ if(!c||!c.scene||E.zone!==z) return; const root=c.scene.clone(true); root.position.z-=cz; Z3.attachRoomGLB(z,g0,fb,root); glowBatch(E,z,g0,root,'gym_b1_glows'); }   /* 天花板 b1_ceiling* 是單面、法線朝下（B1 v5）：從下面看得到，跟隨鏡頭在天花板上面時自動透空；不要改材質的 side */).catch(e=>console.warn('體育館 B1 正式模型載入失敗，用程序化備用模型',e)); }
+    z.formal=false; if(typeof ASSETS!=='undefined'&&ASSETS.manifest['bldg.gym_b1']){ ASSETS.loadOne('bldg.gym_b1').then(c=>{ if(!c||!c.scene||E.zone!==z) return; const root=c.scene.clone(true); root.position.z-=cz; Z3.attachRoomGLB(z,g0,fb,root); glowBatch(E,z,g0,root,'gym_b1_glows'); b1Plates(root,B); }   /* 天花板 b1_ceiling* 是單面、法線朝下（B1 v5）：從下面看得到，跟隨鏡頭在天花板上面時自動透空；不要改材質的 side */).catch(e=>console.warn('體育館 B1 正式模型載入失敗，用程序化備用模型',e)); }
     return z; } };
   /* ---------- 3F 主球場（ART-GYM2-INT，LAWWW2 2026-10-21；gym_layout.js 的 arena 段＋gym_arena.glb（LAWWW2-B 3effc0e0、f1e732f8、f1d23fd4））----------
      從 1F 大廳西側的樓梯上來＝南看台中間的入口通道（vomitory）。場地整片能走；三面看台走中間的走道（樓梯）上去：導航是連續的斜面（碰撞、找路），
@@ -221,6 +240,6 @@ const GY3=(function(){
       const sets=['SET_STAGE','SET_CEREMONY','SET_LECTURE','SET_CONCERT'].map(n=>root.getObjectByName(n)).filter(Boolean); for(const o of sets) o.visible=!!z.ceremonyOn&&(o.name==='SET_STAGE'||o.name==='SET_CEREMONY');   /* 典禮那天打開舞台＋典禮（SET-CEREMONY-1023）*/   /* 布置平常藏著（劇情要用時打開：導航加椅子區的阻擋，見 gym_layout.js arena.sets）*/
       Z3.attachRoomGLB(z,g0,fb,root); glowBatch(E,z,g0,root,'gym_arena_glows'); for(const o of sets) setGlowBatch(E,z,o,o.name+'_glows'); const G0=typeof GAME!=='undefined'?GAME.G:null; if(G0) z.applyTime(G0.hour,G0.weather); }).catch(e=>console.warn('3F 主球場正式模型載入失敗，用程序化備用模型',e)); }
     return z; } };
-  return {gym,gym_b1,gym_arena,ceremonyDay,ceremonyNav,arenaGeo,arenaLook,ARENA_LOOK,ARENA_UP,ARENA_DOWN,CAMPUS,buildNav,LOOK,badminton,vending,fountain,fitStage,JOIN,SERVE,VEND,rec,workout,deskB1,FIT_LINES,fourthMonday};
+  return {b1Plates,gym,gym_b1,gym_arena,ceremonyDay,ceremonyNav,arenaGeo,arenaLook,ARENA_LOOK,ARENA_UP,ARENA_DOWN,CAMPUS,buildNav,LOOK,badminton,vending,fountain,fitStage,JOIN,SERVE,VEND,rec,workout,deskB1,FIT_LINES,fourthMonday};
 })();
 Z3.ZONES.gym=GY3.gym; Z3.ZONES.gym_b1=GY3.gym_b1; Z3.ZONES.gym_arena=GY3.gym_arena;
