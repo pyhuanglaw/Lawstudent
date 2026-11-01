@@ -1,12 +1,12 @@
 # 歷史待辦複核報告（工具產生，不要手改）
 
-- 產生：`tools/handoff/history_audit.py`；開發分支 HEAD `00d288630ea0`、main `27e6ce77e807`
+- 產生：`tools/handoff/history_audit.py`；開發分支 HEAD `fb0d24c981ee`、main `27e6ce77e807`
 - 七類定義與判定規則：同資料夾 README.md。auto＝工具自動判定（只看總表狀態、程式識別字在不在 main、BB 實測紀錄有沒有 PASS），還沒有人工看過；人工判定寫進 judgments_<職位>.jsonl 以後改成人工。
 - BB 實際操作證據來源：elegant-brown-fcos7n:BB_218_瀏覽器實測紀錄.md、wonderful-mayer-7fm9g6:BB_218_瀏覽器實測紀錄.md、story-planning:BB_218_瀏覽器實測紀錄.md、BB 分支 test_shots/*.log 64 個
 
 ## 摘要
 
-- 10/21 稽核 B 段 266 項（重算）：1 正式版已完成且實際驗收 18、2 已實作但尚未實際驗收 200、4 部分完成 17、5 完全未開工 5、6 等待素材或使用者決定 4、7 經確認取消或被取代 22
+- 10/21 稽核 B 段 266 項（重算）：1 正式版已完成且實際驗收 18、2 已實作但尚未實際驗收 201、4 部分完成 17、5 完全未開工 4、6 等待素材或使用者決定 4、7 經確認取消或被取代 22
 - 其中原本 done 的 133 項：tier 1 10、tier 2 122、tier 4 1
 - 原本 done、證據在開發分支找不到（要人工查）：0
 - 原本 done、main 狀態：{'yes': 133}
@@ -217,6 +217,7 @@
 | AA185-V6 | 2 已實作但尚未實際驗收（auto） | 已整合待測試 | yes | — | LAWWW | 總表：已整合待測試；沒有找到 BB 實際操作紀錄；BB 盤點 C：要單獨測 |
 | AA294-SKIPCLASS-1018 | 2 已實作但尚未實際驗收（auto） | 已整合待測試 | yes | — | LAWWW | 總表：已整合待測試；沒有找到 BB 實際操作紀錄；BB 盤點 C：要單獨測 |
 | BB194-YTFLAGS | 2 已實作但尚未實際驗收（auto） | 已整合待測試 | yes | — | LAWWW | 總表：已整合待測試；沒有找到 BB 實際操作紀錄；BB 盤點 C：要單獨測 |
+| BUG-04 | 2 已實作但尚未實際驗收（auto） | 已整合待測試 | partial | elegant-brown-fcos7n:BB_218_瀏覽器實測紀錄.md:2625（mention） | LAWWW | 總表：已整合待測試；沒有找到 BB 實際操作紀錄 |
 | BUG-07 | 2 已實作但尚未實際驗收（auto） | 已驗收 | yes | — | LAWWW | 總表：已驗收；沒有找到 BB 實際操作紀錄；BB 盤點 D（不是 BB 能驗）：favicon 404 是測試環境的 console 訊息，不是玩家看得到的；deploy_check 3fca77687「沒有 console error」（ |
 | BUG-ECON-MONEY-1020 | 2 已實作但尚未實際驗收（auto） | 已驗收 | yes | — | LAWWW | 總表：已驗收；沒有找到 BB 實際操作紀錄 |
 | D14-T5 | 2 已實作但尚未實際驗收（auto） | 已整合待測試 | yes | — | LAWWW | 總表：已整合待測試；沒有找到 BB 實際操作紀錄；BB 盤點 B：跑流程 ⑧ 可以涵蓋 |
@@ -235,7 +236,6 @@
 | V6-B4 | 2 已實作但尚未實際驗收（auto） | 已整合待測試 | yes | — | LAWWW | 總表：已整合待測試；沒有找到 BB 實際操作紀錄；BB 盤點 C：要單獨測 |
 | V6-S4 | 2 已實作但尚未實際驗收（auto） | 已整合待測試 | yes | — | LAWWW | 總表：已整合待測試；沒有找到 BB 實際操作紀錄；BB 盤點 C：要單獨測 |
 | ANIM-BENCH-SIT | 5 完全未開工（auto） | 待開工 | yes | — | LAWWW | 總表：待開工 |
-| BUG-04 | 5 完全未開工（auto） | 待開工 | unknown | elegant-brown-fcos7n:BB_218_瀏覽器實測紀錄.md:2625（mention） | LAWWW | 總表：待開工 |
 | SYS-19 | 5 完全未開工（auto） | 待開工 | yes | — | LAWWW | 總表：待開工 |
 | V6-B2 | 5 完全未開工（auto） | 待開工 | yes | — | LAWWW | 總表：待開工 |
 | V6-B5 | 5 完全未開工（auto） | 待開工 | yes | — | LAWWW | 總表：待開工 |
@@ -490,7 +490,7 @@
 | AA348-ECON-1021 | 4 部分完成 | yes | BB | 照 bb_checklists/BB_AA348_1021.md（c167f38dc）：①日期卡句子三輪 final_snap ECONFF.lines 第 8「（十一月。你沒有課 | ②B2（停在手機訊息上先出日期卡、再開手機）只有每月截圖，沒有截到日期卡那一刻，看不出順序。 |
 | AA529-ECON-FIX-1030 | 4 部分完成 | yes | BB | 走啦群組 10/15 聚會回家路上建（三輪 toasts.json 2024-10-15 22.6x「手機｜走啦｜韋綸建立了群組「走啦」，把你加了進來。」）；10/16 總圖、7/ | BUG：第二張日期卡（5/19～6/7）30 分鐘版出不來（S.cardLine1 一跳只出一張）。另外 K7 週年卡 p4、K0b-L1 國界（聊天）、8/29 換字沒對到。 |
 | ART-09 | 4 部分完成 | unknown | BB | 品妤、唐睿、阿勳、韋綸的立繪在對話框裡出現（n36_qa_sleep/screens_sheet_2.png #17～#20、sheet_4 #37～#38、sheet_10 #1 | 家豪（經濟系那年只在旁白「小隊輔是家豪學長」，沒有台詞）、予樂（法律系）沒出現；各人的表情是否照 BB_131 沒逐張對（縮圖太小）。 |
-| BUG-ADV-LINGER-1018 | 4 部分完成 | yes | BB | n36_qa_sleep/screens_sheet_8.png #95：7/25 ev_y0_kh_bus_h 第一句「（凌晨兩點半，你搭上南下的夜班客運。）」深色底，右邊還站著 | BUG：換場景（換背景、換事件）以後，上一段的可昕立繪還留在舞台上，下一個說話的人還沒出來；原本回報的 E20 火鍋店 30 分鐘版已拿掉，沒走到。 |
+| BUG-ADV-LINGER-1018 | 4 部分完成 | partial | BB | n36_qa_sleep/screens_sheet_8.png #95：7/25 ev_y0_kh_bus_h 第一句「（凌晨兩點半，你搭上南下的夜班客運。）」深色底，右邊還站著 | BUG：換場景（換背景、換事件）以後，上一段的可昕立繪還留在舞台上，下一個說話的人還沒出來；原本回報的 E20 火鍋店 30 分鐘版已拿掉，沒走到。 |
 | BUG-CLS-EARLY-1018 | 4 部分完成 | yes | BB | 法律系 9/1 憲法 9:00 提早坐下（上課 9:10）：n36_qa_sleep/screens_sheet_14.png #167～#168 教室裡已經有同學、講台前站著人； | 原本回報的經濟系共同教學館微積分、英文、國文：30 分鐘版不演課（econff3d.js stepCut s.cls；n36_v0start.log「跳過的 9/2～9/13 經濟系的課自動算出席」），沒有機會提早坐下；提早 20 分鐘以上 |
 | BUG-E30-PLACE-1018 | 4 部分完成 | unknown | BB | 10/17 電話後接媽媽那段（臺北的家）正常、沒有回到 3D 可以走動；但下一段 E26 第一句「（你拿了車鑰匙出門。）」底下露出 3D 的兩點半 Café 和站在裡面的祐廷：n3 | BUG：辦休學那天「（你拿了車鑰匙出門。）」還看得到原本站的地方（咖啡店）。 |
 | BUG-ECON-FRIENDS-1018 | 4 部分完成 | yes | BB | 經濟系那年阿凱（法律系的室友，2025-08-29 才認識，三輪 final_snap contacts kai:-18）傳了四次「泡麵評鑑表」：三輪 final_snap msg | BUG：訊息分頁有還不認識的阿凱；朋友分頁沒有打開看（knownIds 那一半沒驗）。 |
@@ -501,7 +501,7 @@
 | V0-A2 | 4 部分完成 | yes | BB | n36_v0start.log「PASS 跳過的 9/2～9/13 經濟系的課自動算出席（會計、經原都有）」["-379:econ_principles_y0:am","-376: | 手機「課表」頁沒打開；30 分鐘版不演課（stepCut s.cls），沒有實際上一次經原、會計。 |
 | V0-B3 | 4 部分完成 | yes | BB | A3 退宿 10/31 有演（ev_y0_a3；n36_qa_sleep/say.json 2024-10-31 9「箱子我幫你封。你的膠帶貼得很醜。」）；韋綸的腳踏車：final | A1、A2、T1、T2、XL-2、R1～R7（RH-L*、RH-O*）30 分鐘版都是 cut（三輪 ECONFF.done）——短版已拿掉（econff3d.js S.KEEP 沒有），請 LAWWW 判 tier 7；T3 去了的那一支 |
 | V0-B4 | 4 部分完成 | yes | BB | F1 小年夜 2025-01-27 群組（msgs y0_f1「各縣市年菜價格比較」…可昕「明天年夜飯你們家幾個人？」）；T0b 9/29 兩封信＋新聞＋群組，可昕問「明天放假，你 | BUG：L5a 演完還會再問一次去不去（10/11 可昕群組約的那筆出遊沒有跟著 30 分鐘版的演出記成已去）。另外 C1 即興劇社依 AA_293 拿掉；L5b、C2 出發選單（吉他社 3D）30 分鐘版沒走到。 |
-| V0-KXPHONE | 4 部分完成 | yes | BB | 三輪 final_snap flags.dpN 都沒有可昕的 y0_kx_luroufan／obvious／laugh／rain（其他人的 17 則每輪收到 16 則）；經濟系大一 | BUG：可昕經濟系那年的手機小事玩家收不到（8 則 0 則）。讀碼：30 分鐘版小事至少隔 3 天、「快過期的先排」（story3d.js dailyPhone），9/23～10/16 只有 5 格，可昕 4 則都輸給別人。 |
+| V0-KXPHONE | 4 部分完成 | partial | BB | 三輪 final_snap flags.dpN 都沒有可昕的 y0_kx_luroufan／obvious／laugh／rain（其他人的 17 則每輪收到 16 則）；經濟系大一 | BUG：可昕經濟系那年的手機小事玩家收不到（8 則 0 則）。讀碼：30 分鐘版小事至少隔 3 天、「快過期的先排」（story3d.js dailyPhone），9/23～10/16 只有 5 格，可昕 4 則都輸給別人。 |
 | V0-LADDER | 4 部分完成 | unknown | BB | 三輪 final_snap social.ladder 只有 {kexin@Y0S2:2}（4/24 生日演完「（晚上，回到家。）」接可昕兩句）。 | Y0S1 可昕、品妤、唐睿、阿勳、韋綸各 8 層，Y0S2 其他人都是 0 層：30 分鐘版沒有自由走動、沒機會聊（第 2 級「經濟系開局後實際聊一次」沒做到）。 |
 | WORLD-RENAME-1030 | 4 部分完成 | yes | BB | BB_218:4654-4692 rename_probe（ca5f3381c）oldsave2、views portrait2／landscape2／desktop、route  | 3D 模型、貼圖、2D 背景、CG 裡烘進去的字（LAWWW2 清單）沒驗；四年全部台詞只看了經濟系那年＋9/1；真 iPhone 沒測（BB_218:4687-4691）。 |
 | （另有第 1、2 類 41 項：見 ledger.json） | | | | | |

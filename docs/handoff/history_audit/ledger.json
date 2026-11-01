@@ -1,7 +1,7 @@
 {
  "meta": {
   "generated_by": "tools/handoff/history_audit.py",
-  "head": "00d288630ea0e56f72bda6e4f2624e4444ebe2b6",
+  "head": "fb0d24c981eecf3f7c9c92687efe237d4ac1afc6",
   "main": "27e6ce77e80782afe979404cdfcd67723ae6a2f8",
   "bb_records": [
    "elegant-brown-fcos7n:BB_218_瀏覽器實測紀錄.md",
@@ -53,14 +53,19 @@
    "audit_verdict": "not_done",
    "audit_severity": "P2",
    "title": "學姊兩個臉（週三晚上總圖外，第 25 項）",
-   "task_status": "待開工",
+   "task_status": "已整合待測試",
    "owner": "LAWWW",
    "priority": "P1",
-   "tier": 5,
+   "tier": 2,
    "auto": true,
-   "main": "unknown",
-   "head_ids": [],
-   "main_ids": [],
+   "main": "partial",
+   "head_ids": [
+    "populateSchedule",
+    "tests/npc_overlap_unit.js"
+   ],
+   "main_ids": [
+    "populateSchedule"
+   ],
    "missing_ids": [],
    "bb": [
     "elegant-brown-fcos7n:BB_218_瀏覽器實測紀錄.md:2625（mention）",
@@ -69,7 +74,7 @@
    ],
    "bb_pass": 0,
    "evidence_gap": false,
-   "why": "總表：待開工",
+   "why": "總表：已整合待測試；沒有找到 BB 實際操作紀錄",
    "bb_triage": null,
    "audit_evidence": "git log 找不到修正；docs/HANDOFF_GAP_MATRIX.md:55、docs/handoff/USER_WANTS.md C24 仍列待開工",
    "audit_next": "BB 週三晚上到總圖外重現並截圖（看是兩個學姊實體重疊，還是 VRM 臉部網格重複），再交 LAWWW 修"
@@ -10747,7 +10752,7 @@
    "audit_verdict": null,
    "audit_severity": null,
    "title": "tests/aa529_econ_unit.js（第 2～6 點；第 1 點 HASK 在 b38b112a8）；對稿 5/5",
-   "task_status": "進行中",
+   "task_status": "已整合待測試",
    "owner": "LAWWW",
    "priority": "P3",
    "tier": 2,
@@ -23282,12 +23287,12 @@
    "audit_verdict": null,
    "audit_severity": null,
    "title": "換場景以後前一段說話的人的立繪還留在舞台上，看起來像祐廷（使用者 10-18 截圖：E20 火鍋店門口可昕塞鑰匙圈，左邊是阿勳——「這是我嗎？」）",
-   "task_status": "進行中",
+   "task_status": "已整合待測試",
    "owner": "BB",
    "priority": "P2",
    "tier": 4,
    "auto": false,
-   "main": "yes",
+   "main": "partial",
    "bb": [
     "n36_qa_sleep、n36_qa_nophone（184efc3da）、n36_qa_decline（39f68236c）：qa_play 從標題新遊戲玩到 9/2，?turbo，手機橫向模擬（Playwright＋SwiftShader，不是 iPhone）；BB_218:6249-6357"
    ],
@@ -24207,12 +24212,12 @@
    "audit_verdict": null,
    "audit_severity": null,
    "title": "v0 可昕手機小事 8 則（BB_113「經濟系那一年的可昕」，BB-B 5b6e88fb）",
-   "task_status": "進行中",
+   "task_status": "已整合待測試",
    "owner": "BB",
    "priority": "P2",
    "tier": 4,
    "auto": false,
-   "main": "yes",
+   "main": "partial",
    "bb": [
     "n36_qa_sleep、n36_qa_nophone（184efc3da）、n36_qa_decline（39f68236c）：qa_play 從標題新遊戲玩到 9/2，?turbo，手機橫向模擬（Playwright＋SwiftShader，不是 iPhone）；BB_218:6249-6357"
    ],
@@ -24257,7 +24262,7 @@
    "audit_verdict": null,
    "audit_severity": null,
    "title": "AA_529 經濟系第 2～6 點：走啦群組改 10/15 聚會回家路上建（舊存檔補）、10/16 總圖與 7/13 對答案兩張日期卡掛到 10/17 14:40、7/13 10:00 空白卡下、K7 週年卡 p4 換句、長頸鹿鑰匙圈補兩句旁白、小的五處（K0b-L1 國界 2/15～3/15、品妤 10/31 換句、",
-   "task_status": "進行中",
+   "task_status": "已整合待測試",
    "owner": "BB",
    "priority": "P2",
    "tier": 4,
@@ -25788,7 +25793,7 @@
    "audit_verdict": null,
    "audit_severity": null,
    "title": "溫州街 3 個、118 巷 9 個店內吊燈燈罩裡外相反（隔玻璃看只是明暗反；開發 5b6737cd3 就是）",
-   "task_status": "待開工",
+   "task_status": "已整合待測試",
    "owner": "LAWWW2",
    "priority": "P3",
    "tier": 5,
