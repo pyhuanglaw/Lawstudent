@@ -499,6 +499,15 @@ const DATE=(function(){
   S.arriveLine=async function(GM,t,visits,o){ const G=GM.G, id=t.who, A=(LL(id,t.locs[0])||{}).arrive; if(!A) return false; const dating=!!(G.flags&&G.flags['dating_'+id]);
     let set=null; if(!visits&&A.first&&!A.first.wishEvent) set=S.arriveVar(G,t,A.first,o); if(!set&&dating&&id!=='kexin'&&(A.dating||[]).length) set=S.pickSet(G,id,A.dating,t,'arrive.dating'); if(!set&&brokeUp(G,id)&&(A.afterBreakup||[]).length) set=S.pickSet(G,id,A.afterBreakup,t,'arrive.after'); if(!set) set=S.pickSet(G,id,A.normal,t,'arrive.normal');
     return S.playSet(GM,id,set,t); };
+  /* 「你來過一次」（AA_160 4-4、AA_271、BB_213；src/data/solo_before.js）：自己（自由出行，G.places.free）去過的地方、第一次和她約會去那裡——抵達句說完以後一句旁白＋她的一兩句。
+     同一個人、同一個地方一次（G.places.soloSaid["<id>:<地點>"]）；心願地點的第一次約會是心願事件（wish3d.js 的 freeVisited），這裡不演；她沒有那個地方的台詞＝不演；沒有數值、沒有選項 */
+  S.soloBeforeDue=function(G,t,visits){ if(visits||typeof SOLO_BEFORE==='undefined'||!t||!t.who||!t.locs||!t.locs[0]) return false; const id=t.who, loc=t.locs[0];
+    const P=G.places&&G.places.free; if(!P||(P[loc]|0)<1) return false; const said=G.places.soloSaid||{}; if(said[id+':'+loc]!=null) return false;
+    const A=(LL(id,loc)||{}).arrive; if(A&&A.first&&A.first.wishEvent) return false;
+    return !!(SOLO_BEFORE.lines[id]&&SOLO_BEFORE.lines[id][loc]&&SOLO_BEFORE.lines[id][loc].length&&SOLO_BEFORE.narr[loc]); };
+  S.soloBefore=async function(GM,t,visits){ const G=GM.G; if(!S.soloBeforeDue(G,t,visits)) return false; const id=t.who, loc=t.locs[0];
+    if(!G.places.soloSaid||typeof G.places.soloSaid!=='object') G.places.soloSaid={}; G.places.soloSaid[id+':'+loc]=G.day;   /* 先記：演到一半出錯也不會每次都重來 */
+    await GM.say(null,'（'+SOLO_BEFORE.narr[loc]+'）'); await S.playSet(GM,id,{lines:SOLO_BEFORE.lines[id][loc]},t); return true; };
   /* 照時間分兩段的台詞（陣列）：沛珊 D13 欄杆 firstHigh＝[重考以前, 重考以後]（AA_281 第 4 節 B-6；原本當物件讀、播出空的）。重考結束＝她的消失期最後一天的隔天 */
   S.timedSet=function(G,id,v){ if(!Array.isArray(v)) return v; if(!v.length) return null; if(v.length===1) return v[0]; const back=typeof STORY!=='undefined'&&STORY.dayOfKey?STORY.dayOfKey('2027-08-06'):null; return id==='classmate_peishan'&&back!=null&&G.day>=back?v[v.length-1]:v[0]; };
   /* AA_525 1-6、2-4（企劃線 6081f725f）：第一次選了哪一個要記下來（PICK_FLAG）；remember 只給選過對應選項的人（REMEMBER_IF：no＝其他人換的那一組；add＝有旗標的多幾句、once＝演過一次記 'paid'）*/
@@ -540,7 +549,7 @@ const DATE=(function(){
       if(fx) await S.fixedSeg(GM,L,fx,true);   /* 電影照樣看完（時間、電影票），旁白跳過 */
       for(const p of qk){ spots.push(p.id); if(GM.advance) GM.advance((p.min|0)/60); { const c=S.pointCost(p,t); if(c&&GM.money) GM.money(-c,p.name); } const lk=S.likeOf(t.who,p.id); if(typeof SOCIAL!=='undefined'&&SOCIAL.adjust&&Object.keys(S.LIKE[lk]).length) SOCIAL.adjust(t.who,S.LIKE[lk]); S.photoAt(GM,t,p); }
       return S.settle(GM,t,spots,pts,visits,m0,{quick:true}); }
-    await S.arriveLine(GM,t,visits);   /* 抵達句（第一次／普通／交往中）*/
+    await S.arriveLine(GM,t,visits); await S.soloBefore(GM,t,visits);   /* 抵達句（第一次／普通／交往中）→「你來過一次」*/
     if(fx) await S.fixedSeg(GM,L,fx);   /* 固定段落：抵達以後先演、散場以後才選互動點（AA_128 5-1 第 2 步）*/
     for(let n=0;n<4;n++){ const now=G.day*24+G.hour; const left=pts.filter(p=>!spots.includes(p.id));
       const opts=left.map(p=>{ const rw=S.spotOff(G,p.id), c=S.pointCost(p,t); return {t:p.name,hint:(p.min|0)+' 分'+(c?'　'+c+' 元':''),dis:!!rw||now+(p.min|0)/60>endH,why:rw||'時間差不多了'}; }).concat([{t:n?'差不多了，回去吧':'就這樣回去'}]);
@@ -602,7 +611,7 @@ const DATE=(function(){
     const l1=t.locs[0], l2=t.locs[t.locs.length-1], two=l2!==l1, Lg=S.log(G,id), v1=Lg.byLoc[l1]|0, v2=two?(Lg.byLoc[l2]|0):v1, m0=G.money|0, spots=[];
     const P1=S.points(l1), P2=two?S.points(l2):P1, t2=Object.assign({},t,{locs:[l2],day:d1+1});   /* 第二天的台詞照第二天的地點、日期（D31＋D32 的第二天是清境）*/
     const L1=S.loc(l1); await GM.say(null,'（'+L1.name+'。）'); if(L1.admission&&GM.money) GM.money(-L1.admission,L1.name+' 門票');
-    await S.arriveLine(GM,t,v1);   /* 第一天：到達那一句 */
+    await S.arriveLine(GM,t,v1); await S.soloBefore(GM,t,v1);   /* 第一天：到達那一句 */
     const bg={k:S.bgKey(l1)};   /* 現在的底圖（OUT.go 轉場時用的那一張）*/
     await S.dayRound(GM,t,P1,spots,v1,{endH:d1*24+O.dayEnd,stop:()=>'今天先到這裡',dayNo:1,bg});
     const own=(S.overnightWhere(G,id,d1,t.locs)||{}).own||null; t.night=S.nightKind(G,t,own);
@@ -614,7 +623,7 @@ const DATE=(function(){
     await GM.say(null,S.MORNING_NARR); { const ml=S.morningLine(id,own); if(ml) await GM.say(me,ml); }   /* 第二天 08:30：旁白＋她一句 */
     if(two){ const L2=S.loc(l2), cd=S.COMBO_DRIVE[l1+'+'+l2];   /* D31＋D32：吃完早餐開車上清境（B8：旁白、時間推 1.5 小時；取代「（清境農場。）」那一行），清境的到達那一句 */
       if(cd){ await GM.say(null,cd.narr); if(GM.advance) GM.advance(cd.h); } bg.k=S.bgKey(l2); setBg(bg.k); if(!cd) await GM.say(null,'（'+L2.name+'。）');
-      if(L2.admission&&GM.money) GM.money(-L2.admission,L2.name+' 門票'); await S.arriveLine(GM,t2,v2,{combo:!!cd}); }
+      if(L2.admission&&GM.money) GM.money(-L2.admission,L2.name+' 門票'); await S.arriveLine(GM,t2,v2,{combo:!!cd}); await S.soloBefore(GM,t2,v2); }
     const n1=spots.length; await S.dayRound(GM,t2,P2,spots,v2,{endH:(d1+1)*24+(t.leave!=null?t.leave:O.leave),stop:n=>n||n1?'差不多了，回去吧':'就這樣回去',dayNo:2,bg});
     t.spots=spots; for(const l of t.locs) S.mem(G,id,l).last=spots.filter(s=>s.indexOf(l+'.')===0);
     if(!spots.length){ if(typeof SOCIAL!=='undefined'&&SOCIAL.adjust) SOCIAL.adjust(id,{fam:1}); t.status='cancelled'; if(!await S.speak(GM,id,'leaveEarly',t,{obj:null})) await GM.say(me,'……就這樣？'); return {counted:false}; }   /* 兩天一個互動點都沒做：照當天來回（不算次數、熟悉 +1）*/

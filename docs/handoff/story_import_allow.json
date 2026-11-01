@@ -3638,6 +3638,24 @@
    "approvedBy": "AA-B 定稿（D109）",
    "task": "XINCI-ROMANCE-1030",
    "note": "LAWWW-B 10-30：芯慈第二份（使用者 X139 芯慈可以交往）。第 1～3 節由 tools/date/import_date_lines.py 匯入 src/data/date_lines.js（一般台詞十一個 key、128 點喜好、15 句不喜歡、八個常去地點）；第 4、5 節（期末飯、節日）手寫進 termend_lines.js／fest 那幾檔，台詞一字照稿；10-30 16:2x 第 7 節（學期末告白欄位 HEART／NOPE）在 5ba143d2c：手寫進 src/data/termend_lines.js（第 1～3 節和 508568ae5 一字不差，匯入結果不變）"
+  },
+  {
+   "path": "docs/story_planning/free_trip/solo_before_aa_v1.json",
+   "sha": "01e9d706c",
+   "status": "approved",
+   "approvedBy": "AA-B 2026-10-16 定稿（b8fd9d660，第②級日常內容，D109：AA 的稿就是定稿）＋b68fb586f 語彤四處換說法＋AA-C 2026-10-17 第三批 AA_271（01e9d706c）",
+   "task": "ENC-B3-1017",
+   "kind": "text",
+   "note": "「你來過一次」：rules 照檔（G.places.free[地點]≥1、約會抵達句以後、同一人同一地一次、心願地點改走 wish 的 freeVisited）；匯入 tools/freetrip/import_solo_before.py → src/data/solo_before.js（LAWWW-B 11-01）"
+  },
+  {
+   "path": "docs/story_planning/free_trip/solo_before_bb_v1.json",
+   "sha": "4618aed21",
+   "status": "approved",
+   "approvedBy": "BB_213（AA-B 核對；BB-C b6697e981 第三批）＋ffd7eef85 學姊不說「三件事」＋4618aed21 RENAME-1030（D115 換名）；D100 起台詞歸 AA、AA 核對過的照用",
+   "task": "ENC-B3-1017",
+   "kind": "text",
+   "note": "同上；narr 沿用 solo_before_aa_v1.json"
   }
  ]
 }

@@ -13347,7 +13347,7 @@
    "area": "DL",
    "owner": "LAWWW",
    "status": "進行中",
-   "next": "【10-31 22:3x 歷史複核（AA-B 第 4、5 批）】AA_271「你來過一次」（solo_before_aa_v1.json）沒匯入，約會時的「你來過一次」（AA_160#4-4，G.places.soloSaid 只有初始化）也沒做——原本標已整合待測試是錯的｜瀏覽器：寒暑假週六去臺中／高雄、大一下第 6 週週日去新北投各遇到一次（打招呼、一起走一段、離開、之後在學校的一句）。「你來過一次」（solo_before_aa_v1.json）和以安 D07 心願的 freeVisited（wish_aa.json 0b478a53）要等約會地點台詞（DATE-S6 各地點 lines）和心願事件做好才接，見 DATE-S6。BB 五位已接（BB_213＋bb_walk_v1 batch:3 @b0c20f70）；solo_before_bb、wish_bb（芷若 D05、子晴 D03 freeVisited）同樣等 DATE-S6。（BB-C 0544a147：子晴 D01 改雙週 4、10；芷若生態池那句掛散步，已改）",
+   "next": "【11-01 06:2x LAWWW-B】AA_271／BB_213「你來過一次」做了：白名單 solo_before_aa_v1.json@01e9d706c、solo_before_bb_v1.json@4618aed21 → tools/freetrip/import_solo_before.py → src/data/solo_before.js；date3d.js S.soloBefore（三個抵達點：抵達句以後一句旁白＋她的台詞；同一人同一地一次、visits>0／心願第一次不演）；tests/solo_before_unit.js（修改前 FAIL）；約會相關 21 支 ALL PASS → BB 驗（先自由出行去 D04，再約以安去 D04）｜【10-31 22:3x 歷史複核（AA-B 第 4、5 批）】AA_271「你來過一次」（solo_before_aa_v1.json）沒匯入，約會時的「你來過一次」（AA_160#4-4，G.places.soloSaid 只有初始化）也沒做——原本標已整合待測試是錯的｜瀏覽器：寒暑假週六去臺中／高雄、大一下第 6 週週日去新北投各遇到一次（打招呼、一起走一段、離開、之後在學校的一句）。「你來過一次」（solo_before_aa_v1.json）和以安 D07 心願的 freeVisited（wish_aa.json 0b478a53）要等約會地點台詞（DATE-S6 各地點 lines）和心願事件做好才接，見 DATE-S6。BB 五位已接（BB_213＋bb_walk_v1 batch:3 @b0c20f70）；solo_before_bb、wish_bb（芷若 D05、子晴 D03 freeVisited）同樣等 DATE-S6。（BB-C 0544a147：子晴 D01 改雙週 4、10；芷若生態池那句掛散步，已改）",
    "priority": "P2",
    "first": {
     "term": "Y1S1",
