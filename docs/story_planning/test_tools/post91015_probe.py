@@ -1180,6 +1180,32 @@ async def aa529_cardsdiag(pg, cdp, run, kx):
         await pg.wait_for_timeout(45000)
 
 
+async def aa529_cardsdiag2(pg, cdp, run, kx):
+    """BB-B 05:2x：cardsdiag 看到 4/27 21:00 手機開著（只有「跳過」）、busy、對話選單都沒有。查「跳過」那顆按鈕上面蓋著什麼（elementFromPoint），
+    像玩家一樣觸控按一次，看手機有沒有關、之後會不會照常跳到 6/8、第二張卡（電風扇）有沒有出"""
+    st, d = await econ_state(pg, '2025-04-24', 22.67, 'dorm', True)
+    await load(pg, cdp, run, st, 'cardsdiag2：同 cards（2025-04-24 22:40 在家、交往中、30 分鐘版）')
+    n0 = await pl_len(pg)
+    await play(pg, cdp, run, "(k=>k>'2025-04-27'||(k==='2025-04-27'&&GAME.G.hour>=21))(CALENDAR.dateOf(GAME.G.day).key)", max_s=240, ff=False, tag='cardsdiag2')
+    PROBE = ("(()=>{ const b=document.getElementById('btnPhoneClose'); if(!b) return {btn:null}; const r=b.getBoundingClientRect(); "
+             "const e=document.elementFromPoint(r.left+r.width/2,r.top+r.height/2); const t3=document.getElementById('title3'); "
+             "return {btn:b.textContent.trim(),vis:getComputedStyle(b).display+'/'+getComputedStyle(b).visibility,rect:[r.left|0,r.top|0,r.width|0,r.height|0],"
+             "top:e?(e.id||e.className||e.tagName)+'':null,topIsBtn:!!e&&(e===b||b.contains(e)),"
+             "t3:t3?{op:getComputedStyle(t3).opacity,pe:getComputedStyle(t3).pointerEvents,z:getComputedStyle(t3).zIndex}:null,"
+             "phone:!!(GAME.phoneIsOpen&&GAME.phoneIsOpen()),busy:!!(GAME.E.player&&GAME.E.player.busy)}; })()")
+    for i in range(3):
+        info = await pg.evaluate(PROBE); run.note('cardsdiag2 按之前（第 %d 次）：%s' % (i + 1, J(info)))
+        await run.shot(pg, 'cardsdiag2_before_%d' % (i + 1))
+        await L.tap(pg, cdp, '#btnPhoneClose'); await pg.wait_for_timeout(2500)
+        info2 = await pg.evaluate(PROBE); run.note('cardsdiag2 觸控按「%s」之後：%s' % (info.get('btn'), J(info2)))
+        await run.shot(pg, 'cardsdiag2_after_%d' % (i + 1))
+        if not info2.get('phone'): break
+    ok = await play(pg, cdp, run, "CALENDAR.dateOf(GAME.G.day).key>='2025-06-08'", max_s=600, ff=False, tag='cardsdiag2b', card_watch=('電風扇', 'cardsdiag2_fan_card'))
+    R = await rows(pg, n0); cards = [[r['n'], r['t'], r['d']] for r in R if r['k'] == 'card']
+    run.note('cardsdiag2 到 6/8 了嗎：%s；日期卡：%s；現在 %s' % (ok, J(cards)[:1500], J(await P.clock(pg))))
+    run.check('cardsdiag2：按掉手機以後照常跳，「五月，書桌旁邊多了一台電風扇」那張卡有出', any(FAN65 in c[1] for c in cards), J(cards)[:600])
+
+
 async def aa529_k7(pg, cdp, run, kx):
     st, d = await state_at(pg, '2025-10-20', 21.0, 'dorm', flags={'dating_kexin': True, 'KX_ANNIV': {'1': 'went'}, 'PLAYED_Y0': True, 'KH_GO': 'home', 'Y0_DATING': True, 'KX_DATING_SINCE': '2024-10-17'})
     await load(pg, cdp, run, st, 'k7：最小存檔 2025-10-20 21:00 宿舍（法律系大一上；和可昕交往、K7 第一年週年去了＝KX_ANNIV 1 went、KH_GO home）', js="F.KX_ANNIV={1:'went'}; return LV('kexin',65,50,45,{npcRom:60,rom:40});")
@@ -1219,7 +1245,7 @@ async def aa529_s829(pg, cdp, run, kx):
 async def m_aa529_cards(pg, cdp, run):
     kx = await names_of(pg, 'kexin')
     for sub in ENV('AA529', 'cards,k7,k0b,s829'):
-        fn = {'cards': aa529_cards, 'cardsdiag': aa529_cardsdiag, 'k7': aa529_k7, 'k0b': aa529_k0b, 's829': aa529_s829}.get(sub)
+        fn = {'cards': aa529_cards, 'cardsdiag': aa529_cardsdiag, 'cardsdiag2': aa529_cardsdiag2, 'k7': aa529_k7, 'k0b': aa529_k0b, 's829': aa529_s829}.get(sub)
         if not fn: run.check('AA529＝%s 認得' % sub, False); continue
         run.note('---- aa529_cards：%s ----' % sub)
         try: await fn(pg, cdp, run, kx)
