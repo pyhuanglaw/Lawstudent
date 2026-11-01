@@ -155,5 +155,13 @@ const dropTest=()=>{ for(let i=STORY_EVENTS.length-1;i>=0;i--) if(/^ev_test_dl04
   { fresh(THU,7,'dorm'); const it={c:{id:'x'},room:{zone:'gongtong',room:'102',door:'common'},t0:13.3,day:G.day,key:'x'}; const pl=CLS.goPlan(GM,it);
     check('8. 有 room 的教室（共同 102）：路線不帶 door（照舊選座位）',!!pl&&!pl.d.door,JSON.stringify(pl&&pl.d)); }
 
+  /* 9 快速前往（手機「地點」）的 R2：CLS.routeStopTo——路上的【必】到達事件停在那一區；約好的地方（force）、經濟系事件接事件不停；沒有事件不停；game3d.js quickGo 接上 */
+  { let a=null,f=null,e=null,n=null; const had=typeof ECONFF!=='undefined'?ECONFF:undefined;
+    try{ addTest({keep:'must'}); fresh(THU,7,'dorm'); a=CLS.routeStopTo(GM,'linze',12); f=CLS.routeStopTo(GM,'linze',12,{force:true}); global.ECONFF={on:()=>true}; e=CLS.routeStopTo(GM,'linze',12); }
+    finally { dropTest(); if(had===undefined) delete global.ECONFF; else global.ECONFF=had; }
+    fresh(THU,7,'dorm'); n=CLS.routeStopTo(GM,'linze',12);
+    const gs=fs.readFileSync(path.join(ROOT,'src/game3d.js'),'utf8'), wire=/CLS\.routeStopTo\(GM,z,st\.mins,\{bike:st\.bike,force:!!\(o&&o\.force\)\}\)/.test(gs);
+    check('9. 快速前往宿舍→霖澤館：路上校園有【必】的到達事件＝停在校園；force、經濟系事件接事件、沒有事件＝不停；quickGo 接上',!!a&&a.zone==='campus'&&f===null&&e===null&&n===null&&wire,JSON.stringify({a,f,e,n,wire})); }
+
   console.log(fails?'FAILED '+fails:'ALL PASS'); process.exit(fails?1:0);
 })().catch(e=>{ console.error(e); process.exit(1); });

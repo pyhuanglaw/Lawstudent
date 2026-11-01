@@ -555,6 +555,7 @@ const GAME = (function(){
     return {known,open,here,mins:m,bike,shut}; }
   async function quickGo(pl,o){ const [z,label,sp]=pl; const st=placeState(pl); if(E.player.busy||GM.titleIdle){ toast('現在不能移動'); return; } if(!st.known&&!(o&&o.force)){   /* o.force：約好的地方（INV.goNow，UX-INV-GO-1023）、手機「朋友」的直接過去（PHONE-UNIFY-1030）沒去過也可以直接過去 */ toast('還沒去過'+label+'。自己走去一次之後，就可以直接前往。',4000); return; } if(!st.open){ toast(st.shut||(typeof PLACES!=='undefined'?PLACES.closedText(z,G.hour,G.day):'已閉館'),4500); return; } if(st.here){ toast(z==='campus'?'你就在這附近':'你已經在'+label+'了'); return; }
     closePhone(); if(menuOpen) closeMenu(); if(typeof ACTIVITIES!=='undefined'&&ACTIVITIES.leave) ACTIVITIES.leave(G);   /* 活動中快速前往＝中途離開（AA_110 5-2）*/
+    { const stop=typeof CLS!=='undefined'&&CLS.routeStopTo?CLS.routeStopTo(GM,z,st.mins,{bike:st.bike,force:!!(o&&o.force)}):null; if(stop){ advance(stop.leg/60); await enter(stop.zone,stop.spawn); toast('往'+label+'的路上……',2600); return; } }   /* R2：路上有【固】【必】的到達事件＝停在那裡演（CLS.routeStopTo，DL-04B）；演完自己再按一次 */
     advance(st.mins/60); await enter(z,sp||undefined); toast((st.bike?'騎了 ':'走了 ')+st.mins+' 分鐘到'+label,2600); }
   GM.quickGo=quickGo;
   /* 相簿（Life Album，AA_128 5-1；AA_185 2-5）：自由出行拍的照片（G.places.photos）、校外約會的拍照位置（G.album：底圖加她的人物圖層；合照要第 6 階或交往中）、解鎖的 CG（G.cg.unlocked）。照時間排，新的在前 */

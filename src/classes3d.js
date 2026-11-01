@@ -951,6 +951,16 @@ const CLS=(function(){
       const ev=evAt(G,G.hour+leg/60,z,()=>STORY_EVENTS.find(e=>S.arriveEv(e,z)&&S.evGuard(e)&&EVENTS.check(e)));
       if(ev) return {zone:z,spawn:spot?Object.assign({},spot):undefined,leg,ev:ev.id}; }
     return null; };
+  /* 快速前往（手機「地點」quickGo）的 R2（AA_160 3-2 R2；DL-04B 剩的那一項）：從現在的區域到 toZone 中間經過的區域，有到達時就會演的【固】【必】＝停在那裡演；
+     演完不另外出「繼續」選單（玩家自己再按一次快速前往）。mins＝quickGo 算的總分鐘；bike＝騎車（照 goPlan 的換算）。經濟系事件接事件、約好的地方（force）不停。
+     回傳 {zone, spawn, leg（分鐘）, ev} 或 null */
+  S.routeStopTo=function(GM,toZone,mins,o){ o=o||{}; const G=GM.G; if(o.force||typeof EVENTS==='undefined'||typeof STORY_EVENTS==='undefined'||!EVENTS.check||!toZone) return null; if(typeof ECONFF!=='undefined'&&ECONFF.on&&ECONFF.on(G)) return null;
+    const via=S.routeVia(G.zone,toZone); if(!via.length) return null;
+    const rest=(z,spot)=>{ let m=S.travelMinutes(G,z,toZone,spot,null); if(o.bike&&m>0) m=Math.max(5,Math.round(m/3.5/5)*5); return m; };
+    for(let i=0;i<via.length;i++){ const z=via[i], spot=z==='campus'?(CAMPUS_AT[via[i+1]||toZone]||null):null, leg=Math.max(0,(mins|0)-rest(z,spot));
+      const ev=evAt(G,G.hour+leg/60,z,()=>STORY_EVENTS.find(e=>S.arriveEv(e,z)&&S.evGuard(e)&&EVENTS.check(e)));
+      if(ev) return {zone:z,spawn:spot?Object.assign({},spot):undefined,leg,ev:ev.id}; }
+    return null; };
   /* 這一堂課裡會演的事件（1-5、R1）：上課前（beforeClass）、下課後（afterClass）——只有去上課才會演；時間放到開始（上課前）、下課（下課後），地點放到教室那一區。
      人物在不在場景裡、在不在旁邊（npcPresent／npcNear／npcRoom）、玩家在哪一間（room）要到了教室才知道：預告時當作在（例：民總報告分組要以安在場）*/
   const guess=e=>EVENTS.check(Object.assign({},e,{npcPresent:null,npcNear:null,npcRoom:null,room:null}),{chain:true});
