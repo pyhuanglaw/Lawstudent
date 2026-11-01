@@ -160,7 +160,7 @@ git log -1 --format='%h %ci' origin/<RULE_SOURCE> -- docs/AI_SESSION_HANDOFF.md 
 
 ## 1. 值班表（閱讀版；**以 `docs/handoff/duty.json` 為準**，兩邊不一致時 `duty verify` 第 9 項會報；換班時由值班的 LAWWW 更新）
 
-**現在：只有 LAWWW-B 值班（2026-11-01 21:4x UTC 使用者：「還有4%每週使用量 請你繼續做兩小時……就是只有你」）；LAWWW2、AA、BB 維持交班。結束前再交班。**
+**現在：只有 LAWWW-B 值班（2026-11-01 22:0x UTC 使用者：「還有4%每週使用量 請你繼續做兩小時……就是只有你」）；LAWWW2、AA、BB 維持交班。結束前再交班。**
 
 （以下是 21:4x 再交班的紀錄）**現在：B 換班中（2026-11-01 21:4x UTC LAWWW-B 再交班；四個職位都已交班，還沒有帳號接班；RULE_SOURCE 照舊 `claude/modest-rubin-2lyp7g`）**
 
