@@ -169,7 +169,7 @@ for d in G['closedDoors']:                                            # 關著�
     if abs(d['z'] - zw) < 0.1:
         xf = Xf(d['x'], zw); xf.rbox(wm('poolN', 'door'), -0.46, 0.46, 0.0, 2.1, -0.1, -0.05, r=0.01, seg=1)
         wm('poolN', 'steel').cyl(xf.p(0.32, 1.0, -0.03), xf.p(0.32, 1.0, 0.03), 0.02, seg=8)
-        PLATE.append((f"PLATE_FACE_door_b1_{d['label']}", [xf.p(-0.25, 1.62, -0.035), xf.p(0.25, 1.62, -0.035), xf.p(0.25, 1.82, -0.035), xf.p(-0.25, 1.82, -0.035)][::-1], {'plate': 'door', 'text': d['label']}))
+        PLATE.append((f"PLATE_FACE_door_b1_{d['label']}", [xf.p(-0.25, 1.62, -0.035), xf.p(0.25, 1.62, -0.035), xf.p(0.25, 1.82, -0.035), xf.p(-0.25, 1.82, -0.035)], {'plate': 'door', 'text': d['label']}))   # GYM-B1-PLATES-1101：原本 [::-1] 讓正面朝門板，單面材質從走廊看不到（下次重匯才生效；遊戲端 gym3d.js b1Plates 已經改雙面、重算 UV）
     else:                                                             # 走廊西端（面向東）
         xf = Xf(d['x'] + 0.02, d['z'], math.pi / 2); xf.rbox(acc('door'), -0.6, 0.6, 0.0, 2.1, -0.02, 0.03, r=0.01, seg=1)
         PLATE.append((f"PLATE_FACE_door_b1_{d['label']}", [xf.p(-0.35, 1.62, 0.04), xf.p(0.35, 1.62, 0.04), xf.p(0.35, 1.82, 0.04), xf.p(-0.35, 1.82, 0.04)], {'plate': 'door', 'text': d['label']}))
