@@ -5054,6 +5054,50 @@
    "next": "LAWWW-B 換二進位＋套測試 patch；BB 看公寓、合租戶白天晚上",
    "noDirectIntegrate": false,
    "integrated": "dcbd50b01（LAWWW-B 11-01 06:5x ACK；整套 Node 結果待 LAWWW-B 回報）"
+  },
+  {
+   "branch": "claude/funny-albattani-iawshm",
+   "sha": "32277557c",
+   "receiver": "LAWWW",
+   "ack": "SENT",
+   "task": "INTERIOR-AAA 美國收尾第二輪：合租戶客廳東邊白天偏暗＋鄰居的門白天偏亮（LAWWW-B 11-01 06:5x 第 1 項）",
+   "files": [
+    "assets/models/env/second_ai/us_shared.glb",
+    "assets/models/env/second_ai/us_shared.json",
+    "assets/models/env/second_ai/us_shared_lm_day.webp",
+    "assets/models/env/second_ai/us_shared_lm_night.webp",
+    "assets/models/env/second_ai/us_apartment.glb",
+    "assets/models/env/second_ai/us_apartment.json",
+    "assets/models/env/second_ai/us_apartment_lm_day.webp",
+    "assets/models/env/second_ai/us_apartment_lm_night.webp",
+    "docs/art-rebuild/second_ai/patches/us_wrapup2_lm_1101.patch",
+    "docs/art-rebuild/second_ai/test_shots/us_wrapup2_lm_1101/README.md",
+    "docs/art-rebuild/second_ai/test_shots/us_wrapup2_lm_1101/shared_east_before_after.webp",
+    "docs/art-rebuild/second_ai/test_shots/us_wrapup2_lm_1101/door_before_after.webp"
+   ],
+   "state": "鄰居的門 door213 拆成自己一個物件、白天乘 0.65（合租戶 207：0.40～0.61→0.26～0.38；單人戶 213：0.41～0.58→0.22～0.39）；合租戶客廳東邊 bake_room --dayfill 白天補光（0.17～0.25→0.28～0.46）；晚上不變。不用改程式。patch 只有測試：us_shared_lm_unit ② usa_door→lau_w_door＋新 ⑨、us_apartment_lm_unit 清單同改（usa_door 以前是 door213＋lau_w_door 合起來的；遊戲程式沒用到這個名字）。測試和 GLB 要一起換。",
+   "remaining": "客廳東邊中間 0.28（梯子書架、電視櫃擋）；白門照舊是畫面裡最亮的之一；沒有手機實機",
+   "next": "LAWWW-B 換二進位＋套 patch；BB 看合租戶客廳往東、兩戶門外平台 14:00",
+   "noDirectIntegrate": false
+  },
+  {
+   "branch": "claude/funny-albattani-iawshm",
+   "sha": "32277557c",
+   "receiver": "LAWWW",
+   "ack": "SENT",
+   "task": "ART-ECON-3D-GAP-1021 D 醉月湖晚上：北岸路燈＋水面倒影＋湖心亭宮燈（F 兩段已 retired，只記錄）",
+   "files": [
+    "assets/models/env/second_ai/campus_lake.glb",
+    "assets/models/env/second_ai/campus_lake.json",
+    "docs/art-rebuild/second_ai/patches/lake_night_1101.patch",
+    "docs/art-rebuild/second_ai/test_shots/lake_night_1101/README.md",
+    "docs/art-rebuild/second_ai/test_shots/lake_night_1101/e12_before_after.webp",
+    "docs/art-rebuild/second_ai/test_shots/lake_night_1101/views_before_after.webp"
+   ],
+   "state": "E12 11/6 17:45 已天黑（燈光 19.26、路燈開）但北岸沒燈、亭子沒燈。patch（zones3d.js）：lake() 北岸 4 盞路燈（中間兩盞在 z −124 邊界灌木後面）、水面 shader 7 個燈的倒影（只在 lampsOn）、宮燈光暈＋平台光圈；attachLakeGLB 燈紙 TK.addNight。campus_lake.glb：亭子中間吊六角宮燈（燈身 2.12～2.44 m，在額枋下面；+156 面、+1 網格）。新 tests/lake_night_unit.js 開發原樣 FAIL 6→ALL PASS；draw call +11（E12 89→100）。",
+   "remaining": "路燈同一刻全亮（對白「一盞一盞」要改引擎開關）；倒影沒有遮擋；水面顏色沒改；沒跑 campus_layout_nav、reachability_all（瀏覽器）、手機實機",
+   "next": "LAWWW-B 換 GLB＋套 patch；BB 看 E12 11/6 17:45 南岸步道往北",
+   "noDirectIntegrate": false
   }
  ]
 }

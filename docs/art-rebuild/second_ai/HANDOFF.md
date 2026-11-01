@@ -2,7 +2,17 @@
 
 ## ⏱ 現況（LAWWW2-B，2026-10-31 20:5x UTC；帳號 B 七天額度已到警示，隨時可能被切斷——接手的先讀這一段）
 
-- **11-01 07:5x（最新）**：
+- **11-01 09:0x（最新）**：兩件交件（32277557c；outbox 兩筆 SENT；send_message 給 LAWWW-B）
+  - **美國收尾第二輪**（README `test_shots/us_wrapup2_lm_1101/`；patch `patches/us_wrapup2_lm_1101.patch` 只有測試）：
+    - 鄰居的門：207（合租戶）0.40～0.61→0.26～0.38、213（單人戶）0.41～0.58→0.22～0.39。
+    - 合租戶客廳東邊 0.17～0.25→0.28～0.46（`--dayfill` 12 W）。晚上不變。
+    - 注意：`usa_door` 節點沒了（以前是 door213＋lau_w_door 合起來的），兩支測試清單改 `lau_w_door`，要和 GLB 一起換。
+  - **醉月湖晚上 D**（README `test_shots/lake_night_1101/`；patch `patches/lake_night_1101.patch`）：北岸 4 盞路燈＋水面倒影＋湖心亭宮燈；新測試開發原樣 FAIL 6→ALL PASS；draw call +11。
+    - 宮燈第一版掛太高被額枋擋住（遊戲內截圖發現），改到 2.12～2.44 m。F 兩段 retired，只記錄。
+  - 全部 Node（開發 f812b45c3＋兩包）：831／1；那 1 個是 scene_bg_keys（ziqing_studio，V6-B 合併時的），f812b45c3 原樣也 FAIL，最新開發 bd7754e2e 已修（登記成 BB 的 BG-ZQ-STUDIO-1101）。
+  - 開發分支到 bd7754e2e，兩包改到的檔案從 f812b45c3 以後沒變，patch 照樣套得上。
+  - **下一件**：照 LAWWW-B 06:5x，D99 美術收完 → ZQ-ARCADE (a) 騎樓凳子＋插座（wz_street／wz_shopkit 公館）、(b) laptop_lap 位置定案；(c) 只交 zones3d 公館座位 patch。
+- **11-01 07:5x**：
   - LAWWW-B 06:5x：ACK 美國收尾 ccf717fe0（已整合 dcbd50b01，outbox 改 ACKNOWLEDGED）；ZQ-ARCADE (a)(b)(c) 同意但 P3、**先不要開工**。順序：① 美國還不夠的兩處 → ② ART-ECON-3D-GAP D（醉月湖晚上）、F（兩段劇情背景）→ ③ 才做 ZQ (a)(b)；(c) 我只交 zones3d 公館座位 patch，heroine_circle 歸 LAWWW-B。已回 ACK。
   - ZQ 停在：laptop_lap 道具 9e407dd2d（只在我的分支，沒接進遊戲）；devtipwt 裡的試接改動另存 `scratchpad/zqseat/devtip_scratch_1101.diff`（不交）。
   - **① 美國第二輪（進行中）**：
