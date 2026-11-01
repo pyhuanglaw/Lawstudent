@@ -16935,6 +16935,19 @@
    "task": "ART-ECON-3D-GAP-1021",
    "integration": "已整合待測試",
    "note": "LAWWW-B 11-01 08:3x 套上；lake_night、nav_buildings、nav_levels、campus 相關 6 支、kit_nav_check ALL PASS；draw call +11（E12 鏡頭 89→100）；沒做：一盞一盞亮（要改引擎開關）、倒影沒有遮擋；campus_layout_nav、reachability_all 是瀏覽器→BB"
+  },
+  {
+   "id": "DL-LW2-ZQ-ARCADE-1101",
+   "date": "2026-11-01",
+   "from": "LAWWW2-B",
+   "account": "B",
+   "branch": "claude/funny-albattani-iawshm",
+   "sha": "e16b32ad0",
+   "msg": "NOT_SENT（LAWWW2 交班時已推、沒交件；LAWWW-B 09:3x 自己從分支整合）",
+   "what": "公館騎樓柱子旁紅色塑膠凳＋插座（gongguan_shops.glb）、腿上筆電 laptop_lap、公館座位（zones3d.js）",
+   "task": "ZQ-ARCADE-SEAT-1028",
+   "integration": "已整合待測試",
+   "note": "zq_arcade_seat_unit ALL PASS；LAWWW2 沒跑完的全部 Node 由 LAWWW-B 補跑"
   }
  ],
  "ignored": [

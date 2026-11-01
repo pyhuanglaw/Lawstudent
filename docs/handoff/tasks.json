@@ -35191,7 +35191,7 @@
    "title": "子晴一個人在公館騎樓（heroine_circle c506_4_2／c507_4_2／c509_4_1，站位 (16,20.6)）：字幕「她坐在騎樓下的插座旁邊，筆電開著」，3D 是站著、沒有筆電、背後投幣洗衣店——給能坐的地方＋筆電道具，或換站位（LAWWW2 定）",
    "area": "Y2S2",
    "owner": "LAWWW2",
-   "status": "已實作待整合",
+   "status": "已整合待測試",
    "priority": "P3",
    "source": "BB-C 2026-10-28 09:19 瀏覽器 priv_y4（BB_218 cf7530010）",
    "first": {
@@ -35212,7 +35212,7 @@
     "receiver": "LAWWW",
     "ack": "DELIVERED"
    },
-   "next": "【11-01 09:0x LAWWW-B】LAWWW2-B 交班時已做完、push，還沒交件（outbox NOT_SENT）：gongguan_shops.glb／.json／.props.json、laptop_lap.glb、patches/zq_arcade_seat_1101.patch（對 bd7754e2e）、README test_shots/zq_arcade_seat_1101/；zq_arcade_seat_unit 開發原樣 FAIL 4→ALL PASS、street_props_nav ALL PASS；全部 Node 沒跑完 → 下一班 LAWWW2 跑全部 Node 再交件，LAWWW 合併並改 heroine_circle（子晴 4 筆 linger read＋seatAt＋開筆電）｜【11-01 06:5x LAWWW-B】LAWWW2 提 (a) 騎樓柱旁紅凳＋插座（gongguan_shops.glb）(b) laptop_lap 道具 (c) 座位：同意做法，但 P3、排在 D99 美術之後；分工照 D108：zones3d.js 座位歸 LAWWW2（patch），heroine_circle.js 子晴 linger 改 read＋seatAt＋開筆電歸 LAWWW｜【LAWWW-C 2026-10-28 09:3x UTC】已通知 LAWWW2（P3，排在 X125 室內後面）；LAWWW2 交件後 LAWWW 合併、BB 瀏覽器看 22:31 騎樓"
+   "next": "【11-01 09:3x LAWWW-B】整合（LAWWW2 交班時已推、沒交件的 e16b32ad0：gongguan_shops.glb／.json／.props.json、laptop_lap.glb／.json、zq_arcade_seat_1101.patch＝assets3d／character3d／props3d／zones3d＋tests/zq_arcade_seat_unit.js）；LAWWW 那一半：heroine_circle.js 子晴 4 筆「公館騎樓（插座旁邊）」改 act read＋seatAt [15.6,19.8]＋prop laptop_lap，story3d.js 坐下照 ent.prop 開 CHAR.setProp；zq_arcade_seat ⑥（修改前 FAIL）、heroine_circle3d 預期改坐著讀、相關 9 支 ALL PASS；瀏覽器 gongguan_layout_nav → BB（下一班）｜【11-01 09:0x LAWWW-B】LAWWW2-B 交班時已做完、push，還沒交件（outbox NOT_SENT）：gongguan_shops.glb／.json／.props.json、laptop_lap.glb、patches/zq_arcade_seat_1101.patch（對 bd7754e2e）、README test_shots/zq_arcade_seat_1101/；zq_arcade_seat_unit 開發原樣 FAIL 4→ALL PASS、street_props_nav ALL PASS；全部 Node 沒跑完 → 下一班 LAWWW2 跑全部 Node 再交件，LAWWW 合併並改 heroine_circle（子晴 4 筆 linger read＋seatAt＋開筆電）｜【11-01 06:5x LAWWW-B】LAWWW2 提 (a) 騎樓柱旁紅凳＋插座（gongguan_shops.glb）(b) laptop_lap 道具 (c) 座位：同意做法，但 P3、排在 D99 美術之後；分工照 D108：zones3d.js 座位歸 LAWWW2（patch），heroine_circle.js 子晴 linger 改 read＋seatAt＋開筆電歸 LAWWW｜【LAWWW-C 2026-10-28 09:3x UTC】已通知 LAWWW2（P3，排在 X125 室內後面）；LAWWW2 交件後 LAWWW 合併、BB 瀏覽器看 22:31 騎樓"
   },
   {
    "id": "LOBBY-VC-1028",

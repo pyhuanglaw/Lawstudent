@@ -149,6 +149,7 @@ const PROPS = (function(){
     camera_film:{bone:'upperChest',make:cameraFilm,pos:[0,0,0]},
     lanyard_tag:{bone:'upperChest',make:lanyardTag,pos:[0,0,0]},
     thermos_silver:{bone:'leftLowerArm',make:thermosSilver,sit:'hide'},
+    laptop_lap:{bone:'hips',make:boneGlb('prop.laptop_lap','laptop_lap'),pos:[0,0.06,-0.26],sit:'only',hidden:true},   /* 子晴在公館騎樓坐著、腿上的筆電（ZQ-ARCADE-SEAT-1028；坐下、而且 CHAR.setProp 開了才看得到）*/
     thermos_bench:{bone:'hips',make:boneGlb('prop.thermos_silver','thermos_bench'),pos:[-0.27,0.045,0.03],sit:'only',hidden:true},   /* 同一支保溫瓶放在身旁的長椅上（坐下、而且 CHAR.setProp 開了才看得到：pool3d 只在傅鐘長椅開；上課坐著不放）*/
     sports_drink:{bone:'rightLowerArm',make:sportsDrink,sit:'hide'},
     recorder:{bone:'rightLowerArm',make:recorderGlb},
