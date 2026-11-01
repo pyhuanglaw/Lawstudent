@@ -386,7 +386,7 @@ const Y34B=(function(){
     const q=!US(G)&&typeof OUT!=='undefined'&&OUT.get?OUT.get(G,'y4_sis_canyon'):null, d16=DK('2028-10-16'); return q&&q.state==='done'&&d16!=null?Math.max(u,T(d16,12)):u; };   /* AA_378 #15（企劃線 5cd35678）：臺灣、日本路線去大峽谷找學姊（10/7～10/15）的，期限延到回到臺北的隔天中午 10/16 12:00（同美國路線，AA_370 M8）*/
   /* 手機筆記（AA_117 C8；AA117-CASE-NOTES-1031）：請求什麼（她要在合約裡看懂什麼）是玩家選的那一行（下面的選項）；誰、向誰、依據什麼照 AA-B 2026-11-01 回覆（D109）的字。
      LEGAL_REVIEW_REQUIRED：只寫方向（權利歸誰、錢怎麼分、怎麼解約），不寫結論 */
-  S.Q14_NOTE=['誰：子晴（要簽約的人）','向誰：工作室','依據什麼：合約本身（權利歸誰、錢怎麼分、怎麼解約）','請求什麼：'];
+  S.Q14_NOTE=['誰：子晴（要簽約的人）','向誰：發行商','依據什麼：合約本身（權利歸誰、錢怎麼分、怎麼解約）','請求什麼：'];
   S.q14Phone=function(G){ const F=G.flags, d=D('q14'); if(d==null||G.day<d||!law(G)||!fri('heroine_04')||sent(G,'y4_q14')) return; const until=S.q14Until(G); if(G.day>Math.max(d+2,Math.floor(until/24))) return; if(NOW(G)<T(d,tzH(G,d,21))) return;
     const Q=t=>DM('heroine_04',t), us=US(G), dt=dating(G,'heroine_04');
     const open=dt?[Q('我們要跟一間發行商簽約。合約四十頁。'),Q('你不用當律師啦。陪我看到第四十頁就好')]:(us?[Q('你那邊是早上吧'),Q('你是法律系的吧'),Q('我們要跟一間發行商簽約。合約四十頁。'),Q('我看不懂'),Q('你看得懂嗎')]:[Q('欸不是，你是法律系的吧。'),Q('我們要跟一間發行商簽約。合約四十頁。'),Q('我看不懂'),Q('你看得懂嗎')]);
