@@ -35,5 +35,5 @@
 ## 五、測試
 
 - `tests/gym_b1_plates_unit.js`：開發原樣 FAIL 4、改後 ALL PASS（①接正式模型以後呼叫 ②三塊都對得到 closedDoors ③都畫上字、字就是 label ④從門朝的那一邊看字是正的 ⑤雙面）。
-- 全部 Node：見下面（跑完補）。
+- **全部 Node（新的 gym3d.js＋新測試，加上照片比對那三個 GLB 放進測試樹）：799 支、0 失敗**。
 - 沒跑：手機實機。
