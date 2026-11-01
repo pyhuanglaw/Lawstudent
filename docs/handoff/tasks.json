@@ -26299,7 +26299,7 @@
    "id": "ART-PHOTO-CMP-1021",
    "title": "共同教學館、女舍和參考照片比對（LAWWW2 清查 B14）",
    "owner": "LAWWW2",
-   "status": "待開工",
+   "status": "等待其他AI／素材",
    "priority": "P3",
    "source": "LAWWW2-C 清查 caf482d1 B14",
    "first": {
@@ -26312,7 +26312,7 @@
     "parallel": true,
     "confirmed": true
    },
-   "next": "LAWWW2 先列差異清單，再決定要不要改",
+   "next": "【11-01 02:1x】LAWWW2 差異清單交了（880104746，photo_cmp_1101/README.md）；照片抓不到（wikimedia 403）——第四節列的照片要請使用者給，和其他要使用者的圖併成一批問（不單獨打擾）。LAWWW-B 定：①共同南面庭園往北挪、②西側戶外樓梯：等照片確認再做；③女舍路人「有電梯」和 A 級「沒有電梯」：轉 AA；④規模縮小：不改（照 LAWWW2 建議，D111）｜LAWWW2 先列差異清單，再決定要不要改",
    "xai": {
     "spec": "LAWWW2 清查 B14",
     "branch": "claude/focused-cray-c9uwvw",
@@ -37997,6 +37997,35 @@
     "acceptance": "10/15、2027-10-13 讀進來不演搬 312；9/6 照演；9/7 照演但沒有「明天開學」",
     "receiver": "BB",
     "ack": "ACTIONED"
+   }
+  },
+  {
+   "id": "GYM-B1-PLATES-1101",
+   "title": "體育館 B1 三塊門牌（女更衣室、男更衣室、壁球室・桌球室）遊戲沒有畫字：gym_b1 走 attachRoomGLB，它不畫 PLATE_FACE_*（只有 gym3d.js 樓梯口兩塊自己畫）；照 us3d.js 的 paintPlate 畫 props 的 text（LAWWW2 讀碼找到，還沒拍遊戲畫面）",
+   "area": "ART",
+   "owner": "LAWWW2",
+   "status": "待開工",
+   "priority": "P2",
+   "next": "【11-01 02:1x】D108 場景程式歸 LAWWW2：先在遊戲裡拍確認（不是只讀碼），再改 attachRoomGLB 或 gym_b1 的接線（改 engine3d／game3d 先告訴 LAWWW）；交 patch＋測試；發布後合",
+   "first": {
+    "term": "Y1S1",
+    "week": 1,
+    "earliest": "去體育館 B1",
+    "mainline": false,
+    "blocks": false,
+    "prereq": false,
+    "parallel": true,
+    "confirmed": true
+   },
+   "source": "LAWWW2-B 11-01 照片比對時讀碼找到",
+   "authorized": "D108、D110",
+   "xai": {
+    "spec": "LAWWW2-B 11-01 交件訊息第三節",
+    "owner": "BB",
+    "branch": "claude/elegant-brown-fcos7n",
+    "acceptance": "照規格交付、互審紀錄",
+    "receiver": "LAWWW",
+    "ack": "SENT"
    }
   }
  ]
