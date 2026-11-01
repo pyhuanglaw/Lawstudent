@@ -38096,6 +38096,34 @@
    },
    "source": "XINCI-EPI-FEST 子代理 11-01",
    "authorized": "使用者保留"
+  },
+  {
+   "id": "BG-ZQ-STUDIO-1101",
+   "title": "2D 背景 ziqing_studio（子晴的工作室，深夜）：BB_119 3-3 ev_ziqing_studio_night 用；現在沒有圖＝深色底＋地點字幕",
+   "area": "ART",
+   "owner": "BB",
+   "status": "待開工",
+   "priority": "P3",
+   "next": "【11-01 07:0x LAWWW-B】V6-B 併入後（52bfa7b5d）scene_bg_keys 抓到；先登記在 tests/scene_bg_keys_unit.js 的 PENDING。BB 照 D97 寫提示詞，下一批向使用者要圖時一起要（不擋遊玩，D99 外，只排進批次）",
+   "first": {
+    "term": "Y4S1",
+    "week": 10,
+    "earliest": "大四上 2028-11-10 子晴邀你去工作室（台灣／日本路線）",
+    "mainline": false,
+    "blocks": false,
+    "prereq": false,
+    "parallel": true,
+    "confirmed": true
+   },
+   "source": "src/v6b_3d.js ev_ziqing_studio_night；BB_119 3-3、9-3",
+   "authorized": "D100（BB 跟使用者要 2D 背景）、D97",
+   "xai": {
+    "spec": "BB_119 9-3",
+    "branch": "claude/elegant-brown-fcos7n",
+    "acceptance": "assets/bg/ziqing_studio.webp 交 LAWWW 接進 OUT.BG、從 PENDING 拿掉",
+    "receiver": "LAWWW",
+    "ack": "SENT"
+   }
   }
  ]
 }
