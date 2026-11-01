@@ -16896,6 +16896,19 @@
    "task": "BUG-03",
    "integration": "已整合",
    "note": "LAWWW-B 11-01 05:5x 套 patch；seated_figures_lod 與座位、上課相關 12 支 ALL PASS；LOD0 近看臉也偏糊（D99 人物凍結，照實記）"
+  },
+  {
+   "id": "DL-LW2-US-WRAPUP-1101",
+   "date": "2026-11-01",
+   "from": "LAWWW2-B",
+   "account": "B",
+   "branch": "claude/funny-albattani-iawshm",
+   "sha": "ccf717fe0",
+   "msg": "ACK",
+   "what": "美國收尾：公寓第八版（屋外白天壓暗、水泥改素面）＋C 棟合租戶 us_shared 光照烘焙第二版（us_shared_lm_day／night.webp）；tests/us_shared_lm_unit.js（us_wrapup_lm_1101.patch）",
+   "task": "INTERIOR-AAA-REVIEW-1028",
+   "integration": "已整合待測試",
+   "note": "LAWWW-B 11-01 06:5x 換 8 個二進位（只拿交件清單上的，us_street 不拿）＋套 patch；us_shared_lm、us_apartment_lm、us_apt_closet、us_apt_siding、singleside_us ALL PASS；LAWWW2 自己列的不夠：合租戶客廳東邊白天偏暗、鄰居 207 門白天偏亮（請 LAWWW2 先收）"
   }
  ],
  "ignored": [

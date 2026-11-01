@@ -1,11 +1,11 @@
 {
  "objects": 92,
  "unique_meshes": 90,
- "tris": 63776,
- "tris_drawn": 65624,
+ "tris": 63816,
+ "tris_drawn": 65664,
  "materials": 38,
  "out": "assets/models/env/second_ai/us_apartment.glb",
- "bytes": 3914088,
+ "bytes": 3920332,
  "texres": 512,
  "layout": 3,
  "furniture": 33
