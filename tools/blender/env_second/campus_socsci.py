@@ -432,7 +432,7 @@ def build():
 
     # ---------------- 完成 ----------------
     K.finish(accs, root, VC)
-    for (m, props) in plates: uv01(m.finish(root, uv=True, props=props))
+    for (m, props) in plates: L.uv_text(m.finish(root, uv=True, props=props))   # PLATE-MIRROR-1101：照幾何給 UV（uv01 會讓側牆的名牌字上下顛倒、左右相反）
     L.merge_by_material(root, keep=lambda ob: 'FACE' in ob.name or ob.name.startswith('NOSHADOW_'))
     lit_ramp()
     info = L.export(out, gpu_instances=False)

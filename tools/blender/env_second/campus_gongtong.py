@@ -701,8 +701,8 @@ def build():
     for k, m in accs.items():
         ob_ = m.finish(root, uv=(k not in VC))
         if k == 'palm': L.smooth_mesh(ob_, angle=math.pi)   # 蒲葵：全部平滑著色（摺的角度超過 43° 會被切成硬邊，相鄰裂片就不共用頂點；平面著色時 GLB 多 1 MB）
-    uv01(plate.finish(root, uv=True, props={'text': '共同教學館', 'bg': '#d8d0c0', 'color': '#3b2a1e', 'serif': 1, 'fs': 0.72}))
-    uv01(sp.finish(root, uv=True, props={'text': '側門　請由正門出入', 'bg': '#d8d0c0', 'color': '#3b2a1e', 'serif': 1, 'fs': 0.6}))
+    L.uv_text(plate.finish(root, uv=True, props={'text': '共同教學館', 'bg': '#d8d0c0', 'color': '#3b2a1e', 'serif': 1, 'fs': 0.72}))
+    L.uv_text(sp.finish(root, uv=True, props={'text': '側門　請由正門出入', 'bg': '#d8d0c0', 'color': '#3b2a1e', 'serif': 1, 'fs': 0.6}))
     # v9.7 合併材質（LAWWW 2026-10-14 04:52Z：校門往椰林大道的鏡頭 draw call 是改之前的 1.14 倍；這棟 17 個材質）：純色、頂點色的零件併成一個頂點色材質
     # （名稱 wz_vc_ 開頭：遊戲端整個網格投影、陰影一次 draw call）。留下：面磚、洗石子（含窗框）、屋瓦、石材勒腳、玻璃、燈罩、匾額
     VCM = L.vc_material('wz_vc_gt', rough=0.6)
