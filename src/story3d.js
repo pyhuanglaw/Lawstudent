@@ -3167,7 +3167,7 @@ const STORY = (function(){
       if(S.dormSpawn(GM,id,u,since(t0)<=0.25,how)) k++; }   /* how：'bed' 起床（從自己的梯子下來）、其他＝開門進來（203 四人房，S.r203Who）*/
     for(const id of Object.keys(GM.npc)){ const n=GM.npc[id]; if(!n||!n.dorm||ids.has(id)) continue;
       if(n.dormBye!=null){ if(since(n.dormBye)>0.1){ GM.removeNPC(id); k++; } continue; }
-      const g=r203?S.r203Gone(G,id):null, U=DORM_ROOM.units.find(q=>q.id===n.dorm), bed=g?g.bed:(hr>=23.5||hr<6), t1=g?g.at:(bed?23.5:8);   /* 23:30 以後＝上床；其他（早上 8:00、臨時不在）＝出門。203 四人房照 AA_502 的作息：哪一段結束、幾點（S.r203Gone）*/
+      const g=r203?S.r203Gone(G,id):null, U=DORM_ROOM.units.find(q=>q.id===n.dorm), me=!g&&S.dormMates(G).find(m=>m[0]===id), late=me&&me[3]>24&&hr<6?me[3]-24:null, bed=g?g.bed:(late!=null||hr>=23.5||hr<6), t1=g?g.at:(late!=null?late:(bed?23.5:8));   /* late：上舖時間過了半夜（柏翰大四上推甄前 01:00，S.dormMates 第 4 欄）＝照那個時間走到梯子，不是當成 23:30 早就該睡、直接消失（BB-B 11-01 讀程式抓到）*/   /* 23:30 以後＝上床；其他（早上 8:00、臨時不在）＝出門。203 四人房照 AA_502 的作息：哪一段結束、幾點（S.r203Gone）*/
       if(since(t1)>0.25&&since(t1)<12||!U){ GM.removeNPC(id); k++; continue; }
       const bye=()=>{ if(GM.npc[id]===n) GM.removeNPC(id); };
       n.dormBye=hr; n.dormGo=null; if(n.seat&&GM.standUp) GM.standUp(n); n.beh='idle'; n.frozen=false; n.waypoints=null; k++;

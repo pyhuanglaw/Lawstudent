@@ -461,7 +461,11 @@ const R2Y3B=(function(){
         :{lines:[{narr:'（隔壁的考生今天沒有來。他的位子上放了一張紙條：「我上了。這個位子給你。」）'}]}]};
   S.sumScene=function(G,i){ const k=G.flags&&G.flags.SUMMER_Y3; let x=(S.SUMMER_SCENES[k]||[])[i]; if(typeof x==='function') x=x(G); return x||null; };
   const runS=async(GM,L)=>{ const G=GM.G; for(const x of (L||[])){ if(!x) continue; if(x.narr) await GM.say(null,x.narr); else if(x.who&&x.name) await GM.say({name:x.name},x.text); else if(x.who) await GM.say({name:nm(x.who),charId:x.who},x.text); } };
-  S.playSumScene=async function(GM,i){ const sc=S.sumScene(GM.G,i); if(!sc) return false; await runS(GM,sc.lines); if(sc.choice&&sc.choice.length){ const c=sc.choice[await GM.choose(sc.choice.map(o=>({t:o.t})))]||sc.choice[0]; await runS(GM,c.say); } return true; };
+  /* 摘要日 18:30 在宿舍／家裡演，說話的是白天的人（指導律師、主任、學生的媽媽）：這一段背景改模糊（像回想），演完換回原本的背景（BB-B 11-01 n40：背景是 3D 宿舍，對不上）*/
+  S.playSumScene=async function(GM,i){ const sc=S.sumScene(GM.G,i); if(!sc) return false; const A=typeof ADV!=='undefined'&&ADV.active&&ADV.setBg?ADV:null, prev=A?A.bgMode:null; if(A&&prev!=='blur') A.setBg('blur');
+    try{ await runS(GM,sc.lines); if(sc.choice&&sc.choice.length){ const c=sc.choice[await GM.choose(sc.choice.map(o=>({t:o.t})))]||sc.choice[0]; await runS(GM,c.say); } }
+    finally{ if(A&&prev&&prev!=='blur'&&A.active) A.setBg(prev); }   /* 原本是圖片（家裡的底圖）也換得回去：ADV.setBg 收物件 */
+    return true; };
   /* 7/9（日）12:00 語彤生日：照大一的寫法（home3d.js 2026 那一則）——麵店團群組 Alison＋按鈕「傳一句生日快樂」；不在群組、和語彤 FAMILIAR 以上＝她的私訊放同一個按鈕。日本路線也是同一則 */
   S.ytBdayPhone=function(G){ const d=D('2028-07-09'); if(d==null||now(G)<T(d,lt(G,d,12))||now(G)>=T(d+1,lt(G,d+1,0))||PHONE.sent(G,'yt_bday_y3')) return;
     const reply={from:'heroine_03',text:'……謝謝。今年的田野，訪問到第二十二個了。'}   /* AA_509 0-2 第 2 點：8/22 問阿姨才是第二十三個（9/7「阿姨是第二十三個」）；宜蘭的田野課不算 */, opt={t:'傳一句生日快樂',post:'生日快樂。',say:[reply],set:{YT_BDAY_Y3:true}};
