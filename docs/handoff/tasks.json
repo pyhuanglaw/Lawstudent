@@ -37512,7 +37512,7 @@
    "owner": "LAWWW",
    "status": "進行中",
    "priority": "P2",
-   "next": "【11-01 07:2x LAWWW-B】子代理開工（本機分支 feat-xcfest-1101，和芯慈節日同一條）｜【10-31 22:2x】歷史複核找到（HISTORY-AUDIT-1031）→ LAWWW 照稿實作，排在 D99 寒暑假（AA_549）之後",
+   "next": "【11-01 09:5x LAWWW-B】C2、C3 做了（aa639795a，併進 91a98556c；tests/aa117_notes_unit.js 修改前 FAILED 5）；C0、C4～C8 稿缺格子＝問 AA-B 補，回了再做｜【11-01 07:2x LAWWW-B】子代理開工（本機分支 feat-xcfest-1101，和芯慈節日同一條）｜【10-31 22:2x】歷史複核找到（HISTORY-AUDIT-1031）→ LAWWW 照稿實作，排在 D99 寒暑假（AA_549）之後",
    "first": {
     "term": "Y2S1",
     "week": 0,
@@ -37566,9 +37566,9 @@
    "title": "芯慈交往中：尾聲兩句＋畢業禮物「這一頁你寫。」（AA_548 第 9 節，取代 AA_537#6；第二句換「……今天想吃的就是它。」、工作改國際所）；交往中五個節日（AA_537b 第 5 節，fest_events.js 沒有她）（歷史複核第 2 批 tier 4）",
    "area": "STORY",
    "owner": "LAWWW",
-   "status": "進行中",
+   "status": "已整合待測試",
    "priority": "P2",
-   "next": "【11-01 07:2x LAWWW-B】尾聲兩句＋畢業禮物做了（bfafd1a62，tests/xinci_epi_unit.js）；五個節日交子代理（本機分支 feat-xcfest-1101）｜【10-31 22:2x】歷史複核找到（HISTORY-AUDIT-1031）→ LAWWW 照稿實作，排在 D99 寒暑假（AA_549）之後",
+   "next": "【11-01 09:5x LAWWW-B】五個節日併進開發分支 91a98556c（子代理 feat-xcfest-1101 d93aeee66；tests/xinci_fest_unit.js 修改前 FAIL）；「你的生日」要祐廷的生日＝使用者的人物設定（USER-PLAYER-BDAY-1101）；5 題技術預設已問 AA-B → BB 驗｜【11-01 07:2x LAWWW-B】尾聲兩句＋畢業禮物做了（bfafd1a62，tests/xinci_epi_unit.js）；五個節日交子代理（本機分支 feat-xcfest-1101）｜【10-31 22:2x】歷史複核找到（HISTORY-AUDIT-1031）→ LAWWW 照稿實作，排在 D99 寒暑假（AA_549）之後",
    "first": {
     "term": "Y2S1",
     "week": 0,
@@ -38069,6 +38069,29 @@
    },
    "source": "AA555 子代理 11-01 回報第 3 點",
    "authorized": "D109、D111"
+  },
+  {
+   "id": "USER-PLAYER-BDAY-1101",
+   "title": "祐廷的生日（MM-DD）：人物設定、留給使用者（AA_384 第 4 項）。定了填 FEST_DATA.PLAYER_BDAY，芯慈交往中 00:00 那則（以及之後其他人的「你的生日」）才會發",
+   "area": "STORY",
+   "owner": "USER",
+   "status": "等待其他AI／素材",
+   "priority": "P3",
+   "pausedReason": "使用者的人物設定，AA 不定",
+   "resumeWhen": "使用者回來時一次問（選擇題，D117）",
+   "next": "【11-01 09:5x LAWWW-B】列進給使用者的選擇題批次",
+   "first": {
+    "term": "Y1S1",
+    "week": 1,
+    "earliest": "玩家生日",
+    "mainline": false,
+    "blocks": false,
+    "prereq": false,
+    "parallel": true,
+    "confirmed": false
+   },
+   "source": "XINCI-EPI-FEST 子代理 11-01",
+   "authorized": "使用者保留"
   }
  ]
 }
