@@ -9,12 +9,17 @@
     - 現在開發分支那一段已拿掉；34 區×每天×每半小時 1,734,000 次 populate 掃描 0 組。
     - patch `patches/npc_overlap_1101.patch`（對開發 7a2ac2512）：story3d.js club／linger 生之前看那一點有沒有人；新 `tests/npc_overlap_unit.js`：v9.7 資料 FAIL 3、開發原樣 FAIL 2、加 patch ALL PASS；全部 Node 807／0。
     - 第一版把 linger 拆兩行，被 bball_present_unit 的 regex 抓到，已改回一行。
-  - **BUG-03 進行中**（scratch `bug03/`）：大一國文（Y1S1 週二上午，博思 101）近拍：
-    - VRM 同學正常。
-    - 替身（seated_figures）在玩家旁邊時是 _lod1（350 面：臉糊、頭髮一塊塊），可能就是「披頭散髮很可怕」。
-    - 原因：classes3d.js `figPlace` 放的那一刻照玩家位置（門口）選遠近，之後不換；從門口看 17 個全是 _lod1，玩家走到座位旁邊照舊 _lod1。
-    - 修法方向：figTick 照玩家現在的位置換遠近（patch，classes3d.js 是 LAWWW 的檔）。D99 人物凍結：不改替身模型本身。
-  - 之後：INTERIOR-AAA 美國收尾。
+  - LAWWW-B 04:38 同意 BUG-03 只交 patch；04:40 BUG-04 已整合（6c2d98041，DL-LW2-BUG04-1101）。
+  - **BUG-03 交件 b506f59c4**（README `test_shots/bug03_boya_figs_1101/`）：
+    - 原因：classes3d.js `figPlace` 放替身的那一刻照玩家位置選 LOD0／_lod1，之後不換。玩家在門口時 17 個全是 _lod1，走到座位旁邊照舊 _lod1（臉糊、頭髮一塊塊）。VRM 同學正常。
+    - patch `patches/seated_figures_lod_1101.patch`（對開發 fb0d24c98）：每種外型 LOD0＋_lod1 兩個 InstancedMesh，figTick 照玩家現在位置重排（6.5／7.5 m）；空的不畫、下課判斷跳過空的。
+    - 新 `tests/seated_figures_lod_unit.js`：開發原樣 FAIL 7、第一版 patch FAIL 2（⑦ 空的包圍球被當成看得到、下課不拿掉）、定案 ALL PASS；替身、座位、上課相關 12 支 ALL PASS。
+    - 遊戲內同流程同鏡頭改前改後。沒有改人物模型（D99）：LOD0 近看臉也還偏糊，要改模型得等解凍。
+  - ART-JIAHAO-JOY：照舊不動（0.35 不在 VRM 裡、遊戲 smile＝happy 0.7；D99 人物凍結沒解凍），回報 LAWWW-B。
+  - **INTERIOR-AAA 美國收尾進行中**（WIP 153fe9509）：
+    - `bake_room.py --dayscale`：屋外物件白天那張乘 F、再壓 K,A。
+    - `bake_us.sh`：公寓第八版（屋外 0.7、壓到 0.7）、新 `shared`（C 棟合租戶：吊扇、廚房、臥室 A、走道、平台壁燈；EVENT_US2 藏起來烘）。
+    - 公寓第八版烘到 scratch `usfix/apt_v8`（3 核心，Node 全部同時在跑）；改前探針：陽台 1.38、平台 0.89。
 - **11-01 02:4x**：
   - LAWWW-B 02:04 ACK 照片比對＋名牌（名牌整合在 feat-art-1031 8b9ddfb88；四題：①②等照片、③轉 AA、④不改），派 GYM-B1-PLATES-1101。
   - **GYM-B1-PLATES-1101 交件 095518e3f**：遊戲內確認壁球室門牌是空白牌子、兩個更衣室門牌整塊看不到（GLB 裡正面朝門板＋單面）。
