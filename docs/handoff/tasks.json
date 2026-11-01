@@ -37850,7 +37850,7 @@
    "title": "成績出來以後 BB 人物的反應（AA_553：BB_120 第 2 節照現行設定與 D116 不跟別人比重寫）；可昕被當了還說「都過了」＝現有錯，照稿改",
    "area": "STORY",
    "owner": "LAWWW",
-   "status": "待開工",
+   "status": "進行中",
    "priority": "P2",
    "next": "【10-31 23:5x】AA-B 細節：當面五人（學姊、芷若、沛珊、明軒、方奕廷；公布日起到下學期第 3 週第一次說話，同 HONOR.preTalk 做法）、手機二人（子晴、阿凱，公布日 21:00）、書卷獎一句（學姊、沛珊、明軒）；可昕一起打開成績 events.js:2031、:2038 加被當版本（第 4 節）｜【10-31 23:5x】AA-B AUDIT-AA-FOLLOWUP 交付；發布基準凍結中→本機分支做、發布後合",
    "first": {
@@ -37908,9 +37908,9 @@
    "title": "AA_118 一起走路聊什麼（每人每學年 6 句）、手機小事（每人每學期 2 則）、L1～L3（AA_555 只列要改／刪的句子，其餘照 AA_118 原句；「小語」一律顯示 Alison）",
    "area": "STORY",
    "owner": "LAWWW",
-   "status": "待開工",
+   "status": "進行中",
    "priority": "P2",
-   "next": "【10-31 23:5x】AA-B AUDIT-AA-FOLLOWUP 第 8 項交付（企劃線 56c11668d）；大份，發布後在本機分支做（可派子代理）；BB_113 判定已被各學年交接包取代",
+   "next": "【11-01 04:4x LAWWW-B】子代理開工：本機分支 feat-walk-1101（worktree scratchpad/featwalk，從 f49a7c017）；ladder 只照白名單重產、不手改；新測試 aa555_walk_unit；LAWWW-B 定時 bundle 備份｜【10-31 23:5x】AA-B AUDIT-AA-FOLLOWUP 第 8 項交付（企劃線 56c11668d）；大份，發布後在本機分支做（可派子代理）；BB_113 判定已被各學年交接包取代",
    "first": {
     "term": "Y1S1",
     "week": 1,
