@@ -14,6 +14,8 @@ const ev=STORY_EVENTS.find(e=>e.id==='ev_ziqing_show');
   H.fresh(keyOf(dShow),19.5,'wancai',{}); H.FAMILIAR('heroine_04'); H.FAMILIAR('kai'); H.FAMILIAR('yu'); H.said=[]; H.picks=[0]; await EVENTS.runLines(ev.dialogue,ev);
   const L=H.said.map(s=>(s.who?s.who+'：':'')+s.t);
   check('1. 觀眾席：阿凱旁白＋「我是來錄證據的。她說彈錯要請宵夜。」、Alison「我等一下第三首。我好緊張，我要吐了。」，接著「（後台。）」',L[0]==='（阿凱坐第一排，手上拿著手機錄影。）'&&/我是來錄證據的。她說彈錯要請宵夜。$/.test(L[1])&&/我等一下第三首。我好緊張，我要吐了。$/.test(L[2])&&L[3]==='（後台。）',J(L.slice(0,5)));
+  H.fresh(keyOf(dShow),19.5,'wancai',{}); H.FAMILIAR('heroine_04'); H.FAMILIAR('heroine_02'); H.said=[]; H.picks=[0]; await EVENTS.runLines(ev.dialogue,ev);
+  check('1. 和芷若有點熟以上：「（芷若坐在後排。）」芷若「我是被她押來的。」（AA-B 11-01）',H.said[0].t==='（芷若坐在後排。）'&&H.said[1].t==='我是被她押來的。',J(H.said.slice(0,3).map(s=>s.t)));
   H.fresh(keyOf(dShow),19.5,'wancai',{}); H.FAMILIAR('heroine_04'); H.said=[]; H.picks=[0]; await EVENTS.runLines(ev.dialogue,ev);
   check('2. 不認識阿凱、Alison：直接「（後台。）」、子晴「欸不是，我手在抖。」',H.said[0].t==='（後台。）'&&H.said[1].t==='欸不是，我手在抖。',J(H.said.slice(0,3).map(s=>s.t)));
   const G=H.fresh(keyOf(dShow),20,'dorm',{CLUB_club_guitar:true}); H.FAMILIAR('heroine_04'); H.FAMILIAR('kai'); INV.addContact(G,'kai'); INV.addContact(G,'heroine_04');

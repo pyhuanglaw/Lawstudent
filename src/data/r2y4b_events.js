@@ -32,6 +32,10 @@ const R2Y4B_BAR_NARR={
     wdEnd:'（讀到十點半，鐵門拉下來。）', satEnd:'（讀到傍晚。）' } };
 const R2Y4B_EVENTS=(function(){
   const R=()=>typeof R2Y4B!=='undefined'?R2Y4B:null;
+  /* CG-20「斜對面的位子」（AA_121；AA-B 11-01 定 (a)）：只有語彤、第一次在總圖讀的那一次（週六），從下午讀到天黑，她占好斜對面放熱茶。
+     條件：她在讀書小組裡（ytIn），而且第 5 階以上（DATE.stageNum）或交往中；只一次（YT_CG20）*/
+  const CG20=G=>{ const r=R(), x=r&&r.session(G,G.day); if(!x||x.mode!=='library'||G.flags.YT_CG20||!r.ytIn(G)) return false; const dat=!!G.flags.dating_heroine_03; return dat||(typeof DATE!=='undefined'&&DATE.stageNum&&DATE.stageNum('heroine_03')>=5); };
+  const CG20_LINES=[{if:{custom:CG20},speaker:null,text:'（從下午讀到天黑。你去買晚餐回來，她已經把斜對面的位子占好，放了一杯熱茶。）'},{if:{custom:CG20},cg:'cg_saved_seat_heroine03'},{if:{custom:CG20},set:{YT_CG20:true}}];
   const SIS_KNOWS={custom:G=>{ const r=R(); return !!r&&!!r.knowsOther&&r.knowsOther(G,'heroine_05'); }};   /* 學姊知道祐廷正在和別人交往（MREL.knownOthers，沒有 OPEN_OK）：大峽谷告白先演知情對話（AA_474 3b）*/
   const CANYON_KNEW={custom:G=>{ const v=(G.flags||{}).SIS_CANYON; return v==='knows'||v==='confess'; }};   /* 知情對話演過了（R2Y4B.canyonKnow 記 SIS_CANYON）*/
   const knows=(id,G)=>typeof STORY!=='undefined'&&!!STORY.knows&&STORY.knows(id,G);
@@ -553,6 +557,7 @@ const R2Y4B_EVENTS=(function(){
   { id:'ev_bar_group_night', title:'律師讀書小組', participants:[], location:['noodle','library','library_hall'], trigger:'auto', background:'blur',   /* 週六只有語彤的那幾天在總圖 */
     prereq:{custom:G=>{ const r=R(); return !!r&&r.groupNightDue(G); }},
     dialogue:[ {if:{custom:G=>R().groupLine(G)==='yt_first'},goto:'first'},
+      ...CG20_LINES,   /* 第一次在總圖、不是第一次讀（AA-B 11-01 CG-20 (a)）*/
       {if:{custom:G=>R().groupLine(G)==='k1'},speaker:'kexin',expression:'serious',text:'刑總那題，你先講結論，再講理由。講完我再問。'},
       {if:{custom:G=>R().groupLine(G)==='k2'},speaker:'kexin',expression:'teasing',text:'這題你上禮拜錯過。……我記得。再一次。'},
       {if:{custom:G=>R().groupLine(G)==='k3'},speaker:'kexin',expression:'teasing',text:'你講得太快了。慢一點，講給一個不懂法律的人聽。……就是我那個室友。'},
@@ -567,6 +572,7 @@ const R2Y4B_EVENTS=(function(){
       {label:'first'},
       {unless:{custom:G=>{ const r=R(), x=r&&r.session(G,G.day); return !!x&&x.mode==='library'; }},speaker:null,text:'（十點，麵店拉下一半的鐵門。語彤把兩碗麵推到長桌另一頭，她自己那一份不在桌上。）'},
       {if:{custom:G=>{ const r=R(), x=r&&r.session(G,G.day); return !!x&&x.mode==='library'; }},speaker:null,text:'（星期六下午，總圖的長桌。語彤把自己的書收進包包，桌上只剩你的。）'},   /* AA_350 N1 白天版 */
+      ...CG20_LINES,   /* AA-B 11-01 CG-20 (a)：白天那句照留，後面加旁白再放 CG */
       {speaker:'heroine_03',text:'我今年不考。……可是我可以考你。'},
       {speaker:'heroine_03',text:'買賣不破租賃那一條。你講給我聽，講到我聽得懂。'} ],
     after:G=>{ const r=R(); if(r) r.groupNightDone(G,'noodle'); } },

@@ -1817,9 +1817,10 @@ const STORY_EVENTS=[
      沒去（收到邀請或是吉他社的人）：隔天手機「你沒來」（沒有標點）。記 ZQ_SHOW（clap／came／half／absent；大二 Q9 讀它）。BCG-11（舞台上她按錯和弦後對著麥克風笑）還沒有圖 */
   { id:'ev_ziqing_show', title:'你負責拍手', participants:['heroine_04'], location:'wancai', trigger:'activity', term:['Y1S2'], once:true, background:'blur',
     prereq:{memory:[{npc:'heroine_04',tag:'FIRST_MET'}]},
-    dialogue:[ /* AA_13 G3 期末成發的觀眾席（AA13-G3-SHOWCASE-1031；子晴的台詞照 BB_96，這裡只加其他人）：阿凱、Alison（吉他社，她第三首）。芷若「我是被她押來的。」要子晴和芷若的友情線，遊戲沒有那條線的紀錄，先不出（問 AA）*/
+    dialogue:[ /* AA_13 G3 期末成發的觀眾席（AA13-G3-SHOWCASE-1031；子晴的台詞照 BB_96，這裡只加其他人）：阿凱、Alison（吉他社，她第三首）。芷若（坐後排）「我是被她押來的。」：AA-B 11-01 定條件＝祐廷和芷若有點熟以上 */
       {if:{memory:[{npc:'kai',tag:'FIRST_MET'}]},speaker:null,text:'（阿凱坐第一排，手上拿著手機錄影。）'},{if:{memory:[{npc:'kai',tag:'FIRST_MET'}]},speaker:'kai',text:'我是來錄證據的。她說彈錯要請宵夜。'},
       {if:{memory:[{npc:'yu',tag:'FIRST_MET'}]},speaker:'yu',text:'我等一下第三首。我好緊張，我要吐了。'},
+      {if:{custom:G=>typeof SOCIAL!=='undefined'&&['FAMILIAR','FRIEND','CLOSE_FRIEND'].includes(SOCIAL.friendLevel('heroine_02'))},speaker:null,text:'（芷若坐在後排。）'},{if:{custom:G=>typeof SOCIAL!=='undefined'&&['FAMILIAR','FRIEND','CLOSE_FRIEND'].includes(SOCIAL.friendLevel('heroine_02'))},speaker:'heroine_02',text:'我是被她押來的。'},   /* AA-B 11-01：子晴和芷若是摯友（同寢），條件改成祐廷和芷若有點熟以上 */
       {speaker:null,text:'（後台。）'},
       {speaker:'heroine_04',expression:'serious',text:'欸不是，我手在抖。'},
       {speaker:'heroine_04',expression:'neutral',text:'我寫程式從來不抖。'},
