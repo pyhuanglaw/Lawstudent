@@ -1,21 +1,22 @@
 {
- "objects": 10,
- "unique_meshes": 10,
- "tris": 8448,
- "tris_drawn": 8448,
- "materials": 11,
+ "objects": 11,
+ "unique_meshes": 11,
+ "tris": 8604,
+ "tris_drawn": 8604,
+ "materials": 12,
  "out": "assets/models/env/second_ai/campus_lake.glb",
- "bytes": 875696,
+ "bytes": 884952,
  "texres": 512,
  "tris_by_object": {
   "lake_rim_stone": 622,
   "lake_rocks_rock": 3200,
   "lake_pavilion_granite": 376,
-  "lake_pavilion_red": 744,
+  "lake_pavilion_red": 860,
   "lake_pavilion_teal": 24,
-  "lake_pavilion_gold": 168,
+  "lake_pavilion_gold": 180,
   "lake_pavilion_tile": 1392,
   "lake_pavilion_soffit": 672,
+  "lake_lantern_paper": 28,
   "lake_boardwalk_plank": 774,
   "lake_boardwalk_pile": 476
  },
@@ -35,7 +36,12 @@
   "deck_y": 0.05,
   "col_r": 2.3,
   "eave_r": 3.45,
-  "apex_y": 4.7299999999999995
+  "apex_y": 4.7299999999999995,
+  "lantern": [
+   -3.0,
+   2.8200000000000003,
+   0.6
+  ]
  },
  "boardwalk": {
   "x": [

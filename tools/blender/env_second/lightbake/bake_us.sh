@@ -11,7 +11,7 @@ SAMPLES=${2:-256}
 OUTDIR=${3:-assets/models/env/second_ai}
 RES=${4:-1024}
 TMP=$(mktemp -d)
-PT=""; LIGHTS=""; DROPDE=""; SARGS=()
+PT=""; LIGHTS=""; DROPDE=""; SARGS=(); DF=""
 case "$ZONE" in
 apartment)
   # 公寓在二樓（窗外的停車場在 y −3）：窗、陽台玻璃門都在北牆（z −3，北邊沒有太陽直射）；大門在南牆（z 3），外面是有屋頂的走廊平台。
@@ -30,6 +30,8 @@ apartment)
   #   第六版：窗外景春天那一組留著擋低角度的天空（見下面 --hide），天光 0.8／燈 0.4（床尾照舊 3 成到 2.0：進來的是窗戶上半 25～36° 的天空，對面的樓擋不到）→
   #   第七版：白天那張超過 0.9 的亮度平滑壓到最多 1.4（bake_room.py --knee；0.9 以下不變）
   #   第八版（11-01，LAWWW-B 派「公寓門外平台、陽台白天偏白」）：屋外的地板、屋簷、外牆（usa_concrete、usa_roof、breezeway_wall_w、WALL_*_siding、陽台桌）白天那一張乘 0.7、超過 0.5 的壓到最多 0.7（bake_room.py --dayscale）；平台 0.85、陽台 1.36 → 約 0.6、0.7。屋裡、晚上不動
+  #   第九版（11-01，LAWWW-B 派「鄰居的門白天偏亮」）：平台上鄰居 213 的門（door213，白色六片門板；和屋裡的門同一個材質 usa_door、但是自己一個物件）白天那一張乘 0.65：
+  #     旁邊的外牆壓暗了，白門照舊 0.47～0.6，看起來是一片偏藍的亮白
   # --hide：玻璃、雪景那一組窗外景（usa_view_on、usa_lot_on）、燈的光暈（GLOW、US_glow）。
   # 窗外景春天那一組（usa_view_off：窗外 9 m 對面的公寓、樹林；usa_lot_off：樓下的停車場）烘焙時留著（--nolm，不烘）：
   #   對面的公寓擋住低角度的天空、停車場把天光反上來（第二～五版藏起來：窗外整片是最亮的地平線天空，北窗正前方的床尾白天一大塊 2.0，天光從 1.5 降到 0.45 都還在）；
@@ -44,7 +46,7 @@ apartment)
   for xz in "-1.6 -1.0 2.16 ${FANW:-35} 0.4" "3.2 -1.0 2.43 ${BEDW:-30} 0.3" "-3.2 2.0 2.56 ${KITW:-22} 0.3" "-1.0 2.0 2.56 ${HALW:-12} 0.25" "1.6 2.0 2.46 ${CLOW:-8} 0.25" "3.9 1.6 2.56 ${BATHW:-15} 0.25"; do
     set -- $xz; LIGHTS="$LIGHTS;$(python3 -c "print(f'{$1-0.01:.3f},{$1+0.01:.3f},{$2-0.01:.3f},{$2+0.01:.3f},$3,1,1,$4,$5,$5,$WARM')")"; done
   PT="-1.6,2.05,-1.0,${FANUP:-6},$WARM,0.3;3.2,2.3,-1.0,${BEDUP:-4},$WARM,0.25;0.0,2.3,4.0,${LANDW:-10},$WARM,0.15;4.57,1.06,-0.78,${DESKW:-5},$WARM,0.05;-4.29,0.98,-2.6,${ENDW:-5},$WARM,0.05"
-  EXTRA=(--emit usa_sconce=0 --dayemit "usa_view_spring=${VIEWW:-1.0}" --sun 180,35,${SUNW:-0} --sky "${SKY:-0.8}" --daywb ${DAYWB:-0.98,0.98,1.0} --daylights "${DAYL:-0.4}" --knee "${KNEE:-0.9,1.4}" --dayscale "${OUTSCALE:-usa_concrete|usa_roof|breezeway_wall|_siding|US_BALCONY_TABLE=0.7,0.5,0.7}" --shell N,S --keep-instances) ;;
+  EXTRA=(--emit usa_sconce=0 --dayemit "usa_view_spring=${VIEWW:-1.0}" --sun 180,35,${SUNW:-0} --sky "${SKY:-0.8}" --daywb ${DAYWB:-0.98,0.98,1.0} --daylights "${DAYL:-0.4}" --knee "${KNEE:-0.9,1.4}" --dayscale "${OUTSCALE:-usa_concrete|usa_roof|breezeway_wall|_siding|US_BALCONY_TABLE=0.7,0.5,0.7;door213=${NBDOOR:-0.65}}" --shell N,S --keep-instances) ;;
 shared)
   # 學姊她們的 C 棟三人合租戶（208；us_shared 區域，us_shared.glb）：和單人戶同一支 us_apartment.py（--layout src/data/us_shared_layout.js），格局見那份配置的開頭。
   #   窗、陽台玻璃門在北牆，大門在南牆、外面是有屋頂的走廊平台——天光、外殼、窗外景、--nolm／--hide 都照單人戶（上面 apartment 那一段的說明）。
@@ -54,6 +56,9 @@ shared)
   # 臥室 A、B 的床、書桌椅兩間一樣、匯出是 GPU instancing（US_BED、US_DESKCHAIR）：不烘（--nolm；同一份 UV 兩個位置的光不一樣，和陽台椅、吧檯椅一樣）。
   # EVENT_US2（9/13 的劇情道具，平常藏著）烘焙時當作不存在（--hide）：影子不烘進地板；劇情時才出現，用即時光。
   # 屋外（陽台、平台的地板、屋簷、外牆）白天壓暗，和單人戶第八版一樣（--dayscale）。
+  # 第三版（11-01，LAWWW-B 派美國收尾第二輪）：
+  #   鄰居 207 的門（door213 物件，和單人戶同一個）白天乘 0.65，和單人戶第九版一樣。
+  #   客廳東邊（臥室 A、B 門前）白天只有 0.17～0.25（窗都在北牆西半邊）：天花板下一片只在白天的朝下補光（bake_room.py --dayfill），x 0.3～1.3、z −2.8～0.8、12 W。
   NAME=us_shared; SCRIPT="tools/blender/env_second/us_apartment.py"; SARGS=(--layout src/data/us_shared_layout.js --const US_SHARED_LAYOUT --root us_shared); DROPDE=--drop-dayemit
   HIDE='glass|usa_view_on|usa_lot_on|usa_view_snow|GLOW|US_glow|EVENT_US2'
   NOLM='usa_view|usa_lot|US_BALCONY_CHAIR|US_BARSTOOL|US_BED|US_DESKCHAIR|usa_blinds|usa_black|usa_chrome|usa_sconce|PLATE_FACE|US_KITCHEN_LIFE|US_TOWELBAR|US_LADDER|usa_closet_clothes|usa_closet_shelf|usa_rail'
@@ -61,7 +66,8 @@ shared)
   for xz in "-1.6 -1.0 2.16 ${FANW:-35} 0.4" "-3.2 2.0 2.43 ${KITW:-22} 0.3" "3.2 -2.0 2.43 ${BEDW:-18} 0.3" "-1.0 2.0 2.56 ${HALW:-12} 0.25"; do
     set -- $xz; LIGHTS="$LIGHTS;$(python3 -c "print(f'{$1-0.01:.3f},{$1+0.01:.3f},{$2-0.01:.3f},{$2+0.01:.3f},$3,1,1,$4,$5,$5,$WARM')")"; done
   PT="-1.6,2.05,-1.0,${FANUP:-6},$WARM,0.3;-0.2,2.0,3.35,${LANDW:-10},$WARM,0.15"
-  EXTRA=(--emit usa_sconce=0 --dayemit "usa_view_spring=${VIEWW:-1.0}" --sun 180,35,${SUNW:-0} --sky "${SKY:-0.8}" --daywb ${DAYWB:-0.98,0.98,1.0} --daylights "${DAYL:-0.4}" --knee "${KNEE:-0.9,1.4}" --dayscale "${OUTSCALE:-usa_concrete|usa_roof|breezeway_wall|_siding|US_BALCONY_TABLE=0.7,0.5,0.7}" --shell N,S --keep-instances) ;;
+  DF="0.3,1.3,-2.8,0.8,2.6,1,1,${EASTW:-12},1.0,3.4"   # 試烘 12 W（x 0～1.3、1.2×3.6）：東邊地板 0.17～0.25 → 0.29～0.43，客廳中間也亮了 0.17 → 往東移、窄一點
+  EXTRA=(--emit usa_sconce=0 --dayemit "usa_view_spring=${VIEWW:-1.0}" --sun 180,35,${SUNW:-0} --sky "${SKY:-0.8}" --daywb ${DAYWB:-0.98,0.98,1.0} --daylights "${DAYL:-0.4}" --knee "${KNEE:-0.9,1.4}" --dayscale "${OUTSCALE:-usa_concrete|usa_roof|breezeway_wall|_siding|US_BALCONY_TABLE=0.7,0.5,0.7;door213=${NBDOOR:-0.65}}" --shell N,S --keep-instances) ;;
 lawlib)
   # 法學院圖書館（us_lawlib 區域，us_lawlib.glb；us_lawlib.py，配置 assets/models/env/second_ai/us_lawlib.layout.json）：四層樓的中庭（一樓走得到，樓上看得到），屋頂中間一片天窗。
   #   遊戲：us3d.js 的 us_lawlib 區域走 Z3.attachRoomGLB；嵌燈、樓梯小燈的發光面整天都亮（圖書館白天也開燈），天窗、彩色玻璃照時段變暗（skyTint）。
@@ -128,7 +134,7 @@ REF="$TMP/plain.glb"; [ -f "assets/models/env/second_ai/$NAME.glb" ] && cp "asse
 python3 -c "import json,sys; d=json.load(open(sys.argv[1])); d['out']='assets/models/env/second_ai/$NAME.glb'; json.dump(d,open(sys.argv[2],'w'),ensure_ascii=False,indent=1)" "$TMP/plain.json" "$OUTDIR/$NAME.json"
 /opt/blenv/bin/python tools/blender/env_second/lightbake/bake_room.py -- --in "$TMP/plain.glb" --out "$OUTDIR/$NAME.glb" \
   --lm "$TMP/lm" --url assets/models/env/second_ai/${NAME}_lm --res "$RES" --samples "$SAMPLES" --hide "$HIDE" --nolm "$NOLM" \
-  --lights "$LIGHTS" --points "$PT" "${EXTRA[@]}" --smooth ${SMOOTH:-1}
+  --lights "$LIGHTS" --points "$PT" ${DF:+--dayfill "$DF"} "${EXTRA[@]}" --smooth ${SMOOTH:-1}
 python3 tools/blender/env_second/lightbake/to_webp.py "$TMP/lm" "$OUTDIR/${NAME}_lm" 90
 /opt/blenv/bin/python tools/blender/env_second/lightbake/lm_fix_hidden.py -- --in "$OUTDIR/$NAME.glb" --out "$OUTDIR/$NAME.glb" --lm "$OUTDIR/${NAME}_lm"
 python3 tools/blender/env_second/lightbake/glb_restore_sides.py "$OUTDIR/$NAME.glb" "$REF" $DROPDE   # 材質單面／雙面照部署中的那一份還原（見 bake_gym.sh）

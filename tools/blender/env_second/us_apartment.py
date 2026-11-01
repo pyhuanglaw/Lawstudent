@@ -751,7 +751,8 @@ for wid, ms in walls.items():
     if w.get('fadeInside'): props['inside'] = 1   # 南牆（樓梯平台那一面）：遊戲只在玩家在屋裡、鏡頭在平台那一側時淡出（us3d.js）
     for key, m in ms.items():
         nm = (f'WALL_{wid}_{key}' if w.get('fade') else f'{wid}_{key}'); m.name = nm; m.finish(root, uv=not key.startswith(('life_art', 'life_pol', 'deco_')), props=props, smooth=key.startswith('deco_coat'))   # 牆上的畫、照片自己有 UV（uv=True 會照世界座標重算，貼圖變成一格一格重複）
-L.merge_by_material(root, keep=lambda ob: 'FACE' in ob.name or 'SEASON' in ob.name or 'EVENT_' in ob.name or (ob.parent is not None and 'EVENT_' in ob.parent.name) or (ob.parent is not None and ('SEASON' in ob.parent.name or ob.parent.name == 'furniture')) or ob.name.startswith('WALL_') or (ob.parent is not None and ob.parent.parent is not None and ob.parent.parent.name == 'furniture'),
+# 平台上鄰居的門（door213）不合進 usa_door（11-01，LAWWW-B 派「鄰居 207 的門白天偏亮」）：自己一個物件，烘焙的 --dayscale 才能只壓它（屋外、白色、屋簷下照到天光；屋裡的門不動）。多一個 draw call
+L.merge_by_material(root, keep=lambda ob: ob.name == 'door213' or 'FACE' in ob.name or 'SEASON' in ob.name or 'EVENT_' in ob.name or (ob.parent is not None and 'EVENT_' in ob.parent.name) or (ob.parent is not None and ('SEASON' in ob.parent.name or ob.parent.name == 'furniture')) or ob.name.startswith('WALL_') or (ob.parent is not None and ob.parent.parent is not None and ob.parent.parent.name == 'furniture'),
                     key=lambda ob: '')
 # PERF-SINGLESIDE-GLB-1025（LAWWW2-B 2026-10-25）：材質改單面（lib2.single_side）——遊戲把 WALL_* 設成 transparent 才能淡出，雙面又半透明要畫兩次。同一頁上限：公寓 2.0→3.05、C 棟 208 1.85→2.9。
 _ss = L.single_side(root, keep=r'glass', skip=lambda ob: 'FACE' in ob.name)   # 門牌（PLATE_FACE_*）遊戲照名字接手，不動網格

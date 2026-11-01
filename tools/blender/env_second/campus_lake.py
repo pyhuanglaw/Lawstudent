@@ -51,6 +51,7 @@ M = {
     'teal': L.flat('lk_teal_paint', '#2f6a64', rough=0.5),
     'gold': L.flat('lk_gold', '#b08a3a', rough=0.35, metal=0.45),
     'cream': L.flat('lk_cream', '#e9e4d6', rough=0.6),
+    'paper': L.flat('lk_lantern_paper', '#f0d6a2', rough=0.8),   # 宮燈的燈紙（遊戲晚上讓它發光：zones3d.js attachLakeGLB 照路燈開關）
 }
 PMS = {}
 def pm(part, key):
@@ -220,6 +221,20 @@ lathe(gold, [(0.16, YA - 0.02, 0.2, YA + 0.06, lambda u, v: (u, v), 'out'), (0.2
              (0.07, YA + 0.16, 0.13, YA + 0.27, lambda u, v: (u, v), 'out'), (0.13, YA + 0.27, 0.06, YA + 0.4, lambda u, v: (u, v), 'out'),
              (0.06, YA + 0.4, 0.09, YA + 0.48, lambda u, v: (u, v), 'out'), (0.09, YA + 0.48, 0.0, YA + 0.62, lambda u, v: (u, v), 'out')], 12, M=T(PX, 0, PZ))
 
+# 宮燈（ART-ECON-3D-GAP-1021 D，LAWWW2-B 11-01：E12「湖對面的燈一盞一盞亮起來」11/6 17:45 已經天黑，湖心亭原本沒有燈）：
+#   亭子正中間從天花（寶頂下 y 4.67）吊下來的六角宮燈：金色吊桿、紅漆上下蓋、米黃燈紙（lake_lantern_paper，遊戲晚上發光）、紅色流蘇。燈底 2.55 m（柱子 2.78 m）
+LANT_Y0, LANT_Y1 = 2.62, 3.02
+lathe(gold, [(0.014, LANT_Y1 + 0.08, 0.014, YA - 0.08, lambda u, v: (u, v), 'out')], 6, M=T(PX, 0, PZ))
+lathe(red, [(0.25, LANT_Y1, 0.17, LANT_Y1 + 0.06, lambda u, v: (u, v), 'out'), (0.17, LANT_Y1 + 0.06, 0.06, LANT_Y1 + 0.09, lambda u, v: (u, v), 'out'),
+            (0.255, LANT_Y0 - 0.06, 0.255, LANT_Y0, lambda u, v: (u, v), 'out'), (0.255, LANT_Y1, 0.255, LANT_Y1 + 0.005, lambda u, v: (u, v), 'out')], 6, a0=math.pi / 6,
+      caps=[(0.255, LANT_Y0 - 0.06, lambda a, b: (a, b), 'down')], M=T(PX, 0, PZ))
+lathe(pm('lantern', 'paper'), [(0.235, LANT_Y0, 0.265, (LANT_Y0 + LANT_Y1) / 2, lambda u, v: (u * 6, v), 'out'), (0.265, (LANT_Y0 + LANT_Y1) / 2, 0.235, LANT_Y1, lambda u, v: (u * 6, v), 'out')], 6, a0=math.pi / 6,
+      caps=[(0.235, LANT_Y1, lambda a, b: (a, b), 'up')], M=T(PX, 0, PZ))
+for k in range(6):                                                                                   # 六條直的紅框
+    a = math.pi / 6 + k * math.pi / 3; ca, sa = math.cos(a), math.sin(a)
+    bar(red, (PX + 0.262 * ca, LANT_Y0, PZ + 0.262 * sa), (PX + 0.262 * ca, LANT_Y1, PZ + 0.262 * sa), 0.03, 0.03, lambda p: (p[0], p[1]))
+lathe(red, [(0.03, LANT_Y0 - 0.36, 0.012, LANT_Y0 - 0.06, lambda u, v: (u, v), 'out')], 6, caps=[(0.03, LANT_Y0 - 0.36, lambda a, b: (a, b), 'down')], M=T(PX, 0, PZ))   # 流蘇
+
 # ================= 木棧道 =================
 plank, pile = pm('boardwalk', 'plank'), pm('boardwalk', 'pile')
 HW = DECK_HW
@@ -253,7 +268,7 @@ for (part, key), p_ in PMS.items():
     ob = to_blender(p_, f'lake_{part}_{key}', M[key], root, B, g2b, bpy); objs[ob.name] = p_.tris()
 st = L.export(OUT, gpu_instances=False)
 info = dict(st, tris_by_object=objs, origin='湖中心（遊戲 lake() 的 cx, cz）；x 東、z 南', outline={'A': A_, 'B': B_, 'N': N, 'rad': '1+0.10 sin(3t+0.6)+0.05 cos(5t+1.3)'},
-            pavilion={'center': [PX, PZ], 'r': PR, 'deck_y': DECK_Y, 'col_r': COL_R, 'eave_r': RE, 'apex_y': YA},
+            pavilion={'center': [PX, PZ], 'r': PR, 'deck_y': DECK_Y, 'col_r': COL_R, 'eave_r': RE, 'apex_y': YA, 'lantern': [PX, (LANT_Y0 + LANT_Y1) / 2, PZ]},
             boardwalk={'x': [PX - HW, PX + HW], 'z': [BZ0, BZ1], 'deck_y': DECK_Y}, rocks=len(placed),
             hide_in_game='lake() 的程序化湖岸（rim）、湖心亭（deck、6 根柱、beam、roof、eave、fin）、木棧道（bw、兩條 rail、posts、piles）；水面、睡蓮、草叢、樹、長椅、路燈留著',
             nav_note='導航不變；木棧道走得到的寬度是 |x−PX|≤0.9（遊戲 onBoard），欄杆在 ±0.8：人走到邊上身體會穿過欄杆——建議接的時候把木棧道的可走寬度縮到 |x−PX|≤0.45')
