@@ -109,6 +109,7 @@
   - 社科院大樓一樓室內 `socsci_bldg1f.glb` 有 3 塊反的，但遊戲沒有用這個 GLB。
   - **體育館 B1 的三塊門牌（女更衣室、男更衣室、壁球室・桌球室）遊戲沒有畫字**：`gym_b1` 走 `attachRoomGLB`，它不畫 `PLATE_FACE_*`（只有 `gym3d.js` 樓梯口的兩塊告示自己畫）→ 遊戲裡是空白的牌子。**看程式碼判斷的，沒有拍遊戲畫面確認**。要修是遊戲端（照 `us3d.js` 的 paintPlate 畫 props 的 text）→ LAWWW-B 決定。
 - **新測試** `tests/plate_text_dir_unit.js`（patch `docs/art-rebuild/second_ai/patches/plate_text_dir_1101.patch`，對開發 `ef17f19d6`）：開發分支原樣 **FAIL 5**，改後 **ALL PASS**（40 塊）。
+- **全部 Node（三個新 GLB＋新測試放進測試樹）：798 支、0 失敗**。沒跑：手機實機、導航（只改 UV）。
 - 遊戲內同角度改前改後：下圖（左＝開發分支原樣，右＝改後；社科院那一塊看不到，沒有放）。
 
 ![名牌改前改後](plates_before_after.webp)
