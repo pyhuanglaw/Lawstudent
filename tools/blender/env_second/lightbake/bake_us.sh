@@ -51,11 +51,12 @@ shared)
   # 燈（照配置的燈具：furniture 的 ceilingFan、ceilingLight、breezewaySconce；us3d.js 合租戶的點光源和單人戶同一組位置）：
   #   客廳吊扇燈 (−1.6,−1.0)；廚房吸頂燈 (−3.2,2.0)；臥室 A 吸頂燈 (3.2,−2.0)（門關著，玩家不進去：小一點）；走道 (−1.0,2.0) 沒有燈具、天花板下一顆小面光源；
   #   門外平台的壁燈 (−0.2,3.05,y 2)：旁邊一顆點光源。臥室 B、衛浴、衣物間（B 的套房，門關著）不放燈。
+  # 臥室 A、B 的床、書桌椅兩間一樣、匯出是 GPU instancing（US_BED、US_DESKCHAIR）：不烘（--nolm；同一份 UV 兩個位置的光不一樣，和陽台椅、吧檯椅一樣）。
   # EVENT_US2（9/13 的劇情道具，平常藏著）烘焙時當作不存在（--hide）：影子不烘進地板；劇情時才出現，用即時光。
   # 屋外（陽台、平台的地板、屋簷、外牆）白天壓暗，和單人戶第八版一樣（--dayscale）。
   NAME=us_shared; SCRIPT="tools/blender/env_second/us_apartment.py"; SARGS=(--layout src/data/us_shared_layout.js --const US_SHARED_LAYOUT --root us_shared); DROPDE=--drop-dayemit
   HIDE='glass|usa_view_on|usa_lot_on|usa_view_snow|GLOW|US_glow|EVENT_US2'
-  NOLM='usa_view|usa_lot|US_BALCONY_CHAIR|US_BARSTOOL|usa_blinds|usa_black|usa_chrome|usa_sconce|PLATE_FACE|US_KITCHEN_LIFE|US_TOWELBAR|US_LADDER|usa_closet_clothes|usa_closet_shelf|usa_rail'
+  NOLM='usa_view|usa_lot|US_BALCONY_CHAIR|US_BARSTOOL|US_BED|US_DESKCHAIR|usa_blinds|usa_black|usa_chrome|usa_sconce|PLATE_FACE|US_KITCHEN_LIFE|US_TOWELBAR|US_LADDER|usa_closet_clothes|usa_closet_shelf|usa_rail'
   WARM=${LCOL:-1.0,0.87,0.7}
   for xz in "-1.6 -1.0 2.16 ${FANW:-35} 0.4" "-3.2 2.0 2.43 ${KITW:-22} 0.3" "3.2 -2.0 2.43 ${BEDW:-18} 0.3" "-1.0 2.0 2.56 ${HALW:-12} 0.25"; do
     set -- $xz; LIGHTS="$LIGHTS;$(python3 -c "print(f'{$1-0.01:.3f},{$1+0.01:.3f},{$2-0.01:.3f},{$2+0.01:.3f},$3,1,1,$4,$5,$5,$WARM')")"; done
