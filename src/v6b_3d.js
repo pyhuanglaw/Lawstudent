@@ -123,9 +123,9 @@ const V6B=(function(){
   S.flyBack=async function(GM){ const G=GM.G, end=S.ukEnd(); if(end==null) return; const C=typeof VAC!=='undefined'&&VAC.clock?VAC.clock(G):null;
     const t=C&&typeof VAC.clockEnd==='function'?VAC.clockEnd(G,end):end; if(t>now(G)){ if(typeof VAC!=='undefined'&&VAC.jump) await VAC.jump(GM,t,'英國'); else { const d=Math.floor(t/24+1e-9); G.day=d; G.hour=+(t-d*24).toFixed(4); } }
     if(C&&VAC.clockBack) VAC.clockBack(GM); G.flags.ZR_UK_TRIP='done'; };
-  S.visited=G=>{ const F=G.flags; F.ZR_UK_VISIT=true; F.ZR_UK_TRIP='done'; if(typeof SOCIAL!=='undefined'&&SOCIAL.remember&&!(SOCIAL.has&&SOCIAL.has(ZR,'UK_VISIT'))) SOCIAL.remember(ZR,'UK_VISIT',''); };
+  S.visited=G=>{ const F=G.flags; F.ZR_UK_VISIT=true; if(typeof SOCIAL!=='undefined'&&SOCIAL.remember&&!(SOCIAL.has&&SOCIAL.has(ZR,'UK_VISIT'))) SOCIAL.remember(ZR,'UK_VISIT',''); };
   /* 沒去：「不去了」、過了出發時間＝missed（稿沒有沒到的訊息）。到了以後才被算成沒去（途中讀檔、出發時間過了）＝當作去過（人已經出發了）*/
-  S.ukMissed=function(G,GM,q){ if(q&&q.arrived){ if(GM&&typeof VAC!=='undefined'&&VAC.clock&&VAC.clock(G)&&VAC.clockBack) VAC.clockBack(GM); S.visited(G); return; } G.flags.ZR_UK_TRIP='missed'; };
+  S.ukMissed=function(G,GM,q){ if(q&&q.arrived){ if(GM&&typeof VAC!=='undefined'&&VAC.clock&&VAC.clock(G)&&VAC.clockBack) VAC.clockBack(GM); S.visited(G); G.flags.ZR_UK_TRIP='done'; return; } G.flags.ZR_UK_TRIP='missed'; };
   const ZRL=t=>({speaker:ZR,text:t});
   S.UK_EVENT={ id:S.UK_EV, title:'英國的雨', participants:[ZR], location:'any', trigger:'outing', once:true, background:'dark', hours:0.5,
     beforeOuting:(G,GM,q)=>S.fly(GM,q),
@@ -141,7 +141,7 @@ const V6B=(function(){
       {advance:2},   /* 散場（稿：「散場後她說」，沒有旁白）*/
       ZRL(S.L.ukAfter),
       {call:G=>S.visited(G)},
-      {call:(G,GM)=>S.flyBack(GM)} ] };
+      {call:(G,GM)=>S.flyBack(GM)} ] };   /* ZR_UK_TRIP 回到臺北那一刻才改 done（回程那一天半還在途中：她的每週視訊照樣不打）*/
   /* 途中：她自己在英國的每週私訊、每週視訊不發（MSG.ukDaily → ZRUK.phone 那一串都包在裡面；zr_uk3d.js 包在 msg3d.js 外面，這裡再包一層）*/
   if(typeof MSG!=='undefined'&&typeof MSG.ukDaily==='function'&&!MSG._v6b){ const u0=MSG.ukDaily; MSG.ukDaily=function(G){ if(S.going(G)) return false; return u0.apply(this,arguments); }; MSG._v6b=true; }
   /* 那幾天人在國外（VAC.abroadOn：摘要日、打工、別人的邀約照它跳過）：答應了、還沒被算成沒去，1/16～1/21 */
