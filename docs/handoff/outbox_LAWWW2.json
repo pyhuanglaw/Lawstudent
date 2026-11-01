@@ -4940,6 +4940,29 @@
    "remaining": "C 棟合租戶只修壁板沒烘光照；門外平台、陽台白天偏白；工具（bake_room.py 留哪一面射線判斷、--knee；bake_us.sh）只在我的分支",
    "next": "LAWWW-B 11-01 01:15 ACK（DL-LW2-US-LM-1031）：整合在本機 feat-art-1031、美國相關 Node ALL PASS、bundle 已 push；發布後合進開發分支、交 BB 看畫面。壁板挖洞是遊戲裡看得到的 bug（窗外看到自己壁板背面、大門是牆），main 也有",
    "noDirectIntegrate": false
+  },
+  {
+   "branch": "claude/funny-albattani-iawshm",
+   "sha": "PENDING",
+   "receiver": "LAWWW",
+   "ack": "SENT",
+   "task": "ART-PHOTO-CMP-1021 共同教學館、大一女舍和參考資料的差異清單＋截圖；比對時找到的 PLATE-MIRROR-1101 側牆名牌倒字（已修）",
+   "files": [
+    "docs/art-rebuild/second_ai/test_shots/photo_cmp_1101/",
+    "assets/models/env/second_ai/campus_freshman.glb",
+    "assets/models/env/second_ai/campus_gongtong.glb",
+    "assets/models/env/second_ai/campus_socsci.glb",
+    "docs/art-rebuild/second_ai/patches/plate_text_dir_1101.patch",
+    "tools/blender/env_second/lib2.py",
+    "tools/blender/env_second/campus_freshman.py",
+    "tools/blender/env_second/campus_gongtong.py",
+    "tools/blender/env_second/campus_socsci.py",
+    "tools/blender/env_second/shots/photo_cmp_shots.py"
+   ],
+   "state": "差異清單：照片打不開（11-01 再試），先和研究檔文字事實比，📷 項目等照片；名牌：三個 GLB 只有 5 塊名牌 UV 變（逐 accessor 比對），不用改程式；patch 只有新測試（對開發 ef17f19d6 apply --check 過；開發原樣 FAIL 5、改後 ALL PASS）",
+   "remaining": "要照片才能比的（面磚顏色、窗型、山牆、天橋、正門方位）；共同三松／南側庭園、西側戶外樓梯等 LAWWW-B 決定；女舍路人台詞「對，有電梯」請轉 AA；體育館 B1 三塊門牌遊戲沒畫字（遊戲端）",
+   "next": "發布後整合名牌那三個 GLB；差異清單第五節要 LAWWW-B 決定的四項",
+   "noDirectIntegrate": false
   }
  ]
 }

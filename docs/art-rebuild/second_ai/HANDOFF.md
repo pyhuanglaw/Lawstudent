@@ -2,7 +2,16 @@
 
 ## ⏱ 現況（LAWWW2-B，2026-10-31 20:5x UTC；帳號 B 七天額度已到警示，隨時可能被切斷——接手的先讀這一段）
 
-- **11-01 00:4x（最新）**：
+- **11-01 01:5x（最新）**：
+  - LAWWW-B 01:15 ACK 美國室內光照（DL-LW2-US-LM-1031：整合在本機 feat-art-1031，發布後合）；outbox 已改 ACKNOWLEDGED（3ac2848c9）。
+  - **ART-PHOTO-CMP-1021 做完**（README `test_shots/photo_cmp_1101/`）：
+    - 照片還是打不開（commons.wikimedia.org 代理 403、ntu.edu.tw 網域查不到；11-01 再試）→ 第一版只和研究檔的文字事實比；要照片才判斷得了的標 📷，第四節列要請使用者給的照片。
+    - 最大差異：共同南面應該是有三松的庭園，遊戲貼著舟山路（要不要挪由 LAWWW-B 決定）；女舍床位 728 → 約 180 間寢室，遊戲的窗只對得到約 80 間（不建議改）；女舍路人台詞「對，有電梯」和「沒有電梯」衝突（請 LAWWW-B 轉 AA）。
+  - **PLATE-MIRROR-1101（比對時找到、已修）**：側牆名牌字轉 180°（女舍 A「傳達室」、A／B「男賓止步」、共同側門、社科院系名牌）。
+    - `lib2.uv_text()` 照幾何給 UV；三支腳本改用；重匯三個 GLB 和開發分支逐個 accessor 比對，只有 5 塊名牌 UV 不同（a846af231）。
+    - 新測試 `plate_text_dir_unit.js`（patch `patches/plate_text_dir_1101.patch`，對開發 ef17f19d6；開發原樣 FAIL 5、改後 ALL PASS）；遊戲內改前改後 `photo_cmp_1101/plates_before_after.webp`。
+    - 另外找到：體育館 B1 三塊門牌遊戲沒畫字（attachRoomGLB 不畫 PLATE_FACE），遊戲端的事，寫給 LAWWW-B。
+- **11-01 00:4x**：
   - **美國室內光照三間交件**（b75c4f317；outbox 新一筆；send_message 給 LAWWW-B）：
     - 公寓 v10（壁板挖洞、窗外景擋低角度天空、--knee 0.9,1.4；床單不過曝）、法學院圖書館 v7（牆留朝室內）、亞洲超市 v5（天花板朝下）；C 棟合租戶只修壁板。
     - README：`test_shots/us_apartment_lm_1031/`、`us_lawlib_lm_1031/`、`us_asian_market_lm_1031/`；patch `patches/us_interiors_lm_1031.patch`（對開發 ef17f19d6 apply --check 過）；全部 Node 797／0。
