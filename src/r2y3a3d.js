@@ -257,7 +257,8 @@ const R2Y3A=(function(){
   const Zh=P('zhe'), Zhr=R('zhe'), Me=t=>({from:'player',who:null,text:t});
   S.c4Phone=function(G){ const F=G.flags, d=DK('2027-11-19'); if(d==null||G.day<d||G.day>d+1||!met(G,'zhe','FAMILIAR')) return; const n=now(G);
     if(n>=T(d,21)&&!sent(G,'y3_c4')){ silentContact(G,'zhe');
-      /* 第一則回覆固定（大三的祐廷一定會說到這裡），接著選「向誰」，然後問「你真正想要的是什麼？」（AA_117；「四個問題」的筆記畫面還沒有：先用訊息的回覆）*/
+      /* 第一則回覆固定（大三的祐廷一定會說到這裡），接著選「向誰」，然後問「你真正想要的是什麼？」（AA_117）。「四個問題」的筆記畫面 2026-11-01 有了（手機＝ask.note，game3d.js noteHint；C2 r3_3d.js、C3 y2r2_3d.js 已接，AA117-CASE-NOTES-1031）——
+         C4 稿只有「下一步」「向誰」兩行（AA_117 C4、AA_326 2-Y3-16），誰、依據什麼、請求什麼自動填的字沒寫＝先不放，問 AA；給了就在下面 ask 加 note:[…] */
       const tail=[Me('你真正想要的是什麼？'),Zhr('……我想要我的車修好 然後不要再想這件事'),Me('那就照修車的估價談，談好寫清楚。'),Zhr('好 我先拍照')];
       const opt=(t,k)=>({t,post:false,say:[Me('先不要簽。拍照、報警做紀錄。'),Me(t)].concat(tail),mem:[{npc:'zhe',tag:'ZHE_SCOOTER',note:''}],set:{ZHE_C4:k}});
       const O=[opt('找對方談。後面怎麼賠，我們去法服問。','fafu')];   /* AA_462 第 2 節：原本開頭只有「對方。」接不上前一句；U_TORT 那一句不動 */ if(F.U_TORT) O.push(opt('如果是對方不小心造成的，修車費可以要他賠。他有保第三人責任險的話，保險公司會來談。','tort'));

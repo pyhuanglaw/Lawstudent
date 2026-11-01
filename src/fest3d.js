@@ -19,6 +19,7 @@
    - 好感（1-7，不受每天上限）、記憶 HOL_<節日>_<年>（人物頁「<年> 的情人節，和她一起過」這類，social3d.js）。
    - 子晴的跨年：交往中＝頂樓的團體跨年演完接著演（OUT.AFTER；CG）；第 6 階＝約她跨年那一句，那晚頂樓有去才算一起過。
    - 芷若 2029 白色情人節（她在英國）：3/14 中午以後明信片（STORY.TICKS）、21:00 私訊；語彤第 6 階的白色情人節：12:00 她先傳兩則。
+   - 芯慈（交往中，AA_537b 第 5 節；XINCI-EPI-FEST-1031）：生日、聖誕照上面玩家約；情人節只有她約（cell.herOnly、ask.only）；跨年、你的生日只有訊息（P.dm，S.dmRule）；線關著＝都沒有（P.on）。
    存檔：G.fest＝{bk:[{d,who,k,y,slot,mode,ref}], done:{'人物:節日:年':'meet'|'video'}, gifts:{人物:[禮物 id]}, miss:{}}（新欄位，舊存檔沒有＝空的）。
    測試：node tests/aa416_fest_unit.js */
 'use strict';
@@ -66,7 +67,8 @@ const FEST=(function(){
   /* 關係階段以外的限制（約不到＝邀約清單不列「約她過節」，BB 10-23：學姊 2025 聖誕列出來、選了才婉拒）：''＝沒有限制。
      關係階段還不到（第 6 階／第 5 階）照 1-3 的表：清單照列、選了她回 AA_415 的「節日」婉拒句（S.ask）*/
   S.barred=function(G,id,k,y){ if(!law(G)) return 'law'; const P=X.PEOPLE[id]; if(!P) return 'who'; const F=G.flags||{};
-    if(P.datingOnly&&(!dating(G,id)||F['EX_'+id])) return 'datingOnly';   /* 可昕：只有交往中 */
+    if(P.datingOnly&&(!dating(G,id)||F['EX_'+id])) return 'datingOnly';   /* 可昕、芯慈：只有交往中 */
+    if(P.on&&!P.on(G)) return 'off';   /* 芯慈：戀愛線關著（XCROM.ON false）＝都沒有 */
     if(id==='heroine_05'){ const e=D('2026-02-02'), d=S.dayOf(id,k,y); if(e!=null&&d!=null&&d<e) return 'preexam'; }   /* 學姊筆試以前不約節日 */
     if(k==='qixi'&&id!=='kexin'&&dating(G,'kexin')) return 'kexinQixi';   /* 和可昕交往中，七夕只有可昕的 */
     return ''; };
@@ -193,7 +195,7 @@ const FEST=(function(){
   /* ---------------- 1-4 ①玩家約：邀約選單的一項 ---------------- */
   /* 今天、明天是她的節日、有通用版的（{id,k,y,d,W}）*/
   S.askable=function(G,id){ if(!law(G)||!X.PEOPLE[id]) return []; const out=[];
-    for(const day of [G.day,G.day+1]) for(const f of S.festsOn(id,day)){ if(f.k==='nye'&&dating(G,id)) continue; if(S.barred(G,id,f.k,f.y)) continue; const W=S.applies(G,id,f.k,f.y,f.d); if(!W) continue;
+    for(const day of [G.day,G.day+1]) for(const f of S.festsOn(id,day)){ if(f.k==='nye'&&dating(G,id)) continue; if(S.barred(G,id,f.k,f.y)) continue; if((S.cell(id,f.k)||{}).herOnly) continue;   /* herOnly：只有她約（芯慈的情人節：稿寫她提前一天約）*/ const W=S.applies(G,id,f.k,f.y,f.d); if(!W) continue;
       if(day===G.day&&(G.hour%24)>=21.5&&f.k!=='nye') continue; out.push(Object.assign({W},f)); }
     return out; };
   S.flowOpt=function(G,id,n,together){ const L=S.askable(G,id);   /* 當面（together，story3d.js 的 offerInvite）、手機都有（1-4 ①「用現有的邀約（當面或手機）」）*/ if(!L.length) return null; const f=L[0];
@@ -251,7 +253,7 @@ const FEST=(function(){
     const L=(home&&A.homeLines)||A.lines||[]; return L.map((t,i)=>i===0&&k!=='vday'?String(t).replace('情人節',S.name(k)):t); };   /* 沒有 by 的：第一句照節日換（沛珊在臺北、以安的生日）*/
   S.herAsks=function(G){ const F=G.flags;
     for(const id of HER){ if(!dating(G,id)) continue; const A=(X.PEOPLE[id]||{}).ask; if(!A) continue;
-      for(const k of S.HER_K) for(const y of S.years(id,k)){ const d=S.dayOf(id,k,y); if(d==null||G.day<d-1||G.day>d) continue; const a=d-1, f={id,k,y,d};
+      for(const k of S.HER_K){ if(A.only&&!A.only.includes(k)) continue;   /* only：她只先約這幾個節日（芯慈只有情人節，AA_537b 第 5 節）*/ for(const y of S.years(id,k)){ const d=S.dayOf(id,k,y); if(d==null||G.day<d-1||G.day>d) continue; const a=d-1, f={id,k,y,d};
         const tag='fest_ask_'+id+'_'+k+'_'+y, fk='FEST_ASK_'+id+'_'+k+'_'+y;
         if(!sent(G,tag)&&F[fk]==null&&now(G)>=T(a,21)&&now(G)<T(d,A.h)&&S.eligible(G,id,k,y)){ const W=S.applies(G,id,k,y,d);
           const home=!!W&&W.mode==='home'&&!!A.homeLines&&!!S.cellLines(S.cell(id,k),'dt'), here=!!W&&W.mode==='taipei'&&!W.fixed;
@@ -262,7 +264,7 @@ const FEST=(function(){
         if((F[fk]==='yes'||F[fk]==='home')&&now(G)<T(d,A.h+0.25)&&!(typeof OUT!=='undefined'&&OUT.get(G,outId(f)))){ const c=S.cell(id,k)||{}, W=S.where(G,id,k,y,d)||{};
           if(F[fk]==='home') S.planDrive(G,f,{city:W.city||((X.PEOPLE[id].home||{}).city)});
           else if(c.drive) S.planDrive(G,f,{city:'陽明山',loc:c.drive,eve:true,h:A.h,bg:'d15_base_night'});
-          else S.plan2D(G,f,{h:A.h,place:A.place,bg:A.bg}); } } } };
+          else S.plan2D(G,f,{h:A.h,place:A.place,bg:A.bg}); } } } } };
   /* 她不在臺北、那一格有視訊（電話）：那天她打來（臺灣 21:00）*/
   S.autoCalls=function(G){ for(const id of HER){ if(!dating(G,id)) continue;
       for(const k of S.HER_K) for(const y of S.years(id,k)){ const d=S.dayOf(id,k,y); if(d==null||G.day!==d) continue; const f={id,k,y,d}, c=S.cell(id,k);
@@ -292,7 +294,16 @@ const FEST=(function(){
         if(!S.eligible(G,id,'bday',y)||S.dedicated(G,id,'bday',y)||!S.vidOk(G,id,c,y)||S.bookedWith(G,id,d)||!contact(G,id,d)||S.rec(G).done[id+':bday:'+y]) continue;
         const W=S.applies(G,id,'bday',y,d); if(!W||W.mode!=='abroad') continue; const h=S.videoH(G,id,d); if(now(G)>=T(d,h+0.25)) continue;
         S.planVideo(G,f,false); } } };
-  S.phone=function(G){ if(!G||!G.flags||!law(G)||typeof PHONE==='undefined') return; S.rec(G); for(const f of [S.herAsks,S.autoCalls,S.ytNoon,S.zrDm,S.bdayAbroad]){ try{ f(G); }catch(e){ console.warn('FEST phone',e); } } };
+  /* 只有訊息的節日（P.dm；芯慈交往中，AA_537b 第 5 節）：跨年 12/31 23:58、00:01 兩則；你的生日 00:00 一則（X.PLAYER_BDAY 'MM-DD'；還沒定＝null＝不發）。
+     時間是臺灣時間（她在臺灣準時傳）；祐廷在國外換成手機上的時間（STORY.tzOffset，同 S.videoH）。到了那個時間才排（同 S.zrDm：睡過去的照原本的時間補進去），過了 36 小時還沒排到的不補；
+     那時候要是交往中、有她的聯絡方式（S.barred 照 datingOnly、線開關）。一年一則（tag fest_dm_<人物>_<種類>_<年>_<第幾則>）*/
+  S.DM_YEARS={nye:'nye',myBday:'bday'};
+  S.dmDay=function(k,y){ if(k==='nye') return D(y+'-12-31'); if(k==='myBday') return X.PLAYER_BDAY?D(y+'-'+X.PLAYER_BDAY):null; return null; };
+  S.dmRule=function(G){ for(const id of HER){ const M=(X.PEOPLE[id]||{}).dm; if(!M||!dating(G,id)) continue;
+      for(const k of Object.keys(M)) for(const y of (S.YEARS[S.DM_YEARS[k]]||[])){ const d=S.dmDay(k,y); if(d==null||S.barred(G,id,'dm_'+k,y)||!contact(G,id,d)) continue;
+        const me=typeof STORY!=='undefined'&&STORY.tzOffset?(+STORY.tzOffset(G,d)||0):0;
+        (M[k]||[]).forEach((it,i)=>{ const h=it.h+me, tag='fest_dm_'+id+'_'+k+'_'+y+'_'+i; if(now(G)<T(d,h)||now(G)>=T(d,h)+36||sent(G,tag)) return; PHONE.at(G,d,h,it.lines.map(dm(id)),tag); }); } } };
+  S.phone=function(G){ if(!G||!G.flags||!law(G)||typeof PHONE==='undefined') return; S.rec(G); for(const f of [S.herAsks,S.autoCalls,S.ytNoon,S.zrDm,S.bdayAbroad,S.dmRule]){ try{ f(G); }catch(e){ console.warn('FEST phone',e); } } };
 
   /* ---------------- 校外約會（date3d.js）約在她的節日：到了先演節日那一段 ---------------- */
   S.dateBefore=async function(GM,q){ const G=GM.G; if(!q||!q.dateTrip||typeof DATE==='undefined'||!DATE.trip) return false; const t=DATE.trip(G,q.dateTrip); if(!t) return false;
