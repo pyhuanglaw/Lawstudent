@@ -329,8 +329,9 @@ const FEST=(function(){
     if(!(G.events&&G.events.done&&G.events.done[g.ev])||(g.here&&!g.here(G))) return false;
     const L=S.cellLines(g,S.ver(G,b.who,b.k)); if(!L) return false;
     const own=typeof ADV!=='undefined'&&!ADV.active&&!!ADV.begin; if(own) ADV.begin({background:(ev&&ev.background)||'blur',right:{charId:b.who,expression:'neutral'}});   /* 群戲演完 ADV 已經收了：接著演要再開（底圖照群戲）*/
-    let r=false; try{ r=await S.play(GM,{id:b.who,k:b.k,y:b.y,mode:'meet',lines:L,no:g.no}); } finally { if(own&&ADV.active&&ADV.end) ADV.end(); }
-    if(r===true&&g.end!=null&&GM.advance){ const x=(q.day*24+g.end)-now(G)-((ev&&ev.hours)||2); if(x>0) GM.advance(x); }   /* 演完到 g.end：OUT.go 接著照群戲的 hours 往後，這裡先補差的（「今天不行。」照群戲散場）*/
+    let r=false; try{ r=await S.play(GM,{id:b.who,k:b.k,y:b.y,mode:'meet',lines:L,no:g.no});
+      if(r===true&&g.end!=null&&GM.advance){ const x=(q.day*24+g.end)-now(G)-((ev&&ev.hours)||2); if(x>0) GM.advance(x); } }   /* 演完到 g.end：OUT.go 接著照群戲的 hours 往後，這裡先補差的（畫面還蓋著的時候；「今天不行。」照群戲散場）*/
+    finally { if(own&&ADV.active&&ADV.end) ADV.end(); }
     return r; };
   /* 約了散場以後、群戲沒去（「不去了」、過了時間）：那一場沒有見到——記 miss（不扣分，同 S.missed）*/
   S.grpMiss=function(G){ if(typeof OUT==='undefined'||!OUT.get) return; const R=S.rec(G);

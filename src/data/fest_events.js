@@ -24,9 +24,9 @@ const FEST_DATA=(function(){
   const zrTc=G=>{ const p=typeof STORY!=='undefined'&&STORY.presence?STORY.presence(ZR,G):null; return !!p&&p.here===false&&p.kind==='home'&&/台中/.test(String(p.home||p.away||'')); };
   const ZR_TC={custom:zrTc}, ZR_TC_QIXI='我在家裡的廚房試做了一杯特調。很甜。……想給你喝。';   /* aa550：這一句的出處是 AA_550，不是 AA_416（tests/aa416_fest_unit.js 第 0 節照 AA_550 對）*/
   const tainan=G=>yr(G)>=2028;   /* 沛珊 2027-08 放榜以後在台南：白色情人節 2028、2029 在運河邊 */
-  /* 以安 2/14 那一年她送過東西（AA_414 1-1 太陽餅、1-2 御守、2029 補救那一場的紙袋）*/
   /* AA_204 1-4（企劃線 4618aed21，2026-10-17 AA-C）：大一聖誕群戲（ev_xmas_exchange，story3d.js 的 xmas_y1）她在場＝events.js 的 XMAS_HERE（玩家認識的人）*/
   const inXmas=id=>G=>typeof XMAS_HERE==='function'&&XMAS_HERE(G).includes(id);
+  /* 以安 2/14 那一年她送過東西（AA_414 1-1 太陽餅、1-2 御守、2029 補救那一場的紙袋）*/
   const anGave=G=>{ const y=yr(G); return (y===2026&&F(G,'AN_VDAY_Y1')==='went')||(y===2027&&F(G,'AN_VDAY_Y2')==='went')||(y===2029&&F(G,'AN_VDAY_Y4B')==='went'); };
   const NAMES={vday:'情人節',white:'白色情人節',qixi:'七夕',bday:'生日',xmas:'聖誕節',nye:'跨年'};
   const P_={
