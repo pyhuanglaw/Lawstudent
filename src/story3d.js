@@ -471,6 +471,12 @@ const STORY = (function(){
     // 朋友坐一起：若圖上的朋友已在這區坐著，挑離他最近的空位
     const friendSeat=(id)=>{ for(const e of SOCIAL_GRAPH){ if(e.a!==id&&e.b!==id) continue; const other=EVENTS.npcOf(e.a===id?e.b:e.a); if(other&&other.seat) return other.seat; } return null; };
     const seatNear=(fs)=>{ let best=null, bd=1e9; for(const st of (E.zone.seats||[])){ const k=st.x.toFixed(1)+','+st.z.toFixed(1); if(used.has(k)) continue; const d=Math.hypot(st.x-fs.x,st.z-fs.z); if(d<bd){ bd=d; best=st; } } return bd<3.5?best:null; };
+    /* 站的位置已經有人站著（BUG-04，使用者 10-15 第 25 項「學姊兩個臉」）：v9.7 週三晚上萬才館，舊的學姊（legacy，(-3,3.6)）和照作息 act:'club' 的第一個社員（CLUB_SPOTS[0] 也是 (-3,3.6)）生在同一點，兩個人疊成一個。
+       站著的人（社團、在日程寫的位置站一下）生之前看同一層 0.45 m 內有沒有站著、看得見的人；有就換位置（社團：下一個 CLUB_SPOT；linger：往旁邊挪 0.7、1.4 m，再不行往後 0.7 m）。坐著的人照 used（座位）不在這裡算；沒人的時候位置和原本一樣 */
+    const standBusy=(x,z,lv)=>E.npcs.some(m=>m&&m.obj&&!m.seat&&!m.hidden&&m.obj.visible!==false&&(m.lv|0)===(lv|0)&&Math.hypot(m.obj.position.x-x,m.obj.position.z-z)<0.45);
+    const standFree=(x,z,lv)=>!standBusy(x,z,lv)&&(!E.canStand||E.canStand(x,z,0.32,lv|0));
+    const lingerSpot=at=>{ const x=at[0], z=at[1], y=at[2]||0, lv=at[3]|0; if(!standBusy(x,z,lv)) return [x,z]; const q=[[0.7,0],[-0.7,0],[1.4,0],[-1.4,0],[0,0.7]].map(([a,b])=>[x+Math.cos(y)*a-Math.sin(y)*b,z-Math.sin(y)*a-Math.cos(y)*b]).find(([px,pz])=>standFree(px,pz,lv)); return q||[x,z]; };   /* a＝往她的右邊、b＝往後 */
+    const clubSpot=()=>{ for(let k=0;k<CLUB_SPOTS.length;k++){ const q=CLUB_SPOTS[clubI++%CLUB_SPOTS.length]; if(standFree(q[0],q[1],0)) return q; } return CLUB_SPOTS[(clubI++)%CLUB_SPOTS.length]; };   /* 六個都有人：照舊輪下一個 */
     const spawnAt=(id,ent)=>{ const act=ent.act; let n=null;
       if(ent.spot){ const sp=(E.zone.spots||{})[ent.spot]; if(sp){ const pz=act==='class'?'sit':'read'; n=GM.spawnCharacter(id,sp.x,sp.z,{seat:{x:sp.x,z:sp.z,yaw:sp.yaw||0,lv:sp.lv|0},pose:pz}); if(n) n.idlePose=pz; return n; } }   /* spot：區域配置裡寫好的固定位子（學姊在霖澤館 5F 研究室靠窗的桌子，AA_399 1-3；不在 seats 裡＝玩家不能坐）*/
       if(act==='read'||act==='class'||act==='eat'||(act==='sit'&&E.zone.seats&&!ent.seat)){ const fs=!ent.seat&&!ent.seatAt&&friendSeat(id); const st=(fs&&!ent.room&&seatNear(fs))||(ent.seatAt&&seatNear({x:ent.seatAt[0],z:ent.seatAt[1]}))||seatFree(ent.seat,ent.room); if(!st) return;   /* seatAt：離這一點最近的空位（閱覽室窗邊、文學院前的長椅；AA_498 第 3 節）*/ used.add(st.x.toFixed(1)+','+st.z.toFixed(1)); const pz=act==='class'?'sit':'read', door=refresh&&(E.indoor||E.zone.indoor)&&E.zone.spawn;
@@ -481,11 +487,11 @@ const STORY = (function(){
         else { n=GM.spawnCharacter(id,st.x,st.z,{seat:st,pose:pz}); if(n) n.idlePose=pz; } }
       else if(act==='sit'&&ent.seat==='bell'){ n=GM.spawnCharacter(id,-30,20.94,{seat:{x:-30,z:20.94,yaw:Math.PI},pose:'sit'}); }
       else if(act==='sit'&&zoneId==='wenzhou'){ const B=typeof WZ_PARK_LAYOUT!=='undefined'?WZ_PARK_LAYOUT.seats.filter(q=>q.label==='坐在小公園的長椅').map(q=>({x:q.x,z:q.z,yaw:q.yaw})):[{x:23.6,z:7.94,yaw:Math.PI},{x:28.4,z:7.94,yaw:Math.PI}];   /* 小公園入口段的兩張長椅（擴大版照配置檔）*/ const st=GM.npc.yu&&GM.npc.yu.seat&&GM.npc.yu.seat.x===B[0].x?B[1]:B[0]; n=GM.spawnCharacter(id,st.x,st.z,{seat:st,pose:'sit'}); }
-      else if(act==='linger'&&ent.at){ n=GM.spawnCharacter(id,ent.at[0],ent.at[1],{yaw:ent.at[2]||0,pose:'idle',lv:ent.at[3]|0}); if(n&&ent.noPair) n.noPair=true; }   /* 在日程寫的位置站一下（芷若經原下課後在 101 門口）；noPair：站在那裡、不被 pairUp 帶去和朋友站一起（系籃練球：阿哲在場邊、明軒在場上，BBALL-PRESENT-1030）*/
+      else if(act==='linger'&&ent.at){ const la=lingerSpot(ent.at); n=GM.spawnCharacter(id,la[0],la[1],{yaw:ent.at[2]||0,pose:'idle',lv:ent.at[3]|0}); if(n&&ent.noPair) n.noPair=true; }   /* 在日程寫的位置站一下（芷若經原下課後在 101 門口）；noPair：站在那裡、不被 pairUp 帶去和朋友站一起（系籃練球：阿哲在場邊、明軒在場上，BBALL-PRESENT-1030）*/
       else if(act==='barista'){ n=GM.spawnCharacter(id,-2.5,-5.15,{yaw:0,pose:'idle'}); if(n){ n.frozen=true; n.talkLabel=SOCIAL.has(id,'FIRST_MET')?'和'+n.name+'說話':'和店員說話'; n.staff='cafe'; } }   /* 按鈕：認識了＝她的名字（BB-B 10-31 n25_xinci_i：認識一年半的芷若在吧檯上班還寫「和店員說話」，原本要點過一次餐才換，和 talkCharacter 點完餐那一行同一套）；staff：比吧檯的點餐點優先（engine3d.js nearestInteractable）；沒有事件時和她說話就是點餐（talkCharacter）*/
       else if(act==='help'){ n=GM.spawnCharacter(id,2.6,-3.6,{yaw:-Math.PI/2,pose:'idle'}); if(n) n.frozen=true; }
       else if(act==='ta'){ n=GM.spawnCharacter(id,TA_SPOT[0],TA_SPOT[1],{yaw:0,pose:'idle'}); if(n) n.frozen=true; }
-      else if(act==='club'){ const sp=CLUB_SPOTS[clubI++%CLUB_SPOTS.length]; n=GM.spawnCharacter(id,sp[0],sp[1],{yaw:Math.atan2(-sp[0],-sp[1]),pose:'idle',pockets:true}); if(n) n.frozen=true; }
+      else if(act==='club'){ const sp=clubSpot(); n=GM.spawnCharacter(id,sp[0],sp[1],{yaw:Math.atan2(-sp[0],-sp[1]),pose:'idle',pockets:true}); if(n) n.frozen=true; }
       else if(act==='desk'){ /* legacy kai */ }
       else if(act==='follow'){ const P=E.player.obj; n=GM.spawnCharacter(id,P.position.x-Math.sin(P.rotation.y)*1.2+0.5,P.position.z-Math.cos(P.rotation.y)*1.2,{beh:'follow',lv:E.player.lv|0}); if(n) n.followOff=1.1; }   /* 和你一起走過去的人（邀約「現在一起過去」）*/
       else if(act==='wait'&&ent.invite){ const sp=E.zone.spawn||{x:0,z:0}; let x=sp.x+1.6, z=sp.z+1.2; if(E.canStand&&!E.canStand(x,z,0.32,0)){ x=sp.x; z=sp.z+1.6; } n=GM.spawnCharacter(id,x,z,{pose:'idle'}); if(n){ n.frozen=true; if(GM.face) GM.face(n,sp.x,sp.z); } }   /* 約在路上碰面（溫州街）：在入口附近等 */

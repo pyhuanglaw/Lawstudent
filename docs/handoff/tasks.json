@@ -405,8 +405,8 @@
    "title": "學姊兩個臉（週三晚上總圖外，第 25 項）",
    "area": "BUG",
    "owner": "LAWWW",
-   "status": "待開工",
-   "next": "【11-01 03:0x LAWWW-B 派 LAWWW2】LAWWW2 11-01 解析 vroid_heroine_05／bl_heroine_05 臉網格都只有一個＝不是模型重複，較像兩個實體重疊或兩種模型同時掛上。LAWWW2：週三晚上總圖外實際進遊戲拍（2 秒內、移動中、靠近），查同一 id 有沒有兩個實體（E.ents）或同一 obj 下掛兩個模型（VRM 晚到、fallback 沒拿掉），交原因＋patch＋測試（改 character3d／story3d 先告訴 LAWWW）；BB 發布後驗",
+   "status": "已整合待測試",
+   "next": "【11-01 08:1x LAWWW-B】LAWWW2 查明＋patch 已整合（開發分支）：v9.7 週三 18:48～21 萬才館，舊的 legacy 學姊 (-3,3.6) 和 act:club 第一個社員（伯涵、子晴）同一點疊在一起＝「兩個臉」；現在那段 legacy 已拿掉（34 區掃描 0 組），再加 populateSchedule 站位有人就換（npc_overlap_unit：v9.7 FAIL 3、修後 PASS）。重現截圖 docs/art-rebuild/second_ai/test_shots/bug04_sis_overlap_1101/before_after.webp（左上）→ BB 週三晚上法圖／萬才館看；C24 學姊兩個臉可以向使用者報告原因與修正｜【11-01 03:0x LAWWW-B 派 LAWWW2】LAWWW2 11-01 解析 vroid_heroine_05／bl_heroine_05 臉網格都只有一個＝不是模型重複，較像兩個實體重疊或兩種模型同時掛上。LAWWW2：週三晚上總圖外實際進遊戲拍（2 秒內、移動中、靠近），查同一 id 有沒有兩個實體（E.ents）或同一 obj 下掛兩個模型（VRM 晚到、fallback 沒拿掉），交原因＋patch＋測試（改 character3d／story3d 先告訴 LAWWW）；BB 發布後驗",
    "priority": "P1",
    "first": {
     "term": "Y1S1",
@@ -435,7 +435,8 @@
     "acceptance": "找到兩個臉的原因（截圖＋實體／模型清單），patch 後同場景只有一個學姊；Node 測試",
     "receiver": "LAWWW",
     "ack": "自領"
-   }
+   },
+   "sha": "1fe2069b0"
   },
   {
    "id": "BUG-05",

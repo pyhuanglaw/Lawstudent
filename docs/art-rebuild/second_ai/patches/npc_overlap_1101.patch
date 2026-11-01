@@ -1,0 +1,108 @@
+diff --git a/src/story3d.js b/src/story3d.js
+index 24bb111a1..104b6c272 100644
+--- a/src/story3d.js
++++ b/src/story3d.js
+@@ -470,6 +470,12 @@ const STORY = (function(){
+     // 朋友坐一起：若圖上的朋友已在這區坐著，挑離他最近的空位
+     const friendSeat=(id)=>{ for(const e of SOCIAL_GRAPH){ if(e.a!==id&&e.b!==id) continue; const other=EVENTS.npcOf(e.a===id?e.b:e.a); if(other&&other.seat) return other.seat; } return null; };
+     const seatNear=(fs)=>{ let best=null, bd=1e9; for(const st of (E.zone.seats||[])){ const k=st.x.toFixed(1)+','+st.z.toFixed(1); if(used.has(k)) continue; const d=Math.hypot(st.x-fs.x,st.z-fs.z); if(d<bd){ bd=d; best=st; } } return bd<3.5?best:null; };
++    /* 站的位置已經有人站著（BUG-04，使用者 10-15 第 25 項「學姊兩個臉」）：v9.7 週三晚上萬才館，舊的學姊（legacy，(-3,3.6)）和照作息 act:'club' 的第一個社員（CLUB_SPOTS[0] 也是 (-3,3.6)）生在同一點，兩個人疊成一個。
++       站著的人（社團、在日程寫的位置站一下）生之前看同一層 0.45 m 內有沒有站著、看得見的人；有就換位置（社團：下一個 CLUB_SPOT；linger：往旁邊挪 0.7、1.4 m，再不行往後 0.7 m）。坐著的人照 used（座位）不在這裡算；沒人的時候位置和原本一樣 */
++    const standBusy=(x,z,lv)=>E.npcs.some(m=>m&&m.obj&&!m.seat&&!m.hidden&&m.obj.visible!==false&&(m.lv|0)===(lv|0)&&Math.hypot(m.obj.position.x-x,m.obj.position.z-z)<0.45);
++    const standFree=(x,z,lv)=>!standBusy(x,z,lv)&&(!E.canStand||E.canStand(x,z,0.32,lv|0));
++    const lingerSpot=at=>{ const x=at[0], z=at[1], y=at[2]||0, lv=at[3]|0; if(!standBusy(x,z,lv)) return [x,z]; const q=[[0.7,0],[-0.7,0],[1.4,0],[-1.4,0],[0,0.7]].map(([a,b])=>[x+Math.cos(y)*a-Math.sin(y)*b,z-Math.sin(y)*a-Math.cos(y)*b]).find(([px,pz])=>standFree(px,pz,lv)); return q||[x,z]; };   /* a＝往她的右邊、b＝往後 */
++    const clubSpot=()=>{ for(let k=0;k<CLUB_SPOTS.length;k++){ const q=CLUB_SPOTS[clubI++%CLUB_SPOTS.length]; if(standFree(q[0],q[1],0)) return q; } return CLUB_SPOTS[(clubI++)%CLUB_SPOTS.length]; };   /* 六個都有人：照舊輪下一個 */
+     const spawnAt=(id,ent)=>{ const act=ent.act; let n=null;
+       if(ent.spot){ const sp=(E.zone.spots||{})[ent.spot]; if(sp){ const pz=act==='class'?'sit':'read'; n=GM.spawnCharacter(id,sp.x,sp.z,{seat:{x:sp.x,z:sp.z,yaw:sp.yaw||0,lv:sp.lv|0},pose:pz}); if(n) n.idlePose=pz; return n; } }   /* spot：區域配置裡寫好的固定位子（學姊在霖澤館 5F 研究室靠窗的桌子，AA_399 1-3；不在 seats 裡＝玩家不能坐）*/
+       if(act==='read'||act==='class'||act==='eat'||(act==='sit'&&E.zone.seats&&!ent.seat)){ const fs=!ent.seat&&!ent.seatAt&&friendSeat(id); const st=(fs&&!ent.room&&seatNear(fs))||(ent.seatAt&&seatNear({x:ent.seatAt[0],z:ent.seatAt[1]}))||seatFree(ent.seat,ent.room); if(!st) return;   /* seatAt：離這一點最近的空位（閱覽室窗邊、文學院前的長椅；AA_498 第 3 節）*/ used.add(st.x.toFixed(1)+','+st.z.toFixed(1)); const pz=act==='class'?'sit':'read', door=refresh&&(E.indoor||E.zone.indoor)&&E.zone.spawn;
+@@ -480,11 +486,11 @@ const STORY = (function(){
+         else { n=GM.spawnCharacter(id,st.x,st.z,{seat:st,pose:pz}); if(n) n.idlePose=pz; } }
+       else if(act==='sit'&&ent.seat==='bell'){ n=GM.spawnCharacter(id,-30,20.94,{seat:{x:-30,z:20.94,yaw:Math.PI},pose:'sit'}); }
+       else if(act==='sit'&&zoneId==='wenzhou'){ const B=typeof WZ_PARK_LAYOUT!=='undefined'?WZ_PARK_LAYOUT.seats.filter(q=>q.label==='坐在小公園的長椅').map(q=>({x:q.x,z:q.z,yaw:q.yaw})):[{x:23.6,z:7.94,yaw:Math.PI},{x:28.4,z:7.94,yaw:Math.PI}];   /* 小公園入口段的兩張長椅（擴大版照配置檔）*/ const st=GM.npc.yu&&GM.npc.yu.seat&&GM.npc.yu.seat.x===B[0].x?B[1]:B[0]; n=GM.spawnCharacter(id,st.x,st.z,{seat:st,pose:'sit'}); }
+-      else if(act==='linger'&&ent.at){ n=GM.spawnCharacter(id,ent.at[0],ent.at[1],{yaw:ent.at[2]||0,pose:'idle',lv:ent.at[3]|0}); if(n&&ent.noPair) n.noPair=true; }   /* 在日程寫的位置站一下（芷若經原下課後在 101 門口）；noPair：站在那裡、不被 pairUp 帶去和朋友站一起（系籃練球：阿哲在場邊、明軒在場上，BBALL-PRESENT-1030）*/
++      else if(act==='linger'&&ent.at){ const la=lingerSpot(ent.at); n=GM.spawnCharacter(id,la[0],la[1],{yaw:ent.at[2]||0,pose:'idle',lv:ent.at[3]|0}); if(n&&ent.noPair) n.noPair=true; }   /* 在日程寫的位置站一下（芷若經原下課後在 101 門口）；noPair：站在那裡、不被 pairUp 帶去和朋友站一起（系籃練球：阿哲在場邊、明軒在場上，BBALL-PRESENT-1030）*/
+       else if(act==='barista'){ n=GM.spawnCharacter(id,-2.5,-5.15,{yaw:0,pose:'idle'}); if(n){ n.frozen=true; n.talkLabel=SOCIAL.has(id,'FIRST_MET')?'和'+n.name+'說話':'和店員說話'; n.staff='cafe'; } }   /* 按鈕：認識了＝她的名字（BB-B 10-31 n25_xinci_i：認識一年半的芷若在吧檯上班還寫「和店員說話」，原本要點過一次餐才換，和 talkCharacter 點完餐那一行同一套）；staff：比吧檯的點餐點優先（engine3d.js nearestInteractable）；沒有事件時和她說話就是點餐（talkCharacter）*/
+       else if(act==='help'){ n=GM.spawnCharacter(id,2.6,-3.6,{yaw:-Math.PI/2,pose:'idle'}); if(n) n.frozen=true; }
+       else if(act==='ta'){ n=GM.spawnCharacter(id,TA_SPOT[0],TA_SPOT[1],{yaw:0,pose:'idle'}); if(n) n.frozen=true; }
+-      else if(act==='club'){ const sp=CLUB_SPOTS[clubI++%CLUB_SPOTS.length]; n=GM.spawnCharacter(id,sp[0],sp[1],{yaw:Math.atan2(-sp[0],-sp[1]),pose:'idle',pockets:true}); if(n) n.frozen=true; }
++      else if(act==='club'){ const sp=clubSpot(); n=GM.spawnCharacter(id,sp[0],sp[1],{yaw:Math.atan2(-sp[0],-sp[1]),pose:'idle',pockets:true}); if(n) n.frozen=true; }
+       else if(act==='desk'){ /* legacy kai */ }
+       else if(act==='follow'){ const P=E.player.obj; n=GM.spawnCharacter(id,P.position.x-Math.sin(P.rotation.y)*1.2+0.5,P.position.z-Math.cos(P.rotation.y)*1.2,{beh:'follow',lv:E.player.lv|0}); if(n) n.followOff=1.1; }   /* 和你一起走過去的人（邀約「現在一起過去」）*/
+       else if(act==='wait'&&ent.invite){ const sp=E.zone.spawn||{x:0,z:0}; let x=sp.x+1.6, z=sp.z+1.2; if(E.canStand&&!E.canStand(x,z,0.32,0)){ x=sp.x; z=sp.z+1.6; } n=GM.spawnCharacter(id,x,z,{pose:'idle'}); if(n){ n.frozen=true; if(GM.face) GM.face(n,sp.x,sp.z); } }   /* 約在路上碰面（溫州街）：在入口附近等 */
+diff --git a/tests/npc_overlap_unit.js b/tests/npc_overlap_unit.js
+new file mode 100644
+index 000000000..5222abe64
+--- /dev/null
++++ b/tests/npc_overlap_unit.js
+@@ -0,0 +1,71 @@
++// 兩個人站在同一點（BUG-04，使用者 10-15 第 25 項「禮拜三晚上去法服：溫學姊在圖書館外只是站著，人物變得很怪（兩個臉的感覺）」）。
++// 原因（v9.7 ebebce9f4 重現）：週三 18:48～21 萬才館大廳，舊的學姊（legacy GM.spawnNPC('sis') 在 (-3,3.6)）和照作息 act:'club' 的第一個社員
++// （CLUB_SPOTS[0] 也是 (-3,3.6)：子晴、伯涵）生在同一點、朝向差不多 → 兩個人疊成一個，看起來兩張臉。那一段 legacy 後來拿掉了（讀書會停用），
++// 但 spawnAt 的 club／linger 照舊不看那一點有沒有人：別的程式（legacy、劇情、店員）先在那裡放了人，就會再疊一次。修正：story3d.js 的 standBusy／standFree。
++// 不需要瀏覽器：照 schedule_roommove_unit.js 的替身，載入真正的 calendar、courses、characters、places、activities、heroine_circle、各區配置、story3d、hcircle3d、classes3d，
++// 跑真正的 STORY.populate。用法：node tests/npc_overlap_unit.js [ROOT]
++//   ① 萬才館週三 19:05（大一上第 6 週）：先在 CLUB_SPOTS[0] 放一個站著的人（＝v9.7 的 legacy 學姊）→ 子晴（吉他社）不能生在他身上。修改前 FAIL。
++//   ② 同上沒有先放人：子晴照舊站 CLUB_SPOTS[0]（沒人的時候位置不變）。
++//   ③ 在日程寫的位置站一下（linger）：從資料找第一個真的站在 at 的人（④），那一點先有人站著 → 往旁邊挪、不疊。修改前 FAIL。
++//   ④ 前提：沒有先放人時，他照舊站在作息寫的那一點（位置不變）。
++//   ⑤ 抽樣掃描（每 9 天、7:00～23:30 每半小時、有站著的作息的區域）：站著、看得見的兩個人距離 < 0.35 m 的組數＝0（兩個都在走路線的不算：剛生出來同一個路點，下一步就分開）。
++const vm=require('vm'), fs=require('fs'), path=require('path');
++const ROOT=path.resolve(process.argv[2]||path.join(__dirname,'..'));
++global.window=global; global.THREE={Vector3:function(x,y,z){this.x=x;this.y=y;this.z=z;}};
++global.P3={CAST:new Proxy({},{get:(t,k)=>({name:String(k)})})};
++const mkObj=()=>({visible:true,position:{x:0,y:0,z:0,set(x,y,z){this.x=x;this.y=y;this.z=z;}},rotation:{y:0},userData:{}});
++global.CHAR={build:()=>mkObj(),setExpr(){}}; global.location={search:''};
++global.SOCIAL={displayName:id=>(CHARACTERS[id]&&CHARACTERS[id].name)||id,stage:()=>'ACQ',noticed(){},reveal:()=>'ACQUAINTANCE',has:()=>true};
++let GM=null; const ALIAS={heroine_01:'an',heroine_05:'sis',prof_zhou:'prof'};
++global.EVENTS={npcOf:id=>GM.npc[id]||GM.npc[ALIAS[id]]||null,onEnter(){},tick(){}};
++const LAY=fs.readdirSync(path.join(ROOT,'src/data')).filter(f=>/_layouts?\.js$/.test(f)).map(f=>'src/data/'+f);
++const FILES=LAY.concat(['src/data/calendar.js','src/data/courses.js','src/data/characters.js','src/data/places.js','src/data/activities.js','src/data/heroine_circle.js','src/story3d.js','src/hcircle3d.js','src/classes3d.js']).filter(f=>fs.existsSync(path.join(ROOT,f)));
++for(const f of FILES){ try{ vm.runInThisContext(fs.readFileSync(path.join(ROOT,f),'utf8').replace(/^const ([A-Z0-9_]+_LAYOUTS?|CALENDAR|COURSES|CHARACTERS|STORY|PLACES|SOCIAL_GRAPH|UNFAMILIAR_POOL|PORTRAITS|ACTIVITIES|HCIRCLE|HEROINE_CIRCLE|HC3|CLS)\s*=/mg,'global.$1='),{filename:f}); }catch(e){ console.log('（載入失敗，略過）',f,String(e).slice(0,120)); } }
++let fails=0; const check=(name,ok,info)=>{ console.log((ok?'PASS ':'FAIL ')+name+(info?'　'+info:'')); if(!ok) fails++; };
++const F0={afternoonDone:true,classDone:true,metAn:true,met_an:true,introDone:true,campusIntro:true,lawclub:true,zheInvite:true,zheNoodleDone:true};
++function newGM(zone,day,hour){
++  let seats=Array.from({length:40},(_,i)=>({x:20+i,z:30,yaw:0}));   // 座位放遠處：坐著的人不算疊
++  if(zone==='classroom'&&typeof CLASSROOM_LAYOUT!=='undefined'){ const L=CLASSROOM_LAYOUT; seats=[]; for(let r=0;r<=L.rows;r++) for(let c=0;c<=L.cols;c++) seats.push({x:L.colX0+c*L.colDX,z:L.rowZ0+r*L.rowDepth+L.seat.dz,yaw:0,row:r,col:c}); }   // 201：替身照 row/col 找位子
++  const E={npcs:[],q:{level:'high'},zone:{id:zone,seats,spawn:{x:0,z:8.5,lv:0},spots:{}},levels:null,navOf:null,nav:null,indoor:zone!=='campus'&&zone!=='gongguan'&&zone!=='wenzhou',camera:null,interactables:[],
++    player:{obj:{position:{x:0,y:0,z:8},rotation:{y:0}},busy:false,lv:0},addNPC(n){this.npcs.push(n);return n;},moveTo:()=>false,canStand:()=>true};
++  const wd=CALENDAR.dateOf(day); const G={day,weekday:(wd&&(wd.wd!=null?wd.wd:wd.weekday))||0,hour,flags:Object.assign({},F0),social:{},zone,goal:'',events:{done:{}}};
++  const gm={E,G,npc:{},extras:[],D:{active:false},hourRate:1/150};
++  gm.spawnNPC=(id,spec,x,z,opts)=>{opts=opts||{};const o=mkObj();o.position.set(x,0,z);o.rotation.y=opts.yaw||0;const n=E.addNPC({obj:o,id,charId:opts.charId||id,name:(spec&&spec.name)||id,beh:opts.beh||'idle',seat:opts.seat,pose:opts.pose,waypoints:opts.waypoints,lv:opts.lv|0});gm.npc[id]=n;return n;};
++  gm.spawnCharacter=(id,x,z,opts)=>{const c=CHARACTERS[id];if(!c)return null;if(gm.npc[id])return gm.npc[id];const n=gm.spawnNPC(id,{name:c.name},x,z,Object.assign({charId:id},opts)); n.charId=id; return n;};
++  gm.removeNPC=id=>{ const n=gm.npc[id]; if(n){ E.npcs=E.npcs.filter(m=>m!==n); delete gm.npc[id]; } };
++  gm.spawnExtra=()=>{}; gm.spawnRider=()=>{};
++  gm.sitAt=(n,st)=>{ n.seat=st; n.pose='sit'; n.frozen=true; n.obj.position.set(st.x,0,st.z); };
++  gm.standUp=n=>{ n.seat=null; n.pose='idle'; n.frozen=false; };
++  gm.seatApproach=st=>[st.x,st.z+0.6]; gm.face=()=>{}; gm.sceneBegin=()=>{}; gm.sceneEnd=()=>{};
++  gm.knownIds=()=>Object.keys(CHARACTERS).filter(id=>CHARACTERS[id].social_layer!=='B');
++  return gm; }
++const dayOf=iso=>{ for(let d=0;d<2000;d++){ const t=CALENDAR.dateOf(d); if(!t) continue; const s=t.key||t.iso||t.str||(t.y+'-'+String(t.m).padStart(2,'0')+'-'+String(t.d).padStart(2,'0')); if(String(s).startsWith(iso)) return d; } return null; };
++// 先放一個站著的人（＝v9.7 在那一點的 legacy 學姊），再跑 STORY.populate
++function runWith(zone,day,hour,blocker){ GM=newGM(zone,day,hour); let b=null; if(blocker){ const o=mkObj(); o.position.set(blocker[0],0,blocker[1]); b=GM.E.addNPC({obj:o,id:'blocker',name:'先站在那裡的人',beh:'idle',pose:'idle',frozen:true,lv:0}); } STORY.populate(zone,GM); return {gm:GM,b}; }
++const dist=(a,b)=>Math.hypot(a.obj.position.x-b.obj.position.x,a.obj.position.z-b.obj.position.z);
++const pos=n=>n?'('+n.obj.position.x.toFixed(2)+','+n.obj.position.z.toFixed(2)+')':'—';
++
++// ①② 萬才館週三 19:05：子晴（吉他社，act:'club'）站 CLUB_SPOTS[0] (-3,3.6)
++{ const day=dayOf('2025-10-08'); const free=runWith('wancai',day,19.05,null); const zq=free.gm.npc.heroine_04;
++  check('② 前提：萬才館 2025-10-08（週三）19:05 子晴照作息在大廳（吉他社）',!!zq,zq?pos(zq):'沒有生出來');
++  if(zq) check('② 沒有人先站在那裡：子晴照舊站 CLUB_SPOTS[0] (-3,3.6)',Math.hypot(zq.obj.position.x+3,zq.obj.position.z-3.6)<0.01,pos(zq));
++  const r=runWith('wancai',day,19.05,[-3,3.6]); const z2=r.gm.npc.heroine_04;
++  check('① (-3,3.6) 先有人站著（v9.7 的 legacy 學姊）：子晴不能生在他身上（≥ 0.45 m）',!!z2&&dist(z2,r.b)>=0.45,z2?pos(z2)+' 距離 '+dist(z2,r.b).toFixed(2)+' m':'沒有生出來'); }
++// ③④ 在日程寫的位置站一下（act:'linger'）：從資料裡找第一個真的照作息站在 at 的人（例：學姊「坐在總圖門口的台階看手機」(83,3)），那一點先有人站著 → 往旁邊挪、不疊
++{ let hit=null; const L=[]; for(const id in CHARACTERS) if(!ALIAS[id]&&!['zhe','yu','kai'].includes(id)) for(const e of (CHARACTERS[id].daily_schedule||[])) if(e.act==='linger'&&e.at&&e.zone&&!(e.at[3]|0)) L.push({id,e});   /* 舊的 legacy 人物（以安、學姊、阿哲…）不走 spawnAt；hcircle3d 帶去站的（_hcWith）也不算 */
++  for(const {id,e} of L){ for(let d=0;d<1500&&!hit;d++){ const t=CALENDAR.dateOf(d); if(!t) continue; const wd=t.wd!=null?t.wd:t.weekday; if(!(e.days||[]).includes(wd)) continue; const hr=typeof e.from==='number'&&typeof e.to==='number'&&e.to<=24?(e.from+e.to)/2:null; if(hr==null) continue;
++      GM=newGM(e.zone,d,hr); try{ STORY.populate(e.zone,GM); }catch(err){ continue; } const n=GM.npc[id]||GM.npc[ALIAS[id]]; if(n&&!n.seat&&!n._hcWith&&n.charId===id&&Math.hypot(n.obj.position.x-e.at[0],n.obj.position.z-e.at[1])<0.01) hit={id,e,d,hr}; } if(hit) break; }
++  check('④ 前提：找到照作息站在 at 的人（linger）',!!hit,hit?hit.id+' '+hit.e.zone+' ('+hit.e.at[0]+','+hit.e.at[1]+') '+JSON.stringify(CALENDAR.dateOf(hit.d)).slice(0,50)+' '+hit.hr.toFixed(2)+'「'+(hit.e.label||'')+'」':'找不到');
++  if(hit){ const r=runWith(hit.e.zone,hit.d,hit.hr,[hit.e.at[0],hit.e.at[1]]); const n=r.gm.npc[hit.id]||r.gm.npc[ALIAS[hit.id]];
++    check('③ 那一點先有人站著：往旁邊挪、不疊（≥ 0.45 m）',!!n&&dist(n,r.b)>=0.45,n?pos(n)+' 距離 '+dist(n,r.b).toFixed(2)+' m':'沒有生出來');
++    if(n) check('③ 挪的距離不超過 1.5 m（還在作息寫的那一帶）',Math.hypot(n.obj.position.x-hit.e.at[0],n.obj.position.z-hit.e.at[1])<=1.5,pos(n)); } }
++// ⑤ 抽樣掃描
++{ const zs=new Set(['wancai','classroom','cafe','campus','lawlib','library','gongguan','wenzhou','noodle']);
++  for(const c of Object.values(CHARACTERS)) for(const e of (c.daily_schedule||[])) if(e.zone&&/^(linger|club|ta|help|barista|wait)$/.test(e.act||'')) zs.add(e.zone);
++  const W=n=>n.beh==='wander'||!!(n.waypoints&&n.waypoints.length); const found=new Map(); let runs=0, errs=0; const t0=Date.now();
++  for(const zone of zs) for(let day=0;day<1500;day+=9){ if(!CALENDAR.dateOf(day)) continue;
++    for(let h=7;h<24;h+=0.5){ try{ GM=newGM(zone,day,h+0.05); STORY.populate(zone,GM); runs++; }catch(e){ errs++; continue; }
++      const L=GM.E.npcs.filter(n=>!n.seat&&n.obj&&!n.hidden&&n.obj.visible!==false);
++      for(let i=0;i<L.length;i++) for(let j=i+1;j<L.length;j++){ if((L[i].lv|0)!==(L[j].lv|0)) continue; const a=L[i].obj.position, b=L[j].obj.position; if(Math.hypot(a.x-b.x,a.z-b.z)<0.35&&(Math.abs(a.x)+Math.abs(a.z))>0.01&&!(W(L[i])&&W(L[j]))){ const k=zone+' '+[L[i].id||'路人',L[j].id||'路人'].sort().join('+')+' @('+a.x.toFixed(1)+','+a.z.toFixed(1)+')'; if(!found.has(k)) found.set(k,day+' '+(h+0.05).toFixed(2)); } } } }
++  check('⑤ 抽樣掃描（'+zs.size+' 區、'+runs+' 次 populate）：站著的兩個人疊在同一點＝0 組',found.size===0&&runs>0,[...found].slice(0,6).map(([k,v])=>k+' 第一次 day '+v).join('；')+(errs?'（populate 例外 '+errs+' 次）':'')+'（'+((Date.now()-t0)/1000).toFixed(0)+' 秒）'); }
++console.log(fails?('FAIL '+fails):'ALL PASS'); process.exit(fails?1:0);
