@@ -1,4 +1,6 @@
-"""BB-B 11-01：開發分支 fb0d24c98（LAWWW-B 11-01 合進來的那一批）——照玩家在畫面上看、按、截圖。一支用 MODE 分（逗號隔開可以一次跑好幾個，每個 MODE 開一個新的瀏覽器）。
+"""BB-B 11-01：開發分支 fb0d24c98／96b6d9d29（LAWWW-B 11-01 合進來的那兩批）——照玩家在畫面上看、按、截圖。一支用 MODE 分（逗號隔開可以一次跑好幾個，每個 MODE 開一個新的瀏覽器）。
+  96b6d9d29 那一批：8b060107f／bbabb5b35 朋友的案子 C0～C8 都有手機筆記四格；7145e5cd8 BUG-03 博思 101 坐姿替身換近處版（classes3d.js figTick）；
+  3efede849／e934529a6 AA_554 芷若、子晴和她交往中的版本（src/aa554_3d.js＋各事件包）；96b6d9d29 AA_118 第 5 節 L1～L3（src/campus_l123_3d.js）
   6c2d98041 BUG-04 學姊兩個臉（C24，使用者 10-15 第 25 項；story3d.js populateSchedule 的 standBusy／lingerSpot／clubSpot）
   c78848d47／220f617ba AA_187 以安、語彤交往中缺的五段（src/aa187_3d.js）
   8891f6f99 CG-20 斜對面的位子（r2y4b_events.js ev_bar_group_night）、成發芷若那句（events.js ev_ziqing_show）；cbd1de273 AA_13 G3 成發觀眾席、沒去隔天 12:30 阿凱
@@ -54,13 +56,35 @@ MODE：
             pos [前置] 2028-11-08 09:55（當地）us_apartment、美國路線旗標（同 us_life_probe）、PS_RECONNECT、【捷徑】沛珊、子晴朋友＋聯絡方式 → 站著等 → 當地 10:10（臺灣 23:10）沛珊三則＋回覆「恭喜！」「他問了什麼？」
                 → [前置] 同一份進度跳到 11/10 10:30 → 當地 10:40（臺灣 23:40）子晴四則＋回覆。截圖手機對話（訊息旁邊的時間字）＋HUD 時鐘。
             neg 沒有 PS_RECONNECT（沒有重新聯絡上沛珊）＝11/08 當地 10:30 還沒有沛珊那則。
-  casenotes 朋友的案子手機筆記。CN＝c2,c3（預設）。
-            c2  [前置] 2026-11-11 21:55 宿舍、【捷徑】芷若有點熟＋聯絡方式 → 芷若（R3.zrHour，沒交往＝22:07）兩則＋回覆 → 手機打開那個對話（截圖）：回覆鍵上面「手機筆記」四格
-                「誰：芷若」「向誰：出版社」「依據什麼：」「請求什麼：照用的部分付稿費，或不要用」（讀 DOM，筆記在回覆鍵上面）→ 點「妳先把你們的對話拍給我看。」→ 她回的幾則。
-            c3  [前置] 2027-03-23（二）17:35 宿舍、【捷徑】阿哲朋友 → 手機「地點」→ 阿鳳麵店 → 學長的押金：「手機筆記」說「誰：阿哲的學長」「向誰：房東」「依據什麼：」→ 依據的選項（截圖）→「請求什麼：」→ 請求的選項（截圖）。
+  casenotes 朋友的案子手機筆記（C0～C8；字照 tests/aa117_notes_unit.js 的 NOTE＝AA-B 11-01 回覆）。CASES＝C0,C2,C3,C5,C8（預設；all＝C0～C8＋C6face；舊的 CN 也認）。
+            手機的（C0、C2、C4、C6、C7、C8）：[前置] 那一則以前的宿舍（C0＝經濟系那年最小存檔 2024-11-07 17:20，事件模式）、【捷徑】那個朋友有點熟＋聯絡方式 → 等到那一則（有回覆鍵）
+              → 手機打開那個對話（截圖）：讀回覆鍵上面「手機筆記」那一塊的四格（DOM，要在回覆鍵上面）→ 點那一個回覆。C6＝3/15 21:00 先點「現在說？」再等手機版那一則；C2 另外對芷若的兩則、回的三則。
+              C0 誰：韋綸（買到別人被偷的車）／向誰：賣家（原車主會來要車）／依據什麼：／請求什麼：跟賣家把錢要回來（車還給原車主）　C2 誰：芷若／向誰：出版社／依據什麼：／請求什麼：照用的部分付稿費，或不要用
+              C4 誰：阿哲（被擦撞的人）／向誰：／依據什麼：對方不小心造成的損壞／請求什麼：照修車行的估價付修車費　C6 誰：社團（她是負責人）／向誰：經手的學弟，和社團大家／依據什麼：社團的規則、收支表和單據／請求什麼：
+              C7 誰：阿凱／向誰：／依據什麼：公司和玩家之間的使用規定／請求什麼：玩家要道具回來　C8 誰：子晴（要簽約的人）／向誰：發行商／依據什麼：合約本身（權利歸誰、錢怎麼分、怎麼解約）／請求什麼：
+            當面的（C1、C3、C5、C6face）：說話人「手機筆記」的四格照順序、最後一格後面緊接選項（截圖）。C1 阿凱的鍵盤（大一下第 6 週週一宿舍 22:00 以後）；
+              C3 押金（2027-03-23 17:35 → 阿鳳麵店）：接在阿哲「兩個月的押金耶。他本來要拿去買系籃鞋。」後面、「依據什麼：」「請求什麼：」各自緊接那一組選項、旁白「先寫了兩行」拿掉；
+              C5 子晴的配樂（2027-11-09 19:05 → Café）：接在「我要簽什麼？我會不會被告？」後面、緊接「誰」的兩個選項（BB_70 8b-1）；C6face：3/15 點「有。十二點半，A館一樓。」→ [前置] 跳到 3/16 12:15 → 法律系館A。
+  boya101   BUG-03 博思 101 頭髮（坐姿替身走近換近處版）。BOYA＝law（預設：2025-10-07 週二，大一國文（上），LAWWW2 重現同一天；econ＝經濟系那年 2024-10-08 大一國文，事件模式）。
+            [前置] 08:40 宿舍 → 手機「今天」→「直接去上課」→ 博思教學館 →「自己找位子」→ 站著等到上課開始 15 分鐘（替身放好、玩家在大廳）→ 走到 101 門口 → 走道中間 → 旁邊有替身的空位旁邊（不坐）。
+            每一點等 figTick 換完（SwiftShader 7～30 秒，FIG_WAIT）、手指滑鏡頭看過去、截圖（跟隨鏡頭），記每一個替身：外型、離玩家 m、離鏡頭 m、近處版（LOD0）／遠處版（_lod1）。
+            PASS：三個點都是 6.5 m 內近處版、7.5 m 外遠處版；座位旁邊 6.5 m 內至少一個、全部近處版；替身總數三個點一樣。
+  zrqx      AA_554 芷若／子晴「和她交往中」（src/aa554_3d.js＋events.js、y2b_events.js、y2r2_3d.js、zr_uk3d.js、zr_sendoff3d.js）。ZQ＝z4,q4,q4miss,q5,z7,z9miss,z9met,video,q7,tc,neg（預設；all＝
+            z3,z4,q4,q4miss,q5,q6,z7,z7b,z8,z9,z9miss,z9met,video,q7,q8,q9,tc,cd,neg）。每一個：[前置] 那一天那個時間以前的宿舍、【捷徑】和她交往中（dating_＋ROM status）＋關係（台詞照 tests/aa554_dating_unit.js 對稿的字）。
+            z3 Café 21:40 跟她說話 → 多兩句、房間多「吧檯的點單紙」（她在吧檯上班時說話＝點餐，可能碰不到，照記）；z4 第 12 週週五（Z4_WEEK）21:00 私訊 →[前置] 週六 14:50 → 溫州街 15:00 跟她說話「妳想去嗎？」；q4 13:30 兩則 → 公館跟她說話「妳不想去，就不是爛。」；
+            q4miss 不去 →[前置] 17:40 → 17:50 兩則；q5／q9 成發（拍手）；q6 萬才館跟她說話；z7 12/10 23:50「接起來：」電話；z7b 1/28 三則＋回覆；z8 5/12 Café「五個月」；z9 6/3 最後一個班；
+            z9miss 9/2 沒去送機＝10:00 三則；z9met 9/1 21:00 點「會到。」→ 床快轉 →「出發：」送機 → 10:30 只一則；video 2027-09-05 22:00 每週視訊（「早點睡。」不算裂縫）＋9/12、2028-02-06 有、2/13 沒有；
+            q7 大二上第 3 週週一吉他社社課「接妳爸的電話。」→[前置] 23:00 → 23:10 三則；q8 公館 22:00「他一定會懂」→[前置] 隔天 08:30 → 08:40 三則；摘要日 tc 2026-02-15 22:07、cd 成發倒數 21:03；
+            neg 和可昕交往中、芷若知道＝週五沒有 Z4 私訊、12/10 沒有電話也沒有 23:59 三則（照現在的版本）。
+  l123      AA_118 第 5 節 L1～L3（src/campus_l123_3d.js）。L123＝l1,l2,l2neg,l3,l3miss（預設）；L3_YEAR＝1（2～4 換那一學年的版本）。
+            l1 大一上隔兩週的三個週二（頁面裡讀）：[前置] 12:00 宿舍、【捷徑】阿哲、柏翰有點熟 → 手機「地點」→ 法律系館A（大廳）→ 12:10 以後「（中午下課，電梯門口擠滿人。）」→「（等電梯）」阿哲那一段＋八卦；
+               [前置] 同一份進度跳兩週 →「（走樓梯）」柏翰「走樓梯比電梯快四十秒。我算過。」；再跳兩週＝不演（每學期最多兩次）。
+            l2 大一上第 4 週週三 14:45 宿舍 → 手機「地點」→ 校園 → 15:00 校史館門口三句；l2neg 15:00～15:30 待在宿舍＝不演、15:35 才去校園也不演。
+            l3 那一學年上學期第 3 週週五：[前置] 11:50 宿舍、【捷徑】在班群 → 12:00 系學會「今天下午四點，圓窗館前拍系學會合照。」→ 行程 16:00 → 床快轉 →「出發：」→ 那一年的版本；
+            l3miss 收到約 →[前置] 17:50 → 18:00 班群「📷（圓窗館前的系學會合照）」。
 （3/12 家族聚餐、大二下最後一頓在 cbe0429_probe y2end，這裡不跑。）
 用法：LW_TESTS=<工作樹>/tests SHA=<sha> MODE=<mode>[,<mode>...] python3 fb1101_probe.py '<URL>/index.html?turbo' <輸出資料夾> [使用者存檔.json]
-等待上限（秒）都可以用環境變數改：SF_WAIT、PLG_MAX、UMB_MAX、FD_MAX、SEAT_MAX、CG_MAX、SHOW_MAX、XC_MAX、EPI_MAX、VF_WAIT（等一則訊息）、US_WAIT、CN_MAX、WALK_MAX（走路）。"""
+等待上限（秒）都可以用環境變數改：SF_WAIT、PLG_MAX、UMB_MAX、FD_MAX、SEAT_MAX、CG_MAX、SHOW_MAX、XC_MAX、EPI_MAX、VF_WAIT（等一則訊息）、US_WAIT、CN_MAX、WALK_MAX（走路）、FIG_WAIT（等替身換遠近）、L1_MAX。"""
 import os, sys, json, asyncio, re, math, time, copy, traceback
 sys.path.insert(0, os.environ['LW_TESTS']); import playlib as L
 sys.path.insert(0, os.path.dirname(os.path.abspath(__file__))); import bbplay as P
@@ -1275,64 +1299,573 @@ async def m_usmsg(pg, cdp, run):
         except Exception as ex: run.check('usmsg %s：跑完（沒有探針例外）' % c, False, repr(ex)[:400]); traceback.print_exc()
 
 
-# ================================================================ 8. casenotes：朋友的案子手機筆記
+# ================================================================ 8. casenotes：朋友的案子手機筆記（C0～C8）
+def hm(h):
+    h = h % 24
+    return '%02d:%02d' % (int(h), round((h % 1) * 60) % 60)
+
+
+CN_NOTE = {   # 遊戲裡要看到的四格（tests/aa117_notes_unit.js 的 NOTE＝AA-B 2026-11-01 回覆的字；C8「向誰」bbabb5b35 改發行商）
+    'C0': ['誰：韋綸（買到別人被偷的車）', '向誰：賣家（原車主會來要車）', '依據什麼：', '請求什麼：跟賣家把錢要回來（車還給原車主）'],
+    'C1': ['誰：阿凱', '向誰：賣家', '依據什麼：（還不知道。民總的課本？）', '請求什麼：'],
+    'C2': ['誰：芷若', '向誰：出版社', '依據什麼：', '請求什麼：照用的部分付稿費，或不要用'],
+    'C3': ['誰：阿哲的學長', '向誰：房東', '依據什麼：', '請求什麼：'],
+    'C4': ['誰：阿哲（被擦撞的人）', '向誰：', '依據什麼：對方不小心造成的損壞', '請求什麼：照修車行的估價付修車費'],
+    'C5': ['誰：', '向誰：學妹', '依據什麼：', '請求什麼：請學妹同意，講清楚怎麼用（能不能放進要賣的遊戲、要不要寫名字）'],
+    'C6': ['誰：社團（她是負責人）', '向誰：經手的學弟，和社團大家', '依據什麼：社團的規則、收支表和單據', '請求什麼：'],
+    'C7': ['誰：阿凱', '向誰：', '依據什麼：公司和玩家之間的使用規定', '請求什麼：玩家要道具回來'],
+    'C8': ['誰：子晴（要簽約的人）', '向誰：發行商', '依據什麼：合約本身（權利歸誰、錢怎麼分、怎麼解約）', '請求什麼：']}
 C2_MSG = ['我幫一個出版社翻了一篇短文，對方說「先試譯，不付錢」。', '可是他們拿去用了。……這樣正常嗎。']
-C2_NOTE = ['誰：芷若', '向誰：出版社', '依據什麼：', '請求什麼：照用的部分付稿費，或不要用']
 C2_PICK = '妳先把你們的對話拍給我看。'
 C2_REPLY = ['📷（對話的截圖）', '📷（對話的截圖，往上滑的那一段）', '……好。我整理一下。']
-C3_NOTE = [('手機筆記', '誰：阿哲的學長'), ('手機筆記', '向誰：房東'), ('手機筆記', '依據什麼：')]
+C3_NARR = '（你打開手機的筆記，先寫了兩行：誰——阿哲的學長；向誰——房東。）'
 C3_B = '「先把租約和搬進來的照片給我看。」'
 C3_A = '「退押金，牆要補就扣合理的錢。」'
+C5_WHO = ['「妳會不會被告，我不確定。我們問法服。」', '「這件事的主角是學妹。那是她的歌，是妳要請她同意。」']
+STAYUP = ['再撐一下', '先不睡']
+ASK_HAS = "(id=>(GAME.G.msgs||[]).some(m=>m&&m.ask&&m.ask.id===id))(%s)"
+ECON0 = {'ECON_CAMP_OPEN': True, 'E15_BUS': 'nosleep', 'E15_WENT': True, 'ECON_CAMP_DONE': True, 'E01_DONE': True, 'E01_MORNING': True, 'KX_FIRST_MSG': True,
+         'fundsV2': 1, 'Y0_STICKY': True, 'KX_DEC3_MIGRATED': True, 'dating_kexin': False}   # 經濟系那一年的最小存檔（post91015_probe.py econ_state 的 ECON0）
+ECON_FRIENDS = ('kexin', 'econ_zhengxun', 'econ_weilun', 'econ_tangrui', 'econ_jiahao', 'econ_pinyu')
 
 
-async def cn_c2(pg, cdp, run):
-    st, d = await state_at(pg, '2026-11-11', 21.92, 'dorm')
-    r = await load(pg, cdp, run, st, 'c2：最小存檔 2026-11-11（三，大二上）21:55 宿舍', js="NOKX(); const r=LV('heroine_02',25,10,5); return {r, h:(typeof R3!=='undefined'&&R3.zrHour)?R3.zrHour(G):null};")
-    got, M = await wait_msg(pg, cdp, run, 'r3_zr_fee', ENVI('VF_WAIT', 600), 'c2_wait')
-    run.check('c2：芷若（R3.zrHour＝%s）兩則 %s＋回覆鍵' % (r and r.get('h'), J(C2_MSG)), got and [m['text'] for m in M] == C2_MSG and M[0]['from'] == ZR and M[-1]['opts'] and M[-1]['opts'][0] == C2_PICK, J(M))
-    if not got: return
-    a = await answer(pg, cdp, run, ('eq', 'r3_zr_fee'), C2_PICK, 'c2', note=True)
-    nb = (a or {}).get('note') or []
-    cells = nb[0]['lines'][1:] if nb and nb[0]['lines'][:1] == ['手機筆記'] else (nb[0]['lines'] if nb else [])
-    run.note('c2：手機筆記（DOM）%s' % J(nb))
-    run.check('c2：手機打開芷若的對話：回覆鍵上面「手機筆記」四格 %s（讀畫面上的字；在回覆鍵上面）' % J(C2_NOTE), len(nb) == 1 and nb[0]['lines'][:1] == ['手機筆記'] and cells == C2_NOTE and nb[0]['above'], J(nb))
-    await play(pg, cdp, run, "(t=>(GAME.G.msgs||[]).some(m=>m&&(PHONE.th?PHONE.th(m):m.th)==='p:heroine_02'&&m.text===t))(%s)" % J(C2_REPLY[-1]), max_s=60, ff=False, tag='c2_reply')
-    th = await pg.evaluate(THREAD, 'p:' + ZR)
-    run.check('c2：點「%s」→ 芷若 %s' % (C2_PICK, J(C2_REPLY)), bool(a) and a['tapped'] == C2_PICK and all(any(x[1] == t for x in th) for t in C2_REPLY), J({'a': {k: a.get(k) for k in ('tapped', 'opts')} if a else None, 'thread': th[-6:]}))
-    await thread_shot(pg, cdp, run, 'p:' + ZR, 'c2_thread_after')
+async def econ_state(pg, key, h, zone, flags=None):
+    """經濟系那一年的最小存檔（事件模式；post91015_probe.py 的 econ_state，沒有退宿）"""
+    d = await P.day_of(pg, key)
+    F = dict(ECON0); F.update(flags or {})
+    st = {'stage': 'econ', 'name': '祐廷', 'day': d['d'], 'weekday': d['wd'], 'hour': h, 'zone': zone, 'pos': None, 'weather': 'clear', 'energy': 100, 'money': 20000,
+          'flags': F, 'contacts': {k: d['d'] - 40 for k in ECON_FRIENDS}, 'events': {'done': {'ev_y0_e02': 1}, 'last': {}, 'count': 0}}
+    return st, d
 
 
-async def cn_c3(pg, cdp, run):
-    st, d = await state_at(pg, '2027-03-23', 17.58, 'dorm')
-    r = await load(pg, cdp, run, st, 'c3：最小存檔 2027-03-23（二，大二下第 5 週）17:35 宿舍', js="NOKX(); const r=LV('zhe',45,30,10); return {r, dep:(typeof Y2R2!=='undefined'&&Y2R2.depDay)?Y2R2.depDay(G):null};")
-    run.check('c3：那天是押金那一天（Y2R2.depDay）、阿哲朋友', bool(r) and r.get('dep') is True, J(r))
+CN_PHONE = {   # 手機的案子：回覆鍵上面的手機筆記（ask.note，game3d.js noteHint）
+    'C0': dict(key='2024-11-07', h=17.33, econ=True, js="return {stage:G.stage, bike:STORY.bikeDay?CALENDAR.dateOf(STORY.bikeDay()).key:null};", ask='y0_bike', pick='（查完再回）',
+               who='經濟系那年 11/7（四）17:30 班群：韋綸「我的車被認走了。有沒有人懂法律？」（現場版腳踏車只到 10/17，玩家碰得到的是群組版）'),
+    'C2': dict(key='2026-11-11', h=21.92, js="NOKX(); const r=LV('heroine_02',25,10,5); return {r, h:(typeof R3!=='undefined'&&R3.zrHour)?R3.zrHour(G):null};", ask='r3_zr_fee', pick=C2_PICK,
+               who='芷若的試譯稿費（R3.zrHour：沒交往＝22:07）'),
+    'C4': dict(key='2027-11-19', h=20.83, js="NOKX(); return LV('zhe',25,10,5);", ask='y3_c4', pick='找對方談。', who='阿哲的機車 11/19 21:00「要簽嗎」'),
+    'C6': dict(key='2028-03-15', h=20.83, flags={'met_yu': True}, js="NOKX(); return LV('yu',25,10,5);", pre=('y3_yu_c6', '現在說？'), ask='y3_yu_c6_phone', pick='把帳攤開',
+               who='Alison 的社團經費 3/15 21:00 → 選「現在說？」（手機版）'),
+    'C7': dict(key='2028-11-22', h=23.5, js="NOKX(); return LV('kai',25,10,5);", ask='r3_kai_k5', pick='先寫下來', who='阿凱的 bug 11/22 23:40「這次不是開玩笑」'),
+    'C8': dict(key='2028-10-11', h=20.83, js="NOKX(); return LV('heroine_04',45,30,10);", ask='y4_q14', pick='我陪妳去找律師', who='子晴的合約 10/11 21:00「你看得懂嗎」')}
+CN_FACE = {   # 當面的案子：說話人「手機筆記」的幾行（事件的台詞）
+    'C1': dict(key=['Y1S2', 6, 1], h=21.83, zone=None, js="NOKX(); return LV('kai',25,10,5);", ev='ev_kai_keyboard', picks=['「我也還不會'], prev=None,
+               who='阿凱的鍵盤（大一下第 6 週週一，宿舍 22:00 以後）'),
+    'C3': dict(key='2027-03-23', h=17.58, zone='noodle', js="NOKX(); const r=LV('zhe',45,30,10); return {r, dep:(typeof Y2R2!=='undefined'&&Y2R2.depDay)?Y2R2.depDay(G):null};", ev='ev_zhe_deposit',
+               picks=[C3_B, C3_A], prev='兩個月的押金耶。他本來要拿去買系籃鞋。', who='學長的押金（大二下第 5 週週二 17:30 以後，阿鳳麵店）', inter=True),
+    'C5': dict(key='2027-11-09', h=19.08, zone='cafe', js="NOKX(); return LV('heroine_04',45,30,10);", ev='ev_ziqing_capstone', picks=['「這件事的主角', '「法律上大概是'],
+               prev='我要簽什麼？我會不會被告？', who='子晴的配樂（2027-11-09 19:15 以後 Café；誰的選項是 BB_70 8b-1 補的）', who_opts=C5_WHO),
+    'C6face': dict(key='2028-03-15', h=20.83, flags={'met_yu': True}, zone='linze', js="NOKX(); return LV('yu',25,10,5);", pre=('y3_yu_c6', '有。十二點半'), jump=('2028-03-16', 12.25),
+                   ev='ev_yu_club_money', picks=['「把帳攤開'], prev='我不想讓他覺得我在懷疑他。可是三千塊。', who='Alison 的社團經費當面版（3/15 回「有。十二點半，A館一樓。」→ 3/16 12:30 法律系館A 一樓）', note='C6')}
+
+
+async def cn_phone(pg, cdp, run, k):
+    X = CN_PHONE[k]; tag = 'cn_' + k
+    if X.get('econ'): st, d = await econ_state(pg, X['key'], X['h'], 'dorm', X.get('flags'))
+    else: st, d = await state_at(pg, X['key'], X['h'], 'dorm', flags=X.get('flags'))
+    r = await load(pg, cdp, run, st, '%s：最小存檔%s %s %s 宿舍（%s）' % (tag, '（經濟系那一年，事件模式）' if X.get('econ') else '', X['key'], hm(X['h']), X['who']), js=X['js'])
+    if X.get('pre'):
+        aid, lab = X['pre']
+        ok0 = await play(pg, cdp, run, ASK_HAS % J(aid), max_s=ENVI('VF_WAIT', 600), ff=False, tag=tag + '_pre', picks=STAYUP)
+        a0 = await answer(pg, cdp, run, ('eq', aid), lab, tag + '_pre')
+        run.check('%s：先在「%s」那一則點「%s」' % (tag, aid, lab), ok0 and bool(a0) and bool(a0['tapped']) and a0['tapped'].startswith(lab), J(a0)[:600])
+    ok = await play(pg, cdp, run, ASK_HAS % J(X['ask']), max_s=ENVI('VF_WAIT', 600), ff=False, tag=tag + '_wait', picks=STAYUP)
+    m = await pg.evaluate(FIND_ASK, ['eq', X['ask']])
+    run.check('%s：收到有回覆鍵的那一則（ask %s）' % (tag, X['ask']), ok and bool(m), J({'m': m, 'r': r, 'now': await P.clock(pg)}))
+    if not m: return
     n0 = await pl_len(pg)
-    gp = await go_place(pg, cdp, run, 'noodle')
-    ok = await play(pg, cdp, run, EVDONE % J('ev_zhe_deposit'), max_s=ENVI('CN_MAX', 600), picks=[C3_B, C3_A], ff=False, tag='c3', shot_choice=['先把租約', '全部退'], shots_at=['誰：阿哲的學長', '依據什麼：', '請求什麼：'])
-    R = await rows(pg, n0); Ls = said(R)
-    okq, gl, i0 = after(Ls, ('', '（你打開手機的筆記，先寫了兩行：誰——阿哲的學長；向誰——房東。）'), C3_NOTE)
-    ib = next((k for k, x in enumerate(R) if x['k'] == 'say' and x['n'] == '手機筆記' and x['t'] == '依據什麼：'), None)
-    ia = next((k for k, x in enumerate(R) if x['k'] == 'say' and x['n'] == '手機筆記' and x['t'] == '請求什麼：'), None)
-    cb = next((x for x in R[ib + 1:] if x['k'] in ('say', 'choose')), None) if ib is not None else None
-    ca = next((x for x in R[ia + 1:] if x['k'] in ('say', 'choose')), None) if ia is not None else None
-    run.note('c3：麵店說的 %s；選單 %s' % (J(Ls[:30])[:2200], J([x['t'] for x in R if x['k'] == 'choose'])))
-    run.check('c3：手機「地點」→ 阿鳳麵店 → 學長的押金：旁白以後「手機筆記」說「誰：阿哲的學長」「向誰：房東」「依據什麼：」→ 緊接著依據的選項（截圖）', gp['ok'] and ok and okq and bool(cb) and cb['k'] == 'choose' and C3_B in cb['t'],
-              J({'got': gl, 'next': cb}))
-    run.check('c3：「請求什麼：」（說話人手機筆記）→ 緊接著請求的選項「「全部退。」」「%s」（截圖）' % C3_A, ia is not None and bool(ca) and ca['k'] == 'choose' and C3_A in ca['t'], J({'next': ca}))
-    await run.shot(pg, 'c3_end')
+    a = await answer(pg, cdp, run, ('eq', X['ask']), X['pick'], tag, note=True)
+    nb = (a or {}).get('note') or []
+    cells = nb[0]['lines'][1:] if nb and nb[0]['lines'][:1] == ['手機筆記'] else []
+    run.note('%s：手機筆記（DOM）%s；回覆鍵 %s' % (tag, J(nb), J(a and a['opts'])))
+    run.check('%s：打開那個對話：回覆鍵上面「手機筆記」四格 %s（讀畫面上的字、在回覆鍵上面；截圖 %s_ask）' % (tag, J(CN_NOTE[k]), tag), len(nb) == 1 and cells == CN_NOTE[k] and nb[0]['above'], J(nb))
+    run.check('%s：點「%s…」' % (tag, X['pick']), bool(a) and bool(a['tapped']) and a['tapped'].startswith(X['pick']), J({'tapped': a and a['tapped'], 'opts': a and a['opts']}))
+    if k == 'C2':
+        run.check('C2：芷若兩則 %s' % J(C2_MSG), [x[1] for x in (await pg.evaluate(THREAD, 'p:' + ZR)) if x[0] == ZR][:2] == C2_MSG, '')
+        await play(pg, cdp, run, "(t=>(GAME.G.msgs||[]).some(m=>m&&(PHONE.th?PHONE.th(m):m.th)==='p:heroine_02'&&m.text===t))(%s)" % J(C2_REPLY[-1]), max_s=60, ff=False, tag='c2_reply')
+        th = await pg.evaluate(THREAD, 'p:' + ZR)
+        run.check('C2：點「%s」→ 芷若 %s' % (C2_PICK, J(C2_REPLY)), all(any(x[1] == t for x in th) for t in C2_REPLY), J(th[-6:]))
+    else:
+        await play(pg, cdp, run, None, max_s=20, ff=False, tag=tag + '_after', picks=STAYUP)
+    await thread_shot(pg, cdp, run, m['th'], tag + '_thread_after')
+
+
+async def cn_face(pg, cdp, run, k):
+    X = CN_FACE[k]; tag = 'cn_' + k; want = CN_NOTE[X.get('note', k)]
+    st, d = await state_at(pg, X['key'], X['h'], 'dorm', flags=X.get('flags'))
+    r = await load(pg, cdp, run, st, '%s：最小存檔 %s %s 宿舍（%s）' % (tag, d['key'], hm(X['h']), X['who']), js=X['js'])
+    if X.get('pre'):
+        aid, lab = X['pre']
+        ok0 = await play(pg, cdp, run, ASK_HAS % J(aid), max_s=ENVI('VF_WAIT', 600), ff=False, tag=tag + '_pre')
+        a0 = await answer(pg, cdp, run, ('eq', aid), lab, tag + '_pre')
+        run.check('%s：先在「%s」那一則點「%s…」' % (tag, aid, lab), ok0 and bool(a0) and bool(a0['tapped']) and a0['tapped'].startswith(lab), J(a0)[:500])
+        s1 = await snap(pg)
+        await jump(pg, cdp, run, s1, X['jump'][0], X['jump'][1], zone='dorm', pos=None, note='回了以後的進度；約好的那天、時間以前')
+    n0 = await pl_len(pg)
+    gp = await go_place(pg, cdp, run, X['zone']) if X['zone'] else {'ok': True, 'stay': 'dorm'}
+    sc = [p.lstrip('「')[:6] for p in X['picks']]
+    ok = await play(pg, cdp, run, EVDONE % J(X['ev']), max_s=ENVI('CN_MAX', 600), picks=X['picks'], ff=False, tag=tag, shot_choice=sc, shots_at=['誰：', '依據什麼：', '請求什麼：'])
+    R = await rows(pg, n0)
+    ni = [i for i, x in enumerate(R) if x['k'] == 'say' and x['n'] == '手機筆記']
+    nt = [R[i]['t'] for i in ni]
+    prev = next((x for x in reversed(R[:ni[0]]) if x['k'] == 'say'), None) if ni else None
+    nxt = next((x for x in R[ni[-1] + 1:] if x['k'] in ('say', 'choose')), None) if ni else None
+    run.note('%s：說的 %s；選單 %s' % (tag, J(said(R)[:30])[:2200], J([x['t'] for x in R if x['k'] == 'choose'])))
+    run.check('%s：%s 到了 → %s 演完；說話人「手機筆記」四格 %s（照順序）' % (tag, '手機「地點」→ ' + X['zone'] if X['zone'] else '待在宿舍', X['ev'], J(want)), gp['ok'] and ok and nt == want, J({'got': nt, 'go': gp}))
+    if X.get('prev'):
+        run.check('%s：手機筆記接在「%s」後面' % (tag, X['prev']), bool(prev) and prev['t'] == X['prev'], J(prev))
+    run.check('%s：最後一格後面緊接著選項（截圖）' % tag, bool(nxt) and nxt['k'] == 'choose', J(nxt))
+    if X.get('inter'):
+        bad = []
+        for i in ni:
+            if R[i]['t'] in ('依據什麼：', '請求什麼：'):
+                q = next((x for x in R[i + 1:] if x['k'] in ('say', 'choose')), None)
+                if not q or q['k'] != 'choose': bad.append([R[i]['t'], q])
+        run.check('%s：「依據什麼：」「請求什麼：」各自緊接著那一組選項；旁白「%s」拿掉了（AA-B 11-01）' % (tag, C3_NARR[:14] + '…'), not bad and not any(x['t'] == C3_NARR for x in R if x['k'] == 'say'), J(bad))
+    if X.get('who_opts'):
+        cw = nxt and nxt['t']
+        run.check('%s：多一個「誰」的選項 %s（BB_70 8b-1）' % (tag, J(X['who_opts'])), bool(cw) and cw == '｜'.join(X['who_opts']), J(cw))
+    await run.shot(pg, tag + '_end')
 
 
 async def m_casenotes(pg, cdp, run):
-    for c in ENV('CN', 'c2,c3'):
-        fn = {'c2': cn_c2, 'c3': cn_c3}.get(c)
-        if not fn: run.check('CN＝%s 認得' % c, False, 'c2,c3'); continue
+    cs = ENV('CASES', os.environ.get('CN', 'C0,C2,C3,C5,C8'))
+    if cs == ['all']: cs = ['C0', 'C1', 'C2', 'C3', 'C4', 'C5', 'C6', 'C6face', 'C7', 'C8']
+    for c in cs:
+        c = c.upper().replace('FACE', 'face')
+        fn = cn_phone if c in CN_PHONE else (cn_face if c in CN_FACE else None)
+        if not fn: run.check('CASES＝%s 認得' % c, False, 'C0～C8、C6face、all'); continue
         run.note('==== casenotes：%s ====' % c)
-        try: await fn(pg, cdp, run)
+        try: await fn(pg, cdp, run, c)
         except Exception as ex: run.check('casenotes %s：跑完（沒有探針例外）' % c, False, repr(ex)[:400]); traceback.print_exc()
 
 
+# ================================================================ 9. boya101：BUG-03 博思 101 坐姿替身走近換近處版
+FIGS = r"""(()=>{ const E=GAME.E, P=E.player.obj.position, C=E.camera&&E.camera.position, out=[], groups=[]; const M=new THREE.Matrix4(), V=new THREE.Vector3(), Q=new THREE.Quaternion(), S=new THREE.Vector3();
+  E.scene.traverse(o=>{ if(/^seated_figures:/.test(o.name||'')) groups.push(o); });
+  for(const g of groups){ g.updateMatrixWorld(true); let vis=true; for(let p=g; p; p=p.parent) if(p.visible===false){ vis=false; break; }
+    for(const im of g.children){ if(!im.isInstancedMesh) continue; const desk=/^desk:/.test(im.name||''), far=/_lod1$/.test(im.name||'');
+      for(let i=0;i<im.count;i++){ im.getMatrixAt(i,M); M.premultiply(im.matrixWorld); M.decompose(V,Q,S);
+        out.push({k:im.name,desk,ver:far?'far':'near',shown:vis&&im.visible!==false,x:+V.x.toFixed(2),z:+V.z.toFixed(2),dP:+Math.hypot(V.x-P.x,V.z-P.z).toFixed(2),dC:C?+V.distanceTo(C).toFixed(2):null}); } } }
+  const figs=out.filter(f=>!f.desk), bad=figs.filter(f=>(f.dP<6.5&&f.ver==='far')||(f.dP>7.5&&f.ver==='near')||!f.shown);
+  return {key:CALENDAR.dateOf(GAME.G.day).key,h:+(+GAME.G.hour).toFixed(3),zone:GAME.G.zone,groups:groups.map(g=>g.name),me:[+P.x.toFixed(2),+P.z.toFixed(2),E.player.lv|0],cam:C?[+C.x.toFixed(2),+C.y.toFixed(2),+C.z.toFixed(2)]:null,
+    n:figs.length,near:figs.filter(f=>f.ver==='near').length,far:figs.filter(f=>f.ver==='far').length,bad,figs,desks:out.filter(f=>f.desk).map(f=>[f.k,f.dP,f.ver]),state:(typeof CLS!=='undefined'&&CLS.figState)?CLS.figState():null}; })()"""
+SEATS_ROOM = """(room=>(GAME.E.interactables||[]).filter(it=>it.seat&&it.seat.room===room&&!it.hidden&&String(it.label||'').indexOf('坐')===0).map(it=>({x:+(+it.x).toFixed(2),z:+(+it.z).toFixed(2),sx:+(+it.seat.x).toFixed(2),sz:+(+it.seat.z).toFixed(2),lv:it.lv|0,taken:it.seat.taken||null,label:it.label})))"""
+CLS_ITEM = """(cid=>{ try{ const it=CLS.dayItems(GAME.G).find(q=>q.c&&q.c.id===cid&&!q.exam); return it?{key:it.key,t0:it.t0,t1:it.t1,status:CLS.status(GAME.G,it),room:it.room&&it.room.name}:null; }catch(e){ return 'ERR '+e.message; } })"""
+BOYA = {'law': dict(key='2025-10-07', cid='chinese_y1', who='法律系大一上，大一國文（上），週二上午（LAWWW2 重現同一天 2025-10-07）'),
+        'econ': dict(key='2024-10-08', cid='chinese_y0', who='經濟系那年大一國文，週二上午（事件模式）')}
+DOOR101_OUT, DOOR101_IN = (-5.2, 6.0), (-6.8, 6.0)   # boya_layout.js：101 的門在東牆 x＝−6.0、z 5.4～6.6
+
+
+async def fig_point(pg, cdp, run, tag, look):
+    """等 figTick 換好（6.5 m 內全部近處版、7.5 m 外全部遠處版；SwiftShader 要 7～30 秒）→ 手指滑鏡頭看那個方向 → 截圖、記每一個替身"""
+    t0 = time.time(); c = None; settled = False
+    while time.time() - t0 < ENVI('FIG_WAIT', 45):
+        c = await pg.evaluate(FIGS)
+        if c['n'] and not c['bad']: settled = True; break
+        await pg.wait_for_timeout(1500)
+    if look: await L.turn_camera_to(pg, cdp, look[0], look[1])
+    await pg.wait_for_timeout(1500)
+    c = await pg.evaluate(FIGS); p = await run.shot(pg, tag)
+    run.note('%s：替身 %d 個（近處版 %d、遠處版 %d、不對的 %d）；玩家 %s、鏡頭 %s；每個替身［外型、離玩家 m、離鏡頭 m、版本］%s；截圖 %s' % (
+        tag, c['n'], c['near'], c['far'], len(c['bad']), c['me'], c['cam'], J([[f['k'], f['dP'], f['dC'], f['ver']] for f in sorted(c['figs'], key=lambda f: f['dP'])]), p))
+    return c, settled, round(time.time() - t0, 1)
+
+
+async def boya_case(pg, cdp, run, case):
+    if case not in BOYA: run.check('BOYA＝%s 認得' % case, False, 'law、econ'); return
+    X = BOYA[case]; tag = 'boya_' + case
+    if case == 'econ':
+        st, d = await econ_state(pg, X['key'], 8.67, 'dorm'); js = "return {stage:G.stage};"
+    else:
+        st, d = await state_at(pg, X['key'], 8.67, 'dorm'); js = "NOKX(); return null;"
+    await load(pg, cdp, run, st, '%s：最小存檔 %s 08:40 宿舍（%s）' % (tag, X['key'], X['who']), js=js)
+    it = await pg.evaluate(CLS_ITEM, X['cid'])
+    run.check('%s：%s 有 %s（博思教學館 101，CLS.dayItems，只讀）' % (tag, X['key'], X['cid']), isinstance(it, dict), J(it))
+    if not isinstance(it, dict): return
+    await P.phone_tab(pg, cdp, 'today'); sel = '#phoneBody [data-go="%s"]' % it['key']
+    if not await pg.evaluate("s=>!!document.querySelector(s)", sel):
+        txt = await pg.evaluate("(document.getElementById('phoneBody')||{}).innerText||''"); await L.close_panels(pg, cdp)
+        run.check('%s：手機「今天」有「直接去上課」' % tag, False, txt[:400]); return
+    await run.shot(pg, tag + '_today'); await L.tap(pg, cdp, sel); await pg.wait_for_timeout(1500)
+    ok = await play(pg, cdp, run, "GAME.G.zone==='boya'", max_s=240, picks=['自己找位子', '繼續去上課', '直接去上課'], ff=False, tag=tag + '_go')
+    run.check('%s：手機「今天」→「直接去上課」→ 博思教學館 →「自己找位子」' % tag, ok, J(await P.clock(pg)))
+    if not ok: return
+    await wait_h(pg, cdp, run, X['key'], it['t0'] + 0.25, ENVI('SF_WAIT', 480), tag + '_tostart')   # 上課開始以後（替身坐滿八成以上；玩家還在大廳）
+    await L.go_to(pg, cdp, run, DOOR101_OUT[0], DOOR101_OUT[1], 0.8, '101 門口（走廊）', max_s=ENVI('WALK_MAX', 150))
+    await L.go_to(pg, cdp, run, DOOR101_IN[0], DOOR101_IN[1], 0.7, '101 門口（教室裡）', max_s=ENVI('WALK_MAX', 150))
+    c1, s1, w1 = await fig_point(pg, cdp, run, tag + '_1door', (-11.5, 0.0))
+    run.check('%s 門口：替身放好了（%d 個）；6.5 m 內近處版、7.5 m 外遠處版（等了 %s 秒）' % (tag, c1['n'], w1), c1['n'] > 0 and s1, J({'bad': c1['bad'][:8], 'groups': c1['groups'], 'state': c1['state']}))
+    seats = await pg.evaluate(SEATS_ROOM, '101'); F1 = c1['figs']
+    cand = [s for s in seats if not s['taken'] and F1 and min(math.hypot(f['x'] - s['sx'], f['z'] - s['sz']) for f in F1) < 1.6]
+    cand.sort(key=lambda s: -math.hypot(s['sx'] - DOOR101_IN[0], s['sz'] - DOOR101_IN[1]))
+    run.note('%s：101 的座位 %d 個、空的而且旁邊 1.6 m 內有替身 %d 個；挑離門口最遠的：%s' % (tag, len(seats), len(cand), J(cand[:3])))
+    if not cand: run.check('%s：找得到旁邊有替身的空位' % tag, False, J(seats[:10])); return
+    tgt = cand[0]; mid = ((DOOR101_IN[0] + tgt['x']) / 2, (DOOR101_IN[1] + tgt['z']) / 2)
+    await L.go_to(pg, cdp, run, mid[0], mid[1], 1.2, '門口和座位中間', max_s=ENVI('WALK_MAX', 150))
+    c2, s2, w2 = await fig_point(pg, cdp, run, tag + '_2mid', (tgt['sx'], tgt['sz']))
+    run.check('%s 中間（%s）：6.5 m 內近處版、7.5 m 外遠處版（等了 %s 秒）' % (tag, c2['me'], w2), c2['n'] > 0 and s2, J(c2['bad'][:8]))
+    await L.go_to(pg, cdp, run, tgt['x'], tgt['z'], 0.5, '座位旁邊（%s）' % tgt['label'], max_s=ENVI('WALK_MAX', 150), stop=lambda s: s['interact'].startswith('坐'))
+    nf = min(F1, key=lambda f: math.hypot(f['x'] - tgt['sx'], f['z'] - tgt['sz']))
+    c3, s3, w3 = await fig_point(pg, cdp, run, tag + '_3seat', (nf['x'], nf['z']))
+    close = [f for f in c3['figs'] if f['dP'] < 6.5]
+    run.check('%s 座位旁邊（%s）：6.5 m 內的替身 %d 個全部換成近處版（不是一直糊臉的遠處版）、7.5 m 外遠處版（等了 %s 秒）' % (tag, c3['me'], len(close), w3),
+              s3 and bool(close) and all(f['ver'] == 'near' for f in close), J({'close': [[f['k'], f['dP'], f['ver']] for f in close], 'bad': c3['bad'][:8]}))
+    run.check('%s：每次換完替身總數不變（門口 %d、中間 %d、座位 %d）' % (tag, c1['n'], c2['n'], c3['n']), c1['n'] == c2['n'] == c3['n'], '')
+
+
+async def m_boya101(pg, cdp, run):
+    for c in ENV('BOYA', 'law'):
+        run.note('==== boya101：%s ====' % c)
+        try: await boya_case(pg, cdp, run, c)
+        except Exception as ex: run.check('boya101 %s：跑完（沒有探針例外）' % c, False, repr(ex)[:400]); traceback.print_exc()
+
+
+# ================================================================ 10. zrqx：AA_554 芷若／子晴「和她交往中」的版本
+Z3x = ['……我答應你那天，本來想寫這個。', '寫一寫覺得太丟臉，就改寫座位了。']
+Z4inv = '明天下午我在溫州街。……有一件事，我想當面講。'
+Z4want = ['她沉默很久。', '……想。', '她用手指捲頭髮，捲了三圈。', '我本來想先問你。結果你先問了。']
+Q4m = ['我在公館騎樓。不要問為什麼。', '……好啦，你要來就來。']
+Q4brave = ['……你是我男朋友，你當然這樣講。', '（她把頭靠在你肩上一秒。）', '……可是我想聽。我只是怕輸。', '……第四罐。你請。']
+Q4miss = ['第四罐我自己喝了。', '……沒事。真的。']
+Q5a = '……你坐第三排。我剛剛看到了。不要換位子。'
+Q5b = ['你拍超大聲欸。整個大廳都聽到了。', '……好啦。我很高興。', '（她把一張插座貓貼紙，直接貼在你的手機殼上。）']
+Q6x = ['沒有人知道。……除了阿凱。他是工程師，不算。', '還有你。你現在知道了。你也不算客人。']
+Q6b = '你不要突然講這種話。……我會為了你把它做完。不對，為了它。為了它啦。'
+Z7call = ['你在幹嘛。', '……等妳打來。', '我在看著那個送出鍵。……你不用講話。我只是想要有人在。', '（電話那頭很安靜。只有她店裡冰箱的聲音。）', '……按了。', '十一點五十九分。手在抖。你聽得出來嗎？', '……好丟臉。']
+Z7B_MSG = ['學校那一關過了。', '還要等英國那邊。他們說五月。', '……所以先不哭。五月再說。']
+Z7B_PICK, Z7B_REP = '恭喜。五月我陪妳一起等。', '……好。五月我應該會很煩，先跟你說。'
+Z8five = ['九月我就走了。五個月。', '五個月欸。……好啦，你這樣講我比較安心。']
+Z9 = ['（從包包拿出一張電影票根）幫我做一件事。', '我不在的時候，你去看一部電影。看完傳一句話給我。', '還有，每個星期天晚上十點我打給你。台灣時間。我媽那邊，我改早上打。']
+Z9miss = ['今天出發了。', '櫃台有一張票根，你的，跟老闆拿。', '星期天晚上十點。不要忘記。']
+Q7x = ['……好，這題我不會。你是法律系的，你幫我判。', '欸不是，你是我男朋友，你會偏心。……算了，你判。']
+Q7c = ['不要。', '她把手機調成靜音。', '……今天晚上講給你聽。不是改天。']
+Q7m = ['他說教授是他同學沒錯', '可是信是教授自己寫的', '……我還是不想去']
+Q8x = ['他剛剛問我，有沒有男朋友。', '我說有。他問：「會打電動嗎？」……我說會，很爛。他笑了。', '他說：「妳在做遊戲？……做好了，給我玩。」']
+Q8a = ['……『一定會』。', '（那天她不說話，可是沒有先走，兩個人一起走到捷運站。）']
+Q8m = ['我昨天很兇。', '……但你不要再說『一定』。', '男朋友也不行。']
+TCm = ['我媽問我今天為什麼一直看手機。', '我說，在看天氣。']
+CDm = '你也不能請假喔'
+WK1 = '上課有個同學每次都坐同一排。他問我臺灣的冬天冷不冷。'
+DH = lambda id_: "NOKX(); DT('%s'); const r=HI('%s');" % (id_, id_)
+
+
+def has_seq(L_, want):
+    return any(L_[i:i + len(want)] == want for i in range(len(L_) - len(want) + 1))
+
+
+async def zq_load(pg, cdp, run, tag, key, h, js, flags=None, done=None, label=''):
+    st, d = await state_at(pg, key, h, 'dorm', flags=flags, done=done)
+    r = await load(pg, cdp, run, st, '%s：最小存檔 %s %s 宿舍%s' % (tag, d['key'], hm(h), label), js=js)
+    return r, d
+
+
+async def zq_msg(pg, cdp, run, tag, mtag, want, who, key, h):
+    got, M = await wait_msg(pg, cdp, run, mtag, ENVI('VF_WAIT', 600), tag + '_wait', picks=STAYUP)
+    run.check('%s：%s %s %s 私訊 %s' % (tag, key, hm(h), who, J(want)), got and [m['text'] for m in M] == want and all(m['from'] == who for m in M) and M[0]['day'] == key and abs(M[0]['h'] - h) < 0.08, J(M))
+    if M: await thread_shot(pg, cdp, run, M[0]['th'], tag + '_thread')
+    return got, M
+
+
+async def zq_talk(pg, cdp, run, tag, cid, ev, picks):
+    """走到她旁邊「和〈她〉說話」→ 那一段（trigger interact）；點完以後等事件記 done"""
+    w = await P.wait_present(pg, cid, 90)
+    if not w or w['hidden']: return {'ok': False, 'why': '這一區看不到她', 'w': w}
+    if w['dMe'] > 25: await P.place_near(pg, run, w['x'], w['z'], 7.0, w['lv'], cid)
+    r = await P.talk_to(pg, cdp, run, cid, tag, picks=picks, max_s=420)
+    ok = await play(pg, cdp, run, EVDONE % J(ev), max_s=90, picks=picks, ff=False, tag=tag + '_after')
+    return {'ok': ok, 'label': r and r.get('label'), 'opts': r and r.get('opts')}
+
+
+def texts(R):
+    return [r['t'] for r in R if r['k'] == 'say']
+
+
+async def zq_case(pg, cdp, run, c):
+    tag = 'zq_' + c
+    if c == 'z3':
+        d = await P.day_of(pg, ['Y1S2', 3, 2])
+        await zq_load(pg, cdp, run, tag, d['key'], 21.5, DH(ZR) + " return r;", label='（大一下第 3 週週二）；【捷徑】和芷若交往中')
+        gp = await go_place(pg, cdp, run, 'cafe'); await wait_h(pg, cdp, run, d['key'], 21.7, 120, tag + '_to2140')
+        n0 = await pl_len(pg); t = await zq_talk(pg, cdp, run, tag, ZR, 'ev_zhiruo_own_drink', [])
+        L_ = texts(await rows(pg, n0)); fl = await pg.evaluate(FLAG, 'ZR_Z3_DH')
+        run.check('zq_z3：21:40 以後 Café 跟她說話 → Z3「……不要笑。」後面多兩句 %s、記 ZR_Z3_DH' % J(Z3x), gp['ok'] and t['ok'] and has_seq(L_, ['……不要笑。'] + Z3x) and fl is True, J({'t': t, 'said': L_[-5:]}))
+        await go_place(pg, cdp, run, 'dorm'); it = await L.find_it(pg, '吧檯的點單紙')
+        if it:
+            await L.go_to(pg, cdp, run, it['x'], it['z'], 0.8, it['label'], max_s=90, stop=lambda s: s['interact'].startswith('吧檯的點單紙')); n1 = await pl_len(pg)
+            await L.tap(pg, cdp, '#interact'); await pg.wait_for_timeout(2500); await run.shot(pg, tag + '_room_slip')
+            got = [x['t'] for x in await rows(pg, n1) if x['k'] in ('say', 'cap')]; await play(pg, cdp, run, None, max_s=10, ff=False, tag=tag + '_slip')
+        run.check('zq_z3：宿舍房間多一張「吧檯的點單紙」（按下去「熱可可＋濃縮」）', bool(it) and any('熱可可＋濃縮' in t for t in got), J({'it': it, 'got': got if it else None}))
+    elif c == 'z4' or c == 'neg':
+        fri = await P.day_of(pg, ['Y1S2', ENVI('Z4_WEEK', 12), 5]); neg = c == 'neg'   # 第 12 週：第 11 週週六 13:00～17:00 她在松菸（作息 enc D02），溫州街 15:00 碰不到
+        js = ("F.dating_kexin=true; DT('kexin'); LV('kexin',65,50,45,{npcRom:60,rom:40}); const r=LV('heroine_02',25,10,5); try{ ROM.learn(G,'heroine_02','kexin','test'); }catch(e){} return {r, knows:ROM.knowsGF?ROM.knowsGF(G,'heroine_02'):null};" if neg
+              else "NOKX(); DT('heroine_02'); return LV('heroine_02',25,10,5);")
+        await zq_load(pg, cdp, run, tag, fri['key'], 20.83, js, label='（大一下第 %d 週週五）；【捷徑】%s' % (ENVI('Z4_WEEK', 12), '和可昕交往中、芷若知道（ROM.learn）＝和別人交往中' if neg else '和芷若交往中（有點熟）'))
+        if neg:
+            await wait_h(pg, cdp, run, fri['key'], 21.25, ENVI('VF_WAIT', 600), tag + '_2115')
+            M = await pg.evaluate(MSG_OF, 'aa554_z4_inv')
+            run.check('zq_neg：和別人交往中＝週五 21:15 沒有「%s」（照現在的版本）' % Z4inv, not M, J(M))
+            dz = '2026-12-10'
+            st, d = await state_at(pg, dz, 23.42, 'dorm', done={'ev_zhiruo_secret': 1})
+            js7 = js.replace("return {r,", "REM('heroine_02','SHARED_SECRET',''); return {r,")
+            await load(pg, cdp, run, st, 'zq_neg：最小存檔 2026-12-10 23:25 宿舍（演過 Z4）；和別人交往中', js=js7)
+            await wait_h(pg, cdp, run, dz, 24.1, ENVI('VF_WAIT', 600), tag + '_z7', picks=STAYUP)
+            q = await pg.evaluate(OUTQ, 'aa554_z7_call'); M7 = await pg.evaluate("(()=>(GAME.G.msgs||[]).filter(m=>m&&/^zr_z7_msg/.test(m.tag||'')).map(m=>m.text))()")
+            run.check('zq_neg：和別人交往中＝12/10 23:50 沒有電話、也沒有 23:59 那三則（照原本）', not q and not M7, J({'q': q, 'msgs': M7}))
+            return
+        got, M = await zq_msg(pg, cdp, run, tag, 'aa554_z4_inv', [Z4inv], ZR, fri['key'], 21.0)
+        if not got: return
+        s1 = await snap(pg); sat = await pg.evaluate("d=>CALENDAR.dateOf(d+1).key", fri['d'])
+        await jump(pg, cdp, run, s1, sat, 14.83, zone='dorm', pos=None, note='收到前一晚那則的進度；週六 14:50 宿舍')
+        gp = await go_place(pg, cdp, run, 'wenzhou'); await wait_h(pg, cdp, run, sat, 15.02, 120, tag + '_to1500')
+        n0 = await pl_len(pg); t = await zq_talk(pg, cdp, run, tag, ZR, 'ev_zhiruo_secret', ['「妳想去嗎'])
+        L_ = texts(await rows(pg, n0))
+        run.check('zq_z4：週六 15:00 以後溫州街跟她說話 → Z4「妳想去嗎？」→ %s' % J(Z4want), gp['ok'] and t['ok'] and has_seq(L_, Z4want), J({'t': t, 'said': L_[-6:]}))
+    elif c in ('q4', 'q4miss'):
+        sat = await P.day_of(pg, ['Y1S2', 8, 6])
+        await zq_load(pg, cdp, run, tag, sat['key'], 13.33, DH(ZQ) + " REM('heroine_04','ARGUED_ABOUT_CAREER',''); return r;", label='（大一下第 8 週週六）；【捷徑】和子晴交往中、問過比賽（ARGUED_ABOUT_CAREER）')
+        got, M = await zq_msg(pg, cdp, run, tag, 'aa554_q4_msg', Q4m, ZQ, sat['key'], 13.5)
+        if not got: return
+        if c == 'q4miss':
+            s1 = await snap(pg)
+            await jump(pg, cdp, run, s1, sat['key'], 17.67, zone='dorm', pos=None, note='收到 13:30 那兩則、沒有去公館；17:40 宿舍')
+            await zq_msg(pg, cdp, run, tag + '_miss', 'aa554_q4_miss', Q4miss, ZQ, sat['key'], 17 + 50 / 60)
+            return
+        gp = await go_place(pg, cdp, run, 'gongguan'); sx = await pg.evaluate(SCHED_AT, [ZQ, sat['key'], 14.2])
+        n0 = await pl_len(pg); t = await zq_talk(pg, cdp, run, tag, ZQ, 'ev_ziqing_contest_day', ['「妳不想去'])
+        L_ = texts(await rows(pg, n0))
+        run.check('zq_q4：手機「地點」→ 公館（她 13:30～15:00 在公館：%s）→ 跟她說話 →「妳不想去，就不是爛。」→ %s' % (sx and sx.get('zone') if isinstance(sx, dict) else sx, J(Q4brave)), gp['ok'] and t['ok'] and has_seq(L_, Q4brave), J({'t': t, 'said': L_[-6:]}))
+    elif c in ('q5', 'q9'):
+        if c == 'q5': d = await P.day_of(pg, ['Y1S2', 14, 3]); js = DH(ZQ) + " return r;"; ev = 'ev_ziqing_show'; fl = None
+        else: d = await P.day_of(pg, '2027-05-28'); js = DH(ZQ) + " REM('heroine_04','INVITED_CLUB',''); return r;"; ev = 'ev_ziqing_show2'; fl = {'ZQ_SHOW': 'clap'}
+        await zq_load(pg, cdp, run, tag, d['key'], 18.75, js, flags=fl, label='；【捷徑】和子晴交往中%s' % ('（大一下成發）' if c == 'q5' else '、Q5 去過拍手（大二下第二次成發）'))
+        gp = await go_place(pg, cdp, run, 'wancai'); await wait_h(pg, cdp, run, d['key'], 18.8, 60, tag + '_to1848')
+        n0 = await pl_len(pg); sj = await spot_join(pg, cdp, run, '吉他社成發', '去看：', tag)
+        ok = await play(pg, cdp, run, EVDONE % J(ev), max_s=ENVI('SHOW_MAX', 600), picks=['（拍手）'], ff=False, tag=tag, shots_at=['第三排', '整個大廳', '手機殼', 'bug 修好了'])
+        L_ = texts(await rows(pg, n0))
+        if c == 'q5':
+            run.check('zq_q5：成發「我寫程式從來不抖。」後面多「%s」；（拍手）→ %s；沒有「你拍得超大聲。」' % (Q5a, J(Q5b)), sj['ok'] and ok and has_seq(L_, ['我寫程式從來不抖。', Q5a]) and has_seq(L_, Q5b) and not any('你拍得超大聲' in t for t in L_), J({'spot': sj, 'said': L_[-12:]}))
+        else:
+            run.check('zq_q9：第二次成發「去年那個 bug 修好了。」、最後「第二張。明年還有第三張。」（貼在手機殼上）', sj['ok'] and ok and '去年那個 bug 修好了。' in L_ and bool(L_) and L_[-1] == '第二張。明年還有第三張。' and any('直接貼在你的手機殼上' in t for t in L_), J({'spot': sj, 'said': L_[-6:]}))
+    elif c == 'q6':
+        d = await P.day_of(pg, ['Y1S2', 11, 1])
+        await zq_load(pg, cdp, run, tag, d['key'], 19.08, DH(ZQ) + " REM('heroine_04','CONTEST_DAY',''); return r;", label='（大一下第 11 週週一）；【捷徑】和子晴交往中、記憶 CONTEST_DAY')
+        gp = await go_place(pg, cdp, run, 'wancai'); n0 = await pl_len(pg)
+        t = await zq_talk(pg, cdp, run, tag, ZQ, 'ev_ziqing_secret_game', ['「這比比賽有用'])
+        L_ = texts(await rows(pg, n0))
+        run.check('zq_q6：法律系館B 跟她說話 → Q6 第三句換 %s；選「這比比賽有用多了。」→「%s」' % (J(Q6x), Q6b[:12] + '…'), gp['ok'] and t['ok'] and has_seq(L_, Q6x) and Q6b in L_, J({'t': t, 'said': L_[-8:]}))
+    elif c == 'z7':
+        dz = '2026-12-10'
+        await zq_load(pg, cdp, run, tag, dz, 23.42, DH(ZR) + " REM('heroine_02','SHARED_SECRET',''); return r;", done={'ev_zhiruo_secret': 1}, label='（演過 Z4）；【捷徑】和芷若交往中')
+        q = await pg.evaluate(OUTQ, 'aa554_z7_call')
+        run.check('zq_z7：行事曆有 12/10 23:50「接起來：芷若打來」（電話、只有接起來）', bool(q) and q['day'] == dz and abs(q['h'] - (23 + 50 / 60)) < 0.02 and q['call'] and q['verb'] == '接起來', J(q))
+        n0 = await pl_len(pg)
+        ok = await play(pg, cdp, run, "GAME.G.flags.ZR_Z7_CALL!=null", max_s=ENVI('XC_MAX', 900), picks=['接起來：', '「聽得出來。」'] + STAYUP, ff=False, tag=tag, shots_at=['送出鍵', '十一點五十九分'])
+        L_ = texts(await rows(pg, n0)); fl = await pg.evaluate(FLAG, 'ZR_Z7_CALL')
+        run.check('zq_z7：23:50「接起來：」→ 電話 %s、記 ZR_Z7_CALL took' % J(Z7call), ok and fl == 'took' and has_seq(L_, Z7call), J({'flag': fl, 'said': L_[-9:]}))
+    elif c == 'z7b':
+        await zq_load(pg, cdp, run, tag, '2027-01-28', 20.83, DH(ZR) + " return r;", done={'ev_zhiruo_secret': 1, 'ev_zhiruo_applied': 1}, label='（演過交換申請 Café 那一場）；【捷徑】和芷若交往中')
+        got, M = await wait_msg(pg, cdp, run, 'zr_z7b', ENVI('VF_WAIT', 600), tag + '_wait')
+        run.check('zq_z7b：1/28 芷若 %s' % J(Z7B_MSG), got and [m['text'] for m in M] == Z7B_MSG, J(M))
+        if not got: return
+        a = await answer(pg, cdp, run, ('eq', 'zr_z7b'), Z7B_PICK, tag)
+        await play(pg, cdp, run, "(t=>(GAME.G.msgs||[]).some(m=>m&&m.from==='heroine_02'&&m.text===t))(%s)" % J(Z7B_REP), max_s=60, ff=False, tag=tag + '_reply')
+        th = await pg.evaluate(THREAD, 'p:' + ZR)
+        run.check('zq_z7b：點「%s」→「%s」' % (Z7B_PICK, Z7B_REP), bool(a) and a['tapped'] == Z7B_PICK and any(x[1] == Z7B_REP for x in th), J({'a': a and a['opts'], 'thread': th[-4:]}))
+    elif c == 'z8':
+        await zq_load(pg, cdp, run, tag, '2027-05-12', 14.83, DH(ZR) + " return r;", flags={'ZR_ADMIT_CALL': 'stayed'}, done={'ev_zhiruo_secret': 1, 'ev_zhiruo_applied': 1}, label='（錄取那晚接了電話：ZR_ADMIT_CALL stayed）；【捷徑】和芷若交往中')
+        n0 = await pl_len(pg); gp = await go_place(pg, cdp, run, 'cafe')
+        ok = await play(pg, cdp, run, EVDONE % J('ev_zhiruo_admitted'), max_s=ENVI('CN_MAX', 600), picks=['「五個月很快'], ff=False, tag=tag, shots_at=['五個月'])
+        L_ = texts(await rows(pg, n0)); CH = [x['t'] for x in await rows(pg, n0, 'choose')]
+        run.check('zq_z8：走進 Café → 錄取：「%s」→ 選「五個月很快。」→「%s」；沒有「四個月」' % tuple(Z8five), gp['ok'] and ok and Z8five[0] in L_ and bool(L_) and L_[-1] == Z8five[1] and not any('四個月' in t for t in L_ + CH), J({'said': L_[-5:], 'ch': CH[-2:]}))
+    elif c == 'z9':
+        await zq_load(pg, cdp, run, tag, '2027-06-03', 20.83, DH(ZR) + " REM('heroine_02','ASKED_HER_DRINK',''); return r;", flags={'CAFE_VISITS': 5}, done={'ev_zhiruo_secret': 1, 'ev_zhiruo_applied': 1}, label='；【捷徑】和芷若交往中、常客')
+        n0 = await pl_len(pg); gp = await go_place(pg, cdp, run, 'cafe')
+        ok = await play(pg, cdp, run, EVDONE % J('ev_zhiruo_last_shift'), max_s=ENVI('CN_MAX', 600), picks=['「我會去看'], ff=False, tag=tag, shots_at=['幫我做一件事', '星期天晚上十點'])
+        R = await rows(pg, n0); L_ = texts(R)
+        run.check('zq_z9：6/3 21:00 Café 最後一個班：%s' % J(Z9), gp['ok'] and ok and has_seq(L_, Z9) and not any('我的那杯' in t for t in L_), J({'said': L_[-6:], 'cg': [x['t'] for x in R if x['k'] == 'cg']}))
+    elif c == 'z9miss':
+        await zq_load(pg, cdp, run, tag, '2027-09-02', 9.83, DH(ZR) + " return r;", done={'ev_zhiruo_secret': 1, 'ev_zhiruo_applied': 1}, label='（6/3 最後一個班沒去、9/2 沒去送機）；【捷徑】和芷若交往中')
+        await zq_msg(pg, cdp, run, tag, 'y2_zr_depart', Z9miss, ZR, '2027-09-02', 10.0)
+    elif c == 'z9met':
+        await zq_load(pg, cdp, run, tag, '2027-09-01', 20.83, DH(ZR) + " return r;", flags={'HOOK_ZR_SENDOFF': True}, done={'ev_zhiruo_secret': 1, 'ev_zhiruo_applied': 1},
+                      label='（期末聚餐說了「出發那天我去送妳」：HOOK_ZR_SENDOFF；6/3 最後一個班沒去）；【捷徑】和芷若交往中')
+        ok = await play(pg, cdp, run, "(GAME.G.msgs||[]).some(m=>m&&m.ask&&/^zr_sendoff/.test(m.ask.id||''))", max_s=ENVI('VF_WAIT', 600), ff=False, tag=tag + '_ask')
+        a = await answer(pg, cdp, run, ('prefix', 'zr_sendoff'), '會到。', tag)
+        run.check('zq_z9met：9/1 21:00 她私訊、點「會到。」', ok and bool(a) and a['tapped'] == '會到。', J(a)[:500])
+        ok2 = await play(pg, cdp, run, EVDONE % J('ev_zr_sendoff_2027'), max_s=ENVI('XC_MAX', 1800), picks=['出發：'], ff=True, tag=tag + '_go', shots_at=['機場', '票根'])
+        fl = await pg.evaluate("(()=>({s:GAME.G.flags.ZR_SENDOFF_2027||null,last:GAME.G.flags.ZR_LAST_SHIFT||null}))()")
+        run.check('zq_z9met：床快轉 → 9/2「出發：…機場」→ 送機演完（ZR_SENDOFF_2027 met、ZR_LAST_SHIFT airport＝機場拿到票根）', ok2 and fl['s'] == 'met' and fl['last'] == 'airport', J(fl))
+        got, M = await wait_msg(pg, cdp, run, 'aa554_z9_board', ENVI('VF_WAIT', 600), tag + '_board')
+        dep = await pg.evaluate(MSG_OF, 'y2_zr_depart')
+        run.check('zq_z9met：登機以後 10:30 只傳「星期天晚上十點。不要忘記。」（沒有 10:00 的三則）', got and [m['text'] for m in M] == [Z9miss[2]] and abs(M[0]['h'] - 10.5) < 0.05 and not dep, J({'M': M, 'dep': dep}))
+    elif c == 'video':
+        s1k = '2027-09-05'
+        await zq_load(pg, cdp, run, tag, s1k, 21.67, DH(ZR) + " return r;", done={'ev_zhiruo_secret': 1, 'ev_zhiruo_applied': 1, 'ev_zhiruo_admitted': 1}, label='（她在英國交換）；【捷徑】和芷若交往中')
+        await play(pg, cdp, run, None, max_s=12, ff=False, tag=tag + '_settle')
+        q = await pg.evaluate(OUTQ, 'zruk_w_' + s1k); crack0 = await pg.evaluate("+GAME.G.flags.ZR_CRACK||0")
+        run.check('zq_video：2027-09-05（她到的第一個週日）臺灣 22:00 每週視訊（不用前一天約）', bool(q) and q['day'] == s1k and abs(q['h'] - 22) < 0.02 and q['ev'] == 'ev_zr_uk_weekly', J(q))
+        if not q: return
+        n0 = await pl_len(pg)
+        ok = await play(pg, cdp, run, "(id=>{ const q=OUT.get(GAME.G,id); return !!q&&q.state!=='planned'; })(%s)" % J('zruk_w_' + s1k), max_s=ENVI('XC_MAX', 900), picks=['接起來：', '早點睡'] + STAYUP, ff=False, tag=tag, shots_at=['同一排'])
+        L_ = texts(await rows(pg, n0)); crack1 = await pg.evaluate("+GAME.G.flags.ZR_CRACK||0")
+        run.check('zq_video：「接起來：」→ 話題 W1「%s」、收尾「你那邊很晚了吧。」；「早點睡。」不算裂縫（ZR_CRACK %s→%s）' % (WK1[:12] + '…', crack0, crack1), ok and WK1 in L_ and '你那邊很晚了吧。' in L_ and crack1 == crack0, J(L_[-8:]))
+        s2 = await snap(pg); res = {}
+        for k2 in ('2027-09-12', '2028-02-06', '2028-02-13'):
+            await jump(pg, cdp, run, s2, k2, 12.0, zone='dorm', pos=None, note='同一份進度；看那個週日的行事曆')
+            await play(pg, cdp, run, None, max_s=10, ff=False, tag=tag + '_' + k2)
+            res[k2] = await pg.evaluate(OUTQ, 'zruk_w_' + k2)
+        run.check('zq_video：下一個週日 9/12 有、最後一次 2028-02-06 有、2/13（回國以後）沒有', bool(res['2027-09-12']) and bool(res['2028-02-06']) and not res['2028-02-13'], J(res))
+    elif c == 'q7':
+        d = await P.day_of(pg, ['Y2S1', 3, 1])
+        await zq_load(pg, cdp, run, tag, d['key'], 18.67, DH(ZQ) + " JOIN('guitar','吉他社'); return r;", flags={'CLUB_club_guitar': True}, label='（大二上第 3 週週一，吉他社社課）；【捷徑】和子晴交往中、吉他社')
+        gp = await go_place(pg, cdp, run, 'wancai'); n0 = await pl_len(pg)
+        rd = await room_door(pg, cdp, run, ('進入 多功能教室', '多功能教室'), '參加：', tag)
+        ok = await play(pg, cdp, run, EVDONE % J('ev_ziqing_lab_letter'), max_s=ENVI('PLG_MAX', 900), picks=['「接妳爸'], ff=False, tag=tag, shots_at=['你會偏心'])
+        L_ = texts(await rows(pg, n0))
+        run.check('zq_q7：多功能教室門口「參加：吉他社社課」→ 實驗室的信：%s；「接妳爸的電話。」→ %s' % (J(Q7x[1:]), J(Q7c)), gp['ok'] and rd['ok'] and ok and has_seq(L_, Q7x) and has_seq(L_, Q7c), J({'door': rd.get('menu'), 'said': L_[-6:]}))
+        s1 = await snap(pg)
+        await jump(pg, cdp, run, s1, d['key'], 23.0, zone='dorm', pos=None, note='社課以後的進度；當晚 23:00 宿舍')
+        await zq_msg(pg, cdp, run, tag + '_dad', 'aa554_q7_dad', Q7m, ZQ, d['key'], 23 + 10 / 60)
+    elif c == 'q8':
+        d = await P.day_of(pg, ['Y2S2', 13, 2])
+        await zq_load(pg, cdp, run, tag, d['key'], 21.83, DH(ZQ) + " return r;", done={'ev_ziqing_secret_game': 1}, label='（大二下第 13 週週二）；【捷徑】和子晴交往中、看過 Q6')
+        gp = await go_place(pg, cdp, run, 'gongguan'); n0 = await pl_len(pg)
+        ok = await play(pg, cdp, run, EVDONE % J('ev_ziqing_dad_visit'), max_s=ENVI('CN_MAX', 600), picks=['「妳很有天分'], ff=False, tag=tag, shots_at=['有沒有男朋友'])
+        L_ = texts(await rows(pg, n0))
+        run.check('zq_q8：22:00 以後在公館 → 爸爸來了：%s …「妳很有天分。他一定會懂。」→ %s' % (J(Q8x[:2]), J(Q8a)), gp['ok'] and ok and has_seq(L_, Q8x) and all(t in L_ for t in Q8a) and '（她把耳機戴上。那天沒有再說話。）' not in L_, J(L_[-6:]))
+        s1 = await snap(pg); nd = await pg.evaluate("d=>CALENDAR.dateOf(d+1).key", d['d'])
+        await jump(pg, cdp, run, s1, nd, 8.5, zone='dorm', pos=None, note='那一晚以後的進度；隔天 08:30 宿舍')
+        await zq_msg(pg, cdp, run, tag + '_dad', 'aa554_q8_dad', Q8m, ZQ, nd, 8 + 40 / 60)
+    elif c == 'tc':
+        await zq_load(pg, cdp, run, tag, '2026-02-15', 21.92, DH(ZR) + " return {r, pres:STORY.presence?STORY.presence('heroine_02',G):null};", label='（大一寒假，她在台中）；【捷徑】和芷若交往中')
+        await zq_msg(pg, cdp, run, tag, 'aa554_zr_tc', TCm, ZR, '2026-02-15', 22 + 7 / 60)
+    elif c == 'cd':
+        dShow = await P.day_of(pg, ['Y1S2', 14, 3]); d0 = await pg.evaluate("d=>CALENDAR.dateOf(d-14).key", dShow['d'])
+        await zq_load(pg, cdp, run, tag, d0, 20.83, DH(ZQ) + " JOIN('guitar','吉他社'); return r;", label='（成發前十四天）；【捷徑】和子晴交往中、吉他社群組')
+        got, M = await wait_msg(pg, cdp, run, 'zq_show_cd_dh', ENVI('VF_WAIT', 600), tag + '_wait')
+        G5 = [m['text'] for m in await pg.evaluate(MSG_OF, 'zq_show_cd')]
+        run.check('zq_cd：21:00 吉他社群組「成發」「倒數」「十四天」「不能請假」「都要來」，21:03 她私訊「%s」' % CDm, got and G5 == ['成發', '倒數', '十四天', '不能請假', '都要來'] and [m['text'] for m in M] == [CDm] and abs(M[0]['h'] - (21 + 3 / 60)) < 0.03, J({'grp': G5, 'dm': M}))
+        if M: await thread_shot(pg, cdp, run, 'p:' + ZQ, tag + '_thread')
+    else:
+        run.check('ZQ＝%s 認得' % c, False, ZQ_ALL)
+
+
+ZQ_ALL = 'z3,z4,q4,q4miss,q5,q6,z7,z7b,z8,z9,z9miss,z9met,video,q7,q8,q9,tc,cd,neg'
+
+
+async def m_zrqx(pg, cdp, run):
+    cs = ENV('ZQ', 'z4,q4,q4miss,q5,z7,z9miss,z9met,video,q7,tc,neg')
+    if cs == ['all']: cs = ZQ_ALL.split(',')
+    for c in cs:
+        run.note('==== zrqx：%s ====' % c)
+        try: await zq_case(pg, cdp, run, c)
+        except Exception as ex:
+            run.check('zrqx %s：跑完（沒有探針例外）' % c, False, repr(ex)[:400]); traceback.print_exc()
+            try: await run.shot(pg, 'zrqx_%s_exception' % c)
+            except Exception: pass
+
+
+# ================================================================ 11. l123：AA_118 第 5 節 L1～L3 校園小場景（src/campus_l123_3d.js）
+L1_WAIT = ['（電梯來了，進去八個人，門關不上，「嗶——」。）', '（阿哲永遠是最後擠進去的那一個。）', '我很瘦。', '「嗶——」', '……好，我走樓梯。']
+L1_STAIRS = '走樓梯比電梯快四十秒。我算過。'
+L1_GOSSIP = ('（電梯裡，後面有人在講手機。）', '（電梯裡很擠，大家都在滑手機。）')
+L2_LINES = [('', '（系上的新生導覽走到校史館。看完出來，Alison 站在門口。）'), ('@yu', '欸，老照片上的椰子樹好矮。'), ('@zhe', '椰子樹也當過新生。')]
+L3_INV = '今天下午四點，圓窗館前拍系學會合照。'
+L3_PHOTO = '📷（圓窗館前的系學會合照）'
+L3_Y = {1: ['（系學會每年在圓窗館前拍一張合照。）', '（Alison 站最後一排，跳起來才拍得到。）', '欸再一張，我剛剛眨眼。'], 2: ['（系學會每年在圓窗館前拍一張合照。）', '（Alison 站中間，負責喊「一、二、三」。）'],
+        3: ['（系學會每年在圓窗館前拍一張合照。）', '（Alison 把系學會交出去了，站在攝影師旁邊，負責拿器材。）', '我第一次在照片外面。……還不錯。'], 4: ['（系學會每年在圓窗館前拍一張合照。）', '（學弟妹請 Alison 回來拍。她站最邊邊，笑得最開心。）']}
+L1_DAYS = """(([a,b,wd])=>{ const out=[]; for(let d=STORY.dayOfKey(a); d<=STORY.dayOfKey(b); d++){ const c=CALENDAR.dateOf(d), t=CALENDAR.termOf(d); if(c.wd%7!==wd||!t||t.id!=='Y1S1'||CALENDAR.holiday(d)) continue; out.push({d,key:c.key,week:t.week}); } return out; })"""
+
+
+async def l1_visit(pg, cdp, run, tag, pick):
+    n0 = await pl_len(pg)
+    gp = await go_place(pg, cdp, run, 'linze')
+    ok = await play(pg, cdp, run, "GAME.G.hour>=12.55", max_s=ENVI('L1_MAX', 600), picks=[pick] if pick else [], ff=False, tag=tag, shot_choice=['（等電梯）'], shots_at=['電梯門口', '電梯來了', '四十秒'])
+    R = await rows(pg, n0)
+    ch = [x['t'] for x in R if x['k'] == 'choose' and '（等電梯）' in x['t']]
+    return gp, ok, R, ch
+
+
+async def l123_case(pg, cdp, run, c):
+    yu = await names_of(pg, 'yu'); zhe = await names_of(pg, 'zhe'); bh = await names_of(pg, 'classmate_bohan')
+    if c == 'l1':
+        await pre_load(pg, cdp, run, '2025-09-20', 'l1')
+        days = await pg.evaluate(L1_DAYS, ['2025-09-22', '2025-12-31', 2])
+        trip = None
+        for i, x in enumerate(days):
+            y = next((q for q in days if q['d'] == x['d'] + 14), None); z = next((q for q in days if y and q['d'] == y['d'] + 14), None)
+            if y and z: trip = (x, y, z); break
+        run.note('l1：大一上的週二（不放假，只讀）：%s' % J([x['key'] for x in days]))
+        if not trip: run.check('l1：同一學期找得到隔兩週的三個週二', False); return
+        st, d = await state_at(pg, trip[0]['key'], 12.0, 'dorm')
+        await load(pg, cdp, run, st, 'l1：最小存檔 %s（二，大一上第 %s 週）12:00 宿舍' % (trip[0]['key'], trip[0]['week']), js="NOKX(); return [LV('zhe',25,10,5),LV('classmate_bohan',25,10,5)].map(x=>x.id+':'+x.level);")
+        gp, ok, R, ch = await l1_visit(pg, cdp, run, 'l1_1', '（等電梯）')
+        L_ = texts(R); i = next((k for k, t in enumerate(L_) if t == L1_WAIT[0]), None)
+        gos = L_[i + len(L1_WAIT):i + len(L1_WAIT) + 1] if i is not None else []
+        rec = await pg.evaluate(FLAG, 'L1_ELEV')
+        run.check('l1 第 1 次 %s：手機「地點」→ 法律系館A（大廳）→ 12:10 以後「（中午下課，電梯門口擠滿人。）」→「（等電梯）」→ 阿哲那一段 %s → 八卦（「%s」接一則、或「%s」）' % (trip[0]['key'], J(L1_WAIT[1:]), L1_GOSSIP[0], L1_GOSSIP[1]),
+                  gp['ok'] and bool(ch) and ch[0].startswith('（等電梯）｜（走樓梯）') and i is not None and L_[i:i + len(L1_WAIT)] == L1_WAIT and bool(gos) and gos[0] in L1_GOSSIP, J({'said': L_[-10:], 'L1_ELEV': rec}))
+        s1 = await snap(pg)
+        await jump(pg, cdp, run, s1, trip[1]['key'], 12.0, zone='dorm', pos=None, note='第 1 次以後的進度；隔兩週的週二 12:00 宿舍（cooldown 14 天）')
+        gp, ok, R, ch = await l1_visit(pg, cdp, run, 'l1_2', '（走樓梯）')
+        L_ = texts(R); bl = [r for r in R if r['k'] == 'say' and r['t'] == L1_STAIRS]
+        run.check('l1 第 2 次 %s：「（走樓梯）」→ 柏翰「%s」' % (trip[1]['key'], L1_STAIRS), gp['ok'] and bool(ch) and bool(bl) and bl[0]['n'] in bh, J({'said': L_[-4:]}))
+        s2 = await snap(pg)
+        await jump(pg, cdp, run, s2, trip[2]['key'], 12.0, zone='dorm', pos=None, note='第 2 次以後的進度；再隔兩週的週二 12:00 宿舍')
+        gp, ok, R, ch = await l1_visit(pg, cdp, run, 'l1_3', None)
+        rec = await pg.evaluate(FLAG, 'L1_ELEV')
+        run.check('l1 第 3 次 %s（同一學期）：沒有電梯那一段（每學期最多兩次）；L1_ELEV %s' % (trip[2]['key'], J(rec)), gp['ok'] and not ch and not any(x['t'] == '（中午下課，電梯門口擠滿人。）' for x in R if x['k'] == 'say'), J({'said': texts(R)[-4:]}))
+    elif c in ('l2', 'l2neg'):
+        d = await P.day_of(pg, ['Y1S1', 4, 3])
+        st, dd = await state_at(pg, d['key'], 14.75, 'dorm')
+        await load(pg, cdp, run, st, '%s：最小存檔 %s（三，大一上第 4 週）14:45 宿舍' % (c, d['key']), js="NOKX(); return [LV('yu',25,10,5),LV('zhe',25,10,5)].map(x=>x.id+':'+x.level);")
+        n0 = await pl_len(pg)
+        if c == 'l2':
+            gp = await go_place(pg, cdp, run, 'campus')
+            ok = await play(pg, cdp, run, EVDONE % J('ev_l2_hist_door'), max_s=ENVI('L1_MAX', 600), ff=False, tag=c, shots_at=['校史館', '椰子樹'])
+            R = await rows(pg, n0); want = subm(L2_LINES, {'@yu': yu, '@zhe': zhe}); Ls = said(R)
+            okq, gl, _ = after(Ls, want[0], want[1:]); r0 = row_of(R, want[0][1])
+            run.check('l2：15:00 人在校園（手機「地點」→ 校園）→ 校史館門口三句照稿', gp['ok'] and ok and okq and bool(r0) and 15 <= r0['h'] < 15.5, J({'got': gl, 'at': r0 and [r0['d'], r0['h'], r0['z']]}))
+        else:
+            await wait_h(pg, cdp, run, d['key'], 15.55, ENVI('L1_MAX', 600), 'l2neg_wait')
+            gp = await go_place(pg, cdp, run, 'campus'); await play(pg, cdp, run, None, max_s=30, ff=False, tag='l2neg_campus')
+            run.check('l2neg：15:00～15:30 不在校園（待在宿舍）＝不演；15:35 以後才到校園也不演', not await pg.evaluate(EVDONE % J('ev_l2_hist_door')) and not any(x['t'] == L2_LINES[0][1] for x in await rows(pg, n0, 'say')), J(await P.clock(pg)))
+    elif c in ('l3', 'l3miss'):
+        y = ENVI('L3_YEAR', 1); d = await P.day_of(pg, ['Y%dS1' % y, 3, 5])
+        st, dd = await state_at(pg, d['key'], 11.83, 'dorm')
+        await load(pg, cdp, run, st, '%s：最小存檔 %s（五，大%s上第 3 週）11:50 宿舍' % (c, d['key'], '一二三四'[y - 1]), js="NOKX(); const r=LV('yu',25,10,5); return {r, grp:JOIN('law_class','法律系（全班）')};")
+        got, M = await wait_msg(pg, cdp, run, 'l123_l3_inv_%d' % y, ENVI('VF_WAIT', 600), c + '_inv')
+        run.check('%s：12:00 班群（法律系（全班））系學會「%s」' % (c, L3_INV), got and [m['text'] for m in M] == [L3_INV] and M[0]['th'] == 'g:law_class' and abs(M[0]['h'] - 12) < 0.05, J(M))
+        if M: await thread_shot(pg, cdp, run, 'g:law_class', c + '_group')
+        q = await pg.evaluate(OUTQ, 'l123_l3_%d' % y)
+        run.check('%s：排進行程 16:00「圓窗館前 16:00：系學會合照」' % c, bool(q) and abs(q['h'] - 16) < 0.02, J(q))
+        if c == 'l3':
+            n0 = await pl_len(pg)
+            ok = await play(pg, cdp, run, EVDONE % J('ev_l3_photo_%d' % y), max_s=ENVI('L1_MAX', 900), picks=['出發：'], ff=True, tag=c, shots_at=['圓窗館前拍一張合照', '眨眼', '一、二、三'])
+            L_ = texts(await rows(pg, n0))
+            run.check('%s：「出發：」→ 圓窗館前 → 大%s那一年的版本 %s' % (c, '一二三四'[y - 1], J(L3_Y[y])), ok and has_seq(L_, L3_Y[y]), J(L_[-5:]))
+            await run.shot(pg, c + '_end')
+        else:
+            s1 = await snap(pg)
+            await jump(pg, cdp, run, s1, d['key'], 17.83, zone='dorm', pos=None, note='收到約、沒有去（過了 16:15）；17:50 宿舍')
+            got2, M2 = await wait_msg(pg, cdp, run, 'l123_l3_photo_%d' % y, ENVI('VF_WAIT', 600), c + '_photo')
+            run.check('%s：沒去＝18:00 班群收到「%s」' % (c, L3_PHOTO), got2 and [m['text'] for m in M2] == [L3_PHOTO] and abs(M2[0]['h'] - 18) < 0.05 and not await pg.evaluate(EVDONE % J('ev_l3_photo_%d' % y)), J(M2))
+            if M2: await thread_shot(pg, cdp, run, 'g:law_class', c + '_photo_thread')
+    else:
+        run.check('L123＝%s 認得' % c, False, 'l1,l2,l2neg,l3,l3miss')
+
+
+async def m_l123(pg, cdp, run):
+    for c in ENV('L123', 'l1,l2,l2neg,l3,l3miss'):
+        run.note('==== l123：%s ====' % c)
+        try: await l123_case(pg, cdp, run, c)
+        except Exception as ex: run.check('l123 %s：跑完（沒有探針例外）' % c, False, repr(ex)[:400]); traceback.print_exc()
+
+
 # ================================================================ main
-MODEFN = {'sisface': m_sisface, 'anyt': m_anyt, 'cg20': m_cg20, 'y1show': m_y1show, 'xclove': m_xclove, 'sisnewyear': m_sisnewyear, 'usmsg': m_usmsg, 'casenotes': m_casenotes}
+MODEFN = {'sisface': m_sisface, 'anyt': m_anyt, 'cg20': m_cg20, 'y1show': m_y1show, 'xclove': m_xclove, 'sisnewyear': m_sisnewyear, 'usmsg': m_usmsg, 'casenotes': m_casenotes,
+          'boya101': m_boya101, 'zrqx': m_zrqx, 'l123': m_l123}
 
 
 async def main():
