@@ -1632,7 +1632,7 @@ const STORY = (function(){
     N.batches.push({d,ids:L.map(e=>[e.id,e.who]),ans:[],closedAt:null,said:{}}); if(N.batches.length>4) N.batches.splice(0,N.batches.length-4);
     PHONE.at(G,d,21,items,grp); };
   S.neededAnswered=function(G,m,o){ const N=S.neededRec(G), grp=m.ask&&m.ask.grp; const b=N.batches.find(x=>'need_'+x.d===grp); const e=typeof NEEDED_MSGS!=='undefined'&&NEEDED_MSGS.list.find(x=>x.id===o.need); if(!e) return;
-    N.answered++; const bw=N.byWho[e.who]||(N.byWho[e.who]=[0,0]); bw[1]++; if(typeof SOCIAL!=='undefined'&&SOCIAL.adjust) SOCIAL.adjust(e.who,{trust:1});
+    N.answered++; (G.flags||(G.flags={}))['NEED_ANS_'+e.id]=G.day;   /* 回過哪一則（batches 只留最近四批；AA_407 R1 看 fy_quiet）*/ const bw=N.byWho[e.who]||(N.byWho[e.who]=[0,0]); bw[1]++; if(typeof SOCIAL!=='undefined'&&SOCIAL.adjust) SOCIAL.adjust(e.who,{trust:1});
     if(b&&!b.ans.includes(e.id)){ b.ans.push(e.id); if(b.ans.length>=2&&b.closedAt==null) b.closedAt=needAbs(G.day,G.hour); } };
   /* 沒回的那一句：這次見面該說的（沒有＝null）；說了就記下來 */
   S.neededVar=function(G,e){ for(const v of e.vars||[]){ try{ if(v.cond(G)) return v; }catch(err){} } return {}; };

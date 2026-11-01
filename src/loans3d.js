@@ -5,7 +5,7 @@
      L2 以安：公法讀書會第一次散會（afterActivity public_law_group，和 ev_public_law_group 同一天）；
      L3 學姊：AA_394 10/14 法圖「找判決」（ev_sis_db_taught）最後多一句（載入時接在那一場後面，不改 sis_b8_events.js）；5F 還沒做，先放一般書架；
      L4 芷若：閒聊 Z3-L2（記憶 ZR3_SUBTITLE）演過的那天 21:00 私訊兩則（有她的聯絡方式）。
-     R1 方奕廷的植物圖鑑：只能在 5F 館內看，等 5F 做好再接（這一版沒有）。
+     R1 方奕廷的植物圖鑑：回過他「總圖五樓最裡面。」以後，服務台問了＝「那本只能在館內看。」（不外借；AA407-LOANS-1031）。
    - 借期內：房間書桌多一本（STORY.ROOM_EXTRA，「看」各一句旁白）。
    - 還書（服務台）：L1 館員一句；L2 下一次讀書會以安一句；L3 下一次在 Café 找學姊說話先一句＋兩個選項（SISY23.preTalk 鏈）；L4 還書那天 21:00 芷若私訊一句（她在英國 2027-09-02～2028-02-18 不傳）。各一次。
    - 存檔：G.loans＝[{book,day,late?}]（新欄位，舊存檔沒有＝空陣列＝沒借過，不會跳逾期）；F.LOAN_RET＝{id:還書那天}。
@@ -75,6 +75,11 @@ const LOANS=(function(){
     for(const f of S.DESK_EXTRA){ try{ for(const o of (f(G)||[])) O.push(Object.assign({act:'run'},o)); }catch(e){ console.warn('LOANS.DESK_EXTRA',e); } }   /* 服務台的其他事（研究小間預約，src/lupstory3d.js：fn(G)→[{t,run(GM)}]）*/
     return O; };
   S.DESK_EXTRA=[];
+  /* R1 方奕廷的植物圖鑑（AA_407 書單 R1；AA407-LOANS-1031：5F 書庫、方奕廷都有了）：回過他「總圖五樓最裡面。」（needed_msgs fy_quiet）以後，服務台多一個「借《臺灣原生植物圖鑑》」；
+     不外借：館員「那本只能在館內看。」，問過一次就不再出現 */
+  S.R1={title:'臺灣原生植物圖鑑'};
+  S.r1Known=G=>{ const F=F_(G); if(F.NEED_ANS_fy_quiet!=null) return true; const N=G.needed; return !!(N&&Array.isArray(N.batches)&&N.batches.some(b=>Array.isArray(b.ans)&&b.ans.includes('fy_quiet'))); };
+  S.DESK_EXTRA.push(G=>law(G)&&S.r1Known(G)&&F_(G).LOAN_R1_ASKED==null?[{t:'借《'+S.R1.title+'》',run:async GM=>{ F_(GM.G).LOAN_R1_ASKED=GM.G.day; await lines([{speaker:'館員',text:'那本只能在館內看。'}]); }}]:[]);
   S.desk=async function(GM){ const G=GM.G; const O=S.deskOptions(G); if(!O.length) return false;
     GM.sceneBegin(); try{
       const late=S.rec(G).filter(l=>G.day>S.due(l)&&!l.late); if(late.length){ for(const l of late) l.late=G.day; await lines([{speaker:'館員',text:'這本逾期了喔。還了就好。'}]); }   /* 逾期以後第一次到服務台（不罰款、不停借；兩本一起逾期也只說一次）*/
