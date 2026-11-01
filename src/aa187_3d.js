@@ -78,7 +78,7 @@ const AA187=(function(){
     {lines:[nar('（她邊走邊背法條，背到一半停住。）'),an('……你剛剛笑什麼？'),me('沒有。'),an('你有。')]} ];
   S.walkOk=G=>{ const e=D(S.WALK_END); return law(G)&&dating(G,AN)&&plgToday(G)&&here(AN,G)&&!abroad(G)&&e!=null&&G.day<=e&&G.flags.AN_WALK_M!==monthOf(G.day)&&!S.talkToday(G,AN); };
   S.walkPick=G=>{ G.flags.AN_WALK_CUR=S.rotPick(G,'AN_WALK_ROT',S.WALK); G.flags.AN_WALK_M=monthOf(G.day); return G.flags.AN_WALK_CUR; };
-  S.EV_WALK={id:'ev_an_walk_home',title:'散會後的那段路',participants:[AN],location:['wancai','wancai_sema'],trigger:'activity',afterActivity:'public_law_group',background:'blur',
+  S.EV_WALK={id:'ev_an_walk_home',participants:[AN],location:['wancai','wancai_sema'],trigger:'activity',afterActivity:'public_law_group',background:'blur',   /* 沒有標題（不送也會跑到這裡：不出字卡、不進日誌；同 2-4、2-1 (b) 的小動作）*/
     prereq:{custom:G=>S.walkOk(G)},
     dialogue:[ {choice:[{text:'（送她回去）',goto:'go'},{text:'（各自回去）',goto:'end'}]},   /* 「（各自回去）」：稿上沒有，補的系統選項 */
       {label:'go'},{call:G=>{ S.walkPick(G); }},
