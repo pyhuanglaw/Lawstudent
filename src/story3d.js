@@ -2390,13 +2390,13 @@ const STORY = (function(){
        之後的訊息照各事件（AA_115 xun_met、BB_96 10-4 沒去午餐）。經濟系開局的玩家：P2 那晚建立（上面 econ_class 那一段）；8/13 的照片等經濟系那一年接到法律系時再補（還沒做）*/
     if(!S.isEcon(G)&&!PHONE.inGroup(G,'econ_friends')){ const g=PHONE.join(G,'econ_friends','走啦'); g.day=Math.min(g.day,-34); if(!PHONE.sent(G,'econ_photo_0813')) PHONE.postAt(G,{th:'g:econ_friends',from:'econ_weilun',name:'韋綸',text:'📷（公館的宵夜攤，四個人和準備收攤的老闆。桌上多擺了兩副碗筷。）',tag:'econ_photo_0813'},-34,23.5); if(PHONE.markSeen) PHONE.markSeen(G,'g:econ_friends'); }   /* 一年多前的舊照片：不算未讀 */   /* AA_368 M1（企劃線 e55fda50）：8/13 那晚可昕在高雄（20:00 電話），原本「六個人」不可能——韋綸、阿勳、品妤、唐睿先吃了（接 22:00 韋綸「回來請吃宵夜」）*/
     /* 10-3 之後（AA_115 第 2 節、BB_96 10-3／10-4、AA_157）：「聊兩句就走」（xun_met）＝阿勳在「走啦」說一句；「期末考一起讀？」（pact）＝他私訊期末的行程表；
-       「一起讀到閉館」（night）的玩家第 11 週週五沒有去小福午餐（SK03_LAST 不是那天）＝12:40 群組一張便當照片「欠你的，下週。」，下一個去的週五照樣推過來（ev_sk03_lunch 的 repay）。
+       「一起讀到閉館」（night）的玩家第 11 週週五沒有去小福午餐（SK03_LAST 不是那天）＝13:00（AA_350 T9b；原本 12:40）群組一張便當照片「欠你的，下週。」，下一個去的週五照樣推過來（ev_sk03_lunch 的 repay）。
        只在共同見過阿勳的玩家也開 SK03（AA-B 2026-10-16），所以便當照片照發、下一個有去的週五推便當 */
     if(F.XUN_DAY!=null){ const xd=F.XUN_DAY, fri=xd+1;
       if(F.XUN_MET_Y1S2&&!PHONE.sent(G,'xun_met_grp')) PHONE.at(G,xd,21.2,[{th:'g:econ_friends',from:'econ_zhengxun',text:'我在共同遇到他。法律系果然比較累。'}],'xun_met_grp');
       if(F.XUN_PACT&&!PHONE.sent(G,'xun_pact_plan')){ silentContact('econ_zhengxun'); PHONE.at(G,xd,21.2,[{th:'p:econ_zhengxun',from:'econ_zhengxun',text:'📄（期末考那兩週的行程表）'}],'xun_pact_plan'); }
-      if(F.XUN_NIGHT&&!F.XUN_REPAID&&F.SK03_LAST!==fri&&(G.day>fri||(G.day===fri&&h(G)>=12+40/60))&&!PHONE.sent(G,'xun_repay_photo'))
-        PHONE.at(G,fri,12+40/60,[{th:'g:econ_friends',from:'econ_zhengxun',text:'📷（一個便當）'},{th:'g:econ_friends',from:'econ_zhengxun',text:'欠你的，下週。'}],'xun_repay_photo'); }
+      if(F.XUN_NIGHT&&!F.XUN_REPAID&&F.SK03_LAST!==fri&&(G.day>fri||(G.day===fri&&h(G)>=13))&&!PHONE.sent(G,'xun_repay_photo'))   /* AA_350 T9b：便當照片改到 13:00（午餐時段結束還沒還債才傳；12:00～13:00 到學活的照當面還債）*/
+        PHONE.at(G,fri,13,[{th:'g:econ_friends',from:'econ_zhengxun',text:'📷（一個便當）'},{th:'g:econ_friends',from:'econ_zhengxun',text:'欠你的，下週。'}],'xun_repay_photo'); }
     /* 家教（BB_96 3-2；SYS-13 最小版）：「我先想想。」＝名額留到月底——月底前一週 21:00 明軒私訊再問；過了月底「名額給別人了。」。
        接了（JOB_TUTOR）＝大一下每週一次，週二或週四（TUTOR_WD）19:00～21:00；可以接受或略過，略過不扣分。做了麵店工讀（大三週二）自動改週四：麵店工讀做好再接 */
     /* BB_161 ⑩：名額保留到「月底」或「答覆後 7 天」取比較晚的；答覆後第 3 天 21:00 問一次「想好了嗎？」（月底前幾天才說「我先想想」的玩家也問得到）。

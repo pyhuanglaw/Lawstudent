@@ -283,9 +283,18 @@ const DATE=(function(){
     if(p.kind==='home'&&p.home) return {city:cityOf(p.home),own:'home'}; if(p.kind==='city'&&p.city) return {city:cityOf(p.city),own:'rent'};
     const m=p.kind==='trip'&&/^回(.+)$/.exec(p.away||''); if(m) return {city:cityOf(m[1]),own:'home'};   /* 以安、沛珊大一回台中的週末（kind trip「回台中」）*/
     return {away:p.away||''}; };
+  /* AA_350 T7b（企劃線 2e255e9a 第 9 節）：她出國的日子要擋（和老家同一套），婉拒照 T7b 逐字：以安在日本「那幾天我在日本。」、學姊在美國「那時候我在美國。」、芷若在英國「我那時候在英國。」；
+     其他人、其他地方共用「那幾天我不在臺灣。」。出國＝presence kind abroad，或 absent／trip 的地方在國外（以安東京 C11、京都 C12 是 trip；芷若英國是 absent）。不在國外＝''（照原本的「她那時候在……」）*/
+  S.ABROAD_NO={heroine_01:[/日本|東京|京都|大阪/,'「那幾天我在日本。」'],heroine_05:[/美國/,'「那時候我在美國。」'],heroine_02:[/英國|倫敦/,'「我那時候在英國。」']};
+  S.ABROAD_ANY='「那幾天我不在臺灣。」';
+  const FOREIGN=/日本|東京|京都|大阪|美國|英國|倫敦|曼谷|泰國|韓國|首爾|香港|國外/;
+  S.abroadNo=function(G,id,day){ if(typeof STORY==='undefined'||!STORY.presence) return ''; const p=STORY.presence(id,Object.assign({},G,{day})); if(!p||p.here||p.kind==='taipei'||p.lost||p.kind==='unreachable') return '';
+    const away=String(p.away||''); if(!(p.kind==='abroad'||((p.kind==='absent'||p.kind==='trip')&&FOREIGN.test(away)))) return '';
+    const m=S.ABROAD_NO[id]; return m&&m[0].test(away)?m[1]:S.ABROAD_ANY; };
   /* 兩天都在那個地方（她住自己家／租的地方＝own）或臺北（一起出發）才約得到；她回台中（以安、芷若）那幾天約別的地方＝S6 婉拒那一句 */
   S.overnightWhere=function(G,id,day,locs){ const dest=cityOf((S.loc(locs[0])||{}).area); let own=null;
     for(const d of [day,day+1]){ const w=S.whereOn(G,id,d);
+      { const an=S.abroadNo(G,id,d); if(an) return {ok:false,why:an}; }   /* AA_350 T7b */
       if(w.city==null||(w.city!=='台北'&&w.city!==dest)) return {ok:false,why:(w.own==='home'&&S.HOME_NO[id])||(w.city?'她那時候在'+w.city+'。':'她那時候'+(/^[在回]/.test(w.away||'')?'':'在')+(w.away||'不在臺北')+'。')};
       if(w.own&&w.city===dest) own=own||w.own; }
     return {ok:true,own}; };
@@ -307,6 +316,7 @@ const DATE=(function(){
   S.dayWhere=function(G,id,day,locs){ const dest=cityOf((S.loc(locs[0])||{}).area), p=typeof STORY!=='undefined'&&STORY.presence?STORY.presence(id,Object.assign({},G,{day})):{here:true};
     if(!p.here&&(p.lost||p.kind==='unreachable')) return {ok:false,why:'她那時候'+(p.away||'聯絡不到')+'。'};
     const w=S.whereOn(G,id,day); if(w.city==='台北'||(w.city&&w.city===dest)) return {ok:true};
+    { const an=S.abroadNo(G,id,day); if(an) return {ok:false,why:an}; }   /* AA_350 T7b */
     return {ok:false,why:(w.own==='home'&&S.HOME_NO[id])||(w.city?'她那時候在'+w.city+'。':'她那時候'+(/^[在回]/.test(w.away||'')?'':'在')+(w.away||'不在臺北')+'。')}; };
   S.partnerOnDay=function(G,id,day){ const c=typeof CHARACTERS!=='undefined'&&CHARACTERS[id]; if(!c||!c.partner||typeof STORY==='undefined') return ''; const G2=Object.assign({},G,{day});
     return (STORY.partnerOn?STORY.partnerOn(G2,c.partner):(STORY.inTerms&&STORY.inTerms(G2,c.partner)))?'她那時候有交往的對象':''; };

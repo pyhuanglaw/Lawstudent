@@ -364,6 +364,16 @@ const Y34B=(function(){
     if(US(G)&&F.ANNIV23==null&&NOW(G)>=T(d,tzH(G,d,19.5))){ F.ANNIV23='remote'; remember('heroine_03','ANNIVERSARY_23','聽說');   /* 美國路線：遠端版（AA_181 2-5、BB_99 9-0b）*/
       if(fam('heroine_03')&&inGrp(G,'noodle_team')) at(G,d,tzH(G,d,19.5),[{th:'g:noodle_team',from:'heroine_03',text:'（一張滿座的照片）'},GZ('美國那兩個 阿姨說照片也算')],'y4_a23_us');
       if(dating(G,'kexin')) at(G,d,tzH(G,d,19.5),[DM('kexin','你說了四年的麵。……今天少你一碗。'),DM('kexin','23 號回來，第一碗我請。')],'y4_a23_us_kx'); } };
+  /* AA_323 1B-20 第 1、6 節「12/11（一）起，麵店門口貼一張白紙：『12/14（四）晚上七點　二十三週年』」＋「天氣 12/14 晚上強制下雨」（10-20 稽核列的「門口白紙」）：
+     公館麵店門口（zones3d.js 的「進入阿鳳麵店」旁邊）多一個「看」——12/11 到 12/14 當天、二十三週年還沒演完；白紙裡的字照稿逐字（外面的括號旁白照 r2y4b3d.js AUNT_DOOR 的寫法）。
+     3D 的白紙（稿：「3D 物件：可以用公告欄那一種」）是場景物件，歸 LAWWW2（D108），這裡只有互動點。下雨：12/14 17:00 起（照 1B-08 事件 12 y2b3d.js 的寫法），美國路線不管臺北的天氣 */
+  S.A23_PAPER='（麵店門口貼著一張白紙：「12/14（四）晚上七點　二十三週年」）';
+  S.a23PaperOn=G=>{ const a=D('a23msg'), d=D('a23'); return law(G)&&!US(G)&&a!=null&&d!=null&&G.day>=a&&G.day<=d&&G.flags.ANNIV23==null; };
+  S.a23Paper=function(GM){ const G=GM.G, E=GM.E; if(!E||!Array.isArray(E.interactables)) return; const k=E.interactables.findIndex(it=>it.a23Paper);
+    if(G.zone!=='gongguan'||!S.a23PaperOn(G)){ if(k>=0) E.interactables.splice(k,1); return; } if(k>=0) return;
+    const door=E.interactables.find(it=>it.exit&&it.exit.to==='noodle'); if(!door) return;
+    E.interactables.push({x:door.x+1.6,z:door.z,radius:0.9,prio:-0.2,label:'門口的白紙',a23Paper:true,onInteract:()=>{ if(busy) return; go(async()=>{ GM.sceneBegin(); try{ await GM.say(null,S.A23_PAPER); } finally { GM.sceneEnd(); } }); }}); };
+  S.a23Rain=function(GM){ const G=GM.G, d=D('a23'); if(d!=null&&law(G)&&!US(G)&&G.day===d&&G.hour>=17&&G.weather!=='rain'&&G.weather!=='typhoon'){ G.weather='rain'; if(GM.E&&GM.E.setWeather) GM.E.setWeather('rain'); } };
   S.a23AuntDue=G=>{ const r=D('usRet'); return law(G)&&US(G)&&G.flags.ANNIV23==='remote'&&!G.flags.ANNIV23_AUNT&&r!=null&&G.day>=r&&G.zone==='noodle'; };
   /* ================= 1B-21 可昕 K23 ================= */
   /* 美國路線（AA_370 H1）：人在美國，不約政大——「週五晚上七點，你那邊是早上。我們視訊，各自說。」；改天那一場＝週六臺灣 21:00（當地 09:00，AA_323 1B-21：臺灣晚上、美東早上；原本臺灣 15:00＝當地 03:00）*/
@@ -429,7 +439,8 @@ const Y34B=(function(){
   const go=f=>{ busy=true; Promise.resolve().then(f).catch(e=>console.warn('Y34B',e)).finally(()=>{ busy=false; }); return true; };
   const play=id=>GM=>{ const ev=evOf(id); return ev&&typeof EVENTS!=='undefined'?EVENTS.run(ev):null; };
   const failed=id=>typeof EVENTS!=='undefined'&&!!EVENTS.failed&&!!EVENTS.failed[id];   /* 演到一半出錯的事件不再自動開（不然每 0.5 秒都在重開，後面的 S.tick 全部被擋住）*/
-  S.tick=function(GM){ const G=GM.G; if(busy||!G||!G.flags||!law(G)||atHome(G)) return false; if(typeof TRIP!=='undefined'&&TRIP.at&&TRIP.at(G)) return false; const E=GM.E;
+  S.tick=function(GM){ const G=GM.G; if(G&&G.flags&&law(G)){ S.a23Rain(GM); S.a23Paper(GM); }   /* 1B-20 門口的白紙、12/14 晚上下雨（不管 busy：只改天氣和互動點）*/
+    if(busy||!G||!G.flags||!law(G)||atHome(G)) return false; if(typeof TRIP!=='undefined'&&TRIP.at&&TRIP.at(G)) return false; const E=GM.E;
     const L=[
       [()=>S.sendoffJPDue(G),'ev_an_depart_jp',()=>S.departJP(GM)],
       [()=>S.farewellDue(G),'ev_an_farewell_dinner',()=>{ if(typeof OUT!=='undefined'){ const q=OUT.get(G,'y3_an_farewell'); if(q&&q.state==='planned') q.state='done'; } return play('ev_an_farewell_dinner')(GM); }],

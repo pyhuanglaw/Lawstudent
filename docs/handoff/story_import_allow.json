@@ -3665,6 +3665,15 @@
    "task": "ENC-B3-1017",
    "kind": "text",
    "note": "同上；narr 沿用 solo_before_aa_v1.json"
+  },
+  {
+   "path": "docs/story_planning/AA_323_事件包_第三批之六_1B18到1B25.md",
+   "sha": "4618aed21",
+   "status": "approved",
+   "approvedBy": "AA-C 2026-10-20 定稿（D100、D109：AA 的稿就是定稿；1B-12～25 第②級，原本 c9b4f60e，src/y34b3d.js 已照它實作）＋4618aed21 RENAME-1030（D115 換名；1B-20 這兩句沒有改到）",
+   "task": "EVPKG-1B18-25-1020",
+   "kind": "text",
+   "note": "1B-20 第 1 節「12/11（一）起，麵店門口貼一張白紙：『12/14（四）晚上七點　二十三週年』」白紙上的字手抄進 src/y34b3d.js 的 Y34B.A23_PAPER（外面的括號旁白照 r2y4b3d.js AUNT_DOOR 的寫法）、第 6 節「天氣 12/14 晚上強制下雨」＝Y34B.a23Rain；tests/y34b_a23_paper_unit.js。3D 的白紙（第 5 節素材表）是場景物件，歸 LAWWW2（D108）。子代理 2026-11-01 代登，給 LAWWW-B 核"
   }
  ]
 }
