@@ -72,3 +72,31 @@ LAWWW2-B，2026-10-31 19:47～20:1x UTC。唯讀：`git fetch --unshallow`、`gi
 - 第 2 類 63 項沒有逐項找 BB 的 test_shots/*.log（只查了兩版 BB_218 和 BB-C 盤點 tsv），可能有幾項其實有 BB 紀錄、可以升第 1 類。
 - tasks.json 的「整合 commit」是從開發分支 commit 訊息和 deliveries.json 對出來的；有幾項只找到登記 commit。main 欄依整合 commit 是不是 main 的祖先判斷；少數用檔案在不在 main 判斷，像 2D 背景。
 - 沒有查 owner 不是 LAWWW2 的美術項（例如 ART-14 是 BB 的、DATE-S6 是 LAWWW 的）；只在 I07、I08、A16 順帶判。
+
+## 第二輪：第 2 類找 BB 實測紀錄（TIER2-UPGRADE-1101，LAWWW2-B 2026-11-01 02:5x UTC）
+
+- 唯讀：`BB_218_瀏覽器實測紀錄.md`（elegant-brown-fcos7n@78e470af4，11-01 02:35，比第一輪的 d12d567be 多到 n38）、`BB_00`、`qa/`、`test_tools/`；每一項用 ID＋內容關鍵字（區域、功能名、探針名）找，找到的段落逐段讀。行號都指 78e470af4 這一版。
+- 證據檔 `judgments_LAWWW2.jsonl` 多 15 行（`note` 寫「第二輪」）；以 `at` 最新的為準。
+
+| tier | 第一輪 | 第二輪 |
+|---|---|---|
+| 1 | 5 | **12** |
+| 2 | 63 | **56** |
+
+**升第 1 類（7 項）**：
+
+| ID | BB 紀錄 |
+|---|---|
+| BADMINTON-CLIP-1027 | L4282-4288、L4299「5p X117」BB-C：四個對手完整版、第二次、跳過、從手機約全部 ALL PASS（短片有演、切鏡頭、沒有包） |
+| ANIM-DOOR-OPEN-1027 | L4377-4392「5u door_r2」BB-C（v9.10.12 main）：01～11 全過；書房兩行 FAIL＝工具 |
+| PERF-SINGLESIDE-GLB-1025 | L4006-4030 BB-B 逐區看 fps＋外觀，找到便利商店小旗背面不見；L4050-4063 第三份修好、同角度確認 |
+| LAWLIB-LM-1030 | L5959-5962「n24_lawlib」ALL PASS |
+| LIB-HALL-LM-1028 | L5964-5967「n24_libhall」檢查 PASS（FAIL＝探針）；北段整面牆另立 BUG-CAM-LIBHALL-CORE-1031 |
+| LOBBY-VC-1028 | L4466-4482 v9.10.13 門檻 ③：晚上壞掉拆出來不是頂點色；rc2（含頂點色）白天晚上再進去 ALL PASS |
+| LANE118-SHOPS-1020 | L4250 rc2 flow_lane118 13 行 PASS；1 行 FAIL 是舊的時機問題（手機自動打開），不是店面 |
+
+**找到部分紀錄、照舊第 2 類（8 項，`need` 寫了 BB 要補什麼）**：DORM203-LM-1030（光照 PASS，床和書桌沒單獨看）、LOBBY-CEIL-1028（大廳整體 PASS，吊燈沒近看）、FAIR-STAFF-LOD-1027（顧攤的人出現，換低面數沒看）、CAFE-WINDOW-LIVE-1030（白天晚上 PASS，再進去沒拍到窗）、BUG-CAM-LIBHALL-CORE-1031（第一輪 PARTIAL，第二輪 3094e123b 還沒驗）、SET-CEREMONY-1023（典禮有演，布置沒看）、ART-Y1-BOX-MIRROR-1021、BUG-CAM-C208-1021（BB 回報過，修正後沒重拍）。
+
+**其他 48 項**：BB_218（含第二輪新增段落）、qa、test_tools 都沒有實玩紀錄（多數只出現在任務清單的複本裡）。照舊第 2 類，等 BB 排驗收。
+
+- 沒查：BB 的截圖本身（只讀紀錄的文字判定）；AA、LAWWW 自己的測試紀錄（不算 BB 驗收）。
