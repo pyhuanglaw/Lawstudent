@@ -37509,9 +37509,9 @@
    "title": "朋友的案子 C0～C8 都在，「誰／向誰／依據什麼／請求什麼」手機筆記畫面只有 C1 有（r2y3a3d.js:260 註解寫還沒有）：其他八件補筆記畫面（AA_117；歷史複核第 3 批 tier 4）",
    "area": "STORY",
    "owner": "LAWWW",
-   "status": "待開工",
+   "status": "進行中",
    "priority": "P2",
-   "next": "【10-31 22:2x】歷史複核找到（HISTORY-AUDIT-1031）→ LAWWW 照稿實作，排在 D99 寒暑假（AA_549）之後",
+   "next": "【11-01 07:2x LAWWW-B】子代理開工（本機分支 feat-xcfest-1101，和芯慈節日同一條）｜【10-31 22:2x】歷史複核找到（HISTORY-AUDIT-1031）→ LAWWW 照稿實作，排在 D99 寒暑假（AA_549）之後",
    "first": {
     "term": "Y2S1",
     "week": 0,
@@ -37565,9 +37565,9 @@
    "title": "芯慈交往中：尾聲兩句＋畢業禮物「這一頁你寫。」（AA_548 第 9 節，取代 AA_537#6；第二句換「……今天想吃的就是它。」、工作改國際所）；交往中五個節日（AA_537b 第 5 節，fest_events.js 沒有她）（歷史複核第 2 批 tier 4）",
    "area": "STORY",
    "owner": "LAWWW",
-   "status": "待開工",
+   "status": "進行中",
    "priority": "P2",
-   "next": "【10-31 22:2x】歷史複核找到（HISTORY-AUDIT-1031）→ LAWWW 照稿實作，排在 D99 寒暑假（AA_549）之後",
+   "next": "【11-01 07:2x LAWWW-B】尾聲兩句＋畢業禮物做了（bfafd1a62，tests/xinci_epi_unit.js）；五個節日交子代理（本機分支 feat-xcfest-1101）｜【10-31 22:2x】歷史複核找到（HISTORY-AUDIT-1031）→ LAWWW 照稿實作，排在 D99 寒暑假（AA_549）之後",
    "first": {
     "term": "Y2S1",
     "week": 0,
