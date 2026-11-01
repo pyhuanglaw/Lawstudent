@@ -120,7 +120,7 @@ const HOME=(function(){
     const L=STORY_EVENTS.filter(e=>!done[e.id]&&CLS.evGuard(e)&&(e.trigger==='enter'||e.trigger==='auto')&&e.location&&e.location!=='any'&&[].concat(e.location).some(z=>z==='dorm'||z==='dorm_hall')); if(!L.length) return out;
     const k={day:G.day,hour:G.hour,zone:G.zone,weekday:G.weekday}, t0=T(G.day,G.hour), t1=T(G.day,toH);
     try{ for(const e of L){ if(out.length>=3) break; const z=[].concat(e.location).find(q=>q==='dorm'||q==='dorm_hall'), ev=Object.assign({},e,{npcPresent:undefined,near:undefined,npcNear:undefined});
-        for(let t=Math.ceil(t0*4+1e-6)/4;t<t1;t+=0.25){ const d=Math.floor(t/24); G.day=d; G.hour=t-d*24; G.zone=z; if(typeof CALENDAR!=='undefined'&&CALENDAR.dateOf) G.weekday=CALENDAR.dateOf(d).wd%7; if(EVENTS.check(ev)){ out.push(hm(G.hour)+' '+(e.title||'宿舍的一件事')); break; } } } }
+        for(let t=Math.ceil(t0*4+1e-6)/4;t<t1;t+=0.25){ const d=Math.floor(t/24); G.day=d; G.hour=t-d*24; G.zone=z; if(typeof CALENDAR!=='undefined'&&CALENDAR.dateOf) G.weekday=CALENDAR.dateOf(d).wd%7; if(EVENTS.check(ev)){ out.push(hm(G.hour)+' '+(e.title||'（宿舍的劇情）')); break; } } } }
     catch(err){ console.warn('HOME dormMiss',err); } finally { G.day=k.day; G.hour=k.hour; G.zone=k.zone; G.weekday=k.weekday; }
     return out; };
   const confirmMiss=async(GM,toH,o)=>{ const M=S.wouldMiss(GM.G,toH).concat(o&&o.dorm?S.dormMiss(GM.G,toH):[]).slice(0,3); if(!M.length) return true; await GM.say(null,'會錯過：'+M.join('、')+'。'); return (await GM.choose([{t:'照樣'},{t:'先不要'}]))===0; };

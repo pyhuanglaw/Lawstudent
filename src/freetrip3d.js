@@ -57,7 +57,7 @@ const TRIP=(function(){
       const a=Math.max(h0,e.time?e.time[0]:h0), b=Math.min(h1,e.time?e.time[1]:h1); if(!(b>a)) continue; const z=e.location&&e.location!=='any'?[].concat(e.location)[0]:null, ev=Object.assign({},e,{npcPresent:undefined,near:undefined,npcNear:undefined});
       const k={hour:G.hour,zone:G.zone}; let at=null;
       try{ for(let h=a;h<b-1e-6&&at==null;h+=0.25){ G.hour=h; if(z) G.zone=z; if(EVENTS.check(ev)) at=h; } }catch(err){ console.warn('FREETRIP evMiss',err); } finally{ G.hour=k.hour; G.zone=k.zone; }
-      if(at!=null) (must?out.must:out.fixed).push({id:e.id,h:at,t:hm(at)+' '+(e.title||'一件事')}); }
+      if(at!=null) (must?out.must:out.fixed).push({id:e.id,h:at,t:hm(at)+' '+(e.title||'（劇情）')}); }
     return out; };
   /* 入口：捷運公館站（4-1）*/
   S.menu=async function(GM){ const G=GM.G; const L=S.list(); if(!L.length){ GM.sceneBegin(); try{ await GM.say(null,'捷運公館站。'); } finally { GM.sceneEnd(); } return false; }
