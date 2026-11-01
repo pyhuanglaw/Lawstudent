@@ -2,7 +2,14 @@
 
 ## ⏱ 現況（LAWWW2-B，2026-10-31 20:5x UTC；帳號 B 七天額度已到警示，隨時可能被切斷——接手的先讀這一段）
 
-- **11-01 01:5x（最新）**：
+- **11-01 02:4x（最新）**：
+  - LAWWW-B 02:04 ACK 照片比對＋名牌（名牌整合在 feat-art-1031 8b9ddfb88；四題：①②等照片、③轉 AA、④不改），派 GYM-B1-PLATES-1101。
+  - **GYM-B1-PLATES-1101 交件 095518e3f**：遊戲內確認壁球室門牌是空白牌子、兩個更衣室門牌整塊看不到（GLB 裡正面朝門板＋單面）。
+    - `gym3d.js` 新 `b1Plates(root,B)`：attachRoomGLB 之後照 closedDoors 的 label／face 畫字、重算 UV、雙面；沒動 engine3d、game3d、attachRoomGLB。
+    - patch `patches/gym_b1_plates_1101.patch`（對開發 ef17f19d6；新測試開發原樣 FAIL 4、改後 ALL PASS）；全部 Node 799／0；README `test_shots/gym_b1_plates_1101/`。
+    - `gym_b1.py` 更衣室門牌改正面朝走廊（GLB 沒重匯）。
+  - 下一件：tier-2 清查升級（LAWWW-B 02:04 排的）。
+- **11-01 01:5x**：
   - LAWWW-B 01:15 ACK 美國室內光照（DL-LW2-US-LM-1031：整合在本機 feat-art-1031，發布後合）；outbox 已改 ACKNOWLEDGED（3ac2848c9）。
   - **ART-PHOTO-CMP-1021 做完**（README `test_shots/photo_cmp_1101/`）：
     - 照片還是打不開（commons.wikimedia.org 代理 403、ntu.edu.tw 網域查不到；11-01 再試）→ 第一版只和研究檔的文字事實比；要照片才判斷得了的標 📷，第四節列要請使用者給的照片。

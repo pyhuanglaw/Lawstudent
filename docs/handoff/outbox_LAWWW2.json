@@ -4963,6 +4963,22 @@
    "remaining": "要照片才能比的（面磚顏色、窗型、山牆、天橋、正門方位）；共同三松／南側庭園、西側戶外樓梯等 LAWWW-B 決定；女舍路人台詞「對，有電梯」請轉 AA；體育館 B1 三塊門牌遊戲沒畫字（遊戲端）",
    "next": "LAWWW-B 11-01 02:04 ACK：名牌整合在 feat-art-1031（8b9ddfb88），發布後合；四題：①②等照片（LAWWW-B 併批問使用者）③轉 AA ④不改",
    "noDirectIntegrate": false
+  },
+  {
+   "branch": "claude/funny-albattani-iawshm",
+   "sha": "095518e3f",
+   "receiver": "LAWWW",
+   "ack": "SENT",
+   "task": "GYM-B1-PLATES-1101 體育館 B1 三塊門牌（女更衣室、男更衣室、壁球室・桌球室）遊戲沒畫字",
+   "files": [
+    "docs/art-rebuild/second_ai/patches/gym_b1_plates_1101.patch",
+    "docs/art-rebuild/second_ai/test_shots/gym_b1_plates_1101/",
+    "tools/blender/env_second/gym_b1.py"
+   ],
+   "state": "已修：gym3d.js b1Plates（attachRoomGLB 之後照 closedDoors 的 label／face 畫字、重算 UV、雙面）；patch 對開發 ef17f19d6 apply --check 過；新測試開發原樣 FAIL 4、改後 ALL PASS；全部 Node 799／0；遊戲內改前改後 4 組",
+   "remaining": "gym_b1.py 更衣室門牌正面朝走廊（拿掉 [::-1]），GLB 沒重匯（有光照烘焙；遊戲端已不需要）",
+   "next": "發布後整合；沒動 engine3d、game3d、attachRoomGLB",
+   "noDirectIntegrate": false
   }
  ]
 }
