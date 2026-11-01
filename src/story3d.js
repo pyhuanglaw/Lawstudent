@@ -2042,6 +2042,10 @@ const STORY = (function(){
       if(G.day===fri&&h(G)>=17.5&&h(G)<18.5&&!F.famDinnerToast&&!(G.events&&G.events.done&&G.events.done.ev_sis_family_dinner)){ F.famDinnerToast=true; GM.toast('今天 18:30 家族聚餐（公館）',4200); }   /* 當天 17:30 */
       if(G.day===fri&&h(G)>=19&&!(G.events&&G.events.done&&G.events.done.ev_sis_family_dinner)) PHONE.at(G,fri,22,[kv('📷（一疊資料夾，最上面那份寫著「周老師　歷年考古題」）'),kv('學姊整理的。沒來的人，跟我拿。')],'fam_dinner_noshow');   /* 學姊那句刪（AA_218 17-12a）*/   /* 照片寫拍了什麼（聚餐裡學姊拿出來的周老師考古題，ev_sis_family_dinner）、「自己拿」改「跟我拿」，一則改兩則（AA_458 3-2；tag 照舊）*/
       /* 跨年夜學姊第一次貼貼圖（sis_first_sticker）刪：她不在群組主動發言（AA_218 17-12a）*/ } }
+    /* 大二下的家族聚餐（AA_258 6-1；AA258-SIS-GAPS-1031）：3/9 21:00 Kevin 兩則＋學姊只回「好。」（她不在群組主動開話題）；當天 18:00 一個提醒（同大一上）。事件 ev_family_dinner_y2s2（events.js）*/
+    if(PHONE.inGroup(G,'family_law')&&(G.stage||'law')==='law'){ const d=S.dayOfKey('2027-03-12'); if(d!=null&&G.day>=d-3&&G.day<=d){ const th='g:family_law';
+      if(G.day>d-3||h(G)>=21) PHONE.at(G,d-3,21,[{th,from:'kevin',name:'Kevin',text:'這學期的家聚！！禮拜五七點 公館那間'},{th,from:'kevin',name:'Kevin',text:'學弟妹第一次來 大家要到喔'},{th,from:'heroine_05',name:'溫學姊',text:'好。'}],'fam_dinner_y2s2_invite');
+      if(G.day===d&&h(G)>=18&&h(G)<19&&!F.famDinnerY2Toast&&!(G.events&&G.events.done&&G.events.done.ev_family_dinner_y2s2)){ F.famDinnerY2Toast=true; if(GM.toast) GM.toast('今天 19:00 家族聚餐（公館）',4200); } } }
     if(F.guitarFirstDay!=null&&!PHONE.sent(G,'guitar_grp1')){ PHONE.join(G,'guitar','吉他社'); PHONE.at(G,F.guitarFirstDay,21.5,[{th:'g:guitar',from:'heroine_04',text:'新人自己報名字，不要讓我問。這不是問句。'}],'guitar_grp1'); }
     if(G.msgs&&G.msgs.some(m=>m.tag==='sis_yutong')&&!F.yutongFwd){ F.yutongFwd=true;
       if(typeof INV!=='undefined'&&INV.hasContact(G,'heroine_03')){ PHONE.post(G,{th:'p:heroine_03',from:'player',who:null,text:'（把學姊的回覆截圖傳給語彤）',tag:'yutong_fwd_q'}); PHONE.at(G,G.day,G.hour+0.1,[{th:'p:heroine_03',from:'heroine_03',text:'……法服是什麼？'}],'yutong_fwd'); }

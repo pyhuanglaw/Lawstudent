@@ -652,6 +652,15 @@ const STORY_EVENTS=[
      前一週 Kevin 在家族群組約（phoneRules）；當晚 22:30 學姊在群組訂正考古題；沒去的玩家：Kevin 貼資料夾照片、學姊說書會留給學弟（phoneRules）。
      「善意」的說明需法律審查。三個選項都有 SHARED_MEAL；問「收到」那一題設 SIS_NO_STICKER（同一學期的跨年夜，她第一次在群組貼貼圖，BB_108）。
      第一個選項接第二天的課堂（被周老師點名）；那天沒去上課的玩家沒有這個選項；第二個選項要在家族群組裡（看得到她都回「收到」） */
+  /* 大二下的家族聚餐（AA_258 6-1，AA 定稿「要排一場」；AA258-SIS-GAPS-1031）：2027-03-12（五，大二下第 3 週）19:00 公館的簡餐店，Kevin 揪、新的大一學弟妹第一次來。
+     3/9 21:00 家族群組 Kevin 兩則＋學姊「好。」（story3d.js）；走到公館（18:30～20:30）就演，可以不去。學姊 S4-L8 的 linesIf「……你也看到了。」看這一場 */
+  { id:'ev_family_dinner_y2s2', title:'家族聚餐（大二下）', participants:['heroine_05'], location:'gongguan', trigger:'auto', term:['Y2S2'], weeks:[3], weekday:[5], time:[18.5,20.5], once:true, background:'blur',
+    prereq:{custom:G=>(G.stage||'law')==='law'&&typeof PHONE!=='undefined'&&PHONE.inGroup(G,'family_law')},
+    dialogue:[ {speaker:null,text:'（長桌的一頭坐著四個大一的學弟妹。學姊進門的時候，他們同時站了起來。）'},
+      {speaker:'Kevin 學長',text:'坐啦坐啦，她又不是教授。'},
+      {speaker:'heroine_05',expression:'neutral',text:'……坐。我坐下來你們再坐。'},
+      {speaker:null,text:'（她坐下來。學弟妹又站了一次，才坐好。）'} ],
+    consequences:{memo:'家聚（大二下）'} },
   { id:'ev_sis_family_dinner', title:'家族聚餐', participants:['heroine_05'], location:'gongguan', trigger:'auto', term:['Y1S1'], weeks:[14], weekday:[5], time:[18,19.5], once:true, background:'blur',   /* 窗口放寬到 18:00～19:30（AA_160 3-4 B 表、BB_95 3-8）*/
     dialogue:[ {if:{custom:G=>G.hour%24<18.5},speaker:null,text:'你先到了。麵店的阿姨把你們那一桌的椅子擺好。'},{speaker:null,text:'18:31。她跑進來，有點喘。'},{speaker:'heroine_05',expression:'surprised',text:'抱歉。抱歉。……抱歉，我遲到了。'},{speaker:'Kevin 學長',text:'一分鐘。學姊，一分鐘。'},{speaker:'heroine_05',expression:'neutral',text:'一分鐘也是遲到。'},
       {unless:{flags:['SIS_W1']},speaker:'player',text:'學姊好，我是{name}。我是妳的直屬。'},{unless:{flags:['SIS_W1']},speaker:'heroine_05',expression:'neutral',text:'我知道。群組裡那個名字。'},   /* AA_470 5-1：還沒認識她的（沒有 SIS_W1）兩句，演完記 met_sis、SIS_W1（同 9/12 家聚 ev_sis_fam_dinner）*/
