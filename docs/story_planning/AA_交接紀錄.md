@@ -1,5 +1,20 @@
 > **歷史紀錄（2026-10-30 起）**：本文件裡的「臺大／台大、政大、霖澤館、萬才館、傅鐘、椰林大道、醉月湖、小福、活大……」是當時的寫法，原文照留。遊戲現行名稱以 `docs/WORLD_NAMING.md` 為準（首都帝大、木柵大學、法律系館A／B……）；從這裡抄台詞或地名到遊戲、新企劃以前，先照規範換名。
 
+## 交班（AA-B → 下一班）｜2026-11-01 08:3x UTC｜使用者：「現在交班」
+- 帳號 B｜AA｜session_016ACZaD4oB9tX94WqQR4dkS｜分支 `claude/cool-heisenberg-o8kuqx`｜最後 commit：本次交班 commit（push 後的遠端 SHA 見回報；前一個是 `bc3f282f5`）。**交班紀錄不代表新帳號已經接班。**
+- **正在做**：DIALOGUE-DEPTH-1031 改成「角色個性共創」（使用者 UA-AA-1101-01）。AA 演以安、使用者當玩家，一輪一輪對話；紀錄在 `docs/story_planning/AA_以安共創紀錄.md`。**停在第 2 輪**：以安請祐廷幫她問男宿吹風機規則（「要有根據的那種。不要『吧』。」），四個選項已給使用者，**使用者還沒回答**。
+- **下一班第一步**：
+  1. 照總入口第 4 節接班（fetch、讀本節和共創紀錄、合併、值班登記）。
+  2. 把共創紀錄第 2 輪以安的話＋四個選項重新給使用者（用可以點的選擇題；選項框常被系統通知關掉，文字裡也列一次數字選項），一次只說一輪，不替玩家說話。
+  3. 之後照共創紀錄「之後還要測的關係階段」往下走；使用者說「這個角色定型了」才寫 `AA_565` 以安聲音規格（含 3～5 段共同確認的範例對話）、交改稿、通知 LAWWW-B，再換下一個角色。
+  4. 使用者要討論時一律用選擇題（UA-AA-1101-01 附帶的原話「你如果要跟我討論就用選擇題給我選」）。
+- **已完成（都在遠端）**：`AA_551`～`AA_558`；`AA_559`～`AA_564` 草稿（**暫停匯入**，等各角色定型）；`voice_canon/` 十六份；11-01 回 LAWWW-B 七批問題（`AA_554` 13 題、L1～L3 6 題、SYS-14 G2 放榜取消、V3-AA170 結案、`AA_416` 1-4 不加她約、`BB_119` v6 九題照現況、PS-MSG-LESS-1018 選 (a)、AA255-Y2S2 yu_exam 照現況）。
+- **沒做完**：以安共創（第 2 輪）；其他 15 位角色的共創都還沒開始；VAC-GAP-ROUTES（#69，暫停）；RENAME-1030 等 BB；等使用者的 5 個名字（許教授全名、小小福、杜鵑花節、女九、哥大）。
+- **定型後要一起改的**：共創紀錄最後兩節（以安 FRIEND 門檻台詞暑假版、沛珊／子晴 v6 當面字、Alison yu_exam）。
+- **檢查工具的已知衝突**：`user_asks_AA.json` 的 UA-AA-1031-02／-03／1101-01 狀態寫「進行中」（工具不收「共創中」）；USER_WANTS X150 在 LAWWW 那邊寫「共創中」，已請 LAWWW-B 二選一，還沒回。
+- **沒有遠端備份的**：scratchpad 的掃描輸出 `vsw_Y1S1.json`、`vsw_Y1S2.json`、`vsw_JP.json`、`vsw_US.json`（可以重跑）；掃描工具本身這次存進 `docs/story_planning/tools_aa/vsweep_routes.js`。scratchpad 的 `l2tree` 工作樹有 10-16 的 ART-US2 改動沒 commit，但內容已經在遠端（`acf89d8a0`、`5e688f346`、`6fa456c6b` 有同一份檔），不算遺失。沒有在跑的子代理或背景工作。
+- **不能合併或發布的**：`AA_559`～`AA_564` 草稿、共創紀錄（都不是定稿）。AA 不碰 main、不發布。
+
 值班登記：帳號 B｜AA｜session_016ACZaD4oB9tX94WqQR4dkS｜分支 claude/cool-heisenberg-o8kuqx｜接班基準 ea43bd9a0（快轉合併帳號 C 的 `claude/magical-albattani-bk7b4n`）｜2026-10-30 02:1x UTC
 上一班：帳號 C｜AA｜session_019evvieJUJD23EGf4nyLPgo｜最後 commit ea43bd9a0（2026-10-28 15:23 UTC，回 LAWWW-C 15:22、AA_519 第 9 節對稿完成）｜**沒有正式交班** → 使用者 10-30 對 AA-B：「上個帳號來不及交班 你現在要接班」＝第 4 節第 10 步的明確授權（`duty register --user-ok`）。
 接班核對（RULE_SOURCE `origin/claude/adoring-meitner-mqzst8` @ c76d0cb69，`duty find`：值班 C、上一任 B、HV-20、seq 32）：
