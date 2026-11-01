@@ -21093,6 +21093,341 @@
    "kind": "wip",
    "task": "LIB-HALL-LM-1028",
    "reason": "LAWWW2 LIB-HALL-LM-1028／RT-NIGHT-1028 的 WIP（天窗白天才發光、門廳筒燈、校正後的燈），還沒交件（LAWWW-C 10-28 15:2x 分類）"
+  },
+  {
+   "sha": "9e407dd2",
+   "branch": "origin/claude/funny-albattani-iawshm",
+   "kind": "wip",
+   "task": "ZQ-ARCADE-SEAT-1028",
+   "reason": "LAWWW2 ZQ-ARCADE-SEAT-1028 的檢查點／進行中紀錄（之後的交件或總表任務照記）（LAWWW-B 11-01 22:2x 交班核對分類）"
+  },
+  {
+   "sha": "55e2b226",
+   "branch": "origin/claude/funny-albattani-iawshm",
+   "kind": "wip",
+   "task": "INTERIOR-AAA-REVIEW-1028",
+   "reason": "LAWWW2 INTERIOR-AAA-REVIEW-1028 的檢查點／進行中紀錄（之後的交件或總表任務照記）（LAWWW-B 11-01 22:2x 交班核對分類）"
+  },
+  {
+   "sha": "9ffa6e92",
+   "branch": "origin/claude/funny-albattani-iawshm",
+   "kind": "wip",
+   "task": "INTERIOR-AAA-REVIEW-1028",
+   "reason": "LAWWW2 INTERIOR-AAA-REVIEW-1028 的檢查點／進行中紀錄（之後的交件或總表任務照記）（LAWWW-B 11-01 22:2x 交班核對分類）"
+  },
+  {
+   "sha": "274e4d47",
+   "branch": "origin/claude/funny-albattani-iawshm",
+   "kind": "wip",
+   "task": "ART-ECON-3D-GAP-1021",
+   "reason": "LAWWW2 ART-ECON-3D-GAP-1021 的檢查點／進行中紀錄（之後的交件或總表任務照記）（LAWWW-B 11-01 22:2x 交班核對分類）"
+  },
+  {
+   "sha": "a6937e1d",
+   "branch": "origin/claude/funny-albattani-iawshm",
+   "kind": "wip",
+   "task": "NOODLE-LM-1030",
+   "reason": "LAWWW2 NOODLE-LM-1030 的檢查點／進行中紀錄（之後的交件或總表任務照記）（LAWWW-B 11-01 22:2x 交班核對分類）"
+  },
+  {
+   "sha": "5e3f0772",
+   "branch": "origin/claude/funny-albattani-iawshm",
+   "kind": "wip",
+   "task": "LM-COLLAPSE-1030",
+   "reason": "LAWWW2 LM-COLLAPSE-1030 的檢查點／進行中紀錄（之後的交件或總表任務照記）（LAWWW-B 11-01 22:2x 交班核對分類）"
+  },
+  {
+   "sha": "411a953d",
+   "branch": "origin/claude/funny-albattani-iawshm",
+   "kind": "wip",
+   "task": "BOYA-LM-1030",
+   "reason": "LAWWW2 BOYA-LM-1030 的檢查點／進行中紀錄（之後的交件或總表任務照記）（LAWWW-B 11-01 22:2x 交班核對分類）"
+  },
+  {
+   "sha": "727edb10",
+   "branch": "origin/claude/funny-albattani-iawshm",
+   "kind": "wip",
+   "task": "BOYA-LM-1030",
+   "reason": "LAWWW2 BOYA-LM-1030 的檢查點／進行中紀錄（之後的交件或總表任務照記）（LAWWW-B 11-01 22:2x 交班核對分類）"
+  },
+  {
+   "sha": "79bc2c96",
+   "branch": "origin/claude/funny-albattani-iawshm",
+   "kind": "wip",
+   "task": "SOCLIB-LM-1030",
+   "reason": "LAWWW2 SOCLIB-LM-1030 的檢查點／進行中紀錄（之後的交件或總表任務照記）（LAWWW-B 11-01 22:2x 交班核對分類）"
+  },
+  {
+   "sha": "07d99d96",
+   "branch": "origin/claude/funny-albattani-iawshm",
+   "kind": "wip",
+   "task": "SOCLIB-LM-1030",
+   "reason": "LAWWW2 SOCLIB-LM-1030 的檢查點／進行中紀錄（之後的交件或總表任務照記）（LAWWW-B 11-01 22:2x 交班核對分類）"
+  },
+  {
+   "sha": "39e477ea",
+   "branch": "origin/claude/funny-albattani-iawshm",
+   "kind": "wip",
+   "task": "WANCAI-LM-1028",
+   "reason": "LAWWW2 WANCAI-LM-1028 的檢查點／進行中紀錄（之後的交件或總表任務照記）（LAWWW-B 11-01 22:2x 交班核對分類）"
+  },
+  {
+   "sha": "d5370eaa",
+   "branch": "origin/claude/funny-albattani-iawshm",
+   "kind": "wip",
+   "task": "LAWLIB-LM-1030",
+   "reason": "LAWWW2 LAWLIB-LM-1030 的檢查點／進行中紀錄（之後的交件或總表任務照記）（LAWWW-B 11-01 22:2x 交班核對分類）"
+  },
+  {
+   "sha": "8ad00335",
+   "branch": "origin/claude/funny-albattani-iawshm",
+   "kind": "wip",
+   "task": "WORLD-RENAME-1030",
+   "reason": "LAWWW2 WORLD-RENAME-1030 的檢查點／進行中紀錄（之後的交件或總表任務照記）（LAWWW-B 11-01 22:2x 交班核對分類）"
+  },
+  {
+   "sha": "82fe3b47",
+   "branch": "origin/claude/funny-albattani-iawshm",
+   "kind": "wip",
+   "task": "LIB-LAWN-PLAN-1030",
+   "reason": "LAWWW2 LIB-LAWN-PLAN-1030 的檢查點／進行中紀錄（之後的交件或總表任務照記）（LAWWW-B 11-01 22:2x 交班核對分類）"
+  },
+  {
+   "sha": "3a6ec968",
+   "branch": "origin/claude/funny-albattani-iawshm",
+   "kind": "wip",
+   "task": "WORLD-RENAME-1030",
+   "reason": "LAWWW2 WORLD-RENAME-1030 的檢查點／進行中紀錄（之後的交件或總表任務照記）（LAWWW-B 11-01 22:2x 交班核對分類）"
+  },
+  {
+   "sha": "e5604363",
+   "branch": "origin/claude/funny-albattani-iawshm",
+   "kind": "wip",
+   "task": "WORLD-RENAME-1030",
+   "reason": "LAWWW2 WORLD-RENAME-1030 的檢查點／進行中紀錄（之後的交件或總表任務照記）（LAWWW-B 11-01 22:2x 交班核對分類）"
+  },
+  {
+   "sha": "aaa44f09",
+   "branch": "origin/claude/funny-albattani-iawshm",
+   "kind": "wip",
+   "task": "WORLD-RENAME-1030",
+   "reason": "LAWWW2 WORLD-RENAME-1030 的檢查點／進行中紀錄（之後的交件或總表任務照記）（LAWWW-B 11-01 22:2x 交班核對分類）"
+  },
+  {
+   "sha": "b23cdd12",
+   "branch": "origin/claude/funny-albattani-iawshm",
+   "kind": "wip",
+   "task": "WORLD-RENAME-1030",
+   "reason": "LAWWW2 WORLD-RENAME-1030 的檢查點／進行中紀錄（之後的交件或總表任務照記）（LAWWW-B 11-01 22:2x 交班核對分類）"
+  },
+  {
+   "sha": "3a3d2bc4",
+   "branch": "origin/claude/funny-albattani-iawshm",
+   "kind": "wip",
+   "task": "LIB-LAWN-PLAN-1030",
+   "reason": "LAWWW2 LIB-LAWN-PLAN-1030 的檢查點／進行中紀錄（之後的交件或總表任務照記）（LAWWW-B 11-01 22:2x 交班核對分類）"
+  },
+  {
+   "sha": "d384deb2",
+   "branch": "origin/claude/funny-albattani-iawshm",
+   "kind": "wip",
+   "task": "INTERIOR-AAA-REVIEW-1028",
+   "reason": "LAWWW2 INTERIOR-AAA-REVIEW-1028 的檢查點／進行中紀錄（之後的交件或總表任務照記）（LAWWW-B 11-01 22:2x 交班核對分類）"
+  },
+  {
+   "sha": "f7613861",
+   "branch": "origin/claude/funny-albattani-iawshm",
+   "kind": "wip",
+   "task": "CAFE-WINDOW-LIVE-1030",
+   "reason": "LAWWW2 CAFE-WINDOW-LIVE-1030 的檢查點／進行中紀錄（之後的交件或總表任務照記）（LAWWW-B 11-01 22:2x 交班核對分類）"
+  },
+  {
+   "sha": "6d8f9fec",
+   "branch": "origin/claude/funny-albattani-iawshm",
+   "kind": "wip",
+   "task": "SK02-LINE-JACKET-1030",
+   "reason": "LAWWW2 SK02-LINE-JACKET-1030 的檢查點／進行中紀錄（之後的交件或總表任務照記）（LAWWW-B 11-01 22:2x 交班核對分類）"
+  },
+  {
+   "sha": "bbf848e5",
+   "branch": "origin/claude/funny-albattani-iawshm",
+   "kind": "wip",
+   "task": "WORLD-RENAME-1030",
+   "reason": "LAWWW2 WORLD-RENAME-1030 的檢查點／進行中紀錄（之後的交件或總表任務照記）（LAWWW-B 11-01 22:2x 交班核對分類）"
+  },
+  {
+   "sha": "12dcc698",
+   "branch": "origin/claude/funny-albattani-iawshm",
+   "kind": "wip",
+   "task": "DORM203-LM-1030",
+   "reason": "LAWWW2 DORM203-LM-1030 的檢查點／進行中紀錄（之後的交件或總表任務照記）（LAWWW-B 11-01 22:2x 交班核對分類）"
+  },
+  {
+   "sha": "64b535a9",
+   "branch": "origin/claude/funny-albattani-iawshm",
+   "kind": "wip",
+   "task": "DORM-SLEEP-VISUAL-1030",
+   "reason": "LAWWW2 DORM-SLEEP-VISUAL-1030 的檢查點／進行中紀錄（之後的交件或總表任務照記）（LAWWW-B 11-01 22:2x 交班核對分類）"
+  },
+  {
+   "sha": "4f42c313",
+   "branch": "origin/claude/funny-albattani-iawshm",
+   "kind": "wip",
+   "task": "DORM203-LM-1030",
+   "reason": "LAWWW2 DORM203-LM-1030 的檢查點／進行中紀錄（之後的交件或總表任務照記）（LAWWW-B 11-01 22:2x 交班核對分類）"
+  },
+  {
+   "sha": "ff974ac0",
+   "branch": "origin/claude/funny-albattani-iawshm",
+   "kind": "wip",
+   "task": "DORM203-LM-1030",
+   "reason": "LAWWW2 DORM203-LM-1030 的檢查點／進行中紀錄（之後的交件或總表任務照記）（LAWWW-B 11-01 22:2x 交班核對分類）"
+  },
+  {
+   "sha": "8b33ed50",
+   "branch": "origin/claude/funny-albattani-iawshm",
+   "kind": "wip",
+   "task": "INTERIOR-AAA-REVIEW-1028",
+   "reason": "LAWWW2 INTERIOR-AAA-REVIEW-1028 的檢查點／進行中紀錄（之後的交件或總表任務照記）（LAWWW-B 11-01 22:2x 交班核對分類）"
+  },
+  {
+   "sha": "7a750d6d",
+   "branch": "origin/claude/funny-albattani-iawshm",
+   "kind": "wip",
+   "task": "RT-NIGHT-1028",
+   "reason": "LAWWW2 RT-NIGHT-1028 的檢查點／進行中紀錄（之後的交件或總表任務照記）（LAWWW-B 11-01 22:2x 交班核對分類）"
+  },
+  {
+   "sha": "469069e9",
+   "branch": "origin/claude/funny-albattani-iawshm",
+   "kind": "wip",
+   "task": "LIB-HALL-LM-1028",
+   "reason": "LAWWW2 LIB-HALL-LM-1028 的檢查點／進行中紀錄（之後的交件或總表任務照記）（LAWWW-B 11-01 22:2x 交班核對分類）"
+  },
+  {
+   "sha": "4b1fcc45",
+   "branch": "origin/claude/funny-albattani-iawshm",
+   "kind": "wip",
+   "task": "LIB-HALL-LM-1028",
+   "reason": "LAWWW2 LIB-HALL-LM-1028 的檢查點／進行中紀錄（之後的交件或總表任務照記）（LAWWW-B 11-01 22:2x 交班核對分類）"
+  },
+  {
+   "sha": "ca791853",
+   "branch": "origin/claude/cool-heisenberg-o8kuqx",
+   "kind": "wip",
+   "task": "HISTORY-AUDIT-1031",
+   "reason": "AA HISTORY-AUDIT-1031 的檢查點／進行中紀錄（之後的交件或總表任務照記）（LAWWW-B 11-01 22:2x 交班核對分類）"
+  },
+  {
+   "sha": "32772d7a",
+   "branch": "origin/claude/cool-heisenberg-o8kuqx",
+   "kind": "wip",
+   "task": "HISTORY-AUDIT-1031",
+   "reason": "AA HISTORY-AUDIT-1031 的檢查點／進行中紀錄（之後的交件或總表任務照記）（LAWWW-B 11-01 22:2x 交班核對分類）"
+  },
+  {
+   "sha": "75db186a",
+   "branch": "origin/claude/cool-heisenberg-o8kuqx",
+   "kind": "wip",
+   "task": "HISTORY-AUDIT-1031",
+   "reason": "AA HISTORY-AUDIT-1031 的檢查點／進行中紀錄（之後的交件或總表任務照記）（LAWWW-B 11-01 22:2x 交班核對分類）"
+  },
+  {
+   "sha": "2664ed6f",
+   "branch": "origin/claude/cool-heisenberg-o8kuqx",
+   "kind": "covered",
+   "coveredBy": "ZR-SUMMER-LINES-1031",
+   "reason": "AA 的稿或紀錄，成果已由任務 ZR-SUMMER-LINES-1031 實作、登記（LAWWW-B 11-01 22:2x 交班核對分類）"
+  },
+  {
+   "sha": "d1973025",
+   "branch": "origin/claude/cool-heisenberg-o8kuqx",
+   "kind": "wip",
+   "task": "HISTORY-AUDIT-1031",
+   "reason": "AA HISTORY-AUDIT-1031 的檢查點／進行中紀錄（之後的交件或總表任務照記）（LAWWW-B 11-01 22:2x 交班核對分類）"
+  },
+  {
+   "sha": "d0e68c95",
+   "branch": "origin/claude/cool-heisenberg-o8kuqx",
+   "kind": "wip",
+   "task": "HISTORY-AUDIT-1031",
+   "reason": "AA HISTORY-AUDIT-1031 的檢查點／進行中紀錄（之後的交件或總表任務照記）（LAWWW-B 11-01 22:2x 交班核對分類）"
+  },
+  {
+   "sha": "54518c7c",
+   "branch": "origin/claude/cool-heisenberg-o8kuqx",
+   "kind": "wip",
+   "task": "HISTORY-AUDIT-1031",
+   "reason": "AA HISTORY-AUDIT-1031 的檢查點／進行中紀錄（之後的交件或總表任務照記）（LAWWW-B 11-01 22:2x 交班核對分類）"
+  },
+  {
+   "sha": "2d3616bd",
+   "branch": "origin/claude/cool-heisenberg-o8kuqx",
+   "kind": "wip",
+   "task": "HISTORY-AUDIT-1031",
+   "reason": "AA HISTORY-AUDIT-1031 的檢查點／進行中紀錄（之後的交件或總表任務照記）（LAWWW-B 11-01 22:2x 交班核對分類）"
+  },
+  {
+   "sha": "8b450a4d",
+   "branch": "origin/claude/cool-heisenberg-o8kuqx",
+   "kind": "wip",
+   "task": "HISTORY-AUDIT-1031",
+   "reason": "AA HISTORY-AUDIT-1031 的檢查點／進行中紀錄（之後的交件或總表任務照記）（LAWWW-B 11-01 22:2x 交班核對分類）"
+  },
+  {
+   "sha": "4694c826",
+   "branch": "origin/claude/cool-heisenberg-o8kuqx",
+   "kind": "wip",
+   "task": "HISTORY-AUDIT-1031",
+   "reason": "AA HISTORY-AUDIT-1031 的檢查點／進行中紀錄（之後的交件或總表任務照記）（LAWWW-B 11-01 22:2x 交班核對分類）"
+  },
+  {
+   "sha": "d145b889",
+   "branch": "origin/claude/cool-heisenberg-o8kuqx",
+   "kind": "wip",
+   "task": "HISTORY-AUDIT-1031",
+   "reason": "AA HISTORY-AUDIT-1031 的檢查點／進行中紀錄（之後的交件或總表任務照記）（LAWWW-B 11-01 22:2x 交班核對分類）"
+  },
+  {
+   "sha": "32e4aba1",
+   "branch": "origin/claude/cool-heisenberg-o8kuqx",
+   "kind": "wip",
+   "task": "HISTORY-AUDIT-1031",
+   "reason": "AA HISTORY-AUDIT-1031 的檢查點／進行中紀錄（之後的交件或總表任務照記）（LAWWW-B 11-01 22:2x 交班核對分類）"
+  },
+  {
+   "sha": "535147d9",
+   "branch": "origin/claude/cool-heisenberg-o8kuqx",
+   "kind": "covered",
+   "coveredBy": "I10-CG-DOORBELL-1027",
+   "reason": "AA 的稿或紀錄，成果已由任務 I10-CG-DOORBELL-1027 實作、登記（LAWWW-B 11-01 22:2x 交班核對分類）"
+  },
+  {
+   "sha": "5744363c",
+   "branch": "origin/claude/cool-heisenberg-o8kuqx",
+   "kind": "wip",
+   "task": "HISTORY-AUDIT-1031",
+   "reason": "AA HISTORY-AUDIT-1031 的檢查點／進行中紀錄（之後的交件或總表任務照記）（LAWWW-B 11-01 22:2x 交班核對分類）"
+  },
+  {
+   "sha": "da56f3a6",
+   "branch": "origin/claude/cool-heisenberg-o8kuqx",
+   "kind": "covered",
+   "coveredBy": "VAC-GAP-1031",
+   "reason": "AA 的稿或紀錄，成果已由任務 VAC-GAP-1031 實作、登記（LAWWW-B 11-01 22:2x 交班核對分類）"
+  },
+  {
+   "sha": "eb0dabee",
+   "branch": "origin/claude/cool-heisenberg-o8kuqx",
+   "kind": "wip",
+   "task": "HISTORY-AUDIT-1031",
+   "reason": "AA HISTORY-AUDIT-1031 的檢查點／進行中紀錄（之後的交件或總表任務照記）（LAWWW-B 11-01 22:2x 交班核對分類）"
+  },
+  {
+   "sha": "3cc96904",
+   "branch": "origin/claude/cool-heisenberg-o8kuqx",
+   "kind": "handoff_record",
+   "reason": "AA-B 10-30 接班紀錄（快轉合併、duty register）（LAWWW-B 11-01 22:2x 交班核對分類）"
   }
  ]
 }
