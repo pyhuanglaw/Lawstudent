@@ -38318,10 +38318,10 @@
    "id": "ZQ-C504-LAPTOP-1101",
    "title": "子晴 c504_4_3（2026 暑假，公館騎樓的咖啡店 (12,20.6)）旁白也有筆電：她坐下時可以開同一個 laptop_lap（ZQ-ARCADE 的道具）",
    "area": "STORY",
-   "owner": "LAWWW",
-   "status": "待開工",
+   "owner": "LAWWW2",
+   "status": "等待其他AI／素材",
    "priority": "P3",
-   "next": "【11-01 09:0x LAWWW-B】LAWWW2-B 交班【表外】補進總表；LAWWW 判斷：排在 ZQ-ARCADE-SEAT-1028 交件、合併以後一起做（同一個道具、heroine_circle 同一處），不在 D99 三項裡",
+   "next": "【11-01 09:4x LAWWW-B】判斷：現在不做（沒有座位）；程式已支援（prop＋沒座位退回站著），只差咖啡店座位｜【11-01 09:0x LAWWW-B】LAWWW2-B 交班【表外】補進總表；LAWWW 判斷：排在 ZQ-ARCADE-SEAT-1028 交件、合併以後一起做（同一個道具、heroine_circle 同一處），不在 D99 三項裡",
    "first": {
     "term": "Y1S2",
     "week": 0,
@@ -38333,7 +38333,17 @@
     "confirmed": false
    },
    "source": "LAWWW2-B 交班 11-01（test_shots/zq_arcade_seat_1101/README.md 第四節）",
-   "authorized": "D85"
+   "authorized": "D85",
+   "pausedReason": "她在公館騎樓咖啡店 (12,20.6)，3.5 m 內沒有座位（騎樓凳子在 3.7 m，而且旁白是咖啡店桌邊、旁邊一杯冰美式）；要先有咖啡店的座位才坐得下",
+   "resumeWhen": "LAWWW2 在 gongguan_shops 的咖啡店（騎樓 x≈12）加一個座位登記（同 ZQ-ARCADE 的凳子做法）；之後 LAWWW 把 c504_4_3 改 act read＋seatAt＋prop laptop_lap（story3d.js 已支援 prop、沒座位會照舊站著）",
+   "nextCheck": "2026-11-08",
+   "xai": {
+    "spec": "test_shots/zq_arcade_seat_1101/README.md 第四節",
+    "branch": "claude/funny-albattani-iawshm",
+    "acceptance": "公館騎樓咖啡店 x≈12 一個座位（zones3d 座位＋GLB）",
+    "receiver": "LAWWW",
+    "ack": "未派"
+   }
   }
  ]
 }
