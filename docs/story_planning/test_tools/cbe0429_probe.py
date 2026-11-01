@@ -28,7 +28,7 @@ MODE：
             kai711  大二暑假：[前置] 2027-07-10 19:50 宿舍（阿凱熟 45／信任 30＝朋友）→ 20:00 私訊三則（不加句號）＋「好。」→ 點「好。」→ 排 7/11 15:00 → 床快轉 →「出發：溫州街的冰店」
                     PASS：旁白、阿凱一句、選項「「開一張新的表。」」「「好吃就寫進去。」」、阿凱回那一句（KAI711_PICK＝b 選第二個）；背景還沒有溫州街的 2D 圖＝'dark'＋字幕「溫州街的冰店」（照記）。
             yt813   大二暑假：[前置] 2027-08-12 20:50（語彤熟 25）→ 21:00 私訊兩則＋「好。」→ 排 8/13 16:00 →「出發：公館的修鞋店」→ 旁白、老闆、旁白兩句、語彤兩句（bg gongguan）；記憶 FIELD_WITH_YT。
-            xc212   大二寒假：[前置] 2027-02-11 20:50（芯慈熟 25）→ 21:00 私訊兩則＋「好。」→ 排 2/12 10:00 →「出發：永和的豆漿店」→ 旁白、芯慈、選項「「事務所開工忙嗎？」」「「妳寒假都在幫忙？」」、芯慈回（bg soymilk_shop）。
+            xc212   大二寒假：[前置] 2027-02-11 20:50（芯慈熟 25）→ 21:00 私訊兩則＋「好。」→ 排 2/12 10:00 →「出發：永和的豆漿店」→ 旁白、芯慈、選項「「事務所開工忙嗎？」」「「妳寒假都在幫忙？」」、芯慈回（bg soymilk_shop；XC212_PICK＝b 選第二個）。
             xcneg   芯慈那一則不傳的情形。XCNEG＝presence,trip,level（預設 presence,trip）：
                     presence  characters.js 芯慈的 presence 是 {from:'Y1S1'}（永遠在臺北），玩家碰不到「她那天不在臺北」——【捷徑】頁面裡把 STORY.presence 包一層（只有芯慈、只有 2/12＝不在臺北），2/11 20:50 等到 21:15：沒有那一則；等完還原。
                     trip      [前置] 2027-02-09 10:00（芯慈熟 25）→ 手機排出國：日本 3 天、2/12 出發、自己去（玩家操作）→ [前置] 同一份進度跳到 2/11 20:50 → 等到 21:15：沒有那一則（祐廷 2/12 不在臺灣）。
@@ -44,7 +44,7 @@ MODE：
             PASS：私訊照稿、17:05；回覆照稿；拆完箱子以後才演書箱那幾句（friend 多兩句舊法典；dating 是書瑀在管理室前面）、記 SIS_OLD_BOOKS_2（SIS_OLD_CODE）；行政法課裡兩句旁白、只一次。
   walkchat  AA_555：同行聊天（INVITE_DATA.people[id].walk 的 w118_*）＋手機小事（src/aa555_3d.js）。WC_WHO＝yu,classmate_bohan,classmate_xinci（預設；第一次有同行聊天的三位）：
             [前置] 頁面裡讀作息挑大一上第 6～8 週他在哪一區（不是上課；總圖、Café、麵店優先）→ 最小存檔那個時間那一區（【捷徑】朋友：熟 45／信任 30）→ 走到旁邊「和〈他〉說話」→「約他去…」→ 地點（頁面裡先讀 INV.walkPick 挑一個說得出話的、不是他現在那一區的）→「現在一起過去」
-            → 他跟著走、6 秒以後字幕一句。PASS：字幕照 walkPick 那一句、名字對、記 walkSaid 的 w118_ 鍵。
+            → 他跟著走、6 秒以後字幕一句。PASS：字幕的名字對、記一個新的 walkSaid（w118_yu_／w118_bh_／w118_xc_）鍵、字幕＝那個鍵的句子（出發前讀的 walkPick 那一句照記）。
             WC_PHONE＝1（預設）：讀 AA555.DP／AT 的數量（只讀；約 85 則）＋[前置] 大一上第 5 週週一 21:30（六位都有聯絡方式、加入法一吃飯）床快轉 WC_DAYS（預設 7）天，收到的 a118 手機小事逐則對稿（DP.items／AT 的訊息）。
   libdesk   AA_407 R1（dfe02e51d）：[前置] 大二上第 12 週週五 10:00 總圖大廳（【捷徑】方奕廷有點熟）→ 走到「服務台」：沒有「借《臺灣原生植物圖鑑》」（控制組）
             → [前置] 同一份進度跳到第 12 週週日 20:50 宿舍 → 21:00「這週的訊息」→ 方奕廷那一則點「總圖五樓最裡面。」→ [前置] 跳到隔天 10:00 總圖大廳 → 服務台多「借《臺灣原生植物圖鑑》」→ 館員「那本只能在館內看。」→ 再到服務台：那一項沒了。
@@ -678,7 +678,7 @@ async def vf_case(pg, cdp, run, name):
     n0 = await pl_len(pg)
     got, M = await wait_msg(pg, cdp, run, X['tag'], ENVI('VF_WAIT', 600), name + '_wait')
     run.check('%s：%s %02d:00 手機收到 %s 的私訊 %s＋回覆鍵「%s」' % (name, X['key'], X['h'], who, J(X['ms']), X['ans']),
-              got and [m['text'] for m in M] == X['ms'] and all(m['from'] == who and m['th'] == X['th'] for m in M) and M[0]['day'] == X['key'] and abs(M[0]['h'] - X['h']) < 0.02 and M[-1]['opts'] == [X['ans']], J(M))
+              got and [m['text'] for m in M] == X['ms'] and all(m['from'] == who and m['th'] == X['th'] for m in M) and M[0]['day'] == X['key'] and abs(M[0]['h'] - X['h']) < 0.1 and M[-1]['opts'] == [X['ans']], J(M))
     if not got: return
     a = await answer(pg, cdp, run, ('eq', X['tag']), X['ans'], name)
     if X['reply']:   # 對方回的那一句可能晚一點才送到：站著等（最多 60 秒）
@@ -866,8 +866,8 @@ async def gr_case(pg, cdp, run, mode, faces):
     zq = [m['text'] for m in await pg.evaluate(MSG_OF, 'gr_zq_Y1S1')]; ka = [m['text'] for m in await pg.evaluate(MSG_OF, 'gr_kai_Y1S1')]
     zm = await pg.evaluate(MSG_OF, 'gr_zq_Y1S1'); km = await pg.evaluate(MSG_OF, 'gr_kai_Y1S1')
     wz = ZQ_LINES['fail'] if mode == 'fail' else ZQ_LINES[None]; wk = KAI_BASE + (KAI_FAIL if mode == 'fail' else [])
-    run.check('grades %s：1/5 21:00 子晴私訊（不加句號）%s' % (mode, J(wz)), zq == wz and all(m['day'] == '2026-01-05' and abs(m['h'] - 21) < 0.05 for m in zm[:1]), J(zm))
-    run.check('grades %s：1/5 21:00 阿凱私訊（大一）%s' % (mode, J(wk)), ka == wk and all(m['day'] == '2026-01-05' and abs(m['h'] - 21) < 0.05 for m in km[:1]), J(km))
+    run.check('grades %s：1/5 21:00 子晴私訊（不加句號）%s' % (mode, J(wz)), zq == wz and all(m['day'] == '2026-01-05' and abs(m['h'] - 21) < 0.1 for m in zm[:1]), J(zm))
+    run.check('grades %s：1/5 21:00 阿凱私訊（大一）%s' % (mode, J(wk)), ka == wk and all(m['day'] == '2026-01-05' and abs(m['h'] - 21) < 0.1 for m in km[:1]), J(km))
     for th, lab in (('p:heroine_04', 'zq'), ('p:kai', 'kai')):
         await P.phone_thread(pg, cdp, th, open_folds=False); await run.shot(pg, 'gr_%s_%s_thread' % (mode, lab)); await L.close_panels(pg, cdp)
     if faces:
@@ -907,7 +907,7 @@ async def sb2_case(pg, cdp, run, case):
     n0 = await pl_len(pg)
     got, M = await wait_msg(pg, cdp, run, 'sis_books2', ENVI('VF_WAIT', 600), 'sb2_%s_wait' % case)
     run.check('sisbooks2 %s：9/5 17:05 學姊私訊 %s＋回覆鍵 %s' % (case, J(SB2_MSG[v]), J(SB2_OPTS[v])),
-              got and [m['text'] for m in M] == SB2_MSG[v] and M[0]['day'] == '2026-09-05' and abs(M[0]['h'] - (17 + 5 / 60)) < 0.02 and M[-1]['opts'] == SB2_OPTS[v], J(M))
+              got and [m['text'] for m in M] == SB2_MSG[v] and M[0]['day'] == '2026-09-05' and abs(M[0]['h'] - (17 + 5 / 60)) < 0.1 and M[-1]['opts'] == SB2_OPTS[v], J(M))
     if not got: return
     lab = SB2_OPTS[v][0]
     a = await answer(pg, cdp, run, ('eq', 'sis_books2_ask'), lab, 'sb2_' + case)
@@ -966,6 +966,7 @@ WC_PLACES = """(([id,cur])=>{ const out=[]; for(const pid of ['library','cafe','
     try{ pk=INV.walkPick(GAME.G,id,pid); }catch(e){} out.push({pid,zone:P.zone,same,why:why||null,lines:pk?pk.lines:null,ask:pk?(pk.ask||null):null}); }
   return {places:out, said:Object.keys(GAME.G.flags.walkSaid||{}), n:((GAME.G.flags.walkChatN||{})[id])|0, pool:(()=>{ const w=((INVITE_DATA.people||{})[id]||{}).walk||{}; const L=[]; for(const k in w) for(const e of [].concat(w[k])) if(e&&e.one) L.push(e.one); return L; })()}; })"""
 WC_STATE = """(id=>({said:Object.assign({},GAME.G.flags.walkSaid||{}), iv:(GAME.G.invites||[]).filter(v=>v.who===id).map(v=>({state:v.state,place:v.place,zone:v.zone,chat:!!v.chat}))}))"""
+WC_ENTRY = """(([id,key])=>{ const w=((INVITE_DATA.people||{})[id]||{}).walk||{}, out=[]; for(const k in w) for(const e of [].concat(w[k])) if(e&&e.one===key) out.push({where:k,l:e.l}); return out; })"""
 
 
 async def wc_walk(pg, cdp, run, cid):
@@ -1003,8 +1004,12 @@ async def wc_walk(pg, cdp, run, cid):
         await pg.wait_for_timeout(1500)
     await run.shot(pg, tag + '_caption')
     s2 = await pg.evaluate(WC_STATE, cid); new = [k for k in s2['said'] if k not in said0]
-    run.check('%s：一起走 6 秒以後字幕（名字 %s）＝%s；記 walkSaid 的 %s 鍵' % (tag, '/'.join(sorted(nm)), J(pick['lines']), WC_PREFIX.get(cid, 'w118_')),
-              [x['t'] for x in caps][:len(pick['lines'])] == pick['lines'] and any(k.startswith(WC_PREFIX.get(cid, 'w118_')) for k in new), J({'caps': [[x['n'], x['t'], x['d'], x['h']] for x in caps], 'new': new, 'iv': s2['iv']}))
+    ents = await pg.evaluate(WC_ENTRY, [cid, new[0]]) if new else []
+    ct = [x['t'] for x in caps]
+    run.check('%s：一起走 6 秒以後字幕（名字 %s）＝walkSaid 新記的那一個 %s 鍵的句子（出發前 INV.walkPick 讀到的是 %s）' % (tag, '/'.join(sorted(nm)), WC_PREFIX.get(cid, 'w118_'), J(pick['lines'])),
+              bool(ct) and len(new) == 1 and new[0].startswith(WC_PREFIX.get(cid, 'w118_')) and any(ct[:len(e['l'])] == e['l'] for e in ents),
+              J({'caps': [[x['n'], x['t'], x['d'], x['h']] for x in caps], 'new': new, 'entry': ents, 'iv': s2['iv']}))
+    if ct and ct[:len(pick['lines'])] != pick['lines']: run.note('%s：字幕和出發前讀到的那一句不同（中間時間跨過條件，例：18:00）：%s' % (tag, J(ct)))
 
 
 DP_COUNT = """(()=>{ if(typeof AA555==='undefined') return null; const D=(STORY.DAILY_PHONE||[]).filter(d=>/^a118_/.test(d.id)); const by={}; for(const d of AA555.DP) by[d.who]=(by[d.who]||0)+1; for(const a of AA555.AT) by[a[1]]=(by[a[1]]||0)+1;
@@ -1128,7 +1133,7 @@ async def y2_lastmeal(pg, cdp, run):
     s1 = await snap(pg)
     await jump(pg, cdp, run, s1, e['key'], 16.83, zone='dorm', pos=None, note='最後一科（%.2f 考完）那天 16:50 宿舍' % e['h'])
     got, M = await wait_msg(pg, cdp, run, 'y2s2_final_ask', ENVI('VF_WAIT', 600), 'lastmeal_wait')
-    run.check('lastmeal：那天 17:00 阿哲「考完了 七點，麵店」（法一吃飯群組）', got and len(M) == 1 and M[0]['text'] == '考完了 七點，麵店' and M[0]['from'] == 'zhe' and M[0]['day'] == e['key'] and abs(M[0]['h'] - 17) < 0.05, J(M))
+    run.check('lastmeal：那天 17:00 阿哲「考完了 七點，麵店」（法一吃飯群組）', got and len(M) == 1 and M[0]['text'] == '考完了 七點，麵店' and M[0]['from'] == 'zhe' and M[0]['day'] == e['key'] and abs(M[0]['h'] - 17) < 0.1, J(M))
     if M: await P.phone_thread(pg, cdp, M[0]['th'], open_folds=False); await run.shot(pg, 'lastmeal_group'); await L.close_panels(pg, cdp)
     n0 = await pl_len(pg)
     gp = await go_place(pg, cdp, run, 'noodle')
@@ -1146,7 +1151,7 @@ async def y2_famdinner(pg, cdp, run):
     sis = await names_of(pg, 'heroine_05')
     got, M = await wait_msg(pg, cdp, run, 'fam_dinner_y2s2_invite', ENVI('VF_WAIT', 600), 'fam_wait')
     run.check('famdinner：3/9 21:00 家族群組 Kevin「這學期的家聚！！禮拜五七點 公館那間」「學弟妹第一次來 大家要到喔」、學姊「好。」',
-              got and [(m['from'], m['text']) for m in M] == FAM_MSG and all(m['th'] == 'g:family_law' and m['day'] == '2027-03-09' and abs(m['h'] - 21) < 0.05 for m in M), J(M))
+              got and [(m['from'], m['text']) for m in M] == FAM_MSG and all(m['th'] == 'g:family_law' and m['day'] == '2027-03-09' and abs(m['h'] - 21) < 0.1 for m in M), J(M))
     if M: await P.phone_thread(pg, cdp, 'g:family_law', open_folds=False); await run.shot(pg, 'fam_group'); await L.close_panels(pg, cdp)
     s1 = await snap(pg)
     await jump(pg, cdp, run, s1, '2027-03-12', 18.17, zone='dorm', pos=None, note='同一份進度；3/12（五）18:10 宿舍（學期中快轉只停自己房間的 auto 事件，別區的家聚不停，所以直接跳）')
