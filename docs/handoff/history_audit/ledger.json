@@ -1,7 +1,7 @@
 {
  "meta": {
   "generated_by": "tools/handoff/history_audit.py",
-  "head": "32bf3045035393ca2a985ce87eed1727aa502ea5",
+  "head": "695dbc2b6160e27ce260a944bd6deb9d16ba771c",
   "main": "271cd2305892c095779404dc76f8507ddfe9840b",
   "bb_records": [
    "elegant-brown-fcos7n:BB_218_瀏覽器實測紀錄.md",
@@ -7965,7 +7965,7 @@
    "next": "同 X14",
    "judged_by": "LAWWW2-B",
    "judged_at": "2026-10-31T20:07Z",
-   "judgment_history": 1
+   "judgment_history": 2
   },
   {
    "id": "SYS-BOOKS-1018",
@@ -8293,7 +8293,7 @@
    "next": "等使用者",
    "judged_by": "LAWWW2-B",
    "judged_at": "2026-10-31T20:08Z",
-   "judgment_history": 1
+   "judgment_history": 2
   },
   {
    "id": "YT-ENDING-LAWYER",
@@ -23647,7 +23647,7 @@
    "next": "需要截圖：家豪、予樂有台詞的場；原尺寸截圖對 BB_131 表情。",
    "judged_by": "BB-B",
    "judged_at": "2026-10-31T22:4xZ",
-   "judgment_history": 2
+   "judgment_history": 3
   },
   {
    "id": "ART-CG-ECONCAMP",
@@ -24372,7 +24372,7 @@
    "next": "分支本身可清理（已在 main，D88 權限受阻照舊只標記）；BB 補驗騎車、法圖一樓、118 巷各一段；場景 ART_APPROVED 歸使用者",
    "judged_by": "LAWWW2-B",
    "judged_at": "2026-10-31T19:59Z",
-   "judgment_history": 1
+   "judgment_history": 2
   },
   {
    "id": "claude/second-ai-env-art-wip-lane118",
@@ -24395,7 +24395,7 @@
    "next": "登記；分支可清理（權限受阻只標記）",
    "judged_by": "LAWWW2-B",
    "judged_at": "2026-10-31T19:59Z",
-   "judgment_history": 1
+   "judgment_history": 2
   },
   {
    "id": "claude/second-ai-env-art-wip-lawlib",
@@ -24418,7 +24418,7 @@
    "next": "登記；分支可清理",
    "judged_by": "LAWWW2-B",
    "judged_at": "2026-10-31T19:59Z",
-   "judgment_history": 1
+   "judgment_history": 2
   },
   {
    "id": "claude/second-ai-env-art-wip-pavsoc",
@@ -24443,7 +24443,7 @@
    "next": "登記；分支可清理；使用者回來時看 USER_ART_REVIEW_1027",
    "judged_by": "LAWWW2-B",
    "judged_at": "2026-10-31T19:59Z",
-   "judgment_history": 1
+   "judgment_history": 2
   },
   {
    "id": "claude/second-ai-env-art-wip-props",
@@ -24466,7 +24466,7 @@
    "next": "登記；分支可清理",
    "judged_by": "LAWWW2-B",
    "judged_at": "2026-10-31T19:59Z",
-   "judgment_history": 1
+   "judgment_history": 2
   },
   {
    "id": "claude/second-ai-env-art-wip-props6",
@@ -24491,7 +24491,7 @@
    "next": "登記；分支可清理；BB 走法學院廣場時看花台、公告欄、販賣機",
    "judged_by": "LAWWW2-B",
    "judged_at": "2026-10-31T19:59Z",
-   "judgment_history": 1
+   "judgment_history": 2
   },
   {
    "id": "claude/second-ai-env-art-wip-soclib",
@@ -24516,7 +24516,7 @@
    "next": "登記；分支可清理",
    "judged_by": "LAWWW2-B",
    "judged_at": "2026-10-31T19:59Z",
-   "judgment_history": 1
+   "judgment_history": 2
   },
   {
    "id": "claude/second-ai-env-art-wip-trees",
@@ -24539,7 +24539,7 @@
    "next": "登記；LAWWW 下次分支整理可改列清理候選（內容比對已證明被取代，非祖先關係）",
    "judged_by": "LAWWW2-B",
    "judged_at": "2026-10-31T19:59Z",
-   "judgment_history": 1
+   "judgment_history": 2
   },
   {
    "id": "claude/second-ai-env-art",
@@ -24562,7 +24562,7 @@
    "next": "LAWWW2 交一份「支援 GLB 搬進開發分支」的小交件（只加檔案、LICENSES 補行），LAWWW 整合",
    "judged_by": "LAWWW2-B",
    "judged_at": "2026-10-31T20:01Z",
-   "judgment_history": 1
+   "judgment_history": 2
   },
   {
    "id": "claude/focused-cray-c9uwvw",
@@ -24585,7 +24585,7 @@
    "next": "照各 WIP 那一行處理；全部結案前分支保留",
    "judged_by": "LAWWW2-B",
    "judged_at": "2026-10-31T20:01Z",
-   "judgment_history": 1
+   "judgment_history": 2
   },
   {
    "id": "claude/funny-albattani-iawshm",
@@ -24610,7 +24610,7 @@
    "next": "等下一次發布帶到 main；場景美術 ART_APPROVED 歸使用者",
    "judged_by": "LAWWW2-B",
    "judged_at": "2026-10-31T20:01Z",
-   "judgment_history": 1
+   "judgment_history": 2
   },
   {
    "id": "ART-SOY1",
@@ -24635,7 +24635,7 @@
    "next": "LAWWW 更正總表 ART-SOY1 與 USER_WANTS B07；soy_props.glb 搬進開發分支（不然 bg_soymilk.py:191 在開發分支重算會找不到檔）",
    "judged_by": "LAWWW2-B",
    "judged_at": "2026-10-31T20:01Z",
-   "judgment_history": 1
+   "judgment_history": 2
   },
   {
    "id": "ART-WZ7",
@@ -24660,7 +24660,7 @@
    "next": "注意：wz_street.py:844 是「檔案存在才擺」——開發分支沒有 wz7_street_props.glb，在開發分支重新匯出溫州街會默默少掉這三件；LAWWW2 把原檔搬進開發分支",
    "judged_by": "LAWWW2-B",
    "judged_at": "2026-10-31T20:01Z",
-   "judgment_history": 1
+   "judgment_history": 2
   },
   {
    "id": "aa_support/park2_props.glb＋bb_support/park3_props.glb",
@@ -24685,7 +24685,7 @@
    "next": "原檔搬進開發分支（重新匯出 wz_park 才不會缺）",
    "judged_by": "LAWWW2-B",
    "judged_at": "2026-10-31T20:01Z",
-   "judgment_history": 1
+   "judgment_history": 2
   },
   {
    "id": "ART-US1／ART-US2／ART-US3（us_*_props）",
@@ -24710,7 +24710,7 @@
    "next": "LAWWW2-REEXPORT-US-1027（待開工）把這幾個原檔搬進開發分支；其餘等使用者",
    "judged_by": "LAWWW2-B",
    "judged_at": "2026-10-31T20:01Z",
-   "judgment_history": 1
+   "judgment_history": 2
   },
   {
    "id": "ART-TUTOR1",
@@ -24733,7 +24733,7 @@
    "next": "原檔搬進開發分支；BB 家教那一段看背景",
    "judged_by": "LAWWW2-B",
    "judged_at": "2026-10-31T20:01Z",
-   "judgment_history": 1
+   "judgment_history": 2
   },
   {
    "id": "WIP-L2-SHOP-BG",
@@ -24756,7 +24756,7 @@
    "next": "登記；wip.json 這筆可改「不整合」結案",
    "judged_by": "LAWWW2-B",
    "judged_at": "2026-10-31T20:01Z",
-   "judgment_history": 1
+   "judgment_history": 2
   },
   {
    "id": "DL-LW2-SOCSCI1F",
@@ -24779,7 +24779,7 @@
    "next": "登記",
    "judged_by": "LAWWW2-B",
    "judged_at": "2026-10-31T20:01Z",
-   "judgment_history": 1
+   "judgment_history": 2
   },
   {
    "id": "DL-LW2-USSTREET1",
@@ -24802,7 +24802,7 @@
    "next": "登記",
    "judged_by": "LAWWW2-B",
    "judged_at": "2026-10-31T20:01Z",
-   "judgment_history": 1
+   "judgment_history": 2
   },
   {
    "id": "DL-LW2-ee91df8f（court_props＋法院 2D 兩張）",
@@ -24825,7 +24825,7 @@
    "next": "登記",
    "judged_by": "LAWWW2-B",
    "judged_at": "2026-10-31T20:01Z",
-   "judgment_history": 1
+   "judgment_history": 2
   },
   {
    "id": "DL-LAWWW2-60322c02（BG-25 ntu_gym_graduation.webp）",
@@ -24848,7 +24848,7 @@
    "next": "登記；deliveries 這筆可改「取消／被取代」",
    "judged_by": "LAWWW2-B",
    "judged_at": "2026-10-31T20:01Z",
-   "judgment_history": 1
+   "judgment_history": 2
   },
   {
    "id": "ART-BG-AA185（video_far_jp／video_far_us／old_school_playground）",
@@ -24871,7 +24871,7 @@
    "next": "登記（做好沒接，因為沒有戲要用）；有戲要用時 BB 先看這三張能不能用，不重做",
    "judged_by": "LAWWW2-B",
    "judged_at": "2026-10-31T20:01Z",
-   "judgment_history": 1
+   "judgment_history": 2
   },
   {
    "id": "DL-LAWWW2-236edded／01fee6a1（BG-19、BG-14 第五版）",
@@ -24894,7 +24894,7 @@
    "next": "登記，暫停中（D99 凍結；BB 驗第四版有退件再換第五版）",
    "judged_by": "LAWWW2-B",
    "judged_at": "2026-10-31T20:01Z",
-   "judgment_history": 1
+   "judgment_history": 2
   },
   {
    "id": "ART-VSLICE（src/post3d.js 後製模組）",
@@ -24917,7 +24917,7 @@
    "next": "登記",
    "judged_by": "LAWWW2-B",
    "judged_at": "2026-10-31T20:01Z",
-   "judgment_history": 1
+   "judgment_history": 2
   },
   {
    "id": "WIP-L2-YUTING-FACE（vroid_yuting_facetest.vrm）",
@@ -24940,7 +24940,7 @@
    "next": "登記（本行取代前一行：補上使用者原話出處）",
    "judged_by": "LAWWW2-B",
    "judged_at": "2026-10-31T20:10Z",
-   "judgment_history": 2
+   "judgment_history": 4
   },
   {
    "id": "沛珊第 29～31 版（DL-LAWWW2-9b0ec2db、7e64ec43、DL-LW2-PS31）",
@@ -24963,7 +24963,7 @@
    "next": "登記",
    "judged_by": "LAWWW2-B",
    "judged_at": "2026-10-31T20:01Z",
-   "judgment_history": 1
+   "judgment_history": 2
   },
   {
    "id": "WIP-L2-SOP（ART_SOP.md）",
@@ -24988,7 +24988,7 @@
    "next": "LAWWW 下次整合時 git show 三份進開發分支，結案",
    "judged_by": "LAWWW2-B",
    "judged_at": "2026-10-31T20:01Z",
-   "judgment_history": 1
+   "judgment_history": 2
   },
   {
    "id": "WIP-L2-SOC-COURT-1021",
@@ -25011,7 +25011,7 @@
    "next": "登記；排回 LAWWW2 佇列（美術總監巡查項，非使用者急件）",
    "judged_by": "LAWWW2-B",
    "judged_at": "2026-10-31T20:01Z",
-   "judgment_history": 1
+   "judgment_history": 2
   },
   {
    "id": "B07",
@@ -25036,7 +25036,7 @@
    "next": "LAWWW 更正 USER_WANTS B07 與總表 ART-SOY1（豆漿店道具在 BG-20 裡、不是「沒進遊戲」）；LAWWW2 把 soy_props、wz7_street_props 原檔搬進開發分支（不然在開發分支重算 BG-20／溫州街會缺件）；BB 走溫州街 A4／A5 門口、宿舍房間看小物",
    "judged_by": "LAWWW2-B",
    "judged_at": "2026-10-31T20:02Z",
-   "judgment_history": 1
+   "judgment_history": 2
   },
   {
    "id": "B08",
@@ -25061,7 +25061,7 @@
    "next": "BB 補一段：北巷用搖桿走入口 B 進主園區、從入口 B 出來（PARK-ENTRY-B-1027 任務自己寫的驗法）；過了改已驗收",
    "judged_by": "LAWWW2-B",
    "judged_at": "2026-10-31T20:02Z",
-   "judgment_history": 1
+   "judgment_history": 2
   },
   {
    "id": "H08",
@@ -25086,7 +25086,7 @@
    "next": "使用者要的已完成；正式美術地圖是 AI 自己的延伸：LAWWW 決定開 P3 新任務（LAWWW2 從 3D 俯拍或 BB 照 D97 要圖）或在 USER_WANTS H08 改「在遊戲裡」、刪「正式美術地圖之後要」",
    "judged_by": "LAWWW2-B",
    "judged_at": "2026-10-31T20:02Z",
-   "judgment_history": 1
+   "judgment_history": 2
   },
   {
    "id": "I07",
@@ -25111,7 +25111,7 @@
    "next": "LAWWW 排 DATE-S6 人物圖層（先用現成站姿去背，見 I08）；做不了就寫暫停五欄",
    "judged_by": "LAWWW2-B",
    "judged_at": "2026-10-31T20:02Z",
-   "judgment_history": 1
+   "judgment_history": 2
   },
   {
    "id": "I08",
@@ -25136,7 +25136,7 @@
    "next": "DATE-S6 開工時把 LAWWW2 分支的 assets/date/ 整組（含 anchors.json）搬進開發分支；扶欄杆、坐姿照 D97 由 BB 跟使用者要（使用者 X94「再緩緩」，不催）",
    "judged_by": "LAWWW2-B",
    "judged_at": "2026-10-31T20:02Z",
-   "judgment_history": 1
+   "judgment_history": 2
   },
   {
    "id": "C24",
@@ -25161,7 +25161,7 @@
    "next": "BB 照 R20 自己寫的改法重拍；拍到學姊兩個臉時記錄 GAME.npc 裡 heroine_05 實體數與 vrm.scene 子網格數，交 LAWWW（LAWWW2 可協助看模型）",
    "judged_by": "LAWWW2-B",
    "judged_at": "2026-10-31T20:02Z",
-   "judgment_history": 1
+   "judgment_history": 2
   },
   {
    "id": "X14",
@@ -25186,7 +25186,7 @@
    "next": "隨下一次發布帶上 ?perf，發布報告請使用者試；7～9 秒長卡的原因 LAWWW2 繼續查（D108）",
    "judged_by": "LAWWW2-B",
    "judged_at": "2026-10-31T20:02Z",
-   "judgment_history": 1
+   "judgment_history": 2
   },
   {
    "id": "X69",
@@ -25211,7 +25211,7 @@
    "next": "發布報告附 ?perf 用法請使用者在溫州街試；不再只用 SwiftShader 數字宣稱改善",
    "judged_by": "LAWWW2-B",
    "judged_at": "2026-10-31T20:02Z",
-   "judgment_history": 1
+   "judgment_history": 2
   },
   {
    "id": "X79",
@@ -25236,7 +25236,7 @@
    "next": "BB 第一次走校園（新局、開場後）看卡不卡、?perf 記數字；LAWWW2 接著做投影物件合併；使用者真機再試",
    "judged_by": "LAWWW2-B",
    "judged_at": "2026-10-31T20:02Z",
-   "judgment_history": 1
+   "judgment_history": 2
   },
   {
    "id": "ART-POLISH",
@@ -25261,7 +25261,7 @@
    "next": "登記，暫停中（人物、溫州街舊店面照使用者暫停）；光影、室內已拆到各自任務，本項只剩基準截圖",
    "judged_by": "LAWWW2-B",
    "judged_at": "2026-10-31T20:04Z",
-   "judgment_history": 1
+   "judgment_history": 2
   },
   {
    "id": "FIX-WZ-PERF",
@@ -25286,7 +25286,7 @@
    "next": "—（真機數字歸 X69）",
    "judged_by": "LAWWW2-B",
    "judged_at": "2026-10-31T20:04Z",
-   "judgment_history": 1
+   "judgment_history": 2
   },
   {
    "id": "ART-PS-SKIRT-HAND",
@@ -25311,7 +25311,7 @@
    "next": "BB 平地走路近拍確認手臂那半；膝蓋那半照使用者 D100a 授權可修（人物小錯誤），排回 LAWWW2 佇列（P3）",
    "judged_by": "LAWWW2-B",
    "judged_at": "2026-10-31T20:04Z",
-   "judgment_history": 1
+   "judgment_history": 2
   },
   {
    "id": "ART-US2-FIX-1018",
@@ -25336,7 +25336,7 @@
    "next": "—（9/13 傍晚燈光、手寫輪值表、兩張床三項 PLAYER_FEATURES 曾註「整合 commit 沒提到」，BB 已驗收照收）",
    "judged_by": "LAWWW2-B",
    "judged_at": "2026-10-31T20:04Z",
-   "judgment_history": 1
+   "judgment_history": 2
   },
   {
    "id": "SCN-US-LIB",
@@ -25361,7 +25361,7 @@
    "next": "等使用者",
    "judged_by": "LAWWW2-B",
    "judged_at": "2026-10-31T20:04Z",
-   "judgment_history": 1
+   "judgment_history": 2
   },
   {
    "id": "LINZE-WANCAI-FLOORS-1020",
@@ -25386,7 +25386,7 @@
    "next": "BB 跑 tests/flow_rooms.py（霖澤館 3F／4F 長桌坐下、5F～8F 電梯按鈕）補完就可改已驗收",
    "judged_by": "LAWWW2-B",
    "judged_at": "2026-10-31T20:04Z",
-   "judgment_history": 1
+   "judgment_history": 2
   },
   {
    "id": "GG-STREETVIEW-1020",
@@ -25411,7 +25411,7 @@
    "next": "等使用者；BB 實玩看載入與夜燈",
    "judged_by": "LAWWW2-B",
    "judged_at": "2026-10-31T20:04Z",
-   "judgment_history": 1
+   "judgment_history": 2
   },
   {
    "id": "F04",
@@ -25436,7 +25436,7 @@
    "next": "等使用者",
    "judged_by": "LAWWW2-B",
    "judged_at": "2026-10-31T20:04Z",
-   "judgment_history": 1
+   "judgment_history": 2
   },
   {
    "id": "F05",
@@ -25461,7 +25461,7 @@
    "next": "等使用者",
    "judged_by": "LAWWW2-B",
    "judged_at": "2026-10-31T20:04Z",
-   "judgment_history": 1
+   "judgment_history": 2
   },
   {
    "id": "I16",
@@ -25484,7 +25484,7 @@
    "next": "登記，暫停中（D70；下次檢查 11-03，不主動恢復）",
    "judged_by": "LAWWW2-B",
    "judged_at": "2026-10-31T20:04Z",
-   "judgment_history": 1
+   "judgment_history": 2
   },
   {
    "id": "X04",
@@ -25509,7 +25509,7 @@
    "next": "等使用者",
    "judged_by": "LAWWW2-B",
    "judged_at": "2026-10-31T20:04Z",
-   "judgment_history": 1
+   "judgment_history": 2
   },
   {
    "id": "X06",
@@ -25534,7 +25534,7 @@
    "next": "10-31 那三間隨下一次發布到 main；等使用者",
    "judged_by": "LAWWW2-B",
    "judged_at": "2026-10-31T20:04Z",
-   "judgment_history": 1
+   "judgment_history": 2
   },
   {
    "id": "X16",
@@ -25559,7 +25559,7 @@
    "next": "等使用者",
    "judged_by": "LAWWW2-B",
    "judged_at": "2026-10-31T20:04Z",
-   "judgment_history": 1
+   "judgment_history": 2
   },
   {
    "id": "X21",
@@ -25584,7 +25584,7 @@
    "next": "等使用者",
    "judged_by": "LAWWW2-B",
    "judged_at": "2026-10-31T20:04Z",
-   "judgment_history": 1
+   "judgment_history": 2
   },
   {
    "id": "X39",
@@ -25607,7 +25607,7 @@
    "next": "登記，暫停中（下次檢查 11-03；D111 起 LAWWW 可自己決定）",
    "judged_by": "LAWWW2-B",
    "judged_at": "2026-10-31T20:04Z",
-   "judgment_history": 1
+   "judgment_history": 2
   },
   {
    "id": "X41",
@@ -25632,7 +25632,7 @@
    "next": "—（街景美術 ART_APPROVED 另歸使用者）",
    "judged_by": "LAWWW2-B",
    "judged_at": "2026-10-31T20:04Z",
-   "judgment_history": 1
+   "judgment_history": 2
   },
   {
    "id": "X86",
@@ -25655,7 +25655,7 @@
    "next": "等使用者",
    "judged_by": "LAWWW2-B",
    "judged_at": "2026-10-31T20:04Z",
-   "judgment_history": 1
+   "judgment_history": 2
   },
   {
    "id": "ART-13",
@@ -25680,7 +25680,7 @@
    "next": "登記，暫停中（明軒）；LAWWW 把 ART-13 狀態改成「部分完成／暫停」",
    "judged_by": "LAWWW2-B",
    "judged_at": "2026-10-31T20:07Z",
-   "judgment_history": 1
+   "judgment_history": 2
   },
   {
    "id": "ART-JIAHAO-JOY",
@@ -25705,7 +25705,7 @@
    "next": "登記，暫停中（人物凍結 D99）",
    "judged_by": "LAWWW2-B",
    "judged_at": "2026-10-31T20:07Z",
-   "judgment_history": 1
+   "judgment_history": 2
   },
   {
    "id": "ART-PHOTO-CMP-1021",
@@ -25713,7 +25713,7 @@
    "audit_verdict": null,
    "audit_severity": null,
    "title": "共同教學館、女舍和參考照片比對（LAWWW2 清查 B14）",
-   "task_status": "待開工",
+   "task_status": "等待其他AI／素材",
    "owner": "LAWWW2",
    "priority": "P3",
    "tier": 5,
@@ -25728,7 +25728,7 @@
    "next": "登記；LAWWW2 有空時先列共同教學館、女舍和參考照片的差異清單（共同室內 10-31 已換正式模型 753df5a8c，可一起比）",
    "judged_by": "LAWWW2-B",
    "judged_at": "2026-10-31T20:07Z",
-   "judgment_history": 1
+   "judgment_history": 2
   },
   {
    "id": "LAWWW2-REEXPORT-US-1027",
@@ -25753,7 +25753,7 @@
    "next": "擴大範圍：所有被烘焙的支援 GLB（soy、wz7、park2、park3、tutor、us_*）連同產生腳本一次搬進開發分支（D88「不要只存在一條分支」）",
    "judged_by": "LAWWW2-B",
    "judged_at": "2026-10-31T20:07Z",
-   "judgment_history": 1
+   "judgment_history": 2
   },
   {
    "id": "ART-LAMPSHADE-FLIP-1027",
@@ -25776,7 +25776,7 @@
    "next": "登記；LAWWW2 自己排（D111），不擋",
    "judged_by": "LAWWW2-B",
    "judged_at": "2026-10-31T20:07Z",
-   "judgment_history": 1
+   "judgment_history": 2
   },
   {
    "id": "CROWD-DEPTS-LOOK-1028",
@@ -25799,7 +25799,7 @@
    "next": "登記；排在 X125 室內之後（LAWWW-C 10-28 02:3x）",
    "judged_by": "LAWWW2-B",
    "judged_at": "2026-10-31T20:07Z",
-   "judgment_history": 1
+   "judgment_history": 2
   },
   {
    "id": "ZQ-ARCADE-SEAT-1028",
@@ -25824,7 +25824,7 @@
    "next": "登記；排在 X125 室內後面",
    "judged_by": "LAWWW2-B",
    "judged_at": "2026-10-31T20:07Z",
-   "judgment_history": 1
+   "judgment_history": 2
   },
   {
    "id": "CAM-BELL-1031",
@@ -25847,7 +25847,7 @@
    "next": "登記；排在 INTERIOR-AAA-REVIEW-1028 之後",
    "judged_by": "LAWWW2-B",
    "judged_at": "2026-10-31T20:07Z",
-   "judgment_history": 1
+   "judgment_history": 2
   },
   {
    "id": "PERF-CAMPUS-SHADOW-1020",
@@ -25870,7 +25870,7 @@
    "next": "同 X79",
    "judged_by": "LAWWW2-B",
    "judged_at": "2026-10-31T20:07Z",
-   "judgment_history": 1
+   "judgment_history": 2
   },
   {
    "id": "BACKLOG-SWEEP-LAWWW2-1021",
@@ -25893,7 +25893,7 @@
    "next": "LAWWW 把本項改為由 HISTORY-AUDIT-1031 接續後結案；兩份文件 git show 進開發分支；支援 GLB 搬運見 LAWWW2-REEXPORT-US-1027 那一行",
    "judged_by": "LAWWW2-B",
    "judged_at": "2026-10-31T20:07Z",
-   "judgment_history": 1
+   "judgment_history": 2
   },
   {
    "id": "ART-ECON-3D-GAP-1021",
@@ -25918,7 +25918,7 @@
    "next": "隨下一次發布到 main；等使用者",
    "judged_by": "LAWWW2-B",
    "judged_at": "2026-10-31T20:07Z",
-   "judgment_history": 1
+   "judgment_history": 2
   },
   {
    "id": "ART-DIRECTOR-LAWWW2",
@@ -25941,7 +25941,7 @@
    "next": "長期項，不結案；巡查文件進開發分支",
    "judged_by": "LAWWW2-B",
    "judged_at": "2026-10-31T20:07Z",
-   "judgment_history": 1
+   "judgment_history": 2
   },
   {
    "id": "INTERIOR-AAA-REVIEW-1028",
@@ -25966,7 +25966,7 @@
    "next": "BB 看便利商店、體育館 1F 第五版；隨下一次發布給使用者看",
    "judged_by": "LAWWW2-B",
    "judged_at": "2026-10-31T20:07Z",
-   "judgment_history": 1
+   "judgment_history": 2
   },
   {
    "id": "CHAR-TEMPLATE",
@@ -25989,7 +25989,7 @@
    "next": "登記，暫停中",
    "judged_by": "LAWWW2-B",
    "judged_at": "2026-10-31T20:07Z",
-   "judgment_history": 1
+   "judgment_history": 2
   },
   {
    "id": "ART-PLAYER-SEASON-OUTFIT-1024",
@@ -26012,7 +26012,7 @@
    "next": "登記，暫停中",
    "judged_by": "LAWWW2-B",
    "judged_at": "2026-10-31T20:07Z",
-   "judgment_history": 1
+   "judgment_history": 2
   },
   {
    "id": "ART-WZ6",
@@ -26037,7 +26037,7 @@
    "next": "BB 在宿舍房間看溫州街打工留下的東西；LAWWW 可刪開發分支的 aa_support/wz6_items.glb 舊檔（或註明被取代）",
    "judged_by": "LAWWW2-B",
    "judged_at": "2026-10-31T20:07Z",
-   "judgment_history": 1
+   "judgment_history": 2
   },
   {
    "id": "ART-US1",
@@ -26062,7 +26062,7 @@
    "next": "原檔搬進開發分支（LAWWW2-REEXPORT-US-1027）；等使用者",
    "judged_by": "LAWWW2-B",
    "judged_at": "2026-10-31T20:07Z",
-   "judgment_history": 1
+   "judgment_history": 2
   },
   {
    "id": "ART-US2",
@@ -26087,7 +26087,7 @@
    "next": "原檔搬進開發分支（LAWWW2-REEXPORT-US-1027）；等使用者",
    "judged_by": "LAWWW2-B",
    "judged_at": "2026-10-31T20:07Z",
-   "judgment_history": 1
+   "judgment_history": 2
   },
   {
    "id": "ART-US3",
@@ -26112,7 +26112,7 @@
    "next": "原檔搬進開發分支（LAWWW2-REEXPORT-US-1027）；等使用者",
    "judged_by": "LAWWW2-B",
    "judged_at": "2026-10-31T20:07Z",
-   "judgment_history": 1
+   "judgment_history": 2
   },
   {
    "id": "ART-WZ1",
@@ -26137,7 +26137,7 @@
    "next": "等使用者；park2／park3 原檔搬進開發分支",
    "judged_by": "LAWWW2-B",
    "judged_at": "2026-10-31T20:07Z",
-   "judgment_history": 1
+   "judgment_history": 2
   },
   {
    "id": "BG-DARK-SCENES-1024",
@@ -26160,7 +26160,7 @@
    "next": "等使用者給圖；BB 收到後檢查、LAWWW 接",
    "judged_by": "LAWWW2-B",
    "judged_at": "2026-10-31T20:07Z",
-   "judgment_history": 1
+   "judgment_history": 2
   },
   {
    "id": "ART-02",
@@ -26185,7 +26185,7 @@
    "next": "等使用者",
    "judged_by": "LAWWW2-B",
    "judged_at": "2026-10-31T20:08Z",
-   "judgment_history": 1
+   "judgment_history": 2
   },
   {
    "id": "ART-04",
@@ -26208,7 +26208,7 @@
    "next": "BB 補驗：盆栽大小跟澆水次數（0／6／20／40＋）：要讀檔設不同澆水次數各看一次白天晚上，整段流程走不到 40 次；美術核准另歸使用者",
    "judged_by": "LAWWW2-B",
    "judged_at": "2026-10-31T20:08Z",
-   "judgment_history": 1
+   "judgment_history": 2
   },
   {
    "id": "ART-05",
@@ -26231,7 +26231,7 @@
    "next": "BB 補驗：bl_* 五位角色只在 ?blchar 才載入：開 ?blchar 截遊戲內畫面，BB 依 D59 驗角色美術",
    "judged_by": "LAWWW2-B",
    "judged_at": "2026-10-31T20:08Z",
-   "judgment_history": 1
+   "judgment_history": 2
   },
   {
    "id": "ART-10",
@@ -26256,7 +26256,7 @@
    "next": "等使用者",
    "judged_by": "LAWWW2-B",
    "judged_at": "2026-10-31T20:08Z",
-   "judgment_history": 1
+   "judgment_history": 2
   },
   {
    "id": "ART-11",
@@ -26281,7 +26281,7 @@
    "next": "等使用者",
    "judged_by": "LAWWW2-B",
    "judged_at": "2026-10-31T20:08Z",
-   "judgment_history": 1
+   "judgment_history": 2
   },
   {
    "id": "ART-12",
@@ -26306,7 +26306,7 @@
    "next": "等使用者",
    "judged_by": "LAWWW2-B",
    "judged_at": "2026-10-31T20:08Z",
-   "judgment_history": 1
+   "judgment_history": 2
   },
   {
    "id": "SCN-US-01",
@@ -26331,7 +26331,7 @@
    "next": "等使用者",
    "judged_by": "LAWWW2-B",
    "judged_at": "2026-10-31T20:08Z",
-   "judgment_history": 1
+   "judgment_history": 2
   },
   {
    "id": "SCN-US-03",
@@ -26356,7 +26356,7 @@
    "next": "等使用者",
    "judged_by": "LAWWW2-B",
    "judged_at": "2026-10-31T20:08Z",
-   "judgment_history": 1
+   "judgment_history": 2
   },
   {
    "id": "SCN-US-02",
@@ -26381,7 +26381,7 @@
    "next": "等使用者",
    "judged_by": "LAWWW2-B",
    "judged_at": "2026-10-31T20:08Z",
-   "judgment_history": 1
+   "judgment_history": 2
   },
   {
    "id": "SCN-V3-01",
@@ -26404,7 +26404,7 @@
    "next": "BB 補驗：第二個房間物件（拆箱一件一件出現、紙箱）：大一暑假快轉到大二開學；美術另歸使用者",
    "judged_by": "LAWWW2-B",
    "judged_at": "2026-10-31T20:08Z",
-   "judgment_history": 1
+   "judgment_history": 2
   },
   {
    "id": "SCN-V4-01",
@@ -26427,7 +26427,7 @@
    "next": "BB 補驗：第三個房間（507）：大二暑假快轉",
    "judged_by": "LAWWW2-B",
    "judged_at": "2026-10-31T20:08Z",
-   "judgment_history": 1
+   "judgment_history": 2
   },
   {
    "id": "SCN-V5-01",
@@ -26450,7 +26450,7 @@
    "next": "BB 補驗：第四個房間（409）：大三暑假快轉",
    "judged_by": "LAWWW2-B",
    "judged_at": "2026-10-31T20:08Z",
-   "judgment_history": 1
+   "judgment_history": 2
   },
   {
    "id": "ART-BG02",
@@ -26475,7 +26475,7 @@
    "next": "等使用者",
    "judged_by": "LAWWW2-B",
    "judged_at": "2026-10-31T20:08Z",
-   "judgment_history": 1
+   "judgment_history": 2
   },
   {
    "id": "ART-BG05",
@@ -26500,7 +26500,7 @@
    "next": "等使用者",
    "judged_by": "LAWWW2-B",
    "judged_at": "2026-10-31T20:08Z",
-   "judgment_history": 1
+   "judgment_history": 2
   },
   {
    "id": "ART-BG18",
@@ -26525,7 +26525,7 @@
    "next": "等使用者",
    "judged_by": "LAWWW2-B",
    "judged_at": "2026-10-31T20:08Z",
-   "judgment_history": 1
+   "judgment_history": 2
   },
   {
    "id": "ART-BG15",
@@ -26550,7 +26550,7 @@
    "next": "等使用者",
    "judged_by": "LAWWW2-B",
    "judged_at": "2026-10-31T20:08Z",
-   "judgment_history": 1
+   "judgment_history": 2
   },
   {
    "id": "ART-BG16",
@@ -26575,7 +26575,7 @@
    "next": "等使用者",
    "judged_by": "LAWWW2-B",
    "judged_at": "2026-10-31T20:08Z",
-   "judgment_history": 1
+   "judgment_history": 2
   },
   {
    "id": "ART-BG17",
@@ -26600,7 +26600,7 @@
    "next": "等使用者",
    "judged_by": "LAWWW2-B",
    "judged_at": "2026-10-31T20:08Z",
-   "judgment_history": 1
+   "judgment_history": 2
   },
   {
    "id": "ART-BG13",
@@ -26625,7 +26625,7 @@
    "next": "等使用者",
    "judged_by": "LAWWW2-B",
    "judged_at": "2026-10-31T20:08Z",
-   "judgment_history": 1
+   "judgment_history": 2
   },
   {
    "id": "ART-BG08",
@@ -26650,7 +26650,7 @@
    "next": "等使用者",
    "judged_by": "LAWWW2-B",
    "judged_at": "2026-10-31T20:08Z",
-   "judgment_history": 1
+   "judgment_history": 2
   },
   {
    "id": "ART-BG11",
@@ -26675,7 +26675,7 @@
    "next": "等使用者",
    "judged_by": "LAWWW2-B",
    "judged_at": "2026-10-31T20:08Z",
-   "judgment_history": 1
+   "judgment_history": 2
   },
   {
    "id": "ART-BG14",
@@ -26700,7 +26700,7 @@
    "next": "等使用者",
    "judged_by": "LAWWW2-B",
    "judged_at": "2026-10-31T20:08Z",
-   "judgment_history": 1
+   "judgment_history": 2
   },
   {
    "id": "ART-BG19",
@@ -26725,7 +26725,7 @@
    "next": "等使用者",
    "judged_by": "LAWWW2-B",
    "judged_at": "2026-10-31T20:08Z",
-   "judgment_history": 1
+   "judgment_history": 2
   },
   {
    "id": "ART-BG20",
@@ -26750,7 +26750,7 @@
    "next": "等使用者",
    "judged_by": "LAWWW2-B",
    "judged_at": "2026-10-31T20:08Z",
-   "judgment_history": 1
+   "judgment_history": 2
   },
   {
    "id": "ART-V0-DORM",
@@ -26775,7 +26775,7 @@
    "next": "等使用者",
    "judged_by": "LAWWW2-B",
    "judged_at": "2026-10-31T20:08Z",
-   "judgment_history": 1
+   "judgment_history": 2
   },
   {
    "id": "V0-ART-DORM",
@@ -26800,7 +26800,7 @@
    "next": "等使用者",
    "judged_by": "LAWWW2-B",
    "judged_at": "2026-10-31T20:08Z",
-   "judgment_history": 1
+   "judgment_history": 2
   },
   {
    "id": "ART-WZ4",
@@ -26825,7 +26825,7 @@
    "next": "等使用者",
    "judged_by": "LAWWW2-B",
    "judged_at": "2026-10-31T20:08Z",
-   "judgment_history": 1
+   "judgment_history": 2
   },
   {
    "id": "ART-WZ5",
@@ -26850,7 +26850,7 @@
    "next": "等使用者",
    "judged_by": "LAWWW2-B",
    "judged_at": "2026-10-31T20:08Z",
-   "judgment_history": 1
+   "judgment_history": 2
   },
   {
    "id": "ART-GYM1",
@@ -26873,7 +26873,7 @@
    "next": "BB 補驗：新體育館走得進來、體育課集合（體育課那一學期）；美術另歸使用者",
    "judged_by": "LAWWW2-B",
    "judged_at": "2026-10-31T20:08Z",
-   "judgment_history": 1
+   "judgment_history": 2
   },
   {
    "id": "ART-WZ3",
@@ -26898,7 +26898,7 @@
    "next": "等使用者",
    "judged_by": "LAWWW2-B",
    "judged_at": "2026-10-31T20:08Z",
-   "judgment_history": 1
+   "judgment_history": 2
   },
   {
    "id": "ART-YT1",
@@ -26921,7 +26921,7 @@
    "next": "BB 補驗：祐廷 VRM 精修（角色美術 BB 可驗）：BB_131 第 8 節已核可整合；在遊戲裡截正面、側面、走路各一張對照即可，不用整段流程",
    "judged_by": "LAWWW2-B",
    "judged_at": "2026-10-31T20:08Z",
-   "judgment_history": 1
+   "judgment_history": 2
   },
   {
    "id": "ART-BG-COURT",
@@ -26946,7 +26946,7 @@
    "next": "等使用者",
    "judged_by": "LAWWW2-B",
    "judged_at": "2026-10-31T20:08Z",
-   "judgment_history": 1
+   "judgment_history": 2
   },
   {
    "id": "ART-PT-SIS-FORMAL",
@@ -26969,7 +26969,7 @@
    "next": "BB 補驗：學姊 formal 立繪（BB 已核 ART_APPROVED）：原本用的 W9 已退場，要確認 M9 口試（L1168-1172 那一場）有沒有換 formal 立繪",
    "judged_by": "LAWWW2-B",
    "judged_at": "2026-10-31T20:08Z",
-   "judgment_history": 1
+   "judgment_history": 2
   },
   {
    "id": "ART-GYM-BG1",
@@ -26994,7 +26994,7 @@
    "next": "等使用者",
    "judged_by": "LAWWW2-B",
    "judged_at": "2026-10-31T20:08Z",
-   "judgment_history": 1
+   "judgment_history": 2
   },
   {
    "id": "ART-GG-SIGNS",
@@ -27019,7 +27019,7 @@
    "next": "等使用者",
    "judged_by": "LAWWW2-B",
    "judged_at": "2026-10-31T20:08Z",
-   "judgment_history": 1
+   "judgment_history": 2
   },
   {
    "id": "BUG-COPLANAR-DEV",
@@ -27042,7 +27042,7 @@
    "next": "BB 補驗：開發組 GLB 疊面：要跑 campus_glb_integration、interior_glb_integration 並截圖；會不會閃要真機",
    "judged_by": "LAWWW2-B",
    "judged_at": "2026-10-31T20:08Z",
-   "judgment_history": 1
+   "judgment_history": 2
   },
   {
    "id": "ART-CAFE-FLOOR",
@@ -27067,7 +27067,7 @@
    "next": "等使用者",
    "judged_by": "LAWWW2-B",
    "judged_at": "2026-10-31T20:08Z",
-   "judgment_history": 1
+   "judgment_history": 2
   },
   {
    "id": "ART-WZ0",
@@ -27092,7 +27092,7 @@
    "next": "等使用者",
    "judged_by": "LAWWW2-B",
    "judged_at": "2026-10-31T20:08Z",
-   "judgment_history": 1
+   "judgment_history": 2
   },
   {
    "id": "BUG-WZFLICKER-2",
@@ -27117,7 +27117,7 @@
    "next": "等使用者",
    "judged_by": "LAWWW2-B",
    "judged_at": "2026-10-31T20:08Z",
-   "judgment_history": 1
+   "judgment_history": 2
   },
   {
    "id": "ART-BIKES2-F",
@@ -27142,7 +27142,7 @@
    "next": "等使用者",
    "judged_by": "LAWWW2-B",
    "judged_at": "2026-10-31T20:08Z",
-   "judgment_history": 1
+   "judgment_history": 2
   },
   {
    "id": "ART-DORM-LOFT",
@@ -27167,7 +27167,7 @@
    "next": "等使用者",
    "judged_by": "LAWWW2-B",
    "judged_at": "2026-10-31T20:08Z",
-   "judgment_history": 1
+   "judgment_history": 2
   },
   {
    "id": "ART-SOP",
@@ -27192,7 +27192,7 @@
    "next": "LAWWW 下次整合時拿進開發分支",
    "judged_by": "LAWWW2-B",
    "judged_at": "2026-10-31T20:08Z",
-   "judgment_history": 1
+   "judgment_history": 2
   },
   {
    "id": "ART-DORM-Y34",
@@ -27215,7 +27215,7 @@
    "next": "BB 補驗：507、409 房間門牌與窗景（大二、大三暑假快轉到開學）；美術歸使用者",
    "judged_by": "LAWWW2-B",
    "judged_at": "2026-10-31T20:08Z",
-   "judgment_history": 1
+   "judgment_history": 2
   },
   {
    "id": "ART-US-SEASON",
@@ -27240,7 +27240,7 @@
    "next": "等使用者",
    "judged_by": "LAWWW2-B",
    "judged_at": "2026-10-31T20:08Z",
-   "judgment_history": 1
+   "judgment_history": 2
   },
   {
    "id": "ART-NPC-40",
@@ -27263,7 +27263,7 @@
    "next": "BB 補驗：40 種路人底模（角色美術 BB 可驗）：要把 nf1～20、nm1～20 排排站近拍看髮型、不要紅上衣；L1778 只看了 nm3",
    "judged_by": "LAWWW2-B",
    "judged_at": "2026-10-31T20:08Z",
-   "judgment_history": 1
+   "judgment_history": 2
   },
   {
    "id": "ART-HAIR-MATCAP",
@@ -27286,7 +27286,7 @@
    "next": "BB 補驗：髮梢白邊（角色美術 BB 可驗）：阿哲、柏翰、可昕、路人近拍前後對照",
    "judged_by": "LAWWW2-B",
    "judged_at": "2026-10-31T20:08Z",
-   "judgment_history": 1
+   "judgment_history": 2
   },
   {
    "id": "ART-NPC-HAIR-STREAK",
@@ -27309,7 +27309,7 @@
    "next": "BB 補驗：博雅 101 坐著的替身頭髮條紋：要找有整班人的時段近拍（L2856-2857 第一次沒拍到人，L2978-2982 講座有 23 人可用）",
    "judged_by": "LAWWW2-B",
    "judged_at": "2026-10-31T20:08Z",
-   "judgment_history": 1
+   "judgment_history": 2
   },
   {
    "id": "ART-EXT-M1",
@@ -27334,7 +27334,7 @@
    "next": "等使用者",
    "judged_by": "LAWWW2-B",
    "judged_at": "2026-10-31T20:08Z",
-   "judgment_history": 1
+   "judgment_history": 2
   },
   {
    "id": "ART-EXT-GATE",
@@ -27359,7 +27359,7 @@
    "next": "等使用者",
    "judged_by": "LAWWW2-B",
    "judged_at": "2026-10-31T20:08Z",
-   "judgment_history": 1
+   "judgment_history": 2
   },
   {
    "id": "ART-EXT-TEACH",
@@ -27384,7 +27384,7 @@
    "next": "等使用者",
    "judged_by": "LAWWW2-B",
    "judged_at": "2026-10-31T20:08Z",
-   "judgment_history": 1
+   "judgment_history": 2
   },
   {
    "id": "ART-EXT-MRT",
@@ -27409,7 +27409,7 @@
    "next": "等使用者",
    "judged_by": "LAWWW2-B",
    "judged_at": "2026-10-31T20:08Z",
-   "judgment_history": 1
+   "judgment_history": 2
   },
   {
    "id": "ART-GYM2-INT",
@@ -27434,7 +27434,7 @@
    "next": "等使用者",
    "judged_by": "LAWWW2-B",
    "judged_at": "2026-10-31T20:08Z",
-   "judgment_history": 1
+   "judgment_history": 2
   },
   {
    "id": "SCN-US-IU-1018",
@@ -27459,7 +27459,7 @@
    "next": "等使用者",
    "judged_by": "LAWWW2-B",
    "judged_at": "2026-10-31T20:08Z",
-   "judgment_history": 1
+   "judgment_history": 2
   },
   {
    "id": "ART-YU-3D-1018",
@@ -27482,7 +27482,7 @@
    "next": "BB 補驗：小語新 3D（角色美術 BB 可驗）：大一上遇到小語時截圖對照立繪",
    "judged_by": "LAWWW2-B",
    "judged_at": "2026-10-31T20:08Z",
-   "judgment_history": 1
+   "judgment_history": 2
   },
   {
    "id": "ART-GG-SHOPS-1018",
@@ -27507,7 +27507,7 @@
    "next": "等使用者",
    "judged_by": "LAWWW2-B",
    "judged_at": "2026-10-31T20:08Z",
-   "judgment_history": 1
+   "judgment_history": 2
   },
   {
    "id": "ART-LIB-VIEW-1018",
@@ -27532,7 +27532,7 @@
    "next": "等使用者",
    "judged_by": "LAWWW2-B",
    "judged_at": "2026-10-31T20:08Z",
-   "judgment_history": 1
+   "judgment_history": 2
   },
   {
    "id": "ART-SEATFIG-1018",
@@ -27555,7 +27555,7 @@
    "next": "BB 補驗：博雅 101 坐著的替身（角色美術 BB 可驗）：L2857 大一上第 3 週週二 9:36 博雅 101 替身 0 個拍不到；要找有一整班替身的時段（例：L2978 大二下第 4 週週四 12:20 講座）近拍頭頂與臉",
    "judged_by": "LAWWW2-B",
    "judged_at": "2026-10-31T20:08Z",
-   "judgment_history": 1
+   "judgment_history": 2
   },
   {
    "id": "LANE118-SHOPS-1020",
@@ -27566,21 +27566,21 @@
    "task_status": "已整合待測試",
    "owner": "BB",
    "priority": "P0",
-   "tier": 2,
+   "tier": 1,
    "auto": false,
    "main": "yes",
    "bb": [
-    "部分：BB-C 10-27 盤點 C 類「118 巷店走得進去：L275-290（05f8f67f）九間 PASS、L303-310 夜景與椅子 FIXED、L557-573（dffd55f2）熟人 FIXED；但 10-22 又整合 LAWWW2 七份 patch，第 37 項 flow_lane118（L1904-1906）阿哲 null 沒結論，要在新版重跑 flow_lane118」（行號指 BB_218（wonderful-mayer-7fm9g6@3e23808e7））"
+    "BB_218（elegant-brown-fcos7n@78e470af4） L4250 v9.10.11 rc2 flow_lane118：13 行 PASS（進店、阿哲跟進來坐下、點餐、扣錢、走回校園、沒用卡住保險、沒有 JS 例外）；1 行 FAIL「阿哲站在六張犁麵舖門口」＝舊問題（10-2x 在 0ae8138e4、8282335af 數字一樣，手機自動打開遊戲暫停），不是店面；加上第一輪記的 L275-290 九間 PASS、L303-310 夜景椅子 FIXED"
    ],
    "bb_pass": 0,
    "evidence_gap": false,
-   "why": "BB 補驗：118 巷店走得進去：L275-290（05f8f67f）九間 PASS、L303-310 夜景與椅子 FIXED、L557-573（dffd55f2）熟人 FIXED；但 10-22 又整合 LAWWW2 七份 patch，第 37 項 flow_lane118（L1904-1906）阿哲 null 沒結論，要在新版重跑 flow_lane118",
+   "why": "「阿哲站在麵舖門口」那一行是舊的時機問題（不是美術）；場景 ART_APPROVED 歸使用者",
    "evidence": "tasks.json LANE118-SHOPS-1020「已整合待測試」；開發分支整合 commit 4560f8fd4（2 筆；main 祖先：是；DL-LAWWW2-43cf956a 43cf956a）",
    "task": "LANE118-SHOPS-1020",
-   "next": "BB 補驗：118 巷店走得進去：L275-290（05f8f67f）九間 PASS、L303-310 夜景與椅子 FIXED、L557-573（dffd55f2）熟人 FIXED；但 10-22 又整合 LAWWW2 七份 patch，第 37 項 flow_lane118（L1904-1906）阿哲 null 沒結論，要在新版重跑 flow_lane118",
+   "next": "「阿哲站在麵舖門口」那一行是舊的時機問題（不是美術）；場景 ART_APPROVED 歸使用者",
    "judged_by": "LAWWW2-B",
-   "judged_at": "2026-10-31T20:08Z",
-   "judgment_history": 1
+   "judged_at": "2026-11-01T02:5xZ",
+   "judgment_history": 4
   },
   {
    "id": "BUG-GYM-STAIRS-1020",
@@ -27603,7 +27603,7 @@
    "next": "BB 補驗：體育館 1F→B1→1F：台階方向、B1 上來朝向（L200-209 重現，Blender 重匯後沒走過）",
    "judged_by": "LAWWW2-B",
    "judged_at": "2026-10-31T20:08Z",
-   "judgment_history": 1
+   "judgment_history": 2
   },
   {
    "id": "LINZE-34F-TABLES-1020",
@@ -27626,7 +27626,7 @@
    "next": "BB 補驗：霖澤 3F／4F 區域、電梯、長條桌坐下、樓上同學進出（桌椅外觀＝場景美術歸使用者）",
    "judged_by": "LAWWW2-B",
    "judged_at": "2026-10-31T20:08Z",
-   "judgment_history": 1
+   "judgment_history": 2
   },
   {
    "id": "SKYBRIDGE-DOOR-1020",
@@ -27649,7 +27649,7 @@
    "next": "BB 補驗：博雅→普通空橋：通道沒有門板、走到普通二樓東邊、下到一樓（flow_skybridge；BB_218 沒有紀錄）",
    "judged_by": "LAWWW2-B",
    "judged_at": "2026-10-31T20:08Z",
-   "judgment_history": 1
+   "judgment_history": 2
   },
   {
    "id": "ART-L118-LANE-1020",
@@ -27674,7 +27674,7 @@
    "next": "等使用者",
    "judged_by": "LAWWW2-B",
    "judged_at": "2026-10-31T20:08Z",
-   "judgment_history": 1
+   "judgment_history": 2
   },
   {
    "id": "ART-ROOM-MULTI-1020",
@@ -27699,7 +27699,7 @@
    "next": "等使用者",
    "judged_by": "LAWWW2-B",
    "judged_at": "2026-10-31T20:08Z",
-   "judgment_history": 1
+   "judgment_history": 2
   },
   {
    "id": "ART-ROOM-LIFE-1020",
@@ -27724,7 +27724,7 @@
    "next": "等使用者",
    "judged_by": "LAWWW2-B",
    "judged_at": "2026-10-31T20:08Z",
-   "judgment_history": 1
+   "judgment_history": 2
   },
   {
    "id": "ART-DORM-LOUNGE-1021",
@@ -27749,7 +27749,7 @@
    "next": "等使用者",
    "judged_by": "LAWWW2-B",
    "judged_at": "2026-10-31T20:08Z",
-   "judgment_history": 1
+   "judgment_history": 2
   },
   {
    "id": "JP-ROOM-3D-1021",
@@ -27774,7 +27774,7 @@
    "next": "BB 補驗：日本 3D 房間：L1450-1466（46760208）人在房間電話會先回據點 PASS；只差選單「在房間休息一下」進、床睡覺回據點、房門走出、窗外／小冰箱／行李箱「看」",
    "judged_by": "LAWWW2-B",
    "judged_at": "2026-10-31T20:08Z",
-   "judgment_history": 1
+   "judgment_history": 2
   },
   {
    "id": "BUG-CAM-C208-1021",
@@ -27788,16 +27788,18 @@
    "tier": 2,
    "auto": false,
    "main": "yes",
-   "bb": [],
+   "bb": [
+    "部分：BB_218（elegant-brown-fcos7n@78e470af4） L657、L695-699 BB（帳號 A）10-21 回報 C208 走廊、室內鏡頭卡牆並給重現步驟；修正（開發 e95666d94）**之後沒有 BB 重拍紀錄**"
+   ],
    "bb_pass": 0,
    "evidence_gap": false,
-   "why": "BB 補驗：美國 C 棟 208 門口走廊鏡頭：L693-697 只驗了 B 門外套；要在同位置四個方向、17:46 與 19:00 重拍",
+   "why": "BB 用 artrev2 ONLY=c208 的走廊、室內角度重拍（57、58、62、86）",
    "evidence": "tasks.json BUG-CAM-C208-1021「已整合待測試」；開發分支整合 commit e95666d94（1 筆；main 祖先：是）",
    "task": "BUG-CAM-C208-1021",
    "next": "BB 補驗：美國 C 棟 208 門口走廊鏡頭：L693-697 只驗了 B 門外套；要在同位置四個方向、17:46 與 19:00 重拍",
    "judged_by": "LAWWW2-B",
-   "judged_at": "2026-10-31T20:08Z",
-   "judgment_history": 1
+   "judged_at": "2026-11-01T02:5xZ",
+   "judgment_history": 4
   },
   {
    "id": "WZ-SHOP-AA364-ART",
@@ -27822,7 +27824,7 @@
    "next": "等使用者",
    "judged_by": "LAWWW2-B",
    "judged_at": "2026-10-31T20:08Z",
-   "judgment_history": 1
+   "judgment_history": 2
   },
   {
    "id": "BUG-CAM-203-R2-1021",
@@ -27845,7 +27847,7 @@
    "next": "BB 補驗：大一 203 R2 書桌旁 (1.0,0.25) 東、南兩個方向鏡頭：要同位置重拍（artrev3 那一組角度）",
    "judged_by": "LAWWW2-B",
    "judged_at": "2026-10-31T20:08Z",
-   "judgment_history": 1
+   "judgment_history": 2
   },
   {
    "id": "ART-Y1-BOX-MIRROR-1021",
@@ -27859,16 +27861,18 @@
    "tier": 2,
    "auto": false,
    "main": "yes",
-   "bb": [],
+   "bb": [
+    "部分：BB_218（elegant-brown-fcos7n@78e470af4） L701-709 BB（帳號 A）10-21 17:1x 回報壓平紙箱「冬天的衣服」左右鏡像（P3）；修正（開發 e95666d94）**之後沒有 BB 同角度重拍紀錄**"
+   ],
    "bb_pass": 0,
    "evidence_gap": false,
-   "why": "BB 補驗：壓平紙箱「冬天的衣服」字不再鏡像：用 artrev3 同角度近拍一張（L707 找到的）",
+   "why": "BB 用 artrev3 第二版同角度（33、36～38）重拍壓平紙箱的字",
    "evidence": "tasks.json ART-Y1-BOX-MIRROR-1021「已整合待測試」；開發分支整合 commit e95666d94（1 筆；main 祖先：是）",
    "task": "ART-Y1-BOX-MIRROR-1021",
    "next": "BB 補驗：壓平紙箱「冬天的衣服」字不再鏡像：用 artrev3 同角度近拍一張（L707 找到的）",
    "judged_by": "LAWWW2-B",
-   "judged_at": "2026-10-31T20:08Z",
-   "judgment_history": 1
+   "judged_at": "2026-11-01T02:5xZ",
+   "judgment_history": 4
   },
   {
    "id": "BACKLOG-A7-WZPARK-COPLANAR",
@@ -27891,7 +27895,7 @@
    "next": "BB 補驗：溫州街小公園走一圈看涼亭樑、神龕、步道、公布欄有沒有閃（數字已 11→0）",
    "judged_by": "LAWWW2-B",
    "judged_at": "2026-10-31T20:08Z",
-   "judgment_history": 1
+   "judgment_history": 2
   },
   {
    "id": "BUG-CAFE-FLOOR-MIRROR-1021",
@@ -27916,7 +27920,7 @@
    "next": "等使用者",
    "judged_by": "LAWWW2-B",
    "judged_at": "2026-10-31T20:08Z",
-   "judgment_history": 1
+   "judgment_history": 2
   },
   {
    "id": "ART-VAC-AIRPORT-1021",
@@ -27941,7 +27945,7 @@
    "next": "等使用者",
    "judged_by": "LAWWW2-B",
    "judged_at": "2026-10-31T20:08Z",
-   "judgment_history": 1
+   "judgment_history": 2
   },
   {
    "id": "US-MS-NIGHT-1021",
@@ -27966,7 +27970,7 @@
    "next": "等使用者",
    "judged_by": "LAWWW2-B",
    "judged_at": "2026-10-31T20:08Z",
-   "judgment_history": 1
+   "judgment_history": 2
   },
   {
    "id": "ART-TONE-NEUTRAL-1022",
@@ -27991,7 +27995,7 @@
    "next": "等使用者",
    "judged_by": "LAWWW2-B",
    "judged_at": "2026-10-31T20:08Z",
-   "judgment_history": 1
+   "judgment_history": 2
   },
   {
    "id": "ART-L118-FACADE-3D-1023",
@@ -28016,7 +28020,7 @@
    "next": "等使用者",
    "judged_by": "LAWWW2-B",
    "judged_at": "2026-10-31T20:08Z",
-   "judgment_history": 1
+   "judgment_history": 2
   },
   {
    "id": "ART-GG-FACADE-3D-1023",
@@ -28041,7 +28045,7 @@
    "next": "等使用者",
    "judged_by": "LAWWW2-B",
    "judged_at": "2026-10-31T20:08Z",
-   "judgment_history": 1
+   "judgment_history": 2
   },
   {
    "id": "ART-SHOP-VIEWS-1023",
@@ -28066,7 +28070,7 @@
    "next": "等使用者",
    "judged_by": "LAWWW2-B",
    "judged_at": "2026-10-31T20:08Z",
-   "judgment_history": 1
+   "judgment_history": 2
   },
   {
    "id": "WZ-CAT-LIFE-1023",
@@ -28089,7 +28093,7 @@
    "next": "BB 補驗（10-27 以後才整合，不在 BB-C 盤點裡；見 docs/handoff/history_audit/bb_batches.md）",
    "judged_by": "LAWWW2-B",
    "judged_at": "2026-10-31T20:08Z",
-   "judgment_history": 1
+   "judgment_history": 2
   },
   {
    "id": "ART-GG-STREETLIFE-1023",
@@ -28114,7 +28118,7 @@
    "next": "等使用者",
    "judged_by": "LAWWW2-B",
    "judged_at": "2026-10-31T20:08Z",
-   "judgment_history": 1
+   "judgment_history": 2
   },
   {
    "id": "SQ-TRACES-1023",
@@ -28137,7 +28141,7 @@
    "next": "BB 補驗：店員支線做完的 3D 痕跡＋輪轉單車店門口（第 53 項沒跑）",
    "judged_by": "LAWWW2-B",
    "judged_at": "2026-10-31T20:08Z",
-   "judgment_history": 1
+   "judgment_history": 2
   },
   {
    "id": "ART-WZ-MARKET-1023",
@@ -28162,7 +28166,7 @@
    "next": "等使用者",
    "judged_by": "LAWWW2-B",
    "judged_at": "2026-10-31T20:08Z",
-   "judgment_history": 1
+   "judgment_history": 2
   },
   {
    "id": "SET-CEREMONY-1023",
@@ -28176,16 +28180,18 @@
    "tier": 2,
    "auto": false,
    "main": "yes",
-   "bb": [],
+   "bb": [
+    "部分：BB_218（elegant-brown-fcos7n@78e470af4） L6321-6334「n37_cer831／cer1800」：開學典禮有演（CEREMONY_Y1、cer1800 PASS）；cer831 PARTIAL 是小睡那條路的時間（LAWWW-B 任務 #183）；**3F 典禮布置（十二學院牌子、座位）畫面沒有單獨看**"
+   ],
    "bb_pass": 0,
    "evidence_gap": false,
-   "why": "BB 補驗：體育館 3F 典禮布置：8/31 開學典禮那天走得到（畢業典禮跟 ⑩Y4S2）；第 90 項沒跑，布置外觀歸使用者",
+   "why": "BB 補：典禮日 3F 主球場布置（學院牌子、法律學院座位）截圖",
    "evidence": "tasks.json SET-CEREMONY-1023「已整合待測試」；開發分支整合 commit eeed54fc2（1 筆；main 祖先：是；DL-LW2-GYMCER 2baf12cb）",
    "task": "SET-CEREMONY-1023",
    "next": "BB 補驗：體育館 3F 典禮布置：8/31 開學典禮那天走得到（畢業典禮跟 ⑩Y4S2）；第 90 項沒跑，布置外觀歸使用者",
    "judged_by": "LAWWW2-B",
-   "judged_at": "2026-10-31T20:08Z",
-   "judgment_history": 1
+   "judged_at": "2026-11-01T02:5xZ",
+   "judgment_history": 4
   },
   {
    "id": "ART-US-ROUTE-1024",
@@ -28210,7 +28216,7 @@
    "next": "等使用者（本行取代同 ID 前一行：補上整合 commit）",
    "judged_by": "LAWWW2-B",
    "judged_at": "2026-10-31T20:09Z",
-   "judgment_history": 2
+   "judgment_history": 4
   },
   {
    "id": "PERF-SINGLESIDE-GLB-1025",
@@ -28221,19 +28227,21 @@
    "task_status": "已整合待測試",
    "owner": "BB",
    "priority": "P2",
-   "tier": 2,
+   "tier": 1,
    "auto": false,
    "main": "yes",
-   "bb": [],
+   "bb": [
+    "BB_218（elegant-brown-fcos7n@78e470af4） L4006-4030 BB-B 16:03～16:20 單面 GLB 兩份（v9.10.10 661423a71 對 69bb17f53）：fps＋外觀逐區看，找到便利商店貨架端小旗背面不見；L4050-4063 第三份（1dacc06af）小旗背面回來了（同角度對照圖 singleside3_cvs_flags_back_69bb_vs_1dac.png）；體育館木格柵遠處波紋兩版一樣（幾何取樣，不是單面造成，P3 給 LAWWW2）"
+   ],
    "bb_pass": 0,
    "evidence_gap": false,
-   "why": "BB 補驗（10-27 以後才整合，不在 BB-C 盤點裡；見 docs/handoff/history_audit/bb_batches.md）",
+   "why": "體育館大廳木格柵遠處波紋（P3）：遠處換有 mipmap 的貼圖或合成一面，LAWWW2 決定",
    "evidence": "tasks.json PERF-SINGLESIDE-GLB-1025「已整合待測試」；開發分支整合 commit b8fc0a546～e6da67e38（3 筆；main 祖先：是）",
    "task": "PERF-SINGLESIDE-GLB-1025",
-   "next": "BB 補驗（10-27 以後才整合，不在 BB-C 盤點裡；見 docs/handoff/history_audit/bb_batches.md）",
+   "next": "體育館大廳木格柵遠處波紋（P3）：遠處換有 mipmap 的貼圖或合成一面，LAWWW2 決定",
    "judged_by": "LAWWW2-B",
-   "judged_at": "2026-10-31T20:08Z",
-   "judgment_history": 1
+   "judged_at": "2026-11-01T02:5xZ",
+   "judgment_history": 4
   },
   {
    "id": "ART-HALL-WINDOW-DUSK-1025",
@@ -28258,7 +28266,7 @@
    "next": "等使用者",
    "judged_by": "LAWWW2-B",
    "judged_at": "2026-10-31T20:08Z",
-   "judgment_history": 1
+   "judgment_history": 2
   },
   {
    "id": "PERF-CAMPUS-DAY-1027",
@@ -28281,7 +28289,7 @@
    "next": "BB 補驗（10-27 以後才整合，不在 BB-C 盤點裡；見 docs/handoff/history_audit/bb_batches.md）",
    "judged_by": "LAWWW2-B",
    "judged_at": "2026-10-31T20:08Z",
-   "judgment_history": 1
+   "judgment_history": 2
   },
   {
    "id": "PARK-ENTRY-B-1027",
@@ -28304,7 +28312,7 @@
    "next": "BB 補驗（10-27 以後才整合，不在 BB-C 盤點裡；見 docs/handoff/history_audit/bb_batches.md）",
    "judged_by": "LAWWW2-B",
    "judged_at": "2026-10-31T20:08Z",
-   "judgment_history": 1
+   "judgment_history": 2
   },
   {
    "id": "FIT-3D-BODY-1027",
@@ -28327,7 +28335,7 @@
    "next": "BB 補驗（10-27 以後才整合，不在 BB-C 盤點裡；見 docs/handoff/history_audit/bb_batches.md）",
    "judged_by": "LAWWW2-B",
    "judged_at": "2026-10-31T20:08Z",
-   "judgment_history": 1
+   "judgment_history": 2
   },
   {
    "id": "ANIM-DOOR-OPEN-1027",
@@ -28338,19 +28346,21 @@
    "task_status": "已整合待測試",
    "owner": "BB",
    "priority": "P3",
-   "tier": 2,
+   "tier": 1,
    "auto": false,
    "main": "yes",
-   "bb": [],
+   "bb": [
+    "BB_218（elegant-brown-fcos7n@78e470af4） L4377-4392「5u A21 開門動作」BB-C door_r2（v9.10.12 main d5ca27b89）：01～11 全過（推門每段 7 項；便利商店自動門；麵店不演）；12 書房連按兩下推門、只推一次、只換一次區域、手放下 PASS，兩項 FAIL＝工具／沙盒；書店出口搶選單是另一件（BOOKSTORE-EXIT-SHOP-1028，v9.10.11 就有）"
+   ],
    "bb_pass": 0,
    "evidence_gap": false,
-   "why": "BB 補驗（10-27 以後才整合，不在 BB-C 盤點裡；見 docs/handoff/history_audit/bb_batches.md）",
+   "why": "—",
    "evidence": "tasks.json ANIM-DOOR-OPEN-1027「已整合待測試」；開發分支整合 commit 8531a71ab～48e997635（5 筆；main 祖先：是；DL-LW2-A21-DOOR a25bede1）",
    "task": "ANIM-DOOR-OPEN-1027",
-   "next": "BB 補驗（10-27 以後才整合，不在 BB-C 盤點裡；見 docs/handoff/history_audit/bb_batches.md）",
+   "next": "—",
    "judged_by": "LAWWW2-B",
-   "judged_at": "2026-10-31T20:08Z",
-   "judgment_history": 1
+   "judged_at": "2026-11-01T02:5xZ",
+   "judgment_history": 4
   },
   {
    "id": "PERF-TEX-DEDUP-1027",
@@ -28373,7 +28383,7 @@
    "next": "BB 補驗（10-27 以後才整合，不在 BB-C 盤點裡；見 docs/handoff/history_audit/bb_batches.md）",
    "judged_by": "LAWWW2-B",
    "judged_at": "2026-10-31T20:08Z",
-   "judgment_history": 1
+   "judgment_history": 2
   },
   {
    "id": "US-APT-CLOSET-1027",
@@ -28396,7 +28406,7 @@
    "next": "BB 補驗（10-27 以後才整合，不在 BB-C 盤點裡；見 docs/handoff/history_audit/bb_batches.md）",
    "judged_by": "LAWWW2-B",
    "judged_at": "2026-10-31T20:08Z",
-   "judgment_history": 1
+   "judgment_history": 2
   },
   {
    "id": "BADMINTON-CLIP-1027",
@@ -28407,19 +28417,21 @@
    "task_status": "已整合待測試",
    "owner": "BB",
    "priority": "P2",
-   "tier": 2,
+   "tier": 1,
    "auto": false,
    "main": "yes",
-   "bb": [],
+   "bb": [
+    "BB_218（elegant-brown-fcos7n@78e470af4） L4282-4288「5p X117 羽球不背包」BB-C（開發 05069d928，不用 turbo）：語彤、以安、阿哲、柏翰完整版 ALL PASS（短片有演、切 3 次鏡頭、兩人身上沒有包、演完包回來）、第二次只切鏡頭 2 ALL PASS、按跳過 ALL PASS；L4299 從手機約以安（直接過去）ALL PASS——X117 七種全驗"
+   ],
    "bb_pass": 0,
    "evidence_gap": false,
-   "why": "BB 補驗（10-27 以後才整合，不在 BB-C 盤點裡；見 docs/handoff/history_audit/bb_batches.md）",
+   "why": "場景、動作美術 ART_APPROVED 歸使用者（羽球短片的鏡頭、動作）",
    "evidence": "tasks.json BADMINTON-CLIP-1027「已整合待測試」；開發分支整合 commit b49841b83（1 筆；main 祖先：是；DL-LW2-BADCLIP-V2 31054367）",
    "task": "BADMINTON-CLIP-1027",
-   "next": "BB 補驗（10-27 以後才整合，不在 BB-C 盤點裡；見 docs/handoff/history_audit/bb_batches.md）",
+   "next": "場景、動作美術 ART_APPROVED 歸使用者（羽球短片的鏡頭、動作）",
    "judged_by": "LAWWW2-B",
-   "judged_at": "2026-10-31T20:08Z",
-   "judgment_history": 1
+   "judged_at": "2026-11-01T02:5xZ",
+   "judgment_history": 4
   },
   {
    "id": "FAIR-STAFF-LOD-1027",
@@ -28433,16 +28445,18 @@
    "tier": 2,
    "auto": false,
    "main": "yes",
-   "bb": [],
+   "bb": [
+    "部分：BB_218（elegant-brown-fcos7n@78e470af4） L4290-4292「5k 社博當天」BB-C（05069d928，畫質 medium）PASS：顧攤的人 31 個、大道有人走、攤位前有人停；**遠近換低面數本身沒有看**"
+   ],
    "bb_pass": 0,
    "evidence_gap": false,
-   "why": "BB 補驗（10-27 以後才整合，不在 BB-C 盤點裡；見 docs/handoff/history_audit/bb_batches.md）",
+   "why": "BB 補：社博大道遠近各一張，看顧攤的人換低面數時沒有跳動、變形",
    "evidence": "tasks.json FAIR-STAFF-LOD-1027「已整合待測試」；開發分支整合 commit e6da67e38（1 筆；main 祖先：是）",
    "task": "FAIR-STAFF-LOD-1027",
    "next": "BB 補驗（10-27 以後才整合，不在 BB-C 盤點裡；見 docs/handoff/history_audit/bb_batches.md）",
    "judged_by": "LAWWW2-B",
-   "judged_at": "2026-10-31T20:08Z",
-   "judgment_history": 1
+   "judged_at": "2026-11-01T02:5xZ",
+   "judgment_history": 4
   },
   {
    "id": "WZ-PARK-POCKET-1028",
@@ -28467,7 +28481,7 @@
    "next": "LAWWW 把總表改「已驗收」",
    "judged_by": "LAWWW2-B",
    "judged_at": "2026-10-31T20:08Z",
-   "judgment_history": 1
+   "judgment_history": 2
   },
   {
    "id": "HEROINE-LIFE-NPC3D-1028",
@@ -28490,7 +28504,7 @@
    "next": "BB 補驗（10-27 以後才整合，不在 BB-C 盤點裡；見 docs/handoff/history_audit/bb_batches.md）",
    "judged_by": "LAWWW2-B",
    "judged_at": "2026-10-31T20:08Z",
-   "judgment_history": 1
+   "judgment_history": 2
   },
   {
    "id": "NPC-POOL-ART-1028",
@@ -28513,7 +28527,7 @@
    "next": "BB 補驗（10-27 以後才整合，不在 BB-C 盤點裡；見 docs/handoff/history_audit/bb_batches.md）",
    "judged_by": "LAWWW2-B",
    "judged_at": "2026-10-31T20:08Z",
-   "judgment_history": 1
+   "judgment_history": 2
   },
   {
    "id": "LIGHTBAKE-UV-FIX-1028",
@@ -28536,7 +28550,7 @@
    "next": "BB 補驗（10-27 以後才整合，不在 BB-C 盤點裡；見 docs/handoff/history_audit/bb_batches.md）",
    "judged_by": "LAWWW2-B",
    "judged_at": "2026-10-31T20:08Z",
-   "judgment_history": 1
+   "judgment_history": 2
   },
   {
    "id": "INTERIOR-202-1028",
@@ -28559,7 +28573,7 @@
    "next": "BB 補驗（10-27 以後才整合，不在 BB-C 盤點裡；見 docs/handoff/history_audit/bb_batches.md）",
    "judged_by": "LAWWW2-B",
    "judged_at": "2026-10-31T20:08Z",
-   "judgment_history": 1
+   "judgment_history": 2
   },
   {
    "id": "LOBBY-CEIL-1028",
@@ -28573,16 +28587,18 @@
    "tier": 2,
    "auto": false,
    "main": "yes",
-   "bb": [],
+   "bb": [
+    "部分：BB_218（elegant-brown-fcos7n@78e470af4） L4474、L4482 rc1／rc2 大廳門檻（含吊燈修正）白天晚上、再進去 ALL PASS（rc2）；吊燈本身沒有單獨近看"
+   ],
    "bb_pass": 0,
    "evidence_gap": false,
-   "why": "BB 補驗（10-27 以後才整合，不在 BB-C 盤點裡；見 docs/handoff/history_audit/bb_batches.md）",
+   "why": "BB 補一張大廳中庭往上看吊燈（白天、晚上）",
    "evidence": "tasks.json LOBBY-CEIL-1028「已整合待測試」；開發分支整合 commit bbed51f0c（1 筆；main 祖先：是）",
    "task": "LOBBY-CEIL-1028",
    "next": "BB 補驗（10-27 以後才整合，不在 BB-C 盤點裡；見 docs/handoff/history_audit/bb_batches.md）",
    "judged_by": "LAWWW2-B",
-   "judged_at": "2026-10-31T20:08Z",
-   "judgment_history": 1
+   "judged_at": "2026-11-01T02:5xZ",
+   "judgment_history": 4
   },
   {
    "id": "LOBBY-VC-1028",
@@ -28593,19 +28609,21 @@
    "task_status": "已整合待測試",
    "owner": "BB",
    "priority": "P2",
-   "tier": 2,
+   "tier": 1,
    "auto": false,
    "main": "yes",
-   "bb": [],
+   "bb": [
+    "BB_218（elegant-brown-fcos7n@78e470af4） L4466-4482 v9.10.13 發布門檻 ③ 法律系館A大廳（BB-B，lobby_shots／reentry）：晚上壞掉拆出來是大廳第二版的再進入問題（lobby_v2only_r2，沒有頂點色也壞）＝不是頂點色；rc2 da50fbdc1（含頂點色）白天、晚上各自「進去→出去→再進去」ALL PASS"
+   ],
    "bb_pass": 0,
    "evidence_gap": false,
-   "why": "BB 補驗（10-27 以後才整合，不在 BB-C 盤點裡；見 docs/handoff/history_audit/bb_batches.md）",
+   "why": "門檻看的是大廳整體（白天、晚上、再進去），頂點色本身沒有單獨近看",
    "evidence": "tasks.json LOBBY-VC-1028「已整合待測試」；開發分支整合 commit 2c338366d（1 筆；main 祖先：是）",
    "task": "LOBBY-VC-1028",
-   "next": "BB 補驗（10-27 以後才整合，不在 BB-C 盤點裡；見 docs/handoff/history_audit/bb_batches.md）",
+   "next": "門檻看的是大廳整體（白天、晚上、再進去），頂點色本身沒有單獨近看",
    "judged_by": "LAWWW2-B",
-   "judged_at": "2026-10-31T20:08Z",
-   "judgment_history": 1
+   "judged_at": "2026-11-01T02:5xZ",
+   "judgment_history": 4
   },
   {
    "id": "WANCAI-LM-1028",
@@ -28628,7 +28646,7 @@
    "next": "BB 補驗（10-27 以後才整合，不在 BB-C 盤點裡；見 docs/handoff/history_audit/bb_batches.md）",
    "judged_by": "LAWWW2-B",
    "judged_at": "2026-10-31T20:08Z",
-   "judgment_history": 1
+   "judgment_history": 2
   },
   {
    "id": "DORM-HALL-LM-1028",
@@ -28651,7 +28669,7 @@
    "next": "BB 補驗（10-27 以後才整合，不在 BB-C 盤點裡；見 docs/handoff/history_audit/bb_batches.md）",
    "judged_by": "LAWWW2-B",
    "judged_at": "2026-10-31T20:08Z",
-   "judgment_history": 1
+   "judgment_history": 2
   },
   {
    "id": "LIB-HALL-LM-1028",
@@ -28662,19 +28680,21 @@
    "task_status": "已整合待測試",
    "owner": "BB",
    "priority": "P2",
-   "tier": 2,
+   "tier": 1,
    "auto": false,
    "main": "no",
-   "bb": [],
+   "bb": [
+    "BB_218（elegant-brown-fcos7n@78e470af4） L5964-5967「n24_libhall」BB-B（1e910aa6c）：白天晚上光照貼圖接上（36 網格）、東西牆每張黑 ≤ 7.7%、沒有死白、斜的黑三角沒了、影印機旁不再純黑；2 行 FAIL＝探針（挑到辦公室隔間牆）；一樓北段 4 張整面牆＝鏡頭問題，另立 BUG-CAM-LIBHALL-CORE-1031（不是光照）"
+   ],
    "bb_pass": 0,
    "evidence_gap": false,
-   "why": "BB 補驗（10-27 以後才整合，不在 BB-C 盤點裡；見 docs/handoff/history_audit/bb_batches.md）；還沒到 main，下一次發布前驗",
+   "why": "RT-NIGHT-1028（同一包）沒有單獨的判定，照舊第 2 類；場景美術 ART_APPROVED 歸使用者",
    "evidence": "tasks.json LIB-HALL-LM-1028「已整合待測試」；開發分支整合 commit bbe0c9469（1 筆；main 祖先：否）",
    "task": "LIB-HALL-LM-1028",
-   "next": "BB 補驗（10-27 以後才整合，不在 BB-C 盤點裡；見 docs/handoff/history_audit/bb_batches.md）；還沒到 main，下一次發布前驗",
+   "next": "RT-NIGHT-1028（同一包）沒有單獨的判定，照舊第 2 類；場景美術 ART_APPROVED 歸使用者",
    "judged_by": "LAWWW2-B",
-   "judged_at": "2026-10-31T20:08Z",
-   "judgment_history": 1
+   "judged_at": "2026-11-01T02:5xZ",
+   "judgment_history": 4
   },
   {
    "id": "LM-SEAM-1028",
@@ -28697,7 +28717,7 @@
    "next": "BB 補驗（10-27 以後才整合，不在 BB-C 盤點裡；見 docs/handoff/history_audit/bb_batches.md）",
    "judged_by": "LAWWW2-B",
    "judged_at": "2026-10-31T20:08Z",
-   "judgment_history": 1
+   "judgment_history": 2
   },
   {
    "id": "RT-NIGHT-1028",
@@ -28720,7 +28740,7 @@
    "next": "BB 補驗（10-27 以後才整合，不在 BB-C 盤點裡；見 docs/handoff/history_audit/bb_batches.md）；還沒到 main，下一次發布前驗",
    "judged_by": "LAWWW2-B",
    "judged_at": "2026-10-31T20:08Z",
-   "judgment_history": 1
+   "judgment_history": 2
   },
   {
    "id": "DORM-SLEEP-VISUAL-1030",
@@ -28743,7 +28763,7 @@
    "next": "BB 補驗（10-27 以後才整合，不在 BB-C 盤點裡；見 docs/handoff/history_audit/bb_batches.md）；還沒到 main，下一次發布前驗",
    "judged_by": "LAWWW2-B",
    "judged_at": "2026-10-31T20:08Z",
-   "judgment_history": 1
+   "judgment_history": 2
   },
   {
    "id": "DORM203-LM-1030",
@@ -28757,16 +28777,18 @@
    "tier": 2,
    "auto": false,
    "main": "no",
-   "bb": [],
+   "bb": [
+    "部分：BB_218（elegant-brown-fcos7n@78e470af4） L5969-5972「n24_dorm201」BB-B（1e910aa6c）ALL PASS：四人房 39 網格接到光照貼圖、白天晚上、黑 ≤ 8%、沒有死白、左牆偏灰的漸層沒了；**床墊 1.92 m、床尾擋板、五個年份書桌不重疊沒有單獨判定**"
+   ],
    "bb_pass": 0,
    "evidence_gap": false,
-   "why": "BB 補驗（10-27 以後才整合，不在 BB-C 盤點裡；見 docs/handoff/history_audit/bb_batches.md）；還沒到 main，下一次發布前驗",
+   "why": "BB 補看：四人房床墊長度、床尾擋板、五個年份書桌不重疊（n24 的截圖可以直接看）",
    "evidence": "tasks.json DORM203-LM-1030「已整合待測試」；開發分支整合 commit b576263b6～ba315523b（2 筆；main 祖先：否；tasks.json next 提到的 commit）",
    "task": "DORM203-LM-1030",
    "next": "BB 補驗（10-27 以後才整合，不在 BB-C 盤點裡；見 docs/handoff/history_audit/bb_batches.md）；還沒到 main，下一次發布前驗",
    "judged_by": "LAWWW2-B",
-   "judged_at": "2026-10-31T20:08Z",
-   "judgment_history": 1
+   "judged_at": "2026-11-01T02:5xZ",
+   "judgment_history": 4
   },
   {
    "id": "CAFE-WINDOW-LIVE-1030",
@@ -28780,16 +28802,18 @@
    "tier": 2,
    "auto": false,
    "main": "no",
-   "bb": [],
+   "bb": [
+    "部分：BB_218（elegant-brown-fcos7n@78e470af4） L4716-4720「n15_cafewin」BB-B：白天 10:30、晚上 20:30 往門口那一側看得到 3D 溫州街、窗景物件 21 個；**「走出去再走進來」那張鏡頭方向設錯沒拍到窗，待補拍**"
+   ],
    "bb_pass": 0,
    "evidence_gap": false,
-   "why": "BB 補驗（10-27 以後才整合，不在 BB-C 盤點裡；見 docs/handoff/history_audit/bb_batches.md）；還沒到 main，下一次發布前驗",
+   "why": "BB 補拍：走出去再走進來同一個鏡頭（yaw2 對著窗）",
    "evidence": "tasks.json CAFE-WINDOW-LIVE-1030「已整合待測試」；開發分支整合 commit b576263b6～ba315523b（2 筆；main 祖先：否；tasks.json next 提到的 commit）",
    "task": "CAFE-WINDOW-LIVE-1030",
    "next": "BB 補驗（10-27 以後才整合，不在 BB-C 盤點裡；見 docs/handoff/history_audit/bb_batches.md）；還沒到 main，下一次發布前驗",
    "judged_by": "LAWWW2-B",
-   "judged_at": "2026-10-31T20:08Z",
-   "judgment_history": 1
+   "judged_at": "2026-11-01T02:5xZ",
+   "judgment_history": 4
   },
   {
    "id": "CAFE-LM-1030",
@@ -28812,7 +28836,7 @@
    "next": "BB 補驗（10-27 以後才整合，不在 BB-C 盤點裡；見 docs/handoff/history_audit/bb_batches.md）；還沒到 main，下一次發布前驗",
    "judged_by": "LAWWW2-B",
    "judged_at": "2026-10-31T20:08Z",
-   "judgment_history": 1
+   "judgment_history": 2
   },
   {
    "id": "LIB-LAWN-PLAN-1030",
@@ -28835,7 +28859,7 @@
    "next": "BB 補驗（10-27 以後才整合，不在 BB-C 盤點裡；見 docs/handoff/history_audit/bb_batches.md）；還沒到 main，下一次發布前驗",
    "judged_by": "LAWWW2-B",
    "judged_at": "2026-10-31T20:08Z",
-   "judgment_history": 1
+   "judgment_history": 2
   },
   {
    "id": "RENAME-ART-1030",
@@ -28858,7 +28882,7 @@
    "next": "BB 補驗（10-27 以後才整合，不在 BB-C 盤點裡；見 docs/handoff/history_audit/bb_batches.md）；還沒到 main，下一次發布前驗",
    "judged_by": "LAWWW2-B",
    "judged_at": "2026-10-31T20:08Z",
-   "judgment_history": 1
+   "judgment_history": 2
   },
   {
    "id": "LAWLIB-LM-1030",
@@ -28869,19 +28893,21 @@
    "task_status": "已整合待測試",
    "owner": "BB",
    "priority": "P2",
-   "tier": 2,
+   "tier": 1,
    "auto": false,
    "main": "no",
-   "bb": [],
+   "bb": [
+    "BB_218（elegant-brown-fcos7n@78e470af4） L5959-5962「n24_lawlib」BB-B（1e910aa6c）ALL PASS：白天晚上光照貼圖接上（43 材質）、9 個鏡頭站得到、黑／死白比例過、出去再進來兩次照樣接上；截圖 20 張看過（2F 兩張鏡頭被桌面佔滿＝探針）"
+   ],
    "bb_pass": 0,
    "evidence_gap": false,
-   "why": "BB 補驗（10-27 以後才整合，不在 BB-C 盤點裡；見 docs/handoff/history_audit/bb_batches.md）；還沒到 main，下一次發布前驗",
+   "why": "場景美術 ART_APPROVED 歸使用者",
    "evidence": "tasks.json LAWLIB-LM-1030「已整合待測試」；開發分支整合 commit 6e3a95623（1 筆；main 祖先：否）",
    "task": "LAWLIB-LM-1030",
-   "next": "BB 補驗（10-27 以後才整合，不在 BB-C 盤點裡；見 docs/handoff/history_audit/bb_batches.md）；還沒到 main，下一次發布前驗",
+   "next": "場景美術 ART_APPROVED 歸使用者",
    "judged_by": "LAWWW2-B",
-   "judged_at": "2026-10-31T20:08Z",
-   "judgment_history": 1
+   "judged_at": "2026-11-01T02:5xZ",
+   "judgment_history": 4
   },
   {
    "id": "MULTI-ROOM-V2-1030",
@@ -28904,7 +28930,7 @@
    "next": "BB 補驗（10-27 以後才整合，不在 BB-C 盤點裡；見 docs/handoff/history_audit/bb_batches.md）；還沒到 main，下一次發布前驗",
    "judged_by": "LAWWW2-B",
    "judged_at": "2026-10-31T20:08Z",
-   "judgment_history": 1
+   "judgment_history": 2
   },
   {
    "id": "BUG-CAM-LIBHALL-CORE-1031",
@@ -28918,16 +28944,18 @@
    "tier": 2,
    "auto": false,
    "main": "no",
-   "bb": [],
+   "bb": [
+    "部分：BB_218（elegant-brown-fcos7n@78e470af4） L6155-6170「n33_lhcore」BB-B（5db371b5d，第一輪修正）檢查 ALL PASS、看外牆那 4 個方向畫面 PARTIAL；**第二輪（LAWWW2-B 3094e123b，開發 baec2acc2）還沒有 BB 紀錄**"
+   ],
    "bb_pass": 0,
    "evidence_gap": false,
-   "why": "BB 補驗（10-27 以後才整合，不在 BB-C 盤點裡；見 docs/handoff/history_audit/bb_batches.md）；還沒到 main，下一次發布前驗",
+   "why": "BB 在含 baec2acc2 的版本重跑 n33_lhcore（四個外牆方向）",
    "evidence": "tasks.json BUG-CAM-LIBHALL-CORE-1031「已整合待測試」；開發分支整合 commit baec2acc2（1 筆；main 祖先：否；DL-LW2-LIBHALL-CORE-V2-1031 3094e123）",
    "task": "BUG-CAM-LIBHALL-CORE-1031",
    "next": "BB 補驗（10-27 以後才整合，不在 BB-C 盤點裡；見 docs/handoff/history_audit/bb_batches.md）；還沒到 main，下一次發布前驗",
    "judged_by": "LAWWW2-B",
-   "judged_at": "2026-10-31T20:08Z",
-   "judgment_history": 1
+   "judged_at": "2026-11-01T02:5xZ",
+   "judgment_history": 4
   },
   {
    "id": "A16",
@@ -28952,7 +28980,7 @@
    "next": "LAWWW 改 LICENSES.md:275 那一句；體育館 3F 第五版光照 BB 看",
    "judged_by": "LAWWW2-B",
    "judged_at": "2026-10-31T20:09Z",
-   "judgment_history": 1
+   "judgment_history": 2
   }
  ]
 }

@@ -64,7 +64,7 @@ git push origin $C:main        # 快轉，不是強制推送；之後用 GitHub 
 - 經濟系 AA_269 第 6 節 15 點三輪都對；flow_v0_start、v0_home、v0_tolaw（探針複本）ALL PASS；舊存檔（v7、正式版 v9.10.14）ALL PASS。
 - 寒暑假（vachome、lawbreak）、美國（exchmin；usexch 機場、公寓、回程）走得通；大三 507、大四 409 晚讀 ALL PASS。原本的幾支流程測試跟不上 10-21 以後的設計（D103 手機自動打開、志願表拿掉、超市街改版），BB 改跑探針複本，測試本身發布後改。
 
-**LAWWW 發布前清單**（docs/TESTING.md 第五節；乾淨 checkout `fc5086f92`＝基準＋文件，發布樹 `8fb7212b1` 再跑 deploy_check）：deploy_check（發布樹也 ALL PASS）、reachability_all、flow_class_real、minimap_direction、joystick_direction、zone_transitions、p0_movement、flow_main_day12、flow_linze_floors PASS；save_compat_v7（對 v7 `a81fa62a1`）ALL PASS；題庫漏收：重產只差來源標籤、399 題一字不差；check_orphans、check_lines 列的是還沒整合的企劃和相近句。touch_flow_wenzhou 三次 FAIL 都是測試時機：負載 7～8 時走不到門口；空機器時只有「搖桿往前走」那一步碰上 D103 手機自動打開，之後進出 Café、坐下、存讀檔都 PASS（BB 會在測試裡先收手機）。發布樹全部 Node：（跑完補）。
+**LAWWW 發布前清單**（docs/TESTING.md 第五節；乾淨 checkout `fc5086f92`＝基準＋文件，發布樹 `8fb7212b1` 再跑 deploy_check）：deploy_check（發布樹也 ALL PASS）、reachability_all、flow_class_real、minimap_direction、joystick_direction、zone_transitions、p0_movement、flow_main_day12、flow_linze_floors PASS；save_compat_v7（對 v7 `a81fa62a1`）ALL PASS；題庫漏收：重產只差來源標籤、399 題一字不差；check_orphans、check_lines 列的是還沒整合的企劃和相近句。touch_flow_wenzhou 三次 FAIL 都是測試時機：負載 7～8 時走不到門口；空機器時只有「搖桿往前走」那一步碰上 D103 手機自動打開，之後進出 Café、坐下、存讀檔都 PASS（BB 會在測試裡先收手機）。發布樹全部 Node（`8fb7212b1`，tests/*_unit.js 790 支，一次 3 支）：790／790 ALL PASS（11-01 02:5x）。
 
 **這版有的（v9.10.14 以後，玩家玩得到的）**：
 - **改名（D115）**：全遊戲照 `docs/WORLD_NAMING.md`——首都帝國大學（首都帝大）、木柵大學、法律系館A／B、博思教學館、晨思鐘、椰影大道、映月湖…；台詞用口語、旁白與地點字幕用正式名稱；校門石牌、晨思鐘、名牌、公布欄、海報等圖上的字也換了。舊存檔照讀。
