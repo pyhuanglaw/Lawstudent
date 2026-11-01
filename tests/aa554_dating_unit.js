@@ -8,7 +8,8 @@
 //     Z9（兩句、不加點法那句）、錯過最後一班（沒去送機三則／去了送機登機以後）、2027-09～2028-02 每週日 22:00 視訊（不算裂縫、話題和第二次共用）、摘要日三則
 //   4 大二和子晴交往：Q7（多一句、三個回應、23:10 三則）、Q8（多兩句、回應、隔天 08:40 三則不演社課那一場）、Q9、摘要日三則
 //   5 和別人交往中（和可昕交往、她知道）／單身：照現在的版本，不受影響
-// 修改前（開發分支 9434cd4ac）：沒有 src/aa554_3d.js、和她交往中的句子都沒有——FAIL。用法：node tests/aa554_dating_unit.js
+// 修改前（開發分支 9434cd4ac，git archive 出來放進這支測試真的跑過）：沒有 src/aa554_3d.js、和她交往中的句子都沒有——FAILED 52（6 節中途丟例外）、PASS 38（讀稿、單身／和別人交往中照原本的那些）。
+// 修改後 109 項 ALL PASS。用法：node tests/aa554_dating_unit.js
 require('./alison.js');
 const H=require('./pg_harness.js');
 const fs=require('fs'), vm=require('vm'), path=require('path'), cp=require('child_process');
