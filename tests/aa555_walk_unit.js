@@ -51,6 +51,11 @@ for(const id in W118){ const rows=W118[id].map(r=>Object.assign({},r)), mods=M55
   for(const m of mods){ const p=pref(m.orig); const k=rows.findIndex(x=>!x.done&&x.text.replace(/^（[^）]*）/,'').includes(p)); if(!p||k<0){ UNMATCHED.push(id+' '+m.orig); continue; } rows[k].text=quoteSpan(m.text); rows[k].y=m.y; rows[k].done=true; }
   if(id==='heroine_01'){ const k=rows.findIndex(x=>/交換說明會之後/.test(x.timing)); if(k>=0&&AN185) rows[k].text=AN185; else UNMATCHED.push('以安 AA_185 3-14'); }
   EXP[id]=rows.map(r=>({y:r.y,text:r.text})); }
+/* AA-B 11-01 回 12 題（D109；LAWWW-B 轉）：稿以外的定案——同行聊天 3 句（第 6～8 題）*/
+const AA1101_WALK=[['classmate_bohan','「那天在三樓說的話，你可以忘記。……不要真的忘記。」','「那天在四樓說的話，你可以忘記。……不要真的忘記。」'],
+  ['heroine_01',AN185,'「我坐第一排，是想先知道有哪些選項。……決定還沒有。」'],
+  ['heroine_01','「我決定了。理由我寫了三頁。你只要聽第一句：我想處理規則本身。」','「你只要聽第一句：公司也是靠規則活著的，我想看那些規則是怎麼寫出來的。」']];   /* 第 6 題：兩個泡泡，比最後一個 */
+for(const [id,a,b] of AA1101_WALK){ const r=(EXP[id]||[]).find(x=>x.text===a); if(r) r.text=b; else UNMATCHED.push('AA1101 '+id+' '+String(a).slice(0,12)); }
 const splitVar=t=>{ const m=/^有 `([A-Z_]+)`：(「[^」]*」)／沒有：(「[^」]*」)$/.exec(t); return m?[m[2],m[3]]:[t]; };   /* Alison 大四上總圖：有 YU_ALONE／沒有 兩個版本 */
 check('0. 稿讀得到（AA_118、AA_555、AA_185 @56c11668d）；模組都載得到',A118.length>10000&&A555.length>4000&&!!AN185&&!loadErr.length,loadErr.join('　')||'git fetch 企劃線（56c11668d）');
 check('0. 同行聊天：AA_118 六人各 24 句、AA_555 的改稿每一列都對到原句（芯慈 1-4 整張 24 列）',Object.keys(W118).length===6&&Object.values(W118).every(L=>L.length===24)&&!UNMATCHED.length&&EXP.classmate_xinci&&EXP.classmate_xinci.length===24,J({n:Object.fromEntries(Object.entries(W118).map(([k,v])=>[k,v.length])),UNMATCHED}));
@@ -79,7 +84,7 @@ const NOTDONE=['ev_yu_together','ev_zhe_deposit','ev_bohan_third_floor','ev_an_d
 const STATE=(kind,route)=>{ const G=H.fresh('2025-09-01',10,'campus',{}); G.contacts={}; for(const id of CH) G.contacts[id]=-900; PHONE.rec(G);
   for(const g of ['noodle_team','lawclub_study','public_law']) PHONE.join(G,g,g);
   if(kind!=='none'){ for(const [w,t] of MEMS) SOCIAL.remember(w,t,''); for(const id of CH) H.FRIEND(id);
-    Object.assign(G.flags,{YU2_PICK:'a',ZHE2_ASKED:1,YT_TA:true,AN_CHOICE:'dm',SIS_RESULT_OUT:true,SK10_DONE:['Y2S1_6'],EXCHANGE_ROUTE:route||'TW'}); if(kind==='all') Object.assign(G.flags,{BH4_DONE:true,STUDYGROUP_LEADER:false});
+    Object.assign(G.flags,{YU2_PICK:'a',ZHE2_ASKED:1,YT_TA:true,AN_CHOICE:'dm',SIS_RESULT_OUT:true,SK10_DONE:['Y2S1_6'],EXCHANGE_ROUTE:route||'TW'}); if(kind==='all') Object.assign(G.flags,{ZHE3:true,BH4_DONE:true,STUDYGROUP_LEADER:false});
     for(const ev of ALL_EV){ if(kind==='mixed'&&NOTDONE.includes(ev)) continue; G.events.done[ev]=1; G.events.last[ev]=-500; }
     const R=CLS.rec(G); R.disc.B_Y1S1_const_1_w11=0; const a12=STORY.termDay('Y2S1',12,1); R.done[a12+':admin_law']=1; for(let d=0;d<1500;d++) R.note['skip_'+d+':x']=1; }
   else G.flags.EXCHANGE_ROUTE=route||'TW';
@@ -142,7 +147,7 @@ function bubbles(s){ const out=[]; let i=0, voice=null;
     const m=/^語音訊息，([^：]+)：/.exec(s.slice(i)); if(m){ voice='語音，'+m[1]; i+=m[0].length; continue; }
     i++; }
   return out; }
-const SKIP={ 'Y3S1|zhe':'系籃群組：遊戲沒有系籃群組', 'Y4S1|heroine_01':'新 18「研究所，我決定了：公法。」：遊戲的新 18 是商法組（y34b3d.js an18Dm 已有私訊）', 'Y4S2|heroine_01|研究所放榜':'畢業後的「公法所放榜」：同上，而且是 2030 年 3 月', 'Y4S2|heroine_03':'16b：r2y4b3d.js 2-Y4-37 已有 4/19 阿姨的照片', 'Y4S2|zhe|ZHE_PHOTOS':'搬出租屋那天：遊戲沒有這一天（不算配額）' };
+const SKIP={ 'Y4S1|heroine_01':'新 18「研究所，我決定了：公法。」：遊戲的新 18 是商法組（y34b3d.js an18Dm 已有私訊）', 'Y4S2|heroine_01|研究所放榜':'畢業後的「公法所放榜」：同上，而且是 2030 年 3 月', 'Y4S2|heroine_03':'16b：r2y4b3d.js 2-Y4-37 已有 4/19 阿姨的照片', 'Y4S2|zhe|ZHE_PHOTOS':'搬出租屋那天：遊戲沒有這一天（不算配額）' };
 const skipKey=r=>{ for(const k in SKIP){ const [t,w,c]=k.split('|'); if(r.term===t&&r.who===w&&(!c||r.cond.includes(c))&&(k!=='Y3S1|zhe'||/隊長/.test(r.cond))&&(k!=='Y4S1|heroine_01'||/新 18/.test(r.cond))&&(k!=='Y4S2|heroine_03'||/16b/.test(r.cond))) return k; } return null; };
 const PEXP=[], PUN=[];
 for(const r of P118){ const mods=MP.filter(m=>m.term===r.term&&m.who===r.who); let mod=null;
@@ -152,6 +157,12 @@ for(const r of P118){ const mods=MP.filter(m=>m.term===r.term&&m.who===r.who); l
   if(mod){ if(/^\*\*遊戲裡已改過/.test(mod.to)) special='han3'; else if(/照用|條件改|換 Alison|^「……|……」$/.test(mod.to)) {} else b=bubbles(mod.to); }
   if(r.who==='zhe'&&b[0]==='哥我今天在總圖'&&ZHE_GE) b[0]=ZHE_GE[1];
   PEXP.push({term:r.term,who:r.who,cond:r.cond,b,special,skip:skipKey(r),mod:!!mod}); }
+/* AA-B 11-01 回 12 題：阿哲系籃改私訊（第 1 題）、芯慈 2028 暑假換句（第 10 題）、柏翰期中倒數二十一天每天一則（第 11 題）*/
+{ const CN=n=>{ const d='零一二三四五六七八九'; return n<10?d[n]:(n===10?'十':(n<20?'十'+d[n-10]:d[Math.floor(n/10)]+'十'+(n%10?d[n%10]:''))); }, SP={14:'期中前十四天。進度落後半天。',7:'期中前七天。……今天念得很慢，可是記得住。',1:'明天考。我今天十點就睡。'};
+  const fix=(f,b)=>{ const p=PEXP.find(f); if(p) p.b=b; else PUN.push('AA1101'); };
+  fix(p=>p.term==='Y3S1'&&p.who==='zhe'&&/隊長/.test(p.cond),['明天練球','不來的要買飲料','來的也要買','我是隊長']);
+  fix(p=>p.who==='classmate_xinci'&&p.b.some(t=>/影印機我已經會修了/.test(t)),['實習第一週。名牌上我的名字打錯一個字。……我還沒去改。']);
+  fix(p=>p.who==='classmate_bohan'&&p.b[0]==='期中前二十一天。',Array.from({length:21},(_,k)=>SP[21-k]||('期中前'+CN(21-k)+'天。'))); }
 check('0. 手機小事：AA_118 八學期（刪掉的語彤法服那則不算）＋ZHE_PHOTOS；AA_555 第 2 節每一列都對到原句',P118.length===96&&MP.length===21&&MP.every(m=>PEXP.some(p=>p.mod&&p.term===m.term&&p.who===m.who)),J({n:P118.length,mp:MP.length,沒對到:MP.filter(m=>!PEXP.some(p=>p.mod&&p.term===m.term&&p.who===m.who)).map(m=>m.term+m.who+m.orig)}));
 const A5=(typeof AA555!=='undefined')?AA555:null;
 const termOfAt=d=>{ const t=CALENDAR.termOf(d); if(t) return t.id; const m=CALENDAR.dateOf(d).m; for(let k=1;k<200;k++){ const x=CALENDAR.termOf(m<=2?d+k:d-k); if(x) return x.id; } return null; };   /* 寒假（1～2 月）算下一學期、暑假算上一學期（稿把「寒假回新竹」放大一下、「暑期實習之後」放大三下）*/
@@ -171,7 +182,7 @@ sec('4',()=>{ const GP=gameP(); check('4. src/aa555_3d.js 載得到（每天的�
   const want=(/照現在\*\*：「([^」]+)」/.exec(A555)||[])[1];
   check('4. 大二下柏翰「祐廷接了讀書會」：AA_555「遊戲裡已改過，照現在」＝story3d.js han3_chart 的字一樣',!!want&&h3===want,J([h3,want]));
   const sk=PEXP.filter(p=>p.skip).map(p=>p.skip);
-  check('4. 沒接的五則（寫在回報要問 AA）：'+Object.values(SKIP).join('／'),sk.length===5&&new Set(sk).size===5,J(sk));
+  check('4. 沒接的四則（AA-B 11-01 回：拿掉）：'+Object.values(SKIP).join('／'),sk.length===4&&new Set(sk).size===4,J(sk));
   const per={}; for(const p of PEXP) if(!/ZHE_PHOTOS/.test(p.cond)){ const k=p.who+'|'+p.term; per[k]=(per[k]||0)+1; }
   check('4. 稿上每人每學期 2 則（語彤大二上刪了一則＝1）',Object.entries(per).every(([k,n])=>n===(k==='heroine_03|Y2S1'?1:2))&&Object.keys(per).length===48,J(per)); });
 
@@ -212,7 +223,7 @@ sec('6',()=>{ if(!A5){ check('6. 沒有 aa555_3d.js',false); return; }
     check('6. 以安新 8「新規則：…第十條，不准賴。」→ 三週後（21 天後同一時間）「規則改成三條了。」',first!=null&&!!two&&two.text==='規則改成三條了。'&&two.day===first+21&&Math.abs(two.h-(21+40/60))<0.11,J([first,two&&[two.day,two.h,two.text]])); }
   { const G1=STATE('none'); H.G=G1; SOCIAL.bind(G1); const d=STORY.termDay('Y1S1',5,1); for(let k=0;k<3;k++){ G1.day=d+k; G1.weekday=wdOf(G1.day); runH(7,23.9,0.1); }
     const L=(G1.msgs||[]).filter(m=>/^a118_y1s1_bh_count/.test(m.tag)).map(m=>[m.day-d,+m.h.toFixed(2),m.text]);
-    check('6. 固定日子：柏翰「期中前二十一天。」大一上第 5 週週一（第 8 週週一前 21 天）22:00、「二十天。」隔天 22:00',J(L)===J([[0,22,'期中前二十一天。'],[1,22,'二十天。']]),J(L)); }
+    check('6. 固定日子：柏翰「期中前二十一天。」大一上第 5 週週一（第 8 週週一前 21 天）22:00，之後每天一則「期中前二十天。」「期中前十九天。」（AA-B 11-01 第 11 題）',J(L)===J([[0,22,'期中前二十一天。'],[1,22,'期中前二十天。'],[2,22,'期中前十九天。']]),J(L)); }
   { const G1=STATE('none'); H.G=G1; SOCIAL.bind(G1); const d=D('2029-06-02'); G1.day=d; G1.weekday=wdOf(d); runH(7,23.9,0.1); const L=msgs(G1,/^a118_y4s2_/);
     check('6. 畢業典禮 6/2：柏翰最後一排的照片、芯慈「我媽哭了。我沒有。」、Alison「拍了兩百張。…」',L.includes('classmate_bohan:📷（從最後一排拍的會場）')&&L.includes('classmate_xinci:……有一點。')&&L.includes('yu:拍了兩百張。只有一張是我一個人。我最喜歡那一張。'),J(L)); }
   { const G1=STATE('none'); H.G=G1; SOCIAL.bind(G1); const d=D('2027-09-15'); G1.day=d; G1.weekday=wdOf(d); runH(20,23.9,0.1); const L=(G1.msgs||[]).filter(m=>/^r3_y3_yu_moon/.test(m.tag)).map(m=>m.text);
