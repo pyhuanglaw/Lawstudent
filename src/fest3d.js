@@ -19,6 +19,7 @@
    - 好感（1-7，不受每天上限）、記憶 HOL_<節日>_<年>（人物頁「<年> 的情人節，和她一起過」這類，social3d.js）。
    - 子晴的跨年：交往中＝頂樓的團體跨年演完接著演（OUT.AFTER；CG）；第 6 階＝約她跨年那一句，那晚頂樓有去才算一起過。
    - 芷若 2029 白色情人節（她在英國）：3/14 中午以後明信片（STORY.TICKS）、21:00 私訊；語彤第 6 階的白色情人節：12:00 她先傳兩則。
+   - 芯慈（交往中，AA_537b 第 5 節；XINCI-EPI-FEST-1031）：生日、聖誕照上面玩家約；情人節只有她約（cell.herOnly、ask.only）；跨年、你的生日只有訊息（P.dm，S.dmRule）；線關著＝都沒有（P.on）。
    存檔：G.fest＝{bk:[{d,who,k,y,slot,mode,ref}], done:{'人物:節日:年':'meet'|'video'}, gifts:{人物:[禮物 id]}, miss:{}}（新欄位，舊存檔沒有＝空的）。
    測試：node tests/aa416_fest_unit.js */
 'use strict';

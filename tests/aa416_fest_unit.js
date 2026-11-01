@@ -55,7 +55,7 @@ const REG=o=>{ global.CG_REGISTRY=o||{}; };
 (async()=>{
   /* ======================= 0 讀稿、接線 ======================= */
   check('0. 讀稿（企劃線 ed80edb71 AA_416：沛珊 3/14 只放映月湖那一版；BB_122 3-7；BB_124 第 1 節明信片）',doc.length>5000&&inDoc('台南的年份不放（BB-B 18:09）')&&doc122.indexOf('### 3-7.')>=0&&doc124.indexOf('這裡沒有白色情人節。所以我畫了一杯。')>=0);
-  check('0. 新檔載得到：FEST、FEST_DATA、FEST_EVENTS（七位各一個出遊事件 ev_fest_<人物>）',ok1&&ok2&&!!X()&&FEST_EVENTS.length===7&&ALL.every(id=>!!ev('ev_fest_'+id)&&ev('ev_fest_'+id).trigger==='outing'),err);
+  check('0. 新檔載得到：FEST、FEST_DATA、FEST_EVENTS（七位各一個出遊事件 ev_fest_<人物>；2026-11-01 多芯慈交往中情人節她約的那一場＝8 個，XINCI-EPI-FEST-1031、tests/xinci_fest_unit.js）',ok1&&ok2&&!!X()&&FEST_EVENTS.length===8&&!!ev('ev_fest_classmate_xinci')&&ALL.every(id=>!!ev('ev_fest_'+id)&&ev('ev_fest_'+id).trigger==='outing'),err);
   if(!X()){ H.done(); return; }
   await sec('0',async()=>{
   { const html=fs.readFileSync(path.join(H.ROOT,'index.html'),'utf8');

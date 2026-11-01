@@ -7,7 +7,7 @@
 //   4 跨年：交往中＝12/31 23:58「我在家。我媽在看晚會。」、1/1 00:01「新年快樂。這是今年第一則。」（23:57 還沒有、00:00 只有第一則）；睡過去＝照原本的時間補；只一次；沒交往＝沒有
 //   5 你的生日：PLAYER_BDAY 還沒定（null）＝不發；定了（測試暫時填）＝那天 00:00「生日快樂。我設了鬧鐘。……我本來就醒著，鬧鐘是保險。」，只一次、交往中才有
 //   6 XCROM.ON 關著＝都沒有
-// 修改前（開發分支 bfafd1a62）：FEST_DATA 沒有芯慈——0～6 FAIL。用法：node tests/xinci_fest_unit.js
+// 修改前（開發分支 bfafd1a62）：FEST_DATA 沒有芯慈——「0. 載得到」FAIL、後面不跑（FAILED 1）。用法：node tests/xinci_fest_unit.js
 //   （稿用 git show 讀；在沒有 .git 的目錄跑時，設環境變數 XC_GIT_DIR＝這個 repo 的目錄）
 'use strict';
 require('./alison.js');

@@ -7,6 +7,7 @@
    - 學姊的禮物照 BB_122 3-7（企劃線 5788b1cb）單身以後那一欄，花那一句照 AA_416 第 7 節改；芷若 2029 白色情人節的明信片照 BB_124 第 1 節（企劃線 96847346）。
    - CG（第 1-9 節）：CG_REGISTRY 有登錄才放。芷若聖誕 cg_one_cup_heroine02（第 6 階以上）、沛珊白色情人節 cg_last_page_peishan（醉月湖那一版；台南運河那一版不放，BB-B 18:09）、
      子晴跨年 cg_savefile_heroine04（交往中）、可昕七夕改成高雄的山上＝新的一張 cg_our_car_kh_kexin（還沒畫；舊的政大後山 cg_our_car_kexin 不用，BB-B 18:09）。
+   - 芯慈（只有交往中）：AA_537b 第 5 節的五個節日（XINCI-EPI-FEST-1031；在第 9 節可昕後面，tests/xinci_fest_unit.js）。
    測試：node tests/aa416_fest_unit.js */
 'use strict';
 const FEST_DATA=(function(){
