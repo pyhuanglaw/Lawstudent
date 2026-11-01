@@ -307,9 +307,24 @@ def p_meter():
     return combine([m.finish(None, uv=False)], 'sk_meter')
 
 
+def p_outlet(face='x'):
+    """騎樓柱子上的插座（ZQ-ARCADE-SEAT-1028，LAWWW2-B 11-01：子晴「坐在騎樓下的插座旁邊，筆電開著」）：白色面板、上下兩個插座（兩條直的插孔＋接地孔）。
+    face 'x'＝朝本地 −x、'z'＝朝本地 −z（公館的店轉了 π：分別朝世界 +x、+z）；原點在面板背面中心（y 由 inst 給）"""
+    m = _cm('outlet')
+    def bx(d0, d1, y0, y1, w0, w1, col, k=1.0):   # d＝離牆的深度（往外是負的），w＝沿牆的橫向
+        if face == 'x': m.cbox(d0, d1, y0, y1, w0, w1, col, k)
+        else: m.cbox(w0, w1, y0, y1, d0, d1, col, k)
+    bx(-0.009, 0.0, -0.06, 0.06, -0.037, 0.037, '#ece8de')
+    for yc in (-0.026, 0.026):
+        bx(-0.012, -0.009, yc - 0.017, yc + 0.017, -0.017, 0.017, '#dcd7cb', 0.95)
+        for wc in (-0.0065, 0.0065): bx(-0.0125, -0.0115, yc - 0.002, yc + 0.007, wc - 0.0012, wc + 0.0012, '#2c2b29')
+        bx(-0.0125, -0.0115, yc - 0.010, yc - 0.006, -0.002, 0.002, '#2c2b29')
+    return combine([m.finish(None, uv=False)], 'sk_outlet_' + face)
+
+
 P_STOOL_R, P_STOOL_B = p_stool('#c8392e'), p_stool('#2f6fb0')
 PROTO = {'stool_r': P_STOOL_R, 'stool_b': P_STOOL_B, 'bins': p_bins(), 'boxes': p_boxes(), 'umb': p_umbrella(), 'vend': p_vend(),
-         'fridge': p_fridge(), 'bench': p_bench(), 'crates': p_crates(), 'fruitstall': p_fruitstall(), 'noodle': p_noodle(), 'bookcart': p_bookcart(), 'meter': p_meter()}
+         'fridge': p_fridge(), 'bench': p_bench(), 'crates': p_crates(), 'fruitstall': p_fruitstall(), 'noodle': p_noodle(), 'bookcart': p_bookcart(), 'meter': p_meter(), 'outlet': p_outlet('x'), 'outlet_z': p_outlet('z')}
 
 NOTE_Q = []   # (四點世界座標, 圖集格名稱)：最後合成一個網格（一次 draw call）
 
@@ -1244,6 +1259,7 @@ def arcade_front_v2(spec, xf, W, wall):
     for it in sf.get('clutter', []):
         k, x, zc = it[0], it[1], it[2]; zz = gz + zc
         if k == 'aboard': aboard(xf, x, zz, it[3] if len(it) > 3 else 'chalk')
+        elif k == 'outlet': inst(PROTO['outlet' + ('_z' if len(it) > 4 and it[4] == 'z' else '')], f'sk_outlet_{spec["id"]}', xf, x, it[3] if len(it) > 3 else 0.35, zz)   # 柱子、牆上離地的東西（inst 只替地上的東西登記腳印：不擋路）
         elif k == 'pot': _pm = POT_BROAD if (len(it) > 3 and it[3] == 'broad') else POT_FERN[int(abs(x * 7)) % 2]; _w = _wp(xf, x, zz); B.instance(_pm, f'skpot_{spec["id"]}_{len(_inst)}', *_w, root, ry=x * 1.7); _inst.append(1); prop_fp(_pm, 'skpot', _w[0], _w[2], x * 1.7)
         else: inst(PROTO[k], f'sk_{k}_{spec["id"]}', xf, x, 0.0, zz)
 
@@ -1259,7 +1275,8 @@ SF_GG = {
     'G05': dict(inner=True, kind='luwei', door='open', floor='f_concrete', light='warm', notes=[('menu', -2.4, 1.2, 0.6, 0.66)], clutter=[('stool_r', -3.5, 0.35), ('stool_r', -2.9, 0.4), ('bins', 2.6, 0.35)]),                       # 滷味・鹹酥雞
     'G06': dict(inner=True, kind='bike', door='alu', door_x=0.2, door_w=2.4, floor='f_terrazzo', light='cool', notes=[('hours', 3.0, 1.3, 0.34, 0.34)]),                         # 輪轉單車（騎樓、櫥窗的車是遊戲擺的）
     'G07': dict(inner=True, kind='brunch', door='wood', floor='f_floral', light='warm', door_x=-2.4, door_w=1.0, notes=[('hours', -1.4, 1.25, 0.34, 0.34), ('pay', -0.95, 1.3, 0.26, 0.26)], clutter=[('aboard', -0.8, 0.4, 'chalk'), ('pot', 1.9, 0.3, 'broad'), ('bench', 3.2, 0.35), ('pot', 4.5, 0.3, 'broad')]),   # 咖啡・輕食
-    'G08': dict(inner=True, kind='fruit', door='open', floor='f_concrete', light='warm', notes=[], clutter=[('crates', -1.8, 0.55), ('boxes', 2.6, 0.3)]),                                                      # 水果行
+    'G08': dict(inner=True, kind='fruit', door='open', floor='f_concrete', light='warm', notes=[], clutter=[('crates', -1.8, 0.55), ('boxes', 2.6, 0.3),
+               ('stool_r', 4.0, 2.2), ('outlet', 3.79, 2.425, 0.35, 'z')]),   # ZQ-ARCADE-SEAT-1028（LAWWW2-B 11-01）：G07／G08 交界的柱子（世界 x 15.6、z 19.03～19.58）靠騎樓那一面，一張紅凳子（世界 (15.6, 19.8)），柱子那一面離地 35 cm 一個插座（世界 x 15.81，在她左手邊）——子晴（heroine_04）「坐在騎樓下的插座旁邊，筆電開著」，背靠柱子、面向騎樓（第一版放柱子靠馬路那邊、面向馬路：從街上看被停的機車整排擋住，騎樓裡只看到背）；座位是 zones3d.js 的 gongguan                                                      # 水果行
     'G09': dict(inner=True, kind='laundry', door='alu', floor='f_white', light='cool', door_x=-2.4, door_w=1.0, notes=[('hours2', -1.4, 1.2, 0.4, 0.4), ('lostcat', 1.4, 1.1, 0.4, 0.42)], clutter=[('bench', 0.4, 0.35), ('vend', 3.0, 0.42)]),   # 自助洗衣
     'G10': dict(inner=True, kind='print', door='auto', floor='f_granite', light='cool', door_x=2.2, notes=[('copyprice', -2.6, 0.9, 0.62, 0.62), ('copyprice2', -1.9, 0.9, 0.62, 0.62), ('pay', 0.9, 1.45, 0.34, 0.34)], clutter=[('vend', -3.2, 0.42), ('boxes', -1.8, 0.3)]),   # 影印・輸出
     'G11': dict(inner=True, kind='teishoku', door='lattice', noren=True, floor='f_quarry', light='warm', door_x=-2.4, door_w=1.8, notes=[('menu', 1.6, 1.0, 0.58, 0.62), ('hours', 2.4, 1.2, 0.34, 0.34)], clutter=[('aboard', 0.2, 0.4, 'menu'), ('pot', 3.6, 0.3, 'broad'), ('umb', -4.3, 0.3)]),   # 日日定食
