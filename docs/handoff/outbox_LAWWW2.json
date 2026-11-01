@@ -4968,7 +4968,7 @@
    "branch": "claude/funny-albattani-iawshm",
    "sha": "095518e3f",
    "receiver": "LAWWW",
-   "ack": "SENT",
+   "ack": "ACKNOWLEDGED",
    "task": "GYM-B1-PLATES-1101 體育館 B1 三塊門牌（女更衣室、男更衣室、壁球室・桌球室）遊戲沒畫字",
    "files": [
     "docs/art-rebuild/second_ai/patches/gym_b1_plates_1101.patch",
