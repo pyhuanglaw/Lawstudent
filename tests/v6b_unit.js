@@ -114,6 +114,7 @@ await sec('1',async()=>{
   const F=H.G.flags;
   check('1-2. 演完：1/22（一）早上回到臺北（08:30、時鐘換回臺灣）；記憶 UK_VISIT、ZR_UK_VISIT、ZR_UK_TRIP done；出遊 done',
     H.G.day===D('2029-01-22')&&Math.abs(H.G.hour-8.5)<1e-6&&STORY.tzOffset(H.G)===0&&!VAC.clock(H.G)&&SOCIAL.has(ZR,'UK_VISIT')&&F.ZR_UK_VISIT===true&&F.ZR_UK_TRIP==='done'&&outQ(V6B.UK_OUT).state==='done',J({d:keyOf(H.G.day),h:H.G.hour,clock:VAC.clock(H.G),t:F.ZR_UK_TRIP}));
+  check('1-2. 記憶 UK_VISIT 在人物面板有中文名稱（social3d.js MEMORY_LABEL）',!!SOCIAL.MEMORY_LABEL.UK_VISIT);
   check('1-2. 途中她在英國的每週視訊（1/21 週日）不打、也沒有「沒接」',!outQ('zruk_w_2029-01-21')&&!byTag('zruk_w_miss_2029-01-21').length);
   at('2029-01-28',21); rules(); check('1-2. 對照：回來以後的週日（1/28）照常約視訊',!!outQ('zruk_w_2029-01-28'));
   /* 2-3 修補承諾：去過＝做到（cracktalk3d.js 寒假結束 2/19 判斷）*/
