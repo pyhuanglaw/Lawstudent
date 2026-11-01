@@ -6,7 +6,7 @@
 //   A4 8/26 回臺北當天不上班（作息沒有 Café 的班）、重逢 8/26 21:00 約、8/27 22:00 見
 //   A5 大一下期末飯她說的「暑假我回台中，八月二十六號回來。」
 //   B  ev_zhiruo_ticket_again「我一直收著。」那一支的旁白補上杯子上的字；她說的那句不動
-//   C  經濟系五段開頭（ev_y0_e26 玄關、ev_y0_e36r 房間、ev_y0_kh_bus／_h 夜裡的客運、ev_y0_rp 目的地）、左營站傍晚那一段改用現成的背景；
+//   C  經濟系五段開頭（ev_y0_e26 玄關、ev_y0_e36r 模糊的 3D（11-01 改）、ev_y0_kh_bus／_h 夜裡的客運、ev_y0_rp 目的地）、左營站傍晚那一段改用現成的背景；
 //      bus_day、market 這兩個代號遊戲裡沒有（不改，回報）
 // 修改前（開發分支 22a2ba6dd）：19 項 FAIL（新句子、新背景、8/26 的班、重逢日子、盤點工具）；讀稿、照原本的對照組（在臺北、2027、沒有現成背景、bus_day／market 不在）PASS。用法：node tests/zr_summer_misc_unit.js
 require('./alison.js');
@@ -114,17 +114,18 @@ const queued=th=>[].concat(...(PHONE.rec(H.G).q||[]).map(q=>(q.items||[]).filter
   await sec('C',async()=>{
     const hasImg=k=>!!(OUT.BG[k]&&OUT.BG[k].image&&fs.existsSync(path.join(H.ROOT,OUT.BG[k].image)));
     const bgOf=id=>{ const e=ev(id); return e?img(e.background):null; };
-    for(const [id,k] of [['ev_y0_e26','home_entry_night'],['ev_y0_e36r','home_room_day'],['ev_y0_kh_bus','bus_night'],['ev_y0_kh_bus_h','bus_night']])
+    for(const [id,k] of [['ev_y0_e26','home_entry_night'],['ev_y0_kh_bus','bus_night'],['ev_y0_kh_bus_h','bus_night']])
       check('C. '+id+' 開頭（稿沒有地點字幕）的底圖＝'+k+'（OUT.BG 有圖）',hasImg(k)&&bgOf(id)===k,J(bgOf(id)));
+    check('C. ev_y0_e36r（不在家那一版）＝blur 模糊的 3D（11-01 LAWWW-B 回 BB：人不在家，不用家裡房間）',ev('ev_y0_e36r').background==='blur',J(ev('ev_y0_e36r').background));
     check('C. 在家看榜 ev_y0_e36rh 照舊 home_room（BB_216 B）',J((ev('ev_y0_e36rh').dialogue||[])[0])===J({scene:'臺北的家',bg:'home_room'}));
     /* 實際演：ADV.begin 拿到的背景 */
     { H.fresh('2025-08-13',10,'campus',{}); H.bgs=[]; H.said=[]; await EVENTS.run(ev('ev_y0_e36r')); const b=H.bgs.map(img);
-      check('C. 演 ev_y0_e36r（8/13 10:00 不在家）：ADV 開場的背景是 home_room_day、兩句旁白照舊',b[0]==='home_room_day'&&said()[0]==='（八月十三日，早上十點。榜單公布了。）',J({b,L:said()})); }
+      check('C. 演 ev_y0_e36r（8/13 10:00 不在家）：ADV 開場的背景是 blur、兩句旁白照舊',b[0]==='blur'&&said()[0]==='（八月十三日，早上十點。榜單公布了。）',J({b,L:said()})); }
     /* ev_y0_rp：那一句的目的地 */
     { const E=ev('ev_y0_rp'), out={};
       for(let i=0;i<STORY.RP.length;i++){ H.fresh('2025-06-05',10,'dorm',{RP_LAST:i,RP_TXT:STORY.RP[i][2]}); H.bgs=[]; H.said=[]; await EVENTS.runLines(E.dialogue,{id:'t',participants:['kexin']}); out[i]={bg:H.bgs.map(img),L:said()}; }
       check('C. ev_y0_rp：公館的二輪戲院＝gongguan_cinema、淡水看海＝d13_base_sunset（淡水），旁白那一句照舊',hasImg('gongguan_cinema')&&hasImg('d13_base_sunset')&&J(out[0].bg)===J(['gongguan_cinema'])&&J(out[3].bg)===J(['d13_base_sunset'])&&out[0].L[0]===STORY.RP[0][2]&&out[3].L[0]===STORY.RP[3][2],J([out[0],out[3]]));
-      check('C. ev_y0_rp：溫州街、映月湖（白天）、公館的咖啡店、芒果冰沒有現成的背景＝不換（照舊深色底）',[1,2,4,5].every(i=>!out[i].bg.length&&out[i].L[0]===STORY.RP[i][2]),J([1,2,4,5].map(i=>out[i].bg))); }
+      check('C. ev_y0_rp（11-01 LAWWW-B 回 BB）：溫州街＝blur、公館的咖啡店＝cafe（借兩點半 Café）；映月湖（白天）、芒果冰等第 102 組的圖＝不換',J(out[1].bg)===J(['blur'])&&J(out[4].bg)===J(['cafe'])&&hasImg('cafe')&&[2,5].every(i=>!out[i].bg.length)&&[1,2,4,5].every(i=>out[i].L[0]===STORY.RP[i][2]),J([1,2,4,5].map(i=>out[i].bg))); }
     /* 左營站傍晚 */
     const block=(f,id)=>{ const t=fs.readFileSync(path.join(H.ROOT,f),'utf8'), i=t.indexOf("id:'"+id+"'"); if(i<0) return ''; const j=t.indexOf("id:'",i+5); return t.slice(i,j<0?t.length:j); };   /* 這兩個事件包 pg_harness 沒有載入：讀原始檔那一段 */
     { const b=block('src/data/r2y4a_events.js','ev_kexin_trip_winter_y4'), n=(b.match(/\{scene:'高雄・左營站',bg:'kh_station'\}/g)||[]).length;

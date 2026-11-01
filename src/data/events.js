@@ -2717,7 +2717,7 @@ const STORY_EVENTS=[
     const rpLines=[{if:{custom:G=>!!G.flags.RP_TXT},speaker:null,text:'{flag:RP_TXT}'}];   /* 出門前（beforeOuting）選好那一句 */
     /* 那一句的地方有現成的背景就換（BLACK-BG-AUDIT-1018，BB_132 第 100 組「用那次出門目的地的背景」；STORY.RP 的第幾句＝RP_LAST）：
        0 公館的二輪戲院＝gongguan_cinema、3 淡水看海＝d13_base_sunset（淡水）。溫州街（wenzhou 沒有圖）、映月湖（只有晚上的 zuiyue_night，這裡是白天）、公館的咖啡店、芒果冰沒有現成的，照舊深色底 */
-    const RP_BG={0:['公館・二輪戲院','gongguan_cinema'],3:['淡水','d13_base_sunset']};
+    const RP_BG={0:['公館・二輪戲院','gongguan_cinema'],1:['溫州街','blur'],3:['淡水','d13_base_sunset'],4:['公館・咖啡店','cafe']};   /* 11-01 LAWWW-B 回 BB：溫州街＝模糊的 3D（blur）、公館咖啡店借兩點半 Café 的圖；映月湖白天（2）、芒果冰（5）等第 102 組的圖 */
     const rpScene=Object.keys(RP_BG).map(i=>({if:{custom:G=>G.flags.RP_LAST===+i},scene:RP_BG[i][0],bg:RP_BG[i][1]}));
     return [
       study('ev_y0_r1','互相出題的第一天','r1',[ {speaker:null,text:'（她搬來的第一天。你媽端了一盤水果出來，放下就回廚房了。）'},{scene:'祐廷家・你的房間',bg:'home_room_day'},{speaker:'kexin',expression:'teasing',text:'如果憲法是一間餐廳，第七條是什麼菜？'},
@@ -2900,7 +2900,7 @@ const STORY_EVENTS=[
     const rdue=G=>{ const d=D(); return d!=null&&G.day===d&&G.hour>=10&&!G.flags.E36_RESULT; }, rlines=[ {speaker:null,text:'（八月十三日，早上十點。榜單公布了。）'},{speaker:null,text:'（首都帝大法律學系，財經法學組。你的名字在上面。）'},{speaker:null,text:'（分數只比那一組的錄取分數高 0.1。）'},{set:{E36_RESULT:true}} ];   /* AA_224 6-6：0.1 只出現在旁白和他那一句 */
     return [
       /* 白天看到結果（AA_154 A49：兩句系統旁白，接著可昕 10:05 的私訊）：ev_y0_e36r＝不在家；ev_y0_e36rh＝在臺北的家 */
-      { id:'ev_y0_e36r', stage:'econ', title:'八月放榜', participants:[], location:'any', trigger:'auto', once:true, get background(){ return typeof OUT!=='undefined'&&OUT.bg?OUT.bg('home_room_day'):'dark'; }, prereq:{custom:G=>rdue(G)&&!atHome(G)}, dialogue:rlines },   /* 底圖 home_room_day（BLACK-BG-AUDIT-1018，BB_132 第 100 組；不加地點字幕）*/
+      { id:'ev_y0_e36r', stage:'econ', title:'八月放榜', participants:[], location:'any', trigger:'auto', once:true, background:'blur',   /* 不在家那一版：原本用家裡房間（BB 11-01 問），改模糊的 3D（人在哪就是哪）*/ prereq:{custom:G=>rdue(G)&&!atHome(G)}, dialogue:rlines },   /* 底圖 home_room_day（BLACK-BG-AUDIT-1018，BB_132 第 100 組；不加地點字幕）*/
       { id:'ev_y0_e36rh', stage:'econ', title:'八月放榜', participants:[], location:'any', trigger:'home', once:true, background:'dark', prereq:{custom:rdue}, dialogue:[{scene:'臺北的家',bg:'home_room'}].concat(rlines) },   /* BB_216 B：在家看榜接 home_room */
       { id:'ev_y0_e36', stage:'econ', title:'放榜的電話', participants:['kexin'], location:'any', trigger:'auto', once:true, background:'blur', prereq:{custom:G=>due(G)&&!atHome(G)}, dialogue:lines },
       { id:'ev_y0_e36h', stage:'econ', title:'放榜的電話', participants:['kexin'], location:'any', trigger:'home', once:true, background:'dark', prereq:{custom:due}, dialogue:lines },

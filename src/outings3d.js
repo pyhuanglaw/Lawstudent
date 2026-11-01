@@ -48,7 +48,7 @@ const OUT=(function(){
   Object.assign(S.BG,{hwaxin_street:{label:'中和・華新街',image:null},vet_clinic:{label:'羅斯福路・動物醫院',image:null}});
   /* 車上：照當時的天氣、時間挑一張（下雨＝雨天、18:00～05:59＝晚上、其他＝早上）；事件要固定哪一張就直接寫 car_morning／car_night／car_rain */
   const carVariant=()=>{ const G=typeof GAME!=='undefined'?GAME.G:null; if(!G) return 'car_day'; if(G.weather==='rain') return 'car_rain'; const h=G.hour%24; return (h>=18||h<6)?'car_night':'car_day'; };
-  S.bg=id=>{ if(id==='car') id=carVariant(); const b=S.BG[id]; return b&&b.image?(b.night?{image:b.image,night:true}:{image:b.image}):'dark'; };   /* night：白天的圖調暗當晚上（adv3d.js #adv.night）*/
+  S.bg=id=>{ if(id==='blur'||id==='freeze') return id;   /* 場景要模糊／定格的 3D（不是圖）：原本查不到圖＝深色底 */ if(id==='car') id=carVariant(); const b=S.BG[id]; return b&&b.image?(b.night?{image:b.image,night:true}:{image:b.image}):'dark'; };   /* night：白天的圖調暗當晚上（adv3d.js #adv.night）*/
   S.rec=G=>{ if(!Array.isArray(G.outings)) G.outings=[];
     if(G.outings.length&&!(G.flags&&G.flags.OUT_WORLDREN)&&typeof SOCIAL!=='undefined'&&SOCIAL.worldName){ const wn=SOCIAL.worldName; for(const q of G.outings) if(q&&typeof q==='object') for(const k of ['title','place','back','travel','label']) if(typeof q[k]==='string') q[k]=wn(q[k]); if(G.flags) G.flags.OUT_WORLDREN=1; }   /* 舊存檔：排好的出遊（標題、地點、回程字幕）裡的真實校名、館名換成虛構的（WORLD-RENAME-1030，D115；BB-B 10-30 讀程式發現；旁白、地點寫正式名；只做一次）*/
     return G.outings; };
