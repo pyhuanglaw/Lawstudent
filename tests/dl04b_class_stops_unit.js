@@ -136,5 +136,16 @@ const dropTest=()=>{ for(let i=STORY_EVENTS.length-1;i>=0;i--) if(/^ev_test_dl04
   { fresh(THU,10.2,'gongtong'); const en=CLS.dayItems(G).find(q=>q.c.id==='english_y1'); if(en) CLS.rec(G).done[en.key]=1; picks=['下一堂不去','翹']; await CLS.afterMenu(GM,en&&en.key); const L=said.map(s=>s.t);
     check('5. 下課選單選「下一堂不去」（民總）：確認一樣列「你會錯過：同學的報告分組」',L.some(t=>t==='翹掉民法總則？記「沒去」，不扣分。')&&L.some(t=>/^你會錯過：.*同學的報告分組/.test(t)),JSON.stringify(L)); }
 
+  /* 6 遲到要記下來（BB-B 11-01 讀碼：CLS.attend 原本快轉到下課才問 S.isLate＝lateMin 整堂課、永遠記不進 R.late；DL-04B 以前就有）*/
+  { const plain=CLS.dayItems({day:THU,hour:7,flags:{},courses:{}}).find(q=>q.c.id==='civ_general'&&!q.exam);
+    fresh(THU,plain.t0+5/60,'classroom'); const it=civ(); await CLS.attend(GM,it,{inScene:true}); const R=CLS.rec(G);
+    fresh(THU,plain.t0-2/60,'classroom'); const it2=civ(); await CLS.attend(GM,it2,{inScene:true}); const R2=CLS.rec(G);
+    check('6. 開始後 5 分鐘進教室：上完記遲到（R.late）、出席照算；準時進教室：不記遲到',!!R.late[it.key]&&(R.attend[it.c.id]|0)>=1&&!R2.late[it2.key]&&R2.done[it2.key]===1,JSON.stringify({late:R.late,late2:R2.late})); }
+  /* 7 經濟系事件接事件（ECONFF.on）：路上不停（S.oneTick 不跑，停了「繼續去上課」出不來；BB-B 11-01 讀碼）*/
+  { const had=typeof ECONFF!=='undefined'?ECONFF:undefined; let off=null, on='x';
+    try{ addTest({keep:'must'}); fresh(THU,7,'dorm'); const it=civ(); const pl=CLS.goPlan(GM,it); G.hour=pl.depart; global.ECONFF={on:()=>false}; off=CLS.routeStop(GM,it,pl); global.ECONFF={on:()=>true}; on=CLS.routeStop(GM,it,pl); }
+    finally { dropTest(); if(had===undefined) delete global.ECONFF; else global.ECONFF=had; }
+    check('7. 同一個校園【必】事件：平常會停；ECONFF.on（經濟系事件接事件）＝不停',!!off&&on===null,JSON.stringify({off:!!off,on})); }
+
   console.log(fails?'FAILED '+fails:'ALL PASS'); process.exit(fails?1:0);
 })().catch(e=>{ console.error(e); process.exit(1); });

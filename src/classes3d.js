@@ -285,6 +285,7 @@ const CLS=(function(){
   S.attend=async function(GM,it,o){ o=o||{}; const G=GM.G, E=GM.E, R=S.rec(G), c=it.c; if(R.done[it.key]) return false;
     const exam=it.exam, prof=c.prof&&typeof EVENTS!=='undefined'?EVENTS.npcOf(c.prof):null; const e03=S.e03Due(G,it), p1=S.p1Due(G,it), subW=e03?2:(p1?1:0); const ct=S.content(subW&&it.week!==subW?Object.assign({},it,{week:subW}):it); const door=!!o.door;   /* E03＝BB_105 B1：經原第 2 週那一堂（機會成本）；P1＝會計第 1 週那一堂（宿舍是資產還是負債）——沒去就在之後第一次出席時上（AA_154 第 95、97 行）*/
     const lateAbs=!exam&&c.kind!=='service'&&S.isLateAbsent(G,it);
+    const wasLate=!exam&&S.isLate(G,it);   /* 進教室那一刻算遲到（BB-B 11-01：原本快轉到下課才問 S.isLate，lateMin＝整堂課、一定超過 15 分鐘＝R.late 從來寫不進去）*/
     if(lateAbs&&!o.lateOk){ const k=await (async()=>{ if(!o.inScene) GM.sceneBegin(); try{ await GM.say(null,'已經開始 '+Math.floor(S.lateMin(G,it))+' 分鐘了。現在進去會記缺席。'); return await GM.choose([{t:'還是進去聽',hint:'記缺席；聽得到後半堂'},{t:'算了'}]); } finally { if(!o.inScene) GM.sceneEnd(); } })(); if(k!==0) return false; }
     if(c.kind!=='service'&&!lateAbs) await S.beforeClassEvent(GM,it);
     { const zf=it.room&&it.room.zone, line=zf&&ROOM_FIRST[zf]; if(line&&!exam&&!lateAbs&&G.flags&&!G.flags['ROOM_FIRST_'+zf]){ G.flags['ROOM_FIRST_'+zf]=true; if(!o.inScene) GM.sceneBegin(); try{ await GM.say(null,line); } finally { if(!o.inScene) GM.sceneEnd(); } } }   /* 第一次在那間教室上課的一句旁白（X78，AA_330 第 3 點；只演一次）*/   /* 上課前的人物事件（BB_135 1-4：芯慈在重修教室上課前）。坐在 3D 座位上課（inScene）也要演：原本只有門口上課才演，座位教室（201、普通 101…）的課前、課後事件從來不會出現（AA-B 2026-10-16 回報）*/
@@ -327,7 +328,7 @@ const CLS=(function(){
         }
         if(!ct.second&&!(ct.obs&&ct.obs.disc&&S.askOf(it)&&S.askOf(it).id===ct.obs.disc.qid)) await S.classAsk(GM,it,prof,ct); }
       if(roomy(E.zone)) S.syncRooms(GM);   /* 快轉前同學先坐好（人流每 15 分鐘才排一次；剛好在那之前坐下的話，下課時沒有人站起來走出去）*/
-      await GM.fade(true); S.settleRoom(GM); const h=hr(G); if(h<it.t1) GM.advance(it.t1-h); keepCrowd(G);   /* settleRoom：轉暗以後，還在走向座位、講台的人到位（不然快轉以後還在半路，下課的同步把沒坐下的人當場拿掉）*/ R.done[it.key]=1; if(lateAbs) R.abs[it.key]=1; else if(!exam){ R.attend[c.id]=(R.attend[c.id]||0)+1; R.prep[c.id]=(R.prep[c.id]||0)+1; if(S.isLate(G,it)) R.late[it.key]=1; } await GM.fade(false);
+      await GM.fade(true); S.settleRoom(GM); const h=hr(G); if(h<it.t1) GM.advance(it.t1-h); keepCrowd(G);   /* settleRoom：轉暗以後，還在走向座位、講台的人到位（不然快轉以後還在半路，下課的同步把沒坐下的人當場拿掉）*/ R.done[it.key]=1; if(lateAbs) R.abs[it.key]=1; else if(!exam){ R.attend[c.id]=(R.attend[c.id]||0)+1; R.prep[c.id]=(R.prep[c.id]||0)+1; if(wasLate) R.late[it.key]=1; } await GM.fade(false);
       GM.caption('',exam?'考完了。':'下課了。'+(c.prof?S.profName(c)+'收起講義。':''),2400);
       }
     } finally { if(!o.inScene) GM.sceneEnd(); }
@@ -943,7 +944,7 @@ const CLS=(function(){
   S.arriveEv=(e,z)=>!!e&&(e.trigger==='enter'||(e.trigger==='auto'&&!e.near))&&e.random_weight===undefined&&!e.npcPresent&&!e.npcNear&&!e.npcRoom&&!e.room&&!!e.location&&e.location!=='any'&&[].concat(e.location).includes(z);
   /* 路上第一個要停的地方：照路線順序，每一區「到那裡的時間」照 goPlan 的算法倒推（剩下的路程＝從那一區到教室；到那裡＝現在＋總路程−剩下的），
      把時間、地點放到那一刻問 EVENTS.check；有到達時就會演的【固】【必】就停。回傳 {zone, spawn, leg（分鐘）, ev} 或 null */
-  S.routeStop=function(GM,it,pl,o){ o=o||{}; const G=GM.G; if(typeof EVENTS==='undefined'||typeof STORY_EVENTS==='undefined'||!EVENTS.check||!pl||!pl.d) return null; const d=pl.d;
+  S.routeStop=function(GM,it,pl,o){ o=o||{}; const G=GM.G; if(typeof EVENTS==='undefined'||typeof STORY_EVENTS==='undefined'||!EVENTS.check||!pl||!pl.d) return null; if(typeof ECONFF!=='undefined'&&ECONFF.on&&ECONFF.on(G)) return null;   /* 經濟系事件接事件（D102）：S.oneTick 不跑，停下來以後「繼續去上課」出不來＝不在路上停（BB-B 11-01 讀碼）*/ const d=pl.d;
     const via=o.fromHome?['campus'].concat(S.routeVia('campus',d.zone)).filter(z=>z!==d.zone):S.routeVia(G.zone,d.zone); if(!via.length) return null;   /* 從臺北的家（DL-05）：捷運＋公車到校園 */
     const rest=(z,spot)=>{ if(z===d.zone) return 0; let m=z==='linze'&&d.zone==='classroom'?3:S.travelMinutes(G,z,d.via,spot,d.pos)+(d.inner&&z!==d.via?3:0); if(pl.bike&&m>0) m=Math.max(5,Math.round(m/3.5/5)*5); return m; };
     for(let i=0;i<via.length;i++){ const z=via[i], spot=z==='campus'?(CAMPUS_AT[via[i+1]||d.zone]||CAMPUS_AT.linze):null, leg=Math.max(0,pl.mins-rest(z,spot));
