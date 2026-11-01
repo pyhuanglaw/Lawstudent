@@ -463,7 +463,7 @@ const STORY_EVENTS=[
       {speaker:'heroine_02',expression:'smile',text:'……不要笑。'},
       /* BB_187 1-1（AA_554 核過）：和她交往中，「……不要笑。」之後多兩句（AA_230 Z-14）；房間的點單紙在 src/aa554_3d.js（STORY.ROOM_EXTRA） */
       {if:DH('heroine_02'),speaker:'heroine_02',expression:'embarrassed',text:'……我答應你那天，本來想寫這個。'},
-      {if:DH('heroine_02'),speaker:'heroine_02',expression:'embarrassed',text:'寫一寫覺得太丟臉，就改寫座位了。'} ],
+      {if:DH('heroine_02'),speaker:'heroine_02',expression:'embarrassed',text:'寫一寫覺得太丟臉，就改寫座位了。'},{if:DH('heroine_02'),set:{ZR_Z3_DH:true}} ],
     consequences:{mem:[{npc:'heroine_02',tag:'ASKED_HER_DRINK',note:'她下班前'}]} },
   /* BB_187 1-2（AA_554 第 2 節：時間定）：和她交往中＝她約的——前一晚（週五）21:00 她私訊「明天下午我在溫州街。……有一件事，我想當面講。」（src/aa554_3d.js，記 ZR_Z4_INV_DAY），
      隔天 15:00 起在溫州街（照原本 Z4 的地點、週六）。還沒收到那則私訊的（例：這週才開始交往）那個週六不演、等下一個週五的私訊。台詞照原文；三個選項的回應換（數字照原本）。
