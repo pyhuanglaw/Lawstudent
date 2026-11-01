@@ -7,7 +7,8 @@
 //   2 沛珊 5-2 剩下的兩樣（BB_165 5-2）：短版的視訊那一種、紅筆以後摘要日的照片（一個月最多一次）；5-1 PS_WAITED 尾聲那一句（原本就有）；1b-1 考完再說（作廢）不在遊戲裡
 //   3 沛珊「她的第一堂試教」ev_peishan_first_lesson（BB_119 3-1、9-3）：11/7 21:00 邀約、好／不行／沒回、沒到、台南那一趟、只給 3-1 的玩家、只一次
 //   4 子晴「工作室的深夜」ev_ziqing_studio_night（BB_119 3-3、9-3）：11/10 18:00 邀約、好／不行／沒回、沒到、只給 3-3 的玩家
-// 修改前（開發分支 d506a6a2f，git archive 出來放進這支測試真的跑過）見回報。用法：node tests/v6b_unit.js
+// 修改前（開發分支 d506a6a2f，git archive 出來放進這支測試真的跑過；讀稿用 V6B_REPO 指到有 git 的工作目錄）：PASS 5、FAIL 12（第 1、2、3、4 節沒有 V6B 丟例外中斷；
+//   PASS 的是讀得到稿、1b-1 不在遊戲裡、視訊不演短版的三個反例）。修改後 ALL PASS（60 項）。用法：node tests/v6b_unit.js
 require('./alison.js');
 const H=require('./pg_harness.js');
 const fs=require('fs'), vm=require('vm'), path=require('path'), cp=require('child_process');
