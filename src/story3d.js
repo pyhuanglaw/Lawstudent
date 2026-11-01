@@ -2551,7 +2551,7 @@ const STORY = (function(){
         if((G.day>d||(G.day===d&&G.hour>=23+59/60))&&(bk==null||G.day<bk)&&ED('ev_zhiruo_secret')&&!ED('ev_zhiruo_applied')&&G.contacts&&G.contacts.heroine_02!=null&&(!knowsP||zrDH(G))&&(!zrDH(G)||G.flags.ZR_Z7_CALL==='missed')&&!PHONE.sent(G,'zr_z7_msg'))   /* 和她交往中：換成 23:50 她打來的電話（BB_189 2-1，src/aa554_3d.js）；那通沒接到（ZR_Z7_CALL 'missed'）才補這三則（技術預設）*/
           PHONE.at(G,d,23+59/60,[Zp('交換申請，剛剛按了送出。英國那一間。'),Zp('截止是十二點。我在十一點五十九分按的。'),Zp('……手還在抖。下次你來店裡，再跟你說。')],'zr_z7_msg');
         if(F.ZR_Z7_MOM&&F.zrAppliedDay!=null&&!PHONE.sent(G,'zr_z7_mom')&&(G.day>F.zrAppliedDay||G.hour>=22.25)) PHONE.at(G,F.zrAppliedDay,22.25,[Zp('我說了。她說『那妳要穿暖一點』。')].concat(zrDH(G)?[Zp('她還問，你是不是也要去。我說不是。……她說，那你要常常打電話。')]:[]),'zr_z7_mom');   /* BB_189 2-1：和她交往中多一句 */
-        if(bk!=null&&(G.day>bk||(G.day===bk&&G.hour>=21))&&G.day<=bk+20&&PHONE.sent(G,'zr_z7_msg')&&!ED('ev_zhiruo_applied')&&!PHONE.sent(G,'zr_z7_break'))
+        if(bk!=null&&(G.day>bk||(G.day===bk&&G.hour>=21))&&G.day<=bk+20&&(PHONE.sent(G,'zr_z7_msg')||F.ZR_Z7_CALL==='took')&&!ED('ev_zhiruo_applied')&&!PHONE.sent(G,'zr_z7_break'))   /* 和她交往中接了 23:50 那通電話（AA_554）也算：不然沒去 Café 的接不到 Z7b */
           PHONE.at(G,bk,21,[Zp('交換的事，還沒跟你說完。……一月底學校會公布。')],'zr_z7_break');
         const nb=S.dayOfKey('2027-01-28'); if(nb!=null&&(G.day>nb||(G.day===nb&&G.hour>=21))&&G.day<=nb+20&&(ED('ev_zhiruo_applied')||PHONE.sent(G,'zr_z7_break'))&&!PHONE.sent(G,'zr_z7b')){
           const opts=[knowsP&&!zrDH(G)?{t:'恭喜。五月見分曉。',say:[Zp('嗯。五月。')],set:{ZR_Z7B:'congrats'}}:{t:'恭喜。五月我陪妳一起等。',say:[Zp(zrDH(G)?'……好。五月我應該會很煩，先跟你說。':'你又不能幫我等。……好。謝謝。')],set:{ZR_Z7B:'wait'}}];   /* BB_189 2-2（AA_230 Z-22）：和她交往中換回覆；「穿暖一點」、貼圖照原文 */

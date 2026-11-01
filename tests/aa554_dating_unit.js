@@ -213,6 +213,8 @@ await sec('3-Z7',async()=>{ const d=D('2026-12-10');
   for(const [k,[opt,rep]] of Z7c.entries()){ prep(); run(20,20.2); const q2=OUT.get(H.G,'aa554_z7_call'); H.said=[]; H.picks=[opt]; at(d,23+50/60-1/6); await OUT.go(GM,q2); const L=said();
     check('3. Z7 電話（'+opt+'）：「'+Z7call.join('」「')+'」→「'+rep+'」；記 ZR_Z7_CALL took',has(L,Z7call.map(t=>t==='電話那頭很安靜。只有她店裡冰箱的聲音。'?'（'+t+'）':t))&&L[L.length-1]===rep&&H.G.flags.ZR_Z7_CALL==='took'&&(k!==2||L.includes('（過了一分鐘。）')),J(L)); }
   at(d+1,1); run(1,1.1); check('3. Z7 接了電話：沒有 23:59 那三則',!byTag('zr_z7_msg').length);
+  { let bk=null; for(let x=d+1;x<d+80;x++) if(!CALENDAR.termOf(x)){ bk=x; break; } at(bk,20.9); run(20.9,21.1); at(D('2027-01-28'),20.9); run(20.9,21.1);
+    check('3. Z7 接了電話、大二上都沒去 Café：寒假第一天 21:00「交換的事，還沒跟你說完。……」照樣有，1/28 的 Z7b 接得上',byTag('zr_z7_break').length===1&&byTag('zr_z7b').length>=2,J([byTag('zr_z7_break').length,byTag('zr_z7b').length])); }
   prep(); run(20,20.2); at(d+1,0.3); for(const x of OUT.expire(H.G)) OUT.onMissed(GM,x); run(0.3,0.4);
   check('3. Z7 那通沒接到（過了 10 分鐘）：ZR_Z7_CALL missed、照原本補 23:59 那三則（技術預設）',H.G.flags.ZR_Z7_CALL==='missed'&&J(byTag('zr_z7_msg').map(m=>m.text))===J(['交換申請，剛剛按了送出。英國那一間。','截止是十二點。我在十一點五十九分按的。','……手還在抖。下次你來店裡，再跟你說。']),J(byTag('zr_z7_msg').map(m=>m.text)));
   /* Café */

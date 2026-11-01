@@ -195,7 +195,10 @@ await sec(10,()=>{ const zt=t=>/^zruk_/.test(String(t||'')), none=()=>!H.G.outin
   zr('2028-05-06',12,'close'); rules(); setT(D('2028-05-07'),20); rules(); check('10. 她不在英國（2028-05）：沒有',none());
   zr('2028-09-02',12,'close'); rules(); setT(D('2028-09-03'),20); rules(); check('10. 2028-09（9/2 她才出發）：九月不打',none());
   zr('2028-09-30',12,'close'); rules(); check('10. 十月第一個週日是 10/1：前一天 9/30（九月）私訊',PHONE.rec(H.G).q.some(q=>q.tag==='zruk_m_ask_2028-10'&&q.day===D('2028-09-30')&&q.h===21),J(PHONE.rec(H.G).q));
-  zr('2027-10-02',12,'dating'); rules(); setT(D('2027-10-03'),20); rules(); check('10. 交往中：不打每月的；2028-09 以前也沒有每週的',none(),J(H.G.outings));
+  /* AA_554 第 3 節（企劃線 AA-B 2026-10-31）：AA_419 第 18 行「這段沒有交往中的」作廢——第一次交換（2027-09-05～2028-02-06）和她交往中也有每週的視訊（tests/aa554_dating_unit.js 第 3 節）。
+     這裡改成：交往中不打每月的；第一次交換有每週的；回臺灣以後到 2028-09 以前（她不在英國）沒有 */
+  zr('2027-10-02',12,'dating'); rules(); setT(D('2027-10-03'),20); rules(); check('10. 交往中：不打每月的；第一次交換（2027-10-03）有每週的視訊（AA_554 第 3 節）',!PHONE.rec(H.G).q.some(q=>/^zruk_m_ask_/.test(q.tag||''))&&!H.G.outings.some(q=>/^zruk_m_/.test(q.id))&&H.G.outings.some(q=>q.id==='zruk_w_2027-10-03'),J(H.G.outings));
+  zr('2028-05-06',12,'dating'); rules(); setT(D('2028-05-07'),20); rules(); check('10. 交往中、她回臺灣以後（2028-05，第二次去英國以前）：沒有每週的',none(),J(H.G.outings));
   zr('2028-10-01',9,'close'); rules(); check('10. 沒交往（好朋友）：週日沒有每週的視訊',!H.G.outings.some(q=>/^zruk_w_/.test(q.id)));
   zr('2028-10-01',9,'close',{EX_heroine_02:true}); rules(); check('10. 前任：都沒有',none()); });
 
