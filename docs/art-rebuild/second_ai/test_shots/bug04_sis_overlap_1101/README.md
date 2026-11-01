@@ -83,9 +83,8 @@
   - ④ 沒有人先站在那裡：芷若照舊站在作息寫的位置。
   - ⑤ 抽樣掃描：16 區、每 9 天、每半小時，共 90,848 次 populate，疊在一起的 0 組。
 - LAWWW-B 指定的幾支（開發 `81dd3258c`＋這個 patch）：`schedule_roommove_unit`、`v2_c13_unit`、`presence_unit`、`holiday_presence_unit`、`sis_expo_presence_unit`、`sis_pre94_presence_unit`、`zz_bkk_presence_unit` 都 ALL PASS。
-- 全部 Node（開發 `81dd3258c`＋這個 patch）：結果見 HANDOFF。
-  - 第一版有 1 支 FAIL：`bball_present_unit.js` 的 regex，上面第三節說的那一支。
-  - 改回一行以後，那支 ALL PASS，全部重跑中。
+- **全部 Node（開發 `81dd3258c`＋這個 patch，含新測試）：807 支、0 失敗**。
+  - 第一版有 1 支 FAIL：`bball_present_unit.js` 的 regex，上面第三節說的那一支；改回一行以後重跑全部，0 失敗。
 - 沒跑：
   - 手機實機。
   - 瀏覽器的真實流程測試（`flow_*`）：這個 patch 只在「那一點已經有人」時才改位置。

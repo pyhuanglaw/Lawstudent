@@ -4984,7 +4984,7 @@
    "branch": "claude/funny-albattani-iawshm",
    "sha": "64023d96f",
    "receiver": "LAWWW",
-   "ack": "SENT",
+   "ack": "ACKNOWLEDGED",
    "task": "TIER2-UPGRADE-1101 history audit 第 2 類 63 項找 BB 實測紀錄",
    "files": [
     "docs/handoff/history_audit/judgments_LAWWW2.jsonl",
@@ -4993,6 +4993,23 @@
    "state": "唯讀清查 BB_218@78e470af4：7 項升第 1 類（BADMINTON-CLIP、ANIM-DOOR-OPEN、PERF-SINGLESIDE、LAWLIB-LM、LIB-HALL-LM、LOBBY-VC、LANE118-SHOPS）；8 項有部分紀錄、need 寫了 BB 要補什麼；其他 48 項沒有 BB 實玩紀錄",
    "remaining": "沒看 BB 的截圖本身，只讀紀錄的文字判定",
    "next": "LAWWW-B 決定要不要同步到 ledger／tasks.json；8 項補驗排 BB 佇列",
+   "noDirectIntegrate": false
+  },
+  {
+   "branch": "claude/funny-albattani-iawshm",
+   "sha": "1fe2069b0",
+   "receiver": "LAWWW",
+   "ack": "SENT",
+   "task": "BUG-04（C24）學姊兩個臉：原因＋patch＋Node 測試",
+   "files": [
+    "docs/art-rebuild/second_ai/patches/npc_overlap_1101.patch",
+    "docs/art-rebuild/second_ai/test_shots/bug04_sis_overlap_1101/README.md",
+    "docs/art-rebuild/second_ai/test_shots/bug04_sis_overlap_1101/before_after.webp",
+    "docs/art-rebuild/second_ai/test_shots/bug04_sis_overlap_1101/v97_sequence.webp"
+   ],
+   "state": "原因：v9.7 週三 18:48～21 萬才館 legacy 學姊 (-3,3.6) 和 act:'club' 第一個社員 CLUB_SPOTS[0] 同一點（伯涵 548、子晴 312 時段）；不是重複實體或重複模型。現在開發分支已拿掉那一段，34 區每天每半小時 1,734,000 次 populate 0 組。patch（對開發 7a2ac2512，apply --check 過）：story3d.js populateSchedule 的 club／linger 生之前看那一點有沒有人；新 tests/npc_overlap_unit.js：v9.7 資料 FAIL 3、開發原樣 FAIL 2、加 patch ALL PASS；schedule_roommove、v2_c13、五支 presence ALL PASS；全部 Node 807／0",
+   "remaining": "沒有手機實機；hcircle3d 的 opt.at、ta／help／barista 固定點、legacy spawnNPC 本身沒加檢查（掃描 0 組）",
+   "next": "LAWWW-B 整合 patch；BB 週三晚上萬才館大廳、法圖實看",
    "noDirectIntegrate": false
   }
  ]

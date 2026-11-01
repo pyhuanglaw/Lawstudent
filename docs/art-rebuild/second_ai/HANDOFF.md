@@ -2,7 +2,20 @@
 
 ## ⏱ 現況（LAWWW2-B，2026-10-31 20:5x UTC；帳號 B 七天額度已到警示，隨時可能被切斷——接手的先讀這一段）
 
-- **11-01 02:4x（最新）**：
+- **11-01 04:3x（最新）**：
+  - LAWWW-B 02:50 ACK tier-2（outbox 改 ACKNOWLEDGED）；02:53 派佇列：BUG-04（P1）→ INTERIOR-AAA 美國收尾（us_shared 烘焙、公寓門外平台／陽台白天偏白）→ BUG-03 博雅 101 頭髮（P2）→ ART-JIAHAO-JOY（0.35→0.28，P3）→ ZQ-ARCADE-SEAT-1028（P3）。03:31 同意 BUG-04 只交 patch。
+  - **BUG-04 交件 1fe2069b0**（README `test_shots/bug04_sis_overlap_1101/`）：
+    - 原因：v9.7 週三 18:48～21 萬才館，legacy 學姊 (-3,3.6) 和 act:'club' 第一個社員 CLUB_SPOTS[0] 同一點（伯涵 548、子晴 312 時段）。不是重複實體、不是重複模型。遊戲內 v9.7 實拍（剛到、走過去、靠近）。
+    - 現在開發分支那一段已拿掉；34 區×每天×每半小時 1,734,000 次 populate 掃描 0 組。
+    - patch `patches/npc_overlap_1101.patch`（對開發 7a2ac2512）：story3d.js club／linger 生之前看那一點有沒有人；新 `tests/npc_overlap_unit.js`：v9.7 資料 FAIL 3、開發原樣 FAIL 2、加 patch ALL PASS；全部 Node 807／0。
+    - 第一版把 linger 拆兩行，被 bball_present_unit 的 regex 抓到，已改回一行。
+  - **BUG-03 進行中**（scratch `bug03/`）：大一國文（Y1S1 週二上午，博思 101）近拍：
+    - VRM 同學正常。
+    - 替身（seated_figures）在玩家旁邊時是 _lod1（350 面：臉糊、頭髮一塊塊），可能就是「披頭散髮很可怕」。
+    - 原因：classes3d.js `figPlace` 放的那一刻照玩家位置（門口）選遠近，之後不換；從門口看 17 個全是 _lod1，玩家走到座位旁邊照舊 _lod1。
+    - 修法方向：figTick 照玩家現在的位置換遠近（patch，classes3d.js 是 LAWWW 的檔）。D99 人物凍結：不改替身模型本身。
+  - 之後：INTERIOR-AAA 美國收尾。
+- **11-01 02:4x**：
   - LAWWW-B 02:04 ACK 照片比對＋名牌（名牌整合在 feat-art-1031 8b9ddfb88；四題：①②等照片、③轉 AA、④不改），派 GYM-B1-PLATES-1101。
   - **GYM-B1-PLATES-1101 交件 095518e3f**：遊戲內確認壁球室門牌是空白牌子、兩個更衣室門牌整塊看不到（GLB 裡正面朝門板＋單面）。
     - `gym3d.js` 新 `b1Plates(root,B)`：attachRoomGLB 之後照 closedDoors 的 label／face 畫字、重算 UV、雙面；沒動 engine3d、game3d、attachRoomGLB。
