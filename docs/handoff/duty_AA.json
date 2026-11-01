@@ -4,7 +4,7 @@
  "session": "session_016ACZaD4oB9tX94WqQR4dkS",
  "branch": "claude/cool-heisenberg-o8kuqx",
  "state": "handed-off",
- "handedOffAt": "2026-11-01T08:55Z",
- "sha": "bc3f282f",
- "snapshot": null
+ "handedOffAt": "2026-11-01T08:58Z",
+ "sha": "3fa74f43",
+ "snapshot": "docs/handoff/snapshots/2026-11-01T0857Z_B_AA.json"
 }

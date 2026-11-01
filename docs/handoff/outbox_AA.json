@@ -4450,6 +4450,101 @@
    "receiver": "LAWWW",
    "ack": "SENT",
    "note": "第 7 節：學期末告白欄位；G10、5-5 等使用者"
+  },
+  {
+   "task": "DIALOGUE-DEPTH-1031",
+   "branch": "claude/cool-heisenberg-o8kuqx",
+   "sha": "3fa74f430",
+   "files": [
+    "docs/story_planning/AA_以安共創紀錄.md"
+   ],
+   "state": "WIP",
+   "remaining": "以安共創停在第 2 輪（吹風機規則那一題等使用者回答）；其他 15 位沒開始；定型後才寫 AA_565 起的聲音規格與改稿",
+   "next": "下一班把第 2 輪原樣再給使用者（選擇題）",
+   "noDirectIntegrate": true,
+   "receiver": "LAWWW",
+   "ack": "DELIVERED",
+   "note": "共創紀錄不是定稿、不進遊戲；AA_559～AA_564 暫停匯入"
+  },
+  {
+   "task": "DIALOGUE-DEPTH-1031",
+   "branch": "claude/cool-heisenberg-o8kuqx",
+   "sha": "5c3a6d9e5",
+   "files": [
+    "docs/story_planning/tools_aa/vsweep_routes.js"
+   ],
+   "state": "已交付",
+   "remaining": "",
+   "next": "VAC-GAP-ROUTES 恢復時重跑（輸出 vsw_*.json 沒有遠端備份）",
+   "noDirectIntegrate": true,
+   "receiver": "",
+   "ack": "",
+   "note": "AA 自用的逐日掃描工具，不進遊戲"
+  },
+  {
+   "task": "SYS-14",
+   "branch": "claude/cool-heisenberg-o8kuqx",
+   "sha": "(訊息)",
+   "files": [],
+   "state": "已交付",
+   "remaining": "",
+   "next": "LAWWW-B 標 G2 取消（已記）",
+   "noDirectIntegrate": false,
+   "receiver": "LAWWW",
+   "ack": "ACK",
+   "note": "11-01 AA_13 G2 放榜班群整段取消（D116）；LAWWW-B 回覆已記取消"
+  },
+  {
+   "task": "V3-AA170",
+   "branch": "claude/cool-heisenberg-o8kuqx",
+   "sha": "(訊息)",
+   "files": [],
+   "state": "已交付",
+   "remaining": "",
+   "next": "LAWWW-B 結案",
+   "noDirectIntegrate": false,
+   "receiver": "LAWWW",
+   "ack": "DELIVERED",
+   "note": "11-01 選 (a)：被 AA_328 3-06／C02 取代"
+  },
+  {
+   "task": "PS-MSG-LESS-1018",
+   "branch": "claude/cool-heisenberg-o8kuqx",
+   "sha": "(訊息)",
+   "files": [],
+   "state": "已交付",
+   "remaining": "",
+   "next": "LAWWW-B 照 (a) 施工",
+   "noDirectIntegrate": false,
+   "receiver": "LAWWW",
+   "ack": "DELIVERED",
+   "note": "11-01 群組裡任何人回了就算有回"
+  },
+  {
+   "task": "AA255-Y2S2",
+   "branch": "claude/cool-heisenberg-o8kuqx",
+   "sha": "(訊息)",
+   "files": [],
+   "state": "已交付",
+   "remaining": "Alison 定型後改 yu_exam 兩句",
+   "next": "照現況",
+   "noDirectIntegrate": false,
+   "receiver": "LAWWW",
+   "ack": "DELIVERED",
+   "note": "11-01 yu_exam 照現況"
+  },
+  {
+   "task": "DIALOGUE-DEPTH-1031",
+   "branch": "claude/cool-heisenberg-o8kuqx",
+   "sha": "(訊息)",
+   "files": [],
+   "state": "已交付",
+   "remaining": "",
+   "next": "LAWWW-B 照改",
+   "noDirectIntegrate": false,
+   "receiver": "LAWWW",
+   "ack": "DELIVERED",
+   "note": "11-01 回 LAWWW-B 技術預設：AA_554 13 題（Q5 改）、L1～L3 6 題（電梯三句、合照 9/24）、AA_416 1-4 選 (b)、BB_119 v6 九題照現況"
   }
  ],
  "items": [
