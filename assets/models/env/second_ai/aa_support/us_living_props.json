@@ -1,0 +1,155 @@
+{
+ "objects": 11,
+ "unique_meshes": 11,
+ "tris": 11392,
+ "tris_drawn": 11392,
+ "materials": 2,
+ "out": "assets/models/env/second_ai/aa_support/us_living_props.glb",
+ "bytes": 472356,
+ "texres": 1024,
+ "modules": {
+  "US_SOFA": {
+   "tris": 3560,
+   "min": [
+    -1.004,
+    0.0,
+    -0.468
+   ],
+   "max": [
+    1.004,
+    0.8606,
+    0.468
+   ]
+  },
+  "US_ARMCHAIR": {
+   "tris": 1696,
+   "min": [
+    -0.4786,
+    0.0,
+    -0.468
+   ],
+   "max": [
+    0.4786,
+    0.8607,
+    0.468
+   ]
+  },
+  "US_COFFEE": {
+   "tris": 504,
+   "min": [
+    -0.3,
+    0.0,
+    -0.55
+   ],
+   "max": [
+    0.3,
+    0.45,
+    0.55
+   ]
+  },
+  "US_ENDTABLE": {
+   "tris": 1288,
+   "min": [
+    -0.25,
+    0.0,
+    -0.25
+   ],
+   "max": [
+    0.25,
+    1.17,
+    0.25
+   ],
+   "glow": {
+    "node": "US_ENDTABLE_GLOW",
+    "tris": 56
+   },
+   "tris_total": 1344
+  },
+  "US_RUG": {
+   "tris": 436,
+   "min": [
+    -1.0,
+    0.0,
+    -1.3
+   ],
+   "max": [
+    1.0,
+    0.03,
+    1.3
+   ]
+  },
+  "US_LADDER": {
+   "tris": 872,
+   "min": [
+    -0.3,
+    -0.0018,
+    -0.225
+   ],
+   "max": [
+    0.3,
+    1.8018,
+    0.2241
+   ]
+  },
+  "US_TVSTAND": {
+   "tris": 636,
+   "min": [
+    -0.55,
+    0.0,
+    -0.2
+   ],
+   "max": [
+    0.55,
+    1.14,
+    0.214
+   ]
+  },
+  "US_BARSTOOL": {
+   "tris": 932,
+   "min": [
+    -0.2256,
+    -0.001,
+    -0.2501
+   ],
+   "max": [
+    0.2256,
+    1.0185,
+    0.2156
+   ]
+  },
+  "US_CEILINGFAN": {
+   "tris": 1220,
+   "min": [
+    -0.5697,
+    -0.42,
+    -0.6465
+   ],
+   "max": [
+    0.66,
+    0.0,
+    0.6465
+   ],
+   "glow": {
+    "node": "US_CEILINGFAN_GLOW",
+    "tris": 192
+   },
+   "tris_total": 1412
+  }
+ },
+ "tris_total": 11392,
+ "atlas": [
+  "tools/blender/env_second/textures/gen/us_living_props_atlas.png",
+  "tools/blender/env_second/textures/gen/us_living_props_orm.png"
+ ],
+ "origins": {
+  "*": "底部中央、y=0＝地面、正面（坐的人臉朝的方向、櫃門那一面）朝 +z；GLB 裡的位置只是排開給人看（SPREAD）",
+  "US_COFFEE": "0.6（x）×1.1（z），長邊沿 z",
+  "US_RUG": "2.0（x）×2.6（z），+x+z 的角和 −x 的邊微翹",
+  "US_LADDER": "背面（貼牆）朝 −z：後面兩支直的在 z=−0.21，前面兩支斜到 z=+0.21；寬 0.6、高 1.8",
+  "US_ENDTABLE": "桌燈在桌面上（底座中心在 x=−0.04、z=−0.05）；子節點 US_ENDTABLE_GLOW＝燈罩內面（US_glow 材質）",
+  "US_TVSTAND": "電視在櫃子上（螢幕朝 +z）",
+  "US_BARSTOOL": "椅面高 0.76；椅背在 −z",
+  "US_CEILINGFAN": "原點＝吸頂座的頂面中央（貼天花板），往 −y 長 0.42；葉片直徑 1.32；子節點 US_CEILINGFAN_GLOW＝四個燈罩內面"
+ },
+ "note": "兩個材質：us_living（底色 1024＋ORM 256，metal 最高 0.40；皮＝Poly Haven fabric_leather_02、木＝walnut_veneer、地毯纖維＝dirty_carpet，都是 CC0）、US_glow（燈罩內面，奶油色＋發光，亮度由遊戲控制）；每件一個網格，兩件有發光的子節點"
+}

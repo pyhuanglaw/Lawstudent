@@ -1,6 +1,6 @@
 """ART-WZ6 的 Blender 渲染圖（驗收用，不是遊戲截圖）。設定照 render_cycles.py（Cycles CPU、AgX、OIDN 降噪、Nishita 天空＋太陽），
 差別只有場景：地面在 y=0（小道具直接放在上面，不會浮 1 公分），z=−0.30 有一面淺色牆（海報、白板影印貼在上面）。
-用法：/opt/blenv/bin/python tools/blender/env_second/aa_support/render_wz6.py -- <glb> <輸出資料夾> <前綴> <views.json> [--res 960x600] [--samples 48] [--exposure -3.5] [--view Standard|AgX] [--shape 名稱=值]... [--swap 材質=材質]... [--hide 名稱片段]...
+用法：/opt/blenv/bin/python tools/blender/env_second/aa_support/render_wz6.py -- <glb> <輸出資料夾> <前綴> <views.json> [--res 960x600] [--samples 48] [--exposure -3.5] [--view Standard|AgX] [--shape 名稱=值]... [--swap 材質=材質]... [--hide 名稱片段]... [--wall -0.30]
 views.json：[["名稱", [眼睛 x,y,z], [看的點 x,y,z], 鏡頭焦距mm], ...]（遊戲座標）"""
 import json, math, os, sys
 import bpy
@@ -52,7 +52,8 @@ def plane(name, size, loc, rot, col, rough):
 
 
 plane('ground', 6, (0, 0, 0), (0, 0, 0), (0.30, 0.29, 0.27), 0.85)                       # 桌面／地面（y=0）
-plane('wall', 6, tuple(g2b(0, 1.0, -0.30)), (math.radians(90), 0, 0), (0.78, 0.76, 0.72), 0.9)   # z=−0.30 的牆
+WALL_Z = float(A[A.index('--wall') + 1]) if '--wall' in A else -0.30   # --wall -0.5：牆往後移（貓走路的尾巴到 z=−0.32，會插進 −0.30 的牆）
+plane('wall', 6, tuple(g2b(0, 1.0, WALL_Z)), (math.radians(90), 0, 0), (0.78, 0.76, 0.72), 0.9)   # 預設 z=−0.30 的牆
 cam = bpy.data.objects.new('cam', bpy.data.cameras.new('cam')); sc.collection.objects.link(cam); sc.camera = cam
 os.makedirs(outdir, exist_ok=True)
 for name, eye, look, lens in views:

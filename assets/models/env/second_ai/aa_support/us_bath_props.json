@@ -1,0 +1,119 @@
+{
+ "objects": 7,
+ "unique_meshes": 7,
+ "tris": 5090,
+ "tris_drawn": 5090,
+ "materials": 1,
+ "out": "assets/models/env/second_ai/aa_support/us_bath_props.glb",
+ "bytes": 266544,
+ "texres": 1024,
+ "modules": {
+  "US_TUB": {
+   "tris": 1754,
+   "min": [
+    -0.75,
+    0.0,
+    -0.375
+   ],
+   "max": [
+    0.75,
+    1.98,
+    0.3885
+   ]
+  },
+  "US_TOILET": {
+   "tris": 864,
+   "min": [
+    -0.21,
+    0.0,
+    -0.335
+   ],
+   "max": [
+    0.21,
+    0.785,
+    0.3256
+   ]
+  },
+  "US_VANITY": {
+   "tris": 1240,
+   "min": [
+    -0.6,
+    0.0,
+    -0.275
+   ],
+   "max": [
+    0.6,
+    1.7,
+    0.303
+   ]
+  },
+  "US_TOWELBAR": {
+   "tris": 232,
+   "min": [
+    -0.33,
+    0.74,
+    -0.0
+   ],
+   "max": [
+    0.33,
+    1.2285,
+    0.104
+   ]
+  },
+  "US_BATHMAT": {
+   "tris": 60,
+   "min": [
+    -0.25,
+    0.0,
+    -0.4
+   ],
+   "max": [
+    0.25,
+    0.014,
+    0.4
+   ]
+  },
+  "US_BALCONY_CHAIR": {
+   "tris": 556,
+   "min": [
+    -0.222,
+    -0.0009,
+    -0.2607
+   ],
+   "max": [
+    0.222,
+    0.881,
+    0.2404
+   ]
+  },
+  "US_BALCONY_TABLE": {
+   "tris": 384,
+   "min": [
+    -0.305,
+    -0.0014,
+    -0.305
+   ],
+   "max": [
+    0.305,
+    0.7,
+    0.305
+   ]
+  }
+ },
+ "tris_total": 5090,
+ "atlas": [
+  "tools/blender/env_second/textures/gen/us_bath_props_atlas.png",
+  "tools/blender/env_second/textures/gen/us_bath_props_orm.png"
+ ],
+ "origins": {
+  "*": "地面上的底部中央、正面（人站的那一側）朝 +z、靠牆的一側在 −z；GLB 裡的位置只是排開給人看（SPREAD）",
+  "US_TUB": "本地 1.5（x）×0.75（z），缸緣高 0.5；水龍頭、蓮蓬頭在 +x 那一端（牆在 x=0.75）；浴簾收在 −x；layout 貼南牆時 ry=π（本地 +x＝房間西端）",
+  "US_TOILET": "水箱在 −z（靠牆，背面 z≈−0.335）；layout ry=π/2",
+  "US_VANITY": "本地寬 1.2（x）、深 0.55（z −0.275～0.275），檯面高 0.86；臉盆在 x −0.3；鏡子底 1.05、頂 1.7；layout 貼東牆、面向西，ry=−π/2",
+  "US_TOWELBAR": "原點在桿正下方的地面，牆在 z=0；桿離地 1.2",
+  "US_BATHMAT": "0.5（x）×0.8（z），厚 1.4 cm",
+  "US_BALCONY_CHAIR": "座高 0.45、靠背頂 0.88；layout 擺兩張",
+  "US_BALCONY_TABLE": "直徑 0.6、高 0.7（選做）"
+ },
+ "note": "一個材質：us_bath（底色 1024＋ORM 256，metal 最高 0.40；楓木＝Poly Haven walnut_veneer 改色、腳踏墊和毛巾的短絨＝dirty_carpet 的明暗，都是 CC0）"
+}
