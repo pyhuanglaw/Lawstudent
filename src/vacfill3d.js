@@ -11,7 +11,7 @@
      這一段走路的期間外面包一層先不回家；走進穿堂（或過了那一天）以後照原本的。
    - 4 大四寒假 1/20 以安「我去。」：1/21～1/27 每天 9:00～17:00 她在總圖三樓（作息多一筆，照總圖的座位系統；不另外寫台詞）。
    - AA_556（企劃線 3d7ad0024；VAC-GAP2-1031）寒暑假第二批：6/24 阿凱回「我也來打。」＝當晚 22:00 線上語音（電話式出遊，取代對話串的旁白）；大二暑假 7/10 阿凱、8/12 語彤，
-     大二寒假 2/11 芯慈私訊約隔天，回「好。」＝OUT.plan（台詞 VACFILL_LINES2、場景 VACFILL_EVENTS 最後五個，src/data/vacfill_events.js）。
+     大二寒假 2/11 芯慈私訊約隔天，回「好。」＝OUT.plan（台詞 VACFILL_LINES2、場景 VACFILL_EVENTS 最後四個，src/data/vacfill_events.js）。
    存檔：G.vacfill＝{pool:{'Y1W:home':用了幾句}, wake:最後一次醒來放過的那一天, sum:{y3_0219:那一天}}；旗標 VF_*（回覆）。舊存檔沒有＝空的。
    測試：node tests/aa440_vacfill_unit.js、node tests/aa556_vacgap2_unit.js */
 'use strict';
