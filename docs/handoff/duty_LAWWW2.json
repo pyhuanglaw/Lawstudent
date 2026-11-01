@@ -3,8 +3,8 @@
  "account": "B",
  "session": "session_01GV1WG3UeT2DhuDpxeWJsvD",
  "branch": "claude/funny-albattani-iawshm",
- "since": "2026-10-30T02:09Z",
- "state": "on",
- "sinceSha": "4b1fcc45",
- "userOk": true
+ "state": "handed-off",
+ "handedOffAt": "2026-11-01T09:02Z",
+ "sha": "a66691f2",
+ "snapshot": "docs/handoff/snapshots/2026-11-01T0902Z_B_LAWWW2.json"
 }

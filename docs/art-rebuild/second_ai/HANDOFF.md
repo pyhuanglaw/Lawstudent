@@ -1,6 +1,6 @@
 # LAWWW2 交接紀錄（隨時更新；工作階段中斷時從這裡接）
 
-## 🔁 交班（最新）：2026-11-01 09:1x UTC｜帳號 B｜LAWWW2-B｜`session_01GV1WG3UeT2DhuDpxeWJsvD`｜分支 `claude/funny-albattani-iawshm`
+## 🔁 交班（最新）：2026-11-01 09:0x UTC｜帳號 B｜LAWWW2-B｜`session_01GV1WG3UeT2DhuDpxeWJsvD`｜分支 `claude/funny-albattani-iawshm`
 - **起因**：使用者對 LAWWW-B 說「現在交班」，LAWWW-B 09:0x（同帳號、值班中）轉達 P0 交班。我停止一般工作，照 `AI_SESSION_HANDOFF.md` 第 5 節做。
 - **最後的工作 commit**：`4b8edad7d`（已 push，`ls-remote` 核對過）。這一節所在的交班紀錄 commit 在它後面，SHA 寫在給 LAWWW-B 的交班回報裡。`duty handoff` 已跑。
 - **交班紀錄不代表下一班已經接班**。同帳號的 LAWWW-B 用 send_message 通知；沒有傳訊息給別的帳號（D75）。
@@ -50,7 +50,7 @@
   2. ZQ-ARCADE：全部 Node → 交件（見 C）。
   3. 其餘照全部待辦和 LAWWW 的派工。
 
-## 📋 LAWWW2 全部待辦（2026-11-01 09:1x 交班時；對總表 RULE_SOURCE `origin/claude/modest-rubin-2lyp7g` `bd7754e2e`）
+## 📋 LAWWW2 全部待辦（2026-11-01 09:0x 交班時；對總表 RULE_SOURCE `origin/claude/modest-rubin-2lyp7g` `bd7754e2e`）
 - 總表裡負責人是 LAWWW2、還沒結案的全部列在這裡（每行是任務 ID）：進行中 7、待開工 5、已實作待整合 2、暫停 3、等待其他AI／素材 69、已整合待測試 59，共 145 件。
 - 狀態、下一步以總表 `docs/handoff/tasks.json` 為準；這裡只抄 ID、優先級、標題前段。【表外】的是總表沒有、交班時補的。
 - 【表外】（交給值班 LAWWW 補進總表）：
