@@ -89,7 +89,7 @@ await sec(0,()=>{ const html=fs.readFileSync(path.join(H.ROOT,'index.html'),'utf
   check('0. 大二的句子都在 BB_189（「五個月」那三句是 AA_554 改的，原稿「四個月」）',!b9.length&&inD(B9,'四個月很快。')&&inD(B9,'四個月欸。……好啦，你這樣講我比較安心。'),J(b9));
   check('0. AA_419 第 2 節（每週的視訊）、AA_554 第 3 節：2027-09-05～2028-02-06 每週日臺灣 22:00、W13 不用、早點睡不算裂縫、話題共用',/2027-09-05（她到的第一個週日）～2028-02-06（回國前最後一個週日），每週日臺灣 22:00/.test(A554)&&/W13（2029-03 以後的機票）不用/.test(A554)&&/這段不算裂縫/.test(A554)&&/話題順序跟第二次在英國共用/.test(A554)&&/## 2\. 每週的視訊（交往中）/.test(A419));
 });
-if(typeof AA554==='undefined'){ H.done(); return; }
+/* 沒有 AA554（修改前）也往下跑：每一節自己判斷，丟例外的那一節記 FAIL */
 
 /* ======================= 1 大一下和芷若交往 ======================= */
 await sec('1-Z3',async()=>{ const d=STORY.termDay('Y1S2',3,2);
@@ -208,7 +208,7 @@ await sec('3-Z7',async()=>{ const d=D('2026-12-10');
   const prep=(o)=>{ setup(d,20,'dorm',Object.assign({dh:ZR},o)); H.G.events.done.ev_zhiruo_secret=1; SOCIAL.remember(ZR,'SHARED_SECRET',''); };
   prep(); run(20,20.2); const q=OUT.get(H.G,'aa554_z7_call');
   check('3. Z7 和她交往中：12/10 23:50 她打來（出遊：電話、只有「接起來」）',!!q&&q.day===d&&Math.abs(q.h-(23+50/60))<0.01&&q.call===true&&q.must===true&&q.verb==='接起來'&&q.ev==='ev_zhiruo_applied_call',J(q));
-  at(d,22); const w=STORY.lawWakeAt?STORY.lawWakeAt(H.G):AA554.wake(H.G);
+  at(d,22); const w=STORY.lawWakeAt?STORY.lawWakeAt(H.G):(typeof AA554!=='undefined'?AA554.wake(H.G):null);
   check('3. Z7：睡著也會在 23:50 醒來（STORY.WAKE_AT）',Math.abs(w-(23+50/60))<0.01,J(w));
   for(const [k,[opt,rep]] of Z7c.entries()){ prep(); run(20,20.2); const q2=OUT.get(H.G,'aa554_z7_call'); H.said=[]; H.picks=[opt]; at(d,23+50/60-1/6); await OUT.go(GM,q2); const L=said();
     check('3. Z7 電話（'+opt+'）：「'+Z7call.join('」「')+'」→「'+rep+'」；記 ZR_Z7_CALL took',has(L,Z7call.map(t=>t==='電話那頭很安靜。只有她店裡冰箱的聲音。'?'（'+t+'）':t))&&L[L.length-1]===rep&&H.G.flags.ZR_Z7_CALL==='took'&&(k!==2||L.includes('（過了一分鐘。）')),J(L)); }
