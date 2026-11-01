@@ -37594,9 +37594,9 @@
    "title": "以安、語彤交往中缺的幾段（AA_187）：以安 1-1「反駁的次數」、1-6 散會後那段路；語彤 2-1 傘的旁白、2-3 打烊後那一桌（YT_FAMILY_DINNER）、2-4 週四斜對面四個小動作",
    "area": "STORY",
    "owner": "LAWWW",
-   "status": "進行中",
+   "status": "已整合待測試",
    "priority": "P2",
-   "next": "【11-01 06:0x LAWWW-B】子代理開工：本機分支 feat-aa187-1101（worktree scratchpad/feat187，從 97c4f5e7e）；新測試 aa187_pair_unit；LAWWW-B 定時 bundle 備份｜【10-31 22:3x 歷史複核（AA-B 第 4、5 批）】LAWWW 照稿實作，排在 D99 寒暑假（AA_549）之後",
+   "next": "【11-01 08:4x LAWWW-B】子代理交（feat-aa187-1101 1e23f2c53）、併進開發分支 c78848d47：src/aa187_3d.js 四段＋2-1(a) 遊戲已有 AA_313 版照留；tests/aa187_pair_unit.js（修改前 FAIL）；8 題技術預設已問 AA-B → BB 驗｜【11-01 06:0x LAWWW-B】子代理開工：本機分支 feat-aa187-1101（worktree scratchpad/feat187，從 97c4f5e7e）；新測試 aa187_pair_unit；LAWWW-B 定時 bundle 備份｜【10-31 22:3x 歷史複核（AA-B 第 4、5 批）】LAWWW 照稿實作，排在 D99 寒暑假（AA_549）之後",
    "first": {
     "term": "Y1S2",
     "week": 0,
