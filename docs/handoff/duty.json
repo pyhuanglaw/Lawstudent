@@ -4,8 +4,8 @@
  "ruleVersion": "HV-20",
  "ruleSource": {
   "branch": "claude/modest-rubin-2lyp7g",
-  "sha": "c76d0cb6",
-  "updated": "2026-10-30T02:07Z"
+  "sha": "2228016c",
+  "updated": "2026-11-01T21:19Z"
  },
  "accounts": [
   "A",
@@ -13,11 +13,11 @@
   "C",
   "D"
  ],
- "onDuty": null,
+ "onDuty": "B",
  "previous": "B",
  "accountState": {
   "A": "off",
-  "B": "off",
+  "B": "on",
   "C": "off",
   "D": "unused"
  },
@@ -26,18 +26,16 @@
    "account": "B",
    "session": "session_01DvRVNNnivf7da7qqWuGmw6",
    "branch": "claude/modest-rubin-2lyp7g",
-   "sha": "d30d81c6",
-   "sinceSha": "c76d0cb6",
-   "since": "2026-10-30T02:07Z",
-   "state": "handed-off",
+   "sha": "2228016c",
+   "sinceSha": "2228016c",
+   "since": "2026-11-01T21:19Z",
+   "state": "on",
    "prev": {
-    "account": "C",
-    "session": "session_01Me1thu8Zn934H58kWKNfuF",
-    "branch": "claude/adoring-meitner-mqzst8",
-    "sha": "5b6737cd"
-   },
-   "handedOffAt": "2026-11-01T09:10Z",
-   "handoffSnapshot": "docs/handoff/snapshots/2026-11-01T0910Z_B_LAWWW.json"
+    "account": "B",
+    "session": "session_01DvRVNNnivf7da7qqWuGmw6",
+    "branch": "claude/modest-rubin-2lyp7g",
+    "sha": "d30d81c6"
+   }
   },
   "LAWWW2": {
    "account": "B",
@@ -744,7 +742,7 @@
    "resolved": false
   }
  ],
- "seq": 36,
+ "seq": 37,
  "chain": [
   {
    "seq": 1,
@@ -997,6 +995,13 @@
    "account": "B",
    "role": "LAWWW",
    "event": "handoff"
+  },
+  {
+   "seq": 37,
+   "at": "2026-11-01T21:19Z",
+   "account": "B",
+   "role": "LAWWW",
+   "event": "register"
   }
  ],
  "pending": null

@@ -160,7 +160,9 @@ git log -1 --format='%h %ci' origin/<RULE_SOURCE> -- docs/AI_SESSION_HANDOFF.md 
 
 ## 1. 值班表（閱讀版；**以 `docs/handoff/duty.json` 為準**，兩邊不一致時 `duty verify` 第 9 項會報；換班時由值班的 LAWWW 更新）
 
-**現在：B 換班中（2026-11-01 09:0x UTC 使用者對 LAWWW-B「現在交班 等別的ai交班你要最後收尾」）：四個職位都已交班——AA-B 08:57（`claude/cool-heisenberg-o8kuqx` `c989cc066`）、BB-B 08:58（`claude/elegant-brown-fcos7n` `22ddbea54`）、LAWWW2-B 09:02（`claude/funny-albattani-iawshm` `e16b32ad0`）、LAWWW-B 最後收尾（`claude/modest-rubin-2lyp7g`，SHA 見第 12 節）。還沒有帳號接班；RULE_SOURCE 照舊是 `claude/modest-rubin-2lyp7g`，下一班的 LAWWW 用 `duty register` 改成自己的分支。交班紀錄：`docs/HANDOFF_GAP_MATRIX.md` 第 1 節。**
+**現在：只有 LAWWW-B 回來值班（2026-11-01 09:2x UTC 使用者：「還剩下5%每週使用量……你如果手上還有東西可以再兩小時內做的你就開始做」，同一個帳號的其他 AI 不叫醒）：LAWWW-B `duty register` 重新登記；LAWWW2、AA、BB 維持 11-01 交班。額度用完前再交班一次。**
+
+（以下是 09:1x 四職位交班時的紀錄）**現在：B 換班中（2026-11-01 09:0x UTC 使用者對 LAWWW-B「現在交班 等別的ai交班你要最後收尾」）：四個職位都已交班——AA-B 08:57（`claude/cool-heisenberg-o8kuqx` `c989cc066`）、BB-B 08:58（`claude/elegant-brown-fcos7n` `22ddbea54`）、LAWWW2-B 09:02（`claude/funny-albattani-iawshm` `e16b32ad0`）、LAWWW-B 最後收尾（`claude/modest-rubin-2lyp7g`，SHA 見第 12 節）。還沒有帳號接班；RULE_SOURCE 照舊是 `claude/modest-rubin-2lyp7g`，下一班的 LAWWW 用 `duty register` 改成自己的分支。交班紀錄：`docs/HANDOFF_GAP_MATRIX.md` 第 1 節。**
 
 （以下是 10-27 帳號 C 接班時的紀錄；帳號 B 10-30 02:07 回班，見第 12 節）**現在：C 值班中（2026-10-27 16:4x UTC 使用者「上一班來不及交班，現在由帳號 C 接班。」）：LAWWW-C `session_01Me1thu8Zn934H58kWKNfuF` 接 LAWWW（`duty register --user-ok` seq 28），分支 `claude/adoring-meitner-mqzst8` 快轉到 `5b6737cd`（LAWWW-B 最後一個 commit）後成為新的 RULE_SOURCE。**上一任帳號 B 沒有交班**：四職位 10-25 19:2x～19:4x UTC 額度用完同時停住，細節在 duty.json anomalies（no-handoff）、B 停住時的狀態重建在 HANDOFF_GAP_MATRIX 第 1 節。BB-C、AA-C、LAWWW2-C 還沒接班（等使用者叫醒，各自 `duty register --user-ok`）。**
 
