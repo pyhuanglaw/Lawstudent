@@ -1999,7 +1999,8 @@ const STORY = (function(){
     if(S.isEcon(G)&&typeof OUT!=='undefined'){ const ld=S.dayOfKey('2024-10-12'); if(ld!=null){ const gid=PHONE.inGroup(G,'econ_friends')?'econ_friends':'econ_class', T='g:'+gid, done=!!(G.events&&G.events.done&&G.events.done.ev_y0_l5a);
       if((G.day>ld-1||(G.day===ld-1&&G.hour>=21))&&G.day<=ld&&!PHONE.sent(G,'y0_l5a_ask')){ if(!PHONE.inGroup(G,gid)) PHONE.join(G,'econ_class','經濟系 大一（全班）');
         PHONE.at(G,ld-1,21,[{th:T,from:'kexin',text:'溫州街有一間 Café，聽說拉花會畫長頸鹿。……我沒看過。我們去驗證。'}],'y0_l5a_ask');
-        if(!OUT.get(G,'y0_l5a')&&(G.day<ld||G.hour<14.25)) OUT.plan(G,{id:'y0_l5a',day:ld,h:14,late:0.25,place:'兩點半 Café',title:'兩點半 Café 14:00：長頸鹿拉花',travel:'走過去約 15 分鐘',travelH:0.25,goto:{zone:'cafe',x:0,z:5,yaw:Math.PI},early:1/12}); }
+        if(!done&&!OUT.get(G,'y0_l5a')&&(G.day<ld||G.hour<14.25)) OUT.plan(G,{id:'y0_l5a',day:ld,h:14,late:0.25,place:'兩點半 Café',title:'兩點半 Café 14:00：長頸鹿拉花',travel:'走過去約 15 分鐘',travelH:0.25,goto:{zone:'cafe',x:0,z:5,yaw:Math.PI},early:1/12}); }
+      if(done){ const q=OUT.get(G,'y0_l5a'); if(q&&q.state==='planned') q.state='done'; }   /* V0-B4（BB-B 歷史複核第 1 批）：自己先走進 Café 演完了，14:00 又跳出「出發：兩點半 Café 14:00」——演完就把出發選單收掉 */
       if(!done&&(G.day>ld||(G.day===ld&&G.hour>=16))&&G.day<=ld+2&&PHONE.sent(G,'y0_l5a_ask')&&!PHONE.sent(G,'y0_l5a_miss')) PHONE.at(G,ld,16,[{th:T,from:'econ_pinyu',name:'品妤',text:'📷（短脖子的長頸鹿）'},{th:T,from:'econ_pinyu',name:'品妤',text:'驗證結果：是馬。'},{th:T,from:'kexin',text:'是很努力的長頸鹿。'}],'y0_l5a_miss'); } }
     /* 韋綸的腳踏車・沒去版（AA_154 2-5b；BB_112 第 3 節）：11/7 17:30 還沒演腳踏車（沒上會計、或選了「今天先回去」）＝群組韋綸求救，回覆到 18:00：
        「（查完再回）」（AA_224 3-9：他在家查）＝時間前進一小時，祐廷傳查到的（LEGAL_REVIEW_REQUIRED：BB-B 審過 7cf231c3，改字要再審）＋韋綸回、記 BIKE_LOOKED_UP、WL_BIKE；「（不回）」不記。
@@ -3028,7 +3029,12 @@ const STORY = (function(){
     for(let k=0;k<DAILY.length;k++){ const d=DAILY[(i0+k)%DAILY.length]; if(!(d.term?d.term(t):t.id==='Y1S1')||(N()[d.id]|0)>=(d.max?d.max(G):1)||(last[d.id]!=null&&G.day-last[d.id]<(d.gap||7))||d.h(G)<=G.hour+0.1||!d.ok(G,G.day)) continue; cand.push(d); if(!short) break; }
     if(!cand.length) return; let pick=cand[0];
     /* 經濟系 30 分鐘版小事至少隔 3 天，位置很少：快過期的先排（之後還能排的天數最少的）——原本照順序輪，阿勳「星期三的微積分」（第 8 週、10/23 起）兩輪都被第 4 週起都能排的那則拿走、玩家看不到（BB 10-21，AA_368 M6）。法律系照舊輪 */
-    if(short&&cand.length>1){ const left=d=>{ let n=0; for(let x=1;x<=21;x++){ const day=G.day+x, T=S.dpTerm(Object.assign({},G,{day})); if(T&&(d.term?d.term(T):T.id==='Y1S1')&&d.ok(G,day)) n++; } return n; }; let best=1e9; for(const d of cand){ const l=left(d); if(l<best){ best=l; pick=d; } } }
+    if(short&&cand.length>1){ const left=d=>{ let n=0; for(let x=1;x<=21;x++){ const day=G.day+x, T=S.dpTerm(Object.assign({},G,{day})); if(T&&(d.term?d.term(T):T.id==='Y1S1')&&d.ok(G,day)) n++; } return n; };
+      /* V0-KXPHONE（BB-B 歷史複核第 1 批：三輪 qa_play 可昕的手機小事一則都沒收到）：30 分鐘版的格子很少，照「快過期的先排」可昕那幾則（9 月底～10/17 都能排）永遠排在別人後面。
+         可昕是這一年的主角：上一則不是她的、今天有她的可以排＝先排她的（她的幾則之間照舊快過期的先排），一人一則輪流 */
+      const isKx=id=>/^y0_kx_/.test(id), dd=F.dpDayOf||{}; let lk=-1e9, lo=-1e9; for(const id in dd){ if(typeof dd[id]!=='number') continue; if(isKx(id)) lk=Math.max(lk,dd[id]); else if(/^y0_/.test(id)) lo=Math.max(lo,dd[id]); }
+      const kxc=cand.filter(d=>isKx(d.id)), oth=cand.filter(d=>!isKx(d.id)), pool=!kxc.length||!oth.length?cand:(lk<=lo?kxc:oth);
+      let best=1e9; for(const d of pool){ const l=left(d); if(l<best){ best=l; pick=d; } } }
     F.dpPick={id:pick.id,day:G.day}; }   /* 會出現好幾次的（Kevin 的影片）：同一則至少隔 7 天（gap：阿凱的照片隔 28 天）*/   /* 會出現好幾次的（Kevin 的影片）：同一則至少隔 7 天（gap：阿凱的照片隔 28 天）*/
   /* 宿舍房間的物件（交接包 v1 第 1 節「房間物件」，AA_12 0-2、0-3）：點了看一句旁白。可昕的物件分開以後的旁白（AA_185 3-4）在 S.roomItemList */
   const ROOM_ITEMS=[['書架上的舊《民法》','以前翻過。看得到字，看不懂意思。'],['經濟學原理','念了一個多月的課本。前六章有畫線，後面是新的。'],['寫滿的筆記本','重考那段時間的筆記。一半是你的字，一半是她的。'],['摩天輪的票根（夾在桌墊下）','摩天輪的票根。兩個人開始交往的那一天。'],['手機相簿的一張照片','河堤邊停著幾台腳踏車。那一群人。你休學以後，他們還是會叫你。']];   /* AA_224 第 2 組：課本、照片（筆記本、票根不改）*/
