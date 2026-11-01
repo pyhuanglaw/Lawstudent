@@ -301,7 +301,7 @@ INVITE_DATA.places.push({id:'lake',zone:'campus',name:'映月湖',verb:'去映�
   INVITE_DATA.lawlibLines=LAW; INVITE_DATA.lakeLines=LAKE;
   for(const [pid,T] of [['lawlib',LAW],['lake',LAKE]]) for(const id in T){ const p=INVITE_DATA.people[id]||(INVITE_DATA.people[id]={}), x=T[id]; for(const k in x) (p[k]||(p[k]={}))[pid]=x[k]; } })();
 /* ---------- AA_118 第 2 節「一起走路聊什麼」× AA_555 第 1 節改稿（企劃線 56c11668d；AA555-WALK-TALK-1031；AA 六位每人每學年 6 句）----------
-   台詞一字不改：AA_555 有列的照 AA_555 的「改」，沒列的照 AA_118 原句（「小語」一律 Alison）；以安大二下交換說明會那句照 AA_185 3-14 的新寫（AA_118 該列標「→ 改字」）。
+   台詞一字不改：AA_555 有列的照 AA_555 的「改」，沒列的照 AA_118 原句（舊稿的名字一律換 Alison，AA_380）；以安大二下交換說明會那句照 AA_185 3-14 的新寫（AA_118 該列標「→ 改字」）。
    接法（AA_555 第 4 節）：放進 walk（目的地對得上的放那個地點：「→ 麵店」noodle、「→ 總圖」library、「→ Café」cafe、「溫州街」wenzhou；其他放 any），和 AA_70 原有的句子一起輪（invites3d.js S.walkPick，同一個人輪流）；
    每句 one＝只說一次（AA_118 第 0 節「同一句只出現一次」）。條件：學年（學期中照學期、寒暑假照日期，9 月起算新學年）＋稿上的時機（AA_555 第 4 節「照學年、條件挑」；標「（某事件之後）」的＝那件事演過）。
    時機寫法的技術預設（稿沒寫死的，LAWWW 子代理照最保守的定，要問 AA 的寫在回報）：開學＝第 1～4 週；期中前＝第 5～8 週；期中放榜後＝第 10～13 週；期末前＝第 13～16 週；期末＝第 14～16 週；寒假前＝上學期第 14～16 週；
