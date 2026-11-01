@@ -1623,6 +1623,9 @@ const STORY = (function(){
   /* phoneRules 每次都問：該跳的那個週日還沒跳過＝挑、排進手機（時間是那個週日 21:00，晚了照原本的時間補）*/
   /* 指定時間的那幾則（at：{day:'YYYY-MM-DD', h}；AA_375 第 10 項：明軒的說明會那則 3/15（一）21:00——學校信 3/15 09:00 才公告、以安 09:20 才說坐第一排）：
      不進週日那一組，自己一組（回得了這一則）；認識的人、條件、依條件換的版本、記 shown／asked／byWho、沒回的那一句都照週日的。晚了照原本的時間補（6 天內）*/
+  /* 發在哪一串：每一則可以寫 th（字串或 G=>字串；回 null＝照舊私訊）。例：沛珊 ps_q 在公法讀書會群組（AA_281 第 8 節 M14）。
+     群組的「有沒有回」（AA-B 11-01 選 (a)）：群組裡任何人回了就算有回，大家都沒回才在下次見面帶那一句——遊戲裡群組其他人不會替你回這一則，所以照你有沒有回算 */
+  S.neededTh=function(G,e){ let t=null; try{ t=typeof e.th==='function'?e.th(G):e.th; }catch(err){ t=null; } return t||('p:'+e.who); };
   S.neededAt=function(GM){ const G=GM.G; if(typeof NEEDED_MSGS==='undefined'||typeof PHONE==='undefined'||S.isEcon&&S.isEcon(G)) return; const N=S.neededRec(G), now=needAbs(G.day,G.hour);
     for(const e of NEEDED_MSGS.list){ if(!e.at||N.shown[e.id]!=null) continue; const d=S.dayOfKey(e.at.day); if(d==null) continue; const t0=needAbs(d,e.at.h); if(now<t0||now-t0>=6*24) continue;
       const lv=typeof SOCIAL!=='undefined'&&SOCIAL.friendLevel?SOCIAL.friendLevel(e.who):'STRANGER', kn=['FAMILIAR','FRIEND','CLOSE_FRIEND'].includes(lv)&&(typeof SOCIAL==='undefined'||!SOCIAL.has||SOCIAL.has(e.who,'FIRST_MET')||e.who==='zhe'||e.who==='kai');
@@ -1631,7 +1634,7 @@ const STORY = (function(){
       const grp='need_'+d; N.shown[e.id]=d; N.asked++; const bw=N.byWho[e.who]||(N.byWho[e.who]=[0,0]); bw[0]++;
       if(typeof INV!=='undefined'){ INV.rec(G); if(G.contacts[e.who]==null) G.contacts[e.who]=G.day; }
       const v=S.neededVar(G,e), msg=v.msg||e.msg, resp=v.resp||e.resp||[];
-      const items=msg.map((text,k)=>{ const it={th:'p:'+e.who,from:e.who,text}; if(k===msg.length-1) it.ask={id:grp+'_'+e.id,grp,max:1,until:needAbs(d+7,21),opts:[{t:e.reply,say:resp.map(r=>({from:e.who,text:r})),need:e.id}]}; return it; });
+      const items=msg.map((text,k)=>{ const it={th:S.neededTh(G,e),from:e.who,text}; if(k===msg.length-1) it.ask={id:grp+'_'+e.id,grp,max:1,until:needAbs(d+7,21),opts:[{t:e.reply,say:resp.map(r=>({from:e.who,text:r})),need:e.id}]}; return it; });
       N.batches.push({d,ids:[[e.id,e.who]],ans:[],closedAt:null,said:{}}); if(N.batches.length>4) N.batches.splice(0,N.batches.length-4);
       PHONE.at(G,d,e.at.h,items,grp); } };
   S.neededRules=function(GM){ const G=GM.G; if(typeof NEEDED_MSGS==='undefined'||typeof PHONE==='undefined'||S.isEcon&&S.isEcon(G)) return; S.neededAt(GM); const d=S.neededSunday(G); if(d==null) return; const N=S.neededRec(G); if(N.last===d) return;
@@ -1641,7 +1644,7 @@ const STORY = (function(){
     for(const e of L){ N.shown[e.id]=d; N.asked++; const bw=N.byWho[e.who]||(N.byWho[e.who]=[0,0]); bw[0]++;
       if(typeof INV!=='undefined'){ INV.rec(G); if(G.contacts[e.who]==null) G.contacts[e.who]=G.day; }   /* 他傳訊息給你＝有你的聯絡方式 */
       const v=S.neededVar(G,e), msg=v.msg||e.msg, resp=v.resp||e.resp||[];   /* 依條件換的版本（BB_97 11-1：明軒說明會、阿凱鍵盤、子晴爸爸）*/
-      msg.forEach((text,k)=>{ const it={th:'p:'+e.who,from:e.who,text}; if(k===msg.length-1) it.ask={id:grp+'_'+e.id,grp,max:2,until:needAbs(d+7,21),opts:[{t:e.reply,say:resp.map(r=>({from:e.who,text:r})),need:e.id}]}; items.push(it); }); }
+      msg.forEach((text,k)=>{ const it={th:S.neededTh(G,e),from:e.who,text}; if(k===msg.length-1) it.ask={id:grp+'_'+e.id,grp,max:2,until:needAbs(d+7,21),opts:[{t:e.reply,say:resp.map(r=>({from:e.who,text:r})),need:e.id}]}; items.push(it); }); }
     N.batches.push({d,ids:L.map(e=>[e.id,e.who]),ans:[],closedAt:null,said:{}}); if(N.batches.length>4) N.batches.splice(0,N.batches.length-4);
     PHONE.at(G,d,21,items,grp); };
   S.neededAnswered=function(G,m,o){ const N=S.neededRec(G), grp=m.ask&&m.ask.grp; const b=N.batches.find(x=>'need_'+x.d===grp); const e=typeof NEEDED_MSGS!=='undefined'&&NEEDED_MSGS.list.find(x=>x.id===o.need); if(!e) return;

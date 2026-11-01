@@ -20584,7 +20584,7 @@
    "title": "沛珊主動訊息減量（AA_281 第 8 節，09615f28）：M5 ps_r、M6 ps_c 刪；M20 出國每天一則改隔天；M14 needed_msgs ps_q 改發公法讀書會群組",
    "area": "V1",
    "owner": "LAWWW",
-   "status": "進行中",
+   "status": "已整合待測試",
    "priority": "P2",
    "first": {
     "term": "Y1S1",
@@ -20597,7 +20597,7 @@
     "confirmed": true
    },
    "src": "AA-C 10-18 03:03（AA_281 第 8 節）",
-   "next": "【11-01 07:5x LAWWW-B】M14 群組 needed 規則問 AA-B（(a) 群組裡有人回就算／(b) 只有你回才算、沒回照帶／(c) 群組就不帶過）；沒回前照現況私訊｜【LAWWW-C 2026-10-21 稽核 C】做了一部分：needed 訊息系統支援群組發問（th:'g:…'）；群組裡回覆／沒回那一句怎麼算請 AA 定一句規則，再改 ps_q ｜ 【03:4x】M5、M6 刪、M20 every:2 已做（tests/bb120_fixed_unit 改）。剩 M14：needed_msgs（主線 4 的私訊＋沒回見面帶過）現在只有私訊，改群組要讓 needed 系統支援群組發問（回覆、miss 那句怎麼算要 AA 定），v9.10 後做",
+   "next": "【11-01 08:0x LAWWW-B】M14 做完：AA-B 選 (a)（群組裡任何人回了就算有回，大家都沒回才帶）；needed 系統加 th（S.neededTh，字串或 G=>字串，null＝私訊），沛珊 ps_q 在公法讀書會群組（PHONE.inGroup public_law）發在 g:public_law、不在群組照舊私訊；遊戲裡群組其他人不會替你回＝照你有沒有回算；tests/needed_group_unit.js（修改前 FAIL）、needed 相關 6 支 ALL PASS → BB 驗（大二上第 2～4 週週日 21:00，在群組的玩家）｜【11-01 07:5x LAWWW-B】M14 群組 needed 規則問 AA-B（(a) 群組裡有人回就算／(b) 只有你回才算、沒回照帶／(c) 群組就不帶過）；沒回前照現況私訊｜【LAWWW-C 2026-10-21 稽核 C】做了一部分：needed 訊息系統支援群組發問（th:'g:…'）；群組裡回覆／沒回那一句怎麼算請 AA 定一句規則，再改 ps_q ｜ 【03:4x】M5、M6 刪、M20 every:2 已做（tests/bb120_fixed_unit 改）。剩 M14：needed_msgs（主線 4 的私訊＋沒回見面帶過）現在只有私訊，改群組要讓 needed 系統支援群組發問（回覆、miss 那句怎麼算要 AA 定），v9.10 後做",
    "audit": [
     {
      "by": "BACKLOG-SWEEP-1021 C",

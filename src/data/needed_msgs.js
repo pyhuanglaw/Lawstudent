@@ -68,7 +68,8 @@ const NEEDED_MSGS=(function(){
     /* 'sis_duty'、'sis_typo'：刪（BB_207 第 2 節：學姊大二上是碩一，不回法服、推甄整段取消）；'sis_report'：刪（BB_205 第 4 節：學姊沒接阿姨的案子）*/
     {id:'sis_list',who:'heroine_05',term:'Y2S2',w:[1,3],msg:['法圖那本行政救濟的書被借走了。你們班上有人有嗎？'],reply:'我問問看。',resp:['好。不急。'],miss:['那本書我借到了。']},   /* id 照舊（原本「家族的學弟妹名單」）*/
     // 沛珊（BB_97 11-1）
-    {id:'ps_q',who:'classmate_peishan',term:'Y2S1',w:[2,4],tie:true,msg:['讀書會這週的題目，你可以幫我出一題嗎？我出的都太簡單。'],reply:'好。我出一題難的。',resp:['謝謝！不要太難喔 上次大家寫超久'],miss:['讀書會的題目，你上週沒回。我自己出了一題。']},
+    {id:'ps_q',who:'classmate_peishan',term:'Y2S1',w:[2,4],tie:true,th:G=>typeof PHONE!=='undefined'&&PHONE.inGroup&&PHONE.inGroup(G,'public_law')?'g:public_law':null,   /* AA_281 第 8 節 M14：在公法讀書會群組問（不在群組＝照舊私訊）；沒回的那一句照舊（AA-B 11-01 (a)）*/
+      msg:['讀書會這週的題目，你可以幫我出一題嗎？我出的都太簡單。'],reply:'好。我出一題難的。',resp:['謝謝！不要太難喔 上次大家寫超久'],miss:['讀書會的題目，你上週沒回。我自己出了一題。']},
     {id:'ps_plan',who:'classmate_peishan',term:'Y2S1',w:[6,8],tie:true,cond:G=>done(G,'ev_peishan_decision'),msg:['重考的讀書計畫，我排到明年七月。','你會覺得我瘋了嗎'],reply:'沒有。',resp:['好。那我就照這個走。'],miss:['重考計畫那則你沒回。……沒關係，我先照那個排。']},
     /* 'ps_notes'：搬到 story3d.js 12/17 22:00（BB_205 第 2 節）*/
     /* 'ps_kids'：刪（BB_205 第 3 節：沛珊消失期）*/
