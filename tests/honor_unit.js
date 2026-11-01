@@ -23,7 +23,7 @@ const setExam=(id,ks)=>{ const R=CLS.rec(H.G); R.exam=R.exam||{}; lawCs(id).forE
 (async()=>{
 await sec(0,()=>{ const html=fs.readFileSync(path.join(H.ROOT,'index.html'),'utf8'), st=fs.readFileSync(path.join(H.ROOT,'src/story3d.js'),'utf8');
   check('0. src/honor3d.js 載得到、index.html 接在 closed3d.js 後面',ok&&!!X()&&/closed3d\.js\?v=[^"]+"><\/script>\n<script src="src\/honor3d\.js\?v=[^"]+"><\/script>/.test(html),err);
-  check('0. story3d.js：S.PRE_TALK、說話前一個一個問',Array.isArray(STORY.PRE_TALK)&&STORY.PRE_TALK.includes(X()&&X().preTalk)&&/for\(const f of S\.PRE_TALK\)\{ try\{ await f\(GM,who,id\); \}/.test(st)); });
+  check('0. story3d.js：S.PRE_TALK、說話前一個一個問',Array.isArray(STORY.PRE_TALK)&&STORY.PRE_TALK.includes(X()&&X().preTalk)&&/for\(const f of S\.PRE_TALK\)\{ (?:if\([^)]*\) continue; )?try\{ await f\(GM,who,id\); \}/.test(st)); });
 if(!X()){ H.done(); return; }
 
 await sec(1,()=>{ const d=termDay('Y1S2',2,1); at(d,10); const n=lawCs('Y1S1').length;

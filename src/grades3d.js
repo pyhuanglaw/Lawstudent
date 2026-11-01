@@ -87,6 +87,10 @@ const GRADES=(function(){
       await say(GM,who,pick==='很開心。'?'好。我記下來。':'……這是最奇怪的答案。'); },
     classmate_mingxuan:async(GM,who)=>{ await say(GM,who,'哈哈，恭喜。'); await say(GM,who,'這次滷蛋你請。'); } };
   const faceOk=(G,id,t)=>{ if(id==='heroine_02'&&G.zone!=='cafe') return false; if(id==='classmate_peishan'&&!['Y1S1','Y1S2'].includes(t)) return false; return true; };
+  /* 吧檯班的芷若（story3d.js 點餐那一條路沒有走 PRE_TALK）：這次說話會不會演成績那段或書卷獎那一句（BB-B 11-01 讀程式預料 FAIL）*/
+  S.preTalkDue=function(G,id){ if(!law(G)||!S.FACE[id]) return false; const F=G.flags, t=S.windowTerm(G);
+    if(t&&F['GR_'+id+'_'+t]==null&&atLeast(id,'FAMILIAR')&&faceOk(G,id,t)&&S.lv(G,t)) return true;
+    const tm=F.HONOR_LAST; return !!(S.HONOR_LINE[id]&&tm&&F['HONOR_'+tm]&&F['HONOR_GR_'+id+'_'+tm]==null&&(id!=='classmate_peishan'||['Y1S1','Y1S2'].includes(tm))&&atLeast(id,'FAMILIAR')); };
   S.preTalk=async function(GM,who,id){ const G=GM&&GM.G; if(!law(G)||!S.FACE[id]) return; const F=G.flags;
     const t=S.windowTerm(G);
     if(t&&F['GR_'+id+'_'+t]==null&&atLeast(id,'FAMILIAR')&&faceOk(G,id,t)){ const lv=S.lv(G,t);

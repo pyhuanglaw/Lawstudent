@@ -93,5 +93,16 @@ const talk=async(id,picks)=>{ H.said=[]; H.picks=[].concat(picks||[]); await GRA
     check('6. 可昕一起打開（大一上）：高「……你偷念。」「好，這次才是真的放假。」「你請。」；中照舊；低「……都過了。」「下學期我們一起念。我排時間。」；被當「……有一科沒過。」「好。下學期那一科，我陪你念。」（不再說都過了）',
       J(hi)===J(['……你偷念。','好，這次才是真的放假。','你請。'])&&J(mid)===J(['……都過了。好，這次才是真的放假。'])&&J(lo)===J(['……都過了。','下學期我們一起念。我排時間。'])&&J(f)===J(['……有一科沒過。','好。下學期那一科，我陪你念。']),J({hi,mid,lo,f}));
     const src=fs.readFileSync(path.join(H.ROOT,'src/r2y4a3d.js'),'utf8'); check('6. 大四上「各說一科最滿意的」多「沒有最滿意的。」→「那說一科最不滿意的。我陪你。」',/沒有最滿意的。[\s\S]{0,200}那說一科最不滿意的。我陪你。/.test(src)); }
+  /* 7 吧檯班的芷若（BB-B 11-01：點餐那條路沒有走 PRE_TALK）：成績那段照演，演完照常點餐；不在期間＝直接點餐 */
+  { if(STORY._bindGM) STORY._bindGM(GM); const bar=async(key,setup)=>{ const G=H.fresh(key,15,'cafe',{}); setScore(G,'Y1S1',3); H.FAMILIAR('heroine_02'); if(setup) setup(G); H.said=[]; H.picks=[];
+      await STORY.talkCharacter('heroine_02',{name:'林芷若',charId:'heroine_02',staff:'cafe',obj:{position:{x:0,y:0,z:0},rotation:{y:0}}}).catch(e=>{ H.said.push({t:'ERR '+e}); }); return [G,said()]; };
+    const [G,a]=await bar('2026-01-06'); const zr=await (async()=>{ const G0=H.fresh('2026-01-06',15,'cafe',{}); setScore(G0,'Y1S1',3); H.FAMILIAR('heroine_02'); return talk('heroine_02'); })();
+    const [,b]=await bar('2026-01-06',G=>{ G.flags.GR_heroine_02_Y1S1=G.day-1; });
+    const BAR='歡迎光臨——喔，法律系的？要喝什麼，慢慢看。', zs=zr.filter(t=>t!=='杯子放著就好，慢慢來。');   /* 店員事件是 onInteract 非同步演的：上一次的後半句會晚一點才進 H.said */
+    check('7. 吧檯班的芷若（作息帶「兩點半的店員」事件）：成績公布期間跟她說話＝先演 2-2 那段（和一般說話同一段）、再演店員那段，記 GR_heroine_02_Y1S1；已經演過＝只有店員那段',zs.length>0&&J(a.slice(0,zs.length))===J(zs)&&a.indexOf(BAR)>zs.length-1&&G.flags.GR_heroine_02_Y1S1===G.day&&b[0]===BAR&&!b.some(t=>zs.includes(t))&&!a.concat(b).some(t=>/^ERR/.test(t)),J({a,b,zs}));
+    { const G4=H.fresh('2026-01-06',15,'cafe',{}); setScore(G4,'Y1S1',3); H.FAMILIAR('heroine_02'); const ev=STORY_EVENTS.find(e=>e.id==='ev_cafe_barista_zhiruo'); const ck=EVENTS.check; EVENTS.check=e=>e===ev?false:ck(e); H.said=[];
+      try{ await STORY.talkCharacter('heroine_02',{name:'林芷若',charId:'heroine_02',staff:'cafe',obj:{position:{x:0,y:0,z:0},rotation:{y:0}}}).catch(e=>{ H.said.push({t:'ERR '+e}); }); } finally { EVENTS.check=ck; }
+      const e=said().filter(t=>t!=='杯子放著就好，慢慢來。'); check('7. 店員事件冷卻中（同一天第二次）＝直接點餐那條路：成績那段一樣先演',J(e.slice(0,zs.length))===J(zs)&&G4.flags.GR_heroine_02_Y1S1===G4.day&&!e.some(t=>/^ERR/.test(t)),J(e)); }
+    const [G2,c]=await bar('2026-04-20'); check('7. 不在成績期間（大一下第 8 週）：不演、不記',G2.flags.GR_heroine_02_Y1S2==null&&!c.some(t=>zr.includes(t)),J(c)); }
   H.done();
 })().catch(e=>{ console.error(e); process.exit(1); });
