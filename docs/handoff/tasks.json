@@ -37994,9 +37994,9 @@
    "title": "經濟系那年還不認識的阿凱傳了四次「泡麵評鑑表」（dp_kai_sheet）：story3d.js kai_sheet 的 term 把 Y0 也算進去（BB-B 歷史複核第 1 批 ECON-FRIENDS，P1）",
    "area": "STORY",
    "owner": "LAWWW",
-   "status": "待開工",
+   "status": "已整合待測試",
    "priority": "P1",
-   "next": "【11-01 02:2x BB-B 歷史複核第 1 批（b3bf2bd74，基準 39f68236c 瀏覽器）】非 P0、不是這一版才壞的；發布後在本機分支修（kai_sheet 排除 Y0／經濟系那年）",
+   "next": "【11-01 03:3x LAWWW-B】修好（開發分支）：kai_sheet term 改排除 /^Y[01]/；舊存檔 kaiSheetY0Fix：2025-09-01 以前收過的次數記 KAI_SHEET_Y0N，大二起照第 1 種開始、上限加回（dpN 不倒退，tag 不撞）；tests/kai_sheet_y0_unit.js（修改前 FAIL 2）、每天手機小事相關測試 ALL PASS → BB 經濟系那年驗沒有、大二上照舊收得到｜【11-01 02:2x BB-B 歷史複核第 1 批（b3bf2bd74，基準 39f68236c 瀏覽器）】非 P0、不是這一版才壞的；發布後在本機分支修（kai_sheet 排除 Y0／經濟系那年）",
    "first": {
     "term": "Y0S1",
     "week": 0,

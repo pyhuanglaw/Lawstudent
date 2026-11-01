@@ -2931,9 +2931,10 @@ const STORY = (function(){
       items:()=>seq('classmate_peishan',['📷（課輔班白板上歪歪的「謝謝沛珊老師」）','他們叫我老師。好奇怪。'])},
     {id:'fy_water_y1s2',term:t=>t.id==='Y1S2',h:()=>20.5,ok:G=>!!G.flags.POTHOS&&gotBefore(G,'npc_fangyt'),
       items:()=>seq('npc_fangyt',['黃金葛可以剪一段下來水耕','週末我拿瓶子過去 隔壁而已'])},   /* AA_209 附錄B §2（原本的訊息＋旁白「（實際講了二十分鐘。）」一起換掉）*/
-    /* 阿凱的泡麵評鑑表：大一同房時是房間物件（S.roomItemList）；大二起分開住，偶爾傳照片（四次、至少隔四週）*/
-    {id:'kai_sheet',term:t=>!/^Y1/.test(t.id),max:()=>4,gap:28,h:()=>21.8,ok:()=>fl('kai')!=='STRANGER',
-      items:(G,n)=>seq('kai',KAI_SHEET_MSG[Math.min(n|0,KAI_SHEET_MSG.length-1)])},   /* 照第幾次換四種（AA_460 第 3 節；n＝收過幾次，舊存檔照 dpN 接）*/
+    /* 阿凱的泡麵評鑑表：大一同房時是房間物件（S.roomItemList）；大二起分開住，偶爾傳照片（四次、至少隔四週）。
+     經濟系那一年（Y0）還不認識阿凱，也不傳（BUG-KAI-SHEET-Y0-1031：原本只排除 Y1，經濟系那年收過四次；舊存檔在 kaiSheetY0Fix 把那幾次退回去）*/
+    {id:'kai_sheet',term:t=>!/^Y[01]/.test(t.id),max:G=>4+kaiY0N(G),gap:28,h:()=>21.8,ok:()=>fl('kai')!=='STRANGER',
+      items:(G,n)=>seq('kai',KAI_SHEET_MSG[Math.max(0,Math.min((n|0)-kaiY0N(G),KAI_SHEET_MSG.length-1))])},   /* 照第幾次換四種（AA_460 第 3 節；n＝收過幾次，舊存檔照 dpN 接）*/
     /* 可昕大一下的手機小事（BB_96 9-8；交往中；每則一次、照週次）。時間 21:10（她傳訊息的時段，技術預設）。
        kx2_late（第 1～2 週）、kx2_azalea（第 3 週）：手機小事第 4 週才開始，這兩則永遠不出——AA_504 第 0 節第 1 點改成可昕的動態第 1、2 則（原句照用、一定出；src/data/feed_y1s2.js kx1b、kx2b），這裡拿掉 */
     ...[['kx2_steps',3,5,'我數過了，從宿舍到法學院一百二十七階。今天爬了三次。'],
@@ -3007,7 +3008,13 @@ const STORY = (function(){
     for(const m of (G.msgs||[])) if(m&&m.from!=='player'&&typeof m.day==='number'&&m.day<=day&&other(m.tag)) last=Math.max(last,m.day);
     if(day-last<3) return true;
     return typeof PHONE!=='undefined'&&PHONE.rec(G).q.some(q=>q.day>=day&&q.day-day<3&&other(q.tag)); };
-  function dailyPhone(GM){ const G=GM.G, F=G.flags; if(typeof CALENDAR==='undefined') return; const N=()=>F.dpN||(F.dpN={});
+  /* BUG-KAI-SHEET-Y0-1031 舊存檔：法律系開學（2025-09-01）以前收到的泡麵評鑑表不算，大二起照第 1 種開始（只跑一次）。
+     dpN 不倒退（訊息的 tag dp_kai_sheet_<n>_<k> 傳過就不再傳，倒退會撞到經濟系那年的 tag）：記下經濟系那年收過幾次（KAI_SHEET_Y0N），四種照 n 減掉它挑、上限加它 */
+  const kaiY0N=G=>(G&&G.flags&&G.flags.KAI_SHEET_Y0N)|0;
+  function kaiSheetY0Fix(G){ const F=G.flags; if(F.KAI_SHEET_Y0FIX||!(F.dpN&&F.dpN.kai_sheet)) return; F.KAI_SHEET_Y0FIX=1; const law=S.dayOfKey('2025-09-01'), ns=new Set();
+    for(const m of (G.msgs||[])){ const mt=/^dp_kai_sheet_(\d+)_/.exec((m&&m.tag)||''); if(mt&&typeof m.day==='number'&&law!=null&&m.day<law) ns.add(mt[1]); }
+    if(ns.size){ F.KAI_SHEET_Y0N=ns.size; if(F.dpDayOf&&F.dpDayOf.kai_sheet!=null&&F.dpDayOf.kai_sheet<law) delete F.dpDayOf.kai_sheet; } }
+  function dailyPhone(GM){ const G=GM.G, F=G.flags; if(typeof CALENDAR==='undefined') return; const N=()=>F.dpN||(F.dpN={}); kaiSheetY0Fix(G);
     const p=F.dpPick; if(p){ const d=DAILY.find(x=>x.id===p.id); if(!d) F.dpPick=null; else { const h0=d.h(G), t=p.day*24+h0, now=G.day*24+G.hour;
         if(now>=t){ F.dpPick=null; const late=now-t>0.25; if(d.ok(G,p.day)&&(late||!d.live||d.live(G))&&!S.dpTooSoon(G,p.day)){ const n=N()[d.id]|0; N()[d.id]=n+1; F.dpLast=d.id; (F.dpDayOf||(F.dpDayOf={}))[d.id]=p.day; const h1=late?h0:G.hour;
             d.items(G,n).forEach((it,k)=>{ const x=Object.assign({},it), dt=x.dt||0; delete x.dt; PHONE.at(G,late?p.day:G.day,h1+dt,[x],'dp_'+d.id+'_'+n+'_'+k); }); }
@@ -3018,7 +3025,7 @@ const STORY = (function(){
     const i0=DAILY.findIndex(d=>d.id===F.dpLast)+1;
     const last=F.dpDayOf||{};
     const short=typeof ECONFF!=='undefined'&&ECONFF.short&&ECONFF.short(G), cand=[];
-    for(let k=0;k<DAILY.length;k++){ const d=DAILY[(i0+k)%DAILY.length]; if(!(d.term?d.term(t):t.id==='Y1S1')||(N()[d.id]|0)>=(d.max?d.max():1)||(last[d.id]!=null&&G.day-last[d.id]<(d.gap||7))||d.h(G)<=G.hour+0.1||!d.ok(G,G.day)) continue; cand.push(d); if(!short) break; }
+    for(let k=0;k<DAILY.length;k++){ const d=DAILY[(i0+k)%DAILY.length]; if(!(d.term?d.term(t):t.id==='Y1S1')||(N()[d.id]|0)>=(d.max?d.max(G):1)||(last[d.id]!=null&&G.day-last[d.id]<(d.gap||7))||d.h(G)<=G.hour+0.1||!d.ok(G,G.day)) continue; cand.push(d); if(!short) break; }
     if(!cand.length) return; let pick=cand[0];
     /* 經濟系 30 分鐘版小事至少隔 3 天，位置很少：快過期的先排（之後還能排的天數最少的）——原本照順序輪，阿勳「星期三的微積分」（第 8 週、10/23 起）兩輪都被第 4 週起都能排的那則拿走、玩家看不到（BB 10-21，AA_368 M6）。法律系照舊輪 */
     if(short&&cand.length>1){ const left=d=>{ let n=0; for(let x=1;x<=21;x++){ const day=G.day+x, T=S.dpTerm(Object.assign({},G,{day})); if(T&&(d.term?d.term(T):T.id==='Y1S1')&&d.ok(G,day)) n++; } return n; }; let best=1e9; for(const d of cand){ const l=left(d); if(l<best){ best=l; pick=d; } } }
