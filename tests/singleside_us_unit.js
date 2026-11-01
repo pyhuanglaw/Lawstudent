@@ -3,6 +3,7 @@
 //   1. us_apartment、us_shared、us_lawlib、us_asian_market、us_bed_c 除了玻璃都單面；玻璃照舊雙面；
 //      遊戲照名字接手、網格不動的零件，只有它們在用的材質照舊雙面：亞洲超市門外的景（usam_view，一片、正面朝外——第一次改單面，從店裡看整片不見）、公寓和 C 棟的門牌（usa_plate）；
 //   2. 開口的零件補了反面（每個三角形都有反過來的分身）：法圖的鐵絲雕塑、亞洲超市的層架、公寓的窗簾、C 棟臥室的版畫；
+//      2b：有光照貼圖的（10-31 起亞洲超市的層架、公寓的窗簾）烘焙時拿掉了反面，改檢查烘過、沒有反面；
 //   3. 原本就單面的天花板（朝下：鏡頭超過天花板高度時看得穿）沒有補朝上的那一面：公寓、C 棟 208、C 棟臥室；
 //   4. 家具都在（公寓 33 件、C 棟 208 37 件——匯出時少了 aa_support／bb_support 的道具組，腳本會安靜地跳過，第一次在舊的測試樹匯出 C 棟 208 只剩 1.2 萬個三角形）；
 //   5. 沒有裡外相反的薄零件（封閉、方向一致、體積是負的、有一邊 1 mm～1 m；單面會從外面看到背面）。
@@ -26,8 +27,13 @@ for(const [k,G] of Object.entries(GL)){ const kp=KEEP2[k], ds=G.mats.filter(m=>m
   check('1. '+k+'：除了玻璃'+(kp?'、'+kp.source.replace(/[\^$]/g,''):'')+'都單面（'+G.mats.length+' 個材質）；玻璃'+(kp?'和它':'')+'照舊雙面', !ds.length&&gl.length>0&&gl.every(m=>m.doubleSided)&&kk.every(m=>m.doubleSided)&&(!kp||kk.length===1), ds.length?'雙面：'+ds.slice(0,8).join(' '):gl.concat(kk).map(m=>m.name+(m.doubleSided?'':'(單面)')).join(' ')); }
 check('1. 亞洲超市門外的景（usam_view）還在', GL.us_asian_market.J.nodes.some(nd=>nd.name==='usam_view'&&nd.mesh!=null));
 const P2=[['法圖 鐵絲雕塑',GL.us_lawlib,/^usll_wire_sculpture$/],['亞洲超市 層架',GL.us_asian_market,/^usam_shelf$/],['公寓 窗簾',GL.us_apartment,/^usa_curtain$/],['C 棟臥室 版畫',GL.us_bed_c,/^us_bed_c_print$/]];
-const r2=P2.map(([n,G,re])=>{ const [ok,nt]=paired(G,re); return [n,ok,nt]; });
-check('2. 開口的零件有反面（至少一半的三角形有反過來的分身）', r2.every(([,ok,nt])=>nt>0&&ok>=nt*0.5), r2.map(([n,ok,nt])=>n+' '+ok+'/'+nt).join('  '));
+/* 2b（INTERIOR-AAA 美國室內光照烘焙，LAWWW2-B 10-31；和 singleside_gym_unit 的 2b 同一個做法）：有光照貼圖的零件（亞洲超市的層架、公寓的窗簾）烘焙時拿掉了疊在一起的反面
+   （不拿掉的話光一出去就打到反面，整面烘成全黑；bake_room.py 留朝房間的那一面）——這種零件改檢查：有第二套 UV（烘過）、沒有反面。沒有烘的照舊檢查有反面 */
+const lmOf=(G,re)=>{ const ps=G.prims.filter(x=>re.test(x.mat)); return ps.length>0&&ps.every(x=>x.p.attributes.TEXCOORD_1!=null); };
+const r2=P2.map(([n,G,re])=>{ const [ok,nt]=paired(G,re); return [n,ok,nt,lmOf(G,re)]; });
+const r2a=r2.filter(x=>!x[3]), r2b=r2.filter(x=>x[3]);
+check('2. 開口的零件有反面（至少一半的三角形有反過來的分身）', r2a.length>0&&r2a.every(([,ok,nt])=>nt>0&&ok>=nt*0.5), r2a.map(([n,ok,nt])=>n+' '+ok+'/'+nt).join('  '));
+check('2b. 有光照貼圖的開口零件：烘過（第二套 UV）、疊在一起的反面拿掉了', r2b.every(([,ok,nt])=>nt>0&&ok===0), r2b.length?r2b.map(([n,ok,nt])=>n+' 反面 '+ok+'/'+nt).join('  '):'（沒有烘過的）');
 const P3=[['公寓 天花板',GL.us_apartment,'usa_ceiling'],['C 棟 208 天花板',GL.us_shared,'usa_ceiling'],['C 棟臥室 天花板',GL.us_bed_c,'us_bed_c_ceiling']];
 const r3=P3.map(([n,G,m])=>{ const [ok,nt]=paired(G,new RegExp('^'+m+'$')); const mm=G.mats.find(x=>x.name===m); return [n,ok,nt,mm&&!mm.doubleSided]; });
 check('3. 原本就單面的天花板沒有補朝上的面（照舊單面）', r3.every(([,ok,nt,ss])=>nt>0&&ok===0&&ss), r3.map(([n,ok,nt])=>n+' '+ok+'/'+nt).join('  '));

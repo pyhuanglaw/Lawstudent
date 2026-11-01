@@ -80,16 +80,72 @@ print('bake objects', len(objs), flush=True)
 # 為什麼（LIB-HALL-LM-1028）：光線從正面一出發就打到疊在同一個位置的反面，整面烘成全黑——總圖大廳的二樓木地板、一樓天花板（樓板底面）、屋頂、
 # 幾面牆、舊的樓梯踏面（每一階方塊互相貼著，算成開口的零件）。有光照貼圖的物件用不到反面（反面的光照貼圖一樣是黑的），
 # 而且 lm_fix_hidden.py 接頂點的時候本來就把它們併掉了（GLB 的三角形數和沒補反面一樣），所以輸出的網格不變，只是烘焙對了。之前交的房間都沒有用 single_side
+# 留哪一面（10-31 LAWWW2-B 改）：原本一律留先出現的那一面（腳本畫的原本那一面）。但有的腳本原本那一面方向畫反了、遊戲裡看得到是靠補的反面——
+#   美國亞洲超市的天花板（原本朝上）、美國法學院圖書館的四面牆（原本朝外）：烘完只剩朝外那面，從室內往上看天花板、看牆整片不見。
+#   改成：兩面各從正面往外打幾條射線（面的中心＋往各頂點 80% 的點），量正面前面空多遠（打到東西的距離；沒打到：往外殼開著的那一邊算無限遠、
+#   往包起來的那一邊算到房間邊界的距離）。原本那一面正面前面最遠都 < 0.5 m（一出去就是外殼、牆裡面；牆外面的護牆板、彩色玻璃凸出 0.2～0.4 m）、
+#   反面那一面（每個三角形 10 個均勻的點）中位數 > 5 cm、最遠 > 2 m 而且是原本那面的 4 倍以上（朝著房間）才改留反面；太窄的面不翻；
+#   其他情況照舊留原本那一面（地板中心被沙發蓋住這種情況，取樣點取最遠的，不會翻錯）。
+_BB = [Vector((1e9, 1e9, 1e9)), Vector((-1e9, -1e9, -1e9))]
+for o in objs:
+    for v in o.bound_box:
+        w = o.matrix_world @ Vector(v); _BB[0] = Vector([min(a, b) for a, b in zip(_BB[0], w)]); _BB[1] = Vector([max(a, b) for a, b in zip(_BB[1], w)])
+_OPEN = set(arg('--shell').upper().split(',')) if arg('--shell') else None   # None＝沒有外殼：每一邊都是天空
+_hid = [o for o in bpy.data.objects if o.type == 'MESH' and hidden(o) and not o.hide_viewport]
+for o in _hid: o.hide_viewport = True   # 玻璃這些烘焙時不存在的東西，量距離時也不算
+bpy.context.view_layer.update(); _DG = bpy.context.evaluated_depsgraph_get()
+def _free(p, n):
+    hit, loc, *_ = sc.ray_cast(_DG, p + n * 0.002, n, distance=1000.0)
+    if hit: return (loc - p).length
+    if _OPEN is None: return 1e9
+    best, side = 1e9, None
+    for ax, (lo, hi) in enumerate(zip(_BB[0], _BB[1])):
+        d = n[ax]
+        if abs(d) < 1e-6: continue
+        t = ((hi if d > 0 else lo) - p[ax]) / d
+        if 0 <= t < best: best, side = t, (('E', 'W'), ('N', 'S'), ('UP', 'DOWN'))[ax][0 if d > 0 else 1]   # Blender：x＝東、y＝北（遊戲 −z）、z＝上
+    return 1e9 if side in _OPEN else max(best, 0.0)
+def _pts(f, dense):
+    c = f.calc_center_median()
+    if not dense: return [c] + [c.lerp(v.co, 0.8) for v in f.verts]
+    vs = [v.co for v in f.verts]; out = []   # 每個三角形（從第一個頂點扇形切）重心座標 3 等分的格點，往重心縮 10%（不貼著邊）
+    for t in range(1, len(vs) - 1):
+        a_, b_, d_ = vs[0], vs[t], vs[t + 1]; cc = (a_ + b_ + d_) / 3
+        for i in range(4):
+            for j in range(4 - i):
+                k = 3 - i - j; q = (a_ * i + b_ * j + d_ * k) / 3; out.append(q.lerp(cc, 0.1))
+    return out
+def _reach(o, f, dense=False):
+    M = o.matrix_world; R = M.to_3x3(); n = (R @ f.normal).normalized()
+    return sorted(_free(M @ q, n) for q in _pts(f, dense))
+FLIP = []
 def drop_backfaces(o):
     bm = bmesh.new(); bm.from_mesh(o.data); seen = {}; kill = []
     for f in bm.faces:
         k = tuple(sorted((round(v.co.x, 4), round(v.co.y, 4), round(v.co.z, 4)) for v in f.verts))
         g = seen.get(k)
-        if g is not None and g.normal.dot(f.normal) < -0.99: kill.append(f)
+        if g is not None and g.normal.dot(f.normal) < -0.99:
+            rg = _reach(o, g)[-1]   # 原本那一面：中心＋往各頂點 80% 的點，取最遠的（地板中心被沙發蓋住，其他點照樣看得到天花板 → 不翻）
+            _L = max((e.verts[0].co - e.verts[1].co).length for e in g.edges)
+            # 太窄的不翻（2×面積÷最長邊 < 0.3 m）：牆盒子的頂面、端面（牆厚 0.2 m）反面朝下是牆盒子的內部，射線一路穿到地板，看起來像「朝著房間」——
+            #   10-31 公寓第九版牆頂被翻成朝下，鏡頭在天花板以上（剖面視角）時牆頂會透空一條縫
+            if rg < 0.5 and 2 * g.calc_area() / max(_L, 1e-6) >= 0.3:
+                rl = _reach(o, f, True)
+                # 反面：每個三角形 10 個均勻的格點。中位數 > 5 cm（不是一出去就貼著牆：公寓東西牆的壁板，87% 的點 1 cm 就打到牆）、
+                #   最遠的 > 2 m 而且是原本那面的 4 倍以上（朝著房間）才翻。
+                # 10-31 試過：取最遠的（公寓第七版）、中位數 > 2 m（第八版）都被壁板騙（上緣 0.4 m 越過牆頂一路穿過整戶）；
+                #   一半以上 > 2 m（法圖第六版）又漏了北牆東北角：細長三角形的點大多在下半部，前面 0.1～0.6 m 就是護牆板、書架，沒翻 → 書架上面一塊看得到天空
+                if rl[len(rl) // 2] > 0.05 and rl[-1] > 2.0 and rl[-1] > 4 * rg: kill.append(g); seen[k] = f; FLIP.append((o.name, round(g.calc_area(), 3))); continue
+            kill.append(f)
         elif g is None: seen[k] = f
     if kill: bmesh.ops.delete(bm, geom=kill, context='FACES'); bm.to_mesh(o.data); o.data.update()
     bm.free(); return len(kill)
 print('back faces dropped', sum(drop_backfaces(o) for o in objs), flush=True)
+for o in _hid: o.hide_viewport = False
+if FLIP:
+    _fs = {}
+    for nm, a_ in FLIP: _fs[nm] = _fs.get(nm, 0.0) + a_
+    print('back faces kept instead of the original（原本那一面朝著外殼、反面朝著房間）', {k: round(v, 2) for k, v in sorted(_fs.items(), key=lambda kv: -kv[1])}, flush=True)
 # 同一個材質不能一部分有光照貼圖、一部分沒有：遊戲的 roomLightmap 是照材質接 lightMap 的，沒有 uv1 的網格會整個取到貼圖 (0,0) 那一點（變暗）。
 # 例：201 的鋼材 cls_steel 同時給椅子的鋼管（幾千個小島，不烘）和門框（看得到，要烘）用。
 # 這種材質自動複製一份給不烘的物件用（名字後面加 _rt＝即時光）；不同物件本來就各畫一次，draw call 不會變多
@@ -331,6 +387,16 @@ def smooth(px, r):
     return np.where(m[:, :, None] > 0, out, px)
 SMOOTH = int(arg('--smooth', '0'))
 
+# --knee K,A（10-31 LAWWW2-B，美國公寓）：白天那一張超過 K 的亮度平滑壓到最多 A（K 以下完全不變；顏色比例不變）。
+# 為什麼：遊戲沒有曝光調整，光照貼圖 × 底色超過 1 就是一片白——北窗前的白色床單白天到 2 以上（物理上靠窗本來就亮好幾倍），
+#   把天光整體調暗到床單不過曝，房間其他地方就太暗。只壓亮的那一段：靠窗那塊還是最亮，但看得到床單的花紋。
+KNEE = [float(t) for t in arg('--knee').split(',')] if arg('--knee') else None
+def knee(px):
+    if not KNEE: return px
+    K, A_ = KNEE; m = px.max(axis=2, keepdims=True); hi = m > K
+    mm = np.where(hi, K + (A_ - K) * (1 - np.exp(-(m - K) / (A_ - K))), m)
+    return np.where(hi, px * (mm / np.maximum(m, 1e-6)), px)
+
 def save(px, path):
     px = smooth(px, SMOOTH)
     v = np.clip(px / SCALE, 0, 1)
@@ -345,7 +411,7 @@ def save(px, path):
 WB = {k: [float(t) for t in arg('--' + k + 'wb').split(',')] if arg('--' + k + 'wb') else None for k in ('day', 'night')}
 def wb(px, k): return px * np.array(WB[k], dtype=np.float32)[None, None, :] if WB[k] else px
 os.makedirs(os.path.dirname(os.path.abspath(LM)), exist_ok=True)
-day = bake('day', SKY, SUN[2], 1.0, DAYL); save(wb(day, 'day'), LM + '_day.png')
+day = bake('day', SKY, SUN[2], 1.0, DAYL); save(knee(wb(day, 'day')), LM + '_day.png')
 night = bake('night', NIGHTSKY, 0.0, 1.0); save(wb(night, 'night'), LM + '_night.png')
 # 第三張「熄燈」（--dark；宿舍睡覺 DORM-SLEEP-VISUAL-1030，使用者 10-30「睡覺要真的有畫面」）：室內的燈（--lights、--points）全關、所有發光材質（燈管、燈條、螢幕）也關，
 # 只剩夜空（--darksky，預設 --nightsky 的 1.5 倍）＋窗外的路燈（--darkpoints x,y,z,W[,r,g,b];…，只在這一張）。遊戲：Z3.roomLightmap 的 z.lightsOff(0～1) 從晚上那張換到這張
@@ -435,7 +501,7 @@ for o in SHELL: bpy.data.objects.remove(o)   # 外殼只在烘焙時用
 if arg('--drop'):
     _drop = re.compile(arg('--drop'))
     for o in [o for o in bpy.data.objects if _drop.search(o.name)]: bpy.data.objects.remove(o)
-json.dump({'scale': SCALE, 'intensity': math.pi * SCALE, 'res': RES, 'samples': SAMPLES, 'emit': EMIT, 'dayemit': DAYEMIT, 'sun': SUN, 'sky': SKY, 'nightsky': NIGHTSKY, 'shell': arg('--shell'), 'daylights': DAYL, 'lights': arg('--lights'), 'points': arg('--points'), 'wb': WB,
+json.dump({'scale': SCALE, 'intensity': math.pi * SCALE, 'res': RES, 'samples': SAMPLES, 'emit': EMIT, 'dayemit': DAYEMIT, 'sun': SUN, 'sky': SKY, 'nightsky': NIGHTSKY, 'shell': arg('--shell'), 'daylights': DAYL, 'knee': KNEE, 'lights': arg('--lights'), 'points': arg('--points'), 'wb': WB,
            'objects': [o.name for o in objs]}, open(LM + '.json', 'w'), ensure_ascii=False, indent=1)
 URL = arg('--url')   # 遊戲裡光照貼圖的路徑前綴（例：assets/models/env/classroom_201_lm）→ 寫進 GLB 場景的 extras.lightmap，遊戲的 attachRoomGLB 看到就自動接
 if URL:
