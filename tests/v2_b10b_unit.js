@@ -70,8 +70,8 @@ const after=async(day)=>{ G.day=day; G.weekday=wdOf(day); G.hour=12.17; G.zone='
     const L4=await lunchH(F11,{XUN_NIGHT:true,XUN_DAY:W11T,SK03_FIRST:true},2), br4=!!G.flags.ECON_LAW_BRIDGE, rp4=!!G.flags.XUN_REPAID;
     const L4b=await lunchH(F12,{XUN_NIGHT:true,XUN_DAY:W11T,SK03_FIRST:true,XUN_REPAID:true},3);
     check('4. 撞到 1-3（去過兩次以上）：還債優先、芯慈那一幕留到下一個週五',!L4.some(t=>t.includes('芯慈端著餐盤'))&&rp4&&!br4&&L4b.some(t=>t.includes('芯慈端著餐盤'))&&G.flags.ECON_LAW_BRIDGE,JSON.stringify([L4,L4b]));
-    await lunch(F11,{XUN_NIGHT:true,XUN_DAY:W11T,SK03_FIRST:true},'今天不行'); G.hour=12.7; STORY.phoneRules(GM); PHONE.tick(G); const ph=G.msgs.filter(m=>m.th==='g:econ_friends'&&m.from==='econ_zhengxun').map(m=>m.text);
-    check('4. 第 11 週沒去午餐：12:40「走啦」群組便當照片＋「欠你的，下週。」',JSON.stringify(ph)==='["📷（一個便當）","欠你的，下週。"]',JSON.stringify(ph));
+    await lunch(F11,{XUN_NIGHT:true,XUN_DAY:W11T,SK03_FIRST:true},'今天不行'); G.hour=13.05;   /* AA_350 T9b（2026-11-01）：便當照片 12:40 改 13:00，原本查 12:42 */ STORY.phoneRules(GM); PHONE.tick(G); const ph=G.msgs.filter(m=>m.th==='g:econ_friends'&&m.from==='econ_zhengxun').map(m=>m.text);
+    check('4. 第 11 週沒去午餐：13:00（AA_350 T9b；原本 12:40）「走啦」群組便當照片＋「欠你的，下週。」',JSON.stringify(ph)==='["📷（一個便當）","欠你的，下週。"]',JSON.stringify(ph));
     const L5=await lunch(F12,{XUN_NIGHT:true,XUN_DAY:W11T,SK03_FIRST:true});
     check('4. 下一個去的週五照樣推過來（只一次）、沒有走廊那句；延後一週改一個詞「上週那題的。還債。」（AA-B）',L5.includes('阿勳：（把一個便當推過來）上週那題的。還債。')&&!L5.includes('阿勳：（把一個便當推過來）昨天那題的。還債。')&&!L5.includes('阿勳：昨天那題我想通了。')&&G.flags.XUN_REPAID,JSON.stringify(L5));
     const L6=await lunch(termDay('Y1S2',13,5),{XUN_NIGHT:true,XUN_DAY:W11T,SK03_FIRST:true,XUN_REPAID:true,SK03_N:0});
@@ -83,7 +83,7 @@ const after=async(day)=>{ G.day=day; G.weekday=wdOf(day); G.hour=12.17; G.zone='
     check('4b. 去了：1-1 品妤沒見過先「曾品妤。經濟系，可昕以前的室友。」、記 MET_PINYU，再接還債三句',L.indexOf('品妤：曾品妤。經濟系，可昕以前的室友。')>0&&L.indexOf('品妤：曾品妤。經濟系，可昕以前的室友。')<L.indexOf('品妤：重修生？你看起來很有覺悟。')&&L.includes('阿勳：（把一個便當推過來）昨天那題的。還債。')&&G.flags.MET_PINYU,JSON.stringify(L));
     const L2=await only(F12,{XUN_NIGHT:true,SK03_INV1:true,SK03_FIRST:true,MET_PINYU:true,XUN_REPAID:true,SK03_N:0});
     check('4b. 之後的週五照一般邀約「學活。走不走？」',L2[0]==='阿勳：學活。走不走？',JSON.stringify(L2));
-    await only(F11,{XUN_NIGHT:true},'今天不行'); G.hour=12.7; STORY.phoneRules(GM); PHONE.tick(G);
+    await only(F11,{XUN_NIGHT:true},'今天不行'); G.hour=13.05; STORY.phoneRules(GM); PHONE.tick(G);
     check('4b. 沒去：便當照片照發',G.msgs.some(m=>m.th==='g:econ_friends'&&m.text==='欠你的，下週。')); }
   /* 5. 1-4 芯慈在重修教室（上課前） */
   { const e4=ev('ev_sk03_xinci_class'); check('5. ev_sk03_xinci_class：beforeClass econ_principles_2、週五、大一下',!!e4&&e4.beforeClass==='econ_principles_2');
