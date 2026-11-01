@@ -321,7 +321,7 @@ const R3=(function(){
   S.zqDogTold=G=>has('heroine_04','ZQ_DOG_TOLD')||!!(G.flags&&G.flags.ZQ_DOG_TOLD);
   S.DP3_AT=[
     ['y2s_fang_moss','2027-07-19',19.5,fangOk,()=>SQ('npc_fangyt',['📷（山上的一片苔蘚，上面有露水）','沒訊號。下山才傳。'])],
-    ['y3_yu_moon','2027-09-15',22.5,G=>PHONE.inGroup(G,'noodle_team')&&knows('heroine_02',G),()=>[{th:'g:noodle_team',from:'yu',text:'芷若說英國的月亮比較小'},{th:'g:noodle_team',from:'yu',text:'我不信',dt:1/60}]],
+    ['y3_yu_moon','2027-09-15',22.5,G=>PHONE.inGroup(G,'noodle_team'),()=>[{th:'g:noodle_team',from:'yu',text:'今年中秋有月亮'},{th:'g:noodle_team',from:'yu',text:'去年下雨',dt:1/60},{th:'g:noodle_team',from:'yu',text:'我記得',dt:2/60}]],   /* AA_555 第 2 節（企劃線 56c11668d）：原本「芷若說英國的月亮比較小」「我不信」——Alison 和芷若不在同一個群組，換成這三則；不再要認識芷若。群組照舊（法一吃飯 noodle_team）*/
     ['y3_kx_civpro','2027-09-08',21+10/60,kxOn,()=>[P1('kexin','民訴開課了。第一堂就抄了十一頁。')]],
     ['y3_kevin_week_1015','2027-10-15',17+5/60,G=>PHONE.inGroup(G,'family_law'),KW],
     ['y3_fang_sample','2027-11-01',7.5,fangOk,()=>SQ('npc_fangyt',['📷（雲海）','畢業專題的樣區在這裡。這禮拜收不到訊號。'])],
