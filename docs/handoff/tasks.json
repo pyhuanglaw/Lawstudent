@@ -389,8 +389,8 @@
    "title": "偶發全黑、面膜臉（試玩第 24 項）",
    "area": "BUG",
    "owner": "LAWWW",
-   "status": "進行中",
-   "next": "【LAWWW-C 2026-10-21 稽核 C】做了一部分：BB 在 v9.10.2／開發分支用 ?debug 長時間換區域看 E.ctxLost 有沒有增加、截圖；有 iPhone 實機機會時請使用者開 ?debug 看計數（使用者 10-21 說這幾天沒空測，不能宣稱實機驗過） ｜ BUG-01 修好後重新看：全黑／面膜臉如果是 WebGL context lost（記憶體）會一起消失；仍要在現場重現（試玩第 24 項）",
+   "status": "暫停",
+   "next": "【11-01 23:1x LAWWW-B】使用者選「先不要」用 iPhone ?debug 幫忙看 → 暫停到使用者有空｜【LAWWW-C 2026-10-21 稽核 C】做了一部分：BB 在 v9.10.2／開發分支用 ?debug 長時間換區域看 E.ctxLost 有沒有增加、截圖；有 iPhone 實機機會時請使用者開 ?debug 看計數（使用者 10-21 說這幾天沒空測，不能宣稱實機驗過） ｜ BUG-01 修好後重新看：全黑／面膜臉如果是 WebGL context lost（記憶體）會一起消失；仍要在現場重現（試玩第 24 項）",
    "priority": "P0",
    "first": {
     "term": "Y1S1",
@@ -414,7 +414,10 @@
      "evidence": "src/engine3d.js:72 已加 webglcontextlost 計數（E.ctxLost，?debug 面板）＋contextrestored 時材質貼圖重傳（a8f2d25b）；USER_WANTS C24 仍寫「全黑還在查」；從 10-15 起沒有任何重現紀錄",
      "note": "只有記錄與恢復重傳，根因沒找到、沒重現過；測試照 D100 改派 BB"
     }
-   ]
+   ],
+   "pausedReason": "只在 iPhone 出現、模擬器重現不了；使用者 11-01 23:1x 選先不要幫忙用 iPhone ?debug 看",
+   "resumeWhen": "使用者說有空用 iPhone 看，或 BB 在模擬器重現",
+   "nextCheck": "2026-11-08"
   },
   {
    "id": "BUG-03",
@@ -22660,7 +22663,7 @@
    },
    "source": "AA-C 1c341e21（AA_299）；使用者 10-18",
    "authorized": "使用者直接要求（D104）",
-   "next": "【LAWWW-C 2026-10-21 稽核 C】等圖：BB 照 D97 向使用者要 bus_tour＋三張車內（純場景一次四份）；收到後 LAWWW 換檔、改 camp_y1.js 兩處、LICENSES BG-08 ｜ BB 圖回來檢查（沒有人、沒有字）→ bg_approved/ → LAWWW 換｜BB-C 0182b085 已交 exam_hs_classroom、daan_park：outings3d.js 已註冊；ev_y0_exam1／exam1h 考場已改 exam_hs_classroom（LAWWW-C 07:5x）；daan_park 等 R3 搬到大安森林公園（AA298）時用",
+   "next": "【11-01 23:1x LAWWW-B】使用者要圖：LAWWW-B 23:1x 把 BB_132 第 100～102 組（17 張純場景，含 coach_night、wenzhou_ice、家裡的車三張）的提示詞整理成檔案給使用者；等使用者生好交給 BB／LAWWW 接｜【LAWWW-C 2026-10-21 稽核 C】等圖：BB 照 D97 向使用者要 bus_tour＋三張車內（純場景一次四份）；收到後 LAWWW 換檔、改 camp_y1.js 兩處、LICENSES BG-08 ｜ BB 圖回來檢查（沒有人、沒有字）→ bg_approved/ → LAWWW 換｜BB-C 0182b085 已交 exam_hs_classroom、daan_park：outings3d.js 已註冊；ev_y0_exam1／exam1h 考場已改 exam_hs_classroom（LAWWW-C 07:5x）；daan_park 等 R3 搬到大安森林公園（AA298）時用",
    "xai": {
     "receiver": "LAWWW",
     "branch": "claude/wonderful-mayer-7fm9g6",
@@ -25524,7 +25527,7 @@
    "title": "1B-18＋22 學姊出發（8/2）與 M6、1B-19 以安新 18、1B-20 二十三週年、1B-21 可昕 K23、1B-23 子晴 Q14、1B-24 以安新 20、1B-25 學姊 M9",
    "status": "已整合待測試",
    "source": "AA_323（c9b4f60e）（AA-C；使用者 10-20 15:4x B 線）",
-   "next": "【11-01 22:4x LAWWW-B】子代理核對（552fb56e1）：1B-20 麵店門口白紙（12/11～12/14 公館互動點，字照 AA_323；白名單 AA_323@4618aed21）＋12/14 17:00 起下雨做了；麵店團倒數、U_COPYRIGHT／U_CONTRACT、三件事改掉、自己去的入口、BCG-31 接上、AA_319 以安放榜電話都已做；tests/y34b_a23_paper_unit.js（修改前 FAILED 6）。剩：BCG-31 夏天版圖（BB 要）、1B-15 日本路線直播畫面沒稿（問 AA）、麵店門口 3D 白紙（LAWWW2，D108）｜【11-01 09:0x LAWWW-B】核對子代理因交班中止，沒有成果（只有空檢查點），下一班重開逐項核對｜【11-01 08:5x LAWWW-B】子代理逐項核對（feat-backlog5-1101，基準 729ced34f）：已做／被取代／有定稿小的就做／要決定或範圍大的列出｜【LAWWW-C 2026-10-21 14:2x UTC，玩家功能清單 PLAYER_FEATURES_v9.10.3.md 第 11 節核對】缺：BCG-31 有登記但沒有任何地方呼叫；夏天版的圖也還沒有 ｜ 【LAWWW-C 2026-10-20 20:2x UTC】子代理 50f1578d 合併 0d5d3130（src/y34b3d.js；y34b_events_unit 121 項 ALL PASS）；BB 清單 bb_checklists/BB_1B01-11_1C_CG_1020.md 最後一節；AA 8 題已問；沒做：1B-15 日本路線直播畫面、沒收到邀請自己去的入口、1B-18 BCG-31 夏天版、US0／M6 只有訊息、1B-20 麵店團倒數與門口白紙、1B-23「三件事」（U_COPYRIGHT／U_CONTRACT 沒有地方設） ｜ 【LAWWW-C 2026-10-20 19:1x UTC】子代理在背景施工（src/y34b3d.js（和 1B-12～17 同一個子代理）；用 81fc2eee 的 STORY.TICKS 等掛勾，各自一個檔案）；做完由 LAWWW-C 合併、跑全部單元測試、交 BB 驗收清單 ｜ 1B-12～17 之後；BCG-31 重畫夏天版以前不放；AA_319 更正：以安二試、三試放榜改她打來的電話",
+   "next": "【11-01 23:1x LAWWW-B】使用者選 1B-15 日本路線直播畫面「請 AA 寫一句直播旁白」→ 新任務 JP-STREAM-LINE-1101（AA）｜【11-01 22:4x LAWWW-B】子代理核對（552fb56e1）：1B-20 麵店門口白紙（12/11～12/14 公館互動點，字照 AA_323；白名單 AA_323@4618aed21）＋12/14 17:00 起下雨做了；麵店團倒數、U_COPYRIGHT／U_CONTRACT、三件事改掉、自己去的入口、BCG-31 接上、AA_319 以安放榜電話都已做；tests/y34b_a23_paper_unit.js（修改前 FAILED 6）。剩：BCG-31 夏天版圖（BB 要）、1B-15 日本路線直播畫面沒稿（問 AA）、麵店門口 3D 白紙（LAWWW2，D108）｜【11-01 09:0x LAWWW-B】核對子代理因交班中止，沒有成果（只有空檢查點），下一班重開逐項核對｜【11-01 08:5x LAWWW-B】子代理逐項核對（feat-backlog5-1101，基準 729ced34f）：已做／被取代／有定稿小的就做／要決定或範圍大的列出｜【LAWWW-C 2026-10-21 14:2x UTC，玩家功能清單 PLAYER_FEATURES_v9.10.3.md 第 11 節核對】缺：BCG-31 有登記但沒有任何地方呼叫；夏天版的圖也還沒有 ｜ 【LAWWW-C 2026-10-20 20:2x UTC】子代理 50f1578d 合併 0d5d3130（src/y34b3d.js；y34b_events_unit 121 項 ALL PASS）；BB 清單 bb_checklists/BB_1B01-11_1C_CG_1020.md 最後一節；AA 8 題已問；沒做：1B-15 日本路線直播畫面、沒收到邀請自己去的入口、1B-18 BCG-31 夏天版、US0／M6 只有訊息、1B-20 麵店團倒數與門口白紙、1B-23「三件事」（U_COPYRIGHT／U_CONTRACT 沒有地方設） ｜ 【LAWWW-C 2026-10-20 19:1x UTC】子代理在背景施工（src/y34b3d.js（和 1B-12～17 同一個子代理）；用 81fc2eee 的 STORY.TICKS 等掛勾，各自一個檔案）；做完由 LAWWW-C 合併、跑全部單元測試、交 BB 驗收清單 ｜ 1B-12～17 之後；BCG-31 重畫夏天版以前不放；AA_319 更正：以安二試、三試放榜改她打來的電話",
    "first": {
     "term": "Y4S1",
     "week": null,
@@ -26385,14 +26388,17 @@
     "parallel": true,
     "confirmed": true
    },
-   "next": "【11-01 02:1x】LAWWW2 差異清單交了（880104746，photo_cmp_1101/README.md）；照片抓不到（wikimedia 403）——第四節列的照片要請使用者給，和其他要使用者的圖併成一批問（不單獨打擾）。LAWWW-B 定：①共同南面庭園往北挪、②西側戶外樓梯：等照片確認再做；③女舍路人「有電梯」和 A 級「沒有電梯」：轉 AA；④規模縮小：不改（照 LAWWW2 建議，D111）｜LAWWW2 先列差異清單，再決定要不要改",
+   "next": "【11-01 23:1x LAWWW-B】使用者選「我之後提供參考照片」→ 等使用者給共同教學館、女舍的照片；到了 LAWWW2 再決定南面庭園、西側樓梯｜【11-01 02:1x】LAWWW2 差異清單交了（880104746，photo_cmp_1101/README.md）；照片抓不到（wikimedia 403）——第四節列的照片要請使用者給，和其他要使用者的圖併成一批問（不單獨打擾）。LAWWW-B 定：①共同南面庭園往北挪、②西側戶外樓梯：等照片確認再做；③女舍路人「有電梯」和 A 級「沒有電梯」：轉 AA；④規模縮小：不改（照 LAWWW2 建議，D111）｜LAWWW2 先列差異清單，再決定要不要改",
    "xai": {
     "spec": "LAWWW2 清查 B14",
     "branch": "claude/focused-cray-c9uwvw",
     "acceptance": "差異清單＋截圖",
     "receiver": "LAWWW",
     "ack": "SENT"
-   }
+   },
+   "pausedReason": "等使用者提供共同教學館、女舍的參考照片（使用者 11-01 23:1x 說之後給）",
+   "resumeWhen": "使用者給照片",
+   "nextCheck": "2026-11-08"
   },
   {
    "id": "ART-DORM-LOUNGE-1021",
@@ -27059,7 +27065,7 @@
     "receiver": "LAWWW",
     "ack": "ACTIONED"
    },
-   "next": "【11-01 22:4x LAWWW-B】子代理核對＋收尾併進開發分支 552fb56e1（feat-backlog5b-1101 def6205a8）：T1 回來那天算臺北（柏翰三段日子）、T7b 出國日子照稿婉拒（date3d S.abroadNo）、T8 D29 暑假日子 07-02～08-20、T9b 便當照片 13:00、T9c 沒見過阿勳的自我介紹、9-1 缺字兩句；T2／T4／T7a／T9a 已做、T3／T5 照裁定不加、T6a 被 AA_369 取代；tests/aa350_t_unit.js（修改前 FAILED 13）；照新稿改了 aa350_r、v2_b10b、date_s8_c2、aa350_s、holiday_presence、presence 的期待值 → BB 驗。待定：T1 2028 起日照 6/27（同 2027）｜【11-01 09:0x LAWWW-B】核對子代理因交班中止，沒有成果（只有空檢查點），下一班重開逐項核對｜【11-01 08:5x LAWWW-B】子代理逐項核對（feat-backlog5-1101，基準 729ced34f）：已做／被取代／有定稿小的就做／要決定或範圍大的列出｜【LAWWW-C 2026-10-21 14:0x UTC】AA 回了（2e255e9a，AA_350 第 9 節）；S3 閒聊階梯已重新匯入；T1、T6a、T7a、T7b、T8、T9a～c＋缺字三句交給 AA 小修子代理（E 組，合併開發分支以後做）"
+   "next": "【11-01 23:1x LAWWW-B】使用者確認 T1 2028 柏翰大三暑假從 6/27 起算（同 2027），照現況｜【11-01 22:4x LAWWW-B】子代理核對＋收尾併進開發分支 552fb56e1（feat-backlog5b-1101 def6205a8）：T1 回來那天算臺北（柏翰三段日子）、T7b 出國日子照稿婉拒（date3d S.abroadNo）、T8 D29 暑假日子 07-02～08-20、T9b 便當照片 13:00、T9c 沒見過阿勳的自我介紹、9-1 缺字兩句；T2／T4／T7a／T9a 已做、T3／T5 照裁定不加、T6a 被 AA_369 取代；tests/aa350_t_unit.js（修改前 FAILED 13）；照新稿改了 aa350_r、v2_b10b、date_s8_c2、aa350_s、holiday_presence、presence 的期待值 → BB 驗。待定：T1 2028 起日照 6/27（同 2027）｜【11-01 09:0x LAWWW-B】核對子代理因交班中止，沒有成果（只有空檢查點），下一班重開逐項核對｜【11-01 08:5x LAWWW-B】子代理逐項核對（feat-backlog5-1101，基準 729ced34f）：已做／被取代／有定稿小的就做／要決定或範圍大的列出｜【LAWWW-C 2026-10-21 14:0x UTC】AA 回了（2e255e9a，AA_350 第 9 節）；S3 閒聊階梯已重新匯入；T1、T6a、T7a、T7b、T8、T9a～c＋缺字三句交給 AA 小修子代理（E 組，合併開發分支以後做）"
   },
   {
    "id": "RELEASE-9103",
@@ -38025,7 +38031,7 @@
    "owner": "AA",
    "status": "進行中",
    "priority": "P1",
-   "next": "【11-01 02:0x】feat-dd-1031 換字全部丟掉（reset 回 feat-1031），只留 AA_560 2-7 規則修正 7457516f7：柏翰志向、芯慈畢業照片＋needed_msgs:57（D116）、學姊 enc_walk D11、明軒 M4、方奕廷、Kevin 寒假第三天＝做；沛珊「錢夠不夠」遊戲裡沒有原句＝跳過；aa560_rules_unit、全部 Node 792／0；三個問題轉 AA；備份 wip_backup/feat-dd-1031.bundle｜【11-01 01:4x】使用者改工作方式（UA-AA-1101-01）：共創——AA 扮演角色、使用者聊天，一次一個人，使用者說「定型了」才改那個人的台詞；第一、二批（AA_559～564）暫停匯入、保留草稿；只有 AA_560 2-7 七處規則修正照做（feat-dd-1031 子代理改成只留這七處）；BB 三種抽樣先不排；以安聊完定型 AA 會通知｜【11-01 01:0x】第一批（大一上）六份齊（AA_558～563＋voice_canon）；子代理在本機分支 feat-dd-1031（從 feat-1031 開，heroine_asks.js 和 AA_549 同檔）匯入、只換字；發布後依序合 feat-1031 → feat-dd-1031 → feat-art-1031；AA 寫第 2 批（大一寒假＋大一下）｜【11-01 00:4x】第一批 1-A 定版（企劃線 8e37ba4ca：AA_558／559／560，DL-AA-DD-1A-1031）→ 發布後在本機分支匯入（只換字、id／條件／選項／set／mem 不動），BB 三種抽樣；1-B（其他人的大一上事件、朋友閒聊池、招呼語）AA 寫中｜【10-31 23:5x】使用者定案（UA-AA-1031-03，參考資料 docs/story_planning/reference/）：十六位參照對象同意；全部角色同時分批、照遊戲時間順序（大一上 → 大一下 → …）；AA 排程：①16 人聲音規格（八題＋各學期生活線）②第一批大一上（閒聊階梯七位女主角、手機私訊與「法一吃飯」群組、大一上日常事件；照原資料結構寫，id／if／choices／mem／rel 不動）；每批交付含原句／新句／原因、聲音依據、增加了什麼、時間線、選項旗標保留；BB 驗收加三種抽樣測試（遮名辨識、人物生活、自然度）；LAWWW 只換字串，同一個 id 有開發中的改動先跟 AA 說｜【10-31 23:5x】AA_557（企劃線 508af2a80）參照表＋九段樣本，AA 用點選題問使用者方向；確認後分批交 LAWWW 換字（只換字：旗標、條件、選項數、結果不動；import 工具、白名單照舊）；BB 每批照舊測；日本／美國路線缺口表暫停到第一批交出以後（AA scratchpad 有掃描結果）",
+   "next": "【11-01 23:1x LAWWW-B】使用者回以安共創第 2 輪（吹風機那一題）選 4「舍監大概會說男生頭髮短。」（UA-LAWWW-1101-04）——AA 下次上班從這一句接著扮演以安｜【11-01 02:0x】feat-dd-1031 換字全部丟掉（reset 回 feat-1031），只留 AA_560 2-7 規則修正 7457516f7：柏翰志向、芯慈畢業照片＋needed_msgs:57（D116）、學姊 enc_walk D11、明軒 M4、方奕廷、Kevin 寒假第三天＝做；沛珊「錢夠不夠」遊戲裡沒有原句＝跳過；aa560_rules_unit、全部 Node 792／0；三個問題轉 AA；備份 wip_backup/feat-dd-1031.bundle｜【11-01 01:4x】使用者改工作方式（UA-AA-1101-01）：共創——AA 扮演角色、使用者聊天，一次一個人，使用者說「定型了」才改那個人的台詞；第一、二批（AA_559～564）暫停匯入、保留草稿；只有 AA_560 2-7 七處規則修正照做（feat-dd-1031 子代理改成只留這七處）；BB 三種抽樣先不排；以安聊完定型 AA 會通知｜【11-01 01:0x】第一批（大一上）六份齊（AA_558～563＋voice_canon）；子代理在本機分支 feat-dd-1031（從 feat-1031 開，heroine_asks.js 和 AA_549 同檔）匯入、只換字；發布後依序合 feat-1031 → feat-dd-1031 → feat-art-1031；AA 寫第 2 批（大一寒假＋大一下）｜【11-01 00:4x】第一批 1-A 定版（企劃線 8e37ba4ca：AA_558／559／560，DL-AA-DD-1A-1031）→ 發布後在本機分支匯入（只換字、id／條件／選項／set／mem 不動），BB 三種抽樣；1-B（其他人的大一上事件、朋友閒聊池、招呼語）AA 寫中｜【10-31 23:5x】使用者定案（UA-AA-1031-03，參考資料 docs/story_planning/reference/）：十六位參照對象同意；全部角色同時分批、照遊戲時間順序（大一上 → 大一下 → …）；AA 排程：①16 人聲音規格（八題＋各學期生活線）②第一批大一上（閒聊階梯七位女主角、手機私訊與「法一吃飯」群組、大一上日常事件；照原資料結構寫，id／if／choices／mem／rel 不動）；每批交付含原句／新句／原因、聲音依據、增加了什麼、時間線、選項旗標保留；BB 驗收加三種抽樣測試（遮名辨識、人物生活、自然度）；LAWWW 只換字串，同一個 id 有開發中的改動先跟 AA 說｜【10-31 23:5x】AA_557（企劃線 508af2a80）參照表＋九段樣本，AA 用點選題問使用者方向；確認後分批交 LAWWW 換字（只換字：旗標、條件、選項數、結果不動；import 工具、白名單照舊）；BB 每批照舊測；日本／美國路線缺口表暫停到第一批交出以後（AA scratchpad 有掃描結果）",
    "first": {
     "term": "META",
     "week": 0,
@@ -38131,12 +38137,12 @@
    "id": "USER-PLAYER-BDAY-1101",
    "title": "祐廷的生日（MM-DD）：人物設定、留給使用者（AA_384 第 4 項）。定了填 FEST_DATA.PLAYER_BDAY，芯慈交往中 00:00 那則（以及之後其他人的「你的生日」）才會發",
    "area": "STORY",
-   "owner": "USER",
-   "status": "等待其他AI／素材",
+   "owner": "AA",
+   "status": "待開工",
    "priority": "P3",
    "pausedReason": "使用者的人物設定，AA 不定",
    "resumeWhen": "使用者回來時一次問（選擇題，D117）",
-   "next": "【11-01 04:5x LAWWW-B】列進給使用者的選擇題批次",
+   "next": "【11-01 23:1x LAWWW-B】使用者選「交給 AA 挑」（不撞現有劇情、節日的日子）→ AA 定了寫進 FEST_DATA.PLAYER_BDAY 的稿，LAWWW 接｜【11-01 04:5x LAWWW-B】列進給使用者的選擇題批次",
    "first": {
     "term": "Y1S1",
     "week": 1,
@@ -38148,7 +38154,14 @@
     "confirmed": false
    },
    "source": "XINCI-EPI-FEST 子代理 11-01",
-   "authorized": "使用者保留"
+   "authorized": "使用者保留",
+   "xai": {
+    "spec": "AA_384 第 4 項",
+    "branch": "claude/cool-heisenberg-o8kuqx",
+    "acceptance": "一個 MM-DD，附為什麼不撞劇情",
+    "receiver": "LAWWW",
+    "ack": "未派"
+   }
   },
   {
    "id": "BG-ZQ-STUDIO-1101",
@@ -38264,12 +38277,12 @@
    "title": "問使用者五個現行名稱：許教授的全名、小小福、杜鵑花節、女九、哥大（D115 改名以後怎麼叫）",
    "area": "STORY",
    "owner": "AA",
-   "status": "等待其他AI／素材",
+   "status": "待開工",
    "priority": "P3",
    "pausedReason": "等使用者回答",
    "resumeWhen": "使用者回來、適當時機用選擇題問（D117）",
    "nextCheck": "2026-11-08",
-   "next": "【11-01 09:0x LAWWW-B】AA-B 交班【表外】補進總表；併進「使用者回來要問的」那一批（祐廷生日、圖 100～102、照片比對、iPhone ?debug）",
+   "next": "【11-01 23:2x LAWWW-B】使用者選擇題確認：另外三個照 AA 建議（許志遠不變、小小福→小小松、女九→女生宿舍）——五個都定了｜【11-01 23:1x LAWWW-B】使用者回：哥大→「紐約的法學院」、杜鵑花節→「松鼠節」（原話「哥大：紐約的法學院 杜鵑花節：松鼠節」）；其他三個（許志遠、小小福→小小松、女九→女生宿舍）使用者沒提＝照 AA 建議（AI解讀，沒確認）→ AA 更新 WORLD_NAMING、改稿上的句子（哥大那幾句要順，例：「哥大上了。八月去紐約。」），LAWWW 改遊戲裡的顯示文字（哥大約 9 處、杜鵑花節 4 處）｜【11-01 09:0x LAWWW-B】AA-B 交班【表外】補進總表；併進「使用者回來要問的」那一批（祐廷生日、圖 100～102、照片比對、iPhone ?debug）",
    "first": {
     "term": "META",
     "week": 0,
@@ -38341,6 +38354,34 @@
     "spec": "test_shots/zq_arcade_seat_1101/README.md 第四節",
     "branch": "claude/funny-albattani-iawshm",
     "acceptance": "公館騎樓咖啡店 x≈12 一個座位（zones3d 座位＋GLB）",
+    "receiver": "LAWWW",
+    "ack": "未派"
+   }
+  },
+  {
+   "id": "JP-STREAM-LINE-1101",
+   "title": "日本交換路線 1B-15「直播畫面（2D 手機）」：AA 寫一句直播旁白（AA_322 只有「直播畫面」沒有字；使用者 11-01 23:1x 選請 AA 寫）",
+   "area": "STORY",
+   "owner": "AA",
+   "status": "待開工",
+   "priority": "P3",
+   "next": "【11-01 23:1x LAWWW-B】開任務；AA 寫好交 LAWWW 接進日本路線（現在只有當晚電話、阿凱一則）",
+   "first": {
+    "term": "Y3S2",
+    "week": 0,
+    "earliest": "大三下日本交換",
+    "mainline": false,
+    "blocks": false,
+    "prereq": false,
+    "parallel": true,
+    "confirmed": true
+   },
+   "source": "使用者 11-01 23:1x 選擇題（UA-LAWWW-1101-04）",
+   "authorized": "使用者",
+   "xai": {
+    "spec": "AA_322 1B-15",
+    "branch": "claude/cool-heisenberg-o8kuqx",
+    "acceptance": "一兩句直播旁白（手機 2D）",
     "receiver": "LAWWW",
     "ack": "未派"
    }
