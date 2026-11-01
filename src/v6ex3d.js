@@ -218,7 +218,7 @@ const V6EX=(function(){
     'A6 語彤：事件 9、10、12、13、14、15 的前任版（y2b3d.js、r2y3a_events.js、y34b3d.js 各自的場景）、16b 群組版',
     'B6：沛珊（P6 公開課、書店那一句——她在台南，書店是台南的二手書店，要走 hometown3d.js，這一輪別人的檔）、芷若的明信片改寄到 Café（r2y4a3d.js 第二輪明信片）、學姊研究助理「辭掉」的選項（JOB_RA 遊戲裡還沒有）',
     'B6 之後一個學期（AA_434 4-3）：接了主線 4 的週日訊息（STORY.neededPick）、手機小事（dp_）、以安週二約讀書會完吃飯（INV.anAsk）、寒暑假活動她私訊約（vac3d.js 的 signup dm）；固定日子的 needed（story3d.js S.neededAt）、節日（fest3d.js、an_yt_hol3d.js）、其他事件包自己排的私訊和邀約要各自讀 V6EX.cool(G,id)',
-    'B7：BCG-25 英國的雨要放在 ev_zhiruo_uk_visit（BB_119 1c-1＝V6-B2，遊戲裡還沒有這一趟）；BCG-19 學姊告白點 2（ev_sis_walk_avenue，遊戲裡沒有，告白已經改到學期末）；BCG-24 沛珊星期日（1b-2 作廢）' ];
+    'B7：BCG-19 學姊告白點 2（ev_sis_walk_avenue，遊戲裡沒有，告白已經改到學期末）；BCG-24 沛珊星期日（1b-2 作廢）。BCG-25 英國的雨已經放了：src/v6b_3d.js 的 ev_zhiruo_uk_visit（BB_119 1c-1＝V6-B2，任務 feat-v6b-1101）' ];
   S.GAPS=['收拾選單的「算了」、做完的提示「收好了。」「寫好了。」','阿哲那段三個選項寫成「（講一點）」「（只吃東西）」「「謝謝」」','手機筆記三句加「」'];
   return S;
 })();
