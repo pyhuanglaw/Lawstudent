@@ -545,8 +545,41 @@ def lawbook():
     return save('lawbook', 'hc_sf1（學姊的同學）', {'bone': 'leftLowerArm', 'make': "heldGlb('prop.lawbook','lawbook',0.07,-0.046)", 'note': '很厚（5.2 cm）：側邊離手掌比較遠'})
 
 
+def laptop_lap():
+    """子晴在公館騎樓「坐在插座旁邊，筆電開著」（heroine_circle c506_4_2／c507_4_2／c509_4_1，ZQ-ARCADE-SEAT-1028）：放在腿上的筆電，螢幕朝她打開。
+    掛 hips（和 thermos_bench 一樣：坐下、而且 CHAR.setProp 開了才看得到）。座標＝VRM 0.x 檔案空間（x＝人物右邊、y 上、前方 −z）：
+    原點＝底座底面中心；底座 31×21.5 cm、厚 1.6 cm；鍵盤那一邊（+z）靠她的肚子，轉軸在前面（−z），螢幕往後仰 15°、亮面朝 +z（朝她）。
+    深灰色鋁殼，沒有牌子（D77）；螢幕是淺藍白（晚上看得出來亮著：遊戲的道具材質是卡通明暗，沒有自發光）。"""
+    B.reset(texres=256); root = B.group('laptop_lap', props={'kind': 'prop_laptop', 'owner': 'heroine_04', 'front': '-z'})
+    cm = CMesh('laptop_lap_vc', L.vc_material('laptop_lap_vc', rough=0.4))
+    W, D, T = 0.31, 0.215, 0.016; x0, x1, z0, z1 = -W / 2, W / 2, -D / 2, D / 2
+    cm.crbox(x0, x1, 0.0, T, z0, z1, '#4a4e55', r=0.004)                                             # 底座（鋁殼）
+    cm.cbox(x0 + 0.018, x1 - 0.018, T, T + 0.0006, z0 + 0.016, z1 - 0.078, '#1f2125')               # 鍵盤區
+    for r in range(5):                                                                               # 一排一排的鍵（淺一點的線，看得出是鍵盤）
+        zz = z0 + 0.022 + r * 0.023; cm.cbox(x0 + 0.024, x1 - 0.024, T + 0.0006, T + 0.0011, zz, zz + 0.016, '#34373d')
+    cm.cbox(-0.055, 0.055, T, T + 0.0005, z1 - 0.07, z1 - 0.012, '#3d4148')                          # 觸控板
+    # 螢幕：轉軸在 z0、往後（−z）仰 15°；一個斜的盒子（八個頂點自己接）
+    th = math.radians(15.0); H, LT = 0.205, 0.007
+    up = Vector((0.0, math.cos(th), -math.sin(th))); nrm = Vector((0.0, math.sin(th), math.cos(th)))   # 亮面朝 +z（朝她）
+    def lid_box(xa, xb, ha, hb, ta, tb, col):
+        bm = cm.bm; P = []
+        for (x, h, t) in [(xa, ha, ta), (xb, ha, ta), (xb, hb, ta), (xa, hb, ta), (xa, ha, tb), (xb, ha, tb), (xb, hb, tb), (xa, hb, tb)]:
+            q = Vector((x, T, z0 + 0.004)) + up * h + nrm * t; P.append(bm.verts.new(g2b(q.x, q.y, q.z)))
+        fs = [bm.faces.new((P[0], P[1], P[2], P[3])), bm.faces.new((P[7], P[6], P[5], P[4])), bm.faces.new((P[0], P[4], P[5], P[1])),
+              bm.faces.new((P[1], P[5], P[6], P[2])), bm.faces.new((P[2], P[6], P[7], P[3])), bm.faces.new((P[3], P[7], P[4], P[0]))]
+        cm.paint(fs, col)
+    lid_box(x0, x1, 0.0, H, -LT, 0.0, '#4a4e55')                                                     # 螢幕背殼
+    lid_box(x0 + 0.004, x1 - 0.004, 0.004, H - 0.004, 0.0, 0.0008, '#16181b')                       # 黑邊框
+    lid_box(x0 + 0.012, x1 - 0.012, 0.014, H - 0.012, 0.0008, 0.0014, '#cfe3f5')                    # 亮著的螢幕
+    lid_box(x0 + 0.03, x0 + 0.17, 0.12, 0.16, 0.0014, 0.0018, '#ffffff')                            # 螢幕上的視窗（白，看得出在寫東西）
+    for k in range(4): lid_box(x0 + 0.035, x0 + 0.15 - k * 0.02, 0.135 - k * 0.006, 0.137 - k * 0.006, 0.0018, 0.0021, '#7b8794')   # 幾行字
+    cm.finish(root, uv=False)
+    return save('laptop_lap', 'heroine_04（子晴：公館騎樓）', {'bone': 'hips', 'make': "boneGlb('prop.laptop_lap','laptop_lap')",
+                'note': '坐下（read）才看得到、CHAR.setProp 開了才出現（同 thermos_bench）；位置照子晴坐著的大腿量（ZQ-ARCADE-SEAT-1028）'})
+
+
 BUILD = {'camera_film': camera_film, 'lanyard_tag': lanyard_tag, 'thermos_silver': thermos_silver, 'sports_drink': sports_drink, 'recorder': recorder,
-         'cooler_bag': cooler_bag, 'novel': novel, 'notebook_q': notebook_q, 'handouts': handouts, 'audio_cable': audio_cable, 'ladle': ladle, 'bandage': bandage, 'name_pin': name_pin, 'mug': mug, 'lawbook': lawbook}
+         'cooler_bag': cooler_bag, 'novel': novel, 'notebook_q': notebook_q, 'handouts': handouts, 'audio_cable': audio_cable, 'ladle': ladle, 'bandage': bandage, 'name_pin': name_pin, 'mug': mug, 'lawbook': lawbook, 'laptop_lap': laptop_lap}
 os.makedirs(OUTDIR, exist_ok=True)
 for k, fn in BUILD.items():
     if ONLY and k not in ONLY: continue

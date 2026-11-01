@@ -1,0 +1,12 @@
+{
+ "glb": "assets/models/char/second_ai/laptop_lap.glb",
+ "owner": "heroine_04（子晴：公館騎樓）",
+ "bytes": 23748,
+ "tris": 288,
+ "hold": {
+  "bone": "hips",
+  "make": "boneGlb('prop.laptop_lap','laptop_lap')",
+  "note": "坐下（read）才看得到、CHAR.setProp 開了才出現（同 thermos_bench）；位置照子晴坐著的大腿量（ZQ-ARCADE-SEAT-1028）"
+ },
+ "note": "沒有牌子、商標（D77）；NPC-POOL-ART-1028"
+}
