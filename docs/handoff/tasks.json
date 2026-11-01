@@ -397,7 +397,7 @@
     "branch": "claude/funny-albattani-iawshm",
     "acceptance": "博雅 101 近拍同學頭髮正常（截圖）；有問題附 patch",
     "receiver": "LAWWW",
-    "ack": "SENT"
+    "ack": "自領"
    }
   },
   {
@@ -434,7 +434,7 @@
     "branch": "claude/funny-albattani-iawshm",
     "acceptance": "找到兩個臉的原因（截圖＋實體／模型清單），patch 後同場景只有一個學姊；Node 測試",
     "receiver": "LAWWW",
-    "ack": "SENT"
+    "ack": "自領"
    }
   },
   {
@@ -33553,7 +33553,7 @@
    "title": "溫州街 3 個、118 巷 9 個店內吊燈燈罩裡外相反（隔玻璃看只是明暗反；開發 5b6737cd3 就是）",
    "area": "Y1S1",
    "owner": "LAWWW2",
-   "status": "待開工",
+   "status": "已整合待測試",
    "priority": "P3",
    "source": "LAWWW2-C 10-27 18:13 交件訊息（已知問題 P3，lib2.single_side 64 位元修正時發現）",
    "first": {
@@ -33566,14 +33566,15 @@
     "parallel": true,
     "confirmed": true
    },
-   "next": "【LAWWW-C 2026-10-27 18:1x UTC】LAWWW2 自己排（D111），不擋",
+   "next": "【11-01 03:5x LAWWW-B】LAWWW2 10-31 交 9cc4810f2；整合在 feat-art-1031 54a5a2527，11-01 併進開發分支（8628c7e14）→ BB 看 118 巷／溫州街燈罩｜【LAWWW-C 2026-10-27 18:1x UTC】LAWWW2 自己排（D111），不擋",
    "xai": {
     "spec": "LAWWW2-C 10-27 18:13 訊息",
     "branch": "claude/focused-cray-c9uwvw",
     "acceptance": "燈罩裡外正確（singleside 類的測試守）",
     "receiver": "LAWWW",
     "ack": "ACK"
-   }
+   },
+   "sha": "9cc4810f2"
   },
   {
    "id": "AA477-NYE-CARD-1027",
