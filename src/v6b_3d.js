@@ -37,7 +37,7 @@
      - 當天 18:00 她私訊兩句（AA_262 定稿 ZQ5 的字）；回覆到 20:30；按鈕「好」「不行」（同上）。回「好」＝21:00 工作室（2D ziqing_studio，OUT.BG 沒有＝深色底＋地點字幕；
        捷運＋公車約 30 分鐘，同 r2y4b3d.js 工作室樓下）；沒到＝21:30 一則；不行、沒回＝她回一句。場面（技術預設）：（她請你試玩新關卡。）。存檔 ZQ_STUDIO（met／missed／no）。
    接線：STORY.PHONE_RULES（邀約、回覆、排出遊）、STORY_EVENTS（三場）、STORY.DAILY_PHONE（紅筆照片）、包住 HV.ladder、MSG.ukDaily、VAC.abroadOn、CRACKTALK.prep。
-   index.html 接在 aa524_3d.js 後面（GAME.boot() 以前；要在 vac3d、msg3d、zr_uk3d、hometown3d、cracktalk3d、rom1016_3d、r2y4b3d 之後）。
+   index.html 接在 rom1016_3d.js 後面（要在 vac3d、msg3d、zr_uk3d、hometown3d、cracktalk3d、rom1016_3d、r2y4b3d 之後；不能放在 bbpack3d.js 和 GAME.boot() 中間：tests/bbpack_unit.js、aa498_pool_unit.js 查那一段只有 AA_497、AA_524 的檔）。
    測試：node tests/v6b_unit.js */
 'use strict';
 const V6B=(function(){
@@ -98,7 +98,8 @@ const V6B=(function(){
   /* 到的時間（1/16 14:00 英國）、戲院的時間（19:30，同 3-2 二輪戲院）、回到臺北的時間（1/22 08:00）：稿只寫日子與「晚上」「最後一晚」「早上」，時刻是技術預設 */
   S.ASK_TAG='v6b_zr_uk_ask'; S.NUDGE_TAG='v6b_zr_uk_nudge'; S.UK_OUT='v6b_zr_uk'; S.UK_EV='ev_zhiruo_uk_visit';
   S.zrInUK=(G,d)=>typeof MSG!=='undefined'&&!!MSG.inUK&&MSG.inUK(d==null?G:onDay(G,d),ZR);
-  S.zrOk=G=>law(G)&&dating(G,ZR)&&!paused(G,ZR)&&S.zrInUK(G);
+  S.zrGo=G=>law(G)&&dating(G,ZR)&&!paused(G,ZR);   /* 還在交往（挽回中不算）*/
+  S.zrOk=G=>S.zrGo(G)&&S.zrInUK(G);
   const ctCommit=G=>{ if(typeof CRACKTALK==='undefined'||!CRACKTALK.pr) return null; try{ const c=CRACKTALK.pr(G,ZR).commit; return c&&c.kind==='zr_trip'?c:null; }catch(e){ return null; } };
   S.ukDeadline=G=>{ const d=D(S.UK.until); return d==null?null:T(d,S.UK.untilH); };   /* 臺灣時間 */
   S.tripClosed=G=>{ const F=G.flags||{}, u=S.ukDeadline(G); if(F.ZR_UK_GO==='yes') return false; if(F.ZR_UK_GO==='no'||F.ZR_UK_GO==='none') return true; return u!=null&&S.twNow(G)>=u; };   /* 這一趟已經不可能成行 */
@@ -110,7 +111,9 @@ const V6B=(function(){
     if(F.ZR_UK_GO==null){ const m=PHONE.byAsk?PHONE.byAsk(G,S.ASK_TAG):null;
       if(m&&m.ans==null&&tw>=T(du,S.UK.nudgeH)&&tw<u&&!sent(G,S.NUDGE_TAG)&&ctCommit(G)){ const c=S.toGame(G,du,S.UK.nudgeH), d0=tw>T(du,S.UK.nudgeH)+0.25?{day:G.day,h:+G.hour}:c; PHONE.at(G,d0.day,d0.h,[dm(ZR)(S.L.zrNudge)],S.NUDGE_TAG); }   /* 2-3 承諾過要去的玩家（9-2）*/
       if(tw>=u&&(!m||m.ans==null)) F.ZR_UK_GO='none'; }   /* 12/19 18:00 還是沒回＝照「這個寒假不行」那一列的結果；2-3 承諾過的＝沒做到（cracktalk3d.js 寒假結束 2/19 判斷）*/
-    if(F.ZR_UK_GO==='yes'&&F.ZR_UK_TRIP==null&&typeof OUT!=='undefined'&&!outGet(G,S.UK_OUT)){ const d=D(S.UK.dep); if(d!=null&&now(G)<T(d,S.UK.depH)+0.5)
+    /* 答應了以後、出發以前分開（或挽回中）：這一趟取消（稿沒寫；技術預設，見 S.ASK_AA）*/
+    { const q=outGet(G,S.UK_OUT); if(q&&q.state==='planned'&&!q.arrived&&!S.zrGo(G)){ q.state='skipped'; F.ZR_UK_TRIP='cancelled'; } }
+    if(F.ZR_UK_GO==='yes'&&F.ZR_UK_TRIP==null&&S.zrGo(G)&&typeof OUT!=='undefined'&&!outGet(G,S.UK_OUT)){ const d=D(S.UK.dep); if(d!=null&&now(G)<T(d,S.UK.depH)+0.5)
       OUT.plan(G,{id:S.UK_OUT,ev:S.UK_EV,day:d,h:S.UK.depH,late:0.5,place:'英國',title:'去英國找'+nm(ZR)+'（1/15～1/22）',travel:'去機場 約 1 小時',travelH:1,back:'回到臺北。',alarm:true}); } };   /* 同 vac3d.js 出國的那一趟（去機場 約 1 小時、late 0.5）；alarm：睡覺、快轉停在出發前 */
   /* 那一趟途中（beforeOuting 到演完）：時鐘換英國時間（AA_478 第 7 節的 VAC clock；冬令 −8：比臺灣慢＝出發那一刻時鐘不動、回來那一刻往後撥）*/
   S.ukEnd=()=>{ const d=D(S.UK.back); return d==null?null:T(d,S.UK.backH); };
@@ -145,7 +148,7 @@ const V6B=(function(){
   /* 途中：她自己在英國的每週私訊、每週視訊不發（MSG.ukDaily → ZRUK.phone 那一串都包在裡面；zr_uk3d.js 包在 msg3d.js 外面，這裡再包一層）*/
   if(typeof MSG!=='undefined'&&typeof MSG.ukDaily==='function'&&!MSG._v6b){ const u0=MSG.ukDaily; MSG.ukDaily=function(G){ if(S.going(G)) return false; return u0.apply(this,arguments); }; MSG._v6b=true; }
   /* 那幾天人在國外（VAC.abroadOn：摘要日、打工、別人的邀約照它跳過）：答應了、還沒被算成沒去，1/16～1/21 */
-  S.abroadDay=(G,d)=>{ const F=(G&&G.flags)||{}; if(F.ZR_UK_GO!=='yes'||F.ZR_UK_TRIP==='missed') return false; const a=D(S.UK.arr), b=D(S.UK.back); return a!=null&&b!=null&&d>=a&&d<b; };
+  S.abroadDay=(G,d)=>{ const F=(G&&G.flags)||{}; if(F.ZR_UK_GO!=='yes'||F.ZR_UK_TRIP==='missed'||F.ZR_UK_TRIP==='cancelled') return false; const a=D(S.UK.arr), b=D(S.UK.back); return a!=null&&b!=null&&d>=a&&d<b; };
   if(typeof VAC!=='undefined'&&typeof VAC.abroadOn==='function'&&!VAC._v6b){ const a0=VAC.abroadOn; VAC.abroadOn=function(G,d){ return a0.apply(this,arguments)||S.abroadDay(G,d); }; VAC._v6b=true; }
   /* 2-3「寒假我去英國找妳。」：這一趟已經不可能成行（邀約期限過了、沒有回「我去。」）就不出 */
   if(typeof CRACKTALK!=='undefined'&&typeof CRACKTALK.prep==='function'&&!CRACKTALK._v6b){ const p0=CRACKTALK.prep; CRACKTALK.prep=function(G,id){ const r=p0.apply(this,arguments); try{ if(id===ZR&&G&&G.flags&&G.flags.CT_ZR_TRIP_OK&&S.tripClosed(G)) G.flags.CT_ZR_TRIP_OK=false; }catch(e){ console.warn('V6B prep',e); } return r; }; CRACKTALK._v6b=true; }
@@ -234,6 +237,7 @@ const V6B=(function(){
     '3-1、3-3 邀約的回覆按鈕：9-3 只寫「回『好』」「回不行」，按鈕照這兩個字（「好」「不行」）',
     '1c-1 沒回邀約：9-2「沒回＝照『這個寒假不行』那一列」——只照結果（ZR_UK_GO none），她那句「好。那我寄一張下雨的明信片給你。」不發（那是回玩家的話）；下雨的明信片本身遊戲沒有寄',
     '1c-1 那一趟的機票錢：稿沒寫，不扣',
+    '1c-1 答應了以後、1/15 出發以前分開或挽回中：這一趟取消（ZR_UK_TRIP cancelled），稿沒寫',
     '1c-1 1/16 到的時刻（英國 14:00）、老戲院 19:30、1/22 回到臺北 08:00：稿只寫日子與「晚上出發」「最後一晚」「早上回到臺北」',
     '1c-1 散場那一句前面沒有旁白（稿「散場後她說」），只把時間往後兩個小時',
     '5-2 短版的視訊那一種：「把本子推回來」那一句在視訊裡照原文（同當面的短版四句）',

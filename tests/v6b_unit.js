@@ -54,8 +54,8 @@ await sec('0',async()=>{
   check('0. 新檔 src/v6b_3d.js 載得到、三場事件在 STORY_EVENTS（都是出遊、只演一次）',okNew&&typeof V6B!=='undefined'&&['ev_zhiruo_uk_visit','ev_peishan_first_lesson','ev_ziqing_studio_night'].every(id=>!!ev(id)&&ev(id).trigger==='outing'&&ev(id).once===true),J(loadErr));
   check('0. 其他相依的檔都載得到',!loadErr.length,J(loadErr));
   const html=fs.readFileSync(path.join(H.ROOT,'index.html'),'utf8'), a=s=>html.indexOf(s);
-  check('0. index.html：v6b_3d.js 接在 aa524_3d.js 後面、GAME.boot() 以前；在 vac3d、msg3d、zr_uk3d、hometown3d、cracktalk3d、rom1016_3d、r2y4b3d 之後',
-    /<script src="src\/aa524_3d\.js\?v=[^"]+"><\/script>\n<script src="src\/v6b_3d\.js\?v=[^"]+"><\/script>/.test(html)&&a('src/v6b_3d.js')<a('GAME.boot()')&&['src/vac3d.js','src/msg3d.js','src/zr_uk3d.js','src/hometown3d.js','src/cracktalk3d.js','src/rom1016_3d.js','src/r2y4b3d.js'].every(f=>a(f)>0&&a(f)<a('src/v6b_3d.js')));
+  check('0. index.html：v6b_3d.js 接在 rom1016_3d.js 後面、bbpack_events.js 和 GAME.boot() 以前；在 vac3d、msg3d、zr_uk3d、hometown3d、cracktalk3d、rom1016_3d、r2y4b3d 之後',
+    /<script src="src\/rom1016_3d\.js\?v=[^"]+"><\/script>\n<script src="src\/v6b_3d\.js\?v=[^"]+"><\/script>/.test(html)&&a('src/v6b_3d.js')<a('src/data/bbpack_events.js')&&a('src/v6b_3d.js')<a('GAME.boot()')&&['src/vac3d.js','src/msg3d.js','src/zr_uk3d.js','src/hometown3d.js','src/cracktalk3d.js','src/rom1016_3d.js','src/r2y4b3d.js'].every(f=>a(f)>0&&a(f)<a('src/v6b_3d.js')));
   check('0. 讀得到企劃線的 BB_119、BB_165、AA_258、AA_281',BB119.length>1000&&BB165.length>1000&&AA258.length>500&&AA281.length>500);
   const inDoc=(doc,t)=>doc.indexOf(t)>=0, miss=[];
   const W=[['BB_119',BB119,[...(L.zrAsk||['?']),...(L.zrYes||['?']),...(L.zrNo||['?']),L.zrNudge,L.ukTown,L.ukTwo,L.ukAfter,...(L.psAsk||['?']),L.psMiss1,L.psMiss2,L.psNo,L.psNoAfter,...(L.zqAsk||['?']),L.zqMiss,L.zqNo]],
@@ -123,6 +123,8 @@ await sec('1',async()=>{
   /* 1-3 沒去 */
   ukSet('2028-12-18',21); rules(); PHONE.answer(H.G,V6B.ASK_TAG,0); rules(); at('2029-01-15',21.6); expire();
   check('1-3. 答應了沒出發（21:30 以後）：ZR_UK_TRIP missed、沒有 UK_VISIT、那幾天不算在國外',H.G.flags.ZR_UK_TRIP==='missed'&&!SOCIAL.has(ZR,'UK_VISIT')&&!H.G.flags.ZR_UK_VISIT&&!VAC.abroadOn(H.G,D('2029-01-17')));
+  ukSet('2028-12-18',21); rules(); PHONE.answer(H.G,V6B.ASK_TAG,0); rules(); const okEnd=ROM.end(H.G,ZR,'apart_talk'); at('2029-01-02',10); rules(); at('2029-01-15',20);
+  check('1-3. 答應了以後、出發以前分開：這一趟取消（ZR_UK_TRIP cancelled、1/15 不問出發、那幾天不算在國外）',okEnd&&outQ(V6B.UK_OUT).state==='skipped'&&H.G.flags.ZR_UK_TRIP==='cancelled'&&!OUT.due(H.G)&&!VAC.abroadOn(H.G,D('2029-01-17')));
   /* 1-4 2-3 談話的「寒假我去英國找妳。」（CT_ZR_TRIP_OK）*/
   const ok=(k,go)=>{ ukSet(k,10,{flags:go?{ZR_UK_GO:go}:{}}); CRACKTALK.prep(H.G,ZR); return !!H.G.flags.CT_ZR_TRIP_OK; };
   check('1-4. 「寒假我去英國找妳。」：這一趟在遊戲裡以後出現（12/10 談話＝有）；回了「我去。」＝12/20 也有；12/20 已經回「不行」或沒回（期限過了）＝沒有',
