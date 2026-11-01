@@ -1,16 +1,16 @@
 # 歷史待辦複核報告（工具產生，不要手改）
 
-- 產生：`tools/handoff/history_audit.py`；開發分支 HEAD `bbabb5b356f4`、main `27e6ce77e807`
+- 產生：`tools/handoff/history_audit.py`；開發分支 HEAD `e934529a6255`、main `27e6ce77e807`
 - 七類定義與判定規則：同資料夾 README.md。auto＝工具自動判定（只看總表狀態、程式識別字在不在 main、BB 實測紀錄有沒有 PASS），還沒有人工看過；人工判定寫進 judgments_<職位>.jsonl 以後改成人工。
 - BB 實際操作證據來源：elegant-brown-fcos7n:BB_218_瀏覽器實測紀錄.md、wonderful-mayer-7fm9g6:BB_218_瀏覽器實測紀錄.md、story-planning:BB_218_瀏覽器實測紀錄.md、BB 分支 test_shots/*.log 64 個
 
 ## 摘要
 
-- 10/21 稽核 B 段 266 項（重算）：1 正式版已完成且實際驗收 18、2 已實作但尚未實際驗收 201、4 部分完成 17、5 完全未開工 4、6 等待素材或使用者決定 4、7 經確認取消或被取代 22
+- 10/21 稽核 B 段 266 項（重算）：1 正式版已完成且實際驗收 18、2 已實作但尚未實際驗收 202、4 部分完成 16、5 完全未開工 4、6 等待素材或使用者決定 4、7 經確認取消或被取代 22
 - 其中原本 done 的 133 項：tier 1 10、tier 2 122、tier 4 1
 - 原本 done、證據在開發分支找不到（要人工查）：0
 - 原本 done、main 狀態：{'yes': 133}
-- 各職位另外查到的 866 項（企劃、美術、交付；以各職位的人工判定為準）：1 正式版已完成且實際驗收 42、2 已實作但尚未實際驗收 520、4 部分完成 56、5 完全未開工 16、6 等待素材或使用者決定 90、7 經確認取消或被取代 142
+- 各職位另外查到的 866 項（企劃、美術、交付；以各職位的人工判定為準）：1 正式版已完成且實際驗收 42、2 已實作但尚未實際驗收 521、4 部分完成 55、5 完全未開工 16、6 等待素材或使用者決定 90、7 經確認取消或被取代 142
 
 ## 10/21 判 done 的 133 項
 
@@ -164,6 +164,7 @@
 | AA342-COVERAGE-1021 | 2 已實作但尚未實際驗收（auto） | 已整合待測試 | yes | — | LAWWW | 總表：已整合待測試；沒有找到 BB 實際操作紀錄；BB 盤點 B：跑流程 ⑩Y4S2 可以涵蓋 |
 | AB65-2-L | 2 已實作但尚未實際驗收（auto） | 已整合待測試 | yes | — | LAWWW | 總表：已整合待測試；沒有找到 BB 實際操作紀錄；BB 盤點 B：跑流程 ⑩Y1S1 可以涵蓋 |
 | BB119-Y4-1017 | 2 已實作但尚未實際驗收（auto） | 已整合待測試 | yes | — | LAWWW | 總表：已整合待測試；沒有找到 BB 實際操作紀錄；BB 盤點 C：要單獨測 |
+| BUG-03 | 2 已實作但尚未實際驗收（auto） | 已整合待測試 | partial | elegant-brown-fcos7n:BB_218_瀏覽器實測紀錄.md:2625（mention） | LAWWW | 總表：已整合待測試；沒有找到 BB 實際操作紀錄 |
 | D14-T10 | 2 已實作但尚未實際驗收（auto） | 已整合待測試 | yes | — | LAWWW | 總表：已整合待測試；沒有找到 BB 實際操作紀錄；BB 盤點 C：要單獨測 |
 | D14-T11 | 2 已實作但尚未實際驗收（auto） | 已整合待測試 | yes | — | LAWWW | 總表：已整合待測試；沒有找到 BB 實際操作紀錄；BB 盤點 B：跑流程 ⑦ 可以涵蓋 |
 | D14-T4 | 2 已實作但尚未實際驗收（auto） | 已整合待測試 | yes | — | LAWWW | 總表：已整合待測試；沒有找到 BB 實際操作紀錄；BB 盤點 B：跑流程 ⑧ 可以涵蓋 |
@@ -189,7 +190,6 @@
 | AA267-Y5 | 4 部分完成（auto） | 待開工 | unknown | — | LAWWW | 總表：待開工 |
 | AA290-INTAKE | 4 部分完成（auto） | 待開工 | yes | — | LAWWW | 總表：待開工 |
 | BB210-Y4S2 | 4 部分完成（auto） | 待開工 | yes | — | LAWWW | 總表：待開工 |
-| BUG-03 | 4 部分完成（auto） | 待開工 | yes | elegant-brown-fcos7n:BB_218_瀏覽器實測紀錄.md:2625（mention） | LAWWW | 總表：待開工 |
 | DL-04 | 4 部分完成（auto） | 待開工 | yes | — | LAWWW | 總表：待開工 |
 | SYS-03 | 4 部分完成（auto） | 待開工 | yes | — | LAWWW | 總表：待開工 |
 | SYS-04 | 4 部分完成（auto） | 待開工 | yes | — | LAWWW | 總表：待開工 |
@@ -502,6 +502,7 @@
 |---|---|---|---|---|---|
 | BUG-CAM-LIBHALL-CORE-1031 | 1 正式版已完成且實際驗收 | yes | LAWWW2 | main 27e6ce77e（v9.10.15，含 3094e123b 第二輪）；BB_218 n37_lhcore2 | 結案 |
 | AA_117 | 2 已實作但尚未實際驗收 | no | LAWWW | 朋友的案子 C0～C8 手機筆記四格（events.js、story3d.js、y2r2_3d.js、r2y3a3d.js、y2b_events.js、r2y3b_events.j | BB 瀏覽器驗 |
+| AA_118 | 2 已實作但尚未實際驗收 | no | LAWWW | 同行聊天 144 句、手機小事（aa555_3d.js）、L1～L3 三段場景（campus_l123_3d.js）；tests/aa555_walk_unit.js、campus | BB 瀏覽器驗 |
 | AA_121 | 2 已實作但尚未實際驗收 | no | LAWWW | CG-20 cg_saved_seat_heroine03：r2y4b_events.js ev_bar_group_night 第一次在總圖（AA-B 定 (a)）；開發分支 8 | BB 瀏覽器驗（11-01 派） |
 | AA_13 | 2 已實作但尚未實際驗收 | no | LAWWW | G3 成發觀眾席 ev_ziqing_show 開頭（阿凱、Alison、芷若）＋沒去隔天阿凱私訊；開發分支 cbd1de273／8891f6f99 | BB 瀏覽器驗（11-01 派） |
 | AA_143 | 2 已實作但尚未實際驗收 | no | LAWWW | ev_term_last_meal_y2s2＋17:00 阿哲那則（events.js、story3d.js）；開發分支 9f3cf6e76 | BB 瀏覽器驗（11-01 派） |
@@ -513,7 +514,6 @@
 | AA_537 | 2 已實作但尚未實際驗收 | no | LAWWW | 尾聲兩句＋畢業禮物（AA_548 第 9 節取代第 6 節；postgrad_lines.js、postgrad3d.js）；開發分支 bfafd1a62 | BB 瀏覽器驗（11-01 派） |
 | AA_537b | 2 已實作但尚未實際驗收 | no | LAWWW | 第 5 節五個節日（fest_events.js 芯慈那一格、fest3d.js S.dmRule）；「你的生日」等祐廷的生日（USER-PLAYER-BDAY-1101）；開發分 | BB 瀏覽器驗（11-01 派） |
 | AA_554 | 2 已實作但尚未實際驗收 | no | LAWWW | BB_187／BB_189 和她交往中的版本＋AA_419 第一次交換每週視訊＋五處時間線修正；src/aa554_3d.js、events.js DH／GFO、story3d.j | BB 瀏覽器驗 |
-| AA_118 | 4 部分完成 | no | LAWWW | 同行聊天 144 句（invites.js walk118）、手機小事（src/aa555_3d.js，AA-B 12 題照改）；開發分支 ed64ee8a2 | L1～L3 三段場景（子代理 feat-l123-1101 做中） |
 
 ## LAWWW2-B 另外查到的 190 項（不在 10/21 稽核 B 段）
 
