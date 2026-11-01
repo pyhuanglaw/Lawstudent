@@ -60,7 +60,7 @@
 
 **F｜測試與問題**：瀏覽器、iPhone 實機都還沒驗今天的改動（Playwright 由 BB 跑）；BUG-02 偶發全黑只在 iPhone。`9aa82ecda` 那一輪 classes3d 361 支在交班時跑（結果寫在收尾）。
 
-**交班以後 LAWWW-B 再值班一段（09:2x～09:5x，使用者：「還剩下5%每週使用量……你如果手上還有東西可以再兩小時內做的你就開始做」；其他三個職位不叫醒）**
+**交班以後 LAWWW-B 再值班一段（21:1x～21:4x，使用者：「還剩下5%每週使用量……你如果手上還有東西可以再兩小時內做的你就開始做」；其他三個職位不叫醒）**
 - ZQ-ARCADE-SEAT-1028 整合（`0b4acc850`）：LAWWW2 交班時已推、沒交件的騎樓凳子＋插座、laptop_lap、公館座位＋LAWWW 這一半（子晴 4 筆「公館騎樓（插座旁邊）」改坐凳子讀、坐下開筆電）；`5d84b825e` 補：凳子沒登記（GLB 沒載入）時照原本站著（tests/zq_arcade_spawn_unit.js，0b4acc850 那一項 FAIL）。DL-LW2-ZQ-ARCADE-1101 已登記。
 - ZQ-C504-LAPTOP-1101：改等 LAWWW2 在咖啡店加座位（程式已支援）。
 - 整套 Node 835／835（`0b4acc850`）；之後的 zq_arcade_spawn 與相關 6 支 ALL PASS。瀏覽器 gongguan_layout_nav、子晴騎樓的畫面 → 下一班 BB。

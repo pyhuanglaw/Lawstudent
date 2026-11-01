@@ -160,9 +160,9 @@ git log -1 --format='%h %ci' origin/<RULE_SOURCE> -- docs/AI_SESSION_HANDOFF.md 
 
 ## 1. 值班表（閱讀版；**以 `docs/handoff/duty.json` 為準**，兩邊不一致時 `duty verify` 第 9 項會報；換班時由值班的 LAWWW 更新）
 
-**現在：B 換班中（2026-11-01 09:5x UTC LAWWW-B 再交班；四個職位都已交班，還沒有帳號接班；RULE_SOURCE 照舊 `claude/modest-rubin-2lyp7g`）**
+**現在：B 換班中（2026-11-01 21:4x UTC LAWWW-B 再交班；四個職位都已交班，還沒有帳號接班；RULE_SOURCE 照舊 `claude/modest-rubin-2lyp7g`）**
 
-（以下是 09:2x LAWWW-B 回來值班一段的紀錄）**現在：只有 LAWWW-B 回來值班（2026-11-01 09:2x UTC 使用者：「還剩下5%每週使用量……你如果手上還有東西可以再兩小時內做的你就開始做」，同一個帳號的其他 AI 不叫醒）：LAWWW-B `duty register` 重新登記；LAWWW2、AA、BB 維持 11-01 交班。額度用完前再交班一次。**
+（以下是 21:1x LAWWW-B 回來值班一段的紀錄）**現在：只有 LAWWW-B 回來值班（2026-11-01 21:1x UTC 使用者：「還剩下5%每週使用量……你如果手上還有東西可以再兩小時內做的你就開始做」，同一個帳號的其他 AI 不叫醒）：LAWWW-B `duty register` 重新登記；LAWWW2、AA、BB 維持 11-01 交班。額度用完前再交班一次。**
 
 （以下是 09:1x 四職位交班時的紀錄）**現在：B 換班中（2026-11-01 09:0x UTC 使用者對 LAWWW-B「現在交班 等別的ai交班你要最後收尾」）：四個職位都已交班——AA-B 08:57（`claude/cool-heisenberg-o8kuqx` `c989cc066`）、BB-B 08:58（`claude/elegant-brown-fcos7n` `22ddbea54`）、LAWWW2-B 09:02（`claude/funny-albattani-iawshm` `e16b32ad0`）、LAWWW-B 最後收尾（`claude/modest-rubin-2lyp7g`，SHA 見第 12 節）。還沒有帳號接班；RULE_SOURCE 照舊是 `claude/modest-rubin-2lyp7g`，下一班的 LAWWW 用 `duty register` 改成自己的分支。交班紀錄：`docs/HANDOFF_GAP_MATRIX.md` 第 1 節。**
 
@@ -692,7 +692,7 @@ git log --oneline <自己上次的 commit>..origin/<那條分支>               
 
 | 時間（UTC） | 從 → 到 | 職位 | 接班基準 commit | 備註 |
 |---|---|---|---|---|
-| 2026-11-01 09:5x | LAWWW-B 再交班（09:2x 使用者「剩 5%……手上兩小時內做得完的就做」回來一段：ZQ-ARCADE 整合 `0b4acc850`＋`5d84b825e`；整套 Node 835／835） | LAWWW | — | 其他三職位維持 09:0x 交班；incr 異常 164 項照舊 |
+| 2026-11-01 21:4x | LAWWW-B 再交班（21:1x 使用者「剩 5%……手上兩小時內做得完的就做」回來一段：ZQ-ARCADE 整合 `0b4acc850`＋`5d84b825e`；整套 Node 835／835） | LAWWW | — | 其他三職位維持 09:0x 交班；incr 異常 164 項照舊 |
 | 2026-11-01 09:1x | **帳號 B 四個職位交班**（AA-B 08:57 `c989cc066`、BB-B 08:58 `22ddbea54`、LAWWW2-B 09:02 `e16b32ad0`、LAWWW-B 最後收尾）→ 下一個帳號（還沒接班） | 全部 | — | 使用者「現在交班 等別的ai交班你要最後收尾」；check、roles、asks OK；**incr 異常 164 項未處理（LAWWW2 outbox 格式約 104、LAWWW2／AA 沒分類的 commit 約 46、AA outbox 12），水位線不前進**；開發分支最後整套 Node 834／834（`b03bedf29`）＋之後 classes3d 361 支；v9.10.15 是線上版，之後都沒發布 |
 | 2026-10-27 16:4x | **帳號 B 沒有交班**（四職位 10-25 19:2x～19:4x 額度用完停住：LAWWW-B `5b6737cd`、AA-B `89accb6d`、BB-B `2109de7b`、LAWWW2-B `e1486b51`）→ **帳號 C 接班** | LAWWW → LAWWW-C（其他三職位等使用者叫醒） | `5b6737cd`（`claude/modest-rubin-2lyp7g`，快轉合併進 `claude/adoring-meitner-mqzst8`） | 使用者「上一班來不及交班，現在由帳號 C 接班。」「你要紀錄上個帳號沒有交班 你接手以免之後亂掉」；duty seq 28 register-user-ok、no-handoff；遺失：LAWWW-B 19:35 派的子代理（AA_471～473 實作）→ PG-FIX-471-473-1027 重做；BB 在 f54a35ec4 上沒記錄結果的測試重跑（RELEASE-91011） |
 | 2026-10-23 06:5x | 帳號 A（10-22 15:1x 四職位交班）→ **帳號 B 回班** | LAWWW → LAWWW-B | `719cca3bc`（`claude/confident-ritchie-8rwh7t`，快轉合併進 `claude/modest-rubin-2lyp7g`） | 使用者「我回來了，請同步 GitHub 最新進度，接續工作。我也會通知同個帳號其他AI，請你們確定彼此通訊OK」。B 上次交班（10-17 02:40）之後是 C（10-17～10-21）、A（10-21～10-22）兩班。接班檢查：check 1 項（HANDOFF-A-1022 缺 evidence，已補）、incr OK、duty verify OK、roles OK、asks OK（177 筆）、check_orphans（沒用到的素材 49、停住的 26、沒寫恢復條件 0）。通訊實測：AA-B、LAWWW2-B 回 ACK，BB-B 待回。duty verify 第 6 項（帳號 A 的 story-planning 在 AA dea49ab3／BB 7e03e3b9 之後還有 4／5 個 commit）已查證：是 15:06～15:08 AA、BB 自己的交班登記 commit（bbbf3e26、d3c7951d）和合併 4a25046b，交班後沒有工作 commit，不是同時寫入（工具把「登記時記的 SHA」和「登記 commit 本身」分開算，誤報；已全部併進 AA-B 分支） |

@@ -35212,7 +35212,7 @@
     "receiver": "LAWWW",
     "ack": "DELIVERED"
    },
-   "next": "【11-01 09:4x LAWWW-B】補：凳子只在正式模型登記成座位，GLB 沒載入時原本＝找不到座位就不生成（子晴不見）；改成有 prop、找不到座位＝照 at 站著（tests/zq_arcade_spawn_unit.js 第 2 項，0b4acc850 FAIL）｜【11-01 09:3x LAWWW-B】整合（LAWWW2 交班時已推、沒交件的 e16b32ad0：gongguan_shops.glb／.json／.props.json、laptop_lap.glb／.json、zq_arcade_seat_1101.patch＝assets3d／character3d／props3d／zones3d＋tests/zq_arcade_seat_unit.js）；LAWWW 那一半：heroine_circle.js 子晴 4 筆「公館騎樓（插座旁邊）」改 act read＋seatAt [15.6,19.8]＋prop laptop_lap，story3d.js 坐下照 ent.prop 開 CHAR.setProp；zq_arcade_seat ⑥（修改前 FAIL）、heroine_circle3d 預期改坐著讀、相關 9 支 ALL PASS；瀏覽器 gongguan_layout_nav → BB（下一班）｜【11-01 09:0x LAWWW-B】LAWWW2-B 交班時已做完、push，還沒交件（outbox NOT_SENT）：gongguan_shops.glb／.json／.props.json、laptop_lap.glb、patches/zq_arcade_seat_1101.patch（對 bd7754e2e）、README test_shots/zq_arcade_seat_1101/；zq_arcade_seat_unit 開發原樣 FAIL 4→ALL PASS、street_props_nav ALL PASS；全部 Node 沒跑完 → 下一班 LAWWW2 跑全部 Node 再交件，LAWWW 合併並改 heroine_circle（子晴 4 筆 linger read＋seatAt＋開筆電）｜【11-01 06:5x LAWWW-B】LAWWW2 提 (a) 騎樓柱旁紅凳＋插座（gongguan_shops.glb）(b) laptop_lap 道具 (c) 座位：同意做法，但 P3、排在 D99 美術之後；分工照 D108：zones3d.js 座位歸 LAWWW2（patch），heroine_circle.js 子晴 linger 改 read＋seatAt＋開筆電歸 LAWWW｜【LAWWW-C 2026-10-28 09:3x UTC】已通知 LAWWW2（P3，排在 X125 室內後面）；LAWWW2 交件後 LAWWW 合併、BB 瀏覽器看 22:31 騎樓"
+   "next": "【11-01 21:2x LAWWW-B】補：凳子只在正式模型登記成座位，GLB 沒載入時原本＝找不到座位就不生成（子晴不見）；改成有 prop、找不到座位＝照 at 站著（tests/zq_arcade_spawn_unit.js 第 2 項，0b4acc850 FAIL）｜【11-01 21:2x LAWWW-B】整合（LAWWW2 交班時已推、沒交件的 e16b32ad0：gongguan_shops.glb／.json／.props.json、laptop_lap.glb／.json、zq_arcade_seat_1101.patch＝assets3d／character3d／props3d／zones3d＋tests/zq_arcade_seat_unit.js）；LAWWW 那一半：heroine_circle.js 子晴 4 筆「公館騎樓（插座旁邊）」改 act read＋seatAt [15.6,19.8]＋prop laptop_lap，story3d.js 坐下照 ent.prop 開 CHAR.setProp；zq_arcade_seat ⑥（修改前 FAIL）、heroine_circle3d 預期改坐著讀、相關 9 支 ALL PASS；瀏覽器 gongguan_layout_nav → BB（下一班）｜【11-01 09:0x LAWWW-B】LAWWW2-B 交班時已做完、push，還沒交件（outbox NOT_SENT）：gongguan_shops.glb／.json／.props.json、laptop_lap.glb、patches/zq_arcade_seat_1101.patch（對 bd7754e2e）、README test_shots/zq_arcade_seat_1101/；zq_arcade_seat_unit 開發原樣 FAIL 4→ALL PASS、street_props_nav ALL PASS；全部 Node 沒跑完 → 下一班 LAWWW2 跑全部 Node 再交件，LAWWW 合併並改 heroine_circle（子晴 4 筆 linger read＋seatAt＋開筆電）｜【11-01 06:5x LAWWW-B】LAWWW2 提 (a) 騎樓柱旁紅凳＋插座（gongguan_shops.glb）(b) laptop_lap 道具 (c) 座位：同意做法，但 P3、排在 D99 美術之後；分工照 D108：zones3d.js 座位歸 LAWWW2（patch），heroine_circle.js 子晴 linger 改 read＋seatAt＋開筆電歸 LAWWW｜【LAWWW-C 2026-10-28 09:3x UTC】已通知 LAWWW2（P3，排在 X125 室內後面）；LAWWW2 交件後 LAWWW 合併、BB 瀏覽器看 22:31 騎樓"
   },
   {
    "id": "LOBBY-VC-1028",
@@ -38321,7 +38321,7 @@
    "owner": "LAWWW2",
    "status": "等待其他AI／素材",
    "priority": "P3",
-   "next": "【11-01 09:4x LAWWW-B】判斷：現在不做（沒有座位）；程式已支援（prop＋沒座位退回站著），只差咖啡店座位｜【11-01 09:0x LAWWW-B】LAWWW2-B 交班【表外】補進總表；LAWWW 判斷：排在 ZQ-ARCADE-SEAT-1028 交件、合併以後一起做（同一個道具、heroine_circle 同一處），不在 D99 三項裡",
+   "next": "【11-01 21:3x LAWWW-B】判斷：現在不做（沒有座位）；程式已支援（prop＋沒座位退回站著），只差咖啡店座位｜【11-01 09:0x LAWWW-B】LAWWW2-B 交班【表外】補進總表；LAWWW 判斷：排在 ZQ-ARCADE-SEAT-1028 交件、合併以後一起做（同一個道具、heroine_circle 同一處），不在 D99 三項裡",
    "first": {
     "term": "Y1S2",
     "week": 0,

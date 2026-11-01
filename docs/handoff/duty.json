@@ -13,11 +13,11 @@
   "C",
   "D"
  ],
- "onDuty": "B",
+ "onDuty": null,
  "previous": "B",
  "accountState": {
   "A": "off",
-  "B": "on",
+  "B": "off",
   "C": "off",
   "D": "unused"
  },
@@ -26,16 +26,18 @@
    "account": "B",
    "session": "session_01DvRVNNnivf7da7qqWuGmw6",
    "branch": "claude/modest-rubin-2lyp7g",
-   "sha": "2228016c",
+   "sha": "11cccba5",
    "sinceSha": "2228016c",
    "since": "2026-11-01T21:19Z",
-   "state": "on",
+   "state": "handed-off",
    "prev": {
     "account": "B",
     "session": "session_01DvRVNNnivf7da7qqWuGmw6",
     "branch": "claude/modest-rubin-2lyp7g",
     "sha": "d30d81c6"
-   }
+   },
+   "handedOffAt": "2026-11-01T21:43Z",
+   "handoffSnapshot": "2026-11-01T2142Z_B_LAWWW.json"
   },
   "LAWWW2": {
    "account": "B",
@@ -76,9 +78,10 @@
  },
  "lastHandoff": {
   "from": "B",
-  "at": "2026-11-01T09:07Z",
+  "at": "2026-11-01T21:43Z",
   "kind": "handoff",
   "snapshots": {
+   "LAWWW": "2026-11-01T2142Z_B_LAWWW.json",
    "LAWWW2": {
     "file": "2026-11-01T0902Z_B_LAWWW2.json",
     "ref": "origin/claude/funny-albattani-iawshm"
@@ -90,8 +93,7 @@
    "BB": {
     "file": "2026-11-01T0858Z_B_BB.json",
     "ref": "origin/claude/elegant-brown-fcos7n"
-   },
-   "LAWWW": "2026-11-01T0910Z_B_LAWWW.json"
+   }
   },
   "closed": true
  },
@@ -742,7 +744,7 @@
    "resolved": false
   }
  ],
- "seq": 37,
+ "seq": 38,
  "chain": [
   {
    "seq": 1,
@@ -1002,6 +1004,13 @@
    "account": "B",
    "role": "LAWWW",
    "event": "register"
+  },
+  {
+   "seq": 38,
+   "at": "2026-11-01T21:43Z",
+   "account": "B",
+   "role": "LAWWW",
+   "event": "handoff"
   }
  ],
  "pending": null
