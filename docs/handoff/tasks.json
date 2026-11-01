@@ -37403,7 +37403,7 @@
    "owner": "LAWWW",
    "status": "進行中",
    "priority": "P0",
-   "next": "【11-01 06:4x LAWWW-B】整套 Node 824／824（266af187e）｜【10-31 21:1x】十大遺漏第 3 項 I10 已實作（I10-CG-DOORBELL-1027 已整合待測試）；bb_batches.md 給 BB；AA 第 1 批 28 項合併｜【10-31 20:3x】第一輪：tools/handoff/history_audit.py（每次從 GitHub 重算；證據＝origin/main 有沒有、BB_218＋BB test_shots log 同一行 PASS、BB 10-27 盤點 A、tasks.json 驗收證據）→ docs/handoff/history_audit/ledger.json、REPORT.md；10/21 的 133 項 done：第 1 類 6、第 2 類 126（main 都有，沒有 BB 實際操作紀錄）、第 4 類 1（V5-B01 交往中版沒跑完）；抽查兩項自動誤判已改（V4-E18、V5-B04）；派 AA／BB／LAWWW2 各自寫 judgments_<職位>.jsonl｜【10-31 19:5x】開工：登記、派 AA（劇情企劃已定稿未實作）、BB（done 沒玩過的分批補驗，發布前回歸優先）、LAWWW2（舊美術未接入）；LAWWW 先做 B 段 133 項 done 的七類判定與十大遺漏（第一輪回報）",
+   "next": "【11-01 08:4x LAWWW-B】整套 Node 834／834（b03bedf29：含 V6-B、AA_204 1-4、DL-04B、AA255、needed 群組、遲到記錄、醉月湖晚上、美國收尾二輪）｜【11-01 06:4x LAWWW-B】整套 Node 824／824（266af187e）｜【10-31 21:1x】十大遺漏第 3 項 I10 已實作（I10-CG-DOORBELL-1027 已整合待測試）；bb_batches.md 給 BB；AA 第 1 批 28 項合併｜【10-31 20:3x】第一輪：tools/handoff/history_audit.py（每次從 GitHub 重算；證據＝origin/main 有沒有、BB_218＋BB test_shots log 同一行 PASS、BB 10-27 盤點 A、tasks.json 驗收證據）→ docs/handoff/history_audit/ledger.json、REPORT.md；10/21 的 133 項 done：第 1 類 6、第 2 類 126（main 都有，沒有 BB 實際操作紀錄）、第 4 類 1（V5-B01 交往中版沒跑完）；抽查兩項自動誤判已改（V4-E18、V5-B04）；派 AA／BB／LAWWW2 各自寫 judgments_<職位>.jsonl｜【10-31 19:5x】開工：登記、派 AA（劇情企劃已定稿未實作）、BB（done 沒玩過的分批補驗，發布前回歸優先）、LAWWW2（舊美術未接入）；LAWWW 先做 B 段 133 項 done 的七類判定與十大遺漏（第一輪回報）",
    "first": {
     "term": "META",
     "week": 0,
