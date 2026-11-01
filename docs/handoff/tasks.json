@@ -17639,9 +17639,9 @@
    "title": "大三、大四的宿舍房間（AA-B 交班 A 類 ROOM4；接 AA_208 四人房：大一 203、大二 312）",
    "area": "STORY",
    "owner": "LAWWW",
-   "status": "進行中",
+   "status": "已整合待測試",
    "priority": "P2",
-   "next": "【10-31 22:0x LAWWW-B】AA_550 第 3 節定順序：回宿舍字卡 →「搬到新的房間」字卡 → AA_208 第 8 節室友旁白（S.ROOM_MATE_Y3／Y4）→ AA_315 拆箱，已接（unboxY3／unboxY4 開頭；room_y3、room_y4 測試照新順序）；剩柏翰大三（總圖閉館後回來、戴耳塞）、大四上第 1～12 週桌燈到 01:00 的晚上作息（AA_208 第 8 節）｜【10-31 19:3x】問 AA-B 確認 AA_208 第 8 節室友旁白接在 AA_315 拆箱旁白前的順序；柏翰大三大四晚上作息照稿接｜【LAWWW-C 2026-10-21 稽核 C】做了一部分：請 AA 一句話確認 AA_208 第 8 節的室友旁白要不要接在 AA_315 拆箱旁白前；LAWWW 加柏翰大三／大四晚上在房間的作息（AA_208 第 8 節） ｜ AA_208 第 8 節已交付（DL-AA-DORMY34，4a6841eb）：大三 507、大四 409。美術 ART-DORM-Y34（LAWWW2）；程式在大三、大四施工時做（拆箱前旁白、晚上作息）",
+   "next": "【11-01 06:4x LAWWW-B】剩的晚上作息做完：大三 507 柏翰照舊 22:30～23:30（總圖閉館後回來）；大四 409 大四上第 1～12 週桌燈到 01:00（S.bhLateY4、S.dormMates 第 4 欄＝上舖時間）；tests/dorm_bh_y4_late_unit.js（修改前 FAIL 3）；aa502_dorm203、aa517_dorm_y24、dorm_mates_live、v0_e01、room_y3、room_y4 ALL PASS → BB 驗（大四上第 5 週 00:30 在 409 看柏翰在書桌前）｜【10-31 22:0x LAWWW-B】AA_550 第 3 節定順序：回宿舍字卡 →「搬到新的房間」字卡 → AA_208 第 8 節室友旁白（S.ROOM_MATE_Y3／Y4）→ AA_315 拆箱，已接（unboxY3／unboxY4 開頭；room_y3、room_y4 測試照新順序）；剩柏翰大三（總圖閉館後回來、戴耳塞）、大四上第 1～12 週桌燈到 01:00 的晚上作息（AA_208 第 8 節）｜【10-31 19:3x】問 AA-B 確認 AA_208 第 8 節室友旁白接在 AA_315 拆箱旁白前的順序；柏翰大三大四晚上作息照稿接｜【LAWWW-C 2026-10-21 稽核 C】做了一部分：請 AA 一句話確認 AA_208 第 8 節的室友旁白要不要接在 AA_315 拆箱旁白前；LAWWW 加柏翰大三／大四晚上在房間的作息（AA_208 第 8 節） ｜ AA_208 第 8 節已交付（DL-AA-DORMY34，4a6841eb）：大三 507、大四 409。美術 ART-DORM-Y34（LAWWW2）；程式在大三、大四施工時做（拆箱前旁白、晚上作息）",
    "first": {
     "term": "Y3S1",
     "week": 0,
@@ -37406,7 +37406,7 @@
    "owner": "LAWWW",
    "status": "進行中",
    "priority": "P0",
-   "next": "【10-31 21:1x】十大遺漏第 3 項 I10 已實作（I10-CG-DOORBELL-1027 已整合待測試）；bb_batches.md 給 BB；AA 第 1 批 28 項合併｜【10-31 20:3x】第一輪：tools/handoff/history_audit.py（每次從 GitHub 重算；證據＝origin/main 有沒有、BB_218＋BB test_shots log 同一行 PASS、BB 10-27 盤點 A、tasks.json 驗收證據）→ docs/handoff/history_audit/ledger.json、REPORT.md；10/21 的 133 項 done：第 1 類 6、第 2 類 126（main 都有，沒有 BB 實際操作紀錄）、第 4 類 1（V5-B01 交往中版沒跑完）；抽查兩項自動誤判已改（V4-E18、V5-B04）；派 AA／BB／LAWWW2 各自寫 judgments_<職位>.jsonl｜【10-31 19:5x】開工：登記、派 AA（劇情企劃已定稿未實作）、BB（done 沒玩過的分批補驗，發布前回歸優先）、LAWWW2（舊美術未接入）；LAWWW 先做 B 段 133 項 done 的七類判定與十大遺漏（第一輪回報）",
+   "next": "【11-01 06:4x LAWWW-B】整套 Node 824／824（266af187e）｜【10-31 21:1x】十大遺漏第 3 項 I10 已實作（I10-CG-DOORBELL-1027 已整合待測試）；bb_batches.md 給 BB；AA 第 1 批 28 項合併｜【10-31 20:3x】第一輪：tools/handoff/history_audit.py（每次從 GitHub 重算；證據＝origin/main 有沒有、BB_218＋BB test_shots log 同一行 PASS、BB 10-27 盤點 A、tasks.json 驗收證據）→ docs/handoff/history_audit/ledger.json、REPORT.md；10/21 的 133 項 done：第 1 類 6、第 2 類 126（main 都有，沒有 BB 實際操作紀錄）、第 4 類 1（V5-B01 交往中版沒跑完）；抽查兩項自動誤判已改（V4-E18、V5-B04）；派 AA／BB／LAWWW2 各自寫 judgments_<職位>.jsonl｜【10-31 19:5x】開工：登記、派 AA（劇情企劃已定稿未實作）、BB（done 沒玩過的分批補驗，發布前回歸優先）、LAWWW2（舊美術未接入）；LAWWW 先做 B 段 133 項 done 的七類判定與十大遺漏（第一輪回報）",
    "first": {
     "term": "META",
     "week": 0,

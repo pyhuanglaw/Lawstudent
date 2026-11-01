@@ -3073,9 +3073,11 @@ const STORY = (function(){
      大一 203（四人房 DORM_FOUR）：阿哲 L1 22:00 以後（練球、麵店之後）、柏翰 R1 22:30 以後（總圖閉館）——阿凱另外放（S.kaiRoommate）。
        2026-10-28 起 203 四人房的時期改照 AA_502 的作息（S.dormWho 先問 S.r203On／S.r203Who，下面 S.r203Plan）；這一列只是備用（S.dormWho 不會走到）。
      大二 312（ROOM_Y2）：阿哲 L1、柏翰 R1 照大一的時段；阿哲 12/19 以後比較晚回來（送 Alison 去捷運站）＝23:00；R2 是大一學弟（背景、沒有名字，不放人）。
-     大三 507、大四 409（ROOM_Y3、ROOM_Y4）：柏翰 R1（阿哲住別間，AA_208 第 8 節）。經濟系那一年照阿勳（S.populate）*/
+     大三 507、大四 409（ROOM_Y3、ROOM_Y4）：柏翰 R1（阿哲住別間，AA_208 第 8 節）；大四上第 1～12 週桌燈到 01:00（S.bhLateY4）。經濟系那一年照阿勳（S.populate）*/
+  /* 柏翰推甄前（大四上第 1～12 週）常常讀到很晚，桌燈開到 01:00；放榜以後正常（AA_208 第 8 節；DORM-Y34）。凌晨 0～1 點算前一天晚上那一週 */
+  S.bhLateY4=function(G){ if(!G||!G.flags||!G.flags.ROOM_Y4||typeof CALENDAR==='undefined') return false; const t=CALENDAR.termOf(G.day-(h(G)<6?1:0)); return !!t&&t.id==='Y4S1'&&t.week>=1&&t.week<=12; };
   S.dormMates=function(G){ const F=(G&&G.flags)||{}; if(!G||S.isEcon(G)||typeof CALENDAR==='undefined') return []; const t=(CALENDAR.termOf(G.day)||{}).id||'';
-    if(F.ROOM_Y3||F.ROOM_Y4) return /^Y[34]/.test(t)||(typeof DORMY24!=='undefined'&&DORMY24.lastNight&&DORMY24.lastNight(G))?[['classmate_bohan','R1',22.5]]:[];   /* 409 最後一晚（宿舍退宿日 6/28 的前一晚，已經放暑假）柏翰在：AA_517 3-3「條件：柏翰在」（src/dorm_y24_3d.js；只有這一晚）*/
+    if(F.ROOM_Y3||F.ROOM_Y4) return /^Y[34]/.test(t)||(typeof DORMY24!=='undefined'&&DORMY24.lastNight&&DORMY24.lastNight(G))?[['classmate_bohan','R1',22.5,S.bhLateY4(G)?25:23.5]]:[];   /* 409 最後一晚（宿舍退宿日 6/28 的前一晚，已經放暑假）柏翰在：AA_517 3-3「條件：柏翰在」（src/dorm_y24_3d.js；只有這一晚）*/
     if(F.ROOM_Y2) return /^Y2/.test(t)?[['zhe','L1',G.day>=S.dayOfKey('2026-12-19')?23:22],['classmate_bohan','R1',22.5]]:[];
     return F.DORM_FOUR&&/^Y1/.test(t)?[['zhe','L1',22],['classmate_bohan','R1',22.5]]:[]; };
   /* 現在坐在房間書桌前的室友：[[人物, 座位, 從幾點開始, 怎麼來（203 四人房才有：'bed' 起床／'door' 開門進來）]]（DORM203-MATES-1028；使用者 2026-10-28 01:3x「203 四人宿舍，認識阿凱、阿哲、柏翰 但我室友根本只有阿凱 第一天之後」）——
@@ -3085,7 +3087,7 @@ const STORY = (function(){
     if(S.isEcon(G)){ if(F.E01_DONE&&(hr>=18||hr<8||(typeof CALENDAR!=='undefined'&&CALENDAR.typhoon(G.day)))) L.push([XUN,'R2',18]); return L; }
     if(S.r203On(G)) return S.r203Who(G);   /* 大一 203 四人房：照 AA_502 第 1 節的作息（下面 S.r203Plan）*/
     if((hr>=18||hr<8)&&S.kaiRoommate(G)&&!S.awayOnDate('kai',G)) L.push(['kai','R2',18]);
-    if(hr<23.5) for(const [id,u,from] of S.dormMates(G)) if(hr>=from&&CHARACTERS[id]&&!S.awayOnDate(id,G)) L.push([id,u,from]);
+    for(const [id,u,from,to] of S.dormMates(G)){ const end=to||23.5, on=end>24?(hr>=from||hr<end-24):(hr>=from&&hr<end); if(on&&CHARACTERS[id]&&!S.awayOnDate(id,G)) L.push([id,u,from]); }   /* 第 4 欄＝幾點上舖（預設 23:30；超過 24＝隔天凌晨，柏翰大四上推甄前 01:00）*/
     return L; };
   /* ===== 203 四人房的作息（AA_502 第 1 節，AA-C 2026-10-28；DORM203-MATES-1028 第二部分）=====
      只在法律系、四人房（DORM_FOUR）、還沒搬去 312（ROOM_Y2）、8/29 搬進 203 到大二上開學以前；阿哲、柏翰到大一下最後一天（6/14，期末以後那晚是 AA_502 3-6 的最後一晚，6/15 搬出 203）。
