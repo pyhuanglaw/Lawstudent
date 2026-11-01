@@ -5030,6 +5030,29 @@
    "next": "LAWWW-B 整合 patch；BB 大一國文（Y1S1 週二上午）博思 101 走到座位旁邊看",
    "noDirectIntegrate": false,
    "integrated": "7145e5cd8（LAWWW-B 05:33，DL-LW2-BUG03-1101）"
+  },
+  {
+   "branch": "claude/funny-albattani-iawshm",
+   "sha": "ccf717fe0",
+   "receiver": "LAWWW",
+   "ack": "SENT",
+   "task": "INTERIOR-AAA 美國收尾：公寓門外平台／陽台白天偏白＋C 棟合租戶光照烘焙",
+   "files": [
+    "assets/models/env/second_ai/us_apartment.glb",
+    "assets/models/env/second_ai/us_apartment.json",
+    "assets/models/env/second_ai/us_apartment_lm_day.webp",
+    "assets/models/env/second_ai/us_apartment_lm_night.webp",
+    "assets/models/env/second_ai/us_shared.glb",
+    "assets/models/env/second_ai/us_shared.json",
+    "assets/models/env/second_ai/us_shared_lm_day.webp",
+    "assets/models/env/second_ai/us_shared_lm_night.webp",
+    "docs/art-rebuild/second_ai/patches/us_wrapup_lm_1101.patch",
+    "docs/art-rebuild/second_ai/test_shots/us_wrapup_lm_1101/README.md"
+   ],
+   "state": "公寓第八版：bake_room.py --dayscale 只壓屋外（地板、屋簷、外牆、陽台桌）白天那張（×0.7、壓到 0.7），水泥改素面 granular_concrete（原本油漆斑去色像積雪）；陽台 1.38→0.71、平台 0.89→0.57，屋裡、晚上不變。C 棟合租戶第二版：吊扇、廚房、臥室 A、走道、平台壁燈；EVENT_US2、臥室的床和書桌椅（instancing）不烘。新 us_shared_lm_unit：開發原樣 FAIL 4、第一版 FAIL 1、第二版 ALL PASS；全部 Node 822／0；不用改程式",
+   "remaining": "客廳東邊（臥室門前）白天 0.25 偏暗；鄰居 207 的門白天偏亮（usa_door 和屋裡的門同一個物件）；沒有手機實機",
+   "next": "LAWWW-B 換二進位＋套測試 patch；BB 看公寓、合租戶白天晚上",
+   "noDirectIntegrate": false
   }
  ]
 }

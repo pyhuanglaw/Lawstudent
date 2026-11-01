@@ -99,5 +99,5 @@
   - 第一版 FAIL 1（④ 床、書桌椅被烘了）；
   - 第二版 ALL PASS。
 - 既有的：`us_apartment_lm_unit`、`us_apt_closet_unit`、`us_apt_siding_unit`、`singleside_us_unit` 都 ALL PASS。
-- 全部 Node：結果見 HANDOFF。
+- **全部 Node（開發 `fb0d24c98`＋兩戶新的 GLB／光照貼圖＋新測試）：822 支、0 失敗**。
 - 沒跑：手機實機、導航（模型只換了水泥的貼圖）。

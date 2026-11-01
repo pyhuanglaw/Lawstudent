@@ -17,11 +17,11 @@
     - 遊戲內同流程同鏡頭改前改後。沒有改人物模型（D99）：LOD0 近看臉也還偏糊，要改模型得等解凍。
   - ART-JIAHAO-JOY：照舊不動（0.35 不在 VRM 裡、遊戲 smile＝happy 0.7；D99 人物凍結沒解凍），回報 LAWWW-B。
   - BUG-03 全部 Node 822／0；LAWWW-B 05:33 已整合 7145e5cd8（DL-LW2-BUG03-1101），ART-JIAHAO-JOY 設暫停（D99）。
-  - **INTERIOR-AAA 美國收尾做完、待交件**（ccf717fe0；README `test_shots/us_wrapup_lm_1101/`）：
+  - **INTERIOR-AAA 美國收尾交件 ccf717fe0**（全部 Node 822／0；README `test_shots/us_wrapup_lm_1101/`）：
     - 公寓第八版：`bake_room.py --dayscale` 只壓屋外（地板、屋簷、外牆、陽台桌）白天那張，乘 0.7、壓到 0.7；水泥改素面 `granular_concrete #a9a6a0`（原本油漆斑去色像積雪）。陽台 1.38→0.71、平台 0.89→0.57，屋裡、晚上不變。
     - C 棟合租戶第二版：吊扇、廚房、臥室 A、走道、平台壁燈；EVENT_US2、臥室的床和書桌椅（instancing）不烘。第一版烘了 instancing 的床，新測試 ④ 抓到。
     - 新 `tests/us_shared_lm_unit.js`（patch `us_wrapup_lm_1101.patch`）：開發原樣 FAIL 4、第一版 FAIL 1、第二版 ALL PASS。
-    - 全部 Node 跑中（scratch devtipwt＝fb0d24c98＋新資產＋新測試）。
+    - 下一件：ZQ-ARCADE-SEAT-1028（P3）：子晴在公館騎樓坐著、有筆電。提案：騎樓柱子旁一張塑膠凳＋柱子上的插座（Blender）、zones3d 加座位、作息改坐下（seatAt）、新道具「腿上的筆電」（props3d，坐下才出現）；程式是 LAWWW 的檔，等 LAWWW-B 同意。
 - **11-01 02:4x**：
   - LAWWW-B 02:04 ACK 照片比對＋名牌（名牌整合在 feat-art-1031 8b9ddfb88；四題：①②等照片、③轉 AA、④不改），派 GYM-B1-PLATES-1101。
   - **GYM-B1-PLATES-1101 交件 095518e3f**：遊戲內確認壁球室門牌是空白牌子、兩個更衣室門牌整塊看不到（GLB 裡正面朝門板＋單面）。
