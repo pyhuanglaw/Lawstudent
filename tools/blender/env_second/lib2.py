@@ -792,3 +792,23 @@ def single_side(root, keep=r'glass', nodup=None, skip=lambda ob: False, flip=Tru
         for m in used:
             m.use_backface_culling = not kre.search(m.name)
     return stats
+
+
+def uv_text(ob):
+    """有字的板面（PLATE_FACE_*，遊戲用 canvas 畫字）照幾何給 UV：站在法線那一邊看，u 往右手邊變大、v 往上變大（匯出後＝glTF 的 v 往下）。
+    起因（PLATE-MIRROR-1101，2026-11-01）：uv01 照頂點順序給，Kit.face 為了法線把頂點倒過來時 u、v 都跟著反 → 側牆的名牌（女舍「男賓止步」「傳達室」、
+    共同側門、社科院系名牌）在遊戲裡字上下顛倒、左右相反。正面的名牌原本就對，用這個給出來的 UV 和原本一樣。"""
+    me, M = ob.data, ob.matrix_world
+    uvl = me.uv_layers.active or me.uv_layers.new(name='UVMap')
+    Z = Vector((0.0, 0.0, 1.0))
+    for poly in me.polygons:
+        n = (M.to_3x3() @ poly.normal).normalized()
+        r = (-n).cross(Z)
+        if r.length < 1e-6: r = Vector((1.0, 0.0, 0.0))   # 平放的板：u 沿 +x
+        r.normalize(); up = n.cross(r).normalized() if r.length else Z
+        pts = [M @ me.vertices[me.loops[li].vertex_index].co for li in poly.loop_indices]
+        us = [p.dot(r) for p in pts]; vs = [p.dot(up) for p in pts]
+        u0, u1, v0, v1 = min(us), max(us), min(vs), max(vs)
+        for li, u, v in zip(poly.loop_indices, us, vs):
+            uvl.data[li].uv = ((u - u0) / max(u1 - u0, 1e-9), (v - v0) / max(v1 - v0, 1e-9))
+    return ob
