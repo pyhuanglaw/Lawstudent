@@ -368,8 +368,8 @@
    "title": "NPC 披頭散髮（博雅 101，第 17 項）",
    "area": "BUG",
    "owner": "LAWWW",
-   "status": "待開工",
-   "next": "【11-01 03:0x LAWWW-B 派 LAWWW2】LAWWW2：博雅 101 上課時坐著的替身（seated_figures 第二版 0f4d8e03、頭頂白塊 cb83b62e2 都在 main）實際進遊戲近拍確認頭髮；還有就修、沒有就交截圖讓 BB 驗、可以結案",
+   "status": "已整合待測試",
+   "next": "【11-01 05:5x LAWWW-B】LAWWW2 查明＋patch 已整合（開發分支）：嚇人的是坐姿替身遠處版 _lod1（臉糊、頭髮一塊塊），放的那一刻照玩家位置選、之後不換（玩家在門口＝17 個全是 _lod1）；figTick 照玩家現在位置換近遠（6.5／7.5 m）；tests/seated_figures_lod_unit.js（修改前 FAIL 7）；改前改後 test_shots/bug03_boya_figs_1101/before_after.webp → BB 博雅 101 大一國文近看；LOD0 近看臉也偏糊（D99 人物凍結）｜【11-01 03:0x LAWWW-B 派 LAWWW2】LAWWW2：博雅 101 上課時坐著的替身（seated_figures 第二版 0f4d8e03、頭頂白塊 cb83b62e2 都在 main）實際進遊戲近拍確認頭髮；還有就修、沒有就交截圖讓 BB 驗、可以結案",
    "priority": "P1",
    "first": {
     "term": "Y1S1",
@@ -398,7 +398,8 @@
     "acceptance": "博雅 101 近拍同學頭髮正常（截圖）；有問題附 patch",
     "receiver": "LAWWW",
     "ack": "自領"
-   }
+   },
+   "sha": "b506f59c4"
   },
   {
    "id": "BUG-04",
@@ -19572,7 +19573,7 @@
   },
   {
    "id": "ART-JIAHAO-JOY",
-   "status": "待開工",
+   "status": "暫停",
    "priority": "P2",
    "first": {
     "term": "Y0S1",
@@ -19594,7 +19595,9 @@
     "acceptance": "晚上近照嘴邊沒有暗影；BB-C 看",
     "receiver": "LAWWW",
     "ack": "SENT"
-   }
+   },
+   "pausedReason": "D99 人物凍結；0.35 不在 VRM 裡（Joy 綁 100，遊戲 smile＝happy 0.7），BB-C 也說遊戲距離看不出來（LAWWW2-B 11-01）",
+   "resumeWhen": "使用者解凍人物美術時"
   },
   {
    "id": "ANIM-BENCH-SIT",

@@ -691,22 +691,29 @@ const CLS=(function(){
     Promise.all([ASSETS.loadOne(FIG_KEY),propP]).then(([c,pc])=>{ if(FIG.on.get(key)!==rec||GM.E.zone!==rec.zone) return; const vars={}; c.scene.traverse(o=>{ if(o.isMesh&&/^fig_/.test(o.name)) vars[o.name]=o; });
       const props={}; if(pc&&pc.scene) pc.scene.traverse(o=>{ if(o.isMesh&&/^lset_/.test(o.name)) props[o.name]=o; });
       const names=Object.keys(vars).filter(n=>!/_lod1$/.test(n)).sort(); if(!names.length) return; let h=0; for(const ch of key) h=(h*31+ch.charCodeAt(0))>>>0;
-      const P=GM.E.player&&GM.E.player.obj.position, by=new Map(), pby=new Map(); const add=(m,k,st)=>{ if(!m.has(k)) m.set(k,[]); m.get(k).push(st); };
-      rec.seats.forEach((st,i)=>{ const nm=names[(h+i*7)%names.length], far=!(P&&Math.hypot(st.x-P.x,st.z-P.z)<7), k=far?nm+'_lod1':nm; const kk=vars[k]?k:nm; add(by,kk,st);
-        const set=deskSet(nm,h+i*13+Math.floor(i/3)); if(set){   /* +floor(i/3)：替身的種類數是 3 的倍數時（LAWWW2-C 24923842：12 位×3 種姿勢），聽講的人剛好都落在 i 同餘 3 的位子，只用 h+i*13 會全部配到同一組（全是筆電）*/ const pk=far&&props[set+'_lod1']?set+'_lod1':set; if(props[pk]) add(pby,pk,st); } });
+      /* 遠近（BUG-03，使用者 10-15 第 17 項「博雅 101……披頭散髮很可怕」）：原本放的那一刻照玩家位置選 LOD0／_lod1、之後不換——玩家在門口時整班都是 _lod1，
+         走到座位旁邊還是 350 個三角形的版本（臉糊、頭髮一塊塊）。改成每種外型（桌上小物也是）一個 LOD0、一個 _lod1 的 InstancedMesh，figTick（每 0.5 秒）照玩家現在的位置重排：
+         7 m 內用 LOD0（離開到 7.5 m 才換回 _lod1、走近到 6.5 m 才換成 LOD0，不在邊界來回換）。放的那一刻和原本一樣（< 7 m＝LOD0）。名稱照舊：<外型>、<外型>_lod1、desk:<組>、desk:<組>_lod1 */
+      const slots=rec.seats.map((st,i)=>{ const nm=names[(h+i*7)%names.length], set=deskSet(nm,h+i*13+Math.floor(i/3));   /* +floor(i/3)：替身的種類數是 3 的倍數時（LAWWW2-C 24923842：12 位×3 種姿勢），聽講的人剛好都落在 i 同餘 3 的位子，只用 h+i*13 會全部配到同一組（全是筆電）*/
+        return {st,nm,set:set&&(props[set]||props[set+'_lod1'])?set:null,near:null}; });
       const g=new THREE.Group(); g.name='seated_figures:'+key; const M=new THREE.Matrix4(), Q=new THREE.Quaternion(), UP=new THREE.Vector3(0,1,0), ONE=new THREE.Vector3(1,1,1), V=new THREE.Vector3();
-      const inst=(src,L,name)=>{ const im=new THREE.InstancedMesh(src.geometry,src.material,L.length); L.forEach((st,i)=>{ Q.setFromAxisAngle(UP,st.yaw||0); V.set(st.x,st.y||0,st.z); M.compose(V,Q,ONE); im.setMatrixAt(i,M); });
-        im.instanceMatrix.needsUpdate=true; im.castShadow=false; im.receiveShadow=true; im.computeBoundingSphere(); im.name=name; g.add(im); };
-      for(const [k,L] of by) inst(vars[k],L,k);
-      for(const [k,L] of pby) inst(props[k],L,'desk:'+k);   /* 桌上小物：和替身同一個矩陣 */
+      const mk=(src,n,name)=>{ const im=new THREE.InstancedMesh(src.geometry,src.material,n); im.count=0; im.castShadow=false; im.receiveShadow=true; im.name=name; g.add(im); return im; };
+      const cnt=new Map(); for(const s of slots){ cnt.set('f:'+s.nm,(cnt.get('f:'+s.nm)||0)+1); if(s.set) cnt.set('d:'+s.set,(cnt.get('d:'+s.set)||0)+1); }
+      const ims={}; for(const [k,n] of cnt){ const src=k[0]==='f'?vars:props, pre=k[0]==='f'?'':'desk:', base=k.slice(2), a=src[base], b=src[base+'_lod1'];
+        const near=a?mk(a,n,pre+base):null; ims[k]={near,far:b?mk(b,n,pre+base+'_lod1'):near}; }   /* 沒有 _lod1：遠的也用 LOD0；桌上小物沒有 LOD0：近的不放（和原本一樣）*/
+      const put=(k,s)=>{ const r=ims[k], im=r&&(s.near?r.near:r.far); if(!im) return; Q.setFromAxisAngle(UP,s.st.yaw||0); V.set(s.st.x,s.st.y||0,s.st.z); M.compose(V,Q,ONE); im.setMatrixAt(im.count++,M); };
+      rec.lay=(P,force)=>{ let ch=!!force; for(const s of slots){ const d=P?Math.hypot(s.st.x-P.x,s.st.z-P.z):1e9, nr=s.near==null?d<7:(s.near?d<7.5:d<6.5); if(nr!==s.near){ s.near=nr; ch=true; } } if(!ch) return false;
+        for(const im of g.children) im.count=0; for(const s of slots){ put('f:'+s.nm,s); if(s.set) put('d:'+s.set,s); }
+        for(const im of g.children){ im.visible=im.count>0; im.instanceMatrix.needsUpdate=true; im.computeBoundingSphere(); } return true; };   /* count 0 的不畫（不多一個 draw call）*/
+      rec.lay(GM.E.player&&GM.E.player.obj.position,true);
       const LG=rec.zone.levelGroups, lg=LG&&LG[rec.seats[0].lv|0]; (lg&&lg.group||rec.zone.group||GM.E.scene).add(g); rec.group=g; }).catch(e=>{ console.warn('seated_figures',e); });   /* 放進那一層的群組：上下樓時跟著那一層顯示／隱藏 */
     return seats.length; };
   const figGone=rec=>{ if(rec.group&&rec.group.parent) rec.group.parent.remove(rec.group); for(const st of rec.seats) if(st.taken===rec.key) st.taken=null; FIG.on.delete(rec.key); };
   S.figRemove=function(GM,key,instant){ const rec=FIG.on.get(key); if(!rec) return; if(instant||!rec.group||GM.E.zone!==rec.zone) figGone(rec); else rec.leaving=true; };
   let figFr=null;
-  S.figTick=function(GM){ if(!FIG.on.size) return; const E=GM.E; for(const rec of [...FIG.on.values()]){ if(E.zone!==rec.zone){ FIG.on.delete(rec.key); continue; } if(!rec.leaving||!rec.group) continue;
+  S.figTick=function(GM){ if(!FIG.on.size) return; const E=GM.E, PP=E.player&&E.player.obj&&E.player.obj.position; for(const rec of [...FIG.on.values()]){ if(E.zone!==rec.zone){ FIG.on.delete(rec.key); continue; } if(rec.lay&&PP) rec.lay(PP);   /* 照玩家現在的位置換遠近（BUG-03）*/ if(!rec.leaving||!rec.group) continue;
       const cam=E.camera; let seen=false; if(cam&&THREE.Frustum){ figFr=figFr||new THREE.Frustum(); figFr.setFromProjectionMatrix(new THREE.Matrix4().multiplyMatrices(cam.projectionMatrix,cam.matrixWorldInverse));
-        for(const im of rec.group.children){ if(!im.boundingSphere) continue; const sp=im.boundingSphere.clone().applyMatrix4(im.matrixWorld); if(figFr.intersectsSphere(sp)){ seen=true; break; } } }
+        for(const im of rec.group.children){ if(!im.boundingSphere||!im.count) continue;   /* 空的（這一邊沒有人）：包圍球是空的（半徑 −1），不算看得到 */ const sp=im.boundingSphere.clone().applyMatrix4(im.matrixWorld); if(figFr.intersectsSphere(sp)){ seen=true; break; } } }
       if(!seen) figGone(rec); } };
   S.figState=()=>[...FIG.on.values()].map(r=>({key:r.key,n:r.seats.length,leaving:r.leaving,loaded:!!r.group}));   /* 測試用 */
   /* 教室裡的人（AA_137 第 8 節第 3 點，使用者 2026-10-15「上課前教室根本沒有人，一下課教室就坐滿」）：上課前 10 分鐘起陸續進來，開始時坐滿八成，開始後坐滿；

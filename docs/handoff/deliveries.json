@@ -16883,6 +16883,19 @@
    "task": "BUG-04",
    "integration": "已整合",
    "note": "LAWWW-B 11-01 08:1x 套 patch 進開發分支；npc_overlap、schedule_roommove、v2_c13、presence、zz_bkk_presence、bball_present ALL PASS"
+  },
+  {
+   "id": "DL-LW2-BUG03-1101",
+   "date": "2026-11-01",
+   "from": "LAWWW2-B",
+   "account": "B",
+   "branch": "claude/funny-albattani-iawshm",
+   "sha": "b506f59c4",
+   "msg": "ACK",
+   "what": "BUG-03 博雅 101 披頭散髮：坐姿替身 _lod1（約 350 面）放的那一刻照玩家位置選版本、之後不換；seated_figures_lod_1101.patch（classes3d.js figTick 照玩家現在位置換 LOD0／_lod1：6.5 m 換近、7.5 m 換回；count 0 不畫）＋tests/seated_figures_lod_unit.js＋改前改後截圖",
+   "task": "BUG-03",
+   "integration": "已整合",
+   "note": "LAWWW-B 11-01 05:5x 套 patch；seated_figures_lod 與座位、上課相關 12 支 ALL PASS；LOD0 近看臉也偏糊（D99 人物凍結，照實記）"
   }
  ],
  "ignored": [
