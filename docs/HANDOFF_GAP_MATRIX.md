@@ -60,11 +60,19 @@
 
 **F｜測試與問題**：瀏覽器、iPhone 實機都還沒驗今天的改動（Playwright 由 BB 跑）；BUG-02 偶發全黑只在 iPhone。`9aa82ecda` 那一輪 classes3d 361 支在交班時跑（結果寫在收尾）。
 
+**LAWWW-B 第三段（22:0x～22:5x，使用者 22:0x：「還有4%每週使用量 請你繼續做兩小時……就是只有你」）**
+- DL-04：捷運出遊出發前 TRIP.evMiss（B 表短窗口列出來、【必】不能出發）`19eaa15e7`；V0-B4 改已整合待測試。
+- DL-04B：手機快速前往的 R2（CLS.routeStopTo＋quickGo）`856099bb3`、週日住家裡的 R1（HOME.dormMiss）`38752c06c`。
+- 交班核對：LAWWW2 31、AA 17 個沒分類的 commit 分類（incr 164→116，剩的是兩個職位分支上 outbox 的用字）`87cc42021`；duty verify 帳號 C 四條分支已查核、C→B no-handoff 結案 `62dbe9f41`。
+- 五個舊任務逐項核對（子代理 feat-backlog5b-1101，合併 `552fb56e1`）：AA-Q-1021-SR（T1、T7b、T8、T9b、T9c、9-1）、EVPKG-1B18-25（1B-20 門口白紙＋12/14 下雨）實作；Y2Y4-STORY、CLOSED-SPACES、NPC-STORY2 程式都在，剩 BB 驗；剩的要決定：T1 2028 起日 6/27、1B-15 日本直播沒稿（AA）、1B-20 3D 白紙（LAWWW2）、BCG-31 夏天版／psy_lab／linze_201 圖（BB）。照 AA 新稿改了 6 支舊測試期待值（aa350_r、v2_b10b、date_s8_c2、aa350_s、holiday_presence、presence）。
+- sis_no_three：捷運出發檢查「有一件事。」登記系統字（AA_160 原文），兩個備用標題改字 `178cf26bc`。
+- 整套 Node **840／840**（`f77553746`）。時間標籤又寫錯一次（把 22 點寫成 23 點），已照 commit 時間改正 `60c34fa01`。
+
 **交班以後 LAWWW-B 再值班一段（21:1x～21:4x，使用者：「還剩下5%每週使用量……你如果手上還有東西可以再兩小時內做的你就開始做」；其他三個職位不叫醒）**
 - ZQ-ARCADE-SEAT-1028 整合（`0b4acc850`）：LAWWW2 交班時已推、沒交件的騎樓凳子＋插座、laptop_lap、公館座位＋LAWWW 這一半（子晴 4 筆「公館騎樓（插座旁邊）」改坐凳子讀、坐下開筆電）；`5d84b825e` 補：凳子沒登記（GLB 沒載入）時照原本站著（tests/zq_arcade_spawn_unit.js，0b4acc850 那一項 FAIL）。DL-LW2-ZQ-ARCADE-1101 已登記。
 - ZQ-C504-LAPTOP-1101：改等 LAWWW2 在咖啡店加座位（程式已支援）。
 - 整套 Node 835／835（`0b4acc850`）；之後的 zq_arcade_spawn 與相關 6 支 ALL PASS。瀏覽器 gongguan_layout_nav、子晴騎樓的畫面 → 下一班 BB。
-- 增量核對異常照舊 164 項沒處理（同下）。
+- 增量核對異常照舊 164 項沒處理（同下）；第三段分類後剩 116 項。
 
 **收尾（LAWWW-B 09:1x，三個職位交班以後）**
 - **三個職位**：AA-B 08:57 `c989cc066`（快照 2026-11-01T0857Z_B_AA.json；以安共創停在第 2 輪、等使用者回答吹風機那一題）、BB-B 08:58 `22ddbea54`（快照 2026-11-01T0858Z_B_BB.json；佇列 37 項沒跑，BUG-DOOR-CLASS-GO-1101 排第一；duty handoff 是 LAWWW-B 提醒以後補跑的）、LAWWW2-B 09:02 `e16b32ad0`（快照 2026-11-01T0902Z_B_LAWWW2.json；ZQ-ARCADE 做完沒交件，下一班跑全部 Node 再交）。`duty sync` 收了三個。
