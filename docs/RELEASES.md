@@ -37,7 +37,7 @@
 | v9.10.12 | `d5ca27b89`（PR [pyhuanglaw/Lawstudent#18](https://github.com/pyhuanglaw/Lawstudent/pull/18)；遊戲檔案＝發布樹 `96358789f`＝候選 rc3b `d6694cad0`＋版本字樣） | 2026-10-28 04:46:30 UTC（run 40634003965） | v9.10.11 `c8b9659e5` |
 | v9.10.13 | `37603ad6a`（PR [pyhuanglaw/Lawstudent#19](https://github.com/pyhuanglaw/Lawstudent/pull/19)；遊戲檔案＝候選 rc2 `da50fbdc1`＋版本字樣；LAWWW-B 接班完成發布） | 2026-10-30 02:11:54 UTC（run 40990069412） | v9.10.12 `d5ca27b89` |
 | v9.10.14 | `271cd2305`（PR [pyhuanglaw/Lawstudent#20](https://github.com/pyhuanglaw/Lawstudent/pull/20)；遊戲檔案＝發布樹 `9293c245d`＝候選 `b38b112a8`＋版本字樣） | 2026-10-30 07:52:40 UTC（run 41022443245） | v9.10.13 `37603ad6a` |
-| v9.10.15 | （發布中：PR 合併後補 main SHA；遊戲檔案＝BB GO 的基準 `39f68236c`＋版本字樣，發布樹 `8fb7212b1`） | — | v9.10.14 `271cd2305` |
+| v9.10.15 | `27e6ce77e`（PR [pyhuanglaw/Lawstudent#21](https://github.com/pyhuanglaw/Lawstudent/pull/21)；遊戲檔案＝BB GO 的基準 `39f68236c`＋版本字樣，發布樹 `8fb7212b1`） | 2026-11-01 02:54:35 UTC（run 41266933798） | v9.10.14 `271cd2305` |
 
 ---
 
@@ -51,7 +51,7 @@ git push origin $C:main        # 快轉，不是強制推送；之後用 GitHub 
 ```
 （原本要用 tag `v9.3-25` 標記回復點：本機建立了，但這個沙盒推 tag 會被代理斷線，遠端沒有這個 tag——回復點以 commit SHA 為準。）
 
-## v9.10.15（2026-11-01，發布中）——改名版：虛構校名館名、芯慈新個性與感情線、不跟別人比、宿舍與光照
+## v9.10.15（2026-11-01 02:52 UTC 合併 `27e6ce77e`，PR #21；GitHub Pages 部署 run 41266933798 02:54:35 成功）——改名版：虛構校名館名、芯慈新個性與感情線、不跟別人比、宿舍與光照
 
 **候選＝基準**：開發分支 `39f68236c`（BB-B 10-31 20:09 凍結；之後開發分支只多 docs、wip_backup、`src/r2y4b3d.js` 兩行註解，`git diff 39f68236c 8fb7212b1 -- src tests assets lib` 只有那兩行註解）。
 
