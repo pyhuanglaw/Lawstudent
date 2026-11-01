@@ -396,7 +396,7 @@ const PG=(function(){
       case 'yu': { const lib=typeof SUP497!=='undefined'&&SUP497.epiYuLib&&yes(F.YU4_ALONE)?SUP497.epiYuLib(G):[];   /* AA_497 3-7：「一個人吃滷肉飯」那一段之後，有 YU_Y4_LIB（大四法圖坐她對面）多一句 */
         if(S.atTable(G,'zhe')) return yes(F.YU4_ALONE)?[[id,E.yu.alone]].concat(lib):null; return [[id,yes(F.YU4_ALONE)?E.yu.alone:E.yu.base]].concat(lib); }   /* 和阿哲同一桌：她那一句已經在兩人那一組；YU4_ALONE 的回收句接在阿哲的回收句後面（同上）*/
       case 'classmate_bohan': { let t=E.bohan.base; if(yes(F.BH4_DONE)) t=E.bohan.bh4; if(S.gradAdmit(G)) t=E.bohan.bh5; return [[id,t]]; }   /* 翰 5 兩人同一組＝GRAD_ADMIT 有值（AA_327 2-Y4-06）*/
-      case 'classmate_xinci': { if(yes(F.XC1_STICKY)) return [[id,E.xinci.sticky]]; if(yes(F.XC5_RECONCILE)&&S.atTable(G,'heroine_01')) return S.dating(G,'heroine_01')?[E.xinci.reconcile[0]]:E.xinci.reconcile; return [[id,E.xinci.base]]; }
+      case 'classmate_xinci': { if(S.dating(G,'classmate_xinci')&&E.xinci.partner) return me(E.xinci.partner);   /* 交往中（AA_548 第 9 節）*/ if(yes(F.XC1_STICKY)) return [[id,E.xinci.sticky]]; if(yes(F.XC5_RECONCILE)&&S.atTable(G,'heroine_01')) return S.dating(G,'heroine_01')?[E.xinci.reconcile[0]]:E.xinci.reconcile; return [[id,E.xinci.base]]; }
       case 'heroine_01': { if(S.dating(G,'heroine_01')) return me(E.an.partner); if(yes(F.XC5_RECONCILE)&&S.atTable(G,'classmate_xinci')&&!yes(F.XC1_STICKY)) return null; return [[id,E.an.friend]]; }   /* 慈 5 那一組裡以安那句就是她的一句 */
       case 'heroine_03': { const Y3=S.ytEnd(G); if(!Y3.end) return null; if(Y3.end===5) return [[id,E.yt[Y3.job===4?4:Y3.job][0]],[id,E.yt[5]]]; return me(E.yt[Y3.end]); }
       case 'heroine_05': { const B=E.sis; if(S.dating(G,'heroine_05')) return me(yes(F.SIS_DAY_OFF)?B.dayOff:B.lover); if(yes(F.US4_FRIEND)||yes(F.HEART_FRIEND_heroine_05)) return me(B.peer); return me(S.lean(G).top==='A'&&lw?B.roadA:B.road); }
@@ -437,7 +437,9 @@ const PG=(function(){
   S.epiItems=function(G){ const E=L().EPI, foot=S.footprint(G), item=(E.foot.find(x=>x[0]===foot)||E.foot[0])[1], ps=S.epiPartners(G), F=G.flags;
     F.EPI_ITEMS=[item].concat(ps.filter(p=>E.items[p]).map(p=>E.items[p]));   /* 伴侶的東西（桌上的另一邊；都同意的每一位都放，AA_482 第 3 節）*/
     const PI=L().EPI_PARTNER||{}, pn=p=>{ const pi=PI[p]; return pi&&typeof pi==='object'?(F.SIS_THERMOS?(p==='heroine_05'?DLY(G,'epiThermos',pi.thermos):pi.thermos):pi.plain):pi; };   /* AA_331 2b：接在祐廷那一樣後面；學姊看 SIS_THERMOS（6/2 她遞的保溫瓶）*/
-    return [E.itemNarr.replace('{item}',item)].concat(ps.map(pn).filter(Boolean)); };
+    const xc=S.dating(G,'classmate_xinci')&&!ps.includes('classmate_xinci');   /* 芯慈交往中：畢業禮物（AA_548 第 9 節）——她不在 epiPartner 的座位表（不換座位、不換 CG），只多桌上那一樣 */
+    if(xc&&E.items.classmate_xinci) F.EPI_ITEMS.push(E.items.classmate_xinci);
+    return [E.itemNarr.replace('{item}',item)].concat(ps.map(pn).filter(Boolean),xc&&PI.classmate_xinci?[PI.classmate_xinci]:[]); };
   S.toTitle=function(GM){ try{ const b=typeof document!=='undefined'&&document.getElementById?document.getElementById('btnTitle'):null; if(b&&typeof b.onclick==='function'){ b.onclick(); return true; } }catch(e){ console.warn('PG toTitle',e); } if(GM) GM.running=false; return false; };
   async function epilogue(GM){ const G=GM.G, F=G.flags, E=L().EPI, A=adv(); let ok=false;
     GM.sceneBegin(); try{ await GM.fade(true); if(A&&A.active) A.end();
