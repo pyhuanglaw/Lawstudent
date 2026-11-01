@@ -187,7 +187,7 @@ const t13Over=(k,days)=>{ const V=VAC.rec(H.G), n=(V.t13||(V.t13=[])).length+1, 
   /* 5-2 記憶、6 不讀寫芯慈戀愛線的旗標 */
   await sec('5-2b',async()=>{
     lawG('2027-08-13',16,{fam:['heroine_03']}); const h0=SOCIAL.has('heroine_03','FIELD_WITH_YT'); await runEv('ev_vf_y2s_0813');
-    check('5-2. 演完記 FIELD_WITH_YT（記在語彤身上）',!h0&&SOCIAL.has('heroine_03','FIELD_WITH_YT'));
+    check('5-2. 演完記 FIELD_WITH_YT（記在語彤身上；人物面板有中文名稱）',!h0&&SOCIAL.has('heroine_03','FIELD_WITH_YT')&&!!(SOCIAL.MEMORY_LABEL||{}).FIELD_WITH_YT);
   });
   await sec('6b',async()=>{
     const G=lawG('2027-02-11',21.05,{fam:['classmate_xinci']}); rules(); answer('vf_y2w_0211',0); rules(); const f0=J(G.flags), r0=J(G.flags.romance||null); setT('2027-02-12',10); await runEv('ev_vf_y2w_0212',[0]);

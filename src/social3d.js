@@ -217,6 +217,7 @@ const SOCIAL = (function(){
   /* 面板名稱：節日（AA_416 1-7，企劃線 ed80edb71；src/fest3d.js）：HOL_<節日>_<年>＝「<年> 的情人節，和她一起過」，照節日換字 */ for(const [k,t] of [['VDAY','情人節'],['WHITE','白色情人節'],['QIXI','七夕'],['BDAY','生日'],['XMAS','聖誕節'],['NYE','跨年']]) for(let y=2025;y<=2029;y++) MEMORY_LABEL['HOL_'+k+'_'+y]=y+' 的'+t+'，和她一起過';
   if(typeof LADDER!=='undefined'&&LADDER.labels) for(const k in LADDER.labels) if(!MEMORY_LABEL[k]) MEMORY_LABEL[k]=LADDER.labels[k];   /* 閒聊階梯的記憶名稱：匯入工具從企劃線的階梯文件表格抓（tools/ladder/import_ladder.py）*/
   MEMORY_LABEL.HXH_SUBJECT='當過她的受試者';   /* 面板名稱：黃筱涵 4-2 當受試者（AA_519，企劃線 d75cd0228；src/sup519_3d.js）*/
+  MEMORY_LABEL.FIELD_WITH_YT='陪她去公館的修鞋店做田野（你拿錄音筆）';   /* 面板名稱：語彤大二暑假 8/13 的田野（AA_556 5-2，企劃線 3d7ad0024；src/data/vacfill_events.js ev_vf_y2s_0813）*/
   S.MEMORY_LABEL=MEMORY_LABEL;
   return S;
 })();

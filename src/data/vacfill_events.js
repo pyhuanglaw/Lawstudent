@@ -7,7 +7,8 @@
    第 2 節 大二暑假（2027）：ev_vf_y2_0729（法圖）、ev_vf_y2_0801（兩點半 Café）
    第 3 節 大三寒假（2028）：ev_vf_y3_0204（麵店的新菜單，AA_445 1-1）、ev_vf_y3_0209（元宵的燈會）、ev_vf_y3_0214（法圖開館）
    第 4 節：ev_vf_y1w_0123（住家裡：媽媽說要去迪化街）、ev_vf_y1w_0124（迪化街）、ev_vf_y1s_0828（姊姊回家住兩天）、ev_vf_y2w_0116（麵店長桌）、ev_vf_y3w_0108（參創）
-   測試：node tests/aa440_vacfill_unit.js */
+   AA_556（企劃線 3d7ad0024，寒暑假第二批；台詞在 VACFILL_LINES2）：ev_vf_y1s_0624（6/24 阿凱線上語音）、ev_vf_y2s_0711（溫州街的冰店）、ev_vf_y2s_0813（公館的修鞋店）、ev_vf_y2w_0212（永和的豆漿店）
+   測試：node tests/aa440_vacfill_unit.js、node tests/aa556_vacgap2_unit.js */
 'use strict';
 const VACFILL_LINES={
   /* ---------- 第 1 節 經濟系那年暑假（2025-07-12～08-12）---------- */
