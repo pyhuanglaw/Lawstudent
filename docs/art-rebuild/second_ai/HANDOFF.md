@@ -2,7 +2,19 @@
 
 ## ⏱ 現況（LAWWW2-B，2026-10-31 20:5x UTC；帳號 B 七天額度已到警示，隨時可能被切斷——接手的先讀這一段）
 
-- **11-01 04:3x（最新）**：
+- **11-01 07:5x（最新）**：
+  - LAWWW-B 06:5x：ACK 美國收尾 ccf717fe0（已整合 dcbd50b01，outbox 改 ACKNOWLEDGED）；ZQ-ARCADE (a)(b)(c) 同意但 P3、**先不要開工**。順序：① 美國還不夠的兩處 → ② ART-ECON-3D-GAP D（醉月湖晚上）、F（兩段劇情背景）→ ③ 才做 ZQ (a)(b)；(c) 我只交 zones3d 公館座位 patch，heroine_circle 歸 LAWWW-B。已回 ACK。
+  - ZQ 停在：laptop_lap 道具 9e407dd2d（只在我的分支，沒接進遊戲）；devtipwt 裡的試接改動另存 `scratchpad/zqseat/devtip_scratch_1101.diff`（不交）。
+  - **① 美國第二輪（進行中）**：
+    - `bake_room.py --dayfill`（新）：只在白天那一張、朝下的柔和面光源（晚上、熄燈不亮）。合租戶客廳東邊 x 0.3～1.3、z −2.8～0.8、12 W。
+    - 鄰居的門：`us_apartment.py` merge_by_material 留下 `door213` 自己一個物件（原本合進 usa_door，`--dayscale` 比對不到），bake_us.sh 兩戶都 `door213=0.65`。
+    - 合租戶第三版烘好（scratchpad/us2/final_shared）：東邊地板 0.17～0.25 → 0.28～0.46、鄰居 207 的門 0.40～0.61 → 0.26～0.38；晚上不變。單人戶第九版烘焙中。
+    - 測試：dev `tests/us_shared_lm_unit.js` 加 ⑨（door213 自己一個節點、有烘）；dev 原樣 FAIL 2。待：單人戶烘完、換 GLB、截圖、README、patch。
+  - **② D 醉月湖晚上（進行中）**：E12 已改成 11/6 17:45（AA_303），傍晚照日期以後已經天黑，對白「湖對面的燈一盞一盞亮起來」→ 影響畫面，做。
+    - `patches/lake_night_1101.patch`（zones3d.js＋新 `tests/lake_night_unit.js`，對開發 f812b45c3 apply --check 過）：北岸 4 盞路燈（中間兩盞在 z −124 邊界灌木後面）、水面燈的倒影（7 個：南 2、北 4、宮燈）、宮燈光暈＋平台光圈。新測試開發原樣 FAIL 6、改後 ALL PASS；校園／湖相關 40 支 ALL PASS。
+    - `campus_lake.py` 加湖心亭宮燈（lake_lantern_paper，+156 面），GLB 已換（a341bcbcf）。待：遊戲內改前改後截圖（`shots/lake_night_shots.py`）、README。
+    - F：兩段（ev_y0_e24b2、ev_y0_c2_hiking）開發分支已 retired（AA_218：10/17 休學刪除），不會演，只記錄。
+- **11-01 04:3x**：
   - LAWWW-B 02:50 ACK tier-2（outbox 改 ACKNOWLEDGED）；02:53 派佇列：BUG-04（P1）→ INTERIOR-AAA 美國收尾（us_shared 烘焙、公寓門外平台／陽台白天偏白）→ BUG-03 博雅 101 頭髮（P2）→ ART-JIAHAO-JOY（0.35→0.28，P3）→ ZQ-ARCADE-SEAT-1028（P3）。03:31 同意 BUG-04 只交 patch。
   - **BUG-04 交件 1fe2069b0**（README `test_shots/bug04_sis_overlap_1101/`）：
     - 原因：v9.7 週三 18:48～21 萬才館，legacy 學姊 (-3,3.6) 和 act:'club' 第一個社員 CLUB_SPOTS[0] 同一點（伯涵 548、子晴 312 時段）。不是重複實體、不是重複模型。遊戲內 v9.7 實拍（剛到、走過去、靠近）。
