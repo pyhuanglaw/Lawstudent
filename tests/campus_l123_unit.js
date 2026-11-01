@@ -2,7 +2,7 @@
 // 台詞逐字照稿：從企劃線 56c11668d git show 讀 AA_118、AA_555（tests/alison.js 讀稿時把舊名字換成 Alison），事件裡的每一句都要在稿裡（補的幾句另外列）。
 //   0 接線：載得到、六個事件在 STORY_EVENTS、PHONE_RULES 掛上、index.html 接在 aa187_3d.js 後面、bbpack_events.js 以前（bbpack3d.js 到 GAME.boot 之間別的測試鎖住了，不能插隊）；這個檔沒有舊名字、沒有真實館名
 //   1 L1 法律系館A的電梯：12:10～12:30、法律系館A一樓（第 0 層）、平日、不是假日、不是開場那兩天、經濟系不演；每學期最多兩次、至少隔 14 天、下一學期重算；宥辰的電梯那天讓它；
-//     等電梯＝旁白＋阿哲那一段（認識阿哲才有）＋手機小事池（AA555.DP）挑一則當八卦（只挑文字、還沒收過、沒聽過；沒有＝保守旁白）；走樓梯＝柏翰，大三以後＋翰 4 之後換句；tick 真的挑到它
+//     等電梯＝旁白＋阿哲那一段（認識阿哲才有）＋電梯專用三句（AA-B 11-01；每學年最多一句、照順序、用完＝保守旁白）；走樓梯＝柏翰，大三以後＋翰 4 之後換句；tick 真的挑到它
 //   2 L2 校史館門口：大一上第 4 週週三 15:00～15:30 在校園；其他週、其他時間、不在校園、大四都不演；一次；不替兩個人記認識
 //   3 L3 圓窗館前的合照：四個學年各一個版本（第 3 週週五）；12:00 系學會在班群約＋排進行程（出發帶到圓窗館前）；不在班群＝Alison 私訊；
 //     16:00 前後在圓窗館前＝演；不在附近不演；演了行程收掉、18:00 沒有照片；沒去＝18:00 班群的照片（晚三天內補）；人在國外不排出發；經濟系不演
@@ -65,23 +65,18 @@ const ticked=()=>{ let got=null; const r0=EVENTS.run; EVENTS.run=async ev=>{ got
     G=fresh('2027-03-02',12.2,'linze'); check('1. 大二下也演（每一學期）',c1());
     G=fresh('2025-09-02',12.2,'linze'); global.SUP497={elevDoneDue:()=>true}; const y1=c1(); delete global.SUP497; const y2=c1(); G.events.last.ev_yc_elev_done=G.day; const y3=c1();
     check('1. 宥辰的電梯（SUP497 ev_yc_elev_done 該演、或今天演過）那天讓它',!y1&&y2&&!y3,J([y1,y2,y3])); }
-  { /* 等電梯 */
+  { /* 等電梯（AA-B 11-01 回第 1 題：電梯專用三句，每一學年最多一句，照順序；用完＝保守旁白）*/
+    const HEAD=['（中午下課，電梯門口擠滿人。）','（電梯來了，進去八個人，門關不上，「嗶——」。）'], ZHE=['（阿哲永遠是最後擠進去的那一個。）','我很瘦。','「嗶——」','……好，我走樓梯。'], G3=CL123.GOSSIP;
+    check('1. 電梯專用三句（AA-B 11-01）',J(G3)===J(['「……對，我在電梯裡。收訊不好，我等一下打給你。」','「她說期中考申論，可是上次她也說考申論，結果全部選擇。」','「我早上沒吃，現在已經十二點了。這樣算早餐還是午餐？」']),J(G3));
     let G=fresh('2025-09-08',12.2,'linze',{MET_ZHE:true}); let L=await runLines(L1,[0]);
-    check('1. 等電梯（認識阿哲、沒有八卦可挑）：旁白 → 阿哲「我很瘦。」「嗶——」「……好，我走樓梯。」→ 保守旁白；選項（等電梯）（走樓梯）',
-      J(L)===J(['（中午下課，電梯門口擠滿人。）','（電梯來了，進去八個人，門關不上，「嗶——」。）','（阿哲永遠是最後擠進去的那一個。）','我很瘦。','「嗶——」','……好，我走樓梯。',CL123.GOSSIP_NONE])&&who()[3]==='阿哲'&&who()[5]==='阿哲'&&J(H.opts[0])===J(['（等電梯）','（走樓梯）']),J([L,who(),H.opts]));
+    check('1. 等電梯（認識阿哲、大一第一次）：旁白 → 阿哲「我很瘦。」「嗶——」「……好，我走樓梯。」→「（電梯裡，後面有人在講手機。）」第一句；選項（等電梯）（走樓梯）',
+      J(L)===J(HEAD.concat(ZHE,[CL123.GOSSIP_PRE,G3[0]]))&&J(H.opts[0])===J(['（等電梯）','（走樓梯）']),J([L,H.opts[0]]));
+    L=await runLines(L1,[0]); check('1. 同一學年第二次：保守旁白「（電梯裡很擠，大家都在滑手機。）」',L[L.length-1]===CL123.GOSSIP_NONE,J(L.slice(-2)));
+    const R=G.flags.L1_ELEV; const yr=async k=>{ G.day=STORY.dayOfKey(k); G.weekday=CALENDAR.dateOf(G.day).wd%7; const x=await runLines(L1,[0]); return x.slice(-1)[0]; };
+    const y2=await yr('2026-10-06'), y3=await yr('2027-10-05'), y4=await yr('2028-10-03');
+    check('1. 大二第二句、大三第三句、大四三句用完＝保守旁白',y2===G3[1]&&y3===G3[2]&&y4===CL123.GOSSIP_NONE&&(R.g|0)===3,J([y2,y3,y4,R]));
     G=fresh('2025-09-02',12.2,'linze'); const kz=STORY.knows('zhe',G); L=await runLines(L1,[0]);
-    check('1. 新局還不認識阿哲（9/4 他才自我介紹）：沒有阿哲那一段',!kz&&J(L)===J(['（中午下課，電梯門口擠滿人。）','（電梯來了，進去八個人，門關不上，「嗶——」。）',CL123.GOSSIP_NONE]),J([kz,L]));
-    /* 八卦：手機小事池（AA555.DP）*/
-    G=fresh('2025-09-08',12.2,'linze',{MET_ZHE:true}); G.contacts.yu=G.day-3; const r0=Math.random; Math.random=()=>0;
-    const cand=CL123.gossipCands(G).map(c=>c.id); L=await runLines(L1,[0]); const g1=L.slice(-2);
-    L=await runLines(L1,[0]); const g2=L.slice(-2); L=await runLines(L1,[0]); const g3=L.slice(-1); Math.random=r0;
-    check('1. 八卦（有 Alison 聯絡方式、大一上）：候選是她大一上兩則文字的；旁白「（電梯裡，後面有人在講手機。）」接原句；同一則不再聽；挑完＝保守旁白',
-      J(cand)===J(['a118_y1s1_yu_lunch','a118_y1s1_yu_debate'])&&J(g1)===J([CL123.GOSSIP_PRE,'「欸」「欸欸」「你今天中午吃什麼」「我隨便問的」「我一個人在小松」'])&&J(g2)===J([CL123.GOSSIP_PRE,'「今天練習的題目是『宵夜應該被保障』。我是正方。我贏了。」'])&&J(g3)===J([CL123.GOSSIP_NONE])&&J(G.flags.L1_ELEV.heard)===J(cand),J([cand,g1,g2,g3,G.flags.L1_ELEV]));
-    check('1. 八卦的原句在 AA_118 第 3 節（逐字）',SEC3.includes('「欸」「欸欸」「你今天中午吃什麼」「我隨便問的」「我一個人在小松」')&&SEC3.includes('「今天練習的題目是『宵夜應該被保障』。我是正方。我贏了。」'));
-    G=fresh('2025-09-08',12.2,'linze'); G.contacts.yu=G.day-3; G.flags.dpN={a118_y1s1_yu_lunch:1}; const c2=CL123.gossipCands(G).map(c=>c.id);
-    G=fresh('2025-09-08',12.2,'linze'); G.contacts.heroine_03=G.day-3; G.weather='rain'; const c3=CL123.gossipCands(G).map(c=>c.id);
-    G=fresh('2026-03-10',12.2,'linze'); G.contacts.yu=G.day-3; const c4=CL123.gossipCands(G).map(c=>c.id);
-    check('1. 八卦：手機已經收過的那則不挑；照片那幾則（語彤的小菜、雨）不挑；大一下挑大一下的',J(c2)===J(['a118_y1s1_yu_debate'])&&J(c3)===J([])&&c4.length>0&&c4.every(id=>/^a118_y1s2_/.test(id)),J([c2,c3,c4])); }
+    check('1. 新局還不認識阿哲（9/4 他才自我介紹）：沒有阿哲那一段',!kz&&J(L)===J(HEAD.concat([CL123.GOSSIP_PRE,G3[0]])),J([kz,L])); }
   { /* 走樓梯 */
     let G=fresh('2025-09-08',12.2,'linze'); let L=await runLines(L1,[1]);
     check('1. 走樓梯：柏翰「走樓梯比電梯快四十秒。我算過。」',J(L)===J(['（中午下課，電梯門口擠滿人。）','走樓梯比電梯快四十秒。我算過。'])&&who()[1]==='許柏翰',J([L,who()]));
@@ -109,12 +104,12 @@ const ticked=()=>{ let got=null; const r0=EVENTS.run; EVENTS.run=async ev=>{ got
   const EV3=y=>CL123.EV_L3[y-1];
   const LINES3={1:['（系學會每年在圓窗館前拍一張合照。）','（Alison 站最後一排，跳起來才拍得到。）','欸再一張，我剛剛眨眼。'],2:['（系學會每年在圓窗館前拍一張合照。）','（Alison 站中間，負責喊「一、二、三」。）'],
     3:['（系學會每年在圓窗館前拍一張合照。）','（Alison 把系學會交出去了，站在攝影師旁邊，負責拿器材。）','我第一次在照片外面。……還不錯。'],4:['（系學會每年在圓窗館前拍一張合照。）','（學弟妹請 Alison 回來拍。她站最邊邊，笑得最開心。）']};
-  const KEYS3={1:'2025-09-19',2:'2026-09-25',3:'2027-09-24',4:'2028-09-22'};
+  const KEYS3={1:'2025-09-19',2:'2026-09-24',3:'2027-09-24',4:'2028-09-22'};   /* 大二：2026-09-25 是中秋，AA-B 11-01 改前一天 9/24（四）*/
   const rules=G=>{ STORY.phoneRules(GM); PHONE.tick(G); };
   const atPav=()=>{ E.player.obj.position.x=CL123.L3_AT.x; E.player.obj.position.z=CL123.L3_AT.z+1; };
   const here3=ev=>EVENTS.check(ev)&&Math.hypot(ev.near.x-E.player.obj.position.x,ev.near.z-E.player.obj.position.z)<=ev.near.r;
   for(const y of [1,2,3,4]){ const d=CL123.l3Day(y), ev=EV3(y), t=CALENDAR.termOf(d);
-    check('3-'+y+'. 大'+'一二三四'[y-1]+'：那一天是 Y'+y+'S1 第 3 週週五（'+KEYS3[y]+'）',keyOf(d)===KEYS3[y]&&t.id==='Y'+y+'S1'&&t.week===3&&CALENDAR.dateOf(d).wd===5,keyOf(d));
+    check('3-'+y+'. 大'+'一二三四'[y-1]+'：那一天是 Y'+y+'S1 第 3 週週'+(y===2?'四':'五')+'（'+KEYS3[y]+'）',keyOf(d)===KEYS3[y]&&t.id==='Y'+y+'S1'&&t.week===3&&CALENDAR.dateOf(d).wd===(y===2?4:5),keyOf(d));
     let G=fresh(KEYS3[y],11.9,'dorm'); PHONE.join(G,'law_class','法律系（全班）'); rules(G); const pre=H.msgs('g:law_class').includes(CL123.INV);
     G.hour=12; rules(G); const m=(G.msgs||[]).find(x=>x.th==='g:law_class'&&x.text===CL123.INV), q=OUT.get(G,'l123_l3_'+y);
     check('3-'+y+'. 12:00 系學會在班群約（11:59 還沒有）、排進行程：16:00、出發帶到圓窗館前（campus）',!pre&&!!m&&m.name==='系學會'&&!!q&&q.state==='planned'&&q.h===16&&q.goto&&q.goto.zone==='campus'&&Math.hypot(q.goto.x-CL123.L3_AT.x,q.goto.z-CL123.L3_AT.z)<CL123.L3_R,J([pre,m,q]));

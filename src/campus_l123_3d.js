@@ -5,7 +5,7 @@
      上午第二節下課（12:10）、人在法律系館A一樓（zone linze、第 0 層），大一上第 1 週起每一學期（Y1S1～Y4S2）；平日、不是假日、不是開場那兩天（STORY.opening）。
      每學期最多兩次（G.flags.L1_ELEV.n[學期]），兩次至少隔兩週（cooldown_days 14）。玩家選「（等電梯）」「（走樓梯）」；沒有旗標、沒有後果（L1_ELEV 只是次數紀錄）。
      - 等電梯：「電梯來了……」旁白 → 阿哲那一段（「我很瘦。」「嗶——」「……好，我走樓梯。」；認識阿哲才有：新局 9/4 他才自我介紹）
-       → 聽到別人的八卦：從摘要日的手機小事池（AA_118 第 3 節＝遊戲裡的 AA555.DP，src/aa555_3d.js）挑一則——當學期、那一則的條件成立、全部是文字（沒有照片／檔案／語音）、
+       → 聽到別人的八卦：AA-B 11-01 改成電梯專用三句（不從朋友的手機小事池挑）——當學期、那一則的條件成立、全部是文字（沒有照片／檔案／語音）、
          同一個人說的、還沒收過、電梯裡還沒聽過；旁白「（電梯裡，後面有人在講手機。）」接那一則的原句（每一段用「」）。沒有符合的＝保守旁白 S.GOSSIP_NONE。
      - 走樓梯：二樓迴廊遇到柏翰「走樓梯比電梯快四十秒。我算過。」；大三以後、翰 4 之後（BH4_DONE 或 ev_bohan_third_floor 演過）換「……可是今天我想等。」
      技術預設（稿沒寫，要問 AA）：時間窗 12:10～12:30（下課走到一樓要時間；宥辰的電梯支線是 12:10～12:20）；宥辰那一場（SUP497 ev_yc_elev_done）當天讓它；
@@ -47,16 +47,13 @@ const CL123=(function(){
     if(S.l1Count(G)>=S.L1_MAX) return false;
     if(typeof SUP497!=='undefined'&&SUP497.elevDoneDue&&SUP497.elevDoneDue(G)) return false; if(G.events&&G.events.last&&G.events.last.ev_yc_elev_done===G.day) return false;   /* 宥辰的電梯（同一個時段、同一個電梯口）那天讓它 */
     return true; };
-  /* 聽到的八卦：AA_118 第 3 節的手機小事池（AA555.DP）挑一則 */
+  /* 聽到的八卦（AA-B 11-01 回第 1 題）：不從朋友的手機小事池挑（陌生人講朋友的話很怪、之後朋友再傳會重複）——電梯專用三句，不標說話的人；
+     每一學年最多輪到一句（照順序），三句都用過以後＝「（電梯裡很擠，大家都在滑手機。）」。記 L1_ELEV.g（用到第幾句）、L1_ELEV.gy（哪一學年用過）*/
   S.GOSSIP_PRE='（電梯裡，後面有人在講手機。）';
-  S.GOSSIP_NONE='（電梯裡很擠，大家都在滑手機。）';   /* 沒有符合的那一則：保守旁白（補的，要問 AA）*/
-  const plain=t=>typeof t==='string'&&t.length>0&&!t.startsWith('📷')&&!t.startsWith('📎')&&!t.startsWith('（');
-  S.gossipCands=function(G){ if(typeof AA555==='undefined'||!Array.isArray(AA555.DP)) return []; const Tm=termOf(G.day), R=G.flags.L1_ELEV, heard=R&&Array.isArray(R.heard)?R.heard:[], N=G.flags.dpN||{}, out=[];
-    for(const d of AA555.DP){ try{ if(heard.includes(d.id)||(N[d.id]|0)>0) continue; if(!d.term||!d.term(Tm)||!d.ok(G,G.day)) continue;
-        const its=d.items(G)||[]; if(!its.length||!its.every(m=>plain(m.text))||new Set(its.map(m=>m.from)).size>1) continue;
-        out.push({id:d.id,text:its.map(m=>'「'+m.text+'」').join('')}); }catch(e){ console.warn('CL123 gossip',d&&d.id,e); } }
-    return out; };
-  S.gossip=function(G){ const C=S.gossipCands(G); if(!C.length) return [S.GOSSIP_NONE]; const c=C[Math.min(C.length-1,Math.floor(Math.random()*C.length))]; S.l1Rec(G).heard.push(c.id); return [S.GOSSIP_PRE,c.text]; };
+  S.GOSSIP_NONE='（電梯裡很擠，大家都在滑手機。）';
+  S.GOSSIP=['「……對，我在電梯裡。收訊不好，我等一下打給你。」','「她說期中考申論，可是上次她也說考申論，結果全部選擇。」','「我早上沒吃，現在已經十二點了。這樣算早餐還是午餐？」'];
+  S.gossip=function(G){ const R=S.l1Rec(G), g=R.g|0, gy=Array.isArray(R.gy)?R.gy:(R.gy=[]), y=yearOf(G);
+    if(g>=S.GOSSIP.length||gy.includes(y)) return [S.GOSSIP_NONE]; R.g=g+1; gy.push(y); return [S.GOSSIP_PRE,S.GOSSIP[g]]; };
   const ZK=G=>knows(ZHE,G);
   S.bhWaits=G=>yearOf(G)>=3&&(!!G.flags.BH4_DONE||done(G,'ev_bohan_third_floor'));   /* 大三以後、翰 4 之後：他開始會等人 */
   S.EV_L1={id:'ev_l1_elevator',participants:[],location:'linze',trigger:'auto',weekday:[1,2,3,4,5],time:[12+10/60,12.5],cooldown_days:S.L1_GAP,background:'blur',   /* 沒有標題（只是生活：不出字卡、不進日誌）*/
@@ -92,9 +89,10 @@ const CL123=(function(){
     {y:2,lines:[nar('（系學會每年在圓窗館前拍一張合照。）'),nar('（Alison 站中間，負責喊「一、二、三」。）')]},
     {y:3,lines:[nar('（系學會每年在圓窗館前拍一張合照。）'),nar('（Alison 把系學會交出去了，站在攝影師旁邊，負責拿器材。）'),yu('我第一次在照片外面。……還不錯。')]},
     {y:4,lines:[nar('（系學會每年在圓窗館前拍一張合照。）'),nar('（學弟妹請 Alison 回來拍。她站最邊邊，笑得最開心。）')]} ];
-  S.l3Day=y=>STORY.termDay?STORY.termDay('Y'+y+'S1',3,5):null;   /* 那一學年上學期第 3 週週五 */
+  S.L3_WD={1:5,2:4,3:5,4:5};   /* 第 3 週週五；大二 2026-09-25 是中秋（國定假日），AA-B 11-01 回第 4 題：改前一天 9/24（四）（那個時段沒有別的事件，不用退到 9/23）*/
+  S.l3Day=y=>STORY.termDay?STORY.termDay('Y'+y+'S1',3,S.L3_WD[y]||5):null;
   S.l3Went=function(G,y){ const q=typeof OUT!=='undefined'&&OUT.get?OUT.get(G,'l123_l3_'+y):null; if(q&&q.state==='planned') q.state='done'; };   /* 自己走過去演了＝行程不再問「出發」*/
-  S.EV_L3=S.L3.map(o=>({id:'ev_l3_photo_'+o.y,title:'圓窗館前的合照',participants:[YU],noMeet:[YU],location:'campus',trigger:'auto',once:true,term:['Y'+o.y+'S1'],weeks:[3],weekday:[5],time:[15+50/60,16.5],
+  S.EV_L3=S.L3.map(o=>({id:'ev_l3_photo_'+o.y,title:'圓窗館前的合照',participants:[YU],noMeet:[YU],location:'campus',trigger:'auto',once:true,term:['Y'+o.y+'S1'],weeks:[3],weekday:[S.L3_WD[o.y]||5],time:[15+50/60,16.5],
     near:{x:S.L3_AT.x,z:S.L3_AT.z,r:S.L3_R},background:'blur',
     prereq:{custom:G=>law(G)},
     dialogue:o.lines.slice(),
