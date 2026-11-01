@@ -10,9 +10,9 @@
    測試：node tests/aa416_fest_unit.js */
 'use strict';
 const FEST_DATA=(function(){
-  const AN='heroine_01', ZR='heroine_02', YT='heroine_03', ZQ='heroine_04', SIS='heroine_05', PS='classmate_peishan', KX='kexin';
+  const AN='heroine_01', ZR='heroine_02', YT='heroine_03', ZQ='heroine_04', SIS='heroine_05', PS='classmate_peishan', KX='kexin', XC='classmate_xinci';
   const S_=id=>t=>({speaker:id,text:t}), N=t=>({speaker:null,text:t});
-  const A=S_(AN), Z=S_(ZR), Y=S_(YT), Q=S_(ZQ), W=S_(SIS), P=S_(PS), K=S_(KX);
+  const A=S_(AN), Z=S_(ZR), Y=S_(YT), Q=S_(ZQ), W=S_(SIS), P=S_(PS), K=S_(KX), C=S_(XC);
   const yr=G=>typeof CALENDAR!=='undefined'&&CALENDAR.dateOf?CALENDAR.dateOf(G.day).y:null;
   const route=G=>typeof STORY!=='undefined'&&STORY.route?STORY.route(G):null;
   const hasCG=id=>typeof CG_REGISTRY!=='undefined'&&!!CG_REGISTRY[id];
@@ -175,10 +175,30 @@ const FEST_DATA=(function(){
         bday:{dedicated:{dt:[2026,2027,2028,2029]}},
         xmas:{years:[2025],dedicated:{dt:[2026,2027,2028]},dt:[K('聖誕節。……我從山上下來了。你要請客。')],taipei:[2025]} },   /* 2025：她從政大下來（寒假的高雄還沒開始那一版）*/
       ask:{lines:['明天晚上六點半 公館','你敢遲到試試看'],by:{vday:['明天情人節 晚上六點半 公館','你敢遲到試試看'],white:['明天三月十四 晚上六點半 公館','回禮我準備好了'],qixi:['明天七夕 晚上六點半 公館','我訂位了'],bday:['明天我生日 晚上六點半 公館','你敢忘記試試看'],xmas:['明天聖誕節 晚上六點半 公館','這次我先到']},no:['好。……你記得你欠我一次。'],h:18.5,place:'公館',bg:'gongguan'},
-      home:{city:'高雄',bg:'kh_sizihwan'} } };
+      home:{city:'高雄',bg:'kh_sizihwan'} },
+    /* ---------------- 吳芯慈（只有交往中）：AA_537b 第 5 節（企劃線 b3df9c4e9）；AA_548 第 9 節（d145b889a）「交往中的五個節日：照 AA_537b 第 5 節，句子不改」——XINCI-EPI-FEST-1031 後半 ----------------
+       台詞一字照稿（tests/xinci_fest_unit.js 對稿）。稿沒寫清楚的地方用最保守的技術預設（照其他人「交往中」那一格的流程），寫在每一格旁邊，回報 AA：
+       - 她的生日 3/28、聖誕：跟其他人的生日、聖誕一樣＝玩家約（邀約選單「約她過節」→ 中午場／晚上場 → 地點），到了先演這一格（dt）。她沒有禮物表（稿沒有四樣禮物）＝不跳禮物選單、不扣錢；
+         生日那一格的旁白本身就是她收到禮物。聖誕「她約」稿沒寫＝她不先約（ask.only 只有情人節）。
+       - 情人節：「我不太會過這種節。……可是我提前一天約你了。」＝她前一天 21:00 約你的那一則私訊（她「吃飯要提前一天約」，同 termend_lines.js GF 的「明天晚上吃飯。……我提前一天約了。」）；
+         回「好。」＝隔天 18:00 巷口家常菜（她常去的地方、時間照期末飯 GF：l118_home 18:00；118 巷的店沒有 2D 底圖＝深色底＋地點字幕）。
+         見面那一場稿沒有台詞＝只演地點字幕（dt 空的；好感、記憶 HOL_VDAY_<年> 照記）。玩家不另外約她過情人節（herOnly：稿寫她提前一天約）。
+       - 跨年、你的生日：只有訊息（P.dm；fest3d.js S.dmRule）。跨年 23:58、00:01 兩則；你的生日 00:00 一則——祐廷的生日是人物設定、留給使用者（AA_384 第 4 項），
+         還沒定＝FEST_DATA.PLAYER_BDAY null＝這一則先不發（定了填 'MM-DD' 就會發）。
+       - 線開關：XCROM.ON 關著＝都沒有（on）。 */
+    [XC]:{ datingOnly:true, on:G=>typeof XCROM==='undefined'||!!XCROM.ON,
+      fest:{
+        vday:{herOnly:true,dt:[]},   /* 見面那一場稿沒有台詞（只演地點字幕）；台詞是前一天她約你的那一則（ask）*/
+        bday:{dt:[N('（她收到禮物，拆得很慢，包裝紙摺好才放進包包。）'),C('我會留著。包裝紙也是。')]},
+        xmas:{dt:[C('今年是十三部。最後一部，我想跟你一起看。')]} },   /* 大一上她送筆記本那段（events.js ev_xmas_exchange「十二部。看完跟我說。」）照舊，這裡不動 */
+      ask:{only:['vday'],lines:['我不太會過這種節。……可是我提前一天約你了。'],no:[],h:18,place:'巷口家常菜',bg:'dark'},   /* only：她只先約情人節（稿只寫情人節「提前一天約」）；回「那天不行。」稿沒有她的回話＝不回 */
+      dm:{ nye:[{h:23+58/60,lines:['我在家。我媽在看晚會。']},{h:24+1/60,lines:['新年快樂。這是今年第一則。']}],   /* 12/31 23:58、1/1 00:01（24 以上＝隔天凌晨，PHONE.at）*/
+        myBday:[{h:0,lines:['生日快樂。我設了鬧鐘。……我本來就醒著，鬧鐘是保險。']}] } } };   /* 你的生日 00:00（PLAYER_BDAY）*/
   return {NAMES,PEOPLE:P_,
     QIXI:{2026:'2026-08-19',2027:'2027-08-08',2028:'2028-08-26',2029:'2029-08-16'},
-    BDAY:{[AN]:'09-15',[ZR]:'09-28',[YT]:'07-09',[ZQ]:'02-10',[SIS]:'06-02',[PS]:'03-15',[KX]:'04-24'},
+    BDAY:{[AN]:'09-15',[ZR]:'09-28',[YT]:'07-09',[ZQ]:'02-10',[SIS]:'06-02',[PS]:'03-15',[KX]:'04-24',[XC]:'03-28'},   /* 芯慈 3/28（msg2_pool.js、AA_537b 第 5 節）*/
+    /* 祐廷的生日（'MM-DD'）：人物設定、留給使用者（AA_384 第 4 項：「祐廷的生日是人物設定，留給使用者，AA 不定」）——還沒定＝null，芯慈 00:00 那一則（dm.myBday）先不發 */
+    PLAYER_BDAY:null,
     /* 第 6 階以上 1-3：三個情人節＝第 6 階或交往中；生日、聖誕（子晴的跨年同）＝第 5 階以上 */
     MIN:{vday:6,white:6,qixi:6,bday:5,xmas:5,nye:5},
     /* 好感 1-7（不受每天上限）*/
@@ -187,7 +207,7 @@ const FEST_DATA=(function(){
     CITY:{台中:'D26',台南:'D28',高雄:'D29'} };
 })();
 /* 每個人一個出遊事件（OUT 的 trigger 'outing'）：台詞照 src/fest3d.js 排好的那一場（beforeOuting 記下這一趟，call 那一行演）*/
-const FEST_EVENTS=['heroine_01','heroine_02','heroine_03','heroine_04','heroine_05','classmate_peishan','kexin'].map(id=>{
+const FEST_EVENTS=['heroine_01','heroine_02','heroine_03','heroine_04','heroine_05','classmate_peishan','kexin','classmate_xinci'].map(id=>{   /* 芯慈：情人節她約的那一場（XINCI-EPI-FEST-1031）*/
   const X=()=>typeof FEST!=='undefined'?FEST:null;
   return { id:'ev_fest_'+id, participants:[id], location:'any', trigger:'outing', background:'dark',
     get title(){ const x=X(), q=x&&x._q; return q&&q.fest?x.name(q.fest.k):'節日'; },
