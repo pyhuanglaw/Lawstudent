@@ -1498,6 +1498,14 @@ const STORY_EVENTS=[
       {label:'dep'},{speaker:'kai',expression:'smile',text:'又來了。……好啦，拿去。'},{mem:[{npc:'kai',tag:'SAID_DEPENDS',note:'颱風夜的泡麵：「不可抗力？」「看情況。」'}]},
       {label:'end'} ],
     consequences:{flags:{TYPHOON_Y1:true},memo:'颱風假：宿舍的泡麵之夜'} },
+  /* AA_208 第 2-4 節「返鄉」（AA_204 第 4 節；AA208-L 歷史複核：AA_502 以為做了、其實沒有）：同寢室的阿哲 1/2 回高雄、柏翰 1/9 回新竹（characters.js absentDates 那天起不在）——
+     那天人在 203 就多一句旁白；只有大一寒假；那天沒進房間（回家住、整天在外面）就沒有 */
+  { id:'ev_y1w_zhe_left', title:'', participants:[], location:'dorm', trigger:'auto', once:true, priority:2, background:'blur',
+    prereq:{custom:G=>(G.stage||'law')==='law'&&typeof STORY!=='undefined'&&!!STORY.dayOfKey&&G.day===STORY.dayOfKey('2026-01-02')},
+    dialogue:[ {speaker:null,text:'（阿哲的籃球不在了。）'} ] },
+  { id:'ev_y1w_bh_left', title:'', participants:[], location:'dorm', trigger:'auto', once:true, priority:2, background:'blur',
+    prereq:{custom:G=>(G.stage||'law')==='law'&&typeof STORY!=='undefined'&&!!STORY.dayOfKey&&G.day===STORY.dayOfKey('2026-01-09')},
+    dialogue:[ {speaker:null,text:'（柏翰的床鋪捲起來了，桌上只剩檯燈。）'} ] },
   /* 跨年（交付清單 A21：交接包_v1 第 3 節、AA_71 2-7、BB_95 9-7）：12/31（16 週制：寒假裡，AA_204）。一週前可昕問「跨年要不要去人少的地方？」（story3d.js 的 phoneRules）：
      「好。」＝河堤（出遊，和 K1b 的河堤共用背景；回宿舍的路上麵店團群組傳頂樓的照片）；「我想在臺北跟麵店團跨年。」＝宿舍頂樓，零點前一分鐘她打視訊來（不扣分；她不在這裡和麵店團見面）。
      沒有回她、在麵店團群組裡的玩家照 AA 的群戲去頂樓（沒有視訊）。記 KX_NYE:{1:'river'|'roof'}（BB_107 第 13 節：節日每年一筆）*/

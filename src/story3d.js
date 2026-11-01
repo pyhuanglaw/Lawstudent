@@ -3219,10 +3219,12 @@ const STORY = (function(){
       G.flags.ROOM_Y2_MOVING=true; if(GM.enter) await GM.enter('dorm',{x:0,z:2.4,yaw:Math.PI}); await GM.fade(false); }   /* ROOM_Y2_MOVING：房間直接蓋成 312（封好的紙箱），拆完 unboxY2 清掉 */
     finally{ GM.sceneEnd(); }
     return S.unboxY2(GM); };
+  S.ROOM_MATE_Y2=['（312。阿哲的籃球已經滾到門口了，柏翰的檯燈放在靠窗那張書桌上。）','（另一組床桌是一個大一的學弟，正在跟他媽媽講電話。）'];   /* AA_208 第 7 節（阿哲、柏翰同房，學弟沒有名字）*/
   S.unboxY2=async function(GM){ const G=GM.G, F=G.flags; if(!S.roomY2Due(G)) return false; F.ROOM_Y2=G.day; if(typeof DM3!=='undefined'&&DM3.fixRoomExit&&G.zone==='dorm') DM3.fixRoomExit(GM.E,G); const L=S.roomY2Items(G); GM.sceneBegin();
     const Z=GM.E&&GM.E.zone, shown=[]; F.ROOM_Y2_ITEMS=shown; const vis=st=>{ if(Z&&Z.setY2Items) Z.setY2Items(st); };   /* 3D：拿出來的東西一件一件出現在桌上、軟木板上（dorm_y2_items.glb，zones3d.js）*/
     vis({shown:[],boxes:'closed'});
-    try{ for(let guard=0;guard<40&&L.length;guard++){ const i=await GM.choose(L.map(r=>({t:'（拿出'+r[1]+'）'}))); const r=L.splice(i>=0&&i<L.length?i:0,1)[0]; shown.push(r[0]); vis({shown:shown.slice()}); if(r[0]==='sticky') F.XC1_STICKY=true; for(const t of r[2]) await GM.say(null,t); }   /* XC1_STICKY＝拿出芯慈的便利貼（慈 1 收著，AA_496 第 9 節第 1 點）：尾聲「第 12 頁」那一句讀它（postgrad3d.js）*/
+    try{ for(const t of S.ROOM_MATE_Y2) await GM.say(null,t);   /* AA_208 第 7 節：拆箱以前的室友旁白（AA208-L 歷史複核缺的；大三、大四是 ROOM_MATE_Y3／Y4）*/
+      for(let guard=0;guard<40&&L.length;guard++){ const i=await GM.choose(L.map(r=>({t:'（拿出'+r[1]+'）'}))); const r=L.splice(i>=0&&i<L.length?i:0,1)[0]; shown.push(r[0]); vis({shown:shown.slice()}); if(r[0]==='sticky') F.XC1_STICKY=true; for(const t of r[2]) await GM.say(null,t); }   /* XC1_STICKY＝拿出芯慈的便利貼（慈 1 收著，AA_496 第 9 節第 1 點）：尾聲「第 12 頁」那一句讀它（postgrad3d.js）*/
       delete F.ROOM_Y2_MOVING; vis({boxes:'open'}); await GM.say(null,'一年。房間比去年滿一點。'); }
     finally{ delete F.ROOM_Y2_MOVING; GM.sceneEnd(); }
     GM.memo('搬進第二個房間'); if(GM.autosave) GM.autosave(); return true; };
