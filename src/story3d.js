@@ -97,7 +97,9 @@ const STORY = (function(){
      交了以後改成預設。舊存檔不受影響（沒有 MAIN_D1＝主線第一天是 9/17） */
   /* 芷若知不知道祐廷有伴侶（BB_191 9-4 #6；AA_112 8-1）：她的私訊時間（雙方都單身 22:07、她知道 15:10）、宵夜「多帶幾個人」照這個；Z5 三人版看她知不知道可昕（zrGF）*/
   const zrKnows=G=>typeof ROM!=='undefined'&&ROM.knows?ROM.knows(G,'heroine_02').length>0:!!(G.flags&&G.flags.dating_kexin);
-  const zrGF=G=>typeof ROM!=='undefined'&&ROM.gfNow?ROM.gfNow(G,'heroine_02'):!!(G.flags&&G.flags.dating_kexin);
+  const zrGF=G=>(typeof ROM!=='undefined'&&ROM.gfNow?ROM.gfNow(G,'heroine_02'):!!(G.flags&&G.flags.dating_kexin))&&!zrDH(G);   /* AA_554：和芷若交往中（zrDH）＝兩個人的版本，不是三人版 */
+  const zrDH=G=>{ const F=(G&&G.flags)||{}, R=F.romance||{}; return F.dating_heroine_02===true||!!(R.heroine_02&&R.heroine_02.status==='dating'); };   /* 和芷若交往中（AA_554；同 events.js 的 DHN）*/
+  const zqDH=G=>{ const F=(G&&G.flags)||{}, R=F.romance||{}; return F.dating_heroine_04===true||!!(R.heroine_04&&R.heroine_04.status==='dating'); };   /* 和子晴交往中（AA_554）*/
   S.START1=()=>!(typeof location!=='undefined'&&/[?&]start0\b/.test(location.search||''));   /* 新遊戲預設＝8/22 宿營（CAMP-L1，使用者 2026-10-16 強制參加、AA_205；經濟系路線的宿營 dc478cb6 做完以後改預設）；?start0＝舊的 9/17 開局（測舊存檔那條路用）*/
   S.LAW_D0=-18; S.MAIN_D1_NEW=-13;   /* 2025-08-29（五）下午搬進宿舍＝新遊戲第一天（使用者 2026-10-16 對 AA-B，AA_195 第 2-0 節 a353a009）；主線第一天 2025-09-03（三）*/
   S.startLawWeek1=async function(GM,recap,o){ o=o||{}; const E=GM.E, G=GM.G, F=G.flags; const d0=S.dayOfKey('2025-08-29'), d=o.day!=null&&o.day>d0?o.day:d0;   /* 新遊戲＝8/29（S.LAW_D0＝−18）；經濟系轉過來的照當天（不倒退）——經濟系玩家哪一天轉、要不要也 8/29 搬，問 AA */
@@ -885,7 +887,8 @@ const STORY = (function(){
      AA_363 R4：第 9～11 週照留，句子改成不管隔幾週都對（原本「上禮拜六那個比賽……」）*/
   S.CONTEST_HEARD_LINE='那個比賽，我沒去。……那天我在公館喝咖啡。';
   S.contestHeardDue=function(G,id){ if(id!=='heroine_04'||!G||!G.flags||G.flags.CONTEST_HEARD!=null||typeof SOCIAL==='undefined'||typeof CALENDAR==='undefined') return false;
-    if(!SOCIAL.has('heroine_04','ARGUED_ABOUT_CAREER')||SOCIAL.has('heroine_04','CONTEST_DAY')) return false; const t=CALENDAR.termOf(G.day); return !!t&&t.id==='Y1S2'&&t.week>=9&&t.week<=11; };
+    if(!SOCIAL.has('heroine_04','ARGUED_ABOUT_CAREER')||SOCIAL.has('heroine_04','CONTEST_DAY')) return false; if(typeof PHONE!=='undefined'&&PHONE.sent&&PHONE.sent(G,'aa554_q4_miss')) return false;   /* AA_554（BB_187 2-1）：和她交往中、她傳了沒去＝17:50 那兩則以後，下一次見面她不提 */
+    const t=CALENDAR.termOf(G.day); return !!t&&t.id==='Y1S2'&&t.week>=9&&t.week<=11; };
   S.contestHeard=async function(GM,who,id){ const G=GM.G; if(!S.contestHeardDue(G,id)) return false; G.flags.CONTEST_HEARD=G.day; if(SOCIAL.remember) SOCIAL.remember('heroine_04','CONTEST_HEARD','');   /* AA_363 R5：回憶「聽她說那場比賽她沒去，在公館喝咖啡」*/ await GM.say(who,S.CONTEST_HEARD_LINE); return true; };
   // 與資料驅動人物對話：先看事件，再閒聊；名字依揭露階段
   S.talkCharacter=async function(id,n){ const G=GM_ref.G; if(n&&SOCIAL.npcName) n.name=SOCIAL.npcName(id);   /* 開始說話先照現在的叫法（交往中＝書瑀；生成之後才開始交往的也對，BUG-SIS-DATING-NAME-1023）*/
@@ -2545,16 +2548,16 @@ const STORY = (function(){
        Z7b 學校這一關（BB_97 3-4b）：寒假 1/28（四）21:00（摘要日，AA-B 定）；Z7 演過或收到寒假那則；記 ZR_NOMINATED（Z8、ev_zhiruo_admitted 讀）*/
     { const d=S.dayOfKey('2026-12-10'), Zp=t=>({th:'p:heroine_02',from:'heroine_02',text:t}), ED=id=>!!(G.events&&G.events.done&&G.events.done[id]), knowsP=typeof ROM!=='undefined'&&ROM.knows(G,'heroine_02').length>0; if(d!=null){
         let bk=null; for(let x=d+1;x<d+80;x++){ if(typeof CALENDAR!=='undefined'&&!CALENDAR.termOf(x)){ bk=x; break; } }   /* 大二上結束後的第一天（寒假第一天）*/
-        if((G.day>d||(G.day===d&&G.hour>=23+59/60))&&(bk==null||G.day<bk)&&ED('ev_zhiruo_secret')&&!ED('ev_zhiruo_applied')&&G.contacts&&G.contacts.heroine_02!=null&&!knowsP&&!PHONE.sent(G,'zr_z7_msg'))
+        if((G.day>d||(G.day===d&&G.hour>=23+59/60))&&(bk==null||G.day<bk)&&ED('ev_zhiruo_secret')&&!ED('ev_zhiruo_applied')&&G.contacts&&G.contacts.heroine_02!=null&&!knowsP&&!zrDH(G)&&!PHONE.sent(G,'zr_z7_msg'))   /* 和她交往中：換成 23:50 她打來的電話（BB_189 2-1，src/aa554_3d.js；那通沒接到才補這三則）*/
           PHONE.at(G,d,23+59/60,[Zp('交換申請，剛剛按了送出。英國那一間。'),Zp('截止是十二點。我在十一點五十九分按的。'),Zp('……手還在抖。下次你來店裡，再跟你說。')],'zr_z7_msg');
-        if(F.ZR_Z7_MOM&&F.zrAppliedDay!=null&&!PHONE.sent(G,'zr_z7_mom')&&(G.day>F.zrAppliedDay||G.hour>=22.25)) PHONE.at(G,F.zrAppliedDay,22.25,[Zp('我說了。她說『那妳要穿暖一點』。')],'zr_z7_mom');
+        if(F.ZR_Z7_MOM&&F.zrAppliedDay!=null&&!PHONE.sent(G,'zr_z7_mom')&&(G.day>F.zrAppliedDay||G.hour>=22.25)) PHONE.at(G,F.zrAppliedDay,22.25,[Zp('我說了。她說『那妳要穿暖一點』。')].concat(zrDH(G)?[Zp('她還問，你是不是也要去。我說不是。……她說，那你要常常打電話。')]:[]),'zr_z7_mom');   /* BB_189 2-1：和她交往中多一句 */
         if(bk!=null&&(G.day>bk||(G.day===bk&&G.hour>=21))&&G.day<=bk+20&&PHONE.sent(G,'zr_z7_msg')&&!ED('ev_zhiruo_applied')&&!PHONE.sent(G,'zr_z7_break'))
           PHONE.at(G,bk,21,[Zp('交換的事，還沒跟你說完。……一月底學校會公布。')],'zr_z7_break');
         const nb=S.dayOfKey('2027-01-28'); if(nb!=null&&(G.day>nb||(G.day===nb&&G.hour>=21))&&G.day<=nb+20&&(ED('ev_zhiruo_applied')||PHONE.sent(G,'zr_z7_break'))&&!PHONE.sent(G,'zr_z7b')){
-          const opts=[knowsP?{t:'恭喜。五月見分曉。',say:[Zp('嗯。五月。')],set:{ZR_Z7B:'congrats'}}:{t:'恭喜。五月我陪妳一起等。',say:[Zp('你又不能幫我等。……好。謝謝。')],set:{ZR_Z7B:'wait'}}];
+          const opts=[knowsP&&!zrDH(G)?{t:'恭喜。五月見分曉。',say:[Zp('嗯。五月。')],set:{ZR_Z7B:'congrats'}}:{t:'恭喜。五月我陪妳一起等。',say:[Zp(zrDH(G)?'……好。五月我應該會很煩，先跟你說。':'你又不能幫我等。……好。謝謝。')],set:{ZR_Z7B:'wait'}}];   /* BB_189 2-2（AA_230 Z-22）：和她交往中換回覆；「穿暖一點」、貼圖照原文 */
           if(F.ZR_Z7_MOM) opts.push({t:'妳媽有說『穿暖一點』嗎？',say:[Zp('有。她說了兩次。')],set:{ZR_Z7B:'mom'}});
           opts.push({t:'（貼圖：一隻舉著咖啡杯的貓）',post:'（貼圖：一隻舉著咖啡杯的貓）',say:[Zp('……這隻貓的杯子拿反了。')],set:{ZR_Z7B:'sticker'}});
-          const L=[Zp('學校那一關過了。'),Zp('還要等英國那邊。他們說五月。')]; if(!knowsP) L.push(Zp('……所以先不哭。五月再說。'));
+          const L=[Zp('學校那一關過了。'),Zp('還要等英國那邊。他們說五月。')]; if(!knowsP||zrDH(G)) L.push(Zp('……所以先不哭。五月再說。'));   /* 和她交往中：三句照用（BB_189 2-2）*/
           L[L.length-1]=Object.assign(L[L.length-1],{ask:{id:'zr_z7b',opts}}); PHONE.at(G,nb,21,L,'zr_z7b'); F.ZR_NOMINATED=true; } } }
     /* 學姊 M3 放榜（BB_97 2-7；大二下第 4 週週五 3/19 20:00，AA-B 定第 4 週）：所有玩家看到的都是家族群組（她先告訴家人和伴侶，畫面外）。
        ASKED_TELL_ME（M2 選了「不管考得怎樣都要說」）＝她 @祐廷 多一則；玩家可以回三個（咖哩那個要有 FAMILY_DINNER 記憶）；回了或到 22:00 沒回，她最後對全家族一句 */
@@ -2711,6 +2714,7 @@ const STORY = (function(){
       if(dInv&&dShow&&G.day>=dShow-15&&G.day<=dShow+2){ const th='p:heroine_04', Z=t=>({th,from:'heroine_04',text:t});
         if(PHONE.inGroup(G,'guitar')&&!PHONE.sent(G,'zq_show_inv')) PHONE.at(G,dInv,21.5,[{th:'g:guitar',from:'heroine_04',text:'期末成發你要來。這不是問句。'}],'zq_show_inv');
         if(PHONE.inGroup(G,'guitar')&&!PHONE.sent(G,'zq_show_cd')&&G.day<=dShow-14) PHONE.at(G,dShow-14,21,['成發','倒數','十四天','不能請假','都要來'].map((t,k)=>({th:'g:guitar',from:'heroine_04',text:t})),'zq_show_cd');   /* 成發倒數（BB_96 第 5 節）：十四天前 */
+        { const R4=F.romance&&F.romance.heroine_04; if(PHONE.sent(G,'zq_show_cd')&&(F.dating_heroine_04===true||!!(R4&&R4.status==='dating'))&&!PHONE.sent(G,'zq_show_cd_dh')&&G.day<=dShow-14+1) PHONE.at(G,dShow-14,21+3/60,[Z('你也不能請假喔')],'zq_show_cd_dh'); }   /* BB_187 2-4：和她交往中，群組那則三分鐘後私訊（AA_230 Q-12）*/
         if(G.day>dShow||(G.day===dShow&&G.hour>=21.2)){
           if(F.ZQ_SHOW==='half'&&!PHONE.sent(G,'zq_show_half')) PHONE.at(G,dShow+1,10,[Z('你看到一半。後半比較好。')],'zq_show_half');
           const invited=PHONE.sent(G,'zq_show_inv')||!!F.CLUB_club_guitar, went=typeof ACTIVITIES!=='undefined'&&ACTIVITIES.attended(G,'guitar_show_y1s2',dShow);
@@ -2926,12 +2930,14 @@ const STORY = (function(){
     /* 大一下的手機小事（BB_96 第 5 節；交接包 v2）：只在大一下（term）。學姊的畢業照那則在 C17（固定日子）；子晴成發倒數那則在 Q5（固定日子）。典型玩家的八則（AA_347 3-2）在 src/y1fill3d.js（加進 S.DAILY_PHONE）。
        芷若「熱可可加濃縮」要 Z3（ASKED_HER_DRINK）、明軒那則要家教打工（JOB_TUTOR）——兩個都已接，條件成立以後自然會出現 */
     /* sis_case_y1s2（學姊在家族群組分享判決）刪：她不在群組主動發言（AA_218 17-12）*/
-    {id:'zr_cocoa_y1s2',term:t=>t.id==='Y1S2',h:G=>zrKnows(G)?15+10/60:22+7/60,ok:G=>typeof SOCIAL!=='undefined'&&SOCIAL.has('heroine_02','ASKED_HER_DRINK')&&gotBefore(G,'heroine_02'),
-      items:G=>zrKnows(G)?[P1('heroine_02','今天有人點熱可可加濃縮。我以為只有我會喝這個。')]:seq('heroine_02',['今天有客人點熱可可加濃縮欸','我還以為只有我會這樣喝'])},   /* 單身版：AA_209 附錄B §2 */
-    {id:'zr_art_y1s2',term:t=>t.id==='Y1S2',h:G=>zrKnows(G)?15+10/60:22+7/60,ok:G=>gotBefore(G,'heroine_02'),
-      items:G=>zrKnows(G)?seq('heroine_02',['📷（拉花）','今天的拉花。老闆說及格。']):[P1('heroine_02','📷（拉花）')]},
+    /* BB_187 1-5、2-4（AA_554 核過）：和她交往中（zrDH／zqDH）三則各自換字；時間：熱可可那則照稿 22:07，拉花照單身版的 22:07（稿沒寫）*/
+    {id:'zr_cocoa_y1s2',term:t=>t.id==='Y1S2',h:G=>zrKnows(G)&&!zrDH(G)?15+10/60:22+7/60,ok:G=>typeof SOCIAL!=='undefined'&&SOCIAL.has('heroine_02','ASKED_HER_DRINK')&&gotBefore(G,'heroine_02'),
+      items:G=>zrDH(G)?seq('heroine_02',['今天有人點熱可可加濃縮。不是你。','……害我嚇一跳。']):zrKnows(G)?[P1('heroine_02','今天有人點熱可可加濃縮。我以為只有我會喝這個。')]:seq('heroine_02',['今天有客人點熱可可加濃縮欸','我還以為只有我會這樣喝'])},   /* 單身版：AA_209 附錄B §2；和她交往中：AA_230 Z-18 */
+    {id:'zr_art_y1s2',term:t=>t.id==='Y1S2',h:G=>zrKnows(G)&&!zrDH(G)?15+10/60:22+7/60,ok:G=>gotBefore(G,'heroine_02'),
+      items:G=>zrDH(G)?seq('heroine_02',['📷（拉花）','今天的拉花。……老闆說及格。你說呢。']):zrKnows(G)?seq('heroine_02',['📷（拉花）','今天的拉花。老闆說及格。']):[P1('heroine_02','📷（拉花）')]},
     {id:'zq_cat03_y1s2',term:t=>t.id==='Y1S2',h:()=>22+10/60,ok:G=>typeof SOCIAL!=='undefined'&&SOCIAL.has('heroine_04','PLAYTESTED')&&gotBefore(G,'heroine_04'),
-      items:G=>[P1('heroine_04','📎 cat_v0.3'),P1('heroine_04',G.flags.FIRST_BUG?'插座修好了':'這版比較不會當機',3/60)]},
+      items:G=>zqDH(G)?[P1('heroine_04','📎 cat_v0.3'),P1('heroine_04','這版有兩隻貓。',3/60)].concat(G.flags.FIRST_BUG?[P1('heroine_04','總圖二樓靠窗那排插座',4/60),P1('heroine_04','遊戲裡也改成壞的了',5/60)]:[])   /* 和她交往中（BB_187 2-4）：FIRST_BUG 那兩則照 BB_96 第 5 節的現行原文（AB-62）接在後面 */
+        :[P1('heroine_04','📎 cat_v0.3'),P1('heroine_04',G.flags.FIRST_BUG?'插座修好了':'這版比較不會當機',3/60)]},
     {id:'kai_pothos_y1s2',term:t=>t.id==='Y1S2',h:()=>16.5,ok:G=>!!G.flags.POTHOS,live:G=>G.zone!=='dorm',
       items:()=>seq('kai',['你的黃金葛長新葉了','我幫你澆了','不用謝','我只是順手'])},
     {id:'mx_tutor_y1s2',term:t=>t.id==='Y1S2',h:()=>21.5,ok:G=>!!G.flags.JOB_TUTOR&&gotBefore(G,'classmate_mingxuan'),
@@ -2993,8 +2999,9 @@ const STORY = (function(){
         /* y2_kevin_retire（Kevin「學姊卸任了！」）刪：她在祐廷大一時已經是前任社長，沒有卸任這件事（BB_191 §7-3）；舊存檔演過 W6 的也不再送 */
         ['y2_sis_hotwater',Y2,17+5/60,G=>!!G.flags.HOT_WATER&&PHONE.inGroup(G,'family_law'),()=>[{th:'g:family_law',from:'kevin',name:'Kevin',text:'📷（學姊桌上的保溫瓶）'},{th:'g:family_law',from:'kevin',name:'Kevin',text:'學姊今天裝熱水欸',dt:1/60},{th:'g:family_law',from:'heroine_05',name:'溫學姊',text:'偶爾。',dt:3/60}]],   /* BB_97 第 5 節（BB_205 第 4 節，2026-10-17）：她不主動在家族群組發言（AA_218 17-12），改 Kevin 起頭 */
         /* y2_sis_m2read 刪（BB_205 第 4 節：M2 是祐廷大一下的事，大二不發）*/
-        ['y2_zq_lab',Y2,22+10/60,(G,day)=>typeof SOCIAL!=='undefined'&&SOCIAL.has('heroine_04','LAB_LETTER')&&gotBefore(G,'heroine_04')&&(SOCIAL.has('heroine_04','ZQ3_FIFTY_ONE')||(T=>!!T&&(T.id!=='Y2S1'||T.week>=12))(CALENDAR.termOf(day))),()=>seq('heroine_04',['實驗室那封信 我回了','說不要','教授說好','就這樣','好簡單喔'])],   /* AA_374 第 8 項（AA_211 附錄 B 3-2）：先回了、閒聊 Q3-L3 又說還沒回——聊過 Q3-L3 或第 12 週以後才傳 */
-        ['y2_zr_order',Y2,null,G=>done(G,'ev_zhiruo_applied')&&!done(G,'ev_zhiruo_last_shift')&&gotBefore(G,'heroine_02'),()=>seq('heroine_02',['今天有個常客點了熱美式。','他上禮拜都點拿鐵。我差點問他怎麼了。'])],
+        ['y2_zq_lab',Y2,22+10/60,(G,day)=>typeof SOCIAL!=='undefined'&&SOCIAL.has('heroine_04','LAB_LETTER')&&gotBefore(G,'heroine_04')&&(SOCIAL.has('heroine_04','ZQ3_FIFTY_ONE')||(T=>!!T&&(T.id!=='Y2S1'||T.week>=12))(CALENDAR.termOf(day))),G=>seq('heroine_04',['實驗室那封信 我回了','說不要','教授說好','就這樣','好簡單喔'].concat(zqDH(G)?['……晚上要慶祝。你請。'].concat(G.flags.LAB_LETTER_DAD?[]:['你說對了。不是我爸。']):[]))],   /* AA_374 第 8 項（AA_211 附錄 B 3-2）：先回了、閒聊 Q3-L3 又說還沒回——聊過 Q3-L3 或第 12 週以後才傳。
+           BB_189 1-4／1-1：和她交往中多「……晚上要慶祝。你請。」；Q7 選第一或第二個（沒有 LAB_LETTER_DAD）最後再多「你說對了。不是我爸。」（1-1「最後多一則」照字面排最後）*/
+        ['y2_zr_order',Y2,null,G=>done(G,'ev_zhiruo_applied')&&!done(G,'ev_zhiruo_last_shift')&&gotBefore(G,'heroine_02'),G=>zrDH(G)?[P1('heroine_02','今天第三個客人點錯。我記得他上週點什麼。我沒說。')]:seq('heroine_02',['今天有個常客點了熱美式。','他上禮拜都點拿鐵。我差點問他怎麼了。'])],   /* BB_189 2-5 和她交往中、Z7 之後 Z9 之前（AA_230 Z-30：只留這一則）*/
         ['y2_kx_usual',Y2a(),21+10/60,kx,()=>[P1('kexin','午餐老樣子，山下那攤的酸辣湯餃。')]],
         ['y2_kx_superficies',Y2a(),21+10/60,kx,()=>[P1('kexin','物權的老師講了一個小時的地上權。我現在看到房子都想問地是誰的。')]],
         ['y2_kx_index',Y2a(),21+10/60,kx,G=>[P1('kexin',typeof SOCIAL!=='undefined'&&SOCIAL.has('kexin','ENC_D13_KX')?'邵鈞的考古題有目錄。目錄有索引。':'我們系有一個人，考古題有目錄。目錄有索引。')]],   /* 還沒見過邵鈞（淡水的偶遇 D13）的玩家：「我們系有一個人」*/
@@ -3002,7 +3009,7 @@ const STORY = (function(){
         ['y2_kx_landlord',Y2b,21+10/60,kx,()=>[P1('kexin','我們債各老師講了一個房東的例子，講了一整節。你們講過了嗎？')]],   /* AA_375 第 18 項 */
         ['y2_kx_river',Y2b,21+10/60,G=>kx(G)&&G.weather==='rain',()=>[P1('kexin','今天下雨，山變成一條河。')]],
         ['y2_kx_funny',Y2b,21+10/60,kx,()=>[P1('kexin','上學期的物權報告發回來了。被說舉例太好笑，分數很高。我不知道該不該高興。')]] ];
-      return L.map(([id,term,hh,ok,items])=>({id,term,h:G=>hh!=null?hh:(zrKnows(G)?15+10/60:22+7/60),ok:(G,day)=>!S.isEcon(G)&&ok(G,day==null?G.day:day),items})); })(),   /* 芷若：雙方都單身 22:07、祐廷交往中 15:10（AA_112 8-1）*/
+      return L.map(([id,term,hh,ok,items])=>({id,term,h:G=>hh!=null?hh:(zrKnows(G)&&!zrDH(G)?15+10/60:22+7/60),ok:(G,day)=>!S.isEcon(G)&&ok(G,day==null?G.day:day),items})); })(),   /* 芷若：雙方都單身 22:07、祐廷交往中 15:10（AA_112 8-1）；和她交往中 22:07（BB_189 2-5）*/
     /* 自由出行的偶遇以後（DL-07；AA_162、BB_144 第 4 節）：語彤傳那天的照片、可昕說淡水那件事——遇到的隔天以後，一次 */
     ...[['enc_yt_photo','ENC_D12_YT','heroine_03',21+20/60],['enc_kx_d13','ENC_D13_KX','kexin',21+10/60]].map(([id,tag,who,hh])=>({id,term:T=>!!T,h:()=>hh,ok:G=>typeof ENC!=='undefined'&&ENC.phoneReady(G,tag),items:G=>{ ENC.markSaid(G,tag); return seq(who,ENC.phoneLines(tag)); }})) ];
   S.DAILY_PHONE=DAILY;

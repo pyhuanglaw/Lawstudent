@@ -93,6 +93,11 @@ const ZRUK=(function(){
   S.T2={bday:{friend:'謝謝。……你怎麼知道。',close:'謝謝！今天我給自己放假，一個人去看電影。',dating:'謝謝。……晚上視訊的時候再說一次。'},
         newyear:{friend:'新年快樂。你們先跨了。',close:'你們先跨了。……我這邊還有八個小時。新年快樂。',dating:'我這邊還沒。……等一下視訊再說。'}};
   S.W_FROM='2028-09-01';   /* 每週的視訊：2028-09 她到英國以後 */
+  /* AA_554 第 3 節（AA-B 2026-10-31，AA_419 第 18 行「這段沒有交往中的」作廢）：她第一次在英國（大三上倫敦交換）、和她交往中，也有每週的視訊——
+     2027-09-05（她到的第一個週日）～2028-02-06（回國前最後一個週日），每週日臺灣 22:00。開頭、話題、收尾照第 2 節；W13 不用（2029-03 以後才有，自然排不到）；
+     話題順序和第二次共用（同一個 used，第二次接著往下、用完從頭）；收尾「早點睡」這段不算裂縫（BB_119 的裂縫是第二次在英國的事）。每月的照舊只給兩人都單身的 */
+  S.W_FIRST=['2027-09-05','2028-02-06'];
+  S.firstUK=d=>{ const a=D(S.W_FIRST[0]), b=D(S.W_FIRST[1]); return a!=null&&b!=null&&d>=a&&d<=b; };
 
   /* ---------- 挑話題 ---------- */
   const availM=(G,d,id)=>!S.M[id].winter||S.winter(G,d);
@@ -143,16 +148,17 @@ const ZRUK=(function(){
     R.miss=0; log(R.log,{day:d,ans:'yes',topic:nx.id,fix:!!fix});
     let tail;
     if(fix){ const FC=us?S.US_FIX_CLOSE:S.FIX_CLOSE; tail=[Z(FC[R.fc%FC.length])]; R.fc++; }   /* 修補以後的 17:00：不問「你那邊很晚了吧」、不算裂縫；美國那學期＝英國 17:00、「你要去吃午餐了吧。……去吧。」（AA_428 第 1 節）；收尾三句照順序輪（AA_471 第 6 節）*/
-    else { const C=S.W_CLOSE, sR=us?S.US.sleepR:C.sleep.r, mR=us?C.more.r.slice(0,-1).concat([N(S.US.moreN)]):C.more.r;   /* 美國那學期：「好。……去吧。」、「她先說了再見」（AA_428 第 1 節）*/
+    else { const C=S.W_CLOSE, sR=us?S.US.sleepR:C.sleep.r, mR=us?C.more.r.slice(0,-1).concat([N(S.US.moreN)]):C.more.r, first=S.firstUK(d);   /* 美國那學期：「好。……去吧。」、「她先說了再見」（AA_428 第 1 節）；first＝第一次交換（AA_554 第 3 節：不算裂縫）*/
       tail=[Z(us?S.US.wCloseQ:S.W_CLOSE_Q),{choice:[{text:'「'+(us?S.US.sleepT:C.sleep.t)+'」',goto:'zruk_ws'},{text:'「'+C.more.t+'」',goto:'zruk_wt'}]},
-      {label:'zruk_ws'}].concat(sR.map(t=>typeof t==='string'?Z(t):t),[{call:g=>S.sleepPick(g,true)},{goto:'zruk_we'},{label:'zruk_wt'}],
-      mR.map((t,i)=>typeof t==='string'?Z(t):Object.assign({},t,i===mR.length-1?{advance:1/6}:{})),[{call:g=>S.sleepPick(g,false)},{label:'zruk_we'}]); }
+      {label:'zruk_ws'}].concat(sR.map(t=>typeof t==='string'?Z(t):t),[{call:g=>S.sleepPick(g,true,first)},{goto:'zruk_we'},{label:'zruk_wt'}],
+      mR.map((t,i)=>typeof t==='string'?Z(t):Object.assign({},t,i===mR.length-1?{advance:1/6}:{})),[{call:g=>S.sleepPick(g,false,first)},{label:'zruk_we'}]); }
     return [Z(op)].concat(topicLines(say,sp.opts),tail); };
   /* 收尾的選項（BB_119 2-3 裂縫①）：「早點睡。」連兩次＝ZR_CRACK +1、重新算；「再講十分鐘。」重新算 */
-  S.sleepPick=function(G,early){ const R=S.rec(G).w; if(!early){ R.sleep=0; return 0; } R.sleep++; if(R.sleep<2) return 0; R.sleep=0;
+  S.sleepPick=function(G,early,first){ const R=S.rec(G).w; if(first) return 0;   /* 第一次交換（AA_554 第 3 節）：不算裂縫，計數不動 */
+    if(!early){ R.sleep=0; return 0; } R.sleep++; if(R.sleep<2) return 0; R.sleep=0;
     if(typeof ROM!=='undefined'&&ROM.crack) ROM.crack(G,ZR,1); else G.flags.ZR_CRACK=(+G.flags.ZR_CRACK||0)+1; return 1; };
   S.playW=async function(G,GM,ev){ const q=S.curQ(G,S.EV_W), d=q&&q.zr&&q.zr.d!=null?q.zr.d:S.twDay(G), fix=q&&q.zr?!!q.zr.fix:S.fixOn(G); return run(S.weekLines(G,d,fix),ev); };
-  S.weekly=function(G){ const tw=S.twNow(G), d=Math.floor(tw/24+1e-9); if(wdOf(d)!==0) return; const w0=D(S.W_FROM); if(w0==null||d<w0) return;
+  S.weekly=function(G){ const tw=S.twNow(G), d=Math.floor(tw/24+1e-9); if(wdOf(d)!==0) return; const w0=D(S.W_FROM); if(w0==null||(d<w0&&!S.firstUK(d))) return;   /* 第一次交換的週日也打（AA_554 第 3 節）*/
     if(!S.inUK(G,d)||MSG.ukRow(G,ZR)!=='dating') return; const id='zruk_w_'+keyOf(d); if(OUT.get(G,id)) return;
     const fix=S.fixOn(G), h=S.callH(G,d,fix?17:22); if(tw>=T(d,h)+0.25) return; const c=S.toGame(G,d,h);
     OUT.plan(G,{id,ev:S.EV_W,day:c.day,h:c.h,late:0.25,place:'視訊',verb:'接起來',no:'先不接',title:'和芷若視訊（英國'+hm(h-off(G,d))+'）',travel:'',travelH:0,back:'視訊結束。',alarm:true,zr:{k:'w',d,h,fix}}); };

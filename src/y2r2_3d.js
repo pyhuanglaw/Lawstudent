@@ -384,9 +384,9 @@ const Y2R2=(function(){
       {if:{custom:G=>G.flags.ZR_ADMIT_CALL==='stayed'},speaker:'player',text:'……沒有。'},
       {if:{custom:G=>G.flags.ZR_ADMIT_CALL==='stayed'},speaker:'heroine_02',expression:'laugh',text:'……你好笨。電話費。'},
       {if:{custom:G=>G.flags.ZR_ADMIT_CALL!=='stayed'},speaker:null,text:'（她把吧檯擦了一遍，沒有看你。）'},
-      {speaker:'heroine_02',expression:'neutral',text:'九月我就走了。五個多月。'},   /* AA_375 第 2 項：「四個月」→「五個多月」（她 9/2～2/12 不在台灣）*/
-      {choice:[{text:'「五個多月很快。」',goto:'d1'},{text:'「我去看妳。」',set:{ZR_VISIT_PROMISE:true},goto:'d2'},{text:'「妳的點法，我會記得。」',if:{memory:[{npc:'heroine_02',tag:'ASKED_HER_DRINK'}]},goto:'d3'}]},
-      {label:'d1'},{speaker:'heroine_02',expression:'smile',text:'五個多月欸。……好啦，你這樣講我比較安心。'},{goto:'end'},
+      {speaker:'heroine_02',expression:'neutral',text:'九月我就走了。五個月。'},   /* AA_375 第 2 項「四個月」→「五個多月」；AA_554 第 2 節（2026-10-31，較新）定「五個月」（三處都換：她 2027-09-02 出發、2028-02-12 回臺灣）*/
+      {choice:[{text:'「五個月很快。」',goto:'d1'},{text:'「我去看妳。」',set:{ZR_VISIT_PROMISE:true},goto:'d2'},{text:'「妳的點法，我會記得。」',if:{memory:[{npc:'heroine_02',tag:'ASKED_HER_DRINK'}]},goto:'d3'}]},
+      {label:'d1'},{speaker:'heroine_02',expression:'smile',text:'五個月欸。……好啦，你這樣講我比較安心。'},{goto:'end'},
       {label:'d2'},{speaker:'heroine_02',expression:'neutral',text:'機票很貴。'},{speaker:'player',text:'我存。'},{speaker:'heroine_02',expression:'smile',text:'……好。那我排一部電影，等你來一起看。'},{goto:'end'},
       {label:'d3'},{speaker:'heroine_02',expression:'smile',text:'……我回來再做給你喝。不要讓新店員做。'},{goto:'end'},
       {label:'h1'},{speaker:null,text:'（她笑。）'},{speaker:'heroine_02',expression:'laugh',text:'子晴跟你說了吧。你裝得很爛。'},{goto:'end'},
