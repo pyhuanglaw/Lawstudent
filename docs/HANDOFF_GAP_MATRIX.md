@@ -26,24 +26,41 @@
 
 ## 1. 交班快照（每次交班覆寫這一節；上一次的快照搬到第 11 節）
 
-### 帳號 B → 帳號 C｜**帳號 B 沒有交班**（10-25 19:2x～19:4x UTC 四職位額度用完同時停住）｜狀態由 LAWWW-C 2026-10-27 16:4x UTC 從 GitHub 重建
+### 帳號 B → 下一個帳號（看使用者對哪一邊說話）｜LAWWW-B（`session_01DvRVNNnivf7da7qqWuGmw6`）｜2026-11-01 09:0x UTC 交班（使用者「現在交班 等別的ai交班你要最後收尾」，HANDOFF-B-1101）
 
-使用者 10-27：「上一班來不及交班，現在由帳號 C 接班。」「你要紀錄上個帳號沒有交班 你接手以免之後亂掉」。以遠端最後 push 的狀態為準；10-25 19:44 以後所有分支都沒有新 commit（10-27 16:4x 查）。duty.json：seq 28 register-user-ok，anomalies 四筆 no-handoff。
+**A｜本班成果（10-30 02:07 接班以後；細節在 tasks.json、deliveries.json、docs/RELEASES.md）**
+- **發布**：v9.10.15（main `27e6ce77e`，PR #21，Pages 11-01 02:54；BB-B deploy_check on main ALL PASS 37）。之後的都只在開發分支 `claude/modest-rubin-2lyp7g`，**沒有發布**。
+- **歷史待辦全面複核**（HISTORY-AUDIT-1031，使用者 10-31 19:5x）：tools/handoff/history_audit.py、七類判定、四職位分工；大量缺口照定稿補進遊戲（每件有 Node 測試，修改前 FAIL）。
+- **11-01 開發分支併入（摘要，SHA 在任務 next）**：
+  - 芷若吧檯班的成績那段（AA553，`f06648355`）、關手機提示「先回覆可昕。」；
+  - AA_208 室友旁白三處（`266af187e`）、柏翰大四推甄前桌燈到 01:00＋走到床（DORM-Y34，`38163ea91`、`513683a69`）；
+  - 「你來過一次」（ENC-B3，`3c32d5166`）；
+  - AA_204 1-4 大一聖誕群戲後兩人段落（`d09caf0fe`）；
+  - V6-B 芷若英國的雨、沛珊第一堂試教、子晴工作室的深夜、沛珊紅筆（`52bfa7b5d`）；
+  - DL-04B 一鍵上課路上停、翹課列會錯過（`da210a96a`），遲到記錄修正、經濟系事件模式不停（`444dd616e`），門口上課報到（BUG-DOOR-CLASS-GO-1101，`9aa82ecda`）；
+  - AA255-Y2S2 收尾（`8190b88ed`）、沛珊 ps_q 改群組（PS-MSG-LESS，`bd7754e2e`）、說話框外層「」拿掉（`4739c0a26`）、大三暑假摘要日背景模糊（`513683a69`）；
+  - LAWWW2：美國收尾一、二輪（`dcbd50b01`、`b03bedf29`）、醉月湖晚上（`b03bedf29`）、BUG-03、BUG-04。
+- **整套 Node**：`b03bedf29` 834／834；之後 `444dd616e` 讀 classes3d 的 361 支 ALL PASS；`9aa82ecda` 那一輪 classes3d 測試交班時還在跑（見 F）。
+- **時間標籤更正**：11-01 白天 LAWWW-B 寫的【hh:mx】有 30 多筆晚了 1～3.5 小時，已照 commit 時間改正（`1fac31dbd`）。
 
-**各職位停在哪**
-- **LAWWW-B**（`claude/modest-rubin-2lyp7g` 最後 `5b6737cd` 19:39）：v9.10.10 已發布（main `b9044511`，PR #16）；**v9.10.11 候選 `f54a35ec4`**（AA_471 第 1、2 節兩個修正：日本路線畢業後家人群組不停、termKey）等 BB 判定，**沒發布**（RELEASE-91011）；學姊第十二批 AA_470 做完、備份在 `wip_backup/aa470_1025.bundle`（`db4b71150`），排在 v9.10.11 後合（SIS-B12-1025）。
-- **AA-B**（`claude/cool-heisenberg-o8kuqx` 最後 `89accb6d` 19:43，D45 緊急保存）：AA_471（`763993620`）、AA_472（`1ebcf530e`）、AA_473（`66393bb91`）稿都已交；TERM-READ-Y5-1025、PG-READ-1025 讀到一半。
-- **BB-B**（`claude/elegant-brown-fcos7n` 最後 `2109de7b` 19:31）：v9.10.11 候選改 f54a35ec4 的計畫寫在 BB_218 最後一節；R40、R41、單面三份、窗景黃昏、flow_soclib、trx_dating8 已通過；**R42 兩版、發布前清單（relsuite＋savecompat）、trx_alone8 沒有結果**。
-- **LAWWW2-B**（`claude/funny-albattani-iawshm` 最後 `e1486b51` 19:22）：PERF-SINGLESIDE-GLB-1025 第四份（美國公寓、C 棟 208、法圖、亞洲超市、C 棟臥室）WIP 檢查點，同角度截圖沒拍完，沒交件。
+**B｜全部未完成工作**（以 `docs/handoff/tasks.json` 為準；LAWWW 未結：進行中 28、已整合待測試 686、等待其他AI／素材 17、待開工 17、暫停 2）
+1. **BB 瀏覽器驗證排隊**（n41～n44，BB 交班時會寫中斷位置）：遲到修正、DL-04B plain／skipwarn／econ、BUG-DOOR-CLASS-GO-1101（服務學習、法律倫理）、AA255 3/23 群組、ps_q 群組、醉月湖 E12 畫面＋campus_layout_nav／reachability_all、美國第二輪、AA208、DORM-Y34、ENC-B3、V6-B、AA_204 1-4、芷若吧檯成績。
+2. **重開逐項核對**（子代理因交班中止、沒有成果）：EVPKG-1B18-25-1020、Y2Y4-STORY-1020、AA-Q-1021-SR、CLOSED-SPACES-1023、NPC-STORY2-1028。
+3. **DL-04B 沒做的**：quickGo／捷運出行的 R2、週日住家裡的 R1 預告、捷運出遊出發前列【固】【必】（AA_160 3-4 D 第 3 點）。
+4. **等使用者決定（回來時用選擇題問，D117）**：祐廷的生日（USER-PLAYER-BDAY-1101）、第 100～102 組圖片提示詞、LAWWW2 照片比對（ART-PHOTO-CMP-1021）、iPhone `?debug` 看偶發全黑（BUG-02）。
+5. **等其他 AI**：ZQ-ARCADE-SEAT-1028（LAWWW2 做 (a) 凳子 (b) 筆電、(c) zones3d 座位 patch；heroine_circle 子晴 linger 改 read＋seatAt＋開筆電歸 LAWWW）；BG-ZQ-STUDIO-1101（BB 向使用者要圖，BB_132 G6-05 已有提示詞）。
+6. **AA 定型後改稿**（使用者和 AA 共創以安、沛珊、子晴、Alison 的聲音；AA_559～564 暫停）：以安 FRIEND 門檻台詞暑假版、V6-B 沛珊／子晴當面那一場的字、Alison yu_exam。
+7. 其餘照 D99（經濟系 → 寒暑假 → 美國交換）→ D81，`check_handoff.py queue --owner LAWWW`。
 
-**遺失（沒 push）、要重做的**
-1. LAWWW-B 19:35 派的隔離 worktree 子代理（AA_471 第 3～7 節＋AA_472 六項＋AA_473 兩項的實作）：最後一次備份 19:10 在它開工以前 → **PG-FIX-471-473-1027**（帳號 C 重做；帳號 B 回來時不要合它本機留著的版本）。
-2. BB-B 在 f54a35ec4 上的瀏覽器測試結果 → BB 重跑（RELEASE-91011）。
-3. 「Node 643 支 0 失敗」只在 B 對使用者的訊息裡 → LAWWW 發布前重跑。
+**C｜正在做的工作**：沒有。核對五個舊任務的子代理已停（只有空檢查點，分支已刪）；本機沒有沒 commit 的檔案。
 
-**對帳（10-27 16:4x）**：check 0、asks 0、duty verify 0；**incr 異常 245 項**（LAWWW2 outbox 格式 140、LAWWW2 沒分類的 commit 67、AA outbox 任務 ID 27 等，帳號 B 期間累積）、**roles 異常 16 項**（AA 表外）——不擋開發，HANDOFF-C-1027 處理；**這次交接不算完整**。
+**D｜最新決策與規則**：本班沒有新增 D／HV 編號。使用者 10-31 的歷史複核要求記在 UA-LAWWW-1031-03；11-01 交班指示 UA-LAWWW-1101-01。AA-B 在使用者授權（D109）下定的：AA_13 G2 放榜整段取消（D116）、V3-AA170 已被 AA_328 取代、PS-MSG-LESS M14 選 (a)、AA_204 1-4 她約選 (b)、V6-B 九題照現況、AA255 yu_exam 照現況。
 
-**下一步**：BB-C、AA-C、LAWWW2-C 接班 → RELEASE-91011（BB 跑完 → 發布）→ 合 AA_470 → PG-FIX-471-473-1027；新規則 D113（子代理開工就推檢查點、每 15～20 分鐘備份）。
+**E｜跨 AI 協作**：AA-B 的問題都回了（ACTIONED）；LAWWW2 交件 DL-LW2-US-WRAPUP-1101、DL-LW2-US-WRAPUP2-1101、DL-LW2-LAKE-NIGHT-1101 已整合待測試；BB-B n41～n44 SENT（BB 在跑）。三個職位的交班完成狀態見下面「收尾」。
+
+**F｜測試與問題**：瀏覽器、iPhone 實機都還沒驗今天的改動（Playwright 由 BB 跑）；BUG-02 偶發全黑只在 iPhone。`9aa82ecda` 那一輪 classes3d 361 支在交班時跑（結果寫在收尾）。
+
+**收尾**（LAWWW-B 等三個職位交班後補）：待補。
 
 ## 2. 試玩 Bug 與技術問題（BUG）
 
@@ -319,6 +336,25 @@ V5-F1～F27 ★（AA；第四個房間、重訪日 4／5、R1 時差、以安讀
 | X-04 | v4 助教 M4、M5 | BB_98（遊戲不出現助教） |
 
 ## 11. 交班快照歷史
+
+### 帳號 B → 帳號 C｜**帳號 B 沒有交班**（10-25 19:2x～19:4x UTC 四職位額度用完同時停住）｜狀態由 LAWWW-C 2026-10-27 16:4x UTC 從 GitHub 重建
+
+使用者 10-27：「上一班來不及交班，現在由帳號 C 接班。」「你要紀錄上個帳號沒有交班 你接手以免之後亂掉」。以遠端最後 push 的狀態為準；10-25 19:44 以後所有分支都沒有新 commit（10-27 16:4x 查）。duty.json：seq 28 register-user-ok，anomalies 四筆 no-handoff。
+
+**各職位停在哪**
+- **LAWWW-B**（`claude/modest-rubin-2lyp7g` 最後 `5b6737cd` 19:39）：v9.10.10 已發布（main `b9044511`，PR #16）；**v9.10.11 候選 `f54a35ec4`**（AA_471 第 1、2 節兩個修正：日本路線畢業後家人群組不停、termKey）等 BB 判定，**沒發布**（RELEASE-91011）；學姊第十二批 AA_470 做完、備份在 `wip_backup/aa470_1025.bundle`（`db4b71150`），排在 v9.10.11 後合（SIS-B12-1025）。
+- **AA-B**（`claude/cool-heisenberg-o8kuqx` 最後 `89accb6d` 19:43，D45 緊急保存）：AA_471（`763993620`）、AA_472（`1ebcf530e`）、AA_473（`66393bb91`）稿都已交；TERM-READ-Y5-1025、PG-READ-1025 讀到一半。
+- **BB-B**（`claude/elegant-brown-fcos7n` 最後 `2109de7b` 19:31）：v9.10.11 候選改 f54a35ec4 的計畫寫在 BB_218 最後一節；R40、R41、單面三份、窗景黃昏、flow_soclib、trx_dating8 已通過；**R42 兩版、發布前清單（relsuite＋savecompat）、trx_alone8 沒有結果**。
+- **LAWWW2-B**（`claude/funny-albattani-iawshm` 最後 `e1486b51` 19:22）：PERF-SINGLESIDE-GLB-1025 第四份（美國公寓、C 棟 208、法圖、亞洲超市、C 棟臥室）WIP 檢查點，同角度截圖沒拍完，沒交件。
+
+**遺失（沒 push）、要重做的**
+1. LAWWW-B 19:35 派的隔離 worktree 子代理（AA_471 第 3～7 節＋AA_472 六項＋AA_473 兩項的實作）：最後一次備份 19:10 在它開工以前 → **PG-FIX-471-473-1027**（帳號 C 重做；帳號 B 回來時不要合它本機留著的版本）。
+2. BB-B 在 f54a35ec4 上的瀏覽器測試結果 → BB 重跑（RELEASE-91011）。
+3. 「Node 643 支 0 失敗」只在 B 對使用者的訊息裡 → LAWWW 發布前重跑。
+
+**對帳（10-27 16:4x）**：check 0、asks 0、duty verify 0；**incr 異常 245 項**（LAWWW2 outbox 格式 140、LAWWW2 沒分類的 commit 67、AA outbox 任務 ID 27 等，帳號 B 期間累積）、**roles 異常 16 項**（AA 表外）——不擋開發，HANDOFF-C-1027 處理；**這次交接不算完整**。
+
+**下一步**：BB-C、AA-C、LAWWW2-C 接班 → RELEASE-91011（BB 跑完 → 發布）→ 合 AA_470 → PG-FIX-471-473-1027；新規則 D113（子代理開工就推檢查點、每 15～20 分鐘備份）。
 
 ### 帳號 A → 下一個帳號（看使用者對哪一邊說話）｜LAWWW（帳號 A）｜2026-10-22 15:0x UTC 交班（使用者「現在交班」「你要等其他AI都交班之後做最後檢查 才交班」）
 
