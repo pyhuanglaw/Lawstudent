@@ -1,7 +1,7 @@
 """BB-B 2026-10-31：BUG-E37-NAP-CEREMONY-1031 修正驗收（LAWWW-B 19:26，24aebe913）——QA-PLAYTHROUGH ① 天天睡覺的 8/30 那一段重跑（不用整條重來）。
 [前置] 讀檔：n36_qa_sleep 玩到 9/2 的最後狀態（經濟系路線、8/29 轉法律系、和可昕交往），改回 8/30（或 8/31），拿掉 ev_y0_e37 演過的紀錄、開學典禮旗標，
   y0_e37 那一筆約改回 planned（8/28 21:00 的私訊「後天你載我搬宿舍」照舊在）。之後都是玩家的操作：走到床邊、按床、選「睡到傍晚（不設鬧鐘）」、對話點過去、選項選第一個。
-情境（CASE=noon,twice,skip830）：
+情境（CASE=noon,twice,skip830；BB-B 11-01 加 thrice＝睡三次、bed1416＝14:18 按床先接電話）：
   noon    8/30 12:00 宿舍 → 睡到傍晚 → 14:15 被叫醒 → 可昕電話「你在哪？行李我都搬到樓下了。」→ E37 → 回宿舍（LAWWW-B 要的）
   twice   8/30 07:30 宿舍 → 睡到傍晚（出發前被叫醒）→ 再按床「睡到傍晚」（n36 出事的那一步）→ 一樣要在 14:15 叫醒、電話、E37 在 8/30 演
   skip830 8/31 09:00 宿舍、E37 還沒演（8/30 整天錯過的舊存檔）→ 睡到傍晚 → 18:00 開學典禮 → 典禮裡不能接到那通電話、不能演 E37
@@ -68,12 +68,29 @@ async def main():
             b, ctx, pg, cdp, errs = await L.launch(p, landscape=True)
             await pg.add_init_script(HOOK); await pg.goto(URL)
             if not await L.wait_loaded(pg): run.check('%s 遊戲載入' % case, False); await b.close(); continue
-            day, hour = {'noon': (-17, 12.0), 'twice': (-17, 7.5), 'skip830': (-16, 9.0), 'cer831': (-16, 9.0), 'cer1800': (-16, 18.0)}[case]
+            day, hour = {'noon': (-17, 12.0), 'twice': (-17, 7.5), 'thrice': (-17, 7.5), 'bed1416': (-17, 14.3), 'skip830': (-16, 9.0), 'cer831': (-16, 9.0), 'cer1800': (-16, 18.0)}[case]
             await L.load_state(pg, make_state(day, hour, keep_e37=(case in ('cer831', 'cer1800')))); await pg.wait_for_timeout(5000)
             run.setup('[前置] %s：讀 n36_qa_sleep 的最後狀態改到 %s %.1f 宿舍；拿掉 E37／開學典禮紀錄、y0_e37 約改回 planned（SHA %s）' % (case, '2025-08-30' if day == -17 else '2025-08-31', hour, SHA))
             info = {}
-            if case in ('noon', 'twice'):
+            if case == 'bed1416':   # BB-B 11-01（01fca2db3 第三輪）：8/30 14:18 電話還沒來、人在宿舍空著 → 按床＝先接可昕的電話，不是直接睡
+                bed = await pg.evaluate("(()=>{ const it=GAME.E.interactables.find(i=>i.sleep&&!i.hidden); return it?[it.x,it.z]:null; })()")
+                if bed: await L.go_to(pg, cdp, run, bed[0], bed[1], 0.8, case + ' 床', max_s=120); await L.tap(pg, cdp, '#interact'); await pg.wait_for_timeout(2500)
+                info['afterTap'] = await pg.evaluate("({h:+GAME.G.hour.toFixed(2),zone:GAME.G.zone,choices:[...document.querySelectorAll('#choices button')].map(b=>b.textContent.trim().slice(0,30)),dlg:!!(GAME.D&&GAME.D.active),dtext:(document.querySelector('#dlg .text, #dlgText, #dlg')||{}).textContent||''})")
+                g = await loop_until(pg, cdp, run, lambda g: g['e37'] and g['z'] == 'dorm' or g['day'] >= -15, 900, case)
+            elif case in ('noon', 'twice', 'thrice'):
                 c1 = await nap(pg, cdp, run, case + ' 第一次'); info['nap1'] = c1 and c1.get('t')
+                if case == 'thrice':   # BB-B 11-01：③ decline 的走法——07:30 睡到傍晚、叫醒後再睡（14:15 叫醒）、醒來馬上第三次按床
+                    g = await loop_until(pg, cdp, run, lambda g: g['day'] != -17 or (g['h'] >= 12.9 and not g.get('busy')) or g['e37'], 240, case, sleepy=True); info['wake1'] = g
+                    if not g['e37'] and g['day'] == -17:
+                        c2 = await nap(pg, cdp, run, case + ' 第二次'); info['nap2'] = c2 and c2.get('all')
+                        if c2 and 'x' not in c2:   # 沒有「睡到傍晚」：照 ③ 選有「睡」的第一個
+                            c2b = await pg.evaluate("(()=>{ const bs=[...document.querySelectorAll('#choices button')]; const e=bs.find(x=>/睡/.test(x.textContent.trim())); if(!e) return null; const r=e.getBoundingClientRect(); return [r.left+r.width/2,r.top+r.height/2,e.textContent.trim()]; })()")
+                            if c2b: await L.touch_tap(cdp, c2b[0], c2b[1]); info['nap2'] = c2b[2]
+                        g = await loop_until(pg, cdp, run, lambda g: g['day'] != -17 or (g['h'] >= 14.2 and not g.get('busy')) or g['e37'], 300, case, sleepy=True); info['wake2'] = g
+                        if not g['e37'] and g['day'] == -17:
+                            c3 = await nap(pg, cdp, run, case + ' 第三次'); info['nap3'] = c3 and c3.get('all')
+                            info['afterTap3'] = await pg.evaluate("({h:+GAME.G.hour.toFixed(2),choices:[...document.querySelectorAll('#choices button')].map(b=>b.textContent.trim().slice(0,30)),dlg:!!(GAME.D&&GAME.D.active)})")
+                    g = await loop_until(pg, cdp, run, lambda g: g['e37'] and g['z'] == 'dorm' or g['day'] >= -15, 900, case)
                 if case == 'twice':
                     g = await loop_until(pg, cdp, run, lambda g: g['day'] != -17 or (g['h'] >= 12.9 and not g.get('busy')) or g['e37'], 240, case, sleepy=True)   # 叫醒後出發提示要是有「先不要／再睡」就照 n36 選它，空下來再按床
                     run.note('twice 第一次醒來：%s' % J(g)); info['wake1'] = g
@@ -105,7 +122,7 @@ async def main():
             call = [x for x in S if x['t'].startswith(CALL)]; e37 = [x for x in S if x['t'].startswith('（八月三十日')]
             run.note('%s：%s；電話 %s；E37 第一句 %s' % (case, J(info), J(call), J(e37)))
             for x in S[-12:]: run.note('   %s %s %s %s｜%s' % (x['day'], x['h'], x['z'], x['n'], x['t'][:50]))
-            if case in ('noon', 'twice'):
+            if case in ('noon', 'twice', 'thrice', 'bed1416'):
                 run.check('%s：8/30 電話「%s」在 14:15～15:00 之間（宿舍）' % (case, CALL), bool(call) and call[0]['day'] == -17 and 14.2 <= call[0]['h'] <= 15.0, J(call))
                 run.check('%s：E37 在 8/30 演（「（八月三十日。…）」那天是 8/30）' % case, bool(e37) and e37[0]['day'] == -17, J(e37))
                 run.check('%s：演完回到宿舍（8/30 晚上）' % case, g.get('e37') and g['z'] == 'dorm' and g['day'] == -17, J(g))
