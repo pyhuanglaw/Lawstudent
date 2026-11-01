@@ -369,7 +369,7 @@
    "area": "BUG",
    "owner": "LAWWW",
    "status": "待開工",
-   "next": "【LAWWW-C 2026-10-21 稽核 B1】做了一部分：BB 在博雅 101 上課時近拍替身頭髮（含 iPhone 實機），沒有黑白碎點就結案 ｜ 【LAWWW-C 18:5x：博雅 101 的「同學」披頭散髮很可能就是 seated_figures.glb 第一版 UV 碎點（ART-NPC-HAIR-STREAK，LAWWW2-C 24923842 第二版已整合 0f4d8e03）；下一批瀏覽器在博雅 101 上課時確認，沒有了就結案】查彈簧骨／路人模型",
+   "next": "【11-01 03:0x LAWWW-B 派 LAWWW2】LAWWW2：博雅 101 上課時坐著的替身（seated_figures 第二版 0f4d8e03、頭頂白塊 cb83b62e2 都在 main）實際進遊戲近拍確認頭髮；還有就修、沒有就交截圖讓 BB 驗、可以結案",
    "priority": "P1",
    "first": {
     "term": "Y1S1",
@@ -390,7 +390,15 @@
      "evidence": "0f4d8e03 整合 LAWWW2-C 24923842 坐著的同學替身第二版（ART-NPC-HAIR-STREAK：第一版 UV 碎點＝頭髮黑白碎片）；src/classes3d.js:569 替身、src/assets3d.js:116；tests/seated_figures_unit.js",
      "note": "很可能已隨替身第二版修好，只差瀏覽器確認"
     }
-   ]
+   ],
+   "xai": {
+    "spec": "USER_WANTS C24；BB_218 L2858-2861（那一堂替身 0 個沒拍到）",
+    "owner": "LAWWW2",
+    "branch": "claude/funny-albattani-iawshm",
+    "acceptance": "博雅 101 近拍同學頭髮正常（截圖）；有問題附 patch",
+    "receiver": "LAWWW",
+    "ack": "SENT"
+   }
   },
   {
    "id": "BUG-04",
@@ -398,7 +406,7 @@
    "area": "BUG",
    "owner": "LAWWW",
    "status": "待開工",
-   "next": "【LAWWW-C 2026-10-21 稽核 B1】沒做：BB 週三晚上到總圖外重現並截圖（看是兩個學姊實體重疊，還是 VRM 臉部網格重複），再交 LAWWW 修 ｜ 到現場重現",
+   "next": "【11-01 03:0x LAWWW-B 派 LAWWW2】LAWWW2 11-01 解析 vroid_heroine_05／bl_heroine_05 臉網格都只有一個＝不是模型重複，較像兩個實體重疊或兩種模型同時掛上。LAWWW2：週三晚上總圖外實際進遊戲拍（2 秒內、移動中、靠近），查同一 id 有沒有兩個實體（E.ents）或同一 obj 下掛兩個模型（VRM 晚到、fallback 沒拿掉），交原因＋patch＋測試（改 character3d／story3d 先告訴 LAWWW）；BB 發布後驗",
    "priority": "P1",
    "first": {
     "term": "Y1S1",
@@ -419,7 +427,15 @@
      "evidence": "git log 找不到修正；docs/HANDOFF_GAP_MATRIX.md:55、docs/handoff/USER_WANTS.md C24 仍列待開工",
      "note": "還沒有人重現過"
     }
-   ]
+   ],
+   "xai": {
+    "spec": "LAWWW2 summary_LAWWW2.md 第 8 點；USER_WANTS C24",
+    "owner": "LAWWW2",
+    "branch": "claude/funny-albattani-iawshm",
+    "acceptance": "找到兩個臉的原因（截圖＋實體／模型清單），patch 後同場景只有一個學姊；Node 測試",
+    "receiver": "LAWWW",
+    "ack": "SENT"
+   }
   },
   {
    "id": "BUG-05",
@@ -37061,9 +37077,9 @@
    "title": "行政大樓門廊往旁邊 1.3 m 時跟隨鏡頭落進晨思鐘鐘亭 (−38,16.5)，整個畫面是石材（鐘亭不在鏡頭碰撞裡；LAWWW2 做 CAM-PILLAR-HALLS 時找到）",
    "area": "ART",
    "owner": "LAWWW2",
-   "status": "待開工",
+   "status": "已實作待整合",
    "priority": "P3",
-   "next": "【10-31 06:4x】LAWWW-B：鐘亭柱子照門廊的做法改 seethru_（campus_bell.py），或加鏡頭碰撞，LAWWW2 定；位置少有人站，排在 INTERIOR-AAA-REVIEW-1028 之後",
+   "next": "【11-01 03:0x LAWWW-B】LAWWW2 8119766b1（傅鐘柱子、梁、石碑 seethru_bell_stone，門廊旁鏡頭 0%→32～33%）已整合在本機分支 feat-art-1031 a45c719e1；發布後合進開發分支、BB 看畫面",
    "first": {
     "term": "Y0S1",
     "week": 1,
@@ -37082,7 +37098,8 @@
     "acceptance": "行政大樓門廊往旁邊走，鏡頭不再整片是鐘亭石材",
     "receiver": "LAWWW",
     "ack": "SENT"
-   }
+   },
+   "sha": "8119766b1"
   },
   {
    "id": "BUG-SEAT-AISLE-REACH-1031",
