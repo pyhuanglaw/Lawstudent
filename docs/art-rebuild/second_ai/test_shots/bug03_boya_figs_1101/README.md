@@ -81,6 +81,6 @@
   - `boya_lecture_unit`、`boya_lecture_glb_unit`；
   - `classes_unit`、`class_ask_unit`、`class_teacher_unit`、`classmate_class_unit`；
   - `crowd_far_indoor_unit`、`indoor_crowd_unit`、`seat_occupied_unit`。
-- 全部 Node（開發 `fb0d24c98`＋這個 patch）：結果見 HANDOFF。
+- **全部 Node（開發 `fb0d24c98`＋這個 patch，含新測試）：822 支、0 失敗**。
 - 遊戲內：改前改後同流程同鏡頭（第四節）。
 - 沒跑：手機實機、實機效能。

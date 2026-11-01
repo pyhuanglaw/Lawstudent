@@ -100,7 +100,8 @@ M = {
     'wall': L.pbr(P + 'wall', 'painted_plaster_wall', tile=2.5, target='#e3d3b4', normal=0.15, maps=('diff', 'nor')),
     'wall_k': L.pbr(P + 'wall_kitchen', 'painted_plaster_wall', tile=2.5, target='#ece3cf', normal=0.15, maps=('diff', 'nor')),
     'siding': img_mat(P + 'siding', 'us_siding.png', rough=0.7),
-    'concrete': L.pbr(P + 'concrete', 'concrete_floor_painted', tile=1.5, target='#c2bfb8', sat=0.0, normal=0.3, maps=('diff', 'nor')),   # sat 0：原貼圖剝落的藍色油漆在陽台地上一塊一塊藍
+    'concrete': L.pbr(P + 'concrete', 'granular_concrete', tile=1.2, target='#a9a6a0', sat=0.0, normal=0.25, maps=('diff', 'nor')),   # 屋外的陽台、走廊平台、樓梯：素面水泥。
+    # 原本 concrete_floor_painted（sat 0）：剝落的油漆去色以後變成一塊一塊白斑，白天看起來像積雪（11-01 LAWWW-B「公寓門外平台、陽台白天偏白」）；改素面水泥、底色暗一點（#c2bfb8 → #a9a6a0）
     'backsplash': L.pbr(P + 'backsplash', 'long_white_tiles', tile=0.5, target='#d8d2c4', normal=0.4, maps=('diff', 'nor'), rough_value=0.25),
     'ceil': L.flat(P + 'ceiling', '#f1efea', rough=0.9, cull=True),
     'trim': L.flat(P + 'trim', '#f4f2ec', rough=0.4), 'door': L.flat(P + 'door', '#f2f0ea', rough=0.35),

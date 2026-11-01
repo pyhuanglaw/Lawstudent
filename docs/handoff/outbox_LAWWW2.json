@@ -4999,7 +4999,7 @@
    "branch": "claude/funny-albattani-iawshm",
    "sha": "1fe2069b0",
    "receiver": "LAWWW",
-   "ack": "SENT",
+   "ack": "ACKNOWLEDGED",
    "task": "BUG-04（C24）學姊兩個臉：原因＋patch＋Node 測試",
    "files": [
     "docs/art-rebuild/second_ai/patches/npc_overlap_1101.patch",
@@ -5010,6 +5010,24 @@
    "state": "原因：v9.7 週三 18:48～21 萬才館 legacy 學姊 (-3,3.6) 和 act:'club' 第一個社員 CLUB_SPOTS[0] 同一點（伯涵 548、子晴 312 時段）；不是重複實體或重複模型。現在開發分支已拿掉那一段，34 區每天每半小時 1,734,000 次 populate 0 組。patch（對開發 7a2ac2512，apply --check 過）：story3d.js populateSchedule 的 club／linger 生之前看那一點有沒有人；新 tests/npc_overlap_unit.js：v9.7 資料 FAIL 3、開發原樣 FAIL 2、加 patch ALL PASS；schedule_roommove、v2_c13、五支 presence ALL PASS；全部 Node 807／0",
    "remaining": "沒有手機實機；hcircle3d 的 opt.at、ta／help／barista 固定點、legacy spawnNPC 本身沒加檢查（掃描 0 組）",
    "next": "LAWWW-B 整合 patch；BB 週三晚上萬才館大廳、法圖實看",
+   "noDirectIntegrate": false,
+   "integrated": "6c2d98041（LAWWW-B 04:40，DL-LW2-BUG04-1101）"
+  },
+  {
+   "branch": "claude/funny-albattani-iawshm",
+   "sha": "b506f59c4",
+   "receiver": "LAWWW",
+   "ack": "SENT",
+   "task": "BUG-03（C24）博思 101「披頭散髮很可怕」：替身遠近跟著玩家換",
+   "files": [
+    "docs/art-rebuild/second_ai/patches/seated_figures_lod_1101.patch",
+    "docs/art-rebuild/second_ai/test_shots/bug03_boya_figs_1101/README.md",
+    "docs/art-rebuild/second_ai/test_shots/bug03_boya_figs_1101/before_after.webp",
+    "docs/art-rebuild/second_ai/test_shots/bug03_boya_figs_1101/close_before_far_lod.webp"
+   ],
+   "state": "原因：classes3d.js figPlace 放替身時照玩家位置（門口）選 LOD0／_lod1、之後不換 → 玩家走到座位旁邊照舊 _lod1（臉糊、頭髮一塊塊）。patch（對開發 fb0d24c98，apply --check 過）：每種外型 LOD0＋_lod1 兩個 InstancedMesh，figTick 照玩家現在位置重排（6.5／7.5 m），空的不畫、下課判斷跳過空的。新 seated_figures_lod_unit：開發原樣 FAIL 7、第一版 FAIL 2、定案 ALL PASS；替身／座位／上課 12 支 ALL PASS；全部 Node 822／0",
+   "remaining": "沒有手機實機；LOD0 近看臉也還偏糊（替身模型 D99 凍結不動）",
+   "next": "LAWWW-B 整合 patch；BB 大一國文（Y1S1 週二上午）博思 101 走到座位旁邊看",
    "noDirectIntegrate": false
   }
  ]
