@@ -1,8 +1,8 @@
 {
  "meta": {
   "generated_by": "tools/handoff/history_audit.py",
-  "head": "695dbc2b6160e27ce260a944bd6deb9d16ba771c",
-  "main": "271cd2305892c095779404dc76f8507ddfe9840b",
+  "head": "80e82a439967a0900126507c60cc4595a0a34dc1",
+  "main": "27e6ce77e80782afe979404cdfcd67723ae6a2f8",
   "bb_records": [
    "elegant-brown-fcos7n:BB_218_瀏覽器實測紀錄.md",
    "wonderful-mayer-7fm9g6:BB_218_瀏覽器實測紀錄.md",
@@ -962,7 +962,7 @@
    "task_status": "已整合待測試",
    "owner": "LAWWW",
    "priority": "P2",
-   "tier": 2,
+   "tier": 1,
    "auto": true,
    "main": "yes",
    "head_ids": [
@@ -979,14 +979,14 @@
    ],
    "missing_ids": [],
    "bb": [
+    "elegant-brown-fcos7n:BB_218_瀏覽器實測紀錄.md:6482（pass）",
+    "elegant-brown-fcos7n:BB_218_瀏覽器實測紀錄.md:6510（pass）",
     "elegant-brown-fcos7n:test_shots/qa_repro_1020/route_run5.log:108（fail）",
-    "elegant-brown-fcos7n:test_shots/qa_repro_1020/route_run5.log:110（fail）",
-    "elegant-brown-fcos7n:BB_218_瀏覽器實測紀錄.md:345（mention）",
-    "elegant-brown-fcos7n:BB_218_瀏覽器實測紀錄.md:365（mention）"
+    "elegant-brown-fcos7n:test_shots/qa_repro_1020/route_run5.log:110（fail）"
    ],
-   "bb_pass": 0,
+   "bb_pass": 2,
    "evidence_gap": false,
-   "why": "總表：已整合待測試；沒有找到 BB 實際操作紀錄（有 FAIL 字樣，要看）；BB 盤點 C：要單獨測",
+   "why": "總表：已整合待測試；main 有、BB 實測紀錄有 PASS",
    "bb_triage": "C",
    "audit_evidence": "1A-05 志願表 STORY.an15Cafe src/story3d.js:3348（AN15_SEEN）；路線照交往狀態定 STORY.routeDecide :3114（1A-02，取代三選一）；tests/an15_form_unit.js、route_decide_unit.js ALL PASS",
    "audit_next": "併入 EVPKG-1A05-1020、1A02，總表結案"
@@ -1254,10 +1254,10 @@
    "bb": [
     "elegant-brown-fcos7n:BB_218_瀏覽器實測紀錄.md:6213（pass）",
     "elegant-brown-fcos7n:BB_218_瀏覽器實測紀錄.md:6228（pass）",
-    "elegant-brown-fcos7n:BB_218_瀏覽器實測紀錄.md:4638（mention）",
-    "elegant-brown-fcos7n:BB_218_瀏覽器實測紀錄.md:6198（mention）"
+    "elegant-brown-fcos7n:BB_218_瀏覽器實測紀錄.md:6503（pass）",
+    "elegant-brown-fcos7n:BB_218_瀏覽器實測紀錄.md:6500（fail）"
    ],
-   "bb_pass": 2,
+   "bb_pass": 3,
    "evidence_gap": false,
    "why": "總表：已整合待測試；main 有、BB 實測紀錄有 PASS",
    "bb_triage": "B⑩Y3S2",
@@ -7510,7 +7510,7 @@
    "task_status": "已整合待測試",
    "owner": "LAWWW",
    "priority": "P1",
-   "tier": 2,
+   "tier": 1,
    "auto": true,
    "main": "yes",
    "head_ids": [
@@ -7527,14 +7527,14 @@
    ],
    "missing_ids": [],
    "bb": [
+    "elegant-brown-fcos7n:BB_218_瀏覽器實測紀錄.md:6482（pass）",
+    "elegant-brown-fcos7n:BB_218_瀏覽器實測紀錄.md:6510（pass）",
     "elegant-brown-fcos7n:test_shots/qa_repro_1020/route_run5.log:108（fail）",
-    "elegant-brown-fcos7n:test_shots/qa_repro_1020/route_run5.log:110（fail）",
-    "elegant-brown-fcos7n:BB_218_瀏覽器實測紀錄.md:345（mention）",
-    "elegant-brown-fcos7n:BB_218_瀏覽器實測紀錄.md:365（mention）"
+    "elegant-brown-fcos7n:test_shots/qa_repro_1020/route_run5.log:110（fail）"
    ],
-   "bb_pass": 0,
+   "bb_pass": 2,
    "evidence_gap": false,
-   "why": "總表：已整合待測試；沒有找到 BB 實際操作紀錄（有 FAIL 字樣，要看）；BB 盤點 C：要單獨測",
+   "why": "總表：已整合待測試；main 有、BB 實測紀錄有 PASS",
    "bb_triage": "C",
    "audit_evidence": "src/story3d.js:3097-3119（1A-02：志願表截止 2027-11-18 12:00 照交往中定 EXCHANGE_ROUTE，學姊→US、以安→JP、都沒有→TW；routeWatch 在主迴圈、讀檔、ROM 改狀態前都跑）；同時交往：story3d.js:3150-3165 第 10 週法圖相遇、11/11 Café 攤牌二選一；tests/route_decide_unit.js、two_hearts_unit.js",
    "audit_next": ""
@@ -7941,9 +7941,11 @@
     "createImageBitmap",
     "getImageData",
     "prefetchNext",
+    "rtNight",
+    "src/perfpanel3d.js",
     "tests/perf_scenes.py",
-    "tests/zone_prewarm_unit.js",
-    "tools/shots/zone_enter_probe.py"
+    "tests/perfpanel_unit.js",
+    "tests/zone_prewarm_unit.js"
    ],
    "missing_ids": [],
    "bb": [
@@ -8758,6 +8760,31 @@
    "judged_by": "LAWWW-B",
    "judged_at": "2026-11-01T02:2xZ",
    "judgment_history": 2
+  },
+  {
+   "id": "BUG-CAM-LIBHALL-CORE-1031",
+   "src": "new",
+   "audit_verdict": null,
+   "audit_severity": null,
+   "title": "總圖大廳一樓：跟隨鏡頭穿進中央樓梯核心（x −5.2～5.2、z −8.9～−0.6）的牆後面，畫面整個是室內樹葉子和灰泥牆、看不到玩家（東側北段 (6.2,−2.6) 看東、西側北段 (−6.2,−3.2) 看西，4 個方向 0%；這一區 E.colliders＝0、葉子和灰泥牆沒有網點透空）——BB-B 10-31",
+   "task_status": "已驗收",
+   "owner": "LAWWW2",
+   "priority": "P2",
+   "tier": 1,
+   "auto": false,
+   "main": "yes",
+   "bb": [
+    "BB_218 3295744fe n37_lhcore2：自然跟隨鏡頭、LHROUTE 8 點、外牆四方向 PASS"
+   ],
+   "bb_pass": 0,
+   "evidence_gap": false,
+   "why": "結案",
+   "evidence": "main 27e6ce77e（v9.10.15，含 3094e123b 第二輪）；BB_218 n37_lhcore2",
+   "task": "BUG-CAM-LIBHALL-CORE-1031",
+   "next": "結案",
+   "judged_by": "LAWWW-B",
+   "judged_at": "2026-11-01T03:00Z",
+   "judgment_history": 5
   },
   {
    "id": "AA_450",
@@ -22787,7 +22814,7 @@
    "priority": "P3",
    "tier": 2,
    "auto": false,
-   "main": "no",
+   "main": "yes",
    "bb": [],
    "bb_pass": 0,
    "evidence_gap": false,
@@ -24310,7 +24337,7 @@
    "priority": "P1",
    "tier": 4,
    "auto": false,
-   "main": "no",
+   "main": "yes",
    "bb": [
     "n36_qa_sleep、n36_qa_nophone（184efc3da）、n36_qa_decline（39f68236c）：qa_play 從標題新遊戲玩到 9/2，?turbo，手機橫向模擬（Playwright＋SwiftShader，不是 iPhone）；BB_218:6249-6357；rename_probe（ren_oldsave2、ren_views_*2、ren_route，ca5f3381c）"
    ],
@@ -25832,7 +25859,7 @@
    "audit_verdict": null,
    "audit_severity": null,
    "title": "行政大樓門廊往旁邊 1.3 m 時跟隨鏡頭落進晨思鐘鐘亭 (−38,16.5)，整個畫面是石材（鐘亭不在鏡頭碰撞裡；LAWWW2 做 CAM-PILLAR-HALLS 時找到）",
-   "task_status": "待開工",
+   "task_status": "已實作待整合",
    "owner": "LAWWW2",
    "priority": "P3",
    "tier": 5,
@@ -28931,31 +28958,6 @@
    "judged_by": "LAWWW2-B",
    "judged_at": "2026-10-31T20:08Z",
    "judgment_history": 2
-  },
-  {
-   "id": "BUG-CAM-LIBHALL-CORE-1031",
-   "src": "new",
-   "audit_verdict": null,
-   "audit_severity": null,
-   "title": "總圖大廳一樓：跟隨鏡頭穿進中央樓梯核心（x −5.2～5.2、z −8.9～−0.6）的牆後面，畫面整個是室內樹葉子和灰泥牆、看不到玩家（東側北段 (6.2,−2.6) 看東、西側北段 (−6.2,−3.2) 看西，4 個方向 0%；這一區 E.colliders＝0、葉子和灰泥牆沒有網點透空）——BB-B 10-31",
-   "task_status": "已整合待測試",
-   "owner": "BB",
-   "priority": "P2",
-   "tier": 2,
-   "auto": false,
-   "main": "no",
-   "bb": [
-    "部分：BB_218（elegant-brown-fcos7n@78e470af4） L6155-6170「n33_lhcore」BB-B（5db371b5d，第一輪修正）檢查 ALL PASS、看外牆那 4 個方向畫面 PARTIAL；**第二輪（LAWWW2-B 3094e123b，開發 baec2acc2）還沒有 BB 紀錄**"
-   ],
-   "bb_pass": 0,
-   "evidence_gap": false,
-   "why": "BB 在含 baec2acc2 的版本重跑 n33_lhcore（四個外牆方向）",
-   "evidence": "tasks.json BUG-CAM-LIBHALL-CORE-1031「已整合待測試」；開發分支整合 commit baec2acc2（1 筆；main 祖先：否；DL-LW2-LIBHALL-CORE-V2-1031 3094e123）",
-   "task": "BUG-CAM-LIBHALL-CORE-1031",
-   "next": "BB 補驗（10-27 以後才整合，不在 BB-C 盤點裡；見 docs/handoff/history_audit/bb_batches.md）；還沒到 main，下一次發布前驗",
-   "judged_by": "LAWWW2-B",
-   "judged_at": "2026-11-01T02:5xZ",
-   "judgment_history": 4
   },
   {
    "id": "A16",

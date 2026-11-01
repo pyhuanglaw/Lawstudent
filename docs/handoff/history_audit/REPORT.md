@@ -1,23 +1,25 @@
 # 歷史待辦複核報告（工具產生，不要手改）
 
-- 產生：`tools/handoff/history_audit.py`；開發分支 HEAD `695dbc2b6160`、main `271cd2305892`
+- 產生：`tools/handoff/history_audit.py`；開發分支 HEAD `80e82a439967`、main `27e6ce77e807`
 - 七類定義與判定規則：同資料夾 README.md。auto＝工具自動判定（只看總表狀態、程式識別字在不在 main、BB 實測紀錄有沒有 PASS），還沒有人工看過；人工判定寫進 judgments_<職位>.jsonl 以後改成人工。
 - BB 實際操作證據來源：elegant-brown-fcos7n:BB_218_瀏覽器實測紀錄.md、wonderful-mayer-7fm9g6:BB_218_瀏覽器實測紀錄.md、story-planning:BB_218_瀏覽器實測紀錄.md、BB 分支 test_shots/*.log 64 個
 
 ## 摘要
 
-- 10/21 稽核 B 段 266 項（重算）：1 正式版已完成且實際驗收 16、2 已實作但尚未實際驗收 202、4 部分完成 17、5 完全未開工 5、6 等待素材或使用者決定 4、7 經確認取消或被取代 22
-- 其中原本 done 的 133 項：tier 1 8、tier 2 124、tier 4 1
+- 10/21 稽核 B 段 266 項（重算）：1 正式版已完成且實際驗收 18、2 已實作但尚未實際驗收 200、4 部分完成 17、5 完全未開工 5、6 等待素材或使用者決定 4、7 經確認取消或被取代 22
+- 其中原本 done 的 133 項：tier 1 10、tier 2 122、tier 4 1
 - 原本 done、證據在開發分支找不到（要人工查）：0
 - 原本 done、main 狀態：{'yes': 133}
-- 各職位另外查到的 865 項（企劃、美術、交付；以各職位的人工判定為準）：1 正式版已完成且實際驗收 30、2 已實作但尚未實際驗收 511、3 已驗收但尚未發布 11、4 部分完成 64、5 完全未開工 17、6 等待素材或使用者決定 90、7 經確認取消或被取代 142
+- 各職位另外查到的 865 項（企劃、美術、交付；以各職位的人工判定為準）：1 正式版已完成且實際驗收 31、2 已實作但尚未實際驗收 510、3 已驗收但尚未發布 11、4 部分完成 64、5 完全未開工 17、6 等待素材或使用者決定 90、7 經確認取消或被取代 142
 
 ## 10/21 判 done 的 133 項
 
 | ID | 現在 | 總表狀態 | main | BB 實測 | 負責 | 依據／缺的 |
 |---|---|---|---|---|---|---|
+| BB204-EXROUTE | 1 正式版已完成且實際驗收（auto） | 已整合待測試 | yes | elegant-brown-fcos7n:BB_218_瀏覽器實測紀錄.md:6482（pass） | LAWWW | 總表：已整合待測試；main 有、BB 實測紀錄有 PASS |
 | BUG-KXFIRST-0830 | 1 正式版已完成且實際驗收 | 已整合待測試 | yes | elegant-brown-fcos7n:BB_218_瀏覽器實測紀錄.md:128（mention） | BB | 總表：已整合待測試；沒有找到 BB 實際操作紀錄；BB 盤點 B：跑流程 ② 可以涵蓋 |
 | CRAM-LEAVE-LAUGH-1018 | 1 正式版已完成且實際驗收 | 已整合待測試 | yes | — | BB | 總表：已整合待測試；沒有找到 BB 實際操作紀錄；BB 盤點 B：跑流程 ② 可以涵蓋 |
+| V4-E10 | 1 正式版已完成且實際驗收（auto） | 已整合待測試 | yes | elegant-brown-fcos7n:BB_218_瀏覽器實測紀錄.md:6482（pass） | LAWWW | 總表：已整合待測試；main 有、BB 實測紀錄有 PASS |
 | V4-E24 | 1 正式版已完成且實際驗收 | 已驗收 | yes | tasks.json evidence（pass） | BB | 總表：已驗收；main 有、BB 實測紀錄有 PASS |
 | V5-B05 | 1 正式版已完成且實際驗收 | 已驗收 | yes | tasks.json evidence（pass） | BB | 總表：已驗收；main 有、BB 實測紀錄有 PASS |
 | V5-B08 | 1 正式版已完成且實際驗收 | 已驗收 | yes | tasks.json evidence（pass） | BB | 總表：已驗收；main 有、BB 實測紀錄有 PASS |
@@ -27,7 +29,6 @@
 | AA185-Y3 | 2 已實作但尚未實際驗收（auto） | 已整合待測試 | yes | — | LAWWW | 總表：已整合待測試；沒有找到 BB 實際操作紀錄；BB 盤點 B：跑流程 ⑩Y3S1 可以涵蓋 |
 | AA185-Y4 | 2 已實作但尚未實際驗收（auto） | 已整合待測試 | yes | — | LAWWW | 總表：已整合待測試；沒有找到 BB 實際操作紀錄；BB 盤點 B：跑流程 ⑩Y4S1 可以涵蓋 |
 | AN-Y3S2-PRE | 2 已實作但尚未實際驗收（auto） | 已整合待測試 | yes | — | LAWWW | 總表：已整合待測試；沒有找到 BB 實際操作紀錄；BB 盤點 B：跑流程 ⑩Y3S2 可以涵蓋 |
-| BB204-EXROUTE | 2 已實作但尚未實際驗收（auto） | 已整合待測試 | yes | elegant-brown-fcos7n:test_shots/qa_repro_1020/route_run5.log:108（fail） | LAWWW | 總表：已整合待測試；沒有找到 BB 實際操作紀錄（有 FAIL 字樣，要看）；BB 盤點 C：要單獨測 |
 | BUG-11 | 2 已實作但尚未實際驗收（auto） | 已整合待測試 | yes | — | LAWWW | 總表：已整合待測試；沒有找到 BB 實際操作紀錄；BB 盤點 B：跑流程 ⑩Y1S1 可以涵蓋 |
 | CRIMPRO-HW-Y3S1 | 2 已實作但尚未實際驗收（auto） | 已整合待測試 | yes | — | LAWWW | 總表：已整合待測試；沒有找到 BB 實際操作紀錄；BB 盤點 B：跑流程 ⑩Y3S1 可以涵蓋 |
 | D14-T3 | 2 已實作但尚未實際驗收（auto） | 已整合待測試 | yes | — | LAWWW | 總表：已整合待測試；沒有找到 BB 實際操作紀錄；BB 盤點 B：跑流程 ⑧ 可以涵蓋 |
@@ -73,7 +74,6 @@
 | V4-B05 | 2 已實作但尚未實際驗收（auto） | 已整合待測試 | yes | — | LAWWW | 總表：已整合待測試；沒有找到 BB 實際操作紀錄；BB 盤點 B：跑流程 ⑩Y3S1 可以涵蓋 |
 | V4-B134 | 2 已實作但尚未實際驗收（auto） | 已整合待測試 | yes | — | LAWWW | 總表：已整合待測試；沒有找到 BB 實際操作紀錄；BB 盤點 B：跑流程 ⑩Y3S1 可以涵蓋 |
 | V4-E1 | 2 已實作但尚未實際驗收（auto） | 已整合待測試 | yes | elegant-brown-fcos7n:BB_218_瀏覽器實測紀錄.md:361（mention） | LAWWW | 總表：已整合待測試；沒有找到 BB 實際操作紀錄；BB 盤點 B：跑流程 ③ 可以涵蓋 |
-| V4-E10 | 2 已實作但尚未實際驗收（auto） | 已整合待測試 | yes | elegant-brown-fcos7n:test_shots/qa_repro_1020/route_run5.log:108（fail） | LAWWW | 總表：已整合待測試；沒有找到 BB 實際操作紀錄（有 FAIL 字樣，要看）；BB 盤點 C：要單獨測 |
 | V4-E11 | 2 已實作但尚未實際驗收（auto） | 已整合待測試 | yes | — | LAWWW | 總表：已整合待測試；沒有找到 BB 實際操作紀錄；BB 盤點 B：跑流程 ⑩Y3S1 可以涵蓋 |
 | V4-E12 | 2 已實作但尚未實際驗收（auto） | 已整合待測試 | yes | elegant-brown-fcos7n:BB_218_瀏覽器實測紀錄.md:5537（mention） | LAWWW | 總表：已整合待測試；沒有找到 BB 實際操作紀錄；BB 盤點 B：跑流程 ⑩Y3S1 可以涵蓋 |
 | V4-E13 | 2 已實作但尚未實際驗收（auto） | 已整合待測試 | yes | — | LAWWW | 總表：已整合待測試；沒有找到 BB 實際操作紀錄；BB 盤點 B：跑流程 ⑩Y3S1 可以涵蓋 |
@@ -514,17 +514,18 @@
 | V0-B4 | 4 部分完成 | yes | BB | F1 小年夜 2025-01-27 群組（msgs y0_f1「各縣市年菜價格比較」…可昕「明天年夜飯你們家幾個人？」）；T0b 9/29 兩封信＋新聞＋群組，可昕問「明天放假，你 | BUG：L5a 演完還會再問一次去不去（10/11 可昕群組約的那筆出遊沒有跟著 30 分鐘版的演出記成已去）。另外 C1 即興劇社依 AA_293 拿掉；L5b、C2 出發選單（吉他社 3D）30 分鐘版沒走到。 |
 | V0-KXPHONE | 4 部分完成 | yes | BB | 三輪 final_snap flags.dpN 都沒有可昕的 y0_kx_luroufan／obvious／laugh／rain（其他人的 17 則每輪收到 16 則）；經濟系大一 | BUG：可昕經濟系那年的手機小事玩家收不到（8 則 0 則）。讀碼：30 分鐘版小事至少隔 3 天、「快過期的先排」（story3d.js dailyPhone），9/23～10/16 只有 5 格，可昕 4 則都輸給別人。 |
 | V0-LADDER | 4 部分完成 | unknown | BB | 三輪 final_snap social.ladder 只有 {kexin@Y0S2:2}（4/24 生日演完「（晚上，回到家。）」接可昕兩句）。 | Y0S1 可昕、品妤、唐睿、阿勳、韋綸各 8 層，Y0S2 其他人都是 0 層：30 分鐘版沒有自由走動、沒機會聊（第 2 級「經濟系開局後實際聊一次」沒做到）。 |
-| WORLD-RENAME-1030 | 4 部分完成 | no | BB | BB_218:4654-4692 rename_probe（ca5f3381c）oldsave2、views portrait2／landscape2／desktop、route  | 3D 模型、貼圖、2D 背景、CG 裡烘進去的字（LAWWW2 清單）沒驗；四年全部台詞只看了經濟系那年＋9/1；真 iPhone 沒測（BB_218:4687-4691）。 |
+| WORLD-RENAME-1030 | 4 部分完成 | yes | BB | BB_218:4654-4692 rename_probe（ca5f3381c）oldsave2、views portrait2／landscape2／desktop、route  | 3D 模型、貼圖、2D 背景、CG 裡烘進去的字（LAWWW2 清單）沒驗；四年全部台詞只看了經濟系那年＋9/1；真 iPhone 沒測（BB_218:4687-4691）。 |
 | （另有第 1、2 類 35 項：見 ledger.json） | | | | | |
 
-## LAWWW-B 另外查到的 2 項（不在 10/21 稽核 B 段）
+## LAWWW-B 另外查到的 3 項（不在 10/21 稽核 B 段）
 
 | ID | 現在 | main | 負責 | 證據 | 缺的／下一步 |
 |---|---|---|---|---|---|
+| BUG-CAM-LIBHALL-CORE-1031 | 1 正式版已完成且實際驗收 | yes | LAWWW2 | main 27e6ce77e（v9.10.15，含 3094e123b 第二輪）；BB_218 n37_lhcore2 | 結案 |
 | AA_277 | 2 已實作但尚未實際驗收 | partial | LAWWW | CLAUDE.md 開發分支有 10 處過時標記（第 420 行 v9.7 後面「【過時（2026-10-30 LAWWW-B 更新）：線上是 v9.10.14…】」、第 439  | 下一次發布帶上；AA-B 第 5 批判 tier 5 是看漏了標記 |
 | AA_476#B-1 | 2 已實作但尚未實際驗收 | no | BB | 開發分支 9c84a54f9＋f32a11388：src/multirel3d.js 門鈴（bellNightOk／bellSecret／bellHint*／bellDue／zzB | BB 瀏覽器：同時和芷若、子晴交往（互不知道）→ 第 5 週週一和芷若說話聽到提示 → 週三 21:40 坐吧檯 → 門鈴＋CG → 隔天 19:30 攤牌 |
 
-## LAWWW2-B 另外查到的 191 項（不在 10/21 稽核 B 段）
+## LAWWW2-B 另外查到的 190 項（不在 10/21 稽核 B 段）
 
 | ID | 現在 | main | 負責 | 證據 | 缺的／下一步 |
 |---|---|---|---|---|---|
@@ -652,4 +653,4 @@
 | claude/second-ai-env-art-wip-props | 7 經確認取消或被取代 | yes | LAWWW2 | fa626b9df 是 main 祖先；⑥販賣機在 street_props.glb（src/assets3d.js:109 prop.street、src/world3d.js: | D88（使用者 10-16 分支收斂指示）＋LAWWW-B 10-16 複核：props6、soclib、props、pavsoc 互相包含 |
 | claude/second-ai-env-art-wip-trees | 7 經確認取消或被取代 | yes | LAWWW2 | 22ff594d7 不是 main 祖先：7 個 commit 不在 main／開發分支；內容⑦行道樹＋seated_figures 第一版。開發分支 src/townkit3d. | D88（使用者 10-16 分支收斂指示）＋LAWWW-B 10-16 複核：trees 的 17 個檔案「已由更新版本取代」；branch_audit 10-31 仍列「保留｜main 沒有的內容」（只是 commit 不同） |
 | 沛珊第 29～31 版（DL-LAWWW2-9b0ec2db、7e64ec43、DL-LW2-PS31） | 7 經確認取消或被取代 | no | LAWWW2 | bl_classmate_peishan.vrm 第 30 版（7e64ec436）、glasses_peishan.glb（f510b1b70）只在 LAWWW2 分支；開發分支 | D100（使用者授權 LAWWW 驗收人物修正）：LAWWW 10-22 12:5x／13:5x、LAWWW-B 10-23 16:5x 逐版退件 |
-| （另有第 1、2 類 67 項：見 ledger.json） | | | | | |
+| （另有第 1、2 類 66 項：見 ledger.json） | | | | | |
