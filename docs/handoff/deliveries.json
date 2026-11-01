@@ -16882,7 +16882,7 @@
    "what": "BUG-04 學姊兩個臉：原因（v9.7 週三萬才館 legacy 學姊和 CLUB_SPOTS[0] 社員同一點疊在一起）＋重現截圖＋npc_overlap_1101.patch（populateSchedule 站的位置有人就換）＋tests/npc_overlap_unit.js",
    "task": "BUG-04",
    "integration": "已整合",
-   "note": "LAWWW-B 11-01 08:1x 套 patch 進開發分支；npc_overlap、schedule_roommove、v2_c13、presence、zz_bkk_presence、bball_present ALL PASS"
+   "note": "LAWWW-B 11-01 04:3x 套 patch 進開發分支；npc_overlap、schedule_roommove、v2_c13、presence、zz_bkk_presence、bball_present ALL PASS"
   },
   {
    "id": "DL-LW2-BUG03-1101",
