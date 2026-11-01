@@ -18,6 +18,7 @@ MODE：
             b      [前置] 2026-01-08 22:30 宿舍 → 站著 → 睡到 1/9 → 站著等。PASS：1/9「（柏翰的床鋪捲起來了，桌上只剩檯燈。）」一次、1/8 晚上沒有、這一天沒有阿哲那句。
             bnext  [前置] 2026-01-10 09:00 宿舍 → 站著。PASS：沒有柏翰那句。
                    （四個都另外記【觀察】旁白當下房間裡的人（E.npcs）、正式模型 Y203_ZHE／BEDDING_R1／Y203_BOHAN_bulb 看不看得見，鏡頭轉向那一組床桌截圖——3D 有沒有跟著旁白，不算 PASS／FAIL）
+            zold   （選用，不在預設裡）【觀察】[前置] 2026-01-02 08:00 宿舍、沒有 DORM_FOUR（舊開局：203 只有阿凱）→ 站著：記有沒有演「（阿哲的籃球不在了。）」（事件條件沒有看 DORM_FOUR；不算 PASS／FAIL）。
             y2     大二搬進 312。Y2START＝sleep（預設：[前置] 2026-09-05 22:30 宿舍、沒有 ROOM_Y2 → 床「睡到明天…」→ 9/6 醒來在宿舍＝主線 3 照演）／load（[前置] 直接讀 2026-09-06 10:00 宿舍、沒有 ROOM_Y2）。
                    PASS：「明天開學。今天搬進新的房間。」→ 日期卡「搬到新的房間／三樓 312 號房」→ 緊接著兩句旁白「（312。阿哲的籃球已經滾到門口了，柏翰的檯燈放在靠窗那張書桌上。）」
                          「（另一組床桌是一個大一的學弟，正在跟他媽媽講電話。）」（名字＝''）→ 接著才是「（拿出…）」的選單；拆完「一年。房間比去年滿一點。」、ROOM_Y2＝9/6；
@@ -26,7 +27,7 @@ MODE：
             [前置] 最小存檔 ENC_DAY（預設 2026-03-14，大一下第 3 週週六）15:40 宿舍；【捷徑】ENC 每一位第 5 階（熟 45／信任 30／自在 20／她的戀愛 35，DATE.stageNum＝5；kexin＝交往中）、聯絡方式。
             1 自己去：手機「地點」→「捷運公館站」「前往」→ 走到「捷運公館站入口」按下去 →「西門町」→（會錯過＝「照樣出發」）→ 到了（17:00）→ SOLO_ACT＝movie（預設：「看一場電影」）／none → 「回去」→「直接回宿舍」。
               PASS：到達那一句（FREE_TRIPS D04 arrive[0]）、G.places.free.D04＝1、回到宿舍、還沒有任何 soloSaid。
-            2 每一位第一次約會：手機「朋友」→ 她的「約」→「出去玩…」→「臺北市：看展・電影…」→「西門町電影院」→ 明天（不行就後天、大後天）→「17:00 出發」→「就這樣約」
+            2 每一位第一次約會：手機「朋友」→ 她的「約」→「出去玩…」→「臺北市：看展・電影…」→「西門町電影院」→ 明天（17:00 灰掉＝「換一天」，往後一天一天試到第 6 天：芷若平日 17:00「她那時候有事」、沛珊單數週週末回台中）→「17:00 出發」→「就這樣約」
               → 床「快轉」→「現在出發」／「出發：」→ 到了 →（第一個互動點 →「差不多了，回去吧」）。
               PASS：「（西門町電影院。）」之後、她的抵達句之後，旁白「（你來過一次。上次是一個人，從六號出口走出來。）」（字從頁面的 SOLO_BEFORE.narr.D04 讀）、
                     緊接著她的 SOLO_BEFORE.lines[她].D04 每一句（以安＝「你來過？……好。那電影院你帶路。我只記得出口。」，另外和稿的字對）；旁白前面沒有選單；記 G.places.soloSaid["她:D04"]＝那一天。
@@ -36,10 +37,13 @@ MODE：
               頁面裡每 0.2 秒記柏翰的狀態（在不在 E.npcs、坐著、beh、dormBye、位置；只讀）；每個時間點讀 E.npcs、STORY.dormWho／dormMates／bhLateY4、正式模型 Y409_BOHAN_bulb（或 Y507_）的看得見／自發光、z.lightsOffK（只讀）、截圖。
             w5     大四上第 5 週週二。PASS：23:20、23:45、00:30（G.hour 24.5，沒睡覺＝同一個 G.day）柏翰坐在 R1 書桌前（seat≈R1、pose sit）；01:12 不在；
                    【一致性】01:00 起身走到自己的梯子（和 23:30 上舖同一套：dormBye、走到 R1 梯子）——不是在椅子上直接消失。
+                   （讀碼預測：這一項會 FAIL——S.dormLive 對不在名單上的室友，上床時間寫死 23:30（t1＝23.5），01:00 時已經過了 1.5 小時＞0.25＝直接 removeNPC，不走到梯子）
             w13    大四上第 13 週週三（放榜以後）。PASS：23:20 在、23:45 不在（23:30 起身走到梯子）、00:20 還是不在。
-            w13d1  大四上第 13 週週一（第一天）。PASS：23:45 不在；沒睡覺過半夜（G.hour 24.33）也不在——S.bhLateY4 用 G.day−1 看週次（凌晨＝前一天晚上），但沒睡覺時 G.day 沒有加一，會看到第 12 週的週日。
+            w13d1  大四上第 13 週週一（第一天）。PASS：23:45 不在；沒睡覺過半夜（G.hour 24.33）也不在。
+                   （讀碼預測：00:20 會 FAIL——S.bhLateY4 用 G.day−1 看週次（凌晨＝前一天晚上），可是沒睡覺時 G.day 不會加一（G.hour 直接過 24，HUD 用 G.day＋floor(G.hour/24)），
+                     G.day−1＝第 12 週的週日＝推甄前 → dormMates 第 4 欄 25 → 柏翰 00:00～01:00 又坐回書桌前。Node 用 pg_harness 叫 STORY.dormWho 已經重現：週一 24.33＝在）
             y3     大三上第 5 週週二（507）。PASS：23:20 在、23:45 不在（走到梯子）、00:20 不在。
-            w1d1   （選用）大四上第 1 週週一 2028-09-04：PASS 00:30 還在（同 w13d1 的道理，G.day−1＝9/3 不在學期裡）。
+            w1d1   （選用）大四上第 1 週週一 2028-09-04：PASS 00:30 還在（讀碼預測 FAIL，同 w13d1 的道理反過來：G.day−1＝9/3 不在學期裡，00:00 就不在了；Node 已重現）。
 用法：LW_TESTS=<工作樹>/tests SHA=<sha> MODE=<mode>[,<mode>...] python3 d42_probe.py '<URL>/index.html?turbo' <輸出資料夾> [使用者存檔.json]
 等待上限（秒）都可以用環境變數改：ZB_STAND、ZB_WAIT、ZB_CTRL、Y2_MAX、SOLO_MAX、BOOK_MAX、ENC_MAX、DY_WAIT、WALK_MAX。"""
 import os, sys, json, asyncio, re, math, time, copy, traceback
@@ -429,6 +433,18 @@ async def zb_next(pg, cdp, run, case):
     await run.shot(pg, tag)
 
 
+async def zb_old(pg, cdp, run):
+    """【觀察】舊開局（沒有 DORM_FOUR：203 只有阿凱，阿哲、柏翰不是室友）1/2 在 203 會不會也說「阿哲的籃球不在了」——事件條件沒有看 DORM_FOUR（只看法律系、那一天、在宿舍房間）"""
+    tag = 'aa208_zold'
+    st, d = await state_at(pg, '2026-01-02', 8.0, 'dorm')
+    await load(pg, cdp, run, st, '%s：最小存檔 2026-01-02 08:00 宿舍、沒有 DORM_FOUR（舊開局的 203）' % tag)
+    n0 = await pl_len(pg); c0 = await room(pg)
+    await stand(pg, cdp, run, ENVI('ZB_CTRL', 90), tag, shots_at=[ZL[1:8]])
+    R = await rows(pg, n0)
+    run.note('【觀察】%s：沒有 DORM_FOUR 的 203（房間裡 %s；dormWho %s）站 %d 秒：%s「%s」（企劃寫的是四人房的室友；舊開局的室友只有阿凱——要不要演請 AA／LAWWW 判斷，不算 PASS／FAIL）' %
+             (tag, J([n['id'] for n in c0['npcs']]), J(c0['who']), ENVI('ZB_CTRL', 90), '演了' if lines_at(R, ZL) else '沒有演', ZL))
+
+
 async def y2_case(pg, cdp, run):
     tag = 'aa208_y2'; how = os.environ.get('Y2START', 'sleep')
     if how == 'load':
@@ -479,7 +495,8 @@ async def m_aa208l(pg, cdp, run):
             if c in ('z', 'b'): await zb_case(pg, cdp, run, c)
             elif c in ('znext', 'bnext'): await zb_next(pg, cdp, run, c)
             elif c == 'y2': await y2_case(pg, cdp, run)
-            else: run.check('aa208l %s 認得' % c, False, '可以用：z,znext,b,bnext,y2')
+            elif c == 'zold': await zb_old(pg, cdp, run)
+            else: run.check('aa208l %s 認得' % c, False, '可以用：z,znext,b,bnext,y2,zold')
         except Exception as ex: run.check('aa208l %s：跑完（沒有探針例外）' % c, False, repr(ex)[:400]); traceback.print_exc()
 
 
@@ -604,7 +621,7 @@ def date_block(R):
 
 async def enc_first(pg, cdp, run, cid, off, exp):
     tag = 'encb3_%s_1' % cid; nm = await names_of(pg, cid)
-    bk = await book_date(pg, cdp, run, cid, [off, off + 1, off + 2], 17.0, tag)
+    bk = await book_date(pg, cdp, run, cid, list(range(off, 7)), 17.0, tag)
     run.check('%s：手機「朋友」→「約」→「出去玩…」→ 臺北市：看展・電影 →「%s」→ 日期 →「17:00 出發」→「就這樣約」（%s）' % (tag, LOCNAME, J(bk.get('trip'))), bk['ok'], J({'picked': bk['picked'], 'fail': bk['fail'], 'labs': bk['labs']})[:900])
     if not bk['ok'] or not bk.get('trip'): return None
     v0 = await pg.evaluate(VISITS, cid); fr0 = await pg.evaluate(FREE_JS)
@@ -634,7 +651,7 @@ async def enc_first(pg, cdp, run, cid, off, exp):
 async def enc_again(pg, cdp, run, cid, off, exp):
     tag = 'encb3_%s_2' % cid; nm = await names_of(pg, cid)
     fr0 = await pg.evaluate(FREE_JS); v0 = await pg.evaluate(VISITS, cid)
-    bk = await book_date(pg, cdp, run, cid, [off, off + 1, off + 2], 17.0, tag)
+    bk = await book_date(pg, cdp, run, cid, list(range(off, 7)), 17.0, tag)
     run.check('%s：第二次約她去%s（%s；約會前 byLoc.D04＝%s）' % (tag, LOCNAME, J(bk.get('trip')), J(v0)), bk['ok'], J({'picked': bk['picked'], 'fail': bk['fail']})[:700])
     if not bk['ok']: return
     ok, R = await run_date(pg, cdp, run, cid, bk['trip']['trip'], tag)
@@ -711,7 +728,9 @@ async def dy_case(pg, cdp, run, case):
     st, d = await state_at(pg, when, 23 + 20 / 60, 'dorm', flags=fl)
     await load(pg, cdp, run, st, '%s：最小存檔 %s（%s 第 %s 週，週%s）23:20 宿舍 %s；交換路線 TW%s' % (tag, d['key'], d['term'], d['week'], '日一二三四五六'[d['wd']], setk, '、Y4_PATH ' + fl['Y4_PATH'] if yr == 'Y4' else ''))
     glb = await wait_glb(pg, 60)
+    w0 = await P.wait_present(pg, BH, 60)   # 人物模型還沒下載完的會先藏（pool3d.js 2-1）：等他出現（最多 60 秒；不在就照記）
     c0 = await room(pg); R1 = c0['units']['R1']; seat, ladder = R1['seat'], R1['ladder']
+    run.note('%s：讀進來 %s，柏翰（__BBF.who，只讀）%s' % (tag, c0['hud'], J(w0)))
     if c0['term'] != d['term'] or c0['week'] != d['week']: run.note('%s：頁面讀到的學期週次 %s %s（預期 %s %s）' % (tag, c0['term'], c0['week'], d['term'], d['week']))
     await pg.evaluate(BHMON, BH)
     a0, m0 = at_desk(c0, seat)
