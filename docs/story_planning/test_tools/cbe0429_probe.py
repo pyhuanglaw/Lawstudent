@@ -837,6 +837,19 @@ async def gr_face(pg, cdp, run, s0, cid, lv, mode):
               bool(r) and okq and okopt, J({'got': got, 'said': Ls[:10], 'choices': CH[:4], 'label': r and r.get('label'), 'staff': staff, 'why': why}))
     if cid == 'classmate_peishan' and '全部。' in picks:
         run.check('%s：選「全部。」＝記 PS_STUDY＝Y1S1' % tag, await pg.evaluate("GAME.G.flags.PS_STUDY==='Y1S1'"))
+    if cid == 'heroine_02':
+        # AA553-GRADES-REACT-1031（LAWWW-B f06648355）：吧檯班的芷若——成績那段先演，接著才是店員事件（「歡迎光臨——」）或點餐；同一天再說一次只點餐
+        ig = next((i for i, (n_, t_) in enumerate(Ls) if want and t_ == want[0][1]), None)
+        iw = next((i for i, (n_, t_) in enumerate(Ls) if '歡迎光臨' in t_), None)
+        run.check('%s：成績那段在前，「歡迎光臨——」（店員事件）或點餐在後' % tag, ig is not None and (iw is None or iw > ig) and (iw is not None or any('元' in x for x in CH)),
+                  J({'grades_at': ig, 'welcome_at': iw, 'said': Ls[:12], 'choices': CH[:4], 'staff': staff}))
+        await L.close_panels(pg, cdp); await play(pg, cdp, run, None, max_s=10, ff=False, tag=tag + '_settle2')
+        n1 = await pl_len(pg)
+        r2 = await P.talk_to(pg, cdp, run, cid, tag + '_again', picks=['不用了', '就這樣'], max_s=240)
+        R2 = await rows(pg, n1); L2 = said(R2); CH2 = [x['t'] for x in R2 if x['k'] == 'choose']; await run.shot(pg, tag + '_again_end')
+        run.check('%s：同一天再說一次＝只點餐（沒有成績那段、也不再演店員事件）' % tag,
+                  bool(r2) and not any(t_ == w_[1] for (n_, t_) in L2 for w_ in want) and not any('歡迎光臨' in t_ for _, t_ in L2),
+                  J({'said': L2[:10], 'choices': CH2[:4], 'label': r2 and r2.get('label')}))
 
 
 async def gr_case(pg, cdp, run, mode, faces):
