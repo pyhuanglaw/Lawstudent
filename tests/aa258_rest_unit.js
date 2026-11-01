@@ -22,7 +22,7 @@ const th=id=>(H.G.msgs||[]).filter(m=>m.th==='p:'+id).map(m=>m.text);
   check('1. 沒交往：沒有',!th(SIS).some(t=>/今年想第一個跟你說/.test(t))); }
 /* 2 */
 { const US={EXCHANGE_ROUTE:'US',EXCH_RULE:1,US_DEPARTED:true,US_ARRIVED:true,US_ARRIVED_DAY:D('2028-08-02'),US1:'together',Y4_PATH:'bar'};
-  const run=(k,flags,setup)=>{ const G=H.fresh(k,8,'dorm',Object.assign({},US,flags||{})); if(setup) setup(G); for(let d=G.day;d<=G.day+2;d++){ G.day=d; for(const h of [10,14,20,23.9]){ G.hour=h; R2Y4A.phoneY4(G); PHONE.tick(G); } } return G; };
+  const run=(k,flags,setup)=>{ const G=H.fresh(k,8,'dorm',Object.assign({},US,flags||{})); if(setup) setup(G); const d0=G.day; for(let d=d0;d<=d0+4;d++){ G.day=d; for(const h of [10,14,20,23.9]){ G.hour=h; R2Y4A.phoneY4(G); PHONE.tick(G); } } return G; };
   const ok=G=>{ for(const id of ['classmate_peishan','heroine_04']){ H.FRIEND(id); INV.addContact(G,id); } };
   run('2028-11-07',{PS_RECONNECT:true},ok); const ps=th('classmate_peishan'), zq=th('heroine_04');
   check('2. 美國路線：沛珊「今天第一次試教。」「📷（教室的黑板，右下角一個畫歪的笑臉）」「有一個小朋友舉了六次手。……這次我有看到他。」',J(ps)===J(['今天第一次試教。','📷（教室的黑板，右下角一個畫歪的笑臉）','有一個小朋友舉了六次手。……這次我有看到他。']),J(ps));

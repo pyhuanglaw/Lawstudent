@@ -37622,9 +37622,9 @@
    "title": "學姊相關缺的（AA_258）：大二下家族聚餐沒有事件（學姊 S4-L8 的條件永遠不成立）；學姊交往中初一私訊、美國路線 11/08、11/10 兩則；芷若 12/17 明信片最後一行",
    "area": "STORY",
    "owner": "LAWWW",
-   "status": "進行中",
+   "status": "已整合待測試",
    "priority": "P2",
-   "next": "【11-01 07:0x LAWWW-B】① 6-1 大二下家族聚餐做了（ev_family_dinner_y2s2，tests/aa258_famdinner_unit.js）；②③④ 問 AA-B 有沒有被後稿取代（AA_396 等），回了再做或結案｜【10-31 22:3x 歷史複核（AA-B 第 4、5 批）】LAWWW 照稿實作，排在 D99 寒暑假（AA_549）之後",
+   "next": "【11-01 09:0x LAWWW-B】① 家族聚餐、② 學姊交往中初一 09:00 私訊（sis_b10_3d.js S.cny1）、③ 美國路線 11/08 沛珊（重新聯絡上）／11/10 子晴（r2y4a3d.js）做了；④ AA-B 選 (c) 只留 gfBack＝結案。tests/aa258_famdinner_unit.js、aa258_rest_unit.js（修改前 FAIL 6）→ BB 驗。BB_119 3-1／3-3 台灣路線兩場歸 V6-B｜【11-01 07:0x LAWWW-B】① 6-1 大二下家族聚餐做了（ev_family_dinner_y2s2，tests/aa258_famdinner_unit.js）；②③④ 問 AA-B 有沒有被後稿取代（AA_396 等），回了再做或結案｜【10-31 22:3x 歷史複核（AA-B 第 4、5 批）】LAWWW 照稿實作，排在 D99 寒暑假（AA_549）之後",
    "first": {
     "term": "Y2S2",
     "week": 0,
