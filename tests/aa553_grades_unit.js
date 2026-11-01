@@ -81,6 +81,8 @@ const talk=async(id,picks)=>{ H.said=[]; H.picks=[].concat(picks||[]); await GRA
     check('5. 沛珊 PS_STUDY：下學期第 1 週週一 21:00「這學期，週三晚上總圖二樓。……要來嗎？」（選項「好。」記 PS_STUDY_ON）',!!m&&m.text==='這學期，週三晚上總圖二樓。……要來嗎？',J(H.msgs('p:classmate_peishan')));
     G.flags.PS_STUDY_ON='Y1S2'; let wed=r.from; while(CALENDAR.dateOf(wed).wd%7!==3) wed++; G.day=wed; G.weekday=3; G.hour=19.5; const e=GRADES.sched(CHARACTERS.classmate_peishan,G); G.hour=21.2; const e2=GRADES.sched(CHARACTERS.classmate_peishan,G);
     check('5. 那學期週三 19:00～21:00 沛珊在總圖二樓（library_hall、read）；21:00 以後照原本作息',!!e&&e.zone==='library_hall'&&e.act==='read'&&!e2,J([e,e2]));
+    { G.zone='library_hall'; G.hour=19.5; H.FAMILIAR('classmate_peishan'); G.flags.GR_classmate_peishan_Y1S1=G.day-30;   /* 成績那段演過了（不然這一次先演成績）*/ const a1=await talk('classmate_peishan'); const a2=await talk('classmate_peishan'); G.zone='campus'; const a3=await talk('classmate_peishan'); G.flags.GR_PS_SAT=null;
+      check('5. 週三 19:00～21:00 在總圖二樓走到她旁邊說話：「（你在她旁邊坐下。她把一半的桌面讓出來，什麼都沒說。）」、記 STUDIED_TOGETHER；同一天一次；不在總圖沒有（AA-B 11-01）',J(a1)===J(['（你在她旁邊坐下。她把一半的桌面讓出來，什麼都沒說。）'])&&SOCIAL.has('classmate_peishan','STUDIED_TOGETHER')&&a2.length===0&&a3.length===0,J([a1,a2,a3])); }
     G.flags.MX_NOTES='Y1S1'; const Lr=[]; GRADES.room(G,Lr); check('5. MX_NOTES 的下學期：房間多「明軒的筆記」',Lr.some(x=>x[0]==='明軒的筆記'&&x[1]==='明軒的筆記。字很整齊，一點都不隨便。'),J(Lr));
     const w16=CALENDAR.termDays('Y1S1').from+15*7, G2=H.fresh(keyOf(w16),9,'dorm',{}); H.FRIEND('kai'); const T=CALENDAR.termOf(G2.day); const L2=[]; GRADES.room(G2,L2);
     check('5. 大一上期末考週（第 16 週）：桌上的泡麵「考試週限定」',T&&T.week===16&&L2.some(x=>x[0]==='桌上的泡麵'&&/考試週限定/.test(x[1])),J([T,L2])); }

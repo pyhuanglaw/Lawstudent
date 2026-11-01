@@ -9,7 +9,8 @@
    - 第 4 節可昕：一起打開成績的兩場（events.js ev_kexin_grades_open*）照級別換句；大四上「各說一科最滿意的」多一個「沒有最滿意的。」（r2y4a3d.js）；
      其他學期被當＝成績公布日 21:30 她傳一句。
    - 讀書地點的次數（芷若「常在 Café 看到他」、子晴「常在圖書館」、阿凱「常在宿舍」）：STORY.onStudy 每次自習記一筆（GR_STUDY；這一版起才記，舊存檔從 0 開始——機會，不是門檻）。
-   - 子晴「這學期測她的遊戲很多次」沒有每學期的次數紀錄：那兩則先不出（要 AA 定怎麼算）。沛珊「坐她旁邊＝一起念，記 STUDIED_TOGETHER」沒有偵測坐旁邊的機制：只做她在那裡。 */
+   - 子晴「這學期都在測我的遊戲」那兩則：拿掉（AA-B 11-01 回：沒有機制，不為它加計數）。
+   - 沛珊「坐她旁邊＝一起念」：AA-B 11-01 回——週三 19～21 走到她旁邊說話時多一句旁白「（你在她旁邊坐下。她把一半的桌面讓出來，什麼都沒說。）」，記 STUDIED_TOGETHER。 */
 const GRADES=(function(){
   const S={};
   const LAW_TERMS=['Y1S1','Y1S2','Y2S1','Y2S2','Y3S1','Y3S2','Y4S1','Y4S2'];
@@ -91,7 +92,9 @@ const GRADES=(function(){
     if(t&&F['GR_'+id+'_'+t]==null&&atLeast(id,'FAMILIAR')&&faceOk(G,id,t)){ const lv=S.lv(G,t);
       if(lv){ F['GR_'+id+'_'+t]=G.day; await S.FACE[id](GM,who,G,t,lv); return; } }   /* 成績那段演了＝這次不說書卷獎（下一次）*/
     const tm=F.HONOR_LAST; if(S.HONOR_LINE[id]&&tm&&F['HONOR_'+tm]&&F['HONOR_GR_'+id+'_'+tm]==null&&(id!=='classmate_peishan'||['Y1S1','Y1S2'].includes(tm))&&atLeast(id,'FAMILIAR')){
-      F['HONOR_GR_'+id+'_'+tm]=G.day; await S.HONOR_LINE[id](GM,who); } };
+      F['HONOR_GR_'+id+'_'+tm]=G.day; await S.HONOR_LINE[id](GM,who); return; }
+    if(id==='classmate_peishan'&&G.zone==='library_hall'&&S.sched(CHARACTERS&&CHARACTERS.classmate_peishan,G)&&F.GR_PS_SAT!==G.day){   /* PS_STUDY 那學期週三 19～21 在總圖二樓：走到她旁邊說話（AA-B 11-01）*/
+      F.GR_PS_SAT=G.day; await nar(GM,'（你在她旁邊坐下。她把一半的桌面讓出來，什麼都沒說。）'); if(typeof SOCIAL!=='undefined'&&SOCIAL.remember) SOCIAL.remember('classmate_peishan','STUDIED_TOGETHER','總圖二樓'); } };
   /* ---- 手機（成績公布日 21:00）---- */
   const P=(who,t)=>({th:'p:'+who,from:who,text:t});
   S.zqLines=function(G,t,lv){ const grad=t==='Y4S1'||t==='Y4S2', Z=s=>P('heroine_04',s);
