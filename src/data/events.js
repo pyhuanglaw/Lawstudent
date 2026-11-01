@@ -3888,6 +3888,12 @@ const STORY_EVENTS=[
       {if:EV_KNOWS('heroine_01'),speaker:null,text:'（以安在手帳上寫：「大二上：完成」。）'},
       {if:EV_KNOWS('heroine_03'),speaker:'heroine_03',expression:'smile',text:'今天阿姨叫我坐下來吃。'} ],
     consequences:{memo:'期末最後一頓（大二上）'} },
+  /* 期末最後一頓（大二下；AA_143 2-7，AA143-Y2S2-LASTMEAL-1031）：麵店那一頓照 1-8，大二版的一句是阿姨「明年你們大三了。……我記得你們大一的樣子。」。
+     最後一科考完那天 17:00 阿哲「考完了 七點，麵店」（同大二上，story3d.js）；走進麵店就演。稿只給阿姨那一句：開頭一句旁白是技術上的場景交代 */
+  { id:'ev_term_last_meal_y2s2', title:'期末最後一頓（大二下）', participants:[], location:'noodle', trigger:'enter', term:['Y2S2'], time:[17,22], once:true, background:'blur',
+    prereq:{custom:G=>{ if(G.flags.noodleTableDay==null||typeof CLS==='undefined'||!CLS.lastExamEnd) return false; const e=CLS.lastExamEnd(G,'Y2S2','final'); return !!e&&(G.day>e.day||(G.day===e.day&&G.hour>=e.h)); }},
+    dialogue:[ {speaker:null,text:'（大二下最後一科考完。）'},{speaker:'阿姨',text:'明年你們大三了。……我記得你們大一的樣子。'} ],
+    consequences:{memo:'期末最後一頓（大二下）'} },
   /* ===================== 大二（交接包 v3）=====================
      D24 社團博覽會大二版（AA_170 第 1 節，AA-B 2026-10-16；第②級）：2026-09-12（六）10:00～16:00（AA_485 3-2；原本 09-16（三）、09-17（四）11:00～17:00），椰林大道同一排攤位（大一 club_expo_y1s1 的 spot），
      窗口內第一次走到攤位那一排。站哪一攤照大一加入的社團（CLUB_<id>）；加入不只一個＝選單選；站一個小時（不扣時段次數）。都沒加入＝走過、柏翰遞傳單（AA_358 2-5：原本語彤，她不進法服）。

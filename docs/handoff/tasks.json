@@ -37481,9 +37481,9 @@
    "title": "大二下期末最後一頓（ev_term_last_meal_y2s2）沒有事件：阿姨「明年你們大三了。……我記得你們大一的樣子。」＋當天 17:00 阿哲那則（AA_143；歷史複核第 3 批 tier 4；V3-D7／V3-G11 是同一份稿的其他項）",
    "area": "STORY",
    "owner": "LAWWW",
-   "status": "待開工",
+   "status": "已整合待測試",
    "priority": "P2",
-   "next": "【10-31 22:2x】歷史複核找到（HISTORY-AUDIT-1031）→ LAWWW 照稿實作，排在 D99 寒暑假（AA_549）之後",
+   "next": "【11-01 06:5x LAWWW-B】實作（開發分支）：ev_term_last_meal_y2s2（最後一科考完、麵店、阿姨「明年你們大三了。……我記得你們大一的樣子。」）＋當天 17:00 阿哲「考完了 七點，麵店」；稿沒有大二下的沒去版照片＝不傳；tests/aa143_lastmeal_y2s2_unit.js（修改前 FAIL）→ BB 驗｜【10-31 22:2x】歷史複核找到（HISTORY-AUDIT-1031）→ LAWWW 照稿實作，排在 D99 寒暑假（AA_549）之後",
    "first": {
     "term": "Y2S2",
     "week": 0,
