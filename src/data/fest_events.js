@@ -24,6 +24,8 @@ const FEST_DATA=(function(){
   const zrTc=G=>{ const p=typeof STORY!=='undefined'&&STORY.presence?STORY.presence(ZR,G):null; return !!p&&p.here===false&&p.kind==='home'&&/台中/.test(String(p.home||p.away||'')); };
   const ZR_TC={custom:zrTc}, ZR_TC_QIXI='我在家裡的廚房試做了一杯特調。很甜。……想給你喝。';   /* aa550：這一句的出處是 AA_550，不是 AA_416（tests/aa416_fest_unit.js 第 0 節照 AA_550 對）*/
   const tainan=G=>yr(G)>=2028;   /* 沛珊 2027-08 放榜以後在台南：白色情人節 2028、2029 在運河邊 */
+  /* AA_204 1-4（企劃線 4618aed21，2026-10-17 AA-C）：大一聖誕群戲（ev_xmas_exchange，story3d.js 的 xmas_y1）她在場＝events.js 的 XMAS_HERE（玩家認識的人）*/
+  const inXmas=id=>G=>typeof XMAS_HERE==='function'&&XMAS_HERE(G).includes(id);
   /* 以安 2/14 那一年她送過東西（AA_414 1-1 太陽餅、1-2 御守、2029 補救那一場的紙袋）*/
   const anGave=G=>{ const y=yr(G); return (y===2026&&F(G,'AN_VDAY_Y1')==='went')||(y===2027&&F(G,'AN_VDAY_Y2')==='went')||(y===2029&&F(G,'AN_VDAY_Y4B')==='went'); };
   const NAMES={vday:'情人節',white:'白色情人節',qixi:'七夕',bday:'生日',xmas:'聖誕節',nye:'跨年'};
@@ -48,7 +50,12 @@ const FEST_DATA=(function(){
           dt:[{unless:inY(2027),speaker:AN,text:'今天的行程是你排的？……好。今天我不挑錯。'},{if:inY(2027),speaker:AN,text:'晚上大家要幫我過。……中午這一頓，只有你知道。'}],
           vid:{years:[2028],route:'US',lines:[A('你那邊是早上吧。我這邊快睡了。'),A('……生日還剩三個小時。你剛好趕上。')]}},   /* 臺灣 21:00＝美國 09:00 */
         xmas:{s6:[A('聖誕節。……我手帳上這一天本來是空的。'),A('現在不是了。')],
-          dt:[N('（她遞過來一張卡片）'),A('字很少。回去再看。'),N('（卡片上只有一行：「明年也一起過。——以安」）')]} },
+          dt:[N('（她遞過來一張卡片）'),A('字很少。回去再看。'),N('（卡片上只有一行：「明年也一起過。——以安」）')],
+          /* grp：大一 2025-12-24 的晚上場＝麵店的交換禮物群戲＋散場以後兩個人的那一段（AA_204 1-4，台詞照稿不改字；取代上面 s6／dt 那幾句，其餘照 AA_416：好感、記憶、送禮）。
+             q＝接在哪一趟出遊後面（OUT.AFTER）、ev＝那一場群戲、here＝她在群戲裡、end＝演完的時間（兩個人走溫州街回學校，到 21:30）。fest3d.js S.grpAfter */
+          grp:{years:[2025],q:'xmas_y1',ev:'ev_xmas_exchange',end:21.5,here:inXmas(AN),
+            s6:[N('（大家在麵店門口散了。以安沒有往女舍的方向走。）'),A('剛剛那個是抽的。'),A('我另外有帶一個。走一段再給你。')],
+            dt:[N('（大家在麵店門口散了。以安從包包裡拿出一個小盒子。）'),A('這個不是抽的。'),A('鋼筆。申論題寫比較快。')]}} },
       ask:{lines:['明天是情人節。','晚上六點半，總圖門口。……你不要排別的。'],no:['好。那我讀書。'],h:18.5,place:'總圖門口',bg:'library_gate_night',
         by:{vday:['明天是情人節。','晚上六點半，總圖門口。……你不要排別的。'],white:['明天是白色情人節。','晚上六點半，總圖門口。手帳上這一格，我先寫了。'],qixi:['明天是七夕。','晚上六點半，總圖門口。農曆的日子，我查了兩次。'],
           xmas:['明天是聖誕節。','晚上六點半，總圖門口。……穿暖一點。']}},   /* AA_460 4-2（企劃線 b9362f474）：照節日換整組（原本只換第一句的節日名、第二句每次一樣）。生日那一列當作沒有（AA_460 第 9 節，企劃線 cb5caad65）：fest3d.js 的她約（herAsks）只跑情人節、白色情人節、七夕、聖誕（S.HER_K），生日不是她約 */
@@ -94,7 +101,16 @@ const FEST_DATA=(function(){
         bday:{venue:'noodle',s6:[Y('……你怎麼知道。'),Y('阿姨說的？……嗯。'),Y('今天麵店。你來就好。')],dt:[Y('今天阿姨煮了豬腳麵線。……多一碗。你的。')],
           vid:{years:[2028],route:'JP',lines:[Y('麵店今天好吵。阿姨在後面煮麵線。'),Y('……你那邊幾點？')]}},   /* 臺灣 21:00＝日本 22:00 */
         xmas:{venueBy:{s6:'noodle'},s6:[Y('聖誕節麵店照常。……打烊以後，你要不要來剝蒜頭。')],
-          dt:[Y('今天打烊早。阿姨說，聖誕節要給年輕人。'),{if:inY(2025,2026,2028),speaker:YT,text:'交換禮物我抽到一條圍巾。……我換給你了。阿哲不知道。'}]} },   /* 有麵店團交換禮物的年份多一句 */
+          dt:[Y('今天打烊早。阿姨說，聖誕節要給年輕人。'),{if:inY(2025,2026,2028),speaker:YT,text:'交換禮物我抽到一條圍巾。……我換給你了。阿哲不知道。'}],   /* 有麵店團交換禮物的年份多一句 */
+          /* grp：大一群戲散場以後（AA_204 1-4，同以安那一格）。單身：「好。」＝打烊後剝蒜頭（不另外演對話）到 21:30；「今天不行。」＝「嗯，沒關係。」這一場結束
+             （no：選了這個＝不扣分、不給節日好感、不記節日記憶、不送禮，FEST 的 done 記 declined）。YT_XMAS_GARLIC_Y1：'yes'／'no' */
+          grp:{years:[2025],q:'xmas_y1',ev:'ev_xmas_exchange',end:21.5,here:inXmas(YT),no:{flag:'YT_XMAS_GARLIC_Y1',is:'no'},
+            s6:[N('（大家走了以後，語彤還沒走。阿姨在櫃台後面喊她。）'),Y('阿姨說明天要用的蒜頭還沒剝。'),Y('打烊以後，你要不要來幫忙。'),
+              {choice:[{text:'「好。」',set:{YT_XMAS_GARLIC_Y1:'yes'},goto:'g_yes'},{text:'「今天不行。」',set:{YT_XMAS_GARLIC_Y1:'no'},goto:'g_no'}]},
+              {label:'g_yes'},N('（剝到九點半，手上都是蒜味。）'),{goto:'g_end'},
+              {label:'g_no'},Y('嗯，沒關係。'),
+              {label:'g_end'}],
+            dt:[N('（大家走了以後，語彤從櫃台底下拿出一個紙袋。）'),Y('給你。圍巾。'),Y('你騎車脖子都露在外面。')]}} },
       ask:{lines:['明天晚上有空嗎','麵店門口 六點半'],by:{vday:['明天情人節 晚上有空嗎','麵店門口 六點半'],white:['明天三月十四 有空嗎','麵店門口 六點半 今天我不顧店'],qixi:['明天七夕 晚上有空嗎','麵店門口 六點半'],bday:['明天我生日','麵店門口 六點半 不要帶東西'],xmas:['明天聖誕節 店裡早關','麵店門口 六點半']},no:['嗯。'],h:18.5,place:'麵店門口',bg:'noodle_table'},
       gifts:[ {id:'hairtie',name:'一條髮圈',price:120,ok:true,lines:[Y('……舊的那條鬆了。你有看到。')]},
         {id:'umbrella',name:'一把新的傘',price:350,ok:true,lines:[Y('……我有傘。'),Y('……可是這把我會用。')]},
