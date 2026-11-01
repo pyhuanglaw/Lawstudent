@@ -4979,6 +4979,21 @@
    "remaining": "gym_b1.py 更衣室門牌正面朝走廊（拿掉 [::-1]），GLB 沒重匯（有光照烘焙；遊戲端已不需要）",
    "next": "發布後整合；沒動 engine3d、game3d、attachRoomGLB",
    "noDirectIntegrate": false
+  },
+  {
+   "branch": "claude/funny-albattani-iawshm",
+   "sha": "64023d96f",
+   "receiver": "LAWWW",
+   "ack": "SENT",
+   "task": "TIER2-UPGRADE-1101 history audit 第 2 類 63 項找 BB 實測紀錄",
+   "files": [
+    "docs/handoff/history_audit/judgments_LAWWW2.jsonl",
+    "docs/handoff/history_audit/summary_LAWWW2.md"
+   ],
+   "state": "唯讀清查 BB_218@78e470af4：7 項升第 1 類（BADMINTON-CLIP、ANIM-DOOR-OPEN、PERF-SINGLESIDE、LAWLIB-LM、LIB-HALL-LM、LOBBY-VC、LANE118-SHOPS）；8 項有部分紀錄、need 寫了 BB 要補什麼；其他 48 項沒有 BB 實玩紀錄",
+   "remaining": "沒看 BB 的截圖本身，只讀紀錄的文字判定",
+   "next": "LAWWW-B 決定要不要同步到 ledger／tasks.json；8 項補驗排 BB 佇列",
+   "noDirectIntegrate": false
   }
  ]
 }

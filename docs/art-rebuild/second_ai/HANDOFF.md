@@ -8,7 +8,8 @@
     - `gym3d.js` 新 `b1Plates(root,B)`：attachRoomGLB 之後照 closedDoors 的 label／face 畫字、重算 UV、雙面；沒動 engine3d、game3d、attachRoomGLB。
     - patch `patches/gym_b1_plates_1101.patch`（對開發 ef17f19d6；新測試開發原樣 FAIL 4、改後 ALL PASS）；全部 Node 799／0；README `test_shots/gym_b1_plates_1101/`。
     - `gym_b1.py` 更衣室門牌改正面朝走廊（GLB 沒重匯）。
-  - 下一件：tier-2 清查升級（LAWWW-B 02:04 排的）。
+  - **TIER2-UPGRADE-1101 交件 64023d96f**（唯讀；BB_218@78e470af4）：history audit 第 2 類 7 項升第 1 類、8 項補部分紀錄（need 寫 BB 要補什麼）；judgments 多 15 行、summary 加第二輪。
+  - 佇列空了，等 LAWWW-B 派工。
 - **11-01 01:5x**：
   - LAWWW-B 01:15 ACK 美國室內光照（DL-LW2-US-LM-1031：整合在本機 feat-art-1031，發布後合）；outbox 已改 ACKNOWLEDGED（3ac2848c9）。
   - **ART-PHOTO-CMP-1021 做完**（README `test_shots/photo_cmp_1101/`）：
