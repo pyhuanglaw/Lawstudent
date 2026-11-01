@@ -1,6 +1,6 @@
 # 歷史待辦複核報告（工具產生，不要手改）
 
-- 產生：`tools/handoff/history_audit.py`；開發分支 HEAD `8b20ebbb9bd3`、main `27e6ce77e807`
+- 產生：`tools/handoff/history_audit.py`；開發分支 HEAD `bbabb5b356f4`、main `27e6ce77e807`
 - 七類定義與判定規則：同資料夾 README.md。auto＝工具自動判定（只看總表狀態、程式識別字在不在 main、BB 實測紀錄有沒有 PASS），還沒有人工看過；人工判定寫進 judgments_<職位>.jsonl 以後改成人工。
 - BB 實際操作證據來源：elegant-brown-fcos7n:BB_218_瀏覽器實測紀錄.md、wonderful-mayer-7fm9g6:BB_218_瀏覽器實測紀錄.md、story-planning:BB_218_瀏覽器實測紀錄.md、BB 分支 test_shots/*.log 64 個
 
@@ -10,7 +10,7 @@
 - 其中原本 done 的 133 項：tier 1 10、tier 2 122、tier 4 1
 - 原本 done、證據在開發分支找不到（要人工查）：0
 - 原本 done、main 狀態：{'yes': 133}
-- 各職位另外查到的 865 項（企劃、美術、交付；以各職位的人工判定為準）：1 正式版已完成且實際驗收 42、2 已實作但尚未實際驗收 519、4 部分完成 56、5 完全未開工 16、6 等待素材或使用者決定 90、7 經確認取消或被取代 142
+- 各職位另外查到的 866 項（企劃、美術、交付；以各職位的人工判定為準）：1 正式版已完成且實際驗收 42、2 已實作但尚未實際驗收 520、4 部分完成 56、5 完全未開工 16、6 等待素材或使用者決定 90、7 經確認取消或被取代 142
 
 ## 10/21 判 done 的 133 項
 
@@ -496,7 +496,7 @@
 | WORLD-RENAME-1030 | 4 部分完成 | yes | BB | BB_218:4654-4692 rename_probe（ca5f3381c）oldsave2、views portrait2／landscape2／desktop、route  | 3D 模型、貼圖、2D 背景、CG 裡烘進去的字（LAWWW2 清單）沒驗；四年全部台詞只看了經濟系那年＋9/1；真 iPhone 沒測（BB_218:4687-4691）。 |
 | （另有第 1、2 類 41 項：見 ledger.json） | | | | | |
 
-## LAWWW-B 另外查到的 13 項（不在 10/21 稽核 B 段）
+## LAWWW-B 另外查到的 14 項（不在 10/21 稽核 B 段）
 
 | ID | 現在 | main | 負責 | 證據 | 缺的／下一步 |
 |---|---|---|---|---|---|
@@ -512,6 +512,7 @@
 | AA_476#B-1 | 2 已實作但尚未實際驗收 | no | BB | 開發分支 9c84a54f9＋f32a11388：src/multirel3d.js 門鈴（bellNightOk／bellSecret／bellHint*／bellDue／zzB | BB 瀏覽器：同時和芷若、子晴交往（互不知道）→ 第 5 週週一和芷若說話聽到提示 → 週三 21:40 坐吧檯 → 門鈴＋CG → 隔天 19:30 攤牌 |
 | AA_537 | 2 已實作但尚未實際驗收 | no | LAWWW | 尾聲兩句＋畢業禮物（AA_548 第 9 節取代第 6 節；postgrad_lines.js、postgrad3d.js）；開發分支 bfafd1a62 | BB 瀏覽器驗（11-01 派） |
 | AA_537b | 2 已實作但尚未實際驗收 | no | LAWWW | 第 5 節五個節日（fest_events.js 芯慈那一格、fest3d.js S.dmRule）；「你的生日」等祐廷的生日（USER-PLAYER-BDAY-1101）；開發分 | BB 瀏覽器驗（11-01 派） |
+| AA_554 | 2 已實作但尚未實際驗收 | no | LAWWW | BB_187／BB_189 和她交往中的版本＋AA_419 第一次交換每週視訊＋五處時間線修正；src/aa554_3d.js、events.js DH／GFO、story3d.j | BB 瀏覽器驗 |
 | AA_118 | 4 部分完成 | no | LAWWW | 同行聊天 144 句（invites.js walk118）、手機小事（src/aa555_3d.js，AA-B 12 題照改）；開發分支 ed64ee8a2 | L1～L3 三段場景（子代理 feat-l123-1101 做中） |
 
 ## LAWWW2-B 另外查到的 190 項（不在 10/21 稽核 B 段）
