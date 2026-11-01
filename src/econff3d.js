@@ -137,7 +137,8 @@ const ECONFF=(()=>{
   S.cardLine1=function(G,d0,d1){ const r=S.rec(G);
     if(d1>d0) for(const [k,t] of S.PIN){ if(DK(k)===d1&&!r.lines.includes(t)){ r.lines.push(t); return t; } }
     if(d1-d0<2) return null; const k0=d0+1, k1=d1-1;
-    for(const [a,b,t0] of S.CARDS){ const t=typeof t0==='function'?t0(G):t0; if(!t||r.lines.includes(t)) continue; const da=DK(a), db=DK(b); if(da!=null&&db!=null&&da<=k1&&db>=k0){ r.lines.push(t); return t; } } return null; };   /* 第三格可以是函式（G）→ 句子或 null＝這一跳不出（AA_348：7/15～7/23 看 E35_PLAN）*/
+    const out=[]; for(const [a,b,t0] of S.CARDS){ const t=typeof t0==='function'?t0(G):t0; if(!t||r.lines.includes(t)) continue; const da=DK(a), db=DK(b); if(da!=null&&db!=null&&da<=k1&&db>=k0){ r.lines.push(t); out.push(t); if(out.length>=2) break; } }
+    return out.length?out.join('<br>'):null; };   /* 一跳跨過兩段（BB n36 三輪都是 4/24 直接跳 6/8：AA_529 6-5 拆的兩張只出第一張）＝一張卡兩行，照日子順序；最多兩行 */   /* 第三格可以是函式（G）→ 句子或 null＝這一跳不出（AA_348：7/15～7/23 看 E35_PLAN）*/
   /* 沒演到的事件，旗標的預設（AA_300 第 4 節最後）：MATH_100＝true（對答案那句寫了全對）；E22B_TOLD 不記；CRAM_FREE_KNOWN 照 LIFE_FIXED */
   S.defaults=function(G){ if(!S.short(G)) return; const F=G.flags, d=DK('2025-07-12'), c=DK('2024-12-13'); if(d!=null&&G.day>=d&&F.MATH_100==null) F.MATH_100=true;
     if(c!=null&&G.day>=c+2&&!F.CRAM_FREE_KNOWN) F.CRAM_FREE_KNOWN=true; };   /* AA_308 第 1 節：12/13 那場現在會演（KEEP）——只有 12/13～12/14 都錯過了才補記（原本 12/13 一到就記，那場永遠演不到）*/   /* 12/13 補習班那場不演：過了就算知道可以免費（AA_300 第 4 節；沒有它 2/13 水餃店不會約 2/14 一起去問補習班，BB-C 10-18 QA-AA300）*/

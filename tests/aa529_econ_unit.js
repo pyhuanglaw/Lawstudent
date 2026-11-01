@@ -182,6 +182,8 @@ const NEW65=quotes(S65)[0];
     check('6-5. 4/25～6/7 拆兩張：4/25～5/18 新句、5/19～6/7 照原句',!!A&&A[1]==='2025-05-18'&&A[2]===NEW65&&!!B&&B[1]==='2025-06-07'&&/^（五月，書桌旁邊多了一台電風扇。考前一個月/.test(B[2])&&!ECONFF.CARDS.some(c=>c[0]==='2025-04-25'&&c[1]==='2025-06-07')&&/\['2025-04-25','2025-05-18'\]/.test(S65),J([A,B]));
     const G=home(econ('2025-05-10',10,{})); ECONFF.rec(G).lines=[]; const l1=ECONFF.cardLine(G,D('2025-04-24'),D('2025-05-10')), l2=ECONFF.cardLine(G,D('2025-05-18'),D('2025-06-08'));
     check('6-5. 跳的時候：4/24→5/10 出新句、5/18→6/8 出原句',l1===NEW65&&l2===B[2],J([l1,l2]));
+    { const G2=home(econ('2025-06-08',10,{})); ECONFF.rec(G2).lines=[]; const l3=ECONFF.cardLine(G2,D('2025-04-24'),D('2025-06-08'));   /* BB n36 三輪（qa_sleep、nophone、decline）都是 4/24 直接跳 6/8 */
+      check('6-5. 一跳 4/24→6/8（實際玩的跳法，BB n36 三輪）：兩句都出，一張卡兩行（新句在前、電風扇在後）',l3===NEW65+'<br>'+B[2],J(l3)); }
   });
   H.done();
 })().catch(e=>{ console.error(e); process.exit(1); });
