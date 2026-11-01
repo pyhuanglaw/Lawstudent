@@ -223,6 +223,14 @@ const R2Y4A=(function(){
     /* ---- 2-Y4-07 校慶：11/10 21:00 法服群組（法服成員）---- */
     { const d=D('2028-11-10'); if(d!=null&&!us&&G.day>=d&&G.day<=d+1&&past(G,d,21)&&typeof STORY!=='undefined'&&STORY.fafuMember&&STORY.fafuMember(G)&&PHONE.inGroup(G,'lawclub_study')&&!PHONE.sent(G,'y4_fair_ask')){ const J=t=>({th:'g:lawclub_study',from:'fafu_jr',name:'學妹',text:t});   /* 這一屆的社長（學妹），不給名字 */
         PHONE.at(G,d,G.day===d?Math.max(21,G.hour):21,[J('明天校慶，攤位十點開。'),J('大四的學長姊有空回來坐。')],'y4_fair_ask'); } }
+    /* ---- AA_258 第 4 節（AA-B 11-01 確認沒被取代）：美國路線祐廷不在場，11/08 沛珊（第一次試教）、11/10 子晴（新關卡）改成她傳的訊息；臺灣時間 23:10、23:40（他那邊是早上）。
+       不告白。給誰照 BB_119 3-1／3-3 的「給誰」簡化：沒和祐廷交往、不是前任、朋友以上、有聯絡方式；沛珊另外要重新聯絡上（AA-B：psReconnected）。她自己有沒有對象，遊戲沒有紀錄，不看 ---- */
+    if(us){ const P1=(id,t)=>({th:'p:'+id,from:id,text:t}), ok=id=>!dating(G,id)&&!exOf(G,id)&&knows(id,G)&&stageAt(id,'FRIEND')&&(typeof INV==='undefined'||!INV.hasContact||INV.hasContact(G,id));
+      const psRe=!!F.PS_RECONNECT||F.PS_BACK_FIRST!=null||typeof F.PS_BACK_READ==='number';
+      { const d=D('2028-11-08'), PS='classmate_peishan'; if(d!=null&&G.day>=d&&G.day<=d+3&&pastTW(G,d,23+10/60)&&ok(PS)&&psRe&&!PHONE.sent(G,'y4_us_ps_lesson')){ const L=[P1(PS,'今天第一次試教。'),P1(PS,'📷（教室的黑板，右下角一個畫歪的笑臉）'),P1(PS,'有一個小朋友舉了六次手。……這次我有看到他。')];
+          L[2].ask={id:'y4_us_ps_lesson_ask',opts:[{t:'恭喜！',say:[P1(PS,'謝謝。……你那邊是早上吧。你先去上課。')]},{t:'他問了什麼？',say:[P1(PS,'他問太陽會不會用完。我說會，可是要很久很久。他說：那就好。')]}]}; atTW(G,d,23+10/60,L,'y4_us_ps_lesson'); } }
+      { const d=D('2028-11-10'), ZQ='heroine_04'; if(d!=null&&G.day>=d&&G.day<=d+3&&pastTW(G,d,23+40/60)&&ok(ZQ)&&!PHONE.sent(G,'y4_us_zq_level')){ const L=['新關卡做好了','📷（一隻像素的貓，站在一個發亮的存檔點旁邊）','你不在 沒人玩第三遍','回來再玩'].map(t=>P1(ZQ,t));
+          L[3].ask={id:'y4_us_zq_level_ask',opts:[{t:'我回去玩。',say:[P1(ZQ,'十二月二十三號'),P1(ZQ,'你說的')]},{t:'存檔點旁邊那是什麼？',say:[P1(ZQ,'不要問'),P1(ZQ,'回來就知道')]}]}; atTW(G,d,23+40/60,L,'y4_us_zq_level'); } } }
     /* ---- 2-Y4-08 交棒：不在場（沒有條件、那晚沒去、美國路線）＝22:00 Alison 在麵店團群組 ---- */
     { const d=D('2028-11-30'); if(d!=null&&G.day>=d&&G.day<=d+2&&PHONE.inGroup(G,'noodle_team')&&knows('yu',G)&&knows('heroine_01',G)&&!done(G,'ev_plg_handover')&&pastTW(G,d,22)&&!PHONE.sent(G,'y4_plg_photo')){ const Y=t=>({th:'g:noodle_team',from:'yu',text:t});
         atTW(G,d,22,[Y('📷（白板，只剩一行字）'),Y('以安交棒了。白板只剩一條。')],'y4_plg_photo'); F.PLG_HANDOVER='heard'; } }
