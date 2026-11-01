@@ -105,7 +105,7 @@ const b532all=v=>typeof v==='string'?b532(v):Array.isArray(v)?v.map(b532all):(v&
     check('0. 摘要池＝AA_440 的接 AA_443 的（住家裡寒假 14、暑假 16；留宿舍寒假 12、暑假 20），和稿一樣、照順序',J(b532all(L().POOL))===J(POOL)&&L().POOL.home.winter.length===14&&L().POOL.home.summer.length===16&&L().POOL.dorm.winter.length===12&&L().POOL.dorm.summer.length===20,J(L().POOL).slice(0,200));
     const src=fs.readFileSync(path.join(H.ROOT,'src/data/vacfill_events.js'),'utf8');
     check('0. 沒有「小語」（改名 Alison，AA_380）',src.indexOf('小語')<0);
-    check('0. 事件進了 STORY_EVENTS（24 個 ev_vf_*；1-5b 7/31 加一個）',VACFILL_EVENTS.length===24&&VACFILL_EVENTS.every(e=>STORY_EVENTS.includes(e)));
+    check('0. 事件進了 STORY_EVENTS（24 個 ev_vf_*；1-5b 7/31 加一個；AA_556 再加 4 個＝28，tests/aa556_vacgap2_unit.js）',VACFILL_EVENTS.length===28&&VACFILL_EVENTS.every(e=>STORY_EVENTS.includes(e)));
     { const G={flags:{},memo:[{day:1,t:'前一筆'},{day:1,t:'ev_vf_y0_0713'}]}; ev('ev_vf_y0_0713').after(G,GM); const G2={flags:{},memo:[{day:1,t:'ev_vf_y0_0727_gate'}]}; ev('ev_vf_y0_0727_gate').after(G2,GM);
       check('0. 沒有標題的小場景：日誌不留事件 id（EVENTS.run 記的 GM.memo(ev.id) 演完拿掉）；有標題的照記',J(G.memo)===J([{day:1,t:'前一筆'}])&&!G2.memo.length&&G2.flags.VF_Y0_0727==='walk'&&VACFILL_EVENTS.every(e=>e.title||typeof e.after==='function')); }
     check('0. 掛勾：PHONE_RULES、TICKS、HOME.STOPS、HOME.CARD_LINES；CLS.morning、HOME.ffMenu、ECONFF.tick2 外面包一層',!!CLS.morning._vacfill&&!!HOME.ffMenu._vacfill&&!!ECONFF.tick2._vacfill&&HOME.STOPS.length>0&&HOME.CARD_LINES.length>0&&STORY.PHONE_RULES.length>0&&STORY.TICKS.length>0);
@@ -320,7 +320,7 @@ const b532all=v=>typeof v==='string'?b532(v):Array.isArray(v)?v.map(b532all):(v&
     G=lawG('2026-01-27',21.05); rules(); check('4. 1/27（二）21:00 家人群組：爸爸「我 2/14 的飛機。」、姊姊「爸你要記得去機場前先吃東西」＋「好。」',J(pairs('vf_y1w_0127'))===J(['dad:'+qs(r0127)[0],'sister:'+qs(r0127)[1]])&&J(optsOf('vf_y1w_0127'))===J([qs(r0127)[2]])&&tagged('vf_y1w_0127').every(m=>m.th==='g:home'&&m.name)&&PHONE.inGroup(G,'home'));
     const r0624=row4('6/24（三）');
     G=lawG('2026-06-24',21.05,{know:['kai']}); rules(); check('4. 大一暑假 6/24（三）阿凱：「所以你暑假在幹嘛」「我在打一款很難的遊戲 打不過」＋「我也來打。」',J(tagged('vf_y1s_0624').map(m=>m.text))===J(qs(r0624).slice(0,2))&&J(optsOf('vf_y1s_0624'))===J([qs(r0624)[2]]));
-    let rep=answer('vf_y1s_0624',0); check('4. 「我也來打。」→ 阿凱「所以今晚 線上」＋旁白（那天晚上你們打到兩點。還是打不過。）（不演）',J(rep)===J(['kai:'+qs(r0624)[3],'-:'+nar(r0624).pop()]),J(rep));
+    let rep=answer('vf_y1s_0624',0); check('4. 「我也來打。」→ 阿凱「所以今晚 線上」（AA_556 第 4 節：對話串那一句旁白換成當晚 22:00 的線上語音，tests/aa556_vacgap2_unit.js）',J(rep)===J(['kai:'+qs(r0624)[3]]),J(rep));
     G=lawG('2026-06-24',21.05); rules(); check('4. 不認識阿凱：沒有',!tagged('vf_y1s_0624').length);
     const r0803=row4('8/3（一）');
     G=lawG('2026-08-03',21.05,{fam:[YT]}); rules(); check('4. 8/3（一）語彤（FAMILIAR 以上）「阿姨問你暑假有沒有回來吃麵。」＋「明天去。」',J(tagged('vf_y1s_0803').map(m=>m.text))===J([qs(r0803)[0]])&&J(optsOf('vf_y1s_0803'))===J([qs(r0803)[1]]));

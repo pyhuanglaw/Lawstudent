@@ -383,8 +383,11 @@ const VAC=(function(){
     const comp=rec.with?(rec.gf?(gfOnce?null:(rec.with==='heroine_02'&&rec.dest!=='hk'?GF.lastNot:GF.last)):D.friend[rec.with]):null;
     const gfL=x=>x?[{narr:x[0]},{who:rec.with,text:x[1]}]:[];   /* AA_533 第 1 節：和女朋友去的「到了」（取代目的地第一句）、「中間」（接在目的地第二句後面）*/
     const nth=1+V.t13.filter(r=>r!==rec&&r.done&&r.dest===rec.dest).length+(rec.dest==='jp'&&V.reg['C05@Y1']==='done'?1:0), AG=nth>=2&&D.again&&D.again[nth>=3?3:2];   /* 同一個目的地第幾次 */
+    /* AA_556 第 1 節（企劃線 3d7ad0024；VAC-GAP2-1031）：第一次去的中間那天，目的地第二句後面接一段有人說話的——自己去＝當地的一段（TRAVEL.local，照目的地）、
+       和朋友去＝朋友的一段（TRAVEL.friendMid，照朋友；字串＝朋友說的）。和女朋友去的照舊（gf 的 mid）；同一個目的地第二次以後（AG）不演 */
+    const midMore=rec.gf?[]:(rec.with?((D.friendMid||{})[rec.with]||[]).map(x=>typeof x==='string'?{who:rec.with,text:x}:x):((D.local||{})[rec.dest]||[]));
     const steps=AG?[{d:rec.from,h:8.5,lines:[{narr:AG.dep}]},{d:rec.from,h:15,lines:GF&&GF.arr?gfL(GF.arr):[{narr:AG.arr}]},{d:mid,h:14,lines:[{narr:AG.mid}].concat(gfL(GF&&GF.mid))},{d:last,h:20,lines:[{narr:AG.last}].concat(comp?[{who:rec.with,text:comp}]:[])}]
-      :[{d:rec.from,h:15,lines:GF&&GF.arr?gfL(GF.arr):[{narr:k(De.keys[0])}]},{d:mid,h:14,lines:[{narr:k(De.keys[1])}].concat(gfL(GF&&GF.mid))},{d:last,h:20,lines:[{narr:k(De.keys[2])}].concat(comp?[{who:rec.with,text:comp}]:[])}];
+      :[{d:rec.from,h:15,lines:GF&&GF.arr?gfL(GF.arr):[{narr:k(De.keys[0])}]},{d:mid,h:14,lines:[{narr:k(De.keys[1])}].concat(gfL(GF&&GF.mid),midMore)},{d:last,h:20,lines:[{narr:k(De.keys[2])}].concat(comp?[{who:rec.with,text:comp}]:[])}];
     if(rec.gf) steps.push({d:last,h:23,bg:'trip_hotel_twin',lines:[{narr:'（燈關了。）'}]});   /* 雙床房（BB_173 VB-12）：對話在睡前結束 */
     for(const st of steps){ await S.jump(GM,T(st.d,st.h),place); await S.key(GM,{bg:st.bg||null,lines:st.lines},I); }
     await S.jump(GM,S.clockEnd(G,endT),place); S.flyEnd(GM,q); rec.done=true; G.flags.BACK_FROM_T13=G.day;
