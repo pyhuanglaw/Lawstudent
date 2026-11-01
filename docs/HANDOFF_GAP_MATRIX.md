@@ -60,6 +60,12 @@
 
 **F｜測試與問題**：瀏覽器、iPhone 實機都還沒驗今天的改動（Playwright 由 BB 跑）；BUG-02 偶發全黑只在 iPhone。`9aa82ecda` 那一輪 classes3d 361 支在交班時跑（結果寫在收尾）。
 
+**交班以後 LAWWW-B 再值班一段（09:2x～09:5x，使用者：「還剩下5%每週使用量……你如果手上還有東西可以再兩小時內做的你就開始做」；其他三個職位不叫醒）**
+- ZQ-ARCADE-SEAT-1028 整合（`0b4acc850`）：LAWWW2 交班時已推、沒交件的騎樓凳子＋插座、laptop_lap、公館座位＋LAWWW 這一半（子晴 4 筆「公館騎樓（插座旁邊）」改坐凳子讀、坐下開筆電）；`5d84b825e` 補：凳子沒登記（GLB 沒載入）時照原本站著（tests/zq_arcade_spawn_unit.js，0b4acc850 那一項 FAIL）。DL-LW2-ZQ-ARCADE-1101 已登記。
+- ZQ-C504-LAPTOP-1101：改等 LAWWW2 在咖啡店加座位（程式已支援）。
+- 整套 Node 835／835（`0b4acc850`）；之後的 zq_arcade_spawn 與相關 6 支 ALL PASS。瀏覽器 gongguan_layout_nav、子晴騎樓的畫面 → 下一班 BB。
+- 增量核對異常照舊 164 項沒處理（同下）。
+
 **收尾（LAWWW-B 09:1x，三個職位交班以後）**
 - **三個職位**：AA-B 08:57 `c989cc066`（快照 2026-11-01T0857Z_B_AA.json；以安共創停在第 2 輪、等使用者回答吹風機那一題）、BB-B 08:58 `22ddbea54`（快照 2026-11-01T0858Z_B_BB.json；佇列 37 項沒跑，BUG-DOOR-CLASS-GO-1101 排第一；duty handoff 是 LAWWW-B 提醒以後補跑的）、LAWWW2-B 09:02 `e16b32ad0`（快照 2026-11-01T0902Z_B_LAWWW2.json；ZQ-ARCADE 做完沒交件，下一班跑全部 Node 再交）。`duty sync` 收了三個。
 - **補進總表**：AA【表外】VAC-GAP-ROUTES（暫停）、ASK-5NAMES（等使用者）；X150 狀態定案（狀態欄「進行中」、說明「共創中」）；LAWWW2【表外】LAKE-LAMPS-STAGGER-1101（暫停）、ZQ-C504-LAPTOP-1101（排在 ZQ-ARCADE 之後）；BG 追蹤表編號、INTERIOR-AAA、霖澤館大廳第二版的交件名、WZ-P2、FAIR-STAFF-LOD 寫進 meta.reconcileIgnore（對到現有任務 ART-BG02 等 11 個背景任務、INTERIOR-AAA-REVIEW-1028、LOBBY-CEIL-1028、ART-WZ-MARKET-1023、FAIR-STAFF-LOD-1027）。
