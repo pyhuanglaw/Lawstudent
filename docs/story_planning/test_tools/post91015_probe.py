@@ -1160,6 +1160,26 @@ async def aa529_cards(pg, cdp, run, kx):
     else: run.note('沒有一跳 4/24→6/8（中間停過），兩句分在不同的卡：%s' % J([c for c in cards if NEW65 in c[1] or FAN65 in c[1]]))
 
 
+async def aa529_cardsdiag(pg, cdp, run, kx):
+    """BB-B 05:0x：cards 那一輪停在 4/27 21:00 十五分鐘不動——看清楚停在哪裡（探針還是遊戲）。照 cards 一樣讀檔、照一樣的 play（ff=False），
+    最多 240 秒到 4/27 21:00 以後；之後每 45 秒記一次狀態＋截圖，共 6 次（日子、時間、區域、在家、選單、對話、手機、busy、互動點、ECONFF）"""
+    st, d = await econ_state(pg, '2025-04-24', 22.67, 'dorm', True)
+    await load(pg, cdp, run, st, 'cardsdiag：同 cards（2025-04-24 22:40 在家、交往中、30 分鐘版）')
+    await play(pg, cdp, run, "(k=>k>'2025-04-27'||(k==='2025-04-27'&&GAME.G.hour>=21))(CALENDAR.dateOf(GAME.G.day).key)", max_s=240, ff=False, tag='cardsdiag')
+    DUMP = ("(()=>{ const G=GAME.G; let ff={}; try{ ff={keys:Object.keys(ECONFF||{}).slice(0,40)}; }catch(e){} "
+            "return {key:CALENDAR.dateOf(G.day).key,h:+G.hour.toFixed(2),zone:GAME.E.zone&&GAME.E.zone.def&&GAME.E.zone.def.id,"
+            "home:!!(typeof HOME!=='undefined'&&HOME.at&&HOME.at(G)),dlg:!!(GAME.D&&GAME.D.active),"
+            "ch:[...document.querySelectorAll('#choices button')].map(b=>b.textContent.trim().slice(0,24)),"
+            "phone:!!(GAME.phoneIsOpen&&GAME.phoneIsOpen()),busy:!!(GAME.E.player&&GAME.E.player.busy),"
+            "it:(GAME.E.interactables||[]).map(i=>i.label).slice(0,12),interact:(document.querySelector('#interact')||{}).textContent||'',"
+            "paused:!!G.paused,ff:ff,t3:(document.getElementById('title3')||{}).innerHTML||''}; })()")
+    for i in range(6):
+        info = await pg.evaluate(DUMP)
+        run.note('cardsdiag 第 %d 次：%s' % (i + 1, J(info)[:900]))
+        await run.shot(pg, 'cardsdiag_%02d' % (i + 1))
+        await pg.wait_for_timeout(45000)
+
+
 async def aa529_k7(pg, cdp, run, kx):
     st, d = await state_at(pg, '2025-10-20', 21.0, 'dorm', flags={'dating_kexin': True, 'KX_ANNIV': {'1': 'went'}, 'PLAYED_Y0': True, 'KH_GO': 'home', 'Y0_DATING': True, 'KX_DATING_SINCE': '2024-10-17'})
     await load(pg, cdp, run, st, 'k7：最小存檔 2025-10-20 21:00 宿舍（法律系大一上；和可昕交往、K7 第一年週年去了＝KX_ANNIV 1 went、KH_GO home）', js="F.KX_ANNIV={1:'went'}; return LV('kexin',65,50,45,{npcRom:60,rom:40});")
@@ -1199,7 +1219,7 @@ async def aa529_s829(pg, cdp, run, kx):
 async def m_aa529_cards(pg, cdp, run):
     kx = await names_of(pg, 'kexin')
     for sub in ENV('AA529', 'cards,k7,k0b,s829'):
-        fn = {'cards': aa529_cards, 'k7': aa529_k7, 'k0b': aa529_k0b, 's829': aa529_s829}.get(sub)
+        fn = {'cards': aa529_cards, 'cardsdiag': aa529_cardsdiag, 'k7': aa529_k7, 'k0b': aa529_k0b, 's829': aa529_s829}.get(sub)
         if not fn: run.check('AA529＝%s 認得' % sub, False); continue
         run.note('---- aa529_cards：%s ----' % sub)
         try: await fn(pg, cdp, run, kx)
