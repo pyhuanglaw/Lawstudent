@@ -300,6 +300,22 @@
     "match": "回 LAWWW-B 06:51（`AA_399`、`AA_397`）",
     "task": "CLOSED-SPACES-1023",
     "why": "C10 學分採計 14:00、SQ02 茶飲店員：aad097abe（10-24）已實作"
+   },
+   {
+    "role": "AA",
+    "match": "VAC-GAP-ROUTES",
+    "task": "VAC-GAP-ROUTES"
+   },
+   {
+    "role": "AA",
+    "match": "ASK-5NAMES",
+    "task": "ASK-5NAMES"
+   },
+   {
+    "role": "AA",
+    "match": "X150 狀態字",
+    "task": "HANDOFF-B-1101",
+    "why": "LAWWW-B 11-01 定案：狀態欄照工具的九種寫「進行中」，說明寫「共創中」（USER_WANTS X150 已是這樣；asks 核對 OK）——不改工具"
    }
   ],
   "timeNote1023": "LAWWW-B 10-23 17:2x～18:0x 的紀錄（tasks notes、USER_WANTS、BB 清單、commit 訊息、給其他 AI 的訊息）裡寫的「19:0x～21:1x」是時間標錯：實際都在 17:2x～18:0x UTC 之間（18:05 核對 date -u）。內容照舊有效。"
@@ -38162,7 +38178,7 @@
    "priority": "P0",
    "next": "【11-01 09:0x LAWWW-B】停止一般開發：停掉核對五個舊任務的子代理（只有空檢查點、沒有成果，五個任務照舊、下一班重開）；通知 LAWWW2-B、AA-B、BB-B；等三個職位 duty handoff 以後 duty sync、check／incr／roles／asks、快照、LAWWW duty handoff、值班表「換班中」",
    "first": {
-    "term": "—",
+    "term": "META",
     "week": 0,
     "earliest": "—",
     "mainline": false,
@@ -38173,6 +38189,68 @@
    },
    "source": "使用者 11-01 09:0x",
    "authorized": "P0 換班口令（D45＋D49、D92）"
+  },
+  {
+   "id": "VAC-GAP-ROUTES",
+   "title": "日本／美國路線的寒暑假、出發前、回國後空白缺口表＋第一批稿（AA）",
+   "area": "STORY",
+   "owner": "AA",
+   "status": "暫停",
+   "priority": "P2",
+   "pausedReason": "使用者 11-01 改工作方式（UA-AA-1101-01）：先和 AA 角色共創，AA 的大批改稿暫停",
+   "resumeWhen": "使用者說繼續，或角色共創告一段落",
+   "nextCheck": "2026-11-08",
+   "next": "【11-01 09:0x LAWWW-B】AA-B 交班【表外】補進總表；掃描輸出 vsw_JP.json、vsw_US.json 只在 AA scratchpad、沒有遠端備份，恢復時用存檔的工具重跑",
+   "first": {
+    "term": "Y3S1",
+    "week": 0,
+    "earliest": "大三交換路線（日本／美國）的假期",
+    "mainline": false,
+    "blocks": false,
+    "prereq": false,
+    "parallel": true,
+    "confirmed": false
+   },
+   "source": "AA-B 交班 11-01（AA_交接紀錄.md 全部待辦）",
+   "authorized": "D99 第二、三項（寒暑假、美國交換）",
+   "xai": {
+    "spec": "AA 自訂（缺口表）",
+    "branch": "claude/cool-heisenberg-o8kuqx",
+    "acceptance": "缺口表＋第一批稿交 LAWWW",
+    "receiver": "LAWWW",
+    "ack": "自領"
+   }
+  },
+  {
+   "id": "ASK-5NAMES",
+   "title": "問使用者五個現行名稱：許教授的全名、小小福、杜鵑花節、女九、哥大（D115 改名以後怎麼叫）",
+   "area": "STORY",
+   "owner": "AA",
+   "status": "等待其他AI／素材",
+   "priority": "P3",
+   "pausedReason": "等使用者回答",
+   "resumeWhen": "使用者回來、適當時機用選擇題問（D117）",
+   "nextCheck": "2026-11-08",
+   "next": "【11-01 09:0x LAWWW-B】AA-B 交班【表外】補進總表；併進「使用者回來要問的」那一批（祐廷生日、圖 100～102、照片比對、iPhone ?debug）",
+   "first": {
+    "term": "META",
+    "week": 0,
+    "earliest": "—",
+    "mainline": false,
+    "blocks": false,
+    "prereq": false,
+    "parallel": true,
+    "confirmed": false
+   },
+   "source": "AA-B 交班 11-01（AA_交接紀錄.md 全部待辦）",
+   "authorized": "D115、D117",
+   "xai": {
+    "spec": "docs/WORLD_NAMING.md",
+    "branch": "claude/cool-heisenberg-o8kuqx",
+    "acceptance": "五個名稱定案、寫進 WORLD_NAMING",
+    "receiver": "AA",
+    "ack": "自領"
+   }
   }
  ]
 }

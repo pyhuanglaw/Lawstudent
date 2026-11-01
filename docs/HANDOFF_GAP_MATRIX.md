@@ -36,7 +36,7 @@
   - AA_208 室友旁白三處（`266af187e`）、柏翰大四推甄前桌燈到 01:00＋走到床（DORM-Y34，`38163ea91`、`513683a69`）；
   - 「你來過一次」（ENC-B3，`3c32d5166`）；
   - AA_204 1-4 大一聖誕群戲後兩人段落（`d09caf0fe`）；
-  - V6-B 芷若英國的雨、沛珊第一堂試教、子晴工作室的深夜、沛珊紅筆（`52bfa7b5d`）；
+  - V6-B2／V6-B5／BB119-Y4-1017：芷若英國的雨、沛珊第一堂試教、子晴工作室的深夜、沛珊紅筆（`52bfa7b5d`）；
   - DL-04B 一鍵上課路上停、翹課列會錯過（`da210a96a`），遲到記錄修正、經濟系事件模式不停（`444dd616e`），門口上課報到（BUG-DOOR-CLASS-GO-1101，`9aa82ecda`）；
   - AA255-Y2S2 收尾（`8190b88ed`）、沛珊 ps_q 改群組（PS-MSG-LESS，`bd7754e2e`）、說話框外層「」拿掉（`4739c0a26`）、大三暑假摘要日背景模糊（`513683a69`）；
   - LAWWW2：美國收尾一、二輪（`dcbd50b01`、`b03bedf29`）、醉月湖晚上（`b03bedf29`）、BUG-03、BUG-04。
@@ -44,17 +44,17 @@
 - **時間標籤更正**：11-01 白天 LAWWW-B 寫的【hh:mx】有 30 多筆晚了 1～3.5 小時，已照 commit 時間改正（`1fac31dbd`）。
 
 **B｜全部未完成工作**（以 `docs/handoff/tasks.json` 為準；LAWWW 未結：進行中 28、已整合待測試 686、等待其他AI／素材 17、待開工 17、暫停 2）
-1. **BB 瀏覽器驗證排隊**（n41～n44，BB 交班時會寫中斷位置）：遲到修正、DL-04B plain／skipwarn／econ、BUG-DOOR-CLASS-GO-1101（服務學習、法律倫理）、AA255 3/23 群組、ps_q 群組、醉月湖 E12 畫面＋campus_layout_nav／reachability_all、美國第二輪、AA208、DORM-Y34、ENC-B3、V6-B、AA_204 1-4、芷若吧檯成績。
+1. **BB 瀏覽器驗證排隊**（n41～n44，BB 交班時會寫中斷位置）：遲到修正、DL-04B plain／skipwarn／econ、BUG-DOOR-CLASS-GO-1101（服務學習、法律倫理）、AA255 3/23 群組、ps_q 群組、醉月湖 E12 畫面＋campus_layout_nav／reachability_all、美國第二輪、AA208、DORM-Y34、ENC-B3、V6-B2／V6-B5／BB119-Y4-1017、AA_204 1-4、芷若吧檯成績。
 2. **重開逐項核對**（子代理因交班中止、沒有成果）：EVPKG-1B18-25-1020、Y2Y4-STORY-1020、AA-Q-1021-SR、CLOSED-SPACES-1023、NPC-STORY2-1028。
 3. **DL-04B 沒做的**：quickGo／捷運出行的 R2、週日住家裡的 R1 預告、捷運出遊出發前列【固】【必】（AA_160 3-4 D 第 3 點）。
 4. **等使用者決定（回來時用選擇題問，D117）**：祐廷的生日（USER-PLAYER-BDAY-1101）、第 100～102 組圖片提示詞、LAWWW2 照片比對（ART-PHOTO-CMP-1021）、iPhone `?debug` 看偶發全黑（BUG-02）。
 5. **等其他 AI**：ZQ-ARCADE-SEAT-1028（LAWWW2 做 (a) 凳子 (b) 筆電、(c) zones3d 座位 patch；heroine_circle 子晴 linger 改 read＋seatAt＋開筆電歸 LAWWW）；BG-ZQ-STUDIO-1101（BB 向使用者要圖，BB_132 G6-05 已有提示詞）。
-6. **AA 定型後改稿**（使用者和 AA 共創以安、沛珊、子晴、Alison 的聲音；AA_559～564 暫停）：以安 FRIEND 門檻台詞暑假版、V6-B 沛珊／子晴當面那一場的字、Alison yu_exam。
+6. **AA 定型後改稿**（使用者和 AA 共創以安、沛珊、子晴、Alison 的聲音；AA_559～564 暫停）：以安 FRIEND 門檻台詞暑假版、BB119-Y4-1017 沛珊／子晴當面那一場的字、Alison yu_exam。
 7. 其餘照 D99（經濟系 → 寒暑假 → 美國交換）→ D81，`check_handoff.py queue --owner LAWWW`。
 
 **C｜正在做的工作**：沒有。核對五個舊任務的子代理已停（只有空檢查點，分支已刪）；本機沒有沒 commit 的檔案。
 
-**D｜最新決策與規則**：本班沒有新增 D／HV 編號。使用者 10-31 的歷史複核要求記在 UA-LAWWW-1031-03；11-01 交班指示 UA-LAWWW-1101-01。AA-B 在使用者授權（D109）下定的：AA_13 G2 放榜整段取消（D116）、V3-AA170 已被 AA_328 取代、PS-MSG-LESS M14 選 (a)、AA_204 1-4 她約選 (b)、V6-B 九題照現況、AA255 yu_exam 照現況。
+**D｜最新決策與規則**：本班沒有新增 D／HV 編號。使用者 10-31 的歷史複核要求記在 UA-LAWWW-1031-03；11-01 交班指示 UA-LAWWW-1101-01。AA-B 在使用者授權（D109）下定的：AA_13 G2 放榜整段取消（D116）、V3-AA170 已被 AA_328 取代、PS-MSG-LESS M14 選 (a)、AA_204 1-4 她約選 (b)、V6-B2 九題照現況、AA255 yu_exam 照現況。
 
 **E｜跨 AI 協作**：AA-B 的問題都回了（ACTIONED）；LAWWW2 交件 DL-LW2-US-WRAPUP-1101、DL-LW2-US-WRAPUP2-1101、DL-LW2-LAKE-NIGHT-1101 已整合待測試；BB-B n41～n44 SENT（BB 在跑）。三個職位的交班完成狀態見下面「收尾」。
 
