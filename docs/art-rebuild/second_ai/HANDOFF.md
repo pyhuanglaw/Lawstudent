@@ -16,10 +16,12 @@
     - 新 `tests/seated_figures_lod_unit.js`：開發原樣 FAIL 7、第一版 patch FAIL 2（⑦ 空的包圍球被當成看得到、下課不拿掉）、定案 ALL PASS；替身、座位、上課相關 12 支 ALL PASS。
     - 遊戲內同流程同鏡頭改前改後。沒有改人物模型（D99）：LOD0 近看臉也還偏糊，要改模型得等解凍。
   - ART-JIAHAO-JOY：照舊不動（0.35 不在 VRM 裡、遊戲 smile＝happy 0.7；D99 人物凍結沒解凍），回報 LAWWW-B。
-  - **INTERIOR-AAA 美國收尾進行中**（WIP 153fe9509）：
-    - `bake_room.py --dayscale`：屋外物件白天那張乘 F、再壓 K,A。
-    - `bake_us.sh`：公寓第八版（屋外 0.7、壓到 0.7）、新 `shared`（C 棟合租戶：吊扇、廚房、臥室 A、走道、平台壁燈；EVENT_US2 藏起來烘）。
-    - 公寓第八版烘到 scratch `usfix/apt_v8`（3 核心，Node 全部同時在跑）；改前探針：陽台 1.38、平台 0.89。
+  - BUG-03 全部 Node 822／0；LAWWW-B 05:33 已整合 7145e5cd8（DL-LW2-BUG03-1101），ART-JIAHAO-JOY 設暫停（D99）。
+  - **INTERIOR-AAA 美國收尾做完、待交件**（ccf717fe0；README `test_shots/us_wrapup_lm_1101/`）：
+    - 公寓第八版：`bake_room.py --dayscale` 只壓屋外（地板、屋簷、外牆、陽台桌）白天那張，乘 0.7、壓到 0.7；水泥改素面 `granular_concrete #a9a6a0`（原本油漆斑去色像積雪）。陽台 1.38→0.71、平台 0.89→0.57，屋裡、晚上不變。
+    - C 棟合租戶第二版：吊扇、廚房、臥室 A、走道、平台壁燈；EVENT_US2、臥室的床和書桌椅（instancing）不烘。第一版烘了 instancing 的床，新測試 ④ 抓到。
+    - 新 `tests/us_shared_lm_unit.js`（patch `us_wrapup_lm_1101.patch`）：開發原樣 FAIL 4、第一版 FAIL 1、第二版 ALL PASS。
+    - 全部 Node 跑中（scratch devtipwt＝fb0d24c98＋新資產＋新測試）。
 - **11-01 02:4x**：
   - LAWWW-B 02:04 ACK 照片比對＋名牌（名牌整合在 feat-art-1031 8b9ddfb88；四題：①②等照片、③轉 AA、④不改），派 GYM-B1-PLATES-1101。
   - **GYM-B1-PLATES-1101 交件 095518e3f**：遊戲內確認壁球室門牌是空白牌子、兩個更衣室門牌整塊看不到（GLB 裡正面朝門板＋單面）。

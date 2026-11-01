@@ -5017,7 +5017,7 @@
    "branch": "claude/funny-albattani-iawshm",
    "sha": "b506f59c4",
    "receiver": "LAWWW",
-   "ack": "SENT",
+   "ack": "ACKNOWLEDGED",
    "task": "BUG-03（C24）博思 101「披頭散髮很可怕」：替身遠近跟著玩家換",
    "files": [
     "docs/art-rebuild/second_ai/patches/seated_figures_lod_1101.patch",
@@ -5028,7 +5028,8 @@
    "state": "原因：classes3d.js figPlace 放替身時照玩家位置（門口）選 LOD0／_lod1、之後不換 → 玩家走到座位旁邊照舊 _lod1（臉糊、頭髮一塊塊）。patch（對開發 fb0d24c98，apply --check 過）：每種外型 LOD0＋_lod1 兩個 InstancedMesh，figTick 照玩家現在位置重排（6.5／7.5 m），空的不畫、下課判斷跳過空的。新 seated_figures_lod_unit：開發原樣 FAIL 7、第一版 FAIL 2、定案 ALL PASS；替身／座位／上課 12 支 ALL PASS；全部 Node 822／0",
    "remaining": "沒有手機實機；LOD0 近看臉也還偏糊（替身模型 D99 凍結不動）",
    "next": "LAWWW-B 整合 patch；BB 大一國文（Y1S1 週二上午）博思 101 走到座位旁邊看",
-   "noDirectIntegrate": false
+   "noDirectIntegrate": false,
+   "integrated": "7145e5cd8（LAWWW-B 05:33，DL-LW2-BUG03-1101）"
   }
  ]
 }
