@@ -1,7 +1,7 @@
 {
  "meta": {
   "generated_by": "tools/handoff/history_audit.py",
-  "head": "80e82a439967a0900126507c60cc4595a0a34dc1",
+  "head": "00d288630ea0e56f72bda6e4f2624e4444ebe2b6",
   "main": "27e6ce77e80782afe979404cdfcd67723ae6a2f8",
   "bb_records": [
    "elegant-brown-fcos7n:BB_218_瀏覽器實測紀錄.md",
@@ -11164,9 +11164,9 @@
    "task_status": "已驗收",
    "owner": "LAWWW",
    "priority": "P3",
-   "tier": 3,
+   "tier": 1,
    "auto": false,
-   "main": "no",
+   "main": "yes",
    "bb": [
     "origin/claude/elegant-brown-fcos7n docs/story_planning/BB_218_瀏覽器實測紀錄.md（n20_shrink_b4 9597ffa34，22 項 PASS）；dev tasks.json:36618 NOODLE-TEAM-SHRINK-1030 已驗收 10-31 14:4x"
    ],
@@ -11189,9 +11189,9 @@
    "task_status": "已驗收",
    "owner": "LAWWW",
    "priority": "P3",
-   "tier": 3,
+   "tier": 1,
    "auto": false,
-   "main": "no",
+   "main": "yes",
    "bb": [
     "origin/claude/elegant-brown-fcos7n docs/story_planning/BB_218_瀏覽器實測紀錄.md（n21_whois_law2、n21_whois_econ4、n21_whois_econ6 ALL PASS）；dev tasks.json:36649 CHAR-WHOIS-1030、:36764 BUG-WHOIS-ECONYEAR-1030 已驗收"
    ],
@@ -11214,9 +11214,9 @@
    "task_status": "已驗收",
    "owner": "LAWWW",
    "priority": "P3",
-   "tier": 3,
+   "tier": 1,
    "auto": false,
-   "main": "no",
+   "main": "yes",
    "bb": [
     "origin/claude/elegant-brown-fcos7n docs/story_planning/BB_218_瀏覽器實測紀錄.md（n29 00a88c56f 12 情境 PASS、n29_nocmp_b、n23 柏翰）；dev tasks.json:36702 NO-COMPARE-1030、:37141 NO-COMPARE-GRAY-1031 已驗收"
    ],
@@ -11239,9 +11239,9 @@
    "task_status": "已驗收",
    "owner": "LAWWW",
    "priority": "P3",
-   "tier": 3,
+   "tier": 1,
    "auto": false,
-   "main": "no",
+   "main": "yes",
    "bb": [
     "origin/claude/elegant-brown-fcos7n docs/story_planning/BB_218_瀏覽器實測紀錄.md（n25 890f8f3f7：COPY_REAL、C3A／B／C、C3FIX、C5、ZRL3 PASS）；dev tasks.json:36822 XINCI-REWRITE-1030 已驗收 10-31 05:1x"
    ],
@@ -11264,9 +11264,9 @@
    "task_status": "已驗收",
    "owner": "LAWWW",
    "priority": "P3",
-   "tier": 3,
+   "tier": 1,
    "auto": false,
-   "main": "no",
+   "main": "yes",
    "bb": [
     "origin/claude/elegant-brown-fcos7n docs/story_planning/BB_218_瀏覽器實測紀錄.md（n27_xinci_romance c3a8aded9、n27_xcrom_b／c 0eb633624：AA_548 23 個情境全部 PASS）；dev tasks.json:36194 XINCI-ROMANCE-1030 已驗收 10-31 05:2x"
    ],
@@ -23035,9 +23035,9 @@
    "task_status": "已整合待測試",
    "owner": "BB",
    "priority": "P0",
-   "tier": 3,
+   "tier": 1,
    "auto": false,
-   "main": "unknown",
+   "main": "yes",
    "bb": [
     "n36_qa_sleep、n36_qa_nophone（184efc3da）、n36_qa_decline（39f68236c）：qa_play 從標題新遊戲玩到 9/2，?turbo，手機橫向模擬（Playwright＋SwiftShader，不是 iPhone）；BB_218:6249-6357"
    ],
@@ -23135,9 +23135,9 @@
    "task_status": "已整合待測試",
    "owner": "BB",
    "priority": "P0",
-   "tier": 3,
+   "tier": 1,
    "auto": false,
-   "main": "unknown",
+   "main": "yes",
    "bb": [
     "n36_qa_sleep、n36_qa_nophone（184efc3da）、n36_qa_decline（39f68236c）：qa_play 從標題新遊戲玩到 9/2，?turbo，手機橫向模擬（Playwright＋SwiftShader，不是 iPhone）；BB_218:6249-6357"
    ],
@@ -23460,9 +23460,9 @@
    "task_status": "已整合待測試",
    "owner": "BB",
    "priority": "P1",
-   "tier": 3,
+   "tier": 1,
    "auto": false,
-   "main": "unknown",
+   "main": "yes",
    "bb": [
     "n36_qa_sleep、n36_qa_nophone（184efc3da）、n36_qa_decline（39f68236c）：qa_play 從標題新遊戲玩到 9/2，?turbo，手機橫向模擬（Playwright＋SwiftShader，不是 iPhone）；BB_218:6249-6357"
    ],
@@ -23560,9 +23560,9 @@
    "task_status": "已整合待測試",
    "owner": "BB",
    "priority": "P1",
-   "tier": 3,
+   "tier": 1,
    "auto": false,
-   "main": "unknown",
+   "main": "yes",
    "bb": [
     "n36_qa_sleep、n36_qa_nophone（184efc3da）、n36_qa_decline（39f68236c）：qa_play 從標題新遊戲玩到 9/2，?turbo，手機橫向模擬（Playwright＋SwiftShader，不是 iPhone）；BB_218:6249-6357"
    ],
@@ -23610,9 +23610,9 @@
    "task_status": "已整合待測試",
    "owner": "BB",
    "priority": "P1",
-   "tier": 3,
+   "tier": 1,
    "auto": false,
-   "main": "unknown",
+   "main": "yes",
    "bb": [
     "n36_qa_sleep、n36_qa_nophone（184efc3da）、n36_qa_decline（39f68236c）：qa_play 從標題新遊戲玩到 9/2，?turbo，手機橫向模擬（Playwright＋SwiftShader，不是 iPhone）；BB_218:6249-6357"
    ],
@@ -23860,9 +23860,9 @@
    "task_status": "已整合待測試",
    "owner": "BB",
    "priority": "P2",
-   "tier": 3,
+   "tier": 1,
    "auto": false,
-   "main": "unknown",
+   "main": "yes",
    "bb": [
     "n36_qa_sleep、n36_qa_nophone（184efc3da）、n36_qa_decline（39f68236c）：qa_play 從標題新遊戲玩到 9/2，?turbo，手機橫向模擬（Playwright＋SwiftShader，不是 iPhone）；BB_218:6249-6357"
    ],

@@ -402,7 +402,8 @@ def main():
         row = judge(r, T, D_by_task, repo)
         if r['id'] in J:
             j = J[r['id']][-1]
-            row.update({k: j[k] for k in ('tier', 'evidence', 'main', 'missing', 'basis', 'covered', 'need', 'task', 'owner', 'severity', 'next', 'evidence_gap') if k in j and not (k == 'main' and j[k] in ('unknown', '', None))})
+            stale_no = j.get('tier') == 3 and j.get('main') == 'no'   # 「已驗收、還沒發布」的 main 是判定當時的狀態；發布以後改用工具現查的（v9.10.15 後 AA_542～548 一直停在 no）
+            row.update({k: j[k] for k in ('tier', 'evidence', 'main', 'missing', 'basis', 'covered', 'need', 'task', 'owner', 'severity', 'next', 'evidence_gap') if k in j and not (k == 'main' and (j[k] in ('unknown', '', None) or stale_no))})
             if row.get('tier') == 3 and row.get('main') == 'yes':
                 row['tier'] = 1   # 判定的人寫「已驗收、main 不知道」：工具查得到程式都在 main＝正式版已驗收（BB-B 11-01 第 1 批）
             row['auto'] = False
@@ -417,13 +418,18 @@ def main():
         j = rows[-1]
         t = j.get('tier')
         mn = j.get('main', 'unknown')
-        if mn in ('unknown', '', None):   # 判定沒寫 main：用任務的標題、進度、證據裡的事件／檔案／函式查（同 audit_B 的做法）
+        if mn in ('unknown', '', None) or (t == 3 and mn == 'no'):   # 判定沒寫 main，或寫「已驗收、還沒發布」時的 no（發布後要重查）：用任務的標題、進度、證據裡的事件／檔案／函式查（同 audit_B 的做法）
             tk = T.get(k) or T.get(j.get('task') or '') or {}
             pres = repo.presence('\n'.join([tk.get('title', ''), tk.get('next', '')[:2000], tk.get('evidence', '') or '', str(j.get('evidence', ''))]))
             if pres['head']:
                 mn = 'yes' if len(pres['main']) == len(pres['head']) else ('partial' if pres['main'] else 'no')
             elif pres['sha_head']:
                 mn = 'yes' if len(pres['sha_main']) == len(pres['sha_head']) else ('partial' if pres['sha_main'] else 'no')
+        if t == 3 and mn in ('unknown', '', None) and j.get('bb') and j.get('bb') != 'none':
+            # BB 寫的是實玩紀錄（截圖、say.json），沒有程式識別字：看實玩用的版本（bb 欄的 commit）是不是都已經在 main
+            shas = [x for x in tokens(str(j['bb']))[3] if repo.sha_in(x, repo.head_commits)]
+            if shas and all(repo.sha_in(x, repo.main_commits) for x in shas):
+                mn = 'yes'
         if t == 3 and mn == 'yes':
             t = 1
         ledger.append({'id': k, 'src': j.get('src', 'other'), 'audit_verdict': None, 'audit_severity': None, 'title': (T.get(k) or {}).get('title', j.get('note', '') or j.get('evidence', ''))[:160],
