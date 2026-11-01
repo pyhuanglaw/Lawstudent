@@ -108,7 +108,7 @@ const t13Over=(k,days)=>{ const V=VAC.rec(H.G), n=(V.t13||(V.t13=[])).length+1, 
   /* ======================= 3 C11 東京 ======================= */
   await sec(3,async()=>{
     const K=A.C11.keys, ks=K.map(k=>k.day+' '+k.h+' '+k.title);
-    check('3-0. C11 keys 照日期 5 場：第一堂、01-20 08:00 宿舍樓下的便利商店、參訪、01-26 15:00 自由活動、最後一晚',J(ks)===J(['01-18 9 第一堂','01-20 8 宿舍樓下的便利商店','01-23 14 參訪','01-26 15 自由活動','01-29 20 最後一晚'])&&K[1].bg==='intl_tokyo_classroom'&&K[3].bg==='intl_tokyo_shotengai',J(ks));
+    check('3-0. C11 keys 照日期 5 場：第一堂、01-20 07:40（AA-B 11-01 回第 1 題）宿舍樓下的便利商店、參訪、01-26 15:00 自由活動、最後一晚',J(ks)===J(['01-18 9 第一堂','01-20 '+(7+40/60)+' 宿舍樓下的便利商店','01-23 14 參訪','01-26 15 自由活動','01-29 20 最後一晚'])&&K[1].bg==='intl_tokyo_classroom'&&K[3].bg==='intl_tokyo_shotengai',J(ks));
     const CV='（早上七點多。你和同團的學生各拿了一個熱的飯糰，站在店門口吃。）', BK='（一整條街的舊書店。你在一間店裡看到一本很舊的日文六法，封面是綠色的。你翻了一下，又放回去。）', SN='（錢湯的牆上畫著一座很大的山。旁邊的伯伯泡到臉紅，對你點了一下頭。你也點頭。）';
     /* 大二、認識以安：她也在東京 */
     { const G=lawG('2027-01-17',7); SOCIAL.remember('heroine_01','FIRST_MET',''); VAC.signup(G,'C11@Y2','yes'); const q=out('vac_C11@Y2'); H.said=[]; H.opts=[]; H.picks=[0]; if(q) await VAC.outing(GM,q); const L=H.lines(), O=H.opts.slice(), an=nm('heroine_01');
@@ -175,11 +175,11 @@ const t13Over=(k,days)=>{ const V=VAC.rec(H.G), n=(V.t13||(V.t13=[])).length+1, 
     check(c.n+'. 私訊、場景的句子都在 AA_556',!notIn(words).length,J(notIn(words)));
     /* 條件不到不傳 */
     G=lawG(c.day,c.h+0.05,lowSet(c)); rules(); const a=tagged(c.tag).length;
-    G=lawG(c.day,c.h+0.05,lvSet(c)); await awayPres(c.who,async()=>{ rules(); }); const b=c.who==='classmate_xinci'?null:tagged(c.tag).length;
+    G=lawG(c.day,c.h+0.05,lvSet(c)); await awayPres(c.who,async()=>{ rules(); }); const b=tagged(c.tag).length;   /* 芯慈也看（AA-B 11-01 回第 3 題：她那天在臺北才傳）*/
     G=lawG(c.day,c.h-2,lvSet(c)); c.abroad(G); setT(c.day,c.h+0.05); rules(); const d=tagged(c.tag).length; const dOk=c.who==='heroine_03'||!VAC.abroadOn(G,D(c.day));   /* 自己排的出國：私訊那天人在臺灣 */
     check(c.n+'. 條件不到不傳：'+(c.lv==='friend'?'只有有點熟（不到朋友）':'不到有點熟')+(b===null?'':'、那天'+c.sp+'不在臺北')+'、祐廷那天不在臺灣（'+(c.who==='heroine_03'?'京都語言課':'隔天出發的自己排的出國')+'）',a===0&&(b===null||b===0)&&d===0&&dOk,J([a,b,d]));
-    if(c.who==='classmate_xinci'){ G=lawG(c.day,c.h+0.05,lvSet(c)); await awayPres(c.who,async()=>{ rules(); });
-      check(c.n+'. 稿只寫兩個條件（有點熟、祐廷在臺灣）：她的 presence 不看',tagged(c.tag).length===2); }
+    if(c.who==='classmate_xinci'){ G=lawG(c.day,c.h+0.05,lvSet(c)); rules();
+      check(c.n+'. 芯慈在臺北＝照傳（AA-B 11-01 回第 3 題：她那天在臺北才傳；不在臺北見上一項）',tagged(c.tag).length===2); }
     /* 不回＝不去，不追 */
     G=lawG(c.day,c.h+0.05,lvSet(c)); rules(); const n0=thMsgs(c.th).length; for(const [dd,hh] of [[1,c.evh-1],[1,c.evh+2],[2,12],[5,12]]){ setT(D(c.day)+dd,hh); rules(); }
     check(c.n+'. 不回：不排、不追（之後沒有第二則）',!out(c.oid)&&thMsgs(c.th).length===n0,J(thMsgs(c.th).map(m=>m.text)));

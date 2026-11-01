@@ -128,7 +128,7 @@ const VACFILL=(function(){
       if:(G,d)=>atLeast(YT,'FAMILIAR')&&inTaipei(G,YT,d+1)&&!meAway(G,d+1),   /* 5-2：和語彤有點熟以上、8/13 她在臺北 */
       ask:d=>({until:[d+1,14],opts:[{t:X2.y2s_0812.yes,set:{VF_Y2S_0813:'go'}}]})},
     {tag:'vf_y2w_0211',day:'2027-02-11',h:21,th:'p:classmate_xinci',ms:one('classmate_xinci',X2.y2w_0211.ms),stop:true,contact:'classmate_xinci',
-      if:(G,d)=>atLeast('classmate_xinci','FAMILIAR')&&!meAway(G,d+1),   /* 6：和芯慈有點熟以上（稿只寫這兩個條件；她在不在臺北不看）；芯慈戀愛線的旗標不讀 */
+      if:(G,d)=>atLeast('classmate_xinci','FAMILIAR')&&!meAway(G,d+1)&&inTaipei(G,'classmate_xinci',d+1),   /* 6：和芯慈有點熟以上、祐廷在臺灣；AA-B 11-01 回第 3 題：她那天在臺北才傳；芯慈戀愛線的旗標不讀 */
       ask:d=>({until:[d+1,8],opts:[{t:X2.y2w_0211.yes,set:{VF_Y2W_0212:'go'}}]})} ]:[]);
   S.dayOf=(m,G)=>{ if(!m.dayFn) return DK(m.day); const B=brk(G); return B&&B.key===m.brk?m.dayFn(G):null; };   /* 照行程算日子的（2-2）：只在那個假期裡算 */
   /* 這一則現在成立嗎（stage、國外、條件）。d＝那一則的日子（人物在不在臺北照那一天算）*/
