@@ -1845,7 +1845,7 @@ const STORY_EVENTS=[
       {speaker:'heroine_04',expression:'laugh',text:'（對著麥克風）這個 bug 我下次修。'},
       {speaker:null,text:'（全場笑。）'},
       {choice:[{text:'（拍手）',set:{ZQ_SHOW:'clap'},goto:'clap'},{text:'（坐著聽完）',set:{ZQ_SHOW:'came'},goto:'came'},{text:'（先走）',set:{ZQ_SHOW:'half'},goto:'end'}]},
-      {label:'clap'},{speaker:'heroine_04',expression:'laugh',text:'我看到你了。你拍得超大聲。很丟臉。……謝啦。'},
+      {label:'clap'},{unless:DH('heroine_04'),speaker:'heroine_04',expression:'laugh',text:'我看到你了。你拍得超大聲。很丟臉。……謝啦。'},{if:DH('heroine_04'),speaker:'heroine_04',expression:'laugh',text:'我看到你了。很丟臉。……謝啦。'},   /* AA-B 11-01：和她交往中拿掉「你拍得超大聲。」，接後面那句「你拍超大聲欸。整個大廳都聽到了。」，不說兩次 */
       /* BB_187 2-3（AA_554 第 2 節：「B館」→「大廳」）：和她交往中，謝幕後、貼紙那段之前多兩句（只在拍手的這一支：「你拍超大聲」）。
          貼紙：和她交往中＝直接貼在手機殼上（大二 Q9「去年那一張旁邊」接得上）；「遞給你」那一版＝和別人交往中，照舊 */
       {if:DH('heroine_04'),speaker:'heroine_04',expression:'laugh',text:'你拍超大聲欸。整個大廳都聽到了。'},{if:DH('heroine_04'),speaker:'heroine_04',expression:'embarrassed',text:'……好啦。我很高興。'},

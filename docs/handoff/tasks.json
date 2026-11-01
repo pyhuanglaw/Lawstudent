@@ -37885,7 +37885,7 @@
    "owner": "LAWWW",
    "status": "已整合待測試",
    "priority": "P2",
-   "next": "【11-01 05:4x LAWWW-B】子代理交（feat-aa554-1101 bdfbae327）、併進開發分支：BB_187／189 和她交往中的版本（Z3～Z9、Q4～Q9、摘要日）、第一次交換每週日 22:00 視訊、五處時間線修正；新 src/aa554_3d.js；tests/aa554_dating_unit.js 109 項（修改前 FAILED 52）；13 題技術預設已問 AA-B → BB 驗｜【11-01 08:0x LAWWW-B】子代理開工：本機分支 feat-aa554-1101（worktree scratchpad/feat554，從 9434cd4ac）；新測試 aa554_dating_unit｜【10-31 23:5x】AA-B 細節：遊戲裡只有「和別人交往中」（GF／datingOther）；時間線修正 5 處（片名《進城的那一週》、四個月→五個月、B館→大廳、Z4 時間、送機去／沒去兩種）；她第一次在英國 2027-09-05～2028-02-06 交往中也有 AA_419 第 2 節每週日 22:00 視訊（不算裂縫）；AA_230 不另外實作｜【10-31 23:5x】AA-B AUDIT-AA-FOLLOWUP 交付；發布基準凍結中→本機分支做、發布後合",
+   "next": "【11-01 06:0x LAWWW-B】AA-B 回 13 題：12 個照預設；Q5 拍手和她交往中拿掉「你拍得超大聲。」（不說兩次）已改｜【11-01 05:4x LAWWW-B】子代理交（feat-aa554-1101 bdfbae327）、併進開發分支：BB_187／189 和她交往中的版本（Z3～Z9、Q4～Q9、摘要日）、第一次交換每週日 22:00 視訊、五處時間線修正；新 src/aa554_3d.js；tests/aa554_dating_unit.js 109 項（修改前 FAILED 52）；13 題技術預設已問 AA-B → BB 驗｜【11-01 08:0x LAWWW-B】子代理開工：本機分支 feat-aa554-1101（worktree scratchpad/feat554，從 9434cd4ac）；新測試 aa554_dating_unit｜【10-31 23:5x】AA-B 細節：遊戲裡只有「和別人交往中」（GF／datingOther）；時間線修正 5 處（片名《進城的那一週》、四個月→五個月、B館→大廳、Z4 時間、送機去／沒去兩種）；她第一次在英國 2027-09-05～2028-02-06 交往中也有 AA_419 第 2 節每週日 22:00 視訊（不算裂縫）；AA_230 不另外實作｜【10-31 23:5x】AA-B AUDIT-AA-FOLLOWUP 交付；發布基準凍結中→本機分支做、發布後合",
    "first": {
     "term": "Y2S1",
     "week": 0,
