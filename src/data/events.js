@@ -2522,7 +2522,7 @@ const STORY_EVENTS=[
      取代舊 E19 誤會、E21 除夕「不然要在一起嗎」、E25 醉月湖告白、3/22 的摩天輪。三個回答都是接受，記 KX_CAR（camp／only_me／take_back）。
      這天開始交往：dating_kexin、Y0_DATING、KX_DATING_SINCE、E26_DAY（法律系房間的票根「兩個人開始交往的那一天」）。排程在 story3d.js（15:30 私訊之後的固定出遊 y0_e26）。
      「睡醒的時候。」AA_224 表格寫在她那一欄，照語意是祐廷的回答（她問「你那天一直在睡覺」）*/
-  { id:'ev_y0_e26', stage:'econ', title:'車上', participants:['kexin'], location:'any', trigger:'outing', once:true, get background(){ return typeof OUT!=='undefined'&&OUT.bg?OUT.bg('home_entry_night'):'dark'; }, hours:5.17, kxAway:true,   /* 開頭「（你拿了車鑰匙出門。）」的底圖：家裡的玄關（BLACK-BG-AUDIT-1018，BB_132 第 100 組；稿沒有地點字幕＝不加場景，事件的 background 讀 OUT.BG，getter）*/   /* AA_309 第 2 列：17:40 到社科院門口（回家拿車鑰匙、跟媽媽說在那之前：econff3d.js 16:10 出發）→ 回到宿舍「快十一點」（22:50）。原本 17:40 才出發、19:10 才到，她等了兩個多小時。
+  { id:'ev_y0_e26', stage:'econ', title:'車上', participants:['kexin'], portraitLater:true, location:'any', trigger:'outing', once:true, get background(){ return typeof OUT!=='undefined'&&OUT.bg?OUT.bg('home_entry_night'):'dark'; }, hours:5.17, kxAway:true,   /* 開頭「（你拿了車鑰匙出門。）」的底圖：家裡的玄關（BLACK-BG-AUDIT-1018，BB_132 第 100 組；稿沒有地點字幕＝不加場景，事件的 background 讀 OUT.BG，getter）*/   /* AA_309 第 2 列：17:40 到社科院門口（回家拿車鑰匙、跟媽媽說在那之前：econff3d.js 16:10 出發）→ 回到宿舍「快十一點」（22:50）。原本 17:40 才出發、19:10 才到，她等了兩個多小時。
      kxAway：結尾在 412、她不在（AA_309 第 3 列：可昕不在場的場景後面不接她的閒聊階梯，outings3d.js）*/
     dialogue:[ {speaker:null,text:'（你拿了車鑰匙出門。）'},   /* AA_308 第 4 節：到家、跟媽媽說在 ev_y0_e30 結尾 */
       {scene:'首都帝大・社科院門口',bg:'car_night'},{speaker:null,text:'（社科院門口。她拉開車門坐進來。）'},
@@ -2870,10 +2870,10 @@ const STORY_EVENTS=[
     const busDue=G=>d25(G)&&G.hour>=2.5&&G.flags.KH_GO==='bus', homeDue=G=>d25(G)&&G.hour>=7.5&&G.flags.KH_GO!=='bus';
     const BUS_BG=()=>typeof OUT!=='undefined'&&OUT.bg?OUT.bg('bus_night'):'dark';   /* 客運版開頭「（凌晨兩點半，你搭上南下的夜班客運。）」先借夜裡的客運 bus_night（BLACK-BG-AUDIT-1018，BB_132 第 100 組；夜班客運車廂另外要一張 coach_night）*/   /* AA_368 M7：客運版 02:30 開始（原本 06:00）*/
     return [
-      { id:'ev_y0_kh_bus_h', stage:'econ', title:'成績公布', participants:['kexin'], location:'any', trigger:'home', once:true, get background(){ return BUS_BG(); }, prereq:{custom:busDue}, dialogue:busLines, after:busAfter },
-      { id:'ev_y0_kh_bus', stage:'econ', title:'成績公布', participants:['kexin'], location:'any', trigger:'auto', once:true, get background(){ return BUS_BG(); }, prereq:{custom:G=>busDue(G)&&!atHome(G)}, dialogue:busLines, after:busAfter },
-      { id:'ev_y0_kh_home_h', stage:'econ', title:'成績公布', participants:['kexin'], location:'any', trigger:'home', once:true, background:'dark', prereq:{custom:homeDue}, dialogue:homeLines },
-      { id:'ev_y0_kh_home', stage:'econ', title:'成績公布', participants:['kexin'], location:'any', trigger:'auto', once:true, background:'blur', prereq:{custom:G=>homeDue(G)&&!atHome(G)}, dialogue:homeLines },
+      { id:'ev_y0_kh_bus_h', stage:'econ', title:'成績公布', participants:['kexin'], portraitLater:true, location:'any', trigger:'home', once:true, get background(){ return BUS_BG(); }, prereq:{custom:busDue}, dialogue:busLines, after:busAfter },
+      { id:'ev_y0_kh_bus', stage:'econ', title:'成績公布', participants:['kexin'], portraitLater:true, location:'any', trigger:'auto', once:true, get background(){ return BUS_BG(); }, prereq:{custom:G=>busDue(G)&&!atHome(G)}, dialogue:busLines, after:busAfter },
+      { id:'ev_y0_kh_home_h', stage:'econ', title:'成績公布', participants:['kexin'], portraitLater:true, location:'any', trigger:'home', once:true, background:'dark', prereq:{custom:homeDue}, dialogue:homeLines },
+      { id:'ev_y0_kh_home', stage:'econ', title:'成績公布', participants:['kexin'], portraitLater:true, location:'any', trigger:'auto', once:true, background:'blur', prereq:{custom:G=>homeDue(G)&&!atHome(G)}, dialogue:homeLines },
       { id:'ev_y0_kh_call_h', stage:'econ', title:'電話', participants:['kexin'], location:'any', trigger:'home', once:true, background:'dark', prereq:{custom:callDue}, dialogue:callLines },
       { id:'ev_y0_kh_call', stage:'econ', title:'電話', participants:['kexin'], location:'any', trigger:'auto', once:true, background:'dark', prereq:{custom:G=>callDue(G)&&!atHome(G)}, dialogue:callLines },
       { id:'ev_y0_kh_madeup_h', stage:'econ', title:'電話', participants:['kexin'], location:'any', trigger:'home', once:true, background:'dark', prereq:{custom:madeDue}, dialogue:madeLines },
