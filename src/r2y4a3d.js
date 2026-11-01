@@ -316,7 +316,7 @@ const R2Y4A=(function(){
   S.gradeOpts=function(G){ const say=(name,more)=>[{th:'p:'+KX,from:'player',who:null,text:name},{th:'p:'+KX,from:KX,text:'法律倫理。'}].concat(more?[{th:'p:'+KX,from:KX,text:more}]:[]);
     if(R_(G)==='US') return S.US_COURSES.map(c=>({t:c.name,post:false,set:{KX_GRADES_Y4S1:c.id},say:say(c.name,'……你選的那一科，我連課名都沒聽過。')}));
     const L=typeof CLS!=='undefined'&&CLS.termCourses?CLS.termCourses(G,'Y4S1').filter(c=>c.kind==='required'||c.kind==='elective'):[];
-    return L.map(c=>({t:c.name,post:false,set:{KX_GRADES_Y4S1:c.id},say:say(c.name,c.id==='legal_ethics'?'……我們連這個都一樣。':null)})); };
+    return L.map(c=>({t:c.name,post:false,set:{KX_GRADES_Y4S1:c.id},say:say(c.name,c.id==='legal_ethics'?'……我們連這個都一樣。':null)})).concat(L.length?[{t:'沒有最滿意的。',post:false,set:{KX_GRADES_Y4S1:'none'},say:[{th:'p:'+KX,from:'player',who:null,text:'沒有最滿意的。'},{th:'p:'+KX,from:KX,text:'那說一科最不滿意的。我陪你。'}]}]:[]); };   /* AA_553 第 4 節：多一個「沒有最滿意的。」（美國路線照舊）*/
   /* ---- 2-Y4-23 學姊 M7 接機：版本（BB_99 2-1）---- */
   S.pickupVer=function(G){ if(dating(G,S5)) return 'lover'; if(exOf(G,S5)) return 'family';   /* 分手過＝群組照看，私訊版都沒有 */
     const two=!partners(G).length&&stageAt(S5,'FRIEND')&&(has(S5,'DROVE_HER')||done(G,'ev_sis_graduation'));   /* 雙方都單身、FRIEND 以上、送過她（DROVE_HER）或去過她的畢業典禮 G4 */

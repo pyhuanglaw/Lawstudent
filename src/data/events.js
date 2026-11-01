@@ -2028,14 +2028,20 @@ const STORY_EVENTS=[
     dialogue:[ {scene:'視訊',bg:'video'},
       {if:{custom:G=>typeof PHONE!=='undefined'&&!!PHONE.sent&&PHONE.sent(G,'kx_video_photo')},speaker:'kexin',expression:'teasing',text:'你欠我的那一次，用這個還。'},   /* AA_356 1-1：第 16 週視訊一起讀書沒到（書桌照片「你欠我一次」）的下文 */
       {speaker:'kexin',expression:'smile',text:'三、二、一——'},
-      {speaker:'kexin',expression:'smile',text:'……都過了。好，這次才是真的放假。'} ],   /* AA-C 11:23（16 週制：1/5 已經放假兩週）*/
+      {if:{custom:G=>{ const v=(G=>typeof GRADES!=='undefined'?GRADES.lv(G,'Y1S1'):'mid')(G); return v==='fail_law'||v==='fail_att'; }},speaker:'kexin',expression:'serious',text:'……有一科沒過。'},{if:{custom:G=>{ const v=(G=>typeof GRADES!=='undefined'?GRADES.lv(G,'Y1S1'):'mid')(G); return v==='fail_law'||v==='fail_att'; }},speaker:'kexin',expression:'smile',text:'好。下學期那一科，我陪你念。'},   /* AA_553 第 4 節：被當＝取代「都過了」（現有的錯）*/
+      {if:{custom:G=>(G=>typeof GRADES!=='undefined'?GRADES.lv(G,'Y1S1'):'mid')(G)==='high'},speaker:'kexin',expression:'teasing',text:'……你偷念。'},{if:{custom:G=>(G=>typeof GRADES!=='undefined'?GRADES.lv(G,'Y1S1'):'mid')(G)==='high'},speaker:'kexin',expression:'smile',text:'好，這次才是真的放假。'},{if:{custom:G=>(G=>typeof GRADES!=='undefined'?GRADES.lv(G,'Y1S1'):'mid')(G)==='high'},speaker:'kexin',expression:'teasing',text:'你請。'},
+      {if:{custom:G=>(G=>typeof GRADES!=='undefined'?GRADES.lv(G,'Y1S1'):'mid')(G)==='low'},speaker:'kexin',expression:'smile',text:'……都過了。'},{if:{custom:G=>(G=>typeof GRADES!=='undefined'?GRADES.lv(G,'Y1S1'):'mid')(G)==='low'},speaker:'kexin',expression:'smile',text:'下學期我們一起念。我排時間。'},
+      {if:{custom:G=>{ const v=(G=>typeof GRADES!=='undefined'?GRADES.lv(G,'Y1S1'):'mid')(G); return v!=='fail_law'&&v!=='fail_att'&&v!=='high'&&v!=='low'; }},speaker:'kexin',expression:'smile',text:'……都過了。好，這次才是真的放假。'} ],   /* AA-C 11:23（16 週制：1/5 已經放假兩週）*/
     afterOuting:async(G,GM)=>{ if(typeof CLS!=='undefined'&&CLS.rec&&!CLS.rec(G).grades.Y1S1) await CLS.showGrades(GM,'Y1S1'); },
     outingMissed:(G)=>{ if(typeof CLS!=='undefined'&&CLS.rec){ const R=CLS.rec(G); if(!R.grades.Y1S1) R.note.gradesDue='Y1S1'; } } },
   /* 9-9 大一下 together（AA_157 第 2 節；BB_139 2-1：照大一上兩句，只換「暑假」）：暑假第一天 21:00 視訊一起打開；沒接＝隔天早上照常發成績單 */
   { id:'ev_kexin_grades_open_y1s2', title:'一起打開', participants:['kexin'], location:'any', trigger:'outing', once:true, background:'dark', hours:0.25,
     dialogue:[ {scene:'視訊',bg:'video'},
       {speaker:'kexin',expression:'smile',text:'三、二、一——'},
-      {speaker:'kexin',expression:'smile',text:'……都過了。好，這下暑假真的開始了。'}   /* AA_209 附錄 B 第 4 節第 2 點（成績 6/29 才公布）*/ ],
+      {if:{custom:G=>{ const v=(G=>typeof GRADES!=='undefined'?GRADES.lv(G,'Y1S2'):'mid')(G); return v==='fail_law'||v==='fail_att'; }},speaker:'kexin',expression:'serious',text:'……有一科沒過。'},{if:{custom:G=>{ const v=(G=>typeof GRADES!=='undefined'?GRADES.lv(G,'Y1S2'):'mid')(G); return v==='fail_law'||v==='fail_att'; }},speaker:'kexin',expression:'smile',text:'好。下學期那一科，我陪你念。'},   /* AA_553 第 4 節：被當＝取代「都過了」（現有的錯）*/
+      {if:{custom:G=>(G=>typeof GRADES!=='undefined'?GRADES.lv(G,'Y1S2'):'mid')(G)==='high'},speaker:'kexin',expression:'teasing',text:'……你偷念。'},{if:{custom:G=>(G=>typeof GRADES!=='undefined'?GRADES.lv(G,'Y1S2'):'mid')(G)==='high'},speaker:'kexin',expression:'smile',text:'好，這下暑假真的開始了。'},{if:{custom:G=>(G=>typeof GRADES!=='undefined'?GRADES.lv(G,'Y1S2'):'mid')(G)==='high'},speaker:'kexin',expression:'teasing',text:'你請。'},
+      {if:{custom:G=>(G=>typeof GRADES!=='undefined'?GRADES.lv(G,'Y1S2'):'mid')(G)==='low'},speaker:'kexin',expression:'smile',text:'……都過了。'},{if:{custom:G=>(G=>typeof GRADES!=='undefined'?GRADES.lv(G,'Y1S2'):'mid')(G)==='low'},speaker:'kexin',expression:'smile',text:'下學期我們一起念。我排時間。'},
+      {if:{custom:G=>{ const v=(G=>typeof GRADES!=='undefined'?GRADES.lv(G,'Y1S2'):'mid')(G); return v!=='fail_law'&&v!=='fail_att'&&v!=='high'&&v!=='low'; }},speaker:'kexin',expression:'smile',text:'……都過了。好，這下暑假真的開始了。'}   /* AA_209 附錄 B 第 4 節第 2 點（成績 6/29 才公布）*/ ],
     afterOuting:async(G,GM)=>{ if(typeof CLS!=='undefined'&&CLS.rec&&!CLS.rec(G).grades.Y1S2) await CLS.showGrades(GM,'Y1S2'); },
     outingMissed:(G)=>{ if(typeof CLS!=='undefined'&&CLS.rec){ const R=CLS.rec(G); if(!R.grades.Y1S2) R.note.gradesDue='Y1S2'; } } },
   /* 可昕的大一下（BB_96 第 9 節，BB 2026-10-14）——9-1 情人節：寒假 2/14 20:00 視訊（她先問天氣）。記 KX_VDAY:{1:'video'|'missed'}、KX_VDAY_WX:{1:'sunny'|'rain'|'window'}；
