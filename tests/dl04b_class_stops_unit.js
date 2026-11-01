@@ -147,5 +147,13 @@ const dropTest=()=>{ for(let i=STORY_EVENTS.length-1;i>=0;i--) if(/^ev_test_dl04
     finally { dropTest(); if(had===undefined) delete global.ECONFF; else global.ECONFF=had; }
     check('7. 同一個校園【必】事件：平常會停；ECONFF.on（經濟系事件接事件）＝不停',!!off&&on===null,JSON.stringify({off:!!off,on})); }
 
+  /* 8 門口上課（法圖櫃台的服務學習）：「直接去上課」到了就報到（BB-B 11-01 BUG-DL04B-SERVICE-RESUME：destOf 有 zone 就把 door 丟掉＝走選座位、沒有座位停住；在路上停過、沒停過都一樣）*/
+  { const WED=STORY.dayOfKey('2025-10-08'); fresh(WED,13.53,'wancai'); const it=CLS.dayItems(G).find(q=>q.c.kind==='service'); const pl=it&&CLS.goPlan(GM,it);
+    const r=it?await CLS.goClass(GM,it):null; const R=CLS.rec(G);
+    check('8. 服務學習（一）從萬才館「直接去上課」：路線有 door（lawlib_desk）、到法圖報到、記第 1 次、done',!!it&&!!pl&&pl.d.door==='lawlib_desk'&&r===true&&!!R.done[it.key]&&G.zone==='lawlib'&&(R.attend[it.c.id]|0)===1&&said.some(s=>/第一次報到/.test(s.t)),JSON.stringify({d:pl&&pl.d,r,done:it&&R.done[it.key],said:said.map(s=>s.t).slice(0,2)})); }
+  /* 8 有 room 的（共同 102、普通 101、博思 101）照舊選座位：路線不帶 door */
+  { fresh(THU,7,'dorm'); const it={c:{id:'x'},room:{zone:'gongtong',room:'102',door:'common'},t0:13.3,day:G.day,key:'x'}; const pl=CLS.goPlan(GM,it);
+    check('8. 有 room 的教室（共同 102）：路線不帶 door（照舊選座位）',!!pl&&!pl.d.door,JSON.stringify(pl&&pl.d)); }
+
   console.log(fails?'FAILED '+fails:'ALL PASS'); process.exit(fails?1:0);
 })().catch(e=>{ console.error(e); process.exit(1); });

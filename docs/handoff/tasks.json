@@ -38124,6 +38124,34 @@
     "receiver": "LAWWW",
     "ack": "SENT"
    }
+  },
+  {
+   "id": "BUG-DOOR-CLASS-GO-1101",
+   "title": "「直接去上課」到門口上課的課（法圖櫃台的服務學習（一）、萬才館研討室 A 的法律倫理／刑事判決研討／公法判決研討）進去以後不報到、卡在「現在可以上課」（BB-B 11-01 BUG-DL04B-SERVICE-RESUME）",
+   "area": "SYS",
+   "owner": "LAWWW",
+   "status": "已整合待測試",
+   "priority": "P1",
+   "next": "【11-01 09:0x LAWWW-B】原因：classes3d.js destOf 對有 zone 的地點不保留 door（LAWLIB_DESK、WSEM 有 zone＋door、沒有 room）→ goClass 走選座位、沒有座位就停住；在路上停過、沒停過都一樣（DL-04B 以前就有）。修：有 zone＋door、沒有 room＝留 door → 進去直接 S.attend(door)。dl04b 第 8 項（修改前 FAIL）；Node 重現：服務學習從萬才館＝報到「第一次報到。…」記 1／9；大四上法律倫理＝「走路到研討室。」「下課了。」→ BB 瀏覽器驗兩種",
+   "first": {
+    "term": "Y1S1",
+    "week": 4,
+    "earliest": "大一上第 4 週週三 13:20 服務學習（一）",
+    "mainline": true,
+    "blocks": true,
+    "prereq": false,
+    "parallel": true,
+    "confirmed": true
+   },
+   "source": "BB-B 11-01 08:50 DL-04B stops 探針（BB_218 fc8fdd818）",
+   "authorized": "D85（bug 修正）",
+   "xai": {
+    "spec": "—",
+    "branch": "claude/modest-rubin-2lyp7g",
+    "acceptance": "直接去上課：服務學習（一）、法律倫理，到了就報到、上完",
+    "receiver": "BB",
+    "ack": "SENT"
+   }
   }
  ]
 }
