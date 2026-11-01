@@ -15,7 +15,8 @@ const sc=j.scenes[j.scene||0], lm=sc.extras&&sc.extras.lightmap, files=lm?['day'
 check('① extras.lightmap 的白天、晚上兩張都在',!!lm&&files.length===2&&files.every(f=>f&&fs.existsSync(path.join(ROOT,f))),JSON.stringify(lm||null).slice(0,220));
 const node=nm=>j.nodes.find(x=>x.name===nm);
 const uv1=nm=>{ const nd=node(nm); if(!nd||nd.mesh==null) return null; return j.meshes[nd.mesh].primitives.every(p=>p.attributes.TEXCOORD_1!=null); };
-const BAKE=['usa_wood','usa_carpet','usa_tile','usa_concrete','usa_ceil','usa_wall','WALL_N_wall','WALL_S_wall','WALL_bed_w_wall','usa_door','usa_trim','usa_roof','US_SOFA.001','US_BED.001','US_COUNTER.001','US_DESK.001'];
+/* 門：洗衣機櫃的門 lau_w_door。11-01 第二輪以前它和平台上鄰居的門（door213）合成 usa_door；鄰居的門拆出來以後只剩它自己，照原名（鄰居的門：us_shared_lm_unit ⑨）*/
+const BAKE=['usa_wood','usa_carpet','usa_tile','usa_concrete','usa_ceil','usa_wall','WALL_N_wall','WALL_S_wall','WALL_bed_w_wall','lau_w_door','usa_trim','usa_roof','US_SOFA.001','US_BED.001','US_COUNTER.001','US_DESK.001'];
 const got=BAKE.map(x=>[x,uv1(x)]);
 check('② 地板、天花板、牆、門、踢腳板、屋簷、家具有第二套 UV',got.every(([,v])=>v===true),JSON.stringify(got.filter(([,v])=>v!==true)));
 const LIVE=['usa_glass','usa_blinds','usa_view_on','usa_view_off','usa_lot_on','usa_lot_off','US_CEILINGFAN_GLOW.001','usa_sconce','usa_chrome','usa_black','PLATE_FACE_door_front'];

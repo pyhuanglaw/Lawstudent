@@ -16909,6 +16909,32 @@
    "task": "INTERIOR-AAA-REVIEW-1028",
    "integration": "已整合待測試",
    "note": "LAWWW-B 11-01 06:5x 換 8 個二進位（只拿交件清單上的，us_street 不拿）＋套 patch；us_shared_lm、us_apartment_lm、us_apt_closet、us_apt_siding、singleside_us ALL PASS；LAWWW2 自己列的不夠：合租戶客廳東邊白天偏暗、鄰居 207 門白天偏亮（請 LAWWW2 先收）"
+  },
+  {
+   "id": "DL-LW2-US-WRAPUP2-1101",
+   "date": "2026-11-01",
+   "from": "LAWWW2-B",
+   "account": "B",
+   "branch": "claude/funny-albattani-iawshm",
+   "sha": "32277557c",
+   "msg": "ACK",
+   "what": "美國收尾第二輪：鄰居 207／213 的門白天 ×0.65（door213 自己一個物件，usa_door 節點拆成 door213＋lau_w_door）；合租戶客廳東邊白天補光 --dayfill；us_wrapup2_lm_1101.patch（us_shared_lm、us_apartment_lm 清單同改）",
+   "task": "INTERIOR-AAA-REVIEW-1028",
+   "integration": "已整合待測試",
+   "note": "LAWWW-B 11-01 08:3x 換 8 個二進位＋patch；美國相關 6 支 ALL PASS"
+  },
+  {
+   "id": "DL-LW2-LAKE-NIGHT-1101",
+   "date": "2026-11-01",
+   "from": "LAWWW2-B",
+   "account": "B",
+   "branch": "claude/funny-albattani-iawshm",
+   "sha": "32277557c",
+   "msg": "ACK",
+   "what": "醉月湖晚上（ART-ECON D）：北岸 4 盞路燈、水面 7 個燈的倒影（lampsOn）、湖心亭六角宮燈＋光暈＋平台光圈（campus_lake.glb／.json＋lake_night_1101.patch：zones3d.js、tests/lake_night_unit.js）；E12 11/6 17:45「湖對面的燈一盞一盞亮起來」對得上",
+   "task": "ART-ECON-3D-GAP-1021",
+   "integration": "已整合待測試",
+   "note": "LAWWW-B 11-01 08:3x 套上；lake_night、nav_buildings、nav_levels、campus 相關 6 支、kit_nav_check ALL PASS；draw call +11（E12 鏡頭 89→100）；沒做：一盞一盞亮（要改引擎開關）、倒影沒有遮擋；campus_layout_nav、reachability_all 是瀏覽器→BB"
   }
  ],
  "ignored": [
