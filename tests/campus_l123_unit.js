@@ -1,6 +1,6 @@
 // AA_118 第 5 節 L1～L3「有建築、沒有事件的地方」＋ AA_555 第 3 節改稿（任務 AA555-L123-SCENES-1101；src/campus_l123_3d.js）——不需要瀏覽器。
 // 台詞逐字照稿：從企劃線 56c11668d git show 讀 AA_118、AA_555（tests/alison.js 讀稿時把舊名字換成 Alison），事件裡的每一句都要在稿裡（補的幾句另外列）。
-//   0 接線：載得到、六個事件在 STORY_EVENTS、PHONE_RULES 掛上、index.html 接在 aa524_3d.js 後面（GAME.boot 以前）；這個檔沒有舊名字、沒有真實館名
+//   0 接線：載得到、六個事件在 STORY_EVENTS、PHONE_RULES 掛上、index.html 接在 aa187_3d.js 後面、bbpack_events.js 以前（bbpack3d.js 到 GAME.boot 之間別的測試鎖住了，不能插隊）；這個檔沒有舊名字、沒有真實館名
 //   1 L1 法律系館A的電梯：12:10～12:30、法律系館A一樓（第 0 層）、平日、不是假日、不是開場那兩天、經濟系不演；每學期最多兩次、至少隔 14 天、下一學期重算；宥辰的電梯那天讓它；
 //     等電梯＝旁白＋阿哲那一段（認識阿哲才有）＋手機小事池（AA555.DP）挑一則當八卦（只挑文字、還沒收過、沒聽過；沒有＝保守旁白）；走樓梯＝柏翰，大三以後＋翰 4 之後換句；tick 真的挑到它
 //   2 L2 校史館門口：大一上第 4 週週三 15:00～15:30 在校園；其他週、其他時間、不在校園、大四都不演；一次；不替兩個人記認識
@@ -31,8 +31,9 @@ const runLines=async(ev,picks)=>{ H.said=[]; H.picks=[].concat(picks||[]); await
 const ticked=()=>{ let got=null; const r0=EVENTS.run; EVENTS.run=async ev=>{ got=ev.id; }; try{ EVENTS.tick(0.5); } finally { EVENTS.run=r0; } return got; };   /* EVENTS.tick 真的挑到哪一個 auto 事件（不演）*/
 (async()=>{
   /* ---------------- 0 接線、稿 ---------------- */
-  { const html=fs.readFileSync(path.join(H.ROOT,'index.html'),'utf8'), a=html.indexOf('src/aa524_3d.js'), b=html.indexOf('src/campus_l123_3d.js'), c=html.indexOf('GAME.boot()'), s=html.indexOf('src/aa555_3d.js');
-    check('0. index.html：campus_l123_3d.js 接在 aa524_3d.js 後面、GAME.boot() 以前（aa555_3d.js 在它前面）',a>0&&b>a&&c>b&&s>0&&s<b&&/src\/campus_l123_3d\.js\?v=/.test(html),J([a,b,c,s]));
+  { const html=fs.readFileSync(path.join(H.ROOT,'index.html'),'utf8'), sc=[...html.matchAll(/<script src="([^"?]+)/g)].map(m=>m[1]), i=sc.indexOf('src/campus_l123_3d.js');
+    check('0. index.html：campus_l123_3d.js 緊接在 aa187_3d.js 後面、data/bbpack_events.js 前面（aa555_3d.js、story3d.js、outings3d.js、phone3d.js 都在它前面；GAME.boot() 以前）',
+      i>0&&sc[i-1]==='src/aa187_3d.js'&&sc[i+1]==='src/data/bbpack_events.js'&&['src/aa555_3d.js','src/story3d.js','src/outings3d.js','src/phone3d.js','src/events3d.js'].every(f=>sc.indexOf(f)>=0&&sc.indexOf(f)<i)&&html.indexOf('src/campus_l123_3d.js')<html.indexOf('GAME.boot()')&&/src\/campus_l123_3d\.js\?v=/.test(html),J(sc.slice(i-2,i+2)));
     const src=fs.readFileSync(path.join(H.ROOT,'src/campus_l123_3d.js'),'utf8');
     check('0. 這個檔沒有舊名字（Alison 改名，AA_380）、沒有真實校名館名（D115）',src.indexOf('小語')<0&&!/[臺台]灣大學|霖澤|萬才|洞洞館|傅鐘|椰林|醉月湖|小福|活大/.test(src));
     check('0. 讀得到稿（企劃線 '+SHA+'：AA_118 第 3、5 節、AA_555 第 3 節）',SEC5.length>300&&SEC3.length>1000&&/L1 法律系館A的電梯：照用/.test(D555)&&/L3 圓窗館前的合照/.test(D555),J([SEC5.length,SEC3.length,D555.length]));

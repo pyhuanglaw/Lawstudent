@@ -18,6 +18,7 @@
      沒去＝18:00 班群收到合照「📷（圓窗館前的系學會合照）」（不在班群＝Alison 私訊；晚三天以內補送）。人在國外（美國路線大四上）：群組照當地時間收，不排出發、Alison 不私訊約。
      技術預設：約的那一句、照片的說明、時間窗 15:50～16:30（出發早 5 分鐘到）、地點半徑都是補的；3D 沒有放合照的人群（只有 ADV）。
    存檔：G.flags.L1_ELEV＝{n:{學期:次數}, heard:[聽過的 a118_ id]}；舊存檔沒有＝沒演過。L2、L3 是 once 事件（G.events）。
+   index.html：緊接在 aa187_3d.js 後面（bbpack3d.js 到 GAME.boot 之間的順序別的測試鎖住了：aa498、bbpack_unit、aa497）。
    測試：node tests/campus_l123_unit.js */
 'use strict';
 const CL123=(function(){
@@ -109,7 +110,7 @@ const CL123=(function(){
 
   /* ===================== 掛勾 ===================== */
   S.EVENTS=[S.EV_L1,S.EV_L2].concat(S.EV_L3);
-  for(const e of S.EVENTS) if(!STORY_EVENTS.some(x=>x.id===e.id)) STORY_EVENTS.push(e);   /* 排在最後：同一時間有別的劇情先演 */
+  for(const e of S.EVENTS) if(!STORY_EVENTS.some(x=>x.id===e.id)) STORY_EVENTS.push(e);   /* 載入時排在已經有的事件後面：同一時間別的劇情先演（之後才載入的 bbpack／sup497／aa524 排在它後面；宥辰的電梯由 l1Ok 讓它）*/
   if(Array.isArray(STORY.PHONE_RULES)&&!STORY._cl123pr){ STORY.PHONE_RULES.push(G=>{ try{ S.phone(G); }catch(e){ console.warn('CL123 phone',e); } }); STORY._cl123pr=true; }
   return S;
 })();
