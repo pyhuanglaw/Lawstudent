@@ -16569,8 +16569,8 @@
    "msg": "ACK",
    "what": "總圖大廳核心、樓梯下面、中庭柱子當跟隨鏡頭隔間牆＋室內樹葉子網點透空（cam_libhall_core_1031.patch、library_hall_cam_core_unit）",
    "task": "BUG-CAM-LIBHALL-CORE-1031",
-   "integration": "已整合待測試",
-   "note": "LAWWW-B 14:4x 從 outbox 收、四個 patch 依序套上；相關 Node（bookstore／wz_shops／library_hall_cam_core／campus_hall_pillar／nav_buildings／singleside）ALL PASS"
+   "integration": "已驗收",
+   "note": "LAWWW-B 14:4x 從 outbox 收、四個 patch 依序套上；相關 Node（bookstore／wz_shops／library_hall_cam_core／campus_hall_pillar／nav_buildings／singleside）ALL PASS｜【11-01 08:1x LAWWW-B】任務已由 BB-B n37_lhcore2（BB_218 3295744fe，v9.10.15 main）驗收，交付跟著改已驗收"
   },
   {
    "id": "DL-LW2-WZSHOPS-LM-1031",
@@ -16608,8 +16608,8 @@
    "msg": "ACK",
    "what": "總圖大廳核心鏡頭第二輪（cam_libhall_core_v2_1031.patch：library3d.js 拖鏡頭時只擋樓梯井薄板＋書架葉子網點透空、更正第一輪葉子透空沒作用；library_hall_cam_core_unit）",
    "task": "BUG-CAM-LIBHALL-CORE-1031",
-   "integration": "已整合待測試",
-   "note": "LAWWW-B 18:3x 套上：apply 乾淨；gym 系列 10 支、library_hall_cam_core、library_copier、nav_buildings ALL PASS"
+   "integration": "已驗收",
+   "note": "LAWWW-B 18:3x 套上：apply 乾淨；gym 系列 10 支、library_hall_cam_core、library_copier、nav_buildings ALL PASS｜【11-01 08:1x LAWWW-B】任務已由 BB-B n37_lhcore2（BB_218 3295744fe，v9.10.15 main）驗收，交付跟著改已驗收"
   },
   {
    "id": "DL-LW2-GYM-V5-ARENA-1031",

@@ -38020,7 +38020,8 @@
     "acceptance": "10/15、2027-10-13 讀進來不演搬 312；9/6 照演；9/7 照演但沒有「明天開學」",
     "receiver": "BB",
     "ack": "ACTIONED"
-   }
+   },
+   "evidence": "BB-B BB_218 n40_kai_sheet（BB 分支 claude/elegant-brown-fcos7n b37d44812；開發分支 81dd3258c 瀏覽器，Playwright＋SwiftShader，不是 iPhone）ALL PASS：econ（2024-09-23→2025-07-14 沒有 dp_kai_sheet、其他 dp_ 20 則照收）、y2（大二上照收）、old（舊存檔從第 1 種開始）；tests/kai_sheet_y0_unit.js 修改前 FAIL 2"
   },
   {
    "id": "GYM-B1-PLATES-1101",
