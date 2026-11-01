@@ -91,7 +91,9 @@ let spent=0; GM.money=d=>{ spent-=d; };   /* 付錢（consequences.money）走 G
   check('5. 台詞逐字、順序照 BB_96 3-1',JSON.stringify(L.map(norm))===JSON.stringify(WANT),JSON.stringify(L));
   check('5. 沒有選項（問出那一句就是選擇）',opts.length===0,JSON.stringify(opts));
   const k=z3.dialogue.findIndex(l=>l.text==='你是——'); check('5. 「你是——」不說完：那一句就停、下一句是她搖頭（沒有「第一個問我的人」）',k>0&&z3.dialogue[k+1].speaker===null&&!/第一個/.test(JSON.stringify(z3)),String(k));
-  const ex=z3.dialogue.filter(l=>l.speaker==='heroine_02').map(l=>l.expression); check('5. 表情：問了以後 surprised → neutral → embarrassed → smile',JSON.stringify(ex.slice(1))==='["surprised","neutral","neutral","embarrassed","smile","smile"]',JSON.stringify(ex));
+  /* AA_554（BB_187 1-1）：和她交往中最後多兩句（帶 if 的那兩行），表情照 smile——這裡看原本的順序（不帶 if 的行），另外確認那兩句還是 smile */
+  const ex=z3.dialogue.filter(l=>l.speaker==='heroine_02'&&!l.if).map(l=>l.expression), exDH=z3.dialogue.filter(l=>l.speaker==='heroine_02'&&l.if).map(l=>l.expression);
+  check('5. 表情：問了以後 surprised → neutral → embarrassed → smile（和她交往中多的兩句也是 smile）',JSON.stringify(ex.slice(1))==='["surprised","neutral","neutral","embarrassed","smile","smile"]'&&exDH.every(x=>x==='smile'),JSON.stringify([ex,exDH]));
   check('6. 記憶 ASKED_HER_DRINK',SOCIAL.has('heroine_02','ASKED_HER_DRINK'));
   check('6. 只一次：發生過就不再開始',!EVENTS.check(z3));
   /* 遊戲任何地方都不提示她喝什麼 */

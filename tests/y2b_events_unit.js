@@ -134,13 +134,15 @@ const answer=(id,k)=>PHONE.answer(G,id,k);
   CG_REGISTRY.cg_last_shift_heroine02={file:'x'}; fresh('2027-06-03',21.2,'cafe',{CAFE_VISITS:5}); R('heroine_02','FAM'); date('kexin'); await run('ev_zhiruo_last_shift');
   check('Z3. 交往中（和可昕）：一疊票根、沒有 CG、沒有「我的那杯」', has('常客一人一張。我不在的時候，去看一部電影。看完寫一句話，寄到店裡。我會回。')&&cgs.length===0&&!has('……我的那杯，我沒有教她。'));
   fresh('2027-06-03',21.2,'cafe',{CAFE_VISITS:5}); R('heroine_02','FAM'); date('heroine_02'); SOCIAL.remember('heroine_02','ASKED_HER_DRINK',''); await run('ev_zhiruo_last_shift');
-  check('Z5. 和芷若交往中（AA_338 第 0 節更正 AA_336 B2）：照主版——只給他一張、有 ASKED_HER_DRINK 的「……我的那杯，我沒有教她。」；不是一疊票根', has('（從包包拿出一張電影票根）幫我做一件事。')&&has('……我的那杯，我沒有教她。')&&!has('常客一人一張。我不在的時候，去看一部電影。看完寫一句話，寄到店裡。我會回。')&&cgs.join()==='cg_last_shift_heroine02', JSON.stringify(lines()));
+  /* AA_554（企劃線 AA-B 2026-10-31，比 AA_338 新）：和芷若交往中走 BB_189 2-4 的「和她交往中」版本——「幫我做一件事。」（BCG-15 照放）之後換兩句、ASKED_HER_DRINK 不另加句子（tests/aa554_dating_unit.js 第 3 節）。一疊票根照舊只給和別人交往中的 */
+  check('Z5. 和芷若交往中（AA_554：BB_189 2-4）：只給他一張；「幫我做一件事。」之後是「我不在的時候，你去看一部電影。看完傳一句話給我。」「還有，每個星期天晚上十點我打給你。…」、沒有「……我的那杯，我沒有教她。」；不是一疊票根', has('（從包包拿出一張電影票根）幫我做一件事。')&&has('我不在的時候，你去看一部電影。看完傳一句話給我。')&&has('還有，每個星期天晚上十點我打給你。台灣時間。我媽那邊，我改早上打。')&&!has('……我的那杯，我沒有教她。')&&!has('常客一人一張。我不在的時候，去看一部電影。看完寫一句話，寄到店裡。我會回。')&&cgs.join()==='cg_last_shift_heroine02', JSON.stringify(lines()));
   fresh('2027-06-03',21.2,'cafe',{CAFE_VISITS:5}); R('heroine_02','FAM'); await run('ev_zhiruo_last_shift'); delete CG_REGISTRY.cg_last_shift_heroine02;
   check('Z1. CG 登錄了才放（BCG-15）', cgs.join()==='cg_last_shift_heroine02');
   fresh('2027-09-02',10.5,'dorm'); R('heroine_02','FAM'); ct('heroine_02'); rules();
   check('Z4. 沒去：9/2 三則，第一則說清楚去英國；TICKET_STUB、missed', txt('p:heroine_02').join('|')==='heroine_02:今天出發去英國了。|heroine_02:櫃台有一張電影票根，給你的，跟老闆拿。|heroine_02:我不在的時候，去看一部電影。看完寫一句話給我。'&&SOCIAL.has('heroine_02','TICKET_STUB')&&G.flags.ZR_LAST_SHIFT==='missed');
   fresh('2027-09-02',10.5,'dorm'); R('heroine_02','FAM'); ct('heroine_02'); date('heroine_02'); rules();
-  check('Z4b. 沒去、和芷若交往中：9/2 照主版（給你的那一張）', txt('p:heroine_02').join('|')==='heroine_02:今天出發去英國了。|heroine_02:櫃台有一張電影票根，給你的，跟老闆拿。|heroine_02:我不在的時候，去看一部電影。看完寫一句話給我。', JSON.stringify(txt('p:heroine_02')));
+  /* AA_554：錯過最後一班、和她交往中＝BB_189 2-4 的三則（9/2 沒去送機：照原本 10:00 傳；去了送機的在 src/aa554_3d.js） */
+  check('Z4b. 沒去、和芷若交往中（AA_554：BB_189 2-4）：9/2「今天出發了。」「櫃台有一張票根，你的，跟老闆拿。」「星期天晚上十點。不要忘記。」', txt('p:heroine_02').join('|')==='heroine_02:今天出發了。|heroine_02:櫃台有一張票根，你的，跟老闆拿。|heroine_02:星期天晚上十點。不要忘記。', JSON.stringify(txt('p:heroine_02')));
   fresh('2027-09-02',10.5,'dorm'); R('heroine_02','FAM'); ct('heroine_02'); date('kexin'); rules();
   check('Z4c. 沒去、和別人（可昕）交往中：9/2 一疊票根那一版', txt('p:heroine_02').join('|')==='heroine_02:今天出發去英國了。|heroine_02:櫃台有一疊電影票根，常客一人一張，跟老闆拿。|heroine_02:看完寫一句話，寄到店裡。我會回。', JSON.stringify(txt('p:heroine_02')));
 
