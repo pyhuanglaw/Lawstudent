@@ -1,11 +1,11 @@
 {
- "objects": 134,
- "unique_meshes": 126,
+ "objects": 135,
+ "unique_meshes": 127,
  "tris": 61516,
  "tris_drawn": 74374,
  "materials": 58,
  "out": "assets/models/env/second_ai/us_shared.glb",
- "bytes": 3605768,
+ "bytes": 3606576,
  "texres": 512,
  "layout": 1,
  "furniture": 37

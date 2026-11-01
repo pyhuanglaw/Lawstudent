@@ -9,7 +9,7 @@ from playwright.async_api import async_playwright
 URL, OUT, TAG = sys.argv[1], sys.argv[2], sys.argv[3]
 OPT = dict(a[2:].split('=', 1) for a in sys.argv[4:] if a.startswith('--') and '=' in a)
 os.makedirs(OUT, exist_ok=True)
-HIDE_HUD = "#hud,#hudR,#joy,#interact,#minimap,#btnMenu,#btnRun,#ctlR,#goal,#toast,#caption,#clock,#bar,#energy,#money,#mdbg,#fps,#devErr,#rotate,#phoneBtn,#phone,#outingPanel,.outing,#choiceBox{display:none!important}"
+HIDE_HUD = "#hud,#hudR,#joy,#interact,#minimap,#btnMenu,#btnRun,#ctlR,#goal,#toast,#caption,#clock,#bar,#energy,#money,#mdbg,#fps,#devErr,#rotate,#phoneBtn,#phone,#choices{display:none!important}"   # #choices：11/6 那天的出遊選單（「出發：映月湖 17:45」，讀檔直接跳到那天才會掛著）
 # 鏡頭：E12 的位置 (−34.6, −97) 面向北（湖）；南岸往西北看整個湖；木棧道口看湖心亭
 VIEWS = [
     ('e12', {'pos': [-34.6, 3.3, -91.6], 'look': [-36.5, 1.2, -112.0]}, True),

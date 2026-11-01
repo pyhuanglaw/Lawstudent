@@ -222,8 +222,9 @@ lathe(gold, [(0.16, YA - 0.02, 0.2, YA + 0.06, lambda u, v: (u, v), 'out'), (0.2
              (0.06, YA + 0.4, 0.09, YA + 0.48, lambda u, v: (u, v), 'out'), (0.09, YA + 0.48, 0.0, YA + 0.62, lambda u, v: (u, v), 'out')], 12, M=T(PX, 0, PZ))
 
 # 宮燈（ART-ECON-3D-GAP-1021 D，LAWWW2-B 11-01：E12「湖對面的燈一盞一盞亮起來」11/6 17:45 已經天黑，湖心亭原本沒有燈）：
-#   亭子正中間從天花（寶頂下 y 4.67）吊下來的六角宮燈：金色吊桿、紅漆上下蓋、米黃燈紙（lake_lantern_paper，遊戲晚上發光）、紅色流蘇。燈底 2.55 m（柱子 2.78 m）
-LANT_Y0, LANT_Y1 = 2.62, 3.02
+#   亭子正中間從天花（寶頂下 y 4.67）吊下來的六角宮燈：金色吊桿、紅漆上下蓋、米黃燈紙（lake_lantern_paper，遊戲晚上發光）、紅色流蘇。
+#   燈身 2.12～2.44 m：要在柱頭之間的額枋（2.48～2.84 m）下面——第一版掛在 2.62～3.02，從亭子外面看整個被額枋擋住（遊戲內截圖）；流蘇最低 1.98 m（人物最高 1.85 m，走到亭子中間不會穿過）
+LANT_Y0, LANT_Y1 = 2.12, 2.44
 lathe(gold, [(0.014, LANT_Y1 + 0.08, 0.014, YA - 0.08, lambda u, v: (u, v), 'out')], 6, M=T(PX, 0, PZ))
 lathe(red, [(0.25, LANT_Y1, 0.17, LANT_Y1 + 0.06, lambda u, v: (u, v), 'out'), (0.17, LANT_Y1 + 0.06, 0.06, LANT_Y1 + 0.09, lambda u, v: (u, v), 'out'),
             (0.255, LANT_Y0 - 0.06, 0.255, LANT_Y0, lambda u, v: (u, v), 'out'), (0.255, LANT_Y1, 0.255, LANT_Y1 + 0.005, lambda u, v: (u, v), 'out')], 6, a0=math.pi / 6,
@@ -233,7 +234,7 @@ lathe(pm('lantern', 'paper'), [(0.235, LANT_Y0, 0.265, (LANT_Y0 + LANT_Y1) / 2, 
 for k in range(6):                                                                                   # 六條直的紅框
     a = math.pi / 6 + k * math.pi / 3; ca, sa = math.cos(a), math.sin(a)
     bar(red, (PX + 0.262 * ca, LANT_Y0, PZ + 0.262 * sa), (PX + 0.262 * ca, LANT_Y1, PZ + 0.262 * sa), 0.03, 0.03, lambda p: (p[0], p[1]))
-lathe(red, [(0.03, LANT_Y0 - 0.36, 0.012, LANT_Y0 - 0.06, lambda u, v: (u, v), 'out')], 6, caps=[(0.03, LANT_Y0 - 0.36, lambda a, b: (a, b), 'down')], M=T(PX, 0, PZ))   # 流蘇
+lathe(red, [(0.03, LANT_Y0 - 0.14, 0.012, LANT_Y0 - 0.06, lambda u, v: (u, v), 'out')], 6, caps=[(0.03, LANT_Y0 - 0.14, lambda a, b: (a, b), 'down')], M=T(PX, 0, PZ))   # 流蘇（最低 1.98 m）
 
 # ================= 木棧道 =================
 plank, pile = pm('boardwalk', 'plank'), pm('boardwalk', 'pile')
