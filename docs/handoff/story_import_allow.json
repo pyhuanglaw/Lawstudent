@@ -626,6 +626,15 @@
    "note": "AA-C 交付：第 4 節給 LAWWW 的程式清單（以安兩句、語彤不在法服…）；2026-10-23 20:1x 改到 52900eb23（AB65-3-Y2S1-L、AA312-INTEGRATE-1020 子代理照這一版）"
   },
   {
+   "path": "docs/story_planning/AA_255_附錄_審稿原文.md",
+   "sha": "52900eb23",
+   "status": "approved",
+   "approvedBy": "AA-C 2026-10-17 12:4x（AA_255 檔首：「AA 人物：照附錄 A 的改法定稿」，例外與裁定在 AA_255 第 2 節；附錄 B 由 AA-C 2026-10-20 在 AA_255 檔尾另外定稿，不從這個檔讀）；附錄檔首的【文件狀態｜歷史】＝「現行以 AA_255 為準」，AA_255 指回這裡的改法",
+   "task": "AA255-Y2S2",
+   "kind": "text",
+   "note": "LAWWW-B 2026-11-01 子代理登記（AA255-Y2S2 收尾，分支 feat-aa255-1101）：附錄 A 第 1 節三列照字進遊戲（AA_255 第 4 節第 3、7 點）——課堂 admin_remedy 第 7 週以安「如果申請的是……呢？」、family_law 第 11 週阿哲「……最後還是教練決定。」由 tools/syllabus/import_syllabus.py 疊在 BB_102 的 JSON 上匯入（整句相同才換）；群組 y2_spring_plan 七則手動放進 story3d.js。附錄 A 其他列已經做了或被後來的稿取代（AA_313、AA_325、AA_497、AA_546、AA_558），不從這裡再讀。tests/aa255_y2s2_unit.js"
+  },
+  {
    "path": "docs/story_planning/AA_259_大三上口語改稿_AA與BB人物.md",
    "sha": "dd9b704aa",
    "status": "approved",
