@@ -173,6 +173,7 @@ HOOK = r"""(()=>{ if(window.__PLH) return 'again'; window.__PLH=1; window.__PL=[
   if(typeof ADV!=='undefined'&&ADV.begin){ const b0=ADV.begin; ADV.begin=function(o){ const bg=o&&o.background; push({k:'bg',n:'',t:typeof bg==='string'?bg:JSON.stringify(bg||null)}); return b0.apply(this,arguments); }; }
   if(GAME.titleCard){ const t0=GAME.titleCard; GAME.titleCard=function(a,b){ push({k:'card',n:String(a||''),t:String(b||'')}); return t0.apply(this,arguments); }; }
   if(GAME.toast){ const o0=GAME.toast; GAME.toast=function(t){ push({k:'toast',n:'',t:String(t||'')}); return o0.apply(this,arguments); }; }
+  const te=document.getElementById('toast'); if(te){ let lt=''; new MutationObserver(()=>{ const h=(te.textContent||'').trim(); if(h&&h!==lt){ lt=h; push({k:'toast',n:'dom',t:h}); } }).observe(te,{childList:true,subtree:true,characterData:true}); }   /* game3d.js 自己的 toast() 不經過 GAME.toast（user_items_probe 記過）：看 #toast 的字 */
   const el=document.getElementById('title3'); if(el){ let last=''; new MutationObserver(()=>{ const h=el.innerHTML||''; if(h&&h!==last){ last=h; push({k:'t3',n:'',t:h}); } }).observe(el,{childList:true,subtree:true,characterData:true}); }
   return 'ok'; })()"""
 NAMES = """(id=>{ const s=new Set(); try{ s.add(SOCIAL.displayName(id)); }catch(e){} try{ s.add(SOCIAL.npcName(id)); }catch(e){} const c=(typeof CHARACTERS!=='undefined'&&CHARACTERS[id])||{}; if(c.name) s.add(c.name); if(c.nickname) s.add(c.nickname); return [...s].filter(Boolean); })"""
@@ -655,7 +656,7 @@ async def m_vac_heroine(pg, cdp, run):
     R = await rows(pg, n0)
     rec = await pg.evaluate("(()=>{ const R=HASK.rec(GAME.G); return R.sent.filter(x=>x.id==='heroine_01').map(x=>({sid:x.sid,vs:x.vs||null,place:x.place,state:x.state,ans:x.ans||null,day:CALENDAR.dateOf(x.day).key,h:x.h,send:x.send&&[CALENDAR.dateOf(x.send.day).key,x.send.h],firstSaid:!!x.firstSaid,iv:x.iv||null})); })()")
     ivs = await pg.evaluate("(()=>(GAME.G.invites||[]).filter(x=>x.who==='heroine_01').map(x=>({id:x.id,state:x.state,day:CALENDAR.dateOf(x.day).key,h:x.h,place:x.place,hask:x.hask||null})))()")
-    msg = await pg.evaluate("(t=>(GAME.G.msgs||[]).filter(m=>m&&m.th==='p:heroine_01'&&m.text===t).map(m=>[CALENDAR.dateOf(m.day).key,m.h]))", AN_LINE)
+    msg = await pg.evaluate("(t=>(GAME.G.msgs||[]).filter(m=>m&&(PHONE.th?PHONE.th(m):m.th)==='p:heroine_01'&&m.text===t).map(m=>[CALENDAR.dateOf(m.day).key,m.h]))", AN_LINE)
     run.note('HASK 傳的：%s；邀約：%s；她的訊息：%s；手機上看到：%s' % (J(rec), J(ivs), J(msg), J(seen)))
     run.check('她傳「%s」（手機收到；HASK sent 記 vs summer、地點總圖）' % AN_LINE, bool(msg) and any(r['vs'] == 'summer' and r['place'] == 'library' for r in rec), J({'msg': msg, 'rec': rec}))
     run.check('在她的對話按「答應」（手機上有答應／改天／不了）', any(v.get('btn') for v in seen.values()), J(seen))
@@ -769,7 +770,7 @@ async def zr_reunion(pg, cdp, run, zr):
         st, d = await state_at(pg, key, 20.67, 'dorm')
         await load(pg, cdp, run, st, '重逢：最小存檔 %s 20:40 宿舍；和芷若交往中、首爾交流（C08@Y1 7/13～7/24）參加完' % key, js=js)
         await play(pg, cdp, run, "GAME.G.hour>=21.25", max_s=420, ff=False, tag='reunion_%s' % key)
-        th = await pg.evaluate("(()=>(GAME.G.msgs||[]).filter(m=>m&&m.th==='p:heroine_02').map(m=>[CALENDAR.dateOf(m.day).key,m.h,m.text]))()")
+        th = await pg.evaluate("(()=>(GAME.G.msgs||[]).filter(m=>m&&(PHONE.th?PHONE.th(m):m.th)==='p:heroine_02').map(m=>[CALENDAR.dateOf(m.day).key,m.h,m.text]))()")
         q = await pg.evaluate("(()=>{ const q=OUT.get(GAME.G,'vac_C08@Y1_re_heroine_02'); return q?{day:CALENDAR.dateOf(q.day).key,h:q.h,place:q.place,state:q.state}:null; })()")
         txt = [x[2] for x in th]
         if not want:
@@ -846,7 +847,7 @@ async def m_date_away(pg, cdp, run):
     if cf: await tap_prefix(pg, cdp, cf, '就這樣約')
     await play(pg, cdp, run, None, max_s=40, ff=False, tag='away_after_book')
     R = await rows(pg, n0); L_ = said(R); toasts = [r['t'] for r in R if r['k'] == 'toast']
-    th = await pg.evaluate("(()=>(GAME.G.msgs||[]).filter(m=>m&&m.th==='p:heroine_02').slice(-3).map(m=>String(m.text||'')))()")
+    th = await pg.evaluate("(()=>(GAME.G.msgs||[]).filter(m=>m&&(PHONE.th?PHONE.th(m):m.th)==='p:heroine_02').slice(-3).map(m=>String(m.text||'')))()")
     trips = await pg.evaluate("(()=>(GAME.G.trips||[]).map(t=>({trip:t.trip,who:t.who,locs:t.locs,d:CALENDAR.dateOf(t.day).key,depart:t.depart,status:t.status})))()")
     busy = [t for t in [x[1] for x in L_] + toasts + th if '她那時候' in t or '隔天她' in t]
     run.check('她答應「%s」（不是「她那時候有事」）、排好 7/6 D26' % ZY_YES, (any(t == ZY_YES for _, t in L_) or ZY_YES in th) and not busy and any(t['locs'] == ['D26'] and t['d'] == '2026-07-06' and t['status'] == 'booked' for t in trips), J({'said': L_[-4:], 'thread': th, 'busy': busy, 'trips': trips}))
