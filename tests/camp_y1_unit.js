@@ -90,6 +90,8 @@ const day=k=>STORY.dayOfKey(k);
     check('H1. 搬宿舍時就排好 8/31 22:10 可昕開學前一晚（KX_EVE_MSG）',q.includes('kx_eve')&&G.flags.KX_EVE_MSG===true,q.join(' '));
     G.day=day('2025-08-31'); G.weekday=0; G.hour=7.5;
     check('H0. BUG-CER831-SLEEP-1031（BB-B n36 ②）：8/31 典禮還沒演＝ceremonyDue；早上睡覺（睡到傍晚）在 14:00 被叫醒（lawWakeAt＝14）',STORY.ceremonyDue(G)&&STORY.lawWakeAt(G)===14,String(STORY.lawWakeAt(G)));
+    G.hour=9; { const st=STORY.outStopsToday(G,9), bo=(STORY.bedOptions(G)||[]).find(o=>o.t==='睡到傍晚（不設鬧鐘）');
+      check('H0b. BB-B 10-31 cer831：8/31 09:00 上床——停點有 14:00「開學典禮」、「睡到傍晚」寫 14:00 會叫醒你（小睡、跳過時間走 CLS.STOP_FNS／outStopsToday）',st.some(o=>o.h===14&&/開學典禮/.test(o.why))&&!!bo&&/14:00/.test(bo.hint),JSON.stringify([st,bo&&bo.hint])); }
     G.hour=18; check('H0. 14:00 以後不再叫醒（睡下去前床先演典禮：bedScene）',STORY.lawWakeAt(G)==null&&STORY.ceremonyDue(G));
     G.hour=14.05; said=[]; cards=[]; await STORY.ceremonyY1(GM);
     check('H2. 典禮：日期卡「8 月 31 日（日）｜14:00 · 綜合體育館」、三句旁白照順序、演完 15:30',cards.includes('8 月 31 日（日）｜14:00 · 綜合體育館')&&said.join('|')==='四千多個新生，每個人都穿著同一件新生上衣。|法律系的位置在二樓看台的右邊。旁邊的人在對手冊上的流程，前面的人在傳訊息問晚上要不要一起吃飯。|校長致詞講到一半，手機震了一下。你被加進一個群組。'&&Math.abs(G.hour-15.5)<1e-6&&G.flags.CEREMONY_Y1===true,cards.join('/')+' '+said.join('|'));

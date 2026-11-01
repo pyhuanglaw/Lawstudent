@@ -1,0 +1,193 @@
+diff --git a/tests/singleside_us_unit.js b/tests/singleside_us_unit.js
+index 7ed149ed9..b1cffe9c1 100644
+--- a/tests/singleside_us_unit.js
++++ b/tests/singleside_us_unit.js
+@@ -3,6 +3,7 @@
+ //   1. us_apartment、us_shared、us_lawlib、us_asian_market、us_bed_c 除了玻璃都單面；玻璃照舊雙面；
+ //      遊戲照名字接手、網格不動的零件，只有它們在用的材質照舊雙面：亞洲超市門外的景（usam_view，一片、正面朝外——第一次改單面，從店裡看整片不見）、公寓和 C 棟的門牌（usa_plate）；
+ //   2. 開口的零件補了反面（每個三角形都有反過來的分身）：法圖的鐵絲雕塑、亞洲超市的層架、公寓的窗簾、C 棟臥室的版畫；
++//      2b：有光照貼圖的（10-31 起亞洲超市的層架、公寓的窗簾）烘焙時拿掉了反面，改檢查烘過、沒有反面；
+ //   3. 原本就單面的天花板（朝下：鏡頭超過天花板高度時看得穿）沒有補朝上的那一面：公寓、C 棟 208、C 棟臥室；
+ //   4. 家具都在（公寓 33 件、C 棟 208 37 件——匯出時少了 aa_support／bb_support 的道具組，腳本會安靜地跳過，第一次在舊的測試樹匯出 C 棟 208 只剩 1.2 萬個三角形）；
+ //   5. 沒有裡外相反的薄零件（封閉、方向一致、體積是負的、有一邊 1 mm～1 m；單面會從外面看到背面）。
+@@ -26,8 +27,13 @@ for(const [k,G] of Object.entries(GL)){ const kp=KEEP2[k], ds=G.mats.filter(m=>m
+   check('1. '+k+'：除了玻璃'+(kp?'、'+kp.source.replace(/[\^$]/g,''):'')+'都單面（'+G.mats.length+' 個材質）；玻璃'+(kp?'和它':'')+'照舊雙面', !ds.length&&gl.length>0&&gl.every(m=>m.doubleSided)&&kk.every(m=>m.doubleSided)&&(!kp||kk.length===1), ds.length?'雙面：'+ds.slice(0,8).join(' '):gl.concat(kk).map(m=>m.name+(m.doubleSided?'':'(單面)')).join(' ')); }
+ check('1. 亞洲超市門外的景（usam_view）還在', GL.us_asian_market.J.nodes.some(nd=>nd.name==='usam_view'&&nd.mesh!=null));
+ const P2=[['法圖 鐵絲雕塑',GL.us_lawlib,/^usll_wire_sculpture$/],['亞洲超市 層架',GL.us_asian_market,/^usam_shelf$/],['公寓 窗簾',GL.us_apartment,/^usa_curtain$/],['C 棟臥室 版畫',GL.us_bed_c,/^us_bed_c_print$/]];
+-const r2=P2.map(([n,G,re])=>{ const [ok,nt]=paired(G,re); return [n,ok,nt]; });
+-check('2. 開口的零件有反面（至少一半的三角形有反過來的分身）', r2.every(([,ok,nt])=>nt>0&&ok>=nt*0.5), r2.map(([n,ok,nt])=>n+' '+ok+'/'+nt).join('  '));
++/* 2b（INTERIOR-AAA 美國室內光照烘焙，LAWWW2-B 10-31；和 singleside_gym_unit 的 2b 同一個做法）：有光照貼圖的零件（亞洲超市的層架、公寓的窗簾）烘焙時拿掉了疊在一起的反面
++   （不拿掉的話光一出去就打到反面，整面烘成全黑；bake_room.py 留朝房間的那一面）——這種零件改檢查：有第二套 UV（烘過）、沒有反面。沒有烘的照舊檢查有反面 */
++const lmOf=(G,re)=>{ const ps=G.prims.filter(x=>re.test(x.mat)); return ps.length>0&&ps.every(x=>x.p.attributes.TEXCOORD_1!=null); };
++const r2=P2.map(([n,G,re])=>{ const [ok,nt]=paired(G,re); return [n,ok,nt,lmOf(G,re)]; });
++const r2a=r2.filter(x=>!x[3]), r2b=r2.filter(x=>x[3]);
++check('2. 開口的零件有反面（至少一半的三角形有反過來的分身）', r2a.length>0&&r2a.every(([,ok,nt])=>nt>0&&ok>=nt*0.5), r2a.map(([n,ok,nt])=>n+' '+ok+'/'+nt).join('  '));
++check('2b. 有光照貼圖的開口零件：烘過（第二套 UV）、疊在一起的反面拿掉了', r2b.every(([,ok,nt])=>nt>0&&ok===0), r2b.length?r2b.map(([n,ok,nt])=>n+' 反面 '+ok+'/'+nt).join('  '):'（沒有烘過的）');
+ const P3=[['公寓 天花板',GL.us_apartment,'usa_ceiling'],['C 棟 208 天花板',GL.us_shared,'usa_ceiling'],['C 棟臥室 天花板',GL.us_bed_c,'us_bed_c_ceiling']];
+ const r3=P3.map(([n,G,m])=>{ const [ok,nt]=paired(G,new RegExp('^'+m+'$')); const mm=G.mats.find(x=>x.name===m); return [n,ok,nt,mm&&!mm.doubleSided]; });
+ check('3. 原本就單面的天花板沒有補朝上的面（照舊單面）', r3.every(([,ok,nt,ss])=>nt>0&&ok===0&&ss), r3.map(([n,ok,nt])=>n+' '+ok+'/'+nt).join('  '));
+diff --git a/tests/us_apartment_lm_unit.js b/tests/us_apartment_lm_unit.js
+new file mode 100644
+index 000000000..956681a3e
+--- /dev/null
++++ b/tests/us_apartment_lm_unit.js
+@@ -0,0 +1,31 @@
++// 美國公寓（祐廷的單人戶 us_apartment）室內的光照貼圖（INTERIOR-AAA-REVIEW-1028 美國那一批，LAWWW2-B 2026-10-31）——不需要瀏覽器。
++// us3d.js 的公寓區域（aptZone）用 Z3.attachRoomGLB 接 us_apartment.glb，看到場景的 extras.lightmap 就接光照貼圖（和台灣那幾間一樣，不用改程式）。這支檢查：
++//   ①extras.lightmap 白天、晚上兩張都在
++//   ②地板（木地板、地毯、衛浴磁磚、陽台和平台的水泥）、天花板、牆（含會淡出的 WALL_ 牆）、門、踢腳板、屋簷、家具有第二套 UV（TEXCOORD_1）
++//   ③玻璃、百葉、窗外的景和停車場、燈的光暈、壁燈、鍍鉻、黑色小零件、門牌照舊即時光（沒有第二套 UV）
++//   ④陽台椅、吧檯椅照舊是 GPU instancing、不烘
++//   ⑤窗外的景照舊在 SEASON_SNOW_on／off 底下（aptSeason 換雪景、aptSouthView 複製到南、東、西三面要用）
++//   ⑥公寓區域照舊用 attachRoomGLB 接正式模型，接完照舊 aptSouthView、aptSeason
++// 用法：node tests/us_apartment_lm_unit.js
++const fs=require('fs'), path=require('path');
++const ROOT=path.resolve(__dirname,'..');
++let fails=0; const check=(name,ok,info)=>{ console.log((ok?'PASS ':'FAIL ')+name+(info?'　'+info:'')); if(!ok) fails++; };
++const REL='assets/models/env/second_ai/us_apartment.glb', b=fs.readFileSync(path.join(ROOT,REL)), n=b.readUInt32LE(12), j=JSON.parse(b.slice(20,20+n).toString('utf8'));
++const sc=j.scenes[j.scene||0], lm=sc.extras&&sc.extras.lightmap, files=lm?['day','night'].map(t=>lm[t]):[];
++check('① extras.lightmap 的白天、晚上兩張都在',!!lm&&files.length===2&&files.every(f=>f&&fs.existsSync(path.join(ROOT,f))),JSON.stringify(lm||null).slice(0,220));
++const node=nm=>j.nodes.find(x=>x.name===nm);
++const uv1=nm=>{ const nd=node(nm); if(!nd||nd.mesh==null) return null; return j.meshes[nd.mesh].primitives.every(p=>p.attributes.TEXCOORD_1!=null); };
++const BAKE=['usa_wood','usa_carpet','usa_tile','usa_concrete','usa_ceil','usa_wall','WALL_N_wall','WALL_S_wall','WALL_bed_w_wall','usa_door','usa_trim','usa_roof','US_SOFA.001','US_BED.001','US_COUNTER.001','US_DESK.001'];
++const got=BAKE.map(x=>[x,uv1(x)]);
++check('② 地板、天花板、牆、門、踢腳板、屋簷、家具有第二套 UV',got.every(([,v])=>v===true),JSON.stringify(got.filter(([,v])=>v!==true)));
++const LIVE=['usa_glass','usa_blinds','usa_view_on','usa_view_off','usa_lot_on','usa_lot_off','US_CEILINGFAN_GLOW.001','usa_sconce','usa_chrome','usa_black','PLATE_FACE_door_front'];
++const live=LIVE.map(x=>[x,uv1(x)]);
++check('③ 玻璃、百葉、窗外的景、光暈、壁燈、鍍鉻、黑色零件、門牌沒有第二套 UV（照舊即時光）',live.every(([,v])=>v===false),JSON.stringify(live.filter(([,v])=>v!==false)));
++{ const inst=j.nodes.filter(x=>x.extensions&&x.extensions.EXT_mesh_gpu_instancing), baked=inst.filter(x=>uv1(x.name)!==false).map(x=>x.name);
++  check('④ 陽台椅、吧檯椅照舊是 GPU instancing、不烘',inst.length>=2&&!baked.length,'instancing '+inst.length+(baked.length?'；烘了：'+baked.join(','):'')); }
++{ const kids=g=>{ const nd=node(g); return nd?(nd.children||[]).map(i=>j.nodes[i].name).sort().join(','):null; };
++  const on=kids('SEASON_SNOW_on'), off=kids('SEASON_SNOW_off');
++  check('⑤ 窗外的景、停車場照舊在 SEASON_SNOW_on／off 底下',on==='usa_lot_on,usa_view_on'&&off==='usa_lot_off,usa_view_off','on '+on+'；off '+off); }
++{ const src=fs.readFileSync(path.join(ROOT,'src/us3d.js'),'utf8'), i=src.indexOf('function aptZone('), body=i>=0?src.slice(i,i+12000):'';
++  check('⑥ 公寓區域照舊用 attachRoomGLB 接正式模型，接完照舊 aptSouthView、aptSeason',/Z3\.attachRoomGLB\(z,g0,fb,root\);\s*aptSouthView\(root\);\s*aptSeason\(root\);/.test(body),body?'':'找不到 aptZone'); }
++console.log(fails?('FAIL '+fails):'ALL PASS'); process.exit(fails?1:0);
+diff --git a/tests/us_apt_siding_unit.js b/tests/us_apt_siding_unit.js
+new file mode 100644
+index 000000000..2b4c50d8d
+--- /dev/null
++++ b/tests/us_apt_siding_unit.js
+@@ -0,0 +1,30 @@
++// 美國公寓（祐廷的單人戶 us_apartment、學姊她們的 C 棟合租戶 us_shared）外牆的壁板有沒有在窗、門的地方挖洞（LAWWW2-B 2026-10-31）——不需要瀏覽器，讀 GLB。
++// 找到的經過：美國公寓光照烘焙，白天屋裡幾乎沒有天光；查下去是外牆外面那一層壁板（WALL_<面>_siding）整面一片，沒有照牆的開口挖洞——
++//   北牆的兩扇窗、陽台玻璃門，從屋裡看出去看到的是自己壁板的背面（一條一條的色帶），做好的窗外景（usa_view：對面的公寓、樹林）整個被擋住；
++//   南牆的大門從門外的平台看是一片壁板（走得過去：等於穿牆）。
++// 修法：us_apartment.py 的壁板照牆的開口（窗：0.9～2.1 m、門：0～2.05 m）分段，開口的地方不做。
++// 檢查（兩個 GLB 各一次）：外牆（N、S、W、E）每個開口的中心點，壁板沒有三角形蓋住；壁板還在（開口以外的地方有）。
++// 用法：node tests/us_apt_siding_unit.js
++const fs=require('fs'), path=require('path');
++const ROOT=path.resolve(__dirname,'..');
++let fails=0; const check=(name,ok,info)=>{ console.log((ok?'PASS ':'FAIL ')+name+(info?'　'+info:'')); if(!ok) fails++; };
++function layout(file,name){ const src=fs.readFileSync(path.join(ROOT,file),'utf8'), k='const '+name+'=', i=src.lastIndexOf(k); return JSON.parse(src.slice(i+k.length).trim().replace(/;\s*$/,'')); }
++function sidingTris(glb,nodeName){ const b=fs.readFileSync(path.join(ROOT,glb)), n=b.readUInt32LE(12), j=JSON.parse(b.slice(20,20+n).toString('utf8')), bin=b.slice(20+n+8);
++  const nd=j.nodes.find(x=>x.name===nodeName); if(!nd||nd.mesh==null) return null; const t=nd.translation||[0,0,0], out=[];
++  for(const p of j.meshes[nd.mesh].primitives){ const a=j.accessors[p.attributes.POSITION], bv=j.bufferViews[a.bufferView], o=(bv.byteOffset||0)+(a.byteOffset||0), st=bv.byteStride||12;
++    const V=k=>[0,1,2].map(c=>bin.readFloatLE(o+k*st+c*4)+t[c]);
++    const ia=j.accessors[p.indices], ib=j.bufferViews[ia.bufferView], io=(ib.byteOffset||0)+(ia.byteOffset||0), sz={5125:4,5123:2,5121:1}[ia.componentType];
++    const I=k=>sz===4?bin.readUInt32LE(io+k*4):sz===2?bin.readUInt16LE(io+k*2):bin.readUInt8(io+k);
++    for(let k=0;k<ia.count;k+=3) out.push([V(I(k)),V(I(k+1)),V(I(k+2))]); }
++  return out; }
++// 點 (u,v) 在三角形（投影到牆面：u＝沿牆、v＝高）裡
++function inTri(u,v,tr,axis){ const P=tr.map(q=>axis==='x'?[q[0],q[1]]:[q[2],q[1]]); const s=(a,b,c)=>(a[0]-c[0])*(b[1]-c[1])-(b[0]-c[0])*(a[1]-c[1]);
++  const p=[u,v], d1=s(p,P[0],P[1]), d2=s(p,P[1],P[2]), d3=s(p,P[2],P[0]); const neg=d1<0||d2<0||d3<0, pos=d1>0||d2>0||d3>0; return !(neg&&pos); }
++for(const [glb,lf,ln,label] of [['assets/models/env/second_ai/us_apartment.glb','src/data/us_apartment_layout.js','US_APARTMENT_LAYOUT','單人戶'],['assets/models/env/second_ai/us_shared.glb','src/data/us_shared_layout.js','US_SHARED_LAYOUT','C 棟合租戶']]){
++  const L=layout(lf,ln); let n=0; const bad=[], miss=[];
++  for(const w of L.walls[0].list){ if(!/^[NSWE]$/.test(w.id)) continue; const tris=sidingTris(glb,'WALL_'+w.id+'_siding'); if(!tris||!tris.length){ miss.push(w.id); continue; }
++    for(const [a,b,kind] of (w.open||[])){ n++; const u=(a+b)/2, v=kind==='window'?1.5:1.0; if(tris.some(tr=>inTri(u,v,tr,w.axis))) bad.push(w.id+' '+kind+' @'+u.toFixed(2)); }
++    const solid=(w.from+((w.open||[])[0]||[w.to])[0])/2; if(!tris.some(tr=>inTri(solid,1.0,tr,w.axis))) miss.push(w.id+'（開口以外沒有壁板）'); }
++  check(label+'：外牆的窗、門（'+n+' 個開口）壁板都有挖洞',n>=4&&!bad.length,bad.join('；'));
++  check(label+'：四面外牆的壁板還在',!miss.length,miss.join('；')); }
++console.log(fails?('FAIL '+fails):'ALL PASS'); process.exit(fails?1:0);
+diff --git a/tests/us_asian_market_lm_unit.js b/tests/us_asian_market_lm_unit.js
+new file mode 100644
+index 000000000..6abd5c2f8
+--- /dev/null
++++ b/tests/us_asian_market_lm_unit.js
+@@ -0,0 +1,42 @@
++// 美國竹葉亞洲超市（us_asian_market）室內的光照貼圖（INTERIOR-AAA-REVIEW-1028 美國那一批，LAWWW2-B 2026-10-31）——不需要瀏覽器。
++// us3d.js 的 us_asian_market 區域用 Z3.attachRoomGLB 接 us_asian_market.glb，看到場景的 extras.lightmap 就接光照貼圖（不用改程式）。這支檢查：
++//   ①extras.lightmap 白天、晚上兩張都在
++//   ②地板、天花板、輕鋼架、踢腳板、貨架、冷藏櫃的背板和框、收銀台、洞洞板、門口地墊、牆、紅色飾帶、正面的窗框有第二套 UV（TEXCOORD_1）
++//   ③發光面（燈盤、冷藏櫃的燈、燈籠、螢幕）、玻璃（正面、門、冷藏櫃的門）、門外的景、店外的停車場和人行道、商品、價格條、小東西、招牌照舊即時光（沒有第二套 UV）
++//   ④鏡頭比天花板高時要藏的天花板、輕鋼架、燈盤（us3d.js）照舊在
++//   ⑤區域照舊用 attachRoomGLB 接正式模型
++//   ⑥天花板朝下（光照烘焙會拿掉疊在一起的反面、只留一面：留下的要是朝下、從店裡看得到的那一面；第一版烘完天花板正面朝上，從店裡往上看整片不見）
++//   ⑦牆有朝室內的面（10-31 光照烘焙找到：腳本原本那一面朝外、遊戲裡看得到是靠單面化補的反面；烘焙拿掉反面後只剩朝外那面，從室內看牆整片不見）
++// 用法：node tests/us_asian_market_lm_unit.js
++const fs=require('fs'), path=require('path');
++const ROOT=path.resolve(__dirname,'..');
++let fails=0; const check=(name,ok,info)=>{ console.log((ok?'PASS ':'FAIL ')+name+(info?'　'+info:'')); if(!ok) fails++; };
++const REL='assets/models/env/second_ai/us_asian_market.glb', b=fs.readFileSync(path.join(ROOT,REL)), n=b.readUInt32LE(12), j=JSON.parse(b.slice(20,20+n).toString('utf8'));
++const sc=j.scenes[j.scene||0], lm=sc.extras&&sc.extras.lightmap, files=lm?['day','night'].map(t=>lm[t]):[];
++check('① extras.lightmap 的白天、晚上兩張都在',!!lm&&files.length===2&&files.every(f=>f&&fs.existsSync(path.join(ROOT,f))),JSON.stringify(lm||null).slice(0,220));
++const node=nm=>j.nodes.find(x=>x.name===nm);
++const uv1=nm=>{ const nd=node(nm); if(!nd||nd.mesh==null) return null; return j.meshes[nd.mesh].primitives.every(p=>p.attributes.TEXCOORD_1!=null); };
++const BAKE=['usam_floor','usam_ceiling','usam_grid','usam_kickplate','usam_shelves','usam_case_back','usam_case_frames','usam_counter_top','usam_wood','usam_pegboard','usam_entry_mat','WALL_N_wall','WALL_E_wall','WALL_W_wall','WALL_S_wall','WALL_N_band','WALL_S_mullions'];
++const got=BAKE.map(x=>[x,uv1(x)]);
++check('② 地板、天花板、輕鋼架、貨架、冷藏櫃、收銀台、牆、飾帶、窗框有第二套 UV',got.every(([,v])=>v===true),JSON.stringify(got.filter(([,v])=>v!==true)));
++const LIVE=['GLOW_usam_troffers','GLOW_usam_case','GLOW_usam_lanterns','GLOW_usam_screens','WALL_S_glass','WALL_S_door','usam_case_doors','usam_view','usam_out_lot','usam_out_walk','usam_out_lines','usam_products','usam_price','usam_vc','usam_signs','WALL_N_sign'];
++const live=LIVE.map(x=>[x,uv1(x)]);
++check('③ 發光面、玻璃、門外的景、店外、商品、價格條、小東西、招牌沒有第二套 UV（照舊即時光）',live.every(([,v])=>v===false),JSON.stringify(live.filter(([,v])=>v!==false)));
++{ const miss=['usam_ceiling','usam_grid','GLOW_usam_troffers'].filter(x=>!node(x)); check('④ 鏡頭在天花板上面時要藏的天花板、輕鋼架、燈盤照舊在',!miss.length,miss.join('、')); }
++{ const src=fs.readFileSync(path.join(ROOT,'src/us3d.js'),'utf8'), i=src.indexOf("ASSETS.loadOne('bldg.us_asian_market')"), body=i>=0?src.slice(i,i+600):'';
++  check('⑤ 照舊用 attachRoomGLB 接正式模型',/Z3\.attachRoomGLB\(z,g0,fb,root\)/.test(body),body?'':'找不到 us_asian_market 的載入'); }
++{ const nd=node('usam_ceiling'), bin=b.slice(20+n+8); let dn=0, up=0;
++  if(nd&&nd.mesh!=null) for(const p of j.meshes[nd.mesh].primitives){ const a=j.accessors[p.attributes.POSITION], bv=j.bufferViews[a.bufferView], o=(bv.byteOffset||0)+(a.byteOffset||0), st=bv.byteStride||12, V=k=>[0,1,2].map(c=>bin.readFloatLE(o+k*st+c*4));
++    const ia=j.accessors[p.indices], ib=j.bufferViews[ia.bufferView], io=(ib.byteOffset||0)+(ia.byteOffset||0), sz={5125:4,5123:2,5121:1}[ia.componentType], I=k=>sz===4?bin.readUInt32LE(io+k*4):sz===2?bin.readUInt16LE(io+k*2):bin.readUInt8(io+k);
++    for(let k=0;k<ia.count;k+=3){ const A=V(I(k)),B=V(I(k+1)),C=V(I(k+2)), ny=(B[2]-A[2])*(C[0]-A[0])-(B[0]-A[0])*(C[2]-A[2]); if(ny<0) dn++; else if(ny>0) up++; } }
++  check('⑥ 天花板有朝下的面（從店裡看得到）、沒有只剩朝上的',dn>0&&!(up>0&&dn===0),'朝下 '+dn+'、朝上 '+up+' 個三角形'); }
++function faceDirs(nodeName){ const nd=j.nodes.find(x=>x.name===nodeName), bin=b.slice(20+n+8), out={'+x':0,'-x':0,'+y':0,'-y':0,'+z':0,'-z':0};
++  if(!nd||nd.mesh==null) return null;
++  for(const p of j.meshes[nd.mesh].primitives){ const a=j.accessors[p.attributes.POSITION], bv=j.bufferViews[a.bufferView], o=(bv.byteOffset||0)+(a.byteOffset||0), st=bv.byteStride||12, V=k=>[0,1,2].map(c=>bin.readFloatLE(o+k*st+c*4));
++    const ia=j.accessors[p.indices], ib=j.bufferViews[ia.bufferView], io=(ib.byteOffset||0)+(ia.byteOffset||0), sz={5125:4,5123:2,5121:1}[ia.componentType], I=k=>sz===4?bin.readUInt32LE(io+k*4):sz===2?bin.readUInt16LE(io+k*2):bin.readUInt8(io+k);
++    for(let k=0;k<ia.count;k+=3){ const A=V(I(k)),B=V(I(k+1)),C=V(I(k+2)), u=[B[0]-A[0],B[1]-A[1],B[2]-A[2]], v=[C[0]-A[0],C[1]-A[1],C[2]-A[2]], nn=[u[1]*v[2]-u[2]*v[1],u[2]*v[0]-u[0]*v[2],u[0]*v[1]-u[1]*v[0]], L=Math.hypot(...nn)||1;
++      for(let c=0;c<3;c++){ if(nn[c]/L>0.9) out['+'+'xyz'[c]]++; else if(nn[c]/L<-0.9) out['-'+'xyz'[c]]++; } } }
++  return out; }
++{ const W=[['WALL_N_wall','+z'],['WALL_S_wall','-z'],['WALL_E_wall','-x'],['WALL_W_wall','+x']], bad=[]; for(const [nm,dir] of W){ const d=faceDirs(nm); if(!d||!d[dir]) bad.push(nm+'（'+(d?JSON.stringify(d):'沒有')+'）'); }
++  check('⑦ 牆、護牆板有朝室內的面（光照烘焙拿掉疊在一起的反面以後，留下的要是從室內看得到的那一面；10-31 第一版法學院圖書館四面牆只剩朝外的面，整片不見）',!bad.length,bad.join('；')); }
++console.log(fails?('FAIL '+fails):'ALL PASS'); process.exit(fails?1:0);
+diff --git a/tests/us_lawlib_lm_unit.js b/tests/us_lawlib_lm_unit.js
+new file mode 100644
+index 000000000..58b7ed345
+--- /dev/null
++++ b/tests/us_lawlib_lm_unit.js
+@@ -0,0 +1,38 @@
++// 美國法學院圖書館（us_lawlib）室內的光照貼圖（INTERIOR-AAA-REVIEW-1028 美國那一批，LAWWW2-B 2026-10-31）——不需要瀏覽器。
++// us3d.js 的 us_lawlib 區域用 Z3.attachRoomGLB 接 us_lawlib.glb，看到場景的 extras.lightmap 就接光照貼圖（不用改程式）。這支檢查：
++//   ①extras.lightmap 白天、晚上兩張都在；沒有 dayEmit（天窗、彩色玻璃晚上變暗是 us3d.js 的 skyTint 在調，roomLightmap 再調一次會變兩倍暗）
++//   ②地毯、天花板（樓板底）、米白飾帶、石地、深色家具、淺木（書架、桌子）、書背、樓梯、軟椅布、牆、護牆板、大門有第二套 UV（TEXCOORD_1）
++//   ③天窗、彩色玻璃、發光面（嵌燈、螢幕、樓梯小燈、出口燈）、玻璃欄杆、門的玻璃、紅絨繩、黃銅柱、小立牌、欄杆鋼柱、鐵線雕塑照舊即時光（沒有第二套 UV）
++//   ④二樓開放時要藏的紅絨繩、小立牌、黃銅柱（us_lawlib_2f.layout.json 的 glb_hide）照舊在
++//   ⑤區域照舊用 attachRoomGLB 接正式模型，照舊照時段調天窗、彩色玻璃（skyTint）
++//   ⑦牆有朝室內的面（10-31 光照烘焙找到：腳本原本那一面朝外、遊戲裡看得到是靠單面化補的反面；烘焙拿掉反面後只剩朝外那面，從室內看牆整片不見）
++// 用法：node tests/us_lawlib_lm_unit.js
++const fs=require('fs'), path=require('path');
++const ROOT=path.resolve(__dirname,'..');
++let fails=0; const check=(name,ok,info)=>{ console.log((ok?'PASS ':'FAIL ')+name+(info?'　'+info:'')); if(!ok) fails++; };
++const REL='assets/models/env/second_ai/us_lawlib.glb', b=fs.readFileSync(path.join(ROOT,REL)), n=b.readUInt32LE(12), j=JSON.parse(b.slice(20,20+n).toString('utf8'));
++const sc=j.scenes[j.scene||0], lm=sc.extras&&sc.extras.lightmap, files=lm?['day','night'].map(t=>lm[t]):[];
++check('① extras.lightmap 的白天、晚上兩張都在',!!lm&&files.length===2&&files.every(f=>f&&fs.existsSync(path.join(ROOT,f))),JSON.stringify(lm||null).slice(0,220));
++check('① 沒有 dayEmit（天窗、彩色玻璃由 skyTint 調）',!!lm&&!('dayEmit' in lm));
++const node=nm=>j.nodes.find(x=>x.name===nm);
++const uv1=nm=>{ const nd=node(nm); if(!nd||nd.mesh==null) return null; return j.meshes[nd.mesh].primitives.every(p=>p.attributes.TEXCOORD_1!=null); };
++const BAKE=['usll_carpet','usll_ceiling','usll_cream','usll_floor_stone','usll_furniture_dark','usll_oak','usll_shelf_faces','usll_stair_white','usll_upholstery','WALL_N_wall','WALL_E_wall','WALL_S_wall','WALL_W_wall','WALL_N_wainscot','WALL_S_door'];
++const got=BAKE.map(x=>[x,uv1(x)]);
++check('② 地毯、天花板、飾帶、石地、家具、書架、書背、樓梯、牆、護牆板、大門有第二套 UV',got.every(([,v])=>v===true),JSON.stringify(got.filter(([,v])=>v!==true)));
++const LIVE=['usll_skylight','WALL_N_stained','GLOW_usll_downlights','GLOW_usll_screens','GLOW_usll_stair_lamps','WALL_S_exit_sign','usll_rail_glass','WALL_S_door_glass','usll_rope','usll_rope_sign','usll_stanchions','usll_rail_posts','usll_wire_spheres'];
++const live=LIVE.map(x=>[x,uv1(x)]);
++check('③ 天窗、彩色玻璃、發光面、玻璃、紅絨繩、黃銅柱、立牌、鋼柱、鐵線雕塑沒有第二套 UV（照舊即時光）',live.every(([,v])=>v===false),JSON.stringify(live.filter(([,v])=>v!==false)));
++{ const L2=JSON.parse(fs.readFileSync(path.join(ROOT,'assets/models/env/second_ai/us_lawlib_2f.layout.json'),'utf8')), miss=(L2.glb_hide||[]).filter(x=>!node(x));
++  check('④ 二樓開放時要藏的節點照舊在（'+(L2.glb_hide||[]).join('、')+'）',(L2.glb_hide||[]).length>0&&!miss.length,miss.join('、')); }
++{ const src=fs.readFileSync(path.join(ROOT,'src/us3d.js'),'utf8'), i=src.indexOf("ASSETS.loadOne('bldg.us_lawlib')"), body=i>=0?src.slice(i,i+1200):'';
++  check('⑤ 照舊用 attachRoomGLB 接正式模型、照時段調天窗和彩色玻璃',/Z3\.attachRoomGLB\(z,g0,fb,root\)/.test(body)&&/usll_\(skylight\|stained_glass\)/.test(body),body?'':'找不到 us_lawlib 的載入'); }
++function faceDirs(nodeName){ const nd=j.nodes.find(x=>x.name===nodeName), bin=b.slice(20+n+8), out={'+x':0,'-x':0,'+y':0,'-y':0,'+z':0,'-z':0};
++  if(!nd||nd.mesh==null) return null;
++  for(const p of j.meshes[nd.mesh].primitives){ const a=j.accessors[p.attributes.POSITION], bv=j.bufferViews[a.bufferView], o=(bv.byteOffset||0)+(a.byteOffset||0), st=bv.byteStride||12, V=k=>[0,1,2].map(c=>bin.readFloatLE(o+k*st+c*4));
++    const ia=j.accessors[p.indices], ib=j.bufferViews[ia.bufferView], io=(ib.byteOffset||0)+(ia.byteOffset||0), sz={5125:4,5123:2,5121:1}[ia.componentType], I=k=>sz===4?bin.readUInt32LE(io+k*4):sz===2?bin.readUInt16LE(io+k*2):bin.readUInt8(io+k);
++    for(let k=0;k<ia.count;k+=3){ const A=V(I(k)),B=V(I(k+1)),C=V(I(k+2)), u=[B[0]-A[0],B[1]-A[1],B[2]-A[2]], v=[C[0]-A[0],C[1]-A[1],C[2]-A[2]], nn=[u[1]*v[2]-u[2]*v[1],u[2]*v[0]-u[0]*v[2],u[0]*v[1]-u[1]*v[0]], L=Math.hypot(...nn)||1;
++      for(let c=0;c<3;c++){ if(nn[c]/L>0.9) out['+'+'xyz'[c]]++; else if(nn[c]/L<-0.9) out['-'+'xyz'[c]]++; } } }
++  return out; }
++{ const W=[['WALL_N_wall','+z'],['WALL_S_wall','-z'],['WALL_E_wall','-x'],['WALL_W_wall','+x'],['WALL_N_wainscot','+z'],['WALL_W_wainscot','+x']], bad=[]; for(const [nm,dir] of W){ const d=faceDirs(nm); if(!d||!d[dir]) bad.push(nm+'（'+(d?JSON.stringify(d):'沒有')+'）'); }
++  check('⑦ 牆、護牆板有朝室內的面（光照烘焙拿掉疊在一起的反面以後，留下的要是從室內看得到的那一面；10-31 第一版法學院圖書館四面牆只剩朝外的面，整片不見）',!bad.length,bad.join('；')); }
++console.log(fails?('FAIL '+fails):'ALL PASS'); process.exit(fails?1:0);

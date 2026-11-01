@@ -1,0 +1,48 @@
+diff --git a/tests/plate_text_dir_unit.js b/tests/plate_text_dir_unit.js
+new file mode 100644
+index 000000000..93cd3618a
+--- /dev/null
++++ b/tests/plate_text_dir_unit.js
+@@ -0,0 +1,42 @@
++// 名牌（PLATE_FACE_*，遊戲用 canvas 畫字：zones3d.js attachWenzhouModel → wzPlateTex）字的方向（PLATE-MIRROR-1101，LAWWW2-B 2026-11-01）——不需要瀏覽器，讀 GLB。
++// 起因：比對共同教學館、大一女舍和參考資料時（ART-PHOTO-CMP-1021），大一女舍 A 棟門口的「傳達室」字是倒的。查下去是 Blender 腳本照頂點順序給 UV（uv01），
++//   側牆的名牌為了法線把頂點倒過來，u、v 一起反 → 字轉了 180°。同樣的有：女舍 A、B 棟「男賓止步」、共同教學館側門「側門　請由正門出入」、社科院「經濟系．政治系．社會系．社工系」。
++// 檢查：每一塊有 UV 的名牌，從法線那一邊看，u 往右手邊變大、v 往下變大（glTF 的 v＝0 在上面；正面那些本來就讀得對的名牌也是這樣）。
++// 不檢查：美國的 GLB（us3d.js paintPlate 照板面重算 UV）、社科院大樓一樓室內 socsci_bldg1f.glb（遊戲沒有用）、
++//   體育館 B1 gym_b1.glb（門牌的法線朝牆、人站在背面；遊戲也沒有畫字：attachRoomGLB 不畫 PLATE_FACE，見 PLATE-MIRROR-1101 README）。
++// 用法：node tests/plate_text_dir_unit.js
++const fs=require('fs'), path=require('path');
++const ROOT=path.resolve(__dirname,'..');
++let fails=0, n=0; const check=(name,ok,info)=>{ if(!ok||process.env.VERBOSE) console.log((ok?'PASS ':'FAIL ')+name+(info?'　'+info:'')); if(!ok) fails++; };
++const SKIP=/^(us_.*|socsci_bldg1f|gym_b1)\.glb$/;
++const MUST=['second_ai/campus_freshman.glb','second_ai/campus_gongtong.glb','second_ai/campus_socsci.glb'];
++function load(p){ const b=fs.readFileSync(p), n=b.readUInt32LE(12); return {j:JSON.parse(b.slice(20,20+n).toString('utf8')), bin:b.slice(20+n+8)}; }
++function acc(G,i){ const a=G.j.accessors[i], bv=G.j.bufferViews[a.bufferView], o=(bv.byteOffset||0)+(a.byteOffset||0), nc={SCALAR:1,VEC2:2,VEC3:3,VEC4:4}[a.type];
++  const sz={5126:4,5125:4,5123:2,5121:1}[a.componentType], st=bv.byteStride||nc*sz, rd={5126:'readFloatLE',5125:'readUInt32LE',5123:'readUInt16LE',5121:'readUInt8'}[a.componentType];
++  const out=[]; for(let k=0;k<a.count;k++){ const v=[]; for(let c=0;c<nc;c++) v.push(G.bin[rd](o+k*st+c*sz)); out.push(v); } return out; }
++function mat(nd){ if(nd.matrix){ const m=nd.matrix; return [[m[0],m[4],m[8],m[12]],[m[1],m[5],m[9],m[13]],[m[2],m[6],m[10],m[14]],[0,0,0,1]]; }
++  const t=nd.translation||[0,0,0], q=nd.rotation||[0,0,0,1], s=nd.scale||[1,1,1], [x,y,z,w]=q;
++  const R=[[1-2*(y*y+z*z),2*(x*y-z*w),2*(x*z+y*w)],[2*(x*y+z*w),1-2*(x*x+z*z),2*(y*z-x*w)],[2*(x*z-y*w),2*(y*z+x*w),1-2*(x*x+y*y)]];
++  return [0,1,2].map(r=>[R[r][0]*s[0],R[r][1]*s[1],R[r][2]*s[2],t[r]]).concat([[0,0,0,1]]); }
++const mm=(A,B)=>A.map((row,r)=>[0,1,2,3].map(c=>row.reduce((s,_,k)=>s+A[r][k]*B[k][c],0)));
++const ap=(M,p)=>[0,1,2].map(r=>M[r][0]*p[0]+M[r][1]*p[1]+M[r][2]*p[2]+M[r][3]);
++const files=[]; for(const d of ['assets/models/env','assets/models/env/second_ai']) for(const f of fs.readdirSync(path.join(ROOT,d))) if(f.endsWith('.glb')&&!SKIP.test(f)) files.push(path.join(d,f));
++const seen=new Set();
++for(const f of files){ const buf=fs.readFileSync(path.join(ROOT,f)); if(buf.indexOf('PLATE_FACE')<0) continue; const G=load(path.join(ROOT,f)), par={};
++  G.j.nodes.forEach((nd,i)=>(nd.children||[]).forEach(c=>par[c]=i));
++  const world=i=>{ let M=mat(G.j.nodes[i]); while(i in par){ i=par[i]; M=mm(mat(G.j.nodes[i]),M); } return M; };
++  G.j.nodes.forEach((nd,i)=>{ if(nd.mesh==null||!/^PLATE_FACE_/.test(nd.name||'')) return; const M=world(i);
++    for(const pr of G.j.meshes[nd.mesh].primitives){ if(pr.attributes.TEXCOORD_0==null) continue;
++      const P=acc(G,pr.attributes.POSITION).map(p=>ap(M,p)), UV=acc(G,pr.attributes.TEXCOORD_0), I=pr.indices!=null?acc(G,pr.indices).map(x=>x[0]):P.map((_,k)=>k);
++      let bad=0, tri=0;
++      for(let k=0;k+2<I.length;k+=3){ const [a,b,c]=[I[k],I[k+1],I[k+2]]; const e1=[0,1,2].map(q=>P[b][q]-P[a][q]), e2=[0,1,2].map(q=>P[c][q]-P[a][q]);
++        const du1=UV[b][0]-UV[a][0], dv1=UV[b][1]-UV[a][1], du2=UV[c][0]-UV[a][0], dv2=UV[c][1]-UV[a][1], r=du1*dv2-du2*dv1; if(Math.abs(r)<1e-12) continue;
++        const T=[0,1,2].map(q=>(e1[q]*dv2-e2[q]*dv1)/r), Bv=[0,1,2].map(q=>(e2[q]*du1-e1[q]*du2)/r);
++        const N=[e1[1]*e2[2]-e1[2]*e2[1],e1[2]*e2[0]-e1[0]*e2[2],e1[0]*e2[1]-e1[1]*e2[0]], Nl=Math.hypot(...N); if(Nl<1e-12) continue;
++        if(Math.abs(N[1]/Nl)>0.9) continue;   // 平放的板：不判斷
++        const right=[N[2],0,-N[0]];   // Y×N＝站在法線那一邊看的右手方向
++        tri++; if(!(right[0]*T[0]+right[2]*T[2]>0&&Bv[1]<0)) bad++; }
++      if(!tri) continue; n++; seen.add(f.replace('assets/models/env/',''));
++      check(f.replace('assets/models/env/','')+' '+nd.name+'：字從正面看是正的（u 往右、v 往下）',!bad,bad?bad+'/'+tri+' 個三角形反了':''); } }); }
++for(const m of MUST) check(m+' 有檢查到名牌',seen.has(m));
++console.log(n+' 塊名牌'); console.log(fails?('FAIL '+fails):'ALL PASS'); process.exit(fails?1:0);
