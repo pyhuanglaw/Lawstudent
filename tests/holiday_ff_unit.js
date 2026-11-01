@@ -83,8 +83,8 @@ const ptsOf=(key)=>HOME.breakPts(Object.assign({},G,{day:D(key)})).map(p=>CALEND
   /* ================= H1：停點 ================= */
   fresh('2029-01-10',10,'dorm');
   check('H1-1. 大四寒假的表（AA_327 2-Y4-23～29）：2/12 12:00 除夕、2/13 11:00 初一、2/18 17:00 開學前一天',JSON.stringify(ptsOf('2029-01-10'))===JSON.stringify(['02-12@12:eve','02-13@11:cny','02-18@17:back']),JSON.stringify(ptsOf('2029-01-10')));
-  { const out=[]; for(const [k,e,eve] of [['Y1W','2026-02-16'],['Y2W','2027-02-05',1],['Y3W','2028-01-25'],['Y4W','2029-02-12',1]]){ const de=D(e); fresh(e,8,'dorm'); atHome(); const a=HOME.breakNext(G); G.hour=12; const b=HOME.breakNext(G); G.hour=18.5; const c=HOME.breakNext(G); out.push([k,lbl(a),lbl(b),a===Tm(de,12)&&(eve?b===Tm(de,18.5)&&c===Tm(de+1,11):b===Tm(de+1,11))]); }   /* AA_532 2-1：2027、2029 除夕 18:30 年夜飯也停 */
-    check('H1-2. 每個寒假：除夕 12:00、初一 11:00 一定停（大一～大四都查一次；人在家；2027、2029 中間多停除夕 18:30 年夜飯）',out.every(x=>x[3]),JSON.stringify(out)); }
+  { const out=[]; for(const [k,e,eve] of [['Y1W','2026-02-16'],['Y2W','2027-02-05',1],['Y3W','2028-01-25',1],['Y4W','2029-02-12',1]]){ const de=D(e); fresh(e,8,'dorm'); atHome(); const a=HOME.breakNext(G); G.hour=12; const b=HOME.breakNext(G); G.hour=18.5; const c=HOME.breakNext(G); out.push([k,lbl(a),lbl(b),a===Tm(de,12)&&(eve?b===Tm(de,18.5)&&c===Tm(de+1,11):b===Tm(de+1,11))]); }   /* AA_532 2-1：2027、2029 除夕 18:30 年夜飯也停；AA_549 3-2：2028 也停 */
+    check('H1-2. 每個寒假：除夕 12:00、初一 11:00 一定停（大一～大四都查一次；人在家；2027、2028、2029 中間多停除夕 18:30 年夜飯）',out.every(x=>x[3]),JSON.stringify(out)); }
   { const out=[]; for(const e of ['2026-02-16','2027-02-05','2028-01-25','2029-02-12']){ fresh(e,12,'dorm'); out.push([e,lbl(HOME.breakNext(G)),HOME.breakNext(G)===Tm(D(e),17)]); }
     check('H1-3. 除夕 12:00 人在宿舍：下一個停在 17:00（媽媽「飯快好了。」回家吃年夜飯），不會直接跳到初一',out.every(x=>x[2]),JSON.stringify(out)); }
   fresh('2028-01-25',12,'dorm'); G.hour=17.25; check('H1-3. 17:15 在宿舍＝HOME.eveDue（回家）',HOME.eveDue(G));

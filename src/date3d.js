@@ -263,7 +263,8 @@ const DATE=(function(){
       if(!S.noTaipei(G,o.who,day,P.locs[0])){ const wd=S.dayWhere(G,o.who,day,P.locs); if(!wd.ok) return no(wd.why); } }   /* AA_128 11-2（DATE-S8）：約的那一天她在國外、聯絡不到、在別的城市＝不能約（原本只看今天）；沛珊不上來照下面 noTaipei 那一句 */
     { const pt=S.partnerOnDay(G,o.who,day); if(pt) return no(pt); const off=S.herOff(G,o.who,day,ov?null:a+P.travelH); if(off) return no(off); }
     { const sw=typeof SISG!=='undefined'&&SISG.tripWhy?SISG.tripWhy(G,{who:o.who,day,depart:a,kind:P.kind,skip:sk}):''; if(sw) return no(sw); }   /* 學姊筆試前（AA_535 1-2）：第 10～13 週和校內共用那一週的一次、只能半天；第 14 週起不出去 */   /* 那一天她有交往的對象（AA_128 4-5）；她自己不約的日子、時段（11-2：學姊出發前、口試前一週；子晴下午三點以後、大四只有週六）*/
-    if(typeof INV!=='undefined'&&INV.busyAt){ for(const [d,,,x,y] of span){ let e=null; if(ov){ for(let h=x;h<y-1e-6&&!e;h+=1) e=INV.busyAt(G,o.who,d,h,Math.min(1,y-h)); } else e=INV.busyAt(G,o.who,d,a,b-a);   /* 兩天一夜：一小時一小時看（兩天都要空）*/
+    if(typeof INV!=='undefined'&&INV.busyAt){ const awayOn=d=>{ if(typeof STORY==='undefined'||!STORY.presence) return false; const p=STORY.presence(o.who,Object.assign({},G,{day:d})); return !!p&&p.here===false&&p.kind!=='taipei'; };   /* 她那天不在臺北（回老家：D26 去台中找她）＝臺北的作息（Café 班、課）不算（子代理 10-31 讀碼：schedEnt 不看 presence，芷若 7/6 的 D26 被 Café 班擋成「她那時候有事」）*/
+      for(const [d,,,x,y] of span){ if(awayOn(d)) continue; let e=null; if(ov){ for(let h=x;h<y-1e-6&&!e;h+=1) e=INV.busyAt(G,o.who,d,h,Math.min(1,y-h)); } else e=INV.busyAt(G,o.who,d,a,b-a);   /* 兩天一夜：一小時一小時看（兩天都要空）*/
       if(e) return no((ov&&d!==day?'隔天她':'她那時候')+(e.act==='class'?'要上課':(e.act==='work'?'要上班':'有事'))); } }
     const nt=S.noTaipei(G,o.who,day,P.locs[0]); if(nt) return no(nt);
     const cost=(P.fare|0)+(P.lodging|0)+P.locs.reduce((s,l)=>s+((S.loc(l)||{}).admission|0)+((S.fixedOf(l)||{}).cost|0),0); if((G.money|0)<cost) return no('錢不夠（預計 '+cost+' 元）');   /* 兩天一夜多住宿 2,500 */

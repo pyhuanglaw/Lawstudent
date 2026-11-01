@@ -142,7 +142,11 @@ const MSG=(function(){
   /* 子晴的遊戲（Q6 ev_ziqing_secret_game「她在做的東西」、或記憶 PLAYTESTED）：演過以前不出講到她的遊戲的句子（回覆池 A 層放假版「（截圖：她的遊戲新的一關）」；第二批新年快樂 R「只有第一則」照原本的標籤）*/
   S.zqQ6=G=>evDone(G,'ev_ziqing_secret_game')||(typeof SOCIAL!=='undefined'&&!!SOCIAL.has&&SOCIAL.has('heroine_04','PLAYTESTED'))||!!(G.flags&&G.flags.PLAYTESTED);
   S.zqSpoil=(G,id,e)=>id==='heroine_04'&&!!e&&/她的遊戲/.test((e.msgs||[]).join('／'))&&!S.zqQ6(G);
-  S.msgsOf=(G,id,e)=>id==='heroine_04'&&(e.tags||[]).some(g=>/^看過 Q6 才用；沒看過：只有第一則$/.test(g))&&!S.zqQ6(G)?(e.msgs||[]).slice(0,1):(e.msgs||[]);
+  S.msgsOf=(G,id,e)=>S.datedSwap(G,id,id==='heroine_04'&&(e.tags||[]).some(g=>/^看過 Q6 才用；沒看過：只有第一則$/.test(g))&&!S.zqQ6(G)?(e.msgs||[]).slice(0,1):(e.msgs||[]));
+  /* 那幾天換一句（回覆池照原文產生、不手改：在這裡換）。AA_550 第 4 節第 3 點（企劃線 2664ed6f1；ZR-SUMMER-LINES-1031）：芷若大一暑假在台中（2026-07-01～08-25，含頭尾）深夜那一則 */
+  S.DATED_SWAP=[{id:'heroine_02',from:'2026-07-01',to:'2026-08-25',old:'剛洗完澡。下班回來都這個時間。',text:'剛洗完澡。台中的晚上比臺北安靜。'}];
+  S.datedSwap=(G,id,L)=>{ const W=S.DATED_SWAP.filter(w=>w.id===id); if(!W.length||!G||G.day==null) return L;
+    return L.map(t=>{ const w=W.find(x=>x.old===t); if(!w) return t; const a=DK(w.from), b=DK(w.to); return a!=null&&b!=null&&G.day>=a&&G.day<=b?w.text:t; }); };
   /* 傳得到、但劇情上回得不一樣的，在對話裡寫一行說明（照劇情保留的擋法：沛珊重考那一段只顯示已送達、學姊事務版、芷若在英國當朋友一週回一兩次）*/
   S.openNote=function(G,id,o){ o=o||S.open(G,id); if(!o||!o.ok) return ''; if(o.mode==='silent') return '她最近都沒有回訊息。傳了只會顯示「已送達」。';
     if(o.mode==='business') return '學姊現在只回事情上的訊息。等你們變成朋友，而且你沒有在跟別人交往，她才會跟你閒聊。';

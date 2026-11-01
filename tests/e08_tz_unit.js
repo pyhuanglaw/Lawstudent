@@ -65,7 +65,7 @@ async function fly(key,day,setup,wait){ H.fresh(day,4,'dorm'); H.G.stage='law'; 
     check('Z2. 回國 7/24 18:00（＋OUT 的半小時）、時鐘沒有往回撥；整趟不往回走',!clockOf(H.G)&&H.G.day===D('2026-07-24')&&Math.abs(H.G.hour-18.5)<0.01&&!mono(L),J([H.G.day,H.G.hour,mono(L)])); }
 
   /* ===================== Z3 C13 照目的地的時差 ===================== */
-  for(const [dest,want,pick] of [['eu',-6,'歐洲'],['jp',1,'日本']]){ H.fresh('2027-07-01',10,'dorm'); H.FAMILIAR('zhe'); snaps=[]; H.picks=[pick,'和'+SOCIAL.displayName('zhe'),dest==='eu'?'7 天':'5 天',0]; await VAC.plan13(GM); const rec=(VAC.rec(H.G).t13||[])[0], q=OUT.get(H.G,'vac_t13_1');
+  for(const [dest,want,pick] of [['eu',-6,'歐洲'],['jp',1,'日本']]){ H.fresh('2027-07-01',10,'dorm'); H.FAMILIAR('kai'); snaps=[]; H.picks=[pick,dest==='eu'?'7 天':'5 天',0,'和'+SOCIAL.displayName('kai')];   /* AA_549 2-6：七月阿哲在高雄＝約不到，改阿凱 */ await VAC.plan13(GM); const rec=(VAC.rec(H.G).t13||[])[0], q=OUT.get(H.G,'vac_t13_1');
     if(q){ H.G.day=q.day; H.G.hour=q.h-1; hall(); await OUT.go(GM,q); hall(); log.length=0; await board(); }
     const sc=log.filter(x=>x.k==='say'), first=sc[0];
     check('Z3. C13 '+pick+'：途中每一場 tzOffset＝'+want+'；第一場在當地 15:00；回國 '+(rec?CALENDAR.dateOf(rec.to).m+'/'+CALENDAR.dateOf(rec.to).d:'')+' 18:00（＋半小時）、時鐘不往回走',!!q&&sc.length>0&&sc.every(x=>x.tz===want)&&!!first&&Math.abs(first.hour-15)<0.01&&first.day===rec.from&&H.G.day===rec.to&&Math.abs(H.G.hour-18.5)<0.01&&!mono(log)&&!clockOf(H.G),J([first,H.G.day,H.G.hour,mono(log)])); }

@@ -19,6 +19,9 @@ const FEST_DATA=(function(){
   const F=(G,k)=>(G&&G.flags||{})[k];
   const cg=(id,extra)=>({if:{custom:G=>hasCG(id)&&(!extra||extra(G))},cg:id});
   const inY=(...ys)=>({custom:G=>ys.includes(yr(G))});
+  /* 芷若人在台中（presence：回台中那幾段，absentDates 的 home）。AA_550 第 4 節第 1 點（企劃線 2664ed6f1）：七夕去台中找她（背景 tc_cafe）換的那一句 */
+  const zrTc=G=>{ const p=typeof STORY!=='undefined'&&STORY.presence?STORY.presence(ZR,G):null; return !!p&&p.here===false&&p.kind==='home'&&/台中/.test(String(p.home||p.away||'')); };
+  const ZR_TC={custom:zrTc}, ZR_TC_QIXI='我在家裡的廚房試做了一杯特調。很甜。……想給你喝。';   /* aa550：這一句的出處是 AA_550，不是 AA_416（tests/aa416_fest_unit.js 第 0 節照 AA_550 對）*/
   const tainan=G=>yr(G)>=2028;   /* 沛珊 2027-08 放榜以後在台南：白色情人節 2028、2029 在運河邊 */
   /* 以安 2/14 那一年她送過東西（AA_414 1-1 太陽餅、1-2 御守、2029 補救那一場的紙袋）*/
   const anGave=G=>{ const y=yr(G); return (y===2026&&F(G,'AN_VDAY_Y1')==='went')||(y===2027&&F(G,'AN_VDAY_Y2')==='went')||(y===2029&&F(G,'AN_VDAY_Y4B')==='went'); };
@@ -62,9 +65,10 @@ const FEST_DATA=(function(){
           vid:{years:[2029],lines:[Z('這裡下午一點。外面在下雨。'),Z('……倫敦的情人節也在下雨。')]}},   /* 倫敦 13:00＝臺灣 21:00 */
         white:{s6:[Z('白色情人節要回禮。……我回你一杯不在菜單上的。')],dt:[Z('今天的拉花，我練了一個月。……不要拍。')],
           card:{years:[2029]}},   /* 2029（她在英國）：明信片＋當晚 21:00 私訊（src/fest3d.js S.card）*/
-        qixi:{s6:[Z('七夕我們店有一款特調。很甜。我不喝，可是想做給你。')],
+        qixi:{s6:[{if:ZR_TC,speaker:ZR,text:ZR_TC_QIXI,aa550:true},{unless:ZR_TC,speaker:ZR,text:'七夕我們店有一款特調。很甜。我不喝，可是想做給你。'}],   /* AA_550 第 4 節第 1 點（ZR-SUMMER-LINES-1031）：她人在台中（2026 七夕 8/19，大一暑假回台中）＝換這一句 */
           dt:[{if:inY(2028),speaker:ZR,text:'下個月我就走了。今天的特調還沒取名。'},{if:inY(2028),speaker:ZR,text:'……你取。'},
-            {unless:inY(2028),speaker:ZR,text:'七夕我們店有一款特調。很甜。我不喝，可是想做給你。'}]},   /* 交往中那一格只寫了 2028（她九月出發）；其他年份照第 6 階 */
+            {if:{custom:G=>yr(G)!==2028&&zrTc(G)},speaker:ZR,text:ZR_TC_QIXI,aa550:true},
+            {if:{custom:G=>yr(G)!==2028&&!zrTc(G)},speaker:ZR,text:'七夕我們店有一款特調。很甜。我不喝，可是想做給你。'}]},   /* 交往中那一格只寫了 2028（她九月出發）；其他年份照第 6 階（在台中那一年也一樣換）*/
         bday:{years:[2025,2026],s6:[Z('你怎麼知道？……我沒有跟店裡的人說。'),Z('生日我都一個人看一部電影。今年兩個人。')],abroadDedicated:true},   /* 英國：ev_zhiruo_bday_video */
         xmas:{years:[2025,2026],venue:'cafe',abroadDedicated:true,   /* 英國：ev_zhiruo_xmas_video */
           s5:[Z('聖誕夜我有班。……打烊以後，你可以來。'),N('（打烊後，她做了兩杯，一杯給自己。）')],

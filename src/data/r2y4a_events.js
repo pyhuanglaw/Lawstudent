@@ -565,7 +565,7 @@ const R2Y4A_EVENTS=(function(){
       {label:'c'},kx('……你很無聊。'),nar('（她還是坐下來了。一個小時，兩個人都沒說話。）'),
       {label:'e'},
       {advance:G=>Math.max(0,17-hh(G))},   /* 傍晚 */
-      {scene:'高雄・左營站',bg:'dark'},
+      {scene:'高雄・左營站',bg:'kh_station'},   /* 傍晚回到左營站：和開頭同一張 kh_station（高鐵、火車共構；BLACK-BG-AUDIT-1018，BB_132 第 100 組）*/
       kx('回去讀書。……二月十四號，視訊。') ],
     after:G=>{ merge(G,'KX_TRIP',{Y4WIN:'kaohsiung'}); const F=G.flags; (F.HV_LAST||(F.HV_LAST={})).kexin=G.day; } });
 

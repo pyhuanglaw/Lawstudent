@@ -251,7 +251,7 @@ const b532all=v=>typeof v==='string'?b532(v):Array.isArray(v)?v.map(b532all):(v&
     rep=answer('vf_y2_0731',0); rules(); const w24=r24[0][1];
     check('2-4. 「好。」→「明天下午」「Café」；8/1（日）15:00 兩點半 Café 一鍵',J(rep)===J(qs(w24).slice(0,2).map(t=>ZQ+':'+t))&&isAt(out('vf_y2_0801'),'2027-08-01',15),J(rep));
     Ls=await run('ev_vf_y2_0801'); const n24=nar(w24)[0].replace(/^（旁白：/,'');
-    check('2-4. Café：（她的筆電轉過來給你看，…她說：「好，可以了。」）',J(Ls)===J([L().y2_0731.narr])&&w24.indexOf(L().y2_0731.narr)>=0,J(Ls));
+    check('2-4. Café：AA_549 3-3 那一句旁白（她的筆電轉過來給你看，…）換成子晴的場景（第一句「（下午的兩點半 Café。…）」；台詞照 AA_549，tests/aa549_vacgap_unit.js 3-3）',Ls[0]==='（下午的兩點半 Café。子晴坐在最裡面，筆電貼滿貼紙，桌上兩杯冰美式。）'&&Ls.indexOf(L().y2_0731.narr)<0&&w24.indexOf(L().y2_0731.narr)>=0,J(Ls));
     G=lawG('2027-07-31',20.05,{fam:[ZQ]}); rules(); rep=answer('vf_y2_0731',1); check('2-4. 「我不會看。」→「不用會」「看就好」「……算了 下次」',J(rep)===J(qs(r24[1][1]).map(t=>ZQ+':'+t)),J(rep));
     G=lawG('2027-07-31',20.05,{fam:[ZQ]}); SOCIAL.remember(ZQ,'PLAYTESTED',''); rules();
     check('2-4. 試玩過（PLAYTESTED）：第一則換成「新的那個 第二關做好了」',tagged('vf_y2_0731')[0].text===qs(part('- 已經有 `PLAYTESTED`','- 和子晴交往中'))[0]&&tagged('vf_y2_0731').length===3);

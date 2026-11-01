@@ -9,7 +9,12 @@
      depart＝出發時間（AA_494 0-3：半日 13:00、晚上 18:00、一日 09:00；子晴週末兩點以前不約＝14:00；金瓜石句子寫「九點四十分那一班」＝09:00 出發；學姊碧潭「傍晚」＝15:00）
    later、no、yes＝玩家選「改天」「不了」「答應」以後她回的那一句；yesBy＝某個地點換一句（語彤的麵店）；yesOut＝校外那一種換一句（AA_532 第 3 節，芷若）
    vac＝寒暑假的放假版（AA_532 第 3 節，企劃線 ade80d22f，台詞一字不差）：line 換句；h 換時間（學姊放假改下午，照 AA_494 0-3 從 INV.times 挑下午的 15:30）；wkend＝只有週末用放假版（平日照學期中那一句）
-   alt＝輪流的另外幾句（可以有自己的 place、h）、noLab＝有研究室以前換句（AA_539，只有學姊；見學姊那一段的註解）*/
+   alt＝輪流的另外幾句（可以有自己的 place、h）、noLab＝有研究室以前換句（AA_539，只有學姊；見學姊那一段的註解）
+   vacTerm＝寒暑假的假期版（AA_549 3-6，企劃線 AA_549 第 3 節 3-6；AA 2026-10-31 回 11 題第 8～10 題，D109；台詞一字不差）：{summer|winter:{place, th, here, wkend, v:{d, h, off, line＝她傳, first＝見面時她的第一句}}}——
+     寒暑假那一天有她那一季的＝只換同一個地點（daily 裡 place 相同的那一筆）的那一句，其他地點照 AA_532 的放假版（vac）；daily 沒有那個地點的（子晴的麵店）＝多一筆、只在那一季。
+     見面以後照一般的場景，只換開頭這兩句（src/heroine_asks3d.js S.vacTermOn、invites3d.js S.meet、STORY.PRE_TALK）。
+     h、d、here、off 照上面 AA_494 的寫法（沒寫鐘點的從 INV.times 挑：下午 15:30／17:30、傍晚 17:30、晚上 19:00、早上照半熟的 10:00／9:00；「今天」＝那天 17:00 傳；「明天我不用上班」＝off）；
+     here、d、h 寫在這裡的蓋過那一筆原本的（芷若寒假 Café 是她上班時去店裡＝here、今天；子晴的一盞是明天）*/
 'use strict';
 const HASK_DATA={
   source:'AA_494 b3ecc563c',
@@ -25,6 +30,8 @@ const HASK_DATA={
         {loc:'D12',pre:{d:'sat',depart:13,line:'週六下午有空嗎？我想去大稻埕。我查了，碼頭的夕陽是五點四十分。'},dat:{d:'sat',depart:13,line:'週六，大稻埕。夕陽五點四十分。你負責準時。'}},
         {loc:'D01',pre:{d:'sun',depart:13,line:'華山這個月有一個展。週日下午一點半，門口。'},dat:{d:'sun',depart:13,line:'週日下午，華山。展我查好了，看完去吃東西。'}},
         {loc:'D26',kind:'day',dat:{d:'sat',depart:9,line:'這個週末我回臺中。……你要不要一起？我帶你走草悟道。'}}],
+      vacTerm:{ summer:{place:'library',v:{d:'next',h:[15.5,17.5],line:'暑假總圖開到九點。明天下午，我在三樓。',first:'暑假的總圖，冷氣比較冷。你有帶外套嗎？'}},
+        winter:{place:'library',v:{d:'next',h:[15.5,17.5],line:'寒假人少。明天要不要來總圖？我帶熱茶。',first:'一人一杯。不要灑在書上。'}} },   /* AA_549 3-6：換總圖那一句（Café、麵店照 AA_532 放假版）*/
       later:'好。我在手帳上改一格。', no:'好。那下次換你約。', yes:'好。我記在手帳上了。' },
     heroine_02:{ send:22+40/60, sendOff:20,
       daily:[
@@ -36,6 +43,8 @@ const HASK_DATA={
         {loc:'D04',pre:{d:'sat',depart:18,line:'這週有一部老片重映。週六晚上七點，西門。……你不要在中間睡著喔。'},dat:{d:'sat',depart:18,line:'週六晚上，西門。老片。我買好兩張了。'}},
         {loc:'D14',pre:{d:'sun',depart:17,line:'週日傍晚要不要去漁人碼頭？聽說橋的燈很好看。'},dat:{d:'sun',depart:17,line:'週日去漁人碼頭。我想看燈亮起來的那一下。'}},
         {loc:'D18',dat:{d:'sat',depart:13,line:'週六去九份。坐客運，我要看山。'}}],
+      vacTerm:{ summer:{place:'wenzhou',v:{d:'next',h:[17.5],off:true,line:'明天我不用上班。……要不要去溫州街走走？傍晚比較不熱。',first:'你看，巷子裡的光比店裡的燈好看。'}},   /* AA 回第 8 題：河堤改溫州街；她在臺北、隔天沒有班的日子（presence、S.works）*/
+        winter:{place:'cafe',here:true,v:{d:'today',h:[19,21],line:'店裡今天很冷清。你要不要來陪我一下？我請你一杯熱的。',first:'這杯是新的豆子。你第一個喝。'}} },   /* AA_549 3-6：她上班的 Café＝here、今天 */
       later:'好啦，那下次。', no:'喔。好啦。', yes:'好！那明天見。', yesOut:'好！那到時候見。' },
     heroine_03:{ send:21+40/60,
       daily:[
@@ -46,6 +55,8 @@ const HASK_DATA={
       out:[
         {loc:'D21',pre:{d:'sun',depart:13,line:'週日我沒有顧店。三峽，你去過嗎？'},dat:{d:'sun',depart:13,line:'週日去三峽。搭捷運再轉公車，我查好了。'}},
         {loc:'D09',dat:{d:'sun',depart:13,line:'週日下午，貓空。我想坐纜車。……我沒坐過。'}}],
+      vacTerm:{ summer:{place:'noodle',v:{d:'next',h:[19,17.5],line:'明天店裡不忙。你要來就來。',first:'阿姨說夏天要吃涼麵。我做的。'}},
+        winter:{place:'noodle',v:{d:'next',h:[19,17.5],line:'店裡有麻油雞。明天晚上。',first:'多喝湯。阿姨說的。'}} },   /* AA_549 3-6：換麵店那一句（她顧店的麵店，here 照那一筆）；總圖照 AA_532 放假版 */
       later:'好。', no:'嗯。沒關係。', yes:'好。', yesBy:{noodle:'好。……我跟阿姨說。'} },
     heroine_04:{ send:23.5,
       daily:[
@@ -57,6 +68,8 @@ const HASK_DATA={
         {loc:'D02',pre:{d:'sat',depart:14,line:'週六下午松菸有一個設計展 一起去 我要去偷看別人怎麼排版'},dat:{d:'sat',depart:14,line:'週六下午松菸 看展 看完吃東西 我請'}},
         {loc:'D14',pre:{d:'sat',depart:18,line:'週六晚上淡水 看橋的燈 我查過了 不會下雨'},dat:{d:'sat',depart:18,line:'週六晚上淡水 我想看燈亮的那一下 你陪我'}},
         {loc:'D04',dat:{d:'sat',depart:18,line:'週六晚上西門 看電影 爆米花你負責'}}],
+      vacTerm:{ summer:{place:'teahouse',v:{d:'next',h:[15.5,17.5],line:'明天下午 一盞 你來嗎',first:'這家的冷氣是我找了三家才選的。'}},   /* AA 回第 8 題：冷氣房＝一盞（換一盞那一句，明天下午）*/
+        winter:{place:'noodle',th:5,v:{d:'next',h:[19,17.5],line:'好冷 明天去吃熱的 阿鳳那家',first:'我要加兩次湯。……不要看我。'}} },   /* AA 回第 8 題：火鍋＝阿鳳麵店（她 daily 沒有麵店＝寒假多一筆；門檻照一盞的 5）。訊息不加句號 */
       later:'好 那下次', no:'喔 好', yes:'好 不准遲到' },
     heroine_05:{ send:22.5,
       daily:[
@@ -79,6 +92,8 @@ const HASK_DATA={
         {loc:'D19',pre:{d:'sat',depart:9,line:'週六，金瓜石。客運九點四十分那一班。'},dat:{d:'sat',depart:9,line:'週六，金瓜石。九點四十分那一班。路線我排好了。'}},
         {loc:'D11',pre:{d:'sun',depart:13,line:'週日下午，北投。圖書館那棟木頭的，我想進去坐一下。'},dat:{d:'sun',depart:13,line:'週日下午，北投。先去圖書館，再去泡腳。'}},
         {loc:'D10',dat:{d:'sun',depart:15,line:'週日傍晚，碧潭。我想坐一下船。……你划。'}}],
+      vacTerm:{ summer:{place:'library',wkend:true,v:{d:'next',h:[15.5],line:'明天下午有空嗎。總圖冷氣很強，帶外套。',first:'坐吧。我讀我的，你讀你的。'}},   /* AA 回第 9 題：改約總圖、只排週末 15:30（法圖寒暑假週末不開）*/
+        winter:{place:'library',wkend:true,v:{d:'next',h:[10,9],line:'明天早上，總圖。一起讀到中午，然後吃熱的。',first:'先讀。吃飯的時候再講話。'}} },   /* AA_549 3-6：換總圖那一句；wkend：放假平日照學期中（平日 9～17 在研究室，AA-B 10-30 05:12 第 1 點）*/
       later:'好。哪天可以，告訴我。', no:'知道了。', yes:'好。' },
     classmate_peishan:{ send:21,
       daily:[
