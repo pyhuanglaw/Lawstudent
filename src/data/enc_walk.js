@@ -1295,7 +1295,7 @@ const ENC_WALK={
   "batch": 3,
   "who": "heroine_05",
   "spot": "D11",
-  "friend": "我要回去了。計畫本上還有兩件事。",
+  "friend": "我要回去了。計畫本上，今天那一格還沒劃掉。",
   "dating": "支線只有一站。坐我旁邊。"
  },
  {
