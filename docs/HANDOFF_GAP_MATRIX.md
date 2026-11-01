@@ -60,7 +60,13 @@
 
 **F｜測試與問題**：瀏覽器、iPhone 實機都還沒驗今天的改動（Playwright 由 BB 跑）；BUG-02 偶發全黑只在 iPhone。`9aa82ecda` 那一輪 classes3d 361 支在交班時跑（結果寫在收尾）。
 
-**收尾**（LAWWW-B 等三個職位交班後補）：待補。
+**收尾（LAWWW-B 09:1x，三個職位交班以後）**
+- **三個職位**：AA-B 08:57 `c989cc066`（快照 2026-11-01T0857Z_B_AA.json；以安共創停在第 2 輪、等使用者回答吹風機那一題）、BB-B 08:58 `22ddbea54`（快照 2026-11-01T0858Z_B_BB.json；佇列 37 項沒跑，BUG-DOOR-CLASS-GO-1101 排第一；duty handoff 是 LAWWW-B 提醒以後補跑的）、LAWWW2-B 09:02 `e16b32ad0`（快照 2026-11-01T0902Z_B_LAWWW2.json；ZQ-ARCADE 做完沒交件，下一班跑全部 Node 再交）。`duty sync` 收了三個。
+- **補進總表**：AA【表外】VAC-GAP-ROUTES（暫停）、ASK-5NAMES（等使用者）；X150 狀態定案（狀態欄「進行中」、說明「共創中」）；LAWWW2【表外】LAKE-LAMPS-STAGGER-1101（暫停）、ZQ-C504-LAPTOP-1101（排在 ZQ-ARCADE 之後）；BG-xx、INTERIOR-AAA、霖澤館大廳第二版的交件名、WZ-P2、FAIR-STAFF-LOD 寫進 meta.reconcileIgnore（對到現有任務 ART-BGxx、INTERIOR-AAA-REVIEW-1028、LOBBY-CEIL-1028、ART-WZ-MARKET-1023、FAIR-STAFF-LOD-1027）。
+- **核對**：`check` OK；`roles` OK（三職位全部待辦都在總表）；`asks` OK（296 筆）；**`incr` 異常 164 項未處理**——LAWWW2 outbox 的 ack／state 用字不在格式裡約 104、LAWWW2 沒分類的 commit 31、AA outbox 12、AA 沒分類的 commit約 15（都在它們自己的分支，交班後不能寫）；LAWWW 自己 wip.json 的 bundle 位置 54 筆已改正（原本記子代理分支的 commit）。**水位線不前進**，下一班 LAWWW 照 D94 只追這幾類。所以**增量核對不算完整**；任務、待辦、使用者要求這三項核對是完整的。
+- **測試**：`9aa82ecda` 讀 classes3d 的 361 支 ALL PASS（整套 Node 最後一次 834／834 在 `b03bedf29`）。
+- **沒有遠端備份的**：只有各職位 scratchpad 的截圖、log、烘焙中間檔、掃描輸出（都能用 repo 的腳本重做）。
+- **下一班第一步**：各職位照第 4 節接班；LAWWW 先 `duty register`、處理 incr 164 項、BB 先驗 BUG-DOOR-CLASS-GO-1101 和遲到修正，LAWWW2 交 ZQ-ARCADE。
 
 ## 2. 試玩 Bug 與技術問題（BUG）
 

@@ -114,7 +114,22 @@
    "US-TEXT-AUDIT-1024": "AA 的工作項（AA_448，b7c25dd1）；文字隨 v9.10.9 發布、BB 驗收 RELEASE-9109-TEST；季節背景圖在 BG-US-SEASON-1024（BB 等圖）",
    "VAC-BLANK-1024": "AA 的工作項（AA_440 修訂，edae49ca）；實作在 VAC-FILL-AA440-1024",
    "VAC-READ-1024": "AA 的工作項（AA_445，fd200c2c）；實作 76fd3ce8b（10-24），隨 v9.10.9 發布、BB 驗收 RELEASE-9109-TEST",
-   "WZ-P3": "AA_427 溫州街補字（4d66231a）裡的子項編號，不是任務；實作在 DL-11"
+   "WZ-P3": "AA_427 溫州街補字（4d66231a）裡的子項編號，不是任務；實作在 DL-11",
+   "BG-02": "LAWWW2 的 BG 追蹤表編號＝任務 ART-BG02（LAWWW-B 11-01 交班收尾）",
+   "BG-05": "LAWWW2 的 BG 追蹤表編號＝任務 ART-BG05（LAWWW-B 11-01 交班收尾）",
+   "BG-08": "LAWWW2 的 BG 追蹤表編號＝任務 ART-BG08（LAWWW-B 11-01 交班收尾）",
+   "BG-11": "LAWWW2 的 BG 追蹤表編號＝任務 ART-BG11（LAWWW-B 11-01 交班收尾）",
+   "BG-13": "LAWWW2 的 BG 追蹤表編號＝任務 ART-BG13（LAWWW-B 11-01 交班收尾）",
+   "BG-14": "LAWWW2 的 BG 追蹤表編號＝任務 ART-BG14（LAWWW-B 11-01 交班收尾）",
+   "BG-15": "LAWWW2 的 BG 追蹤表編號＝任務 ART-BG15（LAWWW-B 11-01 交班收尾）",
+   "BG-16": "LAWWW2 的 BG 追蹤表編號＝任務 ART-BG16（LAWWW-B 11-01 交班收尾）",
+   "BG-17": "LAWWW2 的 BG 追蹤表編號＝任務 ART-BG17（LAWWW-B 11-01 交班收尾）",
+   "BG-19": "LAWWW2 的 BG 追蹤表編號＝任務 ART-BG19（LAWWW-B 11-01 交班收尾）",
+   "BG-20": "LAWWW2 的 BG 追蹤表編號＝任務 ART-BG20（LAWWW-B 11-01 交班收尾）",
+   "INTERIOR-AAA": "LAWWW2 交件標題「INTERIOR-AAA 美國收尾」的簡寫＝任務 INTERIOR-AAA-REVIEW-1028（LAWWW-B 11-01）",
+   "LINZE-LOBBY-V2-1028": "LAWWW2 的交件名（霖澤館一樓大廳第二版）＝任務 LOBBY-CEIL-1028（LAWWW-B 11-01）",
+   "WZ-P2": "AA_420 第 12-2 節的子項編號＝任務 ART-WZ-MARKET-1023（LAWWW-B 11-01）",
+   "FAIR-STAFF-LOD": "BB 交接檔的簡寫＝任務 FAIR-STAFF-LOD-1027（LAWWW-B 11-01）"
   },
   "offList": [
    {
@@ -316,6 +331,28 @@
     "match": "X150 狀態字",
     "task": "HANDOFF-B-1101",
     "why": "LAWWW-B 11-01 定案：狀態欄照工具的九種寫「進行中」，說明寫「共創中」（USER_WANTS X150 已是這樣；asks 核對 OK）——不改工具"
+   },
+   {
+    "role": "LAWWW2",
+    "match": "醉月湖「一盞一盞亮起來」",
+    "task": "LAKE-LAMPS-STAGGER-1101"
+   },
+   {
+    "role": "LAWWW2",
+    "match": "子晴 `c504_4_3`",
+    "task": "ZQ-C504-LAPTOP-1101"
+   },
+   {
+    "role": "LAWWW2",
+    "match": "【表外】的是總表沒有、交班時補的",
+    "task": "HANDOFF-B-1101",
+    "why": "說明行，不是待辦（LAWWW-B 11-01）"
+   },
+   {
+    "role": "LAWWW2",
+    "match": "【表外】（交給值班 LAWWW 補進總表）",
+    "task": "HANDOFF-B-1101",
+    "why": "標題行；底下兩件已補成 LAKE-LAMPS-STAGGER-1101、ZQ-C504-LAPTOP-1101（LAWWW-B 11-01）"
    }
   ],
   "timeNote1023": "LAWWW-B 10-23 17:2x～18:0x 的紀錄（tasks notes、USER_WANTS、BB 清單、commit 訊息、給其他 AI 的訊息）裡寫的「19:0x～21:1x」是時間標錯：實際都在 17:2x～18:0x UTC 之間（18:05 核對 date -u）。內容照舊有效。"
@@ -35154,7 +35191,7 @@
    "title": "子晴一個人在公館騎樓（heroine_circle c506_4_2／c507_4_2／c509_4_1，站位 (16,20.6)）：字幕「她坐在騎樓下的插座旁邊，筆電開著」，3D 是站著、沒有筆電、背後投幣洗衣店——給能坐的地方＋筆電道具，或換站位（LAWWW2 定）",
    "area": "Y2S2",
    "owner": "LAWWW2",
-   "status": "待開工",
+   "status": "已實作待整合",
    "priority": "P3",
    "source": "BB-C 2026-10-28 09:19 瀏覽器 priv_y4（BB_218 cf7530010）",
    "first": {
@@ -35175,7 +35212,7 @@
     "receiver": "LAWWW",
     "ack": "DELIVERED"
    },
-   "next": "【11-01 06:5x LAWWW-B】LAWWW2 提 (a) 騎樓柱旁紅凳＋插座（gongguan_shops.glb）(b) laptop_lap 道具 (c) 座位：同意做法，但 P3、排在 D99 美術之後；分工照 D108：zones3d.js 座位歸 LAWWW2（patch），heroine_circle.js 子晴 linger 改 read＋seatAt＋開筆電歸 LAWWW｜【LAWWW-C 2026-10-28 09:3x UTC】已通知 LAWWW2（P3，排在 X125 室內後面）；LAWWW2 交件後 LAWWW 合併、BB 瀏覽器看 22:31 騎樓"
+   "next": "【11-01 09:0x LAWWW-B】LAWWW2-B 交班時已做完、push，還沒交件（outbox NOT_SENT）：gongguan_shops.glb／.json／.props.json、laptop_lap.glb、patches/zq_arcade_seat_1101.patch（對 bd7754e2e）、README test_shots/zq_arcade_seat_1101/；zq_arcade_seat_unit 開發原樣 FAIL 4→ALL PASS、street_props_nav ALL PASS；全部 Node 沒跑完 → 下一班 LAWWW2 跑全部 Node 再交件，LAWWW 合併並改 heroine_circle（子晴 4 筆 linger read＋seatAt＋開筆電）｜【11-01 06:5x LAWWW-B】LAWWW2 提 (a) 騎樓柱旁紅凳＋插座（gongguan_shops.glb）(b) laptop_lap 道具 (c) 座位：同意做法，但 P3、排在 D99 美術之後；分工照 D108：zones3d.js 座位歸 LAWWW2（patch），heroine_circle.js 子晴 linger 改 read＋seatAt＋開筆電歸 LAWWW｜【LAWWW-C 2026-10-28 09:3x UTC】已通知 LAWWW2（P3，排在 X125 室內後面）；LAWWW2 交件後 LAWWW 合併、BB 瀏覽器看 22:31 騎樓"
   },
   {
    "id": "LOBBY-VC-1028",
@@ -38174,9 +38211,9 @@
    "title": "帳號 B 交班（使用者 11-01 09:0x 對 LAWWW-B：「現在交班 等別的ai交班你要最後收尾」）",
    "area": "HANDOFF",
    "owner": "LAWWW",
-   "status": "進行中",
+   "status": "已驗收",
    "priority": "P0",
-   "next": "【11-01 09:0x LAWWW-B】停止一般開發：停掉核對五個舊任務的子代理（只有空檢查點、沒有成果，五個任務照舊、下一班重開）；通知 LAWWW2-B、AA-B、BB-B；等三個職位 duty handoff 以後 duty sync、check／incr／roles／asks、快照、LAWWW duty handoff、值班表「換班中」",
+   "next": "【11-01 09:1x LAWWW-B】交班完成；收尾紀錄在 HANDOFF_GAP_MATRIX 第 1 節、AI_SESSION_HANDOFF 第 1、12 節｜【11-01 09:0x LAWWW-B】停止一般開發：停掉核對五個舊任務的子代理（只有空檢查點、沒有成果，五個任務照舊、下一班重開）；通知 LAWWW2-B、AA-B、BB-B；等三個職位 duty handoff 以後 duty sync、check／incr／roles／asks、快照、LAWWW duty handoff、值班表「換班中」",
    "first": {
     "term": "META",
     "week": 0,
@@ -38188,7 +38225,8 @@
     "confirmed": true
    },
    "source": "使用者 11-01 09:0x",
-   "authorized": "P0 換班口令（D45＋D49、D92）"
+   "authorized": "P0 換班口令（D45＋D49、D92）",
+   "evidence": "帳號 B 四職位交班：AA-B c989cc066、BB-B 22ddbea54、LAWWW2-B e16b32ad0 的 duty_<職位>.json＝handed-off（duty sync 收了）；LAWWW-B 快照＋duty handoff 在同一批 commit；check／roles／asks OK、incr 異常 164 項未處理（寫在 HANDOFF_GAP_MATRIX 第 1 節收尾）"
   },
   {
    "id": "VAC-GAP-ROUTES",
@@ -38251,6 +38289,51 @@
     "receiver": "AA",
     "ack": "自領"
    }
+  },
+  {
+   "id": "LAKE-LAMPS-STAGGER-1101",
+   "title": "醉月湖「湖對面的燈一盞一盞亮起來」：路燈一盞一盞開（要改引擎的開關 E.setLamps）",
+   "area": "ENGINE",
+   "owner": "LAWWW",
+   "status": "暫停",
+   "priority": "P3",
+   "pausedReason": "D99：不影響遊玩，只記錄（LAWWW-B 11-01 08:3x）；現在北岸路燈和水面倒影在 lampsOn 時一起亮",
+   "resumeWhen": "D99 三項收完、有空做表現時",
+   "nextCheck": "2026-11-08",
+   "next": "【11-01 09:0x LAWWW-B】LAWWW2-B 交班【表外】補進總表（DL-LW2-LAKE-NIGHT-1101 沒做的那一項）",
+   "first": {
+    "term": "Y0S1",
+    "week": 10,
+    "earliest": "經濟系 E12 11/6 17:45 映月湖",
+    "mainline": false,
+    "blocks": false,
+    "prereq": false,
+    "parallel": true,
+    "confirmed": true
+   },
+   "source": "LAWWW2-B 交班 11-01（HANDOFF.md 全部待辦【表外】）",
+   "authorized": "D85"
+  },
+  {
+   "id": "ZQ-C504-LAPTOP-1101",
+   "title": "子晴 c504_4_3（2026 暑假，公館騎樓的咖啡店 (12,20.6)）旁白也有筆電：她坐下時可以開同一個 laptop_lap（ZQ-ARCADE 的道具）",
+   "area": "STORY",
+   "owner": "LAWWW",
+   "status": "待開工",
+   "priority": "P3",
+   "next": "【11-01 09:0x LAWWW-B】LAWWW2-B 交班【表外】補進總表；LAWWW 判斷：排在 ZQ-ARCADE-SEAT-1028 交件、合併以後一起做（同一個道具、heroine_circle 同一處），不在 D99 三項裡",
+   "first": {
+    "term": "Y1S2",
+    "week": 0,
+    "earliest": "2026 暑假公館騎樓",
+    "mainline": false,
+    "blocks": false,
+    "prereq": false,
+    "parallel": true,
+    "confirmed": false
+   },
+   "source": "LAWWW2-B 交班 11-01（test_shots/zq_arcade_seat_1101/README.md 第四節）",
+   "authorized": "D85"
   }
  ]
 }
