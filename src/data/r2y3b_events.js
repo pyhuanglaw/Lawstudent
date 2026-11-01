@@ -78,6 +78,8 @@ const R2Y3B_EVENTS=(function(){
     prereq:{custom:G=>{ const x=X(); return !!x&&x.c6MeetDue(G); }},
     dialogue:[ {speaker:'yu',text:'欸，成發的錢對不起來。少了三千。經手的是學弟。'},
       {speaker:'yu',text:'我不想讓他覺得我在懷疑他。可是三千塊。'},
+      /* 手機筆記（AA_117 C6；AA117-CASE-NOTES-1031）：請求什麼是玩家選的那一行（下面的選項）；誰、向誰、依據什麼照 AA-B 2026-11-01 回覆（D109）的字。LEGAL_REVIEW_REQUIRED：只寫方向 */
+      {speaker:'手機筆記',text:'誰：社團（她是負責人）'},{speaker:'手機筆記',text:'向誰：經手的學弟，和社團大家'},{speaker:'手機筆記',text:'依據什麼：社團的規則、收支表和單據'},{speaker:'手機筆記',text:'請求什麼：'},
       {choice:C6_OPTS},
       {label:'p'},{speaker:'yu',text:'……他是學弟耶。我先不要這樣。'},{goto:'q'},
       {label:'o'},{speaker:'yu',text:'……好。這樣比較不像在抓人。'},{goto:'q'},

@@ -2014,7 +2014,8 @@ const STORY = (function(){
        18:00 還沒回或選了不回＝阿勳一句（選了去查的不出現）。兩週後 11/21 21:00 群組韋綸、可昕（去了、沒去都收到）*/
     if(S.isEcon(G)){ const bd=S.bikeDay(); if(bd!=null){ const gid=PHONE.inGroup(G,'econ_friends')?'econ_friends':'econ_class', T='g:'+gid, WL=t=>({th:T,from:'econ_weilun',name:'韋綸',text:t});
       if(G.day===bd&&G.hour>=17.5&&!F.WL_BIKE_SEEN&&!PHONE.sent(G,'y0_bike_ask')){ if(!PHONE.inGroup(G,gid)) PHONE.join(G,'econ_class','經濟系 大一（全班）');
-        PHONE.at(G,bd,17.5,[Object.assign(WL('我的車被認走了。有沒有人懂法律？'),{ask:{id:'y0_bike',until:bd*24+18,opts:[{t:'（查完再回）',post:false,set:{WL_BIKE_ASK:'look'}},{t:'（不回）',post:false,set:{WL_BIKE_ASK:'none'}}]}})],'y0_bike_ask'); }
+        /* 手機筆記（AA_117 C0；AA117-CASE-NOTES-1031，AA-B 2026-11-01 回覆 D109 的字；LEGAL_REVIEW_REQUIRED：只寫方向、不寫結論）：誰、向誰、請求什麼自動填好，依據什麼是玩家選的那一行（經濟系大一只能「去查」＝（查完再回））；同 events.js 腳踏車那一段*/
+        PHONE.at(G,bd,17.5,[Object.assign(WL('我的車被認走了。有沒有人懂法律？'),{ask:{id:'y0_bike',until:bd*24+18,note:['誰：韋綸（買到別人被偷的車）','向誰：賣家（原車主會來要車）','依據什麼：','請求什麼：跟賣家把錢要回來（車還給原車主）'],opts:[{t:'（查完再回）',post:false,set:{WL_BIKE_ASK:'look'}},{t:'（不回）',post:false,set:{WL_BIKE_ASK:'none'}}]}})],'y0_bike_ask'); }
       if(F.WL_BIKE_ASK==='look'&&!PHONE.sent(G,'y0_bike_look')&&!(GM.D&&GM.D.active)){ F.WL_BIKE_ASK='looked'; F.BIKE_LOOKED_UP=true; F.WL_BIKE=true; if(GM.advance) GM.advance(1);
         PHONE.at(G,G.day,G.hour,[{th:T,from:'player',who:null,text:'被偷的東西，原主兩年內可以要回去。車要還，可是你可以去找賣你的人。紀錄都留著。'},WL('……好。我去派出所。')],'y0_bike_look'); }
       if(G.day>=bd&&(G.day>bd||G.hour>=18)&&G.day<=bd+2&&PHONE.sent(G,'y0_bike_ask')&&!/^look/.test(F.WL_BIKE_ASK||'')&&!PHONE.sent(G,'y0_bike_xun')) PHONE.at(G,bd,18,[{th:T,from:'econ_zhengxun',name:'阿勳',text:'去派出所。留著對話紀錄。'}],'y0_bike_xun');

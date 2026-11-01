@@ -37510,9 +37510,9 @@
    "title": "朋友的案子 C0～C8 都在，「誰／向誰／依據什麼／請求什麼」手機筆記畫面只有 C1 有（r2y3a3d.js:260 註解寫還沒有）：其他八件補筆記畫面（AA_117；歷史複核第 3 批 tier 4）",
    "area": "STORY",
    "owner": "LAWWW",
-   "status": "進行中",
+   "status": "已整合待測試",
    "priority": "P2",
-   "next": "【11-01 09:5x LAWWW-B】C2、C3 做了（aa639795a，併進 91a98556c；tests/aa117_notes_unit.js 修改前 FAILED 5）；C0、C4～C8 稿缺格子＝問 AA-B 補，回了再做｜【11-01 07:2x LAWWW-B】子代理開工（本機分支 feat-xcfest-1101，和芯慈節日同一條）｜【10-31 22:2x】歷史複核找到（HISTORY-AUDIT-1031）→ LAWWW 照稿實作，排在 D99 寒暑假（AA_549）之後",
+   "next": "【11-01 05:2x LAWWW-B】C0～C8 九件手機筆記四格都有（子代理 feat-xcfest-1101 8b060107f，照 AA-B 11-01 補的字，LEGAL_REVIEW_REQUIRED 註記）；C3 旁白拿掉；C5 補「誰」選項（ZQ_C5_WHO）；tests/aa117_notes_unit.js 30 項（修改前 FAILED 15）→ BB 驗；C5 依據用 BB_98 那句、C8 向誰（工作室／發行商）問 AA｜【11-01 09:5x LAWWW-B】C2、C3 做了（aa639795a，併進 91a98556c；tests/aa117_notes_unit.js 修改前 FAILED 5）；C0、C4～C8 稿缺格子＝問 AA-B 補，回了再做｜【11-01 07:2x LAWWW-B】子代理開工（本機分支 feat-xcfest-1101，和芯慈節日同一條）｜【10-31 22:2x】歷史複核找到（HISTORY-AUDIT-1031）→ LAWWW 照稿實作，排在 D99 寒暑假（AA_549）之後",
    "first": {
     "term": "Y2S1",
     "week": 0,

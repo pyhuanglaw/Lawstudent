@@ -1,7 +1,7 @@
 {
  "meta": {
   "generated_by": "tools/handoff/history_audit.py",
-  "head": "7eb058cd1e386c1b9782bb1365e2131584f1d425",
+  "head": "8b20ebbb9bd3095641399d826468cf56c7f3b910",
   "main": "27e6ce77e80782afe979404cdfcd67723ae6a2f8",
   "bb_records": [
    "elegant-brown-fcos7n:BB_218_瀏覽器實測紀錄.md",
@@ -9003,23 +9003,23 @@
    "src": "plan",
    "audit_verdict": null,
    "audit_severity": null,
-   "title": "朋友的案子手機筆記 C1（原有）、C2、C3（開發分支 91a98556c）",
-   "task_status": "進行中",
+   "title": "朋友的案子 C0～C8 手機筆記四格（events.js、story3d.js、y2r2_3d.js、r2y3a3d.js、y2b_events.js、r2y3b_events.js／r2y3b3d.js、r3_3d.js、y34b3d.js）；tests/aa117_notes_unit.js",
+   "task_status": "已整合待測試",
    "owner": "LAWWW",
    "priority": "P2",
-   "tier": 4,
+   "tier": 2,
    "auto": false,
    "main": "no",
    "bb": [],
    "bb_pass": 0,
    "evidence_gap": false,
-   "why": "C0、C4～C8 六件（AA-B 11-01 已補格子，子代理做中）",
-   "evidence": "朋友的案子手機筆記 C1（原有）、C2、C3（開發分支 91a98556c）",
+   "why": "BB 瀏覽器驗",
+   "evidence": "朋友的案子 C0～C8 手機筆記四格（events.js、story3d.js、y2r2_3d.js、r2y3a3d.js、y2b_events.js、r2y3b_events.js／r2y3b3d.js、r3_3d.js、y34b3d.js）；tests/aa117_notes_unit.js",
    "task": "AA117-CASE-NOTES-1031",
-   "next": "BB 瀏覽器驗（11-01 派）；C0、C4～C8 六件（AA-B 11-01 已補格子，子代理做中）",
+   "next": "BB 瀏覽器驗",
    "judged_by": "LAWWW-B",
-   "judged_at": "2026-11-01T05:05Z",
-   "judgment_history": 2
+   "judged_at": "2026-11-01T05:25Z",
+   "judgment_history": 3
   },
   {
    "id": "AA_450",

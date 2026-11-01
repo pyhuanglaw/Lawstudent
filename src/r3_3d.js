@@ -143,6 +143,9 @@ const R3=(function(){
 
   /* ===================== 3-10 阿凱 K5 所以他可以告我嗎（BB_40 K5；BB_99 5-1；AA_117 C7）===================== */
   /* 2028-11-22（三）23:40（臺灣；美國路線照當地時間）。回覆期限例外：到 11/23 08:00。演過＝msg3d.js 的 'kai:k5_sue'（還好嗎的回覆，三天）*/
+  /* 手機筆記（AA_117 C7；AA117-CASE-NOTES-1031）：向誰是玩家選的那一行（下面的選項：三個語氣＋U_WORK）；誰、請求什麼照 BB_70 8b-1 C7「誰＝阿凱；請求什麼＝玩家要道具回來」，
+     依據什麼照 AA-B 2026-11-01 回覆（D109）的字。LEGAL_REVIEW_REQUIRED：只寫方向 */
+  S.KAI_K5_NOTE=['誰：阿凱','向誰：','依據什麼：公司和玩家之間的使用規定','請求什麼：玩家要道具回來'];
   S.kaiK5=function(G){ const F=G.flags, d=D('2028-11-22'); if(d==null||!knows('kai',G)) return; const z=tz(G,d), us=z<0, t0=T(d,23+40/60+z), tEnd=T(d+1,8+z);
     if(now(G)<t0||now(G)>=T(d+4,0)) return;
     if(!PHONE.sent(G,'r3_kai_k5')){ const opts=[
@@ -150,7 +153,7 @@ const R3=(function(){
         {t:'我不能給正式意見。',post:us?'我還是學生，不能給你正式的法律意見。但我可以陪你聊到你睡著。':'我還是學生，不能給你正式的法律意見。但我可以陪你醒著。',say:[{from:'kai',text:'好 那你不要睡'},NAR('（你們開著電話。二十分鐘，誰都沒說話，只聽得到兩邊在打字。）')],set:{KAI_K5:'awake',KAI_STAYED_UP:true},mem:[{npc:'kai',tag:'KAI_STAYED_UP',note:''}]},
         {t:'先修 bug。',say:[{from:'kai',text:'對 先修 bug'},{from:'kai',text:'你比我們主管冷靜'}],set:{KAI_K5:'bug'}}];
       if(F.U_WORK) opts.push({t:'對外通常是公司處理。',post:'你是在工作時出的事，對外通常是公司處理。你要做的是把經過如實告訴公司。',say:[{from:'kai',text:'……所以不是我一個人被告'},{from:'kai',text:'那我現在可以哭了嗎'},ME('可以。哭完寫經過。')],set:{KAI_K5:'company'}});   /* 大三下修過勞動法（U_WORK）*/
-      PHONE.at(G,d,23+40/60+z,(us?[A('你那邊是早上吧 那剛好 我這邊睡不著')]:[]).concat([A('你醒著嗎'),A('我寫的一個 bug 讓一些玩家的道具不見了'),A('有一個玩家在論壇說要告我們'),A('所以他可以告我嗎'),Object.assign(A('這次不是開玩笑'),{ask:{id:'r3_kai_k5',until:tEnd,opts}})]),'r3_kai_k5');
+      PHONE.at(G,d,23+40/60+z,(us?[A('你那邊是早上吧 那剛好 我這邊睡不著')]:[]).concat([A('你醒著嗎'),A('我寫的一個 bug 讓一些玩家的道具不見了'),A('有一個玩家在論壇說要告我們'),A('所以他可以告我嗎'),Object.assign(A('這次不是開玩笑'),{ask:{id:'r3_kai_k5',until:tEnd,opts,note:S.KAI_K5_NOTE.slice()}})]),'r3_kai_k5');
       const E=G.events||(G.events={done:{},last:{},count:0}); E.done=E.done||{}; E.last=E.last||{}; E.done.ev_kai_can_they_sue=(E.done.ev_kai_can_they_sue|0)+1; E.last.ev_kai_can_they_sue=d; }   /* 收到那幾則＝演過（msg3d.js 的 k5_sue 後續）*/
     if(!F.KAI_K5&&PHONE.sent(G,'r3_kai_k5')&&now(G)>=tEnd){ const m=PHONE.byAsk(G,'r3_kai_k5'); if(!m||m.ans==null){ F.KAI_K5='none'; PHONE.at(G,d+1,8+z,[A('沒事了 不用回')],'r3_kai_k5_none'); } }
     if(PHONE.sent(G,'r3_kai_k5')&&now(G)>=T(d+1,22.5+z)&&!PHONE.sent(G,'r3_kai_k5_b')) PHONE.at(G,d+1,22.5+z,[A('公司處理了 道具都補回去了'),A('我以前覺得玩家是數字'),A('昨天我把那個人的留言看了十遍'),A('他是一個國中生 存了三個月的錢')],'r3_kai_k5_b'); };

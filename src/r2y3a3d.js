@@ -255,14 +255,17 @@ const R2Y3A=(function(){
 
   /* ===================== 2-Y3-16 C4 阿哲的機車（LEGAL_REVIEW_REQUIRED：U_TORT 那個選項的字是 BB 10-14 查過的）===================== */
   const Zh=P('zhe'), Zhr=R('zhe'), Me=t=>({from:'player',who:null,text:t});
+  /* 手機筆記（AA_117 C4；AA117-CASE-NOTES-1031）：向誰是玩家選的那一行（上面那兩個選項）；誰、依據什麼、請求什麼照 AA-B 2026-11-01 回覆（D109）的字。
+     LEGAL_REVIEW_REQUIRED：只寫方向（對方不小心造成的、照估價付），不寫結論 */
+  S.C4_NOTE=['誰：阿哲（被擦撞的人）','向誰：','依據什麼：對方不小心造成的損壞','請求什麼：照修車行的估價付修車費'];
   S.c4Phone=function(G){ const F=G.flags, d=DK('2027-11-19'); if(d==null||G.day<d||G.day>d+1||!met(G,'zhe','FAMILIAR')) return; const n=now(G);
     if(n>=T(d,21)&&!sent(G,'y3_c4')){ silentContact(G,'zhe');
       /* 第一則回覆固定（大三的祐廷一定會說到這裡），接著選「向誰」，然後問「你真正想要的是什麼？」（AA_117）。「四個問題」的筆記畫面 2026-11-01 有了（手機＝ask.note，game3d.js noteHint；C2 r3_3d.js、C3 y2r2_3d.js 已接，AA117-CASE-NOTES-1031）——
-         C4 稿只有「下一步」「向誰」兩行（AA_117 C4、AA_326 2-Y3-16），誰、依據什麼、請求什麼自動填的字沒寫＝先不放，問 AA；給了就在下面 ask 加 note:[…] */
+         C4 的四行在 S.C4_NOTE（誰、依據什麼、請求什麼：AA-B 2026-11-01 回覆）*/
       const tail=[Me('你真正想要的是什麼？'),Zhr('……我想要我的車修好 然後不要再想這件事'),Me('那就照修車的估價談，談好寫清楚。'),Zhr('好 我先拍照')];
       const opt=(t,k)=>({t,post:false,say:[Me('先不要簽。拍照、報警做紀錄。'),Me(t)].concat(tail),mem:[{npc:'zhe',tag:'ZHE_SCOOTER',note:''}],set:{ZHE_C4:k}});
       const O=[opt('找對方談。後面怎麼賠，我們去法服問。','fafu')];   /* AA_462 第 2 節：原本開頭只有「對方。」接不上前一句；U_TORT 那一句不動 */ if(F.U_TORT) O.push(opt('如果是對方不小心造成的，修車費可以要他賠。他有保第三人責任險的話，保險公司會來談。','tort'));
-      PHONE.at(G,d,atH(G,d,21),[Zh('我剛在路口被一台車擦到'),Zh('我沒事啦 人好好的 車殼裂了'),Zh('對方說他趕時間 要給我一千塊 叫我簽一張紙'),Object.assign(Zh('要簽嗎'),{ask:{id:'y3_c4',until:T(d+1,18),opts:O}})],'y3_c4'); }
+      PHONE.at(G,d,atH(G,d,21),[Zh('我剛在路口被一台車擦到'),Zh('我沒事啦 人好好的 車殼裂了'),Zh('對方說他趕時間 要給我一千塊 叫我簽一張紙'),Object.assign(Zh('要簽嗎'),{ask:{id:'y3_c4',until:T(d+1,18),opts:O,note:S.C4_NOTE.slice()}})],'y3_c4'); }
     const m=PHONE.byAsk(G,'y3_c4'); if(m&&m.ans==null&&n>=T(d+1,18)&&!sent(G,'y3_c4_noreply')) PHONE.at(G,d+1,18,[Zh('沒事啦 我沒簽 明天去修車')],'y3_c4_noreply'); };   /* 沒回：沒有記憶 */
 
   /* ===================== 2-Y3-17 語彤事件 14「續約」 ===================== */
