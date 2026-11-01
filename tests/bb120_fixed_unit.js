@@ -104,7 +104,7 @@ const W5TUE=termDay('Y1S1',5,2), W5WED=termDay('Y1S1',5,3), W6THU=termDay('Y1S1'
     G.zone='dorm'; G.hour=20; check('E 說的那週：還沒有植物',!tick()&&G.flags.fyPots&&G.flags.fyPots.hand==null);
     G.day=mon; G.weekday=1; G.hour=6.5; check('E 下週一清晨 6:30 不演',!tick());
     G.hour=9; said=[]; const st=tick(); await new Promise(r=>setTimeout(r,0));
-    check('E 下週一 9:00 待在房間 2.5 秒：交給你（旁白＋「三盆。兩天一次。早上澆，不要澆到葉子。」）',st&&said.map(s=>(s.who||'旁白')+'｜'+s.t).join('/')==='旁白｜（方奕廷把三盆植物搬到你的房間窗台。）/方奕廷｜「三盆。兩天一次。早上澆，不要澆到葉子。」'&&G.flags.fyPots.hand===mon,said.map(s=>(s.who||'旁白')+'｜'+s.t).join('/'));
+    check('E 下週一 9:00 待在房間 2.5 秒：交給你（旁白＋「三盆。兩天一次。早上澆，不要澆到葉子。」）',st&&said.map(s=>(s.who||'旁白')+'｜'+s.t).join('/')==='旁白｜（方奕廷把三盆植物搬到你的房間窗台。）/方奕廷｜三盆。兩天一次。早上澆，不要澆到葉子。'&&G.flags.fyPots.hand===mon,said.map(s=>(s.who||'旁白')+'｜'+s.t).join('/'));
     STORY.dormItems(GM); const pot=E.interactables.find(i=>i.fyPots); check('E 房間物件「方奕廷的三盆植物」',!!pot&&pot.label==='方奕廷的三盆植物');
     check('E 不會重複交（同一天再待一下）',!tick());
     picks=[0]; said=[]; await STORY._fy.scene(GM); check('E 點了「澆水」',opts[opts.length-1].join('/')==='澆水/不用了'&&said[0].t==='你幫三盆植物澆了水。'&&G.flags.fyPots.w.join()===String(mon));
@@ -113,12 +113,12 @@ const W5TUE=termDay('Y1S1',5,2), W5WED=termDay('Y1S1',5,3), W6THU=termDay('Y1S1'
     check('E 三個檢查（第 2、4、6 天結束）都有澆：忘了 0 次',STORY.fyForgot(G.flags.fyPots)===0,JSON.stringify(G.flags.fyPots.w));
     G.day=mon+6; check('E 第 7 天他還沒回來',!tick());
     G.day=mon+7; said=[]; tick(); await new Promise(r=>setTimeout(r,0));
-    check('E 第 8 天：都有澆「三盆都很好。土的濕度剛好。」「……謝謝。下次上山還找你。」、三盆搬回去',said.map(s=>s.t).join('/')==='「三盆都很好。土的濕度剛好。」/「……謝謝。下次上山還找你。」/（三盆搬回他的房間了。）'&&G.flags.fyPots.done&&G.flags.fyPots.forgot===0,said.map(s=>s.t).join('/'));
+    check('E 第 8 天：都有澆「三盆都很好。土的濕度剛好。」「……謝謝。下次上山還找你。」、三盆搬回去',said.map(s=>s.t).join('/')==='三盆都很好。土的濕度剛好。/……謝謝。下次上山還找你。/（三盆搬回他的房間了。）'&&G.flags.fyPots.done&&G.flags.fyPots.forgot===0,said.map(s=>s.t).join('/'));
     check('E 物件拿掉、之後不再出現',!E.interactables.some(i=>i.fyPots)&&(STORY.dormItems(GM),!E.interactables.some(i=>i.fyPots))&&!tick());
     fresh(wed,15,'cafe'); SOCIAL.markUp('npc_fangyt',4); G.zone='dorm'; G.day=mon; G.hour=10; tick(); await new Promise(r=>setTimeout(r,0)); picks=[0]; await STORY._fy.scene(GM);
     check('E 只澆了第一天：忘了兩次',STORY.fyForgot(G.flags.fyPots)===2);
     G.day=mon+9; G.hour=22; said=[]; tick(); await new Promise(r=>setTimeout(r,0));
-    check('E 回來（第 8 天以後第一次待在房間）：忘了一次以上「它們很堅強。」',said.map(s=>s.t).join('/')==='「它們很堅強。」/（三盆搬回他的房間了。）'&&G.flags.fyPots.forgot===2,said.map(s=>s.t).join('/'));
+    check('E 回來（第 8 天以後第一次待在房間）：忘了一次以上「它們很堅強。」',said.map(s=>s.t).join('/')==='它們很堅強。/（三盆搬回他的房間了。）'&&G.flags.fyPots.forgot===2,said.map(s=>s.t).join('/'));
     fresh(mon,10,'dorm'); G.social.relUp={npc_fangyt:4}; said=[]; check('E 舊存檔（不知道門檻台詞是哪一天）：不演',!tick()&&G.flags.fyPots.done&&G.flags.fyPots.old&&!said.length);
     fresh(mon,10,'dorm'); said=[]; check('E 還沒到好朋友：不演',!tick()&&!G.flags.fyPots); }
   /* ---------- F 每天的手機小事照常 ---------- */
