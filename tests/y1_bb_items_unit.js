@@ -179,7 +179,7 @@ const near=(id,dx)=>{ const n={id,charId:id,name:id,obj:{position:{x:E.player.ob
   { const C=typeof CROWD!=='undefined'?CROWD:null, sp=C&&C.SPOTS.find(s=>s.id==='fdorm');
     const L=(day,key)=>{ fresh(day,8,'campus'); return sp&&sp.lines?sp.lines(G,{key}):null; };
     const w1=TD('Y1S1',1,2), w5=TD('Y1S1',5,2), w8=TD('Y1S1',8,2);
-    check('D7：開學第一週白天＝「（一個女生拖著兩個行李箱，在門口打電話）「媽，我到了。……對，有電梯。」」',J(L(w1,'am'))===J(['（一個女生拖著兩個行李箱，在門口打電話）「媽，我到了。……對，有電梯。」']),J(L(w1,'am')));
+    check('D7：開學第一週白天＝「（一個女生拖著兩個行李箱，在門口打電話）「媽，我到了。……沒有電梯啦，我爬上來的。五樓。」」',J(L(w1,'am'))===J(['（一個女生拖著兩個行李箱，在門口打電話）「媽，我到了。……沒有電梯啦，我爬上來的。五樓。」']),J(L(w1,'am')));
     check('D7：傍晚「她說五分鐘。……我數到第三個五分鐘了。」；晚上兩句（宵夜、講電話）；考試週「總圖還有位子嗎？……那我去社科圖。」；第 5 週早上沒有',J(L(w5,'eve'))===J(['「她說五分鐘。……我數到第三個五分鐘了。」'])&&J(L(w5,'night'))===J(['（提著兩袋宵夜的人）「鹹酥雞到了，誰下來拿？」','（在門口講電話）「沒有啦，我只是想打給你。」'])&&J(L(w8,'eve'))===J(['（抱著一疊書的人）「總圖還有位子嗎？……那我去社科圖。」'])&&J(L(w5,'am'))==='[]',J([L(w5,'eve'),L(w5,'night'),L(w8,'eve'),L(w5,'am')]));
     fresh(w5,20.5,'campus'); const ns=[0,1,2].map(i=>({obj:{position:{x:i,y:0,z:0}}})); const got=C&&C.giveLines?C.giveLines(GM,sp,{key:'night'},ns):[];
     check('D7：一群人裡一句給一個人（晚上兩句＝兩個人可以點「聽一句」，第三個不行）',got.length===2&&ns[0].talkLabel==='聽一句'&&typeof ns[0].talk==='function'&&!ns[2].talk);
