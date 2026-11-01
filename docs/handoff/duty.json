@@ -13,11 +13,11 @@
   "C",
   "D"
  ],
- "onDuty": "B",
+ "onDuty": null,
  "previous": "B",
  "accountState": {
   "A": "off",
-  "B": "on",
+  "B": "off",
   "C": "off",
   "D": "unused"
  },
@@ -26,16 +26,18 @@
    "account": "B",
    "session": "session_01DvRVNNnivf7da7qqWuGmw6",
    "branch": "claude/modest-rubin-2lyp7g",
-   "sha": "3f4614e8",
+   "sha": "c49cd222",
    "sinceSha": "3f4614e8",
    "since": "2026-11-01T22:04Z",
-   "state": "on",
+   "state": "handed-off",
    "prev": {
     "account": "B",
     "session": "session_01DvRVNNnivf7da7qqWuGmw6",
     "branch": "claude/modest-rubin-2lyp7g",
     "sha": "11cccba5"
-   }
+   },
+   "handedOffAt": "2026-11-01T22:57Z",
+   "handoffSnapshot": "2026-11-01T2257Z_B_LAWWW.json"
   },
   "LAWWW2": {
    "account": "B",
@@ -76,10 +78,10 @@
  },
  "lastHandoff": {
   "from": "B",
-  "at": "2026-11-01T21:43Z",
+  "at": "2026-11-01T22:57Z",
   "kind": "handoff",
   "snapshots": {
-   "LAWWW": "2026-11-01T2142Z_B_LAWWW.json",
+   "LAWWW": "2026-11-01T2257Z_B_LAWWW.json",
    "LAWWW2": {
     "file": "2026-11-01T0902Z_B_LAWWW2.json",
     "ref": "origin/claude/funny-albattani-iawshm"
@@ -788,7 +790,7 @@
    "note": "LAWWW-B 11-01 22:5x 查核：帳號 C 這條分支最後 commit 3e23808e7（10-28 15:2x～15:33），比帳號 B 10-30 02:07 接班早，而且已經是帳號 B 同一職位分支的祖先（接班時合併了）——不是兩個帳號同時寫；duty.json 記的 C 交班 SHA 是舊的"
   }
  ],
- "seq": 39,
+ "seq": 40,
  "chain": [
   {
    "seq": 1,
@@ -1062,6 +1064,13 @@
    "account": "B",
    "role": "LAWWW",
    "event": "register"
+  },
+  {
+   "seq": 40,
+   "at": "2026-11-01T22:57Z",
+   "account": "B",
+   "role": "LAWWW",
+   "event": "handoff"
   }
  ],
  "pending": null
