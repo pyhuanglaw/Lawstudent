@@ -1,5 +1,5 @@
 diff --git a/src/us3d.js b/src/us3d.js
-index b5b61c44d..f30a5ecad 100644
+index b5b61c44d..2212f7b86 100644
 --- a/src/us3d.js
 +++ b/src/us3d.js
 @@ -363,8 +363,8 @@ const US3=(function(){
@@ -13,13 +13,12 @@ index b5b61c44d..f30a5ecad 100644
      const IT=E.interactables;
      for(const q of L.interact) IT.push({x:q.x,z:q.z,radius:q.r,lv:0,label:q.label,usMarket:q.id,look:lookText(q.label+'。')});   /* usMarket＝互動的 id（serviceDesk、dairy……）：採買、US1 的「看蛋的日期」由交換系統（LAWWW-C）接 */
      for(const a of L.aisle_signs){ const gd=L.gondolas.find(q=>q.aisle===a.aisle); const cat=gd?AISLE_ZH[gd.cat]||gd.cat:''; IT.push({x:a.x,z:a.z,radius:1.0,lv:0,label:'第 '+a.aisle+' 走道：'+cat,usMarket:'aisle_'+(gd?gd.cat:a.aisle),look:lookText(cat+'。')}); }
-@@ -373,8 +373,11 @@ const US3=(function(){
-     if(typeof US_ASIAN_MARKET_LAYOUT!=='undefined'&&!MS()){ const X=L.exit; IT.push({x:X.x+2.6,z:X.z-0.4,radius:1.0,lv:0,label:'過馬路（對面的亞洲超市）',exit:{to:'us_asian_market',spawn:Object.assign({},US_ASIAN_MARKET_LAYOUT.spawn)}}); }
+@@ -374,7 +374,10 @@ const US3=(function(){
      z.formal=false; if(has('bldg.us_market')) ASSETS.loadOne('bldg.us_market').then(c=>{ if(!c||!c.scene||E.zone!==z) return; const root=c.scene.clone(true);
        root.traverse(o=>{ if(o.isMesh){ o.castShadow=false; o.receiveShadow=true; } }); g0.add(root); fb.visible=false; z.formal=true;
-+      { const LMS=root.userData&&root.userData.lightmap; if(LMS) Z3.roomLightmap(z,root,LMS); }   /* 光照貼圖（INTERIOR-AAA-REVIEW-1028，LAWWW2 11-02；tools/blender/env_second/lightbake/bake_us.sh bigmart）：這一間沒走 attachRoomGLB（正式模型沒有會淡出的牆），光照貼圖另外接 */
        root.traverse(o=>{ if(o.isMesh&&/^PLATE_FACE_lane/.test(o.name)) paintPlate(o,(/(\d+)$/.exec(o.name)||[])[1]||'','#1f4f8f','#ffffff'); });
 -      glow=glowMats(root,/^GLOW_/); const G=G_(); if(G) z.applyTime(G.hour,G.weather); }).catch(e=>console.warn('草原超市正式模型載入失敗，用程序化備用模型',e));
++      { const LMS=root.userData&&root.userData.lightmap; if(LMS) Z3.roomLightmap(z,root,LMS); }   /* 光照貼圖（INTERIOR-AAA-REVIEW-1028，LAWWW2 11-02；tools/blender/env_second/lightbake/bake_us.sh bigmart）：這一間沒走 attachRoomGLB（正式模型沒有會淡出的牆），光照貼圖另外接；放在 paintPlate 後面：車道號碼牌換成自己的材質（clone 不帶 onBeforeCompile），要先換再接，晚上才會跟著暗 */
 +      glow=glowMats(root,/^GLOW_/);
 +      { const vm=new Set(); root.traverse(q=>{ if(q.isMesh&&/^usm_outside_view/.test(q.name)) vm.add(q.material); }); views=[...vm]; glow=glow.filter(m=>!vm.has(m)); }   /* 窗景（材質 GLOW_usm_outside）原本算在整天都亮的燈裡：晚上 20:30 窗外停車場還是白天（LAWWW2 11-02 光照烘焙時看到）*/
 +      const G=G_(); if(G) z.applyTime(G.hour,G.weather); }).catch(e=>console.warn('草原超市正式模型載入失敗，用程序化備用模型',e));
@@ -28,19 +27,22 @@ index b5b61c44d..f30a5ecad 100644
    // =================== 大超市對面的小亞洲超市 us_asian_market（竹葉亞洲超市，虛構；使用者 2026-10-17 23:0x）===================
 diff --git a/tests/us_market_lm_unit.js b/tests/us_market_lm_unit.js
 new file mode 100644
-index 000000000..a5882ba8c
+index 000000000..d47a54ebb
 --- /dev/null
 +++ b/tests/us_market_lm_unit.js
-@@ -0,0 +1,25 @@
+@@ -0,0 +1,64 @@
 +// 美國草原超市（us_market）正式模型的光照貼圖＋窗景照時段變暗（INTERIOR-AAA-REVIEW-1028，LAWWW2 帳號 A 2026-11-02）——不需要瀏覽器。
 +// us3d.js 的 us_market 區域沒有走 attachRoomGLB（正式模型沒有會淡出的牆），光照貼圖另外用 Z3.roomLightmap 接。這支檢查：
 +//   ①extras.lightmap 的白天、晚上兩張都在
 +//   ②地板、天花板（鋼承板）、牆有第二套 UV（TEXCOORD_1）：沒有的話吃不到光照貼圖
-+//   ③商品、價格條、層板、水果、桁架、風管、發光面不烘（--nolm／--hide）：沒有第二套 UV，照舊即時光
-+//   ④us3d.js 載入正式模型以後有接光照貼圖（Z3.roomLightmap）
-+//   ⑤窗景（usm_outside_view，材質 GLOW_usm_outside）不算在整天都亮的燈裡、照時段變暗（viewTint）——原本晚上 20:30 窗外停車場還是白天
++//   ③商品、價格條、層板、水果、桁架、風管、發光面、冷藏櫃內層板、收銀台檯面不烘（--nolm／--hide）：沒有第二套 UV，照舊即時光
++//   ④（實際建區域）載入正式模型以後真的接上光照貼圖：用 GLB 根節點 userData.lightmap 的那一份；車道號碼牌（paintPlate 換成自己的材質）也跟著晚上變暗
++//   ⑤（實際建區域）窗景 usm_outside_view 照時段變暗（viewTint）、不算在整天都亮的燈裡——原本晚上 20:30 窗外停車場還是白天
++//   ⑥GLB 裡只有 usm_outside_view 用 GLOW_usm_outside（別的東西用到同一個材質的話，⑤會連它一起調暗）
++// ④⑤ 在 Node 照遊戲的程式建出 us_market 區域，正式模型換成一個假的場景（有第二套 UV 的地板、窗景、LED、車道號碼牌，根節點帶 lightmap）：
++//   11-02 審查用改壞的程式試過——只比對原始碼文字的舊寫法抓不到（呼叫寫在 if(false) 裡、窗景比對材質名稱而不是節點名稱都照樣 PASS）。
 +// 用法：node tests/us_market_lm_unit.js
-+const fs=require('fs'), path=require('path');
++const fs=require('fs'), vm=require('vm'), path=require('path');
 +const ROOT=path.resolve(__dirname,'..'), REL='assets/models/env/second_ai/us_market.glb';
 +let fails=0; const check=(name,ok,info)=>{ console.log((ok?'PASS ':'FAIL ')+name+(info?'　'+info:'')); if(!ok) fails++; };
 +const b=fs.readFileSync(path.join(ROOT,REL)), n=b.readUInt32LE(12), j=JSON.parse(b.slice(20,20+n).toString('utf8'));
@@ -50,10 +52,46 @@ index 000000000..a5882ba8c
 +const uv1=nm=>{ const nd=j.nodes.find(x=>x.name===nm); if(!nd||nd.mesh==null) return null; return j.meshes[nd.mesh].primitives.every(p=>p.attributes.TEXCOORD_1!=null); };
 +const want=['usm_floor','usm_deck','WALL_usm_walls'], got=want.map(k=>[k,uv1(k)]);
 +check('② 地板、天花板、牆有第二套 UV',got.every(([,v])=>v===true),JSON.stringify(got));
-+const live=['usm_products','usm_price','usm_shelves','usm_fruit_apple','usm_joists','usm_ducts','GLOW_usm_leds'].map(k=>[k,uv1(k)]);
-+check('③ 商品、價格條、層板、水果、桁架、風管、LED 發光面沒有第二套 UV（照舊即時光）',live.every(([,v])=>v===false),JSON.stringify(live));
-+const src=fs.readFileSync(path.join(ROOT,'src/us3d.js'),'utf8');
-+const i0=src.indexOf("const us_market={"), i1=src.indexOf('const us_asian_market'), seg=i0>=0?src.slice(i0,i1>i0?i1:undefined):'';
-+check('④ us3d.js 的 us_market 載入正式模型後接光照貼圖（Z3.roomLightmap）',/Z3\.roomLightmap\(z,root,/.test(seg));
-+check('⑤ 窗景 usm_outside_view 照時段變暗（viewTint）、不算在整天都亮的燈裡',/usm_outside_view/.test(seg)&&/viewTint\(views,h\)/.test(seg)&&/glow=glow\.filter/.test(seg));
-+console.log(fails?('FAIL '+fails):'ALL PASS'); process.exit(fails?1:0);
++const live=['usm_products','usm_price','usm_shelves','usm_fruit_apple','usm_joists','usm_ducts','GLOW_usm_leds','usm_case_back','usm_checkout_top'].map(k=>[k,uv1(k)]);
++check('③ 商品、價格條、層板、水果、桁架、風管、LED 發光面、冷藏櫃內層板、收銀台檯面沒有第二套 UV（照舊即時光）',live.every(([,v])=>v===false),JSON.stringify(live));
++{ const users=j.nodes.filter(nd=>nd.mesh!=null&&j.meshes[nd.mesh].primitives.some(p=>p.material!=null&&(j.materials[p.material].name||'')==='GLOW_usm_outside')).map(nd=>nd.name);
++  check('⑥ GLB 裡只有 usm_outside_view 用 GLOW_usm_outside',users.length===1&&users[0]==='usm_outside_view',users.join(',')); }
++
++// ---- ④⑤：照遊戲的程式建出區域（同 us_market_cam_unit.js 的做法），正式模型換成假的場景 ----
++global.window=global; global.self=global;
++const ctx2d=new Proxy({}, {get:(o,k)=>k==='createRadialGradient'||k==='createLinearGradient'||k==='createPattern'?()=>({addColorStop(){}}):(k==='getImageData'?()=>({data:new Uint8ClampedArray(16)}):(k==='measureText'?()=>({width:10}):(()=>{})))});
++global.document={ createElementNS:()=>({getContext:()=>ctx2d,style:{},addEventListener(){},removeEventListener(){}}), createElement:()=>({width:1,height:1,getContext:()=>ctx2d,style:{}}), getElementById:()=>null, addEventListener(){} };
++global.navigator={userAgent:'node'}; global.addEventListener=()=>{}; global.innerWidth=844; global.innerHeight=390; global.location={search:''};
++process.on('unhandledRejection',()=>{}); global.fetch=()=>Promise.reject(new Error('no fetch in node'));
++for(const f of ['lib/three.bundle.js','lib/three.jsm.bundle.js','src/people3d.js','src/assets3d.js','src/world3d.js','src/engine3d.js','src/townkit3d.js','src/campuskit3d.js','src/zones3d.js','src/data/us_layouts.js','src/us3d.js']){
++  let src=fs.readFileSync(path.join(ROOT,f),'utf8'); src=src.replace(/^const (\w+)\s*=/m,'globalThis.$1='); vm.runInThisContext(src,{filename:f}); }
++const E=E3; E.scene=new THREE.Scene(); E.q={level:'medium'}; E.ray=E.ray||new THREE.Raycaster();
++global.GAME={G:{hour:14,weather:'clear',flags:{},zone:'us_market'}};
++const SPEC=lm||{day:'assets/models/env/second_ai/us_market_lm_day.webp',night:'assets/models/env/second_ai/us_market_lm_night.webp',intensity:Math.PI*2};   /* 假場景照樣帶 lightmap：程式的部分和 GLB 有沒有烘焙分開檢查 */
++function fakeGLB(){ const root=new THREE.Group(); root.userData.lightmap={day:SPEC.day,night:SPEC.night,intensity:SPEC.intensity};
++  const mk=(name,mat,withUV1)=>{ const g=new THREE.PlaneGeometry(1,1); if(withUV1) g.setAttribute('uv1',g.attributes.uv.clone()); const m=new THREE.Mesh(g,mat); m.name=name; root.add(m); return m; };
++  mk('usm_floor',new THREE.MeshStandardMaterial({name:'usm_floor'}),true);
++  mk('usm_outside_view',new THREE.MeshStandardMaterial({name:'GLOW_usm_outside',emissive:new THREE.Color(1,1,1),emissiveIntensity:1}),false);
++  mk('GLOW_usm_leds',new THREE.MeshStandardMaterial({name:'GLOW_usm_leds',emissive:new THREE.Color(1,1,1),emissiveIntensity:1}),false);
++  mk('PLATE_FACE_lane_1',new THREE.MeshStandardMaterial({name:'usm_price_strip'}),false);
++  return {scene:root}; }
++const has=k=>!!(ASSETS.manifest&&ASSETS.manifest[k]);
++if(!has('bldg.us_market')) ASSETS.manifest['bldg.us_market']={url:REL,type:'building',lazy:true};
++let built=null; ASSETS.loadOne=k=>k==='bldg.us_market'?Promise.resolve(fakeGLB()):new Promise(()=>{});
++const origClone=THREE.Group.prototype.clone;
++(async()=>{
++  E.interactables=[]; E.colliders=[]; E.lampGlows=[]; E.seats=[]; E.npcs=[]; E.spawnHint=null;
++  const z=Z3.ZONES.us_market.build(E); E.zone=z; built=z;
++  for(let k=0;k<20&&!z.formal;k++) await new Promise(r=>setTimeout(r,10));
++  const root=z.group.children.find(o=>o.getObjectByName&&o.getObjectByName('usm_floor'));
++  const floor=root&&root.getObjectByName('usm_floor'), view=root&&root.getObjectByName('usm_outside_view'), leds=root&&root.getObjectByName('GLOW_usm_leds'), plate=root&&root.getObjectByName('PLATE_FACE_lane_1');
++  check('④ 載入正式模型以後地板接上光照貼圖（z.lightmapped>0、地板材質有 lightMap）',!!z.formal&&!!floor&&!!floor.material.lightMap&&(z.lightmapped|0)>0,'formal '+z.formal+'、lightmapped '+z.lightmapped);
++  check('④ 用的是 GLB 根節點 userData.lightmap 的那一份（強度一樣）',!!floor&&Math.abs((floor.material.lightMapIntensity||0)-SPEC.intensity)<1e-6,floor&&floor.material.lightMapIntensity);
++  const pk=plate&&plate.material.customProgramCacheKey?plate.material.customProgramCacheKey():'';
++  check('④ 車道號碼牌（paintPlate 換過的材質）也包了晚上變暗（roomLightmap 在 paintPlate 後面）',/roomRT/.test(pk),pk);
++  z.applyTime(14,'clear'); const d=view?view.material.color.getHexString():null;
++  z.applyTime(20.5,'clear'); const nt=view?view.material.color.getHexString():null, ledI=leds?leds.material.emissiveIntensity:null;
++  check('⑤ 窗景 14:00 原色、20:30 變暗（viewTint）',d==='ffffff'&&!!nt&&nt!=='ffffff',d+' → '+nt);
++  check('⑤ LED 發光面照舊整天都亮（20:30 發光強度沒有被調）',ledI!=null&&ledI>0.99,ledI);
++  console.log(fails?('FAIL '+fails):'ALL PASS'); process.exit(fails?1:0);
++})().catch(e=>{ console.log('FAIL 例外 '+(e&&e.stack||e)); process.exit(1); });

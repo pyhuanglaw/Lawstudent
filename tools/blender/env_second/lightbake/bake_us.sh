@@ -178,7 +178,7 @@ print(';'.join(out))
 PY
 )
   SATD=0.6
-  EXTRA=(--sun 180,40,"${SUNW:-0.6}" --sky "${SKY:-0.8}" --daywb ${DAYWB:-1.0,0.97,0.92} --nightwb ${NIGHTWB:-1.0,0.97,0.92} --daylights "${DAYL:-1.0}" --shell S) ;;
+  EXTRA=(--sun 180,40,"${SUNW:-0.6}" --sky "${SKY:-0.8}" --daywb ${DAYWB:-1.0,0.97,0.92} --nightwb ${NIGHTWB:-0.95,0.95,0.95} --daylights "${DAYL:-1.0}" --shell S) ;;
 *) echo "未知的區域：$ZONE"; exit 1 ;;
 esac
 LIGHTS=${LIGHTS#;}
