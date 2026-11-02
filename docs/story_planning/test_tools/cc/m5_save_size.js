@@ -2,6 +2,7 @@
 // 用法：
 //   nice -n 19 node docs/story_planning/test_tools/cc/m5_save_size.js <受測版本根目錄> [--json <輸出檔>]
 //   （根目錄＝有 src/、tests/pg_harness.js 的乾淨 checkout）
+//   延畢路線：[FAIL_ROUTE=retake|maritime] [RETAKE_COURSE=enforcement]（D124 690ac5f4d 起預設 retake＝大四上被當→大四下重修沒過；D124 以前的版本用 FAIL_ROUTE=maritime）
 // 存檔怎麼寫（src/game3d.js，這支腳本會檢查原始碼確認）：snapshot()＝Object.assign({},G,{pos,hour,savedAt,v})；write(key,obj)＝localStorage.setItem(key,JSON.stringify(obj))，
 //   沒有壓縮；寫不進去（超過配額）只回傳 false——autosave 不看回傳值（不提示），saveSlot 才 toast「存檔失敗」。
 // 這裡把 game3d.js 的 snapshot 原始碼抽出來執行，序列化照 write 用 JSON.stringify；大小＝字元數×2（localStorage 以 UTF-16 計）。
@@ -22,6 +23,8 @@ for(const f of ['src/data/study_units.js','src/study3d.js','src/jp3d.js','src/da
 GM.caption=()=>{}; GM.toast=()=>{};
 CLS.attPass=()=>true;
 const J=JSON.stringify;
+const FAIL_ROUTE=process.env.FAIL_ROUTE||'retake', RT_COURSE=process.env.RETAKE_COURSE||'enforcement'; if(!['retake','maritime'].includes(FAIL_ROUTE)) throw new Error('FAIL_ROUTE 只能是 retake／maritime：'+FAIL_ROUTE);
+const RT_NAME=(CLS.byId(RT_COURSE)||{}).name||RT_COURSE;
 let fails=0; const check=(name,ok,info)=>{ console.log((ok?'PASS ':'FAIL ')+name+(info?'　'+info:'')); if(!ok) fails++; return ok; };
 
 /* ---- 確認存檔的寫法（原始碼）---- */
@@ -100,7 +103,7 @@ async function sim(name,opt){ rnd=rngOf(opt.seed); pRight=opt.pRight!=null?opt.p
     /* 總複習 */
     if(tp&&rnd()<0.5){ const info=STUDY.reviewInfo(G,'final'); if(info){ G.hour=9; try{ await STUDY.review(GM,'final',{home:true}); }catch(e){} } }
     /* 期末考 */
-    if(tp) for(const e of tp.exams.filter(e=>e.day===d)){ G.hour=e.t0; forceWrong=!!(opt.failY4S2&&T==='Y4S2'&&e.c.id===opt.failY4S2); try{ await CLS.runExam(GM,{c:e.c,exam:'final',term:T}); } finally { forceWrong=false; } }
+    if(tp) for(const e of tp.exams.filter(e=>e.day===d)){ G.hour=e.t0; forceWrong=!!((opt.failY4S2&&T==='Y4S2'&&e.c.id===opt.failY4S2)||(opt.failY4S1&&T==='Y4S1'&&e.c.id===opt.failY4S1)); try{ await CLS.runExam(GM,{c:e.c,exam:'final',term:T}); } finally { forceWrong=false; } }
     /* 學期末成績單 */
     if(termEnds[d]){ G.hour=9; await CLS.showGrades(GM,termEnds[d],{inScene:true}); }
     if(d===PG.DK('2029-06-18')&&typeof FD!=='undefined'){ try{ await FD.check(GM,{inScene:true}); }catch(e){ console.log('  FD.check 例外 '+e.message); } }
@@ -131,7 +134,10 @@ async function sim(name,opt){ rnd=rngOf(opt.seed); pRight=opt.pRight!=null?opt.p
     ['TW 一般',{seed:1}],
     ['JP 交換',{seed:2,route:'JP'}],
     ['US 交換',{seed:3,route:'US'}],
-    ['延畢一學期（大四下海商法全錯＋補考全錯）',{seed:4,failY4S2:'maritime',delay:true}],
+    /* D124（690ac5f4d 起）：海商法改選修、被當不延畢。預設 FAIL_ROUTE=retake：大四上 RETAKE_COURSE（預設 enforcement）期末全錯 → 真的 showGrades／planRetakes 排進大四下 → 大四下重修期末全錯＋補考全錯；
+       FAIL_ROUTE=maritime＝舊路線（大四下海商法全錯＋補考全錯；D124 以前的版本用）*/
+    FAIL_ROUTE==='maritime'?['延畢一學期（大四下海商法全錯＋補考全錯）',{seed:4,failY4S2:'maritime',delay:true}]
+      :['延畢一學期（大四上'+RT_NAME+'全錯→大四下重修全錯＋補考全錯）',{seed:4,failY4S1:RT_COURSE,failY4S2:RT_COURSE,delay:true}],
     ['研究所路線',{seed:5,grad:true,pRight:0.85}],
     ['重度玩家（記憶×3、全部人物、同行對象 58 位、事件全演、旗標 80%）',{seed:6,msgMul:2,memMul:3,people:999,companions:999,evFrac:1,flagFrac:0.8,pRight:0.5}]];
   const out=[];

@@ -1,7 +1,7 @@
 // CC K1「交換路線（JP、US）的核心玩法」——只用 Node，不開瀏覽器、不改 src/。
 // 用法：
 //   cd /home/user/Lawstudent && git archive <SHA> src tests index.html | tar -x -C <資料夾>
-//   nice -n 19 node docs/story_planning/test_tools/cc/k1_exchange.js <資料夾> [種子數，預設 3] [--no-mut] [--v]
+//   [FAIL_ROUTE=retake|maritime] [RETAKE_COURSE=enforcement] nice -n 19 node docs/story_planning/test_tools/cc/k1_exchange.js <資料夾> [種子數，預設 3] [--no-mut] [--v]
 //   （<資料夾>＝有 src/、index.html 的受測版本根目錄；載入照 index.html 的順序，game3d.js 除外：test_tools/cc/n56_loadall.js）
 // 做什麼（全部呼叫遊戲真的函式；假的只有 GM 的畫面）：
 //   新遊戲放在 2027-09-01（大三上開學前），EXCHANGE_ROUTE＝TW／JP／US，一路走到大五上（Y5S1）結束：
@@ -13,7 +13,11 @@
 // 情境（每條路線 × 每個種子）：
 //   pass   全部及格（每科答對 1～5 題，照種子）
 //   mid    國外學期前一學期被當一科（TW、JP＝大三上；US＝大三下），重修要跳過國外學期；JP 另外大四上也當一科（重修排進有日本補修的大四下）
-//   y4s2   大四下被當一科（TW＝海商法；JP 照種子輪：海商法／民訴甲下補修／保險法補修；US＝海商法）
+//   y4s2   大四下被當一科。D124（690ac5f4d 起，海商法改選修、被當不延畢）預設 FAIL_ROUTE=retake：
+//          TW＝大四上 RETAKE_COURSE（預設 enforcement 強制執行法）被當 → 真的 planRetakes 排進大四下 → 重修又被當；
+//          US＝大四上在美國，改成大三下被當一科（照種子 base[(seed+1)%n]，和 y4s2b 錯開）→ 重修排進大四下 → 重修又被當；
+//          JP 照種子輪：民訴甲下補修／保險法補修（課池拿掉海商法）。
+//          FAIL_ROUTE=maritime＝舊情境（TW、US＝海商法；JP 輪海商法／民訴甲下補修／保險法補修；D124 以前的版本用）
 //   y4s2b  （JP、US）國外學期前一學期被當一科、重修那一學期又被當（被當的重修課進 FAIL_DELAY_COURSES）
 // 檢查（FAIL 計數；每一項寫了壞掉時哪裡會 FAIL）：
 //   A 國外學期：台灣的課 0 堂、考試 0 場（dayItems）、沒有 R.exam 紀錄、STUDY.remind 不發、reviewInfo＝null、failedIn＝[]、不排重修、「法律」頁「這學期」沒有台灣的課
@@ -37,6 +41,8 @@ const need=['CLS','STUDY','JP','FD','Y5','PG','USL','EXCH','STORY','CALENDAR','P
 { const miss=need.filter(n=>typeof global[n]==='undefined'); if(miss.length){ console.log('FAIL 缺模組：'+miss.join('、')); process.exit(2); } }
 const LOG=console.log; console.warn=()=>{}; console.error=()=>{};
 const J=JSON.stringify;
+const FAIL_ROUTE=process.env.FAIL_ROUTE||'retake', RT_COURSE=process.env.RETAKE_COURSE||'enforcement'; if(!['retake','maritime'].includes(FAIL_ROUTE)){ LOG('FAIL_ROUTE 只能是 retake／maritime：'+FAIL_ROUTE); process.exit(2); }
+LOG('FAIL_ROUTE＝'+FAIL_ROUTE+(FAIL_ROUTE==='retake'?'（y4s2：TW 大四上 '+RT_COURSE+' 被當→大四下重修又被當；US 大三下被當→大四下重修又被當；JP 補修輪流）':'（舊情境：y4s2 被當海商法）'));
 
 /* ---------- 假的 GM ---------- */
 const H={G:null,said:[]};
@@ -84,7 +90,12 @@ const retExpect={TW:{Y3S1:'Y3S2',Y3S2:'Y4S1',Y4S1:'Y4S2'},JP:{Y3S1:'Y4S1',Y4S1:'
 /* 這一學期要當哪幾科（課 id 的 Set）*/
 function failPick(sc,route,seed,T,list){ const ids=list.map(e=>e.c.id), base=list.filter(e=>!e.c.rt).map(e=>e.c.id), out=new Set();
   if(sc==='mid'){ if(T===preOf(route)&&base.length) out.add(base[seed%base.length]); if(route==='JP'&&T==='Y4S1'&&base.length) out.add(base[(seed+1)%base.length]); }
-  if(sc==='y4s2'&&T==='Y4S2'){ const pool=route==='JP'?['maritime','civpro_2_re','insurance_re']:['maritime']; const c=pool[seed%pool.length]; if(ids.includes(c)) out.add(c); }
+  if(sc==='y4s2'&&FAIL_ROUTE==='maritime'&&T==='Y4S2'){ const pool=route==='JP'?['maritime','civpro_2_re','insurance_re']:['maritime']; const c=pool[seed%pool.length]; if(ids.includes(c)) out.add(c); }
+  if(sc==='y4s2'&&FAIL_ROUTE!=='maritime'){   /* D124：大四下延畢只剩重修沒過（TW、US）、日本補修（JP）*/
+    if(route==='JP'){ if(T==='Y4S2'){ const pool=['civpro_2_re','insurance_re']; const c=pool[seed%pool.length]; if(ids.includes(c)) out.add(c); } }
+    else { const src=route==='US'?'Y3S2':'Y4S1';
+      if(T===src){ const c=route==='US'?(base.length?base[(seed+1)%base.length]:null):RT_COURSE; if(c&&base.includes(c)) out.add(c); }
+      if(T==='Y4S2') for(const e of list) if(e.c.rt&&e.c.rt.from===src) out.add(e.c.id); } }
   if(sc==='y4s2b'){ if(T===preOf(route)&&base.length) out.add(base[seed%base.length]); if(TERMS.indexOf(T)>TERMS.indexOf(preOf(route))) for(const e of list) if(e.c.rt) out.add(e.c.id); }   /* 重修那一門每一次都當，一路到大四下 */
   return out; }
 
