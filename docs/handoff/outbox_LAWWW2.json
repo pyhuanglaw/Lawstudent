@@ -5197,6 +5197,30 @@
    "noDirectIntegrate": false,
    "note": "LAWWW 06:05（P2）派：使用者 11-02「非上課的簽到只留補習班」（AA_574）。簽到→節目單貼圖、拿掉 look signup；GLB 幾何／材質和部署中的相同、只差貼圖；boya 相關 19 支 Node ALL PASS（開發 94c89e8e6＋這包）｜LAWWW 06:29 ACK：全套測試跑完就接（GLB、layout、用 README 的 python 重新產生 boya_203），boya_203_unit 第 6 項說明文字他改，接好派 BB（D120）",
    "integrated": "6f0122821（LAWWW 11-02 06:3x；開發分支 GLB md5 a05ab163 已核對；他跑 9 支相關 Node PASS；boya_203_unit 第 6 項說明文字他改；派 BB 照 D120 看畫面）"
+  },
+  {
+   "branch": "claude/second-ai-env-art",
+   "sha": "0d45928c8",
+   "receiver": "LAWWW",
+   "ack": "SENT",
+   "task": "LIB-FRONT-1102",
+   "files": [
+    "assets/models/env/second_ai/campus_library.glb",
+    "assets/models/env/second_ai/campus_library.json",
+    "assets/models/env/second_ai/campus_library.layout.json",
+    "assets/models/env/second_ai/campus_lib_lawn.glb",
+    "assets/models/env/second_ai/campus_lib_lawn.json",
+    "tools/blender/env_second/campus_library.py",
+    "tools/blender/env_second/campus_lib_lawn.py",
+    "docs/art-rebuild/second_ai/patches/lib_front_1102.patch",
+    "docs/art-rebuild/second_ai/test_shots/lib_front_1102/README.md"
+   ],
+   "state": "已交付",
+   "remaining": "campus_glb_integration 在乾淨的 b1b249873 就 FAIL（soc／SOCX、TAGS 過時；不在這包範圍）；沒跑手機實機；v3.1（平台上兩棵尖塔形針葉樹，照片 40、CC 差異清單③）另外做",
+   "next": "LAWWW 合進 int/next1102；BB 照 D120 看畫面（README 第二、三節，含 2D 背景 ntu_library_rain 角度）",
+   "noDirectIntegrate": false,
+   "note": "使用者 11-02 08:45～10:3x 直接對 LAWWW2（UA-LAWWW2-1102-02、-03、-08）：總圖照照片改、台階走得上去、台階下寬磁磚、走出總圖先是平台再下台階。patch v3c（zones3d.js、story3d.js 路人路線、campus_glb_integration 的 BBOX_TOL、lib_front_unit 新、lib_lawn_unit、campus_hall_pillar_seethru_unit），b1b249873／ba125d6f3 apply --check 乾淨。測試（ba125d6f3＋patch）：campus_layout_nav、flow_library_floors、flow_library_scene、guide_flow、reachability_all（113 項）ALL PASS；Node 864 支 863 PASS，唯一 FAIL socsci_place_unit 已在 v3c 修（路線點 (37,17)→(37,16.2)），修完相關 5 支 ALL PASS",
+   "integrated": ""
   }
  ]
 }
