@@ -1,0 +1,27 @@
+--- a/tests/campus_glb_integration.py
++++ b/tests/campus_glb_integration.py
+@@ -101,8 +101,14 @@
+     for(const o of z.group.children){ if(!o.isGroup||(o.userData&&o.userData.ckTag)||/_glb$/.test(o.name)) continue; n++; let has=false, vis=false; o.traverse(m=>{ if((m.isMesh||m.isSprite)&&!skip.has(m)){ has=true; if(!vis&&shown(m)) vis=true; } }); if(has&&!vis) empty++; }
+     return {n, empty}; })()"""
+ DRAW = """(async(e,l)=>{ const E=GAME.E; E.cinematic(new THREE.Vector3(...e),new THREE.Vector3(...l)); E.camera.position.set(...e); E.cam.look=new THREE.Vector3(...l); E.camera.lookAt(E.cam.look);
++    const up=GAME.upgradeModels, dd=GAME.dedupAnon; GAME.upgradeModels=()=>0; GAME.dedupAnon=()=>0;   /* 量的時候不換人物模型（PERF-CAMPUS-GLB-1102 的雜訊）：CHAR.upgrade 只在舊模型還在場景裡時才把新的放進場景；
++       量的時候路人移出了場景，這時（每 1.5 秒一次）剛好換模型的話，新的不會進場景，量完放回去的是已經放掉的舊模型、而且不在 E.npcs 裡——之後每個鏡頭都多一個完整人物加影子（約 26 次 draw call、7.26 萬三角形）*/
+     const hid=E.npcs.map(n=>[n.obj,n.obj.parent]).concat((E.extras||[]).filter(x=>x.rider).map(x=>[x.obj,x.obj.parent])).filter(a=>a[1]); hid.forEach(a=>a[1].remove(a[0]));   /* 路人、騎腳踏車的路人每次的位置不同（量測雜訊）：量的時候暫時移出場景，只比場景 */
+-    const f0=E.frame; for(let i=0;i<240&&E.frame<f0+4;i++) await new Promise(r=>setTimeout(r,250)); const ri=E.renderer.info.render; const out={calls:ri.calls, tris:ri.triangles}; hid.forEach(a=>a[1].add(a[0])); return out; })"""
++    let out; try{ const f0=E.frame; for(let i=0;i<240&&E.frame<f0+4;i++) await new Promise(r=>setTimeout(r,250)); const ri=E.renderer.info.render;
++      let chars=0; E.scene.traverse(o=>{ if(o!==E.player.obj&&o.userData&&o.userData.driver&&o.visible) chars++; });   /* 量的那一刻場景裡除了玩家還有幾個人物（應該是 0：路人、騎車的人移出了，也沒有換模型留下的舊人物）*/
++      out={calls:ri.calls, tris:ri.triangles, chars}; }
++    finally{ hid.forEach(a=>a[1].add(a[0])); GAME.upgradeModels=up; GAME.dedupAnon=dd; }
++    return out; })"""
+ # 傅鐘的夜間：地燈燈罩、柱面暖光（加法混合）、正式模型的光暈（campus_bell_glb_glows：合成一個網格）、套件的光暈（藏起來的那兩個）
+ BELL_NIGHT = """(h=>{ const E=GAME.E, z=E.zone, root=z.group.children.find(o=>o.name==='campus_bell_glb'); if(h!=null) E.applyTime(h); const mats={};
+     root.traverse(o=>{ if(o.isMesh) mats[o.material.name]=o.material; }); const kit=z.group.children.find(o=>o.userData&&o.userData.ckTag==='bell');
+@@ -348,6 +354,8 @@
+     run.check('20:30 開著的路燈數和改之前一樣', res[True][4] == res[False][4], json.dumps([res[True][4], res[False][4]]))
+     run.check('兩輪的街道道具正式模型一樣多（效能比的是同一種路燈、腳踏車）', res[True][5] == res[False][5], json.dumps([res[True][5], res[False][5]]))
+     f, n = res[True][3], res[False][3]
++    run.check('量 draw call 的時候場景裡只有玩家一個人物（兩輪、每個鏡頭；多一個完整人物＝約 26 次 draw call、7.26 萬三角形的量測雜訊）',
++              all(d.get('chars', 0) == 0 for r in (f, n) for d in r.values()), json.dumps({k: [n[k].get('chars'), f[k].get('chars')] for k in f}))
+     run.check('效能：每個鏡頭的三角形 ≤ 改之前、draw call ≤ 改之前的 1.1 倍（含陰影那一輪、含玩家；LAWWW 23:26Z 的條件）',
+               all(f[k]['tris'] <= n[k]['tris'] and f[k]['calls'] <= 1.1 * n[k]['calls'] for k in f),
+               json.dumps({k: {'calls': [n[k]['calls'], f[k]['calls'], round(f[k]['calls'] / n[k]['calls'], 3)], 'tris': [n[k]['tris'], f[k]['tris'], round(f[k]['tris'] / n[k]['tris'], 3)]} for k in f}))

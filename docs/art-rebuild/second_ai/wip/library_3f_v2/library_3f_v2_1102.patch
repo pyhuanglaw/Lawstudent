@@ -1,8 +1,8 @@
 diff --git a/index.html b/index.html
-index 8ce87854c58ba83c4e94cb99d098cb4981e2afa0..82546795def4051b25458ee3d17c703a43f8d934 100644
+index 3fb0a7e3e4a1d00ac185b9f7a2168a4722ee9d49..3a586e560ecd0ef0cc28533da3df4805d4753ac2 100644
 --- a/index.html
 +++ b/index.html
-@@ -224,6 +224,8 @@ select{font-family:var(--font);font-size:14px;background:#0d1016;color:#e8e2d6;b
+@@ -225,6 +225,8 @@ select{font-family:var(--font);font-size:14px;background:#0d1016;color:#e8e2d6;b
  <script src="src/data/library_layout.js?v=9.10.16"></script>
  <script src="src/library3d.js?v=9.10.16"></script>
  <script src="src/library_hall_v2.js?v=9.10.16"></script>
@@ -12,7 +12,7 @@ index 8ce87854c58ba83c4e94cb99d098cb4981e2afa0..82546795def4051b25458ee3d17c703a
  <script src="src/library_b1_3d.js?v=9.10.16"></script>
  <script src="src/data/library_upper_layouts.js?v=9.10.16"></script>
 diff --git a/src/classes3d.js b/src/classes3d.js
-index 86fc2eaf038326584a001598b910dab96a436c93..ea976732711f8b1e66e3ecf8ac567b87de12d844 100644
+index fdcc65108510ec05b7b0471c6e4d9e15d2cbe547..1d9a2d0ce9d8f58304a3f682a17799a09e726579 100644
 --- a/src/classes3d.js
 +++ b/src/classes3d.js
 @@ -407,7 +407,7 @@ const CLS=(function(){
@@ -876,10 +876,10 @@ index acf8b8be8e0bcd19439b4119afbadc5f2146337d..cd0bfaee86de586c3bbed109a279c7a6
        where:[ {days:WD,from:14,to:16,zone:'library',act:'read',noHoliday:true,desc:'常跟助教說話的男生',label:'總圖，陳助教旁邊那一桌'} ] },   /* 陳助教平日 14～18 在閱覽室（npc_ta_chen 的作息）；SOCIAL_GRAPH pool_10—npc_ta_chen＝坐她旁邊的位子（story3d.js 的 friendSeat）*/
 diff --git a/src/library_3f_v2.js b/src/library_3f_v2.js
 new file mode 100644
-index 0000000000000000000000000000000000000000..5fbb597cc4d3b795716b29f6af9abb14df0a551e
+index 0000000000000000000000000000000000000000..c4ea71d6b61b69eb07cc5501beb08d1997036cfa
 --- /dev/null
 +++ b/src/library_3f_v2.js
-@@ -0,0 +1,109 @@
+@@ -0,0 +1,112 @@
 +/* ===== 總圖 3F 閱覽區第二版（LIB-3F-1102，LAWWW2 帳號 A 2026-11-02；WIP）=====
 +   使用者 11-02 08:58 的 3F 平面圖（docs/art-rebuild/second_ai/ref/lib1102_user/0858_plan_3f.jpg）：臺大人文庫（北側半圓）、討論室 344／346、
 +   無線上網區、現期期刊（中間）、人社西文／人社中文／科技西文／科技中文裝訂期刊、研究小間、考古題、指定參考書、四庫全書、參考書、兩面窗前的閱覽桌。
@@ -952,7 +952,10 @@ index 0000000000000000000000000000000000000000..5fbb597cc4d3b795716b29f6af9abb14
 +    const WN=L.windows, wins=[]; if(WN&&typeof W3!=='undefined'&&W3.windowMat){ const ww=2*WN.hw, wh=WN.y1-WN.y0, wy=(WN.y0+WN.y1)/2;
 +      const add=(x,z,ry)=>{ const m=new THREE.Mesh(new THREE.PlaneGeometry(ww,wh),W3.windowMat(45)); m.position.set(x,wy,z); m.rotation.y=ry; m.userData.dyn=true; g.add(m); wins.push(m); };
 +      for(const z of WN.west) add(B.x0-0.16,z,Math.PI/2); for(const z of WN.east) add(B.x1+0.16,z,-Math.PI/2); for(const x of WN.south) add(x,B.z1+0.16,Math.PI); }
-+    let night0=null; zone.applyTime=function(h){ const night=(h%24<6||h%24>=19.2); if(night===night0) return; night0=night; for(const w of wins) W3.setWindowView(w.material,'library_3f',night,null,0xffffff); };
++    /* 窗外的景：室內區域的 applyTime 引擎每 5 格叫一次。照片是非同步載入的（W3.viewPhoto 載好之前回 null）——每次都重新套（載好的下一次就換上；W3.setWindowView 值沒變就不動），
++       載好之前用 LB3.outsideTex 的漸層，不是空的（11-02 20:1x 截圖：只在白天↔晚上切換時才套，照片載好以後一直沒換上，白天的窗全黑）；白天照片照時段調色、黃昏慢慢換夜景，和大廳同一套 */
++    zone.applyTime=function(h,weather){ h=((h%24)+24)%24; const night=(h<6||h>=19.2), ph=W3.viewPhoto('library_3f',night), fbT=(typeof LB3!=='undefined'&&LB3.outsideTex)?LB3.outsideTex(night):null;
++      const tint=(ph&&W3.photoTint)?W3.photoTint(h,weather==='rain'):0xffffff, xf=W3.photoFade?W3.photoFade(h):0; for(const w of wins) W3.setWindowView(w.material,'library_3f',night,fbT,tint,xf); };
 +    zone.applyTime(12);
 +    for(const [x,z] of [[-6,-12],[6,-12],[-6,-3],[6,-3],[-6,5],[6,5],[0,-19.5]]){ const l=new THREE.PointLight(0xfff2dc,6,16,2); l.position.set(x,H-0.4,z); l.userData.on=10; l.userData.off=6; g.add(l); lights.push(l); }
 +    // 座位：順序照配置（seats[2]＝學姊）
@@ -1028,10 +1031,10 @@ index eaf73bb98cc32d9ac4ff8d1dfaf21e887d5f5ab3..2e5a0a39a51fb0b9a7b59acbf2644dce
  
 diff --git a/tests/library_3f_v2_unit.js b/tests/library_3f_v2_unit.js
 new file mode 100644
-index 0000000000000000000000000000000000000000..f5f726241fc5a383efbbea270c34dbf1bd9bbba1
+index 0000000000000000000000000000000000000000..7b0ac9aecc4e06fdec2efa4853a6704aa2b4b29d
 --- /dev/null
 +++ b/tests/library_3f_v2_unit.js
-@@ -0,0 +1,72 @@
+@@ -0,0 +1,81 @@
 +// 總圖 3F 閱覽區第二版（LIB-3F-1102）：照使用者 11-02 的 3F 平面圖重排——不需要瀏覽器。
 +//   第一版（version 1，ba125d6f3 的 src/data/library_layout.js）總圖大廳每 0.8 m 取樣、站得住的位置（兩層）＋座位＋互動點，共 715 個（[x, z, 層, 0 取樣／1 座位／2 互動點]）。
 +//   照引擎進區域的做法（engine3d.js 換區域那一段：E.unstick 16 格 → 90 格 → 區域出生點）把玩家放上去，最後的位置要站得住、從入口（一樓）或二樓連廊走得到（不會被關在孤島）。
@@ -1086,6 +1089,15 @@ index 0000000000000000000000000000000000000000..f5f726241fc5a383efbbea270c34dbf1
 +    check('pool_more3d.js、r2y4a3d.js 第二版用的就是配置裡的這兩個點', !!mN&&!!mS&&+mN[1]===note[0]&&+mN[2]===note[1]&&+mS[1]===shelf[0]&&+mS[2]===shelf[1], JSON.stringify([mN&&mN.slice(1),mS&&mS.slice(1)])); }
 +  const R=L.rotunda; check('人文庫（北牆外的半圓）走得進去', ok(R.cx,R.cz-1.0)&&ok(R.cx+2.5,R.cz-1.5), '');
 +  check('電梯車廂在大廳同一個井的位置', !!z.elev&&Math.abs(z.elev.cx-(LIBRARY_LAYOUT.elevator.x0+LIBRARY_LAYOUT.elevator.x1)/2)<0.01, z.elev&&String(z.elev.cx));
++  // 窗外的景（11-02 20:1x 截圖：白天的窗全黑）：照片是非同步載入的——載好之前窗不能是空的（用漸層），載好以後同一個時段的下一次 applyTime 就要換上（不能只在白天↔晚上切換時才套）
++  { const wins=[]; z.group.traverse(o=>{ if(o.isMesh&&o.material&&o.material.uniforms&&o.material.uniforms.photo&&o.material.uniforms.map) wins.push(o); });
++    const TL=THREE.TextureLoader.prototype.load, cbs=[]; THREE.TextureLoader.prototype.load=function(url,onLoad){ cbs.push([url,onLoad]); return new THREE.Texture(); };   /* 攔下載入，等一下自己「載好」*/
++    try{ W3.releaseViews(); z.applyTime(15,'clear'); } finally { THREE.TextureLoader.prototype.load=TL; }
++    const empty=wins.filter(w=>!w.material.uniforms.map.value).length;
++    check('窗外的景：照片還沒載入時每一扇窗都有圖（漸層），不是空的（空的＝黑窗）', wins.length>=10&&empty===0, wins.length+' 扇、空的 '+empty);
++    const fake=new THREE.Texture(); for(const [u,cb] of cbs) if(/library_3f_day/.test(u)&&cb) cb(fake);
++    z.applyTime(15.1,'clear'); const got=wins.filter(w=>w.material.uniforms.map.value===fake&&w.material.uniforms.photo.value===1).length;
++    check('窗外的景：照片載好以後，同一個時段的下一次 applyTime 就換上照片', wins.length>0&&got===wins.length, got+'/'+wins.length+'（攔到的載入 '+cbs.length+' 個）'); W3.releaseViews(); }
 +  /* 正式模型（assets/models/env/second_ai/library_3f_v2.glb）的牆：朝室內（extras.dir）的那一面要在室內那一側。
 +     11-02 人文庫的弧牆頂點順序反了（法線朝外），和大廳第二版展演廳同一個錯：烘焙照 dir 把朝室內的面縮成一點，遊戲裡看到一片一片的平三角 */
 +  { const gp=path.join(ROOT,'assets/models/env/second_ai/library_3f_v2.glb');
