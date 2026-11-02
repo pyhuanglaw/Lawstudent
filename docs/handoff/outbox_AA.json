@@ -4011,7 +4011,7 @@
    "note": "回 LAWWW-B 10-30 03:02、03:06"
   },
   {
-   "task": "AA-READ-1030",
+   "task": "AA527-FIX-1030",
    "branch": "claude/cool-heisenberg-o8kuqx",
    "sha": "bfede0a62",
    "files": [
@@ -4023,10 +4023,10 @@
    "noDirectIntegrate": false,
    "receiver": "LAWWW",
    "ack": "SENT",
-   "note": "LAWWW-B 03:00 派的讀稿"
+   "note": "LAWWW-B 03:00 派的讀稿；2026-11-02 AA（帳號 A）：原任務 AA-READ-1030 不在總表，改對到 AA527-FIX-1030"
   },
   {
-   "task": "AA-READ-1030",
+   "task": "AA528-FIX-1030",
    "branch": "claude/cool-heisenberg-o8kuqx",
    "sha": "7ad5fee84",
    "files": [
@@ -4038,7 +4038,7 @@
    "noDirectIntegrate": false,
    "receiver": "LAWWW",
    "ack": "SENT",
-   "note": "AA-READ-1030 最後一組"
+   "note": "AA-READ-1030 最後一組；2026-11-02 AA（帳號 A）：原任務 AA-READ-1030 不在總表，改對到 AA528-FIX-1030"
   },
   {
    "task": "AA-D99-READ-1030",
@@ -4101,7 +4101,7 @@
    "note": "D99 第 2 項後半"
   },
   {
-   "task": "AOPEN-1027",
+   "task": "AA530-PG-CONFESS-1030",
    "branch": "claude/cool-heisenberg-o8kuqx",
    "sha": "0125b97a5",
    "files": [
@@ -4113,7 +4113,7 @@
    "noDirectIntegrate": false,
    "receiver": "LAWWW",
    "ack": "SENT",
-   "note": "回 LAWWW-B 03:41 aopen-r2 第 6 點（AA_482 第 2 節最後一點）"
+   "note": "回 LAWWW-B 03:41 aopen-r2 第 6 點（AA_482 第 2 節最後一點）；2026-11-02 AA（帳號 A）：原任務 AOPEN-1027 不在總表，改對到 AA530-PG-CONFESS-1030"
   },
   {
    "branch": "claude/cool-heisenberg-o8kuqx",
@@ -4255,7 +4255,7 @@
    "note": "AA_537 第二份"
   },
   {
-   "task": "AOPEN-1027",
+   "task": "AA528-FIX-1030",
    "branch": "claude/cool-heisenberg-o8kuqx",
    "sha": "04ebaa37e",
    "files": [
@@ -4267,7 +4267,22 @@
    "noDirectIntegrate": false,
    "receiver": "LAWWW",
    "ack": "SENT",
-   "note": "回 LAWWW-B 05:22 第 5 點"
+   "note": "回 LAWWW-B 05:22 第 5 點；2026-11-02 AA（帳號 A）：原任務 AOPEN-1027 不在總表，拆成兩筆：佳蓉＝AA528-FIX-1030、SK02 系辦三句＝SK02-LINE-JACKET-1030"
+  },
+  {
+   "task": "SK02-LINE-JACKET-1030",
+   "branch": "claude/cool-heisenberg-o8kuqx",
+   "sha": "04ebaa37e",
+   "files": [
+    "docs/story_planning/AA_538_實作問答定稿句_佳蓉B館版_SK02系辦三句.md"
+   ],
+   "state": "已交付",
+   "remaining": "",
+   "next": "LAWWW-B：aa-followup 的佳蓉、SK02 測試改讀這一份、白名單加",
+   "noDirectIntegrate": false,
+   "receiver": "LAWWW",
+   "ack": "SENT",
+   "note": "回 LAWWW-B 05:22 第 5 點；2026-11-02 AA（帳號 A）：原任務 AOPEN-1027 不在總表，拆成兩筆：佳蓉＝AA528-FIX-1030、SK02 系辦三句＝SK02-LINE-JACKET-1030"
   },
   {
    "task": "RENAME-1030",
@@ -4347,7 +4362,7 @@
    "note": "最終一致性審查報告（680a476e7）"
   },
   {
-   "task": "PGF10-AN-EX-LATE",
+   "task": "PG-AN-EX-WIN-1030",
    "branch": "claude/cool-heisenberg-o8kuqx",
    "sha": "33fd13458",
    "files": [
@@ -4359,7 +4374,7 @@
    "noDirectIntegrate": false,
    "receiver": "LAWWW",
    "ack": "SENT",
-   "note": "回 LAWWW-B 13:32：選 B（BB-B R43）"
+   "note": "回 LAWWW-B 13:32：選 B（BB-B R43）；2026-11-02 AA（帳號 A）：原任務 PGF10-AN-EX-LATE 不在總表，改對到 PG-AN-EX-WIN-1030"
   },
   {
    "task": "NDL-EXAM-1030",
@@ -4477,74 +4492,84 @@
    "remaining": "",
    "next": "VAC-GAP-ROUTES 恢復時重跑（輸出 vsw_*.json 沒有遠端備份）",
    "noDirectIntegrate": true,
-   "receiver": "",
-   "ack": "",
-   "note": "AA 自用的逐日掃描工具，不進遊戲"
+   "receiver": "AA",
+   "ack": "自領",
+   "note": "AA 自用的逐日掃描工具，不進遊戲；2026-11-02 AA（帳號 A）：receiver／ack 補（自用工具，自領）"
   },
   {
    "task": "SYS-14",
    "branch": "claude/cool-heisenberg-o8kuqx",
-   "sha": "(訊息)",
-   "files": [],
+   "sha": "b2a8980ed",
+   "files": [
+    "docs/story_planning/AA_交接紀錄.md"
+   ],
    "state": "已交付",
    "remaining": "",
    "next": "LAWWW-B 標 G2 取消（已記）",
    "noDirectIntegrate": false,
    "receiver": "LAWWW",
    "ack": "ACK",
-   "note": "11-01 AA_13 G2 放榜班群整段取消（D116）；LAWWW-B 回覆已記取消"
+   "note": "11-01 AA_13 G2 放榜班群整段取消（D116）；LAWWW-B 回覆已記取消；2026-11-02 AA（帳號 A）：訊息回覆，files／sha 補成記錄這則回覆的交接紀錄 commit"
   },
   {
    "task": "V3-AA170",
    "branch": "claude/cool-heisenberg-o8kuqx",
-   "sha": "(訊息)",
-   "files": [],
+   "sha": "b2a8980ed",
+   "files": [
+    "docs/story_planning/AA_交接紀錄.md"
+   ],
    "state": "已交付",
    "remaining": "",
    "next": "LAWWW-B 結案",
    "noDirectIntegrate": false,
    "receiver": "LAWWW",
    "ack": "DELIVERED",
-   "note": "11-01 選 (a)：被 AA_328 3-06／C02 取代"
+   "note": "11-01 選 (a)：被 AA_328 3-06／C02 取代；2026-11-02 AA（帳號 A）：訊息回覆，files／sha 補成記錄這則回覆的交接紀錄 commit"
   },
   {
    "task": "PS-MSG-LESS-1018",
    "branch": "claude/cool-heisenberg-o8kuqx",
-   "sha": "(訊息)",
-   "files": [],
+   "sha": "b2a8980ed",
+   "files": [
+    "docs/story_planning/AA_交接紀錄.md"
+   ],
    "state": "已交付",
    "remaining": "",
    "next": "LAWWW-B 照 (a) 施工",
    "noDirectIntegrate": false,
    "receiver": "LAWWW",
    "ack": "DELIVERED",
-   "note": "11-01 群組裡任何人回了就算有回"
+   "note": "11-01 群組裡任何人回了就算有回；2026-11-02 AA（帳號 A）：訊息回覆，files／sha 補成記錄這則回覆的交接紀錄 commit"
   },
   {
    "task": "AA255-Y2S2",
    "branch": "claude/cool-heisenberg-o8kuqx",
-   "sha": "(訊息)",
-   "files": [],
+   "sha": "b2a8980ed",
+   "files": [
+    "docs/story_planning/AA_交接紀錄.md"
+   ],
    "state": "已交付",
    "remaining": "Alison 定型後改 yu_exam 兩句",
    "next": "照現況",
    "noDirectIntegrate": false,
    "receiver": "LAWWW",
    "ack": "DELIVERED",
-   "note": "11-01 yu_exam 照現況"
+   "note": "11-01 yu_exam 照現況；2026-11-02 AA（帳號 A）：訊息回覆，files／sha 補成記錄這則回覆的交接紀錄 commit"
   },
   {
    "task": "DIALOGUE-DEPTH-1031",
    "branch": "claude/cool-heisenberg-o8kuqx",
-   "sha": "(訊息)",
-   "files": [],
+   "sha": "b2a8980ed",
+   "files": [
+    "docs/story_planning/AA_交接紀錄.md"
+   ],
    "state": "已交付",
    "remaining": "",
    "next": "LAWWW-B 照改",
    "noDirectIntegrate": false,
    "receiver": "LAWWW",
    "ack": "DELIVERED",
-   "note": "11-01 回 LAWWW-B 技術預設：AA_554 13 題（Q5 改）、L1～L3 6 題（電梯三句、合照 9/24）、AA_416 1-4 選 (b)、BB_119 v6 九題照現況"
+   "note": "11-01 回 LAWWW-B 技術預設：AA_554 13 題（Q5 改）、L1～L3 6 題（電梯三句、合照 9/24）、AA_416 1-4 選 (b)、BB_119 v6 九題照現況；2026-11-02 AA（帳號 A）：訊息回覆，files／sha 補成記錄這則回覆的交接紀錄 commit"
   }
  ],
  "items": [
