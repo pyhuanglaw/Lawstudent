@@ -1,5 +1,5 @@
 // 大四下被當的延畢（D14-T5B；AA_421 第 1 節）——不需要瀏覽器。src/faildelay3d.js＋postgrad3d.js／r2y4b3d.js／y5s1_3d.js／termend3d.js
-//   1  6/18 大四下成績單：有一門不及格＝FAIL_DELAY（旁白兩句；已報名國考多一句、BAR_REG＝false；22:00 阿哲兩則）；PG.delayed 成立、PG.exchDelayed 不成立
+//   1  6/18 大四下成績單：有一門不及格（D118 起：考五題的課先排 6/26 補考，這一節用「補考沒去」）＝FAIL_DELAY（旁白兩句；已報名國考多一句、BAR_REG＝false；22:00 阿哲兩則）；PG.delayed 成立、PG.exchDelayed 不成立
 //   2  沒有不及格＝照常畢業；交換路線又被當＝只記那一門（大五上多一門重修），不另外演
 //   3  日期卡：6/18～6/27、9/4 起（first）、10/17～11/19 共通、12/19～12/23 共通、2030-03～04 沒報名照 AA_421 1-4；{課名} 換成那一門
 //   4  大五上：重修那一門在原本的時段（今日頁、課表）；週二沒有實習；第一次上課老師一句；12/24 出席三堂＝過，不到三堂＝證書延到 2030-06（兩張日期卡、1/22 證書不出）
@@ -31,6 +31,9 @@ let fc=null;
 await sec(1,async()=>{ H.fresh('2029-06-18',9,'dorm',{BAR_REG:true,Y4_PATH:'bar'}); H.FRIEND('zhe'); fc=y4s2('first');
   check('1. 成績單以前：不是延畢',!PG.delayed(H.G)&&!Y5.delayed(H.G));
   await CLS.showGrades(GM,'Y4S2');
+  /* D118 補考（使用者 2026-11-02 05:0x Q4）：被當的是考五題的課＝6/18 先排補考、不延畢；補考沒去（11:00 以前沒開始）才延畢——延畢那幾句、阿哲、BAR_REG 照舊（tests/y4s2_makeup_unit.js 測補考本身）*/
+  check('1. （D118）6/18 考五題的課被當：先排補考、還不是延畢',!H.G.flags.FAIL_DELAY&&!PG.delayed(H.G)&&!!H.G.flags.FD_MAKEUP&&H.G.flags.FD_MAKEUP.status==='pending'&&H.G.flags.BAR_REG===true);
+  PG.setT(H.G,E,D('2029-06-26'),11.25); { PG.pending(H.G); const s=PG.due(H.G); if(s) await PG.runStep(GM,s); }   /* 補考沒去 */
   check('1. 有一門不及格：FAIL_DELAY、FAIL_DELAY_COURSES＝那一門',H.G.flags.FAIL_DELAY===true&&J(H.G.flags.FAIL_DELAY_COURSES)===J([fc.id]),J(H.G.flags.FAIL_DELAY_COURSES));
   const nm=FD.cname(fc.id);
   check('1. 旁白「（{課名}，不及格。）」「（證書要等下學期。九月，你要回學校重修。）」',H.has('（'+nm+'，不及格。）')&&H.has('（證書要等下學期。九月，你要回學校重修。）'),J(H.lines().slice(-4)));
