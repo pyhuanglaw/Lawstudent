@@ -27,6 +27,7 @@ def make(items, change_after=None, parallel=2, dur=None):
     class FR(R.Runner):
         def banner(s): pass
         def setup(s): pass
+        def start_commit(s): pass
         def read_queue(s): return [R.Item([i, 'abc', 'py', 's.py', 'u', '1', '']) for i in items]
         def is_done(s, it, sha): return False
         def refresh(s):
