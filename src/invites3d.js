@@ -168,7 +168,7 @@ const INV=(function(){
     '早上':(G,id,c)=>c.h<12,
     '筆試以後':(G,id,c)=>!!c.postExam,
     '口試前、出國前一週':(G,id,c)=>['2029-05-29','2028-08-02'].some(k=>{ const d=DK(k); return d!=null&&c.day>=d-7&&c.day<d; }),   /* 學姊：口試 2029-05-29（y34b3d.js M9）、出國 2028-08-02（characters.js absentDates 美國）的前一週 */
-    '杜鵑花節（3 月）':(G,id,c)=>typeof CALENDAR!=='undefined'&&CALENDAR.dateOf(c.day).m===3,
+    '松鼠節（3 月）':(G,id,c)=>typeof CALENDAR!=='undefined'&&CALENDAR.dateOf(c.day).m===3,
     '上一次約會祐廷遲到':G=>{ const R=G.flags&&G.flags.KX_DRIFT; return !!R&&R.seen!=null&&Array.isArray(R.log)&&R.log.some(e=>e&&e.why==='late'&&e.d===R.seen); } };   /* 可昕：kxdrift3d.js 記的最後一次見面那天遲到超過 15 分鐘 */
   const RPL=['cafe','library','noodle','wenzhou','brunch','teahouse'];
   S.replyTier=row=>{ const T=row.tags||[]; if(T.includes('節日')) return 1; if(T.includes('第一次')) return 2; if(T.some(t=>RPL.includes(t)||t==='來過'||t==='外出'||t==='開車')) return 3; return T.length||row.cond?4:5; };

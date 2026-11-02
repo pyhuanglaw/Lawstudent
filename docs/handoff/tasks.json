@@ -38282,7 +38282,7 @@
    "pausedReason": "等使用者回答",
    "resumeWhen": "使用者回來、適當時機用選擇題問（D117）",
    "nextCheck": "2026-11-08",
-   "next": "【11-01 23:2x LAWWW-B】使用者選擇題確認：另外三個照 AA 建議（許志遠不變、小小福→小小松、女九→女生宿舍）——五個都定了｜【11-01 23:1x LAWWW-B】使用者回：哥大→「紐約的法學院」、杜鵑花節→「松鼠節」（原話「哥大：紐約的法學院 杜鵑花節：松鼠節」）；其他三個（許志遠、小小福→小小松、女九→女生宿舍）使用者沒提＝照 AA 建議（AI解讀，沒確認）→ AA 更新 WORLD_NAMING、改稿上的句子（哥大那幾句要順，例：「哥大上了。八月去紐約。」），LAWWW 改遊戲裡的顯示文字（哥大約 9 處、杜鵑花節 4 處）｜【11-01 09:0x LAWWW-B】AA-B 交班【表外】補進總表；併進「使用者回來要問的」那一批（祐廷生日、圖 100～102、照片比對、iPhone ?debug）",
+   "next": "【11-02 03:0x LAWWW-B】LAWWW 的部分做完：哥大→紐約的法學院、杜鵑花節→松鼠節進換字規則（tools/rename/world_names.py _COMMON＋OLD、src/social3d.js WN_COMMON＋WN_OLD、tests/world_rename_unit.js），apply_game --apply 改 6 處（以安 ev_an_columbia 標題與台詞、群組那句、記憶名稱 AN_COLUMBIA、可昕動態的一句、邀約條件鍵「松鼠節（3 月）」），舊存檔比對鍵 NOTE_RENAMED_N9 照留（game_overrides skip）；重跑 import_ladder（AA_377 第 6 項的字改新名）、build_replies；apply_tests 改 aa377、r2y4b 兩支測試；WORLD_NAMING 第 8 節寫定案。AA 下一班：企劃稿換名（world_names.py apply）、女九→女生宿舍要不要進換字規則、「紐約的法學院上了。八月去紐約。」要不要換說法｜【11-01 23:2x LAWWW-B】使用者選擇題確認：另外三個照 AA 建議（許志遠不變、小小福→小小松、女九→女生宿舍）——五個都定了｜【11-01 23:1x LAWWW-B】使用者回：哥大→「紐約的法學院」、杜鵑花節→「松鼠節」（原話「哥大：紐約的法學院 杜鵑花節：松鼠節」）；其他三個（許志遠、小小福→小小松、女九→女生宿舍）使用者沒提＝照 AA 建議（AI解讀，沒確認）→ AA 更新 WORLD_NAMING、改稿上的句子（哥大那幾句要順，例：「哥大上了。八月去紐約。」），LAWWW 改遊戲裡的顯示文字（哥大約 9 處、杜鵑花節 4 處）｜【11-01 09:0x LAWWW-B】AA-B 交班【表外】補進總表；併進「使用者回來要問的」那一批（祐廷生日、圖 100～102、照片比對、iPhone ?debug）",
    "first": {
     "term": "META",
     "week": 0,

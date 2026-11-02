@@ -1756,7 +1756,7 @@
    "status": "進行中",
    "task": "ASK-5NAMES",
    "src": "使用者對 LAWWW-B，2026-11-01 23:1x UTC（交班以後；AskUserQuestion 兩批）",
-   "checked": "五個名稱只說了兩個，其他三個照 AA 建議是 AI 解讀（記在 ASK-5NAMES）；提示詞檔案已給；其餘各自記在任務"
+   "checked": "五個名稱只說了兩個，其他三個照 AA 建議是 AI 解讀（記在 ASK-5NAMES）；提示詞檔案已給；其餘各自記在任務｜11-02 LAWWW-B：哥大→紐約的法學院、杜鵑花節→松鼠節 遊戲裡換好（world_names.py、social3d.js、apply_game、ladder／invite 重跑、WORLD_NAMING 第 8 節）；其他答案照舊在各自的任務"
   },
   {
    "id": "UA-LAWWW-1101-05",

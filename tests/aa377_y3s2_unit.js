@@ -110,7 +110,7 @@ const inMD=t=>MD.indexOf(t)>=0;
     check('5. 實際跑 3/26 的手機規則（臺灣路線、第 1 週）：沒有傳四月的櫻花',m.length>0&&!m.some(t=>/櫻花/.test(t)),J(m)); });
   /* ---- 6 語彤 Y6-L3 杜鵑花（第 6-3 節）---- */
   await sec('6',async()=>{
-    const ONE='以安傳在群組那張杜鵑花，是你拍的吧。……拍得很好。', DL=['杜鵑花節那天你們去拍的那張，以安有傳給我。','她每年都站在同一棵樹前面拍一張，今年是第三張。'], ORG=['杜鵑花節那天，以安找我陪她去拍照。','她每年都站在同一棵樹前面拍一張，今年是第三張。'];
+    const ONE='以安傳在群組那張杜鵑花，是你拍的吧。……拍得很好。', DL=['松鼠節那天你們去拍的那張，以安有傳給我。','她每年都站在同一棵樹前面拍一張，今年是第三張。'], ORG=['松鼠節那天，以安找我陪她去拍照。','她每年都站在同一棵樹前面拍一張，今年是第三張。'];
     check('6. 讀稿：第 6-3 節的句子',inMD('「'+ONE+'」')&&inMD('「（給她看手機裡的另一張）」')&&inMD('「……這張她眨眼了。」「你沒傳這張，是對的。」'));
     const st=LADDER.byTerm.Y3S2.heroine_03.steps.find(s=>s.id==='Y6-L3');
     const play6=(az,dt)=>{ fresh('2028-03-23',17,'noodle'); R('heroine_03','FAM'); R('heroine_01','FRI'); if(dt) date('heroine_01'); if(az) SOCIAL.remember('heroine_01','AN3_AZALEA',''); return {L:STORY.ladLines(st,G,'heroine_03'),C:STORY.ladChoices(st).map(c=>c.t)}; };
