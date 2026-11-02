@@ -25,12 +25,37 @@ def fix_kwargs(kw):
     kw['args'] = args
     return kw
 
+import time as _t
+_T0 = _t.time()
+def _diag(msg):
+    sys.stderr.write('[gpu_wrap %.1fs] %s\n' % (_t.time() - _T0, msg)); sys.stderr.flush()
+
+def _watch_page(pg):
+    try:
+        pg.on('crash', lambda *_: _diag('PAGE CRASH (renderer died) url=%s' % pg.url))
+        pg.on('close', lambda *_: _diag('page close url=%s' % pg.url))
+        pg.on('pageerror', lambda e: _diag('pageerror %s' % str(e)[:200]))
+    except Exception as e:
+        _diag('watch failed %r' % e)
+
 def patch():
     try:
-        from playwright.async_api._generated import BrowserType as ABT
+        from playwright.async_api._generated import BrowserType as ABT, Browser as AB
         orig = ABT.launch
-        async def launch(self, *a, **kw): return await orig(self, *a, **fix_kwargs(kw))
+        async def launch(self, *a, **kw):
+            b = await orig(self, *a, **fix_kwargs(kw))
+            try: b.on('disconnected', lambda *_: _diag('BROWSER DISCONNECTED'))
+            except Exception: pass
+            return b
         ABT.launch = launch
+        onc = AB.new_context
+        async def new_context(self, *a, **kw):
+            ctx = await onc(self, *a, **kw); ctx.on('page', _watch_page); return ctx
+        AB.new_context = new_context
+        onp = AB.new_page
+        async def new_page(self, *a, **kw):
+            pg = await onp(self, *a, **kw); _watch_page(pg); return pg
+        AB.new_page = new_page
     except Exception as e:
         print('[gpu_wrap] async patch 失敗：', e)
     try:

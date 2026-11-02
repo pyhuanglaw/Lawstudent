@@ -51,6 +51,18 @@ BB 08:59 加（補考時間窗 bug，CC_audit_4174.md 疑點 1～3、5；修改�
   old_delayed【前置】照修改前 f3a2ba4a1 6/18 FD.check 的旗標（FAIL_DELAY_COURSES [maritime]、FAIL_DELAY_V 2、FAIL_DELAY、FAIL_DELAY_DAY 6/18、BAR_REG false、
              BARCANCEL、成績 0 分（不及格）、阿哲兩則），日期 OLD_DAY（預設 2029-06-20）10:00 宿舍 → 讀進來：FD_MAKEUP pending、補考通知（旁白或手機）；BAR_REG 只記。
              之後站著不動 OLD_PLAY 秒（預設 240）。
+BB 11-02 加（BUG-MAKEUP-BG-1102，開發分支 e27dd033e：補考整場用 OUT.bg('linze_201')（FD.MK_BG）＋開頭字幕「法律系館A」（FD.MK_PLACE）；考完在家＝ADV.setBg(HOME.bgNow())、原本沒有 ADV＝ADV.end()）：
+  mkbg       MKBG_SUBS（預設 home,campus,library）；不在預設 CASES 裡，要 CASES=mkbg（或 mkbg_home…）才跑：
+             home     【前置】6/26 08:30 在臺北的家（同 home_go）→ 選「出發：補考（法律系館A）」→ 補考 → 回到家裡的選單
+             campus   【前置】6/26 09:25 校園（3D，沒有 ADV）→ 站著不動等 09:30 那一場（PG.tick；站 2 秒＝跳到下一件事＝同一場）→ 考完回 3D
+             library  【前置】6/26 09:00 總圖閱覽室 → 照玩家走到自習座位坐下（seat_open）→ 座位選單有「補考」那一項就選、沒有就「讀書」→「讀到補考前」
+                      （再沒有＝「讀 1」開頭那一項）→ 坐著等補考（fd_makeup seatOk）→ 考完回 3D（座位狀態只記）；坐下以前補考就開始了＝記「前置沒成立」、照樣記背景
+             記錄：另一個 hook（MKBG_HOOK，只在 mkbg 裝）在 GAME.say／ADV.begin／setBg／end／FD.makeup 前後抓 ADV.active、ADV.bgMode、#advBg 的 backgroundImage、
+             #adv 的 class、HOME.bgNow()、OUT.bg(FD.MK_BG||'linze_201') → transcript_mkbg_<sub>.json 的 mkbg；截圖：補考第 1 題（直向＋橫向）、
+             結算那一句（Driver 的 watch：pass／passAll／mkfail，直向＋橫向）、考完以後（直向＋橫向）。
+             check：開場、第 1 題、最後一題、每一題、結算台詞的背景＝linze_201（bgMode 的 image 和 #advBg 都對上）；字幕有「法律系館A」；
+             考完（FD.makeup 回來那一刻＋最後畫面）在家＝家裡的背景（bgMode image＝HOME.bgNow().image）、其他＝ADV.active false；沒有 JS 例外（main 照舊）。
+             修改前 b4f98ea4e 預期 home 的考試中背景 FAIL（在家考還是家裡的背景）；campus／library 修改前預期考試中 ADV 沒開（背景 FAIL）、考完那一項照樣 PASS。
 記錄（只記不改）：HOOK＝GAME.say／choose（連 hint）／caption／titleCard／toast／ADV.begin／GAME.enter／CLS.attend／goClass／EVENTS.run／PG.runStep
   → <輸出>/transcript_<case>.json（另外存新增的手機訊息、考卷作答（題號、id、正解、按了哪個）、狀態快照）。
 check 只客觀記錄（不判定企劃）。
@@ -66,6 +78,7 @@ J = lambda o: json.dumps(o, ensure_ascii=False)
 ENVI = lambda k, d: int(os.environ.get(k, str(d)))
 CASES = [c.strip() for c in os.environ.get('CASES', 'main_pass,main_fail,noshow,home,rollcall_fail,study3h,skipnoon,homerest,old_delayed').split(',') if c.strip()]
 SKIP_VIA = [c.strip() for c in os.environ.get('SKIP_VIA', 'phone,seat').split(',') if c.strip()]
+MKBG_SUBS = [c.strip() for c in os.environ.get('MKBG_SUBS', 'home,campus,library').split(',') if c.strip()]
 HOME_SUBS = [c.strip() for c in os.environ.get('HOME_SUBS', 'go,sleep,late,rest').split(',') if c.strip()]
 LAND = {'width': 844, 'height': 390}; PORT = {'width': 390, 'height': 844}
 CONT = '繼續去上課'
@@ -916,14 +929,144 @@ CASEFN.update({'study3h': case_study3h, 'homerest': case_homerest, 'old_delayed'
                'skipnoon_phone': lambda pg, cdp, run: case_skipnoon(pg, cdp, run, 'phone'), 'skipnoon_seat': lambda pg, cdp, run: case_skipnoon(pg, cdp, run, 'seat')})
 
 
+# ---------------------------------------------------------------- BB 11-02 加：mkbg（BUG-MAKEUP-BG-1102，e27dd033e；修改前 b4f98ea4e）
+# 只在 mkbg 裝的第二個 hook（不動共用的 HOOK）：每一句話、ADV.begin／setBg／end、FD.makeup 前後抓背景（只讀）
+MKBG_HOOK = r"""(()=>{ if(window.__MKBGH) return 'again'; window.__MKBGH=1; window.__MKBG=[];
+  const at=()=>{ try{ return {d:CALENDAR.dateOf(GAME.G.day).key, h:+(+GAME.G.hour).toFixed(3)}; }catch(e){ return {}; } };
+  const img=m=>m&&typeof m==='object'?(m.image||null):null;
+  const snap=window.__mkbgSnap=function(){ const A=typeof ADV!=='undefined'?ADV:null; let home=null, mk=null;
+    try{ home=typeof HOME!=='undefined'&&HOME.bgNow?HOME.bgNow():null; }catch(e){ home='ERR '+e.message; }
+    try{ mk=typeof OUT!=='undefined'&&OUT.bg?OUT.bg((typeof FD!=='undefined'&&FD.MK_BG)||'linze_201'):null; }catch(e){ mk='ERR '+e.message; }
+    const mode=A?A.bgMode:null, dom=A&&A.bg&&A.bg.style?String(A.bg.style.backgroundImage||''):'', cls=A&&A.root?String(A.root.className||''):'';
+    const mi=img(mode), mki=img(mk), hi=img(home), act=!!(A&&A.active);
+    const isMk=act&&(mki?(mi===mki&&dom.indexOf(mki)>=0):(mk!=null&&mode===mk));
+    const isHome=act&&(hi?(mi===hi):(home!=null&&mode===home));
+    let seat=null; try{ seat=!!(GAME.E&&GAME.E.player&&GAME.E.player.seat); }catch(e){}
+    return {active:act, mode:(mode&&typeof mode==='object')?JSON.stringify(mode):mode, img:mi, dom, cls, isMk, isHome, mkImg:mki||mk, homeImg:hi||home,
+      homeAt:!!(typeof HOME!=='undefined'&&HOME.at&&GAME.G&&HOME.at(GAME.G)), zone:GAME.G&&GAME.G.zone, seat}; };
+  const push=(k,t)=>{ try{ window.__MKBG.push(Object.assign({k,t:String(t==null?'':t).slice(0,80)},at(),snap())); }catch(e){} };
+  const s0=GAME.say; GAME.say=function(w,t){ push('say',t); return s0.apply(this,arguments); };
+  if(typeof ADV!=='undefined'){
+    for(const nm of ['begin','setBg','end']){ const f=ADV[nm]; if(typeof f!=='function') continue;
+      ADV[nm]=function(o){ const r=f.apply(this,arguments); push(nm,nm==='begin'?JSON.stringify((o&&o.background)||null):(nm==='setBg'?JSON.stringify(o==null?null:o):'')); return r; }; } }
+  if(typeof FD!=='undefined'&&typeof FD.makeup==='function'){ const m0=FD.makeup; FD.makeup=async function(){ push('mk_start',''); let r; try{ r=await m0.apply(this,arguments); } finally { push('mk_end',String(r)); } return r; }; }
+  return 'ok'; })()"""
+MKBG_ROWS = "(n=>(window.__MKBG||[]).slice(n))"
+MKBG_NOW = "(()=>{ try{ return window.__mkbgSnap?window.__mkbgSnap():null; }catch(e){ return 'ERR '+e.message; } })()"
+MKBG_CNT = "(k=>(window.__MKBG||[]).filter(r=>r.k===k).length)"
+QN_RE = re.compile(r'^([1-5])／5　')
+
+
+async def mkbg_drive(pg, cdp, run, drv, tag, n0, sub, max_s):
+    """補考那一場從開始到結束：對話、考卷照 Driver（MK_RIGHT），第 1 題直向＋橫向截圖；
+    結束＝FD.makeup 回來以後：home＝家裡的選單（睡覺＋存檔）出來；campus／library＝畫面空下來 3 秒。回傳 {'end':..., 'menu':...}"""
+    t0 = time.time(); q1 = False; free_since = None; out = {'end': None, 'menu': None}
+    while time.time() - t0 < max_s:
+        s = await P.ts(pg)
+        st_n = await pg.evaluate(MKBG_CNT, 'mk_start'); end_n = await pg.evaluate(MKBG_CNT, 'mk_end')
+        home_m = bool(s['ch']) and any(o['t'] == '睡覺' for o in s['ch']) and any(o['t'] == '存檔' for o in s['ch'])
+        if sub == 'home' and home_m:
+            if end_n: out['end'] = 'home_menu'; out['menu'] = [o['t'] for o in s['ch']]; return out
+            if not st_n: out['end'] = 'home_menu_without_makeup'; out['menu'] = [o['t'] for o in s['ch']]; return out
+        free = not s['dlg'] and not s['ch'] and not s['busy'] and s['depth'] == 0 and not s['phone']
+        if sub != 'home' and end_n:
+            if free:
+                if free_since is None: free_since = time.time()
+                if time.time() - free_since > 3: out['end'] = 'free'; return out
+            else: free_since = None
+        if s['ch'] and not q1:
+            R = await rows(pg, n0); ls = next((x for x in reversed(R) if x['k'] == 'say'), None)
+            if ls and QN_RE.match(ls['t']) and QN_RE.match(ls['t']).group(1) == '1' and any(x['k'] == 'say' and x['t'].startswith('考卷發下來。') and '補考' in x['t'] for x in R):
+                q1 = True; drv.shots['mkbg_q1'] = await shoot_both(pg, run, tag + '_q1'); continue
+        if await drv.handle(s): continue
+        await pg.wait_for_timeout(800)
+    out['end'] = 'timeout'; return out
+
+
+async def case_mkbg(pg, cdp, run, sub):
+    tag = 'mkbg_' + sub; mkl, fdl, has = await mk_lines(pg); cn = mkl['cname']; opt = mkl['homeOpt']
+    when = {'home': (MK_DAY, 8.5), 'campus': (MK_DAY, 9.0 + 25 / 60), 'library': (MK_DAY, 9.0)}[sub]
+    st, d, qs = await grad_state(pg, run, when[0], when[1], planned=True, home=(sub == 'home'))
+    if sub == 'campus': st['zone'] = 'campus'
+    if sub == 'library': st['zone'] = 'library'
+    await pg.evaluate(MKBG_HOOK)
+    consts = await pg.evaluate("(()=>({MK_BG:(typeof FD!=='undefined'&&FD.MK_BG)||null, MK_PLACE:(typeof FD!=='undefined'&&FD.MK_PLACE)||null}))()")
+    place = consts.get('MK_PLACE') or '法律系館A'
+    run.note('%s：頁面 FD.MK_BG＝%s、FD.MK_PLACE＝%s（修改前沒有＝比對用 linze_201／法律系館A）' % (tag, consts.get('MK_BG'), consts.get('MK_PLACE')))
+    await load_fast(pg, st)
+    run.setup('[前置] %s：%s %s %s、補考已排好 pending、PG.done fd_grades_y4s2、海商法期末答對 0 題（qs %s）；考卷【捷徑】讀正解，補考答對 %d 題'
+              % (tag, when[0], hm(when[1]), {'home': '人在臺北的家（G.home.at＝true）', 'campus': '校園（3D、沒有 ADV）', 'library': '總圖閱覽室（讀完馬上照玩家走到自習座位）'}[sub],
+                 J(qs), ENVI('MK_RIGHT', 5)))
+    n0 = await pl_len(pg); b0 = len(await pg.evaluate(MKBG_ROWS, 0))
+    drv = Driver(pg, cdp, run, tag, n0, {'final': 0, 'makeup': ENVI('MK_RIGHT', 5)}, mkl, fdl)
+    pre = {'sub': sub, 'snap_load': await pg.evaluate(MKBG_NOW)}
+    if sub == 'home':
+        ops, s = await home_menu(pg, cdp, run, drv, tag); pre['menu0'] = ops
+        run.check('%s：前置成立（家裡選單有「%s」）' % (tag, opt), bool(ops) and any(t.startswith(opt) for t in ops), J(ops))
+        if not ops or not await home_pick(pg, cdp, run, drv, tag, ops, opt):
+            dump(tag, rows=await rows(pg, n0), mkbg=await pg.evaluate(MKBG_ROWS, b0), pre=pre, shots=drv.shots); return
+    elif sub == 'campus':
+        await L.phone_away(pg, cdp, tries=2)
+        run.check('%s：前置成立（讀檔後在校園、ADV 沒開、補考還沒開始）' % tag, (await pg.evaluate("GAME.G.zone")) == 'campus' and not (pre['snap_load'] or {}).get('active')
+                  and not await pg.evaluate(MKBG_CNT, 'mk_start'), J(pre['snap_load']))
+    else:
+        ops = await seat_open(pg, cdp, run, drv, tag); pre['seat_menu'] = ops
+        run.check('%s：前置成立（坐下、座位選單出來、補考那一場還沒開始）' % tag, bool(ops), J(ops))
+        if ops:
+            k = next((t for t in ops if '補考' in t), None)
+            if k: await pick_txt(pg, cdp, run, tag, k)
+            elif await pick_txt(pg, cdp, run, tag, '讀書'):
+                s = await P.ts(pg); T = [o['t'] for o in (s['ch'] or [])]; pre['study_menu'] = T
+                k2 = next((t for t in T if '補考' in t), None) or next((t for t in T if t.startswith('讀 1')), None)
+                if k2: await pick_txt(pg, cdp, run, tag, k2)
+            pre['seat_after_pick'] = await pg.evaluate(MKBG_NOW)
+            run.note('%s：座位操作 %s' % (tag, J(pre)))
+    o = await mkbg_drive(pg, cdp, run, drv, tag, n0, sub, ENVI('MKBG_MAX', 1500))
+    await pg.wait_for_timeout(1500)
+    end_snap = await pg.evaluate(MKBG_NOW)
+    drv.shots['after'] = await shoot_both(pg, run, tag + '_after')
+    g = await pg.evaluate(STATE); R = await rows(pg, n0); MB = await pg.evaluate(MKBG_ROWS, b0)
+    i0 = next((i for i, r in enumerate(MB) if r['k'] == 'mk_start'), None); i1 = next((i for i, r in enumerate(MB) if r['k'] == 'mk_end'), None)
+    win = MB[i0:(i1 + 1 if i1 is not None else len(MB))] if i0 is not None else []
+    qrows = [r for r in win if r['k'] == 'say' and QN_RE.match(r['t'])]
+    brief = lambda r: None if r is None else {k: r.get(k) for k in ('k', 't', 'd', 'h', 'active', 'isMk', 'isHome', 'img', 'dom', 'cls', 'mkImg', 'homeImg', 'zone', 'seat')}
+    caps = [[x.get('d'), hm(x.get('h')), x['t']] for x in R if x['k'] == 'cap']
+    op = next((r for r in win if r['k'] == 'say' and r['t'] == mkl['open'][:80]), None)
+    settle_t = {mkl['pass'].replace('{課名}', cn), mkl['passAll'], mkl['passBar'], mkl['fail'].replace('{課名}', cn), fdl['cert'], fdl['bar']}
+    settle = [r for r in win if r['k'] == 'say' and r['t'] in {t[:80] for t in settle_t}]
+    mk_end = MB[i1] if i1 is not None else None
+    mk = g['mk'] if isinstance(g['mk'], dict) else None
+    run.note('%s：結束方式 %s；補考 %s；時間 %s；字幕 %s' % (tag, o['end'], J(mk), J(g['clock']), J(caps[:6])))
+    run.note('%s：背景紀錄（開始～結束）%s' % (tag, J([brief(r) for r in win if r['k'] != 'say' or QN_RE.match(r['t']) or r is op][:40])))
+    dump(tag, rows=R, mkbg=MB, pre=pre, end_snap=end_snap, end=g, drive=o, answered=drv.answered, shots=drv.shots)
+    run.check('%s：補考那一場有演（FD.makeup 開始＋回來）' % tag, i0 is not None and i1 is not None, J({'start': brief(MB[i0]) if i0 is not None else None, 'end': brief(mk_end), 'drive': o['end']}))
+    run.check('%s：開頭字幕「%s」（GAME.caption）' % (tag, place), any(place in c[2] for c in caps if c[0] == MK_DAY), J(caps[:6]))
+    run.check('%s：開場「%s」那一句的背景＝linze_201（修改前 home 預期 FAIL）' % (tag, mkl['open']), bool(op) and op['isMk'], J(brief(op)))
+    run.check('%s：補考第 1 題的背景＝linze_201（修改前 home 預期 FAIL）' % tag, bool(qrows) and qrows[0]['isMk'], J(brief(qrows[0]) if qrows else None))
+    run.check('%s：補考最後一題（第 %s 題）的背景＝linze_201' % (tag, QN_RE.match(qrows[-1]['t']).group(1) if qrows else '?'), bool(qrows) and qrows[-1]['isMk'], J(brief(qrows[-1]) if qrows else None))
+    run.check('%s：補考每一題的背景都是 linze_201（%d 句）' % (tag, len(qrows)), bool(qrows) and all(r['isMk'] for r in qrows), J([[r['t'][:6], r['isMk'], r['img']] for r in qrows]))
+    run.check('%s：結算台詞的背景＝linze_201（%d 句）' % (tag, len(settle)), bool(settle) and all(r['isMk'] for r in settle), J([brief(r) for r in settle]))
+    if sub == 'home':
+        run.check('%s：考完那一刻（FD.makeup 回來）＝家裡的背景（ADV 開著、bgMode＝HOME.bgNow()）' % tag, bool(mk_end) and mk_end['active'] and mk_end['isHome'], J(brief(mk_end)))
+        run.check('%s：最後畫面：回到家裡的選單、背景＝家裡' % tag, o['end'] == 'home_menu' and bool(end_snap) and end_snap.get('isHome') and g['homeAt'], J({'drive': o, 'snap': end_snap}))
+    else:
+        run.check('%s：考完那一刻（FD.makeup 回來）ADV 收掉（ADV.active false）' % tag, bool(mk_end) and not mk_end['active'], J(brief(mk_end)))
+        run.check('%s：最後畫面：ADV 沒開、回到 3D（%s）' % (tag, g['clock'].get('zone')), bool(end_snap) and not end_snap.get('active') and o['end'] == 'free', J({'drive': o['end'], 'snap': end_snap}))
+        if sub == 'library': run.note('%s：座位狀態 開始 %s／結束 %s／最後 %s' % (tag, (MB[i0] or {}).get('seat') if i0 is not None else None, (mk_end or {}).get('seat'), (end_snap or {}).get('seat')))
+    run.note('%s：截圖 %s' % (tag, J(drv.shots)))
+
+
+for _s in ('home', 'campus', 'library'): CASEFN['mkbg_' + _s] = (lambda v: (lambda pg, cdp, run: case_mkbg(pg, cdp, run, v)))(_s)
+
+
 async def main():
     run = L.Run('makeup_' + '+'.join(CASES), OUT); os.makedirs(OUT, exist_ok=True)
     todo = []
-    for cs in CASES: todo += ['home_' + s for s in HOME_SUBS] if cs == 'home' else (['skipnoon_' + v for v in SKIP_VIA] if cs == 'skipnoon' else [cs])
+    for cs in CASES: todo += ['home_' + s for s in HOME_SUBS] if cs == 'home' else (['skipnoon_' + v for v in SKIP_VIA] if cs == 'skipnoon' else (['mkbg_' + v for v in MKBG_SUBS] if cs == 'mkbg' else [cs]))
     async with async_playwright() as p:
         for cs in todo:
             fn = CASEFN.get(cs)
-            if not fn: run.check('CASE %s 認得' % cs, False, '可以用：main_pass,main_fail,noshow,home,rollcall_fail,study3h,skipnoon,homerest,old_delayed,' + ','.join(k for k in CASEFN if k.startswith('home_'))); continue
+            if not fn: run.check('CASE %s 認得' % cs, False, '可以用：main_pass,main_fail,noshow,home,rollcall_fail,study3h,skipnoon,homerest,old_delayed,mkbg,' + ','.join(k for k in CASEFN if k.startswith('home_'))); continue
             print('==== CASE %s（SHA %s）====' % (cs, os.environ.get('SHA', '?')), flush=True)
             b, ctx, pg, cdp, errs = await L.launch(p, landscape=True)
             pg.on('dialog', lambda dd: asyncio.ensure_future(dd.accept()))

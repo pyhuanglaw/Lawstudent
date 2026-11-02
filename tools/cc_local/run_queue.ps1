@@ -133,6 +133,7 @@ foreach ($it in $Items) {
     $wrap = Join-Path $Work 'tools\cc_local\gpu_wrap.py'
     switch ($it.Kind) {
       'gpu'   { $args2 = @((Join-Path $Work $it.Script), $url, (Join-Path $od 'gpu.txt')); $cwd = $Work }
+      'py'    { $args2 = @((Join-Path $Work $it.Script), $url, $od); $cwd = $Work }   # repo script, args <URL> <out dir>
       'game'  { $args2 = @($wrap, (Join-Path $wt $it.Script), $url); $cwd = $wt }
       'probe' { $env:LW_TESTS = (Join-Path $wt 'tests'); $env:SHA = $sha
                 $args2 = @($wrap, (Join-Path $Work $it.Script), $url, (Join-Path $od 'out')); $cwd = $Work }
