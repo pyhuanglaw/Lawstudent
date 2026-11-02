@@ -157,9 +157,9 @@ const kxOD=()=>OUT.rec(G).filter(q=>/^kx_od_/.test(q.id));
     const a=await sup(false), b=await sup(true);
     check('15. 考完的晚餐，還沒認識語彤：「（今天端麵的是一個沒見過的女生。）」（D118 晚餐在期末，AA_581 第 7 節 B 護腕改字）',a.includes('（今天端麵的是一個沒見過的女生。）')&&!a.some(t=>/語彤|護腕/.test(t)),J(a.slice(0,2)));
     check('15. 對照：認識語彤的「（阿姨的手好了，今天端麵的還是語彤。）」（AA_581 第 7 節 B）',b.includes('（阿姨的手好了，今天端麵的還是語彤。）')&&!b.some(t=>/沒見過的女生|護腕/.test(t)),J(b.slice(0,2)));
-    fresh(D('2026-04-15'),21,'dorm',{}); R('classmate_peishan','FAM'); PHONE.join(G,'noodle_team','麵店團'); ev('ev_midterm_supper_y1s2').outingMissed(G,GM,{day:G.day,h:19}); PHONE.tick(G);
+    fresh(D('2026-04-15'),21,'dorm',{}); R('classmate_peishan','FAM'); PHONE.join(G,'noodle_team','麵店團'); ev('ev_psbh_public_0415').missedPhoto(G,G.day); PHONE.tick(G);   /* AA_588 第 1 節：滷蛋照片跟著公開搬到 4/15 傍晚麵店（原本考完的晚餐的 outingMissed）*/
     const M=TH('g:noodle_team').filter(m=>m.tag==='zhe_supper_mid2_egg').map(m=>m.from+':'+m.text);
-    check('16. 期中晚餐沒去（認識沛珊）：麵店團群組阿哲傳滷蛋照片，配「柏翰幫沛珊切的」「……他們在一起了」（不再只有「……喔。」）',J(M)===J(['zhe:📷（一顆切成兩半的滷蛋）','zhe:柏翰幫沛珊切的','zhe:……他們在一起了']),J(M)); }
+    check('16. 4/15 傍晚沒到麵店（認識沛珊；AA_588 第 1 節）：麵店團群組阿哲傳滷蛋照片，配「柏翰幫沛珊切的」「……他們在一起了」（不再只有「……喔。」）',J(M)===J(['zhe:📷（一顆切成兩半的滷蛋）','zhe:柏翰幫沛珊切的','zhe:……他們在一起了']),J(M)); }
   // ===== 第 17 項：「那場演講。」=====
   { const thu=termDay('Y1S2',11,4);
     const b4=ans=>{ fresh(thu,21.9,'dorm',{dating_kexin:true}); G.acts={att:{['B4@'+thu]:{end:'full'}}}; run(22,22.1); const m=(G.msgs||[]).find(x=>x.tag==='kx_b4_ask'&&x.ask); if(m&&ans!=null) PHONE.answer(G,m.ask.id,ans);
