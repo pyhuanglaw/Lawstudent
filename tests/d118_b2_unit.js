@@ -115,5 +115,7 @@ const sec=async(n,f)=>{ try{ await f(); }catch(e){ check(n+'. 丟出例外',fals
     const i1=html.indexOf('src/classes3d.js?'), i2=html.indexOf('src/data/study_units.js?'), i3=html.indexOf('src/study3d.js?'), iB=html.indexOf('GAME.boot');
     check('g3. index.html：data/study_units.js、study3d.js 在 classes3d.js 之後、GAME.boot() 之前（build.py 照 index.html 內嵌）',i1>0&&i2>i1&&i3>i2&&(iB<0||i3<iB),J({i1,i2,i3,iB}));
     const cs=STUDY.courses(G).map(e=>e.c.id); check('g4. 「法律」頁要列的課：這學期考五題的法律課（還沒上也列）',cs.includes('const_1')&&cs.includes('civ_general')&&cs.includes('crim_gen1'),J(cs)); });
+  { const g=fs.readFileSync(path.join(H.ROOT,'src/game3d.js'),'utf8');   /* BB 07:15：手機直向「答對過 n」被擠到下一行 */
+    check('g5. 法律頁那一行：「期末範圍：學過 x／y」「・答對過 z」各自 nowrap（要換行只在「・」前面）',/white-space:nowrap\\?">期末範圍：學過 '\+pr\.heard\+'／'\+pr\.total\+'<\/span><span style=\\?"white-space:nowrap\\?">・答對過 '\+pr\.got\+'<\/span>/.test(g)); }
   H.done();
 })().catch(e=>{ console.log('FAIL 例外',e&&e.stack||e); process.exit(1); });
