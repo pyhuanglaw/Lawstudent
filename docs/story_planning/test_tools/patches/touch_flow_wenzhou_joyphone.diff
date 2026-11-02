@@ -1,0 +1,13 @@
+--- a/tests/touch_flow_wenzhou.py
++++ b/tests/touch_flow_wenzhou.py
+@@ -125,6 +125,10 @@
+         await pg.screenshot(path=SHOTS+'/flow_01_wenzhou.png')
+         # 1. 自由走在溫州街（搖桿）
+         p0 = await state(pg); await t.joy(0, -55, 1600); p1 = await state(pg)
++        if math.hypot(p1['x'] - p0['x'], p1['z'] - p0['z']) <= 0.5 and await pg.evaluate("!!(GAME.phoneIsOpen&&GAME.phoneIsOpen())"):
++            # 要回的訊息（D103）在讀檔後、推搖桿那一下自己打開手機，遊戲暫停：像玩家一樣收起來、再推一次（BB-B 11-01，LAWWW-B 10-31 23:05 發布前清單第三次那一下；同 6. 出來後那一段）
++            print('  [玩家操作] 推搖桿的時候手機自己打開了（要回的訊息）→ 收起來、再推一次', flush=True)
++            await t.phone_away(); p0 = await state(pg); await t.joy(0, -55, 1600); p1 = await state(pg)
+         check('溫州街：搖桿往前走', math.hypot(p1['x'] - p0['x'], p1['z'] - p0['z']) > 0.5, (p0['x'], p1['x']))
+         # 2. 看見 NPC
+         npcs = await pg.evaluate("GAME.E.npcs.map(n=>({name:n.name||'(路人)',driver:n.obj.userData.driver,x:+n.obj.position.x.toFixed(1),z:+n.obj.position.z.toFixed(1)}))")

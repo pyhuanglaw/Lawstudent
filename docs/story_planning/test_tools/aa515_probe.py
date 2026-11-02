@@ -3,7 +3,7 @@
 MODE（環境變數）：
   an  【前置】使用者存檔 → 2026-03-27（五）20:00 宿舍；【捷徑】和以安交往中（第 6 階＋ROM.start），其他人都不是交往中 → 約以安 3/28 淡水 →
       當晚 21:30 動態頁有她一則：照片「河邊欄杆上兩杯飲料，旁邊是你的手肘」、她的一句是第 1 句「手帳上劃掉一個。」（AA_515 第 1～3 節、第 5 節第 1 項）
-  zq  同上，和子晴交往中 → 隔天 00:30 動態頁有她一則（第 1 節的時間）、她的一句沒有句號（第 5 節最後一項）
+  zq  同上，和子晴交往中 → 回宿舍睡到明天，起床打開手機：動態頁有她隔天 00:30 一則（第 1 節的時間）、她的一句沒有句號（第 5 節最後一項）
 不是 iPhone：Playwright 手機橫向模擬（SwiftShader）。用法：LW_TESTS=<工作樹>/tests MODE=an python3 aa515_probe.py '<URL>/index.html' <輸出資料夾> <存檔.json>"""
 import os, sys, json, asyncio, time
 HERE = os.path.dirname(os.path.abspath(__file__)); sys.path.insert(0, HERE)
@@ -41,10 +41,11 @@ async def main():
             run.check('約好了：3/28 15:00 淡水', bool(t), J(T))
             o, slept = await H['sleep_night'](pg, cdp, run, MODE)
             await H['skip'](pg, cdp, '等到傍晚', MODE)
-            ok, ch = await H['wait_for'](pg, cdp, run, "(()=>{ const ch=document.getElementById('choices'); return !!ch&&!ch.classList.contains('hide')&&[...ch.querySelectorAll('button')].some(b=>b.textContent.trim().startsWith('出發')); })()", max_s=300, label=MODE)
+            ok, ch = await H['wait_for'](pg, cdp, run, "(()=>{ const ch=document.getElementById('choices'); return !!ch&&!ch.classList.contains('hide')&&[...ch.querySelectorAll('button')].some(b=>/^(現在)?出發/.test(b.textContent.trim())); })()", max_s=300, label=MODE)   # 跳過時間跳到出發前一點，遊戲問「現在出發／到時間再說」（BB-B 10-30：舊版只認「出發」，wait_for 自己選了「現在出發」把整趟約會走掉）
             run.check('時間到了有「出發」', ok, J(await pg.evaluate(H['STATE'])))
             n0 = len(await pg.evaluate("window.__LOG||[]"))
-            await H['pick'](pg, cdp, '出發', MODE)
+            go = await pg.evaluate("(()=>{ const b=[...document.querySelectorAll('#choices button')].find(b=>/^(現在)?出發/.test(b.textContent.trim())); return b?b.textContent.trim():null; })()")
+            await H['pick'](pg, cdp, (go or '出發')[:4], MODE)
             ok2, ch2 = await H['wait_for'](pg, cdp, run, "(()=>{ const t=(GAME.G.trips||[]).find(x=>(x.locs||[])[0]==='D13'); return !!t&&t.status==='done'&&(window.__LOG||[]).slice(%d).some(x=>x.n==='［字幕］'&&x.t.indexOf('回到台大')>=0); })()" % n0,
                                            max_s=600, picks=['飲料攤', '差不多了，回去吧', '（今天先不說）'], label=MODE)
             await H['drive'](pg, cdp, run, picks=['（今天先不說）'], max_s=60, label=MODE)
@@ -53,15 +54,15 @@ async def main():
             q = await pg.evaluate("(id=>(FEED.rec(GAME.G).items||[]).filter(i=>String(i.id||'').startsWith('dt_')).map(i=>({id:i.id,who:i.who,day:CALENDAR.dateOf(i.day).key,h:i.h,pic:i.pic||i.photo||null,text:i.text==null?null:i.text})))(%s)" % J(WHO))
             run.note('回來時排好的約會動態：%s' % J(q))
             target_h = 21.55 if MODE == 'an' else 24.6
-            got = await P.wait_play(pg, cdp, target_h if target_h < 24 else 23.95, max_s=900)
-            if target_h >= 24:   # 子晴 00:30：過午夜，等日子換了再等到 0:35
-                d0 = await pg.evaluate("GAME.G.day")
-                t0 = time.time()
-                while time.time() - t0 < 600:
-                    st = await pg.evaluate("({d:GAME.G.day,h:+GAME.G.hour})")
-                    if (st['d'] > d0 and st['h'] >= 0.58) or st['h'] >= 24.58: break
-                    if await H['phone_open'](pg): await L.phone_away(pg, cdp)
-                    await pg.wait_for_timeout(2000)
+            if target_h < 24:   # 以安 21:30（BB-B 10-30 10:30）：站著等 900 秒只走到 19:10（工具）。照玩家：手機「跳過時間」→ 等到晚上（20:00），再等到 21:33
+                await H['skip'](pg, cdp, '等到晚上', MODE); run.note('跳過時間「等到晚上」→ %s' % J(await pg.evaluate(H['STATE'])))
+                got = await P.wait_play(pg, cdp, target_h, max_s=1800)
+                run.check('前置：等到 21:33（她貼的時間以後）', got, J(await pg.evaluate(H['STATE'])))
+            else:   # 子晴 00:30（BB-B 10-30 10:13）：站著等，沙盒 25 分鐘只走到 20:13（工具）。照玩家：回宿舍睡到明天，起床打開手機看動態
+                await P.wait_play(pg, cdp, 17.55, max_s=400)   # 17:30 以前床只有小睡、睡到傍晚（story3d.js bedOptions 的 night＝17:30 起）
+                o, slept = await H['sleep_night'](pg, cdp, run, MODE)
+                run.note('睡到明天：%s；現在 %s' % (J(o and [x['t'] for x in o]), J(await pg.evaluate(H['STATE']))))
+                run.check('前置：回宿舍睡到明天（00:30 那一則在睡覺的時候）', bool(slept), J(o and [x['t'] for x in o]))
             body = await P.phone_tab(pg, cdp, 'feed'); await run.shot(pg, 'feed')
             await L.phone_away(pg, cdp)
             q2 = await pg.evaluate("(id=>(FEED.visible(GAME.G)||[]).filter(i=>String(i.id||'').startsWith('dt_')).map(i=>({id:i.id,who:i.who,day:CALENDAR.dateOf(i.day).key,h:i.h,pic:i.pic||i.photo||null,text:i.text==null?null:i.text})))(%s)" % J(WHO))
@@ -73,7 +74,10 @@ async def main():
                 x = mine[0]
                 run.check('第 1 節：貼的時間＝%s' % ('21:30' if MODE == 'an' else '00:30'), abs((x['h'] or 0) - (21.5 if MODE == 'an' else 0.5)) < 0.02 or abs((x['h'] or 0) - 24.5) < 0.02, J(x))
                 if MODE == 'an': run.check('第 3-1 節：以安的一句是第 1 句「手帳上劃掉一個。」', '手帳上劃掉一個。' in body, J(body[:600]))
-                else: run.check('第 3-4 節：子晴的一句沒有句號', bool(x['text']) and '。' not in x['text'], J(x))
+                else:   # 動態的 text 欄位是空的（顯示時才照 D13 那一列補字，BB-B 10-30 a515_zq3）：看動態頁上照片下面那一行
+                    ls = [t.strip() for t in body.split('\n')]; k = next((i for i, t in enumerate(ls) if t.startswith('（照片')), None)
+                    line = ls[k + 1] if k is not None and k + 1 < len(ls) else ''
+                    run.check('第 3-4 節：子晴的一句沒有句號（動態頁照片下面那一行）', bool(line) and '。' not in line, J({'line': line, 'item': x}))
         run.check('沒有 JS 例外', not errs, J(errs[:3]))
         print('SHA', os.environ.get('SHA', '?'), 'MODE', MODE)
         await H['close'](b)

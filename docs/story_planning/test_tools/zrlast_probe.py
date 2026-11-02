@@ -66,13 +66,13 @@ N_WAIT = ['到家了。', '票根不要弄丟。……寄放的，要還。']; N
 LATE = '要開演了。……我先進去。'; AFTER = '散場了。票根我先收著。'
 ROOM = '她的票根'
 AG = {'n0': '（她在吧檯後面。看到你，停了一下。）', 'hi': '……好久不見。', 'ask': '票根，還在嗎？', 'me': '還在。', 'take': '寄放的，要拿回來了。……還是，你要一直收著？', 'keepT': '「我一直收著。」', 'giveT': '「還給妳。」',
-      'keepN': '（她做了一杯熱可可，加了一份濃縮，推到你面前。）', 'keep': '……那這杯，也是你的。', 'giveN': '（你把票根放在吧檯上。她把它夾進牆上班表的夾板裡。）', 'give': '……謝謝你幫我收了一年。', 'hiNo': '好久不見。', 'no': '……票根，你留著就好。'}   # AA_387 第 10 節 A1
+      'keepN': '（她做了一杯熱可可，加了一份濃縮，推到你面前。杯子上用麥克筆寫著：「熱可可＋濃縮」。下面一行小字：「不用還了。」）', 'keep': '……那這杯，也是你的。', 'giveN': '（你把票根放在吧檯上。她把它夾進牆上班表的夾板裡。）', 'give': '……謝謝你幫我收了一年。', 'hiNo': '好久不見。', 'no': '……票根，你留著就好。'}   # AA_387 第 10 節 A1
 FANG = ['她說不行。', '我一個人去看了。……片子很好。']   # 第 10 節 A4
 
 TWF = {'EXCHANGE_ROUTE': 'TW', 'EXCH_RULE': 1, 'Y4_PATH': 'other'}
 # BB-B 10-23 09:3x：使用者的存檔（9/25）祐廷和可昕交往中（dating_kexin、romance.kexin dating，經濟系那一年起）＝學姊的七夕、M2 以外很多事件會照「祐廷有別的交往對象」走。
 #   學姊那幾個情境讀檔後先把可昕的交往拿掉（當作沒交往過；不是分手，不會有收拾那一段）。qx1023 第一次（64ac4855）QX26_GO 等就是這樣 FAIL 的（8/17 只有可昕的七夕視訊）。
-NOKX = "G.flags.dating_kexin=false; if(G.flags.romance) delete G.flags.romance.kexin; G.flags.ROMANCE_HISTORY=(G.flags.ROMANCE_HISTORY||[]).filter(r=>r&&r.id!=='kexin'); delete G.flags.DATED_1_kexin;"
+NOKX = "G.flags.dating_kexin=false; if(G.flags.romance) delete G.flags.romance.kexin; G.flags.ROMANCE_HISTORY=(G.flags.ROMANCE_HISTORY||[]).filter(r=>r&&r.id!=='kexin'); delete G.flags.DATED_1_kexin; delete G.flags.KX_TOUR_YES;"   # BB-B 10-30 13:4x：KX_TOUR_YES 也拿掉——最小存檔（GAME.defaults）答應過導遊、沒有 ev_kexin_tour_nccu，2029 年還會排「去政大找可昕」（r43d PGF3_NOTE 看到）
 JPF = {'EXCHANGE_ROUTE': 'JP', 'EXCH_RULE': 1, 'Y4_PATH': 'other', 'AN_SENDOFF': 'together'}
 USF = dict(B['USF'], Y4_PATH='other')
 Y4 = "G.flags.Y4_PATH_DAY=D('2028-06-08');"
@@ -3253,6 +3253,7 @@ SCENS = SCENS + R42
 # ---------- R43（BB-C 10-27）：PG-FIX-471-473-1027（BB_TEST_QUEUE_1027 第 1 節十項，第二輪更正優先；開發分支 7dacc9463＋60919c7a9，寫的時候看 8df0742f0）----------
 # 規格：AA_471 第 3～7 節、AA_472 第 1～6 節、AA_473、AA_476 A 節（企劃線）。要對的句子照遊戲 8df0742f0 的字（src/data/postgrad_lines.js、home3d.js、faildelay3d.js、zr_uk3d.js、story3d.js、events.js、pg_dates.js）。
 # 全部是最小存檔（load_min：畢業以後＝GRADUATED、PG done grad、MOVED_OUT、HOME_AFTER home；pregrad＝6/2 典禮當天早上）【前置】；讀檔後的關係、交往、群組、國考旗標寫在 js【前置】。
+# BB-B 10-30：R43 的最小存檔＝GAME.defaults（預設和可昕交往中）；不是測可昕的情境都要加 NOKX（PGF2、PGF3、PGF5_NYE_S、PGF9 補了）
 # 畢業以後是「跳到下一件事」：站在傅鐘廣場北緣不動 2 秒，遊戲自己跳（PG.tick）。新步驟 ('pguntil', 日子, 時間[, 最多幾秒])＝照玩家站著讓它跳，直到遊戲日子時間 ≥ 那一刻
 #   （play_until 只比時間、不比日子，跳日子會錯）；中間的對話照 pref、選項照 pref、要回的訊息照 asks、出遊的「出發」照 pref。
 #   到了以後【捷徑】PG.IDLE_MS 調大＝玩家開始走動、不再站著讓它跳（後面的檢查不會被下一跳蓋掉；下一個 pguntil 再調回 2 秒）。('pghold', True)＝同樣調大，讓時間照真的走。
@@ -3339,32 +3340,32 @@ R43 = [
              ('12/13 麵店團照順序：放榜兩行 → 阿哲 → Alison', NOODLED('2030-12-13'), lambda L: isinstance(L, list) and in_order(L, R2G30 + ZHE30 + [YU30]) is None),
              LAND('2030-09-06', 15.0), LAND('2030-12-13', 15.0)]),
   # ② 中秋：住家裡＝20:00 家人群組一組（爸爸照片＋媽媽一句；2030 三則），停一下；不能有 2025 原句、不能有住外面那一版
-  dict(id='PGF2_HOME29', minimal=True, key='2029-09-21', h=12.0, zone='campus', pos=PGPOS, flags=dict(TW3), js=PGJ + HOMEJ,
+  dict(id='PGF2_HOME29', minimal=True, key='2029-09-21', h=12.0, zone='campus', pos=PGPOS, flags=dict(TW3), js=PGJ + HOMEJ + NOKX,
        steps=[('pguntil', '2029-09-22', 20.0, 2400)], pref=[], asks={'*': ''},
        wantMsg=MOON29H, noneMsg=MOON25 + MOON29S[:2], msgAt={'我們這邊陰天': ('2029-09-22', 20.0, 0.1)},
        jsok=[('9/22 家人群組（爸爸、媽媽）', HOMED('2029-09-22'), MOON29H), LAND('2029-09-22', 20.0, 0.15, '規格：20:00 停一下')]),
-  dict(id='PGF2_HOME30', minimal=True, key='2030-09-11', h=12.0, zone='campus', pos=PGPOS, flags=dict(TW3), js=PGJ + HOMEJ,
+  dict(id='PGF2_HOME30', minimal=True, key='2030-09-11', h=12.0, zone='campus', pos=PGPOS, flags=dict(TW3), js=PGJ + HOMEJ + NOKX,
        steps=[('pguntil', '2030-09-12', 20.0, 2400)], pref=[], asks={'*': ''},
        wantMsg=MOON30H, noneMsg=MOON25 + MOON30S[:2], msgAt={'你每年都這樣講': ('2030-09-12', 20.0, 0.1)},
        jsok=[('9/12 家人群組（爸爸、媽媽）', HOMED('2030-09-12'), MOON30H), LAND('2030-09-12', 20.0, 0.15, '規格：20:00 停一下')]),
   # 住公館套房＝18:00 媽媽兩則、21:00 爸爸（第二輪：停兩次）
-  dict(id='PGF2_SUITE29', minimal=True, key='2029-09-21', h=12.0, zone='campus', pos=PGPOS, flags=SUITE, js=PGJ + HOMEJ,
+  dict(id='PGF2_SUITE29', minimal=True, key='2029-09-21', h=12.0, zone='campus', pos=PGPOS, flags=SUITE, js=PGJ + HOMEJ + NOKX,
        steps=[('pguntil', '2029-09-22', 21.0, 2400)], pref=[], asks={'*': ''},
        wantMsg=MOON29S, noneMsg=MOON25 + ['我們這邊陰天'], msgAt={'一個人吃不完 你回來拿': ('2029-09-22', 18.0, 0.1), '📷（上海的月亮，旁邊那棟樓蓋好了）': ('2029-09-22', 21.0, 0.1)},
        jsok=[('9/22 家人群組（媽媽兩則、爸爸一則）', HOMED('2029-09-22'), MOON29S), LAND('2029-09-22', 18.0, 0.15, '第一次停'), LAND('2029-09-22', 21.0, 0.15, '第二次停')]),
-  dict(id='PGF2_SUITE30', minimal=True, key='2030-09-11', h=12.0, zone='campus', pos=PGPOS, flags=SUITE, js=PGJ + HOMEJ,
+  dict(id='PGF2_SUITE30', minimal=True, key='2030-09-11', h=12.0, zone='campus', pos=PGPOS, flags=SUITE, js=PGJ + HOMEJ + NOKX,
        steps=[('pguntil', '2030-09-12', 21.0, 2400)], pref=[], asks={'*': ''},
        wantMsg=MOON30S, noneMsg=MOON25 + ['你每年都這樣講'], msgAt={'放冰箱了': ('2030-09-12', 18.0, 0.1), '明年回去看': ('2030-09-12', 21.0, 0.1)},
        jsok=[('9/12 家人群組（媽媽兩則、爸爸兩則）', HOMED('2030-09-12'), MOON30S), LAND('2030-09-12', 18.0, 0.15, '第一次停'), LAND('2030-09-12', 21.0, 0.15, '第二次停')]),
   # ③ 被當延畢、重修只去兩堂：12/23 晚上 → 12/24 記號 → 12/26（三）09:00 停、旁白兩句（{課名}＝那一門）
-  dict(id='PGF3_NOTE', minimal=True, key='2029-12-23', h=20.0, zone='campus', pos=PGPOS, flags=FDF, js=PGJ + FDJS(2),
+  dict(id='PGF3_NOTE', minimal=True, key='2029-12-23', h=20.0, zone='campus', pos=PGPOS, flags=FDF, js=PGJ + FDJS(2) + NOKX,
        steps=[('pguntil', '2029-12-26', 9.0, 2400)], pref=[], asks={'*': ''},
        want=['的重修，出席不到三堂。）', '（證書，要等到六月。）'], none=[NYE_IN, NYE_OUT], cflags=['FAIL_DELAY_CERT'], eqflags={'FAIL_DELAY_CERT': '2030-06'},
        jsok=[('旁白第一句＝FD.lateFill（課名＝不到三堂的那一門）', "(()=>{ try{ const t=FD.lateFill(GAME.G,FD.LINES.lateNote[0]); return (window.__LOG||[]).some(x=>x.t===t)?t:('沒有：'+t); }catch(e){ return 'ERR '+e; } })()",
               lambda x: isinstance(x, str) and not x.startswith(('沒有', 'ERR'))), ('FAIL_DELAY_PASS＝false', "GAME.G.flags.FAIL_DELAY_PASS", False), LAND('2029-12-26', 9.0)]),
   # 證書延到六月（【前置】12/26 那一停已經演過）：2030-05-15 起跳 → 6/17（一）10:00 系辦（日期卡）→ 6/18 以後那一跳出「框裝上了」；整個 6 月不出「第一個禮拜」「八點起床」
 ] + [dict(id='PGF3_CERT%d' % int(reg), minimal=True, key='2030-05-15', h=12.0, zone='campus', pos=PGPOS, flags=dict(FDF, BAR_REG_2030=reg, FAIL_DELAY_PASS=False, FAIL_DELAY_CERT='2030-06'),
-       js=PGJ + FDJS(2) + DONE('fd_late_note'), steps=[('pguntil', '2030-06-17', 10.0, 2400), ('pguntil', '2030-06-18', 0.0, 3600)], pref=[], asks={'*': ''},
+       js=PGJ + FDJS(2) + DONE('fd_late_note') + NOKX, steps=[('pguntil', '2030-06-17', 10.0, 2400), ('pguntil', '2030-06-18', 0.0, 3600)], pref=[], asks={'*': ''},
        want=['（系辦的助教把證書遞給你。）', CERT_TA, FRAME, 'CARD:6/17（一）10:00'], none=[WEEK1, EIGHT, '恭喜。……延了一學期，還是恭喜。'],
        wantMsg=['畢業證書已可領取。', '照片傳給我。我要傳給你爸。'], msgAt={'畢業證書已可領取。': ('2030-06-17', 10.0, 0.1), '照片傳給我。我要傳給你爸。': ('2030-06-17', 12.0, 0.1)},
        jsok=[('「框裝上了」在領證書之後、落在 6/18 以後的那一跳', CERTORD, lambda r: isinstance(r, dict) and r['a'] >= 0 and r['b'] > r['a'] and (r['d'] or '') >= '2030-06-18'), LAND('2030-06-17', 10.0)])
@@ -3379,7 +3380,7 @@ R43 = [
   # ⑤ 日本路線延畢（交換延畢）：交往中（以安）＝「你沒有在家」；單身＝原句。12/23 晚上起跳，跳進 1 月那一跳的日期卡
   dict(id='PGF5_NYE_D', minimal=True, key='2029-12-23', h=20.0, zone='campus', pos=PGPOS, flags=JPDF, js=PGJ + JPJS + AN_D,
        steps=[('pguntil', '2030-01-02', 0.0, 2400)], pref=[], asks={'*': ''}, want=[NYE_OUT], none=[NYE_IN]),
-  dict(id='PGF5_NYE_S', minimal=True, key='2029-12-23', h=20.0, zone='campus', pos=PGPOS, flags=JPDF, js=PGJ + JPJS,
+  dict(id='PGF5_NYE_S', minimal=True, key='2029-12-23', h=20.0, zone='campus', pos=PGPOS, flags=JPDF, js=PGJ + JPJS + NOKX,   # BB-B 10-30：最小存檔＝GAME.defaults 預設和可昕交往中，單身要明寫關掉（r43_nye 第一次跑出「她說這樣剛好」＝探針）
        steps=[('pguntil', '2030-01-02', 0.0, 2400)], pref=[], asks={'*': ''}, want=[NYE_IN], none=[NYE_OUT]),
   # ⑥ 學姊交往中：2029-08-04 考場門口（便條三句＋「我在對面的便利商店等…」）→ 一試【捷徑】改 5 題 → 9/7 15:20 她的私訊（「你先排，我幫你看」）
   dict(id='PGF6_STORE29', minimal=True, key='2029-08-03', h=20.5, zone='campus', pos=PGPOS, flags=dict(TW3, BAR_REG=True, Y4_PATH='bar'), js=PGJ + SIS_D,
@@ -3408,7 +3409,8 @@ R43 = [
        steps=[('pguntil', '2029-06-02', 13.9, 3600)], pref=['不去了'], asks={'*': ''}, want=ZRV, order=ZRV + [TASSEL], none=ZRV_VOID, cflags=['PG_ZR_VIDEO'], eqflags={'PG_ZR_VIDEO': True},
        jsok=[('視訊那一句演在 10:30 前後（家人那一段）', "(window.__LOG||[]).filter(x=>x.t===%s).map(x=>x.h)" % json.dumps(ZRV[0]), lambda L: bool(L) and all(10.25 <= h <= 10.75 for h in L))]),
   # ⑨ 沛珊交往中：2030-06（台南）那一格＝「說好的，運河一圈。……」（5/26 起跳，6/1（六）10:30）
-  dict(id='PGF9_PS', minimal=True, key='2030-05-26', h=12.0, zone='campus', pos=PGPOS, flags=dict(TW3), js=PGJ + PSJS,
+  dict(id='PGF9_PS', minimal=True, key='2030-05-26', h=12.0, zone='campus', pos=PGPOS, flags=dict(TW3), js=PGJ + PSJS + NOKX,   # BB-B 10-30：最小存檔預設和可昕交往中＝6/1 被可昕的政大出遊佔走、多重交往選單跳出來（r43_ps 第一次＝探針）
+      
        steps=[('pguntil', '2030-06-01', 12.0, 2400)], pref=['出發'], asks={'*': ''}, want=[PS06], none=[PS04],
        jsok=[LAND('2030-06-01', 8.5, 0.3, '該問「出發」：10:30 減高鐵 1:45、再減 15 分鐘'), ('PG_DATE_classmate_peishan 有 2030-06', "GAME.G.flags.PG_DATE_classmate_peishan||[]", lambda L: isinstance(L, list) and '2030-06' in L)]),
   # ⑩ 學姊前任：6/2 中午「畢業快樂。」→ 19:30 家族群組 Kevin 那一則選「傳一句生日快樂」→ 她只回「謝謝。」
@@ -3418,17 +3420,28 @@ R43 = [
        jsok=[('生日那一段：我「生日快樂。」、她只回「謝謝。」', "(GAME.G.msgs||[]).filter(m=>m.tag==='pg_sis_ex_bday_reply').map(m=>(m.from||'')+':'+m.text)", ['player:生日快樂。', 'heroine_05:謝謝。']),
              ('PG_SIS_EX_BDAY＝send', "GAME.G.flags.PG_SIS_EX_BDAY||null", 'send')]),
   # 以安前任（FRIEND 以上）＋麵店團：12/14 21:00 沒有電話、群組「二試過了。一月面試。」；1/25「司法官上了。」各一則
-  dict(id='PGF10_AN_EX', minimal=True, key='2029-12-14', h=20.5, zone='campus', pos=PGPOS, flags=dict(TW3), js=PGJ + NGRP + " LV('heroine_01',45,30,20);" + AN_EX,
+  dict(id='PGF10_AN_EX', minimal=True, key='2029-12-14', h=20.5, zone='campus', pos=PGPOS, flags=dict(TW3), js=PGJ + NGRP + " LV('heroine_01',45,30,20);" + AN_EX + NOKX,
        steps=[('pguntil', '2030-01-25', 21.0, 2700)], pref=[], asks={'*': ''}, wantMsg=['二試過了。一月面試。', '司法官上了。'], none=AN_CALL,
        countMsg={'二試過了。一月面試。': 1, '司法官上了。': 1}, msgAt={'二試過了。一月面試。': ('2029-12-14', 21.0, 0.1), '司法官上了。': ('2030-01-25', 21.0, 0.1)},
        jsok=[ANLV, NOCALL, LAND('2029-12-14', 21.0), LAND('2030-01-25', 21.0)]),
   # 以安前任：12/14 還不到 FRIEND（沒有 12/14 那一則）、【捷徑】1/25 以前到 FRIEND ＝「司法官上了。」只出一則（AA_476 A-6：同一則不要出兩次）
-  dict(id='PGF10_AN_EX_LATE', minimal=True, key='2029-12-14', h=20.9, zone='campus', pos=PGPOS, flags=dict(TW3), js=PGJ + NGRP + " LV('heroine_01',25,10,10);" + AN_EX,
+  dict(id='PGF10_AN_EX_LATE', minimal=True, key='2029-12-14', h=20.9, zone='campus', pos=PGPOS, flags=dict(TW3), js=PGJ + NGRP + " LV('heroine_01',25,10,10);" + AN_EX + NOKX,
        steps=[('pghold', True), ('until', 21.2, 1500), ('jsrun', "(()=>{ const r=SOCIAL.rel('heroine_01'); r.fam=45; r.trust=30; r.comf=20; return true; })()", '12/14 以後、1/25 以前和以安變成 FRIEND（熟悉 45、信任 30）'),
               ('pguntil', '2030-01-25', 21.0, 2700)], pref=[], asks={'*': ''}, none=AN_CALL,
+       countMsg={'司法官上了。': 1, '二試過了。一月面試。': 1}, msgAt={'司法官上了。': ('2030-01-25', 21.0, 0.1), '二試過了。一月面試。': ('2029-12-14', 21.0, 0.1)},   # BB-B 10-30 13:4x：AA-B 定案 B（LAWWW-B 13:36 轉）：21:00～隔天 03:00 變 FRIEND 才補、訊息照樣標 21:00＝21:12 變 FRIEND 要收到
+       jsok=[ANLV, NOCALL, ('21:12 變 FRIEND（21:00 起 6 小時內，AA-B 定案 B）：有 pg_an_ex1', "PHONE.sent(GAME.G,'pg_an_ex1')", True),
+             ('（只記時間）「二試過了。一月面試。」是哪一天幾點進手機的', "(GAME.G.msgs||[]).filter(m=>m&&m.text==='二試過了。一月面試。').map(m=>{ const o={d:CALENDAR.dateOf(m.day).key}; for(const k of ['h','hour','t','time','at']) if(m[k]!=null&&typeof m[k]!=='object') o[k]=m[k]; return o; })", lambda x: True)]),   # BB-B 10-30 13:3x：補 NOKX 以後還是有，要知道是 12/14 21:12 改成 FRIEND 就馬上補（48 小時的 win），還是更晚
+  # BB-B 10-30 13:4x：LAWWW-B 49ba39d6d（pg_an_ex1、pg_an_group 加 win:6）要的另一組：12/14 21:00 不到 FRIEND、12/15 中午才變 FRIEND＝過了 21:00＋6 小時，不補
+  #   【前置】直接讀檔在 12/15 11:54（12/14 晚上那幾個小時以安都不是 FRIEND，跟從 12/14 一路站過來一樣，PG.MSGS 只看「現在」和 at＋win）
+  dict(id='PGF10_AN_EX_NOON', minimal=True, key='2029-12-15', h=11.9, zone='campus', pos=PGPOS, flags=dict(TW3), js=PGJ + NGRP + " LV('heroine_01',25,10,10);" + AN_EX + NOKX,
+       steps=[('pghold', True), ('until', 12.2, 1500), ('jsrun', "(()=>{ const r=SOCIAL.rel('heroine_01'); r.fam=45; r.trust=30; r.comf=20; return true; })()", '12/15 中午才和以安變成 FRIEND（熟悉 45、信任 30）'),
+              ('pguntil', '2030-01-25', 21.0, 2700)], pref=[], asks={'*': ''}, none=AN_CALL,
        countMsg={'司法官上了。': 1, '二試過了。一月面試。': 0}, msgAt={'司法官上了。': ('2030-01-25', 21.0, 0.1)},
-       jsok=[ANLV, NOCALL, ('12/14 那時候還不到 FRIEND：沒有 pg_an_ex1', "PHONE.sent(GAME.G,'pg_an_ex1')", False)]),
+       jsok=[ANLV, NOCALL, ('12/15 中午才變 FRIEND（過了 21:00＋6 小時）：沒有 pg_an_ex1', "PHONE.sent(GAME.G,'pg_an_ex1')", False),
+             ('（只記時間）「二試過了。一月面試。」是哪一天幾點進手機的', "(GAME.G.msgs||[]).filter(m=>m&&m.text==='二試過了。一月面試。').map(m=>({d:CALENDAR.dateOf(m.day).key,h:m.h}))", lambda x: True)]),
 ]
+for _s in R43:   # BB-B 10-30 13:2x：R43 原本沒有 SAYH，3D 對話框的旁白（PG.STEPS 的 GM.say：12/26 延畢旁白、6/17 系辦）記不到，只記得到日期卡和手機＝r43_fd 兩輪 FAIL 都是探針
+    if SAYH not in _s.get('js', ''): _s['js'] = SAYH + _s.get('js', '')
 SCENS = SCENS + R43
 # ---------- R44（BB-C 10-27 23:xx）：學姊第十二批 SIS-B12（AA_470，合併 7b1b1abcc；AA_490 修正 SIS-B12-FIX-1027 也在 de75d3106 裡）瀏覽器驗收 ----------
 # 開發分支 de75d3106（src/sis_b12_3d.js、src/data/sis_b12_events.js；單元測試 tests/aa470_sis_b12_unit.js 118/0）。逐條照 BB-C 助手讀程式後寫的 15 條步驟。
@@ -3650,8 +3663,17 @@ async def pguntil(pg, cdp, run, sc, key, h, secs=1800):
     while time.time() - t0 < secs:
         sn = await pg.evaluate(SNAP)
         if (sn['key'], sn['h']) >= (key, h):
+            # BB-B 10-30（r43_fd）：到站的那一刻就調大 IDLE_MS，那一站要演的（PG.STEPS 的 run：12/26 旁白、6/17 系辦）還沒演就被擋掉了。
+            # 到站以後照玩家再站一下：有對話就點完；時間又往前跳（> 0.2 小時）或 8 秒沒有東西演就停
+            land = (sn['key'], sn['h']); quiet = time.time(); t1 = time.time()
+            while time.time() - t1 < 60:
+                s = await L.state(pg); sn2 = await pg.evaluate(SNAP)
+                if sn2['key'] != land[0] or sn2['h'] - land[1] > 0.2: break
+                if s['dlg'] or s['choices'] or s['busy']: await B['drain'](pg, cdp, pref=sc.get('pref', []), secs=120); quiet = time.time(); continue
+                if time.time() - quiet > 8: break
+                await pg.wait_for_timeout(1000)
             await pg.evaluate("(()=>{ if(typeof PG!=='undefined') PG.IDLE_MS=1e9; })()")
-            run.setup('[捷徑] %s：到了 %s %.2f，不再站著讓它跳（PG.IDLE_MS 調大＝玩家開始走動）' % (sc['id'], sn['key'], sn['h'])); return True
+            run.setup('[捷徑] %s：到了 %s %.2f（站一下讓那一站演完），不再站著讓它跳（PG.IDLE_MS 調大＝玩家開始走動）' % (sc['id'], sn['key'], sn['h'])); return True
         s = await L.state(pg); cur = (sn['key'], sn['h'])
         if cur != last or s['dlg'] or s['choices'] or s['busy']: last = cur; since = time.time()
         elif time.time() - since > 600:
@@ -3776,7 +3798,7 @@ async def main():
                     elif st[0] == 'dumplog':   # R18（QA-TRANSCRIPT）：把到現在為止畫面上的每一句（__LOG）＋手機訊息（G.msgs）存成 OUT/<st[1]>.json，給 transcript_md 整理
                         J = await pg.evaluate("JSON.stringify({log:window.__LOG||[], msgs:(GAME.G.msgs||[]).map(m=>({th:m.th||'',from:m.from||'',name:m.name||'',text:String(m.text||''),day:m.day,key:(m.day!=null?CALENDAR.dateOf(m.day).key:''),h:m.h,ask:!!m.ask})), at:{d:CALENDAR.dateOf(GAME.G.day).key,h:GAME.G.hour}})")
                         open(os.path.join(OUT, st[1] + '.json'), 'w', encoding='utf-8').write(J); say('   存劇本：%s（%d 字）' % (st[1], len(J)))
-                    elif st[0] == 'use': await B['use'](pg, cdp, run, st[1])
+                    elif st[0] == 'use': await B['use'](pg, cdp, run, st[1], sc.get('pref'))
                     elif st[0] == 'bedpick': await B['bedpick'](pg, cdp, run, st[1], sc, st[2] if len(st) > 2 else None)
                     elif st[0] == 'bedfirst':   # 床的選單第一項要是 st[1]，按它
                         await pg.wait_for_timeout(2500); await B['drain'](pg, cdp, pref=sc.get('pref', []), secs=120)

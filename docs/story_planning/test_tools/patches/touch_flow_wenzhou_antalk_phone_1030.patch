@@ -1,0 +1,19 @@
+--- tests/touch_flow_wenzhou.py	2026-10-30 04:15:19.080973256 +0000
++++ tests/touch_flow_wenzhou.py	2026-10-30 05:45:44.007387961 +0000
+@@ -161,8 +161,14 @@
+                 st = await walk_to(pg, t, an['x'] + 0.6, an['z'] + 0.6, 'closer to An', tol=0.6)
+             await pg.wait_for_timeout(600); st = await state(pg)
+             check('靠近沈以安出現對話按鈕', '說話' in st['interact'] or '小安' in st['interact'] or '沈以安' in st['interact'], st['interact'])
+-            await t.tap_el('#interact'); await pg.wait_for_timeout(2500)
+-            seen = await advance_dialogue(pg, t, shots=SHOTS+'/flow_04_an')
++            # 要回的訊息（D103）在人站著 1.5 秒以後、下一次 STORY.tick 自己打開手機：可能剛好在按「和沈以安說話」前後打開，按到手機上、對話沒開始（BB-B 10-30 v9.10.14 relsuite）。
++            # 像玩家一樣：按了沒有對話、手機開著 → 收起來再按一次（最多 3 次；和進 Café 那一段同一套）
++            for attempt in range(3):
++                await t.tap_el('#interact'); await pg.wait_for_timeout(2500)
++                seen = await advance_dialogue(pg, t, shots=SHOTS+'/flow_04_an')
++                if seen or not await pg.evaluate("!!(GAME.phoneIsOpen&&GAME.phoneIsOpen())"): break
++                print('  [玩家操作] 跟沈以安說話的時候手機自己打開了（要回的訊息）→ 收起來、再按一次「和沈以安說話」', flush=True)
++                await t.phone_away(); await pg.wait_for_timeout(500)
+             check('和沈以安的對話有內容並結束', len(seen) > 0, len(seen))
+             st = await state(pg); check('對話結束後可以操作', not st['busy'], st)
+         # 5. 坐下（窗邊雙人桌；那個位子有人坐了就找最近的空位——2026-10-22 v9.10.4 發布前：改成第 18 天（10/4 週六）以後，14:56 窗邊那張已經有客人，遊戲照規則不給「坐」）

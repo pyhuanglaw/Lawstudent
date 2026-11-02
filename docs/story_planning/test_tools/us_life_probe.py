@@ -221,7 +221,7 @@ async def nomsg(pg, who, key):
     m = await pg.evaluate("(([w,k])=>{ const d=STORY.dayOfKey(k); return (GAME.G.msgs||[]).filter(m=>m.from===w&&m.day===d).map(m=>m.text); })(%s)" % json.dumps([who, key]))
     say('   %s 的 %s 私訊：%s' % (key, who, json.dumps(m, ensure_ascii=False)))
     if m: bad.append('%s 不應該有 %s 的私訊，有 %d 則：%s' % (key, who, len(m), m[0][:20]))
-async def use(pg, cdp, run, pat):
+async def use(pg, cdp, run, pat, pref=None):
     """走到最近、名字符合 pat 的互動點，按下去（真的操作），演完"""
     it = await pg.evaluate("(p=>{ const R=new RegExp(p), P=GAME.E.player.obj.position; const its=(GAME.E.interactables||[]).filter(i=>!i.hidden&&R.test(i.label||'')); its.sort((a,b)=>Math.hypot(a.x-P.x,a.z-P.z)-Math.hypot(b.x-P.x,b.z-P.z)); const i=its[0]; return i?[i.x,i.z,i.label]:null; })(%s)" % json.dumps(pat))
     if not it: say('   ⚠ 找不到互動點 /%s/' % pat); bad.append('找不到互動點 /%s/' % pat); return False
@@ -231,7 +231,7 @@ async def use(pg, cdp, run, pat):
         if lab: break
         await pg.wait_for_timeout(800)
     say('   互動：%s（按鈕「%s」）' % (it[2], lab)); await L.tap(pg, cdp, '#interact'); await pg.wait_for_timeout(2500)
-    await drain(pg, cdp, pref=['「我陪妳走到捷運站。」', '進去', '離開'], secs=200); return True
+    await drain(pg, cdp, pref=list(pref or []) + ['「我陪妳走到捷運站。」', '進去', '離開'], secs=200); return True   # BB-B 11-01：pref＝情境的偏好（ZL_AGAIN_KEEP 走進 Café 就出選項，原本只會按最後一個「還給妳。」）
 
 USF = {'introDone': True, 'campusIntro': True, 'classDone': True, 'metAn': True, 'met_an': True, 'afternoonDone': True, 'EXCHANGE_ROUTE': 'US', 'EXCH_RULE': 1, 'US_DEPARTED': True, 'US_ARRIVED': True, 'Y4_PATH': 'bar'}
 USF_PRE = {k: v for k, v in USF.items() if k not in ('US_DEPARTED', 'US_ARRIVED')}   # 還沒出發（US-G）

@@ -1114,6 +1114,106 @@
    "noDirectIntegrate": true,
    "receiver": "LAWWW",
    "ack": "DELIVERED"
+  },
+  {
+   "task": "QA-PLAYTHROUGH-1018",
+   "branch": "claude/elegant-brown-fcos7n",
+   "sha": "78e470af",
+   "files": [
+    "docs/story_planning/BB_218_瀏覽器實測紀錄.md",
+    "docs/story_planning/test_tools/y0_269_check.py"
+   ],
+   "state": "已測試",
+   "remaining": "",
+   "next": "LAWWW-B 已照 GO 發布 v9.10.15；要改的測試 7 支（BB_218 判定一節第三點：flow_v0_tolaw／v0_home／vac_hometown／exch_min／law_break／us_exchange／touch_flow_wenzhou）",
+   "noDirectIntegrate": true,
+   "receiver": "LAWWW",
+   "ack": "ACTIONED",
+   "note": "基準 39f68236c；三種玩法＋經濟系、寒暑假、美國交換、savecompat；已知非 P0：BUG-DORM-BAG-TAPPREF-1101（候選）、cer831、E37 18:03"
+  },
+  {
+   "task": "BUG-ADV-LINGER-1018",
+   "branch": "claude/elegant-brown-fcos7n",
+   "sha": "72b82f35",
+   "files": [
+    "docs/story_planning/BB_218_瀏覽器實測紀錄.md",
+    "docs/story_planning/test_tools/post91015_probe.py"
+   ],
+   "state": "已測試",
+   "remaining": "",
+   "next": "v9.10.15 後 P1（開發分支 81dd3258c）n40_*：ADV-LINGER、KAI、AA529 cards（cardsdiag3）、VAC-GAP 5 項、芷若台中＋杯子、回老家約會、畫面六處 PASS；名牌方向探針找不到＝未驗證",
+   "noDirectIntegrate": true,
+   "receiver": "LAWWW",
+   "ack": "ACTIONED",
+   "note": "同一批另含 AA529-ECON-FIX-1030、VAC-GAP-1031、BUG-KAI-SHEET-Y0-1031、ZR-CUP-AA551-1031（LAWWW-B 11-01 06:0x／07:3x 已記進總表）"
+  },
+  {
+   "task": "HISTORY-AUDIT-1031",
+   "branch": "claude/elegant-brown-fcos7n",
+   "sha": "666cb394",
+   "files": [
+    "docs/handoff/history_audit/judgments_BB.jsonl",
+    "docs/story_planning/BB_218_瀏覽器實測紀錄.md",
+    "docs/story_planning/test_tools/audit2_probe.py"
+   ],
+   "state": "WIP",
+   "remaining": "LAWWW2 第二輪 8 項：7 項第 1 類已寫；FAIR-STAFF-LOD 數字 PASS、走路連拍待補；bb_batches.md 其餘批次沒做",
+   "next": "下一班補 FAIR-STAFF-LOD 走路連拍（audit2_probe fairwalk＝佇列 n41_fairwalk），再照 bb_batches.md 下一批",
+   "noDirectIntegrate": true,
+   "receiver": "LAWWW",
+   "ack": "DELIVERED"
+  },
+  {
+   "task": "DL-04B",
+   "branch": "claude/elegant-brown-fcos7n",
+   "sha": "fc8fdd81",
+   "files": [
+    "docs/story_planning/BB_218_瀏覽器實測紀錄.md",
+    "docs/story_planning/test_tools/dl04b_probe.py"
+   ],
+   "state": "WIP",
+   "remaining": "stops 四個停點 PASS；plain、skipwarn、econ 沒跑（佇列）；BUG-DOOR-CLASS-GO-1101 修正 9aa82ecda 沒驗（大一上第 4 週週三 13:20 服務學習（一）、大四上週二 13:20 法律倫理）；遲到修正 444dd616e 沒重驗",
+   "next": "下一班第一步：在 9aa82ecda 以後的開發分支跑 BUG-DOOR-CLASS-GO-1101 兩個瀏覽器檢查，再跑 dl04b plain／skipwarn／econ",
+   "noDirectIntegrate": true,
+   "receiver": "LAWWW",
+   "ack": "DELIVERED",
+   "note": "n44 回歸 class_real／v0_start／exam_terms PASS（都沒走一鍵上課）；flow_v0_to1017 測試舊了（不會回待回覆）"
+  },
+  {
+   "task": "AA208-L",
+   "branch": "claude/elegant-brown-fcos7n",
+   "sha": "a2b4d9ff",
+   "files": [
+    "docs/story_planning/test_tools/dyn14_queue_1101.txt",
+    "docs/story_planning/test_tools/dyn14_queue_1101.done.txt",
+    "docs/story_planning/test_tools/cbe0429_probe.py",
+    "docs/story_planning/test_tools/fb1101_probe.py",
+    "docs/story_planning/test_tools/d42_probe.py",
+    "docs/story_planning/test_tools/d885_probe.py",
+    "docs/story_planning/test_tools/zrlast_probe.py",
+    "docs/story_planning/test_tools/us_life_probe.py"
+   ],
+   "state": "WIP",
+   "remaining": "佇列 37 項沒跑（n45_reach 要重跑；dl04b、n41_fairwalk、grades_zr、toast_econ、aa208l、dormy34、encb3、y3sumbg、heroine_q、xmas_an／yt、v6b、usfinal、n42 9 項、n43 12 項）；b03_probe 沒寫（遲到修正、AA255、ps_q 群組、醉月湖夜、美國第二輪）",
+   "next": "下一班照 dyn14_queue_1101.txt 接著排（BB_00 交班紀錄「下一班第一步」）",
+   "noDirectIntegrate": true,
+   "receiver": "LAWWW",
+   "ack": "未派",
+   "note": "佇列涵蓋 AA208-L、DORM-Y34、ENC-B3-1017、Y1-WINTER-AA204、V6-B*、AA255-Y2S2、PS-MSG-LESS-1018、ZR-CUP-AA551-1031；探針都已 commit"
+  },
+  {
+   "task": "BLACK-BG-AUDIT-1018",
+   "branch": "claude/elegant-brown-fcos7n",
+   "sha": "70ca2b2c",
+   "files": [
+    "docs/story_planning/BB_132_校外約會CG生成單.md"
+   ],
+   "state": "已交付",
+   "remaining": "",
+   "next": "第 100～102 組提示詞（第 102 組 4 張：bus_day、zuiyue_day、mango_ice、wenzhou_ice）下一批給使用者；圖到了交 LAWWW 接 OUT.BG",
+   "noDirectIntegrate": true,
+   "receiver": "LAWWW",
+   "ack": "ACK"
   }
  ],
  "items": [
