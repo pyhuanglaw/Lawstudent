@@ -17,11 +17,22 @@ $Work = Join-Path $Base 'Lawstudent_cclocal'
 $env:PYTHONUTF8 = '1'; $env:PYTHONIOENCODING = 'utf-8'
 $Summary = New-Object System.Collections.ArrayList
 
+# git writes progress ("From ...", "Preparing worktree ...") to stderr; PowerShell 5 turns that into red NativeCommandError text.
+# CC-Git shows it in gray instead; success is judged only by $LASTEXITCODE.
+function CC-Git {
+  $old = $ErrorActionPreference; $ErrorActionPreference = 'SilentlyContinue'
+  try {
+    & $GitExe @args 2>&1 | ForEach-Object {
+      if ($_ -is [System.Management.Automation.ErrorRecord]) { Write-Host $_.Exception.Message -ForegroundColor DarkGray } else { Write-Host $_ }
+    }
+  } finally { $ErrorActionPreference = $old }
+}
+function CC-GitQuiet { $old = $ErrorActionPreference; $ErrorActionPreference = 'SilentlyContinue'; try { & $GitExe @args 2>&1 | Out-Null } finally { $ErrorActionPreference = $old } }
 function CC-Log($m) { Write-Host ("[{0}] {1}" -f (Get-Date -Format 'HH:mm:ss'), $m) }
 function CC-RetryPush($dir) {
   foreach ($w in 0,2,4,8,16) {
     if ($w) { Start-Sleep -Seconds $w }
-    & $GitExe -C $dir push -u origin claude/cc-local 2>&1 | ForEach-Object { "$_" } | Out-Host
+    CC-Git -C $dir push -u origin claude/cc-local
     if ($LASTEXITCODE -eq 0) { return $true }
   }
   return $false
@@ -46,18 +57,18 @@ CC-Log "python: $($Py -join ' ')"
 # ---- 1. branch claude/cc-local in its own worktree ----
 if (-not (Test-Path (Join-Path $Repo '.git'))) { Write-Host "Repo not found: $Repo"; exit 1 }
 CC-Log "git fetch"
-& $GitExe -C $Repo fetch origin claude/cc-testing $DevBranch 2>&1 | Out-Host
-& $GitExe -C $Repo fetch origin claude/cc-local 2>$null | Out-Host
+CC-Git -C $Repo fetch origin claude/cc-testing $DevBranch
+CC-GitQuiet -C $Repo fetch origin claude/cc-local
 $hasRemoteLocal = $LASTEXITCODE -eq 0
 if (-not (Test-Path $Work)) {
-  & $GitExe -C $Repo worktree prune 2>&1 | Out-Host
-  & $GitExe -C $Repo worktree add --detach $Work origin/claude/cc-testing 2>&1 | Out-Host
+  CC-Git -C $Repo worktree prune
+  CC-Git -C $Repo worktree add --detach $Work origin/claude/cc-testing
 }
 if ($hasRemoteLocal) {
-  & $GitExe -C $Work checkout -B claude/cc-local origin/claude/cc-local 2>&1 | Out-Host
-  & $GitExe -C $Work merge --no-edit origin/claude/cc-testing 2>&1 | Out-Host   # get the newest queue/probes from CC
+  CC-Git -C $Work checkout -B claude/cc-local origin/claude/cc-local
+  CC-Git -C $Work merge --no-edit origin/claude/cc-testing   # get the newest queue/probes from CC
 } else {
-  & $GitExe -C $Work checkout -B claude/cc-local origin/claude/cc-testing 2>&1 | Out-Host
+  CC-Git -C $Work checkout -B claude/cc-local origin/claude/cc-testing
 }
 if ($LASTEXITCODE -ne 0) { Write-Host "git checkout/merge failed in $Work - fix it and rerun"; exit 1 }
 $Head = (& $GitExe -C $Repo rev-parse --short "origin/$DevBranch").Trim()
@@ -83,8 +94,8 @@ foreach ($it in $Items) {
   $wt = Join-Path $Base ("wt_cc_" + $id); $srv = $null
   CC-Log "==== $id  ($($it.Kind) @ $sha) ===="
   try {
-    if (Test-Path $wt) { & $GitExe -C $Repo worktree remove --force $wt 2>&1 | Out-Host }
-    & $GitExe -C $Repo worktree add --detach $wt $sha 2>&1 | Out-Host
+    if (Test-Path $wt) { CC-Git -C $Repo worktree remove --force $wt }
+    CC-Git -C $Repo worktree add --detach $wt $sha
     if ($LASTEXITCODE -ne 0) { throw "worktree add $sha failed" }
     $port = CC-FreePort 8800
     $srv = Start-Process -FilePath $PyExe -ArgumentList ($PyPre + @('-m','http.server',"$port",'--bind','127.0.0.1')) -WorkingDirectory $wt -WindowStyle Hidden -PassThru
@@ -111,7 +122,7 @@ foreach ($it in $Items) {
   finally {
     if ($srv) { Stop-Process -Id $srv.Id -Force -ErrorAction SilentlyContinue }
     Start-Sleep -Seconds 1
-    & $GitExe -C $Repo worktree remove --force $wt 2>&1 | Out-Null
+    CC-GitQuiet -C $Repo worktree remove --force $wt
   }
   $meta.end = (Get-Date).ToString('s'); $meta.seconds = [int]((Get-Date $meta.end) - (Get-Date $meta.start)).TotalSeconds
   $meta | ConvertTo-Json | Out-File -Encoding utf8 (Join-Path $od 'meta.json')
@@ -123,14 +134,14 @@ foreach ($it in $Items) {
   ("- " + (Get-Date -Format 's') + "  " + $Summary[$Summary.Count-1]) | Out-File -Append -Encoding utf8 $sumFile
   $files = Get-ChildItem -Recurse -File $od
   $nonPng = $files | Where-Object { $_.Extension -ne '.png' }
-  foreach ($f in $nonPng) { & $GitExe -C $Work add -- $f.FullName 2>&1 | Out-Null }
+  foreach ($f in $nonPng) { CC-GitQuiet -C $Work add -- $f.FullName }
   $acc = 0; $skipped = 0
   foreach ($f in ($files | Where-Object { $_.Extension -eq '.png' } | Sort-Object FullName)) {
-    if ($acc + $f.Length -le 25MB) { $acc += $f.Length; & $GitExe -C $Work add -- $f.FullName 2>&1 | Out-Null } else { $skipped++ }
+    if ($acc + $f.Length -le 25MB) { $acc += $f.Length; CC-GitQuiet -C $Work add -- $f.FullName } else { $skipped++ }
   }
   if ($skipped) { "screenshots not pushed (over 25 MB): $skipped" | Out-File -Append -Encoding utf8 (Join-Path $od 'notes.txt') }
-  & $GitExe -C $Work add -- $sumFile 2>&1 | Out-Null
-  & $GitExe -C $Work commit -q -m "CC-local: $id result (sha $sha, exit $($meta.exit), $($meta.seconds)s)" 2>&1 | Out-Host
+  CC-GitQuiet -C $Work add -- $sumFile
+  CC-Git -C $Work commit -q -m "CC-local: $id result (sha $sha, exit $($meta.exit), $($meta.seconds)s)"
   if (-not (CC-RetryPush $Work)) { CC-Log "push failed for $id (results stay in $Work, rerun later)" }
 }
 
