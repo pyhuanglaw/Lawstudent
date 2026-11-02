@@ -20,7 +20,7 @@
 check 只客觀記錄：事件演出（那個人說了話）、那個人說話時不是 compact（他的 img 在框裡、框是 show）、src 是正式檔（assets/portraits/<id>/.../*.webp 且在 PORTRAIT_FILES）、
   截圖存在、沒有頁面 JS 例外。
 
-十五場（觸發方式；【前置】＝最小存檔讀到條件成立的時間地點，遊戲自己演；【捷徑】＝寫理由）：
+十七場（觸發方式；【前置】＝最小存檔讀到條件成立的時間地點，遊戲自己演；【捷徑】＝寫理由）：
   kevin_camp  ev_camp_d1_ice（camp_y1.js:43；S.campY1 依 CAMP_SEQ 跑，第二段 8/22 10:30 破冰）。【前置】最小存檔 2025-08-22 10:24、CAMP_Y1_ON、campStep=1（遊覽車那段記成演過）
               → 讀檔時 game3d.js applySave 自己叫 STORY.campY1 resume，從破冰接著演；Kevin 第一句「（搶在她前面）第七小隊，有到！」（名字「凱文」）。
               沒開演＝【捷徑】void STORY.campY1(GAME,{resume:true,next:false})。
@@ -52,13 +52,18 @@ check 只客觀記錄：事件演出（那個人說了話）、那個人說話�
               沒有「兩個不同的人同名或同別名、而且都有立繪檔」的情況（只有同一人 name＝alias：Kevin、予樂、唐睿）——探針執行時也在頁面重算一次（dupNames，記在 note）。
               事件 ev_grad_seniors_y1（events.js:1936「學弟，幫我們拍一張！」；campus、auto、大一下第 15 週週六 10～15 點）：【前置】那天 10:10 校園、**不關條件事件**（quiet 0）讓 EVENTS.tick 自己演；
               90 秒沒演＝【捷徑】void EVENTS.run(ev_grad_seniors_y1)。
+  jp_liheng   立衡（id jp_liheng；a4abf3172 立繪）日本篇二手店 ev_jpb_r_shop（JP.SCH jpb_2_2a，2028-05-13（六）14:00 日本據點，挽回中＝沒有和以安交往）。
+              【前置】最小存檔 2028-05-13 14:00 jp_hub、日本路線旗標（同 cc_bg5 的 JPF）、dating_heroine_01 false、ev_liheng_japan 記成演過（metLH，不然沒有立衡那兩句）→ 據點自己演；
+              沒演＝【捷徑】void JP.playStop(GAME,jpb_2_2a,'jp')。立衡「這台比較安靜。……晚上寫論文，吵的會睡著。」
+  jp_yuheng   宇恆（id jp_yuheng）日文上第 12 週小考後 ev_jp_g4b1（bbpack_events.js:105）。【捷徑】DIRECT：下課觸發（trigger class）要修課＋上完那一堂，最小存檔做不到 →
+              大二上第 12 週週一 15:12 校園、JP_MET、void EVENTS.run(ev_jp_g4b1)；第一句就是宇恆「小考考完了。我要吃東西，腦袋沒電。」
   反例兩場的 check 反過來：說話時「是 compact」（框裡沒有任何立繪 img、#adv 有 compact）。
   3D 說話的四位（pool_1／11／20／5）：wait_present 90 秒沒出現、或三輪走不到／按了沒開始說話＝【捷徑】void EVENTS.run（暫時事件 {participants:[id],background:'blur',dialogue:POOL.LINES[id][那一場]}，
   同 POOL.run＝EVENTS.runLines 的做法；寫理由）。出遊的：PROMPT_S 秒內沒有自己開演＝【捷徑】void OUT.go(GAME,q)（同 cc_bg5）。
 
 不是 iPhone：Playwright 手機模擬（is_mobile、觸控、SwiftShader 1～4 fps）。
 用法：LW_TESTS=<工作樹>/tests SHA=<sha> [IDS=npc_kevin,pool_1,...] python3 cc_pt106_probe.py '<URL>/index.html?turbo' <輸出資料夾>
-  IDS：人物 id（npc_kevin＝kevin_camp＋kevin_tea＋kevin_grad 三場、yule＝yule_name）或場次 key（kevin_camp、kevin_tea、kevin_grad、yule_name、neg_noportrait、neg_samename；neg_compact＝兩個反例）；預設全部十五場。
+  IDS：人物 id（npc_kevin＝kevin_camp＋kevin_tea＋kevin_grad 三場、yule＝yule_name）或場次 key（kevin_camp、kevin_tea、kevin_grad、yule_name、neg_noportrait、neg_samename；neg_compact＝兩個反例）；預設全部十七場（含 jp_liheng、jp_yuheng）。
 環境變數：ORIENT=both|land|port、REF=1（0＝不拍沈以安參考）、PROMPT_S（等開演，預設 90）、SPEAK_S（開演後等那個人說話，預設 240）、CASE_MAX（一場最多幾秒，預設 900）、
   RELAYOUT_MS（切方向後等多久，預設 1800）、STATS_ONLY=1（只用 PIL 印十張原檔的數字，不開瀏覽器）。
 不要和別的瀏覽器測試同時跑（SwiftShader 搶 CPU）。"""
@@ -84,7 +89,7 @@ CASE_MAX = int(os.environ.get('CASE_MAX', '900'))
 RELAYOUT_MS = int(os.environ.get('RELAYOUT_MS', '1800'))
 VP = {'land': {'width': 844, 'height': 390}, 'port': {'width': 390, 'height': 844}}
 ONAME = {'land': '橫向 844×390', 'port': '直向 390×844'}
-PEOPLE = ['npc_kevin', 'pool_1', 'pool_7', 'pool_11', 'pool_15', 'pool_16', 'jp_caizhen', 'pool_20', 'pool_5', 'pool_4']
+PEOPLE = ['npc_kevin', 'pool_1', 'pool_7', 'pool_11', 'pool_15', 'pool_16', 'jp_caizhen', 'pool_20', 'pool_5', 'pool_4', 'jp_liheng', 'jp_yuheng']
 REF_ID = 'heroine_01'
 
 # ---------------------------------------------------------------- 最小存檔（cc_dl04b_probe.py 的 state_at，同 cc_bg5_probe.py）
@@ -92,9 +97,10 @@ BASEF = {'introDone': True, 'campusIntro': True, 'readCase': 'full', 'classDone'
          'zheNoodleDone': True, 'KX_FIRST_MSG': True, 'KX_EVE_MSG': True, 'FAM_GROUP_SENT': True, 'CEREMONY_Y1': True, 'KAI_MOVEIN': True, 'LAW_RECAP_SEEN': True,
          'fundsV2': 1, 'KX_DEC3_MIGRATED': True, 'dating_kexin': False}
 ROOMS = (('ROOM_Y2', '2026-09-06'), ('ROOM_Y3', '2027-09-05'), ('ROOM_Y4', '2028-09-03'))
+JPF = {'EXCHANGE_ROUTE': 'JP', 'EXCH_RULE': 1, 'X1_JP': ('DAY', '2028-02-20'), 'JP_DEPARTED': ('DAY', '2028-03-25'), 'AN_SENDOFF': 'together'}   # 人在日本（tests/jp_semester_unit.js inJapan()，同 cc_bg5_probe.py）
 VISITED = ('noodle', 'cafe', 'library_hall', 'library', 'lawlib', 'wancai', 'linze', 'gongguan', 'wenzhou', 'soclib', 'cvs', 'bookstore')
 
-# ---------------------------------------------------------------- 十五場
+# ---------------------------------------------------------------- 十七場（後兩場在 CASES += 那一段）
 CASES = [
     dict(k='kevin_camp', who='npc_kevin', names=['凱文', 'Kevin'], kind='camp', ev='ev_camp_d1_ice', when='2025-08-22', load_h=10.4, zone='dorm',
          flags={'CAMP_Y1_ON': True, 'campStep': 1, 'CAMP_BUS': 'win'}, drop=['CEREMONY_Y1', 'KAI_MOVEIN', 'FAM_GROUP_SENT'],
@@ -139,6 +145,15 @@ CASES = [
     dict(k='neg_samename', who='學長', names=['學長'], kind='auto', ev='ev_grad_seniors_y1', expect='compact', when=['Y1S2', 15, 6], load_h=10.17, zone='campus', quiet=False,
          src='src/data/events.js:1936 ev_grad_seniors_y1 的「學長」（多個不同的人都叫學長、沒有立繪檔）'),
 ]
+CASES += [
+    dict(k='jp_liheng', who='jp_liheng', names=['立衡'], kind='jpstop', stop='jpb_2_2a', ev='ev_jpb_r_shop', when='2028-05-13', load_h=14.0, zone='jp_hub',
+         flags=dict(JPF, dating_heroine_01=False), done=['ev_liheng_japan'],
+         src='src/jp_blank3d.js:45 JP.SCH jpb_2_2a（2028-05-13 14:00 日本據點，if:rep＝沒有和以安交往）；台詞 src/data/jp_blank_lines.js:141 ev_jpb_r_shop（metLH＝演過 ev_liheng_japan 才有立衡那兩句，speaker 「立衡」→ 別名 jp_liheng）'),
+    dict(k='jp_yuheng', who='jp_yuheng', names=['宇恆'], kind='direct', ev='ev_jp_g4b1', when=['Y2S1', 12, 1], load_h=15.2, zone='campus',
+         flags={'JP_MET': True},
+         why='ev_jp_g4b1 是日文上第 12 週那一堂的下課（trigger class、afterClass japanese_1）：要修日文上＋走進共同教學館上完那一堂（選課、課表、教室流程），最小存檔做不到；第一句就是宇恆「小考考完了。我要吃東西，腦袋沒電。」',
+         src='src/data/bbpack_events.js:105 g4b（ev_jp_g4b1）；speaker 「宇恆」→ 別名 jp_yuheng'),
+]
 GROUPS = {'npc_kevin': ['kevin_camp', 'kevin_tea', 'kevin_grad'], 'yule': ['yule_name'], 'neg_compact': ['neg_noportrait', 'neg_samename']}
 
 # ---------------------------------------------------------------- 頁面裡的小工具
@@ -148,11 +163,12 @@ HOOK = r"""(()=>{ if(window.__PTH) return 'again'; window.__PTH=1; const Lg=wind
   const push=o=>{ try{ Object.assign(o,at(),{ms:Math.round(performance.now())}); Lg.push(o); if(Lg.length>3000) Lg.splice(0,1000); }catch(e){} };
   if(typeof OUT!=='undefined'&&OUT.go){ const g0=OUT.go; OUT.go=function(GM,q){ push({k:'out',t:String((q&&q.id)||'')}); return g0.apply(this,arguments); }; }
   if(typeof EVENTS!=='undefined'&&EVENTS.run){ const r0=EVENTS.run; EVENTS.run=function(ev){ push({k:'ev',t:String((ev&&ev.id)||'')}); return r0.apply(this,arguments); }; }
+  if(typeof JP!=='undefined'&&JP.playStop){ const p0=JP.playStop; JP.playStop=function(GM,s,w){ push({k:'stop',t:String((s&&s.k)||'')}); return p0.apply(this,arguments); }; }
   if(typeof STORY!=='undefined'){ for(const f of ['teaSignIn','teaTable','campY1']) if(STORY[f]){ const f0=STORY[f]; STORY[f]=function(){ push({k:'story',t:f}); return f0.apply(this,arguments); }; } }
   const y0=GAME.say; GAME.say=function(w,t){ n++; let rc=null; try{ rc=(w&&!w.charId&&!w.obj&&w.name&&GAME.portraitIdByName)?GAME.portraitIdByName(w.name):null; }catch(e){} const o={k:'say',n,rcid:rc,cid:(w&&w.charId)||null,name:(w&&w.name)||(typeof w==='string'?w:''),t:String(t==null?'':t).slice(0,80)}; window.__PTS=o; push(Object.assign({},o)); return y0.apply(this,arguments); };
   const c0=GAME.choose; GAME.choose=function(o){ push({k:'choose',t:(o||[]).filter(x=>x&&!x.hidden).map(x=>((x.t||x.text)||'')).join('｜')}); return c0.apply(this,arguments); };
   return 'ok'; })()"""
-STARTED_JS = r"""(c=>{ const Lg=window.__PT||[]; const hit=e=>(!!c.qid&&e.k==='out'&&e.t===c.qid)||(!!c.ev&&e.k==='ev'&&e.t===c.ev)||(!!c.story&&e.k==='story'&&e.t===c.story)||(!!c.who&&e.k==='say'&&(e.cid===c.who||e.rcid===c.who));
+STARTED_JS = r"""(c=>{ const Lg=window.__PT||[]; const hit=e=>(!!c.qid&&e.k==='out'&&e.t===c.qid)||(!!c.ev&&e.k==='ev'&&e.t===c.ev)||(!!c.story&&e.k==='story'&&e.t===c.story)||(!!c.stop&&e.k==='stop'&&e.t===c.stop)||(!!c.who&&e.k==='say'&&(e.cid===c.who||e.rcid===c.who));
   const f=Lg.filter(hit); return f.length?f.slice(0,4).map(e=>({k:e.k,t:e.t||e.cid,d:e.d,h:e.h})):null; })"""
 LASTSAY_JS = "(()=>window.__PTS)()"
 TYPED_JS = "(()=>{ const n=document.getElementById('dlgNext'); return !!n&&n.style.visibility==='visible'; })()"
@@ -176,6 +192,7 @@ DUP_JS = r"""(()=>{ const F=typeof PORTRAIT_FILES!=='undefined'?PORTRAIT_FILES:{
   if(typeof CHARACTERS!=='undefined') for(const k in CHARACTERS) add(CHARACTERS[k]); if(typeof PORTRAIT_ONLY!=='undefined') for(const k in PORTRAIT_ONLY) add(PORTRAIT_ONLY[k]);
   const all=[], withP=[]; for(const n in m){ if(m[n].size>1){ const ids=[...m[n]]; all.push([n,ids]); if(ids.filter(i=>F[i]).length>1) withP.push([n,ids]); } }
   return {multi:all.slice(0,30),multiWithPortrait:withP,byName:typeof GAME!=='undefined'&&GAME.portraitIdByName?{學長:GAME.portraitIdByName('學長'),小隊輔:GAME.portraitIdByName('小隊輔'),Kevin:GAME.portraitIdByName('Kevin'),予樂:GAME.portraitIdByName('予樂')}:null}; })()"""
+JPSTOP_JS = r"""(k=>{ try{ const s=typeof JP!=='undefined'&&JP.SCH?JP.SCH.find(x=>x.k===k):null; if(!s) return '找不到 JP.SCH '+k; void JP.playStop(GAME,s,'jp'); return 'void JP.playStop(GAME,'+k+',jp)'; }catch(e){ return '例外 '+e.message; } })"""
 ENC_JS = r"""(a=>{ try{ if(typeof ENC==='undefined'||typeof ENCOUNTERS==='undefined') return '沒有 ENC／ENCOUNTERS'; const row=(ENCOUNTERS.rows||[]).find(r=>r.who===a.who&&r.spot===a.spot); if(!row) return '找不到 '+a.who+'@'+a.spot;
   if(typeof ADV!=='undefined'&&!ADV.active) ADV.begin({background:'dark'}); void ENC.meet(GAME,row,{t:a.tier}); return 'ADV.begin(dark)＋void ENC.meet(GAME,ENCOUNTERS 的 '+a.who+'@'+a.spot+',{t:'+a.tier+'})；datingAfter='+JSON.stringify(row.lines&&row.lines.datingAfter); }catch(e){ return '例外 '+e.message; } })"""
 LINES_JS = r"""(a=>{ const notes=[]; if(typeof EVENTS!=='undefined'&&EVENTS.running) notes.push('（注意：別的事件正在演 EVENTS.running='+EVENTS.running+'，EVENTS.run 會直接 return）');
@@ -343,6 +360,8 @@ async def build_state(pg, c):
         dd = (await P.day_of(pg, kk))['d']
         if dd <= d['d']: F[k] = dd
     for fk, fv in (c.get('flags') or {}).items(): F[fk] = await resolve(pg, fv, d['d'])
+    for eid in c.get('done') or ():   # 【前置】前面的事件記成演過（G.events.done）
+        st['events']['done'][eid] = 1; st['events']['last'][eid] = d['d']
     st.update(day=d['d'], weekday=d['wd'], hour=c['load_h'], zone=c['zone'], pos=None, weather='clear', stage='law')
     st['money'] = 30000
     st['visited'] = {z: True for z in VISITED}
@@ -549,6 +568,12 @@ async def case_run(p, run, c, orients):
                 r = await pg.evaluate(DIRECT_JS, {'ev': c['ev']}); how = 'fallback'
                 run.setup('【捷徑】%s：%d 秒內條件事件沒有自己演（遊戲時間 %s；可能別的事件先演、或條件不成立）→ %s' % (k, PROMPT_S, J(await P.clock(pg)), r)); await pg.wait_for_timeout(2500)
                 started = await pg.evaluate(STARTED_JS, {'ev': c['ev']})
+        elif c['kind'] == 'jpstop':   # 日本據點：JP.SCH 那一列到了時間，據點自己演（jp3d.js dueStop → playStop）
+            how, started = await wait_started(pg, cdp, run, c, {'stop': c['stop'], 'ev': c['ev']})
+            if not how:
+                r = await pg.evaluate(JPSTOP_JS, c['stop']); how = 'fallback'
+                run.setup('【捷徑】%s：%d 秒內據點沒有自己演（遊戲時間 %s）→ %s' % (k, PROMPT_S, J(await P.clock(pg)), r)); await pg.wait_for_timeout(2500)
+                started = await pg.evaluate(STARTED_JS, {'stop': c['stop'], 'ev': c['ev']})
         elif c['kind'] == 'enc':
             r = await pg.evaluate(ENC_JS, {'who': c['row_who'], 'spot': c['spot'], 'tier': c['tier']}); how = 'enc'
             run.setup('【捷徑】%s：（理由：%s）→ %s' % (k, c['why'], r)); await pg.wait_for_timeout(2500)
