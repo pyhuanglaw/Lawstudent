@@ -198,9 +198,9 @@ await sec(7,async()=>{
   check('7. 考試本身黑底（走上去以後 ADV 用 dark）',bg3.includes('dark')&&!bg3.some(isImg),J(bg3));
   check('7. 以安 FAMILIAR：考完帶回教學館門口演「考完了」',entered.map(e=>e.z).join('>')==='gongtong_3f>campus'&&G.zone==='campus'&&L3d[L3d.length-1]===NM('heroine_01')+'：考完了。……先吃麵。'&&G.flags.GRAD_EXAM_2029===true&&G.events.done.ev_grad_exam===1,J(entered.map(e=>e.z)));
   check('7. D118-B6：考場裡作答 10 題（GRAD_SCORE_2029）',H.said.filter(x=>/^\d+／10　/.test(x.t)).length===10&&typeof G.flags.GRAD_SCORE_2029==='number');
-  check('7. 台詞照原文（門口三句、兩節、考完）',J(L3d)===J(['（教學館門口，以安在看考場的配置圖。）',NM('heroine_01')+'：你在三樓。我在二樓。',NM('heroine_01')+'：……考完，門口。','（兩節。第二節最後一題，你寫到鐘響。）',NM('heroine_01')+'：考完了。……先吃麵。']),J(L3d));
+  check('7. 台詞照原文（門口三句、考場兩句〔AA_582 補充二，作答前〕、兩節、考完）',J(L3d)===J(['（教學館門口，以安在看考場的配置圖。）',NM('heroine_01')+'：你在三樓。我在二樓。',NM('heroine_01')+'：……考完，門口。'].concat(POSTGRAD_LINES.GRAD_EXAM.hall,['（兩節。第二節最後一題，你寫到鐘響。）',NM('heroine_01')+'：考完了。……先吃麵。'])),J(L3d));
   G=ex(true); await without('gongtong_3f',()=>R2Y4A.exam(GM)); check('7. 房間不在：照原本 2D（不換區域），台詞一樣',!entered.length&&J(lines())===J(L3d),J(lines()));
-  G=ex(false); await R2Y4A.exam(GM); check('7. 沒認識以安：只有兩節那一句；考完在 3F 站起來，人留在考場',J(lines())===J(['（兩節。第二節最後一題，你寫到鐘響。）'])&&entered.map(e=>e.z).join('>')==='gongtong_3f'&&G.zone==='gongtong_3f'&&!P.seat&&stands>=1,J({l:lines(),e:entered.map(e=>e.z)}));
+  G=ex(false); await R2Y4A.exam(GM); check('7. 沒認識以安：考場兩句＋兩節那一句；考完在 3F 站起來，人留在考場',J(lines())===J(POSTGRAD_LINES.GRAD_EXAM.hall.concat(['（兩節。第二節最後一題，你寫到鐘響。）']))&&entered.map(e=>e.z).join('>')==='gongtong_3f'&&G.zone==='gongtong_3f'&&!P.seat&&stands>=1,J({l:lines(),e:entered.map(e=>e.z)}));
   G=ex(false); G.zone='gongtong_3f'; E.zone=zoneOf('gongtong_3f',G); await R2Y4A.exam(GM); check('7. 人已經在 3F（被帶到門口以後）：不再換一次以外的區域',entered.map(e=>e.z).join('>')==='campus>gongtong_3f',J(entered.map(e=>e.z)));
 });
 
@@ -210,7 +210,7 @@ await sec(8,async()=>{
   let G=fresh('2030-02-16',9,'dorm'); H.said=[]; let sat=null; const s0=GM.sitAt; GM.sitAt=(ent,st)=>{ if(ent===P&&!sat) sat=st; s0(ent,st); };
   await R2Y4B.gradExam(GM,2030); GM.sitAt=s0; const L3d=lines();
   check('8. 換到 3F、走到 15 號坐下，演完回到宿舍；考生、監考離開',entered.map(e=>e.z).join('>')==='gongtong_3f>dorm'&&!!sat&&near(sat,me)&&removed.includes('rab3_g3f_proctor')&&G.zone==='dorm',J(entered.map(e=>e.z)));
-  check('8. 黑底旁白、字卡「考場」照原本；GRAD_EXAM_2030',H.bgs.includes('dark')&&H.cards.some(c=>c[0]==='考場')&&J(L3d)===J(['（兩節。第二節最後一題，你寫到鐘響。）'])&&G.flags.GRAD_EXAM_2030===true,J({bg:H.bgs,cards:H.cards,L3d}));
+  check('8. 黑底旁白、字卡「考場」照原本；GRAD_EXAM_2030',H.bgs.includes('dark')&&H.cards.some(c=>c[0]==='考場')&&J(L3d)===J(POSTGRAD_LINES.GRAD_EXAM.hall.concat(['（兩節。第二節最後一題，你寫到鐘響。）']))&&G.flags.GRAD_EXAM_2030===true,J({bg:H.bgs,cards:H.cards,L3d}));
   G=fresh('2030-02-16',9,'dorm'); H.said=[]; await without('gongtong_3f',()=>R2Y4B.gradExam(GM,2030)); check('8. 房間不在：2D、台詞一樣',!entered.length&&J(lines())===J(L3d));
   G=fresh('2031-02-15',9,'dorm'); H.said=[]; await R2Y4B.gradExam(GM,2031); check('8. 2031（考場那天沒開）：照舊 2D',!entered.length&&G.flags.GRAD_EXAM_2031===true);
 });

@@ -3740,6 +3740,75 @@
    "note": "D118 沒有期中考：第 2 節 11 處改掛點、第 3 節台詞規則、第 5 節零碎字。閒聊階梯（tools/ladder/import_ladder.py）等匯入工具讀稿時照 tools/story/d118_fix.json 換字（import_guard.read_fix，和 ndl542_fix.json、nocmp_fix.json 同一個做法；tests/alison.js 一起）；其他句子手抄改 src。子代理 2026-11-02 代登，給值班 LAWWW 核"
   },
   {
+   "path": "docs/story_planning/study/cards_y1s1.json",
+   "sha": "545ac5b28",
+   "status": "approved",
+   "approvedBy": "AA（D109 劇情自主；AA 10:26 交付）",
+   "task": "D118-B2-1102",
+   "kind": "text",
+   "note": "大一上觀念卡 27 張（民總一 10、憲法上 9、刑總一 8）定稿（AA 照獨立核對改 9 張）；tools/study/build_units.py 讀這一版的 plain／example／cue／basis 寫進 src/data/study_units.js（tests/cards_import_unit.js）。子代理 2026-11-02 代登，給值班 LAWWW 核"
+  },
+  {
+   "path": "docs/story_planning/study/cards_y1s2.json",
+   "sha": "4f59adae0",
+   "status": "approved",
+   "approvedBy": "AA（D109 劇情自主；AA 10:26 交付）",
+   "task": "CARDS-Y1S2-IMPORT-1102",
+   "kind": "text",
+   "note": "大一下觀念卡 29 張（憲法下 9、刑總二 10、債總一 10；45 題）定稿（AA 照獨立核對改 21 張；c3660c6fe 的檔和這一版一字不差）；tools/study/build_units.py 讀這一版。子代理 2026-11-02 代登，給值班 LAWWW 核"
+  },
+  {
+   "path": "docs/story_planning/study/crimpro_titles.json",
+   "sha": "34b02abc3",
+   "status": "approved",
+   "approvedBy": "AA（D109 劇情自主；AA 10:26 交付）",
+   "task": "D118-B2-1102",
+   "kind": "text",
+   "note": "刑訴 QBANK 9 張卡（crimpro_q1～q9）的正式標題；tools/study/build_units.py 換掉「刑事訴訟法・章名（一）」的暫用標題。子代理 2026-11-02 代登，給值班 LAWWW 核"
+  },
+  {
+   "path": "docs/story_planning/study/cards_y2s1.json",
+   "sha": "f13fbaef9",
+   "status": "approved",
+   "approvedBy": "AA（D109 劇情自主；AA 11:04 定稿，已獨立核對）",
+   "task": "D118-B2-1102",
+   "kind": "text",
+   "note": "大二上觀念卡 33 張（行政法 8、刑法分則 8、債總二 8、物權 9；62 題）定稿（AA 照核對報告 c10293db4 改 9 張）；tools/study/build_units.py 讀這一版。子代理 2026-11-02 代登，給值班 LAWWW 核；2026-11-02 11:4x AA 補 basis＋family_law_w6 限縮一句（AA 回 5 點），LAWWW 換 sha",
+   "history": [
+    "cafc8dbbf"
+   ]
+  },
+  {
+   "path": "docs/story_planning/study/cards_y2s2.json",
+   "sha": "f13fbaef9",
+   "status": "approved",
+   "approvedBy": "AA（D109 劇情自主；AA 11:31 定稿，已獨立核對）",
+   "task": "D118-B2-1102",
+   "kind": "text",
+   "note": "大二下觀念卡 31 張（行政救濟 8、身分法 9、法學英文 8、債各 6；61 題）定稿（AA 照核對報告改 5 張）；tools/study/build_units.py 讀這一版，basis 照 AA 的話拿掉「法學英文用語（英美法，無我國條文）」（BASIS_DROP）。子代理 2026-11-02 代登，給值班 LAWWW 核；2026-11-02 11:4x AA 補 basis＋family_law_w6 限縮一句（AA 回 5 點），LAWWW 換 sha",
+   "history": [
+    "a5b859cae"
+   ]
+  },
+  {
+   "path": "docs/story_planning/study/cards_y3s1.json",
+   "sha": "44284c838",
+   "status": "approved",
+   "approvedBy": "AA（D109 劇情自主；AA 11:46 定稿，已獨立核對）",
+   "task": "D118-B2-1102",
+   "kind": "text",
+   "note": "大三上觀念卡 38 張（民訴 9、公司法 10、證交 9、刑訴 w10 1、刑訴題庫 crimpro_q1～q9 9；146 題，其中是非 42）；LAWWW 2026-11-02 登記"
+  },
+  {
+   "path": "docs/story_planning/study/cards_y3s2.json",
+   "sha": "1dd6c19be",
+   "status": "approved",
+   "approvedBy": "AA（D109 劇情自主；AA 12:02 定稿，已獨立核對）",
+   "task": "D118-B2-1102",
+   "kind": "text",
+   "note": "大三下觀念卡 35 張（民訴甲下 10、保險 9、勞動 8、票據 8；42 題）；LAWWW 2026-11-02 登記；AA 12:03 民訴甲下 w2↔w3、w11↔w12 對調、w15 併入 w6（配合 AI_CP2 scopeWeek），換 sha 1dd6c19be"
+  },
+  {
    "path": "docs/story_planning/syllabus/Y1S1.json",
    "sha": "1edea905f",
    "status": "approved",
