@@ -1,0 +1,13 @@
+const LW='/tmp/claude-0/-home-user-Lawstudent/a08a2075-8dd6-5be2-9e44-b63f69067248/scratchpad/lw';
+require(LW+'/tests/alison.js'); const H=require(LW+'/tests/pg_harness.js');
+const show=(label,flags,study,zq)=>{ H.fresh('2030-09-30',20,'dorm',Object.assign({},flags)); if(study!=null) H.G.stats.study=study; if(zq) for(const t of zq) SOCIAL.remember('heroine_04',t,'');
+  const c=STORY.careerLean(H.G), p=PG.path(H.G); console.log(label.padEnd(40),'lean',JSON.stringify(c),'path',p,'| first:',POSTGRAD_LINES.FIRST.me[p],'| last:',POSTGRAD_LINES.EPI.last[p]); };
+const grad={Y4_PATH:'grad',GRAD_ADMIT:true,STUDY_AT_LAW:0};
+show('研究所錄取、自習100h、法服0',grad,100);
+show('研究所錄取、自習100h、法服10',Object.assign({LAWCLUB_SAT_VISITS:10},grad),100);
+show('研究所錄取、自習100h、法服11',Object.assign({LAWCLUB_SAT_VISITS:11},grad),100);
+show('C：子晴兩件、法服0',{BAR_YEAR:2029},0,['PLAYTESTED','CONTEST_DAY']);
+show('C：子晴兩件、法服4',{BAR_YEAR:2029,LAWCLUB_SAT_VISITS:4},0,['PLAYTESTED','CONTEST_DAY']);
+show('C：子晴兩件、法服5',{BAR_YEAR:2029,LAWCLUB_SAT_VISITS:5},0,['PLAYTESTED','CONTEST_DAY']);
+show('無律師、無研究所、法服0',{},0);
+show('無律師、無研究所、法服3',{LAWCLUB_SAT_VISITS:3},0);

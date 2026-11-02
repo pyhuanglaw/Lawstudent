@@ -723,9 +723,9 @@
    "quote": "我想調整 Law Student 的法律學習、考試與職涯劇情。這部分由你擔任劇情總監……完成後依照正式交班規則交付 LAWWW，讓內容真正進入遊戲（全文 AA_570 第 0 節）",
    "kind": "原話",
    "status": "進行中",
-   "task": "STUDY-EXAM-SYS-1102",
+   "task": "STUDY-EXAM-STORY-1102",
    "src": "使用者直接對 AA（帳號 A）說",
-   "checked": "2026-11-02 AA（帳號 A）：AA_570 記原文；盤點 workflow 跑中"
+   "checked": "2026-11-02 AA（帳號 A）：AA_570 記原文；盤點 workflow 跑中；task 改掛 LAWWW 04:0x 開的 STUDY-EXAM-STORY-1102（owner AA）"
   },
   {
    "id": "UA-AA-1102-02",
