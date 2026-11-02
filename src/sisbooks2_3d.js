@@ -24,6 +24,7 @@ const SISBOOKS2=(function(){
   S.phone=function(G){ if(!S.eligible(G)||sent(G,'sis_books2')||G.flags.ROOM_Y2) return; const d=DK(S.D_MSG); if(d==null) return;
     if(!(G.day===d&&G.hour>=17+5/60)&&G.day!==d+1) return;   /* 9/5 17:05 以後；9/6 搬房間以前讀進來的照樣補 */
     if(typeof INV!=='undefined'&&INV.hasContact&&!INV.hasContact(G,ID)) return;
+    if((typeof ROM!=='undefined'&&!!ROM.exOf&&ROM.exOf(G,ID))) return;   /* AA_600 B23：前任不傳（書照樣放管理室：第二段的事件不看這一則）*/
     const L=S.msgLines(G); L[L.length-1].ask={id:'sis_books2_ask',until:(d+1)*24+16,opts:S.opts(G)}; PHONE.at(G,d,17+5/60,L,'sis_books2'); };
   S.onAnswer=function(G,m){ if(m&&m.ask&&m.ask.id==='sis_books2_ask'&&typeof SOCIAL!=='undefined'&&SOCIAL.adjust) SOCIAL.adjust(ID,{fam:1},'sis_books2'); };
   /* ---- 第二段：管理室（事件）---- */

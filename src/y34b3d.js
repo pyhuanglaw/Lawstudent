@@ -327,7 +327,7 @@ const Y34B=(function(){
       else at(G,d,hh,[GSIS('（照片）'),GSIS(S.M6_QUIET[wi-M6_Q.length]||S.M6_QUIET[0])],tag);   /* 第幾個「不吵」的週日（AA_464 第 2 節；超過十四個照原句）*/
       return; }
     const h9=tzH(G,d,9); if(G.hour<h9) return; const tag='y4_m6_d'+d; if(sent(G,tag)) return;   /* 日本路線 8/3、8/4 還在日本＝當地 10:00（AA_341 J-S13）*/
-    const F=G.flags, mine=!!F.SIS_PHOTO_TO_YOU, P=mine?(t=>DM('heroine_05',t)):GSIS, L=[P(S.m6Wed(d)||M6_PHOTO[(d-D('us0'))%3])];   /* 週三照那個月的那一張（AA_464 第 1 節）；其他天三張照日子輪＝不跟前一天同一張 */
+    const F=G.flags, mine=!!F.SIS_PHOTO_TO_YOU&&!exAny(G,'heroine_05')/* AA_600 B13：前任不私訊（照舊在家族群組）*/, P=mine?(t=>DM('heroine_05',t)):GSIS, L=[P(S.m6Wed(d)||M6_PHOTO[(d-D('us0'))%3])];   /* 週三照那個月的那一張（AA_464 第 1 節）；其他天三張照日子輪＝不跟前一天同一張 */
     if(mine&&F.SIS_PHOTO_SAID==null){ F.SIS_PHOTO_SAID=d; L.push(DM('heroine_05','說好的。')); }   /* AA_470 4-1：大三上 11/17 雙方單身那一句（SIS_PHOTO_TO_YOU）＝平日的照片改傳私訊（週日照舊在家族群組）；第一張（8/3）多一句 */
     at(G,d,h9,L,tag);
     const old=(G.msgs||[]).filter(m=>/^y4_m6_d\d+$/.test(m.tag||'')), days=[...new Set(old.map(m=>m.tag))]; if(days.length>6){ const cut=new Set(days.slice(0,days.length-6)); G.msgs=G.msgs.filter(m=>!cut.has(m.tag)); } };   /* 只留最近 7 張（手機訊息上限 200 則，不讓她的照片把別人的訊息擠掉）；私訊也照用，一天算一張（第一張的「說好的。」跟著那一張）*/

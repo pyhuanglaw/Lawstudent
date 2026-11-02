@@ -69,7 +69,7 @@ const SISB14=(function(){
   S.selfSent=(G,d)=>!!(G.msgChat&&G.msgChat.sent&&G.msgChat.sent[ID]===d);   /* 那一天自己傳過訊息給她（MSG：同一個人一天一次，記傳的那一天）*/
   S.exam=function(G){ const F=G.flags, d=D(S.EXAM.day), tag='sisb14_exam'; if(d==null||G.day!==d||F.SIS14_EXAM_WAIT!=null||sent(G,tag)||!sent(G,'y4_push_note')||!law(G)) return;
     const gf=S.dating(G), h=gf?S.EXAM.gf:S.EXAM.friend; if(now(G)<T(d,h)||S.selfSent(G,d)||!contact(G)) return;
-    if(!gf&&!stageOk('FRIEND')) return;   /* 朋友版：推甄便條朋友版那一群（FRIEND 以上）*/
+    if(!gf&&(!stageOk('FRIEND')||(typeof ROM!=='undefined'&&!!ROM.exOf&&ROM.exOf(G,'heroine_05')))) return;   /* AA_600 B15：前任不送。朋友版：推甄便條朋友版那一群（FRIEND 以上）*/
     const M=(gf?L.examGf:L.examFriend).map(dm); M[M.length-1].ask={id:tag,opts:(gf?L.examGfOpts:L.examFriendOpts).map(reply)};
     PHONE.at(G,d,h,M,tag); F.SIS14_EXAM_WAIT=gf?'gf':'friend'; };
 

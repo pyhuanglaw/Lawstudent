@@ -31,10 +31,9 @@ const US_BLANK_LINES=(function(){
   ev('ev_usb_fb_study','秋假的自習室',{dialogue:[
     {scene:'會所自習室',bg:'us_club_study'},
     nar('（秋假的自習室只有兩個人。她坐在最裡面那張桌子。）'),
-    sis('……你也沒有出去。'),
-    {choice:[{text:'「沒有。我留下來讀書。」',goto:'a'},{text:'「我在等妳跟我說話。」',goto:'b'}]},
-    {label:'a'},sis('嗯。'),nar('（她把桌上的書往旁邊推了一點，空出一格。）'),{mem:[{npc:S5,tag:'US_FALLBREAK_STUDY',note:''}]},{goto:'e'},   /* 選第一個的才記；不加 REPAIR */
-    {label:'b'},sis('……那你等。我要讀書。'),
+    /* AA_600 B33（企劃線 031414cad）：挽回中她不先開口——「……你也沒有出去。」刪；祐廷自己去的，照 S10 只點頭（旁白同 V6EX.SIS_EX_NOD）。
+       接她那一句的兩個選項和回答一起拿掉（沒有記 US_FALLBREAK_STUDY；本來就不加 REPAIR）*/
+    nar('（她抬頭看了你一眼，點了一下頭。）'),
     {label:'e'} ]});
 
   /* ---------------- 第 3 節 交往中、開學前的週六（還沒演 US2）---------------- */

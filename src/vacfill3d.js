@@ -133,6 +133,7 @@ const VACFILL=(function(){
   S.dayOf=(m,G)=>{ if(!m.dayFn) return DK(m.day); const B=brk(G); return B&&B.key===m.brk?m.dayFn(G):null; };   /* 照行程算日子的（2-2）：只在那個假期裡算 */
   /* 這一則現在成立嗎（stage、國外、條件）。d＝那一則的日子（人物在不在臺北照那一天算）*/
   S.gate=function(G,m,d){ if(m.stage==='econ'?!econ(G):!law(G)) return false; if(d==null) return false; if(!m.stage&&abroadOn(G,d)) return false;
+    { const w=typeof m.th==='string'&&m.th.indexOf('p:')===0?m.th.slice(2):null; if(w&&typeof V6EX!=='undefined'&&V6EX.noContact&&V6EX.noContact(G,w)) return false; }   /* AA_600 B24～B26（vf_y2_0728、vf_y3_0212、vf_y3w_0115）：以安、學姊是前任＝她先傳的私訊不送 */
     try{ return !m.if||!!m.if(G,d); }catch(e){ return false; } };
   S.send=function(G,m){ const d=S.dayOf(m,G); if(d==null||G.day<d||G.day>d+1||sent(G,m.tag)) return false; if(m.at&&NOW(G)<T(d,m.h)) return false; if(!S.gate(G,m,d)) return false;
     if(m.join&&typeof PHONE!=='undefined') PHONE.join(G,'home','家人'); if(m.contact) contactOf(G,m.contact);

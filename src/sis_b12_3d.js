@@ -82,7 +82,7 @@ const SISB12=(function(){
 
   /* ---------------- 12-1 第 21 天 21:00 私訊 ---------------- */
   S.cardBack=function(G){ const F=G.flags, d0=F.SIS_CARD_DAY; if(d0==null||typeof d0!=='number') return; const d=d0+21, tag='sisb12_card_back';
-    if(G.day>=d&&G.day<=d+2&&!sent(G,tag)&&contact(G)) PHONE.at(G,d,21,(L.cardBack||[]).map(dm),tag); };   /* 那一天一開始就排好（21:00 才送到；跳過時間的照原本的時間補）*/
+    if(G.day>=d&&G.day<=d+2&&!sent(G,tag)&&contact(G)&&!(typeof ROM!=='undefined'&&!!ROM.exOf&&ROM.exOf(G,ID))) PHONE.at(G,d,21,(L.cardBack||[]).map(dm),tag); };   /* AA_600 B27：送出時再看一次，中間分手了就不傳 */   /* 那一天一開始就排好（21:00 才送到；跳過時間的照原本的時間補）*/
 
   /* ---------------- 12-2 大二的家族群組 ---------------- */
   S.fam2=function(G){ if(!inGrp(G)) return; const A=L.fam2||[];
