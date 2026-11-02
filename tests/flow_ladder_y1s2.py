@@ -60,8 +60,11 @@ async def one(p, run, landscape):
     run.setup(f'{tag}：{tgt["id"]} 設成見過、有點熟；玩家放到旁邊 1.2 公尺（瞬移）')
     cand = await pg.evaluate(PLACE_JS % json.dumps(tgt)); pos = None; s = None
     for c in cand:   # 互動按鈕要是她（旁邊有別人時換一個站的位置）
-        await pg.evaluate(PUT_JS % json.dumps([c[0], c[1], tgt['key']])); await pg.wait_for_timeout(1200)
-        s = await L.state(pg)
+        await pg.evaluate(PUT_JS % json.dumps([c[0], c[1], tgt['key']]))
+        for _w in range(150):   # 輪詢互動按鈕的字，等到出現為止（上限 30 秒；BB_229 第 11 條：不等固定秒數）
+            await pg.wait_for_timeout(200)
+            s = await L.state(pg)
+            if s['interact']: break
         if tgt['name'] in s['interact']: pos = c; break
     run.check(f'{tag}：站在{tgt["name"]}旁邊，互動按鈕是「和{tgt["name"]}說話」（{s and s["interact"]}）', bool(pos), json.dumps([cand[:3], s and s['interact']], ensure_ascii=False))
     if not pos:
