@@ -40801,6 +40801,33 @@
         "receiver": "BB",
         "ack": "ACK"
       }
+    },
+    {
+      "first": {
+        "term": "Y1S1",
+        "week": null,
+        "earliest": "第一次期中考前（讀書、一鍵總複習）；國考與職涯在畢業以後",
+        "mainline": true,
+        "blocks": false,
+        "prereq": false,
+        "parallel": true,
+        "confirmed": true
+      },
+      "area": null,
+      "id": "AA602-FEED-1C-1102",
+      "title": "AA_602 以安學姊①c 動態與零星台詞（改 20 列＋第 21～32 列＋新增第 33 列 an_mom2）；第 8 節 (a) 動態裡她先傳的私訊分手後一律不送（feed3d S.dmBlocked 不走 V6EX.coolSkip，併 AA_600 S1）；(b) termend she 旁白「有幾家已經打了勾」已做",
+      "owner": "LAWWW",
+      "status": "待開工",
+      "priority": "P1",
+      "note": "AA 21:16 P1",
+      "next": "(b) 已在 int/m590；其餘併進 AA_600 子代理（同是分手後不送＋以安學姊）",
+      "xai": {
+        "spec": "企劃線 docs/story_planning/AA_602_以安學姊改稿_1c_動態與零星台詞.md @e648d5b31",
+        "branch": "int/next1102",
+        "acceptance": "BB 測",
+        "receiver": "BB",
+        "ack": "ACK"
+      }
     }
   ]
 }
