@@ -40111,7 +40111,34 @@
       "owner": "AA",
       "status": "進行中",
       "priority": "P1",
-      "note": "AA 掃描中；LAWWW 收到清單後實作（已知相關：postgrad3d helpedCoffee 讀 HELPED 黑咖啡）",
+      "note": "AA 掃描中；LAWWW 收到清單後實作（已知相關：postgrad3d helpedCoffee 讀 HELPED 黑咖啡） ｜18:22 AA 轉使用者新規則③：祐廷和學姊都住臺北、學校也在臺北，不能寫「回臺北」",
+      "next": "",
+      "xai": {
+        "spec": "AA 18:10 訊息",
+        "branch": "int/next1102",
+        "acceptance": "BB 測",
+        "receiver": "BB",
+        "ack": "ACK"
+      }
+    },
+    {
+      "first": {
+        "term": "Y1S1",
+        "week": null,
+        "earliest": "第一次期中考前（讀書、一鍵總複習）；國考與職涯在畢業以後",
+        "mainline": true,
+        "blocks": false,
+        "prereq": false,
+        "parallel": true,
+        "confirmed": true
+      },
+      "area": null,
+      "id": "AA590-SIS-B3-1102",
+      "title": "AA_590 學姊第三批（@68ceea665，使用者確認）：拿掉等放榜看小說、空保溫瓶兩場；第一次見面退回原句；grades 改問放假打算；選課「好。」；研究所刪一句、標題「什麼時候開始」",
+      "owner": "LAWWW",
+      "status": "進行中",
+      "priority": "P1",
+      "note": "LAWWW 18:2x 派第二個子代理在 worktree 整合（基準 int/next1102 48918ca20，和 AA584 平行）；完成後合併、交 BB",
       "next": "",
       "xai": {
         "spec": "AA 18:10 訊息",
