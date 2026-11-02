@@ -4018,3 +4018,14 @@
 對話時人物會站在畫面中間、下方四分之一會被對話框蓋住，所以中間不要放太搶眼的東西。畫面裡不要任何看得清楚的文字、店名、招牌、看板、號碼、品牌或商標。
 ```
 - BB 檢查：沒有人；書背、文件沒有看得懂的字；看得出是教授的研究室加一張助理桌。
+
+#### 第 104 組 BB 驗收（2026-11-02 06:0x，BB（帳號 A）；開發分支 94c89e8e6 的 assets/bg；使用者 05:5x「審圖交給BB」）
+- **十張原圖都 PASS**：沒有人、沒有可讀的字、季節和時間對。
+  - **修圖三張和原圖構圖一致**：jp_konbini_summer 和 jp_konbini 同一間店，沒有雪；us_lake_bare、us_lake_summer 的長椅、步道、鐘樓位置都和 us_lake 相同；us_chapel_steps_snow 和 us_chapel_steps 同一個角度。
+  - **kh_hill_harbor_night**：LAWWW 柔化車尾車廠標誌那一步**保留**（D77 不放品牌）。
+  - **sf_photo_postbox**：郵筒上的字是模糊色塊，PASS。郵筒頂上沒有明信片（提示詞有寫），不擋：照片說明「她手上一張明信片」，人物不畫，郵筒就夠了。
+  - **sf_photo_chowder**：有金門大橋、沒有海鷗，PASS。
+- **12/2 兩場（r2y4a_events.js 160、183）換成 us_chapel_steps_snow**：
+  - 理由：學姊美國篇秋天那幾場用的是 us_chapel_steps，同一個地方下雪的版本，玩家看得出是同一處。
+  - 舊的 us_chapel_snow 構圖不同，留作備用、不刪。
+- ART_APPROVED 等遊戲內直向、橫向畫面（排給 CC，和第五、六批一起拍）。
