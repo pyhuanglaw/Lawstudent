@@ -1,4 +1,4 @@
-# 總圖 B1 第二版（WIP，還沒交件；LIB-INTERIOR-1102，LAWWW2 帳號 A 2026-11-02）
+# 總圖 B1 第二版（**11-02 已交件**：二進位改放 `assets/models/env/second_ai/library_b1.*`，說明 `docs/art-rebuild/second_ai/test_shots/library_b1_1102/README.md`；這個資料夾只是交件前的備份）
 
 - **這是半成品的備份，不是交件**：遊戲現在用的 B1 還是 `assets/models/env/second_ai/library_b1.glb`（10-23 第一版）＋開發分支的 `src/data/library_b1_layout.js`。這個資料夾的檔案還沒在遊戲裡驗收，不要整合。
 - 依據：使用者 11-02 08:58 的 B1 平面圖（「尤其B1自習室」）、10-17 給的兩張 24 小時自習室照片（企劃線 `docs/story_planning/art_reference/photo_ref/ntu_lib_b1_room_a.jpg`、`ntu_lib_b1_room_b.jpg`）；10:0x「B1自習室我記得給我你照片 ?」（UA-LAWWW2-1102-07）。

@@ -11,7 +11,7 @@
 
 ## 一、怎麼套（給 LAWWW）
 
-1. **換二進位**（從我的分支 `claude/second-ai-env-art` 的 `docs/art-rebuild/second_ai/wip/library_b1_v2/` 拿，放到 `assets/models/env/second_ai/`）：
+1. **換二進位**（從我的分支 `claude/second-ai-env-art` 的 `assets/models/env/second_ai/` 拿）：
    - `library_b1.glb`、`library_b1.json`、`library_b1.layout.json`；
    - manifest 的 key 不變（遊戲照舊用 `Z3.attachRoomGLB` 接）。
 2. **patch**：`docs/art-rebuild/second_ai/patches/library_b1_1102.patch`（`b1b249873`、`ba125d6f3` 都 `git apply --check` 乾淨）。動到的檔：
