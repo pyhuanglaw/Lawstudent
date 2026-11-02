@@ -38,12 +38,12 @@ check（客觀記錄，不判定企劃）：
   main：遊戲載入；前置成立（2029-05-27、Y4S2 第 14 週、termCourses 有 maritime、BAR_REG true、failedIn 只有考五題的課）；
         期末週 5/30 手機「今天」有「海商法與海洋法（考試）」（修改前預期 FAIL）；海商法有 Y4S2 期末紀錄 status done；
         6/18 成績單有出現、海商法那一行不是「缺考（不及格）」；沒有被判延畢（FAIL_DELAY_COURSES 空、沒有 FAIL_DELAY、沒有延畢旁白「（證書要等下學期。……）」）；
-        BAR_REG 保留 true；沒有卡住；沒有 JS 例外。修改前 a3b1bd647 預期 FAIL。
+        BAR_REG 保留 true；沒有卡住；沒有 JS 例外。修改前 4734c3d9e 預期 FAIL。
   rescue_*：讀檔後 FAIL_DELAY_COURSES 空、FAIL_DELAY 沒了、FD_RESCUE_NOFINAL＝['maritime']、PG.delayed false、FD.on false；
         報名：bar／study／bc＝BAR_REG true、FD_RESCUE_BAR restored；nobar＝BAR_REG 仍 false、FD_RESCUE_BAR_UNKNOWN true、之後沒有「報名／不報名」的選單、手機沒有報名的回覆鍵；
         之後沒有延畢劇情（FD.LINES 的句子、late_2029 那一段、日期卡「延畢」）；沒有卡住；沒有 JS 例外。修改前（沒有 FD.migrate）預期 FAIL。
-用法：LW_TESTS=<工作樹>/tests SHA=<sha> [CASES=main,rescue] python3 cc_y4s2final_probe.py '<URL>/index.html?turbo' <輸出資料夾>
-等待上限（秒）：CASE_MAX（main，預設 5400）、TRIP_MAX（一趟上課，預設 600）、STUCK_S（空著、畫面時間都沒變，預設 240）、WAIT_PACK（6/1 等收拾，預設 900）。"""
+用法：LW_TESTS=<工作樹>/tests SHA=<sha> [CASES=main,rescue_bar,rescue_nobar] python3 cc_y4s2final_probe.py '<URL>/index.html?turbo' <輸出資料夾>
+等待上限（秒）：CASE_MAX（main，預設 5400）、TRIP_MAX（一趟上課，預設 600）、STUCK_S（空著、畫面時間都沒變，預設 240）。"""
 import os, sys, json, asyncio, re, time, copy, traceback
 sys.path.insert(0, os.environ['LW_TESTS']); import playlib as L
 sys.path.insert(0, os.path.dirname(os.path.dirname(os.path.abspath(__file__)))); import bbplay as P   # bbplay 在上一層（BB 的 test_tools）
