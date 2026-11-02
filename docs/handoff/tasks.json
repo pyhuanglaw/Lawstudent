@@ -40010,6 +40010,35 @@
         "receiver": "BB",
         "ack": "SENT"
       }
+    },
+    {
+      "first": {
+        "term": "Y1S1",
+        "week": null,
+        "earliest": "第一次期中考前（讀書、一鍵總複習）；國考與職涯在畢業以後",
+        "mainline": true,
+        "blocks": false,
+        "prereq": false,
+        "parallel": true,
+        "confirmed": true
+      },
+      "area": null,
+      "id": "AA589-AN-B4-1102",
+      "title": "AA_589 以安第四批（@1b4ff1c88）：新記憶 AN_SHOP_PAGE（不在面板顯示）、第一次翻開「想去的店」那一頁記下、之後場次用「看過」版（第 10 節）",
+      "owner": "LAWWW",
+      "status": "等待其他AI／素材",
+      "priority": "P2",
+      "note": "AA 13:56 預告；BB 口氣、連貫性已過；第 6 節 10 句要使用者先看，看過以前不整合",
+      "pausedReason": "等使用者看 AA_589 第 6 節 10 句（AA 會通知）",
+      "resumeWhen": "AA 通知使用者確認",
+      "next": "AA 通知後照 AA_589 實作",
+      "xai": {
+        "spec": "AA_589@1b4ff1c88",
+        "branch": "int/next1102",
+        "acceptance": "BB 測",
+        "receiver": "BB",
+        "ack": "ACK"
+      }
     }
   ]
 }
