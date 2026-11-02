@@ -17,18 +17,63 @@ global.document={ createElementNS:()=>({getContext:()=>ctx2d,style:{}}), createE
 global.navigator={userAgent:'node'}; global.addEventListener=()=>{}; global.innerWidth=844; global.innerHeight=390; global.location={search:''};
 process.on('unhandledRejection',()=>{}); global.fetch=()=>Promise.reject(new Error('no fetch in node'));
 const _warn=console.warn; console.warn=(...a)=>{ if(/正式模型載入失敗/.test(String(a[0]))) return; _warn(...a); };   /* Node 沒有 fetch：正式模型載入失敗、用備用模型（預期的）*/
-const files=['lib/three.bundle.js','lib/three.jsm.bundle.js','src/people3d.js','src/assets3d.js','src/world3d.js','src/engine3d.js','src/townkit3d.js','src/campuskit3d.js','src/zones3d.js','src/data/socsci_layout.js','src/data/linze_layout.js','src/data/classroom_layout.js','src/building3d.js','src/data/library_layout.js','src/library3d.js'];
+const files=['lib/three.bundle.js','lib/three.jsm.bundle.js','src/people3d.js','src/assets3d.js','src/world3d.js','src/engine3d.js','src/townkit3d.js','src/campuskit3d.js','src/zones3d.js','src/data/socsci_layout.js','src/data/linze_layout.js','src/data/classroom_layout.js','src/building3d.js','src/data/library_layout.js','src/library3d.js','src/library_hall_v2.js'];
 for(const f of files){ let src=fs.readFileSync(path.join(ROOT,f),'utf8'); src=src.replace(/^const (\w+)\s*=/m,'globalThis.$1='); vm.runInThisContext(src,{filename:f}); }
 let fails=0; const check=(name,ok,info)=>{ console.log((ok?'PASS ':'FAIL ')+name+(info?'　'+info:'')); if(!ok) fails++; };
 const E=E3; E.scene=new THREE.Scene(); E.q={level:'medium'}; E.ray=E.ray||new THREE.Raycaster();
 E.interactables=[]; E.colliders=[]; E.lampGlows=[]; E.seats=[]; E.npcs=[]; E.spawnHint=null;
 /* 假的正式模型（L0_root／L1_root＋幾種材質）：照遊戲真正的流程載入（attachFormal 會把 L0_root／L1_root 搬到區域的樓層群組）*/
 const FAKE=(()=>{ const r=new THREE.Group(), r0=new THREE.Group(), r1=new THREE.Group(); r0.name='L0_root'; r1.name='L1_root'; r.add(r0); r.add(r1);
-  for(const [nm,par] of [['lb_leaf_small',r0],['lb_leaf_dark',r1],['lb_walnut',r0],['lb_vc',r0],['lb_steel',r0],['lb_plaster',r0],['lb_terrazzo',r0]]){ const m=new THREE.Mesh(new THREE.BoxGeometry(0.1,0.1,0.1),new THREE.MeshStandardMaterial({name:nm})); m.name='FAKE_'+nm; par.add(m); }
+  for(const [nm,par] of [['lb_leaf_small',r0],['lb_leaf_dark',r1],['lb_walnut',r0],['lb_vc',r0],['lb_steel',r0],['lb_plaster',r0],['lb_terrazzo',r0],['lh2_books',r0],['lh2_plaster',r0],['lh2_floor',r0],['lh2_wood_honey',r1]]){ const m=new THREE.Mesh(new THREE.BoxGeometry(0.1,0.1,0.1),new THREE.MeshStandardMaterial({name:nm})); m.name='FAKE_'+nm; par.add(m); }
   return r; })();
-let fakeLoaded=null; { const lo=ASSETS.loadOne; ASSETS.loadOne=function(k){ if(k==='bldg.library_interior'){ return (fakeLoaded=Promise.resolve({scene:FAKE})); } return lo.apply(this,arguments); }; }
+let fakeLoaded=null; { const lo=ASSETS.loadOne; ASSETS.loadOne=function(k){ if(k==='bldg.library_interior'||k==='bldg.library_hall_v2'){ return (fakeLoaded=Promise.resolve({scene:FAKE})); } return lo.apply(this,arguments); }; }
 const z=Z3.ZONES.library_hall.build(E); E.zone=z; E.levels=z.levels; E.nav=z.nav; for(const n of E.levels) n._cm=null;
 E.player={obj:{position:new THREE.Vector3(),rotation:{y:0}},radius:0.32,lv:0}; z.group.updateMatrixWorld(true);
+/* ---- version 2（LIB-INTERIOR-1102，使用者 11-02 照實際配置：中庭是木頭台階書牆、沒有實心核心和兩側那一跑）----
+   第一版的核心、兩側那一跑、BB n31／n33 那 4 個位置都不存在了。改量：台階書牆下面（實心的木頭量體，斜面以下）和中庭六根柱子；
+   「修改前」＝同一個引擎、把碰撞盒拿掉（一定要量得到穿過去的方向）；正式模型照遊戲的流程載入後，書（台階書牆的書格、書架）網點透空。 */
+if(LIBRARY_LAYOUT.version===2){ (async()=>{
+  const L=LIBRARY_LAYOUT, BS=L.bookstair, Y1=L.floors[1].y, U=L.upper, NB=L.navBox, DIST=Z3.ZONES.library_hall.camDist||4.8, PITCH=0.38;
+  const cols=(z.camCols||[])[0]||[], cols1=(z.camCols||[])[1]||[];
+  check('v2-1a. zone.camCols：第 0、1 層都有台階書牆下面的斜塊＋中庭六根柱子（7 個），看不見、不參加合併',
+    cols.length===7&&cols1.length===7&&cols.filter(m=>m.name==='CAMCOL_bookstair').length===1&&cols.filter(m=>m.name==='CAMCOL_column').length===6&&cols.every(m=>m.material.visible===false&&m.userData.noMerge),
+    (z.camCols||[]).map(a=>a?a.map(m=>m.name).join('+'):'—').join(' / '));
+  { const w=cols.find(m=>m.name==='CAMCOL_bookstair'), b=new THREE.Box3().setFromObject(w||new THREE.Object3D());
+    check('v2-1b. 台階書牆的斜塊涵蓋整座台階（中間走的樓梯＋兩側坐的大階梯）：南端貼地、北端到二樓樓面下 5 cm',
+      !!w&&b.min.x<=BS.x0&&b.max.x>=BS.x1&&Math.abs(b.min.z-BS.z0)<0.01&&Math.abs(b.max.z-BS.z1)<0.01&&b.min.y<=0.001&&Math.abs(b.max.y-(Y1-0.05))<0.01,
+      `x ${b.min.x.toFixed(2)}～${b.max.x.toFixed(2)}、z ${b.min.z.toFixed(2)}～${b.max.z.toFixed(2)}、y ${b.min.y.toFixed(2)}～${b.max.y.toFixed(2)}`); }
+  const COLS=[[-5.2,U.band.z1],[5.2,U.band.z1],[-5.2,L.gates.z],[5.2,L.gates.z],[-5.2,U.north.z1],[5.2,U.north.z1]];
+  const ys=zz=>(BS.z1-zz)/(BS.z1-BS.z0)*Y1;   /* 台階的斜面（南端 0、北端二樓樓面）：每一階的踏面都在這條斜線上或上面 */
+  const solid=p=>(p.x>BS.x0&&p.x<BS.x1&&p.z>BS.z0&&p.z<BS.z1&&p.y<ys(p.z)-0.02)||COLS.some(([cx,cz])=>Math.hypot(p.x-cx,p.z-cz)<0.26);
+  const through=(a,b)=>{ const n=Math.ceil(a.distanceTo(b)/0.02); for(let i=1;i<=n;i++) if(solid(a.clone().lerp(b,i/n))) return true; return false; };
+  const keep=z.camCols, camNow=(t,yaw,lv,out)=>{ z._lcAll=null; return E.followCam(t,yaw,PITCH,DIST,lv,out); };
+  const camBefore=(t,yaw,lv,out)=>{ z.camCols=null; z._lcAll=null; const r=E.followCam(t,yaw,PITCH,DIST,lv,out); z.camCols=keep; z._lcAll=null; return r; };
+  const REPORT={};
+  function sweep(name,lv,step,pick){ let n=0,bad=0,badOld=0,same=0,ex=null; E.player.lv=lv;
+    for(let x=NB.x0+0.5;x<=NB.x1-0.5;x+=step) for(let zz=NB.z0+0.3;zz<=NB.z1-0.3;zz+=step){ if(!E.canStand(x,zz,0.32,lv)) continue; const fy=E.heightAt(x,zz,lv); if(!pick(x,zz,fy)) continue;
+      const t=new THREE.Vector3(x,fy+1.45,zz);
+      for(let k=0;k<8;k++){ const yaw=k*Math.PI/4; n++; const c=new THREE.Vector3(), o=new THREE.Vector3(); camNow(t,yaw,lv,c); camBefore(t,yaw,lv,o);
+        if(through(t,c)){ bad++; if(!ex) ex={x:+x.toFixed(2),z:+zz.toFixed(2),yaw:+yaw.toFixed(2),cam:c.toArray().map(v=>+v.toFixed(2))}; } if(through(t,o)) badOld++; if(c.distanceTo(o)<1e-6) same++; } }
+    REPORT[name]={samples:n,before:badOld,after:bad,unchanged:same}; return {n,bad,badOld,same,ex}; }
+  const onStair=(x,zz)=>x>BS.x0-0.05&&x<BS.x1+0.05&&zz>BS.z0-0.05&&zz<BS.z1+0.05;
+  { const r=sweep('1F 大廳、展演廳',0,0.5,(x,zz,fy)=>fy<0.05&&!onStair(x,zz));
+    check('v2-2a. 1F：修改前（沒有碰撞盒）量得到鏡頭穿進台階書牆下面、柱子（測試抓得到）',r.badOld>0,`${r.badOld}/${r.n}`);
+    check('v2-2b. 1F：頭 → 鏡頭沒有穿過台階書牆下面、柱子',r.bad===0,`${r.bad}/${r.n}`+(r.ex?' 例：'+JSON.stringify(r.ex):''));
+    check('v2-2c. 1F：離台階、柱子遠的地方鏡頭和修改前一樣（大部分方向沒變）',r.same>=r.n*0.6,`沒變 ${r.same}/${r.n}`); }
+  for(const lv of [0,1]){ const r=sweep('台階書牆中間的樓梯（第 '+lv+' 層）',lv,0.25,(x,zz,fy)=>onStair(x,zz)&&fy>0.05&&fy<Y1-0.05);
+    check(`v2-2d. 走在台階書牆中間的樓梯上（第 ${lv} 層）：頭 → 鏡頭沒有穿過台階下面`,r.n>0&&r.bad===0,`${r.bad}/${r.n}`+(r.ex?' 例：'+JSON.stringify(r.ex):'')); }
+  { const r=sweep('2F 樓面',1,0.5,(x,zz,fy)=>fy>Y1-0.05);
+    check('v2-2e. 2F：頭 → 鏡頭沒有穿過柱子',r.n>0&&r.bad===0,`修改前 ${r.badOld}、修改後 ${r.bad}/${r.n}`+(r.ex?' 例：'+JSON.stringify(r.ex):''));
+    check('v2-2f. 2F：除了柱子附近，鏡頭和修改前一樣',r.same>=r.n*0.9,`沒變 ${r.same}/${r.n}`); }
+  await fakeLoaded; await new Promise(r=>setTimeout(r,0));
+  { const mats={}; z.group.traverse(o=>{ if(o.isMesh&&/^FAKE_/.test(o.name)) mats[o.material.name]=o.material; });
+    check('v2-3. 正式模型照遊戲的流程載入後：區域 seeThru 打開；書（台階書牆的書格、書架）標 seeThrough、patch 過；灰泥、地板、木頭不標',
+      z.seeThru===true&&!!mats.lh2_books&&!!mats.lh2_books.userData.seeThrough&&!!mats.lh2_books.userData._st&&['lh2_plaster','lh2_floor','lh2_wood_honey'].every(k=>mats[k]&&!mats[k].userData.seeThrough),
+      JSON.stringify(Object.fromEntries(Object.entries(mats).map(([k,m])=>[k,!!m.userData.seeThrough])))); }
+  { const before=z.camCols; E.cam={manualT:1.2,dragging:true}; z.update(1/30);
+    check('v2-4. 沒有實心核心：拖著鏡頭時照舊是同一組碰撞盒（第一版的薄板只給核心用）',z.camCols===before&&z.camCols[0]===z.camColsThick); E.cam={manualT:0,dragging:false}; }
+  console.log(JSON.stringify({version:2,sweep:REPORT}));
+  console.log(fails?('FAILED '+fails):'ALL PASS'); process.exit(fails?1:0); })(); return; }
 const L=LIBRARY_LAYOUT, S=L.stair, CO=L.core, Y1=L.floors[1].y, DIST=Z3.ZONES.library_hall.camDist||4.8, PITCH=0.38, DT=1/30;
 
 /* ---- 1. 碰撞盒 ---- */

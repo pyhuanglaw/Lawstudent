@@ -18,6 +18,21 @@ CAP = "(()=>{ const el=document.getElementById('caption'); return el&&!el.classL
 ST = "(()=>ACTIVITIES.stateOf(GAME.G,'lib_tour_y1s1',GAME.G.day))()"
 LINES = ['新生導覽，十五分鐘', '進出都要刷學生證', '借書、還書、預約研究小間', '二樓的長桌不用預約', '研究小間要上網預約', '三樓比較安靜', '以上。法律的書在四樓以上']
 
+async def handle_choices(pg, cdp, run):
+    """跟著館員走的時候跳出來的選單。
+    圓窗館前的合照（AA_555 L3，src/campus_l123_3d.js；11-01 加的）：大一上第 3 週週五 16:00，正好是這支測試的 9/19；
+    手機邀請會排進行程（OUT.plan），15:55 跳「出發：圓窗館前 16:00：系學會合照／晚一點／不去了」。
+    人在導覽裡，像玩家一樣先「不去了」（outings3d.js：不扣分）。其他選單照舊點第一個（和原本 go_to 裡的 advance_dialogs 一樣）。
+    11-02 LAWWW2：原本沒處理，go_to 點了第一個「出發」，人被帶到圓窗館前 (−104,−17)，導覽記成沒走完——第一版、第二版大廳都一樣"""
+    c = await pg.evaluate("[...document.querySelectorAll('#choices button')].map(b=>b.textContent)")
+    if not c: return False
+    if any(x.startswith('出發：') for x in c):
+        i = next((k for k, x in enumerate(c) if x.startswith('不去')), None)
+        if i is not None:
+            run.note('跳出「%s」：在導覽裡，選「%s」' % (c[0][:30], c[i])); await L.tap(pg, cdp, '#choices button:nth-child(%d)' % (i + 1)); await pg.wait_for_timeout(1200); return True
+    await L.advance_dialogs(pg, cdp, run, until=lambda q: not q['choices'] and not q['dlg'], max_steps=20); return True
+
+
 async def join(pg, cdp, run):
     await L.load_state(pg, PRE, quiet_events=True); await pg.wait_for_timeout(5000)
     it = await L.find_it(pg, '新生導覽集合點')
@@ -44,11 +59,12 @@ async def main():
             st = await pg.evaluate(ST); zones.add(await pg.evaluate("GAME.G.zone"))
             if st == 'full': break
             s = await L.state(pg)
+            if s['choices'] and await handle_choices(pg, cdp, run): continue
             if s['dlg']: await L.tap(pg, cdp, '#dlg'); continue
             lib = await pg.evaluate(LIB)
             if lib:
                 d = await pg.evaluate("(l=>{ const P=GAME.E.player; return (P.lv|0)!==l.lv?99:Math.hypot(P.obj.position.x-l.x,P.obj.position.z-l.z); })(%s)" % json.dumps(lib))
-                if d > 2.5: await L.go_to(pg, cdp, run, lib['x'], lib['z'], 1.8, '跟著館員', max_s=60, lv=lib['lv'])
+                if d > 2.5: await L.go_to(pg, cdp, run, lib['x'], lib['z'], 1.8, '跟著館員', max_s=60, lv=lib['lv'], stop=lambda q: q['choices'] > 0)   # 選單交給 handle_choices
             await pg.wait_for_timeout(1200)
         st = await pg.evaluate(ST)
         run.check('A 七站的話依序都出現（館員說）', seen == list(range(7)), json.dumps(seen))
