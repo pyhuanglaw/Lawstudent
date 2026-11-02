@@ -2,7 +2,7 @@
 //   0 讀稿、每一句都在 AA_342  1 大二上（9/28、10/8 群組、服務學習 10/7、11/18、12/10 麵店）
 //   2 大三下（4/12 摘要日、母親節、5/18 群組、5/26 摘要日、5/27 阿凱、5/28 粽子；日本路線人在日本不出）
 //   3 大四上（9/28、10/27、10/31 群組、11/1 讀書會群組、11/3 摘要日、11/17 柏翰、12/7 最後一次讀書會、12/8 摘要日；美國路線不出）
-//   4 大四下（3/1 麵店、4/11 海商法期中考、4/13 群組、學士服拍照、畢業紀念冊、5/17 群組、5/24 麵店、5/25 阿凱）
+//   4 大四下（3/1 麵店、海商法期末考（原本 4/11 期中考；D118 沒有期中考，AA_578 第 2 節 #2 改到海商法期末考、「期中」→「期末」、拿掉日期）、4/13 群組、學士服拍照、畢業紀念冊、5/17 群組、5/24 麵店、5/25 阿凱）
 // 修改前（開發分支 deec4d03e）：沒有這兩個檔、沒有這些句子——FAIL。用法：node tests/aa342_twfill_unit.js
 require('./alison.js');
 const H=require('./pg_harness.js');
@@ -12,6 +12,7 @@ const load=f=>{ const p=path.join(H.ROOT,f); if(!fs.existsSync(p)) return false;
 let err=''; try{ load('src/data/twfill_events.js'); load('src/twfill3d.js'); }catch(e){ err=String(e); }
 const git=(sha,f)=>{ try{ return cp.execSync('git show '+sha+':"docs/story_planning/'+f+'"',{cwd:H.ROOT,encoding:'utf8',maxBuffer:1<<26}); }catch(e){ return ''; } };
 const DOC=git('f2de8d1cd','AA_342_臺灣路線六學期_每一週能做什麼_覆蓋盤點與補空白.md');
+const DOC578=git('b13db535f','AA_578_取消期中考_劇情改掛點與台詞規則.md');   /* D118：AA_578 第 2 節 #2 海商法那一句「期中」→「期末」*/
 const J=JSON.stringify, ev=id=>STORY_EVENTS.find(e=>e.id===id), X=()=>typeof TWFILL!=='undefined'?TWFILL:null, L=()=>TWFILL_LINES;
 const NG='g:noodle_team', BH='classmate_bohan', XC='classmate_xinci', AN='heroine_01';
 const setT=(k,h)=>{ const G=H.G, d=typeof k==='number'?k:H.D(k); G.day=d; G.hour=h; const w=CALENDAR.dateOf(d).wd; G.weekday=w===7?0:w; };
@@ -33,7 +34,8 @@ const ents=(G,k,h)=>{ setT(k,h); G.zone='noodle'; return EVENTS.check; };
     const all=[]; const walk=v=>{ if(typeof v==='string') all.push(v); else if(Array.isArray(v)) v.forEach(walk); };
     for(const k in L()) walk(L()[k]);
     const ids=/^(classmate_xinci|classmate_bohan|zhe|yu|sister|heroine_01|auntie|thursday|notyet)$/;
-    const bad=all.filter(t=>!ids.test(t)&&DOC.indexOf(t)<0&&DOC.indexOf(t.replace(/^「|」$/g,''))<0);
+    const by578=t=>t===L().maritimeFinal&&DOC.indexOf(t.replace('期末考','期中考'))>=0&&/海商法期末考/.test(DOC578);   /* AA_578 #2：原句在 AA_342、只換「期中」→「期末」*/
+    const bad=all.filter(t=>!ids.test(t)&&DOC.indexOf(t)<0&&DOC.indexOf(t.replace(/^「|」$/g,''))<0&&!by578(t));
     check('0. TWFILL_LINES 的每一句都在 AA_342（人物 id、記錄的代號除外）',bad.length===0,bad.join('｜'));
     const src=fs.readFileSync(path.join(H.ROOT,'src/data/twfill_events.js'),'utf8');
     check('0. 沒有「小語」（改名 Alison，AA_380）',src.indexOf('小語')<0);
@@ -106,9 +108,13 @@ const ents=(G,k,h)=>{ setT(k,h); G.zone='noodle'; return EVENTS.check; };
   await sec('4',async()=>{
     const N=ev('ev_y4s2_thu_noodle_first'); let G=fresh('2029-03-01',18,'noodle'); const a=EVENTS.check(N); setT('2029-02-22',18); const b=EVENTS.check(N); setT('2029-03-15',18); const c=EVENTS.check(N);
     check('4. 3/1（四）起這學期第一次週四進麵店：「（最後一學期的第一個週四。長桌坐滿了，阿姨多拿了兩張椅子。）」（第 2～3 週；2/22 第一週、3/15 第 4 週不演）',a&&!b&&!c&&N.once&&N.dialogue[0].text===L().noodle0301);
-    G=fresh('2029-04-11',9,'linze'); const it=CLS.dayItems(G).find(i=>i.c.id==='maritime'); H.said=[]; H.picks=[0,0,0,0,0,0]; await CLS.attend(GM,it,{forced:true});
-    check('4. 4/11（三）海商法期中考：考卷前一句「（海商法的期中考。題目裡的那艘船，沉在一個你沒聽過的海峽。）」',!!it&&it.exam==='mid'&&H.said[0].t===L().maritime0411&&/考卷發下來/.test(H.said[1].t),J(H.said.slice(0,2)));
-    check('4. 別的考試沒有這一句',!X().examLine(G,Object.assign({},it,{exam:'final'}))&&!X().examLine(Object.assign({},G,{day:G.day+1}),it));
+    /* D118 沒有期中考（AA_578 第 2 節 #2）：改到海商法期末考那堂；4/11 第 8 週週三照常上課、不說這一句 */
+    G=fresh('2029-04-11',9,'linze'); const it0=CLS.dayItems(G).find(i=>i.c.id==='maritime');
+    check('4. 4/11（三）第 8 週：海商法照常上課（不是考試）、沒有那一句',!!it0&&!it0.exam&&!X().examLine(G,it0),J(it0&&{exam:it0.exam}));
+    const fd=(()=>{ for(let d=H.D('2029-04-11');d<H.D('2029-07-01');d++){ const t=CALENDAR.termOf(d); if(!t||t.id!=='Y4S2') continue; const x=CLS.dayItems(Object.assign({},G,{day:d}),d).find(i=>i.c.id==='maritime'&&i.exam==='final'); if(x) return d; } return null; })();
+    G=fresh(fd||H.D('2029-06-13'),9,'linze'); const it=CLS.dayItems(G).find(i=>i.c.id==='maritime'); H.said=[]; H.picks=[0,0,0,0,0,0]; await CLS.attend(GM,it,{forced:true});
+    check('4. 海商法期末考（'+(fd&&CALENDAR.dateOf(fd).key)+'）：考卷前一句「（海商法的期末考。題目裡的那艘船，沉在一個你沒聽過的海峽。）」（AA_578 #2）',!!fd&&!!it&&it.exam==='final'&&L().maritimeFinal==='（海商法的期末考。題目裡的那艘船，沉在一個你沒聽過的海峽。）'&&H.said[0].t===L().maritimeFinal&&/考卷發下來/.test(H.said[1].t),J(H.said.slice(0,2)));
+    check('4. 別的考試、別的課沒有這一句',!X().examLine(G,Object.assign({},it,{exam:'mid'}))&&!X().examLine(G,Object.assign({},it,{c:{id:'admin_law'}})));
     G=fresh('2029-04-13',22.05); rules(); check('4. 4/13（五）22:00：Alison「最後一次期中考」「考完了」、阿哲「最後一次」',J(grp(NG,'tw_y4s2_last_mid'))===J(['yu:最後一次期中考','yu:考完了','zhe:最後一次']));
     G=fresh('2029-04-26',21.05,'dorm',{},{know:[BH]}); rules(); const g=msgs(NG).filter(m=>m.tag==='tw_y4s2_grad_ask');
     check('4. 4/26（四）21:00 阿哲「禮拜六十點 椰影大道 學士服拍照」「衣服我先租了 錢之後給」＋「去。」',J(g.map(m=>m.text))===J(['禮拜六十點 椰影大道 學士服拍照','衣服我先租了 錢之後給'])&&J(g[1].ask.opts.map(o=>o.t))===J(['去。']));

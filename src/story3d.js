@@ -843,11 +843,11 @@ const STORY = (function(){
       if(e.term&&!e.term.includes(tid)) return false; if(e.week&&!(T&&T.week>=e.week[0]&&T.week<=e.week[1])) return false;
       if(e.location&&!(Array.isArray(e.location)?e.location:[e.location]).includes(G.zone)) return false;
       if(e.time&&!(hh>=e.time[0]&&hh<e.time[1])) return false; if(e.weekday&&!e.weekday.includes(G.weekday)) return false;
-      if(e.midterm){ const n=S.daysToMidterm(G); if(n==null||n<e.midterm[0]||n>e.midterm[1]) return false; }   /* 柏翰的倒數（AA_120 7-1 第 1 項）：到第一科期中考的天數在範圍裡才說 */
+      if(e.final){ const n=S.daysToFinal(G); if(n==null||n<e.final[0]||n>e.final[1]) return false; }   /* 柏翰的倒數（AA_120 7-1 第 1 項；D118 沒有期中考，AA_578 第 2 節 #1 改成到第一科期末考的天數）：天數在範圍裡才說 */
       if(e.once&&r.once&&r.once[e.t]&&(e.once==='week'?r.once[e.t]===tid+':'+(T?T.week:0):(e.once!=='term'||r.once[e.t]===tid))) return false; return true; };
     const B=c.social_layer==='B';
     /* 不熟的同學（AA_120 7-2）：三句各只說一次（整個存檔，once），換學期不從頭重播；說完以後只點頭或短招呼（greetB） */
-    const fill=t=>t.indexOf('{n}')<0?t:t.replace('{n}',zhNum(S.daysToMidterm(G)));
+    const fill=t=>t.indexOf('{n}')<0?t:t.replace('{n}',zhNum(S.daysToFinal(G)));
     let cands=(SMALLTALK[id]||[]).filter(ok).map(e=>({key:typeof e==='string'?e:e.t,say:fill(typeof e==='string'?e:e.t),once:typeof e==='string'?null:e.once,prio:typeof e==='string'?0:(e.prio|0)})); cands.sort((a,b)=>b.prio-a.prio);   /* prio：條件成立時先說（明軒「你看起來很累」：當天第一次見到他）*/
     if(!cands.length&&B) return greetB(G,id,r,nm,T,tid);
     if(!cands.length&&S.SMALL_AFTER[id]){ r.day=G.day; r.last='__after'; return {narr:S.SMALL_AFTER[id],fresh:false}; }   /* 句子用完以後（AA_497 1-10、2-9、4-5「之後」：宥辰、芯慈、明軒各一句旁白，取代「聊兩句天氣」；src/sup497_3d.js 登記）*/
@@ -866,9 +866,12 @@ const STORY = (function(){
     if(per&&(G.day+hsh)%3===0){ const g=r.greet||(r.greet={}); if(g.term!==tid){ g.term=tid; g.used=[]; } const line=per.L.find(t=>!g.used.includes(t)); if(line){ g.used.push(line); return {say:line,fresh:false}; } }
     return {narr:B_NOD[(((G.day+hsh)%B_NOD.length)+B_NOD.length)%B_NOD.length].replace('{n}',nm),fresh:false}; }   /* 經濟系那一年 G.day 是負的：取正的餘數 */
   S.greetB=greetB;
-  /* 柏翰的期中倒數：今天到這學期第一個期中考時段（照玩家的課表與日曆；放假的日子沒有課，自然跳過）的天數；這學期沒有期中考＝null */
-  S.daysToMidterm=function(G){ if(typeof CLS==='undefined'||typeof CALENDAR==='undefined') return null; const t=CALENDAR.termOf(G.day); if(!t) return null;
-    for(let d=G.day;d<G.day+140;d++){ const tt=CALENDAR.termOf(d); if(!tt||tt.id!==t.id) return null; if(tt.exam==='mid'&&CLS.dayItems(G,d).some(it=>it.exam==='mid')) return d-G.day; } return null; };
+  /* 柏翰的倒數：今天到這學期第一個考試時段（kind＝'final' 期末／'mid' 期中；照玩家的課表與日曆；放假的日子沒有課，自然跳過）的天數；這學期沒有那種考試＝null
+     D118（使用者 11-02「沒有期中考」）：法律系第 8～9 週不考，期中恆為 null；柏翰的倒數改到第一科期末考（AA_578 第 2 節 #1）*/
+  S.daysToExam=function(G,kind){ if(typeof CLS==='undefined'||typeof CALENDAR==='undefined') return null; const t=CALENDAR.termOf(G.day); if(!t) return null;
+    for(let d=G.day;d<G.day+140;d++){ const tt=CALENDAR.termOf(d); if(!tt||tt.id!==t.id) return null; if(tt.exam===kind&&CLS.dayItems(G,d).some(it=>it.exam===kind)) return d-G.day; } return null; };
+  S.daysToMidterm=G=>S.daysToExam(G,'mid');
+  S.daysToFinal=G=>S.daysToExam(G,'final');
   const zhNum=n=>{ if(n==null) return ''; const D='零一二三四五六七八九'; if(n<10) return D[n]; if(n<20) return '十'+(n%10?D[n%10]:''); return D[Math.floor(n/10)]+'十'+(n%10?D[n%10]:''); };
   S.zhNum=zhNum;
   /* 不熟同學說心事（「其實……」）的時機（AA_120 7-2）：三句裡不需要心事的那兩句都說過了，而且今天還沒聊過新的（一天一句）；沒有台詞的人照舊聊過三次 */
@@ -2068,16 +2071,22 @@ const STORY = (function(){
       if(typeof INV!=='undefined'&&INV.hasContact(G,'heroine_03')){ PHONE.post(G,{th:'p:heroine_03',from:'player',who:null,text:'（把學姊的回覆截圖傳給語彤）',tag:'yutong_fwd_q'}); PHONE.at(G,G.day,G.hour+0.1,[{th:'p:heroine_03',from:'heroine_03',text:'……法服是什麼？'}],'yutong_fwd'); }
       else F.yutongFwdInPerson=true; }
     /* 考完的宵夜（A15，AA 2026-10-14）：民總期中考那天，考完（考試結束後 6 分鐘）阿哲在麵店團群組「考完了 滷味」＝排 20:30 公館滷味攤（出遊，到時候問要不要去）；
-       沒有群組的玩家：G1 結束時阿哲當面問，回「去。」（SUPPER_MID1）才排 */
-    if(typeof CLS!=='undefined'&&typeof OUT!=='undefined'){ const it=CLS.dayItems(G,G.day).find(x=>x.c.id==='civ_general'&&x.exam==='mid'), t=CALENDAR.termOf(G.day);
-      if(it&&t&&t.id==='Y1S1'){ const plan=()=>{ if(G.hour<20.5+0.75) OUT.plan(G,{id:'supper_mid1',ev:'ev_midterm_supper',day:G.day,h:20.5,place:'公館滷味攤',title:'考完的宵夜',travel:'走過去約 10 分鐘',travelH:1/6}); };
-        if(PHONE.inGroup(G,'noodle_team')&&!PHONE.sent(G,'zhe_supper_mid1')&&G.hour<20.5){ PHONE.at(G,G.day,Math.max(G.hour,it.t1+0.1),[{th:'g:noodle_team',from:'zhe',text:'考完了 滷味'}],'zhe_supper_mid1'); plan(); }
+       沒有群組的玩家：G1 結束時阿哲當面問，回「去。」（SUPPER_MID1）才排
+       D118 沒有期中考（AA_578 第 2 節 #10）：改到民總期末考那天；群組字照舊。民總期末考是大一上最後一科的話，那天晚上是原本的「期末最後一頓」（ev_term_last_meal，阿哲也在群組喊），
+       照 AA_578 第 1 節第 4 點：原本的優先，宵夜順延到隔天同一時段（群組訊息隔天考完的時間、20:30 公館滷味攤）*/
+    const supperDay=(term,cid)=>{ const L=CLS.examList?CLS.examList(G,term):[], x=L.find(q=>q.c.id===cid&&q.kind==='final'); if(!x) return null; const lastDay=Math.max(...L.filter(q=>q.kind==='final').map(q=>q.day));   /* 這學期最後一科（同 CLS.lastExamEnd，用 examList 算、不每格掃整年）*/
+      return {exam:x.day,day:lastDay===x.day?x.day+1:x.day,t1:x.t1}; };   /* {exam：考試那天, day：宵夜那天, t1：考完的時間} */
+    if(typeof CLS!=='undefined'&&typeof OUT!=='undefined'){ const t=CALENDAR.termOf(G.day);
+      const s1=t&&t.id==='Y1S1'&&t.week>=16?supperDay('Y1S1','civ_general'):null;
+      if(s1&&G.day>=s1.exam&&G.day<=s1.day){ const plan=()=>{ if(G.day<s1.day||G.hour<20.5+0.75) OUT.plan(G,{id:'supper_mid1',ev:'ev_midterm_supper',day:s1.day,h:20.5,place:'公館滷味攤',title:'考完的宵夜',travel:'走過去約 10 分鐘',travelH:1/6}); };
+        if(G.day===s1.day&&PHONE.inGroup(G,'noodle_team')&&!PHONE.sent(G,'zhe_supper_mid1')&&G.hour<20.5){ PHONE.at(G,G.day,Math.max(G.hour,s1.t1+0.1),[{th:'g:noodle_team',from:'zhe',text:'考完了 滷味'}],'zhe_supper_mid1'); plan(); }
         else if(F.SUPPER_MID1==='yes'&&!OUT.get(G,'supper_mid1')) plan(); }
       /* 期中考完的晚餐（大一下，交接包 v2 C11、C21；AA 64ceb70）：刑總二期中考那天，考完阿哲在麵店團群組「刑總考完了 今天麵店，七點，長桌」＝排 19:00 阿鳳麵店長桌；
-         沒有群組的玩家：G1 大一下版最後阿哲當面問，回「去。」（SUPPER_MID2）才排 */
-      const it2=CLS.dayItems(G,G.day).find(x=>x.c.id==='crim_gen2'&&x.exam==='mid');
-      if(it2&&t&&t.id==='Y1S2'){ const plan2=()=>{ if(G.hour<19+0.75) OUT.plan(G,{id:'supper_mid2',ev:'ev_midterm_supper_y1s2',day:G.day,h:19,place:'阿鳳麵店',title:'考完的晚餐',travel:'走過去約 10 分鐘',travelH:1/6}); };
-        if(PHONE.inGroup(G,'noodle_team')&&!PHONE.sent(G,'zhe_supper_mid2')&&G.hour<19){ PHONE.at(G,G.day,Math.max(G.hour,it2.t1+0.1),[{th:'g:noodle_team',from:'zhe',text:'刑總考完了 今天麵店，七點，長桌'}],'zhe_supper_mid2'); plan2(); }
+         沒有群組的玩家：G1 大一下版最後阿哲當面問，回「去。」（SUPPER_MID2）才排
+         D118 沒有期中考（AA_578 第 2 節 #11）：改到刑總二期末考那天；字照舊。撞到大一下最後一科（ev_term_last_meal_y1s2）的話同上，順延到隔天同一時段 */
+      const s2=t&&t.id==='Y1S2'&&t.week>=16?supperDay('Y1S2','crim_gen2'):null;
+      if(s2&&G.day>=s2.exam&&G.day<=s2.day){ const plan2=()=>{ if(G.day<s2.day||G.hour<19+0.75) OUT.plan(G,{id:'supper_mid2',ev:'ev_midterm_supper_y1s2',day:s2.day,h:19,place:'阿鳳麵店',title:'考完的晚餐',travel:'走過去約 10 分鐘',travelH:1/6}); };
+        if(G.day===s2.day&&PHONE.inGroup(G,'noodle_team')&&!PHONE.sent(G,'zhe_supper_mid2')&&G.hour<19){ PHONE.at(G,G.day,Math.max(G.hour,s2.t1+0.1),[{th:'g:noodle_team',from:'zhe',text:'刑總考完了 今天麵店，七點，長桌'}],'zhe_supper_mid2'); plan2(); }
         else if(F.SUPPER_MID2==='yes'&&!OUT.get(G,'supper_mid2')) plan2(); } }
     /* 麵店團（AA_70 2-3、AA_40 哲 1）：哲 1 那天阿哲建的群組。麵店日＝上課週的週二、週四（考試週、國定假日、出國期間沒有）。
        阿哲 17:30 在群組裡揪，只在你上一個麵店日沒來的時候（AA 2026-10-14：一直有來的玩家，群組是安靜的）；四句輪流。tag rt_＝例行訊息（每天的手機小事不把它當成劇情訊息）。
@@ -3112,7 +3121,7 @@ const STORY = (function(){
   S.R203_KEY_DAY='2025-10-01';
   S.R203_SEAT={kai:'R2',zhe:'L1',classmate_bohan:'R1'};
   S.r203On=function(G){ const F=(G&&G.flags)||{}; if(!G||S.isEcon(G)||!F.DORM_FOUR||F.ROOM_Y2||typeof CALENDAR==='undefined') return false; const a=S.dayOfKey('2025-08-29'); return a!=null&&G.day>=a&&S.kaiRoommate(G); };
-  const r203Exams=(G,t)=>{ if(!t||!t.exam||typeof CLS==='undefined'||!CLS.examList) return []; try{ return CLS.examList(G,t.id).filter(e=>e&&e.c&&e.c.kind==='required'&&e.kind===t.exam).map(e=>e.day); }catch(e){ return []; } };   /* 這一次考試週（期中或期末）的必修考試日 */
+  const r203Exams=(G,t)=>{ if(!t||!t.exam||typeof CLS==='undefined'||!CLS.examList) return []; try{ return CLS.examList(G,t.id).filter(e=>e&&e.c&&e.c.kind==='required'&&e.kind===t.exam).map(e=>e.day); }catch(e){ return []; } };   /* 這一次考試週的必修考試日——D118 沒有期中考：examList 只有期末考，第 8～9 週回空的＝照平常作息（AA_578 第 2 節 #6：柏翰的考試週作息只在期末考週）*/
   S.r203Plan=function(G,id,d){ const L=r203Base(G,id,d); if(typeof DORM203!=='undefined'&&DORM203.planFix){ try{ return DORM203.planFix(G,id,d,L)||L; }catch(e){ console.warn('DORM203.planFix',e); } } return L; };
   const r203Base=function(G,id,d){ if(typeof CALENDAR==='undefined') return []; const wd=CALENDAR.dateOf(d).wd, t=CALENDAR.termOf(d), hol=!!CALENDAR.holiday(d), ty=!!(CALENDAR.typhoon&&CALENDAR.typhoon(d));
     const ex=r203Exams(G,t), exAM=ex.some(e=>e>=d), exPM=ex.some(e=>e>d), pre=ex.includes(d+1);
@@ -4107,8 +4116,9 @@ const STORY = (function(){
       if(typeof SOCIAL!=='undefined') SOCIAL.remember('kexin','HELPED','感冒那晚');
     } finally { if(typeof ADV!=='undefined'&&ADV.active) ADV.end(); GM.sceneEnd(); } if(GM.autosave) GM.autosave(); return true; };
   /* 3-6 很少交會的版本（也接 3-5：一般版但那晚沒有人問、可昕也不問）：期中最後一科考完那天 19:00 阿鳳麵店（出遊，可以不去）；沒去＝22:00 同一個人私訊。
+     D118 沒有期中考（AA_578 第 2 節 #7）：冷麵日固定 2027-10-29（週五，大三上期中週；AA_578 寫第 9 週，日曆上是第 8 週）；旁白「期中考完的晚上，」那半句刪掉。
      問的人：FAMILIAR 以上、那天在臺北的人裡最熟的一位（第 4 節第 4 點的算法）；沒有＝不演、BEING_HEARD 不記 */
-  S.coldNoodleDay=function(G){ let d=null; try{ const e=typeof CLS!=='undefined'&&CLS.lastExamEnd?CLS.lastExamEnd(G,'Y3S1','mid'):null; if(e) d=e.day; }catch(e){ d=null; } return d!=null?d:S.dayOfKey('2027-10-29'); };   /* 照遊戲實際的課表；算不出來＝期中週的週五 */
+  S.coldNoodleDay=function(G){ return S.dayOfKey('2027-10-29'); };   /* AA_578 #7：固定 10/29（週五；AA_578 寫第 9 週，日曆上是大三上第 8 週；原本照課表算期中最後一科考完那天，算不出來才用這一天）*/
   S.coldNoodleOn=function(G){ const F=(G&&G.flags)||{}, d26=S.dayOfKey(CW_D26); if((G.stage||'law')!=='law'||F.COLD_WEEK_NOODLE!=null) return false; if(F.COLD_WEEK==='noodle') return true;
     return F.COLD_WEEK==='night'&&F.COLD_WEEK_NIGHT!=null&&!F.COLD_WEEK_ASKER&&!(F.KX_COLD_WEEK==='told'&&F.KX_COLD_WEEK_SEEN==null&&d26!=null&&G.day<=d26); };   /* 被告知的可昕 10/26 問 */
   S.coldNoodleAsker=function(G){ const L=CW_ORDER.filter(id=>!CW_AWAY.includes(id)&&cwAt(id,'FAMILIAR')&&S.present(id,G));
@@ -4116,7 +4126,7 @@ const STORY = (function(){
   S.coldWeekNoodle=async function(GM,who){ const G=GM.G, F=G.flags; F.COLD_WEEK_NOODLE='face'; cwDone(G,'ev_cold_week_noodle'); const q=typeof OUT!=='undefined'&&OUT.get?OUT.get(G,'y3_cold_noodle'):null; if(q&&q.state==='planned') q.state='done';
     GM.sceneBegin(); try{ if(typeof ADV!=='undefined'){ ADV.preload([who]); ADV.begin({background:'blur',right:{charId:who,expression:'neutral'}}); }
       if(F.COLD_WEEK==='night') await GM.say(null,'（感冒好了以後，第一次來麵店。）');   /* 3-5：一般版、那晚沒有人問 */
-      const c=typeof CHARACTERS!=='undefined'&&CHARACTERS[who]; await GM.say(null,'（期中考完的晚上，麵店的長桌只剩你們兩個。'+(c&&c.gender==='m'?'他':'她')+'把筷子放下。）');
+      const c=typeof CHARACTERS!=='undefined'&&CHARACTERS[who]; await GM.say(null,'（麵店的長桌只剩你們兩個。'+(c&&c.gender==='m'?'他':'她')+'把筷子放下。）');   /* AA_578 #7：刪「期中考完的晚上，」*/
       await cwAsk(GM,who,'noodle');
     } finally { if(typeof ADV!=='undefined'&&ADV.active) ADV.end(); GM.sceneEnd(); } if(GM.autosave) GM.autosave(); return true; };
   /* 私訊版的選項（PHONE 的 ask）：回答後那一句照表；第 4 個＝「好，那你吃完飯再回我。」，30 分鐘後再問一次（phoneRules，沒有第 4 個）*/

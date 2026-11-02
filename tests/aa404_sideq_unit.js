@@ -172,8 +172,11 @@ await sec('2 SQ15',async()=>{ fresh('2026-10-06',15,'bookstore'); H.FRIEND(SIS);
     H.G.hour===h0+0.5&&seq(['（六法全書兩本、刑法總則一本、一本很舊的民法總則。）','（民法總則的封面內頁，寫著「溫書瑀」。）','（每一頁的邊邊都寫滿了字。很多問號，有些問號後來被劃掉了。）','一個女生拿來的，很瘦，講話很快。她說這箱不用算錢。','八十。……你認識她？'])&&!has('（翻到善意第三人那一頁，她用紅筆圈起來，旁邊寫：「善意＝不知道。不是心地善良。」）')
     &&J(H.opts[H.opts.length-1])===J(['「這本我買。」','「幫我留著，我問問她。」','「這幾本修法了，不能賣。」'])&&money.includes(-80)&&R('SQ15').state==='done'&&H.G.flags.SQ15_BOOK==='bought',J([said(),money]));
   const it=STORY.roomItemList(H.G).find(x=>x[0]==='學姊大一的民法總則'); H.said=[]; if(it) await it[2](GM); const look=H.said.map(x=>x.t);
-  const ex=CLS.examList(H.G,'Y2S1').find(e=>e.kind==='mid'); set(keyOf(ex.day-1),21,'dorm'); H.said=[]; await it[2](GM); const eve=H.said.map(x=>x.t); H.said=[]; await it[2](GM); const eve2=H.said.map(x=>x.t);
-  check('2. SQ15 房間物品「學姊大一的民法總則」：平常＝AA_408 6 那一句（字比現在圓一點）；期中考前一晚＝（最後一頁，她寫了一行小字：『考完了。下次不要熬夜。』）（一次）',!!it&&J(look)===J(['（學姊大一的民法總則。封面內頁寫著『溫書瑀』，字比現在圓一點。）'])&&J(eve)===J(['（最後一頁，她寫了一行小字：『考完了。下次不要熬夜。』）'])&&J(eve2)===J(look),J([look,eve,eve2]));
+  /* D118 沒有期中考（AA_578 第 2 節 #4）：改到期末考前一晚（這學期第一科期末考的前一晚）；第 8～9 週不說 */
+  const ex=CLS.examList(H.G,'Y2S1').filter(e=>e.kind==='final').sort((a,b)=>a.day-b.day)[0]; const w8=STORY.termDay('Y2S1',8,2); set(keyOf(w8-1),21,'dorm'); H.said=[]; await it[2](GM); const pre8=H.said.map(x=>x.t);
+  set(keyOf(ex.day-1),21,'dorm'); H.said=[]; await it[2](GM); const eve=H.said.map(x=>x.t); H.said=[]; await it[2](GM); const eve2=H.said.map(x=>x.t);
+  check('2. SQ15 第 8～9 週（沒有期中考）前一晚：平常那一句',J(pre8)===J(look),J(pre8));
+  check('2. SQ15 房間物品「學姊大一的民法總則」：平常＝AA_408 6 那一句（字比現在圓一點）；期末考前一晚（AA_578 #4，原本期中考前一晚）＝（最後一頁，她寫了一行小字：『考完了。下次不要熬夜。』）（一次）',!!it&&J(look)===J(['（學姊大一的民法總則。封面內頁寫著『溫書瑀』，字比現在圓一點。）'])&&J(eve)===J(['（最後一頁，她寫了一行小字：『考完了。下次不要熬夜。』）'])&&J(eve2)===J(look),J([look,eve,eve2]));
   set('2026-10-09',16,'cafe'); const f0=SOCIAL.rel(SIS).fam, c0=SOCIAL.rel(SIS).comf; H.said=[]; const pt=await SISY23.preTalk(GM); const pre=said();
   const ps=seq(['（你把那本民法總則放在她桌上。）','……這本怎麼會在你這裡。','我賣掉的時候，以為不會再看到。','裡面的字很醜。問號很多。','……你留著吧。裡面錯的地方，你現在用得到。'])&&!has('書店老闆打電話問我？……不是。是你在那裡整理。')&&whoOf('……這本怎麼會在你這裡。')===SOCIAL.displayName(SIS);
   H.said=[]; const pt2=await SISY23.preTalk(GM);
