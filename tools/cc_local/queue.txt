@@ -13,6 +13,8 @@
 03_delay14  | head      | probe | docs/story_planning/test_tools/cc/cc_delay14_probe.py          | index.html?turbo  | 120 | CASES=dorm_sleep,dorm_stand,home
 06_layout16 | head      | game  | tests/choices_landscape_css.py                                  | index.html        | 40  |
 04_quota    | head      | py    | tools/cc_local/quota_check.py                                   | index.html        | 20  |
+04b_quota15 | head      | probe | docs/story_planning/test_tools/cc/cc_quota15_probe.py          | index.html?turbo  | 60  |
+04c_legal   | head      | probe | docs/story_planning/test_tools/cc/cc_legalpage_probe.py        | index.html?turbo  | 30  |
 07_bg107    | head      | probe | docs/story_planning/test_tools/cc/cc_bg107_probe.py            | index.html?turbo  | 120 |
 08_pt106    | head      | probe | docs/story_planning/test_tools/cc/cc_pt106_probe.py            | index.html?turbo  | 120 |
 05_mk12old  | b4f98ea4e | probe | docs/story_planning/test_tools/cc/cc_makeup_probe.py           | index.html?turbo  | 200 | CASES=study3h,homerest,old_delayed,home,mkbg_home
