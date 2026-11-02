@@ -170,7 +170,7 @@ const J=x=>JSON.stringify(x);
   const b29=D('2025-08-29'), cold=STORY.firstColdDay();
   chk('8. 寒流日＝大一上第 15 週週一 12/8',()=>CALENDAR.dateOf(cold).key==='2025-12-08');
   const boxIt=()=>E.interactables.find(it=>it&&it.y1WinterBox);
-  chk('8. 8/29 起，大一的房間床底下有「床底下的紙箱」（互動點在玩家那組床的書桌和梯子中間）；8/28、別的區域、大二的房間沒有',()=>{ fresh(b29-1,20,'dorm'); STORY.tick(GM,0.5); const a=!!boxIt(); fresh(b29,20,'dorm'); STORY.tick(GM,0.5); const it=boxIt(); const b=!!it&&it.label==='床底下的紙箱'&&Math.abs(it.x+1.55)<0.01&&it.z>0.3&&it.z<0.95;
+  chk('8. 8/29 起，大一的房間床底下有「床底下的紙箱」（互動點在玩家那組床的書桌和梯子中間）；8/28、別的區域、大二的房間沒有',()=>{ fresh(b29-1,20,'dorm'); STORY.tick(GM,0.5); const a=!!boxIt(); fresh(b29,20,'dorm'); STORY.tick(GM,0.5); const it=boxIt(); const b=!!it&&it.label==='床底下的紙箱'&&(()=>{ const U=DORM_ROOM.units.find(u=>u.id===(DORM_ROOM.player_unit||'L2')); return Math.abs(it.x-U.seat_approach[0])<0.01&&it.z>U.desk_u[1]-0.05&&it.z<U.stair_u[0]+0.05; })();
     G.zone='campus'; E.interactables=[]; STORY.tick(GM,0.5); const c=!!boxIt(); fresh(D('2026-09-10'),20,'dorm',{ROOM_Y2:D('2026-09-06')}); STORY.tick(GM,0.5); const d=!!boxIt(); return [!a&&b&&!c&&!d,[a,b,c,d].join(',')+' '+J(it)]; });
   await achk('8. 點紙箱：「（床底下的紙箱。上面是媽媽的字：「冬天的衣服」。）」→「拆。」「先不拆。」；先不拆＝沒有後續、下次還可以點',async()=>{ fresh(b29+10,21,'dorm'); STORY.tick(GM,0.5); picks=[1]; it0=boxIt(); it0.onInteract(it0); for(let i=0;i<10;i++) await new Promise(r=>setImmediate(r));
     return [J(lines())===J(['（床底下的紙箱。上面是媽媽的字：「冬天的衣服」。）'])&&J(opts[0])===J(['拆。','先不拆。'])&&!G.flags.BOX_WINTER_OPEN&&!!boxIt(),J(lines())+' '+J(opts)]; });

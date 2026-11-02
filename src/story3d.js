@@ -3417,7 +3417,9 @@ const STORY = (function(){
   /* 爬梯子的鏡頭：踏點中間往床的反方向退 1.8 m、往梯子底下（房間中間）退 1.6 m、高 1.75（L2：(−0.83, 1.75, 2.99) 看梯子；第一版退 1 m、高 1.55 太近，人爬到一半頭出畫面）*/
   S.climbCam=function(sc){ const st=sc.steps, n=st.length, a=sc.approach, L=sc.lie; const mx=(st[0][0]+st[n-1][0])/2, mz=(st[0][2]+st[n-1][2])/2;
     let ux=st[n-1][0]-a[0], uz=st[n-1][2]-a[1]; const ul=Math.hypot(ux,uz)||1; ux/=ul; uz/=ul; const hd=L.head||L.feet; let bx=hd[0]-L.feet[0], bz=hd[2]-L.feet[2]; const bl=Math.hypot(bx,bz)||1; bx/=bl; bz/=bl;
-    return {pos:[mx-bx*1.8-ux*1.6,1.75,mz-bz*1.8-uz*1.6],look:[mx,0.95,mz]}; };
+    const R=(typeof DORM_ROOM!=='undefined'&&DORM_ROOM.room)||null; let px=mx-bx*1.8-ux*1.6, pz=mz-bz*1.8-uz*1.6;
+    if(R){ const lx=R.w/2-0.35, lz=R.d/2-0.35; px=Math.max(-lx,Math.min(lx,px)); pz=Math.max(-lz,Math.min(lz,pz)); }   /* 鏡頭留在房間裡、離牆 ≥ 0.35 m（DORM-LOFT-SCALE-1102：梯子往門口挪了 0.34 m，不夾的話鏡頭離門那面牆只剩 0.2 m）*/
+    return {pos:[px,1.75,pz],look:[mx,0.95,mz]}; };
   function camOn(GM,c,snap){ if(GM.cine) GM.cine('close',GM.E.player.obj,null,{pos:V(c.pos[0],c.pos[1],c.pos[2]),look:V(c.look[0],c.look[1],c.look[2]),snap:!!snap}); }
   const bedCam=sc=>({pos:sc.cam.eye,look:sc.cam.look});
   /* 躺下：root 放在腳的位置、床墊頂的高度，朝向＝頭的方向＋π（character3d.js 的 lie 把整個人往 root 的 −z 放倒）*/

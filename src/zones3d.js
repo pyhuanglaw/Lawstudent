@@ -1345,7 +1345,7 @@ const Z3 = (function(){
   // 便利商店的貨架正面：一層層的商品（飲料、零食、泡麵、日用品）＋價格條
   const goodsTex=()=>W3.canvasTex('goodsShelf',256,128,(x,w,h)=>{ x.fillStyle='#f4f4f2'; x.fillRect(0,0,w,h); let s=3; const r=()=>{ s=(s*16807)%2147483647; return s/2147483647; }; const cols=['#e05a4a','#f2c14e','#4a90c2','#7ab04a','#e88a3a','#c94a7a','#f4f1ea','#3a6fb0','#d9d3c6'];
       for(let row=0;row<4;row++){ const y0=row*32; x.fillStyle='#c9ccd0'; x.fillRect(0,y0+28,w,4); x.fillStyle='#fff7c8'; for(let k=0;k<w;k+=32) x.fillRect(k+4,y0+28,12,3); let xx=2; while(xx<w-4){ const bw=6+r()*10, bh=12+r()*14; x.fillStyle=cols[(r()*cols.length)|0]; x.fillRect(xx,y0+28-bh,bw,bh); x.fillStyle='rgba(255,255,255,0.35)'; x.fillRect(xx+1,y0+28-bh+2,2,bh-4); xx+=bw+1.5; } } });
-  function room(E,o){ const g=new THREE.Group(); const W=o.w,D=o.d,H=o.h||3.6; const nav=new E3.NavGrid(W+2,D+2,0.4,-W/2-1,-D/2-1); const floor=ground(g,W,D,o.floorTex||W3.stoneTex('#e6dccb'),[W/2,D/2],0,0,0); floor.material.roughness=0.7;
+  function room(E,o){ const g=new THREE.Group(); const W=o.w,D=o.d,H=o.h||3.6; const nav=new E3.NavGrid(W+2,D+2,o.cell||0.4,-W/2-1,-D/2-1); const floor=ground(g,W,D,o.floorTex||W3.stoneTex('#e6dccb'),[W/2,D/2],0,0,0); floor.material.roughness=0.7;
     const wallM=M(o.wallColor||'#efe6d6'); const walls=[]; const mk=(x,z,w,d,rot,dir)=>{ const m=new THREE.Mesh(new THREE.BoxGeometry(w,H,0.2),wallM); m.position.set(x,H/2,z); m.rotation.y=rot; m.userData.dir=dir; m.material=wallM.clone(); m.material.transparent=true; g.add(m); walls.push(m); }; mk(0,-D/2,W,0,0,new THREE.Vector3(0,0,1)); mk(0,D/2,W,0,0,new THREE.Vector3(0,0,-1)); mk(-W/2,0,D,0,Math.PI/2,new THREE.Vector3(1,0,0)); mk(W/2,0,D,0,Math.PI/2,new THREE.Vector3(-1,0,0));
     nav.blockOutside(-W/2+0.4,-D/2+0.4,W/2-0.4,D/2-0.4);
     // 天花板（v9.3 第十五批）：只從下面看得到（單面、法線朝下）——鏡頭在天花板下時蓋住天空（原本房間沒有頂，往上看是天空和雲）；鏡頭拉到天花板以上時看不到它，剖面視角照舊。不投影、不接受陰影
@@ -1818,13 +1818,13 @@ const Z3 = (function(){
     const box=(x0,x1,z0,z1,y0,y1,under)=>{ x0-=0.06; x1+=0.06; z0-=0.06; z1+=0.06; const m=new THREE.Mesh(new THREE.BoxGeometry(x1-x0,y1-y0,z1-z0),inv); m.position.set((x0+x1)/2,(y0+y1)/2,(z0+z1)/2);
       m.userData.noMerge=true; m.userData.under=under?{x0:x0-0.04,x1:x1+0.04,z0:z0-0.04,z1:z1+0.04}:null; g.add(m); all.push(m); };
     const hb=R.bath.block; box(hb.x[0],hb.x[1],hb.z[0],hb.z[1],0,H,false);
-    for(const u of R.units){ const b=u.block; box(b.x[0],b.x[1],b.z[0],b.z[1],1.56,2.02,true); }
+    for(const u of R.units){ const b=u.block, top=u.bed_top_y||1.76; box(b.x[0],b.x[1],b.z[0],b.z[1],top-0.2,top+0.26,true); }   /* 床板底～床欄頂（DORM-LOFT-SCALE-1102：床桌組加高以後照配置的床面高度算；以前寫死 1.56～2.02）*/
     return all; }
   function dormView(G){ const F=(G&&G.flags)||{}; if(G&&G.stage==='econ') return 'dorm_room412'; return (F.ROOM_Y4||F.ROOM_Y4_MOVING)?'dorm_room409':(F.ROOM_Y3||F.ROOM_Y3_MOVING)?'dorm_room507':(F.ROOM_Y2||F.ROOM_Y2_MOVING)?'dorm_room312':'dorm_room'; }   /* AA_208：312 三樓、507 五樓、409 四樓，都朝宿舍的背面（203 朝舟山路）——LAWWW2-C 2026-10-17 */
   const dorm={ id:'dorm', name:'宿舍 房間', indoor:true, camDist:3.6, seeThru:true, build(E){ const G0=typeof GAME!=='undefined'?GAME.G:null, econ=!!G0&&G0.stage==='econ'; const R=DORM_ROOM, RM=R.room, WN=R.window, U={}; for(const u of R.units) U[u.id]=u; const me=U[R.player_unit||'L2'];
-    const z=room(E,{w:RM.w,d:RM.d,h:RM.h,view:dormView(G0),viewDepth:25,wallColor:'#f1ebe0',floorTex:W3.stoneTex('#e3d9c6'),spawn:{x:RM.spawn[0],z:RM.spawn[1],yaw:Math.PI},winXs:WN.winXs,winY:WN.view_center[1],curtains:'#c9b48a'}); const g0=z.group, nav=z.nav;
+    const z=room(E,{w:RM.w,d:RM.d,h:RM.h,cell:0.2,view:dormView(G0),viewDepth:25,wallColor:'#f1ebe0',floorTex:W3.stoneTex('#e3d9c6'),spawn:{x:RM.spawn[0],z:RM.spawn[1],yaw:Math.PI},winXs:WN.winXs,winY:WN.view_center[1],curtains:'#c9b48a'}); const g0=z.group, nav=z.nav;
     z.seeThru=true;   /* 上舖床板、被子擋住鏡頭時網點透空：engine3d.js 的 updateSeeThrough 看的是區域實體（E.zone.seeThru），只寫在上面的定義裡，室內透空從來沒開過 */
-    z.camBox={x:[-1.6,1.6]};   /* 運鏡只在中間走道：兩側是上舖床（床板 1.6～1.76 m，x ±1.9 以外），鏡頭推到那裡會卡進床板、只拍到床底（BB_218：412 第一晚和阿勳的對話只看到「天花板」）*/
+    { const ax=Math.min(...R.units.map(u=>Math.min(Math.abs(u.block.x[0]),Math.abs(u.block.x[1]))))-0.1; z.camBox={x:[-ax,ax]}; }   /* 運鏡只在中間走道（DORM-LOFT-SCALE-1102：房間 6→4.2 m 寬，照床桌組阻擋的內緣算；以前寫死 ±1.6）*/   /* 運鏡只在中間走道：兩側是上舖床（床板 1.6～1.76 m，x ±1.9 以外），鏡頭推到那裡會卡進床板、只拍到床底（BB_218：412 第一晚和阿勳的對話只看到「天花板」）*/
     { const camAll=dormCamCols(R,RM.h,g0), L0=camAll.slice(); z.camCols=[L0];   /* 鏡頭碰撞（BUG-CAM-203-R2-1021）：站在哪一組上鋪底下，那一組就不算 */
       const up0=z.update; z.update=function(dt,E2){ if(up0) up0.call(z,dt,E2); const P=E2&&E2.player; if(!P) return; const p=P.obj.position; L0.length=0; for(const m of camAll){ const u=m.userData.under; if(u&&p.x>u.x0&&p.x<u.x1&&p.z>u.z0&&p.z<u.z1) continue; L0.push(m); } }; }
     // 程序化的畫面全部放在 g（備用模型）：正式模型（ASSETS 'bldg.dorm_room4'）載入後整組藏起來；導航、睡覺、書桌座位、離開都不受影響。月曆、社團傳單、z.deskItems 掛在 g0
@@ -1910,7 +1910,7 @@ const Z3 = (function(){
       grp.traverse(o=>{ if(o.name==='Y1_BOX_WINTER') o.visible=s.box==='closed'; else if(o.name==='Y1_BOX_FOLDED') o.visible=s.box==='folded'; else if(o.name==='Y1_KAI_TAPE') o.visible=s.tape; else if(o.name==='Y1_KAI_TAPE_MID') o.visible=s.tape&&!s.text; else if(o.name==='Y1_KAI_TAPE_TEXT') o.visible=s.tape&&s.text; }); };
     ASSETS.loadOne('bldg.dorm_y1_items').then(c=>{ if(!c||!c.scene||E.zone!==z) return; const root=c.scene.clone(true); root.traverse(m=>{ if(m.isMesh){ m.castShadow=/^Y1_BOX_/.test(m.parent&&m.parent.name||''); m.receiveShadow=true; if(m.material) TK.bounce(m.material,0.3,0.4); } });   /* 紙箱有接地的影子；膠帶貼在地上不投影 */
       grp.add(root); key=''; z.setY1Items(typeof GAME!=='undefined'?GAME.G:null); }).catch(e=>console.warn('大一房間的紙箱、膠帶載入失敗',e)); }
-  const Y2_BOX=[-1.80,-1.12,-0.88,-0.36];
+  const Y2_BOX=[-0.90,-0.22,-0.705,-0.185];   /* DORM-LOFT-SCALE-1102：房間變窄、床桌組往門口挪（dorm_y2_items.py 的 NAV；以前 [-1.80,-1.12,-0.88,-0.36]）*/
   const Y2_NODE=id=>id==='y1_3'?'ITEM_y1_ferris':(id==='y1_4'?'ITEM_y1_album':'ITEM_'+id);
   const itemRoot=o=>/^ITEM_/.test(o.name)&&!(o.parent&&/^ITEM_/.test(o.parent.name));   /* 每一件的根節點；底下的網格叫 ITEM_<id>_<部位>，不能一起判斷（2026-10-20 以前大二那組的網格全被藏起來，房間裡看不到）*/
   const stampOn=()=>{ const G=typeof GAME!=='undefined'?GAME.G:null, r=typeof STORY!=='undefined'&&STORY.route?STORY.route(G):((G&&G.flags)||{}).EXCHANGE_ROUTE; return r==='JP'||r==='US'; };   /* ROOM_Y4_TEXT.form：日本、美國路線是蓋了章的影本 */
