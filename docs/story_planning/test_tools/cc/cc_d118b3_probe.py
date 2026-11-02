@@ -55,7 +55,7 @@ sys.path.insert(0, os.path.dirname(os.path.dirname(os.path.abspath(__file__))));
 J = lambda o: json.dumps(o, ensure_ascii=False)
 ENVI = lambda k, d: int(os.environ.get(k, str(d)))
 ENVS = lambda k, d: os.environ.get(k, d)
-ALL_CASES = ['S1', 'night', 'repeat', 'seed', 'only_untaken', 'multi_caption', 'cafe_free']
+ALL_CASES = ['S1', 'S1b', 'night', 'repeat', 'seed', 'only_untaken', 'multi_caption', 'cafe_free']
 CASES = [c.strip() for c in ENVS('CASES', ','.join(ALL_CASES)).split(',') if c.strip()]
 LABEL = ENVS('REVIEW_LABEL', '考前總複習')
 SCORE = [0, 60, 70, 80, 90, 100]   # classes3d.js S.scoreOf
@@ -101,12 +101,12 @@ async def state_at(pg, key, h, zone, flags=None, pos=None, weather='clear', mone
     return st, d
 
 
-async def load(pg, cdp, run, st, label):
+async def load(pg, cdp, run, st, label, tagp='[前置] '):
     """[前置] 讀檔（遊戲自己的 GAME.applySave，條件事件照開）＋清掉還沒出的選單（同重新整理）；手機自己打開（D103）照玩家收起來"""
     await L.load_state(pg, st, quiet_events=False, quiet_phone=False); await pg.evaluate(CLEARP)
     await pg.wait_for_timeout(3500)
     await L.phone_away(pg, cdp, tries=2)
-    run.setup('[前置] ' + label)
+    run.setup(tagp + label)
 
 
 async def jump(pg, cdp, run, key, h, zone='dorm', snap=None, label=''):
@@ -115,7 +115,7 @@ async def jump(pg, cdp, run, key, h, zone='dorm', snap=None, label=''):
     d = await P.day_of(pg, key)
     s.update(day=d['d'], weekday=d['wd'], hour=h, zone=zone, pos=None)
     s.pop('_stuck', None); s.pop('_busy', None)
-    await load(pg, cdp, run, s, '同一份進度跳到 %s（%s 第 %s 週）%s %s%s' % (d['key'], d['term'], d['week'], hm(h), zone, ('；' + label) if label else ''))
+    await load(pg, cdp, run, s, '同一份進度跳到 %s（%s 第 %s 週）%s %s%s' % (d['key'], d['term'], d['week'], hm(h), zone, ('；' + label) if label else ''), tagp='【前置／捷徑：跳日期】')
     return d
 
 
@@ -556,32 +556,56 @@ async def take_exam(pg, cdp, run, tr, cid, cname, tag, wrong_at, shortcut=True):
     return {'k': k, 'score': sc, 'rec': rec, 'qs': (rec or {}).get('qs'), 'trip_ok': r['ok'], 'answers': r['answers'], 'shots': r['shots'], 'cue_lines': [t for t in says if '想起' in t]}
 
 
-async def case_S1(pg, cdp, run, tr, S):
+async def case_S1(pg, cdp, run, tr, S, variant='S1'):
     wrong_at = ENVI('WRONG_AT', 5)
+    V = variant; v = V.lower()
     st, d = await state_at(pg, '2025-12-13', 14.0, 'dorm')
     n0 = await pl_n(pg)
-    await load(pg, cdp, run, st, '最小存檔 2025-12-13（六，%s 第 %s 週）14:00 宿舍；整學期沒自習、沒上過課（R.done 空）、沒有課本；examSeed=%s' % (d['term'], d['week'], st['flags'].get('examSeed')))
+    await load(pg, cdp, run, st, '最小存檔 2025-12-13（六，%s 第 %s 週）14:00 宿舍；整學期沒自習、%s、沒有課本；examSeed=%s' % (d['term'], d['week'], '沒上過課（R.done 空）' if V == 'S1' else '上課紀錄下一步用捷徑補', st['flags'].get('examSeed')))
+    if V == 'S1b':
+        r = await pg.evaluate(S1B_PREP, ENVI('S1B_ASK_WRONG', 4))
+        S['prep_shortcut'] = r
+        snap = await pg.evaluate("()=>GAME.snapshot()")
+        await load(pg, cdp, run, snap, 'S1b：大一上第 1～14 週三科法律課都上過（G.courses.done[日:課:節]＝1、attend[課]＝堂數，照 CLS.dayItems 的實際排課；R.ask[Y1S1:題號]＝課堂提問，'
+                   '每 %s 題答錯一題）；刪掉 G.study 讓讀檔時 STUDY.backfill 照這些紀錄推回卡片狀態（heard／got／miss）→ GAME.snapshot() 再讀：%s' % (ENVI('S1B_ASK_WRONG', 4) or '∞', J({k: r.get(k) for k in ('done', 'attend', 'ask', 'askWrong', 'weeks', 'err')}) if isinstance(r, dict) else J(r)), tagp='【前置／捷徑】')
     pre = await pg.evaluate(ST); S['pre'] = pre
-    run.check('S1：前置 prep、stats.study、notes 空（記錄）', sum((pre['prep'] or {}).values()) == 0 and pre['studyStat'] == 0 and pre['notes'] == 0, J({k: pre[k] for k in ('prep', 'studyStat', 'notes', 'done', 'prog')}))
+    run.check('%s：前置 prep、stats.study、notes 空（記錄）' % V, sum((pre['prep'] or {}).values()) == 0 and pre['studyStat'] == 0 and pre['notes'] == 0, J({k: pre[k] for k in ('prep', 'studyStat', 'notes', 'done', 'prog')}))
+    if V == 'S1b':
+        pr0 = pre['prog'] or {}
+        run.check('S1b：前置後每科 STUDY.progress：heard>0、read≤total、got≤read（backfill 認得上課與提問紀錄）', all(isinstance(pr0.get(c), dict) and pr0[c].get('heard', 0) > 0 and pr0[c]['read'] <= pr0[c]['total'] and pr0[c]['got'] <= pr0[c]['read'] for c, _, _, _ in LAW3), J(pr0))
+        lp = await law_page(pg, cdp, run, 's1b_lawpage_before')
+        S['lawpage_before'] = lp
+        law_check(run, 'S1b 總複習前', lp, pr0)
     await tr.take(pg, n0, 'setup')
-    menu = await open_menu(pg, cdp, run, 'desk', 's1_desk'); S['menu'] = {k: menu.get(k) for k in ('ok', 'menu_txt', 'idx')}
-    await run.shot(pg, 's1_desk_menu')
-    if not entry_check(run, 'S1', menu, '宿舍書桌'):
-        await leave_menu(pg, cdp, run, 's1'); return
-    rv = await run_review(pg, cdp, run, 's1_review', menu, mode=ENVS('S1_READ', 'all'), shoot_cap='land')
+    menu = await open_menu(pg, cdp, run, 'desk', v + '_desk'); S['menu'] = {k: menu.get(k) for k in ('ok', 'menu_txt', 'idx')}
+    await run.shot(pg, v + '_desk_menu')
+    if not entry_check(run, V, menu, '宿舍書桌'):
+        await leave_menu(pg, cdp, run, v); return
+    rv = await run_review(pg, cdp, run, v + '_review', menu, mode=ENVS('S1_READ', 'all'), shoot_cap='land')
     await tr.take(pg, rv['n0'], 'review')
     S['review'] = {k: rv.get(k) for k in ('ok', 'start', 'end', 'ret', 'cards', 'menus', 'caps', 'toasts', 'before', 'after', 'shots')}
     b, a = rv['before'], rv['after']
-    run.check('S1：總複習跑完（STUDY.review 回傳 ok）', rv['ok'] and isinstance(rv['ret'], dict) and rv['ret'].get('ok'), J(rv['ret']))
-    run.check('S1：耗 3 小時、同一天（14:00 → 17:00）', dur(rv) == 3.0, J({'start': rv['start'], 'end': rv['end']}))
-    run.check('S1：時段次數 G.slots 不變、stats.study +3', J(b['slots']) == J(a['slots']) and a['studyStat'] == b['studyStat'] + 3, J({'slots': [b['slots'], a['slots']], 'study': [b['studyStat'], a['studyStat']]}))
+    run.check(V + '：總複習跑完（STUDY.review 回傳 ok）', rv['ok'] and isinstance(rv['ret'], dict) and rv['ret'].get('ok'), J(rv['ret']))
+    run.check(V + '：耗 3 小時、同一天（14:00 → 17:00）', dur(rv) == 3.0, J({'start': rv['start'], 'end': rv['end']}))
+    run.check(V + '：時段次數 G.slots 不變、stats.study +3', J(b['slots']) == J(a['slots']) and a['studyStat'] == b['studyStat'] + 3, J({'slots': [b['slots'], a['slots']], 'study': [b['studyStat'], a['studyStat']]}))
     pr = a['prog'] or {}
-    run.check('S1：三科每一科「讀過」＝範圍全部（之前 0）', all(isinstance(pr.get(c), dict) and pr[c].get('total', 0) > 0 and pr[c]['read'] == pr[c]['total'] and (b['prog'] or {}).get(c, {}).get('read') == 0 for c, _, _, _ in LAW3), J({'before': b['prog'], 'after': pr}))
+    if V == 'S1':
+        run.check(V + '：三科每一科「讀過」＝範圍全部（之前 0）', all(isinstance(pr.get(c), dict) and pr[c].get('total', 0) > 0 and pr[c]['read'] == pr[c]['total'] and (b['prog'] or {}).get(c, {}).get('read') == 0 for c, _, _, _ in LAW3), J({'before': b['prog'], 'after': pr}))
+    else:
+        bp = b['prog'] or {}
+        run.check('S1b：總複習後每科 read＝total、heard＝total（不重複算：不超過 total、不超過 100%）、total 不變、got 不變', all(isinstance(pr.get(c), dict) and pr[c]['read'] == pr[c]['total'] and pr[c]['heard'] == pr[c]['total'] and pr[c]['total'] == bp.get(c, {}).get('total') and pr[c]['got'] == bp.get(c, {}).get('got') and pr[c]['got'] <= pr[c]['total'] for c, _, _, _ in LAW3), J({'before': bp, 'after': pr}))
+        run.check('S1b：G.study 裡 read＋got 的張數＝三科 total 的和（沒有重複或多出來的卡）', sum((a['studyU'] or {}).get(k, 0) for k in ('read', 'got')) == sum(pr.get(c, {}).get('total', 0) for c, _, _, _ in LAW3), J({'studyU': a['studyU'], 'totals': {c: pr.get(c, {}).get('total') for c, _, _, _ in LAW3}}))
+        lines = await pg.evaluate(LINES)
+        cap0 = next((c for c in reversed(rv['caps']) if '期末範圍' in c), '')
+        run.check('S1b：結束字幕每科一行＝STUDY.line（只讀算）', bool(lines) and all(l in cap0 for l in lines), J({'cap': cap0[:300], 'lines': lines}))
+        lp = await law_page(pg, cdp, run, 's1b_lawpage_after')
+        S['lawpage_after'] = lp
+        law_check(run, 'S1b 總複習後', lp, pr)
     tot = sum(pr.get(c, {}).get('total', 0) for c, _, _, _ in LAW3)
     if ENVS('S1_READ', 'all') == 'all':
-        run.check('S1：一直按「下一張」：每一張卡都出現（%d 張），最後一張以後自己結束' % tot, len(rv['cards']) == tot and tot > 0, J({'cards': len(rv['cards']), 'first': rv['cards'][:3]}))
+        run.check(V + '：一直按「下一張」：每一張卡都出現（%d 張），最後一張以後自己結束' % tot, len(rv['cards']) == tot and tot > 0, J({'cards': len(rv['cards']), 'first': rv['cards'][:3]}))
     cap = next((c for c in reversed(rv['caps']) if '期末範圍' in c), '')
-    run.check('S1：結束字幕三科各一行（「學過 n／n」）', all(nm in cap for _, nm, _, _ in LAW3) and cap.count('期末範圍') == 3, cap[:300])
+    run.check(V + '：結束字幕三科各一行（「學過 n／n」）', all(nm in cap for _, nm, _, _ in LAW3) and cap.count('期末範圍') == 3, cap[:300])
     S['remind_before_exam'] = None
     snap = await pg.evaluate("()=>GAME.snapshot()")
     exams = S['exams'] = {}
@@ -591,11 +615,11 @@ async def case_S1(pg, cdp, run, tr, S):
             msgs = await pg.evaluate("(()=>(GAME.G.msgs||[]).filter(m=>m.tag==='review_Y1S1').map(m=>({day:CALENDAR.dateOf(m.day).key,h:m.h,text:m.text})))()")
             S['remind_before_exam'] = msgs
             run.note('INFO S1：跳到 12/15 時手機有沒有「考前總複習」提醒（tag review_Y1S1；跳日期跨過 12/14 20:00，提醒規則是否補發照實記）：%s' % J(msgs))
-        e = await take_exam(pg, cdp, run, tr, cid, cname, 's1_exam_%s' % cid, wrong_at)
+        e = await take_exam(pg, cdp, run, tr, cid, cname, v + '_exam_%s' % cid, wrong_at)
         if not e: continue
         exams[cid] = e
         want = 4 if wrong_at else 5
-        run.check('S1：%s 交卷 答對 %d／5、%d 分（＝CLS.scoreOf）' % (cname, want, SCORE[want]), e['k'] == want and e['score'] == SCORE[want] and (e['rec'] or {}).get('score') == SCORE[want],
+        run.check(V + '：%s 交卷 答對 %d／5、%d 分（＝CLS.scoreOf）' % (cname, want, SCORE[want]), e['k'] == want and e['score'] == SCORE[want] and (e['rec'] or {}).get('score') == SCORE[want],
                   J({'shown': [e['k'], e['score']], 'rec': {x: (e['rec'] or {}).get(x) for x in ('correct', 'score', 'status')}}))
         if e.get('qs'):
             qr = await pg.evaluate(QRANK, e['qs']); e['qrank'] = qr
@@ -603,7 +627,7 @@ async def case_S1(pg, cdp, run, tr, S):
     # 成績單
     await jump(pg, cdp, run, '2026-01-04', 22.5, 'dorm', label='【前置】寒假前的日子不照玩家快轉；公布日前一晚，照玩家去床睡到明天早上')
     n2 = await pl_n(pg)
-    got, log = await ff_until(pg, cdp, run, "(()=>{ const R=CLS.rec(GAME.G); return !!(R.grades&&R.grades.Y1S1); })()", 900, 's1_sleep',
+    got, log = await ff_until(pg, cdp, run, "(()=>{ const R=CLS.rec(GAME.G); return !!(R.grades&&R.grades.Y1S1); })()", 900, v + '_sleep',
                               shoot_txt=[(lambda t: '憲法（上）：' in t, 'grades')])
     R = await tr.take(pg, n2, 'grades')
     says = [x for x in R if x['k'] == 'say']
@@ -611,26 +635,66 @@ async def case_S1(pg, cdp, run, tr, S):
     line = says[gi + 1]['t'] if gi is not None and gi + 1 < len(says) else None
     gr = await pg.evaluate(GRADES, 'Y1S1')
     S['grades'] = {'got': got, 'line': line, 'rec': gr, 'after_lines': [[x.get('n'), x['t']] for x in says[(gi or 0) + 2:(gi or 0) + 14]] if gi is not None else []}
-    run.check('S1：成績單發出來', line is not None, J({'line': line}))
+    run.check(V + '：成績單發出來', line is not None, J({'line': line}))
     for cid, cname, _, _ in LAW3:
         e = exams.get(cid) or {}
         m = re.search(re.escape(cname) + r'：([^　]+)', line or '')
         want = ('%d 分' % e['score']) if e.get('score') is not None else None
-        run.check('S1：成績單「%s」＝交卷分數（%s）' % (cname, want), m is not None and want is not None and m.group(1) == want, J({'成績單': m.group(1) if m else None, 'R.grades': ((gr or {}).get('grades') or {}).get(cid)}))
+        run.check(V + '：成績單「%s」＝交卷分數（%s）' % (cname, want), m is not None and want is not None and m.group(1) == want, J({'成績單': m.group(1) if m else None, 'R.grades': ((gr or {}).get('grades') or {}).get(cid)}))
     run.note('INFO S1：成績公布後的對話（人物反應，給 BB 看）：%s' % J(S['grades']['after_lines']))
     await wait_free(pg, cdp, 90)
     # 存檔 → 重新整理 → 讀檔
     keep = await pg.evaluate(ST); ex0 = await pg.evaluate("(()=>CLS.rec(GAME.G).exam||{})()"); g0 = await pg.evaluate(GRADES, 'Y1S1')
     slot = ENVI('SLOT', 1)
-    sm = await ui_save(pg, cdp, run, 's1', slot)
-    run.check('S1：遊戲存檔畫面存到欄位 %d' % slot, bool(sm) and sm.get('hasStudy'), J(sm))
-    if sm and await ui_reload_load(pg, cdp, run, 's1', slot):
+    sm = await ui_save(pg, cdp, run, v, slot)
+    run.check(V + '：遊戲存檔畫面存到欄位 %d' % slot, bool(sm) and sm.get('hasStudy'), J(sm))
+    if sm and await ui_reload_load(pg, cdp, run, v, slot):
         back = await pg.evaluate(ST); ex1 = await pg.evaluate("(()=>CLS.rec(GAME.G).exam||{})()"); g1 = await pg.evaluate(GRADES, 'Y1S1')
         S['reload'] = {'before': keep, 'after': back}
-        run.check('S1：讀檔後總複習的效果還在（三科進度、G.study 狀態數量相同）', J(keep['prog']) == J(back['prog']) and J(keep['studyU']) == J(back['studyU']) and all((back['prog'] or {}).get(c, {}).get('read', 0) == (back['prog'] or {}).get(c, {}).get('total', -1) for c, _, _, _ in LAW3),
+        run.check(V + '：讀檔後總複習的效果還在（三科進度、G.study 狀態數量相同）', J(keep['prog']) == J(back['prog']) and J(keep['studyU']) == J(back['studyU']) and all((back['prog'] or {}).get(c, {}).get('read', 0) == (back['prog'] or {}).get(c, {}).get('total', -1) for c, _, _, _ in LAW3),
                   J({'before': [keep['prog'], keep['studyU']], 'after': [back['prog'], back['studyU']]}))
-        run.check('S1：讀檔後 R.exam、R.grades、stats.study 相同', J(ex0) == J(ex1) and J(g0) == J(g1) and keep['studyStat'] == back['studyStat'], J({'grades': [g0, g1], 'study': [keep['studyStat'], back['studyStat']]}))
-        await shot2(pg, run, 's1_after_reload')
+        run.check(V + '：讀檔後 R.exam、R.grades、stats.study 相同', J(ex0) == J(ex1) and J(g0) == J(g1) and keep['studyStat'] == back['studyStat'], J({'grades': [g0, g1], 'study': [keep['studyStat'], back['studyStat']]}))
+        await shot2(pg, run, v + '_after_reload')
+
+
+# ---------------------------------------------------------------- S1b：整學期有上課（【前置／捷徑】）、法律頁
+S1B_PREP = r"""(wrongEvery=>{ try{ const G=GAME.G, R=CLS.rec(G), cids=['const_1','crim_gen1','civ_general']; let done=0, ask=0, askWrong=0; const att={}, weeks={};
+  for(let d=G.day-140; d<G.day; d++){ const t=CALENDAR.termOf(d); if(!t||t.id!=='Y1S1'||!t.week||t.week>14) continue;
+    for(const it of CLS.dayItems(G,d)){ if(!cids.includes(it.c.id)||it.exam) continue; if(!R.done[it.key]){ R.done[it.key]=1; done++; att[it.c.id]=(att[it.c.id]||0)+1; (weeks[it.c.id]||(weeks[it.c.id]=[])).push(t.week); } } }
+  for(const cid of cids) R.attend[cid]=(R.attend[cid]||0)+(att[cid]||0);
+  let n=0; for(const u of STUDY_UNITS.units){ if(u.term!=='Y1S1'||!cids.includes(u.course)||!u.askQid||u.week==null||u.week>14) continue; const q=EXAM_BANK.questions.find(x=>x.id===u.askQid); if(!q) continue; n++;
+    let v=q.answer; if(wrongEvery&&n%wrongEvery===0){ const alt=(q.type==='tf'||!q.options)?(String(q.answer)==='O'?'X':'O'):Object.keys(q.options).find(k=>k!==String(q.answer)); if(alt!=null){ v=alt; askWrong++; } }
+    R.ask['Y1S1:'+q.id]=v; ask++; }
+  delete G.study; G.notes=[];
+  return {done,attend:att,ask,askWrong,weeks:Object.fromEntries(Object.entries(weeks).map(([k,v])=>[k,[...new Set(v)]]))}; }catch(e){ return {err:String(e.message)}; } })"""
+LINES = r"""(()=>{ try{ const G=GAME.G; return ['const_1','crim_gen1','civ_general'].map(cid=>STUDY.line(G,CLS.byId(cid),'Y1S1')); }catch(e){ return null; } })()"""
+LAWPAGE_TXT = "(()=>{ const b=document.getElementById('legalList'); return b?(b.innerText||''):null; })()"
+LAW_RE = re.compile(r'(憲法（上）|刑法總則（一）|民法總則)\s*期末範圍：學過 (\d+)／(\d+)・答對過 (\d+)')
+
+
+async def law_page(pg, cdp, run, tag):
+    """玩家：☰ →「法律」頁 → 讀每科那一行（直向＋橫向截圖）→ 返回遊戲"""
+    await L.close_panels(pg, cdp)
+    await L.tap(pg, cdp, '#btnMenu'); await pg.wait_for_timeout(900)
+    await L.tap(pg, cdp, '#menu [data-tab="legal"]'); await pg.wait_for_timeout(1200)
+    txt = await pg.evaluate(LAWPAGE_TXT) or ''
+    shots = await shot2(pg, run, tag)
+    await L.close_panels(pg, cdp)
+    got = {m.group(1): {'heard': int(m.group(2)), 'total': int(m.group(3)), 'got': int(m.group(4))} for m in LAW_RE.finditer(txt)}
+    run.note('%s：法律頁 %s' % (tag, J(got)))
+    return {'rows': got, 'txt': txt[:1500], 'shots': shots}
+
+
+def law_check(run, tag, lp, prog):
+    bad = []
+    for c, n, _, _ in LAW3:
+        r = (lp.get('rows') or {}).get(n); p = prog.get(c) or {}
+        if not r or r['heard'] != p.get('heard') or r['total'] != p.get('total') or r['got'] != p.get('got') or r['heard'] > r['total']: bad.append([n, r, {k: p.get(k) for k in ('heard', 'total', 'got', 'read')}])
+    run.check('%s：法律頁三科「學過 x／y・答對過 z」＝STUDY.progress（heard／total／got，只讀算），而且 x≤y' % tag, not bad, J(bad or lp.get('rows')))
+
+
+async def case_S1b(pg, cdp, run, tr, S):
+    await case_S1(pg, cdp, run, tr, S, variant='S1b')
 
 
 async def case_night(pg, cdp, run, tr, S):
@@ -807,7 +871,7 @@ async def case_cafe_free(pg, cdp, run, tr, S):
     await tr.take(pg, n0, 'cafe')
 
 
-RUNNERS = {'S1': case_S1, 'night': case_night, 'repeat': case_repeat, 'seed': case_seed, 'only_untaken': case_only_untaken, 'multi_caption': case_multi_caption, 'cafe_free': case_cafe_free}
+RUNNERS = {'S1': case_S1, 'S1b': case_S1b, 'night': case_night, 'repeat': case_repeat, 'seed': case_seed, 'only_untaken': case_only_untaken, 'multi_caption': case_multi_caption, 'cafe_free': case_cafe_free}
 
 
 async def main():
@@ -819,6 +883,7 @@ async def main():
     SUMMARY.update(sha=os.environ.get('SHA', '?'), url=URL, cases=CASES, seed=SEED, label=LABEL)
     print('==== D118-B3 一鍵總複習（SHA %s）不用 turbo；作答用【捷徑：只讀】；不是 iPhone ====' % SUMMARY['sha'], flush=True)
     if 'turbo' in URL: run.note('注意：URL 有 turbo，這支規定不用 turbo')
+    run.note('期中考已拿掉（D118-B1），期中不測（STUDY.reviewInfo(G,"mid") 一律 null）')
     async with async_playwright() as p:
         for c in CASES:
             print('==== CASE %s ====' % c, flush=True)
