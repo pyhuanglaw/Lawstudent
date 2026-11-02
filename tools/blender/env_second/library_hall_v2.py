@@ -40,6 +40,9 @@ M = {
     'floor': L.pbr('lh2_floor', 'large_floor_tiles_02', tile=2.4, target='#d8d2c6', normal=0.3, maps=('diff', 'nor'), rough_value=0.45),
     'carpet': L.pbr('lh2_carpet', 'dirty_carpet', tile=2.0, target='#45494e', contrast=0.6, normal=0.4, maps=('diff', 'nor'), rough_value=0.97),
     'parquet': L.pbr('lh2_parquet', 'herringbone_parquet', tile=2.2, target='#c7a77e', normal=0.35, maps=('diff', 'nor'), rough_value=0.42),
+    # 展演廳第三版（BB_244，11-02）：白色石牆（照片 2：白牆上一塊一塊的分割線）、淺色木地板（二樓的人字拼照舊）
+    'rotwall': L.pbr('lh2_rotunda_wall', 'large_sandstone_blocks', tile=4.0, sat=0.05, target='#f1f0ec', contrast=0.35, normal=0.5, maps=('diff', 'nor'), rough_value=0.8),   # 對比壓低：照片是平的白牆、細的分割線，不是城堡的石塊
+    'parquet_l': L.pbr('lh2_parquet_light', 'herringbone_parquet', tile=2.2, target='#dcc39c', normal=0.35, maps=('diff', 'nor'), rough_value=0.42),
     'stone': L.pbr('lh2_stone_dark', 'granite_tile_03', tile=1.4, target='#4b4d50', normal=0.3, maps=('diff', 'nor'), rough_value=0.35),
     'plaster': L.pbr('lh2_plaster', 'painted_plaster_wall', tile=3.0, target='#ece8e0', normal=0.25, maps=('diff', 'nor'), rough_value=0.9),
     'wood': L.pbr('lh2_wood_honey', 'fine_grained_wood', tile=1.6, target='#c08a52', normal=0.3, maps=('diff', 'nor'), rough_value=0.5),
@@ -118,7 +121,7 @@ cp.quad([(-2.6, 0.004, V['z0']), (2.6, 0.004, V['z0']), (2.6, 0.004, BS['z1']), 
 fl.quad([(-2.6, 0.0, BS['z1']), (2.6, 0.0, BS['z1']), (2.6, 0.0, BS['z0']), (-2.6, 0.0, BS['z0'])])           # 台階下面（看不到，補洞）
 # 展演廳：淺色人字拼木地板（半圓＋開口那一條）
 #   扇形的頂點順序：圓心 → a0 → a1（朝上）。11-02 第一次烘焙寫成圓心 → a1 → a0，法線朝下：材質是雙面所以看得到，可是光照貼圖烘的是朝下那一面（0.001，整片黑；lm_probe 抓到）
-pq = C0.get('parquet', tile=2.2); NR = 36
+pq = C0.get('parquet_l', tile=2.2); NR = 36   # 第三版：淺色木地板（BB_244 第 5 點）
 for i in range(NR):
     a0, a1 = PI * i / NR, PI * (i + 1) / NR
     pq.quad([(R['cx'], 0.002, R['cz']), (R['cx'] + R['r'] * math.cos(a0), 0.002, R['cz'] - R['r'] * math.sin(a0)), (R['cx'] + R['r'] * math.cos(a1), 0.002, R['cz'] - R['r'] * math.sin(a1))])
@@ -255,76 +258,129 @@ for sx in (-1, 1):
     C0.get('walnut', tile=1.2).box(sx * V['x1'] - 0.1, sx * V['x1'] + 0.1, 0.0, 3.0, V['z0'], V['z1'])
 
 # =====================================================================
-# 四、展演廳：半圓的牆（一樓高窗、二樓高側窗）、深灰石材牆裙、天花板、弧形展示櫃、弧形軌道燈、長椅
+# 四、展演廳（第三版，BB_244，11-02）：照片 2（docs/art-rebuild/second_ai/ref/lib1102_user/0901_photo_b.jpg）
+#   白色石牆（一塊一塊的分割線）＋下面一圈深灰石材牆裙；下排三扇高窗、上排三扇小拱窗，窗外是樹（遊戲的窗景 library_view_trees）；
+#   上下兩排窗之間一道橫向收邊；天花板邊緣一圈弧形收頂；吊著的大圓環軌道燈（照片：深色金屬圓環、一顆一顆投射燈，吊桿垂下來——不是走得上去的環廊）；
+#   中間一排低矮的木頭展示櫃，上面立著書和展品（第二版是玻璃櫃＋色塊）。
+#   第二版：五扇窗、米色灰泥牆、細細一圈軌道燈（半徑 3.4）、玻璃展示櫃。
 # =====================================================================
-NF = 15                                            # 一段 12°；窗在 18°、54°、90°、126°、162° 那幾段（＝layout 的 rotundaDeg）
-WIN_AT = {1, 4, 7, 10, 13}
+NF = 15                                            # 一段 12°；窗在 42°、90°、138° 那幾段（＝layout 的 rotundaDeg：48、0、−48）
+WIN_AT = {3, 7, 11}
 def facet(i):
     a0, a1 = PI * i / NF, PI * (i + 1) / NF
     p0 = (R['cx'] + R['r'] * math.cos(a0), R['cz'] - R['r'] * math.sin(a0)); p1 = (R['cx'] + R['r'] * math.cos(a1), R['cz'] - R['r'] * math.sin(a1))
     return a0, a1, p0, p1
+def fpt(p0, p1, u, off):
+    """弧牆一段（p0→p1 直線）上、比例 u 的那一點，往外推 off（世界 x、z）"""
+    ax, az = p0[0] + (p1[0] - p0[0]) * u, p0[1] + (p1[1] - p0[1]) * u
+    mx, mz = (p0[0] + p1[0]) / 2 - R['cx'], (p0[1] + p1[1]) / 2 - R['cz']; n = math.hypot(mx, mz)
+    return ax + mx / n * off, az + mz / n * off
+def fq(m, p0, p1, uv, off=0.0, both=True):
+    """弧牆一段上的一塊多邊形：uv＝[(u, y)…]，順序照 facet_quad 室內那一面（法線朝圓心）；both：外面那一面（往外 T、順序反過來）也做"""
+    m.quad([(fpt(p0, p1, u, off)[0], y, fpt(p0, p1, u, off)[1]) for (u, y) in uv])
+    if both: m.quad([(fpt(p0, p1, u, off + T)[0], y, fpt(p0, p1, u, off + T)[1]) for (u, y) in uv[::-1]])
 def facet_quad(m, p0, p1, ya, yb, off=0.0, ua=0.0, ub=1.0):
     """弧牆的一段（p0→p1 的直線段），往外推 off；室內那一面（法線朝圓心）＋外面那一面（法線朝外，厚度 T）。
     11-02 第二次改：原本兩面的頂點順序都反了（室內那一面的法線朝外）。烘焙把室內那一面當成背對室內（和 dir 反方向）不分像素、收成一點，
     遊戲裡（雙面材質）看到的就是那一點的光——一片一片的平三角（第一次只修了 dir 的東西對調，沒修到這裡）。"""
-    ax, az = p0[0] + (p1[0] - p0[0]) * ua, p0[1] + (p1[1] - p0[1]) * ua
-    bx_, bz = p0[0] + (p1[0] - p0[0]) * ub, p0[1] + (p1[1] - p0[1]) * ub
-    mx, mz = (ax + bx_) / 2 - R['cx'], (az + bz) / 2 - R['cz']; n = math.hypot(mx, mz); ox, oz = mx / n * off, mz / n * off
-    m.quad([(bx_ + ox, ya, bz + oz), (ax + ox, ya, az + oz), (ax + ox, yb, az + oz), (bx_ + ox, yb, bz + oz)])
-    m.quad([(ax + mx / n * (off + T), ya, az + mz / n * (off + T)), (bx_ + mx / n * (off + T), ya, bz + mz / n * (off + T)), (bx_ + mx / n * (off + T), yb, bz + mz / n * (off + T)), (ax + mx / n * (off + T), yb, az + mz / n * (off + T))])
-def rot_group(i): return 'RE' if i < 5 else ('RN' if i < 10 else 'RW')   # facet(i) 從 +x（東）開始：i < 5 是東側。11-02 第一次烘焙東西寫反了→ dir 朝外：朝室內的面被當成背面縮成一點（光照貼圖一片一片的平三角），遊戲裡鏡頭在室內時兩側弧牆反而淡出
+    fq(m, p0, p1, [(ub, ya), (ua, ya), (ua, yb), (ub, yb)], off)
+def reveal(m, p0, p1, pts, off=0.0):
+    """窗洞的內側面（牆的厚度）：pts＝洞口邊緣的 (u, y)，依序連起來；每一小段做一塊從室內那一面到外面那一面的面（法線朝洞口裡）"""
+    for (u0, y0), (u1, y1) in zip(pts, pts[1:]):
+        A, B_ = fpt(p0, p1, u0, off), fpt(p0, p1, u1, off); A2, B2 = fpt(p0, p1, u0, off + T), fpt(p0, p1, u1, off + T)
+        m.quad([(A[0], y0, A[1]), (B_[0], y1, B_[1]), (B2[0], y1, B2[1]), (A2[0], y0, A2[1])])
+def quad_n(m, pts, want):
+    """一塊四邊形，頂點順序排成法線朝 want（遊戲座標）。光照烘焙只烘法線那一面：順序反了會烘成黑的（11-02 展演廳地板、弧牆都踩過）"""
+    n = [0.0, 0.0, 0.0]
+    for k in range(len(pts)):
+        a, b = pts[k], pts[(k + 1) % len(pts)]
+        n[0] += (a[1] - b[1]) * (a[2] + b[2]); n[1] += (a[2] - b[2]) * (a[0] + b[0]); n[2] += (a[0] - b[0]) * (a[1] + b[1])
+    m.quad(pts if n[0] * want[0] + n[1] * want[1] + n[2] * want[2] >= 0 else pts[::-1])
+def rot_group(i): return 'RE' if i < 5 else ('RN' if i < 10 else 'RW')   # facet(i) 從 +x（東）開始：i < 5 是東側。11-02 第一次烘焙東西寫反了→ dir 朝外：朝室內的面被當成背面縮成一點（光照貼圖一片一片的平三角
 RDIR = {'RW': [0.7, 0, 0.5], 'RN': [0, 0, 1], 'RE': [-0.7, 0, 0.5]}
-TIERS = ((0, R0, 0.0, Y1, 0.9, 4.2), (1, R1, Y1, RY, 6.0, 8.8))
-for (lv, par, y0, y1, wa, wb) in TIERS:
+FLEN = 2 * R['r'] * math.sin(PI / NF / 2)          # 一段的寬（約 1.13 m）
+WU0, WU1 = 0.08, 0.92                              # 窗洞在一段裡的範圍（比例）：寬約 0.95 m
+NA = 10                                            # 拱窗的拱分幾段
+TIERS = ((0, R0, 0.0, Y1, 0.9, 4.3, False), (1, R1, Y1, RY, 6.1, 7.85, True))   # (層, 父節點, 牆底, 牆頂, 窗台, 窗頂／起拱, 拱窗)
+for (lv, par, y0, y1, wa, wb, arch) in TIERS:
     c = C0 if lv == 0 else C1
     for i in range(NF):
-        a0, a1, p0, p1 = facet(i); g = rot_group(i); m = wallmesh(f'{g}{lv}', par, RDIR[g])
+        a0, a1, p0, p1 = facet(i); g = rot_group(i); m = wallmesh(f'{g}{lv}', par, RDIR[g], key='rotwall')
         if i in WIN_AT:
-            ua, ub = 0.12, 0.88
-            facet_quad(m, p0, p1, y0, wa); facet_quad(m, p0, p1, wb, y1)
-            facet_quad(m, p0, p1, wa, wb, ua=0.0, ub=ua); facet_quad(m, p0, p1, wa, wb, ua=ub, ub=1.0)
-            # 窗框（深灰）＋窗台
-            fr = c.get('frame'); A = (p0[0] + (p1[0] - p0[0]) * ua, p0[1] + (p1[1] - p0[1]) * ua); Bq = (p0[0] + (p1[0] - p0[0]) * ub, p0[1] + (p1[1] - p0[1]) * ub)
-            for (u0, u1) in ((ua, ua + 0.04), (ub - 0.04, ub), (0.49, 0.51)): facet_quad(fr, p0, p1, wa, wb, off=0.02, ua=u0, ub=u1)
-            for yy in (wa, (wa + wb) / 2, wb - 0.05): facet_quad(fr, p0, p1, yy, yy + 0.05, off=0.02, ua=ua, ub=ub)
+            ua, ub = WU0, WU1; fr = c.get('frame'); tr = c.get('trim')
+            facet_quad(m, p0, p1, y0, y1, ua=0.0, ub=ua); facet_quad(m, p0, p1, y0, y1, ua=ub, ub=1.0)       # 窗的左右兩條牆（整面高）
+            facet_quad(m, p0, p1, y0, wa, ua=ua, ub=ub)                                                       # 窗台下面
+            if not arch:
+                facet_quad(m, p0, p1, wb, y1, ua=ua, ub=ub)                                                   # 方窗上面
+                reveal(tr, p0, p1, [(ub, wa), (ua, wa)]); reveal(m, p0, p1, [(ua, wa), (ua, wb)]); reveal(m, p0, p1, [(ua, wb), (ub, wb)]); reveal(m, p0, p1, [(ub, wb), (ub, wa)])
+                for (u0, u1) in ((ua, ua + 0.04), (ub - 0.04, ub), (0.49, 0.51)): facet_quad(fr, p0, p1, wa, wb, off=0.02, ua=u0, ub=u1)
+                for yy in (wa, wa + (wb - wa) * 0.62, wb - 0.05): facet_quad(fr, p0, p1, yy, yy + 0.05, off=0.02, ua=ua, ub=ub)
+            else:
+                ru = (ub - ua) / 2; rv = ru * FLEN                                                           # 半圓拱：比例的半徑 ru、高度的半徑 rv（公尺）
+                arc_ = [(0.5 + ru * math.cos(PI * k / NA), wb + rv * math.sin(PI * k / NA)) for k in range(NA + 1)]   # 右 → 左
+                for (ua_, va_), (ub_, vb_) in zip(arc_[::-1], arc_[::-1][1:]):                                 # 拱上面那一塊（左 → 右一小條一小條）
+                    fq(m, p0, p1, [(ub_, vb_), (ua_, va_), (ua_, y1), (ub_, y1)])
+                reveal(tr, p0, p1, [(ub, wa), (ua, wa)]); reveal(m, p0, p1, [(ua, wa), (ua, wb)]); reveal(m, p0, p1, arc_[::-1]); reveal(m, p0, p1, [(ub, wb), (ub, wa)])
+                for (u0, u1) in ((ua, ua + 0.04), (ub - 0.04, ub), (0.49, 0.51)): facet_quad(fr, p0, p1, wa, wb, off=0.02, ua=u0, ub=u1)
+                facet_quad(fr, p0, p1, wa, wa + 0.05, off=0.02, ua=ua, ub=ub); facet_quad(fr, p0, p1, wb - 0.025, wb + 0.025, off=0.02, ua=ua, ub=ub)
+                ri = [(0.5 + (ru - 0.035) * math.cos(PI * k / NA), wb + (rv - 0.035 * FLEN) * math.sin(PI * k / NA)) for k in range(NA + 1)]
+                for k in range(NA): fq(fr, p0, p1, [ri[k], ri[k + 1], arc_[k + 1], arc_[k]], off=0.02)   # 拱的窗框（順序和 facet_quad 一樣：法線朝圓心）
+            quad_n(tr, [(lambda q: (q[0], wa, q[1]))(fpt(p0, p1, ua - 0.02, -0.12)), (lambda q: (q[0], wa, q[1]))(fpt(p0, p1, ub + 0.02, -0.12)),
+                        (lambda q: (q[0], wa, q[1]))(fpt(p0, p1, ub + 0.02, 0.0)), (lambda q: (q[0], wa, q[1]))(fpt(p0, p1, ua - 0.02, 0.0))], (0, 1, 0))   # 窗台（往室內凸 12 cm，朝上）
         else:
             facet_quad(m, p0, p1, y0, y1)
         if lv == 0:                                    # 深灰石材牆裙（照片 2：窗台以下）
             facet_quad(c.get('stone', tile=1.4), p0, p1, 0.0, 0.9, off=-0.012)
-# 展演廳的天花板（半圓）＋中間一圈燈：頂點順序圓心 → a1 → a0（朝下；和地板相反，11-02 第一次烘焙寫反了）
+        else:                                          # 上下兩排窗之間的橫向收邊（往室內凸 14 cm 的一道白色線腳）
+            tr = c.get('trim'); A_, B_ = fpt(p0, p1, 0.0, -0.14), fpt(p0, p1, 1.0, -0.14); A0, B0 = fpt(p0, p1, 0.0, 0.0), fpt(p0, p1, 1.0, 0.0)
+            yb_, yt_ = Y1 - 0.12, Y1 + 0.18
+            facet_quad(tr, p0, p1, yb_, yt_, off=-0.14)
+            quad_n(tr, [(A_[0], yt_, A_[1]), (B_[0], yt_, B_[1]), (B0[0], yt_, B0[1]), (A0[0], yt_, A0[1])], (0, 1, 0))    # 上面（朝上）
+            quad_n(tr, [(A0[0], yb_, A0[1]), (B0[0], yb_, B0[1]), (B_[0], yb_, B_[1]), (A_[0], yb_, A_[1])], (0, -1, 0))   # 下面（朝下）
+# 展演廳的天花板（半圓）：頂點順序圓心 → a1 → a0（朝下；和地板相反，11-02 第一次烘焙寫反了）＋邊緣一圈弧形收頂（照片 2）
+RC = R['r'] - 0.75
 for i in range(NR):
     a0, a1 = PI * i / NR, PI * (i + 1) / NR
-    C1.get('ceil', tile=2.4).quad([(R['cx'], RY, R['cz']), (R['cx'] + R['r'] * math.cos(a1), RY, R['cz'] - R['r'] * math.sin(a1)), (R['cx'] + R['r'] * math.cos(a0), RY, R['cz'] - R['r'] * math.sin(a0))])
-# 弧形軌道燈（照片 2）：半徑 3.4、離地 6.6，吊線六條，燈頭一顆一顆
-RR, RYL = 3.4, 6.6
+    C1.get('ceil', tile=2.4).quad([(R['cx'], RY, R['cz']), (R['cx'] + RC * math.cos(a1), RY, R['cz'] - RC * math.sin(a1)), (R['cx'] + RC * math.cos(a0), RY, R['cz'] - RC * math.sin(a0))])
+    P_ = lambda r, a, y: (R['cx'] + r * math.cos(a), y, R['cz'] - r * math.sin(a))
+    for (r0_, y0_, r1_, y1_) in ((R['r'], RY - 0.7, R['r'] - 0.32, RY - 0.18), (R['r'] - 0.32, RY - 0.18, RC, RY)):   # 收頂兩段（從牆到平的天花板）
+        am_ = (a0 + a1) / 2; quad_n(C1.get('ceil', tile=2.4), [P_(r0_, a0, y0_), P_(r1_, a0, y1_), P_(r1_, a1, y1_), P_(r0_, a1, y0_)], (-math.cos(am_), -1.0, math.sin(am_)))
+# 大圓環軌道燈（照片 2）：深色金屬圓環（半徑 4.4、離地 6.6、管徑 12 cm），吊桿八條，投射燈頭十二顆（朝牆斜下）
+RR, RYL = 4.4, 6.6
 for i in range(24):
-    a0, a1 = PI * (0.05 + 0.9 * i / 24), PI * (0.05 + 0.9 * (i + 1) / 24)
-    C1.vm.cbox(0, 0, 0, 0, 0, 0, '#202326') if False else None
-    ccyl(C1.vm, (R['cx'] + RR * math.cos(a0), RYL, R['cz'] - RR * math.sin(a0)), (R['cx'] + RR * math.cos(a1), RYL, R['cz'] - RR * math.sin(a1)), 0.035, '#2a2d30', seg=6)
-    if i % 3 == 1:
-        am = (a0 + a1) / 2; hx, hz = R['cx'] + RR * math.cos(am), R['cz'] - RR * math.sin(am)
-        ccyl(C1.vm, (hx, RYL - 0.02, hz), (hx, RYL - 0.22, hz), 0.05, '#2a2d30', seg=8); C1.get('light').cyl((hx, RYL - 0.225, hz), (hx, RYL - 0.22, hz), 0.045, seg=8)
-for k in range(6):
-    am = PI * (0.1 + 0.8 * k / 5); hx, hz = R['cx'] + RR * math.cos(am), R['cz'] - RR * math.sin(am)
-    ccyl(C1.vm, (hx, RYL, hz), (hx, RY, hz), 0.006, '#8a8e92', seg=4)
-# 弧形矮展示櫃（照片 2：木頭櫃、上面一格一格的玻璃展示格、裡面亮燈）
-CR0, CR1, CA0, CA1 = 3.5, 4.2, PI * 0.30, PI * 0.70
-NC = 10
+    a0, a1 = PI * (0.03 + 0.94 * i / 24), PI * (0.03 + 0.94 * (i + 1) / 24)
+    ccyl(C1.vm, (R['cx'] + RR * math.cos(a0), RYL, R['cz'] - RR * math.sin(a0)), (R['cx'] + RR * math.cos(a1), RYL, R['cz'] - RR * math.sin(a1)), 0.06, '#26292c', seg=8)
+    if i % 2 == 1:
+        am = (a0 + a1) / 2; hx, hz = R['cx'] + RR * math.cos(am), R['cz'] - RR * math.sin(am); ox_, oz_ = math.cos(am) * 0.12, -math.sin(am) * 0.12
+        ccyl(C1.vm, (hx, RYL - 0.05, hz), (hx + ox_, RYL - 0.3, hz + oz_), 0.055, '#26292c', seg=8)
+        C1.get('light').cyl((hx + ox_ * 1.02, RYL - 0.305, hz + oz_ * 1.02), (hx + ox_, RYL - 0.3, hz + oz_), 0.045, seg=8)
+for k in range(8):
+    am = PI * (0.06 + 0.88 * k / 7); hx, hz = R['cx'] + RR * math.cos(am), R['cz'] - RR * math.sin(am)
+    ccyl(C1.vm, (hx, RYL + 0.05, hz), (hx, RY, hz), 0.008, '#8a8e92', seg=4)
+# 中間一排低矮的木頭展示櫃（照片 2）：前面一排亮燈的小格、上面兩層台面，書和展品立在上面（第二版是玻璃櫃＋色塊）
+CR0, CR1, CA0, CA1 = 3.0, 3.7, PI / 3, PI * 2 / 3           # ＝layout 的 rotunda.case（r 3.0～3.7、60°～120°；導航照舊）
+NC = 10; wd = C0.get('wood', tile=1.6); bk = C0.get('books', cm=True)
+P = lambda r, a, y: (R['cx'] + r * math.cos(a), y, R['cz'] - r * math.sin(a))
+COVER = ['#8c3b47', '#2f5d50', '#d9c9a0', '#4a6c8c', '#c27b3a', '#e8e2d4', '#5b4b6e', '#9a8f5a', '#2b2f36', '#b84a3a']
 for i in range(NC):
-    a0, a1 = CA0 + (CA1 - CA0) * i / NC, CA0 + (CA1 - CA0) * (i + 1) / NC
-    P = lambda r, a, y: (R['cx'] + r * math.cos(a), y, R['cz'] - r * math.sin(a))
-    wd = C0.get('wood', tile=1.6)
-    wd.quad([P(CR0, a0, 0.0), P(CR0, a1, 0.0), P(CR0, a1, 0.62), P(CR0, a0, 0.62)]); wd.quad([P(CR1, a1, 0.0), P(CR1, a0, 0.0), P(CR1, a0, 0.62), P(CR1, a1, 0.62)])
-    wd.quad([P(CR0, a0, 0.62), P(CR0, a1, 0.62), P(CR1, a1, 0.62), P(CR1, a0, 0.62)])
-    C0.get('glass').quad([P(CR0 + 0.04, a0, 0.62), P(CR0 + 0.04, a1, 0.62), P(CR0 + 0.04, a1, 1.0), P(CR0 + 0.04, a0, 1.0)])
-    C0.get('glass').quad([P(CR0 + 0.04, a0, 1.0), P(CR0 + 0.04, a1, 1.0), P(CR1 - 0.04, a1, 1.0), P(CR1 - 0.04, a0, 1.0)])
-    C0.get('warm').quad([P(CR0 + 0.1, a0, 0.97), P(CR0 + 0.1, a1, 0.97), P(CR1 - 0.1, a1, 0.97), P(CR1 - 0.1, a0, 0.97)])
-    am = (a0 + a1) / 2; ox, oz = R['cx'] + (CR0 + CR1) / 2 * math.cos(am), R['cz'] - (CR0 + CR1) / 2 * math.sin(am)
-    C0.get('books', cm=True).cbox(ox - 0.12, ox + 0.12, 0.63, 0.63 + rng.uniform(0.06, 0.2), oz - 0.09, oz + 0.09, rng.choice(['#8c3b47', '#2f5d50', '#d9c9a0', '#4a6c8c']))
-for (a, b) in ((CA0, CA0), (CA1, CA1)):
-    for (r0_, r1_) in ((CR0, CR1),):
-        P = lambda r, a, y: (R['cx'] + r * math.cos(a), y, R['cz'] - r * math.sin(a))
-        C0.get('wood', tile=1.6).quad([P(r0_, a, 0.0), P(r1_, a, 0.0), P(r1_, a, 0.62), P(r0_, a, 0.62)])
+    a0, a1 = CA0 + (CA1 - CA0) * i / NC, CA0 + (CA1 - CA0) * (i + 1) / NC; am = (a0 + a1) / 2
+    RM = CR1 - 0.28                                                                    # 後面那一層（高 0.88）從這裡開始
+    IN = (-math.cos(am), 0.0, math.sin(am)); OUTV = (math.cos(am), 0.0, -math.sin(am)); UP = (0, 1, 0)   # 朝圓心（入口）、朝外、朝上（不能叫 OUT：那是輸出檔的路徑）
+    quad_n(wd, [P(CR0, a0, 0.0), P(CR0, a1, 0.0), P(CR0, a1, 0.55), P(CR0, a0, 0.55)], IN)      # 前面（朝入口）
+    quad_n(wd, [P(CR0, a0, 0.55), P(CR0, a1, 0.55), P(RM, a1, 0.55), P(RM, a0, 0.55)], UP)      # 前面那一層的台面
+    quad_n(wd, [P(RM, a0, 0.55), P(RM, a1, 0.55), P(RM, a1, 0.88), P(RM, a0, 0.88)], IN)        # 後面那一層的前面
+    quad_n(wd, [P(RM, a0, 0.88), P(RM, a1, 0.88), P(CR1, a1, 0.88), P(CR1, a0, 0.88)], UP)      # 後面那一層的台面
+    quad_n(wd, [P(CR1, a1, 0.0), P(CR1, a0, 0.0), P(CR1, a0, 0.88), P(CR1, a1, 0.88)], OUTV)    # 背面
+    quad_n(C0.get('warm'), [P(CR0 - 0.004, a0 + (a1 - a0) * 0.18, 0.16), P(CR0 - 0.004, a1 - (a1 - a0) * 0.18, 0.16), P(CR0 - 0.004, a1 - (a1 - a0) * 0.18, 0.44), P(CR0 - 0.004, a0 + (a1 - a0) * 0.18, 0.44)], IN)   # 前面一格一格亮燈的小格
+    for (rr_, yy_) in ((CR0 + 0.2, 0.55), (RM + 0.14, 0.88)):                          # 書：封面朝入口立著、微微往後靠
+        for t in (0.3, 0.7):
+            aa = a0 + (a1 - a0) * (t + rng.uniform(-0.06, 0.06)); bx_, bz_ = P(rr_, aa, 0)[0], P(rr_, aa, 0)[2]
+            w_, h_ = rng.uniform(0.15, 0.21), rng.uniform(0.21, 0.3); T_ = rot(bx_, bz_, PI / 2 - aa)
+            rbox(bk, T_, -w_ / 2, w_ / 2, yy_, yy_ + h_, -0.012, 0.012, rng.choice(COVER))
+            rbox(bk, T_, -0.02, 0.02, yy_, yy_ + 0.08, 0.012, 0.09, '#2a2d30')            # 書架（小立架）
+for (a_, sgn) in ((CA0, -1), (CA1, 1)):                                                # 兩端（朝外：角度變小那一端朝 −、變大那一端朝 +）
+    tx, tz = -math.sin(a_) * sgn, -math.cos(a_) * sgn
+    quad_n(wd, [P(CR0, a_, 0.0), P(CR1, a_, 0.0), P(CR1, a_, 0.88), P(CR0, a_, 0.88)], (tx, 0.0, tz))
 # 展演廳的兩張矮長椅
 for f in [q for q in LAY['furniture'] if q.get('kind') == 'benchLow']:
     C0.get('wood', tile=1.6).box(f['x'] - f['w'] / 2, f['x'] + f['w'] / 2, 0.38, 0.45, f['z'] - f['d'] / 2, f['z'] + f['d'] / 2)

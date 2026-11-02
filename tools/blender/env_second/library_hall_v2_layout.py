@@ -70,9 +70,10 @@ def build(v1):
                 f.update({'x': -10.8, 'z': -16.65})
         keep.append(f)
     new = []
-    # 一樓：中庭走道兩旁的展示櫃（照片 1：木頭、玻璃、櫃裡亮燈）
+    # 一樓：中庭兩側的展示櫃（照片 1：木頭、玻璃、櫃裡亮燈）
+    #   第三版（BB_244 第 7 點，11-02）：從地毯走道兩旁（x ±3.05）搬到中庭兩側、柱子那一排的內側（x ±4.7），台階前面空出來（照片 1：展示櫃靠兩側）
     for sx in (-1, 1):
-        new.append({'type': 'prop', 'kind': 'displayCase', 'lv': 0, 'x': sx * 3.05, 'z': -2.9, 'w': 0.7, 'd': 3.4, 'h': 1.05, 'nav': [sx * 3.05, -2.9, 0.8, 3.5]})   # 北端 z −4.6：離台階最下面一階（−6.0）1.4 m，繞過去不會卡
+        new.append({'type': 'prop', 'kind': 'displayCase', 'lv': 0, 'x': sx * 4.7, 'z': -2.9, 'w': 0.7, 'd': 3.4, 'h': 1.05, 'nav': [sx * 4.7, -2.9, 0.8, 3.5]})
     # 一樓西側北半邊：多元共享區（四人桌＋矮隔屏）、閱報架
     for (x, z) in ((-9.4, -10.2), (-6.4, -10.2), (-9.4, -14.8), (-6.4, -14.8)):   # 椅子後面要走得到：離隔屏、北牆都留 0.6 m 以上
         new.append({'type': 'groupTable', 'lv': 0, 'x': x, 'z': z, 'w': 1.6, 'd': 1.0, 'seats': 4})
@@ -124,7 +125,7 @@ def build(v1):
         signs.append({'lv': 1, 'text': f['label'], 'x': round(f['x'] + e * (f['w'] / 2 + 0.035), 3), 'z': f['z'], 'y': 1.72, 'ry': e * 1.5708, 'w': 0.52})
     L['signs'] = signs
     # 窗：西、東外牆（每 2.4 m 一扇；北段新加），展演廳的窗角度（度，0＝正北）
-    L['windowsV2'] = {'xWallZ': [round(-15.6 + 2.4 * k, 2) for k in range(11)], 'rotundaDeg': [-72, -36, 0, 36, 72]}   # 展演廳的窗：弧牆 15 段（一段 12°）的第 1、4、7、10、13 段（library_hall_v2.py）
+    L['windowsV2'] = {'xWallZ': [round(-15.6 + 2.4 * k, 2) for k in range(11)], 'rotundaDeg': [-48, 0, 48]}   # 展演廳的窗：弧牆 15 段（一段 12°）的第 3、7、11 段（library_hall_v2.py 的 WIN_AT；第三版 BB_244 第 4 點：照片 2 上下各三扇，第二版是五扇）
     L['directory'] = {'x': -3.6, 'z': 0.0, 'note': '樓層簡介立牌：入口閘門後面、西側展示櫃前面，面朝南（門口）；第一版掛在核心書架上 (−3.2, −0.48)。字是遊戲畫的 canvas，架子在正式模型、備用模型各一份'}
     L['furnitureNote'] = 'v2 新的型別：groupTable（一樓四人桌）、pcDesk（電腦桌）、roundTable（圓桌）、stack（二樓雙面書架）——src/library_hall_v2.js 處理；prop 的 kind 只影響 Blender 畫什麼'
     return L

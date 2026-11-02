@@ -40,17 +40,18 @@ for r in [U['band'], U['north']] + U['wings'] + U.get('closed', []):            
             if EL['x0'] - 0.3 < x < EL['x1'] + 0.3 and EL['z0'] - 0.3 < z < EL['z1'] + 0.3: continue
             lights.append(f"{x:.3f},{x:.3f},{z:.3f},{z:.3f},{Y1 - ST - 0.02:.3f},1,1,{E('DOWN','14')},0.28,0.28")
 pts = []
-for i in range(24):                                                                                              # 展演廳的軌道燈頭
-    if i % 3 != 1: continue
-    am = math.pi * (0.05 + 0.9 * (i + 0.5) / 24); hx, hz = R['cx'] + 3.4 * math.cos(am), R['cz'] - 3.4 * math.sin(am)
-    pts.append(f"{hx:.3f},6.30,{hz:.3f},{E('SPOT','35')},{E('WARM','1.0,0.82,0.62')}")
+for i in range(24):                                                                                              # 展演廳的軌道燈頭（第三版 BB_244：大圓環半徑 4.4、十二顆；照片 2 是白光 → 中性色）
+    if i % 2 != 1: continue
+    am = math.pi * (0.03 + 0.94 * (i + 0.5) / 24); hx, hz = R['cx'] + 4.4 * math.cos(am), R['cz'] - 4.4 * math.sin(am)
+    pts.append(f"{hx:.3f},6.30,{hz:.3f},{E('SPOT','24')},{E('WARM','1.0,0.96,0.9')}")
 print(';'.join(lights), ';'.join(pts))
 PY
 )
+# 第三版（BB_244，11-02）：白天的白平衡 0.85,0.80,0.72 → 0.92,0.89,0.83（展演廳的白牆偏米色；照片 1、2 都是白光）；展演廳軌道燈改成大圓環、中性色
 /opt/blenv/bin/python tools/blender/env_second/library_hall_v2.py -- --layout "$LAYOUT" --out "$TMP/library_hall_v2_plain.glb"
 /opt/blenv/bin/python tools/blender/env_second/lightbake/bake_room.py -- --in "$TMP/library_hall_v2_plain.glb" --out "$OUTDIR/library_hall_v2.glb" \
   --lm "$TMP/lh2" --url assets/models/env/second_ai/library_hall_v2_lm --res "$RES" --samples "$SAMPLES" --hide glass --nolm "$NOLM" \
-  --sun "${SUN:-200,45,2.2}" --sky "${SKY:-0.35}" --daywb "${DAYWB:-0.85,0.8,0.72}" --nightwb "${NIGHTWB:-1.0,0.92,0.80}" --lights "$LIGHTS" --points "$POINTS" --smooth 1 --shell S,W,E,N --keep-instances
+  --sun "${SUN:-200,45,2.2}" --sky "${SKY:-0.35}" --daywb "${DAYWB:-0.92,0.89,0.83}" --nightwb "${NIGHTWB:-1.0,0.92,0.80}" --lights "$LIGHTS" --points "$POINTS" --smooth 1 --shell S,W,E,N --keep-instances
 python3 tools/blender/env_second/lightbake/to_webp.py "$TMP/lh2" "$OUTDIR/library_hall_v2_lm" 90
 /opt/blenv/bin/python tools/blender/env_second/lightbake/lm_fix_hidden.py -- --in "$OUTDIR/library_hall_v2.glb" --out "$OUTDIR/library_hall_v2.glb" --lm "$OUTDIR/library_hall_v2_lm"
 cp "$TMP/lh2.json" "$OUTDIR/library_hall_v2_lm.json"
