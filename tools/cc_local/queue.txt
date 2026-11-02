@@ -30,6 +30,8 @@ X_P3_ladder | 5f238fc9d | game  | tests/flow_ladder_y1s2.py    | index.html | 11
 X_P1_d124  | 62d98bfa5 | probe | docs/story_planning/test_tools/cc/cc_d124_probe.py | index.html?turbo | 30 | CASES=take,skip,bar_pool
 X_P2_bar_a | 62d98bfa5 | probe | docs/story_planning/test_tools/cc/cc_bar_b8_probe.py | index.html?turbo | 35 | CASES=judge2033,trainee
 X_P2_bar_b | 62d98bfa5 | probe | docs/story_planning/test_tools/cc/cc_bar_b8_probe.py | index.html?turbo | 40 | CASES=missed1
+X_P2_epi   | 62d98bfa5 | probe | docs/story_planning/test_tools/cc/cc_bar_b8_probe.py | index.html?turbo | 20 | CASES=epi_social
+X_P1pre    | a3d80d47a | probe | docs/story_planning/test_tools/cc/cc_d124_probe.py | index.html?turbo | 30 | CASES=take,skip,bar_pool
 #HOLD雲端 X_LIBWHISPER | 62d98bfa5 | probe | docs/story_planning/test_tools/cc/cc_libwhisper_probe.py | index.html | 60 | （探針撰寫中）
 #HOLD雲端 X_DRIVE_X81  | 62d98bfa5 | probe | docs/story_planning/test_tools/cc/cc_drive_x81_probe.py | index.html | 60 | （探針撰寫中）
 # 新存檔相容的 backfillCG（帶旗標的存檔相簿多出那幾張、沒旗標的不多）：G6 系列看結果，不夠的話另寫探針

@@ -215,7 +215,8 @@ async def case_epi_social(pg, cdp, run):
     run.note('%s：尾聲說話的角色 %s' % (tag, J(sorted({(x.get('c'), x['n']) for x in o['said'] if x.get('c')}))))
     try: nb = await pg.evaluate(NAMES)
     except Exception as e: nb = 'ERR %r' % e
-    run.check('%s：瀏覽器裡（讀檔遷移以後）尾聲在場的人都認得（SOCIAL.metD）' % tag, isinstance(nb, list) and all(x[2] for x in nb), J(nb))
+    # 可昕：交往中就在場（PG.epiPresent），開局前就是女朋友＝不走 FIRST_MET；畫面上寫名字就算認得
+    run.check('%s：瀏覽器裡（讀檔遷移以後）尾聲在場的人都認得（SOCIAL.metD，或名字不是「不認識的…」）' % tag, isinstance(nb, list) and all(x[2] or not str(x[1]).startswith('不認識') for x in nb), J(nb))
 
 
 CASEFN = {'epi_social': case_epi_social, 'missed1': case_missed1, 'trainee': case_trainee, 'judge2033': case_judge2033}
