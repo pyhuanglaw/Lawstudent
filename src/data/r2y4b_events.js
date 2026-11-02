@@ -358,11 +358,11 @@ const R2Y4B_EVENTS=(function(){
     outingMissed:G=>{ const r=R(); if(r) r.anSendoffMissed(G); } },
   /* ---------- 2-Y4-56 美國路線、和學姊交往中：秋假大峽谷（美東 10/7～10/14；AA_291 2-1）---------- */
   { id:'ev_us_canyon', title:'秋假：大峽谷', participants:['heroine_05'], location:'any', trigger:'outing', once:true, background:'dark', hours:1,
-    dialogue:[ {scene:'亞利桑那',bg:'dark'},   /* gc_roadside_car 沒有：dark＋字幕 */
+    dialogue:[ {scene:'亞利桑那',bg:'az_roadside'},   /* 11-02 使用者生成（原本 gc_roadside_car 沒有＝深色底）*/
       {speaker:null,text:'（她靠在租來的車旁邊，手上拿著一張列印的地圖。）'},
       {speaker:'heroine_05',text:'路線我排好了。上車。'},
       {advance:toDay('2028-10-08',12)},{titleCard:'10/8（日）',sub:'亞利桑那'},{speaker:null,text:'（沙漠裡的加油站，她買了兩瓶很大的水。）'},
-      {advance:toDay('2028-10-09',12)},{titleCard:'10/9（一）',sub:'亞利桑那'},{speaker:null,text:'（第一眼看到峽谷的時候，你們兩個都沒說話。）'},
+      {advance:toDay('2028-10-09',12)},{titleCard:'10/9（一）',sub:'亞利桑那'},{scene:'大峽谷',bg:'az_canyon'},{speaker:null,text:'（第一眼看到峽谷的時候，你們兩個都沒說話。）'},
       {speaker:'heroine_05',text:'……照片拍不進去。',aa531:true},{speaker:null,text:'（她還是拍了一張，看了一眼，刪掉。）',aa531:true},{speaker:'heroine_05',text:'用看的就好。',aa531:true},   /* AA_531 第 6 節（企劃線 475f55fe6）：交往中 10/9 補句 */
       {advance:toDay('2028-10-10',12)},{titleCard:'10/10（二）',sub:'亞利桑那'},{speaker:null,text:'（她在步道上走得比你快。走到一半，她回頭把手伸給你。）'},
       {advance:toDay('2028-10-11',21)},{titleCard:'10/11（三）',sub:'汽車旅館'},{scene:'汽車旅館',bg:'trip_hotel_twin'},{speaker:null,text:'（汽車旅館的電視只有三台。她轉到氣象台，看了很久。）'},
@@ -511,11 +511,11 @@ const R2Y4B_EVENTS=(function(){
     outingMissed:(G,GM,q)=>{ if(typeof PHONE!=='undefined') PHONE.post(G,{th:'p:heroine_05',from:'heroine_05',text:'你在忙。下週。',tag:'y4_sa_gmiss_'+((q.sa&&q.sa.k)|0)}); } },
   /* ---------- 2-Y4-57 台灣、日本路線：學姊在美國，秋假大峽谷（告白；AA_253 10-2、10-3）。10/7 早上桃園起飛 → 10/13 日落 → 10/14 起飛、10/15 晚上回到臺北 ---------- */
   { id:'ev_sis_canyon', title:'秋假：大峽谷', participants:['heroine_05'], location:'any', trigger:'outing', once:true, background:'dark', hours:0.5,
-    dialogue:[ {scene:'亞利桑那',bg:'dark'},
+    dialogue:[ {scene:'亞利桑那',bg:'az_roadside'},
       {speaker:null,text:'（她靠在租來的車旁邊，手上拿著一張列印的地圖。）'},
       {speaker:'heroine_05',text:'路線我排好了。你坐副駕，負責放音樂。'},
       {advance:toDay('2028-10-09',3)},{titleCard:'10/8（日）',sub:'亞利桑那'},{speaker:null,text:'（沙漠裡的加油站，她買了兩瓶很大的水。）'},
-      {advance:toDay('2028-10-10',3)},{titleCard:'10/9（一）',sub:'亞利桑那'},{speaker:null,text:'（第一眼看到峽谷的時候，你們兩個都沒說話。）'},
+      {advance:toDay('2028-10-10',3)},{titleCard:'10/9（一）',sub:'亞利桑那'},{scene:'大峽谷',bg:'az_canyon'},{speaker:null,text:'（第一眼看到峽谷的時候，你們兩個都沒說話。）'},
       {speaker:'heroine_05',text:'……照片拍不進去。',aa531:true},{speaker:null,text:'（她拍了一張，看了一下，沒有刪。）',aa531:true},   /* AA_531 第 6 節（企劃線 475f55fe6）：還沒交往 10/9 補句 */
       {advance:toDay('2028-10-11',3)},{titleCard:'10/10（二）',sub:'亞利桑那'},{speaker:null,text:'（她在步道上走得比你快。走到一半，她停下來等你。）'},   /* 裁定 #50：還沒交往，不牽手 */
       {advance:toDay('2028-10-12',12)},{titleCard:'10/11（三）',sub:'汽車旅館'},{scene:'汽車旅館',bg:'trip_hotel_twin'},{speaker:null,text:'（汽車旅館的電視只有三台。她轉到氣象台，看了很久。）'},

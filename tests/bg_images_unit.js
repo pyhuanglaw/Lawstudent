@@ -42,6 +42,10 @@ check('2f. 自由出行第一批四個景點的底圖（DL-06，LAWWW2-B）：d0
   const rd=f=>fs.readFileSync(path.join(ROOT,f),'utf8');
   const ok=[['src/data/group_events.js',"{scene:'小鎮的市場',bg:'town_market'}"],['src/data/vacfill_events.js',"{scene:'迪化街',bg:'dihua_newyear'}"],['src/data/r2y4b_events.js',"{scene:'宜蘭・民宿',bg:'yilan_minsu_night'}"],['src/data/events.js',"OUT.bg('office_buffet')"],['src/data/r2y4a_events.js',"OUT.bg('us_bus_chicago')"]];
   check('2o. 第三批前五張接上：大二春假小鎮早市、大一寒假迪化街、大四春假宜蘭民宿、實習的自助餐、往芝加哥的巴士',K.every(k=>B[k]&&B[k].image==='assets/bg/'+k+'.webp'&&fs.existsSync(path.join(ROOT,B[k].image)))&&ok.every(([f,x])=>rd(f).includes(x)),ok.filter(([f,x])=>!rd(f).includes(x)).map(([f,x])=>x).join('、')); }
+{ const K=['az_roadside','az_canyon','us_coat_shop','lawlib_diner','gg_family_diner'];   // 第三批第 6～10 張（使用者 11-02 生成）
+  const rd=f=>fs.readFileSync(path.join(ROOT,f),'utf8'), y4b=rd('src/data/r2y4b_events.js');
+  const ok=[['src/data/sis_y2y3_events.js',"{scene:'法圖旁邊的簡餐',bg:'lawlib_diner'}"],['src/data/events.js',"{scene:'公館・巷子裡的簡餐店',bg:'gg_family_diner'}"],['src/data/sis_b14_events.js',"bg:'us_coat_shop'"]];
+  check('2p. 第三批後五張接上：亞利桑那公路旁（兩條路線開頭）、白天的大峽谷（10/9 第一眼看到峽谷）、美國服飾店、法圖旁邊的簡餐、公館家聚；傍晚告白的「峽谷」不借白天那張',K.every(k=>B[k]&&B[k].image==='assets/bg/'+k+'.webp'&&fs.existsSync(path.join(ROOT,B[k].image)))&&ok.every(([f,x])=>rd(f).includes(x))&&(y4b.match(/\{scene:'亞利桑那',bg:'az_roadside'\}/g)||[]).length===2&&(y4b.match(/\{scene:'大峽谷',bg:'az_canyon'\}/g)||[]).length===2&&!/\{scene:'峽谷',bg:'az_canyon'\}/.test(y4b),ok.filter(([f,x])=>!rd(f).includes(x)).map(([f,x])=>x).join('、')); }
 { const noImg=Object.keys(B).find(k=>!B[k].image&&k!=='car')||'zzz_not_registered';   // nccu_dorm 10-17 有圖了（3d4d1969）：改挑一個登記了、還沒有圖的背景
   check('3. OUT.bg(id)：有圖＝{image:路徑}、沒有圖＝深色底（'+noImg+'）',OUT.bg('riverside').image==='assets/bg/riverside.webp'&&OUT.bg(noImg)==='dark'&&OUT.bg('nccu_dorm').image==='assets/bg/nccu_dorm.webp',JSON.stringify([OUT.bg('riverside'),OUT.bg(noImg),OUT.bg('nccu_dorm')])); }
 { const v=[]; for(const [h,w] of [[10,'clear'],[20,'clear'],[10,'rain']]){ global.GAME={G:{hour:h,weather:w}}; v.push(OUT.bg('car').image); } delete global.GAME;

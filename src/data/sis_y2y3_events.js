@@ -118,10 +118,10 @@ const SISY23_EVENTS=(function(){
       prereq:{custom:G=>{ const x=X(); return !!x&&x.bdayTalkDue(G,'y2'); }}, dialogue:bday('y2',false) },
     /* ---------- 2-4 交往中：前一天 21:00 她約，6/2 19:00 法圖旁邊那家 ---------- */
     { id:'ev_sis_bday_date_y1', title:'她的生日', participants:[ID], location:'any', trigger:'outing', once:true, background:'dark', hours:1.5,
-      dialogue:[ {scene:'法圖旁邊的簡餐'} ].concat(bday('y1',true)),
+      dialogue:[ {scene:'法圖旁邊的簡餐',bg:'lawlib_diner'} ].concat(bday('y1',true)),
       outingMissed:G=>{ const x=X(); if(x) x.missed(G,'bday_y1'); } },
     { id:'ev_sis_bday_date_y2', title:'她的生日', participants:[ID], location:'any', trigger:'outing', once:true, background:'dark', hours:1.5,
-      dialogue:[ {scene:'法圖旁邊的簡餐'} ].concat(bday('y2',true)),
+      dialogue:[ {scene:'法圖旁邊的簡餐',bg:'lawlib_diner'} ].concat(bday('y2',true)),
       outingMissed:G=>{ const x=X(); if(x) x.missed(G,'bday_y2'); } },
     /* ---------- 2-5 10/16（六）09:00 法扶・臺北的辦公室 → 便利商店門口的桌子 ---------- */
     { id:'ev_sis_interview', title:'訪談', participants:[ID], location:'any', trigger:'outing', once:true, background:'dark', hours:2.5,

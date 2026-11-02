@@ -301,7 +301,7 @@ const STORY_EVENTS=[
       {label:'b'},{speaker:'heroine_05',expression:'neutral',text:'可以的話就來啦，大家都會來。'},
       {label:'end'},{speaker:'heroine_05',expression:'neutral',text:'我先去圖書館了，掰掰。'},{set:{SIS_FAM_HALL:true}} ] },
   { id:'ev_sis_fam_dinner', title:'家聚', participants:['heroine_05'], location:'any', trigger:'outing', once:true, background:'dark', hours:2,
-    dialogue:[ {scene:'公館・巷子裡的簡餐店'},{speaker:null,text:'（長桌坐了七八個人，大一到大四都有。）'},
+    dialogue:[ {scene:'公館・巷子裡的簡餐店',bg:'gg_family_diner'},{speaker:null,text:'（長桌坐了七八個人，大一到大四都有。）'},
       {speaker:'Kevin',text:'來來來，學弟坐這邊。介紹一下，這是我們家的大一，{name}。'},
       {speaker:null,text:'（大家：「嗨——」溫書瑀坐在對面，朝你點了一下頭。）'},
       {unless:{flags:['SIS_W1']},speaker:'player',text:'學姊好，我是{name}。我是妳的直屬。'},   /* 沒做過 W1：祐廷先開口（AA_218 17-1；AA-C 15:59 台詞，BB-C 審口氣中）*/
