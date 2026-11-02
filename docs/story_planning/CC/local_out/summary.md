@@ -37,3 +37,5 @@
       err.log (last 5): [gpu_wrap 246.1s] page close url=http://127.0.0.1:8801/index.html?start0 | [gpu_wrap 246.1s] BROWSER DISCONNECTED
 - 2026-11-02T22:05:58  B4main  sha=27e6ce77e  exit=1  63s      [  35.3s] S1：逐字稿 C:\Users\USER\Documents\Lawstudent_cclocal\docs\story_planning\CC\local_out\B4main\out\transcript_S1.json（0 筆） / SHA 27e6ce77e CASES S1 / FAILED: S1：宿舍書桌的選單有「考前總複習」（B3；前置用）
       err.log (last 5): [gpu_wrap 35.7s] page close url=http://127.0.0.1:8801/index.html | [gpu_wrap 35.7s] BROWSER DISCONNECTED
+- 2026-11-02T22:26:02  R8b_y4s2jp  sha=b1b249873  exit=0  1199s    PASS route_grades：沒有 JS 例外  [] / SHA b1b249873 CASES route_grades / ALL PASS
+      err.log (last 5): [gpu_wrap 1171.1s] page close url=http://127.0.0.1:8801/index.html?turbo | [gpu_wrap 1171.1s] BROWSER DISCONNECTED

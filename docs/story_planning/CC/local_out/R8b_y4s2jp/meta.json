@@ -1,0 +1,15 @@
+﻿{
+    "rerun":  "paper1102",
+    "id":  "R8b_y4s2jp",
+    "sha":  "b1b249873",
+    "kind":  "probe",
+    "script":  "docs/story_planning/test_tools/cc/cc_makeup_probe.py",
+    "env":  "FAIL_ROUTE=jp;CASES=route_grades;RERUN=paper1102",
+    "machine":  "MSI",
+    "start":  "2026-11-02T22:06:03",
+    "end":  "2026-11-02T22:26:02",
+    "seconds":  1199,
+    "exit":  0,
+    "error":  null,
+    "url":  "http://127.0.0.1:8801/index.html?turbo"
+}
