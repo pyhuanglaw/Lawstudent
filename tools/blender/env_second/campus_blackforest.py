@@ -6,7 +6,7 @@
   - 落葉泥土地（Poly Haven CC0 forest_leaves_02，調暗、偏褐）：兩塊範圍整片，邊緣不規則（不是一刀切的長方形）；水池那一圈留空（池子、石砌池邊在遊戲裡）。
   - 土徑（Poly Haven CC0 forest_ground_04）：配置的五條；沒有地磚。
   - 榕樹的板根：每棵榕樹 5～6 片、樟樹 3 片，從樹幹往外鋪在地上（樹皮和 street_trees 的榕樹同一張）。
-  - 林下：蕨類（一叢 7～9 片羽狀葉，本作畫的葉片貼圖）、矮灌木（交叉的葉片卡，本作畫的 azalea_leaves 貼圖）。
+  - 林下：蕨類（一叢 7～9 片羽狀葉，本作畫的葉片貼圖）、矮灌木（三張交叉的葉叢卡，本作畫的 bf_shrub_card 貼圖：透明背景上的不規則葉叢；11-02 第一版用 azalea_leaves 鋪滿整張卡＝方形綠箱子）。
 不擋導航（板根、灌木都很矮）；導航在遊戲那邊照配置的樹幹擋。"""
 import json, math, os, random, re, sys
 HERE = os.path.dirname(os.path.abspath(__file__))
@@ -40,6 +40,26 @@ def frond_tex(path, w=128, h=512, seed=3):
     im.save(path)
 
 
+def shrub_tex(path, w=256, h=256, seed=11):
+    """一叢矮灌木的葉片卡（11-02 第一版用 azalea_leaves 鋪滿整張卡＝遊戲裡看起來是方形綠箱子）：
+    透明背景上一個不規則的半圓形葉叢——幾百片小葉子（深綠、上緣幾片亮的），下面露幾根細枝，輪廓是一片一片葉子"""
+    from PIL import Image, ImageDraw
+    rnd = random.Random(seed); im = Image.new('RGBA', (w, h), (0, 0, 0, 0)); d = ImageDraw.Draw(im)
+    for k in range(7):   # 細枝
+        x0 = w * rnd.uniform(0.35, 0.65); d.line([(x0, h * 0.99), (x0 + rnd.uniform(-40, 40), h * rnd.uniform(0.55, 0.7))], fill=(58, 46, 32, 255), width=2)
+    blobs = [(w * rnd.uniform(0.22, 0.78), h * rnd.uniform(0.38, 0.62), w * rnd.uniform(0.17, 0.27)) for _ in range(6)]   # 幾團葉子組成的不規則輪廓
+    n = 0
+    while n < 1100:
+        x = rnd.uniform(0, w); y = rnd.uniform(h * 0.12, h * 0.9)
+        if not any((x - bx) ** 2 + ((y - by) * 1.15) ** 2 < br * br for bx, by, br in blobs): continue
+        top = 1.0 - y / h; g = rnd.uniform(48, 92) * (0.85 + 0.45 * top)
+        if rnd.random() < 0.07 * (0.5 + top): g *= 1.45
+        col = (int(g * 0.45), int(g), int(g * 0.32), 255)
+        a = rnd.uniform(0, math.pi); L_ = rnd.uniform(5, 9); W_ = L_ * 0.42; ca, sa = math.cos(a), math.sin(a)
+        d.polygon([(x - ca * L_, y - sa * L_), (x - sa * W_, y + ca * W_), (x + ca * L_, y + sa * L_), (x + sa * W_, y - ca * W_)], fill=col); n += 1
+    im.save(path)
+
+
 def leaf_mat(name, png, rough=0.75):
     m = L.flat(name, '#ffffff', rough=rough); nt = m.node_tree; N = nt.nodes; bs = N['Principled BSDF']
     tx = N.new('ShaderNodeTexImage'); tx.image = bpy.data.images.load(png); tx.image.alpha_mode = 'STRAIGHT'
@@ -54,10 +74,11 @@ def build():
     B.reset(texres=512)
     root = B.group('campus_blackforest', props={'kind': 'campus_blackforest'})
     fpng = os.path.join(GEN, 'bf_fern_frond.png'); frond_tex(fpng)
+    spng = os.path.join(GEN, 'bf_shrub_card.png'); shrub_tex(spng)
     M = {'floor': L.pbr('bf_forest_floor', 'forest_leaves_02', tile=3.2, target='#4c4334', contrast=1.05, sat=0.8, normal=0.6, maps=('diff', 'nor'), rough_value=0.96),
          'path': L.pbr('bf_dirt_path', 'forest_ground_04', tile=2.2, target='#6a5845', contrast=0.95, sat=0.75, normal=0.5, maps=('diff', 'nor'), rough_value=0.95),
          'roots': L.pbr('bf_roots', 'chinese_hackberry_bark', tile=1.0, target='#7f7b70', sat=0.35, maps=('diff', 'nor'), res=256, rough_value=0.85, normal=0.8),
-         'fern': leaf_mat('bf_fern', fpng), 'shrub': leaf_mat('bf_shrub', os.path.join(GEN, 'azalea_leaves.png'))}
+         'fern': leaf_mat('bf_fern', fpng), 'shrub': leaf_mat('bf_shrub', spng)}
     fl, pa, rt, fe, sh = (Mesh('bf_floor', M['floor'], tile=3.2), Mesh('bf_paths', M['path'], tile=2.2), Mesh('bf_roots', M['roots'], tile=1.0),
                           Mesh('bf_ferns', M['fern']), Mesh('bf_shrubs', M['shrub']))
     rnd = random.Random(1102)
@@ -139,10 +160,10 @@ def build():
         else:
             for k in range(3):
                 a = s['ry'] + math.pi * k / 3; ca, sa = math.cos(a), math.sin(a)
-                q = [(x - ca * r, 0.0, z - sa * r), (x + ca * r, 0.0, z + sa * r), (x + ca * r * 0.8, h, z + sa * r * 0.8), (x - ca * r * 0.8, h, z - sa * r * 0.8)]
+                q = [(x - ca * r, -0.02, z - sa * r), (x + ca * r, -0.02, z + sa * r), (x + ca * r, h, z + sa * r), (x - ca * r, h, z - sa * r)]
                 vs = [sh.bm.verts.new(g2b(*c)) for c in q]; f = sh.bm.faces.new(vs)
-                uvl = sh.bm.loops.layers.uv.verify(); u0 = rnd.uniform(0, 0.5)
-                for lp, uv in zip(f.loops, [(u0, 0.0), (u0 + 0.5, 0.0), (u0 + 0.5, 0.5 * h / r), (u0, 0.5 * h / r)]): lp[uvl].uv = uv
+                uvl = sh.bm.loops.layers.uv.verify(); fl_ = rnd.random() < 0.5   # 整張葉叢卡（bf_shrub_card），一半左右翻
+                for lp, uv in zip(f.loops, [(1.0 if fl_ else 0.0, 0.0), (0.0 if fl_ else 1.0, 0.0), (0.0 if fl_ else 1.0, 1.0), (1.0 if fl_ else 0.0, 1.0)]): lp[uvl].uv = uv
             n_shrub += 1
     fl.finish(root, uv=True); pa.finish(root, uv=True); rt.finish(root, uv=True, smooth=True)
     fe.finish(root, uv=False, merge=False); sh.finish(root, uv=False, merge=False)

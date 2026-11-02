@@ -4,8 +4,8 @@
  "tris": 7346,
  "tris_drawn": 7346,
  "materials": 5,
- "out": "assets/models/env/second_ai/campus_blackforest.glb",
- "bytes": 1084384,
+ "out": "../../../tmp/claude-0/-home-user-Lawstudent/b2086276-f771-5e36-88cb-063a8a6233cc/scratchpad/bforest/campus_blackforest.glb",
+ "bytes": 919060,
  "texres": 512,
  "layout": {
   "stats": {

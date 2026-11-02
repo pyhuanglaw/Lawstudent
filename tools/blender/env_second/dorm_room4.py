@@ -539,7 +539,7 @@ def loft(uid, side, ua, ub, sets):
     yaw = math.pi / 2 if side == 'R' else -math.pi / 2
     LAYOUT['units'].append({'id': uid, 'side': side, 'sets': sets, 'u': [round(ua, 3), round(ub, 3)], 'stair_u': [round(ust, 3), round(ub, 3)],
                             'block': {'x': sorted((round(wx(side, 0), 3), round(wx(side, VD + 0.05), 3))), 'z': [round(ua, 3), round(ub, 3)]},
-                            'seat': {'x': round(wx(side, 0.86), 3), 'z': round(cu_, 3), 'yaw': round(yaw, 4)}, 'seat_approach': [round(wx(side, 1.35), 3), round(cu_, 3)],
+                            'seat': {'x': round(wx(side, 0.86), 3), 'z': round(cu_, 3), 'yaw': round(yaw, 4)}, 'seat_approach': [round(wx(side, 1.45), 3), round(cu_, 3)],
                             'desk_center': [round(wx(side, 0.31), 3), round((k0 + k1) / 2, 3)], 'desk_top_y': Y, 'desk_u': [round(k0, 3), round(k1, 3)],
                             'sleep': [round(wx(side, VD + 0.4), 3), round((ust + ub) / 2, 3)], 'bed_top_y': DECK1 + 0.16,
                             'floor_under_bed_spot': [round(wx(side, 0.3), 3), round(w0 - 0.35, 3)],
@@ -857,7 +857,7 @@ bmat = Mesh('dorm_bathmat', L.flat('dorm_bathmat', '#7f8b92', rough=0.97)); soft
 met.cyl((-1.89, 0.06, 3.12), (-1.94, 1.22, 3.27), 0.011, seg=6)                                                                      # 掃把：鋁管＋塑膠頭＋刷毛
 it.cbox(-1.96, -1.82, 0.02, 0.1, 3.05, 3.19, '#2f6f8f'); it.cbox(-1.95, -1.83, 0.0, 0.03, 3.06, 3.18, '#c9b98a')
 it.cbox(-1.96, -1.72, 0.0, 0.015, 3.24, 3.36, '#2f6f8f'); it.cbox(-1.96, -1.94, 0.015, 0.2, 3.24, 3.36, '#2f6f8f')                    # 畚箕（立在牆角）
-LAYOUT['blocks'] += [{'id': 'shoe_cabinet', 'x': [IX0, round(IX0 + 0.36, 3)], 'z': [1.82, 2.82]}, {'id': 'bins', 'x': [-1.72, -1.08], 'z': [3.05, IZ1]},
+LAYOUT['blocks'] += [{'id': 'shoe_cabinet', 'x': [IX0, round(IX0 + 0.36, 3)], 'z': [1.765, 2.82]}, {'id': 'bins', 'x': [-1.72, -1.08], 'z': [3.05, IZ1]},
                      {'id': 'drying_rack', 'x': [RX0 - 0.05, RX1 + 0.05], 'z': [RZ - 0.3, RZ + 0.3]}, {'id': 'bath', 'x': [round(bx0 - bt / 2, 3), IX1], 'z': [round(bz0 - bt / 2, 3), IZ1]}]
 
 # ======================================================================= 只在烘焙時擋光的東西（--bakeblock；bake_dorm_room4.sh 的 --nolm、--drop 都有 BAKEONLY：不分光照貼圖、輸出前刪掉）
@@ -910,8 +910,8 @@ if ONLY == '205' and ROOM_LAYOUT_OUT:
              dict(id='sill', x=0.0, z=f2(IZ0 + 0.75), r=0.7, label='窗台的盆栽', note='', dev='三盆多肉，和祐廷房間窗台那三盆同一種；遊戲裡顯示的字等 AA 寫'),
              ]   # 洗手間不放「看」：它的點離進門的位置 0.25 m，一進門就跳出「洗手間（門關著）」（第一輪截圖）
     spots = {'fang': dict(x=r1['seat']['x'], z=r1['seat']['z'], yaw=r1['seat']['yaw'], act='sit', note='方奕廷坐在自己的書桌前（R1，靠窗）'),
-             'fang_stand': dict(x=0.55, z=f2(IZ0 + 0.55), yaw=round(math.pi, 4), act='stand', note='方奕廷站在窗台前（拿噴水瓶）'),
-             'player': dict(x=f2(AISLE - 0.25), z=f2(r1['seat']['z'] + 0.75), yaw=round(math.pi / 2 + 0.6, 4), act='stand', note='玩家（站在他的書桌旁邊）')}
+             'fang_stand': dict(x=0.3, z=f2(IZ0 + 0.55), yaw=round(math.pi, 4), act='stand', note='方奕廷站在窗台前（拿噴水瓶）'),   # 11-02 走道剩 1.8 m：x ≤ 0.38 才站得進導航格（0.4 m 格、半徑 0.32）
+             'player': dict(x=f2(AISLE - 0.55), z=f2(r1['seat']['z'] + 0.75), yaw=round(math.pi / 2 + 0.6, 4), act='stand', note='玩家（站在他的書桌旁邊）')}
     ROOMLAY = dict(version=1, zone='dorm_205', name='205 寢室（方奕廷的房間）', type='寢室', src='AA_399 第 11 節（企劃線 5d09bb725）；LAWWW-B 10-24 03:53 任務 #82；dorm_room4.py --only 205',
                    bounds=dict(x0=X0, x1=X1, z0=Z0, z1=Z1), h=H, cam_dist=3.6, door=dict(x=0.0, w=round(DOOR[1] - DOOR[0], 3), z=Z1, note='+z 那一面中間（和祐廷的房間同一型）'),
                    spawn=dict(x=RM['spawn'][0], z=RM['spawn'][1], yaw=round(math.pi, 4), note='進門、面向房間裡（−z）'),
