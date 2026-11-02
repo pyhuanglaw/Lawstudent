@@ -145,27 +145,27 @@ bigmart)
   NAME=us_market; PLAINBLOB=54fea93dcabd6fb16317c09bfb1a152c2b2bbb85
   HIDE='glass|case_doors|usm_outside|GLOW_|DOOR_usm'
   NOLM='usm_products|usm_price|usm_shelves|usm_aisle_signs|usm_fruit|usm_cart|usm_chrome|usm_black|usm_joists|usm_ducts|usm_belts|PLATE_FACE|usm_vc|usm_outside|usm_case_frame|usm_mats|usm_case_back|usm_checkout_top'
-  # 第三版（11-02，三位獨立審查：整間地板比烘焙前暗約 25%、正面玻璃那一帶反而亮）：燈分兩組——貨架走道、冷凍區、蔬果牆前（LEDW、UPW）加亮；
-  #   前段、後段沿 x 的那幾排和蔬果平台上方（XW、UPXW）照舊（第二版前段那一帶已經比烘焙前亮）。試烘對遊戲內地板亮度（中間走道、冷凍走道、蔬果區、結帳區）。
-  LIGHTS=$(python3 - "${LEDW:-34}" "${XW:-21}" <<'PY'
+  # 第三版（11-02，三位獨立審查：整間地板比烘焙前暗約 25%、正面玻璃那一帶反而亮）：燈分三組——貨架走道、冷凍區、蔬果牆前（LEDW、UPW）加亮；
+  #   後排沿 x（z −12.6）和蔬果平台上方（XW、UPXW）照舊；前段兩排（z 9.5、13.2：收銀台、門口；XFW、UPXFW）調暗（第二版前段那一帶已經比烘焙前亮）。試烘對遊戲內地板亮度（中間走道、冷凍走道、蔬果區、結帳區）。
+  LIGHTS=$(python3 - "${LEDW:-44}" "${XW:-21}" "${XFW:-15}" <<'PY'
 import json, sys
-J = json.load(open('assets/models/env/second_ai/us_market.layout.json')); W = sys.argv[1]; XW = sys.argv[2]; col = '0.97,0.98,1.0'
+J = json.load(open('assets/models/env/second_ai/us_market.layout.json')); W = sys.argv[1]; XW = sys.argv[2]; XFW = sys.argv[3]; col = '0.97,0.98,1.0'
 FROZEN = (-19.0, -13.9, 19.9)   # 天花板沒有燈條的三條走道：西邊冷凍區兩條（冷凍牆和冷凍島中間、冷凍島和第 1 排中間）、東邊蔬果牆前面：見上面「冷凍區」
 out = []
 for g in J['gondolas']:
     xa = g['x'] + 1.45
     for zz in (-7.5, -3.8, -0.1, 3.6): out.append(f'{xa - 0.01:.2f},{xa + 0.01:.2f},{zz - 0.01:.2f},{zz + 0.01:.2f},4.53,1,1,{W},0.12,2.8,{col}')
 for xx in range(-20, 22, 4):
-    for zz in (-12.6, 9.5, 13.2): out.append(f'{xx - 0.01:.2f},{xx + 0.01:.2f},{zz - 0.01:.2f},{zz + 0.01:.2f},4.53,1,1,{XW},2.8,0.12,{col}')
+    for zz in (-12.6, 9.5, 13.2): out.append(f'{xx - 0.01:.2f},{xx + 0.01:.2f},{zz - 0.01:.2f},{zz + 0.01:.2f},4.53,1,1,{XW if zz < 0 else XFW},2.8,0.12,{col}')   # 前段兩排（收銀台、門口；白天還有玻璃進來的天光）比後排暗一點
 for zz in (-6.0, -1.6, 2.8): out.append(f'16.29,16.31,{zz - 0.01:.2f},{zz + 0.01:.2f},4.53,1,1,{XW},4.6,0.12,{col}')   # 蔬果平台上方（不是熟食區：熟食在西北角）
 for xa in FROZEN:
     for zz in (-7.5, -3.8, -0.1, 3.6): out.append(f'{xa - 0.01:.2f},{xa + 0.01:.2f},{zz - 0.01:.2f},{zz + 0.01:.2f},4.53,1,1,{W},0.12,2.8,{col}')
 print(';'.join(out))
 PY
 )
-  PT=$(python3 - "${UPW:-19}" "${UPXW:-12}" <<'PY'
+  PT=$(python3 - "${UPW:-24}" "${UPXW:-12}" "${UPXFW:-8}" <<'PY'
 import json, sys
-J = json.load(open('assets/models/env/second_ai/us_market.layout.json')); W = sys.argv[1]; XW = sys.argv[2]; col = '0.97,0.98,1.0'
+J = json.load(open('assets/models/env/second_ai/us_market.layout.json')); W = sys.argv[1]; XW = sys.argv[2]; XFW = sys.argv[3]; col = '0.97,0.98,1.0'
 FROZEN = (-19.0, -13.9, 19.9)
 out = []
 for g in J['gondolas']:
@@ -173,7 +173,7 @@ for g in J['gondolas']:
 for xa in FROZEN:
     for zz in (-7.5, -3.8, -0.1, 3.6): out.append(f'{xa:.2f},3.35,{zz:.2f},{W},{col},0.3')
 for xx in range(-20, 22, 4):
-    for zz in (-12.6, 9.5, 13.2): out.append(f'{xx:.2f},3.35,{zz:.2f},{XW},{col},0.3')
+    for zz in (-12.6, 9.5, 13.2): out.append(f'{xx:.2f},3.35,{zz:.2f},{XW if zz < 0 else XFW},{col},0.3')
 print(';'.join(out))
 PY
 )
