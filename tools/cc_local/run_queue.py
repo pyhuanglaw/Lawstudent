@@ -251,10 +251,23 @@ class Runner(object):
         if not os.path.exists(self.work):
             git('-C', self.repo, 'worktree', 'prune')
             git('-C', self.repo, 'worktree', 'add', '--detach', self.work, 'origin/' + CC_BRANCH)
-        if has_remote_local:
+        # 本機已有結果分支（上一輪沒 push 成功、或 --no-push）：沿用它再合併遠端，不丟掉本機的結果 commit。
+        # 合併失敗才退回舊版的做法（以遠端為底重建）。
+        rc_l, _ = git('-C', self.work, 'rev-parse', '--verify', '--quiet', 'refs/heads/' + self.branch, quiet=True)
+        rc = 1
+        if rc_l == 0:
+            rc, _ = git('-C', self.work, 'checkout', self.branch)
+            if rc == 0 and has_remote_local:
+                rc, _ = git('-C', self.work, 'merge', '--no-edit', 'origin/' + self.branch)
+            if rc == 0:
+                rc, _ = git('-C', self.work, 'merge', '--no-edit', 'origin/' + CC_BRANCH)
+            if rc != 0:
+                log('local %s could not be merged - rebuilding it from origin (old behaviour)' % self.branch)
+                git('-C', self.work, 'merge', '--abort', quiet=True)
+        if rc != 0 and has_remote_local:
             git('-C', self.work, 'checkout', '-B', self.branch, 'origin/' + self.branch)
             rc, _ = git('-C', self.work, 'merge', '--no-edit', 'origin/' + CC_BRANCH)
-        else:
+        elif rc != 0:
             rc, _ = git('-C', self.work, 'checkout', '-B', self.branch, 'origin/' + CC_BRANCH)
         if rc != 0:
             print('git checkout/merge failed in %s - fix it and rerun' % self.work); sys.exit(1)
