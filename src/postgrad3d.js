@@ -3,6 +3,10 @@
    7/12 20:00 總圖 B1 → 8/3 學姊的便條 → 8/4 一試（20 題）→ 9/7 一試放榜 → 10/20～21 二試 → 12/14 二試放榜（18:00 麵店、21:00 以安的電話）→
    2030-01-25 以安三試放榜（電話）→（交換延畢、2029 一試不到 12 題：2030 再一輪，8/3、9/6、10/19～20、12/13）→ 2030-10-01 第一份工作 →
    （2030 一試也沒過：2031～2033 每年再一輪——5 月報名（年份字卡＋報名／不報名）、8 月一試 20 題、9 月一試放榜、10 月二試字卡、12 月二試放榜；不報名＝停在那一年，S.LATE_YEARS）→ 2034-06-03 尾聲（CG-10）→ 回標題。
+   - D118-B8 司法官（AA_582、AA_583；使用者 A1／A2／A5／A6）：一試 ≥16 的人二試第二天考司法官二試 10 題爭點題（S.drawJudge）→ 12 月放榜（第一次考一定沒上；之後答對 ≥7，或 ≥6＋四年在校平均答對 ≥4）→
+     第一次落榜、有律師證照＝當晚二選一（再考／就當律師）→ 重考那一年只考一試＋司法官二試（BAR_YEAR 不動），之後每年 5 月問一次、到 2033 → 錄取＝隔年 1 月三試、1 月下旬錄取（JUDGE_YEAR）→ 結業前選法官／檢察官（J_judge／J_pros）。
+     旗標：JUDGE_SCORE2_<年>、JUDGE_PASS_<年>、JUDGE_RETAKE（true／false／'done'）、JUDGE_RETAKE_Y、JUDGE_REG_<年>、JUDGE_TRIES、JUDGE_YEAR、JUDGE_ROLE；PG.judge／PG.grad＝抽過的題。測試：tests/d118_b8_unit.js、d118_b6_unit.js
+   - D118-B6 落點 v2：有 BAR_YEAR 一定在律師家族（A_bar／C_zq／B_grad／L_firm）；研究所筆試照作答（S.gradQuiz，GRAD_SCORE_<年>）。
    - 一試門檻（使用者 2026-11-02 09:1x，AA_572 第 5 節末 A3、A4）：每一年同一套——答對 ≥16 律師、司法官二試都進，≥12 進律師二試，不到 12 那一年就沒有二試（原本 2030 一律進律師二試的保底取消）。
    - 拍照演完（F.GRADUATED）以後是「畢業後篇」（S.on）：站著不動 2 秒、或睡覺＝跳到下一件事（場景、手機訊息、出遊；做法同經濟系的 ECONFF）；
      跳的途中照時間跑手機規則，收到訊息就停、打開那一段。課表的提醒、去上課的選單不再跳（classes3d.js 讀 PG.on）。
@@ -639,7 +643,7 @@ const PG=(function(){
     out.push({id:'miss_exam_2030',at:G=>T(Y[2030].exam,30),until:G=>T(Y[2030].r1,0),cond:G=>S.rec(G).done.exam_2030==='missed',run:GM=>narrScene(GM,[L().MISSED.exam2030])});
     return out; };
   S.STEPS=[
-    {id:'reg',at:G=>T('2029-05-10',21),until:G=>T('2029-05-12',0),cond:G=>!S.delayed(G)&&G.flags.BAR_REG==null&&G.flags.Y4_PATH!=='bar',run:regScene,onMiss:G=>{ if(G.flags.BAR_REG==null&&G.flags.Y4_PATH!=null) G.flags.BAR_REG_MISSED_2029=true; }},   /* 錯過報名（D118 ③-13）：一句旁白、2030 年可以報名（大四選過路的玩家才算；Y4_PATH bar 的 5/10 自動報名）*/
+    {id:'reg',at:G=>T('2029-05-10',21),until:G=>T('2029-05-12',0),cond:G=>!S.delayed(G)&&G.flags.BAR_REG==null&&G.flags.Y4_PATH!=='bar',run:regScene,onMiss:G=>{ if(G.flags.BAR_REG==null&&G.flags.Y4_PATH!=null&&NOW(G)<T('2029-05-14',0)) G.flags.BAR_REG_MISSED_2029=true; }},   /* 錯過報名（D118 ③-13）：一句旁白、2030 年可以報名（大四選過路的玩家才算；Y4_PATH bar 的 5/10 自動報名）。只算玩的時候真的錯過（跳時間會先停在 5/10 那一場，所以截止後兩天內才標）；很久以後才讀的存檔不補 */
     {id:'reg_2030',at:G=>T('2030-05-10',21),until:G=>T('2030-05-12',0),cond:G=>(S.delayed(G)||S.miss29(G))&&G.flags.BAR_REG_2030==null,run:regScene2030,onMiss:G=>{ G.flags.BAR_REG_2030=false; }},   /* AA_357 1-6；錯過＝沒回答＝不報名（日期卡、考不考都照這個）*/
     {id:'grad',at:G=>T(GRAD,6),until:G=>T('2029-06-04',0),cond:G=>true,ready:G=>S.gradReady(G),run:gradScene},
     {id:'cafe',at:G=>T(GRAD,17.25),until:G=>T(GRAD,21),cond:G=>{ const q=typeof OUT!=='undefined'?OUT.get(G,'pg_grad_cafe'):null; return !!q&&q.state==='done'&&G.zone==='cafe'; },run:cafeScene},

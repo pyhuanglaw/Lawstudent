@@ -37,7 +37,7 @@ const FRIENDS=['zhe','yu','classmate_bohan','classmate_xinci','classmate_mingxua
   const sim=async(name,flags,setup,o)=>{ o=o||{}; const G=H.fresh('2029-06-02',8,'dorm',Object.assign({PACKED_Y4:PG.gradDay()-1},flags)); FRIENDS.forEach(H.FRIEND); if(setup) setup(G);   /* [前置] 6/1 收拾過、鬧鐘 08:00 起床 */
     PHONE.join(G,'noodle_team','麵店團'); PHONE.join(G,'home','家人');
     warns.length=0; rej.length=0; const order=[], stops=[]; let mono=true, it=0, err=null, sleeps=0;
-    const ran=new Set(); const orun=PG.runStep; PG.runStep=async function(GM,s){ const r=await orun.call(PG,GM,s); if(r){ order.push(s.id); ran.add(s.id); } return r; };
+    const ran=new Set(); const orun=PG.runStep; PG.runStep=async function(GM,s){ if(/^jretake_/.test(s.id)&&!PG.done(GM.G,s.id)) H.picks=[o.retake?0:1];   /* D118-B8：司法官第一次落榜的二選一（AA_582 (f)）；沒寫＝「就當律師。」（路線 d，照原本只考 2029 的流程）*/ const r=await orun.call(PG,GM,s); if(r){ order.push(s.id); ran.add(s.id); } return r; };
     try{
       for(it=0; it<120&&!G.flags.EPILOGUE_DONE; it++){ const before=G.day*24+G.hour;
         const ns=PG.nextStop(G); for(const [yy,sc] of [[2029,o.score],[2030,o.score2030]]){ const ex=PG.byId('exam_'+yy); if(sc!=null&&!PG.done(G,'exam_'+yy)&&ex.cond(G)&&(PG.due(G)===ex||(ns!=null&&Math.abs(ns-ex.at(G))<1e-6))) H.picks=answerK(PG.draw(G,yy),sc); }   /* score2030：2030 一試答對幾題（使用者 2026-11-02 09:1x A4 取消 2030 保底以後，2030 要考上得真的答對 12 題）*/
@@ -62,7 +62,7 @@ const FRIENDS=['zhe','yu','classmate_bohan','classmate_xinci','classmate_mingxua
     check('B1. 2029 沒有二試；2030 考上（BAR_YEAR 2030）；第一份工作是補習班的自習室',!order.includes('e2a_2029')&&G.flags.BAR_YEAR===2030&&H.msgs('g:noodle_team').includes('📷（照片：補習班的自習室。）'));
     check('B1. 可昕的畢業典禮（6/9）去了',OUT.get(G,'pg_kx_grad')&&OUT.get(G,'pg_kx_grad').state==='done'); }
   { const {G,order}=await sim('B2 單身、2029 考上（答對 17）',{BAR_REG:true,LAWCLUB_SAT_VISITS:10},null,{score:17,sleep:true});
-    const want=['grad','b1','exam_2029','r1_2029','e2a_2029','e2b_2029','r2_2029','an1','an2','first','epi'];
+    const want=['grad','b1','exam_2029','r1_2029','e2a_2029','e2b_2029','r2_2029','jretake_2029','an1','an2','first','epi'];   /* D118-B8：12/14 20:30 二選一（選「就當律師。」）*/
     check('B2. 順序：典禮 → B1 → 一試 → 放榜 → 二試兩天 → 12/14 放榜 → 以安的電話 → 第一份工作 → 尾聲（睡覺、站著不動交替）',want.every((id,i)=>order.indexOf(id)>=0&&(i===0||order.indexOf(id)>order.indexOf(want[i-1])))&&!order.some(id=>/2030/.test(id)),order.join(' → '));
     check('B2. BAR_YEAR 2029、司法官一試也過（17 題）、第一份工作是法扶',G.flags.BAR_YEAR===2029&&G.flags.BAR_STAGE_2029==='both'&&H.msgs('g:noodle_team').includes('📷（照片：法律扶助基金會的櫃台。名牌上的字還是新的。）'));
     check('B2. 12/14 的麵店（出遊）去了；尾聲祐廷「我在法扶。這禮拜開了三個庭。」',OUT.get(G,'pg_bar_noodle_2029')&&OUT.get(G,'pg_bar_noodle_2029').state==='done'&&H.has('我在法扶。這禮拜開了三個庭。')); }
