@@ -1,13 +1,13 @@
 {
- "objects": 397,
- "unique_meshes": 97,
- "tris": 30144,
- "tris_drawn": 65144,
- "materials": 27,
- "out": "../../../tmp/claude-0/-home-user-Lawstudent/b2086276-f771-5e36-88cb-063a8a6233cc/scratchpad/lib1102/b1v5/library_b1.glb",
- "bytes": 2729444,
+ "objects": 458,
+ "unique_meshes": 104,
+ "tris": 32036,
+ "tris_drawn": 86092,
+ "materials": 28,
+ "out": "../../../tmp/claude-0/-home-user-Lawstudent/b2086276-f771-5e36-88cb-063a8a6233cc/scratchpad/lib1102/b1v6/library_b1.glb",
+ "bytes": 2875028,
  "texres": 512,
- "tris_total": 65144,
+ "tris_total": 86092,
  "layout": "library_b1.layout.json",
  "seats": 115
 }

@@ -264,12 +264,14 @@ def facet(i):
     p0 = (R['cx'] + R['r'] * math.cos(a0), R['cz'] - R['r'] * math.sin(a0)); p1 = (R['cx'] + R['r'] * math.cos(a1), R['cz'] - R['r'] * math.sin(a1))
     return a0, a1, p0, p1
 def facet_quad(m, p0, p1, ya, yb, off=0.0, ua=0.0, ub=1.0):
-    """弧牆的一段（p0→p1 的直線段），往外推 off；只畫室內那一面（朝圓心）＋外面那一面"""
+    """弧牆的一段（p0→p1 的直線段），往外推 off；室內那一面（法線朝圓心）＋外面那一面（法線朝外，厚度 T）。
+    11-02 第二次改：原本兩面的頂點順序都反了（室內那一面的法線朝外）。烘焙把室內那一面當成背對室內（和 dir 反方向）不分像素、收成一點，
+    遊戲裡（雙面材質）看到的就是那一點的光——一片一片的平三角（第一次只修了 dir 的東西對調，沒修到這裡）。"""
     ax, az = p0[0] + (p1[0] - p0[0]) * ua, p0[1] + (p1[1] - p0[1]) * ua
     bx_, bz = p0[0] + (p1[0] - p0[0]) * ub, p0[1] + (p1[1] - p0[1]) * ub
     mx, mz = (ax + bx_) / 2 - R['cx'], (az + bz) / 2 - R['cz']; n = math.hypot(mx, mz); ox, oz = mx / n * off, mz / n * off
-    m.quad([(ax + ox, ya, az + oz), (bx_ + ox, ya, bz + oz), (bx_ + ox, yb, bz + oz), (ax + ox, yb, az + oz)])
-    m.quad([(bx_ + ox * 0 + mx / n * (off + T), ya, bz + mz / n * (off + T)), (ax + mx / n * (off + T), ya, az + mz / n * (off + T)), (ax + mx / n * (off + T), yb, az + mz / n * (off + T)), (bx_ + mx / n * (off + T), yb, bz + mz / n * (off + T))])
+    m.quad([(bx_ + ox, ya, bz + oz), (ax + ox, ya, az + oz), (ax + ox, yb, az + oz), (bx_ + ox, yb, bz + oz)])
+    m.quad([(ax + mx / n * (off + T), ya, az + mz / n * (off + T)), (bx_ + mx / n * (off + T), ya, bz + mz / n * (off + T)), (bx_ + mx / n * (off + T), yb, bz + mz / n * (off + T)), (ax + mx / n * (off + T), yb, az + mz / n * (off + T))])
 def rot_group(i): return 'RE' if i < 5 else ('RN' if i < 10 else 'RW')   # facet(i) 從 +x（東）開始：i < 5 是東側。11-02 第一次烘焙東西寫反了→ dir 朝外：朝室內的面被當成背面縮成一點（光照貼圖一片一片的平三角），遊戲裡鏡頭在室內時兩側弧牆反而淡出
 RDIR = {'RW': [0.7, 0, 0.5], 'RN': [0, 0, 1], 'RE': [-0.7, 0, 0.5]}
 TIERS = ((0, R0, 0.0, Y1, 0.9, 4.2), (1, R1, Y1, RY, 6.0, 8.8))
