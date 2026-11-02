@@ -14,6 +14,7 @@
   3 沒有 JS 例外（pageerror、console error 分開記；console error 只記不判，pageerror 判）
   4 不卡住：同一個狀態（day、hour 變化 < 0.01、畫面上的字、選項、忙碌…都沒變）超過 STUCK_S 秒＝FAIL，截圖、記狀態，然後嘗試恢復
     （收面板、點對話框、點腳邊的地面、有課就再按一次「直接去上課」）；恢復以後 STUCK_S 秒還是不動＝結束、FAIL
+  6（BB 14:30 INFO 2）結束時：手機訊息／toast 裡每一則「下週期末考」（STUDY.remind）都在該學期第一個期末考日之前 1～8 天；考試週當天或之後＝FAIL；一則都沒有＝note「沒有跑到考前一週」（summary.final_reminders）
   5 每天一行摘要（stdout 的「DAY」行＋summary.json）：日期、星期、學期週、每一堂課的狀態（上過／遲到／缺席／沒去）、事件 id、PG 步驟、選項、存讀檔結果、考試分數、耗時
 輸出：<輸出>/summary.json（每天一列＋總結）、transcript.jsonl（每天一行：台詞、選項、事件）、每 7 天一張截圖、卡住／例外的截圖。
 DAYS＝玩家「自己過完」的天數（那一天有空下來、做了晚上的存讀檔＋上床；開場劇情一路跳過的日子列在摘要、不算）。
@@ -38,6 +39,7 @@ SAVE_CHECK = ENVI('SAVE_CHECK', 1); SHOT_EVERY = ENVI('SHOT_EVERY', 7)
 ROUTE = os.environ.get('ROUTE', 'tw').strip() or 'tw'; START = os.environ.get('START', 'law').strip() or 'law'
 STUCK_S = int(os.environ['STUCK_S']) if os.environ.get('STUCK_S') else None
 SHORTCUTS = []
+REMINDS = {}   # (來源, day, h, 文字) → 紀錄
 ROWBUF = []   # 重新整理以前先把當天的紀錄收起來
 
 if '?turbo' in URL or '&turbo' in URL: raise SystemExit('真實流程不能用 ?turbo')
@@ -59,6 +61,7 @@ HOOK = r"""(()=>{ if(window.__FSH) return 'again'; window.__FSH=1; window.__FS=[
   const s0=GAME.say; GAME.say=function(w,t){ push({k:'say',n:(w&&w.name)||(typeof w==='string'?w:''),t:String(t==null?'':t)}); return s0.apply(this,arguments); };
   const c0=GAME.choose; GAME.choose=function(o){ push({k:'choose',t:(o||[]).filter(x=>x&&!x.hidden).map(x=>((x.t||x.text)||'')+(x.hint?'〔'+x.hint+'〕':'')).join('｜')}); return c0.apply(this,arguments); };
   if(GAME.titleCard){ const t0=GAME.titleCard; GAME.titleCard=function(a,b){ push({k:'card',t:String(a||'')+' '+String(b||'')}); return t0.apply(this,arguments); }; }
+  if(GAME.toast){ const o0=GAME.toast; GAME.toast=function(t){ push({k:'toast',t:String(t||'')}); return o0.apply(this,arguments); }; }
   if(GAME.enter){ const e0=GAME.enter; GAME.enter=function(z){ push({k:'enter',t:String(z)}); return e0.apply(this,arguments); }; }
   if(typeof CLS!=='undefined'&&CLS.attend){ const a0=CLS.attend; CLS.attend=async function(GM,it){ push({k:'attend',t:(it&&it.key)||''}); const r=await a0.apply(this,arguments);
       try{ push({k:'attended',t:it.key,ok:!!CLS.rec(GAME.G).done[it.key]}); }catch(e){} return r; }; }
@@ -83,6 +86,12 @@ KEYF = r"""(s=>{ const G=s||GAME.G; const C=G.courses||{}; const ex={}; for(cons
   return {day:G.day,hour:+(+G.hour).toFixed(3),zone:G.zone,stage:G.stage||null,money:G.money,home:!!(G.home&&G.home.at),
     pos:G.pos?{x:+(+G.pos.x).toFixed(2),z:+(+G.pos.z).toFixed(2),lv:G.pos.lv|0}:null,flags:G.flags||{},attend:C.attend||{},
     done:Object.keys(C.done||{}).length,abs:Object.keys(C.abs||{}).length,late:Object.keys(C.late||{}).length,exam:ex,evDone:Object.keys((G.events||{}).done||{}).length}; })"""
+# BB 14:30 INFO 2：「下週期末考」提醒（STUDY.remind → PHONE.at 手機 sys 那一則；toast 也收）出現的日期時間
+REMIND_KEY = '下週期末考'
+REMIND_MSGS = r"""(kw=>{ try{ return (GAME.G.msgs||[]).filter(m=>String(m.text||'').includes(kw)).map(m=>({src:'msg',day:m.day,h:m.h,text:String(m.text)})); }catch(e){ return []; } })"""
+# 那一天所在學期（沒有就往後找下一個學期）第一個期末考日
+FIRST_FINAL = r"""(day=>{ try{ const G=GAME.G; let t=CALENDAR.termOf(day); for(let k=1;!t&&k<200;k++) t=CALENDAR.termOf(day+k); if(!t) return null;
+  const L=(CLS.examList(G,t.id)||[]).filter(e=>e.kind!=='mid').map(e=>e.day).sort((a,b)=>a-b); return L.length?{term:t.id,day:L[0],key:CALENDAR.dateOf(L[0]).key,at:CALENDAR.dateOf(day).key}:{term:t.id,day:null}; }catch(e){ return {err:String(e.message)}; } })"""
 MUST = "(()=>{ try{ return !!(PHONE.mustOpen&&PHONE.mustOpen(GAME.G)); }catch(e){ return false; } })()"
 Q_RE = re.compile(r'^([1-5])／5　')
 SKIP_FIRST = ('快轉', '存檔')   # 系統選單裡不當作「第一個選項」的（快轉＝跳過整段生活、存檔另外做）
@@ -322,6 +331,12 @@ async def main():
                            picks=[[x['h'], x['pick'][:40], x['why']] for x in drv.picks], exams_new=new_ex, exam_answers=drv.exam_ans, walkFallbacks=fb,
                            pageerrors=len(errs) - row['err0'], console_errors=len(cons) - row['con0'])
                 row.pop('exam0', None); t0r = row.pop('t0', None); row.pop('err0', None); row.pop('con0', None)
+                try:
+                    for m in await pg.evaluate(REMIND_MSGS, REMIND_KEY): REMINDS.setdefault(('msg', m['day'], round(float(m['h'] or 0), 3), m['text']), m)
+                    for r in rows:
+                        if r['k'] == 'toast' and REMIND_KEY in r['t']:
+                            dd = await pg.evaluate("k=>STORY.dayOfKey(k)", r.get('d')); REMINDS.setdefault(('toast', dd, r.get('h'), r['t']), {'src': 'toast', 'day': dd, 'h': r.get('h'), 'text': r['t']})
+                except Exception as e: run.note('期末提醒紀錄失敗 %r' % e)
                 tr.write(J({'date': row['date'], 'rows': rows, 'picks': drv.picks}) + '\n'); tr.flush()
                 summary['days'].append(row)
                 cls = '、'.join('%s %s%s' % (hm(it['t0']), it['name'], '（' + ('上過' if it['done'] and not it['abs'] and not it['late'] else '遲到' if it['late'] else '缺席' if it['abs'] else '翹課' if it['skip'] else it['st']) + '）') for it in row.get('items_end') or []) or '沒課'
@@ -417,6 +432,20 @@ async def main():
                        console_error_n=len(cons), walkFallbacks=fb_acc[0])
         run.check('過完 %d 天（實際 %d 天，結束原因 %s）' % (DAYS, len(counted_days), ended), len(counted_days) >= DAYS or (UNTIL is not None and ended == 'days reached'), '')
         run.check('整段沒有 JS 例外（pageerror）', not errs, J(errs[:3]))
+        try:   # BB 14:30 INFO 2：「下週期末考」只在該學期第一個期末考日之前 1～8 天出現
+            rem = []
+            for m in sorted(REMINDS.values(), key=lambda x: (x['day'] or 0, x['h'] or 0)):
+                ff = await pg.evaluate(FIRST_FINAL, m['day']) if m['day'] is not None else None
+                gap = (ff['day'] - m['day']) if ff and ff.get('day') is not None else None
+                rem.append(dict(m, at=(ff or {}).get('at'), h=hm(m['h']), first_final=(ff or {}).get('key'), term=(ff or {}).get('term'), gap=gap, ok=gap is not None and 1 <= gap <= 8))
+            summary['final_reminders'] = rem
+            if not rem: run.note('「%s」提醒：沒有跑到考前一週（一則都沒出現）' % REMIND_KEY)
+            else:
+                run.note('「%s」提醒 %d 則：%s' % (REMIND_KEY, len(rem), J([[x['src'], x['at'], x['h'], x['first_final'], x['gap']] for x in rem])))
+                bad = [x for x in rem if not x['ok']]
+                run.check('「%s」提醒都在該學期第一個期末考日之前 1～8 天（考前一週）' % REMIND_KEY, not bad,
+                          '不對的：' + J([[x['src'], x['at'], x['h'], '第一個期末考 %s' % x['first_final'], '差 %s 天' % x['gap']] for x in bad]))
+        except Exception as e: run.check('期末提醒檢查跑得完', False, repr(e)[:300])
         run.note('console error %d 則（只記不判）：%s' % (len(cons), J(cons[:5])))
         try: await run.shot(pg, 'end')
         except Exception: pass
