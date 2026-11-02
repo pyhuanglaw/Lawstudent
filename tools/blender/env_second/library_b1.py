@@ -1,4 +1,13 @@
-"""總圖 B1（CLOSED-SPACES-1023 第 2 項；AA_399 第 2 節；使用者 D46「總圖 B1」、10-23「遊戲裡任何現在關起來的空間都可以開始開發」）
+"""總圖 B1 第二版（LIB-INTERIOR-1102，LAWWW2〔帳號 A〕2026-11-02）：照使用者給的照片和平面圖重排。
+  - 使用者 11-02 08:58「舊有的空間配置 能用的就沿用 按造實際配置安排 尤其B1自習室 以前沒有說要做嗎」（B1 平面圖）、10:0x「B1自習室我記得給我你照片 ?」
+    ——10-17 給的兩張 24 小時自習室照片在企劃線 docs/story_planning/art_reference/photo_ref/ntu_lib_b1_room_a.jpg、room_b.jpg（BB README：room_b 只給人看）。
+  - 照片：低的白色方格天花板＋一排排長條日光燈、白色方柱、淺灰石材地板、蜂蜜色木頭長桌（中間一道矮木隔板）、直條木椅背＋暗紅椅墊、綠燈罩檯燈。
+  - 平面圖：24 小時自習室 A 區（L 形、最大）、B 區（禁止使用筆記型電腦）、國際會議廳（中間）、服務台（A 區入口）、討論室、影印中心、樓梯、電梯、洗手間、中庭（西邊）。
+  - 沿用第一版（下面那段）的零件：長桌、綠色檯燈、木椅紅椅墊、玻璃隔間、討論室 1、2（劇情 AA_399 第 2 節接在這兩間）、影印中心、自助借還書機、置物櫃；
+    互動點、劇情站位的 id 都不變（study24、disc1、disc2、copy、selfcheck、study_door、study_night…），位置照新的配置。
+  - 範圍 x −22…22、z −13…13（第一版 −12…12、−9…9），天花板 3.0 m（照片：低的方格天花板）；樓梯間的門照舊在西牆 z −2.4、電梯井照舊在 x 9.4…11.4、z −2.6…−0.4（和大廳同一個位置）。
+第一版（LAWWW2-B 10-23）的說明：
+總圖 B1（CLOSED-SPACES-1023 第 2 項；AA_399 第 2 節；使用者 D46「總圖 B1」、10-23「遊戲裡任何現在關起來的空間都可以開始開發」）
 → assets/models/env/second_ai/library_b1.glb＋library_b1.layout.json。LAWWW2-B 2026-10-23；Blender 5.2：
   /opt/blenv/bin/python tools/blender/env_second/library_b1.py [-- --out-dir assets/models/env/second_ai] [--js <repo 根目錄>（順便寫 src/data/library_b1_layout.js）]
 座標和總圖大廳（src/data/library_layout.js）同一套：x −12…12（東）、z −9…9（南，+z 是正面），B1 地板 y＝0、天花板 3.2 m；地下室，沒有窗。
@@ -23,9 +32,9 @@ GEN = K.GEN; PI = math.pi
 src = open(os.path.join(L.ROOT, 'src/data/library_layout.js'), encoding='utf-8').read()
 LL = json.loads(src[src.index('{', src.index('const LIBRARY_LAYOUT=')):src.rindex('}') + 1])
 EL = LL['elevator']
-H = 3.2; K.H = H; LU.H = H
+H = 3.0; K.H = H; LU.H = H   # 第二版：照片的低方格天花板（第一版 3.2）
 CJK = '/usr/share/fonts/truetype/wqy/wqy-zenhei.ttc'
-STAIR = dict(x=-12.0, z=-2.4, w=1.0)            # 西牆的樓梯間門（上 1F）：和大廳一樓西牆的門同一個 z（library_layout.js 的 b1Door；大廳 z −3.2 撞到西牆的窗，門放在 z −2.4 那扇窗的位置）
+STAIR = dict(x=-22.0, z=-2.4, w=1.0)            # 西牆的樓梯間門（上 1F）：和大廳一樓西牆的門同一個 z（library_layout.js 的 b1Door；大廳 z −3.2 撞到西牆的窗，門放在 z −2.4 那扇窗的位置）
 REGB = {'B1SIGN': (0, 0, 512, 160), 'SCR': (512, 0, 768, 160), 'TV': (768, 0, 1024, 160),
         'STUDY': (0, 160, 512, 256), 'DISC1': (512, 160, 768, 256), 'DISC2': (768, 160, 1024, 256),
         'RULE': (0, 256, 512, 544), 'NOTICE': (512, 256, 1024, 544),
@@ -81,12 +90,35 @@ def make_tex():
     im.save(os.path.join(GEN, 'library_b1_print.png'))
 
 
+REGB2 = {'STUDYA': (0, 0, 512, 96), 'STUDYB': (512, 0, 1024, 96), 'NOLAP': (0, 96, 256, 352), 'CONF': (256, 96, 1024, 192), 'CONFNOTE': (256, 192, 640, 352),
+         'WC': (640, 192, 832, 272), 'OFFICE': (832, 192, 1024, 272), 'SERVICE': (640, 272, 1024, 352), 'COURT': (0, 352, 512, 448), 'DIR2': (512, 352, 1024, 608)}
+for _k, _v in REGB2.items(): REGB[_k] = _v   # 第二張貼圖集（library_b1_print2.png）的區塊；LU.uv 同一套換算（1024×1024）
+
+
+def make_tex2():
+    """第二版加的印刷品（library_b1_print2.png）：A 區、B 區門牌、禁用筆電、國際會議廳、洗手間、辦公室、服務台、中庭、新的樓層指引"""
+    R = REGB2; im = Image.new('RGB', (1024, 1024), '#808080'); d = ImageDraw.Draw(im)
+    for key, t, col in (('STUDYA', '24 小時自習室　A 區', (58, 92, 74)), ('STUDYB', '24 小時自習室　B 區', (40, 86, 120))):
+        x0, y0, x1, y1 = R[key]; d.rectangle([x0, y0, x1 - 1, y1 - 1], fill=col); ctext(d, (x0 + x1) / 2, y0 + 24, t, F(40), (255, 255, 255))
+    x0, y0, x1, y1 = R['NOLAP']; d.rectangle([x0, y0, x1 - 1, y1 - 1], fill=(250, 250, 248)); d.ellipse([x0 + 40, y0 + 18, x1 - 40, y0 + 194], outline=(200, 30, 30), width=14)
+    d.rectangle([x0 + 88, y0 + 80, x1 - 88, y0 + 136], fill=(60, 60, 60)); d.rectangle([x0 + 74, y0 + 136, x1 - 74, y0 + 146], fill=(60, 60, 60)); d.line([x0 + 70, y0 + 170, x1 - 70, y0 + 42], fill=(200, 30, 30), width=14)
+    ctext(d, (x0 + x1) / 2, y0 + 206, '禁止使用筆電', F(30), (200, 30, 30))
+    x0, y0, x1, y1 = R['CONF']; d.rectangle([x0, y0, x1 - 1, y1 - 1], fill=(92, 70, 48)); ctext(d, (x0 + x1) / 2, y0 + 18, '國　際　會　議　廳', F(52), (236, 218, 176))
+    x0, y0, x1, y1 = R['CONFNOTE']; d.rectangle([x0, y0, x1 - 1, y1 - 1], fill=(250, 248, 242)); d.rectangle([x0, y0, x1 - 1, y0 + 36], fill=(92, 70, 48)); ctext(d, (x0 + x1) / 2, y0 + 4, '本日場地使用', F(24), (255, 255, 255))
+    for k, ln in enumerate(['10:00　研討會（借用中）', '14:00　演講', '其他時間不開放']): d.text((x0 + 18, y0 + 50 + k * 34), ln, font=F(22), fill=(60, 50, 40))
+    for key, t, col in (('WC', '洗手間', (58, 62, 66)), ('OFFICE', '辦公室', (58, 62, 66)), ('SERVICE', '服務台　借還・諮詢', (58, 92, 74)), ('COURT', '中庭（不開放）', (58, 62, 66))):
+        x0, y0, x1, y1 = R[key]; d.rectangle([x0, y0, x1 - 1, y1 - 1], fill=col); ctext(d, (x0 + x1) / 2, y0 + (y1 - y0) / 2 - 20, t, F(34 if len(t) < 8 else 30), (255, 255, 255))
+    x0, y0, x1, y1 = R['DIR2']; d.rectangle([x0, y0, x1 - 1, y1 - 1], fill=(58, 62, 66)); ctext(d, (x0 + x1) / 2, y0 + 10, 'B1', F(54), (240, 240, 236))
+    for k, ln in enumerate(['→ 24 小時自習室 A 區', '→ 國際會議廳', '→ 討論室 1・2', '→ 影印中心・B 區・電梯']): d.text((x0 + 30, y0 + 84 + k * 40), ln, font=F(30), fill=(235, 235, 230))
+    im.save(os.path.join(GEN, 'library_b1_print2.png'))
+
+
 class B1(K.Shop):
     """B1 一層的建造狀態（沿用 Shop 的累積網格、配置；不跑 Shop.__init__）"""
     def __init__(self):
         self.sid = 'library_b1'; self.T = {'name': '總圖書館 B1', 'sub': 'B1 自習室・討論室'}; LU.CUR['reg'] = REGB
         self.S = dict(trim='#5a5f63', wainH=0.12); self.FD = {}
-        self.W, self.D = 24.0, 18.0; self.X0, self.X1, self.Z0, self.Z1 = -12.0, 12.0, -9.0, 9.0
+        self.W, self.D = 44.0, 26.0; self.X0, self.X1, self.Z0, self.Z1 = -22.0, 22.0, -13.0, 13.0   # 第二版（第一版 24×18）
         self.rng = random.Random(2001); self.extra = {}
         B.reset(texres=512)
         self.root = B.group(self.sid, props={'kind': 'library_b1', 'layout': f'{self.sid}.layout.json'})
@@ -107,12 +139,16 @@ class B1(K.Shop):
             'ceil': L.pbr(f'{self.sid}_ceiling', 'ceiling_interior', tile=1.2, target='#eeeeea', contrast=0.6, normal=0.2, maps=('diff', 'nor'), res=256, rough_value=0.9, cull=True),
             'print': img_mat(f'{self.sid}_print', 'library_b1_print.png', rough=0.55),
             'screen': img_mat(f'GLOW_{self.sid}_screens', 'library_b1_print.png', rough=0.3, emit=0.9),
+            'print2': img_mat(f'{self.sid}_print2', 'library_b1_print2.png', rough=0.55),
+            'col': L.flat(f'{self.sid}_column', '#f1f0ec', rough=0.7),
+            'woodpanel': L.pbr(f'{self.sid}_woodpanel', 'wood_table_001', tile=1.2, target='#8a6440', contrast=0.8, normal=0.25, maps=('diff', 'nor'), res=256, rough_value=0.5),
         }
         self.vc = CMesh(f'{self.sid}_props', M['vc']); self.vm = CMesh(f'{self.sid}_metal', M['vcm'])
         self.wood = Mesh(f'{self.sid}_woodparts', M['wood']); self.steel = Mesh(f'{self.sid}_steel', M['steel'])
         self.tube = Mesh(f'{self.sid}_tubes', M['tube']); self.warm = Mesh(f'{self.sid}_warm', M['warm']); self.fridgel = Mesh(f'{self.sid}_fridgelight', M['fridge'])
         self.shade = Mesh(f'{self.sid}_lampshades', M['shade'])
-        self.prt = Mesh(f'{self.sid}_prints', M['print']); self.scr = Mesh(f'{self.sid}_screens', M['screen'])
+        self.prt = Mesh(f'{self.sid}_prints', M['print']); self.scr = Mesh(f'{self.sid}_screens', M['screen']); self.prt2 = Mesh(f'{self.sid}_prints2', M['print2'])
+        self.colm = Mesh(f'{self.sid}_columns', M['col']); self.panel = Mesh(f'{self.sid}_woodpanels', M['woodpanel'], tile=1.2)
         self.WG = {k: {} for k in 'NWES'}; self.WGP = {}; self.PDIR = {}; self.lay_extra = {}
         self.labtube = Mesh('LAB_unused', M['tube'])
 
@@ -147,7 +183,16 @@ def glass_wall(c, key, axis, at, a0, a1, gaps=(), dir_=(0, 0, 1), post=1.5):
 
 
 def banker_lamp(c, x, z, s):
-    """綠色銀行燈（ntu_lib_b1 的樣子）：黃銅底座、桿、沿 x 的綠色半圓燈罩（兩端封口），燈罩下面亮的一條；s＝坐的人在哪一側（±1，燈罩往那邊偏 3 cm）"""
+    """綠色銀行燈（ntu_lib_b1 的樣子）：黃銅底座、桿、沿 x 的綠色半圓燈罩（兩端封口），燈罩下面亮的一條；s＝坐的人在哪一側（±1，燈罩往那邊偏 3 cm）。
+    底座、桿、燈罩用 instancing（make_instances：一個網格、每盞一個物件，GLB 的 EXT_mesh_gpu_instancing；115 盞各畫一份太大）；
+    燈罩下面亮的那一條照舊合在 c.warm（遊戲找 GLOW_ 材質、整層一個網格）"""
+    c.__dict__.setdefault('inst_lamps', []).append((x, z, 0.0 if s > 0 else PI))
+    zc, y0, r = z + s * 0.03, 0.99, 0.06
+    c.warm.box(x - 0.13, x + 0.13, y0 + 0.004, y0 + 0.008, zc - r + 0.01, zc + r - 0.01)
+
+
+def banker_lamp_parts(c, x, z, s):
+    """banker_lamp 的底座、桿、燈罩（make_instances 在原點畫一份當樣板）"""
     ccyl(c.vm, (x, 0.75, z), (x, 0.765, z), 0.06, '#b08a3a', seg=10)
     ccyl(c.vm, (x, 0.765, z), (x, 0.99, z), 0.008, '#b08a3a', seg=6)
     zc, y0, r, n = z + s * 0.03, 0.99, 0.06, 8
@@ -156,12 +201,40 @@ def banker_lamp(c, x, z, s):
         c.shade.quad([(x - 0.14, y0 + v0, zc + u0), (x + 0.14, y0 + v0, zc + u0), (x + 0.14, y0 + v1, zc + u1), (x - 0.14, y0 + v1, zc + u1)])
         c.shade.quad([(x - 0.14, y0 + v1, zc + u1), (x + 0.14, y0 + v1, zc + u1), (x + 0.14, y0 + v0, zc + u0), (x - 0.14, y0 + v0, zc + u0)])   # 裡面（雙面）
     for xe in (x - 0.14, x + 0.14): c.shade.quad([(xe, y0 + v, zc + u) for (u, v) in arc]); c.shade.quad([(xe, y0 + v, zc + u) for (u, v) in reversed(arc)])
-    c.warm.box(x - 0.13, x + 0.13, y0 + 0.004, y0 + 0.008, zc - r + 0.01, zc + r - 0.01)
 
 
 def study_chair(c, x, z, yaw):
-    """自習室的木椅（紅椅墊；ntu_lib_b1 的樣子）"""
+    """自習室的木椅（紅椅墊；ntu_lib_b1 的樣子）：只記位置，make_instances 用 instancing 放（一張椅子約 300 個三角形 × 115 張）"""
+    c.__dict__.setdefault('inst_chairs', []).append((x, z, yaw))
+
+
+def study_chair_parts(c, x, z, yaw):
     chair(c, x, z, yaw, 'wood', '#a8743e'); T = rot(x, z, yaw); rbox(c.vc, T, -0.19, 0.19, 0.45, 0.47, -0.18, 0.18, '#8a2a24', r=0.01, seg=1)
+
+
+def make_instances(c):
+    """椅子、檯燈：在原點畫一份樣板（每個材質一個網格），每個位置一個共用同一個網格的物件（位置＋繞垂直軸轉 yaw）。
+    匯出時 export_gpu_instances → EXT_mesh_gpu_instancing（遊戲的 GLTFLoader 變成 InstancedMesh，總圖 3F 同一套）。
+    rot() 的 yaw（面向 (sin, cos)）在 Blender 座標（g2b：x, −z, y）剛好是繞 Z 軸轉 +yaw。"""
+    from types import SimpleNamespace
+    from lib2 import Matrix
+    n = 0
+    for key, parts, fn in (('inst_chairs', (('vc', CMesh, c.vc.mat),), lambda t: study_chair_parts(t, 0.0, 0.0, 0.0)),
+                           ('inst_lamps', (('vm', CMesh, c.vm.mat), ('shade', Mesh, c.shade.mat)), lambda t: banker_lamp_parts(t, 0.0, 0.0, 1))):
+        spots = c.__dict__.get(key) or []
+        if not spots: continue
+        t = SimpleNamespace(**{a: cls(f'INST_{c.sid}_{key[5:]}_{a}', mat) for (a, cls, mat) in parts})
+        fn(t)
+        for (a, cls, mat) in parts:
+            ob = getattr(t, a).finish(c.root, uv=False)
+            if ob is None: continue
+            ob.name = f'INST_{c.sid}_{key[5:]}_{a}_0'
+            for i, (x, z, yaw) in enumerate(spots):
+                o = ob if i == 0 else bpy.data.objects.new(f'INST_{c.sid}_{key[5:]}_{a}_{i}', ob.data)
+                if i: bpy.context.scene.collection.objects.link(o); o.parent = c.root
+                o.matrix_world = Matrix.Translation(L.g2b(x, 0.0, z)) @ Matrix.Rotation(yaw, 4, 'Z')
+                n += 1
+    print(json.dumps({'instances': n, 'chairs': len(c.__dict__.get('inst_chairs') or []), 'lamps': len(c.__dict__.get('inst_lamps') or [])}))
 
 
 def long_desk(c, x0, x1, zc, depth, sides, seats_x):
@@ -333,6 +406,242 @@ def build(c):
         nodes={'GLOW_l118_warm': '綠色檯燈燈罩下面亮的那一片（整層一個網格）'})
 
 
+def disc_room2(c, cx, z0, z1, wbkey, tvkey, tvx, tvn):
+    """討論室（第二版）：玻璃那一面在 z0（北，對走廊），後牆是南邊外牆 z1；六人桌在中間、白板在後牆、電視在側邊隔間牆（tvx，tvn＝朝房間裡 ±1）"""
+    zc = (z0 + z1) / 2 + 0.2
+    c.vc.crbox(cx - 0.62, cx + 0.62, 0.72, 0.75, zc - 1.3, zc + 1.3, '#cfcac0', r=0.006, seg=1)
+    for (lx, lz) in ((-0.55, -1.2), (0.55, -1.2), (-0.55, 1.2), (0.55, 1.2)): c.vm.cbox(cx + lx - 0.025, cx + lx + 0.025, 0.0, 0.72, zc + lz - 0.025, zc + lz + 0.025, '#3a3f45')
+    c.block(cx - 0.64, cx + 0.64, zc - 1.32, zc + 1.32, 'disc_table')
+    for s in (-1, 1):
+        for dz in (-0.85, 0.0, 0.85):
+            x = cx + s * 1.08; yaw = PI / 2 if s < 0 else -PI / 2
+            LU.task_chair(c, x, zc + dz, yaw, '#2e3440'); c.seat(x, zc + dz, yaw, (cx, zc), 'study', ap=(cx + s * 1.65, zc + dz), label='坐下')
+    T = rot(cx + 0.25, zc - 0.6, 0.0); rbox(c.vc, T, -0.15, 0.15, 0.75, 0.77, -0.11, 0.11, '#e8e4dc'); rbox(c.vc, T, -0.15, 0.15, 0.77, 0.80, -0.11, 0.11, '#2a4a6a')
+    ccyl(c.vc, (cx - 0.3, 0.75, zc + 0.5), (cx - 0.3, 0.97, zc + 0.5), 0.035, '#8fa89a', seg=10)
+    tr = c.wg('S', 'trim', c.M['vc'], cm=True); pr = c.wg('S', 'print', c.M['print'])
+    tr.cbox(cx - 1.23, cx + 1.23, 0.845, 2.105, z1 - 0.03, z1, '#c9ced2'); LU.tquad(pr, cx, 1.475, z1 - 0.032, (0, -1), 2.4, 1.2, wbkey)
+    tr.cbox(cx - 1.2, cx + 1.2, 0.81, 0.845, z1 - 0.09, z1, '#9aa0a4')
+    side = c.wg(tvkey, 'trim', c.M['vc'], cm=True); sc = c.wg(tvkey, 'screen', c.M['screen'])
+    side.cbox(*sorted((tvx, tvx + tvn * 0.05)), 1.27, 1.93, zc - 0.56, zc + 0.56, '#1a1a1a'); LU.tquad(sc, tvx + tvn * 0.052, 1.6, zc, (tvn, 0), 1.04, 0.62, 'TV')
+    plant(c, cx + 2.2 * (1 if tvn < 0 else -1) * -1, z1 - 0.6, 1.1)
+    return zc
+
+
+def column(c, x, z, w=0.6):
+    """白色方柱（照片：自習室裡一根一根白色方柱，地板到天花板）＋花崗石踢腳"""
+    c.colm.box(x - w / 2, x + w / 2, 0.12, H, z - w / 2, z + w / 2)
+    c.vc.cbox(x - w / 2 - 0.01, x + w / 2 + 0.01, 0.0, 0.12, z - w / 2 - 0.01, z + w / 2 + 0.01, '#7d7a76')
+    c.block(x - w / 2, x + w / 2, z - w / 2, z + w / 2, 'column')
+
+
+def build2(c):
+    """第二版的配置（世界座標＝和總圖大廳同一套；B1 地板 y 0、天花板 3.0）：
+       西門廳 x −22…−16（樓梯間的門 z −2.4、置物櫃、公告、飲水機、西牆一段玻璃看出去是下沉中庭）
+       A 區 主要 x −16…8、z −13…−3（三排長桌：靠北牆單面一排、中間兩排雙面），A 區 西段 x −16…−8、z −3…5（服務台、一張長桌、參考書架）
+       國際會議廳 x −8…8、z −3…5（關著：木門、門牌、場地使用公告）
+       電梯走道 x 8…13、z −13…5（電梯井 x 9.4…11.4、z −2.6…−0.4，自助借還書機、還書口）
+       B 區 x 13…22、z −13…−1（禁止使用筆電；北牆單面一排、中間兩排雙面）
+       南邊走廊 z 5…13：洗手間（關）、討論室 1、2、辦公室（關）、影印中心"""
+    X0, X1, Z0, Z1 = c.X0, c.X1, c.Z0, c.Z1; M = c.M
+    # ---- 地板、天花板（低的白色方格）、四面牆；西牆：樓梯間的門＋中庭的玻璃
+    fl = Mesh(f'{c.sid}_floorm', M['floor'], tile=0.8); fl.box(X0, X1, -0.05, 0.0, Z0, Z1); fl.finish(c.root)
+    ce = Mesh(f'{c.sid}_ceiling', M['ceil'], tile=0.6); ce.quad([(X0, H, Z0), (X1, H, Z0), (X1, H, Z1), (X0, H, Z1)]); ce.finish(c.root)
+    for k in 'NSE':
+        wl = c.wg(k, 'wall', M['wall']); wn = c.wg(k, 'wain', M['wain'])
+        if k == 'N': wl.quad([(X0, 0.12, Z0), (X1, 0.12, Z0), (X1, H, Z0), (X0, H, Z0)]); wn.quad([(X0, 0.0, Z0), (X1, 0.0, Z0), (X1, 0.12, Z0), (X0, 0.12, Z0)])
+        elif k == 'S': wl.quad([(X1, 0.12, Z1), (X0, 0.12, Z1), (X0, H, Z1), (X1, H, Z1)]); wn.quad([(X1, 0.0, Z1), (X0, 0.0, Z1), (X0, 0.12, Z1), (X1, 0.12, Z1)])
+        else: wl.quad([(X1, 0.12, Z0), (X1, 0.12, Z1), (X1, H, Z1), (X1, H, Z0)]); wn.quad([(X1, 0.0, Z0), (X1, 0.0, Z1), (X1, 0.12, Z1), (X1, 0.12, Z0)])
+    wl = c.wg('W', 'wall', M['wall']); wn = c.wg('W', 'wain', M['wain']); tr = c.wg('W', 'trim', M['vc'], cm=True); dm = c.wg('W', 'doormetal', M['vcm'], cm=True)
+    a, b = STAIR['z'] - STAIR['w'] / 2, STAIR['z'] + STAIR['w'] / 2
+    CG0, CG1 = -12.4, -5.2                                            # 西牆看出去中庭的玻璃（z）
+    segs = [(Z0, CG0), (CG1, a - 0.08), (b + 0.08, Z1)]
+    for (za, zb) in segs: wl.quad([(X0, 0.12, zb), (X0, 0.12, za), (X0, H, za), (X0, H, zb)]); wn.quad([(X0, 0.0, zb), (X0, 0.0, za), (X0, 0.12, za), (X0, 0.12, zb)])
+    wl.quad([(X0, 2.2, b + 0.08), (X0, 2.2, a - 0.08), (X0, H, a - 0.08), (X0, H, b + 0.08)])
+    for (za, zb) in ((a - 0.08, a), (b, b + 0.08)): tr.cbox(X0, X0 + 0.06, 0.0, 2.2, za, zb, '#5a5f63')
+    tr.cbox(X0, X0 + 0.06, 2.12, 2.2, a - 0.08, b + 0.08, '#5a5f63')
+    dm.cbox(X0 - 0.04, X0, 0.0, 2.13, a - 0.02, b + 0.02, '#6a7078')
+    uvquad(c.wg('W', 'print', M['print']), [(X0 + 0.016, 1.72, b + 0.68), (X0 + 0.016, 1.72, b + 0.14), (X0 + 0.016, 1.92, b + 0.14), (X0 + 0.016, 1.92, b + 0.68)], LU.uv('STAIR'))
+    c.look('stairs', X0 + 0.6, STAIR['z'], 0.7, '走樓梯上 1F', dev='src/library_b1_3d.js：換到 library_hall 一樓西牆的樓梯間門前（library_layout.js b1Door.spawn）')
+    # 中庭的玻璃（窗台 0.1、窗頂 2.7；外面是下沉中庭：植栽、天光從上面來——白天亮、晚上暗）
+    gl = c.wg('W', 'glass', M['glass']); fr = c.wg('W', 'trim', M['vcm'], cm=True)
+    wl.quad([(X0, 2.7, CG1), (X0, 2.7, CG0), (X0, H, CG0), (X0, H, CG1)]); wn.quad([(X0, 0.0, CG1), (X0, 0.0, CG0), (X0, 0.1, CG0), (X0, 0.1, CG1)])
+    gl.quad([(X0 - 0.02, 0.1, CG1), (X0 - 0.02, 0.1, CG0), (X0 - 0.02, 2.7, CG0), (X0 - 0.02, 2.7, CG1)])
+    for zz in [CG0 + (CG1 - CG0) * k / 4 for k in range(5)]: fr.cbox(X0 - 0.05, X0 + 0.03, 0.0, 2.75, zz - 0.04, zz + 0.04, '#5a5f63')
+    fr.cbox(X0 - 0.05, X0 + 0.03, 2.66, 2.75, CG0, CG1, '#5a5f63'); fr.cbox(X0 - 0.05, X0 + 0.06, 0.06, 0.12, CG0, CG1, '#5a5f63')
+    c.block(X0 - 0.1, X0 + 0.1, CG0, CG1, 'court_glass')
+    court = c.extra.setdefault('court', CMesh(f'{c.sid}_court', M['vc']))
+    court.cbox(X0 - 6.2, X0 - 0.05, -0.05, 0.0, CG0 - 2.0, CG1 + 2.0, '#8a8e86')                       # 中庭地面（鋪石）
+    court.cbox(X0 - 6.4, X0 - 6.2, 0.0, 4.4, CG0 - 2.0, CG1 + 2.0, '#b7b2a7')                          # 對面的擋土牆（一樓地面在 4.4 m）
+    for zz in (CG0 - 2.0, CG1 + 2.0): court.cbox(X0 - 6.4, X0 - 0.05, 0.0, 4.4, zz - 0.1, zz + 0.1, '#b7b2a7')
+    for k in range(9):                                                                                 # 低矮的植栽（龍柏球、蕨類）
+        zz = CG0 - 1.2 + k * ((CG1 - CG0 + 2.4) / 8); xx = X0 - 4.8 + (k % 3) * 1.2
+        c.extra.setdefault('courtleaf', CMesh(f'{c.sid}_courtleaf', M['vc'])).crbox(xx - 0.55, xx + 0.55, 0.0, 0.7 + (k % 2) * 0.25, zz - 0.5, zz + 0.5, '#3f6a34', r=0.25, seg=2)
+    ccyl(court, (X0 - 3.6, 0.0, (CG0 + CG1) / 2), (X0 - 3.6, 2.6, (CG0 + CG1) / 2), 0.09, '#5a4636', seg=8)       # 中間一棵小樹
+    c.extra['courtleaf'].crbox(X0 - 4.8, X0 - 2.4, 2.2, 3.8, (CG0 + CG1) / 2 - 1.2, (CG0 + CG1) / 2 + 1.2, '#4f7a3c', r=0.6, seg=2)
+    sky = c.extra.setdefault('sky', Mesh(f'GLOW_{c.sid}_courtsky', L.flat(f'GLOW_{c.sid}_courtsky', '#dfe8ef', rough=1.0, emit=B.srgb('#cfdae4'))))
+    sky.quad([(X0 - 6.4, 4.45, CG1 + 2.0), (X0 - 6.4, 4.45, CG0 - 2.0), (X0 - 0.05, 4.45, CG0 - 2.0), (X0 - 0.05, 4.45, CG1 + 2.0)])   # 天光（往下看是一片亮的天）
+    uvquad(c.wg('W', 'print2', M['print2']), [(X0 + 0.016, 1.6, CG1 + 1.5), (X0 + 0.016, 1.6, CG1 + 0.3), (X0 + 0.016, 1.84, CG1 + 0.3), (X0 + 0.016, 1.84, CG1 + 1.5)], LU.uv('COURT'))
+    c.look('court', X0 + 1.0, (CG0 + CG1) / 2, 1.2, '中庭', '玻璃外面是下沉的中庭，天光從上面落下來。門上貼著「中庭（不開放）」。', dev='暫定的字；平面圖西邊的中庭（行政入口那一側）')
+    # ---- 電梯井（和大廳同一個位置，門朝北）
+    ex0, ex1, ez0, ez1 = EL['x0'], EL['x1'], EL['z0'], EL['z1']
+    c.vc.cbox(ex0 - 0.15, ex1 + 0.15, 0.0, H, ez0, ez1 + 0.15, '#d6d2c9')
+    dx0, dx1 = EL['doorX0'], EL['doorX1']; c.steel.box(dx0, (dx0 + dx1) / 2 - 0.005, 0.0, 2.1, ez0 - 0.02, ez0); c.steel.box((dx0 + dx1) / 2 + 0.005, dx1, 0.0, 2.1, ez0 - 0.02, ez0)
+    c.vm.cbox(dx0 - 0.08, dx1 + 0.08, 2.1, 2.18, ez0 - 0.03, ez0, '#9aa0a4'); c.vm.cbox(dx0 - 0.08, dx0, 0.0, 2.1, ez0 - 0.03, ez0, '#9aa0a4'); c.vm.cbox(dx1, dx1 + 0.08, 0.0, 2.1, ez0 - 0.03, ez0, '#9aa0a4')
+    c.vm.cbox(dx1 + 0.18, dx1 + 0.3, 1.0, 1.28, ez0 - 0.015, ez0, '#c9ced2'); c.fridgel.box(dx1 + 0.21, dx1 + 0.27, 1.06, 1.1, ez0 - 0.02, ez0 - 0.015)
+    uvquad(c.prt, [(dx1 + 0.2, 2.3, ez0 - 0.005), (dx0 - 0.2, 2.3, ez0 - 0.005), (dx0 - 0.2, 2.68, ez0 - 0.005), (dx1 + 0.2, 2.68, ez0 - 0.005)], LU.uv('B1SIGN'))
+    c.block(ex0 - 0.17, ex1 + 0.17, ez0 - 0.05, ez1 + 0.17, 'elevator_core')
+    c.look('elevator', round((dx0 + dx1) / 2, 3), round(ez0 - 0.7, 3), 0.8, '電梯', '電梯門旁邊貼著：「B1 停靠限館員刷卡，讀者請走西側樓梯。」', dev='暫定的字；LAWWW-B 10-23：這一版電梯不停 B1（選 A）')
+    # ---- 隔間
+    AX0, AX1, AZ1, LX1, LZ1 = -16.0, 8.0, -2.4, -8.0, 5.0   # AZ1：會議廳北牆（第一次 −3.0：最南排南側的椅子走不到）             # A 區：主要 x AX0…AX1、z Z0…AZ1；西段 x AX0…LX1、z AZ1…LZ1
+    BX0, BZ1 = 13.0, -1.0                                              # B 區：x BX0…X1、z Z0…BZ1
+    DZ0 = 7.5                                                          # 討論室的玻璃（z）
+    glass_wall(c, 'P1', 'z', AX0, Z0 + 0.05, LZ1 - 0.05, gaps=[(0.4, 2.0)], dir_=(1, 0, 0))                 # 門廳｜A 區（玻璃；A 區的正門：刷卡）
+    LU.partition(c, 'P2', 'x', AZ1, LX1 - 0.05, AX1 + 0.05, dir_=(0, 0, -1))                                 # A 區｜國際會議廳（北牆）
+    LU.partition(c, 'P3', 'z', LX1, AZ1 - 0.05, LZ1 + 0.05, dir_=(-1, 0, 0))                                 # A 區西段｜國際會議廳（西牆）
+    LU.partition(c, 'P4', 'x', LZ1, AX0 + 0.05, LX1 + 0.05, gaps=[(-12.8, -11.6)], dir_=(0, 0, -1))          # A 區西段｜南走廊（側門）
+    LU.partition(c, 'P5', 'x', LZ1, LX1 - 0.05, AX1 + 0.05, dir_=(0, 0, 1))                                  # 國際會議廳｜南走廊（南牆：木門）
+    LU.partition(c, 'P6', 'z', AX1, AZ1 - 0.05, LZ1 + 0.05, dir_=(1, 0, 0))                                  # 國際會議廳｜電梯走道（東牆）
+    glass_wall(c, 'P7', 'z', AX1, Z0 + 0.05, AZ1 + 0.05, gaps=[(-7.5, -6.3)], dir_=(-1, 0, 0))               # A 區｜電梯走道（玻璃、東門）
+    glass_wall(c, 'P8', 'z', BX0, Z0 + 0.05, BZ1 + 0.05, gaps=[(-7.5, -6.3)], dir_=(1, 0, 0))                # 電梯走道｜B 區（玻璃、B 區的門）
+    LU.partition(c, 'P9', 'x', BZ1, BX0 - 0.05, X1, dir_=(0, 0, -1))                                         # B 區｜影印中心那一邊（南牆）
+    glass_wall(c, 'P10', 'x', DZ0, -6.0, 6.0, gaps=[(-3.6, -2.4), (2.4, 3.6)], dir_=(0, 0, -1))             # 討論室 1、2 的玻璃（對走廊）
+    LU.partition(c, 'P11', 'z', -6.0, DZ0 - 0.05, Z1, dir_=(1, 0, 0))                                        # 討論室 1 西牆
+    LU.partition(c, 'P12', 'z', 0.0, DZ0 - 0.05, Z1, dir_=(-1, 0, 0))                                        # 討論室 1｜2
+    LU.partition(c, 'P13', 'z', 6.0, DZ0 - 0.05, Z1, dir_=(-1, 0, 0))                                        # 討論室 2 東牆（辦公室西牆）
+    LU.partition(c, 'P14', 'x', 9.0, -16.0, -10.0, dir_=(0, 0, -1))                                          # 洗手間（北牆，門關著）
+    LU.partition(c, 'P15', 'z', -10.0, 9.0 - 0.05, Z1, dir_=(-1, 0, 0))
+    LU.partition(c, 'P16', 'x', 9.0, 6.0, 12.0, dir_=(0, 0, -1))                                             # 辦公室（北牆，門關著）
+    LU.partition(c, 'P17', 'z', 12.0, 9.0 - 0.05, Z1, dir_=(1, 0, 0))
+    # 關著的門（洗手間、辦公室：門片貼在隔間牆上；國際會議廳：雙開木門）
+    for (cx_, key, lab) in ((-13.0, 'P14', 'WC'), (9.0, 'P16', 'OFFICE')):
+        m = c.wg(key, 'trim', M['vc'], cm=True); m.cbox(cx_ - 0.5, cx_ + 0.5, 0.0, 2.15, 9.0 - 0.08, 9.0 - 0.05, '#b9b2a6'); m.cbox(cx_ + 0.3, cx_ + 0.38, 0.95, 1.0, 9.0 - 0.11, 9.0 - 0.08, '#5a5f63')
+        uvquad(c.wg(key, 'print2', M['print2']), [(cx_ - 0.4, 2.25, 9.0 - 0.081), (cx_ + 0.4, 2.25, 9.0 - 0.081), (cx_ + 0.4, 2.55, 9.0 - 0.081), (cx_ - 0.4, 2.55, 9.0 - 0.081)], LU.uv(lab))
+    c.look('wc', -13.0, 8.2, 0.8, '洗手間', '洗手間。', dev='暫定的字；平面圖西南角的洗手間（門關著，不進去）')
+    c.look('office', 9.0, 8.2, 0.8, '辦公室', '門上寫著「辦公室」，門縫透出一點燈光。', dev='暫定的字')
+    pm = c.wg('P5', 'trim', M['vc'], cm=True)
+    for s_ in (-1, 1):                                                                                 # 國際會議廳的雙開木門（關著）
+        x0_, x1_ = (-1.2, -0.01) if s_ < 0 else (0.01, 1.2)
+        c.panel.box(x0_, x1_, 0.0, 2.4, LZ1 + 0.05, LZ1 + 0.09)
+        pm.cbox(x1_ - 0.12 if s_ < 0 else x0_ + 0.06, x1_ - 0.06 if s_ < 0 else x0_ + 0.12, 0.9, 1.5, LZ1 + 0.09, LZ1 + 0.12, '#c8b07a')
+    pm.cbox(-1.32, 1.32, 2.4, 2.5, LZ1 + 0.05, LZ1 + 0.1, '#5a4636'); pm.cbox(-1.32, -1.2, 0.0, 2.4, LZ1 + 0.05, LZ1 + 0.1, '#5a4636'); pm.cbox(1.2, 1.32, 0.0, 2.4, LZ1 + 0.05, LZ1 + 0.1, '#5a4636')
+    c.panel.box(-7.9, -1.4, 0.12, 2.6, LZ1 + 0.05, LZ1 + 0.07); c.panel.box(1.4, 7.9, 0.12, 2.6, LZ1 + 0.05, LZ1 + 0.07)    # 會議廳南牆的木頭牆板
+    p2 = c.wg('P5', 'print2', M['print2'])
+    uvquad(p2, [(-1.5, 2.6, LZ1 + 0.101), (1.5, 2.6, LZ1 + 0.101), (1.5, 2.95, LZ1 + 0.101), (-1.5, 2.95, LZ1 + 0.101)], LU.uv('CONF'))
+    uvquad(p2, [(2.0, 1.2, LZ1 + 0.075), (3.1, 1.2, LZ1 + 0.075), (3.1, 1.7, LZ1 + 0.075), (2.0, 1.7, LZ1 + 0.075)], LU.uv('CONFNOTE'))
+    c.look('conf', 0.0, LZ1 + 0.9, 1.2, '國際會議廳', '國際會議廳的木門關著。旁邊的告示：「今天下午兩點有演講，其他時間不開放。」', dev='暫定的字；平面圖中間的國際會議廳（這一版不進去）')
+    # 門牌：A 區（門廳那一面、玻璃門上方）、B 區（電梯走道那一面）、禁止使用筆電
+    pa = c.wg('P1', 'print2', M['print2']); LU.tquad(pa, AX0 - 0.056, 2.74, 1.2, (-1, 0), 2.4, 0.42, 'STUDYA')
+    c.vm.cbox(AX0 - 0.09, AX0 - 0.03, 1.0, 1.3, -0.3, -0.18, '#2b2f33'); LU.tquad(c.wg('P1', 'print', M['print']), AX0 - 0.091, 1.2, -0.24, (-1, 0), 0.1, 0.05, 'CARD')
+    pb = c.wg('P8', 'print2', M['print2']); LU.tquad(pb, BX0 - 0.056, 2.74, -6.9, (-1, 0), 2.4, 0.42, 'STUDYB'); LU.tquad(pb, BX0 - 0.056, 1.55, -8.3, (-1, 0), 0.48, 0.48, 'NOLAP')
+    c.look('study_door', AX0 - 0.9, 1.2, 0.9, '24 小時自習室 A 區', '玻璃門旁邊有一台刷卡機。門上貼著：「24 小時開放，請刷學生證進出。」', dev='暫定的字；刷卡進出由 LAWWW 接（AA_399 第 2 節）')
+    c.look('studyb_door', BX0 - 0.9, -6.9, 0.9, '24 小時自習室 B 區', 'B 區的門上貼著：「本區禁止使用筆記型電腦。」裡面比 A 區更安靜。', dev='暫定的字；平面圖 B 區的「No Laptop」')
+    # ---- A 區：三排長桌（靠北牆單面、中間兩排雙面）＋白色方柱；西段：服務台、一張長桌、參考書架
+    TX = [-15.6, -11.4, -7.2, -0.9, 3.3]                              # 每張桌子的西端（3.9 m、三個位子）；中間 x −3.3…−0.9 是南北向的走道
+    for x0 in TX:
+        sx = [x0 + 0.65 + 1.3 * k for k in range(3)]
+        long_desk(c, x0, x0 + 3.9, -12.55, 0.7, ('+z',), sx)
+        long_desk(c, x0, x0 + 3.9, -8.9, 1.4, ('-z', '+z'), sx)
+        long_desk(c, x0, x0 + 3.9, -4.9, 1.4, ('-z', '+z'), sx)
+    # 排和排之間的走道：北排椅背 −11.47 ↔ 第一排北側椅背 −10.33（1.14 m）；第一排南側 −7.47 ↔ 第二排北側 −6.33（1.14 m）——東門、B 區的門開在第二條走道
+    for (x, z) in ((-2.1, -10.9), (-2.1, -6.9), (-2.1, -4.9), (8.0 - 0.32, -11.0)): column(c, x, z)   # 方柱都在中間走道（2.4 m 寬，柱子兩邊各 0.9 m）
+    long_desk(c, -15.2, -11.3, -0.9, 1.4, ('-z', '+z'), [-14.55, -13.25, -11.95])
+    K.counter(c, -15.4, -13.0, 3.4, 4.2, h=1.0, top='wood', front='#d9d6cf', why='service_counter')    # 服務台（面向北：從 A 區正門進來在右手邊）
+    LU.task_chair(c, -14.2, 4.6, PI, '#2e3440')
+    uvquad(c.wg('P4', 'print2', M['print2']), [(-13.0, 2.2, LZ1 - 0.056), (-15.4, 2.2, LZ1 - 0.056), (-15.4, 2.55, LZ1 - 0.056), (-13.0, 2.55, LZ1 - 0.056)], LU.uv('SERVICE'))
+    c.look('service', -14.2, 2.7, 0.9, '服務台', '服務台：借書、還書、問問題都在這裡。晚上十點以後沒有人。', dev='暫定的字；平面圖 A 區入口的服務台')
+    for k in range(4):                                                                                # 參考書架（西段東牆，靠國際會議廳的西牆）
+        z0_ = -2.6 + k * 1.8; c.wood.box(LX1 - 0.45, LX1 - 0.06, 0.0, 1.95, z0_, z0_ + 1.7)
+        for r_ in range(5):
+            y_ = 0.12 + r_ * 0.38; c.vc.cbox(LX1 - 0.43, LX1 - 0.14, y_, y_ + 0.3, z0_ + 0.06, z0_ + 1.64, ['#7a2a2a', '#2a4a6a', '#e8dcc0', '#3a5a3a', '#6a5a2a'][(k + r_) % 5])
+    c.block(LX1 - 0.47, LX1, -2.6, -2.6 + 4 * 1.8, 'shelves')
+    LU.board(c, 'P2', 'x', AZ1, (0, -1), -6.6, -4.2, 1.25, 1.95, 'RULE', frame='#3a5c4a')               # 使用須知（A 區南牆＝會議廳北牆）
+    # ---- 電梯走道：自助借還書機兩台（靠 B 區玻璃）、還書口
+    for kz in (-5.6, -4.4):
+        c.vc.crbox(BX0 - 0.67, BX0 - 0.17, 0.0, 1.0, kz - 0.3, kz + 0.3, '#e4e4e0', r=0.02, seg=1)
+        c.vc.cbox(BX0 - 0.62, BX0 - 0.22, 1.0, 1.06, kz - 0.26, kz + 0.26, '#cfcfcb')
+        c.vc.cbox(BX0 - 0.56, BX0 - 0.52, 1.06, 1.42, kz - 0.24, kz + 0.24, '#2b2b2b'); LU.tquad(c.scr, BX0 - 0.562, 1.24, kz, (-1, 0), 0.44, 0.32, 'SCR')
+        c.block(BX0 - 0.69, BX0 - 0.15, kz - 0.32, kz + 0.32, 'kiosk')
+    c.look('selfcheck', BX0 - 1.5, -5.0, 1.0, '自助借還書機', '把書放上去就能借、能還。螢幕上寫著：「請放上書本」。', dev='LAWWW 接：AA_399 3-2 的借書、還書也可以在這裡（G.loans）')
+    c.vc.cbox(AX1 + 0.06, AX1 + 0.1, 0.9, 1.15, -1.9, -1.1, '#3a3f45')
+    uvquad(c.wg('P6', 'print', M['print']), [(AX1 + 0.101, 1.25, -1.1), (AX1 + 0.101, 1.25, -1.9), (AX1 + 0.101, 1.55, -1.9), (AX1 + 0.101, 1.55, -1.1)], LU.uv('RETURN'))
+    c.look('return_slot', AX1 + 0.8, -1.5, 0.8, '還書口', '牆上的還書口，下面接著一個推車。', dev='LAWWW 接：還書（AA_399 3-2）')
+    # ---- B 區（禁用筆電）：靠北牆單面一排、中間兩排雙面
+    for x0 in (13.8, 18.6):                                            # 兩張 2.6 m 的桌子（每邊兩個位子），中間 x 16.4…18.6 是南北向的走道（第一次兩張 3.9 m 的桌子中間只有 0.3 m：B 區的走道接不起來）
+        sx = [x0 + 0.65 + 1.3 * k for k in range(2)]
+        long_desk(c, x0, x0 + 2.6, -12.55, 0.7, ('+z',), sx)
+        long_desk(c, x0, x0 + 2.6, -8.9, 1.4, ('-z', '+z'), sx)
+        long_desk(c, x0, x0 + 2.6, -4.9, 1.4, ('-z', '+z'), sx)
+    column(c, 17.5, -2.4)
+    # ---- 西門廳：置物櫃（北牆）、公告欄、飲水機、樓層指引、長椅
+    for k in range(4):
+        x0_ = -21.6 + k * 1.2; c.vc.cbox(x0_, x0_ + 1.15, 0.0, 1.9, Z0, Z0 + 0.45, '#d6d8d4')
+        for r_ in range(4):
+            for q in range(2):
+                y_ = 0.08 + r_ * 0.45; xx = x0_ + 0.04 + q * 0.55; c.vc.cbox(xx, xx + 0.52, y_, y_ + 0.42, Z0 + 0.45, Z0 + 0.46, '#c4c8c4'); c.vm.cbox(xx + 0.42, xx + 0.47, y_ + 0.2, y_ + 0.24, Z0 + 0.46, Z0 + 0.475, '#5a5f63')
+    c.block(-21.62, -21.6 + 4 * 1.2, Z0, Z0 + 0.48, 'lockers'); c.look('lockers', -19.2, Z0 + 1.1, 0.9, '置物櫃', '投幣式的置物櫃，一半以上鎖著。', dev='暫定的字')
+    LU.board(c, 'P1', 'z', AX0, (-1, 0), -4.6, -2.4, 1.0, 2.2, 'NOTICE', frame='#6a4a30')               # 公告欄（A 區玻璃牆這一面……玻璃上的公告板：實心的板子）
+    c.look('notice', AX0 - 0.9, -3.5, 0.9, '公告欄', '公告欄：期末考週自習室延長開放、討論室線上預約、影印卡加值。角落一張手寫的：「考古題讀書會招人」。', dev='暫定的字，AA 可以改')
+    LU.board(c, 'P1', 'z', AX0, (-1, 0), 2.6, 4.6, 1.3, 2.3, 'DIR2', frame='#3a3f45')                    # 樓層指引（樓梯間出來看得到）
+    water_station(c, -17.0, Z1 - 0.3, face='-z')
+    c.wood.rbox(-21.6, -20.2, 0.43, 0.47, 4.0, 4.4, r=0.01, seg=2)
+    for lx in (-21.5, -20.3): c.vm.cbox(lx - 0.025, lx + 0.025, 0.0, 0.43, 4.02, 4.38, '#5a5f63')
+    c.block(-21.62, -20.18, 3.98, 4.42, 'bench')
+    for k in (-0.35, 0.35): c.seat(-20.9 + k, 4.2, PI / 2, (-20.9 + k, 4.8), 'sit', ap=(-20.9 + k, 4.9), label='坐在長椅')
+    plant(c, -21.4, 11.8, 1.2); plant(c, -16.6, -12.4, 1.1); plant(c, -16.6, 11.8, 1.1)
+    # ---- 討論室 1、2（南走廊）
+    zc1 = disc_room2(c, -3.1, DZ0, Z1, 'WB1', 'P11', -6.0 + 0.05, 1); zc2 = disc_room2(c, 3.1, DZ0, Z1, 'WB2', 'P13', 6.0 - 0.05, -1)
+    p10 = c.wg('P10', 'print', M['print'])
+    for (gx, key, bk) in ((-3.0, 'DISC1', 'BOOK1'), (3.0, 'DISC2', 'BOOK2')):
+        LU.tquad(p10, gx, 2.86, DZ0 - 0.06, (0, -1), 1.0, 0.3, key); LU.tquad(p10, gx - 1.0, 1.55, DZ0 - 0.035, (0, -1), 0.24, 0.24, bk)
+    c.look('disc1', -3.0, DZ0 - 0.8, 0.8, '討論室 1', '玻璃門上貼著這一週的預約表，週六下午那一格寫滿了。', dev='暫定的字；柏翰的考古題小組在這間（AA_399 第 2 節）')
+    c.look('disc2', 3.0, DZ0 - 0.8, 0.8, '討論室 2', '玻璃門上貼著這一週的預約表。', dev='暫定的字；國考讀書會在這間（AA_399 第 2 節）')
+    c.look('wb1', -3.1, Z1 - 1.0, 0.9, '白板', '白板上寫著「考古題分工」，後面幾格還空著。', dev='暫定的字')
+    c.look('wb2', 3.1, Z1 - 1.0, 0.9, '白板', '白板上留著上一組寫的申論題架構，沒擦乾淨。', dev='暫定的字')
+    # ---- 影印中心（東南）：櫃台、三台影印機、列印站、紙箱、價目表
+    K.counter(c, 14.4, 20.4, 5.6, 6.2, h=1.0, top='wood', front='#d9d6cf', why='copy_counter')
+    for x0_ in (15.0, 16.6, 18.2): LU.copier(c, x0_, x0_ + 0.9, 11.6, 12.23)
+    c.vc.crbox(20.8, 21.4, 0.0, 1.2, 8.0, 8.5, '#e4e4e0', r=0.02, seg=1); c.vc.cbox(20.82, 21.38, 1.2, 1.5, 8.0, 8.04, '#2b2b2b'); LU.tquad(c.scr, 21.1, 1.35, 7.998, (0, -1), 0.5, 0.31, 'SCR'); c.block(20.78, 21.42, 7.98, 8.52, 'print_kiosk')
+    for k in range(3): c.vc.cbox(21.0, 21.8, k * 0.28, 0.27 + k * 0.28, 10.0, 11.0, '#d8cfb8')
+    c.block(20.98, 21.82, 9.98, 11.02, 'paper')
+    uvquad(c.wg('S', 'print', M['print']), [(20.6, 1.55, Z1 - 0.016), (19.6, 1.55, Z1 - 0.016), (19.6, 2.05, Z1 - 0.016), (20.6, 2.05, Z1 - 0.016)], LU.uv('PRICE'))
+    uvquad(c.wg('S', 'print', M['print']), [(18.0, 2.3, Z1 - 0.016), (16.8, 2.3, Z1 - 0.016), (16.8, 2.75, Z1 - 0.016), (18.0, 2.75, Z1 - 0.016)], LU.uv('COPY'))
+    c.look('copy', 17.4, 4.6, 0.9, '影印中心', '櫃台後面貼著價目表：黑白一張一元。影印卡在這裡加值。', dev='暫定的字')
+    c.look('copier', 16.0, 10.8, 0.9, '影印機', '影印機旁邊貼著：「卡紙請找櫃台，不要硬拉。」', dev='暫定的字')
+    plant(c, 13.6, 12.2, 1.1)
+    # ---- 日光燈（照片：一排排長條日光燈，和桌子平行）
+    LT = []
+    for z in (-12.0, -10.7, -9.4, -8.2, -6.9, -5.6, -4.2):
+        LT += [(x, z) for x in (-14.4, -12.0, -9.6, -7.2, -4.8, -2.1, 0.6, 3.0, 5.4)] + [(x, z) for x in (14.6, 17.4, 20.2)]
+    LT += [(x, z) for x in (-14.4, -11.4) for z in (-1.6, 0.8, 3.2)] + [(x, z) for x in (-20.4, -18.0) for z in (-10.0, -6.0, -2.0, 2.0, 6.0, 10.0)]
+    LT += [(10.4, z) for z in (-11.0, -8.0, -5.0)] + [(x, 2.0) for x in (9.6, 12.0, 14.6, 17.4, 20.2)] + [(x, 6.2) for x in (-14.4, -11.4, -8.4, -5.4, -2.4, 0.6, 3.6, 6.6, 9.6)]
+    LT += [(x, z) for x in (-3.1, 3.1) for z in (9.4, 11.6)] + [(x, z) for x in (15.0, 18.0, 21.0) for z in (8.0, 10.6)] + [(-13.0, 11.0), (9.0, 11.0)]
+    for (x, z) in LT:
+        c.vc.cbox(x - 0.62, x + 0.62, H - 0.02, H, z - 0.16, z + 0.16, '#f4f4f1'); c.tube.box(x - 0.58, x + 0.58, H - 0.026, H - 0.02, z - 0.12, z + 0.12)
+    # ---- 出入口、配置的其他欄位
+    c.spawn = dict(x=round(X0 + 1.5, 3), z=STAIR['z'], yaw=round(PI / 2, 4), note='從樓梯間進來，面向東；離樓梯間的門 1.5 m')
+    c.spawn_el = dict(x=round((dx0 + dx1) / 2, 3), z=round(ez0 - 1.7, 3), yaw=PI, note='出電梯，面向北（如果電梯停 B1）')
+    c.exits = []
+    c.lay_extra = dict(
+        rooms=[dict(id='study24', label='24 小時自習室 A 區', x0=AX0, x1=AX1, z0=Z0, z1=AZ1, door=dict(x=AX0, z=1.2, w=1.6, open=True, card=True, axis='z')),
+               dict(id='study24', label='24 小時自習室 A 區（西段）', x0=AX0, x1=LX1, z0=AZ1, z1=LZ1),
+               dict(id='study24', label='24 小時自習室 B 區（禁止使用筆電）', x0=BX0, x1=X1, z0=Z0, z1=BZ1, door=dict(x=BX0, z=-6.9, w=1.2, open=True, axis='z')),
+               dict(id='disc1', label='討論室 1', x0=-6.0, x1=0.0, z0=DZ0, z1=Z1, door=dict(x=-3.0, z=DZ0, w=1.2, open=True)),
+               dict(id='disc2', label='討論室 2', x0=0.0, x1=6.0, z0=DZ0, z1=Z1, door=dict(x=3.0, z=DZ0, w=1.2, open=True)),
+               dict(id='copy', label='影印中心', x0=13.0, x1=X1, z0=BZ1, z1=Z1),
+               dict(id='conf', label='國際會議廳（關著）', x0=LX1, x1=AX1, z0=AZ1, z1=LZ1),
+               dict(id='lobby', label='門廳', x0=X0, x1=AX0, z0=Z0, z1=Z1)],
+        spots=dict(copy_clerk=dict(x=17.4, z=6.9, yaw=PI, note='影印中心櫃台後面的工讀生（面向北、對著櫃台）'),
+                   disc1_head=dict(x=-3.1, z=round(zc1 + 2.0, 3), yaw=PI, note='討論室 1：白板和桌子中間、面向桌子（柏翰講考古題；AA_399 第 2 節）'),
+                   disc1_door=dict(x=-3.0, z=DZ0 + 0.8, yaw=0.0, note='討論室 1：剛進門、面向南（看到桌邊的人）'),
+                   disc2_head=dict(x=3.1, z=round(zc2 + 2.0, 3), yaw=PI, note='討論室 2：白板和桌子中間、面向桌子（國考讀書會）'),
+                   disc2_door=dict(x=3.0, z=DZ0 + 0.8, yaw=0.0, note='討論室 2：剛進門、面向南'),
+                   study_door=dict(x=AX0 + 0.9, z=1.2, yaw=PI / 2, note='24 小時自習室 A 區：刷卡進門、面向東（看到整間）'),
+                   study_night=dict(x=-0.25, z=-6.08, yaw=0.0, note='A 區最南那一排雙面長桌北側、靠中間走道的位子（期末前的夜，偶遇柏翰；AA_399 第 2 節）＝seats 裡同一個位子（kind study）：要讓 NPC 坐就用那個 seat'),
+                   selfcheck=dict(x=BX0 - 1.4, z=-5.0, yaw=-PI / 2, note='自助借還書機前、面向東（interact id selfcheck）'),
+                   stairs_door=dict(x=round(X0 + 1.5, 3), z=STAIR['z'], yaw=PI / 2, note='樓梯間的門前 1.5 m、面向東（＝spawn；從 1F 走樓梯下來站在這裡）')),
+        nodes={'GLOW_l118_warm': '綠色檯燈燈罩下面亮的那一片（整層一個網格）', 'GLOW_library_b1_courtsky': '中庭上面的天光（白天亮）'})
+
+
 def finish(c):
     D = {'N': [0, 0, 1], 'W': [1, 0, 0], 'E': [-1, 0, 0], 'S': [0, 0, -1]}
     for k, ms in c.WG.items():
@@ -341,15 +650,17 @@ def finish(c):
             m.finish(c.root, props=dict({'dir': D.get(k) or c.PDIR[k]}, **c.WGP.get(k, {})), uv=uv, merge=mg)
     for m in (c.vc, c.vm, c.tube, c.warm, c.fridgel, c.steel, c.shade): m.finish(c.root, uv=False)
     c.wood.finish(c.root)
-    for m in (c.prt, c.scr): m.finish(c.root, uv=False, merge=False)
+    for m in (c.prt, c.scr, c.prt2): m.finish(c.root, uv=False, merge=False)
+    c.colm.finish(c.root); c.panel.finish(c.root)
     for m in c.extra.values(): m.finish(c.root, uv=False)
-    L.merge_by_material(c.root, keep=lambda ob: ob.name.startswith('WALL_'), key=lambda ob: '')
-    out = os.path.join(OUTDIR, f'{c.sid}.glb'); st = L.export(out, gpu_instances=False)
+    make_instances(c)
+    L.merge_by_material(c.root, keep=lambda ob: ob.name.startswith('WALL_') or ob.name.startswith('INST_'), key=lambda ob: '')
+    out = os.path.join(OUTDIR, f'{c.sid}.glb'); st = L.export(out, gpu_instances=True)
     tris = 0
     for ob in bpy.data.objects:
         if ob.type == 'MESH': ob.data.calc_loop_triangles(); tris += len(ob.data.loop_triangles)
-    lay = dict(version=1, zone=c.sid, name=c.T['name'], label=c.T['sub'], src='使用者 D46、10-23；AA_399 第 2 節（AA-B）；CLOSED-SPACES-1023（LAWWW2-B）',
-               bounds=dict(x0=c.X0, x1=c.X1, z0=c.Z0, z1=c.Z1), h=H, cam_dist=4.6, coords='和 library_layout.js 同一套（x、z），B1 地板 y＝0',
+    lay = dict(version=2, zone=c.sid, name=c.T['name'], label=c.T['sub'], src='第二版：使用者 11-02 平面圖、10-17 兩張自習室照片（LIB-INTERIOR-1102，LAWWW2）；第一版：使用者 D46、10-23；AA_399 第 2 節（AA-B）；CLOSED-SPACES-1023（LAWWW2-B）',
+               bounds=dict(x0=c.X0, x1=c.X1, z0=c.Z0, z1=c.Z1), h=H, cam_dist=5.2, coords='和 library_layout.js 同一套（x、z），B1 地板 y＝0',
                spawn=c.spawn, spawn_elevator=c.spawn_el, stairs=dict(door=dict(x=STAIR['x'], z=STAIR['z'], w=STAIR['w']), spawn=c.spawn, up=dict(label='走樓梯上 1F', to='library_hall', note='到大廳一樓西牆的樓梯間門前（library_layout.js b1Door.spawn）')),
                elevator=dict(EL, stops=False, note='位置和 library_layout.js 的 elevator 相同；這一版不停 B1（LAWWW-B 10-23 選 A），只有門和「看」'),
                doors=[], windows=None, exits=c.exits, seats=c.seats, interact=c.inter, blocks=c.blocks, order=None, **c.lay_extra)
@@ -367,4 +678,4 @@ def finish(c):
 
 
 if __name__ == '__main__':
-    make_tex(); c = B1(); build(c); p = finish(c); print('LIBRARY_B1', 'OK' if not p else p)
+    make_tex(); make_tex2(); c = B1(); build2(c); p = finish(c); print('LIBRARY_B1', 'OK' if not p else p)
