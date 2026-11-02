@@ -2,7 +2,7 @@
 //   a 同一組答案：R.prep 0／100、stats.study 0／500、卡片全空／全讀過 → 答對題數、分數完全相同（讀書次數不進分數）
 //   b 讀過（read 以上）那張卡的題目前面多一行「（你想起筆記上寫的：…）」；沒讀過的不出
 //   c 答錯的題寫成一則「考後訂正」筆記（題目、答案、考點），那張卡進 miss；全對不寫
-//   d 提示的字只出現在正確選項、錯誤選項都沒有＝不出（BUG-B4-CUE-LEAK-1102）；e 筆記頁 pre-line
+//   d 提示的字只出現在正確選項、錯誤選項都沒有＝不出（BUG-B4-CUE-LEAK-1102）；第二輪看詞（CC N3 的 A、B 級全擋）、是非題一律不出；e 筆記頁 pre-line
 // 修改前（f57e3ac75）：b、c FAIL；（a2e466ee7）：d、e FAIL。用法：node tests/d118_b4_unit.js
 'use strict';
 const H=require('./pg_harness.js');
@@ -47,7 +47,15 @@ const run=async(G,e,pickFn)=>{ H.G=G; said=[]; ansPick=pickFn||null; const r=awa
     const q=EXAM_BANK.questions.find(x=>x.id==='CRIM45_34'), G=clone(base); for(const u of STUDY.unitsOfQ(q.id)) STUDY.mark(G,u.id,'read','test');
     check('d2. 讀過那張卡，CRIM45_34 也不出提示',STUDY.cueFor(G,q)===null,STUDY.cueFor(G,q));
     const fake={id:'X',type:'mc',options:{A:'因果關係',B:'因果關係中斷'},answer:'B'}; check('d3. 提示字錯誤選項也有＝不算指答案（照出）',!STUDY.cueLeaks(fake,'因果關係'));
-    check('d4. 是非題、沒有選項的題：不擋',!STUDY.cueLeaks({type:'tf',answer:'O'},'因果關係')); }
+    check('d4. 是非題、沒有選項的題：一律不出提示（BB 08:54 ②）',STUDY.cueLeaks({type:'tf',answer:'O'},'因果關係')===true);
+    /* 第二輪（BB 08:54，CC N3）：看詞——CC 的 A、B 級（最長命中 ≥3 字或占正確選項 1/4 以上）沒擋的要是 0 */
+    let ab=0, tot=0; const tiers={}; for(const u of STUDY_UNITS.units){ const t=(u.cue||'').trim()||u.title; for(const qid of u.qids){ const q=EXAM_BANK.questions.find(x=>x.id===qid)||(typeof QBANK!=='undefined'?QBANK.find(x=>x.id===qid):null); if(!q||q.type==='tf'||!q.options) continue; tot++;
+      const h=STUDY.cueHits(q,[t,u.title]); tiers[h.tier]=(tiers[h.tier]||0)+1; if((h.tier==='A'||h.tier==='B')&&!STUDY.cueLeaks(q,t,u.title)) ab++; } }
+    console.log('    選擇題×卡 '+tot+' 組，等級分布 '+J(tiers));
+    check('d5. CC N3 的 A、B 級命中：全部不出提示（沒擋 0）',ab===0,J({ab}));
+    const must=['CIVS_12','CIV40_06','ADM20_17','Y4_ENF_02'].filter(id=>EXAM_BANK.questions.some(x=>x.id===id)||(typeof QBANK!=='undefined'&&QBANK.some(x=>x.id===id)));
+    const G4=clone(base); for(const id of must) for(const u of STUDY.unitsOfQ(id)) STUDY.mark(G4,u.id,'read','test');
+    check('d6. BB 舉的例子（'+must.join('、')+'）讀過卡也不出提示',must.length>0&&must.every(id=>STUDY.cueFor(G4,id)===null),J(must.map(id=>[id,STUDY.cueFor(G4,id)]))); }
   /* e 訂正筆記用 \n 分段：筆記頁的內文要 pre-line */
   { const g=fs.readFileSync(path.join(H.ROOT,'src/game3d.js'),'utf8'); check('e. 筆記頁內文 white-space:pre-line（訂正筆記不擠成一段）',/<div style=\\?"white-space:pre-line\\?">'\+WN\(n\.body\)/.test(g)); }
   H.done();

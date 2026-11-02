@@ -167,10 +167,24 @@ const STUDY=(function(){
   /* D118-B4：考試裡的 cue——那一題的觀念卡讀過以上（read、got）才出一行提醒（只提醒觀念、不點出選項）；cue 是 AA 的稿，空的時候先用卡片標題（黑板第一行）。不影響計分 */
   S.CUE_PREFIX='（你想起筆記上寫的：';   /* 暫定字（AA 定稿後換，D118_PLAN 第 6 節第 7 點）*/
   /* BUG-B4-CUE-LEAK-1102（BB 07:28）：提示的字出現在正確選項、卻沒有出現在任何錯誤選項＝等於指答案，這一題不出提示（例：CRIM45_34「因果關係」只在 (B)）*/
-  S.cueLeaks=function(q,t){ if(!q||!t||!q.options||q.type==='tf') return false; const keys=Object.keys(q.options); const right=keys.filter(k=>String(k)===String(q.answer)), wrong=keys.filter(k=>String(k)!==String(q.answer));
-    const has=k=>String(q.options[k]||'').includes(t); return right.some(has)&&!wrong.some(has); };
-  S.cueFor=function(G,qOrId){ const q=typeof qOrId==='object'?qOrId:null, qid=q?q.id:qOrId;
-    for(const u of S.unitsOfQ(qid)){ const st=S.stateOf(G,u.id); if(st==='read'||st==='got'){ const t=(u.cue||'').trim()||(S.view(u)||{}).title||u.title; if(t&&!S.cueLeaks(q,t)) return S.CUE_PREFIX+t+'）'; } } return null; };
+  /* BUG-B4-CUE-LEAK-1102 第二輪（BB 08:54，CC N3 掃描 cc-testing b9a6f885）：只比整段字串擋不到「標題裡某個術語只出現在正確選項」。
+     改成看詞（和 CC 的 test_tools/cc/n3_cue_leak_scan.js 同一套切法）：提示字串（cue，和卡片標題）切成 2 字以上的連續片段、去掉虛詞與泛用詞；
+     只出現在正確選項、沒出現在任何錯誤選項的片段＝命中；最長命中 ≥3 字、或命中字數占正確選項 1/4 以上（CC 的 A、B 級）＝這一題不出提示。是非題一律不出（標題常常就是那條規則）。*/
+  const CUE_STOP_CH=new Set('的之與及法和或是在有不為而了誰何其於以由對者所也就都被把將從向這那各該此其等即並且但若如則可能會要什麼怎麼哪些個一二三四五六七八九十'.split(''));
+  const CUE_STOP_W=new Set(['什麼','可以','自己','怎麼','時候','問題','哪些','一個','是否','如何','為何','什麼時候','誰可以','法律','規定','原則','民法','刑法','憲法','刑事','訴訟','刑事訴訟','事訴訟法','刑事訴訟法','訴訟法','事訴','訟法','行為','權利','效力','效果','關係','概念','基本','一般','意義','條文','制度','以上','皆是','皆非','有效','無效','應該','須有','（一）','（二）','（三）','（四）']);
+  const CUE_EDGE=new Set('的之與及和或是在而了其於以對者所也並且但若則'.split(''));
+  const cueGrams=t=>{ const out=new Set(); for(const seg of (String(t).match(/[一-鿿A-Za-z0-9§\-]+/g)||[])){ const a=[...seg]; for(let n=2;n<=a.length;n++) for(let i=0;i+n<=a.length;i++){ const g=a.slice(i,i+n).join('');
+      if(CUE_STOP_W.has(g)||[...g].every(ch=>CUE_STOP_CH.has(ch))||/^[0-9\-]+$/.test(g)||CUE_EDGE.has(a[i])||CUE_EDGE.has(a[i+n-1])) continue; out.add(g); } } return [...out]; };
+  S.cueHits=function(q,texts){ if(!q||!q.options) return []; const keys=Object.keys(q.options), R=keys.filter(k=>String(k)===String(q.answer)).map(k=>String(q.options[k])).join(' '), W=keys.filter(k=>String(k)!==String(q.answer)).map(k=>String(q.options[k]));
+    let hits=[]; for(const t of [].concat(texts||[])) if(t) for(const g of cueGrams(t)) if(R.includes(g)&&!W.some(w=>w.includes(g))) hits.push(g);
+    hits=[...new Set(hits)]; hits=hits.filter(g=>!hits.some(h=>h!==g&&h.includes(g))); const maxL=hits.reduce((m,g)=>Math.max(m,[...g].length),0), cover=hits.length?Math.round(100*hits.reduce((a,g)=>a+[...g].length,0)/Math.max(1,[...R].length)):0;
+    return {hits,maxL,cover,tier:!hits.length?'-':(maxL>=4||cover>=50)?'A':(maxL>=3||cover>=25)?'B':'C'}; };
+  S.cueLeaks=function(q,t,title){ if(!q||!t) return false; if(q.type==='tf'||!q.options) return true;   /* 是非題一律不出提示（BB 08:54 ②）*/
+    const keys=Object.keys(q.options); const right=keys.filter(k=>String(k)===String(q.answer)), wrong=keys.filter(k=>String(k)!==String(q.answer));
+    const has=k=>String(q.options[k]||'').includes(t); if(right.some(has)&&!wrong.some(has)) return true;   /* 整段字串（第一輪）*/
+    const h=S.cueHits(q,[t,title]); return h.tier==='A'||h.tier==='B'; };
+  S.cueFor=function(G,qOrId){ const qid=typeof qOrId==='object'&&qOrId?qOrId.id:qOrId; const q=typeof qOrId==='object'&&qOrId?qOrId:((typeof EXAM_BANK!=='undefined'?EXAM_BANK.questions.find(x=>x.id===qid):null)||(typeof QBANK!=='undefined'?QBANK.find(x=>x.id===qid):null)||null); if(!q) return null;
+    for(const u of S.unitsOfQ(qid)){ const st=S.stateOf(G,u.id); if(st==='read'||st==='got'){ const t=(u.cue||'').trim()||(S.view(u)||{}).title||u.title; if(t&&!S.cueLeaks(q,t,u.title)) return S.CUE_PREFIX+t+'）'; } } return null; };
   /* D118-B4：考後訂正——答錯的題寫成一則筆記（同一科同一次考試一則；miss 已經在 STUDY.answer 記了）*/
   S.FIX_TITLE=n=>n+'・期末考訂正';   /* 暫定字 */
   S.fixNote=function(GM,c,key,wrong){ if(!wrong.length||!GM.addNote) return false;
