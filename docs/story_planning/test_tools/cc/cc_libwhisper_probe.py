@@ -26,7 +26,7 @@
   反例（Café）：第 1 次就照常說話、沒有點頭、沒有任何「（小聲）」、G.libNod 沒記她。
 判斷讀遊戲狀態（GAME.say 的原文與實際顯示文字 GAME.D.full、G.libNod）；對話框文字只確認玩家看得到（startswith）。
 用法：LW_TESTS=<受測工作樹>/tests SHA=<sha> python3 cc_libwhisper_probe.py <URL index.html> <輸出資料夾>
-環境變數：TALK_MAX（秒，每次說話上限 420）、SCENES（逗號隔開：lib2f,lawlib,b1,cafe；預設全部）。最後一行 ALL PASS 或 FAILED n；exit 0／1；transcript.json。"""
+環境變數：TALK_MAX（秒，每次說話上限 240；按鈕一直不是「和…說話」就繞到他身邊別的位置再試）、SCENES（逗號隔開：lib2f,lawlib,b1,cafe；預設全部）。最後一行 ALL PASS 或 FAILED n；exit 0／1；transcript.json。"""
 import os, sys, json, asyncio, re, time, traceback
 sys.path.insert(0, os.environ['LW_TESTS']); import playlib as L
 sys.path.insert(0, os.path.dirname(os.path.dirname(os.path.abspath(__file__)))); import bbplay as P   # bbplay 在上一層（BB 的 test_tools）
@@ -35,7 +35,7 @@ from playwright.async_api import async_playwright
 URL, OUT = sys.argv[1], sys.argv[2]
 SHA = os.environ.get('SHA', '?')
 J = lambda o: json.dumps(o, ensure_ascii=False)
-TALK_MAX = int(os.environ.get('TALK_MAX', '420'))
+TALK_MAX = int(os.environ.get('TALK_MAX', '240'))
 PRE = '（小聲）'
 NOD = {'f': '（她抬頭看到你，點了一下頭。）', 'm': '（他抬頭看到你，點了一下頭。）'}
 SOFT = re.compile('小聲|氣音|口型|噓|壓低聲音|悄悄')
@@ -118,6 +118,8 @@ async def talk(pg, cdp, run, sc, k):
     n0 = await pg.evaluate(HOOK)
     nod0 = await pg.evaluate(NODREC_JS % J(sc['cid']))
     r = await P.talk_to(pg, cdp, run, sc['cid'], '%s 第 %d 次說話' % (sc['name'], k), picks=('就這樣',), max_s=TALK_MAX)
+    if r is None:
+        r = await walk_around_talk(pg, cdp, run, sc, k)
     said = await said_since(pg, n0)
     nod1 = await pg.evaluate(NODREC_JS % J(sc['cid']))
     loc = await pg.evaluate(WHERE_JS % J(sc['cid']))
@@ -125,6 +127,30 @@ async def talk(pg, cdp, run, sc, k):
     run.note('%s 第 %d 次：GAME.say／caption %s；libNod %s→%s；位置 %s' % (sc['name'], k, J([[x['n'], x['shown']] for x in said])[:1500], J(nod0['libNod']), J(nod1['libNod']), J(loc)))
     TRANS['scenes'].append({'scene': sc['tag'], 'k': k, 'said': said, 'dialog': r, 'libNod': [nod0, nod1], 'where': loc, 'shot': os.path.basename(shot)})
     return r, said, nod1, loc
+
+
+AROUND_JS = r"""(id=>{ const E=GAME.E, n=__BBF.npc(id); if(!n||!n.obj) return []; const h=n.obj.position, lv=n.lv|0, out=[];
+  for(const R of [0.9,1.3]) for(let i=0;i<12;i++){ const a=i*Math.PI/6, x=h.x+Math.sin(a)*R, z=h.z+Math.cos(a)*R; if(!E.canStand||E.canStand(x,z,0.3,lv)) out.push([+x.toFixed(2),+z.toFixed(2)]); }
+  return out; })(%s)"""
+
+
+async def walk_around_talk(pg, cdp, run, sc, k):
+    """talk_to 在他旁邊按鈕一直不是「和…說話」（旁邊的椅子「坐下（自習）」比較近）：像玩家一樣繞到他身邊別的位置（前後左右、0.9／1.3 m），
+    按鈕變成「和…說話」就按；回傳同 talk_to（找不到＝None）"""
+    want = await pg.evaluate("id=>{ const n=__BBF.npc(id); return n?(n.talkLabel||('和'+n.name+'說話')):null; }", sc['cid'])
+    pts = await pg.evaluate(AROUND_JS % J(sc['cid']))
+    run.note('%s 第 %d 次：按鈕不是「%s」，繞到他身邊別的位置試（%d 個點）' % (sc['name'], k, want, len(pts)))
+    for i, (x, z) in enumerate(pts):
+        await L.go_to(pg, cdp, run, x, z, 0.3, '%s 第 %d 次：繞到 (%.1f,%.1f)' % (sc['name'], k, x, z), max_s=60, stop=lambda s: s['interact'].startswith(want))
+        s = await L.state(pg)
+        if s['interact'].startswith(want):
+            run.note('%s 第 %d 次：在 (%.2f,%.2f) 按鈕變成「%s」' % (sc['name'], k, s['x'], s['z'], s['interact']))
+            await L.tap(pg, cdp, '#interact')
+            r = await P.dialog(pg, cdp, run, ('就這樣',), max_s=TALK_MAX, tag='%s 第 %d 次說話（繞過去）' % (sc['name'], k))
+            r['label'] = want
+            return r
+    run.note('%s 第 %d 次：繞了 %d 個點，按鈕都不是「%s」' % (sc['name'], k, len(pts), want))
+    return None
 
 
 def box_has(r, text):
