@@ -38,3 +38,11 @@ powershell -ExecutionPolicy Bypass -File "$env:USERPROFILE\Documents\Lawstudent\
 - 跑測試時，電腦上會跳出 Chromium 視窗（因為 headless=False）。請不要點它、也不要關掉它；最小化沒關係，但有些顯示卡在最小化時會降速。
 
 結果由雲端 CC 讀回來寫初判，最後判定歸 BB。
+
+
+## BB_229 規則（2026-11-02 11:52 UTC）
+1. 新寫或改過的探針、py 工具，要先在雲端實際跑過一次，才能排進 cc-local。還沒驗證的項目，在 queue.txt 前面標「#HOLD雲端 」，PC 會跳過。PowerShell 要保留 run_queue_proven.ps1 那一層退回。
+2. 要使用者貼的指令，一定附上「貼完應該看到什麼畫面」。
+3. 判定為探針問題的 FAIL，修好以後要重跑到 PASS。
+4. 結果報告分三類：真實流程、走捷徑的探針、要 iPhone 實機確認的。
+5. 修 bug 的項目要排修改前的對照；沒有排的，寫出原因（queue.txt 檔頭的規則 5 列表）。

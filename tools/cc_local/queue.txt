@@ -12,26 +12,30 @@
 # 順序（BB 10:38）：00、01 → 發布前必跑組 10～18 → 今天的修正 02b、06b、06c、WSEM → 20～29 → 02～08 → D118 基準 30、31
 # ===== 發布候選 v9.10.16＝b1b249873（BB 11:02）：全部釘 b1b249873，排最前面 =====
 # 1. 發布前那一組（zone_transitions、minimap、deploy_check、p0、save_compat_v7 由 LAWWW 在雲端跑）
+# BB_229（11:52 UTC）規則 1：今晚新寫或改過、雲端沒有跑過紀錄的探針（quota15、legalpage、layout16、wsem、day9、delay14、fasat、makeup、y4s2final、d118b3、d118b4、rollcall、boya203、bg107、pt106）要先在雲端跑過一次。跑過以前，項目前面標「#HOLD雲端 」，PC 會跳過；雲端 PASS 以後拿掉標記。
+# 規則 5（修改前對照）：R5 → 05_mk12old（b4f98ea4e）；R8 → 雲端 4734c3d9e 已跑（CC_01 §13b）；R9 → 21_rollpre；R12 → R12b_fasatpre；R10 → R10pre（299e23345，B3 合併前）；R11 → R11pre（f57e3ac75，B4 前）；R1～R4、R6b、R7 是回歸／量測，不是修 bug 的項目，沒有修改前對照。
 R1_reach    | b1b249873 | game  | tests/reachability_all.py    | index.html?turbo | 90  | XARGS={url}
 R2_flowcls  | b1b249873 | game  | tests/flow_class_real.py     | index.html       | 120 | XARGS={url} {out}
 R3_touchwz  | b1b249873 | game  | tests/touch_flow_wenzhou.py  | index.html?turbo | 60  | XARGS={url}
 R4_day12    | b1b249873 | game  | tests/flow_main_day12.py     | index.html       | 180 | XARGS={url} {out}
 # 2. #12 補考（D124 後被當＝重修 enforcement）、#16 版面、#15 配額
-R5_mk12     | b1b249873 | probe | docs/story_planning/test_tools/cc/cc_makeup_probe.py   | index.html?turbo | 200 | FAIL_ROUTE=retake;CASES=study3h,skipnoon_seat,skipnoon_phone,old_delayed,homerest,home,mkbg
-R6_layout   | b1b249873 | probe | docs/story_planning/test_tools/cc/cc_layout16_probe.py | index.html?turbo | 60  | CASES=seat_exam,adv_safe,recall2
+#HOLD雲端 R5_mk12     | b1b249873 | probe | docs/story_planning/test_tools/cc/cc_makeup_probe.py   | index.html?turbo | 200 | FAIL_ROUTE=retake;CASES=study3h,skipnoon_seat,skipnoon_phone,old_delayed,homerest,home,mkbg
+#HOLD雲端 R6_layout   | b1b249873 | probe | docs/story_planning/test_tools/cc/cc_layout16_probe.py | index.html?turbo | 60  | CASES=seat_exam,adv_safe,recall2
 R6b_layoutcss| b1b249873 | game | tests/choices_landscape_css.py | index.html | 40 |
 R7_quota    | b1b249873 | py    | tools/cc_local/quota_check.py | index.html | 20 |
-R7b_quota15 | b1b249873 | probe | docs/story_planning/test_tools/cc/cc_quota15_probe.py  | index.html?turbo | 60  |
+#HOLD雲端 R7b_quota15 | b1b249873 | probe | docs/story_planning/test_tools/cc/cc_quota15_probe.py  | index.html?turbo | 60  |
 # 3. Y4S2 流程（retake／jp）、點名、總複習、考試提示
-R8_y4s2rt   | b1b249873 | probe | docs/story_planning/test_tools/cc/cc_makeup_probe.py   | index.html?turbo | 200 | FAIL_ROUTE=retake;MAIN_FROM=0527;CASES=main_pass,main_fail,route_grades
-R8b_y4s2jp  | b1b249873 | probe | docs/story_planning/test_tools/cc/cc_makeup_probe.py   | index.html?turbo | 60  | FAIL_ROUTE=jp;CASES=route_grades
-R8c_y4s2fin | b1b249873 | probe | docs/story_planning/test_tools/cc/cc_y4s2final_probe.py | index.html?turbo | 200 | FAIL_ROUTE=retake;CASES=main,noexam_stay
-R9_roll     | b1b249873 | probe | docs/story_planning/test_tools/cc/cc_rollcall_probe.py | index.html | 120 | CASES=a,a0,b,c1,c2,d_old,d_new,cw,bedge
-R10_b3      | b1b249873 | probe | docs/story_planning/test_tools/cc/cc_d118b3_probe.py   | index.html | 240 |
-R11_b4      | b1b249873 | probe | docs/story_planning/test_tools/cc/cc_d118b4_probe.py   | index.html | 150 |
+#HOLD雲端 R8_y4s2rt   | b1b249873 | probe | docs/story_planning/test_tools/cc/cc_makeup_probe.py   | index.html?turbo | 200 | FAIL_ROUTE=retake;MAIN_FROM=0527;CASES=main_pass,main_fail,route_grades
+#HOLD雲端 R8b_y4s2jp  | b1b249873 | probe | docs/story_planning/test_tools/cc/cc_makeup_probe.py   | index.html?turbo | 60  | FAIL_ROUTE=jp;CASES=route_grades
+#HOLD雲端 R8c_y4s2fin | b1b249873 | probe | docs/story_planning/test_tools/cc/cc_y4s2final_probe.py | index.html?turbo | 200 | FAIL_ROUTE=retake;CASES=main,noexam_stay
+#HOLD雲端 R9_roll     | b1b249873 | probe | docs/story_planning/test_tools/cc/cc_rollcall_probe.py | index.html | 120 | CASES=a,a0,b,c1,c2,d_old,d_new,cw,bedge
+#HOLD雲端 R10_b3      | b1b249873 | probe | docs/story_planning/test_tools/cc/cc_d118b3_probe.py   | index.html | 240 |
+#HOLD雲端 R11_b4      | b1b249873 | probe | docs/story_planning/test_tools/cc/cc_d118b4_probe.py   | index.html | 150 |
+#HOLD雲端 R10pre      | 299e23345 | probe | docs/story_planning/test_tools/cc/cc_d118b3_probe.py   | index.html | 240 |
+#HOLD雲端 R11pre      | f57e3ac75 | probe | docs/story_planning/test_tools/cc/cc_d118b4_probe.py   | index.html | 150 |
 # 4. 法服（FAFU 修正已含）＋修改前對照 ba125d6f3
-R12_fasat   | b1b249873 | probe | docs/story_planning/test_tools/cc/cc_fasat_probe.py    | index.html | 90 | CASES=same_sat,next_sat,wzline_same,wzline_first,old_y2_noflag
-R12b_fasatpre| ba125d6f3 | probe | docs/story_planning/test_tools/cc/cc_fasat_probe.py | index.html | 90 | CASES=wzline_same,wzline_first,old_y2_noflag
+#HOLD雲端 R12_fasat   | b1b249873 | probe | docs/story_planning/test_tools/cc/cc_fasat_probe.py    | index.html | 90 | CASES=same_sat,next_sat,wzline_same,wzline_first,old_y2_noflag
+#HOLD雲端 R12b_fasatpre| ba125d6f3 | probe | docs/story_planning/test_tools/cc/cc_fasat_probe.py | index.html | 90 | CASES=wzline_same,wzline_first,old_y2_noflag
 # ===== 5. 原本佇列的其他項目 =====
 00_gpu      | head      | gpu   | tools/cc_local/gpu_check.py                                     | index.html        | 20  |
 01_p0speed  | head      | game  | tests/p0_movement.py                                            | index.html        | 60  |
@@ -44,32 +48,32 @@ R12b_fasatpre| ba125d6f3 | probe | docs/story_planning/test_tools/cc/cc_fasat_pr
 16_p0       | d75871437 | game  | tests/p0_movement.py         | index.html       | 30  | XARGS={url}
 17_savev7   | d75871437 | game  | tests/save_compat_v7.py      | index.html       | 60  | SHA2=385e194;XARGS={url2} {url}
 18_flowday12| d75871437 | game  | tests/flow_main_day12.py     | index.html       | 180 | XARGS={url} {out}
-19_mkretake | 690ac5f4d | probe | docs/story_planning/test_tools/cc/cc_makeup_probe.py | index.html?turbo | 200 | FAIL_ROUTE=retake;MAIN_FROM=0527;CASES=main_pass,main_fail,route_grades
-19b_mkjp    | 690ac5f4d | probe | docs/story_planning/test_tools/cc/cc_makeup_probe.py | index.html?turbo | 60  | FAIL_ROUTE=jp;CASES=route_grades
-02b_mk12dea | dea6b1944 | probe | docs/story_planning/test_tools/cc/cc_makeup_probe.py           | index.html?turbo  | 120 | CASES=home,mkbg;FAIL_ROUTE=maritime
-06b_layoutP | c2d0c24bc | probe | docs/story_planning/test_tools/cc/cc_layout16_probe.py        | index.html?turbo  | 60  | CASES=seat_exam,adv_safe,recall2
-06c_layoutO | e27dd033e | probe | docs/story_planning/test_tools/cc/cc_layout16_probe.py        | index.html?turbo  | 60  | CASES=seat_exam,adv_safe,recall2
-32_wsem     | d75871437 | probe | docs/story_planning/test_tools/cc/cc_wsem_probe.py | index.html?turbo | 120 | CASES=all;NARR=1
-33_wsempre  | dea6b1944 | probe | docs/story_planning/test_tools/cc/cc_wsem_probe.py | index.html?turbo | 120 | CASES=all;EXAM_ROUTES=door;CLASS_ROUTES=door
-20_roll     | 4c8f138f7 | probe | docs/story_planning/test_tools/cc/cc_rollcall_probe.py | index.html | 120 | CASES=a,a0,b,c1,c2,d_old,d_new,cw,bedge
-21_rollpre  | 82f8d28c5 | probe | docs/story_planning/test_tools/cc/cc_rollcall_probe.py | index.html | 120 |
-22_boya     | 6f0122821 | probe | docs/story_planning/test_tools/cc/cc_boya203_probe.py  | index.html | 60  |
-23_boyapre  | 2c8d47e70 | probe | docs/story_planning/test_tools/cc/cc_boya203_probe.py  | index.html | 60  |
-24_b3       | d75871437 | probe | docs/story_planning/test_tools/cc/cc_d118b3_probe.py   | index.html | 240 |
-25_b3pre    | 299e23345 | probe | docs/story_planning/test_tools/cc/cc_d118b3_probe.py   | index.html | 90  | CASES=S1,night
-26_b3pre2   | 6ba2a22ad | probe | docs/story_planning/test_tools/cc/cc_d118b3_probe.py   | index.html | 60  | CASES=S2a
-27_b4       | d75871437 | probe | docs/story_planning/test_tools/cc/cc_d118b4_probe.py   | index.html | 150 |
-28_b4pre    | f57e3ac75 | probe | docs/story_planning/test_tools/cc/cc_d118b4_probe.py   | index.html | 90  | CASES=S1,mix
+#HOLD雲端 19_mkretake | 690ac5f4d | probe | docs/story_planning/test_tools/cc/cc_makeup_probe.py | index.html?turbo | 200 | FAIL_ROUTE=retake;MAIN_FROM=0527;CASES=main_pass,main_fail,route_grades
+#HOLD雲端 19b_mkjp    | 690ac5f4d | probe | docs/story_planning/test_tools/cc/cc_makeup_probe.py | index.html?turbo | 60  | FAIL_ROUTE=jp;CASES=route_grades
+#HOLD雲端 02b_mk12dea | dea6b1944 | probe | docs/story_planning/test_tools/cc/cc_makeup_probe.py           | index.html?turbo  | 120 | CASES=home,mkbg;FAIL_ROUTE=maritime
+#HOLD雲端 06b_layoutP | c2d0c24bc | probe | docs/story_planning/test_tools/cc/cc_layout16_probe.py        | index.html?turbo  | 60  | CASES=seat_exam,adv_safe,recall2
+#HOLD雲端 06c_layoutO | e27dd033e | probe | docs/story_planning/test_tools/cc/cc_layout16_probe.py        | index.html?turbo  | 60  | CASES=seat_exam,adv_safe,recall2
+#HOLD雲端 32_wsem     | d75871437 | probe | docs/story_planning/test_tools/cc/cc_wsem_probe.py | index.html?turbo | 120 | CASES=all;NARR=1
+#HOLD雲端 33_wsempre  | dea6b1944 | probe | docs/story_planning/test_tools/cc/cc_wsem_probe.py | index.html?turbo | 120 | CASES=all;EXAM_ROUTES=door;CLASS_ROUTES=door
+#HOLD雲端 20_roll     | 4c8f138f7 | probe | docs/story_planning/test_tools/cc/cc_rollcall_probe.py | index.html | 120 | CASES=a,a0,b,c1,c2,d_old,d_new,cw,bedge
+#HOLD雲端 21_rollpre  | 82f8d28c5 | probe | docs/story_planning/test_tools/cc/cc_rollcall_probe.py | index.html | 120 |
+#HOLD雲端 22_boya     | 6f0122821 | probe | docs/story_planning/test_tools/cc/cc_boya203_probe.py  | index.html | 60  |
+#HOLD雲端 23_boyapre  | 2c8d47e70 | probe | docs/story_planning/test_tools/cc/cc_boya203_probe.py  | index.html | 60  |
+#HOLD雲端 24_b3       | d75871437 | probe | docs/story_planning/test_tools/cc/cc_d118b3_probe.py   | index.html | 240 |
+#HOLD雲端 25_b3pre    | 299e23345 | probe | docs/story_planning/test_tools/cc/cc_d118b3_probe.py   | index.html | 90  | CASES=S1,night
+#HOLD雲端 26_b3pre2   | 6ba2a22ad | probe | docs/story_planning/test_tools/cc/cc_d118b3_probe.py   | index.html | 60  | CASES=S2a
+#HOLD雲端 27_b4       | d75871437 | probe | docs/story_planning/test_tools/cc/cc_d118b4_probe.py   | index.html | 150 |
+#HOLD雲端 28_b4pre    | f57e3ac75 | probe | docs/story_planning/test_tools/cc/cc_d118b4_probe.py   | index.html | 90  | CASES=S1,mix
 29_jpmk     | d75871437 | probe | docs/story_planning/test_tools/cc/cc_d118b1_probe.py   | index.html | 60  | CASES=jp_makeup
-34_day9     | d75871437 | probe | docs/story_planning/test_tools/cc/cc_day9_probe.py   | index.html | 60 | CASES=main
-02_mk12new  | c2d0c24bc | probe | docs/story_planning/test_tools/cc/cc_makeup_probe.py           | index.html?turbo  | 200 | CASES=study3h,skipnoon_seat,skipnoon_phone,homerest,old_delayed,home,mkbg;FAIL_ROUTE=maritime
-03_delay14  | c2d0c24bc | probe | docs/story_planning/test_tools/cc/cc_delay14_probe.py          | index.html?turbo  | 120 | CASES=dorm_sleep,dorm_stand,home;FD_COURSE=maritime;RERUN=sw1102
+#HOLD雲端 34_day9     | d75871437 | probe | docs/story_planning/test_tools/cc/cc_day9_probe.py   | index.html | 60 | CASES=main
+#HOLD雲端 02_mk12new  | c2d0c24bc | probe | docs/story_planning/test_tools/cc/cc_makeup_probe.py           | index.html?turbo  | 200 | CASES=study3h,skipnoon_seat,skipnoon_phone,homerest,old_delayed,home,mkbg;FAIL_ROUTE=maritime
+#HOLD雲端 03_delay14  | c2d0c24bc | probe | docs/story_planning/test_tools/cc/cc_delay14_probe.py          | index.html?turbo  | 120 | CASES=dorm_sleep,dorm_stand,home;FD_COURSE=maritime;RERUN=sw1102
 04_quota    | c2d0c24bc | py    | tools/cc_local/quota_check.py                                   | index.html        | 20  |
-04b_quota15 | c2d0c24bc | probe | docs/story_planning/test_tools/cc/cc_quota15_probe.py          | index.html?turbo  | 60  |
-04c_legal   | c2d0c24bc | probe | docs/story_planning/test_tools/cc/cc_legalpage_probe.py        | index.html?turbo  | 30  |
-05_mk12old  | b4f98ea4e | probe | docs/story_planning/test_tools/cc/cc_makeup_probe.py           | index.html?turbo  | 200 | CASES=study3h,homerest,old_delayed,home,mkbg_home;FAIL_ROUTE=maritime
+#HOLD雲端 04b_quota15 | c2d0c24bc | probe | docs/story_planning/test_tools/cc/cc_quota15_probe.py          | index.html?turbo  | 60  |
+#HOLD雲端 04c_legal   | c2d0c24bc | probe | docs/story_planning/test_tools/cc/cc_legalpage_probe.py        | index.html?turbo  | 30  |
+#HOLD雲端 05_mk12old  | b4f98ea4e | probe | docs/story_planning/test_tools/cc/cc_makeup_probe.py           | index.html?turbo  | 200 | CASES=study3h,homerest,old_delayed,home,mkbg_home;FAIL_ROUTE=maritime
 # DONE 11:04 UTC ALL PASS 06_layout16 | c2d0c24bc | game  | tests/choices_landscape_css.py                                  | index.html        | 40  |
-07_bg107    | c2d0c24bc | probe | docs/story_planning/test_tools/cc/cc_bg107_probe.py            | index.html?turbo  | 120 |
-08_pt106    | c2d0c24bc | probe | docs/story_planning/test_tools/cc/cc_pt106_probe.py            | index.html?turbo  | 120 |
+#HOLD雲端 07_bg107    | c2d0c24bc | probe | docs/story_planning/test_tools/cc/cc_bg107_probe.py            | index.html?turbo  | 120 |
+#HOLD雲端 08_pt106    | c2d0c24bc | probe | docs/story_planning/test_tools/cc/cc_pt106_probe.py            | index.html?turbo  | 120 |
 30_b1base   | a3b1bd647 | probe | docs/story_planning/test_tools/cc/cc_d118b1_probe.py   | index.html | 150 | CASES=retake_skip,retake_saveload,guowen_w8
 31_b2base   | a3b1bd647 | probe | docs/story_planning/test_tools/cc/cc_d118b2_probe.py   | index.html | 60  | CASES=wancai
