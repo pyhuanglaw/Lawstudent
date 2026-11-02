@@ -1,6 +1,6 @@
 # 宿舍四人房：床桌組比例＋房間變窄（DORM-LOFT-SCALE-1102）
 
-LAWWW2（帳號 A）2026-11-02 21:3x。狀態：**`ART_APPROVED`（BB_249，21:32，dc41197b7）**；LAWWW 21:31 ACK、排在黑森林後面整合；瀏覽器測試排隊中（LAWWW 也請 BB 排到使用者電腦）。
+LAWWW2（帳號 A）2026-11-02 21:3x。狀態：**`ART_APPROVED`（BB_249，21:32，dc41197b7）**；LAWWW 21:31 ACK、排在黑森林後面整合；瀏覽器測試 22:43 全部通過（雲端，不是手機實機）。
 
 BB_249 的小意見（不擋定稿，下次動到時順手改）：白色床護欄板太空，可以加木紋收邊，或擺毛巾、貼紙；鏡頭貼近床欄等使用者回報再處理。commit、push 只是保存，不是核准，也不是發布。
 
@@ -43,7 +43,7 @@ BB_249 的小意見（不擋定稿，下次動到時順手改）：白色床護�
 | 宿舍相關 105 支 Node 單元測試（`dloft/dorm_units.txt` 清單） | 105 pass、0 fail（21:03，改導航格以後重跑） |
 | 換成新烘的 GLB 以後再跑：`dorm_lightmap_unit`、`dorm_dark_lights_unit`、`dorm_seethru_unit`、`dorm_sleep_scene_unit`、`dorm_cam_unit`、`v0_dorm_props_unit` | 全部 ALL PASS |
 | 遊戲內改前改後（同鏡頭 6 張：門口、窗邊往門看、梯子、人站在梯子旁、人站在走道、晚上） | `dorm_cmp_a.jpg`、`dorm_cmp_b.jpg` |
-| 瀏覽器：`flow_dorm_hall`、`dorm_start_memory`、`reachability_all`（dorm、dorm_hall、dorm_205）、`seats_on_furniture dorm` | **排隊中**（總圖測試後面），結果出來補在這裡 |
+| 瀏覽器（22:26～22:43，一次一個）：`flow_dorm_hall`（真實玩家流程）、`dorm_start_memory`、`reachability_all --zones dorm,dorm_hall,dorm_205`、`seats_on_furniture dorm` | **全部 ALL PASS**（seats 那支 `{"bad": 0}`；它自己 launch 沒指定 Chromium 路徑，第一次在環境裡起不來，用不改測試的 wrapper 重跑）。flow_dorm_hall 前 5 分鐘和 Node 單元同時跑（CPU 有搶），結果仍是 ALL PASS |
 
 ## 還沒達到的／要注意的
 
