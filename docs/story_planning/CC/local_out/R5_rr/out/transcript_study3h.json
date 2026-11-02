@@ -1,0 +1,492 @@
+{
+ "rows": [
+  {
+   "k": "choose",
+   "n": "",
+   "t": "讀 1 小時〔用掉上午 1 次（還剩 0）〕｜讀 2 小時〔會錯過：補考：強制執行法〕｜讀 3 小時〔會錯過：補考：強制執行法〕｜讀到補考前（09:50）〔用掉上午 1 次（還剩 0）〕｜算了",
+   "d": "2029-06-26",
+   "h": 8.531,
+   "z": "library"
+  },
+  {
+   "k": "toast",
+   "n": "",
+   "t": "會錯過：補考：強制執行法",
+   "d": "2029-06-26",
+   "h": 8.531,
+   "z": "library"
+  },
+  {
+   "k": "toast",
+   "n": "dom",
+   "t": "會錯過：補考：強制執行法",
+   "d": "2029-06-26",
+   "h": 8.531,
+   "z": "library"
+  },
+  {
+   "k": "step",
+   "n": "start",
+   "t": "fd_makeup",
+   "d": "2029-06-26",
+   "h": 9.5,
+   "z": "library"
+  },
+  {
+   "k": "bg",
+   "n": "begin",
+   "t": "{\"image\":\"assets/bg/linze_201.webp\"}",
+   "d": "2029-06-26",
+   "h": 10,
+   "z": "library"
+  },
+  {
+   "k": "cap",
+   "n": "",
+   "t": "法律系館A",
+   "d": "2029-06-26",
+   "h": 10,
+   "z": "library"
+  },
+  {
+   "k": "say",
+   "n": "",
+   "c": null,
+   "t": "（法律系館A 201。前面幾排零零散散坐了四五個人。有人穿著實習的襯衫，有人一邊吃早餐一邊翻講義。）",
+   "d": "2029-06-26",
+   "h": 10,
+   "z": "library"
+  },
+  {
+   "k": "say",
+   "n": "陳助教",
+   "c": "npc_ta_chen",
+   "t": "考卷發下去了。一樣五題，十一點收。",
+   "d": "2029-06-26",
+   "h": 10,
+   "z": "library"
+  },
+  {
+   "k": "say",
+   "n": "",
+   "c": null,
+   "t": "1／5　乙月薪 6 萬元（自然人因提供勞務而獲得的繼續性報酬）。債權人聲請扣押乙的薪資，執行法院沒有認定有失公平的特殊情形。每個月原則上最多可以扣押多少？",
+   "d": "2029-06-26",
+   "h": 10,
+   "z": "library"
+  },
+  {
+   "k": "choose",
+   "n": "",
+   "t": "（A）6,000 元｜（B）12,000 元｜（C）15,000 元｜（D）20,000 元",
+   "d": "2029-06-26",
+   "h": 10,
+   "z": "library"
+  },
+  {
+   "k": "say",
+   "n": "",
+   "c": null,
+   "t": "2／5　法院強制執行時，查封了債務人乙家中的一架鋼琴，但這架鋼琴其實是鄰居丙寄放的，所有權屬於丙。丙在強制執行程序終結前，最適合提起什麼訴訟？",
+   "d": "2029-06-26",
+   "h": 10,
+   "z": "library"
+  },
+  {
+   "k": "choose",
+   "n": "",
+   "t": "（A）債務人異議之訴｜（B）第三人異議之訴｜（C）再審之訴｜（D）確認支付命令無效之訴",
+   "d": "2029-06-26",
+   "h": 10,
+   "z": "library"
+  },
+  {
+   "k": "say",
+   "n": "",
+   "c": null,
+   "t": "3／5　執行人員到作家乙家裡查封，看到：一部還沒發表的小說手稿、一支名牌手錶、一輛很少開的跑車、乙名下另一間出租的房子。依強制執行法第53條，哪一樣原則上不得查封？",
+   "d": "2029-06-26",
+   "h": 10,
+   "z": "library"
+  },
+  {
+   "k": "choose",
+   "n": "",
+   "t": "（A）名牌手錶｜（B）還沒發表的小說手稿｜（C）很少開的跑車｜（D）另一間出租的房子",
+   "d": "2029-06-26",
+   "h": 10,
+   "z": "library"
+  },
+  {
+   "k": "say",
+   "n": "",
+   "c": null,
+   "t": "4／5　確定判決命乙清償 50 萬元。判決確定後，乙已經全部清償，債權人甲仍持判決聲請強制執行。乙在執行程序終結前，可以提起什麼訴訟？",
+   "d": "2029-06-26",
+   "h": 10,
+   "z": "library"
+  },
+  {
+   "k": "choose",
+   "n": "",
+   "t": "（A）債務人異議之訴｜（B）第三人異議之訴｜（C）第三審上訴｜（D）非常上訴",
+   "d": "2029-06-26",
+   "h": 10,
+   "z": "library"
+  },
+  {
+   "k": "say",
+   "n": "",
+   "c": null,
+   "t": "5／5　甲持有乙親筆簽名的借據，乙到期不還。甲可不可以直接拿這張借據，向法院聲請強制執行？",
+   "d": "2029-06-26",
+   "h": 10,
+   "z": "library"
+  },
+  {
+   "k": "choose",
+   "n": "",
+   "t": "（A）可以，借據本身就是執行名義｜（B）可以，只要借據經過公證人認證簽名｜（C）不可以，要先取得強制執行法第4條所列的執行名義，例如確定判決，或債務人未異議的支付命令｜（D）不可以，借款債權依法不能強制執行",
+   "d": "2029-06-26",
+   "h": 10,
+   "z": "library"
+  },
+  {
+   "k": "say",
+   "n": "",
+   "c": null,
+   "t": "交卷。答對 5／5，100 分。",
+   "d": "2029-06-26",
+   "h": 10,
+   "z": "library"
+  },
+  {
+   "k": "say",
+   "n": "",
+   "c": null,
+   "t": "（強制執行法，補考過了。）",
+   "d": "2029-06-26",
+   "h": 10,
+   "z": "library"
+  },
+  {
+   "k": "say",
+   "n": "",
+   "c": null,
+   "t": "（這樣，就真的畢業了。）",
+   "d": "2029-06-26",
+   "h": 10,
+   "z": "library"
+  },
+  {
+   "k": "say",
+   "n": "",
+   "c": null,
+   "t": "（今年的國考，照常考。）",
+   "d": "2029-06-26",
+   "h": 10,
+   "z": "library"
+  },
+  {
+   "k": "step",
+   "n": "end",
+   "t": "fd_makeup",
+   "d": "2029-06-26",
+   "h": 11,
+   "z": "library"
+  },
+  {
+   "k": "card",
+   "n": "6/28（四）10:00",
+   "t": "（畢業以後，你還是每天八點起床。不用上課，就去總圖。）",
+   "d": "2029-06-28",
+   "h": 10,
+   "z": "library"
+  },
+  {
+   "k": "card",
+   "n": "回宿舍",
+   "t": "",
+   "d": "2029-06-28",
+   "h": 10.001,
+   "z": "library"
+  },
+  {
+   "k": "enter",
+   "n": "{\"x\":0,\"z\":5.6,\"yaw\":3.141592653589793,\"lv\":0}",
+   "t": "dorm_hall",
+   "d": "2029-06-28",
+   "h": 10.001,
+   "z": "library"
+  },
+  {
+   "k": "cap",
+   "n": "",
+   "t": "你的房間在四樓，409。樓梯在走廊北邊。",
+   "d": "2029-06-28",
+   "h": 10.001,
+   "z": "dorm_hall"
+  },
+  {
+   "k": "bg",
+   "n": "begin",
+   "t": "blur",
+   "d": "2029-06-28",
+   "h": 10.001,
+   "z": "dorm_hall"
+  },
+  {
+   "k": "say",
+   "n": "",
+   "c": null,
+   "t": "（宿舍期滿。舍監在門口收鑰匙。）",
+   "d": "2029-06-28",
+   "h": 10.001,
+   "z": "dorm_hall"
+  },
+  {
+   "k": "say",
+   "n": "",
+   "c": null,
+   "t": "（409 的鑰匙交出去的時候，舍監看了一下名單：「四年，四個房間。」）",
+   "d": "2029-06-28",
+   "h": 10.001,
+   "z": "dorm_hall"
+  },
+  {
+   "k": "say",
+   "n": "",
+   "c": null,
+   "t": "「冬天的衣服」那一箱，最後一個搬上車。",
+   "d": "2029-06-28",
+   "h": 10.001,
+   "z": "dorm_hall"
+  },
+  {
+   "k": "say",
+   "n": "",
+   "c": null,
+   "t": "（你租的套房在公館，走路到總圖十分鐘。）",
+   "d": "2029-06-28",
+   "h": 10.701,
+   "z": "dorm_hall"
+  },
+  {
+   "k": "card",
+   "n": "公館的套房",
+   "t": "",
+   "d": "2029-06-28",
+   "h": 10.701,
+   "z": "dorm_hall"
+  },
+  {
+   "k": "say",
+   "n": "",
+   "c": null,
+   "t": "（兵役的時間，你排在考試之後。）",
+   "d": "2029-06-28",
+   "h": 10.701,
+   "z": "dorm_hall"
+  },
+  {
+   "k": "enter",
+   "n": "{\"x\":-35.6,\"z\":13.2,\"yaw\":0}",
+   "t": "gongguan",
+   "d": "2029-06-28",
+   "h": 10.701,
+   "z": "dorm_hall"
+  }
+ ],
+ "start": null,
+ "end": {
+  "clock": {
+   "key": "2029-06-28",
+   "day": 1381,
+   "h": 10.706,
+   "zone": "gongguan",
+   "term": null,
+   "week": null
+  },
+  "flags": {
+   "Y4_PATH": "bar",
+   "BAR_REG": true,
+   "GRADUATED": 1355,
+   "FAIL_DELAY_COURSES": [],
+   "FAIL_DELAY_V": 2,
+   "FD_MAKEUP": {
+    "v": 1,
+    "courses": [
+     "enforcement"
+    ],
+    "status": "pass",
+    "res": {
+     "enforcement": "pass"
+    }
+   },
+   "EXCHANGE_ROUTE": "TW",
+   "MOVED_OUT": 1381
+  },
+  "failed": [],
+  "exam": {
+   "Y4S2:enforcement:final": {
+    "qs": [
+     "Y4_ENF_08",
+     "Y4_ENF_01",
+     "Y4_ENF_07",
+     "Y4_ENF_06",
+     "Y4_ENF_03"
+    ],
+    "ans": [],
+    "status": "done",
+    "correct": 0,
+    "score": 0
+   },
+   "Y4S2:maritime:final": {
+    "qs": [
+     "Y4_MAR_04",
+     "Y4MAR_08",
+     "Y4MAR_04",
+     "Y4MAR_03",
+     "Y4MAR_01"
+    ],
+    "ans": [],
+    "status": "done",
+    "correct": 3,
+    "score": 60
+   },
+   "Y4S2:enforcement:makeup": {
+    "qs": [
+     "Y4_ENF_04",
+     "Y4_ENF_02",
+     "Y4_ENF_05",
+     "Y4_ENF_03",
+     "Y4_ENF_01"
+    ],
+    "ans": [
+     "D",
+     "B",
+     "B",
+     "A",
+     "C"
+    ],
+    "correct": 5,
+    "score": 100,
+    "status": "done"
+   }
+  },
+  "grades": {
+   "legal_research": "通過",
+   "legal_practice": "通過",
+   "enforcement": "及格（補考）",
+   "maritime": "60 分"
+  },
+  "pgOn": true,
+  "delayed": false,
+  "exchDelayed": false,
+  "pgDone": {
+   "grad": 1,
+   "fd_grades_y4s2": 1,
+   "fd_makeup": 1
+  },
+  "pend": [
+   [
+    "b1",
+    "2029-07-12",
+    20
+   ],
+   [
+    "exam_2029",
+    "2029-08-04",
+    8
+   ],
+   [
+    "first",
+    "2030-10-01",
+    21
+   ]
+  ],
+  "mk": {
+   "v": 1,
+   "courses": [
+    "enforcement"
+   ],
+   "status": "pass",
+   "res": {
+    "enforcement": "pass"
+   }
+  },
+  "homeOpt": null,
+  "review": null,
+  "homeAt": false,
+  "retake": [
+   {
+    "id": "enforcement",
+    "from": "Y4S1",
+    "base": "Y4S1",
+    "term": "Y4S2",
+    "slots": [
+     {
+      "wd": 1,
+      "block": "am"
+     }
+    ],
+    "alt": false
+   }
+  ],
+  "nmsg": 2,
+  "title": false
+ },
+ "study_menu": "讀 1 小時〔用掉上午 1 次（還剩 0）〕｜讀 2 小時〔會錯過：補考：強制執行法〕｜讀 3 小時〔會錯過：補考：強制執行法〕｜讀到補考前（09:50）〔用掉上午 1 次（還剩 0）〕｜算了",
+ "dim": [
+  {
+   "t": "讀 1 小時用掉上午 1 次（還剩 0）",
+   "dim": false
+  },
+  {
+   "t": "讀 2 小時會錯過：補考：強制執行法",
+   "dim": true
+  },
+  {
+   "t": "讀 3 小時會錯過：補考：強制執行法",
+   "dim": true
+  },
+  {
+   "t": "讀到補考前（09:50）用掉上午 1 次（還剩 0）",
+   "dim": false
+  },
+  {
+   "t": "算了",
+   "dim": false
+  }
+ ],
+ "shots": {
+  "seat_menu": [
+   "C:\\Users\\USER\\Documents\\Lawstudent_cclocal\\docs\\story_planning\\CC\\local_out\\R5_rr\\out\\01_study3h_seat_menu_land.png",
+   "C:\\Users\\USER\\Documents\\Lawstudent_cclocal\\docs\\story_planning\\CC\\local_out\\R5_rr\\out\\02_study3h_seat_menu_port.png"
+  ],
+  "study_menu": [
+   "C:\\Users\\USER\\Documents\\Lawstudent_cclocal\\docs\\story_planning\\CC\\local_out\\R5_rr\\out\\03_study3h_study_menu_land.png",
+   "C:\\Users\\USER\\Documents\\Lawstudent_cclocal\\docs\\story_planning\\CC\\local_out\\R5_rr\\out\\04_study3h_study_menu_port.png"
+  ],
+  "w:open": [
+   "C:\\Users\\USER\\Documents\\Lawstudent_cclocal\\docs\\story_planning\\CC\\local_out\\R5_rr\\out\\05_study3h_line_open_land.png",
+   "C:\\Users\\USER\\Documents\\Lawstudent_cclocal\\docs\\story_planning\\CC\\local_out\\R5_rr\\out\\06_study3h_line_open_port.png"
+  ],
+  "exam_q1_makeup": "C:\\Users\\USER\\Documents\\Lawstudent_cclocal\\docs\\story_planning\\CC\\local_out\\R5_rr\\out\\07_study3h_makeup_q1.png",
+  "w:pass": [
+   "C:\\Users\\USER\\Documents\\Lawstudent_cclocal\\docs\\story_planning\\CC\\local_out\\R5_rr\\out\\08_study3h_line_pass_land.png",
+   "C:\\Users\\USER\\Documents\\Lawstudent_cclocal\\docs\\story_planning\\CC\\local_out\\R5_rr\\out\\09_study3h_line_pass_port.png"
+  ],
+  "w:passAll": [
+   "C:\\Users\\USER\\Documents\\Lawstudent_cclocal\\docs\\story_planning\\CC\\local_out\\R5_rr\\out\\10_study3h_line_passAll_land.png",
+   "C:\\Users\\USER\\Documents\\Lawstudent_cclocal\\docs\\story_planning\\CC\\local_out\\R5_rr\\out\\11_study3h_line_passAll_port.png"
+  ],
+  "end": [
+   "C:\\Users\\USER\\Documents\\Lawstudent_cclocal\\docs\\story_planning\\CC\\local_out\\R5_rr\\out\\12_study3h_end_land.png",
+   "C:\\Users\\USER\\Documents\\Lawstudent_cclocal\\docs\\story_planning\\CC\\local_out\\R5_rr\\out\\13_study3h_end_port.png"
+  ]
+ },
+ "stuck": null,
+ "sha": "b1b249873",
+ "case": "study3h"
+}
