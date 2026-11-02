@@ -1,0 +1,487 @@
+{
+ "qid": "Y4LSO_08",
+ "orient": "land",
+ "route_req": "goclass",
+ "q": {
+  "id": "Y4LSO_08",
+  "course": "labor_social",
+  "name": "勞動社會法",
+  "term": "Y4S1",
+  "q": "申請人離職退保時未滿四十五歲，也沒有身心障礙證明，而且沒有延長給付的情形。依就業保險法第16條第1項，失業給付如何發給？",
+  "opts": [
+   "（A）按離職退保當月起前六個月平均月投保薪資百分之六十按月發給，最長六個月",
+   "（B）按平均月投保薪資百分之六十按月發給，最長九個月",
+   "（C）按平均月投保薪資百分之八十按月發給，最長六個月",
+   "（D）按平均月投保薪資百分之五十按月發給，最長十二個月"
+  ],
+  "answer": "A",
+  "right": 0,
+  "room": {
+   "id": "L202",
+   "zone": "linze_202",
+   "name": "法律系館A 202",
+   "door": false
+  },
+  "examDay": {
+   "day": 1192,
+   "key": "2028-12-21",
+   "block": "pm1",
+   "t0": 13.333333333333334,
+   "t1": 15.166666666666666,
+   "makeup": false
+  },
+  "qs": [
+   "Y4LSO_08",
+   "Y4_LSO_06",
+   "Y4_LSO_08",
+   "Y4LSO_01",
+   "Y4LSO_02"
+  ]
+ },
+ "route": "goclass",
+ "base": {
+  "W": 844,
+  "H": 390,
+  "safe": {
+   "l": 0,
+   "r": 0,
+   "t": 0,
+   "b": 0
+  },
+  "adv": false,
+  "dlg": {
+   "rect": {
+    "l": 42,
+    "t": 296,
+    "r": 802,
+    "b": 376,
+    "w": 760,
+    "h": 80
+   },
+   "cls": [],
+   "vis": true,
+   "left": "422px",
+   "width": "760px",
+   "transform": "matrix(1, 0, 0, 1, -380, 0)"
+  },
+  "dlgText": "1／5　申請人離職退保時未滿四十五歲，也沒有身心障礙證明，而且沒有延長給付的情形。依就業保險法第16條第1項，失業給付如何發給？",
+  "samples": [
+   {
+    "x": 131.6,
+    "y": 324.6,
+    "inDlg": true,
+    "inCh": false,
+    "el": "dlgText"
+   },
+   {
+    "x": 422,
+    "y": 324.6,
+    "inDlg": true,
+    "inCh": false,
+    "el": "dlgText"
+   },
+   {
+    "x": 712.4,
+    "y": 324.6,
+    "inDlg": true,
+    "inCh": false,
+    "el": "dlgText"
+   },
+   {
+    "x": 276.8,
+    "y": 350.6,
+    "inDlg": true,
+    "inCh": false,
+    "el": "dlgText"
+   },
+   {
+    "x": 567.2,
+    "y": 350.6,
+    "inDlg": true,
+    "inCh": false,
+    "el": "dlgText"
+   }
+  ],
+  "ch": {
+   "rect": {
+    "l": 0,
+    "t": 0,
+    "r": 0,
+    "b": 0,
+    "w": 0,
+    "h": 0
+   },
+   "cls": [
+    "hide"
+   ],
+   "vis": false,
+   "display": "none",
+   "grid": "none",
+   "left": "auto",
+   "width": "min(400px, 100% - 28px)",
+   "scrollH": 0,
+   "clientH": 0
+  },
+  "btns": []
+ },
+ "shots": {
+  "q_say": "C:\\Users\\USER\\Documents\\Lawstudent_cclocal\\docs\\story_planning\\CC\\local_out\\R6_rr2\\out\\01_seat_exam_Y4LSO_08_land_q1_say.png",
+  "choices": "C:\\Users\\USER\\Documents\\Lawstudent_cclocal\\docs\\story_planning\\CC\\local_out\\R6_rr2\\out\\02_seat_exam_Y4LSO_08_land_q1_choices.png",
+  "next_say": "C:\\Users\\USER\\Documents\\Lawstudent_cclocal\\docs\\story_planning\\CC\\local_out\\R6_rr2\\out\\03_seat_exam_Y4LSO_08_land_q2_say.png"
+ },
+ "seat": {
+  "pose": "read",
+  "seat": true,
+  "zone": "linze_202"
+ },
+ "choose": {
+  "W": 844,
+  "H": 390,
+  "safe": {
+   "l": 0,
+   "r": 0,
+   "t": 0,
+   "b": 0
+  },
+  "adv": false,
+  "dlg": {
+   "rect": {
+    "l": 14,
+    "t": 271.2,
+    "r": 416,
+    "b": 376,
+    "w": 402,
+    "h": 104.8
+   },
+   "cls": [
+    "static",
+    "side"
+   ],
+   "vis": true,
+   "left": "14px",
+   "width": "402px",
+   "transform": "none"
+  },
+  "dlgText": "1／5　申請人離職退保時未滿四十五歲，也沒有身心障礙證明，而且沒有延長給付的情形。依就業保險法第16條第1項，失業給付如何發給？",
+  "samples": [
+   {
+    "x": 67.8,
+    "y": 307.3,
+    "inDlg": true,
+    "inCh": false,
+    "el": "dlgText"
+   },
+   {
+    "x": 215,
+    "y": 307.3,
+    "inDlg": true,
+    "inCh": false,
+    "el": "dlgText"
+   },
+   {
+    "x": 362.2,
+    "y": 307.3,
+    "inDlg": true,
+    "inCh": false,
+    "el": "dlgText"
+   },
+   {
+    "x": 141.4,
+    "y": 345.6,
+    "inDlg": true,
+    "inCh": false,
+    "el": "dlgText"
+   },
+   {
+    "x": 288.6,
+    "y": 345.6,
+    "inDlg": true,
+    "inCh": false,
+    "el": "dlgText"
+   }
+  ],
+  "ch": {
+   "rect": {
+    "l": 430,
+    "t": 82,
+    "r": 830,
+    "b": 362,
+    "w": 400,
+    "h": 280
+   },
+   "cls": [],
+   "vis": true,
+   "display": "flex",
+   "grid": "none",
+   "left": "430px",
+   "width": "400px",
+   "scrollH": 280,
+   "clientH": 280
+  },
+  "btns": [
+   {
+    "t": "（A）按離職退保當月起前六個月平均月投保薪資百分之六十按月發給，最長六個月",
+    "rect": {
+     "l": 430,
+     "t": 82,
+     "r": 830,
+     "b": 146,
+     "w": 400,
+     "h": 64
+    }
+   },
+   {
+    "t": "（B）按平均月投保薪資百分之六十按月發給，最長九個月",
+    "rect": {
+     "l": 430,
+     "t": 154,
+     "r": 830,
+     "b": 218,
+     "w": 400,
+     "h": 64
+    }
+   },
+   {
+    "t": "（C）按平均月投保薪資百分之八十按月發給，最長六個月",
+    "rect": {
+     "l": 430,
+     "t": 226,
+     "r": 830,
+     "b": 290,
+     "w": 400,
+     "h": 64
+    }
+   },
+   {
+    "t": "（D）按平均月投保薪資百分之五十按月發給，最長十二個月",
+    "rect": {
+     "l": 430,
+     "t": 298,
+     "r": 830,
+     "b": 362,
+     "w": 400,
+     "h": 64
+    }
+   }
+  ]
+ },
+ "stable": true,
+ "keep": true,
+ "after": {
+  "W": 844,
+  "H": 390,
+  "safe": {
+   "l": 0,
+   "r": 0,
+   "t": 0,
+   "b": 0
+  },
+  "adv": false,
+  "dlg": {
+   "rect": {
+    "l": 42,
+    "t": 296,
+    "r": 802,
+    "b": 376,
+    "w": 760,
+    "h": 80
+   },
+   "cls": [],
+   "vis": true,
+   "left": "422px",
+   "width": "760px",
+   "transform": "matrix(1, 0, 0, 1, -380, 0)"
+  },
+  "dlgText": "2／5　依社會救助法第4條，最低生活費是參照當地區最近一年每人可支配所得中位數的百分之多少訂定？",
+  "samples": [
+   {
+    "x": 131.6,
+    "y": 324.6,
+    "inDlg": true,
+    "inCh": false,
+    "el": "dlgText"
+   },
+   {
+    "x": 422,
+    "y": 324.6,
+    "inDlg": true,
+    "inCh": false,
+    "el": "dlgText"
+   },
+   {
+    "x": 712.4,
+    "y": 324.6,
+    "inDlg": true,
+    "inCh": false,
+    "el": "dlgText"
+   },
+   {
+    "x": 276.8,
+    "y": 350.6,
+    "inDlg": true,
+    "inCh": false,
+    "el": "dlgText"
+   },
+   {
+    "x": 567.2,
+    "y": 350.6,
+    "inDlg": true,
+    "inCh": false,
+    "el": "dlgText"
+   }
+  ],
+  "ch": {
+   "rect": {
+    "l": 0,
+    "t": 0,
+    "r": 0,
+    "b": 0,
+    "w": 0,
+    "h": 0
+   },
+   "cls": [
+    "hide"
+   ],
+   "vis": false,
+   "display": "none",
+   "grid": "none",
+   "left": "auto",
+   "width": "min(400px, 100% - 28px)",
+   "scrollH": 0,
+   "clientH": 0
+  },
+  "btns": []
+ },
+ "next": {
+  "W": 844,
+  "H": 390,
+  "safe": {
+   "l": 0,
+   "r": 0,
+   "t": 0,
+   "b": 0
+  },
+  "adv": false,
+  "dlg": {
+   "rect": {
+    "l": 42,
+    "t": 296,
+    "r": 802,
+    "b": 376,
+    "w": 760,
+    "h": 80
+   },
+   "cls": [],
+   "vis": true,
+   "left": "422px",
+   "width": "760px",
+   "transform": "matrix(1, 0, 0, 1, -380, 0)"
+  },
+  "dlgText": "2／5　依社會救助法第4條，最低生活費是參照當地區最近一年每人可支配所得中位數的百分之多少訂定？",
+  "samples": [
+   {
+    "x": 131.6,
+    "y": 324.6,
+    "inDlg": true,
+    "inCh": false,
+    "el": "dlgText"
+   },
+   {
+    "x": 422,
+    "y": 324.6,
+    "inDlg": true,
+    "inCh": false,
+    "el": "dlgText"
+   },
+   {
+    "x": 712.4,
+    "y": 324.6,
+    "inDlg": true,
+    "inCh": false,
+    "el": "dlgText"
+   },
+   {
+    "x": 276.8,
+    "y": 350.6,
+    "inDlg": true,
+    "inCh": false,
+    "el": "dlgText"
+   },
+   {
+    "x": 567.2,
+    "y": 350.6,
+    "inDlg": true,
+    "inCh": false,
+    "el": "dlgText"
+   }
+  ],
+  "ch": {
+   "rect": {
+    "l": 0,
+    "t": 0,
+    "r": 0,
+    "b": 0,
+    "w": 0,
+    "h": 0
+   },
+   "cls": [
+    "hide"
+   ],
+   "vis": false,
+   "display": "none",
+   "grid": "none",
+   "left": "auto",
+   "width": "min(400px, 100% - 28px)",
+   "scrollH": 0,
+   "clientH": 0
+  },
+  "btns": []
+ },
+ "notes_errs": [],
+ "transcript": [
+  {
+   "k": "choose",
+   "t": [
+    "坐中間的位子",
+    "坐在沈以安旁邊",
+    "自己找位子"
+   ],
+   "h": 13.551,
+   "ms": 36729
+  },
+  {
+   "k": "say",
+   "n": "",
+   "t": "考卷發下來。勞動社會法期末考。五題。",
+   "h": 13.551,
+   "ms": 43483
+  },
+  {
+   "k": "say",
+   "n": "",
+   "t": "1／5　申請人離職退保時未滿四十五歲，也沒有身心障礙證明，而且沒有延長給付的情形。依就業保險法第16條第1項，失業給付如何發給？",
+   "h": 13.551,
+   "ms": 44792
+  },
+  {
+   "k": "choose",
+   "t": [
+    "（A）按離職退保當月起前六個月平均月投保薪資百分之六十按月發給，最長六個月",
+    "（B）按平均月投保薪資百分之六十按月發給，最長九個月",
+    "（C）按平均月投保薪資百分之八十按月發給，最長六個月",
+    "（D）按平均月投保薪資百分之五十按月發給，最長十二個月"
+   ],
+   "h": 13.551,
+   "ms": 47727
+  },
+  {
+   "k": "say",
+   "n": "",
+   "t": "2／5　依社會救助法第4條，最低生活費是參照當地區最近一年每人可支配所得中位數的百分之多少訂定？",
+   "h": 13.551,
+   "ms": 50040
+  }
+ ],
+ "sha": "b1b249873",
+ "case": "seat_exam_Y4LSO_08_land"
+}

@@ -1,0 +1,486 @@
+{
+ "qid": "Y4TAX_06",
+ "orient": "land",
+ "route_req": "goclass",
+ "q": {
+  "id": "Y4TAX_06",
+  "course": "tax_law",
+  "name": "財稅法",
+  "term": "Y4S1",
+  "q": "在中華民國境內居住的個人甲，2025年買進一間房屋（不是自住，也沒有調職、非自願離職等特殊情形），持有一年後出售而有交易所得。依所得稅法第14條之4，這筆房屋、土地交易所得適用的稅率是多少？",
+  "opts": [
+   "（A）百分之十五",
+   "（B）百分之二十",
+   "（C）百分之三十五",
+   "（D）百分之四十五"
+  ],
+  "answer": "D",
+  "right": 3,
+  "room": {
+   "id": "L202",
+   "zone": "linze_202",
+   "name": "法律系館A 202",
+   "door": false
+  },
+  "examDay": {
+   "day": 1192,
+   "key": "2028-12-21",
+   "block": "pm1",
+   "t0": 13.333333333333334,
+   "t1": 15.166666666666666,
+   "makeup": false
+  },
+  "qs": [
+   "Y4TAX_06",
+   "Y4_TAX_03",
+   "Y4_TAX_06",
+   "Y4_TAX_08",
+   "Y4TAX_01"
+  ]
+ },
+ "route": "goclass",
+ "base": {
+  "W": 844,
+  "H": 390,
+  "safe": {
+   "l": 0,
+   "r": 0,
+   "t": 0,
+   "b": 0
+  },
+  "adv": false,
+  "dlg": {
+   "rect": {
+    "l": 42,
+    "t": 271.2,
+    "r": 802,
+    "b": 376,
+    "w": 760,
+    "h": 104.8
+   },
+   "cls": [],
+   "vis": true,
+   "left": "422px",
+   "width": "760px",
+   "transform": "matrix(1, 0, 0, 1, -380, 0)"
+  },
+  "dlgText": "1／5　在中華民國境內居住的個人甲，2025年買進一間房屋（不是自住，也沒有調職、非自願離職等特殊情形），持有一年後出售而有交易所得。依所得稅法第14條之4，這筆房屋、土地交易所得適用的稅率是多少？",
+  "samples": [
+   {
+    "x": 131.6,
+    "y": 307.3,
+    "inDlg": true,
+    "inCh": false,
+    "el": "dlgText"
+   },
+   {
+    "x": 422,
+    "y": 307.3,
+    "inDlg": true,
+    "inCh": false,
+    "el": "dlgText"
+   },
+   {
+    "x": 712.4,
+    "y": 307.3,
+    "inDlg": true,
+    "inCh": false,
+    "el": "dlgText"
+   },
+   {
+    "x": 276.8,
+    "y": 345.6,
+    "inDlg": true,
+    "inCh": false,
+    "el": "dlgText"
+   },
+   {
+    "x": 567.2,
+    "y": 345.6,
+    "inDlg": true,
+    "inCh": false,
+    "el": "dlgText"
+   }
+  ],
+  "ch": {
+   "rect": {
+    "l": 0,
+    "t": 0,
+    "r": 0,
+    "b": 0,
+    "w": 0,
+    "h": 0
+   },
+   "cls": [
+    "hide"
+   ],
+   "vis": false,
+   "display": "none",
+   "grid": "none",
+   "left": "auto",
+   "width": "min(400px, 100% - 28px)",
+   "scrollH": 0,
+   "clientH": 0
+  },
+  "btns": []
+ },
+ "shots": {
+  "q_say": "C:\\Users\\USER\\Documents\\Lawstudent_cclocal\\docs\\story_planning\\CC\\local_out\\R6_rr2\\out\\13_seat_exam_Y4TAX_06_land_q1_say.png",
+  "choices": "C:\\Users\\USER\\Documents\\Lawstudent_cclocal\\docs\\story_planning\\CC\\local_out\\R6_rr2\\out\\14_seat_exam_Y4TAX_06_land_q1_choices.png",
+  "next_say": "C:\\Users\\USER\\Documents\\Lawstudent_cclocal\\docs\\story_planning\\CC\\local_out\\R6_rr2\\out\\15_seat_exam_Y4TAX_06_land_q2_say.png"
+ },
+ "seat": {
+  "pose": "read",
+  "seat": true,
+  "zone": "linze_202"
+ },
+ "choose": {
+  "W": 844,
+  "H": 390,
+  "safe": {
+   "l": 0,
+   "r": 0,
+   "t": 0,
+   "b": 0
+  },
+  "adv": false,
+  "dlg": {
+   "rect": {
+    "l": 42,
+    "t": 271.2,
+    "r": 802,
+    "b": 376,
+    "w": 760,
+    "h": 104.8
+   },
+   "cls": [
+    "static"
+   ],
+   "vis": true,
+   "left": "422px",
+   "width": "760px",
+   "transform": "matrix(1, 0, 0, 1, -380, 0)"
+  },
+  "dlgText": "1／5　在中華民國境內居住的個人甲，2025年買進一間房屋（不是自住，也沒有調職、非自願離職等特殊情形），持有一年後出售而有交易所得。依所得稅法第14條之4，這筆房屋、土地交易所得適用的稅率是多少？",
+  "samples": [
+   {
+    "x": 131.6,
+    "y": 307.3,
+    "inDlg": true,
+    "inCh": false,
+    "el": "dlgText"
+   },
+   {
+    "x": 422,
+    "y": 307.3,
+    "inDlg": true,
+    "inCh": false,
+    "el": "dlgText"
+   },
+   {
+    "x": 712.4,
+    "y": 307.3,
+    "inDlg": true,
+    "inCh": false,
+    "el": "dlgText"
+   },
+   {
+    "x": 276.8,
+    "y": 345.6,
+    "inDlg": true,
+    "inCh": false,
+    "el": "dlgText"
+   },
+   {
+    "x": 567.2,
+    "y": 345.6,
+    "inDlg": true,
+    "inCh": false,
+    "el": "dlgText"
+   }
+  ],
+  "ch": {
+   "rect": {
+    "l": 430,
+    "t": 44,
+    "r": 830,
+    "b": 249,
+    "w": 400,
+    "h": 205
+   },
+   "cls": [],
+   "vis": true,
+   "display": "flex",
+   "grid": "none",
+   "left": "430px",
+   "width": "400px",
+   "scrollH": 208,
+   "clientH": 205
+  },
+  "btns": [
+   {
+    "t": "（A）百分之十五",
+    "rect": {
+     "l": 430,
+     "t": 44,
+     "r": 830,
+     "b": 90,
+     "w": 400,
+     "h": 46
+    }
+   },
+   {
+    "t": "（B）百分之二十",
+    "rect": {
+     "l": 430,
+     "t": 98,
+     "r": 830,
+     "b": 144,
+     "w": 400,
+     "h": 46
+    }
+   },
+   {
+    "t": "（C）百分之三十五",
+    "rect": {
+     "l": 430,
+     "t": 152,
+     "r": 830,
+     "b": 198,
+     "w": 400,
+     "h": 46
+    }
+   },
+   {
+    "t": "（D）百分之四十五",
+    "rect": {
+     "l": 430,
+     "t": 206,
+     "r": 830,
+     "b": 252,
+     "w": 400,
+     "h": 46
+    }
+   }
+  ]
+ },
+ "stable": true,
+ "keep": true,
+ "after": {
+  "W": 844,
+  "H": 390,
+  "safe": {
+   "l": 0,
+   "r": 0,
+   "t": 0,
+   "b": 0
+  },
+  "adv": false,
+  "dlg": {
+   "rect": {
+    "l": 42,
+    "t": 296,
+    "r": 802,
+    "b": 376,
+    "w": 760,
+    "h": 80
+   },
+   "cls": [],
+   "vis": true,
+   "left": "422px",
+   "width": "760px",
+   "transform": "matrix(1, 0, 0, 1, -380, 0)"
+  },
+  "dlgText": "2／5　依納稅者權利保護法第7條，稅捐稽徵機關認定課徵租稅之構成要件事實時，應以什麼為依據？",
+  "samples": [
+   {
+    "x": 131.6,
+    "y": 324.6,
+    "inDlg": true,
+    "inCh": false,
+    "el": "dlgText"
+   },
+   {
+    "x": 422,
+    "y": 324.6,
+    "inDlg": true,
+    "inCh": false,
+    "el": "dlgText"
+   },
+   {
+    "x": 712.4,
+    "y": 324.6,
+    "inDlg": true,
+    "inCh": false,
+    "el": "dlgText"
+   },
+   {
+    "x": 276.8,
+    "y": 350.6,
+    "inDlg": true,
+    "inCh": false,
+    "el": "dlgText"
+   },
+   {
+    "x": 567.2,
+    "y": 350.6,
+    "inDlg": true,
+    "inCh": false,
+    "el": "dlgText"
+   }
+  ],
+  "ch": {
+   "rect": {
+    "l": 0,
+    "t": 0,
+    "r": 0,
+    "b": 0,
+    "w": 0,
+    "h": 0
+   },
+   "cls": [
+    "hide"
+   ],
+   "vis": false,
+   "display": "none",
+   "grid": "none",
+   "left": "auto",
+   "width": "min(400px, 100% - 28px)",
+   "scrollH": 0,
+   "clientH": 0
+  },
+  "btns": []
+ },
+ "next": {
+  "W": 844,
+  "H": 390,
+  "safe": {
+   "l": 0,
+   "r": 0,
+   "t": 0,
+   "b": 0
+  },
+  "adv": false,
+  "dlg": {
+   "rect": {
+    "l": 42,
+    "t": 296,
+    "r": 802,
+    "b": 376,
+    "w": 760,
+    "h": 80
+   },
+   "cls": [],
+   "vis": true,
+   "left": "422px",
+   "width": "760px",
+   "transform": "matrix(1, 0, 0, 1, -380, 0)"
+  },
+  "dlgText": "2／5　依納稅者權利保護法第7條，稅捐稽徵機關認定課徵租稅之構成要件事實時，應以什麼為依據？",
+  "samples": [
+   {
+    "x": 131.6,
+    "y": 324.6,
+    "inDlg": true,
+    "inCh": false,
+    "el": "dlgText"
+   },
+   {
+    "x": 422,
+    "y": 324.6,
+    "inDlg": true,
+    "inCh": false,
+    "el": "dlgText"
+   },
+   {
+    "x": 712.4,
+    "y": 324.6,
+    "inDlg": true,
+    "inCh": false,
+    "el": "dlgText"
+   },
+   {
+    "x": 276.8,
+    "y": 350.6,
+    "inDlg": true,
+    "inCh": false,
+    "el": "dlgText"
+   },
+   {
+    "x": 567.2,
+    "y": 350.6,
+    "inDlg": true,
+    "inCh": false,
+    "el": "dlgText"
+   }
+  ],
+  "ch": {
+   "rect": {
+    "l": 0,
+    "t": 0,
+    "r": 0,
+    "b": 0,
+    "w": 0,
+    "h": 0
+   },
+   "cls": [
+    "hide"
+   ],
+   "vis": false,
+   "display": "none",
+   "grid": "none",
+   "left": "auto",
+   "width": "min(400px, 100% - 28px)",
+   "scrollH": 0,
+   "clientH": 0
+  },
+  "btns": []
+ },
+ "notes_errs": [],
+ "transcript": [
+  {
+   "k": "choose",
+   "t": [
+    "坐中間的位子",
+    "坐在沈以安旁邊",
+    "自己找位子"
+   ],
+   "h": 13.551,
+   "ms": 40028
+  },
+  {
+   "k": "say",
+   "n": "",
+   "t": "考卷發下來。財稅法期末考。五題。",
+   "h": 13.551,
+   "ms": 48560
+  },
+  {
+   "k": "say",
+   "n": "",
+   "t": "1／5　在中華民國境內居住的個人甲，2025年買進一間房屋（不是自住，也沒有調職、非自願離職等特殊情形），持有一年後出售而有交易所得。依所得稅法第14條之4，這筆房屋、土地交易所得適用的稅率是多少？",
+   "h": 13.551,
+   "ms": 49689
+  },
+  {
+   "k": "choose",
+   "t": [
+    "（A）百分之十五",
+    "（B）百分之二十",
+    "（C）百分之三十五",
+    "（D）百分之四十五"
+   ],
+   "h": 13.551,
+   "ms": 52270
+  },
+  {
+   "k": "say",
+   "n": "",
+   "t": "2／5　依納稅者權利保護法第7條，稅捐稽徵機關認定課徵租稅之構成要件事實時，應以什麼為依據？",
+   "h": 13.551,
+   "ms": 54298
+  }
+ ],
+ "sha": "b1b249873",
+ "case": "seat_exam_Y4TAX_06_land"
+}
