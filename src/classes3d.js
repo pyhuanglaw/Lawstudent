@@ -220,7 +220,7 @@ const CLS=(function(){
   const LAWNAME=/法|憲|刑|民|債|物權|親屬|繼承|訴訟|行政|票據|勞動|財稅|海商|判決|證券|智慧財產/, NOTLAW=/經濟|日文|微積分|會計|體育|國文|英文（|通識/;
   S.legalCourses=function(G){ attachSyllabus(); const R=S.rec(G), by={};
     for(const k in R.done){ const p=k.split(':'); if(p.length<3||R.abs[k]) continue; const day=+p[0], cid=p[1], t=typeof CALENDAR!=='undefined'?CALENDAR.termOf(day):null; if(!t||!TEACH.includes(t.week)) continue;
-      const c=COURSES.list.find(x=>x.id===cid); if(!c||!LAWNAME.test(c.name)||NOTLAW.test(c.name)) continue; const e=by[cid]||(by[cid]={c,term:t.id,weeks:new Set()}); e.weeks.add(t.week); }
+      const c0=COURSES.list.find(x=>x.id===cid); if(!c0||!LAWNAME.test(c0.name)||NOTLAW.test(c0.name)) continue; let c=c0; if(c0.term!==t.id){ try{ c=S.termCourses(G,t.id).find(x=>x.id===cid)||c0; }catch(e){} }   /* 重修那一學期：用重修的那一門（名字「（重修）」、學期是重修的學期）*/ const bk=cid+'|'+t.id, e=by[bk]||(by[bk]={c,term:t.id,weeks:new Set()}); e.weeks.add(t.week); }   /* 一學期一列（BUG-LEGALPAGE-RETAKE-ROW-1102：重修那學期另一列；原本照課號，重修的那一列會留在第一次上的學期）*/
     const cur=typeof CALENDAR!=='undefined'?(CALENDAR.termOf(G.day)||{}).id:null, ord=id=>{ const m=/^Y(\d)S(\d)$/.exec(id||''); return m?(+m[1])*2+(+m[2]):0; };
     return Object.values(by).map(e=>({c:e.c,term:e.term,current:e.term===cur,topics:[...e.weeks].sort((a,b)=>a-b).map(w=>{ const sy=(e.c.syllabus||[]).find(x=>x.w===w); return {w,title:S.sylReviewed(e.c,w)&&sy&&sy.board&&sy.board[0]?sy.board[0]:e.c.name+'：'+(S.topic(e.c,w)||'第 '+w+' 週')}; })}))
       .sort((a,b)=>(b.current-a.current)||(ord(b.term)-ord(a.term))||a.c.name.localeCompare(b.c.name)); };

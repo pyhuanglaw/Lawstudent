@@ -477,12 +477,12 @@ const GAME = (function(){
     /* D118-B2（D118_PLAN ②-2；BB 07:15：手機直向「答對過 n」不要斷開＝兩段各自 nowrap，要換行在「・」前面）：每一科一列「<課名>　期末範圍：學過 x／y・答對過 z」（x＝上過課以上，BB 06:20），資料來源 STUDY（出席、自習、課堂提問、考試都算）；
        這學期考五題的課還沒上也列（看得到範圍有幾張觀念卡），之前的學期有紀錄的課也列；點開「觀念卡」列每一張的狀態 */
     const ST=typeof STUDY!=='undefined'?STUDY:null;
-    if(ST){ const have=new Set(LC.map(e=>e.c.id)); for(const e of ST.courses(G)) if(!have.has(e.c.id)) LC.push({c:e.c,term:e.term,current:e.current,topics:[]});
+    if(ST){ const have=new Set(LC.map(e=>e.c.id+'|'+e.term)); for(const e of ST.courses(G)) if(!have.has(e.c.id+'|'+e.term)) LC.push({c:e.c,term:e.term,current:e.current,topics:[]});
       const ord=id=>{ const m=/^Y(\d)S(\d)$/.exec(id||''); return m?(+m[1])*2+(+m[2]):0; }; LC.sort((a,b)=>(b.current-a.current)||(ord(b.term)-ord(a.term))||a.c.name.localeCompare(b.c.name)); }
     const RC=typeof CLS!=='undefined'&&CLS.rec?CLS.rec(G):{ask:{}};
     for(const e of LC){ if(lastCur!==e.current){ lastCur=e.current; add('<b>'+(e.current?'這學期':'之前的學期')+'</b>','muted'); }
       const us=ST?ST.units(G,e.c,e.term,'final'):[], pr=ST&&us.length?ST.progress(G,e.c,'final',e.term):null;
-      const head='<b>'+esc(e.c.name)+'</b>'+(pr?'　<span style="white-space:nowrap">期末範圍：學過 '+pr.heard+'／'+pr.total+'</span><span style="white-space:nowrap">・答對過 '+pr.got+'</span>':'')+'<div class="muted">'+(TN[e.term]||e.term)+(e.topics.length?'・上過 '+e.topics.length+' 週':'')+'</div>';
+      const head='<b>'+esc(e.c.name)+'</b>'+(pr?'　<span style="white-space:nowrap">期末範圍：學過 '+pr.heard+'／'+pr.total+'</span><span style="white-space:nowrap">・答對過 '+pr.got+'</span>':'')+'<div class="muted">'+(TN[e.term]||e.term)+((e.c.rt||(e.c.term&&e.term!==e.c.term))&&!/重修/.test(e.c.name)?'・重修':'')+(e.topics.length?'・上過 '+e.topics.length+' 週':'')+'</div>';
       if(!us.length){ add(head+e.topics.map(t=>'<div>· 第 '+t.w+' 週　'+esc(t.title)+'</div>').join('')); continue; }
       const row=u=>{ const st=ST.status(G,u), v=ST.view(u)||{board:[]}; let h='<div>· '+(u.week!=null?'第 '+u.week+' 週　':'')+esc(u.title)+'　<span class="muted">'+(ST.LABEL[st]||'還沒讀')+'</span></div>';
         if(st==='read'||st==='got'){ const b=v.board.slice(1).concat(v.line?[v.prof+'：'+v.line]:[]); if(b.length) h+='<div class="muted">　'+esc(b.join('　'))+'</div>'; }

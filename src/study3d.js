@@ -56,11 +56,14 @@ const STUDY=(function(){
     const cores=[]; for(const q of qs){ for(const t of [q.core,q.explanation]) if(t&&!cores.includes(t)) cores.push(t); }
     return {title:u.title,plain:u.plain||'',example:u.example||'',cue:u.cue||'',board,line:syl&&syl.line?syl.line:'',prof:c&&typeof CLS!=='undefined'&&CLS.profName?CLS.profName(c):'老師',cores}; };
   /* 「法律」頁要列的課：這學期考五題的法律課（還沒上也列，看得到範圍有多少），加上之前的學期有任何紀錄的課 */
+  /* BUG-LEGALPAGE-RETAKE-ROW-1102（CC M6 P3）：只在讀書會碰過刑訴題庫、還沒修到刑訴＝不建「刑事訴訟法」那一列；修過（那學期的課表有、那學期已經到了）才算 */
+  const tOrd=id=>{ const m=/^Y(\d)S(\d)$/.exec(id||''); return m?(+m[1])*2+(+m[2]):-1; };
+  const enrolled=(G,c,cur)=>{ if(!c||!c.term||tOrd(c.term)<0||tOrd(cur)<tOrd(c.term)) return false; try{ return CLS.termCourses(G,c.term).some(x=>x.id===c.id); }catch(e){ return false; } };
   S.courses=function(G){ if(typeof CLS==='undefined'||typeof CALENDAR==='undefined'||!G) return []; const cur=(CALENDAR.termOf(G.day)||{}).id||null, out=[], seen={};
     const add=(c,term,current)=>{ if(!c||seen[c.id]) return; seen[c.id]=1; out.push({c,term,current}); };
     if(cur) for(const c of CLS.termCourses(G,cur)) if(CLS.isExamCourse(c)&&S.units(G,c,cur).length) add(c,cur,true);
     const s=S.rec(G); const touched={}; for(const id in s.u){ const u=S.unit(id); if(u) touched[u.course]=1; }
-    for(const cid in index().byCourse){ if(seen[cid]) continue; const qb=cid==='crimpro'&&index().byCourse[cid].some(u=>legalRank(G,u)>0); if(!touched[cid]&&!qb) continue; const c=CLS.byId(cid); if(c) add(c,c.term,c.term===cur); }
+    for(const cid in index().byCourse){ if(seen[cid]) continue; const c=CLS.byId(cid); if(!c) continue; const qb=cid==='crimpro'&&enrolled(G,c,cur)&&index().byCourse[cid].some(u=>legalRank(G,u)>0); if(!touched[cid]&&!qb) continue; add(c,c.term,c.term===cur); }
     return out; };
   /* 舊存檔：從 G.notes、G.courses 的 done／ask／exam 推回狀態（只跑一次；失敗就用空的狀態，不擋讀檔）*/
   S.backfill=function(G){ const s=G&&G.study; if(!s) return 0; let n=0;

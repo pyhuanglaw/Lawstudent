@@ -39577,9 +39577,9 @@
       "id": "BUG-LEGALPAGE-RETAKE-ROW-1102",
       "title": "法律頁：重修那學期的列放錯學期；只碰過題庫就建出沒修過的課（CC M6、BB 10:07 P2/P3）",
       "owner": "LAWWW",
-      "status": "待開工",
+      "status": "已整合待測試",
       "priority": "P2",
-      "note": "classes3d.js:216 legalCourses 照第一次出席的學期建列、game3d.js:471 have 擋掉這學期那一筆；study3d.js:59-63 qb 分支建出『刑事訴訟法・大三上』。重修帶卡片狀態 BB 判可接受。",
+      "note": "classes3d.js:216 legalCourses 照第一次出席的學期建列、game3d.js:471 have 擋掉這學期那一筆；study3d.js:59-63 qb 分支建出『刑事訴訟法・大三上』。重修帶卡片狀態 BB 判可接受。 2026-11-02 LAWWW：legalCourses 一學期一列（重修那學期用重修的那一門，名字「（重修）」）；game3d have 照課號＋學期、學期那一行補「・重修」；study3d 的 qb 分支要那學期修過（enrolled）。tests/legal_page_retake_unit.js（修改前 FAIL 3）。",
       "first": {
         "term": "Y1S2",
         "earliest": "第一次重修",
