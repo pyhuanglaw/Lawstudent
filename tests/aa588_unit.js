@@ -25,7 +25,7 @@ const ASK=['今天晚上麵店，有空的來。','我會到。'], EGG=['📷（
 const PUB=['柏翰幫沛珊把滷蛋切成兩半。','……喔。','全桌安靜三秒。','對，我們在一起了。你們吃你們的。','上禮拜的事。','（他把另一半滷蛋推回她碗裡。）'];
 const K1={exJP:'（同屆的人都畢業了。你還差一門實習，還有{課名}要重修。九月再回學校。）',exUS:'（同屆的人都畢業了。你還差一門實習、兩門補修，還有{課名}要重修。九月再回學校。）',
   y5US:'（週一、週三補修兩門課，{課名}照課表重修。教室裡坐的，都是學弟妹。）',y5JP:'（這學期，{課名}重修。教室裡坐的，都是學弟妹。）',fafu:'（週二去法扶，一週一堂{課名}。其他的日子，一天和一天很像。）',
-  planJP:'（這學期，週二要去實習，還有一堂{課名}要重修。其他的日子——）',planUS:'（這學期，週二去實習，週一、週三補兩門課，還有一堂{課名}要重修。其他的日子——）'};
+  planJP:'（這學期，週二要去實習，還有{課名}要重修。其他的日子——）',planUS:'（這學期，週二去實習，週一、週三補兩門課，還有{課名}要重修。其他的日子——）'};   /* AA 13:53 (a)：拿掉「一堂」*/
 const ORIG={exJP:'（同屆的人都畢業了。你還差一門實習，九月再回學校。）',exUS:'（同屆的人都畢業了。你還差一門實習和兩門課，九月再回學校。）',y5US:'（週一、週三補修兩門課。教室裡坐的，都是大四的學弟妹。）',
   fafu:'（週二去法扶。其他的日子，一天和一天很像。）',planJP:'（這學期，只有週二要去實習。其他的日子——）',planUS:'（這學期，週二去實習，週一、週三補兩門課。其他的日子——）'};
 const psKnow=(dating)=>{ H.FAMILIAR('zhe'); H.FRIEND('classmate_peishan'); H.FAMILIAR('classmate_bohan'); if(dating) H.G.flags.dating_classmate_peishan=true; };
@@ -34,7 +34,8 @@ const grp=()=>(H.G.msgs||[]).filter(m=>m.th==='g:noodle_team');
 
 (async()=>{
 await sec(0,()=>{ check('0. 讀得到 AA_588@1edea905f',DOC.length>500);
-  const miss=[...ASK,'和她聊過期中週讀書的進度',...Object.values(K1)].filter(t=>!DOC.includes(t.replace(/^（|）$/g,'')));
+  const AA1353=new Set([K1.planJP,K1.planUS]);   /* AA 2026-11-02 13:53 訊息選 (a)：y5Plan 兩句拿掉「一堂」（稿裡是「還有一堂{課名}」）；稿裡比對拿掉「一堂」前的版本 */
+  const miss=[...ASK,'和她聊過期中週讀書的進度',...Object.values(K1).map(t=>AA1353.has(t)?t.replace('還有{課名}','還有一堂{課名}'):t)].filter(t=>!DOC.includes(t.replace(/^（|）$/g,'')));
   check('0. AA_588 的句子一字不差在稿裡（群組兩則、記憶標籤、K1 七句＋新卡）',miss.length===0,J(miss));
   check('0. 白名單：AA_588@1edea905f approved',allow(P588,'1edea905f')); });
 
@@ -109,7 +110,17 @@ await sec(5,async()=>{ const D=k=>PG.DK(k);
     const y=await run(true), o=await run(false);
     check('5. y5Plan（9/3）'+n+'：又被當＝「'+fill(K1[k])+'」；沒被當＝原句',y[0]===fill(K1[k])&&o[0]===ORIG[k],J([y[0],o[0]])); }
   { H.fresh('2029-09-03',9,'dorm',{FAIL_DELAY:true,FAIL_DELAY_COURSES:['crimpro'],GRADUATED:D('2029-06-02')}); H.said=[]; H.picks=[0]; await R2Y4B.y5Plan(GM);
-    check('5. 對照：被當延畢（沒有交換）照舊 FD.LINES.plan1',H.said[0]&&H.said[0].t===FD.fill(H.G,FD.LINES.plan1),J(H.said[0])); } });
+    check('5. 對照：被當延畢（沒有交換）照舊 FD.LINES.plan1',H.said[0]&&H.said[0].t===FD.fill(H.G,FD.LINES.plan1),J(H.said[0])); }
+  /* AA 13:53 選 (a)：兩門以上用「和」連接；10/17～11/19 兩門以上換句 */
+  { const two=['crimpro','civ_general'], nm=FD.cname('crimpro')+'和'+FD.cname('civ_general');
+    const G2=(key,route)=>{ G0(key,9,route,true); H.G.flags.FAIL_DELAY_COURSES=two.slice(); };
+    G2('2029-06-20',JP); check('6. 前提：兩門也是 FD.retakeOn、namesAnd＝「A和B」',FD.retakeOn(H.G)&&FD.namesAnd(H.G)===nm,FD.namesAnd(H.G));
+    G2('2029-06-19',JP); let y=PG.cardLine(H.G,D('2029-06-19'),D('2029-06-28')); check('6. 6/3～6/27 交換兩門：「還有'+nm+'要重修」',y===K1.exJP.replace('{課名}',nm),J(y));
+    G2('2029-10-16',JP); { const R=PG.rec(H.G); R.lines=(R.lines||[]).concat([K1.y5JP,K1.y5US,ORIG.y5US]); } y=PG.cardLine(H.G,D('2029-10-16'),D('2029-10-25'));
+    check('6. 10/17～11/19 兩門：「（週二去法扶，還有'+nm+'的重修。其他的日子，一天和一天很像。）」',y==='（週二去法扶，還有'+nm+'的重修。其他的日子，一天和一天很像。）',J(y));
+    G2('2029-09-03',JP); H.said=[]; H.picks=[0]; await R2Y4B.y5Plan(GM); check('6. y5Plan 交換兩門：「還有'+nm+'要重修」',H.said[0]&&H.said[0].t===K1.planJP.replace('{課名}',nm),J(H.said[0]));
+    G2('2029-09-03',US); H.said=[]; H.picks=[0]; await R2Y4B.y5Plan(GM); check('6. y5Plan 美國兩門',H.said[0]&&H.said[0].t===K1.planUS.replace('{課名}',nm),J(H.said[0])); }
+  });
 
 H.done();
 })().catch(e=>{ console.log('FAIL 例外 '+(e&&e.stack||e)); process.exit(1); });

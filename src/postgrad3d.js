@@ -755,15 +755,15 @@ const PG=(function(){
   const k1=G=>ex(G)&&typeof FD!=='undefined'&&!!FD.retakeOn&&FD.retakeOn(G);
   S.CARDS_DELAY=[
     ['2029-06-03','2029-06-27',G=>ex(G)&&!y5us(G)&&!k1(G),'（同屆的人都畢業了。你還差一門實習，九月再回學校。）'],
-    ['2029-06-03','2029-06-27',G=>ex(G)&&!y5us(G)&&k1(G),'（同屆的人都畢業了。你還差一門實習，還有{課名}要重修。九月再回學校。）'],   /* K1（AA_588 第 4 節）*/
+    ['2029-06-03','2029-06-27',G=>ex(G)&&!y5us(G)&&k1(G),'（同屆的人都畢業了。你還差一門實習，還有{課名}要重修。九月再回學校。）',{k1:true}],   /* K1（AA_588 第 4 節）*/
     ['2029-06-18','2029-06-27',fd,'（同屆的人都畢業了。你還差{課名}，九月再回學校。）'],   /* 被當延畢（AA_421 1-4）：6/18 成績單以後；6/3～6/17 照一般畢業生（那時候還不是延畢）*/
     ['2029-06-03','2029-06-27',G=>y5us(G)&&!k1(G),'（同屆的人都畢業了。你還差一門實習和兩門課，九月再回學校。）'],   /* 美國路線還要補修強制執行法、法律倫理（AA_382 第 1 節，企劃線 e6d4a198）*/
-    ['2029-06-03','2029-06-27',G=>y5us(G)&&k1(G),'（同屆的人都畢業了。你還差一門實習、兩門補修，還有{課名}要重修。九月再回學校。）'],   /* K1（AA_588 第 4 節）*/
+    ['2029-06-03','2029-06-27',G=>y5us(G)&&k1(G),'（同屆的人都畢業了。你還差一門實習、兩門補修，還有{課名}要重修。九月再回學校。）',{k1:true}],   /* K1（AA_588 第 4 節）*/
     ['2029-06-29','2029-08-03',dl,'（七月。退宿以後住在家裡。不用趕早八，反而醒得很早。）'],
     ['2029-08-05','2029-09-02',dl,'（八月。同屆的人在考國考。你在群組裡傳了一句加油，很快就被洗下去了。）'],
     ['2029-09-04','2029-12-17',G=>y5us(G)&&!k1(G),'（週一、週三補修兩門課。教室裡坐的，都是大四的學弟妹。）',{first:true}],
-    ['2029-09-04','2029-12-17',G=>y5us(G)&&k1(G),'（週一、週三補修兩門課，{課名}照課表重修。教室裡坐的，都是學弟妹。）',{first:true}],   /* K1（AA_588 第 4 節）*/
-    ['2029-09-04','2029-12-17',G=>ex(G)&&!y5us(G)&&k1(G),'（這學期，{課名}重修。教室裡坐的，都是學弟妹。）',{first:true}],   /* K1 交換（非美國）新增一張（AA_588 第 4 節：first，同美國那張）；沒被當的原本沒有這張 */
+    ['2029-09-04','2029-12-17',G=>y5us(G)&&k1(G),'（週一、週三補修兩門課，{課名}照課表重修。教室裡坐的，都是學弟妹。）',{first:true,k1:true}],   /* K1（AA_588 第 4 節）*/
+    ['2029-09-04','2029-12-17',G=>ex(G)&&!y5us(G)&&k1(G),'（這學期，{課名}重修。教室裡坐的，都是學弟妹。）',{first:true,k1:true}],   /* K1 交換（非美國）新增一張（AA_588 第 4 節：first，同美國那張）；沒被當的原本沒有這張 */
     ['2029-09-04','2029-12-17',fd,'（重修{課名}。教室裡坐的，都是學弟妹。）',{first:true}],
     ['2029-09-04','2029-09-10',G=>y5d(G,'study'),'（開學第一週。總圖三樓的位子，坐的大多是不認識的臉。）'],
     ['2029-09-04','2029-09-10',G=>y5d(G,'work'),'（你接了兩個家教。一個國三，一個高二。）'],
@@ -775,7 +775,8 @@ const PG=(function(){
     ['2029-09-23','2029-10-15',G=>y5d(G,'work'),'（家教的錢第一次匯進來。你沒有馬上花。）'],
     ['2029-09-23','2029-10-15',G=>y5d(G,'bar'),'（民法讀完第一輪。第二輪比第一輪慢。）'],
     ['2029-10-17','2029-11-19',G=>(ex(G)&&!k1(G))||(fd(G)&&typeof FD!=='undefined'&&FD.lp(G)),'（週二去法扶。其他的日子，一天和一天很像。）',{common:true}],
-    ['2029-10-17','2029-11-19',G=>k1(G),'（週二去法扶，一週一堂{課名}。其他的日子，一天和一天很像。）',{common:true}],   /* K1（AA_588 第 4 節）*/
+    ['2029-10-17','2029-11-19',G=>k1(G)&&FD.courses(G).length<2,'（週二去法扶，一週一堂{課名}。其他的日子，一天和一天很像。）',{common:true,k1:true}],
+    ['2029-10-17','2029-11-19',G=>k1(G)&&FD.courses(G).length>=2,'（週二去法扶，還有{課名}的重修。其他的日子，一天和一天很像。）',{common:true,k1:true}],   /* K1 兩門以上（AA 13:53 選 (a)）*/   /* K1（AA_588 第 4 節）*/
     ['2029-10-17','2029-11-19',G=>fd(G)&&!(typeof FD!=='undefined'&&FD.lp(G)),'（一週一堂{課名}。其他的日子，一天和一天很像。）',{common:true}],   /* 共通（AA_363 T3：這一跳落在 11/19 以後＝出下面三選一那句，這句不出）*/
     ['2029-10-17','2029-11-19',G=>y5d(G,'study'),'（有一天，一個大一的跟你借延長線。他叫你學長。）'],
     ['2029-10-17','2029-11-19',G=>y5d(G,'work'),'（高二那個學生期中考進步了。他媽媽多塞了一袋橘子給你。）'],
@@ -808,10 +809,10 @@ const PG=(function(){
   S.cardLine=function(G,d0,d1){ if(!G||!G.flags||d1-d0<2) return null; const r=S.rec(G); if(!Array.isArray(r.lines)) r.lines=[]; const k0=d0+1, k1=d1-1; let best=null;
     const rows=S.cardRows(G), okRow=x=>{ try{ return !!x[2](G,x[3]); }catch(e){ return false; } };
     for(const row of rows){ const [da,db,,,t,o]=row; if(r.lines.includes(t)||da>k1||db<k0) continue; if(!okRow(row)) continue;
-      if(o&&o.first){ best={t}; break; }
+      if(o&&o.first){ best={t,o}; break; }
       if(o&&o.common&&d1>=db&&rows.some(x=>x!==row&&x[0]===da&&x[1]===db&&!(x[5]&&(x[5].common||x[5].first))&&!r.lines.includes(x[4])&&okRow(x))) continue;
-      const e=Math.min(db,k1); if(!best||e>best.e||(e===best.e&&da>best.da)) best={t,e,da}; }
-    if(!best) return null; r.lines.push(best.t); return typeof FD!=='undefined'&&FD.fill?FD.fill(G,best.t):best.t; };   /* {課名}：被當延畢的那一門（FD.fill）*/
+      const e=Math.min(db,k1); if(!best||e>best.e||(e===best.e&&da>best.da)) best={t,e,da,o}; }
+    if(!best) return null; r.lines.push(best.t); return typeof FD!=='undefined'&&FD.fill?(best.o&&best.o.k1&&FD.fillAnd?FD.fillAnd(G,best.t):FD.fill(G,best.t)):best.t; };   /* k1：兩門以上用「和」（FD.fillAnd）*/   /* {課名}：被當延畢的那一門（FD.fill）*/
   S.busy=false;
   (globalThis.LOADLOCKS=globalThis.LOADLOCKS||{})['postgrad3d:busy']=()=>{ S.busy=false; running.clear(); };   /* 讀檔時放開（LOADGEN-LOCKS-1028）：讀檔凍住的舊劇情走不到 finally，只把旗標設回初始值 */
   S.DORM={x:0,z:2.4,yaw:Math.PI,lv:0};   /* 宿舍房間（story3d.js Y4_DORM）*/

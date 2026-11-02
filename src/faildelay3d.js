@@ -47,6 +47,8 @@ const FD=(function(){
   S.cname=id=>{ const c=course(id); return c?String(c.name).replace(/（重修）/g,''):id; };   /* 「{課名}」不寫「（重修）」*/
   S.names=G=>S.courses(G).map(S.cname).join('、');
   S.fill=(G,t)=>String(t).replace(/\{課名\}/g,S.names(G));
+  S.namesAnd=G=>{ const L=S.courses(G).map(S.cname); return L.length<2?L.join(''):L.slice(0,-1).join('、')+'和'+L[L.length-1]; };   /* K1 兩門以上（AA 2026-11-02 13:53 選 (a)）：「刑法和民法」*/
+  S.fillAnd=(G,t)=>String(t).replace(/\{課名\}/g,S.namesAnd(G));
   S.lp=G=>S.courses(G).includes('legal_practice');   /* 被當的是法律實習：週二實習照交換那一版（這門課現在不會被當：不是考試的課、也不看出席）*/
   S.certLate=G=>!!(G&&G.flags&&G.flags.FAIL_DELAY_CERT);
   /* ---------- 6/18 成績單 ---------- */
