@@ -1,0 +1,23 @@
+{
+  "rerun": "",
+  "id": "ART_night",
+  "sha": "b1b249873",
+  "kind": "probe",
+  "script": "docs/story_planning/test_tools/cc/cc_art247_probe.py",
+  "env": "CC_HEADLESS=0;SHA=b1b249873;CASES=nightrereg",
+  "machine": "MSI",
+  "start": "2026-11-03T07:18:11",
+  "end": "2026-11-03T07:21:59",
+  "seconds": 228,
+  "exit": 0,
+  "error": null,
+  "runner": "a98287fbd6",
+  "rf_round": "5",
+  "url": "http://127.0.0.1:8809/index.html",
+  "res_peak": {
+    "cpu": 32,
+    "mem": 49,
+    "used_gb": 15.4,
+    "chrome_testing": 18
+  }
+}

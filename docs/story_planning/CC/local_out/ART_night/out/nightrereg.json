@@ -1,0 +1,1403 @@
+{
+ "case": "nightrereg",
+ "url": "http://127.0.0.1:8809/index.html",
+ "sha": "b1b249873",
+ "headless_env": "0",
+ "notes": [
+  "[前置／捷徑] A：讀檔到溫州街 Café 門口 (52.6, 0.0) 14.00 時（第一次進溫州街）",
+  "A 1_wenzhou_first        zone=wenzhou/wenzhou hour=14.01 夜間係數 0.00 材質 9 種 11 個、不符 無",
+  "A 2_cafe_first           zone=cafe/cafe hour=14.03 夜間係數 0.00 材質 3 種 4 個、不符 無",
+  "A 3_wenzhou_again        zone=wenzhou/wenzhou hour=14.07 夜間係數 0.00 材質 9 種 11 個、不符 無",
+  "[前置／捷徑] A：GAME.advance(+5.50) 把時間撥到 19.50（遊戲裡沒有找到「跳過時間」的通用介面）",
+  "A 4_wenzhou_after_time   zone=wenzhou/wenzhou hour=19.59 夜間係數 1.00 材質 9 種 11 個、不符 無",
+  "到達「Café 門口」附近（0.22 m）：點地面 1 次、轉鏡頭 0 次、搖桿 0 次，3 秒",
+  "A：走到 Café 門口 OK",
+  "A 5_cafe_after_time      zone=cafe/cafe hour=19.73 夜間係數 1.00 材質 3 種 4 個、不符 無",
+  "[前置／捷徑] B：讀檔到溫州街 Café 門口 (52.6, 0.0) 19.50 時（第一次進溫州街）",
+  "B 1_wenzhou_first        zone=wenzhou/wenzhou hour=19.51 夜間係數 1.00 材質 9 種 11 個、不符 無",
+  "B 2_cafe_first           zone=cafe/cafe hour=19.53 夜間係數 1.00 材質 3 種 4 個、不符 無",
+  "B 3_wenzhou_again        zone=wenzhou/wenzhou hour=19.57 夜間係數 1.00 材質 9 種 11 個、不符 無",
+  "[前置／捷徑] B：GAME.advance(-5.50) 把時間撥到 14.00（倒撥：遊戲沒有這個介面）",
+  "B 4_wenzhou_after_time   zone=wenzhou/wenzhou hour=14.09 夜間係數 0.00 材質 9 種 11 個、不符 無",
+  "到達「Café 門口」附近（0.23 m）：點地面 1 次、轉鏡頭 0 次、搖桿 0 次，3 秒",
+  "B：走到 Café 門口 OK",
+  "B 5_cafe_after_time      zone=cafe/cafe hour=14.21 夜間係數 0.00 材質 3 種 4 個、不符 無"
+ ],
+ "steps": [
+  {
+   "seq": "A",
+   "step": "1_wenzhou_first",
+   "gzone": "wenzhou",
+   "ezone": "wenzhou",
+   "hour": 14.012,
+   "x": 52.6,
+   "z": 0,
+   "mats": {
+    "cafe_bulb": [
+     {
+      "id": "a8e0e2d1",
+      "mesh": "cafe_bulb",
+      "visible": true,
+      "ei": 1,
+      "nightI": 2.4,
+      "dayI": 1
+     },
+     {
+      "id": "2f3b854e",
+      "mesh": "wz_cafe_bulb",
+      "visible": true,
+      "ei": 0.6,
+      "nightI": 2.2,
+      "dayI": 0.6
+     }
+    ],
+    "ext_glass_lit": [
+     {
+      "id": "744d3961",
+      "mesh": "win_curtain_lit",
+      "visible": true,
+      "ei": 0,
+      "nightI": 0.75,
+      "dayI": 0
+     },
+     {
+      "id": "3188d728",
+      "mesh": "wz_ext_glass_lit",
+      "visible": true,
+      "ei": 0,
+      "nightI": 1.5,
+      "dayI": 0
+     }
+    ],
+    "jp_lamp": [
+     {
+      "id": "865ecc66",
+      "mesh": "jp_lamp",
+      "visible": true,
+      "ei": 0.15,
+      "nightI": 1.6,
+      "dayI": 0.15
+     }
+    ],
+    "jp_shoji": [
+     {
+      "id": "a0c748d5",
+      "mesh": "jp_shoji",
+      "visible": true,
+      "ei": 0,
+      "nightI": 0.7,
+      "dayI": 0
+     }
+    ],
+    "wz_lamp_lens": [
+     {
+      "id": "7f925d52",
+      "mesh": "pole_lamp_arm",
+      "visible": true,
+      "ei": 0,
+      "nightI": 2.2,
+      "dayI": 0
+     }
+    ],
+    "wz_signs_lit": [
+     {
+      "id": "4606f894",
+      "mesh": "sk_sign_A2C",
+      "visible": true,
+      "ei": 0.25,
+      "nightI": 1.1,
+      "dayI": 0.25
+     }
+    ],
+    "wz_tube": [
+     {
+      "id": "a44e0493",
+      "mesh": "wz_wz_tube",
+      "visible": true,
+      "ei": 0.2,
+      "nightI": 1.3,
+      "dayI": 0.2
+     }
+    ],
+    "wz_room_lit": [
+     {
+      "id": "1ffc4127",
+      "mesh": "wz_room_lit",
+      "visible": true,
+      "ei": 0,
+      "nightI": 1.9,
+      "dayI": 0
+     }
+    ],
+    "wz_win_glass_lit": [
+     {
+      "id": "94cf2d8d",
+      "mesh": "wz_win_glass_lit",
+      "visible": true,
+      "ei": 0,
+      "nightI": 0.55,
+      "dayI": 0
+     }
+    ]
+   },
+   "judge": {
+    "k": 0.0,
+    "per": {
+     "cafe_bulb#a8e0e2d1": "ok",
+     "cafe_bulb#2f3b854e": "ok",
+     "ext_glass_lit#744d3961": "ok",
+     "ext_glass_lit#3188d728": "ok",
+     "jp_lamp#865ecc66": "ok",
+     "jp_shoji#a0c748d5": "ok",
+     "wz_lamp_lens#7f925d52": "ok",
+     "wz_signs_lit#4606f894": "ok",
+     "wz_tube#a44e0493": "ok",
+     "wz_room_lit#1ffc4127": "ok",
+     "wz_win_glass_lit#94cf2d8d": "ok"
+    },
+    "mismatch": []
+   }
+  },
+  {
+   "seq": "A",
+   "step": "2_cafe_first",
+   "gzone": "cafe",
+   "ezone": "cafe",
+   "hour": 14.025,
+   "x": 0,
+   "z": 5,
+   "mats": {
+    "cafe_bulb": [
+     {
+      "id": "21bce9c3",
+      "mesh": "cafe_bulb",
+      "visible": true,
+      "ei": 2.2,
+      "nightI": null,
+      "dayI": null
+     },
+     {
+      "id": "7793f253",
+      "mesh": "wz_cafe_bulb",
+      "visible": true,
+      "ei": 0.6,
+      "nightI": 2.2,
+      "dayI": 0.6
+     }
+    ],
+    "cafe_lampglass": [
+     {
+      "id": "92172486",
+      "mesh": "int_pendant_glass",
+      "visible": true,
+      "ei": 1.1,
+      "nightI": null,
+      "dayI": null
+     }
+    ],
+    "ext_glass_lit": [
+     {
+      "id": "9127d874",
+      "mesh": "wz_ext_glass_lit",
+      "visible": true,
+      "ei": 0,
+      "nightI": 1.5,
+      "dayI": 0
+     }
+    ]
+   },
+   "judge": {
+    "k": 0.0,
+    "per": {
+     "cafe_bulb#21bce9c3": "no_nightI ei 2.20",
+     "cafe_bulb#7793f253": "ok",
+     "cafe_lampglass#92172486": "no_nightI ei 1.10",
+     "ext_glass_lit#9127d874": "ok"
+    },
+    "mismatch": []
+   }
+  },
+  {
+   "seq": "A",
+   "step": "3_wenzhou_again",
+   "gzone": "wenzhou",
+   "ezone": "wenzhou",
+   "hour": 14.069,
+   "x": 51.7,
+   "z": 0,
+   "mats": {
+    "cafe_bulb": [
+     {
+      "id": "a8e0e2d1",
+      "mesh": "cafe_bulb",
+      "visible": true,
+      "ei": 1,
+      "nightI": 2.4,
+      "dayI": 1
+     },
+     {
+      "id": "2f3b854e",
+      "mesh": "wz_cafe_bulb",
+      "visible": true,
+      "ei": 0.6,
+      "nightI": 2.2,
+      "dayI": 0.6
+     }
+    ],
+    "ext_glass_lit": [
+     {
+      "id": "744d3961",
+      "mesh": "win_curtain_lit",
+      "visible": true,
+      "ei": 0,
+      "nightI": 0.75,
+      "dayI": 0
+     },
+     {
+      "id": "3188d728",
+      "mesh": "wz_ext_glass_lit",
+      "visible": true,
+      "ei": 0,
+      "nightI": 1.5,
+      "dayI": 0
+     }
+    ],
+    "wz_signs_lit": [
+     {
+      "id": "4606f894",
+      "mesh": "sk_sign_A2C",
+      "visible": true,
+      "ei": 0.25,
+      "nightI": 1.1,
+      "dayI": 0.25
+     }
+    ],
+    "wz_tube": [
+     {
+      "id": "a44e0493",
+      "mesh": "wz_wz_tube",
+      "visible": true,
+      "ei": 0.2,
+      "nightI": 1.3,
+      "dayI": 0.2
+     }
+    ],
+    "wz_room_lit": [
+     {
+      "id": "1ffc4127",
+      "mesh": "wz_room_lit",
+      "visible": true,
+      "ei": 0,
+      "nightI": 1.9,
+      "dayI": 0
+     }
+    ],
+    "wz_win_glass_lit": [
+     {
+      "id": "94cf2d8d",
+      "mesh": "wz_win_glass_lit",
+      "visible": true,
+      "ei": 0,
+      "nightI": 0.55,
+      "dayI": 0
+     }
+    ],
+    "wz_lamp_lens": [
+     {
+      "id": "7f925d52",
+      "mesh": "pole_lamp_arm",
+      "visible": true,
+      "ei": 0,
+      "nightI": 2.2,
+      "dayI": 0
+     }
+    ],
+    "jp_lamp": [
+     {
+      "id": "865ecc66",
+      "mesh": "jp_lamp",
+      "visible": true,
+      "ei": 0.15,
+      "nightI": 1.6,
+      "dayI": 0.15
+     }
+    ],
+    "jp_shoji": [
+     {
+      "id": "a0c748d5",
+      "mesh": "jp_shoji",
+      "visible": true,
+      "ei": 0,
+      "nightI": 0.7,
+      "dayI": 0
+     }
+    ]
+   },
+   "judge": {
+    "k": 0.0,
+    "per": {
+     "cafe_bulb#a8e0e2d1": "ok",
+     "cafe_bulb#2f3b854e": "ok",
+     "ext_glass_lit#744d3961": "ok",
+     "ext_glass_lit#3188d728": "ok",
+     "wz_signs_lit#4606f894": "ok",
+     "wz_tube#a44e0493": "ok",
+     "wz_room_lit#1ffc4127": "ok",
+     "wz_win_glass_lit#94cf2d8d": "ok",
+     "wz_lamp_lens#7f925d52": "ok",
+     "jp_lamp#865ecc66": "ok",
+     "jp_shoji#a0c748d5": "ok"
+    },
+    "mismatch": []
+   }
+  },
+  {
+   "seq": "A",
+   "step": "4_wenzhou_after_time",
+   "gzone": "wenzhou",
+   "ezone": "wenzhou",
+   "hour": 19.585,
+   "x": 51.7,
+   "z": 0,
+   "mats": {
+    "cafe_bulb": [
+     {
+      "id": "a8e0e2d1",
+      "mesh": "cafe_bulb",
+      "visible": true,
+      "ei": 2.4,
+      "nightI": 2.4,
+      "dayI": 1
+     },
+     {
+      "id": "2f3b854e",
+      "mesh": "wz_cafe_bulb",
+      "visible": true,
+      "ei": 2.2,
+      "nightI": 2.2,
+      "dayI": 0.6
+     }
+    ],
+    "ext_glass_lit": [
+     {
+      "id": "744d3961",
+      "mesh": "win_curtain_lit",
+      "visible": true,
+      "ei": 0.75,
+      "nightI": 0.75,
+      "dayI": 0
+     },
+     {
+      "id": "3188d728",
+      "mesh": "wz_ext_glass_lit",
+      "visible": true,
+      "ei": 1.5,
+      "nightI": 1.5,
+      "dayI": 0
+     }
+    ],
+    "wz_signs_lit": [
+     {
+      "id": "4606f894",
+      "mesh": "sk_sign_A2C",
+      "visible": true,
+      "ei": 1.1,
+      "nightI": 1.1,
+      "dayI": 0.25
+     }
+    ],
+    "wz_tube": [
+     {
+      "id": "a44e0493",
+      "mesh": "wz_wz_tube",
+      "visible": true,
+      "ei": 1.3,
+      "nightI": 1.3,
+      "dayI": 0.2
+     }
+    ],
+    "wz_room_lit": [
+     {
+      "id": "1ffc4127",
+      "mesh": "wz_room_lit",
+      "visible": true,
+      "ei": 1.9,
+      "nightI": 1.9,
+      "dayI": 0
+     }
+    ],
+    "wz_win_glass_lit": [
+     {
+      "id": "94cf2d8d",
+      "mesh": "wz_win_glass_lit",
+      "visible": true,
+      "ei": 0.55,
+      "nightI": 0.55,
+      "dayI": 0
+     }
+    ],
+    "wz_lamp_lens": [
+     {
+      "id": "7f925d52",
+      "mesh": "pole_lamp_arm",
+      "visible": true,
+      "ei": 2.2,
+      "nightI": 2.2,
+      "dayI": 0
+     }
+    ],
+    "jp_lamp": [
+     {
+      "id": "865ecc66",
+      "mesh": "jp_lamp",
+      "visible": true,
+      "ei": 1.6,
+      "nightI": 1.6,
+      "dayI": 0.15
+     }
+    ],
+    "jp_shoji": [
+     {
+      "id": "a0c748d5",
+      "mesh": "jp_shoji",
+      "visible": true,
+      "ei": 0.7,
+      "nightI": 0.7,
+      "dayI": 0
+     }
+    ]
+   },
+   "judge": {
+    "k": 1.0,
+    "per": {
+     "cafe_bulb#a8e0e2d1": "ok",
+     "cafe_bulb#2f3b854e": "ok",
+     "ext_glass_lit#744d3961": "ok",
+     "ext_glass_lit#3188d728": "ok",
+     "wz_signs_lit#4606f894": "ok",
+     "wz_tube#a44e0493": "ok",
+     "wz_room_lit#1ffc4127": "ok",
+     "wz_win_glass_lit#94cf2d8d": "ok",
+     "wz_lamp_lens#7f925d52": "ok",
+     "jp_lamp#865ecc66": "ok",
+     "jp_shoji#a0c748d5": "ok"
+    },
+    "mismatch": []
+   }
+  },
+  {
+   "seq": "A",
+   "step": "5_cafe_after_time",
+   "gzone": "cafe",
+   "ezone": "cafe",
+   "hour": 19.729,
+   "x": 0,
+   "z": 5,
+   "mats": {
+    "cafe_bulb": [
+     {
+      "id": "21bce9c3",
+      "mesh": "cafe_bulb",
+      "visible": true,
+      "ei": 2.2,
+      "nightI": null,
+      "dayI": null
+     },
+     {
+      "id": "f4433ed7",
+      "mesh": "wz_cafe_bulb",
+      "visible": true,
+      "ei": 2.2,
+      "nightI": 2.2,
+      "dayI": 0.6
+     }
+    ],
+    "cafe_lampglass": [
+     {
+      "id": "92172486",
+      "mesh": "int_pendant_glass",
+      "visible": true,
+      "ei": 1.1,
+      "nightI": null,
+      "dayI": null
+     }
+    ],
+    "ext_glass_lit": [
+     {
+      "id": "f1175331",
+      "mesh": "wz_ext_glass_lit",
+      "visible": true,
+      "ei": 1.5,
+      "nightI": 1.5,
+      "dayI": 0
+     }
+    ]
+   },
+   "judge": {
+    "k": 1.0,
+    "per": {
+     "cafe_bulb#21bce9c3": "no_nightI ei 2.20",
+     "cafe_bulb#f4433ed7": "ok",
+     "cafe_lampglass#92172486": "no_nightI ei 1.10",
+     "ext_glass_lit#f1175331": "ok"
+    },
+    "mismatch": []
+   }
+  },
+  {
+   "seq": "B",
+   "step": "1_wenzhou_first",
+   "gzone": "wenzhou",
+   "ezone": "wenzhou",
+   "hour": 19.513,
+   "x": 52.6,
+   "z": 0,
+   "mats": {
+    "cafe_bulb": [
+     {
+      "id": "9467fbce",
+      "mesh": "cafe_bulb",
+      "visible": true,
+      "ei": 2.4,
+      "nightI": 2.4,
+      "dayI": 1
+     },
+     {
+      "id": "1240b468",
+      "mesh": "wz_cafe_bulb",
+      "visible": true,
+      "ei": 2.2,
+      "nightI": 2.2,
+      "dayI": 0.6
+     }
+    ],
+    "ext_glass_lit": [
+     {
+      "id": "61380b9d",
+      "mesh": "win_curtain_lit",
+      "visible": true,
+      "ei": 0.75,
+      "nightI": 0.75,
+      "dayI": 0
+     },
+     {
+      "id": "34dbe7b8",
+      "mesh": "wz_ext_glass_lit",
+      "visible": true,
+      "ei": 1.5,
+      "nightI": 1.5,
+      "dayI": 0
+     }
+    ],
+    "jp_lamp": [
+     {
+      "id": "cb14cdf8",
+      "mesh": "jp_lamp",
+      "visible": true,
+      "ei": 1.6,
+      "nightI": 1.6,
+      "dayI": 0.15
+     }
+    ],
+    "jp_shoji": [
+     {
+      "id": "4bb98adc",
+      "mesh": "jp_shoji",
+      "visible": true,
+      "ei": 0.7,
+      "nightI": 0.7,
+      "dayI": 0
+     }
+    ],
+    "wz_lamp_lens": [
+     {
+      "id": "4d577c3e",
+      "mesh": "pole_lamp_arm",
+      "visible": true,
+      "ei": 2.2,
+      "nightI": 2.2,
+      "dayI": 0
+     }
+    ],
+    "wz_signs_lit": [
+     {
+      "id": "76e9dfe2",
+      "mesh": "sk_sign_A2C",
+      "visible": true,
+      "ei": 1.1,
+      "nightI": 1.1,
+      "dayI": 0.25
+     }
+    ],
+    "wz_tube": [
+     {
+      "id": "b9dd434d",
+      "mesh": "wz_wz_tube",
+      "visible": true,
+      "ei": 1.3,
+      "nightI": 1.3,
+      "dayI": 0.2
+     }
+    ],
+    "wz_room_lit": [
+     {
+      "id": "a2fa7681",
+      "mesh": "wz_room_lit",
+      "visible": true,
+      "ei": 1.9,
+      "nightI": 1.9,
+      "dayI": 0
+     }
+    ],
+    "wz_win_glass_lit": [
+     {
+      "id": "4f97ba2a",
+      "mesh": "wz_win_glass_lit",
+      "visible": true,
+      "ei": 0.55,
+      "nightI": 0.55,
+      "dayI": 0
+     }
+    ]
+   },
+   "judge": {
+    "k": 1.0,
+    "per": {
+     "cafe_bulb#9467fbce": "ok",
+     "cafe_bulb#1240b468": "ok",
+     "ext_glass_lit#61380b9d": "ok",
+     "ext_glass_lit#34dbe7b8": "ok",
+     "jp_lamp#cb14cdf8": "ok",
+     "jp_shoji#4bb98adc": "ok",
+     "wz_lamp_lens#4d577c3e": "ok",
+     "wz_signs_lit#76e9dfe2": "ok",
+     "wz_tube#b9dd434d": "ok",
+     "wz_room_lit#a2fa7681": "ok",
+     "wz_win_glass_lit#4f97ba2a": "ok"
+    },
+    "mismatch": []
+   }
+  },
+  {
+   "seq": "B",
+   "step": "2_cafe_first",
+   "gzone": "cafe",
+   "ezone": "cafe",
+   "hour": 19.528,
+   "x": 0,
+   "z": 5,
+   "mats": {
+    "cafe_bulb": [
+     {
+      "id": "d9845f1c",
+      "mesh": "cafe_bulb",
+      "visible": true,
+      "ei": 2.2,
+      "nightI": null,
+      "dayI": null
+     },
+     {
+      "id": "b0ed1434",
+      "mesh": "wz_cafe_bulb",
+      "visible": true,
+      "ei": 2.2,
+      "nightI": 2.2,
+      "dayI": 0.6
+     }
+    ],
+    "cafe_lampglass": [
+     {
+      "id": "50d1a586",
+      "mesh": "int_pendant_glass",
+      "visible": true,
+      "ei": 1.1,
+      "nightI": null,
+      "dayI": null
+     }
+    ],
+    "ext_glass_lit": [
+     {
+      "id": "2367ff35",
+      "mesh": "wz_ext_glass_lit",
+      "visible": true,
+      "ei": 1.5,
+      "nightI": 1.5,
+      "dayI": 0
+     }
+    ]
+   },
+   "judge": {
+    "k": 1.0,
+    "per": {
+     "cafe_bulb#d9845f1c": "no_nightI ei 2.20",
+     "cafe_bulb#b0ed1434": "ok",
+     "cafe_lampglass#50d1a586": "no_nightI ei 1.10",
+     "ext_glass_lit#2367ff35": "ok"
+    },
+    "mismatch": []
+   }
+  },
+  {
+   "seq": "B",
+   "step": "3_wenzhou_again",
+   "gzone": "wenzhou",
+   "ezone": "wenzhou",
+   "hour": 19.572,
+   "x": 51.7,
+   "z": 0,
+   "mats": {
+    "cafe_bulb": [
+     {
+      "id": "9467fbce",
+      "mesh": "cafe_bulb",
+      "visible": true,
+      "ei": 2.4,
+      "nightI": 2.4,
+      "dayI": 1
+     },
+     {
+      "id": "1240b468",
+      "mesh": "wz_cafe_bulb",
+      "visible": true,
+      "ei": 2.2,
+      "nightI": 2.2,
+      "dayI": 0.6
+     }
+    ],
+    "ext_glass_lit": [
+     {
+      "id": "61380b9d",
+      "mesh": "win_curtain_lit",
+      "visible": true,
+      "ei": 0.75,
+      "nightI": 0.75,
+      "dayI": 0
+     },
+     {
+      "id": "34dbe7b8",
+      "mesh": "wz_ext_glass_lit",
+      "visible": true,
+      "ei": 1.5,
+      "nightI": 1.5,
+      "dayI": 0
+     }
+    ],
+    "wz_signs_lit": [
+     {
+      "id": "76e9dfe2",
+      "mesh": "sk_sign_A2C",
+      "visible": true,
+      "ei": 1.1,
+      "nightI": 1.1,
+      "dayI": 0.25
+     }
+    ],
+    "wz_tube": [
+     {
+      "id": "b9dd434d",
+      "mesh": "wz_wz_tube",
+      "visible": true,
+      "ei": 1.3,
+      "nightI": 1.3,
+      "dayI": 0.2
+     }
+    ],
+    "wz_room_lit": [
+     {
+      "id": "a2fa7681",
+      "mesh": "wz_room_lit",
+      "visible": true,
+      "ei": 1.9,
+      "nightI": 1.9,
+      "dayI": 0
+     }
+    ],
+    "wz_win_glass_lit": [
+     {
+      "id": "4f97ba2a",
+      "mesh": "wz_win_glass_lit",
+      "visible": true,
+      "ei": 0.55,
+      "nightI": 0.55,
+      "dayI": 0
+     }
+    ],
+    "wz_lamp_lens": [
+     {
+      "id": "4d577c3e",
+      "mesh": "pole_lamp_arm",
+      "visible": true,
+      "ei": 2.2,
+      "nightI": 2.2,
+      "dayI": 0
+     }
+    ],
+    "jp_lamp": [
+     {
+      "id": "cb14cdf8",
+      "mesh": "jp_lamp",
+      "visible": true,
+      "ei": 1.6,
+      "nightI": 1.6,
+      "dayI": 0.15
+     }
+    ],
+    "jp_shoji": [
+     {
+      "id": "4bb98adc",
+      "mesh": "jp_shoji",
+      "visible": true,
+      "ei": 0.7,
+      "nightI": 0.7,
+      "dayI": 0
+     }
+    ]
+   },
+   "judge": {
+    "k": 1.0,
+    "per": {
+     "cafe_bulb#9467fbce": "ok",
+     "cafe_bulb#1240b468": "ok",
+     "ext_glass_lit#61380b9d": "ok",
+     "ext_glass_lit#34dbe7b8": "ok",
+     "wz_signs_lit#76e9dfe2": "ok",
+     "wz_tube#b9dd434d": "ok",
+     "wz_room_lit#a2fa7681": "ok",
+     "wz_win_glass_lit#4f97ba2a": "ok",
+     "wz_lamp_lens#4d577c3e": "ok",
+     "jp_lamp#cb14cdf8": "ok",
+     "jp_shoji#4bb98adc": "ok"
+    },
+    "mismatch": []
+   }
+  },
+  {
+   "seq": "B",
+   "step": "4_wenzhou_after_time",
+   "gzone": "wenzhou",
+   "ezone": "wenzhou",
+   "hour": 14.089,
+   "x": 51.7,
+   "z": 0,
+   "mats": {
+    "cafe_bulb": [
+     {
+      "id": "9467fbce",
+      "mesh": "cafe_bulb",
+      "visible": true,
+      "ei": 1,
+      "nightI": 2.4,
+      "dayI": 1
+     },
+     {
+      "id": "1240b468",
+      "mesh": "wz_cafe_bulb",
+      "visible": true,
+      "ei": 0.6,
+      "nightI": 2.2,
+      "dayI": 0.6
+     }
+    ],
+    "ext_glass_lit": [
+     {
+      "id": "61380b9d",
+      "mesh": "win_curtain_lit",
+      "visible": true,
+      "ei": 0,
+      "nightI": 0.75,
+      "dayI": 0
+     },
+     {
+      "id": "34dbe7b8",
+      "mesh": "wz_ext_glass_lit",
+      "visible": true,
+      "ei": 0,
+      "nightI": 1.5,
+      "dayI": 0
+     }
+    ],
+    "wz_signs_lit": [
+     {
+      "id": "76e9dfe2",
+      "mesh": "sk_sign_A2C",
+      "visible": true,
+      "ei": 0.25,
+      "nightI": 1.1,
+      "dayI": 0.25
+     }
+    ],
+    "wz_tube": [
+     {
+      "id": "b9dd434d",
+      "mesh": "wz_wz_tube",
+      "visible": true,
+      "ei": 0.2,
+      "nightI": 1.3,
+      "dayI": 0.2
+     }
+    ],
+    "wz_room_lit": [
+     {
+      "id": "a2fa7681",
+      "mesh": "wz_room_lit",
+      "visible": true,
+      "ei": 0,
+      "nightI": 1.9,
+      "dayI": 0
+     }
+    ],
+    "wz_win_glass_lit": [
+     {
+      "id": "4f97ba2a",
+      "mesh": "wz_win_glass_lit",
+      "visible": true,
+      "ei": 0,
+      "nightI": 0.55,
+      "dayI": 0
+     }
+    ],
+    "wz_lamp_lens": [
+     {
+      "id": "4d577c3e",
+      "mesh": "pole_lamp_arm",
+      "visible": true,
+      "ei": 0,
+      "nightI": 2.2,
+      "dayI": 0
+     }
+    ],
+    "jp_lamp": [
+     {
+      "id": "cb14cdf8",
+      "mesh": "jp_lamp",
+      "visible": true,
+      "ei": 0.15,
+      "nightI": 1.6,
+      "dayI": 0.15
+     }
+    ],
+    "jp_shoji": [
+     {
+      "id": "4bb98adc",
+      "mesh": "jp_shoji",
+      "visible": true,
+      "ei": 0,
+      "nightI": 0.7,
+      "dayI": 0
+     }
+    ]
+   },
+   "judge": {
+    "k": 0.0,
+    "per": {
+     "cafe_bulb#9467fbce": "ok",
+     "cafe_bulb#1240b468": "ok",
+     "ext_glass_lit#61380b9d": "ok",
+     "ext_glass_lit#34dbe7b8": "ok",
+     "wz_signs_lit#76e9dfe2": "ok",
+     "wz_tube#b9dd434d": "ok",
+     "wz_room_lit#a2fa7681": "ok",
+     "wz_win_glass_lit#4f97ba2a": "ok",
+     "wz_lamp_lens#4d577c3e": "ok",
+     "jp_lamp#cb14cdf8": "ok",
+     "jp_shoji#4bb98adc": "ok"
+    },
+    "mismatch": []
+   }
+  },
+  {
+   "seq": "B",
+   "step": "5_cafe_after_time",
+   "gzone": "cafe",
+   "ezone": "cafe",
+   "hour": 14.207,
+   "x": 0,
+   "z": 5,
+   "mats": {
+    "cafe_bulb": [
+     {
+      "id": "d9845f1c",
+      "mesh": "cafe_bulb",
+      "visible": true,
+      "ei": 2.2,
+      "nightI": null,
+      "dayI": null
+     },
+     {
+      "id": "7d1e49da",
+      "mesh": "wz_cafe_bulb",
+      "visible": true,
+      "ei": 0.6,
+      "nightI": 2.2,
+      "dayI": 0.6
+     }
+    ],
+    "cafe_lampglass": [
+     {
+      "id": "50d1a586",
+      "mesh": "int_pendant_glass",
+      "visible": true,
+      "ei": 1.1,
+      "nightI": null,
+      "dayI": null
+     }
+    ],
+    "ext_glass_lit": [
+     {
+      "id": "6ca89bdd",
+      "mesh": "wz_ext_glass_lit",
+      "visible": true,
+      "ei": 0,
+      "nightI": 1.5,
+      "dayI": 0
+     }
+    ]
+   },
+   "judge": {
+    "k": 0.0,
+    "per": {
+     "cafe_bulb#d9845f1c": "no_nightI ei 2.20",
+     "cafe_bulb#7d1e49da": "ok",
+     "cafe_lampglass#50d1a586": "no_nightI ei 1.10",
+     "ext_glass_lit#6ca89bdd": "ok"
+    },
+    "mismatch": []
+   }
+  }
+ ],
+ "shots": [
+  {
+   "file": "nightrereg\\001_A_wz_cafe_front.png",
+   "label": "A_wz_cafe_front",
+   "t0": 1793661580.771,
+   "t1": 1793661581.245,
+   "iso": "2026-11-02T23:19:40.770+00:00",
+   "size": 359052,
+   "vp": {
+    "width": 844,
+    "height": 390
+   },
+   "gzone": "wenzhou",
+   "ezone": "wenzhou",
+   "hour": 19.606,
+   "day": 8,
+   "x": 51.7,
+   "y": 0,
+   "z": 0,
+   "lv": 0,
+   "ry": -1.571,
+   "camYaw": -1.571,
+   "frame": 856,
+   "paused": false,
+   "weather": "clear",
+   "loading": false,
+   "stand": true,
+   "interact": null,
+   "seq": "A",
+   "step": "wz"
+  },
+  {
+   "file": "nightrereg\\002_A_wz_street_west.png",
+   "label": "A_wz_street_west",
+   "t0": 1793661583.788,
+   "t1": 1793661584.17,
+   "iso": "2026-11-02T23:19:43.788+00:00",
+   "size": 335660,
+   "vp": {
+    "width": 844,
+    "height": 390
+   },
+   "gzone": "wenzhou",
+   "ezone": "wenzhou",
+   "hour": 19.625,
+   "day": 8,
+   "x": 51.7,
+   "y": 0,
+   "z": 0,
+   "lv": 0,
+   "ry": -1.571,
+   "camYaw": 1.571,
+   "frame": 963,
+   "paused": false,
+   "weather": "clear",
+   "loading": false,
+   "stand": true,
+   "interact": null,
+   "seq": "A",
+   "step": "wz"
+  },
+  {
+   "file": "nightrereg\\003_A_wz_street_west_port.png",
+   "label": "A_wz_street_west_port",
+   "t0": 1793661585.721,
+   "t1": 1793661586.126,
+   "iso": "2026-11-02T23:19:45.720+00:00",
+   "size": 334586,
+   "vp": {
+    "width": 390,
+    "height": 844
+   },
+   "gzone": "wenzhou",
+   "ezone": "wenzhou",
+   "hour": 19.638,
+   "day": 8,
+   "x": 51.7,
+   "y": 0,
+   "z": 0,
+   "lv": 0,
+   "ry": -1.571,
+   "camYaw": 1.571,
+   "frame": 1037,
+   "paused": false,
+   "weather": "clear",
+   "loading": false,
+   "stand": true,
+   "interact": null,
+   "seq": "A",
+   "step": "wz"
+  },
+  {
+   "file": "nightrereg\\004_A_cafe_window_front.png",
+   "label": "A_cafe_window_front",
+   "t0": 1793661605.449,
+   "t1": 1793661608.915,
+   "iso": "2026-11-02T23:20:05.449+00:00",
+   "size": 254423,
+   "vp": {
+    "width": 844,
+    "height": 390
+   },
+   "gzone": "cafe",
+   "ezone": "cafe",
+   "hour": 19.734,
+   "day": 8,
+   "x": 0,
+   "y": 0,
+   "z": 5,
+   "lv": 0,
+   "ry": 3.142,
+   "camYaw": 3.142,
+   "frame": 1724,
+   "paused": false,
+   "weather": "clear",
+   "loading": false,
+   "stand": true,
+   "interact": "離開咖啡廳",
+   "seq": "A",
+   "step": "cafe"
+  },
+  {
+   "file": "nightrereg\\005_A_cafe_room_back.png",
+   "label": "A_cafe_room_back",
+   "t0": 1793661611.467,
+   "t1": 1793661611.813,
+   "iso": "2026-11-02T23:20:11.466+00:00",
+   "size": 264821,
+   "vp": {
+    "width": 844,
+    "height": 390
+   },
+   "gzone": "cafe",
+   "ezone": "cafe",
+   "hour": 19.753,
+   "day": 8,
+   "x": 0,
+   "y": 0,
+   "z": 5,
+   "lv": 0,
+   "ry": 3.142,
+   "camYaw": 0,
+   "frame": 1852,
+   "paused": false,
+   "weather": "clear",
+   "loading": false,
+   "stand": true,
+   "interact": "離開咖啡廳",
+   "seq": "A",
+   "step": "cafe"
+  },
+  {
+   "file": "nightrereg\\006_A_cafe_room_back_port.png",
+   "label": "A_cafe_room_back_port",
+   "t0": 1793661613.357,
+   "t1": 1793661613.664,
+   "iso": "2026-11-02T23:20:13.357+00:00",
+   "size": 207687,
+   "vp": {
+    "width": 390,
+    "height": 844
+   },
+   "gzone": "cafe",
+   "ezone": "cafe",
+   "hour": 19.766,
+   "day": 8,
+   "x": 0,
+   "y": 0,
+   "z": 5,
+   "lv": 0,
+   "ry": 3.142,
+   "camYaw": 0,
+   "frame": 1939,
+   "paused": false,
+   "weather": "clear",
+   "loading": false,
+   "stand": true,
+   "interact": "離開咖啡廳",
+   "seq": "A",
+   "step": "cafe"
+  },
+  {
+   "file": "nightrereg\\007_B_wz_cafe_front.png",
+   "label": "B_wz_cafe_front",
+   "t0": 1793661682.758,
+   "t1": 1793661683.087,
+   "iso": "2026-11-02T23:21:22.758+00:00",
+   "size": 370548,
+   "vp": {
+    "width": 844,
+    "height": 390
+   },
+   "gzone": "wenzhou",
+   "ezone": "wenzhou",
+   "hour": 14.108,
+   "day": 8,
+   "x": 51.7,
+   "y": 0,
+   "z": 0,
+   "lv": 0,
+   "ry": -1.571,
+   "camYaw": -1.571,
+   "frame": 977,
+   "paused": false,
+   "weather": "clear",
+   "loading": false,
+   "stand": true,
+   "interact": null,
+   "seq": "B",
+   "step": "wz"
+  },
+  {
+   "file": "nightrereg\\008_B_wz_street_west.png",
+   "label": "B_wz_street_west",
+   "t0": 1793661685.615,
+   "t1": 1793661685.948,
+   "iso": "2026-11-02T23:21:25.615+00:00",
+   "size": 344627,
+   "vp": {
+    "width": 844,
+    "height": 390
+   },
+   "gzone": "wenzhou",
+   "ezone": "wenzhou",
+   "hour": 14.127,
+   "day": 8,
+   "x": 51.7,
+   "y": 0,
+   "z": 0,
+   "lv": 0,
+   "ry": -1.571,
+   "camYaw": 1.571,
+   "frame": 1144,
+   "paused": false,
+   "weather": "clear",
+   "loading": false,
+   "stand": true,
+   "interact": null,
+   "seq": "B",
+   "step": "wz"
+  },
+  {
+   "file": "nightrereg\\009_B_cafe_window_front.png",
+   "label": "B_cafe_window_front",
+   "t0": 1793661702.689,
+   "t1": 1793661704.694,
+   "iso": "2026-11-02T23:21:42.689+00:00",
+   "size": 338187,
+   "vp": {
+    "width": 844,
+    "height": 390
+   },
+   "gzone": "cafe",
+   "ezone": "cafe",
+   "hour": 14.211,
+   "day": 8,
+   "x": 0,
+   "y": 0,
+   "z": 5,
+   "lv": 0,
+   "ry": 3.142,
+   "camYaw": 3.142,
+   "frame": 2054,
+   "paused": false,
+   "weather": "clear",
+   "loading": false,
+   "stand": true,
+   "interact": "離開咖啡廳",
+   "seq": "B",
+   "step": "cafe"
+  },
+  {
+   "file": "nightrereg\\010_B_cafe_room_back.png",
+   "label": "B_cafe_room_back",
+   "t0": 1793661707.229,
+   "t1": 1793661707.549,
+   "iso": "2026-11-02T23:21:47.229+00:00",
+   "size": 317861,
+   "vp": {
+    "width": 844,
+    "height": 390
+   },
+   "gzone": "cafe",
+   "ezone": "cafe",
+   "hour": 14.23,
+   "day": 8,
+   "x": 0,
+   "y": 0,
+   "z": 5,
+   "lv": 0,
+   "ry": 3.142,
+   "camYaw": 0,
+   "frame": 2246,
+   "paused": false,
+   "weather": "clear",
+   "loading": false,
+   "stand": true,
+   "interact": "離開咖啡廳",
+   "seq": "B",
+   "step": "cafe"
+  },
+  {
+   "file": "nightrereg\\011_B_cafe_room_back_port.png",
+   "label": "B_cafe_room_back_port",
+   "t0": 1793661709.097,
+   "t1": 1793661709.372,
+   "iso": "2026-11-02T23:21:49.096+00:00",
+   "size": 255737,
+   "vp": {
+    "width": 390,
+    "height": 844
+   },
+   "gzone": "cafe",
+   "ezone": "cafe",
+   "hour": 14.242,
+   "day": 8,
+   "x": 0,
+   "y": 0,
+   "z": 5,
+   "lv": 0,
+   "ry": 3.142,
+   "camYaw": 0,
+   "frame": 2372,
+   "paused": false,
+   "weather": "clear",
+   "loading": false,
+   "stand": true,
+   "interact": "離開咖啡廳",
+   "seq": "B",
+   "step": "cafe"
+  }
+ ],
+ "fails": [],
+ "js_errors": [],
+ "mat_mismatch": []
+}

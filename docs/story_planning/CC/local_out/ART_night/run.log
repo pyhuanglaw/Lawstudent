@@ -1,0 +1,36 @@
+[gpu_wrap] CC_GPU=1 跑 C:\Users\USER\Documents\Lawstudent_cclocal\docs\story_planning\test_tools\cc\cc_art247_probe.py http://127.0.0.1:8809/index.html C:\Users\USER\Documents\Lawstudent_cclocal\docs\story_planning\CC\local_out\ART_night\out
+PASS nightrereg：A：遊戲載入
+  [前置／捷徑] nightrereg：A：讀檔到溫州街 Café 門口 (52.6, 0.0) 14.00 時（第一次進溫州街）
+  nightrereg：A 1_wenzhou_first        zone=wenzhou/wenzhou hour=14.01 夜間係數 0.00 材質 9 種 11 個、不符 無
+PASS nightrereg：A：按互動鈕進 Café
+  nightrereg：A 2_cafe_first           zone=cafe/cafe hour=14.03 夜間係數 0.00 材質 3 種 4 個、不符 無
+PASS nightrereg：A：按互動鈕離開 Café 回溫州街（第二次進溫州街）
+  nightrereg：A 3_wenzhou_again        zone=wenzhou/wenzhou hour=14.07 夜間係數 0.00 材質 9 種 11 個、不符 無
+  [前置／捷徑] nightrereg：A：GAME.advance(+5.50) 把時間撥到 19.50（遊戲裡沒有找到「跳過時間」的通用介面）
+  nightrereg：A 4_wenzhou_after_time   zone=wenzhou/wenzhou hour=19.59 夜間係數 1.00 材質 9 種 11 個、不符 無
+PASS nightrereg：A：溫州街撥時間後 區域 wenzhou、時間 19.50  ["wenzhou", 19.585]
+  nightrereg：到達「Café 門口」附近（0.22 m）：點地面 1 次、轉鏡頭 0 次、搖桿 0 次，3 秒
+  nightrereg：A：走到 Café 門口 OK
+PASS nightrereg：A：撥時間後再按互動鈕進 Café（第二次進 Café）
+  nightrereg：A 5_cafe_after_time      zone=cafe/cafe hour=19.73 夜間係數 1.00 材質 3 種 4 個、不符 無
+PASS nightrereg：A：Café 區域 cafe、時間 19.50、截圖都存了  ["cafe", 19.729]
+PASS nightrereg：A：沒有 JS 例外  []
+PASS nightrereg：B：遊戲載入
+  [前置／捷徑] nightrereg：B：讀檔到溫州街 Café 門口 (52.6, 0.0) 19.50 時（第一次進溫州街）
+  nightrereg：B 1_wenzhou_first        zone=wenzhou/wenzhou hour=19.51 夜間係數 1.00 材質 9 種 11 個、不符 無
+PASS nightrereg：B：按互動鈕進 Café
+  nightrereg：B 2_cafe_first           zone=cafe/cafe hour=19.53 夜間係數 1.00 材質 3 種 4 個、不符 無
+PASS nightrereg：B：按互動鈕離開 Café 回溫州街（第二次進溫州街）
+  nightrereg：B 3_wenzhou_again        zone=wenzhou/wenzhou hour=19.57 夜間係數 1.00 材質 9 種 11 個、不符 無
+  [前置／捷徑] nightrereg：B：GAME.advance(-5.50) 把時間撥到 14.00（倒撥：遊戲沒有這個介面）
+  nightrereg：B 4_wenzhou_after_time   zone=wenzhou/wenzhou hour=14.09 夜間係數 0.00 材質 9 種 11 個、不符 無
+PASS nightrereg：B：溫州街撥時間後 區域 wenzhou、時間 14.00  ["wenzhou", 14.089]
+  nightrereg：到達「Café 門口」附近（0.23 m）：點地面 1 次、轉鏡頭 0 次、搖桿 0 次，3 秒
+  nightrereg：B：走到 Café 門口 OK
+PASS nightrereg：B：撥時間後再按互動鈕進 Café（第二次進 Café）
+  nightrereg：B 5_cafe_after_time      zone=cafe/cafe hour=14.21 夜間係數 0.00 材質 3 種 4 個、不符 無
+PASS nightrereg：B：Café 區域 cafe、時間 14.00、截圖都存了  ["cafe", 14.207]
+PASS nightrereg：B：沒有 JS 例外  []
+  INFO nightrereg：夜間材質和應有值不符的步驟（只記錄，不算 FAIL）：無
+=== nightrereg PASS（11 張、196 秒）
+ALL PASS

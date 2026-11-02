@@ -1,0 +1,6 @@
+[gpu_wrap 1.2s] headed slot 2: --window-position=1840,0 --window-size=900,900 --window-name=CC 測試中，請勿點選 [ART_night]
+[gpu_wrap 100.5s] page close url=http://127.0.0.1:8809/index.html
+[gpu_wrap 100.6s] BROWSER DISCONNECTED
+[gpu_wrap 101.4s] headed slot 2: --window-position=1840,0 --window-size=900,900 --window-name=CC 測試中，請勿點選 [ART_night]
+[gpu_wrap 196.2s] page close url=http://127.0.0.1:8809/index.html
+[gpu_wrap 196.2s] BROWSER DISCONNECTED
