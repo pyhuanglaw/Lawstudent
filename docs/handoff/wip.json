@@ -1931,6 +1931,102 @@
    "closedBy": "fe3cee955",
    "branchSha": "e025ccdb6",
    "note": "【11-01 交班 LAWWW-B】sha 改成加入 bundle 的開發分支 commit（原本記的是子代理分支的 commit，放在 branchSha；incr 找不到檔案）"
+  },
+  {
+   "id": "WIP-LAWWW-INT-M591-1102",
+   "role": "LAWWW",
+   "task": "BAR-POOL-NOMAR-1102",
+   "state": "WIP",
+   "sha": "HANDOFF_COMMIT",
+   "branch": "int-m591（本機；交班 bundle wip_backup/handoff_A_1102_2310.bundle，基準＝遠端開發分支 5ec3a0836）",
+   "files": [
+    "wip_backup/handoff_A_1102_2310.bundle"
+   ],
+   "todo": "整合線：AA_591、宿舍、AA_603、國考題池、ADV 打字中略過、尾聲、B1、爬梯手勢；國考 11 支測試只跑完 7",
+   "next": "還原 bundle → 合併進 int/m591 → 相關測試＋整套 Node → 併開發分支 → SHA 交 BB／CC",
+   "noDirectIntegrate": true,
+   "source": "LAWWW 帳號 A 11-02 交班",
+   "branchSha": "f47d4849a"
+  },
+  {
+   "id": "WIP-LAWWW-SISDATE-1102",
+   "role": "LAWWW",
+   "task": "AA598-SIS-1C-1102",
+   "state": "WIP",
+   "sha": "HANDOFF_COMMIT",
+   "branch": "sisdate（本機；交班 bundle wip_backup/handoff_A_1102_2310.bundle，基準＝遠端開發分支 5ec3a0836）",
+   "files": [
+    "wip_backup/handoff_A_1102_2310.bundle"
+   ],
+   "todo": "AA_598 學姊約會；待合併 int/m591",
+   "next": "還原 bundle → 合併進 int/m591 → 相關測試＋整套 Node → 併開發分支 → SHA 交 BB／CC",
+   "noDirectIntegrate": true,
+   "source": "LAWWW 帳號 A 11-02 交班",
+   "branchSha": "ab474ff72"
+  },
+  {
+   "id": "WIP-LAWWW-LIBQ2-1102",
+   "role": "LAWWW",
+   "task": "AA595-LIB-NOD-THERMOS-1102",
+   "state": "WIP",
+   "sha": "HANDOFF_COMMIT",
+   "branch": "libq2（本機；交班 bundle wip_backup/handoff_A_1102_2310.bundle，基準＝遠端開發分支 5ec3a0836）",
+   "files": [
+    "wip_backup/handoff_A_1102_2310.bundle"
+   ],
+   "todo": "小聲講 5 件；待合併",
+   "next": "還原 bundle → 合併進 int/m591 → 相關測試＋整套 Node → 併開發分支 → SHA 交 BB／CC",
+   "noDirectIntegrate": true,
+   "source": "LAWWW 帳號 A 11-02 交班",
+   "branchSha": "38d65bd27"
+  },
+  {
+   "id": "WIP-LAWWW-LIBQ3-1102",
+   "role": "LAWWW",
+   "task": "AA595-LIB-NOD-THERMOS-1102",
+   "state": "WIP",
+   "sha": "HANDOFF_COMMIT",
+   "branch": "libq3（本機；交班 bundle wip_backup/handoff_A_1102_2310.bundle，基準＝遠端開發分支 5ec3a0836）",
+   "files": [
+    "wip_backup/handoff_A_1102_2310.bundle"
+   ],
+   "todo": "走出館外旁白、1-D10、Q16；子代理中止，測試沒跑完",
+   "next": "還原 bundle → 合併進 int/m591 → 相關測試＋整套 Node → 併開發分支 → SHA 交 BB／CC",
+   "noDirectIntegrate": true,
+   "source": "LAWWW 帳號 A 11-02 交班",
+   "branchSha": "419764f1a"
+  },
+  {
+   "id": "WIP-LAWWW-ANB-1102",
+   "role": "LAWWW",
+   "task": "AA592-AN-1B-1102",
+   "state": "WIP",
+   "sha": "HANDOFF_COMMIT",
+   "branch": "anb（本機；交班 bundle wip_backup/handoff_A_1102_2310.bundle，基準＝遠端開發分支 5ec3a0836）",
+   "files": [
+    "wip_backup/handoff_A_1102_2310.bundle"
+   ],
+   "todo": "以安 AA_587§14／589／592／594／601、CG-119；子代理中止，unit 跑一半",
+   "next": "還原 bundle → 合併進 int/m591 → 相關測試＋整套 Node → 併開發分支 → SHA 交 BB／CC",
+   "noDirectIntegrate": true,
+   "source": "LAWWW 帳號 A 11-02 交班",
+   "branchSha": "719a57231"
+  },
+  {
+   "id": "WIP-LAWWW-EX600-1102",
+   "role": "LAWWW",
+   "task": "AA600-EX-NO-CONTACT-1102",
+   "state": "WIP",
+   "sha": "HANDOFF_COMMIT",
+   "branch": "ex600（本機；交班 bundle wip_backup/handoff_A_1102_2310.bundle，基準＝遠端開發分支 5ec3a0836）",
+   "files": [
+    "wip_backup/handoff_A_1102_2310.bundle"
+   ],
+   "todo": "AA_600、AA_602、AA_591 九件；子代理中止，unit 沒跑完",
+   "next": "還原 bundle → 合併進 int/m591 → 相關測試＋整套 Node → 併開發分支 → SHA 交 BB／CC",
+   "noDirectIntegrate": true,
+   "source": "LAWWW 帳號 A 11-02 交班",
+   "branchSha": "ae38c31b1"
   }
  ]
 }
