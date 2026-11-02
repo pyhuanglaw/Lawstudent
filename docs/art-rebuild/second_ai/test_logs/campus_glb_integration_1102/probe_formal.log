@@ -1,0 +1,73 @@
+loaded True
+attached campus_library_glb True
+attached campus_bell_glb True
+attached campus_admin_glb True
+attached campus_arts_glb True
+attached campus_hist_glb True
+attached campus_pavilion_glb True
+attached campus_socsci_glb True
+attached campus_gongtong_glb True
+attached campus_freshman_glb True
+attached campus_gate_glb True
+attached campus_male1_glb True
+attached campus_putong_glb True
+attached campus_boya_glb True
+settled 0
+INFO {"male1": {"n": 1, "formal": [true], "dyn": [true], "kitVisible": 0, "kitMeshes": 10}, "gate": {"n": 1, "formal": [true], "dyn": [true], "kitVisible": 0, "kitMeshes": 9}, "bell": {"n": 1, "formal": [true], "dyn": [true], "kitVisible": 0, "kitMeshes": 12}, "admin": {"n": 1, "formal": [true], "dyn": [true], "kitVisible": 0, "kitMeshes": 11}, "gongtong": {"n": 1, "formal": [true], "dyn": [true], "kitVisible": 0, "kitMeshes": 11}, "freshman": {"n": 3, "formal": [true, true, true], "dyn": [true, true, true], "kitVisible": 0, "kitMeshes": 26}, "arts": {"n": 1, "formal": [true], "dyn": [true], "kitVisible": 0, "kitMeshes": 11}, "putong": {"n": 1, "formal": [true], "dyn": [true], "kitVisible": 0, "kitMeshes": 10}, "boya": {"n": 1, "formal": [true], "dyn": [true], "kitVisible": 0, "kitMeshes": 7}, "pavilion": {"n": 1, "formal": [true], "dyn": [true], "kitVisible": 0, "kitMeshes": 8}, "hist": {"n": 1, "formal": [true], "dyn": [true], "kitVisible": 0, "kitMeshes": 11}, "library": {"n": 1, "formal": [true], "dyn": [true], "kitVisible": 0, "kitMeshes": 11}, "soc": {"n": 1, "formal": [true], "dyn": [true], "kitVisible": 0, "kitMeshes": 17}}
+LAMPS {'on': 115, 'n': 115}
+OTHERS {'n': 237, 'empty': 14, 'untaggedWithGate': 0}
+NAVHASH [520, 434, 2741189268, 86116]
+COLS 43 IT 47
+BBOX library {"kit": [81.9, -0.0, -30.8, 113.8, 30.6, 30.8], "glb": [73.74, 0, -37.9, 113.18, 28.05, 30.04], "kits": 1, "diff": [8.16, 0.0, 7.1, 0.62, 2.55, 0.76]}
+PLATE library {"visible": true, "canvas": true, "n": 1, "names": ["PLATE_FACE_LIB"], "ratio": [1]}
+SHADOW library {"ck_stone_base": false, "ck_ceiling": false, "seethru_ck_col": true, "ck_flatroof": true, "ck_frame": false, "ck_glass": false, "seethru_ck_pier": true, "ck_roof": true, "ck_trim": true, "ck_trim_win": false, "ck_wall": true, "ck_white": true, "ck_board": false}
+NIGHT library {"day": {"ck_stone_base": 1, "ck_ceiling": 0.15, "seethru_ck_col": 1, "ck_flatroof": 1, "ck_frame": 1, "ck_glass": 0, "seethru_ck_pier": 1, "ck_roof": 1, "ck_trim": 1, "ck_trim_win": 1, "ck_wall": 1, "ck_white": 1, "ck_board": 0}, "n2030": {"ck_stone_base": 1, "ck_ceiling": 0.04, "seethru_ck_col": 1, "ck_flatroof": 1, "ck_frame": 1, "ck_glass": 1, "seethru_ck_pier": 1, "ck_roof": 1, "ck_trim": 1, "ck_trim_win": 1, "ck_wall": 1, "ck_white": 1, "ck_board": 0}, "map": true, "mip": false, "minLinear": true, "tex": [64, 64], "leftMax": 0, "rightMax": 255, "grad": 399, "uv": {"lit": 370, "dark": 209, "bad": 0}, "oldLitMat": false}
+BBOX bell {"kit": [-40.4, -0.0, 13.27, -35.6, 5.67, 18.9], "glb": [-40.4, 0, 13.27, -35.6, 5.75, 18.9], "kits": 1, "diff": [0.0, 0.0, 0.0, 0.0, 0.08, 0.0]}
+PLATE bell {"visible": true, "canvas": true, "n": 1, "names": ["PLATE_FACE_BELL"], "ratio": [1]}
+SHADOW bell {"ck_bell_bronze": false, "ck_bell_dark": true, "ck_bell_lens": false, "seethru_bell_stone": true, "ck_bell_roof": true, "ck_bell_stone": true, "ck_bell_wash": false, "ck_bell_wood": true, "ck_board": false}
+NIGHT bell {"day": {"ck_bell_bronze": 1, "ck_bell_dark": 1, "ck_bell_lens": 0, "seethru_bell_stone": 1, "ck_bell_roof": 1, "ck_bell_stone": 1, "ck_bell_wash": 0, "ck_bell_wood": 1, "ck_board": 0}, "n2030": {"ck_bell_bronze": 1, "ck_bell_dark": 1, "ck_bell_lens": 1.6, "seethru_bell_stone": 1, "ck_bell_roof": 1, "ck_bell_stone": 1, "ck_bell_wash": 0.75, "ck_bell_wood": 1, "ck_board": 0}, "map": false, "mip": null, "minLinear": null, "tex": null, "leftMax": -1, "rightMax": -1, "grad": 0, "uv": {"lit": 0, "dark": 0, "bad": 0}, "oldLitMat": false}
+BBOX admin {"kit": [-61.8, -0.0, 21.1, -14.2, 15.81, 41.8], "glb": [-61.8, 0, 21.1, -14.2, 15.87, 41.8], "kits": 1, "diff": [0.0, 0.0, 0.0, 0.0, 0.06, 0.0]}
+PLATE admin {"visible": true, "canvas": true, "n": 1, "names": ["PLATE_FACE_ADMIN"], "ratio": [1]}
+SHADOW admin {"ck_stone_base": false, "ck_ceiling": false, "seethru_ck_col": true, "ck_frame": false, "ck_glass": false, "seethru_ck_pier": true, "ck_roof": true, "ck_trim": true, "ck_trim_win": false, "ck_wall": true, "ck_board": false}
+NIGHT admin {"day": {"ck_stone_base": 1, "ck_ceiling": 0.15, "seethru_ck_col": 1, "ck_frame": 1, "ck_glass": 0, "seethru_ck_pier": 1, "ck_roof": 1, "ck_trim": 1, "ck_trim_win": 1, "ck_wall": 1, "ck_board": 0}, "n2030": {"ck_stone_base": 1, "ck_ceiling": 0.04, "seethru_ck_col": 1, "ck_frame": 1, "ck_glass": 1, "seethru_ck_pier": 1, "ck_roof": 1, "ck_trim": 1, "ck_trim_win": 1, "ck_wall": 1, "ck_board": 0}, "map": true, "mip": false, "minLinear": true, "tex": [64, 64], "leftMax": 0, "rightMax": 255, "grad": 399, "uv": {"lit": 692, "dark": 207, "bad": 0}, "oldLitMat": false}
+BBOX arts {"kit": [-58.8, -0.0, -43.8, -17.2, 14.61, -21.1], "glb": [-58.8, 0, -43.8, -17.2, 14.67, -21.1], "kits": 1, "diff": [0.0, 0.0, 0.0, 0.0, 0.06, 0.0]}
+PLATE arts {"visible": true, "canvas": true, "n": 1, "names": ["PLATE_FACE_ARTS"], "ratio": [1]}
+SHADOW arts {"ck_stone_base": false, "ck_ceiling": false, "seethru_ck_col": true, "ck_frame": false, "ck_glass": false, "seethru_ck_pier": true, "ck_roof": true, "ck_trim": true, "ck_trim_win": false, "ck_wall": true, "ck_board": false}
+NIGHT arts {"day": {"ck_stone_base": 1, "ck_ceiling": 0.15, "seethru_ck_col": 1, "ck_frame": 1, "ck_glass": 0, "seethru_ck_pier": 1, "ck_roof": 1, "ck_trim": 1, "ck_trim_win": 1, "ck_wall": 1, "ck_board": 0}, "n2030": {"ck_stone_base": 1, "ck_ceiling": 0.04, "seethru_ck_col": 1, "ck_frame": 1, "ck_glass": 1, "seethru_ck_pier": 1, "ck_roof": 1, "ck_trim": 1, "ck_trim_win": 1, "ck_wall": 1, "ck_board": 0}, "map": true, "mip": false, "minLinear": true, "tex": [64, 64], "leftMax": 0, "rightMax": 255, "grad": 399, "uv": {"lit": 449, "dark": 128, "bad": 0}, "oldLitMat": false}
+BBOX hist {"kit": [-89.8, -0.0, -37.8, -64.2, 14.61, -17.5], "glb": [-89.8, 0, -37.8, -64.2, 14.67, -17.5], "kits": 1, "diff": [0.0, 0.0, 0.0, 0.0, 0.06, 0.0]}
+PLATE hist {"visible": true, "canvas": true, "n": 1, "names": ["PLATE_FACE_HIST"], "ratio": [1]}
+SHADOW hist {"ck_stone_base": false, "ck_ceiling": false, "ck_frame": false, "ck_glass": false, "seethru_ck_pier": true, "ck_roof": true, "ck_trim": true, "ck_trim_win": false, "ck_wall": true, "seethru_ck_col": true, "ck_board": false}
+NIGHT hist {"day": {"ck_stone_base": 1, "ck_ceiling": 0.15, "ck_frame": 1, "ck_glass": 0, "seethru_ck_pier": 1, "ck_roof": 1, "ck_trim": 1, "ck_trim_win": 1, "ck_wall": 1, "seethru_ck_col": 1, "ck_board": 0}, "n2030": {"ck_stone_base": 1, "ck_ceiling": 0.04, "ck_frame": 1, "ck_glass": 1, "seethru_ck_pier": 1, "ck_roof": 1, "ck_trim": 1, "ck_trim_win": 1, "ck_wall": 1, "seethru_ck_col": 1, "ck_board": 0}, "map": true, "mip": false, "minLinear": true, "tex": [64, 64], "leftMax": 0, "rightMax": 255, "grad": 399, "uv": {"lit": 314, "dark": 83, "bad": 0}, "oldLitMat": false}
+BBOX pavilion {"kit": [-116.1, -0.0, -38.1, -91.9, 9.44, -21.9], "glb": [-116.1, 0, -38.1, -91.9, 9.4, -21.9], "kits": 1, "diff": [0.0, 0.0, 0.0, 0.0, 0.04, 0.0]}
+PLATE pavilion {"visible": true, "canvas": true, "n": 1, "names": ["PLATE_FACE_PAV"], "ratio": [1.001]}
+SHADOW pavilion {"ck_pav_conc": true, "ck_pav_dark": false, "ck_glass": false, "ck_pav_screen": true, "ck_board": false}
+NIGHT pavilion {"day": {"ck_pav_conc": 1, "ck_pav_dark": 0, "ck_glass": 0, "ck_pav_screen": 1, "ck_board": 0}, "n2030": {"ck_pav_conc": 1, "ck_pav_dark": 0.9, "ck_glass": 1, "ck_pav_screen": 1, "ck_board": 0}, "map": true, "mip": false, "minLinear": true, "tex": [64, 64], "leftMax": 0, "rightMax": 255, "grad": 399, "uv": {"lit": 50, "dark": 16, "bad": 0}, "oldLitMat": false}
+BBOX soc {"kit": [-13, -0.0, -93, 17, 30.68, -43], "glb": [-13.3, 0, -93, 18.2, 33.3, -41.8], "kits": 1, "diff": [0.3, 0.0, 0, 1.2, 2.62, 1.2]}
+PLATE soc {"visible": true, "canvas": true, "n": 4, "names": ["PLATE_FACE_SOC_DIR", "PLATE_FACE_SOC_LIB", "PLATE_FACE_SOC_LIB_SUB", "PLATE_FACE_SOC_MAIN"], "ratio": [1, 1, 1, 1]}
+SHADOW soc {"ck_bell_wash": false, "ck_ceiling": false, "ck_glass_lit": false, "soc_concrete": true, "ck_frame": false, "soc_glass_clear": false, "ck_glass": false, "soc_green_roof": true, "wz_lamp_lens": false, "soc_misc": true, "soc_paving": false, "wz_pillar_soc": true, "soc_posters": true, "soc_white": true, "ck_board": false}
+NIGHT soc {"day": {"ck_bell_wash": 0, "ck_ceiling": 0.15, "ck_glass_lit": 0, "soc_concrete": 1, "ck_frame": 1, "soc_glass_clear": 1, "ck_glass": 0, "soc_green_roof": 1, "wz_lamp_lens": 0, "soc_misc": 1, "soc_paving": 1, "wz_pillar_soc": 1, "soc_posters": 1, "soc_white": 1, "ck_board": 0}, "n2030": {"ck_bell_wash": 0.75, "ck_ceiling": 0.04, "ck_glass_lit": 1, "soc_concrete": 1, "ck_frame": 1, "soc_glass_clear": 1, "ck_glass": 1, "soc_green_roof": 1, "wz_lamp_lens": 2.2, "soc_misc": 1, "soc_paving": 1, "wz_pillar_soc": 1, "soc_posters": 1, "soc_white": 1, "ck_board": 0}, "map": true, "mip": false, "minLinear": true, "tex": [64, 64], "leftMax": 0, "rightMax": 255, "grad": 399, "uv": {"lit": 684, "dark": 208, "bad": 0}, "oldLitMat": true}
+BBOX gongtong {"kit": [-10.8, -0.0, 22.7, 14.8, 15.61, 40.8], "glb": [-15, 0, 17.03, 16.44, 17.69, 40.49], "kits": 1, "diff": [4.2, 0.0, 5.67, 1.64, 2.08, 0.31]}
+PLATE gongtong {"visible": true, "canvas": true, "n": 2, "names": ["PLATE_FACE_GONGTONG", "PLATE_FACE_GT_SIDE"], "ratio": [1, 1]}
+SHADOW gongtong {"ck_stone_base": false, "ck_glass": false, "wz_lamp_lens": false, "gt_roof": true, "gt_wall": true, "gt_wash": true, "wz_vc_gt": true, "ck_board": false}
+NIGHT gongtong {"day": {"ck_stone_base": 1, "ck_glass": 0, "wz_lamp_lens": 0, "gt_roof": 1, "gt_wall": 1, "gt_wash": 1, "wz_vc_gt": 1, "ck_board": 0}, "n2030": {"ck_stone_base": 1, "ck_glass": 1, "wz_lamp_lens": 2.2, "gt_roof": 1, "gt_wall": 1, "gt_wash": 1, "wz_vc_gt": 1, "ck_board": 0}, "map": true, "mip": false, "minLinear": true, "tex": [64, 64], "leftMax": 0, "rightMax": 255, "grad": 399, "uv": {"lit": 638, "dark": 188, "bad": 0}, "oldLitMat": false}
+BBOX freshman {"kit": [-120.35, -0.0, 57.1, -65.65, 17.4, 74.35], "glb": [-120.2, 0, 57.4, -65.8, 18.75, 74.62], "kits": 3, "diff": [0.15, 0.0, 0.3, 0.15, 1.35, 0.27]}
+PLATE freshman {"visible": true, "canvas": true, "n": 5, "names": ["PLATE_FACE_FD_A", "PLATE_FACE_FD_A_NO", "PLATE_FACE_FD_A_OFFICE", "PLATE_FACE_FD_B", "PLATE_FACE_FD_B_NO"], "ratio": [1, 1, 1, 1, 1]}
+SHADOW freshman {"ck_stone_base": false, "ck_glass": false, "wz_lamp_lens": false, "fd_paint": true, "fd_wall": true, "wz_vc_fd": true, "ck_board": false}
+NIGHT freshman {"day": {"ck_stone_base": 1, "ck_glass": 0, "wz_lamp_lens": 0, "fd_paint": 1, "fd_wall": 1, "wz_vc_fd": 1, "ck_board": 0}, "n2030": {"ck_stone_base": 1, "ck_glass": 1, "wz_lamp_lens": 2.2, "fd_paint": 1, "fd_wall": 1, "wz_vc_fd": 1, "ck_board": 0}, "map": true, "mip": false, "minLinear": true, "tex": [64, 64], "leftMax": 0, "rightMax": 255, "grad": 399, "uv": {"lit": 572, "dark": 192, "bad": 0}, "oldLitMat": false}
+BBOX gate {"kit": [-126.3, -0.0, -10, -121.1, 5.18, 10], "glb": [-126.3, 0, -10, -121.1, 5.54, 10], "kits": 1, "diff": [0.0, 0.0, 0, 0.0, 0.36, 0]}
+PLATE gate {"visible": true, "canvas": true, "n": 1, "names": ["PLATE_FACE_GATE_OUT"], "ratio": [1.001]}
+SHADOW gate {"ck_trim": true, "ck_stone_base": false, "ck_glass": false, "wz_lamp_lens": false, "ck_wall": true, "wz_vc_gt": true, "ck_board": false}
+NIGHT gate {"day": {"ck_trim": 1, "ck_stone_base": 1, "ck_glass": 0, "wz_lamp_lens": 0, "ck_wall": 1, "wz_vc_gt": 1, "ck_board": 0}, "n2030": {"ck_trim": 1, "ck_stone_base": 1, "ck_glass": 1, "wz_lamp_lens": 2.2, "ck_wall": 1, "wz_vc_gt": 1, "ck_board": 0}, "map": true, "mip": false, "minLinear": true, "tex": [64, 64], "leftMax": 0, "rightMax": 255, "grad": 399, "uv": {"lit": 12, "dark": 12, "bad": 0}, "oldLitMat": false}
+BBOX male1 {"kit": [1.65, -0.0, 58.1, 38.35, 17.4, 75.35], "glb": [1.77, 0, 58.4, 38.22, 22.3, 76.15], "kits": 1, "diff": [0.12, 0.0, 0.3, 0.13, 4.9, 0.8]}
+PLATE male1 {"visible": true, "canvas": true, "n": 1, "names": ["PLATE_FACE_M1"], "ratio": [1]}
+SHADOW male1 {"ck_stone_base": false, "m1_breeze": true, "ck_glass": false, "wz_lamp_lens": false, "m1_paint": true, "m1_wall": true, "wz_vc_m1": true, "ck_board": false}
+NIGHT male1 {"day": {"ck_stone_base": 1, "m1_breeze": 1, "ck_glass": 0, "wz_lamp_lens": 0, "m1_paint": 1, "m1_wall": 1, "wz_vc_m1": 1, "ck_board": 0}, "n2030": {"ck_stone_base": 1, "m1_breeze": 1, "ck_glass": 1, "wz_lamp_lens": 2.2, "m1_paint": 1, "m1_wall": 1, "wz_vc_m1": 1, "ck_board": 0}, "map": true, "mip": false, "minLinear": true, "tex": [64, 64], "leftMax": 0, "rightMax": 255, "grad": 399, "uv": {"lit": 424, "dark": 176, "bad": 0}, "oldLitMat": false}
+BBOX putong {"kit": [-55.35, -0.0, -66.85, -20.65, 19.8, -47.6], "glb": [-55.3, 0, -66.8, -20.7, 23, -47.9], "kits": 1, "diff": [0.05, 0.0, 0.05, 0.05, 3.2, 0.3]}
+PLATE putong {"visible": true, "canvas": true, "n": 1, "names": ["PLATE_FACE_PUTONG"], "ratio": [1]}
+SHADOW putong {"ck_trim": true, "ck_stone_base": false, "ck_glass": false, "wz_lamp_lens": false, "ck_wall": true, "wz_vc_pt": true, "ck_board": false}
+NIGHT putong {"day": {"ck_trim": 1, "ck_stone_base": 1, "ck_glass": 0, "wz_lamp_lens": 0, "ck_wall": 1, "wz_vc_pt": 1, "ck_board": 0}, "n2030": {"ck_trim": 1, "ck_stone_base": 1, "ck_glass": 1, "wz_lamp_lens": 2.2, "ck_wall": 1, "wz_vc_pt": 1, "ck_board": 0}, "map": true, "mip": false, "minLinear": true, "tex": [64, 64], "leftMax": 0, "rightMax": 255, "grad": 399, "uv": {"lit": 332, "dark": 112, "bad": 0}, "oldLitMat": false}
+BBOX boya {"kit": [-55.6, -0.0, -92.6, -20.4, 20.9, -71.7], "glb": [-55.9, 0, -92.9, -20.1, 20.85, -71.59], "kits": 1, "diff": [0.3, 0.0, 0.3, 0.3, 0.05, 0.11]}
+PLATE boya {"visible": true, "canvas": true, "n": 1, "names": ["PLATE_FACE_BOYA"], "ratio": [1]}
+SHADOW boya {"ck_stone_base": false, "by_fin": true, "ck_glass": false, "wz_lamp_lens": false, "ck_wall": true, "ck_trim": true, "wz_vc_by": true, "ck_board": false}
+NIGHT boya {"day": {"ck_stone_base": 1, "by_fin": 1, "ck_glass": 0, "wz_lamp_lens": 0, "ck_wall": 1, "ck_trim": 1, "wz_vc_by": 1, "ck_board": 0}, "n2030": {"ck_stone_base": 1, "by_fin": 1, "ck_glass": 1, "wz_lamp_lens": 2.2, "ck_wall": 1, "ck_trim": 1, "wz_vc_by": 1, "ck_board": 0}, "map": true, "mip": false, "minLinear": true, "tex": [64, 64], "leftMax": 0, "rightMax": 255, "grad": 399, "uv": {"lit": 131, "dark": 44, "bad": 0}, "oldLitMat": false}
+ERRS []

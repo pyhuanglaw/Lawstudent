@@ -1,0 +1,4 @@
+A fresh {"calls": 473, "tris": 595186, "visSprites": 44, "lampGlowsOn": 115, "lampsOn": true}
+B after 20.5->17.5 {"calls": 473, "tris": 595186, "visSprites": 44, "lampGlowsOn": 115, "lampsOn": true}
+C after many {"calls": 473, "tris": 595186, "visSprites": 44, "lampGlowsOn": 115, "lampsOn": true}
+D after 11->17.5 {"calls": 473, "tris": 598368, "visSprites": 44, "lampGlowsOn": 115, "lampsOn": true}

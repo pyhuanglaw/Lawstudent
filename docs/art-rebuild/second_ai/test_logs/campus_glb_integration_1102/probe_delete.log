@@ -1,0 +1,8 @@
+loaded True
+settled 0
+INFO {"male1": {"n": 1, "formal": [false], "dyn": [false], "kitVisible": 2, "kitMeshes": 2}, "bell": {"n": 1, "formal": [false], "dyn": [false], "kitVisible": 11, "kitMeshes": 11}, "admin": {"n": 1, "formal": [false], "dyn": [false], "kitVisible": 2, "kitMeshes": 2}, "gongtong": {"n": 1, "formal": [false], "dyn": [false], "kitVisible": 1, "kitMeshes": 1}, "freshman": {"n": 3, "formal": [false, false, false], "dyn": [false, false, false], "kitVisible": 6, "kitMeshes": 6}, "arts": {"n": 1, "formal": [false], "dyn": [false], "kitVisible": 1, "kitMeshes": 1}, "putong": {"n": 1, "formal": [false], "dyn": [false], "kitVisible": 2, "kitMeshes": 2}, "boya": {"n": 1, "formal": [false], "dyn": [false], "kitVisible": 3, "kitMeshes": 3}, "pavilion": {"n": 1, "formal": [false], "dyn": [false], "kitVisible": 5, "kitMeshes": 5}, "hist": {"n": 1, "formal": [false], "dyn": [false], "kitVisible": 2, "kitMeshes": 2}, "library": {"n": 1, "formal": [false], "dyn": [false], "kitVisible": 4, "kitMeshes": 4}, "soc": {"n": 1, "formal": [true], "dyn": [true], "kitVisible": 0, "kitMeshes": 7}}
+LAMPS {'on': 118, 'n': 118}
+OTHERS {'n': 246, 'empty': 14, 'untaggedWithGate': 1}
+NAVHASH [520, 434, 3675307546, 81332]
+COLS 35 IT 45
+ERRS []
