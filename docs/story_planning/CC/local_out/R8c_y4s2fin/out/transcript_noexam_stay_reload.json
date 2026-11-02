@@ -1,0 +1,146 @@
+{
+ "after_reload": {
+  "clock": {
+   "key": "2029-06-28",
+   "day": 1381,
+   "h": 10.725,
+   "zone": "gongguan",
+   "term": null,
+   "week": null,
+   "exam": null
+  },
+  "flags": {
+   "Y4_PATH": "bar",
+   "BAR_REG": true,
+   "PACKED_Y4": 1354,
+   "GRADUATED": 1355,
+   "GRAD_DONE": true,
+   "GRAD_EVENING": "none",
+   "FAIL_DELAY_COURSES": [],
+   "FAIL_DELAY_V": 2,
+   "MOVED_OUT": 1381
+  },
+  "failed": [
+   "maritime"
+  ],
+  "examFinal": {
+   "Y4S2:enforcement:final": {
+    "qs": [
+     "Y4_ENF_08",
+     "Y4_ENF_06",
+     "Y4_ENF_07",
+     "Y4_ENF_02",
+     "Y4_ENF_05"
+    ],
+    "ans": [
+     "A",
+     "D",
+     "C",
+     "B",
+     "B"
+    ],
+    "correct": 5,
+    "score": 100,
+    "status": "done"
+   },
+   "Y4S2:maritime:final": {
+    "qs": [
+     "Y4MAR_11",
+     "Y4MAR_02",
+     "Y4MAR_09",
+     "Y4MAR_10",
+     "Y4MAR_03"
+    ],
+    "ans": [
+     "B",
+     "A",
+     "A",
+     "B",
+     "A"
+    ],
+    "correct": 0,
+    "score": 0,
+    "status": "done"
+   }
+  },
+  "examDay": {
+   "key": "2029-05-28",
+   "block": "am",
+   "makeup": false,
+   "cid": "enforcement",
+   "name": "強制執行法（重修）"
+  },
+  "examList": [
+   [
+    "enforcement",
+    "final",
+    "2029-05-28",
+    "am"
+   ],
+   [
+    "maritime",
+    "final",
+    "2029-05-30",
+    "am"
+   ]
+  ],
+  "termCourses": [
+   "legal_research",
+   "legal_practice",
+   "maritime",
+   "enforcement"
+  ],
+  "grades": {
+   "legal_research": "通過",
+   "legal_practice": "通過",
+   "maritime": "0 分（不及格）",
+   "enforcement": "100 分"
+  },
+  "pgOn": true,
+  "delayed": false,
+  "fdOn": false,
+  "fd": {
+   "courses": [],
+   "on": false,
+   "certLate": false,
+   "lateLikely": false,
+   "hasMigrate": true,
+   "hasRegTrace": true
+  },
+  "pgDone": [
+   "grad",
+   "fd_grades_y4s2"
+  ],
+  "grLv": "fail_law",
+  "retake": [
+   {
+    "id": "enforcement",
+    "from": "Y4S1",
+    "base": "Y4S1",
+    "term": "Y4S2",
+    "slots": [
+     {
+      "wd": 1,
+      "block": "am"
+     }
+    ],
+    "alt": false
+   }
+  ],
+  "acts": [],
+  "nmsg": 9,
+  "title": false
+ },
+ "shots": {
+  "stay": "C:\\Users\\USER\\Documents\\Lawstudent_cclocal\\docs\\story_planning\\CC\\local_out\\R8c_y4s2fin\\out\\25_noexam_stay_stay_desk.png",
+  "exam_q1": "C:\\Users\\USER\\Documents\\Lawstudent_cclocal\\docs\\story_planning\\CC\\local_out\\R8c_y4s2fin\\out\\30_noexam_stay_exam_q1.png",
+  "grades": [
+   "C:\\Users\\USER\\Documents\\Lawstudent_cclocal\\docs\\story_planning\\CC\\local_out\\R8c_y4s2fin\\out\\33_noexam_stay_grades_land.png",
+   "C:\\Users\\USER\\Documents\\Lawstudent_cclocal\\docs\\story_planning\\CC\\local_out\\R8c_y4s2fin\\out\\34_noexam_stay_grades_port.png"
+  ],
+  "after_reload": [
+   "C:\\Users\\USER\\Documents\\Lawstudent_cclocal\\docs\\story_planning\\CC\\local_out\\R8c_y4s2fin\\out\\36_noexam_stay_after_reload_land.png",
+   "C:\\Users\\USER\\Documents\\Lawstudent_cclocal\\docs\\story_planning\\CC\\local_out\\R8c_y4s2fin\\out\\37_noexam_stay_after_reload_port.png"
+  ]
+ }
+}

@@ -39,3 +39,5 @@
       err.log (last 5): [gpu_wrap 35.7s] page close url=http://127.0.0.1:8801/index.html | [gpu_wrap 35.7s] BROWSER DISCONNECTED
 - 2026-11-02T22:26:02  R8b_y4s2jp  sha=b1b249873  exit=0  1199s    PASS route_grades：沒有 JS 例外  [] / SHA b1b249873 CASES route_grades / ALL PASS
       err.log (last 5): [gpu_wrap 1171.1s] page close url=http://127.0.0.1:8801/index.html?turbo | [gpu_wrap 1171.1s] BROWSER DISCONNECTED
+- 2026-11-02T23:15:22  R8c_y4s2fin  sha=b1b249873  exit=1  2952s    PASS noexam_stay：沒有 JS 例外  [] / SHA b1b249873 CASES main,noexam_stay / FAILED: noexam_stay：照玩家沒去考強制執行法（遊戲沒有強制帶進考場、沒有期末紀錄）, noexam_stay：6/18 判延畢（FAIL_DELAY_COURSES 有 enforcement、FAIL_DELAY）, noexam_stay：重新讀檔後仍然延畢（FAIL_DELAY_COURSES 有 enforcement、FAIL_DELAY、沒有 FD_RESCUE_NOFINAL）, noexam_stay：BAR_REG 沒有被恢復（仍 false）, noexam_stay：成績單紀錄仍是缺考（不及格）
+      err.log (last 5): [gpu_wrap 1448.1s] page close url=http://127.0.0.1:8801/index.html?turbo | [gpu_wrap 1448.2s] BROWSER DISCONNECTED | [gpu_wrap 2922.8s] page close url=http://127.0.0.1:8801/index.html?turbo | [gpu_wrap 2922.9s] BROWSER DISCONNECTED
