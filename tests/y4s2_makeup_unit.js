@@ -170,11 +170,11 @@ await sec('j',async()=>{ const wait=async()=>{ for(let k=0;k<200&&PG.busy;k++) a
 
 /* BUG-MAKEUP-BG-1102（BB 10:14）：補考整場都是法律系館A 201 的考場背景（在家、在校園、坐在座位上都一樣）；開頭字幕「法律系館A」；考完回原本的地方 */
 await sec('k',async()=>{ const bgId=x=>x&&typeof x==='object'?x.image||'obj':x; const want=bgId(OUT.bg('linze_201'));
-  const b0=ADV.begin, s0=ADV.setBg, e0=ADV.end, say0=GM.say, cap0=GM.caption; let cur=null; const seen=[], caps=[];
+  const b0=ADV.begin, s0=ADV.setBg, e0=ADV.end, say0=GM.say, cap0=GM.caption; let cur=null; const seen=[], caps=[], rawSay=[];
   ADV.begin=function(o){ cur=o&&o.background; return b0.apply(this,arguments); }; ADV.setBg=function(b){ cur=b; return s0.apply(this,arguments); }; ADV.end=function(){ cur=null; return e0.apply(this,arguments); };
-  GM.say=async function(w,t){ if(/^\d／5　/.test(String(t))||t===L.open) seen.push(ADV.active?bgId(cur):'(沒有 ADV)'); return say0.apply(this,arguments); }; GM.caption=(a,b)=>caps.push(b);
+  GM.say=async function(w,t){ rawSay.push({w,t:String(t)}); if(/^\d／5　/.test(String(t))||t===L.open) seen.push(ADV.active?bgId(cur):'(沒有 ADV)'); return say0.apply(this,arguments); }; GM.caption=(a,b)=>caps.push(b);
   try{
-    const run=async(setup)=>{ const {G,c}=await planned(); seen.length=0; caps.length=0; cur=null; ADV.active=false; setup(G); mode='right'; QS=CLS.drawExam(G,c.id,'Y4S2','makeup').qs; H.said=[]; await FD.makeup(GM); QS=[]; return G; };
+    const run=async(setup)=>{ const {G,c}=await planned(); seen.length=0; caps.length=0; rawSay.length=0; cur=null; ADV.active=false; setup(G); mode='right'; QS=CLS.drawExam(G,c.id,'Y4S2','makeup').qs; H.said=[]; await FD.makeup(GM); QS=[]; return G; };
     const homeBg={image:'home.webp'}; const hb0=typeof HOME!=='undefined'?HOME.bgNow:null; if(typeof HOME!=='undefined') HOME.bgNow=()=>homeBg;
     const G1=await run(G=>{ G.home=Object.assign(G.home||{},{at:true}); PG.setT(G,H.E,D('2029-06-26'),9.5); ADV.begin({background:homeBg}); });
     check('k1. 在家：補考開場、五題都在考場背景（linze_201）；開頭字幕「法律系館A」；考完回到家裡的背景',seen.length===6&&seen.every(x=>x===want)&&caps[0]==='法律系館A'&&ADV.active&&bgId(cur)==='home.webp',J({seen,caps,cur:bgId(cur)}));
@@ -182,6 +182,8 @@ await sec('k',async()=>{ const bgId=x=>x&&typeof x==='object'?x.image||'obj':x; 
     check('k2. 在校園（原本沒有 ADV）：整場考場背景、考完收掉 ADV',seen.length===6&&seen.every(x=>x===want)&&!ADV.active,J({seen,active:ADV.active}));
     await run(G=>{ G.home=Object.assign(G.home||{},{at:false}); G.zone='library'; H.E.player=H.E.player||{}; H.E.player.seat={x:0,z:0}; PG.setT(G,H.E,D('2029-06-26'),9.5); });
     check('k3. 坐在總圖的座位：整場考場背景',seen.length===6&&seen.every(x=>x===want),J(seen));
+    { const i=rawSay.findIndex(x=>x.t===L.open), p=rawSay[i+1]||{}, pt=fs.existsSync(path.join(H.ROOT,'assets/portraits/npc_ta_chen'));
+      check('k4. 開場：旁白（考場有四五個人）→ 陳助教（立繪：charId npc_ta_chen，不是 compact）「'+L.proctor+'」→ 考卷那一句 → 第 1 題（AA_578 第 6 節，使用者 10:3x「考試教室都沒人也很怪」）',i>=0&&/四五個人/.test(L.open)&&p.t===L.proctor&&!!p.w&&p.w.charId==='npc_ta_chen'&&pt&&/^考卷發下來。/.test((rawSay[i+2]||{}).t||'')&&/^1／5　/.test((rawSay[i+3]||{}).t||''),J(rawSay.slice(i,i+4).map(x=>[x.w&&(x.w.charId||x.w.name),x.t]))); }
     if(hb0) HOME.bgNow=hb0;
   } finally { ADV.begin=b0; ADV.setBg=s0; ADV.end=e0; GM.say=say0; GM.caption=cap0; ADV.active=false; if(H.E.player) delete H.E.player.seat; } });
 

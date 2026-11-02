@@ -39602,7 +39602,7 @@
       "owner": "LAWWW",
       "status": "已整合待測試",
       "priority": "P2",
-      "note": "2026-11-02 LAWWW：FD.makeup 開場起 ADV 背景 OUT.bg('linze_201')（已有 ADV＝setBg，沒有＝begin），字幕「法律系館A」；考完在家＝HOME.bgNow()、原本沒有 ADV＝收掉。tests/y4s2_makeup_unit.js 第 k 節（在家、校園、坐著；修改前 FAIL 3）。",
+      "note": "2026-11-02 LAWWW：FD.makeup 開場起 ADV 背景 OUT.bg('linze_201')（已有 ADV＝setBg，沒有＝begin），字幕「法律系館A」；考完在家＝HOME.bgNow()、原本沒有 ADV＝收掉。tests/y4s2_makeup_unit.js 第 k 節（在家、校園、坐著；修改前 FAIL 3）。 10:2x 補：開場換 AA_578 第 6 節 @4ea79cff4 兩句（旁白考場四五個人＋陳助教 npc_ta_chen 立繪「考卷發下去了。一樣五題，十一點收。」），k4 檢查。",
       "first": {
         "term": "Y4S2",
         "earliest": "2029-06-26 補考",
@@ -39686,6 +39686,29 @@
         "receiver": "BB",
         "ack": "ACK",
         "acceptance": "重度玩家 7 份 ≤ 4 MB"
+      }
+    },
+    {
+      "id": "BAR-POOL-NOMAR-1102",
+      "title": "律師一試不考海商法（使用者 10:2x，經 BB）",
+      "owner": "LAWWW",
+      "status": "已整合待測試",
+      "priority": "P2",
+      "note": "2026-11-02 LAWWW：postgrad3d.js S.POOL_EXCLUDE=[/^Y4MAR_/]，S.pool() 排除；S.pool(true) 給 S.draw 讀舊存檔已抽好的（照舊不重抽）。LEGAL_REVIEW_REQUIRED。Y4IP_/Y4LSO_/Y4TAX_ 等使用者答覆（BB 在問）。tests/bar_pool_nomar_unit.js（修改前 FAIL 2）。",
+      "first": {
+        "term": "PG",
+        "earliest": "2029 律師一試",
+        "mainline": false,
+        "blocks": false,
+        "parallel": true,
+        "confirmed": true
+      },
+      "xai": {
+        "spec": "BB 10:16（使用者 10:2x「一試不考海商法了」）",
+        "branch": "claude/confident-ritchie-8rwh7t",
+        "receiver": "BB",
+        "ack": "ACK",
+        "acceptance": "2029～2033 一試沒有 Y4MAR_；舊存檔不動"
       }
     }
   ]

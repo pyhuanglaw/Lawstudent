@@ -84,11 +84,14 @@ const PG=(function(){
   S.lateAsk=(G,y)=>{ const F=G.flags||{}; return y>2030&&S.LATE_YEARS.includes(y)&&F.BAR_YEAR==null&&S.failed(G,y-1)&&F['BAR_REG_'+y]==null; };   /* 2031～2033 那一年的報名還沒問：前一年一試沒過、還沒考上 */
   S.lastSat=G=>{ const F=G.flags||{}; let y=null; for(const k of [2029,2030].concat(S.LATE_YEARS)) if(F['BAR_SIT_'+k]===true) y=k; return y; };   /* 最後一次去考是哪一年（沒考過＝null）*/
   S.N_Q=20;
-  S.pool=function(){ const out=[]; if(typeof EXAM_BANK!=='undefined') for(const q of EXAM_BANK.questions) if(q.status==='USER_CONFIRMED'||q.status==='AI_CROSS_REVIEWED'||q.status==='Y4_CROSS_REVIEWED') out.push(q);
+  /* LEGAL_REVIEW_REQUIRED：使用者 2026-11-02 10:2x（經 BB）「一試不考海商法了」——海商法與海洋法（Y4MAR_）不放進一試的抽題範圍；題目、答案不改，期末考照用。
+     已經抽好的舊存檔（R.exam[y].qs 記著的）照舊（S.draw 先讀存下來的那一份）。智慧財產法、勞動社會法、財稅法（同一組選試科目）BB 在問使用者，先不動 */
+  S.POOL_EXCLUDE=[/^Y4MAR_/];
+  S.pool=function(all){ const out=[];   /* all：連排除的也算（讀舊存檔已經抽好的題目用）*/ if(typeof EXAM_BANK!=='undefined') for(const q of EXAM_BANK.questions) if((q.status==='USER_CONFIRMED'||q.status==='AI_CROSS_REVIEWED'||q.status==='Y4_CROSS_REVIEWED')&&(all||!S.POOL_EXCLUDE.some(r=>r.test(q.id)))) out.push(q);
     if(typeof QBANK!=='undefined') for(const q of QBANK) if(q.complete!==false) out.push(q); return out; };   /* 四年各科期末考的題庫＋刑訴（AA_126 第 3 節）*/
   const hashStr=str=>{ let h=2166136261>>>0; for(let i=0;i<str.length;i++){ h^=str.charCodeAt(i); h=Math.imul(h,16777619)>>>0; } return h>>>0; };
   const rng=seed=>()=>{ seed|=0; seed=seed+0x6D2B79F5|0; let t=Math.imul(seed^seed>>>15,1|seed); t=t+Math.imul(t^t>>>7,61|t)^t; return ((t^t>>>14)>>>0)/4294967296; };
-  S.draw=function(G,y){ const R=S.rec(G), X=R.exam&&typeof R.exam==='object'?R.exam:(R.exam={}), pool=S.pool(), byId=new Map(pool.map(q=>[q.id,q]));
+  S.draw=function(G,y){ const R=S.rec(G), X=R.exam&&typeof R.exam==='object'?R.exam:(R.exam={}), pool=S.pool(), byId=new Map(S.pool(true).map(q=>[q.id,q]));
     if(X[y]&&Array.isArray(X[y].qs)&&X[y].qs.length){ const qs=X[y].qs.map(id=>byId.get(id)).filter(Boolean); if(qs.length===X[y].qs.length) return qs; }
     const used=new Set(); for(const k in X) if(+k!==+y) for(const id of (X[k].qs||[])) used.add(id);   /* 第二年換一組（AA_286 2-1）*/
     const F=G.flags; if(F.examSeed==null) F.examSeed=Math.floor(Math.random()*1e9);

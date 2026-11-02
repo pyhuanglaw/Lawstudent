@@ -76,7 +76,8 @@ const FD=(function(){
     notice:'（補考在 6/26（二）上午十點，法律系館A。考過了，就照常畢業。）',
     sys:'【教務處】大四下補考通知：{課名}。6/26（二）10:00，法律系館A。',
     remind:'【教務處】明天上午 10:00 補考：{課名}（法律系館A）。',
-    open:'（法律系館A，一間小教室。來補考的只有幾個人。）',
+    open:'（法律系館A 201。前面幾排零零散散坐了四五個人。有人穿著實習的襯衫，有人一邊吃早餐一邊翻講義。）',   /* AA_578 第 6 節 @4ea79cff4（BB 口氣審 PASS，10:18）：考場有人＋監考助教（使用者 10:3x「考試教室都沒人也很怪」）*/
+    proctor:'考卷發下去了。一樣五題，十一點收。',   /* 陳助教（npc_ta_chen，有立繪）*/
     examName:'補考',
     pass:'（{課名}，補考過了。）',
     passAll:'（這樣，就真的畢業了。）',
@@ -108,7 +109,7 @@ const FD=(function(){
       if(GM.fade) await GM.fade(true); if(typeof PG!=='undefined'&&PG.toAtLeast&&d!=null) PG.toAtLeast(GM,T(d,S.MK_AT[1]));
       if(A){ if(A.active&&A.setBg) A.setBg(bg); else if(A.begin) A.begin({background:bg}); }
       if(GM.fade) await GM.fade(false); if(GM.caption) GM.caption('',S.MK_PLACE,2400);
-      await GM.say(null,L.open);
+      await GM.say(null,L.open); await GM.say({name:(typeof SOCIAL!=='undefined'&&SOCIAL.displayName?SOCIAL.displayName('npc_ta_chen'):'')||'陳助教',charId:'npc_ta_chen'},L.proctor);   /* 字幕 → 旁白 → 助教 → 作答 */
       for(const id of ids){ const c=mkCourse(G,id); if(!c){ res[id]='pass'; continue; }   /* 找不到那門課（不應該發生）：不罰 */
         let r=null; try{ r=await CLS.runExam(GM,{c,exam:'makeup',term:'Y4S2',examName:L.examName}); }catch(e){ console.warn('FD.makeup',e); r=null; }
         res[id]=!r||!r.held||(r.correct|0)>0?'pass':'fail'; }   /* 題庫不夠沒開考（不會發生：期末有開考才會被當）、出錯＝不罰 */
