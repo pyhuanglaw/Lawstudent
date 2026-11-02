@@ -5157,7 +5157,7 @@
    "branch": "claude/funny-albattani-iawshm",
    "sha": "4b8edad7d",
    "receiver": "LAWWW",
-   "ack": "未派",
+   "ack": "ACTIONED",
    "task": "ZQ-ARCADE-SEAT-1028",
    "files": [
     "assets/models/env/second_ai/gongguan_shops.glb",
@@ -5168,11 +5168,11 @@
     "docs/art-rebuild/second_ai/test_shots/zq_arcade_seat_1101/README.md",
     "docs/art-rebuild/second_ai/test_shots/zq_arcade_seat_1101/before_after.webp"
    ],
-   "state": "WIP",
-   "remaining": "全部 Node 沒跑完（交班中斷）；插座被腿擋住看不到；筆電沒有電線；heroine_circle 4 筆改 act:'read'＋開筆電是 LAWWW-B 的",
+   "state": "已整合",
+   "remaining": "BB 在遊戲裡看子晴坐凳子、筆電（已整合待測試）",
    "next": "下一班：開發分支最新版＋這一包跑全部 Node → 沒問題就 send_message 交件給 LAWWW-B（outbox 這一筆改 SENT）",
    "noDirectIntegrate": true,
-   "note": "｜11-02 LAWWW2（帳號 A）接班時照 outbox 格式整理（LAWWW 03:39 要求）；原欄位：state「WIP：成果都已 push、README 寫好，沒有 send_message 交件（11-01 09:0x 使用者交班，交班時停在這裡）。柱子靠騎樓那一面紅凳子 (15.6,19.8) yaw 0＋柱子上的插座；patch（對開發 bd7754e2e）：zones3d 公館座位＋GG_PROP_BLOCKS、assets3d／props3d／character3d 各一行筆電道具、新 tests/zq_arcade_seat_unit.js（開發原樣 FAIL 4、只套 patch FAIL 2、加新模型 ALL PASS）；street_props_nav_unit ALL PASS。」、ack「NOT_SENT」、task「ZQ-ARCADE-SEAT-1028：子晴公館騎樓坐凳＋插座＋腿上筆電（(a) GLB、(b) laptop_lap 道具接法、(c) zones3d 公館座位）」"
+   "note": "｜11-02 LAWWW2（帳號 A）接班時照 outbox 格式整理（LAWWW 03:39 要求）；原欄位：state「WIP：成果都已 push、README 寫好，沒有 send_message 交件（11-01 09:0x 使用者交班，交班時停在這裡）。柱子靠騎樓那一面紅凳子 (15.6,19.8) yaw 0＋柱子上的插座；patch（對開發 bd7754e2e）：zones3d 公館座位＋GG_PROP_BLOCKS、assets3d／props3d／character3d 各一行筆電道具、新 tests/zq_arcade_seat_unit.js（開發原樣 FAIL 4、只套 patch FAIL 2、加新模型 ALL PASS）；street_props_nav_unit ALL PASS。」、ack「NOT_SENT」、task「ZQ-ARCADE-SEAT-1028：子晴公館騎樓坐凳＋插座＋腿上筆電（(a) GLB、(b) laptop_lap 道具接法、(c) zones3d 公館座位）」｜11-02 LAWWW2（帳號 A）接班查證：LAWWW-B 11-01 21:2x 已整合（0b4acc850＋5d84b825e，整套 Node 835／835），總表 已整合待測試；不用再跑全部 Node、不用再交件"
   }
  ]
 }
