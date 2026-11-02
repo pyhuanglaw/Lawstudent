@@ -273,8 +273,10 @@ def expect_line(c, past_weeks, missed_weeks):
 INFO = {}
 
 
-async def course_info(pg, run):
+async def course_info(pg, cdp, run):
     if INFO: return INFO
+    st, d = await state_at(pg, [TERM, 6, 1], 10.0, 'dorm', courses={'rollSince': -9999})   # 標題畫面還沒有 GAME.G：先讀一份同種子的存檔再算
+    await load(pg, cdp, run, st, '只讀預測用：最小存檔 %s 10:00 宿舍（examSeed %s；只用來算點名週，不操作）' % (d['key'], SEED))
     r = await pg.evaluate(COURSES_JS, TERM)
     INFO.update(r)
     run.note('【捷徑：只讀】%s 看出席的課＋點名週預測（種子 %s；ROLLW＝探針算的、real＝CLS.rollWeeks 對拷貝算的；頁面有 rollWeeks：%s）：%s' % (
@@ -307,7 +309,7 @@ async def day_of_week(pg, week, wd):
 # ================================================================ a／a0：點名當天
 async def case_a(pg, cdp, run, ctrl=False):
     tag = 'a0' if ctrl else 'a'
-    info = await course_info(pg, run); c = pick_clean(info)
+    info = await course_info(pg, cdp, run); c = pick_clean(info)
     run.check('%s：前置成立＝有 clean 那種課' % tag, bool(c), J([[x['id'], x['roll']] for x in info['courses']]))
     if not c: return
     rw = [w for w in c['roll'] if w >= 5]
@@ -347,7 +349,7 @@ async def case_a(pg, cdp, run, ctrl=False):
 # ================================================================ b／bedge：課表
 async def case_b(pg, cdp, run, edge=False):
     tag = 'bedge' if edge else 'b'
-    info = await course_info(pg, run); c = pick_clean(info)
+    info = await course_info(pg, cdp, run); c = pick_clean(info)
     if edge:
         e = pick_edge(info)
         run.check('%s：前置成立＝有 edge 那種課（點名週有第 12 週、那一堂不是週一）' % tag, bool(e), J([[x['id'], x['roll']] for x in info['courses']]))
@@ -390,7 +392,7 @@ async def case_b(pg, cdp, run, edge=False):
 # ================================================================ c1／c2／cw：第 12 週提醒
 async def case_c(pg, cdp, run, k):
     tag = k
-    info = await course_info(pg, run); c = pick_clean(info); e = pick_edge(info)
+    info = await course_info(pg, cdp, run); c = pick_clean(info); e = pick_edge(info)
     tgt = e if k == 'cw' else c
     run.check('%s：前置成立＝有 %s 那種課' % (tag, 'edge' if k == 'cw' else 'clean'), bool(tgt), J([[x['id'], x['roll']] for x in info['courses']]))
     if not tgt: return
@@ -423,7 +425,7 @@ async def case_c(pg, cdp, run, k):
 # ================================================================ d_old／d_new：舊存檔
 async def case_d(pg, cdp, run, k):
     tag = k
-    info = await course_info(pg, run); c = pick_clean(info)
+    info = await course_info(pg, cdp, run); c = pick_clean(info)
     run.check('%s：前置成立＝有 clean 那種課、有成績公布日' % tag, bool(c) and info.get('gradeDay') is not None, J(info.get('gradeDay')))
     if not c or info.get('gradeDay') is None: return
     gd = info['gradeDay']
@@ -462,7 +464,7 @@ async def case_d(pg, cdp, run, k):
             if i + 1 < len(T): gline = T[i + 1]
         s = await P.ts(pg)
         if s['dlg'] and gline and (c['name'] + '：') in s['txt'] and not shot:
-            await pg.wait_for_timeout(1500); shot = [await run.shot(pg, tag + '_grades'), await portrait_shot(pg, cdp, run, tag + '_grades')]
+            await pg.wait_for_timeout(2500); shot = [await run.shot(pg, tag + '_grades'), await portrait_shot(pg, cdp, run, tag + '_grades')]
         if gline and shot: break
         if s['phone'] and not s['ch'] and not s['dlg']: await L.phone_away(pg, cdp, tries=1); continue
         if s['ch']:
@@ -478,7 +480,7 @@ async def case_d(pg, cdp, run, k):
     else:
         run.check('%s：新規則（學期在 rollSince 以後開始）點名 4 次全缺＝成績單「%s：不及格（下學期重修）」（修改前沒有點名規則＝「及格」）' % (tag, c['name']),
                   bool(g) and g.startswith('不及格') and c['id'] in failed, J({'grade': g, 'failed': failed}))
-    while True:
+    for _ in range(80):   # 成績單之後的對話照玩家點完（最多 80 次）
         s = await P.ts(pg)
         if not (s['dlg'] or s['ch']): break
         if s['ch']: await P.tap_choice(pg, cdp, pick_opt(s['ch'], ('先起床',))[0])
