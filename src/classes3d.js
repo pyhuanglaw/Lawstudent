@@ -634,14 +634,16 @@ const CLS=(function(){
       await GM.say(null,'這一科的'+nm+'題庫還沒準備好（題目 '+r.n+'／5）。'+(kind==='mid'?'這次不舉行。':'這學期不舉行期末考。')); return {held:false,n:r.n}; }
     await GM.say(null,'考卷發下來。'+c.name+nm+(kind==='mid'?'（不算成績）':'')+'。五題。'); const ans=[]; let k=0;
     let recall=kind==='final'&&S.hasBook(G,c)?1:0;   /* 有那一科的教科書：期末考多一次想起答案（D102）——第一次選錯，那個選項拿掉、旁白一句（AA 2026-10-21 20:23）、再選一次 */
-    for(let i=0;i<5;i++){ const q=r.qs[i]; await GM.say(null,(i+1)+'／5　'+q.q); let opts=optList(q); const j=await GM.choose(opts.map(o=>({t:o.t}))); let v=(opts[j]||opts[0]).v;
+    for(let i=0;i<5;i++){ const q=r.qs[i]; if(typeof STUDY!=='undefined'&&STUDY.cueFor){ let cue=null; try{ cue=STUDY.cueFor(G,q.id); }catch(e){ console.warn('STUDY.cueFor',e); } if(cue) await GM.say(null,cue); }   /* D118-B4：讀過那張卡＝想起筆記上的一行（不影響計分）*/
+      await GM.say(null,(i+1)+'／5　'+q.q); let opts=optList(q); const j=await GM.choose(opts.map(o=>({t:o.t}))); let v=(opts[j]||opts[0]).v;
       if(recall&&String(v)!==String(q.answer)&&opts.length>2){ recall=0; R.examRecall=R.examRecall||{}; R.examRecall[r.key]=(i+1); opts=opts.filter((o,x)=>x!==j); await GM.say(null,'（你想起課本上那一段。旁邊還有你自己畫的線。）'); const j2=await GM.choose(opts.map(o=>({t:o.t}))); v=(opts[j2]||opts[0]).v; }
       ans.push(v); if(String(v)===String(q.answer)) k++; }
     const score=S.scoreOf(k); R.exam[r.key]=Object.assign({},R.exam[r.key]||{},{qs:r.qs.map(q=>q.id),ans,correct:k,score,status:'done'});
     if(typeof STUDY!=='undefined'){ try{ r.qs.forEach((q,i)=>STUDY.answer(G,q.id,String(ans[i])===String(q.answer),'exam')); }catch(e){ console.warn('STUDY.answer',e); } }   /* D118-B2：答對＝那張觀念卡答對過；答錯只記進 miss（不扣任何東西）*/
     await GM.say(null,'交卷。答對 '+k+'／5'+(kind==='final'?'，'+score+' 分。':'。'));
-    for(let i=0;i<5;i++){ const q=r.qs[i]; if(String(ans[i])===String(q.answer)) continue; const a=q.type==='tf'||!q.options?q.answer:'（'+q.answer+'）'+q.options[q.answer];
+    const wrong=[]; for(let i=0;i<5;i++){ const q=r.qs[i]; if(String(ans[i])===String(q.answer)) continue; const a=q.type==='tf'||!q.options?q.answer:'（'+q.answer+'）'+q.options[q.answer]; wrong.push({n:i+1,q,a});
       await GM.say(null,'第 '+(i+1)+' 題的答案：'+a+(q.core?'。考點：'+q.core:'')+(q.explanation?'。'+q.explanation:'')+(q.basis&&q.status==='Y4_CROSS_REVIEWED'?'（'+q.basis+'）':'')); }
+    if(typeof STUDY!=='undefined'&&STUDY.fixNote){ try{ STUDY.fixNote(GM,c,r.key,wrong); }catch(e){ console.warn('STUDY.fixNote',e); } }   /* D118-B4：考後訂正筆記 */
     return {held:true,correct:k,score}; };
   /* ?dev 的除錯面板：這學期考五題的課裡，期末考正式題目不到 5 題（不開考）的課（AA_130 第 3 節第 4 點；玩家版不顯示）*/
   S.examShort=function(G,termId){ if(!termId){ const t=typeof CALENDAR!=='undefined'&&G?CALENDAR.termOf(G.day):null; termId=t&&t.id; } if(!termId) return [];

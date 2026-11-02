@@ -157,6 +157,14 @@ const STUDY=(function(){
     const sun=S.remindDay(t.id); if(sun==null||G.day<sun-6||G.day>sun) return false;
     if(!CLS.examList(G,t.id).some(e=>poolN(e.c.id,t.id)>=5)) return false;
     return PHONE.at(G,sun,20,[{th:'sys',text:S.REMIND_TEXT}],tag); };
+  /* D118-B4：考試裡的 cue——那一題的觀念卡讀過以上（read、got）才出一行提醒（只提醒觀念、不點出選項）；cue 是 AA 的稿，空的時候先用卡片標題（黑板第一行）。不影響計分 */
+  S.CUE_PREFIX='（你想起筆記上寫的：';   /* 暫定字（AA 定稿後換，D118_PLAN 第 6 節第 7 點）*/
+  S.cueFor=function(G,qid){ for(const u of S.unitsOfQ(qid)){ const st=S.stateOf(G,u.id); if(st==='read'||st==='got'){ const t=(u.cue||'').trim()||(S.view(u)||{}).title||u.title; if(t) return S.CUE_PREFIX+t+'）'; } } return null; };
+  /* D118-B4：考後訂正——答錯的題寫成一則筆記（同一科同一次考試一則；miss 已經在 STUDY.answer 記了）*/
+  S.FIX_TITLE=n=>n+'・期末考訂正';   /* 暫定字 */
+  S.fixNote=function(GM,c,key,wrong){ if(!wrong.length||!GM.addNote) return false;
+    const body=wrong.map(w=>'第 '+w.n+' 題　'+w.q.q+'\n答案：'+w.a+(w.q.core?'\n考點：'+w.q.core:'')+(w.q.explanation&&w.q.explanation!==w.q.core?'\n'+w.q.explanation:'')).join('\n\n');
+    return GM.addNote('examfix_'+key,S.FIX_TITLE(c.name),body); };
   /* 家裡的選單（週末回家、HOME.MENU_OPTS）*/
   S.homeOpt=function(G){ const o=S.reviewOpt(G,{home:true}); if(!o) return null; return {t:o.t,hint:o.hint,run:async GM=>{ await S.review(GM,'final',{home:true}); }}; };
   if(typeof STORY!=='undefined'&&Array.isArray(STORY.PHONE_RULES)) STORY.PHONE_RULES.push(G=>S.remind(G));
