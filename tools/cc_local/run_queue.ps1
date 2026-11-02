@@ -115,10 +115,26 @@ CC-Log ("queue: " + (($Items | ForEach-Object { $_.Id }) -join ', '))
 $OutRoot = Join-Path $Work 'docs\story_planning\CC\local_out'
 New-Item -ItemType Directory -Force -Path $OutRoot | Out-Null
 
+$skipped_n = 0; $ran_n = 0
 foreach ($it in $Items) {
   $id = $it.Id; $sha = $it.Sha; if ($sha -eq 'head') { $sha = $Head }
+  # ---- skip items already done on this exact sha (overnight loop, BB 10:29) ----
+  # done = meta.json has the same resolved sha AND finished on its own (exit 0, or exit 1 = probe finished with FAIL checks; no timeout/error)
+  # force a rerun: put RERUN=<anything new> in the ENV column (compared with meta.rerun)
+  $rerunTok = ''; foreach ($kv in ($it.Env -split ';')) { if ($kv -match '^\s*RERUN=(.*)$') { $rerunTok = $Matches[1].Trim() } }
+  $prevMeta = Join-Path (Join-Path $OutRoot $id) 'meta.json'
+  if (Test-Path $prevMeta) {
+    try {
+      $pm = Get-Content -Raw -Encoding UTF8 $prevMeta | ConvertFrom-Json
+      $pmRerun = ''; if ($pm.PSObject.Properties.Name -contains 'rerun' -and $pm.rerun) { $pmRerun = [string]$pm.rerun }
+      if ($pm.sha -eq $sha -and ($pm.exit -eq 0 -or $pm.exit -eq 1) -and -not $pm.error -and $pmRerun -eq $rerunTok) {
+        CC-Log "skip $id (already done on $sha, exit $($pm.exit))"; $skipped_n++; continue
+      }
+    } catch { CC-Log "meta.json of $id unreadable - rerun" }
+  }
   $od = Join-Path $OutRoot $id; New-Item -ItemType Directory -Force -Path $od | Out-Null
-  $meta = [ordered]@{ id=$id; sha=$sha; kind=$it.Kind; script=$it.Script; env=$it.Env; machine=$env:COMPUTERNAME; start=(Get-Date).ToString('s'); end=$null; seconds=$null; exit=$null; error=$null }
+  $ran_n++
+  $meta = [ordered]@{ rerun=$rerunTok; id=$id; sha=$sha; kind=$it.Kind; script=$it.Script; env=$it.Env; machine=$env:COMPUTERNAME; start=(Get-Date).ToString('s'); end=$null; seconds=$null; exit=$null; error=$null }
   $wt = Join-Path $Base ("wt_cc_" + $id); $srv = $null
   CC-Log "==== $id  ($($it.Kind) @ $sha) ===="
   try {
@@ -179,5 +195,7 @@ foreach ($it in $Items) {
 
 Write-Host ""
 Write-Host "===== SUMMARY ====="
+Write-Host ("ran {0} item(s), skipped {1} already done" -f $ran_n, $skipped_n)
+if ($ran_n -eq 0) { Write-Host "Nothing new in the queue this round." }
 $Summary | ForEach-Object { Write-Host $_ }
 Write-Host "Results: $OutRoot  (pushed to origin/claude/cc-local)"
