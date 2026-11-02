@@ -4684,6 +4684,23 @@
    "receiver": "LAWWW",
    "ack": "SENT",
    "note": "大二下 31 張（行政救濟 8、身分法 9、法學英文 8、債各 6），61 題；獨立核對後改 5 張＋4 項可選；cue 重疊 0；exam_bank 沒有以舊 §1223 為前提的題目；study_units 資料建議見 review 最後一節"
+  },
+  {
+   "task": "STUDY-EXAM-STORY-1102",
+   "branch": "claude/story-planning",
+   "sha": "44284c838",
+   "files": [
+    "docs/story_planning/study/cards_y3s1.json",
+    "docs/story_planning/study/cards_y3s1_notes.md",
+    "docs/story_planning/study/cards_y3s1_review.md"
+   ],
+   "state": "已交付",
+   "remaining": "大三下（寫稿中）、大四上、大四下",
+   "next": "LAWWW 加白名單匯入；BB 驗收",
+   "noDirectIntegrate": false,
+   "receiver": "LAWWW",
+   "ack": "SENT",
+   "note": "大三上 38 張（民訴 9、公司法 10、證交 9、刑訴 w10 1、刑訴題庫 crimpro_q1～q9 9），146 題；獨立核對後改 6 張＋9 項可選；cue 重疊 0；建議 S.cardLines 長卡分則；crimpro 標題用 crimpro_titles.json"
   }
  ],
  "items": [
