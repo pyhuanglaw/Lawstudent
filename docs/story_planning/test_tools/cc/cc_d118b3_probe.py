@@ -32,6 +32,11 @@ CASES（逗號隔開；預設全跑；每個 case 開一個新的瀏覽器、從
   repeat       【前置】2025-12-13（六）09:00 宿舍 → 書桌總複習（第一張就「結束總複習」）→ 再按一次 → 記兩次的開始、結束時間（每次都是 3 小時、同一天）、時段次數 G.slots 不變。
   seed         【前置】同一份存檔（examSeed 固定）2025-12-14（日）14:00 宿舍讀兩次：A 做總複習、B 不做；各自【前置】跳到 12/15 07:40 → 照玩家考憲法期末（作答照第一個選項，分數不比）
                → 比 R.exam 的 5 題題號（相同才 PASS）；另外 INFO：兩邊在頁面裡用複製的存檔各抽三科（CLS.drawExam on clone，不寫回）。
+  S2a／S2b     （5d3fbd32e 以後；S2 的修改前基準＝5d3fbd32e^ 6ba2a22ad08cb70c07bbf198736f55a7c045d75b：快轉不會停在這個提醒）
+               【前置】最小存檔 2025-12-04（四，第 14 週）22:00 宿舍（S2_START 可換）→ 照玩家：床「快轉」→「過一週」（FF_PICK）；停下來就再按床，
+               途中停在「有劇情的課快開始了」就照玩家去上那一堂；跳出「考前總複習／繼續快轉／先停在這裡」（12/14 20:00）時截直向＋橫向，
+               S2a 選「考前總複習」（翻頁第一張就結束，S2_READ）→ 停在 12/14 23:00、等 20 秒時間不跳；S2b 選「繼續快轉」→ 停在 12/15 憲法期末前。
+               兩個都記整段快轉每一次 SEMFF.jump 的回傳（why／stop／待回訊息）和系統訊息出現時間（s2_<case>_stops.json），檢查 why=remind 只有一次、沒有因其他 sys 訊息多停。
   only_untaken 已考完一科，總複習只算還沒考的：
                inject：【前置／捷徑】2025-12-12（五）19:00 宿舍，存檔的 R.exam 寫入憲法期末 status done（4／5、90 分；不經過考試）→ 書桌選單提示「2 科」→ 總複習：
                        開始那句「2 科」、卡的標題沒有【憲法（上）…】、結束字幕沒有「憲法（上）」——考試時間還沒到，只有 status 讓它排除（隔離「已考」這一條）。
@@ -55,7 +60,7 @@ sys.path.insert(0, os.path.dirname(os.path.dirname(os.path.abspath(__file__))));
 J = lambda o: json.dumps(o, ensure_ascii=False)
 ENVI = lambda k, d: int(os.environ.get(k, str(d)))
 ENVS = lambda k, d: os.environ.get(k, d)
-ALL_CASES = ['S1', 'S1b', 'night', 'repeat', 'seed', 'only_untaken', 'multi_caption', 'cafe_free']
+ALL_CASES = ['S1', 'S1b', 'S2a', 'S2b', 'night', 'repeat', 'seed', 'only_untaken', 'multi_caption', 'cafe_free']
 CASES = [c.strip() for c in ENVS('CASES', ','.join(ALL_CASES)).split(',') if c.strip()]
 LABEL = ENVS('REVIEW_LABEL', '考前總複習')
 SCORE = [0, 60, 70, 80, 90, 100]   # classes3d.js S.scoreOf
@@ -697,6 +702,141 @@ async def case_S1b(pg, cdp, run, tr, S):
     await case_S1(pg, cdp, run, tr, S, variant='S1b')
 
 
+# ---------------------------------------------------------------- S2：學期快轉（SEMFF）停在考前一週週日 20:00 的提醒（5d3fbd32e）
+# 修改前基準（S2 專用）：5d3fbd32e^＝6ba2a22ad08cb70c07bbf198736f55a7c045d75b——快轉停在提醒時沒有「考前總複習／繼續快轉／先停在這裡」選單（semff_review_unit 的 a、c FAIL）。
+SEMFF_HOOK = r"""(()=>{ if(window.__SFH||typeof SEMFF==='undefined') return 'skip'; window.__SFH=1; const push=o=>{ try{ o.d=CALENDAR.dateOf(GAME.G.day).key; o.h=+(+GAME.G.hour).toFixed(3); o.z=GAME.G.zone; o.i=++window.__PLN; window.__PL.push(o); }catch(e){} };
+  const j0=SEMFF.jump; SEMFF.jump=async function(GM,to){ const t0={d:CALENDAR.dateOf(GAME.G.day).key,h:+(+GAME.G.hour).toFixed(3)}; const r=await j0.apply(this,arguments);
+    push({k:'sfjump',n:'',t:JSON.stringify({from:t0,to:+(+to).toFixed(3),why:r&&r.why,stop:r&&r.stop?r.stop.why:null,auto:r&&r.auto,msgs:r&&r.msgs,pending:typeof PHONE!=='undefined'&&PHONE.pending?PHONE.pending(GAME.G).map(m=>(PHONE.th?PHONE.th(m):(m.th||m.who||m.from))+':'+String(m.text||'').slice(0,30)):null})}); return r; };
+  const m0=SEMFF.menu; SEMFF.menu=async function(GM){ push({k:'sfmenu0',n:'',t:''}); const r=await m0.apply(this,arguments); push({k:'sfmenu1',n:'',t:JSON.stringify(r?{why:r.why,stop:r.stop?r.stop.why:null}:r)}); return r; };
+  return 'ok'; })()"""
+S2_REMIND_MENU = lambda T: any(t.startswith(LABEL) for t in T) and '繼續快轉' in T
+
+
+async def semff_run(pg, cdp, run, tag, on_remind, done_js, max_s):
+    """照玩家：宿舍床 →「快轉」→ FF_PICK（預設「過一週」）；途中對話點過去、手機收起來、別的選單照 pick_opt；
+    停在「有劇情的課快開始了」（why now）就照玩家用手機「今天」去上那一堂再回來（記錄）。
+    出現提醒選單（考前總複習／繼續快轉／先停在這裡）交給 on_remind(choices)→ 回傳要點第幾個（None＝不處理、結束）。done_js 成立就停"""
+    pick = ENVS('FF_PICK', '過一週')
+    t0 = time.time(); log = []; free_since = None; bed_fail = 0; n0 = await pl_n(pg); handled = 0
+    while time.time() - t0 < max_s:
+        s = await P.ts(pg)
+        if not s['dlg'] and not s['ch'] and not s['busy'] and await pg.evaluate(done_js): return {'ok': True, 'log': log, 'n0': n0, 'remind_handled': handled}
+        if s['ch']:
+            T = [o['t'] for o in s['ch']]
+            if S2_REMIND_MENU(T):
+                k = await on_remind(s['ch']); handled += 1
+                c = await P.clock(pg); log.append([c['key'], hm(c['h']), 'REMIND_MENU', T, None if k is None else T[k]])
+                if k is None: return {'ok': False, 'log': log, 'n0': n0, 'remind_handled': handled, 'left_menu': True}
+                await P.tap_choice(pg, cdp, k); await pg.wait_for_timeout(1300); free_since = None; continue
+            if '下一張' in T:   # 提醒選單選了總複習以後的翻頁
+                k = next((i for i, t in enumerate(T) if t.startswith('結束總複習' if ENVS('S2_READ', 'end') == 'end' else '下一張')), 0)
+                await P.tap_choice(pg, cdp, k); await pg.wait_for_timeout(900); continue
+            k = next((i for i, o in enumerate(s['ch']) if o['t'].startswith('快轉') and not o['dim']), None)
+            if k is None: k = next((i for i, o in enumerate(s['ch']) if o['t'].startswith(pick) and not o['dim']), None)
+            if k is None: k, _ = pick_opt(s['ch'])
+            c = await P.clock(pg); log.append([c['key'], hm(c['h']), c['zone'], T, T[k]])
+            run.note('%s %s %s 選項 %s → %s' % (tag, c['key'], hm(c['h']), c['zone'], J([t[:20] for t in T]), T[k][:24]))
+            await P.tap_choice(pg, cdp, k); await pg.wait_for_timeout(1300); free_since = None; continue
+        if s['phone'] and not s['dlg']:
+            await L.phone_away(pg, cdp, tries=1); await pg.wait_for_timeout(600); free_since = None; continue
+        if s['dlg']: await L.tap(pg, cdp, '#dlg'); await pg.wait_for_timeout(650); free_since = None; continue
+        if s['busy'] or s['depth'] > 0: await pg.wait_for_timeout(1000); continue
+        if free_since is None: free_since = time.time(); await pg.wait_for_timeout(1500); continue
+        last = [r for r in await rows(pg, n0, 'sfmenu1')]
+        lr = json.loads(last[-1]['t']) if last and last[-1]['t'] not in ('null', '') else None
+        if lr and lr.get('why') == 'now' and (not log or log[-1][2] != 'CLASS'):
+            nm = (lr.get('stop') or '').replace('考試：', '')
+            it = await pg.evaluate("(nm=>{ const G=GAME.G; const it=CLS.dayItems(G).find(q=>q.c&&q.c.name===nm&&!CLS.rec(G).done[q.key]); return it?{key:it.key,name:it.c.name,exam:it.exam||null}:null; })", nm)
+            c = await P.clock(pg); log.append([c['key'], hm(c['h']), 'CLASS', lr, it])
+            if it and it.get('exam'): return {'ok': False, 'log': log, 'n0': n0, 'remind_handled': handled, 'exam_now': it}
+            if it:
+                run.note('%s：快轉停在「%s快開始了」→ 照玩家手機「今天」去上（記錄）' % (tag, nm))
+                await play_trip(pg, cdp, run, tag + '_class', it); free_since = None; continue
+        if s['zone'] == 'dorm':
+            ok = await press_bed(pg, cdp, run)
+            if not ok:
+                bed_fail += 1
+                if bed_fail >= 4: return {'ok': False, 'log': log + [['bed_fail']], 'n0': n0, 'remind_handled': handled}
+            free_since = None; continue
+        if time.time() - free_since > ENVI('AWAY_S', 90):
+            c = await P.clock(pg)
+            await jump(pg, cdp, run, c['key'], c['h'], 'dorm', label='%s：人在 %s（快轉要在宿舍床上按），放回宿舍同一時間' % (tag, c['zone']))
+            log.append([c['key'], hm(c['h']), 'BACK_TO_DORM', c['zone']]); free_since = None; continue
+        await pg.wait_for_timeout(1500)
+    return {'ok': False, 'log': log + [['timeout']], 'n0': n0, 'remind_handled': handled}
+
+
+def s2_stops(R):
+    """整段快轉的所有停點：每一次 SEMFF.jump 回傳（why、stop）＋系統訊息（th sys）出現的時間"""
+    J2 = [dict(json.loads(r['t']), at={'d': r['d'], 'h': r['h']}) for r in R if r['k'] == 'sfjump']
+    sysm = [{'d': r['d'], 'h': r['h'], 't': r['t'][:80]} for r in R if r['k'] == 'msg' and r.get('n') == 'sys']
+    return J2, sysm
+
+
+async def case_S2(pg, cdp, run, tr, S, choice='review'):
+    """choice：review（S2a 選考前總複習）／cont（S2b 選繼續快轉）"""
+    V = 'S2a' if choice == 'review' else 'S2b'
+    key, h = ENVS('S2_START', '2025-12-04@22').split('@')
+    st, d = await state_at(pg, key, float(h), 'dorm')
+    n0 = await pl_n(pg)
+    await load(pg, cdp, run, st, '%s：最小存檔 %s（%s 第 %s 週）%s 宿舍（照玩家「過一週」兩次會跨過 12/14 20:00；第一次到 12/11 07:30 以前會先停在中間的事）' % (V, d['key'], d['term'], d['week'], hm(float(h))))
+    hk = await pg.evaluate(SEMFF_HOOK); run.note('%s：SEMFF 掛勾 %s' % (V, hk))
+    S['shots'] = []
+
+    async def on_remind(ch):
+        T = [o['t'] for o in ch]
+        if not S.get('menu_seen'):
+            S['menu_seen'] = {'opts': T, 'clock': await P.clock(pg)}
+            await pg.wait_for_timeout(1200); S['shots'] += await shot2(pg, run, V.lower() + '_remind_menu')
+        want = LABEL if choice == 'review' else '繼續快轉'
+        return next((i for i, t in enumerate(T) if t.startswith(want)), None)
+
+    done = ("(()=>{ const G=GAME.G, k=CALENDAR.dateOf(G.day).key; return k>='2025-12-15'; })()" if choice == 'cont' else
+            "(()=>{ const R=(window.__PL||[]).filter(r=>r.k==='sfmenu1'); const L=R[R.length-1]; if(!L) return false; try{ const o=JSON.parse(L.t); return !!o&&(o.why==='review'||o.why==='review_stop'); }catch(e){ return false; } })()")
+    res = await semff_run(pg, cdp, run, V.lower(), on_remind, done, ENVI('S2_MAX', 2400))
+    R = await tr.take(pg, n0, 'semff')
+    R = await rows(pg, n0)
+    jumps, sysm = s2_stops(R)
+    S.update(res={k: res.get(k) for k in ('ok', 'remind_handled', 'exam_now', 'left_menu')}, log=res['log'], jumps=jumps, sys_msgs=sysm, end=await P.clock(pg))
+    dump('s2_%s_stops.json' % V, {'jumps': jumps, 'sys_msgs': sysm, 'log': res['log']})
+    run.note('%s：整段快轉的停點（SEMFF.jump 回傳）%s' % (V, J([[j['at']['d'], hm(j['at']['h']), j.get('why'), j.get('stop')] for j in jumps])))
+    run.note('%s：快轉期間的系統訊息 %s' % (V, J(sysm)))
+    ms = S.get('menu_seen')
+    run.check('%s (a)：快轉停在 12/14 20:00 的提醒時跳出「%s／繼續快轉／先停在這裡」（修改前 6ba2a22ad 預期 FAIL）' % (V, LABEL), bool(ms) and ms['clock']['key'] == '2025-12-14' and abs(ms['clock']['h'] - 20) < 0.6 and '先停在這裡' in ms['opts'], J(ms))
+    nrem = sum(1 for j in jumps if j.get('why') == 'remind')
+    run.check('%s (d)：整段快轉 why=remind 的停點只有 1 次（這個提醒）' % V, nrem == 1, J([[j['at']['d'], hm(j['at']['h']), j.get('why'), j.get('stop')] for j in jumps if j.get('why') == 'remind']))
+    other = [[j['at']['d'], hm(j['at']['h']), j.get('why'), j.get('stop'), j.get('pending')] for j in jumps if j.get('why') not in ('remind', 'end')]
+    run.note('INFO %s (d)：其他停點（why stop／msg／event／out／now；msg 附 PHONE.pending，看是不是系統訊息造成的）：%s' % (V, J(other)))
+    sys_stop = [j for j in jumps if j.get('why') == 'msg' and any(isinstance(p, str) and p.startswith('sys:') for p in (j.get('pending') or []))]
+    run.check('%s (d)：沒有因為其他系統訊息（sys）多停下來（why msg 而且待回訊息是 sys）' % V, not sys_stop, J(sys_stop[:5]))
+    if choice == 'review':
+        m1 = [r for r in R if r['k'] == 'sfmenu1']; last = json.loads(m1[-1]['t']) if m1 and m1[-1]['t'] not in ('null', '') else None
+        rv = [r for r in R if r['k'] in ('review0', 'review1')]
+        c0 = await P.clock(pg)
+        await pg.wait_for_timeout(ENVI('S2_IDLE_MS', 20000)); await wait_free(pg, cdp, 30)
+        c1 = await P.clock(pg)
+        pr = await pg.evaluate(ST)
+        S.update(after_menu=last, review_rows=rv, clock_after=[c0, c1], prog=pr['prog'])
+        run.check('S2a (b)：選「%s」→ 當場複習（STUDY.review 有跑）、SEMFF.menu 回傳 why review' % LABEL, any(r['k'] == 'review1' for r in rv) and (last or {}).get('why') == 'review', J({'menu': last, 'rows': rv}))
+        run.check('S2a (b)：停在 12/14 23:00、沒有再接著快轉（等 %d 秒時間不跳）' % (ENVI('S2_IDLE_MS', 20000) // 1000), c0['key'] == '2025-12-14' and abs(c0['h'] - 23) < 0.3 and c1['key'] == c0['key'] and c1['h'] - c0['h'] < 0.5, J([c0, c1]))
+        run.check('S2a：三科讀過＝範圍全部', all((pr['prog'] or {}).get(c, {}).get('read') == (pr['prog'] or {}).get(c, {}).get('total', -1) for c, _, _, _ in LAW3), J(pr['prog']))
+        S['shots'].append(await run.shot(pg, 's2a_after'))
+    else:
+        c = await P.clock(pg)
+        ex = [j for j in jumps if j['at']['d'] == '2025-12-15']
+        stop_exam = any(j.get('why') == 'stop' and '憲法（上）' in (j.get('stop') or '') for j in jumps) or ('憲法（上）' in J(res.get('exam_now') or {}))
+        run.check('S2b (c)：選「繼續快轉」→ 期末考那天停下來（12/15 憲法（上）考試，09:10 以前）', stop_exam and c['key'] == '2025-12-15' and c['h'] < 9 + 10 / 60, J({'clock': c, 'jumps_1215': ex, 'exam_now': res.get('exam_now')}))
+        S['shots'] += await shot2(pg, run, 's2b_exam_day')
+
+
+async def case_S2a(pg, cdp, run, tr, S):
+    await case_S2(pg, cdp, run, tr, S, 'review')
+
+
+async def case_S2b(pg, cdp, run, tr, S):
+    await case_S2(pg, cdp, run, tr, S, 'cont')
+
+
 async def case_night(pg, cdp, run, tr, S):
     for h, expect_dim in ((21.5, True), (21.0, True), (20.75, False)):
         tag = 'night_%s' % hm(h).replace(':', '')
@@ -871,7 +1011,7 @@ async def case_cafe_free(pg, cdp, run, tr, S):
     await tr.take(pg, n0, 'cafe')
 
 
-RUNNERS = {'S1': case_S1, 'S1b': case_S1b, 'night': case_night, 'repeat': case_repeat, 'seed': case_seed, 'only_untaken': case_only_untaken, 'multi_caption': case_multi_caption, 'cafe_free': case_cafe_free}
+RUNNERS = {'S1': case_S1, 'S1b': case_S1b, 'S2a': case_S2a, 'S2b': case_S2b, 'S2': case_S2a, 'night': case_night, 'repeat': case_repeat, 'seed': case_seed, 'only_untaken': case_only_untaken, 'multi_caption': case_multi_caption, 'cafe_free': case_cafe_free}
 
 
 async def main():
