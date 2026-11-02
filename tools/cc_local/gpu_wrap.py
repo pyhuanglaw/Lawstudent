@@ -4,7 +4,7 @@
 做的事（只在這個 Python 程序裡，monkeypatch playwright 的 BrowserType.launch）：
   - executable_path 指到不存在的檔（例如雲端的 /opt/pw-browsers/chromium）＝拿掉，改用本機 playwright 裝的 chromium。
   - 拿掉 SwiftShader 參數（--use-angle=swiftshader、--enable-unsafe-swiftshader、--use-gl=swiftshader）。
-  - CC_GPU=1（預設）：加 --ignore-gpu-blocklist --use-gl=angle --use-angle=d3d11，headless=False（Windows 上 headless 常會退回軟體算圖）。
+  - CC_GPU=1（預設）：加 --ignore-gpu-blocklist --use-gl=angle --use-angle=d3d11；預設無視窗（CC_HEADLESS=0 改成有視窗）。使用者電腦實測 d3d11 無視窗仍是 RX 6600M、26.6 fps。
   - CC_GPU=0：只做第一點，其他照原樣。
 """
 import os, sys, runpy
@@ -21,7 +21,7 @@ def fix_kwargs(kw):
     if GPU:
         for a in GPU_ARGS:
             if a not in args: args.append(a)
-        kw['headless'] = False
+        kw['headless'] = os.environ.get('CC_HEADLESS', '1') != '0'   # 00_gpu（c2d0c24bc）：d3d11 無視窗 26.6 fps ≥ 有視窗 17.1 fps，而且不會被誤關
     kw['args'] = args
     return kw
 
