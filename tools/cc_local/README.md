@@ -18,6 +18,20 @@ python "$env:USERPROFILE\Documents\Lawstudent_cclocal\tools\cc_local\run_queue.p
 - 預設跑完整個佇列一次就結束（`--once` 是預設）。要再跑就再貼第 3 行。
 - **runner 本身改版後要重新啟動才生效**：正在跑的程序已經載入舊程式碼（佇列和探針不受影響，每一項開始前都會抓最新的）。
 
+### 建議入口：永久外殼 run_forever.ps1（2026-11-02 20:1x 起）
+
+```powershell
+powershell -ExecutionPolicy Bypass -File "$env:USERPROFILE\Documents\Lawstudent_cclocal\tools\cc_local\run_forever.ps1"
+```
+
+外殼在迴圈裡跑 `python run_queue.py --parallel 2`：
+- runner 每跑完一項，就合併 cc-testing，比對自己的 sha256。和啟動時不同，代表 runner 有新版：手上的項目跑完、push 完以後，用 **exit 75** 結束，外殼立刻用新版重跑。**runner 的修正不用使用者再重啟。**
+- exit 0（佇列這一輪跑完）：等 300 秒再跑。
+- 其他 exit：等 60 秒再跑。
+- Ctrl+C 才真正停。
+- 單元測試：`python3 tools/cc_local/restart_unit.py`。等價的 sh 版是 `run_forever.sh`，雲端驗證用。
+- 操作卡：CC_29「新操作卡 v2」。
+
 ### 退回用：舊的 PowerShell runner（沒有改，出問題時用）
 
 ```powershell

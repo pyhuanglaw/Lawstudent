@@ -30,7 +30,7 @@
   ENV：k=v 只傳給這一項的子程序（不改 runner 自己的環境，並行時不互相干擾）；
        XARGS（{url} {url2} {out}）、SHA2（第二個 worktree＋伺服器＝{url2}）、RERUN（強制重跑記號）同舊版。
 """
-import argparse, glob, json, os, platform, queue, re, shutil, socket, subprocess, sys, threading, time
+import argparse, glob, hashlib, json, os, platform, queue, re, shutil, socket, subprocess, sys, threading, time
 from collections import OrderedDict
 from datetime import datetime
 
@@ -51,6 +51,18 @@ _print_lock = threading.Lock()
 GIT_LOCK = threading.RLock()       # 所有 git 寫入（worktree add/remove、merge、add、commit、push）排隊
 PORT_LOCK = threading.Lock()
 _reserved_ports = set()
+
+
+RESTART_EXIT = 75     # BB 2026-11-02 20:08：runner 自己有新版 → 跑完手上的項目、push 完，用 75 結束；run_forever.ps1 收到 75 立刻重跑新版
+SELF_FILE = os.path.abspath(__file__)
+
+
+def file_hash(path):
+    try:
+        with open(path, 'rb') as fh:
+            return hashlib.sha256(fh.read()).hexdigest()
+    except OSError:
+        return ''
 
 
 def log(msg):
@@ -205,6 +217,8 @@ class Runner(object):
         self.queue_file = os.path.abspath(a.queue) if a.queue else None
         self.out_root = os.path.join(self.work, 'docs', 'story_planning', 'CC', 'local_out')
         self.summary = []
+        self.self_hash = file_hash(SELF_FILE)    # 啟動時自己的雜湊；每次合併 cc-testing 以後比對
+        self.restart_pending = False
         self.head = ''
         self.lawww2 = ''
         self.py = sys.executable
@@ -581,6 +595,15 @@ class Runner(object):
                 self.refresh()
                 items = self.read_queue()
                 need_refresh = False
+                if not self.restart_pending and file_hash(SELF_FILE) != self.self_hash:
+                    self.restart_pending = True
+                    log('run_queue.py has a new version - finishing the %d running item(s), then restarting (exit %d)' % (len(running), RESTART_EXIT))
+            if self.restart_pending:
+                if not running:
+                    break
+                fin = done_q.get()
+                running.pop(fin, None)
+                continue
             blender_running = any(r[1].kind == 'blender' for r in running.values())
             while len(running) < self.a.parallel and not blender_running:
                 pick = None
@@ -635,6 +658,10 @@ class Runner(object):
         for line in self.summary:
             print(line)
         print('Results: %s  (%s)' % (self.out_root, 'not pushed: --no-push' if self.a.no_push else 'pushed to origin/' + self.branch))
+        if self.restart_pending:
+            print('run_queue.py was updated - exit %d so run_forever.ps1 restarts the new version now' % RESTART_EXIT)
+            return RESTART_EXIT
+        return 0
 
 
 def parse_args(argv):
@@ -658,4 +685,4 @@ def parse_args(argv):
 
 
 if __name__ == '__main__':
-    Runner(parse_args(sys.argv[1:])).main()
+    sys.exit(Runner(parse_args(sys.argv[1:])).main())
