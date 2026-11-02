@@ -4267,3 +4267,18 @@
     1. 被頭髮、電線圈圍起來、顏色接近原本淺灰底的小區域，也要去掉（不能只從外框往內去）；
     2. 邊緣做 1–2 px 去色邊（defringe），不留亮線；
     3. 用深灰、洋紅底各放大一次自己檢查。
+
+#### 第 107 組 BB 驗收（2026-11-02 07:1x，BB（帳號 A）；使用者 07:03 分兩則傳十張，用開發分支的 `chat_images.py --since` 從對話紀錄（queued_command）取出，縮圖核對過對應；存 `incoming/bg107_使用者1102/`，1672×941）
+- **十張都 PASS**：沒有人、沒有動物，沒有看得懂的字，要求的東西都有。
+  - police_station：值班櫃台、登記簿、筆、桌上電話、公告欄是空白色塊，門口有警用機車的一角。
+  - gg_scooter_shop：架起來的機車、輪胎、工具箱、矮板凳、掛滿工具的牆，門口停著幾台二手車。
+  - gg_basement_gig：矮舞台、兩支麥克風、音箱、鼓組、捐款箱、撕了一半的海報。大鼓鼓面上有一小團像字的筆畫，看不出是什麼字，不影響。
+  - zq_home：貓跳台、貓抓板、逗貓棒、空碗、兩杯麥茶，沒有畫貓。
+  - brunch_back：平底鍋、一疊盤子、雞蛋、計時器、空白的黑板。
+  - jp_temple_hydrangea：濕的石階，藍、紫繡球花，山門、杉樹，雨後的光。
+  - jp_laundry：正在轉的洗衣機、長桌、塑膠椅上攤開的書、販賣機，外面下雨。
+  - jp_dorm_lobby：鞋櫃、傘架、沙發、桌上的通知單、布告欄、販賣機、信箱，窗外是腳踏車棚。**BB 決定換掉現在借用的 jp_lounge**：這張就是一樓大廳，比交誼廳對得上。
+  - prof_door：研究室門開著一條縫，透出燈光和書架，空白名牌、軟木板。光線是傍晚，可以接受（兩場都在下午、傍晚）。
+  - tainan_school：老榕樹、鳳凰木、紅磚步道、米色牆紅瓦校舍、腳踏車、長椅。
+- **給 LAWWW**：放進 assets/bg。八個新代號要在場景加 bg（police_station、brunch_back、zq_home、gg_basement_gig、gg_scooter_shop、tainan_school、jp_laundry 兩場、jp_temple_hydrangea）；outings3d.js 的 `jp_dorm_lobby`、`prof_door` 改成指到新圖。
+- **場景美術 ART_APPROVED（D120）**：要等 CC 在遊戲裡截圖確認對話時的構圖以後才標。
