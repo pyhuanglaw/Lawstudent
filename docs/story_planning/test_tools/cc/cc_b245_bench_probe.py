@@ -62,14 +62,20 @@ async def main():
             await pg.evaluate("(()=>{ window.__ccToast=[]; const el=document.getElementById('toast'); if(el) new MutationObserver(()=>{ const t=(el.textContent||'').trim(); if(t) window.__ccToast.push(t); }).observe(el,{childList:true,subtree:true,characterData:true}); })()")
             lab = await C.tap_interact(pg, cdp)
             info('c 點了 #interact：「%s」' % lab)
+            if not lab:
+                # 修正後 E.nearestInteractable 跳過有人的座位（n.seat）：站在有人的那個座位前面，#interact 不出現＝遊戲不讓玩家選那個位子
+                check('c 照玩家：站在有人讀書的座位前面，#interact 不出現（E.nearestInteractable 跳過有人的座位），玩家沒有坐到人身上', ni is None or (ni.get('seat') and far_from_all(ni['seat'], R2)), J(ni))
+                await pg.screenshot(path=os.path.join(OUT, 'bench_c_no_interact.png'))
             ch = []; sat = None
-            for _ in range(100):
+            for _ in range(100 if lab else 0):
                 ch = await C.choices(pg)
                 sat = await pg.evaluate("(()=>{ const P=GAME.E.player, o=P.obj.position; return {x:+o.x.toFixed(3), z:+o.z.toFixed(3), pose:P.pose, seat:P.seat?{x:+P.seat.x.toFixed(3),z:+P.seat.z.toFixed(3)}:null}; })()")
                 toasts = await pg.evaluate("window.__ccToast||[]")
                 if ch or any(t.startswith('長椅坐滿了') or t.startswith('有人坐了') for t in toasts): break
                 await pg.wait_for_timeout(500)
             toasts = await pg.evaluate("window.__ccToast||[]")
+            if not lab:
+                check('沒有 JS 例外', not errs, J(errs[:3])); await b.close(); return C.finish()
             await pg.screenshot(path=os.path.join(OUT, 'bench_c_after_tap.png'))
             full = any(t.startswith('長椅坐滿了') or t.startswith('有人坐了') for t in toasts)
             info('c 結果：玩家 %s；選項 %s；toast %s' % (J(sat), J(ch), J(toasts)))
