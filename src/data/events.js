@@ -991,8 +991,9 @@ const STORY_EVENTS=[
      大一下第 8 週週三 4/15 傍晚，在麵店（進店、或已經在店裡）只演 PS_BH 那幾行。4/15 不是固定的麵店日：17:00 麵店團群組柏翰「今天晚上麵店，有空的來。」、沛珊「我會到。」（story3d.js phoneRules）。
      沒在場、在麵店團群組、認識沛珊、沒和她交往＝20:30 阿哲的滷蛋照片（missedPhoto，原本考完的晚餐的 outingMissed；tag 照舊 zhe_supper_mid2_egg，舊存檔收過的不重收），記「聽說」（HEARD_ABOUT）。沒去不扣任何東西。
      時間到 20:30 為止（20:30 照片就傳了）*/
-  { id:'ev_psbh_public_0415', title:'上禮拜的事', participants:[], location:'noodle', trigger:'auto', term:['Y1S2'], weeks:[8], weekday:[3], time:[17,20.5], once:true, background:'blur', prereq:PS_BH,
-    dialogue:[ {speaker:null,text:'柏翰幫沛珊把滷蛋切成兩半。'},   /* PS_BH：認識沛珊、沒有和她交往（AA_374 第 11 項：柏翰×沛珊那一段只在玩家沒有和沛珊交往時發生）*/
+  { id:'ev_psbh_public_0415', title:'上禮拜的事', participants:[], location:'noodle', trigger:'auto', term:['Y1S2'], weeks:[8], weekday:[3], time:[17,20.5], once:true, background:'dark', prereq:PS_BH,
+    dialogue:[ {scene:'阿鳳麵店・長桌',bg:'noodle_table'},   /* UX-PSBH-BG（BB 16:49，CC_27）：模糊 3D 看不出在麵店、誰在講話（沛珊、柏翰沒有立繪）＝用麵店的 2D 背景，同 ev_midterm_supper_y1s2 */
+      {speaker:null,text:'柏翰幫沛珊把滷蛋切成兩半。'},   /* PS_BH：認識沛珊、沒有和她交往（AA_374 第 11 項：柏翰×沛珊那一段只在玩家沒有和沛珊交往時發生）*/
       {speaker:'zhe',expression:'surprised',text:'……喔。'},
       {speaker:null,text:'全桌安靜三秒。'},
       {speaker:'classmate_peishan',expression:'neutral',text:'對，我們在一起了。你們吃你們的。'},

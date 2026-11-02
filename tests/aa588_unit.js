@@ -47,7 +47,8 @@ await sec(1,async()=>{ const e=ev('ev_psbh_public_0415'), sup=ev('ev_midterm_sup
   const ok=at(D415,18,'noodle',false), early=at(D415,16.5,'noodle',false), late=at(D415,20.6,'noodle',false), d14=at(D415-1,18,'noodle',false), d16=at(D415+1,18,'noodle',false), other=at(D415,18,'campus',false), dt=at(D415,18,'noodle',true);
   check('1. 4/15 傍晚在麵店（17:00～20:30）才演；16:30、20:36、4/14、4/16、不在麵店、和沛珊交往中都不演',ok&&!early&&!late&&!d14&&!d16&&!other&&!dt,J({ok,early,late,d14,d16,other,dt}));
   check('1. trigger auto（進店、或已經在店裡）、只一次',e.trigger==='auto'&&e.location==='noodle'&&e.once===true);
-  at(D415,18,'noodle',false); H.said=[]; await EVENTS.run(e); const L=H.said.map(s=>s.t);
+  at(D415,18,'noodle',false); H.said=[]; H.bgs=[]; await EVENTS.run(e); const L=H.said.map(s=>s.t);
+  check('1. UX-PSBH-BG（BB 16:49）：不用模糊 3D，用麵店的 2D 背景 noodle_table（沛珊、柏翰沒有立繪，看得出是麵店）',e.background!=='blur'&&e.dialogue[0].bg==='noodle_table'&&JSON.stringify(H.bgs).includes('noodle_table'),J({bg:e.background,bgs:H.bgs}));
   check('1. 只演 PS_BH 那幾行（滷蛋、「……喔。」、安靜三秒、沛珊、柏翰「上禮拜的事。」、推回滷蛋）',J(L)===J(PUB),J(L));
   check('1. 期末那頓（考完的晚餐）拿掉公開那一段、沒有 outingMissed（照片搬走）',!JSON.stringify(sup.dialogue.map(l=>l.text||'')).match(/滷蛋切成兩半|對，我們在一起了|上禮拜的事/)&&typeof sup.outingMissed!=='function');
   /* 群組 17:00 */
