@@ -2,7 +2,7 @@
 """增量交接（使用者 2026-10-17 P0「交接制度效能改善」）：四職位已核對水位線、結構化分類、交付當下登記、永久 WIP 索引。
 
 檔案（都在 docs/handoff/）：
-  watermarks.json   四職位各一條「已核對到哪個 commit」：{roles: {職位: {branch, sha（完整）, at, by, scanned, open: [ID…], history: […]}}}
+  watermarks.json   每個職位（ROLES）各一條「已核對到哪個 commit」：{roles: {職位: {branch, sha（完整）, at, by, scanned, open: [ID…], history: […]}}}
                     只有 incr --advance 在「全部分類、沒有異常、分類結果已 commit＋push」時才前進；舊的寫進 history。
   outbox_<職位>.json 各職位在**自己的分支**上，交付或留 WIP 的當下登記（LAWWW 用 incr 讀；不靠 commit 訊息猜）：
                     {role, entries: [{task, branch, sha, files: [...], state, remaining, next, noDirectIntegrate, receiver, ack}]}
@@ -19,7 +19,7 @@ CLOSED_WIP = {'已整合', '已測試', '已驗收', '取消'}
 KINDS = {'not_delivery', 'covered', 'wip', 'handoff_record'}
 ACKS = ['未派', 'SENT', 'DELIVERED', 'ACK', 'ACTIONED', '自領']
 OUTBOX_KEYS = ('task', 'branch', 'sha', 'files', 'state', 'next', 'receiver', 'ack')
-ROLES = ['LAWWW', 'LAWWW2', 'AA', 'BB']
+ROLES = ['LAWWW', 'LAWWW2', 'AA', 'BB', 'CC']   # CC（D119／HV-22，2026-11-02）：分支 claude/cc-testing，outbox_CC.json 在那條分支
 WM = 'docs/handoff/watermarks.json'
 WIP = 'docs/handoff/wip.json'
 OUTBOX = 'docs/handoff/outbox_{role}.json'
@@ -210,6 +210,7 @@ PROGRESS_FILES = {   # 各職位自己的交接檔（進度紀錄）：只改這
     'LAWWW2': ['docs/art-rebuild/second_ai/HANDOFF.md'],
     'AA': ['docs/story_planning/AA_交接紀錄.md'],
     'BB': ['docs/story_planning/BB_00_協作規範與交接紀錄.md'],
+    'CC': ['docs/story_planning/CC/CC_00_交接紀錄.md'],   # 只算交接檔；CC_01 測試執行紀錄、test_tools/cc/ 照 outbox 登記分類
 }
 
 
