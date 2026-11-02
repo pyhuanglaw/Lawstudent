@@ -1,27 +1,10 @@
 {
- "rows": [
-  {
-   "k": "bg",
-   "n": "begin",
-   "t": "{\"image\":\"assets/bg/home_dining_day.webp\"}",
-   "d": "2029-06-26",
-   "h": 11.261,
-   "z": "dorm"
-  },
-  {
-   "k": "choose",
-   "n": "",
-   "t": "存檔〔存到存檔欄位〕｜睡覺〔隔天早上在家醒來〕｜去玄關拿車鑰匙（取車）｜在家休息一下〔一小時〕｜回宿舍〔捷運＋公車 約 40 分鐘〕",
-   "d": "2029-06-26",
-   "h": 11.261,
-   "z": "dorm"
-  }
- ],
+ "rows": [],
  "start": {
   "clock": {
    "key": "2029-06-26",
    "day": 1379,
-   "h": 11.255,
+   "h": 11.254,
    "zone": "dorm",
    "term": null,
    "week": null
@@ -158,7 +141,7 @@
   "clock": {
    "key": "2029-06-26",
    "day": 1379,
-   "h": 11.261,
+   "h": 11.254,
    "zone": "dorm",
    "term": null,
    "week": null
@@ -299,8 +282,8 @@
  "answered": {},
  "shots": {
   "menu0": [
-   "C:\\Users\\USER\\Documents\\Lawstudent_cclocal\\docs\\story_planning\\CC\\local_out\\R5_mk12\\out\\101_home_late_menu0_land.png",
-   "C:\\Users\\USER\\Documents\\Lawstudent_cclocal\\docs\\story_planning\\CC\\local_out\\R5_mk12\\out\\102_home_late_menu0_port.png"
+   "C:\\Users\\USER\\Documents\\Lawstudent_cclocal\\docs\\story_planning\\CC\\local_out\\R5_mk12\\out\\108_home_late_menu0_land.png",
+   "C:\\Users\\USER\\Documents\\Lawstudent_cclocal\\docs\\story_planning\\CC\\local_out\\R5_mk12\\out\\109_home_late_menu0_port.png"
   ]
  },
  "sha": "b1b249873",

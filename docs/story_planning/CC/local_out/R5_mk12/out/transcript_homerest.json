@@ -5,7 +5,7 @@
    "n": "begin",
    "t": "{\"image\":\"assets/bg/home_dining_day.webp\"}",
    "d": "2029-06-26",
-   "h": 10.509,
+   "h": 10.511,
    "z": "dorm"
   },
   {
@@ -13,7 +13,7 @@
    "n": "",
    "t": "出發：補考（法律系館A）〔強制執行法　10:00　捷運＋公車 約 40 分鐘〕｜存檔〔存到存檔欄位〕｜睡覺〔隔天早上在家醒來〕｜去玄關拿車鑰匙（取車）｜在家休息一下〔一小時〕｜回宿舍〔捷運＋公車 約 40 分鐘〕",
    "d": "2029-06-26",
-   "h": 10.509,
+   "h": 10.511,
    "z": "dorm"
   },
   {
@@ -22,7 +22,7 @@
    "c": null,
    "t": "會錯過：10:00 補考：強制執行法。",
    "d": "2029-06-26",
-   "h": 10.509,
+   "h": 10.511,
    "z": "dorm"
   },
   {
@@ -30,7 +30,7 @@
    "n": "",
    "t": "照樣｜先不要",
    "d": "2029-06-26",
-   "h": 10.509,
+   "h": 10.511,
    "z": "dorm"
   },
   {
@@ -38,7 +38,7 @@
    "n": "",
    "t": "存檔〔存到存檔欄位〕｜睡覺〔隔天早上在家醒來〕｜去玄關拿車鑰匙（取車）｜在家休息一下〔一小時〕｜回宿舍〔捷運＋公車 約 40 分鐘〕",
    "d": "2029-06-26",
-   "h": 11.509,
+   "h": 11.511,
    "z": "dorm"
   },
   {
@@ -47,7 +47,7 @@
    "c": null,
    "t": "到了說一聲。",
    "d": "2029-06-26",
-   "h": 11.509,
+   "h": 11.511,
    "z": "dorm"
   },
   {
@@ -55,7 +55,7 @@
    "n": "",
    "t": "回到宿舍。",
    "d": "2029-06-26",
-   "h": 12.209,
+   "h": 12.211,
    "z": "dorm"
   },
   {
@@ -63,7 +63,7 @@
    "n": "{\"x\":0,\"z\":2.4,\"yaw\":3.141592653589793}",
    "t": "dorm",
    "d": "2029-06-26",
-   "h": 12.209,
+   "h": 12.211,
    "z": "dorm"
   },
   {
@@ -71,7 +71,7 @@
    "n": "start",
    "t": "fd_mk_missed",
    "d": "2029-06-26",
-   "h": 12.21,
+   "h": 12.213,
    "z": "dorm"
   },
   {
@@ -80,7 +80,7 @@
    "c": null,
    "t": "（補考的時間過了。強制執行法，你沒有去考。）",
    "d": "2029-06-26",
-   "h": 12.21,
+   "h": 12.213,
    "z": "dorm"
   },
   {
@@ -89,7 +89,7 @@
    "c": null,
    "t": "（證書要等下學期。九月，你要回學校重修。）",
    "d": "2029-06-26",
-   "h": 12.21,
+   "h": 12.213,
    "z": "dorm"
   },
   {
@@ -98,7 +98,7 @@
    "c": null,
    "t": "（今年的國考，考不成了。明年再報。）",
    "d": "2029-06-26",
-   "h": 12.21,
+   "h": 12.213,
    "z": "dorm"
   },
   {
@@ -106,7 +106,7 @@
    "n": "end",
    "t": "fd_mk_missed",
    "d": "2029-06-26",
-   "h": 12.21,
+   "h": 12.213,
    "z": "dorm"
   },
   {
@@ -122,7 +122,7 @@
    "n": "",
    "t": "ev_r409_last",
    "d": "2029-06-27",
-   "h": 23.001,
+   "h": 23.002,
    "z": "dorm"
   },
   {
@@ -130,7 +130,7 @@
    "n": "begin",
    "t": "blur",
    "d": "2029-06-27",
-   "h": 23.001,
+   "h": 23.002,
    "z": "dorm"
   },
   {
@@ -138,7 +138,7 @@
    "n": "",
    "t": "最後一晚",
    "d": "2029-06-27",
-   "h": 23.001,
+   "h": 23.002,
    "z": "dorm"
   },
   {
@@ -147,7 +147,7 @@
    "c": null,
    "t": "（紙箱都封好了。學弟們先走了，房間只剩兩張床有東西。）",
    "d": "2029-06-27",
-   "h": 23.001,
+   "h": 23.002,
    "z": "dorm"
   },
   {
@@ -156,7 +156,7 @@
    "c": null,
    "t": "（阿哲從二樓上來，手上兩罐飲料，一罐給你，一罐給柏翰。）",
    "d": "2029-06-27",
-   "h": 23.001,
+   "h": 23.002,
    "z": "dorm"
   },
   {
@@ -165,7 +165,7 @@
    "c": "zhe",
    "t": "我自己的喝完了。",
    "d": "2029-06-27",
-   "h": 23.001,
+   "h": 23.002,
    "z": "dorm"
   },
   {
@@ -174,7 +174,7 @@
    "c": "classmate_bohan",
    "t": "……二十三點了。",
    "d": "2029-06-27",
-   "h": 23.001,
+   "h": 23.002,
    "z": "dorm"
   },
   {
@@ -183,7 +183,7 @@
    "c": "zhe",
    "t": "知道啦。最後一次。",
    "d": "2029-06-27",
-   "h": 23.001,
+   "h": 23.002,
    "z": "dorm"
   },
   {
@@ -191,7 +191,7 @@
    "n": "",
    "t": "「（去關燈）」｜「再聊一下。」",
    "d": "2029-06-27",
-   "h": 23.001,
+   "h": 23.002,
    "z": "dorm"
   },
   {
@@ -200,7 +200,7 @@
    "c": null,
    "t": "（燈關了。窗外的路燈照進來一點。三個人都沒說話。）",
    "d": "2029-06-27",
-   "h": 23.001,
+   "h": 23.002,
    "z": "dorm"
   },
   {
@@ -216,7 +216,7 @@
    "n": "{\"x\":0,\"z\":5.6,\"yaw\":3.141592653589793,\"lv\":0}",
    "t": "dorm_hall",
    "d": "2029-06-28",
-   "h": 10.001,
+   "h": 10.002,
    "z": "dorm"
   },
   {
@@ -224,7 +224,7 @@
    "n": "",
    "t": "你的房間在四樓，409。樓梯在走廊北邊。",
    "d": "2029-06-28",
-   "h": 10.001,
+   "h": 10.002,
    "z": "dorm_hall"
   },
   {
@@ -232,7 +232,7 @@
    "n": "begin",
    "t": "blur",
    "d": "2029-06-28",
-   "h": 10.001,
+   "h": 10.002,
    "z": "dorm_hall"
   },
   {
@@ -241,7 +241,7 @@
    "c": null,
    "t": "（宿舍期滿。舍監在門口收鑰匙。）",
    "d": "2029-06-28",
-   "h": 10.001,
+   "h": 10.002,
    "z": "dorm_hall"
   },
   {
@@ -250,7 +250,7 @@
    "c": null,
    "t": "（409 的鑰匙交出去的時候，舍監看了一下名單：「四年，四個房間。」）",
    "d": "2029-06-28",
-   "h": 10.001,
+   "h": 10.002,
    "z": "dorm_hall"
   },
   {
@@ -259,7 +259,7 @@
    "c": null,
    "t": "「冬天的衣服」那一箱，最後一個搬上車。",
    "d": "2029-06-28",
-   "h": 10.001,
+   "h": 10.002,
    "z": "dorm_hall"
   },
   {
@@ -268,7 +268,7 @@
    "c": null,
    "t": "（你租的套房在公館，走路到總圖十分鐘。）",
    "d": "2029-06-28",
-   "h": 10.701,
+   "h": 10.702,
    "z": "dorm_hall"
   },
   {
@@ -276,7 +276,7 @@
    "n": "公館的套房",
    "t": "",
    "d": "2029-06-28",
-   "h": 10.701,
+   "h": 10.702,
    "z": "dorm_hall"
   },
   {
@@ -285,7 +285,7 @@
    "c": null,
    "t": "（兵役的時間，你排在考試之後。）",
    "d": "2029-06-28",
-   "h": 10.701,
+   "h": 10.702,
    "z": "dorm_hall"
   },
   {
@@ -293,7 +293,7 @@
    "n": "{\"x\":-35.6,\"z\":13.2,\"yaw\":0}",
    "t": "gongguan",
    "d": "2029-06-28",
-   "h": 10.701,
+   "h": 10.702,
    "z": "dorm_hall"
   }
  ],
@@ -301,7 +301,7 @@
   "clock": {
    "key": "2029-06-28",
    "day": 1381,
-   "h": 10.707,
+   "h": 10.709,
    "zone": "gongguan",
    "term": null,
    "week": null
@@ -443,28 +443,28 @@
  ],
  "shots": {
   "menu0": [
-   "C:\\Users\\USER\\Documents\\Lawstudent_cclocal\\docs\\story_planning\\CC\\local_out\\R5_mk12\\out\\53_homerest_menu0_land.png",
-   "C:\\Users\\USER\\Documents\\Lawstudent_cclocal\\docs\\story_planning\\CC\\local_out\\R5_mk12\\out\\54_homerest_menu0_port.png"
+   "C:\\Users\\USER\\Documents\\Lawstudent_cclocal\\docs\\story_planning\\CC\\local_out\\R5_mk12\\out\\57_homerest_menu0_land.png",
+   "C:\\Users\\USER\\Documents\\Lawstudent_cclocal\\docs\\story_planning\\CC\\local_out\\R5_mk12\\out\\58_homerest_menu0_port.png"
   ],
   "confirm": [
-   "C:\\Users\\USER\\Documents\\Lawstudent_cclocal\\docs\\story_planning\\CC\\local_out\\R5_mk12\\out\\55_homerest_confirm_land.png",
-   "C:\\Users\\USER\\Documents\\Lawstudent_cclocal\\docs\\story_planning\\CC\\local_out\\R5_mk12\\out\\56_homerest_confirm_port.png"
+   "C:\\Users\\USER\\Documents\\Lawstudent_cclocal\\docs\\story_planning\\CC\\local_out\\R5_mk12\\out\\59_homerest_confirm_land.png",
+   "C:\\Users\\USER\\Documents\\Lawstudent_cclocal\\docs\\story_planning\\CC\\local_out\\R5_mk12\\out\\60_homerest_confirm_port.png"
   ],
   "menu_after": [
-   "C:\\Users\\USER\\Documents\\Lawstudent_cclocal\\docs\\story_planning\\CC\\local_out\\R5_mk12\\out\\57_homerest_menu_after_land.png",
-   "C:\\Users\\USER\\Documents\\Lawstudent_cclocal\\docs\\story_planning\\CC\\local_out\\R5_mk12\\out\\58_homerest_menu_after_port.png"
+   "C:\\Users\\USER\\Documents\\Lawstudent_cclocal\\docs\\story_planning\\CC\\local_out\\R5_mk12\\out\\61_homerest_menu_after_land.png",
+   "C:\\Users\\USER\\Documents\\Lawstudent_cclocal\\docs\\story_planning\\CC\\local_out\\R5_mk12\\out\\62_homerest_menu_after_port.png"
   ],
   "w:missed": [
-   "C:\\Users\\USER\\Documents\\Lawstudent_cclocal\\docs\\story_planning\\CC\\local_out\\R5_mk12\\out\\59_homerest_line_missed_land.png",
-   "C:\\Users\\USER\\Documents\\Lawstudent_cclocal\\docs\\story_planning\\CC\\local_out\\R5_mk12\\out\\60_homerest_line_missed_port.png"
+   "C:\\Users\\USER\\Documents\\Lawstudent_cclocal\\docs\\story_planning\\CC\\local_out\\R5_mk12\\out\\63_homerest_line_missed_land.png",
+   "C:\\Users\\USER\\Documents\\Lawstudent_cclocal\\docs\\story_planning\\CC\\local_out\\R5_mk12\\out\\64_homerest_line_missed_port.png"
   ],
   "w:cert": [
-   "C:\\Users\\USER\\Documents\\Lawstudent_cclocal\\docs\\story_planning\\CC\\local_out\\R5_mk12\\out\\61_homerest_line_cert_land.png",
-   "C:\\Users\\USER\\Documents\\Lawstudent_cclocal\\docs\\story_planning\\CC\\local_out\\R5_mk12\\out\\62_homerest_line_cert_port.png"
+   "C:\\Users\\USER\\Documents\\Lawstudent_cclocal\\docs\\story_planning\\CC\\local_out\\R5_mk12\\out\\65_homerest_line_cert_land.png",
+   "C:\\Users\\USER\\Documents\\Lawstudent_cclocal\\docs\\story_planning\\CC\\local_out\\R5_mk12\\out\\66_homerest_line_cert_port.png"
   ],
   "w:bar": [
-   "C:\\Users\\USER\\Documents\\Lawstudent_cclocal\\docs\\story_planning\\CC\\local_out\\R5_mk12\\out\\63_homerest_line_bar_land.png",
-   "C:\\Users\\USER\\Documents\\Lawstudent_cclocal\\docs\\story_planning\\CC\\local_out\\R5_mk12\\out\\64_homerest_line_bar_port.png"
+   "C:\\Users\\USER\\Documents\\Lawstudent_cclocal\\docs\\story_planning\\CC\\local_out\\R5_mk12\\out\\67_homerest_line_bar_land.png",
+   "C:\\Users\\USER\\Documents\\Lawstudent_cclocal\\docs\\story_planning\\CC\\local_out\\R5_mk12\\out\\68_homerest_line_bar_port.png"
   ]
  },
  "sha": "b1b249873",

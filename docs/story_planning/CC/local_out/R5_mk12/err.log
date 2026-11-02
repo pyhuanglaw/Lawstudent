@@ -1,26 +1,39 @@
-[gpu_wrap 117.4s] page close url=http://127.0.0.1:8801/index.html?turbo
-[gpu_wrap 117.4s] BROWSER DISCONNECTED
-[gpu_wrap 231.7s] page close url=http://127.0.0.1:8801/index.html?turbo
-[gpu_wrap 231.7s] BROWSER DISCONNECTED
-[gpu_wrap 344.9s] page close url=http://127.0.0.1:8801/index.html?turbo
-[gpu_wrap 344.9s] BROWSER DISCONNECTED
-[gpu_wrap 625.9s] page close url=http://127.0.0.1:8801/index.html?turbo
-[gpu_wrap 625.9s] BROWSER DISCONNECTED
-[gpu_wrap 728.3s] page close url=http://127.0.0.1:8801/index.html?turbo
-[gpu_wrap 728.3s] BROWSER DISCONNECTED
-[gpu_wrap 802.2s] page close url=http://127.0.0.1:8801/index.html?turbo
-[gpu_wrap 802.3s] BROWSER DISCONNECTED
-[gpu_wrap 883.3s] page close url=http://127.0.0.1:8801/index.html?turbo
-[gpu_wrap 883.3s] BROWSER DISCONNECTED
-[gpu_wrap 1007.5s] page close url=http://127.0.0.1:8801/index.html?turbo
-[gpu_wrap 1007.5s] BROWSER DISCONNECTED
-[gpu_wrap 1040.8s] page close url=http://127.0.0.1:8801/index.html?turbo
-[gpu_wrap 1040.8s] BROWSER DISCONNECTED
-[gpu_wrap 1139.9s] page close url=http://127.0.0.1:8801/index.html?turbo
-[gpu_wrap 1139.9s] BROWSER DISCONNECTED
-[gpu_wrap 1210.5s] page close url=http://127.0.0.1:8801/index.html?turbo
-[gpu_wrap 1210.5s] BROWSER DISCONNECTED
-[gpu_wrap 1309.7s] page close url=http://127.0.0.1:8801/index.html?turbo
-[gpu_wrap 1309.7s] BROWSER DISCONNECTED
-[gpu_wrap 1430.0s] page close url=http://127.0.0.1:8801/index.html?turbo
-[gpu_wrap 1430.0s] BROWSER DISCONNECTED
+[gpu_wrap 1.3s] headed slot 0: --window-position=0,0 --window-size=900,900 --window-name=CC 測試中，請勿點選 [R5_mk12]
+[gpu_wrap 119.6s] page close url=http://127.0.0.1:8801/index.html?turbo
+[gpu_wrap 119.7s] BROWSER DISCONNECTED
+[gpu_wrap 120.4s] headed slot 0: --window-position=0,0 --window-size=900,900 --window-name=CC 測試中，請勿點選 [R5_mk12]
+[gpu_wrap 255.7s] page close url=http://127.0.0.1:8801/index.html?turbo
+[gpu_wrap 255.8s] BROWSER DISCONNECTED
+[gpu_wrap 256.6s] headed slot 0: --window-position=0,0 --window-size=900,900 --window-name=CC 測試中，請勿點選 [R5_mk12]
+[gpu_wrap 386.8s] page close url=http://127.0.0.1:8801/index.html?turbo
+[gpu_wrap 386.9s] BROWSER DISCONNECTED
+[gpu_wrap 387.7s] headed slot 0: --window-position=0,0 --window-size=900,900 --window-name=CC 測試中，請勿點選 [R5_mk12]
+[gpu_wrap 674.8s] page close url=http://127.0.0.1:8801/index.html?turbo
+[gpu_wrap 674.9s] BROWSER DISCONNECTED
+[gpu_wrap 675.6s] headed slot 0: --window-position=0,0 --window-size=900,900 --window-name=CC 測試中，請勿點選 [R5_mk12]
+[gpu_wrap 783.8s] page close url=http://127.0.0.1:8801/index.html?turbo
+[gpu_wrap 783.9s] BROWSER DISCONNECTED
+[gpu_wrap 784.7s] headed slot 0: --window-position=0,0 --window-size=900,900 --window-name=CC 測試中，請勿點選 [R5_mk12]
+[gpu_wrap 864.1s] page close url=http://127.0.0.1:8801/index.html?turbo
+[gpu_wrap 864.2s] BROWSER DISCONNECTED
+[gpu_wrap 865.0s] headed slot 0: --window-position=0,0 --window-size=900,900 --window-name=CC 測試中，請勿點選 [R5_mk12]
+[gpu_wrap 939.5s] page close url=http://127.0.0.1:8801/index.html?turbo
+[gpu_wrap 939.6s] BROWSER DISCONNECTED
+[gpu_wrap 940.4s] headed slot 0: --window-position=0,0 --window-size=900,900 --window-name=CC 測試中，請勿點選 [R5_mk12]
+[gpu_wrap 1065.4s] page close url=http://127.0.0.1:8801/index.html?turbo
+[gpu_wrap 1065.5s] BROWSER DISCONNECTED
+[gpu_wrap 1066.2s] headed slot 0: --window-position=0,0 --window-size=900,900 --window-name=CC 測試中，請勿點選 [R5_mk12]
+[gpu_wrap 1093.6s] page close url=http://127.0.0.1:8801/index.html?turbo
+[gpu_wrap 1093.7s] BROWSER DISCONNECTED
+[gpu_wrap 1094.5s] headed slot 0: --window-position=0,0 --window-size=900,900 --window-name=CC 測試中，請勿點選 [R5_mk12]
+[gpu_wrap 1189.1s] page close url=http://127.0.0.1:8801/index.html?turbo
+[gpu_wrap 1189.2s] BROWSER DISCONNECTED
+[gpu_wrap 1190.0s] headed slot 0: --window-position=0,0 --window-size=900,900 --window-name=CC 測試中，請勿點選 [R5_mk12]
+[gpu_wrap 1254.2s] page close url=http://127.0.0.1:8801/index.html?turbo
+[gpu_wrap 1254.3s] BROWSER DISCONNECTED
+[gpu_wrap 1255.1s] headed slot 0: --window-position=0,0 --window-size=900,900 --window-name=CC 測試中，請勿點選 [R5_mk12]
+[gpu_wrap 1343.8s] page close url=http://127.0.0.1:8801/index.html?turbo
+[gpu_wrap 1343.8s] BROWSER DISCONNECTED
+[gpu_wrap 1344.6s] headed slot 0: --window-position=0,0 --window-size=900,900 --window-name=CC 測試中，請勿點選 [R5_mk12]
+[gpu_wrap 1447.3s] page close url=http://127.0.0.1:8801/index.html?turbo
+[gpu_wrap 1447.4s] BROWSER DISCONNECTED

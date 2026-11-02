@@ -5,7 +5,7 @@
    "n": "begin",
    "t": "{\"image\":\"assets/bg/home_dining_day.webp\"}",
    "d": "2029-06-26",
-   "h": 8.508,
+   "h": 8.512,
    "z": "dorm"
   },
   {
@@ -13,7 +13,7 @@
    "n": "",
    "t": "考前總複習〔會錯過補考。〕｜出發：補考（法律系館A）〔強制執行法　10:00　捷運＋公車 約 40 分鐘〕｜存檔〔存到存檔欄位〕｜睡覺〔隔天早上在家醒來〕｜去玄關拿車鑰匙（取車）｜在家休息一下〔一小時〕｜回宿舍〔捷運＋公車 約 40 分鐘〕",
    "d": "2029-06-26",
-   "h": 8.508,
+   "h": 8.512,
    "z": "dorm"
   },
   {
@@ -131,51 +131,7 @@
    "k": "say",
    "n": "",
    "c": null,
-   "t": "交卷。答對 1／5，60 分。",
-   "d": "2029-06-26",
-   "h": 10,
-   "z": "dorm"
-  },
-  {
-   "k": "say",
-   "n": "",
-   "c": null,
-   "t": "第 1 題的答案：（D）20,000 元。考點：對自然人因提供勞務而獲得的繼續性報酬債權發扣押命令，不得逾各期給付數額三分之一：60,000 ÷ 3 ＝ 20,000 元。執行法院認有失公平時得不受比例限制，但應預酌留債務人生活費用。（強制執行法 §115-1 II、III）",
-   "d": "2029-06-26",
-   "h": 10,
-   "z": "dorm"
-  },
-  {
-   "k": "say",
-   "n": "",
-   "c": null,
-   "t": "第 2 題的答案：（B）第三人異議之訴。考點：第三人就執行標的物有足以排除強制執行的權利（例如所有權），得於強制執行程序終結前，向執行法院對債權人提起異議之訴。債務人異議之訴是債務人主張請求權消滅或妨礙的事由。（強制執行法 §15、§14）",
-   "d": "2029-06-26",
-   "h": 10,
-   "z": "dorm"
-  },
-  {
-   "k": "say",
-   "n": "",
-   "c": null,
-   "t": "第 3 題的答案：（B）還沒發表的小說手稿。考點：尚未發表之發明或著作不得查封；其他是可以查封的一般財產。（強制執行法 §53 I ⑥）",
-   "d": "2029-06-26",
-   "h": 10,
-   "z": "dorm"
-  },
-  {
-   "k": "say",
-   "n": "",
-   "c": null,
-   "t": "第 5 題的答案：（C）不可以，要先取得強制執行法第4條所列的執行名義，例如確定判決，或債務人未異議的支付命令。考點：借據只是證明借款的私文書，不在強制執行法第4條的執行名義裡。公證人「認證」只證明私文書的簽名真正，和載明應逕受強制執行的「公證書」不同。要先取得確定判決，或支付命令（債務人未於法定期間合法異議）等執行名義。（強制執行法 §4 I；公證法 §2 I、§13 I；民事訴訟法 §521 I）",
-   "d": "2029-06-26",
-   "h": 10,
-   "z": "dorm"
-  },
-  {
-   "k": "toast",
-   "n": "dom",
-   "t": "📓 筆記：強制執行法（重修）・大四下補考訂正",
+   "t": "交卷。答對 5／5，100 分。",
    "d": "2029-06-26",
    "h": 10,
    "z": "dorm"
@@ -220,7 +176,7 @@
   "clock": {
    "key": "2029-06-26",
    "day": 1379,
-   "h": 8.504,
+   "h": 8.505,
    "zone": "dorm",
    "term": null,
    "week": null
@@ -426,14 +382,14 @@
      "Y4_ENF_01"
     ],
     "ans": [
+     "D",
+     "B",
+     "B",
      "A",
-     "A",
-     "A",
-     "A",
-     "A"
+     "C"
     ],
-    "correct": 1,
-    "score": 60,
+    "correct": 5,
+    "score": 100,
     "status": "done"
    }
   },
@@ -498,27 +454,84 @@
   "nmsg": 2,
   "title": false
  },
- "answered": {},
+ "answered": {
+  "2029-06-26|enforcement|makeup|1|乙月薪 6 萬元（自然人因提供勞務而獲得的繼續性報酬）。債權": {
+   "course": "enforcement",
+   "kind": "makeup",
+   "i": 1,
+   "id": "Y4_ENF_04",
+   "right": 3,
+   "picked": 3,
+   "correct": true,
+   "d": "2029-06-26",
+   "h": 10
+  },
+  "2029-06-26|enforcement|makeup|2|法院強制執行時，查封了債務人乙家中的一架鋼琴，但這架鋼琴其實": {
+   "course": "enforcement",
+   "kind": "makeup",
+   "i": 2,
+   "id": "Y4_ENF_02",
+   "right": 1,
+   "picked": 1,
+   "correct": true,
+   "d": "2029-06-26",
+   "h": 10
+  },
+  "2029-06-26|enforcement|makeup|3|執行人員到作家乙家裡查封，看到：一部還沒發表的小說手稿、一支": {
+   "course": "enforcement",
+   "kind": "makeup",
+   "i": 3,
+   "id": "Y4_ENF_05",
+   "right": 1,
+   "picked": 1,
+   "correct": true,
+   "d": "2029-06-26",
+   "h": 10
+  },
+  "2029-06-26|enforcement|makeup|4|確定判決命乙清償 50 萬元。判決確定後，乙已經全部清償，債": {
+   "course": "enforcement",
+   "kind": "makeup",
+   "i": 4,
+   "id": "Y4_ENF_03",
+   "right": 0,
+   "picked": 0,
+   "correct": true,
+   "d": "2029-06-26",
+   "h": 10
+  },
+  "2029-06-26|enforcement|makeup|5|甲持有乙親筆簽名的借據，乙到期不還。甲可不可以直接拿這張借據": {
+   "course": "enforcement",
+   "kind": "makeup",
+   "i": 5,
+   "id": "Y4_ENF_01",
+   "right": 2,
+   "picked": 2,
+   "correct": true,
+   "d": "2029-06-26",
+   "h": 10
+  }
+ },
  "shots": {
   "menu0": [
-   "C:\\Users\\USER\\Documents\\Lawstudent_cclocal\\docs\\story_planning\\CC\\local_out\\R5_mk12\\out\\65_home_go_menu0_land.png",
-   "C:\\Users\\USER\\Documents\\Lawstudent_cclocal\\docs\\story_planning\\CC\\local_out\\R5_mk12\\out\\66_home_go_menu0_port.png"
+   "C:\\Users\\USER\\Documents\\Lawstudent_cclocal\\docs\\story_planning\\CC\\local_out\\R5_mk12\\out\\69_home_go_menu0_land.png",
+   "C:\\Users\\USER\\Documents\\Lawstudent_cclocal\\docs\\story_planning\\CC\\local_out\\R5_mk12\\out\\70_home_go_menu0_port.png"
   ],
   "w:open": [
-   "C:\\Users\\USER\\Documents\\Lawstudent_cclocal\\docs\\story_planning\\CC\\local_out\\R5_mk12\\out\\67_home_go_line_open_land.png",
-   "C:\\Users\\USER\\Documents\\Lawstudent_cclocal\\docs\\story_planning\\CC\\local_out\\R5_mk12\\out\\68_home_go_line_open_port.png"
+   "C:\\Users\\USER\\Documents\\Lawstudent_cclocal\\docs\\story_planning\\CC\\local_out\\R5_mk12\\out\\71_home_go_line_open_land.png",
+   "C:\\Users\\USER\\Documents\\Lawstudent_cclocal\\docs\\story_planning\\CC\\local_out\\R5_mk12\\out\\72_home_go_line_open_port.png"
   ],
+  "exam_q1_makeup": "C:\\Users\\USER\\Documents\\Lawstudent_cclocal\\docs\\story_planning\\CC\\local_out\\R5_mk12\\out\\73_home_go_makeup_q1.png",
   "w:pass": [
-   "C:\\Users\\USER\\Documents\\Lawstudent_cclocal\\docs\\story_planning\\CC\\local_out\\R5_mk12\\out\\69_home_go_line_pass_land.png",
-   "C:\\Users\\USER\\Documents\\Lawstudent_cclocal\\docs\\story_planning\\CC\\local_out\\R5_mk12\\out\\70_home_go_line_pass_port.png"
+   "C:\\Users\\USER\\Documents\\Lawstudent_cclocal\\docs\\story_planning\\CC\\local_out\\R5_mk12\\out\\74_home_go_line_pass_land.png",
+   "C:\\Users\\USER\\Documents\\Lawstudent_cclocal\\docs\\story_planning\\CC\\local_out\\R5_mk12\\out\\75_home_go_line_pass_port.png"
   ],
   "w:passAll": [
-   "C:\\Users\\USER\\Documents\\Lawstudent_cclocal\\docs\\story_planning\\CC\\local_out\\R5_mk12\\out\\71_home_go_line_passAll_land.png",
-   "C:\\Users\\USER\\Documents\\Lawstudent_cclocal\\docs\\story_planning\\CC\\local_out\\R5_mk12\\out\\72_home_go_line_passAll_port.png"
+   "C:\\Users\\USER\\Documents\\Lawstudent_cclocal\\docs\\story_planning\\CC\\local_out\\R5_mk12\\out\\76_home_go_line_passAll_land.png",
+   "C:\\Users\\USER\\Documents\\Lawstudent_cclocal\\docs\\story_planning\\CC\\local_out\\R5_mk12\\out\\77_home_go_line_passAll_port.png"
   ],
   "menu_after": [
-   "C:\\Users\\USER\\Documents\\Lawstudent_cclocal\\docs\\story_planning\\CC\\local_out\\R5_mk12\\out\\73_home_go_menu_after_land.png",
-   "C:\\Users\\USER\\Documents\\Lawstudent_cclocal\\docs\\story_planning\\CC\\local_out\\R5_mk12\\out\\74_home_go_menu_after_port.png"
+   "C:\\Users\\USER\\Documents\\Lawstudent_cclocal\\docs\\story_planning\\CC\\local_out\\R5_mk12\\out\\78_home_go_menu_after_land.png",
+   "C:\\Users\\USER\\Documents\\Lawstudent_cclocal\\docs\\story_planning\\CC\\local_out\\R5_mk12\\out\\79_home_go_menu_after_port.png"
   ]
  },
  "sha": "b1b249873",

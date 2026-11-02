@@ -13,7 +13,7 @@
    "n": "start",
    "t": "fd_makeup",
    "d": "2029-06-26",
-   "h": 9.501,
+   "h": 9.503,
    "z": "dorm"
   },
   {
@@ -139,51 +139,7 @@
    "k": "say",
    "n": "",
    "c": null,
-   "t": "交卷。答對 1／5，60 分。",
-   "d": "2029-06-26",
-   "h": 10,
-   "z": "dorm"
-  },
-  {
-   "k": "say",
-   "n": "",
-   "c": null,
-   "t": "第 1 題的答案：（D）20,000 元。考點：對自然人因提供勞務而獲得的繼續性報酬債權發扣押命令，不得逾各期給付數額三分之一：60,000 ÷ 3 ＝ 20,000 元。執行法院認有失公平時得不受比例限制，但應預酌留債務人生活費用。（強制執行法 §115-1 II、III）",
-   "d": "2029-06-26",
-   "h": 10,
-   "z": "dorm"
-  },
-  {
-   "k": "say",
-   "n": "",
-   "c": null,
-   "t": "第 2 題的答案：（B）第三人異議之訴。考點：第三人就執行標的物有足以排除強制執行的權利（例如所有權），得於強制執行程序終結前，向執行法院對債權人提起異議之訴。債務人異議之訴是債務人主張請求權消滅或妨礙的事由。（強制執行法 §15、§14）",
-   "d": "2029-06-26",
-   "h": 10,
-   "z": "dorm"
-  },
-  {
-   "k": "say",
-   "n": "",
-   "c": null,
-   "t": "第 3 題的答案：（B）還沒發表的小說手稿。考點：尚未發表之發明或著作不得查封；其他是可以查封的一般財產。（強制執行法 §53 I ⑥）",
-   "d": "2029-06-26",
-   "h": 10,
-   "z": "dorm"
-  },
-  {
-   "k": "say",
-   "n": "",
-   "c": null,
-   "t": "第 5 題的答案：（C）不可以，要先取得強制執行法第4條所列的執行名義，例如確定判決，或債務人未異議的支付命令。考點：借據只是證明借款的私文書，不在強制執行法第4條的執行名義裡。公證人「認證」只證明私文書的簽名真正，和載明應逕受強制執行的「公證書」不同。要先取得確定判決，或支付命令（債務人未於法定期間合法異議）等執行名義。（強制執行法 §4 I；公證法 §2 I、§13 I；民事訴訟法 §521 I）",
-   "d": "2029-06-26",
-   "h": 10,
-   "z": "dorm"
-  },
-  {
-   "k": "toast",
-   "n": "dom",
-   "t": "📓 筆記：強制執行法（重修）・大四下補考訂正",
+   "t": "交卷。答對 5／5，100 分。",
    "d": "2029-06-26",
    "h": 10,
    "z": "dorm"
@@ -236,7 +192,7 @@
    "n": "",
    "t": "ev_r409_last",
    "d": "2029-06-27",
-   "h": 23.001,
+   "h": 23,
    "z": "dorm"
   },
   {
@@ -244,7 +200,7 @@
    "n": "begin",
    "t": "blur",
    "d": "2029-06-27",
-   "h": 23.001,
+   "h": 23,
    "z": "dorm"
   },
   {
@@ -252,7 +208,7 @@
    "n": "",
    "t": "最後一晚",
    "d": "2029-06-27",
-   "h": 23.001,
+   "h": 23,
    "z": "dorm"
   },
   {
@@ -261,7 +217,7 @@
    "c": null,
    "t": "（紙箱都封好了。學弟們先走了，房間只剩兩張床有東西。）",
    "d": "2029-06-27",
-   "h": 23.001,
+   "h": 23,
    "z": "dorm"
   },
   {
@@ -270,7 +226,7 @@
    "c": null,
    "t": "（阿哲從二樓上來，手上兩罐飲料，一罐給你，一罐給柏翰。）",
    "d": "2029-06-27",
-   "h": 23.001,
+   "h": 23,
    "z": "dorm"
   },
   {
@@ -279,7 +235,7 @@
    "c": "zhe",
    "t": "我自己的喝完了。",
    "d": "2029-06-27",
-   "h": 23.001,
+   "h": 23,
    "z": "dorm"
   },
   {
@@ -288,7 +244,7 @@
    "c": "classmate_bohan",
    "t": "……二十三點了。",
    "d": "2029-06-27",
-   "h": 23.001,
+   "h": 23,
    "z": "dorm"
   },
   {
@@ -297,7 +253,7 @@
    "c": "zhe",
    "t": "知道啦。最後一次。",
    "d": "2029-06-27",
-   "h": 23.001,
+   "h": 23,
    "z": "dorm"
   },
   {
@@ -305,7 +261,7 @@
    "n": "",
    "t": "「（去關燈）」｜「再聊一下。」",
    "d": "2029-06-27",
-   "h": 23.001,
+   "h": 23,
    "z": "dorm"
   },
   {
@@ -314,7 +270,7 @@
    "c": null,
    "t": "（燈關了。窗外的路燈照進來一點。三個人都沒說話。）",
    "d": "2029-06-27",
-   "h": 23.001,
+   "h": 23,
    "z": "dorm"
   },
   {
@@ -330,7 +286,7 @@
    "n": "{\"x\":0,\"z\":5.6,\"yaw\":3.141592653589793,\"lv\":0}",
    "t": "dorm_hall",
    "d": "2029-06-28",
-   "h": 10.001,
+   "h": 10.006,
    "z": "dorm"
   },
   {
@@ -338,7 +294,7 @@
    "n": "",
    "t": "你的房間在四樓，409。樓梯在走廊北邊。",
    "d": "2029-06-28",
-   "h": 10.001,
+   "h": 10.006,
    "z": "dorm_hall"
   },
   {
@@ -346,7 +302,7 @@
    "n": "begin",
    "t": "blur",
    "d": "2029-06-28",
-   "h": 10.001,
+   "h": 10.006,
    "z": "dorm_hall"
   },
   {
@@ -355,7 +311,7 @@
    "c": null,
    "t": "（宿舍期滿。舍監在門口收鑰匙。）",
    "d": "2029-06-28",
-   "h": 10.001,
+   "h": 10.006,
    "z": "dorm_hall"
   },
   {
@@ -364,7 +320,7 @@
    "c": null,
    "t": "（409 的鑰匙交出去的時候，舍監看了一下名單：「四年，四個房間。」）",
    "d": "2029-06-28",
-   "h": 10.001,
+   "h": 10.006,
    "z": "dorm_hall"
   },
   {
@@ -373,7 +329,7 @@
    "c": null,
    "t": "「冬天的衣服」那一箱，最後一個搬上車。",
    "d": "2029-06-28",
-   "h": 10.001,
+   "h": 10.006,
    "z": "dorm_hall"
   },
   {
@@ -382,7 +338,7 @@
    "c": null,
    "t": "（你租的套房在公館，走路到總圖十分鐘。）",
    "d": "2029-06-28",
-   "h": 10.701,
+   "h": 10.706,
    "z": "dorm_hall"
   },
   {
@@ -390,7 +346,7 @@
    "n": "公館的套房",
    "t": "",
    "d": "2029-06-28",
-   "h": 10.701,
+   "h": 10.706,
    "z": "dorm_hall"
   },
   {
@@ -399,7 +355,7 @@
    "c": null,
    "t": "（兵役的時間，你排在考試之後。）",
    "d": "2029-06-28",
-   "h": 10.701,
+   "h": 10.706,
    "z": "dorm_hall"
   },
   {
@@ -407,7 +363,7 @@
    "n": "{\"x\":-35.6,\"z\":13.2,\"yaw\":0}",
    "t": "gongguan",
    "d": "2029-06-28",
-   "h": 10.701,
+   "h": 10.706,
    "z": "dorm_hall"
   }
  ],
@@ -415,7 +371,7 @@
   "clock": {
    "key": "2029-06-28",
    "day": 1381,
-   "h": 10.706,
+   "h": 10.71,
    "zone": "gongguan",
    "term": null,
    "week": null
@@ -476,14 +432,14 @@
      "Y4_ENF_01"
     ],
     "ans": [
+     "D",
+     "B",
+     "B",
      "A",
-     "A",
-     "A",
-     "A",
-     "A"
+     "C"
     ],
-    "correct": 1,
-    "score": 60,
+    "correct": 5,
+    "score": 100,
     "status": "done"
    }
   },
@@ -551,28 +507,29 @@
  },
  "shots": {
   "skip_menu": [
-   "C:\\Users\\USER\\Documents\\Lawstudent_cclocal\\docs\\story_planning\\CC\\local_out\\R5_mk12\\out\\25_skipnoon_phone_phone_skip_land.png",
-   "C:\\Users\\USER\\Documents\\Lawstudent_cclocal\\docs\\story_planning\\CC\\local_out\\R5_mk12\\out\\26_skipnoon_phone_phone_skip_port.png"
+   "C:\\Users\\USER\\Documents\\Lawstudent_cclocal\\docs\\story_planning\\CC\\local_out\\R5_mk12\\out\\27_skipnoon_phone_phone_skip_land.png",
+   "C:\\Users\\USER\\Documents\\Lawstudent_cclocal\\docs\\story_planning\\CC\\local_out\\R5_mk12\\out\\28_skipnoon_phone_phone_skip_port.png"
   ],
   "after_tap": [
-   "C:\\Users\\USER\\Documents\\Lawstudent_cclocal\\docs\\story_planning\\CC\\local_out\\R5_mk12\\out\\27_skipnoon_phone_after_tap_land.png",
-   "C:\\Users\\USER\\Documents\\Lawstudent_cclocal\\docs\\story_planning\\CC\\local_out\\R5_mk12\\out\\28_skipnoon_phone_after_tap_port.png"
+   "C:\\Users\\USER\\Documents\\Lawstudent_cclocal\\docs\\story_planning\\CC\\local_out\\R5_mk12\\out\\29_skipnoon_phone_after_tap_land.png",
+   "C:\\Users\\USER\\Documents\\Lawstudent_cclocal\\docs\\story_planning\\CC\\local_out\\R5_mk12\\out\\30_skipnoon_phone_after_tap_port.png"
   ],
   "w:open": [
-   "C:\\Users\\USER\\Documents\\Lawstudent_cclocal\\docs\\story_planning\\CC\\local_out\\R5_mk12\\out\\29_skipnoon_phone_line_open_land.png",
-   "C:\\Users\\USER\\Documents\\Lawstudent_cclocal\\docs\\story_planning\\CC\\local_out\\R5_mk12\\out\\30_skipnoon_phone_line_open_port.png"
+   "C:\\Users\\USER\\Documents\\Lawstudent_cclocal\\docs\\story_planning\\CC\\local_out\\R5_mk12\\out\\31_skipnoon_phone_line_open_land.png",
+   "C:\\Users\\USER\\Documents\\Lawstudent_cclocal\\docs\\story_planning\\CC\\local_out\\R5_mk12\\out\\32_skipnoon_phone_line_open_port.png"
   ],
+  "exam_q1_makeup": "C:\\Users\\USER\\Documents\\Lawstudent_cclocal\\docs\\story_planning\\CC\\local_out\\R5_mk12\\out\\33_skipnoon_phone_makeup_q1.png",
   "w:pass": [
-   "C:\\Users\\USER\\Documents\\Lawstudent_cclocal\\docs\\story_planning\\CC\\local_out\\R5_mk12\\out\\31_skipnoon_phone_line_pass_land.png",
-   "C:\\Users\\USER\\Documents\\Lawstudent_cclocal\\docs\\story_planning\\CC\\local_out\\R5_mk12\\out\\32_skipnoon_phone_line_pass_port.png"
+   "C:\\Users\\USER\\Documents\\Lawstudent_cclocal\\docs\\story_planning\\CC\\local_out\\R5_mk12\\out\\34_skipnoon_phone_line_pass_land.png",
+   "C:\\Users\\USER\\Documents\\Lawstudent_cclocal\\docs\\story_planning\\CC\\local_out\\R5_mk12\\out\\35_skipnoon_phone_line_pass_port.png"
   ],
   "w:passAll": [
-   "C:\\Users\\USER\\Documents\\Lawstudent_cclocal\\docs\\story_planning\\CC\\local_out\\R5_mk12\\out\\33_skipnoon_phone_line_passAll_land.png",
-   "C:\\Users\\USER\\Documents\\Lawstudent_cclocal\\docs\\story_planning\\CC\\local_out\\R5_mk12\\out\\34_skipnoon_phone_line_passAll_port.png"
+   "C:\\Users\\USER\\Documents\\Lawstudent_cclocal\\docs\\story_planning\\CC\\local_out\\R5_mk12\\out\\36_skipnoon_phone_line_passAll_land.png",
+   "C:\\Users\\USER\\Documents\\Lawstudent_cclocal\\docs\\story_planning\\CC\\local_out\\R5_mk12\\out\\37_skipnoon_phone_line_passAll_port.png"
   ],
   "end": [
-   "C:\\Users\\USER\\Documents\\Lawstudent_cclocal\\docs\\story_planning\\CC\\local_out\\R5_mk12\\out\\35_skipnoon_phone_end_land.png",
-   "C:\\Users\\USER\\Documents\\Lawstudent_cclocal\\docs\\story_planning\\CC\\local_out\\R5_mk12\\out\\36_skipnoon_phone_end_port.png"
+   "C:\\Users\\USER\\Documents\\Lawstudent_cclocal\\docs\\story_planning\\CC\\local_out\\R5_mk12\\out\\38_skipnoon_phone_end_land.png",
+   "C:\\Users\\USER\\Documents\\Lawstudent_cclocal\\docs\\story_planning\\CC\\local_out\\R5_mk12\\out\\39_skipnoon_phone_end_port.png"
   ]
  },
  "stuck": null,
