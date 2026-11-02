@@ -1,0 +1,14 @@
+{
+  "rerun": "rev1102",
+  "id": "R8_rr2",
+  "sha": "b1b249873",
+  "kind": "probe",
+  "script": "docs/story_planning/test_tools/cc/cc_makeup_probe.py",
+  "env": "FAIL_ROUTE=retake;MAIN_FROM=0527;CASES=main_pass,main_fail,route_grades;RERUN=rev1102",
+  "machine": "MSI",
+  "start": "2026-11-03T03:57:43",
+  "end": "2026-11-03T03:57:44",
+  "seconds": 1,
+  "exit": null,
+  "error": "worktree add b1b249873 failed: Preparing worktree (detached HEAD b1b249873)\nfatal: 'C:/Users/USER/Documents/wt_cc_R8_rr2' already exists"
+}

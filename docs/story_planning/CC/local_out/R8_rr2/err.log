@@ -1,0 +1,63 @@
+Traceback (most recent call last):
+  File "C:\Users\USER\AppData\Local\Python\pythoncore-3.15-64\Lib\asyncio\runners.py", line 128, in run
+    return self._loop.run_until_complete(task)
+           ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~^^^^^^
+  File "C:\Users\USER\AppData\Local\Python\pythoncore-3.15-64\Lib\asyncio\base_events.py", line 724, in run_until_complete
+    return future.result()
+           ~~~~~~~~~~~~~^^
+  File "C:\Users\USER\Documents\Lawstudent_cclocal\docs\story_planning\test_tools\cc\cc_makeup_probe.py", line 1329, in main
+    await fn(pg, cdp, run)
+  File "C:\Users\USER\Documents\Lawstudent_cclocal\docs\story_planning\test_tools\cc\cc_makeup_probe.py", line 630, in case_main
+    o = await play(pg, cdp, run, tag, drv, stop, ENVI('CASE_MAX', 6000))
+        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\USER\Documents\Lawstudent_cclocal\docs\story_planning\test_tools\cc\cc_makeup_probe.py", line 568, in play
+    trips.append(await trip(pg, cdp, run, drv, '%s_%s_%s' % (tag, c['key'].replace('-', ''), gl[0]['cid']), gl[0]['key'])); continue
+                 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\USER\Documents\Lawstudent_cclocal\docs\story_planning\test_tools\cc\cc_makeup_probe.py", line 492, in trip
+    await pg.wait_for_timeout(900)
+  File "C:\Users\USER\AppData\Local\Python\pythoncore-3.15-64\Lib\site-packages\playwright\async_api\_generated.py", line 21286, in wait_for_timeout
+    await self._impl_obj.wait_for_timeout(timeout=to_milliseconds(timeout))
+  File "C:\Users\USER\AppData\Local\Python\pythoncore-3.15-64\Lib\site-packages\playwright\_impl\_page.py", line 1149, in wait_for_timeout
+    await self._main_frame.wait_for_timeout(timeout)
+  File "C:\Users\USER\AppData\Local\Python\pythoncore-3.15-64\Lib\site-packages\playwright\_impl\_frame.py", line 929, in wait_for_timeout
+    await self._channel.send("waitForTimeout", None, {"waitTimeout": timeout})
+  File "C:\Users\USER\AppData\Local\Python\pythoncore-3.15-64\Lib\site-packages\playwright\_impl\_connection.py", line 78, in send
+    return await self._connection.wrap_api_call(
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    ...<3 lines>...
+    )
+    ^
+  File "C:\Users\USER\AppData\Local\Python\pythoncore-3.15-64\Lib\site-packages\playwright\_impl\_connection.py", line 634, in wrap_api_call
+    return await cb()
+           ^^^^^^^^^^
+  File "C:\Users\USER\AppData\Local\Python\pythoncore-3.15-64\Lib\site-packages\playwright\_impl\_connection.py", line 149, in _inner_send
+    done, _ = await asyncio.wait(
+              ^^^^^^^^^^^^^^^^^^^
+    ...<5 lines>...
+    )
+    ^
+  File "C:\Users\USER\AppData\Local\Python\pythoncore-3.15-64\Lib\asyncio\tasks.py", line 441, in wait
+    return await _wait(fs, timeout, return_when, loop)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\USER\AppData\Local\Python\pythoncore-3.15-64\Lib\asyncio\tasks.py", line 528, in _wait
+    await waiter
+asyncio.exceptions.CancelledError
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "C:\Users\USER\Documents\Lawstudent_cclocal\tools\cc_local\gpu_wrap.py", line 106, in <module>
+    runpy.run_path(script, run_name='__main__')
+    ~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "<frozen runpy>", line 292, in run_path
+  File "<frozen runpy>", line 97, in _run_module_code
+  File "<frozen runpy>", line 87, in _run_code
+  File "C:\Users\USER\Documents\Lawstudent_cclocal\docs\story_planning\test_tools\cc\cc_makeup_probe.py", line 1341, in <module>
+    asyncio.run(main())
+    ~~~~~~~~~~~^^^^^^^^
+  File "C:\Users\USER\AppData\Local\Python\pythoncore-3.15-64\Lib\asyncio\runners.py", line 205, in run
+    return runner.run(main)
+           ~~~~~~~~~~^^^^^^
+  File "C:\Users\USER\AppData\Local\Python\pythoncore-3.15-64\Lib\asyncio\runners.py", line 133, in run
+    raise KeyboardInterrupt()
+KeyboardInterrupt

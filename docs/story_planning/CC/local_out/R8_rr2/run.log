@@ -1,0 +1,29 @@
+[gpu_wrap] CC_GPU=1 跑 C:\Users\USER\Documents\Lawstudent_cclocal\docs\story_planning\test_tools\cc\cc_makeup_probe.py http://127.0.0.1:8801/index.html?turbo C:\Users\USER\Documents\Lawstudent_cclocal\docs\story_planning\CC\local_out\R8_rr2\out
+==== CASE main_pass（SHA b1b249873）====
+PASS main_pass：遊戲載入
+  [  20.7s] main_pass：頁面有 FD.MK_LINES：True
+PASS [前置] retake：enforcement 是大四上考五題的課，CLS.planRetakes 排進大四下（Y4S2）  {"retake": [{"id": "enforcement", "from": "Y4S1", "base": "Y4S1", "term": "Y4S2", "slots": [{"wd": 1, "block": "am"}], "alt": false}], "made": 1, "exam": true, "att": false, "name": "強制執行法", "term": "Y4S1", "to": "Y4S2", "dropped": [], "msgs": []}
+  [  20.8s] [前置] FAIL_ROUTE=retake：大四上 enforcement 期末答對 0 題、courses.retake [{"id": "enforcement", "from": "Y4S1", "base": "Y4S1", "term": "Y4S2", "slots": [{"wd": 1, "block": "am"}], "alt": false}]；大四下照玩家考，重修那一門答錯、其他答對 FINAL_OTHER_RIGHT
+  [前置／捷徑] [前置] main_pass：最小存檔改到 2029-05-27 21:00 宿舍（法律系、台灣路線、Y4_PATH bar、BAR_REG true）；之後照玩家一天天過；考卷【捷徑】讀正解，期末故意答對 0 題、補考答對 5 題
+  [  29.7s] main_pass：讀檔後 {"clock": {"key": "2029-05-27", "day": 1349, "h": 21.007, "zone": "dorm", "term": "Y4S2", "week": 14}, "flags": {"Y4_PATH": "bar", "BAR_REG": true, "EXCHANGE_ROUTE": "TW"}, "failed": ["maritime", "enforcement"], "exam": {}, "grades": null, "pgOn": false, "delayed": false, "exchDelayed": false, "pgDone": {}, "pend": [["grad", "2029-06-02", 6], ["fd_grades_y4s2", "2029-06-18", 9], ["b1", "2029-07-12", 20], ["exam_2029", "2029-08-04", 8], ["first", "2030-10-01", 21]], "mk": null, "homeOpt": null, "review": {"t": "考前總複習", "hint": "總複習要三個小時，21:00 以前才能開始（不讀過午夜）。", "dim": true}, "homeAt": false, "retake": [{"id": "enforcement", "from": "Y4S1", "base": "Y4S1", "term": "Y4S2", "slots": [{"wd": 1, "block": "am"}], "alt": false}], "nmsg": 0, "title": false}
+  [  30.3s] main_pass：換日 2029-05-27 21:01
+  [  33.1s] 到達「床」附近（0.23 m）：點地面 1 次、轉鏡頭 0 次、搖桿 0 次，3 秒
+  [  34.9s] main_pass 2029-05-27 21:01：床的選單 ["睡到明天早上（08:10）08:10（考試 09:10 強制執行法（重修）前一小時）", "快轉到下一個有事的時候、過一週；沒有劇情的課自動去上", "再撐一下"] → 睡到明天早上（08:10）08:10（考試 09:10 強制執行法（重修）前一小時）
+  [  37.0s] main_pass：換日 2029-05-28 08:10
+  [  42.3s] main_pass 2029-05-28 08:10 dorm 選項 ["沒選到的那堂，等第二階段有人退選，再上網加加看。", "算了，下學期再選。"] → 算了，下學期再選。（decline）
+  [  45.9s] main_pass 2029-05-28 08:11 dorm 選項 ["直接去考場：強制執行法（重修）走路 18 分鐘，09:0", "先起床考試前 10 分鐘會自動帶你進考場"] → 先起床考試前 10 分鐘會自動帶你進考場（wake）
+  [  64.2s] main_pass 2029-05-28 09:00 wancai_multi 選項 ["坐中間的位子第一次上這門課", "自己找位子走過去坐下就可以上課"] → 坐中間的位子第一次上這門課（pick）
+  [  78.7s] main_pass：final 考卷第 1 題（enforcement Y4_ENF_08）【捷徑】讀正解第 1 個 → 按第 2 個
+  [  81.6s] main_pass：final 考卷第 2 題（enforcement Y4_ENF_01）【捷徑】讀正解第 3 個 → 按第 1 個
+  [  84.9s] main_pass：final 考卷第 3 題（enforcement Y4_ENF_07）【捷徑】讀正解第 3 個 → 按第 1 個
+  [  89.3s] main_pass：final 考卷第 4 題（enforcement Y4_ENF_06）【捷徑】讀正解第 4 個 → 按第 1 個
+  [  93.6s] main_pass：final 考卷第 5 題（enforcement Y4_ENF_03）【捷徑】讀正解第 1 個 → 按第 2 個
+  [ 108.9s] main_pass_20290528_enforcement：1350:enforcement:am 結束 {"day": 1350, "key": "2029-05-28", "h": 12.169, "zone": "wancai_multi"}；上完 True
+  [ 119.8s] main_pass_20290528_legal_research：1350:legal_research:pm1 結束 {"day": 1350, "key": "2029-05-28", "h": 15.169, "zone": "wancai"}；上完 True
+  [ 127.0s] 手機「地點」→ dorm：True
+  [ 129.7s] 到達「床」附近（0.23 m）：點地面 1 次、轉鏡頭 0 次、搖桿 0 次，3 秒
+  [ 131.4s] main_pass 2029-05-28 15:27：床的選單 ["小睡 30 分鐘睡到 15:58", "小睡 1 小時睡到 16:28", "小睡 2 小時睡到 17:28", "睡到傍晚（不設鬧鐘）睡到 18:00", "快轉到下一個有事的時候、過一週；沒有劇情的課自動去上", "再撐一下"] → 睡到傍晚（不設鬧鐘）睡到 18:00
+  [ 133.6s] 到達「床」附近（0.00 m）：點地面 0 次、轉鏡頭 0 次、搖桿 0 次，0 秒
+  [ 135.3s] main_pass 2029-05-28 18:00：床的選單 ["睡到明天早上（08:10）08:10（第一堂 09:10 法律實習或法律扶助實務前一小時）", "睡到明天中午12:00。會錯過：09:10 法律實習或法律扶助實務", "睡到明天下午14:00。會錯過：09:10 法律實習或法律扶助實務", "睡到明天晚上18:00。會錯過：09:10 法律實習或法律扶助實務", "快轉到下一個有事的時候、過一週；沒有劇情的課自動去上", "再撐一下"] → 睡到明天早上（08:10）08:10（第一堂 09:10 法律實習或法律扶助實務前一小時）
+  [ 137.8s] main_pass：換日 2029-05-29 08:10
+  [ 143.6s] main_pass 2029-05-29 08:11 dorm 選項 ["直接去上課：法律實習或法律扶助實務09:10，法扶・臺北", "翹這堂課記沒去，不扣分。這堂課裡的事你會錯過。", "先起床再說手機的「今天」隨時可以直接去"] → 先起床再說手機的「今天」隨時可以直接去（wake）
