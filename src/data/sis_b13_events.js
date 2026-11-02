@@ -147,7 +147,7 @@ const SISB13_EVENTS=(function(){
         {set:{SIS13_LAUNDRY:true}},{advance:0.5} ] },   /* 不加挽回的數值、不改挽回步驟（稿 13-6）；洗衣服約 30 分鐘（LAWWW 排）*/
     /* ---------- 13-7「歡迎回來」家聚（2028-12-28 週四 18:30，118 巷的定食店，出遊；和 13-1 同一套）---------- */
     { id:'ev_sis13_welcome', title:'歡迎回來', participants:[ID], location:'any', trigger:'outing', once:true, background:'dark', hours:1.5,
-      dialogue:[ {scene:'118 巷・定食店'},
+      dialogue:[ {scene:'118 巷・定食店',bg:'teishoku_night'},   /* BB_132 第 100 組第 7 張（11-02；原本沒寫 bg＝深色底）*/
         N('（長桌那一頭，學姊面前放著一盒美國的餅乾。這一盒是新的。）'),
         KEV('學姊，報告一下美國。'),
         SIS('……冷。'),

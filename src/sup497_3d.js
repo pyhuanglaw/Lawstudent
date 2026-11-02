@@ -376,7 +376,7 @@ const SUP497=(function(){
      句子在 src/data/sis_b13_events.js（index.html 在這支前面載入）。沒認識她的在這裡認識（記 FIRST_MET、met_sis、SIS_W1）*/
   const B13H=k=>typeof SISB13_HAND!=='undefined'&&Array.isArray(SISB13_HAND[k])?SISB13_HAND[k]:[];
   S.HAND_EV={ id:'ev_kv_handover', title:'考古題的資料夾', participants:[], location:'any', trigger:'outing', once:true, background:'dark', hours:1.5,
-    dialogue:[{scene:'118 巷・定食店'}].concat(lns(L.kv.hand.open.slice(0,1)),B13H('open'),lns(L.kv.hand.open.slice(1)),[{choice:L.kv.hand.opts.map((t,k)=>({text:t,goto:'h'+(k+1)}))}],
+    dialogue:[{scene:'118 巷・定食店',bg:'teishoku_night'}].concat(lns(L.kv.hand.open.slice(0,1)),B13H('open'),lns(L.kv.hand.open.slice(1)),[{choice:L.kv.hand.opts.map((t,k)=>({text:t,goto:'h'+(k+1)}))}],
       ...L.kv.hand.r.map((R,k)=>[{label:'h'+(k+1)}].concat(R.map(t=>ln('kv',t)),[{goto:'end'}])),[{label:'end'}],B13H('after'),[{set:{KV_HANDOVER:true}}]) };
 
   /* ===================================================================== 房間物品、尾聲、讀檔 ===================================================================== */

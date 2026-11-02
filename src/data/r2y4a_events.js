@@ -529,9 +529,9 @@ const R2Y4A_EVENTS=(function(){
   const usR=G=>typeof STORY!=='undefined'&&!!STORY.route&&STORY.route(G)==='US';
   const PLAN=G=>!!G.flags.KX_STUDY_PLAN;
   const merge=(G,k,v)=>{ G.flags[k]=Object.assign({},(G.flags[k]&&typeof G.flags[k]==='object')?G.flags[k]:{},v); };
-  EV.push({ id:'ev_kexin_xmas_y4', title:'聖誕，讀到打烊', participants:[KX], location:'any', trigger:'outing', once:true, background:'dark', hours:2/3,
+  EV.push({ id:'ev_kexin_xmas_y4', title:'聖誕，讀到打烊', participants:[KX], location:'any', trigger:'outing', once:true, get background(){ return typeof OUT!=='undefined'&&OUT.bg?OUT.bg('mucha_cafe_night'):'dark'; }, hours:2/3,
     outingMissed:(G,GM,q)=>{ if(typeof R2Y4A!=='undefined') R2Y4A.kxXmasMissed(G); },
-    dialogue:[ {scene:'木柵大學山下・咖啡店',bg:'dark'},
+    dialogue:[ {scene:'木柵大學山下・咖啡店',bg:'mucha_cafe_night'},   /* BB_132 第 100 組第 6 張（11-02）*/
       IF(usR,kx('你的時差還沒調回來吧。……那今天讀到打烊，剛好。')),   /* 美國路線（12/23 已經回來）*/
       {advance:G=>Math.max(0,22-hh(G))},
       nar('（兩個人讀到店員開始收椅子。走出來，山上的風。）'),

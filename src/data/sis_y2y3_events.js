@@ -127,7 +127,7 @@ const SISY23_EVENTS=(function(){
     { id:'ev_sis_interview', title:'訪談', participants:[ID], location:'any', trigger:'outing', once:true, background:'dark', hours:2.5,
       dialogue:[ {scene:'法扶・臺北的辦公室',bg:'legal_aid_office'},
         N('（會議室很小。律師講了一個半小時，你打了十一頁。）'),
-        {scene:'便利商店門口的桌子',bg:'dark'},
+        {scene:'便利商店門口的桌子',bg:'dark'},   /* BB_132 第 100 組第 9 張 cvs_table_night 是傍晚（提示詞照 BB 寫的「傍晚天剛暗」），這場是早上 10:30 左右：先不換，等使用者決定（11-02 LAWWW-B）*/
         N('（她把你的筆記從頭滑到尾。）'),
         SIS('你多寫了一句：『他講到這裡，停了很久。』'),
         SIS('……這句我要。錄音裡聽不到這個。'),

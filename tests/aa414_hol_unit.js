@@ -199,7 +199,7 @@ let money=[]; GM.money=(n,why)=>{ money.push([n,why]); H.G.money+=n; };
     PHONE.answer(H.G,'anyt_yt_y3_ask',0); rules(); const r=dms(YT).slice(-2), q=OUT.get(H.G,'anyt_yt_vday_y3');
     check('2-3. 「好。去哪裡？」→「去了就知道。」「兩點，麵店門口。走過去。」；出遊 14:00、走路約 15 分鐘、late 0.25、標題「情人節（語彤要帶你去的地方）」',J(r)===J(['去了就知道。','兩點，麵店門口。走過去。'])&&!!q&&q.h===14&&q.travel==='走路約 15 分鐘'&&q.travelH===0.25&&q.late===0.25&&q.title==='情人節（語彤要帶你去的地方）',J(q));
     at('2028-02-14',13.6); const a=relOf(YT); const {L}=await goOut('anyt_yt_vday_y3',[0]);
-    check('2-3. 寶藏巖沒有底圖（深色底＋字幕「寶藏巖」）；「他講了什麼？」→「他年輕的時候怎麼搬來的。」「我寫了很多頁。報告只能用三頁。」',H.bgs.every(b=>b==='dark')&&ev('ev_yt_vday_y3').dialogue[0].scene==='寶藏巖'&&J(L)===J(['（河邊的老聚落，房子一層一層疊在山坡上。巷子窄到兩個人要側身才過得去。）','上學期的田野，我在這裡做訪談。','有一個阿公，每天下午坐在那張椅子上。他跟我講了三個下午。','（她指的那張椅子是空的。）','……今天他不在。','他年輕的時候怎麼搬來的。','我寫了很多頁。報告只能用三頁。','（下坡的時候，她走在前面。走到巷口，才回頭看你有沒有跟上。）']),J({b:H.bgs,L}));
+    check('2-3. 寶藏巖用底圖 treasure_hill（BB_132 第 100 組第 2 張，11-02 使用者生成；原本深色底）＋字幕「寶藏巖」；「他講了什麼？」→「他年輕的時候怎麼搬來的。」「我寫了很多頁。報告只能用三頁。」',H.bgs.length>0&&H.bgs.every(b=>b&&b.image==='assets/bg/treasure_hill.webp')&&ev('ev_yt_vday_y3').dialogue[0].scene==='寶藏巖'&&J(L)===J(['（河邊的老聚落，房子一層一層疊在山坡上。巷子窄到兩個人要側身才過得去。）','上學期的田野，我在這裡做訪談。','有一個阿公，每天下午坐在那張椅子上。他跟我講了三個下午。','（她指的那張椅子是空的。）','……今天他不在。','他年輕的時候怎麼搬來的。','我寫了很多頁。報告只能用三頁。','（下坡的時候，她走在前面。走到巷口，才回頭看你有沒有跟上。）']),J({b:H.bgs,L}));
     check('2-3. YT_VDAY_Y3 went、記憶 YT_VDAY_FIELD、+3／+6／+5',H.G.flags.YT_VDAY_Y3==='went'&&SOCIAL.has(YT,'YT_VDAY_FIELD')&&dRel(YT,a)===VDAY,dRel(YT,a)); }
   { setup('2028-02-13',21.05,YT); rules(); PHONE.answer(H.G,'anyt_yt_y3_ask',0); const L=await play('ev_yt_vday_y3',[1]);
     check('2-3. 「為什麼帶我來？」→「……我想讓你看一次。」「我在做的事。」',J(L.slice(5,7))===J(['……我想讓你看一次。','我在做的事。']),J(L)); }

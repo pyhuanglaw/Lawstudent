@@ -51,11 +51,11 @@ const ROM1016_EVENTS=(function(){
       {set:{PS_WAITED:true}} ],
     after:G=>{ const x=X(); if(x) x.visit(G); } };
 
-  /* ---------- 5-2 她的紅筆（BB_165 5-2；BB_167 L4 已改進原檔）：底圖缺（AA_282 第 5 節），沒有以前用深色底＋地點字幕 ---------- */
+  /* ---------- 5-2 她的紅筆（BB_165 5-2；BB_167 L4 已改進原檔）：底圖 tn_cafe（BB_132 第 100 組第 8 張，11-02 使用者生成；原本深色底＋地點字幕） ---------- */
   const RED_PEN={ id:'ev_peishan_red_pen', title:'她的紅筆', participants:['classmate_peishan'], location:'any', trigger:'outing', background:'dark', hours:1.75,
     beforeOuting:(G,GM,q)=>{ const x=X(); if(x) x.fare(GM); },
     outingMissed:(G,GM,q)=>{ const x=X(); if(x) x.redPenMissed(G,q); },
-    dialogue:[ {scene:'台南・她學校附近的咖啡店',bg:'dark'},
+    dialogue:[ {scene:'台南・她學校附近的咖啡店',bg:'tn_cafe'},   /* BB_132 第 100 組第 8 張（11-02）*/
       {speaker:null,text:'（她改完第十二本作業，抬頭看你的筆記。）'},
       {speaker:'classmate_peishan',text:'欸，你的可以給我改嗎？'},
       {speaker:null,text:'（她拿走你寫了一半的那一題。她看不懂法律，紅筆在第三段停住。）'},
