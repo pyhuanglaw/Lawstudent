@@ -2,5 +2,16 @@
  "role": "CC",
  "format": "HV-18：一則使用者要求一筆；kind＝原話／選擇題答案／轉述／AI解讀（AI解讀要 confirmed:true 才算數）；status 和 USER_WANTS 那一列一樣；wants＝USER_WANTS 的列、task＝tasks.json 的任務，至少一個",
  "note": "CC（帳號 A）2026-11-02 建立；CC 的工作由 BB 分派，目前沒有使用者直接對 CC 的要求",
- "asks": []
+ "asks": [
+  {
+   "id": "UA-CC-1102-01",
+   "at": "2026-11-02T08:4x",
+   "quote": "你手上工作太少了吧 要自己去要 寫入規則",
+   "kind": "原話",
+   "status": "在做",
+   "task": "CC-NOIDLE-1102",
+   "src": "CC_00「CC 工作規則：不閒置、主動要工作」",
+   "note": "CC 寫進 CC_00 規則；同時傳 BB【CC 要工作】"
+  }
+ ]
 }
