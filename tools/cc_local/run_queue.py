@@ -353,12 +353,23 @@ class Runner(object):
 
     # ---------- 3. 跑一項 ----------
     def wt_add(self, path, sha):
+        # 2026-11-02 PC 實跑：舊 PowerShell runner 被 Ctrl+C 中斷時留下 wt_cc_R8_rr2 資料夾（不是登記中的 worktree，
+        # worktree remove 刪不掉）→ 新 runner「already exists」直接記 error。改成：remove → prune → 整個資料夾刪掉
+        # → 還刪不掉（Windows 檔案被占用）就換一個新名字，回傳實際用的路徑。
         with GIT_LOCK:
             if os.path.exists(path):
                 git('-C', self.repo, 'worktree', 'remove', '--force', path, quiet=True)
+                git('-C', self.repo, 'worktree', 'prune', quiet=True)
+                if os.path.exists(path):
+                    shutil.rmtree(path, ignore_errors=True)
+                if os.path.exists(path):
+                    alt = '%s_%d' % (path, int(time.time()))
+                    log('leftover %s cannot be removed - using %s' % (path, alt))
+                    path = alt
             rc, out = git('-C', self.repo, 'worktree', 'add', '--detach', path, sha, quiet=True)
         if rc != 0:
             raise RuntimeError('worktree add %s failed: %s' % (sha, out.strip()[-200:]))
+        return path
 
     def wt_remove(self, path):
         with GIT_LOCK:
@@ -425,7 +436,7 @@ class Runner(object):
         ports = []
         log('==== START %s  (%s @ %s) ====' % (it.id, it.kind, sha))
         try:
-            self.wt_add(wt, sha)
+            wt = self.wt_add(wt, sha)
             srv, port = self.start_server(wt, 8800)
             ports.append(port)
             url = 'http://127.0.0.1:%d/%s' % (port, it.url)
@@ -434,7 +445,7 @@ class Runner(object):
             sha2 = it.envd.get('SHA2', '').strip()
             if sha2:
                 wt2 = wt + '_2'
-                self.wt_add(wt2, sha2)
+                wt2 = self.wt_add(wt2, sha2)
                 srv2, port2 = self.start_server(wt2, port + 1)
                 ports.append(port2)
                 url2 = 'http://127.0.0.1:%d/%s' % (port2, it.url)
