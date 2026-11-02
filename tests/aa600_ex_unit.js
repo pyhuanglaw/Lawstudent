@@ -62,9 +62,11 @@ await sec('S2',async()=>{ const G=fresh('2026-09-13',20); H.FRIEND(AN); H.FRIEND
   at(d+1,15); check('S2. 「沒回的那一句」前任不演（neededMissLine＝null）',STORY.neededMissLine(G1,AN)==null);
   check('S2. 學姊 sis_list：neededAt／neededPick 都走 noContact（程式裡有擋）',guards('src/story3d.js','S.neededAt=function',1400)&&/noContact\(G,id\)\) return null/.test(body('src/story3d.js','S.neededMissLine=function',400))); });
 
-await sec('S3',async()=>{ const G=fresh('2027-03-09',21); H.CLOSE(AN); breakup(AN); H.CLOSE(AN);
-  check('S3. INV.anAsk：前任不約（false）',INV.anAsk(G)===false);
-  check('S3. 她那一方的邀約（INV.offer）前任不發',INV.offer(G,AN,'noodle',G.day+2,21.5,'禮拜四讀書會完要不要去吃飯？我想吃巷子那家。')==null);
+await sec('S3',async()=>{ const G=fresh('2026-03-10',21); H.CLOSE(AN); breakup(AN); H.CLOSE(AN); at('2027-03-09',21);   /* 分手一年以後（冷卻期早就過了）*/
+  check('S3. INV.anAsk：前任不約（false）',INV.anAsk(G)===false&&/INV\.anAsk=function\(G\)\{ if\(G&&G\.flags&&\(S\.cool\(G,AN\)\|\|S\.noContact\(G,AN\)\)\) return false;/.test(RAW('src/v6ex3d.js')));
+  { const G0=fresh('2027-03-09',21); H.CLOSE(AN); const iv=INV.offer(G0,AN,'noodle',G0.day+2,21.5,'禮拜四讀書會完要不要去吃飯？我想吃巷子那家。'); check('S3. 對照：沒分手的以安，她那一方的邀約發得出去',!!iv,J(iv&&iv.state)); }
+  H.G=G; SOCIAL.bind(G);
+  check('S3. 她那一方的邀約（INV.offer）前任不發（冷卻期過了也一樣）',INV.offer(G,AN,'noodle',G.day+2,21.5,'禮拜四讀書會完要不要去吃飯？我想吃巷子那家。')==null);
   const n0=(G.invites||[]).length; check('S3. 沒有留下邀約',(G.invites||[]).filter(iv=>iv.who===AN).length===0,String(n0)); });
 
 await sec('S4',async()=>{ const G=fresh('2027-10-05',12); date(AN); date(SIS); ROM.end(G,AN,'apart_talk'); ROM.end(G,SIS,'apart_talk'); H.CLOSE(AN); H.CLOSE(SIS);
@@ -73,7 +75,7 @@ await sec('S4',async()=>{ const G=fresh('2027-10-05',12); date(AN); date(SIS); R
   G.flags.SIS_REBUILD=G.day; check('S4. 學姊演過 4-1（SIS_REBUILD）也照樣擋',HASK.block(G,SIS,G.day)==='ex'); });
 
 await sec('S5',async()=>{ const G=fresh('2027-01-20',12); H.CLOSE(AN); breakup(AN); H.CLOSE(AN); at(D('2027-01-20')+200,12);
-  const w={id:'Y2S2'}; check('S5. 學期末心意邀約（heartWhy）：前任以安不發、也不傳 NOPE（false）',TERMEND.heartWhy(G,AN,w)===false);
+  const w={id:'Y2S2'}; check('S5. 學期末心意邀約（heartWhy）：前任以安不發、也不傳 NOPE（false）；條件裡先問 V6EX.noContact',TERMEND.heartWhy(G,AN,w)===false&&/S\.heartWhy=function[\s\S]{0,500}V6EX\.noContact\(G,id\)\) return false;/.test(RAW('src/termend3d.js')));
   check('S5. 朋友的期末邀約（friendOk）也不發',TERMEND.friendOk(G,AN,w)===false); });
 
 await sec('S6',async()=>{ check('S6. 寒暑假私訊揪人（signup kind dm，C03 日語課）：條件有 V6EX.noContact（前任只看行事曆 board）',/s\.kind==='dm'[^\n]*V6EX\.noContact\(G,s\.who\)/.test(RAW('src/vac3d.js'))&&VAC_ACTIVITIES_C03board()); });
