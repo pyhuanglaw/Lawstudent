@@ -485,7 +485,7 @@ const SIDEQ=(function(){
   /* 帶交往對象去的（AA_408 6）：女朋友那句換成對兩個人說、交往對象接一句（她的那一句）；一個人去＝原本那句 */
   S.pastaPartner=G=>{ const r=G&&S.get(G,'SQ12'); return r&&r.partner&&L.SQ12.pair[r.partner]?r.partner:null; };
   S.PASTA_EV={ id:'ev_sq12_pasta', title:'週一公休的那一晚', participants:[], location:'any', trigger:'outing', background:'dark', hours:1.5,
-    dialogue:[{scene:'118 巷・Pasta 118'},{speaker:null,text:L.SQ12.inN},{unless:{custom:G=>!!S.pastaPartner(G)},speaker:S.UI.gf,text:L.SQ12.in},{if:{custom:G=>!!S.pastaPartner(G)},speaker:S.UI.gf,text:L.SQ12.inPair}]
+    dialogue:[{scene:'118 巷・Pasta 118',bg:'pasta118_night'},{speaker:null,text:L.SQ12.inN},{unless:{custom:G=>!!S.pastaPartner(G)},speaker:S.UI.gf,text:L.SQ12.in},{if:{custom:G=>!!S.pastaPartner(G)},speaker:S.UI.gf,text:L.SQ12.inPair}]
       .concat(Object.keys(L.SQ12.pair).map(id=>({if:{custom:G=>S.pastaPartner(G)===id},speaker:id,text:L.SQ12.pair[id]})),
         [{speaker:null,text:L.SQ12.knew},{speaker:null,text:L.SQ12.yesN},{speaker:S.UI.gf,text:L.SQ12.photo},{speaker:null,text:L.SQ12.free}]),
     after:(G,GM)=>{ const r=S.get(G,'SQ12'); if(!r||r.state!=='open'||r.step!=='go') return; if(r.partner){ fam(r.partner,1); r.helped=true; } S.finish(GM||{G},'SQ12',r,{away:true}); },
@@ -503,7 +503,7 @@ const SIDEQ=(function(){
     await say(GM,null,L.SQ14.cage); setAct(r,'vet',G.day+1);
     if(typeof OUT!=='undefined') OUT.plan(G,{id:'sq14_vet_'+G.day,ev:'ev_sq14_vet',day:G.day,h:+G.hour+0.25,late:1,place:'羅斯福路・動物醫院',title:'回診：帶牠去動物醫院',travel:'走路 約 15 分鐘',travelH:0.25}); return true; };
   S.VET_EV={ id:'ev_sq14_vet', title:'回診', participants:[], location:'any', trigger:'outing', background:'dark', hours:1,
-    dialogue:[{scene:'羅斯福路・動物醫院',bg:'vet_clinic'}].concat(L.SQ14.chip.map(t=>({speaker:null,text:t})),[{scene:'溫州街・一盞茶屋'},{speaker:null,text:L.SQ14.backN}],L.SQ14.back.map(t=>({speaker:'蘇姨',text:t})),[{speaker:null,text:L.SQ14.tea}]),
+    dialogue:[{scene:'羅斯福路・動物醫院',bg:'vet_clinic'}].concat(L.SQ14.chip.map(t=>({speaker:null,text:t})),[{scene:'溫州街・一盞茶屋',bg:'wenzhou_teahouse'},{speaker:null,text:L.SQ14.backN}],L.SQ14.back.map(t=>({speaker:'蘇姨',text:t})),[{speaker:null,text:L.SQ14.tea}]),
     after:(G,GM)=>{ const r=S.get(G,'SQ14'); if(r&&r.state==='open'&&r.step==='vet') S.finish(GM||{G},'SQ14',r,{away:true}); },
     outingMissed:missedAt('SQ14','vet') };
   S.sq14Done=G=>{ const r=G&&S.get(G,'SQ14'); return !!r&&r.state==='done'; };   /* 演過 SQ14（過期＝照沒演過，AA_408 1）*/

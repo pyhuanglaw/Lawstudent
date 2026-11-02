@@ -23,7 +23,7 @@ const JP_BLANK_LINES=(function(){
 
   /* ---------------- 第 1 節 抵達以後、開學以前（3/29～4/9）---------------- */
   /* 1-1 3/29（三）11:00 百元商店：交往中（前一晚 21:30 她私訊，回「好。」＝出遊）*/
-  out('ev_jpb_100yen','車站旁邊的百元商店',[ {scene:'車站旁邊的百元商店'},
+  out('ev_jpb_100yen','車站旁邊的百元商店',[ {scene:'車站旁邊的百元商店',bg:'jp_100yen'},
     nar('（車站旁邊的百元商店。她拿了一個籃子，照手帳上的清單一樣一樣放進去。）'),
     an('衣架、垃圾袋、拖鞋。……你的呢？'),
     {choice:[{text:'「我沒有寫清單。」',goto:'a'},{text:'「跟妳一樣。」',goto:'b'}]},
@@ -31,10 +31,10 @@ const JP_BLANK_LINES=(function(){
     {label:'b'},an('好。那結帳的時候分開。'),
     {label:'e'} ]);
   /* 1-1 挽回中（一個人，一鍵）*/
-  ev('ev_jpb_100yen_alone','車站旁邊的百元商店',[ {scene:'車站旁邊的百元商店'},
+  ev('ev_jpb_100yen_alone','車站旁邊的百元商店',[ {scene:'車站旁邊的百元商店',bg:'jp_100yen'},
     nar('（車站旁邊的百元商店。你買了衣架和拖鞋。結帳的時候才想起來，沒有買垃圾袋。）'),{advance:1} ]);
   /* 1-2 3/31（五）15:00 二手腳踏車：交往中（12:00 她私訊）*/
-  ev('ev_jpb_bike','二手腳踏車',[ {scene:'宿舍旁邊的二手腳踏車店'},
+  ev('ev_jpb_bike','二手腳踏車',[ {scene:'宿舍旁邊的二手腳踏車店',bg:'jp_bike_shop'},
     nar('（店裡一排舊的腳踏車，每一台都掛著手寫的價錢。老闆在後面修輪胎。）'),
     an('這一台的煞車比較緊。'),an('……我騎騎看。'),
     nar('（她在店門口騎了一圈，回來的時候頭髮被風吹亂了。她沒有整理。）'),
@@ -43,12 +43,12 @@ const JP_BLANK_LINES=(function(){
     {label:'b'},an('國中以後就沒騎過了。'),
     {label:'e'},{set:{JP_BIKE:true}},{advance:1} ]);
   /* 1-2 挽回中（遇過立衡：12:00 他私訊；沒遇過：隔壁房間的交換生）*/
-  ev('ev_jpb_bike_repair','二手腳踏車',[ {scene:'宿舍旁邊的二手腳踏車店'},
+  ev('ev_jpb_bike_repair','二手腳踏車',[ {scene:'宿舍旁邊的二手腳踏車店',bg:'jp_bike_shop'},
     IF(metLH,nar('（立衡幫你挑了一台。他蹲下來看鏈條，看了很久。）')),IF(metLH,lh('這台可以。……騎到八月沒問題。')),
     UN(metLH,nar('（宿舍旁邊的二手腳踏車店。隔壁房間的交換生也在挑。你們各買了一台，一起騎回宿舍，路上沒說什麼話。）')),
     {set:{JP_BIKE:true}},{advance:1} ]);
   /* 1-3 4/1（六）17:00 超市：交往中（15:30 她私訊；回「我陪妳去。」＝出遊）*/
-  out('ev_jpb_market','小鎮的超市',[ {scene:'小鎮的超市'},
+  out('ev_jpb_market','小鎮的超市',[ {scene:'小鎮的超市',bg:'jp_supermarket'},
     nar('（小鎮的超市。生魚片在六點以後貼了半價的貼紙。）'),
     an('……原來要等到六點。'),an('下週六，六點以後再來。'),
     {choice:[{text:'「今天也等？」',goto:'a'},{text:'「先買別的。」',goto:'b'}]},
@@ -80,7 +80,7 @@ const JP_BLANK_LINES=(function(){
     {set:{JP_HANAMI_GROUP:true}} ],{hours:2});   /* 不加 REPAIR、不算挽回的一步 */
 
   /* ---------------- 第 2-1 節 交往中的固定小場景（她的生活上的事；回「好。」＝出遊）---------------- */
-  out('ev_jpb_w_market','小鎮的早市',[ {scene:'小鎮的早市'},
+  out('ev_jpb_w_market','小鎮的早市',[ {scene:'小鎮的早市',bg:'jp_morning_market'},
     nar('（早市的攤子沿著小路排開。草莓一盒一盒疊得很高。）'),
     an('臺灣的草莓，三月就沒有了。'),an('……這裡四月才最好吃。'),
     {choice:[{text:'「買兩盒。」',goto:'a'},{text:'「妳很喜歡草莓？」',goto:'b'}]},
@@ -101,7 +101,7 @@ const JP_BLANK_LINES=(function(){
     {label:'a'},nar('（你弄了十分鐘，手都黑了。鏈條卡進去的時候，她說了一聲「好」。）'),an('……手去洗。我請你吃午餐。'),{goto:'e'},
     {label:'b'},nar('（她扶著車，你轉踏板。第三次卡上去了。兩個人的手都是黑的。）'),
     {label:'e'} ]);
-  out('ev_jpb_w_books','鎮上的舊書店',[ {scene:'鎮上的舊書店'},
+  out('ev_jpb_w_books','鎮上的舊書店',[ {scene:'鎮上的舊書店',bg:'jp_old_bookstore'},
     nar('（舊書店裡很窄，書一路疊到天花板。法律書在最裡面那一排。）'),
     an('這本是二十年前的行政法教科書。……一百日圓。'),
     {choice:[{text:'「買。」',goto:'a'},{text:'「舊的有用嗎？」',goto:'b'}]},
@@ -138,7 +138,7 @@ const JP_BLANK_LINES=(function(){
     {label:'e'},{mem:[{npc:A1,tag:'AN_JP_FIREWORK',note:''}]} ],{hours:1.5});
 
   /* ---------------- 第 2-2 節 挽回中的固定小場景（週六；她不在場或只遠遠出現）---------------- */
-  ev('ev_jpb_r_shop','二手店',[ {scene:'二手店'},
+  ev('ev_jpb_r_shop','二手店',[ {scene:'二手店',bg:'jp_secondhand_shop'},
     IF(metLH,nar('（二手店的電器區。立衡把每一台電風扇都打開，聽它的聲音。）')),IF(metLH,lh('這台比較安靜。……晚上寫論文，吵的會睡著。')),
     UN(metLH,nar('（宿舍的布告欄貼了二手店的傳單。你一個人去，買了一台電風扇，騎腳踏車載回來的時候，綁了三次。）')),{advance:1.5} ]);
   ev('ev_jpb_r_laundry','投幣洗衣店',[ {scene:'宿舍的投幣洗衣店',bg:'jp_laundry'},
@@ -186,7 +186,7 @@ const JP_BLANK_LINES=(function(){
     {label:'b'},an('好。'),nar('（她坐在紙箱上，看了房間一圈。）'),
     {label:'e'} ],{hours:2});
   /* 4-3 7/31（一）郵局寄箱子（兩版，一鍵）*/
-  ev('ev_jpb_post','郵局',[ {scene:'郵局'},
+  ev('ev_jpb_post','郵局',[ {scene:'郵局',bg:'jp_post_office'},
     nar('（郵局的櫃台。海運要兩個月才到。你在單子上寫臺北的地址，寫得比平常慢。）'),
     IF(dating,nar('（以安排在你後面。她的箱子比你的小，貼了三張「易碎」。）')),{advance:1} ]);
   /* 4-4 8/2（三）10:00 最後一次去學校（兩版，一鍵；接 3/27 第一天那一句 AA_341 G1）*/
