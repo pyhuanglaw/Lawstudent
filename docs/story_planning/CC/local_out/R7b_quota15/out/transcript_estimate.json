@@ -1,0 +1,37 @@
+{
+ "estimate": {
+  "usage": 0,
+  "quota": 10737418240,
+  "details": {}
+ },
+ "ls": {
+  "chars": 8222,
+  "fill": 0,
+  "nfill": 0,
+  "per": {
+   "fatiao3d_auto": 8222
+  }
+ },
+ "snapLen": 8209,
+ "auto": {
+  "ms": 66636,
+  "now": 1793625022358,
+  "err": null,
+  "failAt": 0,
+  "autoLen": 8209
+ },
+ "g": {
+  "saveErr": null,
+  "autoFailAt": 0,
+  "full": "儲存空間不足，這次沒有存進去。到選單 → 存檔，刪掉不用的欄位或備份，或先「匯出存檔檔案」留一份。",
+  "now": 1793625022695,
+  "keys": {
+   "fatiao3d_auto": 8209,
+   "fatiao3d_quick": 0,
+   "fatiao3d_slot_1": 0,
+   "fatiao3d_slot_2": 0,
+   "fatiao3d_slot_3": 0,
+   "fatiao3d_backup": 0
+  }
+ }
+}

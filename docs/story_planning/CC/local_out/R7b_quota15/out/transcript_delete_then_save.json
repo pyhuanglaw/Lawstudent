@@ -1,0 +1,179 @@
+{
+ "fill": {
+  "fill": {
+   "n": 11,
+   "total": 5203712,
+   "err": {
+    "name": "QuotaExceededError",
+    "code": 22,
+    "msg": "Failed to execute 'setItem' on 'Storage': Setting the value of 'cc_fill_11' exceeded the quota."
+   },
+   "stopAt": 128
+  },
+  "canWrite": "QuotaExceededError",
+  "snapLen": 14225,
+  "ls": {
+   "chars": 5242735,
+   "fill": 5203812,
+   "nfill": 11,
+   "per": {
+    "fatiao3d_slot_2": 14240,
+    "fatiao3d_slot_1": 14240,
+    "fatiao3d_auto": 2220,
+    "fatiao3d_quick": 8223
+   }
+  }
+ },
+ "log": {
+  "save1_pre": [
+   "已存到欄位 1"
+  ],
+  "save2_pre": [
+   "已存到欄位 2"
+  ],
+  "save1_full": {
+   "toasts": [
+    "已存到欄位 1"
+   ],
+   "g": {
+    "saveErr": null,
+    "autoFailAt": 0,
+    "full": "儲存空間不足，這次沒有存進去。到選單 → 存檔，刪掉不用的欄位或備份，或先「匯出存檔檔案」留一份。",
+    "now": 1793625519249,
+    "keys": {
+     "fatiao3d_auto": 2207,
+     "fatiao3d_quick": 8209,
+     "fatiao3d_slot_1": 14225,
+     "fatiao3d_slot_2": 14225,
+     "fatiao3d_slot_3": 0,
+     "fatiao3d_backup": 0
+    }
+   }
+  },
+  "rows": [
+   {
+    "box": "saveSlots",
+    "label": "自動存檔",
+    "empty": false,
+    "btns": [
+     "讀取"
+    ]
+   },
+   {
+    "box": "saveSlots",
+    "label": "快速存檔（右上 💾）",
+    "empty": false,
+    "btns": [
+     "讀取"
+    ]
+   },
+   {
+    "box": "saveSlots",
+    "label": "欄位 1",
+    "empty": false,
+    "btns": [
+     "存檔",
+     "讀取",
+     "刪除"
+    ]
+   },
+   {
+    "box": "saveSlots",
+    "label": "欄位 2",
+    "empty": false,
+    "btns": [
+     "存檔",
+     "讀取",
+     "刪除"
+    ]
+   },
+   {
+    "box": "saveSlots",
+    "label": "欄位 3",
+    "empty": true,
+    "btns": [
+     "存檔"
+    ]
+   }
+  ],
+  "afterCancel": {
+   "saveErr": null,
+   "autoFailAt": 0,
+   "full": "儲存空間不足，這次沒有存進去。到選單 → 存檔，刪掉不用的欄位或備份，或先「匯出存檔檔案」留一份。",
+   "now": 1793625526586,
+   "keys": {
+    "fatiao3d_auto": 2207,
+    "fatiao3d_quick": 8209,
+    "fatiao3d_slot_1": 14225,
+    "fatiao3d_slot_2": 14225,
+    "fatiao3d_slot_3": 0,
+    "fatiao3d_backup": 0
+   }
+  },
+  "afterDelete": {
+   "saveErr": null,
+   "autoFailAt": 0,
+   "full": "儲存空間不足，這次沒有存進去。到選單 → 存檔，刪掉不用的欄位或備份，或先「匯出存檔檔案」留一份。",
+   "now": 1793625527848,
+   "keys": {
+    "fatiao3d_auto": 2207,
+    "fatiao3d_quick": 8209,
+    "fatiao3d_slot_1": 14225,
+    "fatiao3d_slot_2": 0,
+    "fatiao3d_slot_3": 0,
+    "fatiao3d_backup": 0
+   }
+  },
+  "afterSave": {
+   "saveErr": null,
+   "autoFailAt": 0,
+   "full": "儲存空間不足，這次沒有存進去。到選單 → 存檔，刪掉不用的欄位或備份，或先「匯出存檔檔案」留一份。",
+   "now": 1793625529163,
+   "keys": {
+    "fatiao3d_auto": 2207,
+    "fatiao3d_quick": 8209,
+    "fatiao3d_slot_1": 14225,
+    "fatiao3d_slot_2": 0,
+    "fatiao3d_slot_3": 0,
+    "fatiao3d_backup": 14225
+   }
+  },
+  "dialogs": [
+   {
+    "type": "confirm",
+    "msg": "刪除「欄位 2」？刪掉就讀不回來了。",
+    "answer": "dismiss"
+   },
+   {
+    "type": "confirm",
+    "msg": "刪除「欄位 2」？刪掉就讀不回來了。",
+    "answer": "accept"
+   }
+  ]
+ },
+ "before": {
+  "saveErr": null,
+  "autoFailAt": 0,
+  "full": "儲存空間不足，這次沒有存進去。到選單 → 存檔，刪掉不用的欄位或備份，或先「匯出存檔檔案」留一份。",
+  "now": 1793625517908,
+  "keys": {
+   "fatiao3d_auto": 2207,
+   "fatiao3d_quick": 8209,
+   "fatiao3d_slot_1": 14225,
+   "fatiao3d_slot_2": 14225,
+   "fatiao3d_slot_3": 0,
+   "fatiao3d_backup": 0
+  }
+ },
+ "shots": {
+  "rows": [
+   "C:\\Users\\USER\\Documents\\Lawstudent_cclocal\\docs\\story_planning\\CC\\local_out\\R7b_quota15\\out\\09_delete_then_save_rows_land.png",
+   "C:\\Users\\USER\\Documents\\Lawstudent_cclocal\\docs\\story_planning\\CC\\local_out\\R7b_quota15\\out\\10_delete_then_save_rows_port.png"
+  ],
+  "deleted": "C:\\Users\\USER\\Documents\\Lawstudent_cclocal\\docs\\story_planning\\CC\\local_out\\R7b_quota15\\out\\11_delete_then_save_deleted_land.png",
+  "save_after": [
+   "C:\\Users\\USER\\Documents\\Lawstudent_cclocal\\docs\\story_planning\\CC\\local_out\\R7b_quota15\\out\\12_delete_then_save_save_after_land.png",
+   "C:\\Users\\USER\\Documents\\Lawstudent_cclocal\\docs\\story_planning\\CC\\local_out\\R7b_quota15\\out\\13_delete_then_save_save_after_port.png"
+  ]
+ }
+}

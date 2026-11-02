@@ -1,0 +1,15 @@
+﻿{
+    "rerun":  "",
+    "id":  "R7b_quota15",
+    "sha":  "b1b249873",
+    "kind":  "probe",
+    "script":  "docs/story_planning/test_tools/cc/cc_quota15_probe.py",
+    "env":  "",
+    "machine":  "MSI",
+    "start":  "2026-11-02T21:08:51",
+    "end":  "2026-11-02T21:19:40",
+    "seconds":  649,
+    "exit":  0,
+    "error":  null,
+    "url":  "http://127.0.0.1:8801/index.html?turbo"
+}
