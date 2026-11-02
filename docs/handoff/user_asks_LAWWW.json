@@ -1902,7 +1902,7 @@
       "kind": "原話",
       "status": "進行中",
       "task": "BRANCH-AUDIT-1028",
-      "note": "稽核 27 條；選擇題（04:5x）選「17 條（建議）」「我同意，你來刪（建議）」；git push --delete 回 HTTP 403（雲端只准推本分支），清單＋SHA 寫進 BRANCH_INVENTORY 整理紀錄，請使用者在 GitHub Branches 頁刪"
+      "note": "稽核 27 條；選擇題（04:5x）選「17 條（建議）」「我同意，你來刪（建議）」；git push --delete 回 HTTP 403（雲端只准推本分支），清單＋SHA 寫進 BRANCH_INVENTORY 整理紀錄，請使用者在 GitHub Branches 頁刪；05:0x 抓遠端仍 27 條（使用者還沒刪）"
     },
     {
       "id": "UA-LAWWW-1102-13",
@@ -1911,6 +1911,26 @@
       "kind": "選擇題答案",
       "status": "進行中",
       "task": "BRANCH-AUDIT-1028"
+    },
+    {
+      "id": "UA-LAWWW-1102-14",
+      "at": "2026-11-02T05:0x",
+      "quote": "沒有期中考",
+      "kind": "選擇題答案",
+      "status": "進行中",
+      "task": "STUDY-EXAM-SYS-1102",
+      "wants": "X151",
+      "note": "問「期中考要不要算成績」三個選項都沒選，自己填「沒有期中考」：拿掉期中考（第 8～9 週照一般上課、不抽題），總複習只在期末前；D118_PLAN 第 10 節 Q3、批次 B4 跟著改"
+    },
+    {
+      "id": "UA-LAWWW-1102-15",
+      "at": "2026-11-02T05:0x",
+      "quote": "6 月底補考一次（建議）",
+      "kind": "選擇題答案",
+      "status": "進行中",
+      "task": "STUDY-EXAM-SYS-1102",
+      "wants": "X151",
+      "note": "大四下有一科被當：加一次 6 月底補考（同科五題），過了照常畢業、照常考當年國考；沒過才延畢"
     }
   ]
 }

@@ -38467,7 +38467,7 @@
       "owner": "LAWWW",
       "status": "進行中",
       "priority": "P0",
-      "next": "【LAWWW（帳號 A）04:0x】使用者直接下 D118（PROJECT_DECISIONS、CLAUDE.md、USER_INSTRUCTION_LOG 已寫）：先現況盤點（多代理唯讀：學習／讀書、考試與成績、法律服務社、國考與職涯結局、交班紀錄與企劃稿）→ 對照 D118 列缺口 → 分工（AA 內容與結局文本、BB 測試、LAWWW2 必要 3D）→ 實作計畫 → 開發 ｜ 【LAWWW（帳號 A）03:4x 登記】先做現況盤點（和 BB 的基準對照），列缺口與要 AA 定的結局條件；排在接班盤點回報使用者之後"
+      "next": "B0 計畫完成（docs/handoff/D118_PLAN.md）；照 B1→B9 實作，B1 先做"
     },
     {
       "id": "STUDY-EXAM-STORY-1102",
@@ -38665,6 +38665,236 @@
         "receiver": "LAWWW",
         "ack": "ACK"
       }
+    },
+    {
+      "id": "D118-B1-1102",
+      "title": "卡死與考試例外修正（不需要等 AA）",
+      "area": null,
+      "owner": "LAWWW",
+      "status": "待開工",
+      "priority": "P0",
+      "next": "見 docs/handoff/D118_PLAN.md 第 4 節 D118-B1",
+      "first": {
+        "term": "Y1S1",
+        "week": null,
+        "earliest": "第一次期中考前（讀書、一鍵總複習）；國考與職涯在畢業以後",
+        "mainline": true,
+        "blocks": false,
+        "prereq": false,
+        "parallel": true,
+        "confirmed": true
+      },
+      "source": "D118_PLAN.md D118-B1（使用者 11-02 D118）",
+      "authorized": "使用者直接指派（X151）；D111 LAWWW 遊戲總監",
+      "parent": "STUDY-EXAM-SYS-1102",
+      "notes": "依賴：無；兩句旁白先用暫定字，AA 之後替換；工時：LAWWW 2h；BB 20 分鐘；BB 驗收：1. 從 2029-08-02 的重考存檔，8/3 整天待在家不去考 → 2030-10-01 第一份工作卡、2034 尾聲照常演出。\n2. 大一上第 8 週國文那一堂進教室是一般上課、出席有加。\n約 20 分鐘。"
+    },
+    {
+      "id": "D118-B2-1102",
+      "title": "觀念卡資料層＋「法律」頁的學習進度",
+      "area": null,
+      "owner": "LAWWW",
+      "status": "待開工",
+      "priority": "P0",
+      "next": "見 docs/handoff/D118_PLAN.md 第 4 節 D118-B2",
+      "first": {
+        "term": "Y1S1",
+        "week": null,
+        "earliest": "第一次期中考前（讀書、一鍵總複習）；國考與職涯在畢業以後",
+        "mainline": true,
+        "blocks": false,
+        "prereq": false,
+        "parallel": true,
+        "confirmed": true
+      },
+      "source": "D118_PLAN.md D118-B2（使用者 11-02 D118）",
+      "authorized": "使用者直接指派（X151）；D111 LAWWW 遊戲總監",
+      "parent": "STUDY-EXAM-SYS-1102",
+      "notes": "依賴：無（先用 fallback 內容）；AA 的觀念卡之後用白名單匯入、逐學期替換；工時：LAWWW 3h；BB 25 分鐘；BB 驗收：新遊戲大一上：上兩週課，其中一堂在萬才館多功能教室，再自習一次 → 「法律」頁憲法、民總的進度數字正確；在萬才館看得到黑板內容的字幕。手機直向、橫向各截圖一張。約 25 分鐘。"
+    },
+    {
+      "id": "D118-B3-1102",
+      "title": "一鍵總複習（期中、期末）",
+      "area": null,
+      "owner": "LAWWW",
+      "status": "待開工",
+      "priority": "P0",
+      "next": "見 docs/handoff/D118_PLAN.md 第 4 節 D118-B3",
+      "first": {
+        "term": "Y1S1",
+        "week": null,
+        "earliest": "第一次期中考前（讀書、一鍵總複習）；國考與職涯在畢業以後",
+        "mainline": true,
+        "blocks": false,
+        "prereq": false,
+        "parallel": true,
+        "confirmed": true
+      },
+      "source": "D118_PLAN.md D118-B3（使用者 11-02 D118）",
+      "authorized": "使用者直接指派（X151）；D111 LAWWW 遊戲總監",
+      "parent": "STUDY-EXAM-SYS-1102",
+      "notes": "依賴：B2；入口和結束的 6 句台詞由 AA 寫（先用暫定字）；工時：LAWWW 3h；BB 30 分鐘；BB 驗收：情境 S1：新遊戲 → 大一上第 1～15 週只約會、出遊、參加社團，不自習 → 第 15 週做一鍵總複習 → 三科期末作答 → 成績單照答對題數 → 成績公布後的人物反應正常 → 存檔、讀檔，進度還在。用 semff 快轉當前置條件，必須標示。約 30 分鐘。"
+    },
+    {
+      "id": "D118-B4-1102",
+      "title": "考試裡的 cue 和考後訂正",
+      "area": null,
+      "owner": "LAWWW",
+      "status": "待開工",
+      "priority": "P0",
+      "next": "見 docs/handoff/D118_PLAN.md 第 4 節 D118-B4",
+      "first": {
+        "term": "Y1S1",
+        "week": null,
+        "earliest": "第一次期中考前（讀書、一鍵總複習）；國考與職涯在畢業以後",
+        "mainline": true,
+        "blocks": false,
+        "prereq": false,
+        "parallel": true,
+        "confirmed": true
+      },
+      "source": "D118_PLAN.md D118-B4（使用者 11-02 D118）",
+      "authorized": "使用者直接指派（X151）；D111 LAWWW 遊戲總監",
+      "parent": "STUDY-EXAM-SYS-1102",
+      "notes": "依賴：B2、B3；AA 的 cue 欄位（先用卡片標題當暫定 cue）；工時：LAWWW 1.5h；BB 15 分鐘；BB 驗收：大一上期末：先總複習再考，畫面出現 cue 行；故意答錯一題，筆記頁有那一題的訂正；分數＝答對題數對應的分數。約 15 分鐘。"
+    },
+    {
+      "id": "D118-B5a-1102",
+      "title": "法服改純劇情（機制部分）",
+      "area": null,
+      "owner": "LAWWW",
+      "status": "待開工",
+      "priority": "P0",
+      "next": "見 docs/handoff/D118_PLAN.md 第 4 節 D118-B5a",
+      "first": {
+        "term": "Y1S1",
+        "week": null,
+        "earliest": "第一次期中考前（讀書、一鍵總複習）；國考與職涯在畢業以後",
+        "mainline": true,
+        "blocks": false,
+        "prereq": false,
+        "parallel": true,
+        "confirmed": true
+      },
+      "source": "D118_PLAN.md D118-B5a（使用者 11-02 D118）",
+      "authorized": "使用者直接指派（X151）；D111 LAWWW 遊戲總監",
+      "parent": "STUDY-EXAM-SYS-1102",
+      "notes": "依賴：無（BB 確認機制即可）；工時：LAWWW 2h；BB 25 分鐘；BB 驗收：大二上存檔：連續兩個月週六都睡覺 → 不跳法服選單、沒有柏翰訊息；5/22 收到提醒、去得了、語彤阿姨那一段照常演；日本路線大三下不會收到法服訊息。約 25 分鐘。"
+    },
+    {
+      "id": "D118-B5b-1102",
+      "title": "法服固定日期劇情場次",
+      "area": null,
+      "owner": "LAWWW",
+      "status": "待開工",
+      "priority": "P0",
+      "next": "見 docs/handoff/D118_PLAN.md 第 4 節 D118-B5b",
+      "first": {
+        "term": "Y1S1",
+        "week": null,
+        "earliest": "第一次期中考前（讀書、一鍵總複習）；國考與職涯在畢業以後",
+        "mainline": true,
+        "blocks": false,
+        "prereq": false,
+        "parallel": true,
+        "confirmed": true
+      },
+      "source": "D118_PLAN.md D118-B5b（使用者 11-02 D118）",
+      "authorized": "使用者直接指派（X151）；D111 LAWWW 遊戲總監",
+      "parent": "STUDY-EXAM-SYS-1102",
+      "notes": "依賴：B5a；AA 交 FAFU_STORY 場次表與台詞（aa_asks 第 6 項）；工時：LAWWW 1.5h；BB 15 分鐘；BB 驗收：大二上第一場：當天赴約，看到民眾和回訪 → 第二場故意錯過，沒有任何追問訊息。約 15 分鐘。"
+    },
+    {
+      "id": "D118-B6-1102",
+      "title": "職涯落點 v2：careerLean、律師家族保證、研究所改成作答",
+      "area": null,
+      "owner": "LAWWW",
+      "status": "待開工",
+      "priority": "P0",
+      "next": "見 docs/handoff/D118_PLAN.md 第 4 節 D118-B6",
+      "first": {
+        "term": "Y1S1",
+        "week": null,
+        "earliest": "第一次期中考前（讀書、一鍵總複習）；國考與職涯在畢業以後",
+        "mainline": true,
+        "blocks": false,
+        "prereq": false,
+        "parallel": true,
+        "confirmed": true
+      },
+      "source": "D118_PLAN.md D118-B6（使用者 11-02 D118）",
+      "authorized": "使用者直接指派（X151）；D111 LAWWW 遊戲總監",
+      "parent": "STUDY-EXAM-SYS-1102",
+      "notes": "依賴：AA：L_firm 結局稿、研究所考場台詞；B5a（法服旗標）；工時：LAWWW 2.5h；BB 30 分鐘；BB 驗收：大四上存檔（傾向 C、報國考）→ 一路到 2030-10-01 → 第一份工作是律師的卡。另一份存檔報研究所，筆試照作答，答 7 題錄取、答 3 題落榜，尾聲分別正確。約 30 分鐘。"
+    },
+    {
+      "id": "D118-B7-1102",
+      "title": "國考題目範圍＋國考總複習",
+      "area": null,
+      "owner": "LAWWW",
+      "status": "待開工",
+      "priority": "P0",
+      "next": "見 docs/handoff/D118_PLAN.md 第 4 節 D118-B7",
+      "first": {
+        "term": "Y1S1",
+        "week": null,
+        "earliest": "第一次期中考前（讀書、一鍵總複習）；國考與職涯在畢業以後",
+        "mainline": true,
+        "blocks": false,
+        "prereq": false,
+        "parallel": true,
+        "confirmed": true
+      },
+      "source": "D118_PLAN.md D118-B7（使用者 11-02 D118）",
+      "authorized": "使用者直接指派（X151）；D111 LAWWW 遊戲總監",
+      "parent": "STUDY-EXAM-SYS-1102",
+      "notes": "依賴：B3；工時：LAWWW 2h；BB 20 分鐘；BB 驗收：從 2029-07-10 的存檔：做國考總複習 → 8/4 作答 → 9/7 的結果和答對題數一致。約 20 分鐘。"
+    },
+    {
+      "id": "D118-B8-1102",
+      "title": "司法官二試、三試、重考：六條路線",
+      "area": null,
+      "owner": "LAWWW",
+      "status": "待開工",
+      "priority": "P0",
+      "next": "見 docs/handoff/D118_PLAN.md 第 4 節 D118-B8",
+      "first": {
+        "term": "Y1S1",
+        "week": null,
+        "earliest": "第一次期中考前（讀書、一鍵總複習）；國考與職涯在畢業以後",
+        "mainline": true,
+        "blocks": false,
+        "prereq": false,
+        "parallel": true,
+        "confirmed": true
+      },
+      "source": "D118_PLAN.md D118-B8（使用者 11-02 D118）",
+      "authorized": "使用者直接指派（X151）；D111 LAWWW 遊戲總監",
+      "parent": "STUDY-EXAM-SYS-1102",
+      "notes": "依賴：使用者回答 user_decisions 第 1、2 題；AA 的路線稿（aa_asks 第 4 項）；B7；工時：LAWWW 3h；BB 2h；BB 驗收：情境 S2（主驗收）：大四下存檔 → 報名 → 國考總複習 → 一試作答 → 二試作答 → 放榜 → 三試或重考選擇 → 第一份工作 → 尾聲。(b)、(c→e)、(d)、(f) 四條各走一次，全程不用 turbo。每條約 30 分鐘，共約 2 小時，可以交給 CC 執行，由 BB 判定 PASS／FAIL。"
+    },
+    {
+      "id": "D118-B9-1102",
+      "title": "發布 v9.11（D118 學習、考試、職涯）",
+      "area": null,
+      "owner": "LAWWW",
+      "status": "待開工",
+      "priority": "P0",
+      "next": "見 docs/handoff/D118_PLAN.md 第 4 節 D118-B9",
+      "first": {
+        "term": "Y1S1",
+        "week": null,
+        "earliest": "第一次期中考前（讀書、一鍵總複習）；國考與職涯在畢業以後",
+        "mainline": true,
+        "blocks": false,
+        "prereq": false,
+        "parallel": true,
+        "confirmed": true
+      },
+      "source": "D118_PLAN.md D118-B9（使用者 11-02 D118）",
+      "authorized": "使用者直接指派（X151）；D111 LAWWW 遊戲總監",
+      "parent": "STUDY-EXAM-SYS-1102",
+      "notes": "依賴：B1～B8；AA 至少交齊大一上、大一下的觀念卡（其他學期先用 fallback，發布紀錄要寫明）；工時：LAWWW 1.5h；BB 2h；BB 驗收：BB 完整回歸：戀愛約會、課表日曆、快轉與寒暑假、存讀檔（v9.10 舊存檔）、經濟系主線、S1＋S2。約 2 小時（BB／CC）。"
     }
   ]
 }
