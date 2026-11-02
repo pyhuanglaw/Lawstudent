@@ -1,40 +1,22 @@
 # LAWWW2 交接紀錄（隨時更新；工作階段中斷時從這裡接）
 
-## 🔨 現在在做（11-02 19:5x 更新）：使用者 P0「總圖」——大廳第三版（展演廳，BB_244）→ 3F → 效能
-- **⛔ D128（使用者 19:5x 對 LAWWW：「美術應該只需要給B驗收，或者你不用經過我」＋選擇題「全部交出去」）**：
-  - 美術驗收全部不經使用者：建築、場景由 BB 標 ART_APPROVED（D120）；角色由 LAWWW（D100a）；
-  - 整體畫風由 LAWWW2 提案，BB 和 LAWWW 同意就定案；
-  - 交件**不要再寫「最終美術要使用者確認」**、不要把美術驗收排給使用者。
-  - 20:0x 已改 v3.1、v3.2 的 README 和 outbox。
-- **今天已交件（都有 LAWWW ACK，除了最後一包）**：
-  - B1 4.1 `cca10dd55`：已整合 `fd5d37105`；使用者 19:2x「B1 4.1 版可以，標定稿」，BB_242 已標 ART_APPROVED。剩烘焙，排到使用者電腦。
-  - 一樓二樓第二版 `c7c2996ff`：已整合 int/m590 `0e11c43a3`。BB_244：中庭、一樓平面、二樓 PASS，**展演廳 NOT PASS → 第三版**。
-  - LIB-FRONT v3.1 `d594acbee`：已整合 int/m590。
-  - LIB-FRONT v3.2 `47851b07d`：19:5x 交件，等 ACK。只換二進位，程式不用改。
-- **大廳第三版（展演廳，BB_244 七點；第 3 點 BB 19:29 同意更正：是吊著的大圓環軌道燈，不是環廊）**：
-  - WIP：`e3a470e4f`、`26122f04b`。README 草稿在 `test_shots/library_hall_v3_1102/`。
-  - 增量 patch 的草稿：`wip/library_hall_v3/library_hall_v3_incr_wip.patch`（library_layout.js、library_hall_v2.js）。
-  - 配置：中庭展示櫃 x ±3.05 → ±4.7；展演廳三扇窗。
-  - Node：nav_buildings、cam_core、oldsave（629 原地）ALL PASS。
-  - 窗景：`assets/models/env/library_view_trees_day.webp`（黑森林）；晚上那張在拍。
-  - **烘焙**：`scratchpad/lib1102/run_lh3bake.sh`，等 3F 重烘完自動開始，輸出到 `scratchpad/lh3bake`。
-  - 烘完以後：
-    1. wall_orient、lm_probe；
-    2. 複製到 devwt_i；
-    3. Node 92 支；
-    4. 截圖（入口眼睛高度看整個半圓＝驗收鏡頭）＋reachability_all(library_hall)、flow_library_floors；
-    5. README、增量 patch、交件。
-- **LIB-3F-1102**：
-  - 第一次烘焙兩個探針 FAIL。南側長桌、人文庫兩點在桌子正下方，是探針放錯；人文庫本身也偏暗（0.155）。
-  - 所以人文庫加了四片燈，重烘中（`scratchpad/lib3f/bake2`，19:20 開始，白天 0.146）。
-  - 烘完以後：
-    1. `lib3f/post_bake.sh`（記得把裡面的 bake1 改成 bake2）；
-    2. `touch lib3f/READY` → `run_tail.sh` 自動拍 3F 截圖 → `run_q3.sh` 導覽重跑。
-- **背景**：
-  - `run_treenight.sh`（樹景晚上那張）；
-  - `run_lh3bake.sh`（等 3F 烘完）；
-  - `run_tail.sh`（等 lib3f/READY）；
-  - `run_q3.sh`（等 3f shots）。
+## 🔨 現在在做（11-02 20:3x 更新）：使用者 P0「總圖」——大廳第三版（展演廳，BB_244）→ 3F → 效能
+- **⛔ D128（使用者 19:5x：「美術應該只需要給B驗收，或者你不用經過我」＋「全部交出去」）**：建築、場景 BB 標 ART_APPROVED；角色 LAWWW；畫風 LAWWW2 提案、BB＋LAWWW 同意。交件不寫「最終美術要使用者確認」。20:0x 已改 README、outbox（`f3ab9487b`），19:57 回 LAWWW、BB ACK。
+- **今天已交件**：B1 4.1（已定稿 ART_APPROVED）、一樓二樓第二版（int/m590 `0e11c43a3`）、LIB-FRONT v3.1、v3.2（LAWWW 19:48 ACK：已進 int/m590）。
+- **整合線**：LAWWW 的 int/m590 bundle（開發分支 `919a3a5f0` 的 `wip_backup/next1102_1102.bundle`）＝`0e11c43a3`；拿到 `refs/remotes/bundle2/int/m590`。
+- **測試環境 `scratchpad/devwt_k`（20:0x 改的）**：`0e11c43a3`＋大廳第三版 patch＋3F patch（含黑窗修正）＋兩個新 GLB。Node 93 支 ALL PASS（20:04，第三版 GLB 還沒換進來）。
+- **大廳第三版**：
+  - 增量 patch：`scratchpad/lib1102/library_hall_v3_incr_1102.patch`（＝`wip/library_hall_v3/library_hall_v3_incr_wip.patch`）：library_layout.js、library_hall_v2.js、LICENSES（large_sandstone_blocks）、tools/shots/library_views.py（trees）。0e11c43a3 上乾淨。
+  - 烘焙：20:01 開始（`scratchpad/lh3bake`），約 40 分鐘。
+- **3F**：
+  - bake2 20:01 完成：亮度探針 9 項 ALL PASS（人文庫木地板 0.30），GLB＋光照貼圖已推（`0f2d7445e`）。
+  - 20:1x 截圖發現**白天的窗全黑**：`library_3f_v2.js` 的 applyTime 只在白天↔晚上切換時才套窗景，照片非同步載好以後一直沒換上。已修（每次都套、載好前用漸層、照時段調色）＋單元測試兩項（舊版 FAIL、新版 PASS）。patch `wip/library_3f_v2/library_3f_v2_1102.patch`（`97fbbb401`，接 0e11c43a3）。
+  - 人文庫入口中間的黑條＝雙開玻璃門中間的門框（6 cm），只是鏡頭太近；重拍換斜的鏡頭。
+- **PERF-CAMPUS-GLB ①**：雜訊原因找到（讀程式）：量的時候路人移出場景，這時 CHAR.upgrade 換模型，新的不進場景、量完放回舊的。只改 tests 的 patch：`wip/perf_campus_glb/`。瀏覽器還沒跑。
+- **背景佇列（nohup，一次一個瀏覽器）**：
+  - `run_q3.sh`：flow_lib_tour 兩輪（第一輪 devwt_i、第二輪 devwt_k＝最終組合，不是原本寫的第一版）。
+  - `run_q4b.sh`（等 q3 done）：第二版驗收鏡頭 2 張 → 等第三版烘完、複製、Node → 第三版截圖 14 張 → 3F 重拍 10 張（`lib3f/shots2`）→ flow_library_floors、flow_library_scene、reachability_all（總圖三區）、seats（大廳、3F）、stairs_cam_browser、zone_transitions → campus_glb_integration（雜訊修正版）。結果在 `lib1102/q4/RESULTS.txt`。
+  - 跑完：`python3 scratchpad/lib1102/make_lh3_grids.py <輸出>` 做對照圖 → 兩份 README、測試單 → 交件。
 - **TEST-OFFLOAD-1102**：使用者 18:5x 同意（UA-LAWWW-1102-27），總表已開、暫停到 v9.10.16 發布、CC runner 支援。交件都附測試單。
 - **之後**：
   - PERF-CAMPUS-GLB-1102（量測雜訊、四棟減 draw call）；
