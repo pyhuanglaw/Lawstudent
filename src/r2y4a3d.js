@@ -138,7 +138,7 @@ const R2Y4A=(function(){
     finally{ GM.sceneEnd(); }
     if(typeof EXCH!=='undefined'&&EXCH.returnHome) return EXCH.returnHome(GM,{force:true});
     return true; };
-  /* 回到桃園（EXCH.onLand）：入境大廳 → 臺北的家（上午）。之後照 exchange3d.js：睡到下午、19:00 409（roomY4FromAirport）*/
+  /* 回到桃園（EXCH.onLand）：入境大廳 → 家（上午）。之後照 exchange3d.js：睡到下午、19:00 409（roomY4FromAirport）*/
   S.onLand=async function(GM){ const G=GM.G, F=G.flags; if(!isUS(G)) return false; F.US_RETURN=G.day;
     if(typeof ADV!=='undefined') ADV.begin({background:'blur'}); if(GM.fade) await GM.fade(false);   /* blur：落地以後先進入境大廳（airport_arr，AA_340 S10），dark 會把它蓋掉 */
     if(!done(G,'ev_us_return')) await run(GM,'ev_us_return');
@@ -202,7 +202,7 @@ const R2Y4A=(function(){
     /* ---- 2-Y4-01 迎新：8/31 21:00 系學會（法律系（全班））→ 9/2 13:00；沒去、美國路線＝21:30 照片 ---- */
     { const d=D('2028-09-02'), di=D('2028-08-31'); if(d!=null&&di!=null&&G.day>=di&&G.day<=d+2&&PHONE.inGroup(G,'law_class')){ const C=t=>({th:'g:law_class',from:'law_assoc',name:'系學會',text:t});
         if(!us&&past(G,di,21)&&now(G)<T(d,13.25)&&!PHONE.sent(G,'y4_welcome_ask')){ PHONE.at(G,di,G.day===di?Math.max(21,G.hour):21,[C('禮拜六迎新，一點在社科院旁的草地集合。大四的學長姊有空也來。')],'y4_welcome_ask');
-          plan(G,{id:'y4_welcome',ev:'ev_y4_welcome',day:d,h:13,late:0.25,place:'社科院旁的草地',title:'迎新（大四）',travel:'捷運 約 30 分鐘',travelH:0.5}); }   /* 9/3 才搬進 409：從臺北的家出門 */
+          plan(G,{id:'y4_welcome',ev:'ev_y4_welcome',day:d,h:13,late:0.25,place:'社科院旁的草地',title:'迎新（大四）',travel:'捷運 約 30 分鐘',travelH:0.5}); }   /* 9/3 才搬進 409：從家出門 */
         if((us||gone(G,'y4_welcome',d,13))&&!done(G,'ev_y4_welcome')&&pastTW(G,d,21.5)&&!PHONE.sent(G,'y4_welcome_photo')){ atTW(G,d,21.5,[C('📷（新生坐在第一排，手上拿著名牌。）')],'y4_welcome_photo'); F.WELCOME_Y4='missed'; } } }
     /* ---- 2-Y4-02 颱風假：9/17 20:00 停課公告；9/18 08:00 T4b（老師的信 9/17 21:30 寄的、早上才看到＋群組）；美國路線都沒有 ---- */
     { const d17=D('2028-09-17'), d18=d17!=null?d17+1:null; if(d17!=null&&!us&&G.day>=d17&&G.day<=d18+1){

@@ -84,6 +84,6 @@ rep = {'yes': q(re.search(r'「會回去」→ 媽媽：(.*?)；', reply).group(
 out = {'source': (LABEL or REF.replace('origin/', '')) + ' ' + sha + (('＋AA_532 ' + a532_sha) if a532_sha else '') + (('＋AA_533 ' + a533_sha) if a533_sha else ''),'group': group, 'groupReply': rep, 'arrive': arrive, 'dinner': dinner, 'sisDinner': sis, 'morning': morning, 'car': car, 'back': back}
 dst = os.path.join(ROOT, 'src', 'data', 'home_lines.js')
 with open(dst, 'w', encoding='utf8') as fo:
-    fo.write('/* 週末回臺北的家：家人台詞池（AA_138；產生器 tools/home/import_home_lines.py，不要手改）。來源：' + out['source'] + ' */\n')
+    fo.write('/* 週末回家：家人台詞池（AA_138；產生器 tools/home/import_home_lines.py，不要手改）。來源：' + out['source'] + ' */\n')
     fo.write("'use strict';\nconst HOME_LINES=" + json.dumps(out, ensure_ascii=False, indent=0) + ';\n')
 print('wrote', dst, {k: len(v) for k, v in out.items() if isinstance(v, list)})

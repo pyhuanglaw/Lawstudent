@@ -3926,6 +3926,15 @@
    "task": "AA590-SIS-B3-1102",
    "kind": "text",
    "note": "學姊改稿第三批（大一、大二事件）：手抄檔、程式，沒有產生器——tools/story/apply_line_table.py 自動換 57 列，其餘（第 4～7、17、21、53、60、71～82 列、保104、保147）手改；空的保溫瓶（ev_sis_empty_flask，第 16 列）、等放榜（ev_sis15_novel，第 28、29 列）整場 retired（定義留給舊存檔）；成績那一則改問放假（grades3d.js，第 55、56 列；開學以後不演）。tests/aa590_sis_b3_unit.js（稿 tests/aa590_doc.js）。子代理 2026-11-02 代登（int/next1102 上），給值班 LAWWW 核"
+  },
+  {
+   "path": "docs/story_planning/AA_595_三條新規則_違反清單.md",
+   "sha": "320760260",
+   "status": "approved",
+   "approvedBy": "使用者 2026-11-02 18:0x 規則（D127，AA_584 第 11 節）＋18:3x～18:4x 選擇題（圖書館選「小聲講」、臺北的家改「家」）；AA 處理決定（本檔最後一節，AA 直接定第 2、3 節）",
+   "task": "AA595-LIB-NOD-THERMOS-1102",
+   "kind": "text",
+   "note": "四條新規則：①圖書館讀書區第一次遇到只點頭、之後台詞加「（小聲）」＝共用機制 src/libquiet3d.js（game3d.js say／caption／doInteract；存檔 G.libNod），1-B～1-D 的縮短由 AA 分批寫，不在這一筆；②學姊「你們系的交換名單」→「系上的交換名單」；③空的保溫瓶那條線（ev_sis_flask_full、flaskCoffeeDay、「上次是黑咖啡」、心願約會選項）retired／拿掉、其餘 9 處旁白不寫「空的」；④src 全部「臺北的家」→「家」（字卡、地點、提示「回家」），以安 A-L10「寒假你會回家住嗎？」（tools/ladder/import_ladder.py 疊稿）。tests/aa595_rules_unit.js。子代理 2026-11-02 代登（aa595 分支，基準 int/m590 0e11c43a3），給值班 LAWWW 核"
   }
  ]
 }

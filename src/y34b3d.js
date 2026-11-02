@@ -117,7 +117,7 @@ const Y34B=(function(){
   /* 登機口那一段演完（EVENTS.run 自己存一次檔）到「飛往日本」記下 JP_DEPARTED 中間那幾秒關掉遊戲：讀回來 AN_SENDOFF＝together、JP_DEPARTED 還沒記、也沒有在大廳等登機（EXCH.AIR_DEP）——
      原本永遠出發不了（D36：不能永久卡住；E08 以前沒有 3D 機場的版本也一樣：整段演完存檔、接著才飛）。
      接著從「飛往日本」演、記 JP_DEPARTED、進日本的據點（jp3d.js 包住 S.departResume）；登機口那一段已經演過了，不重演。
-     在 3D 的區域＝EXCH.tick 每一格先問（EXCH.AIR.jp.resume）；在臺北的家＝home3d.js 的 loop 問 STORY.y4HomeDue（S.homeDue／homeScene）。同一個存檔只接一次（演到一半出錯不會每一格重來）*/
+     在 3D 的區域＝EXCH.tick 每一格先問（EXCH.AIR.jp.resume）；在家＝home3d.js 的 loop 問 STORY.y4HomeDue（S.homeDue／homeScene）。同一個存檔只接一次（演到一半出錯不會每一格重來）*/
   S.departResumeDue=G=>{ const F=G&&G.flags; return law(G)&&JP(G)&&!!F&&F.AN_SENDOFF==='together'&&F.JP_DEPARTED==null&&!(typeof EXCH!=='undefined'&&EXCH.airPending&&EXCH.airPending(G)); };
   S.departResume=async function(GM){ if(!S.departResumeDue(GM.G)) return false; await flyJP(GM); return true; };
   const resumed=new WeakSet(); let resuming=false;

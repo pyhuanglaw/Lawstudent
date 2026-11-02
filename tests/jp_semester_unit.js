@@ -2,7 +2,7 @@
 //   0. 接線（index.html、STORY.TICKS 之後的 JP.tick、home3d.js 的 JP.homeRound、PHONE_RULES、事件登記）
 //   J-S12 出發（挽回中、paused、睡過頭也出發；8/5 以後不出發）→ J-S10 進日本的據點（臺灣的區域、邀約、出遊、回家都關）→ J-S1 日本的學期 → J-S2 一鍵上課（G2、G5）
 //   J-S3 快轉、睡覺（停點、日期卡「宿舍」）→ J-S4 以安的作息 → J-S5 據點的選單 → J-S6 台灣大三下不修（課、選課、提示）＋大四下補修 → J-S7／S13 時差
-//   J-S8 邀約 → J-S9 8/5 回程（入境大廳、X2、當晚 1A-08）→ J-S11 2/20 以後住臺北的家 → J-S14 該關的 → J-S15 成績單 → J-S16 以安的手機 → J-S17 旗標別名 → J-S18 子晴的電話兩版 → J-S19 8/5 一定停
+//   J-S8 邀約 → J-S9 8/5 回程（入境大廳、X2、當晚 1A-08）→ J-S11 2/20 以後住家裡 → J-S14 該關的 → J-S15 成績單 → J-S16 以安的手機 → J-S17 旗標別名 → J-S18 子晴的電話兩版 → J-S19 8/5 一定停
 //   G0～G9（交往中、挽回中兩版）、裁定 3、4、10；JP-A～H。
 // 修改前：沒有 src/jp3d.js、src/data/jp_events.js（第 0 項 FAIL，之後用到 JP 的每一項都 FAIL）。不用 JP 也會 FAIL 的（改的是共用檔）：
 //   J-S12（y34b3d.js：挽回中 paused／隔天才出發）、J-S6（classes3d.js：日本路線 2/22 照樣排台灣的課、開學提示）、J-S13（group3d.js 哲 4 在當地 23:00、直播 19:00；y34b3d.js 5/20 21:00、6/2 12:00；
@@ -52,10 +52,10 @@ const inJapan=(key,h,flags,dating)=>{ const G=fresh(key,h,'jp_hub','JP',Object.a
     OUT.plan(G,{id:'tw_x',ev:'ev_an_farewell_dinner',day:D('2028-04-02'),h:18,place:'公館',title:'臺灣的約'}); OUT.plan(G,{id:'tw_v',ev:'ev_an_farewell_dinner',day:D('2028-04-02'),h:21,place:'視訊',verb:'接起來',title:'視訊'});
     G.invites=[{id:'iv1',who:'zhe',place:'noodle',day:D('2028-04-01'),h:18,state:'accepted'}]; HOME.rec(G).at=true;
     H.said=[]; H.entered=[]; await Y34B.departJP(GM); await EXCH.airBoard(GM);   /* E08：出境大廳 →「登機」*/
-    check('J-S10 出發演完：進日本的據點（jp_hub）、人在日本（STORY.inJapan）、不在臺北的家；JP_DEPARTED、AN_JP_DEPARTED',
+    check('J-S10 出發演完：進日本的據點（jp_hub）、人在日本（STORY.inJapan）、不在家；JP_DEPARTED、AN_JP_DEPARTED',
       H.entered.includes('jp_hub')&&G.zone==='jp_hub'&&STORY.inJapan(G)&&!HOME.at(G)&&G.flags.JP_DEPARTED===D('2028-03-25')&&G.flags.AN_JP_DEPARTED===G.flags.JP_DEPARTED, JSON.stringify(H.entered));
     check('J-S10 出發以後臺灣的約：出遊不去了（視訊照留）、當面約延後（不算爽約）', OUT.get(G,'tw_x').state==='missed'&&OUT.get(G,'tw_v').state==='planned'&&G.invites[0].state==='postponed');
-    check('J-S10 人在日本：不能回臺北的家、不能約臺灣的朋友（按鈕不出現、沒有原因字）、帶到臺灣區域的出遊不排；story3d.js 的 JP.tick 回傳 true（不往下跑臺灣的區域）',
+    check('J-S10 人在日本：不能回家、不能約臺灣的朋友（按鈕不出現、沒有原因字）、帶到臺灣區域的出遊不排；story3d.js 的 JP.tick 回傳 true（不往下跑臺灣的區域）',
       !HOME.canGo(G)&&!INV.canInvite(G,'zhe')&&INV.whyNot(G,'zhe')===''&&OUT.plan(G,{id:'tw_goto',goto:{zone:'noodle',x:0,z:0},day:G.day+1,h:19,title:'x'})===false&&!OUT.get(G,'tw_goto')
       &&(()=>{ const old=S.loop; S.loop=async()=>{}; const r=S.tick(GM); S.loop=old; return r===true; })());
     check('J-S10 game3d.js 手機「地點」在日本是空的；退宿以後清單沒有宿舍', /JP\.inJapan\(G\)\) return \[\]/.test(src('src/game3d.js'))&&/jpOut&&\(p\[0\]==='dorm'\|\|p\[0\]==='dorm_hall'\)/.test(src('src/game3d.js'))); }
@@ -140,18 +140,18 @@ const inJapan=(key,h,flags,dating)=>{ const G=fresh(key,h,'jp_hub','JP',Object.a
     H.said=[]; H.cards=[]; H.entered=[]; await S.returnHome(GM); const ci=H.cards.findIndex(c=>c[0]==='抵達');
     check('J-S9 回程：字卡「飛回臺灣」「抵達」（臺灣時間 13:00 以後）；入境大廳「（自動門一打開，臺灣的熱氣撲過來。）」「……好熱。」「明天有空的話，打給我。」「（她媽媽在出口等。……）」',
       H.cards.some(c=>c[0]==='飛回臺灣')&&ci>=0&&has('（自動門一打開，臺灣的熱氣撲過來。）')&&has('……好熱。')&&has('明天有空的話，打給我。')&&has('（她媽媽在出口等。她跑過去，又回頭跟你揮手。）')&&G.flags.JP_RETURNED===D('2028-08-05')&&!STORY.inJapan(G), JSON.stringify(H.cards));
-    check('J-S9 回臺北的家（AA_144 X2）：「你回來了。媽媽把你的房間打掃過，桌上多了一盒你小時候的模型。」；在家', has('你回來了。媽媽把你的房間打掃過，桌上多了一盒你小時候的模型。')&&HOME.at(G)&&idx('你回來了。媽媽把你的房間打掃過，桌上多了一盒你小時候的模型。')>idx('……好熱。'));
+    check('J-S9 回家（AA_144 X2）：「你回來了。媽媽把你的房間打掃過，桌上多了一盒你小時候的模型。」；在家', has('你回來了。媽媽把你的房間打掃過，桌上多了一盒你小時候的模型。')&&HOME.at(G)&&idx('你回來了。媽媽把你的房間打掃過，桌上多了一盒你小時候的模型。')>idx('……好熱。'));
     at('2028-08-05',19); const ff=S.ffOpts(G,'home'); check('J-S9／裁定 10 回來的那晚：快轉停在 20:00（1A-08「大四要怎麼過？」在家演）；沒有大三暑假三選一', !!ff&&ff[0].to===T(D('2028-08-05'),20)&&(at('2028-08-05',20),STORY.y4HomeDue(G)==='stay'), JSON.stringify(ff&&ff[0])); }
   { const G=inJapan('2028-08-05',8,{},false); H.said=[]; await S.returnHome(GM); check('J-S9 挽回不成：入境大廳只有旁白「（你們同一班飛機回來。她坐在前面幾排，下飛機的時候，你看見她先走了。）」', has('（你們同一班飛機回來。她坐在前面幾排，下飛機的時候，你看見她先走了。）')&&!has('……好熱。')); }
-  /* BUG-HOME-REST-NOCAP-1027（BB-C 10-27）：凌晨 2:30 以後日本據點、日本路線住臺北的家都不出一小時的「休息一下」（只剩睡覺） */
+  /* BUG-HOME-REST-NOCAP-1027（BB-C 10-27）：凌晨 2:30 以後日本據點、日本路線住家裡都不出一小時的「休息一下」（只剩睡覺） */
   { const G=inJapan('2028-04-13',27); H.opts=[]; H.picks=['睡覺']; await S.round(GM); const o=H.opts[0]||[];
     check('J-REST 日本據點凌晨 3:00：沒有一小時的「在房間休息一下」（有 3D 房間的走進房間照舊）、有「睡覺」',!o.some(t=>t==='在房間休息一下')||S.hasRoom3d(),JSON.stringify(o)); }
   { const menuAt=async h=>{ const G=fresh('2028-02-22',h,'jp_x','JP',{X1_JP:D('2028-02-20')}); HOME.rec(G).at=true; H.opts=[]; H.picks=['睡覺']; await S.homeRound(GM); return H.opts[0]||[]; };
     const o26=await menuAt(26), o266=await menuAt(26.6);
-    check('J-REST 住臺北的家：凌晨 2:00 有「在家休息一下」；2:36 以後沒有（不出選單或只剩睡覺）',o26.includes('在家休息一下')&&!o266.includes('在家休息一下'),JSON.stringify({o26,o266})); }
-  /* ===================== J-S11 住臺北的家（2/20 退宿以後）===================== */
+    check('J-REST 住家裡：凌晨 2:00 有「在家休息一下」；2:36 以後沒有（不出選單或只剩睡覺）',o26.includes('在家休息一下')&&!o266.includes('在家休息一下'),JSON.stringify({o26,o266})); }
+  /* ===================== J-S11 住家裡（2/20 退宿以後）===================== */
   { const G=fresh('2028-02-22',10,'jp_x','JP',{X1_JP:D('2028-02-20')}); HOME.rec(G).at=true; H.opts=[]; H.picks=['在家休息一下']; await S.homeRound(GM); const o=H.opts[0]||[];
-    check('J-S11 2/22 住臺北的家：選單沒有「回宿舍」、有「出門」「快轉」；平日也能回家（canGo）、從家裡出發（livesHome）', S.homeOn(G)&&o.includes('出門')&&o.includes('快轉')&&!o.some(t=>/回宿舍/.test(t))&&HOME.canGo(G)&&HOME.livesHome(G), JSON.stringify(o));
+    check('J-S11 2/22 住家裡：選單沒有「回宿舍」、有「出門」「快轉」；平日也能回家（canGo）、從家裡出發（livesHome）', S.homeOn(G)&&o.includes('出門')&&o.includes('快轉')&&!o.some(t=>/回宿舍/.test(t))&&HOME.canGo(G)&&HOME.livesHome(G), JSON.stringify(o));
     H.picks=['出門','公館商圈']; H.entered=[]; HOME.rec(G).at=true; await S.homeRound(GM); check('J-S11 出門 → 公館商圈（捷運＋公車）', H.entered.includes('gongguan')&&!HOME.at(G));
     check('J-S11 story3d.js：退宿以後校園的宿舍入口進不去（JP.movedOut）', /JP\.movedOut&&JP\.movedOut\(G\)\)\)\) for\(const it of E\.interactables\)/.test(src('src/story3d.js'))); }
   { const G=fresh('2028-02-22',10,'campus','JP'); phone(); check('J-S11 舊存檔：2/20 退宿那一場沒演到、2/21 以後才讀檔＝直接記退宿（不演），之後住家裡', G.flags.X1_JP===D('2028-02-22')&&G.flags.X1_JP_LATE===true&&S.homeOn(G)); }

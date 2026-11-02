@@ -1,7 +1,7 @@
 // E08 第四輪（D36：玩家不能永久卡住；LAWWW-C 10-27）：日本路線 3/25 一起出發，登機口那一段演完（EVENTS.run 自己存一次檔）到「飛往日本」記下 JP_DEPARTED 中間那幾秒關掉遊戲——
 // 讀回來 AN_SENDOFF＝together、JP_DEPARTED 還沒記、也沒有在大廳等登機：原本永遠出發不了。現在接著從「飛往日本」演、記 JP_DEPARTED、進日本的據點（登機口那一段不重演、只接一次）——不需要瀏覽器。
 //   J1 3D 出境大廳（交往中、挽回中）：那個存檔讀回來 → EXCH.tick（EXCH.AIR.jp.resume）接著出發 → 3/25 飛往日本、抵達、日本的據點（JP.rec 的 arr、place）；登機口那一段、CG-22 不重演；只接一次
-//   J2 沒有 3D 機場（整段 2D 演完才飛，E08 以前就有同樣的缺口）、從臺北的家出發：讀回來在家 → home3d.js 的 loop 問 STORY.y4HomeDue／y4HomeScene → 接著出發
+//   J2 沒有 3D 機場（整段 2D 演完才飛，E08 以前就有同樣的缺口）、從家出發：讀回來在家 → home3d.js 的 loop 問 STORY.y4HomeDue／y4HomeScene → 接著出發
 //   J3 其他存檔不受影響：還沒到出發的時間、出發前（AN_SENDOFF 還沒記）、在大廳等登機（AIR_DEP）、已經出發了（JP_DEPARTED）、美國路線
 //   J4 美國交換出發（EXCH.fly，登機口 ev_sis_gate_us 也是先存檔）沒有同樣的缺口：US_DEPARTED、還沒 US_ARRIVED＝原本就會接著飛（在大廳一小時、或不在大廳馬上），登機口不重演
 // 修改前（673e13527，第三輪合併）：J1、J2 FAIL（讀回來一直在臺灣）。用法：node tests/e08_jp_resume_unit.js
@@ -38,10 +38,10 @@ const reload=s=>{ H.G=JSON.parse(s); SOCIAL.bind(H.G); EVENTS.bind(GM); GM.npc={
     check('J1. '+who+'：登機口那一段不重演（CG-22、「她靠著窗」「座位分開」都沒有再出現）；只接一次（第二格不再接、字卡只出一次）',b===false&&!H.cgs.length&&!H.has('（她靠著窗，把手帳翻到四月那一頁。）')&&!H.has('（座位分開。）')&&H.cards.filter(c=>c[0]==='飛往日本').length===1,J([b,H.cgs,H.cards.map(c=>c[0])]));
     const t2=EXCH.tick(GM); check('J1. '+who+'：出發以後再一格什麼都不做',t2===false&&!due(H.G)); }
 
-  /* ===================== J2 沒有 3D 機場、從臺北的家出發 ===================== */
+  /* ===================== J2 沒有 3D 機場、從家出發 ===================== */
   { const z0=EXCH.airZoneOk; EXCH.airZoneOk=()=>false;
     try{ jpFresh(8,true); await Y34B.departJP(GM); const ok0=H.G.flags.JP_DEPARTED===D('2028-03-25'), s=saves.filter(stuck).pop();
-      check('J2. 沒有 3D 機場：正常出發（對照）＋整段 2D 演完的那次自動存檔也是同一個狀態（人還在臺北的家）',ok0&&!!s&&JSON.parse(s).phone!==undefined&&(JSON.parse(s).home||{}).at===true,J([ok0,!!s]));
+      check('J2. 沒有 3D 機場：正常出發（對照）＋整段 2D 演完的那次自動存檔也是同一個狀態（人還在家）',ok0&&!!s&&JSON.parse(s).phone!==undefined&&(JSON.parse(s).home||{}).at===true,J([ok0,!!s]));
       if(s){ reload(s); const k=STORY.y4HomeDue?STORY.y4HomeDue(H.G):null; if(k==='stay') await STORY.y4HomeScene(GM); await settle(()=>H.G.flags.JP_DEPARTED!=null);
         check('J2. 讀回來在家：家裡的 loop 問 STORY.y4HomeDue＝stay → 接著飛往日本、進日本的據點（不重演出發那一段）',k==='stay'&&H.G.flags.JP_DEPARTED===D('2028-03-25')&&H.G.zone==='jp_hub'&&!HOME.at(H.G)&&H.cards.some(c=>c[0]==='飛往日本')&&!H.has('（她靠著窗，把手帳翻到四月那一頁。）'),J([k,H.G.flags.JP_DEPARTED,H.G.zone,H.cards.map(c=>c[0])]));
         check('J2. 接過一次以後家裡不再問',!(STORY.y4HomeDue&&STORY.y4HomeDue(H.G)==='stay')); } }

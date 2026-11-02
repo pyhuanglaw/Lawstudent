@@ -60,7 +60,7 @@ GM.money=function(n){ G.money+=n; };
     G.day=r.to+1; G.weekday=wdOf(G.day); G.hour=7.5; check('4. 暑假第一天早上：要回家',HOME.breakStartDue(G)===true);
     G.stage='econ'; check('4. 經濟系＝不算',!HOME.breakStartDue(G)); G.stage='law'; G.hour=3; check('4. 凌晨＝還沒',!HOME.breakStartDue(G)); G.hour=7.5;
     said=[]; cards=[]; const ok=await HOME.breakStart(GM); const L=lines();
-    check('4. 「暑假回家住。你把一年的東西裝進四個紙箱。」→ 字卡「回臺北的家」→ 住家裡',ok&&L[0]==='暑假回家住。你把一年的東西裝進四個紙箱。'&&JSON.stringify(cards[0])===JSON.stringify(['回臺北的家','捷運＋公車 約 40 分鐘'])&&HOME.at(G)&&G.home.lbreak==='Y1S'&&HOME.breakMode(G),JSON.stringify([L,cards]));
+    check('4. 「暑假回家住。你把一年的東西裝進四個紙箱。」→ 字卡「回家」→ 住家裡',ok&&L[0]==='暑假回家住。你把一年的東西裝進四個紙箱。'&&JSON.stringify(cards[0])===JSON.stringify(['回家','捷運＋公車 約 40 分鐘'])&&HOME.at(G)&&G.home.lbreak==='Y1S'&&HOME.breakMode(G),JSON.stringify([L,cards]));
     check('4. 同一個暑假不再回一次',!HOME.breakStartDue(G)&&!(await HOME.breakStart(GM)));
     fresh(r.to,11.9,'dorm',{}); G.stage='law'; run(11.9,12.2); PHONE.answer(G,'summer_stay_Y1S',0); STORY.phoneRules(GM); G.day=r.to+1; G.hour=7.5;
     check('4. 選「續住」：不回家',G.home.stay.Y1S==='stay'&&!HOME.breakStartDue(G)); }
@@ -89,7 +89,7 @@ GM.money=function(n){ G.money+=n; };
   { const pol=o=>{ const T=o.map(q=>q.t||q.text); for(const w of ['快轉','到下一個有事的日子','回宿舍住']){ const k=T.indexOf(w); if(k>=0) return k; } return 0; };
     const ch0=GM.choose; GM.choose=async o=>{ opts.push(o.map(q=>q.t||q.text)); return pol(o); }; said=[]; cards=[]; entered=[]; opts=[];
     await HOME.go(GM); GM.choose=ch0; const L=lines();
-    check('7. 放假中回家＝住家裡；家裡的選單有「快轉」「睡覺」「回宿舍住」，沒有「過幾天」',JSON.stringify(cards[0])===JSON.stringify(['回臺北的家','捷運＋公車 約 40 分鐘'])&&opts[0].includes('快轉')&&opts[0].includes('睡覺')&&opts[0].includes('回宿舍住')&&!opts.some(x=>x.some(t=>/^過幾天/.test(t))),JSON.stringify(opts[0]));
+    check('7. 放假中回家＝住家裡；家裡的選單有「快轉」「睡覺」「回宿舍住」，沒有「過幾天」',JSON.stringify(cards[0])===JSON.stringify(['回家','捷運＋公車 約 40 分鐘'])&&opts[0].includes('快轉')&&opts[0].includes('睡覺')&&opts[0].includes('回宿舍住')&&!opts.some(x=>x.some(t=>/^過幾天/.test(t))),JSON.stringify(opts[0]));
     const cs=cards.slice(1).map(c=>c[0]);
     check('7. 字卡依序：12/24 聖誕（麵店，出遊前停）→ 12/26 21:45 麵店團揪海邊（要回的訊息，AA_340 6-1 H2：原本一路跳到 12/31，邀約 12/29 08:30 過期）→ 12/31 跨年 → 1/5 成績公布 → 1/20 → 2/5 → 2/16 除夕 → 2/17 初一 → 2/22 12:00（快轉的上限）',JSON.stringify(cs.slice(0,9))===JSON.stringify(['12/24（三）17:45','12/26（五）21:45','12/31（三）22:55','1/5（一）08:30','1/20（二）18:30','2/5（四）18:30','2/16（一）12:00','2/17（二）11:00','2/22（日）12:00']),JSON.stringify(cs));
     check('7. 家裡的旁白（AA_183 第 4 節）照放假的時候挑、每句最多一次',L.includes('寒假的早上，家裡比宿舍安靜。')&&L.includes('過年的幾天，親戚來來去去。每個人都問你，法律系是不是都在背條文。')&&L.includes('寒假的最後一週，你把下學期的課表抄進手帳。')&&['寒假的早上，家裡比宿舍安靜。','年前，媽媽把你的房間也算進大掃除。','過年的幾天，親戚來來去去。每個人都問你，法律系是不是都在背條文。','寒假的最後一週，你把下學期的課表抄進手帳。'].every(t=>L.filter(x=>x===t).length<=1),JSON.stringify(L.filter(t=>/寒假|年前|過年/.test(t))));
@@ -104,7 +104,7 @@ GM.money=function(n){ G.money+=n; };
     G.hour=16.9; check('8. 16:54 還不回',!HOME.eveDue(G)); G.hour=17.1; G.zone='campus'; check('8. 17:00 以後在校園（不在宿舍）＝不拉',!HOME.eveDue(G)); G.zone='dorm_hall'; check('8. 17:00 以後在宿舍走廊＝回家',HOME.eveDue(G));
     const pol=o=>{ const T=o.map(q=>q.t||q.text); const k=T.indexOf('回宿舍住'); return k>=0?k:0; }; const ch0=GM.choose; GM.choose=async o=>pol(o); cards=[]; said=[];
     await HOME.eveGo(GM); GM.choose=ch0; const f=(G.msgs||[]).find(m=>m.tag==='eve_food_'+e);
-    check('8. 「飯快好了。」→ 字卡「回臺北的家」→ 主線 2 在家演',!!f&&f.from==='mom'&&f.text==='飯快好了。'&&cards[0][0]==='回臺北的家'&&!!G.flags.FAMILY_LAND_Y1,JSON.stringify([cards,f&&f.text])); }
+    check('8. 「飯快好了。」→ 字卡「回家」→ 主線 2 在家演',!!f&&f.from==='mom'&&f.text==='飯快好了。'&&cards[0][0]==='回家'&&!!G.flags.FAMILY_LAND_Y1,JSON.stringify([cards,f&&f.text])); }
   // 9. 暑假住家裡：6/29 成績 → 7/9 語彤生日 → 7/15 抽籤 → 7/20（打工多一句）→ 8/25 → 9/6 主線 3
   fresh(D('2026-06-15'),7.5,'dorm',{JOB_TUTOR:true}); G.stage='law'; meet('heroine_03'); meet('zhe'); meet('yu'); PHONE.join(G,'noodle_team','麵店團'); HOME.rec(G).stay={Y1S:'home'};
   { said=[]; cards=[]; await HOME.breakStart(GM);
@@ -133,7 +133,7 @@ GM.money=function(n){ G.money+=n; };
   fresh(D('2026-01-05'),8.5,'campus',{}); G.stage='law'; { const H=HOME.rec(G); H.at=true; H.day=D('2026-01-04'); H.wakeAsk=G.day; }
   picks=['回宿舍住']; said=[]; cards=[]; entered=[]; opts=[];
   await HOME.loop(GM);
-  check('11. 放假中人在家：住家裡、選單有快轉；沒有「回臺北的家」字卡',G.home.brk==='Y1W'&&!cards.some(c=>c[0]==='回臺北的家')&&opts[0]&&opts[0].includes('快轉'),JSON.stringify([opts[0],cards]));
+  check('11. 放假中人在家：住家裡、選單有快轉；沒有「回家」字卡',G.home.brk==='Y1W'&&!cards.some(c=>c[0]==='回家')&&opts[0]&&opts[0].includes('快轉'),JSON.stringify([opts[0],cards]));
   // 12. 學期中的週末回家照舊（有「回宿舍」，沒有快轉）
   fresh(D('2025-10-03'),18,'campus',{}); G.stage='law'; { const H=HOME.rec(G); H.at=true; H.day=G.day; } picks=['回宿舍']; opts=[];
   await HOME.loop(GM); check('12. 學期中的週末回家：選單照舊有「回宿舍」，沒有「快轉」',opts[0].includes('回宿舍')&&!opts[0].some(t=>/^快轉|^過幾天/.test(t)),JSON.stringify(opts[0]));

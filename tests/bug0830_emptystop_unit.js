@@ -47,7 +47,7 @@ const ptsOf=(key)=>HOME.breakPts(Object.assign({},G,{day:D(key)})).map(p=>CALEND
   // 3～5. 8/29 晚上在法律系宿舍（經濟系轉過來的）
   for(const [name,h] of [['22:30',22.5],['凌晨 02:00（還算 8/29：hour 26）',26]]){
     fresh('2025-08-29',15.5,'dorm',{PLAYED_Y0:true,dating_kexin:true,KX_FIRST_MSG:true,Y0_MOVED_OUT:true,LEAVE_WEEK:6});
-    G.outings=[]; OUT.plan(G,{id:'y0_e37',ev:'ev_y0_e37',day:D('2025-08-30'),h:14,late:0.25,place:'臺北的家',title:'臺北的家（載可昕上山）14:00'});
+    G.outings=[]; OUT.plan(G,{id:'y0_e37',ev:'ev_y0_e37',day:D('2025-08-30'),h:14,late:0.25,place:'家',title:'家（載可昕上山）14:00'});
     runTo('2025-08-29',22.5,0.25); G.day=D('2025-08-29'); G.weekday=wdOf(G.day); G.hour=h;
     if(h===22.5) check('3. 8/29 晚上在法律系宿舍：不是放假，床邊沒有「快轉」（不會有快轉的停點）',HOME.lawBreak(G)==null&&!HOME.ffOpts(G),JSON.stringify(HOME.ffOpts(G)));
     cards=[]; await STORY.sleepNow(GM);

@@ -18,8 +18,8 @@ const ev=id=>STORY_EVENTS.find(e=>e.id===id);
 const lines=e=>(e&&e.dialogue||[]).filter(l=>l.text);
 // 1
 { const e=ev('ev_y0_e30'), L=lines(e), T=L.map(l=>l.text), i=T.indexOf('（她掛掉了。）');
-  check('1. 電話之後回家跟媽媽說：（臺北的家……記帳。）→「媽。我今天去辦休學了。」→「……想好了？」→「（看了你一下）你從小就想念法律。」→「我想借車。」→「鑰匙在老地方。開慢一點。」',
-    i>=0&&T[i+1]==='（臺北的家。媽媽坐在客廳的桌子前記帳。）'&&T[i+2]==='媽。我今天去辦休學了。'&&T.includes('……想好了？')&&T.includes('（看了你一下）你從小就想念法律。')&&T.includes('我想借車。')&&T[T.length-1]==='鑰匙在老地方。開慢一點。', JSON.stringify(T.slice(i)));
+  check('1. 電話之後回家跟媽媽說：（家……記帳。）→「媽。我今天去辦休學了。」→「……想好了？」→「（看了你一下）你從小就想念法律。」→「我想借車。」→「鑰匙在老地方。開慢一點。」',
+    i>=0&&T[i+1]==='（家。媽媽坐在客廳的桌子前記帳。）'&&T[i+2]==='媽。我今天去辦休學了。'&&T.includes('……想好了？')&&T.includes('（看了你一下）你從小就想念法律。')&&T.includes('我想借車。')&&T[T.length-1]==='鑰匙在老地方。開慢一點。', JSON.stringify(T.slice(i)));
   check('1. 媽媽那段在客廳（home_living），說話的人是「媽媽」', e.dialogue.some(l=>l.bg==='home_living')&&L.filter(l=>l.speaker==='媽媽').length===3);
   const ex=t=>(L.find(l=>l.text===t)||{}).expression;
   check('1. 電話裡可昕的表情（AA_308 第 9 節）', ex('……蛤？')==='surprised'&&ex('今天？快期中考了耶。')==='surprised'&&ex('你現在在哪。')==='serious'&&ex('你現在回來學校找我。我還有一堂，五點下課。社科院門口。')==='serious'&&ex('休學又不是不能進校門。')==='annoyed'); }

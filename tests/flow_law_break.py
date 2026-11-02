@@ -1,6 +1,6 @@
 """法律系的寒假（AA_197 1-1～1-3，16 週制；HOLIDAY-SYS）的瀏覽器流程：寒假（16 週制 12/22 起）裡的 2026-01-04 週日晚上在宿舍 → 走到床邊睡覺 →
 1/5 早上在宿舍醒來（成績單、系統字「寒假宿舍照常開放。……」，**不回家**）→ 床的「快轉」→「過一週」（字卡寫「宿舍」）→
-宿舍房間的「收拾背包回臺北的家」→ 住家裡（選單：快轉／睡覺／回宿舍住）→ 一路「快轉 → 到下一個有事的日子」：1/20 → 2/5 →（交往中：2/14）→ 2/16 除夕（主線 2 在家演）→ 2/17 → 2/22 12:00
+宿舍房間的「收拾背包回家」→ 住家裡（選單：快轉／睡覺／回宿舍住）→ 一路「快轉 → 到下一個有事的日子」：1/20 → 2/5 →（交往中：2/14）→ 2/16 除夕（主線 2 在家演）→ 2/17 → 2/22 12:00
 → 選「回宿舍住」→ 宿舍房間（沒有「明天開學。你回宿舍。」字卡）。全程沒有 JS 例外、黑幕不擋對話。
 [前置／捷徑]：用遊戲自己的讀檔（GAME.applySave）把玩家放到 1/4 22:00 宿舍房間；之後都用觸控（走路、點床、點對話、點選項）；用 ?turbo。
 用法：python3 tests/flow_law_break.py URL [輸出資料夾]"""
@@ -69,7 +69,7 @@ async def main():
         ok, seen = await drive(pg, cdp, "GAME.G.day===STORY.dayOfKey('2026-01-05')&&!!GAME.E.zone&&!!GAME.E.zone.def&&GAME.E.zone.def.id==='dorm'&&(HOME.rec(GAME.G).bnote==='Y1W'||(window.__toasts||[]).length>1)&&!document.querySelector('#choices button')&&!(document.getElementById('dlg')&&getComputedStyle(document.getElementById('dlg')).display!=='none'&&document.getElementById('dlg').offsetParent)", ['先看'], 240)   # G.day 在起床字卡之前就是 1/5：要等成績單演完、系統字出來（2026-10-17 批次 19、20 在字卡那 2 秒就判定醒來了）
         said = await pg.evaluate("window.__said||[]"); toasts = await pg.evaluate("window.__toasts||[]"); cards = await pg.evaluate("window.__cards||[]")
         diag = await pg.evaluate("({bnote:(HOME.rec(GAME.G)||{}).bnote||null, brk:HOME.lawBreak(GAME.G), at:HOME.at(GAME.G), warn:(window.__warn||[]).slice(-5)})")
-        run.check('1/5 早上在宿舍醒來：成績單、系統字「寒假宿舍照常開放。要回家的話，從選單選『回家』。」；沒有「回臺北的家」字卡（不強制回家）', any('成績出來了' in t for t in said) and any('寒假宿舍照常開放' in t for t in toasts) and not any(c.startswith('回臺北的家') for c in cards) and not await pg.evaluate("HOME.at(GAME.G)"), json.dumps([said[-4:], toasts[-3:], cards[-2:], diag], ensure_ascii=False))
+        run.check('1/5 早上在宿舍醒來：成績單、系統字「寒假宿舍照常開放。要回家的話，從選單選『回家』。」；沒有「回家」字卡（不強制回家）', any('成績出來了' in t for t in said) and any('寒假宿舍照常開放' in t for t in toasts) and not any(c.startswith('回家') for c in cards) and not await pg.evaluate("HOME.at(GAME.G)"), json.dumps([said[-4:], toasts[-3:], cards[-2:], diag], ensure_ascii=False))
         await run.shot(pg, 'dorm_0105')
         bed = await L.find_it(pg, '睡覺')
         ok = bool(bed) and await L.go_to(pg, cdp, run, bed['x'], bed['z'], bed['r'] * 0.7, '床')
@@ -81,7 +81,7 @@ async def main():
         ok, seen = await drive(pg, cdp, "GAME.G.day>%d&&!document.querySelector('#choices button')" % d0, ['先看'], 120)
         cards = await pg.evaluate("window.__cards||[]")
         run.check('過一週：字卡寫「宿舍」（中間有事會先停）', any(c.endswith('宿舍') for c in cards), json.dumps(cards[-3:], ensure_ascii=False))
-        home = await L.find_it(pg, '收拾背包回臺北的家')   # 宿舍房間的那一個（校園的叫「回臺北的家」）
+        home = await L.find_it(pg, '收拾背包回家')   # 宿舍房間的那一個（校園的叫「回家」）
         ok = bool(home) and await L.go_to(pg, cdp, run, home['x'], home['z'], home['r'] * 0.7, '回家')
         await L.tap(pg, cdp, '#interact'); await pg.wait_for_timeout(1500)
         ok, seen = await drive(pg, cdp, "HOME.at(GAME.G)&&GAME.G.home.lbreak==='Y1W'&&!!document.querySelector('#choices button')", ['先看'], 120)
@@ -90,10 +90,10 @@ async def main():
         await run.shot(pg, 'home_menu')
         ok, seen = await drive(pg, cdp, "HOME.at(GAME.G)&&GAME.G.day===STORY.dayOfKey('2026-02-22')&&!![...document.querySelectorAll('#choices button')].some(b=>b.textContent.startsWith('回宿舍住'))&&![...document.querySelectorAll('#choices button')].some(b=>b.textContent.startsWith('快轉'))", ['快轉', '到下一個有事的日子', '先看'], 900)
         cards = await pg.evaluate("window.__cards||[]")
-        dates = [c.split('｜')[0] for c in cards if c.endswith('臺北的家')]
+        dates = [c.split('｜')[0] for c in cards if c.endswith('家')]
         dating = await pg.evaluate("!!GAME.G.flags.dating_kexin")
         exp = ['1/20（二）18:30', '2/5（四）18:30'] + (['2/14（六）19:45'] if dating else []) + ['2/16（一）12:00', '2/17（二）11:00', '2/22（日）12:00']
-        run.check('一路「快轉 → 到下一個有事的日子」：字卡 1/20 → 2/5 →（交往中 2/14）→ 2/16 → 2/17 → 2/22 12:00（臺北的家）', ok and dates[-len(exp):] == exp, json.dumps(dates, ensure_ascii=False))
+        run.check('一路「快轉 → 到下一個有事的日子」：字卡 1/20 → 2/5 →（交往中 2/14）→ 2/16 → 2/17 → 2/22 12:00（家）', ok and dates[-len(exp):] == exp, json.dumps(dates, ensure_ascii=False))
         run.check('除夕在家演主線 2（FAMILY_LAND_Y1 有值）', await pg.evaluate("!!GAME.G.flags.FAMILY_LAND_Y1"))
         await pick(pg, cdp, ['回宿舍住'])
         ok, seen2 = await drive(pg, cdp, "!HOME.at(GAME.G)&&GAME.G.zone==='dorm'", ['先看'], 120)

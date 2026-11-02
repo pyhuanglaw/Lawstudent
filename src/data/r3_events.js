@@ -119,9 +119,9 @@ const R3_EVENTS=(function(){
       SIS('我在對面的便利商店等。考完先傳訊息。',{if:{custom:G=>dating(G,'heroine_05')}}),   /* 戀人版（BB_99 2-4）*/
       {set:{SIS_NOTE_GRAD:'door'}} ] };
 
-  /* ---------- 3-13 方奕廷 F4 兩千歲的紅檜（BB_99 5-2）：2029-01-27（六）07:00 從臺北的家開車南下，中午到嘉義的山上，當天回臺北（約 15 小時）---------- */
+  /* ---------- 3-13 方奕廷 F4 兩千歲的紅檜（BB_99 5-2）：2029-01-27（六）07:00 從家開車南下，中午到嘉義的山上，當天回臺北（約 15 小時）---------- */
   const CHIAYI={ id:'ev_fangyt_chiayi', title:'兩千歲的紅檜', participants:['npc_fangyt'], location:'any', trigger:'outing', once:true, background:'dark', hours:1/60,
-    dialogue:[ {scene:'臺北的家',bg:'home_living_day'},
+    dialogue:[ {scene:'家',bg:'home_living_day'},
       {speaker:'媽媽',text:'你交了什麼朋友，會約人開半個台灣去看樹。'},   /* 說話的人改媽媽（裁定 15）*/
       {titleCard:'開車南下',sub:'約五個小時',advance:G=>{ const hh=((G.hour%24)+24)%24; return hh<12?12-hh:0; }},   /* 中午到 */
       {scene:'嘉義・山上的工作站',bg:'trip_mountain'},

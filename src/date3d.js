@@ -233,7 +233,7 @@ const DATE=(function(){
   /* T7a 那一句：從 T7a 的清單約的、出發那天她還在台中（她已經回臺北的日子＝一起從臺北出發，照一般答應的那一句）*/
   S.t7aYes=(G,id,only,day)=>only&&S.T7A_YES[id]&&S.homeCity(G,id,day)?S.T7A_YES[id]:null;
   /* 這個時間能不能約（o：who、locs、day、depart、transport、fromHome、skip＝改時間時排除的那一趟）→ {ok, why, warns, plan, cost} */
-  S.check=function(G,o){ const kind=o.kind||S.kindAt((o.locs||[])[0],o.depart); const P=S.plan(G,Object.assign({},o,{kind,fromHome:o.fromHome!=null?o.fromHome:S.fromHomeOn(G,o.day)}));   /* 出發地照那一天（AA_128 11-1：寒暑假住臺北的家，車就在家裡，不加取車的 30 分）*/ const warns=[]; if(!P.ok) return {ok:false,why:P.why,warns};
+  S.check=function(G,o){ const kind=o.kind||S.kindAt((o.locs||[])[0],o.depart); const P=S.plan(G,Object.assign({},o,{kind,fromHome:o.fromHome!=null?o.fromHome:S.fromHomeOn(G,o.day)}));   /* 出發地照那一天（AA_128 11-1：寒暑假住家裡，車就在家裡，不加取車的 30 分）*/ const warns=[]; if(!P.ok) return {ok:false,why:P.why,warns};
     const day=o.day, a=P.depart, b=P.back, no=w=>({ok:false,why:w,warns,plan:P}), ov=P.kind==='overnight', O=S.OVERNIGHT;
     if(ov&&!S.canOvernight(G,o.who)) return no('兩天一夜要第 6 階或交往中');   /* AA_128 第 119 行（選單本來就不列；直接呼叫也擋）*/
     if(day<G.day||(day===G.day&&a<G.hour+0.25)) return no('這個時間已經過了');
@@ -303,13 +303,13 @@ const DATE=(function(){
     const c=typeof CHARACTERS!=='undefined'&&CHARACTERS[id]; if(c&&c.partner&&typeof STORY!=='undefined'&&(STORY.partnerOn?STORY.partnerOn(G,c.partner):(STORY.inTerms&&STORY.inTerms(G,c.partner)))) return {ok:false,why:'她現在有交往的對象。'};
     return S.overnightWhere(G,id,t.day,t.locs); };
   /* ===== 四年裡什麼時候約得到（DATE-S8；AA_128 11-1、11-2）=====
-     祐廷：最後能預約的日子是畢業典禮前一天（2029-06-01，交換延畢的也一樣）；日本、美國路線在國外的期間不能預約；寒暑假從臺北的家出發（車就在家裡）。
+     祐廷：最後能預約的日子是畢業典禮前一天（2029-06-01，交換延畢的也一樣）；日本、美國路線在國外的期間不能預約；寒暑假從家出發（車就在家裡）。
      她：約的那一天在國外（芷若英國、以安日本、學姊美國）、聯絡不到（沛珊）、在別的城市（寒暑假回老家、出遊）＝不能約；那一天有交往的對象＝不能約；
      學姊出發去美國前一週、口試（5/29）前一週不約；子晴下午兩點才醒（三點以後才約得到），大四在工作室上班只有週六。原因照預約畫面的寫法（灰掉、寫原因）*/
   S.LAST_DAY='2029-06-01';
   S.lastDay=()=>typeof STORY!=='undefined'&&STORY.dayOfKey?STORY.dayOfKey(S.LAST_DAY):null;
   S.playerAbroad=(G,day)=>typeof STORY!=='undefined'&&!!STORY.abroad&&!!STORY.abroad(Object.assign({},G,{day}));
-  /* 出發地（AA_128 4-1、11-1）：寒暑假住臺北的家（法律系的寒暑假；經濟系休學以後、畢業退宿以後、交換退宿以後也住家裡）＝不加回家取車的時間 */
+  /* 出發地（AA_128 4-1、11-1）：寒暑假住家裡（法律系的寒暑假；經濟系休學以後、畢業退宿以後、交換退宿以後也住家裡）＝不加回家取車的時間 */
   S.fromHomeOn=function(G,day){ if(typeof HOME==='undefined') return false; if((G.stage||'law')==='law'&&HOME.breakOf&&HOME.breakOf(day)) return true;
     if((HOME.baseMode&&HOME.baseMode(G))||(HOME.pgHome&&HOME.pgHome(G))) return true; return typeof STORY!=='undefined'&&!!STORY.movedOut&&!!STORY.movedOut(Object.assign({},G,{day})); };
   /* 當天來回：那一天她在臺北，或就在那個地點的城市（照 overnightWhere 的一天版）*/

@@ -285,7 +285,7 @@ const R2Y4A_EVENTS=(function(){
       {phone:S5,text:'……第二句是反的。是我照顧你。'},   /* 下車以後她傳 */
       {set:{CAME_BACK_TOGETHER:true}},{end:true},
       {label:'n'},nar('（你們同一班飛機回來。她坐在前面幾排，下飛機的時候，你看見她先走了。）'),nar('（出口，媽媽在揮手。）') ] });   /* AA_452 1-5：12/10 媽媽說要來接 */
-  EV.push({ id:'ev_us_home', title:'臺北的家', participants:[], location:'any', trigger:'manual', once:true, background:'dark',   /* 上午（AA_144 X2；兩種玩家都有）*/
+  EV.push({ id:'ev_us_home', title:'家', participants:[], location:'any', trigger:'manual', once:true, background:'dark',   /* 上午（AA_144 X2；兩種玩家都有）*/
     dialogue:[ {scene:'臺北・家裡',bg:'home_living_day'},
       nar('（九點。廚房裡有粥的味道。你回來了。）'),   /* AA_370 M5：媽媽 05:40 就接到人了，九點這句是旁白（AA_291 第 5 節；原「媽媽：你回來了。」）*/
       nar('（房間打掃過了。桌上多了一盒你小時候的模型。）') ] });

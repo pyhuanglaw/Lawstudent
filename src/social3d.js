@@ -108,7 +108,7 @@ const SOCIAL = (function(){
   /* 停用的事件（events.js 的 retired，例：書記官那一段 ev_an_mother）留下的記憶：人物面板只寫標籤（「聊過家裡的事」），不寫舊備註；存檔不改（AA 2026-10-14）*/
   let retiredNotes=null;
   /* 記憶的備註是地點 id 的（SOCIAL.meet 記的 where：camp、dorm、wancai…）→ 人物面板顯示中文（AA_205 6-14 程式 3）*/
-  S.PLACE_LABEL={camp:'宿營',dorm:'宿舍',dorm_hall:'宿舍',wancai:'法律系館B',family_group:'家族群組',campus:'校園',classroom:'教室',linze:'法律系館A',library:'總圖',library_hall:'總圖',cafe:'兩點半 Café',cvs:'便利商店',noodle:'麵店',bookstore:'書店',gongguan:'公館',wenzhou:'溫州街',boya:'博思教學館',putong:'普通教學館',gongtong:'共同教學館',soclib:'社科院圖書館',lawlib:'法律學院圖書館',gym:'體育館',socsci:'社科院',home:'臺北的家'};
+  S.PLACE_LABEL={camp:'宿營',dorm:'宿舍',dorm_hall:'宿舍',wancai:'法律系館B',family_group:'家族群組',campus:'校園',classroom:'教室',linze:'法律系館A',library:'總圖',library_hall:'總圖',cafe:'兩點半 Café',cvs:'便利商店',noodle:'麵店',bookstore:'書店',gongguan:'公館',wenzhou:'溫州街',boya:'博思教學館',putong:'普通教學館',gongtong:'共同教學館',soclib:'社科院圖書館',lawlib:'法律學院圖書館',gym:'體育館',socsci:'社科院',home:'家'};
   S.dayLabel=function(day){ if(typeof CALENDAR!=='undefined'&&CALENDAR.dateOf){ const d=CALENDAR.dateOf(day); if(d&&d.m) return d.m+'/'+d.d; } return '第 '+day+' 天'; };   /* 人物面板的記憶：日期（8/22），不是「第 -25 天」*/
   /* AA380 改名 Alison（使用者 10-21 23:2x「改成Alison」）：舊存檔裡已經存下的字還是舊名（\u5c0f\u8a9e）——顯示的時候照匯入工具同一套規則換（Alison 和中文字之間半形空格、挨標點不空；tools/story/import_guard.py 的 alison），存檔不改（同 filmRename）*/
   const ALISON_OLD=/\u5c0f\u8a9e/g, ALISON_CJK=/[\u3400-\u4dbf\u4e00-\u9fff\u3040-\u30ff\uf900-\ufaff]/;

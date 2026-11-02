@@ -16,7 +16,7 @@ const hasY5=typeof Y5!=='undefined';
 const D=k=>PG.DK(k);
 const tag=id=>SOCIAL.yearTag(id);
 const L_REG=POSTGRAD_LINES.REG;
-/* 畢業後篇的存檔（6/2 撥穗、6/28 退宿回臺北的家、1A-08 選過；大四的事件都演過）*/
+/* 畢業後篇的存檔（6/2 撥穗、6/28 退宿回家、1A-08 選過；大四的事件都演過）*/
 const grad=(key,h,flags)=>{ const G=H.fresh(key,h==null?10:h,'dorm',Object.assign({GRADUATED:D('2029-06-02'),GRAD_DONE:true,MOVED_OUT:D('2029-06-28'),HOME_AFTER:'home',Y4_PATH:'other',PACKED_Y4:D('2029-06-01'),ROOM_Y2:true,ROOM_Y3:true,ROOM_Y4:true},flags||{}));
   PG.rec(G).done.grad=1; for(const e of ['ev_grad_family','ev_grad_lunch','ev_grad_envelope','ev_y4_path','ev_move_out_y4']) G.events.done[e]=1; return G; };
 (async()=>{
@@ -52,7 +52,7 @@ const grad=(key,h,flags)=>{ const G=H.fresh(key,h==null?10:h,'dorm',Object.assig
   { const G=grad('2029-10-02',14); const can=!!HOME.canGo(G), lives=!!(HOME.livesHome&&HOME.livesHome(G)); G.zone='gongguan'; G.hour=26.6; H.entered=[];
     const go0=HOME.go; let went=0; HOME.go=async()=>{ went++; return true; }; let err=null; try{ await STORY.forceHome(GM); }catch(e){ err=e; } finally{ HOME.go=go0; }
     const G2=grad('2029-10-02',14,{HOME_AFTER:'gongguan'}); const can2=!!HOME.canGo(G2); const G3=grad('2029-06-20',14,{MOVED_OUT:undefined}); const can3=!!HOME.canGo(G3);
-    check('G2. 退宿以後住臺北的家：週二也可以回家（手機「回臺北的家」）、從家裡出發；凌晨＝回家，不回宿舍；公館套房、還沒退宿的照原本的規則',can&&lives&&went===1&&!H.entered.includes('dorm')&&!err&&!can2&&!can3,[can,lives,went,JSON.stringify(H.entered),can2,can3].join(',')+(err?err.stack:'')); }
+    check('G2. 退宿以後住家裡：週二也可以回家（手機「回家」）、從家裡出發；凌晨＝回家，不回宿舍；公館套房、還沒退宿的照原本的規則',can&&lives&&went===1&&!H.entered.includes('dorm')&&!err&&!can2&&!can3,[can,lives,went,JSON.stringify(H.entered),can2,can3].join(',')+(err?err.stack:'')); }
   /* AA_363 T7-2：住公館套房的（台灣路線準備國考，HOME_AFTER gongguan）已經退宿——凌晨回套房（公館），不走回宿舍；在套房醒來 */
   { const G=grad('2029-10-02',14,{HOME_AFTER:'gongguan',Y4_PATH:'bar'}); G.zone='campus'; G.hour=26.6; H.entered=[]; H.said=[]; H.cards=[]; let err=null; try{ await STORY.forceHome(GM); }catch(e){ err=e; }
     const L=H.said.map(x=>x.t), E1=H.entered.slice(), C1=H.cards.map(c=>c[0]);

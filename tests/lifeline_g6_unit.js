@@ -90,7 +90,7 @@ const D=k=>STORY.dayOfKey(k), Tm=(d,h)=>d*24+h;
     PHONE.answer(G,'y0_kh_ask',0); check('4-1 選客運：KH_GO bus',G.flags.KH_GO==='bus');
     { const s1=JSON.stringify(G); G.hour=21.25; const H=HOME.rec(G); H.at=true; H.base=true; H.day=G.day; const tc=[], tc0=GM.titleCard; GM.titleCard=async(a,b)=>{ tc.push([a,b]); }; let w=null;
       try{ for(let k=0;k<20;k++){ w=await HOME.y0Jump(GM,Tm(d25,8.5)); if(w!=='msg') break; } } finally { GM.titleCard=tc0; }
-      check('4-1 AA_368 M7：選了客運，在家快轉停在 7/25（五）02:30（日期卡「7/25（五）02:30」「臺北的家」），接著演客運版',w==='event'&&G.day===d25&&Math.abs(G.hour-2.5)<1e-6&&tc.some(([a,b])=>a==='7/25（五）02:30'&&b==='臺北的家')&&HOME.homeEvent(G)===ev('ev_y0_kh_bus_h'),J([w,G.day-d25,G.hour,tc]));
+      check('4-1 AA_368 M7：選了客運，在家快轉停在 7/25（五）02:30（日期卡「7/25（五）02:30」「家」），接著演客運版',w==='event'&&G.day===d25&&Math.abs(G.hour-2.5)<1e-6&&tc.some(([a,b])=>a==='7/25（五）02:30'&&b==='家')&&HOME.homeEvent(G)===ev('ev_y0_kh_bus_h'),J([w,G.day-d25,G.hour,tc]));
       G=JSON.parse(s1); SOCIAL.bind(G); EVENTS.bind(GM); }
     G.day=d25; G.hour=2.4; const b0=EVENTS.check(ev('ev_y0_kh_bus_h')); G.hour=2.5; const bh=EVENTS.check(ev('ev_y0_kh_bus_h')), hh=EVENTS.check(ev('ev_y0_kh_home_h'));
     check('4-2 AA_368 M7：客運版 7/25 02:30 才開始（夜班客運；02:30 以前不演，原本 06:00）；在家快轉停在 02:30（HOME.y0Stop 看得到這個事件）',!b0&&bh&&!hh&&HOME.homeEvent(G)===ev('ev_y0_kh_bus_h'));

@@ -43,15 +43,15 @@ const ECONFF=(()=>{
     {n:23,key:'2024-10-15',h:19,ev:'ev_y0_gather'},
     {n:25,key:'2024-10-15',h:24.5,zone:'dorm',ev:'ev_y0_a1'},
     {n:26,key:'2024-10-16',h:19,zone:'library',ev:'ev_y0_e10',then:'ev_y0_e10b'},
-    {n:27,key:'2024-10-17',h:14.67,ev:'ev_y0_e30',chain:true},   /* 電話講完（「捷運上。要回家跟我媽說。」）不回到原本站的地方：黑幕直接接下一步（使用者 10-18 14:3x 選「回臺北的家跟媽媽說」；那段台詞下一班 AA 寫，寫好前先直接接，E30-MOM-1018）*/
+    {n:27,key:'2024-10-17',h:14.67,ev:'ev_y0_e30',chain:true},   /* 電話講完（「捷運上。要回家跟我媽說。」）不回到原本站的地方：黑幕直接接下一步（使用者 10-18 14:3x 選「回家跟媽媽說」；那段台詞下一班 AA 寫，寫好前先直接接，E30-MOM-1018）*/
     {n:28,key:'2024-10-17',h:16+10/60,ev:'ev_y0_e26'},   /* AA_309 第 2 列：16:10 出發（回家拿車鑰匙、跟媽媽說），出遊照 OUT 的算法 max(出發＋1.5 小時, 17:40)＝17:40 到社科院門口；原本 17:40 才出發、19:10 才到 */
     {n:'x29',key:'2024-10-29',h:12+10/60,ev:'ev_y0_xiaofu'},   /* AA_305 第 6 節：10/29 小福（10/17 22:30 便利貼 n:29 拿掉，搬到搬家那天）*/
-    {n:30,key:'2024-10-31',h:9,zone:'dorm',at:{x:0,z:2.4,yaw:Math.PI},ev:'ev_y0_a3'}];   /* 10/31 退宿（AA_305 第 7 節；原本 10/19）（AA_292 第二張表 #1）：阿勳封箱、搬回臺北的家（HOME.moveOut）——2026-10-18 使用者「休學之後我還住在宿舍？之後沒有劇情」*/
+    {n:30,key:'2024-10-31',h:9,zone:'dorm',at:{x:0,z:2.4,yaw:Math.PI},ev:'ev_y0_a3'}];   /* 10/31 退宿（AA_305 第 7 節；原本 10/19）（AA_292 第二張表 #1）：阿勳封箱、搬回家（HOME.moveOut）——2026-10-18 使用者「休學之後我還住在宿舍？之後沒有劇情」*/
   /* AA_292 第 2 節：兩個事件隔兩天以上，日期字卡下面一句（跳過的期間落在哪一段就用那一句；同一句不重複；只隔一天沒有）*/
   S.LINES=[['2024-09-03','2024-09-08','（課表貼在書桌前面。你還在記哪一間教室在哪一棟。）'],
            ['2024-09-10','2024-09-17','（博思、普通、共同，三棟樓之間的路，你已經不用看地圖了。）'],
            ['2024-09-22','2024-09-25','（晚上十點半左右，手機常常會亮一下。）'],
-           ['2024-09-27','2024-09-29','（教師節連假。你回臺北的家，帶了一袋要洗的衣服。）'],
+           ['2024-09-27','2024-09-29','（教師節連假。你回家，帶了一袋要洗的衣服。）'],
            ['2024-10-02','2024-10-06','（中秋過了。宿舍走廊上，還有人在分沒吃完的月餅。）'],
            ['2024-10-08','2024-10-11','（期中考的範圍公布了。阿勳把考試日期寫在一張紙上，貼在桌前。）'],
            [null,null,'（這幾天都在上課。）']];
@@ -258,10 +258,10 @@ const ECONFF=(()=>{
   /* 要到外面演的一步：玩樂日＝排可昕的出遊、出發；3D＝帶到現場、站好、演、回家 */
   S.run2=async function(GM,s){ const G=GM.G, E=GM.E, H=HOME.rec(G); const r=S.rec(G);
     if(s.rh){ const e=RH()&&RH().long.find(x=>x.id===s.rh); if(e) await S.rhPlay(GM,e); r.done[s.n]=1; if(GM.autosave) GM.autosave(); return H.at; }
-    if(s.trip){ const e=evOf(s.trip), E=GM.E;   /* 高雄三天兩夜（AA_303 第 15 場）：從家裡出發、2D 演完、回到臺北的家是最後一天晚上 */
+    if(s.trip){ const e=evOf(s.trip), E=GM.E;   /* 高雄三天兩夜（AA_303 第 15 場）：從家裡出發、2D 演完、回到家是最後一天晚上 */
       try{ if(typeof ADV!=='undefined'&&ADV.end) ADV.end(); await GM.fade(true); if(GM.titleCard) await GM.titleCard(S.dateLabel(G.day,G.hour),'開車去高雄 約 4 小時',2000); await GM.fade(false);
         if(e&&!done(G,s.trip)&&typeof EVENTS!=='undefined') await EVENTS.run(e); } catch(err){ console.warn('ECONFF trip',err); }
-      r.done[s.n]=1; const b=DK(s.back); if(b!=null){ await GM.fade(true); setT(G,E,b,21); if(GM.updateHUD) GM.updateHUD(); if(GM.titleCard) await GM.titleCard(S.dateLabel(b,21),'回臺北的家',2200); H.at=true; H.day=G.day; if(typeof ADV!=='undefined') ADV.begin({background:HOME.bgNow?HOME.bgNow():'blur'}); await GM.fade(false); }
+      r.done[s.n]=1; const b=DK(s.back); if(b!=null){ await GM.fade(true); setT(G,E,b,21); if(GM.updateHUD) GM.updateHUD(); if(GM.titleCard) await GM.titleCard(S.dateLabel(b,21),'回家',2200); H.at=true; H.day=G.day; if(typeof ADV!=='undefined') ADV.begin({background:HOME.bgNow?HOME.bgNow():'blur'}); await GM.fade(false); }
       if(GM.autosave) GM.autosave(); return H.at; }   /* 長場景（AA_297）：在家裡演（出門那幾段是 2D 的地點字卡）*/
     try{
       if(s.play){ if(typeof STORY!=='undefined'&&STORY.rtPlanPlay) STORY.rtPlanPlay(G); const q=typeof OUT!=='undefined'?OUT.get(G,'rt_play_'+G.day):null; r.done[s.n]=1; if(q&&q.state==='planned') return HOME.goOut(GM,q); return H.at; }

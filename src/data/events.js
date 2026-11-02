@@ -2487,11 +2487,11 @@ const STORY_EVENTS=[
     return [
       { id:'ev_y0_jan8', stage:'econ', title:'公館吃麵', participants:[], location:'any', trigger:'auto', once:true, background:'dark', hours:1.5, prereq:{custom:G=>due(G)&&!atHome(G)}, dialogue:jan8, after:(G,GM)=>{ if(GM&&GM.advance) GM.advance(1.5); } },
       { id:'ev_y0_jan8_h', stage:'econ', title:'公館吃麵', participants:[], location:'any', trigger:'home', once:true, background:'dark', prereq:{custom:G=>due(G)}, dialogue:jan8, after:(G,GM)=>{ if(GM&&GM.advance) GM.advance(1.5); } } ]; })(),
-  /* ★E21 除夕的電話（AA_224 3-10 @31708531＝BB_188 A2-1e，最後一句改；交往中的版本）：1/28（二）22:00 在臺北的家（寒假／在家模式的選單到這個時間就演，home3d.js；trigger:'home'）。
-     她在外婆家、他在臺北的家（不在家＝在外面接，ev_y0_e21o）。記 E21_CALLED（兩個只演一個）。原本的 E21_ANSWER 不再寫。
+  /* ★E21 除夕的電話（AA_224 3-10 @31708531＝BB_188 A2-1e，最後一句改；交往中的版本）：1/28（二）22:00 在家（寒假／在家模式的選單到這個時間就演，home3d.js；trigger:'home'）。
+     她在外婆家、他在家（不在家＝在外面接，ev_y0_e21o）。記 E21_CALLED（兩個只演一個）。原本的 E21_ANSWER 不再寫。
      AA_303 第 2 節 14 整段換：她約你大年初三開車去高雄（兩個選項都記 KH_TRIP，高雄三天兩夜讀它）；阿嬤那段和 KX_THINK_LEAVE 的第三個選項拿掉 */
   ...(()=>{ const due=G=>{ const d=typeof STORY!=='undefined'&&STORY.dayOfKey?STORY.dayOfKey('2025-01-28'):null; return d!=null&&G.day===d&&G.hour>=22&&!G.flags.E21_CALLED; }, atHome=G=>typeof HOME!=='undefined'&&HOME.at&&HOME.at(G);
-  const lines=[ {scene:'臺北的家',bg:'home_living_cny'},   /* BG-DARK-70-1021（BB_220★）：除夕＝年夜飯的客廳（home_living_cny 只用在除夕）*/
+  const lines=[ {scene:'家',bg:'home_living_cny'},   /* BG-DARK-70-1021（BB_220★）：除夕＝年夜飯的客廳（home_living_cny 只用在除夕）*/
       {speaker:null,text:'（電話。很吵。）'},
       {speaker:'kexin',expression:'neutral',text:'你等一下，我走到陽台。'},
       {speaker:'kexin',expression:'smile',text:'好了。……新年快樂。'},
@@ -2501,15 +2501,15 @@ const STORY_EVENTS=[
       {label:'b'},{speaker:'kexin',expression:'teasing',text:'說去找女朋友。……初三，不准遲到。'},
       {label:'end'},{set:{E21_CALLED:true}} ];
   return [ { id:'ev_y0_e21', stage:'econ', title:'除夕的電話', participants:['kexin'], location:'any', trigger:'home', once:true, background:'dark', prereq:{custom:G=>due(G)}, dialogue:lines },
-    { id:'ev_y0_e21o', stage:'econ', title:'除夕的電話', participants:['kexin'], location:'any', trigger:'auto', once:true, background:'dark', prereq:{custom:G=>due(G)&&!atHome(G)}, dialogue:[{scene:'電話'}].concat(lines.slice(1)) } ]; })(),   /* AA_307 第 12 列：人在外面接，不出「臺北的家」字幕 */   /* 不在家（休學後可以出門）也會接到：在外面自動演 */
-  /* ★E23 家裡的房間：看不懂的民法（BB_104 8b-15；AA_154 A15；AA_224 5-1 @31708531）：2/12（三）20:00，臺北的家，沒有選項（隔天 2/13 18:00 以前回到家也會演）；他住家裡了，沒有行李箱、不回宿舍。
+    { id:'ev_y0_e21o', stage:'econ', title:'除夕的電話', participants:['kexin'], location:'any', trigger:'auto', once:true, background:'dark', prereq:{custom:G=>due(G)&&!atHome(G)}, dialogue:[{scene:'電話'}].concat(lines.slice(1)) } ]; })(),   /* AA_307 第 12 列：人在外面接，不出「家」字幕 */   /* 不在家（休學後可以出門）也會接到：在外面自動演 */
+  /* ★E23 家裡的房間：看不懂的民法（BB_104 8b-15；AA_154 A15；AA_224 5-1 @31708531）：2/12（三）20:00，家，沒有選項（隔天 2/13 18:00 以前回到家也會演）；他住家裡了，沒有行李箱、不回宿舍。
      記 Y0_WINTER_DONE（舊流程的寒假模式用）。
      那本《民法》之後跟著搬到法律系的房間（房間物件「書架上的舊《民法》」已經有）*/
   { id:'ev_y0_e23', stage:'econ', title:'看不懂的民法', participants:[], location:'any', trigger:'home', once:true, background:'dark',
     prereq:{custom:G=>{ const d=typeof STORY!=='undefined'&&STORY.dayOfKey?STORY.dayOfKey('2025-02-12'):null; return d!=null&&((G.day===d&&G.hour>=20)||(G.day===d+1&&G.hour<18)); }},
-    dialogue:[ {scene:'臺北的家',bg:'home_living'},{speaker:null,text:'（臺北的家，你的房間。書架最上面有一本舊《民法》。）'},
+    dialogue:[ {scene:'家',bg:'home_living'},{speaker:null,text:'（家，你的房間。書架最上面有一本舊《民法》。）'},
       {speaker:null,text:'小時候遇到事情，你就去翻這本書。'},{speaker:null,text:'你翻到中間。還是看不懂。'},
-      {speaker:null,text:'（房門外，媽媽叫你吃飯。）'}   /* 原本「樓下」：臺北的家是一層樓的公寓（使用者 10-18 15:2x），LAWWW-C 暫改、AA 確認（HOME-ONEFLOOR-1018）*/,{speaker:null,text:'（你把書拿下來，放在書桌上。這次沒有放回去。）'},{set:{Y0_WINTER_DONE:true}} ] },
+      {speaker:null,text:'（房門外，媽媽叫你吃飯。）'}   /* 原本「樓下」：家是一層樓的公寓（使用者 10-18 15:2x），LAWWW-C 暫改、AA 確認（HOME-ONEFLOOR-1018）*/,{speaker:null,text:'（你把書拿下來，放在書桌上。這次沒有放回去。）'},{set:{Y0_WINTER_DONE:true}} ] },
   /* T3 情人節的計算機（BB_112 T3；AA_154 第 224 行）：Y0S2 第 1 週平日中午的小福（照 T1 的掛法），唐睿、品妤都在。沒去＝2/21（五）21:00 群組品妤、韋綸（時間暫定，story3d.js）*/
   { id:'ev_y0_t3', retired:'AA_224 5-4（LIFE-LINE，2026-10-17）：他不在小福了，只有群組版（2/21 21:00）＋唐睿私訊。定義留給已經演過的舊存檔', stage:'econ', title:'情人節的計算機', participants:['econ_pinyu'], location:'campus', trigger:'auto', term:['Y0S2'], weeks:[1], weekday:[1,2,3,4,5], time:[12.1,13.25], once:true, background:'blur',
     prereq:{custom:G=>typeof CALENDAR==='undefined'||!CALENDAR.holiday(G.day)},
@@ -2619,7 +2619,7 @@ const STORY_EVENTS=[
       {label:'a'},{speaker:'kexin',expression:'laugh',text:'……一點都不想被歡迎。'},{speaker:null,text:'（她笑了。）'},{goto:'e'},
       {label:'b'},{speaker:'kexin',expression:'smile',text:'嗯。……先吃。'},
       {label:'e'},{set:{RETAKE_TOGETHER:true,E27B_PLAN:true}},{stamp:['E27_DAY']} ] },   /* 沒去高雄的舊存檔：一起重考、明天去問補習班照記 */
-  /* ★高雄三天兩夜（AA_303 第 15 場，使用者 10-18 選擇題：「去高雄 3 天 2 夜……是在高雄才討論重考的」）：1/28 除夕電話約好（KH_TRIP）→ 1/31（初三）早上開車出發，2/2 晚上回臺北的家。
+  /* ★高雄三天兩夜（AA_303 第 15 場，使用者 10-18 選擇題：「去高雄 3 天 2 夜……是在高雄才討論重考的」）：1/28 除夕電話約好（KH_TRIP）→ 1/31（初三）早上開車出發，2/2 晚上回家。
      原本 2/13 水餃店的休學原因和三選一搬來這裡；記 RETAKE_TOGETHER、E27B_PLAN（2/14 一起去問補習班）。背景：前兩天 kh_dome（美麗島站）、蓮池潭 kh_lotus_bench（BB-C b043f9bd；使用者 10-18「不要人物」＝純場景，不等人物 CG）。只在經濟系 30 分鐘版的停點演（econff3d.js STEPS2 h21）*/
   { id:'ev_y0_kh3', stage:'econ', title:'高雄三天兩夜', participants:['kexin'], location:'any', trigger:'econff', once:true, background:'dark',
     /* AA_308 第 3 節 KH-TRIP-MORE（X52；使用者 10-20 選「駁二＋大港橋、西子灣看夕陽、旗津」）：三天分場，每個地點一張場景字卡＋背景（新的五張 kh_xinjuejiang、kh_pier2、kh_ruifeng、kh_cijin、kh_sizihwan
@@ -2693,7 +2693,7 @@ const STORY_EVENTS=[
       {speaker:'player',text:'就是因為快期中考了。我還是不想念書。'},{speaker:'player',text:'我覺得很完蛋。所以就去辦了。'},{speaker:'kexin',expression:'serious',text:'你現在在哪。'},{speaker:'player',text:'捷運上。要回家跟我媽說。'},
       {speaker:'kexin',expression:'serious',text:'你現在回來學校找我。我還有一堂，五點下課。社科院門口。'},{speaker:'player',text:'……我才剛休學。'},{speaker:'kexin',expression:'annoyed',text:'休學又不是不能進校門。'},{speaker:null,text:'（她掛掉了。）'},
       /* AA_308 第 4 節 E30-MOM（X46；使用者 10-20 選「媽媽不罵」）：電話之後、拿車鑰匙之前，回家跟媽媽說 */
-      {scene:'臺北的家',bg:'home_living'},{speaker:null,text:'（臺北的家。媽媽坐在客廳的桌子前記帳。）'},{speaker:'player',text:'媽。我今天去辦休學了。'},{speaker:null,text:'（媽媽把筆放下。）'},
+      {scene:'家',bg:'home_living'},{speaker:null,text:'（家。媽媽坐在客廳的桌子前記帳。）'},{speaker:'player',text:'媽。我今天去辦休學了。'},{speaker:null,text:'（媽媽把筆放下。）'},
       {speaker:'媽媽',text:'……想好了？'},{speaker:'player',text:'想好了。'},{speaker:'媽媽',text:'（看了你一下）你從小就想念法律。'},{speaker:'player',text:'……嗯。'},
       {speaker:'player',text:'我想借車。'},{speaker:'媽媽',text:'鑰匙在老地方。開慢一點。'},
       {set:{Y0_KX_CALL:true,Y0_MOM_TOLD:true}} ],
@@ -2727,7 +2727,7 @@ const STORY_EVENTS=[
       {speaker:null,text:'（他沒有再說話。那頓飯，他吃得很慢。）'},
       {set:{Y0_FRIENDS_KNOW:true}} ] },
   /* A3 搬出宿舍那天（BB_112 A3；AA_154 第 234 行、A23；日期 AA_218 第 11 節、AA_154 0b-1：2024-10-19（六））：10/19（六）在宿舍房間（09:00 以後；一整天都沒回宿舍＝20:00 以後在哪裡都演，劇情事實、一定會有）。
-     阿勳幫你封箱；選要不要請他吃飯（請了＝小福的雞腿便當；沒請＝他自己去買、傳一張照片）。演完搬回臺北的家（HOME.moveOut：之後每天從家裡出發，AA_154 1-3b）；
+     阿勳幫你封箱；選要不要請他吃飯（請了＝小福的雞腿便當；沒請＝他自己去買、傳一張照片）。演完搬回家（HOME.moveOut：之後每天從家裡出發，AA_154 1-3b）；
      便利貼跟著搬（Y0_STICKY_HOME）。按鈕字是動作（企劃沒寫按鈕字）*/
   { id:'ev_y0_a3', stage:'econ', title:'搬出宿舍那天', participants:['econ_zhengxun'], location:'any', trigger:'auto', term:['Y0S1'], once:true, background:'blur',
     prereq:{custom:G=>{ const d=typeof STORY!=='undefined'&&STORY.dayOfKey?STORY.dayOfKey(STORY.Y0_MOVE_DAY):null; return d!=null&&G.day>=d&&G.flags.LEAVE_WEEK===6&&!G.flags.Y0_MOVED_OUT&&((G.zone==='dorm'&&G.hour>=9)||G.hour>=20); }},   /* A46 ①：10/19 以後、還沒搬（當天沒演到，之後第一次符合就演；人在家＝home3d 的 S.a3FromHome 先帶回宿舍）*/
@@ -2827,7 +2827,7 @@ const STORY_EVENTS=[
      不用邀約私訊（18:00 只記 E35_ASKED）；電話版拿掉。21:00 他不在家＝她傳「你在哪。明天要早起，早點回來。」（story3d.js），24:00 以前回到家就演同一段；都沒回家＝不演、E35_PLAN 不記。
      記 E35_PLAN（sea／sleep／shop）、E35_MET。ev_y0_e35 留著 id 給舊存檔（不會再觸發）*/
   ...(()=>{ const D=G=>typeof STORY!=='undefined'&&STORY.dayOfKey?STORY.dayOfKey('2025-07-10'):null;
-    const lines=[ {scene:'臺北的家',bg:'home_living'},   /* AA_303 第 2 節 24（原本 y0_home_street_night 家樓下）*/
+    const lines=[ {scene:'家',bg:'home_living'},   /* AA_303 第 2 節 24（原本 y0_home_street_night 家樓下）*/
       {speaker:null,text:'（她房間的門開著。她坐在床邊整理筆袋，准考證放在膝蓋上，翻過來又翻回去。）'},
       {speaker:'kexin',expression:'thinking',text:'准考證我看了第四次了。'},
       {speaker:null,text:'（她從筆袋拿出兩枝 2B 鉛筆，分一枝給你。）'},
@@ -2845,7 +2845,7 @@ const STORY_EVENTS=[
         prereq:{custom:G=>{ const F=G.flags; if(!F.E35_ASKED||F.E35_DONE) return false; return G.day===D(G)&&G.hour>=21&&G.hour<24; }},
         dialogue:lines } ]; })(),
   /* ★考試的兩天（AA_272 第 11 節 885c1c2b＋c8baae2b、117b6081；使用者 22:4x、22:5x）：都不能快轉（home3d.js Y0_FIXED 7/11）。
-     11-1 7/11（五）考場（2D classroom_small）：她坐在他前面，互相加油；演完字卡「7/11～7/12　分科測驗」帶過兩天，直接到 7/12（六）19:00 臺北的家。
+     11-1 7/11（五）考場（2D classroom_small）：她坐在他前面，互相加油；演完字卡「7/11～7/12　分科測驗」帶過兩天，直接到 7/12（六）19:00 家。
      11-2 7/12 晚上餐桌對答案（2D home_living）：他數學一百，她錯一題；記 MATH_100（只是紀錄）。
      ev_y0_exam1h＝在家（home3d.js 選單那一輪）；ev_y0_exam1＝人不在家（演完回家）*/
   ...(()=>{ const DK=k=>typeof STORY!=='undefined'&&STORY.dayOfKey?STORY.dayOfKey(k):null;
@@ -2898,7 +2898,7 @@ const STORY_EVENTS=[
       bus?{speaker:null,text:'（你把手機蓋在腿上。窗外是一片一片的田。）'}:null,
       bus?{speaker:null,text:'（還有半個小時。）'}:null,   /* AA_304 第 14 列 */
       ].filter(Boolean);   /* 「（還有兩個小時。）」拿掉：七點半上車、八點到（AA_303 第 2 節 26）*/
-    const busLines=[ {speaker:null,text:'（凌晨兩點半，你搭上南下的夜班客運。）'},   /* AA_368 M7（企劃線 e55fda50）：這一場原本 06:00 從家裡開始，客運不可能兩小時到高雄（1/31 他自己開車都要四個多小時）——改搭凌晨的夜班客運：02:30 停在家裡（快轉的日期卡「7/25（五）02:30 臺北的家」）、這一行旁白；7:30「國道上」那句不改 */
+    const busLines=[ {speaker:null,text:'（凌晨兩點半，你搭上南下的夜班客運。）'},   /* AA_368 M7（企劃線 e55fda50）：這一場原本 06:00 從家裡開始，客運不可能兩小時到高雄（1/31 他自己開車都要四個多小時）——改搭凌晨的夜班客運：02:30 停在家裡（快轉的日期卡「7/25（五）02:30 家」）、這一行旁白；7:30「國道上」那句不改 */
       to(7.5),{scene:'客運上',bg:'kh_bus_day'},...score(true),
       to(8),{scene:'高雄・客運站出口',bg:'kh_bus_station'},
       {scene:'高雄・客運站附近的早餐店',bg:'soymilk_shop'},{speaker:null,text:'（早餐店。她點了兩份蛋餅，說今天要慶祝，先吃再說。）'},   /* AA_308 第 7 節：見面以後才看到落點表 */
@@ -2914,8 +2914,8 @@ const STORY_EVENTS=[
       {speaker:'kexin',expression:'smile',text:'車上吃。不要在車上難過。'},
       to(21),{speaker:null,text:'（九點的客運開了。你在車上把肉粽吃完。）'},
       {set:{KH_MADEUP:true,KH_DAY:'bus'}} ];
-    const busAfter=(G,GM)=>{ if(G.hour<26+10/60) GM.advance(26+10/60-G.hour); if(!atHome(G)&&typeof HOME!=='undefined'&&HOME.go) void HOME.go(GM); };   /* AA_368 M7：九點的客運開了以後約五小時，7/26 02:10 到臺北的家（原本「三小時的客運，00:10」）*/
-    const homeLines=[ to(7.5),{scene:'臺北的家'},...score(false),
+    const busAfter=(G,GM)=>{ if(G.hour<26+10/60) GM.advance(26+10/60-G.hour); if(!atHome(G)&&typeof HOME!=='undefined'&&HOME.go) void HOME.go(GM); };   /* AA_368 M7：九點的客運開了以後約五小時，7/26 02:10 到家（原本「三小時的客運，00:10」）*/
+    const homeLines=[ to(7.5),{scene:'家'},...score(false),
       to(10),{speaker:null,text:'（十點，補習班傳來今年的落點預估表。你那個分數，在首都帝大法律那一格。）'},{speaker:null,text:'（她傳來一張截圖：同一張表，她把自己那一格圈起來。木柵大學法律。）'},{speaker:null,text:'（考上的話，你在首都帝大，她在木柵大學。以後不會每天坐在同一張桌子了。）'},   /* AA_308 第 7 節在家版：落點 10:00 才出來 */
       {set:{KH_DAY:'home'}} ];
     const callLines=[ {scene:'電話'},{speaker:null,text:'（電話接通。她那邊很安靜。）'},
@@ -2943,7 +2943,7 @@ const STORY_EVENTS=[
   /* ★E36 放榜（分發結果）8/13（三）：手機＋電話（AA_272 4-4，c8baae2b；取代 AA_224 6-6 的椰林大道見面）。10:00 兩句系統旁白照 AA_224 6-6（ev_y0_e36r／rh）；
      10:05 她的私訊在 story3d.js；20:00 電話（她在高雄）：「台大法律。恭喜你。真的。」→ 祐廷「只高 0.1。」→ 可昕「上了就是上了。」→ 祐廷「妳要不要回台大？」→ 她說了三個理由（AA_298 第 10 節、d744bf3d）→ E36_PACT
      → 最後一句「月底我就上去了。行李很多，你要載我。」（AA_304 第 18 列；接 8/30 E37 你開車載她搬宿舍）。「一點點不甘心」不用（7/25 說過）；BB_104 的「我差一點點」「消化」和路燈旁白拿掉（12-3）；電話裡三處改句（12-4 1fc61e52）。
-     ev_y0_e36＝人不在家；ev_y0_e36h＝在臺北的家。22:00 經濟系群組四則在 story3d.js（E36n 宵夜改群組）；ev_y0_e36n 留著 id 給舊存檔（不會再觸發）*/
+     ev_y0_e36＝人不在家；ev_y0_e36h＝在家。22:00 經濟系群組四則在 story3d.js（E36n 宵夜改群組）；ev_y0_e36n 留著 id 給舊存檔（不會再觸發）*/
   ...(()=>{ const D=()=>typeof STORY!=='undefined'&&STORY.dayOfKey?STORY.dayOfKey('2025-08-13'):null, atHome=G=>typeof HOME!=='undefined'&&HOME.at&&HOME.at(G);
     const hab=k=>typeof EVENTS!=='undefined'&&EVENTS.habitCount?EVENTS.habitCount({key:'retake:'+k}):0;   /* E29 的旁白（AA_154 A49）：重考期讀書日、玩樂日哪邊多說哪一句，一樣多不說 */
     const lines=[ {scene:'電話'},
@@ -2961,16 +2961,16 @@ const STORY_EVENTS=[
     const due=G=>{ const d=D(); return d!=null&&G.day===d&&G.hour>=20&&!!G.flags.E36_ASKED&&!(G.events.done&&(G.events.done.ev_y0_e36||G.events.done.ev_y0_e36h)); };
     const rdue=G=>{ const d=D(); return d!=null&&G.day===d&&G.hour>=10&&!G.flags.E36_RESULT; }, rlines=[ {speaker:null,text:'（八月十三日，早上十點。榜單公布了。）'},{speaker:null,text:'（首都帝大法律學系，財經法學組。你的名字在上面。）'},{speaker:null,text:'（分數只比那一組的錄取分數高 0.1。）'},{set:{E36_RESULT:true}} ];   /* AA_224 6-6：0.1 只出現在旁白和他那一句 */
     return [
-      /* 白天看到結果（AA_154 A49：兩句系統旁白，接著可昕 10:05 的私訊）：ev_y0_e36r＝不在家；ev_y0_e36rh＝在臺北的家 */
+      /* 白天看到結果（AA_154 A49：兩句系統旁白，接著可昕 10:05 的私訊）：ev_y0_e36r＝不在家；ev_y0_e36rh＝在家 */
       { id:'ev_y0_e36r', stage:'econ', title:'八月放榜', participants:[], location:'any', trigger:'auto', once:true, background:'blur',   /* 不在家那一版：原本用家裡房間（BB 11-01 問），改模糊的 3D（人在哪就是哪）*/ prereq:{custom:G=>rdue(G)&&!atHome(G)}, dialogue:rlines },   /* 底圖 home_room_day（BLACK-BG-AUDIT-1018，BB_132 第 100 組；不加地點字幕）*/
-      { id:'ev_y0_e36rh', stage:'econ', title:'八月放榜', participants:[], location:'any', trigger:'home', once:true, background:'dark', prereq:{custom:rdue}, dialogue:[{scene:'臺北的家',bg:'home_room'}].concat(rlines) },   /* BB_216 B：在家看榜接 home_room */
+      { id:'ev_y0_e36rh', stage:'econ', title:'八月放榜', participants:[], location:'any', trigger:'home', once:true, background:'dark', prereq:{custom:rdue}, dialogue:[{scene:'家',bg:'home_room'}].concat(rlines) },   /* BB_216 B：在家看榜接 home_room */
       { id:'ev_y0_e36', stage:'econ', title:'放榜的電話', participants:['kexin'], location:'any', trigger:'auto', once:true, background:'blur', prereq:{custom:G=>due(G)&&!atHome(G)}, dialogue:lines },
       { id:'ev_y0_e36h', stage:'econ', title:'放榜的電話', participants:['kexin'], location:'any', trigger:'home', once:true, background:'dark', prereq:{custom:due}, dialogue:lines },
       { id:'ev_y0_e36n', stage:'econ', title:'放榜的宵夜', participants:[], location:'any', trigger:'chain', once:true, background:'dark', prereq:{custom:()=>false}, dialogue:[] } ]; })(),
   /* ★E37 第一次一起去政大（BB_104 8b-20；AA_154 A40）：8/30（六）14:00（2D 出遊）。AA_303 第 2 節「法律系 8/30」：改成你開家裡的車載她搬宿舍（導遊那句和三選一拿掉）；
      邀約私訊改「我明天坐高鐵上去。後天你載我搬宿舍。」（8/29 她坐高鐵到臺北、住你家一晚）。以下是原本 AA_206 2-3 的說明（後半「去年這個時候……」到最後照舊）：
      「繞了一圈」放在她回頭看宿舍、想到一年前的那一刻才說，三個分支都不加數值、沒有旗標；已經在山下的小吃街，不再寫「走到山下」，往公車站（AA_203 #18）。
-     邀約、出發選單、14:15 的電話在 story3d.js；從家裡出發的演完回臺北的家（home3d.js）*/
+     邀約、出發選單、14:15 的電話在 story3d.js；從家裡出發的演完回家（home3d.js）*/
   { id:'ev_y0_e37', stage:'any', kxAway:true,   /* kxAway：結尾「你一個人開車下山」（AA_309 第 3 列）*/   /* 選 1：8/29 轉進法律系以後的 8/30 也演（只由出遊觸發，once）*/ title:'第一次一起去木柵大學', participants:['kexin'], location:'any', trigger:'outing', once:true, background:'dark', hours:4,
     dialogue:[ {scene:'木柵大學・宿舍',bg:'nccu_dorm_day'},{speaker:null,text:'（八月三十日。你開家裡的車，載她和兩個行李箱上山。）'},{speaker:null,text:'（木柵大學的宿舍在山上。電梯很小，你們搬了三趟。）'},{speaker:'kexin',expression:'tired',text:'（擦汗）……好。這是我的床。'},
       {scene:'木柵大學・山下的小吃街',bg:'nccu_food'},{speaker:null,text:'（山下的小吃街。她點了兩碗酸辣湯餃，說放榜那天晚上查木柵大學附近的店，就想吃這家了。）'},{speaker:'kexin',expression:'smile',text:'以後你開車來找我。我負責選宵夜。'},   /* AA_368 L7（企劃線 e55fda50）：原本「說上次來看宿舍的時候就想吃了」；開頭「山下的小吃街。」保留 */
@@ -2983,7 +2983,7 @@ const STORY_EVENTS=[
       {if:{custom:G=>typeof STORY!=='undefined'&&STORY.e37Dorm?STORY.e37Dorm(G):!!(G.flags||{}).E37_LAW},speaker:null,text:'（你把車開回家，再搭捷運回宿舍。）'} ],   /* AA_307 第 6 列；最後一句＝從法律系開局的版本（X81，AA_303「法律系開局的 8/30」，AA-C bcb678e0）；AA_368 M8：改成 8/30 住在宿舍的人都有（經濟系路線 8/29 也搬進宿舍了，STORY.e37Dorm）*/
     afterOuting:(G,GM)=>{ if((typeof STORY!=='undefined'&&STORY.e37Dorm?STORY.e37Dorm(G):(G.flags||{}).E37_LAW)&&GM.advance) GM.advance(1); } },   /* 住在宿舍的（AA_368 M8；原本只有法律系開局）：開車回家、再搭捷運回宿舍——多 1 小時（14:00 到、回到宿舍 19:00 左右）；出發地點照舊（他先回家開車）*/
   /* E35 考完以後：7/19（六）摘要日（AA_154 A47；旁白 AA 寫）：E35_PLAN 有值才演；字卡「7/19（六）」＋一句旁白，接她考前一晚的回應；那一天用摘要帶過（演完到 20:00）。
-     ev_y0_e35s＝人不在家；ev_y0_e35sh＝在臺北的家（home3d.js 選單那一輪）*/
+     ev_y0_e35s＝人不在家；ev_y0_e35sh＝在家（home3d.js 選單那一輪）*/
   ...(()=>{ const due=G=>{ const d=typeof STORY!=='undefined'&&STORY.dayOfKey?STORY.dayOfKey('2025-07-19'):null; return d!=null&&G.day===d&&!!G.flags.E35_PLAN&&!G.flags.E35_SUM; };
     const atHome=G=>typeof HOME!=='undefined'&&HOME.at&&HOME.at(G);
     const lines=[ {scene:'7/19（六）',if:{flagIs:{E35_PLAN:'sleep'}},bg:'home_living'},{scene:'7/19（六）',if:{flagIs:{E35_PLAN:'sea'}},bg:'y0_sea_blue'},{scene:'7/19（六）',if:{flagIs:{E35_PLAN:'shop'}},bg:'y0_lane_shop'},   /* 背景照分支（BB-C 22bf4908、2fe51fcf）：sleep＝在家、sea＝晴天的海邊、shop＝巷子裡的小店 */
@@ -4897,7 +4897,7 @@ const Y4_EVENTS=(function(){
       outingMissed:G=>{ if(typeof PHONE!=='undefined'&&typeof STORY!=='undefined') PHONE.at(G,STORY.dayOfKey('2028-01-12'),19.75,[{th:'p:sister',from:'sister',name:'姊姊',text:'好。那過年見。'}],'y3_sis_hotpot_miss'); } },   /* 答應了沒到：19:45（AA_180 2-7）*/
     { id:'ev_family_land_y3', title:'親戚的土地資料（二）', participants:[], location:'any', trigger:'home', priority:9, time:[7,18], once:true, background:'dark',
       prereq:{custom:CNY}, dialogue:LAND_Y3, consequences:{advance:2} },   /* 在家的第一個時段（home3d.js 的寒假選單：起床後第一輪就演）*/
-    { id:'ev_family_land_y3_bed', title:'親戚的土地資料（二）', participants:[], location:'any', trigger:'sleep', priority:9, once:true, background:'dark', sleepCard:['大年初一','臺北的家'],
+    { id:'ev_family_land_y3_bed', title:'親戚的土地資料（二）', participants:[], location:'any', trigger:'sleep', priority:9, once:true, background:'dark', sleepCard:['大年初一','家'],
       prereq:{custom:G=>CNY(G)&&!(G.events&&G.events.done&&G.events.done.ev_family_land_y3)}, dialogue:LAND_Y3 },   /* 那天白天都不在家：睡著時演（同主線 2 的 _bed）*/
     { id:'ev_y4_path', title:'大四要怎麼過？', participants:[], location:'any', trigger:'manual', once:true, background:'blur', dialogue:PATH, consequences:{stamp:['Y4_PATH_DAY']} },
     { id:'ev_y4_path_again', title:'大四要怎麼過？', participants:[], location:'any', trigger:'manual', once:true, background:'blur', dialogue:PATH_AGAIN },
