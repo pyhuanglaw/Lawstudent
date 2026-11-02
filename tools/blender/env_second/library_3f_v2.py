@@ -26,6 +26,7 @@ H = LAY['h']; T = 0.2
 BD = LAY['bounds']; X0, X1, Z0, Z1 = BD['x0'], BD['x1'], BD['z0'], BD['z1']
 XI0, XI1, ZI0, ZI1 = X0 + T / 2, X1 - T / 2, Z0 + T / 2, Z1 - T / 2
 R = LAY['rotunda']; SD = LAY['stairDoor']; EL = LAY['elevator']
+ROT_LAMPS = (PI / 6, PI * 7 / 18, PI * 11 / 18, PI * 5 / 6)   # 人文庫的四片小燈：30°、70°、110°、150°（烘焙腳本的 ROTL 同一組）
 rng = random.Random(1103)
 BOOKC = ['#2f5d50', '#8c3b47', '#c9a24f', '#4a6c8c', '#7b6a5a', '#b5643f', '#d9d3c6', '#3e4a5c', '#5e6b45']
 
@@ -116,6 +117,12 @@ for gx in [x + 1.2 for x in range(int(X0), int(X1) - 1, 3)]:
     for gz in [z + 1.2 for z in range(int(Z0) + 1, int(Z1) - 1, 3)]:
         lp.box(gx - 0.6, gx + 0.6, H - 0.012, H - 0.004, gz - 0.3, gz + 0.3)
 lp.box(R['cx'] - 1.0, R['cx'] + 1.0, H - 0.012, H - 0.004, R['cz'] - 2.6, R['cz'] - 1.6)
+# 人文庫再加四片小燈（11-02 第一次烘：人文庫地板白天只有 0.155，主閱覽區約 0.42——半圓約 46 m² 只有中間一片燈，
+#   每平方公尺約 0.5 W，主閱覽區約 1.4 W）。位置：圓心半徑 3.6 m、30°／70°／110°／150°（書牆內面在半徑 4.75）。
+#   改這裡要一起改 lightbake/bake_library_3f_v2.sh 的 ROTL（同一組位置）
+for a in ROT_LAMPS:
+    lx, lz = R['cx'] + 3.6 * math.cos(a), R['cz'] - 3.6 * math.sin(a)
+    lp.box(lx - 0.3, lx + 0.3, H - 0.012, H - 0.004, lz - 0.3, lz + 0.3)
 
 # =====================================================================
 # 二、外牆（窗：西、東、南；東牆有樓梯間的門）、北牆（人文庫的玻璃門）

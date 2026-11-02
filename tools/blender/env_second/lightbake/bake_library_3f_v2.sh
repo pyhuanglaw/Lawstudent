@@ -37,6 +37,12 @@ rz = R['cz'] - 2.1
 lights.append(f"{R['cx'] - 0.01:.3f},{R['cx'] + 0.01:.3f},{rz - 0.01:.3f},{rz + 0.01:.3f},{H - 0.03:.3f},1,1,{E('ROT','16')},1.9,0.95,{col}")
 pts = [f"{x:.3f},{H - 0.9:.3f},{z:.3f},{E('UPW','7')},{col},0.4" for x in gx for z in gz]
 pts.append(f"{R['cx']:.3f},{H - 0.9:.3f},{rz:.3f},{E('UPW','7')},{col},0.4")
+# 人文庫四片小燈（library_3f_v2.py 的 ROT_LAMPS：半徑 3.6 m、30°／70°／110°／150°）：每片 5 W 面光源＋燈下 0.9 m 一顆 5 W 補光
+#   11-02 第一次烘：人文庫地板白天 0.155（主閱覽區約 0.42；半圓 46 m² 只有中間一片燈，每平方公尺約 0.5 W）→ 加到約 1.4 W，和主閱覽區一樣
+for a in (math.pi / 6, math.pi * 7 / 18, math.pi * 11 / 18, math.pi * 5 / 6):
+    lx, lz = R['cx'] + 3.6 * math.cos(a), R['cz'] - 3.6 * math.sin(a)
+    lights.append(f"{lx - 0.01:.3f},{lx + 0.01:.3f},{lz - 0.01:.3f},{lz + 0.01:.3f},{H - 0.03:.3f},1,1,{E('ROTL','5')},0.54,0.54,{col}")
+    pts.append(f"{lx:.3f},{H - 0.9:.3f},{lz:.3f},{E('ROTLP','5')},{col},0.4")
 # 閱覽桌的桌燈（照 library_3f_v2.py 的 lamps）：燈罩下緣 0.99 m，光源放在 0.96 m
 for f in L['furniture']:
     if f['type'] == 'desk' and f.get('lamp'):
@@ -57,4 +63,5 @@ cp "$TMP/l3v2.json" "$OUTDIR/library_3f_v2_lm.json"
 [ "$OUTDIR" = "assets/models/env/second_ai" ] && mv "$OUTDIR/library_3f_v2_lm.json" tools/blender/env_second/lightbake/library_3f_v2_lm.json
 rm -rf "$TMP"
 # 烘完自己檢查（lm_probe.py）：重點位置的亮度不能低於下限（白天、晚上）
-python3 tools/blender/env_second/lightbake/lm_probe.py "$OUTDIR/library_3f_v2.glb" "$OUTDIR/library_3f_v2_lm" '[["中間走道地毯",0,0,-2.0,"up",0.3,0.2],["西側靠窗閱覽桌旁地毯（學姊的座位）",-10.0,0,-7.4,"up",0.3,0.2],["東側靠窗閱覽桌旁地毯",10.0,0,1.6,"up",0.3,0.2],["南側長桌旁地毯",-3.0,0,6.6,"up",0.3,0.2],["人文庫木地板",0,0,-19.5,"up",0.2,0.15],["天花板（中間）",0,4.0,-2.0,"down",0.06,0.06],["天花板（人文庫）",0,4.0,-19.5,"down",0.05,0.05]]'
+#   11-02 更正：第一次的「南側長桌旁地毯」(−3, 6.6) 在長桌正下方、「人文庫木地板」(0, −19.5) 在展示桌正下方（桌子底下本來就暗），改到旁邊的走道
+python3 tools/blender/env_second/lightbake/lm_probe.py "$OUTDIR/library_3f_v2.glb" "$OUTDIR/library_3f_v2_lm" '[["中間走道地毯",0,0,-2.0,"up",0.3,0.2],["西側靠窗閱覽桌旁地毯（學姊的座位）",-10.0,0,-7.4,"up",0.3,0.2],["東側靠窗閱覽桌旁地毯",10.0,0,1.6,"up",0.3,0.2],["南側兩張長桌中間的走道",0.0,0,6.4,"up",0.3,0.2],["人文庫木地板（展示桌東邊）",2.0,0,-19.2,"up",0.2,0.15],["人文庫木地板（展示桌西邊）",-2.0,0,-19.2,"up",0.2,0.15],["人文庫門口",0,0,-17.6,"up",0.2,0.15],["天花板（中間）",0,4.0,-2.0,"down",0.06,0.06],["天花板（人文庫）",0,4.0,-19.5,"down",0.05,0.05]]'
