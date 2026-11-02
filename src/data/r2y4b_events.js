@@ -281,7 +281,7 @@ const R2Y4B_EVENTS=(function(){
     beforeOuting:async(G,GM,q)=>{ const r=R(); if(r) await r.julyScene(GM,q); } },
   /* ---------- 2-Y4-47 芷若回國：畢業時和她交往中＝9/1（六）22:00 打烊後的 Café（BB_99 6b-1）；分開過的＝她回 Café 的第一週第一次進 Café（BB_119 第 4 節）---------- */
   { id:'ev_zhiruo_back_cafe', title:'一年', participants:['heroine_02'], location:'any', trigger:'outing', once:true, background:'dark', hours:1,
-    dialogue:[ {scene:'兩點半 Café（打烊以後）',bg:'dark'},   /* Z13 那張 2D 還沒有：dark＋字幕 */
+    dialogue:[ {scene:'兩點半 Café（打烊以後）',bg:'cafe_closed'},   /* 11-02 LAWWW-B：用店休的 Café（原本 Z13 那張 2D 還沒有＝深色底）*/
       {speaker:null,text:'（她做了一杯熱拿鐵，不加糖。杯子上用麥克筆寫著：「熱拿鐵・不加糖」。下面一行小字：「一年。」）'},
       {speaker:'heroine_02',text:'我回來了。'},
       {set:{ZR_CUP_Y5:'there'}} ],

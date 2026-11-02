@@ -241,12 +241,12 @@ const VACFILL_EVENTS=(function(){
 
     /* ===================== 第 2 節 大二暑假 ===================== */
     { id:'ev_vf_y2_0729', title:'法圖', participants:['heroine_05'], location:'any', trigger:'outing', once:true, background:'dark', hours:2,
-      dialogue:[ {scene:'法圖'}, {speaker:null,text:X.y2_0728.narr}, {speaker:'heroine_05',text:X.y2_0728.sit},
+      dialogue:[ {scene:'法圖',bg:'law_library'}, {speaker:null,text:X.y2_0728.narr}, {speaker:'heroine_05',text:X.y2_0728.sit},
         {if:{custom:G=>F(G).VF_Y2_0729!=='find'},speaker:null,text:X.y2_0728.coat},
         {if:{custom:G=>F(G).VF_Y2_0729==='find'},speaker:'heroine_05',text:X.y2_0728.two} ] },   /* 和學姊交往中、回「我去找妳。」：最後一句換成「……下次我帶兩件。」*/
     /* AA_549 3-3（企劃線 AA_549 第 3 節 3-3；第①級）：原本只有一句旁白（X.y2_0731.narr）＝換成子晴的場景 */
     { id:'ev_vf_y2_0801', title:'兩點半 Café', participants:['heroine_04'], location:'any', trigger:'outing', once:true, background:'dark', hours:1.5,
-      dialogue:[ {scene:'兩點半 Café'},
+      dialogue:[ {scene:'兩點半 Café',bg:'cafe'},
         {speaker:null,text:'（下午的兩點半 Café。子晴坐在最裡面，筆電貼滿貼紙，桌上兩杯冰美式。）'},
         {speaker:'heroine_04',text:'一杯是你的。我猜你會遲到，所以先點了。冰塊都化了。'},
         {speaker:'heroine_04',text:'我在做一個小遊戲。你幫我玩一關。'},
@@ -265,7 +265,7 @@ const VACFILL_EVENTS=(function(){
         {if:{custom:G=>!here(G,'zhe')},speaker:null,text:X.y3_0209.backNoZhe} ],   /* 阿哲大三寒假多半在高雄（BB_303 第 3 節）：2/9 他不在臺北＝他的句子拿掉、回程旁白換 */
       after:G=>{ G.flags.VF_Y3_LANTERN='went'; } },
     { id:'ev_vf_y3_0214', title:'法圖', participants:['heroine_05'], location:'any', trigger:'outing', once:true, background:'dark', hours:1.5,
-      dialogue:[ {scene:'法圖'}, {speaker:null,text:X.y3_0212.narr},
+      dialogue:[ {scene:'法圖',bg:'law_library'}, {speaker:null,text:X.y3_0212.narr},
         /* AA_533 4-3（企劃線 cf0066ed2）*/
         {speaker:'heroine_05',text:'開學前來借的人，通常是要補上學期的。'},{speaker:'heroine_05',text:'……你是哪一種？'},
         {choice:[{text:'「補上學期的。」',goto:'aa533_a'},{text:'「預習下學期的。」',goto:'aa533_b'}]},

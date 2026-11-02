@@ -3723,7 +3723,7 @@ const STORY_EVENTS=[
      跨年 12/31（四）23:50 宿舍頂樓十分鐘、期末最後一頓（最後一科考完那天 19:00 麵店）。邀約、出發選單、沒去的照片在 story3d.js（v3 群戲那張表）。
      聖誕：阿哲和 Alison 第一次一起出現、買了一樣的保溫杯；祐廷抽到的禮物看抽到誰（在場、認識的人隨機一位）*/
   { id:'ev_y2_xmas', title:'聖誕交換禮物（大二）', participants:[], location:'any', trigger:'outing', once:true, background:'dark', hours:1,
-    dialogue:[ {scene:'法律系館A一樓'},
+    dialogue:[ {scene:'法律系館A一樓',bg:'ntu_linze'},   /* 11-02 LAWWW-B 用現有的圖補黑底 （12:20 A館一樓＝穿堂）*/
       {if:EV_KNOWS('yu'),speaker:null,text:'（阿哲先到。五分鐘後 Alison 也到了。）'},   /* AA_313 5-3（AA_389 第 6 點：照逐場表）：改 12/17 以後他們 12/19 才在一起——還沒在一起、剛好買一樣 */
       {speaker:'拆到的人',text:'……為什麼有兩個一樣的保溫杯？'},{if:EV_KNOWS('yu'),speaker:'阿哲、Alison',text:'不是我們。'},{unless:EV_KNOWS('yu'),speaker:'zhe',expression:'laugh',text:'不是我們。'},
       {pick:{flag:'Y2_XMAS_FROM',from:G=>{ const k=id=>typeof STORY!=='undefined'&&STORY.knows&&STORY.knows(id,G); return ['heroine_01','heroine_03','classmate_xinci','classmate_bohan','zhe'].filter(k); }}},
@@ -3802,7 +3802,8 @@ const STORY_EVENTS=[
        演完兩邊 ROM.learn、TWO_HEARTS_MET；
      ev_two_hearts_cafe：11/11 22:00 兩則私訊、22:30 兩點半 Café（出遊 must：只能「出發」，STORY.phoneRules 排），進 Café 就演；只有「學姊。」／「以安。」，
        沒被選的那位分手（STORY.twoHeartsPick：ROM.end、by her），被選的那位之後第一次說話時記得一次（STORY.twoHeartsEcho）。路線在 11/18 12:00 照選的那位定（routeDecide）。*/
-  { id:'ev_an_sis_meet_lawlib', title:'法學院圖書館，週三晚上', participants:[], location:'any', trigger:'sleep', priority:8, once:true, background:'dark', sleepCard:['週三晚上','法學院圖書館'],
+  { id:'ev_an_sis_meet_lawlib', title:'法學院圖書館，週三晚上', participants:[], location:'any', trigger:'sleep', priority:8, once:true, get background(){ return typeof OUT!=='undefined'&&OUT.bg?OUT.bg('law_library'):'dark'; },   /* 11-02 LAWWW-B：用法圖的圖（原本深色底）*/
+    sleepCard:['週三晚上','法學院圖書館'],
     prereq:{custom:G=>typeof STORY!=='undefined'&&!!STORY.twoHeartsDue&&STORY.twoHeartsDue(G)}, after:(G)=>{ if(typeof STORY!=='undefined'&&STORY.twoHeartsMet) STORY.twoHeartsMet(G); },
     dialogue:[ {speaker:null,text:'（週三晚上的法學院圖書館。長桌只剩一個位子，以安坐下，對面的人在看一本很厚的書。）'},
       {speaker:'heroine_01',expression:'neutral',text:'……不好意思，可以借一下六法嗎？我的忘在宿舍。'},
