@@ -80,7 +80,15 @@
 
 ## 六、測試
 
-（交件前在 `b1b249873`＋這個 patch＋GLB 的乾淨 worktree 跑；結果跑完補上。）
+- **環境**：乾淨的 worktree，`b1b249873`＋這個 patch＋GLB（`library_b1.glb` 11-02 12:0x 版，灌木修過）。Playwright＋SwiftShader，不是實機。
+- **Node**：
+  - 跑了碰到 `library_b1`、`b1story`、`r2y4b`、`LIBRARY_B1`、國考讀書會、柏翰小組讀書的單元測試，再加 `nav_buildings_unit`、`reachability_unit`，共 61 支。
+  - 60 支 ALL PASS；1 支 FAIL：`pool_aafix_unit` 第 4 項（`classes3d.js` 的 `CLS.S.enrolled` 讀到 undefined 的 `y4s2_mar`）。
+  - 這一支在乾淨的 `b1b249873`（沒有這個 patch）也一樣 FAIL，和 B1 無關。
+- **瀏覽器**：`guide_flow`（`?turbo`）：10 PASS、3 FAIL。
+  - 「閉館訊息寫開放時間與幾點開」（總圖閉館、B1 側門那一段）PASS。
+  - FAIL 的是校園導航那三項：「校園裡指向『走出校門』」「有路線」「導航條顯示」。
+  - 在乾淨的 `b1b249873`（沒有這個 patch）照樣是這三項 FAIL（14:4x 跑過），和 B1 無關。
 
 ## 七、還沒做的、限制
 
