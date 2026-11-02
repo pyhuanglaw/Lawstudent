@@ -5262,6 +5262,25 @@
    "noDirectIntegrate": false,
    "note": "LAWWW 11-02 14:30 要的。原因：soc 接的是 campus_socsci_glb（X75）；TAGS 少四棟；改之前那一輪刪 key 會改到總圖（LIBF）、社科院（SOCX）、校門（ckTag）、男一舍（門廊燈）的配置（13 個 key 全刪：擋住的導航格少 4784、互動點少 2、鏡頭碰撞少 8）。改成：刪 key／STUB（key 留著、loadOne 回 null）／KEEP（新社科院兩輪都有）。外框容許只放寬屋頂樓梯間、機房（量過）。兩次全套都是 94 PASS／1 FAIL",
    "integrated": "LAWWW 11-02 15:31 ACK：已進 int/next1102＝eb3920914（apply 乾淨；效能門檻不改，同意）"
+  },
+  {
+   "branch": "claude/second-ai-env-art",
+   "sha": "(本 commit)",
+   "receiver": "LAWWW",
+   "ack": "SENT",
+   "task": "LIB-B1-V4-1102（總圖 B1 第四版：使用者 18:1x「太擠」「桌子和進門的門平行」）",
+   "files": [
+    "docs/art-rebuild/second_ai/patches/library_b1_v4_1102.patch",
+    "assets/models/env/second_ai/library_b1.glb",
+    "assets/models/env/second_ai/library_b1.json",
+    "assets/models/env/second_ai/library_b1.layout.json",
+    "docs/art-rebuild/second_ai/test_shots/library_b1_v4_1102/README.md"
+   ],
+   "state": "已交付（READY_FOR_ART_REVIEW；BB 驗收）",
+   "remaining": "reachability_all(library_b1) 排在佇列；BB_236 ④牆面⑤烘焙還沒做；兩排中間走道的方柱 BB 覺得擋路可以拿掉",
+   "next": "LAWWW 以 48918ca20 為基準套 patch（3e6855649、48918ca20 apply --check 乾淨）＋換三個二進位；跑 library_b1_unit、b1story_unit、aa497_supporting_unit 等",
+   "noDirectIntegrate": false,
+   "note": "A 區正門搬到西段南牆、B 區門搬到南牆，桌子東西向＝和門平行；兩排雙面排距 5 m、桌間 2 m；自習室 101→72 位；spots.study_door／study_night、芯慈／明軒 seatAt 改座標（README 第六節對照表）。第三版不交件（材質、椅子、小物沿用）。"
   }
  ]
 }
