@@ -11,7 +11,7 @@
 //      重新開始那一版沒有「這次，我選你。」；多段感情 Byes 沒有「我還是喜歡你。」；這幾句都不在遊戲裡
 //   5  林{name}：只有她說、只有交往中；分手以後、沒交往、別人說照舊；不重複加姓；對話框（game3d.js showLine）、手機（她的訊息）都接
 //   6  AA 對 AA_584 的補充：sis3h、修正本私訊、family_context、us208 沒有 heardClip
-// 修改前（int/m590 0e11c43a3）：第 0 項白名單、第 1～6 項 FAIL。用法：node tests/aa591_sis_b4_unit.js
+// 修改前（int/m590 0e11c43a3，實測）：46 項 FAIL、7 項 PASS（讀稿、表的列數、沒改的第 183 列、照舊的兩條路線：訪談沒交往／選原子筆、祐廷先說的期末飯與大峽谷交往）。用法：node tests/aa591_sis_b4_unit.js
 require('./alison.js');
 const H=require('./pg_harness.js');
 const fs=require('fs'), vm=require('vm'), path=require('path');
