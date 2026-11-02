@@ -32,12 +32,19 @@ CASES（逗號隔開，每個 case 開一個新的瀏覽器；預設全跑 main_
   noshow     【前置】6/26 11:15 宿舍存檔（補考已排好、pending；照碼「讀檔時已經過了」那一種沒去）→ 讀檔後 FD_MAKEUP missed、延畢、成績「不及格（補考缺考）」、
              下一個停點演「（補考的時間過了。…）」＋cert（＋bar）。宿舍裡純照玩家沒有辦法「不去」（站 2 秒就跳到 09:30 那一場、坐著要坐一個半小時），
              照玩家拖過 11:00 的版本在 home 的 rest 那一組。
-  home       【前置】直接把人放在臺北的家（G.home.at＝true、補考 pending），HOME_SUBS（預設 go,sleep,late,rest）：
+  home       【前置】直接把人放在臺北的家（G.home.at＝true、補考 pending），HOME_SUBS（預設 go,sleep_eve,sleep_day,late,rest）：
              go    6/26 08:30：家裡選單有「出發：補考（法律系館A）」（直向＋橫向截圖）→ 按 → 演補考（MK_RIGHT 預設 5）→ 回到家裡的選單、那一項不見了（已經考完）
-             sleep 6/25 21:00：選單沒有那一項（6/26 以外，截圖）→「睡覺」→ 直接跳到 6/26 09:30 那一場（fd_makeup 開始時間）→ 考完回家裡的選單
+             （BB 11:03 BUG-MAKEUP-HOME-SLEEP-WARN-1102，P2 下一版修：原本的 sleep 拆成 sleep_eve／sleep_day；HOME_SUBS 寫 sleep＝sleep_eve）
+             sleep_eve 6/25 21:00：選單沒有那一項（6/26 以外，截圖）→「睡覺」（中途有確認照樣選「照樣」、記下來）→ 期望停在 6/26 11:00 以前家裡的選單、
+                   有「出發：補考」、補考還沒開始（FD_MAKEUP pending）→ 選「出發：補考」→ 照常考（MK_RIGHT 預設 5＝FD_MAKEUP pass）→ 回到家裡的選單
+             sleep_day 6/26 08:30：選單有「出發：補考」→ 選「睡覺」→ 遇到「會錯過：…補考」確認（直向＋橫向截圖、記選項）選「照樣」→
+                   期望沒有開考（沒有 fd_makeup 那一場、沒有作答）、補考算缺考：FD_MAKEUP missed、延畢（FAIL_DELAY、BAR_REG false）、
+                   「回宿舍」（或離開家以後）演缺考旁白（MK_LINES.missed）
+             目前 head b1b249873 預期：sleep_eve PASS、sleep_day FAIL（遊戲照樣去考）；修好以後兩個都 PASS。
              late  6/26 11:15：選單沒有那一項（11:00 以後，截圖）
              rest  6/26 08:30：一直選「在家休息一下」拖過 11:00（每一輪選單都記）→ 那一項消失 → 記 FD_MAKEUP 狀態 →「回宿舍」→ 沒去的旁白、延畢
              修改前 4174ffe89 預期 go、rest 的「有那一項」FAIL（停點不跑、11:00 直接算沒去）。
+  （homerest 只選「在家休息一下」、沒有選「睡覺」的路徑，不受 BB 11:03 影響。）
   rollcall_fail 【前置】6/18 08:30 宿舍存檔（同 main_fail）＋大四下排了一門看出席的重修（日文二 japanese_2，週三下午，出席 0；大四下本身沒有點名制的課，
              照 tests/y4s2_makeup_unit.js d 節組）；ROLL_ONLY=1＝海商法沒被當、只有日文二 → 6/18 照舊直接延畢（兩門都記）、沒有 FD_MAKEUP、
              之後站著不動 ROLL_PLAY 秒（預設 300）：沒有補考通知、提醒、fd_makeup 步驟。
@@ -63,6 +70,24 @@ BB 11-02 加（BUG-MAKEUP-BG-1102，開發分支 e27dd033e：補考整場用 OUT
              check：開場、第 1 題、最後一題、每一題、結算台詞的背景＝linze_201（bgMode 的 image 和 #advBg 都對上）；字幕有「法律系館A」；
              考完（FD.makeup 回來那一刻＋最後畫面）在家＝家裡的背景（bgMode image＝HOME.bgNow().image）、其他＝ADV.active false；沒有 JS 例外（main 照舊）。
              修改前 b4f98ea4e 預期 home 的考試中背景 FAIL（在家考還是家裡的背景）；campus／library 修改前預期考試中 ADV 沒開（背景 FAIL）、考完那一項照樣 PASS。
+BB 10:48 加（D124：大四下「海商法與海洋法」改成選修、被當只記成績不延畢；大四下延畢只剩「前面學期被當、重修排到大四下又沒過」和「日本路線補修沒過」。
+  LAWWW 給 SHA 以前預設照舊＝FAIL_ROUTE maritime）：
+  （BB 10:57：D124 定版 690ac5f4d 起預設 FAIL_ROUTE＝retake、補考科目＝enforcement 強制執行法；要跑 D124 以前的版本請明寫 FAIL_ROUTE=maritime）
+  FAIL_ROUTE  maritime（舊規則：被當的是大四下海商法，所有 case 和以前一模一樣）
+              retake   （預設）【前置】大四上（Y4S1）考五題的課 RETAKE_COURSE（預設 enforcement 強制執行法）期末答對 0 題，
+                       在頁面裡用遊戲的 CLS.planRetakes(假存檔,'Y4S1') 排進大四下（只讓那一門算被當：暫時包住 CLS.failedIn，排完還原），
+                       courses.retake 照排出來的那一筆；大四下海商法期末答對 3 題（及格）、重修那一門期末答對 0 題（qs 照 examSeed 抽）。
+                       所有 case 的「補考科目」改成那門重修課（FD_MAKEUP.courses、FAIL_DELAY_COURSES、成績、教務處通知、old_delayed 的舊旗標）。
+                       6/18 成績單兩種期望都記：RETAKE_MK_EXPECT＝makeup（補考規則也適用重修課）／delay（重修沒過＝直接延畢、不排補考）／either（預設，兩種都算 PASS、記實際走哪一條）；
+                       走了 delay 那一條，main_* 後面補考的 check 不適用（記 note、不判）。從 5/27 照玩家過（MAIN_FROM=0527）時，
+                       除了重修那一門以外的期末答對 FINAL_OTHER_RIGHT 題（預設 5）。
+              jp       【前置】EXCHANGE_ROUTE JP（JP_DEPARTED／JP_RETURNED 照 STORY.ROUTE_DATES.JP）、沒有報名國考（交換延畢 2029 不考）；
+                       大四下補修 JP_COURSE（預設 civpro_2_re；或 insurance_re）期末答對 0 題、另一門補修和海商法及格。
+                       照 K1（docs/story_planning/CC/CC_K1_exchange.md E1～E3）：JP 不排補考、FAIL_DELAY_COURSES＝被當的那幾門、不設 FAIL_DELAY、PG.delayed 成立——只記實際行為。
+                       預設 CASES＝route_grades（其他 case 都假設有補考，對 JP 沒有意義；硬要跑照樣跑）。
+  MK_COURSE   直接指定補考科目 id（蓋過上面三種的預設）。
+  route_grades【前置】6/18 08:30 宿舍（同 main_fail，照 FAIL_ROUTE 組）→ 6/18 成績單照玩家看 → 之後站著不動 ROUTE_PLAY 秒（預設 240）：
+             記 FD_MAKEUP、FAIL_DELAY(_COURSES)、PG.delayed／exchDelayed、補考通知／提醒、fd_makeup 步驟；check 照路線的期望（jp＝K1；retake＝RETAKE_MK_EXPECT；maritime＝舊規則排補考）。
 記錄（只記不改）：HOOK＝GAME.say／choose（連 hint）／caption／titleCard／toast／ADV.begin／GAME.enter／CLS.attend／goClass／EVENTS.run／PG.runStep
   → <輸出>/transcript_<case>.json（另外存新增的手機訊息、考卷作答（題號、id、正解、按了哪個）、狀態快照）。
 check 只客觀記錄（不判定企劃）。
@@ -76,10 +101,20 @@ from playwright.async_api import async_playwright
 URL, OUT = sys.argv[1], sys.argv[2]
 J = lambda o: json.dumps(o, ensure_ascii=False)
 ENVI = lambda k, d: int(os.environ.get(k, str(d)))
-CASES = [c.strip() for c in os.environ.get('CASES', 'main_pass,main_fail,noshow,home,rollcall_fail,study3h,skipnoon,homerest,old_delayed').split(',') if c.strip()]
+# BB 10:48（D124）：被當的那一門照路線（預設 maritime＝舊規則）
+FAIL_ROUTE = (os.environ.get('FAIL_ROUTE', 'retake').strip() or 'retake')   # BB 10:57：D124 定版 690ac5f4d 起預設 retake（強制執行法 enforcement 大四上被當→大四下重修→重修期末沒過，同 LAWWW 的測試路線）；舊規則＝FAIL_ROUTE=maritime
+if FAIL_ROUTE not in ('maritime', 'retake', 'jp'): raise SystemExit('FAIL_ROUTE 只能是 maritime／retake／jp：%s' % FAIL_ROUTE)
+MK_COURSE = os.environ.get('MK_COURSE', '').strip() or {'maritime': 'maritime', 'retake': os.environ.get('RETAKE_COURSE', 'enforcement'),
+                                                        'jp': os.environ.get('JP_COURSE', 'civpro_2_re')}[FAIL_ROUTE]
+RETAKE_FROM = 'Y4S1'
+RETAKE_MK_EXPECT = os.environ.get('RETAKE_MK_EXPECT', 'either')   # makeup／delay／either
+CNAME0 = {'maritime': '海商法與海洋法', 'enforcement': '強制執行法', 'civpro_2_re': '民事訴訟法甲下', 'insurance_re': '保險法'}.get(MK_COURSE, MK_COURSE)
+EXK = lambda kind: 'Y4S2:%s:%s' % (MK_COURSE, kind)   # R.exam 的 key（重修課也是 Y4S2:<原課 id>:final）
+_DEF_CASES = 'route_grades' if FAIL_ROUTE == 'jp' else 'main_pass,main_fail,noshow,home,rollcall_fail,study3h,skipnoon,homerest,old_delayed'
+CASES = [c.strip() for c in os.environ.get('CASES', _DEF_CASES).split(',') if c.strip()]
 SKIP_VIA = [c.strip() for c in os.environ.get('SKIP_VIA', 'phone,seat').split(',') if c.strip()]
 MKBG_SUBS = [c.strip() for c in os.environ.get('MKBG_SUBS', 'home,campus,library').split(',') if c.strip()]
-HOME_SUBS = [c.strip() for c in os.environ.get('HOME_SUBS', 'go,sleep,late,rest').split(',') if c.strip()]
+HOME_SUBS = [c.strip() for c in os.environ.get('HOME_SUBS', 'go,sleep_eve,sleep_day,late,rest').split(',') if c.strip()]
 LAND = {'width': 844, 'height': 390}; PORT = {'width': 390, 'height': 844}
 CONT = '繼續去上課'
 EXAM_DAY = '2029-05-30'; GRADE_DAY = '2029-06-18'; MK_DAY = '2029-06-26'; REMIND_DAY = '2029-06-25'
@@ -123,31 +158,86 @@ async def state_at(pg, key, h, zone, flags=None, pos=None, done=None):
 
 CLEARP = "(()=>{ if(typeof CLS!=='undefined'&&CLS.clearPending){ CLS.clearPending(); return true; } return false; })()"
 # 【前置】期末的 5 題：照 classes3d.js drawExam，用一份只有 examSeed 的假存檔抽（只讀，不碰 GAME.G）
-DRAWFIN = "(([seed,day])=>{ try{ const g={flags:{examSeed:seed},day,stage:'law'}; const d=CLS.drawExam(g,'maritime','Y4S2','final'); return d.ok?d.qs.map(q=>q.id):null; }catch(e){ return 'ERR '+e.message; } })"
+# BB 10:48：課 id 與重修清單（retake 路線的重修課要先有 courses.retake，examPool 才照 CLS.rtTerm 抽原本那一學期的題庫）都當參數；_lastG 用完還原
+DRAWFIN = ("(([seed,day,cid,rt])=>{ try{ const g={flags:{examSeed:seed},day,stage:'law',courses:{retake:rt||[]}}; const prev=CLS._lastG;"
+           " try{ CLS.termCourses(g,'Y4S2'); const d=CLS.drawExam(g,cid||'maritime','Y4S2','final'); return d.ok?d.qs.map(q=>q.id):null; } finally { CLS._lastG=prev; } }"
+           "catch(e){ return 'ERR '+e.message; } })")
+# 【前置】retake 路線：照遊戲 CLS.planRetakes 把大四上被當的那一門排進下一學期（假存檔；只讓那一門算被當＝暫時包住 CLS.failedIn，排完還原）
+PLANRT = r"""(([seed,day,cid,from])=>{ try{ const g={flags:{examSeed:seed},day,stage:'law',courses:{exam:{}}}; g.courses.exam[from+':'+cid+':final']={status:'done',correct:0,score:0,qs:[],ans:[]};
+  const prev=CLS._lastG, f0=CLS.failedIn; let made=[];
+  CLS.failedIn=function(G,t){ if(G===g&&t===from){ const c=CLS.termCourses(g,from).find(x=>x.id===cid); return c?[c]:[]; } return f0.apply(this,arguments); };
+  try{ made=CLS.planRetakes(g,from)||[]; } finally { CLS.failedIn=f0; CLS._lastG=prev; }
+  const c=CLS.byId(cid); return {retake:(g.courses.retake||[]).filter(r=>r.id===cid), made:made.length, exam:!!(c&&CLS.isExamCourse(c)), att:!!(c&&CLS.attCourse&&CLS.attCourse(c)),
+    name:c&&c.name, term:c&&c.term, to:CLS.retakeTermAfter(g,from), dropped:(g.courses.retakeDropped||[]), msgs:(g.msgs||[]).map(m=>m.text)}; }catch(e){ return {err:String(e.message)}; } })"""
+ROUTEDATES = "(()=>{ try{ const r=STORY.ROUTE_DATES.JP; return {dep:STORY.dayOfKey(r.dep), ret:STORY.dayOfKey(r.ret)}; }catch(e){ return {err:String(e.message)}; } })()"
+_ROUTE_NOTED = {}
 
 
-async def grad_state(pg, run, key, h, planned, extra=None, home=False, retake=False, fail_maritime=True):
-    """【前置】畢業典禮演過的存檔：海商法期末 status done、答對 0 題（fail_maritime），planned＝6/18 已經排好補考（FD_MAKEUP pending、PG.done fd_grades_y4s2、手機教務處通知）"""
+async def grad_state(pg, run, key, h, planned, extra=None, home=False, retake=False, fail_mk=True):
+    """【前置】畢業典禮演過的存檔：補考科目 MK_COURSE 期末 status done、答對 0 題（fail_mk），planned＝6/18 已經排好補考（FD_MAKEUP pending、PG.done fd_grades_y4s2、手機教務處通知）。
+    FAIL_ROUTE maritime＝和以前一樣（海商法）；retake＝大四上 MK_COURSE 被當、CLS.planRetakes 排進大四下、大四下重修期末答對 0 題、海商法及格；
+    jp＝EXCHANGE_ROUTE JP、大四下補修 MK_COURSE 答對 0 題、其他考五題的課及格。retake 參數（rollcall_fail 的日文二）另外加在 courses.retake 後面。"""
     gd = await pg.evaluate("PG.gradDay()"); dpack = (await P.day_of(pg, '2029-06-01'))['d']; d0 = (await P.day_of(pg, key))['d']
-    qs = await pg.evaluate(DRAWFIN, [SEED, d0])
+    rt = []; pre = {'route': FAIL_ROUTE, 'course': MK_COURSE}
+    if FAIL_ROUTE == 'retake':
+        pr = await pg.evaluate(PLANRT, [SEED, (await P.day_of(pg, '2029-01-20'))['d'], MK_COURSE, RETAKE_FROM]); pre['planRetakes'] = pr
+        rt = [dict(r) for r in (pr.get('retake') or [])] if isinstance(pr, dict) else []
+        if not _ROUTE_NOTED.get('rt'):
+            _ROUTE_NOTED['rt'] = 1
+            run.check('[前置] retake：%s（%s）是大四上考五題的課，CLS.planRetakes 排進大四下（Y4S2）' % (MK_COURSE, pr.get('name') if isinstance(pr, dict) else '?'),
+                      isinstance(pr, dict) and not pr.get('err') and pr.get('term') == RETAKE_FROM and pr.get('exam') and len(rt) == 1 and rt[0].get('term') == 'Y4S2', J(pr))
+    qs = await pg.evaluate(DRAWFIN, [SEED, d0, MK_COURSE, rt])
     flags = {'Y4_PATH': 'bar', 'BAR_REG': True, 'GRADUATED': gd, 'GRAD_DONE': True, 'GRAD_EVENING': 'none', 'GRAD_ENVELOPE': 'later', 'PACKED_Y4': dpack,
              'examSeed': SEED, 'PG': {'done': {'grad': 1}}}
+    if FAIL_ROUTE == 'jp':
+        rd = await pg.evaluate(ROUTEDATES); pre['jpDates'] = rd
+        flags.update(EXCHANGE_ROUTE='JP', JP_DEPARTED=rd.get('dep'), JP_RETURNED=rd.get('ret')); flags.pop('BAR_REG', None)   # 交換延畢：2029 不考、不設 BAR_REG（postgrad3d.js）
     if planned:
         flags['PG']['done']['fd_grades_y4s2'] = 1
-        flags.update(FAIL_DELAY_COURSES=[], FAIL_DELAY_V=2, FD_MAKEUP={'v': 1, 'courses': ['maritime'], 'status': 'pending', 'res': {}})
+        flags.update(FAIL_DELAY_COURSES=[], FAIL_DELAY_V=2, FD_MAKEUP={'v': 1, 'courses': [MK_COURSE], 'status': 'pending', 'res': {}})
     flags.update(extra or {})
     st, d = await state_at(pg, key, h, 'dorm', flags, done={e: 1 for e in Y4_DONE})
     C = st['courses'] = {'done': {}, 'attend': {}, 'prep': {}, 'electives': {}, 'note': {}, 'disc': {}, 'ask': {}, 'late': {}, 'abs': {}, 'exam': {}, 'grades': {}}
-    C['exam']['Y4S2:maritime:final'] = {'qs': qs if isinstance(qs, list) else [], 'ans': [], 'status': 'done', 'correct': 0 if fail_maritime else 3, 'score': 0 if fail_maritime else 80}
+    C['exam'][EXK('final')] = {'qs': qs if isinstance(qs, list) else [], 'ans': [], 'status': 'done', 'correct': 0 if fail_mk else 3, 'score': 0 if fail_mk else 80}
+    others = []   # 大四下其他考五題的課：及格（retake／jp 路線的海商法；jp 的另一門補修）
+    if FAIL_ROUTE != 'maritime': others.append('maritime')
+    if FAIL_ROUTE == 'jp': others += [c for c in ('civpro_2_re', 'insurance_re') if c != MK_COURSE]
+    for oc in others:
+        oq = await pg.evaluate(DRAWFIN, [SEED, d0, oc, rt])
+        C['exam']['Y4S2:%s:final' % oc] = {'qs': oq if isinstance(oq, list) else [], 'ans': [], 'status': 'done', 'correct': 3, 'score': 60}
+    if FAIL_ROUTE == 'retake':
+        C['exam']['%s:%s:final' % (RETAKE_FROM, MK_COURSE)] = {'qs': [], 'ans': [], 'status': 'done', 'correct': 0, 'score': 0}
+        C['grades'][RETAKE_FROM] = {MK_COURSE: '0 分（不及格，下學期重修）'}
+        C['retake'] = list(rt)
     if retake:
-        C['retake'] = [{'id': 'japanese_2', 'from': 'Y3S2', 'base': 'Y2S2', 'term': 'Y4S2', 'slots': [{'wd': 3, 'block': 'pm1'}], 'alt': False}]
+        C['retake'] = C.get('retake', []) + [{'id': 'japanese_2', 'from': 'Y3S2', 'base': 'Y2S2', 'term': 'Y4S2', 'slots': [{'wd': 3, 'block': 'pm1'}], 'alt': False}]
         C['attend']['japanese_2'] = 0
     if planned:
-        C['grades']['Y4S2'] = {'legal_research': '通過', 'legal_practice': '通過', 'maritime': '0 分（不及格）'}
+        C['grades']['Y4S2'] = {'legal_research': '通過', 'legal_practice': '通過', MK_COURSE: '0 分（不及格）'}
+        for oc in others: C['grades']['Y4S2'][oc] = '60 分'
         d618 = (await P.day_of(pg, GRADE_DAY))['d']
-        st['msgs'] = [{'day': d618, 'h': 9.1, 'th': 'sys', 'text': '【教務處】大四下補考通知：海商法與海洋法。6/26（二）10:00，法律系館A。', 'tag': 'fd_mk_sys'}]
+        st['msgs'] = [{'day': d618, 'h': 9.1, 'th': 'sys', 'text': '【教務處】大四下補考通知：%s。6/26（二）10:00，法律系館A。' % (await mk_lines(pg))[0]['cname'], 'tag': 'fd_mk_sys'}]
     if home: st['home'] = {'at': True, 'day': d['d']}
+    if FAIL_ROUTE != 'maritime':
+        run.note('[前置] FAIL_ROUTE=%s 補考科目 %s：%s；courses.retake %s；R.exam %s' % (FAIL_ROUTE, MK_COURSE, J(pre), J(C.get('retake')), J({k: v.get('correct') for k, v in C['exam'].items()})))
     return st, d, qs
+
+
+async def route_0527(pg, run, st, d):
+    """MAIN_FROM=0527（照玩家從 5/27 過）的最小存檔照 FAIL_ROUTE 補前置：retake＝大四上 MK_COURSE 被當＋CLS.planRetakes 排進大四下；jp＝EXCHANGE_ROUTE JP。maritime 不動"""
+    if FAIL_ROUTE == 'maritime': return
+    F = st['flags']; F['examSeed'] = SEED
+    if FAIL_ROUTE == 'jp':
+        rd = await pg.evaluate(ROUTEDATES); F.update(EXCHANGE_ROUTE='JP', JP_DEPARTED=rd.get('dep'), JP_RETURNED=rd.get('ret')); F.pop('BAR_REG', None)
+        run.note('[前置] FAIL_ROUTE=jp：EXCHANGE_ROUTE JP、JP_DEPARTED／RETURNED %s、不設 BAR_REG；補修 %s 期末【捷徑】答錯' % (J(rd), MK_COURSE)); return
+    pr = await pg.evaluate(PLANRT, [SEED, (await P.day_of(pg, '2029-01-20'))['d'], MK_COURSE, RETAKE_FROM])
+    rt = [dict(r) for r in (pr.get('retake') or [])] if isinstance(pr, dict) else []
+    run.check('[前置] retake：%s 是大四上考五題的課，CLS.planRetakes 排進大四下（Y4S2）' % MK_COURSE,
+              isinstance(pr, dict) and not pr.get('err') and pr.get('term') == RETAKE_FROM and pr.get('exam') and len(rt) == 1 and rt[0].get('term') == 'Y4S2', J(pr))
+    C = st.setdefault('courses', {}); C.setdefault('exam', {}); C.setdefault('grades', {})
+    C['exam']['%s:%s:final' % (RETAKE_FROM, MK_COURSE)] = {'qs': [], 'ans': [], 'status': 'done', 'correct': 0, 'score': 0}
+    C['grades'][RETAKE_FROM] = {MK_COURSE: '0 分（不及格，下學期重修）'}; C['retake'] = rt
+    run.note('[前置] FAIL_ROUTE=retake：大四上 %s 期末答對 0 題、courses.retake %s；大四下照玩家考，重修那一門答錯、其他答對 FINAL_OTHER_RIGHT' % (MK_COURSE, J(rt)))
 
 
 # ---------------------------------------------------------------- 記錄（只記不改；cc_y4s2final_probe 的 HOOK）
@@ -184,18 +274,19 @@ async def rows(pg, n0=0, k=None):
 
 # ---------------------------------------------------------------- 頁面裡讀（只讀）
 STATE = r"""(()=>{ const G=GAME.G, F=G.flags||{}, R=CLS.rec(G); const pick={};
-  for(const k of Object.keys(F)) if(/^(FAIL_DELAY|FAIL_DELAY_COURSES|FAIL_DELAY_DAY|FAIL_DELAY_BARCANCEL|FAIL_DELAY_V|FD_MAKEUP|FD_RESCUE_NOFINAL|BAR_REG|Y4_PATH|GRADUATED|MOVED_OUT)$/.test(k)) pick[k]=F[k];
+  for(const k of Object.keys(F)) if(/^(FAIL_DELAY|FAIL_DELAY_COURSES|FAIL_DELAY_DAY|FAIL_DELAY_BARCANCEL|FAIL_DELAY_V|FD_MAKEUP|FD_RESCUE_NOFINAL|BAR_REG|Y4_PATH|GRADUATED|MOVED_OUT|EXCHANGE_ROUTE)$/.test(k)) pick[k]=F[k];
   const ex={}; for(const k in (R.exam||{})) if(/^Y4S2:/.test(k)) ex[k]=R.exam[k];
   let failed=null; try{ failed=CLS.failedIn(G,'Y4S2').map(c=>c.id); }catch(e){ failed='ERR '+e.message; }
   const t=CALENDAR.termOf(G.day); let pgOn=null, delayed=null, pgDone=null, pend=null, mk=null, homeOpt=null, review=null;
+  let exchDelayed=null; try{ exchDelayed=PG.exchDelayed?PG.exchDelayed(G):null; }catch(e){}
   try{ pgOn=PG.on(G); delayed=PG.delayed(G); pgDone=PG.rec(G).done||{}; pend=PG.pending(G).slice(0,6).map(x=>[x.s.id,CALENDAR.dateOf(Math.floor(x.t/24)).key,+(x.t%24).toFixed(2)]); }catch(e){}
   try{ mk=typeof FD!=='undefined'&&FD.mk?FD.mk(G):'(沒有 FD.mk)'; }catch(e){ mk='ERR '+e.message; }
   try{ const o=typeof FD!=='undefined'&&FD.homeMakeupOpt?FD.homeMakeupOpt(G):undefined; homeOpt=o===undefined?'(沒有 FD.homeMakeupOpt)':(o&&{t:o.t,hint:o.hint}); }catch(e){ homeOpt='ERR '+e.message; }
   try{ const o=typeof STUDY!=='undefined'&&STUDY.reviewOpt?STUDY.reviewOpt(G,{}):null; review=o&&{t:o.t,hint:o.hint,dim:!!o.dim}; }catch(e){ review='ERR '+e.message; }
   return {clock:{key:CALENDAR.dateOf(G.day).key,day:G.day,h:+(+G.hour).toFixed(3),zone:G.zone,term:t&&t.id,week:t&&t.week},flags:pick,failed,exam:ex,
-    grades:(R.grades||{}).Y4S2||null,pgOn,delayed,pgDone,pend,mk,homeOpt,review,homeAt:!!(typeof HOME!=='undefined'&&HOME.at&&HOME.at(G)),
+    grades:(R.grades||{}).Y4S2||null,pgOn,delayed,exchDelayed,pgDone,pend,mk,homeOpt,review,homeAt:!!(typeof HOME!=='undefined'&&HOME.at&&HOME.at(G)),
     retake:R.retake||null,nmsg:(G.msgs||[]).length,title:!document.getElementById('titleScreen').classList.contains('hide')}; })()"""
-LINES = "(()=>({mk:(typeof FD!=='undefined'&&FD.MK_LINES)||null, fd:(typeof FD!=='undefined'&&FD.LINES)||null, cname:(()=>{ try{ return FD.cname('maritime'); }catch(e){ return '海商法與海洋法'; } })()}))()"
+LINES = "(cid=>({mk:(typeof FD!=='undefined'&&FD.MK_LINES)||null, fd:(typeof FD!=='undefined'&&FD.LINES)||null, cname:(()=>{ try{ const n=FD.cname(cid); return n&&n!==cid?n:null; }catch(e){ return null; } })()}))"
 GOLIST = r"""(()=>{ try{ const G=GAME.G, R=CLS.rec(G); return CLS.goList(G).filter(it=>!R.done[it.key]&&!(R.note&&R.note['plan_skip_'+it.key])).map(it=>({key:it.key,cid:it.c.id,name:it.c.name,t0:it.t0,exam:it.exam||null,examMain:!!it.examMain,status:CLS.status(G,it)})); }catch(e){ return []; } })()"""
 # 【捷徑】考卷的正解（只讀）：畫面上那一題的原文在這門課的題庫（CLS.examPool kind）找題，照 classes3d.js 的 optList 算正解是第幾個選項
 ANSWER = r"""(([qtext,cid,term,kind])=>{ try{ let all=[]; for(const k of [kind,'final']){ const p=CLS.examPool(cid,term,k); all=p.cls.concat(p.bank,p.ai); if(all.some(x=>String(x.q)===qtext)) break; }
@@ -300,7 +391,7 @@ class Driver:
     def __init__(self, pg, cdp, run, tag, n0, right, mkl, fdl):
         self.pg, self.cdp, self.run, self.tag, self.n0, self.right, self.mkl, self.fdl = pg, cdp, run, tag, n0, right, mkl, fdl
         self.answered = {}; self.shots = {}; self.picks_log = []; self.paper = None; self.nright = {}
-        cn = mkl.get('cname', '海商法與海洋法')
+        cn = mkl.get('cname', CNAME0); self.cn = cn
         self.watch = {'notice': mkl['notice'], 'fail618': fdl['fail'].replace('{課名}', cn), 'open': mkl['open'], 'pass': mkl['pass'].replace('{課名}', cn),
                       'passAll': mkl['passAll'], 'mkfail': mkl['fail'].replace('{課名}', cn), 'missed': mkl['missed'].replace('{課名}', cn), 'cert': fdl['cert'], 'bar': fdl['bar']}
 
@@ -332,7 +423,7 @@ class Driver:
                     run.note('%s：%s 第 %d 題又出來一次（選項 %s）→ 按第 %d 個' % (self.tag, kind, i, J(scr), k + 1)); self.answered[key].setdefault('again', []).append(k)
                     await P.tap_choice(pg, cdp, k); await pg.wait_for_timeout(900); return True
                 if [t.strip() for t in a['opts']] != scr: run.note('%s：%s 第 %d 題畫面選項和題庫不同 %s' % (self.tag, kind, i, J({'screen': T, 'opts': a['opts']})))
-                n = self.nright.get(ek, 0); want_ok = n < self.right.get(kind, 5) and ri >= 0
+                n = self.nright.get(ek, 0); want_ok = n < self.right.get('%s:%s' % (kind, cid), self.right.get(kind, 5)) and ri >= 0   # 'final:<課>' 可以單獨指定（retake／jp：只有補考科目答錯）
                 k = ri if want_ok else next((j for j in range(len(T)) if j != ri), 0)
                 if want_ok: self.nright[ek] = n + 1
                 self.answered[key] = {'course': cid, 'kind': kind, 'i': i, 'id': a['id'], 'right': ri, 'picked': k, 'correct': k == ri, 'd': lastsay.get('d'), 'h': lastsay.get('h')}
@@ -354,7 +445,7 @@ class Driver:
             return True
         if s['dlg']:
             full = next((x['t'] for x in reversed(R) if x['k'] == 'say'), '')
-            if full and full.find('海商法與海洋法：') >= 0 and 'grades' not in self.shots:
+            if full and grade_line(full, self.cn) and 'grades' not in self.shots:
                 self.shots['grades'] = await shoot_both(pg, run, self.tag + '_grades', full)
             else:
                 for nm, line in self.watch.items():
@@ -471,6 +562,11 @@ async def play(pg, cdp, run, tag, drv, stop, max_s, review=True):
     return {'g': g, 'stuck': stuck, 'trips': trips, 'remind': remind, 'nmsg0': nmsg0, 'timeout': stop_at is None}
 
 
+def grade_line(t, cn):
+    """成績單那一行（「海商法與海洋法：…」；重修課可能是「強制執行法（重修）：…」）"""
+    return (cn + '：') in t or (cn + '（重修）：') in t
+
+
 def step_rows(R, sid, n='start'):
     return [r for r in R if r['k'] == 'step' and r['t'] == sid and r['n'] == n]
 
@@ -480,8 +576,8 @@ def said_rows(R):
 
 
 async def mk_lines(pg):
-    x = await pg.evaluate(LINES); mk = dict(MKL0); mk.update(x.get('mk') or {}); fd = dict(FDL0); fd.update({k: v for k, v in (x.get('fd') or {}).items() if k in FDL0})
-    mk['cname'] = x.get('cname') or '海商法與海洋法'; return mk, fd, bool(x.get('mk'))
+    x = await pg.evaluate(LINES, MK_COURSE); mk = dict(MKL0); mk.update(x.get('mk') or {}); fd = dict(FDL0); fd.update({k: v for k, v in (x.get('fd') or {}).items() if k in FDL0})
+    mk['cname'] = x.get('cname') or CNAME0; return mk, fd, bool(x.get('mk'))
 
 
 def dump(tag, **kw):
@@ -495,27 +591,30 @@ async def case_main(pg, cdp, run, tag, mk_right, frm):
     run.note('%s：頁面有 FD.MK_LINES：%s' % (tag, has))
     if frm == '0527':
         st, d = await state_at(pg, '2029-05-27', 21.0, 'dorm', {'Y4_PATH': 'bar', 'BAR_REG': True})
+        await route_0527(pg, run, st, d)
         await L.load_state(pg, st, quiet_events=False, quiet_phone=False); await pg.evaluate(CLEARP); await pg.wait_for_timeout(3500)
         run.setup('[前置] %s：最小存檔改到 %s 21:00 宿舍（法律系、台灣路線、Y4_PATH bar、BAR_REG true）；之後照玩家一天天過；考卷【捷徑】讀正解，期末故意答對 %d 題、補考答對 %d 題'
                   % (tag, d['key'], ENVI('FINAL_RIGHT', 0), mk_right))
     else:
         st, d, qs = await grad_state(pg, run, GRADE_DAY, 8.5, planned=False)
         await L.load_state(pg, st, quiet_events=False, quiet_phone=False); await pg.evaluate(CLEARP)
-        run.setup('[前置] %s：6/18 08:30 宿舍存檔（畢業典禮演過、海商法期末 status done 答對 0 題、qs＝examSeed %d 抽的 %s、Y4_PATH bar、BAR_REG true、PG.done grad）；'
-                  '考卷【捷徑】讀正解，補考答對 %d 題' % (tag, SEED, J(qs), mk_right))
+        run.setup('[前置] %s：6/18 08:30 宿舍存檔（畢業典禮演過、%s期末 status done 答對 0 題、qs＝examSeed %d 抽的 %s、Y4_PATH bar、BAR_REG true、PG.done grad；FAIL_ROUTE %s）；'
+                  '考卷【捷徑】讀正解，補考答對 %d 題' % (tag, MK_COURSE, SEED, J(qs), FAIL_ROUTE, mk_right))
     s0 = await pg.evaluate(STATE); await L.phone_away(pg, cdp, tries=2)
     run.note('%s：讀檔後 %s' % (tag, J(s0)))
-    n0 = await pl_len(pg); drv = Driver(pg, cdp, run, tag, n0, {'final': ENVI('FINAL_RIGHT', 0), 'makeup': mk_right}, mkl, fdl)
+    rmap = {'final': ENVI('FINAL_RIGHT', 0) if FAIL_ROUTE == 'maritime' else ENVI('FINAL_OTHER_RIGHT', 5), 'final:' + MK_COURSE: ENVI('FINAL_RIGHT', 0), 'makeup': mk_right}
+    n0 = await pl_len(pg); drv = Driver(pg, cdp, run, tag, n0, rmap, mkl, fdl)
 
     def stop(g, R):
         mk = g['mk'] if isinstance(g['mk'], dict) else None
         if mk and mk.get('status') in ('pass', 'fail', 'missed'): return True
         if g['grades'] is not None and g['flags'].get('FAIL_DELAY') and not mk: return True   # 修改前：6/18 直接延畢
+        if g['grades'] is not None and (g['flags'].get('FAIL_DELAY_COURSES') or []) and not mk: return True   # jp：不設 FAIL_DELAY（交換延畢）
         return False
     o = await play(pg, cdp, run, tag, drv, stop, ENVI('CASE_MAX', 6000))
     g = o['g']; F = g['flags']; R = await rows(pg, n0); said = said_rows(R); msgs = await pg.evaluate(MSGS, o['nmsg0'])
     mk = g['mk'] if isinstance(g['mk'], dict) else None
-    fin = (g['exam'] or {}).get('Y4S2:maritime:final') or {}; mke = (g['exam'] or {}).get('Y4S2:maritime:makeup') or {}
+    fin = (g['exam'] or {}).get(EXK('final')) or {}; mke = (g['exam'] or {}).get(EXK('makeup')) or {}
     ans_mk = [v['id'] for v in drv.answered.values() if v['kind'] == 'makeup']; ans_fin = [v['id'] for v in drv.answered.values() if v['kind'] == 'final']
     st_mk = step_rows(R, 'fd_makeup'); st_gr = step_rows(R, 'fd_grades_y4s2')
     g618 = [[x.get('d'), hm(x.get('h')), x['t']] for x in said if x.get('d') == GRADE_DAY][:14]
@@ -526,8 +625,15 @@ async def case_main(pg, cdp, run, tag, mk_right, frm):
     run.check('%s：沒有卡住' % tag, o['stuck'] is None, J(o['stuck']))
     run.check('%s：跑到補考結果（沒有逾時）' % tag, not o['timeout'], J(g['clock']))
     if frm == '0527':
-        run.check('%s：期末海商法照玩家考完、答對 0 題（status done、correct 0）' % tag, fin.get('status') == 'done' and (fin.get('correct') or 0) == 0, J(fin))
-    run.check('%s：6/18 成績單有出現（PG 步驟 fd_grades_y4s2、「海商法與海洋法：」那一句）' % tag, bool(st_gr) and any('海商法與海洋法：' in x[2] for x in g618), J(g618[:4]))
+        run.check('%s：期末%s照玩家考完、答對 0 題（status done、correct 0）' % (tag, cn), fin.get('status') == 'done' and (fin.get('correct') or 0) == 0, J(fin))
+    run.check('%s：6/18 成績單有出現（PG 步驟 fd_grades_y4s2、「%s：」那一句）' % (tag, cn), bool(st_gr) and any(grade_line(x[2], cn) for x in g618), J(g618[:4]))
+    if FAIL_ROUTE != 'maritime' and not mk:   # D124：重修沒過／JP 補修沒過＝不排補考的那一條
+        route_delay_checks(run, tag, g, R, msgs, mkl, fdl, g618)
+        run.note('%s：6/18 沒有排補考（FAIL_ROUTE %s）——後面補考的 check 不適用；截圖 %s' % (tag, FAIL_ROUTE, J(drv.shots))); return
+    if FAIL_ROUTE == 'retake':
+        run.check('%s：6/18 走向符合 RETAKE_MK_EXPECT＝%s（實際：排補考）' % (tag, RETAKE_MK_EXPECT), RETAKE_MK_EXPECT in ('makeup', 'either'), J(mk))
+    elif FAIL_ROUTE == 'jp':
+        run.check('%s：JP 不排補考（K1 E1；實際排了補考）' % tag, False, J(mk))
     run.check('%s：6/18 不延畢、排補考（FD_MAKEUP pending→之後；6/18 沒有 cert 那一句）' % tag,
               bool(mk) and not any(x[2] == fdl['cert'] for x in g618), J({'mk': mk, 'g618': g618}))
     run.check('%s：6/18 旁白「%s」＋補考通知' % (tag, fdl['fail'].replace('{課名}', cn)), any(x[2] == fdl['fail'].replace('{課名}', cn) for x in g618) and any(x[2] == mkl['notice'] for x in g618), J(g618))
@@ -541,25 +647,25 @@ async def case_main(pg, cdp, run, tag, mk_right, frm):
     run.check('%s：6/26 09:30 停下來演補考（fd_makeup 開始在 6/26 09:30～10:00）' % tag, bool(st_mk) and st_mk[0].get('d') == MK_DAY and 9.49 <= float(st_mk[0].get('h') or 0) < 10.0, J(st_mk))
     op = [x for x in said if x['t'] == mkl['open']]
     run.check('%s：10:00 開場「%s」' % (tag, mkl['open']), bool(op) and op[0].get('d') == MK_DAY and abs(float(op[0].get('h') or 0) - 10) < 0.05, J(op[:1]))
-    run.check('%s：補考五題（考卷「海商法與海洋法補考」）' % tag, len(ans_mk) == 5 and mke.get('status') == 'done', J({'answered': ans_mk, 'rec': mke}))
+    run.check('%s：補考五題（考卷「%s補考」）' % (tag, cn), len(ans_mk) == 5 and mke.get('status') == 'done', J({'answered': ans_mk, 'rec': mke}))
     if mk_right > 0:
         run.check('%s：補考過：FD_MAKEUP pass、成績「%s」、沒有延畢、BAR_REG true、PG.delayed false' % (tag, mkl['gradePass']),
-                  bool(mk) and mk.get('status') == 'pass' and (g['grades'] or {}).get('maritime') == mkl['gradePass'] and not F.get('FAIL_DELAY') and F.get('BAR_REG') is True and g['delayed'] is False,
+                  bool(mk) and mk.get('status') == 'pass' and (g['grades'] or {}).get(MK_COURSE) == mkl['gradePass'] and not F.get('FAIL_DELAY') and F.get('BAR_REG') is True and g['delayed'] is False,
                   J({'mk': mk, 'grades': g['grades'], 'flags': F, 'delayed': g['delayed']}))
         run.check('%s：旁白「%s」「%s」「%s」' % (tag, mkl['pass'].replace('{課名}', cn), mkl['passAll'], mkl['passBar']),
                   all(any(x['t'] == t for x in said) for t in (mkl['pass'].replace('{課名}', cn), mkl['passAll'], mkl['passBar'])), J([x['t'] for x in said if x.get('d') == MK_DAY][-6:]))
         # nodup
         fq = fin.get('qs') or ans_fin; mq = mke.get('qs') or ans_mk; inter = sorted(set(fq) & set(mq))
         run.note('%s：nodup 期末 %s；補考 %s（畫面讀到 %s）；交集 %s' % (tag, J(fq), J(mke.get('qs')), J(ans_mk), J(inter)))
-        run.check('%s（nodup）：補考 5 題和期末 5 題沒有重複（海商法題庫 13 題）' % tag, len(fq) == 5 and len(mq) == 5 and not inter, J({'final': fq, 'makeup': mq, 'inter': inter}))
+        run.check('%s（nodup）：補考 5 題和期末 5 題沒有重複（%s；海商法題庫 13 題）' % (tag, MK_COURSE), len(fq) == 5 and len(mq) == 5 and not inter, J({'final': fq, 'makeup': mq, 'inter': inter}))
         run.check('%s（nodup）：畫面讀到的補考題號＝存檔的補考題號' % tag, sorted(ans_mk) == sorted(mke.get('qs') or []), J({'screen': ans_mk, 'rec': mke.get('qs')}))
     else:
-        run.check('%s：補考沒過：當場延畢（FAIL_DELAY、FAIL_DELAY_COURSES＝[maritime]、FAIL_DELAY_DAY＝6/26、BAR_REG false、BARCANCEL、PG.delayed）' % tag,
-                  bool(mk) and mk.get('status') == 'fail' and F.get('FAIL_DELAY') is True and F.get('FAIL_DELAY_COURSES') == ['maritime']
+        run.check('%s：補考沒過：當場延畢（FAIL_DELAY、FAIL_DELAY_COURSES＝[%s]、FAIL_DELAY_DAY＝6/26、BAR_REG false、BARCANCEL、PG.delayed）' % (tag, MK_COURSE),
+                  bool(mk) and mk.get('status') == 'fail' and F.get('FAIL_DELAY') is True and F.get('FAIL_DELAY_COURSES') == [MK_COURSE]
                   and F.get('FAIL_DELAY_DAY') == (await P.day_of(pg, MK_DAY))['d'] and F.get('BAR_REG') is False and F.get('FAIL_DELAY_BARCANCEL') is True and g['delayed'] is True,
                   J({'mk': mk, 'flags': F, 'delayed': g['delayed']}))
         run.check('%s：成績「%s」；旁白「%s」＋cert＋bar' % (tag, mkl['gradeFail'], mkl['fail'].replace('{課名}', cn)),
-                  (g['grades'] or {}).get('maritime') == mkl['gradeFail'] and all(any(x['t'] == t for x in said) for t in (mkl['fail'].replace('{課名}', cn), fdl['cert'], fdl['bar'])),
+                  (g['grades'] or {}).get(MK_COURSE) == mkl['gradeFail'] and all(any(x['t'] == t for x in said) for t in (mkl['fail'].replace('{課名}', cn), fdl['cert'], fdl['bar'])),
                   J({'grades': g['grades'], 'lines': [x['t'] for x in said if x.get('d') == MK_DAY][-6:]}))
     run.note('%s：截圖 %s' % (tag, J(drv.shots)))
 
@@ -580,10 +686,10 @@ async def case_noshow(pg, cdp, run):
     ln = [[x.get('d'), hm(x.get('h')), x['t']] for x in said][:12]
     run.note('%s：之後的台詞 %s；步驟 %s' % (tag, J(ln), J([[x['t'], x['n'], x.get('d'), hm(x.get('h'))] for x in R if x['k'] == 'step'])))
     run.check('%s：沒有演補考（沒有 fd_makeup 開始、沒有考卷）' % tag, not step_rows(R, 'fd_makeup') and not drv.answered, J(step_rows(R, 'fd_makeup')))
-    run.check('%s：沒去＝延畢（FD_MAKEUP missed、FAIL_DELAY、FAIL_DELAY_COURSES＝[maritime]、BAR_REG false、PG.delayed）' % tag,
-              bool(mk) and mk.get('status') == 'missed' and F.get('FAIL_DELAY') is True and F.get('FAIL_DELAY_COURSES') == ['maritime'] and F.get('BAR_REG') is False and g['delayed'] is True,
+    run.check('%s：沒去＝延畢（FD_MAKEUP missed、FAIL_DELAY、FAIL_DELAY_COURSES＝[%s]、BAR_REG false、PG.delayed）' % (tag, MK_COURSE),
+              bool(mk) and mk.get('status') == 'missed' and F.get('FAIL_DELAY') is True and F.get('FAIL_DELAY_COURSES') == [MK_COURSE] and F.get('BAR_REG') is False and g['delayed'] is True,
               J({'mk': mk, 'flags': F, 'delayed': g['delayed']}))
-    run.check('%s：成績「%s」' % (tag, mkl['gradeMissed']), (g['grades'] or {}).get('maritime') == mkl['gradeMissed'], J(g['grades']))
+    run.check('%s：成績「%s」' % (tag, mkl['gradeMissed']), (g['grades'] or {}).get(MK_COURSE) == mkl['gradeMissed'], J(g['grades']))
     sm = step_rows(R, 'fd_mk_missed')
     run.check('%s：下一個停點演「%s」＋cert（fd_mk_missed）' % (tag, mkl['missed'].replace('{課名}', cn)),
               bool(sm) and any(x['t'] == mkl['missed'].replace('{課名}', cn) for x in said) and any(x['t'] == fdl['cert'] for x in said), J({'step': sm, 'lines': ln}))
@@ -591,12 +697,20 @@ async def case_noshow(pg, cdp, run):
 
 
 # ---------------------------------------------------------------- home
+def is_home_ch(ch):
+    """家裡的選單：選項按鈕的 textContent＝標題＋hint（「睡覺隔天早上在家醒來」「存檔存到存檔欄位」），要用 startswith 比，不能用 ==
+    （02_mk12new／c2d0c24bc：== 比不到 → 當成別的選單，Driver 選了「睡覺」→「照樣」，一路睡到畢業後篇、被帶去公館）"""
+    return bool(ch) and any(o['t'].startswith('睡覺') for o in ch) and any(o['t'].startswith('存檔') for o in ch)
+
+
 async def home_menu(pg, cdp, run, drv, tag, max_s=90):
     """等到家裡的選單（有「睡覺」「存檔」那一個）出來；中間的對話點過去。回傳選項（不選）"""
     t0 = time.time()
     while time.time() - t0 < max_s:
         s = await P.ts(pg)
-        if s['ch'] and any(o['t'] == '睡覺' for o in s['ch']) and any(o['t'] == '存檔' for o in s['ch']): return [o['t'] for o in s['ch']], s
+        if is_home_ch(s['ch']): return [o['t'] for o in s['ch']], s
+        if s['ch'] and await pg.evaluate("!!(typeof HOME!=='undefined'&&HOME.at&&HOME.at(GAME.G))") and any(o['t'].startswith(GO_PREFIX) for o in s['ch']):
+            return [o['t'] for o in s['ch']], s   # 在家、有「出發：」的選單＝家裡的選單（萬一沒有存檔／睡覺也不要讓 Driver 亂選）
         if s['ch']:   # 不是家裡的選單（起床、confirmMiss…）：照規則選
             await drv.handle(s, ('照樣', '先起床')); continue
         if s['dlg'] or s['phone']: await drv.handle(s); continue
@@ -616,21 +730,53 @@ async def home_run_until_menu(pg, cdp, run, drv, tag, max_s=900):
     t0 = time.time()
     while time.time() - t0 < max_s:
         s = await P.ts(pg)
-        if s['ch'] and any(o['t'] == '睡覺' for o in s['ch']) and any(o['t'] == '存檔' for o in s['ch']): return [o['t'] for o in s['ch']]
+        if is_home_ch(s['ch']): return [o['t'] for o in s['ch']]
         if not await pg.evaluate("!!(typeof HOME!=='undefined'&&HOME.at(GAME.G))") and not (s['dlg'] or s['ch'] or s['busy']): return None
         if await drv.handle(s, ('照樣',)): continue
         await pg.wait_for_timeout(800)
     return 'timeout'
 
 
+def is_miss_confirm(ch):
+    """「會錯過」的確認：選項按鈕 textContent＝標題＋hint（「照樣睡會錯過：10:00 補考…」），有「會錯過」或「照樣」開頭的那一個"""
+    return bool(ch) and not is_home_ch(ch) and any(('會錯過' in o['t']) or o['t'].startswith('照樣') for o in ch)
+
+
+async def home_sleep_confirm(pg, cdp, run, drv, tag, max_s=90):
+    """選了「睡覺」以後：等「會錯過」確認（記選項、直向＋橫向截圖、選「照樣」開頭那一項）或家裡的選單再出來（沒有確認）；
+    中間的對話照 Driver 點過去。回傳 {'opts','hint','picked'}，沒有確認＝None"""
+    t0 = time.time()
+    while time.time() - t0 < max_s:
+        s = await P.ts(pg)
+        if is_home_ch(s['ch']): return None
+        if is_miss_confirm(s['ch']):
+            T = [o['t'] for o in s['ch']]; R = await rows(pg, drv.n0)
+            hint = next((x['t'] for x in reversed(R) if x['k'] == 'choose'), '')
+            drv.shots['sleep_confirm'] = await shoot_both(pg, run, tag + '_sleep_confirm')
+            k = next((i for i, t in enumerate(T) if t.startswith('照樣')), None)
+            c = await P.clock(pg)
+            run.note('%s %s %s 睡覺的確認 %s（choose 紀錄 %s）→ %s' % (tag, c['key'], hm(c['h']), J(T), J(hint), T[k] if k is not None else '（沒有「照樣」開頭的選項）'))
+            if k is not None: await P.tap_choice(pg, cdp, k); await pg.wait_for_timeout(1200)
+            return {'opts': T, 'hint': hint, 'picked': T[k] if k is not None else None}
+        if not await pg.evaluate("!!(typeof HOME!=='undefined'&&HOME.at(GAME.G))") and not (s['dlg'] or s['ch'] or s['busy']): return None
+        if await drv.handle(s, ('照樣',)): continue
+        await pg.wait_for_timeout(700)
+    return None
+
+
+def mk_answers(drv):
+    return [v for v in drv.answered.values() if v['kind'] == 'makeup']
+
+
 async def case_home(pg, cdp, run, sub):
+    if sub == 'sleep': sub = 'sleep_eve'   # BB 11:03：舊名 sleep＝sleep_eve
     tag = 'home_' + sub; mkl, fdl, has = await mk_lines(pg); cn = mkl['cname']; opt = mkl['homeOpt']
-    when = {'go': (MK_DAY, 8.5), 'sleep': (REMIND_DAY, 21.0), 'late': (MK_DAY, 11.25), 'rest': (MK_DAY, 8.5)}[sub]
+    when = {'go': (MK_DAY, 8.5), 'sleep_eve': (REMIND_DAY, 21.0), 'sleep_day': (MK_DAY, 8.5), 'late': (MK_DAY, 11.25), 'rest': (MK_DAY, 8.5)}[sub]
     st, d, qs = await grad_state(pg, run, when[0], when[1], planned=True, home=True)
     await L.load_state(pg, st, quiet_events=False, quiet_phone=False); await pg.evaluate(CLEARP)
     g1 = await pg.evaluate(STATE)
-    run.setup('[前置] %s：%s %s 人在臺北的家（G.home.at＝true；6/26 是週二，一般回不了家）、補考已排好 pending、PG.done fd_grades_y4s2、海商法期末答對 0 題（qs %s）'
-              % (tag, when[0], hm(when[1]), J(qs)))
+    run.setup('[前置] %s：%s %s 人在臺北的家（G.home.at＝true；6/26 是週二，一般回不了家）、補考已排好 pending、PG.done fd_grades_y4s2、%s期末答對 0 題（qs %s）'
+              % (tag, when[0], hm(when[1]), MK_COURSE, J(qs)))
     n0 = await pl_len(pg); drv = Driver(pg, cdp, run, tag, n0, {'final': 0, 'makeup': ENVI('MK_RIGHT', 5)}, mkl, fdl)
     ops, s = await home_menu(pg, cdp, run, drv, tag)
     g2 = await pg.evaluate(STATE)
@@ -652,15 +798,52 @@ async def case_home(pg, cdp, run, sub):
             run.check('%s：已經考完：選單沒有「%s」' % (tag, opt), isinstance(m2, list) and not any(t.startswith(opt) for t in m2), J(m2))
             run.check('%s：補考結果照答題（MK_RIGHT %d）：FD_MAKEUP %s、時間 11:00' % (tag, ENVI('MK_RIGHT', 5), 'pass' if ENVI('MK_RIGHT', 5) else 'fail'),
                       bool(mk) and mk.get('status') == ('pass' if ENVI('MK_RIGHT', 5) else 'fail') and abs(g['clock']['h'] - 11) < 0.3, J({'mk': mk, 'clock': g['clock'], 'flags': g['flags']}))
-    elif sub == 'sleep':
+    elif sub == 'sleep_eve':
+        # BB 11:03：前一晚在家睡覺＝停在 6/26 家裡的選單；選「出發：補考」照常考＝PASS（head b1b249873 預期 PASS）
         run.check('%s：6/25 21:00 家裡選單沒有「%s」（6/26 以外）' % (tag, opt), not has_opt, J(ops))
         await home_pick(pg, cdp, run, drv, tag, ops, '睡覺')
+        conf = await home_sleep_confirm(pg, cdp, run, drv, tag); out['confirm'] = conf
+        m2 = await home_run_until_menu(pg, cdp, run, drv, tag); out['menu_after'] = m2
+        g = await pg.evaluate(STATE); mk = g['mk'] if isinstance(g['mk'], dict) else None; R = await rows(pg, n0); sm = step_rows(R, 'fd_makeup'); ans0 = len(mk_answers(drv))
+        drv.shots['menu_wake'] = await shoot_both(pg, run, tag + '_menu_wake')
+        run.note('%s：睡覺的確認 %s；睡醒 %s；步驟 %s；日期卡 %s' % (tag, J(conf), J({'clock': g['clock'], 'mk': mk, 'menu': m2}),
+                 J([[x['t'], x['n'], x.get('d'), hm(x.get('h'))] for x in R if x['k'] == 'step']), J([[x.get('d'), x['n'], x['t']] for x in R if x['k'] == 'card'])))
+        c = g['clock']; has2 = isinstance(m2, list) and any(t.startswith(opt) for t in m2)
+        run.check('%s：前一晚在家睡覺 → 停在 6/26 11:00 以前家裡的選單、有「%s」、補考還沒開始（FD_MAKEUP pending、沒有 fd_makeup 那一場）（BB 11:03）' % (tag, opt),
+                  has2 and c['key'] == MK_DAY and c['h'] < 11.0 and not sm and not ans0 and bool(mk) and mk.get('status') == 'pending',
+                  J({'menu': m2, 'clock': c, 'mk': mk, 'step': sm, 'answered': ans0}))
+        if has2:
+            await home_pick(pg, cdp, run, drv, tag, m2, opt)
+            m3 = await home_run_until_menu(pg, cdp, run, drv, tag); out['menu_after_exam'] = m3
+            g = await pg.evaluate(STATE); mk = g['mk'] if isinstance(g['mk'], dict) else None; R = await rows(pg, n0)
+            drv.shots['menu_after'] = await shoot_both(pg, run, tag + '_menu_after')
+            run.check('%s：選「%s」＝演補考（開場那一句、五題）' % (tag, opt), any(x['t'] == mkl['open'] for x in said_rows(R)) and len(mk_answers(drv)) == 5, J(drv.answered))
+            run.check('%s：照常考：FD_MAKEUP %s（MK_RIGHT %d）、考完回到家裡的選單' % (tag, 'pass' if ENVI('MK_RIGHT', 5) else 'fail', ENVI('MK_RIGHT', 5)),
+                      bool(mk) and mk.get('status') == ('pass' if ENVI('MK_RIGHT', 5) else 'fail') and isinstance(m3, list), J({'mk': mk, 'menu': m3, 'clock': g['clock'], 'flags': g['flags']}))
+        else:
+            run.note('%s：睡醒沒有停在有「%s」的家裡選單——補考結果（只記）%s、作答 %d 題' % (tag, opt, J(mk), ans0))
+    elif sub == 'sleep_day':
+        # BB 11:03：補考當天在家睡覺、「會錯過：…補考」選「照樣」＝缺考（不能照樣去考）（head b1b249873 預期 FAIL：照樣去考）
+        run.check('%s：前置成立（6/26 08:30 家裡選單有「%s」）' % (tag, opt), has_opt, J(ops))
+        await home_pick(pg, cdp, run, drv, tag, ops, '睡覺')
+        conf = await home_sleep_confirm(pg, cdp, run, drv, tag); out['confirm'] = conf
+        run.check('%s：選「睡覺」以前有「會錯過」確認、列了補考' % tag, bool(conf) and '補考' in (' '.join(conf['opts']) + conf['hint']), J(conf))
         m2 = await home_run_until_menu(pg, cdp, run, drv, tag); out['menu_after'] = m2
         g = await pg.evaluate(STATE); mk = g['mk'] if isinstance(g['mk'], dict) else None; R = await rows(pg, n0); sm = step_rows(R, 'fd_makeup')
-        drv.shots['menu_after'] = await shoot_both(pg, run, tag + '_menu_after')
-        run.note('%s：睡覺以後 步驟 %s；日期卡 %s' % (tag, J([[x['t'], x['n'], x.get('d'), hm(x.get('h'))] for x in R if x['k'] == 'step']), J([[x.get('d'), x['n'], x['t']] for x in R if x['k'] == 'card'])))
-        run.check('%s：在家睡覺 → 直接跳到 6/26 09:30 那一場（fd_makeup 開始 6/26 09:30～10:00）' % tag, bool(sm) and sm[0].get('d') == MK_DAY and 9.49 <= float(sm[0].get('h') or 0) < 10.0, J(sm))
-        run.check('%s：考完 FD_MAKEUP 不是 pending／missed、回到家裡的選單' % tag, bool(mk) and mk.get('status') in ('pass', 'fail') and isinstance(m2, list), J({'mk': mk, 'menu': m2, 'clock': g['clock']}))
+        drv.shots['menu_wake'] = await shoot_both(pg, run, tag + '_menu_wake')
+        run.note('%s：睡醒 %s；步驟 %s' % (tag, J({'clock': g['clock'], 'mk': mk, 'menu': m2, 'FAIL_DELAY': g['flags'].get('FAIL_DELAY')}),
+                 J([[x['t'], x['n'], x.get('d'), hm(x.get('h'))] for x in R if x['k'] == 'step'])))
+        run.check('%s：選「照樣」睡覺＝沒有開考（沒有 fd_makeup 那一場、沒有作答）（head b1b249873 預期 FAIL：遊戲照樣去考）' % tag,
+                  not sm and not mk_answers(drv), J({'step': sm, 'answered': drv.answered}))
+        if isinstance(m2, list) and any(t.startswith('回宿舍') for t in m2):
+            await home_pick(pg, cdp, run, drv, tag, m2, '回宿舍')
+        o = await play(pg, cdp, run, tag, drv, lambda g, R: bool(step_rows(R, 'fd_mk_missed', 'end')) or (isinstance(g['mk'], dict) and g['mk'].get('status') in ('pass', 'fail')), 600, review=False)
+        g = o['g']; R = await rows(pg, n0); said = said_rows(R); mk = g['mk'] if isinstance(g['mk'], dict) else None
+        drv.shots['end'] = await shoot_both(pg, run, tag + '_end')
+        run.check('%s：補考算缺考：FD_MAKEUP missed、延畢（FAIL_DELAY、BAR_REG false）' % tag,
+                  bool(mk) and mk.get('status') == 'missed' and g['flags'].get('FAIL_DELAY') is True and g['flags'].get('BAR_REG') is False, J({'mk': mk, 'flags': g['flags']}))
+        run.check('%s：演缺考旁白「%s」' % (tag, mkl['missed'].replace('{課名}', cn)), any(x['t'] == mkl['missed'].replace('{課名}', cn) for x in said), J([x['t'] for x in said][-8:]))
+        run.check('%s：整段都沒有演補考' % tag, not step_rows(R, 'fd_makeup') and not mk_answers(drv), J({'step': step_rows(R, 'fd_makeup'), 'answered': drv.answered}))
     elif sub == 'late':
         run.check('%s：6/26 11:15 家裡選單沒有「%s」（11:00 以後）' % (tag, opt), not has_opt, J(ops))
         run.note('%s：FD_MAKEUP（在家、11:15）＝%s' % (tag, J(g2['mk'])))
@@ -694,12 +877,12 @@ async def case_home(pg, cdp, run, sub):
 # ---------------------------------------------------------------- rollcall_fail
 async def case_rollcall(pg, cdp, run):
     tag = 'rollcall_fail'; mkl, fdl, has = await mk_lines(pg); only = ENVI('ROLL_ONLY', 0) == 1
-    st, d, qs = await grad_state(pg, run, GRADE_DAY, 8.5, planned=False, retake=True, fail_maritime=not only)
+    st, d, qs = await grad_state(pg, run, GRADE_DAY, 8.5, planned=False, retake=True, fail_mk=not only)
     await L.load_state(pg, st, quiet_events=False, quiet_phone=False); await pg.evaluate(CLEARP)
     g1 = await pg.evaluate(STATE)
-    want = ['japanese_2'] if only else ['japanese_2', 'maritime']
-    run.setup('[前置] %s：6/18 08:30 宿舍存檔（同 main_fail）＋大四下排了看出席的重修日文二（courses.retake term Y4S2 週三 pm1、出席 0）；海商法%s'
-              % (tag, '沒被當（答對 3 題）' if only else '期末答對 0 題'))
+    want = ['japanese_2'] if only else sorted(['japanese_2', MK_COURSE])
+    run.setup('[前置] %s：6/18 08:30 宿舍存檔（同 main_fail）＋大四下排了看出席的重修日文二（courses.retake term Y4S2 週三 pm1、出席 0）；%s%s'
+              % (tag, MK_COURSE, '沒被當（答對 3 題）' if only else '期末答對 0 題'))
     run.check('%s：前置成立（failedIn(Y4S2)＝%s）' % (tag, J(want)), isinstance(g1['failed'], list) and sorted(g1['failed']) == want, J(g1['failed']))
     n0 = await pl_len(pg); drv = Driver(pg, cdp, run, tag, n0, {'final': 0, 'makeup': 5}, mkl, fdl)
     t_end = {'t': None}
@@ -723,10 +906,64 @@ async def case_rollcall(pg, cdp, run):
     run.note('%s：跑到 %s；截圖 %s' % (tag, J(g['clock']), J(drv.shots)))
 
 
-CASEFN = {'main_pass': lambda pg, cdp, run: case_main(pg, cdp, run, 'main_pass', ENVI('MK_RIGHT', 5), os.environ.get('MAIN_FROM', '0527')),
+# ---------------------------------------------------------------- BB 10:48（D124）：6/18 沒有排補考的那一條（retake 走 delay、jp）
+def route_delay_checks(run, tag, g, R, msgs, mkl, fdl, g618):
+    F = g['flags']; fdc = F.get('FAIL_DELAY_COURSES') or []
+    nomk = not F.get('FD_MAKEUP') and not any(x[2] == mkl['notice'] for x in g618) and not any(m['tag'] in ('fd_mk_sys', 'fd_mk_remind') for m in msgs) \
+        and not step_rows(R, 'fd_makeup') and not any(p[0] == 'fd_makeup' for p in (g['pend'] or []))
+    info = J({'mk': F.get('FD_MAKEUP'), 'FAIL_DELAY': F.get('FAIL_DELAY'), 'FAIL_DELAY_COURSES': fdc, 'BAR_REG': F.get('BAR_REG'), 'delayed': g['delayed'], 'exchDelayed': g.get('exchDelayed'),
+              'grades': g['grades'], 'g618': g618, 'fdmsgs': [m for m in msgs if 'fd_' in str(m['tag'])]})
+    if FAIL_ROUTE == 'jp':
+        run.check('%s：JP（K1 E1）不排補考（沒有 FD_MAKEUP、補考通知、提醒、fd_makeup 步驟）' % tag, nomk, info)
+        run.check('%s：JP（K1 E2）FAIL_DELAY_COURSES 有 %s' % (tag, MK_COURSE), MK_COURSE in fdc, info)
+        run.check('%s：JP（K1 E3）不設 FAIL_DELAY、PG.delayed（交換延畢）成立' % tag, not F.get('FAIL_DELAY') and g['delayed'] is True, info)
+        run.note('%s：JP 6/18 實際行為 %s' % (tag, info))
+    else:
+        run.check('%s：6/18 走向符合 RETAKE_MK_EXPECT＝%s（實際：沒排補考）' % (tag, RETAKE_MK_EXPECT), RETAKE_MK_EXPECT in ('delay', 'either'), info)
+        run.check('%s：重修沒過＝6/18 直接延畢（FAIL_DELAY、FAIL_DELAY_COURSES 有 %s、PG.delayed、cert 那一句）' % (tag, MK_COURSE),
+                  F.get('FAIL_DELAY') is True and MK_COURSE in fdc and g['delayed'] is True and any(x[2] == fdl['cert'] for x in g618), info)
+        run.check('%s：沒有補考（沒有 FD_MAKEUP、補考通知、提醒、fd_makeup 步驟）' % tag, nomk, info)
+
+
+async def case_route_grades(pg, cdp, run):
+    """6/18 08:30 宿舍（照 FAIL_ROUTE 組）→ 6/18 成績單照玩家看 → 站著不動 ROUTE_PLAY 秒：記排不排補考／延畢"""
+    tag = 'route_grades_' + FAIL_ROUTE; mkl, fdl, has = await mk_lines(pg); cn = mkl['cname']
+    st, d, qs = await grad_state(pg, run, GRADE_DAY, 8.5, planned=False)
+    await L.load_state(pg, st, quiet_events=False, quiet_phone=False); await pg.evaluate(CLEARP)
+    g1 = await pg.evaluate(STATE)
+    run.setup('[前置] %s：6/18 08:30 宿舍存檔（同 main_fail；FAIL_ROUTE %s、補考科目 %s 期末答對 0 題 qs %s）' % (tag, FAIL_ROUTE, MK_COURSE, J(qs)))
+    run.check('%s：前置成立（failedIn(Y4S2)＝[%s]）' % (tag, MK_COURSE), g1['failed'] == [MK_COURSE], J({'failed': g1['failed'], 'retake': g1['retake'], 'flags': g1['flags']}))
+    n0 = await pl_len(pg); drv = Driver(pg, cdp, run, tag, n0, {'final': 0, 'makeup': ENVI('MK_RIGHT', 5)}, mkl, fdl)
+    t_end = {'t': None}
+
+    def stop(g, R):
+        if g['grades'] is None: return False
+        if t_end['t'] is None: t_end['t'] = time.time()
+        return time.time() - t_end['t'] > ENVI('ROUTE_PLAY', 240)
+    o = await play(pg, cdp, run, tag, drv, stop, ENVI('ROUTE_PLAY', 240) + 900, review=False)
+    g = o['g']; F = g['flags']; R = await rows(pg, n0); said = said_rows(R); msgs = await pg.evaluate(MSGS, o['nmsg0'])
+    drv.shots['end'] = await shoot_both(pg, run, tag + '_end')
+    g618 = [[x.get('d'), hm(x.get('h')), x['t']] for x in said if x.get('d') == GRADE_DAY][:14]
+    dump(tag, rows=R, msgs=msgs, start=g1, end=g, stuck=o['stuck'], shots=drv.shots)
+    mk = g['mk'] if isinstance(g['mk'], dict) else None
+    run.note('%s：6/18 旁白 %s；結束 %s' % (tag, J(g618), J({k: g.get(k) for k in ('clock', 'flags', 'grades', 'pend', 'delayed', 'exchDelayed')})))
+    run.check('%s：6/18 成績單有出現（「%s：」那一句）' % (tag, cn), any(grade_line(x[2], cn) for x in g618), J(g618[:4]))
+    if mk or F.get('FD_MAKEUP'):
+        ok = FAIL_ROUTE == 'maritime' or (FAIL_ROUTE == 'retake' and RETAKE_MK_EXPECT in ('makeup', 'either'))
+        run.check('%s：6/18 排了補考（FD_MAKEUP %s）——FAIL_ROUTE %s 期望%s' % (tag, J(mk or F.get('FD_MAKEUP')), FAIL_ROUTE, '排補考' if ok else '不排補考'), ok,
+                  J({'mk': mk, 'flags': F, 'g618': g618}))
+        run.check('%s：排補考時 FD_MAKEUP.courses＝[%s]、6/18 不延畢' % (tag, MK_COURSE), bool(mk) and mk.get('courses') == [MK_COURSE] and not F.get('FAIL_DELAY'), J({'mk': mk, 'flags': F}))
+    elif FAIL_ROUTE == 'maritime':
+        run.check('%s：（舊規則）6/18 應該排補考' % tag, False, J({'flags': F, 'g618': g618}))
+    else:
+        route_delay_checks(run, tag, g, R, msgs, mkl, fdl, g618)
+    run.check('%s：沒有卡住' % tag, o['stuck'] is None, J(o['stuck']))
+
+
+CASEFN = {'route_grades': case_route_grades, 'main_pass': lambda pg, cdp, run: case_main(pg, cdp, run, 'main_pass', ENVI('MK_RIGHT', 5), os.environ.get('MAIN_FROM', '0527')),
           'main_fail': lambda pg, cdp, run: case_main(pg, cdp, run, 'main_fail', 0, os.environ.get('MAIN_FAIL_FROM', '0618')),
           'noshow': case_noshow, 'rollcall_fail': case_rollcall}
-for _s in ('go', 'sleep', 'late', 'rest'): CASEFN['home_' + _s] = (lambda v: (lambda pg, cdp, run: case_home(pg, cdp, run, v)))(_s)
+for _s in ('go', 'sleep', 'sleep_eve', 'sleep_day', 'late', 'rest'): CASEFN['home_' + _s] = (lambda v: (lambda pg, cdp, run: case_home(pg, cdp, run, v)))(_s)
 
 
 # ---------------------------------------------------------------- BB 08:59 加的四個（補考時間窗：CC_audit_4174.md 疑點 1～3、5；Node 重現 audit_makeup_timeskip.js）
@@ -885,14 +1122,14 @@ async def case_homerest(pg, cdp, run):
 async def case_old_delayed(pg, cdp, run):
     tag = 'old_delayed'; mkl, fdl, has = await mk_lines(pg); cn = mkl['cname']
     d618 = (await P.day_of(pg, GRADE_DAY))['d']
-    extra = {'FAIL_DELAY_COURSES': ['maritime'], 'FAIL_DELAY_V': 2, 'FAIL_DELAY': True, 'FAIL_DELAY_DAY': d618, 'BAR_REG': False, 'FAIL_DELAY_BARCANCEL': True,
+    extra = {'FAIL_DELAY_COURSES': [MK_COURSE], 'FAIL_DELAY_V': 2, 'FAIL_DELAY': True, 'FAIL_DELAY_DAY': d618, 'BAR_REG': False, 'FAIL_DELAY_BARCANCEL': True,
              'PG': {'done': {'grad': 1, 'fd_grades_y4s2': 1}}}
     key = os.environ.get('OLD_DAY', '2029-06-20')
     st, d, qs = await grad_state(pg, run, key, 10.0, planned=False, extra=extra)
-    st['courses']['grades']['Y4S2'] = {'legal_research': '通過', 'legal_practice': '通過', 'maritime': '0 分（不及格）'}
+    st['courses']['grades']['Y4S2'] = dict(st['courses']['grades'].get('Y4S2') or {}, legal_research='通過', legal_practice='通過', **{MK_COURSE: '0 分（不及格）'})
     st['msgs'] = [{'day': d618, 'h': 22.0 + i * 0.01, 'who': 'zhe', 'text': t, 'th': 'p:zhe', 'from': 'zhe', 'tag': 'fd_zhe'} for i, t in enumerate(['聽說了', '九月我還在總圖 B1 你來，我幫你占位子'])]
     before = {k: st['flags'].get(k) for k in ('FAIL_DELAY_COURSES', 'FAIL_DELAY_V', 'FAIL_DELAY', 'FAIL_DELAY_DAY', 'BAR_REG', 'FAIL_DELAY_BARCANCEL', 'Y4_PATH')}
-    run.setup('[前置] %s：照修改前 f3a2ba4a1 6/18 FD.check 會產生的狀態組 %s 10:00 宿舍的存檔（%s；海商法期末答對 0 題 qs %s、成績 0 分（不及格）、阿哲 6/18 22:00 兩則）一次讀進去'
+    run.setup('[前置] %s：照修改前 f3a2ba4a1 6/18 FD.check 會產生的狀態組 %s 10:00 宿舍的存檔（%s；補考科目期末答對 0 題 qs %s、成績 0 分（不及格）、阿哲 6/18 22:00 兩則）一次讀進去'
               % (tag, key, J(before), J(qs)))
     await L.load_state(pg, st, quiet_events=False, quiet_phone=False); await pg.evaluate(CLEARP)
     g1 = await pg.evaluate(STATE)
@@ -964,7 +1201,7 @@ async def mkbg_drive(pg, cdp, run, drv, tag, n0, sub, max_s):
     while time.time() - t0 < max_s:
         s = await P.ts(pg)
         st_n = await pg.evaluate(MKBG_CNT, 'mk_start'); end_n = await pg.evaluate(MKBG_CNT, 'mk_end')
-        home_m = bool(s['ch']) and any(o['t'] == '睡覺' for o in s['ch']) and any(o['t'] == '存檔' for o in s['ch'])
+        home_m = is_home_ch(s['ch'])
         if sub == 'home' and home_m:
             if end_n: out['end'] = 'home_menu'; out['menu'] = [o['t'] for o in s['ch']]; return out
             if not st_n: out['end'] = 'home_menu_without_makeup'; out['menu'] = [o['t'] for o in s['ch']]; return out
@@ -994,7 +1231,7 @@ async def case_mkbg(pg, cdp, run, sub):
     place = consts.get('MK_PLACE') or '法律系館A'
     run.note('%s：頁面 FD.MK_BG＝%s、FD.MK_PLACE＝%s（修改前沒有＝比對用 linze_201／法律系館A）' % (tag, consts.get('MK_BG'), consts.get('MK_PLACE')))
     await load_fast(pg, st)
-    run.setup('[前置] %s：%s %s %s、補考已排好 pending、PG.done fd_grades_y4s2、海商法期末答對 0 題（qs %s）；考卷【捷徑】讀正解，補考答對 %d 題'
+    run.setup('[前置] %s：%s %s %s、補考已排好 pending、PG.done fd_grades_y4s2、補考科目（FAIL_ROUTE／MK_COURSE）期末答對 0 題（qs %s）；考卷【捷徑】讀正解，補考答對 %d 題'
               % (tag, when[0], hm(when[1]), {'home': '人在臺北的家（G.home.at＝true）', 'campus': '校園（3D、沒有 ADV）', 'library': '總圖閱覽室（讀完馬上照玩家走到自習座位）'}[sub],
                  J(qs), ENVI('MK_RIGHT', 5)))
     n0 = await pl_len(pg); b0 = len(await pg.evaluate(MKBG_ROWS, 0))
@@ -1066,7 +1303,7 @@ async def main():
     async with async_playwright() as p:
         for cs in todo:
             fn = CASEFN.get(cs)
-            if not fn: run.check('CASE %s 認得' % cs, False, '可以用：main_pass,main_fail,noshow,home,rollcall_fail,study3h,skipnoon,homerest,old_delayed,mkbg,' + ','.join(k for k in CASEFN if k.startswith('home_'))); continue
+            if not fn: run.check('CASE %s 認得' % cs, False, '可以用：route_grades,main_pass,main_fail,noshow,home,rollcall_fail,study3h,skipnoon,homerest,old_delayed,mkbg,' + ','.join(k for k in CASEFN if k.startswith('home_'))); continue
             print('==== CASE %s（SHA %s）====' % (cs, os.environ.get('SHA', '?')), flush=True)
             b, ctx, pg, cdp, errs = await L.launch(p, landscape=True)
             pg.on('dialog', lambda dd: asyncio.ensure_future(dd.accept()))

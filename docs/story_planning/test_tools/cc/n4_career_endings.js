@@ -102,7 +102,19 @@ const SAVES=[
       if(!lic&&p==='A_bar') tag('沒有律師資格卻是 A_bar');
       if(dly&&k>=0&&k<12&&lic) tag('2030 不到 12 題也錄取律師（tier 2030 一律 lawyer）');
       if(!dly&&k>=0&&k<12&&k2===0&&lic) tag('重考 0 題也錄取律師');
-      if((F.BAR_STAGE_2029==='both'||F.BAR_STAGE_2030==='both')) tag('both（司法官二試資格）→ 司法官一律未錄取，沒有 J 結局');
+      if((F.BAR_STAGE_2029==='both'||F.BAR_STAGE_2030==='both')){
+        if(typeof PG.judgeVerdict!=='function'){ tag('both（司法官二試資格）→ 司法官一律未錄取，沒有 J 結局'); }   /* 舊版（沒有 judgeVerdict）：照舊記錄，當對照 */
+        else {   /* LAWWW 改版（D118-B8 以後，BB 11:09）：both 而且重考二試答對 10 題＝走得到 J 結局才算通過；另加反向：重考只答對 4 題不能是 J */
+          const keep=JSON.stringify(F), y=F.BAR_STAGE_2029==='both'?2029:2030;
+          F['JUDGE_SCORE2_'+y]=10; F['JUDGE_PASS_'+y]=PG.judgeVerdict(G,y,10); F.JUDGE_RETAKE=true; F.JUDGE_RETAKE_Y=y+1;
+          const ok=PG.judgeVerdict(G,y+1,10); if(ok){ F.JUDGE_YEAR=y+1; } const pj=PG.path(G);
+          if(F['JUDGE_PASS_'+y]!==false||!ok||!/^J_/.test(pj)) tag('both（司法官二試資格）→ 司法官一律未錄取，沒有 J 結局');
+          for(const k0 of Object.keys(F)) delete F[k0]; Object.assign(F,JSON.parse(keep));
+          F['JUDGE_SCORE2_'+y]=4; F['JUDGE_PASS_'+y]=PG.judgeVerdict(G,y,4); F.JUDGE_RETAKE=true; F.JUDGE_RETAKE_Y=y+1;
+          const lo=PG.judgeVerdict(G,y+1,4); if(lo){ F.JUDGE_YEAR=y+1; } const pl=PG.path(G);
+          if(lo||/^J_/.test(pl)) tag('both＋低分 → 不該錄取（重考二試 4 題卻是 J 結局或判錄取）');
+          for(const k0 of Object.keys(F)) delete F[k0]; Object.assign(F,JSON.parse(keep)); }
+      }
       if(p==null||p==='undefined'||!POSTGRAD_LINES.EPI.last[p]||!POSTGRAD_LINES.FIRST.me[p]) tag('path 沒有對應台詞');
     }
     STORY.careerLean=orig;

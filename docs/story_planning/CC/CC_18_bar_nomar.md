@@ -15,3 +15,9 @@ ALL PASS
 修改前 bd0a32c19：FAILED 2（第 1 項：50 份裡有 Y4MAR_，例 seed1 2029 Y4MAR_06；第 3 項）；4、5 兩版都 PASS。
 
 CC 初判：#18 一試排除海商法 PASS（修改前 FAIL／修改後 PASS）。補考開場（AA_578 §6）的瀏覽器部分在 cc-local 02_mk12new（head），初判會註明那一輪的 sha。
+
+## 四組排除 @ d75871437（BB 10:26）
+
+- n18（EXCL 預設四組）：d75871437 ALL PASS；c2d0c24bc 同一支 FAILED 2（第 1、3 項：Y4IP／LSO／TAX 還在）。
+- 50 份（2029～2033 × 10 個 examSeed）每份 20 題、不重複、四組 0 題；同一存檔五年 100 題彼此不重複；抽題池 434 題（全部 483，排除 49＝Y4MAR 11＋Y4IP 13＋Y4LSO 13＋Y4TAX 12）；舊存檔已抽的照舊。
+- CC 初判：PASS。

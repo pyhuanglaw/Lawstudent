@@ -19,10 +19,10 @@ PROBE = r"""async (chunk) => {
     for (let i = 0; i < 9999; i++) { const k = 'cc_quota_' + lab + '_' + i; if (localStorage.getItem(k) == null) break; localStorage.removeItem(k); }
     let total = 0, err = null, i = 0; const s = ch.repeat(chunk);
     for (; i < 400; i++) { try { localStorage.setItem('cc_quota_' + lab + '_' + i, s); total += s.length; } catch (e) { err = e.name + ': ' + e.message; break; } }
-    let small = 0; if (err) { let n = chunk >> 1; while (n >= 64) { try { localStorage.setItem('cc_quota_' + lab + '_tail' + n, ch.repeat(n)); small += n; } catch (e) { n >>= 1; } } }
-    out[lab] = { chunks: i, chars: total + small, error: err };
-    for (let j = 0; j <= i; j++) localStorage.removeItem('cc_quota_' + lab + '_' + j);
-    for (let n = chunk; n >= 1; n >>= 1) localStorage.removeItem('cc_quota_' + lab + '_tail' + n);
+    /* 尾段：每次寫新的 key（舊版寫同一個 key 會一直成功＝無窮迴圈，cc-local 04_quota 逾時 20 分）*/
+    let small = 0, t = 0; if (err) { let n = chunk >> 1; while (n >= 64 && t < 5000) { try { localStorage.setItem('cc_quota_' + lab + '_tail' + (t++), ch.repeat(n)); small += n; } catch (e) { n >>= 1; } } }
+    out[lab] = { chunks: i, chars: total + small, error: err, tailKeys: t };
+    for (const k of Object.keys(localStorage)) if (k.indexOf('cc_quota_') === 0) localStorage.removeItem(k);
   }
   try { out.snapshotChars = JSON.stringify(GAME.snapshot ? GAME.snapshot() : GAME.G).length; } catch (e) { out.snapshotChars = String(e); }
   out.lsKeys = []; for (let i = 0; i < localStorage.length; i++) { const k = localStorage.key(i); out.lsKeys.push([k, (localStorage.getItem(k) || '').length]); }
