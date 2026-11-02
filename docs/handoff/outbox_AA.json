@@ -4570,6 +4570,171 @@
    "receiver": "LAWWW",
    "ack": "DELIVERED",
    "note": "11-01 回 LAWWW-B 技術預設：AA_554 13 題（Q5 改）、L1～L3 6 題（電梯三句、合照 9/24）、AA_416 1-4 選 (b)、BB_119 v6 九題照現況；2026-11-02 AA（帳號 A）：訊息回覆，files／sha 補成記錄這則回覆的交接紀錄 commit"
+  },
+  {
+   "task": "DIALOGUE-DEPTH-1031",
+   "branch": "claude/story-planning",
+   "sha": "ad64e1094",
+   "files": [
+    "docs/story_planning/AA_573_刪除不是問句句型_修改清單.md"
+   ],
+   "state": "已交付",
+   "remaining": "子晴告白、大三下轉折等子晴共創重寫",
+   "next": "LAWWW 照清單改（使用者直接指示，非未定稿台詞）",
+   "noDirectIntegrate": false,
+   "receiver": "LAWWW",
+   "ack": "SENT",
+   "note": "使用者 11-02 原話「不是問句這種句型給我全部刪掉遊戲裡如果有」＋選「全部刪，子晴等她共創時再重寫」"
+  },
+  {
+   "task": "DIALOGUE-DEPTH-1031",
+   "branch": "claude/story-planning",
+   "sha": "5964f6be5",
+   "files": [
+    "docs/story_planning/AA_574_刪除簽到_改成隨機點名_修改清單.md"
+   ],
+   "state": "已交付",
+   "remaining": "",
+   "next": "LAWWW 排佇列實作；劇社貼圖由 LAWWW 轉 LAWWW2",
+   "noDirectIntegrate": false,
+   "receiver": "LAWWW",
+   "ack": "SENT",
+   "note": "使用者 11-02：「教授通常是隨機點名 一年只點名幾次」＋選「改成隨機點名日」「只留補習班」；取代 D74 出席三堂及格"
+  },
+  {
+   "task": "DIALOGUE-DEPTH-1031",
+   "branch": "claude/story-planning",
+   "sha": "179f227ca",
+   "files": [
+    "docs/story_planning/AA_576_以安改稿_第一批_手機與邀約.md",
+    "docs/story_planning/AA_565_以安聲音規格_定稿.md"
+   ],
+   "state": "已交付",
+   "remaining": "第二～五批",
+   "next": "BB 口氣審，過了交 LAWWW 改源稿重匯＋apply_line_table",
+   "noDirectIntegrate": true,
+   "receiver": "BB",
+   "ack": "SENT",
+   "note": "使用者 11-02 說以安定型、看過精選 10 句回「都對，交出去」"
+  },
+  {
+   "task": "STUDY-EXAM-STORY-1102",
+   "branch": "claude/story-planning",
+   "sha": "2296dc164",
+   "files": [
+    "docs/story_planning/study/cards_y1s1.json",
+    "docs/story_planning/study/cards_y1s1_notes.md",
+    "docs/story_planning/study/cards_y1s1_review.md"
+   ],
+   "state": "已交付",
+   "remaining": "大一下起各科、刑訴 9 張正式標題",
+   "next": "LAWWW 加白名單匯入 study_units；BB 驗收",
+   "noDirectIntegrate": false,
+   "receiver": "LAWWW",
+   "ack": "SENT",
+   "note": "大一上 27 張（民總 10、憲法上 9、刑總一 8），獨立核對後改 9 張"
+  },
+  {
+   "task": "STUDY-EXAM-STORY-1102",
+   "branch": "claude/story-planning",
+   "sha": "c3660c6fe",
+   "files": [
+    "docs/story_planning/study/cards_y1s2.json",
+    "docs/story_planning/study/cards_y1s2_notes.md",
+    "docs/story_planning/study/cards_y1s2_review.md"
+   ],
+   "state": "已交付",
+   "remaining": "大二上起各科、刑訴 9 張標題",
+   "next": "LAWWW 加白名單匯入；BB 驗收",
+   "noDirectIntegrate": false,
+   "receiver": "LAWWW",
+   "ack": "SENT",
+   "note": "大一下 29 張（憲法下 9、刑總二 10、債總一 10），獨立核對後改 21 張"
+  },
+  {
+   "task": "STUDY-EXAM-STORY-1102",
+   "branch": "claude/story-planning",
+   "sha": "cafc8dbbf",
+   "files": [
+    "docs/story_planning/study/cards_y2s1.json",
+    "docs/story_planning/study/cards_y2s1_notes.md",
+    "docs/story_planning/study/cards_y2s1_review.md"
+   ],
+   "state": "已交付",
+   "remaining": "大二下（寫稿中）起各學期；刑訴 9 張內容",
+   "next": "LAWWW 加白名單匯入；BB 驗收",
+   "noDirectIntegrate": false,
+   "receiver": "LAWWW",
+   "ack": "SENT",
+   "note": "大二上 33 張（行政法 7、刑分 7、債總二 9、物權 10），62 題；獨立核對後改 9 張＋6 項可選；中標法 §5②§6、土地法 §34-1 I 已用全國法規資料庫核原文；改過的 cue 對選項兩字詞重疊 0"
+  },
+  {
+   "task": "STUDY-EXAM-STORY-1102",
+   "branch": "claude/story-planning",
+   "sha": "a5b859cae",
+   "files": [
+    "docs/story_planning/study/cards_y2s2.json",
+    "docs/story_planning/study/cards_y2s2_notes.md",
+    "docs/story_planning/study/cards_y2s2_review.md"
+   ],
+   "state": "已交付",
+   "remaining": "大三上（核對中）起各學期",
+   "next": "LAWWW 加白名單匯入；BB 驗收",
+   "noDirectIntegrate": false,
+   "receiver": "LAWWW",
+   "ack": "SENT",
+   "note": "大二下 31 張（行政救濟 8、身分法 9、法學英文 8、債各 6），61 題；獨立核對後改 5 張＋4 項可選；cue 重疊 0；exam_bank 沒有以舊 §1223 為前提的題目；study_units 資料建議見 review 最後一節"
+  },
+  {
+   "task": "STUDY-EXAM-STORY-1102",
+   "branch": "claude/story-planning",
+   "sha": "44284c838",
+   "files": [
+    "docs/story_planning/study/cards_y3s1.json",
+    "docs/story_planning/study/cards_y3s1_notes.md",
+    "docs/story_planning/study/cards_y3s1_review.md"
+   ],
+   "state": "已交付",
+   "remaining": "大三下（寫稿中）、大四上、大四下",
+   "next": "LAWWW 加白名單匯入；BB 驗收",
+   "noDirectIntegrate": false,
+   "receiver": "LAWWW",
+   "ack": "SENT",
+   "note": "大三上 38 張（民訴 9、公司法 10、證交 9、刑訴 w10 1、刑訴題庫 crimpro_q1～q9 9），146 題；獨立核對後改 6 張＋9 項可選；cue 重疊 0；建議 S.cardLines 長卡分則；crimpro 標題用 crimpro_titles.json"
+  },
+  {
+   "task": "STUDY-EXAM-STORY-1102",
+   "branch": "claude/story-planning",
+   "sha": "26471fe4f",
+   "files": [
+    "docs/story_planning/study/cards_y3s2.json",
+    "docs/story_planning/study/cards_y3s2_notes.md",
+    "docs/story_planning/study/cards_y3s2_review.md"
+   ],
+   "state": "已交付",
+   "remaining": "大四上下（寫稿中）",
+   "next": "LAWWW 加白名單匯入；BB 驗收",
+   "noDirectIntegrate": false,
+   "receiver": "LAWWW",
+   "ack": "SENT",
+   "note": "大三下 35 張（民訴甲下 10、保險 9、勞動 8、票據 8），42 題；獨立核對後改 2 張＋8 項可選；cue 重疊 0；AI_CP2 scopeWeek 對調延後"
+  },
+  {
+   "task": "STUDY-EXAM-STORY-1102",
+   "branch": "claude/story-planning",
+   "sha": "95630e2f1",
+   "files": [
+    "docs/story_planning/study/cards_y4.json",
+    "docs/story_planning/study/cards_y4_notes.md",
+    "docs/story_planning/study/cards_y4_review.md"
+   ],
+   "state": "已交付",
+   "remaining": "八學期觀念卡全部完成；Y4TAX_11 題幹待 BB 同意",
+   "next": "LAWWW 加白名單匯入；BB 驗收",
+   "noDirectIntegrate": false,
+   "receiver": "LAWWW",
+   "ack": "SENT",
+   "note": "大四 68 張（Y4S1 59、Y4S2 9），88 題；獨立核對後改 8 張＋8 項可選；cue 重疊 0"
   }
  ],
  "items": [
