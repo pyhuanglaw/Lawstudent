@@ -1,0 +1,34 @@
+[gpu_wrap] CC_GPU=1 跑 C:\Users\USER\Documents\Lawstudent_cclocal\docs\story_planning\test_tools\cc\flow_main_day12_v2.py http://127.0.0.1:8808/index.html C:\Users\USER\Documents\Lawstudent_cclocal\docs\story_planning\CC\local_out\G4v2_ef63\out
+PASS 遊戲載入
+  [  29.9s] 幀率 48.79 格／秒 → 真實時間上限放大 1.0 倍（走路 420 秒、等劇情 300 秒）
+PASS 標題畫面有「開始新的一天」
+  [ 164.5s] 幀率 1.00 格／秒 → 真實時間上限放大 1.5 倍（走路 630 秒、等劇情 450 秒）
+PASS 第一天宿舍開場結束、恢復控制、目標是讀案例或睡覺  goal=目標：讀（或不讀）明天的案例，然後睡覺 {"zone": "dorm", "x": 0, "z": 2.4, "ry": 3.14, "busy": false, "pose": "idle", "path": 0, "dlg": false, "dtext": "（他把耳機戴回去。）", "choices": 0, "interact": "走出房間", "hour": 21.2, "stand": true, "camYaw": -2.743, "fallbacks": 0, "y": 0, "lv": 0, "frame": 4532, "paused": false}
+PASS 宿舍有「坐在書桌前」  {'x': -2.04, 'z': -0.098, 'r': 1, 'label': '坐在書桌前', 'lv': None, 'y': None}
+  [ 232.0s] 「書桌」途中：phone 開著（遊戲暫停），先關掉
+  [ 255.9s] 到達「書桌」附近（0.52 m）：點地面 2 次、轉鏡頭 1 次、搖桿 2 次，85 秒
+PASS 走到書桌（點地面／搖桿）
+PASS 書桌旁出現「坐在書桌前」
+PASS 坐下讀完案例（選「認真讀完」）、恢復控制  readCase=full
+  [ 293.9s] 到達「床」附近（0.71 m）：點地面 1 次、轉鏡頭 0 次、搖桿 0 次，11 秒
+PASS 走到床邊（點地面／搖桿）
+PASS 床邊出現「睡覺」
+PASS 第二天阿哲那一場真的有演（campusIntro 成立、有阿哲的台詞）  {"zhe": ["{name}！你走路超慢。周老師那堂我不想坐最前面。", "好啦好啦。"], "n_said": 3}
+PASS 阿哲那一場演完、在霖澤館前恢復控制（第二天、還沒上課）  day=2 h=13.05 goal=目標：進入法律系館A上課（13:20） {"zone": "campus", "x": 26, "z": -90, "ry": 3.14, "busy": false, "pose": "idle", "path": 0, "dlg": false, "dtext": "好啦好啦。", "choices": 0, "interact": "", "hour": 13.05, "stand": true, "camYaw": 1.024, "fallbacks": 0, "y": 0, "lv": 0, "frame": 4712, "paused": false}
+  [ 819.2s] 【體驗參考】從霖澤館前恢復控制到被帶進 201：None 秒真實時間（遊戲 13.05 恢復控制；幀數計數 4740）
+  [ 819.2s] 【體驗參考】帶進 201 時遊戲時間 13.07；「快上課了」字幕：[]
+{"cc_takeover_real_s": null, "ctrl_hour": 13.05, "took_hour": 13.07, "caption": []}
+  [ 819.2s] 450 秒內沒有被帶進 201：照原測試自己走過去（點地面）
+  [ 819.2s] 「法律系館A門口」途中：phone 開著（遊戲暫停），先關掉
+  [ 832.0s] 到達「法律系館A門口」附近（0.84 m）：點地面 2 次、轉鏡頭 0 次、搖桿 0 次，13 秒
+  [ 860.6s] 到達「201 教室門口（二樓）」附近（0.28 m）：點地面 2 次、轉鏡頭 1 次、搖桿 0 次，24 秒
+  [ 862.2s] 到達「201 教室門口（二樓）」附近（0.28 m）：點地面 0 次、轉鏡頭 0 次、搖桿 0 次，0 秒
+  [ 865.7s] 互動按鈕是「離開教室」，不是「進入 201」
+PASS 進到 201、這堂課還沒被跳過（第二天 12:30～15:12、classDone 還沒成立）  {"z": "classroom", "h": 13.32, "classDone": false, "classNow": true, "day": 2}
+PASS 沒有用到「卡住後放到目的地」的保險（walkFallbacks＝0）  0
+PASS 用選單存到欄位 1
+PASS 重新整理後載入
+PASS 標題「讀取」欄位 1：天數、地點、上課與讀案例的進度一樣  {'day': 2, 'zone': 'classroom', 'hour': 15.18, 'classDone': True, 'readCase': 'full'} → {'day': 2, 'zone': 'classroom', 'hour': 15.18, 'classDone': True, 'readCase': 'full'}
+PASS 讀檔後搖桿走得動  {"zone": "classroom", "x": -0.75, "z": -1.1, "ry": 3.14, "busy": false, "pose": "idle", "path": 0, "dlg": false, "dtext": "", "choices": 0, "interact": "坐下", "hour": 15.18, "stand": true, "camYaw": 6.284, "fallbacks": 0, "y": 0.6, "lv": 0, "frame": 67, "paused": false} 推了 1 次、走了 39.44 m
+PASS 沒有 JS 例外  []
+ALL PASS

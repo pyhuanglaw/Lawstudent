@@ -1,0 +1,17 @@
+{
+  "rerun": "",
+  "id": "G4v2_ef63",
+  "sha": "ef63b1877",
+  "kind": "probe",
+  "script": "docs/story_planning/test_tools/cc/flow_main_day12_v2.py",
+  "env": "",
+  "machine": "MSI",
+  "start": "2026-11-03T06:02:02",
+  "end": "2026-11-03T06:18:01",
+  "seconds": 959,
+  "exit": 0,
+  "error": null,
+  "runner": "b46848d180",
+  "rf_round": "3",
+  "url": "http://127.0.0.1:8808/index.html"
+}
