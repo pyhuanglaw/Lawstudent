@@ -288,6 +288,23 @@ if '--emit-oneside' in A:
 
 # ---- 5. 光：天空（Nishita）＋太陽（白天）；晚上只有夜空 ----
 sc.render.engine = 'CYCLES'; sc.cycles.device = 'CPU'; sc.cycles.samples = SAMPLES
+# 用哪一個裝置烘（BAKE-PC-1102，BB 11-02 P1：烘焙搬到使用者的 PC，CC runner 的 KIND=blender）：
+#   環境變數 CC_BLENDER_DEVICE＝HIP／CUDA／OPTIX／METAL／ONEAPI → Cycles 用那一種 GPU（PC 是 RX 6600M＝HIP）；沒設或 CPU＝CPU（雲端照舊，行為不變）。
+#   要 GPU 卻找不到那一種裝置：照樣用 CPU 烘完，但 DEVICE 那一行和 <prefix>.json 的 device 寫 'CPU（要 HIP 找不到）'，結果不能拿來當 GPU 對照。
+DEVICE = 'CPU'
+_want = (os.environ.get('CC_BLENDER_DEVICE') or '').strip().upper()
+if _want and _want != 'CPU':
+    try:
+        cp = bpy.context.preferences.addons['cycles'].preferences; cp.compute_device_type = _want
+        try: cp.refresh_devices()
+        except Exception: cp.get_devices()
+        devs = [d for d in cp.devices if d.type == _want]
+        for d in cp.devices: d.use = (d.type == _want)
+        if devs: sc.cycles.device = 'GPU'; DEVICE = _want + '：' + '、'.join(d.name for d in devs)
+        else: DEVICE = 'CPU（要 %s 找不到；裝置：%s）' % (_want, '、'.join('%s/%s' % (d.type, d.name) for d in cp.devices) or '沒有')
+    except Exception as e: DEVICE = 'CPU（要 %s 失敗：%s）' % (_want, e)
+print('DEVICE', DEVICE, 'blender', bpy.app.version_string, flush=True)
+import time as _time; _T0 = _time.time()
 if os.environ.get('BAKE_THREADS'): sc.render.threads_mode = 'FIXED'; sc.render.threads = int(os.environ['BAKE_THREADS'])   # 環境變數 BAKE_THREADS＝只用幾個執行緒（同時跑測試時讓出 CPU；10-31 加）
 sc.cycles.max_bounces = 6; sc.cycles.diffuse_bounces = 4; sc.cycles.glossy_bounces = 1; sc.cycles.transparent_max_bounces = 16
 w = bpy.data.worlds.new('w'); sc.world = w; w.use_nodes = True; nt = w.node_tree; bg = nt.nodes['Background']
@@ -556,7 +573,7 @@ for o in SHELL: bpy.data.objects.remove(o)   # 外殼只在烘焙時用
 if arg('--drop'):
     _drop = re.compile(arg('--drop'))
     for o in [o for o in bpy.data.objects if _drop.search(o.name)]: bpy.data.objects.remove(o)
-json.dump({'scale': SCALE, 'intensity': math.pi * SCALE, 'res': RES, 'samples': SAMPLES, 'emit': EMIT, 'dayemit': DAYEMIT, 'sun': SUN, 'sky': SKY, 'nightsky': NIGHTSKY, 'shell': arg('--shell'), 'daylights': DAYL, 'knee': KNEE, 'dayscale': arg('--dayscale'), 'lights': arg('--lights'), 'points': arg('--points'), 'dayfill': arg('--dayfill'), 'wb': WB,
+json.dump({'device': DEVICE, 'blender': bpy.app.version_string, 'bake_seconds': round(_time.time() - _T0, 1), 'scale': SCALE, 'intensity': math.pi * SCALE, 'res': RES, 'samples': SAMPLES, 'emit': EMIT, 'dayemit': DAYEMIT, 'sun': SUN, 'sky': SKY, 'nightsky': NIGHTSKY, 'shell': arg('--shell'), 'daylights': DAYL, 'knee': KNEE, 'dayscale': arg('--dayscale'), 'lights': arg('--lights'), 'points': arg('--points'), 'dayfill': arg('--dayfill'), 'wb': WB,
            'objects': [o.name for o in objs]}, open(LM + '.json', 'w'), ensure_ascii=False, indent=1)
 URL = arg('--url')   # 遊戲裡光照貼圖的路徑前綴（例：assets/models/env/classroom_201_lm）→ 寫進 GLB 場景的 extras.lightmap，遊戲的 attachRoomGLB 看到就自動接
 if URL:
