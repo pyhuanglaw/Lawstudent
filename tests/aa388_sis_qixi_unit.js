@@ -55,7 +55,7 @@ const sec=async(n,f)=>{ try{ await f(); }catch(e){ check(n+'. 丟出例外（中
     check('0. 劇情匯入白名單：AA_388 @3a509150 approved（AA-B 2026-10-23 07:0x 交付 DL-AA388-QIXI）、task SIS-QIXI-L-1023、kind text',!!f&&f.sha==='3a509150'&&f.status==='approved'&&/AA-B 2026-10-23 07:0x/.test(f.approvedBy||'')&&/DL-AA388-QIXI/.test(f.approvedBy||'')&&f.task==='SIS-QIXI-L-1023'&&f.kind==='text',J(f)); }
   { const e=ev('ev_sis_qixi');
     check('0. ev_sis_qixi 不是 once（每年同一個 id）、出遊（trigger outing）',!e.once&&e.trigger==='outing'&&Array.isArray(e.participants)&&e.participants[0]===ID); }
-  { const bad=[]; const T_=t=>{ if(typeof t==='string'&&!inDoc(t)) bad.push(t); };
+  { const A590=require('./aa590_doc.js'), bad=[]; const T_=t=>{ if(typeof t==='string'&&!inDoc(t)&&!A590.has(t)) bad.push(t); };   /* AA_590（學姊改稿第三批，企劃線 68ceea665，使用者 11-02 確認）改過的句子在 AA_590 的表上，不在這份原稿 */
     const walk=v=>{ if(typeof v==='string') T_(v); else if(Array.isArray(v)) v.forEach(walk); else if(v&&typeof v==='object') Object.values(v).forEach(walk); };
     for(const k in SISQX_LINES) walk(SISQX_LINES[k]);
     for(const e of SISQX_EVENTS) for(const l of e.dialogue){ if(l.text!==undefined) T_(l.text); if(l.scene!==undefined) T_(l.scene); for(const c of (l.choice||[])) T_(c.text.replace(/^「(.*)」$/,'$1')); }
@@ -115,7 +115,7 @@ const sec=async(n,f)=>{ try{ await f(); }catch(e){ check(n+'. 丟出例外（中
     PHONE.answer(H.G,'sisqx_2027_last',1); rules(); const m=PHONE.byAsk(H.G,'sisqx_2027_ask');
     check('1-2. 「妳呢？」→「讀書。」，後面照舊：「我那天在研究室寫到八點。」「你可以八點來接我。」「晚餐你帶。」＋三個回覆',J(dms())===J(['七夕。去年你在幹嘛？','妳呢？','讀書。','我那天在研究室寫到八點。','你可以八點來接我。','晚餐你帶。'])&&!!m&&J(m.ask.opts.map(o=>o.t))===J(['好，我帶。','要吃什麼？','那天不行。']),J(dms()));
     PHONE.answer(H.G,'sisqx_2027_ask',0); rules(); const q=OUT.get(H.G,'sisqx_2027'); at('2027-08-08',20); const L=await play('ev_sis_qixi',[1]);
-    check('1-2. 「好，我帶。」排 20:00；「（把她的稿子拿過來看）」→「不要看第七頁。……你已經在看第七頁了。」，後面照舊',!!q&&q.h===20&&L[3]==='不要看第七頁。……你已經在看第七頁了。'&&J(L.slice(4))===J(L12.slice(4))&&QX(2027)==='met',J(L)); }
+    check('1-2. 「好，我帶。」排 20:00；「（把她的稿子拿過來看）」→「第七頁還沒改好。」，後面照舊',!!q&&q.h===20&&L[3]==='第七頁還沒改好。'&&J(L.slice(4))===J(L12.slice(4))&&QX(2027)==='met',J(L)); }
   { setup('2027-08-06',21.05,'dorm','FRIEND',{SIS_QIXI:{2026:'declined'}}); dateSis(); rules(); PHONE.answer(H.G,'sisqx_2027_last',0); rules(); const d1=dms().slice();
     const r0=relOf(); PHONE.answer(H.G,'sisqx_2027_ask',2); rules(); const a=dms().slice(-1)[0], q=OUT.get(H.G,'sisqx_2027'), r1=relOf();
     check('1-2. 2026 回過不行（declined）也是去年沒一起過；「不記得了。」沒有她的回話、接著三則；「那天不行。」→「好。那我寫到十點。」、不排、記 declined、不扣關係',J(d1)===J(['七夕。去年你在幹嘛？','不記得了。','我那天在研究室寫到八點。','你可以八點來接我。','晚餐你帶。'])&&a==='好。那我寫到十點。'&&!q&&QX(2027)==='declined'&&dRel(r0,r1)===J({}),J({d1,a,f:H.G.flags.SIS_QIXI})); }

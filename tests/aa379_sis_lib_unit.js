@@ -12,13 +12,15 @@ const fs=require('fs'), path=require('path'), cp=require('child_process');
 const {check}=H;
 const ev=STORY_EVENTS.find(e=>e.id==='ev_sis_w1');
 let doc=''; try{ doc=cp.execSync('git show 6a105a4d:"docs/story_planning/AA_379_學姊當主要女主角_補強_第一批.md"',{cwd:H.ROOT,encoding:'utf8'}); }catch(e){ doc=''; }
-const LIB=(doc.match(/閱覽室「(（她坐在靠窗的位子讀書.+?）)」/)||[])[1], HALL=(doc.match(/自習區「(（她坐在長桌的一角讀書.+?）)」/)||[])[1], LAST=(doc.match(/改成：「(（笑了一下）對，就是這樣。有問題再私訊我。)」/)||[])[1];
+const LIB=(doc.match(/閱覽室「(（她坐在靠窗的位子讀書.+?）)」/)||[])[1], HALL=(doc.match(/自習區「(（她坐在長桌的一角讀書.+?）)」/)||[])[1], LAST0=(doc.match(/改成：「(（笑了一下）對，就是這樣。有問題再私訊我。)」/)||[])[1];
+/* AA_590 第 76、77 列（學姊改稿第三批，企劃線 68ceea665，使用者 11-02 確認）：「，就是這樣」拿掉——最後一句改照 AA_590 */
+const A590=require('./aa590_doc.js'), LAST='（笑了一下）對。有問題再私訊我。', CAFE_LAST='（笑了一下）對。我要去圖書館了。有問題再私訊我。';
 const texts=ev?ev.dialogue.filter(n=>n.text).map(n=>n.text):[];
-check('1. 讀稿：兩句開頭、最後一句都讀到，事件裡一字不差',!!LIB&&!!HALL&&!!LAST&&texts.includes(LIB)&&texts.includes(HALL)&&texts.includes(LAST),JSON.stringify({LIB,HALL,LAST}));
+check('1. 讀稿：兩句開頭、最後一句都讀到（最後一句 AA_379 原稿讀到、遊戲照 AA_590 第 77 列），事件裡一字不差',!!LIB&&!!HALL&&!!LAST0&&A590.has(LAST)&&A590.has(CAFE_LAST)&&texts.includes(LIB)&&texts.includes(HALL)&&texts.includes(LAST)&&!texts.includes(LAST0),JSON.stringify({LIB,HALL,LAST0,LAST}));
 const play=async(key,h,zone,more)=>{ const G=H.fresh(key,h,zone,more||{}); const ok=EVENTS.check(ev); if(ok) await EVENTS.run(ev); return {G,ok,said:H.said.map(s=>s.t)}; };
 (async()=>{
   { const {G,ok,said}=await play('2025-09-05',10,'library');
-    check('2. 9/5 10:00 閱覽室：找她說話就演第一次見面（開頭閱覽室版、中間照台階版、最後閱覽室版）',ok&&said[0]===LIB&&said.includes('學姊好，我是祐廷，妳的直屬學弟。')&&said.includes('周老師很熱門耶，要很早去佔位置喔。')&&said.includes('真的，前一堂課就要去佔了。')&&said[said.length-1]===LAST&&!said.includes('（笑了一下）對，就是這樣。我要去圖書館了，有問題再私訊我。'),JSON.stringify({ok,said}));
+    check('2. 9/5 10:00 閱覽室：找她說話就演第一次見面（開頭閱覽室版、中間照台階版、最後閱覽室版）',ok&&said[0]===LIB&&said.includes('學姊好，我是祐廷，妳的直屬學弟。')&&said.includes('周老師很熱門。位置要很早去佔。')&&said.includes('真的，前一堂課就要去佔了。')&&said[said.length-1]===LAST&&!said.includes(CAFE_LAST),JSON.stringify({ok,said}));
     check('2. 記號：met_sis、SIS_W1、FIRST_MET',G.flags.met_sis===true&&G.flags.SIS_W1===true&&SOCIAL.has('heroine_05','FIRST_MET'),JSON.stringify({m:G.flags.met_sis,w:G.flags.SIS_W1,f:SOCIAL.has('heroine_05','FIRST_MET')})); }
   { const {ok,said}=await play('2025-09-08',15,'library_hall');
     check('3. 大廳自習區：開頭換「（她坐在長桌的一角讀書…）」，最後一句閱覽室版',ok&&said[0]===HALL&&said[said.length-1]===LAST,JSON.stringify({ok,said})); }
@@ -26,5 +28,5 @@ const play=async(key,h,zone,more)=>{ const G=H.fresh(key,h,zone,more||{}); const
     const G=H.fresh('2025-09-05',10,'library'); G.stage='econ'; const c=EVENTS.check(ev);
     check('4. 9/3 以前、已經認識、經濟系：不演',!a&&!b&&!c,JSON.stringify({a,b,c})); }
   { const src=fs.readFileSync(path.join(H.ROOT,'src/story3d.js'),'utf8'), {said}=await play('2025-09-05',12.3,'cafe');
-    check('5. talkSis 沒有「閱覽室不能講話」；Café 版最後一句照舊（「我要去圖書館了」）',!/閱覽室不能講話/.test(src)&&said[said.length-1]==='（笑了一下）對，就是這樣。我要去圖書館了，有問題再私訊我。',JSON.stringify(said.slice(-1))); }
+    check('5. talkSis 沒有「閱覽室不能講話」；Café 版最後一句照舊（「我要去圖書館了」）',!/閱覽室不能講話/.test(src)&&said[said.length-1]===CAFE_LAST,JSON.stringify(said.slice(-1))); }
   H.done(); })().catch(e=>{ console.log('FAIL 例外',e&&e.stack); process.exit(1); });

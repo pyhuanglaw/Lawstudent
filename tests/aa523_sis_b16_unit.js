@@ -131,7 +131,7 @@ await sec(0,()=>{ const a=s=>html.indexOf(s);
   /* 第 6 節換掉的舊句不在遊戲裡（註解除外）*/
   const OLD=[['src/data/sis_b13_events.js',"'學姊回來了！！'"],['src/data/sis_b13_events.js',"'禮拜四家聚 歡迎回來 118 巷那家'"],['src/data/sis_b12_events.js',"'「美國好玩嗎？」'"],['src/data/sis_b12_events.js',"'好玩。……照片你都看過了。'"],
     ['src/data/heard_lines.js',"'書瑀回來第一個週五就來吃飯。她說美國的麵都太軟。'"],['src/data/pg_dates.js','"論文送進圖書館了。櫃台的人蓋了章，說『好，下一位』。……就這樣。"'],['src/data/ladder.js','"先把修正本交出去。之後……還沒想。"'],
-    ['src/data/termend_lines.js',"'我現在凌晨三點最清醒。……時差還沒調回來。'"],['src/data/termend_lines.js',"table:'我這學期的計畫本，最後一格還沒寫。'"]];
+    ['src/data/termend_lines.js',"'我現在凌晨三點最清醒。……時差還沒調回來。'"],['src/data/termend_lines.js',"table:'這學期，還有一件事沒做完。'"]];
   const still=OLD.filter(([f,t])=>{ const s=fs.readFileSync(path.join(H.ROOT,f),'utf8').replace(/\/\*[\s\S]*?\*\//g,''); return t.startsWith('table:')?false:s.indexOf(t)>=0; });
   check('0. 第 6 節換掉的舊句（6-2、6-3、6-5、6-11、6-12、6-13）不在遊戲裡（註解除外）；6-4 舊句只留給其他學期',!still.length,J(still));
   /* 日子的星期（稿寫的）*/
@@ -387,14 +387,14 @@ await sec(6,async()=>{
   { const h=(HEARD_LINES.talk||[]).find(x=>x.id==='h509_ta_sis'); fresh('2029-01-12',12,'fam'); const w0=HEARD.inWin(H.G,h); at('2029-01-13',12); const w1=HEARD.inWin(H.G,h);
     check('6. 6-3 陳助教「書瑀回來休息了兩個禮拜，才來吃飯。她說美國的麵都太軟。」從 2029-01-13 起',!!h&&h.t==='書瑀回來休息了兩個禮拜，才來吃飯。她說美國的麵都太軟。'&&h.from==='2029-01-13'&&w0===false&&w1===true&&(ROW['6-3']||{toQ:[]}).toQ.includes(h.t),J({h,w0,w1})); }
   { const t4=TERMEND.heart(ID,'Y4S1'), t3=TERMEND.heart(ID,'Y3S2'), t2=TERMEND.heart(ID,'Y2S1');
-    check('6. 6-4 心意版期末飯 大四上「這學期的計畫本寫完了。……下學期那本，第一頁還是空的。」；其他學期照舊',t4.table==='這學期的計畫本寫完了。……下學期那本，第一頁還是空的。'&&t3.table==='我這學期的計畫本，最後一格還沒寫。'&&t2.table==='我這學期的計畫本，最後一格還沒寫。'&&t3.decline==='好。那出發前再約。',J([t4.table,t3.table])); }
+    check('6. 6-4 心意版期末飯 大四上「這學期的計畫本寫完了。……下學期那本，第一頁還是空的。」；其他學期照舊',t4.table==='這學期的計畫本寫完了。……下學期那本，第一頁還是空的。'&&t3.table==='這學期，還有一件事沒做完。'&&t2.table==='這學期，還有一件事沒做完。'&&t3.decline==='好。那出發前再約。',J([t4.table,t3.table])); }
   { const c=(PG_DATES.six[ID]||[]).find(x=>x.ym==='2029-06'); check('6. 6-5 學姊 2029-06 那一格「修正本改完了。這禮拜印，下禮拜交。」（pg_dates.js 照 import_pg_dates.py 產生，來源寫 AA_523）',!!c&&c.line==='修正本改完了。這禮拜印，下禮拜交。'&&/AA_523/.test(J(PG_DATES.source)),J(c)); }
   { const e=ev('ev_sis_w1_late'), b6=ROW['6-6']||{toQ:[]}; const w1=async(key,k)=>{ fresh(key,19.5,'none',{},{zone:'cafe'}); const t=e.title; await runEv('ev_sis_w1_late',[k]); return {t,o:H.opts[0],s:said()}; };
     const y1=await w1('2026-07-15',0), y2=await w1('2026-10-14',0), y3=await w1('2027-10-13',0), y4=await w1('2029-03-07',0);
-    check('6. 6-6 W1 晚到版照第一次見面那一年換：大二（含大一升大二的暑假）「大一太忙了。」→「嗯。大一都很忙。……我也是。」、標題「晚了一年」',y1.t==='直屬學姊（晚了一年）'&&y2.t==='直屬學姊（晚了一年）'&&J(y2.o)===J(['「大一太忙了。」','「我不知道去哪裡找學姊。」'])&&y2.s.includes('嗯。大一都很忙。……我也是。'),J([y1,y2]));
+    check('6. 6-6 W1 晚到版照第一次見面那一年換：大二（含大一升大二的暑假）「大一太忙了。」→「嗯。大一都很忙。我也是。」、標題「晚了一年」',y1.t==='直屬學姊（晚了一年）'&&y2.t==='直屬學姊（晚了一年）'&&J(y2.o)===J(['「大一太忙了。」','「我不知道去哪裡找學姊。」'])&&y2.s.includes('嗯。大一都很忙。我也是。'),J([y1,y2]));
     check('6. 6-6 大三「之前一直沒遇到。」→「嗯。……現在遇到了。」、標題「晚了兩年」；大四「四年都沒遇到。」→「……那還來得及。我六月才畢業。」、標題「晚了三年」（稿）',
       y3.t==='直屬學姊（晚了兩年）'&&J(y3.o)===J(['「之前一直沒遇到。」','「我不知道去哪裡找學姊。」'])&&y3.s.includes('嗯。……現在遇到了。')&&y4.t==='直屬學姊（晚了三年）'&&J(y4.o)===J(['「四年都沒遇到。」','「我不知道去哪裡找學姊。」'])&&y4.s.includes('……那還來得及。我六月才畢業。')&&['之前一直沒遇到。','嗯。……現在遇到了。','四年都沒遇到。','……那還來得及。我六月才畢業。'].every(t=>b6.toQ.includes(t)),J([y3,y4]));
-    const fy=await w1('2027-10-13',1); check('6. 6-6 選項②照舊「我不知道去哪裡找學姊。」→「晚上我大多在 Café 或法圖。……不難找。」',fy.s.includes('晚上我大多在 Café 或法圖。……不難找。')); }
+    const fy=await w1('2027-10-13',1); check('6. 6-6 選項②照舊「我不知道去哪裡找學姊。」→「晚上我大多在 Café 或法圖。不難找。」',fy.s.includes('晚上我大多在 Café 或法圖。不難找。')); }
   /* 6-7～6-9 她們主動約你（HASK）*/
   { const dW=D('2029-01-06'); fresh('2029-01-03',12,'dating',{},{route:'US'});
     const o0=HASK.storyAsk(H.G,ID,dW,'o'); OUT.plan(H.G,{id:'t_out',ev:'ev_sis16_box',day:dW,h:11.5,place:'x',title:'x'}); const o1=HASK.storyAsk(H.G,ID,dW,'o');

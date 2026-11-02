@@ -50,10 +50,10 @@ GM.money=function(n){ G.money+=n; };
   G.day=d10; G.weekday=3; G.hour=12.2; check('2. 沒有 W1：不演',!EVENTS.check(h1,{trigger:'class',afterClass:'crim_gen1'}));
   G.flags.SIS_W1=true; G.flags.met_sis=true; check('2. W1：9/10 刑總下課會演',EVENTS.check(h1,{trigger:'class',afterClass:'crim_gen1'}));
   picks=['會啊']; await EVENTS.run(h1); let L=lines();
-  check('2. 「學姊。」「喔，學弟。剛下課喔？」（AA_313 6-4：FAMILIAR 以前不叫名字）「對，刑總。」「週五家聚你會來嗎？」→「好，那週五見。」「我先去圖書館了，掰掰。」',L.some(t=>t.endsWith('喔，學弟。剛下課喔？'))&&L.some(t=>t.endsWith('對，刑總。'))&&L.some(t=>t.endsWith('好，那週五見。'))&&L[L.length-1].endsWith('我先去圖書館了，掰掰。')&&G.flags.SIS_FAM_HALL===true,JSON.stringify(L));
+  check('2. 「學姊。」「學弟。剛下課？」（AA_313 6-4：FAMILIAR 以前不叫名字；AA_590 第 4、6 列語尾、「掰掰」拿掉）「對，刑總。」「週五家聚你會來嗎？」→「好，那週五見。」「我先去圖書館了。」',L.some(t=>t.endsWith('：學弟。剛下課？'))&&L.some(t=>t.endsWith('對，刑總。'))&&L.some(t=>t.endsWith('好，那週五見。'))&&L[L.length-1].endsWith('：我先去圖書館了。')&&G.flags.SIS_FAM_HALL===true,JSON.stringify(L));
   G.day=d11; G.weekday=4; check('2. 演過了：9/11 民總下課不再演',!EVENTS.check(h2,{trigger:'class',afterClass:'civ_general'}));
   back(); G.flags.SIS_W1=true; G.flags.met_sis=true; G.day=d11; G.weekday=4; G.hour=15.2; check('2. 9/10 沒遇到：9/11 民總下課演「對，民總。」',EVENTS.check(h2,{trigger:'class',afterClass:'civ_general'}));
-  picks=['還不確定']; await EVENTS.run(h2); L=lines(); check('2. 「對，民總。」→「可以的話就來啦，大家都會來。」',L.some(t=>t.endsWith('對，民總。'))&&L.some(t=>t.endsWith('可以的話就來啦，大家都會來。')));
+  picks=['還不確定']; await EVENTS.run(h2); L=lines(); check('2. 「對，民總。」→「可以的話就來。大家都會去。」（AA_590 第 5 列）',L.some(t=>t.endsWith('對，民總。'))&&L.some(t=>t.endsWith('可以的話就來。大家都會去。')));
   // ③ 家聚
   back(); G.day=d12; G.weekday=5; G.hour=19; said=[]; await EVENTS.run(ev('ev_sis_fam_dinner')); L=lines();
   check('3. 家聚：「（長桌坐了七八個人……）」Kevin 介紹、「書瑀學姊很厲害喔，憲法傳奇，張老師給她 95。」「我先回去了，你們慢慢聊。」',L[0]==='（長桌坐了七八個人，大一到大四都有。）'&&L.some(t=>t.endsWith('書瑀學姊很厲害喔，憲法傳奇，張老師給她 95。'))&&L[L.length-1].endsWith('我先回去了，你們慢慢聊。'),JSON.stringify(L));
