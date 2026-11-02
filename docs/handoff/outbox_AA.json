@@ -4667,6 +4667,23 @@
    "receiver": "LAWWW",
    "ack": "SENT",
    "note": "大二上 33 張（行政法 7、刑分 7、債總二 9、物權 10），62 題；獨立核對後改 9 張＋6 項可選；中標法 §5②§6、土地法 §34-1 I 已用全國法規資料庫核原文；改過的 cue 對選項兩字詞重疊 0"
+  },
+  {
+   "task": "STUDY-EXAM-STORY-1102",
+   "branch": "claude/story-planning",
+   "sha": "a5b859cae",
+   "files": [
+    "docs/story_planning/study/cards_y2s2.json",
+    "docs/story_planning/study/cards_y2s2_notes.md",
+    "docs/story_planning/study/cards_y2s2_review.md"
+   ],
+   "state": "已交付",
+   "remaining": "大三上（核對中）起各學期",
+   "next": "LAWWW 加白名單匯入；BB 驗收",
+   "noDirectIntegrate": false,
+   "receiver": "LAWWW",
+   "ack": "SENT",
+   "note": "大二下 31 張（行政救濟 8、身分法 9、法學英文 8、債各 6），61 題；獨立核對後改 5 張＋4 項可選；cue 重疊 0；exam_bank 沒有以舊 §1223 為前提的題目；study_units 資料建議見 review 最後一節"
   }
  ],
  "items": [
