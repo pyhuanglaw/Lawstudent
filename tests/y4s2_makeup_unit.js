@@ -159,7 +159,11 @@ await sec('j',async()=>{ const wait=async()=>{ for(let k=0;k<200&&PG.busy;k++) a
   { const {G,c}=await planned(); PG.setT(G,H.E,D('2029-06-26'),10.5); const wm=HOME.wouldMiss(G,11.5);
     check('j3. ③ 10:30 在家休息一小時：「會錯過」列「10:00 補考：{課名}」',wm.includes('10:00 '+FD.fillIds([c.id],L.missItem)),J(wm));
     PG.setT(G,H.E,D('2029-06-26'),7); check('j3. ③ 07:00 休息到 08:00：不列（還來得及）',!HOME.wouldMiss(G,8).some(t=>/補考/.test(t)));
-    PG.setT(G,H.E,D('2029-06-25'),22); check('j3. ③ 前一晚在家睡到隔天中午（toH 36）：列',HOME.wouldMiss(G,36).some(t=>/補考/.test(t))); }
+    PG.setT(G,H.E,D('2029-06-25'),22); check('j3. ③ 前一晚在家睡到隔天中午（toH 36）：列',HOME.wouldMiss(G,36).some(t=>/補考/.test(t)));
+    /* BB 09:27（CC F5）：已經有 3 件會錯過的事（約好的見面），補考排第一個、不會被 confirmMiss 的前三件擠掉 */
+    PG.setT(G,H.E,D('2029-06-26'),9); G.invites=G.invites||[]; for(const [who,h] of [['heroine_01',9.5],['heroine_02',10],['heroine_03',10.5]]) G.invites.push({id:'ivF5'+who,who,place:'cafe',zone:'cafe',day:D('2029-06-26'),h,state:'accepted',accepted:true,by:'player'});
+    const w5=HOME.wouldMiss(G,12), top3=w5.slice(0,3);
+    check('j3. ③ 已經有 3 件會錯過的見面：補考排第一個、前三件裡有補考（BB 09:27，CC F5）',w5.length>=4&&/補考/.test(top3[0]||''),J(w5)); }
   /* ④ 6/28 以後才第一次算缺考 */
   { const {G,c}=await planned(); PG.setT(G,H.E,D('2029-06-29'),9); H.said=[]; PG.pending(G); const s=PG.due(G); if(s) await PG.runStep(GM,s);
     check('j4. ④ 6/29 才第一次算：缺考、旁白照演（不是 missed 掉）',G.flags.FD_MAKEUP.status==='missed'&&!!s&&s.id==='fd_mk_missed'&&H.has(FD.fillIds([c.id],L.missed))&&PG.rec(G).done.fd_mk_missed===1,J({due:s&&s.id,done:PG.rec(G).done.fd_mk_missed})); } });
