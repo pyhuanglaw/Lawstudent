@@ -22,7 +22,15 @@ for y in range(0,H,7):
 # 被人物圍住的背景（兩腿中間、手臂和身體之間、頭髮絲之間、耳機線圈裡）：邊框填不到；沒被填到的「接近底色」區塊，顏色和底色平均差夠小也算背景。
 # 大塊（≥ 300 px）：平均差 ≤ 5（明軒，2026-10-18：白鞋、淺色衣服也會「接近底色」，但顏色比底色不均，明軒白鞋 8.9；真的底色 3 左右）；
 # 小塊（3～299 px，頭髮絲中間、線圈空隙；BB 11-02 第 106 組 pool_11、pool_20）：中間有 30% 以上的點和底色差 ≤ 5，而且那些點和底色同一個色偏（R、G、B 差的形狀一樣），眼白、反光不會被當成背景；大塊另外接受同一個條件（一半以上）
+def _ring(m,pad=3):
+    ys,xs=np.nonzero(m); y0_,y1_,x0_,x1_=max(ys.min()-pad,0),ys.max()+pad+1,max(xs.min()-pad,0),xs.max()+pad+1
+    sm=m[y0_:y1_,x0_:x1_]; r=(np.array(Image.fromarray((sm*255).astype(np.uint8)).filter(ImageFilter.MaxFilter(5)))>127)&~sm
+    return (slice(y0_,y1_),slice(x0_,x1_)),r
+def _skinny(sl,r):   # 四周有皮膚（暖色、有彩度、不暗）＝眼白、牙齒、臉上的反光，不是背景（pool_16 眼白、pool_4 臉旁，11-02）
+    px=a[sl][r].astype(np.float32); sk=(px[:,0]-px[:,2]>=18)&(px.mean(axis=1)>110)
+    return sk.mean()>=0.04 if len(px) else False
 tint=bg-bg.mean()
+_outer=np.array(Image.fromarray(((np.array(mark)==128)*255).astype(np.uint8)).filter(ImageFilter.MaxFilter(41)))>127   # 外面那一大片背景往內 20 px：被圍住的小塊要在這裡面才算（眼白在臉的中間，離外面的背景 40 px 以上；pool_16，11-02）
 for y in range(0,H,2):
     for x in range(0,W,2):
         if mark.getpixel((x,y))==255:
@@ -30,7 +38,7 @@ for y in range(0,H,2):
             core=d<=5; nc=int(core.sum())   # 區塊外圈是頭髮和底色混在一起的點（差 10～14），只看中間「幾乎就是底色」的點
             c=a[m][core].mean(axis=0) if nc else None; same=nc>0 and np.abs((c-c.mean())-tint).max()<=2.5
             if n>=300: isbg=d.mean()<=5 or (same and nc>=0.5*n)
-            elif n>=3: isbg=same and nc>=max(2,0.3*n)
+            elif n>=3: isbg=same and nc>=max(2,0.3*n) and _outer[m].mean()>=0.5
             else: isbg=False
             arr[m]=128 if isbg else 200; mark=Image.fromarray(arr).copy()   # .copy()：fromarray 的圖是唯讀的，floodfill 寫不進去
 bgm=np.array(mark)==128
@@ -44,10 +52,8 @@ for y,x in zip(*np.nonzero(_cand)):
     if cm.getpixel((int(x),int(y)))!=255: continue
     ImageDraw.floodfill(cm,(int(x),int(y)),64); arr=np.array(cm); m=arr==64; n=int(m.sum()); ok=False
     if n<300:
-        ys,xs=np.nonzero(m); y0_,y1_,x0_,x1_=max(ys.min()-3,0),ys.max()+4,max(xs.min()-3,0),xs.max()+4
-        sm=m[y0_:y1_,x0_:x1_]; ring=(np.array(Image.fromarray((sm*255).astype(np.uint8)).filter(ImageFilter.MaxFilter(5)))>127)&~sm
-        rb_=bgm[y0_:y1_,x0_:x1_][ring]; rd=diff[y0_:y1_,x0_:x1_][ring]
-        ok=ring.sum()>0 and ((rd>60)|rb_).mean()>=0.7 and (rd>60).mean()>=0.3
+        sl,ring=_ring(m); rb_=bgm[sl][ring]; rd=diff[sl][ring]
+        ok=ring.sum()>0 and ((rd>60)|rb_).mean()>=0.7 and (rd>60).mean()>=0.3 and not _skinny(sl,ring)
     if ok: bgm[m]=True
     arr[m]=32; cm=Image.fromarray(arr).copy()
 import os
