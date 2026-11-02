@@ -1,0 +1,26 @@
+[gpu_wrap] CC_GPU=1 跑 C:\Users\USER\Documents\Lawstudent_cclocal\docs\story_planning\test_tools\cc\cc_next1102_ui_probe.py http://127.0.0.1:8809/index.html C:\Users\USER\Documents\Lawstudent_cclocal\docs\story_planning\CC\local_out\X_G5b_ancf\out
+==== CASE ancf2（SHA 62d98bfa5，ORIENTS port）====
+PASS ancf2_think_port：遊戲載入
+  [前置／捷徑] [前置] ancf2_think_port：最小存檔（法律系、大一上）；條件事件關掉、手機不自動打開
+  [前置／捷徑] [前置] 同一份進度跳到 2025-12-17（Y1S1 第 16 週）10.00 時 dorm；（Y1S1 期末時段前一天：設條件）
+  [前置／捷徑] 【捷徑】ancf2_think_port Y1S1：以安 npcRom≥45、熟度、FIRST_MET、DATE.log 正式約會 4 次＋心願地點（C1、C2）；TERMEND.plan 先算好 → {"term": "Y1S1", "w": {"from": "2025-12-18", "to": "2025-12-28"}, "plan": {"back": "2025-12-18", "heart": [], "friend": [], "fallback": "kai", "nope": {}}, "cond": {"ok": true}, "think": {}, "dating": false, "stage": "POSSIBLE_ROMANTIC_INTEREST", "npcRom": 45}
+FAIL ancf2_think_port Y1S1：心意邀約排了以安（plan.heart）  {"term": "Y1S1", "w": {"from": "2025-12-18", "to": "2025-12-28"}, "plan": {"back": "2025-12-18", "heart": [], "friend": [], "fallback": "kai", "nope": {}}, "cond": {"ok": true}, "think": {}, "dating": false, "stage": "POSSIBLE_ROMANTIC_INTEREST", "npcRom": 45}
+FAIL ancf2_think_port：第一次她說＝記 AN_SHOP_PAGE、人物面板不顯示  {"mem": ["FIRST_MET"], "panel": ["FIRST_MET"], "hide": ["AN_SHOP_PAGE"]}
+  [前置／捷徑] [前置] 同一份進度跳到 2026-06-10（Y1S2 第 16 週）10.00 時 dorm；（Y1S2 期末時段前一天：設條件）
+  [前置／捷徑] 【捷徑】ancf2_think_port Y1S2：以安 npcRom≥45、熟度、FIRST_MET、DATE.log 正式約會 4 次＋心願地點（C1、C2）；TERMEND.plan 先算好 → {"term": "Y1S2", "w": {"from": "2026-06-11", "to": "2026-06-21"}, "plan": {"back": "2026-06-11", "heart": ["heroine_01"], "friend": [], "fallback": null, "nope": {}}, "cond": {"ok": true}, "think": {}, "dating": false, "stage": "POSSIBLE_ROMANTIC_INTEREST", "npcRom": 45}
+PASS ancf2_think_port Y1S2：心意邀約排了以安（plan.heart）  {"term": "Y1S2", "w": {"from": "2026-06-11", "to": "2026-06-21"}, "plan": {"back": "2026-06-11", "heart": ["heroine_01"], "friend": [], "fallback": null, "nope": {}}, "cond": {"ok": true}, "think": {}, "dating": false, "stage": "POSSIBLE_ROMANTIC_INTEREST", "npcRom": 45}
+  [前置／捷徑] [前置] 同一份進度跳到 2026-06-11（Y1S2 第 16 週）20.33 時 dorm；（邀約那天 20:20，等 20:30 她的訊息）
+PASS ancf2_think_port Y1S2：手機邀約（["考完了。……這次只有我們兩個，可以嗎？我訂了位子，七點。"]）→ 按「好。」→ 排了出遊 te_Y1S2  {"asks": [{"t": "好。", "id": "te_Y1S2_heroine_01|0", "dis": false}, {"t": "那天有約了。", "id": "te_Y1S2_heroine_01|1", "dis": false}], "out": {"day": 270, "key": "2026-06-13", "h": 19, "state": "planned", "title": "學期末的飯：沈以安（公館巷子裡的小店）"}, "picked": {"who": "heroine_01", "kind": "heart", "day": 268}}
+  [前置／捷徑] [前置] 同一份進度跳到 2026-06-13（Y1S2 第 16 週）18.48 時 dorm；（飯那天 19:00，等出發的提示）
+PASS ancf2_think_port Y1S2：出發提示出現（真實流程，等了 0.0 秒）  ["出發：學期末的飯：沈以安（公館巷子裡的小店）19:00　走過去約 15 分鐘", "晚一點（20 分鐘後再提醒）", "不去了"]
+  [ 120.3s] ancf2_think_port_Y1S2：選單 ["「我也想報。」", "（笑了一下，沒有接話。）"] → 「我也想報。」
+  [ 125.0s] ancf2_think_port_Y1S2：選單 ["「我喜歡妳。」", "「我們可以不只是朋友嗎？」", "「我喜歡妳。妳不用現在回答。」", "（先不說）"] → （先不說）
+  [ 132.3s] ancf2_think_port_Y1S2：選單 ["「好。」", "「讓我想想。」"] → 「好。」
+FAIL ancf2_think_port：she2 之後選「好。」＝承接兩拍（逐字）  ["（餐盤疊好，拿去回收。外面的路燈已經亮了。）", "（走出店門，她沒有往宿舍那邊走。）", "走一下。我有東西給你看。", "（她從包包拿出手帳，翻到最後面那一頁，推到你面前。）", "（那一頁的標題是「想去的店」。一行一家，有幾家已經打了勾，今天這一家也勾了。最下面一行沒有店名，只寫著：和你。）", "（她把手帳拿回去，舉到下巴前面。只露出眼睛。）", "你不說的話，我寫了。", "……你先回答。"]
+PASS ancf2_think_port：第二次「好。」→ 交往（sheSaid）  {"picked": {"who": "heroine_01", "kind": "heart", "day": 268}, "done": {"who": "heroine_01", "kind": "heart", "day": 270}, "result": "sheSaid", "second": {"heroine_01": false}, "think": {}, "dating": true, "confessed": {"heroine_01": 270}, "out": {"day": 270, "key": "2026-06-13", "h": 19, "state": "done", "title": "學期末的飯：沈以安（公館巷子裡的小店）"}, "msgs": [{"tag": "te_Y1S2_heroine_01", "day": "2026-06-11", "h": 20.5, "text": "考完了。……這次只有我們兩個，可以嗎？我訂了位子，七點。", "ask": ["好。", "那天有約了。"]}], "queued": true}
+FAIL ancf2_think_port：CG-27（cg_shop_page_check_heroine01）出現（she2Yes 那一段 ADV.cg、G.cg.unlocked 有它）  {"cg_calls": [{"k": "adv", "fn": "cg", "arg": "cg_reason_column_heroine01", "h": 19, "d": 270, "z": "dorm", "ms": 126092}], "unlocked": ["cg_reason_column_heroine01"], "note": "ef63b1877 起 she2Yes 第一拍 {cg:cg_shop_page_check_heroine01}"}
+PASS ancf2_think_port：（只記）第二次後記憶 ["FIRST_MET", "AN_SHOP_PAGE"]；人物面板 ["FIRST_MET"]
+FAIL ancf2_think_port：CG-11 舊圖（cg_reason_column_heroine01）沒有呼叫、沒有解鎖  {"cg_calls": [{"k": "adv", "fn": "cg", "arg": "cg_reason_column_heroine01", "h": 19, "d": 270, "z": "dorm", "ms": 126092}], "unlocked": ["cg_reason_column_heroine01"]}
+PASS ancf2_think_port：沒有 JS 例外  []
+SHA 62d98bfa5 CASES ancf2
+FAILED: ancf2_think_port Y1S1：心意邀約排了以安（plan.heart）, ancf2_think_port：第一次她說＝記 AN_SHOP_PAGE、人物面板不顯示, ancf2_think_port：she2 之後選「好。」＝承接兩拍（逐字）, ancf2_think_port：CG-27（cg_shop_page_check_heroine01）出現（she2Yes 那一段 ADV.cg、G.cg.unlocked 有它）, ancf2_think_port：CG-11 舊圖（cg_reason_column_heroine01）沒有呼叫、沒有解鎖
