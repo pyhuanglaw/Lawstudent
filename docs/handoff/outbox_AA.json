@@ -4633,6 +4633,23 @@
    "receiver": "LAWWW",
    "ack": "SENT",
    "note": "大一上 27 張（民總 10、憲法上 9、刑總一 8），獨立核對後改 9 張"
+  },
+  {
+   "task": "STUDY-EXAM-STORY-1102",
+   "branch": "claude/story-planning",
+   "sha": "c3660c6fe",
+   "files": [
+    "docs/story_planning/study/cards_y1s2.json",
+    "docs/story_planning/study/cards_y1s2_notes.md",
+    "docs/story_planning/study/cards_y1s2_review.md"
+   ],
+   "state": "已交付",
+   "remaining": "大二上起各科、刑訴 9 張標題",
+   "next": "LAWWW 加白名單匯入；BB 驗收",
+   "noDirectIntegrate": false,
+   "receiver": "LAWWW",
+   "ack": "SENT",
+   "note": "大一下 29 張（憲法下 9、刑總二 10、債總一 10），獨立核對後改 21 張"
   }
  ],
  "items": [
