@@ -256,6 +256,11 @@ for who, sec, cells in sections(MD):
     for j, a in enumerate(parts):
         t2, dating, body = alt_head(a) if j else ([], False, a)
         lines = segments(body if split else (alts[0] if via in ('plan', 'rule') else say))
+        # 企劃說明混進台詞格（例：AA_415 an10「（改天；祐廷那句…刪，AA_576 第 11 列）」，BB 2026-11-02 09:09）：寫到企劃檔編號的括號句不是台詞，不匯入（off 拿掉也不會播出來）
+        notes = [x for x in lines if isinstance(x, str) and re.search(r'AA_\d+|BB_\d+', x)]
+        if notes:
+            print(f'略過企劃說明（不是台詞）：{who} 第 {n} 列：' + '、'.join(notes))
+            lines = [x for x in lines if x not in notes]
         if not lines:
             die(f'{who}：沒有台詞：{cells}')
         row = {'id': f'{SHORT[who]}{n}' + ('abcdefg'[j] if split and j else ''), 'n': n, 'k': k, 'stage': stage, 'st': list(st), 'tags': tags + t2, 'cond': cond,

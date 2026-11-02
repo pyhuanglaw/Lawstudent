@@ -14,7 +14,7 @@ const INVITE_REPLIES={"src":"docs/story_planning/AA_415_邀約回覆照階段變
   {"id":"an7","n":7,"k":"acc","stage":"2","st":[2,2],"tags":["library"],"cond":null,"lines":["「好。我幫你留位子。」"],"say":"「好。我幫你留位子。」","src":"新"},
   {"id":"an8","n":8,"k":"acc","stage":"2","st":[2,2],"tags":[],"cond":null,"lines":["「好。」"],"say":"「好。」","src":"新"},
   {"id":"an9","n":9,"k":"acc","stage":"3","st":[3,4],"tags":["noodle"],"cond":null,"lines":["「好。我要乾麵。」"],"say":"「好。我要乾麵。」","src":"現有","ex":"acc","band":"R"},
-  {"id":"an10","n":10,"k":"acc","stage":"3","st":[3,3],"tags":["wenzhou","大一"],"cond":null,"lines":["「好。」","「……今天不行，明天。」","（改天；祐廷那句「沒有目的。」刪，AA_576 第 11 列）"],"say":"「好。」「……今天不行，明天。」（改天；祐廷那句「沒有目的。」刪，AA_576 第 11 列）","src":"現有（rule）","ex":"rule","off":"現有（rule）：照 INVITE_DATA.people.heroine_01.rule 原本的程式"},
+  {"id":"an10","n":10,"k":"acc","stage":"3","st":[3,3],"tags":["wenzhou","大一"],"cond":null,"lines":["「好。」","「……今天不行，明天。」"],"say":"「好。」「……今天不行，明天。」（改天；祐廷那句「沒有目的。」刪，AA_576 第 11 列）","src":"現有（rule）","ex":"rule","off":"現有（rule）：照 INVITE_DATA.people.heroine_01.rule 原本的程式"},
   {"id":"an11","n":11,"k":"acc","stage":"3","st":[3,3],"tags":["wenzhou","大二起"],"cond":null,"lines":["「好。」"],"say":"「好。」","src":"現有（rule）","ex":"rule","off":"現有（rule）：照 INVITE_DATA.people.heroine_01.rule 原本的程式"},
   {"id":"an12","n":12,"k":"acc","stage":"3","st":[3,3],"tags":["library"],"cond":null,"lines":["「好。讀書會的資料我還沒印。……你陪我去印。」"],"say":"「好。讀書會的資料我還沒印。……你陪我去印。」","src":"新"},
   {"id":"an13","n":13,"k":"acc","stage":"3","st":[3,3],"tags":["晚上"],"cond":null,"lines":["「好。十點前結束。我十一點要睡。」"],"say":"「好。十點前結束。我十一點要睡。」","src":"新"},

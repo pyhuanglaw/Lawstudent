@@ -140,6 +140,7 @@ const INV=(function(){
   const RP=()=>typeof INVITE_REPLIES!=='undefined'&&INVITE_REPLIES&&INVITE_REPLIES.people?INVITE_REPLIES.people:null;
   S.REPLY_ON={'節日':false,'外出':false,'開車':false};
   S.replyHas=id=>{ const R=RP(); return !!(R&&Array.isArray(R[id])&&R[id].length); };
+  S.REPLY_OK_JSON=JSON.stringify(['「好。」']);
   S.replyRec=G=>{ if(!G.invReply||typeof G.invReply!=='object') G.invReply={}; return G.invReply; };
   S.replyStage=function(G,id){ const F=G.flags||{}; if(F['dating_'+id]===true) return 7;
     let n=typeof DATE!=='undefined'&&DATE.stageNum?DATE.stageNum(id):(typeof SOCIAL!=='undefined'&&SOCIAL.stage?Math.max(0,Math.min(6,SOCIAL.STAGES.indexOf(SOCIAL.stage(id)))):1);
@@ -196,8 +197,10 @@ const INV=(function(){
     const P0=all.filter(row=>inSt(row,n)&&ok(row)); if(!P0.length) return {governs:true};   /* 這一階沒有合的句子：答應照原本的 acc／first（或旁白），改天、婉拒用旁白 */
     const P1=kind==='acc'&&n>=2?all.filter(row=>!inSt(row,n)&&inSt(row,n-1)&&ok(row)):[];   /* 只用來避免重複（這一階只剩上一句的時候）*/
     const st=(S.replyRec(G)[id])||{}, h=Array.isArray(st.h)?st.h:[], u=(st.u&&typeof st.u==='object')?st.u:{};
-    const best=(pool,avoid)=>{ for(let t=1;t<=5;t++){ const L=pool.filter(row=>S.replyTier(row)===t&&!avoid.includes(row.id)); if(L.length) return L.slice().sort((a,b)=>(u[a.id]!=null?u[a.id]:-1)-(u[b.id]!=null?u[b.id]:-1))[0]; } return null; };
-    const row=best(P0,h.slice(0,2))||best(P0,h.slice(0,1))||best(P1,h.slice(0,2))||best(P1,h.slice(0,1))||best(P0,[]); if(!row) return {governs:true};
+    /* 台詞避重複（BB 09:09，CC #13：以安好幾列都是「好。」，原本只看列 id，最多連續 6 次「好。」）：上一次說的那一句不再說；「好。」可以連兩次、第三次換別的 */
+    const tt=Array.isArray(st.t)?st.t:[], OKJ=S.REPLY_OK_JSON, txtOk=row=>{ const j=JSON.stringify(row.lines); return !(tt[0]===j&&!(j===OKJ&&tt[1]!==OKJ)); };
+    const best=(pool,avoid)=>{ for(let t=1;t<=5;t++){ const L=pool.filter(row=>S.replyTier(row)===t&&!avoid.includes(row.id)&&txtOk(row)); if(L.length) return L.slice().sort((a,b)=>(u[a.id]!=null?u[a.id]:-1)-(u[b.id]!=null?u[b.id]:-1))[0]; } return null; };
+    const row=best(P0,h.slice(0,2))||best(P0,h.slice(0,1))||best(P1,h.slice(0,2))||best(P1,h.slice(0,1))||best(P0,[])||(()=>{ const L=P0.filter(r=>!h.slice(0,1).includes(r.id)); return L[0]||P0[0]; })(); if(!row) return {governs:true};   /* 字全部撞到（這一階只有「好。」）：照舊看列 id */
     const L=row.ex==='plan'?(tb&&tb('plan')):null;   /* 現有（plan）：照原本的函式（以安：讀書會開始以前「一起寫憲法作業」）*/
     return {row,lines:(L||row.lines).slice(),alt:row.at?alts[row.id]:undefined}; };
   /* 表上台詞一樣的那一列（沒有＝null）*/
@@ -206,7 +209,7 @@ const INV=(function(){
   S.replyMark=function(G,id,rid,lines){ const R=RP(); if(!R||!R[id]||!lines||!lines.length) return; const M=S.replyRec(G), m=M[id]||(M[id]={h:[],u:{},n:0});
     if(!Array.isArray(m.h)) m.h=[]; if(!m.u||typeof m.u!=='object') m.u={};
     if(!rid){ const hit=S.replyRow(id,lines); rid=hit?hit.id:'~'+String(typeof lines[0]==='string'?lines[0]:(lines[0].me||'')).slice(0,24); }
-    m.n=(m.n|0)+1; m.h.unshift(rid); m.h.length=Math.min(m.h.length,2); m.u[rid]=m.n; };
+    m.n=(m.n|0)+1; m.h.unshift(rid); m.h.length=Math.min(m.h.length,2); m.u[rid]=m.n; if(!Array.isArray(m.t)) m.t=[]; m.t.unshift(JSON.stringify(lines)); m.t.length=Math.min(m.t.length,2); };   /* m.t：最近兩次說的台詞（避重複看字，不只看列 id：好幾列都是「好。」，BB 09:09）*/
   S.personal=function(G,id,P,day,h,r){ const p=(D().people||{})[id]; if(!p||!P||!r) return r;
     if(r.why==='mrel'){ const M=(D().mrelL2||{})[id]; if(M&&M.length){ const F=G.flags||(G.flags={}), N=F.MREL_L2_N||(F.MREL_L2_N={}), k=N[id]|0; N[id]=k+1; return Object.assign({},r,{lines:M[k%M.length].slice()}); } return r; }   /* 不說理由、兩句輪流（AA_227 6-6）*/
     const t=typeof CALENDAR!=='undefined'&&CALENDAR.termOf?CALENDAR.termOf(day):null, F=G.flags||{};
@@ -216,7 +219,9 @@ const INV=(function(){
       dating:typeof ROM!=='undefined'&&ROM.knows?ROM.knows(G,id).length>0:Object.keys(F).some(k=>/^dating_/.test(k)&&!!F[k]),face:!!r.face,r};   /* face：當面約（INV.flow 有 n）；手機約＝false（BB_172 10-1 第 17 點：阿凱、明軒的手機版照訊息體）*/   /* 她知道祐廷有伴侶（BB_191 9-4 #6：芷若宵夜「你可以多帶幾個人」；不是祐廷有沒有伴侶）*/
     const done=(o,rid)=>{ if(o.lines&&S.replyHas(id)) S.replyMark(G,id,rid||null,o.lines); return o; };   /* AA_415：七位女主角記下說了哪一句（不連續兩次同一句；rule、here 的句子也記）*/
     const out=Object.assign({},r), q=p.rule?p.rule(G,c,S):null;
-    if(q){ Object.assign(out,q); if(out.res==='resched'&&!out.alt){ out.res='decline'; } return done(out); }   /* rule 給了句子＝照 rule（AA_415 0-3 最後一點）*/
+    /* rule 固定回「好。」（以安的散步，invites.js）也放進輪流（BB 09:09）：最近兩次都是「好。」＝這一次不用 rule，交給表上的答應句挑別句 */
+    const okTwice=(()=>{ const m=S.replyRec(G)[id], t=m&&Array.isArray(m.t)?m.t:[]; return t[0]===S.REPLY_OK_JSON&&t[1]===S.REPLY_OK_JSON; })();
+    if(q&&!(okTwice&&(!q.res||q.res==='accept')&&JSON.stringify(q.lines)===S.REPLY_OK_JSON)){ Object.assign(out,q); if(out.res==='resched'&&!out.alt){ out.res='decline'; } return done(out); }   /* rule 給了句子＝照 rule（AA_415 0-3 最後一點）*/
     const fp=v=>v&&!Array.isArray(v)&&(v.face||v.phone)?(c.face?v.face||v.phone:v.phone||v.face):v;   /* {phone, face}：手機／當面兩版 */
     const tb=k=>{ let v=p[k]&&p[k][P.id]; if(typeof v==='function') v=v(G,c); v=fp(v); return v==null?null:(Array.isArray(v)?v:(fp(v[c.band])||null)); };   /* 函式＝照時間換句（以安：讀書會開始以前，AA_238 5-7）*/
     const H=tb('here'); if(H&&(r.res==='accept'||r.res==='resched')){ const e=entAt(G,id,day,h);   /* 照作息，她那時候本來就在那裡（芷若上班的 Café、以安在總圖）*/

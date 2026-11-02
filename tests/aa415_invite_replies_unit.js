@@ -221,5 +221,17 @@ await sec(12,async()=>{ fresh('2026-03-11','heroine_01',2); H.G.hour=9; H.said=[
   const la=a.find(t=>/^「/.test(t)), lb=b.find(t=>/^「/.test(t));
   check('12. 手機約以安兩次 Café：念的是表上的句子、兩次不一樣',!!la&&!!lb&&!!rowOf('heroine_01',[la])&&!!rowOf('heroine_01',[lb])&&la!==lb,la+' / '+lb); });
 
+await sec(13,()=>{ /* BB 09:09（CC #13）：以安好幾列都是「好。」、散步的 rule 也固定「好。」——同一句不連著出現，「好。」最多連續兩次（比對台詞，不只看列 id）*/
+  const OK='「好。」'; const runs=[];
+  const PL=[[2,'2025-10-14','library',19],[1,'2025-10-14','cafe',15.5],[3,'2026-10-14',null,15.5],[4,'2026-10-14',null,15.5],[5,'2026-10-14',null,15.5],[6,'2026-10-14',null,15.5],['d','2026-10-14',null,15.5]];   /* 第 1 階晚上約總圖、第 1～2 階約麵店：表上合用的只有「好。」（an3、an5、an8），沒有別句可以輪（不新增台詞，BB 09:09）——列在 13b，交 AA */
+  for(const [s,key,pid0,hh] of PL){ fresh(key,'heroine_01',s); const out=[];
+    for(let i=0;i<12;i++){ const pid=pid0||['cafe','noodle','wenzhou','library'][i%4]; const r=ask('heroine_01',pid,hh); if(r.res==='accept'&&r.lines){ out.push(txt(r.lines)); doneIv('heroine_01',pid,H.G.day-1); } }
+    let okRun=0, maxOk=0, dup=0; for(let i=0;i<out.length;i++){ okRun=out[i]===OK?okRun+1:0; maxOk=Math.max(maxOk,okRun); if(i>0&&out[i]===out[i-1]&&out[i]!==OK) dup++; }
+    runs.push({s,n:out.length,maxOk,dup,head:out.slice(0,6)}); }
+  { fresh('2025-10-14','heroine_01',1); const o1=[]; for(let i=0;i<4;i++){ const r=ask('heroine_01','library',19); if(r.res==='accept'&&r.lines) o1.push(txt(r.lines)); }
+    check('13b. 已知限制：第 1 階晚上約總圖，表上合用的答應句只有「好。」（an3；an4 有時間限制、an2 off）——連著都是「好。」，要 AA 補句才能輪',o1.length>0&&o1.every(t=>t===OK),J(o1)); }
+  check('13. 以安各階段連約 12 次（第 2 階晚上一直約總圖、第 1 階 Café；第 3 階起 Café、麵店、溫州街散步、總圖輪流）：「好。」最多連續 2 次、別的句子不連續重複',runs.every(r=>r.n>=4&&r.maxOk<=2&&r.dup===0),J(runs.map(r=>[r.s,r.n,r.maxOk,r.dup]))); });
+await sec(14,()=>{ check('14. invite_replies 的台詞裡沒有企劃說明（寫到 AA_／BB_ 編號的括號句；an10 那句，BB 09:09）',IDS.every(id=>ROWS(id).every(r=>(r.lines||[]).every(x=>typeof x!=='string'||!/AA_\d+|BB_\d+/.test(x)))),J(IDS.flatMap(id=>ROWS(id).filter(r=>(r.lines||[]).some(x=>typeof x==='string'&&/AA_\d+|BB_\d+/.test(x))).map(r=>r.id)))); });
+
 H.done();
 })();
