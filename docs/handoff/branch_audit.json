@@ -1,10 +1,10 @@
 {
- "at": "2026-11-02T03:46Z",
+ "at": "2026-11-02T04:51Z",
  "main": "27e6ce77e",
  "ruleSource": "claude/confident-ritchie-8rwh7t",
  "counts": {
   "保留｜主線": 1,
-  "保留｜崗位在用": 3,
+  "保留｜崗位在用": 4,
   "保留｜WIP 沒整合完": 4,
   "保留｜main 沒有的內容": 5,
   "清理候選": 13
@@ -21,34 +21,44 @@
    "ahead": 0
   },
   {
+   "ref": "origin/claude/cc-testing",
+   "branch": "claude/cc-testing",
+   "sha": "0e80def2f12c73ce174f6dcb9cda75e06382712c",
+   "date": "2026-11-02T04:48:40+00:00",
+   "who": "CC-A",
+   "kind": "保留｜崗位在用",
+   "why": "duty.json：CC-A",
+   "ahead": 5424
+  },
+  {
    "ref": "origin/claude/confident-ritchie-8rwh7t",
    "branch": "claude/confident-ritchie-8rwh7t",
-   "sha": "40de68ef2746b3f03e7175ac145db3aa8564ecef",
-   "date": "2026-11-02T03:44:12+00:00",
+   "sha": "74e3c9a8b7c6bd3632cff6c443be0244b9ad31ff",
+   "date": "2026-11-02T04:44:13+00:00",
    "who": "LAWWW-A、RULE_SOURCE",
    "kind": "保留｜崗位在用",
    "why": "duty.json：LAWWW-A、RULE_SOURCE",
-   "ahead": 241
+   "ahead": 259
   },
   {
    "ref": "origin/claude/second-ai-env-art",
    "branch": "claude/second-ai-env-art",
-   "sha": "1b3e30244bf931306dc0e3e93736e77de9866820",
-   "date": "2026-11-02T03:43:41+00:00",
+   "sha": "4403cdd8388eac42e63915e619da4de35ae47b85",
+   "date": "2026-11-02T04:39:14+00:00",
    "who": "LAWWW2-A",
    "kind": "保留｜崗位在用",
    "why": "duty.json：LAWWW2-A",
-   "ahead": 1508
+   "ahead": 1513
   },
   {
    "ref": "origin/claude/story-planning",
    "branch": "claude/story-planning",
-   "sha": "548707eb22000f8346c4d1c1e263b85f8858f817",
-   "date": "2026-11-02T03:43:08+00:00",
+   "sha": "696ac9e2cc94c97bd3c18d93b04fb5ccf28acf14",
+   "date": "2026-11-02T04:47:14+00:00",
    "who": "AA-A、BB-A",
    "kind": "保留｜崗位在用",
    "why": "duty.json：AA-A、BB-A",
-   "ahead": 5417
+   "ahead": 5430
   },
   {
    "ref": "origin/claude/adoring-meitner-mqzst8",
@@ -97,9 +107,10 @@
    "date": "2026-11-01T08:58:22+00:00",
    "who": "AA-B（交班過）",
    "ahead": 5094,
-   "why": "main 沒有的 commit 4645 個（內容比對）；分出去以後改的檔案有 2123 個和 main 不一樣；整條分支已經在 claude/story-planning 裡（還沒發布到 main）",
+   "why": "main 沒有的 commit 4645 個（內容比對）；分出去以後改的檔案有 2123 個和 main 不一樣；整條分支已經在 claude/cc-testing、claude/story-planning 裡（還沒發布到 main）",
    "kind": "保留｜main 沒有的內容",
    "inside": [
+    "claude/cc-testing",
     "claude/story-planning"
    ]
   },
@@ -110,9 +121,10 @@
    "date": "2026-11-01T08:59:12+00:00",
    "who": "BB-B（交班過）",
    "ahead": 5223,
-   "why": "main 沒有的 commit 4776 個（內容比對）；分出去以後改的檔案有 2126 個和 main 不一樣；整條分支已經在 claude/story-planning 裡（還沒發布到 main）",
+   "why": "main 沒有的 commit 4776 個（內容比對）；分出去以後改的檔案有 2126 個和 main 不一樣；整條分支已經在 claude/cc-testing、claude/story-planning 裡（還沒發布到 main）",
    "kind": "保留｜main 沒有的內容",
    "inside": [
+    "claude/cc-testing",
     "claude/story-planning"
    ]
   },
