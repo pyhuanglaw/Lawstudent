@@ -4600,6 +4600,22 @@
    "receiver": "LAWWW",
    "ack": "SENT",
    "note": "使用者 11-02：「教授通常是隨機點名 一年只點名幾次」＋選「改成隨機點名日」「只留補習班」；取代 D74 出席三堂及格"
+  },
+  {
+   "task": "DIALOGUE-DEPTH-1031",
+   "branch": "claude/story-planning",
+   "sha": "179f227ca",
+   "files": [
+    "docs/story_planning/AA_576_以安改稿_第一批_手機與邀約.md",
+    "docs/story_planning/AA_565_以安聲音規格_定稿.md"
+   ],
+   "state": "已交付",
+   "remaining": "第二～五批",
+   "next": "BB 口氣審，過了交 LAWWW 改源稿重匯＋apply_line_table",
+   "noDirectIntegrate": true,
+   "receiver": "BB",
+   "ack": "SENT",
+   "note": "使用者 11-02 說以安定型、看過精選 10 句回「都對，交出去」"
   }
  ],
  "items": [
