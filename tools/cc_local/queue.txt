@@ -8,6 +8,7 @@
 #  URL : path after http://127.0.0.1:<port>/
 # 2026-11-02 10:2x 排程（BB_229：常備佇列；跑完、寫好初判就註解掉）
 # 10:3x 整晚循環：run_queue 會跳過「同一個 sha 已經跑完」的項目；長的項目釘 sha（c2d0c24bc＝這一輪），head 只留給便宜的 00／01（LAWWW 每 push 一次就重跑）。要強制重跑：ENV 欄加 RERUN=<新字>
+# ⚠ D124（BB 10:48，海商法改選修，LAWWW 還沒實作）：02_mk12new、02b_mk12dea、05_mk12old、03_delay14 的前置是「海商法被當＝延畢／補考」＝舊規則；D124 進來以前照跑（現在的 head 還是舊規則），之後改用「前面學期被當→大四下重修沒過」／日本補修的新探針參數再排
 # 順序（BB 10:38）：00、01 → 發布前必跑組 10～18 → 今天的修正 02b、06b、06c、WSEM → 20～29 → 02～08 → D118 基準 30、31
 00_gpu      | head      | gpu   | tools/cc_local/gpu_check.py                                     | index.html        | 20  |
 01_p0speed  | head      | game  | tests/p0_movement.py                                            | index.html        | 60  |
