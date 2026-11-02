@@ -1,0 +1,17 @@
+{
+  "rerun": "",
+  "id": "N1_node",
+  "sha": "ef63b1877",
+  "kind": "node",
+  "script": "tools/cc_local/node_units.js",
+  "env": "XARGS=--out {out} --timeout 600",
+  "machine": "MSI",
+  "start": "2026-11-03T04:27:36",
+  "end": "2026-11-03T05:30:11",
+  "seconds": 3755,
+  "exit": 1,
+  "error": null,
+  "runner": "530a41804c",
+  "rf_round": "1",
+  "url": "http://127.0.0.1:8807/index.html"
+}
