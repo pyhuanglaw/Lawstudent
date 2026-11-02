@@ -38958,9 +38958,9 @@
       "title": "出門前 1.2～3 分鐘按「直接去上課」沒反應（goClass→skipTo 3 分鐘以內回 false）",
       "area": "系統",
       "owner": "LAWWW",
-      "status": "已整合待測試",
+      "status": "已驗收",
       "priority": "P1",
-      "next": "BB／CC 跑 cc_gowindow＋經濟系 2024-10-07 08:41 瀏覽器情境",
+      "next": "—",
       "first": {
         "term": "Y0S1",
         "week": 1,
@@ -38978,8 +38978,9 @@
         "branch": "claude/confident-ritchie-8rwh7t",
         "acceptance": "出門前 0～10 分鐘按都有動作；tests/goclass_window_unit.js（CC 原檔）PASS",
         "receiver": "BB",
-        "ack": "DELIVERED"
-      }
+        "ack": "ACTIONED"
+      },
+      "evidence": "BB PASS（BB_218 第 6873 行，企劃線 d54b2b57；CC 0b70fe36：Node 修改前 FAIL 4、修改後 ALL PASS；瀏覽器經濟系 08:41 修改前跳到 10/10、ec54dc9d3 上完課）"
     }
   ]
 }
