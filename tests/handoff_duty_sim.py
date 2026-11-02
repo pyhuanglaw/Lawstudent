@@ -1,7 +1,7 @@
 """三帳號任意輪值的交接模擬（D92／HV-10，使用者 2026-10-16 21:35 第十二節）。
 只用臨時目錄：建一個假的 origin（bare repo），每個帳號、每個職位各自 clone、各自分支；不碰正式的值班紀錄、不叫醒任何工作階段、不發布。
 每個情境都照正式程序走：交班（snapshot → duty handoff → LAWWW duty sync → LAWWW snapshot＋duty handoff）→ 接班（duty find 找 RULE_SOURCE → 合併 → duty plan →
-check → duty register（四職位）→ LAWWW duty sync → duty verify），再檢查上一班的成果（任務、各職位的工作）都在、值班狀態對。
+check → duty register（各職位）→ LAWWW duty sync → duty verify），再檢查上一班的成果（任務、各職位的工作）都在、值班狀態對。
 情境：A→B、A→C、B→A、B→C、C→A、C→B、A→B→C→A、A→C→B→A、長期休班才回來、上一班沒有正式交班、某職位交班資料缺漏、未整合的 WIP、
 交付送達沒 ACK、規則來源不一致／登記鏈分岔、值班登記和 commit 時間衝突、同職位兩個帳號同時寫入、交班快照不存在或壞掉、職位分支沒有 duty.json 時交班不給 --ref。
 用法：python3 tests/handoff_duty_sim.py   （每項 PASS／FAIL；全部通過結束碼 0）"""
@@ -221,7 +221,7 @@ def direction(a, b):
               and r.get('verify_rc') == 0 and r['duty']['onDuty'] == b and r['duty']['previous'] == a
               and all(r['duty']['roles'][x]['account'] == b for x in ROLES) and f'T-{a}1' in r['tasks']
               and all(f'{a}:{a}1' in r['work'][x] for x in ROLES) and f'上一任以 duty.json 為準：{a}' in r.get('plan', ''))
-        check(f'{a} → {b}：找到 RULE_SOURCE＝{a} 的 LAWWW 分支、check／verify OK、四職位改登記 {b}、上一任 {a}、{a} 的任務和四職位的成果都在',
+        check(f'{a} → {b}：找到 RULE_SOURCE＝{a} 的 LAWWW 分支、check／verify OK、各職位改登記 {b}、上一任 {a}、{a} 的任務和各職位的成果都在',
               ok, json.dumps({k: r.get(k) for k in ('find_rc', 'rs', 'check_rc', 'reg_rc', 'verify_rc')}, ensure_ascii=False) + (r.get('verify_out') or '')[-300:])
     finally:
         w.done()
@@ -240,7 +240,7 @@ def chain(seq, label):
         last = seq[-1]
         want = [f'T-{a}{i}' for i, a in enumerate(seq[:-1])]
         ok = all(t in r['tasks'] for t in want) and all(f'{a}:{a}{i}' in r['work'][x] for i, a in enumerate(seq[:-1]) for x in ROLES) and r['duty']['previous'] == seq[-2]
-        check(label + f'：最後的 {last} 接到 {seq[-2]} 的最新成果（{len(want)} 班的任務、四職位的工作都在）、上一任＝{seq[-2]}（不是自己上次交出去的那一班）', ok,
+        check(label + f'：最後的 {last} 接到 {seq[-2]} 的最新成果（{len(want)} 班的任務、各職位的工作都在）、上一任＝{seq[-2]}（不是自己上次交出去的那一班）', ok,
               json.dumps({'tasks': r['tasks'], 'prev': r['duty']['previous']}, ensure_ascii=False))
     finally:
         w.done()
