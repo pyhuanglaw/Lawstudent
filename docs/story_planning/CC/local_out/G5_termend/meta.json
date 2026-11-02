@@ -1,0 +1,17 @@
+{
+  "rerun": "",
+  "id": "G5_termend",
+  "sha": "ef63b1877",
+  "kind": "game",
+  "script": "tests/flow_termend.py",
+  "env": "XARGS={url} {out}",
+  "machine": "MSI",
+  "start": "2026-11-03T05:35:56",
+  "end": "2026-11-03T05:38:42",
+  "seconds": 165,
+  "exit": 0,
+  "error": null,
+  "runner": "b46848d180",
+  "rf_round": "3",
+  "url": "http://127.0.0.1:8808/index.html"
+}
