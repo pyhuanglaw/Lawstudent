@@ -270,7 +270,7 @@ def facet_quad(m, p0, p1, ya, yb, off=0.0, ua=0.0, ub=1.0):
     mx, mz = (ax + bx_) / 2 - R['cx'], (az + bz) / 2 - R['cz']; n = math.hypot(mx, mz); ox, oz = mx / n * off, mz / n * off
     m.quad([(ax + ox, ya, az + oz), (bx_ + ox, ya, bz + oz), (bx_ + ox, yb, bz + oz), (ax + ox, yb, az + oz)])
     m.quad([(bx_ + ox * 0 + mx / n * (off + T), ya, bz + mz / n * (off + T)), (ax + mx / n * (off + T), ya, az + mz / n * (off + T)), (ax + mx / n * (off + T), yb, az + mz / n * (off + T)), (bx_ + mx / n * (off + T), yb, bz + mz / n * (off + T))])
-def rot_group(i): return 'RW' if i < 5 else ('RN' if i < 10 else 'RE')
+def rot_group(i): return 'RE' if i < 5 else ('RN' if i < 10 else 'RW')   # facet(i) 從 +x（東）開始：i < 5 是東側。11-02 第一次烘焙東西寫反了→ dir 朝外：朝室內的面被當成背面縮成一點（光照貼圖一片一片的平三角），遊戲裡鏡頭在室內時兩側弧牆反而淡出
 RDIR = {'RW': [0.7, 0, 0.5], 'RN': [0, 0, 1], 'RE': [-0.7, 0, 0.5]}
 TIERS = ((0, R0, 0.0, Y1, 0.9, 4.2), (1, R1, Y1, RY, 6.0, 8.8))
 for (lv, par, y0, y1, wa, wb) in TIERS:
