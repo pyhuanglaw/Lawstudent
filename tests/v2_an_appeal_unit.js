@@ -27,7 +27,7 @@ const LV={ACQ:[10],FAM:[25],FRI:[45,30],CLO:[65,50,45]};
 const run=(h0,h1,st)=>{ st=st||0.05; for(let h=h0;h<=h1+1e-9;h+=st){ G.hour=+h.toFixed(3); STORY.phoneRules(GM); PHONE.tick(G); } };
 const termDay=(term,w,wd)=>STORY.termDay(term,w,wd);
 const ev=id=>STORY_EVENTS.find(e=>e.id===id);
-const lines=()=>said.map(s=>(s.who?s.who+'：':'')+s.t);
+const lines=()=>require('./libq_out_lines.js').norm(said.map(s=>(s.who?s.who+'：':'')+s.t));   /* LQN：圖書館「走出館外」插進來的旁白拿掉、換掉的換回原句再逐字比（AA_595 1-B；AA 11-02 22:30 定稿；新內容在 tests/libq_out_1102_unit.js 驗）*/
 (async()=>{
   const W5=termDay('Y1S2',5,3), W7MON=termDay('Y1S2',7,1), W7WED=termDay('Y1S2',7,3), W7FRI=termDay('Y1S2',7,5);
   const e=ev('ev_an_dorm_appeal'), r=ev('ev_an_dorm_appeal_result');

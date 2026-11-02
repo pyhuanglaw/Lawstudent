@@ -31,7 +31,7 @@ const meet=id=>SOCIAL.remember(id,'FIRST_MET','');
 (async()=>{
   const ids=['ev_peishan_bohan_split','ev_bohan_exam_group','ev_bohan_group_session','ev_bohan_group_heard','ev_plg_rules','ev_plg_rules_after']; check('0. 事件在',ids.every(i=>ev(i))); if(!ids.every(i=>ev(i))){ console.log('FAILED '+fails); process.exit(1); }
   global.STORY.present=()=>true; global.GAME=GM; const at=(x,z)=>{ E.player.obj.position.x=x; E.player.obj.position.z=z; E.player.lv=0; }, tick=()=>{ said=[]; return EVENTS.tick(0.1); };
-  const wait=async()=>{ for(let i=0;i<50&&EVENTS.running;i++) await new Promise(r=>setTimeout(r,0)); }, norm=a=>a.map(t=>t.replace(/^(Alison|沈以安|以安|小安|阿哲|許柏翰|柏翰|郭沛珊|沛珊|阿凱)：/,''));
+  const wait=async()=>{ for(let i=0;i<50&&EVENTS.running;i++) await new Promise(r=>setTimeout(r,0)); }, norm=a=>require('./libq_out_lines.js').norm(a).map(t=>t.replace(/^(Alison|沈以安|以安|小安|阿哲|許柏翰|柏翰|郭沛珊|沛珊|阿凱)：/,''));   /* LQN：圖書館「走出館外」插進來的旁白拿掉、換掉的換回原句再逐字比（AA_595 1-B；AA 11-02 22:30 定稿；新內容在 tests/libq_out_1102_unit.js 驗）*/
   // 1. 沛珊和柏翰分開
   const w6=termDay('Y2S1',6,2); fresh(w6,12.3,'linze',{}); G.stage='law'; at(0,0); G.events.done.ev_peishan_decision=1; check('1. 她不在旁邊不演（AA_374 第 18 項：合併進 ev_peishan_split，走到她旁邊才演）',!tick());
   { const ps={obj:{position:{x:1,y:0,z:0}},lv:0}; GM.npc.classmate_peishan=ps; E.npcs=[ps]; meet('classmate_peishan'); R('classmate_peishan',25,10,10); at(1.5,0.5); }

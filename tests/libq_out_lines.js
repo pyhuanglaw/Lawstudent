@@ -33,4 +33,8 @@ const REPLACED={
 const set=new Set(ADDED);
 /* 這一句是不是走出館外插進來的（去掉「旁白：」「誰：」前綴、頭尾空白都認得）*/
 const added=t=>{ const s=String(t==null?'':t).trim(); return set.has(s)||set.has(s.replace(/^[^：（「]{1,12}：/,'')); };
-module.exports={ADDED,REPLACED,added};
+/* 逐字比對舊稿的測試用：拿掉純插入的句子、換掉的句子換回原句（新內容另外在 tests/libq_out_1102_unit.js 驗）；「誰：」前綴照留 */
+const BACK=Object.fromEntries(Object.entries(REPLACED).map(([a,b])=>[b,a]));
+const back=t=>{ const s=String(t), m=s.match(/^([^：（「]{1,12}：)(.*)$/); if(BACK[s]!=null) return BACK[s]; if(m&&BACK[m[2]]!=null) return m[1]+BACK[m[2]]; return null; };
+const norm=a=>a.filter(t=>back(t)!=null||!added(t)).map(t=>{ const b=back(t); return b!=null?b:t; });
+module.exports={ADDED,REPLACED,added,norm};

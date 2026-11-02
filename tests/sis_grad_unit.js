@@ -38,7 +38,7 @@ const tick=()=>{ STORY.phoneRules(GM); PHONE.tick(G); };
 const span=(t0,t1,st)=>{ st=st||0.05; for(let t=t0;t<=t1+1e-9;t+=st){ const d=Math.floor(t/24); setT(d,+(t-d*24).toFixed(4)); tick(); } };
 const ev=id=>STORY_EVENTS.find(e=>e.id===id);
 const lines=()=>said.map(s=>(s.who?s.who+'：':'')+s.t);
-const txts=()=>said.map(s=>s.t);
+const txts=()=>require('./libq_out_lines.js').norm(said.map(s=>s.t));   /* LQN：圖書館「走出館外」插進來的旁白拿掉、換掉的換回原句再逐字比（AA_595 1-B；AA 11-02 22:30 定稿；新內容在 tests/libq_out_1102_unit.js 驗）*/
 const TH=th=>(G.msgs||[]).filter(m=>m.th===th);
 const her=()=>TH('p:'+ID).filter(m=>m.from===ID);
 const fam=()=>TH('g:family_law');
