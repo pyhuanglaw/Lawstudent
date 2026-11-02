@@ -7,6 +7,7 @@
 //   f 補考題和期末題不完全相同（題庫 10 題以上＝完全不重複）；同一份存檔重抽是同一份
 //   g 補考期間的總複習：6/18～補考前可以總複習補考那一科（學期外 STUDY 原本不開）；讀到一半會錯過補考＝不給
 //   h 成績單補考那天以後才發（放假很久才醒來）＝來不及補考，照舊直接延畢
+//   i 補考那天人在家：家裡的選單列「出發：補考」，按了就考（BUG-MAKEUP-HOME-1102，修改前 i1、i2 FAIL）
 // 修改前（開發分支 dad4935cf）：a、b、c、f（不重複那一項）、g、h 的「補考」項目 FAIL；d、e 照舊 PASS。用法：node tests/y4s2_makeup_unit.js
 'use strict';
 const H=require('./pg_harness.js');
@@ -106,5 +107,15 @@ await sec('g',async()=>{ const {G,c}=await planned(); PG.setT(G,H.E,D('2029-06-2
 await sec('h',async()=>{ const G=fresh('2029-06-26',9); y4s2(G,true); await CLS.showGrades(GM,'Y4S2');
   check('h1. 成績單補考那天才發（來不及補考）：照舊直接延畢',G.flags.FAIL_DELAY===true&&!G.flags.FD_MAKEUP); });
 
+await sec('i',async()=>{ /* BUG-MAKEUP-HOME-1102（BB 08:34 P1）：6/26 人在家（HOME.at）時 PG.tick 不跑 → 原本會一直到 11:00 被算缺考 */
+  const {G,c}=await planned(); G.home=Object.assign(G.home||{},{at:true});
+  const reg=typeof HOME!=='undefined'&&Array.isArray(HOME.MENU_OPTS)&&HOME.MENU_OPTS.includes(FD.homeMakeupOpt);
+  PG.setT(G,H.E,D('2029-06-25'),21); const o0=FD.homeMakeupOpt(G);
+  PG.setT(G,H.E,D('2029-06-26'),8.5); G.home.at=true; const o1=FD.homeMakeupOpt(G);
+  check('i1. 家裡的選單（HOME.MENU_OPTS）6/26 早上有「'+(L.homeOpt||'出發：補考')+'」；前一天沒有',reg&&!o0&&!!o1&&o1.t===L.homeOpt&&o1.hint.includes(FD.cname(c.id)),J({reg,o0,o1:o1&&o1.t}));
+  mode='right'; QS=CLS.drawExam(G,c.id,'Y4S2','makeup').qs; H.said=[]; if(o1) await o1.run(GM); QS=[];
+  check('i2. 在家按「出發：補考」＝演補考（五題）、答對照常畢業、時間到 11:00',G.flags.FD_MAKEUP.status==='pass'&&!G.flags.FAIL_DELAY&&H.said.filter(x=>/^\d／5　/.test(x.t)).length===5&&Math.abs(G.hour-11)<1e-6,J({st:G.flags.FD_MAKEUP.status,h:G.hour}));
+  check('i3. 考完以後選單不再列補考',!FD.homeMakeupOpt(G));
+  const {G:G2}=await planned(); G2.home=Object.assign(G2.home||{},{at:true}); PG.setT(G2,H.E,D('2029-06-26'),11.25); check('i4. 11:00 以後在家：不再列（照沒去處理）',!FD.homeMakeupOpt(G2)); });
 H.done();
 })();

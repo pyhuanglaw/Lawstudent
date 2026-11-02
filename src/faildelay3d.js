@@ -84,7 +84,7 @@ const FD=(function(){
     fail:'（{課名}的補考，沒有過。）',
     missed:'（補考的時間過了。{課名}，你沒有去考。）',
     gradePass:'及格（補考）', gradeFail:'不及格（補考未過）', gradeMissed:'不及格（補考缺考）',
-    reviewWhat:'補考的', reviewBlock:'會錯過補考。' };
+    reviewWhat:'補考的', reviewBlock:'會錯過補考。' , homeOpt:'出發：補考（法律系館A）', homeHint:'{課名}　10:00　捷運＋公車 約 40 分鐘'};
   S.mk=G=>{ const M=G&&G.flags&&G.flags.FD_MAKEUP; return M&&typeof M==='object'&&Array.isArray(M.courses)?M:null; };
   S.mkPending=G=>{ const M=S.mk(G); return !!M&&M.status==='pending'&&law(G); };
   S.mkDay=()=>DK(S.MK_AT[0]);
@@ -158,6 +158,11 @@ const FD=(function(){
   if(typeof PG!=='undefined'&&Array.isArray(PG.STEPS)&&!PG.STEPS.some(s=>s.id==='fd_makeup')){ const md=()=>S.mkDay();
     PG.STEPS.push({id:'fd_makeup',at:G=>{ const d=md(); return d==null?null:T(d,S.MK_STEP_H); },until:G=>{ const d=md(); return d==null?null:T(d,S.MK_UNTIL_H); },cond:G=>S.mkPending(G),run:GM=>S.makeup(GM),onMiss:G=>{ S.mkMissed(G); }},   /* D118 補考 */
       {id:'fd_mk_missed',at:G=>{ const d=md(); return d==null?null:T(d,S.MK_UNTIL_H); },until:G=>{ const d=md(); return d==null?null:T(d+2,24); },cond:G=>{ const M=S.mk(G); return !!M&&M.status==='missed'&&!M.said&&law(G); },run:GM=>S.mkMissedNarr(GM)}); }   /* 補考沒去：旁白（延畢那幾句）*/
+  /* BUG-MAKEUP-HOME-1102（BB 08:34 P1）：6/26 人在家（HOME.at）時 PG.tick 不跑，原本會一直待到 11:00 被算缺考。
+     家裡的選單直接列「出發：補考」（一鍵：照補考那一場演、考完回到家的選單）；在家睡覺照舊由 PG.sleepJump 跳到 09:30 那一場 */
+  S.homeMakeupOpt=G=>{ if(!S.mkPending(G)) return null; const d=S.mkDay(); if(d==null||G.day!==d||now(G)>=T(d,S.MK_UNTIL_H)) return null;
+    return {t:S.MK_LINES.homeOpt,hint:S.fillIds(S.mk(G).courses,S.MK_LINES.homeHint),run:async GM=>{ await S.makeup(GM); }}; };
+  if(typeof HOME!=='undefined'&&Array.isArray(HOME.MENU_OPTS)&&!HOME.MENU_OPTS.includes(S.homeMakeupOpt)) HOME.MENU_OPTS.push(S.homeMakeupOpt);
   if(typeof STUDY!=='undefined'){ if(Array.isArray(STUDY.REVIEW_EXTRA)&&!STUDY.REVIEW_EXTRA.includes(S.mkReview)) STUDY.REVIEW_EXTRA.push(S.mkReview); if(Array.isArray(STUDY.REVIEW_CHECKS)&&!STUDY.REVIEW_CHECKS.includes(S.mkReviewBlock)) STUDY.REVIEW_CHECKS.push(S.mkReviewBlock); }
   return S;
 })();
