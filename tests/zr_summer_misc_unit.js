@@ -125,7 +125,7 @@ const queued=th=>[].concat(...(PHONE.rec(H.G).q||[]).map(q=>(q.items||[]).filter
     { const E=ev('ev_y0_rp'), out={};
       for(let i=0;i<STORY.RP.length;i++){ H.fresh('2025-06-05',10,'dorm',{RP_LAST:i,RP_TXT:STORY.RP[i][2]}); H.bgs=[]; H.said=[]; await EVENTS.runLines(E.dialogue,{id:'t',participants:['kexin']}); out[i]={bg:H.bgs.map(img),L:said()}; }
       check('C. ev_y0_rp：公館的二輪戲院＝gongguan_cinema、淡水看海＝d13_base_sunset（淡水），旁白那一句照舊',hasImg('gongguan_cinema')&&hasImg('d13_base_sunset')&&J(out[0].bg)===J(['gongguan_cinema'])&&J(out[3].bg)===J(['d13_base_sunset'])&&out[0].L[0]===STORY.RP[0][2]&&out[3].L[0]===STORY.RP[3][2],J([out[0],out[3]]));
-      check('C. ev_y0_rp（11-01 LAWWW-B 回 BB）：溫州街＝blur、公館的咖啡店＝cafe（借兩點半 Café）；映月湖（白天）、芒果冰等第 102 組的圖＝不換',J(out[1].bg)===J(['blur'])&&J(out[4].bg)===J(['cafe'])&&hasImg('cafe')&&[2,5].every(i=>!out[i].bg.length)&&[1,2,4,5].every(i=>out[i].L[0]===STORY.RP[i][2]),J([1,2,4,5].map(i=>out[i].bg))); }
+      check('C. ev_y0_rp（11-01 LAWWW-B 回 BB；11-02 第 102 組到了）：溫州街＝blur、公館的咖啡店＝cafe（借兩點半 Café）、映月湖白天＝zuiyue_day、芒果冰＝mango_ice',J(out[1].bg)===J(['blur'])&&J(out[4].bg)===J(['cafe'])&&hasImg('cafe')&&J(out[2].bg)===J(['zuiyue_day'])&&J(out[5].bg)===J(['mango_ice'])&&hasImg('zuiyue_day')&&hasImg('mango_ice')&&[1,2,4,5].every(i=>out[i].L[0]===STORY.RP[i][2]),J([1,2,4,5].map(i=>out[i].bg))); }
     /* 左營站傍晚 */
     const block=(f,id)=>{ const t=fs.readFileSync(path.join(H.ROOT,f),'utf8'), i=t.indexOf("id:'"+id+"'"); if(i<0) return ''; const j=t.indexOf("id:'",i+5); return t.slice(i,j<0?t.length:j); };   /* 這兩個事件包 pg_harness 沒有載入：讀原始檔那一段 */
     { const b=block('src/data/r2y4a_events.js','ev_kexin_trip_winter_y4'), n=(b.match(/\{scene:'高雄・左營站',bg:'kh_station'\}/g)||[]).length;

@@ -2765,7 +2765,7 @@ const STORY_EVENTS=[
     const rpLines=[{if:{custom:G=>!!G.flags.RP_TXT},speaker:null,text:'{flag:RP_TXT}'}];   /* 出門前（beforeOuting）選好那一句 */
     /* 那一句的地方有現成的背景就換（BLACK-BG-AUDIT-1018，BB_132 第 100 組「用那次出門目的地的背景」；STORY.RP 的第幾句＝RP_LAST）：
        0 公館的二輪戲院＝gongguan_cinema、3 淡水看海＝d13_base_sunset（淡水）。溫州街（wenzhou 沒有圖）、映月湖（只有晚上的 zuiyue_night，這裡是白天）、公館的咖啡店、芒果冰沒有現成的，照舊深色底 */
-    const RP_BG={0:['公館・二輪戲院','gongguan_cinema'],1:['溫州街','blur'],3:['淡水','d13_base_sunset'],4:['公館・咖啡店','cafe']};   /* 11-01 LAWWW-B 回 BB：溫州街＝模糊的 3D（blur）、公館咖啡店借兩點半 Café 的圖；映月湖白天（2）、芒果冰（5）等第 102 組的圖 */
+    const RP_BG={0:['公館・二輪戲院','gongguan_cinema'],1:['溫州街','blur'],2:['映月湖','zuiyue_day'],3:['淡水','d13_base_sunset'],4:['公館・咖啡店','cafe'],5:['冰店','mango_ice']};   /* 11-01 LAWWW-B 回 BB：溫州街＝模糊的 3D（blur）、公館咖啡店借兩點半 Café 的圖；11-02 映月湖白天（2）、芒果冰（5）用第 102 組的圖（使用者生成）*/
     const rpScene=Object.keys(RP_BG).map(i=>({if:{custom:G=>G.flags.RP_LAST===+i},scene:RP_BG[i][0],bg:RP_BG[i][1]}));
     return [
       study('ev_y0_r1','互相出題的第一天','r1',[ {speaker:null,text:'（她搬來的第一天。你媽端了一盤水果出來，放下就回廚房了。）'},{scene:'祐廷家・你的房間',bg:'home_room_day'},{speaker:'kexin',expression:'teasing',text:'如果憲法是一間餐廳，第七條是什麼菜？'},
