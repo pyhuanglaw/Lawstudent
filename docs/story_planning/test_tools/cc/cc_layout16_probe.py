@@ -139,10 +139,10 @@ LAYOUT = r"""(()=>{ const $=id=>document.getElementById(id);
   let pr=document.getElementById('__safeProbe'); if(!pr){ pr=document.createElement('div'); pr.id='__safeProbe'; pr.style.cssText='position:fixed;left:0;top:0;width:0;height:0;visibility:hidden;pointer-events:none;padding-left:env(safe-area-inset-left);padding-right:env(safe-area-inset-right);padding-top:env(safe-area-inset-top);padding-bottom:env(safe-area-inset-bottom)'; document.body.appendChild(pr); }
   const pc=getComputedStyle(pr); const safe={l:parseFloat(pc.paddingLeft)||0,r:parseFloat(pc.paddingRight)||0,t:parseFloat(pc.paddingTop)||0,b:parseFloat(pc.paddingBottom)||0};
   const dlg=$('dlg'), tx=$('dlgText'), ch=$('choices'); const dcs=getComputedStyle(dlg), ccs=getComputedStyle(ch);
-  const samp=[]; const tr=tx.getBoundingClientRect(); if(vis(dlg)&&tr.width>0&&tr.height>0){ for(const [fx,fy] of [[.1,.3],[.5,.3],[.9,.3],[.3,.8],[.7,.8]]){ const x=tr.left+tr.width*fx, y=tr.top+tr.height*fy; const e=document.elementFromPoint(x,y); samp.push({x:+x.toFixed(1),y:+y.toFixed(1),inDlg:!!(e&&dlg.contains(e)),inCh:!!(e&&ch.contains(e)),el:e?(e.id||e.tagName):null}); } }
+  const samp=[]; const tr=tx.getBoundingClientRect(); const peDlg=getComputedStyle(dlg).pointerEvents; const peSt=document.createElement('style'); peSt.textContent='#dlg,#dlg *,#choices,#choices *{pointer-events:auto!important}'; document.head.appendChild(peSt); /* #dlg 是 pointer-events:none 時 elementFromPoint 會穿過去（雲端 12:0x：取樣點落在畫布 #c）——量的時候暫時打開，量完移除 */ if(vis(dlg)&&tr.width>0&&tr.height>0){ for(const [fx,fy] of [[.1,.3],[.5,.3],[.9,.3],[.3,.8],[.7,.8]]){ const x=tr.left+tr.width*fx, y=tr.top+tr.height*fy; const e=document.elementFromPoint(x,y); samp.push({x:+x.toFixed(1),y:+y.toFixed(1),inDlg:!!(e&&dlg.contains(e)),inCh:!!(e&&ch.contains(e)),el:e?(e.id||e.tagName):null}); } } peSt.remove();
   const vv=window.visualViewport?{w:visualViewport.width,h:visualViewport.height,ox:visualViewport.offsetLeft,oy:visualViewport.offsetTop}:null;
   return {W:innerWidth,H:innerHeight,vv,safe,adv:document.body.classList.contains('adv-on'),spriteLeft:document.body.classList.contains('spriteLeft'),
-    dlg:{rect:R(dlg),cls:[...dlg.classList],vis:vis(dlg),text:(tx.textContent||''),next:($('dlgNext')||{style:{}}).style.visibility||'',left:dcs.left,width:dcs.width,transform:dcs.transform,opacity:dcs.opacity,textRect:R(tx),samples:samp},
+    dlg:{rect:R(dlg),cls:[...dlg.classList],vis:vis(dlg),text:(tx.textContent||''),next:($('dlgNext')||{style:{}}).style.visibility||'',left:dcs.left,width:dcs.width,transform:dcs.transform,opacity:dcs.opacity,textRect:R(tx),samples:samp,peDlg},
     ch:{rect:R(ch),cls:[...ch.classList],vis:vis(ch),display:ccs.display,grid:ccs.gridTemplateColumns,left:ccs.left,right:ccs.right,width:ccs.width,styleBottom:ch.style.bottom,styleMax:ch.style.maxHeight,
       scrollH:ch.scrollHeight,clientH:ch.clientHeight,scrollTop:ch.scrollTop,btns:[...ch.querySelectorAll('button')].map(b=>({t:(b.textContent||'').trim(),rect:R(b)}))},
     advTop:vis($('advTop'))}; })()"""
@@ -301,7 +301,7 @@ def layout_checks(run, tag, m, qtext, land, side_expected):
     run.check('%s：選項不覆蓋題目（#dlg 和 #choices／每個按鈕矩形不相交、題目上取樣點最上層是 #dlg）' % tag,
               ok_vis and not inter(d['rect'], c['rect']) and not hit and samp_ok, J({'dlg': d['rect'], 'ch': c['rect'], 'hitBtns': hit, 'samples': d['samples']}))
     out = [b['t'][:12] for b in c['btns'] if not inside(b['rect'], W, H)]
-    run.check('%s：選項不超出 viewport（#choices 與每個按鈕在 %dx%d 內）' % tag, inside(c['rect'], W, H) and not out,
+    run.check('%s：選項不超出 viewport（#choices 與每個按鈕在 %dx%d 內）' % (tag, W, H), inside(c['rect'], W, H) and not out,
               J({'ch': c['rect'], 'out': out, 'scroll': [c['scrollH'], c['clientH']]}))
 
 
