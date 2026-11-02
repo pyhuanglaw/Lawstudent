@@ -1,0 +1,23 @@
+{
+  "rerun": "",
+  "id": "X_G5_term",
+  "sha": "62d98bfa5",
+  "kind": "game",
+  "script": "tests/flow_termend.py",
+  "env": "XARGS={url} {out}",
+  "machine": "MSI",
+  "start": "2026-11-03T06:33:59",
+  "end": "2026-11-03T06:36:32",
+  "seconds": 154,
+  "exit": 0,
+  "error": null,
+  "runner": "6cbec96f29",
+  "rf_round": "4",
+  "url": "http://127.0.0.1:8807/index.html",
+  "res_peak": {
+    "cpu": 52,
+    "mem": 54,
+    "used_gb": 17.1,
+    "chrome_testing": 28
+  }
+}
