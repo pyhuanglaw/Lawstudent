@@ -1,0 +1,32 @@
+[gpu_wrap] CC_GPU=1 跑 C:\Users\USER\Documents\Lawstudent_cclocal\docs\story_planning\test_tools\cc\cc_advskip_probe.py http://127.0.0.1:8809/index.html C:\Users\USER\Documents\Lawstudent_cclocal\docs\story_planning\CC\local_out\A1pre\out
+cc_advskip_probe  SHA=03b2721af  URL=http://127.0.0.1:8809/index.html
+PASS 遊戲載入
+PASS 事件 ev_rain_library_door 存在
+---- 第一輪 typing：第一句還在打字時按「略過對話」 ----
+  [前置／捷徑] load_state：第 8 天（週四）18:30 校園總圖門口 (80,4)、下雨、quiet_events（條件事件關掉）［typing］
+INFO 0 非 ADV［typing］（adv-on=False、ADV.active=False）：#advTop {"exists": false, "topDisplay": null, "topParent": null, "rect": null}
+  [前置／捷徑] void EVENTS.run(STORY_EVENTS.find(e=>e.id==="ev_rain_library_door"))（用遊戲自己的事件引擎開演）
+PASS ［typing］ADV 開始、第一句出現  {"adv": true, "skip": false, "hist": 2, "last": "總圖門口的屋簷下站著一個人。雨很大，她看著雨，沒有要走的意思。", "dlg": true, "typing": true, "dtext": "總圖門口的", "choices": [], "busy": true, "running": "ev_rain_library_door", "advOn": true, "hour": 18.51}
+PASS a［typing］「略過對話」按鈕可點（中心點 elementFromPoint 是按鈕本身／子元素）  按鈕=True 中心=[451, 25] 蓋在上面的=BUTTON 「略過對話」 #advTop 父層=adv z=auto
+INFO ［typing］按之前：ADV.history=2、這一句還在打字=True、畫面=「總圖門口的屋簷下站著一個人。雨很大」
+FAIL b［typing］按一下、中間不再點：一路翻到選項出現（45 秒內）  用了 45.2 秒；選項=0；ADV.history=2；ADV.skip=True；ADV.skip 變 true 那一刻={"sec": 0.0, "hist": 2, "typing": true, "dtext": "總圖門口的屋簷下站著一個人。雨很大，她看著雨，沒有要走的"}；按完以後畫面上看過的句子=["總圖門口的屋簷下站著一個人。雨很大，她看著雨，沒有要走的", "總圖門口的屋簷下站著一個人。雨很大，她看著雨，沒有要走的意思。"]
+INFO ［typing］b 沒過：改照玩家點 #dlg 4 次到選項
+---- 第二輪 full：第一句整句顯示以後才按「略過對話」 ----
+  [前置／捷徑] load_state：第 8 天（週四）18:30 校園總圖門口 (80,4)、下雨、quiet_events（條件事件關掉）［full］
+INFO 0 非 ADV［full］（adv-on=False、ADV.active=False）：#advTop {"exists": true, "topDisplay": "flex", "topParent": "adv", "rect": [414, 8, 74, 34]}
+  [前置／捷徑] void EVENTS.run(STORY_EVENTS.find(e=>e.id==="ev_rain_library_door"))（用遊戲自己的事件引擎開演）
+PASS ［full］ADV 開始、第一句出現  {"adv": true, "skip": false, "hist": 19, "last": "總圖門口的屋簷下站著一個人。雨很大，她看著雨，沒有要走的意思。", "dlg": true, "typing": true, "dtext": "總圖門口的", "choices": [], "busy": true, "running": "ev_rain_library_door", "advOn": true, "hour": 18.51}
+PASS a［full］「略過對話」按鈕可點（中心點 elementFromPoint 是按鈕本身／子元素）  按鈕=True 中心=[451, 25] 蓋在上面的=BUTTON 「略過對話」 #advTop 父層=adv z=auto
+INFO ［full］按之前：ADV.history=19、這一句還在打字=False、畫面=「總圖門口的屋簷下站著一個人。雨很大，她看著雨，沒有要走的意思。」
+FAIL b［full］按一下、中間不再點：一路翻到選項出現（45 秒內）  用了 45.0 秒；選項=0；ADV.history=19；ADV.skip=True；ADV.skip 變 true 那一刻={"sec": 0.0, "hist": 19, "typing": false, "dtext": "總圖門口的屋簷下站著一個人。雨很大，她看著雨，沒有要走的意思。"}；按完以後畫面上看過的句子=["總圖門口的屋簷下站著一個人。雨很大，她看著雨，沒有要走的意思。"]
+INFO ［full］b 沒過：改照玩家點 #dlg 4 次到選項
+PASS c 停在選項：6 秒後選項還在、沒有自動選  前=["「一起走吧。」你有傘", "「我的給妳，我等等搭車。」", "「便利商店應該有賣。」", "「我也沒帶。」"] 後=["「一起走吧。」你有傘", "「我的給妳，我等等搭車。」", "「便利商店應該有賣。」", "「我也沒帶。」"]
+PASS c 停在選項：劇情沒前進（ADV.history 不變）  25 → 25
+FAIL c 停在選項：ADV.skip 變回 false  ADV.skip=True
+PASS d 選了第一個選項（「一起走吧。」）
+FAIL d 選完：下一句出來、3 秒後還停在同一句（ADV.history 不變、對話框還開著、ADV.skip false）  選前 history=25；出來=28「……可以嗎？」；3 秒後=28「……可以嗎？」 skip=True
+FAIL d 點 #dlg：每次只前進一句（不會繼續自動略過）  [[28, 30, "反正我也要往校門走。"], [30, 32, "嗯。"]]
+PASS e 沒卡住：點完對話後 ADV 結束、E.player.busy false  點了 6 下；{"adv": false, "skip": true, "hist": 40, "last": "（她會記得今天。）", "dlg": false, "typing": false, "dtext": "（她會記得今天。）", "choices": [], "busy": false, "running": null, "advOn": false, "hour": 18.527}
+INFO e 結束後（非 ADV）#advTop：{"exists": true, "topDisplay": "flex", "topParent": "adv", "rect": [414, 8, 74, 34]}（b1b：body 沒有 adv-on 時 display none＝預期行為，只記錄）
+PASS 沒有 JS 例外  []
+FAILED 5

@@ -1,0 +1,264 @@
+{
+ "sha": "03b2721af",
+ "url": "http://127.0.0.1:8809/index.html",
+ "typing": {
+  "before": {
+   "adv": true,
+   "skip": false,
+   "hist": 2,
+   "last": "總圖門口的屋簷下站著一個人。雨很大，她看著雨，沒有要走的意思。",
+   "dlg": true,
+   "typing": true,
+   "dtext": "總圖門口的屋簷下站著一個人。雨很大",
+   "choices": [],
+   "busy": true,
+   "running": "ev_rain_library_door",
+   "advOn": true,
+   "hour": 18.51
+  },
+  "btn": {
+   "exists": true,
+   "topDisplay": "flex",
+   "topParent": "adv",
+   "topZ": "auto",
+   "btn": true,
+   "rect": [
+    414,
+    8,
+    74,
+    34
+   ],
+   "c": [
+    451,
+    25
+   ],
+   "hitOk": true,
+   "hit": "BUTTON 「略過對話」"
+  },
+  "first_skip_true": {
+   "adv": true,
+   "skip": true,
+   "hist": 2,
+   "last": "總圖門口的屋簷下站著一個人。雨很大，她看著雨，沒有要走的意思。",
+   "dlg": true,
+   "typing": true,
+   "dtext": "總圖門口的屋簷下站著一個人。雨很大，她看著雨，沒有要走的",
+   "choices": [],
+   "busy": true,
+   "running": "ev_rain_library_door",
+   "advOn": true,
+   "hour": 18.51,
+   "sec": 0.0
+  },
+  "state": {
+   "adv": true,
+   "skip": true,
+   "hist": 2,
+   "last": "總圖門口的屋簷下站著一個人。雨很大，她看著雨，沒有要走的意思。",
+   "dlg": true,
+   "typing": false,
+   "dtext": "總圖門口的屋簷下站著一個人。雨很大，她看著雨，沒有要走的意思。",
+   "choices": [],
+   "busy": true,
+   "running": "ev_rain_library_door",
+   "advOn": true,
+   "hour": 18.51
+  },
+  "seen": [
+   "總圖門口的屋簷下站著一個人。雨很大，她看著雨，沒有要走的",
+   "總圖門口的屋簷下站著一個人。雨很大，她看著雨，沒有要走的意思。"
+  ],
+  "hist": [
+   "總圖門口的屋簷下站著一個人。雨很大，她看",
+   "總圖門口的屋簷下站著一個人。雨很大，她看"
+  ],
+  "sec": 45.2
+ },
+ "full": {
+  "before": {
+   "adv": true,
+   "skip": false,
+   "hist": 19,
+   "last": "總圖門口的屋簷下站著一個人。雨很大，她看著雨，沒有要走的意思。",
+   "dlg": true,
+   "typing": false,
+   "dtext": "總圖門口的屋簷下站著一個人。雨很大，她看著雨，沒有要走的意思。",
+   "choices": [],
+   "busy": true,
+   "running": "ev_rain_library_door",
+   "advOn": true,
+   "hour": 18.51
+  },
+  "btn": {
+   "exists": true,
+   "topDisplay": "flex",
+   "topParent": "adv",
+   "topZ": "auto",
+   "btn": true,
+   "rect": [
+    414,
+    8,
+    74,
+    34
+   ],
+   "c": [
+    451,
+    25
+   ],
+   "hitOk": true,
+   "hit": "BUTTON 「略過對話」"
+  },
+  "first_skip_true": {
+   "adv": true,
+   "skip": true,
+   "hist": 19,
+   "last": "總圖門口的屋簷下站著一個人。雨很大，她看著雨，沒有要走的意思。",
+   "dlg": true,
+   "typing": false,
+   "dtext": "總圖門口的屋簷下站著一個人。雨很大，她看著雨，沒有要走的意思。",
+   "choices": [],
+   "busy": true,
+   "running": "ev_rain_library_door",
+   "advOn": true,
+   "hour": 18.51,
+   "sec": 0.0
+  },
+  "state": {
+   "adv": true,
+   "skip": true,
+   "hist": 19,
+   "last": "總圖門口的屋簷下站著一個人。雨很大，她看著雨，沒有要走的意思。",
+   "dlg": true,
+   "typing": false,
+   "dtext": "總圖門口的屋簷下站著一個人。雨很大，她看著雨，沒有要走的意思。",
+   "choices": [],
+   "busy": true,
+   "running": "ev_rain_library_door",
+   "advOn": true,
+   "hour": 18.51
+  },
+  "seen": [
+   "總圖門口的屋簷下站著一個人。雨很大，她看著雨，沒有要走的意思。"
+  ],
+  "hist": [
+   "總圖門口的屋簷下站著一個人。雨很大，她看",
+   "總圖門口的屋簷下站著一個人。雨很大，她看",
+   "……",
+   "……",
+   "……我沒帶傘。",
+   "……我沒帶傘。",
+   "你在圖書館看過她幾次。社會系的樣子，總是",
+   "你在圖書館看過她幾次。社會系的樣子，總是",
+   "▶ 「我也沒帶。」",
+   "……那我們兩個都很慘。",
+   "……那我們兩個都很慘。",
+   "她笑了一下，很短。你們並肩看了十分鐘的雨",
+   "她笑了一下，很短。你們並肩看了十分鐘的雨",
+   "我叫陳語彤。社會系的。你呢？",
+   "我叫陳語彤。社會系的。你呢？",
+   "（她會記得今天。）",
+   "（她會記得今天。）",
+   "總圖門口的屋簷下站著一個人。雨很大，她看",
+   "總圖門口的屋簷下站著一個人。雨很大，她看"
+  ],
+  "sec": 45.0
+ },
+ "stay": {
+  "t0": {
+   "adv": true,
+   "skip": true,
+   "hist": 25,
+   "last": "你在圖書館看過她幾次。社會系的樣子，總是坐在靠窗那排，很安靜。",
+   "dlg": false,
+   "typing": false,
+   "dtext": "你在圖書館看過她幾次。社會系的樣子，總是坐在靠窗那排，很安靜。",
+   "choices": [
+    "「一起走吧。」你有傘",
+    "「我的給妳，我等等搭車。」",
+    "「便利商店應該有賣。」",
+    "「我也沒帶。」"
+   ],
+   "busy": true,
+   "running": "ev_rain_library_door",
+   "advOn": true,
+   "hour": 18.51
+  },
+  "t1": {
+   "adv": true,
+   "skip": true,
+   "hist": 25,
+   "last": "你在圖書館看過她幾次。社會系的樣子，總是坐在靠窗那排，很安靜。",
+   "dlg": false,
+   "typing": false,
+   "dtext": "你在圖書館看過她幾次。社會系的樣子，總是坐在靠窗那排，很安靜。",
+   "choices": [
+    "「一起走吧。」你有傘",
+    "「我的給妳，我等等搭車。」",
+    "「便利商店應該有賣。」",
+    "「我也沒帶。」"
+   ],
+   "busy": true,
+   "running": "ev_rain_library_door",
+   "advOn": true,
+   "hour": 18.51
+  }
+ },
+ "after_choice": {
+  "h_before": 25,
+  "d1": {
+   "adv": true,
+   "skip": true,
+   "hist": 28,
+   "last": "……可以嗎？",
+   "dlg": true,
+   "typing": true,
+   "dtext": "",
+   "choices": [],
+   "busy": true,
+   "running": "ev_rain_library_door",
+   "advOn": true,
+   "hour": 18.51
+  },
+  "d2": {
+   "adv": true,
+   "skip": true,
+   "hist": 28,
+   "last": "……可以嗎？",
+   "dlg": true,
+   "typing": false,
+   "dtext": "……可以嗎？",
+   "choices": [],
+   "busy": true,
+   "running": "ev_rain_library_door",
+   "advOn": true,
+   "hour": 18.51
+  }
+ },
+ "steps": [
+  [
+   28,
+   30,
+   "反正我也要往校門走。"
+  ],
+  [
+   30,
+   32,
+   "嗯。"
+  ]
+ ],
+ "end": {
+  "adv": false,
+  "skip": true,
+  "hist": 40,
+  "last": "（她會記得今天。）",
+  "dlg": false,
+  "typing": false,
+  "dtext": "（她會記得今天。）",
+  "choices": [],
+  "busy": false,
+  "running": null,
+  "advOn": false,
+  "hour": 18.527
+ },
+ "errors": []
+}
