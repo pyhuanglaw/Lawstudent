@@ -9,6 +9,7 @@
 //   ⑦ 平滑：每一格手最多移動 6 cm（30 fps；從站姿換成爬梯子那一刻也一樣，沒有跳格）；
 //   ⑧ 上身往前靠：頭比站著的時候往前 ≥ 3 cm；
 //   ⑨ 握住梯子：中指彎 ≥ 60°（指根到指尖的方向和手掌方向的夾角），而且是往掌心彎（中指末節離大拇指根比站著的時候近）。
+//   ⑩ 最上面抓得到的高度（u.climbTop＝床欄頂，story3d.js 給）：設了以後兩手都不高過它（爬到上面幾階不往空中抓），兩手還是會換。
 // 修改前（CLIMB_VRM：兩隻手固定往前平舉）：①②③④⑤⑦⑧⑨ 失敗。
 // 用法：node tests/climb_pose_unit.js [char.yuting ...]（不給就祐廷：只有玩家會爬宿舍的梯子）
 const {preload}=require('../tools/dev_scratch/spring_sim/harness.js');
@@ -56,6 +57,10 @@ const scene=new THREE.Scene();
     check(`⑧ ${key} 上身往前靠向梯子（頭比站著往前 ≥ 3 cm）`,lean>=0.03,'往前 '+cm(lean));
     const bend=Math.min(...S.flatMap(f=>f.fing.map(g=>g.bend))), palmOK=S.every(f=>[0,1].every(k=>f.fing[k].toThumb<fing0[k].toThumb-0.005));
     check(`⑨ ${key} 握住：中指往掌心彎 ≥ 60°`,bend>=60&&palmOK,'最少 '+bend.toFixed(0)+'°（站著 '+fing0.map(g=>g.bend.toFixed(0)+'°').join('／')+'）、末節到大拇指根 '+cm(Math.max(...S.map(f=>f.fing[0].toThumb)))+'（站著 '+cm(fing0[0].toThumb)+'）');
+    { const top=h.position.y+1.3; h.userData.climbTop=top; let over=0; const ys=[];   /* 第三階的情況：腳在 0.96、床欄頂 2.12＝腳上 1.16～1.3 m */
+      for(let i=0;i<60;i++){ CHAR.animate(h,1/30,{pose:'climb',speed:0}); scene.updateMatrixWorld(true); const w=[R('leftHand'),R('rightHand')].map(b=>b.getWorldPosition(new THREE.Vector3()).y); over=Math.max(over,w[0]-top,w[1]-top); ys.push(w[0]-w[1]); }
+      delete h.userData.climbTop;
+      check(`⑩ ${key} 設了最高高度（climbTop）：兩手不高過它、還是會換`,over<=0.01&&Math.max(...ys)>0.04&&Math.min(...ys)<-0.04,'最多高過 '+cm(over)+'、左右高度差 '+cm(Math.min(...ys))+'～'+cm(Math.max(...ys))); }
     scene.remove(h); CHAR.release(h);
   }
   console.log(fails?('FAIL '+fails):'ALL PASS'); process.exit(fails?1:0);

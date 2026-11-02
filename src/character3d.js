@@ -253,6 +253,7 @@ const CHAR = (function(){
      ③ 兩手交替往上換手、跟腳一致：走路片段裡哪一隻腳在前面（往上一階踩），對側的手就在上面——左右膝蓋（相對大腿根）的前後差換算成 0～1，
         兩端飽和一點（手在最上面、最下面停一下＝抓住），中間平滑變化；
      ④ 剛開始爬（從站姿換過來）blend 秒內從片段的手漸漸抓上去（緩進緩出；一般是踩上第一階的時候抓到），不跳格。數值都乘身高比例 u.k。
+     u.climbTop（世界座標的高度，story3d.js 爬宿舍梯子時設＝床欄頂）：手最高只到這裡（上面幾階兩手都在床欄頂附近，高的那隻高 8 cm）。
      ⑤ 手指往掌心彎（grip：指根、中節、末節的弧度）＝握住梯子，不是張開手掌。
      u.climbHi＝[左手, 右手] 的高度（0＝胸口、1＝最上面），測試用（tests/climb_pose_unit.js）。C.climbIK=false 可以關掉比較（手照走路片段擺）*/
   C.climbIK=true;
@@ -272,8 +273,9 @@ const CHAR = (function(){
     // ② 手
     for(const [i,side] of [[0,1],[1,-1]]){ const L=ARMS[i], sh=Lc(R[L[0]]), cur=Lc(R[L[2]]), t=hi[i];
       const T=CLV[1].set(side*K.side*k, sh.y+(K.lo+(K.hi-K.lo)*t)*k, sh.z+(K.fwdLo+(K.fwdHi-K.fwdLo)*t)*k); if(w<1) T.lerp(cur,1-w);
-      const pole=h.localToWorld(CLV[2].set(sh.x+side*0.5*k, sh.y-0.6*k, sh.z-0.1*k));
-      ik2(R[L[0]],R[L[1]],R[L[2]],h.localToWorld(CLV[3].copy(T)),pole);
+      const pole=h.localToWorld(CLV[2].set(sh.x+side*0.5*k, sh.y-0.6*k, sh.z-0.1*k)), Tw=h.localToWorld(CLV[3].copy(T));
+      if(u.climbTop!=null){ const top=u.climbTop-(1-t)*0.08; if(Tw.y>top) Tw.y=top+(Tw.y-top)*(1-w); }   /* 最上面抓得到的高度（世界座標；story3d.js 給＝床欄頂）：爬到上面幾階，手不伸到床欄上面的空中 */
+      ik2(R[L[0]],R[L[1]],R[L[2]],Tw,pole);
       // ⑤ 握住：四根手指往掌心彎（繞指根那一排的連線＝食指根→小指根；左手轉負的、右手轉正的＝往掌心，和 VRM 0.x／1.0 無關：用真實骨架的位置算）；大拇指不動
       const pre=i?'right':'left', F=u.rawFing||(u.rawFing={}), fb=F[pre]||(F[pre]=['Index','Middle','Ring','Little'].map(f=>['Proximal','Intermediate','Distal'].map(j=>hm.getRawBoneNode(pre+f+j))));
       if(fb[0][0]&&fb[3][0]&&K.grip){ const ax=fb[0][0].getWorldPosition(CLV[4]).sub(fb[3][0].getWorldPosition(CLV[5])); if(ax.lengthSq()>1e-8){ ax.normalize(); const sg=i?1:-1;
