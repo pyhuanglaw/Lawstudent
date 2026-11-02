@@ -285,7 +285,8 @@ const R2Y3A_EVENTS=(function(){
   const plgThisTerm=G=>{ const A=(G.acts&&G.acts.att)||{}, C=typeof CALENDAR!=='undefined'&&CALENDAR.termOf?CALENDAR:null, t0=C?C.termOf(G.day):null; if(!t0) return false;
     for(const k in A){ const m=/^public_law_group@(-?\d+)$/.exec(k); if(!m) continue; const t=C.termOf(+m[1]); if(t&&t.id===t0.id) return true; } return false; };
   const PLG={custom:G=>(typeof STORY!=='undefined'&&!!STORY.plgY1Count&&STORY.plgY1Count(G)>0)||plgThisTerm(G)};
-  const TY_FAMILY={ id:'ev_typhoon_y3_family', title:'照常的讀書會', participants:[], location:'any', trigger:'outing', once:true, background:'dark', hours:50/60,
+  const TY_FAMILY={ id:'ev_typhoon_y3_family', title:'照常的讀書會', participants:[], location:'any', trigger:'outing', once:true, get background(){ return typeof OUT!=='undefined'&&OUT.bg?OUT.bg('video'):'dark'; },   /* 11-02 LAWWW-B：線上讀書室＝視訊的底圖（原本深色底）*/
+    hours:50/60,
     dialogue:[ {speaker:null,text:'（七點整，線上讀書室只有兩格。兩格的鏡頭都關著。）'},
       {speaker:null,text:'（她的麥克風沒有關。翻頁的聲音、螢光筆的蓋子，偶爾一聲很小的「……嗯。」）'},
       {speaker:null,text:'（七點五十分，她那一格先打了一行字。）'},
