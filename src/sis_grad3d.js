@@ -60,7 +60,7 @@ const SISG=(function(){
     if(b==='off') return {res:'decline',why:'exam',lines:[S.offLine(G)],alt:null,study:true};   /* 說完接「那一起念書。」（invites3d.js 的 flow → S.studyOffer）*/
     return {res:'decline',why:'exam',lines:[S.declineLine(G)],alt:null}; };   /* 第 10～13 週：這一週用過了（四句輪流；「這週的時間用完了。下週再問我。」在這裡才合）*/
   /* 「那一起念書。」（AA_535 1-3）：系統替你約同一個時間的念書地點——平日總圖、週末而且慢讀開著＝慢讀咖啡；那個時間都不行＝照一般「改天」算總圖的下一個空檔。她答應的那一句 S.STUDY_YES；「不用了。」什麼都不發生 */
-  S.STUDY_YES='「好。我帶刑訴。……你不要跟我講話，傳訊息。」';
+  S.STUDY_YES='「好。我帶刑訴。」';
   S.STUDY_OPTS=['那一起念書。','不用了。'];
   S.studyAt=function(G,W){ if(typeof INV==='undefined'||!INV.place) return null; const wk=[1,2,3,4,5].includes(wdOf(W.day)), ok=pid=>{ const P=INV.place(pid); return !!P&&(!P.show||P.show(G,ID))&&INV.freeAt(G,ID,P,W.day,W.h); };
     if(!wk&&ok('slowread')) return {pid:'slowread',day:W.day,h:W.h}; if(ok('library')) return {pid:'library',day:W.day,h:W.h};
