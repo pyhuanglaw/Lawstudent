@@ -32,12 +32,19 @@ CASES（逗號隔開，每個 case 開一個新的瀏覽器；預設全跑 main_
   noshow     【前置】6/26 11:15 宿舍存檔（補考已排好、pending；照碼「讀檔時已經過了」那一種沒去）→ 讀檔後 FD_MAKEUP missed、延畢、成績「不及格（補考缺考）」、
              下一個停點演「（補考的時間過了。…）」＋cert（＋bar）。宿舍裡純照玩家沒有辦法「不去」（站 2 秒就跳到 09:30 那一場、坐著要坐一個半小時），
              照玩家拖過 11:00 的版本在 home 的 rest 那一組。
-  home       【前置】直接把人放在臺北的家（G.home.at＝true、補考 pending），HOME_SUBS（預設 go,sleep,late,rest）：
+  home       【前置】直接把人放在臺北的家（G.home.at＝true、補考 pending），HOME_SUBS（預設 go,sleep_eve,sleep_day,late,rest）：
              go    6/26 08:30：家裡選單有「出發：補考（法律系館A）」（直向＋橫向截圖）→ 按 → 演補考（MK_RIGHT 預設 5）→ 回到家裡的選單、那一項不見了（已經考完）
-             sleep 6/25 21:00：選單沒有那一項（6/26 以外，截圖）→「睡覺」→ 直接跳到 6/26 09:30 那一場（fd_makeup 開始時間）→ 考完回家裡的選單
+             （BB 11:03 BUG-MAKEUP-HOME-SLEEP-WARN-1102，P2 下一版修：原本的 sleep 拆成 sleep_eve／sleep_day；HOME_SUBS 寫 sleep＝sleep_eve）
+             sleep_eve 6/25 21:00：選單沒有那一項（6/26 以外，截圖）→「睡覺」（中途有確認照樣選「照樣」、記下來）→ 期望停在 6/26 11:00 以前家裡的選單、
+                   有「出發：補考」、補考還沒開始（FD_MAKEUP pending）→ 選「出發：補考」→ 照常考（MK_RIGHT 預設 5＝FD_MAKEUP pass）→ 回到家裡的選單
+             sleep_day 6/26 08:30：選單有「出發：補考」→ 選「睡覺」→ 遇到「會錯過：…補考」確認（直向＋橫向截圖、記選項）選「照樣」→
+                   期望沒有開考（沒有 fd_makeup 那一場、沒有作答）、補考算缺考：FD_MAKEUP missed、延畢（FAIL_DELAY、BAR_REG false）、
+                   「回宿舍」（或離開家以後）演缺考旁白（MK_LINES.missed）
+             目前 head b1b249873 預期：sleep_eve PASS、sleep_day FAIL（遊戲照樣去考）；修好以後兩個都 PASS。
              late  6/26 11:15：選單沒有那一項（11:00 以後，截圖）
              rest  6/26 08:30：一直選「在家休息一下」拖過 11:00（每一輪選單都記）→ 那一項消失 → 記 FD_MAKEUP 狀態 →「回宿舍」→ 沒去的旁白、延畢
              修改前 4174ffe89 預期 go、rest 的「有那一項」FAIL（停點不跑、11:00 直接算沒去）。
+  （homerest 只選「在家休息一下」、沒有選「睡覺」的路徑，不受 BB 11:03 影響。）
   rollcall_fail 【前置】6/18 08:30 宿舍存檔（同 main_fail）＋大四下排了一門看出席的重修（日文二 japanese_2，週三下午，出席 0；大四下本身沒有點名制的課，
              照 tests/y4s2_makeup_unit.js d 節組）；ROLL_ONLY=1＝海商法沒被當、只有日文二 → 6/18 照舊直接延畢（兩門都記）、沒有 FD_MAKEUP、
              之後站著不動 ROLL_PLAY 秒（預設 300）：沒有補考通知、提醒、fd_makeup 步驟。
@@ -107,7 +114,7 @@ _DEF_CASES = 'route_grades' if FAIL_ROUTE == 'jp' else 'main_pass,main_fail,nosh
 CASES = [c.strip() for c in os.environ.get('CASES', _DEF_CASES).split(',') if c.strip()]
 SKIP_VIA = [c.strip() for c in os.environ.get('SKIP_VIA', 'phone,seat').split(',') if c.strip()]
 MKBG_SUBS = [c.strip() for c in os.environ.get('MKBG_SUBS', 'home,campus,library').split(',') if c.strip()]
-HOME_SUBS = [c.strip() for c in os.environ.get('HOME_SUBS', 'go,sleep,late,rest').split(',') if c.strip()]
+HOME_SUBS = [c.strip() for c in os.environ.get('HOME_SUBS', 'go,sleep_eve,sleep_day,late,rest').split(',') if c.strip()]
 LAND = {'width': 844, 'height': 390}; PORT = {'width': 390, 'height': 844}
 CONT = '繼續去上課'
 EXAM_DAY = '2029-05-30'; GRADE_DAY = '2029-06-18'; MK_DAY = '2029-06-26'; REMIND_DAY = '2029-06-25'
@@ -730,9 +737,41 @@ async def home_run_until_menu(pg, cdp, run, drv, tag, max_s=900):
     return 'timeout'
 
 
+def is_miss_confirm(ch):
+    """「會錯過」的確認：選項按鈕 textContent＝標題＋hint（「照樣睡會錯過：10:00 補考…」），有「會錯過」或「照樣」開頭的那一個"""
+    return bool(ch) and not is_home_ch(ch) and any(('會錯過' in o['t']) or o['t'].startswith('照樣') for o in ch)
+
+
+async def home_sleep_confirm(pg, cdp, run, drv, tag, max_s=90):
+    """選了「睡覺」以後：等「會錯過」確認（記選項、直向＋橫向截圖、選「照樣」開頭那一項）或家裡的選單再出來（沒有確認）；
+    中間的對話照 Driver 點過去。回傳 {'opts','hint','picked'}，沒有確認＝None"""
+    t0 = time.time()
+    while time.time() - t0 < max_s:
+        s = await P.ts(pg)
+        if is_home_ch(s['ch']): return None
+        if is_miss_confirm(s['ch']):
+            T = [o['t'] for o in s['ch']]; R = await rows(pg, drv.n0)
+            hint = next((x['t'] for x in reversed(R) if x['k'] == 'choose'), '')
+            drv.shots['sleep_confirm'] = await shoot_both(pg, run, tag + '_sleep_confirm')
+            k = next((i for i, t in enumerate(T) if t.startswith('照樣')), None)
+            c = await P.clock(pg)
+            run.note('%s %s %s 睡覺的確認 %s（choose 紀錄 %s）→ %s' % (tag, c['key'], hm(c['h']), J(T), J(hint), T[k] if k is not None else '（沒有「照樣」開頭的選項）'))
+            if k is not None: await P.tap_choice(pg, cdp, k); await pg.wait_for_timeout(1200)
+            return {'opts': T, 'hint': hint, 'picked': T[k] if k is not None else None}
+        if not await pg.evaluate("!!(typeof HOME!=='undefined'&&HOME.at(GAME.G))") and not (s['dlg'] or s['ch'] or s['busy']): return None
+        if await drv.handle(s, ('照樣',)): continue
+        await pg.wait_for_timeout(700)
+    return None
+
+
+def mk_answers(drv):
+    return [v for v in drv.answered.values() if v['kind'] == 'makeup']
+
+
 async def case_home(pg, cdp, run, sub):
+    if sub == 'sleep': sub = 'sleep_eve'   # BB 11:03：舊名 sleep＝sleep_eve
     tag = 'home_' + sub; mkl, fdl, has = await mk_lines(pg); cn = mkl['cname']; opt = mkl['homeOpt']
-    when = {'go': (MK_DAY, 8.5), 'sleep': (REMIND_DAY, 21.0), 'late': (MK_DAY, 11.25), 'rest': (MK_DAY, 8.5)}[sub]
+    when = {'go': (MK_DAY, 8.5), 'sleep_eve': (REMIND_DAY, 21.0), 'sleep_day': (MK_DAY, 8.5), 'late': (MK_DAY, 11.25), 'rest': (MK_DAY, 8.5)}[sub]
     st, d, qs = await grad_state(pg, run, when[0], when[1], planned=True, home=True)
     await L.load_state(pg, st, quiet_events=False, quiet_phone=False); await pg.evaluate(CLEARP)
     g1 = await pg.evaluate(STATE)
@@ -759,15 +798,52 @@ async def case_home(pg, cdp, run, sub):
             run.check('%s：已經考完：選單沒有「%s」' % (tag, opt), isinstance(m2, list) and not any(t.startswith(opt) for t in m2), J(m2))
             run.check('%s：補考結果照答題（MK_RIGHT %d）：FD_MAKEUP %s、時間 11:00' % (tag, ENVI('MK_RIGHT', 5), 'pass' if ENVI('MK_RIGHT', 5) else 'fail'),
                       bool(mk) and mk.get('status') == ('pass' if ENVI('MK_RIGHT', 5) else 'fail') and abs(g['clock']['h'] - 11) < 0.3, J({'mk': mk, 'clock': g['clock'], 'flags': g['flags']}))
-    elif sub == 'sleep':
+    elif sub == 'sleep_eve':
+        # BB 11:03：前一晚在家睡覺＝停在 6/26 家裡的選單；選「出發：補考」照常考＝PASS（head b1b249873 預期 PASS）
         run.check('%s：6/25 21:00 家裡選單沒有「%s」（6/26 以外）' % (tag, opt), not has_opt, J(ops))
         await home_pick(pg, cdp, run, drv, tag, ops, '睡覺')
+        conf = await home_sleep_confirm(pg, cdp, run, drv, tag); out['confirm'] = conf
+        m2 = await home_run_until_menu(pg, cdp, run, drv, tag); out['menu_after'] = m2
+        g = await pg.evaluate(STATE); mk = g['mk'] if isinstance(g['mk'], dict) else None; R = await rows(pg, n0); sm = step_rows(R, 'fd_makeup'); ans0 = len(mk_answers(drv))
+        drv.shots['menu_wake'] = await shoot_both(pg, run, tag + '_menu_wake')
+        run.note('%s：睡覺的確認 %s；睡醒 %s；步驟 %s；日期卡 %s' % (tag, J(conf), J({'clock': g['clock'], 'mk': mk, 'menu': m2}),
+                 J([[x['t'], x['n'], x.get('d'), hm(x.get('h'))] for x in R if x['k'] == 'step']), J([[x.get('d'), x['n'], x['t']] for x in R if x['k'] == 'card'])))
+        c = g['clock']; has2 = isinstance(m2, list) and any(t.startswith(opt) for t in m2)
+        run.check('%s：前一晚在家睡覺 → 停在 6/26 11:00 以前家裡的選單、有「%s」、補考還沒開始（FD_MAKEUP pending、沒有 fd_makeup 那一場）（BB 11:03）' % (tag, opt),
+                  has2 and c['key'] == MK_DAY and c['h'] < 11.0 and not sm and not ans0 and bool(mk) and mk.get('status') == 'pending',
+                  J({'menu': m2, 'clock': c, 'mk': mk, 'step': sm, 'answered': ans0}))
+        if has2:
+            await home_pick(pg, cdp, run, drv, tag, m2, opt)
+            m3 = await home_run_until_menu(pg, cdp, run, drv, tag); out['menu_after_exam'] = m3
+            g = await pg.evaluate(STATE); mk = g['mk'] if isinstance(g['mk'], dict) else None; R = await rows(pg, n0)
+            drv.shots['menu_after'] = await shoot_both(pg, run, tag + '_menu_after')
+            run.check('%s：選「%s」＝演補考（開場那一句、五題）' % (tag, opt), any(x['t'] == mkl['open'] for x in said_rows(R)) and len(mk_answers(drv)) == 5, J(drv.answered))
+            run.check('%s：照常考：FD_MAKEUP %s（MK_RIGHT %d）、考完回到家裡的選單' % (tag, 'pass' if ENVI('MK_RIGHT', 5) else 'fail', ENVI('MK_RIGHT', 5)),
+                      bool(mk) and mk.get('status') == ('pass' if ENVI('MK_RIGHT', 5) else 'fail') and isinstance(m3, list), J({'mk': mk, 'menu': m3, 'clock': g['clock'], 'flags': g['flags']}))
+        else:
+            run.note('%s：睡醒沒有停在有「%s」的家裡選單——補考結果（只記）%s、作答 %d 題' % (tag, opt, J(mk), ans0))
+    elif sub == 'sleep_day':
+        # BB 11:03：補考當天在家睡覺、「會錯過：…補考」選「照樣」＝缺考（不能照樣去考）（head b1b249873 預期 FAIL：照樣去考）
+        run.check('%s：前置成立（6/26 08:30 家裡選單有「%s」）' % (tag, opt), has_opt, J(ops))
+        await home_pick(pg, cdp, run, drv, tag, ops, '睡覺')
+        conf = await home_sleep_confirm(pg, cdp, run, drv, tag); out['confirm'] = conf
+        run.check('%s：選「睡覺」以前有「會錯過」確認、列了補考' % tag, bool(conf) and '補考' in (' '.join(conf['opts']) + conf['hint']), J(conf))
         m2 = await home_run_until_menu(pg, cdp, run, drv, tag); out['menu_after'] = m2
         g = await pg.evaluate(STATE); mk = g['mk'] if isinstance(g['mk'], dict) else None; R = await rows(pg, n0); sm = step_rows(R, 'fd_makeup')
-        drv.shots['menu_after'] = await shoot_both(pg, run, tag + '_menu_after')
-        run.note('%s：睡覺以後 步驟 %s；日期卡 %s' % (tag, J([[x['t'], x['n'], x.get('d'), hm(x.get('h'))] for x in R if x['k'] == 'step']), J([[x.get('d'), x['n'], x['t']] for x in R if x['k'] == 'card'])))
-        run.check('%s：在家睡覺 → 直接跳到 6/26 09:30 那一場（fd_makeup 開始 6/26 09:30～10:00）' % tag, bool(sm) and sm[0].get('d') == MK_DAY and 9.49 <= float(sm[0].get('h') or 0) < 10.0, J(sm))
-        run.check('%s：考完 FD_MAKEUP 不是 pending／missed、回到家裡的選單' % tag, bool(mk) and mk.get('status') in ('pass', 'fail') and isinstance(m2, list), J({'mk': mk, 'menu': m2, 'clock': g['clock']}))
+        drv.shots['menu_wake'] = await shoot_both(pg, run, tag + '_menu_wake')
+        run.note('%s：睡醒 %s；步驟 %s' % (tag, J({'clock': g['clock'], 'mk': mk, 'menu': m2, 'FAIL_DELAY': g['flags'].get('FAIL_DELAY')}),
+                 J([[x['t'], x['n'], x.get('d'), hm(x.get('h'))] for x in R if x['k'] == 'step'])))
+        run.check('%s：選「照樣」睡覺＝沒有開考（沒有 fd_makeup 那一場、沒有作答）（head b1b249873 預期 FAIL：遊戲照樣去考）' % tag,
+                  not sm and not mk_answers(drv), J({'step': sm, 'answered': drv.answered}))
+        if isinstance(m2, list) and any(t.startswith('回宿舍') for t in m2):
+            await home_pick(pg, cdp, run, drv, tag, m2, '回宿舍')
+        o = await play(pg, cdp, run, tag, drv, lambda g, R: bool(step_rows(R, 'fd_mk_missed', 'end')) or (isinstance(g['mk'], dict) and g['mk'].get('status') in ('pass', 'fail')), 600, review=False)
+        g = o['g']; R = await rows(pg, n0); said = said_rows(R); mk = g['mk'] if isinstance(g['mk'], dict) else None
+        drv.shots['end'] = await shoot_both(pg, run, tag + '_end')
+        run.check('%s：補考算缺考：FD_MAKEUP missed、延畢（FAIL_DELAY、BAR_REG false）' % tag,
+                  bool(mk) and mk.get('status') == 'missed' and g['flags'].get('FAIL_DELAY') is True and g['flags'].get('BAR_REG') is False, J({'mk': mk, 'flags': g['flags']}))
+        run.check('%s：演缺考旁白「%s」' % (tag, mkl['missed'].replace('{課名}', cn)), any(x['t'] == mkl['missed'].replace('{課名}', cn) for x in said), J([x['t'] for x in said][-8:]))
+        run.check('%s：整段都沒有演補考' % tag, not step_rows(R, 'fd_makeup') and not mk_answers(drv), J({'step': step_rows(R, 'fd_makeup'), 'answered': drv.answered}))
     elif sub == 'late':
         run.check('%s：6/26 11:15 家裡選單沒有「%s」（11:00 以後）' % (tag, opt), not has_opt, J(ops))
         run.note('%s：FD_MAKEUP（在家、11:15）＝%s' % (tag, J(g2['mk'])))
@@ -887,7 +963,7 @@ async def case_route_grades(pg, cdp, run):
 CASEFN = {'route_grades': case_route_grades, 'main_pass': lambda pg, cdp, run: case_main(pg, cdp, run, 'main_pass', ENVI('MK_RIGHT', 5), os.environ.get('MAIN_FROM', '0527')),
           'main_fail': lambda pg, cdp, run: case_main(pg, cdp, run, 'main_fail', 0, os.environ.get('MAIN_FAIL_FROM', '0618')),
           'noshow': case_noshow, 'rollcall_fail': case_rollcall}
-for _s in ('go', 'sleep', 'late', 'rest'): CASEFN['home_' + _s] = (lambda v: (lambda pg, cdp, run: case_home(pg, cdp, run, v)))(_s)
+for _s in ('go', 'sleep', 'sleep_eve', 'sleep_day', 'late', 'rest'): CASEFN['home_' + _s] = (lambda v: (lambda pg, cdp, run: case_home(pg, cdp, run, v)))(_s)
 
 
 # ---------------------------------------------------------------- BB 08:59 加的四個（補考時間窗：CC_audit_4174.md 疑點 1～3、5；Node 重現 audit_makeup_timeskip.js）
