@@ -113,3 +113,9 @@
 [06:37:57] ==== START X_G6c_fm  (game @ 62d98bfa5) ====
 [06:38:01] [res] cpu=18% mem=45% (14.6/31.4 GB) chrome_testing=17  START X_G6c_fm
 [06:39:37] [res] cpu=28% mem=52% (16.3/31.4 GB) chrome_testing=18  END X_G6c_fm
+    To https://github.com/pyhuanglaw/Lawstudent.git
+       11584816e..28560ea35  claude/cc-local -> claude/cc-local
+    branch 'claude/cc-local' set up to track 'origin/claude/cc-local'.
+[06:39:42] ==== END   X_G6c_fm  exit=0  100s   ====
+[06:39:46] run_queue.py has a new version - restart (exit 75) after the running item(s) finish; while long items (>=120 min) run, free slots still take short items
+[06:41:34] [res] cpu=8% mem=42% (13.4/31.4 GB) chrome_testing=9  END X_G6a_v7
