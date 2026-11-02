@@ -143,7 +143,7 @@ def cut_elev(r):
     return nxt
 
 
-f1 = C1.get('floor', tile=2.4); sl = C1.get('plaster', tile=3.0); cl0 = C0.get('ceil', tile=2.4)
+f1 = C1.get('parquet', tile=2.2); sl = C1.get('plaster', tile=3.0); cl0 = C0.get('ceil', tile=2.4)   # 二樓：人字拼木地板（第一版、2D 背景 ntu_library_2f 都是）
 for r in slab_rects():
     for q in cut_elev(r):
         f1.quad([(q['x0'], Y1, q['z1']), (q['x1'], Y1, q['z1']), (q['x1'], Y1, q['z0']), (q['x0'], Y1, q['z0'])])
@@ -236,6 +236,11 @@ def door_leaf(c, axis, at, cpos, y0, inward, w=1.1, h=2.3, col='#6e7377'):
 door_leaf(C0, 'z', X0, b1z, 0.0, +1)
 door_leaf(C1, 'z', X1, LAY['stairDoor']['z'], Y1, -1)
 cr = next(q for q in LAY['doors'] if q['id'] == 'carrels'); door_leaf(C1, 'z', X1, cr['z'], Y1, -1, col='#8a6a4a')
+# 館員辦公室（一樓東南、辦公室隔間牆上，門朝北）、二樓北牆的討論室 225、226（11-02 二樓平面圖；關著）：遊戲的備用門框在正式模型載入後會藏起來，門要畫在模型裡
+OW = next((f for f in LAY['furniture'] if f['type'] == 'officeWall'), None)
+for dd in LAY['doors']:
+    if dd['id'] == 'staff' and OW: door_leaf(C0, 'x', OW['z'] + 0.05, dd['x'], 0.0, -1, w=1.0, col='#6e5a48')   # 牆北面 z−0.06：門片貼在北面
+    elif dd['id'] in ('disc225', 'disc226'): door_leaf(C1, 'x', Z0, dd['x'], Y1, +1, w=1.0, col='#8a6a4a'); C1.get('glass').box(dd['x'] - 0.2, dd['x'] + 0.2, Y1 + 1.3, Y1 + 2.0, Z0 + T / 2 + 0.055, Z0 + T / 2 + 0.065)   # 門上的小窗
 # 正面：門廳的挑高玻璃帷幕（一樓那段 L0、二樓那段 L1）＋兩扇自動門
 for (c, ya, yb) in ((C0, 0.0, Y1), (C1, Y1, RY - 0.2)):
     gl = c.get('glass'); fr = c.get('frame')
@@ -396,6 +401,7 @@ for cl in U.get('closed', []):
 # 八、家具（第一版的種類照第一版的位置；第二版新加的）
 # =====================================================================
 CHAIRS = {0: [], 1: []}; TCHAIRS = {0: [], 1: []}   # instancing：木椅、辦公椅
+LAMPS = {0: [], 1: []}   # 二樓長桌的綠色銀行燈（instancing）
 # 室內的大葉盆栽（琴葉榕一類）：樹幹＋幾團葉子（深色芯外面一圈葉片卡）——和 B1 下沉中庭、118 巷的大樹同一套（tools/blender/plants.py 的葉子貼圖）；
 #   第一版程序化的「幾根細枝」從畫面上看像枯枝。葉子的材質名有 leaf：遊戲擋到鏡頭時網點透空（library_hall_v2.js 的 seeThru）。
 PLM = {}
@@ -456,6 +462,48 @@ def shelf(c, cx, cz, w, ry, y0, H=2.0, Dp=0.4):
                 bw = rng.uniform(0.025, 0.05); bh = rng.uniform(0.22, 0.32)
                 if rng.random() < 0.9: rbox(c.get('books', cm=True), T_, x, x + bw, yy + 0.025, yy + 0.025 + bh, -Dp / 2 + 0.05, Dp / 2 - 0.04, rng.choice(['#2f5d50', '#8c3b47', '#c9a24f', '#4a6c8c', '#7b6a5a', '#b5643f', '#d9d3c6']))
                 x += bw + 0.003
+def banker_lamp_parts(t):
+    """綠色銀行燈（2D 背景 ntu_library_2f、B1 自習室同一款）：在原點畫一份，inst() 用 instancing 放到每張長桌的中線"""
+    ccyl(t.vm, (0, 0.76, 0), (0, 0.775, 0), 0.06, '#b08a3a', seg=10)
+    ccyl(t.vm, (0, 0.775, 0), (0, 0.99, 0), 0.008, '#b08a3a', seg=6)
+    y0, r, n = 0.99, 0.06, 8
+    arc = [(r * math.cos(PI * k / n), r * math.sin(PI * k / n)) for k in range(n + 1)]
+    for (u0, v0), (u1, v1) in zip(arc, arc[1:]):
+        t.vm.poly([(-0.14, y0 + v0, u0), (0.14, y0 + v0, u0), (0.14, y0 + v1, u1), (-0.14, y0 + v1, u1)], '#2f5d43')
+        t.vm.poly([(-0.14, y0 + v1, u1), (0.14, y0 + v1, u1), (0.14, y0 + v0, u0), (-0.14, y0 + v0, u0)], '#2f5d43')
+    for xe in (-0.14, 0.14): t.vm.poly([(xe, y0 + v, u) for (u, v) in arc], '#2f5d43'); t.vm.poly([(xe, y0 + v, u) for (u, v) in reversed(arc)], '#2f5d43')
+
+
+def stack(c, cx, cz, w, y0, H=2.1, D=0.62, cap='#888888'):
+    """二樓的雙面書架（11-02 二樓平面圖：西半邊黃色＝人社中日韓文、東半邊藍色＝人社西文）：淺灰鋼架、中間背板、
+    兩面各四層書（一叢一叢的書：寬 6～14 cm 一塊、顏色不同，三角形是一本一本畫的三分之一）、兩端是平面圖顏色的端板（索書號是遊戲畫的字）"""
+    x0, x1, z0, z1 = cx - w / 2, cx + w / 2, cz - D / 2, cz + D / 2
+    c.vm.cbox(x0, x1, y0, y0 + 0.08, z0 + 0.02, z1 - 0.02, '#4a4e52')                      # 踢腳
+    c.vm.cbox(x0, x1, y0 + 0.08, y0 + H, cz - 0.012, cz + 0.012, '#c3c7cb')                # 中間背板
+    c.vm.cbox(x0, x1, y0 + H - 0.03, y0 + H, z0, z1, '#c3c7cb')                             # 頂板
+    n = max(2, int(round(w / 1.0)))
+    for i in range(n + 1):                                                                  # 立柱（每 1 m 一節）
+        xx = x0 + i * w / n; c.vm.cbox(xx - 0.015, xx + 0.015, y0 + 0.08, y0 + H - 0.03, z0, z1, '#b5b9bd')
+    for k in range(5):
+        yy = y0 + 0.08 + k * (H - 0.16) / 4.4; c.vm.cbox(x0, x1, yy, yy + 0.02, z0, z1, '#c9cdd1')
+        if k == 4: continue
+        for s in (-1, 1):
+            za, zb = (cz + 0.02, z1 - 0.03) if s > 0 else (z0 + 0.03, cz - 0.02)
+            x = x0 + 0.03
+            while x < x1 - 0.08:
+                bw = rng.uniform(0.06, 0.14); bh = rng.uniform(0.2, 0.3)
+                if rng.random() < 0.88: c.get('books', cm=True).cbox(x, min(x + bw, x1 - 0.03), yy + 0.02, yy + 0.02 + bh, za, zb, rng.choice(['#2f5d50', '#8c3b47', '#c9a24f', '#4a6c8c', '#7b6a5a', '#b5643f', '#d9d3c6', '#3e4a5c', '#5e6b45']))
+                x += bw + 0.004
+    for e in (-1, 1):                                                                        # 端板（平面圖的顏色）
+        xe = cx + e * (w / 2 + 0.015); c.vc.cbox(xe - 0.015, xe + 0.015, y0, y0 + H, z0 - 0.01, z1 + 0.01, cap)
+def exhibit(c, x, z, w, h, y0):
+    """二樓展示區：北牆上的展板（白底、三張圖、幾行字；顏色都是頂點色）"""
+    c.vc.cbox(x - w / 2, x + w / 2, y0 + 0.7, y0 + 0.7 + h, z - 0.025, z + 0.025, '#f2efe8')
+    for i, col in enumerate(('#7a5a46', '#3e6a7c', '#8c3b47')):
+        px = x - w / 2 + 0.12 + i * (w - 0.24) / 3; c.vc.cbox(px, px + (w - 0.24) / 3 - 0.06, y0 + 1.45, y0 + 2.05, z + 0.025, z + 0.03, col)
+    for j in range(4): c.vc.cbox(x - w / 2 + 0.12, x + w / 2 - 0.3 * (j % 2) - 0.12, y0 + 0.95 + j * 0.1, y0 + 0.97 + j * 0.1, z + 0.025, z + 0.03, '#5a5d61')
+
+
 for f in LAY['furniture']:
     c, y = lvl(f); t = f['type']; ry = f.get('ry', 0.0); T_ = rot(f.get('x', 0), f.get('z', 0), ry)
     if t == 'lockers':
@@ -496,13 +544,14 @@ for f in LAY['furniture']:
         x, z, w = f['x'], f['z'], f['w']
         C1.get('wood', tile=1.6).box(x - w / 2, x + w / 2, y + 0.72, y + 0.76, z - 0.5, z + 0.5)
         for dx in (-w / 2 + 0.1, w / 2 - 0.14): C1.vm.cbox(x + dx, x + dx + 0.04, y, y + 0.72, z - 0.45, z + 0.45, '#3a3d41')
-        C1.get('wood', tile=1.6).box(x - w / 2 + 0.05, x + w / 2 - 0.05, y + 0.76, y + 1.06, z - 0.015, z + 0.015)   # 中間的矮隔板
         n = f.get('seats', 4)
         for i in range(n):
             sxx = x - w / 2 + (i + 0.5) * w / n
             for s in (-1, 1): CHAIRS[1].append((sxx, z + s * 0.8, PI if s > 0 else 0.0))
-            C1.vm.cbox(sxx + 0.25, sxx + 0.3, y + 0.76, y + 1.02, z - 0.05, z + 0.05, '#2f5d43')     # 綠色檯燈（簡化）
+            LAMPS[1].append((sxx, z, 0.0))                                                    # 綠色銀行燈（2D 背景 ntu_library_2f：桌子中線一排）
+            C1.get('warm').box(sxx - 0.13, sxx + 0.13, y + 0.995, y + 0.999, z - 0.05, z + 0.05)   # 燈罩下面亮的一條（GLOW_，晚上亮）
     elif t == 'shelf': shelf(c, f['x'], f['z'], f['w'], ry, y)
+    elif t == 'stack': stack(c, f['x'], f['z'], f['w'], y, H=f.get('h', 2.1), D=f.get('d', 0.62), cap=f.get('cap', '#888888'))
     elif t == 'groupTable':                            # 一樓多元共享區的四人桌（淺色木頭、中間一支腳）
         x, z = f['x'], f['z']
         c.get('wood', tile=1.6).box(x - f['w'] / 2, x + f['w'] / 2, y + 0.71, y + 0.75, z - f['d'] / 2, z + f['d'] / 2)
@@ -523,7 +572,8 @@ for f in LAY['furniture']:
             TCHAIRS[0].append((sxx, z + f['d'] / 2 + 0.42, PI))
     elif t == 'prop':
         k = f.get('kind'); w, d, h = f.get('w', 0.5), f.get('d', 0.5), f.get('h', 1.0)
-        if k == 'displayCase':                           # 中庭走道兩旁的展示櫃（照片 1：木頭櫃、上面玻璃、裡面亮燈）
+        if k == 'exhibit': exhibit(c, f['x'], f['z'], w, h, y)
+        elif k == 'displayCase':                           # 中庭走道兩旁的展示櫃（照片 1：木頭櫃、上面玻璃、裡面亮燈）
             x0_, x1_, z0_, z1_ = f['x'] - w / 2, f['x'] + w / 2, f['z'] - d / 2, f['z'] + d / 2
             C0.get('wood', tile=1.6).box(x0_, x1_, y, y + 0.72, z0_, z1_)
             C0.get('glass').box(x0_ + 0.02, x1_ - 0.02, y + 0.72, y + h, z0_ + 0.02, z1_ - 0.02)
@@ -570,6 +620,7 @@ for lv, par in ((0, R0), (1, R1)):
     yb = Y1 if lv else 0.0
     inst(par, f'chair{lv}', [(x, z, yaw, yb) for (x, z, yaw) in CHAIRS[lv]], lambda t: chair(t, 0.0, 0.0, 0.0, 'wood', '#a8743e'))
     inst(par, f'tchair{lv}', [(x, z, yaw, yb) for (x, z, yaw) in TCHAIRS[lv]], lambda t: LU.task_chair(t, 0.0, 0.0, 0.0, '#2e3440'))
+    inst(par, f'lamp{lv}', [(x, z, yaw, yb) for (x, z, yaw) in LAMPS[lv]], banker_lamp_parts)
 
 # =====================================================================
 # 九、入口閘門（第一版的位置）
