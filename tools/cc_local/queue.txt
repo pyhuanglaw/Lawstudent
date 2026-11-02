@@ -25,6 +25,7 @@ R7b_quota15 | b1b249873 | probe | docs/story_planning/test_tools/cc/cc_quota15_p
 # 3. Y4S2 流程（retake／jp）、點名、總複習、考試提示
 R8_y4s2rt   | b1b249873 | probe | docs/story_planning/test_tools/cc/cc_makeup_probe.py   | index.html?turbo | 200 | FAIL_ROUTE=retake;MAIN_FROM=0527;CASES=main_pass,main_fail,route_grades
 R8b_y4s2jp  | b1b249873 | probe | docs/story_planning/test_tools/cc/cc_makeup_probe.py   | index.html?turbo | 60  | FAIL_ROUTE=jp;CASES=route_grades
+R8c_y4s2fin | b1b249873 | probe | docs/story_planning/test_tools/cc/cc_y4s2final_probe.py | index.html?turbo | 200 | FAIL_ROUTE=retake;CASES=main,noexam_stay
 R9_roll     | b1b249873 | probe | docs/story_planning/test_tools/cc/cc_rollcall_probe.py | index.html | 120 | CASES=a,a0,b,c1,c2,d_old,d_new,cw,bedge
 R10_b3      | b1b249873 | probe | docs/story_planning/test_tools/cc/cc_d118b3_probe.py   | index.html | 240 |
 R11_b4      | b1b249873 | probe | docs/story_planning/test_tools/cc/cc_d118b4_probe.py   | index.html | 150 |
