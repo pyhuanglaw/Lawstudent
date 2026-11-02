@@ -97,7 +97,7 @@ def prefix(route):
 
 async def play(pg, cdp, run, tag):
     route = tag; info, st = prefix(route)
-    st['zone'] = 'gongguan'; st['pos'] = None
+    st['zone'] = 'gongguan'; st['pos'] = None; st.pop('v', None)   # 存檔版本照遊戲的 GAME.defaults（pg_harness 的 G 寫 v:3）
     await L.load_state(pg, st, quiet_events=False, quiet_phone=False); await pg.evaluate(Y.CLEARP); await pg.evaluate(EPIHOOK); await pg.wait_for_timeout(3000)
     run.setup('[前置／捷徑] %s：Node 前置（cc_bar_b8_prefix.js，遊戲自己的 PG 程式）停在 %s 開演之前（%s）；讀檔 zone 改 gongguan；前置走過的場景 %s；旗標 %s' %
               (tag, info['stop'], info['at'], J(info['order']), J(info['flags'])))
