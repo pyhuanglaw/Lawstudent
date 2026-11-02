@@ -38952,6 +38952,34 @@
         "receiver": "BB",
         "ack": "DELIVERED"
       }
+    },
+    {
+      "id": "BUG-GOCLASS-WINDOW-1102",
+      "title": "出門前 1.2～3 分鐘按「直接去上課」沒反應（goClass→skipTo 3 分鐘以內回 false）",
+      "area": "系統",
+      "owner": "LAWWW",
+      "status": "已整合待測試",
+      "priority": "P1",
+      "next": "BB／CC 跑 cc_gowindow＋經濟系 2024-10-07 08:41 瀏覽器情境",
+      "first": {
+        "term": "Y0S1",
+        "week": 1,
+        "earliest": "經濟系第一堂課",
+        "mainline": true,
+        "blocks": true,
+        "prereq": false,
+        "parallel": true,
+        "confirmed": true
+      },
+      "source": "BB 05:39（BB_218 第 6865 行，企劃線 e34d6485）",
+      "authorized": "bug 修正",
+      "xai": {
+        "spec": "BB_218 第 6865 行",
+        "branch": "claude/confident-ritchie-8rwh7t",
+        "acceptance": "出門前 0～10 分鐘按都有動作；tests/goclass_window_unit.js（CC 原檔）PASS",
+        "receiver": "BB",
+        "ack": "DELIVERED"
+      }
     }
   ]
 }
