@@ -70,8 +70,8 @@ const CHAR = (function(){
      骨頭：手放在身體兩側、手肘微彎，膝蓋微彎，腳背微微伸直，頭往胸口收一點（枕頭）。LIE_UP＝整個人往上抬多少（背貼床墊：背在站姿的 z≈−0.12）*/
   const LIE_VRM={Hips:[0,0,0],Spine:[0,0,0],Spine1:[0,0,0],Spine2:[0,0,0],Neck:[0.08,0,0],LeftUpLeg:[-0.04,0,0.03],RightUpLeg:[-0.04,0,-0.03],LeftLeg:[0.1,0,0],RightLeg:[0.1,0,0],LeftFoot:[0.35,0,0],RightFoot:[0.35,0,0],LeftArm:[0,0,-1.36],RightArm:[0,0,1.36],LeftForeArm:[0,0,0],RightForeArm:[0,0,0]};
   const LIE_UP=0.11;
-  /* 爬梯子（climb）：走路片段跑完以後，兩隻手往前上方抓梯子／床欄（疊加姿勢，和 u.overlay 同一套：x、z 乘 sx），手肘彎一點 */
-  const CLIMB_VRM={k:1,bones:{LeftArm:[0,-1.4,0.1],RightArm:[0,1.4,-0.1],LeftForeArm:[0,-0.5,0],RightForeArm:[0,0.5,0]}};
+  /* 爬梯子（climb）：走路片段＋兩手抓梯子、交替往上換手、上身往前靠（climbIK，真實骨架；CLIMB-POSE-1102）。
+     舊版（DORM-SLEEP-1030）是 CLIMB_VRM＝兩隻上臂、前臂固定成往前平舉的同一個角度、蓋掉片段的手：兩手在胸前碰在一起、整段不動（使用者 11-02「好像殭屍」）*/
   const EXPR_VRM={smile:['happy',0.7],laugh:['happy',1.0],shy:['relaxed',0.8],surprise:['surprised',1.0],worried:['sad',0.7],angry:['angry',0.8],normal:null};
   // VRM 0.x（VRoid）在 normalized rig 裡面朝 -Z（three-vrm 用整個 scene 轉 180° 修正），所以直接寫骨頭旋轉時 x、z 要反號
   function setBonesV(B,tab,sx){ for(const n in tab){ const b=B[n]; if(!b) continue; const r=tab[n]; b.rotation.set(r[0]*sx,r[1],r[2]*sx); } }
@@ -247,6 +247,32 @@ const CHAR = (function(){
     for(const [i,side] of [[0,1],[1,-1]]){ const L=ARMS[i], g=u.ride.grips&&u.ride.grips[i]; const T=h.localToWorld(g?new THREE.Vector3(g[0],g[1],g[2]):new THREE.Vector3(side*BIKE_G.grip[0]*k,(BIKE_G.grip[1]+0.01)*k,(BIKE_G.grip[2]-0.03)*k));   /* 把手轉了：bike3d.js 給轉過的握點（已經含車的尺寸）*/
       const sh=R[L[0]].getWorldPosition(new THREE.Vector3()); const pole=h.localToWorld(h.worldToLocal(sh.clone()).add(new THREE.Vector3(side*0.6,-0.5,-0.2)));
       ik2(R[L[0]],R[L[1]],R[L[2]],T,pole); } }
+  /* 爬宿舍上舖的梯子（pose climb；CLIMB-POSE-1102，使用者 11-02「走上床手為什麼要往上抬高阿 好像殭屍」）：在真實骨架上、和 rideIK 同一套兩段式 IK（ik2）。
+     ① 上身往前靠向梯子（脊椎 lean、胸口 chest，繞人物的左右軸），頭抬回來一點看上面（neck）；
+     ② 兩手各抓梯子的一側：離身體中線 side，高度在肩膀下 lo（胸口）到肩膀上 hi（額頭）之間、在肩膀前面 fwdLo～fwdHi；手肘往下、往外彎（pole）；
+     ③ 兩手交替往上換手、跟腳一致：走路片段裡哪一隻腳在前面（往上一階踩），對側的手就在上面——左右膝蓋（相對大腿根）的前後差換算成 0～1，
+        兩端飽和一點（手在最上面、最下面停一下＝抓住），中間平滑變化；
+     ④ 剛開始爬（從站姿換過來）blend 秒內從片段的手漸漸抓上去，不跳格。數值都乘身高比例 u.k。
+     u.climbHi＝[左手, 右手] 的高度（0＝胸口、1＝最上面），測試用（tests/climb_pose_unit.js）。C.climbIK=false 可以關掉比較（手照走路片段擺）*/
+  C.climbIK=true;
+  C.CLIMB={side:0.2,lo:-0.12,hi:0.27,fwdLo:0.24,fwdHi:0.3,amp:0.3,lean:0.14,chest:0.06,neck:-0.16,blend:0.25};
+  const CLQ=new THREE.Quaternion(), CLV=[0,1,2,3,4,5].map(()=>new THREE.Vector3());
+  function climbIK(h,u,dt){ if(!C.climbIK) return; const hm=u.vrm.humanoid, K=C.CLIMB, k=u.k||1;
+    const R=u.rawClimb||(u.rawClimb=(()=>{ const o={}; for(const n of ['spine','chest','neck']) o[n]=hm.getRawBoneNode(n); for(const L of LEGS.concat(ARMS)) for(const n of L) o[n]=hm.getRawBoneNode(n); return o; })());
+    if(LEGS.concat(ARMS).some(L=>L.slice(0,3).some(n=>!R[n]))) return;
+    const w=u.climbW=Math.min(1,(u.climbW||0)+(dt>0?dt/K.blend:0)); if(!(w>0)) return;
+    h.updateWorldMatrix(true,true); const left=CLV[0].set(1,0,0).applyQuaternion(h.getWorldQuaternion(CLQ)).normalize();   /* 人物的左方（人物座標 +x）：繞它轉正的角度＝往前傾 */
+    const Lc=b=>h.worldToLocal(b.getWorldPosition(new THREE.Vector3()));
+    // ③ 換手的節奏：左膝比右膝前面多少（人物座標 z 往前）
+    const d=(Lc(R.leftLowerLeg).z-Lc(R.leftUpperLeg).z)-(Lc(R.rightLowerLeg).z-Lc(R.rightUpperLeg).z), s=Math.max(-1,Math.min(1,d/(K.amp*k)));
+    const hiR=0.5+0.5*Math.sin(s*Math.PI/2), hi=[1-hiR,hiR]; u.climbHi=hi;   /* 左腳在前（往上踩）→ 右手在上 */
+    // ① 上身
+    if(R.spine) rotWorld(R.spine,left,K.lean*w); if(R.chest) rotWorld(R.chest,left,K.chest*w); if(R.neck) rotWorld(R.neck,left,K.neck*w);
+    // ② 手
+    for(const [i,side] of [[0,1],[1,-1]]){ const L=ARMS[i], sh=Lc(R[L[0]]), cur=Lc(R[L[2]]), t=hi[i];
+      const T=CLV[1].set(side*K.side*k, sh.y+(K.lo+(K.hi-K.lo)*t)*k, sh.z+(K.fwdLo+(K.fwdHi-K.fwdLo)*t)*k); if(w<1) T.lerp(cur,1-w);
+      const pole=h.localToWorld(CLV[2].set(sh.x+side*0.5*k, sh.y-0.6*k, sh.z-0.1*k));
+      ik2(R[L[0]],R[L[1]],R[L[2]],h.localToWorld(CLV[3].copy(T)),pole); } }
   const RA={}, SFV=[new THREE.Vector3(),new THREE.Vector3(),new THREE.Vector3(),new THREE.Vector3(),new THREE.Vector3()];
   function sitFeet(h,u){ const hm=u.vrm.humanoid; const B=u.rawLegs||(u.rawLegs=(()=>{ const o={}; for(const L of LEGS) for(const n of L) o[n]=hm.getRawBoneNode(n); return o; })());
     if(LEGS.some(L=>L.slice(0,3).some(n=>!B[n]))) return;
@@ -280,7 +306,7 @@ const CHAR = (function(){
     if(!isFinite(lo)) return; const sc=h.getWorldScale(SFV[2]).y||1; u.model.position.y+=(gy+u.sitFloor+0.05-lo)/sc; u.model.updateWorldMatrix(false,true); }
   function animateVRM(h,dt,st){ const u=h.userData; const a=u.anim; a.t+=dt; const pose=st.pose||'idle'; const B=u.bones; const spd=st.speed||0; const vrm=u.vrm; const sx=u.sx||1;
     if(u.props){ const sitting=pose==='sit'||pose==='read', lying=pose==='lie'; for(const k in u.props){ const d=typeof PROPS!=='undefined'&&PROPS.DEF[k]; const o=u.props[k]; if(!o) continue; if(d&&d.sit==='only'){ o.visible=sitting&&!!(u.propOn&&u.propOn[k]===true); continue; } if(!(k==='backpack'||k==='guitar'||k==='bag_yu'||(d&&d.sit==='hide'))) continue; o.visible=!sitting&&!lying&&!(u.propOn&&u.propOn[k]===false); } }   /* 躺在床上也藏（後背包，DORM-SLEEP-1030）*/   /* 坐下時藏：後背包、吉他、側背包＋PROPS.DEF 的 sit:'hide'（垂著拿的東西）；sit:'only'＝坐下而且開了才看得到（NPC-POOL-ART-1028）*/
-    u.ride=pose==='ride'?(st.ride||{crank:0}):null;
+    u.ride=pose==='ride'?(st.ride||{crank:0}):null;   u.climbOn=pose==='climb'; if(!u.climbOn) u.climbW=0;   /* 爬梯子：手、上身在 climbIK（真實骨架）*/
     if(pose!=='lie'&&u.model.rotation.x!==0) u.model.rotation.x=0;   /* 從躺姿起來：整個人轉回直立（DORM-SLEEP-1030）*/
     if(pose==='ride'){ if(!a.static||a.staticKind!=='ride'){ for(const n in a.actions) a.actions[n].stop(); a.static=true; a.staticKind='ride'; a.cur=null; vrm.humanoid.resetNormalizedPose(); } u.ikDrop=0; u.ikSt=null; setBonesV(B,RIDE_VRM,sx); if(B.Head) B.Head.rotation.set(-0.22*sx,0,0); }   /* 頭往上抬，看前面的路（胸口、頭每一幀都由表重設，下面的注視「加」轉角不會累加）*/   /* 騎車：人物的高度、前後位置在 rideIK 依髖關節對座墊 */
     else if(pose==='sit'||pose==='read'){ if(!a.static||a.staticKind!=='sit'){ for(const n in a.actions) a.actions[n].stop(); a.static=true; a.staticKind='sit'; a.cur=null; vrm.humanoid.resetNormalizedPose(); } u.ikDrop=0; u.ikSt=null; u.model.position.y=(u.model.userData.baseY||0)-0.47*u.k; u.model.position.z=0; setBonesV(B,SIT_VRM,sx); if(u.sitFloor) setBonesV(B,SEIZA_VRM,sx); if(pose==='read'){ setBonesV(B,READ_VRM,sx); if(B.Head) B.Head.rotation.set((0.35+Math.sin(a.t*0.6)*0.02)*sx,0,0); } else { if(B.Head) B.Head.rotation.set(Math.sin(a.t*0.7)*0.03*sx,Math.sin(a.t*0.4)*0.15,0); } if(B.Spine) B.Spine.rotation.set(0.06*sx,0,0); if(B.Spine1) B.Spine1.rotation.set(0,0,0); }   /* 胸口每一幀也要重設：下面的注視是在胸口「加」轉角，坐姿沒有動畫把骨頭蓋回去，不重設就會一直累加、整個上半身在椅子上轉圈（使用者 2026-10-11 回報，tests/seated_look_unit.js）*/
@@ -294,7 +320,6 @@ const CHAR = (function(){
           ARMQ.setFromAxisAngle(ARMZ,s_*u.armOut*sx); b.quaternion.premultiply(ARMQ); } }
       if(pose==='wave'&&B.RightArm){ const g=Math.sin(a.t*7); B.RightArm.rotation.set(0,0,-0.9*sx); if(B.RightForeArm) B.RightForeArm.rotation.set(0,0,(-1.6+g*0.25)*sx); if(B.Head) B.Head.rotation.z+=0.08*sx; }
       if(pose==='talk'&&B.Head){ B.Head.rotation.x+=Math.sin(a.t*1.4)*0.05*sx; B.Head.rotation.y+=Math.sin(a.t*0.8)*0.08; if(B.Spine1) B.Spine1.rotation.y+=Math.sin(a.t*0.6)*0.03; }
-      if(pose==='climb'){ for(const n in CLIMB_VRM.bones){ const bn=B[n]; if(!bn) continue; const r=CLIMB_VRM.bones[n]; OVE.set(r[0]*sx,r[1],r[2]*sx); OVQ.setFromEuler(OVE); bn.quaternion.copy(OVQ); } }   /* 爬梯子：手往前上方抓（CLIMB_VRM，和疊加姿勢同一套角度）*/
       if(u.overlay&&u.overlay.bones){ const o=u.overlay, k=o.k==null?1:Math.max(0,Math.min(1,o.k)); for(const n in o.bones){ const bn=B[n]; if(!bn) continue; const r=o.bones[n]; OVE.set(r[0]*sx,r[1],r[2]*sx); OVQ.setFromEuler(OVE); bn.quaternion.slerp(OVQ,k); } }   /* 疊加姿勢（羽球揮拍 BADMINTON-CLIP-1027，src/badminton_clip3d.js）：片段算完以後把幾根骨頭轉到指定角度（和 SIT_VRM 同一套角度：x、z 乘 sx），k＝比例；坐下、騎車不受影響 */
       if(u.posture||u.postQ){ const on=!(u.overlay&&u.overlay.bones)&&!!u.posture&&(pose==='idle'||pose==='walk'||pose==='run'||pose==='talk'), PQ=u.postQ||{};   /* 體態（D40 健身，src/fit3d.js 設 u.posture）：小角度疊在動作上（挺胸、肩膀往後）；坐、騎車、疊加姿勢（羽球、開門）的時候不加 */
         for(const n in PQ){ const bn=B[n], q=PQ[n]; if(bn&&bn.quaternion.equals(q.after)) bn.quaternion.multiply(q.inv); }   /* 這一格動畫沒蓋過的骨頭：先撤掉上一格加的（不然會一格一格累加）*/
@@ -305,7 +330,7 @@ const CHAR = (function(){
     if(pose==='lie'&&!st.lookAt) u.look.position.set(0,1.6,-1.4);   /* 躺著：眼睛看天花板（不是看腳那邊）*/
     // 表情：眨眼、嘴型
     const em=vrm.expressionManager; if(em){ a.blink-=dt; if(a.blink<=0){ a.blinkT=0.14; a.blink=2.5+Math.random()*3.5; } if(a.blinkT>0){ a.blinkT-=dt; em.setValue('blink',a.blinkT>0.07?1:(a.blinkT/0.07)); } else em.setValue('blink',0); if(u.eyesShut) em.setValue('blink',1);   /* 睡著（story3d.js 的睡覺流程設 h.userData.eyesShut）*/ const target=pose==='talk'?(0.08+Math.abs(Math.sin(a.t*9))*0.3):0; a.mouth+=(target-a.mouth)*Math.min(1,dt*14); em.setValue('aa',a.mouth); }
-    updateVRM(vrm,dt,()=>{ footIK(h,u,u.ikSt,dt); sitFeet(h,u); sitFloorFit(h,u); if(u.ride) rideIK(h,u); if(u.drive) skirtDrive(u.drive); },u.isFar); }
+    updateVRM(vrm,dt,()=>{ footIK(h,u,u.ikSt,dt); sitFeet(h,u); sitFloorFit(h,u); if(u.ride) rideIK(h,u); if(u.climbOn) climbIK(h,u,dt); if(u.drive) skirtDrive(u.drive); },u.isFar); }
   // VRM 更新：彈簧骨（頭髮、馬尾）用固定小步長。低幀率（SwiftShader 1–4 fps、手機突然卡頓）時一次積分太大，馬尾會失穩往上翹
   // 彈簧骨前先更新整個 VRM 的 world matrix：three-vrm 用「子骨頭的 matrixWorld」算骨長，人物移動／瞬移／動畫之後子骨頭還停在上一幀，
   // 低幀率時一幀差幾十公分 → 骨長算錯、頭髮被甩到耳朵高度往外翹（林芷若走路截圖；30 fps 時也會讓髮尾抖）
