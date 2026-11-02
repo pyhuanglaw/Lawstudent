@@ -167,7 +167,8 @@ async def noodle_pass(p, run, sub, orient):
     tag = 'noodle_%s_%s' % (sub, orient); land = orient == 'land'
     b, ctx, pg, cdp, errs = await L.launch(p, landscape=land)
     pg.on('dialog', lambda dd: asyncio.ensure_future(dd.accept()))
-    rec = {'sub': sub, 'orient': orient, 'shots': {}}
+    rec = {'sub': sub, 'orient': orient, 'shots': {}}; warns = []
+    pg.on('console', lambda m: warns.append(m.text[:300]) if m.type in ('warning', 'error') else None)
     try:
         await pg.goto(URL); ok = await L.wait_loaded(pg); run.check('%s：遊戲載入' % tag, ok)
         await pg.evaluate("localStorage.clear()"); await P.init(pg); await pg.evaluate(HOOK)
@@ -234,6 +235,13 @@ async def noodle_pass(p, run, sub, orient):
             egg = [m for m in ns['msgs'] if m['tag'] == 'zhe_supper_mid2_egg']
             run.check('%s：20:30 阿哲三則（📷 滷蛋／柏翰幫沛珊切的／……他們在一起了）' % tag, okh and [m['text'] for m in egg] == ['📷（一顆切成兩半的滷蛋）', '柏翰幫沛珊切的', '……他們在一起了'], J(egg))
             run.check('%s：記「聽說」（HEARD_ABOUT）、事件沒演' % tag, bool(ns['heard']) and not ns['done'], J({'heard': ns['heard'], 'done': ns['done']}))
+            rec['warns2030'] = warns[-20:]; run.note('%s：console warning／error（最後 8 則）%s' % (tag, J(warns[-8:])))
+            if not egg:   # 【診斷】只記：手動叫一次 STORY.phoneRules、看條件；再看隔天（4/16）補不補
+                dg = await pg.evaluate(r"""(()=>{ const G=GAME.G, d=STORY.termDay('Y1S2',8,3), ev=STORY_EVENTS.find(e=>e.id==='%s'); const c={day:G.day,d,h:G.hour,stage:G.stage||'law',group:PHONE.inGroup(G,'noodle_team'),knows:STORY.knows('classmate_peishan',G),
+                  dating:!!G.flags.dating_classmate_peishan,done:!!(G.events.done&&G.events.done['%s']),sentEgg:PHONE.sent(G,'zhe_supper_mid2_egg'),hasMissed:!!(ev&&ev.missedPhoto),psbh:!!(ev&&ev.prereq.custom(G))};
+                  let err=null; try{ STORY.phoneRules(GAME); }catch(e){ err=String(e&&e.stack||e).slice(0,400); } c.err=err; c.sentEggAfter=PHONE.sent(G,'zhe_supper_mid2_egg');
+                  let err2=null, r2=null; if(!c.sentEggAfter&&ev&&ev.missedPhoto){ try{ r2=ev.missedPhoto(G,d); }catch(e){ err2=String(e&&e.stack||e).slice(0,400); } } c.direct=r2; c.err2=err2; c.sentEggDirect=PHONE.sent(G,'zhe_supper_mid2_egg'); return c; })()""" % (EVID, EVID))
+                rec['diag'] = dg; run.note('%s：【診斷】%s' % (tag, J(dg)))
             th = await P.phone_thread(pg, cdp, 'g:noodle_team'); rec['thread2030'] = th['text'][-600:]
             rec['shots']['group2030'] = await run.shot(pg, tag + '_group2030'); await L.close_panels(pg, cdp)
             R = await pg.evaluate(PL, n0); rec['log'] = R; rec['events'] = [x['id'] for x in R if x['k'] == 'event']
@@ -444,9 +452,9 @@ async def card_pass(p, run, orient):
             if s['phone'] and not s['dlg'] and not s['ch']: await L.phone_away(pg, cdp, tries=2); continue
             if s['ch']:
                 T = [o['t'] for o in s['ch']]
-                if '考前總複習' in T:
+                if any(t.startswith('考前總複習') for t in T):   # 按鈕文字含提示（「考前總複習這學期還要考的…」）
                     if not menu_shot: rec['shots']['menu'] = await run.shot(pg, tag + '_deskmenu'); menu_shot = True
-                    k = T.index('考前總複習')
+                    k = next(i for i, t in enumerate(T) if t.startswith('考前總複習'))
                 elif done_target and any(t.startswith('結束總複習') for t in T): k = next(i for i, t in enumerate(T) if t.startswith('結束總複習'))
                 elif target_hdr is None and any(t.startswith('跳到下一科') for t in T): k = next(i for i, t in enumerate(T) if t.startswith('跳到下一科'))
                 elif any(t.startswith('下一張') for t in T): k = next(i for i, t in enumerate(T) if t.startswith('下一張'))
