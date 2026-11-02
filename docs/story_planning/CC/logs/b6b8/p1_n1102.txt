@@ -1,0 +1,25 @@
+judgePool size / by group          {"n":74,"by":{"pub":7,"civ":17,"crim":41,"proc":9}}
+seed 12345 5-year drawJudge        2029:10{"civ":3,"crim":3,"pub":2,"proc":2} 2030:10{"civ":3,"crim":3,"pub":2,"proc":2} 2031:10{"civ":3,"crim":3,"pub":2,"proc":2} 2032:10{"civ":3,"crim":4,"pub":1,"proc":2} 2033:10{"civ":3,"crim":6,"proc":1}
+seed 1 5-year drawJudge            2029:10{"civ":3,"crim":3,"pub":2,"proc":2} 2030:10{"civ":3,"crim":3,"pub":2,"proc":2} 2031:10{"civ":3,"crim":3,"pub":2,"proc":2} 2032:10{"civ":3,"crim":4,"pub":1,"proc":2} 2033:10{"civ":3,"crim":6,"proc":1}
+seed 777 5-year drawJudge          2029:10{"civ":3,"crim":3,"pub":2,"proc":2} 2030:10{"civ":3,"crim":3,"pub":2,"proc":2} 2031:10{"civ":3,"crim":3,"pub":2,"proc":2} 2032:10{"civ":3,"crim":4,"pub":1,"proc":2} 2033:10{"civ":3,"crim":6,"proc":1}
+seed 424242 5-year drawJudge       2029:10{"civ":3,"crim":3,"pub":2,"proc":2} 2030:10{"civ":3,"crim":3,"pub":2,"proc":2} 2031:10{"civ":3,"crim":3,"pub":2,"proc":2} 2032:10{"civ":3,"crim":4,"pub":1,"proc":2} 2033:10{"civ":3,"crim":6,"proc":1}
+basis=null                         null 5:false 6:false 7:true
+basis=4 exactly                    4 5:false 6:true 7:true
+basis<4                            3.995 5:false 6:false 7:true
+basis incl ge_ final(0)?           2 5:false 6:false 7:true
+basis incl Y5S1?                   2
+basis keys sample                  Y1S1:civ:final,Y2S1:ge_y2s1:final,Y5S1:civ:final,Y1S1:civ:final:retake
+verdict y=2029 no prior, k=10      false
+verdict 2030 w/o prior sit, k=10   false
+EPI.last keys                      ["A_bar","A_none","B_grad","B_quit","C_zq","C","L_firm","J_judge","J_pros"]
+FIRST.me keys                      ["A_bar","A_none","B_grad","B_quit","L_firm","J_judge","J_pros","C_zq","C"]
+JUDGE.jobName                      {"J_judge":"法官","J_pros":"檢察官"}
+JUDGE keys                         ["hall","no","pass","admit","oral","retake","cards","still","role","distance","epiD","epiF","epiGradLic","kai","peishan","jobName"]
+JUDGE.epiD                         司法官那一年沒考上。我後來沒有再考，因為我發現我喜歡站在當事人旁邊。
+JUDGE.epiF                         司法官考了幾次，最後沒有上。那幾年讀的東西，現在每一件案子都用得到。
+retake.noLic                       （明年八月，兩個都還能考。）
+JUDGE.no                           【考選部】司法官二試：未通過。
+R2.judgeNarr                       （你看了一下司法官那一欄，沒有你的號碼。）
+LATE.stop                          {"2031":"（你沒有報名。國考的書，你收進了箱子。箱子沒有封起來。）","2032":"（你沒有報名。國考的書，你收進了箱子。箱子沒有封起來。）","2033":"（你沒有報名。國考的書，你收進了箱子。箱子沒有封起來。）"}
+LATE.card                          {"2031":["2031 年","還在考。"],"2032":["2032 年","書換了一版。"],"2033":["2033 年","最後一次。"]}
+Y reg dates                        2029:undefined 2030:undefined 2031:2031-05-08 2032:2032-05-13 2033:2033-05-12
