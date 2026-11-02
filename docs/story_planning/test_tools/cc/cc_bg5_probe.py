@@ -18,7 +18,7 @@ check 只有三種：事件真的演出來（遊戲的 OUT.go／EVENTS.run／JP.
   遊戲本身沒有「關掉對話框」的按鈕（#advTop 只有「紀錄」「略過對話」），所以只有底圖的那一張是暫時改 DOM 透明度拍的，拍完馬上還原。
 
 直向、橫向：預設 ORIENT=both＝同一頁、同一句對話，先拍橫向，再 page.set_viewport_size 切到直向（等 1.8 秒＋兩個 animation frame 讓版面重排；
-  #rotate.want 還在就拿掉，同 playlib.load_state），拍完切回橫向。ORIENT=land／port＝整個瀏覽器 context 一開始就是那個方向、只拍那個方向
+  #rotate.want 還在就拿掉，同 playlib.load_state）；之後要拍「有人說話」那一句時先切回第一個方向。ORIENT=land／port＝整個瀏覽器 context 一開始就是那個方向、只拍那個方向
   （要「直向、橫向各開一個 context」就跑兩次：ORIENT=land 一次、ORIENT=port 一次，輸出資料夾分開）。
 
 怎麼讓事件演出來（每一張開一個新的瀏覽器）：
@@ -30,7 +30,7 @@ check 只有三種：事件真的演出來（遊戲的 OUT.go／EVENTS.run／JP.
     日本報到（jp_intl_office）不用點：JP.SCH g1_office 3/27 10:00 到了，據點自己演。
   【捷徑】PROMPT_S 秒內沒有自己開演（例：那天別的強制劇情、選單擋住 OUT.tick）→ void OUT.go(GAME,q)（日本：JP.goOut／JP.playStop）直接出發，
     印出原因與當時畫面上的選單。用 void＝不等 Promise（page.evaluate 會等 Promise）。
-  到了以後：底圖換成那一張之前的對話（例：沛珊那趟先在台中車站接人）照玩家點過去；到了那一張、第一句打完字（連續兩次讀到同一句）就拍。
+  到了以後：底圖換成那一張之前的對話（例：沛珊那趟先在台中車站接人）照玩家點過去；到了那一張、第一句打完字（#dlgNext「▼ 點一下繼續」出來＋連續兩次讀到同一句；低幀率只看「同一句」會拍到打到一半的句子）就拍。
 
 10 張（id：事件／程式；真實條件；探針的日期時間）：
   gym_pool       ev_sis16_swim（src/data/sis_b16_events.js:104；排程 src/sis_b16_3d.js:85-91 SISB16.SWIM_OUT）
@@ -198,6 +198,7 @@ OUTLINE_JS = r"""(boxes=>{ let o=document.getElementById('bg5ol'); if(o) o.remov
     const t=document.createElement('span'); t.textContent=b.label+' '+b.coverPct+'%'; t.style.cssText='position:absolute;left:2px;top:2px;font:11px/1.2 monospace;color:#fff;background:'+c+'cc;padding:1px 4px'; d.appendChild(t); o.appendChild(d); }
   document.body.appendChild(o); return boxes.length; })"""
 FALLBACK_JS = r"""(c=>{ const G=GAME.G, notes=[]; if(typeof EVENTS!=='undefined'&&EVENTS.running) notes.push('（注意：別的事件正在演 EVENTS.running='+EVENTS.running+'，EVENTS.run 會直接 return）');
+  { const ch=document.getElementById('choices'); if(ch&&!ch.classList.contains('hide')) notes.push('（注意：畫面上的選單還開著［'+[...ch.querySelectorAll('button')].map(b=>(b.textContent||'').trim().slice(0,24)).join('｜')+'］，直接出發會和它疊在一起：之後的截圖可能帶著這個選單，要看圖確認）'); }
   try{
     if(c.kind==='outing'){ const q=typeof OUT!=='undefined'&&OUT.get?OUT.get(G,c.qid):null; if(!q) return notes.concat(['存檔裡找不到出遊 '+c.qid]).join('');
       notes.push('出遊原本 state='+q.state); q.state='planned'; q.ask=null;
@@ -248,18 +249,32 @@ async def build_state(pg, c):
     return st, d, q
 
 
+TYPED_JS = "(()=>{ const n=document.getElementById('dlgNext'); return !!n&&n.style.visibility==='visible'; })()"
+
+
 async def ts(pg):
-    return await P.ts(pg)
+    """bbplay 的 ts＋typed（這一句打完字＝#dlgNext 看得到；game3d.js 的 dlgTick 每一格才多打幾個字，SwiftShader 1～4 fps 時
+    隔 0.6 秒讀兩次可能剛好沒有新的一格＝讀到同一個「打到一半」的句子，所以不能只靠「連續兩次同一句」）"""
+    s = await P.ts(pg)
+    try: s['typed'] = bool(await pg.evaluate(TYPED_JS))
+    except Exception: s['typed'] = False
+    return s
+
+
+def line_done(s, last, same_n):
+    """這一句打完了：#dlgNext 出來＋讀到同一句；或同一句連續 4 次（約 2.4 秒沒有變＝不是在打字）"""
+    return bool(s['txt']) and s['txt'] == last and (s.get('typed') or same_n >= 4)
 
 
 async def wait_line(pg, max_s=20):
     """等這一句打完字（連續兩次讀到同一句）或出選項"""
-    t0 = time.time(); last = None
+    t0 = time.time(); last = None; same = 0
     while time.time() - t0 < max_s:
         s = await ts(pg)
         if s['ch']: return s
         if s['dlg'] and s['txt']:
-            if s['txt'] == last: return s
+            same = same + 1 if s['txt'] == last else 1
+            if line_done(s, last, same): return s
             last = s['txt']
         await pg.wait_for_timeout(600)
     return await ts(pg)
@@ -276,7 +291,7 @@ async def trigger(pg, cdp, run, c, q):
         if s['phone'] and not s['ch'] and not s['dlg']: await L.phone_away(pg, cdp); continue
         if s['ch']:
             opts = [o['t'] for o in s['ch']]
-            kk = next((i for i, o in enumerate(s['ch']) if not o['dim'] and o['t'].startswith('出發') and (not c['match'] or c['match'] in o['t'])), None)
+            kk = next((i for i, o in enumerate(s['ch']) if not o['dim'] and o['t'].startswith('出發') and c['match'] and c['match'] in o['t']), None) if c['kind'] == 'outing' else None   # jpstop（日本報到）等它自己演，不點別的「出發」
             if kk is not None and not tapped:
                 run.note('%s：遊戲自己跳出選單 %s → 點「%s」（像玩家）' % (c['k'], J(opts), opts[kk]))
                 await P.tap_choice(pg, cdp, kk); tapped = True; await pg.wait_for_timeout(1500); continue
@@ -299,13 +314,14 @@ async def trigger(pg, cdp, run, c, q):
 
 async def wait_scene(pg, cdp, run, c):
     """開演以後等到底圖換成那一張、第一句打完字（或出選項）。之前的對話（例：台中車站接人）照玩家點過去。回傳 (到了沒, ts, bgnow, 之前點過的句子)"""
-    t0 = time.time(); last = None; pre = []; s = None; g = None
+    t0 = time.time(); last = None; same = 0; pre = []; s = None; g = None
     while time.time() - t0 < SCENE_S:
         g = await pg.evaluate(BGNOW_JS, c['k']); s = await ts(pg)
         if g['target']:
             if s['ch']: return True, s, g, pre
             if s['dlg'] and s['txt']:
-                if s['txt'] == last: return True, s, g, pre
+                same = same + 1 if s['txt'] == last else 1
+                if line_done(s, last, same): return True, s, g, pre   # 打完字才拍（打到一半的話，對話框高度、截圖都不是那一句真正的樣子）
                 last = s['txt']
             await pg.wait_for_timeout(600); continue
         if s['ch']:
@@ -382,6 +398,7 @@ async def shoot_set(pg, run, c, o, tag, rec, bgonly=True):
     await pg.wait_for_timeout(300)
     out = {'measure': m, 'dlg': await run.shot(pg, '%s_%s_%s_dlg' % (k, o, tag))}
     if bgonly:
+        run.setup('【捷徑：只為比較】%s［%s］只有底圖的兩張：暫時把對話框、選項、字幕、立繪、HUD、紀錄／略過鍵設成透明（遊戲沒有關掉對話框的按鈕），拍完馬上還原；不是玩家看得到的畫面' % (k, ONAME[o]))
         try:
             await pg.evaluate(HIDE_JS + '(true)'); await pg.wait_for_timeout(400)
             out['bgonly'] = await run.shot(pg, '%s_%s_%s_bgonly' % (k, o, tag))
@@ -451,6 +468,7 @@ async def case_run(p, run, c):
                 await L.tap(pg, cdp, '#dlg'); await pg.wait_for_timeout(700)
                 s2 = await wait_line(pg); g2 = await pg.evaluate(BGNOW_JS, k)
                 if not g2['target']: run.note('%s：往下點第 %d 句，底圖換掉了（%s）——不拍說話那一句' % (k, i + 1, g2.get('bg'))); break
+                if not s2['ch'] and not s2['dlg']: run.note('%s：往下點第 %d 句，事件已經演完（沒有對話框、沒有選項）——不拍說話那一句' % (k, i + 1)); break
                 if s2['ch'] or (s2['dlg'] and s2['name']): got = s2; break
             if got:
                 run.note('%s：往下點到 %s' % (k, J(got.get('ch') or [got.get('name'), got.get('txt')])[:300]))
@@ -481,6 +499,7 @@ async def main():
                 with open(os.path.join(OUT, 'cc_bg5_measure.json'), 'w', encoding='utf-8') as f: json.dump({'sha': os.environ.get('SHA', '?'), 'url': URL, 'orient': ORIENT, 'cases': SUMMARY}, f, ensure_ascii=False, indent=1)
             except Exception as e: print('measure.json 寫不出來', e, flush=True)
     print('SHA', os.environ.get('SHA', '?'), '量測：', os.path.join(OUT, 'cc_bg5_measure.json'), flush=True)
+    print('（check 只看：事件演出、背景是那張圖、截圖存在。裁切、遮擋好不好看＝人看截圖判斷；ALL PASS 不代表畫面合格。退回【捷徑】的那幾張也要看上面的［前置／捷徑］紀錄）', flush=True)
     sys.exit(run.finish())
 
 if __name__ == '__main__':
