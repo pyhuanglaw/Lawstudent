@@ -26,7 +26,7 @@ const loadErr=[];
 GM.toast=()=>{}; GM.caption=()=>{}; GM.spawnNPC=()=>null; GM.spawnCharacter=()=>null; GM.phoneBadge=()=>{};
 const GITDIR=process.env.XC_GIT_DIR||H.ROOT;
 const doc=(refs,f)=>{ for(const r of refs){ try{ const t=cp.execSync('git -c core.quotepath=false show "'+r+':docs/story_planning/'+f+'"',{cwd:GITDIR,encoding:'utf8',maxBuffer:8<<20,stdio:['ignore','pipe','ignore']}); if(t) return t; }catch(e){} } return ''; };
-const B='origin/claude/cool-heisenberg-o8kuqx';
+const B='origin/claude/story-planning';
 const DOC117=doc(['4618aed21',B],'AA_117_朋友的案子_四個問題.md'), DOC70=doc(['4618aed21',B],'BB_70_日常與邀約_芷若_子晴_溫學姊_配角.md'),
   DOC154=doc(['968473469',B],'BB_154_AB27_大一下缺口_學姊傳書_阿凱鍵盤.md'), DOC325=doc([B],'AA_325_事件包_第2輪之一_大二.md'), DOC98=doc([B],'BB_98_交接包v4_大三.md');
 const D=k=>STORY.dayOfKey(k);

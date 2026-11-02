@@ -7,7 +7,7 @@ const H=require('./pg_harness.js');
 const cp=require('child_process');
 const {check,GM}=H, J=JSON.stringify;
 GM.toast=()=>{}; GM.caption=()=>{};
-let doc=''; try{ doc=cp.execSync('git show origin/claude/cool-heisenberg-o8kuqx:"docs/story_planning/AA_208_宿舍四人房_室友.md"',{cwd:H.ROOT,encoding:'utf8',stdio:['ignore','pipe','ignore']}); }catch(e){ doc=''; }
+let doc=''; try{ doc=cp.execSync('git show origin/claude/story-planning:"docs/story_planning/AA_208_宿舍四人房_室友.md"',{cwd:H.ROOT,encoding:'utf8',stdio:['ignore','pipe','ignore']}); }catch(e){ doc=''; }
 const inDoc=t=>!doc||doc.includes(t);
 const said=()=>H.said.map(s=>s.t);
 (async()=>{

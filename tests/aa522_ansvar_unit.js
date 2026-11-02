@@ -6,7 +6,7 @@ const ROOT=path.resolve(__dirname,'..'), STO=fs.readFileSync(path.join(ROOT,'src
 let fails=0; const check=(n,ok,info)=>{ console.log((ok?'PASS ':'FAIL ')+n+(info?'　'+info:'')); if(!ok) fails++; };
 let doc=''; try{ doc=cp.execSync('git -c core.quotepath=false show 50cd33b53:"docs/story_planning/AA_522_教授的研究室_周許林照學期換.md"',{cwd:ROOT,encoding:'utf8',stdio:['ignore','pipe','ignore']}); }catch(e){}
 const W={half:'{name}。你抓到爭點了。……下次答完再停。',bold:'{name}。敢說成立的人不多。……但書那一段，自己回去讀。',absent:'你是我們班的？……今天的課，跟同學借筆記。'};
-check('0. AA_522（50cd33b53）讀得到；三句都在第 9 節第 1 點',doc.length>3000&&Object.values(W).every(t=>doc.includes(t)),doc?'':'git fetch origin claude/cool-heisenberg-o8kuqx');
+check('0. AA_522（50cd33b53）讀得到；三句都在第 9 節第 1 點',doc.length>3000&&Object.values(W).every(t=>doc.includes(t)),doc?'':'git fetch origin claude/story-planning');
 // 抽 S.ZHOU_W1 原樣執行
 const m=STO.match(/\n  S\.ZHOU_W1=(\{[^\n]*\});\n/);
 check('0. story3d.js 有 S.ZHOU_W1',!!m);

@@ -15,7 +15,7 @@ for(const f of ['src/holff3d.js','src/data/vacfill_events.js','src/vacfill3d.js'
 const git=(ref,p)=>{ try{ return cp.execSync('git -c core.quotepath=false show '+ref+':"'+p+'"',{cwd:H.ROOT,encoding:'utf8',maxBuffer:1<<26}); }catch(e){ return ''; } };
 const A533='docs/story_planning/AA_533_D99寒暑假二_出國旅遊和她_活動卡的人_回她的縣市_快轉旁白分年.md';
 const doc=git('cf0066ed2',A533);
-check('0. AA_533（cf0066ed2）讀得到；模組載得到',doc.length>3000&&!loadErr,loadErr||'git fetch origin claude/cool-heisenberg-o8kuqx');
+check('0. AA_533（cf0066ed2）讀得到；模組載得到',doc.length>3000&&!loadErr,loadErr||'git fetch origin claude/story-planning');
 const D=H.D, T=(d,h)=>d*24+h, wd=d=>CALENDAR.dateOf(d).wd%7;
 const at=(d,h)=>{ H.G.day=d; H.G.hour=h; H.G.weekday=wd(d); };
 const strip=t=>String(t).replace(/^「(.*)」$/,'$1');

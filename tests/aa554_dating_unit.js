@@ -45,7 +45,7 @@ const DP=id=>STORY.DAILY_PHONE.find(x=>x.id===id);
 const dpRun=(id,day)=>{ const d=DP(id); if(!d) return null; const t=STORY.dpTerm(Object.assign({},H.G,{day})); return {term:!!(t&&d.term(t)),ok:!!d.ok(H.G,day),h:d.h(H.G),items:d.items(H.G,0).map(x=>x.text),dt:d.items(H.G,0).map(x=>+(x.dt||0).toFixed(3))}; };
 
 /* ---- 讀稿 ---- */
-const show=f=>{ try{ return cp.execSync('git show origin/claude/cool-heisenberg-o8kuqx:"docs/story_planning/'+f+'"',{cwd:H.ROOT,encoding:'utf8',stdio:['ignore','pipe','ignore']}); }catch(e){ return ''; } };
+const show=f=>{ try{ return cp.execSync('git show origin/claude/story-planning:"docs/story_planning/'+f+'"',{cwd:H.ROOT,encoding:'utf8',stdio:['ignore','pipe','ignore']}); }catch(e){ return ''; } };
 const B7=show('BB_187_大一下交往中_芷若子晴.md'), B9=show('BB_189_大二交往中_芷若子晴.md'), A554=show('AA_554_芷若子晴和她交往中的版本_現行稿確認與時間線修正.md'), A419=show('AA_419_芷若在英國_約好的視訊與按鈕句.md');
 const bare=t=>t.replace(/^（|）$/g,'').replace(/^「|」$/g,'');
 const inD=(doc,t)=>!!doc&&doc.indexOf(bare(t))>=0;

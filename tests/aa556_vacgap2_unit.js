@@ -14,8 +14,8 @@ let loadErr='';
 for(const f of ['src/holff3d.js','src/data/vacfill_events.js','src/vacfill3d.js']){ try{ loadG(f); }catch(e){ loadErr+=f+'：'+String(e&&e.message||e)+'　'; } }
 const git=(ref,p)=>{ try{ return cp.execSync('git -c core.quotepath=false show '+ref+':"'+p+'"',{cwd:H.ROOT,encoding:'utf8',maxBuffer:1<<26,stdio:['ignore','pipe','ignore']}); }catch(e){ return ''; } };
 const A556='docs/story_planning/AA_556_寒暑假第二批_出國旅遊_加州東京_大二暑假寒假_阿凱624.md';
-const doc=git('3d7ad0024',A556)||git('origin/claude/cool-heisenberg-o8kuqx',A556);
-check('0. AA_556（企劃線 3d7ad0024）讀得到；模組都載得到',doc.length>3000&&doc.indexOf('# AA_556')>=0&&!loadErr,loadErr||'git fetch origin claude/cool-heisenberg-o8kuqx');
+const doc=git('3d7ad0024',A556)||git('origin/claude/story-planning',A556);
+check('0. AA_556（企劃線 3d7ad0024）讀得到；模組都載得到',doc.length>3000&&doc.indexOf('# AA_556')>=0&&!loadErr,loadErr||'git fetch origin claude/story-planning');
 const inDoc=t=>!!doc&&doc.includes(String(t));
 const notIn=L=>L.filter(t=>!inDoc(t));
 const D=H.D, T=(d,h)=>d*24+h, wd=d=>CALENDAR.dateOf(d).wd%7;

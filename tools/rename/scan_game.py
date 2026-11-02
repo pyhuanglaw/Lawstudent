@@ -8,7 +8,7 @@
   WROTE 旁白、字幕、地點（speaker:null、（…）開頭、scene／title／place／label／caption）只寫「A館／B館」
 
 用法：
-  python3 tools/rename/scan_game.py                       # 掃 origin/claude/modest-rubin-2lyp7g 的 src/
+  python3 tools/rename/scan_game.py                       # 掃 origin/claude/confident-ritchie-8rwh7t 的 src/
   python3 tools/rename/scan_game.py --ref <分支或 SHA>
   python3 tools/rename/scan_game.py --dir src             # 掃工作目錄
   python3 tools/rename/scan_game.py --summary             # 只印每個檔幾處
@@ -124,7 +124,7 @@ def scan(items):
 
 def main():
     ap = argparse.ArgumentParser()
-    ap.add_argument('--ref', default='origin/claude/modest-rubin-2lyp7g')
+    ap.add_argument('--ref', default='origin/claude/confident-ritchie-8rwh7t')
     ap.add_argument('--dir')
     ap.add_argument('--root', default='src')
     ap.add_argument('--summary', action='store_true')

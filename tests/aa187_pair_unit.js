@@ -1,4 +1,4 @@
-// AA_187 以安、語彤的戀愛線補完：遊戲裡還沒有的五段（任務 AA187-PAIR-GAPS-1031；企劃線 claude/cool-heisenberg-o8kuqx；src/aa187_3d.js）——不需要瀏覽器。
+// AA_187 以安、語彤的戀愛線補完：遊戲裡還沒有的五段（任務 AA187-PAIR-GAPS-1031；企劃線 claude/story-planning；src/aa187_3d.js）——不需要瀏覽器。
 //   0 載得到、index.html 的位置、掛勾；每一句台詞照稿（從企劃線 git show 讀 AA_187 逐字比對）；作廢的不出（「理由：樣本要夠」、總圖版、「只有你注意到」）
 //   1 1-1 新 13b「反駁的次數」ev_an_counted：2027-10-21 起、大三上、讀書會散會後、加入讀書會、第 5 階以上、她在；只演一次；記 AN_COUNTED；裂縫談話那晚不演
 //   2 1-6 交往中散會後的那段路 ev_an_walk_home：「（送她回去）」→ 五組照順序輪（下雨那一組只在下雨）；每個月最多一次；不扣時間；2028-11-30 以後不播；她在日本不播；不送不算
@@ -15,7 +15,7 @@ const L3=f=>{ const p=path.join(H.ROOT,f); if(!fs.existsSync(p)){ loadErr.push(f
 for(const f of ['src/data/cracktalk_lines.js','src/cracktalk3d.js','src/aa187_3d.js']) L3(f);   /* index.html 的順序：cracktalk3d.js 在前 */
 GM.toast=()=>{}; GM.caption=()=>{};
 const D=k=>STORY.dayOfKey(k), keyOf=d=>CALENDAR.dateOf(d).key, wdOf=d=>CALENDAR.dateOf(d).wd%7;
-const git=f=>{ try{ return cp.execSync('git show origin/claude/cool-heisenberg-o8kuqx:"docs/story_planning/'+f+'"',{cwd:H.ROOT,encoding:'utf8',maxBuffer:1<<26,stdio:['ignore','pipe','ignore']}); }catch(e){ return ''; } };
+const git=f=>{ try{ return cp.execSync('git show origin/claude/story-planning:"docs/story_planning/'+f+'"',{cwd:H.ROOT,encoding:'utf8',maxBuffer:1<<26,stdio:['ignore','pipe','ignore']}); }catch(e){ return ''; } };
 const DOC=git('AA_187_以安語彤_戀愛線補完.md'), DOC313=git('AA_313_法律系四年_AA自己逐場檢查.md');
 const AN='heroine_01', YT='heroine_03', X=()=>typeof AA187!=='undefined'&&AA187.EVENTS?AA187:null, ev=id=>STORY_EVENTS.find(e=>e.id===id);
 const PLG=ACTIVITIES.list.find(a=>a.id==='public_law_group');

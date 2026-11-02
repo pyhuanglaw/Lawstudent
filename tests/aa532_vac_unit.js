@@ -18,7 +18,7 @@ for(const f of ['src/holff3d.js','src/noodle_closed3d.js','src/data/heroine_asks
 const git=(ref,p)=>{ try{ return cp.execSync('git -c core.quotepath=false show '+ref+':"'+p+'"',{cwd:H.ROOT,encoding:'utf8',maxBuffer:1<<26}); }catch(e){ return ''; } };
 const A532='docs/story_planning/AA_532_D99寒暑假一_過年期間別約_除夕年夜飯_家人群組_她們的放假版.md';
 const doc=git('ade80d22f',A532), doc244=git('2d3a0735d','docs/story_planning/AA_244_以安假期計畫_出國旅遊台詞.md');
-check('0. AA_532（ade80d22f）、AA_244（2d3a0735d）讀得到；新模組都載得到',doc.length>3000&&doc244.length>3000&&!loadErr,loadErr||'git fetch origin claude/cool-heisenberg-o8kuqx');
+check('0. AA_532（ade80d22f）、AA_244（2d3a0735d）讀得到；新模組都載得到',doc.length>3000&&doc244.length>3000&&!loadErr,loadErr||'git fetch origin claude/story-planning');
 const D=H.D, T=(d,h)=>d*24+h, wd=d=>CALENDAR.dateOf(d).wd%7;
 const at=(d,h)=>{ H.G.day=d; H.G.hour=h; H.G.weekday=wd(d); };
 const strip=t=>String(t).replace(/^「(.*)」$/,'$1');

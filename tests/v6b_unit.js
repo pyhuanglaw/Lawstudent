@@ -1,5 +1,5 @@
 // 多段感情交接包 v6（BB 人物）還沒進遊戲的幾場（V6-B2、V6-B5；任務 feat-v6b-1101；src/v6b_3d.js）——不需要瀏覽器。
-// 台詞從企劃線 claude/cool-heisenberg-o8kuqx 用 git show 讀 BB_119、BB_165、AA_258 逐字比對；條件真的跑（手機規則、出遊 OUT.go、VAC 的跳日子）。
+// 台詞從企劃線 claude/story-planning 用 git show 讀 BB_119、BB_165、AA_258 逐字比對；條件真的跑（手機規則、出遊 OUT.go、VAC 的跳日子）。
 //   0 載入、index.html 位置、讀稿（每一句都在稿裡）
 //   1 芷若「英國的雨」ev_zhiruo_uk_visit（BB_119 1c-1、9-2）：12/18 21:00 邀約、兩個回覆、沒回、2-3 承諾過的 12/19 12:00 那一則、美國路線照臺灣時間；
 //     1/15 21:00 出發 → 1/16 → 1/20 19:30 老戲院（英國時間、BCG-25）→ 1/22 08:30 回到臺北；途中她的每週視訊不打；那幾天 VAC.abroadOn；沒去；
@@ -43,7 +43,7 @@ const outQ=id=>OUT.get(H.G,id);
 const expire=()=>{ for(const q of OUT.expire(H.G)) OUT.onMissed(GM,q); };
 const go=async(q,picks)=>{ H.said=[]; H.opts=[]; H.cards=[]; H.cgs=[]; H.picks=(picks||[]).slice(); await OUT.go(GM,q); return said(); };
 /* 讀稿：企劃線（cool-heisenberg）*/
-const REF='origin/claude/cool-heisenberg-o8kuqx';
+const REF='origin/claude/story-planning';
 const repo=[H.ROOT,process.env.V6B_REPO].filter(Boolean);
 const git=f=>{ for(const r of repo){ try{ return cp.execSync('git -c core.quotepath=false show "'+REF+':docs/story_planning/'+f+'"',{cwd:r,encoding:'utf8',maxBuffer:1<<26,stdio:['ignore','pipe','ignore']}); }catch(e){} } return ''; };
 const BB119=git('BB_119_多段感情_交接包v6_BB人物.md'), BB165=git('BB_165_AB61_BB五位戀愛線補拍與矛盾.md'), AA258=git('AA_258_回BB198_假期空白_與晚窗口訊息.md'), AA281=git('AA_281_沛珊消失前什麼都不說_台南.md');

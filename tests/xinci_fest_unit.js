@@ -22,8 +22,8 @@ let xcErr=''; try{ load('src/xcrom3d.js'); }catch(e){ xcErr=String(e).slice(0,16
 const X=()=>typeof FEST!=='undefined'?FEST:null;
 const GITDIR=process.env.XC_GIT_DIR||H.ROOT;
 const git=(refs,f)=>{ for(const r of refs){ try{ const t=cp.execSync('git -c core.quotepath=false show "'+r+':docs/story_planning/'+f+'"',{cwd:GITDIR,encoding:'utf8',stdio:['ignore','pipe','ignore']}); if(t) return t; }catch(e){} } return ''; };
-const doc537=git(['b3df9c4e9','origin/claude/cool-heisenberg-o8kuqx'],'AA_537b_吳芯慈_第二份_約會台詞_校外地點_期末飯_節日.md');
-const doc548=git(['d145b889a','origin/claude/cool-heisenberg-o8kuqx'],'AA_548_芯慈戀愛線重寫_門檻與半夜訊息.md');
+const doc537=git(['b3df9c4e9','origin/claude/story-planning'],'AA_537b_吳芯慈_第二份_約會台詞_校外地點_期末飯_節日.md');
+const doc548=git(['d145b889a','origin/claude/story-planning'],'AA_548_芯慈戀愛線重寫_門檻與半夜訊息.md');
 const sec5=(doc537.split('## 5. 節日')[1]||'').split('\n## ')[0], sec9=(doc548.split('## 9.')[1]||'').split('\n## ')[0];
 const row=k=>(sec5.split('\n').find(l=>l.startsWith('| '+k+' |'))||'');
 const D=k=>H.D(k);

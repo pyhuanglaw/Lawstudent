@@ -16,8 +16,8 @@ const {check,GM}=H;
 const load=f=>{ const p=path.join(H.ROOT,f); if(!fs.existsSync(p)) return false; let src=fs.readFileSync(p,'utf8'); src=src.replace(/^const ([A-Z][A-Z0-9_]*)\s*=/mg,'globalThis.$1='); vm.runInThisContext(src,{filename:f}); return true; };
 for(const f of ['src/data/msg_pool.js','src/data/msg2_pool.js','src/msg3d.js','src/data/r2y3b_events.js','src/r2y3b3d.js','src/data/zrzq_events.js','src/zrzq3d.js','src/data/zr_last_events.js','src/zr_last3d.js','src/data/fest_events.js','src/fest3d.js']){ try{ load(f); }catch(e){ console.log('（載入 '+f+' 失敗：'+e.message+'）'); } }
 const git=(refs,f)=>{ for(const r of refs){ try{ const t=cp.execSync('git show '+r+':"docs/story_planning/'+f+'"',{cwd:H.ROOT,encoding:'utf8',stdio:['ignore','pipe','ignore']}); if(t) return t; }catch(e){} } return ''; };
-const doc550=git(['2664ed6f1','origin/claude/cool-heisenberg-o8kuqx'],'AA_550_假期人物不在臺北_跨年訊息_大三大四房間旁白順序.md'), sec4=(doc550.split('## 4.')[1]||'');
-const doc551=git(['32772d7a4','origin/claude/cool-heisenberg-o8kuqx'],'AA_551_芷若九月一日杯子上的字_補在票根第二次.md');
+const doc550=git(['2664ed6f1','origin/claude/story-planning'],'AA_550_假期人物不在臺北_跨年訊息_大三大四房間旁白順序.md'), sec4=(doc550.split('## 4.')[1]||'');
+const doc551=git(['32772d7a4','origin/claude/story-planning'],'AA_551_芷若九月一日杯子上的字_補在票根第二次.md');
 const J=JSON.stringify, ZR='heroine_02', D=k=>H.D(k);
 const ev=id=>STORY_EVENTS.find(e=>e.id===id);
 const QIXI_TC='我在家裡的廚房試做了一杯特調。很甜。……想給你喝。', QIXI_TP='七夕我們店有一款特調。很甜。我不喝，可是想做給你。';

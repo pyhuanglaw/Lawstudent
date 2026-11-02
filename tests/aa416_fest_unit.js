@@ -26,7 +26,7 @@ const doc=git('2af5f4899','AA_416_節日總規格_三個情人節生日聖誕_�
 let doc523=''; try{ doc523=cp.execSync('git show bfede0a62:"docs/story_planning/AA_523_學姊第十六批_回臺灣以後的最後半年.md"',{cwd:process.env.AA523_DOCREPO||H.ROOT,encoding:'utf8'}); }catch(e){ doc523=''; }
 const row614=(doc523.split('\n').find(l=>l.startsWith('| 6-14 |'))||'');   /* AA_523 第 6 節 6-14 那一列 */
 /* 2026-10-31 AA_550 第 4 節（企劃線 2664ed6f1，ZR-SUMMER-LINES-1031）：芷若 2026 七夕在台中換的那一句（資料標 aa550）——對 AA_550 第 4 節第 1 點 */
-let doc550=''; for(const r of ['2664ed6f1','origin/claude/cool-heisenberg-o8kuqx']){ try{ doc550=cp.execSync('git show '+r+':"docs/story_planning/AA_550_假期人物不在臺北_跨年訊息_大三大四房間旁白順序.md"',{cwd:H.ROOT,encoding:'utf8',stdio:['ignore','pipe','ignore']}); if(doc550) break; }catch(e){ doc550=''; } }
+let doc550=''; for(const r of ['2664ed6f1','origin/claude/story-planning']){ try{ doc550=cp.execSync('git show '+r+':"docs/story_planning/AA_550_假期人物不在臺北_跨年訊息_大三大四房間旁白順序.md"',{cwd:H.ROOT,encoding:'utf8',stdio:['ignore','pipe','ignore']}); if(doc550) break; }catch(e){ doc550=''; } }
 const sec550=(doc550.split('## 4.')[1]||'');
 const norm=t=>String(t).replace(/^（/,'').replace(/）$/,'').replace(/[。：]$/,'');   /* 稿裡沒有括號的動作描寫：演成旁白、加（）*/
 const inDoc=(t,d)=>(d||doc).indexOf(t)>=0||(d||doc).indexOf(norm(t))>=0;

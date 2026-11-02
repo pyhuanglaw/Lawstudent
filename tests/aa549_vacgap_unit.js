@@ -1,4 +1,4 @@
-// AA_549 寒暑假空白缺口表＋第一批稿（企劃線 claude/cool-heisenberg-o8kuqx；VAC-GAP-1031；D99 第二優先）——不需要瀏覽器。用法：node tests/aa549_vacgap_unit.js
+// AA_549 寒暑假空白缺口表＋第一批稿（企劃線 claude/story-planning；VAC-GAP-1031；D99 第二優先）——不需要瀏覽器。用法：node tests/aa549_vacgap_unit.js
 //   2-1 芯慈大二暑假：作息平日 9～17「在證券公司實習」、VA-09 第二則換證券公司版（c14 版也換）
 //   2-2 阿凱 2027-08-01～08-20 回宜蘭　2-3 Alison 2027-07-12～07-21 營隊（7/17 探班照舊）　2-7 語彤 2027-07-19～07-30 台東田野＋兩則私訊
 //   2-4／3-2 2028 除夕的年夜飯　2-5／3-3 語彤 2/7 麵店、子晴 8/1 Café 的場景　2-6 C13 帶朋友出國：那幾天不在臺北、有活動卡的朋友婉拒
@@ -12,8 +12,8 @@ let loadErr='';
 for(const f of ['src/holff3d.js','src/data/y1fill_events.js','src/y1fill3d.js','src/data/vacfill_events.js','src/vacfill3d.js','src/r2y3b3d.js','src/data/heroine_asks.js','src/heroine_asks3d.js']){ try{ loadG(f); }catch(e){ loadErr+=f+'：'+String(e&&e.message||e)+'　'; } }
 const git=(ref,p)=>{ try{ return cp.execSync('git -c core.quotepath=false show '+ref+':"'+p+'"',{cwd:H.ROOT,encoding:'utf8',maxBuffer:1<<26,stdio:['ignore','pipe','ignore']}); }catch(e){ return ''; } };
 const A549='docs/story_planning/AA_549_寒暑假空白缺口表_第一批稿.md';
-const doc=git('origin/claude/cool-heisenberg-o8kuqx',A549);
-check('0. AA_549（企劃線）讀得到；模組都載得到',doc.length>3000&&!loadErr,loadErr||'git fetch origin claude/cool-heisenberg-o8kuqx');
+const doc=git('origin/claude/story-planning',A549);
+check('0. AA_549（企劃線）讀得到；模組都載得到',doc.length>3000&&!loadErr,loadErr||'git fetch origin claude/story-planning');
 const inDoc=t=>!doc||doc.includes(String(t).replace(/^「(.*)」$/,'$1'));
 const notIn=L=>L.filter(t=>!inDoc(t));
 /* AA 2026-10-31 回 11 題（D109，作者定案；企劃線的稿之後也會更新）：新句先比對這裡 */

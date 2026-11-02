@@ -26,7 +26,7 @@ let err=''; try{ load('src/data/fest_events.js'); load('src/fest3d.js'); }catch(
 const X=()=>typeof FEST!=='undefined'?FEST:null;
 const GITDIR=process.env.AA204_GIT_DIR||H.ROOT;
 const git=(refs,f)=>{ for(const r of refs){ try{ const t=cp.execSync('git -c core.quotepath=false show "'+r+':docs/story_planning/'+f+'"',{cwd:GITDIR,encoding:'utf8',stdio:['ignore','pipe','ignore']}); if(t) return t; }catch(e){} } return ''; };
-const doc=git(['4618aed21','origin/claude/cool-heisenberg-o8kuqx'],'AA_204_大一寒假_AA場景台詞_16週制.md');
+const doc=git(['4618aed21','origin/claude/story-planning'],'AA_204_大一寒假_AA場景台詞_16週制.md');
 const s14=(doc.split('### 1-4.')[1]||'').split('\n## 2.')[0];
 /* 1-4 的四段 code block：以安單身、以安交往中、語彤單身、語彤交往中（「旁白：」＝旁白） */
 const BL=s14.split('```').filter((b,i)=>i%2===1).map(b=>b.trim().split('\n').map(l=>{ const m=/^([^：]+)：(.*)$/.exec(l.trim()); return m?{who:m[1]==='旁白'?null:m[1],t:m[2]}:{who:'?',t:l}; }));

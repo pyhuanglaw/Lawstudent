@@ -21,7 +21,7 @@ const okNew=load('src/data/zr_last_events.js')&&load('src/zr_last3d.js');
 let doc=''; for(const r of ['021ffe76','608b9adc','origin/claude/story-planning']){ try{ doc=cp.execSync('git show '+r+':"docs/story_planning/AA_387_芷若出國前的最後一場_定稿.md"',{cwd:H.ROOT,encoding:'utf8',stdio:['ignore','pipe','ignore']}); if(doc) break; }catch(e){ doc=''; } }
 const inDoc=t=>doc.indexOf(t)>=0;
 /* 2026-10-31 AA_551 第 2 節（企劃線 32772d7a4，ZR-CUP-AA551-1031）：A1「我一直收著。」那一支的旁白 keepN 補上杯子上的字——那一句改對 AA_551 */
-let doc551=''; for(const r of ['32772d7a4','origin/claude/cool-heisenberg-o8kuqx']){ try{ doc551=cp.execSync('git show '+r+':"docs/story_planning/AA_551_芷若九月一日杯子上的字_補在票根第二次.md"',{cwd:H.ROOT,encoding:'utf8',stdio:['ignore','pipe','ignore']}); if(doc551) break; }catch(e){ doc551=''; } }
+let doc551=''; for(const r of ['32772d7a4','origin/claude/story-planning']){ try{ doc551=cp.execSync('git show '+r+':"docs/story_planning/AA_551_芷若九月一日杯子上的字_補在票根第二次.md"',{cwd:H.ROOT,encoding:'utf8',stdio:['ignore','pipe','ignore']}); if(doc551) break; }catch(e){ doc551=''; } }
 const KEEPN551='（她做了一杯熱可可，加了一份濃縮，推到你面前。杯子上用麥克筆寫著：「熱可可＋濃縮」。下面一行小字：「不用還了。」）';
 const in551=t=>t===KEEPN551&&doc551.indexOf('改成：「'+t+'」')>=0;
 const J=JSON.stringify, ZR='heroine_02', X=()=>typeof ZRLAST!=='undefined'?ZRLAST:null;

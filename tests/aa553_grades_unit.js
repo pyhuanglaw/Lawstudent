@@ -15,7 +15,7 @@ const L3=f=>{ const p=path.join(H.ROOT,f); if(!fs.existsSync(p)){ loadErr.push(f
 for(const f of ['src/honor3d.js','src/grades3d.js']) L3(f);
 GM.toast=()=>{}; GM.caption=()=>{};
 const D=k=>STORY.dayOfKey(k), keyOf=d=>CALENDAR.dateOf(d).key;
-let doc=''; try{ doc=cp.execSync('git show origin/claude/cool-heisenberg-o8kuqx:"docs/story_planning/AA_553_成績出來以後_BB人物的反應_照現行設定重寫.md"',{cwd:H.ROOT,encoding:'utf8',stdio:['ignore','pipe','ignore']}); }catch(e){ doc=''; }
+let doc=''; try{ doc=cp.execSync('git show origin/claude/story-planning:"docs/story_planning/AA_553_成績出來以後_BB人物的反應_照現行設定重寫.md"',{cwd:H.ROOT,encoding:'utf8',stdio:['ignore','pipe','ignore']}); }catch(e){ doc=''; }
 const inDoc=t=>!doc||doc.includes(t);   /* 讀不到企劃線（沒 fetch）就只比對程式 */
 const ok=typeof GRADES!=='undefined';
 check('0. src/grades3d.js 載得到、掛上 PRE_TALK／PHONE_RULES／ROOM_EXTRA／SCHED_X',ok&&!loadErr.length&&STORY.PRE_TALK.includes(GRADES.preTalk)&&Array.isArray(STORY.SCHED_X)&&STORY.SCHED_X.includes(GRADES.sched),J(loadErr));

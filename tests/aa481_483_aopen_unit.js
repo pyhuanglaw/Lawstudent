@@ -1,4 +1,4 @@
-// ACCEPTSOPEN-C-1027 第二輪（企劃線 187584ca8，claude/cool-heisenberg-o8kuqx；AA-C 10-27 定稿，D109）——不需要瀏覽器。
+// ACCEPTSOPEN-C-1027 第二輪（企劃線 187584ca8，claude/story-planning；AA-C 10-27 定稿，D109）——不需要瀏覽器。
 //   AA_481（AA_474 實作讀後，特別場景的知情對話接不上的五處）：
 //     1 以安七夕她先說、她知道＝只說「你不說，那我說。」「我喜歡你。」就接 KNOW.she；答應的照原本排手帳那一場
 //     2 學姊大峽谷她先說、她知道＝只說前兩句就接知情對話（沒有「你要說好，還是要我再說一次。」）
@@ -45,7 +45,7 @@ const msgs=th=>(H.G.msgs||[]).filter(m=>m.th===th);
 const GD={GRADUATED:D('2029-06-02')};
 /* 企劃線的稿（逐字對）*/
 const SPEC='187584ca8', SPEC_OF={a483:'9c4152899'}, FILES={a474:'AA_474_acceptsOpen使用者回答C_七位各自的條件',a481:'AA_481_AA474實作讀後_特別場景的知情對話接不上的五處',a482:'AA_482_多段感情2-Y4-54照使用者C更新_坦白照她們的條件_都同意的尾聲',a483:'AA_483_回LAWWW_AA474子代理八題_BB審稿定稿_美國秋假自習室提示'};
-const DOC={}; for(const k in FILES){ for(const r of [SPEC_OF[k]||SPEC,'origin/claude/cool-heisenberg-o8kuqx']){ try{ DOC[k]=cp.execSync('git show '+r+':"docs/story_planning/'+FILES[k]+'.md"',{cwd:H.ROOT,encoding:'utf8',stdio:['ignore','pipe','ignore']}); if(DOC[k]) break; }catch(e){ DOC[k]=''; } } }
+const DOC={}; for(const k in FILES){ for(const r of [SPEC_OF[k]||SPEC,'origin/claude/story-planning']){ try{ DOC[k]=cp.execSync('git show '+r+':"docs/story_planning/'+FILES[k]+'.md"',{cwd:H.ROOT,encoding:'utf8',stdio:['ignore','pipe','ignore']}); if(DOC[k]) break; }catch(e){ DOC[k]=''; } } }
 const inDoc=(t,...ks)=>(ks.length?ks:Object.keys(DOC)).some(k=>(DOC[k]||'').indexOf(t)>=0);
 
 (async()=>{
