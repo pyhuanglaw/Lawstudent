@@ -45,7 +45,7 @@ check('1. 第 30 列（決3）：路過版「（抱著一疊訪談稿，從攤�
   const same=(p,w)=>w[1].includes(w[0])?(p[0]==='「'+w[0]+'」'&&p[1]==='「'+w[1]+'」'):(p[0]===w[0]&&p[1]===w[1]);
   check('2. tools/story/aa602_fix.json＝第 2 節 32 列（舊句→改成；改成包含原句的連「」一起換）',!!F&&P.length===32&&want.every(w=>P.some(p=>same(p,w)))&&P.every(p=>!p[1].includes(p[0])),J(want.filter(w=>!P.some(p=>same(p,w)))));
   check('2. tests/alison.js、tools/story/import_guard.py 讀稿時都套 aa602_fix.json',/'aa602_fix\.json'/.test(RAW('tests/alison.js'))&&/'aa602_fix\.json'/.test(RAW('tools/story/import_guard.py')));
-  const a503=cp.execSync('git show d13ab3ab7:"docs/story_planning/AA_503_女主角自己的生活_大一上_動態頁_圈子_她的事.md"',{cwd:H.ROOT,encoding:'utf8'});
+  let a503=''; try{ a503=cp.execSync('git show d13ab3ab7:"docs/story_planning/AA_503_女主角自己的生活_大一上_動態頁_圈子_她的事.md"',{cwd:H.ROOT,encoding:'utf8'}); }catch(e){}
   check('2. 舊稿 AA_503 讀進來已經是新句（an_mom「我媽昨天看到我寫的「想去的店」。」），舊句「我媽昨天把我的手帳從頭翻到尾。」不在',a503.includes('我媽昨天看到我寫的「想去的店」。')&&!a503.includes('我媽昨天把我的手帳從頭翻到尾。')); }
 
 /* ---- 3 第 8 節 (a) ---- */
