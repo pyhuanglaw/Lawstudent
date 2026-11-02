@@ -1995,6 +1995,24 @@
       "status": "已完成",
       "task": "AUTO-RESUME-HOURLY-1102",
       "note": "10:51 建好五個每小時排程（LAWWW trig_01WqEgbbq2VjstnVcJePRKXa、AA trig_01Gs1X6fU3cVNnAyuA26KnRZ、BB trig_01JiSn2Muiwyh4omtacX6Tp4、LAWWW2 trig_01PZ1NbK8H7GTeNrK3Q9bHLh、CC trig_01KdQxKoyn2pQZKW5xXLM8ir；每小時 :51）；被中斷才接續，沒中斷就讀通知後結束。還沒在真的用量上限時驗證過"
+    },
+    {
+      "id": "UA-LAWWW-1102-23",
+      "at": "2026-11-02T10:56",
+      "quote": "LAWWW如果沒辦法發布 他還沒做的東西就先開始；你們四個都一樣 手上有工作丟給我電腦 還是要對照那些還沒做趕快開工（經 BB 轉述）",
+      "kind": "轉述",
+      "status": "規則（永久）",
+      "task": "D125-NO-IDLE-1102",
+      "note": "登記 D125"
+    },
+    {
+      "id": "UA-LAWWW-1102-24",
+      "at": "2026-11-02T10:59",
+      "quote": "有餘裕的話 四個AI都先把還沒上去github的 東西 放上去 每小時一次 以免使用量到上限停工（經 BB 轉述）",
+      "kind": "轉述",
+      "status": "規則（永久）",
+      "task": "D126-HOURLY-PUSH-1102",
+      "note": "登記 D126；CLAUDE.md 緊急保存第 1 點加註"
     }
   ]
 }

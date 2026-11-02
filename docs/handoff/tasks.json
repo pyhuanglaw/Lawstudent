@@ -39864,6 +39864,38 @@
         "ack": "ACK",
         "acceptance": "兩種順序的測試"
       }
+    },
+    {
+      "id": "D125-NO-IDLE-1102",
+      "title": "D125 等測試時先做還沒做的（五職位）",
+      "owner": "LAWWW",
+      "status": "已驗收",
+      "priority": "P1",
+      "note": "2026-11-02 登記（BB 10:57、10:59 轉使用者）。",
+      "first": {
+        "term": "ALL",
+        "earliest": "開發流程",
+        "mainline": false,
+        "blocks": false,
+        "parallel": true,
+        "confirmed": true
+      }
+    },
+    {
+      "id": "D126-HOURLY-PUSH-1102",
+      "title": "D126 每小時推一次還沒上 GitHub 的成果（五職位、含子代理 worktree）",
+      "owner": "LAWWW",
+      "status": "已驗收",
+      "priority": "P1",
+      "note": "2026-11-02 登記（BB 10:57、10:59 轉使用者）。",
+      "first": {
+        "term": "ALL",
+        "earliest": "開發流程",
+        "mainline": false,
+        "blocks": false,
+        "parallel": true,
+        "confirmed": true
+      }
     }
   ]
 }
