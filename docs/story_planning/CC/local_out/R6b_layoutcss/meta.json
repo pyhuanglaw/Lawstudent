@@ -1,0 +1,15 @@
+﻿{
+    "rerun":  "",
+    "id":  "R6b_layoutcss",
+    "sha":  "b1b249873",
+    "kind":  "game",
+    "script":  "tests/choices_landscape_css.py",
+    "env":  "",
+    "machine":  "MSI",
+    "start":  "2026-11-02T21:07:17",
+    "end":  "2026-11-02T21:07:49",
+    "seconds":  32,
+    "exit":  0,
+    "error":  null,
+    "url":  "http://127.0.0.1:8801/index.html"
+}

@@ -1,0 +1,18 @@
+[gpu_wrap] CC_GPU=1 跑 C:\Users\USER\Documents\wt_cc_R6b_layoutcss\tests\choices_landscape_css.py http://127.0.0.1:8801/index.html
+OK   橫向 844x390 4 項 沒有對話框（grid）：第一個按鈕上緣 268、選單上緣 268、點得到 True、scrollHeight 100 clientHeight 100
+OK   橫向 844x390 4 項 有對話框（grid）：第一個按鈕上緣 158、選單上緣 158、點得到 True、scrollHeight 100 clientHeight 100
+OK   橫向 844x390 6 項 沒有對話框（grid）：第一個按鈕上緣 214、選單上緣 214、點得到 True、scrollHeight 154 clientHeight 154
+OK   橫向 844x390 6 項 有對話框（grid）：第一個按鈕上緣 104、選單上緣 104、點得到 True、scrollHeight 154 clientHeight 154
+OK   橫向 844x390 10 項 沒有對話框（grid）：第一個按鈕上緣 106、選單上緣 106、點得到 True、scrollHeight 262 clientHeight 262
+OK   橫向 844x390 10 項 有對話框（grid）：第一個按鈕上緣 58、選單上緣 58、點得到 True、scrollHeight 262 clientHeight 200
+OK   橫向 844x390 14 項 沒有對話框（grid）：第一個按鈕上緣 58、選單上緣 58、點得到 True、scrollHeight 370 clientHeight 310
+OK   橫向 844x390 14 項 有對話框（grid）：第一個按鈕上緣 58、選單上緣 58、點得到 True、scrollHeight 370 clientHeight 200
+OK   直向 390x844 4 項 沒有對話框（flex）：第一個按鈕上緣 614、選單上緣 614、點得到 True、scrollHeight 208 clientHeight 208
+OK   直向 390x844 4 項 有對話框（flex）：第一個按鈕上緣 492、選單上緣 492、點得到 True、scrollHeight 208 clientHeight 208
+OK   直向 390x844 6 項 沒有對話框（flex）：第一個按鈕上緣 506、選單上緣 506、點得到 True、scrollHeight 316 clientHeight 316
+OK   直向 390x844 6 項 有對話框（flex）：第一個按鈕上緣 384、選單上緣 384、點得到 True、scrollHeight 316 clientHeight 316
+OK   直向 390x844 10 項 沒有對話框（flex）：第一個按鈕上緣 290、選單上緣 290、點得到 True、scrollHeight 532 clientHeight 532
+OK   直向 390x844 10 項 有對話框（flex）：第一個按鈕上緣 168、選單上緣 168、點得到 True、scrollHeight 532 clientHeight 532
+OK   直向 390x844 14 項 沒有對話框（flex）：第一個按鈕上緣 74、選單上緣 74、點得到 True、scrollHeight 748 clientHeight 748
+OK   直向 390x844 14 項 有對話框（flex）：第一個按鈕上緣 46、選單上緣 46、點得到 True、scrollHeight 748 clientHeight 654
+ALL PASS
