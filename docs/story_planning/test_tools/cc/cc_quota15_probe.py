@@ -269,7 +269,7 @@ async def case_fill_auto(pg, cdp, run):
             el = (a['now'] - fail_at) / 1000.0
             rec = {'n': n, 'au': a, 'elapsed_s': round(el, 1), 'toasts': T, 'saveErr': a['err']}
             att.append(rec); run.note('%s：第 %d 次自動存檔，距離第一次跳 %.1f 秒，toast %s，saveErr %s' % (tag, n, el, J([t['t'] for t in T]), a['err']))
-            if el < 300 and (a['failAt'] or 0) == fail_at:
+            if el < 300 and (real5 or not ported):   # REAL5=0：撥過 autoFailAt 之後的那一次算「過了 5 分鐘」
                 within.append(rec)
                 if len(within) == 1: shots['within_land' if not ported else 'within_port'] = await run.shot(pg, tag + '_within5_%d' % n)
             else:
