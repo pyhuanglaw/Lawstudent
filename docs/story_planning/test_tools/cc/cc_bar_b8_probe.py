@@ -82,7 +82,7 @@ class D(Y.Driver):
                 await P.tap_choice(pg, cdp, want); await pg.wait_for_timeout(800); return True
             self.opts_seen.append([lastsay and lastsay.get('d'), lastsay and lastsay['t'][:60], T])
             if any(t.startswith(RETAKE_OPTS) for t in T): self.shots['retake_choice'] = await run.shot(pg, self.tag + '_retake_choice')
-            return await super().handle(s, ('報名',) + tuple(picks))
+            return await super().handle(s, ('報名', '先不接') + tuple(picks))   # 視訊「晚一點」會一直再提醒：選「先不接」
         return await super().handle(s, picks)
 
 

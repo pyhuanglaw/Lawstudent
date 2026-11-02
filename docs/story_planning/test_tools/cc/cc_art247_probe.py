@@ -97,7 +97,7 @@ CAFE_NIGHT = ['cafe_bulb', 'cafe_lampglass', 'ext_glass_lit']
 CAFE_DOOR = (52.6, 0.0)   # 溫州街「進入兩點半 Café」(54.2,0) r 2.3；從 Café 出來站 (51.7,0)
 
 INFO_JS = """(()=>{ const E=GAME.E, G=GAME.G, o=E.player.obj.position; const it=document.getElementById('interact'), lb=document.getElementById('interactLabel');
-  return {gzone:G.zone, ezone:(E.zone&&E.zone.id)||null, hour:+(+G.hour).toFixed(3), day:G.day, x:+o.x.toFixed(2), y:+o.y.toFixed(2), z:+o.z.toFixed(2), lv:E.player.lv|0,
+  return {gzone:G.zone, ezone:(E.zone&&((E.zone.def&&E.zone.def.id)||E.zone.id))||null, hour:+(+G.hour).toFixed(3), day:G.day, x:+o.x.toFixed(2), y:+o.y.toFixed(2), z:+o.z.toFixed(2), lv:E.player.lv|0,
     ry:+E.player.obj.rotation.y.toFixed(3), camYaw:+E.cam.yaw.toFixed(3), frame:E.frame|0, paused:!!E.paused, weather:E.weather||G.weather,
     loading:!document.getElementById('loading').classList.contains('hide'), stand:E.canStand?E.canStand(o.x,o.z,0.3):null,
     interact:(it&&!it.classList.contains('hide')&&getComputedStyle(it).display!=='none')?((lb&&lb.textContent)||'').trim():null}; })()"""
@@ -378,7 +378,8 @@ async def case_nightrereg(p):
 
 # ---------------------------------------------------------------- 4. uskitchen
 FURN = {'fridge': (-4.2, 1.8), 'stove': (-3.4, 2.7)}   # src/data/us_apartment_layout.js（use:'fridge'、use:'cook'）
-NEAR_IT_JS = """(([fx,fz])=>{ const its=GAME.E.interactables.filter(i=>!i.hidden); let best=null, bd=1e9; for(const i of its){ const d=Math.hypot(i.x-fx,i.z-fz); if(d<bd){ bd=d; best=i; } }
+FURN_LABEL = {'fridge': ['打開冰箱', '看冰箱'], 'stove': ['看爐子', '煮']}   # b1b249873 的互動字（us3d.js aptZone）；開頭符合的優先，沒有才找最近的
+NEAR_IT_JS = """(([fx,fz,pre])=>{ const its=GAME.E.interactables.filter(i=>!i.hidden); let best=null, bd=1e9; const cand=its.filter(i=>pre.some(p=>(i.label||'').startsWith(p))); for(const i of (cand.length?cand:its)){ const d=Math.hypot(i.x-fx,i.z-fz); if(d<bd){ bd=d; best=i; } }
   return best?{label:best.label||'',x:best.x,z:best.z,r:best.radius||1.5,lv:best.lv==null?0:best.lv,d:+bd.toFixed(2),all:its.map(i=>[i.label,+(+i.x).toFixed(2),+(+i.z).toFixed(2)])}:null; })"""
 
 
@@ -389,7 +390,7 @@ async def case_uskitchen(p):
         cs.setup('讀檔到 us_apartment 14:00（找互動點）')
         await load_at(pg, cdp, 'us_apartment', -3.0, 1.8, 0, -math.pi / 2, 14.0)
         for key, (fx, fz) in FURN.items():
-            it = await pg.evaluate(NEAR_IT_JS, [fx, fz]); cs.extra.setdefault('interactables', {})[key] = it
+            it = await pg.evaluate(NEAR_IT_JS, [fx, fz, FURN_LABEL[key]]); cs.extra.setdefault('interactables', {})[key] = it
             if not cs.check('%s：找到離家具最近的互動點' % key, bool(it) and it['d'] < 1.5, J(it and {k: it[k] for k in ('label', 'x', 'z', 'd')})): continue
             cs.setup('%s：讀檔站在互動點「%s」(%.2f, %.2f)、面向家具 (%.1f, %.1f)；鏡頭照遊戲自然跟隨' % (key, it['label'], it['x'], it['z'], fx, fz))
             await load_at(pg, cdp, 'us_apartment', it['x'], it['z'], it['lv'], math.atan2(fx - it['x'], fz - it['z']), 14.0)
