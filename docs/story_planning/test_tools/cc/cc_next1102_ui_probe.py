@@ -903,6 +903,69 @@ async def examgoal_pass(p, run, orient):
         except Exception: pass
 
 
+# ---------------- examgoal_wake（BB 對 CC_30：補「起床劇情演完以後」那一條路；直向一趟）
+# a5935aa30：S.goalFor 考試日＝「09:10 期末考：課名（教室）」；S.oneTick：G.goal 空或「—」、今天還有考試＝S.setGoal。
+# 前置：2025-12-14 22:30 宿舍（隔天 12/15 憲法（上）期末考），條件事件照常；之後全部照玩家：走到床（互動點 sleep:true，按鈕「睡覺」）→ 床的選單 → 睡到隔天 → 起床劇情照玩家點 → 讀 G.goal 與 #goal
+BEDIT = "(()=>{ const it=(GAME.E.interactables||[]).find(x=>x.sleep); return it?{x:it.x,z:it.z,label:it.label||null}:null; })()"
+
+
+async def examgoal_wake_pass(p, run, orient):
+    tag = 'examgoal_wake_%s' % orient; land = orient == 'land'
+    b, ctx, pg, cdp, errs = await L.launch(p, landscape=land)
+    pg.on('dialog', lambda dd: asyncio.ensure_future(dd.accept()))
+    rec = {'orient': orient}
+    try:
+        await pg.goto(URL); ok = await L.wait_loaded(pg); run.check('%s：遊戲載入' % tag, ok)
+        await pg.evaluate("localStorage.clear()"); await P.init(pg); await pg.evaluate(HOOK)
+        st, d = await state_at(pg, '2025-12-14', 22.5, 'dorm')
+        await load(pg, cdp, st, quiet=False); await P.events_on(pg)
+        fd = await pg.evaluate(EXAMDAY_FIND); rec['find'] = fd
+        run.setup('[前置] %s：最小存檔 2025-12-14 22:30 宿舍（隔天 %s %s 期末考 %s）；條件事件照常、只關手機自動打開' % (tag, fd and fd['key'], fd and fd['name'], fd and P_hm(fd['t0'])))
+        bed = await pg.evaluate(BEDIT); rec['bed'] = bed
+        if not bed: run.check('%s：宿舍有床的互動點' % tag, False); return
+        n0 = await pg.evaluate(PLN)
+        arrived = await L.go_to(pg, cdp, run, bed['x'], bed['z'], 0.7, '床', max_s=300, stop=lambda s: s['interact'].startswith('睡覺'))
+        lab = (await P.ts(pg))['lab']
+        run.check('%s：照玩家走到床、按鈕是「睡覺」' % tag, arrived and lab.startswith('睡覺'), J({'lab': lab}))
+        rec['shot_bed'] = await run.shot(pg, tag + '_bed')
+        await L.tap(pg, cdp, '#interact'); await pg.wait_for_timeout(1500)
+        def shot_if(t, i):
+            if t == '__choice__': return 'choice%d' % (i + 1)
+            return 'L%02d' % (i + 1)
+        r = await play(pg, cdp, run, tag, prefs=('早上', '睡到明天', '睡覺', '照樣', '起床'), shot_if=shot_if, max_s=600, idle_s=6)
+        R = await pg.evaluate(PL, n0); rec['log'] = R; rec['play'] = {'lines': [l['t'] for l in r['lines']], 'chose': r['chose']}
+        says = [x for x in R if x['k'] == 'say']; evs = [x['id'] for x in R if x['k'] == 'event']
+        wake_says = [x for x in says if fd and x.get('d') == fd['day']]
+        rec['events'] = evs; rec['wake_says'] = [[x['n'], x['t'], x['h']] for x in wake_says]
+        run.note('%s：EVENTS.run %s；隔天的台詞 %s；選單 %s' % (tag, J(evs), J(rec['wake_says'][:12]), J([c['picked'] for c in r['chose']])))
+        g0 = await pg.evaluate(GOALST); t0 = time.time(); rec['goal_after_story'] = g0
+        run.check('%s：睡到考試日早上、真的有起床劇情（隔天有台詞或事件）' % tag, bool(fd) and await pg.evaluate("GAME.G.day") == fd['day'] and (bool(wake_says) or bool(evs)), J({'day': await pg.evaluate("GAME.G.day"), 'events': evs, 'wake': rec['wake_says'][:6]}))
+        want = '%s 期末考：' % (fd and P_hm(fd['t0']))
+        g = g0; hist = [[0, g0['h'], g0['goalG']]]
+        while time.time() - t0 < 180:
+            g = await pg.evaluate(GOALST)
+            if hist[-1][2] != g['goalG']: hist.append([round(time.time() - t0, 1), g['h'], g['goalG']])
+            if (g['goalG'] or '').startswith(want): break
+            s = await P.ts(pg)
+            if s['ch'] or s['dlg']: run.note('%s：等目標時又出現對話／選單 %s' % (tag, J([s['txt'][:30], [o['t'] for o in s['ch']]])))
+            if s['dlg']: await L.tap(pg, cdp, '#dlg')
+            elif s['ch']: await P.tap_choice(pg, cdp, pick_by(s['ch'], ('起床', '照樣')))
+            await pg.wait_for_timeout(1000)
+        rec['goal_hist'] = hist; rec['goal_final'] = g; rec['shot_goal'] = await run.shot(pg, tag + '_goal')
+        run.note('%s：劇情結束時目標＝%s（遊戲 %s）；變化 %s（實際秒、遊戲時刻、目標）' % (tag, J(g0['goalG']), P_hm(g0['h']), J(hist)))
+        ok2 = (g['goalG'] or '').startswith(want) and fd['name'] in (g['goalG'] or '') and bool(fd['room']) and fd['room'] in (g['goalG'] or '') and (want + fd['name']) in (g['dom'] or '')
+        run.check('%s：劇情演完後目標＝「%s%s（%s）」（G.goal 與 #goal）' % (tag, want, fd['name'], fd['room']), ok2, J(g))
+    except Exception as e:
+        run.check('%s：跑完（沒有探針例外）' % tag, False, repr(e)[:500]); traceback.print_exc()
+        try: await run.shot(pg, tag + '_exception')
+        except Exception: pass
+    finally:
+        run.check('%s：沒有 JS 例外' % tag, not errs, J(errs[:3])); rec['errs'] = errs[:5]
+        dump(tag, **rec)
+        try: await asyncio.wait_for(b.close(), 30)
+        except Exception: pass
+
+
 async def main():
     os.makedirs(OUT, exist_ok=True)
     run = L.Run('next1102_ui_' + '+'.join(CASES), OUT)
@@ -925,6 +988,7 @@ async def main():
                 elif cs == 'ancf2': await ancf2_pass(p, run, o, 'think')
                 elif cs == 'ancfsay': await ancf2_pass(p, run, o, 'say')
                 elif cs == 'examgoal': await examgoal_pass(p, run, o)
+                elif cs == 'examgoal_wake': await examgoal_wake_pass(p, run, o)
                 else: run.check('CASE %s 認得' % cs, False, '可以用：noodle,board,card,psbhbg,boardcap2,ancf,ancf2,ancfsay,examgoal')
     print('SHA', os.environ.get('SHA', '?'), 'CASES', ','.join(CASES), flush=True)
     sys.exit(run.finish())
