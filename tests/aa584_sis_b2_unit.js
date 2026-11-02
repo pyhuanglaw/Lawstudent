@@ -77,7 +77,7 @@ for(const line of DOC.split('\n')){ const m=/^\|\s*(\d+)\s*\|\s*ladder\.js:3 (\S
   const bad=Object.keys(want).filter(k=>M[k]!==want[k]||!DOC.includes(want[k]));
   check('5. 記憶名稱（第 4-4 節連1、連2，第 9 節第 1 點；id 不動）',bad.length===0,J(bad.map(k=>[k,M[k]])));
   const b13=src('src/sis_b13_3d.js');
-  check('5. 修正本私訊（sis_b13_3d.js S.thesis）不再看 SIS6_FATHER_COPY，改朋友以上（friendUp）',!/has\(ID,'SIS6_FATHER_COPY'\)/.test(b13)&&/G\.day<=a\+1&&friendUp\(G\)&&!!F\.met_sis/.test(b13)); }
+  check('5. 修正本私訊（sis_b13_3d.js S.thesis）不再看 SIS6_FATHER_COPY，改朋友以上（friendUp）',!/has\(ID,'SIS6_FATHER_COPY'\)/.test(b13)&&/G\.day<=a\+1&&friendUp\(G\)&&!exAny\(G\)&&!!F\.met_sis/.test(b13)); }   /* AA_600 B20（企劃線 031414cad）：朋友以上之外再擋前任（!exAny）——原本的式子照 AA_600 換，friendUp 的條件照查 */
 
 // ===== 6 刪層的舊存檔進度 =====
 { const day='2026-04-22'; H.fresh(day,15,'campus',{met_sis:true}); H.FRIEND(ID); const T=CALENDAR.termOf(H.G.day);
