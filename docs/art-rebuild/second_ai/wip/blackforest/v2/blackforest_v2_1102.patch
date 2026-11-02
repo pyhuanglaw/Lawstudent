@@ -1,0 +1,1984 @@
+diff --git a/index.html b/index.html
+index 3fb0a7e3e4a1d00ac185b9f7a2168a4722ee9d49..30b57a28fd598c810ec4d1b2e65f98c030bd22d8 100644
+--- a/index.html
++++ b/index.html
+@@ -216,6 +216,7 @@ select{font-family:var(--font);font-size:14px;background:#0d1016;color:#e8e2d6;b
+ <script src="src/data/lane118_layout.js?v=9.10.16"></script>
+ <script src="src/data/lane118_shops.js?v=9.10.16"></script>
+ <script src="src/data/lane118_props.js?v=9.10.16"></script>
++<script src="src/data/blackforest_layout.js?v=9.10.16"></script>
+ <script src="src/zones3d.js?v=9.10.16"></script>
+ <script src="src/data/linze_layout.js?v=9.10.16"></script>
+ <script src="src/data/classroom_layout.js?v=9.10.16"></script>
+diff --git a/src/assets3d.js b/src/assets3d.js
+index 942a44b4d3f39ab71afe2e820ed4e14362c51f6a..2fe54f92d46ee6bcf273256af34d00b809f2793b 100644
+--- a/src/assets3d.js
++++ b/src/assets3d.js
+@@ -89,6 +89,7 @@ const ASSETS = (function(){
+     'bldg.gongguan_shops':{url:'assets/models/env/second_ai/gongguan_shops.glb', type:'building', lazy:true, source:'本作 Blender 腳本 tools/blender/env_second/wz_street.py --set gongguan（公館羅斯福路南側 15 棟騎樓店面＋往溫州街的巷口轉角；公館世界座標；配置照 zones3d.js gongguan 區塊；和溫州街同一套公寓、材質與窗戶原型；樓上住戶的直立招牌、二樓大招牌、屋頂看板；貼圖 Poly Haven CC0）', license:'本作；貼圖 CC0'},
+     'bldg.gongguan_mrt':{url:'assets/models/env/second_ai/gongguan_mrt_exit.glb',type:'building',lazy:true,source:'本作 Blender 腳本 tools/blender/env_second/gg_mrt_exit.py（LAWWW2-C 2026-10-18 ART-EXT-MRT：捷運公館站出口玻璃亭、弧形鋁板屋頂、站名燈箱（遊戲畫字、沒有標誌）、往下的電扶梯與樓梯）',license:'本作'},
+     'bldg.campus_lib_lawn':{url:'assets/models/env/second_ai/campus_lib_lawn.glb', type:'building', lazy:true, source:'本作 Blender 腳本 tools/blender/env_second/campus_lib_lawn.py（X133 總圖前草皮：中軸砂岩鋪面、L 形草皮、紅磚步道、花崗石路緣；校園世界座標；貼圖 Poly Haven CC0）', license:'本作；貼圖 CC0'},
++    'bldg.campus_blackforest':{url:'assets/models/env/second_ai/campus_blackforest.glb', type:'building', lazy:true, source:'本作 Blender 腳本 tools/blender/env_second/campus_blackforest.py（CAMPUS-BLACKFOREST-1102 黑森林的地面：落葉泥土地、土徑、榕樹板根、蕨類、矮灌木；配置 src/data/blackforest_layout.js；校園世界座標；貼圖 Poly Haven CC0 forest_leaves_02、forest_ground_04、chinese_hackberry_bark＋本作畫的葉片）', license:'CC0（Poly Haven 貼圖）＋本作'},
+     'bldg.campus_library':{url:'assets/models/env/second_ai/campus_library.glb', type:'building', lazy:true, source:'本作 Blender 腳本 tools/blender/env_second/campus_library.py（總圖書館外觀；校園世界座標；位置、尺寸、樓層、開間、拱廊、門廊、塔樓照 zones3d.js campus 區塊的 CK.hall；拱窗是真的窗洞；面磚、石材、屋瓦、花崗石貼圖 Poly Haven CC0）', license:'本作；貼圖 CC0'},
+     'bldg.campus_bell':{url:'assets/models/env/second_ai/campus_bell.glb', type:'building', lazy:true, source:'本作 Blender 腳本 tools/blender/env_second/campus_bell.py（傅鐘：台基、四根柱子、梁、四坡瓦屋頂、銅鐘、石碑、夜間地燈；校園世界座標；尺寸照 zones3d.js campus 區塊的 CK.bell；切石、屋瓦、木頭貼圖 Poly Haven CC0）', license:'本作；貼圖 CC0'},
+     'bldg.campus_admin':{url:'assets/models/env/second_ai/campus_admin.glb', type:'building', lazy:true, source:'本作 Blender 腳本 tools/blender/env_second/campus_hall.py --set admin（行政大樓外觀；校園世界座標；位置、尺寸、樓層、開間、拱廊、門廊照 zones3d.js campus 區塊的 CK.hall；拱窗是真的窗洞；面磚、石材、屋瓦、花崗石貼圖 Poly Haven CC0）', license:'本作；貼圖 CC0'},
+diff --git a/src/data/blackforest_layout.js b/src/data/blackforest_layout.js
+new file mode 100644
+index 0000000000000000000000000000000000000000..d5ac1ffcf8d60589656464f5c28261ef7d42b8a7
+--- /dev/null
++++ b/src/data/blackforest_layout.js
+@@ -0,0 +1,1749 @@
++/* ===== 校園：黑森林的配置（CAMPUS-BLACKFOREST-1102）=====
++   由 tools/blender/env_second/campus_blackforest_layout.py 產生，不要手改。遊戲 src/zones3d.js（校園）、Blender tools/blender/env_second/campus_blackforest.py 讀同一份。
++   座標：校園世界座標（x 往東、−z 往北）。 */
++const BLACKFOREST_LAYOUT={
++ "version": 2,
++ "areas": [
++  {
++   "id": "nw",
++   "x0": 36.0,
++   "x1": 62.0,
++   "z0": -84.0,
++   "z1": -65.4
++  },
++  {
++   "id": "ne",
++   "x0": 65.5,
++   "x1": 74.5,
++   "z0": -96.0,
++   "z1": -65.4
++  },
++  {
++   "id": "ne2",
++   "x0": 74.5,
++   "x1": 100.0,
++   "z0": -89.0,
++   "z1": -65.4
++  },
++  {
++   "id": "south",
++   "x0": 37.5,
++   "x1": 100.0,
++   "z0": -54.6,
++   "z1": -44.6
++  }
++ ],
++ "paths": [
++  {
++   "id": "nw",
++   "w": 1.2,
++   "pts": [
++    [
++     43.4,
++     -84.6
++    ],
++    [
++     43.2,
++     -78.0
++    ],
++    [
++     40.0,
++     -72.0
++    ],
++    [
++     35.2,
++     -67.0
++    ]
++   ]
++  },
++  {
++   "id": "nw2",
++   "w": 1.2,
++   "pts": [
++    [
++     56.0,
++     -84.6
++    ],
++    [
++     57.5,
++     -76.0
++    ],
++    [
++     54.0,
++     -69.0
++    ],
++    [
++     52.0,
++     -65.0
++    ]
++   ]
++  },
++  {
++   "id": "ne",
++   "w": 1.2,
++   "pts": [
++    [
++     65.5,
++     -79.5
++    ],
++    [
++     71.0,
++     -79.0
++    ],
++    [
++     78.5,
++     -80.5
++    ],
++    [
++     84.0,
++     -77.0
++    ],
++    [
++     90.5,
++     -74.0
++    ]
++   ]
++  },
++  {
++   "id": "ne3",
++   "w": 1.2,
++   "pts": [
++    [
++     71.0,
++     -79.0
++    ],
++    [
++     73.5,
++     -72.0
++    ],
++    [
++     70.0,
++     -65.0
++    ]
++   ]
++  },
++  {
++   "id": "wancai",
++   "w": 4.0,
++   "kind": "paved",
++   "pts": [
++    [
++     92.5,
++     -97.0
++    ],
++    [
++     92.5,
++     -64.0
++    ]
++   ]
++  },
++  {
++   "id": "walk",
++   "w": 3.0,
++   "kind": "paved",
++   "pts": [
++    [
++     63.75,
++     -104.0
++    ],
++    [
++     63.75,
++     -64.0
++    ]
++   ]
++  },
++  {
++   "id": "s1",
++   "w": 1.2,
++   "pts": [
++    [
++     55.0,
++     -55.0
++    ],
++    [
++     52.2,
++     -50.2
++    ],
++    [
++     47.0,
++     -44.2
++    ]
++   ]
++  },
++  {
++   "id": "s2",
++   "w": 1.2,
++   "pts": [
++    [
++     82.0,
++     -55.0
++    ],
++    [
++     85.0,
++     -49.6
++    ],
++    [
++     80.4,
++     -44.2
++    ]
++   ]
++  }
++ ],
++ "pond": {
++  "x": 73.5,
++  "z": -87.0,
++  "rx": 6.5,
++  "rz": 4.2,
++  "willow": [
++   68.2,
++   -92.6
++  ]
++ },
++ "keep": [
++  [
++   50,
++   -80
++  ],
++  [
++   66,
++   -80
++  ],
++  [
++   93,
++   -66
++  ],
++  [
++   92,
++   -62
++  ],
++  [
++   80,
++   -62
++  ],
++  [
++   60,
++   -62
++  ],
++  [
++   36,
++   -62
++  ]
++ ],
++ "trees": [
++  {
++   "sp": "banyan",
++   "h": 11.33,
++   "spread": 1.19,
++   "dark": 0.63,
++   "trunk": 0.7,
++   "x": 38.03,
++   "z": -80.88,
++   "ry": 5.271,
++   "seed": 900
++  },
++  {
++   "sp": "camphor",
++   "h": 12.21,
++   "spread": 1.2,
++   "dark": 0.88,
++   "trunk": 0.5,
++   "x": 37.08,
++   "z": -77.29,
++   "ry": 5.649,
++   "seed": 901
++  },
++  {
++   "sp": "banyan",
++   "h": 11.84,
++   "spread": 1.33,
++   "dark": 0.72,
++   "trunk": 0.7,
++   "x": 38.11,
++   "z": -74.17,
++   "ry": 3.432,
++   "seed": 902
++  },
++  {
++   "sp": "banyan",
++   "h": 9.66,
++   "spread": 1.22,
++   "dark": 0.68,
++   "trunk": 0.7,
++   "x": 42.47,
++   "z": -66.69,
++   "ry": 4.978,
++   "seed": 903
++  },
++  {
++   "sp": "banyan",
++   "h": 11.34,
++   "spread": 1.32,
++   "dark": 0.64,
++   "trunk": 0.7,
++   "x": 45.34,
++   "z": -78.59,
++   "ry": 4.538,
++   "seed": 904
++  },
++  {
++   "sp": "banyan",
++   "h": 12.38,
++   "spread": 1.36,
++   "dark": 0.66,
++   "trunk": 0.7,
++   "x": 45.82,
++   "z": -72.22,
++   "ry": 5.157,
++   "seed": 905
++  },
++  {
++   "sp": "banyan",
++   "h": 9.29,
++   "spread": 1.24,
++   "dark": 0.64,
++   "trunk": 0.7,
++   "x": 48.3,
++   "z": -82.35,
++   "ry": 4.496,
++   "seed": 906
++  },
++  {
++   "sp": "banyan",
++   "h": 10.89,
++   "spread": 1.3,
++   "dark": 0.71,
++   "trunk": 0.7,
++   "x": 48.08,
++   "z": -77.29,
++   "ry": 0.577,
++   "seed": 907
++  },
++  {
++   "sp": "banyan",
++   "h": 10.35,
++   "spread": 1.38,
++   "dark": 0.64,
++   "trunk": 0.7,
++   "x": 49.28,
++   "z": -73.83,
++   "ry": 4.532,
++   "seed": 908
++  },
++  {
++   "sp": "banyan",
++   "h": 10.97,
++   "spread": 1.29,
++   "dark": 0.7,
++   "trunk": 0.7,
++   "x": 49.47,
++   "z": -67.79,
++   "ry": 2.194,
++   "seed": 909
++  },
++  {
++   "sp": "banyan",
++   "h": 10.75,
++   "spread": 1.16,
++   "dark": 0.71,
++   "trunk": 0.7,
++   "x": 53.75,
++   "z": -81.32,
++   "ry": 3.178,
++   "seed": 910
++  },
++  {
++   "sp": "banyan",
++   "h": 11.09,
++   "spread": 1.4,
++   "dark": 0.72,
++   "trunk": 0.7,
++   "x": 52.1,
++   "z": -78.68,
++   "ry": 4.57,
++   "seed": 911
++  },
++  {
++   "sp": "camphor",
++   "h": 13.22,
++   "spread": 1.14,
++   "dark": 0.8,
++   "trunk": 0.5,
++   "x": 53.14,
++   "z": -71.96,
++   "ry": 5.512,
++   "seed": 912
++  },
++  {
++   "sp": "banyan",
++   "h": 12.26,
++   "spread": 1.39,
++   "dark": 0.7,
++   "trunk": 0.7,
++   "x": 57.28,
++   "z": -71.58,
++   "ry": 3.137,
++   "seed": 913
++  },
++  {
++   "sp": "banyan",
++   "h": 9.94,
++   "spread": 1.45,
++   "dark": 0.69,
++   "trunk": 0.7,
++   "x": 56.9,
++   "z": -67.24,
++   "ry": 2.538,
++   "seed": 914
++  },
++  {
++   "sp": "banyan",
++   "h": 12.09,
++   "spread": 1.24,
++   "dark": 0.63,
++   "trunk": 0.7,
++   "x": 60.19,
++   "z": -82.72,
++   "ry": 5.192,
++   "seed": 915
++  },
++  {
++   "sp": "banyan",
++   "h": 11.39,
++   "spread": 1.18,
++   "dark": 0.64,
++   "trunk": 0.7,
++   "x": 60.5,
++   "z": -77.55,
++   "ry": 5.949,
++   "seed": 916
++  },
++  {
++   "sp": "banyan",
++   "h": 12.05,
++   "spread": 1.16,
++   "dark": 0.72,
++   "trunk": 0.7,
++   "x": 61.06,
++   "z": -66.74,
++   "ry": 3.495,
++   "seed": 917
++  },
++  {
++   "sp": "banyan",
++   "h": 11.55,
++   "spread": 1.32,
++   "dark": 0.67,
++   "trunk": 0.7,
++   "x": 66.87,
++   "z": -75.35,
++   "ry": 4.535,
++   "seed": 918
++  },
++  {
++   "sp": "banyan",
++   "h": 11.72,
++   "spread": 1.28,
++   "dark": 0.63,
++   "trunk": 0.7,
++   "x": 67.47,
++   "z": -71.36,
++   "ry": 5.014,
++   "seed": 919
++  },
++  {
++   "sp": "banyan",
++   "h": 11.54,
++   "spread": 1.25,
++   "dark": 0.71,
++   "trunk": 0.7,
++   "x": 70.81,
++   "z": -70.94,
++   "ry": 3.193,
++   "seed": 920
++  },
++  {
++   "sp": "banyan",
++   "h": 12.47,
++   "spread": 1.28,
++   "dark": 0.7,
++   "trunk": 0.7,
++   "x": 73.3,
++   "z": -77.89,
++   "ry": 2.783,
++   "seed": 921
++  },
++  {
++   "sp": "banyan",
++   "h": 10.76,
++   "spread": 1.34,
++   "dark": 0.73,
++   "trunk": 0.7,
++   "x": 73.21,
++   "z": -66.24,
++   "ry": 0.046,
++   "seed": 922
++  },
++  {
++   "sp": "banyan",
++   "h": 11.93,
++   "spread": 1.29,
++   "dark": 0.69,
++   "trunk": 0.7,
++   "x": 76.37,
++   "z": -74.67,
++   "ry": 0.885,
++   "seed": 923
++  },
++  {
++   "sp": "camphor",
++   "h": 13.09,
++   "spread": 1.07,
++   "dark": 0.84,
++   "trunk": 0.5,
++   "x": 77.75,
++   "z": -71.79,
++   "ry": 5.113,
++   "seed": 924
++  },
++  {
++   "sp": "camphor",
++   "h": 12.79,
++   "spread": 1.15,
++   "dark": 0.8,
++   "trunk": 0.5,
++   "x": 77.84,
++   "z": -66.69,
++   "ry": 1.402,
++   "seed": 925
++  },
++  {
++   "sp": "banyan",
++   "h": 11.09,
++   "spread": 1.31,
++   "dark": 0.64,
++   "trunk": 0.7,
++   "x": 79.79,
++   "z": -77.88,
++   "ry": 1.194,
++   "seed": 926
++  },
++  {
++   "sp": "camphor",
++   "h": 11.99,
++   "spread": 1.09,
++   "dark": 0.89,
++   "trunk": 0.5,
++   "x": 81.52,
++   "z": -75.1,
++   "ry": 3.151,
++   "seed": 927
++  },
++  {
++   "sp": "banyan",
++   "h": 9.35,
++   "spread": 1.36,
++   "dark": 0.62,
++   "trunk": 0.7,
++   "x": 81.94,
++   "z": -71.82,
++   "ry": 1.363,
++   "seed": 928
++  },
++  {
++   "sp": "banyan",
++   "h": 12.28,
++   "spread": 1.38,
++   "dark": 0.67,
++   "trunk": 0.7,
++   "x": 81.7,
++   "z": -66.4,
++   "ry": 5.325,
++   "seed": 929
++  },
++  {
++   "sp": "banyan",
++   "h": 11.55,
++   "spread": 1.44,
++   "dark": 0.66,
++   "trunk": 0.7,
++   "x": 85.99,
++   "z": -87.04,
++   "ry": 2.432,
++   "seed": 930
++  },
++  {
++   "sp": "banyan",
++   "h": 10.98,
++   "spread": 1.28,
++   "dark": 0.74,
++   "trunk": 0.7,
++   "x": 84.09,
++   "z": -82.41,
++   "ry": 0.998,
++   "seed": 931
++  },
++  {
++   "sp": "camphor",
++   "h": 11.23,
++   "spread": 1.02,
++   "dark": 0.86,
++   "trunk": 0.5,
++   "x": 86.19,
++   "z": -79.72,
++   "ry": 1.145,
++   "seed": 932
++  },
++  {
++   "sp": "banyan",
++   "h": 10.91,
++   "spread": 1.25,
++   "dark": 0.7,
++   "trunk": 0.7,
++   "x": 84.67,
++   "z": -70.51,
++   "ry": 3.413,
++   "seed": 933
++  },
++  {
++   "sp": "camphor",
++   "h": 11.33,
++   "spread": 1.09,
++   "dark": 0.9,
++   "trunk": 0.5,
++   "x": 89.56,
++   "z": -84.15,
++   "ry": 4.018,
++   "seed": 934
++  },
++  {
++   "sp": "banyan",
++   "h": 9.63,
++   "spread": 1.32,
++   "dark": 0.71,
++   "trunk": 0.7,
++   "x": 88.43,
++   "z": -67.49,
++   "ry": 5.859,
++   "seed": 935
++  },
++  {
++   "sp": "banyan",
++   "h": 12.29,
++   "spread": 1.28,
++   "dark": 0.66,
++   "trunk": 0.7,
++   "x": 97.96,
++   "z": -87.76,
++   "ry": 6.056,
++   "seed": 936
++  },
++  {
++   "sp": "camphor",
++   "h": 12.06,
++   "spread": 1.17,
++   "dark": 0.81,
++   "trunk": 0.5,
++   "x": 97.95,
++   "z": -83.76,
++   "ry": 5.606,
++   "seed": 937
++  },
++  {
++   "sp": "banyan",
++   "h": 10.21,
++   "spread": 1.23,
++   "dark": 0.72,
++   "trunk": 0.7,
++   "x": 97.73,
++   "z": -80.38,
++   "ry": 1.095,
++   "seed": 938
++  },
++  {
++   "sp": "banyan",
++   "h": 11.81,
++   "spread": 1.43,
++   "dark": 0.69,
++   "trunk": 0.7,
++   "x": 99.0,
++   "z": -76.22,
++   "ry": 5.614,
++   "seed": 939
++  },
++  {
++   "sp": "banyan",
++   "h": 10.79,
++   "spread": 1.38,
++   "dark": 0.73,
++   "trunk": 0.7,
++   "x": 98.26,
++   "z": -70.72,
++   "ry": 0.051,
++   "seed": 940
++  },
++  {
++   "sp": "banyan",
++   "h": 9.37,
++   "spread": 1.29,
++   "dark": 0.65,
++   "trunk": 0.7,
++   "x": 40.62,
++   "z": -52.46,
++   "ry": 1.137,
++   "seed": 941
++  },
++  {
++   "sp": "banyan",
++   "h": 10.6,
++   "spread": 1.45,
++   "dark": 0.67,
++   "trunk": 0.7,
++   "x": 38.3,
++   "z": -49.87,
++   "ry": 4.171,
++   "seed": 942
++  },
++  {
++   "sp": "banyan",
++   "h": 12.19,
++   "spread": 1.26,
++   "dark": 0.62,
++   "trunk": 0.7,
++   "x": 42.85,
++   "z": -50.2,
++   "ry": 5.259,
++   "seed": 943
++  },
++  {
++   "sp": "camphor",
++   "h": 11.95,
++   "spread": 1.15,
++   "dark": 0.85,
++   "trunk": 0.5,
++   "x": 44.13,
++   "z": -46.83,
++   "ry": 0.33,
++   "seed": 944
++  },
++  {
++   "sp": "banyan",
++   "h": 11.8,
++   "spread": 1.43,
++   "dark": 0.66,
++   "trunk": 0.7,
++   "x": 46.88,
++   "z": -49.77,
++   "ry": 1.506,
++   "seed": 945
++  },
++  {
++   "sp": "banyan",
++   "h": 11.38,
++   "spread": 1.38,
++   "dark": 0.74,
++   "trunk": 0.7,
++   "x": 50.95,
++   "z": -45.84,
++   "ry": 2.582,
++   "seed": 946
++  },
++  {
++   "sp": "banyan",
++   "h": 11.02,
++   "spread": 1.43,
++   "dark": 0.69,
++   "trunk": 0.7,
++   "x": 56.66,
++   "z": -49.96,
++   "ry": 4.951,
++   "seed": 947
++  },
++  {
++   "sp": "banyan",
++   "h": 12.3,
++   "spread": 1.32,
++   "dark": 0.66,
++   "trunk": 0.7,
++   "x": 55.07,
++   "z": -46.68,
++   "ry": 1.812,
++   "seed": 948
++  },
++  {
++   "sp": "banyan",
++   "h": 11.82,
++   "spread": 1.29,
++   "dark": 0.63,
++   "trunk": 0.7,
++   "x": 60.39,
++   "z": -52.73,
++   "ry": 0.187,
++   "seed": 949
++  },
++  {
++   "sp": "camphor",
++   "h": 11.68,
++   "spread": 1.01,
++   "dark": 0.83,
++   "trunk": 0.5,
++   "x": 60.36,
++   "z": -48.42,
++   "ry": 2.374,
++   "seed": 950
++  },
++  {
++   "sp": "banyan",
++   "h": 11.18,
++   "spread": 1.19,
++   "dark": 0.7,
++   "trunk": 0.7,
++   "x": 65.18,
++   "z": -50.86,
++   "ry": 3.145,
++   "seed": 951
++  },
++  {
++   "sp": "banyan",
++   "h": 10.55,
++   "spread": 1.2,
++   "dark": 0.74,
++   "trunk": 0.7,
++   "x": 65.57,
++   "z": -46.54,
++   "ry": 2.678,
++   "seed": 952
++  },
++  {
++   "sp": "banyan",
++   "h": 11.87,
++   "spread": 1.33,
++   "dark": 0.64,
++   "trunk": 0.7,
++   "x": 73.45,
++   "z": -50.49,
++   "ry": 1.283,
++   "seed": 953
++  },
++  {
++   "sp": "banyan",
++   "h": 10.1,
++   "spread": 1.25,
++   "dark": 0.66,
++   "trunk": 0.7,
++   "x": 72.51,
++   "z": -46.76,
++   "ry": 0.226,
++   "seed": 954
++  },
++  {
++   "sp": "banyan",
++   "h": 10.61,
++   "spread": 1.31,
++   "dark": 0.68,
++   "trunk": 0.7,
++   "x": 77.07,
++   "z": -53.17,
++   "ry": 0.873,
++   "seed": 955
++  },
++  {
++   "sp": "banyan",
++   "h": 11.64,
++   "spread": 1.42,
++   "dark": 0.71,
++   "trunk": 0.7,
++   "x": 77.51,
++   "z": -45.92,
++   "ry": 0.656,
++   "seed": 956
++  },
++  {
++   "sp": "banyan",
++   "h": 9.35,
++   "spread": 1.38,
++   "dark": 0.72,
++   "trunk": 0.7,
++   "x": 80.46,
++   "z": -49.14,
++   "ry": 5.203,
++   "seed": 957
++  },
++  {
++   "sp": "camphor",
++   "h": 13.43,
++   "spread": 1.0,
++   "dark": 0.89,
++   "trunk": 0.5,
++   "x": 85.24,
++   "z": -52.81,
++   "ry": 4.75,
++   "seed": 958
++  },
++  {
++   "sp": "banyan",
++   "h": 10.65,
++   "spread": 1.32,
++   "dark": 0.73,
++   "trunk": 0.7,
++   "x": 85.55,
++   "z": -46.2,
++   "ry": 1.262,
++   "seed": 959
++  },
++  {
++   "sp": "camphor",
++   "h": 12.69,
++   "spread": 1.12,
++   "dark": 0.81,
++   "trunk": 0.5,
++   "x": 90.37,
++   "z": -52.11,
++   "ry": 1.046,
++   "seed": 960
++  },
++  {
++   "sp": "banyan",
++   "h": 10.11,
++   "spread": 1.42,
++   "dark": 0.66,
++   "trunk": 0.7,
++   "x": 88.75,
++   "z": -47.0,
++   "ry": 3.258,
++   "seed": 961
++  },
++  {
++   "sp": "banyan",
++   "h": 11.8,
++   "spread": 1.2,
++   "dark": 0.66,
++   "trunk": 0.7,
++   "x": 94.31,
++   "z": -52.82,
++   "ry": 5.192,
++   "seed": 962
++  },
++  {
++   "sp": "banyan",
++   "h": 10.95,
++   "spread": 1.15,
++   "dark": 0.64,
++   "trunk": 0.7,
++   "x": 94.39,
++   "z": -47.03,
++   "ry": 2.216,
++   "seed": 963
++  },
++  {
++   "sp": "banyan",
++   "h": 9.44,
++   "spread": 1.31,
++   "dark": 0.73,
++   "trunk": 0.7,
++   "x": 98.63,
++   "z": -48.82,
++   "ry": 5.723,
++   "seed": 964
++  }
++ ],
++ "shrubs": [
++  {
++   "a": "nw",
++   "x": 39.95,
++   "z": -77.13,
++   "h": 1.06,
++   "r": 0.47,
++   "ry": 1.67,
++   "kind": "fern"
++  },
++  {
++   "a": "nw",
++   "x": 54.53,
++   "z": -78.86,
++   "h": 0.98,
++   "r": 0.71,
++   "ry": 0.45,
++   "kind": "shrub"
++  },
++  {
++   "a": "nw",
++   "x": 51.54,
++   "z": -83.06,
++   "h": 1.25,
++   "r": 0.53,
++   "ry": 1.59,
++   "kind": "fern"
++  },
++  {
++   "a": "nw",
++   "x": 58.13,
++   "z": -74.15,
++   "h": 1.29,
++   "r": 0.48,
++   "ry": 2.72,
++   "kind": "fern"
++  },
++  {
++   "a": "nw",
++   "x": 45.59,
++   "z": -76.01,
++   "h": 1.28,
++   "r": 0.92,
++   "ry": 4.81,
++   "kind": "fern"
++  },
++  {
++   "a": "nw",
++   "x": 44.55,
++   "z": -81.98,
++   "h": 0.66,
++   "r": 0.6,
++   "ry": 5.09,
++   "kind": "shrub"
++  },
++  {
++   "a": "nw",
++   "x": 46.93,
++   "z": -72.88,
++   "h": 1.25,
++   "r": 0.79,
++   "ry": 5.55,
++   "kind": "fern"
++  },
++  {
++   "a": "nw",
++   "x": 58.94,
++   "z": -79.95,
++   "h": 0.52,
++   "r": 0.52,
++   "ry": 2.97,
++   "kind": "shrub"
++  },
++  {
++   "a": "nw",
++   "x": 44.4,
++   "z": -73.81,
++   "h": 0.76,
++   "r": 0.71,
++   "ry": 4.45,
++   "kind": "shrub"
++  },
++  {
++   "a": "nw",
++   "x": 52.65,
++   "z": -70.99,
++   "h": 0.91,
++   "r": 0.68,
++   "ry": 0.8,
++   "kind": "shrub"
++  },
++  {
++   "a": "nw",
++   "x": 49.26,
++   "z": -66.56,
++   "h": 1.17,
++   "r": 0.86,
++   "ry": 1.9,
++   "kind": "fern"
++  },
++  {
++   "a": "nw",
++   "x": 55.98,
++   "z": -76.36,
++   "h": 0.7,
++   "r": 0.86,
++   "ry": 0.2,
++   "kind": "fern"
++  },
++  {
++   "a": "nw",
++   "x": 54.11,
++   "z": -83.23,
++   "h": 0.58,
++   "r": 0.81,
++   "ry": 4.07,
++   "kind": "shrub"
++  },
++  {
++   "a": "nw",
++   "x": 47.74,
++   "z": -66.1,
++   "h": 0.94,
++   "r": 0.59,
++   "ry": 6.18,
++   "kind": "fern"
++  },
++  {
++   "a": "nw",
++   "x": 59.09,
++   "z": -69.01,
++   "h": 0.73,
++   "r": 0.57,
++   "ry": 0.66,
++   "kind": "shrub"
++  },
++  {
++   "a": "nw",
++   "x": 52.27,
++   "z": -74.43,
++   "h": 1.22,
++   "r": 0.9,
++   "ry": 4.64,
++   "kind": "fern"
++  },
++  {
++   "a": "nw",
++   "x": 37.12,
++   "z": -79.66,
++   "h": 0.75,
++   "r": 0.7,
++   "ry": 3.33,
++   "kind": "shrub"
++  },
++  {
++   "a": "nw",
++   "x": 39.39,
++   "z": -80.39,
++   "h": 1.01,
++   "r": 0.62,
++   "ry": 0.62,
++   "kind": "fern"
++  },
++  {
++   "a": "nw",
++   "x": 49.33,
++   "z": -76.15,
++   "h": 0.75,
++   "r": 0.72,
++   "ry": 3.93,
++   "kind": "fern"
++  },
++  {
++   "a": "nw",
++   "x": 36.63,
++   "z": -74.51,
++   "h": 1.18,
++   "r": 0.93,
++   "ry": 4.42,
++   "kind": "fern"
++  },
++  {
++   "a": "nw",
++   "x": 61.57,
++   "z": -69.71,
++   "h": 0.69,
++   "r": 0.59,
++   "ry": 4.27,
++   "kind": "shrub"
++  },
++  {
++   "a": "ne",
++   "x": 67.29,
++   "z": -91.38,
++   "h": 1.14,
++   "r": 0.77,
++   "ry": 3.93,
++   "kind": "fern"
++  },
++  {
++   "a": "ne",
++   "x": 65.97,
++   "z": -74.18,
++   "h": 0.54,
++   "r": 0.48,
++   "ry": 6.22,
++   "kind": "shrub"
++  },
++  {
++   "a": "ne",
++   "x": 68.15,
++   "z": -76.25,
++   "h": 0.82,
++   "r": 0.78,
++   "ry": 6.26,
++   "kind": "shrub"
++  },
++  {
++   "a": "ne",
++   "x": 66.51,
++   "z": -92.76,
++   "h": 0.94,
++   "r": 0.79,
++   "ry": 5.67,
++   "kind": "fern"
++  },
++  {
++   "a": "ne",
++   "x": 68.27,
++   "z": -68.44,
++   "h": 1.08,
++   "r": 0.68,
++   "ry": 1.14,
++   "kind": "shrub"
++  },
++  {
++   "a": "ne",
++   "x": 73.09,
++   "z": -76.49,
++   "h": 0.74,
++   "r": 0.58,
++   "ry": 1.84,
++   "kind": "shrub"
++  },
++  {
++   "a": "ne",
++   "x": 69.74,
++   "z": -93.12,
++   "h": 0.94,
++   "r": 0.93,
++   "ry": 1.09,
++   "kind": "fern"
++  },
++  {
++   "a": "ne",
++   "x": 73.91,
++   "z": -81.68,
++   "h": 0.83,
++   "r": 0.52,
++   "ry": 6.21,
++   "kind": "fern"
++  },
++  {
++   "a": "ne",
++   "x": 71.15,
++   "z": -72.2,
++   "h": 0.74,
++   "r": 0.74,
++   "ry": 4.49,
++   "kind": "shrub"
++  },
++  {
++   "a": "ne",
++   "x": 68.64,
++   "z": -81.33,
++   "h": 0.69,
++   "r": 0.88,
++   "ry": 0.02,
++   "kind": "shrub"
++  },
++  {
++   "a": "ne",
++   "x": 66.03,
++   "z": -78.19,
++   "h": 1.16,
++   "r": 0.87,
++   "ry": 4.89,
++   "kind": "shrub"
++  },
++  {
++   "a": "ne",
++   "x": 69.69,
++   "z": -76.05,
++   "h": 1.24,
++   "r": 0.49,
++   "ry": 0.24,
++   "kind": "shrub"
++  },
++  {
++   "a": "ne2",
++   "x": 95.63,
++   "z": -87.91,
++   "h": 1.23,
++   "r": 0.65,
++   "ry": 3.18,
++   "kind": "fern"
++  },
++  {
++   "a": "ne2",
++   "x": 79.03,
++   "z": -76.61,
++   "h": 1.15,
++   "r": 0.72,
++   "ry": 5.81,
++   "kind": "shrub"
++  },
++  {
++   "a": "ne2",
++   "x": 80.64,
++   "z": -81.55,
++   "h": 0.73,
++   "r": 0.8,
++   "ry": 4.98,
++   "kind": "fern"
++  },
++  {
++   "a": "ne2",
++   "x": 89.41,
++   "z": -78.15,
++   "h": 0.72,
++   "r": 0.66,
++   "ry": 1.14,
++   "kind": "shrub"
++  },
++  {
++   "a": "ne2",
++   "x": 86.18,
++   "z": -69.81,
++   "h": 1.01,
++   "r": 0.91,
++   "ry": 5.46,
++   "kind": "fern"
++  },
++  {
++   "a": "ne2",
++   "x": 75.64,
++   "z": -81.59,
++   "h": 0.52,
++   "r": 0.92,
++   "ry": 4.73,
++   "kind": "shrub"
++  },
++  {
++   "a": "ne2",
++   "x": 77.84,
++   "z": -74.77,
++   "h": 1.12,
++   "r": 0.53,
++   "ry": 3.66,
++   "kind": "fern"
++  },
++  {
++   "a": "ne2",
++   "x": 76.26,
++   "z": -66.6,
++   "h": 1.25,
++   "r": 0.69,
++   "ry": 1.02,
++   "kind": "fern"
++  },
++  {
++   "a": "ne2",
++   "x": 85.75,
++   "z": -83.94,
++   "h": 0.92,
++   "r": 0.81,
++   "ry": 0.65,
++   "kind": "shrub"
++  },
++  {
++   "a": "ne2",
++   "x": 98.26,
++   "z": -67.3,
++   "h": 0.63,
++   "r": 0.79,
++   "ry": 4.85,
++   "kind": "fern"
++  },
++  {
++   "a": "ne2",
++   "x": 85.17,
++   "z": -79.96,
++   "h": 1.19,
++   "r": 0.7,
++   "ry": 2.21,
++   "kind": "fern"
++  },
++  {
++   "a": "ne2",
++   "x": 79.13,
++   "z": -73.3,
++   "h": 0.7,
++   "r": 0.56,
++   "ry": 2.03,
++   "kind": "shrub"
++  },
++  {
++   "a": "ne2",
++   "x": 87.12,
++   "z": -68.46,
++   "h": 1.28,
++   "r": 0.88,
++   "ry": 2.91,
++   "kind": "shrub"
++  },
++  {
++   "a": "ne2",
++   "x": 76.09,
++   "z": -71.86,
++   "h": 0.79,
++   "r": 0.77,
++   "ry": 4.06,
++   "kind": "shrub"
++  },
++  {
++   "a": "ne2",
++   "x": 76.02,
++   "z": -68.88,
++   "h": 1.02,
++   "r": 0.81,
++   "ry": 2.71,
++   "kind": "fern"
++  },
++  {
++   "a": "ne2",
++   "x": 78.71,
++   "z": -82.31,
++   "h": 1.04,
++   "r": 0.72,
++   "ry": 3.4,
++   "kind": "fern"
++  },
++  {
++   "a": "ne2",
++   "x": 95.51,
++   "z": -75.93,
++   "h": 0.67,
++   "r": 0.81,
++   "ry": 6.15,
++   "kind": "shrub"
++  },
++  {
++   "a": "ne2",
++   "x": 88.21,
++   "z": -72.56,
++   "h": 1.1,
++   "r": 0.46,
++   "ry": 4.43,
++   "kind": "fern"
++  },
++  {
++   "a": "ne2",
++   "x": 96.68,
++   "z": -74.46,
++   "h": 1.04,
++   "r": 0.63,
++   "ry": 5.74,
++   "kind": "fern"
++  },
++  {
++   "a": "ne2",
++   "x": 80.7,
++   "z": -70.34,
++   "h": 0.93,
++   "r": 0.9,
++   "ry": 0.12,
++   "kind": "shrub"
++  },
++  {
++   "a": "ne2",
++   "x": 89.41,
++   "z": -87.86,
++   "h": 0.79,
++   "r": 0.52,
++   "ry": 2.84,
++   "kind": "shrub"
++  },
++  {
++   "a": "ne2",
++   "x": 87.0,
++   "z": -74.27,
++   "h": 0.57,
++   "r": 0.68,
++   "ry": 4.79,
++   "kind": "fern"
++  },
++  {
++   "a": "ne2",
++   "x": 78.6,
++   "z": -67.88,
++   "h": 1.0,
++   "r": 0.73,
++   "ry": 0.04,
++   "kind": "shrub"
++  },
++  {
++   "a": "ne2",
++   "x": 87.6,
++   "z": -82.39,
++   "h": 0.69,
++   "r": 0.53,
++   "ry": 0.16,
++   "kind": "fern"
++  },
++  {
++   "a": "ne2",
++   "x": 87.93,
++   "z": -85.14,
++   "h": 0.86,
++   "r": 0.76,
++   "ry": 5.36,
++   "kind": "shrub"
++  },
++  {
++   "a": "ne2",
++   "x": 86.57,
++   "z": -77.3,
++   "h": 0.59,
++   "r": 0.58,
++   "ry": 2.19,
++   "kind": "shrub"
++  },
++  {
++   "a": "ne2",
++   "x": 84.45,
++   "z": -66.05,
++   "h": 0.72,
++   "r": 0.81,
++   "ry": 3.83,
++   "kind": "shrub"
++  },
++  {
++   "a": "south",
++   "x": 76.4,
++   "z": -50.82,
++   "h": 1.27,
++   "r": 0.52,
++   "ry": 2.53,
++   "kind": "fern"
++  },
++  {
++   "a": "south",
++   "x": 42.24,
++   "z": -52.52,
++   "h": 1.05,
++   "r": 0.72,
++   "ry": 1.83,
++   "kind": "shrub"
++  },
++  {
++   "a": "south",
++   "x": 42.1,
++   "z": -46.98,
++   "h": 1.16,
++   "r": 0.7,
++   "ry": 4.35,
++   "kind": "shrub"
++  },
++  {
++   "a": "south",
++   "x": 93.44,
++   "z": -47.92,
++   "h": 0.74,
++   "r": 0.47,
++   "ry": 4.86,
++   "kind": "fern"
++  },
++  {
++   "a": "south",
++   "x": 91.31,
++   "z": -47.41,
++   "h": 0.71,
++   "r": 0.81,
++   "ry": 4.52,
++   "kind": "fern"
++  },
++  {
++   "a": "south",
++   "x": 67.58,
++   "z": -51.07,
++   "h": 0.83,
++   "r": 0.65,
++   "ry": 0.46,
++   "kind": "shrub"
++  },
++  {
++   "a": "south",
++   "x": 91.99,
++   "z": -51.36,
++   "h": 0.72,
++   "r": 0.46,
++   "ry": 4.38,
++   "kind": "shrub"
++  },
++  {
++   "a": "south",
++   "x": 70.54,
++   "z": -52.19,
++   "h": 1.15,
++   "r": 0.67,
++   "ry": 4.5,
++   "kind": "fern"
++  },
++  {
++   "a": "south",
++   "x": 63.98,
++   "z": -47.97,
++   "h": 1.27,
++   "r": 0.77,
++   "ry": 0.14,
++   "kind": "fern"
++  },
++  {
++   "a": "south",
++   "x": 41.46,
++   "z": -45.02,
++   "h": 0.91,
++   "r": 0.48,
++   "ry": 6.1,
++   "kind": "shrub"
++  },
++  {
++   "a": "south",
++   "x": 88.97,
++   "z": -53.06,
++   "h": 0.8,
++   "r": 0.51,
++   "ry": 3.34,
++   "kind": "fern"
++  },
++  {
++   "a": "south",
++   "x": 63.53,
++   "z": -54.18,
++   "h": 1.17,
++   "r": 0.58,
++   "ry": 3.31,
++   "kind": "shrub"
++  },
++  {
++   "a": "south",
++   "x": 81.04,
++   "z": -51.05,
++   "h": 1.13,
++   "r": 0.49,
++   "ry": 5.12,
++   "kind": "fern"
++  },
++  {
++   "a": "south",
++   "x": 58.58,
++   "z": -52.27,
++   "h": 0.77,
++   "r": 0.83,
++   "ry": 2.22,
++   "kind": "fern"
++  },
++  {
++   "a": "south",
++   "x": 98.33,
++   "z": -52.49,
++   "h": 0.63,
++   "r": 0.85,
++   "ry": 3.21,
++   "kind": "fern"
++  },
++  {
++   "a": "south",
++   "x": 60.58,
++   "z": -46.23,
++   "h": 1.07,
++   "r": 0.82,
++   "ry": 1.97,
++   "kind": "shrub"
++  },
++  {
++   "a": "south",
++   "x": 50.39,
++   "z": -50.82,
++   "h": 0.96,
++   "r": 0.54,
++   "ry": 1.59,
++   "kind": "fern"
++  },
++  {
++   "a": "south",
++   "x": 58.57,
++   "z": -45.24,
++   "h": 0.78,
++   "r": 0.55,
++   "ry": 0.05,
++   "kind": "shrub"
++  },
++  {
++   "a": "south",
++   "x": 98.53,
++   "z": -45.27,
++   "h": 0.51,
++   "r": 0.7,
++   "ry": 4.48,
++   "kind": "shrub"
++  },
++  {
++   "a": "south",
++   "x": 86.72,
++   "z": -53.46,
++   "h": 0.81,
++   "r": 0.64,
++   "ry": 0.34,
++   "kind": "fern"
++  },
++  {
++   "a": "south",
++   "x": 89.63,
++   "z": -50.65,
++   "h": 1.22,
++   "r": 0.58,
++   "ry": 5.59,
++   "kind": "shrub"
++  },
++  {
++   "a": "south",
++   "x": 52.86,
++   "z": -45.51,
++   "h": 0.89,
++   "r": 0.45,
++   "ry": 2.96,
++   "kind": "shrub"
++  },
++  {
++   "a": "south",
++   "x": 99.54,
++   "z": -53.61,
++   "h": 1.05,
++   "r": 0.73,
++   "ry": 1.8,
++   "kind": "fern"
++  },
++  {
++   "a": "south",
++   "x": 45.93,
++   "z": -46.54,
++   "h": 1.27,
++   "r": 0.52,
++   "ry": 1.52,
++   "kind": "shrub"
++  },
++  {
++   "a": "south",
++   "x": 44.8,
++   "z": -52.41,
++   "h": 0.98,
++   "r": 0.82,
++   "ry": 3.38,
++   "kind": "shrub"
++  },
++  {
++   "a": "south",
++   "x": 44.56,
++   "z": -53.99,
++   "h": 0.95,
++   "r": 0.48,
++   "ry": 0.77,
++   "kind": "shrub"
++  },
++  {
++   "a": "south",
++   "x": 84.33,
++   "z": -46.44,
++   "h": 1.26,
++   "r": 0.51,
++   "ry": 2.27,
++   "kind": "shrub"
++  },
++  {
++   "a": "south",
++   "x": 81.14,
++   "z": -53.84,
++   "h": 1.13,
++   "r": 0.88,
++   "ry": 5.12,
++   "kind": "fern"
++  }
++ ],
++ "stats": {
++  "area_m2": 1986,
++  "trees": 65,
++  "banyan": 53,
++  "shrubs": 88
++ }
++};
+diff --git a/src/story3d.js b/src/story3d.js
+index f628eb71e9f506893ac555ea7ba7b83406d5c8f0..12adad5360343ff2d960bf73b91b3a5c6c078535 100644
+--- a/src/story3d.js
++++ b/src/story3d.js
+@@ -257,7 +257,7 @@ const STORY = (function(){
+   /* 公館南側（GG-WALKERS-1023，LAWWW2-B 10-23，騎樓外加了一排機車以後）：路點會隨機偏 ±1 m（extras），原本 z 16.5 那一條偏到 17.5 會擦過機車的車尾、x −30 那一點會進捷運旁的花台 → 改 z 16、那一點移到 x −22；
+      多一條廣場上的（繞過圓環北側、停車架和行道樹之間）。每個路點 ±1 m 都站得住（人物半徑 0.33）。騎樓只有 2.4 m 深，±1 m 的偏移放不下，沒有加騎樓裡的路線 */
+   const walkRoutes={campus:[[[-112,-7],[-60,-7],[-30,-7],[0,-7],[30,-7],[30,-40],[30,-70],[30,-40],[30,-7],[37,-17],[66,-17]],[[66,17],[37,16.2],[20,7],[-20,7],[-70,7],[-110,7],[-70,7],[-20,7]],[[34,-92],[50,-80],[30,-68],[10,-71],[30,-68],[50,-80]],[[-38,9],[-50,14],[-44,19.4],[-32,19.4],[-26,14]],[[92,-62],[80,-62],[60,-62],[36,-62],[60,-62],[80,-62]],[[64,-86,0],[87,-85,0],[87,-99.2,1],[92.5,-100.6,1],[95.5,-100.9,1],[87,-99.2,1],[87,-85,0],[93,-66,0]]],lane118:[[[0,30],[0.8,14],[-0.6,0],[0.6,-16],[0,-36],[0.6,-16],[-0.6,0],[0.8,14]],[[-1.6,-36],[-1.4,-18],[1.4,2],[1.6,20],[0.5,31],[1.6,20],[1.4,2],[-1.4,-18]]],gongguan:[[[-70,-38],[-20,-38],[30,-38],[70,-38],[30,-38],[-20,-38]],[[-70,16],[-22,16],[10,16],[60,16],[10,16],[-22,16]],[[-40,14.5],[0,10],[40,14],[0,10]],[[-72,12],[-60,10],[-48,14.5],[-60,10]],[[-20,12.5],[12,13.6],[22,16],[34,13.6],[52,12],[70,12.5],[52,12],[34,13.6],[22,16],[12,13.6]]],wenzhou:[[[44,-2.4],[20,-2.2],[-6,-2.6],[-30,-2.4],[-6,-2.6],[20,-2.2]],[[-28,2.6],[-4,2.2],[18,2.6],[42,2.4],[18,2.6],[-4,2.2]],[[26,11],[26,4.5],[6,2],[5.8,16],[6,2],[26,4.5]],[[-33.5,10],[-33.5,-1.5],[-12,-1],[-12.2,-14],[-12,-1],[-33.5,-1.5]]]};
+-  const bikeRoutes={campus:[[[-112,-3],[30,-3],[30,-72],[92,-60],[30,-72],[30,-3]],[[68,17],[37,16.2],[30,3],[-110,3],[30,3],[37,16.2],[68,17]]],gongguan:[[[-70,-12],[70,-12],[70,-2],[-70,-2]]],wenzhou:[[[-29,1.2],[50,1.2],[-29,1.2]],[[50,-1.4],[-29,-1.4],[50,-1.4]]]};
++  const bikeRoutes={campus:[[[-112,-3],[30,-3],[30,-72],[30,-60],[92,-60],[30,-60],[30,-72],[30,-3]],[[68,17],[37,16.2],[30,3],[-110,3],[30,3],[37,16.2],[68,17]]],gongguan:[[[-70,-12],[70,-12],[70,-2],[-70,-2]]],wenzhou:[[[-29,1.2],[50,1.2],[-29,1.2]],[[50,-1.4],[-29,-1.4],[50,-1.4]]]};   /* CAMPUS-BLACKFOREST-1102：騎車的人走直線不找路——原本 (30,−72)→(92,−60) 斜穿過法學院廣場南邊（黑森林），改成沿 z −60 那條路騎 */
+   function h(G){ return G.hour%24; }
+   function isThu(G){ return G.weekday===4; }
+   function classTime(G){ return isThu(G)&&h(G)>=13.1&&h(G)<15.2; }
+diff --git a/src/townkit3d.js b/src/townkit3d.js
+index 57c1ea64c762777b854453f7f7b865697b657448..5f625bb0c209f5c891f33b8032eb708324e45407 100644
+--- a/src/townkit3d.js
++++ b/src/townkit3d.js
+@@ -364,12 +364,14 @@ const TK = (function(){
+     const v=hash01(seed+sp*31,A.x*0.37+A.z*0.11), k=(sp===2?1:b)*(0.9+0.18*v);   /* 葉色：深色參數（dark）×每棵樹一點差異 */
+     const t={key,x:A.x,y:A.y,z:A.z,rot:rot+(sp===2?v*6.28:0),sy,sxz,col:new THREE.Color(k*(0.97+0.05*hash01(seed,7)),k,k*(0.96+0.06*hash01(seed,9))),near:false,
+       r:Math.max(md.r0*sxz/sy*sy,md.h0*sy*0.5)*1.15, cy:A.y+md.h0*sy*0.55, cw:md.card.w*sxz, ch:md.card.h*sy, cell:[md.card.px[0]/md.card.size,md.card.px[1]/md.card.size,(md.card.px[2]-md.card.px[0])/md.card.size,(md.card.px[3]-md.card.px[1])/md.card.size]};
++    { const kb=(sp!==2&&b<1)?Math.min(1,0.35+0.65*b):1; t.bcol=new THREE.Color(kb,kb,kb); }   /* 樹幹：深色參數 < 1 的樹（黑森林）樹幹跟著稍微暗一點（樹蔭下；第二版照使用者照片，dark 0.62～0.74 → ×0.75～0.83）；行道樹（dark 1）不變 */
+     t.m=new THREE.Matrix4().compose(_tA.set(t.x,t.y,t.z),_tQ.setFromAxisAngle(_tUp,t.rot),_tS.set(t.sxz,t.sy,t.sxz)); this.trees.push(t); };
+   TreeField.prototype.build=function(L,parent){ const G=new THREE.Group(); G.name='street_trees_field'; G.userData.dyn=true; const cnt={};
+     for(const t of this.trees) cnt[t.key]=(cnt[t.key]||0)+1;
+     this.near={}; for(const k of Object.keys(cnt)){ const md=L.models[k]; const mk=(src,name)=>{ const im=new THREE.InstancedMesh(src.geometry,src.material,cnt[k]); im.name=name; im.count=0; im.frustumCulled=false; im.castShadow=true; im.receiveShadow=true; im.instanceMatrix.setUsage(THREE.DynamicDrawUsage); G.add(im); return im; };
+       const leaf=mk(md.leaf,'trees_'+k+'_leaf'); leaf.instanceColor=new THREE.InstancedBufferAttribute(new Float32Array(cnt[k]*3),3); leaf.instanceColor.setUsage(THREE.DynamicDrawUsage);
+-      this.near[k]={bark:mk(md.bark,'trees_'+k+'_bark'),leaf}; }
++      const bark=mk(md.bark,'trees_'+k+'_bark'); bark.instanceColor=new THREE.InstancedBufferAttribute(new Float32Array(cnt[k]*3).fill(1),3); bark.instanceColor.setUsage(THREE.DynamicDrawUsage);
++      this.near[k]={bark,leaf}; }
+     const N=this.trees.length; if(N){ const cm=new THREE.InstancedMesh(L.card.geo,L.card.mat,N); cm.name='trees_cards'; cm.count=0; cm.frustumCulled=false; cm.castShadow=false; cm.receiveShadow=false; cm.instanceMatrix.setUsage(THREE.DynamicDrawUsage);
+       cm.instanceColor=new THREE.InstancedBufferAttribute(new Float32Array(N*3),3); cm.instanceColor.setUsage(THREE.DynamicDrawUsage);
+       const cell=new THREE.InstancedBufferAttribute(new Float32Array(N*4),4); cell.setUsage(THREE.DynamicDrawUsage); cm.geometry=L.card.geo.clone(); cm.geometry.setAttribute('aCell',cell); this.cards=cm; G.add(cm); }
+@@ -383,10 +385,10 @@ const TK = (function(){
+     for(const t of this.trees){ const dx=t.x-cx, dz=t.z-cz, d2=dx*dx+dz*dz; const R=t.near?NEAR_OUT:NEAR_IN; let near=d2<R*R; _tSp.center.set(t.x,t.cy,t.z); _tSp.radius=t.r; const vis=_tF.intersectsSphere(_tSp);
+       if(near&&!vis&&P){ const px=t.x-P.x, pz=t.z-P.z; if(px*px+pz*pz>30*30) near=false; }   /* 畫面外、離玩家 30 m 以上的樹不畫模型（影子也照不到玩家附近） */
+       t.near=near;
+-      if(near){ const nm=this.near[t.key], i=nm.n++; nm.bark.setMatrixAt(i,t.m); nm.leaf.setMatrixAt(i,t.m); nm.leaf.setColorAt(i,t.col); continue; }
++      if(near){ const nm=this.near[t.key], i=nm.n++; nm.bark.setMatrixAt(i,t.m); nm.bark.setColorAt(i,t.bcol); nm.leaf.setMatrixAt(i,t.m); nm.leaf.setColorAt(i,t.col); continue; }
+       if(!vis||d2>F2||!cards) continue;
+       _tM.compose(_tA.set(t.x,t.y,t.z),_tQ.identity(),_tS.set(t.cw,t.ch,1)); cards.setMatrixAt(nc,_tM); cards.setColorAt(nc,t.col); ca.setXYZW(nc,t.cell[0],t.cell[1],t.cell[2],t.cell[3]); nc++; }
+-    for(const k in this.near){ const nm=this.near[k]; for(const im of [nm.bark,nm.leaf]){ im.count=nm.n; im.instanceMatrix.needsUpdate=true; } nm.leaf.instanceColor.needsUpdate=true; }
++    for(const k in this.near){ const nm=this.near[k]; for(const im of [nm.bark,nm.leaf]){ im.count=nm.n; im.instanceMatrix.needsUpdate=true; } nm.leaf.instanceColor.needsUpdate=true; nm.bark.instanceColor.needsUpdate=true; }
+     if(cards){ cards.count=nc; cards.instanceMatrix.needsUpdate=true; cards.instanceColor.needsUpdate=true; ca.needsUpdate=true; }
+     this.stats.near=Object.fromEntries(Object.entries(this.near).map(([k,v])=>[k,v.n])); this.stats.cards=nc; };
+   function treeStats(){ return field&&E3.extras.indexOf(field)>=0?Object.assign({ready:field.ready},field.stats||{}):null; }
+diff --git a/src/zones3d.js b/src/zones3d.js
+index 048bbb648d68dcf25071f991bb1af041a72dccac..293701483cd04e120ceca102784bc359c83e7a25 100644
+--- a/src/zones3d.js
++++ b/src/zones3d.js
+@@ -263,10 +263,14 @@ const Z3 = (function(){
+     ground(g,124,44,W3.grassTex(),[31,11],-70,-106,-0.003);   // 湖北邊的地面（方案 A 之前那裡走不到、種了一排樹遮住地面盡頭；湖搬過來之後樹會長在博雅裡面、小路上，2026-10-13 審查拿掉）
+     { const hb=new TK.Bin(); for(let x=-61.5;x<=4.5;x+=1.15) TK.plantClump(hb,x,0,-124.35+((x*7)%2)*0.08,0.9+Math.abs((x*13)%3)*0.06,5,[0.7,0.9,0.66]); hb.build(g); }   /* 方案 A 打開的西北角：北邊界 z=-124 原本只是草地中間一道看不見的牆，種一排矮灌木收邊（導航照舊是 blockOutside）*/
+     // ---- 法學院區（東北上方）：霖澤館 ＋ 萬才館 ＋ 社科院 ----
+-    ground(g,72,24,W3.stoneTex('#e6dccb'),[18,6],61,-94,0.012); strip(g,30,-70,30,-84,10,W3.pathTex(),4); strip(g,92.5,-64,92.5,-84,4,W3.pathTex(),4);   /* 第二十四批：萬才館的互動點改到陽台下面的一樓入口（x≈93.8），小路跟著移；4 m 寬，不碰到社科院前 x=96 的白柱 */
++    const BF2=typeof BLACKFOREST_LAYOUT!=='undefined'&&BLACKFOREST_LAYOUT.version>=2;   /* 黑森林第二版（使用者 11-02 21:3x 實景照片＋官方地圖：兩館之間的走道經過小湖，湖再往校園是一大片樹林）*/
++    if(BF2){ ground(g,37,22,W3.stoneTex('#e6dccb'),[9,6],43.5,-95,0.012); ground(g,35,9,W3.stoneTex('#e6dccb'),[9,2],79.5,-101.5,0.012);   /* 霖澤館前庭（劇情的「法學院廣場」：站位 (50,−93)、(58,−90)、事件 (61,−94)）＋兩館正面一條；其餘是小湖和黑森林 */
++      strip(g,30,-70,30,-84,10,W3.pathTex(),4);
++      for(const pth of BLACKFOREST_LAYOUT.paths) if(pth.kind==='paved') for(let i=0;i<pth.pts.length-1;i++){ const a=pth.pts[i], b=pth.pts[i+1]; strip(g,a[0],a[1],b[0],b[1],pth.w,W3.pathTex(),pth.w>=4?4:3); } }   /* 兩館之間往南的走道（3 m）、往萬才館的路（4 m）*/
++    else { ground(g,72,24,W3.stoneTex('#e6dccb'),[18,6],61,-94,0.012); strip(g,30,-70,30,-84,10,W3.pathTex(),4); strip(g,92.5,(typeof BLACKFOREST_LAYOUT!=='undefined')?-78.6:-64,92.5,-84,4,W3.pathTex(),4); }   /* CAMPUS-BLACKFOREST-1102：z −78.6 以南是黑森林的土徑（配置 paths.wancai），地磚只留廣場那一段 */   /* 第二十四批：萬才館的互動點改到陽台下面的一樓入口（x≈93.8），小路跟著移；4 m 寬，不碰到社科院前 x=96 的白柱 */
+     // 法學院前庭：樹列、花圃、矮籬
+-    for(const x of [22,38,54,70,86]){ const b=TREE(1.15+((x/16)%2)*0.1); place(g,b,x,-80,x*0.4); nav.blockCircle(x,-80,0.9); }
+-    for(const x of [30,46,62,88]){ const pl=W3.planter(); place(g,pl,x,-83.5,0); nav.blockRect(x,-83.5,1.2,0.5,0); }   /* 第十九批：x=78 的花圃會擋在往萬才館的新小路上，移到 88 */
++    for(const x of (BF2?[22]:[22,38,54,70,86])){ const b=TREE(1.15+((x/16)%2)*0.1); place(g,b,x,-80,x*0.4); nav.blockCircle(x,-80,0.9); }   /* 黑森林第二版：x 38～86 那幾棵在森林裡（森林自己的樹）*/
++    for(const x of (BF2?[30,46]:[30,46,62,88])){ const pl=W3.planter(); place(g,pl,x,-83.5,0); nav.blockRect(x,-83.5,1.2,0.5,0); }   /* 黑森林第二版：62 在走道上、88 在森林裡 */   /* 第十九批：x=78 的花圃會擋在往萬才館的新小路上，移到 88 */
+     for(const x of [12,100]){ const t=TREE(1.3); place(g,t,x,-96,0); nav.blockCircle(x,-96,0.9); const t2=TREE(1.0); place(g,t2,x+(x<50?-6:6),-108,1); nav.blockCircle(x+(x<50?-6:6),-108,0.8); }
+     /* 霖澤館西段正面的大樟樹（CLOSED-SPACES-1023，LAWWW2-B 10-23；AA_399 1-1「她的位子在走廊最後一間、靠窗，窗戶對著一棵樹」：5F 碩士班研究室那扇窗前。
+        LAWWW-B 10-23 16:02 選 A：種一棵真的樹，從廣場看也在）。樹高 19 m：樟樹的樹冠在 0.24H～0.96H、半徑約 0.38H，五樓的窗（17～18.5 m）看出去是樹冠上半部；
+@@ -306,12 +310,14 @@ const Z3 = (function(){
+       socGLB=typeof ASSETS!=='undefined'&&!!ASSETS.manifest['bldg.campus_modern']; soc.userData.ckTag='soc'; if(socGLB) soc.userData.dyn=true;
+       for(let i=0;i<7;i++){ const col=new THREE.Mesh(new THREE.CylinderGeometry(0.22,0.35,7,10),M('#f4f1ea')); col.position.set(96,3.5,-90+i*6); g.add(col); const cap=new THREE.Mesh(new THREE.CylinderGeometry(1.6,0.6,0.8,10),M('#f4f1ea')); cap.position.set(96,7.2,-90+i*6); g.add(cap); nav.blockCircle(96,-90+i*6,0.5); } }
+     // 法學院廣場：長椅、腳踏車、樹、公告欄、販賣機
+-    for(const x of [40,70]){ const b=BENCH(); place(g,b,x,-88,0); nav.blockRect(x,-88,1.4,0.7,0); seats.push({x,z:-87.94,yaw:0,label:'坐在法律系館A前的長椅'}); }
++    for(const x of (BF2?[40]:[40,70])){ const b=BENCH(); place(g,b,x,-88,0); nav.blockRect(x,-88,1.4,0.7,0); seats.push({x,z:-87.94,yaw:0,label:'坐在法律系館A前的長椅'}); }
++    if(BF2){ const b=BENCH(); place(g,b,61.4,-88,Math.PI/2); nav.blockRect(61.4,-88,0.7,1.4,0); seats.push({x:61.46,z:-88,yaw:Math.PI/2,label:'坐在小湖邊的長椅'}); }   /* 第二版：(70,−88) 那張在小湖裡，搬到走道西邊、面向小湖（往東）*/
+     
+     { const r=parkedRack(9); place(g,r,58,-102,0); nav.blockRect(58,-102,6,1.4,0); const r2=parkedRack(6); place(g,r2,10,-100,0); nav.blockRect(10,-100,4,1.4,0); }
+     { const bb=W3.bulletin(); place(g,bb,16.6,-100.6,0); nav.blockRect(16.6,-100.6,2.6,0.4,0); /* v9.3 第十九批：原本掛在霖澤館一樓拱廊的內牆上；新的霖澤館沒有拱廊、正面整排是台階，移到台階西端外面的鋪面上 */ const v=W3.vending(); place(g,v,13.5,-107.5,-Math.PI/2); nav.blockRect(13.5,-107.5,0.9,1.2,0); /* 靠霖澤館西側牆（舊位置一半埋在建築轉角裡）*/ }
+     for(const [x,z] of [[30,-86],[62,-86],[97.2,-96.5],[51,-100.5],[69,-98.5]]){ /* 後兩盞原本在 (46,-108)、(76,-108)：埋在霖澤館、萬才館的牆裡，第十九批移到門前；(94,-86) 第二十四批移到萬才館一樓入口東側 (97.2,-96.5)：原本擋在往入口的路線中間（照亮入口）*/ const l=W3.lampPost(); place(g,l,x,z,Math.PI/2); lamps.push(l); nav.blockCircle(x,z,0.5); }
+-    for(const [x,z] of [...(SOCX?[]:[[8,-70],[8,-50],[0,-56]]),[52,-50],[-54,-19],[-5,-16],[40,-20],[-95,-12],[-62,-56],[-96,24],[-82,31],[-68,24],LIBF?[75,-41]:[78,-38],LIBF?[68.5,-45]:[64,-44]]){   /* 第十八批拿掉：(8,-30)、(20,-20)、(52,-30)、(66,-28)（新系館的位置）、(-10,18)、(10,18)、(50,18)（換成大道南側的大樹牆）；X75：(8,-70)、(8,-50)、(0,-56) 在社科院的新位置裡面 */ const b=TREE(1+((x+z)%3)*0.2); place(g,b,x,z,(x+z)*0.3); nav.blockCircle(x,z,0.8); }
++    const BFL0=typeof BLACKFOREST_LAYOUT!=='undefined';   /* 黑森林的配置有載入（CAMPUS-BLACKFOREST-1102）*/
++    for(const [x,z] of [...(SOCX?[]:[[8,-70],[8,-50],[0,-56]]),...(BFL0?[]:[[52,-50]]),[-54,-19],[-5,-16],[40,-20],[-95,-12],[-62,-56],[-96,24],[-82,31],[-68,24],LIBF?[75,-41]:[78,-38],...(BFL0&&LIBF?[]:[LIBF?[68.5,-45]:[64,-44]])]){   /* CAMPUS-BLACKFOREST-1102：(52,−50)、(68.5,−45) 在黑森林南塊裡面——黑森林的樹照配置放（土徑 s1 原本會穿過 (52,−50) 這棵）*/   /* 第十八批拿掉：(8,-30)、(20,-20)、(52,-30)、(66,-28)（新系館的位置）、(-10,18)、(10,18)、(50,18)（換成大道南側的大樹牆）；X75：(8,-70)、(8,-50)、(0,-56) 在社科院的新位置裡面 */ const b=TREE(1+((x+z)%3)*0.2); place(g,b,x,z,(x+z)*0.3); nav.blockCircle(x,z,0.8); }
+     // 花圃
+     for(const x of [-64,-48]){ const p=W3.planter(); place(g,p,x,-13,0); nav.blockRect(x,-13,1.2,0.5,0); }
+     /* 社團博覽會（AA_110 6-8 (b)；activities.js 的 club_expo_y1s1：新局 9/6、舊局 9/30、10/1，CLUBFAIR-REAL-1027）那幾天：LAWWW2 479b7fc 的九頂帳篷（clubFair），原本的招生攤位、公告欄收起來 */
+@@ -447,7 +453,29 @@ const Z3 = (function(){
+     // 國青中心（第二十四批，使用者提供的法律學院配置圖：霖澤館與萬才館中間、靠辛亥路的灰色宿舍）：遊戲的法學院區是壓縮過的（D25），兩館之間只剩約 20 m，
+     // 放在兩館中間的後方（中庭與北側圍牆之間，玩家走不到，不加導航），從兩館之間、霖澤館前都看得到。外觀沒有照片：灰色現代板樓是推測
+     { const gq=CK.modern({w:30,d:10,floors:7,gfh:4.0,fh:3.2,wall:'#a9aba6',slab:'#c8c9c4',sign:'國際學苑'}); place(g,gq,64,-134,0); }
+-    // 黑森林（第二十四批，配置圖：法學院靠校園那一側的一片樹林，裡面有步道；霖澤館東南邊有一個小水池）：法學院廣場南邊、到 z=-60 的路之間
++    // 黑森林（CAMPUS-BLACKFOREST-1102，LAWWW2 11-02；使用者 20:3x「你的黑森林超奇怪的，而且裡面怎麼還會有草皮中的磁磚啊，而且你這一小塊根本就不能叫做黑森林」）：
++    //   配置 src/data/blackforest_layout.js（tools/blender/env_second/campus_blackforest_layout.py）：法學院廣場南邊整塊＋z −60 那條路的南邊（路變成穿過森林），
++    //   榕樹為主、樟樹少數（TK.tree 的 sp → street_trees.glb 正式模型），樹冠交疊；樹幹擋導航。地面（落葉泥土地、土徑、板根、蕨類、灌木）是正式模型 bldg.campus_blackforest，
++    //   載入前／載入失敗用這裡的程序化地面（深色落葉地＋土徑；沒有地磚）。水池（第二十四批）照舊。配置沒載入時照舊是第二十四批的版本（else）。
++    let bfFallback=null; const BFL=typeof BLACKFOREST_LAYOUT!=='undefined'?BLACKFOREST_LAYOUT:null;
++    if(BFL){ const fb=new TK.Bin(); const fg=new THREE.Group(); bfFallback=new THREE.Group(); bfFallback.name='blackforest_fallback'; bfFallback.userData.dyn=true; g.add(bfFallback);
++      const floorT=W3.canvasTex(BFL.version>=2?'forestFloor3':'forestFloor2',128,128,(x,w,h)=>{ x.fillStyle=BFL.version>=2?'#5d6440':'#3f3a2c'; x.fillRect(0,0,w,h); let s=13; const r=()=>{ s=(s*16807)%2147483647; return s/2147483647; }; for(let i=0;i<1100;i++){ const v=r(); x.fillStyle=v<0.45?'rgba(96,72,44,0.55)':(v<0.75?'rgba(58,66,36,0.5)':'rgba(130,104,64,0.45)'); x.fillRect(r()*w,r()*h,2+r()*3,1+r()*2); } });   // 落葉地
++      const dirtT=W3.canvasTex('forestDirt',128,128,(x,w,h)=>{ x.fillStyle='#6a5843'; x.fillRect(0,0,w,h); let s=29; const r=()=>{ s=(s*16807)%2147483647; return s/2147483647; }; for(let i=0;i<700;i++){ const v=r(); x.fillStyle=v<0.5?'rgba(84,68,50,0.6)':'rgba(140,120,92,0.45)'; x.fillRect(r()*w,r()*h,1+r()*3,1+r()*2); } });   // 土徑
++      for(const A of BFL.areas) ground(bfFallback,A.x1-A.x0+0.6,A.z1-A.z0+0.6,floorT,[(A.x1-A.x0)/4,(A.z1-A.z0)/4],(A.x0+A.x1)/2,(A.z0+A.z1)/2,0.012);
++      for(const pth of BFL.paths) if(pth.kind!=='paved') for(let i=0;i<pth.pts.length-1;i++){ const a=pth.pts[i], b=pth.pts[i+1]; strip(bfFallback,a[0],a[1],b[0],b[1],pth.w,dirtT,2); }
++      BFL.trees.forEach(t=>{ const tr=TK.tree(t.h,t.seed,{spread:t.spread,dark:t.dark,sp:t.sp}); place(fg,tr,t.x,t.z,t.ry); nav.blockCircle(t.x,t.z,t.trunk); });
++      g.add(W3.mergeGroup(fg));
++      // 小水池（霖澤館東南邊）：深色水面、石砌池邊、水邊的植物；不能走
++      if(BFL.version>=2){ const P=BFL.pond, PR=a=>1+0.10*Math.sin(2*a+0.6)+0.05*Math.cos(3*a);   /* 第二版的小湖（走道東邊）：池邊、水、石頭、水生植物、垂柳是正式模型；這裡是載入前／失敗的備用水面＋導航 */
++        const wm=new THREE.Mesh(new THREE.CircleGeometry(1,40),new THREE.MeshStandardMaterial({color:0x24302a,roughness:0.08})); wm.scale.set(P.rx*1.04,P.rz*1.04,1); wm.rotation.x=-Math.PI/2; wm.position.set(P.x,0.13,P.z); bfFallback.add(wm);
++        for(let dz=-P.rz*1.2;dz<=P.rz*1.2;dz+=0.25){ let hw=0; for(let k=0;k<72;k++){ const a=k/72*Math.PI*2, kk=PR(a), z=Math.sin(a)*P.rz*kk; if(Math.abs(z-dz)<0.3) hw=Math.max(hw,Math.abs(Math.cos(a))*P.rx*kk); } if(hw>0) nav.blockRect(P.x,P.z+dz,2*(hw+0.4),0.3,0,0); }   /* 水＋0.4 m 的水泥池邊不能走（照輪廓一條一條擋）*/
++        nav.blockCircle(P.willow[0],P.willow[1],0.4); }   // 垂柳的樹幹
++      else { const PX=49, PZ=-71, RX=4.2, RZ=2.8;   /* 離路人散步路線 (50,-80)→(30,-60) 約 5.7 m */ const wm=new THREE.Mesh(new THREE.CircleGeometry(1,32),new THREE.MeshStandardMaterial({color:0x2f4b4a,roughness:0.15,metalness:0.3})); wm.scale.set(RX,RZ,1); wm.rotation.x=-Math.PI/2; wm.position.set(PX,0.03,PZ); wm.receiveShadow=true; g.add(wm);
++        for(let i=0;i<26;i++){ const a=i/26*Math.PI*2; fb.add(TK.paint('#8f8b82'),TK.boxG(1.05,0.22,0.42),PX+Math.cos(a)*(RX+0.15),0.11,PZ+Math.sin(a)*(RZ+0.15),-a+Math.PI/2); }
++        for(const a of [0.4,1.3,2.6,3.5,4.4,5.6]) TK.plantClump(fb,PX+Math.cos(a)*(RX+0.7),0,PZ+Math.sin(a)*(RZ+0.6),0.9,6,[0.55,0.75,0.5]);
++        nav.blockRect(PX,PZ,2*RX+1.4,2*RZ+1.2,0,0); }
++      const fbg=new THREE.Group(); fb.build(fbg); g.add(fbg); }
++    else { // 第二十四批（配置圖：法學院靠校園那一側的一片樹林，裡面有步道；霖澤館東南邊有一個小水池）：法學院廣場南邊、到 z=-60 的路之間
+     { const fb=new TK.Bin(); const fg=new THREE.Group();
+       ground(g,34,14,W3.canvasTex('forestFloor',128,128,(x,w,h)=>{ x.fillStyle='#4d5a37'; x.fillRect(0,0,w,h); let s=11; const r=()=>{ s=(s*16807)%2147483647; return s/2147483647; }; for(let i=0;i<900;i++){ const v=r(); x.fillStyle=v<0.4?'rgba(92,70,44,0.5)':(v<0.75?'rgba(60,82,40,0.55)':'rgba(120,98,60,0.4)'); x.fillRect(r()*w,r()*h,2+r()*3,1+r()*2); } }),[8,3.5],72,-72,0.008);   // 落葉地面
+       strip(g,62,-81,68,-72,2.2,W3.pathTex(),2); strip(g,68,-72,78,-65,2.2,W3.pathTex(),2);   // 穿過樹林的小步道（廣場 → 南邊的路）
+@@ -459,7 +487,7 @@ const Z3 = (function(){
+         for(let i=0;i<26;i++){ const a=i/26*Math.PI*2; fb.add(TK.paint('#8f8b82'),TK.boxG(1.05,0.22,0.42),PX+Math.cos(a)*(RX+0.15),0.11,PZ+Math.sin(a)*(RZ+0.15),-a+Math.PI/2); }
+         for(const a of [0.4,1.3,2.6,3.5,4.4,5.6]) TK.plantClump(fb,PX+Math.cos(a)*(RX+0.7),0,PZ+Math.sin(a)*(RZ+0.6),0.9,6,[0.55,0.75,0.5]);
+         nav.blockRect(PX,PZ,2*RX+1.4,2*RZ+1.2,0,0); }
+-      const fbg=new THREE.Group(); fb.build(fbg); g.add(fbg); }
++      const fbg=new THREE.Group(); fb.build(fbg); g.add(fbg); } }
+     // 燈光光暈
+     for(const l of lamps){ const glow=new THREE.Sprite(new THREE.SpriteMaterial({map:glowTex(),color:0xffd88a,transparent:true,opacity:0.55,depthWrite:false,blending:THREE.AdditiveBlending})); glow.scale.set(3,3,1); glow.position.set(0,3.9,0.75); l.add(glow); glow.visible=false; E.lampGlows.push(glow); const pool=new THREE.Mesh(new THREE.CircleGeometry(4.2,16),new THREE.MeshBasicMaterial({map:glowTex(),color:0xffd08a,transparent:true,opacity:0.34,depthWrite:false,blending:THREE.AdditiveBlending})); pool.rotation.x=-Math.PI/2; pool.position.set(0,0.03,0.75); l.add(pool); pool.visible=false; E.lampGlows.push(pool);
+       if(l.userData.roadPool){ const rp=new THREE.Mesh(new THREE.CircleGeometry(6.5,24),new THREE.MeshBasicMaterial({map:glowTex(),color:0xffd59a,transparent:true,opacity:0.38,depthWrite:false,blending:THREE.AdditiveBlending})); rp.rotation.x=-Math.PI/2; rp.scale.set(1.3,1,1); rp.position.set(0,0.035,4.5); rp.material.polygonOffset=true; rp.material.polygonOffsetFactor=-8; rp.material.polygonOffsetUnits=-16; l.add(rp);   /* 深度偏移（LAWWW2-B 10-24）：和步道交疊的柏油路（舟山路）會被 stripLayer 往上推一層，斜看時把只高 1.5 cm 的光圈蓋掉——光圈固定比任何路面層級都前面 */ rp.visible=false; E.lampGlows.push(rp); } }   /* 椰林大道：路面上一圈淡的燈光（離燈 4.5 m、半徑 6.5 m、沿路拉長 1.3 倍），兩側的在路中間接起來 */
+@@ -493,6 +521,8 @@ const Z3 = (function(){
+     if(libGLB) ASSETS.loadOne('bldg.campus_library').then(c=>{ if(!c||!c.scene||E.zone!==zone) return; attachWenzhouModel(E,g,c.scene.clone(true),'ckTag','campus_library_glb','library'); }).catch(e=>console.warn('總圖正式模型載入失敗，用套件的外觀',e));
+     if(lawnGLB) ASSETS.loadOne('bldg.campus_lib_lawn').then(c=>{ if(!c||!c.scene||E.zone!==zone) return; const r=c.scene.clone(true); r.name='campus_lib_lawn_glb';   /* X133 總圖前草皮：只有地面（不投影、接受影子），載入後藏掉石板廣場 */
+       r.traverse(o=>{ if(o.isMesh){ o.castShadow=false; o.receiveShadow=true; } }); g.add(r); libPlaza.visible=false; }).catch(e=>console.warn('總圖前草皮正式模型載入失敗，用石板廣場',e));
++    if(BFL&&typeof ASSETS!=='undefined'&&ASSETS.manifest['bldg.campus_blackforest']) ASSETS.loadOne('bldg.campus_blackforest').then(c=>{ if(!c||!c.scene||E.zone!==zone) return; const r=c.scene.clone(true); r.name='campus_blackforest_glb';   /* 黑森林的地面（CAMPUS-BLACKFOREST-1102）：落葉泥土地、土徑、板根、蕨類、灌木——不投影、接受樹的影子；載入後藏掉程序化地面 */
++      r.traverse(o=>{ if(o.isMesh){ o.castShadow=false; o.receiveShadow=true; } }); r.userData.dyn=true; g.add(r); if(bfFallback) bfFallback.visible=false; }).catch(e=>console.warn('黑森林正式模型載入失敗，用程序化的地面',e));
+     courtGLB(zone);   /* 系籃球場的正式模型（bballCourt）*/
+     gateGLB(E,g,gate,-124,0,-Math.PI/2,zone);   /* 校門（ART-EXT-GATE）*/
+     if(typeof ASSETS!=='undefined'&&ASSETS.manifest['bldg.campus_lake']) ASSETS.loadOne('bldg.campus_lake').then(c=>{ if(!c||!c.scene||E.zone!==zone) return; attachLakeGLB(E,g,lakeU,c.scene.clone(true)); }).catch(e=>console.warn('醉月湖正式模型載入失敗，用程序化的湖岸、湖心亭',e));   /* 醉月湖（LAWWW2 ⑩）*/
+diff --git a/tests/blackforest_unit.js b/tests/blackforest_unit.js
+new file mode 100644
+index 0000000000000000000000000000000000000000..b91f83fdffcd34507ee5a43ae354eb1329881d8d
+--- /dev/null
++++ b/tests/blackforest_unit.js
+@@ -0,0 +1,65 @@
++// 黑森林（CAMPUS-BLACKFOREST-1102；使用者 11-02 20:3x「你的黑森林超奇怪的，而且裡面怎麼還會有草皮中的磁磚啊，而且你這一小塊根本就不能叫做黑森林」）——不需要瀏覽器。
++// 在 Node 裡建出遊戲真正的校園，檢查：
++//   森林夠大、夠密：配置的範圍裡至少 45 棵樹、每棵平均不到 35 m²（第二十四批的版本 11 棵 → FAIL）；
++//   森林範圍裡沒有淺色地磚（W3.pathTex；第二十四批穿過樹林的小步道、往萬才館那條 → FAIL）；
++//   每棵樹的樹幹擋住導航；水池照舊擋住；
++//   路人路線的點站得住、走得到（引擎真正的找路＋移動碰撞，走路、跑步＋低幀率）；每條土徑沿線站得住；往萬才館的入口走得到；
++//   騎腳踏車的人（直線、不找路）的路線離每棵樹幹至少 1 m。
++// 用法：node tests/blackforest_unit.js
++const fs=require('fs'), vm=require('vm'), path=require('path');
++const ROOT=path.resolve(__dirname,'..');
++global.window=global; global.self=global;
++const ctx2d=new Proxy({}, {get:(o,k)=>k==='createRadialGradient'||k==='createLinearGradient'||k==='createPattern'?()=>({addColorStop(){}}):(k==='getImageData'?()=>({data:new Uint8ClampedArray(16)}):(k==='measureText'?()=>({width:10}):(()=>{})))});
++global.document={ createElementNS:()=>({getContext:()=>ctx2d,style:{}}), createElement:()=>({width:1,height:1,getContext:()=>ctx2d,style:{}}), getElementById:()=>null, addEventListener(){} };
++global.navigator={userAgent:'node'}; global.addEventListener=()=>{}; global.innerWidth=844; global.innerHeight=390; global.location={search:''};
++const files=['lib/three.bundle.js','src/data/blackforest_layout.js','lib/three.jsm.bundle.js','src/people3d.js','src/assets3d.js','src/world3d.js','src/engine3d.js','src/townkit3d.js','src/campuskit3d.js','src/zones3d.js','src/data/dorm_room_layout.js','src/data/socsci_layout.js',
++  'src/data/linze_layout.js','src/data/classroom_layout.js','src/building3d.js','src/data/wancai_layout.js','src/wancai3d.js','src/data/library_layout.js','src/library3d.js','src/library_hall_v2.js','src/data/lawlib_layout.js','src/lawlib3d.js','src/data/gongtong_layout.js','src/data/boya_layout.js','src/data/putong_layout.js','src/teach3d.js',
++  'src/data/calendar.js','src/data/places.js','src/data/characters.js','src/data/courses.js','src/data/activities.js','src/classes3d.js'];
++for(const f of files){ let src=fs.readFileSync(path.join(ROOT,f),'utf8'); src=src.replace(/^const (\w+)\s*=/mg,(m,n)=>/^(BLACKFOREST_LAYOUT|THREE|THREE_JSM|P3|ASSETS|W3|E3|TK|CK|Z3|B3|WC3|LB3|LL3|LINZE_LAYOUT|CLASSROOM_LAYOUT|WANCAI_LAYOUT|LIBRARY_LAYOUT|LAWLIB_LAYOUT|GONGTONG_LAYOUT|BOYA_LAYOUT|PUTONG_LAYOUT|TB3|ACTIVITIES|CALENDAR|PLACES|CHARACTERS|UNFAMILIAR_POOL|SOCIAL_GRAPH|PORTRAITS|COURSES|CLS|PROPS|CHAR)$/.test(n)?'globalThis.'+n+'=':m); vm.runInThisContext(src,{filename:f}); }
++let fails=0; const check=(name,ok,info)=>{ console.log((ok?'PASS ':'FAIL ')+name+(info?'　'+info:'')); if(!ok) fails++; };
++const E=E3; E.scene=new THREE.Scene(); E.q={level:'medium'}; E.interactables=[]; E.colliders=[]; E.lampGlows=[]; E.seats=[]; E.npcs=[]; E.spawnHint=null;
++const TREES=[]; { const orig=TK.tree; TK.tree=(...a)=>{ const t=orig(...a); TREES.push(t); return t; }; }   /* 記下校園上每一棵闊葉樹（檢查方案 A 留下的樹）*/
++
++process.on('unhandledRejection',()=>{}); global.fetch=()=>Promise.reject(new Error('no fetch in node')); console.warn=()=>{};
++const z=Z3.ZONES.campus.build(E); E.zone=z; E.levels=z.levels||null; E.nav=z.nav; if(E.levels) for(const n of E.levels) n._cm=null; E.player={obj:{position:new THREE.Vector3(),rotation:{y:0}},radius:0.32,lv:0};
++const L=BLACKFOREST_LAYOUT, n=z.nav;
++const inArea=(x,zz)=>L.areas.some(a=>x>=a.x0&&x<=a.x1&&zz>=a.z0&&zz<=a.z1);
++const pos=t=>{ const v=new THREE.Vector3(); t.getWorldPosition(v); return v; };
++const inTrees=TREES.map(pos).filter(v=>inArea(v.x,v.z)); const m2=L.areas.reduce((s,a)=>s+(a.x1-a.x0)*(a.z1-a.z0),0);
++check('黑森林夠大、夠密：配置的範圍裡至少 45 棵樹，每棵平均不到 35 m²', inTrees.length>=45&&m2/inTrees.length<35, `${inTrees.length} 棵、${Math.round(m2)} m²、每棵 ${(m2/Math.max(1,inTrees.length)).toFixed(1)} m²（第二十四批 11 棵）`);
++const pt=W3.pathTex(); let tiles=[]; z.group.updateMatrixWorld(true);
++const onPaved=(x,zz)=>L.paths.some(p=>p.kind==='paved'&&p.pts.some((a,i)=>{ if(i===0) return false; const [ax,az]=p.pts[i-1], [bx,bz]=a, dx=bx-ax, dz=bz-az, L2=dx*dx+dz*dz||1, u=Math.max(0,Math.min(1,((x-ax)*dx+(zz-az)*dz)/L2)); return Math.hypot(x-ax-u*dx,zz-az-u*dz)<p.w/2+0.6; }));   /* 第二版：兩館之間的走道、往萬才館的路是配置裡標明的鋪面（kind paved） */
++z.group.traverse(o=>{ if(!o.isMesh||!o.material||!o.material.map||o.material.map.source!==pt.source) return; o.geometry.computeBoundingBox(); const c=o.geometry.boundingBox.getCenter(new THREE.Vector3()).applyMatrix4(o.matrixWorld); if(inArea(c.x,c.z)&&!onPaved(c.x,c.z)) tiles.push([+c.x.toFixed(1),+c.z.toFixed(1)]); });
++check('森林範圍裡沒有淺色地磚（W3.pathTex）：土徑是土（配置標成鋪面的走道、往萬才館的路除外）', tiles.length===0, JSON.stringify(tiles));
++const stand=(x,zz)=>E.canStand(x,zz,0.3,0);
++const badT=L.trees.filter(t=>stand(t.x,t.z));
++check('每棵樹的樹幹擋住導航（'+L.trees.length+' 棵）', badT.length===0, JSON.stringify(badT.slice(0,5).map(t=>[t.x,t.z])));
++check('水池照舊擋住（人走不進池子）', !stand(L.pond.x,L.pond.z));
++const walk=(a,b)=>{ for(const [dt,sp] of [[1/30,1.6],[0.1,4.1]]){ const r=E.simWalk(a[0],a[1],b[0],b[1],{lv0:0,lv1:0,dt,speed:sp}); if(!r.ok) return Object.assign({dt:+dt.toFixed(3),speed:sp},r); } return null; };
++const LINZE=[34,-98];
++const badK=L.keep.filter(k=>!stand(k[0],k[1])); check('路人路線的點都站得住', badK.length===0, JSON.stringify(badK));
++for(const [a,b,label] of [[LINZE,[50,-80],'霖澤館前 → 廣場邊 (50,−80)'],[[50,-80],[30,-68],'廣場邊 → 小椰林道 (30,−68)（穿過森林西北角）'],[[66,-80],[60,-62],'廣場 → 森林中間的土徑 → z −60 的路'],
++  [[60,-62],[47,-44.2],'z −60 的路 → 南邊森林的土徑 → 南邊'],[[92,-62],[93,-66],'z −60 的路 → 往萬才館的土徑'],[[93,-66],[93.8,-98.4],'往萬才館的土徑 → 萬才館一樓入口前'],[LINZE,[80.4,-44.2],'霖澤館前 → 南邊森林東邊的土徑']]){
++  const f=walk(a,b); check('走得到：'+label, !f, f?JSON.stringify(f):''); }
++// LAWWW 20:22 指定要保持走得通的點：以安一起散步的檢查點（story3d.js walkChecks {x:40,z:-70,r:9}）、社科院圖書館門口與出來的站位（新版 SOCSCI_LAYOUT.libDoor／libOut；舊版 (97.9,−70)／(95.6,−70)）
++{ const pts=[[40,-70,'以安散步的檢查點 (40,−70)']]; if(typeof SOCSCI_LAYOUT!=='undefined'&&SOCSCI_LAYOUT.libOut) pts.push([SOCSCI_LAYOUT.libOut.x,SOCSCI_LAYOUT.libOut.z,'社科院圖書館出來的站位（新版）']); pts.push([95.6,-70,'社科院圖書館出來的站位（舊版 soclib3d.js）']);
++  for(const [x,zz,label] of pts){ const f=stand(x,zz)?walk(LINZE,[x,zz]):{ok:false,why:'站不住'}; check('走得到：霖澤館前 → '+label, stand(x,zz)&&!f, f?JSON.stringify(f):''); } }
++let badP=[]; for(const p of L.paths) for(let i=0;i<p.pts.length-1;i++){ const [ax,az]=p.pts[i], [bx,bz]=p.pts[i+1]; const len=Math.hypot(bx-ax,bz-az); for(let s=0;s<=len;s+=1.0){ const x=ax+(bx-ax)*s/len, zz=az+(bz-az)*s/len; if(inArea(x,zz)&&!stand(x,zz)) badP.push([p.id,+x.toFixed(1),+zz.toFixed(1)]); } }
++check('每條土徑的中線都站得住（森林範圍裡、每 1 m 一點）', badP.length===0, JSON.stringify(badP.slice(0,6)));
++const ss=fs.readFileSync(path.join(ROOT,'src/story3d.js'),'utf8'), mm=ss.match(/const bikeRoutes=\{campus:(\[\[\[[\s\S]*?\]\]\])/); let bikeBad=[];
++if(mm){ const routes=JSON.parse(mm[1]); for(const r of routes) for(let i=0;i<r.length;i++){ const a=r[i], b=r[(i+1)%r.length]; const dx=b[0]-a[0], dz=b[1]-a[1], L2=dx*dx+dz*dz||1; for(const t of L.trees){ const u=Math.max(0,Math.min(1,((t.x-a[0])*dx+(t.z-a[1])*dz)/L2)); const d=Math.hypot(t.x-a[0]-u*dx,t.z-a[1]-u*dz); if(d<t.trunk+1.0) bikeBad.push([a,b,[t.x,t.z]]); } } }
++check('騎腳踏車的人（直線、不找路）的路線離每棵樹幹至少 1 m', !!mm&&bikeBad.length===0, mm?JSON.stringify(bikeBad.slice(0,3)):'找不到 bikeRoutes');
++// ---- 第二版（使用者 11-02 21:3x 實景照片＋官方地圖）：兩館之間的走道經過小湖，湖再往校園那一側是黑森林；霖澤館前庭的劇情站位照舊 ----
++if(L.version>=2){ const P=L.pond, LINZE_X=34, WANCAI_X=88;
++  check('第二版：小湖在兩館之間（x 介於霖澤館、萬才館中心）、在兩館正面南邊', P.x>LINZE_X&&P.x<WANCAI_X&&P.z>-102, JSON.stringify([P.x,P.z]));
++  const walkP=L.paths.find(p=>p.id==='walk'); check('第二版：兩館之間往南的走道經過小湖西邊（走道中線離水邊 ≤ 4 m）、接到 z −60 的路', !!walkP&&Math.abs(walkP.pts[0][0]-(P.x-P.rx))<=4&&walkP.pts[walkP.pts.length-1][1]>=-66, walkP?JSON.stringify(walkP.pts):'沒有');
++  const southOf=L.areas.every(a=>a.z1>P.z); check('第二版：森林在小湖往校園那一側（每塊範圍都延伸到小湖南邊）', southOf);
++  check('第二版：森林夠大（≥ 1,800 m²，第一版 1,450、第二十四批 480）', m2>=1800, Math.round(m2)+' m²');
++  for(const [x,zz,label] of [[50,-93,'劇情站位 (50,−93) 法學院廣場'],[58,-90,'路人一對 (58,−90)'],[61,-94,'事件 (61,−94)']]){ const f=stand(x,zz)?walk(LINZE,[x,zz]):{ok:false,why:'站不住'}; check('第二版：霖澤館前庭照舊—'+label+' 站得住、走得到', stand(x,zz)&&!f, f?JSON.stringify(f):''); }
++  { const f=walk([63.75,-100],[63.75,-62]); check('第二版：走道從兩館之間一路走到 z −60 的路', !f, f?JSON.stringify(f):''); }
++  { const sb=z.seats?z.seats.find(q=>/小湖/.test(q.label)):null; const ap=sb?[sb.x+Math.sin(sb.yaw)*0.9,sb.z+Math.cos(sb.yaw)*0.9]:null;   /* 面前 0.9 m（走道上）*/ const f=ap&&stand(ap[0],ap[1])?walk(LINZE,ap):{ok:false};
++    check('第二版：湖邊長椅（面向小湖）面前站得住、走得到', !!sb&&!f, sb?JSON.stringify([sb.x,sb.z,sb.yaw]):'沒有'); }
++  let wet=0, n=0; for(let k=0;k<24;k++){ const a=k/24*Math.PI*2, kk=1+0.10*Math.sin(2*a+0.6)+0.05*Math.cos(3*a); for(const f of [0.3,0.7,0.95]){ n++; if(stand(P.x+Math.cos(a)*P.rx*kk*f,P.z+Math.sin(a)*P.rz*kk*f)) wet++; } }
++  check('第二版：小湖整個不能走（水面 72 個點都站不住）', wet===0, wet+'/'+n);
++  check('第二版：垂柳的樹幹擋住', !stand(P.willow[0],P.willow[1])); }
++console.log(fails?'FAILED '+fails:'ALL PASS'); process.exit(fails?1:0);

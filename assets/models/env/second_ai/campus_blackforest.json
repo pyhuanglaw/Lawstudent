@@ -1,22 +1,26 @@
 {
- "objects": 5,
- "unique_meshes": 5,
- "tris": 7560,
- "tris_drawn": 7560,
- "materials": 5,
- "out": "../../../tmp/claude-0/-home-user-Lawstudent/b2086276-f771-5e36-88cb-063a8a6233cc/scratchpad/bforest/campus_blackforest.glb",
- "bytes": 869536,
+ "objects": 12,
+ "unique_meshes": 12,
+ "tris": 9176,
+ "tris_drawn": 9176,
+ "materials": 12,
+ "out": "../../../tmp/claude-0/-home-user-Lawstudent/b2086276-f771-5e36-88cb-063a8a6233cc/scratchpad/bforest/v2/campus_blackforest.glb",
+ "bytes": 1156484,
  "texres": 512,
  "layout": {
   "stats": {
-   "area_m2": 1450,
-   "trees": 52,
-   "banyan": 35,
-   "shrubs": 152
+   "area_m2": 1986,
+   "trees": 65,
+   "banyan": 53,
+   "shrubs": 88
   },
-  "roots": 242,
-  "ferns": 69,
-  "shrubs": 83
+  "roots": 325,
+  "ferns": 42,
+  "shrubs": 46,
+  "litter": 65,
+  "rocks": 14,
+  "papyrus": 7,
+  "willow_strands": 80
  },
  "note": "黑森林地面（CAMPUS-BLACKFOREST-1102）：落葉泥土地、土徑、板根、蕨類、矮灌木；樹由遊戲放（src/data/blackforest_layout.js）"
 }
