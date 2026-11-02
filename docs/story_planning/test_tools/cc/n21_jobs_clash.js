@@ -3,6 +3,7 @@
 // 用 pg_harness_jobs.js（同資料夾）：原 harness＋補載 src/data/wz_jobs.js、src/jobs3d.js 等（原 harness 沒有 JOBS＝打工判定全部走 typeof JOBS==='undefined'）。
 // 【前置／捷徑】：除了 B 段用 JOBS.apply（選班表的真實流程）以外，打工紀錄是直接寫 G.jobs（標【前置】）；時間用 PG.setT 直接設。考試結果用 CLS.status、補考用 FD.makeup 的存檔欄位判。
 // 有 bug 時 FAIL：A1、B1～B5、B7、B8（事務所 classOk 連考試都不請假）在 b1b249873 FAIL；把 jobs3d.js S.excused 的 classOk 改成只略過一般課（考試照樣請假）的副本上全 PASS（B3～B5 只在有排出門提醒時才跑）。
+// F 段（BB 11:12 判定成立、修法 (a)）：F1 考試那天以後的下一班不算「上週沒去」、F2 考試那天 12:00～13:20 沒有事務所的出門提醒／私訊、F3 一般有課的日子照樣可以上班。b1b249873 預期 F1、F2 FAIL、F3 PASS；修好後全 PASS。
 'use strict';
 const WT=process.env.WT||process.cwd();
 const path=require('path');
@@ -107,6 +108,41 @@ const ov=(a0,a1,b0,b1)=>a0<b1-1e-6&&b0<a1-1e-6;
       if(sits&&sch.length) bad.push(dk+' '+f+'：'+sch.join('、')); }
     console.log('E0 '+lab+'：'+info.join('；'));
     check('E1. '+lab+'：要考的國考日（一試、二試）沒有排到任何一家的班',!bad.length,J(bad)); }
+
+  /* ===== F. BB 11:12 判定 BUG-JOBS-OFFICE-EXAM 成立、修法 (a)（jobs3d.js S.excused 的 classOk 只略過一般課、考試照樣自動請假）：修好以後要成立的三件事 ===== */
+  const missTexts=()=>{ const X=WZ_JOBS_DATA.x&&WZ_JOBS_DATA.x.office, out=[]; const walk=v=>{ if(typeof v==='string'){ if(v.length>3) out.push(v); } else if(Array.isArray(v)) v.forEach(walk); }; if(X) walk(X.miss); return out; };
+  /* F1：考試那天（被自動請假；舊版只能在出門提醒選「這週請假」去考試）→ 下一班不算「上週沒去」：量 JOBS.track 以後的 missPend（下一班開頭演「沒去」那句的條件，jobs3d.js runShiftX）與 missedRun（三週沒去 ask3 的計數）。
+     事務所目前沒有寫「沒去」那句（WZ_JOBS_DATA.x.office.miss 不存在，只有 Café 有）＝玩家聽不到，但 missPend／missedRun 照樣被記；之後補上台詞就會出現。真的演下一班，順便確認沒有那句。*/
+  for(const k0 of ['2027-12-23','2028-12-19','2028-12-21']){ const st=k0<'2028'?'2027-09-13':'2028-09-04'; const G=H.fresh(st,10,'dorm',{}); H.picks=['週二和週四']; await JOBS.apply(GM,'office');
+    const j=JOBS.job(G,'office'), d=D(k0), ex=exams(G,d); Object.assign(j,{chk:d-1,missPend:false,missedRun:0,wk:{},shifts:Math.max(3,j.shifts|0)});   /* 【前置】考試那天以前的班都算過、沒有欠；已經上過 3 班（不演第一班那幾句）*/
+    PG.setT(G,H.E,d,12); JOBS.plan(G); const q=OUT.get(G,'job_office_'+d); let how='自動請假（沒有出門提醒）';
+    if(q){ PG.setT(G,H.E,d,13); H.picks=['這週請假']; const r=await OUT.prompt(GM,q); how='出門提醒選「這週請假」→ '+r; }   /* 舊版：玩家只能自己請假去考試 */
+    const R=CLS.rec(G); for(const i of ex) R.done[i.key]=true;   /* 【前置】考完了 */
+    let nx=null; for(let x=d+1;x<d+80;x++){ if(JOBS.scheduled(G,'office',x)&&JOBS.due(G,'office',x)){ nx=x; break; } if(!JOBS.scheduled(G,'office',x)&&JOBS.breakAt&&JOBS.breakAt(G,x)) brkGo(G,x); }   /* 寒假：【前置】選「來。」*/
+    if(nx==null){ check('F1. '+key(d)+' 考試那天以後的下一班不算「上週沒去」',false,'找不到下一班'); continue; }
+    PG.setT(G,H.E,nx,12); JOBS.track(G); const pend={missPend:j.missPend,missedRun:j.missedRun};
+    JOBS.plan(G); const q2=OUT.get(G,'job_office_'+nx); let said=[];
+    if(q2){ PG.setT(G,H.E,nx,13.25); H.said=[]; H.picks=[]; await OUT.prompt(GM,q2); said=H.said.map(s=>s.t); }
+    const mt=missTexts(), hitMiss=said.filter(t=>mt.some(m=>t.includes(m)||m.includes(t)&&t.length>3));
+    console.log('F1 前置：'+key(d)+' '+how+'；excused '+JOBS.excused(G,'office',d)+'；下一班 '+key(nx)+'（出門提醒 '+!!q2+'，演了 '+said.length+' 句）');
+    check('F1. '+key(d)+' 考試那天（'+how+'）以後的下一班 '+key(nx)+' 不算「上週沒去」（track 以後 missPend false、missedRun 0；演下一班沒有「沒去」那句）',!pend.missPend&&!(pend.missedRun|0)&&!hitMiss.length&&!!q2&&said.length>0,J({pend,missN:j.missN,miss:hitMiss,nextPlanned:!!q2,said:said.length})); }
+  /* F2：考試那天 12:00～13:20（每 5 分鐘一次 track＋plan＋OUT.due＋JOBS.phone）沒有事務所的出門提醒（OUT）、也沒有事務所的私訊（PHONE＝G.msgs）*/
+  for(const k0 of ['2027-12-23','2028-12-19','2028-12-21']){ const st=k0<'2028'?'2027-09-13':'2028-09-04'; const G=H.fresh(st,10,'dorm',{}); H.picks=['週二和週四']; await JOBS.apply(GM,'office');
+    const j=JOBS.job(G,'office'), d=D(k0); Object.assign(j,{chk:d-1,missPend:false,missedRun:0,wk:{},shifts:Math.max(3,j.shifts|0)});
+    const m0=JSON.stringify(G.msgs||[]).length, msg0=(G.msgs||[]).length, seenQ=new Set(), dues=[];
+    for(let h=12;h<=13.34;h+=1/12){ PG.setT(G,H.E,d,h); try{ JOBS.track(G); JOBS.plan(G); JOBS.phone(G); }catch(e){ dues.push('例外 '+e.message); } for(const q of OUT.rec(G)) if(q.day===d&&/^job_office/.test(q.id||'')) seenQ.add(q.id+'@'+hm(q.h)); const u=OUT.due(G); if(u&&/^job_office/.test(u.id||'')) dues.push(hm(h)+' '+u.id); }
+    const newMsg=(G.msgs||[]).slice(msg0).map(x=>JSON.stringify(x)).filter(t=>/office|事務所|律師/.test(t));
+    check('F2. '+key(d)+' 考試那天 12:00～13:20 沒有排出事務所的出門提醒（OUT）、沒有跳出來（OUT.due）、沒有事務所的私訊（PHONE）',!seenQ.size&&!dues.length&&!newMsg.length,J({OUT:[...seenQ],due:dues.slice(0,3),PHONE:newMsg}));
+  }
+  /* F3：一般有課（不是考試）的日子：事務所照樣可以上班（classOk 的原意，AA_433 第 3 節）—— excused null、出門提醒照排、選「出發」以後算上班（worked、薪水）、那堂課照常是翹掉的 */
+  { const G=H.fresh('2027-09-13',10,'dorm',{}); H.picks=['週二和週四']; await JOBS.apply(GM,'office'); const j=JOBS.job(G,'office'); let d=null, it=null;
+    for(let x=G.day+1;x<G.day+60;x++){ const c=CLS.dayItems(G,x).find(i=>!i.exam&&ov(13.5,17.5,i.t0,i.t1)); if(c&&JOBS.scheduled(G,'office',x)&&!CLS.dayItems(G,x).some(i=>i.exam)){ d=x; it=c; break; } }
+    if(d==null) check('F3. 一般有課的日子事務所照樣可以上班',false,'找不到撞課的日子');
+    else { Object.assign(j,{chk:d-1,missPend:false,missedRun:0,wk:{},shifts:Math.max(3,j.shifts|0)}); const s0=j.shifts; H.toasts=[];
+      PG.setT(G,H.E,d,12); const why=JOBS.excused(G,'office',d); JOBS.plan(G); const q=OUT.get(G,'job_office_'+d); let r=null;
+      if(q){ PG.setT(G,H.E,d,13.25); H.picks=[]; H.said=[]; r=await OUT.prompt(GM,q); }
+      const pay=H.toasts.filter(t=>/事務所.*薪水/.test(t)), ok=why==null&&!!q&&r==='go'&&j.worked.includes(d)&&j.shifts===s0+1&&pay.length>0;   /* 薪水看 toast（harness 的 GM.money 是空函式）*/
+      check('F3. 一般有課的日子 '+key(d)+'（'+it.c.id+' '+hm(it.t0)+'～'+hm(it.t1)+'，不是考試）：excused null、出門提醒照排、出發以後算上班＋發薪',ok,J({excused:why,planned:!!q,r,worked:j.worked.includes(d),shifts:[s0,j.shifts],pay,cls:CLS.status(G,it)})); } }
 
   H.done();
 })().catch(e=>{ console.log('例外',e&&e.stack||e); process.exit(2); });
