@@ -295,7 +295,10 @@ def layout_checks(run, tag, m, qtext, land, side_expected):
     W, H = m['W'], m['H']; d = m['dlg']; c = m['ch']; ok_vis = d['vis'] and qtext[:20] in d['text']
     run.check('%s：選項出現時題目仍可見（#dlg 沒有 .hide、看得到、文字含題幹）' % tag, ok_vis, J({'cls': d['cls'], 'vis': d['vis'], 'text': d['text'][:60]}))
     if land and side_expected:
-        run.check('%s：題目在左欄（#dlg 右緣 ≤ #choices 左緣）' % tag, ok_vis and d['rect']['r'] <= c['rect']['l'] + 0.5, J({'dlg': d['rect'], 'ch': c['rect'], 'cls': d['cls']}))
+        # game3d.js renderChoose：只有選項放不下（會捲動）才把題目移到左欄（side）；放得下時題目留在原位、選項在上面（R6_rr PC Y4TAX_06／recall2：static、不重疊）
+        side = 'side' in d['cls']
+        run.check('%s：題目在左欄（有 side 時 #dlg 右緣 ≤ #choices 左緣；沒有 side＝選項放得下，題目和選項不重疊）' % tag,
+                  ok_vis and ((side and d['rect']['r'] <= c['rect']['l'] + 0.5) or (not side and not inter(d['rect'], c['rect']))), J({'dlg': d['rect'], 'ch': c['rect'], 'cls': d['cls']}))
     hit = [b['t'][:12] for b in c['btns'] if inter(d['rect'], b['rect'])]
     samp_ok = bool(d['samples']) and all(x['inDlg'] for x in d['samples'])
     run.check('%s：選項不覆蓋題目（#dlg 和 #choices／每個按鈕矩形不相交、題目上取樣點最上層是 #dlg）' % tag,
