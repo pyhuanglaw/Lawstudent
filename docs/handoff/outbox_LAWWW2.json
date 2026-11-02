@@ -5202,7 +5202,7 @@
    "branch": "claude/second-ai-env-art",
    "sha": "0d45928c8",
    "receiver": "LAWWW",
-   "ack": "SENT",
+   "ack": "ACKNOWLEDGED",
    "task": "LIB-FRONT-1102",
    "files": [
     "assets/models/env/second_ai/campus_library.glb",
@@ -5220,6 +5220,30 @@
    "next": "LAWWW 合進 int/next1102；BB 照 D120 看畫面（README 第二、三節，含 2D 背景 ntu_library_rain 角度）",
    "noDirectIntegrate": false,
    "note": "使用者 11-02 08:45～10:3x 直接對 LAWWW2（UA-LAWWW2-1102-02、-03、-08）：總圖照照片改、台階走得上去、台階下寬磁磚、走出總圖先是平台再下台階。patch v3c（zones3d.js、story3d.js 路人路線、campus_glb_integration 的 BBOX_TOL、lib_front_unit 新、lib_lawn_unit、campus_hall_pillar_seethru_unit），b1b249873／ba125d6f3 apply --check 乾淨。測試（ba125d6f3＋patch）：campus_layout_nav、flow_library_floors、flow_library_scene、guide_flow、reachability_all（113 項）ALL PASS；Node 864 支 863 PASS，唯一 FAIL socsci_place_unit 已在 v3c 修（路線點 (37,17)→(37,16.2)），修完相關 5 支 ALL PASS",
+   "integrated": "LAWWW 11-02 14:30 ACK：已整合進 int/next1102＝3caff35d9（排在 v9.10.16 之後那一版；Node 全過，瀏覽器由 BB 在使用者電腦跑）。BB 14:29 場景驗收通過（BB_234，aae64968b），差距排 v3.1／v3.2"
+  },
+  {
+   "branch": "claude/second-ai-env-art",
+   "sha": "3591dcb47",
+   "receiver": "LAWWW",
+   "ack": "SENT",
+   "task": "LIB-INTERIOR-1102（B1）",
+   "files": [
+    "assets/models/env/second_ai/library_b1.glb",
+    "assets/models/env/second_ai/library_b1.json",
+    "assets/models/env/second_ai/library_b1.layout.json",
+    "tools/blender/env_second/library_b1.py",
+    "docs/art-rebuild/second_ai/patches/library_b1_1102.patch",
+    "docs/art-rebuild/second_ai/test_shots/library_b1_1102/README.md",
+    "docs/art-rebuild/second_ai/test_shots/library_b1_1102/photo_vs_game.webp",
+    "docs/art-rebuild/second_ai/test_shots/library_b1_1102/before_after.webp",
+    "docs/art-rebuild/second_ai/test_shots/library_b1_1102/new_views.webp"
+   ],
+   "state": "已交付",
+   "remaining": "光照烘焙（INTERIOR-AAA，B1 第一版就還沒烘，這版照舊即時光）；總圖北側行政入口沒做；沒跑手機實機；pool_aafix_unit 第 4 項、guide_flow 校園導航三項在乾淨的 b1b249873 就 FAIL（逐項相同，不在這包範圍）",
+   "next": "LAWWW 換二進位＋套 patch（b1b249873、ba125d6f3 apply --check 乾淨）；BB 照 D120 看畫面（README 第二～四節）",
+   "noDirectIntegrate": false,
+   "note": "使用者 11-02 08:58、10:0x 直接對 LAWWW2（UA-LAWWW2-1102-04、-07）：照平面圖重排 B1，尤其 24 小時自習室。配置：自習室 A 區 101 座、B 區、大廳（服務台、自助借還、置物櫃）＋下沉中庭、國際會議廳（關）、討論室 1/2（各 6 座）、影印中心，共 115 座，navcheck 全走得到。椅子、檯燈 GPU instancing；29k 三角形（畫出 65k）；GLB 2.7 MB（md5 c20ee8585b37）。patch：library_b1_layout.js 重產、b1story3d.js BAR_SEATS／STAGES、r2y4b3d.js act_bar_study.spot (3.0,8.3)、library_b1_unit 座位 28→101。測試（b1b249873＋patch＋GLB）：Node 61 支 60 PASS（pool_aafix_unit 基準就 FAIL）；guide_flow 10 PASS／3 FAIL（基準逐項相同）",
    "integrated": ""
   }
  ]
