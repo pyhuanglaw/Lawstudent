@@ -41,6 +41,8 @@ R6_rr       | b1b249873 | probe | docs/story_planning/test_tools/cc/cc_layout16_
 R8_rr       | b1b249873 | probe | docs/story_planning/test_tools/cc/cc_makeup_probe.py   | index.html?turbo | 200 | FAIL_ROUTE=retake;MAIN_FROM=0527;CASES=main_pass,main_fail,route_grades;RERUN=paper1102
 R10_b3      | b1b249873 | probe | docs/story_planning/test_tools/cc/cc_d118b3_probe.py   | index.html | 240 | RERUN=retap1102
 R11_b4      | b1b249873 | probe | docs/story_planning/test_tools/cc/cc_d118b4_probe.py   | index.html | 150 | CASES=S1,mix;RERUN=retap1102
+# BB 16:17：R10 的 S2a、S2b、seed＝探針例外沒測到，night＝期待值改「沒有跳時間（< 0.5 小時）」；R10_rr PASS 才能 GO
+R10_rr      | b1b249873 | probe | docs/story_planning/test_tools/cc/cc_d118b3_probe.py   | index.html | 240 | CASES=S2a,S2b,seed,night;RERUN=fix1102
 # 4. 法服（FAFU 修正已含）＋修改前對照 ba125d6f3
 R12_fasat   | b1b249873 | probe | docs/story_planning/test_tools/cc/cc_fasat_probe.py    | index.html | 90 | CASES=same_sat,next_sat,wzline_same,wzline_first,old_y2_noflag;RERUN=sn1102
 R12b_fasatpre| ba125d6f3 | probe | docs/story_planning/test_tools/cc/cc_fasat_probe.py | index.html | 90 | CASES=wzline_same,wzline_first,old_y2_noflag;RERUN=sn1102
