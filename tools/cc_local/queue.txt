@@ -9,7 +9,6 @@
 # 2026-11-02 10:2x 排程（BB_229：常備佇列；跑完、寫好初判就註解掉）
 # 10:3x 整晚循環：run_queue 會跳過「同一個 sha 已經跑完」的項目；長的項目釘 sha（c2d0c24bc＝這一輪），head 只留給便宜的 00／01（LAWWW 每 push 一次就重跑）。要強制重跑：ENV 欄加 RERUN=<新字>
 # 順序（BB 10:38）：00、01 → 發布前必跑組 10～18 → 今天的修正 02b、06b、06c、WSEM → 20～29 → 02～08 → D118 基準 30、31
-# 4（第 9 天存檔）、5（法服週六）探針寫好再加
 00_gpu      | head      | gpu   | tools/cc_local/gpu_check.py                                     | index.html        | 20  |
 01_p0speed  | head      | game  | tests/p0_movement.py                                            | index.html        | 60  |
 10_deploy   | d75871437 | game  | tests/deploy_check.py        | index.html       | 20  | XARGS={url}
@@ -36,6 +35,8 @@
 27_b4       | d75871437 | probe | docs/story_planning/test_tools/cc/cc_d118b4_probe.py   | index.html | 150 |
 28_b4pre    | f57e3ac75 | probe | docs/story_planning/test_tools/cc/cc_d118b4_probe.py   | index.html | 90  | CASES=S1,mix
 29_jpmk     | d75871437 | probe | docs/story_planning/test_tools/cc/cc_d118b1_probe.py   | index.html | 60  | CASES=jp_makeup
+34_day9     | d75871437 | probe | docs/story_planning/test_tools/cc/cc_day9_probe.py   | index.html | 60 | CASES=main
+35_fasat    | d75871437 | probe | docs/story_planning/test_tools/cc/cc_fasat_probe.py  | index.html | 60 | CASES=same_sat,next_sat
 02_mk12new  | c2d0c24bc | probe | docs/story_planning/test_tools/cc/cc_makeup_probe.py           | index.html?turbo  | 200 | CASES=study3h,skipnoon_seat,skipnoon_phone,homerest,old_delayed,home,mkbg
 03_delay14  | c2d0c24bc | probe | docs/story_planning/test_tools/cc/cc_delay14_probe.py          | index.html?turbo  | 120 | CASES=dorm_sleep,dorm_stand,home
 04_quota    | c2d0c24bc | py    | tools/cc_local/quota_check.py                                   | index.html        | 20  |
