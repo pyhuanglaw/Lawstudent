@@ -1,6 +1,17 @@
 # LAWWW2 交接紀錄（隨時更新；工作階段中斷時從這裡接）
 
-## 🔨 現在在做（11-02 18:0x 更新）：使用者 P0「總圖」——一樓＋二樓 version 2 收尾 → B1 第三版 → LIB-FRONT v3.1 → 3F → 效能 → v3.2（BB 15:46、LAWWW 15:34 定的順序）
+## 🔨 現在在做（11-02 18:3x 更新）：使用者 P0「總圖」——B1 第四版（18:1x 新糾正）＋一樓二樓 version 2 收尾 → LIB-FRONT v3.1 → 3F → 效能 → v3.2
+- **⛔ 使用者 18:1x 直接糾正（UA-LAWWW2-1102-10，P0）**：「自習室的桌椅太擠了吧…很寬敞」「桌椅的方向…跟進門的門應該是平行的，不是垂直」。
+  - B1 第三版**不交件**；第四版 WIP `b0ffd9c05`（`wip/library_b1_v4/`）：
+    - A 區正門搬到西段南牆、B 區門搬到南牆，桌子東西向＝和門平行；
+    - 兩排雙面、排距 5 m、桌間 2 m 走道；自習室 101 → 72 位。
+  - patch：座位、芯慈／明軒 seatAt、測試（library_b1_unit 新第 8 項：第三版 FAIL、第四版 PASS）；Node 9 支 ALL PASS。
+  - 截圖在佇列（`lib1102/b1v4shots`，q2 第一項）。看完給使用者，再交件。
+  - LAWWW ACK（18:14）：第四版連座位 patch 一起交，基準用 int/next1102 最新 `48918ca20`（`wip_backup/next1102_1102.bundle`）。B1 v4、大廳 v2、3F、兩個 tests patch 都在 48918ca20 上 `apply --check` 過。BB ACK（18:14）：BB_236 等第四版截圖。
+- **測試要不要交給 BB 用使用者的電腦跑（UA-LAWWW2-1102-11，等使用者決定）**：
+  - 我的回答：慢的瀏覽器測試交出去值得。
+  - BB 同意。條件：①我在自己的遠端分支放一個「已套好 patch、可以直接跑」的 SHA；②CC 要先確認使用者電腦的 runner 抓得到 `claude/second-ai-env-art`（目前只抓 cc-testing 和開發分支），抓不到要等 v9.10.16 發布後再加。
+  - 在那之前照舊在雲端跑。
 - **已交件、已整合**（LAWWW ACK）：LIB-FRONT 第三版 int/next1102 `3caff35d9`；B1 第二版 `3e6855649`；campus_glb_integration tests patch `eb3920914`。
 - **一樓＋二樓 version 2**（worktree `scratchpad/devwt_i`＝`3e6855649`＋patch）：
   - 測試：Node 92 支 ALL PASS；reachability_all 1142 點 ALL PASS；zone_transitions 37 ALL PASS；flow_library_floors ALL PASS；flow_library_scene ALL PASS（17:30，測試改成推搖桿以後）。
