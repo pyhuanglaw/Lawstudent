@@ -23,10 +23,11 @@
    - `assets/models/env/second_ai/campus_lib_lawn.glb`（＋`.json`）：草坪第二版。
    - manifest 的 key 不變：`bldg.campus_library`、`bldg.campus_lib_lawn`。
 2. **patch**：`docs/art-rebuild/second_ai/patches/lib_front_1102.patch`。
-   - 在開發分支 `ba125d6f3` `git apply --check` 乾淨。
+   - v3c（11-02 14:1x）；在 `b1b249873`（LAWWW 的 int/next1102 基準）、`ba125d6f3` 都 `git apply --check` 乾淨。
    - 動到的檔：
      - `src/zones3d.js`：+33／−15；
-     - `src/story3d.js`：2 行，路人、腳踏車的路線；
+     - `src/story3d.js`：2 行，路人、腳踏車的路線（南側步道的路線點是 (37,16.2)）；
+     - `tests/campus_glb_integration.py`：總圖的設計差異加進 `BBOX_TOL`（見第六節）；
      - `tests/lib_lawn_unit.js`：重寫；
      - `tests/campus_hall_pillar_seethru_unit.js`：總圖那一項；
      - `tests/lib_front_unit.js`：新增。
@@ -74,6 +75,13 @@
 - 由上到下：從北邊斜看、從南邊斜看、鳥瞰。
 
 ![](ba_diag.webp)
+
+- 和 2D 背景 `ntu_library_rain` 相近的角度（BB 11:40 要的）：
+  - 左上＝2D 背景（BB 判定 PASS），右上＝改前；
+  - 下面兩張＝改後：左是 18:36 雨天傍晚，右是 15:00 白天（同一個頁面接著拍，雨還沒停）；
+  - 遊戲的鏡頭比 2D 背景窄，所以站在大道尾端（x 26）往總圖看。
+
+![](rain_angle.webp)
 
 - 俯視（上：總圖附近；下：整區）。
 
