@@ -576,16 +576,20 @@ const CLS=(function(){
     const wk=S.EXAM_WEEKS[kind]||[]; const days=[]; let d0=null; for(let d=(/^Y0/.test(termId)?-420:1);d<1600;d++){ const t=CALENDAR.termOf(d); if(t&&t.id===termId){ if(d0==null) d0=d; if(kind==='final'?t.exam==='final':wk.includes(t.week)) days.push(d); }   /* BUG-Y4S2-NOFINAL-1102（BB_218 6879）：期末週＝這學期最後一週（日曆的 exam==='final'）；原本寫死第 16 週，大四下只有 15 週＝沒有期末考日＝考五題的課全部算缺考、6/18 延畢 */ else if(d0!=null&&d>d0+200) break; }
     let res=null, lastMiss=null;
     for(const d of days){ const wd=CALENDAR.dateOf(d).wd; const s0=c.slots.find(s=>s.wd===wd); if(!s0) continue; if(CALENDAR.holiday(d)){ lastMiss=d; continue; } res={day:d,block:s0.block}; break; }
-    if(!res&&lastMiss!=null){ const busy=(d,b)=>S.termCourses(G,termId).some(x=>x!==c&&x.slots.some(s=>s.wd===CALENDAR.dateOf(d).wd&&s.block===b));
+    /* 補排的考試不能和別科的考試同一天同一節（BB 09:01）：排在這門課前面（termCourses 的順序）的考五題課，它們的考試日先算、這門課讓開（只看前面的，不會互相遞迴）*/
+    const taken=new Set(); if(kind==='final'&&S.isExamCourse(c)){ for(const x of S.termCourses(G,termId)){ if(x===c||x.id===c.id) break; if(!S.isExamCourse(x)) continue; const dx=S.examDay(G,x,termId,kind); if(dx) taken.add(dx.day+'|'+dx.block); } }
+    const free=(d,b)=>!taken.has(d+'|'+b);
+    if(!res&&lastMiss!=null){ const busy=(d,b)=>!free(d,b)||S.termCourses(G,termId).some(x=>x!==c&&x.slots.some(s=>s.wd===CALENDAR.dateOf(d).wd&&s.block===b));
       const lw=days.length?Math.max(...days.map(d=>CALENDAR.termOf(d).week)):null; const lastWeek=days.filter(d=>CALENDAR.termOf(d).week===lw); const cand=lastWeek.filter(d=>d>lastMiss).concat(lastWeek.filter(d=>d<=lastMiss));
       for(const d of cand){ const wd=CALENDAR.dateOf(d).wd; if(wd>5||CALENDAR.holiday(d)) continue; for(const s of c.slots){ if(!busy(d,s.block)){ res={day:d,block:s.block,makeup:true}; break; } } if(res) break; } }
     /* BUG-RETAKE-NOEXAM-1102（BB 08:58，CC N1）：同一節都排不到（例：重修排在週五下午二、期末週週五 12/25 放假、週一～四同一節都有課）＝原本 null → 判缺考、一直重修。
-       考五題的課一定要有期末考日：① 期末週任何一天（平日、不放假）任何一節空堂 ② 還是沒有＝期末週第一個不放假的平日、這門課自己那一節（和別的課撞也照考：期末週的課以考試為準）。
+       考五題的課一定要有期末考日：① 期末週任何一天（平日、不放假）任何一節空堂 ② 還是沒有＝期末週不放假的平日裡第一個「不是別科考試」的那一節（先試這門課自己那一節；和一般上課撞也照考，和考試撞就換下一個，BB 09:01）。
        不排到期末週之後：學期結束（CALENDAR.termOf＝null）的日子 dayItems 不會出考試，排了也考不到 */
-    if(!res&&kind==='final'&&S.isExamCourse(c)&&days.length){ const busy=(d,b)=>S.termCourses(G,termId).some(x=>x!==c&&x.slots.some(s=>s.wd===CALENDAR.dateOf(d).wd&&s.block===b));
+    if(!res&&kind==='final'&&S.isExamCourse(c)&&days.length){ const busy=(d,b)=>!free(d,b)||S.termCourses(G,termId).some(x=>x!==c&&x.slots.some(s=>s.wd===CALENDAR.dateOf(d).wd&&s.block===b));
+      const examAt=(d,b)=>!free(d,b)||S.termCourses(G,termId).some(x=>x!==c&&x.id!==c.id&&S.isExamCourse(x)&&x.slots.some(s=>s.wd===CALENDAR.dateOf(d).wd&&s.block===b));   /* 那一節是別科的考試（第二步撞一般上課可以，撞考試不行，BB 09:01）*/
       const lw=Math.max(...days.map(d=>CALENDAR.termOf(d).week)), wkDays=days.filter(d=>CALENDAR.termOf(d).week===lw&&CALENDAR.dateOf(d).wd<=5&&!CALENDAR.holiday(d)), blocks=Object.keys(COURSES.blocks||{});
       for(const d of wkDays){ for(const b of blocks){ if(!busy(d,b)){ res={day:d,block:b,makeup:true}; break; } } if(res) break; }
-      if(!res&&wkDays.length) res={day:wkDays[0],block:(c.slots[0]||{}).block||blocks[0],makeup:true}; }
+      if(!res) for(const d of wkDays){ const own=(c.slots[0]||{}).block||blocks[0]; for(const b of [own].concat(blocks.filter(x=>x!==own))){ if(!examAt(d,b)){ res={day:d,block:b,makeup:true}; break; } } if(res) break; } }
     if(memo) memo[mk]=res; return res; };
   /* 考試時段（D14-T3）：這學期考五題的法律課的期中、期末考在哪一天哪一節（S.examDay）；手機「課表」列出來，約人、約會都避開（invites3d.js 的 free、date3d.js 的 DATE.check）*/
   S.examList=function(G,termId){ if(!termId) return []; const out=[]; for(const c of S.termCourses(G,termId)){ if(!S.isExamCourse(c)) continue; for(const kind of ['final'])   /* D118：沒有期中考 */{ const d=S.examDay(G,c,termId,kind); if(d){ const b=B(d.block)||{}; out.push({c,kind,day:d.day,block:d.block,t0:b.t0,t1:b.t1,makeup:!!d.makeup}); } } }

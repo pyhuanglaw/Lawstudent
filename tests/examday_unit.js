@@ -11,22 +11,26 @@ const blocks=Object.keys(COURSES.blocks);
 const mk=(route,termId,rt)=>{ const G=H.fresh('2025-09-01',8,'dorm',{EXCHANGE_ROUTE:route,examSeed:7}); const R=CLS.rec(G); R.retake=rt?[rt]:[]; return G; };
 const finalDays=termId=>{ const out=[]; for(let d=1;d<1600;d++){ const t=CALENDAR.termOf(d); if(t&&t.id===termId&&t.exam==='final') out.push(d); } return out; };
 /* a */
-{ let n=0, bad=[]; for(const route of ['TW','JP','US']) for(let i=1;i<TERMS.length;i++){ const term=TERMS[i], prev=TERMS[i-1]; const G0=mk(route,term,null); if(CLS.termAway&&CLS.termAway(G0,term)) continue;
+{ let n=0, bad=[]; const clash=[]; for(const route of ['TW','JP','US']) for(let i=1;i<TERMS.length;i++){ const term=TERMS[i], prev=TERMS[i-1]; const G0=mk(route,term,null); if(CLS.termAway&&CLS.termAway(G0,term)) continue;
     const fd=new Set(finalDays(term)); const cands=CLS.termCourses(G0,prev).filter(c=>CLS.isExamCourse(c)).slice(0,6);
     for(const c of cands) for(let wd=1;wd<=5;wd++) for(const b of blocks){ const G=mk(route,term,{id:c.id,from:prev,base:c.term||prev,term,slots:[{wd,block:b}],alt:false});
-      const rc=CLS.termCourses(G,term).find(x=>x.id===c.id); if(!rc||!CLS.isExamCourse(rc)) continue; n++; const d=CLS.examDay(G,rc,term,'final');
-      if(!d||!fd.has(d.day)) bad.push([route,term,c.id,wd,b,d&&CALENDAR.dateOf(d.day).key]); } }
+      const rc=CLS.termCourses(G,term).find(x=>x.id===c.id); if(!rc||!CLS.isExamCourse(rc)) continue; const overlap=CLS.termCourses(G,term).some(x=>x!==rc&&x.slots.some(q=>q.wd===wd&&q.block===b)); n++; const d=CLS.examDay(G,rc,term,'final');
+      if(!d||!fd.has(d.day)) bad.push([route,term,c.id,wd,b,d&&CALENDAR.dateOf(d.day).key]);
+      const ex=CLS.examList(G,term), seen={}; for(const e of ex){ const k=e.day+'|'+e.block; if(seen[k]&&!overlap) clash.push([route,term,seen[k],e.c.id,CALENDAR.dateOf(e.day).key,e.block]); seen[k]=e.c.id; } } }
   console.log('    組合 '+n+' 個');
-  check('a. 三條路線、重修排在每一個時段：考五題的課一定有期末考日、在期末週',n>100&&bad.length===0,J(bad.slice(0,8))+(bad.length>8?'…共 '+bad.length:'')); }
+  check('a. 三條路線、重修排在每一個時段：考五題的課一定有期末考日、在期末週',n>100&&bad.length===0,J(bad.slice(0,8))+(bad.length>8?'…共 '+bad.length:''));
+  check('a3. 同上（重修時段不和別的課重疊的那些——遊戲排重修本來就不會重疊）：這學期所有考試（含重修）沒有兩場同一天同一節（BB 09:01）',clash.length===0,J(clash.slice(0,6))+(clash.length>6?'…共 '+clash.length:'')); }
 /* a2 CC N1 的重現：某學期全部被當（含看出席的課）→ CLS.planRetakes 排到下一學期 → 每一門考五題的課（含重修）都有期末考日；只當一門也一樣 */
-{ const LAW=TERMS; let n=0; const bad=[];
+{ const LAW=TERMS; let n=0; const bad=[], clash2=[];
   for(const route of ['TW','JP','US']) for(const F of LAW.slice(0,-1)) for(const mode of ['all','exam'].concat(COURSES.list.filter(c=>c.term===F&&CLS.isExamCourse(c)).map(c=>'only:'+c.id))){
     const G=H.fresh('2025-09-01',8,'dorm',{EXCHANGE_ROUTE:route,examSeed:7}); if(CLS.termAway&&CLS.termAway(G,F)) continue; const R=CLS.rec(G); R.exam=R.exam||{}; const ap=CLS.attPass;
     if(mode!=='all') CLS.attPass=()=>true; if(mode.startsWith('only:')){ const only=mode.slice(5); for(const c of CLS.termCourses(G,F).filter(CLS.isExamCourse)) if(c.id!==only) R.exam[F+':'+c.id+':final']={status:'done',correct:3}; }
     let made=[]; try{ made=CLS.planRetakes(G,F); } finally { CLS.attPass=ap; }
-    for(const T of new Set(made.map(r=>r.term))){ const fd=new Set(finalDays(T)); for(const c of CLS.termCourses(G,T).filter(CLS.isExamCourse)){ n++; const d=CLS.examDay(G,c,T,'final'); if(!d||!fd.has(d.day)) bad.push([route,F+'→'+T,mode,c.id]); } } }
+    for(const T of new Set(made.map(r=>r.term))){ const fd=new Set(finalDays(T)); for(const c of CLS.termCourses(G,T).filter(CLS.isExamCourse)){ n++; const d=CLS.examDay(G,c,T,'final'); if(!d||!fd.has(d.day)) bad.push([route,F+'→'+T,mode,c.id]); }
+      const seen={}; for(const e of CLS.examList(G,T)){ const k=e.day+'|'+e.block; if(seen[k]) clash2.push([route,F+'→'+T,mode,seen[k],e.c.id,CALENDAR.dateOf(e.day).key,e.block]); seen[k]=e.c.id; } } }
   console.log('    planRetakes 之後的考五題課 '+n+' 門次');
-  check('a2. CC N1 情境（全部被當／只有考試課被當／只當一門 × 三條路線）：重修以後每一門考五題的課都有期末考日（例：債總（一）重修排週五下午二、12/25 放假）',n>50&&bad.length===0,J(bad.slice(0,8))+(bad.length>8?'…共 '+bad.length:'')); }
+  check('a2. CC N1 情境（全部被當／只有考試課被當／只當一門 × 三條路線）：重修以後每一門考五題的課都有期末考日（例：債總（一）重修排週五下午二、12/25 放假）',n>50&&bad.length===0,J(bad.slice(0,8))+(bad.length>8?'…共 '+bad.length:''));
+  check('a4. 同上：所有考試（含重修）沒有兩場同一天同一節（BB 09:01）',clash2.length===0,J(clash2.slice(0,6))+(clash2.length>6?'…共 '+clash2.length:'')); }
 /* b */
 { const term='Y2S1', prev='Y1S2'; const G1=mk('TW',term,null); const c=CLS.termCourses(G1,prev).find(x=>CLS.isExamCourse(x));
   const rtA={id:c.id,from:prev,base:prev,term,slots:[{wd:1,block:'am'}],alt:false}, rtB={id:c.id,from:prev,base:prev,term,slots:[{wd:4,block:'pm2'}],alt:false};
