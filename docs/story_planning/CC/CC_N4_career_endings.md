@@ -140,3 +140,8 @@ ONLY='S1[2-6]' NO_ENUM=1 node docs/story_planning/test_tools/cc/n4_career_ending
 ```
 
 worktree 預設＝環境變數 `LW`，或 `scratchpad/wt_mk`。需要 worktree 裡有 `tests/pg_harness.js`、`tests/alison.js`。B6／B8 合併後重跑：Part 2 已把 L_firm、J_judge、J_pros 列為合法；若 path 名稱不同要改腳本的白名單。
+
+## N4 重跑 @ 307ee02ea（926cbee98 子晴線落點修正後，09:3x）
+
+- Part 1：S17、S18（傾向 C＋子晴線）＝C_zq；S12（B 推甄筆試都沒上＋國考 20）仍＝B_quit。
+- Part 2 窮舉 3168 組：四條不變量違反和 d2716 相同——重考 0 題錄取 288、both 沒有 J 結局 1008、2030 不到 12 題錄取 864、有律師資格卻非律師家族 912（LAWWW tasks c2af21bf8 列為待做：2030 門檻與考到 2033）。

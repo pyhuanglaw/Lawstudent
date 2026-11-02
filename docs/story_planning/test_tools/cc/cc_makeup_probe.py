@@ -888,6 +888,16 @@ async def case_old_delayed(pg, cdp, run):
     mk1 = g1['mk'] if isinstance(g1['mk'], dict) else None
     run.check('%s：讀進來＝補排補考（FD_MAKEUP pending、FAIL_DELAY 沒了）（修改前預期 FAIL）' % tag, bool(mk1) and mk1.get('status') == 'pending' and not g1['flags'].get('FAIL_DELAY'), J(g1['flags']))
     run.note('%s：讀檔後報名 BAR_REG＝%s、BARCANCEL＝%s（恢復與否由 BB 定，只記）' % (tag, g1['flags'].get('BAR_REG'), g1['flags'].get('FAIL_DELAY_BARCANCEL')))
+    # BB 09:25 ③ 冪等：讀進來以後的狀態存一份、再讀一次，補考狀態、延畢旗標、教務處通知則數不能變
+    if os.environ.get('IDEM', '1') == '1':
+        MKSYS = "(GAME.G.msgs||[]).filter(m=>m&&(m.tag==='fd_mk_sys'||String(m.text||'').indexOf('【教務處】大四下補考通知')===0)).length"
+        n_sys1 = await pg.evaluate(MKSYS)
+        snap = await pg.evaluate('JSON.parse(JSON.stringify(GAME.snapshot()))')
+        await L.load_state(pg, snap, quiet_events=False, quiet_phone=False); await pg.evaluate(CLEARP)
+        g1b = await pg.evaluate(STATE); n_sys2 = await pg.evaluate(MKSYS)
+        keyf = lambda g: {'mk': (g['mk'] or {}).get('status') if isinstance(g['mk'], dict) else g['mk'], **{k: g['flags'].get(k) for k in ('FAIL_DELAY', 'FAIL_DELAY_COURSES', 'FAIL_DELAY_DAY', 'BAR_REG', 'FAIL_DELAY_BARCANCEL')}}
+        run.check('%s：③ 冪等——同一份存檔再讀一次，補考狀態與延畢旗標不變、教務處通知沒有多一則' % tag, keyf(g1) == keyf(g1b) and n_sys1 == n_sys2,
+                  J({'first': keyf(g1), 'second': keyf(g1b), 'sys_msgs': [n_sys1, n_sys2]}))
     await L.phone_away(pg, cdp, tries=2)
     drv.shots['after_load'] = await shoot_both(pg, run, tag + '_after_load')
     await phone_sys(pg, cdp, run, drv, tag)
@@ -895,6 +905,8 @@ async def case_old_delayed(pg, cdp, run):
     g = o['g']; R = await rows(pg, n0); said = said_rows(R); msgs = await pg.evaluate(MSGS, 0)
     note_l = [x for x in said if x['t'] == mkl['notice']]; sysm = [m for m in msgs if m['tag'] == 'fd_mk_sys' or m['text'].startswith('【教務處】大四下補考通知')]
     run.check('%s：有補考通知（旁白或手機教務處）（修改前預期 FAIL）' % tag, bool(note_l) or bool(sysm), J({'say': note_l[:1], 'msgs': sysm}))
+    run.check('%s：有提示句（讀檔後旁白／GAME.say 有補考通知那一句；BB 09:25 ②）' % tag, bool(note_l) or any('補考' in x['t'] for x in said[:6]), J([x['t'] for x in said[:6]]))
+    run.check('%s：有手機通知（教務處補考通知）（BB 09:25 ②）' % tag, bool(sysm), J(sysm))
     run.note('%s：之後 %s；台詞 %s' % (tag, J({'clock': g['clock'], 'mk': g['mk'], 'flags': g['flags'], 'pend': g['pend']}), J([[x.get('d'), hm(x.get('h')), x['t']] for x in said][:20])))
     run.check('%s：沒有卡住' % tag, o['stuck'] is None, J(o['stuck']))
     dump(tag, rows=R, before=before, after_load=g1, end=g, msgs=msgs, shots=drv.shots)
