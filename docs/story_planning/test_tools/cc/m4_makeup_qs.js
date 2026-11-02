@@ -68,7 +68,7 @@ function compare(G,T,direct){ const R=CLS.rec(G), out=[];
     const fin=(R.exam||{})[T+':'+c.id+':final']||{}; let mk=(R.exam||{})[T+':'+c.id+':makeup'];
     if(direct&&!mk){ const d=CLS.drawExam(G,c.id,T,'makeup'); mk=d.ok?{qs:d.qs.map(q=>q.id),direct:true}:{status:'insufficient',n:d.n}; }
     const fq=fin.qs||[], mq=(mk&&mk.qs)||[]; const ov=mq.filter(id=>fq.includes(id));
-    out.push({id:c.id,name:c.name,rt:c.rt?c.rt.base:null,n:poolN(G,c.id,T),fin:fq,mk:mq,ov,mkStatus:mk?(mk.status||(mk.direct?'direct':'drawn')):'none',finStatus:fin.status||'none',uniq:new Set(mq).size===mq.length}); }
+    out.push({id:c.id,name:c.name,rt:c.rt?c.rt.base:null,counts:!(typeof FD!=='undefined'&&FD.counts)||FD.counts(c),n:poolN(G,c.id,T),fin:fq,mk:mq,ov,mkStatus:mk?(mk.status||(mk.direct?'direct':'drawn')):'none',finStatus:fin.status||'none',uniq:new Set(mq).size===mq.length}); }
   return out; }
 
 (async()=>{
@@ -77,8 +77,10 @@ function compare(G,T,direct){ const R=CLS.rec(G), out=[];
   console.log('\n== A 真實流程（期末全錯 → 6/18 FD.check → 6/26 FD.makeup）==');
   const table={}; let totalMk=0, realOverlapCases=[];
   for(const route of [null,'TW']) for(let s=1;s<=NSEED;s++){
-    const {G,planned}=await realFlow(s,route); const rows=compare(G,'Y4S2',false); const tag='['+(route||'一般')+' seed '+s+']';
-    check(tag+' A0 6/18 有排補考（大四下考五題的課全被當＝'+rows.length+' 科）',planned&&G.flags.FD_MAKEUP&&G.flags.FD_MAKEUP.courses.length===rows.length,J(G.flags.FD_MAKEUP&&G.flags.FD_MAKEUP.courses));
+    const {G,planned}=await realFlow(s,route); const all=compare(G,'Y4S2',false), rows=all.filter(r=>r.counts); const tag='['+(route||'一般')+' seed '+s+']';
+    /* D124（690ac5f4d 起）：FD.counts 以外的課（大四下選修：海商法…）被當只記成績、不延畢、不排補考——不算進 A0～A4；有 FD.counts 的版本另外確認它們沒有補考紀錄 */
+    const skip=all.filter(r=>!r.counts); if(skip.length) check(tag+' A5 D124：不會延畢的課（'+skip.map(r=>r.id).join('、')+'）沒有排補考、沒有補考紀錄',skip.every(r=>r.mkStatus==='none'&&!(G.flags.FD_MAKEUP&&G.flags.FD_MAKEUP.courses.includes(r.id))),J(skip.map(r=>[r.id,r.mkStatus])));
+    check(tag+' A0 6/18 有排補考（大四下考五題、會延畢的課全被當＝'+rows.length+' 科）',planned&&G.flags.FD_MAKEUP&&G.flags.FD_MAKEUP.courses.length===rows.length,J(G.flags.FD_MAKEUP&&G.flags.FD_MAKEUP.courses));
     const bad=[], short=[], said=[];
     for(const r of rows){ const k=r.id+(r.rt?'(重修:'+r.rt+')':''); const t=table[k]=table[k]||{name:r.name,n:r.n,runs:0,ovMax:0,ovMin:9,ovSum:0}; t.runs++; t.ovMax=Math.max(t.ovMax,r.ov.length); t.ovMin=Math.min(t.ovMin,r.ov.length); t.ovSum+=r.ov.length; totalMk++;
       if(r.mk.length!==5||!r.uniq||r.fin.length!==5) short.push(k+' 期末'+r.fin.length+'題／補考'+r.mk.length+'題'+(r.uniq?'':'（補考內重複）'));
