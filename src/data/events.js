@@ -41,7 +41,7 @@ const YU2_QUESTION=YU2_Q(false);   /* 騎樓版她沒有背吉他（AA 50da3a9�
 /* 重訪日 1 的選項（交接包 v2 C20 第 3 節的表）：只從玩家真的經歷過的事裡出，最多三個（照表的順序），再加一個一定有的「每天都差不多。可是我很喜歡。」
    那場演講（C13 的 B4：B4_ATTENDED／出席紀錄）、成發拍手（BB_96 Q5 的 CLAPPED）都已接：有經歷過才會出現 */
 const REVISIT_Y1_OPTS=[
-  {k:'retake',t:'「重修的第一堂，坐回同一間教室。」',ok:G=>{ const A=G.courses&&G.courses.attend||{}; return ((A.econ_principles_1|0)+(A.econ_principles_2|0))>0; }},
+  {k:'retake',t:'「再上一次經原，坐回同一間教室。」',ok:G=>{ const A=G.courses&&G.courses.attend||{}; return ((A.econ_principles_1|0)+(A.econ_principles_2|0))>0; }},
   {k:'bbq',t:'「中秋烤肉，借來的烤肉架。」',ok:G=>!!(G.events&&G.events.done&&G.events.done.ev_mid_autumn_bbq)},
   {k:'noodle',t:'「麵店的第一碗。」',ok:G=>G.flags.noodleTableDay!=null||(Array.isArray(G.flags.ndlDays)&&G.flags.ndlDays.length>0)},
   {k:'appeal',t:'「幫以安室友寫申訴。」',ok:G=>!!G.flags.AN_APPEAL},
@@ -1020,12 +1020,12 @@ const STORY_EVENTS=[
       {unless:{flags:['MET_XUN']},speaker:'阿勳',text:'盧正勳。你經濟系那年的室友。……你該不會連我都忘了。'},
       {if:{flags:['MET_PINYU']},speaker:'品妤',text:'你來了。'},
       {unless:{flags:['MET_PINYU']},speaker:'品妤',text:'曾品妤。經濟系，可昕以前的室友。'},
-      {choice:[{text:'「重修。」',set:{P4D_ANSWER:'retake'},goto:'r'},{text:'「我在法律系，很好。」',set:{P4D_ANSWER:'good'},goto:'g'},{text:'「說來話長。」',set:{P4D_ANSWER:'long'},goto:'l'}]},
-      {label:'r'},{speaker:'阿勳',text:'重修。……你看起來比去年清醒。'},{goto:'end'},
+      {choice:[{text:'「來上經原。」',set:{P4D_ANSWER:'retake'},goto:'r'},{text:'「我在法律系，很好。」',set:{P4D_ANSWER:'good'},goto:'g'},{text:'「說來話長。」',set:{P4D_ANSWER:'long'},goto:'l'}]},
+      {label:'r'},{speaker:'阿勳',text:'經原。……你看起來比去年清醒。'},{goto:'end'},
       {label:'g'},{speaker:'阿勳',text:'看得出來。你走路變快了。'},{goto:'end'},
       {label:'l'},{speaker:'阿勳',text:'那下次說。'},
       {label:'end'},{speaker:'阿勳',text:'週五中午，我們在學活。你要來就來。'} ],   /* 大一下＝2026 春，小福已經拆了（AA_186 4-4）*/
-    consequences:{flags:{MET_XUN:true,MET_PINYU:true},memo:'重修經原（下）下課，走廊上遇到經濟系那年的室友阿勳（盧正勳）'},
+    consequences:{flags:{MET_XUN:true,MET_PINYU:true},memo:'經原（下）下課，走廊上遇到經濟系那年的室友阿勳（盧正勳）'},
     after:G=>{ G.flags.ECON_HALLWAY_DAY=G.day; } },
   /* 經濟系的朋友（BB_96 10-2、BB_135 第 1 節，BB-B 2026-10-16 定稿）——SK03 週五的小福午餐：P4d 之後每個有課的週五，重修經原（下）下課，阿勳一句「小福。走不走？」，玩家選「一起去」／「今天不行」（不扣分，下週照問）。
      去了：第一次＝1-1；去過兩次以上的下一次＝1-3 芯慈走進小福（照 ECON_PAST_SHARED，記 ECON_LAW_BRIDGE）；其他＝1-2（一句旁白＋一句輪替，芯慈加入前／加入後兩組，不連續重複）；之後快轉到 13:00「午休結束。」。
@@ -1053,7 +1053,7 @@ const STORY_EVENTS=[
       {goto:'usual'},
       {label:'first'},{speaker:null,text:'週五的學活。阿勳占了靠窗的四人桌，品妤已經在吃了。'},
       {unless:{flags:['MET_PINYU']},speaker:'品妤',text:'曾品妤。經濟系，可昕以前的室友。'},{set:{MET_PINYU:true}},   /* 品妤還沒見過（只在 10-3 見過阿勳的玩家）：照 v1 K2 的規則先介紹自己（AA-B）*/
-      {speaker:'品妤',text:'重修生？你看起來很有覺悟。'},{speaker:'阿勳',text:'他去年也很有覺悟。只是方向不一樣。'},{speaker:'品妤',text:'……你講話還是一樣，不留情。'},   /* AA_305 第 9 節 */
+      {speaker:'品妤',text:'重考生？你看起來很有覺悟。'},{speaker:'阿勳',text:'他去年也很有覺悟。只是方向不一樣。'},{speaker:'品妤',text:'……你講話還是一樣，不留情。'},   /* AA_305 第 9 節 */
       {set:{SK03_FIRST:true}},{if:{custom:G=>!!G.flags.XUN_NIGHT&&!G.flags.XUN_REPAID},goto:'repay'},{goto:'end'},
       {label:'repay'},{if:{custom:G=>G.flags.XUN_DAY!=null&&G.day===G.flags.XUN_DAY+1},speaker:'阿勳',text:'（把一個便當推過來）昨天那題的。還債。'},{unless:{custom:G=>G.flags.XUN_DAY!=null&&G.day===G.flags.XUN_DAY+1},speaker:'阿勳',text:'（把一個便當推過來）上週那題的。還債。'},   /* 延後一週：AA-B 改一個詞（第①級）*/{speaker:'品妤',text:'他從來沒請過我。'},{speaker:'阿勳',text:'妳又沒教過我統計。'},
       {set:{XUN_REPAID:true}},{goto:'end'},   /* AA_209 附錄A §2：芯慈分支最後一句（「……經濟系的人也會還債。」）刪 */
@@ -1090,10 +1090,10 @@ const STORY_EVENTS=[
       {if:{flagIs:{ECON_PAST_SHARED:'full'}},goto:'known'},
       {speaker:'classmate_xinci',text:'你看起來好像來過這間教室。'},
       {choice:[{text:'「我念過一個多月。重考進來的。」',set:{ECON_PAST_SHARED:'full'},goto:'a'},{text:'「我自學過。」',goto:'b'},{text:'（笑一笑）',goto:'c'}]},
-      {label:'a'},{speaker:'zhe',text:'所以你是留級生？'},{speaker:'player',text:'是重修生。'},{speaker:'classmate_xinci',text:'難怪。'},{goto:'end'},
+      {label:'a'},{speaker:'zhe',text:'所以你是留級生？'},{speaker:'player',text:'是重考生。'},{speaker:'classmate_xinci',text:'難怪。'},{goto:'end'},
       {label:'b'},{if:{custom:G=>G.flags.ECON_PAST_SHARED!=='half'},set:{ECON_PAST_SHARED:'half'}},{speaker:'classmate_xinci',text:'……自學的人不會知道這間教室的冷氣很冷。'},{goto:'end'},
       {label:'c'},{speaker:'zhe',text:'好神祕。我喜歡。'},{goto:'end'},
-      {label:'known'},{speaker:'zhe',text:'對齁，你念過經濟。所以你是留級生？'},{speaker:'player',text:'是重修生。'},{speaker:'classmate_xinci',text:'那你來幫我看這題。'},
+      {label:'known'},{speaker:'zhe',text:'對齁，你念過經濟。所以你是留級生？'},{speaker:'player',text:'是重考生。'},{speaker:'classmate_xinci',text:'那你來幫我看這題。'},
       {label:'end'} ] },
   /* P4b「你怎麼這麼熟？」（BB_105 P4b；台詞與機率 AA_154 A51）：大一上第 4、5、7 週經原下課，各 50%（同一週擲一次、最多一次）；ECON_PAST_SHARED 是 full 就不再觸發；觸發過記 P4B_SEEN（AA_40 慈 2 讀它）。
      「念過一年。重考進來的。」＝升 full；「……還好啦。」＝不變，芯慈照 half／none 說 BB_105 2-2 那一句（阿哲問的那週也是芯慈在旁邊說）*/

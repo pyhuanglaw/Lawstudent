@@ -63,7 +63,7 @@ const after=async(day)=>{ G.day=day; G.weekday=wdOf(day); G.hour=12.17; G.zone='
   { const L=await lunch(F11,{XUN_NIGHT:true,XUN_DAY:W11T,SK03_FIRST:true});
     check('4. 第 11 週週五：走廊「昨天那題我想通了。」→「學活。走不走？」→ 去了＝還債三句（不是平常的輪替句）、XUN_REPAID',L[0]==='阿勳：昨天那題我想通了。'&&L[1]==='阿勳：學活。走不走？'&&L.includes('阿勳：（把一個便當推過來）昨天那題的。還債。')&&L.includes('品妤：他從來沒請過我。')&&L.includes('阿勳：妳又沒教過我統計。')&&!L.includes('吳芯慈：……經濟系的人也會還債。')&&!L.some(t=>t.includes('永遠在講統計'))&&G.flags.XUN_REPAID,JSON.stringify(L));
     const L2=await lunch(F11,{XUN_NIGHT:true,XUN_DAY:W11T});
-    check('4. 還債那天也是第一次去：先 1-1（品妤「重修生？…」，最後一句 AA_305 第 9 節「……你講話還是一樣，不留情。」）再還債三句',L2.indexOf('品妤：重修生？你看起來很有覺悟。')>0&&L2.indexOf('阿勳：（把一個便當推過來）昨天那題的。還債。')>L2.indexOf('品妤：……你講話還是一樣，不留情。')&&G.flags.SK03_FIRST,JSON.stringify(L2));
+    check('4. 還債那天也是第一次去：先 1-1（品妤「重考生？…」，最後一句 AA_305 第 9 節「……你講話還是一樣，不留情。」）再還債三句',L2.indexOf('品妤：重考生？你看起來很有覺悟。')>0&&L2.indexOf('阿勳：（把一個便當推過來）昨天那題的。還債。')>L2.indexOf('品妤：……你講話還是一樣，不留情。')&&G.flags.SK03_FIRST,JSON.stringify(L2));
     const L3=await lunch(F11,{XUN_NIGHT:true,XUN_DAY:W11T,SK03_FIRST:true,ECON_LAW_BRIDGE:true});
     check('4. 芯慈已經加入（1-3 之後）：照樣還債三句；芯慈「……經濟系的人也會還債。」AA_209 附錄A §2 刪掉',L3.includes('阿勳：（把一個便當推過來）昨天那題的。還債。')&&!L3.some(t=>t.includes('也會還債')),JSON.stringify(L3));
     const lunchH=async(day,flags,n)=>{ fresh(day,12.17,'putong',Object.assign({introDone:true,classDone:true,afternoonDone:true,P4D_ANSWER:'retake',ECON_HALLWAY_DAY:F2,MET_XUN:true,MET_PINYU:true},flags)); G.habits={'meal:xiaofu:fri':{n,first:day-7*n,last:day-7,days:Array.from({length:n},(_,i)=>day-7*(i+1))}}; picks=['一起去']; said=[]; opts=[]; await CLS.afterClassEvent(GM,{c:{id:'econ_principles_2'}}); return lines(); };
@@ -80,7 +80,7 @@ const after=async(day)=>{ G.day=day; G.weekday=wdOf(day); G.hour=12.17; G.zone='
   { const only=async(day,flags,pick)=>{ fresh(day,12.17,'putong',Object.assign({introDone:true,classDone:true,afternoonDone:true,MET_XUN:true,XUN_DAY:W11T},flags)); picks=[pick||'一起去']; said=[]; opts=[]; await CLS.afterClassEvent(GM,{c:{id:'econ_principles_2'}}); return lines(); };
     const before=await only(W11T,{}), L=await only(F11,{XUN_NIGHT:true});
     check('4b. 10-3 那天（週四）不問；第 11 週週五：「昨天那題我想通了。」→ 邀約照用 P4d 原句「週五中午，我們在學活。你要來就來。」',!before.length&&L[0]==='阿勳：昨天那題我想通了。'&&L[1]==='阿勳：週五中午，我們在學活。你要來就來。',JSON.stringify(L));
-    check('4b. 去了：1-1 品妤沒見過先「曾品妤。經濟系，可昕以前的室友。」、記 MET_PINYU，再接還債三句',L.indexOf('品妤：曾品妤。經濟系，可昕以前的室友。')>0&&L.indexOf('品妤：曾品妤。經濟系，可昕以前的室友。')<L.indexOf('品妤：重修生？你看起來很有覺悟。')&&L.includes('阿勳：（把一個便當推過來）昨天那題的。還債。')&&G.flags.MET_PINYU,JSON.stringify(L));
+    check('4b. 去了：1-1 品妤沒見過先「曾品妤。經濟系，可昕以前的室友。」、記 MET_PINYU，再接還債三句',L.indexOf('品妤：曾品妤。經濟系，可昕以前的室友。')>0&&L.indexOf('品妤：曾品妤。經濟系，可昕以前的室友。')<L.indexOf('品妤：重考生？你看起來很有覺悟。')&&L.includes('阿勳：（把一個便當推過來）昨天那題的。還債。')&&G.flags.MET_PINYU,JSON.stringify(L));
     const L2=await only(F12,{XUN_NIGHT:true,SK03_INV1:true,SK03_FIRST:true,MET_PINYU:true,XUN_REPAID:true,SK03_N:0});
     check('4b. 之後的週五照一般邀約「學活。走不走？」',L2[0]==='阿勳：學活。走不走？',JSON.stringify(L2));
     await only(F11,{XUN_NIGHT:true},'今天不行'); G.hour=13.05; STORY.phoneRules(GM); PHONE.tick(G);

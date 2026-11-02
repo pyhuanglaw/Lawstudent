@@ -42,7 +42,7 @@ const lines=()=>said.map(s=>(s.who?s.who+'：':'')+s.t);
     check('R2-1. 記的跟「一起去」一樣：SK03_LAST、SK03_ASKED、SK03_INV1、SK03_N +1、習慣 meal:xiaofu:fri；快轉到 13:00「午休結束。」；付了學活的錢（90 元）；記 SK03_HUODA',
       G.flags.SK03_LAST===F13&&G.flags.SK03_ASKED===F13&&G.flags.SK03_INV1===true&&G.flags.SK03_N===1&&EVENTS.habitCount({key:'meal:xiaofu:fri'})===1&&Math.abs(G.hour-13)<1e-6&&x.caps.includes('午休結束。')&&x.paid===90&&G.flags.SK03_HUODA===F13,JSON.stringify([G.flags.SK03_LAST,G.flags.SK03_ASKED,G.flags.SK03_N,G.hour,x.caps,x.paid])); }
   { const x=await huoda(F13,12.3,{});
-    check('R2-2. 第一次去（沒有 SK03_FIRST）：學活那一句以後接 1-1（「週五的學活。阿勳占了靠窗的四人桌…」「重修生？你看起來很有覺悟。」）',x.L[0]===R2N&&x.L[1]==='阿勳：……你今天沒來上課。坐。'&&x.L.includes('週五的學活。阿勳占了靠窗的四人桌，品妤已經在吃了。')&&x.L.includes('品妤：重修生？你看起來很有覺悟。')&&G.flags.SK03_FIRST===true,JSON.stringify(x.L)); }
+    check('R2-2. 第一次去（沒有 SK03_FIRST）：學活那一句以後接 1-1（「週五的學活。阿勳占了靠窗的四人桌…」「重考生？你看起來很有覺悟。」）',x.L[0]===R2N&&x.L[1]==='阿勳：……你今天沒來上課。坐。'&&x.L.includes('週五的學活。阿勳占了靠窗的四人桌，品妤已經在吃了。')&&x.L.includes('品妤：重考生？你看起來很有覺悟。')&&G.flags.SK03_FIRST===true,JSON.stringify(x.L)); }
   { const x=await huoda(F11,12.3,{XUN_NIGHT:true,XUN_DAY:W11T,SK03_FIRST:true});
     check('R2-3. 第 11 週週五（10-3 一起讀到閉館的隔天）沒去經原下、去學活：照樣還債（「昨天那題的。還債。」）、沒有走廊那句「昨天那題我想通了。」',x.L[0]===R2N&&x.L[1]==='阿勳：……你今天沒來上課。坐。'&&x.L.includes('阿勳：（把一個便當推過來）昨天那題的。還債。')&&!x.L.includes('阿勳：昨天那題我想通了。')&&G.flags.XUN_REPAID===true,JSON.stringify(x.L)); }
   { const a=await huoda(F13,12.3,{SK03_FIRST:true},'學活',true), b=await huoda(F13,13.1,{SK03_FIRST:true}), c=await huoda(F13,12.3,{SK03_FIRST:true},'阿鳳麵店'), d=await huoda(F13,12.3,{SK03_FIRST:true,SK03_ASKED:F13}), e=await huoda(F13+1,12.3,{SK03_FIRST:true}), f=await huoda(F13,11.9,{SK03_FIRST:true});
