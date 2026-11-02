@@ -3957,7 +3957,11 @@ const STORY = (function(){
     let gradTalk=0; for(const id in (typeof CHARACTERS!=='undefined'?CHARACTERS:{})) if(has(id,'GRAD_SCHOOL_DISCUSSION')) gradTalk++;
     const zq=['PLAYTESTED','CONTEST_DAY'].filter(t=>has('heroine_04',t)).length;
     const R=S.routeAbroadRoute(G), RD=R?ROUTE_DATES[R]:null, rd=RD?S.dayOfKey(RD.ret):null, back=rd!=null&&G.day>=rd;
-    let ge=0; const GR=(G&&G.courses&&G.courses.grades)||{}; if(typeof COURSES!=='undefined'&&COURSES.list) for(const t in GR){ if(/^Y0/.test(t)) continue; const g=GR[t]||{}; for(const cid in g){ const c=COURSES.list.find(x=>x.id===cid); if(c&&c.kind==='general'&&g[cid]) ge++; } }
+    /* 及格的通識：成績單的字是及格的才算（BB 09:38 Q1，CC M7：原本只要有字就算，「不及格」「缺考」也加分）；
+       同一門課只算一次（Q2：重修用同一個課號寫進下一學期，原本會再加一次＝被當反而多一分）*/
+    const passStr=v=>typeof v==='string'&&!!v.trim()&&!/不及格|缺考|未開考|未過/.test(v);   /* 及格、通過、N 分、及格（補考）；舊存檔的「很好／不錯／過了」也算 */
+    const geSet=new Set(); const GR=(G&&G.courses&&G.courses.grades)||{}; if(typeof COURSES!=='undefined'&&COURSES.list) for(const t in GR){ if(/^Y0/.test(t)) continue; const g=GR[t]||{}; for(const cid in g){ const c=COURSES.list.find(x=>x.id===cid); if(c&&c.kind==='general'&&passStr(g[cid])) geSet.add(cid); } }
+    const ge=geSet.size;
     const A=(+F.LAWCLUB_SAT_VISITS||0)+5*vac('C16')+5*vac('C09')+3*vac('C02')+(F.YT_LEASE_HELP?3:0);
     const B=grp+Math.floor(study/10)+2*gradTalk+(F.grad_read_done?2:0)+4*vac('C10');
     const C=2*zq+3*(vac('C08')+vac('C11')+vac('C12'))+(back?6:0)+ge;

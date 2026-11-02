@@ -388,7 +388,7 @@ const PG=(function(){
   /* ---------- 尾聲（1A-20；BB 人物照 AA_327 2-Y4-53 的表：條件由低到高，取符合的最後一列）---------- */
   const yes=v=>!!v;
   S.atTable=(G,id)=>!S.isEx(G,id)&&S.at(G,id,'FAMILIAR');
-  S.ytEnd=function(G){ const F=G.flags, h=t=>has('heroine_03',t); const e1=h('RENT_CONSULTATION')&&h('LAW_MEETS_LIFE'), e2=h('FIELD_NOTES_IDEA')&&yes(F.YT_NOTES_NEXT), e3=e1&&S.lean(G).top==='A'&&h('APOLOGIZED');   /* AA_11 結局表：5 → 3 → 2 → 1 → 4 */
+  S.ytEnd=function(G){ const F=G.flags, h=t=>has('heroine_03',t); const e1=h('RENT_CONSULTATION')&&h('LAW_MEETS_LIFE'), e2=h('FIELD_NOTES_IDEA')&&yes(F.YT_NOTES_NEXT), e3=e1&&S.pathTop(G)==='A'&&h('APOLOGIZED');   /* AA_11 結局表：5 → 3 → 2 → 1 → 4 */
     const job=e3?3:(e2?2:(e1?1:4)); if(S.dating(G,'heroine_03')) return {end:5,job}; if(e3) return {end:3,job:3}; if(e2) return {end:2,job:2}; if(e1) return {end:1,job:1}; if(S.at(G,'heroine_03','FRIEND')) return {end:4,job:4}; return {end:0,job}; };
   S.epiLine=function(G,id){ const F=G.flags, E=L().EPI, lw=F.BAR_YEAR!=null, me=x=>x.map(t=>[id,t]);
     switch(id){
@@ -400,7 +400,7 @@ const PG=(function(){
       case 'classmate_xinci': { if(S.dating(G,'classmate_xinci')&&E.xinci.partner) return me(E.xinci.partner);   /* 交往中（AA_548 第 9 節）*/ if(yes(F.XC1_STICKY)) return [[id,E.xinci.sticky]]; if(yes(F.XC5_RECONCILE)&&S.atTable(G,'heroine_01')) return S.dating(G,'heroine_01')?[E.xinci.reconcile[0]]:E.xinci.reconcile; return [[id,E.xinci.base]]; }
       case 'heroine_01': { if(S.dating(G,'heroine_01')) return me(E.an.partner); if(yes(F.XC5_RECONCILE)&&S.atTable(G,'classmate_xinci')&&!yes(F.XC1_STICKY)) return null; return [[id,E.an.friend]]; }   /* 慈 5 那一組裡以安那句就是她的一句 */
       case 'heroine_03': { const Y3=S.ytEnd(G); if(!Y3.end) return null; if(Y3.end===5) return [[id,E.yt[Y3.job===4?4:Y3.job][0]],[id,E.yt[5]]]; return me(E.yt[Y3.end]); }
-      case 'heroine_05': { const B=E.sis; if(S.dating(G,'heroine_05')) return me(yes(F.SIS_DAY_OFF)?B.dayOff:B.lover); if(yes(F.US4_FRIEND)||yes(F.HEART_FRIEND_heroine_05)) return me(B.peer); return me(S.lean(G).top==='A'&&lw?B.roadA:B.road); }
+      case 'heroine_05': { const B=E.sis; if(S.dating(G,'heroine_05')) return me(yes(F.SIS_DAY_OFF)?B.dayOff:B.lover); if(yes(F.US4_FRIEND)||yes(F.HEART_FRIEND_heroine_05)) return me(B.peer); return me(S.pathTop(G)==='A'&&lw?B.roadA:B.road); }
       case 'heroine_02': { if(S.dating(G,'heroine_02')) return E.zr.me; if(yes(F.ZR_FY)) return me(E.zr.fy); return me(E.zr.main); }
       case 'heroine_04': { const Z=E.zq; if(S.dating(G,'heroine_04')) return me(Z.me); if(S.zqLine(G)&&lw) return me(Z.line); if(F.ZQ_CONTRACT!=null&&!S.zqLine(G)) return me(Z.apart); return me(F.ZQ_Q12==='cat'?Z.cat:Z.nine); }   /* AA_360 第 1 節：她發表的一律是《九點以後》（沒看過 Q12 的也是）；舊存檔已經演完《找插座的貓》（ZQ_Q12 cat）照舊、不改尾聲 */
       case 'kai': { const K=E.kai; let t=K.base; if(lw) t=K.lawyer; if(has('kai','SUNDAY_SUPPER')) t=K.supper; if(yes(F.KAI_STAYED_UP)||has('kai','KAI_STAYED_UP')) t=K.stayed; return me(t); }
@@ -429,7 +429,7 @@ const PG=(function(){
   S.epiPartner=G=>['heroine_01','heroine_02','heroine_03','heroine_04','heroine_05','kexin','classmate_peishan'].find(id=>S.dating(G,id))||null;   /* 祐廷右手邊：畢業時的伴侶；前任不在旁邊也不在對面 */
   S.epiPartners=G=>{ const p=S.epiPartner(G); return p?[p]:[]; };   /* 桌上放東西的伴侶（照座位：右手邊、左手邊、對面）；都同意的兩位以上由 src/r2y4b3d.js 換（AA_482 第 3 節）*/
   S.epiCg=G=>'cg_reunion_window_table_'+S.CG_ID[S.epiPartner(G)||'kai'];
-  S.epiAlways=function(G){ const id=['zhe','yu','classmate_bohan'].find(x=>S.atTable(G,x)&&S.at(G,x,'FRIEND')); return id?{id,t:L().EPI.always[S.lean(G).top]||L().EPI.always.B}:null; };
+  S.epiAlways=function(G){ const id=['zhe','yu','classmate_bohan'].find(x=>S.atTable(G,x)&&S.at(G,x,'FRIEND')); return id?{id,t:L().EPI.always[S.pathTop(G)]||L().EPI.always.B}:null; };
   S.footprint=function(G){ const F=G.flags||{}, H=G.habits||{};
     const days=re=>{ const set=new Set(); let mx=0; for(const k in H){ if(!re.test(k)) continue; const h=H[k]||{}; for(const d of (h.days||[])) set.add(d); mx=Math.max(mx,h.n|0); } return Math.max(set.size,mx); };
     let grp=0; const att=(G.acts&&G.acts.att)||{}; for(const k in att) if(/^(public_law_group|lawclub_study)@/.test(k)&&att[k]&&(att[k].end||'full')==='full') grp++;
