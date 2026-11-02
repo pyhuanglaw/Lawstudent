@@ -409,13 +409,25 @@ class Driver:
             m = Q_RE.match(lastsay['t']) if lastsay else None
             if m and not any(t.startswith(CONT) for t in T):
                 pp = self.paper or {}
-                cid = await pg.evaluate(CNAME2ID, pp.get('name', ''))
+                cur = await pg.evaluate("(typeof CLS!=='undefined'&&CLS.curExam)?Object.assign({},CLS.curExam):null")   # BB_229 第 7 條：48918ca20 起有 CLS.curExam {cid,kind,term,i,qid}；舊版（b1b）沒有＝照舊後備
+                if cur and cur.get('cid'):
+                    pp = {'name': '', 'kind': cur.get('kind') or 'final', 'd': lastsay.get('d'), 'via': 'curExam'}; self.paper = pp
+                cid = cur['cid'] if cur and cur.get('cid') else await pg.evaluate(CNAME2ID, pp.get('name', ''))
                 if not cid:   # 「考卷發下來。」被擠出最近 14 行（d75871437 起期末考前有研討室旁白／cue）：改用今天是哪一門課的考試日（cloud／cc-local R5 11-02）
                     tod = await pg.evaluate(TODAY_EXAM)
                     if tod: cid = tod['id']; pp = dict(pp, kind=pp.get('kind') or tod['kind'], via='examDay'); self.paper = self.paper or {'name': tod['name'], 'kind': tod['kind'], 'd': lastsay.get('d')}
                 kind = pp.get('kind', 'final'); i = int(m.group(1)); ek = '%s|%s|%s' % (lastsay.get('d'), cid, kind)
                 key = '%s|%d|%s' % (ek, i, m.group(2)[:30])
                 a = await pg.evaluate(ANSWER, [m.group(2), cid, 'Y4S2', kind]) if cid else {'err': '認不出考卷的課（%s）' % J(pp)}
+                if a.get('err'):   # 認錯課（上一場的「考卷發下來。」留在 self.paper；R8_rr PC：海商法考完接強制執行法，找到海商法題庫 13 題）→ 用題目文字反查大四下每一門
+                    tod = await pg.evaluate(TODAY_EXAM)
+                    for c2 in await pg.evaluate("(()=>{ try{ return CLS.termCourses(GAME.G,'Y4S2').map(c=>c.id); }catch(e){ return []; } })()"):
+                        k2 = tod['kind'] if tod and tod['id'] == c2 else 'final'
+                        a2 = await pg.evaluate(ANSWER, [m.group(2), c2, 'Y4S2', k2])
+                        if not a2.get('err') and a2.get('right', -1) >= 0:
+                            run.note('%s：第 %d 題用題目文字反查＝%s（%s）；原本認成 %s' % (self.tag, i, c2, k2, cid))
+                            cid, kind, a = c2, k2, a2; ek = '%s|%s|%s' % (lastsay.get('d'), cid, kind); key = '%s|%d|%s' % (ek, i, m.group(2)[:30])
+                            self.paper = {'name': '', 'kind': kind, 'd': lastsay.get('d')}; break
                 if a.get('err') or a['right'] < 0:
                     run.check('%s：%s 第 %d 題讀得到正解（【捷徑】只讀）' % (self.tag, kind, i), False, J(a))
                     await P.tap_choice(pg, cdp, 0); await pg.wait_for_timeout(900); return True
