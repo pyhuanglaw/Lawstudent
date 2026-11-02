@@ -33,3 +33,5 @@
       err.log (last 5): [gpu_wrap 1590.1s] BROWSER DISCONNECTED | [gpu_wrap 1773.8s] page close url=http://127.0.0.1:8801/index.html?turbo | [gpu_wrap 1773.8s] BROWSER DISCONNECTED | [gpu_wrap 2098.4s] page close url=http://127.0.0.1:8801/index.html?turbo | [gpu_wrap 2098.4s] BROWSER DISCONNECTED
 - 2026-11-02T22:00:04  R4main  sha=27e6ce77e  exit=0  268s    PASS 沒有 JS 例外  [] / [未驗] 共 5 項（劇情接手；要在負載低、每秒 1 格以上時重跑才驗得到）：走到法律系館A門口（點地面／搖桿）、門口出現「進入法律系館A」、進到霖澤館大廳、目標是上二樓到 201 教室、走樓梯上二樓、走到 201 教室門口（點地面／搖桿）、門口出現「進入 201 階梯教室」 / ALL PASS
       err.log (last 5): [gpu_wrap 240.5s] page close url=http://127.0.0.1:8801/index.html?start0 | [gpu_wrap 240.5s] BROWSER DISCONNECTED
+- 2026-11-02T22:04:46  R4b1b_rr  sha=b1b249873  exit=0  274s    PASS 沒有 JS 例外  [] / [未驗] 共 5 項（劇情接手；要在負載低、每秒 1 格以上時重跑才驗得到）：走到法律系館A門口（點地面／搖桿）、門口出現「進入法律系館A」、進到霖澤館大廳、目標是上二樓到 201 教室、走樓梯上二樓、走到 201 教室門口（點地面／搖桿）、門口出現「進入 201 階梯教室」 / ALL PASS
+      err.log (last 5): [gpu_wrap 246.1s] page close url=http://127.0.0.1:8801/index.html?start0 | [gpu_wrap 246.1s] BROWSER DISCONNECTED
