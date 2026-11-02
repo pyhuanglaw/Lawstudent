@@ -413,6 +413,15 @@ async def main():
         run.note('console error %d 則（只記不判）：%s' % (len(cons), J(cons[:5])))
         try: await run.shot(pg, 'end')
         except Exception: pass
+        # BB 13:52：最後的存檔匯出（GAME.snapshot()＝結束那一刻的進度；沒有 GAME.G 時退回欄位 1）
+        try:
+            fs = await pg.evaluate("(()=>{ try{ if(GAME.G) return {src:'GAME.snapshot()',s:JSON.stringify(GAME.snapshot())}; }catch(e){} const r=localStorage.getItem('fatiao3d_slot_1'); return r?{src:'localStorage fatiao3d_slot_1',s:r}:null; })()")
+            if fs:
+                with open(os.path.join(OUT, 'final_save.json'), 'w', encoding='utf-8') as f: json.dump(json.loads(fs['s']), f, ensure_ascii=False)
+                summary['final_save'] = {'src': fs['src'], 'chars': len(fs['s'])}
+                print('final_save.json：%s，%d 字' % (fs['src'], len(fs['s'])), flush=True)
+            else: print('final_save.json：沒有可匯出的存檔', flush=True)
+        except Exception as e: print('final_save.json 匯出失敗 %r' % e, flush=True)
         summary['fails'] = run.fails
         with open(os.path.join(OUT, 'summary.json'), 'w', encoding='utf-8') as f: json.dump(summary, f, ensure_ascii=False, indent=1)
         tr.close()
