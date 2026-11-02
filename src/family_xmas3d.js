@@ -6,7 +6,7 @@
      21:05 起手機「買給學姊的聖誕禮物」五選一（到 12/22 18:00；照 y2r2_3d.js 可昕聖誕禮物的做法，買了就扣錢、錢不夠不能選；手寫券只給演過 ev_sis_hot_water 的；
      之後店面的清單做好再搬進店裡）。手寫券：2026-01-18（日）21:00 她私訊「我用了。昨天。」。
    - 事件 ev_family_xmas_y1（OUT）：合適＝熟悉 +2、她的戀愛 +2；普通（花）＝信任 +1。記 SIS_FAMXMAS_Y1、記憶 SIS_XMAS_PENCIL、房間物件（有去就有那支鉛筆）。
-   - 回聲：大一下 ev_grad_reading 多「用我給你的那支。」（src/data/events.js）；大二 AA_386 3-1 Café 門口她先拿紙袋（src/data/sis_b4_events.js）。
+   - 回聲：大一下 ev_grad_reading 多「我給你的那支剛好。」（src/data/events.js）；大二 AA_386 3-1 Café 門口她先拿紙袋（src/data/sis_b4_events.js）。
    測試：node tests/aa406_family_xmas_unit.js */
 'use strict';
 const FAMXMAS=(function(){

@@ -35,7 +35,7 @@ const POSTGRAD_LINES=(function(){
   /* ④ 學姊 W15「保溫瓶」（和她 FRIEND 以上；分手過的只有一則訊息）——「一件事。只有一件。」拿掉（b6757852，AA_327 裁定 #45）*/
   THERMOS:{
     lines:[[null,'（她還穿著碩士服，手上拿著一個新的保溫瓶。）'],['heroine_05','畢業快樂。'],['heroine_05','（把保溫瓶遞給他）裡面是熱水。不是咖啡。'],['heroine_05','每天帶出門。']],
-    hotWater:'大一那年冬天，你幫我裝的是熱水。我記到現在。',   /* HOT_WATER */
+    hotWater:'大一那年冬天，你陪我等熱水。我記到現在。',   /* HOT_WATER */
     helped:'那年你放在我桌上的是黑咖啡。這次換我。',   /* 只有 HELPED（黑咖啡那次）*/
     father:'我爸叫我跟你說：恭喜。',
     /* AA_392 第 8 節（企劃線 e81a1afe1）：交往中、3/17 她爸爸的晚餐沒到（沒記 MET_SIS_FATHER）——典禮結束、她那一段之前，她爸爸在旁邊；記 MET_SIS_FATHER 'grad' */
