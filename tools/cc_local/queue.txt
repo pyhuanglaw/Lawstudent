@@ -17,7 +17,8 @@
 # P0（BB 13:37）：R4 對照組＋b4 對照，排在最前面。main＝27e6ce77e（v9.10.15，床的選單 566f60cd6 已經在裡面）
 R4main      | 27e6ce77e | game  | tests/flow_main_day12.py     | index.html       | 180 | XARGS={url} {out}
 R4b1b_rr    | b1b249873 | game  | tests/flow_main_day12.py     | index.html       | 180 | XARGS={url} {out};RERUN=rr1
-#HOLD雲端 R4v2_b1b    | b1b249873 | probe | docs/story_planning/test_tools/cc/flow_main_day12_v2.py | index.html | 120 | （雲端跑過才放行；probe 類只傳 <url> <out>，v2 的第二個參數就是輸出資料夾）
+# R4v2：雲端 b1b 14:01 ALL PASS（阿哲有演、進 201 課還沒被跳過、fallbacks 0、存檔成功；接手 70.6 秒）→ 解除 HOLD
+R4v2_b1b    | b1b249873 | probe | docs/story_planning/test_tools/cc/flow_main_day12_v2.py | index.html | 120 |
 B4main      | 27e6ce77e | probe | docs/story_planning/test_tools/cc/cc_d118b4_probe.py   | index.html | 60 | CASES=S1
 R1_reach    | b1b249873 | game  | tests/reachability_all.py    | index.html?turbo | 90  | XARGS={url}
 R2_flowcls  | b1b249873 | game  | tests/flow_class_real.py     | index.html       | 120 | XARGS={url} {out}
