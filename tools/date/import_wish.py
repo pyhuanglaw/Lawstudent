@@ -118,7 +118,7 @@ if A592:
     ok, why = G.allowed(P592, S592, ALLOW)
     if not ok:
         sys.exit('拒絕匯入：' + why)
-    md592 = subprocess.check_output(['git', '-C', ROOT, 'show', f'{S592}:{P592}'], text=True)
+    md592 = G.read_fix(subprocess.check_output(['git', '-C', ROOT, 'show', f'{S592}:{P592}'], text=True))
     OLD53, NEW53 = '我媽說，坐在上面的人，要先把對方的理由講得比他自己還好，再決定。', '我媽說，坐在上面的人，要先把兩邊都講得比他們自己還好，再決定。'
     if f'| {OLD53} | {NEW53} |' not in md592:
         sys.exit(f'AA_592@{S592} 裡找不到第 53 列（法庭那一句）')
@@ -146,7 +146,7 @@ if A594:
     ok, why = G.allowed(P594, S594, ALLOW)
     if not ok:
         sys.exit('拒絕匯入：' + why)
-    md594 = subprocess.check_output(['git', '-C', ROOT, 'show', f'{S594}:{P594}'], text=True)
+    md594 = G.read_fix(subprocess.check_output(['git', '-C', ROOT, 'show', f'{S594}:{P594}'], text=True))
     rows594 = []
     for ln in md594.split('\n'):
         m = re.match(r'^\|\s*([0-9]+)\s*\|(.*)\|\s*$', ln)

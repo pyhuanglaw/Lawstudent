@@ -34,7 +34,8 @@ const ents=(G,k,h)=>{ setT(k,h); G.zone='noodle'; return EVENTS.check; };
     for(const k in L()) walk(L()[k]);
     const ids=/^(classmate_xinci|classmate_bohan|zhe|yu|sister|heroine_01|auntie|thursday|notyet)$/;
     const A581={'過一半了':'考完了'};   /* AA_581 第 13 列（D118 沒有期中考）：稿的「考完了」→「過一半了」（短句，不放進 d118_fix.json，這裡逐句對）*/
-    const bad=all.filter(t=>!ids.test(t)&&DOC.indexOf(t)<0&&DOC.indexOf(t.replace(/^「|」$/g,''))<0&&!(A581[t]&&DOC.indexOf(A581[t])>=0));   /* D118：海商法那一句（AA_578 #2）、大四上 11/3 摘要日（AA_578 第 3 節第 1 點）讀稿時照 tools/story/d118_fix.json 換（tests/alison.js）*/
+    const ANREV=require('./an_rev_doc.js');   /* AA_592 第 54 列（白板「說理由。」→「每個人講完。」）：在改成欄也算（逐列核對在 tests/aa592_an_1b_unit.js）*/
+    const bad=all.filter(t=>!ids.test(t)&&!ANREV.has(t)&&DOC.indexOf(t)<0&&DOC.indexOf(t.replace(/^「|」$/g,''))<0&&!(A581[t]&&DOC.indexOf(A581[t])>=0));   /* D118：海商法那一句（AA_578 #2）、大四上 11/3 摘要日（AA_578 第 3 節第 1 點）讀稿時照 tools/story/d118_fix.json 換（tests/alison.js）*/
     check('0. TWFILL_LINES 的每一句都在 AA_342（人物 id、記錄的代號除外）',bad.length===0,bad.join('｜'));
     const src=fs.readFileSync(path.join(H.ROOT,'src/data/twfill_events.js'),'utf8');
     check('0. 沒有「小語」（改名 Alison，AA_380）',src.indexOf('小語')<0);

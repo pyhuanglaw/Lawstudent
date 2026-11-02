@@ -352,7 +352,7 @@ if A594:
     ok, why = G.allowed(P594, S594, ALLOW)
     if not ok:
         sys.exit('拒絕匯入：' + why)
-    md594 = subprocess.check_output(['git', '-C', ROOT, 'show', f'{S594}:{P594}'], text=True)
+    md594 = G.read_fix(subprocess.check_output(['git', '-C', ROOT, 'show', f'{S594}:{P594}'], text=True))
     ROOT594 = {'lines': L, 'loc': LOC}
     nrow = 0
     for ln in md594.split('\n'):

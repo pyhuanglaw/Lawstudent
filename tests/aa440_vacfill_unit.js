@@ -21,7 +21,11 @@ let err='', loaded=false;
 try{ load('src/data/retake_home.js'); load('src/econff3d.js'); load('src/holff3d.js'); loaded=load('src/data/vacfill_events.js')&&load('src/vacfill3d.js'); }catch(e){ err=String(e&&e.stack||e); }
 /* ---------- 稿 ---------- */
 const SHA='fd200c2c6', P440='docs/story_planning/AA_440_寒暑假的空白日_最空三段_住家裡_留宿舍.md';
-const DOC=(()=>{ try{ return cp.execSync('git -c core.quotepath=false show '+SHA+':"'+P440+'"',{cwd:process.env.SPEC_GIT_DIR||H.ROOT,encoding:'utf8',maxBuffer:1<<26,stdio:['ignore','pipe','ignore']}); }catch(e){ return ''; } })();
+const DOC0=(()=>{ try{ return cp.execSync('git -c core.quotepath=false show '+SHA+':"'+P440+'"',{cwd:process.env.SPEC_GIT_DIR||H.ROOT,encoding:'utf8',maxBuffer:1<<26,stdio:['ignore','pipe','ignore']}); }catch(e){ return ''; } })();
+/* 以安改稿①b（AA_592 第 11、12、13、50 列，企劃線 4162d22e1）改了這份稿上她的四句：讀稿時照改成欄換（每一處都要剛好找到一次；逐列核對在 tests/aa592_an_1b_unit.js）*/
+const AN592=[['> 以安：……你呢？','> 以安：你呢？'],['「……嗯。」「我要讀書了。十點半再傳。」','「我在看書。」「……看不太下去了。」'],['「我說是一起讀書的人。……她說好。」','「我說是男朋友。……她說好。」']];
+const AN592_BAD=AN592.filter(([o])=>DOC0.split(o).length!==2).map(x=>x[0]);
+const DOC=AN592.reduce((d,[o,n])=>d.split(o).join(n),DOC0);
 const part=(a,b)=>{ const i=DOC.indexOf(a); if(i<0) return ''; const j=b?DOC.indexOf(b,i+a.length):-1; return DOC.slice(i,j<0?DOC.length:j); };
 const Q=s=>s.split('\n').map(l=>/^\s*>\s*(.+?)\s*$/.exec(l)).filter(Boolean).map(m=>m[1]).map(t=>{ const k=t.indexOf('：'); return k>0&&k<8?{sp:t.slice(0,k),text:t.slice(k+1)}:{sp:null,text:t}; });
 const rows=s=>s.split('\n').map(l=>l.trim()).filter(l=>/^\|/.test(l)&&!/^\|[-| :]+\|\s*$/.test(l)).map(l=>l.replace(/^\||\|$/g,'').split('|').map(c=>c.trim()));
@@ -98,6 +102,7 @@ const b532all=v=>typeof v==='string'?b532(v):Array.isArray(v)?v.map(b532all):(v&
     const all=[]; const walk=v=>{ if(typeof v==='string') all.push(v); else if(Array.isArray(v)) v.forEach(walk); else if(v&&typeof v==='object') Object.values(v).forEach(walk); };
     walk(L()); const ids=/^(econ_[a-z]+|zhe|yu|classmate_bohan|heroine_0\d|kexin|kai|mom|dad|sister)$/;
     const bad=all.map(b532).filter(t=>!ids.test(t)&&DOC.indexOf(t)<0&&!POOL443.home.winter.concat(POOL443.home.summer,POOL443.dorm.winter,POOL443.dorm.summer).includes(t)&&!(DOC507&&NEW507.some(n=>t.indexOf(n)>=0&&DOC507.indexOf(n)>=0)&&DOC.indexOf(back507(t))>=0)&&!ok519(t));
+    check('0. AA_592 第 11～13、50 列：AA_440 稿上那四句都找得到（剛好一次），讀稿時換成改成欄',!AN592_BAD.length,JSON.stringify(AN592_BAD));
     check('0. VACFILL_LINES 的每一句都在 AA_440（摘要池加寫的在 AA_443 第 2 節；人物 id 除外；1/16 那一句照 AA_519 1-3 拆兩句）',bad.length===0,bad.join('｜'));
     check('0. 稿沒有寫字的兩則照片（VACFILL_UI）：括號裡的字取自稿',['上海下大雨','燈'].every(t=>DOC.indexOf(t)>=0)&&VACFILL_UI.photoTyphoon==='📷（上海下大雨）'&&VACFILL_UI.photoLantern==='📷（燈）');
     check('0. 摘要池：AA_440 住家裡寒假 8、暑假 8；留宿舍各 6',POOL440.home.winter.length===8&&POOL440.home.summer.length===8&&POOL440.dorm.winter.length===6&&POOL440.dorm.summer.length===6);

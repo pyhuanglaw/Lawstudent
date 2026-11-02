@@ -15,7 +15,8 @@ const {check,GM}=H, J=JSON.stringify;
 const loadG=(f)=>{ const s=fs.readFileSync(path.join(H.ROOT,f),'utf8').replace(/^const ([A-Z_][A-Z0-9_]*)\s*=/mg,'globalThis.$1='); vm.runInThisContext(s,{filename:f}); };
 let loadErr='';
 for(const f of ['src/holff3d.js','src/noodle_closed3d.js','src/data/heroine_asks.js','src/heroine_asks3d.js','src/data/vacfill_events.js','src/data/cracktalk_lines.js','src/cracktalk3d.js']){ try{ loadG(f); }catch(e){ loadErr+=f+'：'+String(e&&e.message||e)+'　'; } }
-const git=(ref,p)=>{ try{ return cp.execSync('git -c core.quotepath=false show '+ref+':"'+p+'"',{cwd:H.ROOT,encoding:'utf8',maxBuffer:1<<26}); }catch(e){ return ''; } };
+const git0=(ref,p)=>{ try{ return cp.execSync('git -c core.quotepath=false show '+ref+':"'+p+'"',{cwd:H.ROOT,encoding:'utf8',maxBuffer:1<<26}); }catch(e){ return ''; } };
+const git=(ref,p)=>require('./an_rev_doc.js').overlay(git0(ref,p),/^holff3d\.js/)[0];   /* 以安改稿（AA_592 第 42～47 列：假期計畫的標點）：讀稿時照改成欄換（逐列核對在 tests/aa592_an_1b、aa594_an_4b）*/
 const A532='docs/story_planning/AA_532_D99寒暑假一_過年期間別約_除夕年夜飯_家人群組_她們的放假版.md';
 const doc=git('ade80d22f',A532), doc244=git('2d3a0735d','docs/story_planning/AA_244_以安假期計畫_出國旅遊台詞.md');
 check('0. AA_532（ade80d22f）、AA_244（2d3a0735d）讀得到；新模組都載得到',doc.length>3000&&doc244.length>3000&&!loadErr,loadErr||'git fetch origin claude/story-planning');

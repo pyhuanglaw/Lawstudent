@@ -12,7 +12,8 @@ const {check,GM}=H, J=JSON.stringify;
 const loadG=(f)=>{ const s=fs.readFileSync(path.join(H.ROOT,f),'utf8').replace(/^const ([A-Z_][A-Z0-9_]*)\s*=/mg,'globalThis.$1='); vm.runInThisContext(s,{filename:f}); };
 let loadErr='';
 for(const f of ['src/holff3d.js','src/data/vacfill_events.js','src/vacfill3d.js','src/data/hometown_lines.js']){ try{ loadG(f); }catch(e){ loadErr+=f+'：'+String(e&&e.message||e)+'　'; } }
-const git=(ref,p)=>{ try{ return cp.execSync('git -c core.quotepath=false show '+ref+':"'+p+'"',{cwd:H.ROOT,encoding:'utf8',maxBuffer:1<<26}); }catch(e){ return ''; } };
+const git0=(ref,p)=>{ try{ return cp.execSync('git -c core.quotepath=false show '+ref+':"'+p+'"',{cwd:H.ROOT,encoding:'utf8',maxBuffer:1<<26}); }catch(e){ return ''; } };
+const git=(ref,p)=>require('./an_rev_doc.js').overlay(git0(ref,p),/^vac_activities\.js/)[0];   /* 以安改稿（AA_594 第 31、32 列：重逢、和她出國的旁白）：讀稿時照改成欄換（逐列核對在 tests/aa592_an_1b、aa594_an_4b）*/
 const A533='docs/story_planning/AA_533_D99寒暑假二_出國旅遊和她_活動卡的人_回她的縣市_快轉旁白分年.md';
 const doc=git('cf0066ed2',A533);
 check('0. AA_533（cf0066ed2）讀得到；模組載得到',doc.length>3000&&!loadErr,loadErr||'git fetch origin claude/story-planning');

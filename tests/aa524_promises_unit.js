@@ -107,7 +107,7 @@ const srcAll=(()=>{ const out=[]; const walk=d=>{ for(const n of fs.readdirSync(
 /* ---------------- 0 ---------------- */
 await sec(0,()=>{
   check('0. 讀得到稿（AA_524 '+SHA+'：第 1～5 節；A1～A14、Z1～Z11、Y1～Y9）',DOC.length>8000&&/### A14/.test(DOC)&&/### Z11/.test(DOC)&&/### Y9/.test(DOC),String(DOC.length));
-  const miss=[]; for(const k in NEW) for(const t of NEW[k]) if(k!=='A2'&&k!=='A12'&&DOC.indexOf(t)<0) miss.push(k+'：'+t);   /* A2 兩句 11-02 改照 AA_587 第 12 節、A12 改照 AA_587 第 30 列（下面另外比） */
+  const miss=[]; const ANREV=require('./an_rev_doc.js'); for(const k in NEW) for(const t of NEW[k]) if(k!=='A2'&&k!=='A12'&&DOC.indexOf(t)<0&&!ANREV.has(t)) miss.push(k+'：'+t);   /* A3、A10 後來又照以安改稿改（AA_594 第 21 列、AA_592 第 51 列）：在改成欄也算 */   /* A2 兩句 11-02 改照 AA_587 第 12 節、A12 改照 AA_587 第 30 列（下面另外比） */
   { const P587=(()=>{ try{ return cp.execSync('git -c core.quotepath=off ls-tree --name-only -r 27456316d docs/story_planning',{cwd:H.ROOT,encoding:'utf8'}).split('\n').find(x=>/AA_587_/.test(x)); }catch(e){ return null; } })();
     const D587=(()=>{ try{ return P587?cp.execSync('git show 27456316d:"'+P587+'"',{cwd:H.ROOT,encoding:'utf8',maxBuffer:1<<24}):''; }catch(e){ return ''; } })();
     check('0. A2 兩句在 AA_587@27456316d 第 12 節（第 69、70 列）',NEW.A2.every(t=>D587.indexOf(t)>=0),J(NEW.A2.filter(t=>D587.indexOf(t)<0)));
@@ -226,10 +226,10 @@ await sec('A8',async()=>{
 });
 await sec('A9',async()=>{
   fresh('2026-11-14',16); H.FAMILIAR(AN); await spot(AN,'D14','D14.sunset',0,['下次在台中看']);
-  check('A9. 漁人碼頭夕陽「下次在台中看。」→「……台中的夕陽在海邊。很遠，要開車。」',has(NEW.A9[0]),J(said()));
-  fresh('2026-11-14',10); H.FAMILIAR(AN); await spot(AN,'D16','D16.lighthouse',0,['下次去最南邊']); const a=has(NEW.A9[1]);
+  check('A9. 漁人碼頭夕陽「下次在台中看。」→「台中的夕陽在海邊。很遠，要開車。」（AA_524 的「……」照 AA_594 拿掉）',has(require('./an_rev_doc.js').rev(NEW.A9[0])),J(said()));
+  fresh('2026-11-14',10); H.FAMILIAR(AN); await spot(AN,'D16','D16.lighthouse',0,['下次去最南邊']); const a=has(require('./an_rev_doc.js').rev(NEW.A9[1]));
   await spot(AN,'D16','D16.lighthouse',1,[]);
-  check('A9. 富貴角燈塔「下次去最南邊。」→「……最南邊。好遠。」；下一次 remember「你上次說要去最南邊。……我查過了，坐車要六個小時。」',a&&has(NEW.A9[2]),J(said()));
+  check('A9. 富貴角燈塔「下次去最南邊。」→「……最南邊。好遠。」；下一次 remember「你上次說要去最南邊。……我查過了，坐車要六個小時。」',a&&has(require('./an_rev_doc.js').rev(NEW.A9[2])),J(said()));
 });
 await sec('A10',async()=>{
   const SUNS=()=>R2Y3B.abSundays(), t1Of=wk=>byTag('y3_ab_w'+wk).filter(m=>m.from===AN).map(m=>m.text);

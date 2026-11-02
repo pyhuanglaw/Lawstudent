@@ -32,7 +32,8 @@ const thus=(from,to)=>{ const a=[]; for(let d=D(from);d<=D(to);d++) if(wdOf(d)==
 const plgThus=(from,to)=>thus(from,to).filter(plgOn);
 const after=()=>{ const e=CLS.afterActEvent(H.G,PLG); return e?e.id:null; };   /* classes3d.js：散會後接著演的那一件（afterActivity）*/
 const norm=t=>String(t).replace(/^「|」$/g,'');
-const inDoc=(t,doc)=>{ doc=doc||DOC; return !doc||doc.indexOf(t)>=0||doc.indexOf(norm(t))>=0; };   /* 讀不到企劃線（沒 fetch）就只比對程式 */
+const ANREV=require('./an_rev_doc.js');   /* 以安改稿（AA_587／589／592／594）改過的句子：在改成欄也算（逐列核對在 tests/aa587_b3、aa589_an_b4、aa592_an_1b、aa594_an_4b）*/
+const inDoc=(t,doc)=>{ doc=doc||DOC; return !doc||doc.indexOf(t)>=0||doc.indexOf(norm(t))>=0||ANREV.has(t)||ANREV.has(norm(t)); };   /* 讀不到企劃線（沒 fetch）就只比對程式 */
 (async()=>{
   const ok=!!X();
   check('0. src/aa187_3d.js 載得到、五個事件進了 STORY_EVENTS',ok&&!loadErr.length&&['ev_an_counted','ev_an_walk_home','ev_yt_umbrella_hook','ev_yt_family_dinner','ev_yt_thu_seat'].every(id=>!!ev(id)),J(loadErr));

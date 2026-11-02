@@ -29,6 +29,7 @@ const row614=(doc523.split('\n').find(l=>l.startsWith('| 6-14 |'))||'');   /* AA
 let doc550=''; for(const r of ['2664ed6f1','origin/claude/story-planning']){ try{ doc550=cp.execSync('git show '+r+':"docs/story_planning/AA_550_假期人物不在臺北_跨年訊息_大三大四房間旁白順序.md"',{cwd:H.ROOT,encoding:'utf8',stdio:['ignore','pipe','ignore']}); if(doc550) break; }catch(e){ doc550=''; } }
 const sec550=(doc550.split('## 4.')[1]||'');
 const norm=t=>String(t).replace(/^（/,'').replace(/）$/,'').replace(/[。：]$/,'');   /* 稿裡沒有括號的動作描寫：演成旁白、加（）*/
+const ANREV=require('./an_rev_doc.js');   /* 以安改稿（AA_587／589／592／594）改過的句子：在改成欄也算（逐列核對在 tests/aa587_b3、aa589_an_b4、aa592_an_1b、aa594_an_4b）*/
 const inDoc=(t,d)=>(d||doc).indexOf(t)>=0||(d||doc).indexOf(norm(t))>=0;
 const J=JSON.stringify, AN='heroine_01', ZR='heroine_02', YT='heroine_03', ZQ='heroine_04', SIS='heroine_05', PS='classmate_peishan', KX='kexin', ALL=[AN,ZR,YT,ZQ,SIS,PS,KX];
 const D=k=>H.D(k);
@@ -62,7 +63,7 @@ const REG=o=>{ global.CG_REGISTRY=o||{}; };
     check('0. index.html：fest_events.js、fest3d.js 接在 an_yt_hol3d.js 後面（?v= 照舊）',/src\/an_yt_hol3d\.js\?v=([^"]+)"><\/script>\n<script src="src\/data\/fest_events\.js\?v=\1"><\/script>\n<script src="src\/fest3d\.js\?v=\1"><\/script>/.test(html)); }
   check('0. STORY.PHONE_RULES、STORY.TICKS、OUT.BEFORE（校外約會）、OUT.AFTER（子晴跨年）都接了',STORY.PHONE_RULES.length>0&&STORY.TICKS.length>0&&OUT.BEFORE.length>0&&OUT.AFTER.length>0);
   { const ML=SOCIAL.MEMORY_LABEL||{}; check('0. 人物頁記憶 HOL_<節日>_<年>（1-7：「<年> 的情人節，和她一起過」照節日換字）',ML.HOL_VDAY_2027==='2027 的情人節，和她一起過'&&ML.HOL_WHITE_2026==='2026 的白色情人節，和她一起過'&&ML.HOL_QIXI_2028==='2028 的七夕，和她一起過'&&ML.HOL_BDAY_2026==='2026 的生日，和她一起過'&&ML.HOL_XMAS_2025==='2025 的聖誕節，和她一起過'&&ML.HOL_NYE_2026==='2026 的跨年，和她一起過'&&inDoc('「<年> 的情人節，和她一起過」')); }
-  { const bad=[], normed=[]; const T=(t,d)=>{ if(typeof t!=='string') return; if((d||doc).indexOf(t)>=0) return; if(inDoc(t,d)){ normed.push(t); return; } bad.push(t); };
+  { const bad=[], normed=[]; const T=(t,d)=>{ if(typeof t!=='string') return; if((d||doc).indexOf(t)>=0||ANREV.has(t)) return; if(inDoc(t,d)){ normed.push(t); return; } bad.push(t); };
     const T523=t=>{ const q=(/「[^」]+」/.exec(t)||[''])[0]; if(!(q&&row614.includes(q)&&doc.indexOf(t.replace(q,'「明年也要。」'))>=0)) bad.push('（AA_523 6-14）'+t); };
     const lines=(L,d)=>{ for(const l of (L||[])){ if(l.aa523){ T523(l.text); continue; } if(l.aa550){ if(sec550.indexOf('> 芷若：'+l.text)<0) bad.push('（AA_550 第 4 節）'+l.text); continue; } if(l.text!==undefined) T(l.text,d); if(l.scene!==undefined) T(l.scene,d); for(const c of (l.choice||[])) T(c.text,d); } };
     for(const id of ALL){ const P=FEST_DATA.PEOPLE[id];
