@@ -39416,6 +39416,87 @@
         "receiver": "BB",
         "ack": "SENT"
       }
+    },
+    {
+      "priority": "P0",
+      "first": {
+        "term": "Y1S1",
+        "week": null,
+        "earliest": "第一次期中考前（讀書、一鍵總複習）；國考與職涯在畢業以後",
+        "mainline": true,
+        "blocks": false,
+        "prereq": false,
+        "parallel": true,
+        "confirmed": true
+      },
+      "id": "LIB-FRONT-1102",
+      "title": "總圖外觀、前草坪（照五張照片）、拱廊前寬台階走得上去",
+      "owner": "LAWWW2",
+      "status": "進行中",
+      "next": "大道柏油到 x≈20、x20～87 大草坪＋龍柏籬＋大王椰子；總圖不搬；(80,0)(82,0) 與步道要通；跑 campus_layout_nav、reachability_all、flow_library_*、guide_flow、nav_buildings_unit；CC 對照 2D 110b",
+      "sha": "",
+      "source": "使用者 11-02 08:45～09:03 直接對 LAWWW2（user_asks_LAWWW2 UA-LAWWW2-1102-02～06，387fa3aeb）",
+      "xai": {
+        "spec": "使用者 11-02 08:45～09:03 直接對 LAWWW2（user_asks_LAWWW2 UA-LAWWW2-1102-02～06，387fa3aeb）",
+        "branch": "claude/second-ai-env-art",
+        "acceptance": "大道柏油到 x≈20、x20～87 大草坪＋龍柏籬＋大王椰子；總圖不搬；(80,0)(82,0) 與步道要通；跑 campus_layout_nav、reachability_all、flow_library_*、guide_flow、nav_buildings_unit；CC 對照 2D 110b",
+        "receiver": "LAWWW",
+        "ack": "ACK"
+      }
+    },
+    {
+      "priority": "P0",
+      "first": {
+        "term": "Y1S1",
+        "week": null,
+        "earliest": "第一次期中考前（讀書、一鍵總複習）；國考與職涯在畢業以後",
+        "mainline": true,
+        "blocks": false,
+        "prereq": false,
+        "parallel": true,
+        "confirmed": true
+      },
+      "id": "LIB-INTERIOR-1102",
+      "title": "總圖室內照真實平面圖重排：一樓中庭木階梯座位＋夾層、半圓大廳；B1 24h 自習室 A/B、中庭、國際會議廳、行政入口；2F/3F",
+      "owner": "LAWWW2",
+      "status": "待開工",
+      "next": "LIB-FRONT 之後；舊配置能用的沿用；劇情站位照舊或給對照表",
+      "sha": "",
+      "source": "同上",
+      "xai": {
+        "spec": "同上",
+        "branch": "claude/second-ai-env-art",
+        "acceptance": "LIB-FRONT 之後；舊配置能用的沿用；劇情站位照舊或給對照表",
+        "receiver": "LAWWW",
+        "ack": "ACK"
+      }
+    },
+    {
+      "priority": "P0",
+      "first": {
+        "term": "Y1S1",
+        "week": null,
+        "earliest": "第一次期中考前（讀書、一鍵總複習）；國考與職涯在畢業以後",
+        "mainline": true,
+        "blocks": false,
+        "prereq": false,
+        "parallel": true,
+        "confirmed": true
+      },
+      "id": "CAMPUS-RELAYOUT-1102",
+      "title": "系館照官方地圖排相對位置；舊社科院 (112,−62) 命名",
+      "owner": "LAWWW2",
+      "status": "待開工",
+      "next": "命名等使用者回（LAWWW2 建議電機二館）；LIB 之後",
+      "sha": "",
+      "source": "同上",
+      "xai": {
+        "spec": "同上",
+        "branch": "claude/second-ai-env-art",
+        "acceptance": "命名等使用者回（LAWWW2 建議電機二館）；LIB 之後",
+        "receiver": "LAWWW",
+        "ack": "ACK"
+      }
     }
   ]
 }
