@@ -52,5 +52,5 @@ py -3 "$env:USERPROFILE\Documents\Lawstudent_cclocal\tools\cc_local\run_queue.py
    - **不會**停在 `>>`。如果停在 `>>`，按 Ctrl+C，重新貼那一行。
 4. **出問題就退回**：按 Ctrl+C 停下來，改貼原本的舊指令（舊的 PowerShell runner 沒動）：
 ```
-powershell -ExecutionPolicy Bypass -File "$env:USERPROFILE\Documents\Lawstudent\tools\cc_local\run_queue.ps1"
+powershell -ExecutionPolicy Bypass -File "$env:USERPROFILE\Documents\Lawstudent_cclocal\tools\cc_local\run_queue.ps1"
 ```
