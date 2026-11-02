@@ -5297,7 +5297,7 @@
     "assets/models/env/second_ai/library_b1.layout.json",
     "docs/art-rebuild/second_ai/test_shots/library_b1_v41_1102/README.md"
    ],
-   "state": "已交付（READY_FOR_ART_REVIEW；BB 給使用者看照片對照、使用者點頭才標 ART_APPROVED）",
+   "state": "已定稿 ART_APPROVED（BB_242 標在 cca10dd55；使用者 19:2x「B1 4.1 版可以，標定稿」）",
    "remaining": "B1 光照烘焙（BB_242 ⑥，排到使用者電腦）；牆裙以上偏灰是沒烘光的關係；沒有 B1 專用的瀏覽器流程測試；沒跑實機",
    "next": "已整合第四版（5627d9453）就套 library_b1_v41_incr_1102.patch（5627d9453、1a5110e07 apply --check 乾淨）＋換三個二進位；跑 library_b1_unit、b1story_unit、aa497_supporting_unit 等 9 支",
    "noDirectIntegrate": false,
@@ -5349,9 +5349,9 @@
   },
   {
    "branch": "claude/second-ai-env-art",
-   "sha": "(本 commit)",
+   "sha": "47851b07d",
    "receiver": "LAWWW",
-   "ack": "SENT",
+   "ack": "ACK",
    "task": "LIB-FRONT-1102 v3.2（BB_234 ①③④：拱廊深度、白石立面線腳、近看磚石）",
    "files": [
     "assets/models/env/second_ai/campus_library.glb",
@@ -5364,7 +5364,8 @@
    "remaining": "拱廊後牆花崗石近看一格一格；白石線腳遠看不明顯；campus_glb_integration、實機沒跑",
    "next": "只換三個二進位（layout.json 和 v3.1 一模一樣、材質名字不變，程式不用改）；跑 lib_front_unit 等 3 支、reachability_all(campus)",
    "noDirectIntegrate": false,
-   "note": "拱廊後牆白石→花崗石、天花板 #e6e1d7→#a49d91、中間三拱吊燈（玻璃晚上亮）；白石面壁柱／腰帶／簷口／拱心石／拱墩；磚法線 1.2＋對比 1.25、石材法線 0.9。材質 13→13、三角形 8771→9081。Node 3 支 ALL PASS，截圖 13 張沒有 JS 例外"
+   "note": "拱廊後牆白石→花崗石、天花板 #e6e1d7→#a49d91、中間三拱吊燈（玻璃晚上亮）；白石面壁柱／腰帶／簷口／拱心石／拱墩；磚法線 1.2＋對比 1.25、石材法線 0.9。材質 13→13、三角形 8771→9081。Node 3 支 ALL PASS，截圖 13 張沒有 JS 例外",
+   "integrated": "int/m590（LAWWW 19:48：換 campus_library.glb／json，讀 campus_library 的單元測試 ALL PASS；跟這一批進開發分支給 BB 驗收）"
   }
  ]
 }

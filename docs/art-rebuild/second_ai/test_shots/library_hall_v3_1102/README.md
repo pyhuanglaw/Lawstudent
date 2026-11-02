@@ -41,6 +41,10 @@
 - **遊戲**（`src/library_hall_v2.js`）：
   - 展演廳的窗景：`lawn`（舊版遊戲拍的紅磚中庭）→ `trees`（新的 `assets/models/env/library_view_trees_day.webp`、`_night.webp`）。
   - 「看展演廳」的文字照新的樣子改。
+- **授權**（`docs/art-rebuild/second_ai/patches/licenses_large_sandstone_1102.patch`，在 `1a5110e07` 上 apply --check 乾淨）：
+  - `LICENSES.md` 補一列 Poly Haven `large_sandstone_blocks`（CC0）：展演廳的白色石牆。
+  - 美國校園的石灰岩台基（`us_campus_kit.py`）早就在用，之前漏登，一起補。
+  - 作者名字這裡查不到（離線），先寫「作者見原頁」，不用猜的。
 
 ## 二、測試（做到哪裡）
 
