@@ -27,7 +27,8 @@ let doc=''; try{ doc=cp.execSync('git show 53af5dfc4:"docs/story_planning/AA_396
 await sec(0,()=>{ const html=fs.readFileSync(path.join(H.ROOT,'index.html'),'utf8');
   check('0. 新檔載得到、index.html 接在 sis_b9_3d.js 後面；STORY.sisNyeDate',ok1&&ok2&&!!X()&&typeof STORY.sisNyeDate==='function'&&/sis_b9_3d\.js\?v=[^"]+"><\/script>\n<script src="src\/data\/sis_b10_events\.js\?v=[^"]+"><\/script>\n<script src="src\/sis_b10_3d\.js\?v=[^"]+"><\/script>/.test(html));
   const all=J(SISB10_EVENTS)+J(SISB10_LINES), q=[...all.matchAll(/"(?:text|t|r)":"([^"]+)"/g)].map(m=>m[1]).concat(Object.values(SISB10_LINES).flat().filter(x=>typeof x==='string'));
-  const notIn=[...new Set(q)].filter(t=>doc.indexOf(t.replace(/^「|」$/g,''))<0&&!['映月湖','總圖前','學姊家的巷口','跨年：映月湖','跨年：總圖前','跨年：學姊家的巷口','走路 約 10 分鐘','捷運 約 30 分鐘','總圖・門口','巷口的便利商店前','電話','法圖・二樓','兩點半 Café'].includes(t));
+  const A591=require('./aa591_doc.js');   /* AA_591（學姊改稿第四批，企劃線 6b35748c7）改過的句子在 AA_591 的表上 */
+  const notIn=[...new Set(q)].filter(t=>doc.indexOf(t.replace(/^「|」$/g,''))<0&&!A591.has(t.replace(/^「|」$/g,''))&&!['映月湖','總圖前','學姊家的巷口','跨年：映月湖','跨年：總圖前','跨年：學姊家的巷口','走路 約 10 分鐘','捷運 約 30 分鐘','總圖・門口','巷口的便利商店前','電話','法圖・二樓','兩點半 Café'].includes(t));
   check('0. 每一句台詞、選項都在稿裡（一字不差）',!!doc&&!notIn.length,J(notIn)); });
 /* ---- 1 ---- */
 await sec(1,async()=>{ fresh('2026-12-24',20,'TW','FRIEND'); H.date(ID); H.at('2026-12-24',21); ph(); const m=(H.G.msgs||[]).find(x=>x.ask&&x.ask.id==='sisb10_nye_ask_y2');
@@ -50,7 +51,7 @@ await sec(1,async()=>{ fresh('2026-12-24',20,'TW','FRIEND'); H.date(ID); H.at('2
   PHONE.answer(H.G,'sisb10_nye_ask_y4',0); ph(); H.at('2028-12-31',21.2); ph(); const c4=OUT.get(H.G,'sisb10_nye_call_y4');
   check('1. 大四：12/26 才問（12/24 不問）；頂樓＝祐廷打過去（「打給書瑀」）',!early&&!!c4&&c4.verb==='打過去'&&c4.title==='打給書瑀',J(c4));
   H.at('2029-01-01',0.1); await goOut('sisb10_nye_call_y4'); check('1. 大四零點：「……喂。我醒著。」「新年快樂。你們那邊好吵。好，你回去。」',seq(['……喂。我醒著。','新年快樂。你們那邊好吵。好，你回去。']));
-  for(const [r,cold,line,coat] of [['TW',true,'新年快樂。……今年在同一個時區了。','我說過很醜。'],['US',false,'新年快樂。……臺灣比較暖。','美國買的。……很暖，所以醜一點沒關係。']]){ fresh('2028-12-26',21,r,'FRIEND',cold?{SIS_MAPLE_MSG:'cold'}:{}); H.date(ID); ph(); PHONE.answer(H.G,'sisb10_nye_ask_y4',1); ph(); H.at('2028-12-31',21.2); ph(); const q5=OUT.get(H.G,'sisb10_nye_y4'); H.at('2028-12-31',23.1); await goOut('sisb10_nye_y4',[1]);
+  for(const [r,cold,line,coat] of [['TW',true,'新年快樂。今年在同一個時區了。','我說過很醜。'],['US',false,'新年快樂。臺灣比較暖。','美國買的。……很暖，所以醜一點沒關係。']]){ fresh('2028-12-26',21,r,'FRIEND',cold?{SIS_MAPLE_MSG:'cold'}:{}); H.date(ID); ph(); PHONE.answer(H.G,'sisb10_nye_ask_y4',1); ph(); H.at('2028-12-31',21.2); ph(); const q5=OUT.get(H.G,'sisb10_nye_y4'); H.at('2028-12-31',23.1); await goOut('sisb10_nye_y4',[1]);
     check('1. 大四去她家巷口（'+r+'）：23:40、捷運 30 分；「那件外套好醜。」→「'+coat+'」；最後「'+line+'」',!!q5&&Math.abs(q5.h-(23+40/60))<1e-6&&q5.travelH===0.5&&has(coat)&&has(line)&&!has('最後'),J(H.said.map(x=>x.t))); }
   fresh('2026-12-24',21,'TW','FRIEND'); ph(); check('1. 沒和她交往：沒有私訊',!(H.G.msgs||[]).some(x=>/^sisb10_/.test(x.tag||''))); });
 /* ---- 2 ---- */
@@ -85,7 +86,7 @@ await sec(4,async()=>{ const day=(a,b)=>{ for(let d=D(a);d<=D(b);d++) if([1,2,4]
   check('4. Q1（2029-10）：「你也還在來。」…「工作還好嗎？」→…「好。我把這段看完。你坐。」；SIS_PG_Q 1；熟悉 +1、自在 +1',a===true&&seq(['（她換了一個新的包包。筆電旁邊放著一張識別證，背面朝上。）','你也還在來。','每天都在寫報告，寫為什麼有人找不到律師。','好。我把這段看完。你坐。'])&&H.G.flags.SIS_PG_Q===1,J(H.said.map(x=>x.t)));
   for(const [rain,line] of [['buy','我現在都帶兩把。……說過的。'],['share','今天這一頁我有看。……寫的是「Café，帶傘」。'],[null,'下雨天，這裡人比較少。']]){ fresh('2030-01-02',19,'TW','FAMILIAR',rain?{SIS_Y3S2_RAIN:rain}:{}); H.G.events.done.ev_sis_pg_q1=1; await talk(day('2030-01-02','2030-01-31'),[1]);
     check('4. Q2 開頭（'+(rain||'都沒有')+'）：「'+line+'」',has(line)&&has('十二月結案，很累。一月比較好。'),J(H.said.map(x=>x.t))); }
-  fresh('2030-04-01',19,'TW','FAMILIAR'); await talk(day('2030-04-01','2030-04-30'),[0]); check('4. Q3：「……我以前改你的筆記，你是不是很討厭。」→「有一點。」',has('……我以前改你的筆記，你是不是很討厭。')&&has('……現在改他的，我改得比較少。'));
+  fresh('2030-04-01',19,'TW','FAMILIAR'); await talk(day('2030-04-01','2030-04-30'),[0]); check('4. Q3：「……我以前改你的筆記，你是不是很討厭。」→「有一點。」',has('……我以前改你的筆記，你是不是很討厭。')&&has('現在看他的，我改得比較少。'));
   fresh('2030-09-01',19,'TW','FAMILIAR'); await talk(day('2030-09-01','2030-09-30'),[1]); check('4. Q4：「熱水。不是咖啡。」→（坐下）',has('熱水。不是咖啡。')&&has('（你們坐到十點。她先收好書，等你收完才一起走。）'));
   fresh('2029-11-05',19,'TW','FAMILIAR'); const late=await talk('2029-11-05'); check('4. 窗口過了（11 月）：Q1 不補',late!==true&&!H.G.events.done.ev_sis_pg_q1);
   fresh('2029-10-01',19,'TW','FAMILIAR'); H.date('kexin'); const o=await talk(day('2029-10-01','2029-10-31')); fresh('2029-10-01',19,'TW','FAMILIAR'); H.date(ID); const d1=await talk(day('2029-10-01','2029-10-31'));

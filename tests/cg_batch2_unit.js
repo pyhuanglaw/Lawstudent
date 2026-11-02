@@ -65,16 +65,17 @@ const run=async(id,picks)=>{ H.said=[]; H.cgs=[]; H.picks=picks||[]; await EVENT
   { const G=H.fresh('2029-06-02',12,'campus'); H.FRIEND('heroine_03'); H.said=[]; H.bgs=[]; await PG.yt17(GM);
     check('3. 語彤事件 17 朋友版：沒有 CG-21、不換背景',cgAt('cg_one_umbrella_heroine03')<0&&idx('恭喜。……我還要一年，今天先穿一次學士服。')>=0&&H.bgs.length===0); }
   // 學姊的學期末告白（termend3d.js walkHome）：AA_343 E1 便條那一拍＋BCG-44「沒有念的便條」
-  { const N1='（她手上拿著一張摺過的小便條。從吃飯的時候就一直拿著。）', NY='（她把便條摺好，收進口袋。上面寫的字，她一句都沒有念。）', NS='（便條上寫滿了字。她一句都沒有照著念。）', W='時間差不多了。……你剛剛好像一直想講什麼。', C44='cg_three_things_heroine05';
+  { const N1='（她手上拿著一張摺過的小便條。從吃飯的時候就一直拿著。）', NY='（便條上寫的字，她一句都沒有念。）', NS='（便條上寫滿了字。她一句都沒有照著念。）', W='時間差不多了。……你剛剛好像一直想講什麼。', C44='cg_three_things_heroine05';
     const walk=async(term,picks,think)=>{ const G=H.fresh('2027-06-25',20,'campus'); H.FRIEND('heroine_05'); if(think) TERMEND.rec(G).think.heroine_05=think; H.said=[]; H.picks=picks; return TERMEND.walkHome(GM,'heroine_05',term); };
     { const r=await walk('Y1S2',[0]), c=cgAt(C44), w=idx(W), n=idx(N1), a=idx('（她笑了。）你確定？'), ok=idx('我很難相處喔。'), go=idx('（她把便條收進口袋，把手伸給你。）走吧。'), e=idx(NY);
       /* AA_590 第 80～82 列（決3 乙，共創第七、八批；BB_235：BCG-44 在「我很難相處喔。」那一拍）：原本「……我知道。」「其實我也是。……」BCG-44「好。」 */
-      check('3. 學姊答應（玩家先說）：回家路上第一句 → 便條旁白 →「（她笑了。）你確定？」→ BCG-44 在「我很難相處喔。」（前一拍）→「（她把便條收進口袋，把手伸給你。）走吧。」→「（她把便條摺好……她沒有念。）」；兩句旁白沒有說話的人',r==='yes'&&w>=0&&n===w+1&&a===n+1&&c===a+1&&ok===c+1&&go===ok+1&&e===go+1&&!H.has('……我知道。')&&H.said[n].who===null&&H.said[e].who===null&&!H.has(NS),JSON.stringify(H.said)); }
-    { const r=await walk('Y1S2',[3,0]), c=cgAt(C44), s0=idx('你不講，那我講。'), n=idx(N1), s1=idx('這件事我想了一個禮拜。'), l=idx('……我喜歡你。'), s3=idx('我原本想講得比較好。'), e=idx(NS);
-      check('3. 學姊她說：「你不講，那我講。」→ 便條旁白 →「這件事我想了一個禮拜。」→ BCG-44 在「……我喜歡你。」→「我原本想講得比較好。」→「（便條上寫滿了字。她一句都沒有照著念。）」',r==='sheSaid'&&s0>=0&&n===s0+1&&s1===n+1&&c===s1+1&&l===c+1&&s3===l+1&&e===s3+1&&!H.has(NY),JSON.stringify(H.said)); }
+      check('3. 學姊答應（玩家先說）：回家路上第一句 → 便條旁白 →「（她笑了。）你確定？」→ BCG-44 在「我很難相處喔。」（前一拍）→「（她把便條收進口袋，把手伸給你。）走吧。」→「（便條上寫的字，她一句都沒有念。）」（AA 11-02 20:26 改字：「收進口袋」重複）；兩句旁白沒有說話的人',r==='yes'&&w>=0&&n===w+1&&a===n+1&&c===a+1&&ok===c+1&&go===ok+1&&e===go+1&&!H.has('……我知道。')&&H.said[n].who===null&&H.said[e].who===null&&!H.has(NS),JSON.stringify(H.said)); }
+    /* AA_591 第 11 節第 13 點（使用者 2026-11-02「學姊不會先說」）：她先說的那一支拿掉——祐廷選「（先不說）」＝什麼都沒發生（沒有便條、沒有 BCG-44）*/
+    { const r=await walk('Y1S2',[3,0]);
+      check('3. 學姊不先說（AA_591）：「（先不說）」＝silent；沒有「你不講，那我講。」「……我喜歡你。」、沒有便條旁白、沒有 BCG-44',r==='silent'&&!H.has('你不講，那我講。')&&!H.has('……我喜歡你。')&&!H.has(N1)&&!H.has(NS)&&cgAt(C44)<0,JSON.stringify(H.said)); }
     { await walk('Y2S1',[0],'Y1S2'); const a=cgAt(C44)<0&&!H.has(N1)&&!H.has(NY)&&H.has('……這次是你先說。');
-      await walk('Y2S1',[3,0],'Y1S2'); const b=cgAt(C44)<0&&!H.has(N1)&&!H.has(NS)&&H.has('上學期那件事，我到現在還是一樣。……你呢？');
-      check('3. 學姊第二次（上次選「讓我想想」）：答應、她說都沒有便條、沒有 BCG-44（一個玩家只看到一次）',a&&b); }
+      await walk('Y2S1',[3,0],'Y1S2'); const b=cgAt(C44)<0&&!H.has(N1)&&!H.has(NS)&&!H.has('上學期那件事，我到現在還是一樣。……你呢？');   /* she2 也拿掉（AA_591）*/
+      check('3. 學姊第二次（上次選「讓我想想」）：答應沒有便條、沒有 BCG-44（一個玩家只看到一次）；「（先不說）」她也不先說（AA_591）',a&&b); }
     { const r=await walk('Y4S2',[0]);
       check('3. 學姊畢業那天傍晚（大四下）答應：一樣有便條那一拍、BCG-44 在「我很難相處喔。」（AA_590 決3）',r==='yes'&&idx(N1)>=0&&cgAt(C44)===idx('我很難相處喔。')-1&&idx(NY)===idx('（她把便條收進口袋，把手伸給你。）走吧。')+1,JSON.stringify(H.said)); } }
   // 已經寫好 cg 的事件：key 都登錄了（之前 ADV.cg 找不到就不顯示）

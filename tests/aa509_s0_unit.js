@@ -39,8 +39,8 @@ const rd=f=>fs.readFileSync(path.join(ROOT,f),'utf8');
 
 const ent=(k,h,id)=>{ fresh(D(k),h,'campus',{}); const e=STORY.schedEnt(CHARACTERS[id],G); return e?{zone:e.zone,act:e.act,seat:e.seat,away:e.away}:null; };
 { const a=rd('src/data/sis_y2y3_events.js'), b=rd('src/data/sis_jp_events.js'), m=rd('src/data/msg_pool.js');
-  check('1. 學姊論文：大三上「八月走，十二月回來。論文的第四章，要在那邊寫。」；回覆池「在改論文的第四章。」；日本路線「……我四月中寫到第三章，拍給你看。這是我自己要做到的。」、j2「第三章被教授退回來一半。」',
-    a.includes("SIS('八月走，十二月回來。論文的第四章，要在那邊寫。')")&&!a.includes('論文的第三章，要在那邊寫')&&m.includes('"在改論文的第四章。"')&&!m.includes('在改論文的第二章')&&b.includes("SIS('……我四月中寫到第三章，拍給你看。這是我自己要做到的。')")&&b.includes("SIS('第三章被教授退回來一半。')")&&!b.includes('第四章被教授退回來一半')); }
+  check('1. 學姊論文：大三上「八月走，十二月回來。論文的第四章，要在那邊寫。」；回覆池「在改論文的第四章。」；日本路線「我四月中會寫到第三章。寫到了，拍給你看。」、j2「第三章被教授退回來一半。」',
+    a.includes("SIS('八月走，十二月回來。論文的第四章，要在那邊寫。')")&&!a.includes('論文的第三章，要在那邊寫')&&m.includes('"在改論文的第四章。"')&&!m.includes('在改論文的第二章')&&b.includes("SIS('我四月中會寫到第三章。寫到了，拍給你看。')")&&b.includes("SIS('第三章被教授退回來一半。')")&&!b.includes('第四章被教授退回來一半')); }
 { const s=rd('src/r2y3b3d.js'); check('2. 語彤 2028-07-09 生日回覆「……謝謝。今年的田野，訪問到第二十二個了。」',s.includes("text:'……謝謝。今年的田野，訪問到第二十二個了。'")&&!s.includes('訪問到第二十三個了')); }
 { const n1=ent('2028-09-14',19,'heroine_01'), n13=ent('2028-11-30',19,'heroine_01'), n14=ent('2028-12-07',19,'heroine_01'), rg=ent('2028-11-30',20.5,'heroine_01'), lib=ent('2028-12-07',20.5,'heroine_01'), y3=ent('2027-09-16',19,'heroine_01');
   check('3. 以安大四上週四 19:00 在麵店（第 2 週 9/14、第 13 週 11/30）；第 14 週 12/7 不是；大三上不是',n1&&n1.zone==='noodle'&&n13&&n13.zone==='noodle'&&!(n14&&n14.zone==='noodle')&&!(y3&&y3.zone==='noodle'),J({n1,n13,n14,y3}));

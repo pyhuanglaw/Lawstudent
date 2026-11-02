@@ -227,7 +227,7 @@ const date=id=>H.date(id);
   answer('y4_sis_ride',0); phone(); PHONE.tick(H.G); at('2028-07-26',21.3); phone();
   check('W1 單身、FRIEND 以上：Kevin「學弟的車！家聚那台！」（AA_207 §7 第 5 列：Kevin 不是直屬）→ 兩個人：她私訊「……你確定？……」；排 8/2 08:00（鬧鐘）', th('g:family_law').includes('學弟的車！家聚那台！')&&!th('g:family_law').includes('直屬學弟的車！家聚那台！')&&th('p:heroine_05').join('|')==='……你確定？到機場要一個多小時，還要上高速公路。|確定。|……好。'&&OUT.get(H.G,'y4_sis_airport')&&OUT.get(H.G,'y4_sis_airport').alarm===true);
   at('2028-08-02',7.9); await goOut('y4_sis_airport');
-  check('W1 兩個人的車、機場「回程路上喝。冰的。」「……回到家傳訊息給我。」；DROVE_HER；SIS_SENDOFF two', has('（她一路看著前面的路。）')&&has('回程路上喝。冰的。')&&has('……回到家，傳訊息給我。')&&!has('（Kevin 一路講話，學妹睡著。）')&&SOCIAL.has('heroine_05','DROVE_HER')&&H.G.flags.SIS_SENDOFF==='two');
+  check('W1 兩個人的車、機場「回程路上喝。冰的。」「回到家，傳訊息給我。」（AA_591 第 52 列）；DROVE_HER；SIS_SENDOFF two', has('（她一路看著前面的路。）')&&has('回程路上喝。冰的。')&&has('回到家，傳訊息給我。')&&!has('（Kevin 一路講話，學妹睡著。）')&&SOCIAL.has('heroine_05','DROVE_HER')&&H.G.flags.SIS_SENDOFF==='two');
   check('AA_337 第 3 題 機場的旁白改早上：下車處第一句「（八月的早上，機場外面已經很熱了。）」（沒有午後雷陣雨）', idx('（八月的早上，機場外面已經很熱了。）')>idx('（她一路看著前面的路。）')&&idx('（八月的早上，機場外面已經很熱了。）')<idx('回程路上喝。冰的。')&&!H.said.some(s=>/雷陣雨/.test(s.t)));
   at('2028-08-03',9); phone();
   check('W1 8/3 私訊 US0「是因為那是高速公路。」', th('p:heroine_05').includes('是因為那是高速公路。')&&!th('g:family_law').includes('這裡的天空很大，大家保重。'));
@@ -236,7 +236,7 @@ const date=id=>H.date(id);
     /* AA_392 第 2-2 節：說過要送的（HOOK_SIS_SENDOFF）群組那則沒有 Kevin 的按鈕，21:05 她私訊「八月二號早上八點，我家樓下。」「你說要送我。」→「我開車去載妳。」＝照原本的共乘 */
     check('W2 交往中（別人）、說過要送：群組沒有按鈕；私訊回「我開車去載妳。」→「我也要去！我坐後面！」學妹「我也要！」', !(gb&&gb.ask)&&th('p:heroine_05').slice(0,2).join('|')==='八月二號早上八點，我家樓下。|你說要送我。'&&th('g:family_law').includes('我也要去！我坐後面！')&&th('g:family_law').includes('我也要！'), JSON.stringify(th('p:heroine_05')));
     at('2028-08-02',7.9); await goOut('y4_sis_airport');
-    check('W2 家族共乘：「Kevin，看前面的是司機，不是你。」、說過要送＝「……你說你會來。」、「回到家在群組說一聲」', has('Kevin，看前面的是司機，不是你。')&&has('……你說你會來。')&&has('……回到家，在群組說一聲。')&&H.G.flags.SIS_SENDOFF==='family');
+    check('W2 家族共乘：「Kevin，看前面的是司機，不是你。」、說過要送＝「……你說你會來。」、「回到家在群組說一聲」', has('Kevin，看前面的是司機，不是你。')&&has('……你說你會來。')&&has('回到家，在群組說一聲。')&&H.G.flags.SIS_SENDOFF==='family');
     /* 2026-10-28 改：AA_497 5-4（企劃線 7a38216ca）「學姊多講兩個字」只留第一次——US0 第 2、3 則換成 Kevin「天空有多大 拍給我們看啦」、學姊「（照片：停車場上面的天空）」「大家保重。」（tests/aa497_supporting_unit.js 5-4）*/
     at('2028-08-03',9); phone(); { const T=th('g:family_law'), i=T.indexOf('到了。天空很大。'); check('1B-18 家族共乘：US0 在家族群組「到了。天空很大。」「天空有多大 拍給我們看啦」「（照片：停車場上面的天空）」「大家保重。」（AA_497 5-4）', i>=0&&JSON.stringify(T.slice(i,i+4))===JSON.stringify(['到了。天空很大。','天空有多大 拍給我們看啦','（照片：停車場上面的天空）','大家保重。'])&&!T.includes('學姊妳可以多講兩個字'), JSON.stringify(T.slice(-6))); } }
   { fresh('2028-07-26',21,'dorm',{},'JP'); H.FRIEND('heroine_05'); PHONE.join(H.G,'family_law','法律系直屬家族'); phone(); const early=(H.G.msgs||[]).some(x=>x.text==='我搭客運去機場。大家不用送。');
@@ -378,7 +378,7 @@ const date=id=>H.date(id);
   fresh('2029-05-28',20,'dorm'); H.FRIEND('heroine_05'); PHONE.join(H.G,'family_law','法律系直屬家族'); at('2029-05-28',21); phone();
   check('1B-25 5/28 21:00 家族群組 Kevin「學姊明天下午四點口試！……」學姊「……不用來。」→ 出遊 16:00～18:00', th('g:family_law').join('|')==='學姊明天下午四點口試！大家去門口等！|……不用來。'&&!!OUT.get(H.G,'y4_m9')&&OUT.get(H.G,'y4_m9').late===2);
   at('2029-05-29',15.9); await goOut('y4_m9');
-  check('M1 朋友、去了：「等妳。大家都是。」「販賣機的。」BCG-10；SIS_DEFENSE there', has('過了。')&&has('等妳。大家都是。')&&has('……好。我請大家喝飲料。販賣機的。')&&H.cgs.includes('cg_defense_day_heroine05')&&H.G.flags.SIS_DEFENSE==='there');
+  check('M1 朋友、去了：「許老師怎麼說？」「販賣機的。」BCG-10；SIS_DEFENSE there', has('過了。')&&has('許老師怎麼說？')&&has('好。我請大家喝飲料。販賣機的。')&&H.cgs.includes('cg_defense_day_heroine05')&&H.G.flags.SIS_DEFENSE==='there');
   { const setters=fs.readdirSync(path.join(H.ROOT,'src')).filter(f=>/\.js$/.test(f)).map(f=>'src/'+f).concat(fs.readdirSync(path.join(H.ROOT,'src/data')).filter(f=>/\.js$/.test(f)).map(f=>'src/data/'+f))
       .filter(f=>/RA_WORK['"]?\s*:(?!\s*\{)|RA_WORK\s*=(?!=)/.test(fs.readFileSync(path.join(H.ROOT,f),'utf8')));
     check('第 6 題 RA_WORK 不設（M8 作廢）：沒有任何檔案寫它；M9 走「沒有」那一版（沒有「致謝裡有你。寫的是研究助理。」）', !setters.length&&!has('致謝裡有你。寫的是研究助理。'), setters.join(',')); }

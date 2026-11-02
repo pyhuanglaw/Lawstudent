@@ -285,7 +285,7 @@ const interact=async(o)=>{ said=[]; opts=[]; caps=[]; toasts=[]; return STORY.in
   check('G6／US-G. 11/23 早上湖邊 US3：開頭「（八月你們來的時候……）」、最後「晚上來 C 棟。室友不在。」', said[0]&&said[0].t==='（八月你們來的時候，湖邊都是遛狗的人。今天只有你們。）'&&lines().slice(-1)[0]==='溫學姊：晚上來 C 棟。室友不在。'||lines().some(l=>/晚上來 C 棟。室友不在。$/.test(l)), JSON.stringify(lines().slice(-2)));
   rules(); { const q=OUT.get(G,'usl_thanks'); check('G6. US3 之後排 17:30 感恩節的晚餐（C 棟 208）', !!q&&q.h===17.5&&q.day===D('2028-11-23')); }
   G.flags.MET_LONG=true; at('2028-11-23',17.3); picks=[1]; await go('usl_thanks');
-  check('G6／US-G. 17:30 C 棟 208：湯和火雞胸；「感恩節要說感謝什麼？」→「（她想了很久。）」「……今天湖邊那一句，算不算。」', has('（C 棟 208 的廚房只開了一盞燈。她用帶來的小鍋子煮了一鍋湯，旁邊是超市買的一小塊火雞胸。）')&&has('火雞我不會烤。……這是超市烤好的。')&&has('……今天湖邊那一句，算不算。'));
+  check('G6／US-G. 17:30 C 棟 208：湯和火雞胸；「感恩節要說感謝什麼？」→「（她想了很久。）」「……今天湖邊那一句，算不算。」', has('（C 棟 208 的廚房只開了一盞燈。她用帶來的小鍋子煮了一鍋湯，旁邊是超市買的一小塊火雞胸。）')&&has('火雞我不會烤。這是超市烤好的。')&&has('……今天湖邊那一句，算不算。'));
   runRules('2028-11-23',19,19.75); check('G6. 有 MET_LONG：19:30 何俊朗「你們吃火雞了嗎。我吃了泡麵。還好。」', txt('p:npc_long').includes('npc_long:你們吃火雞了嗎。我吃了泡麵。還好。'));
   fresh('2028-11-22',21,'us_apartment',US({MET_LONG:true})); rules(); { const q0=OUT.get(G,'usl_thanks_long'); runRules('2028-11-23',8,16.75); const m0=txt('p:npc_long').length; runRules('2028-11-23',17,17.25); const q=OUT.get(G,'usl_thanks_long');
     check('G6／US-B／I6. 挽回中、有 MET_LONG：11/23 17:00 何俊朗私訊「感恩節。兩個沒地方去的人。」「七點，會所。」（AA_345 I6；11/22 晚上還沒排）→ 19:00 會所', !q0&&!m0&&JSON.stringify(txt('p:npc_long'))===JSON.stringify(['npc_long:感恩節。兩個沒地方去的人。','npc_long:七點，會所。'])&&G.msgs.find(m=>m.th==='p:npc_long').h===17&&!!q&&q.h===19, JSON.stringify(txt('p:npc_long')));

@@ -139,7 +139,7 @@ const PRIVTALK=(function(){
     /* ---- AA_512 學姊第十三批（PRIV-SIS13-1028；AA-C 08:29、AA_512 第 7 節）：擋研究室的晚上、13-3 走一圈（期限 12/7）、13-6 洗衣間；不擋 13-8 游完泳、13-6 三句短招呼 ---- */
     {key:'sis13_lab_eve',cat:'交往中才有的互動',topic:'學姊研究室的晚上',who:'heroine_05',kind:'event',gate:'prereq',ev:'ev_sis13_lab_eve',desc:'src/data/sis_b13_events.js 2-5「七點以後。……你準時。」（交往中，週一、三 19:00～21:30 霖澤館 5F 研究室，走進去就演）',
       note:'旁邊有人＝這一次不演；沒有期限（第 8 天起照演、開頭旁白）'},
-    {key:'sis13_walk',cat:'還沒公開',topic:'學姊爸爸的剪報',who:'heroine_05',kind:'event',gate:'prereq',ev:'ev_sis13_walk',due:'2027-12-07',desc:'src/data/sis_b13_events.js 13-3 出來走一圈（2027-12-06～07 17:00～18:00 霖澤館穿堂門口 7 m）',
+    {key:'sis13_walk',cat:'還沒公開',topic:'學姊論文卡住出來走一圈',who:'heroine_05',kind:'event',gate:'prereq',ev:'ev_sis13_walk',due:'2027-12-07',desc:'src/data/sis_b13_events.js 13-3 出來走一圈（2027-12-06～07 17:00～18:00 霖澤館穿堂門口 7 m）',
       note:'旁邊有人＝這一次不演；期限 12/7（AA 08:29）：那天照演、開頭旁白'},
     {key:'sis13_laundry',cat:'感情',topic:'學姊美國洗衣間（挽回中）',who:'heroine_05',kind:'event',gate:'prereq',ev:'ev_sis13_laundry',due:'2028-10-20',desc:'src/data/sis_b13_events.js 13-6 洗衣間（美國路線、沒交往，2028-10-08～20 21:00～22:00 社區戶外）',
       note:'旁邊有人＝這一次不演；那一段最後一天 10/20 當期限（稿沒寫期限；AA 確認）'},

@@ -3975,6 +3975,15 @@
    "task": "AA595-LIB-NOD-THERMOS-1102",
    "kind": "text",
    "note": "四條新規則：①圖書館讀書區第一次遇到只點頭、之後台詞加「（小聲）」＝共用機制 src/libquiet3d.js（game3d.js say／caption／doInteract；存檔 G.libNod），1-B～1-D 的縮短由 AA 分批寫，不在這一筆；②學姊「你們系的交換名單」→「系上的交換名單」；③空的保溫瓶那條線（ev_sis_flask_full、flaskCoffeeDay、「上次是黑咖啡」、心願約會選項）retired／拿掉、其餘 9 處旁白不寫「空的」；④src 全部「臺北的家」→「家」（字卡、地點、提示「回家」），以安 A-L10「寒假你會回家住嗎？」（tools/ladder/import_ladder.py 疊稿）。tests/aa595_rules_unit.js。子代理 2026-11-02 代登（aa595 分支，基準 int/m590 0e11c43a3），給值班 LAWWW 核"
+  },
+  {
+   "path": "docs/story_planning/AA_591_學姊改稿_第四批_大三大四畢業後.md",
+   "sha": "6b35748c7",
+   "status": "approved",
+   "approvedBy": "AA 2026-11-02 審查（第 9 節，D109；決1～決9 定案）、BB_237 口氣審 PASS、使用者 2026-11-02 18:5x 起選擇題 14 題確認（第 11 節：「學姊第四批 14 題使用者看完，照第 11 節可以交 LAWWW」）",
+   "task": "AA591-SIS-B4-1102",
+   "kind": "text",
+   "note": "學姊改稿第四批（大三、大四、畢業以後）：手抄檔、程式，沒有產生器——tools/story/apply_line_table.py 自動換 171 列，其餘手改；你的大四你自己排（ev_sis_adv_y4，第 23～25 列）、她爸爸的晚餐（ev_sis_y4_father，決1）、208 剪報（ev_us208_clipping，決2）retired（定義留給舊存檔）；第 11 節：她不先說（大峽谷保467～469、畢業那天保630、631、AA_590 期末飯、AA_593 重新開始那一版、多段感情 Byes）；AA 對 AA_584 的補充（交往中『林{name}』、sis3h、修正本私訊、family_context）一起做"
   }
  ]
 }

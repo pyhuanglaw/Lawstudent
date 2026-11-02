@@ -48,10 +48,10 @@ const SISB14_EVENTS=(function(){
         SIS('到了。說好的，打給你。'),
         SIS('群組那張照片，天空真的那麼大。'),
         {choice:[{text:'「累嗎？」',goto:'a'},{text:'「那邊怎麼樣？」',goto:'b'},{text:'（聽她那邊的風）',goto:'c'}]},
-        {label:'a'},SIS('累。……可是睡不著。這邊才早上十點。'),{goto:'e'},
+        {label:'a'},SIS('累。可是睡不著。這邊才早上十點。'),{goto:'e'},
         {label:'b'},SIS('什麼都很大。超市、車、杯子。'),{goto:'e'},
         {label:'c'},N('（你們都沒有說話。風很大。）'),
-        {label:'e'},SIS('下週日開始，每個禮拜打。……這是第一通，不算。'),
+        {label:'e'},SIS('下週日開始，每個禮拜打。這是第一通，不算。'),
         {set:{SIS14_CALL0803:true}} ],   /* 通話多久稿沒寫：算 30 分鐘（LAWWW 排）*/
       outingMissed:(G,GM,q)=>{ const x=X(); if(x) x.callMissed(G); } },   /* 22:30 還沒接：22:40 私訊 */
     /* ---------- 2-5 12/31（日）12:00 她家的咖哩（h5 選「好吃嗎？」、交往中；照 AA_512 13-2 的地點、底圖，只有兩個人；出遊 2 小時）---------- */
@@ -62,7 +62,7 @@ const SISB14_EVENTS=(function(){
         SIS('……我在那邊攪了四十分鐘的時候，就在想這一天。'),
         {choice:[{text:'「好吃。」',goto:'a'},{text:'（再一碗）',goto:'b'}]},
         {label:'a'},SIS('嗯。你說的，我比較信。'),{goto:'e'},   /* AA_512 13-2「……你說的，我比較信。」的回聲；沒演過 13-2 的一樣說（稿 2-5）*/
-        {label:'b'},SIS('鍋子在那邊。……自己盛。'),
+        {label:'b'},SIS('鍋子在那邊。自己盛。'),
         {label:'e'},{set:{SIS14_CURRY_HOME:true}} ] },
     /* ---------- 4-1 美國路線交往中 9/2（六）14:00 208 的咖哩（開學第一週，出遊 2 小時；2D C 棟 208）---------- */
     { id:'ev_sis14_us_curry', title:'208 的咖哩', participants:[ID], location:'any', trigger:'outing', once:true, background:'dark', hours:2,
@@ -87,7 +87,7 @@ const SISB14_EVENTS=(function(){
     { id:'ev_sis14_coat', title:'外套', participants:[ID], location:'any', trigger:'outing', once:true, background:'dark', hours:1.5,
       dialogue:[ {scene:'草原超市旁邊那家店',bg:'us_coat_shop'},
         N('（外套掛滿一整面牆。）'),
-        SIS('這件。……不要，太長。這件。'),
+        SIS('這件。不要，太長。這件。'),
         N('（她挑了三件，你試了三件。最後買的是第一件。）'),
         SIS('第一件。我一開始就知道。'),
         N('（結帳的時候，她手上也多了一件。）'),

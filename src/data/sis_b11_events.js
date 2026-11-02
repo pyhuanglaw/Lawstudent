@@ -22,13 +22,13 @@ const SISB11_EVENTS=(function(){
       dialogue:[ {scene:'法圖・二樓',bg:'law_library'},
         N('（法圖二樓的長桌。她把兩張紙推過來，一張中文、一張英文。）'),
         SIS('論文的摘要。中文那一張。'),
-        SIS('你讀一次。哪裡讀不懂，就畫起來。'),
+        SIS('你讀讀看。哪裡讀不懂，畫起來就好。'),
         N('（你讀到第三行，停了一下。）'),
         {choice:[{text:'「這句太長了。」',goto:'a'},{text:'「財經法的人都這樣寫嗎？」',goto:'b'},{text:'（畫了一個圈，沒有說話）',goto:'c'}]},
         {label:'a'},SIS('（看了一眼）……我寫的時候覺得剛好。'),SIS('好。切成兩句。'),N('（她拿起筆，在中間畫了一個句號。）'),{goto:'e'},
         {label:'b'},SIS('都這樣寫。所以才找你。'),{goto:'e'},
         {label:'c'},N('（她看了那個圈很久，然後把整句劃掉，在旁邊重寫。）'),
-        {label:'e'},SIS('好。下禮拜給教授。'),SIS('……謝謝。樓下的自助餐，我請。'),
+        {label:'e'},SIS('好。下禮拜給教授。'),SIS('謝謝。樓下的自助餐，我請。'),
         N('（樓下的自助餐。她付錢的時候，摘要的資料夾一直夾在手臂下面。）'),   /* AA_470 4-4：說了自助餐我請、沒吃到——結尾那句旁白前加一句 */
         N('（她把兩張紙收進資料夾。資料夾的封面貼著一張便利貼：「5/29」。）'),
         Object.assign({set:{SIS_ABSTRACT:'went'}},mem('SIS_ABSTRACT',{fam:2,comf:2})) ],
@@ -42,16 +42,16 @@ const SISB11_EVENTS=(function(){
         {choice:[{text:'「恭喜。」',goto:'a'},{text:'「緊張嗎？」',goto:'b'},{text:'「那天我去門口等。」',goto:'c'}]},
         {label:'a'},SIS('還沒過。恭喜留到那天。'),{set:{SIS_DEF_DATE:'congrats'}},{goto:'m'},
         {label:'b'},SIS('現在不會。前一天晚上會。'),{set:{SIS_DEF_DATE:'nervous'}},{goto:'m'},
-        {label:'c'},SIS('……Kevin 一定會叫大家去。你站後面一點就好。'),{set:{SIS_DEF_DATE:'wait'}},   /* wait：不在家族群組的，5/28 21:00 她私訊（src/sis_b11_3d.js S.m9）*/
+        {label:'c'},SIS('Kevin 一定會叫大家去。你站後面一點就好。'),{set:{SIS_DEF_DATE:'wait'}},   /* wait：不在家族群組的，5/28 21:00 她私訊（src/sis_b11_3d.js S.m9）*/
         {label:'m'},{scene:'椰影大道',bg:'ntu_avenue'},
         N('（你們沿著椰影大道走了一段。路燈一盞一盞亮起來。）'),
         SIS('口試完，就要開始上班了。'),
         SIS('你呢。你那條路，走到哪裡了。'),
         {choice:[{text:'「還在走。」',goto:'p'},{text:'「我不確定是不是對的。」',goto:'q'}]},
         {label:'p'},SIS('嗯。走就好。'),{goto:'e'},
-        {label:'q'},SIS('我碩三才確定。……你比我早一年。'),
+        {label:'q'},SIS('我碩三才確定。你比我早一年。'),
         {label:'e'},N('（走到校門口，她說她要往捷運站。）'),
-        SIS('五月二十九日。……不用帶東西。'),
+        SIS('五月二十九日。不用帶東西。'),
         mem('SIS_DEFENSE_DATE',{fam:2,comf:3,trust:1}) ] } ];
 })();
 for(const e of SISB11_EVENTS){ if(!STORY_EVENTS.some(x=>x.id===e.id)) STORY_EVENTS.push(e); }

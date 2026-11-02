@@ -36,7 +36,8 @@ await sec(0,()=>{ const html=fs.readFileSync(path.join(H.ROOT,'index.html'),'utf
   check('0. 新檔載得到、index.html 接在 sis_qixi3d.js 後面',ok1&&ok2&&!!X()&&/sis_qixi3d\.js\?v=[^"]+"><\/script>\n<script src="src\/data\/sis_jp_events\.js\?v=[^"]+"><\/script>\n<script src="src\/sis_jp3d\.js\?v=[^"]+"><\/script>/.test(html));
   const all=J(SISJP_EVENTS)+J(SISJP_LINES), q=[...all.matchAll(/text":"([^"]+)"/g)].map(m=>m[1]).concat(Object.values(SISJP_LINES).flat().flatMap(x=>typeof x==='string'?[x]:(x&&x.L)||[]));
   const OK=['📷（一張手寫的便條：那邊三月還冷。外套不要收進行李箱最下面。）','📷（行李箱，上面放著那件外套）','（便條只有一句：「那邊三月還冷。外套我放了一件在你背包裡，不要問。」）',...(doc.includes('7/10「第五章寫到一半。」改「第三章寫到一半。」')&&doc.includes('七月每天三點下雨。第五章寫到一半。')?['七月每天三點下雨。第三章寫到一半。']:[])];   /* 7/10：AA_470 4-5 原句＋AA_508 0-2 第 3 點只換後半句（兩份稿都要讀得到）；照片：稿只寫「她傳便條的照片」「文字版」——程式寫的照片說明；交往版的便條＝稿「便條換成『…』」套朋友版那一行的寫法 */
-  const notIn=[...new Set(q)].filter(t=>doc.indexOf(t)<0&&!OK.includes(t));
+  const A591=require('./aa591_doc.js');   /* AA_591（學姊改稿第四批，企劃線 6b35748c7）改過的句子在 AA_591 的表上 */
+  const notIn=[...new Set(q)].filter(t=>doc.indexOf(t)<0&&!OK.includes(t)&&!A591.has(t));
   check('0. 每一句台詞、選項都在稿裡（一字不差；照片說明兩則除外）',!!doc&&!notIn.length,J(notIn));
   check('0. SISY23.preTalk 包了這一層（_sisjp），sis_b4 那一層還在（_sisb4）',!!SISY23.preTalk._sisjp&&!!SISY23.preTalk._sisb4); });
 /* ---- 1 ---- */
@@ -46,7 +47,7 @@ await sec(1,async()=>{ fresh('2028-03-22',20); H.at('2028-03-22',21); ph();
   const sch=CHARACTERS.heroine_05.daily_schedule.find(r=>J(r.days)===J([1,2,4])&&r.zone==='cafe');
   check('1. 3/23（四）19:30～21:30 在 Café 才演（19:24 不演、不在 Café 不演）；她週四晚上本來就在 Café（作息）',!a&&b&&!c&&!!sch&&sch.from<=19.5&&sch.to>=21.5,J([a,b,c]));
   const r0=Object.assign({},SOCIAL.rel(ID)); H.said=[]; H.picks=[0]; const ran=await SISY23.preTalk(GM); const r1=SOCIAL.rel(ID);
-  const F1=['（她坐在窗邊的老位子。桌上除了筆電，還有一張已經寫好的便條。）','明天是以安的餞行，我知道。所以今天。','（她把便條推過來。）','（便條只有一句：「那邊三月還冷。外套不要收進行李箱最下面。」）','到了在群組說一聲。','……我四月中寫到第三章，拍給你看。這是我自己要做到的。','寫不完你會知道，因為我不會拍。','（九點半，她把筆電闔上。）','走吧。我也要回去了。'];
+  const F1=['（她坐在窗邊的老位子。桌上除了筆電，還有一張已經寫好的便條。）','明天是以安的餞行，我知道。所以今天。','（她把便條推過來。）','（便條只有一句：「那邊三月還冷。外套不要收進行李箱最下面。」）','到了在群組說一聲。','我四月中會寫到第三章。寫到了，拍給你看。','寫不完你會知道，因為我不會拍。','（九點半，她把筆電闔上。）','走吧。我也要回去了。'];
   check('1. 說話前接演（SISY23.preTalk）：朋友版照稿；「寫不完呢？」→「寫不完你會知道，因為我不會拍。」',ran===true&&F1.every((t,i)=>idx(t)>=0&&(i===0||idx(t)>idx(F1[i-1])))&&!has('（走到路口，她把你的圍巾拉好，才轉身走。）'),J(H.said.map(x=>x.t)));
   check('1. 記 SIS_JP_NOTE true；熟悉 +2、自在 +2；3/24 不再傳照片',H.G.flags.SIS_JP_NOTE===true&&r1.fam-r0.fam===2&&r1.comf-r0.comf===2&&(H.at('2028-03-24',9.5),ph(),!th().some(m=>/便條/.test(m.text))),J([r1.fam-r0.fam,r1.comf-r0.comf]));
   fresh('2028-03-23',19.5); H.date(ID); H.G.zone='cafe'; H.said=[]; H.picks=[1]; await SISY23.preTalk(GM);

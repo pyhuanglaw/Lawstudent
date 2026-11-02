@@ -18,11 +18,12 @@ const D=POSTGRAD_LINES.DELAYED;
     for(const [k,v] of pairs) check('0. 企劃檔「'+k+'」那一列的新句子＝'+v,q(row(k).dly).includes(v),JSON.stringify(q(row(k).dly)));
     const ps=q(row('PHONE `peishan`').dly); check('0. 沛珊兩句＝企劃檔',ps[0]===D.peishan[1]&&ps[1]===D.peishan[2],JSON.stringify(ps));
     const ng=q(row('AUTO_NO_GRAD').dly); check('0. AUTO_NO_GRAD 兩句＝企劃檔',ng.includes(TERMEND_LINES.AUTO_NO_GRAD_DELAYED.heroine_01)&&ng.includes(TERMEND_LINES.AUTO_NO_GRAD_DELAYED.yu)&&TERMEND_LINES.AUTO_NO_GRAD_DELAYED.heroine_05===TERMEND_LINES.AUTO_NO_GRAD_DELAYED.heroine_01&&TERMEND_LINES.AUTO_NO_GRAD_DELAYED.classmate_xinci===TERMEND_LINES.AUTO_NO_GRAD_DELAYED.heroine_01,JSON.stringify(ng));
-    check('0. 原本那幾句照舊（企劃檔「現在」那一欄）',q(row('THERMOS 第 2 句').now)[0]===POSTGRAD_LINES.THERMOS.lines[1][1]&&q(row('YT17 `friend`').now)[0]===POSTGRAD_LINES.YT17.friend&&q(row('`ps.card`').now)[0]===POSTGRAD_LINES.EPI.ps.card[0]); }
+    /* THERMOS 第 2 句：企劃檔「現在」那一欄是「畢業快樂。」，AA_591 第 175 列改成「恭喜畢業。」（交換延畢那一句 thermos2 照 AA_381）*/
+    check('0. 原本那幾句照舊（企劃檔「現在」那一欄；THERMOS 第 2 句照 AA_591 第 175 列）',q(row('THERMOS 第 2 句').now)[0]==='畢業快樂。'&&POSTGRAD_LINES.THERMOS.lines[1][1]==='恭喜畢業。'&&q(row('YT17 `friend`').now)[0]===POSTGRAD_LINES.YT17.friend&&q(row('`ps.card`').now)[0]===POSTGRAD_LINES.EPI.ps.card[0]); }
   // ---- 1. 典禮拍照：學姊遞保溫瓶、阿凱、語彤（交換延畢＝美國路線；臺灣路線照舊）----
   for(const route of ['US','JP',null]){ const G=H.fresh('2029-06-02',12,'campus',route?{EXCHANGE_ROUTE:route}:{}); H.FRIEND('heroine_05'); H.FRIEND('heroine_03'); await H.run('grad');
     const d=!!route, tag=route?route+' 路線（交換延畢）':'臺灣路線';
-    check('1. '+tag+'：學姊遞保溫瓶那一句'+(d?'「'+D.thermos2+'」':'「畢業快樂。」'),d?H.has(D.thermos2)&&!H.said.some(s=>s.t==='畢業快樂。'):H.has('畢業快樂。')&&!H.has(D.thermos2));
+    check('1. '+tag+'：學姊遞保溫瓶那一句'+(d?'「'+D.thermos2+'」':'「恭喜畢業。」（AA_591 第 175 列）'),d?H.has(D.thermos2)&&!H.said.some(s=>s.t==='恭喜畢業。'||s.t==='畢業快樂。'):H.has('恭喜畢業。')&&!H.has(D.thermos2));
     check('1. '+tag+'：阿凱'+(d?'「恭喜一半。宵夜？」':'「畢業快樂。宵夜？」')+'，後面兩句照舊',(d?H.has('恭喜一半。宵夜？')&&!H.has('畢業快樂。宵夜？'):H.has('畢業快樂。宵夜？'))&&H.has('……現在才中午。')&&H.has('那晚上。'));
     check('1. '+tag+'：語彤（朋友）'+(d?'「'+D.yt17Friend+'」':'照舊'),d?H.has(D.yt17Friend):H.has(POSTGRAD_LINES.YT17.friend)); }
   { const G=H.fresh('2029-06-02',12,'campus',{EXCHANGE_ROUTE:'US'}); H.FRIEND('heroine_03'); H.FRIEND('kexin'); H.date('kexin'); await H.run('grad');

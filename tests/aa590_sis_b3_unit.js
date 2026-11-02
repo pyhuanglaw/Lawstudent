@@ -47,9 +47,9 @@ await sec(1,()=>{
   check('1. 表：數字列 82 列（第 1～70 列＋第 71～82 列；其中刪句 5 列：第 16、28、29、31、79 列）',num.length===82&&J(del.map(r=>+r.n).sort((a,b)=>a-b))===J([16,28,29,31,79]),J([num.length,del.map(r=>r.n)]));
   /* 選項在遊戲裡帶「」或括號；她的話、旁白就是字串 */
   /* 第 57 列「好。有翻開就好。」：使用者 11-02 第 55 列改成不問成績，照級別回的那幾句（第 57 列、保289～保291）整段不再演，不在遊戲裡 */
-  /* 第 24 列「又遇到你了。」（熱水 HELPED 那一句，原「上次是黑咖啡」）：AA_595「AA 處理決定」第 3 節跟著空保溫瓶那條線拿掉——不在遊戲裡 */
-  const miss=keep.filter(r=>r.n!=='57'&&r.n!=='24'&&!inGame(r.nw)).map(r=>'#'+r.n+' '+r.nw);
-  check('1. 每一列「改成」一字不差在遊戲裡（字串常數；第 57 列跟著第 55 列整段拿掉；第 24 列 AA_595 拿掉）',!miss.length&&!inGame('好。有翻開就好。')&&!inGame('下學期，我出難一點的題目給你。')&&!inGame('又遇到你了。'),J(miss));
+  /* 第 24 列「又遇到你了。」（熱水 HELPED 那一句）：AA_595 跟著空保溫瓶那條線拿掉；第 66 列（期末飯她先說）：AA_591 第 11 節第 13 點「學姊不會先說」整支拿掉，第 8 節驗不在 */
+  const miss=keep.filter(r=>r.n!=='57'&&r.n!=='24'&&r.n!=='66'&&!inGame(r.nw)).map(r=>'#'+r.n+' '+r.nw);
+  check('1. 每一列「改成」一字不差在遊戲裡（字串常數；第 57 列跟著第 55 列整段拿掉；第 24 列 AA_595 拿掉；第 66 列 AA_591 拿掉）',!miss.length&&!inGame('好。有翻開就好。')&&!inGame('下學期，我出難一點的題目給你。')&&!inGame('又遇到你了。'),J(miss));
   const P104='……其實一點都不早。真的想準備的人，有的大一就開始了。';
   check('1. 保104、保147（使用者 11-02 選擇題改的兩列）：「'+P104+'」「好。」在遊戲裡、表上一字不差',inGame(P104)&&ROWS.some(r=>r.n==='保104'&&r.nw===P104)&&ROWS.some(r=>r.n==='保147'&&r.nw==='好。')&&/\{label:'a'\},SIS\('好。'\)/.test(ALL));
   /* 原句不在遊戲裡：retired 的兩場（第 15、16、28、29 列）、原句是別的句子的一部分（第 7、15、17、73 列、第 71～74 列原句不改）、出現在別處的（第 53、54 列互相）除外 */
@@ -99,7 +99,7 @@ await sec(4,async()=>{ const OPTS=['在家讀書。','出去玩。','還沒想�
 
 /* ---------- 5 選課 ---------- */
 await sec(5,async()=>{ const e=ev('ev_sis_course_y2'); H.fresh('2026-08-14',15,'cafe'); H.FAMILIAR(ID); H.said=[]; H.picks=[0]; await EVENTS.run(e); const L=H.said.map(s=>s.t);
-  check('5. 第 35 列、保147：「這樣排可以。」→「那堂很好過。」→「好。」（不提那堂通識、不提出席紀錄）',L.includes('這樣排可以。')&&L[L.indexOf('這樣排可以。')+1]==='好。'&&!L.some(t=>/通識|出席|起不來/.test(t)),J(L)); });
+  check('5. 第 35 列、保147：「這樣排可以。」→ 選項「債總一定要周老師那班嗎？」（AA 2026-11-02 20:26 改，原「那堂很好過。」）→「不一定。可是你會想上他的課。」（不提那堂通識、不提出席紀錄；祐廷「……沒有。」刪）',L.includes('這樣排可以。')&&L[L.indexOf('這樣排可以。')+1]==='不一定。可是你會想上他的課。'&&!L.includes('……沒有。')&&J(H.opts[0])===J(['「債總一定要周老師那班嗎？」','「妳大二修了什麼？」'])&&!L.some(t=>/通識|出席|起不來/.test(t)),J(L)); });
 
 /* ---------- 6 研究所 ---------- */
 await sec(6,async()=>{ const e=ev('ev_sis_adv_grad'); H.fresh(keyOf(wk('Y1S2',8,3)),15,'cafe'); H.FAMILIAR(ID); H.said=[]; H.picks=[1]; await EVENTS.run(e); const L=H.said.map(s=>s.t);
@@ -113,8 +113,8 @@ await sec(7,()=>{ const e=ev('ev_sis_graduation'), D=e.dialogue.filter(l=>l.text
 /* ---------- 8 期末飯告白 ---------- */
 await sec(8,()=>{ const Y=TERMEND_LINES.HEART.heroine_05.yes, s=Y.map(x=>typeof x==='string'?x:(x.cg?'CG:'+x.cg:(x.narr?'N:'+x.narr:J(x))));
   check('8. 第 80～82 列（決3 乙）：便條旁白 →「（她笑了。）你確定？」→ BCG-44 →「我很難相處喔。」→「（她把便條收進口袋，把手伸給你。）走吧。」→ 便條旁白；不加祐廷「我確定。」',
-    J(s)===J(['N:（她手上拿著一張摺過的小便條。從吃飯的時候就一直拿著。）','（她笑了。）你確定？','CG:cg_three_things_heroine05','我很難相處喔。','（她把便條收進口袋，把手伸給你。）走吧。','N:（她把便條摺好，收進口袋。上面寫的字，她一句都沒有念。）']),J(s));
-  check('8. 她主動說的那一版（第 66 列）：「我原本想講得比較好。」（「……我喜歡你。」照留）',J(TERMEND_LINES.HEART.heroine_05.she).includes('"我原本想講得比較好。"')&&J(TERMEND_LINES.HEART.heroine_05.she).includes('"……我喜歡你。"')); });
+    J(s)===J(['N:（她手上拿著一張摺過的小便條。從吃飯的時候就一直拿著。）','（她笑了。）你確定？','CG:cg_three_things_heroine05','我很難相處喔。','（她把便條收進口袋，把手伸給你。）走吧。','N:（便條上寫的字，她一句都沒有念。）']),J(s));
+  check('8. 她主動說的那一版（第 66 列）：AA_591 第 11 節第 13 點（使用者「學姊不會先說」）整支拿掉——沒有 she、she2，「我原本想講得比較好。」「……我喜歡你。」都不在',TERMEND_LINES.HEART.heroine_05.she===undefined&&TERMEND_LINES.HEART.heroine_05.she2===undefined&&!inGame('我原本想講得比較好。')&&!J(TERMEND_LINES.HEART.heroine_05).includes('……我喜歡你。')); });
 
 H.done();
 })();

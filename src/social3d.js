@@ -4,6 +4,8 @@
 'use strict';
 const SOCIAL = (function(){
   const S={}; let G=null;
+  /* 祐廷的姓（AA_566 第 13 節：祐廷全名「林{name}」；AA 對 AA_584 的補充第 1 點，2026-11-02 19:19）：和學姊交往中，她說的 {name} 都是「林{name}」（S.ytNameT）*/
+  const YT_SURNAME='林'; S.YT_SURNAME=YT_SURNAME;
   const DIMS=['fam','trust','aff','resp','comf','rom'];
   S.STAGES=['STRANGER','ACQUAINTANCE','FAMILIAR','FRIEND','CLOSE_FRIEND','POSSIBLE_ROMANTIC_INTEREST','ROMANTIC_TENSION','RELATIONSHIP'];
   S.bind=function(g){ G=g; if(!G.social) G.social={rel:{},mem:{},reveal:{},prof:{},grad:{interest:'NONE',field:null,prep:0}}; // 舊版 G.rel（單一數字）→ familiarity
@@ -72,7 +74,7 @@ const SOCIAL = (function(){
      2029-06-02～08-31 表還沒開始＝照原本的年級寫法（照現在）。沒有寫的人（沛珊「照現在（台南）」、教授、不熟的同學）照原本的規則。
      學姊「研究單位」、方奕廷「嘉義」是 AA_267 附錄 C18 的建議，AA 採用 */
   S.PG_TAG={ heroine_01:[['2029-09-01','首都帝大法研所・碩一'],['2030-08-11','紐約']], heroine_02:[['2029-09-01','兩點半 Café']], heroine_03:[['2029-09-01','社會系・延畢（修法律必修）'],['2030-07-01','準備國考']],
-    heroine_04:[['2029-09-01','獨立遊戲工作室']], heroine_05:[['2029-09-01','研究單位']], kexin:[['2029-09-01','木柵大學法律系畢業'],['2029-12-14','律師（職前訓練）']],
+    heroine_04:[['2029-09-01','獨立遊戲工作室']], heroine_05:[['2029-09-01','大學研究中心（助理）']], kexin:[['2029-09-01','木柵大學法律系畢業'],['2029-12-14','律師（職前訓練）']],
     zhe:[['2029-09-01','準備國考']], classmate_bohan:[['2029-09-01','首都帝大法研所・碩一']], kai:[['2029-09-01','資工系畢業・上班']], classmate_mingxuan:[['2029-09-01','德國']],
     yu:[['2029-09-01','準備司法官']], classmate_xinci:[['2029-09-01','事務所']], npc_fangyt:[['2029-09-01','嘉義']],
     npc_ta_chen:[['2029-09-01','法研所博士班']], npc_huangxh:[['2029-09-01','臨床心理所']] };   /* AA_519 2-1：陳助教畢業以後（2028-09 起博士班）；4-1：筱涵 2029-09 起臨床心理所 */
@@ -170,6 +172,12 @@ const SOCIAL = (function(){
   S.npcName=function(id){ return S.datingName(id)||S.displayName(id); };
   /* 畫面上的標題（出遊按鈕、標題卡、事件標題、手機系統提醒）：和學姊交往中（CALLED_SHUYU）顯示的時候「溫學姊」「學姊」換成「書瑀」（AA_411 第 2 節）；
      存起來的字不改，分手以後自動變回學姊。例外：「直屬學姊」、指別人的「○○的學姊」（登山社的學姊）不換 */
+  /* 交往中學姊叫祐廷「林{name}」（AA_566 第 13 節、AA_584 第 9 節第 3 點、AA 對 AA_584 的補充第 1 點）：說話的人是 heroine_05、而且正在和她交往＝她台詞裡的 {name}（已經換成名字的也算）都加上姓。
+     分手以後、沒交往的時候照舊；別人叫祐廷照舊。顯示的時候換（game3d.js showLine 的對話框、手機她的訊息），存起來的字不改；已經寫了「林」的不重複加 */
+  S.ytSurnameOn=function(id){ if(id!=='heroine_05') return false; const F=G&&G.flags; if(!F) return false; const R=F.romance&&F.romance[id]; return F['dating_'+id]===true||!!(R&&R.status==='dating'); };
+  S.ytNameT=function(t,id){ if(t==null||!S.ytSurnameOn(id)) return t; const n=String((G&&G.name)||'祐廷'); if(!n) return t;
+    const esc=n.replace(/[.*+?^${}()|[\]\\]/g,'\\$&');
+    return String(t).replace(/\{name\}/g,YT_SURNAME+n).replace(new RegExp('(?<!'+YT_SURNAME+')'+esc,'g'),YT_SURNAME+n); };
   S.shuyuT=function(t){ if(t==null) return t; const nm=S.datingName('heroine_05'); if(!nm) return t; return String(t).replace(/溫?書瑀學姊|溫學姊/g,nm).replace(/(直屬|的)?學姊/g,(m,p)=>p?m:nm); };   /* 已經寫成全名的「溫書瑀學姊／書瑀學姊」整個換成名字一次，不會變成「溫書瑀溫書瑀」（CC_23、BB 11:27 防呆）*/
   /* AA_579 第 39 列（AA 09:30）：交往中的「手機聯絡人」和「對話框／標題」拆開——contact.DATING＝手機聯絡人（私訊串、聯絡人列表）；contact.DATING_NAME＝對話框名字、標題卡、出遊按鈕、事件標題（沒寫＝同 DATING，舊行為）。
      學姊：AA_579 進遊戲，rel_lines.js 已改成 DATING:'貝貝'、DATING_NAME:'溫書瑀'（AA_566 第 13 節）*/
@@ -207,13 +215,13 @@ const SOCIAL = (function(){
   /* 面板名稱：AA_338 第 10 題（AA-C 21c74e3a）定稿 */ Object.assign(MEMORY_LABEL,{WATCHED_GAME_Y2B:'大二下也去看了他的系籃比賽',KX_BDAY2_CAKE:'她大二的生日，系上小教室的蛋糕',ECON_NIGHT:'經濟系之夜坐在前系友席',ZHE_PHOTOS:'跟他說搬進去那天要拍照',HEARD_FROM_ZIQING:'她錄取的事，先聽子晴說了',MX_TOLD:'聽他說，他跟以安說出口了',HEARD_ECON_NIGHT:'經濟系之夜沒去，聽說了那張空椅子',HELP_OFFERED:'說過想幫她', SHE_SAW_HIM:'她看出你最近很累', DROVE_HER:'開車送她去機場', AN_CHOICE_TOLD:'她說要考商法組的時候，你在', ANNIVERSARY_23:'麵店二十三週年那晚在場', REPLIED_US0:'她到美國那天，回了她的訊息', SIS_LAWLIB_NOTE:'十月的法圖，她用便利貼問你小考', SIS_RESULT_TOLD:'放榜那天，你先查到她的名字'});   /* 事件包第 2 輪之一（AA_325，src/y2r2_3d.js）*/
   Object.assign(MEMORY_LABEL,{ENC_D06_BH3:'在美術館遇到他（第三次）',ENC_D04_ZR3:'在西門町的電影院門口遇到她（第三次）',ENC_D12_ZQ3:'在大稻埕碼頭遇到她（第三次）'});   /* DL-08 小支線的第三次（enc_walk.js side 的 mem）；其他 ENC_ 的名稱在 encounters.js 的 labels */
   Object.assign(MEMORY_LABEL,{AN_BDAY_POMELO:'在中秋那天幫她過生日',ZHE_SAID_IT:'他第一次說自己「有事」',SAW_HIM_TRY:'聽他說交換放棄了，畢業以後自己存錢去'});   /* 1C 群戲（AA_324；src/group3d.js）：AN_BDAY_POMELO 照 AA_324 1C-02 第 4 節、ZHE_SAID_IT 照 AA_40 哲 4「影響」、SAW_HIM_TRY 照 AA_336 C13（選「那出國呢？」才記的）*/
-  /* 面板名稱：大三前半（AA_326，r2y3a3d.js 原本在執行時才加）、第 3 輪（AA_328，r3_3d.js 原本在執行時才加）。AA_326 寫了的照寫；MOUNTAIN_DAY、FANG_KNOWS_ECON、DAD_PLAYS、BOHAN_HONEST、FIELD_NOTES_IDEA、何俊朗四項（MET_LONG、LONG_HAIHAO、LONG_BBQ、LONG_MENU）照 AA_343 第 5 節定稿 */ Object.assign(MEMORY_LABEL,{AN_ADMIN_COURT:'她自己去行政法院旁聽',ZHE_SCOOTER:'他擦撞以後，你叫他先不要簽',MOUNTAIN_DAY:'跟他去爬山，看了那棵一千歲的紅檜',FANG_KNOWS_ECON:'跟他說，自己換過一次跑道',DAD_PLAYS:'她爸爸在玩她做的遊戲，卡在第三關',BOHAN_HONEST:'他說了為什麼每天念六小時',FIELD_NOTES_IDEA:'跟她說，田野的訪問可以整理成她自己的東西',ZR_FEE_LETTER:'陪她把試譯稿費的事問清楚',KAI_BOT:'教他的機器人說「先吃飯」',FANG_LAWTREE:'說好下次帶他看法學院的樹',ZR_SWAN:'拉花比賽投了她',PINYU_WORRY:'期末考週在社科圖，聽她說精算的事',KAI_STAYED_UP:'他寫的 bug 那晚，陪他醒著',CHIAYI_TREE:'開車去嘉義看那棵兩千歲的紅檜',MET_SIS_FATHER:'見過她爸爸',SIS_DAY_OFF:'她自己放的一天假',ZQ_DOG_TOLD:'聽她唸她爸爸那則「第七關那隻狗」',MET_LONG:'在美國認識了香港來的 Long',LONG_HAIHAO:'被他問：台灣人的「還好」到底是好還是不好',LONG_BBQ:'「誰都」和「誰也」，最後兩個人一起去了聚餐',LONG_MENU:'中餐館的西蘭花：同一盤菜，兩個名字'});
+  /* 面板名稱：大三前半（AA_326，r2y3a3d.js 原本在執行時才加）、第 3 輪（AA_328，r3_3d.js 原本在執行時才加）。AA_326 寫了的照寫；MOUNTAIN_DAY、FANG_KNOWS_ECON、DAD_PLAYS、BOHAN_HONEST、FIELD_NOTES_IDEA、何俊朗四項（MET_LONG、LONG_HAIHAO、LONG_BBQ、LONG_MENU）照 AA_343 第 5 節定稿 */ Object.assign(MEMORY_LABEL,{AN_ADMIN_COURT:'她自己去行政法院旁聽',ZHE_SCOOTER:'他擦撞以後，你叫他先不要簽',MOUNTAIN_DAY:'跟他去爬山，看了那棵一千歲的紅檜',FANG_KNOWS_ECON:'跟他說，自己換過一次跑道',DAD_PLAYS:'她爸爸在玩她做的遊戲，卡在第三關',BOHAN_HONEST:'他說了為什麼每天念六小時',FIELD_NOTES_IDEA:'跟她說，田野的訪問可以整理成她自己的東西',ZR_FEE_LETTER:'陪她把試譯稿費的事問清楚',KAI_BOT:'教他的機器人說「先吃飯」',FANG_LAWTREE:'說好下次帶他看法學院的樹',ZR_SWAN:'拉花比賽投了她',PINYU_WORRY:'期末考週在社科圖，聽她說精算的事',KAI_STAYED_UP:'他寫的 bug 那晚，陪他醒著',CHIAYI_TREE:'開車去嘉義看那棵兩千歲的紅檜',MET_SIS_FATHER:'三月在公館吃過的那一頓',SIS_DAY_OFF:'她自己放的一天假',ZQ_DOG_TOLD:'聽她唸她爸爸那則「第七關那隻狗」',MET_LONG:'在美國認識了香港來的 Long',LONG_HAIHAO:'被他問：台灣人的「還好」到底是好還是不好',LONG_BBQ:'「誰都」和「誰也」，最後兩個人一起去了聚餐',LONG_MENU:'中餐館的西蘭花：同一盤菜，兩個名字'});
   /* 面板名稱：學姊大二到大三（AA_379 第 2-8 節，企劃線 30ab5142；src/sis_y2y3_3d.js）*/ Object.assign(MEMORY_LABEL,{SIS_TOPIC:'知道她論文想寫什麼、為什麼',SIS_INTERVIEW:'陪她去訪談法扶律師',SIS_US_TOLD:'她第一個當面告訴你要去美國'});
   /* 面板名稱：學姊第四批（AA_386 第 5 節，企劃線 e848154a；src/sis_b4_3d.js）*/ Object.assign(MEMORY_LABEL,{SIS_ADV_GRAD:'她說準備研究所準備得太早',SIS_ADV_EXCH:'她問：晚半年會怎樣',SIS_ADV_PICK:'她看了你的志願表',SIS_ADV_Y4:'她說：你的大四，你自己排',SIS_XMAS_Y2:'聖誕夜，Café 門口的熱水',SIS_XMAS_Y3:'研究室的小聖誕樹',SIS_VDAY_Y2:'情人節，植物園的荷花池',SIS_VDAY_Y3:'寒假那一天的假，公車坐到終點站',SIS_VDAY_Y4:'情人節的電話，她在陽台',SIS_REBUILD:'她說：等她說好的那天'});
   /* 面板名稱：大三後半（AA_326 26～54，r2y3b3d.js 原本在執行時才加）。AN3_AZALEA、YU_CLUB_BEAR、YU_ALONE 是 AA_326 寫的；XUN_PATH、YU4_SAT、ZHIRUO_MET_YU、XINCI_FIRST 照 AA_343 第 5 節定稿 */ Object.assign(MEMORY_LABEL,{AN3_AZALEA:'幫她拍了第三張杜鵑',YU_CLUB_BEAR:'學弟的熊',YU_ALONE:'她一個人去看了一場電影',XUN_PATH:'去聽了他在經濟系的報告',YU4_SAT:'在晨思鐘旁邊陪她吃完早餐，兩個人都沒講話',ZHIRUO_MET_YU:'跟她說，戲院倒數第三排那個女生是 Alison',XINCI_FIRST:'她申請上國際所的暑期實習，金融那一組'});
   /* 面板名稱：大四前半（AA_327 01～29）。AA_345 第 4 節定稿（F11）*/ Object.assign(MEMORY_LABEL,{CHICAGO_TRIP:'芝加哥的週末，她把行程表摺起來收進口袋',PLG_LAST_RULE:'讀書會交棒那天，白板上只剩一條：「說理由。」',PICKED_HER_UP:'她從美國回來那晚，去機場接她'});
   /* AA_344 第 3 節：③ KX7_LAST_TERM 換新名稱（ladder.js 匯入的舊名稱「她怕畢業以後忘記假設」：這裡優先）；④ 以安不延畢以後沒人用的 AN8_RETAKE、AN8_DIPLOMA 已刪 */ MEMORY_LABEL.KX7_LAST_TERM='她怕畢業以後約吃飯要排半個月';
-  /* 面板名稱：208 的週末（AA_412 第 3-8 節，AA-B 10-23；src/us208_3d.js）*/ Object.assign(MEMORY_LABEL,{US208_MEMO:'書瑀幫你看 Legal Writing 的作業',US208_LUROU:'書瑀煮了有一點焦的滷肉',US208_CLIPPING:'書瑀的爸爸寄了一張剪報到美國',US208_REHEARSAL:'聽書瑀練習英文報告',US208_EXTRA_HOUR:'冬令時間那天，計畫本空了一格',US208_PLANT:'書瑀在救客廳那盆植物',US208_LASTWEEK:'期末那個週末，坐在 208 的沙發上讀書'});
+  /* 面板名稱：208 的週末（AA_412 第 3-8 節，AA-B 10-23；src/us208_3d.js）*/ Object.assign(MEMORY_LABEL,{US208_MEMO:'書瑀幫你看 Legal Writing 的作業',US208_LUROU:'書瑀煮了有一點焦的滷肉',US208_CLIPPING:'臺灣寄來的信封',US208_REHEARSAL:'聽書瑀練習英文報告',US208_EXTRA_HOUR:'冬令時間那天，計畫本空了一格',US208_PLANT:'書瑀在救客廳那盆植物',US208_LASTWEEK:'期末那個週末，坐在 208 的沙發上讀書'});
   /* 面板名稱：美國篇的空白日（AA_424，AA-B 10-23；src/us_blank3d.js）——名稱 AA_424 第 7-2 節定稿（a4ee6c74a）*/ Object.assign(MEMORY_LABEL,{US_FALLBREAK_LAKE:'秋假的湖邊，長椅只有你們兩個',US_FALLBREAK_STUDY:'秋假的自習室，她空出一格',US_ASIAN_MARKET:'陪書瑀去竹葉，她買了一包八角',US_LAKE_DOG:'書瑀說她小時候很怕狗',US_SYLLABUS:'書瑀替你把第一週的閱讀排進格子',US_LAUNDRY:'她來借洗衣機，在你的沙發上看書'});
   Object.assign(MEMORY_LABEL,{AN_GRAD_PASS:'她研究所放榜那晚，在麵店',AN_COLUMBIA:'她說紐約的法學院上了，八月要去紐約'});   /* AA_327 2-Y4-34、2-Y4-50（src/data/r2y4b_events.js）：面板名稱 AA_345 第 4 節定稿（G7）*/
   Object.assign(MEMORY_LABEL,{SIS5_LIBRARY_SEAT:'學姊在法學院圖書館的位子'});   /* 大二上 S3-L3 才記；AA_584 第 11 節整層刪了，源稿 03af79d17 起匯入不再帶這個名稱——舊存檔記過的照樣顯示中文（AA 2026-11-02 19:29）*/

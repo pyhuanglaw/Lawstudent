@@ -40,7 +40,9 @@ await sec(1,async()=>{ check('1. 讀得到稿（企劃線 e81a1afe1 的 AA_392�
   const sec13=(doc.split('### 1-3.')[1]||'').split('### 1-4.')[0], lines=[...sec13.matchAll(/^書瑀：(.+)$/mg)].map(m=>m[1]).concat([...sec13.matchAll(/書瑀：「(.+?)」/g)].map(m=>m[1]));
   const narr=(doc.match(/用完以後每週一行旁白：「(.+?)」/)||[])[1];
   const A516={'二十三號早上到。':'二十三號晚上八點落地。','機場的班次我傳給你了。':'班次，回去前傳給你。'};   /* AA_516 第 1 節 1-1（企劃線 a9b87c588）：g6 這兩句改了（和 12/23 20:30 的接機對齊）*/
-  const lines2=lines.map(l=>A516[l]||l);
+  const A591=require('./aa591_doc.js');   /* AA_591（學姊改稿第四批，6b35748c7）第 94、95 列等：稿上的句子照 AA_591 的表換 */
+  const A591x={'……不公平。':'不公平。'};   /* AA_591 第 95 列（原句到處都有，不在 MAP）：只有視訊 g3b 這一句 */
+  const lines2=lines.map(l=>A516[l]||A591.MAP[l]||A591x[l]||l);
   check('1. 六組視訊的台詞（書瑀說的）和稿一字不差都在（g6 兩句照 AA_516 1-1 改過的）',lines2.length>=20&&lines2.every(l=>txt.includes(l)||txt.includes(l.replace(/^照片你看到了吧。$/,'照片你看到了吧。')))&&Object.keys(A516).every(l=>lines.includes(l)&&!txt.includes(l)),J(lines2.filter(l=>!txt.includes(l))));
   check('1. 用完以後的旁白和稿一字不差',!!narr&&txt.includes(narr)&&S.SA_VG_NARR===narr,narr);
   /* 臺灣路線、7/29 就交往：8/6～12/17 每週日 10:00 */
@@ -86,8 +88,8 @@ await sec(2,async()=>{ const hk=TERMEND_LINES.HOOK.Y3S2.heroine_05, fl=r=>({flag
   check('2. 說過要送：群組那則沒有 Kevin 的按鈕；21:05 她私訊「八月二號早上八點，我家樓下。」「你說要送我。」，三個選項（有車）',!gb&&!pre&&J(thx('p:heroine_05'))===J(['八月二號早上八點，我家樓下。','你說要送我。'])&&!!dm&&J(dm.ask.opts.map(o=>o.t))===J(['我開車去載妳。','我到機場等妳。','那天我去不了了。']),J({dm:dm&&dm.ask.opts,th:thx('p:heroine_05')}));
   PHONE.answer(H.G,'y4_sis_hook_dm',1); yphone(); const q=OUT.get(H.G,'y4_sis_airport_wait');
   check('2. 「我到機場等妳。」：SIS_RIDE_ASK airport；8/2 08:30「桃園機場第二航廈・出境大廳」（機場捷運 1 小時）',H.G.flags.SIS_RIDE_ASK==='airport'&&!!q&&q.day===D('2028-08-02')&&q.h===8.5&&q.place==='桃園機場第二航廈・出境大廳'&&q.travelH===1&&!OUT.get(H.G,'y4_sis_airport'),J(q));
-  H.at('2028-08-02',7.4); await goOut('y4_sis_airport_wait'); const T5=['（八點半。她從客運站那邊走過來，戴著口罩，一個行李箱。）','……你說你會來。','（她從包包拿出冰的罐裝飲料。）','回程喝。','……回到家，傳訊息給我。'];
-  check('2. 機場等她：「（八點半。她從客運站那邊走過來…）」「……你說你會來。」→ 冰的罐裝飲料「回程喝。」「……回到家，傳訊息給我。」（照順序）',T5.every((t,i)=>idx(t)>=0&&(i===0||idx(t)>idx(T5[i-1]))),J(H.said.map(x=>x.t)));
+  H.at('2028-08-02',7.4); await goOut('y4_sis_airport_wait'); const T5=['（八點半。她從客運站那邊走過來，戴著口罩，一個行李箱。）','……你說你會來。','（她從包包拿出冰的罐裝飲料。）','回程喝。','回到家，傳訊息給我。'];   /* 最後一句 AA_591 第 53 列拿掉「……」*/
+  check('2. 機場等她：「（八點半。她從客運站那邊走過來…）」「……你說你會來。」→ 冰的罐裝飲料「回程喝。」「回到家，傳訊息給我。」（照順序；AA_591 第 53 列）',T5.every((t,i)=>idx(t)>=0&&(i===0||idx(t)>idx(T5[i-1]))),J(H.said.map(x=>x.t)));
   check('2. 記 SIS_SENDOFF airport、記憶 SAW_HER_OFF（不是 DROVE_HER）；09:00 沒有客運那則',H.G.flags.SIS_SENDOFF==='airport'&&SOCIAL.has('heroine_05','SAW_HER_OFF')&&!SOCIAL.has('heroine_05','DROVE_HER')&&(H.at('2028-08-02',9.2),yphone(),!thx('g:family_law').includes('出發了。'))&&!!SOCIAL.MEMORY_LABEL.SAW_HER_OFF);
   s0({HOOK_SIS_SENDOFF:1}); H.at('2028-07-26',21.1); yphone(); const dm2=(H.G.msgs||[]).find(m=>m.ask&&m.ask.id==='y4_sis_hook_dm');
   check('2. 沒說過有車（SAID_HAS_CAR）：只有「我到機場等妳。」「那天我去不了了。」',!!dm2&&J(dm2.ask.opts.map(o=>o.t))===J(['我到機場等妳。','那天我去不了了。']),J(dm2&&dm2.ask.opts));
@@ -110,12 +112,12 @@ await sec(3,async()=>{ const yph=()=>{ Y.m9Phone(H.G); PHONE.tick(H.G); };
   const s3=()=>{ fresh('2029-05-28',21,'TW'); H.FRIEND('heroine_05'); H.date('heroine_05'); PHONE.join(H.G,'family_law','法律系直屬家族'); yph(); H.at('2029-05-29',18.5); OUT.tick(GM); yph(); };
   s3(); H.at('2029-05-29',19); yph(); const q0=OUT.get(H.G,'y4_m9_call');
   check('3. 交往中、口試沒到：18:30 那則照舊，21:00 她打電話來（「書瑀打電話來」）',H.G.flags.SIS_DEFENSE==='missed'&&thx('p:heroine_05').includes('……你今天在忙？好。晚上打給我。')&&!!q0&&q0.h===21&&q0.title==='書瑀打電話來'&&q0.verb==='接起來',J(q0));
-  H.at('2029-05-29',21); await goOut('y4_m9_call',[0]); const C=['（電話那頭有人在笑。研究室的人在幫她慶祝。）','等一下。……好，我走到外面了。','過了。委員問了兩個小時。','嗯。','下次不要忘。……蛋糕還有一半，明天中午研究室。'];
-  check('3. 電話：「等一下。……好，我走到外面了。」「過了。委員問了兩個小時。」→「對不起，我忘了時間。」→「嗯。」「下次不要忘。……蛋糕還有一半，明天中午研究室。」；記 SIS_DEFENSE_CALL',C.every((t,i)=>idx(t)>=0&&(i===0||idx(t)>idx(C[i-1])))&&H.G.flags.SIS_DEFENSE_CALL===true,J(H.said.map(x=>x.t)));
+  H.at('2029-05-29',21); await goOut('y4_m9_call',[0]); const C=['（電話那頭有人在笑。研究室的人在幫她慶祝。）','等一下。……好，我走到外面了。','過了。委員問了兩個小時。','嗯。','蛋糕還有一半。明天中午，研究室。'];
+  check('3. 電話：「等一下。……好，我走到外面了。」「過了。委員問了兩個小時。」→「對不起，我沒趕上。」→「嗯。」「蛋糕還有一半。明天中午，研究室。」；記 SIS_DEFENSE_CALL',C.every((t,i)=>idx(t)>=0&&(i===0||idx(t)>idx(C[i-1])))&&H.G.flags.SIS_DEFENSE_CALL===true,J(H.said.map(x=>x.t)));
   const k=OUT.get(H.G,'y4_m9_cake');
   check('3. 明天中午研究室：5/30（三）12:20～13:00 出遊',!!k&&keyOf(k.day)==='2029-05-30'&&Math.abs(k.h-(12+20/60))<1e-6&&Math.abs(k.h+k.late-13)<1e-6&&CALENDAR.dateOf(k.day).wd===3,J(k));
   H.at('2029-05-30',12.3); await goOut('y4_m9_cake'); check('3. 有來：「（蛋糕上寫著『溫書玉』。她用叉子把那個字刮掉了。）」',has('（蛋糕上寫著『溫書玉』。她用叉子把那個字刮掉了。）'));
-  s3(); H.at('2029-05-29',21); yph(); await goOut('y4_m9_call',[1]); check('3. 「恭喜。」→「……謝謝。他們買的蛋糕把我的名字寫錯了。明天中午你來，我給你看。」',has('……謝謝。他們買的蛋糕把我的名字寫錯了。明天中午你來，我給你看。')&&!!OUT.get(H.G,'y4_m9_cake'));
+  s3(); H.at('2029-05-29',21); yph(); await goOut('y4_m9_call',[1]); check('3. 「恭喜。」→「謝謝。他們買的蛋糕把我的名字寫錯了。明天中午你來，我給你看。」',has('謝謝。他們買的蛋糕把我的名字寫錯了。明天中午你來，我給你看。')&&!!OUT.get(H.G,'y4_m9_cake'));
   s3(); H.at('2029-05-29',19); PHONE.answer(H.G,'y4_m9_callme',0); yph(); const q1=OUT.get(H.G,'y4_m9_call');
   check('3. 21:00 以前自己打（18:30 那則的「（打給她）」）：同一通，現在就打（「打給書瑀」）',!!q1&&q1.h===19&&q1.verb==='打過去'&&q1.ev==='ev_sis_defense_call',J(q1));
   fresh('2029-05-28',21,'TW'); H.FRIEND('heroine_05'); PHONE.join(H.G,'family_law','法律系直屬家族'); yph(); H.at('2029-05-29',18.5); OUT.tick(GM); yph(); H.at('2029-05-29',21); yph();
@@ -131,7 +133,7 @@ await sec(5,async()=>{ const ID='heroine_05', X=SISY23;
   check('5. 11/24 21:00 私訊「週六早上十點，有第二次訪談。這次是當事人。」「你說要記的。」；「好。」／「那天不行。」',J(thx('p:heroine_05'))===J(['週六早上十點，有第二次訪談。這次是當事人。','你說要記的。'])&&!!m&&J(m.ask.opts.map(o=>o.t))===J(['好。','那天不行。']),J(thx('p:heroine_05')));
   PHONE.answer(H.G,'sisy23_iv2_ask',0); X.phone(H.G); PHONE.tick(H.G); const q=OUT.get(H.G,'sisy23_iv2');
   check('5. 回「好。」→「十點，社區活動中心。我傳地址給你。」；排 11/27（六）10:00 社區活動中心・小房間',thx('p:heroine_05').includes('十點，社區活動中心。我傳地址給你。')&&!!q&&keyOf(q.day)==='2027-11-27'&&q.h===10&&q.place==='社區活動中心・小房間',J(q));
-  H.at('2027-11-27',9.6); H.picks=[0]; await goOut('sisy23_iv2',[0]); const C=['（一個五十幾歲的男人，手上一直轉著一支原子筆。）','他同意錄音。你一樣要記。','（他講了一個多小時。講到他太太的時候，原子筆停了。）','你記到哪裡？','……那段我不會寫進論文。','可是我要記得。','（她去便利商店買了兩杯咖啡，一杯給你。）','今天的工資。'];
+  H.at('2027-11-27',9.6); H.picks=[0]; await goOut('sisy23_iv2',[0]); const C=['（一個五十幾歲的男人，手上一直轉著一支原子筆。）','他會講很私人的事。你聽到的，不能跟任何人說。','（他講了一個多小時。講到他太太的時候，原子筆停了。）','你記到哪裡？','……那段我不會寫進論文。','可是我要記得。','（她去便利商店買了兩杯咖啡，一杯給你。）','今天的工資。'];
   check('5. 第二次訪談照稿（他太太那段）；記 SIS_INTERVIEW2 went',C.every((t,i)=>idx(t)>=0&&(i===0||idx(t)>idx(C[i-1])))&&H.G.flags.SIS_INTERVIEW2==='went',J(H.said.map(x=>x.t)));
   s5({SIS_IV_AGAIN:true}); PHONE.answer(H.G,'sisy23_iv2_ask',1); X.phone(H.G); PHONE.tick(H.G); H.at('2027-11-27',13); X.phone(H.G); PHONE.tick(H.G);
   check('5. 回「那天不行。」→「好。我自己記。」；11/27 13:00「記完了。」',thx('p:heroine_05').includes('好。我自己記。')&&thx('p:heroine_05').includes('記完了。')&&!OUT.get(H.G,'sisy23_iv2')&&H.G.flags.SIS_INTERVIEW2==='missed',J(thx('p:heroine_05')));

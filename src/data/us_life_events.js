@@ -149,7 +149,7 @@ const US_LIFE_EVENTS=(function(){
     sis('台灣的中秋也是烤肉。……這裡的肉比較大塊。'),
     {choice:[{text:'「中秋妳要怎麼過？」',goto:'a'},{text:'「好吃嗎？」',goto:'b'}]},
     {label:'a'},sis('不知道。這裡沒有月餅。'),nar('（她想了一下。）'),sis('亞洲超市可能有。'),{set:{US_MOONCAKE_TALK:true}},{goto:'l'},
-    {label:'b'},sis('肉太大塊了。……好吃。'),{goto:'l'},
+    {label:'b'},sis('肉太大塊了。好吃。'),{goto:'l'},
     {label:'r'},IF(LONG,lg('一個是你的。……不要問我為什麼烤焦。')),nar('（她看到你，點了一下頭。）'),{goto:'e'},
     {label:'l'},IF(LONG,lg('一個是你的。……不要問我為什麼烤焦。')),
     {label:'e'},{set:{USL_BBQ:true}} ]});
@@ -173,7 +173,7 @@ const US_LIFE_EVENTS=(function(){
   ev('ev_usl_thanks','感恩節的晚餐',{participants:[S5],trigger:'outing',hours:2,dialogue:[
     {scene:'C 棟 208',bg:'us_shared_kitchen'},
     nar('（C 棟 208 的廚房只開了一盞燈。她用帶來的小鍋子煮了一鍋湯，旁邊是超市買的一小塊火雞胸。）'),
-    sis('火雞我不會烤。……這是超市烤好的。'),
+    sis('火雞我不會烤。這是超市烤好的。'),
     sis('湯是我媽的做法。'),
     {choice:[{text:'「好喝。」',goto:'a'},{text:'「感恩節要說感謝什麼？」',goto:'b'}]},
     {label:'a'},sis('嗯。'),nar('（她又幫你盛了一碗。）'),{goto:'e'},
