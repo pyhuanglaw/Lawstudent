@@ -3638,7 +3638,7 @@ const STORY_EVENTS=[
       {choice:[{text:'「我先去問機車行老闆。」',goto:'bike'},{text:'「我跟柏翰一起背。」',goto:'mem'},{text:'「我照以安的分工表做。」',goto:'plan'}]},
       {label:'bike'},{speaker:'heroine_01',expression:'surprised',text:'你去問機車行老闆？'},{speaker:'player',text:'當事人會說的話，我想先聽一次。'},
         {speaker:'heroine_01',expression:'neutral',text:'（寫進手帳）……這個我沒想到。理由欄我先空著，你回來填。'},
-        {scene:'公館・機車行'},{speaker:null,text:'（公館巷子裡的機車行。地上都是機油，老闆蹲著在換輪胎。）'},{speaker:null,text:'（你問二手車通常怎麼賣。他沒抬頭。）'},
+        {scene:'公館・機車行',bg:'gg_scooter_shop'},{speaker:null,text:'（公館巷子裡的機車行。地上都是機油，老闆蹲著在換輪胎。）'},{speaker:null,text:'（你問二手車通常怎麼賣。他沒抬頭。）'},
         {speaker:'機車行老闆',text:'二手車喔，看人騎的。'},{speaker:'機車行老闆',text:'同一台車，給騎很兇的人騎一年，比給阿伯騎五年還舊。'},{set:{MOOT_BIKE_SHOP:true}},{goto:'end'},
       {label:'mem'},{speaker:'classmate_bohan',expression:'neutral',text:'……你確定？我一天背四十頁。'},{speaker:null,text:'（那天晚上，你背到第十二頁就睡著了。）'},{goto:'end'},
       {label:'plan'},{speaker:'heroine_01',expression:'neutral',text:'好。你負責第三段的資料。'},{speaker:null,text:'（你在法圖找到兩本書，兩本都被借走了。）'},

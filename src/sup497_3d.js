@@ -172,7 +172,7 @@ const SUP497=(function(){
       if(PHONE.at(G,d,21,it,'yc_gig_ask')) G.flags.YC_GIG_INV=true; }
     if(G.flags.YC_GIG_INV&&now(G)>=T(d,21)&&now(G)<T(g,20.5)) plan(G,{id:'yc_gig',ev:'ev_yc_gig',day:g,h:20,late:0.5,place:'公館・地下室',title:'宥辰的第一場（公館的地下室 20:00）',travel:'走過去約 15 分鐘',travelH:0.25,hours:2.5,back:'散場了。'}); };   /* 看到的人排進行程；時間到「出發」才去（不去＝沒去的那一版）*/
   S.GIG_EV={ id:'ev_yc_gig', title:'地下室的第一場', participants:[YC,ZHE], location:'any', trigger:'outing', once:true, background:'dark', hours:2.5,
-    dialogue:[ {scene:'公館・地下室'},
+    dialogue:[ {scene:'公館・地下室',bg:'gg_basement_gig'},   /* 11-02 第九批有圖（BB_132 第 107 組）*/
       Object.assign(ln.apply(null,L.yc.gig.lq),{if:{memory:[{npc:LQ,tag:'FIRST_MET'}]}}),   /* 認識詹立群的開場多一句旁白（第 1-6 節）*/
       {choice:L.yc.gig.pos.map((t,k)=>({text:t,set:{YC_GIG_POS:['front','back','box'][k]}}))},
       Object.assign(ln.apply(null,L.yc.gig.elev),{if:{flags:['YC_ELEVATOR']}}),   /* 有 YC_ELEVATOR：他上台前經過你旁邊 */

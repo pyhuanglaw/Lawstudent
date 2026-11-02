@@ -356,7 +356,7 @@ const R2Y3B_EVENTS=(function(){
       {set:{AN_TOWN_NOTICE:'there'}} ],   /* 法律：旁白不說這張通知是行政指導（AA_30 J2）*/
     outingMissed:G=>{ const x=X(); if(x) x.noticePhoto(G); } };
   const J2_REPAIR={ id:'ev_an_town_notice_repair', title:'町公所的一張通知', participants:['heroine_01'], location:'any', trigger:'outing', once:true, background:'dark', hours:0.5,
-    dialogue:[ {scene:'宿舍大廳',bg:'jp_dorm_lobby'},   /* 2D 沒有＝深色底＋字幕；沒有 CG-17 */
+    dialogue:[ {scene:'宿舍大廳',bg:'jp_dorm_lobby'},   /* 11-02 第九批有自己的圖（BB_132 第 107 組；原本借 jp_lounge）；沒有 CG-17 */
       {speaker:'heroine_01',text:'……你看得懂這個字嗎？'},
       {speaker:'player',text:'（看了一下）這是「截止日」。後面那個是「本人到場」。'},
       {speaker:'heroine_01',text:'……謝謝。'},

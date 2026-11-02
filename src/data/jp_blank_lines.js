@@ -87,7 +87,7 @@ const JP_BLANK_LINES=(function(){
     {label:'a'},an('一盒就好。吃不完會壞。'),{goto:'e'},
     {label:'b'},an('我媽喜歡。……我拍給她看。'),nar('（她拍了一張照片，傳出去。）'),
     {label:'e'} ]);
-  out('ev_jpb_w_laundry','投幣洗衣店',[ {scene:'投幣洗衣店'},
+  out('ev_jpb_w_laundry','投幣洗衣店',[ {scene:'投幣洗衣店',bg:'jp_laundry'},
     nar('（洗衣機轉著。她坐在塑膠椅上看行政法，你坐在旁邊。）'),
     an('還有二十八分鐘。'),
     {choice:[{text:'「去買飲料？」',goto:'a'},{text:'（一起等）',goto:'b'}]},
@@ -115,7 +115,7 @@ const JP_BLANK_LINES=(function(){
     {label:'a'},nar('（燈管換好，房間一下子亮了。她看了天花板一下。）'),an('……原來這麼亮。'),{goto:'e'},
     {label:'b'},an('房東週末不在。我傳過了。'),nar('（你還是站上去換了。）'),
     {label:'e'},{mem:[{npc:A1,tag:'AN_JP_LIGHT',note:''}]} ]);
-  out('ev_jpb_w_temple','寺的繡球花',[ {scene:'附近的寺'},
+  out('ev_jpb_w_temple','寺的繡球花',[ {scene:'附近的寺',bg:'jp_temple_hydrangea'},
     nar('（寺的石階兩邊都是繡球花，藍的、紫的。下過雨，石階有一點滑。）'),
     an('土是酸的，花就是藍的。'),an('……我昨天查的。'),
     {choice:[{text:'「那紫的呢？」',goto:'a'},{text:'（拍一張她和花）',goto:'b'}]},
@@ -141,7 +141,7 @@ const JP_BLANK_LINES=(function(){
   ev('ev_jpb_r_shop','二手店',[ {scene:'二手店'},
     IF(metLH,nar('（二手店的電器區。立衡把每一台電風扇都打開，聽它的聲音。）')),IF(metLH,lh('這台比較安靜。……晚上寫論文，吵的會睡著。')),
     UN(metLH,nar('（宿舍的布告欄貼了二手店的傳單。你一個人去，買了一台電風扇，騎腳踏車載回來的時候，綁了三次。）')),{advance:1.5} ]);
-  ev('ev_jpb_r_laundry','投幣洗衣店',[ {scene:'宿舍的投幣洗衣店'},
+  ev('ev_jpb_r_laundry','投幣洗衣店',[ {scene:'宿舍的投幣洗衣店',bg:'jp_laundry'},
     nar('（梅雨。宿舍的投幣洗衣店排了五個人，都是交換生。有人在放手機的歌。）'),
     nar('（輪到你的時候，雨停了一下。）'),{advance:1} ]);
   out('ev_jpb_r_fire','河堤的煙火',[ {scene:'河堤'},
