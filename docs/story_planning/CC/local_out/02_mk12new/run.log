@@ -1,0 +1,268 @@
+[gpu_wrap] CC_GPU=1 跑 C:\Users\USER\Documents\Lawstudent_cclocal\docs\story_planning\test_tools\cc\cc_makeup_probe.py http://127.0.0.1:8800/index.html?turbo C:\Users\USER\Documents\Lawstudent_cclocal\docs\story_planning\CC\local_out\02_mk12new\out
+==== CASE study3h（SHA c2d0c24bc）====
+PASS study3h：遊戲載入
+  [前置／捷徑] [前置] study3h：6/26 08:30 總圖閱覽室（library）存檔，補考 pending（同 noshow 的旗標）；讀完馬上照玩家走到最近的自習座位
+  [  32.3s] 到達「坐下讀書」附近（0.73 m）：點地面 1 次、轉鏡頭 0 次、搖桿 0 次，6 秒
+PASS study3h：前置成立（座位選單出來、補考那一場還沒開始、FD_MAKEUP pending）  {"clock": {"key": "2029-06-26", "day": 1379, "h": 8.53, "zone": "library", "term": null, "week": null}, "flags": {"Y4_PATH": "bar", "BAR_REG": true, "GRADUATED": 1355, "FAIL_DELAY_COURSES": [], "FAIL_DELAY_V": 2, "FD_MAKEUP": {"v": 1, "courses": ["maritime"], "status": "pending", "res": {}}}, "failed": ["maritime"], "exam": {"Y4S2:maritime:final": {"qs": ["Y4_MAR_04", "Y4MAR_08", "Y4MAR_04", "Y4MAR_03", "Y4MAR_01"], "ans": [], "status": "done", "correct": 0, "score": 0}}, "grades": {"legal_research": "通過", "legal_practice": "通過", "maritime": "0 分（不及格）"}, "pgOn": true, "delayed": false, "pgDone": {"grad": 1, "fd_grades_y4s2": 1}, "pend": [["fd_makeup", "2029-06-26", 9.5], ["b1", "2029-07-12", 20], ["exam_2029", "2029-08-04", 8], ["first", "2030-10-01", 21]], "mk": {"v": 1, "courses": ["maritime"], "status": "pending", "res": {}}, "homeOpt": {"t": "出發：補考（法律系館A）", "hint": "海商法與海洋法　10:00　捷運＋公車 約 40 分鐘"}, "review": {"t": "考前總複習", "hint": "會錯過補考。", "dim": true}, "homeAt": false, "retake": null, "nmsg": 2, "title": false}
+  [  39.4s] study3h：選單 ["坐一下，看看四周時間 +20 分鐘", "讀書選讀多久（1～3 小時只算一次）。用掉上午 1 次（還剩 0）", "趴著睡一下：30 分鐘睡到 09:02", "趴著睡一下：1 小時睡到 09:32", "考前總複習會錯過補考。", "起身"] → 讀書選讀多久（1～3 小時只算一次）。用掉上午 1 次（還剩 0）
+  [  46.2s] study3h：讀書長度選單（含 hint）"讀 1 小時〔用掉上午 1 次（還剩 0）〕｜讀 2 小時〔會錯過：補考：海商法與海洋法〕｜讀 3 小時〔會錯過：補考：海商法與海洋法〕｜讀到補考前（09:50）〔用掉上午 1 次（還剩 0）〕｜算了"；變灰 [{"t": "讀 1 小時用掉上午 1 次（還剩 0）", "dim": false}, {"t": "讀 2 小時會錯過：補考：海商法與海洋法", "dim": true}, {"t": "讀 3 小時會錯過：補考：海商法與海洋法", "dim": true}, {"t": "讀到補考前（09:50）用掉上午 1 次（還剩 0）", "dim": false}, {"t": "算了", "dim": false}]
+PASS study3h：「讀 3 小時」變灰或提示寫會錯過補考（修改前預期 FAIL）  {"opt3": ["讀 3 小時〔會錯過：補考：海商法與海洋法〕"], "dim": [{"t": "讀 1 小時用掉上午 1 次（還剩 0）", "dim": false}, {"t": "讀 2 小時會錯過：補考：海商法與海洋法", "dim": true}, {"t": "讀 3 小時會錯過：補考：海商法與海洋法", "dim": true}, {"t": "讀到補考前（09:50）用掉上午 1 次（還剩 0）", "dim": false}, {"t": "算了", "dim": false}]}
+PASS study3h：有一項停在補考前（「讀到…補考…前」）（修改前預期 FAIL）  "讀 1 小時〔用掉上午 1 次（還剩 0）〕｜讀 2 小時〔會錯過：補考：海商法與海洋法〕｜讀 3 小時〔會錯過：補考：海商法與海洋法〕｜讀到補考前（09:50）〔用掉上午 1 次（還剩 0）〕｜算了"
+  [  46.2s] study3h：選單 ["讀 1 小時用掉上午 1 次（還剩 0）", "讀 2 小時會錯過：補考：海商法與海洋法", "讀 3 小時會錯過：補考：海商法與海洋法", "讀到補考前（09:50）用掉上午 1 次（還剩 0）", "算了"] → 讀 3 小時會錯過：補考：海商法與海洋法
+  [  47.7s] study3h：換日 2029-06-26 10:00
+  [  57.6s] study3h：makeup 考卷第 1 題（maritime Y4MAR_05）【捷徑】讀正解第 2 個 → 按第 2 個
+  [  59.9s] study3h：makeup 考卷第 2 題（maritime Y4MAR_09）【捷徑】讀正解第 2 個 → 按第 2 個
+  [  61.5s] study3h：makeup 考卷第 3 題（maritime Y4MAR_02）【捷徑】讀正解第 2 個 → 按第 2 個
+  [  63.2s] study3h：makeup 考卷第 4 題（maritime Y4MAR_10）【捷徑】讀正解第 1 個 → 按第 1 個
+  [  65.5s] study3h：makeup 考卷第 5 題（maritime Y4MAR_06）【捷徑】讀正解第 3 個 → 按第 3 個
+  [  88.7s] study3h：換日 2029-06-28 10:00
+  [ 100.4s] study3h：結果 {"clock": {"key": "2029-06-28", "day": 1381, "h": 10.706, "zone": "gongguan", "term": null, "week": null}, "mk": {"v": 1, "courses": ["maritime"], "status": "pass", "res": {"maritime": "pass"}}, "FAIL_DELAY": null, "BAR_REG": true, "grades": {"legal_research": "通過", "legal_practice": "通過", "maritime": "及格（補考）"}}；提到補考／會錯過的台詞 [["2029-06-26", "10:00", "考卷發下來。海商法與海洋法補考。五題。"], ["2029-06-26", "10:00", "（海商法與海洋法，補考過了。）"]]；步驟 [["fd_makeup", "start", "2029-06-26", "09:30"], ["fd_makeup", "end", "2029-06-26", "11:00"]]
+PASS study3h：讀書沒有在玩家不知情下跳過補考（沒有「缺考＋事前沒有任何提到補考的提示」）  {"mk": {"v": 1, "courses": ["maritime"], "status": "pass", "res": {"maritime": "pass"}}, "hints": "讀 1 小時〔用掉上午 1 次（還剩 0）〕｜讀 2 小時〔會錯過：補考：海商法與海洋法〕｜讀 3 小時〔會錯過：補考：海商法與海洋法〕｜讀到補考前（09:50）〔用掉上午 1 次（還剩 0）〕｜算了"}
+PASS study3h：沒有 JS 例外  []
+==== CASE skipnoon_seat（SHA c2d0c24bc）====
+PASS skipnoon_seat：遊戲載入
+  [前置／捷徑] [前置] skipnoon_seat：6/26 08:30 library 存檔，補考 pending、今天上午的時段次數已用掉（G.slots.used.am＝1：座位才會出「待到中午」）；讀完馬上照玩家走到自習座位
+  [ 139.9s] 到達「坐下讀書」附近（0.74 m）：點地面 1 次、轉鏡頭 0 次、搖桿 0 次，7 秒
+PASS skipnoon_seat：前置成立（座位選單有「待到中午」、補考那一場還沒開始）  ["坐一下，看看四周時間 +20 分鐘", "讀書這個上午已經排滿了（1／1）", "待到中午（12:00）上午的次數用完了", "趴著睡一下：30 分鐘睡到 09:02", "趴著睡一下：1 小時睡到 09:32", "考前總複習會錯過補考。", "起身"]
+  [ 147.1s] skipnoon_seat：選單 ["坐一下，看看四周時間 +20 分鐘", "讀書這個上午已經排滿了（1／1）", "待到中午（12:00）上午的次數用完了", "趴著睡一下：30 分鐘睡到 09:02", "趴著睡一下：1 小時睡到 09:32", "考前總複習會錯過補考。", "起身"] → 待到中午（12:00）上午的次數用完了
+  [ 155.3s] skipnoon_seat：換日 2029-06-26 10:00
+  [ 164.1s] skipnoon_seat：makeup 考卷第 1 題（maritime Y4MAR_05）【捷徑】讀正解第 2 個 → 按第 2 個
+  [ 166.5s] skipnoon_seat：makeup 考卷第 2 題（maritime Y4MAR_09）【捷徑】讀正解第 2 個 → 按第 2 個
+  [ 168.1s] skipnoon_seat：makeup 考卷第 3 題（maritime Y4MAR_02）【捷徑】讀正解第 2 個 → 按第 2 個
+  [ 169.8s] skipnoon_seat：makeup 考卷第 4 題（maritime Y4MAR_10）【捷徑】讀正解第 1 個 → 按第 1 個
+  [ 172.2s] skipnoon_seat：makeup 考卷第 5 題（maritime Y4MAR_06）【捷徑】讀正解第 3 個 → 按第 3 個
+  [ 189.4s] skipnoon_seat：換日 2029-06-28 10:00
+  [ 208.5s] skipnoon_seat：結果 {"clock": {"key": "2029-06-28", "day": 1381, "h": 10.706, "zone": "gongguan", "term": null, "week": null}, "mk": {"v": 1, "courses": ["maritime"], "status": "pass", "res": {"maritime": "pass"}}, "FAIL_DELAY": null, "BAR_REG": true, "grades": {"legal_research": "通過", "legal_practice": "通過", "maritime": "及格（補考）"}}；提到補考／會錯過的台詞 [["2029-06-26", "10:00", "考卷發下來。海商法與海洋法補考。五題。"], ["2029-06-26", "10:00", "（海商法與海洋法，補考過了。）"]]；步驟 [["fd_makeup", "start", "2029-06-26", "09:30"], ["fd_makeup", "end", "2029-06-26", "11:00"]]
+PASS skipnoon_seat：跳時間停在補考（09:30 那一場有演，或跳之前有提到補考的確認）（修改前預期 FAIL）  {"step": [{"k": "step", "n": "start", "t": "fd_makeup", "d": "2029-06-26", "h": 9.502, "z": "library"}], "warn": [["2029-06-26", "10:00", "考卷發下來。海商法與海洋法補考。五題。"], ["2029-06-26", "10:00", "（海商法與海洋法，補考過了。）"]], "mk": {"v": 1, "courses": ["maritime"], "status": "pass", "res": {"maritime": "pass"}}}
+  [ 217.0s] skipnoon_seat：跳時間時的選單 [["2029-06-26", "10:00", "（A）甲乙之間的傭船契約｜（B）載貨證券的記載｜（C）船長的航海日誌｜（D）甲丙之間的買賣契約"], ["2029-06-26", "10:00", "（A）領海為自基線起至其外側二十四浬間的海域｜（B）鄰接區為鄰接領海外側至距離基線二十四浬間的海域｜（C）專屬經濟海域為鄰接領海外側至距離領海基線一百浬間的海域｜（D）領海基線一律採用正常基線"], ["2029-06-26", "10:00", "（A）船舶適用動產的規定，所以不能設定抵押權｜（B）抵押權的設定應以書面為之，非經登記不得對抗第三人｜（C）抵押權只要口頭約定，就可以對抗第三人｜（D）抵押權沒有登記，設定行為就無效"], ["2029-06-26", "10:00", "（A）船員正常工作時間，以每週工作總時數四十四小時為準｜（B）雇用人得預扣船員報酬，作為船員可能造成損害的賠償費用｜（C）船員在船上服務滿一年，雇用人應給予有給年休十天｜（D）船長不限於中華民國國民"], ["2029-06-26", "10:00", "（A）這是被拋棄貨物的貨主自己的損失，由他自行承擔｜（B）船長的拋棄構成侵權行為，應由船長個人賠償｜（C）這是共同海損，由各利害關係人按被保存財產價值與共同海損總額的比例分擔｜（D）由運送人單獨負擔全部損失"]]
+PASS skipnoon_seat：沒有 JS 例外  []
+==== CASE skipnoon_phone（SHA c2d0c24bc）====
+PASS skipnoon_phone：遊戲載入
+  [前置／捷徑] [前置] skipnoon_phone：6/26 08:30 dorm 存檔，補考 pending；讀完馬上打開手機「今天」→「跳過時間」
+PASS skipnoon_phone：前置成立（手機「今天」有「跳過時間」、補考那一場還沒開始）  {"btns": [["12.000", "等到中午（12:00）"], ["14.000", "等到下午（14:00）"], ["17.500", "等到傍晚（17:30）"], ["20.000", "等到晚上（20:00）"]], "started": 0}
+  [ 250.4s] skipnoon_phone：手機「今天」"6/26 週二・暑假\n現在 08:30\n今天的時間　上午 ○　下午 ○　晚上 ○\n每個時段一件主要的事：上課、社團活動、出遊約會、自習、打工、自由出行、健身都算一件（上課、約好的出遊照樣能去）；吃飯、聊天、約好的見面不算。\n放假中，沒有課\n法律學院圖書館：今天 09:10–17:00　總圖：08:00–22:00\n跳過時間\n沒有想做的事可以跳過；遇到特殊課堂、約好的時間、劇情會停下來。\n等到中午（12:00）\n等到下午（14:00）\n等到傍晚（17:30）\n等到晚上（20:00）\n翹課不會被扣分；沒去的課，可以在宿舍、圖書館、Café 讀書補回來。"；跳過按鈕 [["12.000", "等到中午（12:00）"], ["14.000", "等到下午（14:00）"], ["17.500", "等到傍晚（17:30）"], ["20.000", "等到晚上（20:00）"]]
+  [ 251.6s] skipnoon_phone：按「等到中午（12:00）」
+  [ 258.3s] skipnoon_phone：換日 2029-06-26 10:00
+  [ 267.0s] skipnoon_phone：makeup 考卷第 1 題（maritime Y4MAR_05）【捷徑】讀正解第 2 個 → 按第 2 個
+  [ 269.3s] skipnoon_phone：makeup 考卷第 2 題（maritime Y4MAR_09）【捷徑】讀正解第 2 個 → 按第 2 個
+  [ 271.0s] skipnoon_phone：makeup 考卷第 3 題（maritime Y4MAR_02）【捷徑】讀正解第 2 個 → 按第 2 個
+  [ 272.6s] skipnoon_phone：makeup 考卷第 4 題（maritime Y4MAR_10）【捷徑】讀正解第 1 個 → 按第 1 個
+  [ 274.8s] skipnoon_phone：makeup 考卷第 5 題（maritime Y4MAR_06）【捷徑】讀正解第 3 個 → 按第 3 個
+  [ 291.8s] skipnoon_phone：換日 2029-06-27 23:00
+  [ 297.1s] skipnoon_phone 2029-06-27 23:00 dorm 選項 ["「（去關燈）」", "「再聊一下。」"] → 「（去關燈）」（first）
+  [ 300.0s] skipnoon_phone：換日 2029-06-28 10:00
+  [ 323.0s] skipnoon_phone：結果 {"clock": {"key": "2029-06-28", "day": 1381, "h": 10.708, "zone": "gongguan", "term": null, "week": null}, "mk": {"v": 1, "courses": ["maritime"], "status": "pass", "res": {"maritime": "pass"}}, "FAIL_DELAY": null, "BAR_REG": true, "grades": {"legal_research": "通過", "legal_practice": "通過", "maritime": "及格（補考）"}}；提到補考／會錯過的台詞 [["2029-06-26", "10:00", "考卷發下來。海商法與海洋法補考。五題。"], ["2029-06-26", "10:00", "（海商法與海洋法，補考過了。）"]]；步驟 [["fd_makeup", "start", "2029-06-26", "09:30"], ["fd_makeup", "end", "2029-06-26", "11:00"]]
+PASS skipnoon_phone：跳時間停在補考（09:30 那一場有演，或跳之前有提到補考的確認）（修改前預期 FAIL）  {"step": [{"k": "step", "n": "start", "t": "fd_makeup", "d": "2029-06-26", "h": 9.501, "z": "dorm"}], "warn": [["2029-06-26", "10:00", "考卷發下來。海商法與海洋法補考。五題。"], ["2029-06-26", "10:00", "（海商法與海洋法，補考過了。）"]], "mk": {"v": 1, "courses": ["maritime"], "status": "pass", "res": {"maritime": "pass"}}}
+  [ 332.4s] skipnoon_phone：跳時間時的選單 [["2029-06-26", "10:00", "（A）甲乙之間的傭船契約｜（B）載貨證券的記載｜（C）船長的航海日誌｜（D）甲丙之間的買賣契約"], ["2029-06-26", "10:00", "（A）領海為自基線起至其外側二十四浬間的海域｜（B）鄰接區為鄰接領海外側至距離基線二十四浬間的海域｜（C）專屬經濟海域為鄰接領海外側至距離領海基線一百浬間的海域｜（D）領海基線一律採用正常基線"], ["2029-06-26", "10:00", "（A）船舶適用動產的規定，所以不能設定抵押權｜（B）抵押權的設定應以書面為之，非經登記不得對抗第三人｜（C）抵押權只要口頭約定，就可以對抗第三人｜（D）抵押權沒有登記，設定行為就無效"], ["2029-06-26", "10:00", "（A）船員正常工作時間，以每週工作總時數四十四小時為準｜（B）雇用人得預扣船員報酬，作為船員可能造成損害的賠償費用｜（C）船員在船上服務滿一年，雇用人應給予有給年休十天｜（D）船長不限於中華民國國民"], ["2029-06-26", "10:00", "（A）這是被拋棄貨物的貨主自己的損失，由他自行承擔｜（B）船長的拋棄構成侵權行為，應由船長個人賠償｜（C）這是共同海損，由各利害關係人按被保存財產價值與共同海損總額的比例分擔｜（D）由運送人單獨負擔全部損失"], ["2029-06-27", "23:00", "「（去關燈）」｜「再聊一下。」"]]
+PASS skipnoon_phone：沒有 JS 例外  []
+==== CASE homerest（SHA c2d0c24bc）====
+PASS homerest：遊戲載入
+  [前置／捷徑] [前置] homerest：6/26 10:30 人在臺北的家（G.home.at）、補考 pending
+  [ 365.4s] homerest 2029-06-26 10:31 dorm 選項 ["出發：補考（法律系館A）海商法與海洋法　10:00　捷運", "存檔存到存檔欄位", "睡覺隔天早上在家醒來", "去玄關拿車鑰匙（取車）", "在家休息一下一小時", "回宿舍捷運＋公車 約 40 分鐘"] → 睡覺隔天早上在家醒來（first）
+  [ 367.3s] homerest 2029-06-26 10:31 dorm 選項 ["照樣", "先不要"] → 照樣（pick）
+  [ 377.8s] homerest：makeup 考卷第 1 題（maritime Y4MAR_05）【捷徑】讀正解第 2 個 → 按第 2 個
+  [ 379.9s] homerest：makeup 考卷第 2 題（maritime Y4MAR_09）【捷徑】讀正解第 2 個 → 按第 2 個
+  [ 381.5s] homerest：makeup 考卷第 3 題（maritime Y4MAR_02）【捷徑】讀正解第 2 個 → 按第 2 個
+  [ 383.1s] homerest：makeup 考卷第 4 題（maritime Y4MAR_10）【捷徑】讀正解第 1 個 → 按第 1 個
+  [ 385.2s] homerest：makeup 考卷第 5 題（maritime Y4MAR_06）【捷徑】讀正解第 3 個 → 按第 3 個
+  [ 399.0s] homerest 2029-06-26 11:00 dorm 選項 ["存檔存到存檔欄位", "睡覺隔天早上在家醒來", "去玄關拿車鑰匙（取車）", "在家休息一下一小時", "回宿舍捷運＋公車 約 40 分鐘"] → 睡覺隔天早上在家醒來（first）
+  [ 442.6s] homerest 2029-08-04 08:30 gongguan 選項 ["（A）消息受領人是否持有至少一千張股票", "（B）消息提供人是否為上市公司董事長", "（C）股票交易是否在星期五進行", "（D）消息提供人是否違反信賴義務，以及是否涉及個人利益"] → （A）消息受領人是否持有至少一千張股票（first）
+  [ 444.2s] homerest 2029-08-04 08:30 gongguan 選項 ["（A）使公司不必召開董事會", "（B）使所有股東均自動成為董事", "（C）強化公司治理與董事會監督功能", "（D）使獨立董事取代所有經理人執行日常業務"] → （A）使公司不必召開董事會（first）
+FAIL homerest：前置成立（家裡選單有「出發：補考（法律系館A）」）  null
+PASS homerest：沒有 JS 例外  []
+==== CASE old_delayed（SHA c2d0c24bc）====
+PASS old_delayed：遊戲載入
+  [前置／捷徑] [前置] old_delayed：照修改前 f3a2ba4a1 6/18 FD.check 會產生的狀態組 2029-06-20 10:00 宿舍的存檔（{"FAIL_DELAY_COURSES": ["maritime"], "FAIL_DELAY_V": 2, "FAIL_DELAY": true, "FAIL_DELAY_DAY": 1371, "BAR_REG": false, "FAIL_DELAY_BARCANCEL": true, "Y4_PATH": "bar"}；海商法期末答對 0 題 qs ["Y4_MAR_04", "Y4MAR_08", "Y4MAR_04", "Y4MAR_03", "Y4MAR_01"]、成績 0 分（不及格）、阿哲 6/18 22:00 兩則）一次讀進去
+  [ 469.0s] old_delayed：讀檔那一刻 {"clock": {"key": "2029-06-20", "day": 1373, "h": 10.004, "zone": "dorm", "term": null, "week": null}, "flags": {"Y4_PATH": "bar", "BAR_REG": true, "GRADUATED": 1355, "FAIL_DELAY_COURSES": [], "FAIL_DELAY_V": 2, "FD_MAKEUP": {"v": 1, "courses": ["maritime"], "status": "pending", "res": {}, "mig": 32962, "notified": 1373, "noticed": 1373}}, "failed": ["maritime"], "exam": {"Y4S2:maritime:final": {"qs": ["Y4_MAR_04", "Y4MAR_08", "Y4MAR_04", "Y4MAR_03", "Y4MAR_01"], "ans": [], "status": "done", "correct": 0, "score": 0}}, "grades": {"legal_research": "通過", "legal_practice": "通過", "maritime": "0 分（不及格）"}, "pgOn": true, "delayed": false, "pgDone": {"grad": 1, "fd_grades_y4s2": 1}, "pend": [["fd_makeup", "2029-06-26", 9.5], ["b1", "2029-07-12", 20], ["exam_2029", "2029-08-04", 8], ["first", "2030-10-01", 21]], "mk": {"v": 1, "courses": ["maritime"], "status": "pending", "res": {}, "mig": 32962, "notified": 1373, "noticed": 1373}, "homeOpt": null, "review": {"t": "考前總複習", "hint": "補考的 1 科、9 張觀念卡讀一遍。三小時，不占時段次數。", "dim": false}, "homeAt": false, "retake": null, "nmsg": 4, "title": false}
+PASS old_delayed：讀進來＝補排補考（FD_MAKEUP pending、FAIL_DELAY 沒了）（修改前預期 FAIL）  {"Y4_PATH": "bar", "BAR_REG": true, "GRADUATED": 1355, "FAIL_DELAY_COURSES": [], "FAIL_DELAY_V": 2, "FD_MAKEUP": {"v": 1, "courses": ["maritime"], "status": "pending", "res": {}, "mig": 32962, "notified": 1373, "noticed": 1373}}
+  [ 469.0s] old_delayed：讀檔後報名 BAR_REG＝True、BARCANCEL＝None（恢復與否由 BB 定，只記）
+PASS old_delayed：③ 冪等——同一份存檔再讀一次，補考狀態與延畢旗標不變、教務處通知沒有多一則  {"first": {"mk": "pending", "FAIL_DELAY": null, "FAIL_DELAY_COURSES": [], "FAIL_DELAY_DAY": null, "BAR_REG": true, "FAIL_DELAY_BARCANCEL": null}, "second": {"mk": "pending", "FAIL_DELAY": null, "FAIL_DELAY_COURSES": [], "FAIL_DELAY_DAY": null, "BAR_REG": true, "FAIL_DELAY_BARCANCEL": null}, "sys_msgs": [1, 1]}
+  [ 486.9s] old_delayed：手機教務處 "‹ 訊息\n通知\n6/20 10:00\n【教務處】大四下補考通知：海商法與海洋法。6/26（二）10:00，法律系館A。\n今天 20:00\n【教務處】明天上午 10:00 補考：海商法與海洋法（法律系館A）。"
+  [ 486.9s] old_delayed：換日 2029-06-25 20:00
+  [ 494.0s] old_delayed：手機教務處 "‹ 訊息\n通知\n6/20 10:00\n【教務處】大四下補考通知：海商法與海洋法。6/26（二）10:00，法律系館A。\n今天 20:00\n【教務處】明天上午 10:00 補考：海商法與海洋法（法律系館A）。"
+  [ 494.0s] old_delayed：換日 2029-06-26 10:00
+  [ 504.4s] old_delayed：makeup 考卷第 1 題（maritime Y4MAR_05）【捷徑】讀正解第 2 個 → 按第 2 個
+  [ 506.6s] old_delayed：makeup 考卷第 2 題（maritime Y4MAR_09）【捷徑】讀正解第 2 個 → 按第 2 個
+  [ 508.2s] old_delayed：makeup 考卷第 3 題（maritime Y4MAR_02）【捷徑】讀正解第 2 個 → 按第 2 個
+  [ 509.8s] old_delayed：makeup 考卷第 4 題（maritime Y4MAR_10）【捷徑】讀正解第 1 個 → 按第 1 個
+  [ 512.0s] old_delayed：makeup 考卷第 5 題（maritime Y4MAR_06）【捷徑】讀正解第 3 個 → 按第 3 個
+  [ 528.7s] old_delayed：換日 2029-06-27 23:00
+  [ 533.4s] old_delayed 2029-06-27 23:00 dorm 選項 ["「（去關燈）」", "「再聊一下。」"] → 「（去關燈）」（first）
+  [ 535.5s] old_delayed：換日 2029-06-28 10:00
+  [ 564.3s] old_delayed：換日 2029-07-05 19:30
+  [ 567.8s] old_delayed：換日 2029-07-12 20:00
+  [ 576.1s] old_delayed：換日 2029-08-04 08:00
+  [ 578.5s] old_delayed 2029-08-04 08:30 gongguan 選項 ["（A）消息受領人是否持有至少一千張股票", "（B）消息提供人是否為上市公司董事長", "（C）股票交易是否在星期五進行", "（D）消息提供人是否違反信賴義務，以及是否涉及個人利益"] → （A）消息受領人是否持有至少一千張股票（first）
+  [ 580.2s] old_delayed 2029-08-04 08:30 gongguan 選項 ["（A）使公司不必召開董事會", "（B）使所有股東均自動成為董事", "（C）強化公司治理與董事會監督功能", "（D）使獨立董事取代所有經理人執行日常業務"] → （A）使公司不必召開董事會（first）
+  [ 582.6s] old_delayed 2029-08-04 08:30 gongguan 選項 ["（A）無效，但法律另有規定者不在此限", "（B）一律有效", "（C）僅得由行政機關撤銷", "（D）須經雙方當事人同意始無效"] → （A）無效，但法律另有規定者不在此限（first）
+  [ 584.9s] old_delayed 2029-08-04 08:30 gongguan 選項 ["（A）法官只要內心確信即可，判決不必寫理由", "（B）依自由心證判斷，不得違背論理及經驗法則，並應將得心", "（C）依證人人數的多寡決定", "（D）依當事人的社會地位判斷可信度"] → （A）法官只要內心確信即可，判決不必寫理由（first）
+  [ 587.3s] old_delayed 2029-08-04 08:30 gongguan 選項 ["（A）百分之五", "（B）百分之十五", "（C）百分之二十", "（D）百分之十"] → （A）百分之五（first）
+  [ 589.7s] old_delayed 2029-08-04 08:30 gongguan 選項 ["（A）身體受傷所生醫療費", "（B）所有權受侵害所生修繕費", "（C）未伴隨既有權利受侵害的財產利益損失", "（D）人格權受侵害所生非財產損害"] → （A）身體受傷所生醫療費（first）
+  [ 592.1s] old_delayed 2029-08-04 08:30 gongguan 選項 ["（A）任何輕微文字錯誤", "（B）當事人不同意行政機關的判斷", "（C）重大而且明顯的瑕疵", "（D）行政處分未附上新聞稿"] → （A）任何輕微文字錯誤（first）
+  [ 594.4s] old_delayed 2029-08-04 08:30 gongguan 選項 ["（A）只有乙實際失業才可能成立犯罪", "（B）甲可能成立誹謗罪", "（C）只要甲沒有使用髒話，就不可能成立犯罪", "（D）只要以文字散布，就必然不受刑法規範"] → （A）只有乙實際失業才可能成立犯罪（first）
+  [ 596.8s] old_delayed 2029-08-04 08:30 gongguan 選項 ["（A）只要有人曾經通行一次即可成立", "（B）私有土地一旦有人通行，所有權立即移轉給國家", "（C）須依供公眾通行的必要性、長期通行事實及其他實務所定", "（D）只要行政機關口頭宣稱即可成立"] → （A）只要有人曾經通行一次即可成立（first）
+  [ 598.6s] old_delayed 2029-08-04 08:30 gongguan 選項 ["對", "錯"] → 對（first）
+  [ 600.9s] old_delayed 2029-08-04 08:30 gongguan 選項 ["（A）符合自首要件者，得減輕其刑", "（B）自首者一律無罪", "（C）自首者一律免除其刑", "（D）只有犯罪被警方查獲後才可能成立自首"] → （A）符合自首要件者，得減輕其刑（first）
+  [ 602.7s] old_delayed 2029-08-04 08:30 gongguan 選項 ["（A）基本生活所需的費用，由各縣市政府自行決定", "（B）只要是生活費，不論金額多少都不得課稅", "（C）納稅者為維持自己及受扶養親屬享有符合人性尊嚴之基本", "（D）基本生活所需費用的標準，每十年才檢討一次"] → （A）基本生活所需的費用，由各縣市政府自行決定（first）
+  [ 605.1s] old_delayed 2029-08-04 08:30 gongguan 選項 ["（A）必須經甲書面同意始成立", "（B）只能由法院命令成立", "（C）丙只能成為保證人", "（D）第三人得與債權人訂立契約承擔債務"] → （A）必須經甲書面同意始成立（first）
+  [ 607.4s] old_delayed 2029-08-04 08:30 gongguan 選項 ["（A）稱謂問題", "（B）實質防禦權遭規避", "（C）管轄問題", "（D）判決格式"] → （A）稱謂問題（first）
+  [ 609.1s] old_delayed 2029-08-04 08:30 gongguan 選項 ["對", "錯"] → 對（first）
+  [ 611.5s] old_delayed 2029-08-04 08:30 gongguan 選項 ["（A）員工總人數百分之三", "（B）員工總人數百分之五", "（C）員工總人數百分之一，且不得少於一人", "（D）民營事業沒有進用義務"] → （A）員工總人數百分之三（first）
+  [ 614.0s] old_delayed 2029-08-04 08:30 gongguan 選項 ["（A）一人", "（B）三人", "（C）五人", "（D）十人"] → （A）一人（first）
+  [ 615.7s] old_delayed 2029-08-04 08:30 gongguan 選項 ["對", "錯"] → 對（first）
+  [ 618.2s] old_delayed 2029-08-04 08:30 gongguan 選項 ["（A）可能成立恐嚇危害安全罪", "（B）只有甲實際放火才可能成立恐嚇罪", "（C）恐嚇罪必須以當面口頭表示為限", "（D）只有威脅生命，威脅財產不受規範"] → （A）可能成立恐嚇危害安全罪（first）
+  [ 619.9s] old_delayed 2029-08-04 08:30 gongguan 選項 ["（A）支持自白真實性", "（B）取代起訴", "（C）決定管轄", "（D）延長羈押"] → （A）支持自白真實性（first）
+  [ 625.5s] old_delayed：換日 2029-08-07 22:00
+  [ 632.1s] old_delayed：換日 2029-09-07 15:05
+  [ 637.2s] old_delayed：換日 2029-09-08 21:00
+  [ 638.1s] old_delayed 2029-09-08 21:00 gongguan 選項 ["「去補習班的自習室。」", "「在家讀。」"] → 「去補習班的自習室。」（first）
+  [ 646.7s] old_delayed：換日 2029-10-20 10:00
+  [ 657.6s] old_delayed：換日 2029-12-14 20:00
+  [ 664.8s] old_delayed：換日 2030-01-09 20:00
+  [ 675.3s] old_delayed：換日 2030-03-08 12:30
+  [ 680.4s] old_delayed：換日 2030-05-09 21:00
+  [ 686.1s] old_delayed：換日 2030-07-11 17:00
+  [ 699.0s] old_delayed：換日 2030-08-03 08:00
+  [ 701.4s] old_delayed 2030-08-03 08:30 gongguan 選項 ["（A）律師應參與的事項", "（B）完全由律師自由決定，法律沒有規定", "（C）只有公設辯護人需要", "（D）只有執業未滿五年的律師需要"] → （A）律師應參與的事項（first）
+  [ 703.8s] old_delayed 2030-08-03 08:30 gongguan 選項 ["（A）甲可能成立侵占遺失物罪", "（B）因商品價值不高，必然不成立犯罪", "（C）甲必須以暴力取得商品才成立竊盜", "（D）甲可能成立普通竊盜罪"] → （A）甲可能成立侵占遺失物罪（first）
+  [ 705.6s] old_delayed 2030-08-03 08:30 gongguan 選項 ["對", "錯"] → 對（first）
+  [ 707.4s] old_delayed 2030-08-03 08:30 gongguan 選項 ["（A）程序問題", "（B）純量刑問題", "（C）證明力問題", "（D）民法問題"] → （A）程序問題（first）
+  [ 709.9s] old_delayed 2030-08-03 08:30 gongguan 選項 ["（A）繼承人自己的全部財產", "（B）因繼承所得的遺產", "（C）被繼承人生前全部收入", "（D）繼承人配偶的財產"] → （A）繼承人自己的全部財產（first）
+  [ 712.3s] old_delayed 2030-08-03 08:30 gongguan 選項 ["（A）提起第三審上訴", "（B）提起再審之訴", "（C）聲請假扣押", "（D）什麼都不能做，判決確定就不能再爭執"] → （A）提起第三審上訴（first）
+  [ 714.8s] old_delayed 2030-08-03 08:30 gongguan 選項 ["（A）僅限民法第184條第1項前段所稱權利", "（B）一律排除純粹經濟上損失", "（C）不以權利為限，符合要件的利益損害亦可能受保護", "（D）僅限身體及生命權"] → （A）僅限民法第184條第1項前段所稱權利（first）
+  [ 717.3s] old_delayed 2030-08-03 08:30 gongguan 選項 ["（A）只要就中華民國境內的所得課徵營利事業所得稅", "（B）應就境內外全部營利事業所得合併課稅；國外已繳的稅可", "（C）國外所得一律免稅", "（D）國外已繳的稅可以全額退還"] → （A）只要就中華民國境內的所得課徵營利事業所得稅（first）
+  [ 719.1s] old_delayed 2030-08-03 08:30 gongguan 選項 ["（A）不自證己罪", "（B）法官迴避", "（C）管轄", "（D）既判力"] → （A）不自證己罪（first）
+  [ 721.5s] old_delayed 2030-08-03 08:30 gongguan 選項 ["（A）加倍返還", "（B）全數返還", "（C）不得請求返還", "（D）自動轉為違約金以外的精神慰撫金"] → （A）加倍返還（first）
+  [ 724.0s] old_delayed 2030-08-03 08:30 gongguan 選項 ["（A）少年刑事案件", "（B）犯毒品危害防制條例之罪的案件", "（C）所犯最輕本刑為十年以上有期徒刑之罪的案件", "（D）所有財產犯罪的案件"] → （A）少年刑事案件（first）
+  [ 726.5s] old_delayed 2030-08-03 08:30 gongguan 選項 ["（A）無效", "（B）有效，三家都要全額賠", "（C）有效，但只能領一家", "（D）效力未定，等保險公司承認"] → （A）無效（first）
+PASS old_delayed：有補考通知（旁白或手機教務處）（修改前預期 FAIL）  {"say": [], "msgs": [{"th": "sys", "from": null, "tag": "fd_mk_sys", "day": 1373, "h": 10, "text": "【教務處】大四下補考通知：海商法與海洋法。6/26（二）10:00，法律系館A。"}]}
+PASS old_delayed：有提示句（讀檔後旁白／GAME.say 有補考通知那一句；BB 09:25 ②）  ["（法律系館A 201。前面幾排零零散散坐了四五個人。有人穿著實習的襯衫，有人一邊吃早餐一邊翻講義。）", "考卷發下去了。一樣五題，十一點收。", "考卷發下來。海商法與海洋法補考。五題。", "1／5　甲以「以船舶之全部供運送為目的」的運送契約（傭船契約）向乙租船運貨，乙另外簽發了載貨證券，這張載貨證券後來轉讓給丙。依海商法第60條第2項，運送人乙和丙之間的關係，應依什麼決定？", "2／5　依中華民國領海及鄰接區法、中華民國專屬經濟海域及大陸礁層法，下列敘述何者正確？", "3／5　下列關於船舶抵押權的敘述，何者正確？"]
+PASS old_delayed：有手機通知（教務處補考通知）（BB 09:25 ②）  [{"th": "sys", "from": null, "tag": "fd_mk_sys", "day": 1373, "h": 10, "text": "【教務處】大四下補考通知：海商法與海洋法。6/26（二）10:00，法律系館A。"}]
+  [ 727.6s] old_delayed：之後 {"clock": {"key": "2030-08-03", "day": 1782, "h": 8.5, "zone": "gongguan", "term": null, "week": null}, "mk": {"v": 1, "courses": ["maritime"], "status": "pass", "res": {"maritime": "pass"}, "mig": 32962, "notified": 1373, "noticed": 1373}, "flags": {"Y4_PATH": "bar", "BAR_REG": true, "GRADUATED": 1355, "FAIL_DELAY_COURSES": [], "FAIL_DELAY_V": 2, "FD_MAKEUP": {"v": 1, "courses": ["maritime"], "status": "pass", "res": {"maritime": "pass"}, "mig": 32962, "notified": 1373, "noticed": 1373}, "MOVED_OUT": 1381}, "pend": [["first", "2030-10-01", 21]]}；台詞 [["2029-06-26", "10:00", "（法律系館A 201。前面幾排零零散散坐了四五個人。有人穿著實習的襯衫，有人一邊吃早餐一邊翻講義。）"], ["2029-06-26", "10:00", "考卷發下去了。一樣五題，十一點收。"], ["2029-06-26", "10:00", "考卷發下來。海商法與海洋法補考。五題。"], ["2029-06-26", "10:00", "1／5　甲以「以船舶之全部供運送為目的」的運送契約（傭船契約）向乙租船運貨，乙另外簽發了載貨證券，這張載貨證券後來轉讓給丙。依海商法第60條第2項，運送人乙和丙之間的關係，應依什麼決定？"], ["2029-06-26", "10:00", "2／5　依中華民國領海及鄰接區法、中華民國專屬經濟海域及大陸礁層法，下列敘述何者正確？"], ["2029-06-26", "10:00", "3／5　下列關於船舶抵押權的敘述，何者正確？"], ["2029-06-26", "10:00", "4／5　依船員法，下列關於船員勞動條件的敘述，何者正確？"], ["2029-06-26", "10:00", "5／5　船舶航行中遇到暴風，船長為了保全船舶和全部貨物的共同安全，故意而且合理地把一部分貨物拋進海裡。依海商法，下列敘述何者正確？"], ["2029-06-26", "10:00", "交卷。答對 5／5，100 分。"], ["2029-06-26", "10:00", "（海商法與海洋法，補考過了。）"], ["2029-06-26", "10:00", "（這樣，就真的畢業了。）"], ["2029-06-26", "10:00", "（今年的國考，照常考。）"], ["2029-06-27", "23:00", "（紙箱都封好了。學弟們先走了，房間只剩兩張床有東西。）"], ["2029-06-27", "23:00", "（阿哲從二樓上來，手上兩罐飲料，一罐給你，一罐給柏翰。）"], ["2029-06-27", "23:00", "我自己的喝完了。"], ["2029-06-27", "23:00", "……二十三點了。"], ["2029-06-27", "23:00", "知道啦。最後一次。"], ["2029-06-27", "23:00", "（燈關了。窗外的路燈照進來一點。三個人都沒說話。）"], ["2029-06-28", "10:00", "（宿舍期滿。舍監在門口收鑰匙。）"], ["2029-06-28", "10:00", "（409 的鑰匙交出去的時候，舍監看了一下名單：「四年，四個房間。」）"]]
+PASS old_delayed：沒有卡住  null
+PASS old_delayed：沒有 JS 例外  []
+==== CASE home_go（SHA c2d0c24bc）====
+PASS home_go：遊戲載入
+  [前置／捷徑] [前置] home_go：2029-06-26 08:30 人在臺北的家（G.home.at＝true；6/26 是週二，一般回不了家）、補考已排好 pending、PG.done fd_grades_y4s2、海商法期末答對 0 題（qs ["Y4_MAR_04", "Y4MAR_08", "Y4MAR_04", "Y4MAR_03", "Y4MAR_01"]）
+  [ 785.1s] home_go 2029-06-26 08:32 dorm 選項 ["考前總複習會錯過補考。", "出發：補考（法律系館A）海商法與海洋法　10:00　捷運", "存檔存到存檔欄位", "睡覺隔天早上在家醒來", "去玄關拿車鑰匙（取車）", "在家休息一下一小時", "回宿舍捷運＋公車 約 40 分鐘"] → 睡覺隔天早上在家醒來（first）
+  [ 786.9s] home_go 2029-06-26 08:32 dorm 選項 ["照樣", "先不要"] → 照樣（pick）
+  [ 788.0s] home_go 2029-06-26 09:30 dorm 選項 ["考前總複習會錯過補考。", "出發：補考（法律系館A）海商法與海洋法　10:00　捷運", "存檔存到存檔欄位", "睡覺隔天早上在家醒來", "去玄關拿車鑰匙（取車）", "在家休息一下一小時", "回宿舍捷運＋公車 約 40 分鐘"] → 睡覺隔天早上在家醒來（first）
+  [ 789.6s] home_go 2029-06-26 09:30 dorm 選項 ["照樣", "先不要"] → 照樣（pick）
+  [ 800.2s] home_go：makeup 考卷第 1 題（maritime Y4MAR_05）【捷徑】讀正解第 2 個 → 按第 2 個
+  [ 802.4s] home_go：makeup 考卷第 2 題（maritime Y4MAR_09）【捷徑】讀正解第 2 個 → 按第 2 個
+  [ 804.0s] home_go：makeup 考卷第 3 題（maritime Y4MAR_02）【捷徑】讀正解第 2 個 → 按第 2 個
+  [ 805.6s] home_go：makeup 考卷第 4 題（maritime Y4MAR_10）【捷徑】讀正解第 1 個 → 按第 1 個
+  [ 807.8s] home_go：makeup 考卷第 5 題（maritime Y4MAR_06）【捷徑】讀正解第 3 個 → 按第 3 個
+  [ 821.5s] home_go 2029-06-26 11:00 dorm 選項 ["存檔存到存檔欄位", "睡覺隔天早上在家醒來", "去玄關拿車鑰匙（取車）", "在家休息一下一小時", "回宿舍捷運＋公車 約 40 分鐘"] → 睡覺隔天早上在家醒來（first）
+  [ 843.2s] home_go：讀檔那一刻 {"key": "2029-06-26", "day": 1379, "h": 8.502, "zone": "dorm", "term": null, "week": null}；第一個家裡選單 null；FD.homeMakeupOpt＝null
+FAIL home_go：家裡的選單出來了  {"dlg": false, "name": "", "txt": "", "ch": [], "busy": false, "depth": 0, "phone": false, "running": null, "h": 11.406, "day": 1381, "zone": "gongguan", "lab": "捷運公館站入口"}
+PASS home_go：沒有 JS 例外  []
+==== CASE home_sleep（SHA c2d0c24bc）====
+PASS home_sleep：遊戲載入
+  [前置／捷徑] [前置] home_sleep：2029-06-25 21:00 人在臺北的家（G.home.at＝true；6/26 是週二，一般回不了家）、補考已排好 pending、PG.done fd_grades_y4s2、海商法期末答對 0 題（qs ["Y4_MAR_04", "Y4MAR_08", "Y4MAR_04", "Y4MAR_03", "Y4MAR_01"]）
+  [ 875.0s] home_sleep 2029-06-25 21:01 dorm 選項 ["考前總複習總複習要三個小時，21:00 以前才能開始（不", "存檔存到存檔欄位", "睡覺隔天早上在家醒來", "去玄關拿車鑰匙（取車）", "在家休息一下一小時", "回宿舍捷運＋公車 約 40 分鐘"] → 睡覺隔天早上在家醒來（first）
+  [ 881.4s] home_sleep 2029-06-26 09:30 dorm 選項 ["考前總複習會錯過補考。", "出發：補考（法律系館A）海商法與海洋法　10:00　捷運", "存檔存到存檔欄位", "睡覺隔天早上在家醒來", "去玄關拿車鑰匙（取車）", "在家休息一下一小時", "回宿舍捷運＋公車 約 40 分鐘"] → 睡覺隔天早上在家醒來（first）
+  [ 883.0s] home_sleep 2029-06-26 09:30 dorm 選項 ["照樣", "先不要"] → 照樣（pick）
+  [ 893.4s] home_sleep：makeup 考卷第 1 題（maritime Y4MAR_05）【捷徑】讀正解第 2 個 → 按第 2 個
+  [ 895.6s] home_sleep：makeup 考卷第 2 題（maritime Y4MAR_09）【捷徑】讀正解第 2 個 → 按第 2 個
+  [ 897.1s] home_sleep：makeup 考卷第 3 題（maritime Y4MAR_02）【捷徑】讀正解第 2 個 → 按第 2 個
+  [ 898.7s] home_sleep：makeup 考卷第 4 題（maritime Y4MAR_10）【捷徑】讀正解第 1 個 → 按第 1 個
+  [ 900.9s] home_sleep：makeup 考卷第 5 題（maritime Y4MAR_06）【捷徑】讀正解第 3 個 → 按第 3 個
+  [ 914.5s] home_sleep 2029-06-26 11:00 dorm 選項 ["存檔存到存檔欄位", "睡覺隔天早上在家醒來", "去玄關拿車鑰匙（取車）", "在家休息一下一小時", "回宿舍捷運＋公車 約 40 分鐘"] → 睡覺隔天早上在家醒來（first）
+  [ 958.2s] home_sleep：讀檔那一刻 {"key": "2029-06-25", "day": 1378, "h": 21.004, "zone": "dorm", "term": null, "week": null}；第一個家裡選單 null；FD.homeMakeupOpt＝null
+FAIL home_sleep：家裡的選單出來了  {"dlg": false, "name": "", "txt": "", "ch": [], "busy": false, "depth": 0, "phone": false, "running": null, "h": 11.406, "day": 1381, "zone": "gongguan", "lab": "捷運公館站入口"}
+PASS home_sleep：沒有 JS 例外  []
+==== CASE home_late（SHA c2d0c24bc）====
+PASS home_late：遊戲載入
+  [前置／捷徑] [前置] home_late：2029-06-26 11:15 人在臺北的家（G.home.at＝true；6/26 是週二，一般回不了家）、補考已排好 pending、PG.done fd_grades_y4s2、海商法期末答對 0 題（qs ["Y4_MAR_04", "Y4MAR_08", "Y4MAR_04", "Y4MAR_03", "Y4MAR_01"]）
+  [ 984.4s] home_late 2029-06-26 11:15 dorm 選項 ["存檔存到存檔欄位", "睡覺隔天早上在家醒來", "去玄關拿車鑰匙（取車）", "在家休息一下一小時", "回宿舍捷運＋公車 約 40 分鐘"] → 睡覺隔天早上在家醒來（first）
+  [1003.3s] home_late 2029-06-26 11:15 dorm 選項 ["存檔存到存檔欄位", "睡覺隔天早上在家醒來", "去玄關拿車鑰匙（取車）", "在家休息一下一小時", "回宿舍捷運＋公車 約 40 分鐘"] → 睡覺隔天早上在家醒來（first）
+  [1005.7s] home_late 2029-06-26 22:00 dorm 選項 ["存檔存到存檔欄位", "睡覺隔天早上在家醒來", "去玄關拿車鑰匙（取車）", "在家休息一下一小時", "回宿舍捷運＋公車 約 40 分鐘"] → 睡覺隔天早上在家醒來（first）
+  [1051.8s] home_late 2029-09-03 09:00 gongguan 選項 ["「去總圖讀書。」", "「接家教，存一點錢。」", "「在家準備國考。」"] → 「去總圖讀書。」（first）
+  [1071.2s] home_late：讀檔那一刻 {"key": "2029-06-26", "day": 1379, "h": 11.254, "zone": "dorm", "term": null, "week": null}；第一個家裡選單 null；FD.homeMakeupOpt＝null
+FAIL home_late：家裡的選單出來了  {"dlg": false, "name": "", "txt": "", "ch": [], "busy": false, "depth": 0, "phone": false, "running": null, "h": 8.42, "day": 1478, "zone": "gongguan", "lab": "捷運公館站入口"}
+PASS home_late：沒有 JS 例外  []
+==== CASE home_rest（SHA c2d0c24bc）====
+PASS home_rest：遊戲載入
+  [前置／捷徑] [前置] home_rest：2029-06-26 08:30 人在臺北的家（G.home.at＝true；6/26 是週二，一般回不了家）、補考已排好 pending、PG.done fd_grades_y4s2、海商法期末答對 0 題（qs ["Y4_MAR_04", "Y4MAR_08", "Y4MAR_04", "Y4MAR_03", "Y4MAR_01"]）
+  [1108.0s] home_rest 2029-06-26 08:31 dorm 選項 ["考前總複習會錯過補考。", "出發：補考（法律系館A）海商法與海洋法　10:00　捷運", "存檔存到存檔欄位", "睡覺隔天早上在家醒來", "去玄關拿車鑰匙（取車）", "在家休息一下一小時", "回宿舍捷運＋公車 約 40 分鐘"] → 睡覺隔天早上在家醒來（first）
+  [1109.8s] home_rest 2029-06-26 08:31 dorm 選項 ["照樣", "先不要"] → 照樣（pick）
+  [1110.8s] home_rest 2029-06-26 09:30 dorm 選項 ["考前總複習會錯過補考。", "出發：補考（法律系館A）海商法與海洋法　10:00　捷運", "存檔存到存檔欄位", "睡覺隔天早上在家醒來", "去玄關拿車鑰匙（取車）", "在家休息一下一小時", "回宿舍捷運＋公車 約 40 分鐘"] → 睡覺隔天早上在家醒來（first）
+  [1112.5s] home_rest 2029-06-26 09:30 dorm 選項 ["照樣", "先不要"] → 照樣（pick）
+  [1122.9s] home_rest：makeup 考卷第 1 題（maritime Y4MAR_05）【捷徑】讀正解第 2 個 → 按第 2 個
+  [1125.1s] home_rest：makeup 考卷第 2 題（maritime Y4MAR_09）【捷徑】讀正解第 2 個 → 按第 2 個
+  [1126.7s] home_rest：makeup 考卷第 3 題（maritime Y4MAR_02）【捷徑】讀正解第 2 個 → 按第 2 個
+  [1128.2s] home_rest：makeup 考卷第 4 題（maritime Y4MAR_10）【捷徑】讀正解第 1 個 → 按第 1 個
+  [1130.4s] home_rest：makeup 考卷第 5 題（maritime Y4MAR_06）【捷徑】讀正解第 3 個 → 按第 3 個
+  [1144.1s] home_rest 2029-06-26 11:00 dorm 選項 ["存檔存到存檔欄位", "睡覺隔天早上在家醒來", "去玄關拿車鑰匙（取車）", "在家休息一下一小時", "回宿舍捷運＋公車 約 40 分鐘"] → 睡覺隔天早上在家醒來（first）
+  [1186.4s] home_rest：讀檔那一刻 {"key": "2029-06-26", "day": 1379, "h": 8.504, "zone": "dorm", "term": null, "week": null}；第一個家裡選單 null；FD.homeMakeupOpt＝null
+FAIL home_rest：家裡的選單出來了  {"dlg": false, "name": "", "txt": "", "ch": [], "busy": true, "depth": 1, "phone": false, "running": null, "h": 8, "day": 1418, "zone": "gongguan", "lab": ""}
+PASS home_rest：沒有 JS 例外  []
+==== CASE mkbg_home（SHA c2d0c24bc）====
+PASS mkbg_home：遊戲載入
+  [1205.8s] mkbg_home：頁面 FD.MK_BG＝linze_201、FD.MK_PLACE＝法律系館A（修改前沒有＝比對用 linze_201／法律系館A）
+  [前置／捷徑] [前置] mkbg_home：2029-06-26 08:30 人在臺北的家（G.home.at＝true）、補考已排好 pending、PG.done fd_grades_y4s2、海商法期末答對 0 題（qs ["Y4_MAR_04", "Y4MAR_08", "Y4MAR_04", "Y4MAR_03", "Y4MAR_01"]）；考卷【捷徑】讀正解，補考答對 5 題
+  [1224.0s] mkbg_home 2029-06-26 08:31 dorm 選項 ["考前總複習會錯過補考。", "出發：補考（法律系館A）海商法與海洋法　10:00　捷運", "存檔存到存檔欄位", "睡覺隔天早上在家醒來", "去玄關拿車鑰匙（取車）", "在家休息一下一小時", "回宿舍捷運＋公車 約 40 分鐘"] → 睡覺隔天早上在家醒來（first）
+  [1225.8s] mkbg_home 2029-06-26 08:31 dorm 選項 ["照樣", "先不要"] → 照樣（pick）
+  [1226.9s] mkbg_home 2029-06-26 09:30 dorm 選項 ["考前總複習會錯過補考。", "出發：補考（法律系館A）海商法與海洋法　10:00　捷運", "存檔存到存檔欄位", "睡覺隔天早上在家醒來", "去玄關拿車鑰匙（取車）", "在家休息一下一小時", "回宿舍捷運＋公車 約 40 分鐘"] → 睡覺隔天早上在家醒來（first）
+  [1228.6s] mkbg_home 2029-06-26 09:30 dorm 選項 ["照樣", "先不要"] → 照樣（pick）
+  [1238.9s] mkbg_home：makeup 考卷第 1 題（maritime Y4MAR_05）【捷徑】讀正解第 2 個 → 按第 2 個
+  [1241.1s] mkbg_home：makeup 考卷第 2 題（maritime Y4MAR_09）【捷徑】讀正解第 2 個 → 按第 2 個
+  [1242.6s] mkbg_home：makeup 考卷第 3 題（maritime Y4MAR_02）【捷徑】讀正解第 2 個 → 按第 2 個
+  [1244.2s] mkbg_home：makeup 考卷第 4 題（maritime Y4MAR_10）【捷徑】讀正解第 1 個 → 按第 1 個
+  [1246.3s] mkbg_home：makeup 考卷第 5 題（maritime Y4MAR_06）【捷徑】讀正解第 3 個 → 按第 3 個
+  [1260.0s] mkbg_home 2029-06-26 11:00 dorm 選項 ["存檔存到存檔欄位", "睡覺隔天早上在家醒來", "去玄關拿車鑰匙（取車）", "在家休息一下一小時", "回宿舍捷運＋公車 約 40 分鐘"] → 睡覺隔天早上在家醒來（first）
+FAIL mkbg_home：前置成立（家裡選單有「出發：補考（法律系館A）」）  null
+PASS mkbg_home：沒有 JS 例外  []
+==== CASE mkbg_campus（SHA c2d0c24bc）====
+PASS mkbg_campus：遊戲載入
+  [1319.6s] mkbg_campus：頁面 FD.MK_BG＝linze_201、FD.MK_PLACE＝法律系館A（修改前沒有＝比對用 linze_201／法律系館A）
+  [前置／捷徑] [前置] mkbg_campus：2029-06-26 09:25 校園（3D、沒有 ADV）、補考已排好 pending、PG.done fd_grades_y4s2、海商法期末答對 0 題（qs ["Y4_MAR_04", "Y4MAR_08", "Y4MAR_04", "Y4MAR_03", "Y4MAR_01"]）；考卷【捷徑】讀正解，補考答對 5 題
+PASS mkbg_campus：前置成立（讀檔後在校園、ADV 沒開、補考還沒開始）  {"active": false, "mode": null, "img": null, "dom": "", "cls": "", "isMk": false, "isHome": false, "mkImg": "assets/bg/linze_201.webp", "homeImg": "assets/bg/home_dining_day.webp", "homeAt": false, "zone": "campus", "seat": false}
+  [1346.5s] mkbg_campus：makeup 考卷第 1 題（maritime Y4MAR_05）【捷徑】讀正解第 2 個 → 按第 2 個
+  [1348.7s] mkbg_campus：makeup 考卷第 2 題（maritime Y4MAR_09）【捷徑】讀正解第 2 個 → 按第 2 個
+  [1350.4s] mkbg_campus：makeup 考卷第 3 題（maritime Y4MAR_02）【捷徑】讀正解第 2 個 → 按第 2 個
+  [1352.0s] mkbg_campus：makeup 考卷第 4 題（maritime Y4MAR_10）【捷徑】讀正解第 1 個 → 按第 1 個
+  [1354.2s] mkbg_campus：makeup 考卷第 5 題（maritime Y4MAR_06）【捷徑】讀正解第 3 個 → 按第 3 個
+  [1400.0s] mkbg_campus：結束方式 free；補考 {"v": 1, "courses": ["maritime"], "status": "pass", "res": {"maritime": "pass"}}；時間 {"key": "2029-07-12", "day": 1395, "h": 20, "zone": "gongguan", "term": null, "week": null}；字幕 [["2029-06-26", "10:00", "法律系館A"], ["2029-06-28", "10:00", "你的房間在四樓，409。樓梯在走廊北邊。"], ["2029-06-28", "19:30", "捷運站出口湧出一波人，又很快散進巷子裡。"], ["2029-07-05", "19:30", "捷運站出口湧出一波人，又很快散進巷子裡。"]]
+  [1400.0s] mkbg_campus：背景紀錄（開始～結束）[{"k": "mk_start", "t": "", "d": "2029-06-26", "h": 9.5, "active": false, "isMk": false, "isHome": false, "img": null, "dom": "", "cls": "", "mkImg": "assets/bg/linze_201.webp", "homeImg": "assets/bg/home_dining_day.webp", "zone": "campus", "seat": false}, {"k": "begin", "t": "{\"image\":\"assets/bg/linze_201.webp\"}", "d": "2029-06-26", "h": 10, "active": true, "isMk": true, "isHome": false, "img": "assets/bg/linze_201.webp", "dom": "url(\"assets/bg/linze_201.webp\")", "cls": "on image", "mkImg": "assets/bg/linze_201.webp", "homeImg": "assets/bg/home_dining_day.webp", "zone": "campus", "seat": false}, {"k": "say", "t": "（法律系館A 201。前面幾排零零散散坐了四五個人。有人穿著實習的襯衫，有人一邊吃早餐一邊翻講義。）", "d": "2029-06-26", "h": 10, "active": true, "isMk": true, "isHome": false, "img": "assets/bg/linze_201.webp", "dom": "url(\"assets/bg/linze_201.webp\")", "cls": "on image", "mkImg": "assets/bg/linze_201.webp", "homeImg": "assets/bg/home_dining_day.webp", "zone": "campus", "seat": false}, {"k": "say", "t": "1／5　甲以「以船舶之全部供運送為目的」的運送契約（傭船契約）向乙租船運貨，乙另外簽發了載貨證券，這張載貨證券後來轉讓給丙。依海商法第60條第2項，運送人乙和丙", "d": "2029-06-26", "h": 10, "active": true, "isMk": true, "isHome": false, "img": "assets/bg/linze_201.webp", "dom": "url(\"assets/bg/linze_201.webp\")", "cls": "on image narr", "mkImg": "assets/bg/linze_201.webp", "homeImg": "assets/bg/home_dining_day.webp", "zone": "campus", "seat": false}, {"k": "say", "t": "2／5　依中華民國領海及鄰接區法、中華民國專屬經濟海域及大陸礁層法，下列敘述何者正確？", "d": "2029-06-26", "h": 10, "active": true, "isMk": true, "isHome": false, "img": "assets/bg/linze_201.webp", "dom": "url(\"assets/bg/linze_201.webp\")", "cls": "on image narr", "mkImg": "assets/bg/linze_201.webp", "homeImg": "assets/bg/home_dining_day.webp", "zone": "campus", "seat": false}, {"k": "say", "t": "3／5　下列關於船舶抵押權的敘述，何者正確？", "d": "2029-06-26", "h": 10, "active": true, "isMk": true, "isHome": false, "img": "assets/bg/linze_201.webp", "dom": "url(\"assets/bg/linze_201.webp\")", "cls": "on image narr", "mkImg": "assets/bg/linze_201.webp", "homeImg": "assets/bg/home_dining_day.webp", "zone": "campus", "seat": false}, {"k": "say", "t": "4／5　依船員法，下列關於船員勞動條件的敘述，何者正確？", "d": "2029-06-26", "h": 10, "active": true, "isMk": true, "isHome": false, "img": "assets/bg/linze_201.webp", "dom": "url(\"assets/bg/linze_201.webp\")", "cls": "on image narr", "mkImg": "assets/bg/linze_201.webp", "homeImg": "assets/bg/home_dining_day.webp", "zone": "campus", "seat": false}, {"k": "say", "t": "5／5　船舶航行中遇到暴風，船長為了保全船舶和全部貨物的共同安全，故意而且合理地把一部分貨物拋進海裡。依海商法，下列敘述何者正確？", "d": "2029-06-26", "h": 10, "active": true, "isMk": true, "isHome": false, "img": "assets/bg/linze_201.webp", "dom": "url(\"assets/bg/linze_201.webp\")", "cls": "on image narr", "mkImg": "assets/bg/linze_201.webp", "homeImg": "assets/bg/home_dining_day.webp", "zone": "campus", "seat": false}, {"k": "end", "t": "", "d": "2029-06-26", "h": 11, "active": false, "isMk": false, "isHome": false, "img": "assets/bg/linze_201.webp", "dom": "url(\"assets/bg/linze_201.webp\")", "cls": "", "mkImg": "assets/bg/linze_201.webp", "homeImg": "assets/bg/home_dining_day.webp", "zone": "campus", "seat": false}, {"k": "mk_end", "t": "true", "d": "2029-06-26", "h": 11, "active": false, "isMk": false, "isHome": false, "img": "assets/bg/linze_201.webp", "dom": "url(\"assets/bg/linze_201.webp\")", "cls": "", "mkImg": "assets/bg/linze_201.webp", "homeImg": "assets/bg/home_dining_day.webp", "zone": "campus", "seat": false}]
+PASS mkbg_campus：補考那一場有演（FD.makeup 開始＋回來）  {"start": {"k": "mk_start", "t": "", "d": "2029-06-26", "h": 9.5, "active": false, "isMk": false, "isHome": false, "img": null, "dom": "", "cls": "", "mkImg": "assets/bg/linze_201.webp", "homeImg": "assets/bg/home_dining_day.webp", "zone": "campus", "seat": false}, "end": {"k": "mk_end", "t": "true", "d": "2029-06-26", "h": 11, "active": false, "isMk": false, "isHome": false, "img": "assets/bg/linze_201.webp", "dom": "url(\"assets/bg/linze_201.webp\")", "cls": "", "mkImg": "assets/bg/linze_201.webp", "homeImg": "assets/bg/home_dining_day.webp", "zone": "campus", "seat": false}, "drive": "free"}
+PASS mkbg_campus：開頭字幕「法律系館A」（GAME.caption）  [["2029-06-26", "10:00", "法律系館A"], ["2029-06-28", "10:00", "你的房間在四樓，409。樓梯在走廊北邊。"], ["2029-06-28", "19:30", "捷運站出口湧出一波人，又很快散進巷子裡。"], ["2029-07-05", "19:30", "捷運站出口湧出一波人，又很快散進巷子裡。"]]
+PASS mkbg_campus：開場「（法律系館A 201。前面幾排零零散散坐了四五個人。有人穿著實習的襯衫，有人一邊吃早餐一邊翻講義。）」那一句的背景＝linze_201（修改前 home 預期 FAIL）  {"k": "say", "t": "（法律系館A 201。前面幾排零零散散坐了四五個人。有人穿著實習的襯衫，有人一邊吃早餐一邊翻講義。）", "d": "2029-06-26", "h": 10, "active": true, "isMk": true, "isHome": false, "img": "assets/bg/linze_201.webp", "dom": "url(\"assets/bg/linze_201.webp\")", "cls": "on image", "mkImg": "assets/bg/linze_201.webp", "homeImg": "assets/bg/home_dining_day.webp", "zone": "campus", "seat": false}
+PASS mkbg_campus：補考第 1 題的背景＝linze_201（修改前 home 預期 FAIL）  {"k": "say", "t": "1／5　甲以「以船舶之全部供運送為目的」的運送契約（傭船契約）向乙租船運貨，乙另外簽發了載貨證券，這張載貨證券後來轉讓給丙。依海商法第60條第2項，運送人乙和丙", "d": "2029-06-26", "h": 10, "active": true, "isMk": true, "isHome": false, "img": "assets/bg/linze_201.webp", "dom": "url(\"assets/bg/linze_201.webp\")", "cls": "on image narr", "mkImg": "assets/bg/linze_201.webp", "homeImg": "assets/bg/home_dining_day.webp", "zone": "campus", "seat": false}
+PASS mkbg_campus：補考最後一題（第 5 題）的背景＝linze_201  {"k": "say", "t": "5／5　船舶航行中遇到暴風，船長為了保全船舶和全部貨物的共同安全，故意而且合理地把一部分貨物拋進海裡。依海商法，下列敘述何者正確？", "d": "2029-06-26", "h": 10, "active": true, "isMk": true, "isHome": false, "img": "assets/bg/linze_201.webp", "dom": "url(\"assets/bg/linze_201.webp\")", "cls": "on image narr", "mkImg": "assets/bg/linze_201.webp", "homeImg": "assets/bg/home_dining_day.webp", "zone": "campus", "seat": false}
+PASS mkbg_campus：補考每一題的背景都是 linze_201（5 句）  [["1／5　甲以", true, "assets/bg/linze_201.webp"], ["2／5　依中", true, "assets/bg/linze_201.webp"], ["3／5　下列", true, "assets/bg/linze_201.webp"], ["4／5　依船", true, "assets/bg/linze_201.webp"], ["5／5　船舶", true, "assets/bg/linze_201.webp"]]
+PASS mkbg_campus：結算台詞的背景＝linze_201（3 句）  [{"k": "say", "t": "（海商法與海洋法，補考過了。）", "d": "2029-06-26", "h": 10, "active": true, "isMk": true, "isHome": false, "img": "assets/bg/linze_201.webp", "dom": "url(\"assets/bg/linze_201.webp\")", "cls": "on image narr", "mkImg": "assets/bg/linze_201.webp", "homeImg": "assets/bg/home_dining_day.webp", "zone": "campus", "seat": false}, {"k": "say", "t": "（這樣，就真的畢業了。）", "d": "2029-06-26", "h": 10, "active": true, "isMk": true, "isHome": false, "img": "assets/bg/linze_201.webp", "dom": "url(\"assets/bg/linze_201.webp\")", "cls": "on image narr", "mkImg": "assets/bg/linze_201.webp", "homeImg": "assets/bg/home_dining_day.webp", "zone": "campus", "seat": false}, {"k": "say", "t": "（今年的國考，照常考。）", "d": "2029-06-26", "h": 10, "active": true, "isMk": true, "isHome": false, "img": "assets/bg/linze_201.webp", "dom": "url(\"assets/bg/linze_201.webp\")", "cls": "on image narr", "mkImg": "assets/bg/linze_201.webp", "homeImg": "assets/bg/home_dining_day.webp", "zone": "campus", "seat": false}]
+PASS mkbg_campus：考完那一刻（FD.makeup 回來）ADV 收掉（ADV.active false）  {"k": "mk_end", "t": "true", "d": "2029-06-26", "h": 11, "active": false, "isMk": false, "isHome": false, "img": "assets/bg/linze_201.webp", "dom": "url(\"assets/bg/linze_201.webp\")", "cls": "", "mkImg": "assets/bg/linze_201.webp", "homeImg": "assets/bg/home_dining_day.webp", "zone": "campus", "seat": false}
+PASS mkbg_campus：最後畫面：ADV 沒開、回到 3D（gongguan）  {"drive": "free", "snap": {"active": false, "mode": "{\"image\":\"assets/bg/home_room_night.webp\"}", "img": "assets/bg/home_room_night.webp", "dom": "", "cls": "", "isMk": false, "isHome": false, "mkImg": "assets/bg/linze_201.webp", "homeImg": "assets/bg/home_dining_night.webp", "homeAt": false, "zone": "gongguan", "seat": false}}
+  [1400.0s] mkbg_campus：截圖 {"w:open": ["C:\\Users\\USER\\Documents\\Lawstudent_cclocal\\docs\\story_planning\\CC\\local_out\\02_mk12new\\out\\112_mkbg_campus_line_open_land.png", "C:\\Users\\USER\\Documents\\Lawstudent_cclocal\\docs\\story_planning\\CC\\local_out\\02_mk12new\\out\\113_mkbg_campus_line_open_port.png"], "mkbg_q1": ["C:\\Users\\USER\\Documents\\Lawstudent_cclocal\\docs\\story_planning\\CC\\local_out\\02_mk12new\\out\\114_mkbg_campus_q1_land.png", "C:\\Users\\USER\\Documents\\Lawstudent_cclocal\\docs\\story_planning\\CC\\local_out\\02_mk12new\\out\\115_mkbg_campus_q1_port.png"], "exam_q1_makeup": "C:\\Users\\USER\\Documents\\Lawstudent_cclocal\\docs\\story_planning\\CC\\local_out\\02_mk12new\\out\\116_mkbg_campus_makeup_q1.png", "w:pass": ["C:\\Users\\USER\\Documents\\Lawstudent_cclocal\\docs\\story_planning\\CC\\local_out\\02_mk12new\\out\\117_mkbg_campus_line_pass_land.png", "C:\\Users\\USER\\Documents\\Lawstudent_cclocal\\docs\\story_planning\\CC\\local_out\\02_mk12new\\out\\118_mkbg_campus_line_pass_port.png"], "w:passAll": ["C:\\Users\\USER\\Documents\\Lawstudent_cclocal\\docs\\story_planning\\CC\\local_out\\02_mk12new\\out\\119_mkbg_campus_line_passAll_land.png", "C:\\Users\\USER\\Documents\\Lawstudent_cclocal\\docs\\story_planning\\CC\\local_out\\02_mk12new\\out\\120_mkbg_campus_line_passAll_port.png"], "after": ["C:\\Users\\USER\\Documents\\Lawstudent_cclocal\\docs\\story_planning\\CC\\local_out\\02_mk12new\\out\\121_mkbg_campus_after_land.png", "C:\\Users\\USER\\Documents\\Lawstudent_cclocal\\docs\\story_planning\\CC\\local_out\\02_mk12new\\out\\122_mkbg_campus_after_port.png"]}
+PASS mkbg_campus：沒有 JS 例外  []
+==== CASE mkbg_library（SHA c2d0c24bc）====
+PASS mkbg_library：遊戲載入
+  [1418.0s] mkbg_library：頁面 FD.MK_BG＝linze_201、FD.MK_PLACE＝法律系館A（修改前沒有＝比對用 linze_201／法律系館A）
+  [前置／捷徑] [前置] mkbg_library：2029-06-26 09:00 總圖閱覽室（讀完馬上照玩家走到自習座位）、補考已排好 pending、PG.done fd_grades_y4s2、海商法期末答對 0 題（qs ["Y4_MAR_04", "Y4MAR_08", "Y4MAR_04", "Y4MAR_03", "Y4MAR_01"]）；考卷【捷徑】讀正解，補考答對 5 題
+  [1430.2s] 到達「坐下讀書」附近（0.75 m）：點地面 1 次、轉鏡頭 0 次、搖桿 0 次，6 秒
+PASS mkbg_library：前置成立（坐下、座位選單出來、補考那一場還沒開始）  ["坐一下，看看四周時間 +20 分鐘", "讀書選讀多久（1～3 小時只算一次）。用掉上午 1 次（還剩 0）", "趴著睡一下：30 分鐘睡到 09:32", "趴著睡一下：1 小時睡到 10:02", "考前總複習會錯過補考。", "起身"]
+  [1431.9s] mkbg_library：選單 ["坐一下，看看四周時間 +20 分鐘", "讀書選讀多久（1～3 小時只算一次）。用掉上午 1 次（還剩 0）", "趴著睡一下：30 分鐘睡到 09:32", "趴著睡一下：1 小時睡到 10:02", "考前總複習會錯過補考。", "起身"] → 考前總複習會錯過補考。
+  [1433.3s] mkbg_library：座位操作 {"sub": "library", "snap_load": {"active": false, "mode": null, "img": null, "dom": "", "cls": "", "isMk": false, "isHome": false, "mkImg": "assets/bg/linze_201.webp", "homeImg": "assets/bg/home_dining_day.webp", "homeAt": false, "zone": "library", "seat": false}, "seat_menu": ["坐一下，看看四周時間 +20 分鐘", "讀書選讀多久（1～3 小時只算一次）。用掉上午 1 次（還剩 0）", "趴著睡一下：30 分鐘睡到 09:32", "趴著睡一下：1 小時睡到 10:02", "考前總複習會錯過補考。", "起身"], "seat_after_pick": {"active": true, "mode": "{\"image\":\"assets/bg/linze_201.webp\"}", "img": "assets/bg/linze_201.webp", "dom": "url(\"assets/bg/linze_201.webp\")", "cls": "on image narr", "isMk": true, "isHome": false, "mkImg": "assets/bg/linze_201.webp", "homeImg": "assets/bg/home_dining_day.webp", "homeAt": false, "zone": "library", "seat": false}}
+  [1465.5s] mkbg_library：makeup 考卷第 1 題（maritime Y4MAR_05）【捷徑】讀正解第 2 個 → 按第 2 個
+  [1468.0s] mkbg_library：makeup 考卷第 2 題（maritime Y4MAR_09）【捷徑】讀正解第 2 個 → 按第 2 個
+  [1469.8s] mkbg_library：makeup 考卷第 3 題（maritime Y4MAR_02）【捷徑】讀正解第 2 個 → 按第 2 個
+  [1471.5s] mkbg_library：makeup 考卷第 4 題（maritime Y4MAR_10）【捷徑】讀正解第 1 個 → 按第 1 個
+  [1474.0s] mkbg_library：makeup 考卷第 5 題（maritime Y4MAR_06）【捷徑】讀正解第 3 個 → 按第 3 個
+  [1527.7s] mkbg_library：結束方式 free；補考 {"v": 1, "courses": ["maritime"], "status": "pass", "res": {"maritime": "pass"}}；時間 {"key": "2029-07-05", "day": 1388, "h": 19.502, "zone": "gongguan", "term": null, "week": null}；字幕 [["2029-06-26", "10:00", "法律系館A"], ["2029-06-28", "10:00", "你的房間在四樓，409。樓梯在走廊北邊。"], ["2029-06-28", "19:30", "捷運站出口湧出一波人，又很快散進巷子裡。"], ["2029-07-05", "19:30", "捷運站出口湧出一波人，又很快散進巷子裡。"]]
+  [1527.7s] mkbg_library：背景紀錄（開始～結束）[{"k": "mk_start", "t": "", "d": "2029-06-26", "h": 9.5, "active": false, "isMk": false, "isHome": false, "img": null, "dom": "", "cls": "", "mkImg": "assets/bg/linze_201.webp", "homeImg": "assets/bg/home_dining_day.webp", "zone": "library", "seat": false}, {"k": "begin", "t": "{\"image\":\"assets/bg/linze_201.webp\"}", "d": "2029-06-26", "h": 10, "active": true, "isMk": true, "isHome": false, "img": "assets/bg/linze_201.webp", "dom": "url(\"assets/bg/linze_201.webp\")", "cls": "on image", "mkImg": "assets/bg/linze_201.webp", "homeImg": "assets/bg/home_dining_day.webp", "zone": "library", "seat": false}, {"k": "say", "t": "（法律系館A 201。前面幾排零零散散坐了四五個人。有人穿著實習的襯衫，有人一邊吃早餐一邊翻講義。）", "d": "2029-06-26", "h": 10, "active": true, "isMk": true, "isHome": false, "img": "assets/bg/linze_201.webp", "dom": "url(\"assets/bg/linze_201.webp\")", "cls": "on image", "mkImg": "assets/bg/linze_201.webp", "homeImg": "assets/bg/home_dining_day.webp", "zone": "library", "seat": false}, {"k": "say", "t": "1／5　甲以「以船舶之全部供運送為目的」的運送契約（傭船契約）向乙租船運貨，乙另外簽發了載貨證券，這張載貨證券後來轉讓給丙。依海商法第60條第2項，運送人乙和丙", "d": "2029-06-26", "h": 10, "active": true, "isMk": true, "isHome": false, "img": "assets/bg/linze_201.webp", "dom": "url(\"assets/bg/linze_201.webp\")", "cls": "on image narr", "mkImg": "assets/bg/linze_201.webp", "homeImg": "assets/bg/home_dining_day.webp", "zone": "library", "seat": false}, {"k": "say", "t": "2／5　依中華民國領海及鄰接區法、中華民國專屬經濟海域及大陸礁層法，下列敘述何者正確？", "d": "2029-06-26", "h": 10, "active": true, "isMk": true, "isHome": false, "img": "assets/bg/linze_201.webp", "dom": "url(\"assets/bg/linze_201.webp\")", "cls": "on image narr", "mkImg": "assets/bg/linze_201.webp", "homeImg": "assets/bg/home_dining_day.webp", "zone": "library", "seat": false}, {"k": "say", "t": "3／5　下列關於船舶抵押權的敘述，何者正確？", "d": "2029-06-26", "h": 10, "active": true, "isMk": true, "isHome": false, "img": "assets/bg/linze_201.webp", "dom": "url(\"assets/bg/linze_201.webp\")", "cls": "on image narr", "mkImg": "assets/bg/linze_201.webp", "homeImg": "assets/bg/home_dining_day.webp", "zone": "library", "seat": false}, {"k": "say", "t": "4／5　依船員法，下列關於船員勞動條件的敘述，何者正確？", "d": "2029-06-26", "h": 10, "active": true, "isMk": true, "isHome": false, "img": "assets/bg/linze_201.webp", "dom": "url(\"assets/bg/linze_201.webp\")", "cls": "on image narr", "mkImg": "assets/bg/linze_201.webp", "homeImg": "assets/bg/home_dining_day.webp", "zone": "library", "seat": false}, {"k": "say", "t": "5／5　船舶航行中遇到暴風，船長為了保全船舶和全部貨物的共同安全，故意而且合理地把一部分貨物拋進海裡。依海商法，下列敘述何者正確？", "d": "2029-06-26", "h": 10, "active": true, "isMk": true, "isHome": false, "img": "assets/bg/linze_201.webp", "dom": "url(\"assets/bg/linze_201.webp\")", "cls": "on image narr", "mkImg": "assets/bg/linze_201.webp", "homeImg": "assets/bg/home_dining_day.webp", "zone": "library", "seat": false}, {"k": "end", "t": "", "d": "2029-06-26", "h": 11, "active": false, "isMk": false, "isHome": false, "img": "assets/bg/linze_201.webp", "dom": "url(\"assets/bg/linze_201.webp\")", "cls": "", "mkImg": "assets/bg/linze_201.webp", "homeImg": "assets/bg/home_dining_day.webp", "zone": "library", "seat": false}, {"k": "mk_end", "t": "true", "d": "2029-06-26", "h": 11, "active": false, "isMk": false, "isHome": false, "img": "assets/bg/linze_201.webp", "dom": "url(\"assets/bg/linze_201.webp\")", "cls": "", "mkImg": "assets/bg/linze_201.webp", "homeImg": "assets/bg/home_dining_day.webp", "zone": "library", "seat": false}]
+PASS mkbg_library：補考那一場有演（FD.makeup 開始＋回來）  {"start": {"k": "mk_start", "t": "", "d": "2029-06-26", "h": 9.5, "active": false, "isMk": false, "isHome": false, "img": null, "dom": "", "cls": "", "mkImg": "assets/bg/linze_201.webp", "homeImg": "assets/bg/home_dining_day.webp", "zone": "library", "seat": false}, "end": {"k": "mk_end", "t": "true", "d": "2029-06-26", "h": 11, "active": false, "isMk": false, "isHome": false, "img": "assets/bg/linze_201.webp", "dom": "url(\"assets/bg/linze_201.webp\")", "cls": "", "mkImg": "assets/bg/linze_201.webp", "homeImg": "assets/bg/home_dining_day.webp", "zone": "library", "seat": false}, "drive": "free"}
+PASS mkbg_library：開頭字幕「法律系館A」（GAME.caption）  [["2029-06-26", "10:00", "法律系館A"], ["2029-06-28", "10:00", "你的房間在四樓，409。樓梯在走廊北邊。"], ["2029-06-28", "19:30", "捷運站出口湧出一波人，又很快散進巷子裡。"], ["2029-07-05", "19:30", "捷運站出口湧出一波人，又很快散進巷子裡。"]]
+PASS mkbg_library：開場「（法律系館A 201。前面幾排零零散散坐了四五個人。有人穿著實習的襯衫，有人一邊吃早餐一邊翻講義。）」那一句的背景＝linze_201（修改前 home 預期 FAIL）  {"k": "say", "t": "（法律系館A 201。前面幾排零零散散坐了四五個人。有人穿著實習的襯衫，有人一邊吃早餐一邊翻講義。）", "d": "2029-06-26", "h": 10, "active": true, "isMk": true, "isHome": false, "img": "assets/bg/linze_201.webp", "dom": "url(\"assets/bg/linze_201.webp\")", "cls": "on image", "mkImg": "assets/bg/linze_201.webp", "homeImg": "assets/bg/home_dining_day.webp", "zone": "library", "seat": false}
+PASS mkbg_library：補考第 1 題的背景＝linze_201（修改前 home 預期 FAIL）  {"k": "say", "t": "1／5　甲以「以船舶之全部供運送為目的」的運送契約（傭船契約）向乙租船運貨，乙另外簽發了載貨證券，這張載貨證券後來轉讓給丙。依海商法第60條第2項，運送人乙和丙", "d": "2029-06-26", "h": 10, "active": true, "isMk": true, "isHome": false, "img": "assets/bg/linze_201.webp", "dom": "url(\"assets/bg/linze_201.webp\")", "cls": "on image narr", "mkImg": "assets/bg/linze_201.webp", "homeImg": "assets/bg/home_dining_day.webp", "zone": "library", "seat": false}
+PASS mkbg_library：補考最後一題（第 5 題）的背景＝linze_201  {"k": "say", "t": "5／5　船舶航行中遇到暴風，船長為了保全船舶和全部貨物的共同安全，故意而且合理地把一部分貨物拋進海裡。依海商法，下列敘述何者正確？", "d": "2029-06-26", "h": 10, "active": true, "isMk": true, "isHome": false, "img": "assets/bg/linze_201.webp", "dom": "url(\"assets/bg/linze_201.webp\")", "cls": "on image narr", "mkImg": "assets/bg/linze_201.webp", "homeImg": "assets/bg/home_dining_day.webp", "zone": "library", "seat": false}
+PASS mkbg_library：補考每一題的背景都是 linze_201（5 句）  [["1／5　甲以", true, "assets/bg/linze_201.webp"], ["2／5　依中", true, "assets/bg/linze_201.webp"], ["3／5　下列", true, "assets/bg/linze_201.webp"], ["4／5　依船", true, "assets/bg/linze_201.webp"], ["5／5　船舶", true, "assets/bg/linze_201.webp"]]
+PASS mkbg_library：結算台詞的背景＝linze_201（3 句）  [{"k": "say", "t": "（海商法與海洋法，補考過了。）", "d": "2029-06-26", "h": 10, "active": true, "isMk": true, "isHome": false, "img": "assets/bg/linze_201.webp", "dom": "url(\"assets/bg/linze_201.webp\")", "cls": "on image narr", "mkImg": "assets/bg/linze_201.webp", "homeImg": "assets/bg/home_dining_day.webp", "zone": "library", "seat": false}, {"k": "say", "t": "（這樣，就真的畢業了。）", "d": "2029-06-26", "h": 10, "active": true, "isMk": true, "isHome": false, "img": "assets/bg/linze_201.webp", "dom": "url(\"assets/bg/linze_201.webp\")", "cls": "on image narr", "mkImg": "assets/bg/linze_201.webp", "homeImg": "assets/bg/home_dining_day.webp", "zone": "library", "seat": false}, {"k": "say", "t": "（今年的國考，照常考。）", "d": "2029-06-26", "h": 10, "active": true, "isMk": true, "isHome": false, "img": "assets/bg/linze_201.webp", "dom": "url(\"assets/bg/linze_201.webp\")", "cls": "on image narr", "mkImg": "assets/bg/linze_201.webp", "homeImg": "assets/bg/home_dining_day.webp", "zone": "library", "seat": false}]
+PASS mkbg_library：考完那一刻（FD.makeup 回來）ADV 收掉（ADV.active false）  {"k": "mk_end", "t": "true", "d": "2029-06-26", "h": 11, "active": false, "isMk": false, "isHome": false, "img": "assets/bg/linze_201.webp", "dom": "url(\"assets/bg/linze_201.webp\")", "cls": "", "mkImg": "assets/bg/linze_201.webp", "homeImg": "assets/bg/home_dining_day.webp", "zone": "library", "seat": false}
+PASS mkbg_library：最後畫面：ADV 沒開、回到 3D（gongguan）  {"drive": "free", "snap": {"active": false, "mode": "{\"image\":\"assets/bg/home_room_night.webp\"}", "img": "assets/bg/home_room_night.webp", "dom": "", "cls": "", "isMk": false, "isHome": false, "mkImg": "assets/bg/linze_201.webp", "homeImg": "assets/bg/home_dining_day.webp", "homeAt": false, "zone": "gongguan", "seat": false}}
+  [1527.8s] mkbg_library：座位狀態 開始 False／結束 False／最後 False
+  [1527.8s] mkbg_library：截圖 {"w:open": ["C:\\Users\\USER\\Documents\\Lawstudent_cclocal\\docs\\story_planning\\CC\\local_out\\02_mk12new\\out\\123_mkbg_library_line_open_land.png", "C:\\Users\\USER\\Documents\\Lawstudent_cclocal\\docs\\story_planning\\CC\\local_out\\02_mk12new\\out\\124_mkbg_library_line_open_port.png"], "mkbg_q1": ["C:\\Users\\USER\\Documents\\Lawstudent_cclocal\\docs\\story_planning\\CC\\local_out\\02_mk12new\\out\\125_mkbg_library_q1_land.png", "C:\\Users\\USER\\Documents\\Lawstudent_cclocal\\docs\\story_planning\\CC\\local_out\\02_mk12new\\out\\126_mkbg_library_q1_port.png"], "exam_q1_makeup": "C:\\Users\\USER\\Documents\\Lawstudent_cclocal\\docs\\story_planning\\CC\\local_out\\02_mk12new\\out\\127_mkbg_library_makeup_q1.png", "w:pass": ["C:\\Users\\USER\\Documents\\Lawstudent_cclocal\\docs\\story_planning\\CC\\local_out\\02_mk12new\\out\\128_mkbg_library_line_pass_land.png", "C:\\Users\\USER\\Documents\\Lawstudent_cclocal\\docs\\story_planning\\CC\\local_out\\02_mk12new\\out\\129_mkbg_library_line_pass_port.png"], "w:passAll": ["C:\\Users\\USER\\Documents\\Lawstudent_cclocal\\docs\\story_planning\\CC\\local_out\\02_mk12new\\out\\130_mkbg_library_line_passAll_land.png", "C:\\Users\\USER\\Documents\\Lawstudent_cclocal\\docs\\story_planning\\CC\\local_out\\02_mk12new\\out\\131_mkbg_library_line_passAll_port.png"], "after": ["C:\\Users\\USER\\Documents\\Lawstudent_cclocal\\docs\\story_planning\\CC\\local_out\\02_mk12new\\out\\132_mkbg_library_after_land.png", "C:\\Users\\USER\\Documents\\Lawstudent_cclocal\\docs\\story_planning\\CC\\local_out\\02_mk12new\\out\\133_mkbg_library_after_port.png"]}
+PASS mkbg_library：沒有 JS 例外  []
+SHA c2d0c24bc CASES study3h,skipnoon_seat,skipnoon_phone,homerest,old_delayed,home_go,home_sleep,home_late,home_rest,mkbg_home,mkbg_campus,mkbg_library
+FAILED: homerest：前置成立（家裡選單有「出發：補考（法律系館A）」）, home_go：家裡的選單出來了, home_sleep：家裡的選單出來了, home_late：家裡的選單出來了, home_rest：家裡的選單出來了, mkbg_home：前置成立（家裡選單有「出發：補考（法律系館A）」）

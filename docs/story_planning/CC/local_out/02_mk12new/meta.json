@@ -1,0 +1,14 @@
+﻿{
+    "id":  "02_mk12new",
+    "sha":  "c2d0c24bc",
+    "kind":  "probe",
+    "script":  "docs/story_planning/test_tools/cc/cc_makeup_probe.py",
+    "env":  "CASES=study3h,skipnoon_seat,skipnoon_phone,homerest,old_delayed,home,mkbg",
+    "machine":  "MSI",
+    "start":  "2026-11-02T18:29:06",
+    "end":  "2026-11-02T18:55:05",
+    "seconds":  1559,
+    "exit":  1,
+    "error":  null,
+    "url":  "http://127.0.0.1:8800/index.html?turbo"
+}

@@ -1,0 +1,976 @@
+{
+ "rows": [
+  {
+   "k": "step",
+   "n": "start",
+   "t": "fd_makeup",
+   "d": "2029-06-26",
+   "h": 9.5,
+   "z": "campus"
+  },
+  {
+   "k": "bg",
+   "n": "begin",
+   "t": "{\"image\":\"assets/bg/linze_201.webp\"}",
+   "d": "2029-06-26",
+   "h": 10,
+   "z": "campus"
+  },
+  {
+   "k": "cap",
+   "n": "",
+   "t": "法律系館A",
+   "d": "2029-06-26",
+   "h": 10,
+   "z": "campus"
+  },
+  {
+   "k": "say",
+   "n": "",
+   "c": null,
+   "t": "（法律系館A 201。前面幾排零零散散坐了四五個人。有人穿著實習的襯衫，有人一邊吃早餐一邊翻講義。）",
+   "d": "2029-06-26",
+   "h": 10,
+   "z": "campus"
+  },
+  {
+   "k": "say",
+   "n": "陳助教",
+   "c": "npc_ta_chen",
+   "t": "考卷發下去了。一樣五題，十一點收。",
+   "d": "2029-06-26",
+   "h": 10,
+   "z": "campus"
+  },
+  {
+   "k": "say",
+   "n": "",
+   "c": null,
+   "t": "考卷發下來。海商法與海洋法補考。五題。",
+   "d": "2029-06-26",
+   "h": 10,
+   "z": "campus"
+  },
+  {
+   "k": "say",
+   "n": "",
+   "c": null,
+   "t": "1／5　甲以「以船舶之全部供運送為目的」的運送契約（傭船契約）向乙租船運貨，乙另外簽發了載貨證券，這張載貨證券後來轉讓給丙。依海商法第60條第2項，運送人乙和丙之間的關係，應依什麼決定？",
+   "d": "2029-06-26",
+   "h": 10,
+   "z": "campus"
+  },
+  {
+   "k": "choose",
+   "n": "",
+   "t": "（A）甲乙之間的傭船契約｜（B）載貨證券的記載｜（C）船長的航海日誌｜（D）甲丙之間的買賣契約",
+   "d": "2029-06-26",
+   "h": 10,
+   "z": "campus"
+  },
+  {
+   "k": "say",
+   "n": "",
+   "c": null,
+   "t": "2／5　依中華民國領海及鄰接區法、中華民國專屬經濟海域及大陸礁層法，下列敘述何者正確？",
+   "d": "2029-06-26",
+   "h": 10,
+   "z": "campus"
+  },
+  {
+   "k": "choose",
+   "n": "",
+   "t": "（A）領海為自基線起至其外側二十四浬間的海域｜（B）鄰接區為鄰接領海外側至距離基線二十四浬間的海域｜（C）專屬經濟海域為鄰接領海外側至距離領海基線一百浬間的海域｜（D）領海基線一律採用正常基線",
+   "d": "2029-06-26",
+   "h": 10,
+   "z": "campus"
+  },
+  {
+   "k": "say",
+   "n": "",
+   "c": null,
+   "t": "3／5　下列關於船舶抵押權的敘述，何者正確？",
+   "d": "2029-06-26",
+   "h": 10,
+   "z": "campus"
+  },
+  {
+   "k": "choose",
+   "n": "",
+   "t": "（A）船舶適用動產的規定，所以不能設定抵押權｜（B）抵押權的設定應以書面為之，非經登記不得對抗第三人｜（C）抵押權只要口頭約定，就可以對抗第三人｜（D）抵押權沒有登記，設定行為就無效",
+   "d": "2029-06-26",
+   "h": 10,
+   "z": "campus"
+  },
+  {
+   "k": "say",
+   "n": "",
+   "c": null,
+   "t": "4／5　依船員法，下列關於船員勞動條件的敘述，何者正確？",
+   "d": "2029-06-26",
+   "h": 10,
+   "z": "campus"
+  },
+  {
+   "k": "choose",
+   "n": "",
+   "t": "（A）船員正常工作時間，以每週工作總時數四十四小時為準｜（B）雇用人得預扣船員報酬，作為船員可能造成損害的賠償費用｜（C）船員在船上服務滿一年，雇用人應給予有給年休十天｜（D）船長不限於中華民國國民",
+   "d": "2029-06-26",
+   "h": 10,
+   "z": "campus"
+  },
+  {
+   "k": "say",
+   "n": "",
+   "c": null,
+   "t": "5／5　船舶航行中遇到暴風，船長為了保全船舶和全部貨物的共同安全，故意而且合理地把一部分貨物拋進海裡。依海商法，下列敘述何者正確？",
+   "d": "2029-06-26",
+   "h": 10,
+   "z": "campus"
+  },
+  {
+   "k": "choose",
+   "n": "",
+   "t": "（A）這是被拋棄貨物的貨主自己的損失，由他自行承擔｜（B）船長的拋棄構成侵權行為，應由船長個人賠償｜（C）這是共同海損，由各利害關係人按被保存財產價值與共同海損總額的比例分擔｜（D）由運送人單獨負擔全部損失",
+   "d": "2029-06-26",
+   "h": 10,
+   "z": "campus"
+  },
+  {
+   "k": "say",
+   "n": "",
+   "c": null,
+   "t": "交卷。答對 5／5，100 分。",
+   "d": "2029-06-26",
+   "h": 10,
+   "z": "campus"
+  },
+  {
+   "k": "say",
+   "n": "",
+   "c": null,
+   "t": "（海商法與海洋法，補考過了。）",
+   "d": "2029-06-26",
+   "h": 10,
+   "z": "campus"
+  },
+  {
+   "k": "say",
+   "n": "",
+   "c": null,
+   "t": "（這樣，就真的畢業了。）",
+   "d": "2029-06-26",
+   "h": 10,
+   "z": "campus"
+  },
+  {
+   "k": "say",
+   "n": "",
+   "c": null,
+   "t": "（今年的國考，照常考。）",
+   "d": "2029-06-26",
+   "h": 10,
+   "z": "campus"
+  },
+  {
+   "k": "step",
+   "n": "end",
+   "t": "fd_makeup",
+   "d": "2029-06-26",
+   "h": 11,
+   "z": "campus"
+  },
+  {
+   "k": "card",
+   "n": "6/28（四）10:00",
+   "t": "（畢業以後，你還是每天八點起床。不用上課，就去總圖。）",
+   "d": "2029-06-28",
+   "h": 10,
+   "z": "campus"
+  },
+  {
+   "k": "card",
+   "n": "回宿舍",
+   "t": "",
+   "d": "2029-06-28",
+   "h": 10.003,
+   "z": "campus"
+  },
+  {
+   "k": "enter",
+   "n": "{\"x\":0,\"z\":5.6,\"yaw\":3.141592653589793,\"lv\":0}",
+   "t": "dorm_hall",
+   "d": "2029-06-28",
+   "h": 10.003,
+   "z": "campus"
+  },
+  {
+   "k": "cap",
+   "n": "",
+   "t": "你的房間在四樓，409。樓梯在走廊北邊。",
+   "d": "2029-06-28",
+   "h": 10.003,
+   "z": "dorm_hall"
+  },
+  {
+   "k": "bg",
+   "n": "begin",
+   "t": "blur",
+   "d": "2029-06-28",
+   "h": 10.003,
+   "z": "dorm_hall"
+  },
+  {
+   "k": "say",
+   "n": "",
+   "c": null,
+   "t": "（宿舍期滿。舍監在門口收鑰匙。）",
+   "d": "2029-06-28",
+   "h": 10.003,
+   "z": "dorm_hall"
+  },
+  {
+   "k": "say",
+   "n": "",
+   "c": null,
+   "t": "（409 的鑰匙交出去的時候，舍監看了一下名單：「四年，四個房間。」）",
+   "d": "2029-06-28",
+   "h": 10.003,
+   "z": "dorm_hall"
+  },
+  {
+   "k": "say",
+   "n": "",
+   "c": null,
+   "t": "「冬天的衣服」那一箱，最後一個搬上車。",
+   "d": "2029-06-28",
+   "h": 10.003,
+   "z": "dorm_hall"
+  },
+  {
+   "k": "say",
+   "n": "",
+   "c": null,
+   "t": "（你租的套房在公館，走路到總圖十分鐘。）",
+   "d": "2029-06-28",
+   "h": 10.703,
+   "z": "dorm_hall"
+  },
+  {
+   "k": "card",
+   "n": "公館的套房",
+   "t": "",
+   "d": "2029-06-28",
+   "h": 10.703,
+   "z": "dorm_hall"
+  },
+  {
+   "k": "say",
+   "n": "",
+   "c": null,
+   "t": "（兵役的時間，你排在考試之後。）",
+   "d": "2029-06-28",
+   "h": 10.703,
+   "z": "dorm_hall"
+  },
+  {
+   "k": "enter",
+   "n": "{\"x\":-35.6,\"z\":13.2,\"yaw\":0}",
+   "t": "gongguan",
+   "d": "2029-06-28",
+   "h": 10.703,
+   "z": "dorm_hall"
+  },
+  {
+   "k": "cap",
+   "n": "",
+   "t": "捷運站出口湧出一波人，又很快散進巷子裡。",
+   "d": "2029-06-28",
+   "h": 19.501,
+   "z": "gongguan"
+  },
+  {
+   "k": "card",
+   "n": "7/5（四）19:30",
+   "t": "（七月。總圖 B1 的長桌，每天早上都是同一群人。）",
+   "d": "2029-07-05",
+   "h": 19.5,
+   "z": "gongguan"
+  },
+  {
+   "k": "cap",
+   "n": "",
+   "t": "捷運站出口湧出一波人，又很快散進巷子裡。",
+   "d": "2029-07-05",
+   "h": 19.5,
+   "z": "gongguan"
+  },
+  {
+   "k": "card",
+   "n": "7/12（四）20:00",
+   "t": "",
+   "d": "2029-07-12",
+   "h": 20,
+   "z": "gongguan"
+  }
+ ],
+ "mkbg": [
+  {
+   "k": "mk_start",
+   "t": "",
+   "d": "2029-06-26",
+   "h": 9.5,
+   "active": false,
+   "mode": null,
+   "img": null,
+   "dom": "",
+   "cls": "",
+   "isMk": false,
+   "isHome": false,
+   "mkImg": "assets/bg/linze_201.webp",
+   "homeImg": "assets/bg/home_dining_day.webp",
+   "homeAt": false,
+   "zone": "campus",
+   "seat": false
+  },
+  {
+   "k": "begin",
+   "t": "{\"image\":\"assets/bg/linze_201.webp\"}",
+   "d": "2029-06-26",
+   "h": 10,
+   "active": true,
+   "mode": "{\"image\":\"assets/bg/linze_201.webp\"}",
+   "img": "assets/bg/linze_201.webp",
+   "dom": "url(\"assets/bg/linze_201.webp\")",
+   "cls": "on image",
+   "isMk": true,
+   "isHome": false,
+   "mkImg": "assets/bg/linze_201.webp",
+   "homeImg": "assets/bg/home_dining_day.webp",
+   "homeAt": false,
+   "zone": "campus",
+   "seat": false
+  },
+  {
+   "k": "say",
+   "t": "（法律系館A 201。前面幾排零零散散坐了四五個人。有人穿著實習的襯衫，有人一邊吃早餐一邊翻講義。）",
+   "d": "2029-06-26",
+   "h": 10,
+   "active": true,
+   "mode": "{\"image\":\"assets/bg/linze_201.webp\"}",
+   "img": "assets/bg/linze_201.webp",
+   "dom": "url(\"assets/bg/linze_201.webp\")",
+   "cls": "on image",
+   "isMk": true,
+   "isHome": false,
+   "mkImg": "assets/bg/linze_201.webp",
+   "homeImg": "assets/bg/home_dining_day.webp",
+   "homeAt": false,
+   "zone": "campus",
+   "seat": false
+  },
+  {
+   "k": "say",
+   "t": "考卷發下去了。一樣五題，十一點收。",
+   "d": "2029-06-26",
+   "h": 10,
+   "active": true,
+   "mode": "{\"image\":\"assets/bg/linze_201.webp\"}",
+   "img": "assets/bg/linze_201.webp",
+   "dom": "url(\"assets/bg/linze_201.webp\")",
+   "cls": "on image narr",
+   "isMk": true,
+   "isHome": false,
+   "mkImg": "assets/bg/linze_201.webp",
+   "homeImg": "assets/bg/home_dining_day.webp",
+   "homeAt": false,
+   "zone": "campus",
+   "seat": false
+  },
+  {
+   "k": "say",
+   "t": "考卷發下來。海商法與海洋法補考。五題。",
+   "d": "2029-06-26",
+   "h": 10,
+   "active": true,
+   "mode": "{\"image\":\"assets/bg/linze_201.webp\"}",
+   "img": "assets/bg/linze_201.webp",
+   "dom": "url(\"assets/bg/linze_201.webp\")",
+   "cls": "on image",
+   "isMk": true,
+   "isHome": false,
+   "mkImg": "assets/bg/linze_201.webp",
+   "homeImg": "assets/bg/home_dining_day.webp",
+   "homeAt": false,
+   "zone": "campus",
+   "seat": false
+  },
+  {
+   "k": "say",
+   "t": "1／5　甲以「以船舶之全部供運送為目的」的運送契約（傭船契約）向乙租船運貨，乙另外簽發了載貨證券，這張載貨證券後來轉讓給丙。依海商法第60條第2項，運送人乙和丙",
+   "d": "2029-06-26",
+   "h": 10,
+   "active": true,
+   "mode": "{\"image\":\"assets/bg/linze_201.webp\"}",
+   "img": "assets/bg/linze_201.webp",
+   "dom": "url(\"assets/bg/linze_201.webp\")",
+   "cls": "on image narr",
+   "isMk": true,
+   "isHome": false,
+   "mkImg": "assets/bg/linze_201.webp",
+   "homeImg": "assets/bg/home_dining_day.webp",
+   "homeAt": false,
+   "zone": "campus",
+   "seat": false
+  },
+  {
+   "k": "say",
+   "t": "2／5　依中華民國領海及鄰接區法、中華民國專屬經濟海域及大陸礁層法，下列敘述何者正確？",
+   "d": "2029-06-26",
+   "h": 10,
+   "active": true,
+   "mode": "{\"image\":\"assets/bg/linze_201.webp\"}",
+   "img": "assets/bg/linze_201.webp",
+   "dom": "url(\"assets/bg/linze_201.webp\")",
+   "cls": "on image narr",
+   "isMk": true,
+   "isHome": false,
+   "mkImg": "assets/bg/linze_201.webp",
+   "homeImg": "assets/bg/home_dining_day.webp",
+   "homeAt": false,
+   "zone": "campus",
+   "seat": false
+  },
+  {
+   "k": "say",
+   "t": "3／5　下列關於船舶抵押權的敘述，何者正確？",
+   "d": "2029-06-26",
+   "h": 10,
+   "active": true,
+   "mode": "{\"image\":\"assets/bg/linze_201.webp\"}",
+   "img": "assets/bg/linze_201.webp",
+   "dom": "url(\"assets/bg/linze_201.webp\")",
+   "cls": "on image narr",
+   "isMk": true,
+   "isHome": false,
+   "mkImg": "assets/bg/linze_201.webp",
+   "homeImg": "assets/bg/home_dining_day.webp",
+   "homeAt": false,
+   "zone": "campus",
+   "seat": false
+  },
+  {
+   "k": "say",
+   "t": "4／5　依船員法，下列關於船員勞動條件的敘述，何者正確？",
+   "d": "2029-06-26",
+   "h": 10,
+   "active": true,
+   "mode": "{\"image\":\"assets/bg/linze_201.webp\"}",
+   "img": "assets/bg/linze_201.webp",
+   "dom": "url(\"assets/bg/linze_201.webp\")",
+   "cls": "on image narr",
+   "isMk": true,
+   "isHome": false,
+   "mkImg": "assets/bg/linze_201.webp",
+   "homeImg": "assets/bg/home_dining_day.webp",
+   "homeAt": false,
+   "zone": "campus",
+   "seat": false
+  },
+  {
+   "k": "say",
+   "t": "5／5　船舶航行中遇到暴風，船長為了保全船舶和全部貨物的共同安全，故意而且合理地把一部分貨物拋進海裡。依海商法，下列敘述何者正確？",
+   "d": "2029-06-26",
+   "h": 10,
+   "active": true,
+   "mode": "{\"image\":\"assets/bg/linze_201.webp\"}",
+   "img": "assets/bg/linze_201.webp",
+   "dom": "url(\"assets/bg/linze_201.webp\")",
+   "cls": "on image narr",
+   "isMk": true,
+   "isHome": false,
+   "mkImg": "assets/bg/linze_201.webp",
+   "homeImg": "assets/bg/home_dining_day.webp",
+   "homeAt": false,
+   "zone": "campus",
+   "seat": false
+  },
+  {
+   "k": "say",
+   "t": "交卷。答對 5／5，100 分。",
+   "d": "2029-06-26",
+   "h": 10,
+   "active": true,
+   "mode": "{\"image\":\"assets/bg/linze_201.webp\"}",
+   "img": "assets/bg/linze_201.webp",
+   "dom": "url(\"assets/bg/linze_201.webp\")",
+   "cls": "on image narr",
+   "isMk": true,
+   "isHome": false,
+   "mkImg": "assets/bg/linze_201.webp",
+   "homeImg": "assets/bg/home_dining_day.webp",
+   "homeAt": false,
+   "zone": "campus",
+   "seat": false
+  },
+  {
+   "k": "say",
+   "t": "（海商法與海洋法，補考過了。）",
+   "d": "2029-06-26",
+   "h": 10,
+   "active": true,
+   "mode": "{\"image\":\"assets/bg/linze_201.webp\"}",
+   "img": "assets/bg/linze_201.webp",
+   "dom": "url(\"assets/bg/linze_201.webp\")",
+   "cls": "on image narr",
+   "isMk": true,
+   "isHome": false,
+   "mkImg": "assets/bg/linze_201.webp",
+   "homeImg": "assets/bg/home_dining_day.webp",
+   "homeAt": false,
+   "zone": "campus",
+   "seat": false
+  },
+  {
+   "k": "say",
+   "t": "（這樣，就真的畢業了。）",
+   "d": "2029-06-26",
+   "h": 10,
+   "active": true,
+   "mode": "{\"image\":\"assets/bg/linze_201.webp\"}",
+   "img": "assets/bg/linze_201.webp",
+   "dom": "url(\"assets/bg/linze_201.webp\")",
+   "cls": "on image narr",
+   "isMk": true,
+   "isHome": false,
+   "mkImg": "assets/bg/linze_201.webp",
+   "homeImg": "assets/bg/home_dining_day.webp",
+   "homeAt": false,
+   "zone": "campus",
+   "seat": false
+  },
+  {
+   "k": "say",
+   "t": "（今年的國考，照常考。）",
+   "d": "2029-06-26",
+   "h": 10,
+   "active": true,
+   "mode": "{\"image\":\"assets/bg/linze_201.webp\"}",
+   "img": "assets/bg/linze_201.webp",
+   "dom": "url(\"assets/bg/linze_201.webp\")",
+   "cls": "on image narr",
+   "isMk": true,
+   "isHome": false,
+   "mkImg": "assets/bg/linze_201.webp",
+   "homeImg": "assets/bg/home_dining_day.webp",
+   "homeAt": false,
+   "zone": "campus",
+   "seat": false
+  },
+  {
+   "k": "end",
+   "t": "",
+   "d": "2029-06-26",
+   "h": 11,
+   "active": false,
+   "mode": "{\"image\":\"assets/bg/linze_201.webp\"}",
+   "img": "assets/bg/linze_201.webp",
+   "dom": "url(\"assets/bg/linze_201.webp\")",
+   "cls": "",
+   "isMk": false,
+   "isHome": false,
+   "mkImg": "assets/bg/linze_201.webp",
+   "homeImg": "assets/bg/home_dining_day.webp",
+   "homeAt": false,
+   "zone": "campus",
+   "seat": false
+  },
+  {
+   "k": "mk_end",
+   "t": "true",
+   "d": "2029-06-26",
+   "h": 11,
+   "active": false,
+   "mode": "{\"image\":\"assets/bg/linze_201.webp\"}",
+   "img": "assets/bg/linze_201.webp",
+   "dom": "url(\"assets/bg/linze_201.webp\")",
+   "cls": "",
+   "isMk": false,
+   "isHome": false,
+   "mkImg": "assets/bg/linze_201.webp",
+   "homeImg": "assets/bg/home_dining_day.webp",
+   "homeAt": false,
+   "zone": "campus",
+   "seat": false
+  },
+  {
+   "k": "begin",
+   "t": "\"blur\"",
+   "d": "2029-06-28",
+   "h": 10.003,
+   "active": true,
+   "mode": "blur",
+   "img": null,
+   "dom": "",
+   "cls": "on blur",
+   "isMk": false,
+   "isHome": false,
+   "mkImg": "assets/bg/linze_201.webp",
+   "homeImg": "assets/bg/home_dining_day.webp",
+   "homeAt": false,
+   "zone": "dorm_hall",
+   "seat": false
+  },
+  {
+   "k": "say",
+   "t": "（宿舍期滿。舍監在門口收鑰匙。）",
+   "d": "2029-06-28",
+   "h": 10.003,
+   "active": true,
+   "mode": "blur",
+   "img": null,
+   "dom": "",
+   "cls": "on blur",
+   "isMk": false,
+   "isHome": false,
+   "mkImg": "assets/bg/linze_201.webp",
+   "homeImg": "assets/bg/home_dining_day.webp",
+   "homeAt": false,
+   "zone": "dorm_hall",
+   "seat": false
+  },
+  {
+   "k": "say",
+   "t": "（409 的鑰匙交出去的時候，舍監看了一下名單：「四年，四個房間。」）",
+   "d": "2029-06-28",
+   "h": 10.003,
+   "active": true,
+   "mode": "blur",
+   "img": null,
+   "dom": "",
+   "cls": "on blur narr",
+   "isMk": false,
+   "isHome": false,
+   "mkImg": "assets/bg/linze_201.webp",
+   "homeImg": "assets/bg/home_dining_day.webp",
+   "homeAt": false,
+   "zone": "dorm_hall",
+   "seat": false
+  },
+  {
+   "k": "say",
+   "t": "「冬天的衣服」那一箱，最後一個搬上車。",
+   "d": "2029-06-28",
+   "h": 10.003,
+   "active": true,
+   "mode": "blur",
+   "img": null,
+   "dom": "",
+   "cls": "on blur narr",
+   "isMk": false,
+   "isHome": false,
+   "mkImg": "assets/bg/linze_201.webp",
+   "homeImg": "assets/bg/home_dining_day.webp",
+   "homeAt": false,
+   "zone": "dorm_hall",
+   "seat": false
+  },
+  {
+   "k": "setBg",
+   "t": "{\"image\":\"assets/bg/home_room_night.webp\"}",
+   "d": "2029-06-28",
+   "h": 10.703,
+   "active": true,
+   "mode": "{\"image\":\"assets/bg/home_room_night.webp\"}",
+   "img": "assets/bg/home_room_night.webp",
+   "dom": "url(\"assets/bg/home_room_night.webp\")",
+   "cls": "on narr image",
+   "isMk": false,
+   "isHome": false,
+   "mkImg": "assets/bg/linze_201.webp",
+   "homeImg": "assets/bg/home_dining_day.webp",
+   "homeAt": false,
+   "zone": "dorm_hall",
+   "seat": false
+  },
+  {
+   "k": "say",
+   "t": "（你租的套房在公館，走路到總圖十分鐘。）",
+   "d": "2029-06-28",
+   "h": 10.703,
+   "active": true,
+   "mode": "{\"image\":\"assets/bg/home_room_night.webp\"}",
+   "img": "assets/bg/home_room_night.webp",
+   "dom": "url(\"assets/bg/home_room_night.webp\")",
+   "cls": "on narr image",
+   "isMk": false,
+   "isHome": false,
+   "mkImg": "assets/bg/linze_201.webp",
+   "homeImg": "assets/bg/home_dining_day.webp",
+   "homeAt": false,
+   "zone": "dorm_hall",
+   "seat": false
+  },
+  {
+   "k": "say",
+   "t": "（兵役的時間，你排在考試之後。）",
+   "d": "2029-06-28",
+   "h": 10.703,
+   "active": true,
+   "mode": "{\"image\":\"assets/bg/home_room_night.webp\"}",
+   "img": "assets/bg/home_room_night.webp",
+   "dom": "url(\"assets/bg/home_room_night.webp\")",
+   "cls": "on narr image",
+   "isMk": false,
+   "isHome": false,
+   "mkImg": "assets/bg/linze_201.webp",
+   "homeImg": "assets/bg/home_dining_day.webp",
+   "homeAt": false,
+   "zone": "dorm_hall",
+   "seat": false
+  },
+  {
+   "k": "end",
+   "t": "",
+   "d": "2029-06-28",
+   "h": 10.703,
+   "active": false,
+   "mode": "{\"image\":\"assets/bg/home_room_night.webp\"}",
+   "img": "assets/bg/home_room_night.webp",
+   "dom": "url(\"assets/bg/home_room_night.webp\")",
+   "cls": "",
+   "isMk": false,
+   "isHome": false,
+   "mkImg": "assets/bg/linze_201.webp",
+   "homeImg": "assets/bg/home_dining_day.webp",
+   "homeAt": false,
+   "zone": "dorm_hall",
+   "seat": false
+  }
+ ],
+ "pre": {
+  "sub": "campus",
+  "snap_load": {
+   "active": false,
+   "mode": null,
+   "img": null,
+   "dom": "",
+   "cls": "",
+   "isMk": false,
+   "isHome": false,
+   "mkImg": "assets/bg/linze_201.webp",
+   "homeImg": "assets/bg/home_dining_day.webp",
+   "homeAt": false,
+   "zone": "campus",
+   "seat": false
+  }
+ },
+ "end_snap": {
+  "active": false,
+  "mode": "{\"image\":\"assets/bg/home_room_night.webp\"}",
+  "img": "assets/bg/home_room_night.webp",
+  "dom": "",
+  "cls": "",
+  "isMk": false,
+  "isHome": false,
+  "mkImg": "assets/bg/linze_201.webp",
+  "homeImg": "assets/bg/home_dining_night.webp",
+  "homeAt": false,
+  "zone": "gongguan",
+  "seat": false
+ },
+ "end": {
+  "clock": {
+   "key": "2029-07-12",
+   "day": 1395,
+   "h": 20,
+   "zone": "gongguan",
+   "term": null,
+   "week": null
+  },
+  "flags": {
+   "Y4_PATH": "bar",
+   "BAR_REG": true,
+   "GRADUATED": 1355,
+   "FAIL_DELAY_COURSES": [],
+   "FAIL_DELAY_V": 2,
+   "FD_MAKEUP": {
+    "v": 1,
+    "courses": [
+     "maritime"
+    ],
+    "status": "pass",
+    "res": {
+     "maritime": "pass"
+    }
+   },
+   "MOVED_OUT": 1381
+  },
+  "failed": [],
+  "exam": {
+   "Y4S2:maritime:final": {
+    "qs": [
+     "Y4_MAR_04",
+     "Y4MAR_08",
+     "Y4MAR_04",
+     "Y4MAR_03",
+     "Y4MAR_01"
+    ],
+    "ans": [],
+    "status": "done",
+    "correct": 0,
+    "score": 0
+   },
+   "Y4S2:maritime:makeup": {
+    "qs": [
+     "Y4MAR_05",
+     "Y4MAR_09",
+     "Y4MAR_02",
+     "Y4MAR_10",
+     "Y4MAR_06"
+    ],
+    "ans": [
+     "B",
+     "B",
+     "B",
+     "A",
+     "C"
+    ],
+    "correct": 5,
+    "score": 100,
+    "status": "done"
+   }
+  },
+  "grades": {
+   "legal_research": "通過",
+   "legal_practice": "通過",
+   "maritime": "及格（補考）"
+  },
+  "pgOn": true,
+  "delayed": false,
+  "pgDone": {
+   "grad": 1,
+   "fd_grades_y4s2": 1,
+   "fd_makeup": 1
+  },
+  "pend": [
+   [
+    "b1",
+    "2029-07-12",
+    20
+   ],
+   [
+    "exam_2029",
+    "2029-08-04",
+    8
+   ],
+   [
+    "first",
+    "2030-10-01",
+    21
+   ]
+  ],
+  "mk": {
+   "v": 1,
+   "courses": [
+    "maritime"
+   ],
+   "status": "pass",
+   "res": {
+    "maritime": "pass"
+   }
+  },
+  "homeOpt": null,
+  "review": null,
+  "homeAt": false,
+  "retake": null,
+  "nmsg": 2,
+  "title": false
+ },
+ "drive": {
+  "end": "free",
+  "menu": null
+ },
+ "answered": {
+  "2029-06-26|maritime|makeup|1|甲以「以船舶之全部供運送為目的」的運送契約（傭船契約）向乙租": {
+   "course": "maritime",
+   "kind": "makeup",
+   "i": 1,
+   "id": "Y4MAR_05",
+   "right": 1,
+   "picked": 1,
+   "correct": true,
+   "d": "2029-06-26",
+   "h": 10
+  },
+  "2029-06-26|maritime|makeup|2|依中華民國領海及鄰接區法、中華民國專屬經濟海域及大陸礁層法，": {
+   "course": "maritime",
+   "kind": "makeup",
+   "i": 2,
+   "id": "Y4MAR_09",
+   "right": 1,
+   "picked": 1,
+   "correct": true,
+   "d": "2029-06-26",
+   "h": 10
+  },
+  "2029-06-26|maritime|makeup|3|下列關於船舶抵押權的敘述，何者正確？": {
+   "course": "maritime",
+   "kind": "makeup",
+   "i": 3,
+   "id": "Y4MAR_02",
+   "right": 1,
+   "picked": 1,
+   "correct": true,
+   "d": "2029-06-26",
+   "h": 10
+  },
+  "2029-06-26|maritime|makeup|4|依船員法，下列關於船員勞動條件的敘述，何者正確？": {
+   "course": "maritime",
+   "kind": "makeup",
+   "i": 4,
+   "id": "Y4MAR_10",
+   "right": 0,
+   "picked": 0,
+   "correct": true,
+   "d": "2029-06-26",
+   "h": 10
+  },
+  "2029-06-26|maritime|makeup|5|船舶航行中遇到暴風，船長為了保全船舶和全部貨物的共同安全，故": {
+   "course": "maritime",
+   "kind": "makeup",
+   "i": 5,
+   "id": "Y4MAR_06",
+   "right": 2,
+   "picked": 2,
+   "correct": true,
+   "d": "2029-06-26",
+   "h": 10
+  }
+ },
+ "shots": {
+  "w:open": [
+   "C:\\Users\\USER\\Documents\\Lawstudent_cclocal\\docs\\story_planning\\CC\\local_out\\02_mk12new\\out\\112_mkbg_campus_line_open_land.png",
+   "C:\\Users\\USER\\Documents\\Lawstudent_cclocal\\docs\\story_planning\\CC\\local_out\\02_mk12new\\out\\113_mkbg_campus_line_open_port.png"
+  ],
+  "mkbg_q1": [
+   "C:\\Users\\USER\\Documents\\Lawstudent_cclocal\\docs\\story_planning\\CC\\local_out\\02_mk12new\\out\\114_mkbg_campus_q1_land.png",
+   "C:\\Users\\USER\\Documents\\Lawstudent_cclocal\\docs\\story_planning\\CC\\local_out\\02_mk12new\\out\\115_mkbg_campus_q1_port.png"
+  ],
+  "exam_q1_makeup": "C:\\Users\\USER\\Documents\\Lawstudent_cclocal\\docs\\story_planning\\CC\\local_out\\02_mk12new\\out\\116_mkbg_campus_makeup_q1.png",
+  "w:pass": [
+   "C:\\Users\\USER\\Documents\\Lawstudent_cclocal\\docs\\story_planning\\CC\\local_out\\02_mk12new\\out\\117_mkbg_campus_line_pass_land.png",
+   "C:\\Users\\USER\\Documents\\Lawstudent_cclocal\\docs\\story_planning\\CC\\local_out\\02_mk12new\\out\\118_mkbg_campus_line_pass_port.png"
+  ],
+  "w:passAll": [
+   "C:\\Users\\USER\\Documents\\Lawstudent_cclocal\\docs\\story_planning\\CC\\local_out\\02_mk12new\\out\\119_mkbg_campus_line_passAll_land.png",
+   "C:\\Users\\USER\\Documents\\Lawstudent_cclocal\\docs\\story_planning\\CC\\local_out\\02_mk12new\\out\\120_mkbg_campus_line_passAll_port.png"
+  ],
+  "after": [
+   "C:\\Users\\USER\\Documents\\Lawstudent_cclocal\\docs\\story_planning\\CC\\local_out\\02_mk12new\\out\\121_mkbg_campus_after_land.png",
+   "C:\\Users\\USER\\Documents\\Lawstudent_cclocal\\docs\\story_planning\\CC\\local_out\\02_mk12new\\out\\122_mkbg_campus_after_port.png"
+  ]
+ },
+ "sha": "c2d0c24bc",
+ "case": "mkbg_campus"
+}
