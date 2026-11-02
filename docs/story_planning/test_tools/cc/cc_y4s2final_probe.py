@@ -3,28 +3,33 @@
   → 大四下考五題的課 examDay(final)=null → 第 15 週那一天 dayItems 把那一堂整個拿掉（考試週只留 examMain）＝手機「今天」看不到海商法；
   → CLS.failedIn 對考五題的課（海商法與海洋法 maritime，題庫 13 題）沒有期末紀錄＝缺考不及格 → 6/18 成績單（PG 步驟 fd_grades_y4s2 → CLS.showGrades 'Y4S2'）
     後 FD.check 記 FAIL_DELAY_COURSES、FAIL_DELAY（延畢）、已報名國考的 BAR_REG 改 false。
-修正（開發分支 2c8d47e7 起）：examDay 的期末週＝日曆的 exam==='final'（這學期最後一週）；FD.check 取消報名時記 FAIL_DELAY_BARCANCEL；
-  讀檔時 FD.migrate（game3d.js migrate）把 FAIL_DELAY_COURSES 裡「考五題、沒有 Y4S2 期末紀錄（status 不是 done）」的拿掉（記 FD_RESCUE_NOFINAL），
-  拿光＝刪 FAIL_DELAY、FAIL_DELAY_DAY；有 BARCANCEL 才把 BAR_REG 改回 true，沒有 BARCANCEL 且 BAR_REG===false＝記 FD_RESCUE_BAR_UNKNOWN、BAR_REG 不動。
+修改前＝4734c3d9e（BB_224）；修改後＝571dfdf80（2c8d47e7 期末週照日曆＋FD.migrate；571dfdf8 報名痕跡）：examDay 的期末週＝日曆的 exam==='final'（這學期最後一週）；
+  FD.check 取消報名時記 FAIL_DELAY_BARCANCEL；讀檔時 FD.migrate（game3d.js migrate）把 FAIL_DELAY_COURSES 裡「考五題、沒有 Y4S2 期末紀錄（status 不是 done）」的拿掉
+  （記 FD_RESCUE_NOFINAL），拿光＝刪 FAIL_DELAY、FAIL_DELAY_DAY；BARCANCEL 或「BAR_REG false＋報名痕跡 FD.regTrace」＝BAR_REG 改回 true、記 FD_RESCUE_BAR＝'restored'；
+  痕跡＝①Y4_PATH bar ②5/10 以後去過國考讀書會（acts.att 的 act_bar_study@<天>，天≥2029-05-10）；沒痕跡且 BAR_REG===false＝記 FD_RESCUE_BAR_UNKNOWN、不動、不給重新報名。
 不是 iPhone：Playwright 手機橫向模擬（SwiftShader，1～4 fps），URL 用 '<URL>/index.html?turbo'（一鍵上課是黑幕＋換區域；turbo 只縮短等待）。
 
-CASES（逗號隔開，每個 case 開一個新的瀏覽器；預設 main,rescue）：
+CASES（逗號隔開，每個 case 開一個新的瀏覽器；預設 main,rescue_bar,rescue_nobar）。同一個 CASE 在修改前（4734c3d9e）跑＝「讀檔前」的畫面，在修改後（571dfdf80）跑＝讀檔後：
   main  【前置】最小存檔（cc_dl04b_probe 的 state_at：GAME.defaults＋過了開場的旗標、dating_kexin 拿掉）改到 2029-05-27（日）21:00 宿舍（第 15 週的前一晚）；
         法律系、台灣路線（沒有交換）；Y4_PATH＝bar、BAR_REG＝true（已報名 2029 國考；修改前延畢會把它改 false）；課表照預設（大四下：法律專題研究、法律實習、海商法與海洋法）。
         出席不用補：讀碼 failedIn 只對看出席的課（attCourse：general／elective 且不是考五題的課）看 ATT_PASS，大四下三門都不是（cc_y4s2final_unit.js：空存檔 failedIn 只有 maritime）。
+        讀檔後手機「課表」（考試那一欄：第 15 週期末考日）直向＋橫向截圖；5/30 再截一次。
         之後照玩家一天天過（全程不改劇情狀態）：床「睡到明天早上」→ 起床選單「先起床」→ 手機「今天」（每天橫向截圖；5/30 週三＝海商法的那一天，直向＋橫向）
         → 有「直接去上課」就按（路上「繼續去上課」、位子「老位子」、遲到「還是進去聽」、下課選單「先自由活動」）；考試（「i／5　題目」）【捷徑】只讀那一題的正解再按
         （頁面裡用題目原文在 CLS.examPool 找到那一題，算 optList 的正解位置，按畫面上的那個按鈕；EXAM_RIGHT＝答對幾題，預設 5）
         → 沒課了：手機「地點」回宿舍 → 17:30 前床「睡到傍晚」→ 6/1 收拾房間（20:00）以前站著等 → 床「睡到明天」（或「睡一下（…叫醒你）」）
         → 6/2 典禮、拍照、午餐等劇情照玩家點過（選項：婉拒那一類／「不去了」，沒有就第一個不是「出發：」的）→ 畢業後篇站著不動＝跳到下一件事 → 6/18 09:00 成績單。
         成績單那一句（含「海商法與海洋法：」）、延畢旁白（有的話）直向＋橫向截圖。看到成績單、畫面空下來再等 POST_S 秒（預設 20）收尾。
-  rescue【前置】照修改前 6/18 會產生的狀態組一份 2029-06-19（二）10:00 宿舍的存檔（一次讀進去，FD.migrate 就是在這次讀檔跑）：
+  rescue_bar／rescue_nobar／rescue_study／rescue_bc【前置】照修改前 6/18 會產生的狀態組一份 2029-06-19（二）10:00 宿舍的存檔（一次讀進去，FD.migrate 就是在這次讀檔跑）：
         GRADUATED／GRAD_DONE／GRAD_EVENING none／PACKED_Y4、events ev_pack_y4・ev_grad_family・ev_grad_lunch・ev_grad_envelope、PG.done grad＋fd_grades_y4s2；
-        Y4_PATH bar；FD.check 寫的：FAIL_DELAY_COURSES＝['maritime']、FAIL_DELAY＝true、FAIL_DELAY_DAY＝6/18、BAR_REG＝false（修改前沒有 FAIL_DELAY_BARCANCEL）；
+        報名狀態四種：rescue_bar＝Y4_PATH bar（5/10 自動報名）→ 6/18 被延畢取消（BAR_REG false，修改前沒有 BARCANCEL）；
+          rescue_nobar＝沒有 Y4_PATH、5/10 報名問題答「不報名」（BAR_REG false、PG.done reg）、沒有去過國考讀書會；
+          rescue_study（不在預設）＝沒有 Y4_PATH、BAR_REG false、acts.att act_bar_study@2029-05-19＝true（痕跡②）；
+          rescue_bc（不在預設）＝同 rescue_bar 再加 FAIL_DELAY_BARCANCEL（修改後的 FD.check 才會寫）。
+        FD.check 寫的：FAIL_DELAY_COURSES＝['maritime']、FAIL_DELAY＝true、FAIL_DELAY_DAY＝6/18、BAR_REG＝false（修改前沒有 FAIL_DELAY_BARCANCEL）；
         成績單已發 courses.grades.Y4S2＝修改前 reportFor 的字（法律專題研究：過了、法律實習或法律扶助實務：過了、海商法與海洋法：缺考（不及格））；
         沒有海商法期末紀錄（courses.exam 空）；6/18 22:00 阿哲兩則私訊（tag fd_zhe，FD.LINES.zhe 原文）。
         讀進來之後站著不動（畢業後篇）RESCUE_PLAY 秒（預設 240），劇情照玩家點過；截圖：讀檔後畫面、手機「今天」各直向＋橫向、最後一張。
-  rescue_bc（不在預設）：同 rescue，但多 FAIL_DELAY_BARCANCEL＝true（修改後的 FD.check 才會寫；看 BAR_REG 會不會恢復）。
 記錄（只記不改）：HOOK＝GAME.say／choose（連 hint）／caption／titleCard／toast／ADV.begin／ADV.cg／GAME.enter／CLS.attend／CLS.goClass／EVENTS.run／PG.runStep
   → <輸出>/transcript_<case>.json（另外存新增的手機訊息、每天手機「今天」的文字、狀態快照）；
   狀態：F.FAIL_DELAY_COURSES、FAIL_DELAY、FAIL_DELAY_DAY、FAIL_DELAY_BARCANCEL、FD_RESCUE_*、BAR_REG、CLS.failedIn(G,'Y4S2')、R.exam 裡 Y4S2 final 的紀錄、
@@ -34,8 +39,8 @@ check（客觀記錄，不判定企劃）：
         期末週 5/30 手機「今天」有「海商法與海洋法（考試）」（修改前預期 FAIL）；海商法有 Y4S2 期末紀錄 status done；
         6/18 成績單有出現、海商法那一行不是「缺考（不及格）」；沒有被判延畢（FAIL_DELAY_COURSES 空、沒有 FAIL_DELAY、沒有延畢旁白「（證書要等下學期。……）」）；
         BAR_REG 保留 true；沒有卡住；沒有 JS 例外。修改前 a3b1bd647 預期 FAIL。
-  rescue／rescue_bc：讀檔後 FAIL_DELAY_COURSES 空、FAIL_DELAY 沒了、FD_RESCUE_NOFINAL＝['maritime']、PG.delayed false、FD.on false；BAR_REG（rescue：記錄是否恢復
-        ＝修改後預期仍 false＋FD_RESCUE_BAR_UNKNOWN，照 BB 的要求「恢復／保留」判 → 預期 FAIL，交 BB／AA；rescue_bc：恢復 true）；
+  rescue_*：讀檔後 FAIL_DELAY_COURSES 空、FAIL_DELAY 沒了、FD_RESCUE_NOFINAL＝['maritime']、PG.delayed false、FD.on false；
+        報名：bar／study／bc＝BAR_REG true、FD_RESCUE_BAR restored；nobar＝BAR_REG 仍 false、FD_RESCUE_BAR_UNKNOWN true、之後沒有「報名／不報名」的選單、手機沒有報名的回覆鍵；
         之後沒有延畢劇情（FD.LINES 的句子、late_2029 那一段、日期卡「延畢」）；沒有卡住；沒有 JS 例外。修改前（沒有 FD.migrate）預期 FAIL。
 用法：LW_TESTS=<工作樹>/tests SHA=<sha> [CASES=main,rescue] python3 cc_y4s2final_probe.py '<URL>/index.html?turbo' <輸出資料夾>
 等待上限（秒）：CASE_MAX（main，預設 5400）、TRIP_MAX（一趟上課，預設 600）、STUCK_S（空著、畫面時間都沒變，預設 240）、WAIT_PACK（6/1 等收拾，預設 900）。"""
@@ -47,7 +52,7 @@ from playwright.async_api import async_playwright
 URL, OUT = sys.argv[1], sys.argv[2]
 J = lambda o: json.dumps(o, ensure_ascii=False)
 ENVI = lambda k, d: int(os.environ.get(k, str(d)))
-CASES = [c.strip() for c in os.environ.get('CASES', 'main,rescue').split(',') if c.strip()]
+CASES = [c.strip() for c in os.environ.get('CASES', 'main,rescue_bar,rescue_nobar').split(',') if c.strip()]
 EXAM_RIGHT = ENVI('EXAM_RIGHT', 5)
 LAND = {'width': 844, 'height': 390}; PORT = {'width': 390, 'height': 844}
 CONT = '繼續去上課'
@@ -122,15 +127,15 @@ async def rows(pg, n0=0, k=None):
 
 # ---------------------------------------------------------------- 頁面裡讀（只讀）
 STATE = r"""(()=>{ const G=GAME.G, F=G.flags||{}, R=CLS.rec(G); const pick={};
-  for(const k of Object.keys(F)) if(/^(FAIL_DELAY|FAIL_DELAY_COURSES|FAIL_DELAY_DAY|FAIL_DELAY_BARCANCEL|FAIL_DELAY_CERT|FD_RESCUE_NOFINAL|FD_RESCUE_BAR_UNKNOWN|BAR_REG|BAR_REG_2030|Y4_PATH|GRADUATED|GRAD_DONE|GRAD_EVENING|PACKED_Y4|MOVED_OUT)$/.test(k)) pick[k]=F[k];
+  for(const k of Object.keys(F)) if(/^(FAIL_DELAY|FAIL_DELAY_COURSES|FAIL_DELAY_DAY|FAIL_DELAY_BARCANCEL|FAIL_DELAY_CERT|FD_RESCUE_NOFINAL|FD_RESCUE_BAR_UNKNOWN|FD_RESCUE_BAR|BAR_REG|BAR_REG_2030|Y4_PATH|GRADUATED|GRAD_DONE|GRAD_EVENING|PACKED_Y4|MOVED_OUT)$/.test(k)) pick[k]=F[k];
   const ex={}; for(const k in (R.exam||{})) if(/^Y4S2:.*:final$/.test(k)) ex[k]=R.exam[k];
   let failed=null, eday=null, elist=null, tc=null; try{ failed=CLS.failedIn(G,'Y4S2').map(c=>c.id); }catch(e){ failed='ERR '+e.message; }
   try{ const c=CLS.byId('maritime'); const d=c?CLS.examDay(G,c,'Y4S2','final'):null; eday=d?{key:CALENDAR.dateOf(d.day).key,block:d.block,makeup:!!d.makeup}:null; }catch(e){ eday='ERR '+e.message; }
   try{ elist=CLS.examList(G,'Y4S2').map(e=>[e.c.id,e.kind,CALENDAR.dateOf(e.day).key,e.block]); }catch(e){ elist='ERR '+e.message; }
   try{ tc=CLS.termCourses(G,'Y4S2').map(c=>c.id); }catch(e){}
-  const t=CALENDAR.termOf(G.day); let pgOn=null, delayed=null, fdOn=null, pgDone=null; try{ pgOn=PG.on(G); delayed=PG.delayed(G); pgDone=Object.keys(PG.rec(G).done||{}); }catch(e){} try{ fdOn=FD.on(G); }catch(e){}
+  const t=CALENDAR.termOf(G.day); let pgOn=null, delayed=null, fdOn=null, pgDone=null; try{ pgOn=PG.on(G); delayed=PG.delayed(G); pgDone=Object.keys(PG.rec(G).done||{}); }catch(e){} let fd=null; try{ fdOn=FD.on(G); fd={courses:FD.courses(G),on:FD.on(G),certLate:FD.certLate?FD.certLate(G):null,lateLikely:FD.lateLikely?FD.lateLikely(G):null,hasMigrate:!!FD.migrate,hasRegTrace:!!FD.regTrace}; }catch(e){}
   return {clock:{key:CALENDAR.dateOf(G.day).key,day:G.day,h:+(+G.hour).toFixed(3),zone:G.zone,term:t&&t.id,week:t&&t.week,exam:t&&t.exam},flags:pick,failed,examFinal:ex,
-    examDay:eday,examList:elist,termCourses:tc,grades:(R.grades||{}).Y4S2||null,pgOn,delayed,fdOn,pgDone,nmsg:(G.msgs||[]).length,
+    examDay:eday,examList:elist,termCourses:tc,grades:(R.grades||{}).Y4S2||null,pgOn,delayed,fdOn,fd,pgDone,acts:Object.keys((G.acts&&G.acts.att)||{}).filter(k=>/^act_bar_study@/.test(k)),nmsg:(G.msgs||[]).length,
     title:!document.getElementById('titleScreen').classList.contains('hide')}; })()"""
 # 今天還能去的課（手機「今天」的「直接去上課」那一排；只讀）
 GOLIST = r"""(()=>{ try{ const G=GAME.G, R=CLS.rec(G); return CLS.goList(G).filter(it=>!R.done[it.key]&&!(R.note&&R.note['plan_skip_'+it.key])).map(it=>({key:it.key,cid:it.c.id,name:it.c.name,t0:it.t0,exam:it.exam||null,examMain:!!it.examMain,status:CLS.status(G,it)})); }catch(e){ return []; } })()"""
@@ -302,6 +307,19 @@ async def today(pg, cdp, run, drv, tag, both=False):
     return {'text': txt, 'text_port': txt_p, 'items': items, 'go': gos, 'shots': shots}
 
 
+async def week(pg, cdp, run, tag):
+    """手機「課表」（考試那一欄：這學期考五題的課的期中、期末考日）直向＋橫向截圖、文字"""
+    txt = await P.phone_tab(pg, cdp, 'week'); await pg.wait_for_timeout(600)
+    exam = await pg.evaluate("(()=>{ const b=[...document.querySelectorAll('#phoneBody .item')].find(e=>/^考試/.test((e.innerText||'').trim())); if(b) b.scrollIntoView({block:'center'}); return b?b.innerText:null; })()")
+    await pg.wait_for_timeout(500); a = await run.shot(pg, tag + '_week_land')
+    await pg.set_viewport_size(PORT); await pg.wait_for_timeout(2000)
+    await pg.evaluate("(()=>{ const b=[...document.querySelectorAll('#phoneBody .item')].find(e=>/^考試/.test((e.innerText||'').trim())); if(b) b.scrollIntoView({block:'center'}); })()")
+    await pg.wait_for_timeout(500); b = await run.shot(pg, tag + '_week_port')
+    await pg.set_viewport_size(LAND); await pg.wait_for_timeout(2000); await L.close_panels(pg, cdp)
+    run.note('%s：手機「課表」考試欄 %s' % (tag, J(exam)))
+    return {'text': txt, 'exam': exam, 'shots': [a, b]}
+
+
 async def trip(pg, cdp, run, drv, tag, key):
     """手機「今天」→ 那一堂的「直接去上課」→ 照玩家點到那一堂上完（CLS.attend 跑完、畫面空下來）"""
     out = {'key': key, 'ok': False, 'stuck': False}
@@ -341,6 +359,7 @@ async def case_main(pg, cdp, run):
               s0['clock']['term'] == 'Y4S2' and s0['clock']['week'] == 14 and 'maritime' in (s0['termCourses'] or []) and s0['flags'].get('BAR_REG') is True
               and isinstance(s0['failed'], list) and set(s0['failed']) <= {'maritime'}, J(s0))
     run.note('%s：讀檔後 examDay(maritime, Y4S2, final)＝%s；examList %s' % (tag, J(s0['examDay']), J(s0['examList'])))
+    wk = {'load': await week(pg, cdp, run, tag + '_0527')}
     n0 = await pl_len(pg); nmsg0 = s0['nmsg']; drv = Driver(pg, cdp, run, tag, n0)
     days = {}; trips = []; snaps = {}; stuck = None; woke = {}
     gd = await pg.evaluate("STORY.dayOfKey('2029-06-02')"); pack = await pg.evaluate("STORY.dayOfKey('2029-06-01')")
@@ -364,7 +383,9 @@ async def case_main(pg, cdp, run):
             await pg.wait_for_timeout(1500); continue
         if time.time() < wake_wait: await pg.wait_for_timeout(1000); continue   # 剛醒：等起床選單（空下來約 4 秒才出）
         if c['key'] not in days:
-            days[c['key']] = await today(pg, cdp, run, drv, '%s_%s' % (tag, c['key'].replace('-', '')), both=(c['key'] == EXAM_DAY)); continue
+            days[c['key']] = await today(pg, cdp, run, drv, '%s_%s' % (tag, c['key'].replace('-', '')), both=(c['key'] == EXAM_DAY))
+            if c['key'] == EXAM_DAY: wk['exam_day'] = await week(pg, cdp, run, '%s_%s' % (tag, c['key'].replace('-', '')))
+            continue
         gl = await pg.evaluate(GOLIST)
         gl = [x for x in gl if x['key'] not in [t['key'] for t in trips]]
         if gl:
@@ -390,11 +411,13 @@ async def case_main(pg, cdp, run):
         seg = [p for p in gl[0]['t'].split('　') if p.startswith('海商法與海洋法：')]; mline = seg[0] if seg else gl[0]['t']
     fdl = [[x.get('d'), hm(x.get('h')), x['t']] for x in said if x['t'] in FD_SAY or FD_SAY_RE.match(x['t'])]
     with open(os.path.join(OUT, 'transcript_%s.json' % tag), 'w', encoding='utf-8') as f:
-        json.dump({'case': tag, 'sha': os.environ.get('SHA', '?'), 'rows': R, 'msgs': msgs, 'today': days, 'trips': trips, 'answered': drv.answered, 'picks': drv.picks_log,
+        json.dump({'case': tag, 'sha': os.environ.get('SHA', '?'), 'rows': R, 'msgs': msgs, 'today': days, 'trips': trips, 'answered': drv.answered, 'picks': drv.picks_log, 'week': wk,
                    'start': s0, 'end': g, 'snaps': snaps, 'stuck': stuck, 'shots': drv.shots}, f, ensure_ascii=False, indent=1)
     td = days.get(EXAM_DAY) or {}
     run.check('%s：期末週 %s 手機「今天」有「海商法與海洋法（考試）」' % (tag, EXAM_DAY), '海商法與海洋法（考試）' in (td.get('text') or ''), J((td.get('text') or '（那天沒看到手機）')[:400]))
     ex = (g['examFinal'] or {}).get('Y4S2:maritime:final')
+    run.check('%s：手機「課表」考試欄有海商法與海洋法的期末考（5/30）' % tag, '海商法與海洋法' in (wk['load'].get('exam') or ''), J(wk['load'].get('exam')))
+    run.note('%s：FD 狀態（結束時）%s' % (tag, J(g['fd'])))
     run.check('%s：海商法有大四下期末紀錄（status done）' % tag, bool(ex) and ex.get('status') == 'done', J(g['examFinal']))
     run.note('%s：考卷作答 %s' % (tag, J(drv.answered)))
     run.check('%s：6/18 成績單有出現（「大四下的成績出來了。」＋課名那一行）' % tag, bool(gl), J([[x.get('d'), x['t']] for x in said if '成績' in x['t']][-4:]))
@@ -412,17 +435,22 @@ async def case_main(pg, cdp, run):
     run.note('%s：截圖 %s' % (tag, J(drv.shots)))
 
 
-async def case_rescue(pg, cdp, run, bc=False):
-    tag = 'rescue_bc' if bc else 'rescue'
+async def case_rescue(pg, cdp, run, variant):
+    tag = 'rescue_' + variant; bc = variant == 'bc'; want_bar = variant in ('bar', 'study', 'bc')
     gd = await pg.evaluate("PG.gradDay()"); d618 = (await P.day_of(pg, GRADE_DAY))['d']; dpack = (await P.day_of(pg, '2029-06-01'))['d']
-    flags = {'Y4_PATH': 'bar', 'BAR_REG': False, 'GRADUATED': gd, 'GRAD_DONE': True, 'GRAD_EVENING': 'none', 'GRAD_ENVELOPE': 'later', 'PACKED_Y4': dpack,
+    flags = {'BAR_REG': False, 'GRADUATED': gd, 'GRAD_DONE': True, 'GRAD_EVENING': 'none', 'GRAD_ENVELOPE': 'later', 'PACKED_Y4': dpack,
              'FAIL_DELAY_COURSES': ['maritime'], 'FAIL_DELAY': True, 'FAIL_DELAY_DAY': d618, 'PG': {'done': {'grad': 1, 'fd_grades_y4s2': 1}}}
+    if variant in ('bar', 'bc'): flags['Y4_PATH'] = 'bar'
+    else: flags['PG']['done']['reg'] = 1   # 5/10 的報名問題演過、答「不報名」（BAR_REG false）
     if bc: flags['FAIL_DELAY_BARCANCEL'] = True
     st, d = await state_at(pg, '2029-06-19', 10.0, 'dorm', flags, done={e: 1 for e in Y4_DONE})
     st['courses'] = {'done': {}, 'attend': {}, 'prep': {}, 'electives': {}, 'note': {}, 'disc': {}, 'ask': {}, 'late': {}, 'abs': {}, 'exam': {},
                      'grades': {'Y4S2': {'legal_research': '過了', 'legal_practice': '過了', 'maritime': '缺考（不及格）'}}}
     st['msgs'] = [{'day': d618, 'h': 22.0 + i * 0.01, 'who': 'zhe', 'text': t, 'iv': None, 'th': 'p:zhe', 'from': 'zhe', 'tag': 'fd_zhe'} for i, t in enumerate(ZHE)]
-    before = {k: st['flags'].get(k) for k in ('FAIL_DELAY_COURSES', 'FAIL_DELAY', 'FAIL_DELAY_DAY', 'FAIL_DELAY_BARCANCEL', 'BAR_REG')}
+    if variant == 'study':
+        ds = (await P.day_of(pg, '2029-05-19'))['d']; st['acts'] = {'att': {'act_bar_study@%d' % ds: True}}   # 5/10 以後去過國考讀書會（FD.regTrace 讀 acts.att）
+    before = {k: st['flags'].get(k) for k in ('FAIL_DELAY_COURSES', 'FAIL_DELAY', 'FAIL_DELAY_DAY', 'FAIL_DELAY_BARCANCEL', 'BAR_REG', 'Y4_PATH')}
+    if variant == 'study': before['acts'] = st['acts']
     await L.load_state(pg, st, quiet_events=False, quiet_phone=False); await pg.evaluate(CLEARP)
     g1 = await pg.evaluate(STATE)   # 讀檔那一刻（FD.migrate 是讀檔時跑的；之後畫面還沒動）
     run.setup('[前置] %s：照修改前 6/18 會產生的狀態組 %s 10:00 宿舍的存檔（%s；成績單已發、海商法缺考（不及格）、沒有期末紀錄、阿哲 6/18 22:00 兩則）一次讀進去' % (tag, d['key'], J(before)))
@@ -433,7 +461,9 @@ async def case_rescue(pg, cdp, run, bc=False):
     run.check('%s：讀檔後延畢取消（FAIL_DELAY_COURSES 空、沒有 FAIL_DELAY、FD_RESCUE_NOFINAL＝[maritime]）' % tag,
               F.get('FAIL_DELAY_COURSES') == [] and not F.get('FAIL_DELAY') and F.get('FD_RESCUE_NOFINAL') == ['maritime'], J(F))
     run.check('%s：PG.delayed false、FD.on false' % tag, g1['delayed'] is False and g1['fdOn'] is False, J({'delayed': g1['delayed'], 'fdOn': g1['fdOn']}))
-    run.check('%s：BAR_REG 恢復／保留 true' % tag, F.get('BAR_REG') is True, J({k: F.get(k) for k in ('BAR_REG', 'FAIL_DELAY_BARCANCEL', 'FD_RESCUE_BAR_UNKNOWN')}))
+    bars = J({k: F.get(k) for k in ('BAR_REG', 'FAIL_DELAY_BARCANCEL', 'FD_RESCUE_BAR', 'FD_RESCUE_BAR_UNKNOWN', 'Y4_PATH')}) + '；FD %s' % J(g1['fd'])
+    if want_bar: run.check('%s：有報名痕跡＝恢復報名（BAR_REG true、FD_RESCUE_BAR restored）' % tag, F.get('BAR_REG') is True and F.get('FD_RESCUE_BAR') == 'restored', bars)
+    else: run.check('%s：沒有痕跡＝照舊不報（BAR_REG false、FD_RESCUE_BAR_UNKNOWN true）' % tag, F.get('BAR_REG') is False and F.get('FD_RESCUE_BAR_UNKNOWN') is True, bars)
     run.note('%s：成績單紀錄（讀檔後 R.grades.Y4S2，migrate 不改）＝%s；failedIn＝%s' % (tag, J(g1['grades']), J(g1['failed'])))
     await L.phone_away(pg, cdp, tries=2)
     drv.shots['after_load'] = await shoot_both(pg, run, tag + '_after_load')
@@ -460,13 +490,19 @@ async def case_rescue(pg, cdp, run, bc=False):
                    'today': td, 'stuck': stuck, 'shots': drv.shots}, f, ensure_ascii=False, indent=1)
     run.check('%s：之後沒有延畢劇情（FD 的句子、late_2029／fd_late_* 步驟、日期卡寫延畢）' % tag,
               not fdl and not late and not any('延畢' in (a or '') + (b or '') for _, a, b in cards), J({'fd': fdl, 'steps': [x['t'] for x in late], 'cards': cards[-6:]}))
+    regopts = [x['t'] for x in R if x['k'] == 'choose' and ('報名' in x['t'])]
+    asks = await pg.evaluate("[...document.querySelectorAll('#phoneBody [data-ask]')].map(b=>(b.textContent||'').trim()).filter(t=>t.indexOf('報名')>=0)")
+    regmsg = [[m['tag'], m['text']] for m in msgs if '報名' in m['text']]
+    if not want_bar: run.check('%s：畫面上沒有重新報名的選項（選單、手機回覆鍵）' % tag, not regopts and not asks, J({'choose': regopts, 'asks': asks, 'msgs': regmsg}))
+    run.note('%s：結束時報名狀態 %s；新訊息裡提到報名的 %s' % (tag, J({k: F2.get(k) for k in ('BAR_REG', 'FD_RESCUE_BAR', 'FD_RESCUE_BAR_UNKNOWN')}), J(regmsg)))
     run.check('%s：結束時仍沒有延畢（FAIL_DELAY_COURSES 空、沒有 FAIL_DELAY）' % tag, F2.get('FAIL_DELAY_COURSES') == [] and not F2.get('FAIL_DELAY'), J(F2))
     run.note('%s：跑到 %s；場景 %s；日期卡 %s' % (tag, J(g['clock']), J([x['t'] for x in R if x['k'] == 'step' and x['n'] == 'end']), J(cards)[:1200]))
     run.check('%s：沒有卡住' % tag, stuck is None, J(stuck))
     run.note('%s：截圖 %s' % (tag, J(drv.shots)))
 
 
-CASEFN = {'main': case_main, 'rescue': lambda pg, cdp, run: case_rescue(pg, cdp, run, False), 'rescue_bc': lambda pg, cdp, run: case_rescue(pg, cdp, run, True)}
+CASEFN = {'main': case_main}
+for _v in ('bar', 'nobar', 'study', 'bc'): CASEFN['rescue_' + _v] = (lambda v: (lambda pg, cdp, run: case_rescue(pg, cdp, run, v)))(_v)
 
 
 async def main():
