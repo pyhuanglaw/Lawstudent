@@ -742,7 +742,7 @@ async def semff_run(pg, cdp, run, tag, on_remind, done_js, max_s):
             if k is None: k = next((i for i, o in enumerate(s['ch']) if o['t'].startswith(pick) and not o['dim']), None)
             if k is None: k, _ = pick_opt(s['ch'])
             c = await P.clock(pg); log.append([c['key'], hm(c['h']), c['zone'], T, T[k]])
-            run.note('%s %s %s 選項 %s → %s' % (tag, c['key'], hm(c['h']), c['zone'], J([t[:20] for t in T]), T[k][:24]))
+            run.note('%s %s %s %s 選項 %s → %s' % (tag, c['key'], hm(c['h']), c['zone'], J([t[:20] for t in T]), T[k][:24]))
             await P.tap_choice(pg, cdp, k); await pg.wait_for_timeout(1300); free_since = None; continue
         if s['phone'] and not s['dlg']:
             await L.phone_away(pg, cdp, tries=1); await pg.wait_for_timeout(600); free_since = None; continue
@@ -866,7 +866,7 @@ async def case_night(pg, cdp, run, tr, S):
                 t_after = await P.clock(pg)
                 rec.update(toasts=rv['toasts'], started=rv['start'] is not None, before=t_before, after=t_after)
                 hint_ok = dim and any('21:00' in t or '午夜' in t for t in rv['toasts'] + [menu.get('menu_txt') or ''])
-                run.check('%s：%s「%s」變灰、按了有提示、沒有開始、時間不動' % (tag, hm(h), LABEL), hint_ok and rv['start'] is None and t_before['key'] == t_after['key'] and abs(t_before['h'] - t_after['h']) < 0.05,
+                run.check('%s：%s「%s」變灰、按了有提示、沒有開始、沒有跳時間（前後差 < 0.5 小時；不用 turbo 時遊戲時間本來就會走）' % (tag, hm(h), LABEL), hint_ok and rv['start'] is None and t_before['key'] == t_after['key'] and abs(t_before['h'] - t_after['h']) < 0.5,
                           J({'dim': dim, 'toasts': rv['toasts'][-2:], 'start': rv['start'], 'h': [t_before['h'], t_after['h']]}))
                 await leave_menu(pg, cdp, run, tag)
         else:
@@ -1035,7 +1035,7 @@ async def main():
         for c in CASES:
             print('==== CASE %s ====' % c, flush=True)
             if c not in RUNNERS: run.check('CASE %s 認得（%s）' % (c, ','.join(RUNNERS)), False); continue
-            tr = TR(c); S = SUMMARY.setdefault(c, {})
+            tr = TR(c); S = SUMMARY.setdefault('case_' + c, {})   # case 叫 seed 時和 SUMMARY['seed']（種子值）撞名（R10 PC：'str' 沒有 setdefault）
             b, ctx, pg, cdp, errs = await L.launch(p, landscape=True)
             pg.on('dialog', lambda dd: asyncio.ensure_future(dd.accept()))
             try:
