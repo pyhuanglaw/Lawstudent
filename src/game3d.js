@@ -308,6 +308,7 @@ const GAME = (function(){
     else break;
     }
     { const nl=typeof STORY!=='undefined'&&STORY.studyNarr?STORY.studyNarr(GM):null; if(nl) await say(null,nl); }   /* 讀完那個地方的一句旁白（慢讀咖啡四句輪流，AA_535 第 3 節；src/slowread3d.js）*/
+    { const ln=course&&typeof STUDY!=='undefined'&&STUDY.line?STUDY.line(G,course):''; if(ln) caption('',ln,4200); }   /* D118-B2（D118_PLAN ②-2）：讀完那一科的進度（和「法律」頁同一行）*/
     }
   GM.studySession=studySession;
   // ---------- 存檔 ----------
@@ -457,8 +458,21 @@ const GAME = (function(){
     const esc=t=>String(t).replace(/[&<>]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;'}[c])), TN={Y1S1:'大一上',Y1S2:'大一下',Y2S1:'大二上',Y2S2:'大二下',Y3S1:'大三上',Y3S2:'大三下',Y4S1:'大四上',Y4S2:'大四下',Y0S1:'經濟系大一上',Y0S2:'經濟系大一下'};
     /* 使用者 2026-10-16 試玩：一開始就有刑訴三大類、而且只有刑訴——改成只列上過的課（CLS.legalCourses）；刑訴題庫（使用者提供的 Q001–Q084）只在讀書會、課堂真的遇到過以後才列 */
     const LC=typeof CLS!=='undefined'&&CLS.legalCourses?CLS.legalCourses(G):[]; let lastCur=null;
+    /* D118-B2（D118_PLAN ②-2）：每一科一列「<課名>　期末範圍：讀過 x／y・答對過 z」，資料來源 STUDY（出席、自習、課堂提問、考試都算）；
+       這學期考五題的課還沒上也列（看得到範圍有幾張觀念卡），之前的學期有紀錄的課也列；點開「觀念卡」列每一張的狀態 */
+    const ST=typeof STUDY!=='undefined'?STUDY:null;
+    if(ST){ const have=new Set(LC.map(e=>e.c.id)); for(const e of ST.courses(G)) if(!have.has(e.c.id)) LC.push({c:e.c,term:e.term,current:e.current,topics:[]});
+      const ord=id=>{ const m=/^Y(\d)S(\d)$/.exec(id||''); return m?(+m[1])*2+(+m[2]):0; }; LC.sort((a,b)=>(b.current-a.current)||(ord(b.term)-ord(a.term))||a.c.name.localeCompare(b.c.name)); }
+    const RC=typeof CLS!=='undefined'&&CLS.rec?CLS.rec(G):{ask:{}};
     for(const e of LC){ if(lastCur!==e.current){ lastCur=e.current; add('<b>'+(e.current?'這學期':'之前的學期')+'</b>','muted'); }
-      add('<b>'+esc(e.c.name)+'</b><div class="muted">'+(TN[e.term]||e.term)+'・上過 '+e.topics.length+' 週</div>'+e.topics.map(t=>'<div>· 第 '+t.w+' 週　'+esc(t.title)+'</div>').join('')); }
+      const us=ST?ST.units(G,e.c,e.term,'final'):[], pr=ST&&us.length?ST.progress(G,e.c,'final',e.term):null;
+      const head='<b>'+esc(e.c.name)+'</b>'+(pr?'　期末範圍：讀過 '+pr.read+'／'+pr.total+'・答對過 '+pr.got:'')+'<div class="muted">'+(TN[e.term]||e.term)+(e.topics.length?'・上過 '+e.topics.length+' 週':'')+'</div>';
+      if(!us.length){ add(head+e.topics.map(t=>'<div>· 第 '+t.w+' 週　'+esc(t.title)+'</div>').join('')); continue; }
+      const row=u=>{ const st=ST.status(G,u), v=ST.view(u)||{board:[]}; let h='<div>· '+(u.week!=null?'第 '+u.week+' 週　':'')+esc(u.title)+'　<span class="muted">'+(ST.LABEL[st]||'還沒讀')+'</span></div>';
+        if(st==='read'||st==='got'){ const b=v.board.slice(1).concat(v.line?[v.prof+'：'+v.line]:[]); if(b.length) h+='<div class="muted">　'+esc(b.join('　'))+'</div>'; }
+        const aq=u.askQid&&typeof EXAM_BANK!=='undefined'?EXAM_BANK.questions.find(q=>q.id===u.askQid):null; if(aq&&Object.keys(RC.ask||{}).some(k=>k.endsWith(':'+aq.id))) h+='<div class="muted">　課堂提問：'+esc(aq.q)+'　答案：'+esc(aq.type==='tf'||!aq.options?aq.answer:'（'+aq.answer+'）'+aq.options[aq.answer])+(aq.core?'　考點：'+esc(aq.core):'')+'</div>';
+        return h; };
+      add(head+'<details><summary>觀念卡（'+us.length+' 張）</summary>'+us.map(row).join('')+'</details>'); }
     const sm=LEGAL.summary(); const met=Object.values(sm.bySec).some(b=>b.total-b.unseen>0);
     if(met){ add('<b>刑事訴訟法（讀書會、課堂遇到的題目）</b>','muted'); for(const sec in sm.bySec){ const b=sm.bySec[sec]; if(b.total-b.unseen<=0) continue; add('<b>刑事訴訟法・'+sec+'</b><div class="muted">聽過 '+b.seen+' · 混淆 '+b.confused+' · 學到 '+b.learned+' · 理解 '+b.understood+' · 熟練 '+b.mastered+'（遇到 '+(b.total-b.unseen)+' 個爭點）</div>'); } }
     if(sm.misc.length) add('<b>你容易混淆的地方</b>'+sm.misc.map(m=>'<div>· '+esc(m.label)+'（'+m.n+' 次）</div>').join(''));

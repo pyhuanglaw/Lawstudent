@@ -305,6 +305,7 @@ const CLS=(function(){
         if(h0<it.t0-0.5/60){ await GM.fade(true); { const R=S.rec(G); if(R.waitLast!==it.key){ R.waitLast=it.key; await GM.say(null,'（你在座位上等。教室慢慢坐滿了。）'); } }   /* AA_489 第 3 節（c4bcf86f6）：提早坐下等上課，轉暗時一句，一堂課一次 */ S.settleRoom(GM); GM.advance(it.t0-h0); keepCrowd(G); if(typeof CROWD!=='undefined'&&CROWD.resync) CROWD.resync(GM); S.syncRoom(GM,{full:true,instant:true}); await GM.fade(false); }
         else S.syncRoom(GM,{full:true}); }
       if(!door&&E.zone&&E.zone.setBoard) E.zone.setBoard(exam?c.name+'：'+(exam==='mid'?'期中考':'期末考'):ct.board[0],exam?'不可以翻書':ct.board[1],exam?'鈴響請停筆':ct.board[2]);
+      else if(!exam&&GM.caption&&ct.board&&ct.board[0]) GM.caption('黑板',ct.board.filter(Boolean).join('　'),6000);   /* D118-B2（D118_PLAN ②-7）：沒有 3D 黑板的教室（法律系館B多功能教室、法律系館A 202、研討室 A、門口上課）用字幕顯示黑板三行 */
       if(exam&&S.isExamCourse(c)) await S.runExam(GM,it);   /* 考五題的法律課（AA_130 第 3 節）*/
       else if(exam){ const p=R.prep[c.id]||0; await GM.say(null,'考卷發下來。'+c.name+(exam==='mid'?'期中考':'期末考')+'。');
         await GM.say(null,p>=8?'題目你都見過——上課講過、自己也讀過。你寫得很順。':p>=4?'有幾題你有印象，有一題你只記得老師在黑板上畫過圖。':'你認得題目裡的每一個字，合起來就不太認得了。'); }
@@ -328,7 +329,7 @@ const CLS=(function(){
         }
         if(!ct.second&&!(ct.obs&&ct.obs.disc&&S.askOf(it)&&S.askOf(it).id===ct.obs.disc.qid)) await S.classAsk(GM,it,prof,ct); }
       if(roomy(E.zone)) S.syncRooms(GM);   /* 快轉前同學先坐好（人流每 15 分鐘才排一次；剛好在那之前坐下的話，下課時沒有人站起來走出去）*/
-      await GM.fade(true); S.settleRoom(GM); const h=hr(G); if(h<it.t1) GM.advance(it.t1-h); keepCrowd(G);   /* settleRoom：轉暗以後，還在走向座位、講台的人到位（不然快轉以後還在半路，下課的同步把沒坐下的人當場拿掉）*/ R.done[it.key]=1; if(lateAbs) R.abs[it.key]=1; else if(!exam){ R.attend[c.id]=(R.attend[c.id]||0)+1; R.prep[c.id]=(R.prep[c.id]||0)+1; if(wasLate) R.late[it.key]=1; } await GM.fade(false);
+      await GM.fade(true); S.settleRoom(GM); const h=hr(G); if(h<it.t1) GM.advance(it.t1-h); keepCrowd(G);   /* settleRoom：轉暗以後，還在走向座位、講台的人到位（不然快轉以後還在半路，下課的同步把沒坐下的人當場拿掉）*/ R.done[it.key]=1; if(lateAbs) R.abs[it.key]=1; else if(!exam){ R.attend[c.id]=(R.attend[c.id]||0)+1; R.prep[c.id]=(R.prep[c.id]||0)+1; if(wasLate) R.late[it.key]=1; } if(!exam&&typeof STUDY!=='undefined'){ try{ STUDY.heard(G,c,it.week); }catch(e){ console.warn('STUDY.heard',e); } }   /* D118-B2：這一週的觀念卡＝上過課（遲到記缺席的也聽了後半堂）*/ await GM.fade(false);
       GM.caption('',exam?'考完了。':'下課了。'+(c.prof?S.profName(c)+'收起講義。':''),2400);
       }
     } finally { if(!o.inScene) GM.sceneEnd(); }
@@ -585,7 +586,8 @@ const CLS=(function(){
      審查過的那一週：標題＝黑板第一行、內容＝黑板第二三行；還沒審查的週：只寫主題（法律審查，AA_122 第 0a 節）。筆記 id＝<課程>_w<週>。都讀過＝null */
   S.studyTopic=function(G,c,has){ attachSyllabus(); if(!c||typeof CALENDAR==='undefined') return null; const t=CALENDAR.termOf(G.day); const wk=t&&t.id===c.term?t.week:99;
     const weeks=(c.syllabus||[]).filter(w=>w.w<=wk&&TEACH.includes(w.w)).sort((a,b)=>a.w-b.w);
-    for(const w of weeks){ const id=c.id+'_w'+w.w; if(has(id)) continue; const rv=S.sylReviewed(c,w.w)&&w.board&&w.board[0]; const title=rv?w.board[0]:c.name+'：'+(S.topic(c,w.w)||'第 '+w.w+' 週'); const body=rv?[w.board[1],w.board[2]].filter(Boolean).join('　'):'';
+    for(const w of weeks){ const id=c.id+'_w'+w.w; if(has(id)) continue; const rv=S.sylReviewed(c,w.w)&&w.board&&w.board[0]; const title=rv?w.board[0]:c.name+'：'+(S.topic(c,w.w)||'第 '+w.w+' 週'); const body=rv?[w.board[1],w.board[2]].filter(Boolean).join('　')+(w.line?'　'+S.profName(c)+'：'+w.line:''):'';   /* D118-B2（D118_PLAN ②-7）：筆記收黑板三行（標題＝第一行）＋教授那一句 */
+      if(typeof STUDY!=='undefined'){ try{ const u=STUDY.weekUnit(c,w.w); if(u) STUDY.mark(G,u.id,'read','study'); }catch(e){ console.warn('STUDY.mark',e); } }   /* D118-B2：自習讀到這一週＝那張觀念卡讀過（呼叫端一定把這份筆記收進去：game3d.js studySession）*/
       return {id,title,body,read:'你把〈'+title+'〉的筆記整理了一遍。'}; }
     return null; };
   S.askOf=function(it,qidIn){ attachSyllabus(); const c=it.c; if(!c.syllabus||typeof EXAM_BANK==='undefined') return null; const sy=c.syllabus.find(q=>q.w===it.week); const qid=qidIn||(sy&&sy.ask&&sy.ask.qid); if(!qid) return null;
@@ -594,6 +596,9 @@ const CLS=(function(){
     const first=!Object.keys(R.ask).some(k=>k.startsWith(it.term+':'));
     await GM.say(null,'（下課前，教授在黑板角落寫了一題。）'); await GM.say(null,q.q);
     const opts=optList(q); const j=await GM.choose(opts.map(o=>({t:o.t}))); const v=(opts[j]||opts[0]).v; R.ask[it.term+':'+q.id]=v;
+    { const ok=String(v)===String(q.answer), ans=q.type==='tf'||!q.options?q.answer:'（'+q.answer+'）'+q.options[q.answer];   /* D118-B2（D118_PLAN ②-8）：課堂提問的答案之後可以回頭看——筆記記題目、答案、考點（題庫原文）；觀念卡：上過課，答對＝答對過 */
+      if(GM.addNote) GM.addNote('ask_'+q.id,c.name+'・第 '+it.week+' 週課堂提問',q.q+'　答案：'+ans+(q.core?'　考點：'+q.core:'')+(q.explanation?'　'+q.explanation:''));
+      if(typeof STUDY!=='undefined'){ try{ for(const u of STUDY.unitsOfQ(q.id)) STUDY.mark(GM.G,u.id,'heard','ask'); STUDY.answer(GM.G,q.id,ok,'ask'); }catch(e){ console.warn('STUDY.answer',e); } } }
     await GM.say(null,'答案是'+(q.type==='tf'||!q.options?q.answer:'（'+q.answer+'）')+'。'+(q.core?'考點：'+q.core+(/[。！？]$/.test(q.core)?'':'。'):'')+(q.explanation||''));
     if(first) await GM.say(prof||null,pre+'期末考，會考這樣的題目。');
     return true; };
@@ -611,6 +616,7 @@ const CLS=(function(){
       if(recall&&String(v)!==String(q.answer)&&opts.length>2){ recall=0; R.examRecall=R.examRecall||{}; R.examRecall[r.key]=(i+1); opts=opts.filter((o,x)=>x!==j); await GM.say(null,'（你想起課本上那一段。旁邊還有你自己畫的線。）'); const j2=await GM.choose(opts.map(o=>({t:o.t}))); v=(opts[j2]||opts[0]).v; }
       ans.push(v); if(String(v)===String(q.answer)) k++; }
     const score=S.scoreOf(k); R.exam[r.key]=Object.assign({},R.exam[r.key]||{},{qs:r.qs.map(q=>q.id),ans,correct:k,score,status:'done'});
+    if(typeof STUDY!=='undefined'){ try{ r.qs.forEach((q,i)=>STUDY.answer(G,q.id,String(ans[i])===String(q.answer),'exam')); }catch(e){ console.warn('STUDY.answer',e); } }   /* D118-B2：答對＝那張觀念卡答對過；答錯只記進 miss（不扣任何東西）*/
     await GM.say(null,'交卷。答對 '+k+'／5'+(kind==='final'?'，'+score+' 分。':'。'));
     for(let i=0;i<5;i++){ const q=r.qs[i]; if(String(ans[i])===String(q.answer)) continue; const a=q.type==='tf'||!q.options?q.answer:'（'+q.answer+'）'+q.options[q.answer];
       await GM.say(null,'第 '+(i+1)+' 題的答案：'+a+(q.core?'。考點：'+q.core:'')+(q.explanation?'。'+q.explanation:'')+(q.basis&&q.status==='Y4_CROSS_REVIEWED'?'（'+q.basis+'）':'')); }
