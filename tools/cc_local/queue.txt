@@ -26,6 +26,7 @@ X_G3_libsc | 62d98bfa5 | game  | tests/flow_library_scene.py  | index.html | 60 
 X_P5_ui    | 62d98bfa5 | probe | docs/story_planning/test_tools/cc/cc_next1102_ui_probe.py | index.html | 90 | SHA=62d98bfa5;CASES=examgoal,psbhbg;ORIENTS=port,land
 X_P5w      | 62d98bfa5 | probe | docs/story_planning/test_tools/cc/cc_next1102_ui_probe.py | index.html | 60 | SHA=62d98bfa5;CASES=examgoal_wake;ORIENTS=port
 X_G4v2     | 62d98bfa5 | probe | docs/story_planning/test_tools/cc/flow_main_day12_v2.py | index.html | 110 |
+X_P3_ladder | c178e2590 | game  | tests/flow_ladder_y1s2.py    | index.html | 110 | XARGS={url} {out}
 #HOLD雲端 X_P1_d124  | 62d98bfa5 | probe | docs/story_planning/test_tools/cc/cc_d124_probe.py | index.html?turbo | 90 |
 #HOLD雲端 X_P2_bar   | 62d98bfa5 | probe | docs/story_planning/test_tools/cc/cc_bar_b8_probe.py | index.html?turbo | 90 |
 #HOLD雲端 X_LIBWHISPER | 62d98bfa5 | probe | docs/story_planning/test_tools/cc/cc_libwhisper_probe.py | index.html | 60 | （探針撰寫中）
