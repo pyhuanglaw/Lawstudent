@@ -52,5 +52,21 @@ process.on('unhandledRejection',()=>{}); global.fetch=()=>Promise.reject(new Err
     check('pool_more3d.js、r2y4a3d.js 第二版用的就是配置裡的這兩個點', !!mN&&!!mS&&+mN[1]===note[0]&&+mN[2]===note[1]&&+mS[1]===shelf[0]&&+mS[2]===shelf[1], JSON.stringify([mN&&mN.slice(1),mS&&mS.slice(1)])); }
   const R=L.rotunda; check('人文庫（北牆外的半圓）走得進去', ok(R.cx,R.cz-1.0)&&ok(R.cx+2.5,R.cz-1.5), '');
   check('電梯車廂在大廳同一個井的位置', !!z.elev&&Math.abs(z.elev.cx-(LIBRARY_LAYOUT.elevator.x0+LIBRARY_LAYOUT.elevator.x1)/2)<0.01, z.elev&&String(z.elev.cx));
+  /* 正式模型（assets/models/env/second_ai/library_3f_v2.glb）的牆：朝室內（extras.dir）的那一面要在室內那一側。
+     11-02 人文庫的弧牆頂點順序反了（法線朝外），和大廳第二版展演廳同一個錯：烘焙照 dir 把朝室內的面縮成一點，遊戲裡看到一片一片的平三角 */
+  { const gp=path.join(ROOT,'assets/models/env/second_ai/library_3f_v2.glb');
+    if(!fs.existsSync(gp)) check('正式模型的牆朝室內（GLB 不在，跳過）', true, 'no glb');
+    else { const b=fs.readFileSync(gp), n0=b.readUInt32LE(12), J=JSON.parse(b.slice(20,20+n0).toString('utf8')), bin=b.slice(20+n0+8);
+      const acc=i=>{ const a=J.accessors[i], bv=J.bufferViews[a.bufferView], o=(bv.byteOffset||0)+(a.byteOffset||0), nc={SCALAR:1,VEC2:2,VEC3:3}[a.type], ct=a.componentType, cs={5126:4,5125:4,5123:2,5121:1}[ct], st=bv.byteStride||nc*cs, out=[];
+        for(let k=0;k<a.count;k++) for(let c=0;c<nc;c++){ const q=o+k*st+c*cs; out.push(ct===5126?bin.readFloatLE(q):ct===5125?bin.readUInt32LE(q):ct===5123?bin.readUInt16LE(q):bin.readUInt8(q)); } return out; };
+      const bad=[]; let nw=0;
+      for(const nd of J.nodes.filter(nd=>/^WALL_/.test(nd.name||'')&&'mesh' in nd&&nd.extras&&nd.extras.dir)){ nw++; const d=nd.extras.dir, dl=Math.hypot(d[0],d[1],d[2]); let ai=0, pi=0, ao=0, po=0;
+        for(const pr of J.meshes[nd.mesh].primitives){ const P=acc(pr.attributes.POSITION), I=acc(pr.indices);
+          for(let t=0;t<I.length;t+=3){ const a=I[t], b2=I[t+1], c=I[t+2], u=[0,1,2].map(j=>P[b2*3+j]-P[a*3+j]), w=[0,1,2].map(j=>P[c*3+j]-P[a*3+j]);
+            const nn=[u[1]*w[2]-u[2]*w[1],u[2]*w[0]-u[0]*w[2],u[0]*w[1]-u[1]*w[0]], ar=Math.hypot(nn[0],nn[1],nn[2])/2; if(ar<1e-6) continue;
+            const dot=(nn[0]*d[0]+nn[1]*d[1]+nn[2]*d[2])/(2*ar*dl), pj=[0,1,2].reduce((q,j)=>q+(P[a*3+j]+P[b2*3+j]+P[c*3+j])*d[j],0)/(3*dl);
+            if(dot>0.3){ ai+=ar; pi+=ar*pj; } else if(dot<-0.3){ ao+=ar; po+=ar*pj; } } }
+        if(ai===0) bad.push(nd.name+' 沒有朝室內的面'); else if(ao>0&&pi/ai<po/ao-0.01) bad.push(nd.name+' 朝室內的面在外側'); }
+      check('正式模型的牆（'+nw+' 組）朝室內（dir）的那一面都在室內那一側（人文庫的弧牆頂點順序沒有反）', nw>=4&&bad.length===0, bad.join('、')); } }
   console.log(fails?('FAILED '+fails):'ALL PASS'); process.exit(fails?1:0);
 })();
