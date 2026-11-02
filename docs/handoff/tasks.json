@@ -39782,11 +39782,11 @@
     },
     {
       "id": "CARDS-Y1S2-IMPORT-1102",
-      "title": "匯入大一下觀念卡 29 張（AA cards_y1s2.json @c3660c6fe）",
+      "title": "匯入觀念卡：大一上～大二下 120 張＋刑訴 9 張標題",
       "owner": "LAWWW",
-      "status": "待開工",
+      "status": "已整合待測試",
       "priority": "P2",
-      "note": "憲法下 9、刑總二 10、債總一 10（45 題）＋notes＋review。走匯入白名單。",
+      "note": "憲法下 9、刑總二 10、債總一 10（45 題）＋notes＋review。走匯入白名單。 2026-11-02 LAWWW：子代理 9c9858571 合進 int/next1102（下一版）；白名單 cards_y1s1@545ac5b28、y1s2@4f59adae0、crimpro_titles@34b02abc3、y2s1@cafc8dbbf、y2s2@a5b859cae；tests/cards_import_unit.js；cue-only 洩題 0。",
       "first": {
         "term": "Y1S2",
         "earliest": "大一下讀書",
