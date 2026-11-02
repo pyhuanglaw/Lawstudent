@@ -144,3 +144,10 @@
 - `cue` 寫成筆記口吻（前面會接「（你想起筆記上寫的：」），不寫條號、不寫法律效果、不用英文。
 - `basis` 有三種不是條號的項目：「既成道路公用地役關係的實務見解（卡片未寫字號）」、「民法第1079條（74年6月3日修正前，未對原文）」、「法學英文用語（英美法，無我國條文）」；括號是給審稿看的，匯入時可以去掉。
 - 檢查都在 scratchpad 的副本上跑（兩字詞組＋英文單字比對、`S.cueLeaks`、`coverage.py`）；沒有改 repo 裡任何其他檔，寫稿者沒有 commit。
+
+
+## AA 修正紀錄（2026-11-02，依 `cards_y2s2_review.md`）
+- 需修改 5 張照核對報告改：admin_remedy_w13（拿掉「少數人」）、family_law_w6（補 §1052 II 但書，寫「依條文」）、family_law_w12（舊 §1079 只寫「同樣要求書面」、§1076-1 II 加「原則上」）、legal_english_w4（例子換理由、拿掉「相近」）、legal_english_w6（§158-4「除法律另有規定外」、innocent「意思不同」、國民法官法 §3 I）。
+- 可選建議採用：admin_remedy_w1（訴願法 §79 III，AA 已核原文）、legal_english_w3、oblig_spec_w3（例子）、oblig_spec_w15（§477，AA 已核原文）。不採用：family_law_w14 basis 加註（格式問題）。
+- family_law_w6 不加憲法法庭限縮那句（判決原文沒核到）；admin_remedy_w13 依釋字 400 的要件只改成較保守的寫法，字號不寫。
+- study_units 資料問題（課綱／exam_bank scopeWeek）轉 LAWWW，見 review 最後一節。
