@@ -38981,6 +38981,35 @@
         "ack": "ACTIONED"
       },
       "evidence": "BB PASS（BB_218 第 6873 行，企劃線 d54b2b57；CC 0b70fe36：Node 修改前 FAIL 4、修改後 ALL PASS；瀏覽器經濟系 08:41 修改前跳到 10/10、ec54dc9d3 上完課）"
+    },
+    {
+      "id": "ATTEND-ROLLCALL-1102",
+      "title": "出席改成隨機點名日（取代 D74 出席三堂）＋拿掉非上課簽到（只留補習班）",
+      "area": "系統",
+      "owner": "LAWWW",
+      "status": "待開工",
+      "priority": "P1",
+      "parent": "STUDY-EXAM-SYS-1102",
+      "next": "等 D118-B2 子代理合併（都改 classes3d.js）後做：每門看出席的課每學期 4 次點名日（第 2～16 週、避開期末週、存檔種子、玩家看不到）、缺 3 次以上不及格；只點名日記出席；舊存檔過去週次照 attend≥3、剩下補抽；honor3d 第 12 週提醒改「點過 n 次你缺 m 次」；茶會兩句＋Kevin 一句、路人「每次都點名」改字；劇社 203 簽到表互動拿掉（貼圖轉 LAWWW2 改 boya_203.py）；PROJECT_DECISIONS D74 標已變更",
+      "first": {
+        "term": "Y1S1",
+        "week": null,
+        "earliest": "第一次期中考前（讀書、一鍵總複習）；國考與職涯在畢業以後",
+        "mainline": true,
+        "blocks": false,
+        "prereq": false,
+        "parallel": true,
+        "confirmed": true
+      },
+      "source": "使用者 11-02「教授通常是隨機點名 一年只點名幾次」選「改成隨機點名日」「非上課簽到只留補習班」（AA 轉述；AA_574 @5964f6be5 末節）",
+      "authorized": "使用者直接決定",
+      "xai": {
+        "spec": "docs/story_planning/AA_574_刪除簽到_改成隨機點名_修改清單.md（企劃線 5964f6be5）",
+        "branch": "claude/confident-ritchie-8rwh7t",
+        "acceptance": "只點名日記出席；缺 3 次以上不及格；舊存檔不突然被當；第 12 週提醒新字；茶會、劇社不提簽到",
+        "receiver": "BB",
+        "ack": "ACK"
+      }
     }
   ]
 }
