@@ -82,11 +82,11 @@ await sec(3,()=>{ const MON=termDay('Y1S1',6,1); fresh(key(MON),'zhe',30,10);
   check('3. 方奕廷 F6～F8（10-2 第 1 點）；F5、F9 照留',J(P.npc_fangyt.acc)===J({brunch:['「好。早上我本來就起得早。」'],teahouse:['「好。聽說那邊院子有一棵很老的樟樹，我想去看看。」'],cafe:['「好。順便看一下 Café 窗台那盆植物。」'],library:['「好。我在總圖門口等你。」'],wenzhou:['「溫州街有一棵很老的榕樹。我帶你去。」']})); });
 
 await sec(4,()=>{ const d1=termDay('Y1S1',6,3); fresh(key(d1),'heroine_01',45,30); const a=ask('heroine_01','wenzhou',15.5);
-  check('4. 以安大一第一次約散步：照舊問「散步的目的是？」、改到隔天',a.res==='resched'&&a.lines[0]==='「散步的目的是？」'&&a.alt&&a.alt.day===H.G.day+1,a.res+' '+txt(a.lines)+' '+J(a.alt));
+  check('4. 以安大一第一次約散步：「好。」「……今天不行，明天。」、改到隔天（AA_576 第 11、12 列）',a.res==='resched'&&a.lines[0]==='「好。」'&&a.lines[1]==='「……今天不行，明天。」'&&a.alt&&a.alt.day===H.G.day+1,a.res+' '+txt(a.lines)+' '+J(a.alt));
   doneIv('heroine_01','wenzhou',H.G.day-2); const b=ask('heroine_01','wenzhou',15.5);
   check('4. 散步過以後（大一）：照一般答應「好。」，不再問（AA_194 改規則）',b.res==='accept'&&txt(b.lines)==='「好。」',b.res+' '+txt(b.lines));
   const d2=termDay('Y2S1',6,3); fresh(key(d2),'heroine_01',45,30); const c=ask('heroine_01','wenzhou',15.5);
-  check('4. 大二起：照舊「好啊，剛好想走走。」（已經是 AA_194 的改稿）',c.res==='accept'&&txt(c.lines)==='「好啊，剛好想走走。」',c.res+' '+txt(c.lines));
+  check('4. 大二起：「好。」（AA_576 第 13 列）',c.res==='accept'&&txt(c.lines)==='「好。」',c.res+' '+txt(c.lines));
   const MON=termDay('Y1S1',6,1); fresh(key(MON),'classmate_xinci',25,8); const x1=ask('classmate_xinci','noodle',12+10/60), x2=ask('classmate_xinci','noodle',18.5,H.G.day+1);
   check('4. 芯慈約吃飯：今天＝「今天的我都排好了，{zh}可以嗎？」改到明天；之後的日子＝「好，我記一下。」（判斷不變）',x1.res==='resched'&&txt(x1.lines)==='「今天的我都排好了，{zh}可以嗎？」'&&x1.alt&&x1.alt.day===H.G.day+1&&x2.res==='accept'&&txt(x2.lines)==='「好，我記一下。」',J([x1.res,txt(x1.lines),x1.alt,x2.res,txt(x2.lines)]));
   fresh(key(MON),'classmate_bohan',25,8); const b1=ask('classmate_bohan','cafe',15.5);
@@ -107,7 +107,7 @@ await sec(4,()=>{ const d1=termDay('Y1S1',6,3); fresh(key(d1),'heroine_01',45,30
   check('4. 那天 21:30 你已經有約：改到別天＝「那天我要家教 {zh}可以嗎」／當面「那天我要家教，{zh}可以嗎？」（M12 不同天）',m4.res==='resched'&&m4.alt&&m4.alt.day!==H.G.day&&txt(m4.lines)==='「那天我要家教 {zh}可以嗎」'&&txt(m4f.lines)==='「那天我要家教，{zh}可以嗎？」',J([txt(m4.lines),m4.alt])); });
 
 await sec(5,()=>{ const MON=termDay('Y1S1',6,1); fresh(key(MON),'heroine_01',25,8);
-  check('5. 以安的 acc、here、plan 照 AA_415（10-23 較新）：「可以。條件：我會帶東西來寫。」等不改成 AA_194 的稿',J(P.heroine_01.acc.cafe)===J({A:['「可以。條件：我會帶東西來寫。」']})&&J(P.heroine_01.here.library)===J(['「我本來就在總圖。二樓靠窗。」'])&&J(P.heroine_01.plan.cafe)===J(['「今天排滿了。……這個時間可以嗎？」']));
+  check('5. 以安的 acc、here、plan 照 AA_415（10-23 較新；AA_576 改稿第一批 b10d0567f）：「好啊。我本來就想去。」等不改成 AA_194 的稿',J(P.heroine_01.acc.cafe)===J({A:['「好啊。我本來就想去。」']})&&J(P.heroine_01.here.library)===J(['「我本來就在總圖。二樓靠窗。」'])&&J(P.heroine_01.plan.cafe)===J(['「今天排滿了。……這個時間可以嗎？」']));
   check('5. 語彤的 acc 照 AA_415；可昕的半熟、一盞照 AA_415（AA_255 T5）',J(P.heroine_03.acc.noodle)===J({A:['「……我阿姨的店？」','「好。阿姨會多給你一顆滷蛋。」']})&&J(P.kexin.acc.brunch)===J({A:['「半熟？我從木柵大學過來要四十分鐘。好，我十點到。」'],R:['「好啊，我先查一下菜單。」']}));
   let out='', rc=0; try{ out=cp.execSync('python3 "'+path.join(H.ROOT,'tools/invite/build_replies.py')+'"',{encoding:'utf8'}); }catch(e){ rc=1; out=String(e.stdout||e); }
   const same=cp.execSync('git -C "'+H.ROOT+'" status --porcelain -- src/data/invite_replies.js',{encoding:'utf8'}).trim()==='';
