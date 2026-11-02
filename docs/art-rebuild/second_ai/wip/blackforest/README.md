@@ -1,6 +1,6 @@
 # 黑森林重做（CAMPUS-BLACKFOREST-1102）交件
 
-LAWWW2（帳號 A）2026-11-02 21:3x。狀態：`INTEGRATED`（在 int/m590 上套 patch 實測）→ 交 LAWWW 整合、BB 畫面驗收（D128）。commit、push 只是保存，不是核准，也不是發布。
+LAWWW2（帳號 A）2026-11-02 21:3x。狀態：**v4 WIP**（22:3x 起和法學院區重排合成一份 patch，見下面 v4 一節；第一版的 patch 不要整合）。BB 畫面驗收（D128）。commit、push 只是保存，不是核准，也不是發布。
 
 ## 起因
 
@@ -21,6 +21,16 @@ LAWWW2（帳號 A）2026-11-02 21:3x。狀態：`INTEGRATED`（在 int/m590 上�
 - 配置：`tools/blender/env_second/campus_blackforest_layout.py --write .` → `src/data/blackforest_layout.js`（遊戲和 Blender 讀同一份）。
 - 模型：`tools/blender/env_second/campus_blackforest.py` → `assets/models/env/second_ai/campus_blackforest.glb`（7,346 三角形、5 個材質、0.9 MB）。樹用遊戲現有的 `TK.tree`（street_trees 正式模型，instanced）。
 - 路人、騎腳踏車的人：路人用找路；`story3d.js` 騎車路線第一條改繞過森林（騎車是直線、不找路）。
+
+## v4（11-02 22:3x，跟法學院區重排一起；取代上面第一版的範圍、數字與 patch）
+
+- **起因**：使用者 21:3x 五張實景照片＋「兩個系館之間、真的很大」「從系館之間的走道會經過小湖，湖再往校園才是黑森林」（UA-LAWWW2-1102-15）；BB_248 五點（樹不規則、彎曲溝渠池、蕨類少一點、柳葉細一點、照片同角度比較）；使用者 22:1x 選法學院區重排（UA-LAWWW2-1102-16，見 `../campus_relayout/README.md` 最後一節）。
+- **範圍**：五塊，共 **1,572 m²**、**81 棵**（Poisson 間距 2.8～4.6 m；大小 0.6～1.3 倍；榕樹 55%、樟樹 25%、高樹 20%；每棵樹皮顏色不同〔`TK.tree` 的 bark instanceColor〕）。萬才館前的弧形量體、大樓梯前留廣場（舖面）。
+- **小湖**：霖澤館前庭東南，彎曲溝渠池（5 個控制點、寬 2.4～4.8 m），水泥邊（Poly Haven `concrete_wall_006`）、深綠水面、對岸石頭（`mossy_rock`）與紙莎草、西北角一棵垂柳（340 條細葉卡）。兩館之間的鋪面走道 (x 68.5) 從小湖東邊經過；湖邊一張長椅「坐在小湖邊的長椅」。
+- **地面**：落葉泥土地＋落葉貼花（裁在範圍裡，不蓋到路）＋土徑；蕨類比例降到 20%。
+- **模型**：`campus_blackforest.glb` 7,442 三角形、12 個材質、1.0 MB（v3 的 7,346／5 個材質；材質多是池邊、石頭、柳樹、紙莎草）。
+- **patch**：`law_relayout_blackforest_1102_wip.patch`（和法學院區重排同一份，**取代 `blackforest_1102_wip.patch`**）。
+- **測試**：`blackforest_unit.js`（v4：範圍 ≥ 1,500 m²、85% 以上在小湖南邊、萬才館入口、國青／研三舍／萬才館後面走不到…）ALL PASS；其他見重排那一節。照片同角度比較圖（照片 2 小湖、照片 5 土徑）排在瀏覽器測試後面拍。
 
 ## 給 LAWWW 的 patch
 
