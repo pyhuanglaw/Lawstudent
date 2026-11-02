@@ -1,6 +1,7 @@
 // CC M1「一鍵總複習＋快轉停點」探針（BB 測試總監；CC 執行）——只用 Node，不開瀏覽器、不改 src/。
 // 用法：
 //   nice -n 19 node docs/story_planning/test_tools/cc/m1_review_ff.js <受測 ROOT> [--terms Y1S1,Y1S2,...] [--sc A,B] [--no-fd] [--json out.json]
+//   [--groups family_law]＝開局就加入那些群組（系統串要回的訊息的路徑，例：家族聖誕 12/15 21:05）
 //   （全部跑一次約 6～8 分鐘；CPU 緊時分批：--terms Y1S1,Y1S2,Y2S1 --no-fd ／ --terms "" 只跑延畢）
 //   <受測 ROOT>＝有 src/、index.html 的資料夾（例：git archive 5b40dad61 src tests index.html | tar -x -C <dir>）
 // 做什麼：
@@ -87,7 +88,10 @@ const takeClass=async(it,log)=>{ const G=H.G, R=CLS.rec(G); if(R.done[it.key]) r
 const runTerm=async(term,sc,flags)=>{ const r0=CALENDAR.termDays(term); const log={term,sc,stops:[],err:[],menus:[],reviewRes:null,reviewMenu:0,classEvs:[],menuRes:[]};
   let d=r0.from; fresh(d,22,flags); while(!SEMFF.on(H.G)&&d<r0.from+21){ d++; fresh(d,22,flags); }
   log.start=lbl(now()); if(!SEMFF.on(H.G)){ log.err.push('這學期一直不能快轉'); return log; }
-  J=[]; autoKeys=[]; examTaken=[]; newEvLog=[]; const msg0=0;
+  J=[]; autoKeys=[]; examTaken=[]; newEvLog=[];
+  /* 探針：學期第 5 週左右的週三 15:00 排一則系統串的訊息（不用回）——照 BB 的規則快轉不能停在這裡（正向對照；semff 若把新的系統訊息當停點，這裡會 FAIL）*/
+  for(const g of (opt('--groups')||'').split(',').filter(Boolean)) PHONE.join(H.G,g,g);   /* --groups family_law：開局就在直屬家族群組（家族聖誕 famx_y1：12/15 21:05 系統串「買給學姊的聖誕禮物」要回）*/
+  let injD=r0.from+28; while(CALENDAR.dateOf(injD).wd!==3) injD++; log.inj={day:injD,h:15}; PHONE.at(H.G,injD,15,[{th:'sys',text:'【M1 探針】系統訊息（不用回）'}],'m1_inj');
   const origReview=STUDY.review; STUDY.review=async function(){ const info=STUDY.reviewInfo(H.G,'final'); const r=await origReview.apply(this,arguments);
     const units=info?[].concat(...info.courses.map(x=>x.units)):[]; const unread=units.filter(u=>!['read','got'].includes(STUDY.stateOf(H.G,u.id))).map(u=>u.id);
     log.reviewRes=r?{at:lbl(now()),cards:r.cards,courses:r.courses,units:units.length,unread}:false; return r; };
@@ -132,6 +136,8 @@ const judge=(lg)=>{ const {term,sc}=lg, sun=lg.remindDay, tag=term+'・情境 '+
   check('C1['+tag+'] 收到的 '+sysMsgs.length+' 則系統訊息，除了總複習提醒以外沒有一則在送到的那一刻變成停點',!coincide.length,JSON.stringify(coincide.map(m=>m.at+' '+m.text)));
   const brStops=stops.filter(e=>e.why==='msg'&&(e.msgs||[]).length&&(e.msgs||[]).every(m=>m.br));
   P('WARN C1['+tag+'] 【…】公告型（不是系統那一串，但像系統公告）而且要回、造成停點的：'+(brStops.length?brStops.map(e=>lbl(e.t)+' '+e.msgs.map(m=>m.th+'/'+m.from+'「'+m.text+'」').join('；')).join('｜'):'無')+'（不算 FAIL，分類交 BB）');
+  { const ti=T(lg.inj.day,lg.inj.h), got=lg.msgs.find(m=>m.tag==='m1_inj'), st=stops.filter(e=>Math.abs(e.t-ti)<0.26);
+    check('C1['+tag+'] 探針：'+lbl(ti)+' 送到的系統訊息（不用回）沒有讓快轉停下來',!!got&&!st.length,JSON.stringify({got:!!got,stops:st.map(e=>e.why+' '+(e.stop||''))})); }
   const autoEx=lg.auto.filter(a=>a.exam);
   check('C2/C3['+tag+'] 沒有考試被快轉自動上（autoAttend）',!autoEx.length,JSON.stringify(autoEx));
   const exs=lg.exams; const noRec=exs.filter(e=>e.status!=='done'&&e.status!=='insufficient');
