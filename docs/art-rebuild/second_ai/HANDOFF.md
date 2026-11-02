@@ -6,7 +6,8 @@
     - A 區正門搬到西段南牆、B 區門搬到南牆，桌子東西向＝和門平行；
     - 兩排雙面、排距 5 m、桌間 2 m 走道；自習室 101 → 72 位。
   - patch：座位、芯慈／明軒 seatAt、測試（library_b1_unit 新第 8 項：第三版 FAIL、第四版 PASS）；Node 9 支 ALL PASS。
-  - 截圖在佇列（`lib1102/b1v4shots`，q2 第一項）。看完給使用者，再交件。
+  - **18:4x 已交件**（`54d6e41c1`；`patches/library_b1_v4_1102.patch`＋三個二進位；README `test_shots/library_b1_v4_1102/`）：截圖 8 張（照片對照、第三版 vs 第四版、20:30 有同學），已給使用者看；LAWWW、BB 都送了（等 ACK）。
+  - 還沒跑：`reachability_all(library_b1)`，排在 `run_q2b.sh` 第一項（一樓二樓重拍之後）。
   - LAWWW ACK（18:14）：第四版連座位 patch 一起交，基準用 int/next1102 最新 `48918ca20`（`wip_backup/next1102_1102.bundle`）。B1 v4、大廳 v2、3F、兩個 tests patch 都在 48918ca20 上 `apply --check` 過。BB ACK（18:14）：BB_236 等第四版截圖。
 - **測試要不要交給 BB 用使用者的電腦跑（UA-LAWWW2-1102-11，等使用者決定）**：
   - 我的回答：慢的瀏覽器測試交出去值得。
