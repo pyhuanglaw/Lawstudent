@@ -110,6 +110,7 @@ const CLS=(function(){
   S.roomName=c=>(COURSES.rooms[c.room]||{}).name||'';
   // 每一週講哪一個主題：上課週（第 1～7、10～16 週）照順序平均分到 topics；考試週＝考試
   const TEACH=[1,2,3,4,5,6,7,10,11,12,13,14,15,16];   /* 第 8～9 週（D118 起沒有期中考、照常上課）：S.topic 用第 7 週的主題 */
+  const LISTED=TEACH.concat([8,9]);   /* 法律頁、自習筆記列的週（AA_585 補了 30 門第 8、9 週的黑板，AA588-AA585 整合時子代理提醒）：TEACH 只管 S.topic 的主題分配，不動 */
   S.topic=function(c,week){ if(week===8||week===9) week=7; const i=TEACH.indexOf(week); const T=c.topics||[]; if(!T.length) return ''; if(i<0) return T[T.length-1]; return T[Math.min(T.length-1,Math.floor(i*T.length/TEACH.length))]; };
   // ---------- 某一天的課 ----------
   S.DAY2_START=13+5/60;   /* 第 2 天開始的時間（story3d.js sleepNow：「第二天 週四 13:05 · 霖澤館前」）*/
@@ -221,7 +222,8 @@ const CLS=(function(){
      （審查過的週＝黑板第一行；還沒審查＝課表的主題）；考試週、缺席不算。現在這學期在前，之前的學期在後。經濟、日文、體育、國文、通識不列 */
   const LAWNAME=/法|憲|刑|民|債|物權|親屬|繼承|訴訟|行政|票據|勞動|財稅|海商|判決|證券|智慧財產/, NOTLAW=/經濟|日文|微積分|會計|體育|國文|英文（|通識/;
   S.legalCourses=function(G){ attachSyllabus(); const R=S.rec(G), by={};
-    for(const k in R.done){ const p=k.split(':'); if(p.length<3||R.abs[k]) continue; const day=+p[0], cid=p[1], t=typeof CALENDAR!=='undefined'?CALENDAR.termOf(day):null; if(!t||!TEACH.includes(t.week)) continue;
+    for(const k in R.done){ const p=k.split(':'); if(p.length<3||R.abs[k]) continue; const day=+p[0], cid=p[1], t=typeof CALENDAR!=='undefined'?CALENDAR.termOf(day):null; if(!t||!LISTED.includes(t.week)) continue;
+      if((t.week===8||t.week===9)&&R.exam&&R.exam[t.id+':'+cid+':mid']) continue;   /* 舊存檔（D118 以前）第 8、9 週那一堂是期中考：照舊不算上課 */
       const c0=COURSES.list.find(x=>x.id===cid); if(!c0||!LAWNAME.test(c0.name)||NOTLAW.test(c0.name)) continue; let c=c0; if(c0.term!==t.id){ try{ c=S.termCourses(G,t.id).find(x=>x.id===cid)||c0; }catch(e){} }   /* 重修那一學期：用重修的那一門（名字「（重修）」、學期是重修的學期）*/ const bk=cid+'|'+t.id, e=by[bk]||(by[bk]={c,term:t.id,weeks:new Set()}); e.weeks.add(t.week); }   /* 一學期一列（BUG-LEGALPAGE-RETAKE-ROW-1102：重修那學期另一列；原本照課號，重修的那一列會留在第一次上的學期）*/
     const cur=typeof CALENDAR!=='undefined'?(CALENDAR.termOf(G.day)||{}).id:null, ord=id=>{ const m=/^Y(\d)S(\d)$/.exec(id||''); return m?(+m[1])*2+(+m[2]):0; };
     return Object.values(by).map(e=>({c:e.c,term:e.term,current:e.term===cur,topics:[...e.weeks].sort((a,b)=>a-b).map(w=>{ const sy=(e.c.syllabus||[]).find(x=>x.w===w); return {w,title:S.sylReviewed(e.c,w)&&sy&&sy.board&&sy.board[0]?sy.board[0]:e.c.name+'：'+(S.topic(e.c,w)||'第 '+w+' 週')}; })}))
@@ -640,7 +642,7 @@ const CLS=(function(){
   /* 讀書的主題照科目（AA_134 第 1 節，使用者 2026-10-15「讀憲法為什麼會出現強行規定無效」）：選了科目 X → 從 X 的課表取這一週以前教過、還沒讀過的最早一週；
      審查過的那一週：標題＝黑板第一行、內容＝黑板第二三行；還沒審查的週：只寫主題（法律審查，AA_122 第 0a 節）。筆記 id＝<課程>_w<週>。都讀過＝null */
   S.studyTopic=function(G,c,has){ attachSyllabus(); if(!c||typeof CALENDAR==='undefined') return null; const t=CALENDAR.termOf(G.day); const wk=t&&t.id===c.term?t.week:99;
-    const weeks=(c.syllabus||[]).filter(w=>w.w<=wk&&TEACH.includes(w.w)).sort((a,b)=>a.w-b.w);
+    const weeks=(c.syllabus||[]).filter(w=>w.w<=wk&&LISTED.includes(w.w)).sort((a,b)=>a.w-b.w);
     for(const w of weeks){ const id=c.id+'_w'+w.w; if(has(id)) continue; const rv=S.sylReviewed(c,w.w)&&w.board&&w.board[0]; const title=rv?w.board[0]:c.name+'：'+(S.topic(c,w.w)||'第 '+w.w+' 週'); const body=rv?[w.board[1],w.board[2]].filter(Boolean).join('　')+(w.line?'　'+S.profName(c)+'：'+w.line:''):'';   /* D118-B2（D118_PLAN ②-7）：筆記收黑板三行（標題＝第一行）＋教授那一句 */
       if(typeof STUDY!=='undefined'){ try{ const u=STUDY.weekUnit(c,w.w); if(u) STUDY.mark(G,u.id,'read','study'); }catch(e){ console.warn('STUDY.mark',e); } }   /* D118-B2：自習讀到這一週＝那張觀念卡讀過（呼叫端一定把這份筆記收進去：game3d.js studySession）*/
       return {id,title,body,read:'你把〈'+title+'〉的筆記整理了一遍。'}; }
