@@ -150,3 +150,5 @@ fatal: 'C:/Users/USER/Documents/wt_cc_R8_rr2' already exists    [ 135.3s] main_p
       err.log (last 5): [gpu_wrap 1.1s] headed slot 1: --window-position=920,0 --window-size=900,900 --window-name=CC 測試中，請勿點選 [A3pre] | [gpu_wrap 54.2s] page close url=http://127.0.0.1:8807/index.html | [gpu_wrap 54.3s] BROWSER DISCONNECTED
 - 2026-11-03T07:18:00  ART_cop  sha=b1b249873  exit=0  155s    PASS coplanar：沒有 JS 例外  [] / === coplanar PASS（44 張、114 秒） / ALL PASS
       err.log (last 5): [gpu_wrap 1.3s] headed slot 2: --window-position=1840,0 --window-size=900,900 --window-name=CC 測試中，請勿點選 [ART_cop] | [gpu_wrap 114.3s] page close url=http://127.0.0.1:8809/index.html | [gpu_wrap 114.3s] BROWSER DISCONNECTED
+- 2026-11-03T07:19:13  ART_lband  sha=b1b249873  exit=0  148s    PASS lightband：沒有 JS 例外  [] / === lightband PASS（26 張、116 秒） / ALL PASS
+      err.log (last 5): [gpu_wrap 1.2s] headed slot 1: --window-position=920,0 --window-size=900,900 --window-name=CC 測試中，請勿點選 [ART_lband] | [gpu_wrap 116.3s] page close url=http://127.0.0.1:8807/index.html | [gpu_wrap 116.4s] BROWSER DISCONNECTED

@@ -1,0 +1,15 @@
+[gpu_wrap] CC_GPU=1 跑 C:\Users\USER\Documents\Lawstudent_cclocal\docs\story_planning\test_tools\cc\cc_art247_probe.py http://127.0.0.1:8807/index.html C:\Users\USER\Documents\Lawstudent_cclocal\docs\story_planning\CC\local_out\ART_lband\out
+PASS lightband：遊戲載入
+  [前置／捷徑] lightband：讀檔到 library_hall (-4.0, 6.6) 14:00 — 總圖大廳一樓：門廳西側（置物櫃那段細牆 x −5.2、閘門柱 z 5.4 旁；原定 (−4.5, 7.2) 站不住，遊戲放到這裡）；之後只改 E.cam.yaw 繞玩家一圈（每 30 度）
+  lightband：library_hall：鏡頭實際 yaw 和設定的最大差 0.000 rad（跟隨鏡頭自己轉的話會變大）
+PASS lightband：library_hall：12 張都存了
+PASS lightband：library_hall：區域對、時間 14:00  [["library_hall", "library_hall", 14.027], ["library_hall", "library_hall", 14.255]]
+PASS lightband：library_hall：每一張的鏡頭方向都是設定的（差 ≤ 0.25 rad）  最大差 0.000
+  [前置／捷徑] lightband：讀檔到 bookstore (4.2, 4.0) 14:00 — 舊路書房：前牆（門、窗 x 3.5）東南角，靠書架端；之後只改 E.cam.yaw 繞玩家一圈（每 30 度）
+  lightband：bookstore：鏡頭實際 yaw 和設定的最大差 0.000 rad（跟隨鏡頭自己轉的話會變大）
+PASS lightband：bookstore：12 張都存了
+PASS lightband：bookstore：區域對、時間 14:00  [["bookstore", "bookstore", 14.049], ["bookstore", "bookstore", 14.271]]
+PASS lightband：bookstore：每一張的鏡頭方向都是設定的（差 ≤ 0.25 rad）  最大差 0.000
+PASS lightband：沒有 JS 例外  []
+=== lightband PASS（26 張、116 秒）
+ALL PASS
