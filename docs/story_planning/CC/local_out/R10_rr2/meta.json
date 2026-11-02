@@ -1,0 +1,15 @@
+﻿{
+    "rerun":  "menu1102",
+    "id":  "R10_rr2",
+    "sha":  "b1b249873",
+    "kind":  "probe",
+    "script":  "docs/story_planning/test_tools/cc/cc_d118b3_probe.py",
+    "env":  "CASES=S2a,S2b;RERUN=menu1102",
+    "machine":  "MSI",
+    "start":  "2026-11-03T02:34:47",
+    "end":  "2026-11-03T03:12:56",
+    "seconds":  2289,
+    "exit":  0,
+    "error":  null,
+    "url":  "http://127.0.0.1:8801/index.html"
+}
