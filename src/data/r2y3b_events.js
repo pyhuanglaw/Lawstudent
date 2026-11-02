@@ -467,7 +467,7 @@ const R2Y3B_EVENTS=(function(){
       {label:'e'} ],
     d3:[ {scene:'關西・大學城',bg:'jp_street_day'},{speaker:null,text:'（她排的行程表上，每一格都有時間。你們只走完一半。）'} ],   /* 7/8、7/9 兩個摘要日（新寫）*/
     d4:[ {scene:'大學城的河堤',bg:'jp_riverbank'},{speaker:null,text:'（大學城的河堤。她讀書，你坐在旁邊看河。）'} ],
-    d5:[ {scene:'關西・大學城',bg:'jp_station'},{speaker:null,text:'（剪票口。她把自己那份行程表折好，塞進你的口袋。）'},{speaker:'heroine_01',text:'八月五號，你來接我。'} ] };
+    d5:[ {scene:'關西・大學城',bg:'jp_station'},cg('cg_tanabata_pocket_heroine01'),{speaker:null,text:'（剪票口。她把自己那份行程表折好，塞進你的口袋。）'},{speaker:'heroine_01',text:'八月五號，你來接我。'} ] };   /* CG-34（AA_597；BB 2026-11-02 19:4x）放在剪票口那句旁白 */
   const AB_VIDEO={ id:'ev_an_abroad_video', title:'以安的視訊', participants:['heroine_01'], location:'any', trigger:'outing', background:'dark', hours:0.25, dialogue:[],   /* 每週一次（T3）：beforeOuting 照輪到的那一組演 */
     beforeOuting:async(G,GM,q)=>{ const x=X(); if(x) await x.anVideo(GM,q); },
     outingMissed:(G,GM,q)=>{ const x=X(); if(x) x.anVideoMissed(G,q); } };   /* 沒接＝這一則沒回（BB_204 9-1）*/
@@ -475,7 +475,7 @@ const R2Y3B_EVENTS=(function(){
     beforeOuting:async(G,GM,q)=>{ const x=X(); if(x) await x.tanabataTrip(GM,q); },
     outingMissed:G=>{ const x=X(); if(x) x.tanabataMissed(G); } };   /* 答應了、7/6 沒出發：照條件沒到那一版（7/7 竹子的照片）*/
   const AN_AIRPORT={ id:'ev_an_airport_y3', title:'接以安', participants:['heroine_01'], location:'any', trigger:'outing', once:true, background:'dark', hours:1.5,
-    dialogue:[ {scene:'桃園機場・入境大廳',bg:'airport_arr'},{speaker:null,text:'（她一出來就看到你。行李箱上貼著一張商店街的七夕貼紙。）'},{speaker:'heroine_01',text:'……你真的來了。'} ] };
+    dialogue:[ {scene:'桃園機場・入境大廳',bg:'airport_arr'},cg('cg_airport_return_heroine01'),{speaker:null,text:'（她一出來就看到你。行李箱上貼著一張商店街的七夕貼紙。）'},{speaker:'heroine_01',text:'……你真的來了。'} ] };   /* CG-35（AA_597；BB 2026-11-02 19:4x）放在第一句旁白 */
   const AN_NOTEBOOK={ id:'ev_an_notebook', title:'理由欄', participants:['heroine_01'], location:'any', trigger:'outing', once:true, background:'dark', hours:1.5,
     dialogue:[ {scene:'兩點半 Café・窗邊',bg:'cafe_window'},{speaker:'heroine_01',text:'（從包包拿出一本日本的手帳）給你。'},{speaker:null,text:'（第一頁寫著：「理由欄。空著，給你。」）'},{set:{AN_NOTEBOOK_GIFT:true}} ] };
 
