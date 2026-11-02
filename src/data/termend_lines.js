@@ -54,7 +54,7 @@ const TERMEND_LINES=(function(){
       think:'好。這一行我先不劃掉。',   /* AA_587 第 66 列（兩版合成一句）*/
       invite2:'考完了。七點，同一家。',   /* AA_587 第 67 列 */
       she2:['上次那一頁，最下面那一行還沒勾。……你要看嗎？'],   /* AA_587 第 68 列；每個學期都用這一句 */
-      she2Yes:[{narr:'（她把手帳翻到「想去的店」那一頁，推到你面前。在「和你」旁邊，畫了一個勾。）'},'……勾了。'],   /* AA_587 第 13 節（@8541f607f，CC_28）：你說好以後補兩拍再交往 */
+      she2Yes:[{cg:'cg_shop_page_check_heroine01'},{narr:'（她把手帳翻到「想去的店」那一頁，推到你面前。在「和你」旁邊，畫了一個勾。）'},'……勾了。'],   /* AA_587 第 13 節（@8541f607f，CC_28）：你說好以後補兩拍再交往；第一拍 CG-27 手帳特寫（BB 2026-11-02 19:20 交件、AA 確認構圖，企劃線 496150a1f；CG_REGISTRY 沒登錄＝只演字）*/
       sheMem:'AN_SHOP_PAGE', she2YesMem:'AN_SHOP_PAGE',   /* 看過「想去的店」那一頁（不在人物面板顯示，SOCIAL.MEMORY_HIDE）*/
       yes2:['……嗯。這次換你先說了。','好。我們在一起。'] },   /* 第二次、七月：玩家選「說出來」的答應（AA_254 第 0 節第 7 點）*/
     heroine_03:{ src:'AA_254 第 2 節', place:'noodle_closed', placeName:'麵店打烊以後', optsFrom:'confess',   /* 三選一照 AA_187 9-2（AA-C 11:58 確認），答應照 AA_254 第 2 節 */ wd:4, h:21, walkBg:null, walkPlace:'汀州路・她家樓下',
