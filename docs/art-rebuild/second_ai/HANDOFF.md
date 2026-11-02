@@ -1,33 +1,31 @@
 # LAWWW2 交接紀錄（隨時更新；工作階段中斷時從這裡接）
 
-## 🔨 現在在做（11-02 14:3x 更新）：使用者 P0「總圖」——LIB-FRONT-1102 ✅交件 → LIB-INTERIOR-1102（B1 第二版、一樓＋二樓 version 2）→ CAMPUS-RELAYOUT-1102
-- **12:2x～14:0x 工作階段中斷**（機器重開）：scratchpad 還在。重開以後的處理：
-  - 光照烘焙重跑；
-  - 補了 Node 全套唯一的 FAIL：socsci_place_unit，路線點 (37,17) → (37,16.2)。
-- **LIB-FRONT-1102 第三版：已正式交件** `32961b6ab`（README `0d45928c8`、patch v3c）。
-  - LAWWW、BB 都 DELIVERED，還在等 ACK。
-  - 瀏覽器 5 支 ALL PASS；Node 864 支只有 1 支 FAIL，v3c 已修。
-  - campus_glb_integration 在乾淨的 b1b249873 也 FAIL（soc／SOCX、TAGS 過時；不是這包的問題，已告訴 LAWWW）。
-  - v3.1（平台上兩棵尖塔形針葉樹，照片 40）排在 B1、一樓＋二樓之後。
-- **B1 第二版**：
-  - 乾淨 worktree `scratchpad/devwt_f`（b1b249873＋patch＋b1v5 GLB）；相關 Node 56 支 55 PASS，唯一 FAIL 的 pool_aafix_unit 在乾淨的 b1b249873 一樣 FAIL。
-  - 中庭灌木的芯修好了（b1v5）。中庭、門廳在重拍（`run_b1shots4.sh`）。
-  - **下一步**：重拍完 → `make_b1_grids.py` → README 第六節 → 二進位搬進 wip → outbox → 交件。
-- **一樓＋二樓 version 2**（副本 `scratchpad/devwt_e`；WIP patch 推到 `82e85b8ad`）：
-  - 二樓照 11-02 二樓平面圖：
-    - 中日韓文書架（黃，3 排）、西文書架（藍，2 排）；
-    - 討論室 225、226（北牆，關著）、展示區展板（北牆）；
-    - 人字拼地板（2D 背景 ntu_library_2f）、銀行燈（instancing）。
-  - 館員辦公室的門補進 Blender（第一版漏了，正式模型載入後門會不見）。
-  - flow_library_floors、flow_library_scene 改成認得第二版。
-  - 113 支相關 Node 跑到 79 支，只有 lightmap 那支等烘焙。
-  - 光照 512 取樣在烘（`scratchpad/lib1102/lh2/bake/`）。
-  - **下一步**：烘完 → GLB 放進 devwt_e → 遊戲內截圖（改前用 v1）→ 瀏覽器流程（floors、scene、lib_tour、stairs_cam、reachability_all、zone_transitions）→ 在 b1b249873 重產 patch → README → 交件。
+## 🔨 現在在做（11-02 15:3x 更新）：使用者 P0「總圖」——LIB-FRONT ✅、B1 第二版 ✅、tests patch ✅ → 一樓＋二樓 version 2（驗證中）→ LIB-FRONT v3.1 → B1 第三版 → v3.2／效能
+- **已交件、已整合**（LAWWW ACK）：
+  - LIB-FRONT-1102 第三版：`32961b6ab` → int/next1102 `3caff35d9`。BB_234 驗收「可以整合」，ART_APPROVED 等 v3.1／v3.2 補齊再判（D120：建築場景由 BB 標）。
+  - B1 第二版：`3591dcb47` → int/next1102 `3e6855649`。BB_236「可以整合、還不標 ART_APPROVED」，要做的見 B1 第三版。
+- **已交件、待 ACK**：campus_glb_integration 只改 tests 的 patch `219e5dc45`（LAWWW 14:30 要的）。
+  - int/next1102 跑兩次：94 PASS／1 FAIL。
+  - FAIL 是效能，遊戲本身的數字：soc_court、teach_east 1.105 倍，兩次都超過；arts_front、gate_avenue 在邊緣，有一組約 26 次 draw call 的量測雜訊。
+  - 說明：`test_logs/campus_glb_integration_1102/README.md`。
+- **一樓＋二樓 version 2**（worktree `scratchpad/devwt_i`＝int/next1102 `3e6855649`＋第二版 patch＋GLB；b1b249873 的副本是 `devwt_g`）：
+  - 14:49 第一次烘焙：lm_probe 抓到展演廳地板、天花板的扇形面寫反了（法線朝下，烘出 0.001 全黑）。改了頂點順序，重烘（15:22）全過；二樓西翼探針原本放在長桌底下，改到走道。WIP 推 `638a12b53`。
+  - Node 92 支（patch 動到的＋library／nav／stairs 相關）ALL PASS。
+  - 舊存檔：715 個第一版位置，619 原地、96 挪開（最遠 2.69 m）、0 退回出生點。
+  - **在跑**：改前改後截圖（`lh2shots`）→ 瀏覽器 7 支（floors、scene、lib_tour、stairs_cam、zone_transitions、seats_on_furniture、reachability_all 全區）。
+  - **下一步**：README 第二～六節 → 產 patch（b1b249873、3e6855649 都 check）→ 二進位進 assets → outbox → 交件。
+- **接著的順序**（LAWWW 14:42 同意）：
+  1. LIB-FRONT v3.1：平台上兩棵針葉樹，`wip/lib_front_v31`；incr patch 要在 int/next1102 上重新 check。
+  2. B1 第三版（BB_236）：細紋淺橡木 PBR、高背直條實木椅不要坐墊、桌上小物 instancing、確認背景同學坐新座位、牆面公告／出風口／置物櫃、烘焙。
+  3. LIB-FRONT v3.2（BB_234）：拱廊深度、白石立面線腳、近景磚石法線。
+  4. PERF-CAMPUS-GLB-1102：效能雜訊、四棟減 draw call。
+  5. CAMPUS-RELAYOUT-1102。
 - **3F**：使用者沒給 3F 平面圖（企劃線也沒有），3F 閱覽區照舊。
 - **CAMPUS-RELAYOUT-1102 筆記**：
   - 官方地圖（`images/6.jpg`）：**電機一館**在化學館東邊、小椰林道西側、蒲葵道北邊（地圖約 (1100,555)；比例尺約 1.43 m／px）。
-  - 電機二館在水杉道北、楓香道東（遊戲 (112,−62) 舊社科院那棟）。
+  - 電機二館在水杉道北、楓香道東，就是遊戲 (112,−62) 舊社科院那棟。
 - **延後**：us_market 第三版（`abd76acab`）交件、jp_room 第十版（`568a44330`）交件、FAIR-TENT-CAM-1102 → DORM1-WALL-SEAM-1102 → PUTONG101-WINDOW-1102。
+- **scratchpad worktree**（15:0x 清掉 devwt_b～f，磁碟剩 9.5 GB）：chk_b1b（乾淨 b1b249873）、devwt_g（b1b＋v2）、devwt_h（int/next1102 a5935aa30＋tests patch）、devwt_i（3e6855649＋v2）、devwt_j／devwt_m（jp_room、us_market，延後的交件）。
 
 ## ✅ 接班（最新）：2026-11-02 03:3x UTC｜帳號 A｜LAWWW2｜`session_01AC1WVgJSmoJK1uRsPK2Zn1`｜分支 `claude/second-ai-env-art`
 - 值班登記：`duty register` 帳號 A、LAWWW2、接班基準 `e16b32ad`（上一任 LAWWW2-B 的交班 commit），2026-11-02 03:37 UTC。使用者：「現在你接班，我也會通知其他AI，你交班之後先跟他們測試通訊功能，然後先確定其他AI留下什麼事情還沒有做，預計還要多久每個階段每個任務」。
