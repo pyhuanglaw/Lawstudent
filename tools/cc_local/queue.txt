@@ -49,7 +49,7 @@ A3pre        | dc36b401e | probe | docs/story_planning/test_tools/cc/cc_late15_p
 # BB_229 規則 1：CC 這個容器沒有 bpy，沒辦法在雲端先跑；腳本 LAWWW2 已在他的雲端驗過 CPU 路徑（和原本逐像素相同）。HIP 是第一次實測
 BK1_cpu      | lawww2    | blender | tools/blender/env_second/lightbake/pc_ref/pc_bake_dorm_ref.py | index.html | 60 | CC_BLENDER_DEVICE=CPU;XARGS=--out {out} --res 512 --samples 256
 BK1_hip      | lawww2    | blender | tools/blender/env_second/lightbake/pc_ref/pc_bake_dorm_ref.py | index.html | 60 | CC_BLENDER_DEVICE=HIP;XARGS=--out {out} --res 512 --samples 256
-#HOLD雲端 P3b_sl     | ef63b1877 | probe | docs/story_planning/test_tools/cc/cc_shuyu_sl_probe.py | index.html | 110 | （學姊大一上 S-L1～L4 實走；探針撰寫中）
+P3b_sl     | ef63b1877 | probe | docs/story_planning/test_tools/cc/cc_shuyu_sl_probe.py | index.html | 75 |
 #HOLD雲端 （第二批 BB_245 的 node／probe 探針、art247 截圖：子代理寫好、雲端跑過再加）
 R4main      | 27e6ce77e | game  | tests/flow_main_day12.py     | index.html       | 180 | XARGS={url} {out}
 R4b1b_rr    | b1b249873 | game  | tests/flow_main_day12.py     | index.html       | 180 | XARGS={url} {out};RERUN=rr1
