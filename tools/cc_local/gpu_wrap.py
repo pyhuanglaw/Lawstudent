@@ -6,6 +6,9 @@
   - 拿掉 SwiftShader 參數（--use-angle=swiftshader、--enable-unsafe-swiftshader、--use-gl=swiftshader）。
   - CC_GPU=1（預設）：加 --ignore-gpu-blocklist --use-gl=angle --use-angle=d3d11；預設無視窗（CC_HEADLESS=0 改成有視窗）。使用者電腦實測 d3d11 無視窗仍是 RX 6600M、26.6 fps。
   - CC_GPU=0：只做第一點，其他照原樣。
+  - CC_BROWSER=webkit（run_queue.py 的 webkit kind）：探針呼叫 chromium.launch 時改開 webkit.launch，
+    拿掉 chromium 專屬參數（args、executable_path、channel、chromium_sandbox）。CC_BROWSER 沒設時，上面的行為完全不變。
+    注意：webkit 沒有 CDP，探針若用 ctx.new_cdp_session（playlib 的手機觸控）會在那一步失敗＝探針要另外支援。
 """
 import os, sys, runpy
 
@@ -25,6 +28,22 @@ def fix_kwargs(kw):
     kw['args'] = args
     return kw
 
+WEBKIT = os.environ.get('CC_BROWSER', '').strip().lower() == 'webkit'
+CHROMIUM_ONLY = ('args', 'executable_path', 'channel', 'chromium_sandbox', 'ignore_default_args')
+
+def webkit_kwargs(kw):
+    kw = {k: v for k, v in kw.items() if k not in CHROMIUM_ONLY}
+    kw['headless'] = os.environ.get('CC_HEADLESS', '1') != '0'
+    return kw
+
+def _webkit_of(bt, sync):
+    """同一個 playwright 物件的 webkit BrowserType（公開 API 物件）；只在 CC_BROWSER=webkit 時才 import"""
+    if sync:
+        from playwright.sync_api._generated import mapping
+    else:
+        from playwright.async_api._generated import mapping
+    return mapping.from_impl(bt._impl_obj._playwright.webkit)
+
 import time as _t
 _T0 = _t.time()
 def _diag(msg):
@@ -43,7 +62,11 @@ def patch():
         from playwright.async_api._generated import BrowserType as ABT, Browser as AB
         orig = ABT.launch
         async def launch(self, *a, **kw):
-            b = await orig(self, *a, **fix_kwargs(kw))
+            if WEBKIT and self.name == 'chromium':
+                _diag('CC_BROWSER=webkit: chromium.launch -> webkit.launch')
+                b = await orig(_webkit_of(self, False), *a, **webkit_kwargs(kw))
+            else:
+                b = await orig(self, *a, **fix_kwargs(kw))
             try: b.on('disconnected', lambda *_: _diag('BROWSER DISCONNECTED'))
             except Exception: pass
             return b
@@ -61,7 +84,11 @@ def patch():
     try:
         from playwright.sync_api._generated import BrowserType as SBT
         sorig = SBT.launch
-        def slaunch(self, *a, **kw): return sorig(self, *a, **fix_kwargs(kw))
+        def slaunch(self, *a, **kw):
+            if WEBKIT and self.name == 'chromium':
+                _diag('CC_BROWSER=webkit: chromium.launch -> webkit.launch')
+                return sorig(_webkit_of(self, True), *a, **webkit_kwargs(kw))
+            return sorig(self, *a, **fix_kwargs(kw))
         SBT.launch = slaunch
     except Exception as e:
         print('[gpu_wrap] sync patch 失敗：', e)
@@ -74,4 +101,6 @@ if __name__ == '__main__':
     sys.argv = [script] + sys.argv[2:]
     sys.path.insert(0, os.path.dirname(script))
     print('[gpu_wrap] CC_GPU=%s 跑 %s %s' % (int(GPU), script, ' '.join(sys.argv[1:])), flush=True)
+    if WEBKIT:
+        print('[gpu_wrap] CC_BROWSER=webkit：chromium.launch 會改開 webkit', flush=True)
     runpy.run_path(script, run_name='__main__')
