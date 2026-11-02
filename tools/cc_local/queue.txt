@@ -24,3 +24,29 @@
 # #16 K2 版面（e3a9289ef）：修改後 c2d0c24bc、修改前 e27dd033e
 06b_layoutP | c2d0c24bc | probe | docs/story_planning/test_tools/cc/cc_layout16_probe.py        | index.html?turbo  | 60  | CASES=seat_exam,adv_safe,recall2
 06c_layoutO | e27dd033e | probe | docs/story_planning/test_tools/cc/cc_layout16_probe.py        | index.html?turbo  | 60  | CASES=seat_exam,adv_safe,recall2
+# ===== BB 10:34：雲端瀏覽器佇列整批搬過來 =====
+# 1. 發布前必跑組（TESTING.md 第五節），最新 head d75871437；BB 給 GO 的前提
+10_deploy   | d75871437 | game  | tests/deploy_check.py        | index.html       | 20  | XARGS={url}
+11_reach    | d75871437 | game  | tests/reachability_all.py    | index.html?turbo | 90  | XARGS={url}
+12_flowcls  | d75871437 | game  | tests/flow_class_real.py     | index.html       | 120 | XARGS={url} {out}
+13_minimap  | d75871437 | game  | tests/minimap_direction.py   | index.html?turbo | 30  | XARGS={url} {out}
+14_zones    | d75871437 | game  | tests/zone_transitions.py    | index.html?turbo | 60  | XARGS={url}
+15_touchwz  | d75871437 | game  | tests/touch_flow_wenzhou.py  | index.html?turbo | 60  | XARGS={url}
+16_p0       | d75871437 | game  | tests/p0_movement.py         | index.html       | 30  | XARGS={url}
+17_savev7   | d75871437 | game  | tests/save_compat_v7.py      | index.html       | 60  | SHA2=385e194;XARGS={url2} {url}
+# 2. 真實玩家流程（不用 turbo）
+18_flowday12| d75871437 | game  | tests/flow_main_day12.py     | index.html       | 180 | XARGS={url} {out}
+# 3. 雲端沒跑完的（Y4S2 299 的 7 個 case 雲端還在跑，不搬）
+20_roll     | 4c8f138f7 | probe | docs/story_planning/test_tools/cc/cc_rollcall_probe.py | index.html | 120 | CASES=a,a0,b,c1,c2,d_old,d_new,cw,bedge
+21_rollpre  | 82f8d28c5 | probe | docs/story_planning/test_tools/cc/cc_rollcall_probe.py | index.html | 120 |
+22_boya     | 6f0122821 | probe | docs/story_planning/test_tools/cc/cc_boya203_probe.py  | index.html | 60  |
+23_boyapre  | 2c8d47e70 | probe | docs/story_planning/test_tools/cc/cc_boya203_probe.py  | index.html | 60  |
+24_b3       | d75871437 | probe | docs/story_planning/test_tools/cc/cc_d118b3_probe.py   | index.html | 240 |
+25_b3pre    | 299e23345 | probe | docs/story_planning/test_tools/cc/cc_d118b3_probe.py   | index.html | 90  | CASES=S1,night
+26_b3pre2   | 6ba2a22ad | probe | docs/story_planning/test_tools/cc/cc_d118b3_probe.py   | index.html | 60  | CASES=S2a
+27_b4       | d75871437 | probe | docs/story_planning/test_tools/cc/cc_d118b4_probe.py   | index.html | 150 |
+28_b4pre    | f57e3ac75 | probe | docs/story_planning/test_tools/cc/cc_d118b4_probe.py   | index.html | 90  | CASES=S1,mix
+29_jpmk     | d75871437 | probe | docs/story_planning/test_tools/cc/cc_d118b1_probe.py   | index.html | 60  | CASES=jp_makeup
+30_b1base   | a3b1bd647 | probe | docs/story_planning/test_tools/cc/cc_d118b1_probe.py   | index.html | 150 | CASES=retake_skip,retake_saveload,guowen_w8
+31_b2base   | a3b1bd647 | probe | docs/story_planning/test_tools/cc/cc_d118b2_probe.py   | index.html | 60  | CASES=wancai
+# 4、5（第 9 天存檔讀檔流程、法服週六兩次）：探針寫好再加

@@ -135,7 +135,7 @@ foreach ($it in $Items) {
   $od = Join-Path $OutRoot $id; New-Item -ItemType Directory -Force -Path $od | Out-Null
   $ran_n++
   $meta = [ordered]@{ rerun=$rerunTok; id=$id; sha=$sha; kind=$it.Kind; script=$it.Script; env=$it.Env; machine=$env:COMPUTERNAME; start=(Get-Date).ToString('s'); end=$null; seconds=$null; exit=$null; error=$null }
-  $wt = Join-Path $Base ("wt_cc_" + $id); $srv = $null
+  $wt = Join-Path $Base ("wt_cc_" + $id); $srv = $null; $srv2 = $null; $wt2 = $null; $url2 = ''
   CC-Log "==== $id  ($($it.Kind) @ $sha) ===="
   try {
     if (Test-Path $wt) { CC-Git -C $Repo worktree remove --force $wt }
@@ -145,12 +145,18 @@ foreach ($it in $Items) {
     $srv = Start-Process -FilePath $PyExe -ArgumentList ($PyPre + @('-m','http.server',"$port",'--bind','127.0.0.1')) -WorkingDirectory $wt -WindowStyle Hidden -PassThru
     Start-Sleep -Seconds 3
     $url = "http://127.0.0.1:$port/$($it.Url)"; $meta.url = $url
+    $url2 = ''; $sha2 = ''; foreach ($kv in ($it.Env -split ';')) { if ($kv -match '^\s*SHA2=(.*)$') { $sha2 = $Matches[1].Trim() } }
+    if ($sha2) { $wt2 = $wt + '_2'; if (Test-Path $wt2) { CC-GitQuiet -C $Repo worktree remove --force $wt2 }; CC-Git -C $Repo worktree add --detach $wt2 $sha2
+      $port2 = CC-FreePort ($port + 1); $srv2 = Start-Process -FilePath $PyExe -ArgumentList ($PyPre + @('-m','http.server',"$port2",'--bind','127.0.0.1')) -WorkingDirectory $wt2 -WindowStyle Hidden -PassThru
+      Start-Sleep -Seconds 3; $url2 = "http://127.0.0.1:$port2/$($it.Url)"; $meta.url2 = $url2; $meta.sha2 = $sha2 }
     foreach ($kv in ($it.Env -split ';')) { if ($kv -match '^\s*([^=]+)=(.*)$') { Set-Item -Path ("env:" + $Matches[1].Trim()) -Value $Matches[2] } }
     $wrap = Join-Path $Work 'tools\cc_local\gpu_wrap.py'
     switch ($it.Kind) {
       'gpu'   { $args2 = @((Join-Path $Work $it.Script), $url, (Join-Path $od 'gpu.txt')); $cwd = $Work }
       'py'    { $args2 = @((Join-Path $Work $it.Script), $url, $od); $cwd = $Work }   # repo script, args <URL> <out dir>
-      'game'  { $args2 = @($wrap, (Join-Path $wt $it.Script), $url); $cwd = $wt }
+      'game'  { $xa = @(); foreach ($kv in ($it.Env -split ';')) { if ($kv -match '^\s*XARGS=(.*)$') { $xa = $Matches[1].Trim() -split '\s+' } }
+                if ($xa.Count) { $xa = $xa | ForEach-Object { $_.Replace('{url}', $url).Replace('{url2}', $url2).Replace('{out}', (Join-Path $od 'out')) } } else { $xa = @($url) }
+                $args2 = @($wrap, (Join-Path $wt $it.Script)) + $xa; $cwd = $wt }   # XARGS=... in ENV: extra args with {url} {url2} {out}
       'probe' { $env:LW_TESTS = (Join-Path $wt 'tests'); $env:SHA = $sha
                 $args2 = @($wrap, (Join-Path $Work $it.Script), $url, (Join-Path $od 'out')); $cwd = $Work }
       default { throw "unknown kind $($it.Kind)" }
@@ -166,6 +172,8 @@ foreach ($it in $Items) {
   } catch { $meta.error = "$_"; CC-Log "ERROR $id : $_" }
   finally {
     if ($srv) { Stop-Process -Id $srv.Id -Force -ErrorAction SilentlyContinue }
+    if ($srv2) { Stop-Process -Id $srv2.Id -Force -ErrorAction SilentlyContinue; $srv2 = $null }
+    if ($wt2 -and (Test-Path $wt2)) { CC-GitQuiet -C $Repo worktree remove --force $wt2 }; $wt2 = $null
     Start-Sleep -Seconds 1
     CC-GitQuiet -C $Repo worktree remove --force $wt
   }
