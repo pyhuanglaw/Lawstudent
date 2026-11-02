@@ -39189,7 +39189,7 @@
       "title": "第 107 組十張背景接進遊戲",
       "owner": "LAWWW",
       "status": "已整合待測試",
-      "next": "CC 截對話畫面→BB ART_APPROVED；待 BB 決定：tainan_school 換不換 tn_school、以安房間缺圖",
+      "next": "CC 截對話畫面→BB ART_APPROVED；tainan_school 不換（BB 07:39，留備用）；河堤煙火、腳踏車鏈條、以安房間排進第 109 組",
       "sha": "dad4935cf",
       "source": "BB 07:04（BB_132 第 107 組驗收）",
       "xai": {
@@ -39215,9 +39215,9 @@
       "id": "BG108-WIRE-1102",
       "title": "第 108 組十張背景接進遊戲",
       "owner": "LAWWW",
-      "status": "進行中",
-      "next": "子代理在 worktree 接",
-      "sha": "",
+      "status": "已整合待測試",
+      "next": "CC 截對話畫面→BB ART_APPROVED",
+      "sha": "f3a2ba4a1",
       "source": "BB 07:37（企劃線 84fdd1ce7）",
       "xai": {
         "spec": "BB 07:37（企劃線 84fdd1ce7）",
