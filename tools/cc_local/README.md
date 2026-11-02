@@ -2,40 +2,67 @@
 
 CC（帳號 A，雲端）寫的腳本。使用者在自己的 Windows 電腦上執行，用顯示卡跑 CC 的瀏覽器測試。雲端的 Chromium 是 SwiftShader，只有 1～4 fps。
 
-## 執行（一行）
+## 執行（2026-11-02 起：Python 版 runner `run_queue.py`）
+
+開一個新的 PowerShell，**一行一行**貼（操作卡全文、每一行貼完應該看到什麼：`docs/story_planning/CC/CC_29_新runner_操作卡.md`）：
 
 ```powershell
-powershell -ExecutionPolicy Bypass -File "$env:USERPROFILE\Documents\Lawstudent\tools\cc_local\run_queue.ps1"
+git -C "$env:USERPROFILE\Documents\Lawstudent" fetch origin claude/cc-testing claude/second-ai-env-art
+git -C "$env:USERPROFILE\Documents\Lawstudent_cclocal" merge --no-edit origin/claude/cc-testing
+python "$env:USERPROFILE\Documents\Lawstudent_cclocal\tools\cc_local\run_queue.py" --parallel 2
 ```
 
-腳本是從 `claude/cc-testing` 抓的。如果你本機的 repo 目前不在那個分支，先執行：
-`git -C "$env:USERPROFILE\Documents\Lawstudent" fetch origin claude/cc-testing; git -C "$env:USERPROFILE\Documents\Lawstudent" show origin/claude/cc-testing:tools/cc_local/run_queue.ps1 > "$env:TEMP\run_queue.ps1"`，再執行 `powershell -ExecutionPolicy Bypass -File "$env:TEMP\run_queue.ps1"`。
+- 第 3 行一開始印約 10 行設定：python 路徑、`playwright <版本> OK`、git、node、blender、repo、work、parallel、browser。看得到 `playwright … OK` 才算環境正常。
+- 用 `python`，不用 `py -3`（使用者電腦上有 playwright 和 webkit 的是 `python` 這一支）。
+- 選項：`--only ID1,ID2` 只跑某幾項；`--parallel N` 同時跑幾項（blender 永遠單獨跑）；`--headless` 不開視窗；`--no-push` 不推結果（雲端驗證用）；`--repo`、`--work` 改路徑。
+- 預設跑完整個佇列一次就結束（`--once` 是預設）。要再跑就再貼第 3 行。
+- **runner 本身改版後要重新啟動才生效**：正在跑的程序已經載入舊程式碼（佇列和探針不受影響，每一項開始前都會抓最新的）。
 
-- 只跑某幾項：在指令後面加 `-Only 02_mk12`（多項用逗號隔開）。
-- repo 不在預設位置：加 `-Repo D:\路徑\Lawstudent`。
+### 退回用：舊的 PowerShell runner（沒有改，出問題時用）
 
-## 腳本做什麼
+```powershell
+powershell -ExecutionPolicy Bypass -File "$env:USERPROFILE\Documents\Lawstudent_cclocal\tools\cc_local\run_queue.ps1"
+```
 
-1. 在 repo 執行 `git fetch`。另外開一個 worktree `Documents\Lawstudent_cclocal`，切到 `claude/cc-local` 分支：這個分支以 `origin/claude/cc-testing` 為底；遠端已經有 `cc-local` 的話，以它為底，再合併 `cc-testing` 拿到最新佇列。**不會動你原本的工作目錄**。
-2. 讀 `tools/cc_local/queue.txt`，每行一項，格式是 `ID | SHA | KIND | 腳本 | 網址 | 逾時分鐘 | 環境變數`。
-3. 每一項依序做：
-   - 用 `git worktree add --detach` 開出那個 SHA；
-   - 在背景啟動 `python -m http.server`，埠號從 8800 起往上找空的；
-   - 跑腳本；
-   - 輸出放在 `docs/story_planning/CC/local_out/<ID>/`：`run.log`、`err.log`、`meta.json`（開始／結束時間、秒數、exit code）、探針的輸出；
+舊版依序試 main → stable → proven 三層。舊版不能並行、不開並排視窗，不認 node／blender／webkit 三種 kind。
+
+## runner 做什麼
+
+1. 在 repo 執行 `git fetch`。另外開一個 worktree `Documents\Lawstudent_cclocal`，切到 `claude/cc-local` 分支：這個分支以 `origin/claude/cc-testing` 為底；遠端已經有 `cc-local` 的話，以它為底，再合併 `cc-testing` 拿到最新佇列。本機已經有 `claude/cc-local` 時沿用它再合併，不會洗掉還沒 push 的結果。**不會動你原本的工作目錄**。
+2. 讀 `tools/cc_local/queue.txt`，每行一項：`ID | SHA | KIND | 腳本 | 網址 | 逾時分鐘 | 環境變數(k=v;…)`。
+   - `#` 開頭的行跳過。`#HOLD雲端 `、`#HOLD正式SHA ` 開頭＝暫停中，等雲端驗過或等正式 SHA。
+   - SHA 可以寫 `lawww2`，代表 `claude/second-ai-env-art` 的最新 commit。
+3. **跳過規則**（BB 2026-11-02 19:46）：`local_out/<ID>/meta.json` 已經存在，而且 sha、RERUN 都相同，就跳過，不管上次 exit 幾、有沒有 error。要重跑就換 RERUN 記號，例如 `RERUN=rev1102wt`；逾時、error 的項目也一樣換記號重跑。舊 PowerShell 寫的 meta.json 有 BOM，也讀得懂。
+4. 每一項：
+   - 用 `git worktree add --detach` 開出那個 SHA。之前留下的同名資料夾，會先 remove、prune、刪掉；刪不掉就換一個名字。
+   - 在背景開 `python -m http.server`，埠號從 8800 往上找空的。
+   - 跑腳本，超過逾時就殺掉整個程序樹。
+   - 輸出放在 `docs/story_planning/CC/local_out/<ID>/`：`run.log`、`err.log`、`meta.json`、探針自己的輸出。
    - 關掉 server，移除 worktree。
-4. 瀏覽器用顯示卡跑：`gpu_wrap.py` 只在 Python 程序裡替換 playwright 的 `launch`。
-   - 拿掉雲端的 `executable_path` 和 SwiftShader 參數。
-   - 加上 `--ignore-gpu-blocklist --use-gl=angle --use-angle=d3d11`，並用 `headless=False`。
-   - 不改開發分支的 `tests/playlib.py`。`CC_GPU=0` 可以關掉這些替換。
-5. 每做完一項，只 `git add` 該項的 local_out 和 `local_out/summary.md`。截圖每項最多推 25 MB，其他沒推的截圖在 `notes.txt`。接著 commit、push 到 `origin/claude/cc-local`，失敗會重試 5 次。
-6. 某一項出錯就記下來，繼續跑下一項。全部跑完印出摘要。
-7. 腳本裡沒有任何金鑰。push 用的是你電腦上 git／gh 已經登入的權限。
+   - 每一項的 ENV 只傳給它自己的子程序。
+5. **KIND 一覽**：
+   - `probe`、`game`、`py`、`gpu`：Python 探針，經 `gpu_wrap.py` 用顯示卡跑。
+   - `webkit`：同上，瀏覽器改成 WebKit（`CC_BROWSER=webkit`）。WebKit 沒有 CDP，用 playlib 手機觸控的探針會失敗。
+   - `node`：用 node 跑。腳本在測試 SHA 的 worktree 裡找不到時，用 cc-local 工作目錄的同名檔，例如 `tools/cc_local/node_units.js`。
+   - `blender`：用 Blender 5.2 背景跑，加 `--python-exit-code 1`，腳本出錯時 exit 不會是 0。永遠單獨跑。
+6. **瀏覽器**（`gpu_wrap.py`，只在 Python 程序裡替換 playwright 的 `launch`，不改開發分支的 `tests/playlib.py`）：
+   - 拿掉雲端的 `executable_path` 和 SwiftShader 參數，加 `--ignore-gpu-blocklist --use-gl=angle --use-angle=d3d11`。`CC_GPU=0` 關掉這些替換。
+   - **headed 並排**：預設開視窗。probe、game、webkit 三種 kind 的並行第 0 格放在 `--window-position=0,0`，第 1 格放在 `920,0`，`--window-size=900,900`，視窗標題「CC 測試中，請勿點選 [ID]」。
+   - 佇列 ENV 寫了 `CC_HEADLESS=1`／`0` 時，以佇列為準。`--headless` 全部不開視窗。
+7. 每做完一項，只 `git add` 該項的 local_out 和 `local_out/summary.md`。截圖每項最多推 25 MB，沒推上的列在 `notes.txt`。然後 commit「CC-local: <ID> result (sha …, exit …, 秒數)」，push 到 `origin/claude/cc-local`，失敗會重試。
+8. 某一項出錯就記下來，接著跑下一項。腳本裡沒有任何金鑰，push 用你電腦上 git 已經登入的權限。
 
-## 佇列項目
+## 怎麼確認 PC 還在跑（給雲端 CC／接班者）
 
-- 第 0 項 `00_gpu`（`gpu_check.py`）：開兩次瀏覽器——一次用顯示卡（d3d11、有視窗），一次用 SwiftShader 當對照。各讀 WebGL `UNMASKED_RENDERER`、量 10 秒 fps，寫進 `local_out/00_gpu/gpu.txt`。
-- 跑測試時，電腦上會跳出 Chromium 視窗（因為 headless=False）。請不要點它、也不要關掉它；最小化沒關係，但有些顯示卡在最小化時會降速。
+`git fetch origin claude/cc-local && git log -3 --format='%h %ci %s' origin/claude/cc-local`
+
+- 最新一筆「CC-local: … result」的時間（+0800 是 PC 的台灣時間），和正在跑的那一項的逾時比一比。超過逾時很久都沒有新 commit，可能是 PC 睡眠了、視窗被關掉、或 runner 已經跑完佇列結束（預設跑一輪就停）。這時請 BB 問使用者。
+- 正在跑哪一項：看 queue.txt 裡最後一筆有結果的項目的下一項，跳過已經有 meta 的項目。
+
+## 佇列項目與視窗
+
+- 第 0 項 `00_gpu`（`gpu_check.py`）：開兩次瀏覽器，一次用顯示卡（d3d11、有視窗），一次用 SwiftShader 當對照。各讀 WebGL `UNMASKED_RENDERER`，量 10 秒 fps，寫進 `local_out/00_gpu/gpu.txt`。
+- 跑測試時，電腦上會出現並排的 Chromium 視窗。請不要點，也不要關掉。不小心點到沒關係，那一項重跑就好。最小化也可以，但有些顯示卡最小化時會降速。
 
 結果由雲端 CC 讀回來寫初判，最後判定歸 BB。
 
