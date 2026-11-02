@@ -1,4 +1,4 @@
-"""CC（帳號 A）11-02：#11 背景接上以後的對話截圖（開發分支 dad4935cf＝合併 d0f89590（第九批 10 張，BB_132 第 107 組）＋bec6fe0b（深色底場景補現成背景，BB 11-02 掃描）以後）。
+"""CC（帳號 A）11-02：#11 背景接上以後的對話截圖（開發分支 dad4935cf＝第 107 組＋深色底；f3a2ba4a1＝第 108 組；dad4935cf＝合併 d0f89590（第九批 10 張，BB_132 第 107 組）＋bec6fe0b（深色底場景補現成背景，BB 11-02 掃描）以後）。
 目的：每一場對話時 ADV 背景確實顯示（是那張圖，不是 dark 深色底），人物立繪和對話框有沒有擋住重點——手機直向（390×844）、橫向（844×390）各一張。
 探針只「客觀記錄＋截圖」：好不好看、重點有沒有被擋，由人看截圖判斷（不寫死「全部通過」）。
 check 只有幾種：事件真的演出來（EVENTS.run 收到那一件，畫面到了那一張底圖、對話框開著或地點字幕在）、背景是那張圖（#advBg 實際算出來的
@@ -40,13 +40,24 @@ check 只有幾種：事件真的演出來（EVENTS.run 收到那一件，畫面
     wancai_seminar      ev_sq06_club（sideq3d.js:412；SQ06 大二上起吉他社社課）。探針 Y2S1 第 6 週週四 19:00 wancai。
   停用（retired）＝不演，只在頁面讀 STORY_EVENTS 確認 retired 有值、背景有接（INFO）：
     gg_scooter_shop＝ev_moot_2（bike 分支）、noodle_table＝ev_moot_6、gongguan＝ev_y0_e19、ntu_linze＝ev_y0_e24b2。
+  第 108 組（f3a2ba4a1＝合併 54ad77f2c，第十批 10 張，BB_132 第 108 組；tests/bg108_unit.js）：
+    l118_home_diner     ev_xc_sameday（xcrom3d.js:120-121；芯慈 G7 大三上第 14 週起的週三 15:00 當天約 → 18:00 巷口家常菜）。探針 Y3S1 第 14 週週三 18:00 溫州街。
+    pasta118_night      ev_sq12_pasta（sideq3d.js:258、487；SQ12 大三上，下一個週一 19:00）。探針 Y3S1 第 5 週週一 19:00 溫州街。
+    wenzhou_teahouse    ev_sq14_vet 第二段（sideq3d.js:504 S.cage14；第一段 vet_clinic 的旁白照玩家點過去，到 {scene:溫州街・一盞茶屋,bg:wenzhou_teahouse} 那一句才拍）。探針 Y2S1 第 10 週週三 16:15 宿舍。
+    jp_100yen           ev_jpb_100yen（交往中出遊 3/29 11:00）、ev_jpb_100yen_alone（挽回中 jp_blank3d.js:34 jpb_1_1r 3/29 11:00 據點自己演，只有旁白）。
+    jp_bike_shop        ev_jpb_bike（交往中 jp_blank3d.js:36 3/31 15:00）、ev_jpb_bike_repair（挽回中 :37 4/8 15:00；沒遇過立衡＝只有旁白那一版）。
+    jp_supermarket      ev_jpb_market（交往中出遊；探針 2028-04-01 16:00，同 bg108_unit）。
+    jp_morning_market   ev_jpb_w_market（交往中；jp_blank_lines.js:212 4/15 09:00 私訊「明天早上有早市」→ 探針 2028-04-16 08:00）。
+    jp_old_bookstore    ev_jpb_w_books（交往中；:215 5/27 15:00 私訊 → 探針 2028-05-28 14:00）。
+    jp_post_office      ev_jpb_post（jp_blank3d.js:53 jpb_4_3 2028-07-31 11:00 據點自己演；挽回中版只有旁白）。
+    jp_secondhand_shop  ev_jpb_r_shop（挽回中 jp_blank3d.js:45 jpb_2_2a 2028-05-13 14:00 據點自己演；沒遇過立衡＝只有旁白）。
   沒有地方讀的資料（INFO，不演）：tainan_school＝y2b3d.js 的 Y2B.PS_TAINAN（第一次去台南；hometown3d.js 用的是 PS_TAINAN_VISITS 的結構，PS_TAINAN 本身沒有人讀）。
   （最小存檔：關係、記憶都是空的，if:custom 的句子照當下的存檔走哪一版就是哪一版；只看畫面，不驗台詞。）
 
 輸出：<輸出資料夾>/NN_<case>_<land|port>_<first|spk|cap>_<dlg|bgonly|bgbox>.png、<case>_<方向>_<tag>_cropmap.png（示意圖，不是遊戲截圖）、cc_bg107_measure.json。
 不是 iPhone：Playwright 手機模擬（is_mobile、觸控、SwiftShader 1～4 fps）。
 用法：LW_TESTS=<工作樹>/tests SHA=<sha> [IDS=police_station,gym_court] python3 cc_bg107_probe.py '<URL>/index.html?turbo' <輸出資料夾>
-環境變數：IDS（只跑這幾場；用 case 名稱，或事件 id）、ORIENT=both|land|port、QUIET=1、SPK=1（0＝不拍有人說話那一句）、BGONLY=1（0＝不拍只有底圖的兩張，省時間）、
+環境變數：GROUP=107,dark,108（只跑這幾組；預設全部；停用／INFO 那一段屬於 107＋dark）、IDS（只跑這幾場；用 case 名稱、事件 id 或底圖名；和 GROUP 取交集）、ORIENT=both|land|port、QUIET=1、SPK=1（0＝不拍有人說話那一句）、BGONLY=1（0＝不拍只有底圖的兩張，省時間）、
   PRE_S（讀檔後等遊戲自己演，預設 25）、SCENE_S（開演後等到那一張底圖，預設 120）、CASE_MAX（一場最多幾秒，預設 600）、RELAYOUT_MS（預設 1800）。
 不要和別的瀏覽器測試同時跑（SwiftShader 搶 CPU）。"""
 import os, sys, json, asyncio, time, copy, traceback
@@ -57,6 +68,7 @@ from playwright.async_api import async_playwright
 URL, OUT = sys.argv[1], sys.argv[2]
 ROOT = os.path.dirname(os.path.abspath(os.environ['LW_TESTS']))   # 工作樹根目錄（畫 cropmap 用原圖）
 J = lambda o: json.dumps(o, ensure_ascii=False)
+GROUPS = [x.strip() for x in os.environ.get('GROUP', '107,dark,108').replace('，', ',').split(',') if x.strip()]
 ONLY = [x.strip() for x in os.environ.get('IDS', '').replace('，', ',').split(',') if x.strip()]
 ORIENT = os.environ.get('ORIENT', 'both').strip()
 QUIET = os.environ.get('QUIET', '1') != '0'
@@ -113,6 +125,31 @@ CASES = [
          src='src/jp_blank3d.js:56 jpb_5_2（挽回中＋JPB_SEA go，2028-07-17 09:00 據點自己演）→ jp_blank_lines.js:198（bec6fe0b 接 jp_beach）'),
     dict(k='wancai_seminar', bg='wancai_seminar', ev='ev_sq06_club', grp='dark', when=['Y2S1', 6, 4], h=19.0, zone='wancai', flags={},
          src='src/sideq3d.js:227 SQ06 的 OUT.plan sq06_club → 412 S.CLUB_EV（bec6fe0b 接 wancai_seminar）'),
+    # ---- 第 108 組（f3a2ba4a1）
+    dict(k='l118_home_diner', bg='l118_home_diner', ev='ev_xc_sameday', grp=108, when=['Y3S1', 14, 3], h=18.0, zone='wenzhou', flags={},
+         src='src/xcrom3d.js:120 S.g7 的 OUT.plan xc_g7_<k>（當天 18:00 巷口家常菜）→ 121 S.EV_SAMEDAY（f3a2ba4a1 接 l118_home_diner；原本深色底）'),
+    dict(k='pasta118_night', bg='pasta118_night', ev='ev_sq12_pasta', grp=108, when=['Y3S1', 5, 1], h=19.0, zone='wenzhou', flags={},
+         src='src/sideq3d.js:258 SQ12 的 OUT.plan sq12_pasta_<d>（下一個週一 19:00）→ 487 S.PASTA_EV'),
+    dict(k='wenzhou_teahouse', bg='wenzhou_teahouse', ev='ev_sq14_vet', grp=108, when=['Y2S1', 10, 3], h=16.25, zone='dorm', flags={},
+         src='src/sideq3d.js:504 S.cage14 → S.VET_EV：先 {scene:羅斯福路・動物醫院,bg:vet_clinic} 兩句旁白（照玩家點過去），再 {scene:溫州街・一盞茶屋,bg:wenzhou_teahouse}＝這一張'),
+    dict(k='jp_100yen_w', bg='jp_100yen', ev='ev_jpb_100yen', grp=108, when='2028-03-29', h=11.0, zone='jp_hub', flags=JPD,
+         src='src/data/jp_blank_lines.js:26（交往中出遊 3/29 11:00）'),
+    dict(k='jp_100yen_r', bg='jp_100yen', ev='ev_jpb_100yen_alone', grp=108, when='2028-03-29', h=11.0, zone='jp_hub', flags=JPF, narr_only=True,
+         src='src/jp_blank3d.js:34 jpb_1_1r（挽回中 3/29 11:00 據點自己演）'),
+    dict(k='jp_bike_shop_w', bg='jp_bike_shop', ev='ev_jpb_bike', grp=108, when='2028-03-31', h=15.0, zone='jp_hub', flags=JPD,
+         src='src/jp_blank3d.js:36 jpb_1_2（交往中 3/31 15:00 據點自己演）'),
+    dict(k='jp_bike_shop_r', bg='jp_bike_shop', ev='ev_jpb_bike_repair', grp=108, when='2028-04-08', h=15.0, zone='jp_hub', flags=JPF, narr_only=True,
+         src='src/jp_blank3d.js:37 jpb_1_2r（挽回中 4/8 15:00 據點自己演；沒遇過立衡＝旁白那一版）'),
+    dict(k='jp_supermarket', bg='jp_supermarket', ev='ev_jpb_market', grp=108, when='2028-04-01', h=16.0, zone='jp_hub', flags=JPD,
+         src='src/data/jp_blank_lines.js:51（交往中出遊；日期時間同 tests/bg108_unit.js）'),
+    dict(k='jp_morning_market', bg='jp_morning_market', ev='ev_jpb_w_market', grp=108, when='2028-04-16', h=8.0, zone='jp_hub', flags=JPD,
+         src='src/data/jp_blank_lines.js:83；212 的私訊 4/15 09:00「明天早上有早市」'),
+    dict(k='jp_old_bookstore', bg='jp_old_bookstore', ev='ev_jpb_w_books', grp=108, when='2028-05-28', h=14.0, zone='jp_hub', flags=JPD,
+         src='src/data/jp_blank_lines.js:104；215 的私訊 5/27 15:00'),
+    dict(k='jp_post_office', bg='jp_post_office', ev='ev_jpb_post', grp=108, when='2028-07-31', h=11.0, zone='jp_hub', flags=JPF, narr_only=True,
+         src='src/jp_blank3d.js:53 jpb_4_3（2028-07-31 11:00 據點自己演；挽回中＝只有旁白）'),
+    dict(k='jp_secondhand_shop', bg='jp_secondhand_shop', ev='ev_jpb_r_shop', grp=108, when='2028-05-13', h=14.0, zone='jp_hub', flags=JPF, narr_only=True,
+         src='src/jp_blank3d.js:45 jpb_2_2a（挽回中 5/13 14:00 據點自己演；沒遇過立衡＝只有旁白）'),
 ]
 RETIRED = [('gg_scooter_shop', 'ev_moot_2'), ('noodle_table', 'ev_moot_6'), ('gongguan', 'ev_y0_e19'), ('ntu_linze', 'ev_y0_e24b2')]
 SUMMARY = {}
@@ -515,14 +552,15 @@ async def info_only(p, run):
 
 async def main():
     run = L.Run('bg107', OUT); os.makedirs(OUT, exist_ok=True)
-    cases = [c for c in CASES if not ONLY or c['k'] in ONLY or c['ev'] in ONLY or c['bg'] in ONLY]
+    cases = [c for c in CASES if str(c['grp']) in GROUPS and (not ONLY or c['k'] in ONLY or c['ev'] in ONLY or c['bg'] in ONLY)]
     if ORIENT not in ('both', 'land', 'port'): run.check('ORIENT 認得', False, ORIENT); sys.exit(run.finish())
+    for x in [x for x in GROUPS if x not in ('107', 'dark', '108')]: run.check('GROUP 認得 %s' % x, False, '認得的：107,dark,108')
     known = {c['k'] for c in CASES} | {c['ev'] for c in CASES} | {c['bg'] for c in CASES} | {'info'}
     for x in [x for x in ONLY if x not in known]: run.check('IDS 認得 %s' % x, False, '認得的：%s' % ','.join(c['k'] for c in CASES))
-    print('==== cc_bg107_probe（SHA %s；%d 場［%s］；ORIENT=%s；QUIET=%s；BGONLY=%s）====' % (
+    print('==== cc_bg107_probe（SHA %s；GROUP=' + ','.join(GROUPS) + '；%d 場［%s］；ORIENT=%s；QUIET=%s；BGONLY=%s）====' % (
         os.environ.get('SHA', '?'), len(cases), ','.join(c['k'] for c in cases), ORIENT, QUIET, BGONLY), flush=True)
     async with async_playwright() as p:
-        if not ONLY or 'info' in ONLY:
+        if ('107' in GROUPS or 'dark' in GROUPS) and (not ONLY or 'info' in ONLY):
             print('---- 停用／沒有地方讀（只讀）----', flush=True)
             try: await asyncio.wait_for(info_only(p, run), 300)
             except Exception as e: run.note('INFO 只讀那一段沒跑完：%r' % e)
