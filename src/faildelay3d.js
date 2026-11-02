@@ -23,6 +23,8 @@ const FD=(function(){
     plan1:'（這學期，只要重修{課名}。其他的日子——）', plan2:'（這學期，要重修兩門課。其他的日子——）',
     lateNote:['（{課名}的重修，出席不到三堂。）','（證書，要等到六月。）'], lateCert:'延了兩個學期。……這次是真的恭喜。' };   /* AA_471 第 5 節（企劃線 763993620）：12/26（三）09:00 旁白兩句；2030-06-17（一）10:00 系辦助教那一句 */
   S.on=G=>law(G)&&!!(G.flags&&G.flags.FAIL_DELAY);   /* 被當延畢（沒有交換）*/
+  /* 大五上有重修、重修的規則照被當延畢（BB 10:21 判定：交換延畢又被當的一樣——不到三堂證書延到六月、畢業後篇跳日期停在上課前）：被當延畢，或交換路線 FAIL_DELAY_COURSES 有課（法律實習不算）*/
+  S.retakeOn=G=>S.on(G)||(exch(G)&&S.courses(G).some(id=>id!=='legal_practice'));
   /* BUG-Y4S2-NOFINAL-1102（BB_218 6879）：舊版大四下沒有期末考日，考五題的課一律算缺考 → 6/18 誤判延畢。讀檔時救：
      FAIL_DELAY_COURSES 裡「考五題、大四下沒有期末考紀錄」的拿掉；拿光了就取消延畢；國考報名是被延畢取消的（BARCANCEL）才恢復。
      沒有 BARCANCEL 的更舊存檔分不出報名是自己沒報還是被取消，照舊不動、記 FD_RESCUE_BAR_UNKNOWN（交 BB／AA 定）*/
@@ -142,10 +144,18 @@ const FD=(function(){
     return out.length?{kind:'final',term:'Y4S2',courses:out,what:S.MK_LINES.reviewWhat,makeup:true}:null; };
   S.mkReviewBlock=(G,hh)=>{ if(!S.mkPending(G)) return null; const d=S.mkDay(); if(d==null) return null; const t=now(G); return t<T(d,S.MK_AT[1])&&t+hh>T(d,S.MK_AT[1])+1e-6?S.MK_LINES.reviewBlock:null; };   /* 讀到一半會過了補考的時間 */
   /* ---------- 大五上的重修（y5s1_3d.js 的 classItems 接這裡）---------- */
-  S.slots=function(G){ const out=[], used={}; const ORDER=['am','pm1','pm2'];
+  /* K1-2、K1-3（CC_K1、BB 10:21）：原本只避開重修自己互撞，美國補修（週一、週三上午）、週二實習（交換版）佔掉的時段照排——y5s1_3d.js 的 classItems 遇到衝堂就丟掉那一門，
+     課表卻照列（「重修：海商法 週三上午」永遠上不到）。現在：衝到 Y5.busySlots 的那一門整門換到空著的時段（CLS.placeSlots，和 planRetakes 的衝堂換時段同一個做法）；
+     沒衝到的照舊（重修互撞：同一天換時段）。課表（weekHTML）、今日頁（FD.items）、上課停點（FD.clsStop）都讀這裡，三邊一致 */
+  S.slots=function(G){ const out=[], used={}; const ORDER=['am','pm1','pm2'], K=s=>s.wd+':'+s.block;
+    const busy=new Set((typeof Y5!=='undefined'&&Y5.busySlots?Y5.busySlots(G):[]).map(K));
     for(const id of S.courses(G)){ if(id==='legal_practice') continue; const c=course(id); if(!c) continue; const ss=(c.slots&&c.slots.length?c.slots:[{wd:1,block:'am'}]);
-      for(const s0 of ss){ let s={wd:s0.wd,block:s0.block}; if(used[s.wd+':'+s.block]){ const alt=ORDER.find(b=>!used[s.wd+':'+b]); if(alt) s={wd:s.wd,block:alt}; }   /* 衝堂：同一天換時段 */
-        used[s.wd+':'+s.block]=1; out.push({c,slot:s}); } }
+      const u2=Object.assign({},used); let mine=[];
+      for(const s0 of ss){ let s={wd:s0.wd,block:s0.block}; if(u2[K(s)]){ const alt=ORDER.find(b=>!u2[s.wd+':'+b]); if(alt) s={wd:s.wd,block:alt}; }   /* 衝堂：同一天換時段 */
+        u2[K(s)]=1; mine.push(s); }
+      if(busy.size&&mine.some(s=>busy.has(K(s)))){ const all=new Set(busy); for(const k in used) all.add(k); const pl=typeof CLS!=='undefined'&&CLS.placeSlots?CLS.placeSlots(ss,all):null;
+        mine=pl?pl.slots:mine.filter(s=>!busy.has(K(s))); }   /* 排不下（一週 15 個時段，不會發生）：衝到的那一堂不列，課表和今日頁一樣 */
+      for(const s of mine){ used[K(s)]=1; out.push({c,slot:s}); } }
     return out; };
   S.items=function(G,day){ if(typeof Y5==='undefined'||!Y5.term) return []; const d=day==null?G.day:day, t=Y5.term(G,d); if(!t||typeof CALENDAR==='undefined'||CALENDAR.holiday(d)||!S.courses(G).length) return [];
     const wd=CALENDAR.dateOf(d).wd, B=(typeof COURSES!=='undefined'&&COURSES.blocks)||{}, out=[];
@@ -155,12 +165,12 @@ const FD=(function(){
   S.firstLine=function(G,it){ const F=G.flags, L=F.FD_TEACHER||(F.FD_TEACHER={}); if(!it||!it.fd||L[it.c.id]) return null; L[it.c.id]=G.day; return S.LINES.teacher; };
   /* 12/24：重修過了沒（出席三堂以上）*/
   S.result=function(G){ const F=G.flags; if(F.FAIL_DELAY_PASS!=null||!S.courses(G).length) return; const r=typeof CALENDAR!=='undefined'&&CALENDAR.termDays?CALENDAR.termDays('Y5S1'):null; if(!r||G.day<=r.to) return;
-    const att=typeof CLS!=='undefined'&&CLS.ATT_PASS?CLS.ATT_PASS:3, ok=S.courses(G).filter(id=>id!=='legal_practice').every(id=>S.attended(G,id)>=att); F.FAIL_DELAY_PASS=ok; if(!ok&&S.on(G)) F.FAIL_DELAY_CERT='2030-06'; };
+    const att=typeof CLS!=='undefined'&&CLS.ATT_PASS?CLS.ATT_PASS:3, ok=S.courses(G).filter(id=>id!=='legal_practice').every(id=>S.attended(G,id)>=att); F.FAIL_DELAY_PASS=ok; if(!ok&&S.retakeOn(G)) F.FAIL_DELAY_CERT='2030-06'; };
   /* ---------- AA_471 第 5 節：重修不到三堂（證書延到六月）——12/26（三）09:00 旁白兩句、2030-06-17（一）10:00 系辦領證書（照 r2y4b3d.js 的 S.cert）---------- */
   const ATT=()=>typeof CLS!=='undefined'&&CLS.ATT_PASS?CLS.ATT_PASS:3;
   S.short=G=>S.courses(G).filter(id=>id!=='legal_practice'&&S.attended(G,id)<ATT());   /* 出席不到三堂的那幾門 */
   S.lateFill=(G,t)=>{ const L=S.short(G); return L.length?String(t).replace(/\{課名\}/g,L.map(S.cname).join('、')):S.fill(G,t); };   /* {課名}＝不到三堂的那一門（只有一門被當＝FD.fill 同一門）*/
-  S.lateLikely=G=>{ const F=G.flags||{}; if(F.FAIL_DELAY_PASS!=null) return S.certLate(G); return S.on(G)&&S.courses(G).length>0&&S.short(G).length>0; };   /* 12/24 以前照目前的出席算（跳到下一件事的途中不會多上課；後面還有課的，那一堂的停點比較早）*/
+  S.lateLikely=G=>{ const F=G.flags||{}; if(F.FAIL_DELAY_PASS!=null) return S.certLate(G); return S.retakeOn(G)&&S.short(G).length>0; };   /* 12/24 以前照目前的出席算（跳到下一件事的途中不會多上課；後面還有課的，那一堂的停點比較早）*/
   S.NOTE_AT=['2029-12-26',9]; S.CERT_AT=['2030-06-17',10];
   S.lateNote=async function(GM){ const G=GM.G; GM.sceneBegin(); try{ for(const t of S.LINES.lateNote) await GM.say(null,S.lateFill(G,t)); } finally { GM.sceneEnd(); } return true; };
   S.lateCert=async function(GM){ if(typeof R2Y4B==='undefined'||!R2Y4B.cert) return false; return R2Y4B.cert(GM,{key:S.CERT_AT[0],ta:S.LINES.lateCert,tag:'fd'}); };   /* 手機「畢業證書已可領取。」、12:00 媽媽那一則照 S.cert（tag fd_cert_sys、fd_cert_mom）*/
@@ -169,12 +179,12 @@ const FD=(function(){
   if(typeof PG!=='undefined'&&Array.isArray(PG.STEPS)&&!PG.STEPS.some(s=>s.id==='fd_grades_y4s2')){ const gd=()=>typeof CALENDAR!=='undefined'&&CALENDAR.gradeDay?CALENDAR.gradeDay('Y4S2'):null;
     PG.STEPS.push({id:'fd_grades_y4s2',at:G=>{ const d=gd(); return d==null?null:T(d,9); },until:G=>{ const d=gd(); return d==null?null:T(d+2,24); },cond:G=>law(G)&&typeof CLS!=='undefined'&&!!CLS.rec&&!CLS.rec(G).grades.Y4S2,run:GM=>CLS.showGrades(GM,'Y4S2')}); }   /* 畢業後篇跳日期：停在 6/18 發成績單 */
   if(typeof PG!=='undefined'&&Array.isArray(PG.STEPS)&&!PG.STEPS.some(s=>s.id==='fd_late_note')){ const at=A=>{ const d=DK(A[0]); return d==null?null:T(d,A[1]); };
-    PG.STEPS.push({id:'fd_late_note',at:G=>at(S.NOTE_AT),until:G=>{ const d=DK('2030-01-20'); return d==null?null:T(d,24); },cond:G=>S.on(G)&&S.certLate(G),run:GM=>S.lateNote(GM)},   /* AA_471 第 5 節 1（記號 12/24 記下以後第一次停）*/
-      {id:'fd_late_cert',at:G=>at(S.CERT_AT),until:G=>{ const d=DK('2030-06-30'); return d==null?null:T(d,24); },cond:G=>S.on(G)&&S.certLate(G),run:GM=>S.lateCert(GM)});   /* AA_471 第 5 節 2 */
-    if(Array.isArray(PG.stops)) PG.stops.push(G=>{ if(!S.on(G)||(PG.done&&PG.done(G,'fd_late_note'))||!S.lateLikely(G)) return null; const t=at(S.NOTE_AT); return t!=null&&t>now(G)?t:null; }); }   /* 12/24 記號還沒記的時候就排好 12/26 09:00 的停點（長跳每 6 小時看一次，不然會停在 11:00）*/
+    PG.STEPS.push({id:'fd_late_note',at:G=>at(S.NOTE_AT),until:G=>{ const d=DK('2030-01-20'); return d==null?null:T(d,24); },cond:G=>S.retakeOn(G)&&S.certLate(G),run:GM=>S.lateNote(GM)},   /* AA_471 第 5 節 1（記號 12/24 記下以後第一次停）*/
+      {id:'fd_late_cert',at:G=>at(S.CERT_AT),until:G=>{ const d=DK('2030-06-30'); return d==null?null:T(d,24); },cond:G=>S.retakeOn(G)&&S.certLate(G),run:GM=>S.lateCert(GM)});   /* AA_471 第 5 節 2 */
+    if(Array.isArray(PG.stops)) PG.stops.push(G=>{ if(!S.retakeOn(G)||(PG.done&&PG.done(G,'fd_late_note'))||!S.lateLikely(G)) return null; const t=at(S.NOTE_AT); return t!=null&&t>now(G)?t:null; }); }   /* 12/24 記號還沒記的時候就排好 12/26 09:00 的停點（長跳每 6 小時看一次，不然會停在 11:00）*/
   /* BUG-DELAY-RETAKE-SKIP-1102（CC M1、BB 09:57）：畢業後篇跳日期（PG.nextStop）原本看不到重修課——9/2 一跳就到 12/14，中間沒機會上課，12/26 就「不到三堂、證書延到六月」。
      還不到三堂的那幾門：下一堂上課前 45 分鐘當停點（Y5.status 上課前 1 小時起是 open；剛好 1 小時會因為小數誤差差一點點還沒開）；到三堂、12/24 判過了、剩下的堂數已經湊不到三堂（BB 10:05）就不再停 */
-  S.clsStop=function(G){ if(!S.on(G)||G.flags.FAIL_DELAY_PASS!=null||typeof Y5==='undefined'||!Y5.classItems||!Y5.status) return null; const need=S.short(G); if(!need.length) return null;
+  S.clsStop=function(G){ if(!S.retakeOn(G)||G.flags.FAIL_DELAY_PASS!=null||typeof Y5==='undefined'||!Y5.classItems||!Y5.status) return null; const need=S.short(G); if(!need.length) return null;
     const r=typeof CALENDAR!=='undefined'&&CALENDAR.termDays?CALENDAR.termDays('Y5S1'):null; if(!r) return null; const t=now(G), L={};
     for(let d=Math.max(G.day,r.from);d<=r.to;d++){ for(const it of Y5.classItems(G,d)){ if(!it.fd||!need.includes(it.c.id)) continue; const st=d===G.day?Y5.status(G,it):'upcoming'; if(st==='done'||st==='missed') continue;
       (L[it.c.id]||(L[it.c.id]=[])).push(T(d,it.t0-0.75)); } }
