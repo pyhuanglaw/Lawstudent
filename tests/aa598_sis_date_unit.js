@@ -4,7 +4,8 @@
 //   1  第 1～92 列：同一個地點、同一個位置（學姊 heroine_05 的 lines／dislikeLine）現在是「改成」那一句；原句在那個地點學姊的台詞裡一句都不剩
 //   2  對稿：每一列的原句、改成都和稿上第 n 列一樣；第 16、85 列照第 8 節第 4、9 點（表上沒跟著改）；第 8 節第 6 點九份（保753）
 //   3  新句每句 ≤40 字、最多一個「……」；不說「研究室」（決1 採甲）；D11 北投圖書館的九句都是小聲講；D15 草地那一句是新句（稿 7-6）
-// 修改前（int/m590 d7a468868）：第 0～3 項 FAIL（D15 那一項除外）。用法：node tests/aa598_sis_date_unit.js（在沒有 .git 的目錄跑：設環境變數 AA598_DOCREPO＝有企劃線 commit 的 repo）
+//   4  AA_591 整合決定第 9 點：D12 老茶行「這種茶我媽每天喝。我小時候覺得好苦。」（白名單 D12.json＝43d27cd80）；學姊約會台詞不提爸爸
+// 修改前（int/m590 d7a468868）：第 0～4 項 FAIL（D15 那一項除外）。用法：node tests/aa598_sis_date_unit.js（在沒有 .git 的目錄跑：設環境變數 AA598_DOCREPO＝有企劃線 commit 的 repo）
 'use strict';
 const fs=require('fs'), path=require('path'), cp=require('child_process');
 const ROOT=path.resolve(__dirname,'..');
@@ -152,6 +153,14 @@ const lib=ROWS.filter(r=>r[2].startsWith('lines/hotspots/D11.library/'));
 check('3. D11 北投圖書館九句（第 16～24 列）都是小聲講、沒有「……」',lib.length===9&&lib.every(r=>/（小聲）|她小聲說）/.test(r[4])&&!r[4].includes('……')),J(lib.map(r=>r[4])));
 const D15=at('D15','lines/hotspots/D15.sky/normal/0/lines/0');
 check('3. D15 停車場邊的草地平常第 1 套是 AA_436 的新句（稿 7-6；企劃線 D15.py:23 還是舊句，D15.json 和遊戲是新句）',D15==='上次那顆是飛機。……今天雲比較多，連飛機都沒有。',D15);
+
+/* 4 AA_591「整合時的 AA 決定」第 9 點（企劃線 43d27cd80，D12.py、D12.json 已改；白名單 D12.json 換到 43d27cd80 重匯）：她爸爸在遊戲開始前過世、不提 */
+const TEA_OLD='這種茶我爸以前每天喝。我那時候覺得好苦。', TEA_NEW='這種茶我媽每天喝。我小時候覺得好苦。';
+const d12=allow.files.filter(e=>e.path==='docs/story_planning/date_system/lines/D12.json');
+check('4. 白名單 D12.json＝43d27cd80（approved；舊的 a5b936a69 留在 history）',d12.length===1&&d12[0].sha==='43d27cd80'&&d12[0].status==='approved'&&(d12[0].history||[]).some(h=>h.sha==='a5b936a69')&&String(DL.source).includes('D12.json@43d27cd80'),J(d12.map(e=>e.sha)));
+check('4. D12 老茶行第一次：學姊說「'+TEA_NEW+'」（同一個位置），「我爸」那句整個檔都不在',at('D12','lines/hotspots/D12.tea/first/lines/1')===TEA_NEW&&!src.includes(TEA_OLD),at('D12','lines/hotspots/D12.tea/first/lines/1'));
+const dad=[]; for(const loc of Object.keys(DL.loc)) for(const s of allHers(loc)) if(/我爸|爸爸/.test(s)) dad.push(loc+' '+s);
+check('4. 學姊的約會地點台詞不提爸爸',!dad.length,J(dad));
 
 console.log(fails?('FAIL '+fails+' 項'):'全部通過');
 process.exit(fails?1:0);

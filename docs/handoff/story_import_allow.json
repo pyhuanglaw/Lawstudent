@@ -540,7 +540,7 @@
   },
   {
    "path": "docs/story_planning/date_system/lines/D12.json",
-   "sha": "a5b936a69",
+   "sha": "43d27cd80",
    "status": "approved",
    "approvedBy": "AA-C 2026-10-21 12:57Z 約會台詞 32 個地點全部口語審完＋跨地點去重（send_message 12:57Z）：同一人跨地點同一句 0 組、綁選項的「記得上次」0 句；只改引號裡的字，key／tier／likes／選項數／互動點不變；請以 57de1709 整批重新匯入",
    "task": "DATE-S6",
@@ -548,9 +548,13 @@
     {
      "sha": "57de1709",
      "note": "AA_439 以前"
+    },
+    {
+     "sha": "a5b936a69",
+     "note": "AA_439 禁用句總掃描；AA_591 整合決定第 9 點以前"
     }
    ],
-   "note": "a5b936a69：AA_439 禁用句總掃描"
+   "note": "a5b936a69：AA_439 禁用句總掃描；43d27cd80（2026-11-02 子代理代登 sisdate，給值班 LAWWW 核）：AA_591「整合時的 AA 決定」第 9 點，學姊 D12.tea 第一次「這種茶我爸以前每天喝。我那時候覺得好苦。」→「這種茶我媽每天喝。我小時候覺得好苦。」（她爸爸在遊戲開始前過世、不提；任務 AA598-SIS-1C-1102 一起做）。a5b936a69→43d27cd80 這個檔另外只有可昕兩處政大→木柵大學（RENAME-1030；import_guard 讀稿時本來就換名，遊戲不變）"
   },
   {
    "path": "docs/story_planning/date_system/lines/D13.json",
