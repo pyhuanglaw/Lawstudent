@@ -1,0 +1,23 @@
+{
+  "rerun": "",
+  "id": "X_G4v2",
+  "sha": "62d98bfa5",
+  "kind": "probe",
+  "script": "docs/story_planning/test_tools/cc/flow_main_day12_v2.py",
+  "env": "",
+  "machine": "MSI",
+  "start": "2026-11-03T06:46:10",
+  "end": "2026-11-03T06:50:27",
+  "seconds": 257,
+  "exit": 0,
+  "error": null,
+  "runner": "a98287fbd6",
+  "rf_round": "5",
+  "url": "http://127.0.0.1:8807/index.html",
+  "res_peak": {
+    "cpu": 46,
+    "mem": 54,
+    "used_gb": 17.1,
+    "chrome_testing": 29
+  }
+}
