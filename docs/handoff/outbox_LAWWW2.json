@@ -5346,6 +5346,25 @@
    "noDirectIntegrate": false,
    "note": "樹在平台 (78.9, ±12.4)，nav.blockCircle 0.75（放在 LIB-FRONT freeRect 後面）；lib_front_unit 多一項（樹擋住、兩邊走得過去）。雲端：Node 3 支、campus_layout_nav 82 項、reachability_all(campus) 45 互動點都 ALL PASS；改前改後截圖各 5 張沒有 JS 例外",
    "integrated": "LAWWW 19:34 ACK：已進 int/m590（incr patch apply 乾淨；lib_front、lib_lawn、campus_hall_pillar_seethru、nav_buildings ALL PASS）"
+  },
+  {
+   "branch": "claude/second-ai-env-art",
+   "sha": "(本 commit)",
+   "receiver": "LAWWW",
+   "ack": "SENT",
+   "task": "LIB-FRONT-1102 v3.2（BB_234 ①③④：拱廊深度、白石立面線腳、近看磚石）",
+   "files": [
+    "assets/models/env/second_ai/campus_library.glb",
+    "assets/models/env/second_ai/campus_library.json",
+    "assets/models/env/second_ai/campus_library.layout.json",
+    "tools/blender/env_second/campus_library.py",
+    "docs/art-rebuild/second_ai/test_shots/lib_front_v32_1102/README.md"
+   ],
+   "state": "已交付（READY_FOR_ART_REVIEW；BB 場景驗收，建築最終美術要使用者確認）",
+   "remaining": "拱廊後牆花崗石近看一格一格；白石線腳遠看不明顯；campus_glb_integration、實機沒跑",
+   "next": "只換三個二進位（layout.json 和 v3.1 一模一樣、材質名字不變，程式不用改）；跑 lib_front_unit 等 3 支、reachability_all(campus)",
+   "noDirectIntegrate": false,
+   "note": "拱廊後牆白石→花崗石、天花板 #e6e1d7→#a49d91、中間三拱吊燈（玻璃晚上亮）；白石面壁柱／腰帶／簷口／拱心石／拱墩；磚法線 1.2＋對比 1.25、石材法線 0.9。材質 13→13、三角形 8771→9081。Node 3 支 ALL PASS，截圖 13 張沒有 JS 例外"
   }
  ]
 }
