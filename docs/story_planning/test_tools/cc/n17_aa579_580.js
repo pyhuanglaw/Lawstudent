@@ -41,8 +41,8 @@ function walk(fk,who,p,v,ctx){
     v.forEach((x,i)=>{ let tag=''; if(x&&typeof x==='object'&&!Array.isArray(x)){ if(x.id) tag='{'+x.id+'}'; else if(x.topic) tag='{'+x.topic+'/'+x.tier+(x.cond?'/'+x.cond:'')+(x.tags&&x.tags.length?'/'+x.tags.join(','):'')+'}'; else if(x.one) tag='{'+x.one+'}'; else if(x.t&&typeof x.t==='string') tag='{'+x.t+'}'; }
       walk(fk,who,p+'['+i+']'+tag,x,ctx); }); return; }
   if(typeof v==='object'){
-    for(const k in v){ if(SKIP.has(k)||/Text$/.test(k)) continue;
-      let w=who; if(k==='t'&&/choices\[\d+\][^.]*$/.test(p)) w='祐廷（選項）'; if(k==='t'&&/opts\[\d+\][^.]*$/.test(p)) w='祐廷（選項）';
+    for(const k in v){ if((SKIP.has(k)&&!(k==='note'&&/REL_LINES\.[^.]+\.cafe$/.test(p)))||/Text$/.test(k)) continue;   /* rel_lines 的 cafe.note 是會播的便條旁白，其他地方的 note 是說明 */
+      let w=who; if(k==='t'&&/choices\[\d+\][^.]*$/.test(p)) w='祐廷（選項）'; if(k==='t'&&/(opts|ch)\[\d+\][^.]*$/.test(p)) w='祐廷（選項）';
       walk(fk,w,p+'.'+k,v[k],ctx); } }
 }
 const ID5='heroine_05', ID1='heroine_01';
@@ -78,14 +78,20 @@ function findSeq(fk,cid,ps){ const cand=LEAVES.filter(l=>l.fk===fk&&charOf(l)===
   for(const c of cand){ if(ps.length===1){ hits.push(c.path); continue; } const m=/^(.*)\[(\d+)\]([^\[\]]*)$/.exec(c.path); if(!m) continue; const base=m[1], i0=+m[2]; let ok=true;
     for(let j=1;j<ps.length;j++){ const re=new RegExp('^'+base.replace(/[.*+?^${}()|[\]\\]/g,'\\$&')+'\\['+(i0+j)+'\\]'); if(!LEAVES.some(l=>l.fk===fk&&re.test(l.path)&&l.v===ps[j])) { ok=false; break; } }
     if(ok) hits.push(c.path); } return hits; }
-// 位置提示 → 路徑必須含的字串
-function hintOK(fk,pos,p){
-  if(fk==='ladder'){ const m=/ladder\.js:\d+ (Y\dS\d) (\S+)/.exec(pos); if(!m) return null; const term=m[1]; let f=m[2];
-    let want; if(/^greet\./.test(f)) want='byTerm.'+term+'.heroine_01.'+f; else { const k=f.indexOf('.'); want='{'+f.slice(0,k)+'}'+f.slice(k); }
-    return p.includes('byTerm.'+term+'.heroine_01')&&p.replace(/\{[^}]*\}(?=\.)/g,s=>s).includes(want.replace('byTerm.'+term+'.heroine_01.','heroine_01.'))||p.includes(want); }
-  const toks=(pos.replace(/^`?[a-z_0-9]+\.js:\d+(–\d+)?`?/,'').match(/[A-Za-z_][A-Za-z_0-9]*/g)||[]).filter(t=>!/^(js|here|acc|rule|people|R|A|L|F|CLOSE_FRIEND|FRIEND|FAMILIAR|ACQUAINTANCE)$/.test(t)||true);
-  const miss=toks.filter(t=>!p.includes(t)); return {miss};
-}
+// 位置提示 → 路徑必須含的字串（ladder：學期＋層 id＋欄位；其他檔：位置欄的英文字樣，括號裡的說明不算；有 sisN／anN／w118_an_N 時只看它）
+const normP=p=>p.replace(/\{[^}]*\}/g,m=>/^\{[A-Z]\d*-L\d+\}$/.test(m)?m:'');
+function hintToks(fk,pos){
+  if(/^新/.test(pos)||/AA_415/.test(pos)) return null;
+  if(fk==='ladder'){ const m=/ladder\.js:\d+ (Y\dS\d) (\S+)/.exec(pos); if(!m) return null; const f=m[2]; const k=f.indexOf('.');
+    return {ladder:true,want:'byTerm.'+m[1]+'.heroine_01.'+(/^greet\./.test(f)?f:'steps[*]{'+f.slice(0,k)+'}'+f.slice(k))}; }
+  const body=pos.replace(/^`?[a-z_0-9]+\.js:\d+(–\d+)?`?/,'').replace(/（[^）]*）/g,'').replace(/「[^」]*」/g,'');
+  const toks=body.match(/[A-Za-z_][A-Za-z_0-9]*/g)||[]; const idt=toks.find(t=>/^(sis\d+|an\d+|w118_an_\d+)$/.test(t));
+  let nth=null; const m2=/第 (\d+) 則/.exec(pos); if(m2) nth=+m2[1]-1;
+  return {toks:idt?[idt]:toks.filter(t=>!/^(js)$/.test(t)),nth,idt}; }
+function hintOK(h,p){ if(!h) return true; const q=normP(p);
+  if(h.ladder){ const w=h.want.replace('steps[*]',''); const qq=q.replace(/steps\[\d+\]/,''); return qq.endsWith(w.replace(/^byTerm\.[^.]+\.heroine_01\./,'.').slice(1))&&q.includes(h.want.split('.heroine_01')[0]); }
+  if(!h.toks.every(t=>new RegExp('(^|[.\\[{])'+t+'([.\\]}\\[]|$)').test(q))) return false;
+  return true; }
 const OVR579={7:{want:'考試週先複習就好。',why:'BB_228：第 7 列只留前半句'}};
 function checkRow(batch,r){
   const fk=fileOfPos(r.pos)||'invite_replies'; const cid=batch==='579'?ID5:ID1; const out={batch,n:r.n,pos:r.pos,who:r.who,orig:r.orig,to:r.to,file:FILES[fk],fk};
@@ -93,11 +99,13 @@ function checkRow(batch,r){
   if(batch==='579'&&r.n==='36'){ const L=REL_LINES[ID5].up.FAMILIAR.l; out.want='（刪）：up.FAMILIAR.l 只剩一則'; out.act=J(L); out.paths=['REL_LINES.heroine_05.up.FAMILIAR.l']; out.ok=Array.isArray(L)&&L.length===1; }
   else if(batch==='579'&&r.n==='39'){ const c=REL_LINES[ID5].contact; out.want="contact.DATING='貝貝'（手機聯絡人）、對話框名另欄＝'溫書瑀'"; out.act='DATING='+J(c.DATING)+'，DATING_NAME='+J(c.DATING_NAME); out.paths=['REL_LINES.heroine_05.contact']; out.ok=c.DATING==='貝貝'&&c.DATING_NAME==='溫書瑀'; }
   else { let want=OVR579[r.n]&&batch==='579'?OVR579[r.n].want:r.to; if(OVR579[r.n]&&batch==='579') out.note=OVR579[r.n].why; out.want=want;
-    const ps=parts(want); const hits=findSeq(fk,cid,ps); out.paths=hits; out.ok=hits.length>0;
-    out.act=hits.length?want:'（遊戲資料裡找不到）';
-    if(hits.length){ const hk=hits.map(p=>hintOK(fk,r.pos,p)); out.hint=hk; } }
+    const ps=parts(want); const all=findSeq(fk,cid,ps); const h=hintToks(fk,r.pos); const hits=all.filter(p=>hintOK(h,p));
+    out.paths=hits; out.others=all.length-hits.length; out.ok=hits.length>0; out.hintTok=h;
+    out.act=hits.length?want:(all.length?'（字串在，但不在位置欄指的地方：'+all.join(' ; ')+'）':'（遊戲資料裡找不到）'); }
   // 行號
-  const first=parts(out.want||'')[0]||''; const ln=first&&!/^（刪|contact/.test(first)?lineOf(fk,first.length>24?first.slice(0,24):first):[];
+  const first=parts(out.want||'')[0]||''; const tok=out.hintTok&&out.hintTok.toks&&out.hintTok.toks.length?out.hintTok.toks[out.hintTok.toks.length-1]:null;
+  const key=first.length>24?first.slice(0,24):first; let ln=first&&!/^（刪|contact/.test(first)?lineOf(fk,key):[];
+  if(ln.length>1&&tok){ const l2=ln.filter(i=>TXT[fk][i-1].includes(tok)); if(l2.length) ln=l2; }
   out.lines=out.n==='39'?lineOf('rel_lines',"DATING:'貝貝'"):out.n==='36'&&batch==='579'?lineOf('rel_lines','你最近很常來法圖'):ln;
   // 原句還在不在（她的台詞欄位裡完全相同的字串；另列整個檔逐行 grep 的次數，含註解）
   const op=r.orig&&!/^（新）$/.test(r.orig)?parts(r.orig):[];
@@ -131,8 +139,8 @@ const NEWSPEC={'新1':{st:[1,1],tags:['library','晚上']},'新2':{st:[1,2],tags
 const NEW=[]; for(const n in NEWSPEC){ const x=R1.find(y=>y.batch==='580'&&y.n===n); const r=INVITE_REPLIES.people[ID1].find(q=>J(q.lines)===J([x.want])); NEW.push({n,want:x.want,found:r?r.id:null,st:r&&r.st,tags:r&&r.tags,k:r&&r.k,off:r&&r.off,src:r&&r.src,spec:NEWSPEC[n]}); }
 
 console.log('=== ① 逐列比對 ===');
-for(const x of R1){ const hm=x.hint&&x.hint.map(h=>h===true?'':h===false?'位置不符':(h&&h.miss&&h.miss.length?'位置字樣缺:'+h.miss.join(','):'')).filter(Boolean);
-  console.log((x.ok?'OK  ':'DIFF')+' AA_'+x.batch+' #'+x.n+' '+x.file+':'+(x.lines||[]).join(',')+' 取法='+(x.paths||[]).join(' ; ')+' 實際='+x.act+(x.ok?'':' 期望='+x.want)+(hm&&hm.length?' 〔'+hm.join('｜')+'〕':'')+(x.origLeft.length?' ※原句仍在台詞:'+x.origLeft.join('／'):'')+(x.origRaw.length?' （檔內原句字串:'+x.origRaw.join('／')+'）':'')); }
+for(const x of R1){
+  console.log((x.ok?'OK  ':'DIFF')+' AA_'+x.batch+' #'+x.n+' '+x.file+':'+(x.lines||[]).join(',')+' 取法='+(x.paths||[]).join(' ; ')+(x.others?'（同字串另有 '+x.others+' 處，非本列位置）':'')+' 實際='+x.act+(x.ok?'':' 期望='+x.want)+(x.origLeft.length?' ※原句仍在台詞:'+x.origLeft.join('／'):'')+(x.origRaw.length?' （檔內原句字串:'+x.origRaw.join('／')+'）':'')); }
 for(const x of LINK) console.log((x.ok?'OK  ':'DIFF')+' '+x.k+' 實際='+x.act+(x.ok?'':' 期望='+x.want));
 console.log('-- 新增答應句 --'); NEW.forEach(x=>console.log(J(x)));
 console.log('-- invite_replies say 欄和 lines 不同步（說明欄，只報告）：'+SAY.length); SAY.forEach(s=>console.log('   '+s));
