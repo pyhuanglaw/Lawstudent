@@ -300,7 +300,7 @@ const VACFILL_EVENTS=(function(){
         {speaker:null,text:X2.y1s_0624.narr2}, {speaker:'kai',text:X2.y1s_0624.kai3}, {speaker:null,text:X2.y1s_0624.end} ] },
     /* 第 5-1 節 大二暑假 7/11（日）15:00 溫州街的冰店（阿凱）：背景還沒有溫州街的 2D 圖（OUT.BG.wenzhou image null）＝深色底＋地點字幕 */
     { id:'ev_vf_y2s_0711', title:'溫州街的冰店', participants:['kai'], location:'any', trigger:'outing', once:true, background:'dark', hours:1,
-      dialogue:[ {scene:'溫州街的冰店',bg:'wenzhou'}, {speaker:null,text:X2.y2s_0710.narr}, {speaker:'kai',text:X2.y2s_0710.kai},
+      dialogue:[ {scene:'溫州街的冰店',bg:'wenzhou_ice'},   /* 11-02 使用者生成（BB_132 第 102 組第 4 張；原本 wenzhou 沒有圖＝深色底）*/ {speaker:null,text:X2.y2s_0710.narr}, {speaker:'kai',text:X2.y2s_0710.kai},
         choice(X2.y2s_0710.opts,['a','b']),
         {label:'a'},{speaker:'kai',text:X2.y2s_0710.say[0]},{goto:'e'},
         {label:'b'},{speaker:'kai',text:X2.y2s_0710.say[1]},

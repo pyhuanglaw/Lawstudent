@@ -10,13 +10,12 @@ const SPECIAL=new Set(['dark','blur','video','freeze']);
 /* 不是 OUT.BG 的鍵（別的系統自己解讀）：jp3d 的房間；zq_testbuild3d 是測試建置 */
 const OTHER_FILES=new Set(['jp3d.js','data/jp_blank_lines.js','zq_testbuild3d.js']);   /* vac_activities.js 也走 OUT.bg（vac3d.js 的 S.key），要查 */
 const PENDING={   /* 鍵：任務（BG-DARK-SCENES-1024 第二批：LAWWW2 從 3D 拍；BB 向使用者要的另外寫）*/
-  ntu_library_rain:'BG-DARK-SCENES-1024（BB 向使用者要）', community_room:'BG-DARK-SCENES-1024（BB 向使用者要）', us_club_lawn:'BG-DARK-SCENES-1024（BB 向使用者要）',
-  botanical_lotus:'BB 要圖（AA_379）', vf_lantern:'BG-LANTERN-1024',
+  ntu_library_rain:'BG-DARK-SCENES-1024（BB 向使用者要）', community_room:'BG-DARK-SCENES-1024（BB 向使用者要）',
+  botanical_lotus:'BB 要圖（AA_379）',
   court_hall:'BB 要圖（AA_498 4-3 曾靖雯的旁聽：臺北地方法院；稿寫「沒有＝深色底」，src/pool3d.js 執行時登記 OUT.BG.court_hall image:null）',
   /* AA_499～501 第 6／7／5 節「新的 2D 場景（沒有背景圖＝深色底）」：src/pool_more3d.js 執行時登記 image:null（NPC-STORY-1028）*/
   radio_room:'BB 要圖（AA_499 2-5 徐靜儀：廣播社的錄音間）', putong_empty:'BB 要圖（AA_499 3-3 詹立群：普通教學館的空教室）', welfare_room:'BB 要圖（AA_499 4-3 蘇承恩：社福中心的教室）',
   law_courtyard:'BB 要圖（AA_499 5-3 馬佳蓉：搬影印機，法學院前庭）', boya_201:'BB 要圖（AA_500 3-3 楊書豪：博雅 201 社內賽）', phil_cafe:'BB 要圖（AA_501 3-3 廖芸萱：文學院的教室，哲學咖啡館）',
-  us_c_laundry:'BB 要圖（AA_512 13-6 美國 C 棟地下室的洗衣間；稿寫「沒有洗衣間場景就用 2D 背景」，src/sis_b13_3d.js 執行時登記 OUT.BG.us_c_laundry image:null）',
   /* AA_516 4-3、4-4（SIS-B14-1028）：稿寫 2D；沒有圖＝深色底＋地點字幕，src/sis_b14_3d.js 執行時登記 image:null */
   us_coat_shop:'BB 要圖（AA_516 4-3 美國：草原超市旁邊那家店，挑外套）', us_c_door:'BB 要圖（AA_516 4-4 美國：C 棟門口，下雨的晚上）',
   /* AA_520 4-2（NPC-STORY2-1028）：予樂那一場演講，霖澤館 201 的階梯教室（晚上，坐了一半）；src/yule3d.js 執行時登記 image:null */
