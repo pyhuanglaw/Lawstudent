@@ -1,0 +1,115 @@
+[gpu_wrap] CC_GPU=1 跑 C:\Users\USER\Documents\Lawstudent_cclocal\docs\story_planning\test_tools\cc\cc_rollcall_probe.py http://127.0.0.1:8801/index.html C:\Users\USER\Documents\Lawstudent_cclocal\docs\story_planning\CC\local_out\R9_roll\out
+PASS 遊戲載入
+==== CASE a（SHA b1b249873）====
+  [前置／捷徑] [前置] 只讀預測用：最小存檔 2025-10-06 10:00 宿舍（examSeed 777；只用來算點名週，不操作）
+  [  30.5s] 【捷徑：只讀】Y1S1 看出席的課＋點名週預測（種子 777；ROLLW＝探針算的、real＝CLS.rollWeeks 對拷貝算的；頁面有 rollWeeks：True）：[["pe_y1s1", "體育", [4, 10, 13, 15], [4, 10, 13, 15], "calc", [[1, "pm2"]]], ["chinese_y1", "大一國文（上）", [4, 10, 12, 13], [4, 10, 12, 13], "calc", [[2, "am"]]], ["ge_film_y1s1", "通識：電影與敘事", [6, 7, 11, 14], [6, 7, 11, 14], "calc", [[2, "pm1"]]], ["english_y1", "大一英文（上）", [4, 6, 10, 11], [4, 6, 10, 11], "calc", [[4, "am"]]], ["econ_principles_1", "經濟學原理（上）", [4, 7, 11, 14], [4, 7, 11, 14], "calc", [[5, "am"]]]]
+PASS 只讀預測：探針的 ROLLW 和遊戲的 CLS.rollWeeks 一樣（每一門）  []
+PASS a：前置成立＝有 clean 那種課  [["pe_y1s1", [4, 10, 13, 15]], ["chinese_y1", [4, 10, 12, 13]], ["ge_film_y1s1", [6, 7, 11, 14]], ["english_y1", [4, 6, 10, 11]], ["econ_principles_1", [4, 7, 11, 14]]]
+PASS a：前置成立＝體育 有一堂點名週的課（只讀預測）  {"day": 48, "key": "48:pe_y1s1:pm2", "week": 10, "wd": 1, "date": "2025-11-03", "t0": 15.5, "t1": 17.333333333333332}
+  [前置／捷徑] [前置] a：最小存檔 2025-11-03 14:54 宿舍（體育 第 10 週那一堂 15:30 開始前 36 分鐘；examSeed 777；rollSince＝-9999＝新規則的存檔）；【前置】讀檔後在頁面裡組 R 紀錄 → {"out": {"econ_principles_1": {"went": [3, 4, 5, 7, 9], "miss": []}, "pe_y1s1": {"went": [4, 8, 9], "miss": []}, "chinese_y1": {"went": [4, 5, 6, 7, 8, 9], "miss": []}, "ge_film_y1s1": {"went": [4, 5, 6, 7, 8, 9], "miss": []}, "english_y1": {"went": [4, 5, 6, 7, 8, 9], "miss": []}}, "attend": {"econ_principles_1": 5, "pe_y1s1": 3, "chinese_y1": 6, "ge_film_y1s1": 6, "english_y1": 6}, "rollSince": -9999}
+PASS a：2025-11-03 有那一堂（只讀）  {"key": "48:pe_y1s1:pm2", "cid": "pe_y1s1", "name": "體育", "week": 10, "t0": 15.5, "t1": 17.333333333333332, "room": "體育館", "status": "upcoming"}
+  [  65.2s] a：結束 {"day": 48, "key": "2025-11-03", "h": 17.335, "zone": "campus"}；換區域 [["campus", 15.333]]；事件 []；上課 {"key": "48:pe_y1s1:pm2", "week": 10, "t0": 15.5, "lateMin": 0, "isLateAbs": false, "kind": "general", "i": 3, "h": 15.337, "z": "campus"} → {"ret": true, "done": true, "late": false, "abs": false}
+  [  65.2s] a：上課的台詞（CLS.attend 以後前 14 句）[["", "（老師今天點名。）"], ["", "體育老師：期中測驗：跑步。量的是你自己的進步。"], ["", "同學：「我的社團比體育課還累。」"]]
+PASS a：手機「今天」有「直接去上課」（直接去上課）  11/3 週一・大一上 第 10 週
+現在 14:57
+今天的時間　上午 ○　下午 ○　晚上 ○
+每個時段一件主要的事：上課、社團活動、出遊約會、自習、打工、自由出行、健身都算一件（上課、約好的出遊照樣能去）；吃飯、聊天、約好的見面不算。
+09:10–12:10 憲法（上）
+法律系館A 201・張老師・沒去
+15:30–17:20 體育
+體育館・還沒開始
+直接去上課
+法律學院圖書館：今天 08:10–21:45　總圖：08:00–22:00
+跳過時間
+沒有想做的事可以跳過；遇到特殊課堂、約好的時間、劇情會停下來。
+等到下一堂課前（15:20）
+等到傍晚（17:30）
+等到晚上（20:00）
+翹
+PASS a：一鍵上課坐下、上完（沒有卡住、沒有遲到超過 15 分鐘）  {"end": {"day": 48, "key": "2025-11-03", "h": 17.335, "zone": "campus"}, "stuck": null, "fin": {"ret": true, "done": true, "late": false, "abs": false}, "att": {"key": "48:pe_y1s1:pm2", "week": 10, "t0": 15.5, "lateMin": 0, "isLateAbs": false, "kind": "general", "i": 3, "h": 15.337, "z": "campus"}}
+PASS a：點名週（第 10 週，點名週 [4, 10, 13, 15]）＝「（老師今天點名。）」剛好一次、在開始上課（CLS.attend）以後、旁白（沒有名字）  {"hits": [["", "（老師今天點名。）", "campus", 15.337, 5]], "attend_i": 3}
+PASS a：上完以後手機「課表」寫「體育 點過 2 次名」（點過＝≤ 第 10 週的點名週 [4, 10]，都到了）  {"line": "憲法（上） 0 次、體育 點過 2 次名、大一國文（上） 點過 1 次名、通識：電影與敘事 點過 2 次名、刑法總則（一） 0 次、服務學習（一） 0／9 次、大一英文（上） 點過 2 次名、民法總則 0 次、經濟學原理（上） 點過 2 次名", "shot": "C:\\Users\\USER\\Documents\\Lawstudent_cclocal\\docs\\story_planning\\CC\\local_out\\R9_roll\\out\\03_a_week.png"}
+==== CASE a0（SHA b1b249873）====
+PASS a0：前置成立＝有 clean 那種課  [["pe_y1s1", [4, 10, 13, 15]], ["chinese_y1", [4, 10, 12, 13]], ["ge_film_y1s1", [6, 7, 11, 14]], ["english_y1", [4, 6, 10, 11]], ["econ_principles_1", [4, 7, 11, 14]]]
+PASS a0：前置成立＝體育 有一堂「不是點名週」的課（只讀預測）  {"day": 55, "key": "55:pe_y1s1:pm2", "week": 11, "wd": 1, "date": "2025-11-10", "t0": 15.5, "t1": 17.333333333333332}
+  [前置／捷徑] [前置] a0：最小存檔 2025-11-10 14:54 宿舍（體育 第 11 週那一堂 15:30 開始前 36 分鐘；examSeed 777；rollSince＝-9999＝新規則的存檔）；【前置】讀檔後在頁面裡組 R 紀錄 → {"out": {"econ_principles_1": {"went": [3, 4, 5, 7, 9, 10], "miss": []}, "pe_y1s1": {"went": [4, 8, 9, 10], "miss": []}, "chinese_y1": {"went": [4, 5, 6, 7, 8, 9, 10], "miss": []}, "ge_film_y1s1": {"went": [4, 5, 6, 7, 8, 9, 10], "miss": []}, "english_y1": {"went": [4, 5, 6, 7, 8, 9, 10], "miss": []}}, "attend": {"econ_principles_1": 6, "pe_y1s1": 4, "chinese_y1": 7, "ge_film_y1s1": 7, "english_y1": 7}, "rollSince": -9999}
+PASS a0：2025-11-10 有那一堂（只讀）  {"key": "55:pe_y1s1:pm2", "cid": "pe_y1s1", "name": "體育", "week": 11, "t0": 15.5, "t1": 17.333333333333332, "room": "體育館", "status": "upcoming"}
+  [  96.7s] a0：結束 {"day": 55, "key": "2025-11-10", "h": 17.338, "zone": "campus"}；換區域 [["campus", 15.333]]；事件 []；上課 {"key": "55:pe_y1s1:pm2", "week": 11, "t0": 15.5, "lateMin": 0, "isLateAbs": false, "kind": "general", "i": 3, "h": 15.338, "z": "campus"} → {"ret": true, "done": true, "late": false, "abs": false}
+  [  96.8s] a0：上課的台詞（CLS.attend 以後前 14 句）[["", "體育老師：先跑兩圈操場。不要用走的。"], ["", "同學：「我的社團比體育課還累。」"]]
+PASS a0：手機「今天」有「直接去上課」（直接去上課）  11/10 週一・大一上 第 11 週
+現在 14:58
+今天的時間　上午 ○　下午 ○　晚上 ○
+每個時段一件主要的事：上課、社團活動、出遊約會、自習、打工、自由出行、健身都算一件（上課、約好的出遊照樣能去）；吃飯、聊天、約好的見面不算。
+09:10–12:10 憲法（上）
+法律系館A 201・張老師・沒去
+15:30–17:20 體育
+體育館・還沒開始
+直接去上課
+法律學院圖書館：今天 08:10–21:45　總圖：08:00–22:00
+跳過時間
+沒有想做的事可以跳過；遇到特殊課堂、約好的時間、劇情會停下來。
+等到下一堂課前（15:20）
+等到傍晚（17:30）
+等到晚上（20:00）
+
+PASS a0：一鍵上課坐下、上完（沒有卡住、沒有遲到超過 15 分鐘）  {"end": {"day": 55, "key": "2025-11-10", "h": 17.338, "zone": "campus"}, "stuck": null, "fin": {"ret": true, "done": true, "late": false, "abs": false}, "att": {"key": "55:pe_y1s1:pm2", "week": 11, "t0": 15.5, "lateMin": 0, "isLateAbs": false, "kind": "general", "i": 3, "h": 15.338, "z": "campus"}}
+PASS a0：不是點名週（第 11 週，點名週 [4, 10, 13, 15]）＝沒有「（老師今天點名。）」  []
+PASS a0：上完以後手機「課表」寫「體育 點過 2 次名」（點過＝≤ 第 11 週的點名週 [4, 10]，都到了）  {"line": "憲法（上） 0 次、體育 點過 2 次名、大一國文（上） 點過 2 次名、通識：電影與敘事 點過 2 次名、刑法總則（一） 0 次、服務學習（一） 0／9 次、大一英文（上） 點過 3 次名、民法總則 0 次、經濟學原理（上） 點過 2 次名", "shot": "C:\\Users\\USER\\Documents\\Lawstudent_cclocal\\docs\\story_planning\\CC\\local_out\\R9_roll\\out\\06_a0_week.png"}
+==== CASE b（SHA b1b249873）====
+PASS b：前置成立＝有 clean 那種課
+  [前置／捷徑] [前置] b：最小存檔 第 11 週週六 2025-11-15 10:00 宿舍；缺 {"pe_y1s1": [4], "chinese_y1": [10]}（examSeed 777）；【前置】讀檔後在頁面裡組 R 紀錄 → {"out": {"econ_principles_1": {"went": [3, 4, 5, 7, 9, 10, 11], "miss": []}, "pe_y1s1": {"went": [8, 9, 10, 11], "miss": [4]}, "chinese_y1": {"went": [4, 5, 6, 7, 8, 9, 11], "miss": [10]}, "ge_film_y1s1": {"went": [4, 5, 6, 7, 8, 9, 10, 11], "miss": []}, "english_y1": {"went": [4, 5, 6, 7, 8, 9, 10, 11], "miss": []}}, "attend": {"econ_principles_1": 7, "chinese_y1": 7, "ge_film_y1s1": 8, "english_y1": 8, "pe_y1s1": 4}, "rollSince": -9999}
+PASS b：手機「課表」體育＝「體育 點過 2 次名（缺 1 次）」（點名週 [4, 10, 13, 15]；到 [10]；缺 [4]）  {"got": "體育 點過 2 次名（缺 1 次）", "rollStat(只讀)": {"weeks": [4, 10, 13, 15], "past": 2, "present": 1, "missed": 1}}
+PASS b：手機「課表」大一國文（上）＝「大一國文（上） 點過 2 次名（缺 1 次）」（點名週 [4, 10, 12, 13]；到 [4]；缺 [10]）  {"got": "大一國文（上） 點過 2 次名（缺 1 次）", "rollStat(只讀)": {"weeks": [4, 10, 12, 13], "past": 2, "present": 1, "missed": 1}}
+PASS b：手機「課表」通識：電影與敘事＝「通識：電影與敘事 點過 3 次名」（點名週 [6, 7, 11, 14]；到 [6, 7, 11]；缺 []）  {"got": "通識：電影與敘事 點過 3 次名", "rollStat(只讀)": {"weeks": [6, 7, 11, 14], "past": 3, "present": 3, "missed": 0}}
+PASS b：手機「課表」大一英文（上）＝「大一英文（上） 點過 4 次名」（點名週 [4, 6, 10, 11]；到 [4, 6, 10, 11]；缺 []）  {"got": "大一英文（上） 點過 4 次名", "rollStat(只讀)": {"weeks": [4, 6, 10, 11], "past": 4, "present": 4, "missed": 0}}
+PASS b：手機「課表」經濟學原理（上）＝「經濟學原理（上） 點過 3 次名」（點名週 [4, 7, 11, 14]；到 [4, 7, 11]；缺 []）  {"got": "經濟學原理（上） 點過 3 次名", "rollStat(只讀)": {"weeks": [4, 7, 11, 14], "past": 3, "present": 3, "missed": 0}}
+  [ 117.3s] b：課表「出席：」整行 "憲法（上） 0 次、體育 點過 2 次名（缺 1 次）、大一國文（上） 點過 2 次名（缺 1 次）、通識：電影與敘事 點過 3 次名、刑法總則（一） 0 次、服務學習（一） 0／9 次、大一英文（上） 點過 4 次名、民法總則 0 次、經濟學原理（上） 點過 3 次名"；截圖 C:\Users\USER\Documents\Lawstudent_cclocal\docs\story_planning\CC\local_out\R9_roll\out\07_b_week.png、C:\Users\USER\Documents\Lawstudent_cclocal\docs\story_planning\CC\local_out\R9_roll\out\08_b_week_portrait.png
+==== CASE c1（SHA b1b249873）====
+PASS c1：前置成立＝有 clean 那種課  [["pe_y1s1", [4, 10, 13, 15]], ["chinese_y1", [4, 10, 12, 13]], ["ge_film_y1s1", [6, 7, 11, 14]], ["english_y1", [4, 6, 10, 11]], ["econ_principles_1", [4, 7, 11, 14]]]
+  [前置／捷徑] [前置] c1：最小存檔 第 12 週週一 2025-11-17 07:56 宿舍；第 11 週以前全到，只有 體育 缺第 [4] 週（真的缺 1 次）；【前置】讀檔後在頁面裡組 R 紀錄 → {"out": {"econ_principles_1": {"went": [3, 4, 5, 7, 9, 10, 11], "miss": []}, "pe_y1s1": {"went": [8, 9, 10, 11], "miss": [4]}, "chinese_y1": {"went": [4, 5, 6, 7, 8, 9, 10, 11], "miss": []}, "ge_film_y1s1": {"went": [4, 5, 6, 7, 8, 9, 10, 11], "miss": []}, "english_y1": {"went": [4, 5, 6, 7, 8, 9, 10, 11], "miss": []}}, "attend": {"econ_principles_1": 7, "chinese_y1": 8, "ge_film_y1s1": 8, "english_y1": 8, "pe_y1s1": 4}, "rollSince": -9999}
+PASS c1：站著等到 08:05 以後（{"day": 62, "key": "2025-11-17", "h": 8.113, "zone": "dorm"}）
+  [ 149.5s] c1：系統訊息（全部）[]；只讀 rollStat（今天）{"pe_y1s1": {"weeks": [4, 10, 13, 15], "past": 2, "present": 1, "missed": 1}, "chinese_y1": {"weeks": [4, 10, 12, 13], "past": 2, "present": 2, "missed": 0}, "ge_film_y1s1": {"weeks": [6, 7, 11, 14], "past": 3, "present": 3, "missed": 0}, "english_y1": {"weeks": [4, 6, 10, 11], "past": 4, "present": 4, "missed": 0}, "econ_principles_1": {"weeks": [4, 7, 11, 14], "past": 3, "present": 3, "missed": 0}}
+PASS c1：體育 真的只缺 1 次＝沒有任何「【出席】」提醒  {"att": [], "shots": ["C:\\Users\\USER\\Documents\\Lawstudent_cclocal\\docs\\story_planning\\CC\\local_out\\R9_roll\\out\\09_c1_sys.png", "C:\\Users\\USER\\Documents\\Lawstudent_cclocal\\docs\\story_planning\\CC\\local_out\\R9_roll\\out\\10_c1_sys_portrait.png"]}
+==== CASE c2（SHA b1b249873）====
+PASS c2：前置成立＝有 clean 那種課  [["pe_y1s1", [4, 10, 13, 15]], ["chinese_y1", [4, 10, 12, 13]], ["ge_film_y1s1", [6, 7, 11, 14]], ["english_y1", [4, 6, 10, 11]], ["econ_principles_1", [4, 7, 11, 14]]]
+  [前置／捷徑] [前置] c2：最小存檔 第 12 週週一 2025-11-17 07:56 宿舍；第 11 週以前全到，只有 體育 缺第 [4, 10] 週（真的缺 2 次）；【前置】讀檔後在頁面裡組 R 紀錄 → {"out": {"econ_principles_1": {"went": [3, 4, 5, 7, 9, 10, 11], "miss": []}, "pe_y1s1": {"went": [8, 9, 11], "miss": [4, 10]}, "chinese_y1": {"went": [4, 5, 6, 7, 8, 9, 10, 11], "miss": []}, "ge_film_y1s1": {"went": [4, 5, 6, 7, 8, 9, 10, 11], "miss": []}, "english_y1": {"went": [4, 5, 6, 7, 8, 9, 10, 11], "miss": []}}, "attend": {"econ_principles_1": 7, "chinese_y1": 8, "ge_film_y1s1": 8, "english_y1": 8, "pe_y1s1": 3}, "rollSince": -9999}
+PASS c2：站著等到 08:05 以後（{"day": 62, "key": "2025-11-17", "h": 8.11, "zone": "dorm"}）
+  [ 183.0s] c2：系統訊息（全部）[{"t": "【出席】體育：這學期點過 2 次名，你缺了 2 次。", "tag": "att_warn_Y1S1", "d": "2025-11-17", "h": 8}]；只讀 rollStat（今天）{"pe_y1s1": {"weeks": [4, 10, 13, 15], "past": 2, "present": 0, "missed": 2}, "chinese_y1": {"weeks": [4, 10, 12, 13], "past": 2, "present": 2, "missed": 0}, "ge_film_y1s1": {"weeks": [6, 7, 11, 14], "past": 3, "present": 3, "missed": 0}, "english_y1": {"weeks": [4, 6, 10, 11], "past": 4, "present": 4, "missed": 0}, "econ_principles_1": {"weeks": [4, 7, 11, 14], "past": 3, "present": 3, "missed": 0}}
+PASS c2：剛好一則「【出席】體育：這學期點過 2 次名，你缺了 2 次。」（第 12 週週一 08:00；手機「訊息」→ 系統看得到）  {"att": [{"t": "【出席】體育：這學期點過 2 次名，你缺了 2 次。", "tag": "att_warn_Y1S1", "d": "2025-11-17", "h": 8}], "thread": "‹ 訊息\n通知\n今天 08:00\n【出席】體育：這學期點過 2 次名，你缺了 2 次。", "shots": ["C:\\Users\\USER\\Documents\\Lawstudent_cclocal\\docs\\story_planning\\CC\\local_out\\R9_roll\\out\\11_c2_sys.png", "C:\\Users\\USER\\Documents\\Lawstudent_cclocal\\docs\\story_planning\\CC\\local_out\\R9_roll\\out\\12_c2_sys_portrait.png"]}
+==== CASE d_old（SHA b1b249873）====
+PASS d_old：前置成立＝有 clean 那種課、有成績公布日  111
+  [前置／捷徑] [前置] d_old：最小存檔 成績公布日前一晚 2026-01-04 23:20 宿舍；體育 這學期只去 3 堂不是點名的課（點名 [4, 10, 13, 15] 全缺）、其他全到；存檔沒有 rollSince（改版前存的；讀進來那一刻 S.rec 會記成讀檔那天）；【前置】讀檔後在頁面裡組 R 紀錄 → {"out": {"econ_principles_1": {"went": [3, 4, 5, 7, 9, 10, 11, 13, 14, 15, 16], "miss": []}, "pe_y1s1": {"went": [8, 9, 11], "miss": [4, 10, 12, 13, 14, 15, 16]}, "chinese_y1": {"went": [4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16], "miss": []}, "ge_film_y1s1": {"went": [4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16], "miss": []}, "english_y1": {"went": [4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16], "miss": []}}, "attend": {"econ_principles_1": 11, "chinese_y1": 13, "ge_film_y1s1": 13, "english_y1": 13, "pe_y1s1": 3}, "rollSince": null}
+  [ 200.7s] d_old：讀檔以後 rollSince＝110（學期開始 -15）；只讀 CLS.failedIn ["const_1", "crim_gen1", "civ_general"]；R 組好的 {"went": [8, 9, 11], "miss": [4, 10, 12, 13, 14, 15, 16]}
+PASS d_old：舊存檔第一次讀進來＝rollSince 記成讀檔那天（110 ＞ 學期開始 -15）  110
+  [ 203.3s] 到達「床」附近（0.23 m）：點地面 1 次、轉鏡頭 0 次、搖桿 0 次，3 秒
+PASS d_old：走到床、按下去＝有「睡到明天早上」（或「睡…」）  [{"t": "睡到明天早上（07:30）07:30（明天沒有課）", "dim": false}, {"t": "睡到明天中午12:00", "dim": false}, {"t": "睡到明天下午14:00", "dim": false}, {"t": "睡到明天晚上18:00", "dim": false}, {"t": "快轉到下一個有事的日子、過三天、過一週", "dim": false}, {"t": "再撐一下", "dim": false}]
+  [ 205.1s] d_old：床的選單 ["睡到明天早上（07:30）07:30（明天沒有課）", "睡到明天中午12:00", "睡到明天下午14:00", "睡到明天晚上18:00", "快轉到下一個有事的日子、過三天、過一週", "再撐一下"] → 選 睡到明天早上（07:30）07:30（明天沒有課）
+  [ 228.3s] d_old：成績單 "憲法（上）：缺考（不及格，下學期重修）　體育：及格　大一國文（上）：及格　通識：電影與敘事：及格　刑法總則（一）：缺考（不及格，下學期重修）　服務學習（一）：0／9 次　大一英文（上）：及格　民法總則：缺考（不及格，下學期重修）　經濟學原理（上）：及格"；截圖 ["C:\\Users\\USER\\Documents\\Lawstudent_cclocal\\docs\\story_planning\\CC\\local_out\\R9_roll\\out\\13_d_old_grades.png", "C:\\Users\\USER\\Documents\\Lawstudent_cclocal\\docs\\story_planning\\CC\\local_out\\R9_roll\\out\\14_d_old_grades_portrait.png"]
+PASS d_old：舊存檔（rollSince 以前開始的學期）出席 3 次照舊用舊規則＝成績單「體育：及格」、CLS.failedIn 不含它  {"grade": "及格", "failed": ["const_1", "crim_gen1", "civ_general"]}
+==== CASE d_new（SHA b1b249873）====
+PASS d_new：前置成立＝有 clean 那種課、有成績公布日  111
+  [前置／捷徑] [前置] d_new：最小存檔 成績公布日前一晚 2026-01-04 23:20 宿舍；體育 這學期只去 3 堂不是點名的課（點名 [4, 10, 13, 15] 全缺）、其他全到；rollSince＝-9999（學期開始以前＝新規則的存檔）；【前置】讀檔後在頁面裡組 R 紀錄 → {"out": {"econ_principles_1": {"went": [3, 4, 5, 7, 9, 10, 11, 13, 14, 15, 16], "miss": []}, "pe_y1s1": {"went": [8, 9, 11], "miss": [4, 10, 12, 13, 14, 15, 16]}, "chinese_y1": {"went": [4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16], "miss": []}, "ge_film_y1s1": {"went": [4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16], "miss": []}, "english_y1": {"went": [4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16], "miss": []}}, "attend": {"econ_principles_1": 11, "chinese_y1": 13, "ge_film_y1s1": 13, "english_y1": 13, "pe_y1s1": 3}, "rollSince": -9999}
+  [ 245.7s] d_new：讀檔以後 rollSince＝-9999（學期開始 -15）；只讀 CLS.failedIn ["const_1", "pe_y1s1", "crim_gen1", "civ_general"]；R 組好的 {"went": [8, 9, 11], "miss": [4, 10, 12, 13, 14, 15, 16]}
+  [ 248.4s] 到達「床」附近（0.23 m）：點地面 1 次、轉鏡頭 0 次、搖桿 0 次，3 秒
+PASS d_new：走到床、按下去＝有「睡到明天早上」（或「睡…」）  [{"t": "睡到明天早上（07:30）07:30（明天沒有課）", "dim": false}, {"t": "睡到明天中午12:00", "dim": false}, {"t": "睡到明天下午14:00", "dim": false}, {"t": "睡到明天晚上18:00", "dim": false}, {"t": "快轉到下一個有事的日子、過三天、過一週", "dim": false}, {"t": "再撐一下", "dim": false}]
+  [ 250.1s] d_new：床的選單 ["睡到明天早上（07:30）07:30（明天沒有課）", "睡到明天中午12:00", "睡到明天下午14:00", "睡到明天晚上18:00", "快轉到下一個有事的日子、過三天、過一週", "再撐一下"] → 選 睡到明天早上（07:30）07:30（明天沒有課）
+  [ 272.4s] d_new：成績單 "憲法（上）：缺考（不及格，下學期重修）　體育：不及格（下學期重修）　大一國文（上）：及格　通識：電影與敘事：及格　刑法總則（一）：缺考（不及格，下學期重修）　服務學習（一）：0／9 次　大一英文（上）：及格　民法總則：缺考（不及格，下學期重修）　經濟學原理（上）：及格"；截圖 ["C:\\Users\\USER\\Documents\\Lawstudent_cclocal\\docs\\story_planning\\CC\\local_out\\R9_roll\\out\\15_d_new_grades.png", "C:\\Users\\USER\\Documents\\Lawstudent_cclocal\\docs\\story_planning\\CC\\local_out\\R9_roll\\out\\16_d_new_grades_portrait.png"]
+PASS d_new：新規則（學期在 rollSince 以後開始）點名 4 次全缺＝成績單「體育：不及格（下學期重修）」（修改前沒有點名規則＝「及格」）  {"grade": "不及格（下學期重修）", "failed": ["const_1", "pe_y1s1", "crim_gen1", "civ_general"]}
+==== CASE cw（SHA b1b249873）====
+PASS cw：前置成立＝有 edge 那種課  [["pe_y1s1", [4, 10, 13, 15]], ["chinese_y1", [4, 10, 12, 13]], ["ge_film_y1s1", [6, 7, 11, 14]], ["english_y1", [4, 6, 10, 11]], ["econ_principles_1", [4, 7, 11, 14]]]
+  [前置／捷徑] [前置] cw：最小存檔 第 12 週週一 2025-11-17 07:56 宿舍；第 11 週以前全到，只有 大一國文（上） 缺第 [4] 週（真的缺 1 次）；【前置】讀檔後在頁面裡組 R 紀錄 → {"out": {"econ_principles_1": {"went": [3, 4, 5, 7, 9, 10, 11], "miss": []}, "pe_y1s1": {"went": [4, 8, 9, 10, 11], "miss": []}, "chinese_y1": {"went": [5, 6, 7, 8, 9, 10, 11], "miss": [4]}, "ge_film_y1s1": {"went": [4, 5, 6, 7, 8, 9, 10, 11], "miss": []}, "english_y1": {"went": [4, 5, 6, 7, 8, 9, 10, 11], "miss": []}}, "attend": {"econ_principles_1": 7, "pe_y1s1": 5, "ge_film_y1s1": 8, "english_y1": 8, "chinese_y1": 7}, "rollSince": -9999}
+PASS cw：站著等到 08:05 以後（{"day": 62, "key": "2025-11-17", "h": 8.109, "zone": "dorm"}）
+  [ 308.8s] cw：系統訊息（全部）[]；只讀 rollStat（今天）{"pe_y1s1": {"weeks": [4, 10, 13, 15], "past": 2, "present": 2, "missed": 0}, "chinese_y1": {"weeks": [4, 10, 12, 13], "past": 2, "present": 1, "missed": 1}, "ge_film_y1s1": {"weeks": [6, 7, 11, 14], "past": 3, "present": 3, "missed": 0}, "english_y1": {"weeks": [4, 6, 10, 11], "past": 4, "present": 4, "missed": 0}, "econ_principles_1": {"weeks": [4, 7, 11, 14], "past": 3, "present": 3, "missed": 0}}
+PASS cw：大一國文（上） 真的只缺 1 次＝沒有任何「【出席】」提醒（邊界：讀碼預測 4734c 以後 FAIL——週一 08:00 的 rollStat 把第 12 週週2 還沒上的點名算成缺）  {"att": [], "shots": ["C:\\Users\\USER\\Documents\\Lawstudent_cclocal\\docs\\story_planning\\CC\\local_out\\R9_roll\\out\\17_cw_sys.png", "C:\\Users\\USER\\Documents\\Lawstudent_cclocal\\docs\\story_planning\\CC\\local_out\\R9_roll\\out\\18_cw_sys_portrait.png"]}
+==== CASE bedge（SHA b1b249873）====
+PASS bedge：前置成立＝有 edge 那種課（點名週有第 12 週、那一堂不是週一）  [["pe_y1s1", [4, 10, 13, 15]], ["chinese_y1", [4, 10, 12, 13]], ["ge_film_y1s1", [6, 7, 11, 14]], ["english_y1", [4, 6, 10, 11]], ["econ_principles_1", [4, 7, 11, 14]]]
+  [前置／捷徑] [前置] bedge：最小存檔 第 12 週週一 2025-11-17 08:30 宿舍（大一國文（上） 第 12 週那一堂在週2、還沒上）；大一國文（上） 缺第 4 週，其他全到（examSeed 777）；【前置】讀檔後在頁面裡組 R 紀錄 → {"out": {"econ_principles_1": {"went": [3, 4, 5, 7, 9, 10, 11], "miss": []}, "pe_y1s1": {"went": [4, 8, 9, 10, 11], "miss": []}, "chinese_y1": {"went": [5, 6, 7, 8, 9, 10, 11], "miss": [4]}, "ge_film_y1s1": {"went": [4, 5, 6, 7, 8, 9, 10, 11], "miss": []}, "english_y1": {"went": [4, 5, 6, 7, 8, 9, 10, 11], "miss": []}}, "attend": {"econ_principles_1": 7, "pe_y1s1": 5, "ge_film_y1s1": 8, "english_y1": 8, "chinese_y1": 7}, "rollSince": -9999}
+PASS bedge：手機「課表」體育＝「體育 點過 2 次名」（點名週 [4, 10, 13, 15]；到 [4, 10]；缺 []）  {"got": "體育 點過 2 次名", "rollStat(只讀)": {"weeks": [4, 10, 13, 15], "past": 2, "present": 2, "missed": 0}}
+PASS bedge：手機「課表」大一國文（上）＝「大一國文（上） 點過 2 次名（缺 1 次）」（點名週 [4, 10, 12, 13]；到 [10]；缺 [4]）（邊界：讀碼預測 4734c 以後 FAIL——S.rollStat 用「週次 ≤ 這週」，還沒上的那一堂算成點過、缺）  {"got": "大一國文（上） 點過 2 次名（缺 1 次）", "rollStat(只讀)": {"weeks": [4, 10, 12, 13], "past": 2, "present": 1, "missed": 1}}
+PASS bedge：手機「課表」通識：電影與敘事＝「通識：電影與敘事 點過 3 次名」（點名週 [6, 7, 11, 14]；到 [6, 7, 11]；缺 []）  {"got": "通識：電影與敘事 點過 3 次名", "rollStat(只讀)": {"weeks": [6, 7, 11, 14], "past": 3, "present": 3, "missed": 0}}
+PASS bedge：手機「課表」大一英文（上）＝「大一英文（上） 點過 4 次名」（點名週 [4, 6, 10, 11]；到 [4, 6, 10, 11]；缺 []）  {"got": "大一英文（上） 點過 4 次名", "rollStat(只讀)": {"weeks": [4, 6, 10, 11], "past": 4, "present": 4, "missed": 0}}
+PASS bedge：手機「課表」經濟學原理（上）＝「經濟學原理（上） 點過 3 次名」（點名週 [4, 7, 11, 14]；到 [4, 7, 11]；缺 []）  {"got": "經濟學原理（上） 點過 3 次名", "rollStat(只讀)": {"weeks": [4, 7, 11, 14], "past": 3, "present": 3, "missed": 0}}
+  [ 331.1s] bedge：課表「出席：」整行 "憲法（上） 0 次、體育 點過 2 次名、大一國文（上） 點過 2 次名（缺 1 次）、通識：電影與敘事 點過 3 次名、刑法總則（一） 0 次、服務學習（一） 0／9 次、大一英文（上） 點過 4 次名、民法總則 0 次、經濟學原理（上） 點過 3 次名"；截圖 C:\Users\USER\Documents\Lawstudent_cclocal\docs\story_planning\CC\local_out\R9_roll\out\19_bedge_week.png、C:\Users\USER\Documents\Lawstudent_cclocal\docs\story_planning\CC\local_out\R9_roll\out\20_bedge_week_portrait.png
+PASS 沒有 JS 例外  []
+SHA b1b249873 CASES a,a0,b,c1,c2,d_old,d_new,cw,bedge
+ALL PASS

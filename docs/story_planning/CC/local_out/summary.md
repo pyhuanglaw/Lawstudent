@@ -43,3 +43,5 @@
       err.log (last 5): [gpu_wrap 1448.1s] page close url=http://127.0.0.1:8801/index.html?turbo | [gpu_wrap 1448.2s] BROWSER DISCONNECTED | [gpu_wrap 2922.8s] page close url=http://127.0.0.1:8801/index.html?turbo | [gpu_wrap 2922.9s] BROWSER DISCONNECTED
 - 2026-11-02T23:19:26  R4v2_b1b  sha=b1b249873  exit=0  228s    PASS 讀檔後搖桿走得動  {"zone": "classroom", "x": -0.75, "z": -1.1, "ry": 3.14, "busy": false, "pose": "idle", "path": 0, "dlg": false, "dtext": "", "choices": 0, "interact": "坐下", "hour": 15.18, "stand": true, "camYaw": 6.284, "fallbacks": 0, "y": 0.6, "lv": 0, "frame": 77, "paused": false} 推了 1 次、走了 39.44 m / PASS 沒有 JS 例外  [] / ALL PASS
       err.log (last 5): [gpu_wrap 199.2s] page close url=http://127.0.0.1:8801/index.html?start0 | [gpu_wrap 199.2s] BROWSER DISCONNECTED
+- 2026-11-02T23:25:37  R9_roll  sha=b1b249873  exit=0  361s    PASS 沒有 JS 例外  [] / SHA b1b249873 CASES a,a0,b,c1,c2,d_old,d_new,cw,bedge / ALL PASS
+      err.log (last 5): [gpu_wrap 332.2s] page close url=http://127.0.0.1:8801/index.html | [gpu_wrap 332.2s] BROWSER DISCONNECTED
