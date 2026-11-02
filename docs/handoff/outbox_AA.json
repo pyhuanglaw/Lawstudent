@@ -4585,6 +4585,21 @@
    "receiver": "LAWWW",
    "ack": "SENT",
    "note": "使用者 11-02 原話「不是問句這種句型給我全部刪掉遊戲裡如果有」＋選「全部刪，子晴等她共創時再重寫」"
+  },
+  {
+   "task": "DIALOGUE-DEPTH-1031",
+   "branch": "claude/story-planning",
+   "sha": "5964f6be5",
+   "files": [
+    "docs/story_planning/AA_574_刪除簽到_改成隨機點名_修改清單.md"
+   ],
+   "state": "已交付",
+   "remaining": "",
+   "next": "LAWWW 排佇列實作；劇社貼圖由 LAWWW 轉 LAWWW2",
+   "noDirectIntegrate": false,
+   "receiver": "LAWWW",
+   "ack": "SENT",
+   "note": "使用者 11-02：「教授通常是隨機點名 一年只點名幾次」＋選「改成隨機點名日」「只留補習班」；取代 D74 出席三堂及格"
   }
  ],
  "items": [
