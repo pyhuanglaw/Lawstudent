@@ -3,7 +3,7 @@
 
 唯一權威：RULE_SOURCE 分支上的 docs/handoff/duty.json（只有值班中的 LAWWW 寫；接班、交班時更新）。
 各職位在**自己的分支**另有一份登記 docs/handoff/duty_<職位>.json（自己寫，不碰別人的分支）；verify 會兩邊對。
-帳號只是輪值身分；職位永遠四個（LAWWW、LAWWW2、AA、BB）。接班看「最近一次正式的值班與交班紀錄」，**不照 A→B→C 的順序猜、不看 commit 時間判定值班權**。
+帳號只是輪值身分；職位是 LAWWW、LAWWW2、AA、BB，2026-11-02 起加 CC（BB 的測試執行助手，D119／HV-22；帳號 B／C／D 叫 CC-B、CC-C、CC-D）。接班看「最近一次正式的值班與交班紀錄」，**不照 A→B→C 的順序猜、不看 commit 時間判定值班權**。
 
   duty verify  [--ref origin/<RULE_SOURCE>] [--no-git]     對帳：只讀，列出異常（結束碼 0 正常／1 有異常／2 duty.json 不存在或壞掉＝不能猜，回報使用者）
   duty plan    --account C [--role LAWWW] [--ref …]        接班清單：上一任是誰、四職位的分支與 SHA、快照、待整合（只讀）
@@ -11,9 +11,9 @@
   duty handoff --account B --role LAWWW [--snapshot <檔名>]  交班登記（寫工作目錄；快照先用 check_handoff.py snapshot 做好）
   duty find                                               找 RULE_SOURCE：掃所有遠端分支的 duty.json，照「登記鏈」（seq＋chain）選最新的那一份；
                                                           兩份互相不包含（分岔）＝不能自己決定，結束碼 1，回報使用者。不看 commit 時間。
-  duty sync                                               （值班 LAWWW）把其他三職位在各自分支的 duty_<職位>.json 收進 duty.json
+  duty sync                                               （值班 LAWWW）把其他職位（LAWWW2、AA、BB、CC）在各自分支的 duty_<職位>.json 收進 duty.json
 
-各職位怎麼寫：LAWWW 的 register／handoff 同時寫 duty.json（RULE_SOURCE）和 duty_LAWWW.json；LAWWW2、AA、BB 只寫自己分支的 duty_<職位>.json，
+各職位怎麼寫：LAWWW 的 register／handoff 同時寫 duty.json（RULE_SOURCE）和 duty_LAWWW.json；LAWWW2、AA、BB、CC 只寫自己分支的 duty_<職位>.json，
 值班 LAWWW 用 sync 收（多個分支同時改 duty.json 會打架，所以只有一個人寫）。
 
 register 的安全規則：
@@ -28,7 +28,7 @@ DUTY = 'docs/handoff/duty.json'
 ROLE_FILE = 'docs/handoff/duty_{role}.json'
 SNAPDIR = 'docs/handoff/snapshots'
 ROSTER_DOC = 'docs/AI_SESSION_HANDOFF.md'
-ROLES = ('LAWWW', 'LAWWW2', 'AA', 'BB')
+ROLES = ('LAWWW', 'LAWWW2', 'AA', 'BB', 'CC')   # CC：使用者 2026-11-02 03:5x 對 BB「請lawww新增這個角色 叫做CC 交班規則也要有」（D119／HV-22）
 ACCOUNTS = ('A', 'B', 'C', 'D')   # 使用者 2026-10-18：可能開第四個帳號（D），四個帳號任意方向輪值
 SUFFIX = {'A': '', 'B': '-B', 'C': '-C', 'D': '-D'}   # 工作階段名稱：LAWWW、LAWWW-B、LAWWW-C、LAWWW-D
 ROLE_STATES = ('on', 'handed-off', 'unknown')
@@ -50,9 +50,9 @@ def session_name(role, account):
 
 
 def account_of(name):
-    """「LAWWW2-B」→ B；沒有後綴＝A（舊紀錄的慣例）；未知的回傳 None。"""
+    """「LAWWW2-B」→ B、「CC-D」→ D；沒有後綴＝A（舊紀錄的慣例）；未知的回傳 None。"""
     s = str(name or '')
-    for a in ('C', 'B'):
+    for a in ('D', 'C', 'B'):
         if s.endswith('-' + a):
             return a
     base = s.split('-')[0]
@@ -139,7 +139,7 @@ def verify(args, d=None, out=None):
             info.append(f'帳號 {d["onDuty"]} 正式交班（{lh0.get("at")}）以後又回來值班，中間沒有別的帳號：上一任就是自己')
         else:
             A(1, 'previous 和 onDuty 是同一個帳號（上一任應該是前一個值班的帳號）')
-    # 2 四個職位
+    # 2 每個職位（ROLES）
     roles = d.get('roles') or {}
     for r in ROLES:
         x = roles.get(r)

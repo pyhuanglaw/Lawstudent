@@ -72,6 +72,16 @@
    "sinceSha": "d98c2566",
    "handedOffAt": "2026-11-01T08:58Z",
    "handoffSnapshot": "2026-11-01T0858Z_B_BB.json"
+  },
+  "CC": {
+   "account": "A",
+   "session": "session_01TdESzxBpdGoPhdkPD2ENce",
+   "branch": "claude/cc-testing",
+   "sha": "336d26c3",
+   "since": "2026-11-02T03:53Z",
+   "state": "on",
+   "progressFile": "docs/story_planning/CC/CC_00_交接紀錄.md（claude/cc-testing）",
+   "sinceSha": "336d26c3"
   }
  },
  "lastHandoff": {

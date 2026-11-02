@@ -1,6 +1,6 @@
 {
  "version": 1,
- "note": "四職位已核對水位線（使用者 2026-10-17 P0 交接制度效能改善）：sha 以前的 commit 已核對過、不重掃；以後的每個非合併 commit 都要有結構化分類（deliveries／ignored kind／outbox／tasks.sha）。只有 check_handoff.py incr --advance 在全部分類、沒有異常、已 commit＋push 時才前進；history 留每一次的舊值。LAWWW 的 classify=false：值班 LAWWW 自己的整合分支不逐筆分類（成果直接寫在 tasks.json），但祖先關係、未結項目照查。基準＝帳號 B 交班時逐筆核對 255 筆的結果（WIP_INVENTORY_2026-10-17.md）。",
+ "note": "各職位已核對水位線（2026-11-02 起五個職位，加 CC）（使用者 2026-10-17 P0 交接制度效能改善）：sha 以前的 commit 已核對過、不重掃；以後的每個非合併 commit 都要有結構化分類（deliveries／ignored kind／outbox／tasks.sha）。只有 check_handoff.py incr --advance 在全部分類、沒有異常、已 commit＋push 時才前進；history 留每一次的舊值。LAWWW 的 classify=false：值班 LAWWW 自己的整合分支不逐筆分類（成果直接寫在 tasks.json），但祖先關係、未結項目照查。基準＝帳號 B 交班時逐筆核對 255 筆的結果（WIP_INVENTORY_2026-10-17.md）。",
  "roles": {
   "LAWWW": {
    "branch": "claude/adoring-meitner-mqzst8",
@@ -717,6 +717,16 @@
      "scanned": 0
     }
    ]
+  },
+  "CC": {
+   "branch": "claude/cc-testing",
+   "sha": "7340266599e70317e5528aa032d12d8fc715cadc",
+   "at": "2026-11-02T03:53Z",
+   "by": "LAWWW（帳號 A）",
+   "scanned": 0,
+   "evidence": "新職位 CC（D119／HV-22，使用者 2026-11-02 03:5x 對 BB）的基準：claude/cc-testing 從企劃線 claude/story-planning 734026659 開出，分岔點以前是 AA、BB 的 commit（由它們的水位線核對）；只核對 CC 自己的 commit（第一筆 336d26c35 值班登記）",
+   "open": [],
+   "history": []
   }
  }
 }
