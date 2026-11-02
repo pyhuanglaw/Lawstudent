@@ -187,7 +187,7 @@ def verify(args, d=None, out=None):
                 if own_reg.get('account') != x.get('account') or (x.get('session') and own_reg.get('session') != x.get('session')):
                     A(5, f'{r}：自己分支上的登記（帳號 {own_reg.get("account")}、{own_reg.get("session")}）和 duty.json（帳號 {x.get("account")}、{x.get("session")}）對不起來')
             except FileNotFoundError:
-                info.append(f'{r}：{ref} 上還沒有 {ROLE_FILE.format(role=r)}（舊制度的職位，接班時補登記）')
+                info.append(f'{r}：{ref} 上還沒有 {ROLE_FILE.format(role=r)}（舊制度或新加的職位（例：2026-11-02 的 CC），接班時用 duty register 補登記）')
             except Exception as e:
                 A(5, f'{r}：{ROLE_FILE.format(role=r)} 壞掉：{e}')
         # 6 同職位兩個帳號疑似同時寫入：別的帳號用過的這個職位的分支，在本任接班以後還有新 commit
@@ -296,7 +296,7 @@ def plan(args):
     lh = d.get('lastHandoff') or {}
     if lh:
         print(f'  上一次交班：{lh.get("from")} {lh.get("at")}（{lh.get("kind", "handoff")}），快照：{json.dumps(lh.get("snapshots") or {}, ensure_ascii=False)}')
-    print('步驟（總入口第 4 節，14 步）：fetch → RULE_SOURCE（duty.json 的 ruleSource）→ 讀規則與第 13 節 → 上一任（上面）→ 四職位交接檔（六類）→ '
+    print('步驟（總入口第 4 節，14 步）：fetch → RULE_SOURCE（duty.json 的 ruleSource）→ 讀規則與第 13 節 → 上一任（上面）→ 各職位交接檔（六類；含 CC）→ '
           'check_handoff.py check（任務、交付、快照）→ duty verify → 找未整合／未測／WIP（BRANCH_INVENTORY、deliveries）→ 確認任務都在 → '
           '確認輪到自己寫入 → 合併（不 rebase、不 force push）→ duty register＋commit＋push → 接班確認 → 接續已批准的工作')
     return 0
