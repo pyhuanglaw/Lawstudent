@@ -716,7 +716,7 @@ SEMFF_HOOK = r"""(()=>{ if(window.__SFH||typeof SEMFF==='undefined') return 'ski
     push({k:'sfjump',n:'',t:JSON.stringify({from:t0,to:+(+to).toFixed(3),why:r&&r.why,stop:r&&r.stop?r.stop.why:null,auto:r&&r.auto,msgs:r&&r.msgs,pending:typeof PHONE!=='undefined'&&PHONE.pending?PHONE.pending(GAME.G).map(m=>(PHONE.th?PHONE.th(m):(m.th||m.who||m.from))+':'+String(m.text||'').slice(0,30)):null})}); return r; };
   const m0=SEMFF.menu; SEMFF.menu=async function(GM){ push({k:'sfmenu0',n:'',t:''}); const r=await m0.apply(this,arguments); push({k:'sfmenu1',n:'',t:JSON.stringify(r?{why:r.why,stop:r.stop?r.stop.why:null}:r)}); return r; };
   return 'ok'; })()"""
-S2_REMIND_MENU = lambda T: any(t.startswith(LABEL) for t in T) and '繼續快轉' in T
+S2_REMIND_MENU = lambda T: any(t.startswith(LABEL) for t in T) and any(t.startswith('繼續快轉') for t in T)   # 按鈕＝標題＋提示（「繼續快轉考試那天一定會停」）：== 永遠不成立（R10_rr PC S2a／S2b）
 
 
 async def semff_run(pg, cdp, run, tag, on_remind, done_js, max_s):
@@ -1053,7 +1053,7 @@ async def main():
             try: await asyncio.wait_for(b.close(), 30)
             except Exception: pass
     for c in CASES:
-        for v in (SUMMARY.get(c) or {}).values():
+        for v in (SUMMARY.get('case_' + c) or {}).values():
             if isinstance(v, dict): v.pop('R', None)
     dump('d118b3_summary.json', SUMMARY)
     print('SHA', SUMMARY['sha'], 'CASES', ','.join(CASES), flush=True)
