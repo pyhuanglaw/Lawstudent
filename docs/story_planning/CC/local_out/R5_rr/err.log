@@ -1,0 +1,26 @@
+[gpu_wrap 123.0s] page close url=http://127.0.0.1:8801/index.html?turbo
+[gpu_wrap 123.1s] BROWSER DISCONNECTED
+[gpu_wrap 242.1s] page close url=http://127.0.0.1:8801/index.html?turbo
+[gpu_wrap 242.1s] BROWSER DISCONNECTED
+[gpu_wrap 352.7s] page close url=http://127.0.0.1:8801/index.html?turbo
+[gpu_wrap 352.7s] BROWSER DISCONNECTED
+[gpu_wrap 635.8s] page close url=http://127.0.0.1:8801/index.html?turbo
+[gpu_wrap 635.8s] BROWSER DISCONNECTED
+[gpu_wrap 740.1s] page close url=http://127.0.0.1:8801/index.html?turbo
+[gpu_wrap 740.1s] BROWSER DISCONNECTED
+[gpu_wrap 810.6s] page close url=http://127.0.0.1:8801/index.html?turbo
+[gpu_wrap 810.6s] BROWSER DISCONNECTED
+[gpu_wrap 888.6s] page close url=http://127.0.0.1:8801/index.html?turbo
+[gpu_wrap 888.6s] BROWSER DISCONNECTED
+[gpu_wrap 1006.7s] page close url=http://127.0.0.1:8801/index.html?turbo
+[gpu_wrap 1006.7s] BROWSER DISCONNECTED
+[gpu_wrap 1035.8s] page close url=http://127.0.0.1:8801/index.html?turbo
+[gpu_wrap 1035.8s] BROWSER DISCONNECTED
+[gpu_wrap 1135.3s] page close url=http://127.0.0.1:8801/index.html?turbo
+[gpu_wrap 1135.3s] BROWSER DISCONNECTED
+[gpu_wrap 1201.7s] page close url=http://127.0.0.1:8801/index.html?turbo
+[gpu_wrap 1201.7s] BROWSER DISCONNECTED
+[gpu_wrap 1297.9s] page close url=http://127.0.0.1:8801/index.html?turbo
+[gpu_wrap 1297.9s] BROWSER DISCONNECTED
+[gpu_wrap 1397.4s] page close url=http://127.0.0.1:8801/index.html?turbo
+[gpu_wrap 1397.4s] BROWSER DISCONNECTED

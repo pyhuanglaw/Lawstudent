@@ -1,0 +1,41 @@
+Q3 期望 C=3（ge_film_y1s1, ge_y2s2, ge_y1s2 重修過）  {"A":0,"B":0,"C":3,"top":"C"}
+Q3 國英體全及格 期望 C=0                               {"A":0,"B":0,"C":0,"top":"B"}
+Q3 課表裡沒有的 ge_ 課號 期望 C=0                        {"A":0,"B":0,"C":0,"top":"B"}
+Q4 法服週六 0 次（無 FAFU_STORY_SEEN、未入社）A            0
+Q4 法服週六 1 次（無 FAFU_STORY_SEEN、未入社）A            1
+Q4 法服週六 3 次（無 FAFU_STORY_SEEN、未入社）A            3
+Q4 法服週六 4 次（無 FAFU_STORY_SEEN、未入社）A            3
+Q4 法服週六 30 次（無 FAFU_STORY_SEEN、未入社）A           3
+Q4 FAFU_STORY_SEEN 3 A                         3
+Q4 FAFU_STORY_SEEN 4 A                         4
+Q4 FAFU_STORY_SEEN 9 A                         4
+Q4 加入法服（lawclub）A=2                            2
+Q4 入社+週六5 A=5                                  5
+Q4 讀書會 full 2 ＋中途離開1 B                         2
+Q4 讀書會 full 3 ＋中途離開1 B                         3
+Q4 讀書會 full 4 ＋中途離開1 B                         3
+Q4 讀書會 full 12 ＋中途離開1 B                        3
+Q4 自習 500h 不算 B=0                              0
+tie A=B=2 無 base → B                           {"A":2,"B":2,"C":0,"top":"B"}
+tie 舊 base 無 v（應跳過）→ B                         {"A":2,"B":2,"C":0,"top":"B"}
+tie v2 base：大四 A+2 B+0 → A                     {"A":2,"B":2,"C":0,"top":"A"}
+CAREER_Y4_BASE 字串不丟例外                          null
+全 0 → B；pathTop（沒報研究所）→                        ["B","A"]
+tie A=C=1，B=0 → A（順序 B,A,C）                    {"A":1,"B":0,"C":1,"top":"A"}
+careerTick 舊存檔(2029-07) 不丟例外、base 不重記          {"e":null,"base":{"A":5,"B":5,"C":5},"v":2}
+careerTick 舊 base 在 Y4S1 w1 → 重記 v2            {"A":0,"B":0,"C":0,"v":2}
+careerTick 沒有 base、Y4S1 w2 → 不補                undefined
+path A BAR_YEAR=null                           ["A","A","A_none","-"]
+path A BAR_YEAR=2029                           ["A","A","A_bar",true]
+path B grad applied no admit BAR_YEAR=null     ["B","B","B_quit","-"]
+path B grad applied no admit BAR_YEAR=2029     ["B","B","L_firm",true]
+path B admit BAR_YEAR=null                     ["B","B","B_grad","-"]
+path B admit BAR_YEAR=2029                     ["B","B","B_grad",true]
+path B no apply C>A BAR_YEAR=null              ["B","C","C","-"]
+path B no apply C>A BAR_YEAR=2029              ["B","C","L_firm",true]
+path C no zq BAR_YEAR=null                     ["C","C","C","-"]
+path C no zq BAR_YEAR=2029                     ["C","C","L_firm",true]
+path C zq contract no friend BAR_YEAR=null     ["C","C","C","-"]
+path C zq contract no friend BAR_YEAR=2029     ["C","C","L_firm",true]
+BAR+JUDGE_YEAR, ROLE null → J_judge            "J_judge"
+ROLE pros                                      "J_pros"

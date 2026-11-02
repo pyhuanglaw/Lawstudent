@@ -1,0 +1,120 @@
+{
+ "fill": {
+  "fill": {
+   "n": 12,
+   "total": 5240320,
+   "err": {
+    "name": "QuotaExceededError",
+    "code": 22,
+    "msg": "Failed to execute 'setItem' on 'Storage': Setting the value of 'cc_fill_12' exceeded the quota."
+   },
+   "stopAt": 128
+  },
+  "canWrite": "QuotaExceededError",
+  "snapLen": 14225,
+  "ls": {
+   "chars": 5242650,
+   "fill": 5240430,
+   "nfill": 12,
+   "per": {
+    "fatiao3d_auto": 2220
+   }
+  }
+ },
+ "results": [
+  {
+   "vp": "land",
+   "tapped": true,
+   "toasts": [
+    {
+     "t": "儲存空間不足，這次沒有存進去。到選單 → 存檔，刪掉不用的欄位或備份，或先「匯出存檔檔案」留一份。",
+     "ms": 31273,
+     "now": 1793625440403
+    }
+   ],
+   "g": {
+    "saveErr": "quota",
+    "autoFailAt": 0,
+    "full": "儲存空間不足，這次沒有存進去。到選單 → 存檔，刪掉不用的欄位或備份，或先「匯出存檔檔案」留一份。",
+    "now": 1793625441697,
+    "keys": {
+     "fatiao3d_auto": 2207,
+     "fatiao3d_quick": 0,
+     "fatiao3d_slot_1": 0,
+     "fatiao3d_slot_2": 0,
+     "fatiao3d_slot_3": 0,
+     "fatiao3d_backup": 0
+    }
+   }
+  },
+  {
+   "vp": "port",
+   "tapped": true,
+   "toasts": [
+    {
+     "t": "儲存空間不足，這次沒有存進去。到選單 → 存檔，刪掉不用的欄位或備份，或先「匯出存檔檔案」留一份。",
+     "ms": 34124,
+     "now": 1793625443254
+    }
+   ],
+   "g": {
+    "saveErr": "quota",
+    "autoFailAt": 0,
+    "full": "儲存空間不足，這次沒有存進去。到選單 → 存檔，刪掉不用的欄位或備份，或先「匯出存檔檔案」留一份。",
+    "now": 1793625444525,
+    "keys": {
+     "fatiao3d_auto": 2207,
+     "fatiao3d_quick": 0,
+     "fatiao3d_slot_1": 0,
+     "fatiao3d_slot_2": 0,
+     "fatiao3d_slot_3": 0,
+     "fatiao3d_backup": 0
+    }
+   }
+  }
+ ],
+ "slots_before": [
+  {
+   "box": "saveSlots",
+   "label": "自動存檔",
+   "empty": false,
+   "btns": [
+    "讀取"
+   ]
+  },
+  {
+   "box": "saveSlots",
+   "label": "快速存檔（右上 💾）",
+   "empty": true,
+   "btns": []
+  },
+  {
+   "box": "saveSlots",
+   "label": "欄位 1",
+   "empty": true,
+   "btns": [
+    "存檔"
+   ]
+  },
+  {
+   "box": "saveSlots",
+   "label": "欄位 2",
+   "empty": true,
+   "btns": [
+    "存檔"
+   ]
+  },
+  {
+   "box": "saveSlots",
+   "label": "欄位 3",
+   "empty": true,
+   "btns": [
+    "存檔"
+   ]
+  }
+ ],
+ "shots": {
+  "land": "C:\\Users\\USER\\Documents\\Lawstudent_cclocal\\docs\\story_planning\\CC\\local_out\\R7b_quota15\\out\\05_fill_slot_toast_land.png",
+  "port": "C:\\Users\\USER\\Documents\\Lawstudent_cclocal\\docs\\story_planning\\CC\\local_out\\R7b_quota15\\out\\06_fill_slot_toast_port.png"
+ }
+}

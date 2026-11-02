@@ -1,0 +1,118 @@
+# CC run_queue.ps1 queue (one item per line; '#' = comment)
+# ID | SHA | KIND | SCRIPT | URL | TIMEOUT_MIN | ENV (k=v;k=v)
+#  SHA : dev-branch commit, or 'head' = latest origin/claude/confident-ritchie-8rwh7t
+#  KIND: gpu   = repo script, args <URL> <out>\gpu.txt
+#        game  = script inside the game worktree (cwd = game worktree), args <URL>
+#        probe = repo script (CC probe), args <URL> <out>\out ; LW_TESTS / SHA set automatically
+#        py    = repo script, args <URL> <out dir>
+#  URL : path after http://127.0.0.1:<port>/
+# 2026-11-02 10:2x 排程（BB_229：常備佇列；跑完、寫好初判就註解掉）
+# 10:3x 整晚循環：run_queue 會跳過「同一個 sha 已經跑完」的項目；長的項目釘 sha（c2d0c24bc＝這一輪），head 只留給便宜的 00／01（LAWWW 每 push 一次就重跑）。要強制重跑：ENV 欄加 RERUN=<新字>
+# ⚠ D124（BB 10:48，海商法改選修，LAWWW 還沒實作）：02_mk12new、02b_mk12dea、05_mk12old、03_delay14 的前置是「海商法被當＝延畢／補考」＝舊規則；D124 進來以前照跑（現在的 head 還是舊規則），之後改用「前面學期被當→大四下重修沒過」／日本補修的新探針參數再排
+# 順序（BB 10:38）：00、01 → 發布前必跑組 10～18 → 今天的修正 02b、06b、06c、WSEM → 20～29 → 02～08 → D118 基準 30、31
+# ===== 發布候選 v9.10.16＝b1b249873（BB 11:02）：全部釘 b1b249873，排最前面 =====
+# 1. 發布前那一組（zone_transitions、minimap、deploy_check、p0、save_compat_v7 由 LAWWW 在雲端跑）
+# BB_229（11:52 UTC）規則 1（BB 11:57 修正：只有從來沒有在任何地方完整跑過、而且改動很大的才 HOLD＝day9、boya203、wsem；其餘照跑，這一輪就當第一次實跑）。原文：今晚新寫或改過、雲端沒有跑過紀錄的探針（quota15、legalpage、layout16、wsem、day9、delay14、fasat、makeup、y4s2final、d118b3、d118b4、rollcall、boya203、bg107、pt106）要先在雲端跑過一次。跑過以前，項目前面標「#HOLD雲端 」，PC 會跳過；雲端 PASS 以後拿掉標記。
+# 規則 5（修改前對照）：R5 → 05_mk12old（b4f98ea4e）；R8 → 雲端 4734c3d9e 已跑（CC_01 §13b）；R9 → 21_rollpre；R12 → R12b_fasatpre；R10 → R10pre（299e23345，B3 合併前）；R11 → R11pre（f57e3ac75，B4 前）；R1～R4、R6b、R7 是回歸／量測，不是修 bug 的項目，沒有修改前對照。
+# P0（BB 13:37）：R4 對照組＋b4 對照，排在最前面。main＝27e6ce77e（v9.10.15，床的選單 566f60cd6 已經在裡面）
+R4main      | 27e6ce77e | game  | tests/flow_main_day12.py     | index.html       | 180 | XARGS={url} {out}
+R4b1b_rr    | b1b249873 | game  | tests/flow_main_day12.py     | index.html       | 180 | XARGS={url} {out};RERUN=rr1
+# R4v2：雲端 b1b 14:01 ALL PASS（阿哲有演、進 201 課還沒被跳過、fallbacks 0、存檔成功；接手 70.6 秒）→ 解除 HOLD
+R4v2_b1b    | b1b249873 | probe | docs/story_planning/test_tools/cc/flow_main_day12_v2.py | index.html | 120 |
+B4main      | 27e6ce77e | probe | docs/story_planning/test_tools/cc/cc_d118b4_probe.py   | index.html | 60 | CASES=S1
+R1_reach    | b1b249873 | game  | tests/reachability_all.py    | index.html?turbo | 90  | XARGS={url}
+R2_flowcls  | b1b249873 | game  | tests/flow_class_real.py     | index.html       | 120 | XARGS={url} {out}
+R3_touchwz  | b1b249873 | game  | tests/touch_flow_wenzhou.py  | index.html?turbo | 60  | XARGS={url}
+R4_day12    | b1b249873 | game  | tests/flow_main_day12.py     | index.html       | 180 | XARGS={url} {out}
+# 2. #12 補考（D124 後被當＝重修 enforcement）、#16 版面、#15 配額
+R5_mk12     | b1b249873 | probe | docs/story_planning/test_tools/cc/cc_makeup_probe.py   | index.html?turbo | 200 | FAIL_ROUTE=retake;CASES=study3h,skipnoon_seat,skipnoon_phone,old_delayed,homerest,home,mkbg;RERUN=paper1102
+R6_layout   | b1b249873 | probe | docs/story_planning/test_tools/cc/cc_layout16_probe.py | index.html?turbo | 60  | CASES=seat_exam,adv_safe,recall2;RERUN=fmt1102
+R6b_layoutcss| b1b249873 | game | tests/choices_landscape_css.py | index.html | 40 |
+R7_quota    | b1b249873 | py    | tools/cc_local/quota_check.py | index.html | 20 |
+R7b_quota15 | b1b249873 | probe | docs/story_planning/test_tools/cc/cc_quota15_probe.py  | index.html?turbo | 60  |
+# 3. Y4S2 流程（retake／jp）、點名、總複習、考試提示
+R8_y4s2rt   | b1b249873 | probe | docs/story_planning/test_tools/cc/cc_makeup_probe.py   | index.html?turbo | 200 | FAIL_ROUTE=retake;MAIN_FROM=0527;CASES=main_pass,main_fail,route_grades;RERUN=paper1102
+R8b_y4s2jp  | b1b249873 | probe | docs/story_planning/test_tools/cc/cc_makeup_probe.py   | index.html?turbo | 60  | FAIL_ROUTE=jp;CASES=route_grades;RERUN=paper1102
+R8c_y4s2fin | b1b249873 | probe | docs/story_planning/test_tools/cc/cc_y4s2final_probe.py | index.html?turbo | 200 | FAIL_ROUTE=retake;CASES=main,noexam_stay
+R9_roll     | b1b249873 | probe | docs/story_planning/test_tools/cc/cc_rollcall_probe.py | index.html | 120 | CASES=a,a0,b,c1,c2,d_old,d_new,cw,bedge
+# P1（BB 16:00）：runner 的 $attempted 鍵是 Id@sha、沒有 RERUN 記號 → 這一輪跑過的 R5／R6／R8 換了 RERUN 也不會再跑。用新 ID 重排（下一項就會跑）
+R5_rr       | b1b249873 | probe | docs/story_planning/test_tools/cc/cc_makeup_probe.py   | index.html?turbo | 200 | FAIL_ROUTE=retake;CASES=study3h,skipnoon_seat,skipnoon_phone,old_delayed,homerest,home,mkbg;RERUN=paper1102
+R6_rr       | b1b249873 | probe | docs/story_planning/test_tools/cc/cc_layout16_probe.py | index.html?turbo | 60  | CASES=seat_exam,adv_safe,recall2;RERUN=fmt1102
+R8_rr       | b1b249873 | probe | docs/story_planning/test_tools/cc/cc_makeup_probe.py   | index.html?turbo | 200 | FAIL_ROUTE=retake;MAIN_FROM=0527;CASES=main_pass,main_fail,route_grades;RERUN=paper1102
+R10_b3      | b1b249873 | probe | docs/story_planning/test_tools/cc/cc_d118b3_probe.py   | index.html | 240 | RERUN=retap1102
+R11_b4      | b1b249873 | probe | docs/story_planning/test_tools/cc/cc_d118b4_probe.py   | index.html | 150 | CASES=S1,mix;RERUN=retap1102
+# BB 16:17：R10 的 S2a、S2b、seed＝探針例外沒測到，night＝期待值改「沒有跳時間（< 0.5 小時）」；R10_rr PASS 才能 GO
+R10_rr      | b1b249873 | probe | docs/story_planning/test_tools/cc/cc_d118b3_probe.py   | index.html | 240 | CASES=S2a,S2b,seed,night;RERUN=fix1102
+# 4. 法服（FAFU 修正已含）＋修改前對照 ba125d6f3
+R12_fasat   | b1b249873 | probe | docs/story_planning/test_tools/cc/cc_fasat_probe.py    | index.html | 90 | CASES=same_sat,next_sat,wzline_same,wzline_first,old_y2_noflag;RERUN=sn1102
+R12b_fasatpre| ba125d6f3 | probe | docs/story_planning/test_tools/cc/cc_fasat_probe.py | index.html | 90 | CASES=wzline_same,wzline_first,old_y2_noflag;RERUN=sn1102
+# 18:1x：R10_rr 的 S2a／S2b＝探針用 == 認提醒選單（按鈕是標題＋提示）認不出來 → 預設選了繼續快轉；遊戲有在 12/14 20:00 停、選單也有出現。R10_rr2 只跑 S2a、S2b（GO 必要）
+R10_rr2     | b1b249873 | probe | docs/story_planning/test_tools/cc/cc_d118b3_probe.py   | index.html | 240 | CASES=S2a,S2b;RERUN=menu1102
+# BB 17:26：GO 只等 R10_rr、R12、R12b；R6_rr2、R8_rr2（探針重跑）排在它們後面、FS112 前面
+# 16:59：R6_rr 剩「題目在左欄」2 項＝探針太嚴（遊戲只在選項放不下時才 side；放得下時不重疊）→ 探針改條件、R6_rr2 重跑
+R6_rr2      | b1b249873 | probe | docs/story_planning/test_tools/cc/cc_layout16_probe.py | index.html?turbo | 60  | CASES=seat_exam,adv_safe,recall2;RERUN=side1102
+# 17:2x：R8_rr 的「讀得到正解」＝探針沿用上一場（海商法）的課名；改成用題目文字反查課，R8_rr2 重跑
+R8_rr2      | b1b249873 | probe | docs/story_planning/test_tools/cc/cc_makeup_probe.py   | index.html?turbo | 200 | FAIL_ROUTE=retake;MAIN_FROM=0527;CASES=main_pass,main_fail,route_grades;RERUN=rev1102
+# BB 13:31 第 1 類：長時間真實流程（🟢 不用 turbo；唯一前置＝開頭 localStorage.clear()）。雲端 b1b DAYS=4 2318 秒 ALL PASS（8/29～9/1，存讀檔每天一致、fallbacks 0、pageerror 0）。PC 估每天 1.5～3 分鐘
+FS112       | b1b249873 | probe | docs/story_planning/test_tools/cc/cc_flow_semester_probe.py | index.html | 360 | DAYS=112
+# BB 16:01：R11 完整 4 個 case、R10pre／R11pre（修改前對照，規則 5）排在 FS112 後面
+R11_full    | b1b249873 | probe | docs/story_planning/test_tools/cc/cc_d118b4_probe.py   | index.html | 150 | RERUN=retap1102
+R10pre      | 299e23345 | probe | docs/story_planning/test_tools/cc/cc_d118b3_probe.py   | index.html | 240 | RERUN=retap1102
+R11pre      | f57e3ac75 | probe | docs/story_planning/test_tools/cc/cc_d118b4_probe.py   | index.html | 150 | RERUN=retap1102
+# BB 13:31 第 2 類：各區 fps（校園、溫州街、公館、總圖大廳、萬才館、霖澤館 × 白天 11:00／晚上 21:00／雨天 15:00，每格 15 秒；平均 fps＋1% low）。headed、headless 各一次。【捷徑】讀檔進各區。雲端驗證過以前先 HOLD
+F1_fps_hl   | b1b249873 | probe | tools/cc_local/fps_zones.py | index.html | 30 | CC_HEADLESS=1
+F2_fps_hd   | b1b249873 | probe | tools/cc_local/fps_zones.py | index.html | 30 | CC_HEADLESS=0
+# BB 13:31（使用者同意）第 3 類：重跑三次找不穩定。R1～R4、R5、R9 第一輪＋下面兩輪（RERUN=x2／x3）；結果不一致的列出來。🟢／🟡 照原項目
+R1_x2       | b1b249873 | game  | tests/reachability_all.py    | index.html?turbo | 90  | XARGS={url};RERUN=x2
+R2_x2       | b1b249873 | game  | tests/flow_class_real.py     | index.html       | 120 | XARGS={url} {out};RERUN=x2
+R3_x2       | b1b249873 | game  | tests/touch_flow_wenzhou.py  | index.html?turbo | 60  | XARGS={url};RERUN=x2
+R4_x2       | b1b249873 | game  | tests/flow_main_day12.py     | index.html       | 180 | XARGS={url} {out};RERUN=x2
+R5_x2       | b1b249873 | probe | docs/story_planning/test_tools/cc/cc_makeup_probe.py   | index.html?turbo | 200 | FAIL_ROUTE=retake;CASES=study3h,skipnoon_seat,skipnoon_phone,old_delayed,homerest,home,mkbg;RERUN=paper1102;RERUN=x2
+R9_x2       | b1b249873 | probe | docs/story_planning/test_tools/cc/cc_rollcall_probe.py | index.html | 120 | CASES=a,a0,b,c1,c2,d_old,d_new,cw,bedge;RERUN=x2
+R1_x3       | b1b249873 | game  | tests/reachability_all.py    | index.html?turbo | 90  | XARGS={url};RERUN=x3
+R2_x3       | b1b249873 | game  | tests/flow_class_real.py     | index.html       | 120 | XARGS={url} {out};RERUN=x3
+R3_x3       | b1b249873 | game  | tests/touch_flow_wenzhou.py  | index.html?turbo | 60  | XARGS={url};RERUN=x3
+R4_x3       | b1b249873 | game  | tests/flow_main_day12.py     | index.html       | 180 | XARGS={url} {out};RERUN=x3
+R5_x3       | b1b249873 | probe | docs/story_planning/test_tools/cc/cc_makeup_probe.py   | index.html?turbo | 200 | FAIL_ROUTE=retake;CASES=study3h,skipnoon_seat,skipnoon_phone,old_delayed,homerest,home,mkbg;RERUN=paper1102;RERUN=x3
+R9_x3       | b1b249873 | probe | docs/story_planning/test_tools/cc/cc_rollcall_probe.py | index.html | 120 | CASES=a,a0,b,c1,c2,d_old,d_new,cw,bedge;RERUN=x3
+# ===== 5. 原本佇列的其他項目 =====
+00_gpu      | head      | gpu   | tools/cc_local/gpu_check.py                                     | index.html        | 20  |
+01_p0speed  | head      | game  | tests/p0_movement.py                                            | index.html        | 60  |
+10_deploy   | d75871437 | game  | tests/deploy_check.py        | index.html       | 20  | XARGS={url}
+11_reach    | d75871437 | game  | tests/reachability_all.py    | index.html?turbo | 90  | XARGS={url}
+12_flowcls  | d75871437 | game  | tests/flow_class_real.py     | index.html       | 120 | XARGS={url} {out}
+13_minimap  | d75871437 | game  | tests/minimap_direction.py   | index.html?turbo | 30  | XARGS={url} {out}
+14_zones    | d75871437 | game  | tests/zone_transitions.py    | index.html?turbo | 60  | XARGS={url}
+15_touchwz  | d75871437 | game  | tests/touch_flow_wenzhou.py  | index.html?turbo | 60  | XARGS={url}
+16_p0       | d75871437 | game  | tests/p0_movement.py         | index.html       | 30  | XARGS={url}
+17_savev7   | d75871437 | game  | tests/save_compat_v7.py      | index.html       | 60  | SHA2=385e194;XARGS={url2} {url}
+18_flowday12| d75871437 | game  | tests/flow_main_day12.py     | index.html       | 180 | XARGS={url} {out}
+19_mkretake | 690ac5f4d | probe | docs/story_planning/test_tools/cc/cc_makeup_probe.py | index.html?turbo | 200 | FAIL_ROUTE=retake;MAIN_FROM=0527;CASES=main_pass,main_fail,route_grades;RERUN=paper1102
+19b_mkjp    | 690ac5f4d | probe | docs/story_planning/test_tools/cc/cc_makeup_probe.py | index.html?turbo | 60  | FAIL_ROUTE=jp;CASES=route_grades;RERUN=paper1102
+02b_mk12dea | dea6b1944 | probe | docs/story_planning/test_tools/cc/cc_makeup_probe.py           | index.html?turbo  | 120 | CASES=home,mkbg;FAIL_ROUTE=maritime
+06b_layoutP | c2d0c24bc | probe | docs/story_planning/test_tools/cc/cc_layout16_probe.py        | index.html?turbo  | 60  | CASES=seat_exam,adv_safe,recall2
+06c_layoutO | e27dd033e | probe | docs/story_planning/test_tools/cc/cc_layout16_probe.py        | index.html?turbo  | 60  | CASES=seat_exam,adv_safe,recall2
+32_wsem     | d75871437 | probe | docs/story_planning/test_tools/cc/cc_wsem_probe.py | index.html?turbo | 120 | CASES=all;NARR=1
+33_wsempre  | dea6b1944 | probe | docs/story_planning/test_tools/cc/cc_wsem_probe.py | index.html?turbo | 120 | CASES=all;EXAM_ROUTES=door;CLASS_ROUTES=door
+20_roll     | 4c8f138f7 | probe | docs/story_planning/test_tools/cc/cc_rollcall_probe.py | index.html | 120 | CASES=a,a0,b,c1,c2,d_old,d_new,cw,bedge
+21_rollpre  | 82f8d28c5 | probe | docs/story_planning/test_tools/cc/cc_rollcall_probe.py | index.html | 120 |
+22_boya     | 6f0122821 | probe | docs/story_planning/test_tools/cc/cc_boya203_probe.py  | index.html | 60  |
+23_boyapre  | 2c8d47e70 | probe | docs/story_planning/test_tools/cc/cc_boya203_probe.py  | index.html | 60  |
+24_b3       | d75871437 | probe | docs/story_planning/test_tools/cc/cc_d118b3_probe.py   | index.html | 240 |
+25_b3pre    | 299e23345 | probe | docs/story_planning/test_tools/cc/cc_d118b3_probe.py   | index.html | 90  | CASES=S1,night
+26_b3pre2   | 6ba2a22ad | probe | docs/story_planning/test_tools/cc/cc_d118b3_probe.py   | index.html | 60  | CASES=S2a
+27_b4       | d75871437 | probe | docs/story_planning/test_tools/cc/cc_d118b4_probe.py   | index.html | 150 |
+28_b4pre    | f57e3ac75 | probe | docs/story_planning/test_tools/cc/cc_d118b4_probe.py   | index.html | 90  | CASES=S1,mix
+29_jpmk     | d75871437 | probe | docs/story_planning/test_tools/cc/cc_d118b1_probe.py   | index.html | 60  | CASES=jp_makeup
+34_day9     | d75871437 | probe | docs/story_planning/test_tools/cc/cc_day9_probe.py   | index.html | 60 | CASES=main
+02_mk12new  | c2d0c24bc | probe | docs/story_planning/test_tools/cc/cc_makeup_probe.py           | index.html?turbo  | 200 | CASES=study3h,skipnoon_seat,skipnoon_phone,homerest,old_delayed,home,mkbg;FAIL_ROUTE=maritime
+03_delay14  | c2d0c24bc | probe | docs/story_planning/test_tools/cc/cc_delay14_probe.py          | index.html?turbo  | 120 | CASES=dorm_sleep,dorm_stand,home;FD_COURSE=maritime;RERUN=sw1102
+04_quota    | c2d0c24bc | py    | tools/cc_local/quota_check.py                                   | index.html        | 20  |
+04b_quota15 | c2d0c24bc | probe | docs/story_planning/test_tools/cc/cc_quota15_probe.py          | index.html?turbo  | 60  |
+04c_legal   | c2d0c24bc | probe | docs/story_planning/test_tools/cc/cc_legalpage_probe.py        | index.html?turbo  | 30  |;RERUN=row1102
+05_mk12old  | b4f98ea4e | probe | docs/story_planning/test_tools/cc/cc_makeup_probe.py           | index.html?turbo  | 200 | CASES=study3h,homerest,old_delayed,home,mkbg_home;FAIL_ROUTE=maritime
+# DONE 11:04 UTC ALL PASS 06_layout16 | c2d0c24bc | game  | tests/choices_landscape_css.py                                  | index.html        | 40  |
+07_bg107    | c2d0c24bc | probe | docs/story_planning/test_tools/cc/cc_bg107_probe.py            | index.html?turbo  | 120 |
+08_pt106    | c2d0c24bc | probe | docs/story_planning/test_tools/cc/cc_pt106_probe.py            | index.html?turbo  | 120 |
+30_b1base   | a3b1bd647 | probe | docs/story_planning/test_tools/cc/cc_d118b1_probe.py   | index.html | 150 | CASES=retake_skip,retake_saveload,guowen_w8
+31_b2base   | a3b1bd647 | probe | docs/story_planning/test_tools/cc/cc_d118b2_probe.py   | index.html | 60  | CASES=wancai

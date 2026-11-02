@@ -1,0 +1,15 @@
+rows 136 items 28 nameLines 9
+VIOL (d) 沒見過露名字 | contactName | 沒見過 | 溫書瑀（直屬） | 預期 非「貝貝」 | social3d.js:170
+VIOL (b) 重複字 | shuyuT(溫書瑀學姊) | 交往中 | 溫書瑀溫書瑀 | 預期 — | social3d.js:164
+VIOL (b) 重複字 | shuyuT(學姊溫書瑀) | 交往中 | 溫書瑀溫書瑀 | 預期 — | social3d.js:164
+VIOL (a) 交往中沒換成林{name} | {name}句 LADDER.byTerm.Y1S2.heroine_05.greet.when.5.t | 交往中 | 祐廷。 | 預期 含「林祐廷」（AA_584 §9-3） | data
+VIOL (a) 交往中沒換成林{name} | {name}句 LADDER.byTerm.Y2S1.heroine_05.greet.when.5.t | 交往中 | 祐廷。 | 預期 含「林祐廷」（AA_584 §9-3） | data
+VIOL (a) 交往中沒換成林{name} | {name}句 LADDER.byTerm.Y2S2.heroine_05.greet.when.5.t | 交往中 | 祐廷。 | 預期 含「林祐廷」（AA_584 §9-3） | data
+VIOL (a) 交往中沒換成林{name} | {name}句 LADDER.byTerm.Y3S1.heroine_05.greet.when.6.t | 交往中 | 祐廷。……碩二了。 | 預期 含「林祐廷」（AA_584 §9-3） | data
+VIOL (a) 交往中沒換成林{name} | {name}句 LADDER.byTerm.Y3S2.heroine_05.greet.when.9.t | 交往中 | 祐廷。 | 預期 含「林祐廷」（AA_584 §9-3） | data
+VIOL (a) 交往中沒換成林{name} | {name}句 LADDER.byTerm.Y4S1.heroine_05.greet.when.5.t | 交往中 | 祐廷。……沒事。叫一下。 | 預期 含「林祐廷」（AA_584 §9-3） | data
+VIOL (a) 交往中沒換成林{name} | {name}句 LADDER.byTerm.Y4S2.heroine_05.greet.when.6.t | 交往中 | 祐廷。……論文寫到第四章了。 | 預期 含「林祐廷」（AA_584 §9-3） | data
+VIOL (a) 交往中沒換成林{name} | {name}句 LADDER.byTerm.Y1S1.heroine_05.greet.when.3.t | 交往中 | 祐廷。 | 預期 含「林祐廷」（AA_584 §9-3） | data
+VIOL (a) 交往中沒換成林{name} | {name}句 REL_LINES.heroine_05.up.FAMILIAR.l.0 | 交往中 | 「祐廷，你最近很常來法圖。」 | 預期 含「林祐廷」（AA_584 §9-3） | data
+VIOL (a) 第72列 | ladGreet Y4S1 交往中（第 72 列） | 交往中 | (無) | 預期 林祐廷。……沒事。叫一下。 | ladder.js:3 Y4S1 greet.when[5]
+viol 13

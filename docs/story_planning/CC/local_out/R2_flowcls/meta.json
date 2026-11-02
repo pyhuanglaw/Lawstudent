@@ -1,0 +1,15 @@
+﻿{
+    "rerun":  "",
+    "id":  "R2_flowcls",
+    "sha":  "b1b249873",
+    "kind":  "game",
+    "script":  "tests/flow_class_real.py",
+    "env":  "XARGS={url} {out}",
+    "machine":  "MSI",
+    "start":  "2026-11-02T19:54:46",
+    "end":  "2026-11-02T19:56:51",
+    "seconds":  125,
+    "exit":  0,
+    "error":  null,
+    "url":  "http://127.0.0.1:8801/index.html"
+}

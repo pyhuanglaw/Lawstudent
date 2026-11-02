@@ -1,0 +1,14 @@
+=== p6_real.jsonl  n=200
+卡死/例外/尾聲不一致: 0 []
+結局: A_bar=72(36%) A_none=32(16%) B_grad=11(6%) B_quit=0(0%) C_zq=6(3%) C=12(6%) L_firm=55(28%) J_judge=7(4%) J_pros=5(2%)  其他: {}
+沒出現: ['B_quit']  >60%: []
+pathTop: {'A': 111, 'C': 71, 'B': 18}  careerLean.top: {'A': 91, 'B': 57, 'C': 52}
+  A 分數 min/med/max= 0/5/14
+  B 分數 min/med/max= 0/3/15
+  C 分數 min/med/max= 0/4/13
+  最高分平手: 33
+BAR_YEAR 有: 146  JUDGE_YEAR 有: 12  after: {'epiF': 7, 'epiD': 9, '': 171, 'epiGradLic': 3, 'distance': 9, 'epiD,epiGradLic': 1}
+route×path: {('TW', 'A_bar'): 59, ('JP', 'L_firm'): 7, ('US', 'L_firm'): 8, ('TW', 'B_grad'): 9, ('TW', 'A_none'): 29, ('US', 'A_bar'): 9, ('JP', 'A_bar'): 4, ('TW', 'L_firm'): 40, ('US', 'A_none'): 2, ('TW', 'C'): 10, ('TW', 'J_judge'): 7, ('JP', 'A_none'): 1, ('US', 'C'): 1, ('US', 'B_grad'): 2, ('TW', 'C_zq'): 4, ('TW', 'J_pros'): 4, ('JP', 'C'): 1, ('JP', 'C_zq'): 1, ('US', 'J_pros'): 1, ('US', 'C_zq'): 1}
+y4×path: {('bar', 'A_bar'): 53, ('bar', 'L_firm'): 32, ('other', 'L_firm'): 5, ('grad', 'B_grad'): 11, ('grad', 'A_none'): 12, ('grad', 'A_bar'): 15, ('other', 'C'): 5, ('grad', 'J_judge'): 2, ('other', 'A_none'): 9, ('bar', 'A_none'): 11, ('grad', 'C'): 5, ('grad', 'L_firm'): 18, ('bar', 'J_judge'): 3, ('other', 'A_bar'): 4, ('grad', 'C_zq'): 2, ('grad', 'J_pros'): 1, ('bar', 'C_zq'): 3, ('bar', 'C'): 2, ('other', 'J_judge'): 2, ('bar', 'J_pros'): 4, ('other', 'C_zq'): 1}
+每種結局的一個種子: {'A_bar': 1, 'L_firm': 2, 'B_grad': 5, 'A_none': 6, 'C': 19, 'J_judge': 22, 'C_zq': 82, 'J_pros': 88}
+平均 ms 14268

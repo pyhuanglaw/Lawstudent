@@ -1,0 +1,14 @@
+[gpu_wrap] CC_GPU=1 跑 C:\Users\USER\Documents\Lawstudent_cclocal\docs\story_planning\test_tools\cc\cc_d118b4_probe.py http://127.0.0.1:8801/index.html C:\Users\USER\Documents\Lawstudent_cclocal\docs\story_planning\CC\local_out\B4main\out
+==== D118-B4 考試裡的 cue 和考後訂正（SHA 27e6ce77e）不用 turbo；作答用【捷徑：只讀】；不是 iPhone ====
+==== CASE S1 ====
+PASS S1：遊戲載入
+  [前置／捷徑] [前置] 最小存檔 2025-12-13（六，Y1S1 第 15 週）14:00 宿舍；整學期沒自習、沒上過課、沒有課本；examSeed=20251215
+  [  29.4s] s1_desk：desk 的互動點 1 個 [{"x": -2.04, "z": -0.098, "lv": 0, "label": "坐在書桌前", "r": 1}]
+  [  32.4s] 到達「坐在書桌前」附近（0.65 m）：點地面 1 次、轉鏡頭 0 次、搖桿 0 次，3 秒
+  [  32.4s] s1_desk：走到「坐在書桌前」(-2.0,-0.1)；互動鍵「坐在書桌前」
+  [  34.0s] s1_desk：選單 讀書〔選讀多久（1～3 小時只算一次）。用掉下午 1 次（還剩 0）〕｜整理今天的筆記（30 分鐘）〔用掉下午 1 次（還剩 0）〕｜起身
+FAIL S1：宿舍書桌的選單有「考前總複習」（B3；前置用）  {"ok": true, "menu_txt": "讀書〔選讀多久（1～3 小時只算一次）。用掉下午 1 次（還剩 0）〕｜整理今天的筆記（30 分鐘）〔用掉下午 1 次（還剩 0）〕｜起身", "idx": null}
+PASS S1：沒有 JS 例外  []
+  [  35.3s] S1：逐字稿 C:\Users\USER\Documents\Lawstudent_cclocal\docs\story_planning\CC\local_out\B4main\out\transcript_S1.json（0 筆）
+SHA 27e6ce77e CASES S1
+FAILED: S1：宿舍書桌的選單有「考前總複習」（B3；前置用）

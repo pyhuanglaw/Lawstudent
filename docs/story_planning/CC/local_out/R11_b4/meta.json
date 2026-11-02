@@ -1,0 +1,15 @@
+﻿{
+    "rerun":  "retap1102",
+    "id":  "R11_b4",
+    "sha":  "b1b249873",
+    "kind":  "probe",
+    "script":  "docs/story_planning/test_tools/cc/cc_d118b4_probe.py",
+    "env":  "CASES=S1,mix;RERUN=retap1102",
+    "machine":  "MSI",
+    "start":  "2026-11-03T01:13:14",
+    "end":  "2026-11-03T01:22:47",
+    "seconds":  573,
+    "exit":  0,
+    "error":  null,
+    "url":  "http://127.0.0.1:8801/index.html"
+}

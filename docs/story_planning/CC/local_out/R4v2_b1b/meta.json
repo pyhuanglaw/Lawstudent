@@ -1,0 +1,15 @@
+﻿{
+    "rerun":  "",
+    "id":  "R4v2_b1b",
+    "sha":  "b1b249873",
+    "kind":  "probe",
+    "script":  "docs/story_planning/test_tools/cc/flow_main_day12_v2.py",
+    "env":  "",
+    "machine":  "MSI",
+    "start":  "2026-11-02T23:15:38",
+    "end":  "2026-11-02T23:19:26",
+    "seconds":  228,
+    "exit":  0,
+    "error":  null,
+    "url":  "http://127.0.0.1:8801/index.html"
+}

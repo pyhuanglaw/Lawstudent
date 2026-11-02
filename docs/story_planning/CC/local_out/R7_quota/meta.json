@@ -1,0 +1,15 @@
+﻿{
+    "rerun":  "",
+    "id":  "R7_quota",
+    "sha":  "b1b249873",
+    "kind":  "py",
+    "script":  "tools/cc_local/quota_check.py",
+    "env":  "",
+    "machine":  "MSI",
+    "start":  "2026-11-02T21:07:54",
+    "end":  "2026-11-02T21:08:45",
+    "seconds":  51,
+    "exit":  0,
+    "error":  null,
+    "url":  "http://127.0.0.1:8801/index.html"
+}

@@ -1,0 +1,15 @@
+﻿{
+    "rerun":  "",
+    "id":  "R4_day12",
+    "sha":  "b1b249873",
+    "kind":  "game",
+    "script":  "tests/flow_main_day12.py",
+    "env":  "XARGS={url} {out}",
+    "machine":  "MSI",
+    "start":  "2026-11-02T20:00:13",
+    "end":  "2026-11-02T20:32:43",
+    "seconds":  1950,
+    "exit":  1,
+    "error":  null,
+    "url":  "http://127.0.0.1:8801/index.html"
+}

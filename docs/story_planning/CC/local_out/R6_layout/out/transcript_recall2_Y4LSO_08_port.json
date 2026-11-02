@@ -1,0 +1,469 @@
+{
+ "qid": "Y4LSO_08",
+ "orient": "port",
+ "route_req": "goclass",
+ "q": {
+  "id": "Y4LSO_08",
+  "course": "labor_social",
+  "name": "勞動社會法",
+  "term": "Y4S1",
+  "q": "申請人離職退保時未滿四十五歲，也沒有身心障礙證明，而且沒有延長給付的情形。依就業保險法第16條第1項，失業給付如何發給？",
+  "opts": [
+   "（A）按離職退保當月起前六個月平均月投保薪資百分之六十按月發給，最長六個月",
+   "（B）按平均月投保薪資百分之六十按月發給，最長九個月",
+   "（C）按平均月投保薪資百分之八十按月發給，最長六個月",
+   "（D）按平均月投保薪資百分之五十按月發給，最長十二個月"
+  ],
+  "answer": "A",
+  "right": 0,
+  "room": {
+   "id": "L202",
+   "zone": "linze_202",
+   "name": "法律系館A 202",
+   "door": false
+  },
+  "examDay": {
+   "day": 1192,
+   "key": "2028-12-21",
+   "block": "pm1",
+   "t0": 13.333333333333334,
+   "t1": 15.166666666666666,
+   "makeup": false
+  },
+  "qs": [
+   "Y4LSO_08",
+   "Y4_LSO_06",
+   "Y4_LSO_08",
+   "Y4LSO_01",
+   "Y4LSO_02"
+  ]
+ },
+ "route": "goclass",
+ "base": {
+  "W": 390,
+  "H": 844,
+  "safe": {
+   "l": 0,
+   "r": 0,
+   "t": 0,
+   "b": 0
+  },
+  "adv": false,
+  "dlg": {
+   "rect": {
+    "l": 14,
+    "t": 699.6,
+    "r": 376,
+    "b": 830,
+    "w": 362,
+    "h": 130.4
+   },
+   "cls": [],
+   "vis": true,
+   "left": "195px",
+   "width": "362px",
+   "transform": "matrix(1, 0, 0, 1, -181, 0)"
+  },
+  "dlgText": "1／5　申請人離職退保時未滿四十五歲，也沒有身心障礙證明，而且沒有延長給付的情形。依就業保險法第16條第1項，失業給付如何發給？",
+  "samples": [
+   {
+    "x": 63.8,
+    "y": 743.3,
+    "inDlg": true,
+    "inCh": false,
+    "el": "dlgText"
+   },
+   {
+    "x": 195,
+    "y": 743.3,
+    "inDlg": true,
+    "inCh": false,
+    "el": "dlgText"
+   },
+   {
+    "x": 326.2,
+    "y": 743.3,
+    "inDlg": true,
+    "inCh": false,
+    "el": "dlgText"
+   },
+   {
+    "x": 129.4,
+    "y": 794.5,
+    "inDlg": true,
+    "inCh": false,
+    "el": "dlgText"
+   },
+   {
+    "x": 260.6,
+    "y": 794.5,
+    "inDlg": true,
+    "inCh": false,
+    "el": "dlgText"
+   }
+  ],
+  "ch": {
+   "rect": {
+    "l": 0,
+    "t": 0,
+    "r": 0,
+    "b": 0,
+    "w": 0,
+    "h": 0
+   },
+   "cls": [
+    "hide"
+   ],
+   "vis": false,
+   "display": "none",
+   "grid": "none",
+   "left": "auto",
+   "width": "min(400px, 100% - 28px)",
+   "scrollH": 0,
+   "clientH": 0
+  },
+  "btns": []
+ },
+ "shots": {
+  "q_say": "C:\\Users\\USER\\Documents\\Lawstudent_cclocal\\docs\\story_planning\\CC\\local_out\\R6_layout\\out\\33_recall2_Y4LSO_08_port_q1_say.png",
+  "choices": "C:\\Users\\USER\\Documents\\Lawstudent_cclocal\\docs\\story_planning\\CC\\local_out\\R6_layout\\out\\34_recall2_Y4LSO_08_port_q1_choices.png",
+  "r1": "C:\\Users\\USER\\Documents\\Lawstudent_cclocal\\docs\\story_planning\\CC\\local_out\\R6_layout\\out\\35_recall2_Y4LSO_08_port_recall_line.png",
+  "choices2": "C:\\Users\\USER\\Documents\\Lawstudent_cclocal\\docs\\story_planning\\CC\\local_out\\R6_layout\\out\\36_recall2_Y4LSO_08_port_recall_choices2.png"
+ },
+ "seat": {
+  "pose": "read",
+  "seat": true,
+  "zone": "linze_202"
+ },
+ "choose": {
+  "W": 390,
+  "H": 844,
+  "safe": {
+   "l": 0,
+   "r": 0,
+   "t": 0,
+   "b": 0
+  },
+  "adv": false,
+  "dlg": {
+   "rect": {
+    "l": 14,
+    "t": 699.6,
+    "r": 376,
+    "b": 830,
+    "w": 362,
+    "h": 130.4
+   },
+   "cls": [
+    "static"
+   ],
+   "vis": true,
+   "left": "195px",
+   "width": "362px",
+   "transform": "matrix(1, 0, 0, 1, -181, 0)"
+  },
+  "dlgText": "1／5　申請人離職退保時未滿四十五歲，也沒有身心障礙證明，而且沒有延長給付的情形。依就業保險法第16條第1項，失業給付如何發給？",
+  "samples": [
+   {
+    "x": 63.8,
+    "y": 743.3,
+    "inDlg": true,
+    "inCh": false,
+    "el": "dlgText"
+   },
+   {
+    "x": 195,
+    "y": 743.3,
+    "inDlg": true,
+    "inCh": false,
+    "el": "dlgText"
+   },
+   {
+    "x": 326.2,
+    "y": 743.3,
+    "inDlg": true,
+    "inCh": false,
+    "el": "dlgText"
+   },
+   {
+    "x": 129.4,
+    "y": 794.5,
+    "inDlg": true,
+    "inCh": false,
+    "el": "dlgText"
+   },
+   {
+    "x": 260.6,
+    "y": 794.5,
+    "inDlg": true,
+    "inCh": false,
+    "el": "dlgText"
+   }
+  ],
+  "ch": {
+   "rect": {
+    "l": 14,
+    "t": 398,
+    "r": 376,
+    "b": 678,
+    "w": 362,
+    "h": 280
+   },
+   "cls": [],
+   "vis": true,
+   "display": "flex",
+   "grid": "none",
+   "left": "14px",
+   "width": "362px",
+   "scrollH": 280,
+   "clientH": 280
+  },
+  "btns": [
+   {
+    "t": "（A）按離職退保當月起前六個月平均月投保薪資百分之六十按月發給，最長六個月",
+    "rect": {
+     "l": 14,
+     "t": 398,
+     "r": 376,
+     "b": 462,
+     "w": 362,
+     "h": 64
+    }
+   },
+   {
+    "t": "（B）按平均月投保薪資百分之六十按月發給，最長九個月",
+    "rect": {
+     "l": 14,
+     "t": 470,
+     "r": 376,
+     "b": 534,
+     "w": 362,
+     "h": 64
+    }
+   },
+   {
+    "t": "（C）按平均月投保薪資百分之八十按月發給，最長六個月",
+    "rect": {
+     "l": 14,
+     "t": 542,
+     "r": 376,
+     "b": 606,
+     "w": 362,
+     "h": 64
+    }
+   },
+   {
+    "t": "（D）按平均月投保薪資百分之五十按月發給，最長十二個月",
+    "rect": {
+     "l": 14,
+     "t": 614,
+     "r": 376,
+     "b": 678,
+     "w": 362,
+     "h": 64
+    }
+   }
+  ]
+ },
+ "stable": true,
+ "keep": true,
+ "says_between": [
+  "（你想起課本上那一段。旁邊還有你自己畫的線。）",
+  "1／5　申請人離職退保時未滿四十五歲，也沒有身心障礙證明，而且沒有延長給付的情形。依就業保險法第16條第1項，失業給付如何發給？"
+ ],
+ "choose_rows": [
+  {
+   "k": "choose",
+   "t": [
+    "（A）按離職退保當月起前六個月平均月投保薪資百分之六十按月發給，最長六個月",
+    "（C）按平均月投保薪資百分之八十按月發給，最長六個月",
+    "（D）按平均月投保薪資百分之五十按月發給，最長十二個月"
+   ],
+   "h": 13.552,
+   "ms": 51942
+  }
+ ],
+ "choose2": {
+  "W": 390,
+  "H": 844,
+  "safe": {
+   "l": 0,
+   "r": 0,
+   "t": 0,
+   "b": 0
+  },
+  "adv": false,
+  "dlg": {
+   "rect": {
+    "l": 14,
+    "t": 699.6,
+    "r": 376,
+    "b": 830,
+    "w": 362,
+    "h": 130.4
+   },
+   "cls": [
+    "static"
+   ],
+   "vis": true,
+   "left": "195px",
+   "width": "362px",
+   "transform": "matrix(1, 0, 0, 1, -181, 0)"
+  },
+  "dlgText": "1／5　申請人離職退保時未滿四十五歲，也沒有身心障礙證明，而且沒有延長給付的情形。依就業保險法第16條第1項，失業給付如何發給？",
+  "samples": [
+   {
+    "x": 63.8,
+    "y": 743.3,
+    "inDlg": true,
+    "inCh": false,
+    "el": "dlgText"
+   },
+   {
+    "x": 195,
+    "y": 743.3,
+    "inDlg": true,
+    "inCh": false,
+    "el": "dlgText"
+   },
+   {
+    "x": 326.2,
+    "y": 743.3,
+    "inDlg": true,
+    "inCh": false,
+    "el": "dlgText"
+   },
+   {
+    "x": 129.4,
+    "y": 794.5,
+    "inDlg": true,
+    "inCh": false,
+    "el": "dlgText"
+   },
+   {
+    "x": 260.6,
+    "y": 794.5,
+    "inDlg": true,
+    "inCh": false,
+    "el": "dlgText"
+   }
+  ],
+  "ch": {
+   "rect": {
+    "l": 14,
+    "t": 470,
+    "r": 376,
+    "b": 678,
+    "w": 362,
+    "h": 208
+   },
+   "cls": [],
+   "vis": true,
+   "display": "flex",
+   "grid": "none",
+   "left": "14px",
+   "width": "362px",
+   "scrollH": 208,
+   "clientH": 208
+  },
+  "btns": [
+   {
+    "t": "（A）按離職退保當月起前六個月平均月投保薪資百分之六十按月發給，最長六個月",
+    "rect": {
+     "l": 14,
+     "t": 470,
+     "r": 376,
+     "b": 534,
+     "w": 362,
+     "h": 64
+    }
+   },
+   {
+    "t": "（C）按平均月投保薪資百分之八十按月發給，最長六個月",
+    "rect": {
+     "l": 14,
+     "t": 542,
+     "r": 376,
+     "b": 606,
+     "w": 362,
+     "h": 64
+    }
+   },
+   {
+    "t": "（D）按平均月投保薪資百分之五十按月發給，最長十二個月",
+    "rect": {
+     "l": 14,
+     "t": 614,
+     "r": 376,
+     "b": 678,
+     "w": 362,
+     "h": 64
+    }
+   }
+  ]
+ },
+ "notes_errs": [],
+ "transcript": [
+  {
+   "k": "choose",
+   "t": [
+    "坐中間的位子",
+    "坐在沈以安旁邊",
+    "自己找位子"
+   ],
+   "h": 13.552,
+   "ms": 35043
+  },
+  {
+   "k": "say",
+   "n": "",
+   "t": "考卷發下來。勞動社會法期末考。五題。",
+   "h": 13.552,
+   "ms": 42464
+  },
+  {
+   "k": "say",
+   "n": "",
+   "t": "1／5　申請人離職退保時未滿四十五歲，也沒有身心障礙證明，而且沒有延長給付的情形。依就業保險法第16條第1項，失業給付如何發給？",
+   "h": 13.552,
+   "ms": 43816
+  },
+  {
+   "k": "choose",
+   "t": [
+    "（A）按離職退保當月起前六個月平均月投保薪資百分之六十按月發給，最長六個月",
+    "（B）按平均月投保薪資百分之六十按月發給，最長九個月",
+    "（C）按平均月投保薪資百分之八十按月發給，最長六個月",
+    "（D）按平均月投保薪資百分之五十按月發給，最長十二個月"
+   ],
+   "h": 13.552,
+   "ms": 46175
+  },
+  {
+   "k": "say",
+   "n": "",
+   "t": "（你想起課本上那一段。旁邊還有你自己畫的線。）",
+   "h": 13.552,
+   "ms": 48256
+  },
+  {
+   "k": "say",
+   "n": "",
+   "t": "1／5　申請人離職退保時未滿四十五歲，也沒有身心障礙證明，而且沒有延長給付的情形。依就業保險法第16條第1項，失業給付如何發給？",
+   "h": 13.552,
+   "ms": 50018
+  },
+  {
+   "k": "choose",
+   "t": [
+    "（A）按離職退保當月起前六個月平均月投保薪資百分之六十按月發給，最長六個月",
+    "（C）按平均月投保薪資百分之八十按月發給，最長六個月",
+    "（D）按平均月投保薪資百分之五十按月發給，最長十二個月"
+   ],
+   "h": 13.552,
+   "ms": 51942
+  }
+ ],
+ "sha": "b1b249873",
+ "case": "recall2_Y4LSO_08_port"
+}

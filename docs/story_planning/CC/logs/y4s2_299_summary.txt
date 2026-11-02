@@ -1,0 +1,73 @@
+PASS main：遊戲載入
+PASS main：前置成立（2029-05-27 Y4S2 第 14 週、termCourses 有 maritime、BAR_REG true、failedIn 只有考五題的課）  {"clock": {"key": "2029-05-27", "day": 1349, "h": 21.008, "zone": "dorm", "term": "Y4S2", "week": 14, "exam": null}, "flags": {"Y4_PATH": "bar", "BAR_REG": true}, "failed": ["maritime"], "examFinal": {}, "examDay": {"key": "2029-05-30", "block": "am", "makeup": false}, "examList": [["maritime", "final", "2029-05-30", "am"]], "termCourses": ["legal_research", "legal_practice", "maritime"], "grades": null, "pgOn": false, "delayed": false, "fdOn": false, "fd": {"courses": [], "on": false, "certLate": false, "lateLikely": false, "hasMigrate": true, "hasRegTrace": true}, "pgDone": [], "grLv": "fail_law", "retake": null, "acts": [], "nmsg": 0, "title": false}
+PASS main：沒有卡住  null
+PASS main：跑到 6/18 成績單（沒有逾時）  {"key": "2029-06-18", "day": 1371, "h": 9.004, "zone": "dorm", "term": null, "week": null, "exam": null}
+PASS main：期末週 2029-05-30 手機「今天」有「海商法與海洋法（考試）」  "5/30 週三・大四下 第 15 週（期末考週）\n現在 08:11\n今天的時間　上午 ○○　下午 ○○　晚上 ○○\n每個時段一件主要的事：上課、社團活動、出遊約會、自習、打工、自由出行、健身都算一件（上課、約好的出遊照樣能去）；吃飯、聊天、約好的見面不算。考試週：每個時段多一次（金色），只能拿來自習。\n09:10–12:10 海商法與海洋法（考試）\n法律系館A 202・兼任老師・還沒開始\n直接去上課\n法律學院圖書館：今天 08:10–21:45　總圖：08:00–22:00\n跳過時間\n沒有想做的事可以跳過；遇到特殊課堂、約好的時間、劇情會停下來。\n等到下一堂課前（09:00）\n等到中午（12:00）\n等到下午（14:00）\n等到傍晚（17:30）\n等到晚上（20:00）\n翹課不會被扣分；沒去的課，可以在宿舍、圖書館、Café 讀書補回來。"
+PASS main：手機「課表」考試欄有海商法與海洋法的期末考（5/30）  "考試（這段時間不能約人、約會）\n期末　海商法與海洋法　5/30（三）09:10–12:10　法律系館A 202"
+PASS main：海商法有大四下期末紀錄（status done）  {"Y4S2:maritime:final": {"qs": ["Y4MAR_11", "Y4MAR_02", "Y4MAR_06", "Y4_MAR_01", "Y4MAR_08"], "ans": ["A", "B", "C", "B", "D"], "correct": 5, "score": 100, "status": "done"}}
+PASS main：6/18 成績單有出現（「大四下的成績出來了。」＋課名那一行）  [["2029-06-18", "大四下的成績出來了。"]]
+PASS main：成績單海商法那一行不是「缺考（不及格）」  {"line": "海商法與海洋法：100 分", "grades": {"legal_research": "通過", "legal_practice": "通過", "maritime": "100 分"}}
+PASS main：沒有被判延畢（FAIL_DELAY_COURSES 空、沒有 FAIL_DELAY、沒有延畢旁白）  {"flags": {"Y4_PATH": "bar", "BAR_REG": true, "PACKED_Y4": 1354, "GRADUATED": 1355, "GRAD_DONE": true, "GRAD_EVENING": "none", "FAIL_DELAY_COURSES": [], "FAIL_DELAY_V": 2}, "failedIn": [], "fdLines": []}
+PASS main：BAR_REG 保留 true（延畢沒有取消國考報名）  {"Y4_PATH": "bar", "BAR_REG": true, "PACKED_Y4": 1354, "GRADUATED": 1355, "GRAD_DONE": true, "GRAD_EVENING": "none", "FAIL_DELAY_COURSES": [], "FAIL_DELAY_V": 2}
+PASS main：沒有 JS 例外  []
+PASS rescue_bar：遊戲載入
+PASS rescue_bar：讀檔後延畢取消（FAIL_DELAY_COURSES 空、沒有 FAIL_DELAY、FD_RESCUE_NOFINAL＝["maritime"]）  {"BAR_REG": true, "GRADUATED": 1355, "GRAD_DONE": true, "GRAD_EVENING": "none", "PACKED_Y4": 1354, "FAIL_DELAY_COURSES": [], "Y4_PATH": "bar", "FD_RESCUE_NOFINAL": ["maritime"], "FD_RESCUE_BAR": "restored"}
+PASS rescue_bar：PG.delayed false、FD.on false  {"delayed": false, "fdOn": false}
+PASS rescue_bar：有報名痕跡＝恢復報名（BAR_REG true、FD_RESCUE_BAR restored）  {"BAR_REG": true, "FAIL_DELAY_BARCANCEL": null, "FD_RESCUE_BAR": "restored", "FD_RESCUE_BAR_UNKNOWN": null, "Y4_PATH": "bar"}；FD {"courses": [], "on": false, "certLate": false, "lateLikely": false, "hasMigrate": true, "hasRegTrace": true}
+PASS rescue_bar：成績單紀錄（R.grades.Y4S2）沒有「缺考／不及格」、救回來的課＝「及格（期末考補登）」  {"grades": {"legal_research": "通過", "legal_practice": "通過", "maritime": "及格（期末考補登）"}, "bad": {}}
+PASS rescue_bar：failedIn(Y4S2) 空、救回來的期末紀錄 status rescued  {"failed": [], "exam": {"Y4S2:maritime:final": {"status": "rescued"}}}
+PASS rescue_bar：之後沒有延畢劇情（FD 的句子、late_2029／fd_late_* 步驟、日期卡寫延畢）  {"fd": [], "steps": [], "cards": [["2029-06-21", "6/21（四）19:30", "（畢業以後，你還是每天八點起床。不用上課，就去總圖。）"], ["2029-06-27", "6/27（三）23:00", ""], ["2029-06-28", "6/28（四）10:00", ""]]}
+PASS rescue_bar：結束時仍沒有延畢（FAIL_DELAY_COURSES 空、沒有 FAIL_DELAY）  {"BAR_REG": true, "GRADUATED": 1355, "GRAD_DONE": true, "GRAD_EVENING": "none", "PACKED_Y4": 1354, "FAIL_DELAY_COURSES": [], "Y4_PATH": "bar", "FD_RESCUE_NOFINAL": ["maritime"], "FD_RESCUE_BAR": "restored", "MOVED_OUT": 1381}
+PASS rescue_bar：沒有卡住  null
+PASS rescue_bar：沒有 JS 例外  []
+PASS rescue_nobar：遊戲載入
+PASS rescue_nobar：讀檔後延畢取消（FAIL_DELAY_COURSES 空、沒有 FAIL_DELAY、FD_RESCUE_NOFINAL＝["maritime"]）  {"BAR_REG": false, "GRADUATED": 1355, "GRAD_DONE": true, "GRAD_EVENING": "none", "PACKED_Y4": 1354, "FAIL_DELAY_COURSES": [], "FD_RESCUE_NOFINAL": ["maritime"], "FD_RESCUE_BAR_UNKNOWN": true}
+PASS rescue_nobar：PG.delayed false、FD.on false  {"delayed": false, "fdOn": false}
+PASS rescue_nobar：沒有痕跡＝照舊不報（BAR_REG false、FD_RESCUE_BAR_UNKNOWN true）  {"BAR_REG": false, "FAIL_DELAY_BARCANCEL": null, "FD_RESCUE_BAR": null, "FD_RESCUE_BAR_UNKNOWN": true, "Y4_PATH": null}；FD {"courses": [], "on": false, "certLate": false, "lateLikely": false, "hasMigrate": true, "hasRegTrace": true}
+PASS rescue_nobar：成績單紀錄（R.grades.Y4S2）沒有「缺考／不及格」、救回來的課＝「及格（期末考補登）」  {"grades": {"legal_research": "通過", "legal_practice": "通過", "maritime": "及格（期末考補登）"}, "bad": {}}
+PASS rescue_nobar：failedIn(Y4S2) 空、救回來的期末紀錄 status rescued  {"failed": [], "exam": {"Y4S2:maritime:final": {"status": "rescued"}}}
+PASS rescue_nobar：之後沒有延畢劇情（FD 的句子、late_2029／fd_late_* 步驟、日期卡寫延畢）  {"fd": [], "steps": [], "cards": [["2029-06-27", "6/27（三）23:00", "（畢業以後的第一個禮拜，你每天睡到自然醒。……然後就睡不著了。）"], ["2029-06-28", "6/28（四）10:00", ""], ["2029-08-07", "8/7（二）23:00", ""], ["2030-10-01", "10/1（二）21:00", "（十一月。公館的騎樓下，開始有人在賣烤地瓜。）"], ["2030-12-13", "12/13（五）15:06", ""], ["2030-12-13", "12/13（五）15:08", ""]]}
+PASS rescue_nobar：結束時仍沒有延畢（FAIL_DELAY_COURSES 空、沒有 FAIL_DELAY）  {"BAR_REG": false, "GRADUATED": 1355, "GRAD_DONE": true, "GRAD_EVENING": "none", "PACKED_Y4": 1354, "FAIL_DELAY_COURSES": [], "FD_RESCUE_NOFINAL": ["maritime"], "FD_RESCUE_BAR_UNKNOWN": true, "Y4_PATH": "undecided", "MOVED_OUT": 1381}
+PASS rescue_nobar：畫面上沒有重新報名的選項（選單、手機回覆鍵）  {"choose": [], "asks": [], "msgs": []}
+PASS rescue_nobar：沒有卡住  null
+PASS rescue_nobar：沒有 JS 例外  []
+PASS noexam_stay：遊戲載入
+PASS noexam_stay：前置成立（2029-05-27 Y4S2 第 14 週、termCourses 有 maritime、BAR_REG true、failedIn 只有考五題的課）  {"clock": {"key": "2029-05-27", "day": 1349, "h": 21.008, "zone": "dorm", "term": "Y4S2", "week": 14, "exam": null}, "flags": {"Y4_PATH": "bar", "BAR_REG": true}, "failed": ["maritime"], "examFinal": {}, "examDay": {"key": "2029-05-30", "block": "am", "makeup": false}, "examList": [["maritime", "final", "2029-05-30", "am"]], "termCourses": ["legal_research", "legal_practice", "maritime"], "grades": null, "pgOn": false, "delayed": false, "fdOn": false, "fd": {"courses": [], "on": false, "certLate": false, "lateLikely": false, "hasMigrate": true, "hasRegTrace": true}, "pgDone": [], "grLv": "fail_law", "retake": null, "acts": [], "nmsg": 0, "title": false}
+PASS noexam_stay：沒有卡住  null
+PASS noexam_stay：跑到 6/18 成績單（沒有逾時）  {"key": "2029-06-18", "day": 1371, "h": 9, "zone": "dorm", "term": null, "week": null, "exam": null}
+PASS noexam_stay：照玩家沒去考海商法（遊戲沒有強制帶進考場、沒有期末紀錄）  {"forced": [], "exam": null, "stay": [{"clock": {"key": "2029-05-30", "day": 1352, "h": 8.213, "zone": "dorm", "term": "Y4S2", "week": 15, "exam": "final"}, "mstat": {"key": "1352:maritime:am", "status": "upcoming", "t0": 9.166666666666666, "t1": 12.166666666666666, "exam": "final"}}, {"clock": {"key": "2029-05-30", "day": 1352, "h": 11.248, "zone": "dorm", "term": "Y4S2", "week": 15, "exam": "final"}, "mstat": {"key": "1352:maritime:am", "status": "open", "t0": 9.166666666666666, "t1": 12.166666666666666, "exam": "final"}}]}
+PASS noexam_stay：6/18 判延畢（FAIL_DELAY_COURSES 有 maritime、FAIL_DELAY）  {"Y4_PATH": "bar", "BAR_REG": false, "PACKED_Y4": 1354, "GRADUATED": 1355, "GRAD_DONE": true, "GRAD_EVENING": "none", "FAIL_DELAY_COURSES": ["maritime"], "FAIL_DELAY_V": 2, "FAIL_DELAY": true, "FAIL_DELAY_DAY": 1371, "FAIL_DELAY_BARCANCEL": true}
+PASS noexam_stay：用遊戲的存檔畫面存到欄位 1
+PASS noexam_stay：重新讀檔後仍然延畢（FAIL_DELAY_COURSES 有 maritime、FAIL_DELAY、沒有 FD_RESCUE_NOFINAL）  {"Y4_PATH": "bar", "BAR_REG": false, "PACKED_Y4": 1354, "GRADUATED": 1355, "GRAD_DONE": true, "GRAD_EVENING": "none", "FAIL_DELAY_COURSES": ["maritime"], "FAIL_DELAY_V": 2, "FAIL_DELAY": true, "FAIL_DELAY_DAY": 1371, "FAIL_DELAY_BARCANCEL": true}
+PASS noexam_stay：BAR_REG 沒有被恢復（仍 false）  {"BAR_REG": false, "FAIL_DELAY_BARCANCEL": true, "FD_RESCUE_BAR": null, "FAIL_DELAY_V": 2}
+PASS noexam_stay：成績單紀錄仍是缺考（不及格）  {"legal_research": "通過", "legal_practice": "通過", "maritime": "缺考（不及格）"}
+PASS noexam_stay：沒有 JS 例外  []
+PASS y4s1fail_old：遊戲載入
+PASS y4s1fail_old：大四上被當、沒排到大四下的課 → 延畢照舊（FAIL_DELAY、FAIL_DELAY_COURSES＝[enforcement]、FD.on、PG.delayed）  {"BAR_REG": false, "GRADUATED": 1355, "GRAD_DONE": true, "GRAD_EVENING": "none", "PACKED_Y4": 1354, "FAIL_DELAY_COURSES": ["enforcement"], "FAIL_DELAY": true, "FAIL_DELAY_DAY": 1371, "Y4_PATH": "bar", "FD_RESCUE_NOFINAL": ["maritime"]}
+PASS y4s1fail_old：BAR_REG 沒有恢復（延畢照舊）  {"BAR_REG": false, "FAIL_DELAY_BARCANCEL": null, "FD_RESCUE_BAR": null, "FD_RESCUE_BAR_UNKNOWN": null, "Y4_PATH": "bar"}；FD {"courses": ["enforcement"], "on": true, "certLate": false, "lateLikely": true, "hasMigrate": true, "hasRegTrace": true}
+PASS y4s1fail_old：結束時仍延畢（FAIL_DELAY）  {"BAR_REG": false, "GRADUATED": 1355, "GRAD_DONE": true, "GRAD_EVENING": "none", "PACKED_Y4": 1354, "FAIL_DELAY_COURSES": ["enforcement"], "FAIL_DELAY": true, "FAIL_DELAY_DAY": 1371, "Y4_PATH": "bar", "FD_RESCUE_NOFINAL": ["maritime"], "MOVED_OUT": 1381}
+PASS y4s1fail_old：沒有卡住  null
+PASS y4s1fail_old：沒有 JS 例外  []
+PASS rescue_grades：遊戲載入
+PASS rescue_grades：讀檔後延畢取消（FAIL_DELAY_COURSES 空、沒有 FAIL_DELAY、FD_RESCUE_NOFINAL＝["maritime"]）  {"BAR_REG": true, "GRADUATED": 1355, "GRAD_DONE": true, "GRAD_EVENING": "none", "PACKED_Y4": 1354, "FAIL_DELAY_COURSES": [], "Y4_PATH": "bar", "FD_RESCUE_NOFINAL": ["maritime"], "FD_RESCUE_BAR": "restored"}
+PASS rescue_grades：PG.delayed false、FD.on false  {"delayed": false, "fdOn": false}
+PASS rescue_grades：有報名痕跡＝恢復報名（BAR_REG true、FD_RESCUE_BAR restored）  {"BAR_REG": true, "FAIL_DELAY_BARCANCEL": null, "FD_RESCUE_BAR": "restored", "FD_RESCUE_BAR_UNKNOWN": null, "Y4_PATH": "bar"}；FD {"courses": [], "on": false, "certLate": false, "lateLikely": false, "hasMigrate": true, "hasRegTrace": true}
+PASS rescue_grades：成績單紀錄（R.grades.Y4S2）沒有「缺考／不及格」、救回來的課＝「及格（期末考補登）」  {"grades": {"legal_research": "通過", "legal_practice": "通過", "maritime": "及格（期末考補登）"}, "bad": {}}
+PASS rescue_grades：failedIn(Y4S2) 空、救回來的期末紀錄 status rescued  {"failed": [], "exam": {"Y4S2:maritime:final": {"status": "rescued"}}}
+PASS rescue_grades：選單「筆記」沒有「缺考」  []
+PASS rescue_grades：之後沒有延畢劇情（FD 的句子、late_2029／fd_late_* 步驟、日期卡寫延畢）  {"fd": [], "steps": [], "cards": [["2029-06-21", "6/21（四）19:30", "（畢業以後，你還是每天八點起床。不用上課，就去總圖。）"], ["2029-06-27", "6/27（三）23:00", ""], ["2029-06-28", "6/28（四）10:00", ""], ["2029-06-28", "公館的套房", ""], ["2029-07-05", "7/5（四）19:30", "（七月。總圖 B1 的長桌，每天早上都是同一群人。）"]]}
+PASS rescue_grades：結束時仍沒有延畢（FAIL_DELAY_COURSES 空、沒有 FAIL_DELAY）  {"BAR_REG": true, "GRADUATED": 1355, "GRAD_DONE": true, "GRAD_EVENING": "none", "PACKED_Y4": 1354, "FAIL_DELAY_COURSES": [], "Y4_PATH": "bar", "FD_RESCUE_NOFINAL": ["maritime"], "FD_RESCUE_BAR": "restored", "MOVED_OUT": 1381}
+PASS rescue_grades：沒有卡住  null
+PASS rescue_grades：沒有 JS 例外  []
+PASS y4s1_retake_rescue：遊戲載入
+PASS y4s1_retake_rescue：讀檔後延畢取消（FAIL_DELAY_COURSES 空、沒有 FAIL_DELAY、FD_RESCUE_NOFINAL＝["enforcement", "maritime"]）  {"BAR_REG": true, "GRADUATED": 1355, "GRAD_DONE": true, "GRAD_EVENING": "none", "PACKED_Y4": 1354, "FAIL_DELAY_COURSES": [], "Y4_PATH": "bar", "FD_RESCUE_NOFINAL": ["maritime", "enforcement"], "FD_RESCUE_BAR": "restored"}
+PASS y4s1_retake_rescue：PG.delayed false、FD.on false  {"delayed": false, "fdOn": false}
+PASS y4s1_retake_rescue：有報名痕跡＝恢復報名（BAR_REG true、FD_RESCUE_BAR restored）  {"BAR_REG": true, "FAIL_DELAY_BARCANCEL": null, "FD_RESCUE_BAR": "restored", "FD_RESCUE_BAR_UNKNOWN": null, "Y4_PATH": "bar"}；FD {"courses": [], "on": false, "certLate": false, "lateLikely": false, "hasMigrate": true, "hasRegTrace": true}
+PASS y4s1_retake_rescue：成績單紀錄（R.grades.Y4S2）沒有「缺考／不及格」、救回來的課＝「及格（期末考補登）」  {"grades": {"legal_research": "通過", "legal_practice": "通過", "maritime": "及格（期末考補登）", "enforcement": "及格（期末考補登）"}, "bad": {}}
+PASS y4s1_retake_rescue：failedIn(Y4S2) 空、救回來的期末紀錄 status rescued  {"failed": [], "exam": {"Y4S2:maritime:final": {"status": "rescued"}, "Y4S2:enforcement:final": {"status": "rescued"}}}
+PASS y4s1_retake_rescue：之後沒有延畢劇情（FD 的句子、late_2029／fd_late_* 步驟、日期卡寫延畢）  {"fd": [], "steps": [], "cards": [["2029-06-21", "6/21（四）19:30", "（畢業以後，你還是每天八點起床。不用上課，就去總圖。）"], ["2029-06-27", "6/27（三）23:00", ""], ["2029-06-28", "6/28（四）10:00", ""], ["2029-06-28", "公館的套房", ""]]}
+PASS y4s1_retake_rescue：結束時仍沒有延畢（FAIL_DELAY_COURSES 空、沒有 FAIL_DELAY）  {"BAR_REG": true, "GRADUATED": 1355, "GRAD_DONE": true, "GRAD_EVENING": "none", "PACKED_Y4": 1354, "FAIL_DELAY_COURSES": [], "Y4_PATH": "bar", "FD_RESCUE_NOFINAL": ["maritime", "enforcement"], "FD_RESCUE_BAR": "restored", "MOVED_OUT": 1381}
+PASS y4s1_retake_rescue：沒有卡住  null
+PASS y4s1_retake_rescue：沒有 JS 例外  []
+SHA 299e23345 CASES main,rescue_bar,rescue_nobar,noexam_stay,y4s1fail_old,rescue_grades,y4s1_retake_rescue
+ALL PASS

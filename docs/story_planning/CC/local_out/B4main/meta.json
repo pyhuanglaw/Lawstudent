@@ -1,0 +1,15 @@
+﻿{
+    "rerun":  "",
+    "id":  "B4main",
+    "sha":  "27e6ce77e",
+    "kind":  "probe",
+    "script":  "docs/story_planning/test_tools/cc/cc_d118b4_probe.py",
+    "env":  "CASES=S1",
+    "machine":  "MSI",
+    "start":  "2026-11-02T22:04:55",
+    "end":  "2026-11-02T22:05:58",
+    "seconds":  63,
+    "exit":  1,
+    "error":  null,
+    "url":  "http://127.0.0.1:8801/index.html"
+}

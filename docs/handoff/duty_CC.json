@@ -1,0 +1,10 @@
+{
+ "role": "CC",
+ "account": "A",
+ "session": "session_01TdESzxBpdGoPhdkPD2ENce",
+ "branch": "claude/cc-testing",
+ "since": "2026-11-02T03:53Z",
+ "state": "on",
+ "sinceSha": "336d26c3",
+ "userOk": false
+}

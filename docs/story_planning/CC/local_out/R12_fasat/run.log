@@ -1,0 +1,172 @@
+[gpu_wrap] CC_GPU=1 跑 C:\Users\USER\Documents\Lawstudent_cclocal\docs\story_planning\test_tools\cc\cc_fasat_probe.py http://127.0.0.1:8801/index.html C:\Users\USER\Documents\Lawstudent_cclocal\docs\story_planning\CC\local_out\R12_fasat\out
+==== 法服週六值班（SHA b1b249873）URL http://127.0.0.1:8801/index.html START out ====
+---- same_sat ----
+PASS same_sat：遊戲載入
+  [  23.3s] 值班日：{"d1": {"d": 431, "key": "2026-11-21", "wd": 6, "term": "Y2S1", "week": 11, "duty": true, "hol": false}, "d2": {"d": 445, "key": "2026-12-05", "wd": 6, "term": "Y2S1", "week": 13, "duty": true, "hol": false}}
+  [前置／捷徑] 【前置】最小存檔（BASEF＋ROOM_Y2＋lawclub）→ 2026-11-21（Y2S1 第 11 週，六）08:15 宿舍；條件事件照常（quiet_phone）
+PASS same_sat：前置成立（今天值班、是社員、還沒算過）  {"VIS": 0, "LAST": null, "N": 0, "A": 0, "key": "2026-11-21", "h": 8.26, "zone": "dorm", "duty": true, "member": true, "shiftable": true, "table": null, "FIRST_Y2": null, "COPY_LEASE": null, "wz": {"L": null, "I": null}}
+  [  76.2s] same_sat_出發：選單 ["出發：法服值班（法律系館B一樓 9:00）09:00　走過去約 10 分鐘", "晚一點（20 分鐘後再提醒）", "這週請假"] → 選「出發：法服值班（法律系館B一樓 9:00）09:00　走過去約 10 分鐘」
+PASS same_sat：照玩家從出發選單到萬才館（09:00）  {"menus": [["出發：法服值班（法律系館B一樓 9:00）09:00　走過去約 10 分鐘", "晚一點（20 分鐘後再提醒）", "這週請假"]]}
+  [  87.0s] same_first 之前：{"VIS": 0, "LAST": null, "N": 0, "A": 0, "key": "2026-11-21", "h": 9.009, "zone": "wancai", "duty": true, "member": true, "shiftable": true, "table": {"x": -1.6, "z": 3.4, "label": "坐到圓桌（做初談紀錄）", "hidden": false}, "FIRST_Y2": null, "COPY_LEASE": null, "wz": {"L": null, "I": null}}
+  [  90.1s] 「same_first：圓桌 (-1.6,3.4)」途中停下（離目標 0.23 m）：條件成立
+  [  91.7s] same_first：站在 (-1.44,3.56)，互動鍵「坐到圓桌（做初談紀錄）」；附近的互動 [{"label": "離開法律系館B", "hidden": false, "fafuShift": false, "fafuWatch": false, "d": 3.37}, {"label": "坐到圓桌（做初談紀錄）", "hidden": false, "fafuShift": true, "fafuWatch": false, "d": 0.22}, {"label": "看門口的告示", "hidden": false, "fafuShift": false, "fafuWatch": false, "d": 2.37}]
+  [ 106.6s] same_first：選單 ["「先請他從頭講一次。」", "「先問什麼時候發生的。」", "「先問手上有什麼資料。」"] → 選「「先請他從頭講一次。」」
+  [ 119.6s] same_first：選單 ["再待到十二點。", "先走。"] → 選「先走。」
+  [ 122.9s] same_first 之後：{"VIS": 1, "LAST": 431, "N": 1, "A": 1, "key": "2026-11-21", "h": 10.095, "zone": "wancai", "duty": true, "member": true, "shiftable": false, "table": {"x": -1.6, "z": 3.4, "label": "坐到圓桌（做初談紀錄）", "hidden": true}, "FIRST_Y2": 431, "COPY_LEASE": null, "wz": {"L": null, "I": null}}；對話 [["雅筑學姊", "今天兩桌。你跟我。"], ["", "（一位大學生，機車停在騎樓被拖吊了。）"], ["", "你先問什麼？"], ["雅筑學姊", "好。先聽完。"], ["", "（他講了十五分鐘。最重要的那一句，在最後。）"], ["民眾", "我只停了五分鐘。"], ["研究所學長", "那天的時間、地點先寫清楚。單子還在嗎？"], ["", "（隔壁桌，一個阿伯講了十分鐘，一直在講他兒子。大家都在翻六法。）"], ["", "（初談紀錄，一頁。學長在最下面簽名。）"]]
+PASS same_sat 第一次：按到圓桌、值班那一段演了
+PASS same_sat 第一次：LAWCLUB_SAT_VISITS +1（0 → 1）
+PASS same_sat 第一次：FAFU_SHIFT_N +1（0 → 1）
+PASS same_sat 第一次：careerLean A +1（0 → 1）  {"before": {"A": 0, "B": 0, "C": 0, "top": "B"}, "after": {"A": 1, "B": 0, "C": 0, "top": "A"}}
+PASS same_sat 第一次：LAWCLUB_SAT_LAST＝今天（431）
+PASS same_sat 第一次：時間推進 ≥ 1 小時（09:01 → 10:06）
+PASS same_sat 第一次：之後 fafuShiftable＝false
+  [ 128.5s] 到達「same_second_inside：圓桌 (-1.6,3.4)」附近（0.23 m）：點地面 0 次、轉鏡頭 0 次、搖桿 0 次，0 秒
+  [ 130.1s] same_second_inside：站在 (-1.44,3.56)，互動鍵「」；附近的互動 [{"label": "離開法律系館B", "hidden": false, "fafuShift": false, "fafuWatch": false, "d": 3.37}, {"label": "坐到圓桌（做初談紀錄）", "hidden": true, "fafuShift": true, "fafuWatch": false, "d": 0.22}, {"label": "看門口的告示", "hidden": false, "fafuShift": false, "fafuWatch": false, "d": 2.37}]
+PASS same_second_inside：圓桌旁沒有「坐到圓桌」（互動鍵「」）  {"table": {"x": -1.6, "z": 3.4, "label": "坐到圓桌（做初談紀錄）", "hidden": true}}
+PASS same_second_inside：LAWCLUB_SAT_VISITS 沒有再增加（1 → 1）
+PASS same_second_inside：FAFU_SHIFT_N 沒有再增加（1 → 1）
+PASS same_second_inside：careerLean A 沒有再增加（1 → 1）
+  [ 144.0s] 「same_second：走出萬才館：離開法律系館B」途中停下（離目標 1.20 m）：（初談紀錄，一頁。學長在最下面簽名。）
+  [ 154.0s] same_second：走出萬才館：wancai → campus
+  [ 161.6s] 「same_second：走回萬才館：進入法律系館B」途中停下（離目標 0.22 m）：（初談紀錄，一頁。學長在最下面簽名。）
+  [ 166.7s] same_second：走回萬才館：campus → wancai
+PASS same_sat：走出去再走進萬才館（populate 重跑）  {"frame": 5432, "day": 431, "h": 10.326, "busy": false, "zone": "wancai", "x": 0, "z": 5}
+  [ 169.5s] 到達「same_second_reenter：圓桌 (-1.6,3.4)」附近（0.20 m）：點地面 1 次、轉鏡頭 0 次、搖桿 0 次，3 秒
+  [ 171.1s] same_second_reenter：站在 (-1.46,3.54)，互動鍵「」；附近的互動 [{"label": "離開法律系館B", "hidden": false, "fafuShift": false, "fafuWatch": false, "d": 3.4}, {"label": "坐到圓桌（做初談紀錄）", "hidden": true, "fafuShift": true, "fafuWatch": false, "d": 0.19}, {"label": "看門口的告示", "hidden": false, "fafuShift": false, "fafuWatch": false, "d": 2.38}]
+PASS same_second_reenter：圓桌旁沒有「坐到圓桌」（互動鍵「」）  {"table": {"x": -1.6, "z": 3.4, "label": "坐到圓桌（做初談紀錄）", "hidden": true}}
+PASS same_second_reenter：LAWCLUB_SAT_VISITS 沒有再增加（1 → 1）
+PASS same_second_reenter：FAFU_SHIFT_N 沒有再增加（1 → 1）
+PASS same_second_reenter：careerLean A 沒有再增加（1 → 1）
+  [ 406.5s] 到達「same_noon：圓桌 (-1.6,3.4)」附近（0.20 m）：點地面 0 次、轉鏡頭 0 次、搖桿 0 次，0 秒
+  [ 408.0s] same_noon：站在 (-1.46,3.54)，互動鍵「」；附近的互動 [{"label": "離開法律系館B", "hidden": false, "fafuShift": false, "fafuWatch": false, "d": 3.4}, {"label": "坐到圓桌（做初談紀錄）", "hidden": true, "fafuShift": true, "fafuWatch": false, "d": 0.19}, {"label": "看門口的告示", "hidden": false, "fafuShift": false, "fafuWatch": false, "d": 2.38}]
+PASS same_sat 等到 11:58：圓桌旁沒有「坐到圓桌」（互動鍵「」）  {"table": {"x": -1.6, "z": 3.4, "label": "坐到圓桌（做初談紀錄）", "hidden": true}}
+PASS same_sat 等到 11:58：LAWCLUB_SAT_VISITS 沒有再增加（1 → 1）
+PASS same_sat 等到 11:58：FAFU_SHIFT_N 沒有再增加（1 → 1）
+PASS same_sat 等到 11:58：careerLean A 沒有再增加（1 → 1）
+PASS same_sat：STORY.fafuShift 只真的跑了一次（HOOK：start 時 fafuShiftable＝true 的次數）  [{"k": "shift", "n": "start", "t": "true", "d": "2026-11-21", "h": 9.075, "z": "wancai", "vis": 0, "sn": 0}, {"k": "shift", "n": "end", "t": "true", "d": "2026-11-21", "h": 10.075, "z": "wancai", "vis": 1, "sn": 1}]
+PASS same_sat：沒有 JS 例外  []
+---- next_sat ----
+PASS next_sat：遊戲載入
+  [ 431.3s] 值班日：DAY1 {"d": 431, "key": "2026-11-21", "wd": 6, "term": "Y2S1", "week": 11, "duty": true, "hol": false}、DAY2 {"d": 445, "key": "2026-12-05", "wd": 6, "term": "Y2S1", "week": 13, "duty": true, "hol": false}
+  [前置／捷徑] 【前置】same_sat 跑完的進度（GAME.snapshot()）跳到 DAY2 2026-12-05（Y2S1 第 13 週，六）08:15 dorm
+PASS next_sat：前置成立（DAY2 值班、是社員、LAST＝DAY1、shiftable）  {"VIS": 1, "LAST": 431, "N": 1, "A": 1, "key": "2026-12-05", "h": 8.26, "zone": "dorm", "duty": true, "member": true, "shiftable": true, "table": null, "FIRST_Y2": 431, "COPY_LEASE": null, "wz": {"L": null, "I": null}}
+  [ 483.2s] next_sat_出發：選單 ["出發：法服值班（法律系館B一樓 9:00）09:00　走過去約 10 分鐘", "晚一點（20 分鐘後再提醒）", "這週請假"] → 選「出發：法服值班（法律系館B一樓 9:00）09:00　走過去約 10 分鐘」
+PASS next_sat：照玩家從出發選單到萬才館（09:00）  {"menus": [["出發：法服值班（法律系館B一樓 9:00）09:00　走過去約 10 分鐘", "晚一點（20 分鐘後再提醒）", "這週請假"]]}
+  [ 492.4s] next_first 之前：{"VIS": 1, "LAST": 431, "N": 1, "A": 1, "key": "2026-12-05", "h": 9.008, "zone": "wancai", "duty": true, "member": true, "shiftable": true, "table": {"x": -1.6, "z": 3.4, "label": "坐到圓桌（做初談紀錄）", "hidden": false}, "FIRST_Y2": 431, "COPY_LEASE": null, "wz": {"L": null, "I": null}}
+  [ 495.7s] 「next_first：圓桌 (-1.6,3.4)」途中停下（離目標 0.23 m）：條件成立
+  [ 497.3s] next_first：站在 (-1.44,3.56)，互動鍵「坐到圓桌（做初談紀錄）」；附近的互動 [{"label": "離開法律系館B", "hidden": false, "fafuShift": false, "fafuWatch": false, "d": 3.37}, {"label": "坐到圓桌（做初談紀錄）", "hidden": false, "fafuShift": true, "fafuWatch": false, "d": 0.22}, {"label": "看門口的告示", "hidden": false, "fafuShift": false, "fafuWatch": false, "d": 2.37}]
+  [ 512.0s] next_first：選單 ["「先請他從頭講一次。」", "「先問什麼時候發生的。」", "「先問手上有什麼資料。」"] → 選「「先請他從頭講一次。」」
+  [ 522.9s] next_first：選單 ["再待到十二點。", "先走。"] → 選「先走。」
+  [ 526.2s] next_first 之後：{"VIS": 2, "LAST": 445, "N": 2, "A": 2, "key": "2026-12-05", "h": 10.097, "zone": "wancai", "duty": true, "member": true, "shiftable": false, "table": {"x": -1.6, "z": 3.4, "label": "坐到圓桌（做初談紀錄）", "hidden": true}, "FIRST_Y2": 431, "COPY_LEASE": null, "wz": {"L": null, "I": null}}；對話 [["研究所學長", "紀錄表在左邊。先寫日期。"], ["", "（一位阿姨，樓上漏水，天花板發霉，樓上的人"], ["", "你先問什麼？"], ["雅筑學姊", "好。先聽完。"], ["", "（他講了十五分鐘。最重要的那一句，在最後。）"], ["民眾", "我不想吵架。我只想要它不要再滴。"], ["雅筑學姊", "每一次滴水都拍照、記日期。下次我們一起看。"], ["", "（初談紀錄，一頁。學長在最下面簽名。）"]]
+PASS next_sat（下一個值班週六）：按到圓桌、值班那一段演了
+PASS next_sat（下一個值班週六）：LAWCLUB_SAT_VISITS +1（1 → 2）
+PASS next_sat（下一個值班週六）：FAFU_SHIFT_N +1（1 → 2）
+PASS next_sat（下一個值班週六）：careerLean A +1（1 → 2）  {"before": {"A": 1, "B": 0, "C": 0, "top": "A"}, "after": {"A": 2, "B": 0, "C": 0, "top": "A"}}
+PASS next_sat（下一個值班週六）：LAWCLUB_SAT_LAST＝今天（445）
+PASS next_sat（下一個值班週六）：時間推進 ≥ 1 小時（09:00 → 10:06）
+PASS next_sat（下一個值班週六）：之後 fafuShiftable＝false
+PASS next_sat：LAWCLUB_SAT_LAST 從 DAY1 換成 DAY2  [431, 445, 431, 445]
+PASS next_sat：沒有 JS 例外  []
+---- wzline_same ----
+PASS wzline_same：遊戲載入
+  [ 549.6s] wzline_same 值班日：{"d1": {"d": 431, "key": "2026-11-21", "wd": 6, "term": "Y2S1", "week": 11, "duty": true, "hol": false}, "d2": {"d": 445, "key": "2026-12-05", "wd": 6, "term": "Y2S1", "week": 13, "duty": true, "hol": false}}
+  [前置／捷徑] wzline_same：【前置】最小存檔（BASEF＋ROOM_Y2＋lawclub，沒有溫州街線的旗標）→ 2026-11-21（Y2S1 第 11 週，六）08:15 宿舍
+PASS wzline_same：前置成立（今天值班、是社員、還沒算過、今天沒有溫州街線）  {"VIS": 0, "LAST": null, "N": 0, "A": 0, "key": "2026-11-21", "h": 8.261, "zone": "dorm", "duty": true, "member": true, "shiftable": true, "table": null, "FIRST_Y2": null, "COPY_LEASE": null, "wz": {"L": null, "I": null}}
+  [ 601.2s] wzline_same_出發：選單 ["出發：法服值班（法律系館B一樓 9:00）09:00　走過去約 10 分鐘", "晚一點（20 分鐘後再提醒）", "這週請假"] → 選「出發：法服值班（法律系館B一樓 9:00）09:00　走過去約 10 分鐘」
+PASS wzline_same：照玩家從出發選單到萬才館（09:00）  {"menus": [["出發：法服值班（法律系館B一樓 9:00）09:00　走過去約 10 分鐘", "晚一點（20 分鐘後再提醒）", "這週請假"]]}
+  [ 610.4s] wzs_shift 之前：{"VIS": 0, "LAST": null, "N": 0, "A": 0, "key": "2026-11-21", "h": 9.008, "zone": "wancai", "duty": true, "member": true, "shiftable": true, "table": {"x": -1.6, "z": 3.4, "label": "坐到圓桌（做初談紀錄）", "hidden": false}, "FIRST_Y2": null, "COPY_LEASE": null, "wz": {"L": null, "I": null}}
+  [ 613.4s] 「wzs_shift：圓桌 (-1.6,3.4)」途中停下（離目標 0.20 m）：條件成立
+  [ 615.0s] wzs_shift：站在 (-1.46,3.54)，互動鍵「坐到圓桌（做初談紀錄）」；附近的互動 [{"label": "離開法律系館B", "hidden": false, "fafuShift": false, "fafuWatch": false, "d": 3.4}, {"label": "坐到圓桌（做初談紀錄）", "hidden": false, "fafuShift": true, "fafuWatch": false, "d": 0.19}, {"label": "看門口的告示", "hidden": false, "fafuShift": false, "fafuWatch": false, "d": 2.38}]
+  [ 629.7s] wzs_shift：選單 ["「先請他從頭講一次。」", "「先問什麼時候發生的。」", "「先問手上有什麼資料。」"] → 選「「先請他從頭講一次。」」
+  [ 642.3s] wzs_shift：選單 ["再待到十二點。", "先走。"] → 選「先走。」
+  [ 645.6s] wzs_shift 之後：{"VIS": 1, "LAST": 431, "N": 1, "A": 1, "key": "2026-11-21", "h": 10.094, "zone": "wancai", "duty": true, "member": true, "shiftable": false, "table": {"x": -1.6, "z": 3.4, "label": "坐到圓桌（做初談紀錄）", "hidden": true}, "FIRST_Y2": 431, "COPY_LEASE": null, "wz": {"L": null, "I": null}}；對話 [["雅筑學姊", "今天兩桌。你跟我。"], ["", "（一位大學生，機車停在騎樓被拖吊了。）"], ["", "你先問什麼？"], ["雅筑學姊", "好。先聽完。"], ["", "（他講了十五分鐘。最重要的那一句，在最後。"], ["民眾", "我只停了五分鐘。"], ["研究所學長", "那天的時間、地點先寫清楚。單子還在嗎？"], ["", "（隔壁桌，一個阿伯講了十分鐘，一直在講他兒子。大家都在翻六法。）"], ["", "（初談紀錄，一頁。學長在最下面簽名。）"]]
+PASS wzline_same 坐圓桌：按到圓桌、值班那一段演了
+PASS wzline_same 坐圓桌：LAWCLUB_SAT_VISITS +1（0 → 1）
+PASS wzline_same 坐圓桌：FAFU_SHIFT_N +1（0 → 1）
+PASS wzline_same 坐圓桌：careerLean A +1（0 → 1）  {"before": {"A": 0, "B": 0, "C": 0, "top": "B"}, "after": {"A": 1, "B": 0, "C": 0, "top": "A"}}
+PASS wzline_same 坐圓桌：LAWCLUB_SAT_LAST＝今天（431）
+PASS wzline_same 坐圓桌：時間推進 ≥ 1 小時（09:00 → 10:06）
+PASS wzline_same 坐圓桌：之後 fafuShiftable＝false
+PASS wzline_same：坐圓桌那一段演了「大二第一次值班」的前提畫面（story3d.js:757；FAFU_FIRST_SHIFT_Y2＝431、旁白「隔壁桌，一個阿伯…」有）
+  [前置／捷徑] wzline_same：【前置】坐圓桌以後的同一份進度（GAME.snapshot()）寫進溫州街線的旗標 {"WZ_COPY_LEASE": 2, "WZ_C_L1": 403, "WZ_LINE_L": {"k": "lease3", "day": 431, "tries": 0}, "WZ_C_L2": 417}、讀檔回萬才館一樓出生點（10:06）
+PASS wzline_same：寫旗標以後計數沒變、今天有溫州街線（WZL.lineToday）  {"VIS": 1, "LAST": 431, "N": 1, "A": 1, "key": "2026-11-21", "h": 10.105, "zone": "wancai", "duty": true, "member": true, "shiftable": false, "table": {"x": -1.6, "z": 3.4, "label": "坐到圓桌（做初談紀錄）", "hidden": true}, "FIRST_Y2": 431, "COPY_LEASE": 2, "wz": {"L": {"k": "lease3", "day": 431, "tries": 0}, "I": null}}
+  [ 664.7s] wzline_same_溫州街線 途中點過的對話：[["", "阿德帶了一個資料夾，每一張都用迴紋針夾好，按日期排。"], ["雅筑學姊", "您整理得很好。"], ["阿德", "我們做影印的，就是會整理。"], ["", "學長姐和阿德一頁一頁看租約。他們告訴他可以怎麼和房東談，哪些地方要先寫下來、留紀錄，談不攏的時候還可以去哪裡。"], ["", "你把學長姐說的重點寫在一張便條紙上。阿德看了一眼，你又重寫一次，字寫得更大。"], ["阿德", "這張我貼在機器旁邊。"]]
+PASS wzline_same：溫州街線的值班事件（ev_wz_c_lease3）演完（HOOK：lineAt 開演 0 次、WZL.run []）  {"live": {"frame": 5297, "day": 431, "h": 10.127, "busy": false, "zone": "wancai", "x": 0, "z": 6, "lineDone": true, "playing": false, "evr": false, "dlg": false}}
+  [ 672.7s] wzline_same 溫州街線之後：{"VIS": 1, "LAST": 431, "N": 1, "A": 1, "key": "2026-11-21", "h": 10.127, "zone": "wancai", "duty": true, "member": true, "shiftable": false, "table": {"x": -1.6, "z": 3.4, "label": "坐到圓桌（做初談紀錄）", "hidden": true}, "FIRST_Y2": 431, "COPY_LEASE": 3, "wz": {"L": null, "I": null}}
+  [ 672.8s] wzline_same 三個數值：{"before_shift": {"VIS": 0, "N": 0, "A": 0, "LAST": null, "FIRST_Y2": null, "h": "09:00"}, "after_shift": {"VIS": 1, "N": 1, "A": 1, "LAST": 431, "FIRST_Y2": 431, "h": "10:06"}, "after_line": {"VIS": 1, "N": 1, "A": 1, "LAST": 431, "FIRST_Y2": 431, "h": "10:08"}}
+PASS wzline_same：同一個週六（圓桌＋溫州街線）LAWCLUB_SAT_VISITS 只 +1（0 → 1 → 1）
+PASS wzline_same：同一個週六 FAFU_SHIFT_N 只 +1（0 → 1 → 1；BUG-FAFU-DOUBLE：head d75871437 預期 FAIL＝+2）
+PASS wzline_same：同一個週六 careerLean A 只 +1（0 → 1 → 1）  {"after_shift": {"A": 1, "B": 0, "C": 0, "top": "A"}, "after_line": {"A": 1, "B": 0, "C": 0, "top": "A"}}
+  [ 675.5s] 到達「wzline_same_table_after：圓桌 (-1.6,3.4)」附近（0.23 m）：點地面 1 次、轉鏡頭 0 次、搖桿 0 次，3 秒
+  [ 677.0s] wzline_same_table_after：站在 (-1.48,3.60)，互動鍵「」；附近的互動 [{"label": "離開法律系館B", "hidden": false, "fafuShift": false, "fafuWatch": false, "d": 3.35}, {"label": "坐到圓桌（做初談紀錄）", "hidden": true, "fafuShift": true, "fafuWatch": false, "d": 0.23}, {"label": "看門口的告示", "hidden": false, "fafuShift": false, "fafuWatch": false, "d": 2.32}]
+PASS wzline_same：溫州街線之後圓桌旁沒有「坐到圓桌」（互動鍵「」）  {"table": {"x": -1.6, "z": 3.4, "label": "坐到圓桌（做初談紀錄）", "hidden": true}}
+PASS wzline_same：STORY.fafuShift 只真的跑了一次  [{"k": "shift", "n": "start", "t": "true", "d": "2026-11-21", "h": 9.075, "z": "wancai", "vis": 0, "sn": 0}, {"k": "shift", "n": "end", "t": "true", "d": "2026-11-21", "h": 10.075, "z": "wancai", "vis": 1, "sn": 1}]
+PASS wzline_same：沒有 JS 例外  []
+---- wzline_first ----
+PASS wzline_first：遊戲載入
+  [ 700.5s] wzline_first 值班日：{"d1": {"d": 431, "key": "2026-11-21", "wd": 6, "term": "Y2S1", "week": 11, "duty": true, "hol": false}, "d2": {"d": 445, "key": "2026-12-05", "wd": 6, "term": "Y2S1", "week": 13, "duty": true, "hol": false}}
+  [前置／捷徑] wzline_first：【前置】最小存檔（BASEF＋ROOM_Y2＋lawclub）＋溫州街線的旗標 {"WZ_COPY_LEASE": 2, "WZ_C_L1": 403, "WZ_LINE_L": {"k": "lease3", "day": 431, "tries": 0}, "WZ_C_L2": 417} → 2026-11-21（Y2S1 第 11 週，六）08:15 宿舍
+PASS wzline_first：前置成立（今天值班、是社員、還沒算過、今天有溫州街線）  {"VIS": 0, "LAST": null, "N": 0, "A": 0, "key": "2026-11-21", "h": 8.261, "zone": "dorm", "duty": true, "member": true, "shiftable": true, "table": null, "FIRST_Y2": null, "COPY_LEASE": 2, "wz": {"L": {"k": "lease3", "day": 431, "tries": 0}, "I": null}}
+  [ 751.8s] wzline_first_出發：選單 ["出發：法服值班（今天陪阿德）法律系館B一樓　09:00　走過去約 10 分鐘", "晚一點（20 分鐘後再提醒）", "這次不去"] → 選「出發：法服值班（今天陪阿德）法律系館B一樓　09:00　走過去約 10 分鐘」
+PASS wzline_first：照玩家從出發選單到萬才館（09:00）  {"menus": [["出發：法服值班（今天陪阿德）法律系館B一樓　09:00　走過去約 10 分鐘", "晚一點（20 分鐘後再提醒）", "這次不去"]]}
+  [ 773.2s] wzline_first_溫州街線 途中點過的對話：[["", "阿德帶了一個資料夾，每一張都用迴紋針夾好，按日期排。"], ["雅筑學姊", "您整理得很好。"], ["阿德", "我們做影印的，就是會整理。"], ["", "學長姐和阿德一頁一頁看租約。他們告訴他可以怎麼和房東談，哪些地方要先寫下來、留紀錄，談不攏的時候還可以去哪裡。"], ["", "你把學長姐說的重點寫在一張便條紙上。阿德看了一眼，你又重寫一次，字寫得更大。"], ["阿德", "這張我貼在機器旁邊。"]]
+PASS wzline_first：溫州街線的值班事件（ev_wz_c_lease3）演完（HOOK：lineAt 開演 1 次、WZL.run ["ev_wz_c_lease3"]）  {"live": {"frame": 3446, "day": 431, "h": 9.028, "busy": false, "zone": "wancai", "x": 0, "z": 5, "lineDone": true, "playing": false, "evr": false, "dlg": false}}
+  [ 781.2s] wzline_first 溫州街線之後：{"VIS": 1, "LAST": 431, "N": 1, "A": 1, "key": "2026-11-21", "h": 9.028, "zone": "wancai", "duty": true, "member": true, "shiftable": false, "table": {"x": -1.6, "z": 3.4, "label": "坐到圓桌（做初談紀錄）", "hidden": true}, "FIRST_Y2": null, "COPY_LEASE": 3, "wz": {"L": null, "I": null}}
+PASS wzline_first：溫州街線演完 LAWCLUB_SAT_VISITS +1（0 → 1）
+PASS wzline_first：溫州街線演完 FAFU_SHIFT_N +1（社員，0 → 1）
+PASS wzline_first：溫州街線演完 LAWCLUB_SAT_LAST＝今天（431）
+PASS wzline_first：溫州街線演完 fafuShiftable＝false  {"VIS": 1, "LAST": 431, "N": 1, "A": 1, "key": "2026-11-21", "h": 9.028, "zone": "wancai", "duty": true, "member": true, "shiftable": false, "table": {"x": -1.6, "z": 3.4, "label": "坐到圓桌（做初談紀錄）", "hidden": true}, "FIRST_Y2": null, "COPY_LEASE": 3, "wz": {"L": null, "I": null}}
+  [ 784.0s] 到達「wzline_first_table：圓桌 (-1.6,3.4)」附近（0.23 m）：點地面 1 次、轉鏡頭 0 次、搖桿 0 次，3 秒
+  [ 785.6s] wzline_first_table：站在 (-1.44,3.56)，互動鍵「」；附近的互動 [{"label": "離開法律系館B", "hidden": false, "fafuShift": false, "fafuWatch": false, "d": 3.37}, {"label": "坐到圓桌（做初談紀錄）", "hidden": true, "fafuShift": true, "fafuWatch": false, "d": 0.22}, {"label": "看門口的告示", "hidden": false, "fafuShift": false, "fafuWatch": false, "d": 2.37}]
+PASS wzline_first_table：圓桌旁沒有「坐到圓桌」（互動鍵「」）  {"table": {"x": -1.6, "z": 3.4, "label": "坐到圓桌（做初談紀錄）", "hidden": true}}
+PASS wzline_first_table：LAWCLUB_SAT_VISITS 沒有再增加（1 → 1）
+PASS wzline_first_table：FAFU_SHIFT_N 沒有再增加（1 → 1）
+PASS wzline_first_table：careerLean A 沒有再增加（1 → 1）
+  [ 791.1s] wzline_first 三個數值：{"start": {"VIS": 0, "N": 0, "A": 0, "LAST": null, "FIRST_Y2": null, "h": "08:16"}, "after_line": {"VIS": 1, "N": 1, "A": 1, "LAST": 431, "FIRST_Y2": null, "h": "09:02"}, "after_table": {"VIS": 1, "N": 1, "A": 1, "LAST": 431, "FIRST_Y2": null, "h": "09:08"}}
+  [ 791.2s] wzline_first：「大二第一次值班」的前提畫面（story3d.js:757）FAFU_FIRST_SHIFT_Y2＝None、旁白「隔壁桌，一個阿伯…」沒有出現、fafuShift 真的跑了 0 次（只記錄：這個順序 FAFU_SHIFT_N 被溫州街線算成 1，之後 fafuShift 再跑 N 也不會是 1）
+  [前置／捷徑] wzline_first 隔週：【前置】同一天跑完的進度（GAME.snapshot()）跳到 DAY2 2026-12-05（Y2S1 第 13 週，六）08:15 dorm
+PASS wzline_first 隔週：前置成立（DAY2 值班、是社員、shiftable、還沒有 FAFU_FIRST_SHIFT_Y2、N 和同一天結束時一樣＝1）  {"VIS": 1, "LAST": 431, "N": 1, "A": 1, "key": "2026-12-05", "h": 8.29, "zone": "dorm", "duty": true, "member": true, "shiftable": true, "table": null, "FIRST_Y2": null, "COPY_LEASE": 3, "wz": {"L": null, "I": null}}
+  [ 835.6s] wzline_first_next_出發：選單 ["出發：法服值班（法律系館B一樓 9:00）09:00　走過去約 10 分鐘", "晚一點（20 分鐘後再提醒）", "這週請假"] → 選「出發：法服值班（法律系館B一樓 9:00）09:00　走過去約 10 分鐘」
+PASS wzline_first_next：照玩家從出發選單到萬才館（09:00）  {"menus": [["出發：法服值班（法律系館B一樓 9:00）09:00　走過去約 10 分鐘", "晚一點（20 分鐘後再提醒）", "這週請假"]]}
+  [ 842.4s] wzf_next_shift 之前：{"VIS": 1, "LAST": 431, "N": 1, "A": 1, "key": "2026-12-05", "h": 9.02, "zone": "wancai", "duty": true, "member": true, "shiftable": true, "table": {"x": -1.6, "z": 3.4, "label": "坐到圓桌（做初談紀錄）", "hidden": false}, "FIRST_Y2": null, "COPY_LEASE": 3, "wz": {"L": null, "I": null}}
+  [ 845.1s] 「wzf_next_shift：圓桌 (-1.6,3.4)」途中停下（離目標 0.23 m）：這張我貼在機器旁邊。
+  [ 846.7s] wzf_next_shift：站在 (-1.44,3.56)，互動鍵「坐到圓桌（做初談紀錄）」；附近的互動 [{"label": "離開法律系館B", "hidden": false, "fafuShift": false, "fafuWatch": false, "d": 3.37}, {"label": "坐到圓桌（做初談紀錄）", "hidden": false, "fafuShift": true, "fafuWatch": false, "d": 0.22}, {"label": "看門口的告示", "hidden": false, "fafuShift": false, "fafuWatch": false, "d": 2.37}]
+  [ 861.3s] wzf_next_shift：選單 ["「先請他從頭講一次。」", "「先問什麼時候發生的。」", "「先問手上有什麼資料。」"] → 選「「先請他從頭講一次。」」
+  [ 874.0s] wzf_next_shift：選單 ["再待到十二點。", "先走。"] → 選「先走。」
+  [ 877.2s] wzf_next_shift 之後：{"VIS": 2, "LAST": 445, "N": 2, "A": 2, "key": "2026-12-05", "h": 10.107, "zone": "wancai", "duty": true, "member": true, "shiftable": false, "table": {"x": -1.6, "z": 3.4, "label": "坐到圓桌（做初談紀錄）", "hidden": true}, "FIRST_Y2": 445, "COPY_LEASE": 3, "wz": {"L": null, "I": null}}；對話 [["雅筑學姊", "今天兩桌。你跟我。"], ["", "（一位大學生，機車停在騎樓被拖吊了。）"], ["", "你先問什麼？"], ["雅筑學姊", "好。先聽完。"], ["", "（他講了十五分鐘。最重要的那一句，在最後。）"], ["民眾", "我只停了五分鐘。"], ["研究所學長", "那天的時間、地點先寫清楚。單子還在嗎？"], ["", "（隔壁桌，一個阿伯講了十分鐘，一直在講他兒子。大家都在翻六法。）"], ["", "（初談紀錄，一頁。學長在最下面簽名。）"]]
+PASS wzline_first 隔週：按到圓桌、值班那一段演了
+PASS wzline_first 隔週：LAWCLUB_SAT_VISITS +1（1 → 2）
+PASS wzline_first 隔週：FAFU_SHIFT_N +1（1 → 2）
+PASS wzline_first 隔週：careerLean A +1（1 → 2）  {"before": {"A": 1, "B": 0, "C": 0, "top": "A"}, "after": {"A": 2, "B": 0, "C": 0, "top": "A"}}
+PASS wzline_first 隔週：LAWCLUB_SAT_LAST＝今天（445）
+PASS wzline_first 隔週：時間推進 ≥ 1 小時（09:01 → 10:06）
+PASS wzline_first 隔週：之後 fafuShiftable＝false
+PASS wzline_first 隔週：坐圓桌那一段演了「大二第一次值班」的前提畫面——旁白「隔壁桌，一個阿伯…」有（story3d.js:757；BB 10:55 修法，head d75871437 預期 FAIL）  ["今天兩桌。你跟我。", "（一位大學生，機車停在騎樓被拖吊了。）", "你先問什麼？", "好。先聽完。", "（他講了十五分鐘。最重要的那一句，在最後。）", "我只停了五分鐘。", "那天的時間、地點先寫清楚。單子還在嗎？", "（隔壁桌，一個阿伯講了十分鐘，一直在講他兒子。大家都在翻六法。）", "（初談紀錄，一頁。學長在最下面簽名。）"]
+PASS wzline_first 隔週：FAFU_FIRST_SHIFT_Y2＝今天（445，今天 445）
+PASS wzline_first：沒有 JS 例外  []
+---- old_y2_noflag ----
+PASS old_y2_noflag：遊戲載入
+  [ 900.8s] old_y2_noflag 值班日：{"d1": {"d": 431, "key": "2026-11-21", "wd": 6, "term": "Y2S1", "week": 11, "duty": true, "hol": false}, "d2": {"d": 445, "key": "2026-12-05", "wd": 6, "term": "Y2S1", "week": 13, "duty": true, "hol": false}}
+  [前置／捷徑] old_y2_noflag：【前置】舊存檔（最小存檔＋lawclub＋大二已值班 2 次、VISITS 2、LAST＝DAY1−14、FAFU_ROT open/cs 2、沒有 FAFU_FIRST_SHIFT_Y2）→ 2026-11-21（Y2S1 第 11 週，六）08:15 宿舍
+PASS old_y2_noflag：前置成立（大二、值班、社員、shiftable、N＝2、VISITS＝2、LAST 是更早的日子、沒有 FAFU_FIRST_SHIFT_Y2）  {"VIS": 2, "LAST": 417, "N": 2, "A": 2, "key": "2026-11-21", "h": 8.26, "zone": "dorm", "duty": true, "member": true, "shiftable": true, "table": null, "FIRST_Y2": null, "COPY_LEASE": null, "wz": {"L": null, "I": null}}
+  [ 952.2s] old_y2_noflag_出發：選單 ["出發：法服值班（法律系館B一樓 9:00）09:00　走過去約 10 分鐘", "晚一點（20 分鐘後再提醒）", "這週請假"] → 選「出發：法服值班（法律系館B一樓 9:00）09:00　走過去約 10 分鐘」
+PASS old_y2_noflag：照玩家從出發選單到萬才館（09:00）  {"menus": [["出發：法服值班（法律系館B一樓 9:00）09:00　走過去約 10 分鐘", "晚一點（20 分鐘後再提醒）", "這週請假"]]}
+  [ 961.6s] old_shift 之前：{"VIS": 2, "LAST": 417, "N": 2, "A": 2, "key": "2026-11-21", "h": 9.008, "zone": "wancai", "duty": true, "member": true, "shiftable": true, "table": {"x": -1.6, "z": 3.4, "label": "坐到圓桌（做初談紀錄）", "hidden": false}, "FIRST_Y2": null, "COPY_LEASE": null, "wz": {"L": null, "I": null}}
+  [ 964.5s] 「old_shift：圓桌 (-1.6,3.4)」途中停下（離目標 0.23 m）：條件成立
+  [ 966.1s] old_shift：站在 (-1.44,3.56)，互動鍵「坐到圓桌（做初談紀錄）」；附近的互動 [{"label": "離開法律系館B", "hidden": false, "fafuShift": false, "fafuWatch": false, "d": 3.37}, {"label": "坐到圓桌（做初談紀錄）", "hidden": false, "fafuShift": true, "fafuWatch": false, "d": 0.22}, {"label": "看門口的告示", "hidden": false, "fafuShift": false, "fafuWatch": false, "d": 2.37}]
+  [ 980.7s] old_shift：選單 ["「先請他從頭講一次。」", "「先問什麼時候發生的。」", "「先問手上有什麼資料。」"] → 選「「先請他從頭講一次。」」
+  [ 993.4s] old_shift：選單 ["再待到十二點。", "先走。"] → 選「先走。」
+  [ 996.7s] old_shift 之後：{"VIS": 3, "LAST": 431, "N": 3, "A": 3, "key": "2026-11-21", "h": 10.095, "zone": "wancai", "duty": true, "member": true, "shiftable": false, "table": {"x": -1.6, "z": 3.4, "label": "坐到圓桌（做初談紀錄）", "hidden": true}, "FIRST_Y2": 431, "COPY_LEASE": null, "wz": {"L": null, "I": null}}；對話 [["研究所學長", "今天人可能比較多。慢慢來。"], ["", "（一位先生，網購的冰箱用三個月就壞了，店家說"], ["", "你先問什麼？"], ["雅筑學姊", "好。先聽完。"], ["", "（他講了十五分鐘。最重要的那一句，在最後。"], ["民眾", "它才用三個月。"], ["研究所學長", "發票和對話紀錄都帶來，我們幫您整理成一頁。"], ["", "（隔壁桌，一個阿伯講了十分鐘，一直在講他兒子。大家都在翻六法。）"], ["", "（初談紀錄，一頁。學長在最下面簽名。）"]]
+PASS old_y2_noflag：按到圓桌、值班那一段演了
+PASS old_y2_noflag：LAWCLUB_SAT_VISITS +1（2 → 3）
+PASS old_y2_noflag：FAFU_SHIFT_N +1（2 → 3）
+PASS old_y2_noflag：careerLean A +1（2 → 3）  {"before": {"A": 2, "B": 0, "C": 0, "top": "A"}, "after": {"A": 3, "B": 0, "C": 0, "top": "A"}}
+PASS old_y2_noflag：LAWCLUB_SAT_LAST＝今天（431）
+PASS old_y2_noflag：時間推進 ≥ 1 小時（09:00 → 10:06）
+PASS old_y2_noflag：之後 fafuShiftable＝false
+PASS old_y2_noflag：坐圓桌那一段演了「大二第一次值班」的前提畫面——旁白「隔壁桌，一個阿伯…」有（story3d.js:757；BB 10:55 修法，head d75871437 預期 FAIL）  ["今天人可能比較多。慢慢來。", "（一位先生，網購的冰箱用三個月就壞了，店家說要自費。）", "你先問什麼？", "好。先聽完。", "（他講了十五分鐘。最重要的那一句，在最後。）", "它才用三個月。", "發票和對話紀錄都帶來，我們幫您整理成一頁。", "（隔壁桌，一個阿伯講了十分鐘，一直在講他兒子。大家都在翻六法。）", "（初談紀錄，一頁。學長在最下面簽名。）"]
+PASS old_y2_noflag：FAFU_FIRST_SHIFT_Y2＝今天（431，今天 431）
+PASS old_y2_noflag：STORY.fafuShift 只真的跑了一次  [{"k": "shift", "n": "start", "t": "true", "d": "2026-11-21", "h": 9.074, "z": "wancai", "vis": 2, "sn": 2}, {"k": "shift", "n": "end", "t": "true", "d": "2026-11-21", "h": 10.074, "z": "wancai", "vis": 3, "sn": 3}]
+PASS old_y2_noflag：沒有 JS 例外  []
+SHA b1b249873
+ALL PASS
