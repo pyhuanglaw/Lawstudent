@@ -19,3 +19,5 @@
       err.log (last 5): [gpu_wrap 96.3s] page close url=http://127.0.0.1:8801/index.html | [gpu_wrap 96.3s] BROWSER DISCONNECTED
 - 2026-11-02T20:00:06  R3_touchwz  sha=b1b249873  exit=0  187s    PASS 讀檔後可以走  9.4 / PASS 沒有 JS 例外 / ALL PASS
       err.log (last 5): [gpu_wrap 159.6s] page close url=http://127.0.0.1:8801/index.html?turbo&turbo | [gpu_wrap 159.7s] BROWSER DISCONNECTED
+- 2026-11-02T20:32:43  R4_day12  sha=b1b249873  exit=1  1950s    PASS 沒有 JS 例外  [] / [未驗] 共 5 項（劇情接手；要在負載低、每秒 1 格以上時重跑才驗得到）：走到法律系館A門口（點地面／搖桿）、門口出現「進入法律系館A」、進到霖澤館大廳、目標是上二樓到 201 教室、走樓梯上二樓、走到 201 教室門口（點地面／搖桿）、門口出現「進入 201 階梯教室」 / FAILED: 睡覺後到第二天 13:05 霖澤館前、阿哲對話結束、目標是進霖澤館上課, 劇情接手的時間合理（第二天、12:30～15:12、還沒上過課）, 用選單存到欄位 1
+      err.log (last 5): [gpu_wrap 1923.1s] page close url=http://127.0.0.1:8801/index.html?start0 | [gpu_wrap 1923.1s] BROWSER DISCONNECTED
