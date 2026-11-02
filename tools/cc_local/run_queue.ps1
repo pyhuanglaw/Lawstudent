@@ -10,58 +10,58 @@ param(
   [string]$Only = ""          # e.g. -Only 02_mk12  (comma list) to run selected items
 )
 $ErrorActionPreference = 'Continue'
+$GitExe = (Get-Command git -CommandType Application -ErrorAction Stop | Select-Object -First 1).Source   # never shadowed by a function
 $DevBranch = 'claude/confident-ritchie-8rwh7t'
 $Base = Split-Path $Repo -Parent
 $Work = Join-Path $Base 'Lawstudent_cclocal'
 $env:PYTHONUTF8 = '1'; $env:PYTHONIOENCODING = 'utf-8'
 $Summary = New-Object System.Collections.ArrayList
 
-function Log($m) { Write-Host ("[{0}] {1}" -f (Get-Date -Format 'HH:mm:ss'), $m) }
-function Git { param([Parameter(ValueFromRemainingArguments=$true)]$a) & git @a 2>&1 | ForEach-Object { "$_" } }
-function Retry-Push($dir) {
+function CC-Log($m) { Write-Host ("[{0}] {1}" -f (Get-Date -Format 'HH:mm:ss'), $m) }
+function CC-RetryPush($dir) {
   foreach ($w in 0,2,4,8,16) {
     if ($w) { Start-Sleep -Seconds $w }
-    & git -C $dir push -u origin claude/cc-local 2>&1 | ForEach-Object { "$_" } | Out-Host
+    & $GitExe -C $dir push -u origin claude/cc-local 2>&1 | ForEach-Object { "$_" } | Out-Host
     if ($LASTEXITCODE -eq 0) { return $true }
   }
   return $false
 }
-function Get-FreePort([int]$start) {
+function CC-FreePort([int]$start) {
   for ($p = $start; $p -lt $start + 200; $p++) {
     try { $l = [System.Net.Sockets.TcpListener]::new([System.Net.IPAddress]::Loopback, $p); $l.Start(); $l.Stop(); return $p } catch {}
   }
   throw "no free port"
 }
-function Find-Python {
+function CC-FindPython {
   $c = Get-Command python -ErrorAction SilentlyContinue
   if ($c -and $c.Source -notmatch 'WindowsApps') { return @($c.Source) }
   $c = Get-Command py -ErrorAction SilentlyContinue
   if ($c) { return @($c.Source, '-3.12') }
   throw "python not found"
 }
-$Py = Find-Python
+$Py = CC-FindPython
 $PyExe = $Py[0]; $PyPre = @(); if ($Py.Count -gt 1) { $PyPre = $Py[1..($Py.Count-1)] }
-Log "python: $($Py -join ' ')"
+CC-Log "python: $($Py -join ' ')"
 
 # ---- 1. branch claude/cc-local in its own worktree ----
 if (-not (Test-Path (Join-Path $Repo '.git'))) { Write-Host "Repo not found: $Repo"; exit 1 }
-Log "git fetch"
-& git -C $Repo fetch origin claude/cc-testing $DevBranch 2>&1 | Out-Host
-& git -C $Repo fetch origin claude/cc-local 2>$null | Out-Host
+CC-Log "git fetch"
+& $GitExe -C $Repo fetch origin claude/cc-testing $DevBranch 2>&1 | Out-Host
+& $GitExe -C $Repo fetch origin claude/cc-local 2>$null | Out-Host
 $hasRemoteLocal = $LASTEXITCODE -eq 0
 if (-not (Test-Path $Work)) {
-  & git -C $Repo worktree prune 2>&1 | Out-Host
-  & git -C $Repo worktree add --detach $Work origin/claude/cc-testing 2>&1 | Out-Host
+  & $GitExe -C $Repo worktree prune 2>&1 | Out-Host
+  & $GitExe -C $Repo worktree add --detach $Work origin/claude/cc-testing 2>&1 | Out-Host
 }
 if ($hasRemoteLocal) {
-  & git -C $Work checkout -B claude/cc-local origin/claude/cc-local 2>&1 | Out-Host
-  & git -C $Work merge --no-edit origin/claude/cc-testing 2>&1 | Out-Host   # get the newest queue/probes from CC
+  & $GitExe -C $Work checkout -B claude/cc-local origin/claude/cc-local 2>&1 | Out-Host
+  & $GitExe -C $Work merge --no-edit origin/claude/cc-testing 2>&1 | Out-Host   # get the newest queue/probes from CC
 } else {
-  & git -C $Work checkout -B claude/cc-local origin/claude/cc-testing 2>&1 | Out-Host
+  & $GitExe -C $Work checkout -B claude/cc-local origin/claude/cc-testing 2>&1 | Out-Host
 }
 if ($LASTEXITCODE -ne 0) { Write-Host "git checkout/merge failed in $Work - fix it and rerun"; exit 1 }
-$Head = (& git -C $Repo rev-parse --short "origin/$DevBranch").Trim()
-Log "dev head = $Head"
+$Head = (& $GitExe -C $Repo rev-parse --short "origin/$DevBranch").Trim()
+CC-Log "dev head = $Head"
 
 # ---- 2. read queue ----
 $QFile = Join-Path $Work 'tools\cc_local\queue.txt'
@@ -72,7 +72,7 @@ foreach ($line in Get-Content -Encoding UTF8 $QFile) {
   $Items += [pscustomobject]@{ Id=$f[0]; Sha=$f[1]; Kind=$f[2]; Script=$f[3]; Url=$f[4]; Tmin=[int]$f[5]; Env=$(if ($f.Count -gt 6) { $f[6] } else { '' }) }
 }
 if ($Only) { $sel = $Only.Split(',') | ForEach-Object { $_.Trim() }; $Items = $Items | Where-Object { $sel -contains $_.Id } }
-Log ("queue: " + (($Items | ForEach-Object { $_.Id }) -join ', '))
+CC-Log ("queue: " + (($Items | ForEach-Object { $_.Id }) -join ', '))
 $OutRoot = Join-Path $Work 'docs\story_planning\CC\local_out'
 New-Item -ItemType Directory -Force -Path $OutRoot | Out-Null
 
@@ -81,12 +81,12 @@ foreach ($it in $Items) {
   $od = Join-Path $OutRoot $id; New-Item -ItemType Directory -Force -Path $od | Out-Null
   $meta = [ordered]@{ id=$id; sha=$sha; kind=$it.Kind; script=$it.Script; env=$it.Env; machine=$env:COMPUTERNAME; start=(Get-Date).ToString('s'); end=$null; seconds=$null; exit=$null; error=$null }
   $wt = Join-Path $Base ("wt_cc_" + $id); $srv = $null
-  Log "==== $id  ($($it.Kind) @ $sha) ===="
+  CC-Log "==== $id  ($($it.Kind) @ $sha) ===="
   try {
-    if (Test-Path $wt) { & git -C $Repo worktree remove --force $wt 2>&1 | Out-Host }
-    & git -C $Repo worktree add --detach $wt $sha 2>&1 | Out-Host
+    if (Test-Path $wt) { & $GitExe -C $Repo worktree remove --force $wt 2>&1 | Out-Host }
+    & $GitExe -C $Repo worktree add --detach $wt $sha 2>&1 | Out-Host
     if ($LASTEXITCODE -ne 0) { throw "worktree add $sha failed" }
-    $port = Get-FreePort 8800
+    $port = CC-FreePort 8800
     $srv = Start-Process -FilePath $PyExe -ArgumentList ($PyPre + @('-m','http.server',"$port",'--bind','127.0.0.1')) -WorkingDirectory $wt -WindowStyle Hidden -PassThru
     Start-Sleep -Seconds 3
     $url = "http://127.0.0.1:$port/$($it.Url)"; $meta.url = $url
@@ -107,11 +107,11 @@ foreach ($it in $Items) {
     if (-not $ok) { Stop-Process -Id $p.Id -Force -ErrorAction SilentlyContinue; $meta.error = "timeout $($it.Tmin) min" }
     $meta.exit = $p.ExitCode
     foreach ($kv in ($it.Env -split ';')) { if ($kv -match '^\s*([^=]+)=') { Remove-Item -Path ("env:" + $Matches[1].Trim()) -ErrorAction SilentlyContinue } }
-  } catch { $meta.error = "$_"; Log "ERROR $id : $_" }
+  } catch { $meta.error = "$_"; CC-Log "ERROR $id : $_" }
   finally {
     if ($srv) { Stop-Process -Id $srv.Id -Force -ErrorAction SilentlyContinue }
     Start-Sleep -Seconds 1
-    & git -C $Repo worktree remove --force $wt 2>&1 | Out-Null
+    & $GitExe -C $Repo worktree remove --force $wt 2>&1 | Out-Null
   }
   $meta.end = (Get-Date).ToString('s'); $meta.seconds = [int]((Get-Date $meta.end) - (Get-Date $meta.start)).TotalSeconds
   $meta | ConvertTo-Json | Out-File -Encoding utf8 (Join-Path $od 'meta.json')
@@ -123,15 +123,15 @@ foreach ($it in $Items) {
   ("- " + (Get-Date -Format 's') + "  " + $Summary[$Summary.Count-1]) | Out-File -Append -Encoding utf8 $sumFile
   $files = Get-ChildItem -Recurse -File $od
   $nonPng = $files | Where-Object { $_.Extension -ne '.png' }
-  foreach ($f in $nonPng) { & git -C $Work add -- $f.FullName 2>&1 | Out-Null }
+  foreach ($f in $nonPng) { & $GitExe -C $Work add -- $f.FullName 2>&1 | Out-Null }
   $acc = 0; $skipped = 0
   foreach ($f in ($files | Where-Object { $_.Extension -eq '.png' } | Sort-Object FullName)) {
-    if ($acc + $f.Length -le 25MB) { $acc += $f.Length; & git -C $Work add -- $f.FullName 2>&1 | Out-Null } else { $skipped++ }
+    if ($acc + $f.Length -le 25MB) { $acc += $f.Length; & $GitExe -C $Work add -- $f.FullName 2>&1 | Out-Null } else { $skipped++ }
   }
   if ($skipped) { "screenshots not pushed (over 25 MB): $skipped" | Out-File -Append -Encoding utf8 (Join-Path $od 'notes.txt') }
-  & git -C $Work add -- $sumFile 2>&1 | Out-Null
-  & git -C $Work commit -q -m "CC-local: $id result (sha $sha, exit $($meta.exit), $($meta.seconds)s)" 2>&1 | Out-Host
-  if (-not (Retry-Push $Work)) { Log "push failed for $id (results stay in $Work, rerun later)" }
+  & $GitExe -C $Work add -- $sumFile 2>&1 | Out-Null
+  & $GitExe -C $Work commit -q -m "CC-local: $id result (sha $sha, exit $($meta.exit), $($meta.seconds)s)" 2>&1 | Out-Host
+  if (-not (CC-RetryPush $Work)) { CC-Log "push failed for $id (results stay in $Work, rerun later)" }
 }
 
 Write-Host ""
