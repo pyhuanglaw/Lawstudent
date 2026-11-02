@@ -280,7 +280,7 @@ const R2Y3A_EVENTS=(function(){
       {label:'end'} ],
     consequences:{flags:{TYPHOON_Y3:true}} };
   /* T3b「照常的讀書會」：家族群組選「我會上線」＝10/14（四）19:00～19:50 線上，只有學姊和祐廷，各讀各的，鏡頭關著（AA_343 B4 的旁白）。
-     七點五十分她先打一行字：在公法讀書會的（大一去過，或這學期有去）＝「八點你們有讀書會。下線吧。」，其他＝「七點五十了。我先下線。」；兩版都接「……颱風天這樣讀，剛好。」。
+     七點五十分她先打一行字：在公法讀書會的（大一去過，或這學期有去）＝「八點你們有讀書會。我先下線了。」，其他＝「七點五十了。我先下線。」；兩版都接「……颱風天這樣讀，剛好。」。
      答應了、19:10 還沒上線：什麼都不發生，她不追人（沒有 outingMissed；SIS_TYPHOON_Y3 照記 'online'）*/
   const plgThisTerm=G=>{ const A=(G.acts&&G.acts.att)||{}, C=typeof CALENDAR!=='undefined'&&CALENDAR.termOf?CALENDAR:null, t0=C?C.termOf(G.day):null; if(!t0) return false;
     for(const k in A){ const m=/^public_law_group@(-?\d+)$/.exec(k); if(!m) continue; const t=C.termOf(+m[1]); if(t&&t.id===t0.id) return true; } return false; };
@@ -290,7 +290,7 @@ const R2Y3A_EVENTS=(function(){
     dialogue:[ {speaker:null,text:'（七點整，線上讀書室只有兩格。兩格的鏡頭都關著。）'},
       {speaker:null,text:'（她的麥克風沒有關。翻頁的聲音、螢光筆的蓋子，偶爾一聲很小的「……嗯。」）'},
       {speaker:null,text:'（七點五十分，她那一格先打了一行字。）'},
-      {if:PLG,speaker:'heroine_05',text:'八點你們有讀書會。下線吧。'},
+      {if:PLG,speaker:'heroine_05',text:'八點你們有讀書會。我先下線了。'},
       {unless:PLG,speaker:'heroine_05',text:'七點五十了。我先下線。'},
       {speaker:'heroine_05',text:'……颱風天這樣讀，剛好。'},
       {set:{SIS_TYPHOON_Y3_ONLINE:'went'}} ] };
@@ -402,7 +402,7 @@ const R2Y3A_EVENTS=(function(){
     prereq:{custom:G=>!member(G)&&!done(G,'ev_fair_booth_y3')},
     dialogue:[ {speaker:null,text:'（法服的攤位前，柏翰在跟一個人講話，筆記寫了半頁。）'},
       {if:GM_Y2,speaker:null,text:'（攤位旁邊的阿嬤看到你，揮了一下手。）'},
-      {if:SIS_PASS,speaker:'heroine_05',text:'你。……算了，今年不抓你。'},
+      {if:SIS_PASS,speaker:'heroine_05',text:'（抱著一疊訪談稿，從攤位前面經過，看到你）今天人好多。我回研究室了。'},
       STICKERS,
       {set:{FAIR_Y3:'pass'}} ] };
 
