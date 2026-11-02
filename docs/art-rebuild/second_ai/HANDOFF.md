@@ -1,25 +1,39 @@
 # LAWWW2 交接紀錄（隨時更新；工作階段中斷時從這裡接）
 
-## 🔨 現在在做（11-02 15:3x 更新）：使用者 P0「總圖」——LIB-FRONT ✅、B1 第二版 ✅、tests patch ✅ → 一樓＋二樓 version 2（驗證中）→ LIB-FRONT v3.1 → B1 第三版 → v3.2／效能
+## 🔨 現在在做（11-02 16:3x 更新）：使用者 P0「總圖」——一樓＋二樓 version 2 收尾 → B1 第三版 → LIB-FRONT v3.1 → 3F → 效能 → v3.2（BB 15:46、LAWWW 15:34 定的順序）
 - **已交件、已整合**（LAWWW ACK）：
-  - LIB-FRONT-1102 第三版：`32961b6ab` → int/next1102 `3caff35d9`。BB_234 驗收「可以整合」，ART_APPROVED 等 v3.1／v3.2 補齊再判（D120：建築場景由 BB 標）。
-  - B1 第二版：`3591dcb47` → int/next1102 `3e6855649`。BB_236「可以整合、還不標 ART_APPROVED」，要做的見 B1 第三版。
-- **已交件、待 ACK**：campus_glb_integration 只改 tests 的 patch `219e5dc45`（LAWWW 14:30 要的）。
-  - int/next1102 跑兩次：94 PASS／1 FAIL。
-  - FAIL 是效能，遊戲本身的數字：soc_court、teach_east 1.105 倍，兩次都超過；arts_front、gate_avenue 在邊緣，有一組約 26 次 draw call 的量測雜訊。
-  - 說明：`test_logs/campus_glb_integration_1102/README.md`。
-- **一樓＋二樓 version 2**（worktree `scratchpad/devwt_i`＝int/next1102 `3e6855649`＋第二版 patch＋GLB；b1b249873 的副本是 `devwt_g`）：
-  - 14:49 第一次烘焙：lm_probe 抓到展演廳地板、天花板的扇形面寫反了（法線朝下，烘出 0.001 全黑）。改了頂點順序，重烘（15:22）全過；二樓西翼探針原本放在長桌底下，改到走道。WIP 推 `638a12b53`。
-  - Node 92 支（patch 動到的＋library／nav／stairs 相關）ALL PASS。
-  - 舊存檔：715 個第一版位置，619 原地、96 挪開（最遠 2.69 m）、0 退回出生點。
-  - **在跑**：改前改後截圖（`lh2shots`）→ 瀏覽器 7 支（floors、scene、lib_tour、stairs_cam、zone_transitions、seats_on_furniture、reachability_all 全區）。
-  - **下一步**：README 第二～六節 → 產 patch（b1b249873、3e6855649 都 check）→ 二進位進 assets → outbox → 交件。
-- **接著的順序**（LAWWW 14:42 同意）：
-  1. LIB-FRONT v3.1：平台上兩棵針葉樹，`wip/lib_front_v31`；incr patch 要在 int/next1102 上重新 check。
-  2. B1 第三版（BB_236）：細紋淺橡木 PBR、高背直條實木椅不要坐墊、桌上小物 instancing、確認背景同學坐新座位、牆面公告／出風口／置物櫃、烘焙。
-  3. LIB-FRONT v3.2（BB_234）：拱廊深度、白石立面線腳、近景磚石法線。
-  4. PERF-CAMPUS-GLB-1102：效能雜訊、四棟減 draw call。
-  5. CAMPUS-RELAYOUT-1102。
+  - LIB-FRONT 第三版：int/next1102 `3caff35d9`；
+  - B1 第二版：`3e6855649`；
+  - campus_glb_integration tests patch：`eb3920914`。
+- **一樓＋二樓 version 2**（worktree `scratchpad/devwt_i`＝int/next1102 `3e6855649`＋patch＋GLB）：
+  - 改後截圖抓到展演廳兩個錯，都修好、重烘（16:2x）lm_probe 全過：
+    - 地板、天花板的扇形面寫反；
+    - 兩側弧牆東西寫反：dir 朝外 → 朝室內的面縮成一點，鏡頭在裡面反而把牆淡出。
+  - `library_hall_lightmap_unit` 加「牆的 dir 朝房間裡面」：舊 GLB FAIL、新的 PASS。
+  - 最後的 GLB＋光照貼圖＋patch 已推（`2b86395e8`，還沒交件）。
+    - patch 在 b1b249873、a5935aa30、3e6855649 都 apply 乾淨；
+    - Node 92 支 ALL PASS。
+  - 瀏覽器流程（`scratchpad/lib1102/lh2flows/RESULTS.txt`）：
+    - floors ALL PASS；
+    - scene 一項 FAIL：走到台階書牆的樓梯中段時走過頭上了二樓，當時在烘焙、搶 CPU。這批跑完要單獨重跑。
+    - lib_tour、stairs_cam、zone_transitions、seats_on_furniture、reachability_all 在跑。
+  - **下一步**：
+    - 流程跑完 → 重跑 scene；
+    - 重拍改後 11 張（加了展演廳裡面、晚上）→ `next1102/make_lh2_grids.py` → README 第二、三、六節 → outbox → 交件。
+- **B1 第三版**（BB_236，WIP 推了；`wip/library_b1_v3/README.md`）：
+  - 已改：
+    - 細紋淺橡木（`fine_grained_wood`）；
+    - 高背直條實木椅、沒有坐墊；
+    - 桌上小物（`desk_props.glb` 的 `tset_*`，46 組）；
+    - 背包三色 15 個，全部 instancing。
+  - 試匯出在 `scratchpad/lib1102/b1v6/`：2.87 MB，layout 和第二版完全一樣，所以只換 GLB、不用 patch。
+  - **下一步**：遊戲內截圖（`lib1102/b1v3shots/before.json`、`after.json`；不藏路人那兩張看同學有沒有坐新座位）→ 交件；牆面、烘焙之後再做。
+- **LIB-FRONT v3.1**：
+  - `wip/lib_front_v31`；`devwt_k`＝3e6855649＋v3.1，Node 5 支 ALL PASS。
+  - 還要 campus_layout_nav、reachability_all、截圖。
+- **LIB-3F-1102**：
+  - 盤點在 `scratchpad/lib3f/inventory.md`。
+  - 方向：照平面圖排、搬桌子；學姊 seats[2]、seatAt (−2.4,1.5)、課程導覽 (0,3.2)、樓梯間出口、東側電梯照 LAWWW 15:34 的要求保留或在 patch 裡改，附新舊對照表。
 - **3F（更正 15:4x）**：使用者 08:58 **有給 3F 平面圖**，5 張的第 5 張。之前寫「沒給」是我漏看了。
   - 原圖抽出來存在 `docs/art-rebuild/second_ai/ref/lib1102_user/`。
   - 3F 閱覽區照圖重排是 **LIB-3F-1102**：一樓二樓交件、v3.1 之後，B1 第三版之前。
