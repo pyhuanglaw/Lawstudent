@@ -3801,12 +3801,12 @@
     },
     {
       "path": "docs/story_planning/study/cards_y3s2.json",
-      "sha": "26471fe4f",
+      "sha": "1dd6c19be",
       "status": "approved",
       "approvedBy": "AA（D109 劇情自主；AA 12:02 定稿，已獨立核對）",
       "task": "D118-B2-1102",
       "kind": "text",
-      "note": "大三下觀念卡 35 張（民訴甲下 10、保險 9、勞動 8、票據 8；42 題）；LAWWW 2026-11-02 登記"
+      "note": "大三下觀念卡 35 張（民訴甲下 10、保險 9、勞動 8、票據 8；42 題）；LAWWW 2026-11-02 登記；AA 12:03 民訴甲下 w2↔w3、w11↔w12 對調、w15 併入 w6（配合 AI_CP2 scopeWeek），換 sha 1dd6c19be"
     }
   ]
 }
