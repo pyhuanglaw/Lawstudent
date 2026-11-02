@@ -55,6 +55,7 @@ _reserved_ports = set()
 
 RESTART_EXIT = 75     # BB 2026-11-02 20:08：runner 自己有新版 → 跑完手上的項目、push 完，用 75 結束；run_forever.ps1 收到 75 立刻重跑新版
 SELF_FILE = os.path.abspath(__file__)
+LONG_MIN = 120       # 逾時 ≥120 分鐘＝長項目（BB 20:23 規則 B）
 
 
 def file_hash(path):
@@ -681,8 +682,10 @@ class Runner(object):
                 need_refresh = False
                 if not self.restart_pending and file_hash(SELF_FILE) != self.self_hash:
                     self.restart_pending = True
-                    log('run_queue.py has a new version - finishing the %d running item(s), then restarting (exit %d)' % (len(running), RESTART_EXIT))
-            if self.restart_pending:
+                    log('run_queue.py has a new version - restart (exit %d) after the running item(s) finish; while long items (>=%d min) run, free slots still take short items' % (RESTART_EXIT, LONG_MIN))
+            long_running = any(r[1].tmin >= LONG_MIN for r in running.values())
+            if self.restart_pending and not long_running:
+                # 有新版、手上沒有長項目：不開新項目，跑完手上的就 exit 75
                 if not running:
                     break
                 fin = done_q.get()
@@ -694,6 +697,8 @@ class Runner(object):
                 for cand in items:
                     if cand.id in running:
                         continue
+                    if self.restart_pending and cand.tmin >= LONG_MIN:
+                        continue   # BB 20:23 規則 B：有新版時，空格只開短項目，長項目等新版
                     cs = self.resolve(cand.sha)
                     key = '%s@%s#%s' % (cand.id, cs, cand.rerun)   # 鍵含 RERUN 記號（舊版漏了 RERUN）
                     if key in attempted:

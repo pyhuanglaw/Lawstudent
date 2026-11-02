@@ -15,6 +15,29 @@
 # BB_229（11:52 UTC）規則 1（BB 11:57 修正：只有從來沒有在任何地方完整跑過、而且改動很大的才 HOLD＝day9、boya203、wsem；其餘照跑，這一輪就當第一次實跑）。原文：今晚新寫或改過、雲端沒有跑過紀錄的探針（quota15、legalpage、layout16、wsem、day9、delay14、fasat、makeup、y4s2final、d118b3、d118b4、rollcall、boya203、bg107、pt106）要先在雲端跑過一次。跑過以前，項目前面標「#HOLD雲端 」，PC 會跳過；雲端 PASS 以後拿掉標記。
 # 規則 5（修改前對照）：R5 → 05_mk12old（b4f98ea4e）；R8 → 雲端 4734c3d9e 已跑（CC_01 §13b）；R9 → 21_rollpre；R12 → R12b_fasatpre；R10 → R10pre（299e23345，B3 合併前）；R11 → R11pre（f57e3ac75，B4 前）；R1～R4、R6b、R7 是回歸／量測，不是修 bug 的項目，沒有修改前對照。
 # P0（BB 13:37）：R4 對照組＋b4 對照，排在最前面。main＝27e6ce77e（v9.10.15，床的選單 566f60cd6 已經在裡面）
+# ===== BB 20:23：下一版 ef63b1877（int/next1102 合進開發分支）驗收（BB_246）。全部排在最前面；長項目（逾時 ≥120）一律在檔尾 =====
+# 規則 B（run_queue.py）：有新版時，長項目還在跑，空格照樣開短項目；長項目全部結束才 exit 75
+N1_node     | ef63b1877 | node  | tools/cc_local/node_units.js | index.html | 90 | XARGS=--out {out} --timeout 600
+G1_reach    | ef63b1877 | game  | tests/reachability_all.py    | index.html?turbo | 90  | XARGS={url}
+G2_libfl    | ef63b1877 | game  | tests/flow_library_floors.py | index.html | 60  | XARGS={url} {out}
+G3_libsc    | ef63b1877 | game  | tests/flow_library_scene.py  | index.html | 60  | XARGS={url} {out}
+G5_termend  | ef63b1877 | game  | tests/flow_termend.py        | index.html | 90  | XARGS={url} {out}
+G6a_v7      | ef63b1877 | game  | tests/save_compat_v7.py      | index.html | 60  | SHA2=385e194;XARGS={url2} {url}
+G6b_v95     | ef63b1877 | game  | tests/save_compat_v95.py     | index.html | 60  | SHA2=a4f2760;XARGS={url2} {url} {out}
+G6c_fm      | ef63b1877 | game  | tests/save_firstmet_migration.py | index.html | 60 | XARGS={url} {out}
+G7_class    | ef63b1877 | game  | tests/flow_class_real.py     | index.html | 110 | XARGS={url} {out}
+P3_ladder   | ef63b1877 | game  | tests/flow_ladder_y1s2.py    | index.html | 110 | XARGS={url} {out}
+P4_legal    | ef63b1877 | probe | docs/story_planning/test_tools/cc/cc_legalpage_probe.py | index.html?turbo | 60 | RERUN=ef63
+P5_ui       | ef63b1877 | probe | docs/story_planning/test_tools/cc/cc_next1102_ui_probe.py | index.html | 90 | SHA=ef63b1877;CASES=examgoal,psbhbg;ORIENTS=port,land
+# 雲端還沒跑過（BB_229 規則 1）：子代理在雲端驗證中，跑過就解除
+#HOLD雲端 P1_d124    | ef63b1877 | probe | docs/story_planning/test_tools/cc/cc_d124_probe.py | index.html?turbo | 90 |
+#HOLD雲端 P2_bar     | ef63b1877 | probe | docs/story_planning/test_tools/cc/cc_bar_b8_probe.py | index.html?turbo | 90 |
+#HOLD雲端 G5b_ancf   | ef63b1877 | probe | docs/story_planning/test_tools/cc/cc_next1102_ui_probe.py | index.html | 90 | SHA=ef63b1877;CASES=ancf2;ORIENTS=port（BB：不開 turbo、不用 OUT.go、出發提示等 180 秒；探針要先改）
+#HOLD雲端 P5w_wake   | ef63b1877 | probe | docs/story_planning/test_tools/cc/cc_next1102_ui_probe.py | index.html | 60 | SHA=ef63b1877;CASES=examgoal_wake;ORIENTS=port
+#HOLD雲端 A1_advskip | b1b249873 | probe | docs/story_planning/test_tools/cc/cc_advskip_probe.py | index.html | 60 |
+#HOLD雲端 A2_dorm    | b1b249873 | probe | docs/story_planning/test_tools/cc/cc_dorm_moveout_probe.py | index.html | 60 |
+#HOLD雲端 A3_late15  | b1b249873 | probe | docs/story_planning/test_tools/cc/cc_late15_probe.py | index.html | 60 |
+#HOLD雲端 （第二批 BB_245 的 node／probe 探針、art247 截圖：子代理寫好、雲端跑過再加）
 R4main      | 27e6ce77e | game  | tests/flow_main_day12.py     | index.html       | 180 | XARGS={url} {out}
 R4b1b_rr    | b1b249873 | game  | tests/flow_main_day12.py     | index.html       | 180 | XARGS={url} {out};RERUN=rr1
 # R4v2：雲端 b1b 14:01 ALL PASS（阿哲有演、進 201 課還沒被跳過、fallbacks 0、存檔成功；接手 70.6 秒）→ 解除 HOLD
@@ -55,11 +78,7 @@ R6_rr2      | b1b249873 | probe | docs/story_planning/test_tools/cc/cc_layout16_
 # 20:0x CC：R8_rr2 在 PC 第一次記成 error（舊 runner 中斷留下 wt_cc_R8_rr2 資料夾；run_queue.py 已修）→ 換 RERUN 重跑
 R8_rr2      | b1b249873 | probe | docs/story_planning/test_tools/cc/cc_makeup_probe.py   | index.html?turbo | 200 | FAIL_ROUTE=retake;MAIN_FROM=0527;CASES=main_pass,main_fail,route_grades;RERUN=rev1102wt
 # BB 13:31 第 1 類：長時間真實流程（🟢 不用 turbo；唯一前置＝開頭 localStorage.clear()）。雲端 b1b DAYS=4 2318 秒 ALL PASS（8/29～9/1，存讀檔每天一致、fallbacks 0、pageerror 0）。PC 估每天 1.5～3 分鐘
-FS112       | b1b249873 | probe | docs/story_planning/test_tools/cc/cc_flow_semester_probe.py | index.html | 360 | DAYS=112
 # BB 16:01：R11 完整 4 個 case、R10pre／R11pre（修改前對照，規則 5）排在 FS112 後面
-R11_full    | b1b249873 | probe | docs/story_planning/test_tools/cc/cc_d118b4_probe.py   | index.html | 150 | RERUN=retap1102
-R10pre      | 299e23345 | probe | docs/story_planning/test_tools/cc/cc_d118b3_probe.py   | index.html | 240 | RERUN=retap1102
-R11pre      | f57e3ac75 | probe | docs/story_planning/test_tools/cc/cc_d118b4_probe.py   | index.html | 150 | RERUN=retap1102
 # BB 13:31 第 2 類：各區 fps（校園、溫州街、公館、總圖大廳、萬才館、霖澤館 × 白天 11:00／晚上 21:00／雨天 15:00，每格 15 秒；平均 fps＋1% low）。headed、headless 各一次。【捷徑】讀檔進各區。雲端驗證過以前先 HOLD
 F1_fps_hl   | b1b249873 | probe | tools/cc_local/fps_zones.py | index.html | 30 | CC_HEADLESS=1
 F2_fps_hd   | b1b249873 | probe | tools/cc_local/fps_zones.py | index.html | 30 | CC_HEADLESS=0
@@ -119,4 +138,11 @@ R9_x3       | b1b249873 | probe | docs/story_planning/test_tools/cc/cc_rollcall_
 31_b2base   | a3b1bd647 | probe | docs/story_planning/test_tools/cc/cc_d118b2_probe.py   | index.html | 60  | CASES=wancai
 
 # BB_246（下一版 int/next1102）驗收：SHA 等 LAWWW 給正式 SHA 再填、解除 HOLD。N1_node＝第一次用 node kind，和雲端 m590 基準（scratchpad out/n1_cloud_m590）對照
-#HOLD正式SHA N1_node     | <正式SHA> | node  | tools/cc_local/node_units.js | index.html | 240 | XARGS=--out {out} --timeout 600
+# 已由上面 ef63 區塊的 N1_node 取代：N1_node | <正式SHA> | node  | tools/cc_local/node_units.js | index.html | 240 | XARGS=--out {out} --timeout 600
+
+# ===== 長項目（逾時 ≥120 分鐘）一律在最後（BB 20:23）；ef63 的長項目也排這裡 =====
+G4_day12    | ef63b1877 | game  | tests/flow_main_day12.py     | index.html | 180 | XARGS={url} {out}
+FS112       | b1b249873 | probe | docs/story_planning/test_tools/cc/cc_flow_semester_probe.py | index.html | 360 | DAYS=112
+R11_full    | b1b249873 | probe | docs/story_planning/test_tools/cc/cc_d118b4_probe.py   | index.html | 150 | RERUN=retap1102
+R10pre      | 299e23345 | probe | docs/story_planning/test_tools/cc/cc_d118b3_probe.py   | index.html | 240 | RERUN=retap1102
+R11pre      | f57e3ac75 | probe | docs/story_planning/test_tools/cc/cc_d118b4_probe.py   | index.html | 150 | RERUN=retap1102

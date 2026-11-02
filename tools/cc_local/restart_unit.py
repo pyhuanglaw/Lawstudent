@@ -18,7 +18,7 @@ def check(ok, msg, extra=''):
 class A: pass
 
 
-def make(items, change_after=None, parallel=2, dur=None):
+def make(items, change_after=None, parallel=2, dur=None, tmin=None):
     """change_after＝第幾次 refresh 時改 runner 檔（None＝不改）；dur＝每項跑幾秒（dict）"""
     tf = tempfile.NamedTemporaryFile('w', delete=False, suffix='.py'); tf.write('v1'); tf.close()
     R.SELF_FILE = tf.name
@@ -28,7 +28,7 @@ def make(items, change_after=None, parallel=2, dur=None):
         def banner(s): pass
         def setup(s): pass
         def start_commit(s): pass
-        def read_queue(s): return [R.Item([i, 'abc', 'py', 's.py', 'u', '1', '']) for i in items]
+        def read_queue(s): return [R.Item([i, 'abc', 'py', 's.py', 'u', str((tmin or {}).get(i, 1)), '']) for i in items]
         def is_done(s, it, sha): return False
         def refresh(s):
             s.nref = getattr(s, 'nref', 0) + 1
@@ -70,6 +70,20 @@ check(rc == 0 and r.nref >= 1, '4 有 refresh 但檔案沒變：回傳 0', (rc, 
 r = make(['a', 'b'], change_after=1, parallel=1)
 rc = r.main()
 check(rc == 75 and r.started == ['a'], '5 parallel 1：第一項後有新版，第二項不開始', (rc, r.started))
+
+# 7. 規則 B（BB 20:23）：長項目 L（逾時 360）和短項目 a 並行；a 跑完時出新版 → L 還在跑，空格照樣開短項目 b、c，
+#    不開長項目 L2；L 結束後不再開新項目，回 75
+r = make(['L', 'a', 'b', 'c', 'L2', 'd'], change_after=1, dur={'L': 1.5, 'a': 0.1, 'b': 0.2, 'c': 0.2, 'd': 0.2}, tmin={'L': 360, 'L2': 200})
+rc = r.main()
+check(rc == 75, '7 規則 B：最後回 75', rc)
+check('b' in r.started and 'c' in r.started, '7 規則 B：長項目在跑時，空格照樣開短項目 b、c', r.started)
+check('L2' not in r.started, '7 規則 B：有新版時不開長項目 L2', r.started)
+check(sorted(r.finished) == sorted(r.started), '7 規則 B：開了的都跑完才結束', (r.started, r.finished))
+
+# 8. 規則 B：新版出現時只有短項目在跑 → 不開新項目（同 2）
+r = make(['a', 'b', 'c'], change_after=1, dur={'a': 0.1, 'b': 0.6}, tmin={})
+rc = r.main()
+check(rc == 75 and 'c' not in r.started, '8 規則 B：只有短項目在跑時，不再開新項目', (rc, r.started))
 
 # 6. 真正的檔案：模組的 SELF_FILE 預設是 run_queue.py 本身
 import importlib; importlib.reload(R)
