@@ -51,8 +51,16 @@ SLEEP_AT = os.environ.get('SLEEP_AT', 'home')
 STAND_ZONE = os.environ.get('STAND_ZONE', 'campus')
 LAND = {'width': 844, 'height': 390}; PORT = {'width': 390, 'height': 844}
 DAY0 = '2029-09-02'; H0 = 22.0
-EXP = ['2029-09-05', '2029-09-12', '2029-09-19']; EXP_H = 8 + 25 / 60.0   # 期望的停點：週三 09:10 上課前 45 分
-CID = 'maritime'
+# BB 10:48（D124）：延畢那一門改讀環境變數 FD_COURSE（預設 maritime＝舊規則）。D124 以後海商法被當不延畢，應改用重修課（例如大四上的 enforcement）或 JP 補修
+#   （civpro_2_re、insurance_re）。期望的前三個停點照那門課在大五上的時段（n14_delay_retake.js 用 hd10＝d75871437、台灣路線的 base() 跑出來的；交換路線 FD 可能換時段，
+#   K1 記過 JP 的兩門排在週二）；別的課或要改期望＝FD_EXP='2029-09-03,2029-09-10,2029-09-17'（上午的課 08:25；不是上午的課另給 FD_EXP_H，例如 13.0）。
+CID = os.environ.get('FD_COURSE', 'maritime').strip() or 'maritime'
+_EXP0 = {'maritime': ['2029-09-05', '2029-09-12', '2029-09-19'],       # 週三上午
+         'enforcement': ['2029-09-03', '2029-09-10', '2029-09-17'],    # 週一上午
+         'civpro_2_re': ['2029-09-03', '2029-09-10', '2029-09-17'],    # 週一上午（台灣路線 base()）
+         'insurance_re': ['2029-09-06', '2029-09-13', '2029-09-20']}   # 週四上午（台灣路線 base()）
+EXP = [x.strip() for x in os.environ['FD_EXP'].split(',')] if os.environ.get('FD_EXP') else _EXP0.get(CID, _EXP0['maritime'])
+EXP_H = float(os.environ.get('FD_EXP_H', str(8 + 25 / 60.0)))   # 期望的停點：上午 09:10 上課前 45 分
 OPT = '直接去上課：重修'   # Y5.homeOpts：'直接去上課：'+label，label＝'重修：'+FD.cname
 Y4_DONE = ('ev_pack_y4', 'ev_grad_family', 'ev_grad_lunch', 'ev_grad_envelope')
 BASEF = {'introDone': True, 'campusIntro': True, 'readCase': 'full', 'classDone': True, 'afternoonDone': True, 'metAn': True, 'met_an': True, 'MET_ZHE': True,
@@ -114,11 +122,11 @@ STATE = r"""(()=>{ const G=GAME.G, F=G.flags||{}; const pick={};
   try{ opts=(Y5.homeOpts?Y5.homeOpts(G):[]).map(o=>o.t+(o.hint?'〔'+o.hint+'〕':'')); }catch(e){ opts='ERR '+e.message; }
   try{ next=lab(PG.nextStop(G)); }catch(e){ next='ERR '+e.message; }
   try{ fdStop=typeof FD!=='undefined'&&FD.clsStop?lab(FD.clsStop(G)):'(沒有 FD.clsStop)'; }catch(e){ fdStop='ERR '+e.message; }
-  try{ cls=JSON.parse(JSON.stringify((G.y5&&G.y5.cls)||{})); att=typeof FD!=='undefined'&&FD.attended?FD.attended(G,'maritime'):null; }catch(e){}
+  try{ cls=JSON.parse(JSON.stringify((G.y5&&G.y5.cls)||{})); att=typeof FD!=='undefined'&&FD.attended?FD.attended(G,'__CID__'):null; }catch(e){}
   try{ pgOn=PG.on(G); y5On=Y5.on(G); }catch(e){}
   const t=CALENDAR.dateOf(G.day);
   return {clock:{key:t.key,wd:t.wd,day:G.day,h:+(+G.hour).toFixed(3),hm:lab(G.day*24+(+G.hour)),zone:G.zone},flags:pick,items,opts,next,fdStop,cls,att,pgOn,y5On,
-    homeAt:!!(typeof HOME!=='undefined'&&HOME.at&&HOME.at(G)),busy:!!(GAME.E&&GAME.E.player&&GAME.E.player.busy),title:!document.getElementById('titleScreen').classList.contains('hide')}; })()"""
+    homeAt:!!(typeof HOME!=='undefined'&&HOME.at&&HOME.at(G)),busy:!!(GAME.E&&GAME.E.player&&GAME.E.player.busy),title:!document.getElementById('titleScreen').classList.contains('hide')}; })()""".replace('__CID__', CID)
 Y5BTN = "[...document.querySelectorAll('#phoneBody [data-y5go]')].map(b=>({key:b.dataset.y5go,t:(b.textContent||'').trim(),row:((b.closest('.item')||b.parentElement||{}).innerText||'').trim().slice(0,160)}))"
 
 
@@ -251,8 +259,8 @@ async def wait_attended(pg, cdp, run, drv, n0, max_s):
 async def setup_case(pg, run, tag, h, zone, home, key=DAY0):
     st, d = await delay_state(pg, key, h, zone, home=home)
     await L.load_state(pg, st, quiet_events=False, quiet_phone=False)
-    run.setup('[前置] %s：%s %s %s 延畢存檔（n14 base() 旗標：FAIL_DELAY、V2、COURSES [maritime]、FAIL_DELAY_DAY 6/26、Y5_DAYS study、BAR_REG false、GRADUATED／GRAD_DONE／'
-              'MOVED_OUT 6/28／HOME_AFTER home／PACKED_Y4、PG.done.grad、畢業那幾件 events done）%s' % (tag, key, hm(h), zone, '；人在臺北的家（G.home.at＝true）' if home else ''))
+    run.setup('[前置] %s：%s %s %s 延畢存檔（n14 base() 旗標：FAIL_DELAY、V2、COURSES [%s]、FAIL_DELAY_DAY 6/26、Y5_DAYS study、BAR_REG false、GRADUATED／GRAD_DONE／'
+              'MOVED_OUT 6/28／HOME_AFTER home／PACKED_Y4、PG.done.grad、畢業那幾件 events done）%s' % (tag, key, hm(h), zone, CID, '；人在臺北的家（G.home.at＝true）' if home else ''))
     g = await pg.evaluate(STATE); run.note('%s：讀檔那一刻 %s' % (tag, J(g))); return g
 
 
@@ -402,7 +410,7 @@ async def case_control(pg, cdp, run):
     g0 = await setup_case(pg, run, tag, H0, STAND_ZONE, False)
     await L.phone_away(pg, cdp, tries=2)
     n0 = await pl_len(pg); drv = Driver(pg, cdp, run, tag); stops = []; seen = 0
-    d920 = (await P.day_of(pg, '2029-09-20'))['d']; t0 = time.time(); stuck = None
+    d920 = (await P.day_of(pg, EXP[2]))['d'] + 1; t0 = time.time(); stuck = None   # d920＝第三個期望停點的隔天（原本寫死 9/20：週三的課）
     while time.time() - t0 < ENVI('CASE_MAX', 1800):
         R, g, stuck = await stand_until(pg, cdp, run, drv, n0, lambda R, g: len(landings(R)) > seen, ENVI('JUMP_MAX', 600))
         L2 = landings(R)
@@ -424,7 +432,7 @@ async def case_control(pg, cdp, run):
     for i in range(3):
         x = cs[i] if i < len(cs) else None
         run.check('%s：第 %d 個有重修課的落點＝%s 08:25（修改前預期 FAIL）' % (tag, i + 1, EXP[i]), bool(x) and is_exp(x['land'], i), J(x and x['land']))
-    run.check('%s：一直沒去：G.y5.cls 沒有 maritime' % tag, not any(k.endswith(':' + CID) for k in (gE['cls'] or {})), J(gE['cls']))
+    run.check('%s：一直沒去：G.y5.cls 沒有 %s' % (tag, CID), not any(k.endswith(':' + CID) for k in (gE['cls'] or {})), J(gE['cls']))
     run.check('%s：沒有卡住' % tag, not stuck or stuck.get('timeout'), J(stuck))
     dump(tag, rows=R, stops=stops, end=gE, start=g0, stuck=stuck, picks=drv.picks_log)
 
@@ -462,12 +470,12 @@ async def case_home(pg, cdp, run, sub):
         g2 = await pg.evaluate(STATE)
         run.note('%s：每一輪選單 %s' % (tag, J(out['menus'])))
         run.check('%s：一直休息到 12:00 前後，那一項不見了（status missed）' % tag, isinstance(cur, list) and not any(t.startswith(OPT) for t in cur), J({'menu': cur, 'clock': g2['clock'], 'items': g2['items']}))
-        run.check('%s：（對照）沒有按＝G.y5.cls 沒有 maritime' % tag, not any(k.endswith(':' + CID) for k in (g2['cls'] or {})), J(g2['cls']))
+        run.check('%s：（對照）沒有按＝G.y5.cls 沒有 %s' % (tag, CID), not any(k.endswith(':' + CID) for k in (g2['cls'] or {})), J(g2['cls']))
         if out.get('warns'): run.note('%s：「會錯過」有沒有列重修：%s' % (tag, any('重修' in w for ws in out['warns'] for w in ws)))
         out['end'] = g2
     else:
         has = any(t.startswith(OPT) for t in ops)
-        run.check('%s：9/5（三）07:00 家裡選單已經有「%s…」（upcoming 也給）' % (tag, OPT), has, J({'menu': ops, 'opts': g0['opts']}))
+        run.check('%s：%s 07:00 家裡選單已經有「%s…」（upcoming 也給）' % (tag, EXP[0], OPT), has, J({'menu': ops, 'opts': g0['opts']}))
         if has:
             n1 = await pl_len(pg); await home_pick(pg, cdp, run, tag, ops, OPT)
             att = await wait_attended(pg, cdp, run, drv, n1, ENVI('ATTEND_MAX', 300))

@@ -21,6 +21,9 @@
 16_p0       | d75871437 | game  | tests/p0_movement.py         | index.html       | 30  | XARGS={url}
 17_savev7   | d75871437 | game  | tests/save_compat_v7.py      | index.html       | 60  | SHA2=385e194;XARGS={url2} {url}
 18_flowday12| d75871437 | game  | tests/flow_main_day12.py     | index.html       | 180 | XARGS={url} {out}
+# D124（BB 10:57）：y4s2 瀏覽器流程改用重修路線（大四上強制執行法被當→大四下重修），690ac5f4d；jp 補修路線
+19_mkretake | 690ac5f4d | probe | docs/story_planning/test_tools/cc/cc_makeup_probe.py | index.html?turbo | 200 | FAIL_ROUTE=retake;MAIN_FROM=0527;CASES=main_pass,main_fail,route_grades
+19b_mkjp    | 690ac5f4d | probe | docs/story_planning/test_tools/cc/cc_makeup_probe.py | index.html?turbo | 60  | FAIL_ROUTE=jp;CASES=route_grades
 02b_mk12dea | dea6b1944 | probe | docs/story_planning/test_tools/cc/cc_makeup_probe.py           | index.html?turbo  | 120 | CASES=home,mkbg
 06b_layoutP | c2d0c24bc | probe | docs/story_planning/test_tools/cc/cc_layout16_probe.py        | index.html?turbo  | 60  | CASES=seat_exam,adv_safe,recall2
 06c_layoutO | e27dd033e | probe | docs/story_planning/test_tools/cc/cc_layout16_probe.py        | index.html?turbo  | 60  | CASES=seat_exam,adv_safe,recall2

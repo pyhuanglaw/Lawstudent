@@ -689,12 +689,20 @@ async def case_noshow(pg, cdp, run):
 
 
 # ---------------------------------------------------------------- home
+def is_home_ch(ch):
+    """家裡的選單：選項按鈕的 textContent＝標題＋hint（「睡覺隔天早上在家醒來」「存檔存到存檔欄位」），要用 startswith 比，不能用 ==
+    （02_mk12new／c2d0c24bc：== 比不到 → 當成別的選單，Driver 選了「睡覺」→「照樣」，一路睡到畢業後篇、被帶去公館）"""
+    return bool(ch) and any(o['t'].startswith('睡覺') for o in ch) and any(o['t'].startswith('存檔') for o in ch)
+
+
 async def home_menu(pg, cdp, run, drv, tag, max_s=90):
     """等到家裡的選單（有「睡覺」「存檔」那一個）出來；中間的對話點過去。回傳選項（不選）"""
     t0 = time.time()
     while time.time() - t0 < max_s:
         s = await P.ts(pg)
-        if s['ch'] and any(o['t'] == '睡覺' for o in s['ch']) and any(o['t'] == '存檔' for o in s['ch']): return [o['t'] for o in s['ch']], s
+        if is_home_ch(s['ch']): return [o['t'] for o in s['ch']], s
+        if s['ch'] and await pg.evaluate("!!(typeof HOME!=='undefined'&&HOME.at&&HOME.at(GAME.G))") and any(o['t'].startswith(GO_PREFIX) for o in s['ch']):
+            return [o['t'] for o in s['ch']], s   # 在家、有「出發：」的選單＝家裡的選單（萬一沒有存檔／睡覺也不要讓 Driver 亂選）
         if s['ch']:   # 不是家裡的選單（起床、confirmMiss…）：照規則選
             await drv.handle(s, ('照樣', '先起床')); continue
         if s['dlg'] or s['phone']: await drv.handle(s); continue
@@ -714,7 +722,7 @@ async def home_run_until_menu(pg, cdp, run, drv, tag, max_s=900):
     t0 = time.time()
     while time.time() - t0 < max_s:
         s = await P.ts(pg)
-        if s['ch'] and any(o['t'] == '睡覺' for o in s['ch']) and any(o['t'] == '存檔' for o in s['ch']): return [o['t'] for o in s['ch']]
+        if is_home_ch(s['ch']): return [o['t'] for o in s['ch']]
         if not await pg.evaluate("!!(typeof HOME!=='undefined'&&HOME.at(GAME.G))") and not (s['dlg'] or s['ch'] or s['busy']): return None
         if await drv.handle(s, ('照樣',)): continue
         await pg.wait_for_timeout(800)
@@ -1116,7 +1124,7 @@ async def mkbg_drive(pg, cdp, run, drv, tag, n0, sub, max_s):
     while time.time() - t0 < max_s:
         s = await P.ts(pg)
         st_n = await pg.evaluate(MKBG_CNT, 'mk_start'); end_n = await pg.evaluate(MKBG_CNT, 'mk_end')
-        home_m = bool(s['ch']) and any(o['t'] == '睡覺' for o in s['ch']) and any(o['t'] == '存檔' for o in s['ch'])
+        home_m = is_home_ch(s['ch'])
         if sub == 'home' and home_m:
             if end_n: out['end'] = 'home_menu'; out['menu'] = [o['t'] for o in s['ch']]; return out
             if not st_n: out['end'] = 'home_menu_without_makeup'; out['menu'] = [o['t'] for o in s['ch']]; return out
