@@ -54,7 +54,7 @@ const IT=[]; const E={interactables:IT}; const z=Z3.ZONES.library_b1.build(E); c
   check('5. spots：'+need.join('、'), need.every(k=>sp[k]&&isFinite(sp[k].x)&&isFinite(sp[k].z)&&isFinite(sp[k].yaw)), need.filter(k=>!sp[k]).join('、'));
   const ids=new Set(LB.interact.map(q=>q.id)); check('5. interact id：selfcheck、disc1、disc2、study_door、notice、copy', ['selfcheck','disc1','disc2','study_door','notice','copy'].every(k=>ids.has(k)));
   const S=z.seats, st=S.filter(s=>s.room==='study24'&&s.study), d1=S.filter(s=>s.room==='disc1'&&s.study), d2=S.filter(s=>s.room==='disc2'&&s.study);
-  check('5. 座位：自習室 72 個（kind study；第四版：使用者 11-02 18:1x「太擠了」「桌子要和進門的門平行」——A 區 56、B 區 16；第二、三版 101，第一版 28）、討論室 1、2 各 6 個（study）', st.length===72&&d1.length===6&&d2.length===6, st.length+'／'+d1.length+'／'+d2.length);
+  check('5. 座位：自習室 76 個（kind study；4.1：使用者 11-02 18:1x「太擠了」「桌子要和進門的門平行」＋BB_242 連續長條桌——A 區 60、B 區 16；第四版 72，第二、三版 101，第一版 28）、討論室 1、2 各 6 個（study）', st.length===76&&d1.length===6&&d2.length===6, st.length+'／'+d1.length+'／'+d2.length);
   const R=LB.rooms.find(r=>r.id==='study24'); check('5. study_night 在自習室中間那一排南側座位旁邊（期末前的夜）', !!R&&sp.study_night.z>R.z0&&sp.study_night.z<R.z1&&S.some(s=>s.room==='study24'&&Math.abs(s.z-sp.study_night.z)<0.05)); }
 // 6. 導航（和 lane118_shops.navcheck 同一套規則，但用遊戲建出來的格子）
 { const free=(x,zz)=>{ const [c,r]=nav.cellOf(x,zz); return c>=0&&r>=0&&c<nav.cols&&r<nav.rows&&!nav.b[r*nav.cols+c]; }, clear=(x,zz,r)=>free(x,zz)&&free(x+r,zz)&&free(x-r,zz)&&free(x,zz+r)&&free(x,zz-r);
@@ -83,6 +83,6 @@ const IT=[]; const E={interactables:IT}; const z=Z3.ZONES.library_b1.build(E); c
   check('8. 自習室 A、B 區的桌子都和正門平行（門在東西向的牆上→座位面向南北、桌子東西向）', rooms.length===2&&rooms.every(r=>r.door.axis==='x')&&bad.length===0, rooms.map(r=>r.label.slice(0,12)+' 門 '+r.door.axis).join('、')+(bad.length?'；不平行：'+bad.slice(0,4).join('、'):''));
   let tight=[]; for(let i=0;i<S.length;i++) for(let j=i+1;j<S.length;j++){ const a=S[i], b=S[j]; if(Math.abs(a.x-b.x)>0.3) continue;
     const fa=[Math.sin(a.yaw||0),Math.cos(a.yaw||0)], fb=[Math.sin(b.yaw||0),Math.cos(b.yaw||0)], dx=b.x-a.x, dz=b.z-a.z;
-    if(-(dx*fa[0]+dz*fa[1])>0&&(dx*fb[0]+dz*fb[1])>0){ const d=Math.hypot(dx,dz); if(d<2.3) tight.push('('+a.x+','+a.z+')↔('+b.x+','+b.z+') '+d.toFixed(2)); } }   /* 背靠背：a 的背後是 b、b 的背後是 a */
-  check('8. 寬敞：背靠背的兩排椅子（座位點）之間至少 2.3 m（第三版 1.64 m）', tight.length===0, tight.slice(0,4).join('、')); }
+    if(-(dx*fa[0]+dz*fa[1])>0&&(dx*fb[0]+dz*fb[1])>0){ const d=Math.hypot(dx,dz); if(d<2.0) tight.push('('+a.x+','+a.z+')↔('+b.x+','+b.z+') '+d.toFixed(2)); } }   /* 背靠背：a 的背後是 b、b 的背後是 a */
+  check('8. 寬敞：背靠背的兩排椅子（座位點）之間至少 2.0 m（使用者 18:4x 定排距 4.4 m＝背靠背 2.04 m，UA-LAWWW-1102-26；第三版 1.64 m 太擠；第四版 2.64 m 時這一項是 2.3 m）', tight.length===0, tight.slice(0,4).join('、')); }
 console.log(fails?('\n'+fails+' FAIL'):'\nALL PASS'); process.exit(fails?1:0);
