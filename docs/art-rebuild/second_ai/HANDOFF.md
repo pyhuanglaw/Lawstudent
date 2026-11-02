@@ -1,5 +1,17 @@
 # LAWWW2 交接紀錄（隨時更新；工作階段中斷時從這裡接）
 
+## 🔨 現在在做（11-02 09:5x 更新）：使用者 P0「總圖」——LIB-FRONT-1102 → LIB-INTERIOR-1102 → CAMPUS-RELAYOUT-1102（LAWWW 09:11 開任務）
+- **使用者原話**：`docs/handoff/user_asks_LAWWW2.json` UA-LAWWW2-1102-02～06（`387fa3aeb`）；照片在本工作階段，`/tmp/.../images/1～6.jpg`＋`scratchpad/lib1102/user_imgs/`（平面圖 B1／1F／2F／3F、行政入口鳥瞰、一樓兩張）。BB 另外放了一份在企劃線 `qa/library_ref_使用者1102/`。
+  - 09:4x 補一張：「台階下方還有磁磚 蠻寬的 之後才是草坪」→ 廣場 12 m 深、整個立面寬。
+  - 使用者 09:15（經 LAWWW 選擇題）：舊社科院 (112,−62) 叫**電機二館**；**電機一館**也照官方地圖蓋（CAMPUS-RELAYOUT-1102，總圖之後）。
+- **LIB-FRONT-1102（外觀＋草坪＋走得上去的台階）**：WIP 檢查點 `dc1b758b1`（還沒交件）。
+  - Blender：`tools/blender/env_second/campus_library.py`（重寫：中央白石山牆＋大拱窗、兩側磚塔、一樓突出的拱廊、五階台階＋0.9 m 平台、花台、北邊方塔、四坡屋頂）、`campus_lib_lawn.py`（第二版：x 35～66 長草坪、龍柏籬、紅磚步道、白色球燈、x 66～78 廣場）。
+  - 遊戲端 patch 草稿：`docs/art-rebuild/second_ai/patches/wip/lib_front_1102.patch`（zones3d.js：大道到 x 35、台階／平台 addSurf、拱廊牆、龍柏籬、椰子改到籬笆外、北側系館縮到 24 m；story3d.js：路人、腳踏車改走兩側步道；測試 lib_lawn_unit 重寫、campus_hall_pillar_seethru_unit 總圖那一項、新 lib_front_unit）。
+  - 測試副本：`scratchpad/devwt_b`（開發 `f729beffb`＋這一包）：lib_front_unit、lib_lawn_unit、nav_buildings_unit、campus_hall_pillar_seethru_unit ALL PASS。瀏覽器的 campus_layout_nav、reachability_all、flow_library_floors、flow_library_scene、guide_flow（LAWWW 指定）還沒跑：`scratchpad/lib1102/run_tests.sh`。
+  - 修過的錯：同一列上下多扇窗只開了一個洞（wall_bands）；龍柏像一顆顆的蛋（改尖圓錐、深綠、擠在一起）。
+  - **下一步**：遊戲內改前改後截圖（`scratchpad/lib1102/shots_after.json`）→ 測試 → README `test_shots/lib_front_1102/` → 正式 patch → outbox → 通知 LAWWW、BB（BB 要 commit 給 CC 對照 2D 背景）。
+- **延後**：us_market 第三版（`abd76acab`，final3 驗證跑完：Node 841／0、rt lightmapped 8、窗景 20:30 變暗）README v3＋交件；jp_room 第十版（`568a44330`）交件。
+
 ## ✅ 接班（最新）：2026-11-02 03:3x UTC｜帳號 A｜LAWWW2｜`session_01AC1WVgJSmoJK1uRsPK2Zn1`｜分支 `claude/second-ai-env-art`
 - 值班登記：`duty register` 帳號 A、LAWWW2、接班基準 `e16b32ad`（上一任 LAWWW2-B 的交班 commit），2026-11-02 03:37 UTC。使用者：「現在你接班，我也會通知其他AI，你交班之後先跟他們測試通訊功能，然後先確定其他AI留下什麼事情還沒有做，預計還要多久每個階段每個任務」。
 - 上一任：帳號 B｜LAWWW2-B｜`session_01GV1WG3UeT2DhuDpxeWJsvD`｜分支 `claude/funny-albattani-iawshm`｜交班 2026-11-01 09:02 UTC（`duty handoff` 有跑，快照 `2026-11-01T0902Z_B_LAWWW2.json`）。交班紀錄在下面「🔁 交班（LAWWW2-B，2026-11-01）」。
