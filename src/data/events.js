@@ -157,12 +157,12 @@ const KX_DESK_PHOTO=[{th:'p:kexin',from:'kexin',text:'📷（她的書桌）'},{
 /* 學姊的熱水（AA_261 第 3 節 16919f86）：兩次共用的場面，first＝她的第一句 */
 function SIS_STUDY_OK(G){ return !!(G.flags&&G.flags.SIS_STUDY); }   /* 一起念書解鎖了（ev_sis_study_invite 記 SIS_STUDY，src/sis_grad3d.js）：不用數值門檻（AA_284 2-3 最後一行；原本熟悉 ≥40、信任 ≥25＋SIS_W1）*/
 function SIS_HOT_WATER(first){ return [
-  {speaker:null,text:'（九點四十分，閉館的廣播響了。自習室的燈一盞一盞關掉。她站在走廊的飲水機前面，手上是空的保溫瓶，沒有按。）'},
+  {speaker:null,text:'（九點四十分，閉館的廣播響了。自習室的燈一盞一盞關掉。她站在走廊的飲水機前面，手上拿著保溫瓶，沒有按。）'},
   {speaker:'heroine_05',text:first},{speaker:'heroine_05',text:'算完就不想算了。'},
   {choice:[{text:'「我陪妳等熱水。」',set:{HOT_WATER:true},goto:'hot'},{text:'「我請妳喝一罐。」',goto:'can'}]},
   {label:'hot'},{speaker:null,text:'（她按了下去。飲水機的熱水出得很慢，你站在旁邊陪她等。）'},{speaker:null,text:'（裝滿了。她蓋上蓋子，兩手抱著。）'},{speaker:'heroine_05',text:'……好燙。'},
   {speaker:null,text:'（她笑出聲音。你很久沒看過她這樣笑。）'},{cg:'cg_hot_water_heroine05'},
-  {if:{memory:[{npc:'heroine_05',tag:'HELPED'}]},speaker:'heroine_05',text:'又遇到你了。'},
+  /* AA_595「AA 處理決定」第 3 節：「上次是黑咖啡」那一句（AA_590 改成「又遇到你了。」，條件 HELPED＝空的保溫瓶選黑咖啡）跟著空保溫瓶那條線拿掉 */
   {speaker:'heroine_05',text:'謝謝。明天八點，一樣的位子？'},{goto:'end'},
   {label:'can'},{speaker:null,text:'（她看了一下販賣機，按了最便宜的那一罐。）'},{speaker:'heroine_05',text:'……不用。我自己來。'},{speaker:null,text:'（她投了硬幣。罐子掉下來的聲音，在走廊很響。）'},{speaker:'heroine_05',text:'明天八點。'},
   {label:'end'} ]; }
@@ -1652,7 +1652,8 @@ const STORY_EVENTS=[
       {if:{custom:G=>(G.flags.TUTOR_N|0)===2},speaker:null,text:'（學生的媽媽又切了一盤柳丁。）'},{if:{custom:G=>(G.flags.TUTOR_N|0)===2},speaker:'國中生',text:'你不吃，我媽會以為你不喜歡她。'} ],
     after:G=>{ G.flags.TUTOR_N=(G.flags.TUTOR_N|0)+1; if(typeof CLS!=='undefined'&&CLS.slotFill) CLS.slotFill(G,'ev'); } },   /* 原本有兩個 after，後一個蓋掉前一個（slotFill 沒跑，家教那晚沒佔時段）：合成一個 */
   /* 大一的回聲（BB_134 第 1 節第 4 點、附錄 BB_134a；台詞 BB_96 2-5、BB_108 第 1 節）——W4「已裝滿」便條：空的保溫瓶選了買黑咖啡的玩家，之後一週內在總圖走到學姊旁邊，一句旁白 */
-  { id:'ev_sis_flask_full', title:'已裝滿', participants:[], location:'lawlib', trigger:'auto', npcNear:'heroine_05', once:true, background:'blur',
+  /* AA_595 第 3 節（3-13；「AA 處理決定」：「已裝滿」那一場跟著空保溫瓶那條線一起拿掉）：retired，不再觸發；定義留給已經演過的舊存檔（flaskCoffeeDay 不再有人讀）*/
+  { id:'ev_sis_flask_full', retired:'AA_595 第 3 節（3-13）：空的保溫瓶那條線拿掉，「已裝滿」跟著拿掉；定義留給已經演過的舊存檔', title:'已裝滿', participants:[], location:'lawlib', trigger:'auto', npcNear:'heroine_05', once:true, background:'blur',
     prereq:{custom:G=>G.flags.flaskCoffeeDay!=null&&G.day>G.flags.flaskCoffeeDay&&G.day<=G.flags.flaskCoffeeDay+7},
     dialogue:[ {speaker:null,text:'（她的保溫瓶上貼了一張便條：「已裝滿」。）'} ] },
   /* 學姊「熱水」（BB_207 第 2 節 7b39f636、台詞 AA_261 第 3 節 16919f86）：大一上第 14～15 週（她準備 2026-02-02 研究所筆試），一起念書那晚 21:30～21:45 閉館前（法圖 21:45 閉館會請人出去；AA_284 1-1）、法圖自習室外的走廊；CG BCG-01 沿用。
