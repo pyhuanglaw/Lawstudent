@@ -47,7 +47,7 @@ const STUDY=(function(){
   S.progress=function(G,course,kind,term){ const us=S.units(G,course,term,kind||'final'); const o={total:us.length,heard:0,read:0,got:0};
     for(const u of us){ const r=S.rank(G,u); if(r>=1) o.heard++; if(r>=2) o.read++; if(r>=3) o.got++; } return o; };
   /* 「法律」頁、讀書結束字幕的那一行 */
-  S.line=function(G,c,term){ const p=S.progress(G,c,'final',term); if(!p.total) return ''; return (c&&c.name?c.name:'')+'　期末範圍：讀過 '+p.read+'／'+p.total+'・答對過 '+p.got; };
+  S.line=function(G,c,term){ const p=S.progress(G,c,'final',term); if(!p.total) return ''; return (c&&c.name?c.name:'')+'　期末範圍：學過 '+p.heard+'／'+p.total+'・答對過 '+p.got; };   /* BB 06:20 判定：上課也算學過（只上課不自習的玩家不該看到「讀過 0」——那等於暗示去刷自習）；x＝上過課、自習、總複習、答對過任一種 */
   /* 顯示用的內容：AA 的白話稿到之前用 fallback＝那一週的黑板三行＋教授那一句＋題目的考點／解析（題目原文、答案不動）*/
   S.view=function(u){ if(typeof u==='string') u=S.unit(u); if(!u) return null; const c=typeof CLS!=='undefined'&&CLS.byId?CLS.byId(u.course):null;
     const syl=typeof SYLLABUS!=='undefined'&&SYLLABUS.courses&&SYLLABUS.courses[u.course]?SYLLABUS.courses[u.course].find(w=>w.w===u.week):null;

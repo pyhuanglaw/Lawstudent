@@ -107,9 +107,11 @@ const sec=async(n,f)=>{ try{ await f(); }catch(e){ check(n+'. 丟出例外',fals
     check('f4. 成績照舊只看答對題數（3 題＝80 分）',res&&res.correct===3&&e.score===CLS.scoreOf(3)&&e.score===80,J(res)); });
   /* g 顯示 */
   await sec('g',async()=>{ const gs=fs.readFileSync(path.join(H.ROOT,'src/game3d.js'),'utf8'), html=fs.readFileSync(path.join(H.ROOT,'index.html'),'utf8');
-    check('g1. 「法律」頁每一科「期末範圍：讀過 x／y・答對過 z」（STUDY.progress）；讀書結束字幕用 STUDY.line',/function renderLegal\(\)[\s\S]{0,4000}const ST=typeof STUDY!=='undefined'\?STUDY:null;[\s\S]{0,3000}ST\.progress\(G,e\.c,'final',e\.term\)/.test(gs)&&/期末範圍：讀過 /.test(gs)&&/STUDY\.line\(G,course\)/.test(gs));
+    check('g1. 「法律」頁每一科「期末範圍：學過 x／y・答對過 z」（BB 06:20：上課也算學過）（STUDY.progress）；讀書結束字幕用 STUDY.line',/function renderLegal\(\)[\s\S]{0,4000}const ST=typeof STUDY!=='undefined'\?STUDY:null;[\s\S]{0,3000}ST\.progress\(G,e\.c,'final',e\.term\)/.test(gs)&&/期末範圍：學過 /.test(gs)&&/STUDY\.line\(G,course\)/.test(gs));
     const G=H.fresh('2025-10-20',20,'dorm',{}); const ln=STUDY.line(G,CLS.byId('const_1'));
-    check('g2. STUDY.line 的格式：「憲法（上）　期末範圍：讀過 0／y・答對過 0」',/^憲法（上）　期末範圍：讀過 0／\d+・答對過 0$/.test(ln),ln);
+    check('g2. STUDY.line 的格式：「憲法（上）　期末範圍：學過 0／y・答對過 0」',/^憲法（上）　期末範圍：學過 0／\d+・答對過 0$/.test(ln),ln);
+    { const G=H.fresh('2025-10-01',9,'dorm',{}); const c=COURSES.list.find(x=>x.id==='const_1'); const u=STUDY.units(G,c,'Y1S1','final')[0]; STUDY.mark(G,u.id,'heard','attend'); const ln2=STUDY.line(G,c,'Y1S1');
+      check('g2b. 只上過課（沒自習）也算學過：「學過 1／y」（BB 06:20：不暗示要去刷自習）',/期末範圍：學過 1／\d+・答對過 0$/.test(ln2),ln2); }
     const i1=html.indexOf('src/classes3d.js?'), i2=html.indexOf('src/data/study_units.js?'), i3=html.indexOf('src/study3d.js?'), iB=html.indexOf('GAME.boot');
     check('g3. index.html：data/study_units.js、study3d.js 在 classes3d.js 之後、GAME.boot() 之前（build.py 照 index.html 內嵌）',i1>0&&i2>i1&&i3>i2&&(iB<0||i3<iB),J({i1,i2,i3,iB}));
     const cs=STUDY.courses(G).map(e=>e.c.id); check('g4. 「法律」頁要列的課：這學期考五題的法律課（還沒上也列）',cs.includes('const_1')&&cs.includes('civ_general')&&cs.includes('crim_gen1'),J(cs)); });

@@ -458,7 +458,7 @@ const GAME = (function(){
     const esc=t=>String(t).replace(/[&<>]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;'}[c])), TN={Y1S1:'大一上',Y1S2:'大一下',Y2S1:'大二上',Y2S2:'大二下',Y3S1:'大三上',Y3S2:'大三下',Y4S1:'大四上',Y4S2:'大四下',Y0S1:'經濟系大一上',Y0S2:'經濟系大一下'};
     /* 使用者 2026-10-16 試玩：一開始就有刑訴三大類、而且只有刑訴——改成只列上過的課（CLS.legalCourses）；刑訴題庫（使用者提供的 Q001–Q084）只在讀書會、課堂真的遇到過以後才列 */
     const LC=typeof CLS!=='undefined'&&CLS.legalCourses?CLS.legalCourses(G):[]; let lastCur=null;
-    /* D118-B2（D118_PLAN ②-2）：每一科一列「<課名>　期末範圍：讀過 x／y・答對過 z」，資料來源 STUDY（出席、自習、課堂提問、考試都算）；
+    /* D118-B2（D118_PLAN ②-2）：每一科一列「<課名>　期末範圍：學過 x／y・答對過 z」（x＝上過課以上，BB 06:20），資料來源 STUDY（出席、自習、課堂提問、考試都算）；
        這學期考五題的課還沒上也列（看得到範圍有幾張觀念卡），之前的學期有紀錄的課也列；點開「觀念卡」列每一張的狀態 */
     const ST=typeof STUDY!=='undefined'?STUDY:null;
     if(ST){ const have=new Set(LC.map(e=>e.c.id)); for(const e of ST.courses(G)) if(!have.has(e.c.id)) LC.push({c:e.c,term:e.term,current:e.current,topics:[]});
@@ -466,7 +466,7 @@ const GAME = (function(){
     const RC=typeof CLS!=='undefined'&&CLS.rec?CLS.rec(G):{ask:{}};
     for(const e of LC){ if(lastCur!==e.current){ lastCur=e.current; add('<b>'+(e.current?'這學期':'之前的學期')+'</b>','muted'); }
       const us=ST?ST.units(G,e.c,e.term,'final'):[], pr=ST&&us.length?ST.progress(G,e.c,'final',e.term):null;
-      const head='<b>'+esc(e.c.name)+'</b>'+(pr?'　期末範圍：讀過 '+pr.read+'／'+pr.total+'・答對過 '+pr.got:'')+'<div class="muted">'+(TN[e.term]||e.term)+(e.topics.length?'・上過 '+e.topics.length+' 週':'')+'</div>';
+      const head='<b>'+esc(e.c.name)+'</b>'+(pr?'　期末範圍：學過 '+pr.heard+'／'+pr.total+'・答對過 '+pr.got:'')+'<div class="muted">'+(TN[e.term]||e.term)+(e.topics.length?'・上過 '+e.topics.length+' 週':'')+'</div>';
       if(!us.length){ add(head+e.topics.map(t=>'<div>· 第 '+t.w+' 週　'+esc(t.title)+'</div>').join('')); continue; }
       const row=u=>{ const st=ST.status(G,u), v=ST.view(u)||{board:[]}; let h='<div>· '+(u.week!=null?'第 '+u.week+' 週　':'')+esc(u.title)+'　<span class="muted">'+(ST.LABEL[st]||'還沒讀')+'</span></div>';
         if(st==='read'||st==='got'){ const b=v.board.slice(1).concat(v.line?[v.prof+'：'+v.line]:[]); if(b.length) h+='<div class="muted">　'+esc(b.join('　'))+'</div>'; }
