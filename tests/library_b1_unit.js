@@ -54,7 +54,7 @@ const IT=[]; const E={interactables:IT}; const z=Z3.ZONES.library_b1.build(E); c
   check('5. spots：'+need.join('、'), need.every(k=>sp[k]&&isFinite(sp[k].x)&&isFinite(sp[k].z)&&isFinite(sp[k].yaw)), need.filter(k=>!sp[k]).join('、'));
   const ids=new Set(LB.interact.map(q=>q.id)); check('5. interact id：selfcheck、disc1、disc2、study_door、notice、copy', ['selfcheck','disc1','disc2','study_door','notice','copy'].every(k=>ids.has(k)));
   const S=z.seats, st=S.filter(s=>s.room==='study24'&&s.study), d1=S.filter(s=>s.room==='disc1'&&s.study), d2=S.filter(s=>s.room==='disc2'&&s.study);
-  check('5. 座位：自習室 28 個（kind study）、討論室 1、2 各 6 個（study）', st.length===28&&d1.length===6&&d2.length===6, st.length+'／'+d1.length+'／'+d2.length);
+  check('5. 座位：自習室 101 個（kind study；第二版照使用者 11-02 平面圖、10-17 照片的 24 小時自習室 A、B 大開間；第一版 28）、討論室 1、2 各 6 個（study）', st.length===101&&d1.length===6&&d2.length===6, st.length+'／'+d1.length+'／'+d2.length);
   const R=LB.rooms.find(r=>r.id==='study24'); check('5. study_night 在自習室中間那一排南側座位旁邊（期末前的夜）', !!R&&sp.study_night.z>R.z0&&sp.study_night.z<R.z1&&S.some(s=>s.room==='study24'&&Math.abs(s.z-sp.study_night.z)<0.05)); }
 // 6. 導航（和 lane118_shops.navcheck 同一套規則，但用遊戲建出來的格子）
 { const free=(x,zz)=>{ const [c,r]=nav.cellOf(x,zz); return c>=0&&r>=0&&c<nav.cols&&r<nav.rows&&!nav.b[r*nav.cols+c]; }, clear=(x,zz,r)=>free(x,zz)&&free(x+r,zz)&&free(x-r,zz)&&free(x,zz+r)&&free(x,zz-r);
