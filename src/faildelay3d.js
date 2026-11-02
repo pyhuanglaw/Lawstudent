@@ -26,8 +26,13 @@ const FD=(function(){
     if(typeof CLS==='undefined'||!CLS.isExamCourse||!CLS.byId) return false; const E=(s.courses&&s.courses.exam)||{};
     const bogus=F.FAIL_DELAY_COURSES.filter(id=>{ const c=CLS.byId(id); if(!c||!CLS.isExamCourse(c)) return false; const e=E['Y4S2:'+id+':final']; return !e||e.status!=='done'; });
     if(!bogus.length) return false; F.FD_RESCUE_NOFINAL=bogus.slice(); F.FAIL_DELAY_COURSES=F.FAIL_DELAY_COURSES.filter(id=>!bogus.includes(id));
-    if(!F.FAIL_DELAY_COURSES.length){ delete F.FAIL_DELAY; delete F.FAIL_DELAY_DAY; if(F.FAIL_DELAY_BARCANCEL){ F.BAR_REG=true; delete F.FAIL_DELAY_BARCANCEL; } else if(F.BAR_REG===false) F.FD_RESCUE_BAR_UNKNOWN=true; }
+    if(!F.FAIL_DELAY_COURSES.length){ delete F.FAIL_DELAY; delete F.FAIL_DELAY_DAY; if(F.FAIL_DELAY_BARCANCEL||(F.BAR_REG===false&&S.regTrace(s))){ F.BAR_REG=true; delete F.FAIL_DELAY_BARCANCEL; F.FD_RESCUE_BAR='restored'; } else if(F.BAR_REG===false) F.FD_RESCUE_BAR_UNKNOWN=true; }
     return true; };
+  /* 報名的痕跡（BB 06:35 判定：找得到＝當時有報、是被延畢取消的；找不到＝當作自己沒報，不給重新報名）：
+     ①大四選了國考那條路（Y4_PATH bar：5/10 自動報名）；②5/10 以後去過國考讀書會（BAR_REG 是 true 才排得到）*/
+  S.regTrace=function(s){ const F=(s&&s.flags)||{}; if(F.Y4_PATH==='bar') return true; const A=(s&&s.acts&&s.acts.att)||{};
+    const d0=typeof PG!=='undefined'&&PG.DK?PG.DK('2029-05-10'):null; if(d0==null) return false;
+    return Object.keys(A).some(k=>{ const m=/^act_bar_study@(-?\d+)$/.exec(k); return !!m&&+m[1]>=d0&&!!A[k]; }); };
   S.courses=G=>{ const L=G&&G.flags&&G.flags.FAIL_DELAY_COURSES; return Array.isArray(L)?L:[]; };
   const course=id=>typeof CLS!=='undefined'&&CLS.byId?CLS.byId(id):(typeof COURSES!=='undefined'&&COURSES.list?COURSES.list.find(c=>c.id===id):null);
   S.cname=id=>{ const c=course(id); return c?String(c.name).replace(/（重修）/g,''):id; };   /* 「{課名}」不寫「（重修）」*/
