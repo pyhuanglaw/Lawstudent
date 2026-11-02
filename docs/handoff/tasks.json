@@ -38671,9 +38671,9 @@
       "title": "卡死與考試例外修正（不需要等 AA）",
       "area": null,
       "owner": "LAWWW",
-      "status": "待開工",
+      "status": "進行中",
       "priority": "P0",
-      "next": "見 docs/handoff/D118_PLAN.md 第 4 節 D118-B1",
+      "next": "a～f 已做（44b1ec89a、5f9d661fc、WIP c～f）；全套測試核對中；剩 release_suite.sh:7、錯過 2029 報名／一試旁白（等 AA 字）",
       "first": {
         "term": "Y1S1",
         "week": null,
@@ -38895,6 +38895,35 @@
       "authorized": "使用者直接指派（X151）；D111 LAWWW 遊戲總監",
       "parent": "STUDY-EXAM-SYS-1102",
       "notes": "依賴：B1～B8；AA 至少交齊大一上、大一下的觀念卡（其他學期先用 fallback，發布紀錄要寫明）；工時：LAWWW 1.5h；BB 2h；BB 驗收：BB 完整回歸：戀愛約會、課表日曆、快轉與寒暑假、存讀檔（v9.10 舊存檔）、經濟系主線、S1＋S2。約 2 小時（BB／CC）。"
+    },
+    {
+      "id": "D118-MIDTERM-STORY-1102",
+      "title": "沒有期中考：期中考相關的場景改掛、第 8～9 週課堂內容、台詞裡的「期中」改稿",
+      "area": null,
+      "owner": "AA",
+      "status": "待開工",
+      "priority": "P0",
+      "next": "AA 法律案恢復後：照 docs/handoff/D118_MIDTERM_REFS.md 第 1 節定每個場景改掛到哪、寫第 8～9 週 syllabus、改台詞",
+      "first": {
+        "term": "Y1S1",
+        "week": null,
+        "earliest": "第一次期中考前（讀書、一鍵總複習）；國考與職涯在畢業以後",
+        "mainline": true,
+        "blocks": false,
+        "prereq": false,
+        "parallel": true,
+        "confirmed": true
+      },
+      "source": "使用者 2026-11-02 05:0x 選「沒有期中考」（UA-LAWWW-1102-14）",
+      "authorized": "使用者直接指派（X151）；D111 LAWWW 遊戲總監",
+      "parent": "STUDY-EXAM-SYS-1102",
+      "xai": {
+        "spec": "docs/handoff/D118_MIDTERM_REFS.md、D118_PLAN.md 第 10～12 節",
+        "branch": "claude/story-planning",
+        "acceptance": "每個期中考場景有新的掛點或明確刪除；44 門課有第 8～9 週內容；台詞不再提期中考",
+        "receiver": "LAWWW",
+        "ack": "DELIVERED"
+      }
     }
   ]
 }
