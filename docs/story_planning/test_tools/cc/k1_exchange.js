@@ -85,7 +85,7 @@ const retExpect={TW:{Y3S1:'Y3S2',Y3S2:'Y4S1',Y4S1:'Y4S2'},JP:{Y3S1:'Y4S1',Y4S1:'
 function failPick(sc,route,seed,T,list){ const ids=list.map(e=>e.c.id), base=list.filter(e=>!e.c.rt).map(e=>e.c.id), out=new Set();
   if(sc==='mid'){ if(T===preOf(route)&&base.length) out.add(base[seed%base.length]); if(route==='JP'&&T==='Y4S1'&&base.length) out.add(base[(seed+1)%base.length]); }
   if(sc==='y4s2'&&T==='Y4S2'){ const pool=route==='JP'?['maritime','civpro_2_re','insurance_re']:['maritime']; const c=pool[seed%pool.length]; if(ids.includes(c)) out.add(c); }
-  if(sc==='y4s2b'){ if(T===preOf(route)&&base.length) out.add(base[seed%base.length]); if(T==='Y4S2') for(const e of list) if(e.c.rt) out.add(e.c.id); }
+  if(sc==='y4s2b'){ if(T===preOf(route)&&base.length) out.add(base[seed%base.length]); if(TERMS.indexOf(T)>TERMS.indexOf(preOf(route))) for(const e of list) if(e.c.rt) out.add(e.c.id); }   /* 重修那一門每一次都當，一路到大四下 */
   return out; }
 
 /* 時段重疊 */
@@ -143,6 +143,7 @@ async function scenario(route,seed,sc){ const tag='['+route+' s'+seed+' '+sc+']'
       chk(tag+' C1 JP 大三下成績單＝日本兩門（不含日本語）、等第照出席次數（'+J(n)+'）',J(g)===J(exp),'成績單 '+J(g)+' 應為 '+J(exp));
       chk(tag+' C1b JP 大三下成績單的字有兩門課名、沒有日本語',/日本法入門/.test(said)&&/比較行政法/.test(said)&&!/日本語/.test(said),said.slice(0,160));
       if((n.jp_law_intro|0)===0) info(tag+' JP 大三下日本的課一堂都沒上：成績單照樣「'+g.jp_law_intro+'」（CLS.gradeOf(0)，jp3d.js:438）——交 BB：出席 0 也算修過、抵學分？'); }
+    if(T===away){ const g0=CALENDAR.gradeDay(T), back=DK(RD[route].ret)+1; chk(tag+' C4 國外學期的成績單在回國後的早上發得到（公布日 '+key(g0)+'～＋45 天、回國隔天 '+key(back)+'）',g0>=back||back<=g0+45,''); }
     if(T===away&&route==='US'){ const g=R.grades.Y4S1||{}; chk(tag+' C2 US 大四上成績單＝美國三門「通過」、說「三門通過」',J(g)===J({us_intro:'通過',us_comp:'通過',us_writing:'通過'})&&/三門通過/.test(said),J(g)+' '+said.slice(0,80)); }
     if(isAway){ chk(tag+' A7 '+T+'（國外）failedIn＝[]、GRADES.lv＝null、書卷獎＝false',CLS.failedIn(G,T).length===0&&GRADES.lv(G,T)==null&&!HONOR.won(G,T),J({f:CLS.failedIn(G,T).map(c=>c.id),lv:GRADES.lv(G,T)}));
       chk(tag+' A8 '+T+'（國外）發成績單不排重修',(R.retake||[]).filter(x=>x.from===T).length===0,J((R.retake||[]).filter(x=>x.from===T))); }
@@ -172,6 +173,11 @@ async function scenario(route,seed,sc){ const tag='['+route+' s'+seed+' '+sc+']'
   if(route==='US') chk(tag+' F1 US 大五上補修：強制執行法、法律倫理每週都有（≥14 堂）',(y5it['MK:enforcement']|0)>=14&&(y5it['MK:legal_ethics']|0)>=14,J(y5it));
   if(route==='JP') chk(tag+' F1 JP 大五上沒有補修課（日本的補修在大四下）',!Object.keys(y5it).some(k=>k.startsWith('MK:')),J(y5it));
   if(exch&&y4f.length){ for(const id of y4f) chk(tag+' F2 大四下被當的 '+id+' 大五上排得到重修（Y5.classItems、≥3 堂）',(y5it['FD:'+id]|0)>=3,'排到 '+(y5it['FD:'+id]|0)+' 堂；FD.items 的時段 '+J(FD.slots(G).filter(x=>x.c.id===id).map(x=>x.slot)));
+    /* F3 週二實習（交換版 Y5.internOn，10:00）和重修不能同一個時段；F4 課表（weekHTML 用 FD.slots）和今日頁（classItems）一致 */
+    const iOn=Y5.internOn(G), B=COURSES.blocks||{}; const clash=FD.slots(G).filter(x=>{ const b=B[x.slot.block]||{}; return iOn&&x.slot.wd===2&&b.t0<=10&&b.t1>10; });
+    chk(tag+' F3 大五上的重修不和週二 10:00 法律實習同一時段',!clash.length,J(clash.map(x=>x.c.id+'@週'+x.slot.wd+x.slot.block)));
+    const wk=new Set(FD.slots(G).map(x=>x.c.id)); const missing=[...wk].filter(id=>!(y5it['FD:'+id]>0));
+    chk(tag+' F4 課表（CLS.weekHTML 列的 FD.slots）上的重修，今日頁（Y5.classItems）也排得到',!missing.length,'課表有、今日頁沒有：'+J(missing));
     /* INFO：重修沒去 */ setDay(y5.from+5,8); const stop=FD.clsStop(G); setDay(y5.to+2,9); FD.result(G);
     info(tag+' 交換又被當、大五上重修 0 堂：FAIL_DELAY_PASS='+F.FAIL_DELAY_PASS+'、FAIL_DELAY_CERT='+F.FAIL_DELAY_CERT+'、FD.clsStop（學期第 1 週）='+stop+'（FD.on＝FAIL_DELAY 才判證書延期／停點；交換路線 FAIL_DELAY 不設）'); }
   if(!exch&&!y4f.length) chk(tag+' G2 TW 全部及格：大五上不存在（Y5.term＝null）',!Y5.term(G,DK('2029-10-01')),'');
@@ -193,7 +199,7 @@ async function suite(seeds,routes,scs){ const out=[]; for(const route of routes)
   const realFails=fails, realN=nCheck, realList=FAILS.slice();
   /* ---------- 突變 ---------- */
   if(!NOMUT){ LOG('\n== 突變測試（每一種都要被抓到；這一段的 FAIL 不算進總數）==');
-    const run=async(name,patch,unpatch,routes,scs)=>{ const f0=fails, n0=FAILS.length; quiet=true; patch(); try{ await suite([1],routes,scs); }catch(e){} finally{ unpatch(); quiet=false; } const caught=FAILS.slice(n0); fails=f0; FAILS.length=n0;
+    const run=async(name,patch,unpatch,routes,scs)=>{ const f0=fails, n0=FAILS.length; quiet=true; patch(); try{ await suite([1],routes,scs); }catch(e){} finally{ unpatch(); quiet=false; } const base=new Set(realList.map(t=>t.split('　')[0])); const caught=FAILS.slice(n0).filter(t=>!base.has(t.split('　')[0])); fails=f0; FAILS.length=n0;   /* 只算基準跑沒有的 FAIL（基準本來就 FAIL 的不算抓到）*/
       LOG((caught.length?'PASS ':'FAIL ')+'突變 '+name+' → '+(caught.length?'被抓到（'+caught.length+' 項 FAIL，例：'+caught[0].slice(0,90)+'）':'沒被抓到')); if(!caught.length) fails++; };
     const ta=CLS.termAway; await run('M1 CLS.termAway 不認國外學期',()=>{ CLS.termAway=()=>false; },()=>{ CLS.termAway=ta; },['US'],['pass']);
     const rta=CLS.retakeTermAfter; await run('M2 重修不跳過國外學期',()=>{ CLS.retakeTermAfter=(G,t)=>{ const i=CLS.LAW_TERMS.indexOf(t); return i<0?null:(CLS.LAW_TERMS[i+1]||null); }; },()=>{ CLS.retakeTermAfter=rta; },['JP'],['mid']);
