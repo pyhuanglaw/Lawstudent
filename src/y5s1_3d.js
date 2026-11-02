@@ -44,8 +44,8 @@ const Y5=(function(){
   S.status=(G,it)=>{ const R=S.rec(G); if(R.cls[it.key]) return 'done'; if(it.day<G.day||(it.day===G.day&&G.hour>=24)) return 'missed'; if(it.day>G.day) return 'upcoming'; const h=hh(G); if(h>=it.t1-0.25) return 'missed'; return h>=it.t0-1?'open':'upcoming'; };
   /* 今日頁那一行：放假 → 補修 → 週二實習 → 9/3 的選擇（週一～週五）*/
   S.dayLine=function(G,day){ const d=day==null?G.day:day; if(!S.term(G,d)) return null; const hol=CALENDAR.holiday(d); if(hol) return '今天放假（'+hol+'），沒有課';
-    const its=S.classItems(G,d); if(its.length) return '今天的課：'+its.map(it=>hm(it.t0)+' '+it.label).join('、');
-    const wd=wdOf(d); if(wd===2&&S.internOn(G)) return '今天：'+S.INTERN_TEXT;
+    const its=S.classItems(G,d), wd=wdOf(d), intern=wd===2&&S.internOn(G); if(its.length) return '今天的課：'+its.map(it=>hm(it.t0)+' '+it.label).join('、')+(intern?'；'+S.INTERN_TEXT:'');   /* 週二有重修也有實習：兩個都寫（BB 11:20 P3）*/
+    if(intern) return '今天：'+S.INTERN_TEXT;
     const dt=S.DAYS_TEXT[G.flags&&G.flags.Y5_DAYS]; if(wd<=5&&dt) return '今天：'+dt;
     return '今天沒有課'; };
   /* ---------- 包住課表系統（只在延畢的大五上改結果）---------- */
