@@ -2304,12 +2304,30 @@
   },
   {
    "path": "docs/story_planning/AA_415_邀約回覆照階段變_七位定稿.md",
-   "sha": "759e5c000",
+   "sha": "166dc131a",
    "status": "approved",
-   "approvedBy": "AA-B 2026-10-23 20:2x 定稿（D109）；b10d0567f：AA_576 以安改稿第一批（AA 2026-11-02 08:36 交；AA_576／BB_226 口氣審 PASS、使用者確認「都對，交出去」）：第 1 節以安的表；e1e361335：AA_579 學姊改稿第一批（AA 2026-11-02 09:37 交；AA_579／AA_580、BB_228 PASS；使用者看過精選句）：第 5 節學姊的表（22 句）；759e5c000：AA_580 以安改稿第二批（AA 2026-11-02 09:38 交；AA_579／AA_580、BB_228 PASS）：第 1 節以安新增三句答應（新1～新3）",
+   "approvedBy": "AA-B 2026-10-23 20:2x 定稿（D109）；b10d0567f：AA_576 以安改稿第一批（AA 2026-11-02 08:36 交；AA_576／BB_226 口氣審 PASS、使用者確認「都對，交出去」）：第 1 節以安的表；e1e361335：AA_579 學姊改稿第一批（AA 2026-11-02 09:37 交；AA_579／AA_580、BB_228 PASS；使用者看過精選句）：第 5 節學姊的表（22 句）；759e5c000：AA_580 以安改稿第二批（AA 2026-11-02 09:38 交；AA_579／AA_580、BB_228 PASS）：第 1 節以安新增三句答應（新1～新3）；166dc131a：AA 2026-11-02 10:18 回 AA_579 第 7 節第 2 點——學姊 sis4（第 2 階約麵店）「好啊。這次你選地方。」→「好啊。」（AA_415:246；地點已經選好的邀約不問地方）",
    "task": "D14-T9",
    "kind": "text",
-   "note": "tools/invite/build_replies.py → src/data/invite_replies.js（INVITE_REPLIES）；選句 src/invites3d.js 的 S.replyPick（AA_415 第 0-3 節）"
+   "note": "tools/invite/build_replies.py → src/data/invite_replies.js（INVITE_REPLIES）；選句 src/invites3d.js 的 S.replyPick（AA_415 第 0-3 節）",
+   "history": [
+    {
+     "sha": "b113e39d",
+     "approvedBy": "AA-B 2026-10-23 20:2x 定稿（D109）"
+    },
+    {
+     "sha": "b10d0567f",
+     "approvedBy": "AA_576 以安改稿第一批"
+    },
+    {
+     "sha": "e1e361335",
+     "approvedBy": "AA_579 學姊改稿第一批"
+    },
+    {
+     "sha": "759e5c000",
+     "approvedBy": "AA_580 以安改稿第二批（新1～新3）"
+    }
+   ]
   },
   {
    "path": "docs/story_planning/AA_417_健身定稿_升階一句_注意到_羽球晨跑.md",
