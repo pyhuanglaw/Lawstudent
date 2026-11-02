@@ -3909,6 +3909,15 @@
    "task": "D118-B2-1102",
    "kind": "text",
    "note": "大四觀念卡 68 張（Y4S1 59、Y4S2 9；88 題）；法律專題研究、法律實習不考試沒有卡；LAWWW 2026-11-02 登記"
+  },
+  {
+   "path": "docs/story_planning/AA_590_學姊改稿_第三批_大一大二事件.md",
+   "sha": "68ceea665",
+   "status": "approved",
+   "approvedBy": "AA 2026-11-02 審查（第 9 節，D109；決1～決4 定案）、BB_235 口氣審 PASS、使用者 2026-11-02 18:2x 選擇題 11 題確認（第 10 節：「學姊第三批使用者看完，照本節調整後可以交 LAWWW」）",
+   "task": "AA590-SIS-B3-1102",
+   "kind": "text",
+   "note": "學姊改稿第三批（大一、大二事件）：手抄檔、程式，沒有產生器——tools/story/apply_line_table.py 自動換 57 列，其餘（第 4～7、17、21、53、60、71～82 列、保104、保147）手改；空的保溫瓶（ev_sis_empty_flask，第 16 列）、等放榜（ev_sis15_novel，第 28、29 列）整場 retired（定義留給舊存檔）；成績那一則改問放假（grades3d.js，第 55、56 列；開學以後不演）。tests/aa590_sis_b3_unit.js（稿 tests/aa590_doc.js）。子代理 2026-11-02 代登（int/next1102 上），給值班 LAWWW 核"
   }
  ]
 }
