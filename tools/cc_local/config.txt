@@ -1,0 +1,3 @@
+# CC（帳號 A）：cc-local runner 設定，每一輪重讀（不用重開）。BB 2026-11-02 22:09
+# PARALLEL＝同時跑幾項（1～4）；blender 照舊單獨跑；系統記憶體 >=85% 時不開新項目
+PARALLEL=3
