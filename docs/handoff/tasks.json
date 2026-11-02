@@ -40343,6 +40343,34 @@
         "ack": "ACK",
         "owner": "LAWWW"
       }
+    },
+    {
+      "first": {
+        "term": "Y1S1",
+        "week": null,
+        "earliest": "第一次期中考前（讀書、一鍵總複習）；國考與職涯在畢業以後",
+        "mainline": true,
+        "blocks": false,
+        "prereq": false,
+        "parallel": true,
+        "confirmed": true
+      },
+      "area": null,
+      "id": "ART-NO-USER-1102",
+      "title": "D128 美術驗收全部不經使用者（使用者 19:5x）：建築場景 BB、角色與人物外觀大改 LAWWW、畫風 LAWWW2 提案＋BB、LAWWW 同意；清掉各處「要使用者確認」的美術等待",
+      "owner": "LAWWW",
+      "status": "進行中",
+      "priority": "P2",
+      "note": "UA-LAWWW-1102-28／29",
+      "next": "CLAUDE.md、PROJECT_DECISIONS 已寫；通知 LAWWW2、BB；LAWWW2 的「等待使用者」美術項目改由 BB／LAWWW 驗收",
+      "xai": {
+        "spec": "CLAUDE.md D128",
+        "branch": "int/next1102",
+        "acceptance": "BB 測",
+        "receiver": "LAWWW2、BB",
+        "ack": "SENT",
+        "owner": "LAWWW"
+      }
     }
   ]
 }

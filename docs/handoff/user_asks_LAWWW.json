@@ -2040,6 +2040,24 @@
       "status": "暫停",
       "task": "TEST-OFFLOAD-1102",
       "note": "三個條件裡「使用者同意」成立；剩 CC 的使用者電腦 runner 支援 claude/second-ai-env-art、v9.10.16 發布以後切換（BB 18:14 的條件）；已轉告 BB、LAWWW2"
+    },
+    {
+      "id": "UA-LAWWW-1102-28",
+      "at": "2026-11-02T19:5x",
+      "quote": "美術應該只需要給B驗收，或者你不用經過我",
+      "kind": "原話",
+      "status": "規則（永久）",
+      "task": "ART-NO-USER-1102",
+      "note": "D128；接在 LAWWW2 LIB-FRONT 交件寫「建築的最終美術要使用者確認」、LAWWW 回報「要你看的」之後"
+    },
+    {
+      "id": "UA-LAWWW-1102-29",
+      "at": "2026-11-02T19:5x",
+      "quote": "全部交出去（建議）",
+      "kind": "選擇題答案",
+      "status": "規則（永久）",
+      "task": "ART-NO-USER-1102",
+      "note": "問：重要人物外觀大改、整體畫風也交出來嗎？選全部交出去：人物外觀大改 LAWWW 定案、整體畫風 LAWWW2 提案＋BB、LAWWW 同意"
     }
   ]
 }
