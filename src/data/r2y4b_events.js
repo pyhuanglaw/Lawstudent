@@ -368,7 +368,7 @@ const R2Y4B_EVENTS=(function(){
       {advance:toDay('2028-10-11',21)},{titleCard:'10/11（三）',sub:'汽車旅館'},{scene:'汽車旅館',bg:'trip_hotel_twin'},{speaker:null,text:'（汽車旅館的電視只有三台。她轉到氣象台，看了很久。）'},
       {speaker:'heroine_05',text:'明天峽谷那邊風大。外套帶厚的。',aa531:true},{speaker:null,text:'（她把兩支手機的鬧鐘都設好，才關燈。）',aa531:true},   /* AA_531 第 6 節：交往中 10/11 補句 */
       {advance:toDay('2028-10-12',12)},{titleCard:'10/12（四）',sub:'亞利桑那'},{speaker:null,text:'（她的論文第四章帶來了，還在背包最下面。）'},
-      {advance:toDay('2028-10-13',18)},{scene:'峽谷',bg:'dark'},   /* gc_rim_sunset 沒有：dark＋字幕 */
+      {advance:toDay('2028-10-13',18)},{scene:'峽谷',bg:'gc_rim_sunset'},   /* 11-02 使用者生成（傍晚的峽谷；原本深色底）*/
       {speaker:null,text:'（太陽慢慢沉到峽谷另一邊。風很大，她把外套拉鍊拉到最上面。）'},
       {speaker:'heroine_05',text:'第四章，我本來想在這裡寫完。'},
       {speaker:'heroine_05',text:'……結果一個字都沒寫。'},
@@ -521,7 +521,7 @@ const R2Y4B_EVENTS=(function(){
       {advance:toDay('2028-10-12',12)},{titleCard:'10/11（三）',sub:'汽車旅館'},{scene:'汽車旅館',bg:'trip_hotel_twin'},{speaker:null,text:'（汽車旅館的電視只有三台。她轉到氣象台，看了很久。）'},
       {speaker:'heroine_05',text:'明天風大。外套帶厚的。',aa531:true},{speaker:null,text:'（關燈以前，她問你鬧鐘設幾點。）',aa531:true},   /* AA_531 第 6 節：還沒交往 10/11 補句 */
       {advance:toDay('2028-10-13',3)},{titleCard:'10/12（四）',sub:'亞利桑那'},{speaker:null,text:'（她的論文第四章帶來了，還在背包最下面。）'},
-      {advance:toDay('2028-10-14',9)},{scene:'峽谷',bg:'dark'},   /* 亞利桑那 10/13 傍晚＝臺灣 10/14 早上 */
+      {advance:toDay('2028-10-14',9)},{scene:'峽谷',bg:'gc_rim_sunset'},   /* 亞利桑那 10/13 傍晚＝臺灣 10/14 早上；11-02 使用者生成的傍晚峽谷 */
       {speaker:null,text:'（太陽慢慢沉到峽谷另一邊。風很大，她把外套拉鍊拉到最上面。）'},
       {choice:[{text:'「學姊，我喜歡妳。」',goto:'say'},{text:'（看著峽谷，不說話）',goto:'she'}]},
       {label:'say'},{if:SIS_KNOWS,call:async(G,GM)=>{ const r=R(); if(r) await r.canyonKnow(GM,true); }},{goto:'air',if:CANYON_KNEW},   /* AA_474 3b：她知道祐廷正在和別人交往＝告白那一刻接 KNOW.heroine_05（R2Y4B.canyonKnow）*/

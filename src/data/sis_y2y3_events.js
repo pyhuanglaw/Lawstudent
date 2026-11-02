@@ -110,7 +110,7 @@ const SISY23_EVENTS=(function(){
       outingMissed:G=>{ const x=X(); if(x) x.missed(G,'sem'); } },
     /* ---------- 2-3 第 11 週週三：法圖外面的台階（第 5～10 週沒遇到的，私訊來；可以略過）---------- */
     { id:'ev_sis_topic_steps', title:'想寫的東西', participants:[ID], location:'any', trigger:'outing', once:true, background:'dark', hours:0.5,
-      dialogue:[ {scene:'法圖外面的台階'} ].concat(TOPIC) },
+      dialogue:[ {scene:'法圖外面的台階',bg:'lawlib_steps_night'} ].concat(TOPIC) },
     /* ---------- 2-4 6/2 晚上：在她讀書的地方找她說話（2026 週二＝Café、2027 週三＝法圖）；熟悉以上、沒在交往 ---------- */
     { id:'ev_sis_bday_y1', title:'她的生日', participants:[ID], location:['cafe','lawlib'], trigger:'interact', priority:9, once:true, background:'blur',
       prereq:{custom:G=>{ const x=X(); return !!x&&x.bdayTalkDue(G,'y1'); }}, dialogue:bday('y1',false) },

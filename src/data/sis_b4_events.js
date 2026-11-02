@@ -139,7 +139,7 @@ const SISB4_EVENTS=(function(){
       outingMissed:G=>{ const x=X(); if(x) x.missed(G,'xmas_y3'); } },
     /* ---------- 3-4 2027-02-14（日）14:00 臺北植物園（大二寒假；植物園沒有底圖：深色底＋地點字幕）---------- */
     { id:'ev_sis_vday_y2', title:'情人節', participants:[ID], location:'any', trigger:'outing', once:true, background:'dark', hours:4,
-      dialogue:[ {scene:'臺北植物園',bg:'dark'},
+      dialogue:[ {scene:'臺北植物園',bg:'taipei_botanical_winter'},   /* 11-02 使用者生成（原本深色底）*/
         N('（植物園分成很多區，每一區門口都有一塊說明牌。她每一塊都停下來讀，大概一分鐘。）'),
         SIS('一區一分鐘。'),
         SIS('……這樣才走得完。'),
