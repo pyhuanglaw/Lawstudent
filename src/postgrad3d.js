@@ -486,7 +486,7 @@ const PG=(function(){
     {id:'first',at:G=>T('2030-10-01',21),until:G=>Infinity,cond:G=>true,run:firstDay},
     {id:'epi',at:G=>T('2034-06-03',19),until:G=>Infinity,cond:G=>!!G.flags.FIRST_DAY_SEEN&&!G.flags.EPILOGUE_DONE&&!S.pendingExam(G),run:epilogue} ].concat(yStep(2029),yStep(2030));
   S.byId=id=>S.STEPS.find(s=>s.id===id)||null;
-  S.pendingExam=G=>S.sits(G,2030)&&G.flags.BAR_YEAR==null&&!S.done(G,'r2_2030');   /* 2030 年那一輪還沒演完：尾聲等它 */
+  S.pendingExam=G=>S.sits(G,2030)&&G.flags.BAR_YEAR==null&&!S.done(G,'r2_2030')&&S.rec(G).done.exam_2030!=='missed';   /* 2030 年那一輪還沒演完：尾聲等它；2030 一試錯過＝沒考，不等（D118-B1-1102；原本 r2_2030 的條件要 BAR_SIT_2030、永遠不會標 missed＝尾聲永遠不觸發，BB baseline N1、N2）*/
   S.y4Due=G=>{ if(typeof STORY==='undefined') return false; for(const k of ['packDue','gradMorningDue','gradLunchDue','moveOutDue']){ try{ if(STORY[k]&&STORY[k](G)) return true; }catch(e){} } return false; };   /* AA_318 那一批的場景（story3d.js S.y4Tick 演）：時間到了先讓它演，不跳 */
   const running=new Set();
   S.pending=function(G){ const now=NOW(G), r=S.rec(G), out=[]; if(!law(G)||G.flags.EPILOGUE_DONE) return out;   /* 尾聲演完：讀那個存檔＝2034 年自由活動，不再有場景 */
