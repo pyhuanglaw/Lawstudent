@@ -18,6 +18,12 @@ async def one(p, url, args, headless, label):
     b = await p.chromium.launch(headless=headless, args=args)
     try:
         pg = await b.new_page(viewport={'width': 844, 'height': 390})
+        ev = out.setdefault('events', [])
+        pg.on('crash', lambda *_: ev.append('page crash %.1fs' % (time.time() - t0)))
+        pg.on('close', lambda *_: ev.append('page close %.1fs' % (time.time() - t0)))
+        pg.on('console', lambda m: ev.append('console.%s %s' % (m.type, m.text[:160])) if m.type in ('error',) and len(ev) < 30 else None)
+        pg.on('pageerror', lambda e: ev.append('pageerror %s' % str(e)[:160]) if len(ev) < 30 else None)
+        b.on('disconnected', lambda *_: ev.append('browser disconnected %.1fs' % (time.time() - t0)))
         await pg.goto(url)
         out['renderer_blank'] = await pg.evaluate(RENDERER_JS)
         ok = False
@@ -38,11 +44,16 @@ async def one(p, url, args, headless, label):
 
 async def main(url, path):
     async with async_playwright() as p:
-        gpu = await one(p, url, ['--ignore-gpu-blocklist', '--use-gl=angle', '--use-angle=d3d11', '--enable-gpu-rasterization'], False, 'GPU（d3d11，有視窗）')
+        GA = ['--ignore-gpu-blocklist', '--use-gl=angle', '--use-angle=d3d11', '--enable-gpu-rasterization']
+        gpu = await one(p, url, GA, False, 'GPU（d3d11，有視窗）')
+        gpu_hl = await one(p, url, GA, True, 'GPU（d3d11，無視窗）')
+        gpu_def = await one(p, url, ['--ignore-gpu-blocklist'], False, 'GPU（Chromium 預設 ANGLE，有視窗）')
         soft = await one(p, url, ['--use-gl=angle', '--use-angle=swiftshader', '--enable-unsafe-swiftshader'], True, '對照：SwiftShader（無視窗）')
     sw = 'swiftshader' in str(gpu.get('renderer_blank', '')).lower()
     lines = ['GPU 檢查（CC run_queue 第 0 項）', 'URL: ' + url,
              'GPU 結果: ' + json.dumps(gpu, ensure_ascii=False),
+             'GPU 無視窗: ' + json.dumps(gpu_hl, ensure_ascii=False),
+             'GPU 預設 ANGLE: ' + json.dumps(gpu_def, ensure_ascii=False),
              '對照結果: ' + json.dumps(soft, ensure_ascii=False),
              '判讀: ' + ('仍是 SwiftShader（沒有用到顯示卡）' if sw else '不是 SwiftShader')]
     open(path, 'w', encoding='utf-8').write('\n'.join(lines) + '\n')
