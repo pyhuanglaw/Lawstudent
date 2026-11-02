@@ -342,20 +342,26 @@ const GAME = (function(){
     try{ if(typeof CALENDAR!=='undefined'&&CALENDAR.dateOf&&typeof s.day==='number'){ const w=CALENDAR.dateOf(s.day).wd; if(typeof w==='number') s.weekday=((w%7)+7)%7; } }catch(e){}   /* 星期照行事曆重算（BUG-DATE-TIMETABLE-1020：使用者 10-20 的存檔 9/25 週四記成週五，課表、作息都差一天）*/
     if(typeof SOCIAL!=='undefined'&&SOCIAL.alisonSave){ try{ SOCIAL.alisonSave(s); }catch(e){ console.warn('SOCIAL.alisonSave',e); } }   /* AA380 改名 Alison（使用者 10-21 23:2x）：舊存檔裡存下的舊名（手機訊息、群組名、出遊標題、約的標籤、記憶備註、目標）換成 Alison；id yu 不變 */
     if(typeof POOL!=='undefined'&&POOL.migrate){ try{ POOL.migrate(s); }catch(e){ console.warn('POOL.migrate',e); } }
+    if(typeof EVENTS!=='undefined'&&EVENTS.habitTrim){ try{ EVENTS.habitTrim(s); }catch(e){ console.warn('EVENTS.habitTrim',e); } }   /* BUG-SAVE-QUOTA-1102：舊的大存檔讀進來先把習慣鍵減到上限（讀檔照常，下一次自動存檔就變小）*/
     if(typeof FD!=='undefined'&&FD.migrate){ try{ FD.migrate(s); }catch(e){ console.warn('FD.migrate',e); } }   /* BUG-Y4S2-NOFINAL-1102：大四下沒有期末考日被誤判延畢的舊存檔 */
     if(typeof SUP497!=='undefined'&&SUP497.migrate){ try{ SUP497.migrate(s); }catch(e){ console.warn('SUP497.migrate',e); } }   /* AA_497 5-2、第 8 節第 5 點：家族的學妹統一叫佳穎（舊存檔存下的「家族的學妹」「學妹」「宜蓁」帳號名稱換字；姊姊宜蓁不動；同 Alison 改名的做法）*/   /* AA_498 第 1 節改名（撞到主要人物的六位）：舊存檔存下的舊名換新名；第一批五位說過秘密的記成「沒選」（2-10）*/
     s.v=SAVE_VER; return s; }
   function ls(){ try{ return window.localStorage; }catch(e){ return null; } }
-  function write(key,obj){ const st=ls(); if(!st) return false; try{ st.setItem(key,JSON.stringify(obj)); return true; }catch(e){ return false; } }
+  /* BUG-SAVE-QUOTA-1102（CC M5、BB 10:07）：寫入失敗要分得出是「空間不足」（QuotaExceededError）還是瀏覽器不能存；GM.saveErr＝最後一次失敗的原因（成功＝null）*/
+  const isQuota=e=>!!e&&(e.name==='QuotaExceededError'||e.name==='NS_ERROR_DOM_QUOTA_REACHED'||e.code===22||e.code===1014);
+  function write(key,obj){ const st=ls(); if(!st){ GM.saveErr='nostore'; return false; } try{ st.setItem(key,JSON.stringify(obj)); GM.saveErr=null; return true; }catch(e){ GM.saveErr=isQuota(e)?'quota':'other'; return false; } }
+  GM.SAVE_FULL_TEXT='儲存空間不足，這次沒有存進去。到選單 → 存檔，刪掉不用的欄位或備份，或先「匯出存檔檔案」留一份。';
+  GM.saveFailText=()=>GM.saveErr==='quota'?GM.SAVE_FULL_TEXT:'存檔失敗（瀏覽器儲存不可用）';
   function read(key){ const st=ls(); if(!st) return null; try{ const t=st.getItem(key); return t?JSON.parse(t):null; }catch(e){ return null; } }
-  function autosave(force){ if(!G||!E.player||(D.busyDepth>0&&!force)||GM.titleIdle) return;   /* force：劇情中途的存檔點（出遊到了那裡，outings3d.js）*/ /* 標題畫面（還沒開始或讀檔）不能自動存檔：否則會用空白的第一天蓋掉玩家真正的進度 */ write(KEY_AUTO,snapshot()); GM.lastAuto=performance.now(); }
+  function autosave(force){ if(!G||!E.player||(D.busyDepth>0&&!force)||GM.titleIdle) return;   /* force：劇情中途的存檔點（出遊到了那裡，outings3d.js）*/ /* 標題畫面（還沒開始或讀檔）不能自動存檔：否則會用空白的第一天蓋掉玩家真正的進度 */ const ok=write(KEY_AUTO,snapshot()); GM.lastAuto=performance.now();
+    if(!ok){ const t=Date.now(); if(!GM.autoFailAt||t-GM.autoFailAt>5*60*1000){ GM.autoFailAt=t; toast(GM.saveErr==='quota'?'自動存檔：'+GM.SAVE_FULL_TEXT:'自動存檔失敗（瀏覽器儲存不可用）',6000); } } else GM.autoFailAt=0; return ok; }   /* 失敗不再安靜（BUG-SAVE-QUOTA-1102）：提示一次，5 分鐘內不重複；存成功就重置 */
   GM.autosave=autosave;
   /* 不可逆的轉換之前先備份（CLAUDE.md 存檔規則第 9 點；例：經濟系 8/31 換到法律系，AA_154 2-4b 第 4 點）：寫 fatiao3d_backup，另外寫一份之後不會被蓋掉的 fatiao3d_backup_<key> */
   GM.backupNow=function(label,key){ const s=snapshot(); s.backupLabel=label||''; const ok=write(KEY_BACKUP,s); if(key) write(KEY_BACKUP+'_'+key,s); return ok; };
   /* 開新遊戲前先備份（使用者 2026-10-30 04:0x：「你現在放到自動存檔 我重新開遊戲 就被第一天蓋掉了 完全讀不到」，BUG-SAVE-NEWGAME-1030）：
      開新遊戲的第一次自動存檔會蓋掉原本的自動存檔（以前不備份）——先把自動存檔、快速存檔各寫一份不會被蓋掉的 fatiao3d_backup_new_<savedAt>（同一份不重寫）。
-     最多留 NEW_KEEP 份：超過就刪實際玩得最少（演過的事件數、步數最少，同樣少刪舊的）那一份；同一個開局狀態只留一份，連按幾次開新遊戲也不會把真正的進度擠掉。備份寫不進去（空間不足）＝先問玩家要不要照樣開新遊戲 */
-  const NEW_KEEP=3, KEY_NEWBK=KEY_BACKUP+'_new_';
+     最多留 NEW_KEEP 份（BUG-SAVE-QUOTA-1102 起 1 份；原本 3 份，一份就約 0.7～1.2 MB）：超過就先刪沒玩過的、再刪舊的（留最近一次有實際進度的）；同一個開局狀態只留一份，連按幾次開新遊戲也不會把真正的進度擠掉。備份寫不進去（空間不足）＝先問玩家要不要照樣開新遊戲 */
+  const NEW_KEEP=1, KEY_NEWBK=KEY_BACKUP+'_new_';
   function backupKeys(){ const st=ls(); const out=[]; if(!st) return out; try{ for(let i=0;i<st.length;i++){ const k=st.key(i); if(k&&(k===KEY_BACKUP||k.indexOf(KEY_BACKUP+'_')===0)) out.push(k); } }catch(e){} return out; }
   function backupList(){ return backupKeys().map(k=>[k,read(k)]).filter(([k,b])=>b&&typeof b==='object'&&typeof b.day==='number').sort((a,b)=>(+b[1].savedAt||0)-(+a[1].savedAt||0)); }
   function backupBeforeNew(){ let fail=false;
@@ -364,12 +370,12 @@ const GAME = (function(){
     for(const key of [KEY_AUTO,KEY_QUICK]){ const s=read(key); if(!s||typeof s!=='object'||typeof s.day!=='number') continue; const k=KEY_NEWBK+(s.savedAt||Date.now()); if(read(k)) continue;
       if(backupKeys().filter(x=>x.indexOf(KEY_NEWBK)===0).some(x=>same(read(x),s))) continue;
       s.backupLabel=(key===KEY_QUICK?'快速存檔':'自動存檔')+'（開新遊戲前）'; if(!write(k,s)) fail=true; }
-    const L=backupKeys().filter(k=>k.indexOf(KEY_NEWBK)===0).map(k=>[k,read(k)||{}]); L.sort((a,b)=>(prog(a[1])-prog(b[1]))||((+a[1].savedAt||0)-(+b[1].savedAt||0)));   /* 超過 NEW_KEEP 份：刪實際玩得最少的（同樣少刪舊的）*/
+    const L=backupKeys().filter(k=>k.indexOf(KEY_NEWBK)===0).map(k=>[k,read(k)||{}]); L.sort((a,b)=>((prog(a[1])>0)-(prog(b[1])>0))||((+a[1].savedAt||0)-(+b[1].savedAt||0)));   /* 超過 NEW_KEEP 份：先刪沒玩過的（0 件 0 步：剛開局又按開新遊戲），再刪舊的——只留一份時留最近一次有實際進度的那一份（BUG-SAVE-QUOTA-1102；原本 3 份時是刪玩得最少的）*/
     const st=ls(); while(L.length>NEW_KEEP){ const [k]=L.shift(); try{ st.removeItem(k); }catch(e){} }
     if(fail&&typeof confirm==='function'&&!confirm('沒辦法備份原本的進度（瀏覽器空間不足）。\n仍要開新遊戲嗎？原本的自動存檔會被蓋掉。')) return false;
     return true; }
   GM.backupBeforeNew=backupBeforeNew; GM.backupList=backupList;
-  function saveSlot(i){ const prev=read(KEY_SLOT+i); if(prev) write(KEY_BACKUP,prev); const ok=write(KEY_SLOT+i,snapshot()); toast(ok?'已存到欄位 '+i:'存檔失敗（瀏覽器儲存不可用）'); renderSlots(); }
+  function saveSlot(i){ const prev=read(KEY_SLOT+i); if(prev) write(KEY_BACKUP,prev); const ok=write(KEY_SLOT+i,snapshot()); toast(ok?'已存到欄位 '+i:GM.saveFailText(),ok?undefined:6000); renderSlots(); }
   /* 舊存檔的女主角初遇（AA_120 7-4 第 7 點，使用者 2026-10-13 批准）：舊版的一般自我介紹已經記了 FIRST_MET、她的相遇事件卻一次都沒播過——
      這筆 FIRST_MET 改標成「一般招呼」（GREETED），相遇事件就當還沒見過（不會永久錯過）；熟悉度、其他紀錄都不動。
      只動「除了這筆初遇什麼都還沒發生」的人（她的任何事件播過、或有別的記憶，就照舊）；以安（劇情裡認識）、溫學姊（talkSis）不在內。
@@ -419,10 +425,13 @@ const GAME = (function(){
   function parseImport(t){ t=t.trim(); let obj=null; try{ obj=JSON.parse(t); }catch(e){ try{ obj=JSON.parse(decodeURIComponent(escape(atob(t)))); }catch(e2){ throw new Error('無法解析：不是 JSON 也不是匯出的文字格式'); } } const err=validate(obj); if(err) throw new Error(err); if(obj&&obj._stuck) delete obj._stuck; if(obj&&obj._busy) delete obj._busy; return obj; }
   GM.parseImport=parseImport; GM.exportText=exportText;
   const dayLab=d=>typeof SOCIAL!=='undefined'&&SOCIAL.dayLabel?SOCIAL.dayLabel(d):'第 '+d+' 天';   /* 筆記、日誌的日期（9/11），不是「第 -379 天」（經濟系那一年 day 是負的，2026-10-17 瀏覽器實測）*/
-  function renderSlots(){ const box=$('saveSlots'); box.innerHTML=''; const auto=read(KEY_AUTO); const mk=(label,s,onSave,onLoad,into)=>{ const d=document.createElement('div'); d.className='item'; d.innerHTML='<b>'+label+'</b> '+(s?((typeof STORY!=='undefined'&&STORY.dayTitle?STORY.dayTitle(s):'第 '+s.day+' 天')+' '+fmtTime(s.hour)+' · '+((s.home&&s.home.at?'臺北的家':(Z3.ZONES[s.zone]?Z3.ZONES[s.zone].name:s.zone)))+' · '+s.name+'<div class="muted">'+new Date(s.savedAt).toLocaleString()+'</div>'):'<span class="muted">（空）</span>'); const row=document.createElement('div'); row.className='row2'; row.style.marginTop='8px'; if(onSave){ const b=document.createElement('button'); b.className='btn'; b.textContent='存檔'; b.onclick=onSave; row.appendChild(b); } if(s){ const b=document.createElement('button'); b.className='btn pri'; b.textContent='讀取'; b.onclick=onLoad; row.appendChild(b); } d.appendChild(row); (into||box).appendChild(d); }; mk('自動存檔',auto,null,()=>loadFrom(auto)); const quick=read(KEY_QUICK); mk('快速存檔（右上 💾）',quick,null,()=>loadFrom(quick));   /* 只有讀取：存＝右上 💾（這一格不放「存檔」鈕，第一個「存檔」照舊是欄位 1）*/ for(let i=1;i<=3;i++){ const s=read(KEY_SLOT+i); mk('欄位 '+i,s,()=>saveSlot(i),()=>loadFrom(s)); }
+  function renderSlots(){ const box=$('saveSlots'); box.innerHTML=''; const auto=read(KEY_AUTO); const mk=(label,s,onSave,onLoad,into,onDel)=>{ const d=document.createElement('div'); d.className='item'; d.innerHTML='<b>'+label+'</b> '+(s?((typeof STORY!=='undefined'&&STORY.dayTitle?STORY.dayTitle(s):'第 '+s.day+' 天')+' '+fmtTime(s.hour)+' · '+((s.home&&s.home.at?'臺北的家':(Z3.ZONES[s.zone]?Z3.ZONES[s.zone].name:s.zone)))+' · '+s.name+'<div class="muted">'+new Date(s.savedAt).toLocaleString()+'</div>'):'<span class="muted">（空）</span>'); const row=document.createElement('div'); row.className='row2'; row.style.marginTop='8px'; if(onSave){ const b=document.createElement('button'); b.className='btn'; b.textContent='存檔'; b.onclick=onSave; row.appendChild(b); } if(s){ const b=document.createElement('button'); b.className='btn pri'; b.textContent='讀取'; b.onclick=onLoad; row.appendChild(b); } if(s&&onDel){ const b=document.createElement('button'); b.className='btn'; b.textContent='刪除'; b.onclick=onDel; row.appendChild(b); } d.appendChild(row); (into||box).appendChild(d); }; mk('自動存檔',auto,null,()=>loadFrom(auto)); const quick=read(KEY_QUICK); mk('快速存檔（右上 💾）',quick,null,()=>loadFrom(quick));   /* 只有讀取：存＝右上 💾（這一格不放「存檔」鈕，第一個「存檔」照舊是欄位 1）*/ for(let i=1;i<=3;i++){ const s=read(KEY_SLOT+i); mk('欄位 '+i,s,()=>saveSlot(i),()=>loadFrom(s),null,()=>delSave(KEY_SLOT+i,'欄位 '+i)); }
     /* 備份（BUG-SAVE-NEWGAME-1030）：瀏覽器裡全部的 fatiao3d_backup*（開新遊戲前、欄位覆蓋前、匯入前、經濟系最後一天…），新的在上面，只有讀取；放在另一個框（#saveBackups），#saveSlots 的按鈕照舊 */
     let bx=$('saveBackups'); if(!bx&&box.parentNode){ bx=document.createElement('div'); bx.id='saveBackups'; bx.className='list'; box.parentNode.insertBefore(bx,box.nextSibling); } if(bx){ bx.innerHTML=''; const L=backupList();
-      if(L.length){ const h=document.createElement('div'); h.className='muted'; h.style.margin='14px 0 6px'; h.textContent='備份（開新遊戲、覆蓋欄位、匯入之前自動留的；讀取＝從那裡接著玩）'; bx.appendChild(h); for(const [k,b] of L) mk('備份：'+(b.backupLabel||(k===KEY_BACKUP?'上一次覆蓋前':'備份')),b,null,()=>loadFrom(b),bx); } } }
+      if(L.length){ const h=document.createElement('div'); h.className='muted'; h.style.margin='14px 0 6px'; h.textContent='備份（開新遊戲、覆蓋欄位、匯入之前自動留的；讀取＝從那裡接著玩）'; bx.appendChild(h); for(const [k,b] of L){ const nm='備份：'+(b.backupLabel||(k===KEY_BACKUP?'上一次覆蓋前':'備份')); mk(nm,b,null,()=>loadFrom(b),bx,()=>delSave(k,nm)); } } } }
+  /* 刪除欄位、備份（BUG-SAVE-QUOTA-1102：空間不足時玩家能自己騰出空間）；自動存檔、快速存檔不給刪 */
+  function delSave(key,label){ if(typeof confirm==='function'&&!confirm('刪除「'+label+'」？刪掉就讀不回來了。')) return false; const st=ls(); try{ if(st) st.removeItem(key); }catch(e){} toast('已刪除「'+label+'」'); renderSlots(); return true; }
+  GM.delSave=delSave;
   async function loadFrom(s){ if(typeof CLS!=='undefined'&&CLS.resetExamMemo) CLS.resetExamMemo();   /* BUG-EXAMDAY-MEMO-1102：讀檔清考試日快取 */ if(D.busyDepth>0&&!D.stale&&$('titleScreen').classList.contains('hide')){ toast('劇情還在進行，結束後再讀檔',3200); return; }   if(!$('titleScreen').classList.contains('hide')) await waitChars();   /* 從標題畫面讀檔：主要角色還在背景下載就先等（boot 的開遊戲加速）*/   /* 遊戲中劇情演到一半不能讀檔（讀了舊的劇情流程會接著演到新存檔）；標題畫面照常 */ try{ closeMenu(); $('titleScreen').classList.add('hide'); await applySave(s); toast('已讀取'); }catch(e){ toast('讀取失敗：'+e.message,3500); } }
   // ---------- 選單 ----------
   let menuOpen=false;
@@ -729,7 +738,7 @@ const GAME = (function(){
      匯出＝和「選單 → 存檔 → 匯出 → 下載」同一個檔（含 _stuck、_busy），任何時候都能按：卡住時回報用。 */
   function quickSave(){ if(!G||!E.player||GM.titleIdle) return false;
     if(D.busyDepth>0){ toast('劇情進行中，結束後再存。卡住的話按「匯出存檔檔案」傳給開發。',3800); return false; }
-    const prev=read(KEY_QUICK); if(prev) write(KEY_BACKUP,prev); if(!write(KEY_QUICK,snapshot())){ toast('存檔失敗（瀏覽器儲存不可用）'); return false; }
+    const prev=read(KEY_QUICK); if(prev) write(KEY_BACKUP,prev); if(!write(KEY_QUICK,snapshot())){ toast(GM.saveFailText(),6000); return false; }
     const dd=typeof CALENDAR!=='undefined'&&CALENDAR.dateOf?CALENDAR.dateOf(G.day):null, h=((G.hour%24)+24)%24, p2=n=>String(n).padStart(2,'0');
     toast('已快速存檔'+(dd?'：'+dd.m+'/'+dd.d+' '+p2(Math.floor(h))+':'+p2(Math.floor((h%1)*60)):'')+'（選單 → 存檔 →「快速存檔」讀取）',2800); if($('saveSlots')&&menuOpen) renderSlots(); return true; }
   GM.quickSave=quickSave;

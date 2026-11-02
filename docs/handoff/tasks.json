@@ -39549,6 +39549,52 @@
         "ack": "ACK",
         "acceptance": "延畢以後照停點去上重修、到三堂證書準時；不去上課證書延後"
       }
+    },
+    {
+      "id": "BUG-SAVE-QUOTA-1102",
+      "title": "存檔空間不足會靜靜存不進去（CC M5、BB 10:07 P1）",
+      "owner": "LAWWW",
+      "status": "已整合待測試",
+      "priority": "P1",
+      "note": "2026-11-02 LAWWW：write 分辨 QuotaExceededError（GM.saveErr）；autosave 看結果、空間不足提示（5 分鐘內不重複）；欄位、快速存檔同一句；開新遊戲前備份 NEW_KEEP 3→1（留最近一次有進度的）；習慣鍵 place/seat/table/meal 上限 300（劇情讀的三個鍵不刪），讀檔 migrate 也減；存檔頁欄位、備份加「刪除」。tests/save_quota_unit.js（修改前 FAIL）、save_newgame_backup_unit.js 改成 1 份。待 BB／CC 瀏覽器驗（真的塞滿 localStorage）。",
+      "first": {
+        "term": "Y1S1",
+        "earliest": "四年存檔變大以後",
+        "mainline": true,
+        "blocks": false,
+        "parallel": true,
+        "confirmed": true
+      },
+      "xai": {
+        "spec": "BB 10:07；cc-testing 4990b38be CC_M5_save_size.md",
+        "branch": "claude/confident-ritchie-8rwh7t",
+        "receiver": "BB",
+        "ack": "ACK",
+        "acceptance": "配額滿了玩家看得到提示；舊的大存檔讀得進來；刪除欄位能騰出空間"
+      }
+    },
+    {
+      "id": "BUG-LEGALPAGE-RETAKE-ROW-1102",
+      "title": "法律頁：重修那學期的列放錯學期；只碰過題庫就建出沒修過的課（CC M6、BB 10:07 P2/P3）",
+      "owner": "LAWWW",
+      "status": "待開工",
+      "priority": "P2",
+      "note": "classes3d.js:216 legalCourses 照第一次出席的學期建列、game3d.js:471 have 擋掉這學期那一筆；study3d.js:59-63 qb 分支建出『刑事訴訟法・大三上』。重修帶卡片狀態 BB 判可接受。",
+      "first": {
+        "term": "Y1S2",
+        "earliest": "第一次重修",
+        "mainline": false,
+        "blocks": false,
+        "parallel": true,
+        "confirmed": true
+      },
+      "xai": {
+        "spec": "BB 10:07；cc-testing 4990b38be CC_M6_studied_xy.md",
+        "branch": "claude/confident-ritchie-8rwh7t",
+        "receiver": "BB",
+        "ack": "ACK",
+        "acceptance": "重修列在這學期、標重修；沒修過的課不建列"
+      }
     }
   ]
 }
