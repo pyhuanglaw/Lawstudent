@@ -117,3 +117,8 @@
 - **兩字詞組比對**（`scratchpad/y3s2gen/check.py`，做法同前幾學期）：每張卡 cue 和它所有 qids 的所有選項（對的、錯的）切成連續兩個中文字（排除含標點、空白的組合）＋3 個字母以上的英文單字比對。初稿有 2 張重疊（negotiable_w3「人有」、negotiable_w6「名的」），已改字；**定稿 35 張、42 題，重疊＝0**。cue 裡沒有英文字母。
 - **遊戲的 `S.cueLeaks`**（開發分支 `src/study3d.js` L177-189 抽出來跑，只用 cue）：42 題全部 false。
 - 若連卡片標題一起算（舊呼叫法），有 4 題會被判洩題，原因都在**標題**：civpro_2_w4（AI_CP2_03「自由心證」）、civpro_2_w7（AI_CP2_05「小額訴訟」）、civpro_2_w13（AI_CP2_09「再審」）、insurance_w4（BBAI_INS_03「保險利益」）。目前 `S.cueFor` 有 cue 時只看 cue（AA 10:26 註解），所以不影響。
+
+## AA 修正紀錄（2026-11-02，依 `cards_y3s2_review.md`）
+- 需修改 2 張照核對報告改：civpro_2_w3（§307 I 各款分開寫：第 1、3、4 款）、civpro_2_w7（補 §427 II 列舉、III 合意；basis 改成第 1 項至第 3 項）。
+- 可選建議全部採用：civpro_2_w10（cue）、civpro_2_w11、insurance_w4、insurance_w7（§82-1 準用 §76）、insurance_w13、labor_law_w5（§84-1 不排除 §24）、labor_law_w11（basis）、negotiable_w6（§133）。
+- 民訴甲下 5 張卡題目錯週（AI_CP2_01↔02、07↔08、10）：AI_CP2 是 AA 出的補題，**AA 同意改 scopeWeek，但這一版先不動**。卡片照現在收到的題目寫，第一句已經接上黑板標題。等 LAWWW 確定 civpro_2_w15 沒有題目時舊存檔不會出錯，再一起調整（建議見 review 最後一節）。
