@@ -283,6 +283,8 @@ ob = t.finish(g); ob['dir'] = [1, 0, 0]
 # ---------------- 匯出 ----------------
 MAT.use_backface_culling = False   # 紙兩面都看得到
 tris = {}
+import dorm_loft_remap as DR   # noqa: E402（11-02 DORM-LOFT-SCALE-1102：床桌組放大，這支的座標是照舊的床桌組寫的——匯出前每個頂點換到新的位置）
+print('dorm_loft_remap', DR.remap_scene())
 pos = {}
 for ob in bpy.data.objects:
     if ob.type != 'MESH': continue

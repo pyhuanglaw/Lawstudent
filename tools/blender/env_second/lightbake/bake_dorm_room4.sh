@@ -24,7 +24,7 @@ NOLM='tubes|fixtures|dorm_led|dorm_items|dorm_metal|chrome|black|_rod|mirror|sho
 LED='0.03,0.8,1.0,0.88,0.72'; LEDW=${LEDW:-9}
 DARKPT='0.4,2.2,-8.5,450,1.0,0.75,0.45'   # 熄燈那一張：窗外對面人行道的路燈（暖黃、高出房間地板 2.2 m、離窗 5 m）
 LIGHTS="0,0,-1.7,-1.7,2.95,1,1,35,0.4,0.4;0,0,0.7,0.7,2.95,1,1,35,0.4,0.4;1.8,1.8,2.45,2.45,2.95,1,1,10,0.22,0.22"
-for X in 2.585 -2.585; do LIGHTS="$LIGHTS;$X,$X,-2.525,-2.525,1.54,1,1,$LEDW,$LED;$X,$X,-0.1225,-0.1225,1.54,1,1,$LEDW,$LED"; done
+for X in 2.585 -2.585; do LIGHTS="$LIGHTS;$X,$X,-2.4725,-2.4725,1.64,1,1,$LEDW,$LED;$X,$X,0.1175,0.1175,1.64,1,1,$LEDW,$LED"; done   # DORM-LOFT-SCALE-1102（11-02）：床桌組加長、床板底 1.56→1.66，燈條中心照新的書桌（z −2.4725／0.1175，以前 −2.525／−0.1225）、高 1.64
 /opt/blenv/bin/python tools/blender/env_second/dorm_room4.py -- --out "$TMP/dorm_room4_plain.glb" --layout "$TMP/layout.json" --bakeblock
 cmp -s "$TMP/layout.json" assets/models/env/second_ai/dorm_room4.layout.json || { echo '配置和 dorm_room4.layout.json 不一樣：先確認改了什麼（導航、座位）'; exit 3; }
 /opt/blenv/bin/python tools/blender/env_second/lightbake/bake_room.py -- --in "$TMP/dorm_room4_plain.glb" --out "$OUTDIR/dorm_room4.glb" \

@@ -472,6 +472,8 @@ for ob in bpy.data.objects:
         key = p.name if p is not None else ''
         tris[key] = tris.get(key, 0) + sum(len(q.vertices) - 2 for q in ob.data.polygons)
 print('dorm_y3 tris', tris, 'total', sum(tris.values()), 'meshes', sum(1 for ob in bpy.data.objects if ob.type == 'MESH'))
+import dorm_loft_remap as DR   # noqa: E402（11-02 DORM-LOFT-SCALE-1102：床桌組放大，這支的座標是照舊的床桌組寫的——匯出前每個頂點換到新的位置）
+print('dorm_loft_remap', DR.remap_scene())
 pos = {}   # 每一件在遊戲裡的位置（遊戲座標 x 東、y 上、z 南；外框的最小、最大、中心）：給 LAWWW 接互動點、運鏡用
 for ob in bpy.data.objects:
     if ob.type != 'MESH': continue

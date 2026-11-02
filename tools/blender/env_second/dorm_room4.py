@@ -7,8 +7,9 @@
 - 取代 dorm_interior.py 的雙人房（舊腳本保留）。房間大小、門、出口照舊：6×7×3.0 m，門在前牆 z=+3.5 中間（x −0.48..0.48）。
 - 座標＝遊戲 dorm 區域座標（x 右、y 上、z 往門）。牆內面 x ±2.9、z ±3.4。
 - 配置（--layout 輸出 JSON，給 LAWWW-B 改 zones3d.js 的 dorm 區塊）：
-  - 洗手間：進門右邊（+x）x 0.65..2.9、z 1.45..3.4，門開向入口走道（x=0.65 那一面）。
-  - 床桌組：右牆兩組（R1 後、R2 前）、左牆兩組（L1 後、L2 前），每組沿牆 2.4 m、離牆 0.95 m；階梯在每組靠門那一端。
+  - 洗手間：進門右邊（+x）x 0.65..2.9、z 1.83..3.4（11-02 以前 1.45），門開向入口走道（x=0.65 那一面）。
+  - 床桌組：右牆兩組（R1 後、R2 前）、左牆兩組（L1 後、L2 前），每組沿牆 2.57 m、離牆 1.05 m；階梯在每組靠門那一端（寬 0.52、五階 32 cm）；床板 1.66～1.70、床欄頂 2.12、床墊 2.0×1.0 m。
+    11-02 DORM-LOFT-SCALE-1102 使用者「宿舍的床跟人的比例太奇怪了，床太小，階梯太小」：以前每組 2.4 m、離牆 0.95、階梯寬 0.40 四階、床板 1.56～1.60、床墊 1.95 m；洗手間 z 1.45 → 1.83。
     誰用哪一組照 AA_208 第 4 節：203＝R1 柏翰（靠窗、先到）、R2 阿凱、L1 阿哲、L2 祐廷（門口那組）；412（經濟系那年，同一個模型換東西）＝R1 唐睿、R2 阿勳、L1 韋綸、L2 祐廷。
   - 窗移到後牆中間（x −1.1..1.1、y 0.95..2.4），冷氣在窗的右上方。
 - 節點：WALL_<front|back|left|right|bath_n|bath_w>_*（會淡出的牆，dir＝往室內）；LOFT_<組>_TOP（床板、床欄、床墊、吊桿、扶手上段：材質 seethru_*）＋子節點 BEDDING_<組>（被子、枕頭）；
@@ -39,19 +40,19 @@ IX0, IX1, IZ0, IZ1 = X0 + T, X1 - T, Z0 + T, Z1 - T          # 牆的內面
 DIRS = {'front': [0, 0, -1], 'back': [0, 0, 1], 'left': [1, 0, 0], 'right': [-1, 0, 0], 'bath_n': [0, 0, -1], 'bath_w': [-1, 0, 0]}
 WIN = (-1.1, 1.1, 0.95, 2.4)                       # 後牆的窗洞 x0,x1,y0,y1（窗景平面：中心 (0, 1.675)、2.2×1.45，往外放）
 DOOR = (-0.48, 0.48, 2.1)                          # 前牆的門洞（照舊）
-BATH = dict(x0=0.65, x1=IX1, z0=1.45, z1=IZ1, t=0.1, door=(2.2, 3.0), door_h=2.05)
+BATH = dict(x0=0.65, x1=IX1, z0=1.83, z1=IZ1, t=0.1, door=(2.2, 3.0), door_h=2.05)   # DORM-LOFT-SCALE-1102：z0 1.45 → 1.83（床桌組加長，洗手間往門口縮；裡面 2.25×1.5 m）
 # 床桌組：沿牆座標 u（＝z）、離牆距離 v；階梯在 ub 那一端（靠門）
-VD, STW = 0.95, 0.40                               # 床桌組的深度、階梯寬（10-30 DORM203-LM-1030：0.45→0.40，床長多 5 cm）
-STW0 = 0.45                                        # 原本的階梯寬：書桌、衣櫃的位置照舊用這個算（座位、走近點、導航不動），衣櫃往階梯那邊寬 5 cm 補縫
-DECK0, DECK1, GUARD = 1.56, 1.60, 2.02             # 床板底、床板頂、床欄頂
-RISE, NST = 0.32, 4                                # 階梯：四階、每階 32 cm（頂 1.28），再一步上床
+VD, STW = 1.05, 0.52                               # 床桌組的深度、階梯寬（10-30 DORM203-LM-1030：0.45→0.40；11-02 DORM-LOFT-SCALE-1102 使用者「床太小，階梯太小」：0.95→1.05、0.40→0.52）
+STW0 = STW   # 11-02 以前是 0.45（書桌、衣櫃照舊位置）；這一版整組重排，座位、走近點、導航都跟著配置重產                                        # 原本的階梯寬：書桌、衣櫃的位置照舊用這個算（座位、走近點、導航不動），衣櫃往階梯那邊寬 5 cm 補縫
+DECK0, DECK1, GUARD = 1.66, 1.70, 2.12             # 床板底、床板頂、床欄頂（11-02 以前 1.56／1.60／2.02）
+RISE, NST = 0.32, 5                                # 階梯：五階、每階 32 cm（頂 1.60），再一步上床（11-02 以前四階，頂 1.28、要跨 0.3 m 上床）
 # 誰用哪一組（AA_208 第 4 節，AA 分支 65978067）：柏翰先到、用靠窗那組；「門口那張床是你的」＝祐廷在左前；阿凱的書桌在祐廷對面（遙控器放在兩張書桌中間）
 # 大二～大四（AA_208 第 7、8 節）：312＝祐廷 L2、阿哲 L1、柏翰 R1、大一學弟 R2（背景）；507＝祐廷、柏翰、大二學弟 L1、別系的同屆 R2；409＝祐廷、柏翰、大二學弟 L1、大一學弟 R2
 # 205（方奕廷的房間，AA_399 第 11 節；只在 --only 205）：方奕廷 R1（靠窗：盆栽要光）、其他三個是沒有名字的室友（背景）
-UNITS = [('R1', 'R', IZ0 + 0.005, -1.0, {'203': 'bohan', '412': 'tangrui', '312': 'bohan', '507': 'bohan', '409': 'bohan', '205': 'fang'}),
-         ('R2', 'R', -0.98, 1.39, {'203': 'kai', '412': 'xun', '312': 'fresh', '507': 'peer', '409': 'fresh', '205': 'fresh'}),
-         ('L1', 'L', IZ0 + 0.005, -1.0, {'203': 'zhe', '412': 'weilun', '312': 'zhe', '507': 'soph', '409': 'soph', '205': 'soph'}),
-         ('L2', 'L', -0.98, 1.39, {'203': 'yuting', '412': 'yuting', '312': 'yuting', '507': 'yuting', '409': 'yuting', '205': 'peer'})]
+UNITS = [('R1', 'R', IZ0 + 0.005, -0.825, {'203': 'bohan', '412': 'tangrui', '312': 'bohan', '507': 'bohan', '409': 'bohan', '205': 'fang'}),
+         ('R2', 'R', -0.805, 1.765, {'203': 'kai', '412': 'xun', '312': 'fresh', '507': 'peer', '409': 'fresh', '205': 'fresh'}),
+         ('L1', 'L', IZ0 + 0.005, -0.825, {'203': 'zhe', '412': 'weilun', '312': 'zhe', '507': 'soph', '409': 'soph', '205': 'soph'}),
+         ('L2', 'L', -0.805, 1.765, {'203': 'yuting', '412': 'yuting', '312': 'yuting', '507': 'yuting', '409': 'yuting', '205': 'peer'})]
 DUVET = {'R1': '#e2ddd2', 'R2': '#6b6f75', 'L1': '#3f6fa0', 'L2': '#4d6f8f'}   # 每一組的被子（柏翰淺灰、阿凱深灰、阿哲藍、祐廷灰藍）
 random.seed(23)
 TEXGEN = os.path.join(HERE, 'textures', 'gen')
@@ -479,7 +480,7 @@ def loft(uid, side, ua, ub, sets):
     lbox(tf, side, ust - 0.025, ust, DECK1, GUARD, 0.47, VD - 0.025)   # 床尾（階梯那一端）的擋板在走道那一半；靠牆那一半是上床的開口（階梯從走道往牆邊爬，最上面一階靠牆；10-30 以前擋板在靠牆那一半，人從最上面一階上不了床——DORM-SLEEP-VISUAL-1030）
     for uu in (ua + 0.1, ust - 0.12):
         tr.cyl(W3(side, uu, GUARD - 0.02, VD - 0.012), W3(side, uu, H, VD - 0.012), 0.009, seg=8); tr.cyl(W3(side, uu, H - 0.004, VD - 0.012), W3(side, uu, H - 0.012, VD - 0.012), 0.03, seg=12)
-    sweep(tf, bend([W3(side, ust - 0.035, DECK1 + 0.05, 0.55), W3(side, ust - 0.035, 2.32, 0.55), W3(side, ust - 0.035, 2.32, 0.88), W3(side, ust - 0.035, GUARD - 0.03, 0.88)], r=0.07), 0.016, seg=8)
+    sweep(tf, bend([W3(side, ust - 0.035, DECK1 + 0.05, 0.55), W3(side, ust - 0.035, GUARD + 0.3, 0.55), W3(side, ust - 0.035, GUARD + 0.3, 0.88), W3(side, ust - 0.035, GUARD - 0.03, 0.88)], r=0.07), 0.016, seg=8)
     lbox(ts, side, ua + 0.025, ust - 0.025, DECK1, DECK1 + 0.16, 0.03, VD - 0.05, fn='soft', r=0.04, seg=2)   # 床墊 1.92～1.95 m（使用者 10-30「床的比例也要注意」：原本 1.85～1.875，祐廷 1.75 m 躺下只剩 10 cm；標準單人床約 1.9 m）
     neat = sets.get('203') == 'bohan'
     lbox(tdv, side, ua + 0.5, ust - 0.06, DECK1 + 0.1, DECK1 + 0.24, 0.02, VD - 0.04, fn='soft', r=0.05, seg=2)
@@ -512,9 +513,9 @@ def loft(uid, side, ua, ub, sets):
         lbox(wht, side, ust + 0.02, ub - 0.018, bot, top - 0.025, v0 + 0.002, v0 + 0.017)
         if k > 0: lbox(wht, side, ust + 0.02, ub - 0.018, bot - 0.018, bot, v0 + 0.017, v1)
     ur = ub - 0.04
-    sweep(tf, bend([W3(side, ur, 1.5, VD - dd * 1.6), W3(side, ur, 2.05, dd * 0.6), W3(side, ur, 2.2, dd * 0.6)], r=0.08), 0.016, seg=8)   # 扶手 1.5 m 以上的那段（透視群組）
-    sweep(wht, [W3(side, ur, RISE - 0.025, VD - dd / 2), W3(side, ur, 1.12, VD - dd / 2), W3(side, ur, 1.5, VD - dd * 1.6)], 0.016, seg=8)
-    wht.cyl(W3(side, ur, RISE * NST, dd * 0.6), W3(side, ur, 1.5, dd * 0.6), 0.014, seg=8); tf.cyl(W3(side, ur, 1.5, dd * 0.6), W3(side, ur, 2.05, dd * 0.6), 0.014, seg=8)
+    sweep(tf, bend([W3(side, ur, DECK0, VD - dd * 1.6), W3(side, ur, GUARD + 0.03, dd * 0.6), W3(side, ur, GUARD + 0.18, dd * 0.6)], r=0.08), 0.016, seg=8)   # 扶手 1.5 m 以上的那段（透視群組）
+    sweep(wht, [W3(side, ur, RISE - 0.025, VD - dd / 2), W3(side, ur, 1.2, VD - dd / 2), W3(side, ur, DECK0, VD - dd * 1.6)], 0.016, seg=8)
+    wht.cyl(W3(side, ur, RISE * NST, dd * 0.6), W3(side, ur, DECK0 + 0.04, dd * 0.6), 0.014, seg=8); tf.cyl(W3(side, ur, DECK0 + 0.04, dd * 0.6), W3(side, ur, GUARD + 0.03, dd * 0.6), 0.014, seg=8)
     cu_ = (k0 + 0.45 + k1) / 2
     plastic_chair(side, cu_, 0.86)
     if uid == 'L2' and not ONLY: jacket_chair(side, cu_, 0.86, root)   # 祐廷的椅子：系外套（預設藏）
@@ -532,7 +533,7 @@ def loft(uid, side, ua, ub, sets):
     if sets.get('412') in ('tangrui', 'weilun'):                                                       # 經濟系第一晚：床欄上的名牌
         nm = sets['412']; g = B.group(f'NAMETAG_{nm.upper()}', root, {'kind': 'nametag', 'unit': uid}); uc = (ua + ust) / 2; xg = wx(side, VD + 0.003)
         a, b = (uc - 0.11, uc + 0.11) if side == 'R' else (uc + 0.11, uc - 0.11)
-        label_quad(f'NAMETAG_{nm.upper()}_card', g, [(xg, 1.78, a), (xg, 1.78, b), (xg, 1.89, b), (xg, 1.89, a)], (0.0, 0.0, 0.5, 0.5) if nm == 'tangrui' else (0.5, 0.0, 1.0, 0.5))
+        label_quad(f'NAMETAG_{nm.upper()}_card', g, [(xg, DECK1 + 0.08, a), (xg, DECK1 + 0.08, b), (xg, DECK1 + 0.19, b), (xg, DECK1 + 0.19, a)], (0.0, 0.0, 0.5, 0.5) if nm == 'tangrui' else (0.5, 0.0, 1.0, 0.5))
     # ---- 配置資料
     yaw = math.pi / 2 if side == 'R' else -math.pi / 2
     LAYOUT['units'].append({'id': uid, 'side': side, 'sets': sets, 'u': [round(ua, 3), round(ub, 3)], 'stair_u': [round(ust, 3), round(ub, 3)],
@@ -686,8 +687,8 @@ def bohan_y(year):
 def handbook(G, side, ua, ust):
     """宿舍發的新生手冊：貼在床欄外面（從房間看得到；封面淺藍＋白色帶子，沒有字）"""
     uc = (ua + ust) / 2 + 0.3; a, b = uc - 0.075, uc + 0.075
-    lbox(G['it'], side, a, b, 1.6, 1.81, VD + 0.002, VD + 0.009, fn='cbox', hexcol='#9cc0d8'); lbox(G['it'], side, a, b, 1.74, 1.77, VD + 0.009, VD + 0.011, fn='cbox', hexcol='#f4f2ec')
-    for t in (1.8, 1.61): lbox(G['it'], side, uc - 0.03, uc + 0.03, t - 0.005, t + 0.012, VD + 0.009, VD + 0.012, fn='cbox', hexcol='#e9e4d2')   # 膠帶
+    lbox(G['it'], side, a, b, DECK1, DECK1 + 0.21, VD + 0.002, VD + 0.009, fn='cbox', hexcol='#9cc0d8'); lbox(G['it'], side, a, b, DECK1 + 0.14, DECK1 + 0.17, VD + 0.009, VD + 0.011, fn='cbox', hexcol='#f4f2ec')
+    for t in (DECK1 + 0.2, DECK1 + 0.01): lbox(G['it'], side, uc - 0.03, uc + 0.03, t - 0.005, t + 0.012, VD + 0.009, VD + 0.012, fn='cbox', hexcol='#e9e4d2')   # 膠帶
 
 
 def carton(G, side, u0, u1, y0, y1, v0, v1):
@@ -840,9 +841,9 @@ LAYOUT['player_unit'] = 'L2'
 label_quad('WALL_bath_w_sign', root, [(xo - 0.012, 1.48, d0 + 0.26), (xo - 0.012, 1.48, d1 - 0.26), (xo - 0.012, 1.6, d1 - 0.26), (xo - 0.012, 1.6, d0 + 0.26)], (0.0, 0.5, 1.0, 1.0))['dir'] = DIRS['bath_w']
 
 # ======================================================================= 前左角：鞋櫃、垃圾桶、資源回收、曬衣架
-lbox(wht, 'L', 1.62, 2.82, 0.0, 0.95, 0.005, 0.34, fn='rbox', r=0.008, seg=1)
-for j in range(3): lbox(wood, 'L', 1.63 + j * 0.4, 2.01 + j * 0.4, 0.06, 0.92, 0.34, 0.352)
-for j, c in enumerate(['#202225', '#e8e2d4', '#2f4f6b', '#7a1f24']): lbox(it, 'L', 1.7 + j * 0.27, 1.92 + j * 0.27, 0.95, 1.05, 0.06, 0.3, fn='cbox', hexcol=c)
+lbox(wht, 'L', 1.82, 2.82, 0.0, 0.95, 0.005, 0.34, fn='rbox', r=0.008, seg=1)   # 11-02：1.62 → 1.82（祐廷那組床桌組加長到 1.765）
+for j in range(3): lbox(wood, 'L', 1.83 + j * 0.333, 2.153 + j * 0.333, 0.06, 0.92, 0.34, 0.352)
+for j, c in enumerate(['#202225', '#e8e2d4', '#2f4f6b', '#7a1f24']): lbox(it, 'L', 1.86 + j * 0.235, 2.04 + j * 0.235, 0.95, 1.05, 0.06, 0.3, fn='cbox', hexcol=c)
 for (x_, c) in ((-1.25, '#5f6a73'), (-0.95, '#3a6ea5')):
     painted(it, lambda: it.add_bm(L.lathe([(0.0, 0.0), (0.12, 0.0), (0.14, 0.42), (0.0, 0.42)], seg=14), Matrix.Translation(g2b(x_, 0.0, IZ1 - 0.2))), c)
 RX0, RX1, RZ = -2.42, -1.72, 2.62                                                                                        # 折疊曬衣架

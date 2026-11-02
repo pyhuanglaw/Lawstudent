@@ -243,7 +243,7 @@ def carton(tm, x0, x1, y0, y1, z0, z1, a=0.0):
     if a:
         for v in list(tm.bm.verts)[n0:]:
             x, y, z = v.co.x, v.co.z, -v.co.y; (x2, _, z2), = rot_y([(x, y, z)], c, a); v.co = g2b(x2, y, z2)
-NAV = [-1.80, -1.12, -0.88, -0.36]
+NAV = [-1.80, -1.12, -0.88 + 0.175, -0.36 + 0.175]   # 11-02 DORM-LOFT-SCALE-1102：前面那組床桌組往門口挪 0.175（紙箱的頂點由 dorm_loft_remap 一起挪，導航擋的範圍跟著）
 g = node('Y2_BOXES_CLOSED', {'nav_block': json.dumps(NAV)}); t = TMesh('Y2_boxes_closed', M['print'])
 carton(t, -1.77, -1.47, 0.0, 0.32, -0.84, -0.40, 0.02); carton(t, -1.44, -1.15, 0.0, 0.32, -0.82, -0.39, -0.03)
 carton(t, -1.73, -1.48, 0.32, 0.58, -0.79, -0.45, -0.06); carton(t, -1.42, -1.18, 0.32, 0.56, -0.80, -0.44, 0.05)
@@ -270,6 +270,8 @@ for ob in bpy.data.objects:
     if ob.type == 'MESH':
         for m in ob.data.materials:
             if m and m.name in ('y2_print',): m.use_backface_culling = False
+import dorm_loft_remap as DR   # noqa: E402（11-02 DORM-LOFT-SCALE-1102：床桌組放大，這支的座標是照舊的床桌組寫的——匯出前每個頂點換到新的位置）
+print('dorm_loft_remap', DR.remap_scene())
 tris = {}
 for ob in bpy.data.objects:
     if ob.type == 'MESH':
