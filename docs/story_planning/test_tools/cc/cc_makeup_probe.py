@@ -41,6 +41,16 @@ CASES（逗號隔開，每個 case 開一個新的瀏覽器；預設全跑 main_
   rollcall_fail 【前置】6/18 08:30 宿舍存檔（同 main_fail）＋大四下排了一門看出席的重修（日文二 japanese_2，週三下午，出席 0；大四下本身沒有點名制的課，
              照 tests/y4s2_makeup_unit.js d 節組）；ROLL_ONLY=1＝海商法沒被當、只有日文二 → 6/18 照舊直接延畢（兩門都記）、沒有 FD_MAKEUP、
              之後站著不動 ROLL_PLAY 秒（預設 300）：沒有補考通知、提醒、fd_makeup 步驟。
+BB 08:59 加（補考時間窗 bug，CC_audit_4174.md 疑點 1～3、5；修改前＝0c3d9e7a5 預期 1～3 FAIL，修改後等 LAWWW 交件）：
+  study3h    【前置】6/26 08:30 總圖閱覽室、補考 pending；讀完馬上照玩家走到自習座位（站 2 秒會被跳到 09:30 那一場：先跑起來就記「前置沒成立」）
+             → 座位選單、讀書長度選單（每一項的 hint、有沒有變灰、有沒有「讀到…補考…前」）直向＋橫向 →「讀 3 小時」→ 結果（修改前預期 11:30 缺考延畢）。
+  skipnoon   SKIP_VIA（預設 phone,seat）：phone＝6/26 08:30 宿舍，讀完馬上開手機「今天」→「跳過時間：等到中午（12:00）」（CLS.skipTo 的玩家入口；畢業後篇床只有「睡覺」
+             ＝到下一件事，沒有小睡；小睡只在起床選單翹課以後）；seat＝總圖座位「待到中午」【前置】今天上午時段次數已用（G.slots.used.am＝1）。
+             記有沒有「會錯過」確認、停在哪裡、結果（直向＋橫向截按鈕／選單、確認畫面）。
+  homerest   【前置】6/26 10:30 在家、選單有「出發：補考」→「在家休息一下」→ R1「會錯過：…」有沒有列補考 → 結果 →「回宿舍」看缺考旁白。
+  old_delayed【前置】照修改前 f3a2ba4a1 6/18 FD.check 的旗標（FAIL_DELAY_COURSES [maritime]、FAIL_DELAY_V 2、FAIL_DELAY、FAIL_DELAY_DAY 6/18、BAR_REG false、
+             BARCANCEL、成績 0 分（不及格）、阿哲兩則），日期 OLD_DAY（預設 2029-06-20）10:00 宿舍 → 讀進來：FD_MAKEUP pending、補考通知（旁白或手機）；BAR_REG 只記。
+             之後站著不動 OLD_PLAY 秒（預設 240）。
 記錄（只記不改）：HOOK＝GAME.say／choose（連 hint）／caption／titleCard／toast／ADV.begin／GAME.enter／CLS.attend／goClass／EVENTS.run／PG.runStep
   → <輸出>/transcript_<case>.json（另外存新增的手機訊息、考卷作答（題號、id、正解、按了哪個）、狀態快照）。
 check 只客觀記錄（不判定企劃）。
@@ -54,7 +64,8 @@ from playwright.async_api import async_playwright
 URL, OUT = sys.argv[1], sys.argv[2]
 J = lambda o: json.dumps(o, ensure_ascii=False)
 ENVI = lambda k, d: int(os.environ.get(k, str(d)))
-CASES = [c.strip() for c in os.environ.get('CASES', 'main_pass,main_fail,noshow,home,rollcall_fail').split(',') if c.strip()]
+CASES = [c.strip() for c in os.environ.get('CASES', 'main_pass,main_fail,noshow,home,rollcall_fail,study3h,skipnoon,homerest,old_delayed').split(',') if c.strip()]
+SKIP_VIA = [c.strip() for c in os.environ.get('SKIP_VIA', 'phone,seat').split(',') if c.strip()]
 HOME_SUBS = [c.strip() for c in os.environ.get('HOME_SUBS', 'go,sleep,late,rest').split(',') if c.strip()]
 LAND = {'width': 844, 'height': 390}; PORT = {'width': 390, 'height': 844}
 CONT = '繼續去上課'
@@ -705,14 +716,202 @@ CASEFN = {'main_pass': lambda pg, cdp, run: case_main(pg, cdp, run, 'main_pass',
 for _s in ('go', 'sleep', 'late', 'rest'): CASEFN['home_' + _s] = (lambda v: (lambda pg, cdp, run: case_home(pg, cdp, run, v)))(_s)
 
 
+# ---------------------------------------------------------------- BB 08:59 加的四個（補考時間窗：CC_audit_4174.md 疑點 1～3、5；Node 重現 audit_makeup_timeskip.js）
+SEATSTUDY = "(()=>{ const P=GAME.E.player.obj.position; const L=(GAME.E.interactables||[]).filter(i=>i.seat&&i.study&&!i.hidden).map(i=>[i.x,i.z,i.lv|0,i.label||'',Math.hypot(i.x-P.x,i.z-P.z)]); L.sort((a,b)=>a[4]-b[4]); return L[0]||null; })()"
+PGSTARTED = "(()=>(window.__PL||[]).filter(r=>r.k==='step'&&r.t==='fd_makeup').length)()"
+
+
+async def load_fast(pg, st):
+    """讀檔以後畢業後篇站 2 秒就會跳到下一件事（6/26 08:30 → 09:30 補考那一場）：讀完馬上開始動作（走路／開手機），讀檔與第一個動作之間不等"""
+    await L.load_state(pg, st, quiet_events=False, quiet_phone=False); await pg.evaluate(CLEARP)
+
+
+async def seat_open(pg, cdp, run, drv, tag):
+    """照玩家走到最近的自習座位、按互動，等座位選單（不選）。回傳選項；補考那一場先跑起來＝None（記下來）"""
+    it = await pg.evaluate(SEATSTUDY)
+    if not it: run.note('%s：這一區找不到自習座位' % tag); return None
+    await L.go_to(pg, cdp, run, it[0], it[1], 0.8, it[3] or '自習座位', max_s=150, lv=it[2], stop=lambda s: s['dlg'] or s['choices'])
+    for _ in range(4):
+        s = await P.ts(pg)
+        if s['ch'] or s['dlg']: break
+        await L.tap(pg, cdp, '#interact'); await pg.wait_for_timeout(1500)
+    for _ in range(12):
+        if await pg.evaluate(PGSTARTED): run.note('%s：座位選單出來以前補考那一場就開始了（站著不動被跳時間；前置沒成立）' % tag); return None
+        s = await P.ts(pg)
+        if s['ch']: return [o['t'] for o in s['ch']]
+        if s['dlg']: await L.tap(pg, cdp, '#dlg')
+        await pg.wait_for_timeout(700)
+    return None
+
+
+async def pick_txt(pg, cdp, run, tag, prefix):
+    s = await P.ts(pg); T = [o['t'] for o in s['ch']] if s['ch'] else []
+    k = next((i for i, t in enumerate(T) if t.startswith(prefix)), None)
+    run.note('%s：選單 %s → %s' % (tag, J(T), T[k] if k is not None else '（沒有 %s）' % prefix))
+    if k is None: return False
+    await P.tap_choice(pg, cdp, k); await pg.wait_for_timeout(1300); return True
+
+
+def choose_rows(R):
+    return [[x.get('d'), hm(x.get('h')), x['t']] for x in R if x['k'] == 'choose']
+
+
+async def after_skip(pg, cdp, run, tag, drv, n0, max_s=600):
+    """跳時間以後：照玩家點過（「會錯過」的確認選「照樣」）、站著不動，直到補考有結果（pass／fail／missed）且缺考旁白演完、或時間過了 12:30"""
+    def stop(g, R):
+        mk = g['mk'] if isinstance(g['mk'], dict) else None; c = g['clock']
+        if mk and mk.get('status') == 'missed': return bool(step_rows(R, 'fd_mk_missed', 'end'))
+        if mk and mk.get('status') in ('pass', 'fail'): return True
+        return c['key'] > MK_DAY or c['h'] >= 12.5
+    return await play(pg, cdp, run, tag, drv, stop, max_s, review=False)
+
+
+def result_note(run, tag, g, R):
+    mk = g['mk'] if isinstance(g['mk'], dict) else None; said = said_rows(R)
+    warn = [[x.get('d'), hm(x.get('h')), x['t']] for x in said if x['t'].startswith('會錯過') or '會錯過' in x['t'] or '補考' in x['t']]
+    run.note('%s：結果 %s；提到補考／會錯過的台詞 %s；步驟 %s' % (tag, J({'clock': g['clock'], 'mk': mk, 'FAIL_DELAY': g['flags'].get('FAIL_DELAY'), 'BAR_REG': g['flags'].get('BAR_REG'), 'grades': g['grades']}),
+             J(warn[:10]), J([[x['t'], x['n'], x.get('d'), hm(x.get('h'))] for x in R if x['k'] == 'step'])))
+    return mk, warn
+
+
+async def case_study3h(pg, cdp, run):
+    tag = 'study3h'; mkl, fdl, has = await mk_lines(pg)
+    st, d, qs = await grad_state(pg, run, MK_DAY, 8.5, planned=True)
+    st['zone'] = 'library'
+    run.setup('[前置] %s：6/26 08:30 總圖閱覽室（library）存檔，補考 pending（同 noshow 的旗標）；讀完馬上照玩家走到最近的自習座位' % tag)
+    await load_fast(pg, st)
+    n0 = await pl_len(pg); drv = Driver(pg, cdp, run, tag, n0, {'final': 0, 'makeup': ENVI('MK_RIGHT', 5)}, mkl, fdl)
+    ops = await seat_open(pg, cdp, run, drv, tag)
+    run.check('%s：前置成立（座位選單出來、補考那一場還沒開始、FD_MAKEUP pending）' % tag, bool(ops), J(await pg.evaluate(STATE)))
+    if not ops: dump(tag, rows=await rows(pg, n0), shots=drv.shots); return
+    drv.shots['seat_menu'] = await shoot_both(pg, run, tag + '_seat_menu')
+    await pick_txt(pg, cdp, run, tag, '讀書')
+    s = await P.ts(pg); lens = [{'t': o['t'], 'dim': o['dim']} for o in (s['ch'] or [])]
+    R = await rows(pg, n0); lens_h = (choose_rows(R) or [[None, None, '']])[-1][2]
+    drv.shots['study_menu'] = await shoot_both(pg, run, tag + '_study_menu')
+    run.note('%s：讀書長度選單（含 hint）%s；變灰 %s' % (tag, J(lens_h), J(lens)))
+    o3 = [x for x in lens_h.split('｜') if x.startswith('讀 3 小時')]
+    run.check('%s：「讀 3 小時」變灰或提示寫會錯過補考（修改前預期 FAIL）' % tag, any(x['t'].startswith('讀 3 小時') and x['dim'] for x in lens) or any('補考' in x for x in o3), J({'opt3': o3, 'dim': lens}))
+    run.check('%s：有一項停在補考前（「讀到…補考…前」）（修改前預期 FAIL）' % tag, any('補考' in x for x in lens_h.split('｜') if not x.startswith('讀 3 小時')), J(lens_h))
+    if not await pick_txt(pg, cdp, run, tag, '讀 3 小時'): dump(tag, rows=R, shots=drv.shots); return
+    o = await after_skip(pg, cdp, run, tag, drv, n0)
+    g = o['g']; R = await rows(pg, n0); mk, warn = result_note(run, tag, g, R)
+    drv.shots['end'] = await shoot_both(pg, run, tag + '_end')
+    run.check('%s：讀書沒有在玩家不知情下跳過補考（沒有「缺考＋事前沒有任何提到補考的提示」）' % tag,
+              not (mk and mk.get('status') == 'missed' and not any('補考' in x for x in lens_h.split('｜'))), J({'mk': mk, 'hints': lens_h}))
+    dump(tag, rows=R, start=None, end=g, study_menu=lens_h, dim=lens, shots=drv.shots, stuck=o['stuck'])
+
+
+async def case_skipnoon(pg, cdp, run, via):
+    tag = 'skipnoon_' + via; mkl, fdl, has = await mk_lines(pg)
+    zone = 'dorm' if via == 'phone' else 'library'
+    st, d, qs = await grad_state(pg, run, MK_DAY, 8.5, planned=True)
+    st['zone'] = zone
+    if via == 'seat': st['slots'] = {'day': d['d'], 'used': {'am': 1, 'pm': 0, 'ev': 0}}
+    run.setup('[前置] %s：6/26 08:30 %s 存檔，補考 pending%s；讀完馬上%s' % (tag, zone, '、今天上午的時段次數已用掉（G.slots.used.am＝1：座位才會出「待到中午」）' if via == 'seat' else '',
+              '打開手機「今天」→「跳過時間」' if via == 'phone' else '照玩家走到自習座位'))
+    await load_fast(pg, st)
+    n0 = await pl_len(pg); drv = Driver(pg, cdp, run, tag, n0, {'final': 0, 'makeup': ENVI('MK_RIGHT', 5)}, mkl, fdl)
+    if via == 'phone':
+        txt = await P.phone_tab(pg, cdp, 'today')
+        btns = await pg.evaluate("[...document.querySelectorAll('#phoneBody [data-skip]')].map(b=>[b.dataset.skip,(b.textContent||'').trim()])")
+        started = await pg.evaluate(PGSTARTED)
+        run.check('%s：前置成立（手機「今天」有「跳過時間」、補考那一場還沒開始）' % tag, bool(btns) and not started, J({'btns': btns, 'started': started}))
+        await pg.evaluate("(()=>{ const b=[...document.querySelectorAll('#phoneBody [data-skip]')].find(b=>/中午/.test(b.textContent)); if(b) b.scrollIntoView({block:'center'}); })()")
+        drv.shots['skip_menu'] = await shoot_both(pg, run, tag + '_phone_skip')
+        run.note('%s：手機「今天」%s；跳過按鈕 %s' % (tag, J(txt[-500:]), J(btns)))
+        got = await tap_sel_js(pg, cdp, "[...document.querySelectorAll('#phoneBody [data-skip]')].find(b=>/中午/.test(b.textContent))")
+        run.note('%s：按「%s」' % (tag, got))
+        if not got: dump(tag, rows=await rows(pg, n0), shots=drv.shots); return
+    else:
+        ops = await seat_open(pg, cdp, run, drv, tag)
+        has_n = bool(ops) and any(t.startswith('待到中午') for t in ops)
+        run.check('%s：前置成立（座位選單有「待到中午」、補考那一場還沒開始）' % tag, has_n, J(ops))
+        if not ops: dump(tag, rows=await rows(pg, n0), shots=drv.shots); return
+        drv.shots['seat_menu'] = await shoot_both(pg, run, tag + '_seat_menu')
+        if not await pick_txt(pg, cdp, run, tag, '待到中午'): dump(tag, rows=await rows(pg, n0), shots=drv.shots); return
+    # 跳的那一下：有沒有「會錯過」確認、停在哪裡
+    await pg.wait_for_timeout(1500); s = await P.ts(pg)
+    if s['ch'] or s['dlg']: drv.shots['after_tap'] = await shoot_both(pg, run, tag + '_after_tap')
+    o = await after_skip(pg, cdp, run, tag, drv, n0)
+    g = o['g']; R = await rows(pg, n0); mk, warn = result_note(run, tag, g, R)
+    drv.shots['end'] = await shoot_both(pg, run, tag + '_end')
+    st_mk = step_rows(R, 'fd_makeup')
+    run.check('%s：跳時間停在補考（09:30 那一場有演，或跳之前有提到補考的確認）（修改前預期 FAIL）' % tag, bool(st_mk) or bool(warn), J({'step': st_mk, 'warn': warn, 'mk': mk}))
+    run.note('%s：跳時間時的選單 %s' % (tag, J(choose_rows(R)[:6])))
+    dump(tag, rows=R, end=g, shots=drv.shots, stuck=o['stuck'])
+
+
+async def case_homerest(pg, cdp, run):
+    tag = 'homerest'; mkl, fdl, has = await mk_lines(pg); cn = mkl['cname']; opt = mkl['homeOpt']
+    st, d, qs = await grad_state(pg, run, MK_DAY, 10.5, planned=True, home=True)
+    await load_fast(pg, st)
+    run.setup('[前置] %s：6/26 10:30 人在臺北的家（G.home.at）、補考 pending' % tag)
+    n0 = await pl_len(pg); drv = Driver(pg, cdp, run, tag, n0, {'final': 0, 'makeup': ENVI('MK_RIGHT', 5)}, mkl, fdl)
+    ops, s = await home_menu(pg, cdp, run, drv, tag)
+    run.check('%s：前置成立（家裡選單有「%s」）' % (tag, opt), bool(ops) and any(t.startswith(opt) for t in ops), J(ops))
+    if not ops: dump(tag, rows=await rows(pg, n0), shots=drv.shots); return
+    drv.shots['menu0'] = await shoot_both(pg, run, tag + '_menu0')
+    await home_pick(pg, cdp, run, drv, tag, ops, '在家休息一下')
+    await pg.wait_for_timeout(1500); s = await P.ts(pg)
+    if s['dlg'] or s['ch']: drv.shots['confirm'] = await shoot_both(pg, run, tag + '_confirm')
+    m2 = await home_run_until_menu(pg, cdp, run, drv, tag)
+    R = await rows(pg, n0); said = said_rows(R)
+    warn = [x['t'] for x in said if x['t'].startswith('會錯過')]
+    g = await pg.evaluate(STATE)
+    drv.shots['menu_after'] = await shoot_both(pg, run, tag + '_menu_after')
+    run.note('%s：休息後 %s；R1 預告 %s；選單 %s' % (tag, J({'clock': g['clock'], 'mk': g['mk']}), J(warn), J(m2)))
+    run.check('%s：選「在家休息一下」前的 R1 預告列了補考（修改前預期 FAIL）' % tag, any('補考' in w for w in warn), J(warn))
+    if isinstance(m2, list) and await home_pick(pg, cdp, run, drv, tag, m2, '回宿舍'):
+        o = await play(pg, cdp, run, tag, drv, lambda g, R: bool(step_rows(R, 'fd_mk_missed', 'end')) or (isinstance(g['mk'], dict) and g['mk'].get('status') in ('pass', 'fail')), 600, review=False)
+        g = o['g']; R = await rows(pg, n0)
+    mk, w2 = result_note(run, tag, g, R)
+    dump(tag, rows=R, end=g, warn=warn, shots=drv.shots)
+
+
+async def case_old_delayed(pg, cdp, run):
+    tag = 'old_delayed'; mkl, fdl, has = await mk_lines(pg); cn = mkl['cname']
+    d618 = (await P.day_of(pg, GRADE_DAY))['d']
+    extra = {'FAIL_DELAY_COURSES': ['maritime'], 'FAIL_DELAY_V': 2, 'FAIL_DELAY': True, 'FAIL_DELAY_DAY': d618, 'BAR_REG': False, 'FAIL_DELAY_BARCANCEL': True,
+             'PG': {'done': {'grad': 1, 'fd_grades_y4s2': 1}}}
+    key = os.environ.get('OLD_DAY', '2029-06-20')
+    st, d, qs = await grad_state(pg, run, key, 10.0, planned=False, extra=extra)
+    st['courses']['grades']['Y4S2'] = {'legal_research': '通過', 'legal_practice': '通過', 'maritime': '0 分（不及格）'}
+    st['msgs'] = [{'day': d618, 'h': 22.0 + i * 0.01, 'who': 'zhe', 'text': t, 'th': 'p:zhe', 'from': 'zhe', 'tag': 'fd_zhe'} for i, t in enumerate(['聽說了', '九月我還在總圖 B1 你來，我幫你占位子'])]
+    before = {k: st['flags'].get(k) for k in ('FAIL_DELAY_COURSES', 'FAIL_DELAY_V', 'FAIL_DELAY', 'FAIL_DELAY_DAY', 'BAR_REG', 'FAIL_DELAY_BARCANCEL', 'Y4_PATH')}
+    run.setup('[前置] %s：照修改前 f3a2ba4a1 6/18 FD.check 會產生的狀態組 %s 10:00 宿舍的存檔（%s；海商法期末答對 0 題 qs %s、成績 0 分（不及格）、阿哲 6/18 22:00 兩則）一次讀進去'
+              % (tag, key, J(before), J(qs)))
+    await L.load_state(pg, st, quiet_events=False, quiet_phone=False); await pg.evaluate(CLEARP)
+    g1 = await pg.evaluate(STATE)
+    n0 = await pl_len(pg); drv = Driver(pg, cdp, run, tag, n0, {'final': 0, 'makeup': ENVI('MK_RIGHT', 5)}, mkl, fdl)
+    run.note('%s：讀檔那一刻 %s' % (tag, J(g1)))
+    mk1 = g1['mk'] if isinstance(g1['mk'], dict) else None
+    run.check('%s：讀進來＝補排補考（FD_MAKEUP pending、FAIL_DELAY 沒了）（修改前預期 FAIL）' % tag, bool(mk1) and mk1.get('status') == 'pending' and not g1['flags'].get('FAIL_DELAY'), J(g1['flags']))
+    run.note('%s：讀檔後報名 BAR_REG＝%s、BARCANCEL＝%s（恢復與否由 BB 定，只記）' % (tag, g1['flags'].get('BAR_REG'), g1['flags'].get('FAIL_DELAY_BARCANCEL')))
+    await L.phone_away(pg, cdp, tries=2)
+    drv.shots['after_load'] = await shoot_both(pg, run, tag + '_after_load')
+    await phone_sys(pg, cdp, run, drv, tag)
+    o = await play(pg, cdp, run, tag, drv, lambda g, R: False, ENVI('OLD_PLAY', 240), review=False)
+    g = o['g']; R = await rows(pg, n0); said = said_rows(R); msgs = await pg.evaluate(MSGS, 0)
+    note_l = [x for x in said if x['t'] == mkl['notice']]; sysm = [m for m in msgs if m['tag'] == 'fd_mk_sys' or m['text'].startswith('【教務處】大四下補考通知')]
+    run.check('%s：有補考通知（旁白或手機教務處）（修改前預期 FAIL）' % tag, bool(note_l) or bool(sysm), J({'say': note_l[:1], 'msgs': sysm}))
+    run.note('%s：之後 %s；台詞 %s' % (tag, J({'clock': g['clock'], 'mk': g['mk'], 'flags': g['flags'], 'pend': g['pend']}), J([[x.get('d'), hm(x.get('h')), x['t']] for x in said][:20])))
+    run.check('%s：沒有卡住' % tag, o['stuck'] is None, J(o['stuck']))
+    dump(tag, rows=R, before=before, after_load=g1, end=g, msgs=msgs, shots=drv.shots)
+
+
+CASEFN.update({'study3h': case_study3h, 'homerest': case_homerest, 'old_delayed': case_old_delayed,
+               'skipnoon_phone': lambda pg, cdp, run: case_skipnoon(pg, cdp, run, 'phone'), 'skipnoon_seat': lambda pg, cdp, run: case_skipnoon(pg, cdp, run, 'seat')})
+
+
 async def main():
     run = L.Run('makeup_' + '+'.join(CASES), OUT); os.makedirs(OUT, exist_ok=True)
     todo = []
-    for cs in CASES: todo += ['home_' + s for s in HOME_SUBS] if cs == 'home' else [cs]
+    for cs in CASES: todo += ['home_' + s for s in HOME_SUBS] if cs == 'home' else (['skipnoon_' + v for v in SKIP_VIA] if cs == 'skipnoon' else [cs])
     async with async_playwright() as p:
         for cs in todo:
             fn = CASEFN.get(cs)
-            if not fn: run.check('CASE %s 認得' % cs, False, '可以用：main_pass,main_fail,noshow,home,rollcall_fail,' + ','.join(k for k in CASEFN if k.startswith('home_'))); continue
+            if not fn: run.check('CASE %s 認得' % cs, False, '可以用：main_pass,main_fail,noshow,home,rollcall_fail,study3h,skipnoon,homerest,old_delayed,' + ','.join(k for k in CASEFN if k.startswith('home_'))); continue
             print('==== CASE %s（SHA %s）====' % (cs, os.environ.get('SHA', '?')), flush=True)
             b, ctx, pg, cdp, errs = await L.launch(p, landscape=True)
             pg.on('dialog', lambda dd: asyncio.ensure_future(dd.accept()))
