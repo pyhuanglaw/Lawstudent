@@ -298,7 +298,7 @@ const Y2R2=(function(){
   /* ---------- 2-Y2-18 明軒 M2：6/12（六）09:00 三對三（和以安交往中、明軒知道的那一版）---------- */
   EV.push({ id:'ev_mx_3on3', title:'三對三', participants:['classmate_mingxuan'], location:'any', trigger:'outing', once:true, background:'dark', hours:2,
     outingMissed:(G,GM,q)=>{ G.flags.MX_3ON3='missed'; at(G,q.day,12,[{th:'p:zhe',from:'zhe',text:'三對三我們兩個打對面三個'},{th:'p:zhe',from:'zhe',text:'輸了'},{th:'p:zhe',from:'zhe',text:'你欠我們一次'}],'y2r2_3on3_missed'); },
-    dialogue:[ {scene:'新體育館・1F 球場'},
+    dialogue:[ {scene:'新體育館・1F 球場',bg:'gym_court'},   /* 原本深色底＋字幕；第六批的球場圖（BB 掃描 11-02）*/
       {speaker:null,text:'（早上九點。三對三：阿哲、明軒、你一隊。）'},
       {speaker:'classmate_mingxuan',expression:'smile',text:'你真的起來了。'},
       {speaker:null,text:'（打完，三個人坐在場邊。明軒把水丟給你。）'},

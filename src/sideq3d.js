@@ -399,7 +399,7 @@ const SIDEQ=(function(){
     return S.police04(GM,r); };
   S.police04=function(GM,r){ const G=GM.G; setAct(r,'police',G.day+1); if(typeof OUT!=='undefined') OUT.plan(G,{id:'sq04_police',ev:'ev_sq04_police',day:G.day,h:+G.hour+0.25,late:1,place:'派出所',title:'送筆電去派出所',travel:'走路 約 10 分鐘',travelH:1/6}); return true; };
   S.POLICE_EV={ id:'ev_sq04_police', title:'派出所', participants:[], location:'any', trigger:'outing', background:'dark', hours:0.5,
-    dialogue:[{scene:'派出所'},{speaker:null,text:L.SQ04.police}],   /* 派出所只用 2D 背景＋旁白（還沒有圖＝深色底）；LEGAL_REVIEW_REQUIRED */
+    dialogue:[{scene:'派出所',bg:'police_station'},{speaker:null,text:L.SQ04.police}],   /* 派出所只用 2D 背景＋旁白（11-02 第九批有圖：police_station）；LEGAL_REVIEW_REQUIRED */
     after:(G)=>{ const r=S.get(G,'SQ04'); if(r&&r.state==='open'&&r.step==='police') setWait(r,'wait',G.day+14); },
     outingMissed:(G)=>{ const r=S.get(G,'SQ04'); if(r&&r.state==='open'&&r.step==='police'){ r.state='lapsed'; r.lapseDay=G.day; } } };
 
@@ -410,7 +410,7 @@ const SIDEQ=(function(){
   S.clubNext=function(G){ if(typeof ACTIVITIES==='undefined'||!ACTIVITIES.list||!ACTIVITIES.on) return null; const a=ACTIVITIES.list.find(x=>x.id==='club_guitar'); if(!a) return null;
     for(let d=G.day+1;d<=G.day+21;d++) if(ACTIVITIES.on(a,d)) return {day:d,t0:a.t0,room:a.roomName||'法律系館B'}; return null; };
   S.CLUB_EV={ id:'ev_sq06_club', title:'吉他社社課', participants:[ZQ], location:'any', trigger:'outing', background:'dark', hours:1,
-    dialogue:[{scene:'法律系館B 多功能教室'},{speaker:ZQ,text:L.SQ06.zq},{consequences:{rel:{[ZQ]:{fam:2}}}}],
+    dialogue:[{scene:'法律系館B 多功能教室',bg:'wancai_seminar'},{speaker:ZQ,text:L.SQ06.zq},{consequences:{rel:{[ZQ]:{fam:2}}}}],
     after:(G,GM)=>{ const r=S.get(G,'SQ06'); if(r&&r.state==='open'&&r.step==='club'){ r.helped=true; S.finish(GM||{G},'SQ06',r); } },
     outingMissed:(G)=>{ const r=S.get(G,'SQ06'); if(r&&r.state==='open'&&r.step==='club'){ r.state='lapsed'; r.lapseDay=G.day; } } };
 
@@ -463,7 +463,7 @@ const SIDEQ=(function(){
       PHONE.at(G,d,12,M,'sqcat_ph'+n); });
     if(F.SQ_CAT_VISIT){ const n=F.SQ_CAT_VISIT; delete F.SQ_CAT_VISIT; if(typeof OUT!=='undefined') OUT.plan(G,{id:'sq_cat_visit'+n,ev:'ev_sq_cat_visit',day:G.day+1,h:14,late:1,place:'子晴的家',title:'去看貓',travel:'捷運 約 30 分鐘',travelH:0.5}); } };
   S.VISIT_EV={ id:'ev_sq_cat_visit', title:'去看貓', participants:[ZQ], location:'any', trigger:'outing', background:'dark', hours:2,
-    dialogue:[{scene:'子晴的家'},{consequences:{rel:{[ZQ]:{fam:1}}}}] };   /* 2D 出遊，每月一次（照片那一則的回覆）；她媽媽在家，不另外寫台詞（AA_397 3-3）*/
+    dialogue:[{scene:'子晴的家',bg:'zq_home'},{consequences:{rel:{[ZQ]:{fam:1}}}}] };   /* 2D 出遊，每月一次（照片那一則的回覆）；她媽媽在家，不另外寫台詞（AA_397 3-3）*/
 
   /* ===================== 第二、三批的步驟（AA_404、AA_405）===================== */
   /* 週末的出遊：下一個週六（今天以後、期限以內）；沒去＝再排下一個週六，過了期限＝過期 */
@@ -572,11 +572,11 @@ const SIDEQ=(function(){
   S.plan20=(G,r)=>S.planWeekend(G,r,{id:'sq20_'+r.step,ev:'ev_sq20_'+r.step,h:8,late:0.5,place:'溫州街・半熟早午餐',title:'半熟早午餐：幫小蕙計時（第 '+(r.step==='s2'?2:1)+' 次）',travel:'走路 約 10 分鐘',travelH:1/6});
   const bohanOn=G=>!!(S.get(G,'SQ20')||{}).bohan;
   S.BRUNCH1_EV={ id:'ev_sq20_s1', title:'計時', participants:[], location:'any', trigger:'outing', background:'dark', hours:1.5,
-    dialogue:[{scene:'半熟早午餐・店裡後面'},{if:{custom:bohanOn},speaker:BH,text:L.SQ20.bohan}].concat(L.SQ20.self1.map(([w,t])=>({unless:{custom:bohanOn},speaker:w,text:t}))),   /* 柏翰來了（他這學期的「精確數字」算這一次）；自己計時＝AA_408 6 的三行（旁白、小蕙、小米姐）*/
+    dialogue:[{scene:'半熟早午餐・店裡後面',bg:'brunch_back'},{if:{custom:bohanOn},speaker:BH,text:L.SQ20.bohan}].concat(L.SQ20.self1.map(([w,t])=>({unless:{custom:bohanOn},speaker:w,text:t}))),   /* 柏翰來了（他這學期的「精確數字」算這一次）；自己計時＝AA_408 6 的三行（旁白、小蕙、小米姐）*/
     after:G=>{ const r=S.get(G,'SQ20'); if(!r||r.state!=='open'||r.step!=='s1') return; r.step='s2'; if(!S.plan20(G,r)) lapseNow(G,r); },
     outingMissed:missedAt('SQ20','s1',(G,r)=>S.plan20(G,r)) };
   S.BRUNCH2_EV={ id:'ev_sq20_s2', title:'計時', participants:[], location:'any', trigger:'outing', background:'dark', hours:1.5,
-    dialogue:[{scene:'半熟早午餐・店裡後面'},{unless:{custom:bohanOn},speaker:null,text:L.SQ20.self2},{speaker:null,text:L.SQ20.apronN}].concat(L.SQ20.apron.map(t=>({speaker:'小米姐',text:t}))),   /* 自己計時的第二次：一行旁白（AA_408 6），之後練完 */
+    dialogue:[{scene:'半熟早午餐・店裡後面',bg:'brunch_back'},{unless:{custom:bohanOn},speaker:null,text:L.SQ20.self2},{speaker:null,text:L.SQ20.apronN}].concat(L.SQ20.apron.map(t=>({speaker:'小米姐',text:t}))),   /* 自己計時的第二次：一行旁白（AA_408 6），之後練完 */
     after:G=>{ const r=S.get(G,'SQ20'); if(r&&r.state==='open'&&r.step==='s2') setWait(r,'wait',G.day+30); },
     outingMissed:missedAt('SQ20','s2',(G,r)=>S.plan20(G,r)) };
 
