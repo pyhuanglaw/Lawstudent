@@ -3720,6 +3720,33 @@
    "task": "D118-MIDTERM-STORY-1102",
    "kind": "text",
    "note": "D118 沒有期中考：第 2 節 11 處改掛點、第 3 節台詞規則、第 5 節零碎字。閒聊階梯（tools/ladder/import_ladder.py）等匯入工具讀稿時照 tools/story/d118_fix.json 換字（import_guard.read_fix，和 ndl542_fix.json、nocmp_fix.json 同一個做法；tests/alison.js 一起）；其他句子手抄改 src。子代理 2026-11-02 代登，給值班 LAWWW 核"
+  },
+  {
+   "path": "docs/story_planning/study/cards_y1s1.json",
+   "sha": "545ac5b28",
+   "status": "approved",
+   "approvedBy": "AA（D109 劇情自主；AA 10:26 交付）",
+   "task": "D118-B2-1102",
+   "kind": "text",
+   "note": "大一上觀念卡 27 張（民總一 10、憲法上 9、刑總一 8）定稿（AA 照獨立核對改 9 張）；tools/study/build_units.py 讀這一版的 plain／example／cue／basis 寫進 src/data/study_units.js（tests/cards_import_unit.js）。子代理 2026-11-02 代登，給值班 LAWWW 核"
+  },
+  {
+   "path": "docs/story_planning/study/cards_y1s2.json",
+   "sha": "4f59adae0",
+   "status": "approved",
+   "approvedBy": "AA（D109 劇情自主；AA 10:26 交付）",
+   "task": "CARDS-Y1S2-IMPORT-1102",
+   "kind": "text",
+   "note": "大一下觀念卡 29 張（憲法下 9、刑總二 10、債總一 10；45 題）定稿（AA 照獨立核對改 21 張；c3660c6fe 的檔和這一版一字不差）；tools/study/build_units.py 讀這一版。子代理 2026-11-02 代登，給值班 LAWWW 核"
+  },
+  {
+   "path": "docs/story_planning/study/crimpro_titles.json",
+   "sha": "34b02abc3",
+   "status": "approved",
+   "approvedBy": "AA（D109 劇情自主；AA 10:26 交付）",
+   "task": "D118-B2-1102",
+   "kind": "text",
+   "note": "刑訴 QBANK 9 張卡（crimpro_q1～q9）的正式標題；tools/study/build_units.py 換掉「刑事訴訟法・章名（一）」的暫用標題。子代理 2026-11-02 代登，給值班 LAWWW 核"
   }
  ]
 }
