@@ -94,3 +94,17 @@
 - 約會（`DATE.check`）：畢業典禮以後不能預約，不會和補考撞；`pgdates` 的 `busyDays` 看 `s.cond`，補考待考時 6/26 算有事。
 - 在家睡覺：`PG.sleepJump` → `advance` → `PG.due`，6/26 早上睡覺會停在 09:30 演補考；10:30 在家睡覺也會直接演補考（due 已到）。
 - 6/25 20:00 提醒只在成績單早於那個時間才排（`mkPlan`）；成績單補考當天才發＝直接延畢（測試 h）。
+
+## 補考第二輪 ① Node（BB 09:25 插隊）
+
+- audit_makeup_timeskip.js：d9d637553 → ALL PASS（rc=0）；0c3d9e7a5 → FAILED 4（A3、A4、B1、D1，照舊）
+- 新增 audit_makeup_trip.js（TRIP.wouldMiss）：d9d637553 F1～F4 PASS、F5 FAIL；0c3d9e7a5 F1、F2、F5 FAIL
+```
+PASS F1. 6/26 08:30 自由出行到 13:00 應該列補考　["10:00 補考：海商法與海洋法"]
+PASS F2. 6/26 09:45 出行到 12:00 應該列補考　["10:00 補考：海商法與海洋法"]
+PASS F3. 6/26 11:30（補考已過）出行 不該列補考　[]
+PASS F4. 6/26 06:30 出行到 09:00（補考前回來） 不該列補考　[]
+FAIL F5. 邊界：已有 3 件會錯過＋補考，補考仍要列出　["09:00 約好的見面1","09:30 約好的見面2","10:00 約好的見面3"]
+FAILED 1
+```
+- F5：faildelay3d.js:185 的包裝是 w0 結果 concat 補考再 slice(0,3)，當天已有 3 件會錯過（例：3 個約好的見面）時補考被擠掉。home3d.js:126 confirmMiss 也是 concat 後 slice(0,3)（HOME 包裝本身不截，但補考接在 wouldMiss 後面、dormMiss 前面，前面已有 3 件時同樣會被截）。建議補考放最前面。
