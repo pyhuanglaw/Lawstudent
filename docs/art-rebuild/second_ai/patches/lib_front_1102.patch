@@ -14,7 +14,7 @@ index f42a6d029..b3d10ca26 100644
    function isThu(G){ return G.weekday===4; }
    function classTime(G){ return isThu(G)&&h(G)>=13.1&&h(G)<15.2; }
 diff --git a/src/zones3d.js b/src/zones3d.js
-index d5c7087d2..29d19e5bc 100644
+index d5c7087d2..048bbb648 100644
 --- a/src/zones3d.js
 +++ b/src/zones3d.js
 @@ -110,11 +110,17 @@ const Z3 = (function(){
@@ -23,8 +23,8 @@ index d5c7087d2..29d19e5bc 100644
      // 主要道路：椰林大道 東西向（z=0），從校門 x=-124 到總圖前廣場 x≈72
 -    strip(g,-124,0,72,0,16,W3.pathTex(),4); curb(g,-124,0,72,0,16);
 +    /* LIB-FRONT-1102（使用者 11-02 08:45 五張照片＋09:4x 一張；LAWWW2 tools/blender/env_second/campus_library.py、campus_lib_lawn.py）：總圖前改成照片的樣子——
-+       大道的柏油、步道在小椰林道路口以東（x 35）結束；x 35～66 是一大片長草坪（兩邊龍柏籬、籬笆外大王椰子、紅磚步道），x 66～78 淺色石板廣場（「台階下方還有磁磚 蠻寬的 之後才是草坪」），
-+       x 78～80.25 五階寬台階走上 0.9 m 的平台、進一樓拱廊。總圖不搬（門口互動點 (86.4,0)、門外 (80,0)、門廊前 (82,0) 照舊走得到；LAWWW 11-02 09:11）。
++       大道的柏油、步道在小椰林道路口以東（x 35）結束；x 35～63.5 是一大片長草坪（兩邊龍柏籬、籬笆外大王椰子、紅磚步道），x 63.5～73.75 淺色石板廣場（「台階下方還有磁磚 蠻寬的 之後才是草坪」），
++       x 73.75～76 五階寬台階走上 0.9 m 的平台；平台 6 m 深（x 76～82，10:4x「總圖出來還有個平台 之後才是階梯往下」）、再進一樓拱廊。總圖不搬（門口互動點 (86.4,0)、門外 (80,0)、門廊前 (82,0) 照舊走得到；LAWWW 11-02 09:11）。
 +       兩個正式模型都有時才換（?nobldg 或 manifest 沒有：照舊是大道到 x 72＋石板小廣場＋套件的總圖）*/
 +    const LIBF=typeof ASSETS!=='undefined'&&!!ASSETS.manifest['bldg.campus_lib_lawn']&&!!ASSETS.manifest['bldg.campus_library'];
 +    const AVE_X1=LIBF?35:72;
@@ -48,12 +48,12 @@ index d5c7087d2..29d19e5bc 100644
 -      for(const s of [-1,1]) for(const x of [72.6,75.0,77.4]){ const b=BENCH(); place(g,b,x,s*5.75,s>0?Math.PI:0); nav.blockRect(x,s*5.75,1.4,0.7,0); seats.push({x,z:s*5.75+(s>0?-0.06:0.06),yaw:s>0?Math.PI:0,label:'坐在總圖前的長椅上'}); }
 -      for(const [x,z,ry] of [[70.8,-5.75,0],[70.8,5.75,Math.PI],[79.0,-5.75,0],[79.0,5.75,Math.PI],[75.0,-17.3,0],[75.0,17.3,Math.PI]]){ const l=W3.lampPost(); place(g,l,x,z,ry); l.userData.roadPool=true; lamps.push(l); nav.blockCircle(x,z,0.5); }
 +    if(lawnGLB){   /* LIB-FRONT-1102 第二版草坪（campus_lib_lawn.glb 的 info.layout）：老樟樹、南邊的大樹、四張長椅由遊戲放；白色球形路燈、龍柏籬、石墩在模型裡，這裡只擋導航 */
-+      const ct=TK.tree(16,1331,{sp:'camphor'}); ct.name='lib_old_camphor'; place(g,ct,72.5,-25.5,0.4); nav.blockCircle(72.5,-25.5,1.0);   /* 老樟樹（「他在樟樹下等你」「總圖前面的樟樹比總圖老」）：廣場北邊 */
-+      const st=TREE(1.15); place(g,st,72.5,25.5,2.1); nav.blockCircle(72.5,25.5,0.8);   /* 廣場南邊的大樹 */
-+      for(const [x,z,ry] of [[69.4,-22.2,0.0],[75.8,-22.2,0.0],[69.4,22.2,Math.PI],[75.8,22.2,Math.PI]]){ const b=BENCH(); place(g,b,x,z,ry); nav.blockRect(x,z,1.4,0.7,0); seats.push({x,z:z+(ry?-0.06:0.06),yaw:ry,label:'坐在總圖前的長椅上'}); }   /* 大樹兩旁，面向廣場中間 */
-+      for(const [x,z] of [[38.0,-15.35],[49.0,-15.35],[60.0,-15.35],[38.0,15.35],[49.0,15.35],[60.0,15.35],[66.8,-20.0],[66.8,20.0],[76.0,-28.6],[76.0,28.6]]) nav.blockCircle(x,z,0.5);   /* 白色球形路燈（模型裡；BUG-NAV-LAMPPOST-1021：r 0.25 在格角不擋任何格，用 0.5）*/
++      const ct=TK.tree(16,1331,{sp:'camphor'}); ct.name='lib_old_camphor'; place(g,ct,68.5,-25.5,0.4); nav.blockCircle(68.5,-25.5,1.0);   /* 老樟樹（「他在樟樹下等你」「總圖前面的樟樹比總圖老」）：廣場北邊 */
++      const st=TREE(1.15); place(g,st,68.5,25.5,2.1); nav.blockCircle(68.5,25.5,0.8);   /* 廣場南邊的大樹 */
++      for(const [x,z,ry] of [[65.3,-22.2,0.0],[71.7,-22.2,0.0],[65.3,22.2,Math.PI],[71.7,22.2,Math.PI]]){ const b=BENCH(); place(g,b,x,z,ry); nav.blockRect(x,z,1.4,0.7,0); seats.push({x,z:z+(ry?-0.06:0.06),yaw:ry,label:'坐在總圖前的長椅上'}); }   /* 大樹兩旁，面向廣場中間 */
++      for(const [x,z] of [[38.0,-15.35],[49.0,-15.35],[60.0,-15.35],[38.0,15.35],[49.0,15.35],[60.0,15.35],[64.3,-20.0],[64.3,20.0],[72.8,-19.2],[72.8,19.2]]) nav.blockCircle(x,z,0.5);   /* 白色球形路燈（模型裡；BUG-NAV-LAMPPOST-1021：r 0.25 在格角不擋任何格，用 0.5）*/
 +      for(const [x,z] of [[40.0,-11.0],[40.0,11.0]]) nav.blockRect(x,z,0.9,0.9,0,0.05);   /* 草坪西端兩個白色石墩 */
-+      for(const s of [-1,1]) nav.blockRect(53.05,s*11,25.1,1.4,0,0);   /* 龍柏籬（x 40.5～65.6、|z| 10.3～11.7）：草坪只能從兩頭進出，和照片一樣 */
++      for(const s of [-1,1]) nav.blockRect(51.8,s*11.0,22.6,1.4,0,0);   /* 龍柏籬（x 40.5～63.1、|z| 10.3～11.7）：草坪只能從兩頭進出，和照片一樣 */
      }
      // 椰林大道兩側的杜鵑花叢（真實的椰林大道中間沒有分隔島；開學的九月杜鵑不開花，只有綠叢）：每兩棵椰子樹中間一叢；
      // 路口（小椰林道、文學院、往醉月湖的小路、宿舍）、路燈、長椅前、傅鐘廣場前留空，草地和長椅都走得到
@@ -80,15 +80,16 @@ index d5c7087d2..29d19e5bc 100644
      // ---- 傅鐘（大道南側小廣場，行政大樓正前方）----
      const plaza=ground(g,28,12,W3.stoneTex('#e3d9c6'),[7,3],-38,17,0.015); const bell=CK.bell(); place(g,bell,-38,16.5,Math.PI); placeBlocks(nav,bell,-38,16.5,Math.PI);   /* v9.3 第十六批：校園套件的鐘亭，石碑朝北對著大道 */
      const bellGLB=typeof ASSETS!=='undefined'&&!!ASSETS.manifest['bldg.campus_bell']; bell.userData.ckTag='bell'; if(bellGLB) bell.userData.dyn=true;   /* 傅鐘的 Blender 正式模型（第二個 AI：campus_bell.py → bldg.campus_bell）：和總圖同一套接法；導航阻擋照舊是套件的（placeBlocks） */ for(const [x,z] of [[-51,21.5],[-25,21.5]]){ const b=TREE(1.3); place(g,b,x,z,0); nav.blockCircle(x,z,0.9); }
-@@ -237,6 +245,15 @@ const Z3 = (function(){
+@@ -237,6 +245,16 @@ const Z3 = (function(){
      /* 總圖的 Blender 正式模型（第二個 AI：tools/blender/env_second/campus_library.py → bldg.campus_library）：有模型時套件的總圖不參加整區靜態合併，載入後藏起套件外觀；
         ?nobldg 或載入失敗時照舊是套件。導航阻擋、鏡頭碰撞、門口互動點都還是套件的（ckPlace） */
      const libGLB=typeof ASSETS!=='undefined'&&!!ASSETS.manifest['bldg.campus_library']; lib.userData.ckTag='library'; if(libGLB) lib.userData.dyn=true;
 +    if(LIBF){   /* LIB-FRONT-1102：照片的總圖（campus_library.layout.json）——一樓拱廊突出在前面（正面 x 81.6～82.6、拱的位置留開口）、拱廊後牆 x 86.4（大門 z=0）、
-+         五階寬台階（x 78～80.25、|z| ≤ 18，一階 0.18 m）走上 0.9 m 的平台、兩旁花台、北邊的方塔。套件的門廊、拱廊柱子（舊外觀）的導航先拿掉，再擋新的。 */
-+      nav.freeRect(80.0,-30.0,87.2,30.0);
-+      for(const [x0,z0,x1,z1] of [[78,-30,80.25,-18],[78,18,80.25,30],[81.6,-8.4,82.6,-7.3],[81.6,-3.9,82.6,-2.3],[81.6,2.3,82.6,3.9],[81.6,7.3,82.6,8.4],[82,-30,82.6,-23.2],[82,-20,82.6,-13.8],[82,-10.6,82.6,-8.4],[82,8.4,82.6,10.6],[82,13.8,82.6,20],[82,23.2,82.6,30],[82.55,-30,86.5,-27.4],[82.55,27.4,86.5,30],[86.38,-27.4,87,27.4],[87,-30,113,30],[82,-37.6,87.6,-32]]) nav.blockRect((x0+x1)/2,(z0+z1)/2,x1-x0,z1-z0,0,0);
-+      for(const s1 of [{"x0":78.0,"x1":80.25,"z0":-18.0,"z1":18.0,"axis":"x","ya":0.0,"yb":0.9,"tread":0.45,"rise":0.18,"low":"x0"},{"x0":80.25,"x1":86.4,"z0":-29.8,"z1":29.8,"y":0.9}]){ nav.addSurf(s1);   /* 點地面移動打得到的透明地面（平台 0.9 m、台階斜面；和霖澤館穿堂同一套 campusWalk）*/
++         五階寬台階（x 73.75～76、|z| ≤ 18，一階 0.18 m）走上 0.9 m 的平台（x 76～82：使用者 10:4x「總圖出來還有個平台 之後才是階梯往下」，兩端白石矮牆）、兩旁花台、北邊的方塔。
++         套件的門廊、拱廊柱子（舊外觀）的導航先拿掉，再擋新的。 */
++      nav.freeRect(73.7,-30.0,87.2,30.0);
++      for(const [x0,z0,x1,z1] of [[76.0,-30.0,82.05,-29.4],[76.0,29.4,82.05,30.0],[73.75,-30.0,76.0,-18.0],[73.75,18.0,76.0,30.0],[81.6,-8.4,82.6,-7.3],[81.6,-3.9,82.6,-2.3],[81.6,2.3,82.6,3.9],[81.6,7.3,82.6,8.4],[82.0,-30.0,82.6,-23.2],[82.0,-20.0,82.6,-13.8],[82.0,-10.6,82.6,-8.4],[82.0,8.4,82.6,10.6],[82.0,13.8,82.6,20.0],[82.0,23.2,82.6,30.0],[82.55,-30.0,86.5,-27.4],[82.55,27.4,86.5,30.0],[86.38,-27.4,87.0,27.4],[87.0,-30.0,113.0,30.0],[82.0,-37.6,87.6,-32.0]]) nav.blockRect((x0+x1)/2,(z0+z1)/2,x1-x0,z1-z0,0,0);
++      for(const s1 of [{"x0":73.75,"x1":76.0,"z0":-18.0,"z1":18.0,"axis":"x","ya":0.0,"yb":0.9,"tread":0.45,"rise":0.18,"low":"x0"},{"x0":76.0,"x1":86.4,"z0":-29.8,"z1":29.8,"y":0.9}]){ nav.addSurf(s1);   /* 點地面移動打得到的透明地面（平台 0.9 m、台階斜面；和霖澤館穿堂同一套 campusWalk）*/
 +        const ya=s1.y!==undefined?s1.y:s1.ya, yb=s1.y!==undefined?s1.y:s1.yb, dx=s1.x1-s1.x0; const m=new THREE.Mesh(new THREE.PlaneGeometry(Math.hypot(dx,yb-ya),s1.z1-s1.z0),new THREE.MeshBasicMaterial({visible:false}));
 +        m.rotation.order='ZYX'; m.rotation.z=Math.atan2(yb-ya,dx); m.rotation.x=-Math.PI/2; m.position.set((s1.x0+s1.x1)/2,(ya+yb)/2+0.01,(s1.z0+s1.z1)/2); m.userData.walkLv=0; m.userData.dyn=true; g.add(m); campusWalk.push(m); }
 +      { const T=[82.1,0,-37.5,87.5,28,-32.1]; const m=new THREE.Mesh(new THREE.BoxGeometry(T[3]-T[0],T[4]-T[1],T[5]-T[2]),new THREE.MeshBasicMaterial({visible:false,side:THREE.DoubleSide})); m.position.set((T[0]+T[3])/2,(T[1]+T[4])/2,(T[2]+T[5])/2); g.add(m); E.colliders.push(m); }   /* 方塔的鏡頭碰撞 */
@@ -96,7 +97,7 @@ index d5c7087d2..29d19e5bc 100644
      // ---- 小椰林道（x=30，從椰林大道往北通到法學院）：兩排較矮的大王椰子 ----
      for(let z=-14;z>=-70;z-=8){ for(const x of [24.2,35.8]){ if(x>30&&z>-66&&z<-54) continue; const p=PALM(7+((-z*3)%2)); place(g,p,x,z,(-z*0.7)%6.28); nav.blockCircle(x,z,0.45); } }
      // ---- 醉月湖（文學院北邊）----
-@@ -293,7 +310,7 @@ const Z3 = (function(){
+@@ -293,7 +311,7 @@ const Z3 = (function(){
      { const r=parkedRack(9); place(g,r,58,-102,0); nav.blockRect(58,-102,6,1.4,0); const r2=parkedRack(6); place(g,r2,10,-100,0); nav.blockRect(10,-100,4,1.4,0); }
      { const bb=W3.bulletin(); place(g,bb,16.6,-100.6,0); nav.blockRect(16.6,-100.6,2.6,0.4,0); /* v9.3 第十九批：原本掛在霖澤館一樓拱廊的內牆上；新的霖澤館沒有拱廊、正面整排是台階，移到台階西端外面的鋪面上 */ const v=W3.vending(); place(g,v,13.5,-107.5,-Math.PI/2); nav.blockRect(13.5,-107.5,0.9,1.2,0); /* 靠霖澤館西側牆（舊位置一半埋在建築轉角裡）*/ }
      for(const [x,z] of [[30,-86],[62,-86],[97.2,-96.5],[51,-100.5],[69,-98.5]]){ /* 後兩盞原本在 (46,-108)、(76,-108)：埋在霖澤館、萬才館的牆裡，第十九批移到門前；(94,-86) 第二十四批移到萬才館一樓入口東側 (97.2,-96.5)：原本擋在往入口的路線中間（照亮入口）*/ const l=W3.lampPost(); place(g,l,x,z,Math.PI/2); lamps.push(l); nav.blockCircle(x,z,0.5); }
@@ -105,12 +106,12 @@ index d5c7087d2..29d19e5bc 100644
      // 花圃
      for(const x of [-64,-48]){ const p=W3.planter(); place(g,p,x,-13,0); nav.blockRect(x,-13,1.2,0.5,0); }
      /* 社團博覽會（AA_110 6-8 (b)；activities.js 的 club_expo_y1s1：新局 9/6、舊局 9/30、10/1，CLUBFAIR-REAL-1027）那幾天：LAWWW2 479b7fc 的九頂帳篷（clubFair），原本的招生攤位、公告欄收起來 */
-@@ -311,7 +328,7 @@ const Z3 = (function(){
+@@ -311,7 +329,7 @@ const Z3 = (function(){
      // 補上沒有掛名字的系館（不冒用真實系館的名字和位置），同一套校園套件語彙：紅磚／面磚、一樓拱廊、拱窗或方窗
      { const fill=[
          [CK.hall({w:26,d:14,floors:3,gfh:4.4,fh:3.8,wall:'#c8a27c',trim:'#e6dfd0',roof:'#4a3a33',roofH:3.8,arcade:true,porch:{bays:1,depth:2.4,pediment:false}}),7,-28,0],          // 大道北側、文學院東邊
 -        [CK.hall({w:28,d:16,floors:4,gfh:4.4,fh:3.6,wall:'#a35c48',trim:'#ddd5c6',roofType:'flat',win:'rect',arcade:true,porch:{bays:3,depth:2.6,style:'flat'}}),57,-34,0],   // 大道北側、小椰林道東邊
-+        [CK.hall({w:LIBF?24:28,d:16,floors:4,gfh:4.4,fh:3.6,wall:'#a35c48',trim:'#ddd5c6',roofType:'flat',win:'rect',arcade:true,porch:{bays:3,depth:2.6,style:'flat'}}),LIBF?52:57,-34,0],   // 大道北側、小椰林道東邊（LIB-FRONT-1102：總圖前的廣場到 x 66、|z| 30，原本 x 43～71 壓到廣場西北角、離老樟樹 1.5 m → 24 m 寬、中心 x 52：x 40～64）
++        [CK.hall({w:LIBF?23:28,d:16,floors:4,gfh:4.4,fh:3.6,wall:'#a35c48',trim:'#ddd5c6',roofType:'flat',win:'rect',arcade:true,porch:{bays:3,depth:2.6,style:'flat'}}),LIBF?51.5:57,-34,0],   // 大道北側、小椰林道東邊（LIB-FRONT-1102：總圖前的廣場 x 63.5～73.75、|z| ≤ 30，原本 x 43～71 壓到廣場西北角 → 23 m 寬、中心 x 51.5：x 40～63）
          [CK.hall({w:34,d:14,floors:4,gfh:4.2,fh:3.5,wall:'#d2c3a5',trim:'#ebe4d6',roofType:'flat',win:'rect',arcade:true,porch:{bays:3,depth:2.6,style:'flat'}}),45,33,Math.PI],   // 大道南側、往宿舍的路東邊
          [CK.hall({w:30,d:13,floors:5,gfh:3.6,fh:3.1,wall:'#bfb5a3',trim:'#e4ddd0',roofType:'flat',win:'rect',arcade:false,porch:{bays:1,depth:2.0,style:'flat',h:3.4}}),-34,68,Math.PI],   // 舟山路南側、宿舍區
          [CK.hall({w:30,d:13,floors:5,gfh:3.6,fh:3.1,wall:'#c9b49a',trim:'#e8e2d6',roofType:'flat',win:'rect',arcade:false,porch:{bays:1,depth:2.0,style:'flat',h:3.4}}),74,68,Math.PI],
@@ -143,16 +144,17 @@ index d8aa85297..7d6bfdac1 100644
  }
 diff --git a/tests/lib_front_unit.js b/tests/lib_front_unit.js
 new file mode 100644
-index 000000000..3a61d2c72
+index 000000000..c6650616e
 --- /dev/null
 +++ b/tests/lib_front_unit.js
-@@ -0,0 +1,63 @@
-+// 總圖前（LIB-FRONT-1102，LAWWW2 帳號 A 2026-11-02；使用者 11-02 08:45 五張照片、08:55「總圖前的台階要做出來」、09:4x「台階下方還有磁磚 蠻寬的 之後才是草坪」）
+@@ -0,0 +1,67 @@
++// 總圖前（LIB-FRONT-1102，LAWWW2 帳號 A 2026-11-02；使用者 11-02 08:45 五張照片、08:55「總圖前的台階要做出來」、09:4x「台階下方還有磁磚 蠻寬的 之後才是草坪」、
++//   10:4x「仔細看我給你的圖 總圖出來還有個平台 之後才是階梯往下」→ 拱廊前面 6 m 深的平台，台階在平台前面）
 +// ——不需要瀏覽器：在 Node 裡建出遊戲真正的校園（兩個正式模型都在 manifest：LIBF），用引擎真正的找路＋移動碰撞（E.simWalk）走：
-+//   ①高度：廣場 0、台階一階 0.18 m 連續往上、平台 0.9；畫面上一階一階（visualHeightAt）
++//   ①高度：廣場 0、台階一階 0.18 m 連續往上、平台 0.9；畫面上一階一階（visualHeightAt）；拱廊正面前面整片 6 m 都是平台
 +//   ②從大道（小椰林道路口）→ 草坪西端 → 草坪 → 廣場 → 走上台階 → 平台 → 中間的拱 → 大門口（門口互動點 (86.4,0) 的範圍裡），走路、跑步＋低幀率都要到
 +//   ③LAWWW 11-02 09:11 指定要走得到、站得住的點：(80,0)＝從總圖出來的位置（library3d.js CAMPUS、sis_b11_3d.js STOP_OUT、zrzq3d.js）、(82,0)＝門廊前（flow_library_floors、guide_flow）
-+//   ④龍柏籬、花台、拱和拱之間的牆、方塔站不住；兩側步道、花台後面的平台、白石翼的拱走得到
++//   ④龍柏籬、花台、拱和拱之間的牆、方塔、平台兩端的矮牆站不住；兩側步道、花台後面的平台、白石翼的拱走得到
 +//   ⑤下台階回到大道、從北側步道走到廣場；「進入總圖書館」照舊在 (86.4,0)
 +// 這是模擬（證明路走得通、高度對），不是真實玩家流程（瀏覽器的 flow_library_floors、guide_flow、reachability_all 另外跑）。
 +// 用法：node tests/lib_front_unit.js
@@ -182,13 +184,16 @@ index 000000000..3a61d2c72
 +  `廣場 ${H(72,0)}、台階底 ${H(ST.x0+0.01,0).toFixed(3)}、中 ${H((ST.x0+ST.x1)/2,0).toFixed(3)}、頂 ${H(ST.x1-0.01,0).toFixed(3)}、平台 ${H(84,0)}`);
 +const vis=[0,1,2,3,4].map(k=>V(ST.x0+ST.tread*(k+0.5),0));
 +check('① 畫面上一階一階（每一階 0.18 m，五階）',vis.every((y,k)=>Math.abs(y-(k+1)*ST.rise)<1e-6),vis.map(y=>y.toFixed(2)).join('、'));
++const AF=81.6, terr=[ST.x1+0.4,(ST.x1+AF)/2,AF-0.6].flatMap(x=>[0,-12,12,-25,25].map(zz=>[x,zz]));
++check('① 走出總圖先是平台（使用者 11-02 10:4x）：拱廊正面前面 x '+ST.x1+'～'+AF+'（'+(AF-ST.x1).toFixed(2)+' m）整片都是平台高度 0.9，之後才是台階往下',
++  AF-ST.x1>=5.5&&terr.every(([x,zz])=>H(x,zz)===P&&Math.abs(V(x,zz)-P)<1e-6&&stand(x,zz)),`平台深 ${(AF-ST.x1).toFixed(2)} m、${terr.length} 點`);
 +// ② 從大道走到大門
 +const door=E.interactables.find(i=>i.label==='進入總圖書館');
 +check('⑤「進入總圖書館」照舊在 (86.4,0)',!!door&&Math.abs(door.x-86.4)<1e-6&&Math.abs(door.z)<1e-6,door?`(${door.x},${door.z}) r ${door.radius}`:'');
 +let r=both([30,0],[86.0,0]); check('② 大道（小椰林道路口）→ 草坪 → 廣場 → 台階 → 平台 → 中間的拱 → 大門口（模擬走路，dt 1/30 和 0.1）',r.ok&&Math.abs(r.y-P)<0.05&&Math.hypot(r.x-86.4,r.z)<door.radius,fmt(r));
 +r=run([30,0],[86.0,0]); check('② 同一段用跑的（4.1 m/s）＋低幀率（dt 0.1：一步 0.41 m）',r.ok,fmt(r));
 +// ③ LAWWW 指定的點
-+check('③ (80,0)（從總圖出來的位置）站得住、畫面上的高度＝平台（台階最上面一階；找路用的連續斜面在這裡 0.8）',stand(80,0)&&Math.abs(V(80,0)-P)<1e-6,`畫面 ${V(80,0).toFixed(3)}、斜面 ${H(80,0).toFixed(3)}`);
++check('③ (80,0)（從總圖出來的位置）在平台上：站得住、高度＝平台 0.9（離台階頂 '+(80-ST.x1).toFixed(2)+' m）',stand(80,0)&&H(80,0)===P&&Math.abs(V(80,0)-P)<1e-6,`畫面 ${V(80,0).toFixed(3)}、找路 ${H(80,0).toFixed(3)}`);
 +check('③ (82,0)（門廊前：中間拱的開口裡）站得住',stand(82,0),`高度 ${H(82,0)}`);
 +r=both([80,0],[60,0]); check('③ (80,0) → 走下台階 → 草坪',r.ok&&Math.abs(r.y)<0.06,fmt(r));
 +r=both([60,0],[82,0]); check('③ 草坪 → 走上台階 → (82,0)',r.ok&&Math.abs(r.y-P)<0.05,fmt(r));
@@ -198,17 +203,17 @@ index 000000000..3a61d2c72
 +check('④ 草坪、兩側紅磚步道、廣場站得住',stand(52,0)&&stand(52,-17)&&stand(52,17)&&stand(72,-15)&&stand(72,15));
 +r=both([36,-17],[70,-17]); check('④ 北側步道從頭走到廣場',r.ok,fmt(r));
 +r=both([36,17],[70,17]); check('④ 南側步道從頭走到廣場（腳踏車、路人走這裡）',r.ok,fmt(r));
-+check('④ 花台站不住（台階兩旁）',!stand(79,24)&&!stand(79,-24)&&!stand(79.6,19));
-+r=both([79.5,0],[81.1,24]); check('④ 台階頂 → 花台後面的平台（白石翼最外面那個拱前面）',r.ok&&Math.abs(r.y-P)<0.05,fmt(r));
++const PL=(ST.x0+ST.x1)/2; check('④ 花台站不住（台階兩旁）',!stand(PL,24)&&!stand(PL,-24)&&!stand(ST.x1-0.4,19));
++r=both([ST.x1+0.3,0],[81.1,24]); check('④ 台階頂 → 平台 → 花台後面（白石翼最外面那個拱前面）',r.ok&&Math.abs(r.y-P)<0.05,fmt(r));
 +check('④ 拱和拱之間的牆（紅磚段、白石翼）站不住',!stand(82.1,3.1)&&!stand(82.3,-9.5)&&!stand(82.3,17));
 +r=both([81,12.2],[85,12.2]); check('④ 白石翼的拱（z 12.2）走得進拱廊',r.ok,fmt(r));
 +r=both([85,-20],[85,20]); check('④ 拱廊走道從北走到南',r.ok,fmt(r));
 +check('④ 拱廊後牆（大門兩旁）、總圖裡面站不住',!stand(86.7,5)&&!stand(90,0)&&!stand(100,0));
 +const T=LAY.tower; check('④ 北邊的方塔站不住',!stand(T.x,T.z)&&!stand(T.x-T.s/2+0.4,T.z));
-+check('④ 平台兩端（落差 0.9）走不下去：平台邊外面是地面',H(81,31)===0&&H(81,29.5)===P);
++check('④ 平台兩端（落差 0.9）：平台邊外面是地面、邊上有白石矮牆擋住（走不出平台邊）',H(81,31)===0&&H(81,29.5)===P&&[ST.x1+0.3,78,80.5].every(x=>!stand(x,29.8)&&!stand(x,-29.8)));
 +// ⑤ 回到大道
 +r=both([84,0],[0,0]); check('⑤ 拱廊 → 台階 → 草坪 → 回到大道（往校門）',r.ok&&Math.abs(r.y)<0.05,fmt(r));
-+check('⑤ 平台、台階點得到（點地面移動的透明地面 2 片）',(z.walkMeshes||[]).filter(m=>m.position.x>75&&m.position.x<90&&Math.abs(m.position.z)<1).length>=2);
++check('⑤ 平台、台階點得到（點地面移動的透明地面 2 片）',(z.walkMeshes||[]).filter(m=>m.position.x>ST.x0-1&&m.position.x<90&&Math.abs(m.position.z)<1).length>=2);
 +console.log(fails?'FAILED '+fails:'ALL PASS'); process.exit(fails?1:0);
 diff --git a/tests/lib_lawn_unit.js b/tests/lib_lawn_unit.js
 index a17854014..60bcb2c35 100644
