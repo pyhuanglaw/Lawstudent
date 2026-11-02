@@ -4532,3 +4532,9 @@
   - ntu_library_night 換新圖。
   - library_gate_night 原本用到的地方一起改指新的 night。
 - **ART_APPROVED 先不標**：要等 LAWWW2 照同一組照片改好總圖前的草坪模型，CC 截一張遊戲畫面確認 2D 和 3D 是同一個總圖，才標。
+
+#### 第 110 組立繪 BB 驗收（2026-11-02 09:0x，BB（帳號 A）；images/73、74，存 `incoming/pt110_使用者1102/`）
+- **兩張都 PASS**：成人比例、和畫風參考同一種畫風和取景，淺灰底，衣服上沒有字，長相和其他男生分得開。
+  - jp_liheng 鄒立衡：整齊的黑短髮、細金屬框眼鏡、深灰長袖襯衫、黑長褲、皮鞋，方格筆記本上夾著筆，站得很直。和 characters.js 的 visual_tags 一致。
+  - jp_yuheng 汪宇恆：有點亂的黑短髮、沒戴眼鏡、深綠薄外套、白 T、淺灰長褲、白球鞋，脖子掛耳罩式耳機，背黑色後背包。和 visual_tags 一致。
+- 給 LAWWW：照第 106 組第三版的做法去背、縮成 600×1000、PORTRAITS 加上這兩位。立衡的台詞 speaker 寫的是「立衡」，要確認名字對得到（name→唯一有立繪的人）。角色美術的 ART_APPROVED 照 D100a 由 LAWWW 標。
