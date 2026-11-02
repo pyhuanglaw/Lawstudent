@@ -39188,14 +39188,95 @@
       "id": "BG107-WIRE-1102",
       "title": "第 107 組十張背景接進遊戲",
       "owner": "LAWWW",
-      "status": "進行中",
-      "next": "子代理在 worktree 接；接好派 BB／CC",
-      "sha": "",
+      "status": "已整合待測試",
+      "next": "CC 截對話畫面→BB ART_APPROVED；待 BB 決定：tainan_school 換不換 tn_school、以安房間缺圖",
+      "sha": "dad4935cf",
       "source": "BB 07:04（BB_132 第 107 組驗收）",
       "xai": {
         "spec": "BB 07:04（BB_132 第 107 組驗收）",
         "branch": "claude/confident-ritchie-8rwh7t",
         "acceptance": "子代理在 worktree 接；接好派 BB／CC",
+        "receiver": "BB",
+        "ack": "SENT"
+      }
+    },
+    {
+      "priority": "P0",
+      "first": {
+        "term": "Y1S1",
+        "week": null,
+        "earliest": "第一次期中考前（讀書、一鍵總複習）；國考與職涯在畢業以後",
+        "mainline": true,
+        "blocks": false,
+        "prereq": false,
+        "parallel": true,
+        "confirmed": true
+      },
+      "id": "BG108-WIRE-1102",
+      "title": "第 108 組十張背景接進遊戲",
+      "owner": "LAWWW",
+      "status": "進行中",
+      "next": "子代理在 worktree 接",
+      "sha": "",
+      "source": "BB 07:37（企劃線 84fdd1ce7）",
+      "xai": {
+        "spec": "BB 07:37（企劃線 84fdd1ce7）",
+        "branch": "claude/confident-ritchie-8rwh7t",
+        "acceptance": "子代理在 worktree 接",
+        "receiver": "BB",
+        "ack": "SENT"
+      }
+    },
+    {
+      "priority": "P0",
+      "first": {
+        "term": "Y1S1",
+        "week": null,
+        "earliest": "第一次期中考前（讀書、一鍵總複習）；國考與職涯在畢業以後",
+        "mainline": true,
+        "blocks": false,
+        "prereq": false,
+        "parallel": true,
+        "confirmed": true
+      },
+      "id": "BUG-B4-CUE-LEAK-1102",
+      "title": "考試提示只出現在正確選項＝不出；訂正筆記 pre-line",
+      "owner": "LAWWW",
+      "status": "已整合待測試",
+      "next": "CC #10",
+      "sha": "2b896c653",
+      "source": "BB 07:28",
+      "xai": {
+        "spec": "BB 07:28",
+        "branch": "claude/confident-ritchie-8rwh7t",
+        "acceptance": "CC #10",
+        "receiver": "BB",
+        "ack": "SENT"
+      }
+    },
+    {
+      "priority": "P0",
+      "first": {
+        "term": "Y1S1",
+        "week": null,
+        "earliest": "第一次期中考前（讀書、一鍵總複習）；國考與職涯在畢業以後",
+        "mainline": true,
+        "blocks": false,
+        "prereq": false,
+        "parallel": true,
+        "confirmed": true
+      },
+      "id": "D118-Y4S2-MAKEUP-1102",
+      "title": "大四下被當 6 月底補考一次（使用者 05:0x 選）",
+      "owner": "LAWWW",
+      "status": "進行中",
+      "next": "子代理在 worktree 實作；暫定字交 AA",
+      "sha": "",
+      "source": "D118_PLAN 第 10 節 Q4",
+      "xai": {
+        "spec": "D118_PLAN 第 10 節 Q4",
+        "branch": "claude/confident-ritchie-8rwh7t",
+        "acceptance": "子代理在 worktree 實作；暫定字交 AA",
         "receiver": "BB",
         "ack": "SENT"
       }
