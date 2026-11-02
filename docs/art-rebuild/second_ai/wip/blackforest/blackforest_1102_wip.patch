@@ -1,5 +1,5 @@
 diff --git a/index.html b/index.html
-index 3fb0a7e3e..30b57a28f 100644
+index 3fb0a7e3e4a1d00ac185b9f7a2168a4722ee9d49..30b57a28fd598c810ec4d1b2e65f98c030bd22d8 100644
 --- a/index.html
 +++ b/index.html
 @@ -216,6 +216,7 @@ select{font-family:var(--font);font-size:14px;background:#0d1016;color:#e8e2d6;b
@@ -11,7 +11,7 @@ index 3fb0a7e3e..30b57a28f 100644
  <script src="src/data/linze_layout.js?v=9.10.16"></script>
  <script src="src/data/classroom_layout.js?v=9.10.16"></script>
 diff --git a/src/assets3d.js b/src/assets3d.js
-index 942a44b4d..2fe54f92d 100644
+index 942a44b4d3f39ab71afe2e820ed4e14362c51f6a..2fe54f92d46ee6bcf273256af34d00b809f2793b 100644
 --- a/src/assets3d.js
 +++ b/src/assets3d.js
 @@ -89,6 +89,7 @@ const ASSETS = (function(){
@@ -24,7 +24,7 @@ index 942a44b4d..2fe54f92d 100644
      'bldg.campus_admin':{url:'assets/models/env/second_ai/campus_admin.glb', type:'building', lazy:true, source:'本作 Blender 腳本 tools/blender/env_second/campus_hall.py --set admin（行政大樓外觀；校園世界座標；位置、尺寸、樓層、開間、拱廊、門廊照 zones3d.js campus 區塊的 CK.hall；拱窗是真的窗洞；面磚、石材、屋瓦、花崗石貼圖 Poly Haven CC0）', license:'本作；貼圖 CC0'},
 diff --git a/src/data/blackforest_layout.js b/src/data/blackforest_layout.js
 new file mode 100644
-index 000000000..5f413dea0
+index 0000000000000000000000000000000000000000..5f413dea0be37dfb705d2147a262857edd61f03f
 --- /dev/null
 +++ b/src/data/blackforest_layout.js
 @@ -0,0 +1,2108 @@
@@ -2137,7 +2137,7 @@ index 000000000..5f413dea0
 + }
 +};
 diff --git a/src/story3d.js b/src/story3d.js
-index f628eb71e..12adad536 100644
+index f628eb71e9f506893ac555ea7ba7b83406d5c8f0..12adad5360343ff2d960bf73b91b3a5c6c078535 100644
 --- a/src/story3d.js
 +++ b/src/story3d.js
 @@ -257,7 +257,7 @@ const STORY = (function(){
@@ -2150,7 +2150,7 @@ index f628eb71e..12adad536 100644
    function isThu(G){ return G.weekday===4; }
    function classTime(G){ return isThu(G)&&h(G)>=13.1&&h(G)<15.2; }
 diff --git a/src/zones3d.js b/src/zones3d.js
-index 048bbb648..0ebfea91d 100644
+index 048bbb648d68dcf25071f991bb1af041a72dccac..0ebfea91da60a212dc289364e0699d50f9237d67 100644
 --- a/src/zones3d.js
 +++ b/src/zones3d.js
 @@ -263,7 +263,7 @@ const Z3 = (function(){
@@ -2219,10 +2219,10 @@ index 048bbb648..0ebfea91d 100644
      if(typeof ASSETS!=='undefined'&&ASSETS.manifest['bldg.campus_lake']) ASSETS.loadOne('bldg.campus_lake').then(c=>{ if(!c||!c.scene||E.zone!==zone) return; attachLakeGLB(E,g,lakeU,c.scene.clone(true)); }).catch(e=>console.warn('醉月湖正式模型載入失敗，用程序化的湖岸、湖心亭',e));   /* 醉月湖（LAWWW2 ⑩）*/
 diff --git a/tests/blackforest_unit.js b/tests/blackforest_unit.js
 new file mode 100644
-index 000000000..f615dcd98
+index 0000000000000000000000000000000000000000..662c1ce36dff56bd8f082777ff0cb0938153a13e
 --- /dev/null
 +++ b/tests/blackforest_unit.js
-@@ -0,0 +1,48 @@
+@@ -0,0 +1,51 @@
 +// 黑森林（CAMPUS-BLACKFOREST-1102；使用者 11-02 20:3x「你的黑森林超奇怪的，而且裡面怎麼還會有草皮中的磁磚啊，而且你這一小塊根本就不能叫做黑森林」）——不需要瀏覽器。
 +// 在 Node 裡建出遊戲真正的校園，檢查：
 +//   森林夠大、夠密：配置的範圍裡至少 45 棵樹、每棵平均不到 35 m²（第二十四批的版本 11 棵 → FAIL）；
@@ -2265,6 +2265,9 @@ index 000000000..f615dcd98
 +for(const [a,b,label] of [[LINZE,[50,-80],'霖澤館前 → 廣場邊 (50,−80)'],[[50,-80],[30,-68],'廣場邊 → 小椰林道 (30,−68)（穿過森林西北角）'],[[66,-80],[60,-62],'廣場 → 森林中間的土徑 → z −60 的路'],
 +  [[60,-62],[47,-44.2],'z −60 的路 → 南邊森林的土徑 → 南邊'],[[92,-62],[93,-66],'z −60 的路 → 往萬才館的土徑'],[[93,-66],[93.8,-98.4],'往萬才館的土徑 → 萬才館一樓入口前'],[LINZE,[80.4,-44.2],'霖澤館前 → 南邊森林東邊的土徑']]){
 +  const f=walk(a,b); check('走得到：'+label, !f, f?JSON.stringify(f):''); }
++// LAWWW 20:22 指定要保持走得通的點：以安一起散步的檢查點（story3d.js walkChecks {x:40,z:-70,r:9}）、社科院圖書館門口與出來的站位（新版 SOCSCI_LAYOUT.libDoor／libOut；舊版 (97.9,−70)／(95.6,−70)）
++{ const pts=[[40,-70,'以安散步的檢查點 (40,−70)']]; if(typeof SOCSCI_LAYOUT!=='undefined'&&SOCSCI_LAYOUT.libOut) pts.push([SOCSCI_LAYOUT.libOut.x,SOCSCI_LAYOUT.libOut.z,'社科院圖書館出來的站位（新版）']); pts.push([95.6,-70,'社科院圖書館出來的站位（舊版 soclib3d.js）']);
++  for(const [x,zz,label] of pts){ const f=stand(x,zz)?walk(LINZE,[x,zz]):{ok:false,why:'站不住'}; check('走得到：霖澤館前 → '+label, stand(x,zz)&&!f, f?JSON.stringify(f):''); } }
 +let badP=[]; for(const p of L.paths) for(let i=0;i<p.pts.length-1;i++){ const [ax,az]=p.pts[i], [bx,bz]=p.pts[i+1]; const len=Math.hypot(bx-ax,bz-az); for(let s=0;s<=len;s+=1.0){ const x=ax+(bx-ax)*s/len, zz=az+(bz-az)*s/len; if(inArea(x,zz)&&!stand(x,zz)) badP.push([p.id,+x.toFixed(1),+zz.toFixed(1)]); } }
 +check('每條土徑的中線都站得住（森林範圍裡、每 1 m 一點）', badP.length===0, JSON.stringify(badP.slice(0,6)));
 +const ss=fs.readFileSync(path.join(ROOT,'src/story3d.js'),'utf8'), mm=ss.match(/const bikeRoutes=\{campus:(\[\[\[[\s\S]*?\]\]\])/); let bikeBad=[];
