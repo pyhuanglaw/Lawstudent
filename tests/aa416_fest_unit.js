@@ -110,8 +110,8 @@ const REG=o=>{ global.CG_REGISTRY=o||{}; };
     check('1b. 可昕沒有交往：不列',!a,J(a)); }
   { setup('2026-03-13',10,{lv:{[AN]:4}}); const a=x.flowOpt(H.G,AN,null,false);
     check('1b. 關係階段還不到（以安第 4 階）照 1-3：照列、選了她婉拒（下一項）',!!a&&a.t==='約她過節：白色情人節'&&!a.dim,J(a)); }
-  { setup('2026-03-13',10,{lv:{[AN]:4}}); const {r,L}=await ask(AN,[]); const want=okR&&accRows(AN,6).length?'「那天我排了讀書會。不是藉口，是真的排了。」':null;
-    check('1. 第 4 階約節日：婉拒（AA_415 標「節日」的婉拒句，以安：「那天我排了讀書會。不是藉口，是真的排了。」）、沒有排',r===null&&!x.rec(H.G).bk.length&&(!want||L.includes(want)),J(L)); }
+  { setup('2026-03-13',10,{lv:{[AN]:4}}); const {r,L}=await ask(AN,[]); const want=okR&&accRows(AN,6).length?'「那天有讀書會，很早就排了。」':null;
+    check('1. 第 4 階約節日：婉拒（AA_415 標「節日」的婉拒句，以安：「那天有讀書會，很早就排了。」）、沒有排',r===null&&!x.rec(H.G).bk.length&&(!want||L.includes(want)),J(L)); }
   });
 
   /* ======================= 2 一天最多兩場 ======================= */

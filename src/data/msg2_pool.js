@@ -1,15 +1,15 @@
-/* 玩家主動傳訊息的第二批話題（MSG-2：謝謝、生日快樂、還好嗎、新年快樂）回覆池：AA 六位＝AA_202 第 7 節，BB 九位＝AA_257（AA 定稿）＋BB_178 第 10 節的條件（企劃線 AA_202@65239add、AA_257@5f9957a2、BB_178@741e94f1、AA_389@345234b3、AA_531@a28201f61）。
+/* 玩家主動傳訊息的第二批話題（MSG-2：謝謝、生日快樂、還好嗎、新年快樂）回覆池：AA 六位＝AA_202 第 7 節，BB 九位＝AA_257（AA 定稿）＋BB_178 第 10 節的條件（企劃線 AA_202@b10d0567f、AA_257@5f9957a2、BB_178@741e94f1、AA_389@345234b3、AA_531@a28201f61）。
    產生器 tools/msg/build_msg2.py → tools/msg/to_js2.py（每一句照抄原文；tests/msg_chat_unit.js 第 H 項逐字比對 git 上的原文）。不要手改句子。
    people[id]：birthday（MM-DD）、conds（thanks／ok：什麼事以後能傳，key＋原文；bday：分年份的列；closed：不開的時候）、replies（topic thanks／bday／ok／newyear、cond、tier、msgs、tags、ask）。程式的判斷在 src/msg3d.js。 */
 'use strict';
 const MSG2_POOL={
- "source":{"AA_202": "65239add", "AA_257": "5f9957a2", "BB_178": "741e94f1", "AA_389": "345234b3", "AA_531": "a28201f61"},
+ "source":{"AA_202": "b10d0567f", "AA_257": "5f9957a2", "BB_178": "741e94f1", "AA_389": "345234b3", "AA_531": "a28201f61"},
  "topics":{"thanks": {"say": ["謝謝", "上次謝啦"], "when": "對方幫過忙以後 7 天內，一次（例：借筆記 `LENT_NOTES` 的另一方向、借考古題、幫忙排行程、她送了東西）。條件表 LAWWW 照各人事件的旗標列"}, "bday": {"say": ["生日快樂"], "when": "對方生日當天（00:00～23:59）。生日的節日事件（`AA_126` 第 7 節）演過了也可以傳"}, "ok": {"say": ["還好嗎"], "when": "對方遇到事以後 3 天內（下表 7-2 的「事」）"}, "newyear": {"say": ["新年快樂"], "when": "1/1，以及除夕到初三"}},
  "people":{
   "heroine_01":Object.assign({"name": "以安", "birthday": "09-15", "birthdayText": "以安 9/15", "style": "短；貼圖只有兔子「收到」", "conds": {"thanks": [], "ok": [{"key": "yu_argument", "text": "和 Alison 吵架以後（`ev_an_yu_argument`）", "src": "AA_202 7-2"}, {"key": "tutee_rejected", "text": "家教學生的家申請被駁回（新 10）", "src": "AA_202 7-2"}, {"key": "exchange_week", "text": "交換出發前一週", "src": "AA_202 7-2"}], "closed": [], "closedText": null}},{"replies":[
    {"topic": "thanks", "cond": null, "tier": "A", "msgs": ["不會。"], "tags": [], "src": "AA_202 7-3 以安"},
    {"topic": "thanks", "cond": null, "tier": "R", "msgs": ["不會。下次換你。"], "tags": [], "src": "AA_202 7-3 以安"},
-   {"topic": "thanks", "cond": null, "tier": "L", "msgs": ["嗯。這次我記著。"], "tags": [], "src": "AA_202 7-3 以安", "notes": ["2026-10-17 AA-C：原「記在理由欄了」是 `AA_188` 2-7 的興趣比喻，日常訊息不用"]},
+   {"topic": "thanks", "cond": null, "tier": "L", "msgs": ["不會。"], "tags": [], "src": "AA_202 7-3 以安", "notes": ["2026-10-17 AA-C：原「記在理由欄了」是 `AA_188` 2-7 的興趣比喻，日常訊息不用"]},
    {"topic": "bday", "cond": null, "tier": "A", "msgs": ["謝謝。", "（兔子「收到」）"], "tags": [], "src": "AA_202 7-3 以安"},
    {"topic": "bday", "cond": null, "tier": "R", "msgs": ["謝謝。……你記得。"], "tags": [], "src": "AA_202 7-3 以安"},
    {"topic": "bday", "cond": null, "tier": "L", "msgs": ["謝謝。今天晚上有空嗎？"], "tags": [], "src": "AA_202 7-3 以安", "ask": {"q": "今天晚上有空嗎？", "src": "AA_202 7-3 以安「L 的回問」", "opts": [{"t": "有。", "r": ["七點，校門口。"], "notes": ["不另演約會"]}, {"t": "今天不行。", "r": ["好。那週末。"]}]}},

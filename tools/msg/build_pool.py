@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-# Builds msg_pool.json from AA_202 section 6 and BB_178 sections 0-8b (first version 8a08c312 / 64aaaa82; 67f74502: AA-C 2026-10-17 回問／問句改句; b61e4f55: 同內容，和 MSG-2 用同一個版本).
+# Builds msg_pool.json from AA_202 section 6 and BB_178 sections 0-8b (first version 8a08c312 / 64aaaa82; 67f74502: AA-C 2026-10-17 回問／問句改句; b61e4f55: 同內容，和 MSG-2 用同一個版本; b10d0567f: AA_576 以安改稿第一批，6-2 三句——在幹嘛 R「剛從家教回來」、分享吃的 R「一直想去」、L 回問「在想妳」拆兩則；AA 2026-11-02 08:36 交，BB_226 口氣審 PASS、使用者確認).
 # ZHE_ASK = AA_202 6-4 表下「回問」（67f74502）.
 # Every Chinese string below is copied verbatim from the source docs; verify_pool.py checks that.
 import json, os, copy
@@ -80,9 +80,9 @@ p.add('chat', 'A', ['剛下課，要去吃飯。'], ['學期中、平日課後']
 p.add('chat', 'A', ['整理筆記。'])
 p.add('chat', 'R', ['總圖二樓，旁邊有位子。'])
 p.add('chat', 'R', ['在想報告要怎麼分工。'], ['學期中'])
-p.add('chat', 'R', ['剛跑完步，在等洗澡。'], ['傍晚、晚上'])
+p.add('chat', 'R', ['剛從家教回來，在等洗澡。'], ['傍晚、晚上'])
 p.add('chat', 'L', ['在宿舍，剛洗好頭。', '你呢？'], ['晚上'],
-      ask=ASK(O('在宿舍', ['嗯。']), O('在外面', ['早點回去。']), O('在想妳', ['我在看書，你不要讓我分心。'])))
+      ask=ASK(O('在宿舍', ['嗯。']), O('在外面', ['早點回去。']), O('在想妳', ['我在看書。', '……看不太下去了。'])))
 p.add('course', 'A', ['我有抄到。', '（照片：一頁筆記，字很整齊）'])
 p.add('course', 'A', ['我也還沒寫，寫完傳你。你先自己想一下。'])
 p.add('course', 'R', ['（照片：兩頁筆記）', '第二頁右下角那段我也不確定，我標起來了。'])
@@ -92,7 +92,7 @@ p.add('share_cat', 'R', ['哪裡的貓？'], ask=ASK(O('溫州街', ['好。']),
 p.add('share_cat', 'L', ['下次一起去看。'], ['祐廷在臺灣'])   # AA_531 8-3（企劃線 41ec9a6ac）：「在臺灣才成立的話」，祐廷在國外（美國、日本）用下一行
 p.add('share_cat', 'L', ['回來以後一起去看。'], ['祐廷在國外'], src='AA_531 8-3 在國外的版本')
 p.add('share_food', 'A', ['看起來很好吃。'])
-p.add('share_food', 'R', ['那家我手帳有寫。'])
+p.add('share_food', 'R', ['那家我一直想去，還沒去成。'])
 p.copy('share_food', 'R', 'L', '同 R')
 p.add('share_notes', 'A', ['謝謝。'])
 p.add('share_notes', 'R', ['你字比我想的整齊。'])
@@ -795,7 +795,7 @@ people.append(p)
 # ───────────────────────── assemble ─────────────────────────
 TOPIC_ORDER = ['chat', 'course', 'share_cat', 'share_food', 'share_notes', 'share', 'night', 'daily']
 TIER_ORDER = {'A': 0, 'R': 1, 'L': 2}
-data = {'source': {'AA_202': 'b61e4f55', 'BB_178': 'bb6baddf', 'AA_370': '9eaf4e98', 'AA_393': 'e81a1afe1', 'AA_531': 'a28201f61', 'AA_538': 'b9d816288'}, 'people': {}, 'tagsSeen': []}
+data = {'source': {'AA_202': 'b10d0567f', 'BB_178': 'bb6baddf', 'AA_370': '9eaf4e98', 'AA_393': 'e81a1afe1', 'AA_531': 'a28201f61', 'AA_538': 'b9d816288'}, 'people': {}, 'tagsSeen': []}
 seen = []
 
 

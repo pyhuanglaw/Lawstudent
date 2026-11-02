@@ -27,7 +27,7 @@ global.DATE={stageNum:id=>STAGE[id]||1};
 const STN=['STRANGER','ACQUAINTANCE','FAMILIAR','FRIEND','CLOSE_FRIEND','POSSIBLE_ROMANTIC_INTEREST','ROMANTIC_TENSION']; SOCIAL.stage=id=>STN[STAGE[id]||0];   /* 第幾階（DATE.stageNum 的 1～6）→ SOCIAL 的階段名 */
 /* 假的回覆池（真的不在時用；真的在時第 A～E 項也用假的，避免台詞改了測試跟著變）*/
 const FAKE={people:{
-  heroine_01:{replies:[{topic:'chat',tier:'A',msgs:['在總圖。'],tags:[]},{topic:'chat',tier:'A',msgs:['剛下課，要去吃飯。'],tags:['學期中、平日']},{topic:'chat',tier:'R',msgs:['總圖二樓，旁邊有位子。'],tags:[]},{topic:'chat',tier:'R',msgs:['剛跑完步，在等洗澡。'],tags:['傍晚、晚上']},
+  heroine_01:{replies:[{topic:'chat',tier:'A',msgs:['在總圖。'],tags:[]},{topic:'chat',tier:'A',msgs:['剛下課，要去吃飯。'],tags:['學期中、平日']},{topic:'chat',tier:'R',msgs:['總圖二樓，旁邊有位子。'],tags:[]},{topic:'chat',tier:'R',msgs:['剛從家教回來，在等洗澡。'],tags:['傍晚、晚上']},
     {topic:'chat',tier:'L',msgs:['在宿舍，剛洗好頭。','你呢？'],tags:['晚上'],ask:{opts:[{t:'在讀書',r:['好。']},{t:'在發呆',r:['嗯。']}]}},{topic:'course',tier:'A',msgs:['我有抄到。','（照片：一頁筆記，字很整齊）'],tags:[]},
     {topic:'share_cat',tier:'A',msgs:['（兔子「收到」）'],tags:[]},{topic:'night',tier:'R',msgs:['晚安。','（兔子「收到」）'],tags:[]},{topic:'chat',tier:'R',variant:'放假',msgs:['在台中。'],tags:[]}]},
   heroine_03:{replies:[{topic:'chat',tier:'A',msgs:['在店裡'],tags:[]},{topic:'share',tier:'A',msgs:['（照片）'],tags:[]},{topic:'course',tier:'A',msgs:['不該出現'],tags:[]}]},
@@ -84,7 +84,7 @@ const th=id=>PHONE.thread(G,'p:'+id).filter(m=>m.from).map(m=>(m.from==='player'
 // D 層、輪流、情況版
 { fresh(day,15); INV.addContact(G,'heroine_01'); STAGE.heroine_01=3; global.MSG_POOL=FAKE;
   const a=MSG.pick(G,'heroine_01','chat').msgs[0], b=MSG.pick(G,'heroine_01','chat').msgs[0];
-  check('D1. R 層 15:00：只有沒有標籤的「總圖二樓」（「剛跑完步」標傍晚、晚上）',a==='總圖二樓，旁邊有位子。'&&b===a,a+' / '+b);
+  check('D1. R 層 15:00：只有沒有標籤的「總圖二樓」（「剛從家教回來」標傍晚、晚上）',a==='總圖二樓，旁邊有位子。'&&b===a,a+' / '+b);
   G.hour=18.5; const c1=MSG.pick(G,'heroine_01','chat').msgs[0], c2=MSG.pick(G,'heroine_01','chat').msgs[0]; check('D2. 18:30：兩句輪流',c1!==c2,c1+' / '+c2);
   check('D3. L 層只給交往中或第 5 階以上而且兩人都單身',MSG.tier(G,'heroine_01')==='R'&&(STAGE.heroine_01=5,MSG.tier(G,'heroine_01')==='L')&&(G.flags.dating_classmate_peishan=true,MSG.tier(G,'heroine_01')==='R'));
   delete G.flags.dating_classmate_peishan; STAGE.zhe=6; check('D4. 不是戀愛對象：最高 R',MSG.tier(G,'zhe')==='R');

@@ -1,5 +1,5 @@
-// 邀約回覆照階段變（D14-T9／USER_WANTS D37；AA_415 七位定稿，企劃線 b113e39d）——不需要瀏覽器。
-//   0  接線：index.html 在 invites.js 後面載 invite_replies.js；白名單有 AA_415@b113e39d；INV.replyPick／REPLY_ON／REPLY_COND
+// 邀約回覆照階段變（D14-T9／USER_WANTS D37；AA_415 七位定稿，企劃線 b113e39d；以安的表照 AA_576 改稿第一批換成 b10d0567f）——不需要瀏覽器。
+//   0  接線：index.html 在 invites.js 後面載 invite_replies.js；白名單有 AA_415@b10d0567f；INV.replyPick／REPLY_ON／REPLY_COND
 //   1  資料＝AA_415 的表：七位各自的列數、每一列的原文一字不差、抽查句子；「現有」的答應句和 INVITE_DATA 一樣；學姊沒有件數、編號、「重點是」，
 //      子晴沒有「欸不是」「這不是問句」，可昕沒有「假設」；條件都接得上（接不上的標 off）
 //   2  七位：第 1～6 階、交往中的答應句來自那一階
@@ -27,6 +27,8 @@ const R=()=>typeof INVITE_REPLIES!=='undefined'?INVITE_REPLIES.people:{};
 const ROWS=id=>R()[id]||[];
 const txt=ls=>(ls||[]).map(x=>typeof x==='string'?x:x.me).join('');
 const rowOf=(id,lines)=>ROWS(id).find(r=>J(r.lines)===J(lines))||null;
+/* AA_576（以安改稿第一批）以後以安有好幾列都是「好。」：照台詞找會找到第一列，改看選句時記下的那一列（G.invReply[id].h[0]），台詞對得上才用 */
+const picked=(id,lines)=>{ const h=H.G.invReply&&H.G.invReply[id]&&H.G.invReply[id].h, r=h&&h[0]&&ROWS(id).find(x=>x.id===h[0]); return r&&J(r.lines)===J(lines)?r:rowOf(id,lines); };
 const REL={1:{fam:10},2:{fam:25},3:{fam:45,trust:30},4:{fam:65,trust:50,comf:45},5:{fam:45,trust:30,npcRom:30},6:{fam:65,trust:50,comf:45,npcRom:55,rom:30}};
 const setSt=(id,s)=>{ const r=SOCIAL.rel(id); Object.assign(r,{fam:0,trust:0,comf:0,npcRom:0,rom:0},REL[s==='d'?4:s]); SOCIAL.remember(id,'FIRST_MET','');
   if(s==='d') H.G.flags['dating_'+id]=true; else delete H.G.flags['dating_'+id]; };
@@ -44,12 +46,12 @@ await sec(0,()=>{ const html=fs.readFileSync(path.join(H.ROOT,'index.html'),'utf
   check('0. INV.replyPick、INV.replyMark、INV.REPLY_ON、INV.REPLY_COND',typeof INV.replyPick==='function'&&typeof INV.replyMark==='function'&&!!INV.REPLY_ON&&!!INV.REPLY_COND);
   check('0. 節日、外出、開車先關（AA_415 第 8 節：D38 節日系統、外出的邀約接上才用）',INV.REPLY_ON['節日']===false&&INV.REPLY_ON['外出']===false&&INV.REPLY_ON['開車']===false);
   const A=JSON.parse(fs.readFileSync(path.join(H.ROOT,'docs/handoff/story_import_allow.json'),'utf8')).files.filter(e=>e.path===SPEC);
-  check('0. 白名單：AA_415@b113e39d approved、AA-B 2026-10-23 20:2x 定稿（D109）、D14-T9、text',A.length===1&&A[0].sha==='b113e39d'&&A[0].status==='approved'&&A[0].approvedBy==='AA-B 2026-10-23 20:2x 定稿（D109）'&&A[0].task==='D14-T9'&&A[0].kind==='text',J(A));
-  check('0. 產生器 tools/invite/build_replies.py；資料檔寫著來源 commit',fs.existsSync(path.join(H.ROOT,'tools/invite/build_replies.py'))&&INVITE_REPLIES.sha==='b113e39d'&&INVITE_REPLIES.src===SPEC); });
+  check('0. 白名單：AA_415@b10d0567f approved、AA-B 2026-10-23 20:2x 定稿（D109）（＋AA_576 以安改稿第一批）、D14-T9、text',A.length===1&&A[0].sha==='b10d0567f'&&A[0].status==='approved'&&A[0].approvedBy.startsWith('AA-B 2026-10-23 20:2x 定稿（D109）')&&/AA_576/.test(A[0].approvedBy)&&A[0].task==='D14-T9'&&A[0].kind==='text',J(A));
+  check('0. 產生器 tools/invite/build_replies.py；資料檔寫著來源 commit',fs.existsSync(path.join(H.ROOT,'tools/invite/build_replies.py'))&&INVITE_REPLIES.sha==='b10d0567f'&&INVITE_REPLIES.src===SPEC); });
 if(!ok){ H.done(); return; }
 
-await sec(1,()=>{ let md=''; try{ md=cp.execSync('git -C "'+H.ROOT+'" show b113e39d:"'+SPEC+'"',{encoding:'utf8'}); }catch(e){ md=''; }
-  check('1. 讀得到企劃線 b113e39d 的 AA_415',md.length>1000);
+await sec(1,()=>{ let md=''; try{ md=cp.execSync('git -C "'+H.ROOT+'" show b10d0567f:"'+SPEC+'"',{encoding:'utf8'}); }catch(e){ md=''; }
+  check('1. 讀得到企劃線 b10d0567f 的 AA_415',md.length>1000);
   const cnt={}; let who=null;
   for(const ln of md.split('\n')){ const m=/^## \d+\. .*（(\w+)[，）]/.exec(ln); if(m){ who=m[1]; continue; } if(/^## /.test(ln)){ who=null; continue; }
     if(who&&ln.startsWith('|')&&!/^\|\s*階段\s*\|/.test(ln)&&!/^\|[-\s|:]+\|$/.test(ln)) cnt[who]=(cnt[who]||0)+1; }
@@ -59,7 +61,7 @@ await sec(1,()=>{ let md=''; try{ md=cp.execSync('git -C "'+H.ROOT+'" show b113e
   const bad=[]; for(const id of IDS) for(const r of ROWS(id)){ if(!md.includes(r.say)) bad.push(r.id+' say'); if(r.ex==='rule'||r.ex==='plan') continue; for(const x of r.lines){ const s=typeof x==='string'?x:x.me; if(!r.say.includes(s)) bad.push(r.id+' '+s); } }
   check('1. 每一列的原文、台詞都在 AA_415 裡一字不差',!bad.length,bad.slice(0,6).join('、'));
   const has=(id,s)=>ROWS(id).some(r=>r.lines.some(x=>x===s));
-  const SPOT=[['heroine_01','「好。我帶商法的書，你念你的。」'],['heroine_01','「考試週？好。各念各的，坐同一張桌子。」'],['heroine_02','「好。你決定地方。我負責記得我們去過哪裡。」'],['heroine_02','（她把吧檯又擦了一遍，才回你。）'],
+  const SPOT=[['heroine_01','「好。我幫你留位子。」'],['heroine_01','「好。各念各的，坐同一張桌子。」'],['heroine_02','「好。你決定地方。我負責記得我們去過哪裡。」'],['heroine_02','（她把吧檯又擦了一遍，才回你。）'],
     ['heroine_03','（她只回一個字，可是三秒就回了。）'],['heroine_03','「週四是我的。……分你。」'],['heroine_04','「好。……我為什麼在緊張。」'],['heroine_04','「今天不想出門。……不是你的問題，是我的被子。」'],
     ['heroine_05','「好。今天計畫本那一格，剛好是空的。」'],['heroine_05','「好。研究室九點關燈。九點十分，樓下。」'],['classmate_peishan','「好啊！！幾點？」'],['classmate_peishan','「讀書會。九點以後可以。」'],
     ['kexin','「那天你敢排別的試試看。……好。」'],['kexin','「好。予樂說我不應該答應。我答應了。」']];
@@ -82,11 +84,11 @@ await sec(2,()=>{ const COMBO=[['cafe',15.5],['library',15.5],['noodle',15.5],['
     for(const s of [1,2,3,4,5,6,'d']){ let got=null;
       for(const key of (id==='kexin'?(s==='d'?['2026-03-11']:['2025-03-12']):['2026-03-14','2026-03-11','2026-03-12'])){ for(const [pid,hh] of COMBO){
         fresh(key,id,s,{econ:id==='kexin'&&s!=='d'}); const n=INV.replyStage(H.G,id); const P=INV.place(pid);
-        const r=id==='kexin'?INV.personal(H.G,id,P,H.G.day,hh,{res:'accept'}):ask(id,pid,hh); if(r.res!=='accept'||!r.lines) continue; const row=rowOf(id,r.lines); if(!row||row.off) continue;
+        const r=id==='kexin'?INV.personal(H.G,id,P,H.G.day,hh,{res:'accept'}):ask(id,pid,hh); if(r.res!=='accept'||!r.lines) continue; const row=picked(id,r.lines); if(!row||row.off) continue;
         got={n,row,pid,hh,key}; break; } if(got) break; }
       const want=s==='d'?7:s, lab=s==='d'?'交往中':String(s); res.push(s+':'+(got?got.row.id+'('+got.pid+')':'—'));
       check('2. '+NM[id]+' 第 '+(s==='d'?'交往中':s+' 階')+'：答應句來自那一階（'+(got?got.row.id+' 「'+txt(got.row.lines).slice(0,18)+'」':'找不到')+'）',!!got&&got.n===want&&inSt(got.row,want));
-      if(!got) continue; const more=[got.row]; for(let i=0;i<3;i++){ const P=INV.place(got.pid), r=id==='kexin'?INV.personal(H.G,id,P,H.G.day,got.hh,{res:'accept'}):ask(id,got.pid,got.hh); more.push(rowOf(id,r.lines||[])); }
+      if(!got) continue; const more=[got.row]; for(let i=0;i<3;i++){ const P=INV.place(got.pid), r=id==='kexin'?INV.personal(H.G,id,P,H.G.day,got.hh,{res:'accept'}):ask(id,got.pid,got.hh); more.push(picked(id,r.lines||[])); }
       check('2. '+NM[id]+' 第 '+(s==='d'?'交往中':s+' 階')+'：再約三次，有表上寫「'+lab+'」的句子、沒有低兩階以上的',more.some(r=>r&&r.stage.replace(/（.*）/,'')===lab)&&more.every(r=>r&&r.st[1]>=want-1),more.map(r=>r?r.id:'—').join(',')); } } });
 
 await sec(3,()=>{ for(const [id,after,key] of [['heroine_04','「好。今天我要看那隻橘貓還在不在。」','2026-03-14'],['classmate_peishan','「好啊！今天我少問一點問題。」','2026-03-11']]){   /* 沛珊 3/14 週末回台中 */
@@ -108,9 +110,9 @@ await sec(4,()=>{ fresh('2026-03-11','heroine_01',3); const n1=ask('heroine_01',
   fresh('2026-03-11','heroine_01',3); const d1=ask('heroine_01','cafe',15.5);
   check('4. 下午 15:30：不說晚上那句',d1.res==='accept'&&txt(d1.lines)!=='「好。十點前結束。我十一點要睡。」',txt(d1.lines));
   fresh('2026-04-14','heroine_01',4); const e1=ask('heroine_01','library',15.5);
-  check('4. 以安第 4 階期中考週（4/14，第 8 週）約總圖：「考試週？……一個小時。……」',CALENDAR.termOf(H.G.day).exam==='mid'&&txt(e1.lines)==='「考試週？……一個小時。一個小時以後各自回去念。」',txt(e1.lines));
+  check('4. 以安第 4 階期中考週（4/14，第 8 週）約總圖：「好。一個小時，然後各自回去念。」（AA_576 第 16 列）',CALENDAR.termOf(H.G.day).exam==='mid'&&txt(e1.lines)==='「好。一個小時，然後各自回去念。」',txt(e1.lines));
   fresh('2026-03-10','heroine_01',4); const e2=ask('heroine_01','library',15.5);
-  check('4. 不是考試週（3/10）：一般那句「好。你決定地方，我決定幾點。」',txt(e2.lines)==='「好。你決定地方，我決定幾點。」',txt(e2.lines));
+  check('4. 不是考試週（3/10）：一般那句「好。」（AA_576 第 14 列）',txt(e2.lines)==='「好。」',txt(e2.lines));
   fresh('2026-06-09','classmate_peishan',4); const e3=ask('classmate_peishan','library',15.5);
   check('4. 沛珊第 4 階期末考週（6/9，第 16 週）約總圖：「考試週？好。我們互問，問到會為止。」',CALENDAR.termOf(H.G.day).exam==='final'&&txt(e3.lines)==='「考試週？好。我們互問，問到會為止。」',e3.res+' '+txt(e3.lines));
   fresh('2026-03-14','heroine_04','d'); const z1=ask('heroine_04','cafe',21);
@@ -137,7 +139,7 @@ await sec(6,()=>{ fresh('2026-03-10','classmate_peishan',3); const out=[];
   fresh('2026-03-14','heroine_01',1); const d1=ask('heroine_01','noodle',15.5);
   check('6. 以安第 1 階約吃飯（rel）：她自己婉拒「今天不行。我想一個人念。」',d1.res==='decline'&&d1.why==='rel'&&txt(d1.lines)==='「今天不行。我想一個人念。」',d1.res+'/'+d1.why+' '+txt(d1.lines));
   INV.REPLY_ON['節日']=true; try{ fresh('2026-03-14','heroine_01',1); const dd=[]; for(let i=0;i<4;i++) dd.push(txt(ask('heroine_01','noodle',15.5).lines));
-    check('6. 打開節日（3/14）：婉拒兩句輪流（節日那句先）',dd[0]==='「那天我排了讀書會。不是藉口，是真的排了。」'&&dd[1]==='「今天不行。我想一個人念。」'&&dd.every((t,i)=>!i||t!==dd[i-1]),J(dd)); } finally { INV.REPLY_ON['節日']=false; } });
+    check('6. 打開節日（3/14）：婉拒兩句輪流（節日那句先）',dd[0]==='「那天有讀書會，很早就排了。」'&&dd[1]==='「今天不行。我想一個人念。」'&&dd.every((t,i)=>!i||t!==dd[i-1]),J(dd)); } finally { INV.REPLY_ON['節日']=false; } });
 
 await sec(7,()=>{ fresh('2026-03-10','heroine_03',3); const y1=ask('heroine_03','noodle',19), y2=ask('heroine_03','cafe',19), y3=ask('heroine_03','noodle',19);
   check('7. 語彤週二晚上：約麵店＝「我就在店裡。你來。」（兩次都一樣）、約別的＝「麵店。」「你來店裡就好。」',y1.res==='here'&&txt(y1.lines)==='「我就在店裡。你來。」'&&txt(y3.lines)==='「我就在店裡。你來。」'&&y2.res==='decline'&&txt(y2.lines)==='「麵店。」「你來店裡就好。」',[y1.res,txt(y1.lines),y2.res,txt(y2.lines)].join(' '));
@@ -148,7 +150,7 @@ await sec(7,()=>{ fresh('2026-03-10','heroine_03',3); const y1=ask('heroine_03',
   fresh('2027-03-10','classmate_peishan',3); const p1=ask('classmate_peishan','brunch',10);   /* AA_255 (b-1) 第 20 條：消失期約她一律沒有回覆、不顯示她的句子（原本「我在念書。……考完再去。你先幫我記住菜單。」）*/
   check('7. 沛珊大二下（消失期）約半熟：沒有她的句子，系統「沒有回覆。」（AA_255 (b-1) 第 20 條）',p1.res==='decline'&&p1.why==='away'&&!p1.lines&&/沒有回覆。$/.test(INV.reply(H.G,'classmate_peishan','brunch',p1)),JSON.stringify(p1));
   fresh('2025-10-14','heroine_01',3); const a1=ask('heroine_01','wenzhou',15.5,null,{res:'accept'});
-  check('7. 以安大一約散步：rule 的「散步的目的是？」祐廷「沒有目的。」……（改天）',a1.res==='resched'&&txt(a1.lines)==='「散步的目的是？」「沒有目的。」「……好。我在手帳排一個『沒有目的』的時段。」',a1.res+' '+txt(a1.lines));
+  check('7. 以安大一約散步：rule 的「好。」「……今天不行，明天。」（改天；祐廷那句刪，AA_576 第 11、12 列）',a1.res==='resched'&&txt(a1.lines)==='「好。」「……今天不行，明天。」',a1.res+' '+txt(a1.lines));
   fresh('2026-03-10','heroine_01',3); const h1=ask('heroine_01','library',9), h2=ask('heroine_01','library',9);
   check('7. 以安早上在總圖（作息）：here「我本來就在總圖。二樓靠窗。」（照舊，兩次一樣）',h1.res==='here'&&txt(h1.lines)==='「我本來就在總圖。二樓靠窗。」'&&txt(h2.lines)===txt(h1.lines),h1.res+' '+txt(h1.lines));
   fresh('2026-03-10','heroine_02',3); const c1=ask('heroine_02','cafe',19);
@@ -157,7 +159,7 @@ await sec(7,()=>{ fresh('2026-03-10','heroine_03',3); const y1=ask('heroine_03',
   check('7. 阿哲（沒有 AA_415 的表）：照舊同一句「好啊！那家的乾麵我可以吃兩碗。」（AA_194 第 4 節）、不記 G.invReply',txt(z1.lines)==='「好啊！那家的乾麵我可以吃兩碗。」'&&txt(z2.lines)==='「好啊！那家的乾麵我可以吃兩碗。」'&&!(H.G.invReply&&H.G.invReply.zhe),txt(z1.lines)+' '+txt(z2.lines));
   const keep=globalThis.INVITE_REPLIES; globalThis.INVITE_REPLIES=undefined;
   try{ fresh('2026-03-11','heroine_01',2); const o1=ask('heroine_01','cafe',15.5), o2=ask('heroine_01','cafe',17.5);
-    check('7. 沒有資料檔：照原本 INVITE_DATA（以安有點熟約 Café 兩次都是「可以。條件：……」）',txt(o1.lines)==='「可以。條件：我會帶東西來寫。」'&&txt(o2.lines)==='「可以。條件：我會帶東西來寫。」'); }
+    check('7. 沒有資料檔：照原本 INVITE_DATA（以安有點熟約 Café 兩次都是「好啊。我本來就想去。」，AA_576 第 5 列）',txt(o1.lines)==='「好啊。我本來就想去。」'&&txt(o2.lines)==='「好啊。我本來就想去。」'); }
   finally { globalThis.INVITE_REPLIES=keep; } });
 
 await sec(8,()=>{ fresh('2026-03-11','heroine_01',2); delete H.G.invReply; const r1=ask('heroine_01','cafe',15.5);

@@ -1,4 +1,4 @@
-// 吃東西（X67；AA_329＋AA_336 第 A 節，企劃 724d7703，台詞在 src/data/eat_lines.js）：一起吃、吃過的、店員認得你——不需要瀏覽器。照 AA_329 第 5 節給 BB 的 E1～E8，台詞不寫死（讀 EAT_LINES）。
+// 吃東西（X67；AA_329＋AA_336 第 A 節，企劃 724d7703；AA_329 照 AA_576 以安改稿第一批換成 b10d0567f，台詞在 src/data/eat_lines.js）：一起吃、吃過的、店員認得你——不需要瀏覽器。照 AA_329 第 5 節給 BB 的 E1～E8，台詞不寫死（讀 EAT_LINES）。
 //   E1 118 巷以安在滇香吃飯、和她 FAMILIAR：點完問「坐過去一起吃」→ 開場、熟的那一組、結尾（滇香沒有回收台＝在店門口分開）；時間 +30 分鐘；關係加一點；店裡原本的「吃完」旁白不說
 //   E2 同一天再點一次：不再問（一天一次）
 //   E3 和學姊交往中（她不知道別人）：祐廷先說交往版的第一句（「書瑀。」）；她知道祐廷也和可昕交往＝朋友版
@@ -43,7 +43,7 @@ const has=t=>said.some(s=>s.t===t), idx=t=>said.findIndex(s=>s.t===t);
 const EL=typeof EAT_LINES!=='undefined'?EAT_LINES:{together:{},first:{},staff:{},doorShops:[]};
 const shop=id=>LANE118_SHOPS.shops.find(s=>s.id===id);
 (async()=>{
-  check('0. 有 EAT（src/eat3d.js）、EAT_LINES（AA_329＋AA_336 第 A 節，企劃 724d7703）', typeof EAT!=='undefined'&&typeof EAT_LINES!=='undefined'&&/AA_329（企劃 724d7703）/.test(EAT_LINES.source||'')&&/AA_336/.test(EAT_LINES.source||''), EAT_LINES&&EAT_LINES.source);
+  check('0. 有 EAT（src/eat3d.js）、EAT_LINES（AA_329 企劃 b10d0567f＋AA_336 第 A 節，企劃 724d7703）', typeof EAT!=='undefined'&&typeof EAT_LINES!=='undefined'&&/AA_329（企劃 b10d0567f）/.test(EAT_LINES.source||'')&&/AA_336/.test(EAT_LINES.source||''), EAT_LINES&&EAT_LINES.source);
   // ---------- E1 ----------
   const tue=td('Y1S1',3,2);
   fresh(tue,12.4,'l118_dian'); R('heroine_01','FAM'); const an=npcAt('heroine_01');
