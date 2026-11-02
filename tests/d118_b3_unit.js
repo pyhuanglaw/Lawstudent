@@ -33,7 +33,7 @@ const freshAt=(d,h,zone)=>{ const G=H.fresh('2025-09-01',9,zone||'library_hall',
 (async()=>{
   const ex1=CLS.examList(H.fresh('2025-09-01',9,'dorm',{}),'Y1S1'); const d1=ex1.length?ex1[0].day:null;   /* 大一上第一場期末考 */
   /* a 期末考前一晚，沒讀過書 */
-  await sec('a',async()=>{ const G=freshAt(d1-1,20,'library_hall');
+  await sec('a',async()=>{ const G=freshAt(d1-1,20,'dorm');   /* 宿舍書桌（總圖 22:00 閉館：20:00 開始讀不完，見 a4）*/
     const info=STUDY.reviewInfo(G,'final'); const ids=info?info.courses.map(x=>x.c.id):[];
     check('a1. 大一上期末考前一晚：開放；範圍＝這學期全部要期末考的法律課（憲法、刑總、民總）',!!info&&['const_1','crim_gen1','civ_general'].every(id=>ids.includes(id))&&ids.length===examCourses(G,'Y1S1').length,J(ids));
     const before=examCourses(G,'Y1S1').map(e=>STUDY.progress(G,e.c,'final','Y1S1'));
@@ -42,7 +42,9 @@ const freshAt=(d,h,zone)=>{ const G=H.fresh('2025-09-01',9,zone||'library_hall',
     const bad=[]; for(const [cid,qs] of draws(G,'Y1S1')) for(const q of qs) for(const u of STUDY.unitsOfQ(q)) if(STUDY.rank(G,u)<2) bad.push(cid+':'+q+':'+u.id);
     check('a2. 做一次總複習（第一張就按結束）以後：每一科 drawExam 會抽到的 5 題，對到的卡都是「讀過」以上',!!r&&!bad.length,J({r:!!r,bad:bad.slice(0,6)}));
     const after=examCourses(G,'Y1S1').map(e=>STUDY.progress(G,e.c,'final','Y1S1'));
-    check('a3. 每一科的「讀過」＝範圍內全部的卡（之前是 0）',before.every(p=>p.read===0)&&after.every(p=>p.read===p.total&&p.total>0),J({before,after})); });
+    check('a3. 每一科的「讀過」＝範圍內全部的卡（之前是 0）',before.every(p=>p.read===0)&&after.every(p=>p.read===p.total&&p.total>0),J({before,after}));
+    const G2=freshAt(d1-1,20,'library_hall'); const o=STUDY.reviewOpt(G2); toasts=[]; const r2=await STUDY.review(GM,'final');
+    check('a4. 總圖 20:00（22:00 閉館）：變灰「閉館前讀不完」，不耗時間',!!o&&o.dim&&/閉館/.test(o.hint)&&r2===false&&G2.hour===20,J({o,r2})); });
   /* b drawExam 前後相同 */
   await sec('b',async()=>{ const G=freshAt(d1-1,19,'library_hall'); G.flags.examSeed=777; const R=CLS.rec(G); const ex0=J(R.exam||{}), d0=draws(G,'Y1S1');
     picks=['結束']; await STUDY.review(GM,'final'); const dA=draws(G,'Y1S1');
@@ -125,8 +127,8 @@ const freshAt=(d,h,zone)=>{ const G=H.fresh('2025-09-01',9,zone||'library_hall',
     await STUDY.review(GM,'final');
     const L=H.said.map(s=>s.t); const cards=L.filter(t=>/^【/.test(t));
     check('h1. 第一張是答錯過的那張（排最前面）',cards.length>=3&&cards[0].includes(c0.c.name)&&cards[0].includes(STUDY.view(last).title),J(cards.slice(0,3)));
-    const v1=STUDY.view(us[0]); const idx=L.findIndex(t=>t.startsWith('【')&&t.includes(v1.title));
-    check('h2. 白話還沒有的卡：顯示黑板第二、三行＋教授那一句（fallback）',idx>=0&&(!v1.board[1]||L[idx].includes(v1.board[1]))&&(!v1.line||L[idx].includes(v1.line)),J(L[idx]));
+    const v1=STUDY.view(us[0]); const idx=L.findIndex(t=>t.startsWith('【')&&t.includes(v1.title)); const body=idx>=0?L[idx+1]:'';
+    check('h2. 白話還沒有的卡：標題下一句＝黑板第二、三行＋教授那一句（fallback）',idx>=0&&!!v1.board[1]&&body.includes(v1.board[1])&&(!v1.line||body.includes(v1.prof+'：'+v1.line)),J(body));
     check('h3. 「跳到下一科」：第三張卡是下一科的第一張',!!c1&&cards[2].includes(c1.c.name)&&cards[2].includes('1／'),J(cards[2]));
     const menu=H.opts.slice(-3); check('h4. 每張卡下面：下一張、跳到下一科、結束總複習',menu.every(o=>o.includes('下一張')&&o.some(t=>t.startsWith('結束')))&&menu[0].some(t=>t.startsWith('跳到下一科')),J(menu));
     check('h5. 結束字幕：每科一行 STUDY.line',info.courses.every(x=>caps.some(t=>t.includes(STUDY.line(G,x.c,info.term)))),J(caps));
