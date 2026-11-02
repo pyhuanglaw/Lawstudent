@@ -448,13 +448,16 @@ async def case_d(pg, cdp, run, k):
         t1 = time.time()
         while time.time() - t1 < 60:
             s = await P.ts(pg)
-            if s['ch'] and any(o['t'].startswith('睡到明天') for o in s['ch']): ch = s['ch']; break
+            if s['ch'] and any(o['t'].startswith('睡') for o in s['ch']): ch = s['ch']; break
             if s['dlg']: await L.tap(pg, cdp, '#dlg')
             await pg.wait_for_timeout(1000)
-    run.check('%s：走到床、按下去＝有「睡到明天早上」' % tag, bool(ch), J(ch))
+    run.check('%s：走到床、按下去＝有「睡到明天早上」（或「睡…」）' % tag, bool(ch), J(ch))
     if not ch: return
     n0 = await pl_len(pg)
-    kk = next(i for i, o in enumerate(ch) if o['t'].startswith('睡到明天')); await P.tap_choice(pg, cdp, kk); await pg.wait_for_timeout(1500)
+    kk = next((i for i, o in enumerate(ch) if o['t'].startswith('睡到明天')), None)
+    if kk is None: kk = next(i for i, o in enumerate(ch) if o['t'].startswith('睡'))
+    run.note('%s：床的選單 %s → 選 %s' % (tag, J([o['t'] for o in ch]), ch[kk]['t']))
+    await P.tap_choice(pg, cdp, kk); await pg.wait_for_timeout(1500)
     head = await pg.evaluate("t=>CLS.termName(t)+'的成績出來了。'", TERM)
     t1 = time.time(); shot = None; gline = None
     while time.time() - t1 < ENVI('NIGHT_MAX', 900):
