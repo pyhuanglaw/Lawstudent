@@ -1,0 +1,607 @@
+{
+ "case": "old_y2_noflag",
+ "shots": {
+  "start": [
+   "C:\\Users\\USER\\Documents\\Lawstudent_cclocal\\docs\\story_planning\\CC\\local_out\\R12_fasat\\out\\65_old_start_land.png",
+   "C:\\Users\\USER\\Documents\\Lawstudent_cclocal\\docs\\story_planning\\CC\\local_out\\R12_fasat\\out\\66_old_start_port.png"
+  ],
+  "menu:出發：法服值班（法律系館B一樓 9:00）09:00　走過去約 10 分鐘": [
+   "C:\\Users\\USER\\Documents\\Lawstudent_cclocal\\docs\\story_planning\\CC\\local_out\\R12_fasat\\out\\67_old_y2_noflag_出發_menu1_land.png",
+   "C:\\Users\\USER\\Documents\\Lawstudent_cclocal\\docs\\story_planning\\CC\\local_out\\R12_fasat\\out\\68_old_y2_noflag_出發_menu1_port.png"
+  ],
+  "old_shift_table": [
+   "C:\\Users\\USER\\Documents\\Lawstudent_cclocal\\docs\\story_planning\\CC\\local_out\\R12_fasat\\out\\69_old_shift_table_land.png",
+   "C:\\Users\\USER\\Documents\\Lawstudent_cclocal\\docs\\story_planning\\CC\\local_out\\R12_fasat\\out\\70_old_shift_table_port.png"
+  ],
+  "q:「先請他從頭講一次。」": [
+   "C:\\Users\\USER\\Documents\\Lawstudent_cclocal\\docs\\story_planning\\CC\\local_out\\R12_fasat\\out\\71_old_shift_choice1_land.png",
+   "C:\\Users\\USER\\Documents\\Lawstudent_cclocal\\docs\\story_planning\\CC\\local_out\\R12_fasat\\out\\72_old_shift_choice1_port.png"
+  ],
+  "q:再待到十二點。": [
+   "C:\\Users\\USER\\Documents\\Lawstudent_cclocal\\docs\\story_planning\\CC\\local_out\\R12_fasat\\out\\73_old_shift_choice2_land.png",
+   "C:\\Users\\USER\\Documents\\Lawstudent_cclocal\\docs\\story_planning\\CC\\local_out\\R12_fasat\\out\\74_old_shift_choice2_port.png"
+  ],
+  "after": [
+   "C:\\Users\\USER\\Documents\\Lawstudent_cclocal\\docs\\story_planning\\CC\\local_out\\R12_fasat\\out\\75_old_after_land.png",
+   "C:\\Users\\USER\\Documents\\Lawstudent_cclocal\\docs\\story_planning\\CC\\local_out\\R12_fasat\\out\\76_old_after_port.png"
+  ]
+ },
+ "days": {
+  "d1": {
+   "d": 431,
+   "key": "2026-11-21",
+   "wd": 6,
+   "term": "Y2S1",
+   "week": 11,
+   "duty": true,
+   "hol": false
+  },
+  "d2": {
+   "d": 445,
+   "key": "2026-12-05",
+   "wd": 6,
+   "term": "Y2S1",
+   "week": 13,
+   "duty": true,
+   "hol": false
+  }
+ },
+ "start": {
+  "VIS": 2,
+  "LAST": 417,
+  "N": 2,
+  "ROT": {
+   "open": 2,
+   "cs": 2,
+   "stay": 0,
+   "yt": 0,
+   "bh": 0,
+   "bk": 0,
+   "lg": 0
+  },
+  "TRK": {
+   "last": 430,
+   "miss": 0
+  },
+  "A": 2,
+  "lean": {
+   "A": 2,
+   "B": 0,
+   "C": 0,
+   "top": "A"
+  },
+  "day": 431,
+  "key": "2026-11-21",
+  "h": 8.26,
+  "zone": "dorm",
+  "duty": true,
+  "member": true,
+  "shiftable": true,
+  "watchable": false,
+  "notice": "法律服務　隔週週六 9:00～12:00　法律系館B一樓",
+  "outs": [
+   {
+    "id": "fafu_431",
+    "state": "planned",
+    "day": 431,
+    "h": 9,
+    "title": "法服值班（法律系館B一樓 9:00）"
+   }
+  ],
+  "table": null,
+  "wz": {
+   "L": null,
+   "I": null
+  },
+  "FIRST_Y2": null,
+  "COPY_LEASE": null,
+  "line": {
+   "today": null,
+   "playing": false,
+   "done": {
+    "ev_wz_c_lease2": 0,
+    "ev_wz_c_lease3": 0,
+    "ev_wz_b_ins2": 0
+   }
+  }
+ },
+ "depart_menus": [
+  [
+   "出發：法服值班（法律系館B一樓 9:00）09:00　走過去約 10 分鐘",
+   "晚一點（20 分鐘後再提醒）",
+   "這週請假"
+  ]
+ ],
+ "by_player": true,
+ "old_shift_before": {
+  "VIS": 2,
+  "LAST": 417,
+  "N": 2,
+  "ROT": {
+   "open": 2,
+   "cs": 2,
+   "stay": 0,
+   "yt": 0,
+   "bh": 0,
+   "bk": 0,
+   "lg": 0
+  },
+  "TRK": {
+   "last": 430,
+   "miss": 0
+  },
+  "A": 2,
+  "lean": {
+   "A": 2,
+   "B": 0,
+   "C": 0,
+   "top": "A"
+  },
+  "day": 431,
+  "key": "2026-11-21",
+  "h": 9.008,
+  "zone": "wancai",
+  "duty": true,
+  "member": true,
+  "shiftable": true,
+  "watchable": false,
+  "notice": "法律服務　隔週週六 9:00～12:00　法律系館B一樓",
+  "outs": [
+   {
+    "id": "fafu_431",
+    "state": "done",
+    "day": 431,
+    "h": 9,
+    "title": "法服值班（法律系館B一樓 9:00）"
+   }
+  ],
+  "table": {
+   "x": -1.6,
+   "z": 3.4,
+   "label": "坐到圓桌（做初談紀錄）",
+   "hidden": false
+  },
+  "wz": {
+   "L": null,
+   "I": null
+  },
+  "FIRST_Y2": null,
+  "COPY_LEASE": null,
+  "line": {
+   "today": null,
+   "playing": false,
+   "done": {
+    "ev_wz_c_lease2": 0,
+    "ev_wz_c_lease3": 0,
+    "ev_wz_b_ins2": 0
+   }
+  }
+ },
+ "old_shift_label": "坐到圓桌（做初談紀錄）",
+ "old_shift_near": [
+  {
+   "label": "離開法律系館B",
+   "hidden": false,
+   "fafuShift": false,
+   "fafuWatch": false,
+   "d": 3.37
+  },
+  {
+   "label": "坐到圓桌（做初談紀錄）",
+   "hidden": false,
+   "fafuShift": true,
+   "fafuWatch": false,
+   "d": 0.22
+  },
+  {
+   "label": "看門口的告示",
+   "hidden": false,
+   "fafuShift": false,
+   "fafuWatch": false,
+   "d": 2.37
+  }
+ ],
+ "old_shift_after": {
+  "VIS": 3,
+  "LAST": 431,
+  "N": 3,
+  "ROT": {
+   "open": 3,
+   "cs": 3,
+   "stay": 0,
+   "yt": 0,
+   "bh": 0,
+   "bk": 0,
+   "lg": 0
+  },
+  "TRK": {
+   "last": 430,
+   "miss": 0
+  },
+  "A": 3,
+  "lean": {
+   "A": 3,
+   "B": 0,
+   "C": 0,
+   "top": "A"
+  },
+  "day": 431,
+  "key": "2026-11-21",
+  "h": 10.095,
+  "zone": "wancai",
+  "duty": true,
+  "member": true,
+  "shiftable": false,
+  "watchable": false,
+  "notice": "法律服務　隔週週六 9:00～12:00　法律系館B一樓",
+  "outs": [
+   {
+    "id": "fafu_431",
+    "state": "done",
+    "day": 431,
+    "h": 9,
+    "title": "法服值班（法律系館B一樓 9:00）"
+   }
+  ],
+  "table": {
+   "x": -1.6,
+   "z": 3.4,
+   "label": "坐到圓桌（做初談紀錄）",
+   "hidden": true
+  },
+  "wz": {
+   "L": null,
+   "I": null
+  },
+  "FIRST_Y2": 431,
+  "COPY_LEASE": null,
+  "line": {
+   "today": null,
+   "playing": false,
+   "done": {
+    "ev_wz_c_lease2": 0,
+    "ev_wz_c_lease3": 0,
+    "ev_wz_b_ins2": 0
+   }
+  }
+ },
+ "old_shift_dialog": {
+  "lines": [
+   [
+    "研究所學長",
+    "今天人可能比較多。慢慢來。"
+   ],
+   [
+    "",
+    "（一位先生，網購的冰箱用三個月就壞了，店家說"
+   ],
+   [
+    "",
+    "你先問什麼？"
+   ],
+   [
+    "雅筑學姊",
+    "好。先聽完。"
+   ],
+   [
+    "",
+    "（他講了十五分鐘。最重要的那一句，在最後。"
+   ],
+   [
+    "民眾",
+    "它才用三個月。"
+   ],
+   [
+    "研究所學長",
+    "發票和對話紀錄都帶來，我們幫您整理成一頁。"
+   ],
+   [
+    "",
+    "（隔壁桌，一個阿伯講了十分鐘，一直在講他兒子。大家都在翻六法。）"
+   ],
+   [
+    "",
+    "（初談紀錄，一頁。學長在最下面簽名。）"
+   ]
+  ],
+  "menus": [
+   [
+    "「先請他從頭講一次。」",
+    "「先問什麼時候發生的。」",
+    "「先問手上有什麼資料。」"
+   ],
+   [
+    "再待到十二點。",
+    "先走。"
+   ]
+  ],
+  "rows": [
+   {
+    "k": "shift",
+    "n": "start",
+    "t": "true",
+    "d": "2026-11-21",
+    "h": 9.074,
+    "z": "wancai",
+    "vis": 2,
+    "sn": 2
+   },
+   {
+    "k": "say",
+    "n": "研究所學長",
+    "t": "今天人可能比較多。慢慢來。",
+    "d": "2026-11-21",
+    "h": 9.074,
+    "z": "wancai",
+    "vis": 3,
+    "sn": 3
+   },
+   {
+    "k": "say",
+    "n": "",
+    "t": "（一位先生，網購的冰箱用三個月就壞了，店家說要自費。）",
+    "d": "2026-11-21",
+    "h": 9.074,
+    "z": "wancai",
+    "vis": 3,
+    "sn": 3
+   },
+   {
+    "k": "say",
+    "n": "",
+    "t": "你先問什麼？",
+    "d": "2026-11-21",
+    "h": 9.074,
+    "z": "wancai",
+    "vis": 3,
+    "sn": 3
+   },
+   {
+    "k": "choose",
+    "n": "",
+    "t": "「先請他從頭講一次。」｜「先問什麼時候發生的。」｜「先問手上有什麼資料。」",
+    "d": "2026-11-21",
+    "h": 9.074,
+    "z": "wancai",
+    "vis": 3,
+    "sn": 3
+   },
+   {
+    "k": "say",
+    "n": "雅筑學姊",
+    "t": "好。先聽完。",
+    "d": "2026-11-21",
+    "h": 9.074,
+    "z": "wancai",
+    "vis": 3,
+    "sn": 3
+   },
+   {
+    "k": "say",
+    "n": "",
+    "t": "（他講了十五分鐘。最重要的那一句，在最後。）",
+    "d": "2026-11-21",
+    "h": 9.074,
+    "z": "wancai",
+    "vis": 3,
+    "sn": 3
+   },
+   {
+    "k": "say",
+    "n": "民眾",
+    "t": "它才用三個月。",
+    "d": "2026-11-21",
+    "h": 9.074,
+    "z": "wancai",
+    "vis": 3,
+    "sn": 3
+   },
+   {
+    "k": "say",
+    "n": "研究所學長",
+    "t": "發票和對話紀錄都帶來，我們幫您整理成一頁。",
+    "d": "2026-11-21",
+    "h": 9.074,
+    "z": "wancai",
+    "vis": 3,
+    "sn": 3
+   },
+   {
+    "k": "say",
+    "n": "",
+    "t": "（隔壁桌，一個阿伯講了十分鐘，一直在講他兒子。大家都在翻六法。）",
+    "d": "2026-11-21",
+    "h": 9.074,
+    "z": "wancai",
+    "vis": 3,
+    "sn": 3
+   },
+   {
+    "k": "say",
+    "n": "",
+    "t": "（初談紀錄，一頁。學長在最下面簽名。）",
+    "d": "2026-11-21",
+    "h": 9.074,
+    "z": "wancai",
+    "vis": 3,
+    "sn": 3
+   },
+   {
+    "k": "choose",
+    "n": "",
+    "t": "再待到十二點。｜先走。",
+    "d": "2026-11-21",
+    "h": 10.074,
+    "z": "wancai",
+    "vis": 3,
+    "sn": 3
+   },
+   {
+    "k": "shift",
+    "n": "end",
+    "t": "true",
+    "d": "2026-11-21",
+    "h": 10.074,
+    "z": "wancai",
+    "vis": 3,
+    "sn": 3
+   }
+  ]
+ },
+ "first_y2": {
+  "flag": 431,
+  "line_said": true
+ },
+ "rows": [
+  {
+   "k": "choose",
+   "n": "",
+   "t": "出發：法服值班（法律系館B一樓 9:00）〔09:00　走過去約 10 分鐘〕｜晚一點（20 分鐘後再提醒）｜這週請假",
+   "d": "2026-11-21",
+   "h": 8.502,
+   "z": "dorm",
+   "vis": 2,
+   "sn": 2
+  },
+  {
+   "k": "enter",
+   "n": "",
+   "t": "wancai",
+   "d": "2026-11-21",
+   "h": 9,
+   "z": "dorm",
+   "vis": 2,
+   "sn": 2
+  },
+  {
+   "k": "shift",
+   "n": "start",
+   "t": "true",
+   "d": "2026-11-21",
+   "h": 9.074,
+   "z": "wancai",
+   "vis": 2,
+   "sn": 2
+  },
+  {
+   "k": "say",
+   "n": "研究所學長",
+   "t": "今天人可能比較多。慢慢來。",
+   "d": "2026-11-21",
+   "h": 9.074,
+   "z": "wancai",
+   "vis": 3,
+   "sn": 3
+  },
+  {
+   "k": "say",
+   "n": "",
+   "t": "（一位先生，網購的冰箱用三個月就壞了，店家說要自費。）",
+   "d": "2026-11-21",
+   "h": 9.074,
+   "z": "wancai",
+   "vis": 3,
+   "sn": 3
+  },
+  {
+   "k": "say",
+   "n": "",
+   "t": "你先問什麼？",
+   "d": "2026-11-21",
+   "h": 9.074,
+   "z": "wancai",
+   "vis": 3,
+   "sn": 3
+  },
+  {
+   "k": "choose",
+   "n": "",
+   "t": "「先請他從頭講一次。」｜「先問什麼時候發生的。」｜「先問手上有什麼資料。」",
+   "d": "2026-11-21",
+   "h": 9.074,
+   "z": "wancai",
+   "vis": 3,
+   "sn": 3
+  },
+  {
+   "k": "say",
+   "n": "雅筑學姊",
+   "t": "好。先聽完。",
+   "d": "2026-11-21",
+   "h": 9.074,
+   "z": "wancai",
+   "vis": 3,
+   "sn": 3
+  },
+  {
+   "k": "say",
+   "n": "",
+   "t": "（他講了十五分鐘。最重要的那一句，在最後。）",
+   "d": "2026-11-21",
+   "h": 9.074,
+   "z": "wancai",
+   "vis": 3,
+   "sn": 3
+  },
+  {
+   "k": "say",
+   "n": "民眾",
+   "t": "它才用三個月。",
+   "d": "2026-11-21",
+   "h": 9.074,
+   "z": "wancai",
+   "vis": 3,
+   "sn": 3
+  },
+  {
+   "k": "say",
+   "n": "研究所學長",
+   "t": "發票和對話紀錄都帶來，我們幫您整理成一頁。",
+   "d": "2026-11-21",
+   "h": 9.074,
+   "z": "wancai",
+   "vis": 3,
+   "sn": 3
+  },
+  {
+   "k": "say",
+   "n": "",
+   "t": "（隔壁桌，一個阿伯講了十分鐘，一直在講他兒子。大家都在翻六法。）",
+   "d": "2026-11-21",
+   "h": 9.074,
+   "z": "wancai",
+   "vis": 3,
+   "sn": 3
+  },
+  {
+   "k": "say",
+   "n": "",
+   "t": "（初談紀錄，一頁。學長在最下面簽名。）",
+   "d": "2026-11-21",
+   "h": 9.074,
+   "z": "wancai",
+   "vis": 3,
+   "sn": 3
+  },
+  {
+   "k": "choose",
+   "n": "",
+   "t": "再待到十二點。｜先走。",
+   "d": "2026-11-21",
+   "h": 10.074,
+   "z": "wancai",
+   "vis": 3,
+   "sn": 3
+  },
+  {
+   "k": "shift",
+   "n": "end",
+   "t": "true",
+   "d": "2026-11-21",
+   "h": 10.074,
+   "z": "wancai",
+   "vis": 3,
+   "sn": 3
+  }
+ ]
+}

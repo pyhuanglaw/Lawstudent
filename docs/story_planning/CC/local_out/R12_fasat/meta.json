@@ -1,0 +1,15 @@
+﻿{
+    "rerun":  "sn1102",
+    "id":  "R12_fasat",
+    "sha":  "b1b249873",
+    "kind":  "probe",
+    "script":  "docs/story_planning/test_tools/cc/cc_fasat_probe.py",
+    "env":  "CASES=same_sat,next_sat,wzline_same,wzline_first,old_y2_noflag;RERUN=sn1102",
+    "machine":  "MSI",
+    "start":  "2026-11-03T02:08:14",
+    "end":  "2026-11-03T02:25:27",
+    "seconds":  1033,
+    "exit":  0,
+    "error":  null,
+    "url":  "http://127.0.0.1:8801/index.html"
+}
