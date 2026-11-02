@@ -67,3 +67,7 @@ git worktree add <資料夾> wip/dorm-hall
 ## aa581_midterm_1102／b6b8_career_1102／k1_exchange_1102.bundle（LAWWW 2026-11-02 11:0x UTC，D126 每小時保存）
 - 子代理 worktree 分支（還沒合併、本機才有）：期中考殘留台詞改稿（AA_581）、職涯 B6＋司法官 B8、交換路線延畢重修 K1。內容是 `<開發分支 HEAD>..worktree-agent-*` 的 commit；子代理 worktree 裡還沒 commit 的改動不在裡面。
 - 還原：`git fetch wip_backup/<名稱>.bundle 'refs/heads/*:refs/remotes/wip/*'` 後看 `git log wip/...`（同上面幾份）。
+
+## next1102_1102.bundle（LAWWW 2026-11-02 11:1x UTC，D126）
+- 下一版的整合分支 `int/next1102`（從發布候選 b1b249873 開出；候選版發布前開發分支只放不影響遊戲的 commit）：第一個 commit 是補考當天在家睡覺的修正（BUG-MAKEUP-HOME-SLEEP-WARN-1102）。之後每小時更新這一份。
+- 還原：`git fetch wip_backup/next1102_1102.bundle 'refs/heads/*:refs/remotes/wip/*'`。
