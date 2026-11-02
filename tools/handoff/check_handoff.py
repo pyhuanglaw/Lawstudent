@@ -338,6 +338,14 @@ def check(args):
     except FileNotFoundError:
         A(9, f'{MATRIX} 不存在')
 
+    # 分支定期唯讀稽核（BRANCH-AUDIT-1028，使用者 2026-10-28 01:4x）：只提醒、不算異常；超過 24 小時沒做就寫出來
+    try:
+        import branch_audit
+        d, msg = branch_audit.due(args.root)
+        info.append(('該做分支唯讀稽核了（python3 tools/handoff/branch_audit.py --write，結果 commit＋push）：' if d else '分支唯讀稽核：') + msg)
+    except Exception as e:
+        info.append(f'分支唯讀稽核：讀不到紀錄（{e}）')
+
     # 報告
     open_ = [t for t in tasks if t.get('status') not in CLOSED]
     cnt = {}
@@ -485,7 +493,7 @@ ASK_ROLES = ['LAWWW', 'LAWWW2', 'AA', 'BB']
 ASK_FILE = 'docs/handoff/user_asks_{}.json'
 ASK_KINDS = ['原話', '選擇題答案', '轉述', 'AI解讀']   # AI解讀＝AI 自己擴大或推論的，不是使用者的話：要 confirmed:true（問過使用者）才算數
 ASK_STATUS = ['還沒做', '進行中', '做好了沒進遊戲', '在開發分支', '在遊戲裡', '暫停', '已取消', '規則（永久）', '已完成']
-WANT_ROW = re.compile(r'^\| ([A-Z]\d+)(?: ★)? \| ')
+WANT_ROW = re.compile(r'^\| ([A-Z]\d+[a-z]?)(?: ★)? \| ')   # 列號可以帶一個小寫尾碼（例：D35a；10-27 AA-C 的 UA-AA-1027-49 對不到）
 
 
 def wants_rows(text):
