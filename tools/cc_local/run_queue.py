@@ -655,6 +655,16 @@ class Runner(object):
                 env['CC_BROWSER'] = 'webkit'
             return [self.py, wrap, os.path.join(self.work, it.script), url, out], self.work
         if k == 'node':
+            # BB 22:37：單元測試會 execSync('python3 …')；Windows 沒有 python3 這個指令 → PATH 前面放一個 python3.cmd 指到 runner 自己的 python（不改測試）
+            if IS_WIN:
+                shim = os.path.join(self.wtroot, 'cc_shims')
+                try:
+                    os.makedirs(shim, exist_ok=True)
+                    with open(os.path.join(shim, 'python3.cmd'), 'w', encoding='ascii', errors='replace') as fh:
+                        fh.write('@"%s" %%*\r\n' % self.py)
+                    env['PATH'] = shim + os.pathsep + env.get('PATH', os.environ.get('PATH', ''))
+                except OSError as e:
+                    log('python3 shim not created: %r' % (e,))
             if not self.node:
                 raise RuntimeError('node not found (set CC_NODE)')
             os.makedirs(out, exist_ok=True)
