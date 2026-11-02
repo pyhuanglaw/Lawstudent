@@ -143,12 +143,13 @@ while ($true) {
   $pick = $null
   foreach ($cand in $Items) {
     $cs = $cand.Sha; if ($cs -eq 'head') { $cs = $Head }
-    if ($attempted.ContainsKey($cand.Id + '@' + $cs)) { continue }
-    if (CC-IsDone $cand $cs) { $attempted[$cand.Id + '@' + $cs] = 1; $skipped_n++; CC-Log "skip $($cand.Id) (already done on $cs)"; continue }
+    $ctok = ''; foreach ($kv in ($cand.Env -split ';')) { if ($kv -match '^\s*RERUN=(.*)$') { $ctok = $Matches[1].Trim() } }   # BB 16:00: key includes RERUN token (else a re-queued item is never retried in the same loop)
+    if ($attempted.ContainsKey($cand.Id + '@' + $cs + '#' + $ctok)) { continue }
+    if (CC-IsDone $cand $cs) { $attempted[$cand.Id + '@' + $cs + '#' + $ctok] = 1; $skipped_n++; CC-Log "skip $($cand.Id) (already done on $cs)"; continue }
     $pick = $cand; break
   }
   if (-not $pick) { break }
-  $pcs = $pick.Sha; if ($pcs -eq 'head') { $pcs = $Head }; $attempted[$pick.Id + '@' + $pcs] = 1
+  $pcs = $pick.Sha; if ($pcs -eq 'head') { $pcs = $Head }; $ptok = ''; foreach ($kv in ($pick.Env -split ';')) { if ($kv -match '^\s*RERUN=(.*)$') { $ptok = $Matches[1].Trim() } }; $attempted[$pick.Id + '@' + $pcs + '#' + $ptok] = 1
 foreach ($it in @($pick)) {
   $id = $it.Id; $sha = $it.Sha; if ($sha -eq 'head') { $sha = $Head }
   # ---- skip items already done on this exact sha (overnight loop, BB 10:29) ----

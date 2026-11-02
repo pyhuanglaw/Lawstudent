@@ -35,6 +35,10 @@ R8_y4s2rt   | b1b249873 | probe | docs/story_planning/test_tools/cc/cc_makeup_pr
 R8b_y4s2jp  | b1b249873 | probe | docs/story_planning/test_tools/cc/cc_makeup_probe.py   | index.html?turbo | 60  | FAIL_ROUTE=jp;CASES=route_grades;RERUN=paper1102
 R8c_y4s2fin | b1b249873 | probe | docs/story_planning/test_tools/cc/cc_y4s2final_probe.py | index.html?turbo | 200 | FAIL_ROUTE=retake;CASES=main,noexam_stay
 R9_roll     | b1b249873 | probe | docs/story_planning/test_tools/cc/cc_rollcall_probe.py | index.html | 120 | CASES=a,a0,b,c1,c2,d_old,d_new,cw,bedge
+# P1（BB 16:00）：runner 的 $attempted 鍵是 Id@sha、沒有 RERUN 記號 → 這一輪跑過的 R5／R6／R8 換了 RERUN 也不會再跑。用新 ID 重排（下一項就會跑）
+R5_rr       | b1b249873 | probe | docs/story_planning/test_tools/cc/cc_makeup_probe.py   | index.html?turbo | 200 | FAIL_ROUTE=retake;CASES=study3h,skipnoon_seat,skipnoon_phone,old_delayed,homerest,home,mkbg;RERUN=paper1102
+R6_rr       | b1b249873 | probe | docs/story_planning/test_tools/cc/cc_layout16_probe.py | index.html?turbo | 60  | CASES=seat_exam,adv_safe,recall2;RERUN=fmt1102
+R8_rr       | b1b249873 | probe | docs/story_planning/test_tools/cc/cc_makeup_probe.py   | index.html?turbo | 200 | FAIL_ROUTE=retake;MAIN_FROM=0527;CASES=main_pass,main_fail,route_grades;RERUN=paper1102
 R10_b3      | b1b249873 | probe | docs/story_planning/test_tools/cc/cc_d118b3_probe.py   | index.html | 240 | RERUN=retap1102
 R11_b4      | b1b249873 | probe | docs/story_planning/test_tools/cc/cc_d118b4_probe.py   | index.html | 150 | RERUN=retap1102
 R10pre      | 299e23345 | probe | docs/story_planning/test_tools/cc/cc_d118b3_probe.py   | index.html | 240 | RERUN=retap1102
