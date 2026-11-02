@@ -8,7 +8,7 @@ n=0
 while :; do
   n=$((n+1))
   echo "[$(date +%H:%M:%S)] run_forever: round $n - $py $runner --parallel 2 $*"
-  "$py" "$runner" --parallel 2 "$@"
+  CC_RF_ROUND=$n "$py" "$runner" --parallel 2 "$@"
   rc=$?
   if [ "${RF_MAX:-0}" -gt 0 ] && [ "$n" -ge "${RF_MAX}" ]; then echo "run_forever: RF_MAX reached"; exit 0; fi
   if [ $rc -eq 75 ]; then echo "[$(date +%H:%M:%S)] run_forever: runner updated itself (exit 75) - restarting now"; continue; fi

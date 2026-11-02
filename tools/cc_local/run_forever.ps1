@@ -13,6 +13,7 @@ $n = 0
 while ($true) {
     $n++
     Write-Host ("[{0}] run_forever: round {1} - python {2} --parallel 2 {3}" -f (Get-Date -Format 'HH:mm:ss'), $n, $runner, ($args -join ' ')) -ForegroundColor Cyan
+    $env:CC_RF_ROUND = "$n"   # runner 寫進每一項的 meta.json（rf_round），雲端看得出是經 run_forever 跑的、第幾輪
     & $py $runner --parallel 2 @args
     $rc = $LASTEXITCODE
     if ($rc -eq 75) {

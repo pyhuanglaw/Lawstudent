@@ -442,7 +442,8 @@ class Runner(object):
         meta = OrderedDict([('rerun', it.rerun), ('id', it.id), ('sha', sha), ('kind', it.kind), ('script', it.script),
                             ('env', it.env), ('machine', os.environ.get('COMPUTERNAME') or platform.node()),
                             ('start', datetime.now().strftime('%Y-%m-%dT%H:%M:%S')), ('end', None), ('seconds', None),
-                            ('exit', None), ('error', None)])
+                            ('exit', None), ('error', None),
+                            ('runner', self.self_hash[:10]), ('rf_round', os.environ.get('CC_RF_ROUND'))])   # 哪一版 runner、run_forever 第幾輪（None＝不是經 run_forever 啟動）
         t0 = time.time()
         wt = os.path.join(self.wtroot, 'wt_cc_' + it.id)
         wt2 = None
