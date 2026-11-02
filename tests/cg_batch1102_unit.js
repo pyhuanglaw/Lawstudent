@@ -13,9 +13,10 @@ const PLACED={
   cg_airport_return_heroine01:['src/data/r2y3b_events.js',"cg('cg_airport_return_heroine01')","{speaker:null,text:'（她一出來就看到你。行李箱上貼著一張商店街的七夕貼紙。）'}"],   // CG-35
   cg_xmas_card_heroine01:['src/data/fest_events.js',"cg('cg_xmas_card_heroine01')","N('（她遞過來一張卡片）')"],   // CG-38
   cg_valentine_level_heroine04:['src/data/fest_events.js',"cg('cg_valentine_level_heroine04')","N('（插座貓走到終點，畫面跳出一行字：「下次換你做一關給我。」）')"] };   // CG-106
-const ONLY_REG=['cg_admin_court_heroine01','cg_japan_exchange_heroine01','cg_redpen_night_peishan','cg_reunion_window_table_layer_umbrella_heroine03'];   // CG-29、30、119、10b
+const ONLY_REG=['cg_admin_court_heroine01','cg_japan_exchange_heroine01','cg_reunion_window_table_layer_umbrella_heroine03'];   // CG-29、30、10b
 /* 放在程式碼裡（story3d.js 用 ADV.cg 叫）：key → [檔案, 叫 CG 的那一行, 下一拍]；CG-28 AA_587 第 7-2 節新4（開學第二天她追出來「LINE。」那一拍；原本只登錄不放）*/
-const PLACED_CODE={ cg_line_qr_heroine01:['src/story3d.js',"ADV.cg('cg_line_qr_heroine01');","await GM.say(an,'LINE。'); if(typeof ADV!=='undefined'&&ADV.cg) ADV.cg(null);"] };
+const PLACED_CODE={ cg_line_qr_heroine01:['src/story3d.js',"ADV.cg('cg_line_qr_heroine01');","await GM.say(an,'LINE。'); if(typeof ADV!=='undefined'&&ADV.cg) ADV.cg(null);"],
+  cg_redpen_night_peishan:['src/story3d.js',"it.cg='cg_redpen_night_peishan';","F.PS_REDPEN_CG=G.day; }"] };   // CG-119：沛珊重考那年交往中每晚一則，第一次傳第一句那一晚的手機訊息附照片（BB 決定；原本只登錄不放；實際送出驗在 tests/aa460_y2s1_unit.js）
 const ALL=Object.keys(PLACED).concat(Object.keys(PLACED_CODE),ONLY_REG);
 const miss=ALL.filter(k=>!REG[k]||!REG[k].title||!fs.existsSync(path.join(ROOT,REG[k].file)));
 check('1. 12 個 key 都在 CG_REGISTRY、有標題、檔案存在',!miss.length,miss.join('、'));
