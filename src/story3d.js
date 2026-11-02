@@ -1673,6 +1673,11 @@ const STORY = (function(){
     await GM.say(who,'「沛珊在群組說了。」'); await GM.say(who,'「……嗯。這週我想多念一點。」'); return true; };
   S.neededMiss=async function(GM,who,id){ const L=S.neededMissLine(GM.G,id); if(!L) return false; for(const t of L) await GM.say(who,'「'+t+'」'); return true; };
   S.lateWake=G=>!!(G&&G.flags&&G.flags.XC_MIDNIGHT_DAY!=null&&G.flags.XC_MIDNIGHT_DAY===G.day);   /* 芯慈的午夜場那一晚（src/xcrom3d.js 記）*/
+  /* 考完的宵夜／晚餐那天（D118，AA_578 第 2 節 #10、#11）：{exam：考試那天, day：宵夜那天, t1：考完的時間}；那一科是這學期最後一科的話順延到隔天（day!==exam）。
+     events.js 的 ev_midterm_walkout／ev_midterm_walkout_y1s2 用 S.supperLate 換阿哲當面問的那句（AA_581 第 70、71 列），群組那句見 phoneRules（第 72 列）*/
+  S.supperDay=function(G,term,cid){ const L=typeof CLS!=='undefined'&&CLS.examList?CLS.examList(G,term):[], x=L.find(q=>q.c.id===cid&&q.kind==='final'); if(!x) return null; const lastDay=Math.max(...L.filter(q=>q.kind==='final').map(q=>q.day));   /* 這學期最後一科（同 CLS.lastExamEnd，用 examList 算、不每格掃整年）*/
+    return {exam:x.day,day:lastDay===x.day?x.day+1:x.day,t1:x.t1}; };
+  S.supperLate=(G,term,cid)=>{ const x=S.supperDay(G,term,cid); return !!x&&x.day!==x.exam; };
   S.phoneRules=function(GM){ const G=GM.G, F=G.flags; if(typeof PHONE==='undefined') return; for(const f of S.PHONE_RULES){ try{ f(G,GM); }catch(e){ console.warn('STORY.PHONE_RULES',e); } }   /* 事件包各自的手機規則（STORY.PHONE_RULES.push(fn)）*/ if(typeof L118!=='undefined'){ try{ L118.phone(G); L118.tick(G); }catch(e){ console.warn('L118.phone',e); } }   /* 阿哲週一揪 118 巷午餐（AA_280 第 4 節）*/ if(typeof MSG!=='undefined'&&MSG.ukDaily){ try{ MSG.ukDaily(G); }catch(e){ console.warn('MSG.ukDaily',e); } }   /* 芷若在英國、交往中：每週一則（AA_457 第 1 節，原本 BB_178 1-E 每天一則；src/msg3d.js）*/ if(typeof HOME!=='undefined'){ try{ HOME.phoneRules(GM); if(HOME.breakPhone) HOME.breakPhone(GM); }catch(e){ console.warn('HOME.phoneRules',e); } } if(typeof TERMEND!=='undefined'){ try{ TERMEND.phone(GM); }catch(e){ console.warn('TERMEND.phone',e); } }   /* 學期末的飯（BB_203）*/ if(typeof VAC!=='undefined'){ try{ VAC.phone(GM); }catch(e){ console.warn('VAC.phone',e); } }   /* 假期活動（AA_199）*/ try{ S.neededRules(GM); }catch(e){ console.warn('NEEDED',e); }   /* 主線 4：每週日 21:00「這週的訊息」*/   /* 家人群組（週四 20:00）；放假的手機（AA_183：7/9 語彤生日、7/15 宿舍抽籤）*/ const silentContact=id=>{ if(typeof INV==='undefined') return; INV.rec(G); if(G.contacts[id]==null) G.contacts[id]=G.day; };
     /* AA_383 第 4-2 節（企劃線 98516b51）：沛珊還筆記（D4，ev_b105_d4_notes）怎麼約的——大一上第 4 週週一 12:00 她私訊兩句（有她的聯絡方式才傳）；之後走到女舍門口照現在演（第一句「我下樓了！」就是回你傳的訊息）。
        第 8 週結束還沒演（一直沒走到女舍門口）＝第 9 週週一 12:00 她傳一句（收過 9/22 那兩句的才傳）；D4 只在第 4～8 週，之後不演 */
@@ -2074,8 +2079,7 @@ const STORY = (function(){
        沒有群組的玩家：G1 結束時阿哲當面問，回「去。」（SUPPER_MID1）才排
        D118 沒有期中考（AA_578 第 2 節 #10）：改到民總期末考那天；群組字照舊。民總期末考是大一上最後一科的話，那天晚上是原本的「期末最後一頓」（ev_term_last_meal，阿哲也在群組喊），
        照 AA_578 第 1 節第 4 點：原本的優先，宵夜順延到隔天同一時段（群組訊息隔天考完的時間、20:30 公館滷味攤）*/
-    const supperDay=(term,cid)=>{ const L=CLS.examList?CLS.examList(G,term):[], x=L.find(q=>q.c.id===cid&&q.kind==='final'); if(!x) return null; const lastDay=Math.max(...L.filter(q=>q.kind==='final').map(q=>q.day));   /* 這學期最後一科（同 CLS.lastExamEnd，用 examList 算、不每格掃整年）*/
-      return {exam:x.day,day:lastDay===x.day?x.day+1:x.day,t1:x.t1}; };   /* {exam：考試那天, day：宵夜那天, t1：考完的時間} */
+    const supperDay=(term,cid)=>S.supperDay(G,term,cid);
     if(typeof CLS!=='undefined'&&typeof OUT!=='undefined'){ const t=CALENDAR.termOf(G.day);
       const s1=t&&t.id==='Y1S1'&&t.week>=16?supperDay('Y1S1','civ_general'):null;
       if(s1&&G.day>=s1.exam&&G.day<=s1.day){ const plan=()=>{ if(G.day<s1.day||G.hour<20.5+0.75) OUT.plan(G,{id:'supper_mid1',ev:'ev_midterm_supper',day:s1.day,h:20.5,place:'公館滷味攤',title:'考完的宵夜',travel:'走過去約 10 分鐘',travelH:1/6}); };
@@ -2086,7 +2090,7 @@ const STORY = (function(){
          D118 沒有期中考（AA_578 第 2 節 #11）：改到刑總二期末考那天；字照舊。撞到大一下最後一科（ev_term_last_meal_y1s2）的話同上，順延到隔天同一時段 */
       const s2=t&&t.id==='Y1S2'&&t.week>=16?supperDay('Y1S2','crim_gen2'):null;
       if(s2&&G.day>=s2.exam&&G.day<=s2.day){ const plan2=()=>{ if(G.day<s2.day||G.hour<19+0.75) OUT.plan(G,{id:'supper_mid2',ev:'ev_midterm_supper_y1s2',day:s2.day,h:19,place:'阿鳳麵店',title:'考完的晚餐',travel:'走過去約 10 分鐘',travelH:1/6}); };
-        if(G.day===s2.day&&PHONE.inGroup(G,'noodle_team')&&!PHONE.sent(G,'zhe_supper_mid2')&&G.hour<19){ PHONE.at(G,G.day,Math.max(G.hour,s2.t1+0.1),[{th:'g:noodle_team',from:'zhe',text:'刑總考完了 今天麵店，七點，長桌'}],'zhe_supper_mid2'); plan2(); }
+        if(G.day===s2.day&&PHONE.inGroup(G,'noodle_team')&&!PHONE.sent(G,'zhe_supper_mid2')&&G.hour<19){ PHONE.at(G,G.day,Math.max(G.hour,s2.t1+0.1),[{th:'g:noodle_team',from:'zhe',text:s2.day!==s2.exam?'考完了 今天麵店，七點，長桌':'刑總考完了 今天麵店，七點，長桌'}],'zhe_supper_mid2')   /* AA_581 第 72 列：順延到隔天時拿掉「刑總」*/; plan2(); }
         else if(F.SUPPER_MID2==='yes'&&!OUT.get(G,'supper_mid2')) plan2(); } }
     /* 麵店團（AA_70 2-3、AA_40 哲 1）：哲 1 那天阿哲建的群組。麵店日＝上課週的週二、週四（考試週、國定假日、出國期間沒有）。
        阿哲 17:30 在群組裡揪，只在你上一個麵店日沒來的時候（AA 2026-10-14：一直有來的玩家，群組是安靜的）；四句輪流。tag rt_＝例行訊息（每天的手機小事不把它當成劇情訊息）。

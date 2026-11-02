@@ -915,7 +915,8 @@ const STORY_EVENTS=[
       {label:'c3'},{if:EV_KNOWS('classmate_mingxuan'),speaker:'阿哲、明軒',text:'走！'},{unless:EV_KNOWS('classmate_mingxuan'),speaker:'zhe',expression:'laugh',text:'走！'},
       {label:'end'},
       /* 考完的宵夜（A15，AA 2026-10-14）：沒有麵店團群組的玩家，阿哲當面問；有群組的在群組揪（story3d.js 的 phoneRules）*/
-      {unless:{custom:G=>typeof PHONE!=='undefined'&&PHONE.inGroup(G,'noodle_team')},speaker:'zhe',expression:'smile',text:'晚上滷味，來不來？'},
+      {unless:{custom:G=>(typeof PHONE!=='undefined'&&PHONE.inGroup(G,'noodle_team'))||(typeof STORY!=='undefined'&&!!STORY.supperLate&&STORY.supperLate(G,'Y1S1','civ_general'))},speaker:'zhe',expression:'smile',text:'晚上滷味，來不來？'},
+      {if:{custom:G=>!(typeof PHONE!=='undefined'&&PHONE.inGroup(G,'noodle_team'))&&typeof STORY!=='undefined'&&!!STORY.supperLate&&STORY.supperLate(G,'Y1S1','civ_general')},speaker:'zhe',expression:'smile',text:'明天晚上滷味，來不來？'},   /* AA_581 第 70 列：民總期末考是大一上最後一科、宵夜順延到隔天（story3d.js S.supperDay）*/
       {unless:{custom:G=>typeof PHONE!=='undefined'&&PHONE.inGroup(G,'noodle_team')},choice:[{text:'「去。」',set:{SUPPER_MID1:'yes'}},{text:'「這次不行。」',set:{SUPPER_MID1:'no'}}]} ],
     after:G=>{ if(typeof SOCIAL==='undefined'||typeof STORY==='undefined') return; for(const id of ['zhe','classmate_bohan','yu','classmate_xinci','classmate_mingxuan','heroine_01']) if(STORY.knows(id,G)) SOCIAL.remember(id,'SHARED_CLASS','民總期末考'); } },   /* AA_578 #9：「期中」→「期末」*/
   /* 翰 1 你考幾分（交付清單 A16：AA_40 翰 1，接 ev_bohan_kaogu；AA 2026-10-14）：大一上期中放榜——第 10 週的民總下課（第 10 週沒去上課的話第 11 週那堂），霖澤館走廊。
@@ -959,13 +960,14 @@ const STORY_EVENTS=[
   { id:'ev_midterm_walkout_y1s2', title:'考完試走出教室', participants:[], location:'any', trigger:'class', afterClass:'crim_gen2', afterExam:'final', term:['Y1S2'], once:true, background:'blur', /* D118 沒有期中考：AA_578 第 2 節 #9 改到同一門課的期末考（afterExam:'final'）*/
     dialogue:[ {speaker:null,text:'走廊上一群人。有人在翻課本，有人已經在滑手機。'},
       {speaker:'zhe',expression:'laugh',text:'刑總二比上學期難好多，第三題我整題亂寫。'},   /* AA_209 附錄A §2 */
-      {unless:{custom:G=>typeof PHONE!=='undefined'&&PHONE.inGroup(G,'noodle_team')},speaker:'zhe',expression:'smile',text:'晚上麵店，七點，來不來？'},
+      {unless:{custom:G=>(typeof PHONE!=='undefined'&&PHONE.inGroup(G,'noodle_team'))||(typeof STORY!=='undefined'&&!!STORY.supperLate&&STORY.supperLate(G,'Y1S2','crim_gen2'))},speaker:'zhe',expression:'smile',text:'晚上麵店，七點，來不來？'},
+      {if:{custom:G=>!(typeof PHONE!=='undefined'&&PHONE.inGroup(G,'noodle_team'))&&typeof STORY!=='undefined'&&!!STORY.supperLate&&STORY.supperLate(G,'Y1S2','crim_gen2')},speaker:'zhe',expression:'smile',text:'明天晚上麵店，七點，來不來？'},   /* AA_581 第 71 列：刑總二期末考是大一下最後一科、晚餐順延到隔天 */
       {unless:{custom:G=>typeof PHONE!=='undefined'&&PHONE.inGroup(G,'noodle_team')},choice:[{text:'「去。」',set:{SUPPER_MID2:'yes'}},{text:'「這次不行。」',set:{SUPPER_MID2:'no'}}]} ],
     after:G=>{ if(typeof SOCIAL==='undefined'||typeof STORY==='undefined') return; for(const id of ['zhe','classmate_bohan','yu','classmate_xinci','classmate_mingxuan','heroine_01']) if(STORY.knows(id,G)) SOCIAL.remember(id,'SHARED_CLASS','刑總二期末考'); } },   /* AA_578 #9：「期中」→「期末」*/
   { id:'ev_midterm_supper_y1s2', title:'考完的晚餐', participants:[], location:'any', trigger:'outing', once:true, background:'dark', hours:1.5,
     dialogue:[ {scene:'阿鳳麵店・長桌',bg:'noodle_table'},
-      {if:EV_KNOWS('heroine_03'),speaker:null,text:'（阿姨的手腕綁著護腕。今天端麵的是語彤。）'},   /* AA_185 3-8：接得上語彤事件 4（阿姨扭到手）*/
-      {unless:EV_KNOWS('heroine_03'),speaker:null,text:'（阿姨的手腕綁著護腕。今天端麵的是一個沒見過的女生。）'},   /* AA_373 #15：還沒認識語彤的玩家 */
+      {if:EV_KNOWS('heroine_03'),speaker:null,text:'（阿姨的手好了，今天端麵的還是語彤。）'},   /* AA_185 3-8：接得上語彤事件 4（阿姨扭到手）；D118 晚餐在期末（第 16 週），AA_581 第 7 節 B、第 11 節第 3 點：護腕改字 */
+      {unless:EV_KNOWS('heroine_03'),speaker:null,text:'（今天端麵的是一個沒見過的女生。）'},   /* AA_373 #15：還沒認識語彤的玩家；AA_581 第 7 節 B */
       {if:EV_KNOWS('yu'),speaker:'yu',expression:'neutral',text:'今天不講考試。誰講誰請。'},
       {if:EV_KNOWS('yu'),speaker:'zhe',expression:'smile',text:'那第二題——'},
       {if:EV_KNOWS('yu'),speaker:'yu',expression:'laugh',text:'你請。'},
