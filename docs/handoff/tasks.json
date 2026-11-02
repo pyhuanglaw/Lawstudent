@@ -39405,9 +39405,9 @@
       "id": "BUG-MAKEUP-TIMESKIP-1102",
       "title": "補考時間窗不被跳時間略過（讀書、skipTo、在家休息）＋缺考旁白＋舊存檔給補考",
       "owner": "LAWWW",
-      "status": "進行中",
-      "next": "子代理在 worktree",
-      "sha": "",
+      "status": "已整合待測試",
+      "next": "CC audit_makeup_timeskip 重跑＋#12 瀏覽器；暫定字 missItem／fixLabel／noSkip／migNotice 交 AA",
+      "sha": "d9d637553",
       "source": "BB 08:59（CC audit_makeup_timeskip）",
       "xai": {
         "spec": "BB 08:59（CC audit_makeup_timeskip）",
