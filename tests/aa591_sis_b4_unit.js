@@ -170,7 +170,7 @@ await sec(5,()=>{
   if(typeof ROM!=='undefined'&&ROM.end) ROM.end(G,ID); else { G.flags.dating_heroine_05=false; if(G.flags.romance&&G.flags.romance[ID]) G.flags.romance[ID].status='ended'; }
   check('5. 分手以後：照舊',SOCIAL.ytNameT('{name}。',ID)==='{name}。'&&SOCIAL.ytNameT('祐廷。',ID)==='祐廷。');
   const g3=fs.readFileSync(path.join(H.ROOT,'src/game3d.js'),'utf8');
-  check('5. 接線：對話框（game3d.js showLine，說話的人＝charId 或交往中的名字）、手機她的訊息（sysT）都過 SOCIAL.ytNameT',/D\.full=subst\(text\); if\(who&&typeof SOCIAL!=='undefined'&&SOCIAL\.ytNameT\) D\.full=SOCIAL\.ytNameT\(D\.full,who\.charId/.test(g3)&&/m\.from==='heroine_05'&&typeof SOCIAL!=='undefined'&&SOCIAL\.ytNameT\?SOCIAL\.ytNameT\(t,'heroine_05'\)/.test(g3));
+  check('5. 接線：對話框（game3d.js showLine，說話的人＝charId 或交往中的名字）、手機她的訊息（sysT）都過 SOCIAL.ytNameT',/D\.full=subst\(text\); if\(who&&typeof SOCIAL!=='undefined'&&SOCIAL\.ytNameT\) D\.full=SOCIAL\.ytNameT\(D\.full,who\.charId/.test(g3)&&/const ytT=m=>m&&m\.from==='heroine_05'&&typeof SOCIAL!=='undefined'&&SOCIAL\.ytNameT\?SOCIAL\.ytNameT\(m\.text,'heroine_05'\):m\.text;/.test(g3)&&/SOCIAL\.shuyuT\(m\.text\):ytT\(m\);/.test(g3));
 });
 
 /* ---------- 6 AA 對 AA_584 的補充 ---------- */

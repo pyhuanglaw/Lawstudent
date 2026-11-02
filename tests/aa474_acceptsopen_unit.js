@@ -268,7 +268,8 @@ await sec('8-6',async()=>{
     seq(['可昕知道嗎？','……她怎麼說？','……好。我想一下。','十二月二十三號，晚上八點落地。你來接我。'])&&!H.has('（她笑了。）你確定？')&&!H.has('我們試試看。'),J(T()));
   check('8-6. 不交往：行程照算兩次約會＋心願地點、SIS_GF_CANYON 不記、不叫書瑀（SIS_CANYON knows）',!H.G.flags.dating_heroine_05&&H.G.flags.SIS_CANYON==='knows'&&H.G.flags.SIS_GF_CANYON==null&&!H.G.flags.CALLED_SHUYU&&DATE.log(H.G,SIS).count===6&&DATE.log(H.G,SIS).wish===true);
   await canyon([1,'我會跟她說','說我們分手']);
-  check('8-6. 她先說（看著峽谷）、她知道：只說前兩句就接「可昕知道嗎？」（AA_481 第 2 節：沒有「你要說好，還是要我再說一次。」）；「我會跟她說。」→「說我們分手。」＝不交往、記承諾（exclusive）',seq(['那我先說。','我喜歡你。……我想了很久，要不要在這裡說。','可昕知道嗎？','那等你說完。'])&&!H.has('你要說好，還是要我再說一次。')&&!H.G.flags.dating_heroine_05&&H.G.flags.YT_PROMISED[SIS]==='exclusive'&&H.G.flags.SIS_CANYON==='knows',J(T()));
+  /* AA_591 第 11 節第 13 點（使用者 2026-11-02「學姊不會先說」）：看著峽谷不說話＝她不先說、這一次什麼都沒發生（不接知情對話、不記承諾、不交往；SIS_CANYON silent）*/
+  check('8-6. 看著峽谷不說話、她知道（AA_591：她不先說）：沒有「那我先說。」「我喜歡你。……」、不接「可昕知道嗎？」；不交往、不記承諾（SIS_CANYON silent）',!H.has('那我先說。')&&!H.has('我喜歡你。……我想了很久，要不要在這裡說。')&&!H.has('可昕知道嗎？')&&H.has('十二月二十三號，晚上八點落地。你來接我。')&&!H.G.flags.dating_heroine_05&&!(H.G.flags.YT_PROMISED&&H.G.flags.YT_PROMISED[SIS])&&H.G.flags.SIS_CANYON==='silent',J(T()));
   await canyon([0,'她知道','她說可以'],()=>{ TERMEND.rec(H.G).think[SIS]='Y3S2'; H.G.termend.Y3S2=Object.assign(H.G.termend.Y3S2||{},{done:{who:SIS,kind:'heart',day:D('2028-06-12')}}); setT('2028-09-02',15); X().meetAction(H.G,SIS,'talk'); setT('2028-09-20',15); X().meetAction(H.G,SIS,'talk'); setT('2028-10-07',7); });
   check('8-6. 上學期心意邀約讓我想想過、中間兩次見面、照實、戀愛 80＝第二次：「……嗯。」「這學期我一直在想這件事。」「……好。我們試試看。」交往＋OPEN_OK、SIS_GF_CANYON、叫書瑀',
     seq(['可昕知道嗎？','……嗯。','這學期我一直在想這件事。','……好。我們試試看。'])&&H.G.flags.dating_heroine_05===true&&okOpen(SIS,KX)&&H.G.flags.SIS_GF_CANYON!=null&&H.G.flags.CALLED_SHUYU===true&&H.G.flags.SIS_CANYON==='confess',J(T()));
@@ -290,7 +291,8 @@ await sec(9,async()=>{
   for(const r of ['187584ca8','origin/claude/story-planning']){ try{ doc=['AA_474_acceptsOpen使用者回答C_七位各自的條件','AA_483_回LAWWW_AA474子代理八題_BB審稿定稿_美國秋假自習室提示'].map(f=>cp.execSync('git show '+r+':"docs/story_planning/'+f+'.md"',{cwd:H.ROOT,encoding:'utf8',stdio:['ignore','pipe','ignore']})).join('\n'); if(doc) break; }catch(e){ doc=''; } }   /* AA_474（第 3、5 節）＋AA_483（第 1 節第 1、2 點、第 2-1、2-2 節取代 ①② 與視訊的字）*/
   const inDoc=t=>doc.indexOf(t)>=0, K5=KNOWL(SIS).opts.find(o=>o.t==='「她知道。」').sub.find(q=>q.t==='「她說可以。」');
   check('9. 第 5 節三處：學姊 Byes 第三句「……你去見她那天，出門前傳一句給我就好。」；沛珊知情心意邀約的接受「好。可是她那邊也要知道喔。兩邊都不要偷偷的。」；學姊「她說可以。」第二次 then「……嗯。」、yes「這學期我一直在想這件事。」「……好。我們試試看。」（第一次照原本「……好。我想一下。」）',
-    Lm().REPAIR.heroine_05.result.Byes[2]==='……你去見她那天，出門前傳一句給我就好。'&&J(KNOWL(PS).opts.find(o=>o.t==='「我想跟妳們都在一起。」').accept.yes)===J(['好。可是她那邊也要知道喔。兩邊都不要偷偷的。'])
+    Lm().REPAIR.heroine_05.result.Byes[1]==='……你去見她那天，出門前傳一句給我就好。'&&Lm().REPAIR.heroine_05.result.Byes.length===2&&   /* AA_591 第 11 節第 13 點：第二句「我還是喜歡你。……」拿掉，第三句變成第二句 */
+J(KNOWL(PS).opts.find(o=>o.t==='「我想跟妳們都在一起。」').accept.yes)===J(['好。可是她那邊也要知道喔。兩邊都不要偷偷的。'])
     &&J(K5.then)===J(['……好。我想一下。'])&&K5.first==='think'&&J(K5.again.then)===J(['……嗯。'])&&J(K5.again.accept.yes)===J(['這學期我一直在想這件事。','……好。我們試試看。'])&&J(K5.again.accept.no)===J(['我還沒準備好。']));
   const all=[].concat(W().broke,W().heard,W().self,W().pause,W().end,W().endVideo,W().told,W().videoOpen).filter(x=>x!=null).map(x=>typeof x==='string'?x:String(x.n).replace(/^（|）$/g,''));
   check('9. 可昕收回的台詞（AA_474 第 3 節＋AA_483 第 1 節第 1、2 點、第 2-1、2-2 節，24 句）、第 5 節改的句子都在企劃線的稿裡（一字不改）',!!doc&&all.length===24&&all.every(inDoc)&&['……你去見她那天，出門前傳一句給我就好。','好。可是她那邊也要知道喔。兩邊都不要偷偷的。','這學期我一直在想這件事。','……好。我們試試看。'].every(inDoc),doc?J(all.filter(t=>!inDoc(t))):'讀不到企劃線 187584ca8（先 git fetch origin claude/story-planning）');
