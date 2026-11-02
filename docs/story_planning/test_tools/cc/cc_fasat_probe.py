@@ -18,7 +18,11 @@
   值班日 DAY1：Y2S1 第 W1 週（預設 11）星期六起找第一個 fafuDuty、不是 2027-05-22（阿姨諮詢）的週六；DAY2＝STORY.fafuSat(DAY1)（下一個值班週六）。環境變數 DAY1＝'YYYY-MM-DD' 可以指定。
   起點 08:15 宿舍（START=out，預設）；START=wancai＝【前置】直接 09:05 萬才館一樓出生點（不經過出發選單）。QUIET=0（預設）＝條件事件照常、只關手機自動打開（quiet_phone）。
 
-CASES（逗號隔開，每個 case 開一個新的瀏覽器；預設 same_sat,next_sat,wzline_same,wzline_first）：
+BB 10:55 已核准的修法（LAWWW 下一版）：story3d.js:757 前提畫面的條件從「FAFU_SHIFT_N===1 且大二」改成「大二（Y2S1／Y2S2）、還沒有 FAFU_FIRST_SHIFT_Y2」，台詞不動。
+  ＝溫州街線先把 FAFU_SHIFT_N 算成 1 的人、舊存檔大二已經值過班（N≥2）但沒有旗標的人，下一次坐圓桌都會補演那一句。
+  wzline_first 的「隔週」check、old_y2_noflag：head d75871437 預期 FAIL，修好後 PASS。
+
+CASES（逗號隔開，每個 case 開一個新的瀏覽器；預設 same_sat,next_sat,wzline_same,wzline_first,old_y2_noflag）：
   same_sat  DAY1 08:15 宿舍 → 站著等出發提醒（途中的對話照玩家點）→「出發：法服值班…」→ 萬才館一樓 → 走到圓桌、按「坐到圓桌（做初談紀錄）」→ 照玩家點完
             （「你先問什麼？」選 PICK_Q（預設「「先請他從頭講一次。」」）、最後選「先走。」——留在 12:00 以前，第二次才有意義）。
             記第一次前後：LAWCLUB_SAT_VISITS、LAWCLUB_SAT_LAST、FAFU_SHIFT_N、FAFU_ROT、careerLean A（全部 B、C）、遊戲時間（advance 1 小時）、fafuShiftable。
@@ -40,7 +44,14 @@ CASES（逗號隔開，每個 case 開一個新的瀏覽器；預設 same_sat,ne
   wzline_first 反過來：【前置】讀檔的存檔一開始就有溫州街線的旗標（同上）→ DAY1 08:15 宿舍 → 出發提醒（標題變成「法服值班（今天陪阿德）」）→ 萬才館 →
             lineAt 自動演溫州街線的值班事件、照玩家點完 → 走到圓桌旁（LAST 已是今天＝「坐到圓桌」應該不見；萬一還在就照玩家按下去點完）。
             記三個數值（VISITS、FAFU_SHIFT_N、careerLean A）在：一開始、溫州街線演完、圓桌之後。check：溫州街線演完 VISITS +1、FAFU_SHIFT_N +1（社員）；
-            圓桌被擋、三個數值沒有再加。前提畫面（757）：這個順序 fafuShift 不會跑＝FAFU_FIRST_SHIFT_Y2 不會設、那句旁白不會出現——只記錄（不算 check）。
+            圓桌被擋、三個數值沒有再加。同一天的前提畫面（757）：這個順序當天 fafuShift 不會跑＝FAFU_FIRST_SHIFT_Y2 不會設、那句旁白不會出現——只記錄（不算 check）。
+            隔週（BB 10:55；WZF_NEXT=1 預設）：【前置】同一份進度（GAME.snapshot()）跳到 DAY2＝fafuSat(DAY1)（下一個值班週六）08:15 宿舍（START=wancai＝09:05 萬才館）
+            → 出發 → 萬才館 → 第一次照玩家坐圓桌、點完（同 same_sat 第一次，選「先走。」）。check：VISITS、FAFU_SHIFT_N、careerLean A 都 +1（check_plus1）、
+            坐圓桌那一段演了阿伯那一句旁白、FAFU_FIRST_SHIFT_Y2＝DAY2（head d75871437 預期 FAIL：N 已經是 1，坐圓桌變 2，757 不成立；修好後 PASS）。
+            DAY2 如果也有溫州街線（照碼 lease3 演完 WZ_LINE_L 應該不會再排）會記下來。
+  old_y2_noflag（BB 10:55）【前置】舊存檔：最小存檔＋lawclub、DAY1（Y2S1 值班週六）08:15 宿舍、FAFU_SHIFT_N 2、LAWCLUB_SAT_VISITS 2、LAWCLUB_SAT_LAST＝DAY1−14（更早的日子）、
+            FAFU_ROT {open:2,cs:2,…}、沒有 FAFU_FIRST_SHIFT_Y2（環境變數 OLD_N／OLD_VIS 可改）→ 出發 → 萬才館 → 照玩家坐圓桌、點完（選「先走。」）。
+            check：check_plus1（VISITS +1、N +1、A +1、LAST＝今天、時間 ≥ +1 小時）、補演阿伯那一句旁白、FAFU_FIRST_SHIFT_Y2＝那一天（head 預期 FAIL：N 不是 1）。
 截圖（直向＋橫向）：出發選單、萬才館圓桌（第一次按之前）、「你先問什麼？」、「再待到十二點／先走」、第二次走到圓桌旁（萬才館裡、重新進來以後）、等到 11:55；
   wzline_*：溫州街線事件的第一句對話、演完、之後圓桌旁。
 逐字稿：HOOK（GAME.say／choose／caption／toast／enter／EVENTS.run／STORY.fafuShift 進出／WZL.lineAt 開演／WZL.run 進出＋當下計數）→ transcript_<case>.json。
@@ -52,10 +63,13 @@ CASES（逗號隔開，每個 case 開一個新的瀏覽器；預設 same_sat,ne
   - wzline_same 不能一開始就把溫州街線的旗標寫進存檔：lineAt 是 WZL.tick 自己叫的，一進萬才館（9 點以後）就會先演，順序就變成 wzline_first。
     所以先坐圓桌、再用同一份進度寫旗標讀檔（【前置】）。WZ_COPY_LEASE 一定要跟著寫：WZL.linePlan（每格的 PHONE_RULES）看 leaseStep，對不上會把 WZ_LINE_L 清掉。
   - wzline_*：WZL.run 的 end 在 lineAt 的加分回呼之前（計數在 end 那一筆還沒加），量計數用演完、WZL.playing 放開以後的 FL_JS。
+  - wzline_first 隔週／old_y2_noflag：第 11 週已過第 6 週＝伯翰「這學期起我排班」那一句（FAFU_BH_HELLO，認識伯翰才有）、學姊的句子可能一起出現；
+    只看阿伯那一句有沒有在這次坐圓桌那一段（one_shift 記的 HOOK say）。DAY2 如果不在大二（跨學期）＝記一筆，check 會 FAIL（本來就不該演）。
+  - old_y2_noflag 的 FAFU_ROT 設 open/cs＝OLD_N（開場、第幾件和「值過 N 次」對得上）；LAST＝DAY1−14 只是「更早的日子」，不保證那天是值班日。
   - DAY1 預設第 11 週；如果那天剛好是溫州街線一／線三的目標週六（WZ_LINE_L／WZ_LINE_I；最小存檔沒有那幾條的前置，應該不會），劇情會不一樣——會記 wzline 狀態。
 環境變數：CASES、W1（11）、DAY1、START（out／wancai）、QUIET（0）、PICK_Q、WAIT_NOON（1）、STAY（0：最後選「先走。」；1：選「再待到十二點。」——wzline_same 一律選「先走。」）、
-  WZ_K（lease3／lease2／ins2）、WZ_INJECT（reload／live）。
-用法：LW_TESTS=<工作樹>/tests SHA=<sha> [CASES=same_sat,next_sat,wzline_same,wzline_first] python3 cc_fasat_probe.py '<URL>/index.html' <輸出資料夾>"""
+  WZ_K（lease3／lease2／ins2）、WZ_INJECT（reload／live）、WZF_NEXT（1：wzline_first 加跑隔週；0：只跑同一天）、OLD_N（2）、OLD_VIS（2）。
+用法：LW_TESTS=<工作樹>/tests SHA=<sha> [CASES=same_sat,next_sat,wzline_same,wzline_first,old_y2_noflag] python3 cc_fasat_probe.py '<URL>/index.html' <輸出資料夾>"""
 import os, sys, json, asyncio, copy, math, time, traceback
 sys.path.insert(0, os.environ['LW_TESTS']); import playlib as L
 sys.path.insert(0, os.path.dirname(os.path.dirname(os.path.abspath(__file__)))); import bbplay as P   # bbplay 在上一層（BB 的 test_tools）
@@ -63,7 +77,7 @@ from playwright.async_api import async_playwright
 
 URL, OUT = sys.argv[1], sys.argv[2]
 J = lambda o: json.dumps(o, ensure_ascii=False)
-CASES = [c.strip() for c in os.environ.get('CASES', 'same_sat,next_sat,wzline_same,wzline_first').split(',') if c.strip()]
+CASES = [c.strip() for c in os.environ.get('CASES', 'same_sat,next_sat,wzline_same,wzline_first,old_y2_noflag').split(',') if c.strip()]
 W1 = int(os.environ.get('W1', '11'))
 DAY1 = os.environ.get('DAY1', '')
 START = os.environ.get('START', 'out')
@@ -79,6 +93,9 @@ WZ_K = os.environ.get('WZ_K', 'lease3')
 WZ_INJECT = os.environ.get('WZ_INJECT', 'reload')
 LINE_EV = {'lease2': 'ev_wz_c_lease2', 'lease3': 'ev_wz_c_lease3', 'ins2': 'ev_wz_b_ins2'}[WZ_K]
 FIRST_Y2_LINE = '隔壁桌，一個阿伯'
+WZF_NEXT = os.environ.get('WZF_NEXT', '1') == '1'
+OLD_N = int(os.environ.get('OLD_N', '2'))
+OLD_VIS = int(os.environ.get('OLD_VIS', '2'))
 
 
 def hm(h):
@@ -527,6 +544,82 @@ async def case_wz_same(p, run, shared):
     return res
 
 
+async def check_first_y2(run, tag, af, dialog_rows):
+    '''前提畫面（757）有沒有在這次坐圓桌演出：阿伯那一句在 one_shift 記的那一段、FAFU_FIRST_SHIFT_Y2＝今天'''
+    ls = said(dialog_rows, FIRST_Y2_LINE)
+    run.check('%s：坐圓桌那一段演了「大二第一次值班」的前提畫面——旁白「%s…」%s（story3d.js:757；BB 10:55 修法，head d75871437 預期 FAIL）'
+              % (tag, FIRST_Y2_LINE, '有' if ls else '沒有'), ls, J([r.get('t') for r in dialog_rows if r.get('k') == 'say'][:40]))
+    run.check('%s：FAFU_FIRST_SHIFT_Y2＝今天（%s，今天 %s）' % (tag, af.get('FIRST_Y2'), af['day']), af.get('FIRST_Y2') == af['day'], '')
+    return {'flag': af.get('FIRST_Y2'), 'line_said': ls}
+
+
+async def wzf_next_week(pg, cdp, run, res, shared, prev):
+    '''wzline_first 隔週：同一份進度跳到下一個值班週六 → 第一次照玩家坐圓桌'''
+    tag = 'wzline_first 隔週'
+    d2 = (shared.get('days') or {}).get('d2')
+    if not d2:
+        run.check('%s：找得到下一個值班週六（DAY2）' % tag, False, J(shared.get('days'))); return
+    if not str(d2.get('term') or '').startswith('Y2'):
+        run.note('%s：DAY2 %s 不在大二（%s）——前提畫面本來就不該演' % (tag, d2['key'], d2.get('term')))
+    h0 = 8.25 if START == 'out' else 9.08; z0 = 'dorm' if START == 'out' else 'wancai'
+    s = await P.snapshot(pg); dx = await P.day_of(pg, d2['key'])
+    s.update(day=dx['d'], weekday=dx['wd'], hour=h0, zone=z0, pos=None); s.pop('_stuck', None); s.pop('_busy', None)
+    await load(pg, cdp, s)
+    run.setup('%s：【前置】同一天跑完的進度（GAME.snapshot()）跳到 DAY2 %s（%s 第 %s 週，六）%s %s' % (tag, d2['key'], d2.get('term'), d2.get('week'), hm(h0), z0))
+    g0 = await fl(pg); res['next_start'] = g0
+    run.check('%s：前置成立（DAY2 值班、是社員、shiftable、還沒有 FAFU_FIRST_SHIFT_Y2、N 和同一天結束時一樣＝%s）' % (tag, prev['N']),
+              g0['duty'] and g0['member'] and g0['shiftable'] and g0.get('FIRST_Y2') is None and g0['N'] == prev['N'], J(slimfl(g0)))
+    if (g0.get('line') or {}).get('today'): run.note('%s：DAY2 也有溫州街線（%s）——可能先演、把圓桌擋掉' % (tag, J(g0['line']['today'])))
+    n0 = await pl_len(pg)
+    res['next_by_player'] = await arrive_wancai(pg, cdp, run, res, 'wzline_first_next', await P.snapshot(pg))
+    b4, af, tapped = await one_shift(pg, cdp, run, res, 'wzf_next_shift', final='先走。')
+    await check_plus1(run, tag, b4, af, tapped)
+    lr = [r for r in await rows(pg, n0) if r['k'] in ('line', 'wzrun')]
+    if lr: run.note('%s：DAY2 溫州街線也演了 %s' % (tag, J(lr)))
+    res['next_first_y2'] = await check_first_y2(run, tag, af, (res.get('wzf_next_shift_dialog') or {}).get('rows') or [])
+    res['shots']['next_after'] = await shoot_both(pg, run, 'wzf_next_after')
+    res.setdefault('tri', {})['next_after_table'] = tri(af)
+
+
+async def case_old_y2(p, run, shared):
+    res = {'case': 'old_y2_noflag', 'shots': {}}; b = None
+    try:
+        b, pg, cdp, errs, d1 = await boot_case(p, run, res, 'old_y2_noflag', shared)
+        last = d1['d'] - 14
+        old = {'lawclub': True, 'FAFU_SHIFT_N': OLD_N, 'LAWCLUB_SAT_VISITS': OLD_VIS, 'LAWCLUB_SAT_LAST': last,
+               'FAFU_ROT': {'open': OLD_N, 'cs': OLD_N, 'stay': 0, 'yt': 0, 'bh': 0, 'bk': 0, 'lg': 0}}
+        st, d = await state_at(pg, d1['key'], 8.25 if START == 'out' else 9.08, 'dorm' if START == 'out' else 'wancai', old)
+        st['flags'].pop('FAFU_FIRST_SHIFT_Y2', None)
+        await load(pg, cdp, st)
+        run.setup('old_y2_noflag：【前置】舊存檔（最小存檔＋lawclub＋大二已值班 %d 次、VISITS %d、LAST＝DAY1−14、FAFU_ROT open/cs %d、沒有 FAFU_FIRST_SHIFT_Y2）→ %s（%s 第 %s 週，六）%s'
+                  % (OLD_N, OLD_VIS, OLD_N, d1['key'], d1['term'], d1['week'], '08:15 宿舍' if START == 'out' else '09:05 萬才館一樓'))
+        f0 = await fl(pg); res['start'] = f0
+        run.check('old_y2_noflag：前置成立（大二、值班、社員、shiftable、N＝%d、VISITS＝%d、LAST 是更早的日子、沒有 FAFU_FIRST_SHIFT_Y2）' % (OLD_N, OLD_VIS),
+                  str(d1.get('term') or '').startswith('Y2') and f0['duty'] and f0['member'] and f0['shiftable'] and f0['N'] == OLD_N and f0['VIS'] == OLD_VIS
+                  and f0['LAST'] == last and f0.get('FIRST_Y2') is None, J(slimfl(f0)))
+        res['shots']['start'] = await shoot_both(pg, run, 'old_start')
+        res['by_player'] = await arrive_wancai(pg, cdp, run, res, 'old_y2_noflag', await P.snapshot(pg))
+        b4, af, tapped = await one_shift(pg, cdp, run, res, 'old_shift', final='先走。')
+        await check_plus1(run, 'old_y2_noflag', b4, af, tapped)
+        res['first_y2'] = await check_first_y2(run, 'old_y2_noflag', af, (res.get('old_shift_dialog') or {}).get('rows') or [])
+        res['shots']['after'] = await shoot_both(pg, run, 'old_after')
+        res['rows'] = await rows(pg)
+        run.check('old_y2_noflag：STORY.fafuShift 只真的跑了一次', sum(1 for r in res['rows'] if r['k'] == 'shift' and r['n'] == 'start' and r['t'] == 'true') == 1,
+                  J([r for r in res['rows'] if r['k'] == 'shift']))
+        run.check('old_y2_noflag：沒有 JS 例外', not errs, J(errs[:3]))
+    except Exception as e:
+        run.check('old_y2_noflag：跑完（沒有探針例外）', False, repr(e)[:500]); traceback.print_exc()
+        try: await run.shot(pg, 'old_y2_exception')
+        except Exception: pass
+    finally:
+        with open(os.path.join(OUT, 'transcript_old_y2_noflag.json'), 'w', encoding='utf-8') as f:
+            json.dump(res, f, ensure_ascii=False, indent=1)
+        if b:
+            try: await asyncio.wait_for(b.close(), 30)
+            except Exception: pass
+    return res
+
+
 async def case_wz_first(p, run, shared):
     res = {'case': 'wzline_first', 'shots': {}, 'wz_k': WZ_K}; b = None
     try:
@@ -554,6 +647,8 @@ async def case_wz_first(p, run, shared):
         run.note('wzline_first：「大二第一次值班」的前提畫面（story3d.js:757）FAFU_FIRST_SHIFT_Y2＝%s、旁白「%s…」%s、fafuShift 真的跑了 %d 次'
                  '（只記錄：這個順序 FAFU_SHIFT_N 被溫州街線算成 1，之後 fafuShift 再跑 N 也不會是 1）' % (res['first_y2']['flag'], FIRST_Y2_LINE,
                  '有出現' if res['first_y2']['line_said'] else '沒有出現', res['first_y2']['shift_ran']))
+        if WZF_NEXT:
+            await wzf_next_week(pg, cdp, run, res, shared, c)
         run.check('wzline_first：沒有 JS 例外', not errs, J(errs[:3]))
     except Exception as e:
         run.check('wzline_first：跑完（沒有探針例外）', False, repr(e)[:500]); traceback.print_exc()
@@ -580,6 +675,7 @@ async def main():
             elif c == 'next_sat': await case_next(p, run, shared)
             elif c == 'wzline_same': await case_wz_same(p, run, shared)
             elif c == 'wzline_first': await case_wz_first(p, run, shared)
+            elif c == 'old_y2_noflag': await case_old_y2(p, run, shared)
             else: run.note('不認得的 case：%s' % c)
     print('SHA', os.environ.get('SHA', '?'), flush=True)
     sys.exit(run.finish())
