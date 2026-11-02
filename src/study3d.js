@@ -124,6 +124,7 @@ const STUDY=(function(){
     for(const f of S.REVIEW_CHECKS){ let w=null; try{ w=f(G,hh); }catch(e){ console.warn('STUDY.REVIEW_CHECKS',e); } if(w) return {dim:true,why:w}; }
     const sc=CLS.spanCheck?CLS.spanCheck(G,hh,{noClose:!!o.home}):{closed:false,miss:[],exam:[]};
     if(sc.closed) return {dim:true,why:'閉館前讀不完（總複習要三個小時）。'};
+    if(sc.hard&&sc.hard.length) return {dim:true,why:'會錯過：'+sc.hard.join('、')+'。'};   /* CLS.HARD_FNS（補考）*/
     if(sc.exam.length) return {dim:true,why:'會錯過'+sc.exam.join('、')+'的期末考。'};
     return {dim:false,why:'',warn:sc.miss.length?'會錯過：'+sc.miss.join('、'):''}; };
   /* 選單的那一項（座位、書桌、Café、家裡）：不開＝null */

@@ -647,7 +647,7 @@ const PG=(function(){
     const E=GM.E, P=E&&E.player;
     const free=!!P&&!E.paused&&!P.busy&&!(GM.D&&GM.D.active)&&!GM.titleIdle&&!(P.path&&P.path.length)&&!(typeof EVENTS!=='undefined'&&EVENTS.running)&&!(typeof HOME!=='undefined'&&HOME.at&&HOME.at(G));
     if(!free){ idleSince=0; return; }
-    const s=S.due(G); if(s&&!P.seat){ idleSince=0; S.busy=true; S.runStep(GM,s).catch(e=>console.warn('PG '+s.id,e)).finally(()=>{ S.busy=false; }); return; }
+    const s=S.due(G); if(s&&(!P.seat||s.seatOk)){   /* seatOk：坐著也演（D118 補考：座位讀到補考前、待到補考前停下來，坐著也要接得到那一場；那一場自己站起來）*/ idleSince=0; S.busy=true; S.runStep(GM,s).catch(e=>console.warn('PG '+s.id,e)).finally(()=>{ S.busy=false; }); return; }
     if(!S.on(G)||P.seat||(+P.speed||0)>0.05||P.pose==='walk'||P.pose==='run'||S.y4Due(G)||(typeof OUT!=='undefined'&&OUT.due&&OUT.due(G))||(typeof PHONE!=='undefined'&&PHONE.mustOpen&&PHONE.mustOpen(G))){ idleSince=0; return; }
     const now=Date.now(); if(!idleSince){ idleSince=now; return; } if(now-idleSince<S.IDLE_MS) return; idleSince=0;
     if(S.nextStop(G)==null) return;
