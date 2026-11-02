@@ -1,0 +1,333 @@
+{
+ "rows": [
+  {
+   "k": "adv",
+   "n": "start",
+   "t": "{}",
+   "d": "2029-09-02",
+   "h": 22.025,
+   "z": "campus",
+   "home": false
+  },
+  {
+   "k": "card",
+   "n": "9/5（三）08:25",
+   "t": "（重修海商法與海洋法。教室裡坐的，都是學弟妹。）",
+   "d": "2029-09-05",
+   "h": 8.417,
+   "z": "campus",
+   "home": false
+  },
+  {
+   "k": "adv",
+   "n": "end",
+   "t": "true",
+   "d": "2029-09-05",
+   "h": 8.417,
+   "z": "campus",
+   "home": false
+  },
+  {
+   "k": "attend",
+   "n": "1450:maritime",
+   "t": "{\"key\":\"1450:maritime\",\"label\":\"重修：海商法與海洋法\",\"fd\":true}",
+   "d": "2029-09-05",
+   "h": 8.423,
+   "z": "campus",
+   "home": false
+  },
+  {
+   "k": "card",
+   "n": "重修：海商法與海洋法",
+   "t": "09:10–12:10",
+   "d": "2029-09-05",
+   "h": 8.423,
+   "z": "campus",
+   "home": false
+  },
+  {
+   "k": "bg",
+   "n": "begin",
+   "t": "{\"image\":\"assets/bg/classroom_small.webp\"}",
+   "d": "2029-09-05",
+   "h": 9.167,
+   "z": "campus",
+   "home": false
+  },
+  {
+   "k": "say",
+   "n": "老師",
+   "t": "延畢的同學，期末交一份報告就好。……課要來。",
+   "d": "2029-09-05",
+   "h": 9.167,
+   "z": "campus",
+   "home": false
+  },
+  {
+   "k": "say",
+   "n": "",
+   "t": "兼任老師：你們身上穿的、手上拿的，大部分是坐船來的。",
+   "d": "2029-09-05",
+   "h": 9.167,
+   "z": "campus",
+   "home": false
+  },
+  {
+   "k": "cap",
+   "n": "",
+   "t": "下課了。",
+   "d": "2029-09-05",
+   "h": 12.167,
+   "z": "campus",
+   "home": false
+  },
+  {
+   "k": "attended",
+   "n": "1450:maritime",
+   "t": "{\"ret\":true,\"cls\":true}",
+   "d": "2029-09-05",
+   "h": 12.167,
+   "z": "campus",
+   "home": false
+  },
+  {
+   "k": "adv",
+   "n": "start",
+   "t": "{}",
+   "d": "2029-09-05",
+   "h": 12.168,
+   "z": "campus",
+   "home": false
+  },
+  {
+   "k": "card",
+   "n": "9/12（三）08:25",
+   "t": "（開學第一週。總圖三樓的位子，坐的大多是不認識的臉。）",
+   "d": "2029-09-12",
+   "h": 8.417,
+   "z": "campus",
+   "home": false
+  },
+  {
+   "k": "adv",
+   "n": "end",
+   "t": "true",
+   "d": "2029-09-12",
+   "h": 8.417,
+   "z": "campus",
+   "home": false
+  }
+ ],
+ "shots": {
+  "phone_today": [
+   "C:\\Users\\USER\\Documents\\Lawstudent_cclocal\\docs\\story_planning\\CC\\local_out\\03_delay14\\out\\01_dorm_stand_phone_today_land.png",
+   "C:\\Users\\USER\\Documents\\Lawstudent_cclocal\\docs\\story_planning\\CC\\local_out\\03_delay14\\out\\02_dorm_stand_phone_today_port.png"
+  ],
+  "after_class": [
+   "C:\\Users\\USER\\Documents\\Lawstudent_cclocal\\docs\\story_planning\\CC\\local_out\\03_delay14\\out\\03_dorm_stand_after_class_land.png",
+   "C:\\Users\\USER\\Documents\\Lawstudent_cclocal\\docs\\story_planning\\CC\\local_out\\03_delay14\\out\\04_dorm_stand_after_class_port.png"
+  ]
+ },
+ "picks": [],
+ "start": {
+  "clock": {
+   "key": "2029-09-02",
+   "wd": 7,
+   "day": 1447,
+   "h": 22.003,
+   "hm": "2029-09-02 22:00",
+   "zone": "campus"
+  },
+  "flags": {
+   "FAIL_DELAY": true,
+   "FAIL_DELAY_V": 2,
+   "FAIL_DELAY_COURSES": [
+    "maritime"
+   ],
+   "FAIL_DELAY_DAY": 1379,
+   "Y5_DAYS": "study",
+   "BAR_REG": false,
+   "MOVED_OUT": 1381,
+   "HOME_AFTER": "home"
+  },
+  "items": [],
+  "opts": [],
+  "next": "2029-09-05 08:25",
+  "fdStop": "2029-09-05 08:25",
+  "cls": {},
+  "att": 0,
+  "pgOn": true,
+  "y5On": false,
+  "homeAt": false,
+  "busy": false,
+  "title": false
+ },
+ "landings0": [
+  {
+   "d": "2029-09-05",
+   "h": 8.417,
+   "hm": "08:25",
+   "z": "campus",
+   "home": false
+  }
+ ],
+ "at_land": {
+  "clock": {
+   "key": "2029-09-05",
+   "wd": 3,
+   "day": 1450,
+   "h": 8.418,
+   "hm": "2029-09-05 08:25",
+   "zone": "campus"
+  },
+  "flags": {
+   "FAIL_DELAY": true,
+   "FAIL_DELAY_V": 2,
+   "FAIL_DELAY_COURSES": [
+    "maritime"
+   ],
+   "FAIL_DELAY_DAY": 1379,
+   "Y5_DAYS": "study",
+   "BAR_REG": false,
+   "MOVED_OUT": 1381,
+   "HOME_AFTER": "home"
+  },
+  "items": [
+   {
+    "key": "1450:maritime",
+    "label": "重修：海商法與海洋法",
+    "fd": true,
+    "t0": 9.166666666666666,
+    "t1": 12.166666666666666,
+    "st": "open"
+   }
+  ],
+  "opts": [
+   "直接去上課：重修：海商法與海洋法〔09:10–12:10　捷運＋公車 約 30 分鐘〕"
+  ],
+  "next": "2029-09-12 08:25",
+  "fdStop": "2029-09-12 08:25",
+  "cls": {},
+  "att": 0,
+  "pgOn": true,
+  "y5On": true,
+  "homeAt": false,
+  "busy": false,
+  "title": false
+ },
+ "stuck": null,
+ "phone_today": "9/5 週三・大五上 第 1 週\n現在 08:25\n今天的時間　上午 ○　下午 ○　晚上 ○\n每個時段一件主要的事：上課、社團活動、出遊約會、自習、打工、自由出行、健身都算一件（上課、約好的出遊照樣能去）；吃飯、聊天、約好的見面不算。\n09:10–12:10 重修：海商法與海洋法\n法律系館A 202・兼任老師・現在可以去\n直接去上課\n法律學院圖書館：今天 09:10–17:00　總圖：08:00–22:00\n跳過時間\n沒有想做的事可以跳過；遇到特殊課堂、約好的時間、劇情會停下來。\n等到中午（12:00）\n等到下午（14:00）\n等到傍晚（17:30）\n等到晚上（20:00）\n翹課不會被扣分；沒去的課，可以在宿舍、圖書館、Café 讀書補回來。",
+ "phone_btns": [
+  {
+   "key": "1450:maritime",
+   "t": "直接去上課",
+   "row": "09:10–12:10 重修：海商法與海洋法\n法律系館A 202・兼任老師・現在可以去\n直接去上課"
+  }
+ ],
+ "at_shot": {
+  "clock": {
+   "key": "2029-09-05",
+   "wd": 3,
+   "day": 1450,
+   "h": 8.423,
+   "hm": "2029-09-05 08:25",
+   "zone": "campus"
+  },
+  "flags": {
+   "FAIL_DELAY": true,
+   "FAIL_DELAY_V": 2,
+   "FAIL_DELAY_COURSES": [
+    "maritime"
+   ],
+   "FAIL_DELAY_DAY": 1379,
+   "Y5_DAYS": "study",
+   "BAR_REG": false,
+   "MOVED_OUT": 1381,
+   "HOME_AFTER": "home"
+  },
+  "items": [
+   {
+    "key": "1450:maritime",
+    "label": "重修：海商法與海洋法",
+    "fd": true,
+    "t0": 9.166666666666666,
+    "t1": 12.166666666666666,
+    "st": "open"
+   }
+  ],
+  "opts": [
+   "直接去上課：重修：海商法與海洋法〔09:10–12:10　捷運＋公車 約 30 分鐘〕"
+  ],
+  "next": "2029-09-12 08:25",
+  "fdStop": "2029-09-12 08:25",
+  "cls": {},
+  "att": 0,
+  "pgOn": true,
+  "y5On": true,
+  "homeAt": false,
+  "busy": false,
+  "title": false
+ },
+ "attended": [
+  {
+   "k": "attended",
+   "n": "1450:maritime",
+   "t": "{\"ret\":true,\"cls\":true}",
+   "d": "2029-09-05",
+   "h": 12.167,
+   "z": "campus",
+   "home": false
+  }
+ ],
+ "end": {
+  "clock": {
+   "key": "2029-09-12",
+   "wd": 3,
+   "day": 1457,
+   "h": 8.42,
+   "hm": "2029-09-12 08:25",
+   "zone": "campus"
+  },
+  "flags": {
+   "FAIL_DELAY": true,
+   "FAIL_DELAY_V": 2,
+   "FAIL_DELAY_COURSES": [
+    "maritime"
+   ],
+   "FAIL_DELAY_DAY": 1379,
+   "Y5_DAYS": "study",
+   "BAR_REG": false,
+   "MOVED_OUT": 1381,
+   "HOME_AFTER": "home",
+   "FD_TEACHER": {
+    "maritime": 1450
+   }
+  },
+  "items": [
+   {
+    "key": "1457:maritime",
+    "label": "重修：海商法與海洋法",
+    "fd": true,
+    "t0": 9.166666666666666,
+    "t1": 12.166666666666666,
+    "st": "open"
+   }
+  ],
+  "opts": [
+   "直接去上課：重修：海商法與海洋法〔09:10–12:10　捷運＋公車 約 30 分鐘〕"
+  ],
+  "next": "2029-09-19 08:25",
+  "fdStop": "2029-09-19 08:25",
+  "cls": {
+   "1450:maritime": 1
+  },
+  "att": 1,
+  "pgOn": true,
+  "y5On": true,
+  "homeAt": false,
+  "busy": false,
+  "title": false
+ },
+ "sha": "c2d0c24bc",
+ "case": "dorm_stand"
+}
