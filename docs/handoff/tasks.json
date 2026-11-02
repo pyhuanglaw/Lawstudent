@@ -40066,6 +40066,60 @@
         "receiver": "LAWWW",
         "ack": "ACK"
       }
+    },
+    {
+      "first": {
+        "term": "Y1S1",
+        "week": null,
+        "earliest": "第一次期中考前（讀書、一鍵總複習）；國考與職涯在畢業以後",
+        "mainline": true,
+        "blocks": false,
+        "prereq": false,
+        "parallel": true,
+        "confirmed": true
+      },
+      "area": null,
+      "id": "AA584-SIS-B2-1102",
+      "title": "AA_584 學姊第二批（閒聊階梯與邀約，@14154434b，使用者用選擇題確認完 10 句）：第 11 節的改字、刪 S-L8／S2-L6／S3-L3 三層和 S3-L6 extraIf[0]",
+      "owner": "LAWWW",
+      "status": "進行中",
+      "priority": "P1",
+      "note": "LAWWW 18:1x 派子代理在 worktree 整合（基準 int/next1102 48918ca20）；完成後合併、交 BB",
+      "next": "",
+      "xai": {
+        "spec": "AA 18:10 訊息",
+        "branch": "int/next1102",
+        "acceptance": "BB 測",
+        "receiver": "BB",
+        "ack": "ACK"
+      }
+    },
+    {
+      "first": {
+        "term": "Y1S1",
+        "week": null,
+        "earliest": "第一次期中考前（讀書、一鍵總複習）；國考與職涯在畢業以後",
+        "mainline": true,
+        "blocks": false,
+        "prereq": false,
+        "parallel": true,
+        "confirmed": true
+      },
+      "area": null,
+      "id": "AA595-LIB-NOD-THERMOS-1102",
+      "title": "使用者新規則（經 AA 18:10）：①圖書館讀書區域遇到人不開口、最多點頭 ②「空的保溫瓶」這條線全部拿掉——AA 掃全遊戲（AA_595），交 LAWWW 改",
+      "owner": "AA",
+      "status": "進行中",
+      "priority": "P1",
+      "note": "AA 掃描中；LAWWW 收到清單後實作（已知相關：postgrad3d helpedCoffee 讀 HELPED 黑咖啡）",
+      "next": "",
+      "xai": {
+        "spec": "AA 18:10 訊息",
+        "branch": "int/next1102",
+        "acceptance": "BB 測",
+        "receiver": "BB",
+        "ack": "ACK"
+      }
     }
   ]
 }
