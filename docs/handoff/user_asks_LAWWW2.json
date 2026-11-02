@@ -464,7 +464,7 @@
    "task": "TEST-OFFLOAD-1102",
    "quote": "現在測試的部分你自己進行的有多少？你覺得要不要交給B B他可以請我的電腦測試比較快。",
    "src": "使用者直接對帳號 A 的 LAWWW2 說",
-   "note": "回答：全部都是 LAWWW2 自己在雲端跑（Node 單元測試快；瀏覽器測試用 SwiftShader 每秒 1～4 張、一次一個，背景排了約 3 小時）。建議：慢的瀏覽器測試（flow_*、reachability_all、campus_layout_nav、seats_on_furniture、交件前回歸）交給 BB 用使用者的電腦跑，LAWWW2 每次交件附測試單（基準 SHA、patch、二進位、指令、預期結果、原本就會失敗的）；Node 單元測試和建模時要看的截圖 LAWWW2 自己留著。使用者同意後才通知 BB（BB 主任務是驗收讀書／考試系統，會加重負擔）。【暫停的原因】等使用者決定要不要把慢的瀏覽器測試交給 BB／CC 用使用者的電腦跑；BB 18:14 同意，條件是 CC 先確認使用者電腦的 runner 抓得到 claude/second-ai-env-art（目前只抓 cc-testing 和開發分支），v9.10.16 發布後才能加。在那之前照舊在雲端跑。"
+   "note": "回答：全部都是 LAWWW2 自己在雲端跑（Node 單元測試快；瀏覽器測試用 SwiftShader 每秒 1～4 張、一次一個，背景排了約 3 小時）。建議：慢的瀏覽器測試（flow_*、reachability_all、campus_layout_nav、seats_on_furniture、交件前回歸）交給 BB 用使用者的電腦跑，LAWWW2 每次交件附測試單（基準 SHA、patch、二進位、指令、預期結果、原本就會失敗的）；Node 單元測試和建模時要看的截圖 LAWWW2 自己留著。使用者同意後才通知 BB（BB 主任務是驗收讀書／考試系統，會加重負擔）。【暫停的原因】等使用者決定要不要把慢的瀏覽器測試交給 BB／CC 用使用者的電腦跑；BB 18:14 同意，條件是 CC 先確認使用者電腦的 runner 抓得到 claude/second-ai-env-art（目前只抓 cc-testing 和開發分支），v9.10.16 發布後才能加。在那之前照舊在雲端跑。 18:5x：使用者對 LAWWW 說「同意，LAWWW2 的測試改用我的電腦跑」（UA-LAWWW-1102-27，LAWWW 19:0x 轉達）；總表 TEST-OFFLOAD-1102 已開（暫停：等 CC 的 runner 支援 claude/second-ai-env-art、v9.10.16 發布後切換）。從一樓二樓第二版起，交件附測試單；切換之前照舊在雲端跑。"
   }
  ]
 }
