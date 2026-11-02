@@ -40666,6 +40666,33 @@
         "receiver": "BB",
         "ack": "ACK"
       }
+    },
+    {
+      "first": {
+        "term": "Y1S1",
+        "week": null,
+        "earliest": "第一次期中考前（讀書、一鍵總複習）；國考與職涯在畢業以後",
+        "mainline": true,
+        "blocks": false,
+        "prereq": false,
+        "parallel": true,
+        "confirmed": true
+      },
+      "area": null,
+      "id": "AA600-EX-NO-CONTACT-1102",
+      "title": "AA_600 分手後不主動聯絡（使用者 11-02）：系統 S1～S11（前任不送她主動的訊息／邀約／心意邀約／假期訊息，V6EX.cool 不再下學期恢復；學姊前任第 3 則才回、約第 3 次才回「最近忙。」、SIS_EX_CAFE 每學期前兩次只點頭）＋以安 A1～A24、學姊 B1～B33 逐條＋挽回改稿（祐廷先開口：日本 6/24、7/7、美國廚房、感恩節湖邊、初雪）",
+      "owner": "LAWWW",
+      "status": "待開工",
+      "priority": "P1",
+      "note": "AA 20:43 P1；第②級＋使用者已選挽回方向",
+      "next": "等 AA591 子代理合併（學姊檔重疊）再派子代理；企劃線 031414cad（AA_600＋附錄 69 處清查表，基準 0b5493c2b）；每處加「前任收不到／不演」測試",
+      "xai": {
+        "spec": "企劃線 docs/story_planning/AA_600_分手後不主動聯絡_全遊戲修正.md＋附錄 @031414cad",
+        "branch": "int/next1102",
+        "acceptance": "BB 測",
+        "receiver": "BB",
+        "ack": "ACK"
+      }
     }
   ]
 }
