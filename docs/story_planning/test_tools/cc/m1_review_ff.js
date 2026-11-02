@@ -46,7 +46,8 @@ const wdOf=d=>{ const w=CALENDAR.dateOf(d).wd; return w===7?0:w; };
 const setT=(t)=>{ const G=H.G, d=dayOf(t); if(d>G.day){ G.day=d; G.weekday=wdOf(d); G.energy=100; } G.hour=t-G.day*24; E.hour=G.hour; };
 const fresh=(day,hour,flags)=>{ H.G={v:3,day,hour,zone:'dorm',stage:'law',weekday:wdOf(day),weather:'clear',energy:70,money:50000,flags:Object.assign({KX_FIRST_MSG:true,fundsV2:1,allowanceMonth:CALENDAR.dateOf(day).m,examSeed:12345,EXCHANGE_ROUTE:'TW'},flags||{}),choices:{},events:{done:{},last:{},count:0},name:'祐廷',rel:{},social:null,stats:{classes:0}};
   SOCIAL.bind(H.G); EVENTS.bind(GM); INV.rec(H.G); if(STORY._fy&&STORY._fy.reset) STORY._fy.reset(); H.said=[]; H.toasts=[]; H.cards=[]; H.menus=[]; return H.G; };
-const isSys=m=>!!m&&(m.th==='sys'||/^【/.test(String(m.text||'')));
+const isSys=m=>!!m&&(m.th==='sys'||m.from==='sys');   /* 系統訊息（嚴格）：手機的「系統」那一串 */
+const isBracket=m=>!!m&&!isSys(m)&&/^【/.test(String(m.text||''));   /* 【…】公告型、但在群組／私訊串（例：系辦在班群的報名公告）＝分不清，交 BB */
 const short=s=>String(s||'').replace(/\s+/g,' ').slice(0,60);
 
 /* ---------- 量測掛勾 ---------- */
@@ -55,7 +56,7 @@ const oJump=SEMFF.jump, oAuto=SEMFF.autoAttend;
 SEMFF.autoAttend=function(G,it){ const r=oAuto.apply(this,arguments); if(r) autoKeys.push({key:it.key,exam:it.exam||null,name:it.c.name}); return r; };
 SEMFF.jump=async function(GM_,to){ const G=H.G, t0=now(), preAsk=new Set(PHONE.pending(G)), preInv=new Set((G.invites||[]).filter(iv=>iv.state==='offered'||iv.state==='changed').map(iv=>iv.id)), preEv=new Set(SEMFF.mustEvs(G)), nMsg0=(G.msgs||[]).length;
   const r=await oJump.apply(this,arguments); const e={from:t0,t:now(),why:r.why,stop:r.stop?r.stop.why:null,x:r.stop&&r.stop.x?Object.assign({},r.stop.x):null};
-  if(r.why==='msg'){ const nw=PHONE.pending(G).filter(m=>!preAsk.has(m)); e.msgs=nw.map(m=>({th:m.th||PHONE.th&&PHONE.th(m),text:short(m.text),sys:isSys(m)})); const iv=(G.invites||[]).filter(iv=>(iv.state==='offered'||iv.state==='changed')&&!preInv.has(iv.id)); e.inv=iv.map(v=>v.id+'/'+v.who); }
+  if(r.why==='msg'){ const nw=PHONE.pending(G).filter(m=>!preAsk.has(m)); e.msgs=nw.map(m=>({th:m.th||PHONE.th&&PHONE.th(m),from:m.from||'',text:short(m.text),sys:isSys(m),br:isBracket(m)})); const iv=(G.invites||[]).filter(iv=>(iv.state==='offered'||iv.state==='changed')&&!preInv.has(iv.id)); e.inv=iv.map(v=>v.id+'/'+v.who); }
   if(r.why==='event'){ const nw=SEMFF.mustEvs(G).filter(id=>!preEv.has(id)); e.evs=nw; for(const id of nw){ G.events.done[id]=1; newEvLog.push(id); } }   /* 劇情不演：記成演過，接著快轉 */
   J.push(e); return r; };
 
@@ -63,7 +64,7 @@ SEMFF.jump=async function(GM_,to){ const G=H.G, t0=now(), preAsk=new Set(PHONE.p
 const classify=(e,term)=>{ const sun=STUDY.remindDay(term);
   switch(e.why){
     case 'remind': return Math.abs(e.t-T(sun,20))<1e-6?'系統提醒（期末前週日 20:00，允許）':'系統提醒・時間不對（違規）';
-    case 'msg': { const sys=(e.msgs||[]).filter(m=>m.sys); if(sys.length) return '系統訊息造成停點（違規）'; if((e.msgs||[]).length) return '要回的訊息（NPC，設計上停）'; if((e.inv||[]).length) return '當面約的邀請（設計上停）'; return '訊息停點・找不到是哪一則（分不清）'; }
+    case 'msg': { const sys=(e.msgs||[]).filter(m=>m.sys); if(sys.length) return '系統訊息造成停點（違規）'; if((e.msgs||[]).length&&(e.msgs||[]).every(m=>m.br)) return '【…】公告型要回訊息（'+e.msgs.map(m=>m.from).join('/')+'，分不清，交 BB）'; if((e.msgs||[]).length) return '要回的訊息（NPC，設計上停）'; if((e.inv||[]).length) return '當面約的邀請（設計上停）'; return '訊息停點・找不到是哪一則（分不清）'; }
     case 'event': return '新成立的一定要演的事件（劇情，設計上停）';
     case 'out': return '該出發的出遊（約好的時間，設計上停）';
     case 'now': return '課前 20 分鐘以內有劇情的課（設計上停）';
@@ -110,7 +111,7 @@ const runTerm=async(term,sc,flags)=>{ const r0=CALENDAR.termDays(term); const lo
   } finally { STUDY.review=origReview; H.policy=null; }
   log.end=lbl(now()); log.jumps=J.slice(); log.auto=autoKeys.slice(); log.examTaken=examTaken.slice(); log.newEvs=newEvLog.slice();
   const R=CLS.rec(H.G); log.exams=CLS.examList(H.G,term).map(e=>({id:e.c.id,name:e.c.name,day:e.day,t0:e.t0,label:lbl(T(e.day,e.t0)),status:((R.exam||{})[term+':'+e.c.id+':final']||{}).status||null}));
-  log.msgs=(H.G.msgs||[]).map(m=>({t:T(m.day,m.h),at:lbl(T(m.day,m.h)),th:m.th||'',from:m.from||'',text:short(m.text),ask:!!m.ask,sys:isSys(m),tag:m.tag||''})).filter(m=>m.from!=='player');
+  log.msgs=(H.G.msgs||[]).map(m=>({t:T(m.day,m.h),at:lbl(T(m.day,m.h)),th:m.th||'',from:m.from||'',text:short(m.text),ask:!!m.ask,sys:isSys(m),br:isBracket(m),tag:m.tag||''})).filter(m=>m.from!=='player');
   log.toasts=H.toasts.slice();
   log.remindDay=STUDY.remindDay(term); log.finalStart=STUDY.finalStart(term);
   if(sc==='A'){ const info=null; }
@@ -129,6 +130,8 @@ const judge=(lg)=>{ const {term,sc}=lg, sun=lg.remindDay, tag=term+'・情境 '+
   const sysMsgs=lg.msgs.filter(m=>m.sys); const stopTs=stops.map(e=>e.t);
   const coincide=sysMsgs.filter(m=>m.tag!=='review_'+term&&stopTs.some(t=>Math.abs(t-m.t)<0.26)&&!stops.some(e=>Math.abs(e.t-m.t)<0.26&&e.why!=='msg'));
   check('C1['+tag+'] 收到的 '+sysMsgs.length+' 則系統訊息，除了總複習提醒以外沒有一則在送到的那一刻變成停點',!coincide.length,JSON.stringify(coincide.map(m=>m.at+' '+m.text)));
+  const brStops=stops.filter(e=>e.why==='msg'&&(e.msgs||[]).length&&(e.msgs||[]).every(m=>m.br));
+  P('WARN C1['+tag+'] 【…】公告型（不是系統那一串，但像系統公告）而且要回、造成停點的：'+(brStops.length?brStops.map(e=>lbl(e.t)+' '+e.msgs.map(m=>m.th+'/'+m.from+'「'+m.text+'」').join('；')).join('｜'):'無')+'（不算 FAIL，分類交 BB）');
   const autoEx=lg.auto.filter(a=>a.exam);
   check('C2/C3['+tag+'] 沒有考試被快轉自動上（autoAttend）',!autoEx.length,JSON.stringify(autoEx));
   const exs=lg.exams; const noRec=exs.filter(e=>e.status!=='done'&&e.status!=='insufficient');
@@ -137,7 +140,7 @@ const judge=(lg)=>{ const {term,sc}=lg, sun=lg.remindDay, tag=term+'・情境 '+
   check('C2['+tag+'] 每一個期末考的日子都有停點（考前 1 小時鬧鐘或課前 20 分鐘）',!dayNoStop.length,JSON.stringify(dayNoStop.map(d=>CALENDAR.dateOf(d).key)));
   if(sc==='B'){ const i=stops.findIndex(e=>e.why==='remind'); const nx=i>=0?stops[i+1]:null; const ex0=Math.min(...exs.map(e=>e.day));
     check('C2['+tag+'] 選「繼續快轉」：選單有出現（'+lg.reviewMenu+' 次），下一個停點在第一科期末考那天（含）以前',lg.reviewMenu===1&&!!nx&&dayOf(nx.t)<=ex0,nx?lbl(nx.t)+' '+(nx.stop||nx.why)+'（第一科考試日 '+CALENDAR.dateOf(ex0).key+'）':'沒有下一個停點'); }
-  if(sc==='A'){ const rv=lg.reviewRes; check('C3['+tag+'] 選「考前總複習」：選單出現 1 次（實際 '+lg.reviewMenu+'）、當場複習（週日 23:00 結束、有卡）',lg.reviewMenu===1&&!!rv&&rv.cards>0&&/ 23:00$/.test(rv.at)&&rv.at.startsWith(CALENDAR.dateOf(sun).key),JSON.stringify(rv));
+  if(sc==='A'){ const rv=lg.reviewRes; check('C3['+tag+'] 選「考前總複習」：選單出現 1 次（實際 '+lg.reviewMenu+'）、當場複習（週日 23:00 結束、有卡）',lg.reviewMenu===1&&!!rv&&rv.cards>0&&/23:00$/.test(rv.at)&&rv.at.startsWith(CALENDAR.dateOf(sun).key),JSON.stringify(rv));
     const mr=lg.menuRes.find(m=>m.why==='review'); check('C3['+tag+'] 複習完快轉就停下來（床的快轉回傳 why review、時間是週日 23:00），沒有接著快轉',!!mr&&Math.abs(mr.t-T(sun,23))<1e-6,mr?lbl(mr.t):JSON.stringify(lg.menuRes.slice(-3).map(m=>lbl(m.t)+' '+m.why)));
     check('C3['+tag+'] 總複習範圍內的觀念卡全部是「讀過」以上（'+(rv&&rv.units)+' 張）',!!rv&&rv.units>0&&!rv.unread.length,rv?JSON.stringify(rv.unread.slice(0,5)):'沒做'); }
 };
@@ -148,7 +151,7 @@ const table=(lg)=>{ const rows=lg.jumps.filter(e=>e.why!=='end'); P('  停點表
   const all=[];
   for(const term of TERMS) for(const sc of SCS){ const t0=Date.now(); const lg=await runTerm(term,sc); lg.ms=Date.now()-t0; all.push(lg);
     P('== '+term+' 情境 '+sc+'（'+(sc==='A'?'考前總複習':'繼續快轉')+'）'+(lg.ms/1000).toFixed(1)+' 秒 =='); table(lg); judge(lg);
-    const sm=lg.msgs.filter(m=>m.sys); P('  系統訊息（'+sm.length+' 則）：'+sm.map(m=>m.at+' ['+m.th+'] '+m.text+(m.ask?'［要回］':'')).join('｜'));
+    const sm=lg.msgs.filter(m=>m.sys||m.br); P('  系統訊息＋【…】公告（'+sm.length+' 則；［公告］＝不在系統串）：'+sm.map(m=>m.at+' ['+m.th+(m.br?'・公告':'')+'] '+m.text+(m.ask?'［要回］':'')).join('｜'));
     const tu=[...new Set(lg.toasts.map(x=>x.t))]; P('  toast（'+tu.length+' 種）：'+tu.map(short).join('｜')); }
 
   /* ---------- 延畢 ---------- */
@@ -159,7 +162,7 @@ const table=(lg)=>{ const rows=lg.jumps.filter(e=>e.why!=='end'); P('  停點表
     const advLoop=async(untilT,lab,max)=>{ const rows=[]; const oj=PG.jumpTo; let lastRes=null; PG.jumpTo=function(){ const r=oj.apply(this,arguments); lastRes=r; return r; };
       const oRun=PG.runStep; let lastStep=null; PG.runStep=async function(GM_,s){ lastStep=s.id; return oRun.apply(this,arguments); };
       try{ for(let k=0;k<(max||300)&&now()<untilT;k++){ const t0=now(), m0=(H.G.msgs||[]).length; lastRes=null; lastStep=null; let ok=false; try{ ok=await PG.advance(GM); }catch(err){ rows.push({t:now(),why:'例外 '+String(err&&err.message||err)}); break; }
-          const nm=(H.G.msgs||[]).slice(m0).filter(m=>m.from!=='player'); const last=nm.slice(-3).map(m=>(isSys(m)?'［系統］':'')+(m.th||'')+'「'+short(m.text)+'」'+(m.ask?'［要回］':''));
+          const nm=(H.G.msgs||[]).slice(m0).filter(m=>m.from!=='player'); const last=nm.slice(-3).map(m=>(isSys(m)?'［系統］':isBracket(m)?'［公告］':'')+(m.th||'')+'「'+short(m.text)+'」'+(m.ask?'［要回］':''));
           rows.push({t:now(),res:lastRes,step:lastStep,msgs:last,sys:nm.some(isSys)&&lastRes==='msg'});
           if(!ok){ rows[rows.length-1].why='advance 回 false'; setT(now()+1); }
           if(now()<=t0+1e-6) setT(now()+0.25); } }
