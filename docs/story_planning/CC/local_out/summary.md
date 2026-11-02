@@ -12,3 +12,4 @@
 - 2026-11-02T19:04:06  03_delay14  sha=c2d0c24bc  exit=1  519s    PASS home_morning：沒有 JS 例外  [] / SHA c2d0c24bc CASES dorm_sleep,dorm_stand,home_sleep,home_morning / FAILED: dorm_sleep：家裡的選單出來了, home_sleep：家裡的選單出來了, home_morning：家裡的選單出來了
       err.log (last 5): [gpu_wrap 195.6s] BROWSER DISCONNECTED | [gpu_wrap 344.0s] page close url=http://127.0.0.1:8800/index.html?turbo | [gpu_wrap 344.0s] BROWSER DISCONNECTED | [gpu_wrap 489.2s] page close url=http://127.0.0.1:8800/index.html?turbo | [gpu_wrap 489.2s] BROWSER DISCONNECTED
 - 2026-11-02T19:04:46  06_layout16  sha=c2d0c24bc  exit=0  34s    OK   直向 390x844 14 項 沒有對話框（flex）：第一個按鈕上緣 74、選單上緣 74、點得到 True、scrollHeight 748 clientHeight 748 / OK   直向 390x844 14 項 有對話框（flex）：第一個按鈕上緣 46、選單上緣 46、點得到 True、scrollHeight 748 clientHeight 654 / ALL PASS
+- 2026-11-02T19:25:19  04_quota  sha=c2d0c24bc  exit=-1  1229s  timeout 20 min  

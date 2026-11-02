@@ -1,0 +1,14 @@
+﻿{
+    "id":  "04_quota",
+    "sha":  "c2d0c24bc",
+    "kind":  "py",
+    "script":  "tools/cc_local/quota_check.py",
+    "env":  "",
+    "machine":  "MSI",
+    "start":  "2026-11-02T19:04:50",
+    "end":  "2026-11-02T19:25:19",
+    "seconds":  1229,
+    "exit":  -1,
+    "error":  "timeout 20 min",
+    "url":  "http://127.0.0.1:8800/index.html"
+}
