@@ -1,0 +1,16 @@
+[gpu_wrap] CC_GPU=1 跑 C:\Users\USER\Documents\Lawstudent_cclocal\docs\story_planning\test_tools\cc\cc_art247_probe.py http://127.0.0.1:8807/index.html C:\Users\USER\Documents\Lawstudent_cclocal\docs\story_planning\CC\local_out\ART_uskit\out
+PASS uskitchen：遊戲載入
+  [前置／捷徑] uskitchen：讀檔到 us_apartment 14:00（找互動點）
+PASS uskitchen：fridge：找到離家具最近的互動點  {"label": "打開冰箱", "x": -3.5, "z": 1.8, "d": 0.7}
+  [前置／捷徑] uskitchen：fridge：讀檔站在互動點「打開冰箱」(-3.50, 1.80)、面向家具 (-4.2, 1.8)；鏡頭照遊戲自然跟隨
+  uskitchen：fridge：互動字 '打開冰箱'，玩家 (-3.50, 1.80)，鏡頭 yaw 2.381
+PASS uskitchen：fridge：截圖存了、區域 us_apartment、時間 14:00  ["us_apartment", 14.067]
+PASS uskitchen：fridge：畫面上的互動鈕出現，字以「打開冰箱」開頭  "打開冰箱"
+PASS uskitchen：stove：找到離家具最近的互動點  {"label": "看爐子", "x": -2.65, "z": 2.0500000000000003, "d": 0.99}
+  [前置／捷徑] uskitchen：stove：讀檔站在互動點「看爐子」(-2.65, 2.05)、面向家具 (-3.4, 2.7)；鏡頭照遊戲自然跟隨
+  uskitchen：stove：互動字 '看爐子'，玩家 (-2.65, 2.05)，鏡頭 yaw 2.823
+PASS uskitchen：stove：截圖存了、區域 us_apartment、時間 14:00  ["us_apartment", 14.066]
+PASS uskitchen：stove：畫面上的互動鈕出現，字以「看爐子」開頭  "看爐子"
+PASS uskitchen：沒有 JS 例外  []
+=== uskitchen PASS（4 張、60 秒）
+ALL PASS

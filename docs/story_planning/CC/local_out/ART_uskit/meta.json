@@ -1,0 +1,23 @@
+{
+  "rerun": "",
+  "id": "ART_uskit",
+  "sha": "b1b249873",
+  "kind": "probe",
+  "script": "docs/story_planning/test_tools/cc/cc_art247_probe.py",
+  "env": "CC_HEADLESS=0;SHA=b1b249873;CASES=uskitchen",
+  "machine": "MSI",
+  "start": "2026-11-03T07:19:22",
+  "end": "2026-11-03T07:20:55",
+  "seconds": 93,
+  "exit": 0,
+  "error": null,
+  "runner": "a98287fbd6",
+  "rf_round": "5",
+  "url": "http://127.0.0.1:8807/index.html",
+  "res_peak": {
+    "cpu": 45,
+    "mem": 48,
+    "used_gb": 15.5,
+    "chrome_testing": 18
+  }
+}

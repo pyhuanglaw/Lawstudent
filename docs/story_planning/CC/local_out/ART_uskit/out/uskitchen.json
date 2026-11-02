@@ -1,0 +1,300 @@
+{
+ "case": "uskitchen",
+ "url": "http://127.0.0.1:8807/index.html",
+ "sha": "b1b249873",
+ "headless_env": "0",
+ "notes": [
+  "[前置／捷徑] 讀檔到 us_apartment 14:00（找互動點）",
+  "[前置／捷徑] fridge：讀檔站在互動點「打開冰箱」(-3.50, 1.80)、面向家具 (-4.2, 1.8)；鏡頭照遊戲自然跟隨",
+  "fridge：互動字 '打開冰箱'，玩家 (-3.50, 1.80)，鏡頭 yaw 2.381",
+  "[前置／捷徑] stove：讀檔站在互動點「看爐子」(-2.65, 2.05)、面向家具 (-3.4, 2.7)；鏡頭照遊戲自然跟隨",
+  "stove：互動字 '看爐子'，玩家 (-2.65, 2.05)，鏡頭 yaw 2.823"
+ ],
+ "steps": [],
+ "shots": [
+  {
+   "file": "uskitchen\\001_kitchen_fridge.png",
+   "label": "kitchen_fridge",
+   "t0": 1793661629.164,
+   "t1": 1793661629.518,
+   "iso": "2026-11-02T23:20:29.164+00:00",
+   "size": 398291,
+   "vp": {
+    "width": 844,
+    "height": 390
+   },
+   "gzone": "us_apartment",
+   "ezone": "us_apartment",
+   "hour": 14.067,
+   "day": 8,
+   "x": -3.5,
+   "y": 0,
+   "z": 1.8,
+   "lv": 0,
+   "ry": -1.571,
+   "camYaw": 2.381,
+   "frame": 1451,
+   "paused": false,
+   "weather": "clear",
+   "loading": false,
+   "stand": true,
+   "interact": "打開冰箱",
+   "furn": "fridge",
+   "want_label": "打開冰箱"
+  },
+  {
+   "file": "uskitchen\\002_kitchen_fridge_port.png",
+   "label": "kitchen_fridge_port",
+   "t0": 1793661631.068,
+   "t1": 1793661631.374,
+   "iso": "2026-11-02T23:20:31.068+00:00",
+   "size": 383887,
+   "vp": {
+    "width": 390,
+    "height": 844
+   },
+   "gzone": "us_apartment",
+   "ezone": "us_apartment",
+   "hour": 14.078,
+   "day": 8,
+   "x": -3.5,
+   "y": 0,
+   "z": 1.8,
+   "lv": 0,
+   "ry": -1.571,
+   "camYaw": 2.381,
+   "frame": 1696,
+   "paused": false,
+   "weather": "clear",
+   "loading": false,
+   "stand": true,
+   "interact": "打開冰箱",
+   "furn": "fridge",
+   "want_label": "打開冰箱"
+  },
+  {
+   "file": "uskitchen\\003_kitchen_stove.png",
+   "label": "kitchen_stove",
+   "t0": 1793661642.879,
+   "t1": 1793661643.161,
+   "iso": "2026-11-02T23:20:42.879+00:00",
+   "size": 377711,
+   "vp": {
+    "width": 844,
+    "height": 390
+   },
+   "gzone": "us_apartment",
+   "ezone": "us_apartment",
+   "hour": 14.066,
+   "day": 8,
+   "x": -2.65,
+   "y": 0,
+   "z": 2.05,
+   "lv": 0,
+   "ry": -0.857,
+   "camYaw": 2.823,
+   "frame": 3337,
+   "paused": false,
+   "weather": "clear",
+   "loading": false,
+   "stand": true,
+   "interact": "看爐子",
+   "furn": "stove",
+   "want_label": "看爐子"
+  },
+  {
+   "file": "uskitchen\\004_kitchen_stove_port.png",
+   "label": "kitchen_stove_port",
+   "t0": 1793661644.709,
+   "t1": 1793661644.991,
+   "iso": "2026-11-02T23:20:44.709+00:00",
+   "size": 368067,
+   "vp": {
+    "width": 390,
+    "height": 844
+   },
+   "gzone": "us_apartment",
+   "ezone": "us_apartment",
+   "hour": 14.078,
+   "day": 8,
+   "x": -2.65,
+   "y": 0,
+   "z": 2.05,
+   "lv": 0,
+   "ry": -0.857,
+   "camYaw": 2.823,
+   "frame": 3608,
+   "paused": false,
+   "weather": "clear",
+   "loading": false,
+   "stand": true,
+   "interact": "看爐子",
+   "furn": "stove",
+   "want_label": "看爐子"
+  }
+ ],
+ "fails": [],
+ "js_errors": [],
+ "interactables": {
+  "fridge": {
+   "label": "打開冰箱",
+   "x": -3.5,
+   "z": 1.8,
+   "r": 0.7,
+   "lv": 0,
+   "d": 0.7,
+   "all": [
+    [
+     "打開冰箱",
+     -3.5,
+     1.8
+    ],
+    [
+     "看爐子",
+     -2.65,
+     2.05
+    ],
+    [
+     "坐在吧台",
+     -3.6,
+     0.4
+    ],
+    [
+     "坐在吧台",
+     -2.6,
+     0.4
+    ],
+    [
+     "坐在沙發上",
+     -3.8,
+     -1.2
+    ],
+    [
+     "坐在單人沙發上",
+     -2.2,
+     -2.2
+    ],
+    [
+     "睡覺",
+     2.48,
+     -1.75
+    ],
+    [
+     "坐在書桌前",
+     3.98,
+     -0.42
+    ],
+    [
+     "衛浴",
+     4.2,
+     0.55
+    ],
+    [
+     "衣帽櫃",
+     -0.65,
+     1.4
+    ],
+    [
+     "衣物間",
+     2,
+     0.55
+    ],
+    [
+     "洗衣機",
+     -0.65,
+     2.4
+    ],
+    [
+     "213",
+     -2.15,
+     4
+    ],
+    [
+     "出門",
+     1.8,
+     4
+    ]
+   ]
+  },
+  "stove": {
+   "label": "看爐子",
+   "x": -2.65,
+   "z": 2.0500000000000003,
+   "r": 0.75,
+   "lv": 0,
+   "d": 0.99,
+   "all": [
+    [
+     "打開冰箱",
+     -3.5,
+     1.8
+    ],
+    [
+     "看爐子",
+     -2.65,
+     2.05
+    ],
+    [
+     "坐在吧台",
+     -3.6,
+     0.4
+    ],
+    [
+     "坐在吧台",
+     -2.6,
+     0.4
+    ],
+    [
+     "坐在沙發上",
+     -3.8,
+     -1.2
+    ],
+    [
+     "坐在單人沙發上",
+     -2.2,
+     -2.2
+    ],
+    [
+     "睡覺",
+     2.48,
+     -1.75
+    ],
+    [
+     "坐在書桌前",
+     3.98,
+     -0.42
+    ],
+    [
+     "衛浴",
+     4.2,
+     0.55
+    ],
+    [
+     "衣帽櫃",
+     -0.65,
+     1.4
+    ],
+    [
+     "衣物間",
+     2,
+     0.55
+    ],
+    [
+     "洗衣機",
+     -0.65,
+     2.4
+    ],
+    [
+     "213",
+     -2.15,
+     4
+    ],
+    [
+     "出門",
+     1.8,
+     4
+    ]
+   ]
+  }
+ }
+}
