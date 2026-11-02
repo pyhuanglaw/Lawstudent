@@ -40203,9 +40203,9 @@
         "receiver": "BB",
         "ack": "ACK"
       },
-      "note": "使用者 18:1x 問 LAWWW2「現在測試的部分你自己進行的有多少？你覺得要不要交給 BB，他可以請我的電腦測試比較快」；LAWWW2 建議交給 BB／CC、每次交件附測試單；BB 18:14 同意（條件：CC 的 runner 抓得到 claude/second-ai-env-art、v9.10.16 發布以後）",
-      "pausedReason": "等使用者同意＋CC 使用者電腦 runner 支援 claude/second-ai-env-art＋v9.10.16 已發布（BB 18:14）",
-      "resumeWhen": "三個條件都成立；在那之前 LAWWW2 照舊雲端跑"
+      "note": "使用者 18:1x 問 LAWWW2「現在測試的部分你自己進行的有多少？你覺得要不要交給 BB，他可以請我的電腦測試比較快」；LAWWW2 建議交給 BB／CC、每次交件附測試單；BB 18:14 同意（條件：CC 的 runner 抓得到 claude/second-ai-env-art、v9.10.16 發布以後） ｜使用者 18:5x 對 LAWWW：「同意，LAWWW2 的測試改用我的電腦跑」（UA-LAWWW-1102-27）",
+      "pausedReason": "使用者已同意；等 CC 的 runner 支援 claude/second-ai-env-art（現在就可以先做）、v9.10.16 發布後切換",
+      "resumeWhen": "runner 支援＋v9.10.16 已發布"
     }
   ]
 }
