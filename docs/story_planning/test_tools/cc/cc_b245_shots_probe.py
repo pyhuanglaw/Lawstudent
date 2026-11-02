@@ -9,7 +9,7 @@ SUBS（預設 peishan,swing）：
           記：她身上的模型 key、driver、url（找 userData.key）；check：key＝char.classmate_peishan、不是備用人物。
           截圖：遊戲鏡頭（直接截）、E.cinematic 正面近一點、拉遠一點（連路人一起）。
   swing   【前置／捷徑】load_state（quiet_events）溫州街第 DAY 天 20:30，站在鞦韆前面（zones3d.js 的 ap：座位 x、鞦韆 z−1.4）。
-          等 #interact（「盪鞦韆」）→ 手指點 → 玩家走過去坐上鞦韆（wzpark3d.js sitHere）＋一句旁白 → 旁白還在時：check 玩家位置＝座位（< 0.05 m）、pose sit；
+          等 #interact（「盪鞦韆」；晚上公園有人時最近的可能是「打招呼」：換鞦韆 B 前面、再不行改下雨（公園沒人）重讀）→ 手指點 → 玩家走過去坐上鞦韆（wzpark3d.js sitHere）＋一句旁白 → 旁白還在時：check 玩家位置＝座位（< 0.05 m）、pose sit；
           截圖：遊戲鏡頭、側面（E.cinematic）。點完旁白。
 用法：LW_TESTS=<工作樹>/tests [SHA=<sha>] [SUBS=peishan,swing] [DAY=7 WEEKDAY=2] python3 cc_b245_shots_probe.py '<URL>/index.html' <輸出資料夾>
 exit 0＝ALL PASS；1＝有 FAIL。"""
@@ -65,10 +65,22 @@ async def sub_peishan(pg, cdp):
 
 
 async def sub_swing(pg, cdp):
-    await C.load(pg, C.st('wenzhou', 20.5, 31.7, 23.4, 0.0, day=DAY, weekday=WD), '溫州街第 %d 天 20:30，站在鞦韆前面 (31.7, 23.4)（zones3d.js 的 ap：座位 x、鞦韆 z−1.4）' % DAY)
+    # 晚上公園有路人（AA_283）：站在鞦韆前面時最近的互動點可能是「打招呼」。依序試：鞦韆 A 前面、鞦韆 B 前面（晴）、鞦韆 A 前面（下雨＝公園沒有人）；
+    # #interact 不是「盪鞦韆」就不點、換下一個（照玩家：換個位置站）
+    lab = ''
+    for wx, wz, wea in ((31.7, 23.4, 'sunny'), (33.5, 23.4, 'sunny'), (31.7, 23.4, 'rain')):
+        await C.load(pg, C.st('wenzhou', 20.5, wx, wz, 0.0, day=DAY, weekday=WD, extra={'weather': wea}),
+                     '溫州街第 %d 天 20:30（%s），站在鞦韆前面 (%.1f, %.1f)（zones3d.js 的 ap：座位 x、鞦韆 z−1.4）' % (DAY, wea, wx, wz))
+        t = ''
+        for _ in range(50):
+            t = await C.interact_label(pg)
+            if t: break
+            await pg.wait_for_timeout(400)
+        info('站好以後 #interact：「%s」' % t)
+        if t.startswith('盪鞦韆'):
+            await L.tap(pg, cdp, '#interact'); lab = t; break
     sw = await pg.evaluate("(()=>{ const L=WZ_PARK_LAYOUT, g=L.items.find(i=>i.kind==='swings'); return {g:{x:g.x,z:g.z}, seats:L.seats.filter(s=>s.kind==='swing')}; })()")
     info('鞦韆 layout：' + J(sw))
-    lab = await C.tap_interact(pg, cdp)
     info('點了 #interact：「%s」' % lab)
     check('swing 前置：#interact 是「盪鞦韆」（文字 startswith）', lab.startswith('盪鞦韆'), lab)
     s = None
