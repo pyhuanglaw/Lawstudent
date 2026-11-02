@@ -178,3 +178,9 @@
 - `cue` 寫成筆記口吻（前面會接「（你想起筆記上寫的：」），不寫條號、不寫法律效果。
 - `basis` 有一項不是條號：crim_judgment_sem_w3「誤想防衛（學說名稱）」（給審稿看，匯入時可去掉）。
 - 檢查都在 scratchpad 副本上跑（`scratchpad/y4c/sc/build.py` 兩字詞組＋英文單字、`scratchpad/y4c/leaks.js` 遊戲 cueLeaks）；寫稿者沒有改 repo 裡其他檔、沒有 commit。
+
+
+## AA 修正紀錄（2026-11-02，依 `cards_y4_review.md`）
+- 需修改 8 張照核對報告改：maritime_w2（噸位：§1 不以噸位定義、§3 排除的小船依船舶法總噸位界定；例子補噸位）、crim_judgment_sem_w11（第 6 款要審判長認有必要）、public_judgment_sem_w12（回復原狀，憲訴法 §46 準用行訴法 §91）、tax_law_w2（例子改成日本插畫家權利金）、tax_law_w12（逃稅例子）、tax_law_w14（cue）、maritime_w5（cue）、maritime_w13（例子）。
+- 可選建議全部採用（8 項）：crim_judgment_sem_w10、w14、enforcement_w3（行政執行分署）、enforcement_w13、ip_law_w4、labor_social_w2、legal_ethics_w2（刑訴 §182）、maritime_w3。
+- Y4TAX_11（BB 出的題）：建議題幹補「甲自己也住在房屋所在的同一個縣市，住址清楚」，答案 D 不改；已轉 BB，請 BB 同意後由 LAWWW 改題庫。
