@@ -112,7 +112,7 @@ const GAME = (function(){
   const sayRestoreSoon=()=>{ if(sayStack.length) setTimeout(sayRestore,0); };   /* 點完一句、選完一個選項：等接著跑的那一段（microtask）先說下一句，沒有說才放回去 */
   GM.say=say;
   function dlgTick(dt){ if(!D.active||!D.typing) return; D.shown+=dt*D.cps; const n=Math.min(D.full.length,Math.floor(D.shown)); $('dlgText').textContent=D.full.slice(0,n); if(n>=D.full.length){ D.typing=false; $('dlgNext').style.visibility='visible'; } }
-  function dlgAdvance(){ if(!D.active) return false; if(D.typing){ D.typing=false; $('dlgText').textContent=D.full; $('dlgNext').style.visibility='visible'; return true; } const r=D.resolve; D.resolve=null; D.active=false; D.endedAt=performance.now(); $('dlg').classList.add('hide'); const who=D.who; if(who&&who.obj&&who._talkPose){ who.pose=who.idlePose||'idle'; who._talkPose=false; } if(E.player&&E.player.pose==='talk') E.player.pose='idle'; A3.blip('page'); if(r) r(); sayRestoreSoon(); return true; }
+  function dlgAdvance(){ if(!D.active) return false; if(D.typing){ D.typing=false; $('dlgText').textContent=D.full; $('dlgNext').style.visibility='visible'; if(!(typeof ADV!=='undefined'&&ADV.active&&ADV.skip)) return true; }   /* 略過對話開著＝補完這一句也接著翻（BB 2026-11-02 CC：打字中按略過，原本停在第一句）*/ const r=D.resolve; D.resolve=null; D.active=false; D.endedAt=performance.now(); $('dlg').classList.add('hide'); const who=D.who; if(who&&who.obj&&who._talkPose){ who.pose=who.idlePose||'idle'; who._talkPose=false; } if(E.player&&E.player.pose==='talk') E.player.pose='idle'; A3.blip('page'); if(r) r(); sayRestoreSoon(); return true; }
   GM.dlgAdvance=dlgAdvance;
   // 選項出現時，把上一句對話（通常就是問題）留在畫面上，選項排在對話框上方
   /* 選單疊在另一個還沒選的選單上（X81 BUG-E37-MOVEIN-1020：使用者 v9.10.2 的 _stuck＝8/30 18:01 宿舍、bedScene 的選單沒結束、畫面上什麼都沒有——
