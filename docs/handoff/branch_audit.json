@@ -1,13 +1,13 @@
 {
- "at": "2026-11-02T04:51Z",
+ "at": "2026-11-02T05:28Z",
  "main": "27e6ce77e",
  "ruleSource": "claude/confident-ritchie-8rwh7t",
  "counts": {
   "保留｜主線": 1,
   "保留｜崗位在用": 4,
   "保留｜WIP 沒整合完": 4,
-  "保留｜main 沒有的內容": 5,
-  "清理候選": 13
+  "保留｜main 沒有的內容": 1,
+  "清理候選": 0
  },
  "branches": [
   {
@@ -23,42 +23,42 @@
   {
    "ref": "origin/claude/cc-testing",
    "branch": "claude/cc-testing",
-   "sha": "0e80def2f12c73ce174f6dcb9cda75e06382712c",
-   "date": "2026-11-02T04:48:40+00:00",
+   "sha": "5d8d1decdd0c51c40bfbd6eb1ab89ff49a03489f",
+   "date": "2026-11-02T05:27:36+00:00",
    "who": "CC-A",
    "kind": "保留｜崗位在用",
    "why": "duty.json：CC-A",
-   "ahead": 5424
+   "ahead": 5447
   },
   {
    "ref": "origin/claude/confident-ritchie-8rwh7t",
    "branch": "claude/confident-ritchie-8rwh7t",
-   "sha": "74e3c9a8b7c6bd3632cff6c443be0244b9ad31ff",
-   "date": "2026-11-02T04:44:13+00:00",
+   "sha": "48612ee7e23881b7200f4e81df8712bf32079647",
+   "date": "2026-11-02T05:24:48+00:00",
    "who": "LAWWW-A、RULE_SOURCE",
    "kind": "保留｜崗位在用",
    "why": "duty.json：LAWWW-A、RULE_SOURCE",
-   "ahead": 259
+   "ahead": 271
   },
   {
    "ref": "origin/claude/second-ai-env-art",
    "branch": "claude/second-ai-env-art",
-   "sha": "4403cdd8388eac42e63915e619da4de35ae47b85",
-   "date": "2026-11-02T04:39:14+00:00",
+   "sha": "4dc6b17b1421af1ca83630dbdb6b14652f0324a9",
+   "date": "2026-11-02T05:25:29+00:00",
    "who": "LAWWW2-A",
    "kind": "保留｜崗位在用",
    "why": "duty.json：LAWWW2-A",
-   "ahead": 1513
+   "ahead": 1515
   },
   {
    "ref": "origin/claude/story-planning",
    "branch": "claude/story-planning",
-   "sha": "696ac9e2cc94c97bd3c18d93b04fb5ccf28acf14",
-   "date": "2026-11-02T04:47:14+00:00",
+   "sha": "eca9eb67109ad8d13618ef6b18aa0783120c53b9",
+   "date": "2026-11-02T05:26:32+00:00",
    "who": "AA-A、BB-A",
    "kind": "保留｜崗位在用",
    "why": "duty.json：AA-A、BB-A",
-   "ahead": 5430
+   "ahead": 5444
   },
   {
    "ref": "origin/claude/adoring-meitner-mqzst8",
@@ -101,60 +101,6 @@
    "ahead": 4381
   },
   {
-   "ref": "origin/claude/cool-heisenberg-o8kuqx",
-   "branch": "claude/cool-heisenberg-o8kuqx",
-   "sha": "c989cc066b5a0953e2430a8024f21382117929f1",
-   "date": "2026-11-01T08:58:22+00:00",
-   "who": "AA-B（交班過）",
-   "ahead": 5094,
-   "why": "main 沒有的 commit 4645 個（內容比對）；分出去以後改的檔案有 2123 個和 main 不一樣；整條分支已經在 claude/cc-testing、claude/story-planning 裡（還沒發布到 main）",
-   "kind": "保留｜main 沒有的內容",
-   "inside": [
-    "claude/cc-testing",
-    "claude/story-planning"
-   ]
-  },
-  {
-   "ref": "origin/claude/elegant-brown-fcos7n",
-   "branch": "claude/elegant-brown-fcos7n",
-   "sha": "22ddbea54deb8201e2c5f2bc0f80e4930850f816",
-   "date": "2026-11-01T08:59:12+00:00",
-   "who": "BB-B（交班過）",
-   "ahead": 5223,
-   "why": "main 沒有的 commit 4776 個（內容比對）；分出去以後改的檔案有 2126 個和 main 不一樣；整條分支已經在 claude/cc-testing、claude/story-planning 裡（還沒發布到 main）",
-   "kind": "保留｜main 沒有的內容",
-   "inside": [
-    "claude/cc-testing",
-    "claude/story-planning"
-   ]
-  },
-  {
-   "ref": "origin/claude/funny-albattani-iawshm",
-   "branch": "claude/funny-albattani-iawshm",
-   "sha": "e16b32ad00e6bc9a23432c177b2626b7dab61c21",
-   "date": "2026-11-01T09:02:19+00:00",
-   "who": "LAWWW2-B（交班過）",
-   "ahead": 1506,
-   "why": "main 沒有的 commit 1500 個（內容比對）；分出去以後改的檔案有 2998 個和 main 不一樣；整條分支已經在 claude/second-ai-env-art 裡（還沒發布到 main）",
-   "kind": "保留｜main 沒有的內容",
-   "inside": [
-    "claude/second-ai-env-art"
-   ]
-  },
-  {
-   "ref": "origin/claude/modest-rubin-2lyp7g",
-   "branch": "claude/modest-rubin-2lyp7g",
-   "sha": "02898d56c89b78d57a92fbc4f10ba407fc142575",
-   "date": "2026-11-02T03:09:45+00:00",
-   "who": "LAWWW-B（交班過）",
-   "ahead": 237,
-   "why": "main 沒有的 commit 219 個（內容比對）；分出去以後改的檔案有 434 個和 main 不一樣；整條分支已經在 claude/confident-ritchie-8rwh7t 裡（還沒發布到 main）",
-   "kind": "保留｜main 沒有的內容",
-   "inside": [
-    "claude/confident-ritchie-8rwh7t"
-   ]
-  },
-  {
    "ref": "origin/claude/second-ai-env-art-wip-trees",
    "branch": "claude/second-ai-env-art-wip-trees",
    "sha": "22ff594d7455661043c72eb7f09b1c5895c9e3f4",
@@ -164,149 +110,6 @@
    "why": "main 沒有的 commit 5 個（內容比對）；分出去以後改的檔案有 16 個和 main 不一樣",
    "kind": "保留｜main 沒有的內容",
    "inside": []
-  },
-  {
-   "ref": "origin/claude/friendly-brahmagupta-6bbkzc",
-   "branch": "claude/friendly-brahmagupta-6bbkzc",
-   "sha": "eb53fd75caa426aa6eee2ad5a02098257ff91a78",
-   "date": "2026-10-10T09:53:31+00:00",
-   "who": "—",
-   "ahead": 0,
-   "why": "整條分支是 main 的祖先",
-   "kind": "清理候選",
-   "restore": "git push origin eb53fd75caa4:refs/heads/claude/friendly-brahmagupta-6bbkzc"
-  },
-  {
-   "ref": "origin/claude/release-v9.8",
-   "branch": "claude/release-v9.8",
-   "sha": "e987af48137aac7f04a0ec410113ea11bc695783",
-   "date": "2026-10-16T05:05:40+00:00",
-   "who": "—",
-   "ahead": 0,
-   "why": "整條分支是 main 的祖先",
-   "kind": "清理候選",
-   "restore": "git push origin e987af48137a:refs/heads/claude/release-v9.8"
-  },
-  {
-   "ref": "origin/claude/release-v9.8-rc2",
-   "branch": "claude/release-v9.8-rc2",
-   "sha": "1ebfefcb94bdd67a1d3ee7d231856f050ec35fee",
-   "date": "2026-10-16T14:20:26+08:00",
-   "who": "—",
-   "ahead": 0,
-   "why": "整條分支是 main 的祖先",
-   "kind": "清理候選",
-   "restore": "git push origin 1ebfefcb94bd:refs/heads/claude/release-v9.8-rc2"
-  },
-  {
-   "ref": "origin/claude/release-v9.9-rc2",
-   "branch": "claude/release-v9.9-rc2",
-   "sha": "6ff9ac21f4704ceef043e029b8ecea52ffe7563b",
-   "date": "2026-10-16T14:53:10+00:00",
-   "who": "—",
-   "ahead": 0,
-   "why": "整條分支是 main 的祖先",
-   "kind": "清理候選",
-   "restore": "git push origin 6ff9ac21f470:refs/heads/claude/release-v9.9-rc2"
-  },
-  {
-   "ref": "origin/claude/release-v9.9.1",
-   "branch": "claude/release-v9.9.1",
-   "sha": "d65f9610d1ee5f2ba83c7f64b46869e5509cde37",
-   "date": "2026-10-16T19:53:39+00:00",
-   "who": "—",
-   "ahead": 0,
-   "why": "整條分支是 main 的祖先",
-   "kind": "清理候選",
-   "restore": "git push origin d65f9610d1ee:refs/heads/claude/release-v9.9.1"
-  },
-  {
-   "ref": "origin/claude/second-ai-env-art-wip-bike",
-   "branch": "claude/second-ai-env-art-wip-bike",
-   "sha": "fb23c7db4c7e3b1ab5ae5125a6351fcb0f3d0614",
-   "date": "2026-10-13T15:14:37+00:00",
-   "who": "—",
-   "ahead": 0,
-   "why": "整條分支是 main 的祖先",
-   "kind": "清理候選",
-   "restore": "git push origin fb23c7db4c7e:refs/heads/claude/second-ai-env-art-wip-bike"
-  },
-  {
-   "ref": "origin/claude/second-ai-env-art-wip-lane118",
-   "branch": "claude/second-ai-env-art-wip-lane118",
-   "sha": "0b1788b9e8466e614c19e155455aad6e60d507fc",
-   "date": "2026-10-13T15:13:45+00:00",
-   "who": "—",
-   "ahead": 0,
-   "why": "整條分支是 main 的祖先",
-   "kind": "清理候選",
-   "restore": "git push origin 0b1788b9e846:refs/heads/claude/second-ai-env-art-wip-lane118"
-  },
-  {
-   "ref": "origin/claude/second-ai-env-art-wip-lawlib",
-   "branch": "claude/second-ai-env-art-wip-lawlib",
-   "sha": "3ba830573dc81689d9aa8120b6452803d446bed1",
-   "date": "2026-10-13T15:11:36+00:00",
-   "who": "—",
-   "ahead": 0,
-   "why": "整條分支是 main 的祖先",
-   "kind": "清理候選",
-   "restore": "git push origin 3ba830573dc8:refs/heads/claude/second-ai-env-art-wip-lawlib"
-  },
-  {
-   "ref": "origin/claude/second-ai-env-art-wip-pavsoc",
-   "branch": "claude/second-ai-env-art-wip-pavsoc",
-   "sha": "8c6f1fe025031cdeff2d00472ecb1abe55e493d0",
-   "date": "2026-10-11T08:30:48+00:00",
-   "who": "—",
-   "ahead": 0,
-   "why": "整條分支是 main 的祖先",
-   "kind": "清理候選",
-   "restore": "git push origin 8c6f1fe02503:refs/heads/claude/second-ai-env-art-wip-pavsoc"
-  },
-  {
-   "ref": "origin/claude/second-ai-env-art-wip-props",
-   "branch": "claude/second-ai-env-art-wip-props",
-   "sha": "fa626b9dfbc675d3b7562c3eb3504b12805dc0f4",
-   "date": "2026-10-11T09:51:04+00:00",
-   "who": "—",
-   "ahead": 0,
-   "why": "整條分支是 main 的祖先",
-   "kind": "清理候選",
-   "restore": "git push origin fa626b9dfbc6:refs/heads/claude/second-ai-env-art-wip-props"
-  },
-  {
-   "ref": "origin/claude/second-ai-env-art-wip-props6",
-   "branch": "claude/second-ai-env-art-wip-props6",
-   "sha": "49d32ed85714acd6b10781700def3101c5c45915",
-   "date": "2026-10-13T13:04:36+00:00",
-   "who": "—",
-   "ahead": 0,
-   "why": "整條分支是 main 的祖先",
-   "kind": "清理候選",
-   "restore": "git push origin 49d32ed85714:refs/heads/claude/second-ai-env-art-wip-props6"
-  },
-  {
-   "ref": "origin/claude/second-ai-env-art-wip-soclib",
-   "branch": "claude/second-ai-env-art-wip-soclib",
-   "sha": "af7de02ebc9f97a6af9b35f7fe79f8ec34bfffdb",
-   "date": "2026-10-13T13:30:18+00:00",
-   "who": "—",
-   "ahead": 0,
-   "why": "整條分支是 main 的祖先",
-   "kind": "清理候選",
-   "restore": "git push origin af7de02ebc9f:refs/heads/claude/second-ai-env-art-wip-soclib"
-  },
-  {
-   "ref": "origin/postrel-1030",
-   "branch": "postrel-1030",
-   "sha": "3808792fe8b2ba9e52fd5ed3cbe264a7c3339d88",
-   "date": "2026-10-30T05:18:52+00:00",
-   "who": "—",
-   "ahead": 0,
-   "why": "整條分支是 main 的祖先",
-   "kind": "清理候選",
-   "restore": "git push origin 3808792fe8b2:refs/heads/postrel-1030"
   }
  ]
 }

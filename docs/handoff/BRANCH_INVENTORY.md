@@ -20,37 +20,20 @@
 <!-- BRANCH-AUDIT:BEGIN（tools/handoff/branch_audit.py --write 產生，不要手改）-->
 ## 定期唯讀稽核（最新一次；BRANCH-AUDIT-1028）
 
-**稽核時間**：2026-11-02T04:51Z（`tools/handoff/branch_audit.py`，只讀）；main＝`27e6ce77e`；共 27 條遠端分支：保留｜主線 1、保留｜崗位在用 4、保留｜WIP 沒整合完 4、保留｜main 沒有的內容 5、清理候選 13
+**稽核時間**：2026-11-02T05:28Z（`tools/handoff/branch_audit.py`，只讀）；main＝`27e6ce77e`；共 10 條遠端分支：保留｜主線 1、保留｜崗位在用 4、保留｜WIP 沒整合完 4、保留｜main 沒有的內容 1
 
 | 分類 | 分支 | 最後 commit | 誰的（duty.json） | main 沒有的 commit | 判斷 |
 |---|---|---|---|---|---|
 | 保留｜主線 | `main` | `27e6ce77e`（2026-11-01） | — | 0 | GitHub Pages 正式版 |
-| 保留｜崗位在用 | `claude/cc-testing` | `0e80def2f`（2026-11-02） | CC-A | 5424 | duty.json：CC-A |
-| 保留｜崗位在用 | `claude/confident-ritchie-8rwh7t` | `74e3c9a8b`（2026-11-02） | LAWWW-A、RULE_SOURCE | 259 | duty.json：LAWWW-A、RULE_SOURCE |
-| 保留｜崗位在用 | `claude/second-ai-env-art` | `4403cdd83`（2026-11-02） | LAWWW2-A | 1513 | duty.json：LAWWW2-A |
-| 保留｜崗位在用 | `claude/story-planning` | `696ac9e2c`（2026-11-02） | AA-A、BB-A | 5430 | duty.json：AA-A、BB-A |
+| 保留｜崗位在用 | `claude/cc-testing` | `5d8d1decd`（2026-11-02） | CC-A | 5447 | duty.json：CC-A |
+| 保留｜崗位在用 | `claude/confident-ritchie-8rwh7t` | `48612ee7e`（2026-11-02） | LAWWW-A、RULE_SOURCE | 271 | duty.json：LAWWW-A、RULE_SOURCE |
+| 保留｜崗位在用 | `claude/second-ai-env-art` | `4dc6b17b1`（2026-11-02） | LAWWW2-A | 1515 | duty.json：LAWWW2-A |
+| 保留｜崗位在用 | `claude/story-planning` | `eca9eb671`（2026-11-02） | AA-A、BB-A | 5444 | duty.json：AA-A、BB-A |
 | 保留｜WIP 沒整合完 | `claude/adoring-meitner-mqzst8` | `c76d0cb69`（2026-10-28） | LAWWW-C（交班過） | 0 | wip.json：WIP-DORM-ROOM4-0829、WIP-AB65-3-Y1S2-L、WIP-V0-REWRITE-L、WIP-LAWWW-RC4-1021 |
 | 保留｜WIP 沒整合完 | `claude/focused-cray-c9uwvw` | `4b1fcc458`（2026-10-28） | LAWWW2-C（交班過） | 1201 | wip.json：WIP-L2-YUTING-FACE、WIP-L2-SHOP-BG、WIP-L2-DATE-CUTOUTS、WIP-L2-SOP、WIP-L2-PS-SKIRT-LEG、WIP-L2-SOC-COURT-1021 |
 | 保留｜WIP 沒整合完 | `claude/magical-albattani-bk7b4n` | `ea43bd9a0`（2026-10-28） | AA-C（交班過） | 4325 | wip.json：WIP-AA-211、WIP-AA-194-L12、WIP-AA-199-VAC、WIP-AA-210-NYE、WIP-AA-212-AB655、WIP-AA-208-ROOM4、WIP-AA-103-SP、WIP-AA-213-US |
 | 保留｜WIP 沒整合完 | `claude/wonderful-mayer-7fm9g6` | `3e23808e7`（2026-10-28） | BB-C（交班過） | 4381 | wip.json：WIP-BB-181、WIP-BB-LADDER-Y2Y4、WIP-BB-HOLIDAY-SYS、WIP-BB-START-WEEK、WIP-BB-SIS-BF、WIP-BB-POSTCARDS、WIP-BB-S3 |
-| 保留｜main 沒有的內容 | `claude/cool-heisenberg-o8kuqx` | `c989cc066`（2026-11-01） | AA-B（交班過） | 5094 | main 沒有的 commit 4645 個（內容比對）；分出去以後改的檔案有 2123 個和 main 不一樣；整條分支已經在 claude/cc-testing、claude/story-planning 裡（還沒發布到 main） |
-| 保留｜main 沒有的內容 | `claude/elegant-brown-fcos7n` | `22ddbea54`（2026-11-01） | BB-B（交班過） | 5223 | main 沒有的 commit 4776 個（內容比對）；分出去以後改的檔案有 2126 個和 main 不一樣；整條分支已經在 claude/cc-testing、claude/story-planning 裡（還沒發布到 main） |
-| 保留｜main 沒有的內容 | `claude/funny-albattani-iawshm` | `e16b32ad0`（2026-11-01） | LAWWW2-B（交班過） | 1506 | main 沒有的 commit 1500 個（內容比對）；分出去以後改的檔案有 2998 個和 main 不一樣；整條分支已經在 claude/second-ai-env-art 裡（還沒發布到 main） |
-| 保留｜main 沒有的內容 | `claude/modest-rubin-2lyp7g` | `02898d56c`（2026-11-02） | LAWWW-B（交班過） | 237 | main 沒有的 commit 219 個（內容比對）；分出去以後改的檔案有 434 個和 main 不一樣；整條分支已經在 claude/confident-ritchie-8rwh7t 裡（還沒發布到 main） |
 | 保留｜main 沒有的內容 | `claude/second-ai-env-art-wip-trees` | `22ff594d7`（2026-10-14） | — | 7 | main 沒有的 commit 5 個（內容比對）；分出去以後改的檔案有 16 個和 main 不一樣 |
-| 清理候選 | `claude/friendly-brahmagupta-6bbkzc` | `eb53fd75c`（2026-10-10） | — | 0 | 整條分支是 main 的祖先。還原：`git push origin eb53fd75caa4:refs/heads/claude/friendly-brahmagupta-6bbkzc` |
-| 清理候選 | `claude/release-v9.8` | `e987af481`（2026-10-16） | — | 0 | 整條分支是 main 的祖先。還原：`git push origin e987af48137a:refs/heads/claude/release-v9.8` |
-| 清理候選 | `claude/release-v9.8-rc2` | `1ebfefcb9`（2026-10-16） | — | 0 | 整條分支是 main 的祖先。還原：`git push origin 1ebfefcb94bd:refs/heads/claude/release-v9.8-rc2` |
-| 清理候選 | `claude/release-v9.9-rc2` | `6ff9ac21f`（2026-10-16） | — | 0 | 整條分支是 main 的祖先。還原：`git push origin 6ff9ac21f470:refs/heads/claude/release-v9.9-rc2` |
-| 清理候選 | `claude/release-v9.9.1` | `d65f9610d`（2026-10-16） | — | 0 | 整條分支是 main 的祖先。還原：`git push origin d65f9610d1ee:refs/heads/claude/release-v9.9.1` |
-| 清理候選 | `claude/second-ai-env-art-wip-bike` | `fb23c7db4`（2026-10-13） | — | 0 | 整條分支是 main 的祖先。還原：`git push origin fb23c7db4c7e:refs/heads/claude/second-ai-env-art-wip-bike` |
-| 清理候選 | `claude/second-ai-env-art-wip-lane118` | `0b1788b9e`（2026-10-13） | — | 0 | 整條分支是 main 的祖先。還原：`git push origin 0b1788b9e846:refs/heads/claude/second-ai-env-art-wip-lane118` |
-| 清理候選 | `claude/second-ai-env-art-wip-lawlib` | `3ba830573`（2026-10-13） | — | 0 | 整條分支是 main 的祖先。還原：`git push origin 3ba830573dc8:refs/heads/claude/second-ai-env-art-wip-lawlib` |
-| 清理候選 | `claude/second-ai-env-art-wip-pavsoc` | `8c6f1fe02`（2026-10-11） | — | 0 | 整條分支是 main 的祖先。還原：`git push origin 8c6f1fe02503:refs/heads/claude/second-ai-env-art-wip-pavsoc` |
-| 清理候選 | `claude/second-ai-env-art-wip-props` | `fa626b9df`（2026-10-11） | — | 0 | 整條分支是 main 的祖先。還原：`git push origin fa626b9dfbc6:refs/heads/claude/second-ai-env-art-wip-props` |
-| 清理候選 | `claude/second-ai-env-art-wip-props6` | `49d32ed85`（2026-10-13） | — | 0 | 整條分支是 main 的祖先。還原：`git push origin 49d32ed85714:refs/heads/claude/second-ai-env-art-wip-props6` |
-| 清理候選 | `claude/second-ai-env-art-wip-soclib` | `af7de02eb`（2026-10-13） | — | 0 | 整條分支是 main 的祖先。還原：`git push origin af7de02ebc9f:refs/heads/claude/second-ai-env-art-wip-soclib` |
-| 清理候選 | `postrel-1030` | `3808792fe`（2026-10-30） | — | 0 | 整條分支是 main 的祖先。還原：`git push origin 3808792fe8b2:refs/heads/postrel-1030` |
 
 清理候選＝「已完成、內容全部在 main」；**刪不刪由開發 AI（值班 LAWWW）整理時決定**，刪之前在下面「整理紀錄」記 SHA（雲端工作階段刪不了別的分支：只標記，不反覆重試，D85 第 8 點）。「保留｜main 沒有的內容」的分支不能刪：裡面有 main 沒有的東西（企劃線的文件本來就不進 main）。
 <!-- BRANCH-AUDIT:END -->
@@ -82,6 +65,7 @@
 
 | 時間（UTC） | 誰 | 動作 | 分支與 SHA | 結果 |
 |---|---|---|---|---|
+| 2026-11-02 05:3x | LAWWW（帳號 A） | 使用者在 GitHub 網頁刪完 17 條（04:5x 那一列）；fetch --prune 核對＋重跑稽核 | 剩 10 條：main、cc-testing、confident-ritchie、second-ai-env-art、story-planning（各職位在用）、adoring-meitner、focused-cray、magical-albattani、wonderful-mayer（帳號 C WIP 沒整合完）、second-ai-env-art-wip-trees（main 沒有的 5 個 commit） | 和預期一致，沒有多刪、沒有漏刪 |
 | 2026-11-02 04:5x | LAWWW（帳號 A） | **使用者 04:4x「分支太多了吧 應該要清掉一些」→ 選擇題選「17 條」「我同意，你來刪」**：稽核 27 條；刪 13 條清理候選（整條是 main 的祖先）＋帳號 B 四條交班分支（逐條 `merge-base --is-ancestor` 確認整條已在帳號 A 的分支：modest-rubin⊂confident-ritchie、funny-albattani⊂second-ai-env-art、cool-heisenberg／elegant-brown⊂story-planning；帳號 B 下次回來系統指定同一個名字，push 會重建）。`git push origin --delete` 一次刪 17 條：**HTTP 403**（雲端 git 只准推本工作階段的分支，D85 第 8 點），GitHub 工具沒有刪分支的功能 → 請使用者在 GitHub Branches 頁面刪，不重試 | `claude/release-v9.8` e987af481、`claude/release-v9.8-rc2` 1ebfefcb9、`claude/release-v9.9-rc2` 6ff9ac21f、`claude/release-v9.9.1` d65f9610d、`claude/friendly-brahmagupta-6bbkzc` eb53fd75c、`claude/second-ai-env-art-wip-bike` fb23c7db4、`claude/second-ai-env-art-wip-lane118` 0b1788b9e、`claude/second-ai-env-art-wip-lawlib` 3ba830573、`claude/second-ai-env-art-wip-pavsoc` 8c6f1fe02、`claude/second-ai-env-art-wip-props` fa626b9df、`claude/second-ai-env-art-wip-props6` 49d32ed85、`claude/second-ai-env-art-wip-soclib` af7de02eb、`claude/modest-rubin-2lyp7g` 02898d56c、`claude/funny-albattani-iawshm` e16b32ad0、`claude/cool-heisenberg-o8kuqx` c989cc066、`claude/elegant-brown-fcos7n` 22ddbea54、`postrel-1030` 3808792fe | 待使用者在網頁刪；刪完應剩 10 條（main、四職位在用 4、帳號 C WIP 4、second-ai-env-art-wip-trees）。還原：`git push origin <SHA>:refs/heads/<分支>` |
 | 2026-10-31 10:1x | LAWWW-B | 定期唯讀稽核（D114，branch_audit.py --write）：26 條＝主線 1、四個崗位在用 4、WIP 沒整合完 4、main 沒有的內容 4（企劃線、second-ai-env-art 舊線、postrel-1030 誤推的那條）、清理候選 13（全部是 main 的祖先，release-v9.8／9.9 系列、second-ai-env-art-wip-* 舊 WIP、confident-ritchie、friendly-brahmagupta） | 見上表（branch_audit.json 同一份） | 雲端工作階段刪不了別的分支：13 條只標記、不刪（D85 第 8 點）；休班帳號 C 的四條交接分支照舊保留（D88 第 5 點） |
 | 2026-10-30 05:3x | LAWWW-B | **誤推**：本機整合分支 `postrel-1030` 誤推到遠端（`git push origin HEAD:postrel-1030`，應該只推指定的開發分支），遠端多出一條 `postrel-1030`；馬上試刪被權限擋下，照 D88 第 4 點不重試 | `postrel-1030` 3808792fe | 內容另有 D113 bundle 在開發分支 `wip_backup/postrel_1030.bundle`；v9.10.14 發布後整條合進開發分支，之後內容全部在開發分支＝**清理候選（權限受阻）**。之後只推 `claude/modest-rubin-2lyp7g` |
