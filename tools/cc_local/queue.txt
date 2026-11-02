@@ -29,7 +29,7 @@ G7_class    | ef63b1877 | game  | tests/flow_class_real.py     | index.html | 11
 P3_ladder   | ef63b1877 | game  | tests/flow_ladder_y1s2.py    | index.html | 110 | XARGS={url} {out}
 P4_legal    | ef63b1877 | probe | docs/story_planning/test_tools/cc/cc_legalpage_probe.py | index.html?turbo | 60 | RERUN=ef63
 P5_ui       | ef63b1877 | probe | docs/story_planning/test_tools/cc/cc_next1102_ui_probe.py | index.html | 90 | SHA=ef63b1877;CASES=examgoal,psbhbg;ORIENTS=port,land
-G4v2_ef63   | ef63b1877 | probe | docs/story_planning/test_tools/cc/flow_main_day12_v2.py | index.html | 120 |
+G4v2_ef63   | ef63b1877 | probe | docs/story_planning/test_tools/cc/flow_main_day12_v2.py | index.html | 110 |
 # 雲端還沒跑過（BB_229 規則 1）：子代理在雲端驗證中，跑過就解除
 #HOLD雲端 P1_d124    | ef63b1877 | probe | docs/story_planning/test_tools/cc/cc_d124_probe.py | index.html?turbo | 90 |
 #HOLD雲端 P2_bar     | ef63b1877 | probe | docs/story_planning/test_tools/cc/cc_bar_b8_probe.py | index.html?turbo | 90 |
