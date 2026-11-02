@@ -164,10 +164,39 @@ async def s_fa01(p, run, base):
     await b.close()
 
 
+async def s_se07s(p, run, base):
+    """SE-07 ④：自習以後用選單「存檔」存到欄位 1 → 讀出那份存檔 → 開新的頁面讀進來 → 「法律」頁一樣（修改後才有意義）"""
+    b, pg, cdp, errs = await launch(p, run, base, '2025-11-05', 19.5, 'dorm', label='SE07S 存讀檔後學習進度保留')
+    lab = await to_inter(pg, cdp, run, '書桌', '宿舍書桌')
+    if await drain(pg, cdp, 40):
+        await tap_opt(pg, cdp, "/讀書|念書|唸書/.test(t)"); await drain(pg, cdp, 30)
+        await tap_opt(pg, cdp, "/3 ?小時/.test(t)") or await tap_opt(pg, cdp, "/小時/.test(t)"); await drain(pg, cdp, 30)
+        await tap_opt(pg, cdp, "!/整理|不讀|算了|取消/.test(t)"); await drain(pg, cdp, 120)
+    l1 = await menu_tab(pg, cdp, run, 'legal', 'SE07S_legal_before_save')
+    await pg.evaluate("(()=>{ const b=document.getElementById('btnMenu'); if(b) b.click(); })()"); await pg.wait_for_timeout(900)
+    await pg.evaluate("(()=>{ const b=document.querySelector('[data-tab=\"save\"]'); if(b) b.click(); })()"); await pg.wait_for_timeout(900)
+    ok = await pg.evaluate("(()=>{ const btn=[...document.querySelectorAll('#saveSlots button')].find(x=>/存/.test(x.textContent)&&!/讀/.test(x.textContent)); if(!btn) return false; btn.click(); return true; })()")
+    await pg.wait_for_timeout(1500); await run.shot(pg, 'SE07S_saved')
+    snap = await pg.evaluate("(()=>{ try{ return localStorage.getItem('fatiao3d_slot_1'); }catch(e){ return null; } })()")
+    await b.close()
+    run.check('SE07S 用選單存到欄位 1（按得到「存」）', bool(ok) and bool(snap), str(ok))
+    if not snap: return
+    st = json.loads(snap); G = st.get('G', st)
+    b2, ctx, pg2, cdp2, errs2 = await L.launch(p, landscape=True)
+    await pg2.goto(URL); await L.wait_loaded(pg2); await pg2.evaluate("localStorage.clear()")
+    await L.load_state(pg2, G, quiet_events=True); await pg2.wait_for_timeout(6000)
+    run.setup('[前置] SE07S：把剛存的欄位 1 存檔讀進新的頁面（load_state）')
+    l2 = await menu_tab(pg2, cdp2, run, 'legal', 'SE07S_legal_after_load')
+    say('   存檔前：%s' % l1[:300].replace('\n', '｜')); say('   讀檔後：%s' % l2[:300].replace('\n', '｜'))
+    run.check('SE07S 讀檔以後「法律」頁的學過／答對過和存檔前一樣', l1 == l2 and '學過' in l2, 'before=%s｜after=%s' % (l1[:200], l2[:200]))
+    run.check('SE07S 沒有 JS 例外', not errs and not errs2, json.dumps((errs + errs2)[:3], ensure_ascii=False))
+    await b2.close()
+
+
 async def main():
     run = L.Run('se_base', OUT); base = json.load(open(SAVE, encoding='utf-8'))
     async with async_playwright() as p:
-        for sc, fn in (('SE01', s_se01), ('SE07', s_se07), ('FA05', s_fa05), ('FA01', s_fa01)):
+        for sc, fn in (('SE01', s_se01), ('SE07', s_se07), ('SE07S', s_se07s), ('FA05', s_fa05), ('FA01', s_fa01)):
             if sc not in SCEN: continue
             say('== %s' % sc)
             try: await fn(p, run, base)
