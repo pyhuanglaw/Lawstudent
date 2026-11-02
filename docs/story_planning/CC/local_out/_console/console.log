@@ -1,22 +1,19 @@
-[05:30:17] run_forever round: 2   runner sha256: 81c08e9a7c
-[05:30:17] python : C:\Users\USER\AppData\Local\Python\pythoncore-3.15-64\python.exe (3.15.2)
-[05:30:17]          playwright 1.64.1 OK
-[05:30:17] git    : git version 2.56.0.windows.4
-[05:30:17] node   : C:\Program Files\nodejs\node.EXE  v26.13.0
-[05:30:17] blender: C:\Program Files\Blender Foundation\Blender 5.2\blender.exe  Blender 5.2.3 LTS (hash e13b728c6880 built 2026-10-22 01:37:16)
-[05:30:17] repo   : C:\Users\USER\Documents\Lawstudent
-[05:30:17] work   : C:\Users\USER\Documents\Lawstudent_cclocal  (branch claude/cc-local, push to origin)
-[05:30:17] parallel: 2  (blender items run alone)
-[05:30:17] browser: visible windows side by side (probe/game/webkit; queue ENV CC_HEADLESS wins) - please do not click them
-[05:30:17] git fetch
+[05:35:39] run_forever round: 3   runner sha256: b46848d180
+[05:35:39] python : C:\Users\USER\AppData\Local\Python\pythoncore-3.15-64\python.exe (3.15.2)
+[05:35:39]          playwright 1.64.1 OK
+[05:35:39] git    : git version 2.56.0.windows.4
+[05:35:39] node   : C:\Program Files\nodejs\node.EXE  v26.13.0
+[05:35:39] blender: C:\Program Files\Blender Foundation\Blender 5.2\blender.exe  Blender 5.2.3 LTS (hash e13b728c6880 built 2026-10-22 01:37:16)
+[05:35:39] repo   : C:\Users\USER\Documents\Lawstudent
+[05:35:39] work   : C:\Users\USER\Documents\Lawstudent_cclocal  (branch claude/cc-local, push to origin)
+[05:35:39] parallel: 2  (blender items run alone)
+[05:35:39] browser: visible windows side by side (probe/game/webkit; queue ENV CC_HEADLESS wins) - please do not click them
+[05:35:39] git fetch
     From https://github.com/pyhuanglaw/Lawstudent
      * branch                claude/cc-testing -> FETCH_HEAD
      * branch                claude/confident-ritchie-8rwh7t -> FETCH_HEAD
-       62e8c96c1..67623e1cf  claude/cc-testing -> origin/claude/cc-testing
-       381195d44..b042fe458  claude/confident-ritchie-8rwh7t -> origin/claude/confident-ritchie-8rwh7t
     From https://github.com/pyhuanglaw/Lawstudent
      * branch                claude/second-ai-env-art -> FETCH_HEAD
-       1e35faa3e..fe9b36c3a  claude/second-ai-env-art -> origin/claude/second-ai-env-art
     Already on 'claude/cc-local'
     M	docs/story_planning/CC/local_out/02_mk12/err.log
     M	docs/story_planning/CC/local_out/02_mk12/run.log
@@ -46,58 +43,5 @@
     M	docs/story_planning/CC/local_out/R8_y4s2rt/run.log
     Your branch is up to date with 'origin/claude/cc-local'.
     Already up to date.
-    Merge made by the 'ort' strategy.
-     ...272\244\346\216\245\347\264\200\351\214\204.md" |   7 +++
-     ...runner_\346\223\215\344\275\234\345\215\241.md" |  11 ++++
-     .../story_planning/CC/CC_31_ADVSKIP_DORM_LATE15.md |  54 +++++++++++++++++++
-     ...63_CG\350\247\243\351\216\226_examgoal_wake.md" |  32 ++++++++++++
-     ...255\270\345\247\212\351\232\216\346\242\257.md" |  27 ++++++++++
-     .../CC/shots/p1new/advskip_b1b_after_skip_full.png | Bin 0 -> 448912 bytes
-     .../CC/shots/p1new/dorm_b1b_econ_moved.png         | Bin 0 -> 72478 bytes
-     .../CC/shots/p1new/dorm_pre_econ_moved.png         | Bin 0 -> 61852 bytes
-     .../story_planning/CC/shots/p1new/late15_b1b_a.png | Bin 0 -> 318590 bytes
-     docs/story_planning/CC/shots/p3b/05_fafu_watch.png | Bin 0 -> 362110 bytes
-     docs/story_planning/CC/shots/p3b/06_after_S-L3.png | Bin 0 -> 463632 bytes
-     .../story_planning/CC/shots/p3b/07_after_S-Lx3.png | Bin 0 -> 461456 bytes
-     .../CC/shots/uief63/01_examgoal_wake_port_bed.png  | Bin 0 -> 311586 bytes
-     .../shots/uief63/02_examgoal_wake_port_choice1.png | Bin 0 -> 274488 bytes
-     .../CC/shots/uief63/03_examgoal_wake_port_L01.png  | Bin 0 -> 301683 bytes
-     .../shots/uief63/21_ancf2_think_port_Y1S2_go.png   | Bin 0 -> 246017 bytes
-     .../shots/uief63/34_ancf2_think_port_Y1S2_L11.png  | Bin 0 -> 208701 bytes
-     .../shots/uief63/35_ancf2_think_port_Y1S2_L12.png  | Bin 0 -> 262159 bytes
-     .../CC/shots/uief63/ancf2_think_port_lines.txt     |  58 +++++++++++++++++++++
-     .../test_tools/cc/cc_art247_probe.py               |   7 +--
-     .../test_tools/cc/cc_b245_bench_probe.py           |   8 ++-
-     .../test_tools/cc/cc_bar_b8_probe.py               |  16 +++---
-     .../test_tools/cc/cc_shuyu_sl_probe.py             |  12 +++--
-     tools/cc_local/README.md                           |  11 ++++
-     tools/cc_local/queue.txt                           |  23 +++++---
-     25 files changed, 244 insertions(+), 22 deletions(-)
-     create mode 100644 docs/story_planning/CC/CC_31_ADVSKIP_DORM_LATE15.md
-     create mode 100644 "docs/story_planning/CC/CC_32_ef63_CG\350\247\243\351\216\226_examgoal_wake.md"
-     create mode 100644 "docs/story_planning/CC/CC_33_P3b_\345\255\270\345\247\212\351\232\216\346\242\257.md"
-     create mode 100644 docs/story_planning/CC/shots/p1new/advskip_b1b_after_skip_full.png
-     create mode 100644 docs/story_planning/CC/shots/p1new/dorm_b1b_econ_moved.png
-     create mode 100644 docs/story_planning/CC/shots/p1new/dorm_pre_econ_moved.png
-     create mode 100644 docs/story_planning/CC/shots/p1new/late15_b1b_a.png
-     create mode 100644 docs/story_planning/CC/shots/p3b/05_fafu_watch.png
-     create mode 100644 docs/story_planning/CC/shots/p3b/06_after_S-L3.png
-     create mode 100644 docs/story_planning/CC/shots/p3b/07_after_S-Lx3.png
-     create mode 100644 docs/story_planning/CC/shots/uief63/01_examgoal_wake_port_bed.png
-     create mode 100644 docs/story_planning/CC/shots/uief63/02_examgoal_wake_port_choice1.png
-     create mode 100644 docs/story_planning/CC/shots/uief63/03_examgoal_wake_port_L01.png
-     create mode 100644 docs/story_planning/CC/shots/uief63/21_ancf2_think_port_Y1S2_go.png
-     create mode 100644 docs/story_planning/CC/shots/uief63/34_ancf2_think_port_Y1S2_L11.png
-     create mode 100644 docs/story_planning/CC/shots/uief63/35_ancf2_think_port_Y1S2_L12.png
-     create mode 100644 docs/story_planning/CC/shots/uief63/ancf2_think_port_lines.txt
-[05:30:32] dev head = b042fe458   lawww2 head = fe9b36c3a
-[05:30:36] queue: N1_node, G1_reach, G2_libfl, G3_libsc, G5_termend, G6a_v7, G6b_v95, G6c_fm, G7_class, P3_ladder, P4_legal, P5_ui, G4v2_ef63, G5b_ancf, P5w_wake, A1_advskip, A2_dorm, A3_late15, A1_adv_ef63, A2_dorm_ef63, A3_l15_ef63, A1pre, A2pre, A3pre, BK1_cpu, BK1_hip, P3b_sl, R4main, R4b1b_rr, R4v2_b1b, B4main, R1_reach, R2_flowcls, R3_touchwz, R4_day12, R6_layout, R6b_layoutcss, R7_quota, R7b_quota15, R8b_y4s2jp, R8c_y4s2fin, R9_roll, R5_rr, R6_rr, R8_rr, R10_b3, R11_b4, R10_rr, R12_fasat, R12b_fasatpre, R10_rr2, R6_rr2, R8_rr2, F1_fps_hl, F2_fps_hd, R1_x2, R2_x2, R3_x2, R4_x2, R5_x2, R9_x2, R1_x3, R2_x3, R3_x3, R4_x3, R5_x3, R9_x3, 00_gpu, 01_p0speed, 10_deploy, 11_reach, 12_flowcls, 13_minimap, 14_zones, 15_touchwz, 16_p0, 17_savev7, 18_flowday12, 19_mkretake, 19b_mkjp, 02b_mk12dea, 06b_layoutP, 06c_layoutO, 32_wsem, 33_wsempre, 20_roll, 21_rollpre, 22_boya, 23_boyapre, 24_b3, 25_b3pre, 26_b3pre2, 27_b4, 28_b4pre, 29_jpmk, 34_day9, 02_mk12new, 04b_quota15, 04c_legal, 05_mk12old, 07_bg107, 08_pt106, 30_b1base, 31_b2base, G4_day12, FS112, R11_full, R10pre, R11pre
-[05:30:36] skip N1_node (already done on ef63b1877)
-[05:30:36] skip G1_reach (already done on ef63b1877)
-[05:30:36] ==== START G2_libfl  (game @ ef63b1877) ====
-[05:30:36] ==== START G3_libsc  (game @ ef63b1877) ====
-    To https://github.com/pyhuanglaw/Lawstudent.git
-       e368ecb20..900ba3d64  claude/cc-local -> claude/cc-local
-    branch 'claude/cc-local' set up to track 'origin/claude/cc-local'.
-[05:33:52] ==== END   G3_libsc  exit=0  191s   ====
-[05:33:56] run_queue.py has a new version - restart (exit 75) after the running item(s) finish; while long items (>=120 min) run, free slots still take short items
+    Already up to date.
+[05:35:53] dev head = c624ce44c   lawww2 head = 2fb10def1
