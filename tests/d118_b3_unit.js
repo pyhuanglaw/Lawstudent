@@ -128,9 +128,9 @@ const freshAt=(d,h,zone)=>{ const G=H.fresh('2025-09-01',9,zone||'library_hall',
     const L=H.said.map(s=>s.t); const cards=L.filter(t=>/^【/.test(t));
     check('h1. 第一張是答錯過的那張（排最前面）',cards.length>=3&&cards[0].includes(c0.c.name)&&cards[0].includes(STUDY.view(last).title),J(cards.slice(0,3)));
     const v1=STUDY.view(us[0]); const idx=L.findIndex(t=>t.startsWith('【')&&t.includes(v1.title)); const body=idx>=0?L[idx+1]:'';
-    /* 大一上的卡有 AA 的白話（cards_y1s1.json，tests/cards_import_unit.js）：標題下一句＝白話＋例子；還沒有白話的（大二上）照 fallback */
+    /* 大一上的卡有 AA 的白話（cards_y1s1.json，tests/cards_import_unit.js）：標題下一句＝白話＋例子；還沒有白話的（大二下以後）照 fallback */
     check('h2. 有白話的卡：標題下一句＝白話＋「例子：」',idx>=0&&!!v1.plain&&body===v1.plain+(v1.example?'　例子：'+v1.example:''),J(body));
-    const ue=STUDY_UNITS.units.find(u=>u.term==='Y2S1'&&!u.plain&&STUDY.view(u).board[1]), ve=ue&&STUDY.view(ue), le=ue?STUDY.cardLines(ue):[];
+    const ue=STUDY_UNITS.units.find(u=>!u.plain&&STUDY.view(u).board[1]), ve=ue&&STUDY.view(ue), le=ue?STUDY.cardLines(ue):[];
     check('h2b. 白話還沒有的卡（'+(ue&&ue.id)+'）：第一句＝黑板第二、三行＋教授那一句（fallback）',!!ve&&!!le[0]&&le[0].includes(ve.board[1])&&(!ve.line||le[0].includes(ve.prof+'：'+ve.line)),J(le[0]));
     check('h3. 「跳到下一科」：第三張卡是下一科的第一張',!!c1&&cards[2].includes(c1.c.name)&&cards[2].includes('1／'),J(cards[2]));
     const menu=H.opts.slice(-3); check('h4. 每張卡下面：下一張、跳到下一科、結束總複習',menu.every(o=>o.includes('下一張')&&o.some(t=>t.startsWith('結束')))&&menu[0].some(t=>t.startsWith('跳到下一科')),J(menu));

@@ -5,7 +5,7 @@
   src/data/legal_qbank.js：刑訴使用者題庫 Q001–Q084 照 section（章）分卡；同一章裡同一個 tag（觀念）有 5 題以上的自己一張，其他併成那一章的一張（約 10 張）
 plain（白話）、example（例子）、cue（考試時的一行提醒）、basis（條文依據）：AA 的觀念卡稿（企劃線 docs/story_planning/study/cards_<學期>.json，
 以卡 id 為 key），**只讀劇情匯入白名單（docs/handoff/story_import_allow.json）列出、status approved 的那一版**（git show <sha>:<path>，
-不從分支最新、也不從工作目錄讀；D94 第 5 點）；一字不改（照樣過 import_guard.read_fix）。CARD_FILES 沒列的學期（例：大二上還在核對）照舊空著，
+不從分支最新、也不從工作目錄讀；D94 第 5 點）；一字不改（照樣過 import_guard.read_fix）。CARD_FILES 沒列的學期照舊空著，
 空的時候遊戲照 fallback 顯示（黑板三行＋教授那一句＋題目的考點／解析，src/study3d.js 的 STUDY.view）。
 刑訴題庫卡（crimpro_q1…）的標題：AA 的 crimpro_titles.json（同樣走白名單）。
 對不上的（稿裡的卡 id 遊戲沒有、學期不同、那一學期那幾門課有卡但稿裡沒有、標題檔的 id 不是題庫卡）都印出來，不默默丟掉。
@@ -19,7 +19,8 @@ import import_guard as GD
 
 # AA 的觀念卡稿（一學期一個檔）。要加學期：AA 交「定稿＋commit」→ 值班 LAWWW 把那一版加進白名單 → 在這裡加一行
 CARD_FILES = [('docs/story_planning/study/cards_y1s1.json', 'Y1S1'),
-              ('docs/story_planning/study/cards_y1s2.json', 'Y1S2')]
+              ('docs/story_planning/study/cards_y1s2.json', 'Y1S2'),
+              ('docs/story_planning/study/cards_y2s1.json', 'Y2S1')]
 TITLES_FILE = 'docs/story_planning/study/crimpro_titles.json'
 CARD_FIELDS = ('plain', 'example', 'cue')
 ALLOW = GD.load(ROOT)

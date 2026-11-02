@@ -3747,6 +3747,15 @@
    "task": "D118-B2-1102",
    "kind": "text",
    "note": "刑訴 QBANK 9 張卡（crimpro_q1～q9）的正式標題；tools/study/build_units.py 換掉「刑事訴訟法・章名（一）」的暫用標題。子代理 2026-11-02 代登，給值班 LAWWW 核"
+  },
+  {
+   "path": "docs/story_planning/study/cards_y2s1.json",
+   "sha": "cafc8dbbf",
+   "status": "approved",
+   "approvedBy": "AA（D109 劇情自主；AA 11:04 定稿，已獨立核對）",
+   "task": "D118-B2-1102",
+   "kind": "text",
+   "note": "大二上觀念卡 33 張（行政法 8、刑法分則 8、債總二 8、物權 9；62 題）定稿（AA 照核對報告 c10293db4 改 9 張）；tools/study/build_units.py 讀這一版。子代理 2026-11-02 代登，給值班 LAWWW 核"
   }
  ]
 }
