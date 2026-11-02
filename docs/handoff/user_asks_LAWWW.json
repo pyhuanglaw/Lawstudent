@@ -1885,6 +1885,15 @@
    "wants": "X151",
    "task": "STUDY-EXAM-SYS-1102",
    "note": "D118；先現況盤點→分工與實作計畫→開發；通知 AA、BB、LAWWW2"
+  },
+  {
+   "id": "UA-LAWWW-1102-11",
+   "at": "2026-11-02T04:4x",
+   "quote": "CLAUDE.md 應該要改了吧",
+   "kind": "原話",
+   "status": "已完成",
+   "task": "TAKEOVER-A-1102",
+   "note": "改：回班先讀那段（原本說帳號 A 分支是舊版、帳號 C 值班——過時）改成通用、指向 duty find；新增 D118 永久規則一節；D100 分工加 CC（D119）、ART_APPROVED（D120）；D118～D120 決策表列 04:0x～04:3x 已加"
   }
  ]
 }
