@@ -21,3 +21,6 @@
 05_mk12old  | b4f98ea4e | probe | docs/story_planning/test_tools/cc/cc_makeup_probe.py           | index.html?turbo  | 200 | CASES=study3h,homerest,old_delayed,home,mkbg_home
 # 10:3x dea6b1944 補考跳過「考卷發下來」：02 修改後（只跑會進補考的 case）
 02b_mk12dea | dea6b1944 | probe | docs/story_planning/test_tools/cc/cc_makeup_probe.py           | index.html?turbo  | 120 | CASES=home,mkbg
+# #16 K2 版面（e3a9289ef）：修改後 c2d0c24bc、修改前 e27dd033e
+06b_layoutP | c2d0c24bc | probe | docs/story_planning/test_tools/cc/cc_layout16_probe.py        | index.html?turbo  | 60  | CASES=seat_exam,adv_safe,recall2
+06c_layoutO | e27dd033e | probe | docs/story_planning/test_tools/cc/cc_layout16_probe.py        | index.html?turbo  | 60  | CASES=seat_exam,adv_safe,recall2
