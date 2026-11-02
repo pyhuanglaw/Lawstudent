@@ -1,0 +1,454 @@
+[
+ {
+  "w": 1280,
+  "h": 720,
+  "hidePlayer": true,
+  "hideNPCs": true,
+  "state": {
+   "zone": "library_hall",
+   "hour": 15.0,
+   "pos": {
+    "x": 0,
+    "z": 7.4,
+    "lv": 0,
+    "yaw": 3.14
+   }
+  },
+  "cam": {
+   "pos": [
+    0,
+    1.7,
+    8.2
+   ],
+   "look": [
+    0,
+    3.2,
+    -10
+   ]
+  },
+  "wait": 7000,
+  "out": "shots_lh2/after_a_entrance_atrium.png"
+ },
+ {
+  "w": 1280,
+  "h": 720,
+  "hidePlayer": true,
+  "hideNPCs": true,
+  "state": {
+   "zone": "library_hall",
+   "hour": 15.0,
+   "pos": {
+    "x": -9,
+    "z": -2,
+    "lv": 0,
+    "yaw": 1.57
+   }
+  },
+  "cam": {
+   "pos": [
+    -9.5,
+    1.7,
+    -1.5
+   ],
+   "look": [
+    2,
+    2.6,
+    -9
+   ]
+  },
+  "wait": 7000,
+  "out": "shots_lh2/after_b_west_1f.png"
+ },
+ {
+  "w": 1280,
+  "h": 720,
+  "hidePlayer": true,
+  "hideNPCs": true,
+  "state": {
+   "zone": "library_hall",
+   "hour": 15.0,
+   "pos": {
+    "x": -6.0,
+    "z": 0.6,
+    "lv": 1,
+    "yaw": -1.57
+   }
+  },
+  "cam": {
+   "pos": [
+    -5.4,
+    6.75,
+    0.6
+   ],
+   "look": [
+    -10.6,
+    5.5,
+    4.4
+   ]
+  },
+  "wait": 7000,
+  "out": "shots_lh2/after_c_2f_study_table.png"
+ },
+ {
+  "w": 1280,
+  "h": 720,
+  "hidePlayer": true,
+  "hideNPCs": true,
+  "state": {
+   "zone": "library_hall",
+   "hour": 15.0,
+   "pos": {
+    "x": 0,
+    "z": 0.6,
+    "lv": 1,
+    "yaw": 3.14
+   }
+  },
+  "cam": {
+   "pos": [
+    0,
+    7.0,
+    1.0
+   ],
+   "look": [
+    0,
+    4.2,
+    -12
+   ]
+  },
+  "wait": 7000,
+  "out": "shots_lh2/after_d_2f_over_atrium.png"
+ },
+ {
+  "w": 1280,
+  "h": 720,
+  "hidePlayer": true,
+  "hideNPCs": true,
+  "state": {
+   "zone": "library_hall",
+   "hour": 15.0,
+   "pos": {
+    "x": 0,
+    "z": -15.0,
+    "lv": 0,
+    "yaw": 3.14
+   }
+  },
+  "cam": {
+   "pos": [
+    0,
+    1.65,
+    -15.4
+   ],
+   "look": [
+    0,
+    2.9,
+    -22
+   ]
+  },
+  "wait": 7000,
+  "out": "shots_lh2/after_e_rotunda.png"
+ },
+ {
+  "w": 1280,
+  "h": 720,
+  "hidePlayer": true,
+  "hideNPCs": true,
+  "state": {
+   "zone": "library_hall",
+   "hour": 15.0,
+   "pos": {
+    "x": 0,
+    "z": -18.2,
+    "lv": 0,
+    "yaw": 3.14
+   }
+  },
+  "cam": {
+   "pos": [
+    0,
+    1.5,
+    -17.6
+   ],
+   "look": [
+    0,
+    4.6,
+    -22.4
+   ]
+  },
+  "wait": 7000,
+  "out": "shots_lh2/after_e2_rotunda_inside.png"
+ },
+ {
+  "w": 1280,
+  "h": 720,
+  "hidePlayer": true,
+  "hideNPCs": true,
+  "state": {
+   "zone": "library_hall",
+   "hour": 20.5,
+   "pos": {
+    "x": 0,
+    "z": -18.2,
+    "lv": 0,
+    "yaw": 3.14
+   }
+  },
+  "cam": {
+   "pos": [
+    0,
+    1.5,
+    -17.6
+   ],
+   "look": [
+    0,
+    4.6,
+    -22.4
+   ]
+  },
+  "wait": 7000,
+  "out": "shots_lh2/after_e3_rotunda_night.png"
+ },
+ {
+  "w": 1280,
+  "h": 720,
+  "hidePlayer": true,
+  "hideNPCs": true,
+  "state": {
+   "zone": "library_hall",
+   "hour": 15.0,
+   "pos": {
+    "x": -4.8,
+    "z": -8.6,
+    "lv": 1,
+    "yaw": 0.8
+   }
+  },
+  "cam": {
+   "pos": [
+    -4.6,
+    6.75,
+    -8.2
+   ],
+   "look": [
+    -9.5,
+    5.6,
+    -13.8
+   ]
+  },
+  "wait": 7000,
+  "out": "shots_lh2/after_f_2f_stacks_west.png"
+ },
+ {
+  "w": 1280,
+  "h": 720,
+  "hidePlayer": true,
+  "hideNPCs": true,
+  "state": {
+   "zone": "library_hall",
+   "hour": 15.0,
+   "pos": {
+    "x": 8.9,
+    "z": -1.0,
+    "lv": 1,
+    "yaw": -0.8
+   }
+  },
+  "cam": {
+   "pos": [
+    8.9,
+    6.75,
+    -1.2
+   ],
+   "look": [
+    4.0,
+    5.8,
+    -6.8
+   ]
+  },
+  "wait": 7000,
+  "out": "shots_lh2/after_g_2f_stacks_east.png"
+ },
+ {
+  "w": 1280,
+  "h": 720,
+  "hidePlayer": true,
+  "hideNPCs": true,
+  "state": {
+   "zone": "library_hall",
+   "hour": 15.0,
+   "pos": {
+    "x": 5.4,
+    "z": -6.4,
+    "lv": 0,
+    "yaw": 2.4
+   }
+  },
+  "cam": {
+   "pos": [
+    5.6,
+    1.75,
+    -6.0
+   ],
+   "look": [
+    10,
+    1.0,
+    -13.5
+   ]
+  },
+  "wait": 7000,
+  "out": "shots_lh2/after_h_1f_east_media.png"
+ },
+ {
+  "w": 1280,
+  "h": 720,
+  "hidePlayer": true,
+  "hideNPCs": true,
+  "state": {
+   "zone": "library_hall",
+   "hour": 20.5,
+   "pos": {
+    "x": 0,
+    "z": 7.4,
+    "lv": 0,
+    "yaw": 3.14
+   }
+  },
+  "cam": {
+   "pos": [
+    0,
+    1.7,
+    8.2
+   ],
+   "look": [
+    0,
+    3.2,
+    -10
+   ]
+  },
+  "wait": 7000,
+  "out": "shots_lh2/after_i_night_atrium.png"
+ },
+ {
+  "w": 1280,
+  "h": 720,
+  "hidePlayer": true,
+  "hideNPCs": true,
+  "state": {
+   "zone": "library_hall",
+   "hour": 15.0,
+   "pos": {
+    "x": 0,
+    "z": 7.4,
+    "lv": 0,
+    "yaw": 3.14
+   }
+  },
+  "wait": 7000,
+  "out": "shots_lh2/after2_top_1f.png",
+  "cam": {
+   "pos": [
+    0,
+    44,
+    -3.0
+   ],
+   "look": [
+    0,
+    0,
+    -3.6
+   ]
+  },
+  "js": "GAME.E.scene.traverse(o=>{ if(/^(L1_|L0_ceil$|L0_light$|WALL_[A-Z0-9]*1$)/.test(o.name||'')) o.visible=false; })"
+ },
+ {
+  "w": 1280,
+  "h": 720,
+  "hidePlayer": true,
+  "hideNPCs": true,
+  "state": {
+   "zone": "library_hall",
+   "hour": 15.0,
+   "pos": {
+    "x": -4.2,
+    "z": -18.0,
+    "lv": 0,
+    "yaw": 3.14
+   }
+  },
+  "wait": 7000,
+  "out": "shots_lh2/after2_e5_rotunda_diag.png",
+  "cam": {
+   "pos": [
+    -4.4,
+    1.6,
+    -17.6
+   ],
+   "look": [
+    2.6,
+    2.4,
+    -21.6
+   ]
+  }
+ },
+ {
+  "w": 1280,
+  "h": 720,
+  "hidePlayer": true,
+  "hideNPCs": true,
+  "state": {
+   "zone": "library_hall",
+   "hour": 15.0,
+   "pos": {
+    "x": 0,
+    "z": -15.6,
+    "lv": 1,
+    "yaw": 3.14
+   }
+  },
+  "wait": 7000,
+  "out": "shots_lh2/after2_e6_rotunda_from_2f.png",
+  "cam": {
+   "pos": [
+    0,
+    6.9,
+    -15.9
+   ],
+   "look": [
+    0,
+    2.0,
+    -21.4
+   ]
+  }
+ },
+ {
+  "w": 1280,
+  "h": 720,
+  "hidePlayer": true,
+  "hideNPCs": true,
+  "state": {
+   "zone": "library_hall",
+   "hour": 15.0,
+   "pos": {
+    "x": 0,
+    "z": 0.4,
+    "lv": 1,
+    "yaw": 3.14
+   }
+  },
+  "wait": 7000,
+  "out": "shots_lh2/after3_top_2f.png",
+  "cam": {
+   "pos": [
+    0,
+    44,
+    -3.0
+   ],
+   "look": [
+    0,
+    0,
+    -3.6
+   ]
+  },
+  "js": "GAME.E.scene.traverse(o=>{ if(/^(L0_ceil|L1_ceil|L1_light)$/.test(o.name||'')) o.visible=false; })"
+ }
+]

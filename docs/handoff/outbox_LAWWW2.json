@@ -5302,6 +5302,28 @@
    "next": "已整合第四版（5627d9453）就套 library_b1_v41_incr_1102.patch（5627d9453、1a5110e07 apply --check 乾淨）＋換三個二進位；跑 library_b1_unit、b1story_unit、aa497_supporting_unit 等 9 支",
    "noDirectIntegrate": false,
    "note": "排距 5→4.4 m（背靠背 2.04 m、北走道約 1.9 m）；同一排連成長條桌，只在進門走道、中間走道斷開；自習室 72→76（A 56→60）；方柱 A 區中間 2→1 根（x −0.8）；北牆、B 區東牆、A 區南邊兩道隔間加 1 m 木牆裙、上面白一點；椅子加深加厚、隔板換蜂蜜橘。study_night、芯慈、明軒 seatAt 改座標（README 第六節）。library_b1_unit 背靠背門檻 2.3→2.0 m（使用者決定 4.4 m；第三版 1.64 m 照樣 FAIL）。reachability_all(library_b1) ALL PASS（109 互動點）"
+  },
+  {
+   "branch": "claude/second-ai-env-art",
+   "sha": "(本 commit)",
+   "receiver": "LAWWW",
+   "ack": "SENT",
+   "task": "LIB-INTERIOR-1102（總圖一樓、二樓第二版：使用者 08:58 平面圖、09:01 照片——中庭台階書牆＋夾層、半圓展演廳、多元共享區、數位媒體區；二樓人社中日韓文／西文書架、討論室 225／226）",
+   "files": [
+    "docs/art-rebuild/second_ai/patches/library_hall_v2_1102.patch",
+    "assets/models/env/second_ai/library_hall_v2.glb",
+    "assets/models/env/second_ai/library_hall_v2_lm_day.webp",
+    "assets/models/env/second_ai/library_hall_v2_lm_night.webp",
+    "tools/blender/env_second/lightbake/library_hall_v2_lm.json",
+    "docs/art-rebuild/second_ai/patches/stairs_cam_browser_shotjs_1102.patch",
+    "docs/art-rebuild/second_ai/patches/flow_lib_tour_l3_1102.patch",
+    "docs/art-rebuild/second_ai/test_shots/library_hall_v2_1102/README.md"
+   ],
+   "state": "已交付（READY_FOR_ART_REVIEW；BB 驗收，D120）",
+   "remaining": "展演廳斜看／二樓往下看、二樓俯視 3 張還沒拍（排在 3F 那一批）；flow_lib_tour caption 修正以後重跑中（跑完重產 flow_lib_tour_l3_1102.patch）；seats_on_furniture 3F 補跑；展演廳還不到照片：牆偏米色、沒有第二層環廊和拱窗、展品是色塊；沒跑實機",
+   "next": "patch 在 1a5110e07、48918ca20、3e6855649 apply --check 乾淨；換 GLB＋兩張光照貼圖；跑 README 第七節測試單（Node 92 支、reachability_all、zone_transitions、flow_library_floors、flow_library_scene、stairs_cam_browser、seats_on_furniture、flow_lib_tour）",
+   "noDirectIntegrate": false,
+   "note": "layout version 2（version 1 留作備用：換回 library_layout.js 就退回第一版）；舊存檔 715 個取樣點 0 個退回出生點；小安「總圖的下午」座位不變。展演廳弧牆頂點順序修正後重烘（GLB 9d3afdcb73a8）。雲端：Node 92 支 ALL PASS（19:00）、reachability_all 1142 點、zone_transitions 37、flow_library_floors、flow_library_scene、stairs_cam_browser（套 tests patch）都 ALL PASS"
   }
  ]
 }
