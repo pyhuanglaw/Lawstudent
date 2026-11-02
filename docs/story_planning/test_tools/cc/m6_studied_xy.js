@@ -70,7 +70,7 @@ let REVIEWED=new Set();
 function modelRank(G){ const rk={}; const up=(id,r)=>{ if(UB[id]&&(rk[id]||0)<r) rk[id]=r; };
   const R=G.courses;
   for(const k in R.done){ const p=k.split(':'); const t=CALENDAR.termOf(+p[0]); if(!t||!t.week) continue; up(baseCid(p[1])+'_w'+t.week,1); }
-  for(const n of G.notes||[]) up(n.id,2);
+  for(const n of G.notes||[]){ const m=/^(.+)_w(\d+)$/.exec(n.id||''); if(m) up(baseCid(m[1])+'_w'+m[2],2); }   /* 日本補修（insurance_re_w5）的筆記＝原課那張卡（STUDY.weekUnit 照 redoOf）*/
   for(const id of REVIEWED) up(id,2);
   for(const k in R.ask||{}){ const qid=k.slice(k.indexOf(':')+1), q=QPOOL[qid]; if(!q) continue; for(const u of UQ[qid]||[]){ up(u.id,1); if(String(R.ask[k])===String(q.answer)) up(u.id,3); } }
   for(const k in R.exam||{}){ const e=R.exam[k]; if(!e||e.status!=='done'||!Array.isArray(e.qs)) continue; e.qs.forEach((qid,i)=>{ const q=QPOOL[qid]; if(q&&String(e.ans[i])===String(q.answer)) for(const u of UQ[qid]||[]) up(u.id,3); }); }
@@ -162,6 +162,11 @@ async function sim(seed,opt){ opt=opt||{}; rnd=rngOf(seed*977+3); REVIEWED=new S
   { rnd=rngOf(7); const G=H.fresh('2025-10-01',9,'dorm',{examSeed:1}); G.notes=[]; G.legal={q:{Q002:{state:'learned'}}}; const rows=legalRows(G); const cp=rows.find(r=>r.name==='刑事訴訟法');
     console.log('  INFO 大一上（2025-10-01）讀書會讀到 Q002（learned）以後，法律頁：'+J(rows));
     check('6 大一上只有讀書會碰過刑訴題庫：法律頁不應出現未來學期（大三上）的「刑事訴訟法」在「之前的學期」',!cp||cp.sec!=='prev',J(cp)); }
+  /* 日本補修的筆記 id 不是卡片 id：舊存檔第一次讀到時的 backfill（STUDY.backfill 用 S.unit(筆記 id)）會漏掉 */
+  { const {G}=runs.find(r=>r[0]==='JP 交換')[1]; const redoNotes=(G.notes||[]).filter(n=>/_re_w\d+$/.test(n.id)); const C=JSON.parse(JSON.stringify(G)); delete C.study; C.courses=JSON.parse(JSON.stringify(G.courses));
+    const cs=['civpro_2_re','insurance_re'].map(COURSE); const live=cs.map(c=>STUDY.progress(G,c,'final','Y4S2'));
+    const H0=H.G; H.G=C; STUDY.rec(C); const bf=cs.map(c=>STUDY.progress(C,c,'final','Y4S2')); H.G=H0;
+    console.log('  INFO JP 補修的自習筆記 '+redoNotes.length+' 則（例 '+(redoNotes[0]||{}).id+'）；即時 read='+J(live.map(p=>p.read))+'，刪掉 G.study 重跑 backfill 後 read='+J(bf.map(p=>p.read))+'（backfill 只認「筆記 id＝卡片 id」；總複習本來就不留紀錄、backfill 推不回）'); }
   const realFails=fails-f0;
   console.log('檢查點：'+STAT.points+' 次（每次 1/2/3 三項）、新學期歸零 '+STAT.resetChecks+' 項、上學期不變 '+STAT.frozenChecks+' 項；FAIL '+realFails);
   if(realFails) console.log('FAIL 清單（前 15）：\n  '+FAILS.slice(0,15).join('\n  '));
