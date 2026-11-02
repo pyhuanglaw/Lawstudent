@@ -52,6 +52,8 @@ const SOCIAL = (function(){
   S.has=function(id,tag){ const M=G.social.mem[id]; return !!(M&&M.some(m=>m.tag===tag)); };
   S.lastDay=function(id,tag){ const M=G.social.mem[id]; if(!M) return -1; let d=-1; for(const m of M) if(m.tag===tag) d=Math.max(d,m.day); return d; };
   S.memories=function(id){ return (G.social.mem[id]||[]).filter(m=>m.tag!=='ADJUST'); };
+  S.MEMORY_HIDE=new Set(['AN_SHOP_PAGE']);   /* 劇情讀、人物面板不顯示的記憶（AA_589：AN_SHOP_PAGE＝看過以安手帳「想去的店」那一頁）*/
+  S.panelMemories=function(id){ return S.memories(id).filter(m=>!S.MEMORY_HIDE.has(m.tag)); };
   // ---- 揭露階段（不熟的人）：UNKNOWN → RECOGNIZABLE → ACQUAINTANCE → FRIEND ----
   S.reveal=function(id){ return G.social.reveal[id]||'UNKNOWN'; };
   S.noticed=function(id){ const r=S.rel(id); r.seen++; if(S.reveal(id)==='UNKNOWN'&&r.seen>=3) G.social.reveal[id]='RECOGNIZABLE'; };
