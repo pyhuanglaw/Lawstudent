@@ -29,7 +29,7 @@ CASES（逗號隔開，每個 case 開新的瀏覽器；預設 retake,crim_qb）
   4. 課名比對：重修那一門的名字＝原本課名＋「（重修）」（classes3d.js rtCourse）。
 用法：LW_TESTS=<工作樹>/tests SHA=<sha> [CASES=retake,crim_qb] python3 cc_legalpage_probe.py '<URL>/index.html?turbo' <輸出資料夾>
 其他環境變數：RT_COURSE（課號）、RT_DAY（JSON，例 '["Y2S1",1,5]'）、RT_ATTEND（1）、LEGAL_PAGES（4）。"""
-import os, sys, json, asyncio, traceback
+import os, sys, json, asyncio, traceback, re
 sys.path.insert(0, os.environ['LW_TESTS']); import playlib as L
 sys.path.insert(0, os.path.dirname(os.path.dirname(os.path.abspath(__file__)))); import bbplay as P   # bbplay 在上一層（BB 的 test_tools）
 from playwright.async_api import async_playwright
@@ -177,7 +177,8 @@ async def case_crim_qb(pg, cdp, run):
     rows = await open_legal(pg, cdp)
     run.note('%s：法律頁 %s' % (tag, J([[x.get('sec'), x.get('name'), x.get('term')] for x in rows or []])))
     crs = [x for x in rows or [] if not x.get('head') and x.get('term') is not None]
-    crim = [x for x in crs if (x['name'] or '').startswith('刑事訴訟法')]
+    # 課程列＝第二行是學期（「大三上」「大一上・上過 6 週」）；題庫概況「刑事訴訟法（讀書會、課堂遇到的題目）」底下的主題列（第二行是「聽過 · 學到…」）不是課程列（雲端 b1b 11-02 誤判）
+    crim = [x for x in crs if (x['name'] or '').startswith('刑事訴訟法') and re.match(r'^大[一二三四五][上下]', x.get('term') or '')]
     other = [x for x in rows or [] if not x.get('head') and x not in crim and '刑事訴訟' in (x.get('text') or '')]
     S = await shots_legal(pg, run, tag, [('crim', crim[0]['i'])] if crim else [])
     run.check('%s：前置成立（法律頁有別的課程列，不是空的）' % tag, bool(crs), J(rows))
