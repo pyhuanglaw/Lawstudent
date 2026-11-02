@@ -45,3 +45,5 @@
       err.log (last 5): [gpu_wrap 199.2s] page close url=http://127.0.0.1:8801/index.html?start0 | [gpu_wrap 199.2s] BROWSER DISCONNECTED
 - 2026-11-02T23:25:37  R9_roll  sha=b1b249873  exit=0  361s    PASS 沒有 JS 例外  [] / SHA b1b249873 CASES a,a0,b,c1,c2,d_old,d_new,cw,bedge / ALL PASS
       err.log (last 5): [gpu_wrap 332.2s] page close url=http://127.0.0.1:8801/index.html | [gpu_wrap 332.2s] BROWSER DISCONNECTED
+- 2026-11-03T00:02:55  R10_b3  sha=b1b249873  exit=1  2228s    PASS cafe_free：離開選單以後金額也沒變（30000）  [30000, 30000] / PASS cafe_free：沒有 JS 例外  [] /   [2198.6s] cafe_free：逐字稿 C:\Users\USER\Documents\Lawstudent_cclocal\docs\story_planning\CC\local_out\R10_b3\out\transcript_cafe_free.json（119 筆）
+      err.log (last 5):            ~~~~~~~~~~~~~^^ |   File "C:\Users\USER\Documents\Lawstudent_cclocal\docs\story_planning\test_tools\cc\cc_d118b3_probe.py", line 1056, in main |     for v in (SUMMARY.get(c) or {}).values(): |              ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ | AttributeError: 'str' object has no attribute 'values'

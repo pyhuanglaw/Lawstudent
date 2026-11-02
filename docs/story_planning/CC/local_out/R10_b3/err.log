@@ -1,0 +1,74 @@
+[gpu_wrap 481.9s] page close url=http://127.0.0.1:8801/index.html
+[gpu_wrap 481.9s] BROWSER DISCONNECTED
+[gpu_wrap 941.1s] page close url=http://127.0.0.1:8801/index.html
+[gpu_wrap 941.1s] BROWSER DISCONNECTED
+Traceback (most recent call last):
+  File "C:\Users\USER\Documents\Lawstudent_cclocal\docs\story_planning\test_tools\cc\cc_d118b3_probe.py", line 1044, in main
+    await RUNNERS[c](pg, cdp, run, tr, S)
+  File "C:\Users\USER\Documents\Lawstudent_cclocal\docs\story_planning\test_tools\cc\cc_d118b3_probe.py", line 840, in case_S2a
+    await case_S2(pg, cdp, run, tr, S, 'review')
+  File "C:\Users\USER\Documents\Lawstudent_cclocal\docs\story_planning\test_tools\cc\cc_d118b3_probe.py", line 803, in case_S2
+    res = await semff_run(pg, cdp, run, V.lower(), on_remind, done, ENVI('S2_MAX', 2400))
+          ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\USER\Documents\Lawstudent_cclocal\docs\story_planning\test_tools\cc\cc_d118b3_probe.py", line 745, in semff_run
+    run.note('%s %s %s 選項 %s → %s' % (tag, c['key'], hm(c['h']), c['zone'], J([t[:20] for t in T]), T[k][:24]))
+             ~~~~~~~~~~~~~~~~~~~~~~~~^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+TypeError: not all arguments converted during string formatting (required 5, got 6)
+[gpu_wrap 975.7s] page close url=http://127.0.0.1:8801/index.html
+[gpu_wrap 975.7s] BROWSER DISCONNECTED
+Traceback (most recent call last):
+  File "C:\Users\USER\Documents\Lawstudent_cclocal\docs\story_planning\test_tools\cc\cc_d118b3_probe.py", line 1044, in main
+    await RUNNERS[c](pg, cdp, run, tr, S)
+  File "C:\Users\USER\Documents\Lawstudent_cclocal\docs\story_planning\test_tools\cc\cc_d118b3_probe.py", line 844, in case_S2b
+    await case_S2(pg, cdp, run, tr, S, 'cont')
+  File "C:\Users\USER\Documents\Lawstudent_cclocal\docs\story_planning\test_tools\cc\cc_d118b3_probe.py", line 803, in case_S2
+    res = await semff_run(pg, cdp, run, V.lower(), on_remind, done, ENVI('S2_MAX', 2400))
+          ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\USER\Documents\Lawstudent_cclocal\docs\story_planning\test_tools\cc\cc_d118b3_probe.py", line 745, in semff_run
+    run.note('%s %s %s 選項 %s → %s' % (tag, c['key'], hm(c['h']), c['zone'], J([t[:20] for t in T]), T[k][:24]))
+             ~~~~~~~~~~~~~~~~~~~~~~~~^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+TypeError: not all arguments converted during string formatting (required 5, got 6)
+[gpu_wrap 1009.6s] page close url=http://127.0.0.1:8801/index.html
+[gpu_wrap 1009.6s] BROWSER DISCONNECTED
+[gpu_wrap 1118.4s] page close url=http://127.0.0.1:8801/index.html
+[gpu_wrap 1118.4s] BROWSER DISCONNECTED
+[gpu_wrap 1408.4s] page close url=http://127.0.0.1:8801/index.html
+[gpu_wrap 1408.5s] BROWSER DISCONNECTED
+Traceback (most recent call last):
+  File "C:\Users\USER\Documents\Lawstudent_cclocal\docs\story_planning\test_tools\cc\cc_d118b3_probe.py", line 1044, in main
+    await RUNNERS[c](pg, cdp, run, tr, S)
+  File "C:\Users\USER\Documents\Lawstudent_cclocal\docs\story_planning\test_tools\cc\cc_d118b3_probe.py", line 906, in case_seed
+    R = S.setdefault(side, {})
+        ^^^^^^^^^^^^
+AttributeError: 'str' object has no attribute 'setdefault'
+[gpu_wrap 1435.8s] page close url=http://127.0.0.1:8801/index.html
+[gpu_wrap 1435.8s] BROWSER DISCONNECTED
+[gpu_wrap 1719.7s] page close url=http://127.0.0.1:8801/index.html
+[gpu_wrap 1719.7s] BROWSER DISCONNECTED
+[gpu_wrap 2015.5s] page close url=http://127.0.0.1:8801/index.html
+[gpu_wrap 2015.5s] BROWSER DISCONNECTED
+[gpu_wrap 2199.1s] page close url=http://127.0.0.1:8801/index.html
+[gpu_wrap 2199.1s] BROWSER DISCONNECTED
+Traceback (most recent call last):
+  File "C:\Users\USER\Documents\Lawstudent_cclocal\tools\cc_local\gpu_wrap.py", line 77, in <module>
+    runpy.run_path(script, run_name='__main__')
+    ~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "<frozen runpy>", line 292, in run_path
+  File "<frozen runpy>", line 97, in _run_module_code
+  File "<frozen runpy>", line 87, in _run_code
+  File "C:\Users\USER\Documents\Lawstudent_cclocal\docs\story_planning\test_tools\cc\cc_d118b3_probe.py", line 1064, in <module>
+    asyncio.run(main())
+    ~~~~~~~~~~~^^^^^^^^
+  File "C:\Users\USER\AppData\Local\Python\pythoncore-3.15-64\Lib\asyncio\runners.py", line 205, in run
+    return runner.run(main)
+           ~~~~~~~~~~^^^^^^
+  File "C:\Users\USER\AppData\Local\Python\pythoncore-3.15-64\Lib\asyncio\runners.py", line 128, in run
+    return self._loop.run_until_complete(task)
+           ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~^^^^^^
+  File "C:\Users\USER\AppData\Local\Python\pythoncore-3.15-64\Lib\asyncio\base_events.py", line 724, in run_until_complete
+    return future.result()
+           ~~~~~~~~~~~~~^^
+  File "C:\Users\USER\Documents\Lawstudent_cclocal\docs\story_planning\test_tools\cc\cc_d118b3_probe.py", line 1056, in main
+    for v in (SUMMARY.get(c) or {}).values():
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+AttributeError: 'str' object has no attribute 'values'
