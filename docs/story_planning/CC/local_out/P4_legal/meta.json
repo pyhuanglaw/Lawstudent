@@ -1,0 +1,17 @@
+{
+  "rerun": "ef63",
+  "id": "P4_legal",
+  "sha": "ef63b1877",
+  "kind": "probe",
+  "script": "docs/story_planning/test_tools/cc/cc_legalpage_probe.py",
+  "env": "RERUN=ef63",
+  "machine": "MSI",
+  "start": "2026-11-03T05:54:38",
+  "end": "2026-11-03T05:56:20",
+  "seconds": 102,
+  "exit": 0,
+  "error": null,
+  "runner": "b46848d180",
+  "rf_round": "3",
+  "url": "http://127.0.0.1:8808/index.html?turbo"
+}

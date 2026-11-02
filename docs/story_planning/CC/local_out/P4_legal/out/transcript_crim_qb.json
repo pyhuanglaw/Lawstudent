@@ -1,0 +1,99 @@
+{
+ "att": {
+  "const_1": 6,
+  "crim_gen1": 6,
+  "civ_general": 6
+ },
+ "q": {
+  "id": "Q001",
+  "section": "基本原則、法院、當事人"
+ },
+ "day": {
+  "d": 34,
+  "wd": 1,
+  "key": "2025-10-20",
+  "hol": false,
+  "term": "Y1S1",
+  "week": 8
+ },
+ "after_load": {
+  "term": "Y1S1",
+  "legal": [
+   "Q001"
+  ],
+  "study": [
+   [
+    "const_1",
+    "憲法（上）",
+    "Y1S1",
+    true
+   ],
+   [
+    "crim_gen1",
+    "刑法總則（一）",
+    "Y1S1",
+    true
+   ],
+   [
+    "civ_general",
+    "民法總則",
+    "Y1S1",
+    true
+   ]
+  ],
+  "crimTerm": "Y3S1"
+ },
+ "rows": [
+  {
+   "i": 0,
+   "head": true,
+   "sec": "這學期"
+  },
+  {
+   "i": 1,
+   "sec": "這學期",
+   "name": "民法總則",
+   "term": "大一上・上過 6 週",
+   "text": "民法總則　期末範圍：學過 4／10・答對過 0\n大一上・上過 6 週\n觀念卡（10 張）"
+  },
+  {
+   "i": 2,
+   "sec": "這學期",
+   "name": "刑法總則（一）",
+   "term": "大一上・上過 6 週",
+   "text": "刑法總則（一）　期末範圍：學過 3／8・答對過 0\n大一上・上過 6 週\n觀念卡（8 張）"
+  },
+  {
+   "i": 3,
+   "sec": "這學期",
+   "name": "憲法（上）",
+   "term": "大一上・上過 6 週",
+   "text": "憲法（上）　期末範圍：學過 4／9・答對過 0\n大一上・上過 6 週\n觀念卡（9 張）"
+  },
+  {
+   "i": 4,
+   "sec": "這學期",
+   "name": "刑事訴訟法（讀書會、課堂遇到的題目）",
+   "term": null,
+   "text": "刑事訴訟法（讀書會、課堂遇到的題目）"
+  },
+  {
+   "i": 5,
+   "sec": "這學期",
+   "name": "刑事訴訟法・基本原則、法院、當事人",
+   "term": "聽過 0 · 混淆 0 · 學到 1 · 理解 0 · 熟練 0（遇到 1 個爭點）",
+   "text": "刑事訴訟法・基本原則、法院、當事人\n聽過 0 · 混淆 0 · 學到 1 · 理解 0 · 熟練 0（遇到 1 個爭點）"
+  },
+  {
+   "i": 6,
+   "sec": "這學期",
+   "name": "",
+   "term": null,
+   "text": "上課、讀書會、同學討論裡學到的會記在這裡；讀書可以把混淆的地方讀懂。"
+  }
+ ],
+ "shots": {
+  "port_top": "C:\\Users\\USER\\Documents\\Lawstudent_cclocal\\docs\\story_planning\\CC\\local_out\\P4_legal\\out\\06_crim_qb_port_top.png",
+  "land": "C:\\Users\\USER\\Documents\\Lawstudent_cclocal\\docs\\story_planning\\CC\\local_out\\P4_legal\\out\\07_crim_qb_land.png"
+ }
+}

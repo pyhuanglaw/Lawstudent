@@ -1,0 +1,200 @@
+{
+ "prep": {
+  "cid": "const_2",
+  "name": "憲法（下）",
+  "rec": {
+   "id": "const_2",
+   "from": "Y1S2",
+   "base": "Y1S2",
+   "term": "Y2S1",
+   "slots": [
+    {
+     "wd": 2,
+     "block": "pm2"
+    }
+   ],
+   "alt": true
+  },
+  "how": "CLS.planRetakes",
+  "y1s2Done": 13,
+  "y2Done": 1
+ },
+ "att": {
+  "const_1": 3,
+  "crim_gen1": 3,
+  "civ_general": 3,
+  "const_2": 3,
+  "crim_gen2": 3,
+  "oblig_gen1": 3
+ },
+ "day": {
+  "d": 360,
+  "wd": 5,
+  "key": "2026-09-11",
+  "hol": false,
+  "term": "Y2S1",
+  "week": 1
+ },
+ "after_load": {
+  "term": "Y2S1",
+  "week": 1,
+  "retake": [
+   {
+    "id": "const_2",
+    "from": "Y1S2",
+    "base": "Y1S2",
+    "term": "Y2S1",
+    "slots": [
+     {
+      "wd": 2,
+      "block": "pm2"
+     }
+    ],
+    "alt": true
+   }
+  ],
+  "cur": [
+   "憲法（下）（重修）"
+  ],
+  "lc": [
+   [
+    "憲法（下）（重修）",
+    "Y2S1",
+    true
+   ],
+   [
+    "民法債編總論（一）",
+    "Y1S2",
+    false
+   ],
+   [
+    "刑法總則（二）",
+    "Y1S2",
+    false
+   ],
+   [
+    "憲法（下）",
+    "Y1S2",
+    false
+   ],
+   [
+    "民法總則",
+    "Y1S1",
+    false
+   ],
+   [
+    "刑法總則（一）",
+    "Y1S1",
+    false
+   ],
+   [
+    "憲法（上）",
+    "Y1S1",
+    false
+   ]
+  ]
+ },
+ "rows": [
+  {
+   "i": 0,
+   "head": true,
+   "sec": "這學期"
+  },
+  {
+   "i": 1,
+   "sec": "這學期",
+   "name": "民法物權",
+   "term": "大二上",
+   "text": "民法物權　期末範圍：學過 0／9・答對過 0\n大二上\n觀念卡（9 張）"
+  },
+  {
+   "i": 2,
+   "sec": "這學期",
+   "name": "民法債編總論（二）",
+   "term": "大二上",
+   "text": "民法債編總論（二）　期末範圍：學過 0／8・答對過 0\n大二上\n觀念卡（8 張）"
+  },
+  {
+   "i": 3,
+   "sec": "這學期",
+   "name": "刑法分則",
+   "term": "大二上",
+   "text": "刑法分則　期末範圍：學過 0／8・答對過 0\n大二上\n觀念卡（8 張）"
+  },
+  {
+   "i": 4,
+   "sec": "這學期",
+   "name": "行政法",
+   "term": "大二上",
+   "text": "行政法　期末範圍：學過 0／8・答對過 0\n大二上\n觀念卡（8 張）"
+  },
+  {
+   "i": 5,
+   "sec": "這學期",
+   "name": "憲法（下）（重修）",
+   "term": "大二上・上過 1 週",
+   "text": "憲法（下）（重修）　期末範圍：學過 9／9・答對過 0\n大二上・上過 1 週\n觀念卡（9 張）"
+  },
+  {
+   "i": 6,
+   "head": true,
+   "sec": "之前的學期"
+  },
+  {
+   "i": 7,
+   "sec": "之前的學期",
+   "name": "民法債編總論（一）",
+   "term": "大一下・上過 3 週",
+   "text": "民法債編總論（一）　期末範圍：學過 2／10・答對過 0\n大一下・上過 3 週\n觀念卡（10 張）"
+  },
+  {
+   "i": 8,
+   "sec": "之前的學期",
+   "name": "刑法總則（二）",
+   "term": "大一下・上過 3 週",
+   "text": "刑法總則（二）　期末範圍：學過 1／10・答對過 0\n大一下・上過 3 週\n觀念卡（10 張）"
+  },
+  {
+   "i": 9,
+   "sec": "之前的學期",
+   "name": "憲法（下）",
+   "term": "大一下・上過 13 週",
+   "text": "憲法（下）　期末範圍：學過 9／9・答對過 0\n大一下・上過 13 週\n觀念卡（9 張）"
+  },
+  {
+   "i": 10,
+   "sec": "之前的學期",
+   "name": "民法總則",
+   "term": "大一上・上過 3 週",
+   "text": "民法總則　期末範圍：學過 1／10・答對過 0\n大一上・上過 3 週\n觀念卡（10 張）"
+  },
+  {
+   "i": 11,
+   "sec": "之前的學期",
+   "name": "刑法總則（一）",
+   "term": "大一上・上過 3 週",
+   "text": "刑法總則（一）　期末範圍：學過 2／8・答對過 0\n大一上・上過 3 週\n觀念卡（8 張）"
+  },
+  {
+   "i": 12,
+   "sec": "之前的學期",
+   "name": "憲法（上）",
+   "term": "大一上・上過 3 週",
+   "text": "憲法（上）　期末範圍：學過 2／9・答對過 0\n大一上・上過 3 週\n觀念卡（9 張）"
+  },
+  {
+   "i": 13,
+   "sec": "之前的學期",
+   "name": "",
+   "term": null,
+   "text": "上課、讀書會、同學討論裡學到的會記在這裡；讀書可以把混淆的地方讀懂。"
+  }
+ ],
+ "shots": {
+  "port_top": "C:\\Users\\USER\\Documents\\Lawstudent_cclocal\\docs\\story_planning\\CC\\local_out\\P4_legal\\out\\01_retake_port_top.png",
+  "port_retake": "C:\\Users\\USER\\Documents\\Lawstudent_cclocal\\docs\\story_planning\\CC\\local_out\\P4_legal\\out\\02_retake_port_retake.png",
+  "port_orig": "C:\\Users\\USER\\Documents\\Lawstudent_cclocal\\docs\\story_planning\\CC\\local_out\\P4_legal\\out\\03_retake_port_orig.png",
+  "port_page1": "C:\\Users\\USER\\Documents\\Lawstudent_cclocal\\docs\\story_planning\\CC\\local_out\\P4_legal\\out\\04_retake_port_page1.png",
+  "land": "C:\\Users\\USER\\Documents\\Lawstudent_cclocal\\docs\\story_planning\\CC\\local_out\\P4_legal\\out\\05_retake_land.png"
+ }
+}
