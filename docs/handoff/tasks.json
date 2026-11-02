@@ -40040,6 +40040,32 @@
         "receiver": "BB",
         "ack": "ACK"
       }
+    },
+    {
+      "first": {
+        "term": "Y1S1",
+        "week": null,
+        "earliest": "第一次期中考前（讀書、一鍵總複習）；國考與職涯在畢業以後",
+        "mainline": true,
+        "blocks": false,
+        "prereq": false,
+        "parallel": true,
+        "confirmed": true
+      },
+      "id": "LIB-3F-1102",
+      "title": "總圖三樓閱覽區（library 區域）照使用者 08:58 第 5 張平面圖重排（人文庫、討論室 344／346、期刊架、研究小間、考古題／參考書區、南側挑空）",
+      "owner": "LAWWW2",
+      "status": "待開工",
+      "priority": "P2",
+      "note": "LAWWW2 15:34 更正：使用者 08:58 有給 3F 平面圖（原圖在 second-ai-env-art 94e53c082 docs/art-rebuild/second_ai/ref/lib1102_user/）；保留學姊座位／作息站位、我看過你在三樓、樓梯間與東側電梯、自習座位；搬座標在 patch 一起改附對照",
+      "next": "LAWWW2：一樓二樓 v2 → LIB-FRONT v3.1 → LIB-3F-1102",
+      "xai": {
+        "spec": "使用者 08:58 平面圖第 5 張",
+        "branch": "claude/second-ai-env-art",
+        "acceptance": "BB 場景驗收（D120）＋flow_library_floors／scene",
+        "receiver": "LAWWW",
+        "ack": "ACK"
+      }
     }
   ]
 }
