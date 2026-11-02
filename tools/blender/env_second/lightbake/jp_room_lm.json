@@ -1,0 +1,45 @@
+{
+ "scale": 2.0,
+ "intensity": 6.283185307179586,
+ "res": 1024,
+ "samples": 256,
+ "emit": {},
+ "dayemit": {},
+ "sun": [
+  180.0,
+  40.0,
+  0.0
+ ],
+ "sky": 2.4,
+ "nightsky": 0.03,
+ "shell": "N",
+ "daylights": 0.4,
+ "knee": [
+  0.9,
+  1.4
+ ],
+ "dayscale": null,
+ "lights": "0,0,-0.4,-0.4,2.40,1,1,32,0.4,0.4,1.0,0.95,0.88",
+ "points": "0,2.20,-0.4,2,1.0,0.95,0.88,0.2;-0.97,1.10,-1.05,3,1.0,0.82,0.6",
+ "dayfill": null,
+ "wb": {
+  "day": null,
+  "night": null
+ },
+ "objects": [
+  "jp_room_ceiling",
+  "jp_room_floorm",
+  "jp_room_genkanm",
+  "jp_room_rugm",
+  "jp_room_woodparts",
+  "WALL_E_wall",
+  "WALL_N_wall",
+  "WALL_S_closet",
+  "WALL_S_closet_wood",
+  "WALL_S_door",
+  "WALL_S_wall",
+  "WALL_W_shelf_wood",
+  "WALL_W_wall",
+  "WALL_W_wood"
+ ]
+}
