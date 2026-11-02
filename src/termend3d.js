@@ -332,7 +332,7 @@ const TERMEND=(function(){
     if(!again&&h.sheMem&&typeof SOCIAL!=='undefined'&&SOCIAL.remember) SOCIAL.remember(who,h.sheMem,'');   /* 她先說的那一場給你看過那一頁（以安：AN_SHOP_PAGE，AA_587 第 13 節）*/
     if(h.sheAsks&&!await afterAsk()) return 'others';   /* 她先說的最後一句就是那個問題 */
     const a=await tellMaybe(h.answer||Lx.ANSWER);   /* 沛珊大四上：「從今天開始認識。」／「……讓我想一下。」；芯慈多「（先告訴她…）」那一個 */
-    if(a===0){ if(again&&h.she2Yes) await run(GM,who,h.she2Yes);   /* 第二次她問「你要看嗎？」、你說好＝補兩拍再交往（以安，AA_587 第 13 節）*/ if(again&&h.she2YesMem&&typeof SOCIAL!=='undefined'&&SOCIAL.remember) SOCIAL.remember(who,h.she2YesMem,''); if(!start()) return 'blocked'; await knownLine(); (G.flags.confessed||(G.flags.confessed={}))[who]=G.day; delete Rt.think[who]; R.result='sheSaid'; return 'sheSaid'; }
+    if(a===0){ if(again&&h.she2Yes) await run(GM,who,h.she2Yes);   /* 第二次她問「你要看嗎？」、你說好＝補兩拍再交往（以安，AA_587 第 13 節）*/ if(again&&h.she2YesMem&&typeof SOCIAL!=='undefined'&&SOCIAL.remember&&!(SOCIAL.has&&SOCIAL.has(who,h.she2YesMem))) SOCIAL.remember(who,h.she2YesMem,'');   /* 第一次已經記過同一個（AN_SHOP_PAGE）就不重複記（BB_246 P3：記憶上限 80）*/ if(!start()) return 'blocked'; await knownLine(); (G.flags.confessed||(G.flags.confessed={}))[who]=G.day; delete Rt.think[who]; R.result='sheSaid'; return 'sheSaid'; }
     await run(GM,who,[h.think]); Rt.think[who]=term; R.result='think'; return 'think'; };
   return S;
 })();
