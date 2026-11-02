@@ -251,10 +251,10 @@ const R2Y4A_EVENTS=(function(){
       {label:'a'},nar('（她把詩集翻到一半推過來。）'),sis('你讀左邊，我讀右邊。'),{goto:'e'},
       {label:'b'},nar('（回來的時候她睡著了，詩集蓋在腿上。你沒有叫她。）'),
       {label:'e'},nar('（她買了那本詩集。）') ] });
-  const PHOTO=(id,photo,line)=>({ id, title:'舊金山', participants:[S5], location:'any', trigger:'manual', once:true, background:'dark', dialogue:[ {scene:'舊金山',bg:false},nar('📷（'+photo+'）'),sis(line) ] });   /* 摘要日的照片（手機相簿；BB_183 5-3，12/19 那句改字見裁定第 10 點）*/
-  EV.push(PHOTO('ev_sf_photo17','旅館窗外的坡道和叮噹車的電纜','睡到自然醒。……十點。我已經很努力了。'),
-          PHOTO('ev_sf_photo19','碼頭邊的一碗蛤蜊湯（麵包碗）','好喝。……比我想的好喝。'),
-          PHOTO('ev_sf_photo21','郵筒前，她手上一張明信片（字看不到）','寄給家族了。Kevin 收到會說我終於寫超過三句。'));
+  const PHOTO=(id,photo,line,bg)=>({ id, title:'舊金山', participants:[S5], location:'any', trigger:'manual', once:true, background:'dark', dialogue:[ {scene:'舊金山',bg:bg||false},nar('📷（'+photo+'）'),sis(line) ] });   /* 摘要日的照片（手機相簿；BB_183 5-3，12/19 那句改字見裁定第 10 點）*/
+  EV.push(PHOTO('ev_sf_photo17','旅館窗外的坡道和叮噹車的電纜','睡到自然醒。……十點。我已經很努力了。','sf_photo_cablecar'),
+          PHOTO('ev_sf_photo19','碼頭邊的一碗蛤蜊湯（麵包碗）','好喝。……比我想的好喝。','sf_photo_chowder'),
+          PHOTO('ev_sf_photo21','郵筒前，她手上一張明信片（字看不到）','寄給家族了。Kevin 收到會說我終於寫超過三句。','sf_photo_postbox'));
   const BLOOM=(id,t)=>({ id, title:'布魯明頓', participants:[], location:'any', trigger:'manual', once:true, background:'blur', dialogue:[ nar(t) ] });   /* 挽回中、挽回不成：三個摘要日（AA_291 2-2）*/
   EV.push(BLOOM('ev_us_bloom16','（社區很安靜。你把冰箱裡剩下的東西煮成一鍋。）'),
           BLOOM('ev_us_bloom18','（你去會所把借的書還了。交誼廳的聖誕樹還亮著，沒有人。）'),
