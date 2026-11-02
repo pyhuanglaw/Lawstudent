@@ -92,7 +92,7 @@ const JP_EVENTS=(function(){
     {speaker:'heroine_01',text:'……不准賴。'},
     {set:{AN_TANABATA_JP_REPAIR:'again',AN_JP_RECONCILED:true}} ];
   /* G8 7/17（一）海之日（交往中；7/16 21:00 她私訊）：摘要一段，2D 深色底＋字幕「海邊」*/
-  const SEA=[ {scene:'海邊'},
+  const SEA=[ {scene:'海邊',bg:'jp_beach'},   /* 第六批背景（使用者 11-02 生成，BB_132 第 103 組）*/
     {speaker:null,text:'（你們搭了一個小時的電車。她在海邊脫了鞋，走到水剛好淹過腳踝的地方。）'},
     {speaker:'heroine_01',text:'比淡水的冷。'},
     {speaker:null,text:'（回來的時候，兩個人的手臂都曬紅了。）'},

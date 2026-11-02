@@ -1219,7 +1219,7 @@ const STORY_EVENTS=[
       PHONE.at(G,q.day,Math.max(21.5,G.day===q.day?G.hour+0.02:0),[{th:T,from:'econ_pinyu',name:'品妤',text:'📹（一段影片）'},{th:T,from:'econ_pinyu',name:'品妤',text:'唐睿的即興劇，今天演一棵樹。演得很好。'}],'sk07_video'); } },
   /* 4-2 韋綸的球賽門票（大四下第 6 週）：選「走。」＝那個週六晚上用摘要帶過（出遊，must：那晚不能另排別的事）。摘要沒有旁白稿——只有出發的字卡、時間往後 3 小時（給 AA 的問題）；
      回來以後群組一張看台上的合照＋韋綸一句、記 WL_GAME（story3d.js 手機的 4-2）*/
-  { id:'ev_b106_42_game', title:'球賽', participants:[], location:'any', trigger:'outing', once:true, background:'dark', hours:3,
+  { id:'ev_b106_42_game', title:'球賽', participants:[], location:'any', trigger:'outing', once:true, background:'gym_court', hours:3,
     dialogue:[ {speaker:null,text:'（球場的看台。韋綸一邊看球，一邊在手機上記數字。）'},
       {speaker:null,text:'（他們的隊每得一分，他就站起來喊「走啦！」，坐下來，再記一個數字。）'},
       {speaker:null,text:'（可昕坐在你旁邊。她看的不是球，是韋綸的手機。）',if:{flags:['WL_GAME_KX','dating_kexin']}} ] },   /* AA_383 第 4-1 節（企劃線 98516b51）：出發的字卡之後、時間往後 3 小時之前；和可昕交往中、她在群組說了要來（WL_GAME_KX：選「走。」那時候交往中）多最後一句。回來以後群組的合照、韋綸那句照舊 */
@@ -3690,7 +3690,7 @@ const STORY_EVENTS=[
      祐廷坐觀眾席三選一（拍手、記分、送水；大二版的字 AA-B c2f1c5aa）；記 WATCHED_GAME_Y2；明軒的句子等 BB-B（AB-59）；以安、Alison 在觀眾席（AA_143 1-5 的描述）。
      賽後 18:30～21:00 走進麵店＝語 3（Alison 坐到你對面）。系籃和賽後麵店都沒去：22:00 認識 Alison＝她私訊三則；不認識、在麵店團＝阿哲的照片（story3d.js phoneRules）*/
   { id:'ev_zhe_game_y2', title:'系籃比賽（大二）', participants:['zhe'], location:'any', trigger:'outing', once:true, background:'dark', hours:2,
-    dialogue:[ {scene:'新體育館'},{speaker:null,text:'（系籃比賽。阿哲、明軒上場。）'},
+    dialogue:[ {scene:'新體育館',bg:'gym_court'},{speaker:null,text:'（系籃比賽。阿哲、明軒上場。）'},   /* 第六批背景（使用者 11-02 生成，BB_132 第 103 組）*/
       {if:EV_KNOWS('heroine_01'),speaker:null,text:'（以安坐在觀眾席第一排。）'},{if:EV_KNOWS('yu'),speaker:null,text:'（Alison 拿著自己寫的加油板。）'},{if:EV_KNOWS('yu'),speaker:null,text:'（Alison 的加油板上寫著：『17 號，不要犯規。』）'},
       {choice:[{text:'（負責拍手）',consequences:{mem:[{npc:'zhe',tag:'WATCHED_GAME_Y2',note:'你拍手'}]},goto:'clap'},{text:'（記分）',consequences:{mem:[{npc:'zhe',tag:'WATCHED_GAME_Y2',note:'你記分'}]},goto:'score'},{text:'（送水）',consequences:{mem:[{npc:'zhe',tag:'WATCHED_GAME_Y2',note:'你送水'}]},goto:'water'}]},   /* 大二版（AA-B c2f1c5aa，AA_143 1-5）*/
       {label:'clap'},{speaker:null,text:'你在觀眾席拍到手掌發紅。阿哲進球，先轉身指 Alison 的加油板，才指你：'},{speaker:'zhe',expression:'laugh',text:'有沒有看到！'},{goto:'end'},

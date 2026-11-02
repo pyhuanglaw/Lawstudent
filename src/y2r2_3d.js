@@ -281,7 +281,7 @@ const Y2R2=(function(){
     after:G=>{ const F=G.flags; remember('econ_pinyu','ECON_NIGHT','經濟系之夜：前系友席'); if(F.Y2R2_EN_KX) F.KX_ECON_NIGHT='together'; delete F.Y2R2_EN_KX; } });
   /* ---------- 2-Y2-20 系籃（大二下）：5/29（六）14:00 新體育館 ---------- */
   EV.push({ id:'ev_zhe_game_y2s2', title:'系籃比賽（大二下）', participants:['zhe'], location:'any', trigger:'outing', once:true, background:'dark', hours:2,
-    dialogue:[ {scene:'新體育館'},
+    dialogue:[ {scene:'新體育館',bg:'gym_court'},   /* 第六批背景（使用者 11-02 生成，BB_132 第 103 組）*/
       {speaker:null,text:'（系籃比賽。這學期最後一場。阿哲、明軒上場。）'},
       {if:{custom:G=>knows('yu',G)&&!!G.flags.Y2_BALL_SEEN},speaker:null,text:'（Alison 的加油板換了一面：「17 號，可以犯規一次。」）'},
       {if:{custom:G=>knows('yu',G)&&!G.flags.Y2_BALL_SEEN},speaker:null,text:'（Alison 坐在你旁邊，舉著一塊加油板。）'},

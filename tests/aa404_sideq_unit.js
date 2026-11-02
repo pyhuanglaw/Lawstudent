@@ -53,7 +53,7 @@ await sec(0,()=>{ check('0. sideq3d.js 載得到；第二、三批十則都在�
   check('0. 過期一句（SQ10～SQ20，SQ16 以外）和 AA_408 第 1 節的表一字不差',Object.keys(T).length===19&&!bad.length,J(bad.map(id=>[id,X().LINES[id].lapse,T[id]])));
   const tb=IDS.filter(id=>doc.indexOf('## '+id+'　'+X().Q[id].title)<0);
   check('0. 「順手的事」的標題＝稿的小標',!tb.length,J(tb));
-  check('0. 新的 2D 背景登記了（還沒有圖＝深色底）：中和・華新街 hwaxin_street、動物醫院 vet_clinic',OUT.BG.hwaxin_street&&OUT.BG.hwaxin_street.image===null&&OUT.BG.vet_clinic&&OUT.BG.vet_clinic.image===null&&OUT.bg('hwaxin_street')==='dark'); });
+  check('0. 新的 2D 背景登記了（11-02 第六批有圖）：中和・華新街 hwaxin_street、動物醫院 vet_clinic',OUT.BG.hwaxin_street&&OUT.BG.hwaxin_street.image==='assets/bg/hwaxin_street.webp'&&OUT.BG.vet_clinic&&OUT.BG.vet_clinic.image==='assets/bg/vet_clinic.webp'&&OUT.bg('hwaxin_street').image==='assets/bg/hwaxin_street.webp'); });
 /* ---- 1 共用規則 ---- */
 await sec(1,async()=>{ fresh('2026-10-05',12,'l118_korea');   /* 大二上（週一） */
   know('韓食小廚',3); let r=await shop('韓食小廚',[0,0]); check('1. 第 4 次（店員還不認得你）：不出',!r&&!R('SQ13')&&!H.said.length);

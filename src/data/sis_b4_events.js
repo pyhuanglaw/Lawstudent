@@ -104,7 +104,7 @@ const SISB4_EVENTS=(function(){
   return [
     /* ---------- 3-1 2026-12-24（四）22:00 兩點半 Café 門口（Café 門口的夜景沒有底圖：深色底＋地點字幕）---------- */
     { id:'ev_sis_xmas_y2', title:'聖誕夜', participants:[ID], location:'any', trigger:'outing', once:true, background:'dark', hours:0.5,
-      dialogue:[ {scene:'兩點半 Café 門口',bg:'dark'},
+      dialogue:[ {scene:'兩點半 Café 門口',bg:'cafe_door_night'},   /* 第六批背景（使用者 11-02 生成，BB_132 第 103 組）*/
         N('（Café 的燈一盞一盞關掉。她站在門口，手上拿著兩個紙杯。）'),
         SIS('熱水。加了一點蜂蜜。'),
         SIS('……今天聖誕節，算特別的。'),

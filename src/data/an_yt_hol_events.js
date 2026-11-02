@@ -153,10 +153,11 @@ const ANYTHOL_EVENTS=(function(){
       afterOuting:(G,GM,q)=>{ if(q&&q.help&&GM&&GM.advance) GM.advance(1); },
       after:crack(YT), outingMissed:missed },
     /* ---------- 2-2 2027-02-14（日）12:00 阿鳳麵店（最裡面靠窗那一桌：noodle_table_window；在麵店，不是校外約會）---------- */
-    { id:'ev_yt_vday_y2', title:'情人節', participants:[YT], location:'any', trigger:'outing', once:true, get background(){ return BG('noodle_table_window'); }, hours:1.5,
+    { id:'ev_yt_vday_y2', title:'情人節', participants:[YT], location:'any', trigger:'outing', once:true, get background(){ return BG('noodle_door'); }   /* 第六批背景（使用者 11-02 生成，BB_132 第 103 組）：門口那兩句；進店以後 noodle_table（原本的 noodle_table_window 一直沒有圖）*/, hours:1.5,
       dialogue:[
         N('（麵店門口貼了一張紅紙，是阿姨的字：「情人節：兩碗乾麵，送一顆滷蛋」。）'),
         Y('阿姨自己寫的。……我叫她不要貼。'),
+        {scene:'阿鳳麵店',bg:'noodle_table'},
         N('（店裡坐滿了。阿姨把最裡面靠窗的那一桌留給你們，桌上已經放了兩顆滷蛋。）'),
         AY('送的。一人一顆。不是一桌一顆。'),
         Y('……阿姨。'),

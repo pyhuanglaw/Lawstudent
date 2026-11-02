@@ -219,7 +219,7 @@ const R2Y4B_EVENTS=(function(){
     outingMissed:G=>{ const r=R(); if(r) r.kxBdayMissed(G); } },
   /* ---------- 2-Y4-39 系籃最後一場（5/12（六）10:00 新體育館）＋吉他社成發（19:00）---------- */
   { id:'ev_last_game_y4', title:'系籃最後一場', participants:[], location:'any', trigger:'outing', once:true, background:'dark', hours:2,
-    dialogue:[ {scene:'新體育館・球場',bg:'dark'},
+    dialogue:[ {scene:'新體育館・球場',bg:'gym_court'},
       {speaker:null,text:'（新體育館。阿哲在場邊綁鞋帶，綁了三次。）'},
       {choice:[{text:'拍手',goto:'c'},{text:'記分',goto:'s'},{text:'送水',goto:'w'}]},
       {label:'c'},{speaker:null,text:'（你在觀眾席拍到手掌發紅。阿哲進球，轉身指著你：「有聽到！」）'},{goto:'end'},
@@ -232,7 +232,7 @@ const R2Y4B_EVENTS=(function(){
       {set:{BALL_Y4:'went'}} ],
     outingMissed:G=>{ const r=R(); if(r) r.ballMissed(G); } },
   { id:'ev_concert_y4', title:'吉他社成發', participants:[], location:'any', trigger:'outing', once:true, background:'dark', hours:2,
-    dialogue:[ {scene:'法律系館B大廳',bg:'dark'},   /* 場地照 AA_13 G3（大一的成發在萬才館大廳，activities.js guitar_show_y1s2）；沒有 2D 底圖＝dark＋字幕 */
+    dialogue:[ {scene:'法律系館B大廳',bg:'wancai_lobby'},   /* 場地照 AA_13 G3（大一的成發在萬才館大廳，activities.js guitar_show_y1s2）；沒有 2D 底圖＝dark＋字幕 */
       {speaker:null,text:'（Alison 拿著流程表跑來跑去。）'},
       {if:kn('yu'),speaker:'yu',text:'最後一首！最後一首！誰把麥克風拿走了！'},
       {if:{custom:G=>R().friendUp(G,'heroine_04')&&R().has('heroine_04','CLAPPED')},speaker:'heroine_04',text:'原來坐這裡是這種感覺。你以前都這麼大聲喔？'},   /* 子晴回來當評審（BB_70 8d）*/

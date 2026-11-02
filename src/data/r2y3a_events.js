@@ -59,7 +59,7 @@ const R2Y3A_EVENTS=(function(){
     after:(G,GM)=>{ const r=R(); if(r) r.khNight(G,GM); },   /* 旅館一晚（不演室內）：日期往後到 8/8 16:00 */
     outingMissed:(G,GM,q)=>{ const r=R(); if(r) r.khMissed(G,q); },   /* C：09:30 還沒到左營＝她打來；18:00 燈塔的照片；8/8 照 D 的視訊；KX_RUB +1 */
     next_event:'ev_kexin_qixi_y2' };
-  const KH_B={ id:'ev_kexin_qixi_y2', title:'七夕', participants:['kexin'], location:'any', trigger:'manual', once:true, background:'dark',
+  const KH_B={ id:'ev_kexin_qixi_y2', title:'七夕', participants:['kexin'], location:'any', trigger:'manual', once:true, background:'kh_hotel_front',
     prereq:{custom:G=>!!(G.flags&&G.flags.KX_KH_DAY1)&&G.day===D('2027-08-08')},
     dialogue:[ {speaker:null,text:'（下午四點，一台舊舊的家用車停在旅館門口。她沒有下車，按了一下喇叭。）'},
       {speaker:'kexin',expression:'teasing',text:'上車。……音樂你管。'},

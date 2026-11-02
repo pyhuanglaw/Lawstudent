@@ -62,6 +62,15 @@ check('2f. 自由出行第一批四個景點的底圖（DL-06，LAWWW2-B）：d0
   const rd=f=>fs.readFileSync(path.join(ROOT,f),'utf8');
   const ok=[['src/data/pool_story_b2.js',"{scene:'社福中心的教室',bg:'welfare_room'}"],['src/data/pool_story_b4.js',"{scene:'文學院的教室',bg:'phil_cafe'}"],['src/sup519_3d.js',"{scene:'心理系的實驗室',bg:'psy_lab'}"],['src/data/jp_events.js',"{scene:'日本・學校後面的小餐館',bg:'jp_eatery'}"],['src/data/jp_events.js',"{scene:'國際學生辦公室',bg:'jp_intl_office'}"]];
   check('2t. 第五批後五張接上：社福中心教室（蘇承恩家教）、文學院教室（哲學咖啡館）、心理系實驗室（黃筱涵）、日本學校後面的小餐館（以安 6 月）、日本國際學生辦公室（報到）',K.every(k=>B[k]&&B[k].image==='assets/bg/'+k+'.webp'&&fs.existsSync(path.join(ROOT,B[k].image)))&&ok.every(([f,x])=>rd(f).includes(x)),ok.filter(([f,x])=>!rd(f).includes(x)).map(([f,x])=>x).join('、')); }
+{ const K=['vet_clinic','hwaxin_street','kh_hotel_front','noodle_door','jp_beach','gym_gate','gym_court','cafe_door_night','wancai_lobby','us_c_door'];   // 第六批 10 張（使用者 11-02 生成，BB_132 第 103 組；LAWWW 帳號 A 接）
+  const rd=f=>fs.readFileSync(path.join(ROOT,f),'utf8');
+  const ok=[['src/data/an_yt_hol_events.js',"return BG('noodle_door')"],['src/data/an_yt_hol_events.js',"{scene:'阿鳳麵店',bg:'noodle_table'}"],['src/data/jp_events.js',"{scene:'海邊',bg:'jp_beach'}"],['src/data/sis_b4_events.js',"{scene:'兩點半 Café 門口',bg:'cafe_door_night'}"],
+    ['src/data/events.js',"{scene:'新體育館',bg:'gym_court'}"],['src/y2r2_3d.js',"{scene:'新體育館',bg:'gym_court'}"],['src/data/group_events.js',"{scene:'新體育館・球場',bg:'gym_court'}"],['src/data/r2y4b_events.js',"{scene:'新體育館・球場',bg:'gym_court'}"],
+    ['src/data/r2y4b_events.js',"{scene:'法律系館B大廳',bg:'wancai_lobby'}"],['src/data/sis_b16_events.js',"{scene:'新體育館門口',bg:'gym_gate'}"],['src/data/events.js',"background:'gym_court', hours:3"],['src/data/r2y3a_events.js',"background:'kh_hotel_front'"],
+    ['src/data/sis_b14_events.js',"us_c_door"],['src/sideq3d.js',"bg:'hwaxin_street'"],['src/sideq3d.js',"bg:'vet_clinic'"],
+    ['src/data/jpprep_events.js',"ev('ev_jpp_0221',[ {scene:'臺北的家',bg:'home_room_day'}"],['src/data/jpprep_events.js',"ev('ev_jpp_0319',[ {scene:'臺北的家',bg:'home_living_day'}"]];
+  const miss=ok.filter(([f,t])=>!rd(f).includes(t));
+  check('2u. 第六批 10 張接上：獸醫診所（SQ14）、華新街（SQ10）、高雄旅館門口（可昕七夕）、麵店門口（語彤情人節）、日本海邊（以安海之日）、新體育館門口（看學姊游泳）、球場（四場系籃）、Café 門口聖誕夜（學姊）、法律系館B大廳（成發）、美國 C 棟門口（兩把傘）；臺北的家四場改用既有圖',K.every(k=>B[k]&&B[k].image==='assets/bg/'+k+'.webp'&&fs.existsSync(path.join(ROOT,B[k].image)))&&!miss.length,JSON.stringify(miss)); }
 { const noImg=Object.keys(B).find(k=>!B[k].image&&k!=='car')||'zzz_not_registered';   // nccu_dorm 10-17 有圖了（3d4d1969）：改挑一個登記了、還沒有圖的背景
   check('3. OUT.bg(id)：有圖＝{image:路徑}、沒有圖＝深色底（'+noImg+'）',OUT.bg('riverside').image==='assets/bg/riverside.webp'&&OUT.bg(noImg)==='dark'&&OUT.bg('nccu_dorm').image==='assets/bg/nccu_dorm.webp',JSON.stringify([OUT.bg('riverside'),OUT.bg(noImg),OUT.bg('nccu_dorm')])); }
 { const v=[]; for(const [h,w] of [[10,'clear'],[20,'clear'],[10,'rain']]){ global.GAME={G:{hour:h,weather:w}}; v.push(OUT.bg('car').image); } delete global.GAME;

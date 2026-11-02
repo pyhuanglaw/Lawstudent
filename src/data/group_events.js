@@ -139,7 +139,7 @@ const GROUP_EVENTS=(function(){
     afterOuting:async(G,GM)=>{ if((G.flags||{}).ZHE4_REPLY!=='out'||['dorm','dorm_hall'].includes(G.zone)||!GM.enter) return; if(GM.fade) await GM.fade(true); await GM.enter('dorm',{x:0,z:2.4,yaw:Math.PI},{noFade:true,deferStory:true}); } },
   /* 冠軍賽（2028-04-29 19:00 新體育館；AA_40 哲 4、BB_98 5-2 明軒 M3）→ 20:40 全隊去麵店。和明軒 FAMILIAR 以上：他經過你旁邊、三選一 */
   { id:'ev_final_game_y3', title:'系籃冠軍賽', participants:[], location:'any', trigger:'outing', once:true, background:'dark', hours:1,
-    dialogue:[ {scene:'新體育館・球場',bg:'dark'},{speaker:null,text:'（新體育館一樓的球場。看台坐滿了。）'},
+    dialogue:[ {scene:'新體育館・球場',bg:'gym_court'},{speaker:null,text:'（新體育館一樓的球場。看台坐滿了。）'},
       {if:{custom:G=>!!(G.flags||{}).ZHE_SCOOTER||(typeof SOCIAL!=='undefined'&&SOCIAL.has('zhe','ZHE_SCOOTER'))},speaker:null,text:'（球場外面，阿哲的機車停得特別整齊。）'},
       {speaker:null,text:'（最後一顆，阿哲傳給明軒。他們贏了。）'},
       {speaker:'zhe',text:'（把獎盃塞給明軒）你拿。最後那顆是你的。'},
