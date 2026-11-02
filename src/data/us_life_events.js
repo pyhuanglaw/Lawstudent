@@ -219,7 +219,7 @@ const US_LIFE_EVENTS=(function(){
   const AN='heroine_01', YT='heroine_03', ZQ='heroine_04', PS='classmate_peishan';
   const say=(id,t)=>({speaker:id,text:t});
   const vid=(id,evId,title,L,hrs)=>ev(evId,title,{participants:[id],trigger:'outing',hours:hrs||0.5,dialogue:[{scene:'視訊',bg:'video'}].concat(L)});   /* hrs：子晴「我只有十分鐘」*/
-  vid(AN,'ev_usl_tw_an_v1','視訊',[nar('（視訊。她那邊是晚上九點，桌上攤著手帳。你這邊的早餐還沒吃完。）'),say(AN,'你那邊幾點？'),say(AN,'……我算錯了。我以為你吃完了。'),say(AN,'下次我照你那邊的時間排。'),{set:{USL_TW_AN_V1:true}}]);
+  vid(AN,'ev_usl_tw_an_v1','視訊',[nar('（視訊。她那邊是晚上九點，桌上攤著書。你這邊的早餐還沒吃完。）'),say(AN,'你那邊幾點？'),say(AN,'……我算錯了。我以為你吃完了。'),say(AN,'下次我照你那邊的時間排。'),{set:{USL_TW_AN_V1:true}}]);
   vid(AN,'ev_usl_tw_an_v2','視訊',[nar('（視訊。這次她那邊是晚上九點，你這邊是早上八點，剛好。）'),say(AN,'這次我照你那邊的時間排了。'),say(AN,'……你頭髮沒梳。')]);
   vid(YT,'ev_usl_tw_yt_v','視訊',[nar('（視訊。她坐在店裡最後一張桌子，其他桌的椅子都倒放著。）'),say(YT,'打烊了。'),say(YT,'……你那邊早上，我這邊晚上。很怪。')]);
   vid(ZQ,'ev_usl_tw_zq_v','視訊',[nar('（視訊。她在公司的茶水間，背後的白板寫滿了字。）'),say(ZQ,'我只有十分鐘'),say(ZQ,'……你那邊天亮了嗎')],1/6);

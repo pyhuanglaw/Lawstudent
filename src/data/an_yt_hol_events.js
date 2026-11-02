@@ -126,12 +126,12 @@ const ANYTHOL_EVENTS=(function(){
         A('十幾個人在客廳打牌。我躲到陽台。'),
         A('……今天是情人節。我記得。'),
         {choice:[{text:'「十八號回來？」',goto:'a'},{text:'「外婆家好玩嗎？」',goto:'b'},{text:'「我明天開車下去。」',if:{custom:rescueOk},set:{AN_VDAY_RESCUE:true},goto:'r'}]},   /* AA_416 第 3 節：CG 補救的選項 */
-        {label:'a'},A('十八號。高鐵三點到臺北。'),A('……我只是跟你說一聲。'),{goto:'c'},
-        {label:'b'},{if:{custom:G=>dating(G,AN)},speaker:AN,text:'表妹問我男朋友是誰。我說你不認識。'},{if:{custom:G=>dating(G,AN)},speaker:AN,text:'……她說那就是有。'},
-        {unless:{custom:G=>dating(G,AN)},speaker:AN,text:'表妹問我有沒有男朋友。我說沒有。'},{unless:{custom:G=>dating(G,AN)},speaker:AN,text:'……她說那就是快有了。'},{goto:'c'},   /* AA_416 第 3 節：第 6 階的換字 */
-        {label:'r'},A('……初三。下午兩點，公園門口。'),A('我只能出來兩個小時。'),
+        {label:'a'},A('十八號。高鐵三點到臺北。'),A('我只是跟你說一聲。'),{goto:'c'},
+        {label:'b'},{if:{custom:G=>dating(G,AN)},speaker:AN,text:'表妹問我有沒有男朋友。我說有。'},{if:{custom:G=>dating(G,AN)},speaker:AN,text:'她問了二十分鐘。'},
+        {unless:{custom:G=>dating(G,AN)},speaker:AN,text:'表妹問我有沒有男朋友。我說沒有。'},{unless:{custom:G=>dating(G,AN)},speaker:AN,text:'她說那就是快有了。'},{goto:'c'},   /* AA_416 第 3 節：第 6 階的換字 */
+        {label:'r'},A('初三。下午兩點，公園門口。'),A('我只能出來兩個小時。'),
         {label:'c'},N('（那頭有人叫她的名字。）'),
-        A('我要進去了。……晚安。'),
+        A('我要進去了。晚安。'),
         end(AN,'AN_VDAY_Y4','called','AN_VDAY_CALL',CALL) ],
       outingMissed:missed },
     /* ---------- 2-1 2026-02-14（六）17:00（幫忙掃 16:00）阿鳳麵店門口（店休、大掃除；noodle_closed3d.js）→ 河濱；背景 noodle_table → riverside ---------- */

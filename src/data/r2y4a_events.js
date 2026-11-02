@@ -363,11 +363,11 @@ const R2Y4A_EVENTS=(function(){
   const PLG3=G=>{ const A=(G.acts&&G.acts.att)||{}; let n=0; for(const k in A) if(k.indexOf('public_law_group@')===0&&(A[k]&&(A[k].end||'full')==='full')) n++; return n>=3; };
   EV.push({ id:'ev_plg_handover', title:'讀書會交棒', participants:['heroine_01'], location:'any', trigger:'manual', clubEvent:'public_law_group', once:true, background:'blur',
     prereq:{custom:G=>{ const d=D('2028-11-30'); return d!=null&&G.day===d&&PLG3(G); }},
-    dialogue:[ nar('（白板上原本有三條規則。以安拿起板擦，擦到只剩一條：「說理由。」）'),
+    dialogue:[ nar('（白板上原本有三條規則。以安拿起板擦，擦到只剩一條：「每個人講完。」）'),
       nar('（她把白板筆交給學弟。）'),
       IF(here('yu'),{speaker:'yu',text:'妳以前有十條。'}),
       {speaker:'heroine_01',text:'留一條就好，其他的他們自己會加。'},
-      {speaker:'heroine_01',text:'（對學弟妹）規則只有一條。例外，要說理由。'},   /* 以安大四上唯一一次說出口的「理由」（AA_262 2-4）*/
+      {speaker:'heroine_01',text:'（對學弟妹）規則只有一條：每個人都要講完。'},   /* 以安大四上唯一一次說出口的「理由」（AA_262 2-4）*/
       {choice:[{text:'（拍一張白板的照片）',mem:[{npc:'heroine_01',tag:'PLG_LAST_RULE',note:''}],goto:'e'},{text:'（什麼都不說，鼓掌）',goto:'b'}]},
       {label:'b'},nar('（學弟妹跟著鼓掌。以安轉過去看白板，沒有回頭。）'),
       {label:'e'},{set:{PLG_HANDOVER:'there'}} ] });

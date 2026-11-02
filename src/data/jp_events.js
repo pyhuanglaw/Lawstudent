@@ -35,8 +35,8 @@ const JP_EVENTS=(function(){
     {if:C(memWinter),speaker:'heroine_01',text:'寒假我媽教的那一道。你那時候問過。'},   /* 有 AN_L10_WINTER（知道媽媽寒假要教她一道菜）：第二句換這一句 */
     {speaker:'heroine_01',text:'……第一次一個人做。'},
     {choice:[{text:'「好吃。」',goto:'g3_a'},{text:'「跟妳媽做的比呢？」',goto:'g3_b'}]},
-    {label:'g3_a'},{speaker:'heroine_01',text:'……哪裡好吃？'},{speaker:null,text:'（你說了一個地方。她點點頭，記在手帳上。）'},   /* AA_435 第 0 節（企劃線 0bb6e2fe6）：說出口的「理由」換掉 */{goto:'g3_end'},
-    {label:'g3_b'},{speaker:'heroine_01',text:'我媽的比較鹹。……我的比較對。'},{speaker:null,text:'（她自己笑了一下。）'},
+    {label:'g3_a'},{speaker:'heroine_01',text:'哪裡好吃？'},{speaker:null,text:'（你說了一個地方。她點點頭，又夾了一口。）'},   /* AA_435 第 0 節（企劃線 0bb6e2fe6）：說出口的「理由」換掉 */{goto:'g3_end'},
+    {label:'g3_b'},{speaker:'heroine_01',text:'我媽的比較鹹。我的比較對。'},{speaker:null,text:'（她自己笑了一下。）'},
     {label:'g3_end'},{set:{AN_JP_KITCHEN:true}},{advance:1.5} ];
   /* G4 5/3（三）14:00 河邊（交往中；5/2 21:00 她私訊）*/
   const RIVER=[ {scene:'河邊',bg:'jp_riverbank'},
@@ -70,7 +70,7 @@ const JP_EVENTS=(function(){
     {speaker:'heroine_01',text:'那時候我很生氣，生氣到不想聽你講。'},
     {speaker:'heroine_01',text:'……現在可以聽了。你說。'},
     {choice:[{text:'「對不起。我那時候不知道怎麼說。」',goto:'r4_a'},{text:'「我知道。我不會再這樣。」',goto:'r4_b'}]},
-    {label:'r4_a'},{speaker:'heroine_01',text:'……嗯。你那時候應該要說的。'},{set:{AN_REPAIR4:'sorry'}},{goto:'r4_end'},   /* REPAIR +1（jp3d.js 的 after，一週最多 +1）*/
+    {label:'r4_a'},{speaker:'heroine_01',text:'嗯。你那時候應該要說的。'},{set:{AN_REPAIR4:'sorry'}},{goto:'r4_end'},   /* REPAIR +1（jp3d.js 的 after，一週最多 +1）*/
     {label:'r4_b'},{speaker:'heroine_01',text:'你上次也是這樣想的吧。'},{set:{AN_REPAIR4:'promise'}},
     {label:'r4_end'},{advance:1} ];
   /* G7 7/7（五）七夕，交往中（本檔補；AA_253 第 5 節只寫了挽回的版本）*/
@@ -80,7 +80,7 @@ const JP_EVENTS=(function(){
     {speaker:'heroine_01',text:'……我寫好了。你不要看。'},
     {choice:[{text:'寫「下學期也一起讀書」',goto:'t7_a'},{text:'寫「明年也來」',goto:'t7_b'},{text:'（偷看她的）',goto:'t7_c'}]},
     {label:'t7_a'},{speaker:'heroine_01',text:'這個不用許願。'},{goto:'t7_end'},
-    {label:'t7_b'},{speaker:'heroine_01',text:'……明年我們在臺灣。'},{goto:'t7_end'},
+    {label:'t7_b'},{speaker:'heroine_01',text:'明年我們在臺灣。'},{goto:'t7_end'},
     {label:'t7_c'},{speaker:null,text:'她把短冊按住：「說了不要看。」（過了一下，她把手移開。）短冊上寫著：「明年的七夕，在臺灣。」'},
     {label:'t7_end'},{set:{AN_TANABATA_JP:true}} ];
   /* G7 7/7 挽回中（AA_253 第 5 節第 5 步）：REPAIR 到了＝短冊「再一次。理由：我想。」→ 重新交往（jp3d.js 的 after）；沒到＝只演前兩句（她把短冊掛上去，沒有給你看）*/
@@ -88,7 +88,7 @@ const JP_EVENTS=(function(){
     {speaker:null,text:'（宿舍門口的竹子上掛滿了短冊。以安拿著一張，寫了很久。）'},
     {speaker:'heroine_01',text:'你要看嗎？'},
     {unless:C(repairOk),set:{AN_TANABATA_JP_REPAIR:'hung'}},{unless:C(repairOk),end:true},
-    {speaker:null,text:'（短冊上只有一行：「再一次。理由：我想。」）'},
+    {speaker:null,text:'（短冊上只有一行：「再一次。」）'},
     {speaker:'heroine_01',text:'……不准賴。'},
     {set:{AN_TANABATA_JP_REPAIR:'again',AN_JP_RECONCILED:true}} ];
   /* G8 7/17（一）海之日（交往中；7/16 21:00 她私訊）：摘要一段，2D 深色底＋字幕「海邊」*/
@@ -100,7 +100,7 @@ const JP_EVENTS=(function(){
   /* G8 8/4（五）22:00 最後一個晚上的便利商店（交往中、挽回成功；接 3/26 J1）。jp_konbini 的窗外有雪（3 月底那一張），8 月不用：深色底＋字幕 */
   const LAST=[ {scene:'便利商店',bg:'jp_konbini_summer'},   /* 第七批背景（使用者 11-02 生成，BB_132 第 104 組）*/
     {speaker:null,text:'（宿舍附近的便利商店。和第一個晚上同一間。）'},
-    {speaker:'heroine_01',text:'第一個晚上，你在這裡看不懂標籤。'},
+    {speaker:'heroine_01',text:'第一個晚上，我們兩個在這裡看不懂標籤。'},
     {speaker:'heroine_01',text:'……現在看得懂了嗎？'},
     {choice:[{text:'「看得懂一半。」',goto:'l8_a'},{text:'「妳教我的。」',goto:'l8_b'}]},
     {label:'l8_a'},{speaker:'heroine_01',text:'一半夠了。另一半，明年再來看。'},{goto:'l8_end'},

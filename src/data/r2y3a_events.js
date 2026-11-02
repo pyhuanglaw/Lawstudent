@@ -158,7 +158,7 @@ const R2Y3A_EVENTS=(function(){
       {if:kn('zhe'),speaker:'zhe',text:'五塊。……大三就是這種感覺。'},
       {if:kn('yu'),speaker:'yu',text:'欸，這學期刑訴，聽說林教授點名都點後面。'},
       {if:kn('classmate_bohan'),speaker:'classmate_bohan',text:'後面三排。我問過學長了。'},
-      {if:kn('heroine_01'),speaker:'heroine_01',text:'（翻開手帳）讀書會八點。……我們先走。'},   /* AA_376 #7：讀書會當晚 20:00 就開；19:40 以安、Alison、柏翰一起先走（下面 fm_end 以後，同 10/21 那一場）*/
+      {if:kn('heroine_01'),speaker:'heroine_01',text:'（看了一下錶）讀書會八點。……我們先走。'},   /* AA_376 #7：讀書會當晚 20:00 就開；19:40 以安、Alison、柏翰一起先走（下面 fm_end 以後，同 10/21 那一場）*/
       ...TA_LINES,
       {if:kn('heroine_03'),speaker:'heroine_03',text:'（端麵過來）……今天乾麵剩四碗。'},
       {choice:[{text:'「先吃。」',goto:'fm_a'},{text:'「真的點後面三排？」',if:kn('classmate_bohan'),goto:'fm_b'}]},
@@ -456,7 +456,7 @@ const R2Y3A_EVENTS=(function(){
       {speaker:'heroine_01',text:'……我們分工好了。'},
       {choice:[{text:'「我可以加入嗎？」',goto:'j'},{text:'「妳們開學就坐在一起了吧。」',goto:'f'},{text:'（聽她們對）',goto:'l'}]},
       {label:'j'},{speaker:'classmate_xinci',expression:'smile',text:'可以。你負責第七題。'},{goto:'end'},
-      {label:'f'},{speaker:'heroine_01',text:'第一排。她把課表推過來給我看。……我那時候想，這個人好細心。'},{goto:'end'},
+      {label:'f'},{speaker:'heroine_01',text:'第一排。她把課表推過來給我看。我那時候想，這個人好細心。'},{goto:'end'},
       {label:'l'},{speaker:null,text:'（對到第十題，三個人都錯了同一題。芯慈笑出來。）'},
       {label:'end'},{set:{CI5:'near',XC5_RECONCILE:true}} ] };   /* XC5_RECONCILE＝慈 5 演完、開始一起讀書（AA_547 改意思；近、遠兩版都算，AA_496 第 9 節第 1 點）：尾聲「以安上個月搬家……」那一組讀它（postgrad3d.js）*/
   const ANSWERS_FAR={ id:'ev_xinci_an_answers_far', title:'對答案', participants:[], location:'library', trigger:'enter', once:true, background:'blur', npcZone:['heroine_01','classmate_xinci'], term:['Y3S1'], weeks:[13],

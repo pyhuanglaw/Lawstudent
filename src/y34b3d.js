@@ -497,12 +497,12 @@ const Y34B=(function(){
     {speaker:'heroine_01',text:'（看了一下手錶）你們不用全部都來的。'},
     {if:C(()=>met('zhe')),speaker:'zhe',text:'要。'},
     {if:C(G=>JP(G)&&met('zhe')),speaker:'zhe',text:'兩個人都要傳照片'},
-    {if:C(()=>met('yu')),speaker:'yu',text:'（把一個小紙袋塞給她）路上吃。'},{if:C(()=>met('yu')),speaker:'heroine_01',text:'……好。'},
+    {if:C(()=>met('yu')),speaker:'yu',text:'（把一個小紙袋塞給她）路上吃。'},{if:C(()=>met('yu')),speaker:'heroine_01',text:'好。'},
     {speaker:'heroine_01',text:'八月五號回來。位子幫我占著。'} ];
   const FAREWELL=[ {scene:'阿鳳麵店・長桌',bg:'noodle_table'},
     {speaker:null,text:'（麵店的長桌。）'},{speaker:null,text:'（白飯是阿姨自己端過來的，堆得很高。）'},   /* AA_519 1-3：送小菜第六處＝第 5 句（「麵店的長桌。」照舊，拆成兩句）*/
     {speaker:'zhe',text:'（舉起麵店的塑膠杯）敬以安。半年。'},
-    {if:C(()=>met('yu')),speaker:'yu',text:'要傳照片喔。每天。'},{if:C(()=>met('yu')),speaker:'heroine_01',text:'……每天太多了。一個禮拜一張。'},
+    {if:C(()=>met('yu')),speaker:'yu',text:'要傳照片喔。每天。'},{if:C(()=>met('yu')),speaker:'heroine_01',text:'每天太多了。一個禮拜一張。'},
     {if:C(()=>met('heroine_03')),speaker:'heroine_03',text:'（端麵過來）日本有乾麵嗎。'},{if:C(()=>met('heroine_03')),speaker:'heroine_01',text:'應該沒有這種的。'},   /* Alison、語彤不認識的就跳過她們的句子（以安回她們的那一句一起跳）*/
     {if:C(JP),speaker:'zhe',text:'（轉向你）還有你。兩個都要傳。'},
     {unless:C(JP),choice:[{text:'「一路順風。」',goto:'fw_a'},{text:'「回來第一碗我請。」',set:{AN_FIRST_BOWL:true},goto:'fw_b'}]},
@@ -525,10 +525,10 @@ const Y34B=(function(){
     {label:'so_love'},
     {speaker:null,text:'（桃園機場，出境的門口。她的行李只有一個，手帳在外套口袋裡。）'},
     {speaker:'heroine_01',text:'（撕下一頁）這一頁給你。'},
-    {speaker:'heroine_01',text:'手帳的理由欄，空的。'},
-    {speaker:'heroine_01',text:'我不在的時候你寫，回來我要看。'},
+    {speaker:'heroine_01',text:'上面是空的。'},
+    {speaker:'heroine_01',text:'你想去的地方，我不在的時候寫上去。回來我要看。'},
     {choice:[{text:'「要寫幾條？」',goto:'so_l1'},{text:'「妳的呢？」',goto:'so_l2'},{text:'（接過來，不說話）',goto:'so_l3'}]},
-    {label:'so_l1'},{speaker:'heroine_01',text:'隨便你。寫你自己的事就好。'},{goto:'so_page'},
+    {label:'so_l1'},{speaker:'heroine_01',text:'隨便你。想到就寫。'},{goto:'so_page'},
     {label:'so_l2'},{speaker:'heroine_01',text:'我的在這裡。'},{speaker:null,text:'（拍拍外套口袋）'},{goto:'so_page'},
     {label:'so_l3'},{speaker:null,text:'（她看了你一下，轉身走進去。走到一半回頭，揮了一下手。）'},
     {label:'so_page'},{set:{AN_PAGE_GIVEN:true}},
@@ -735,26 +735,26 @@ const Y34B=(function(){
     {if:C(dAn),speaker:'heroine_01',text:'我決定了。考首都帝大法研所，商法組。'},
     {if:C(dAn),speaker:'heroine_01',text:'昨天先跟我媽說了。……今天跟你說。'},   /* AA_337 第 4 節改句（原「……你是第二個。」）*/
     {if:C(dAn),speaker:'heroine_01',text:'公司法、證交法、保險法。我讀這些的時候，不會一直看時間。'},
-    {if:C(dAn),speaker:'heroine_01',text:'念完以後要當司法官還是去事務所，我還沒想好。……想好了，我會先跟你說。'},
+    {if:C(dAn),speaker:'heroine_01',text:'念完以後要當司法官還是去事務所，我還沒想好。想好了，我會先跟你說。'},
     {choice:[{text:'「什麼時候考？」',goto:'n_a'},{text:'「妳媽怎麼說？」',goto:'n_b'},{text:'「讀書會那邊知道嗎？」',goto:'n_c'}]},
     {label:'n_a'},{speaker:'heroine_01',text:'明年二月。還有四個月。'},{goto:'n_end'},
-    {label:'n_b'},{speaker:'heroine_01',text:'她說，先把對方的理由講得比他自己還好。'},{speaker:'heroine_01',text:'所以我昨天在電話裡講了一個小時。'},{goto:'n_end'},
+    {label:'n_b'},{speaker:'heroine_01',text:'她說，先把反方講得比反方自己還好。'},{speaker:'heroine_01',text:'所以我昨天在電話裡講了一個小時。'},{goto:'n_end'},
     {label:'n_c'},
     {if:C(yuHere),speaker:'heroine_01',text:'知道。'},{if:C(yuHere),speaker:null,text:'（她看了 Alison 一眼。Alison 在看天花板。）'},{if:C(yuHere),goto:'n_end'},   /* Alison 在旁邊的這一版（AA_337 第 4 節）*/
-    {speaker:'heroine_01',text:'知道。Alison 說我背叛憲法。'},{speaker:'heroine_01',text:'……她講完就去幫我印商法的考古題了。'},
+    {speaker:'heroine_01',text:'知道。Alison 說我背叛憲法。'},{speaker:'heroine_01',text:'她講完就去幫我印商法的考古題了。'},
     {label:'n_end'},{set:{AN_CHOICE:'here'}},{mem:[{npc:'heroine_01',tag:'AN_CHOICE_TOLD',note:'第一批知道'}]} ];
   /* 美國路線、和以安交往中＝她打來的視訊（AA_296 2-3-1 ①，企劃線 3f406dbc；台詞照 AN18 交往版，只改開頭和結尾；三選一照 AN18，第三個用沒有 Alison 在旁邊的那一版）*/
   const AN18_VIDEO=[ {scene:'視訊',bg:'video'},
-    {speaker:null,text:'（視訊。她那邊是晚上十點，你這邊是早上。她把手帳攤在鏡頭前面。）'},
+    {speaker:null,text:'（視訊。她那邊是晚上十點，你這邊是早上。）'},
     {speaker:'heroine_01',text:'我決定了。考首都帝大法研所，商法組。'},
     {speaker:'heroine_01',text:'昨天先跟我媽說了。……今天跟你說。'},
     {speaker:'heroine_01',text:'公司法、證交法、保險法。我讀這些的時候，不會一直看時間。'},
-    {speaker:'heroine_01',text:'念完以後要當司法官還是去事務所，我還沒想好。……想好了，我會先跟你說。'},
+    {speaker:'heroine_01',text:'念完以後要當司法官還是去事務所，我還沒想好。想好了，我會先跟你說。'},
     {choice:[{text:'「什麼時候考？」',goto:'v_a'},{text:'「妳媽怎麼說？」',goto:'v_b'},{text:'「讀書會那邊知道嗎？」',goto:'v_c'}]},
     {label:'v_a'},{speaker:'heroine_01',text:'明年二月。還有四個月。'},{goto:'v_end'},
-    {label:'v_b'},{speaker:'heroine_01',text:'她說，先把對方的理由講得比他自己還好。'},{speaker:'heroine_01',text:'所以我昨天在電話裡講了一個小時。'},{goto:'v_end'},
-    {label:'v_c'},{speaker:'heroine_01',text:'知道。Alison 說我背叛憲法。'},{speaker:'heroine_01',text:'……她講完就去幫我印商法的考古題了。'},
-    {label:'v_end'},{speaker:'heroine_01',text:'……你那邊早上十點了。先去上課。'},{speaker:null,text:'（她先掛了。）'},
+    {label:'v_b'},{speaker:'heroine_01',text:'她說，先把反方講得比反方自己還好。'},{speaker:'heroine_01',text:'所以我昨天在電話裡講了一個小時。'},{goto:'v_end'},
+    {label:'v_c'},{speaker:'heroine_01',text:'知道。Alison 說我背叛憲法。'},{speaker:'heroine_01',text:'她講完就去幫我印商法的考古題了。'},
+    {label:'v_end'},{speaker:'heroine_01',text:'你那邊早上十點了。先去上課。'},{speaker:null,text:'（她先掛了。）'},
     {set:{AN_CHOICE:'video'}},{mem:[{npc:'heroine_01',tag:'AN_CHOICE_TOLD',note:'第一批知道'}]} ];
   /* 1B-20 */
   const ytF=()=>fam('heroine_03'), ytDt=G=>dating(G,'heroine_03');
@@ -825,7 +825,7 @@ const Y34B=(function(){
     {if:C(dAn),cg:'cg_first_to_ask_heroine01'},   /* CG-19 第一個問我的人（企劃線 cg_approved/ README：交往版的最後一句；Café 窗邊）*/
     {if:C(dAn),speaker:'heroine_01',text:'……第一個問我的人是你。這也是理由之一。'},
     {choice:[{text:'「妳媽媽好像很懂這些。」',goto:'a_mom'},{text:'「妳大一就知道了嗎？」',goto:'a_y1'},{text:'「換妳問我。」',goto:'a_me'}]},
-    {label:'a_mom'},{speaker:'heroine_01',text:'她工作的關係。……典禮那天你就知道了。'},{goto:'a_end'},
+    {label:'a_mom'},{speaker:'heroine_01',text:'她工作的關係。典禮那天你就知道了。'},{goto:'a_end'},
     {label:'a_y1'},{speaker:'heroine_01',text:'大一只知道我不想變成那個舍監。後面是慢慢想的。'},{goto:'a_end'},
     {label:'a_me'},{speaker:'heroine_01',text:'好。'},{speaker:null,text:'（停一下）'},{speaker:'heroine_01',text:'你為什麼念法律？'},
     {if:C(G=>ANY(G)==='curious'),speaker:'player',text:'小時候翻過民法，看不懂。我想知道它在講什麼。……現在大概知道了。'},
@@ -833,7 +833,7 @@ const Y34B=(function(){
     {if:C(G=>ANY(G)==='help'),speaker:'player',text:'我想讓遇到事情的人，旁邊有一個看得懂的人。'},
     {if:C(G=>ANY(G)==='own'),speaker:'player',text:'……我還在想。可是我想念完。'},
     {if:C(G=>ANY(G)==null),speaker:'player',text:'……也沒有人問過我。讓我想一下。'},
-    {if:C(G=>ANY(G)!=null),speaker:'heroine_01',text:'……你四年前也是這樣講。'},
+    {if:C(G=>ANY(G)!=null),speaker:'heroine_01',text:'你四年前也是這樣講。'},
     {if:C(G=>ANY(G)==null),speaker:'heroine_01',text:'好。那你畢業以前要告訴我。'},
     {label:'a_end'},{set:{AN_YOUR_TURN:true}},{mem:[{npc:'heroine_01',tag:'IMPORTANT_CONVERSATION',note:'換祐廷問她'}]},{rel:{heroine_01:{fam:2,trust:2}}} ];
   const AN20_CAFE=[ {scene:'兩點半 Café・窗邊',bg:false},{if:C(G=>!!G.flags.AN20_LATE),speaker:null,text:'（你走進兩點半的時候，她已經點了第二杯。）'} ].concat(AN20_BODY);

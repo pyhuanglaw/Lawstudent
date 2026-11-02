@@ -52,7 +52,7 @@ const R2Y4B=(function(){
   S.isSat=G=>typeof CALENDAR!=='undefined'&&CALENDAR.dateOf(G.day).wd%7===6;
   const LIB_ZONES=['library','library_hall','lawlib'];
   /* 對話：字串＝她說、{narr}＝旁白（同 termend3d.js 的寫法）*/
-  const play=async(GM,id,arr)=>{ const G=GM.G; for(const x of [].concat(arr||[])){ if(x==null) continue; if(typeof x==='string') await GM.say(who(id),String(x).replace(/\{name\}/g,G.name||'祐廷')); else if(x.narr) await GM.say(null,x.narr); } };
+  const play=async(GM,id,arr)=>{ const G=GM.G; for(let x of [].concat(arr||[])){ if(typeof x==='function') x=x(G); if(x==null) continue; if(x.remember){ if(typeof SOCIAL!=='undefined'&&!SOCIAL.has(id,x.remember)) SOCIAL.remember(id,x.remember,''); continue; }   /* 函式＝照存檔選一句；{remember}＝記一次（以安 AN_SHOP_PAGE，AA_589 第 10 節）*/ if(typeof x==='string') await GM.say(who(id),String(x).replace(/\{name\}/g,G.name||'祐廷')); else if(x.narr) await GM.say(null,x.narr); } };
   const scene=async(GM,f)=>{ GM.sceneBegin(); try{ await f(); } finally { const A=adv(); if(A&&A.active&&A.end) A.end(); GM.sceneEnd(); } };
   /* 高鐵票錢（AA_276 第 7 節的算法：標準車廂來回；台南照同一個算法，AA 沒有給數字）*/
   S.FARE={taichung:1400,tainan:2700};
@@ -241,7 +241,7 @@ const R2Y4B=(function(){
   /* ===================== 2-Y4-46 七月最後一次的心意邀約（7/13 21:00 邀約、7/14）===================== */
   S.JULY={
     heroine_01:{inv:['明天晚上有空嗎。','六點半，同一家。……手帳我帶著。'],h:18.5,place:'eatery',placeName:'公館巷子裡她知道的小店',
-      last:[{narr:'（她把手帳翻到最後一頁，推到你面前。那一行字的下面，寫滿了。）'},'我寫完了。這次我不等下一次。','你回答。'],friend:'好。……八月四號，你考試加油。',friendNo:'好。……九月見。',friendK:'……八月四號，你考試加油。',friendNoK:'……九月見。'},
+      last:[G=>(typeof SOCIAL!=='undefined'&&SOCIAL.has('heroine_01','AN_SHOP_PAGE'))?{narr:'（她把手帳翻到「想去的店」那一頁，推到你面前。最下面那一行，還是只有「和你」。）'}:{narr:'（她把手帳翻到「想去的店」那一頁，推到你面前。最下面一行沒有店名，只寫著「和你」。）'},{remember:'AN_SHOP_PAGE'},'這一行，我想今天勾掉。','你回答。'],   /* AA_589 第 88、89 列＋第 10 節：沒看過那一頁＝第一次揭曉的寫法、記 AN_SHOP_PAGE */friend:'好。……八月四號，你考試加油。',friendNo:'好。……九月見。',friendK:'……八月四號，你考試加油。',friendNoK:'……九月見。'},
     heroine_03:{inv:['明天打烊以後，你來店裡。','我煮。'],h:21,place:'noodle_closed',placeName:'麵店（打烊以後）',
       last:['你上次說要想。我等到現在。','……我還是想坐你旁邊。'],friend:'好。考完來吃麵，算我的。',friendNo:'好。下次來吃麵，算我的。',friendK:'考完來吃麵，算我的。',friendNoK:'下次來吃麵，算我的。'},
     heroine_05:{inv:['明天晚上，同一家。','我請。'],h:18.5,place:'eatery_lib',placeName:'法圖旁邊的簡餐',
@@ -408,9 +408,9 @@ const R2Y4B=(function(){
   S.APART={   /* AA_346 第 3-0 節（企劃線 12d52835，AA-C 10-21）改句：五位「謝謝你自己說」太像、四位「我不問」、以安的理由欄比喻、「我知道是誰」→ 照表換 */
     heroine_01:{h:[18,19],at29:Object.assign({place:'法律系館B 研討室外的走廊',bg:'wancai_seminar'},NEAR),at30:Object.assign({place:'麵店，兩人桌',bg:'noodle_table'},Y30),
       open29:'（讀書會散了。法律系館B 研討室外的走廊，只剩你們兩個。她手上還拿著白板筆。）',open30:'（麵店，兩人桌。她先到，點了兩碗，一碗推到你面前。）',
-      knew:['……我知道。不用說名字。','你選了。……好。'],ask:['理由呢？'],
+      knew:['……我知道。不用說名字。','你選了。好。'],ask:['為什麼？'],
       told:[{narr:'（她沒有馬上說話。）'},'……你說實話了。','我要一點時間。'],quiet:['……好。',{narr:'（她把白板筆的蓋子蓋上。）',n30:'（她把筷子在碗上放好。）'}],
-      last:[{narr:'（她翻開手帳，寫了一行，沒有給你看。）'},'好了。……你先走。我把這頁寫完。']},
+      last:[{narr:'（她低下頭，把東西收進包包。）'},'好了。你先走。我再坐一下。']},
     heroine_03:{h:[21.5,21.5],at29:Object.assign({place:'麵店打烊以後',bg:'noodle_table'},NOODLE),at30:Object.assign({place:'麵店打烊以後',bg:'noodle_table'},Y30),
       open29:'（麵店打烊以後。她在櫃台後面剝蒜頭，沒有抬頭。）',open30:'（麵店打烊以後。她在櫃台後面剝蒜頭，沒有抬頭。）',
       knew:[{narr:'（蒜頭一顆一顆放進碗裡。）'},'……嗯。我知道會有這一天。'],
@@ -441,10 +441,10 @@ const R2Y4B=(function(){
   S.APART_ME='……我想跟妳分開。'; S.APART_DM='你是不是有話要跟我說。'; S.APART_PHONE='（電話。）';
   /* 電話版（沛珊，以及錯過三次改電話的）：看得到動作的旁白換成聽得到的，不另寫整段（AA_350 Q3）；null＝拿掉。視訊版（芷若 2029）看得到，照留 */
   S.APART_HEAR={'（蒜頭一顆一顆放進碗裡。）':'（電話那頭有剝東西的聲音。）','（她沒有問為什麼。蒜頭剝完了，她又拿了一顆。）':'（電話那頭有剝東西的聲音。）',
-    '（她低頭，擦了一下已經乾淨的杯子。）':'（那頭有杯子碰到的聲音。）','（她把計畫本闔上，沒有寫任何東西。）':'（紙闔起來的聲音。）','（她翻開手帳，寫了一行，沒有給你看。）':'（翻紙的聲音。）',
+    '（她低頭，擦了一下已經乾淨的杯子。）':'（那頭有杯子碰到的聲音。）','（她把計畫本闔上，沒有寫任何東西。）':'（紙闔起來的聲音。）','（她低下頭，把東西收進包包。）':'（翻紙的聲音。）',
     '（她把筷子放下。）':'（那頭安靜了一下。）','（她把筷子在碗上放好。）':'（那頭安靜了一下。）','（她站起來，自己去付了錢。）':'（那頭安靜了一下。）','（她轉身上樓，門沒有關好。）':'（那頭安靜了一下。）',
     '（她把帽子拉起來，蓋住半張臉。）':null,'（她把鑰匙握在手裡。）':null,'（她把白板筆的蓋子蓋上。）':null,'（她低頭，看著鏡頭外面的什麼。）':null};
-  S.APART_OPTS=['「我喜歡上別人了。」','（不說原因）'];   /* 她不知道的時候，祐廷二選一（第 2 節）；以安先問「理由呢？」*/
+  S.APART_OPTS=['「我喜歡上別人了。」','（不說原因）'];   /* 她不知道的時候，祐廷二選一（第 2 節）；以安先問「為什麼？」（AA_589 第 67 列）*/
   const AK=y=>'CHOICE_APART'+(y%100);
   S.apartRound=(G,y)=>{ const R=G&&G.flags&&G.flags[AK(y)]; return R&&typeof R==='object'&&R.at&&typeof R.at==='object'?R:null; };
   S.apartOf=(G,id)=>{ for(const y of [2030,2029]){ const R=S.apartRound(G,y), P=R&&R.at[id]; if(P&&P.st!=='done'&&P.st!=='void') return R; } return null; };   /* 她還沒談的那一輪 */

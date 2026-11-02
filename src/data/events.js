@@ -3821,14 +3821,14 @@ const STORY_EVENTS=[
     sleepCard:['週三晚上','法學院圖書館'],
     prereq:{custom:G=>typeof STORY!=='undefined'&&!!STORY.twoHeartsDue&&STORY.twoHeartsDue(G)}, after:(G)=>{ if(typeof STORY!=='undefined'&&STORY.twoHeartsMet) STORY.twoHeartsMet(G); },
     dialogue:[ {speaker:null,text:'（週三晚上的法學院圖書館。長桌只剩一個位子，以安坐下，對面的人在看一本很厚的書。）'},
-      {speaker:'heroine_01',expression:'neutral',text:'……不好意思，可以借一下六法嗎？我的忘在宿舍。'},
+      {speaker:'heroine_01',expression:'neutral',text:'不好意思，可以借一下六法嗎？我的忘在宿舍。'},
       {speaker:'heroine_05',expression:'neutral',text:'可以。……第幾條？'},
       {speaker:'heroine_01',expression:'neutral',text:'行政程序法。'},
       {speaker:null,text:'（學姊把六法推過去，看了一眼她的筆記。）'},
       {speaker:'heroine_05',expression:'neutral',text:'妳在準備交換？'},
       {speaker:'heroine_01',expression:'neutral',text:'日檢。我要去日本。學姊呢？'},
       {speaker:'heroine_05',expression:'neutral',text:'明年夏天，美國。'},
-      {speaker:'heroine_01',expression:'neutral',text:'……我男朋友也在想交換。他還沒決定去哪裡。'},
+      {speaker:'heroine_01',expression:'neutral',text:'我男朋友也在想交換。他還沒決定去哪裡。'},
       {speaker:'heroine_05',expression:'neutral',text:'我男朋友也是。'},
       {speaker:null,text:'（兩個人都停了一下。）'},
       {speaker:'heroine_01',expression:'serious',text:'他叫什麼名字？'},
@@ -3846,7 +3846,7 @@ const STORY_EVENTS=[
       {speaker:null,text:'（店裡很安靜。吧台的冰箱一直在響。）'},
       {choice:[{text:'「學姊。」',unless:{flags:['dating_heroine_05']},set:{TWO_HEARTS_PICK:'heroine_05'},goto:'sis'},{text:'「書瑀。」',if:{flags:['dating_heroine_05']},set:{TWO_HEARTS_PICK:'heroine_05'},goto:'sis'},{text:'「以安。」',set:{TWO_HEARTS_PICK:'heroine_01'},goto:'an'}]},   /* AA_350 R7（裁定 12）：交往當天起祐廷說出口的「學姊。」→「書瑀。」（這一場兩個都在交往中）*/
       {label:'sis'},{speaker:'heroine_01',expression:'serious',text:'……好。'},
-      {speaker:'heroine_01',expression:'serious',text:'（站起來，把椅子推回去）理由我不用聽了。'},
+      {speaker:'heroine_01',expression:'serious',text:'（站起來，把椅子推回去）我知道了。'},
       {speaker:null,text:'（她走出去的時候，門上的鈴響了一聲。）'},
       {speaker:'heroine_05',expression:'neutral',text:'……我們也先回去。明天再說。'},{goto:'end'},
       {label:'an'},{speaker:'heroine_05',expression:'serious',text:'……好。'},
@@ -4861,7 +4861,7 @@ const Y4_EVENTS=(function(){
     {if:{custom:all('heroine_01','heroine_03')},speaker:'heroine_03',text:'吃麵先。'},
     /* AA_524 A1：餞行（y34b3d.js fw_b）或閒聊階梯 A5-L8 說了「回來第一碗我請。」（AN_FIRST_BOWL）——以安在場：放在語彤「吃麵先。」之後；沒有語彤那幾句的放在阿哲第一句之後（上面）*/
     {if:{custom:G=>all('heroine_01','heroine_03')()&&!!G.flags.AN_FIRST_BOWL},speaker:null,text:'（以安把菜單推到你面前，指甲在「滷蛋」那一格敲了兩下。）'},{if:{custom:G=>all('heroine_01','heroine_03')()&&!!G.flags.AN_FIRST_BOWL},speaker:'heroine_01',text:'說好的。'},
-    {if:{custom:XC},speaker:null,text:'（芯慈坐到以安旁邊，先開口。）'},{if:{custom:XC},speaker:'classmate_xinci',text:'我跟妳說一部劇。'},{if:{custom:XC},speaker:'heroine_01',text:'好。……是上次那部嗎？我看了兩集。'},   /* AA_547 第 4 節（原本「……好。妳說。」）*/
+    {if:{custom:XC},speaker:null,text:'（芯慈坐到以安旁邊，先開口。）'},{if:{custom:XC},speaker:'classmate_xinci',text:'我跟妳說一部劇。'},{if:{custom:XC},speaker:'heroine_01',text:'好。是上次那部嗎？我看了兩集。'},   /* AA_547 第 4 節（原本「……好。妳說。」）*/
     {unless:{custom:G=>TW(G)&&fam('yu')},goto:'r1_late'},
     {speaker:'yu',text:'欸，你一直在臺灣。這半年發生什麼事？'},
     {choice:[{text:'「語彤每個禮拜四都去市場訪問。我跟過幾次。」',if:{custom:G=>!!G.flags.YT_T1},goto:'r1_yt'},   /* 1B-13 週四的田野（AA_322 YT_T1）*/
@@ -4876,7 +4876,7 @@ const Y4_EVENTS=(function(){
     {unless:{custom:all('heroine_04','heroine_01')},goto:'r1_end'},
     {speaker:null,text:'（長桌還有一個空位。過了半小時，門口有人喘著氣。）'},{advance:0.5},
     {speaker:'heroine_04',text:'欸不是，我下班了。（坐下，第一句就問以安）日本的貓胖嗎？'},
-    {speaker:'heroine_01',text:'……胖。'},
+    {speaker:'heroine_01',text:'胖。很胖。'},
     {if:{custom:()=>fam('heroine_02')},speaker:'heroine_04',text:'（低頭看手機）喔對，芷若說英國在下雨。她每次都這樣說。'},
     {label:'r1_end'},
     {advance:G=>Math.max(0,21-(G.hour%24))},

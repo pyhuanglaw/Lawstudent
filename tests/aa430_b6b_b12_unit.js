@@ -31,8 +31,9 @@ const lecture=async(id,picks)=>{ H.said=[]; H.opts=[]; H.picks=(picks||[]).slice
   if(!X()){ H.done(); return; }
   await sec('0',async()=>{
     const IDS=['ev_b6b_lecture','ev_b6b_after','ev_b12_lecture','ev_b12_after'], bad=[], seen=new Set();
+    const ANREV=require('./an_rev_doc.js');   /* 以安改稿（AA_587 第 31 列、AA_589 第 5 列）改過的句子：在改成欄也算（逐列核對在 tests/aa587_b3_unit.js、aa589_an_b4_unit.js）*/
     for(const id of IDS){ const e=ev(id); if(!e){ bad.push('沒有 '+id); continue; } for(const l of e.dialogue||[]){ const T=[]; if(l.text!==undefined) T.push(l.text); for(const c of (l.choice||[])) T.push(c.text);
-      for(const t of T){ seen.add(t); if(COMPOSED.has(t)) continue; if(A430.indexOf(t)<0&&A430.indexOf(norm(t))<0) bad.push(t); } } }
+      for(const t of T){ seen.add(t); if(COMPOSED.has(t)||ANREV.has(t)) continue; if(A430.indexOf(t)<0&&A430.indexOf(norm(t))<0) bad.push(t); } } }
     check('0. 四個事件的每一句台詞、旁白、選項都在 AA_430（補的 '+COMPOSED.size+' 句列在 COMPOSED）',bad.length===0,bad.slice(0,6).join('｜'));
     check('0. COMPOSED 每一句都真的用到',[...COMPOSED].every(t=>seen.has(t)),[...COMPOSED].filter(t=>!seen.has(t)).join('｜'));
     const src=fs.readFileSync(path.join(H.ROOT,'src/data/bbpack_events.js'),'utf8');
@@ -104,7 +105,7 @@ const lecture=async(id,picks)=>{ H.said=[]; H.opts=[]; H.picks=(picks||[]).slice
     check('4. A B5_THOUGHT where：「你大一寫的是「我還不知道。我想知道他最後去了哪裡」。現在呢？」→「好。那你大一就想對方向了。」；沒舉手＝收尾沒有多的那一句',L.includes('你大一寫的是「我還不知道。我想知道他最後去了哪裡」。現在呢？')&&L.includes('好。那你大一就想對方向了。')&&L[L.length-2]==='好。那你大一就想對方向了。'&&L[L.length-1]===STICKY,J(L));
     G=fresh(thu,18.9,'boya',[AN,'yu']); b4(G,'full'); L=after(await lecture('B12',['「您上次','「不太記得']));
     check('4. A 聽完 B4、沒有 B5_THOUGHT：「大一那場，你記得最後一題嗎？」兩個選項；「不太記得了。」→「我抄了兩次。……給你看。」（她把筆記本轉過來給你。）；問過 last 的那一句',
-      L.includes('大一那場，你記得最後一題嗎？')&&J(H.opts[1])===J(['「被限制的人可以去哪裡。」','「不太記得了。」'])&&L.includes('我抄了兩次。……給你看。')&&L.includes('（她把筆記本轉過來給你。）')&&L.includes('你問他有沒有答案。……他說沒有的時候，我鬆了一口氣。'),J([L,H.opts]));
+      L.includes('大一那場，你記得最後一題嗎？')&&J(H.opts[1])===J(['「被限制的人可以去哪裡。」','「不太記得了。」'])&&L.includes('我抄了兩次。……給你看。')&&L.includes('（她把筆記本轉過來給你。）')&&L.includes('你問他有沒有答案。他說沒有的時候，我鬆了一口氣。'),J([L,H.opts]));
     G=fresh(thu,18.9,'boya',[AN,'yu']); L=after(await lecture('B12',['「被限制的人，可以先','「要讓他找得到門']));
     check('4. B 沒去 B4：「大一那場你沒來。…你現在答得出來嗎？」「（她把筆記本轉過來。最後那一句抄了兩次。）」三個選項；「要讓他找得到門。」（今天聽到的）→「……那是今天的。你自己的呢？」「好，下次再講。」；問過 ask＝「你問『他說不要怎麼辦』那一題，我回去想。」',
       J(L)===J([BUY,'大一那場你沒來。我把我的筆記給你看——你現在答得出來嗎？','（她把筆記本轉過來。最後那一句抄了兩次。）','……那是今天的。你自己的呢？','好，下次再講。','你問『他說不要怎麼辦』那一題，我回去想。',STICKY])

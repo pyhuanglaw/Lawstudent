@@ -71,7 +71,7 @@ const R2Y4B_EVENTS=(function(){
       {label:'two'},{speaker:null,text:'（她把手機交給路過的人。）'},
       {speaker:'heroine_01',text:'麻煩你。……兩個人。'},
       {if:{custom:()=>hasCG('cg_azalea_fourth_heroine01')},cg:'cg_azalea_fourth_heroine01'},   /* CG-18 在拍下去的那一刻（AA_327 2-Y4-31 第 2 節；cg_approved/ README 寫「寫完那一行之後」，照 AA_327 較新的定稿，見回報）*/
-      {speaker:null,text:'（她翻開手帳，在這一張照片的旁邊寫了一行字：「這一張要有兩個人。」）'},   /* 拍完：手帳上的字，她沒有說出口（裁定 #41）*/
+      {speaker:null,text:'（照片裡的兩個人都沒有看鏡頭。她看了很久，才把手機收起來。）'},   /* 拍完：手帳上的字，她沒有說出口（裁定 #41）*/
       {set:{AZALEA_Y4:'two'}} ],
     after:G=>{ const r=R(); delete G.flags.AZALEA_VER; if(r&&G.flags.AZALEA_Y4==='yu') r.azaleaPhoto(G); } },
   /* ---------- 2-Y4-32 明軒 M4「存夠了」（3/8 19:00 麵店；BB_40 M4 改寫版）。不在麵店＝21:00 群組（R2Y4B）---------- */
@@ -149,7 +149,7 @@ const R2Y4B_EVENTS=(function(){
   /* ---------- 2-Y4-35 春假（最後一次）：麵店團兩天一夜（4/3～4/4 宜蘭；2D）。三選一在 R2Y4B（照 1C-01）---------- */
   { id:'ev_spring_y4', title:'春假・宜蘭', participants:[], location:'any', trigger:'outing', once:true, background:'dark', hours:1,
     dialogue:[ {scene:'車上',bg:'car_morning'},
-      {if:kn('heroine_01'),speaker:null,text:'（以安坐副駕，腿上是行程表第四版。理由欄只寫了四個字：「最後一次」。）'},   /* 行程表上的字是她寫的，她沒有說出口 */
+      {if:kn('heroine_01'),speaker:null,text:'（以安坐副駕，腿上是行程表第四版。最上面寫了四個字：「最後一次」。）'},   /* 行程表上的字是她寫的，她沒有說出口 */
       {if:kn('zhe'),speaker:'zhe',text:'（後座）司機，我要聽歌。'},
       {if:kn('yu'),speaker:'yu',text:'不要放他的歌。'},
       {advance:toH(20)},
@@ -165,7 +165,7 @@ const R2Y4B_EVENTS=(function(){
       {advance:toDay('2029-04-04',16)},
       {scene:'高速公路',bg:'car_night'},
       {speaker:null,text:'（回程的高速公路。後座的人都睡著了。以安沒有睡，一直看窗外。）'},
-      {if:kn('heroine_01'),speaker:'heroine_01',text:'（小聲）……謝謝你開車。'} ],
+      {if:kn('heroine_01'),speaker:'heroine_01',text:'（小聲）謝謝你開車。'} ],
     consequences:{memo:'最後一個春假：開車載阿哲他們去宜蘭'},
     outingMissed:G=>{ const r=R(); if(r) r.springPhoto(G); } },
   /* 和可昕開車（照 AA_324 1C-01 可昕那一選：目的地從還沒去過的裡面選；都去過＝迷路到的地方；沒有假設題）。車上開場、回程照 AA_345 G3。記 KX_TRIP.Y4S2 */
@@ -318,7 +318,7 @@ const R2Y4B_EVENTS=(function(){
       {speaker:'heroine_01',text:'司法官學院，我寫信說不去報到。研究所辦休學。'},
       {speaker:'heroine_01',text:'我媽聽了一個小時。最後她說：你講得比我想的清楚。'},
       {choice:[{text:'「為什麼都不要？」',goto:'a'},{text:'「妳確定？」',goto:'b'}]},
-      {label:'a'},{speaker:'heroine_01',text:'都考上，是要知道我做得到。……可是我想做的是公司、證券那些案子。法官很少遇到。'},{goto:'d'},
+      {label:'a'},{speaker:'heroine_01',text:'都考上，是要知道我做得到。可是我想做的是公司、證券那些案子。法官很少遇到。'},{goto:'d'},
       {label:'b'},{speaker:'heroine_01',text:'確定。寫信的時候手有一點抖。'},   /* AA_447 1-4：「抖的是手，不是我」拿掉 */
       {label:'d'},{unless:{custom:dating('heroine_01')},goto:'end'},
       {speaker:'heroine_01',text:'八月走。一年。'},
@@ -335,9 +335,9 @@ const R2Y4B_EVENTS=(function(){
       {unless:sawJP,speaker:'heroine_01',text:'（看了一下手錶）你們不用全部都來的。'},
       {unless:sawJP,if:kn('zhe'),speaker:'zhe',text:'要。'},
       {if:sawJP,speaker:null,text:'（桃園機場，出境的門口。兩年多前送她去日本，也是這個門口。）'},   /* AA_447 1-1：看過 2028-03-25 那一場的（送過機或日本路線一起出發）*/
-      {if:sawJP,speaker:'heroine_01',text:'（看了一下手錶）……我上次也說過。你們不用全部都來的。'},
+      {if:sawJP,speaker:'heroine_01',text:'（看了一下手錶）我上次也說過。你們不用全部都來的。'},
       {if:sawJP,unless:{custom:G=>!knows('zhe',G)},speaker:'zhe',text:'上次你也知道我們會來。'},
-      {speaker:'heroine_01',text:'……好。'},
+      {speaker:'heroine_01',text:'好。'},
       {speaker:'heroine_01',text:'（轉向你）回來的時候，我會在事務所。你來找我，要預約。'},
       {choice:[{text:'「好。我預約。」',goto:'f1'},{text:'（揮手）',goto:'f2'}]},
       {label:'f1'},{speaker:'heroine_01',text:'……嗯。'},{speaker:null,text:'（她走進去。）'},{goto:'end'},
@@ -347,16 +347,16 @@ const R2Y4B_EVENTS=(function(){
       {unless:sawJP,speaker:'heroine_01',text:'（看了一下手錶）你們不用全部都來的。'},   /* 她先跟大家說完，再轉過來；交往版的那幾句是大家看不到的時候說的（不演公開戀情）*/
       {unless:sawJP,if:kn('zhe'),speaker:'zhe',text:'要。'},
       {if:sawJP,speaker:null,text:'（桃園機場，出境的門口。兩年多前送她去日本，也是這個門口。）'},
-      {if:sawJP,speaker:'heroine_01',text:'（看了一下手錶）……我上次也說過。你們不用全部都來的。'},
+      {if:sawJP,speaker:'heroine_01',text:'（看了一下手錶）我上次也說過。你們不用全部都來的。'},
       {if:sawJP,unless:{custom:G=>!knows('zhe',G)},speaker:'zhe',text:'上次你也知道我們會來。'},
-      {speaker:'heroine_01',text:'……好。'},
+      {speaker:'heroine_01',text:'好。'},
       {speaker:null,text:'（她的行李有兩個。手帳在外套口袋裡。）'},
-      {speaker:'heroine_01',text:'紐約比臺北慢十二個小時。……我算過了，你早上起床，我剛好要睡。'},
+      {speaker:'heroine_01',text:'紐約比臺北慢十二個小時。我算過了，你早上起床，我剛好要睡。'},
       {speaker:'heroine_01',text:'每天一句就好。'},
       {speaker:'heroine_01',text:'回來的時候，我會在事務所。你來找我，要預約。'},
       {speaker:'heroine_01',text:'……你不用預約。'},
       {choice:[{text:'「每天一句。」',goto:'g1'},{text:'（抱她一下）',goto:'g2'}]},
-      {label:'g1'},{speaker:'heroine_01',text:'嗯。……寫你自己的事就好。'},{goto:'end'},
+      {label:'g1'},{speaker:'heroine_01',text:'嗯。寫你自己的事就好。'},{goto:'end'},
       {label:'g2'},{speaker:null,text:'（她很快地回抱了一下，轉身走進去。走到一半回頭，揮了一下手。）'},
       {label:'end'},{set:{AN_NY_SENDOFF:'went'}} ],
     outingMissed:G=>{ const r=R(); if(r) r.anSendoffMissed(G); } },

@@ -322,7 +322,7 @@ const BBPACK_EVENTS=(function(){
       /* 收尾（A、B、C 一樣）：舉過手的多一句 */
       {label:'end'},
       IF(ASK('who'),say(AN,'你今天問的那一題，我本來也想問。')),IF(ASK('ask'),say(AN,'你問『他說不要怎麼辦』那一題，我回去想。')),
-      IF(ASK('last'),say(AN,'你問他有沒有答案。……他說沒有的時候，我鬆了一口氣。')),IF(ASK('time'),say(AN,'多久算暫時，我們下次讀書會可以吵。')),
+      IF(ASK('last'),say(AN,'你問他有沒有答案。他說沒有的時候，我鬆了一口氣。')),IF(ASK('time'),say(AN,'多久算暫時，我們下次讀書會可以吵。')),
       nar('（她把今天的便利貼，貼在大一那一頁的旁邊。兩張的字不一樣大。）'),
       {rel:{[AN]:{fam:1}}},{goto:'done'},
       /* 2-4 和以安不到 FAMILIAR：Alison 版 */

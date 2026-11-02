@@ -312,9 +312,9 @@ const REG=o=>{ global.CG_REGISTRY=o||{}; };
     setup('2026-02-13',21.05,{lv:{[YT]:6}}); rules(); check('11. 語彤第 6 階：2/13 21:00 照樣約「明天店休。」',dms(YT)[0]==='明天店休。');
     setup('2026-09-24',21.05,{lv:{[YT]:6}}); rules(); check('11. 中秋照 AA_414 只有交往中',!dms(YT).length); }
   { setup('2029-02-14',9,{lv:{[AN]:6}}); rules(); const q=OUT.get(H.G,'anyt_an_vday_y4'); H.said=[]; H.opts=[]; H.picks=[1]; await EVENTS.run(ev('ev_an_vday_y4')); const L=said();
-    check('11. 2029 電話第 6 階：「外婆家好玩嗎？」→「表妹問我有沒有男朋友。我說沒有。」「……她說那就是快有了。」；沒拿過 CG 的多一個選項「我明天開車下去。」',!!q&&J(H.opts[0])===J(['「十八號回來？」','「外婆家好玩嗎？」','「我明天開車下去。」'])&&L.includes('表妹問我有沒有男朋友。我說沒有。')&&L.includes('……她說那就是快有了。')&&!L.includes('……她說那就是有。'),J({O:H.opts,L}));
+    check('11. 2029 電話第 6 階：「外婆家好玩嗎？」→「表妹問我有沒有男朋友。我說沒有。」「她說那就是快有了。」；沒拿過 CG 的多一個選項「我明天開車下去。」',!!q&&J(H.opts[0])===J(['「十八號回來？」','「外婆家好玩嗎？」','「我明天開車下去。」'])&&L.includes('表妹問我有沒有男朋友。我說沒有。')&&L.includes('她說那就是快有了。')&&!L.includes('她問了二十分鐘。'),J({O:H.opts,L}));
     setup('2029-02-14',9,{lv:{[AN]:'dt'}}); rules(); H.said=[]; H.opts=[]; H.picks=[2]; await EVENTS.run(ev('ev_an_vday_y4')); const L2=said(); rules(); const qr=OUT.get(H.G,'anyt_an_vday_tc');
-    check('11. 選「我明天開車下去。」→「……初三。下午兩點，公園門口。」「我只能出來兩個小時。」→ 2/15 14:00 開車去台中（照 1-1）',L2.includes('……初三。下午兩點，公園門口。')&&L2.includes('我只能出來兩個小時。')&&!!qr&&qr.day===D('2029-02-15')&&qr.h===14&&qr.travelH===2.5,J({L2,qr}));   /* 2/15 在寒假：從家出發（DATE-C7）*/
+    check('11. 選「我明天開車下去。」→「初三。下午兩點，公園門口。」「我只能出來兩個小時。」→ 2/15 14:00 開車去台中（照 1-1）',L2.includes('初三。下午兩點，公園門口。')&&L2.includes('我只能出來兩個小時。')&&!!qr&&qr.day===D('2029-02-15')&&qr.h===14&&qr.travelH===2.5,J({L2,qr}));   /* 2/15 在寒假：從家出發（DATE-C7）*/
     REG({cg_valentine_taichung_heroine01:{file:'x',title:'t'}}); at('2029-02-15',10.9); const g=await goOut('anyt_an_vday_tc',[0]);
     check('11. 補救那一場：台中的公園、紙袋、休息站，放 CG；記 AN_VDAY_Y4B went（3/14 算她 2/14 送過東西）',g.L.includes('（休息站，你打開紙袋。是一盒太陽餅，盒子上貼著一張便利貼，寫著你的名字。）')&&J(H.cgs)===J(['cg_valentine_taichung_heroine01'])&&H.G.flags.AN_VDAY_Y4B==='went',J({L:g.L,cgs:H.cgs})); delete global.CG_REGISTRY;
     setup('2029-02-14',9,{lv:{[AN]:'dt'},flags:{AN_VDAY_CG:true}}); rules(); H.opts=[]; H.picks=[0]; await EVENTS.run(ev('ev_an_vday_y4'));
