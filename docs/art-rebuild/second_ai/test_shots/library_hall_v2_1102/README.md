@@ -135,7 +135,7 @@
 | `zone_transitions` | ALL PASS（37 項） | |
 | `flow_library_floors` | ALL PASS | |
 | `flow_library_scene` | ALL PASS（13 項；改測試以後重跑） | 見下面 1。樓梯中段：推搖桿 8 次，停在 (0.10, −9.35)、高 2.14 m、第 0 層，劇情還沒開始；走上二樓劇情才開始，兩個人走到座位坐下，走路保險 0 次，沒有 JS 例外 |
-| `stairs_cam_browser`（`?turbo`） | 鏡頭檢查全過；「沒有 JS 例外」看下面 2。套了測試的修正以後（18:32）**ALL PASS** | 大廳：樓梯上被樓板擋住 0／256（關掉修正 16／256）；電梯 0／11（關掉修正 3／11） |
+| `stairs_cam_browser`（`?turbo`） | 鏡頭檢查全過；「沒有 JS 例外」看下面 2。套了測試的修正以後：第二版（18:32）、第一版（18:34）都 **ALL PASS** | 大廳：樓梯上被樓板擋住 0／256（關掉修正 16／256）；電梯 0／11（關掉修正 3／11） |
 | `seats_on_furniture`（總圖大廳、3F） | 總圖大廳 66 個座位，有問題 0。3F：見右欄 | 這台沙盒沒有這支測試直接 `launch()` 要的 headless shell，改用預裝的 Chromium 跑（`executablePath`；測試本身不改）。3F（`library`）那一區丟了例外，被測試吞掉了，沒印原因，所以沒量到，補跑中。這一包沒有動 3F |
 | `flow_lib_tour` | A 段 FAIL；**第一版（base）一樣 FAIL** | 見下面 3 |
 
