@@ -1143,14 +1143,18 @@ const CLS=(function(){
      AA_294 ev_zhe_w1_meet 那一列靠它）先帶到校園，演完再帶進 201；人已經在 201（12:30 以前就進來了）＝重新進一次，照舊開始上課 */
   S.day2Due=function(G){ if(!G||late(G)||typeof STORY==='undefined'||!STORY.mainDay||STORY.mainDay(G)!==2||(STORY.isEcon&&STORY.isEcon(G))) return false; const F=G.flags||{}, h=hr(G);
     return G.weekday===4&&!F.classDone&&!F.classNow&&h>=12.5&&h<15.2; };
+  /* UX-DAY2-AUTOPULL（BB 15:34，CC 在使用者電腦量到：阿哲那一段演完 2.83 秒就被帶走）：還沒演阿哲那一段＝照舊（空下來 1.5 秒就帶到霖澤館前）；
+     演過了（campusIntro）＝等到上課前 5 分鐘（13:15）而且空下來 S.DAY2_GRACE_MS 才帶進 201，帶之前字幕寫「快上課了。」；玩家自己走進 201 就照舊開始上課（story3d.js onEnter），不用帶。「民總不能翹」不變 */
+  S.DAY2_GRACE_MS=8000; S.DAY2_PULL_H=13+15/60;
+  S.day2PullReady=function(G,freeMs){ const F=G.flags||{}; if(!F.campusIntro) return true; return hr(G)>=S.DAY2_PULL_H&&freeMs>=S.DAY2_GRACE_MS; };
   S.goDay2=async function(GM){ const G=GM.G, F=G.flags||{}; if(!S.day2Due(G)) return false; const to=F.campusIntro?'classroom':'campus';   /* 已經在那一區也重新進一次：進區域才會開始那一段（story3d.js S.onEnter）*/
-    GM.sceneBegin(); try{ await GM.fade(true); GM.caption('','走路到法律系館A。',2400); await GM.sleep(500); } finally { GM.sceneEnd(); } await GM.enter(to,to==='campus'?{x:26,z:-90,yaw:Math.PI}:undefined);   /* 霖澤館前（和舊局第二天 13:05 同一個位置；阿哲 12:30～13:24 在 (30,-93)，story3d.js populate）*/
+    GM.sceneBegin(); try{ await GM.fade(true); GM.caption('',to==='classroom'?'快上課了。走路到法律系館A 201。':'走路到法律系館A。',2400); await GM.sleep(500); } finally { GM.sceneEnd(); } await GM.enter(to,to==='campus'?{x:26,z:-90,yaw:Math.PI}:undefined);   /* 霖澤館前（和舊局第二天 13:05 同一個位置；阿哲 12:30～13:24 在 (30,-93)，story3d.js populate）*/
     return true; };
   /* 每 0.5 秒（S.tick）：待出的選單；期末考到時間（開始前 10 分鐘）自動帶進考場（AA_126 1-1）*/
   S.oneTick=function(GM){ const G=GM.G; if(!G||goBusy) return; if(typeof ECONFF!=='undefined'&&ECONFF.on(G)) return;   /* 經濟系事件接事件（D102）：不跳「去上課」「起床」選單，由 ECONFF 帶 */ if(typeof PG!=='undefined'&&PG.on&&PG.on(G)) return;   /* 畢業後篇（src/postgrad3d.js）：不再跳去上課、考試 */ if(!freeNow(GM)){ freeSince=0; freeTicks=0; return; } if(!G.goal||G.goal==='—'){ const nx=S.next(G); if(nx&&nx.exam) S.setGoal(GM); }   /* UX-EXAMDAY-GOAL：考試日起床劇情演完、目標欄空著（—）＝補上考試的目標 */ const now=Date.now(); if(!freeSince) freeSince=now; freeTicks++; if(now-freeSince<FREE_MS||freeTicks<3) return;   /* 連續空下來 1.5 秒、而且至少 3 次 tick：這一區的 auto／enter 事件先檢查過（低幀率時一幀可能就超過 1.5 秒）*/
     const run=f=>{ goBusy=true; (async()=>{ try{ await f(); }catch(e){ console.warn('oneclick',e); } finally{ goBusy=false; freeSince=0; freeTicks=0; } })(); };
     if(!opening(G)&&!late(G)){ const ex=S.dayItems(G).find(q=>q.exam&&!S.rec(G).done[q.key]&&S.status(G,q)==='open'&&hr(G)>=q.t0-1/6); if(ex&&!S.canGo(GM)){ run(()=>S.goClass(GM,ex,{forced:true})); return; } }   /* 期中、期末都帶進考場（AA_294 ①；原本只有期末）*/
-    if(S.day2Due(G)){ run(()=>S.goDay2(GM)); return; }   /* 開學第二天的民總（AA_294 ①）*/
+    if(S.day2Due(G)&&S.day2PullReady(G,now-freeSince)){ run(()=>S.goDay2(GM)); return; }   /* 開學第二天的民總（AA_294 ①）；阿哲那一段演完以後等到上課前 5 分鐘、而且空下來 8 秒（UX-DAY2-AUTOPULL）*/
     if(contP){ const c=contP; contP=null; if(c.day===G.day){ const it=S.dayItems(G).find(q=>q.key===c.key); if(it&&!S.rec(G).done[it.key]&&S.status(G,it)!=='missed'){ run(async()=>{ let k=1; GM.sceneBegin(); try{ k=await GM.choose([{t:'繼續去上課：'+it.c.name,hint:S.planHint(GM,it)},{t:'先不去了'}]); } finally { GM.sceneEnd(); } if(k===0) await S.goClass(GM,it); }); return; } } }
     if(afterP&&now-(afterP.t||0)>=WAKE_GRACE){ const a=afterP; afterP=null; if(a.day===G.day){ run(()=>S.afterMenu(GM,a.key)); return; } }   /* 下課選單也排在這一區的 auto／enter 事件之後（AA_160 3-4 C，AA-B 10-16：例 週五 12:06 普通的芷若 ev_zhiruo_ge_group）*/
     if(wakeP&&now-wakeP.t>=WAKE_GRACE){ const w=wakeP; wakeP=null; if(w.day===G.day) run(()=>S.wakeMenu(GM)); } };

@@ -104,8 +104,9 @@ const sec=async(n,f)=>{ try{ await f(); }catch(e){ check(n+'. 丟出例外（中
     H.entered=[]; caps=[]; const real=Date.now; let T=1e12; Date.now=()=>T; CLS.clearPending();
     try{ for(let i=0;i<5;i++){ CLS.oneTick(GM); T+=600; } await new Promise(r=>setTimeout(r,30));
       const first=H.entered.slice(); G.flags.campusIntro=true;   /* 霖澤館前那一段（story3d.js onEnter 的 campusMorning）演完 */
-      for(let i=0;i<5;i++){ CLS.oneTick(GM); T+=600; } await new Promise(r=>setTimeout(r,30));
-      check('3-9. 玩家空下來：先帶到校園（霖澤館前那一段：阿哲）、演完再帶進 201（字幕「走路到霖澤館。」）',first[0]==='campus'&&H.entered[H.entered.length-1]==='classroom'&&caps.includes('走路到法律系館A。'),JSON.stringify({first,entered:H.entered,caps}));
+      for(let i=0;i<5;i++){ CLS.oneTick(GM); T+=600; } await new Promise(r=>setTimeout(r,30)); const tooSoon=H.entered[H.entered.length-1]!=='classroom';   /* UX-DAY2-AUTOPULL：12:36、空了 3 秒＝還不帶 */
+      G.hour=13.25; for(let i=0;i<20;i++){ CLS.oneTick(GM); T+=600; } await new Promise(r=>setTimeout(r,30));   /* 13:15 以後、空了 8 秒以上＝帶進 201 */
+      check('3-9. 玩家空下來：先帶到校園（霖澤館前那一段：阿哲）、演完以後等到 13:15 而且空下來 8 秒才帶進 201（UX-DAY2-AUTOPULL；字幕「走路到法律系館A。」「快上課了。走路到法律系館A 201。」）',first[0]==='campus'&&tooSoon&&H.entered[H.entered.length-1]==='classroom'&&caps.includes('走路到法律系館A。')&&caps.includes('快上課了。走路到法律系館A 201。'),JSON.stringify({first,tooSoon,entered:H.entered,caps}));
     } finally { Date.now=real; CLS.clearPending(); }
     const G2=fresh('2025-09-25',12.6,'dorm'); check('3-10. 第 9 天（下一個週四）不帶',!D2(G2));
     const G3=fresh('2025-09-18',12.6,'dorm'); G3.stage='econ'; check('3-11. 經濟系那一年不帶（AA_292 不適用本表）',!D2(G3)); }
