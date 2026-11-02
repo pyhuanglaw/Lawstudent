@@ -1,10 +1,12 @@
 """校園地標的正式模型（第二個 AI：Blender GLB）整合檢查——第二層「系統整合」測試（docs/TESTING.md），不是真實玩家流程。
   LAWWW 2026-10-10 23:26Z 分派的順序：①總圖書館 bldg.campus_library（campus_library.py）②傅鐘 bldg.campus_bell（campus_bell.py）③行政大樓 bldg.campus_admin（campus_hall.py --set admin）
   ④文學院 bldg.campus_arts、校史館 bldg.campus_hist（campus_hall.py --set arts／hist）；⑤洞洞館 bldg.campus_pavilion（campus_pavilion.py）、社科院 bldg.campus_modern（campus_modern.py）。
-  新的地標加進 TAGS 就好（標記、外框、匾額、效能的檢查都照 TAGS 跑）。
+  之後加的（manifest 有才檢查）：共同教學館、大一女舍（v9.7）；校門 bldg.campus_gate、男一舍 bldg.campus_male1、普通 bldg.campus_putong、博雅 bldg.campus_boya（LAWWW2-C 10-18～10-21）；
+  社科院搬到霖澤館西南以後（X75，2026-10-20）同一個標記 soc 接的是新社科院 bldg.campus_socsci（campus_socsci.py）。
+  新的地標加進 TAGS 就好（標記、外框、匾額、效能的檢查都照 TAGS 跑）；manifest 有沒有 key 會改到旁邊配置的，另外放進 STUB 或 KEEP（見 TAGS 下面的說明）。
 
 比較的對象＝「改之前」：同一版遊戲、開機後把 manifest 裡這些地標的 key 拿掉再進校園（套件照舊參加整區靜態合併，和這次修改之前一模一樣；
-其他正式模型（霖澤館外觀、路燈腳踏車）兩邊都有，只比地標）。不用 ?nobldg：那會連路燈、腳踏車、霖澤館一起換掉，效能數字分不出是誰的。
+其他正式模型（霖澤館外觀、路燈腳踏車）兩邊都有，只比地標）。總圖、校門、男一舍 key 留著、模型不載入；新社科院兩輪都有正式模型（STUB、KEEP，2026-11-02）。不用 ?nobldg：那會連路燈、腳踏車、霖澤館一起換掉，效能數字分不出是誰的。
 檢查（LAWWW 23:26Z 的條件）：
   1. 校園裡有 ckTag 的只有 TAGS 這幾個，都接上正式模型、套件外觀全部藏起來；沒有標記的東西（樹、路燈、其他建築、背景）沒有多藏任何一個。
   2. 位置、尺寸、朝向照套件：正式模型的外框和套件的外框差 ≤ 1.5 m（屋簷、簷口出挑的差別）；同一個標記的套件物件取聯集（大一女舍 A、B、天橋）；
@@ -27,6 +29,7 @@ import playlib as PL
 URL = sys.argv[1] if len(sys.argv) > 1 else 'http://127.0.0.1:8765/index.html'
 OUT = os.path.join(os.path.dirname(os.path.abspath(__file__)), '..', 'docs', 'art-rebuild', 'second_ai', 'test_shots', 'campus_glb_integration')
 # ckTag → (manifest key, 正式模型的節點名稱, 匾額板面的名稱)
+_ASSETS_JS = open(os.path.join(os.path.dirname(os.path.abspath(__file__)), '..', 'src', 'assets3d.js'), encoding='utf8').read()
 TAGS = {'library': ('bldg.campus_library', 'campus_library_glb', 'PLATE_FACE_LIB'),
         'bell': ('bldg.campus_bell', 'campus_bell_glb', 'PLATE_FACE_BELL'),
         'admin': ('bldg.campus_admin', 'campus_admin_glb', 'PLATE_FACE_ADMIN'),
@@ -34,9 +37,28 @@ TAGS = {'library': ('bldg.campus_library', 'campus_library_glb', 'PLATE_FACE_LIB
         'hist': ('bldg.campus_hist', 'campus_hist_glb', 'PLATE_FACE_HIST'),
         'pavilion': ('bldg.campus_pavilion', 'campus_pavilion_glb', 'PLATE_FACE_PAV'),
         'soc': ('bldg.campus_modern', 'campus_modern_glb', 'PLATE_FACE_SOC')}
-# v9.6 不放共同教學館、大一女舍的正式模型（src/assets3d.js 的說明）：manifest 有才檢查（開發分支照舊接著，那邊兩個都會檢查）
-for _k, _v in (('gongtong', ('bldg.campus_gongtong', 'campus_gongtong_glb', None)), ('freshman', ('bldg.campus_freshman', 'campus_freshman_glb', None))):
-    if ("'%s'" % _v[0]) in open(os.path.join(os.path.dirname(os.path.abspath(__file__)), '..', 'src', 'assets3d.js'), encoding='utf8').read(): TAGS[_k] = _v
+# 社科院搬到霖澤館西南以後（X75，2026-10-20；zones3d.js 的 SOCX）：標記 soc 接的是新社科院 campus_socsci.glb（匾額 4 塊：大樓正門、樓層指引、圖書館兩塊）
+SOCX = "'bldg.campus_socsci'" in _ASSETS_JS
+if SOCX: TAGS['soc'] = ('bldg.campus_socsci', 'campus_socsci_glb', ['PLATE_FACE_SOC_DIR', 'PLATE_FACE_SOC_LIB', 'PLATE_FACE_SOC_LIB_SUB', 'PLATE_FACE_SOC_MAIN'])
+# manifest 有才檢查：v9.6 不放共同教學館、大一女舍的正式模型（src/assets3d.js 的說明）；校門、男一舍、普通、博雅是 LAWWW2-C 10-18～10-21 的 ART-EXT-GATE／-M1／-TEACH
+#   匾額可以有好幾塊（清單）：共同教學館正面＋側面、大一女舍 A、B 棟的名字＋門牌號碼＋A 棟舍監室
+for _k, _v in (('gongtong', ('bldg.campus_gongtong', 'campus_gongtong_glb', ['PLATE_FACE_GONGTONG', 'PLATE_FACE_GT_SIDE'])),
+               ('freshman', ('bldg.campus_freshman', 'campus_freshman_glb', ['PLATE_FACE_FD_A', 'PLATE_FACE_FD_A_NO', 'PLATE_FACE_FD_A_OFFICE', 'PLATE_FACE_FD_B', 'PLATE_FACE_FD_B_NO'])),
+               ('gate', ('bldg.campus_gate', 'campus_gate_glb', 'PLATE_FACE_GATE_OUT')),
+               ('male1', ('bldg.campus_male1', 'campus_male1_glb', 'PLATE_FACE_M1')),
+               ('putong', ('bldg.campus_putong', 'campus_putong_glb', 'PLATE_FACE_PUTONG')),
+               ('boya', ('bldg.campus_boya', 'campus_boya_glb', 'PLATE_FACE_BOYA'))):
+    if ("'%s'" % _v[0]) in _ASSETS_JS: TAGS[_k] = _v
+# 「改之前」那一輪怎麼拿掉正式模型（2026-11-02 LAWWW2）：
+#   刪 key（其他地標）：套件照舊參加整區靜態合併，和換模型之前一模一樣；
+#   STUB（key 留著、ASSETS.loadOne 回傳 null＝正式模型還沒載好或載入失敗時的樣子：套件看得到、不參加合併）：manifest 有沒有 key 會改到旁邊配置的地標——
+#     總圖（zones3d.js 的 LIBF：有 bldg.campus_lib_lawn 時，大道東段、草坪、平台、台階、樹、路燈照 LIB-FRONT-1102）、校門（有 key 才有 ckTag）、
+#     男一舍（有 key 才加門廊的吸頂燈：光暈＋兩圈地面光，E.lampGlows 多 3 個）；
+#   KEEP（兩輪都接正式模型，只在一般網址那一輪檢查）：新社科院——沒有正式模型時只有同樣大小的簡單量體（D38 分類 ③），不是「改之前」的套件，
+#     刪 key 的話整棟回到舊位置（萬才館東南），兩輪的樹、導航、互動點都不一樣。
+#   11-02 在 int/next1102 量的：13 個 key 全部刪掉時，擋住的導航格少 4784 格、互動點少 2 個、鏡頭碰撞方塊少 8 個（宣告過的只有共同教學館的 4 個），比不出是誰的差異
+KEEP = {'soc'} if SOCX else set()
+STUB = ({'library'} if "'bldg.campus_lib_lawn'" in _ASSETS_JS else set()) | ({'gate', 'male1'} & set(TAGS))
 # 正式模型和套件「設計上就不同」的地方（LAWWW 2026-10-13 整合時已經照模型改了鏡頭碰撞、導航；2026-10-14 LAWWW2 補進測試清單）——只有這些地方可以不同，其他照舊要完全相同：
 #   （共同教學館、大一女舍沒有正式模型的版本（v9.6）：TAGS 裡沒有它們，導航格、鏡頭碰撞照舊要完全相同）
 #   共同教學館（LAWWW2 55fbedb；zones3d.js 的 gtGLB）：模型照真的共同教學館——四樓（屋頂 17.69 m；套件是三樓、15.61 m）、西側 5 m 木造走廊（x 到 −15；套件到 −10.8）；
@@ -45,12 +67,18 @@ for _k, _v in (('gongtong', ('bldg.campus_gongtong', 'campus_gongtong_glb', None
 #   大一女舍（LAWWW2 55fbedb）：A、B 兩棟＋天橋三個套件物件都標 freshman，外框取三個的聯集（原本只取第一個＝A 棟，差 29.85 m）。
 BBOX_REGION = {'gongtong': {'zmin': 21.5}}   # 外框只算這個範圍的頂點（共同教學館：前庭的蒲葵在 z 17–21，本體從 z 22.7 開始）
 PALM_ZONE = (17.5, 21.0)   # 蒲葵樹幹底部（y ≤ 0.5）的 z 範圍
-BBOX_TOL = {'gongtong': {0: 4.5, 4: 2.4}}   # 外框 [x0,y0,z0,x1,y1,z1] 的第幾個 → 容許差：x0 西側木造走廊（實際 4.2 m）、y1 四樓屋頂（實際 2.08 m）；其他照 1.5 m
+BBOX_TOL = {'gongtong': {0: 4.5, 4: 2.4},   # 外框 [x0,y0,z0,x1,y1,z1] 的第幾個 → 容許差：x0 西側木造走廊（實際 4.2 m）、y1 四樓屋頂（實際 2.08 m）；其他照 1.5 m
+            'library': {0: 8.4, 2: 7.3, 4: 2.8}}   # 總圖第三版（LIB-FRONT-1102，使用者 11-02 照片）：x0 拱廊前的平台＋台階（x 73.75；套件從 81.9 開始，實際 8.16 m）、
+                                                  #   z0 北邊方塔（照片 3；z −37.9，套件 −30.8，實際 7.1 m）、y1 方塔頂 28.05（套件最高 30.6，實際 2.55 m）；其他照 1.5 m
+if SOCX: BBOX_TOL['soc'] = {4: 2.9}   # 新社科院：大樓屋頂的機房到 33.3 m；備用量體（＝鏡頭碰撞的盒子）到 30.68 m，實際 2.62 m
+BBOX_TOL['male1'] = {4: 5.2}   # 男一舍屋頂的樓梯間（22.1 m）、水塔與冷氣（22.3 m）；套件到 17.4 m，實際 4.9 m
+BBOX_TOL['putong'] = {4: 3.5}   # 普通教學館屋頂的樓梯間（23.0 m）；套件到 19.8 m，實際 3.2 m
 GT_PALMS = [(-10.5, 19.2), (-6.5, 18.8), (-2.5, 19.1), (6.5, 19.0), (10.5, 18.9), (14.5, 19.2)]   # 和 zones3d.js 的 GT_PALMS 相同（模型載入後 nav.blockCircle）
 GT_PALM_NAV = 0.6   # 蒲葵的導航阻擋只能在樹幹中心 0.6 m 以內（blockCircle 的半徑可以調，不綁死）；每棵樹幹中心所在的那一格一定要擋住（不然走得進樹幹）
 GT_FRONT = (-12.0, 16.0, 16.5, 19.5)   # 大樹牆拿掉樹的那一段（x0, x1, z0, z1）：樹幹 z 17.5–18.5、導航半徑 0.8
 HALLS = ['campus_library_glb', 'campus_admin_glb', 'campus_arts_glb', 'campus_hist_glb']   # campus_hall.py 做的（有窗、拱廊、門廊、天花板）
-GLASS_ONLY = ['campus_pavilion_glb', 'campus_modern_glb']   # 玻璃和總圖同一套（ck_glass），沒有拱廊天花板
+GLASS_ONLY = ['campus_pavilion_glb'] + [TAGS[t][1] for t in ('soc', 'gongtong', 'freshman', 'gate', 'male1', 'putong', 'boya') if t in TAGS]   # 玻璃和總圖同一套（ck_glass），沒有拱廊天花板（舊社科院 campus_modern_glb／新社科院 campus_socsci_glb）
+SOC_MATS = ('soc_concrete', 'soc_glass_clear') if SOCX else ('ck_soc_wall', 'ck_soc_metal')   # 陰影：社科院的牆投影、金屬／清玻璃不投影（新社科院：清水混凝土、圖書館的清玻璃）
 WAIT_FORMAL = "(async()=>{ for(let i=0;i<240;i++){ const z=GAME.E.zone; if(z&&z.group.children.some(o=>o.name==='%s')) return true; await new Promise(r=>setTimeout(r,250)); } return false; })()"
 # 等所有延遲載入的模型（建築、道具、人物）都載完或失敗：「改之前」原本只等 3 秒，路燈、腳踏車等正式模型還沒載完、畫面還是合併過的套件版，
 # 校門鏡頭的 draw call 偏少（2026-10-11 AI-1 整合時：同一版本「改之前」一次 297、等全部載完是 341，每次開遊戲都一樣；LAWWW2 自己的紀錄也有 297／331／341）
@@ -98,13 +126,21 @@ VIEWS = [('gate_avenue', (-110, 1.7, 0.5), (100, 8, 0)),     # 進校門往東�
          ('hist_porch', (-74.5, 1.7, -14.2), (-77, 4.6, -19.4)),   # 校史館門廊近看（圓石柱）
          ('pav_front', (-94, 1.7, -12), (-104, 6, -30)),      # 洞洞館：從椰林大道北側斜看（鏤空牆、一樓柱廊）
          ('pav_close', (-100.5, 1.7, -18.5), (-104, 6.5, -23)),   # 洞洞館近看（往上看鏤空牆）
-         ('soc_front', (78, 1.7, -60), (110, 8, -70)),        # 社科院：法學院那邊斜看正面（帶狀長窗）
-         ('soc_lobby', (92.5, 1.7, -65), (99.5, 3, -70))]     # 社科院玻璃大廳、入口雨遮近看
+         ]
+VIEWS += ([('soc_front', (28, 1.7, -66), (12, 9, -84)),      # 新社科院（X75 搬到霖澤館西南）：小椰林道斜看大樓東面（正門）
+           ('soc_court', (24, 1.7, -71), (0, 3, -71))] if SOCX else   # 中庭（朝小椰林道打開）、後面的大樓
+          [('soc_front', (78, 1.7, -60), (110, 8, -70)),        # 社科院：法學院那邊斜看正面（帶狀長窗）
+           ('soc_lobby', (92.5, 1.7, -65), (99.5, 3, -70))])    # 社科院玻璃大廳、入口雨遮近看
+VIEWS += [v for t, v in (('gate', ('gate_in', (-108, 1.7, 5), (-124, 4, 0))),        # 校門：從校內往西看
+                         ('male1', ('m1_front', (14, 1.7, 50), (20, 6, 64))),         # 男一舍：北面的門廊
+                         ('putong', ('teach_east', (-15, 1.7, -69), (-38, 8, -70)))) if t in TAGS]   # 普通（北）、博雅（南）的東面
 
 
 async def check(pg, run, formal):
-    run.setup('讀檔到椰影大道 (74,2) 17:30，關掉條件事件' + ('' if formal else '；進校園前先把 manifest 裡地標的 key 拿掉（＝改之前）'))
-    if not formal: await pg.evaluate("(()=>{ for(const k of %s) delete ASSETS.manifest[k]; })()" % json.dumps([v[0] for v in TAGS.values()]))
+    run.setup('讀檔到椰影大道 (74,2) 17:30，關掉條件事件' + ('' if formal else '；進校園前先把 manifest 裡地標的 key 拿掉（＝改之前）' +
+              ('；%s key 留著、模型不載入（備用的套件外觀）' % '、'.join(sorted(STUB)) if STUB else '') + ('；%s 兩輪都有正式模型' % '、'.join(sorted(KEEP)) if KEEP else '')))
+    if not formal: await pg.evaluate("(([dele,stub])=>{ for(const k of dele) delete ASSETS.manifest[k]; const o=ASSETS.loadOne; ASSETS.loadOne=function(k){ return stub.includes(k)?Promise.resolve(null):o.call(this,k); }; })(%s)"
+                                     % json.dumps([[v[0] for t, v in TAGS.items() if t not in STUB | KEEP], [TAGS[t][0] for t in sorted(STUB)]]))
     # 建校園之前也要等：開機預載的街道道具（路燈、腳踏車）在「建校園的那一刻」有沒有載好，決定那一輪用正式模型還是合併過的套件（W3.lampPost()／W3.bike() 是同步建立的），
     # 之後再等也換不回來。2026-10-11 行政大樓那一輪：「改之前」建的時候還沒載好（套件版、draw call 297）、「一般」已經載好（358），比的不是同一種路燈
     await pg.evaluate(SETTLED)
@@ -118,9 +154,10 @@ async def check(pg, run, formal):
     if formal:
         for tag, (key, glb, _) in TAGS.items(): run.check('%s 的正式模型接上（%s）' % (tag, glb), await pg.evaluate(WAIT_FORMAL % glb))
     else:
+        for tag in sorted(KEEP): run.check('改之前：%s 的正式模型兩輪都有（%s）' % (tag, TAGS[tag][1]), await pg.evaluate(WAIT_FORMAL % TAGS[tag][1]))
         await pg.wait_for_timeout(3000)
         # 只看這個測試換掉的地標（TAGS）：別的正式模型兩輪都有（開發分支的醉月湖 campus_lake_glb 不是套件換模型，2026-10-14）
-        run.check('改之前：沒有載入正式模型', not await pg.evaluate("(names=>GAME.E.zone.group.children.some(o=>names.includes(o.name)))(%s)" % json.dumps([v[1] for v in TAGS.values()])))
+        run.check('改之前：沒有載入正式模型', not await pg.evaluate("(names=>GAME.E.zone.group.children.some(o=>names.includes(o.name)))(%s)" % json.dumps([v[1] for t, v in TAGS.items() if t not in KEEP])))
     run.check(('一般' if formal else '改之前') + '：所有延遲載入的模型都載完（量 draw call 之前）', (await pg.evaluate(SETTLED)) >= 0)
     await pg.wait_for_timeout(1500)
     street = await pg.evaluate("(()=>{ let n=0; GAME.E.zone.group.traverse(o=>{ if(o.userData&&o.userData.formal==='prop.street') n++; }); return n; })()")
@@ -136,7 +173,9 @@ async def check(pg, run, formal):
         run.check('都接上正式模型（userData.formal）、不參加整區靜態合併（dyn）', all(info[t]['formal'] and info[t]['dyn'] for t in TAGS if t in info), json.dumps(info))
         run.check('套件外觀全部藏起來', all(info[t]['kitVisible'] == 0 and info[t]['kitMeshes'] > 0 for t in TAGS if t in info), json.dumps(info))
     else:
-        run.check('改之前：套件照舊參加整區靜態合併（不是 dyn、沒有接正式模型）', all(not v['dyn'] and not v['formal'] for v in info.values()), json.dumps(info))
+        run.check('改之前：套件照舊參加整區靜態合併（不是 dyn、沒有接正式模型）' + ('；key 留著、模型不載入的（%s）：沒有接正式模型、套件看得到' % '、'.join(sorted(STUB)) if STUB else ''),
+                  all(not v['dyn'] and not v['formal'] for t, v in info.items() if t not in STUB | KEEP) and all(not info[t]['formal'] and info[t]['kitVisible'] > 0 for t in STUB if t in info), json.dumps(info))
+        if KEEP: run.check('改之前：兩輪都有正式模型的（%s）照舊接著、套件藏起來' % '、'.join(sorted(KEEP)), all(info[t]['formal'] and info[t]['kitVisible'] == 0 for t in KEEP if t in info), json.dumps({t: info.get(t) for t in KEEP}))
     others = await pg.evaluate(OTHERS)
     lamps = await pg.evaluate("""(()=>{ const E=GAME.E; E.applyTime(20.5); const on=E.lampGlows.filter(l=>l.visible).length, n=E.lampGlows.length; E.applyTime(17.5); return {on, n}; })()""")
     run.check(('一般' if formal else '改之前') + '：20:30 路燈都開著', lamps['n'] > 0 and lamps['on'] == lamps['n'], json.dumps(lamps))
@@ -153,10 +192,11 @@ async def check(pg, run, formal):
             dd = [abs(a - b) for a, b in zip(g['kit'], g['glb'])]
             run.check('%s：位置、尺寸、朝向照套件（外框 x、y、z 的最小最大值差 ≤ 1.5 m%s）' % (tag, '；宣告過的設計差異另計，見 BBOX_TOL／BBOX_REGION' if tag in BBOX_TOL or tag in BBOX_REGION else ''),
                       all(x <= t for x, t in zip(dd, tol)) and (g['skipped'] > 0) == (tag in BBOX_REGION), json.dumps(g) + ' 差 %s 容許 %s' % ([round(x, 2) for x in dd], tol))
-            if plate is None: continue   # 沒有匾額的（共同教學館、大一女舍）
+            if plate is None: continue   # 沒有匾額的
+            plates = [plate] if isinstance(plate, str) else plate   # 好幾塊的（新社科院、共同教學館、大一女舍）
             pl = await pg.evaluate("""(glbName=>{ const root=GAME.E.zone.group.children.find(o=>o.name===glbName); const at=root.getObjectByName('wz_plates_atlas'); if(!at) return null;
                 const m=at.material.map, img=m&&m.image, it=at.userData.atlas.items; return {visible:at.visible, canvas:!!(m&&(m.isCanvasTexture||(img&&img.getContext))), n:it.length, names:it.map(i=>i.name), ratio:it.map(i=>+((i.w/i.h)/i.board).toFixed(3))}; })""" + "(%s)" % json.dumps(glb))
-            run.check('%s：匾額 %s 是 canvas 字（石材匾額）、貼圖比例＝板面比例（±8%%）' % (tag, plate), bool(pl) and pl['visible'] and pl['canvas'] and pl['names'] == [plate] and all(0.92 < r < 1.08 for r in pl['ratio']), json.dumps(pl))
+            run.check('%s：匾額 %s 是 canvas 字（石材匾額）、貼圖比例＝板面比例（±8%%）' % (tag, '、'.join(plates)), bool(pl) and pl['visible'] and pl['canvas'] and sorted(pl['names']) == sorted(plates) and all(0.92 < r < 1.08 for r in pl['ratio']), json.dumps(pl))
         if 'gongtong' in TAGS:   # 前庭蒲葵：樹幹底部（y ≤ 0.5 m 的頂點）一群一群的中心＝GT_PALMS（導航擋住的地方），沒有別的樹幹
             palms = await pg.evaluate("""(([pts,zr])=>{ const root=GAME.E.zone.group.children.find(o=>o.name==='campus_gongtong_glb'); if(!root) return null; root.updateMatrixWorld(true);
                 const v=new THREE.Vector3(); const acc=pts.map(()=>[0,0,0]); let stray=0, low=0;
@@ -170,7 +210,7 @@ async def check(pg, run, formal):
         tri = await pg.evaluate("""(()=>{ const out={}; for(const o of GAME.E.zone.group.children) if(/^campus_.*_glb$/.test(o.name)){ let t=0,c=0; o.traverse(m=>{ if(!m.isMesh) return; const g=m.geometry; const n=(g.index?g.index.count:g.attributes.position.count)/3; t+=n; if(m.castShadow) c+=n; }); out[o.name]={tris:t, castTris:c}; } return out; })()""")
         run.note('正式模型的三角形（全部／會投影的）：' + json.dumps(tri))
         run.check('陰影：大面（牆、屋頂、石材）投影；窗框、窗洞、玻璃、深色木作（窗框、門）、拱廊天花板、勒腳、地燈燈罩、柱面暖光片不投影',
-                  all(shadow.get(k) for k in ('ck_wall', 'ck_roof', 'ck_trim', 'ck_bell_stone', 'ck_bell_roof', 'ck_pav_conc', 'ck_pav_screen', 'ck_soc_wall')) and not any(shadow.get(k) for k in ('ck_trim_win', 'ck_glass', 'ck_frame', 'ck_ceiling', 'ck_stone_base', 'ck_bell_lens', 'ck_bell_wash', 'ck_pav_dark', 'ck_soc_metal')), json.dumps(shadow))
+                  all(shadow.get(k) for k in ('ck_wall', 'ck_roof', 'ck_trim', 'ck_bell_stone', 'ck_bell_roof', 'ck_pav_conc', 'ck_pav_screen', SOC_MATS[0])) and not any(shadow.get(k) for k in ('ck_trim_win', 'ck_glass', 'ck_frame', 'ck_ceiling', 'ck_stone_base', 'ck_bell_lens', 'ck_bell_wash', 'ck_pav_dark', SOC_MATS[1])), json.dumps(shadow))
         for hall in HALLS:   # 亮燈的窗、沒亮燈的窗是同一個材質 ck_glass（2026-10-11）：自發光貼圖左半黑、右半燈光，每扇窗的 UV 決定亮不亮
             night = await pg.evaluate("""(name=>{ const E=GAME.E, root=E.zone.group.children.find(o=>o.name===name); const mats={}; let glass=null;
                 root.traverse(o=>{ if(o.isMesh){ mats[o.material.name]=o.material; if(o.material.name==='ck_glass') glass=o; } });
@@ -191,7 +231,7 @@ async def check(pg, run, formal):
         for hall in GLASS_ONLY:   # 亮燈的窗、沒亮燈的窗是同一個材質 ck_glass（2026-10-11）：自發光貼圖左半黑、右半燈光，每扇窗的 UV 決定亮不亮
             night = await pg.evaluate("""(name=>{ const E=GAME.E, root=E.zone.group.children.find(o=>o.name===name); const mats={}; let glass=null;
                 root.traverse(o=>{ if(o.isMesh){ mats[o.material.name]=o.material; if(o.material.name==='ck_glass') glass=o; } });
-                const read=()=>({glass:+(mats.ck_glass?mats.ck_glass.emissiveIntensity:-1).toFixed(2), ceil:+(mats.ck_ceiling?mats.ck_ceiling.emissiveIntensity:-1).toFixed(2)});
+                const read=()=>({glass:+(mats.ck_glass?mats.ck_glass.emissiveIntensity:-1).toFixed(2), ceil:+(mats.ck_ceiling?mats.ck_ceiling.emissiveIntensity:-1).toFixed(2), lit:+(mats.ck_glass_lit?mats.ck_glass_lit.emissiveIntensity:-1).toFixed(2)});
                 E.applyTime(11); const day=read(); E.applyTime(20.5); const n2030=read(); E.applyTime(17.5);
                 const m=mats.ck_glass, t=m&&m.emissiveMap, img=t&&t.image; let left=-1, right=-1, grad=0;
                 if(img){ const c=document.createElement('canvas'); c.width=img.width; c.height=img.height; const x=c.getContext('2d'); x.drawImage(img,0,0); const d=x.getImageData(0,0,c.width,c.height).data;
@@ -201,9 +241,12 @@ async def check(pg, run, formal):
                 return {day, n2030, map:!!t, mip:t?t.generateMipmaps:null, minLinear:t?t.minFilter===THREE.LinearFilter:null, tex:img?[img.width,img.height]:null, leftMax:left, rightMax:right, grad, uv:{lit, dark, bad},
                   oldLitMat:!!mats.ck_glass_lit}; })""" + "(%s)" % json.dumps(hall))
             nm = hall[len('campus_'):-len('_glb')]
-            run.check('%s 的窗：同一個玻璃材質；20:30 發光、11:00 不發光；自發光貼圖左邊全黑（沒亮燈的窗取樣的地方）、右邊是由上往下漸暗的燈光；每扇窗的 UV 不是亮就是暗（約七成亮燈）；貼圖不用 mipmap（遠處不會混色）' % nm,
-                      night['map'] and not night['oldLitMat'] and night['n2030']['glass'] > 0.5 and night['day']['glass'] < 0.05 and night['leftMax'] <= 3 and night['rightMax'] > 150 and night['grad'] != 0
-                      and night['uv']['bad'] == 0 and 0.55 < night['uv']['lit'] / max(1, night['uv']['lit'] + night['uv']['dark']) < 0.85 and night['mip'] is False and night['minLinear'], json.dumps(night))
+            few = night['uv']['lit'] + night['uv']['dark'] < 40   # 校門：門房只有兩扇窗（一亮一暗），不看亮燈比例
+            curtain = hall == 'campus_socsci_glb'   # 新社科院：圖書館的玻璃帷幕是另一個材質 ck_glass_lit，晚上整片亮（大樓的窗照舊是 ck_glass 這一套）
+            run.check('%s 的窗：同一個玻璃材質%s；20:30 發光、11:00 不發光；自發光貼圖左邊全黑（沒亮燈的窗取樣的地方）、右邊是由上往下漸暗的燈光；每扇窗的 UV 不是亮就是暗%s；貼圖不用 mipmap（遠處不會混色）'
+                      % (nm, '（圖書館的玻璃帷幕 ck_glass_lit 另外：20:30 發光、11:00 不發光）' if curtain else '', '' if few else '（約七成亮燈）'),
+                      night['map'] and (not night['oldLitMat'] or (curtain and night['n2030']['lit'] > 0.5 and 0 <= night['day']['lit'] < 0.05)) and night['n2030']['glass'] > 0.5 and night['day']['glass'] < 0.05 and night['leftMax'] <= 3 and night['rightMax'] > 150 and night['grad'] != 0
+                      and night['uv']['bad'] == 0 and (few or 0.55 < night['uv']['lit'] / max(1, night['uv']['lit'] + night['uv']['dark']) < 0.85) and night['mip'] is False and night['minLinear'], json.dumps(night))
         pv = await pg.evaluate("""(()=>{ const E=GAME.E, root=E.zone.group.children.find(o=>o.name==='campus_pavilion_glb'); const m={}, cast={}; root.traverse(o=>{ if(o.isMesh){ m[o.material.name]=o.material; cast[o.material.name]=o.castShadow; } });
             const sc=m.ck_pav_screen, dk=m.ck_pav_dark; const read=()=>+(dk?dk.emissiveIntensity:-1).toFixed(2);
             E.applyTime(11); const day=read(); E.applyTime(20.5); const night=read(); E.applyTime(17.5);

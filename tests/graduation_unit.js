@@ -39,7 +39,7 @@ const sayIdx=t=>H.said.findIndex(s=>s.t===t);
     check('3. E4：沒有感言、沒有問題（Café 那一段沒有選項）',H.opts.length===0); }
   // ---- W15 的多一句：HOT_WATER、MET_SIS_FATHER（5ae6a133）----
   { const G=H.fresh('2029-06-02',12,'campus',{HOT_WATER:true,MET_SIS_FATHER:true}); H.FRIEND('heroine_05'); await H.run('grad');
-    const a=sayIdx('每天帶出門。'), b=sayIdx('大一那年冬天，你幫我裝的是熱水。我記到現在。'), c=sayIdx('我爸叫我跟你說：恭喜。');
+    const a=sayIdx('每天帶出門。'), b=sayIdx('大一那年冬天，你陪我等熱水。我記到現在。'), c=sayIdx('我爸叫我跟你說：恭喜。');
     check('4. HOT_WATER 多一句；MET_SIS_FATHER 她最後多「我爸叫我跟你說：恭喜。」',a>=0&&a<b&&b<c,JSON.stringify([a,b,c])); }
   { const G=H.fresh('2029-06-02',12,'campus'); H.FRIEND('heroine_05'); await H.run('grad'); check('4. 沒有 MET_SIS_FATHER：沒有那一句',!H.has('我爸叫我跟你說：恭喜。')); }
   /* AA_392 第 8 節：交往中、3/17 她爸爸的晚餐約過沒吃到——她那一段之前，她爸爸那一小段；記 MET_SIS_FATHER 'grad'，不再轉述「我爸叫我跟你說：恭喜。」*/

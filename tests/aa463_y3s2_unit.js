@@ -58,6 +58,10 @@ const P2=rows(part('### 4-1.','### 4-2.')).filter(r=>/^\d$/.test(r[0])).map(r=>(
 const P3=rows(part('### 4-2.','### 4-3.')).filter(r=>/^\d$/.test(r[0])).map(r=>msgsOf(r[1]));
 const TERMS={大三上:'Y3S1',大三下:'Y3S2',大四上:'Y4S1',大四下:'Y4S2'};
 const P1={}; for(const r of rows(part('### 4-3.','## 5.'))) if(TERMS[r[0]]) P1[TERMS[r[0]]]={ask:strip(r[1]),w8:msgsOf(r[2]),w9:msgsOf(r[3])};
+/* AA_581 第 73 列（D118，企劃線 454218182）：大三上第 16 週的週五是 2027-12-24，提前到 12/23（四）21:00，她的話換（AA_463 4-3 的大三上＝原句，只換這一學期）*/
+const P1_581={ask:'明天平安夜。……這週末要視訊嗎？還是你還在考試？',w8:['好啊！考試加油。……聖誕快樂。']};
+const P1_Y3S1_DOC=P1.Y3S1&&P1.Y3S1.ask, P1_DOC_W8=P1.Y3S1&&P1.Y3S1.w8; if(P1.Y3S1) P1.Y3S1=Object.assign({},P1.Y3S1,P1_581);
+const psWd=tid=>tid==='Y3S1'?4:5;
 /* D118（AA_578 第 2 節 #5、#8＋第 3 節第 2 點）：改到期末考週，那一版裡的「期中」→「期末」（大四下）*/
 for(const t in P1){ const f=s=>s.replace(/期中/g,'期末'); P1[t]={ask:f(P1[t].ask),w8:P1[t].w8.map(f),w9:P1[t].w9.map(f)}; }
 
@@ -73,7 +77,7 @@ await sec(0,()=>{
   const X=CRACKTALK_LINES.SRC2;
   check('0. 沛珊② 第 1 次＝ps2 原句、第 2～4 次＝ps2x（照 4-1 的表；回覆①加裂縫、②不加）',X.ps2.ask===P2[0].ask&&J(X.ps2.opts.map(o=>[o[0],o[1]]))===J(P2[0].o)&&(X.ps2x||[]).length===3&&X.ps2x.every((x,i)=>x.ask===P2[i+1].ask&&J(x.opts.map(o=>[o[0],o[1]]))===J(P2[i+1].o)&&x.opts[0][2]===1&&x.opts[1][2]===0),J(X.ps2x));
   check('0. 沛珊③ 第 1 次＝ps3、第 2～4 次＝ps3x（照 4-2 的表）',J(X.ps3)===J(P3[0])&&J(X.ps3x)===J(P3.slice(1)),J([X.ps3,X.ps3x]));
-  check('0. 沛珊① 大三上＝原句、大三下／大四上／大四下照 4-3 的表',X.ps1.ask===P1.Y3S1.ask&&J(X.ps1.w8)===J(P1.Y3S1.w8)&&J(X.ps1.w9)===J(P1.Y3S1.w9)&&['Y3S2','Y4S1','Y4S2'].every(t=>J(X.ps1.byTerm[t])===J(P1[t])),J(X.ps1));
+  check('0. 沛珊① 原句＝4-3 表的大三上（大三上本身照 AA_581 第 73 列，見第 4 節）、大三下／大四上／大四下照 4-3 的表',X.ps1.ask===P1_Y3S1_DOC&&J(X.ps1.w8)===J(P1_DOC_W8)&&J(X.ps1.w9)===J(P1.Y3S1.w9)&&['Y3S2','Y4S1','Y4S2'].every(t=>J(X.ps1.byTerm[t])===J(P1[t])),J(X.ps1));
 });
 
 /* ---- 1 以安在日本：十則 ---- */
@@ -182,15 +186,20 @@ await sec(4,()=>{
   /* ① 第 7 節③：第 8 或第 9 週有期中考的第一個週五＝第 8 週那一版（不加）；兩週都有的，第二個週五＝第 9 週那一版（+1）
      D118 沒有期中考（AA_578 第 2 節 #5）：只在期末考週（那學期第一科期末考那一週）的週五發第 8 週那一版（不加）；第 8～9 週照常視訊（不發）；不再有第 9 週那一版 */
   const ME='這週考試，下週好不好？';
-  const ps1=(tid)=>{ const f8=termDay(tid,8,5), f9=termDay(tid,9,5), fw=CRACKTALK.psExamWeek(H.G,tid), ff=fw!=null?termDay(tid,fw,5):null; psG(keyOf(f8-3)); clr(); const c0=cnt(); at(f8,21.05); rules(); at(f9,21.05); rules(); const c9=cnt(), a89=ctTxt('ct_ps1_'+tid+'_8').concat(ctTxt('ct_ps1_'+tid+'_9'));
+  const ps1=(tid)=>{ const f8=termDay(tid,8,5), f9=termDay(tid,9,5), fw=CRACKTALK.psExamWeek(H.G,tid), ff=fw!=null?termDay(tid,fw,psWd(tid)):null; psG(keyOf(f8-3)); clr(); const c0=cnt(); at(f8,21.05); rules(); at(f9,21.05); rules(); const c9=cnt(), a89=ctTxt('ct_ps1_'+tid+'_8').concat(ctTxt('ct_ps1_'+tid+'_9'));
     if(ff!=null){ at(ff,21.05); rules(); }
     return {fw,ff:ff!=null&&keyOf(ff),a89,a:fw!=null?ctTxt('ct_ps1_'+tid+'_'+fw):[],add89:c9-c0,addF:cnt()-c9}; };
   const r1={}; for(const tid of ['Y3S1','Y3S2','Y4S1','Y4S2']) r1[tid]=ps1(tid);
   const exp1=(tid,x)=>{ const P=P1[tid], first=[P.ask,ME].concat(P.w8); return x.fw!=null&&x.fw>=15&&!x.a89.length&&x.add89===0&&J(x.a)===J(first)&&x.addF===0; };
   check('7. ① 大三上～大四下每個她在台南的學期都至少收到一次（AA_578 #5）：第 8～9 週週五沒有；期末考週的週五＝問＋「'+ME+'」＋第 8 週那一版、不加（'+Object.keys(r1).map(t=>t+':第 '+r1[t].fw+' 週 '+r1[t].ff).join(' ')+'）',
     Object.keys(r1).every(t=>exp1(t,r1[t])),J(r1));
-  check('7. ① 四組都用得到（大三上的原句、大三下、大四上、大四下（「期中」→「期末」））',new Set(Object.values(r1).map(x=>x.a[0])).size===4&&r1.Y3S1.a[0]===CRACKTALK_LINES.SRC2.ps1.ask&&r1.Y4S2.a[0]==='最後一個學期的期末了。這週末，視訊？',J(Object.values(r1).map(x=>x.a[0])));
-  check('4. ① 大三上、大五上（表上沒有的學期）照原句',!CRACKTALK_LINES.SRC2.ps1.byTerm.Y3S1&&!CRACKTALK_LINES.SRC2.ps1.byTerm.Y5S1);
+  check('7. ① 四組都用得到（大三上（AA_581 第 73 列：12/23（四）「明天平安夜。…」）、大三下、大四上、大四下（「期中」→「期末」））',new Set(Object.values(r1).map(x=>x.a[0])).size===4&&r1.Y3S1.a[0]===P1_581.ask&&r1.Y3S1.ff==='2027-12-23'&&CRACKTALK_LINES.SRC2.ps1.ask===P1_Y3S1_DOC&&r1.Y4S2.a[0]==='最後一個學期的期末了。這週末，視訊？',J(Object.values(r1).map(x=>x.a[0])));
+  check('4. ① 大五上（表上沒有的學期）照原句；大三上照 AA_581 第 73 列（byTerm.Y3S1）',!CRACKTALK_LINES.SRC2.ps1.byTerm.Y5S1&&J(CRACKTALK_LINES.SRC2.ps1.byTerm.Y3S1)===J(P1_581));
+  /* AA_581 第 73 列：那一週已經約好去台南找她（fest3d 的聖誕＝OUT 出遊 fest、place 台南）＝12/23 不發；12/24（五）也不發 */
+  { const G=psG('2027-12-20'); const q={id:'fest_xmas_ps',ev:'ev_fest_x',day:D('2027-12-24'),h:18,place:'台南',title:'聖誕',state:'planned',fest:{id:PS,k:'xmas',y:2027,mode:'meet'}}; (G.outings||(G.outings=[])).push(q); clr();
+    const fw=CRACKTALK.psExamWeek(G,'Y3S1'); at('2027-12-23',21.05); rules(); at('2027-12-24',21.05); rules(); const a=ctTxt('ct_ps1_Y3S1_'+fw);
+    G.outings.length=0; const G2=psG('2027-12-20'); clr(); at('2027-12-23',21.05); rules(); const b=ctTxt('ct_ps1_Y3S1_'+fw);
+    check('4. ① 大三上那一週已經約好聖誕節去台南找她：12/23 不發（AA_581 第 73 列）；沒約＝12/23 照發',fw===16&&a.length===0&&J(b)===J([P1_581.ask,ME].concat(P1_581.w8)),J({fw,a,b})); }
   check('7. ① D118：midWeeks 恆為兩週都沒有、midBoth 恆為 false（AA_578 #8）',['Y3S1','Y3S2','Y4S1','Y4S2'].every(t=>J(CRACKTALK.midWeeks(H.G,t))===J({8:false,9:false})&&CRACKTALK.midBoth(H.G,t)===false));
 });
 

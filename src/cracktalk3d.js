@@ -310,12 +310,17 @@ const CRACKTALK=(function(){
      第 8～9 週照常視訊；第二次改期（第 9 週那一版、加裂縫）不再發生。回傳那一週的週次，沒有期末考＝null */
   const fwCache={}; S.psExamWeek=function(G,tid){ if(tid in fwCache) return fwCache[tid]; if(typeof CLS==='undefined'||!CLS.examList) return fwCache[tid]=null;
     const L=CLS.examList(G,tid).filter(e=>e.kind==='final').sort((a,b)=>a.day-b.day), t=L.length?CALENDAR.termOf(L[0].day):null; return fwCache[tid]=t&&t.id===tid?t.week:null; };
+  /* 那一週（d 的前後三天＝週一～週日）已經約好、或已經去過台南找她（OUT 排好或演完）：她的節日那一場（fest3d.js，當面、在台南）、女朋友的學期末約會（termend3d.js te_gf_<學期>_沛珊）、
+     「我去台南找妳？」（hometown3d.js ev_hv_ps_tn）；AA_581 第 73 列 */
+  S.psTnBooked=(G,d)=>typeof OUT!=='undefined'&&!!OUT.rec&&OUT.rec(G).some(q=>q&&q.day>=d-3&&q.day<=d+3&&(q.state==='planned'||q.state==='done')&&((!!q.fest&&q.fest.id===PS&&q.fest.mode==='meet'&&q.place==='台南')||/^te_gf_/.test(q.id||'')&&String(q.id).slice(-PS.length)===PS||(q.ev==='ev_hv_ps_tn'&&!!q.hv&&q.hv.key===PS+'@台南')));
   S.ps=function(G){ const R=sub(S.src(G),'ps'), d=G.day, h=hh(G), t=CALENDAR.termOf(d); S.psVisits(G);
     const on=dating(G,PS)&&!abroad(G)&&S.psTN(G,d);
     /* ① 考試週的週五 21:00：改期（避不掉）*/
     /* 觸發條件（AA_463 第 7 節③）：那學期第 8 或第 9 週有期中考＝有考試的第一個週五發第 8 週那一版（不加）；兩週都有考試的，第二個週五（第 9 週）再發第 9 週那一版（加裂縫，避不掉）。tag 照週次 ct_ps1_<學期>_<週>
        D118 沒有期中考（AA_578 第 2 節 #5、#8）：只在期末考週（S.psExamWeek）的週五發第 8 週那一版（不加）；第 8～9 週照常視訊；second（第 9 週那一版）恆為 false */
-    if(on&&t&&wdOf(d)===5&&h>=21&&t.week===S.psExamWeek(G,t.id)){ const k='ps1_'+t.id+'_'+t.week, S1=sub(R,'sent'); if(!S1[k]){ S1[k]=d; const second=false, P1=Object.assign({},X2.ps1,(X2.ps1.byTerm||{})[t.id]||{});   /* 她的話照學期換（AA_463 4-3）*/
+    /* AA_581 第 73 列：大三上（第 16 週的週五是 2027-12-24 平安夜）提前一天，週四 21:00 發大三上那一版；那一週已經約好去台南找她（fest3d 的聖誕、termend3d 的女朋友期末約會、hometown3d 的「我去台南找妳？」）就不發 */
+    const psWd=t&&t.id==='Y3S1'?4:5;
+    if(on&&t&&wdOf(d)===psWd&&h>=21&&t.week===S.psExamWeek(G,t.id)&&!(t.id==='Y3S1'&&S.psTnBooked(G,d))){ const k='ps1_'+t.id+'_'+t.week, S1=sub(R,'sent'); if(!S1[k]){ S1[k]=d; const second=false, P1=Object.assign({},X2.ps1,(X2.ps1.byTerm||{})[t.id]||{});   /* 她的話照學期換（AA_463 4-3）*/
         PHONE.at(G,d,21,[DM(PS,P1.ask),{th:'p:'+PS,from:'player',who:null,text:P1.me}].concat((second?P1.w9:P1.w8).map(x=>DM(PS,x))),'ct_'+k); if(second) S.add(G,PS,{unavoidable:true}); } }
     /* ② 第 5 週週三 23:10：用法條回答 */
     if(on&&t&&t.week===5&&wdOf(d)===3&&h>=23+10/60){ const k='ps2_'+t.id, S1=sub(R,'sent'); if(!S1[k]){ const c=Object.keys(S1).filter(x=>/^ps2_/.test(x)).length, i=S.nthRot(c,1+(X2.ps2x||[]).length), X=S.ps2Of(i);   /* 照第幾次換（AA_463 4-1）：已經收過幾次（sent 裡 ps2_ 的筆數，舊存檔照算）*/

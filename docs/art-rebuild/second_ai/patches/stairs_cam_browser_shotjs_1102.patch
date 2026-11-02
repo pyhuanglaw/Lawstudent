@@ -1,0 +1,15 @@
+diff --git a/tests/stairs_cam_browser.py b/tests/stairs_cam_browser.py
+index 977a6b0b2..94caeac2a 100644
+--- a/tests/stairs_cam_browser.py
++++ b/tests/stairs_cam_browser.py
+@@ -49,7 +49,9 @@ ELEV_JS = r"""((clip)=>{ const E=GAME.E, P=E.player, cam=E.camera, LG=E.zone.lev
+     out.n++; if(slab>=2){ out.bad++; if(!out.ex) out.ex={y:+y.toFixed(2),camY:+cam.position.y.toFixed(2)}; } }
+   E.endCinematic(); E.noSlabClip=false; return out; })"""
+ 
+-SHOT_JS = r"""((e,clip)=>{ const E=GAME.E, P=E.player; E.noSlabClip=!clip; E.endCinematic(); E.placeAt(P,e.x,e.z,e.lv); P.path=null; P.obj.rotation.y=e.yaw+Math.PI; E.cam.yaw=e.yaw; E.cam.pitch=e.pitch; E.cam.manualT=0; for(let k=0;k<5;k++) E.update(0.3); E.render&&E.render(); return {camY:+E.camera.position.y.toFixed(2)}; })"""
++# 11-02 LAWWW2：page.evaluate 只傳一個參數——原本寫 ((e,clip)=>…)、呼叫時傳 [e, False]，e 拿到的是整個陣列，E.placeAt(P,undefined,undefined) 把玩家座標變成 undefined，
++#   之後每次自動存檔 snapshot() 的 P.x.toFixed 都丟例外（「沒有 JS 例外」那一項 FAIL；改前／改後兩張截圖也不是那個位置）。改成和 SURVEY_JS 一樣用一個陣列參數。
++SHOT_JS = r"""((args)=>{ const [e,clip]=args; const E=GAME.E, P=E.player; E.noSlabClip=!clip; E.endCinematic(); E.placeAt(P,e.x,e.z,e.lv); P.path=null; P.obj.rotation.y=e.yaw+Math.PI; E.cam.yaw=e.yaw; E.cam.pitch=e.pitch; E.cam.manualT=0; for(let k=0;k<5;k++) E.update(0.3); E.render&&E.render(); return {camY:+E.camera.position.y.toFixed(2)}; })"""
+ 
+ async def zone_state(zone, x, z, lv=0):
+     return {'day': 3, 'weekday': 5, 'hour': 10.0, 'zone': zone, 'pos': {'x': x, 'z': z, 'yaw': 3.14, 'lv': lv},

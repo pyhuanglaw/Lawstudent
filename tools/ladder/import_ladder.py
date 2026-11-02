@@ -105,6 +105,7 @@ if A373:
     if not ok: sys.exit('拒絕匯入：' + why)
     md373 = G.read_fix(subprocess.check_output(['git', '-C', ROOT, 'show', f'{S373}:{P373}'], text=True))
     y1s2 = out['byTerm'].get('Y1S2') or {}
+    _s2l6 = any(x.get('id') == 'S2-L6' for x in ((y1s2.get('heroine_05') or {}).get('steps') or []))   # AA_584 第 11 節第 6 點：學姊 S2-L6（空保溫瓶）整層刪——企劃線源稿自己刪了以後，這裡學姊那三句就跳過（現在源稿還有，照換，下面 AA_584 那段再整層刪）
     for item, cid, old, new, quote in [('第 6 項', 'classmate_peishan', '我在溫州街的課輔班當志工。一週三天。', '我在溫州街的課輔班當志工。一週兩天。', '「一週兩天。」'),
                                        ('第 8 項', 'heroine_05', '期中的時候，我對著空的保溫瓶喝了好幾次。', '上學期期中的時候，我對著空的保溫瓶喝了好幾次。', '「上學期期中的時候，我對著空的保溫瓶喝了好幾次。」'),
                                        ('第 8 項', 'heroine_05', '上次那杯黑咖啡，謝謝。', '那杯黑咖啡，謝謝。', '「那杯黑咖啡，謝謝。」'),
@@ -112,6 +113,7 @@ if A373:
                                        ('第 25 項', 'kexin', '騙人。……你記幾次？不准說。我會比。', '騙人。……你記幾次？算了，不准說。', '「騙人。……你記幾次？算了，不准說。」'),
                                        ('第 6-2 節第 4 題', 'heroine_05', '期中那個空的保溫瓶，你看到了。', '上學期期中那個空的保溫瓶，你看到了。', '「上學期期中那個空的保溫瓶，你看到了。」')]:   # 第 6 節（bdab2f42）：看過空保溫瓶那一套（linesIf ev_sis_empty_flask）也是上學期的事
         if quote not in md373: sys.exit(f'AA_373@{S373} 裡找不到{item}的「改成」：{quote}')
+        if cid == 'heroine_05' and not _s2l6: continue
         ch = y1s2.get(cid) or {}
         n = _walk(ch, old, new)
         if n != 1 and not (n == 0 and _walk(ch, new) == 1): sys.exit(f'AA_373 {item}：大一下 {cid} 的階梯裡「{old}」有 {n} 句（應該是 1 句；或已經是新句）')
@@ -299,8 +301,8 @@ _fix_greet_base('docs/story_planning/AA_523_', '學姊大四上回來以後的�
 #      AA_524（HEROINE-LIFE-1028；AA-C 10-28 8fd10848d 定稿）說了沒發生（一）：A14 以安 A2-L5、A4-L6 選項②的回覆不留「下禮拜」；A4 交往中、說過「下次做給我吃。」（AN_COOK_PROMISE，src/aa524_3d.js 記）的
 #      A3-L8（番茄炒蛋那一版）後面多兩句（extraIf）；Z10 芷若 Z3-L4 選項②的回覆拿掉「小罐的可以」、Z5-L5 說過「一半也想吃。」（ZR_LUROU_HALF，src/aa524_3d.js 記）的多一句（extraIf）。A7-L7 照留（稿第 1 節 A14）
 _fix('docs/story_planning/AA_524_', '以安 A2-L5、A4-L6、A3-L8，芷若 Z3-L4、Z5-L5', [   # A2-L5 選項①的回覆照 AA_546 第 5 節換過（讀稿時 nocmp_fix.json 先換，D116）
-    ('A14', 'Y1S2', 'heroine_01', 'A2-L5', 'choices', [{'t': '「刑總本來就難。」', 'reply': '嗯。我錯的那一題，我回去又查了一次。'}, {'t': '「我也考得不太好。」', 'reply': '那下禮拜找一天一起對考卷吧。', 'rel': {'comf': 1}}],
-     [{'t': '「刑總本來就難。」', 'reply': '嗯。我錯的那一題，我回去又查了一次。'}, {'t': '「我也考得不太好。」', 'reply': '考卷發回來你先對。不懂的問我。', 'rel': {'comf': 1}}], '「考卷發回來你先對。不懂的問我。」'),
+    ('A14', 'Y1S2', 'heroine_01', 'A2-L5', 'choices', [{'t': '「刑總本來就難。」', 'reply': '嗯。我錯的那一題，我回去又查了一次。'}, {'t': '「我也寫得不太好。」', 'reply': '那下禮拜找一天一起對考卷吧。', 'rel': {'comf': 1}}],
+     [{'t': '「刑總本來就難。」', 'reply': '嗯。我錯的那一題，我回去又查了一次。'}, {'t': '「我也寫得不太好。」', 'reply': '發回來你先對。不懂的問我。', 'rel': {'comf': 1}}], '「發回來你先對。不懂的問我。」'),   # AA_581 第 49、50 列（D118 沒有期中考）：選項字、回覆照 AA_581 換（讀稿時 d118_fix.json 先換，所以舊值、稿裡的字也是新的）
     ('A14', 'Y2S2', 'heroine_01', 'A4-L6', 'choices', [{'t': '「那不是很好嗎？」', 'reply': '我也覺得很好。可是 Alison 說她都在打瞌睡。'}, {'t': '「排一題好玩的。」', 'reply': '例如？……你下禮拜來講，我給你十五分鐘。', 'rel': {'comf': 1}}],
      [{'t': '「那不是很好嗎？」', 'reply': '我也覺得很好。可是 Alison 說她都在打瞌睡。'}, {'t': '「排一題好玩的。」', 'reply': '例如？……你講。我聽十五分鐘。', 'rel': {'comf': 1}}], '「例如？……你講。我聽十五分鐘。」'),
     ('A4', 'Y2S1', 'heroine_01', 'A3-L8', 'extraIf', None,
@@ -329,6 +331,75 @@ if X525:
 _SIS_Y4S1_BASE2 = _SIS_Y4S1_BASE[:2] + ['（她把保溫瓶遞過來）……回來了。這邊的飲水機有熱水。'] + _SIS_Y4S1_BASE[2:]
 _fix_greet_base('docs/story_planning/AA_531_', '學姊挽回中的美國招呼', [
     ('7-3', 'Y4S1', 'heroine_05', _SIS_Y4S1_BASE2, _SIS_Y4S1_BASE2[:3] + ['這邊的飲水機只有冰的。我自己帶。'] + _SIS_Y4S1_BASE2[3:], '學姊：這邊的飲水機只有冰的。我自己帶。')])
+#      AA_584（學姊改稿第二批：閒聊階梯與邀約；AA 定稿（第 9 節）＋BB_230 口氣審 PASS＋使用者 2026-11-02 18:0x 選擇題確認（第 11 節），企劃線 14154434b）：
+#      企劃線的源稿 build_ladder_bb*.py／ladder_bb*.json 還沒改，這裡照稿上的對照表疊上去——第 2 節 ladder.js 的每一列（# 是數字的）：位置＝學期＋層（或 greet、bikeSeat）＋欄位，
+#      目前的值＝「原句」才換成「改成」（已經是「改成」就跳過；兩個都不是＝停下來，企劃線改過了要重看）；「（AA 定：甲）」開頭的去掉這幾個字；
+#      「（AA 定：甲）（刪整層）」＝爸爸三層 S2-L5、S5-L5、S7-L6 整層刪（第 4 節、第 9 節第 1 點）；「（刪這一格）」＝大四上交往中「{name}。……沒事。叫一下。」那一格刪（第 11 節第 10 點）；
+#      第 11 節另外整層刪：大一上 S-L8（第 5 點「沒有前後文」）、大一下 S2-L6（第 6 點空保溫瓶，上面 AA_373 疊的三句一起沒了）、大二上 S3-L3（第 8 點）、大二上 S3-L6 的 extraIf[0]（第 6 點空保溫瓶）。
+#      刪層以後舊存檔的進度（G.social.ladder 是「第幾層」）在 src/story3d.js 的 S.LAD_DEL 換算（AA_584 刪的層）。邀約（invites.js）、STUDY_YES（sis_grad3d.js）是手抄檔，直接改 src（tests/aa584_sis_b2_unit.js）
+X584 = _approved_md('docs/story_planning/AA_584_')
+if X584:
+    P584, S584, md584 = X584; tag584 = f'AA_584@{S584}'
+    def _chars584(term): return y1 if term == 'Y1S1' else (out['byTerm'].get(term) or {})
+    def _path584(term, path):   # → (容器, key)；層不在了＝None
+        if term == 'bikeSeat':
+            parts = path.split('.'); o = out['bikeSeat']
+        else:
+            ch = _chars584(term).get('heroine_05')
+            if ch is None: sys.exit(f'{tag584}：{term} 沒有學姊的階梯')
+            parts = path.split('.')
+            if parts[0] == 'greet': o = ch
+            else:
+                o = next((x for x in ch.get('steps') or [] if x.get('id') == parts[0]), None); parts = parts[1:]
+                if o is None: return None
+        keys = []
+        for p in parts:
+            m = re.match(r'^(\w+)(?:\[(\d+)\])?$', p)
+            if not m: sys.exit(f'{tag584}：看不懂位置 {term} {path}')
+            keys.append(m.group(1))
+            if m.group(2) is not None: keys.append(int(m.group(2)))
+        for k in keys[:-1]:
+            try: o = o[k]
+            except (KeyError, IndexError): return None   # 源稿已經照 AA_584 改掉（例：S3-L6 的 extraIf 整個拿掉，AA 2026-11-02 19:29 @03af79d17）
+        return o, keys[-1]
+    DROP_STEPS = {('Y1S2', 'S2-L5'), ('Y3S1', 'S5-L5'), ('Y4S2', 'S7-L6'), ('Y1S1', 'S-L8'), ('Y1S2', 'S2-L6'), ('Y2S1', 'S3-L3')}
+    for q in ['→ **整層刪**（S-L8，連選項）', '大一下 S2-L6 整層刪', '大二上 S3-L6 的 extraIf[0]（第 38 列「去年總圖那個空的保溫瓶……」）刪掉', '→ **整層刪**（S3-L3，連第 34 列）',
+              '→ 這一格刪掉', '**爸爸三層一律選甲：刪整層**']:
+        if q not in md584: sys.exit(f'{tag584} 裡找不到：{q}')
+    rows, drop_when = [], []
+    for line in md584.split('\n'):
+        m = re.match(r'^\|\s*(\d+)\s*\|\s*ladder\.js:3 (\S+)(?: (\S+))?\s*\|[^|]*\|([^|]*)\|([^|]*)\|', line)
+        if not m: continue
+        n, a, b, old, new = int(m.group(1)), m.group(2), m.group(3), m.group(4).strip(), m.group(5).strip()
+        term, path = ('bikeSeat', a[len('bikeSeat.'):]) if a.startswith('bikeSeat.') else (a, b)
+        rows.append(n)
+        if new == '（AA 定：甲）（刪整層）':
+            sid = path.split('.')[0]
+            if (term, sid) not in DROP_STEPS: sys.exit(f'{tag584} 第 {n} 列：{term} {sid} 不在要刪的層')
+            continue
+        if new == '（刪這一格）':
+            drop_when.append((n, term, path, old)); continue
+        if new.startswith('（AA 定：甲）'): new = new[len('（AA 定：甲）'):]
+        at = _path584(term, path)
+        if at is None:
+            if (term, path.split('.')[0]) in DROP_STEPS: continue   # 那一層已經不在（企劃線源稿刪了）
+            if term == 'Y2S1' and path.startswith('S3-L6.extraIf[0]'): continue   # 第 38、39 列：這一格本來就要刪（保溫瓶），源稿已經沒有 extraIf
+            sys.exit(f'{tag584} 第 {n} 列：{term} 找不到 {path}')
+        o, k = at; cur = o[k]
+        if cur == new: continue
+        if cur != old: sys.exit(f'{tag584} 第 {n} 列：{term} {path} 是 {cur!r}（應該是 {old!r}，或已經是 {new!r}）')
+        o[k] = new
+    want = set(range(1, 79)) | set(range(89, 94))
+    if set(rows) != want: sys.exit(f'{tag584}：ladder.js 的列不對（多了 {sorted(set(rows) - want)}、少了 {sorted(want - set(rows))}）')
+    for term, sid in sorted(DROP_STEPS):
+        ch = _chars584(term)['heroine_05']; ch['steps'] = [x for x in ch['steps'] if x.get('id') != sid]
+    st = next(x for x in _chars584('Y2S1')['heroine_05']['steps'] if x.get('id') == 'S3-L6')
+    ex = [x for x in st.get('extraIf') or [] if not ('ev_sis_empty_flask' in json.dumps(x.get('if')) and any('空的保溫瓶' in l for l in x.get('lines') or []))]
+    if ex: st['extraIf'] = ex
+    else: st.pop('extraIf', None)
+    for n, term, path, old in drop_when:
+        g = _chars584(term)['heroine_05']['greet']; g['when'] = [w for w in g['when'] if w.get('t') != old]
+    out['source'] += f'＋{os.path.basename(P584)[:6]}@{S584}（學姊第二批：{len(rows)} 列、刪 {len(DROP_STEPS)} 層、S3-L6 extraIf、大四上招呼一格）'
 with open(dst, 'w', encoding='utf8') as fo:
     fo.write('/* 閒聊階梯（大一上；AA_135、AA_136、BB_130；README 在企劃線 docs/story_planning/ladder/）。產生器：tools/ladder/import_ladder.py（不要手改）。來源：' + out['source'] + ' */\n')
     fo.write("'use strict';\nconst LADDER=" + json.dumps(out, ensure_ascii=False) + ';\nLADDER.byTerm.Y1S1=LADDER.characters;   /* 大一上：舊的 characters／terms 照留（舊程式、舊測試讀得到）*/\n')

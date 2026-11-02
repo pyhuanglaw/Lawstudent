@@ -104,15 +104,16 @@ const sec=async(n,f)=>{ try{ await f(); }catch(e){ check(n+'. 丟出例外（中
     H.entered=[]; caps=[]; const real=Date.now; let T=1e12; Date.now=()=>T; CLS.clearPending();
     try{ for(let i=0;i<5;i++){ CLS.oneTick(GM); T+=600; } await new Promise(r=>setTimeout(r,30));
       const first=H.entered.slice(); G.flags.campusIntro=true;   /* 霖澤館前那一段（story3d.js onEnter 的 campusMorning）演完 */
-      for(let i=0;i<5;i++){ CLS.oneTick(GM); T+=600; } await new Promise(r=>setTimeout(r,30));
-      check('3-9. 玩家空下來：先帶到校園（霖澤館前那一段：阿哲）、演完再帶進 201（字幕「走路到霖澤館。」）',first[0]==='campus'&&H.entered[H.entered.length-1]==='classroom'&&caps.includes('走路到法律系館A。'),JSON.stringify({first,entered:H.entered,caps}));
+      for(let i=0;i<5;i++){ CLS.oneTick(GM); T+=600; } await new Promise(r=>setTimeout(r,30)); const tooSoon=H.entered[H.entered.length-1]!=='classroom';   /* UX-DAY2-AUTOPULL：12:36、空了 3 秒＝還不帶 */
+      G.hour=13.25; for(let i=0;i<20;i++){ CLS.oneTick(GM); T+=600; } await new Promise(r=>setTimeout(r,30));   /* 13:15 以後、空了 8 秒以上＝帶進 201 */
+      check('3-9. 玩家空下來：先帶到校園（霖澤館前那一段：阿哲）、演完以後等到 13:15 而且空下來 8 秒才帶進 201（UX-DAY2-AUTOPULL；字幕「走路到法律系館A。」「快上課了。走路到法律系館A 201。」）',first[0]==='campus'&&tooSoon&&H.entered[H.entered.length-1]==='classroom'&&caps.includes('走路到法律系館A。')&&caps.includes('快上課了。走路到法律系館A 201。'),JSON.stringify({first,tooSoon,entered:H.entered,caps}));
     } finally { Date.now=real; CLS.clearPending(); }
     const G2=fresh('2025-09-25',12.6,'dorm'); check('3-10. 第 9 天（下一個週四）不帶',!D2(G2));
     const G3=fresh('2025-09-18',12.6,'dorm'); G3.stage='econ'; check('3-11. 經濟系那一年不帶（AA_292 不適用本表）',!D2(G3)); }
   /* ② 延到下一次出席：柏翰你考幾分（第 10～11 週 → 到第 15 週）*/
   { const run=async(w,flags)=>{ const G=fresh('2025-11-13',13.3,'classroom',flags); const it=itemOf('Y1S1',w,'civ_general'); setDay(it.day,it.t1); H.said=[]; H.picks=[1]; await CLS.afterClassEvent(GM,it); return G; };
-    let G=await run(13); check('3-12. 第 10～11 週沒去民總：第 13 週去了照樣演柏翰「第三題」（AA_546 1-2；carryTo 15）',has('民總期中，第三題你怎麼寫？')&&!!G.events.done.ev_bohan_score,JSON.stringify(lines()));
-    G=await run(15); check('3-13. 第 15 週第一次去也演',has('民總期中，第三題你怎麼寫？'));
+    let G=await run(13); check('3-12. 第 10～11 週沒去民總：第 13 週去了照樣演柏翰「第三題」（AA_546 1-2；carryTo 15）',has('民總那份案例作業，第三題你怎麼寫？')&&!!G.events.done.ev_bohan_score,JSON.stringify(lines()));
+    G=await run(15); check('3-13. 第 15 週第一次去也演',has('民總那份案例作業，第三題你怎麼寫？'));
     G=await run(7); check('3-14. 條件不成立不演：第 7 週（還沒到第 10 週）',!has('你民總幾分？'));
     const e=STORY_EVENTS.find(x=>x.id==='ev_bohan_score'); check('3-15. 事件資料：weeks [10,11]、carryTo 15',JSON.stringify(e.weeks)==='[10,11]'&&e.carryTo===15); }
   /* ② 便利貼第一張：到第 12 週 */
@@ -207,7 +208,9 @@ const sec=async(n,f)=>{ try{ await f(); }catch(e){ check(n+'. 丟出例外（中
       const ev={id:'t_sis_line',participants:[S5],dialogue:[{speaker:S5,text:'（測試）'}]}; H.said=[]; await EVENTS.runLines(ev.dialogue,ev);
       check('5-4. 劇情事件裡她說話：名字框「溫書瑀」',H.said.length===1&&H.said[0].who==='溫書瑀',JSON.stringify(H.said));
       SOCIAL.feel[S5]={fam:2}; const ft=SOCIAL.takeFeel(2);
-      check('5-5. 交往中的「熟了一點」提示照對話框的名字（「和溫書瑀熟了一點。」）',ft.includes('和溫書瑀熟了一點。'),JSON.stringify(ft));
+      check('5-5. 交往中、只有她的「熟了一點」提示用「她」（「和她熟了一點。」；AA 2026-11-02 10:18 稱呼規則①）',ft.includes('和她熟了一點。'),JSON.stringify(ft));
+      SOCIAL.feel[S5]={fam:2}; SOCIAL.feel.heroine_01={fam:1}; const ft2=SOCIAL.takeFeel(2);
+      check('5-5. 同一次也有別人的提示：寫名字「溫書瑀」（「她」分不出是誰）',ft2.includes('和溫書瑀熟了一點。')&&!ft2.some(t=>/和她/.test(t)),JSON.stringify(ft2));
       ROM.end(G,S5,'apart_talk');
       check('5-6. 分手以後：CALLED_SHUYU 留著（叫過）；名字回到「溫書瑀」（分手以後怎麼叫等 BB 定）',G.flags.CALLED_SHUYU===true&&SOCIAL.displayName(S5)==='溫書瑀'); }
     { const G=fresh('2026-04-10',20,'dorm'); H.rel(S5,45,30,0); H.rel('heroine_01',45,30,0); ROM.start(G,'heroine_01');

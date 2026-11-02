@@ -212,7 +212,7 @@ await sec('F',async()=>{
   for(const [k,tail,mem] of [[0,['嗯。','（她把桌上的書往旁邊推了一點，空出一格。）'],true],[1,['……那你等。我要讀書。'],false]]){
     const G=fresh('2028-10-12',19.5,'us_outside',{US2:'repair',MET_LONG:true}); H.picks=[0,k,0]; H.said=[]; H.opts=[]; H.bgs=[]; await USL.club(GM);
     const s=said(), i=s.indexOf(STUDY[0]);
-    check('F10. 挽回中 10/12 19:30 會所→「讀書」＝秋假的自習室（選第 '+(k+1)+' 個）：逐字、'+(mem?'記':'不記')+' US_FALLBREAK_STUDY、不加 REPAIR、說話框不是「書瑀」、何俊朗不在',i>0&&J(s.slice(i))===J(STUDY.concat(tail))&&J(H.opts[1])===J(['「沒有。我留下來讀書。」','「我在等妳跟我說話。」'])&&SOCIAL.has(S5,'US_FALLBREAK_STUDY')===mem&&rep()===0&&H.said.filter(q=>STUDY.includes(q.t)&&q.who).every(q=>q.who!=='書瑀')&&!H.said.some(q=>q.who==='何俊朗')&&H.bgs.some(b=>b&&b.image==='assets/bg/us_club_study.webp'),J(L())); }
+    check('F10. 挽回中 10/12 19:30 會所→「讀書」＝秋假的自習室（選第 '+(k+1)+' 個）：逐字、'+(mem?'記':'不記')+' US_FALLBREAK_STUDY、不加 REPAIR、沒用交往中的叫法（datingName／聯絡人「貝貝」都不成立，說話框＝沒交往的名字）、何俊朗不在',i>0&&J(s.slice(i))===J(STUDY.concat(tail))&&J(H.opts[1])===J(['「沒有。我留下來讀書。」','「我在等妳跟我說話。」'])&&SOCIAL.has(S5,'US_FALLBREAK_STUDY')===mem&&rep()===0&&SOCIAL.datingName(S5)===null&&SOCIAL.contactName(S5)!=='貝貝'&&H.said.filter(q=>STUDY.includes(q.t)&&q.who).every(q=>q.who===SOCIAL.displayName(S5))&&!H.said.some(q=>q.who==='何俊朗')&&H.bgs.some(b=>b&&b.image==='assets/bg/us_club_study.webp'),J(L())); }
   for(const [k,h,dt,why] of [['2028-10-12',18.5,false,'18:30（她還沒到）'],['2028-10-12',19.5,true,'交往中'],['2028-10-10',19.5,false,'10/10（週二：只有 10/12 那一晚）']]){
     const G=fresh(k,h,'us_outside',{US2:dt?'dating':'repair'}); if(dt) dateSis(); const due=US_BLANK.studyDue(G);
     check('F11. '+why+'：不演秋假的自習室',due===false,String(due)); }

@@ -123,7 +123,11 @@ const HOME=(function(){
         for(let t=Math.ceil(t0*4+1e-6)/4;t<t1;t+=0.25){ const d=Math.floor(t/24); G.day=d; G.hour=t-d*24; G.zone=z; if(typeof CALENDAR!=='undefined'&&CALENDAR.dateOf) G.weekday=CALENDAR.dateOf(d).wd%7; if(EVENTS.check(ev)){ out.push(hm(G.hour)+' '+(e.title||'（宿舍的劇情）')); break; } } } }
     catch(err){ console.warn('HOME dormMiss',err); } finally { G.day=k.day; G.hour=k.hour; G.zone=k.zone; G.weekday=k.weekday; }
     return out; };
-  const confirmMiss=async(GM,toH,o)=>{ const M=S.wouldMiss(GM.G,toH).concat(o&&o.dorm?S.dormMiss(GM.G,toH):[]).slice(0,3); if(!M.length) return true; await GM.say(null,'會錯過：'+M.join('、')+'。'); return (await GM.choose([{t:'照樣'},{t:'先不要'}]))===0; };
+  /* S.MISS_OK：「會錯過：…」選了「照樣」以後要記下來的（例：補考＝缺考，src/faildelay3d.js；BUG-MAKEUP-HOME-SLEEP-WARN-1102）——fn(G,toH) */
+  S.MISS_OK=S.MISS_OK||[];
+  const confirmMiss=async(GM,toH,o)=>{ const M=S.wouldMiss(GM.G,toH).concat(o&&o.dorm?S.dormMiss(GM.G,toH):[]).slice(0,3); if(!M.length) return true; await GM.say(null,'會錯過：'+M.join('、')+'。'); const ok=(await GM.choose([{t:'照樣'},{t:'先不要'}]))===0;
+    if(ok) for(const f of S.MISS_OK){ try{ f(GM.G,toH); }catch(e){ console.warn('HOME.MISS_OK',e); } } return ok; };
+  S.confirmMiss=confirmMiss;
   /* 在家：選單一直到回宿舍 */
   let busy=false;
   (globalThis.LOADLOCKS=globalThis.LOADLOCKS||{})['home3d:busy']=()=>{ busy=false; y4Go=null; };   /* 讀檔時放開（LOADGEN-LOCKS-1028）：讀檔凍住的舊劇情走不到 finally，只把旗標設回初始值 */

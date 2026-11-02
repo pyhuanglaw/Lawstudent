@@ -31,15 +31,22 @@ const talk=async(id,picks)=>{ H.said=[]; H.picks=[].concat(picks||[]); await GRA
     setScore(G,'Y1S1',3); setScore(G,'Y1S2',4); check('1. 進步：上學期 3、這學期 4＝進步',GRADES.improved(G,'Y1S2')===true&&GRADES.improved(G,'Y1S1')===false);
     const g1=CALENDAR.gradeDay('Y1S1'), r2=CALENDAR.termDays('Y1S2'), W=d=>{ G.day=d; return GRADES.windowTerm(G); };
     check('1. 期間：大一上公布日（'+keyOf(g1)+'）～大一下第 3 週＝Y1S1；第 4 週起沒有；公布日前一天沒有',W(g1)==='Y1S1'&&W(r2.from+20)==='Y1S1'&&W(r2.from+21)===null&&W(g1-1)===null,J([W(g1),W(r2.from+20),W(r2.from+21),W(g1-1)])); }
-  /* 2 學姊 */
-  { const G=H.fresh('2026-01-06',15,'library',{}); setScore(G,'Y1S1',5); H.FAMILIAR('heroine_05');
-    const L=await talk('heroine_05',[0]); check('2-1. 學姊（高、說「很好。」）：「成績出來了。三個字以內。」→「好。」「下學期，我出難一點的題目給你。」；記 TOLD_SCORE',J(L)===J(['成績出來了。三個字以內。','好。','下學期，我出難一點的題目給你。'])&&SOCIAL.has('heroine_05','TOLD_SCORE')&&J(H.opts[0].slice(0,2))===J(['很好。','不說。'])&&inDoc('下學期，我出難一點的題目給你。'),J([L,H.opts]));
+  /* 2 學姊——AA_590 第 55、56 列（使用者 2026-11-02 選擇題「就問放假要做什麼就好了」）：不再問成績（原本「成績出來了。三個字以內。」＋照級別回、記 TOLD_SCORE、進步多一句）；
+     改問「放假了。有什麼打算？」，選項「在家讀書。／出去玩。／還沒想。／不說。」，她依序回「好。」「好啊。」「那就先睡飽。」「好。那不問了。」；下學期開學以後不演（原本到第 3 週）*/
+  { const A590=require('./aa590_doc.js'), OPTS=['在家讀書。','出去玩。','還沒想。','不說。'], REP=['好。','好啊。','那就先睡飽。','好。那不問了。'];
+    check('2-1. AA_590@68ceea665：問句、四個選項、四句回覆一字不差在稿裡',A590.has('放假了。有什麼打算？')&&A590.has('好。那不問了。')&&A590.DOC.includes('選項換成「'+OPTS.join('／')+'」')&&A590.DOC.includes('她依序回'+REP.map(t=>'「'+t+'」').join('')));
+    const G=H.fresh('2026-01-06',15,'library',{}); setScore(G,'Y1S1',5); H.FAMILIAR('heroine_05');
+    const L=await talk('heroine_05',[0]); check('2-1. 學姊（成績高也一樣）：「放假了。有什麼打算？」選項四個 →「在家讀書。」→「好。」；不問成績、不記 TOLD_SCORE',J(L)===J(['放假了。有什麼打算？','好。'])&&J(H.opts[0])===J(OPTS)&&!SOCIAL.has('heroine_05','TOLD_SCORE')&&!L.some(t=>/成績|題目/.test(t)),J([L,H.opts]));
     const L2=await talk('heroine_05',[0]); check('2-1. 同一學期第二次說話：不再演',L2.length===0,J(L2));
-    /* 下學期：中、進步、說過 */
-    setScore(G,'Y1S1',3); setScore(G,'Y1S2',4); G.day=CALENDAR.gradeDay('Y1S2'); const L3x=await talk('heroine_05',[0]);
-    check('2-1. 大一下（4 題＝高、比上學期 3 題進步、上學期說過）：最後多「比上學期好。我看得出來。」',L3x[L3x.length-1]==='比上學期好。我看得出來。',J(L3x));
-    const G2=H.fresh('2026-01-06',15,'library',{}); setScore(G2,'Y1S1',2); H.FAMILIAR('heroine_05'); const L4=await talk('heroine_05',[1]);
-    check('2-1. 選「不說。」：「好。不說也是一種答案。」、沒有 TOLD_SCORE',L4[1]==='好。不說也是一種答案。'&&!SOCIAL.has('heroine_05','TOLD_SCORE'),J(L4));
+    /* 下學期：成績公布日（暑假）一樣問放假，沒有「比上學期好。我看得出來。」 */
+    setScore(G,'Y1S1',3); setScore(G,'Y1S2',4); G.day=CALENDAR.gradeDay('Y1S2'); const L3x=await talk('heroine_05',[2]);
+    check('2-1. 大一下（進步）：一樣問放假；「還沒想。」→「那就先睡飽。」；沒有「比上學期好。我看得出來。」',J(L3x)===J(['放假了。有什麼打算？','那就先睡飽。']),J(L3x));
+    const G2=H.fresh('2026-01-06',15,'library',{}); setScore(G2,'Y1S1',2); H.FAMILIAR('heroine_05'); const L4=await talk('heroine_05',[3]);
+    check('2-1. 選「不說。」：「好。那不問了。」、沒有 TOLD_SCORE',J(L4)===J(['放假了。有什麼打算？','好。那不問了。'])&&!SOCIAL.has('heroine_05','TOLD_SCORE'),J(L4));
+    const G2b=H.fresh('2026-01-06',15,'library',{}); setScore(G2b,'Y1S1',0); H.FAMILIAR('heroine_05'); const L4b=await talk('heroine_05',[1]);
+    check('2-1. 被當也一樣不問成績：「出去玩。」→「好啊。」',J(L4b)===J(['放假了。有什麼打算？','好啊。']),J(L4b));
+    const G2c=H.fresh(keyOf(CALENDAR.termDays('Y1S2').from),15,'library',{}); setScore(G2c,'Y1S1',5); H.FAMILIAR('heroine_05'); const L4c=await talk('heroine_05',[0]);
+    check('2-1. 下學期開學那天（原本的窗口到第 3 週）：她不再問「放假了」',L4c.length===0&&GRADES.windowTerm(G2c)==='Y1S1',J(L4c));
     const G3=H.fresh('2026-01-06',15,'library',{}); setScore(G3,'Y1S1',5); H.rel('heroine_05',10,0,0); const L5=await talk('heroine_05',[0]); check('2-1. 只是認識（不到有點熟）：不演',L5.length===0,J(L5)); }
   /* 2 芷若 */
   { const G=H.fresh('2026-01-06',15,'campus',{}); setScore(G,'Y1S1',3); H.FAMILIAR('heroine_02');
@@ -63,9 +70,9 @@ const talk=async(id,picks)=>{ H.said=[]; H.picks=[].concat(picks||[]); await GRA
     const G3=H.fresh('2026-01-06',15,'campus',{}); setScore(G3,'Y1S1',5); H.FAMILIAR('npc_fangyt'); const c=await talk('npc_fangyt');
     check('2-7. 方奕廷（高）：「我們系的期末在山上考。認樹。」「你這學期都在室內。……週末去走走。不用帶書。」',J(c)===J(['我們系的期末在山上考。認樹。','你這學期都在室內。……週末去走走。不用帶書。']),J(c)); }
   /* 3 書卷獎一句 */
-  { const G=H.fresh('2026-02-23',15,'library',{}); setScore(G,'Y1S1',5); H.FAMILIAR('heroine_05'); G.flags.HONOR_LAST='Y1S1'; G.flags.HONOR_Y1S1=true;
+  { const G=H.fresh('2026-02-20',15,'library',{}); setScore(G,'Y1S1',5); H.FAMILIAR('heroine_05'); G.flags.HONOR_LAST='Y1S1'; G.flags.HONOR_Y1S1=true;   /* AA_590 第 55 列：學姊開學以後不問放假——原本 2/23（大一下第 1 週週一），改寒假的 2/20 */
     const a=await talk('heroine_05',[0]); const b=await talk('heroine_05'); const c=await talk('heroine_05');
-    check('3. 學姊：同一次見面成績先演、書卷獎下一次（「系上的公告我看到了。……恭喜。」「這頓你請。」），再下一次都沒有',a[0]==='成績出來了。三個字以內。'&&J(b)===J(['系上的公告我看到了。……恭喜。','這頓你請。'])&&c.length===0,J([a,b,c])); }
+    check('3. 學姊：同一次見面成績先演、書卷獎下一次（「系上的公告我看到了。……恭喜。」「這頓你請。」），再下一次都沒有',a[0]==='放假了。有什麼打算？'&&J(b)===J(['系上的公告我看到了。……恭喜。','這頓你請。'])&&c.length===0,J([a,b,c])); }
   /* 4 手機 */
   { const G=H.fresh('2026-01-05',20,'dorm',{}); setScore(G,'Y1S1',5); H.FRIEND('heroine_04'); H.FRIEND('kai'); INV.addContact(G,'heroine_04'); INV.addContact(G,'kai'); G.day=CALENDAR.gradeDay('Y1S1');
     G.hour=20.9; GRADES.phone(G); PHONE.tick(G); const before=H.msgs('p:heroine_04').length; G.hour=21.1; GRADES.phone(G); PHONE.tick(G);

@@ -28,7 +28,7 @@ let seed=4242; Math.random=()=>{ seed=(seed*16807)%2147483647; return (seed-1)/2
 const GL=/^[A-Z][A-Z0-9_]+$/;
 const FILES=['lib/three.bundle.js','lib/three.jsm.bundle.js','src/people3d.js','src/assets3d.js','src/world3d.js','src/engine3d.js','src/townkit3d.js','src/campuskit3d.js','src/zones3d.js','src/data/dorm_room_layout.js','src/data/socsci_layout.js',
   'src/data/linze_layout.js','src/data/classroom_layout.js','src/building3d.js','src/data/lawlib_layout.js','src/lawlib3d.js','src/data/gongtong_layout.js','src/data/boya_layout.js','src/data/putong_layout.js','src/teach3d.js',
-  'src/data/library_layout.js','src/library3d.js','src/data/soclib_layout.js','src/soclib3d.js','src/data/gym_layout.js','src/gym3d.js',
+  'src/data/library_layout.js','src/library3d.js','src/library_hall_v2.js','src/data/soclib_layout.js','src/soclib3d.js','src/data/gym_layout.js','src/gym3d.js',
   'src/data/characters.js','src/data/calendar.js','src/data/places.js','src/data/activities.js','src/data/courses.js','src/data/syllabus.js','src/classes3d.js','src/data/crowd_depts.js','src/crowd3d.js'];
 const missing=[];
 for(const f of FILES){ const p=path.join(ROOT,f); if(!fs.existsSync(p)){ missing.push(f); continue; } let src=fs.readFileSync(p,'utf8'); src=src.replace(/^const (\w+)\s*=/mg,(m,n)=>GL.test(n)?'globalThis.'+n+'=':m); vm.runInThisContext(src,{filename:f}); }

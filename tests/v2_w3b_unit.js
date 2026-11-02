@@ -43,7 +43,7 @@ const meet=id=>SOCIAL.remember(id,'FIRST_MET','');
   check('2. 記 ARGUED_GOOD',SOCIAL.has('heroine_05','ARGUED_GOOD'));
   // 第二、三、四次（AA_284 1-5：上一篇沒回就不發下一篇）
   const ansLast=()=>{ const qq=TH('p:heroine_05').filter(m=>m.ask&&m.ans==null).pop(); if(qq) PHONE.answer(G,qq.ask.id,0); };
-  G.day=D0+28; run(20,21); const t2=txt('p:heroine_05').filter(t=>t.includes('校刊投書')); check('3. 第 28 天：第二篇〈期中考應該全部改成開書考〉，沒有第一次的開頭',t2[1]==='heroine_05:📄 校刊投書〈期中考應該全部改成開書考〉'&&txt('p:heroine_05').filter(t=>t.includes('偷懶')).length===1,JSON.stringify(t2));
+  G.day=D0+28; run(20,21); const t2=txt('p:heroine_05').filter(t=>t.includes('校刊投書')); check('3. 第 28 天：第二篇〈考試應該全部改成開書考〉，沒有第一次的開頭',t2[1]==='heroine_05:📄 校刊投書〈考試應該全部改成開書考〉'&&txt('p:heroine_05').filter(t=>t.includes('偷懶')).length===1,JSON.stringify(t2));
   G.day=D0+42; run(20,21); check('3. 第二篇沒回：第 42 天第三篇不發（AA_284 1-5）',!txt('p:heroine_05').some(t=>t.includes('〈通識課應該取消點名〉'))&&(G.flags.W3B_N|0)===2);
   ansLast(); G.day=D0+56; run(20,21); ansLast(); G.day=D0+70; run(20,21); const t4=txt('p:heroine_05');
   check('3. 回了以後下一次照發：第三篇〈通識課應該取消點名〉、第四次回到第一篇＋「這篇你讀過了。這次你先說，哪一段有問題。」',t4.some(t=>t.includes('〈通識課應該取消點名〉'))&&t4.slice(-2).join('|')==='heroine_05:📄 校刊投書〈總圖應該全面禁止占位〉|heroine_05:這篇你讀過了。這次你先說，哪一段有問題。',JSON.stringify(t4.slice(-3)));

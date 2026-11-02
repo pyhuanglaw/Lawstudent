@@ -18,6 +18,8 @@
 // 用法：node tests/aa518_sis_b15_unit.js（在沒有 .git 的目錄跑，設環境變數 AA518_DOCREPO＝這個 repo 的目錄）
 'use strict';
 require('./alison.js');
+/* AA_590（學姊改稿第三批，企劃線 68ceea665，使用者 2026-11-02 確認）：1-1 第 26 列「換你讀別的」拿掉；1-2 等放榜整場拿掉（retired，定義還在） */
+const A590=require('./aa590_doc.js'), FIX590={'嗯。……你期末考完了吧。換你讀別的。':'嗯。……你期末考完了吧？'};
 const H=require('./pg_harness.js');
 const fs=require('fs'), vm=require('vm'), path=require('path'), cp=require('child_process');
 const {check,GM,E}=H, ID='heroine_05', J=JSON.stringify;
@@ -114,13 +116,13 @@ await sec(0,()=>{ const a=s=>html.indexOf(s);
     /src\/sis_b14_3d\.js\?v=[^"]+"><\/script>\n<script src="src\/data\/sis_b15_events\.js\?v=[^"]+"><\/script>\n<script src="src\/sis_b15_3d\.js\?v=[^"]+"><\/script>/.test(html)&&a('src/sis_b15_3d.js')<a('<script>GAME.boot();</script>'));
   const G0=mine().concat(changed()), GS=new Set(G0.concat(G0.map(unq)));
   /* 稿 → 遊戲 */
-  const lostQ=QUOTES.filter(t=>!GS.has(t)&&!(t==='學姊今天遲到十分鐘 我拍下來了'&&typeof SISB15_LINES!=='undefined'&&SISB15_LINES.late===t)), lostO=OPTS.filter(o=>!GS.has(o)&&!GS.has(unq(o))), lostR=INLR.filter(t=>!GS.has(t)&&!/^（/.test(t));
+  const lostQ=QUOTES.filter(t=>!GS.has(t)&&!FIX590[t]&&!(t==='學姊今天遲到十分鐘 我拍下來了'&&typeof SISB15_LINES!=='undefined'&&SISB15_LINES.late===t)), lostO=OPTS.filter(o=>!GS.has(o)&&!GS.has(unq(o))), lostR=INLR.filter(t=>!GS.has(t)&&!/^（/.test(t));
   check('0. 稿 → 遊戲：第 1～3 節每一句「>」（'+QUOTES.length+' 句）都在遊戲裡',QUOTES.length===98&&!lostQ.length,J({n:QUOTES.length,lostQ}));
   check('0. 稿 → 遊戲：每個選項（'+OPTS.length+' 個）、→ 同一行的回覆（'+INLR.length+' 句）都在遊戲裡',OPTS.length===35&&INLR.length===7&&!lostO.length&&!lostR.length,J({o:OPTS.length,r:INLR.length,lostO,lostR}));
   const INLINE=['今天的題目在白板上。','坐。題目自己看。','佳穎，你先講。……好，換人。','明天讀書會。','去。','禮拜六畢業典禮 A館門口拍照 家族都來','（傳一張照片給她）','坐。還有十分鐘。','你沒去過吧。','學姊的三本書（每一本都畫了線）'];   /* 稿寫在說明句裡的（「」括起來）*/
   check('0. 稿寫在說明裡的句子（白板三句、私訊、回「去。」、Kevin 6/1 那一則、照片的選項、A 多的兩句、房間物件）都在稿裡、也在遊戲裡',INLINE.every(t=>DOC.indexOf('「'+t+'」')>=0&&GS.has(t)),J(INLINE.filter(t=>!(DOC.indexOf('「'+t+'」')>=0&&GS.has(t)))));
   /* 遊戲 → 稿（說明：①studyAsk 是 AA_470 12-4 Kevin 那一句（稿沒寫揪的字，子代理解讀），對 SISB12_LINES；②「旁白：」那一句遊戲只放括號裡的字；③11/12 那一次椰林大道＝兩段照稿接起來）*/
-  const notIn=[...new Set(G0)].filter(t=>DOC.indexOf(t)<0&&DOC.indexOf(unq(t))<0);
+  const notIn=[...new Set(G0)].filter(t=>DOC.indexOf(t)<0&&DOC.indexOf(unq(t))<0&&!(A590.has(t)&&Object.values(FIX590).includes(t)));   /* AA_590 改過的句子：在 AA_590 的表上 */
   const okExtra={'每週四晚上七點 法圖討論室 學姊帶':typeof SISB12_LINES!=='undefined'&&(SISB12_LINES.studyAsk||[]).some(x=>x[1]==='每週四晚上七點 法圖討論室 學姊帶'),
     '（你講了二十分鐘，她都在聽，沒有打斷。）':DOC.indexOf('（旁白：你講了二十分鐘，她都在聽，沒有打斷。）')>=0};
   const bad=notIn.filter(t=>!okExtra[t]);
@@ -134,7 +136,7 @@ await sec(0,()=>{ const a=s=>html.indexOf(s);
   check('0. 第 4 節換掉的舊句（4-2、4-4～4-8、4-10）不在遊戲裡（註解除外）',!still.length,J(still)); });
 
 /* ---- 1 第 1 節 寒暑假補九場 ---- */
-const Y1=[ {id:'ev_sis15_flask',n:'1-1',day:'2026-01-14',h:14.5,zone:'library',time:[14,17],wd:3},{id:'ev_sis15_novel',n:'1-2',day:'2026-03-04',h:19.5,zone:'lawlib',time:[19,21],wd:3},
+const Y1=[ {id:'ev_sis15_flask',n:'1-1',day:'2026-01-14',h:14.5,zone:'library',time:[14,17],wd:3},{id:'ev_sis15_novel',n:'1-2',day:'2026-03-04',h:19.5,zone:'lawlib',time:[19,21],wd:3,retired590:true},
   {id:'ev_sis15_swim',n:'1-3',day:'2026-08-31',h:8.8,zone:'campus',time:[8.75,9],wd:1,pos:[83,3],r:4},{id:'ev_sis15_chishang',n:'1-4',day:'2027-01-27',h:14.5,zone:'library',time:[14,17],wd:3},
   {id:'ev_sis15_move',n:'1-5',day:'2027-02-24',h:19.5,zone:'lawlib',time:[19,21],wd:3},{id:'ev_sis15_ch1',n:'1-6',day:'2027-07-07',h:19.5,zone:'lawlib',time:[19,21],wd:3},
   {id:'ev_sis15_drill',n:'1-7',day:'2027-08-25',h:19.5,zone:'lawlib',time:[19,21],wd:3},{id:'ev_sis15_interview',n:'1-8',day:'2028-01-19',h:19.5,zone:'lawlib',time:[19,21],wd:3,disc:true},
@@ -147,9 +149,10 @@ await sec(1,async()=>{
     check('1. '+s.n+' 作息：'+s.day+' '+s.h+' 她在 '+s.zone+(s.disc?'（討論室 A）':'')+'（C、B、A 都一樣；交往中週三晚上不在研究室）',zs.every(z=>z===s.zone+(s.disc?'/discA':'')),J(zs));
     /* C（有點熟）走近她：演；逐字 */
     fresh(s.day,s.h,'fam',{},{zone:s.zone}); if(s.disc) inDiscA(); else { const p=s.pos||[0,0]; place(p[0]+1,p[1]); her(p[0],p[1]); }
-    const ran=await tickOnly(s.id,[0]);
-    check('1. '+s.n+' C（有點熟）那一天走近她：演；選項前的句子照稿（'+b.pre.length+' 句）、兩個選項照稿；記在 events.done（一次）',ran&&J(said().slice(0,b.pre.length))===J(b.pre)&&J(H.opts[0])===J(b.opts.map(o=>o.o))&&evDone(s.id)&&!EVENTS.check(e),J({s:said(),o:H.opts,want:b}));
-    for(let k=0;k<b.opts.length;k++){ fresh(s.day,s.h,'fam',{},{zone:s.zone}); await runEv(s.id,[k]); const w=b.opts[k].r.concat(b.post);
+    if(s.retired590){ const ran0=EVENTS.check(e); check('1. '+s.n+' AA_590 第 28、29 列（使用者 11-02）整場拿掉：retired，C（有點熟）那一天走近她也不演（定義留給舊存檔，下面照舊逐句檢查）',!!e.retired&&ran0===false&&!(await tickOnly(s.id,[0])),J(e&&e.retired)); }
+    else { const ran=await tickOnly(s.id,[0]);
+    check('1. '+s.n+' C（有點熟）那一天走近她：演；選項前的句子照稿（'+b.pre.length+' 句）、兩個選項照稿；記在 events.done（一次）',ran&&J(said().slice(0,b.pre.length))===J(b.pre)&&J(H.opts[0])===J(b.opts.map(o=>o.o))&&evDone(s.id)&&!EVENTS.check(e),J({s:said(),o:H.opts,want:b})); }
+    for(let k=0;k<b.opts.length;k++){ fresh(s.day,s.h,'fam',{},{zone:s.zone}); await runEv(s.id,[k]); const w=b.opts[k].r.concat(b.post).map(t=>FIX590[t]||t);   /* AA_590 改過的句子換成新句 */
       check('1. '+s.n+' 選項 '+b.opts[k].o+' → '+w.join('／'),seq(w)&&w.every(has),J(said())); }
     const no=[]; for(const [nm,key,hh,kind,o] of [['D 沒見過',s.day,s.h,'none'],['前一天',D(s.day)-1,s.h,'fam'],['隔天',D(s.day)+1,s.h,'fam'],['時段以前',s.day,s.time[0]-0.1,'fam'],['時段以後',s.day,s.time[1],'fam'],['不在那一區',s.day,s.h,'fam',{zone:s.zone==='campus'?'dorm':'campus'}]]){
       fresh(key,hh,kind,{},Object.assign({zone:s.zone},o||{})); if(s.disc) inDiscA(); if(EVENTS.check(e)) no.push(nm); }
@@ -248,13 +251,13 @@ await sec(3,async()=>{
     check('3. 2 11/6 午餐選「都還好。」記 SIS15_ALLOK；選「債總。」不記',f1===true&&!f0,J([f1,f0]));
     const pre=async(key,h,fl,picks)=>{ fresh(key,h,'fam',Object.assign({SIS15_ALLOK:true},fl||{}),{zone:'library'}); H.said=[]; H.opts=[]; H.picks=(picks||[]).slice(); return X().preTalk(GM); };
     const r1=await pre('2026-11-16',10,{},[0]);
-    check('3. 2 11/16 起第一次找她說話：「期中考完了。……再說一次，都還好嗎？」兩個選項；「這次是真的還好。」→「好。」',r1===true&&J(said())===J(['期中考完了。……再說一次，都還好嗎？','好。'])&&J(H.opts[0])===J(['「這次是真的還好。」','「其實不太好。」']),J({s:said(),o:H.opts}));
+    check('3. 2 11/16 起第一次找她說話：「下下週了。……再說一次，都還好嗎？」兩個選項；「這次是真的還好。」→「好。」',r1===true&&J(said())===J(['下下週了。……再說一次，都還好嗎？','好。'])&&J(H.opts[0])===J(['「這次是真的還好。」','「其實不太好。」']),J({s:said(),o:H.opts}));
     const h0=(fresh('2026-11-17',10,'fam',{SIS15_ALLOK:true},{zone:'library'}),H.G.hour); H.said=[]; H.picks=[1]; await X().preTalk(GM);
     check('3. 2「其實不太好。」→「……說來聽聽。」＋旁白「（你講了二十分鐘，她都在聽，沒有打斷。）」、時間往前 20 分鐘；只一次',J(said().slice(1))===J(['……說來聽聽。','（你講了二十分鐘，她都在聽，沒有打斷。）'])&&Math.abs(H.G.hour-h0-1/3)<0.01&&!X().midDue(H.G),J(said()));
     const no=[]; if(await pre('2026-11-15',10)) no.push('11/15'); fresh('2026-11-20',10,'fam',{},{zone:'library'}); if(X().midDue(H.G)) no.push('沒有 SIS15_ALLOK');
     check('3. 2 11/16 以前、沒選「都還好。」：沒有',!no.length,J(no));
     fresh('2026-11-18',10,'fam',{SIS15_ALLOK:true},{zone:'library'}); H.said=[]; H.picks=[0]; const p0=SISY23.preTalk; await SISY23.preTalk(GM);
-    check('3. 2 接在找她說話的前面（SISY23.preTalk 整條鏈跑一次；同一天沒有她別的說話前接演）',typeof p0==='function'&&has('期中考完了。……再說一次，都還好嗎？'),J(said())); }
+    check('3. 2 接在找她說話的前面（SISY23.preTalk 整條鏈跑一次；同一天沒有她別的說話前接演）',typeof p0==='function'&&has('下下週了。……再說一次，都還好嗎？'),J(said())); }
   /* 3 3/15 21:30 */
   { const d=D('2028-03-15'); for(const kind of ['fam','friend']){ fresh(d,21,kind); phAt(d,21.4); const n0=byTag('sisb15_us_up').length; phAt(d,21.6); const M=byTag('sisb15_us_up'), call=OUT.get(H.G,'sisy23_result');
       check('3. 3 '+(kind==='fam'?'有點熟（沒有電話）':'朋友以上（有 21:30 的電話）')+'：3/15 21:30 家族群組 學姊「美國那邊，上了。」「八月走。」Kevin「學姊！！！！！」',n0===0&&J(M.map(m=>[m.from,m.text]))===J([[ID,'美國那邊，上了。'],[ID,'八月走。'],['kevin','學姊！！！！！']])&&(kind==='fam'?!call:!!call),J({M,call:!!call})); } }

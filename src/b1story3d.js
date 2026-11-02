@@ -50,7 +50,7 @@ const B1S=(function(){
   S.leaveNight=function(GM){ const n=GM.npc&&GM.npc[BH]; if(n&&n.b1Night&&GM.removeNPC){ GM.removeNPC(BH); return true; } return false; };
 
   /* ---------- 國考讀書會：討論室 2 ---------- */
-  S.BAR_SEATS={ zhe:[-0.58,3.55,Math.PI/2], classmate_bohan:[-0.58,4.4,Math.PI/2], yu:[1.58,3.55,-Math.PI/2] };
+  S.BAR_SEATS={ zhe:[2.02,9.6,Math.PI/2], classmate_bohan:[2.02,10.45,Math.PI/2], yu:[4.18,9.6,-Math.PI/2] };   /* LIB-INTERIOR-1102（B1 第二版，LAWWW2 11-02）：討論室 2 搬到 x 0～6、z 7.5～13（桌子中心 (3.1,10.45)）；座位＝library_b1_layout.js 的 seats */
   S.barNow=function(G){ if(typeof ACTIVITIES==='undefined') return false; const a=ACTIVITIES.list.find(q=>q.id==='act_bar_study'); if(!a||!ACTIVITIES.on(a,G.day,G)) return false;
     const h=G.hour%24; return h>=a.t0-0.5&&h<a.t1; };
   S.placeBar=function(GM){ const G=GM.G; if(G.zone!==Z||!S.barNow(G)||!GM.spawnCharacter) return 0; let k=0;
@@ -58,7 +58,7 @@ const B1S=(function(){
     return k; };
 
   /* ---------- 考古題小組：討論室 1（OUT.STAGE）---------- */
-  S.STAGES={ ev_bohan_group_session:{ me:[-3.42,4.4,-Math.PI/2], cast:[ {id:BH,spot:'disc1_head'}, {id:XC,seat:[-5.58,4.4,Math.PI/2]} ] } };
+  S.STAGES={ ev_bohan_group_session:{ me:[-2.02,10.45,-Math.PI/2], cast:[ {id:BH,spot:'disc1_head'}, {id:XC,seat:[-4.18,10.45,Math.PI/2]} ] } };   /* B1 第二版：討論室 1 在 x −6～0、z 7.5～13（桌子中心 (−3.1,10.45)）*/
   S.staged=null;
   S.canStage=function(GM){ const G=GM.G, E=GM.E; if(!G||!E||!E.player||typeof Z3==='undefined'||!Z3.ZONES||!Z3.ZONES[Z]||!Z3.ZONES[G.zone]||!L()) return false;
     if(typeof OUT!=='undefined'&&OUT.fromHome) return false; if(typeof HOME!=='undefined'&&HOME.at&&HOME.at(G)) return false; if(away(G)) return false;

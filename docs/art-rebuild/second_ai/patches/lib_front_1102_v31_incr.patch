@@ -1,0 +1,33 @@
+diff --git a/src/zones3d.js b/src/zones3d.js
+index 048bbb6..c7754a7 100644
+--- a/src/zones3d.js
++++ b/src/zones3d.js
+@@ -249,6 +249,7 @@ const Z3 = (function(){
+          五階寬台階（x 73.75～76、|z| ≤ 18，一階 0.18 m）走上 0.9 m 的平台（x 76～82：使用者 10:4x「總圖出來還有個平台 之後才是階梯往下」，兩端白石矮牆）、兩旁花台、北邊的方塔。
+          套件的門廊、拱廊柱子（舊外觀）的導航先拿掉，再擋新的。 */
+       nav.freeRect(73.7,-30.0,87.2,30.0);
++      for(const s of [-1,1]) nav.blockCircle(78.9,s*12.4,0.75);   /* LIB-FRONT v3.1（照片 40）：平台上白石翼拱前的兩棵尖塔形針葉樹（模型在 campus_lib_lawn.glb；要在上一行的 freeRect 之後擋） */
+       for(const [x0,z0,x1,z1] of [[76.0,-30.0,82.05,-29.4],[76.0,29.4,82.05,30.0],[73.75,-30.0,76.0,-18.0],[73.75,18.0,76.0,30.0],[81.6,-8.4,82.6,-7.3],[81.6,-3.9,82.6,-2.3],[81.6,2.3,82.6,3.9],[81.6,7.3,82.6,8.4],[82.0,-30.0,82.6,-23.2],[82.0,-20.0,82.6,-13.8],[82.0,-10.6,82.6,-8.4],[82.0,8.4,82.6,10.6],[82.0,13.8,82.6,20.0],[82.0,23.2,82.6,30.0],[82.55,-30.0,86.5,-27.4],[82.55,27.4,86.5,30.0],[86.38,-27.4,87.0,27.4],[87.0,-30.0,113.0,30.0],[82.0,-37.6,87.6,-32.0]]) nav.blockRect((x0+x1)/2,(z0+z1)/2,x1-x0,z1-z0,0,0);
+       for(const s1 of [{"x0":73.75,"x1":76.0,"z0":-18.0,"z1":18.0,"axis":"x","ya":0.0,"yb":0.9,"tread":0.45,"rise":0.18,"low":"x0"},{"x0":76.0,"x1":86.4,"z0":-29.8,"z1":29.8,"y":0.9}]){ nav.addSurf(s1);   /* 點地面移動打得到的透明地面（平台 0.9 m、台階斜面；和霖澤館穿堂同一套 campusWalk）*/
+         const ya=s1.y!==undefined?s1.y:s1.ya, yb=s1.y!==undefined?s1.y:s1.yb, dx=s1.x1-s1.x0; const m=new THREE.Mesh(new THREE.PlaneGeometry(Math.hypot(dx,yb-ya),s1.z1-s1.z0),new THREE.MeshBasicMaterial({visible:false}));
+diff --git a/tests/lib_front_unit.js b/tests/lib_front_unit.js
+index c665061..c143085 100644
+--- a/tests/lib_front_unit.js
++++ b/tests/lib_front_unit.js
+@@ -34,7 +34,7 @@ check('① 廣場 0、台階最下面一階的前緣 0、台階中間連續、
+   `廣場 ${H(72,0)}、台階底 ${H(ST.x0+0.01,0).toFixed(3)}、中 ${H((ST.x0+ST.x1)/2,0).toFixed(3)}、頂 ${H(ST.x1-0.01,0).toFixed(3)}、平台 ${H(84,0)}`);
+ const vis=[0,1,2,3,4].map(k=>V(ST.x0+ST.tread*(k+0.5),0));
+ check('① 畫面上一階一階（每一階 0.18 m，五階）',vis.every((y,k)=>Math.abs(y-(k+1)*ST.rise)<1e-6),vis.map(y=>y.toFixed(2)).join('、'));
+-const AF=81.6, terr=[ST.x1+0.4,(ST.x1+AF)/2,AF-0.6].flatMap(x=>[0,-12,12,-25,25].map(zz=>[x,zz]));
++const AF=81.6, terr=[ST.x1+0.4,(ST.x1+AF)/2,AF-0.6].flatMap(x=>[0,-9,9,-25,25].map(zz=>[x,zz]));   /* z ±9：v3.1 平台上的兩棵針葉樹在 z ±12.4（另外檢查） */
+ check('① 走出總圖先是平台（使用者 11-02 10:4x）：拱廊正面前面 x '+ST.x1+'～'+AF+'（'+(AF-ST.x1).toFixed(2)+' m）整片都是平台高度 0.9，之後才是台階往下',
+   AF-ST.x1>=5.5&&terr.every(([x,zz])=>H(x,zz)===P&&Math.abs(V(x,zz)-P)<1e-6&&stand(x,zz)),`平台深 ${(AF-ST.x1).toFixed(2)} m、${terr.length} 點`);
+ // ② 從大道走到大門
+@@ -59,6 +59,7 @@ check('④ 拱和拱之間的牆（紅磚段、白石翼）站不住',!stand(82.
+ r=both([81,12.2],[85,12.2]); check('④ 白石翼的拱（z 12.2）走得進拱廊',r.ok,fmt(r));
+ r=both([85,-20],[85,20]); check('④ 拱廊走道從北走到南',r.ok,fmt(r));
+ check('④ 拱廊後牆（大門兩旁）、總圖裡面站不住',!stand(86.7,5)&&!stand(90,0)&&!stand(100,0));
++check('④ v3.1：平台上兩棵尖塔形針葉樹 (78.9,±12.4) 擋住（照片 40），平台上往樹兩邊照樣走得過去',!stand(78.9,12.4)&&!stand(78.9,-12.4)&&stand(78.9,10.6)&&stand(78.9,14.2)&&stand(77.0,12.4)&&stand(80.8,12.4));
+ const T=LAY.tower; check('④ 北邊的方塔站不住',!stand(T.x,T.z)&&!stand(T.x-T.s/2+0.4,T.z));
+ check('④ 平台兩端（落差 0.9）：平台邊外面是地面、邊上有白石矮牆擋住（走不出平台邊）',H(81,31)===0&&H(81,29.5)===P&&[ST.x1+0.3,78,80.5].every(x=>!stand(x,29.8)&&!stand(x,-29.8)));
+ // ⑤ 回到大道

@@ -1,10 +1,10 @@
 {
- "objects": 11,
- "unique_meshes": 11,
- "tris": 22894,
- "tris_drawn": 22894,
- "materials": 11,
- "out": "../../../tmp/claude-0/-home-user-Lawstudent/62ca4225-4c3d-5d85-9e8d-40846d4f390f/scratchpad/halls2/new/library.glb",
- "bytes": 1476472,
+ "objects": 13,
+ "unique_meshes": 13,
+ "tris": 9081,
+ "tris_drawn": 9081,
+ "materials": 13,
+ "out": "../../../tmp/claude-0/-home-user-Lawstudent/b2086276-f771-5e36-88cb-063a8a6233cc/scratchpad/lib1102/v32/campus_library.glb",
+ "bytes": 765396,
  "texres": 512
 }

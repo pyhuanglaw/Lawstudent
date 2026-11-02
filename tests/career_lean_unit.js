@@ -43,30 +43,33 @@ GM.money=function(n){ G.money+=n; };
   check('0. 有 STORY.careerLean、careerTick', typeof STORY.careerLean==='function'&&typeof STORY.careerTick==='function');
   if(typeof STORY.careerLean!=='function'){ console.log('FAILED'); process.exit(1); }
   mk(); G.flags.LAWCLUB_SAT_VISITS=6; G.vac.reg['C02@Y1']='done'; G.stats.study=12;
-  let r=L(); check('1. A：常去法服週六、大一暑假隊輔、很少自習＝A', r.top==='A'&&r.A===9&&r.B===1, JSON.stringify(r));
+  let r=L(); check('1. A：常去法服週六（v2：最多算 3）、大一暑假隊輔、自習不算（D118-B6）＝A', r.top==='A'&&r.A===6&&r.B===0, JSON.stringify(r));
   mk(); for(const d of [10,17,24,31,38]) G.acts.att['public_law_group@'+d]={end:'full'}; G.acts.att['public_law_group@45']={end:'left'}; G.stats.study=55; G.flags.grad_read_done=true; SOCIAL.remember('heroine_05','GRAD_SCHOOL_DISCUSSION','研究所');
-  r=L(); check('1. B：讀書會 5 次（中途離開不算）、自習 55 小時、讀完學姊的文章、聊過研究所＝B（5＋5＋2＋2）', r.top==='B'&&r.B===14, JSON.stringify(r));
+  r=L(); check('1. B：讀書會 5 次（中途離開不算；v2 最多算 3）、自習 55 小時（v2 不算）、讀完學姊的文章、聊過研究所＝B（3＋2＋2）', r.top==='B'&&r.B===7, JSON.stringify(r));
   mk(D('2028-09-10')); G.flags.EXCHANGE_ROUTE='JP'; SOCIAL.remember('heroine_04','PLAYTESTED','測遊戲'); G.courses.grades.Y2S1={}; G.courses.grades.Y0S1={chinese_y0:'很好',ge_y0s1:'過了'};
-  const ge=COURSES.list.find(c=>c.kind==='general'&&!/^Y0/.test(c.term||'')); if(ge) G.courses.grades.Y2S1[ge.id]='不錯';
-  r=L(); check('1. C：常幫子晴測遊戲、日本交換回來（8/5 以後）、法律系的通識＝C（經濟系那年的國文不算）', r.top==='C'&&r.C===2+6+(ge?1:0), JSON.stringify(r));
+  const ge=COURSES.list.find(c=>c.kind==='general'&&/^ge_/.test(c.id)&&!/^Y0/.test(c.term||'')); if(ge) G.courses.grades.Y2S1[ge.id]='不錯';
+  const pe=COURSES.list.find(c=>c.kind==='general'&&/^pe_/.test(c.id)&&!/^Y0/.test(c.term||'')); if(pe) G.courses.grades.Y2S1[pe.id]='及格';
+  r=L(); check('1. C：常幫子晴測遊戲、日本交換回來（8/5 以後，v2 +2）、法律系的通識（ge_；體育不算，BB Q3）＝C（經濟系那年的國文不算）', r.top==='C'&&r.C===2+2+(ge?1:0), JSON.stringify(r));
   mk(D('2028-07-01')); G.flags.EXCHANGE_ROUTE='JP'; check('1. 交換還沒回來（7/1）：不算', L().C===0);
   // 2
   mk(); check('2. 三項都是 0（舊存檔）＝B', L().top==='B');
   mk(); G.flags.LAWCLUB_SAT_VISITS=3; G.vac.reg['C08@Y2']='done'; check('2. A、C 平手（3、3）、沒有大四起點：B → A → C＝A', L().top==='A', JSON.stringify(L()));
-  mk(); G.flags.LAWCLUB_SAT_VISITS=3; G.vac.reg['C08@Y2']='done'; G.flags.CAREER_Y4_BASE={A:3,B:0,C:0};
+  mk(); G.flags.LAWCLUB_SAT_VISITS=3; G.vac.reg['C08@Y2']='done'; G.flags.CAREER_Y4_BASE={A:3,B:0,C:0,v:2};
   check('2. A、C 平手、大四那一年 C 比較多（A 大四 +0、C 大四 +3）＝C', L().top==='C', JSON.stringify(L()));
+  mk(); G.flags.LAWCLUB_SAT_VISITS=3; G.vac.reg['C08@Y2']='done'; G.flags.CAREER_Y4_BASE={A:3,B:0,C:0};
+  check('2. 舊公式記的 CAREER_Y4_BASE（沒有 v:2）不拿來比平手（D118-B6）＝B → A → C＝A', L().top==='A', JSON.stringify(L()));
   // 3
   mk(); G.stage='econ'; G.stats.study=40; G.flags.STUDY_AT_LAW=undefined; delete G.flags.STUDY_AT_LAW; STORY.careerTick(G); const e0=G.flags.STUDY_AT_LAW;
   G.stage='law'; STORY.careerTick(G); G.stats.study=60;
-  check('3. 經濟系那一年不記；第一次在法律系記 STUDY_AT_LAW＝40；之後自習 20 小時＝B 2', e0===undefined&&G.flags.STUDY_AT_LAW===40&&L().B===2, JSON.stringify({e0,s:G.flags.STUDY_AT_LAW,B:L().B}));
+  check('3. 經濟系那一年不記；第一次在法律系記 STUDY_AT_LAW＝40；之後自習 20 小時：v2 不加 B（D118-B6）', e0===undefined&&G.flags.STUDY_AT_LAW===40&&L().B===0, JSON.stringify({e0,s:G.flags.STUDY_AT_LAW,B:L().B}));
   const y4=CALENDAR.dateOf(STORY.termDay('Y4S1',1,2)).key, y4w3=CALENDAR.dateOf(STORY.termDay('Y4S1',3,2)).key;
   mk(D(y4)); G.flags.STUDY_AT_LAW=0; G.flags.LAWCLUB_SAT_VISITS=4; STORY.careerTick(G);
-  check('3. 大四上第 1 週：記 CAREER_Y4_BASE＝當下的三個總分', JSON.stringify(G.flags.CAREER_Y4_BASE)===JSON.stringify({A:4,B:0,C:0}), JSON.stringify(G.flags.CAREER_Y4_BASE));
+  check('3. 大四上第 1 週：記 CAREER_Y4_BASE＝當下的三個總分', JSON.stringify(G.flags.CAREER_Y4_BASE)===JSON.stringify({A:3,B:0,C:0,v:2}), JSON.stringify(G.flags.CAREER_Y4_BASE));
   mk(D(y4w3)); G.flags.STUDY_AT_LAW=0; STORY.careerTick(G); check('3. 大四上第 3 週才讀檔、沒有起點：不補', G.flags.CAREER_Y4_BASE==null);
   // 4
-  mk(); G.flags.LAWCLUB_SAT_VISITS=2; const snap=JSON.stringify(G.flags), relSnap=JSON.stringify(SOCIAL.rel('heroine_05')); L(); L();
+  mk(); G.flags.LAWCLUB_SAT_VISITS=2; STORY.careerTick(G); const snap=JSON.stringify(G.flags), relSnap=JSON.stringify(SOCIAL.rel('heroine_05')); L(); L();
   { /* BB 09:38 Q1、Q2（CC M7）：不及格、缺考的通識不加分；重修同一個課號只算一次 */
-    const g1=COURSES.list.find(c=>c.kind==='general'&&!/^Y0/.test(c.term||'')); const base=L().C;
+    const g1=COURSES.list.find(c=>c.kind==='general'&&/^ge_/.test(c.id)&&!/^Y0/.test(c.term||'')); const base=L().C;   /* v2 只算 ge_ 的通識（BB Q3）*/
     G.courses.grades={Y2S1:{[g1.id]:'不及格（下學期重修）'}}; const c1=L().C;
     G.courses.grades={Y2S1:{[g1.id]:'缺考'}}; const c2=L().C;
     G.courses.grades={Y2S1:{[g1.id]:'不及格（下學期重修）'},Y2S2:{[g1.id]:'及格'}}; const c3=L().C;

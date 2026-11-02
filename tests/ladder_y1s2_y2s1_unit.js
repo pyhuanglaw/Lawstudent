@@ -27,7 +27,7 @@ const lines=()=>said.map(s=>(s.who?s.who+'：':'')+s.t);
 const TH=(th)=>(G.msgs||[]).filter(m=>m.th===th);
 const stepOf=(term,who,id)=>{ const L=LADDER.byTerm[term][who]; return [L.steps.find(s=>s.id===id),L.steps.findIndex(s=>s.id===id)]; };
 (async()=>{
-  check('0. ladder.js 來自匯入白名單（2026-10-17 一次匯入 AA 25e89f6e；2026-10-20 AA-C 定稿 14 檔改 49ed7e6a；2026-11-02 以安 8 檔照 AA_580 改 759e5c000）',/白名單/.test(LADDER.source)&&LADDER.source.includes('759e5c000')&&LADDER.source.includes('49ed7e6a'),LADDER.source);
+  check('0. ladder.js 來自匯入白名單（2026-10-17 一次匯入 AA 25e89f6e；2026-10-20 AA-C 定稿 14 檔改 49ed7e6a；2026-11-02 以安 8 檔照 AA_580 改 759e5c000）',/白名單/.test(LADDER.source)&&LADDER.source.includes('759e5c000')&&LADDER.source.includes('03af79d17'),LADDER.source);   /* 2026-11-02 19:29 AA 照 AA_584 改 BB 那 10 檔→03af79d17（49ed7e6a 移到白名單 history）*/
   { const st=LADDER.byTerm.Y1S2.heroine_01.steps.find(x=>x.id==='A2-L1'), y3=LADDER.byTerm.Y1S2.heroine_03.steps.find(x=>x.id==='Y2-L3');
     check('0b. ROM-1017 交往版：A2-L1 選項②回覆「等我多練幾次，現在煎得還不好看。」、交往中多一句（extraIf dating_heroine_01）；Y2-L3 交往中多一句（dating_heroine_03）',st&&st.choices[1].reply==='等我多練幾次，現在煎得還不好看。'&&(st.extraIf||[]).some(x=>JSON.stringify(x.if||{}).includes('dating_heroine_01'))&&y3&&(y3.extraIf||[]).some(x=>JSON.stringify(x.if||{}).includes('dating_heroine_03')),JSON.stringify([st&&st.choices[1],y3&&y3.extraIf])); }
   // A-L11（大一上以安；AA_238 5-5 讀書會改到大一上，「我可以去嗎？」從 A2-L6 搬來）去過公法讀書會的不出現
@@ -71,6 +71,7 @@ const stepOf=(term,who,id)=>{ const L=LADDER.byTerm[term][who]; return [L.steps.
     G.flags[flag]=true; const L2=STORY.ladLines(s2,G,who); const ex=s2.extraIf[0].lines;
     check(`6. ${id} 交往中（${flag}）多兩句；沒交往不出現`,base===s2.lines.length&&L2.length===base+ex.length&&ex.every(x=>L2.map(y=>typeof y==='string'?y:y.t).includes(x)),JSON.stringify(L2).slice(0,200));
   }
-  check('6. 白名單：BB 的大一下（ladder_bb_y1s2）來自 49ed7e6a（AA-C 2026-10-20 定稿；之前 9fecc202、408398d7）',LADDER.source.includes('49ed7e6a'),LADDER.source);
+  { const W=JSON.parse(require('fs').readFileSync(require('path').join(__dirname,'..','docs/handoff/story_import_allow.json'),'utf8')).files.find(f=>f.path==='docs/story_planning/ladder/ladder_bb_y1s2.json');
+    check('6. 白名單：BB 的大一下（ladder_bb_y1s2）現在是 03af79d17（AA 2026-11-02 照 AA_584 改源稿），49ed7e6a（AA-C 2026-10-20 定稿）留在 history',LADDER.source.includes('03af79d17')&&!!W&&W.sha==='03af79d17'&&(W.history||[]).some(h=>h.sha==='49ed7e6a'),LADDER.source); }
   console.log(fails?`\nFAILED ${fails}`:'\nALL PASS'); process.exit(fails?1:0);
 })().catch(e=>{ console.log('FAIL 例外',e&&e.stack); process.exit(1); });

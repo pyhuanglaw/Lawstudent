@@ -9,11 +9,14 @@ check('1. 露出開發代號的舊備註換掉、和名稱重複的清空（三�
 check('2. 原本的兩筆照舊（沛珊、語彤）',sh('classmate_peishan','IMPORTANT_CONVERSATION','她在考慮轉系')==='她在想別的路'&&sh('heroine_03','IMPORTANT_CONVERSATION','阿姨說她帶媽媽去醫院')==='阿姨扭到手腕，那週她顧店到打烊');
 check('3. 沒在表上的備註照原樣',sh('heroine_01','FIRST_MET','總圖三樓')==='總圖三樓');
 // 4. 02bf44d2 改掉的每一筆舊備註，現在顯示的都是新的（從 git 讀 diff；沒有 git 歷史的環境略過）
+/* 02bf44d2 以後又改過的新字（顯示成最新的）：AA_581 連4（D118 沒有期中考）柏翰 ASKED_BACK「期中放榜」→「案例作業發回來」*/
+const LATER={'classmate_bohan|ASKED_BACK|期中放榜':'案例作業發回來'};
 let diff=''; try{ diff=cp.execSync('git show 02bf44d2 --unified=0 -- src',{cwd:ROOT,encoding:'utf8',stdio:['ignore','pipe','ignore']}); }catch(e){}
 if(diff){ const P1=/npc:'([a-z_0-9]+)',\s*tag:'([A-Z_0-9]+)'(?:,\s*note:'((?:[^'\\]|\\.)*)')?/g, P2=/SOCIAL\.remember\('([a-z_0-9]+)','([A-Z_0-9]+)'(?:,'((?:[^'\\]|\\.)*)')?/g;
   const ext=l=>{ const o=[]; for(const re of [P1,P2]){ re.lastIndex=0; let m; while((m=re.exec(l))) o.push([m[1],m[2],m[3]||'']); } return o; };
   let n=0, bad=[]; for(const h of diff.split(/\n@@/)){ let rem=[], add=[]; for(const l of h.split('\n')){ if(/^-(?!--)/.test(l)) rem=rem.concat(ext(l)); else if(/^\+(?!\+\+)/.test(l)) add=add.concat(ext(l)); }
-    const used=add.map(()=>false); for(const [a,t,o] of rem){ const k=add.findIndex((x,i)=>!used[i]&&x[0]===a&&x[1]===t); if(k<0) continue; used[k]=true; if(o===add[k][2]) continue; n++; if(sh(a,t,o)!==add[k][2]) bad.push(a+' '+t+' '+o); } }
+    const used=add.map(()=>false); for(const [a,t,o] of rem){ const k=add.findIndex((x,i)=>!used[i]&&x[0]===a&&x[1]===t); if(k<0) continue; used[k]=true; if(o===add[k][2]) continue; n++; if(sh(a,t,o)!==(LATER[a+'|'+t+'|'+add[k][2]]||add[k][2])) bad.push(a+' '+t+' '+o); } }
   check('4. 02bf44d2 的每一筆舊備註（'+n+' 筆）顯示成新的',n>=40&&!bad.length,bad.slice(0,5).join(' | ')); }
 else console.log('（略過第 4 項：沒有 git 歷史）');
+check('5. AA_581 連2～連4（D118 沒有期中考）：柏翰「第三題」那天記下的舊備註（期中放榜…）顯示成「案例作業發回來…」',sh('classmate_bohan','ASKED_BACK','期中放榜')==='案例作業發回來'&&sh('classmate_bohan','ASKED_BACK','期中放榜，反問他考幾分')==='案例作業發回來'&&sh('classmate_bohan','TOLD_SCORE','期中放榜，跟他講第三題你怎麼寫')==='案例作業發回來，跟他講第三題你怎麼寫'&&sh('classmate_bohan','TOLD_SCORE','案例作業發回來，跟他講第三題你怎麼寫')==='案例作業發回來，跟他講第三題你怎麼寫');
 console.log(fails?'FAILED '+fails:'ALL PASS'); process.exit(fails?1:0);

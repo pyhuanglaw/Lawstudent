@@ -84,7 +84,7 @@ const R2Y4B=(function(){
   S.barStudyOn=G=>{ const F=(G&&G.flags)||{}; return law(G)&&(F.Y4_PATH==='bar'||F.BAR_REG===true)&&!delayed(G); };   /* 5/10 才報名的：從那一週起 */
   S.barDates=function(){ const out=[]; const a=DK('2029-03-01'), b=DK('2029-07-05'); if(a==null||b==null||typeof CALENDAR==='undefined') return out;
     for(let d=a;d<=b;d+=7){ if(CALENDAR.holiday&&CALENDAR.holiday(d)) continue; const t=CALENDAR.termOf(d); if(t&&t.id==='Y4S2'&&(t.week<2||t.exam==='final')) continue; out.push(CALENDAR.dateOf(d).key); } return out; };   /* 國定假日不開；期末考週不開（AA_327 寫的「第 16 週」；AA_342 C4 以後大四下 15 週，期末考在第 15 週 5/28～6/1，6/4 起是畢業後篇＝暑假照開）*/
-  S.ACT={id:'act_bar_study',title:'國考讀書會',clubName:'國考讀書會',kind:'club',zone:'library_b1',roomName:'總圖 B1 討論室 2',spot:{x:2.0,z:2.7,lv:0,label:'國考讀書會（討論室 2）'},verb:'參加',dates:S.barDates(),t0:20,t1:22,
+  S.ACT={id:'act_bar_study',title:'國考讀書會',clubName:'國考讀書會',kind:'club',zone:'library_b1',roomName:'總圖 B1 討論室 2',spot:{x:3.0,z:8.3,lv:0,label:'國考讀書會（討論室 2）'},verb:'參加',dates:S.barDates(),t0:20,t1:22,
     skip:G=>!S.barStudyOn(G),desc:'每週四 20:00～22:00，總圖 B1 討論室 2。',story:true};   /* AA_399 第 2 節：集合點在 B1 討論室 2（LAWWW2-B 的 library_b1；原本一樓大廳 (-3.0,2.8)＋2D）。阿哲、柏翰、Alison 坐在裡面、參加時的底圖換成模糊的 3D：src/b1story3d.js */
   S.BAR_SPK=['zhe','yu','classmate_bohan','zhe','yu'];   /* 每週一句的說話的人（r2y4b_events.js 的 ev_bar_study_week 照這個順序）*/
   S.barLine=G=>{ const n=Math.max(0,((G.flags&&G.flags.BAR_STUDY_N)|0)-1); for(let k=0;k<5;k++){ const i=(n+k)%5; if(knows(S.BAR_SPK[i],G)) return i; } return -1; };   /* 輪流；不認識的人的那一句跳過 */
@@ -93,11 +93,12 @@ const R2Y4B=(function(){
 
   /* ===================== 2-Y4-34 研究所放榜（3/22）===================== */
   const R34='2029-03-22';
-  S.gradPass2029=G=>S.libDays(G,'2028-09-04','2029-02-02')>=24;   /* 2-Y4-27 第 4 節：大四上＋寒假到考前一天 */
+  S.gradPass2029=G=>{ const F=G.flags||{}; const ps=typeof PG!=='undefined'&&PG.gradPassScore?PG.gradPassScore(G,2029):null; if(ps!=null) return ps; if(typeof F.GRAD_EXAM_2029_PASS==='boolean') return F.GRAD_EXAM_2029_PASS; return S.libDays(G,'2028-09-04','2029-02-02')>=24; };   /* D118-B6：作答（GRAD_SCORE_2029 ≥6）；考的那一刻記的 GRAD_EXAM_2029_PASS（舊存檔＝總圖天數，凍結）；都沒有的舊存檔照舊規則（2-Y4-27 第 4 節：大四上＋寒假到考前一天）*/
   S.anFarewell=G=>G.flags.AN_FAREWELL==='went'||evDone(G,'ev_an_farewell_dinner');   /* AA_322 1B-12 餞行 */
   /* 祐廷的結果：3/22 15:00 起算一次（2-Y4-27 第 4 節的總圖天數）；跳過 15:00 直接到晚上的也先算好，麵店那一段才讀得到 */
   S.gradResult=G=>{ const F=G.flags; if(F.GRAD_EXAM_2029===true&&F.GRAD_EXAM_RESULT==null&&at(G,R34,15)){ const ok=S.gradPass2029(G); F.GRAD_EXAM_RESULT=ok?'pass':'fail'; if(ok&&F.GRAD_ADMIT==null) F.GRAD_ADMIT='exam'; } return F.GRAD_EXAM_RESULT; };
   S.anPassDue=G=>{ const d=DK(R34); const ok=d!=null&&G.day===d&&hh(G)>=18.75&&hh(G)<=19.25&&!G.flags.AN_GRAD_PASS_SEEN&&met(G,'heroine_01','FRIEND'); if(ok) S.gradResult(G); return ok; };
+  S.gradNoticeDue=G=>{ const d=DK(R34), F=G.flags; if(d==null||F.GRAD_EXAM_2029!==true||F.GRAD_NOTICE_2029||!at(G,R34,15)||G.day>d+6) return false; S.gradResult(G); return F.GRAD_EXAM_RESULT==='pass'||F.GRAD_EXAM_RESULT==='fail'; };   /* AA_582 補充二第 1 點 */
   S.gradResultDue=G=>{ const d=DK(R34), F=G.flags; return d!=null&&F.GRAD_EXAM_RESULT==='fail'&&F.GRAD_RETRY==null&&F.GRAD_QUIT==null&&at(G,R34,21)&&G.day<=d+6&&!F.GRAD_EXAM_2030; };
   const R34_SYS={pass:'研究所放榜：法律學研究所，錄取。',fail:'研究所放榜：法律學研究所，未錄取。'};
   const gradPhone=G=>{ const d=DK(R34), F=G.flags; if(d==null||G.day<d||G.day>d+7) return;
@@ -309,7 +310,8 @@ const R2Y4B=(function(){
   const narrStep=(id,key,h,text,cond)=>({id,at:G=>T(DK(key),h),until:G=>T(DK(key),h+48),cond,run:async GM=>{ await scene(GM,async()=>{ if(GM.titleCard&&typeof PG!=='undefined') await GM.titleCard(PG.dateLabel(GM.G.day,GM.G.hour),'',1600); await GM.say(null,text); }); }});
 
   /* ===================== 2-Y4-52 交換延畢 Y5S1：實習三件、證書、2030 研究所筆試 ===================== */
-  S.y5Plan=async function(GM){ const G=GM.G; await scene(GM,async()=>{ if(fdOnly(G)&&typeof FD!=='undefined') await GM.say(null,FD.fill(G,FD.courses(G).filter(id=>id!=='legal_practice').length>=2?FD.LINES.plan2:FD.LINES.plan1)); else await GM.say(null,route(G)==='US'?'（這學期，週二去實習，週一、週三補兩門課。其他的日子——）':'（這學期，只有週二要去實習。其他的日子——）');   /* AA_357 1-1：美國路線週一、週三補修（src/y5s1_3d.js）*/
+  S.y5Plan=async function(GM){ const G=GM.G; await scene(GM,async()=>{ if(fdOnly(G)&&typeof FD!=='undefined') await GM.say(null,FD.fill(G,FD.courses(G).filter(id=>id!=='legal_practice').length>=2?FD.LINES.plan2:FD.LINES.plan1)); else if(exchD(G)&&typeof FD!=='undefined'&&FD.retakeOn&&FD.retakeOn(G)) await GM.say(null,FD.fillAnd(G,route(G)==='US'?'（這學期，週二去實習，週一、週三補兩門課，還有{課名}要重修。其他的日子——）':'（這學期，週二要去實習，還有{課名}要重修。其他的日子——）'));   /* AA 13:53 (a)：拿掉「一堂」、兩門以上用「和」*/   /* AA_588 第 4 節（K1）：交換延畢又被當一門要重修的課（{課名}＝那一門）；沒被當的照下面原句 */
+      else await GM.say(null,route(G)==='US'?'（這學期，週二去實習，週一、週三補兩門課。其他的日子——）':'（這學期，只有週二要去實習。其他的日子——）');   /* AA_357 1-1：美國路線週一、週三補修（src/y5s1_3d.js）*/
       const O=[{t:'「去總圖讀書。」',v:'study'},{t:'「接家教，存一點錢。」',v:'work'},{t:'「在家準備國考。」',v:'bar'}]; const k=await GM.choose(O.map(o=>({t:o.t}))); G.flags.Y5_DAYS=(O[k]||O[0]).v; }); return true; };
   const LAWYER={name:'律師'}, UNCLE={name:'阿伯'}, TA={name:'助教'};
   S.INTERN=[
@@ -323,12 +325,12 @@ const R2Y4B=(function(){
   S.cert=async function(GM,o){ o=o||{}; const G=GM.G, d=DK(o.key||'2030-01-21'), tg=o.tag||'y5'; if(typeof PHONE!=='undefined'){ PHONE.at(G,d,10,[{th:'sys',text:'畢業證書已可領取。'}],tg+'_cert_sys'); PHONE.tick(G); }
     await scene(GM,async()=>{ await GM.say(null,'（系辦的助教把證書遞給你。）'); await GM.say(TA,o.ta||(fdOnly(G)?'恭喜。……延了一學期，還是恭喜。':'你們交換回來的，今天第三個了。')); });   /* 被當延畢：AA_399 第 7 節延畢的證書那一句（「交換回來的」只給交換）*/
     G.flags.CERT_DAY=G.day; if(typeof PHONE!=='undefined') PHONE.at(G,d,12,[{th:'p:mom',from:'mom',text:'照片傳給我。我要傳給你爸。'}],tg+'_cert_mom'); return true; };
-  S.gradExam=async function(GM,y){ const G=GM.G; await scene(GM,async()=>{ if(GM.titleCard&&typeof PG!=='undefined') await GM.titleCard('考場',PG.dateLabel(G.day,G.hour),2200); await GM.say(null,'（兩節。第二節最後一題，你寫到鐘響。）'); });   /* 黑幕兩節（照 2-Y4-27），不出題目 */
+  S.gradExam=async function(GM,y){ const G=GM.G; await scene(GM,async()=>{ if(GM.titleCard&&typeof PG!=='undefined') await GM.titleCard('考場',PG.dateLabel(G.day,G.hour),2200); if(y===2030&&typeof PG!=='undefined'&&PG.gradQuiz) await PG.gradQuiz(GM,2030); await GM.say(null,'（兩節。第二節最後一題，你寫到鐘響。）'); });   /* D118-B6：2030 作答（10 題公法）；2031 照舊（再考＝上，AA_181 2-4）*/   /* 黑幕兩節（照 2-Y4-27），不出題目 */
     G.flags['GRAD_EXAM_'+y]=true; if(y===2031){ G.flags.GRAD_EXAM_RESULT='pass'; G.flags.GRAD_ADMIT='exam'; } return true; };   /* 2031 再考：上了（AA_181 2-4）*/
-  S.gradPass2030=G=>G.flags.GRAD_RETRY===true&&!delayed(G)?true:(S.libDays(G,'2029-02-19','2030-02-15')+(G.flags.Y5_DAYS==='study'?64:0))>=24;   /* 台灣路線明年再考＝上；交換延畢看總圖天數（Y5S1 選了去總圖＝一週 4 天，16 週；AA 審稿 #6）*/
+  S.gradPass2030=G=>{ if(G.flags.GRAD_RETRY===true&&!delayed(G)) return true; const ps=typeof PG!=='undefined'&&PG.gradPassScore?PG.gradPassScore(G,2030):null; if(ps!=null) return ps; return (S.libDays(G,'2029-02-19','2030-02-15')+(G.flags.Y5_DAYS==='study'?64:0))>=24; };   /* D118-B6：交換延畢看作答（GRAD_SCORE_2030 ≥6；Y5_DAYS study ≥5）；沒有作答紀錄的舊存檔照舊規則 */   /* 台灣路線明年再考＝上；交換延畢看總圖天數（Y5S1 選了去總圖＝一週 4 天，16 週；AA 審稿 #6）*/
   S.gradResult2030=async function(GM){ const G=GM.G, F=G.flags, ok=S.gradPass2030(G); F.GRAD_EXAM_RESULT=ok?'pass':'fail'; if(ok) F.GRAD_ADMIT='exam';
     const t=R34_SYS[F.GRAD_EXAM_RESULT]; if(typeof PHONE!=='undefined'&&!PHONE.sent(G,'y5_grad_result')) PHONE.post(G,{th:'sys',text:t,tag:'y5_grad_result'});
-    await scene(GM,async()=>{ await GM.say(null,t); }); return true; };
+    await scene(GM,async()=>{ if(typeof PG!=='undefined'&&PG.gradNotice&&typeof F.GRAD_SCORE_2030==='number') await PG.gradNotice(GM,ok); else await GM.say(null,t); }); return true; };   /* 作答過的：AA_582 補充二第 1 點的系統字＋旁白（手機照舊）；沒有作答紀錄的舊存檔照原本那一句 */
   S.gradRetry2030=async function(GM){ const G=GM.G, F=G.flags; await scene(GM,async()=>{ await GM.say(null,'（書桌上，二月那份考古題還攤著。）');
       const k=await GM.choose([{t:'「明年再考。」'},{t:'「不考了。」'}]); if(k===0) F.GRAD_RETRY2=true; else F.GRAD_QUIT=true; }); return true; };   /* 2030 沒上：二選一（旁白沿用 3/22 那一句，AA 沒有另外寫）*/
   S.gradExam2030Due=G=>{ const F=G.flags; return (F.GRAD_RETRY===true&&!delayed(G))||(delayed(G)&&F.Y4_PATH==='grad'&&!(typeof PG!=='undefined'&&PG.gradAdmit&&PG.gradAdmit(G))); };
@@ -808,7 +810,7 @@ const R2Y4B=(function(){
     {id:'r2y4b_y5_intern1',at:G=>T(DK('2029-09-11'),10),until:G=>T(DK('2029-09-13'),24),cond:internOn,run:GM=>S.intern(GM,0)},
     {id:'r2y4b_y5_intern2',at:G=>T(DK('2029-10-16'),10),until:G=>T(DK('2029-10-18'),24),cond:internOn,run:GM=>S.intern(GM,1)},
     {id:'r2y4b_y5_intern3',at:G=>T(DK('2029-11-20'),10),until:G=>T(DK('2029-11-22'),24),cond:internOn,run:GM=>S.intern(GM,2)},
-    {id:'r2y4b_y5_cert',at:G=>T(DK('2030-01-21'),10),until:G=>T(DK('2030-01-24'),24),cond:G=>delayed(G)&&!(fdOnly(G)&&typeof FD!=='undefined'&&FD.certLate(G)),run:GM=>S.cert(GM)},   /* 重修不到三堂：證書延到 2030-06（日期卡帶過，AA_421 1-5）*/
+    {id:'r2y4b_y5_cert',at:G=>T(DK('2030-01-21'),10),until:G=>T(DK('2030-01-24'),24),cond:G=>delayed(G)&&!(typeof FD!=='undefined'&&FD.certLate(G)),run:GM=>S.cert(GM)},   /* 重修不到三堂：證書延到 2030-06（日期卡帶過，AA_421 1-5；BB 10:21 起交換延畢又被當的也一樣，FD.retakeOn）*/
     {id:'r2y4b_grad_exam_2030',at:G=>T(DK('2030-02-16'),9),until:G=>T(DK('2030-02-17'),12),cond:G=>S.gradExam2030Due(G),run:GM=>S.gradExam(GM,2030)},
     {id:'r2y4b_grad_result_2030',at:G=>T(DK('2030-03-15'),15),until:G=>T(DK('2030-03-17'),24),cond:G=>G.flags.GRAD_EXAM_2030===true,run:GM=>S.gradResult2030(GM)},
     {id:'r2y4b_grad_retry_2030',at:G=>T(DK('2030-03-15'),21),until:G=>T(DK('2030-03-22'),24),cond:G=>G.flags.GRAD_EXAM_2030===true&&G.flags.GRAD_EXAM_RESULT==='fail'&&G.flags.GRAD_RETRY2==null&&!G.flags.GRAD_QUIT,run:GM=>S.gradRetry2030(GM)},

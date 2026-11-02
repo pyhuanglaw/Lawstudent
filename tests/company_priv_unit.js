@@ -124,9 +124,9 @@ await sec('0',async()=>{ const html=fs.readFileSync(path.join(H.ROOT,'index.html
   check('0. 第一輪問 AA 的 12 項改成定案紀錄（PRIVTALK.DECIDED：第 1～12 項各一筆，問的、AA 定的、怎麼做；S.REF＝AA_503 第 14 節 6bc3cd784；ASK_AA 拿掉）',
     D.length===12&&D.every((x,i)=>x.n===i+1&&x.desc&&x.decided&&x.impl)&&/6bc3cd784/.test(PRIVTALK.REF||'')&&!('ASK_AA' in PRIVTALK),J(D.map(x=>x.n)));
   check('0. 對稿（git show 白名單上的 AA_503 '+SHA503+'）：保底的旁白、第 9 項的旁白、第 10 項的兩句、第 12 項三組都在第 14 節；遊戲裡一字不差',
-    DOC503.indexOf('## 14. 私密的再補 12 項')>0&&DOC503.includes('> '+NARR)&&DOC503.includes(Q7NARR)&&DOC503.includes('`anOther`「理由我懂。不用解釋。」')&&DOC503.includes('`ytAfterAn`「嗯。……她會讓你說理由的。」')
+    DOC503.indexOf('## 14. 私密的再補 12 項')>0&&DOC503.includes('> '+NARR)&&DOC503.includes(Q7NARR)&&DOC503.includes('`anOther`「理由我懂。不用解釋。」')&&DOC503.includes('`ytAfterAn`「嗯。……她會讓你把話講完的。」')
     &&DOC503.includes('・語彤和阿姨（媽媽的事）')&&DOC503.includes('・芷若和子晴（交換申請）')&&PRIVTALK.NARR===NARR&&(PRIVTALK.SCENE_LEAD||[]).length===2&&PRIVTALK.SCENE_LEAD.every(q=>q.text===Q7NARR)
-    &&V6EX_LINES.EX.anOther==='理由我懂。不用解釋。'&&V6EX_LINES.EX.ytAfterAn==='嗯。……她會讓你說理由的。'&&PRIVTALK.WAIT===7,'長度 '+DOC503.length); });
+    &&V6EX_LINES.EX.anOther==='理由我懂。不用解釋。'&&V6EX_LINES.EX.ytAfterAn==='嗯。……她會讓你把話講完的。'&&PRIVTALK.WAIT===7,'長度 '+DOC503.length); });
 
 /* ---------- 1 約會、priv 的一次性選項 ---------- */
 await sec('1',async()=>{ fresh('2025-10-09',15,'campus'); H.FAMILIAR('heroine_03'); SOCIAL.meet('heroine_03','campus'); const n=npc('heroine_03');
@@ -400,8 +400,9 @@ await sec('8. 第 7 項 交往中的那一版：旁邊有人說一般版',async(
     fresh(TD('Y4S2',2,2),15,'campus'); H.CLOSE('heroine_03'); SOCIAL.meet('heroine_03','campus'); H.date('heroine_03'); const s2=PRIVTALK.ladStep(H.G,'heroine_03','Y8-L0');
     crowd('heroine_03',['npc_huangxh']); const a2=STORY.ladLines(s2,H.G,'heroine_03'); crowd('heroine_03',false); const b2=STORY.ladLines(s2,H.G,'heroine_03');
     R7.push(['linesIf Y8-L0',!!s2&&J(a2)===J(s2.lines)&&J(b2)===J(s2.linesIf[0].lines)]);
-    fresh(TD('Y4S1',2,2),15,'campus'); H.CLOSE('heroine_05'); SOCIAL.meet('heroine_05','campus'); H.date('heroine_05'); const GT='{name}。……沒事。叫一下。';
-    crowd('heroine_05',['npc_ta_chen']); const g1=STORY.ladGreet(H.G,'heroine_05'); crowd('heroine_05',false); const g2=STORY.ladGreet(H.G,'heroine_05');
+    fresh(TD('Y4S1',2,2),15,'campus'); H.CLOSE('heroine_05'); SOCIAL.meet('heroine_05','campus'); H.date('heroine_05'); const GT='（交往中才有的招呼）', GW=LADDER.byTerm.Y4S1.heroine_05.greet.when;   // AA_584 第 72 列（使用者 11-02「拿掉這句」）：學姊唯一一句交往中才說的招呼「{name}。……沒事。叫一下。」刪了，階梯裡沒有交往中才說的招呼——同一個機制用一句測試用的接上去測完拿掉
+    GW.push({if:{flags:['dating_heroine_05']},t:GT});
+    crowd('heroine_05',['npc_ta_chen']); const g1=STORY.ladGreet(H.G,'heroine_05'); crowd('heroine_05',false); const g2=STORY.ladGreet(H.G,'heroine_05'); GW.pop();
     R7.push(['招呼',g1!==GT&&!!g1&&g2===GT]);
     fresh(TD('Y2S2',5,2),15,'campus'); H.CLOSE('heroine_01'); SOCIAL.meet('heroine_01','campus'); H.date('heroine_01'); const s4=PRIVTALK.ladStep(H.G,'heroine_01','A4-L5'), ch=s4&&s4.choices.find(c=>c.t==='「妳跟我講話好像也是。」');
     crowd('heroine_01',['yu']); const r1=ch&&STORY.ladReply(s4,ch,H.G,'heroine_01'); crowd('heroine_01',false); const r2=ch&&STORY.ladReply(s4,ch,H.G,'heroine_01');

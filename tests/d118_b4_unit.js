@@ -44,9 +44,11 @@ const run=async(G,e,pickFn)=>{ H.G=G; said=[]; ansPick=pickFn||null; const r=awa
   /* d BUG-B4-CUE-LEAK-1102：提示的字只出現在正確選項＝不出；掃全部題庫列出被擋下的題 */
   { const blocked=[]; let n=0; for(const q of EXAM_BANK.questions.concat(typeof QBANK!=='undefined'?QBANK:[])){ for(const u of STUDY.unitsOfQ(q.id)){ const t=(u.cue||'').trim()||u.title; if(!t) continue; n++; if(STUDY.cueLeaks(q,t)) blocked.push(q.id+'「'+t+'」'); } }
     console.log('    被擋下的題（提示字只在正確選項）'+blocked.length+'／'+n+'：'+blocked.join('、'));
-    check('d1. CRIM45_34「因果關係」只在 (B)：擋下',blocked.some(x=>x.startsWith('CRIM45_34')),J(blocked.length));
-    const q=EXAM_BANK.questions.find(x=>x.id==='CRIM45_34'), G=clone(base); for(const u of STUDY.unitsOfQ(q.id)) STUDY.mark(G,u.id,'read','test');
-    check('d2. 讀過那張卡，CRIM45_34 也不出提示',STUDY.cueFor(G,q)===null,STUDY.cueFor(G,q));
+    /* 觀念卡匯入以後（AA cards_y1s2.json，tests/cards_import_unit.js）CRIM45_34 的卡有 cue：遊戲只看 cue（AA 10:26），標題「因果關係」不再當提示 */
+    const q=EXAM_BANK.questions.find(x=>x.id==='CRIM45_34'), qu=STUDY.unitsOfQ(q.id)[0], G=clone(base); for(const u of STUDY.unitsOfQ(q.id)) STUDY.mark(G,u.id,'read','test');
+    check('d1. CRIM45_34「因果關係」只在 (B)：拿標題當提示會擋下',!!qu&&STUDY.cueLeaks(q,qu.title),J(qu&&qu.title));
+    const c34=STUDY.cueFor(G,q), cue34=(qu&&qu.cue||'').trim();
+    check('d2. 讀過那張卡，CRIM45_34：卡沒有 cue＝不出提示；有 cue（不洩題）＝出 cue 那一句、不含「因果關係」',cue34?(c34===STUDY.CUE_PREFIX+cue34+'）'&&!c34.includes('因果關係')):c34===null,c34);
     const fake={id:'X',type:'mc',options:{A:'因果關係',B:'因果關係中斷'},answer:'B'}; check('d3. 提示字錯誤選項也有＝不算指答案（照出）',!STUDY.cueLeaks(fake,'因果關係'));
     check('d4. 是非題、沒有選項的題：一律不出提示（BB 08:54 ②）',STUDY.cueLeaks({type:'tf',answer:'O'},'因果關係')===true);
     /* 第二輪（BB 08:54，CC N3）：看詞——CC 的 A、B 級（最長命中 ≥3 字或占正確選項 1/4 以上）沒擋的要是 0 */
@@ -56,7 +58,9 @@ const run=async(G,e,pickFn)=>{ H.G=G; said=[]; ansPick=pickFn||null; const r=awa
     check('d5. CC N3 的 A、B 級命中：全部不出提示（沒擋 0）',ab===0,J({ab}));
     const must=['CIVS_12','CIV40_06','ADM20_17','Y4_ENF_02'].filter(id=>EXAM_BANK.questions.some(x=>x.id===id)||(typeof QBANK!=='undefined'&&QBANK.some(x=>x.id===id)));
     const G4=clone(base); for(const id of must) for(const u of STUDY.unitsOfQ(id)) STUDY.mark(G4,u.id,'read','test');
-    check('d6. BB 舉的例子（'+must.join('、')+'）讀過卡也不出提示',must.length>0&&must.every(id=>STUDY.cueFor(G4,id)===null),J(must.map(id=>[id,STUDY.cueFor(G4,id)]))); }
+    const qOf=id=>EXAM_BANK.questions.find(x=>x.id===id)||QBANK.find(x=>x.id===id);
+    const ok6=id=>{ const u=STUDY.unitsOfQ(id)[0], cue=(u&&u.cue||'').trim(), c=STUDY.cueFor(G4,id); return !!u&&STUDY.cueLeaks(qOf(id),u.title)&&(cue?(!STUDY.cueLeaks(qOf(id),cue)&&c===STUDY.CUE_PREFIX+cue+'）'):c===null); };
+    check('d6. BB 舉的例子（'+must.join('、')+'）：標題當提示會洩題；讀過卡、卡沒有 cue＝不出，有 cue（不洩題）＝只出 cue（AA 10:26）',must.length>0&&must.every(ok6),J(must.map(id=>[id,STUDY.cueFor(G4,id)]))); }
   /* e 訂正筆記用 \n 分段：筆記頁的內文要 pre-line */
   { const g=fs.readFileSync(path.join(H.ROOT,'src/game3d.js'),'utf8'); check('e. 筆記頁內文 white-space:pre-line（訂正筆記不擠成一段）',/<div style=\\?"white-space:pre-line\\?">'\+WN\(n\.body\)/.test(g)); }
   /* AA 10:26：有 cue＝只看 cue 會不會洩題（標題常常就是答案術語）；沒有 cue＝檢查標題 */

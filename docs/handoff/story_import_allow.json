@@ -178,11 +178,15 @@
   },
   {
    "path": "docs/story_planning/ladder/ladder_bb.json",
-   "sha": "088556ed",
+   "sha": "03af79d17",
    "status": "approved",
-   "approvedBy": "AA（帳號 A）2026-10-22 09:31 定稿（AA_385 第 3 節：大一上 NO_DATE_ZZ 加 ZZ_DATING、4-2 以後不說（notEvents ev_zz_home_together）；D100、D109）；49ed7e6a→088556ed 只差這一處（build_ladder_bb.py 一行、JSON 六格），tools/ladder/import_ladder.py 匯入",
+   "approvedBy": "AA（帳號 A）2026-11-02 19:29 學姊階梯源稿照 AA_584 定案改好（企劃線 03af79d17；8 支 build_ladder_bb*.py＋8 個 ladder_bb*.json）：重匯後 ladder.js 和 AA_584 疊稿版逐欄相同，只少 SIS5_LIBRARY_SEAT 的名稱（src/social3d.js 補）；舊版本在 history",
    "task": "AB65-3-Y1S1／K-D5",
    "history": [
+    {
+     "sha": "088556ed",
+     "approvedBy": "AA（帳號 A）2026-10-22 09:31 定稿（AA_385 第 3 節：大一上 NO_DATE_ZZ 加 ZZ_DATING、4-2 以後不說（notEvents ev_zz_home_together）；D100、D109）；49ed7e6a→088556ed 只差這一處（build_ladder_bb.py 一行、JSON 六格），tools/ladder/import_ladder.py 匯入"
+    },
     {
      "sha": "49ed7e6a",
      "approvedBy": "AA-C 定稿（2026-10-20 交付：企劃分支 49ed7e6a——AA_313 第 1 節以安不延畢（A8-L1、L3、L7、L8 換掉補修班、明年才考、證書明年）、第 4、6 節芷若、子晴、學姊、沛珊；AA_306 經濟系那一年的層；D100 台詞歸 AA）"
@@ -200,12 +204,16 @@
   },
   {
    "path": "docs/story_planning/ladder/ladder_bb_y0s1.json",
-   "sha": "49ed7e6a",
+   "sha": "03af79d17",
    "status": "approved",
-   "approvedBy": "AA-C 定稿（2026-10-20 交付：企劃分支 49ed7e6a——AA_313 第 1 節以安不延畢（A8-L1、L3、L7、L8 換掉補修班、明年才考、證書明年）、第 4、6 節芷若、子晴、學姊、沛珊；AA_306 經濟系那一年的層；D100 台詞歸 AA）",
+   "approvedBy": "AA（帳號 A）2026-11-02 19:29 學姊階梯源稿照 AA_584 定案改好（企劃線 03af79d17；8 支 build_ladder_bb*.py＋8 個 ladder_bb*.json）：重匯後 ladder.js 和 AA_584 疊稿版逐欄相同，只少 SIS5_LIBRARY_SEAT 的名稱（src/social3d.js 補）；舊版本在 history",
    "task": "SYS-15",
    "note": "BB-C 13:27：九個檔用 408398d7",
    "history": [
+    {
+     "sha": "49ed7e6a",
+     "approvedBy": "AA-C 定稿（2026-10-20 交付：企劃分支 49ed7e6a——AA_313 第 1 節以安不延畢（A8-L1、L3、L7、L8 換掉補修班、明年才考、證書明年）、第 4、6 節芷若、子晴、學姊、沛珊；AA_306 經濟系那一年的層；D100 台詞歸 AA）"
+    },
     {
      "sha": "93f356cc",
      "approvedBy": "AA-C 定稿（DL-AA-9fecc202：AA_293 劇社拿掉、AA_295 可昕不出假設題；使用者 10-18 選擇題；D100）"
@@ -214,12 +222,16 @@
   },
   {
    "path": "docs/story_planning/ladder/ladder_bb_y0s2.json",
-   "sha": "cbdbc69bf",
+   "sha": "03af79d17",
    "status": "approved",
-   "approvedBy": "AA-C 定稿（2026-10-20 交付：企劃分支 49ed7e6a——AA_313 第 1 節以安不延畢（A8-L1、L3、L7、L8 換掉補修班、明年才考、證書明年）、第 4、6 節芷若、子晴、學姊、沛珊；AA_306 經濟系那一年的層；D100 台詞歸 AA）",
+   "approvedBy": "AA（帳號 A）2026-11-02 19:29 學姊階梯源稿照 AA_584 定案改好（企劃線 03af79d17；8 支 build_ladder_bb*.py＋8 個 ladder_bb*.json）：重匯後 ladder.js 和 AA_584 疊稿版逐欄相同，只少 SIS5_LIBRARY_SEAT 的名稱（src/social3d.js 補）；舊版本在 history",
    "task": "SYS-15",
    "note": "BB-C 13:27：九個檔用 408398d7；cbdbc69bf：AA_439 第 4 節禁用句第二次掃",
    "history": [
+    {
+     "sha": "cbdbc69bf",
+     "approvedBy": "AA-C 定稿（2026-10-20 交付：企劃分支 49ed7e6a——AA_313 第 1 節以安不延畢（A8-L1、L3、L7、L8 換掉補修班、明年才考、證書明年）、第 4、6 節芷若、子晴、學姊、沛珊；AA_306 經濟系那一年的層；D100 台詞歸 AA）"
+    },
     {
      "sha": "93f356cc",
      "approvedBy": "BB-C（2026-10-17 13:27 已審表）"
@@ -232,11 +244,15 @@
   },
   {
    "path": "docs/story_planning/ladder/ladder_bb_y1s2.json",
-   "sha": "088556ed",
+   "sha": "03af79d17",
    "status": "approved",
-   "approvedBy": "AA（帳號 A）2026-10-22 09:31 定稿（AA_385 第 3 節：NO_ZZ_YET 加 ZZ_DATING、4-1 第 5 句放子晴 Q2-L3 extraIf；D100、D109）；2e255e9a→088556ed 只差這兩處（記憶 ZQ_ZR_FILM_DAY 的人物頁名稱 AA 沒寫，social3d.js 暫定），tools/ladder/import_ladder.py 匯入",
+   "approvedBy": "AA（帳號 A）2026-11-02 19:29 學姊階梯源稿照 AA_584 定案改好（企劃線 03af79d17；8 支 build_ladder_bb*.py＋8 個 ladder_bb*.json）：重匯後 ladder.js 和 AA_584 疊稿版逐欄相同，只少 SIS5_LIBRARY_SEAT 的名稱（src/social3d.js 補）；舊版本在 history",
    "task": "ROM-1017",
    "history": [
+    {
+     "sha": "088556ed",
+     "approvedBy": "AA（帳號 A）2026-10-22 09:31 定稿（AA_385 第 3 節：NO_ZZ_YET 加 ZZ_DATING、4-1 第 5 句放子晴 Q2-L3 extraIf；D100、D109）；2e255e9a→088556ed 只差這兩處（記憶 ZQ_ZR_FILM_DAY 的人物頁名稱 AA 沒寫，social3d.js 暫定），tools/ladder/import_ladder.py 匯入"
+    },
     {
      "sha": "2e255e9a",
      "approvedBy": "AA-C 定稿（2026-10-21 AA_350 第 9 節 S3：「九月初回來」→「八月底回來」，企劃分支 2e255e9a；D100 台詞歸 AA）"
@@ -262,11 +278,15 @@
   },
   {
    "path": "docs/story_planning/ladder/ladder_bb_y2s1.json",
-   "sha": "06ff0acc6",
+   "sha": "03af79d17",
    "status": "approved",
-   "approvedBy": "AA-B 2026-11-01 定稿（AA_560 2-7 C2：沛珊 P3-L4「問我以後要做什麼、有沒有好好睡、有沒有好好吃飯。」；同一版另含 D115 改名，遊戲已照 WORLD_NAMING 換過）；LAWWW-B 換版重新匯入",
+   "approvedBy": "AA（帳號 A）2026-11-02 19:29 學姊階梯源稿照 AA_584 定案改好（企劃線 03af79d17；8 支 build_ladder_bb*.py＋8 個 ladder_bb*.json）：重匯後 ladder.js 和 AA_584 疊稿版逐欄相同，只少 SIS5_LIBRARY_SEAT 的名稱（src/social3d.js 補）；舊版本在 history",
    "task": "AB65-3-Y2S1-L",
    "history": [
+    {
+     "sha": "06ff0acc6",
+     "approvedBy": "AA-B 2026-11-01 定稿（AA_560 2-7 C2：沛珊 P3-L4「問我以後要做什麼、有沒有好好睡、有沒有好好吃飯。」；同一版另含 D115 改名，遊戲已照 WORLD_NAMING 換過）；LAWWW-B 換版重新匯入"
+    },
     {
      "sha": "ffd7eef8",
      "approvedBy": "AA-C 定稿（2026-10-21 AA_362 禁用句型第三輪「不是 X，是 Y」，企劃分支 bde0df0a；D100 台詞歸 AA）｜AA_398 第 20 列（學姊不數件數）企劃線 ffd7eef8：LAWWW-B 10-23 換版重新匯入"
@@ -288,12 +308,16 @@
   },
   {
    "path": "docs/story_planning/ladder/ladder_bb_y2s2.json",
-   "sha": "49ed7e6a",
+   "sha": "03af79d17",
    "status": "approved",
-   "approvedBy": "AA-C 定稿（2026-10-20 交付：企劃分支 49ed7e6a——AA_313 第 1 節以安不延畢（A8-L1、L3、L7、L8 換掉補修班、明年才考、證書明年）、第 4、6 節芷若、子晴、學姊、沛珊；AA_306 經濟系那一年的層；D100 台詞歸 AA）",
+   "approvedBy": "AA（帳號 A）2026-11-02 19:29 學姊階梯源稿照 AA_584 定案改好（企劃線 03af79d17；8 支 build_ladder_bb*.py＋8 個 ladder_bb*.json）：重匯後 ladder.js 和 AA_584 疊稿版逐欄相同，只少 SIS5_LIBRARY_SEAT 的名稱（src/social3d.js 補）；舊版本在 history",
    "task": "SYS-15",
    "note": "BB-C 13:27：九個檔用 408398d7",
    "history": [
+    {
+     "sha": "49ed7e6a",
+     "approvedBy": "AA-C 定稿（2026-10-20 交付：企劃分支 49ed7e6a——AA_313 第 1 節以安不延畢（A8-L1、L3、L7、L8 換掉補修班、明年才考、證書明年）、第 4、6 節芷若、子晴、學姊、沛珊；AA_306 經濟系那一年的層；D100 台詞歸 AA）"
+    },
     {
      "sha": "408398d7",
      "approvedBy": "BB-C（2026-10-17 13:27 已審表）"
@@ -302,12 +326,16 @@
   },
   {
    "path": "docs/story_planning/ladder/ladder_bb_y3s1.json",
-   "sha": "5ef4e291",
+   "sha": "03af79d17",
    "status": "approved",
-   "approvedBy": "AA（帳號 A）2026-10-22 12:38 定稿（AA_386 第 5 節：S5-L8 交往中 extraIf、S6-L1 skipIf SIS_VDAY_Y3:went；JSON 重建、--check 過；D100、D109）",
+   "approvedBy": "AA（帳號 A）2026-11-02 19:29 學姊階梯源稿照 AA_584 定案改好（企劃線 03af79d17；8 支 build_ladder_bb*.py＋8 個 ladder_bb*.json）：重匯後 ladder.js 和 AA_584 疊稿版逐欄相同，只少 SIS5_LIBRARY_SEAT 的名稱（src/social3d.js 補）；舊版本在 history",
    "task": "SYS-15",
    "note": "BB-C 13:27：九個檔用 408398d7",
    "history": [
+    {
+     "sha": "5ef4e291",
+     "approvedBy": "AA（帳號 A）2026-10-22 12:38 定稿（AA_386 第 5 節：S5-L8 交往中 extraIf、S6-L1 skipIf SIS_VDAY_Y3:went；JSON 重建、--check 過；D100、D109）"
+    },
     {
      "sha": "49ed7e6a",
      "approvedBy": "AA-C 定稿（2026-10-20 交付：企劃分支 49ed7e6a——AA_313 第 1 節以安不延畢（A8-L1、L3、L7、L8 換掉補修班、明年才考、證書明年）、第 4、6 節芷若、子晴、學姊、沛珊；AA_306 經濟系那一年的層；D100 台詞歸 AA）"
@@ -320,12 +348,16 @@
   },
   {
    "path": "docs/story_planning/ladder/ladder_bb_y3s2.json",
-   "sha": "ab9d70fe0",
+   "sha": "03af79d17",
    "status": "approved",
-   "approvedBy": "AA（帳號 A）2026-10-22 12:38 定稿（AA_386 第 5 節：S5-L8 交往中 extraIf、S6-L1 skipIf SIS_VDAY_Y3:went；JSON 重建、--check 過；D100、D109）",
+   "approvedBy": "AA（帳號 A）2026-11-02 19:29 學姊階梯源稿照 AA_584 定案改好（企劃線 03af79d17；8 支 build_ladder_bb*.py＋8 個 ladder_bb*.json）：重匯後 ladder.js 和 AA_584 疊稿版逐欄相同，只少 SIS5_LIBRARY_SEAT 的名稱（src/social3d.js 補）；舊版本在 history",
    "task": "SYS-15",
    "note": "BB-C 13:27：九個檔用 408398d7；ab9d70fe0：AA_475 禁用句第五輪（AA-C 2026-10-27 劇情總監自主清查，企劃線 claude/magical-albattani-bk7b4n；第 1 節「我記住了」／「我第一次覺得」、第 3 節句號版「不是 X。是 Y。」）LAWWW-C 10-27 換版重新匯入",
    "history": [
+    {
+     "sha": "ab9d70fe0",
+     "approvedBy": "AA（帳號 A）2026-10-22 12:38 定稿（AA_386 第 5 節：S5-L8 交往中 extraIf、S6-L1 skipIf SIS_VDAY_Y3:went；JSON 重建、--check 過；D100、D109）"
+    },
     {
      "sha": "659d9d81",
      "approvedBy": "AA-C 定稿（2026-10-21 AA_358 人物知道不該知道的事：閒聊階梯 4 句改在企劃源檔，企劃分支 659d9d81；D100 台詞歸 AA）"
@@ -346,12 +378,16 @@
   },
   {
    "path": "docs/story_planning/ladder/ladder_bb_y4s1.json",
-   "sha": "659d9d81",
+   "sha": "03af79d17",
    "status": "approved",
-   "approvedBy": "AA-C 定稿（2026-10-21 AA_358 人物知道不該知道的事：閒聊階梯 4 句改在企劃源檔，企劃分支 659d9d81；D100 台詞歸 AA）",
+   "approvedBy": "AA（帳號 A）2026-11-02 19:29 學姊階梯源稿照 AA_584 定案改好（企劃線 03af79d17；8 支 build_ladder_bb*.py＋8 個 ladder_bb*.json）：重匯後 ladder.js 和 AA_584 疊稿版逐欄相同，只少 SIS5_LIBRARY_SEAT 的名稱（src/social3d.js 補）；舊版本在 history",
    "task": "SYS-15",
    "note": "BB-C：大四上口語審完，可以匯入",
    "history": [
+    {
+     "sha": "659d9d81",
+     "approvedBy": "AA-C 定稿（2026-10-21 AA_358 人物知道不該知道的事：閒聊階梯 4 句改在企劃源檔，企劃分支 659d9d81；D100 台詞歸 AA）"
+    },
     {
      "sha": "49ed7e6a",
      "approvedBy": "AA-C 定稿（2026-10-20 交付：企劃分支 49ed7e6a——AA_313 第 1 節以安不延畢（A8-L1、L3、L7、L8 換掉補修班、明年才考、證書明年）、第 4、6 節芷若、子晴、學姊、沛珊；AA_306 經濟系那一年的層；D100 台詞歸 AA）"
@@ -364,12 +400,16 @@
   },
   {
    "path": "docs/story_planning/ladder/ladder_bb_y4s2.json",
-   "sha": "659d9d81",
+   "sha": "03af79d17",
    "status": "approved",
-   "approvedBy": "AA-C 定稿（2026-10-21 AA_358 人物知道不該知道的事：閒聊階梯 4 句改在企劃源檔，企劃分支 659d9d81；D100 台詞歸 AA）",
+   "approvedBy": "AA（帳號 A）2026-11-02 19:29 學姊階梯源稿照 AA_584 定案改好（企劃線 03af79d17；8 支 build_ladder_bb*.py＋8 個 ladder_bb*.json）：重匯後 ladder.js 和 AA_584 疊稿版逐欄相同，只少 SIS5_LIBRARY_SEAT 的名稱（src/social3d.js 補）；舊版本在 history",
    "task": "BB210-Y4S2",
    "note": "skipIf GRAD_DONE（暫名，畢業典禮那天設）；PS8_FAR_AHEAD 中文名改（BB_143）",
    "history": [
+    {
+     "sha": "659d9d81",
+     "approvedBy": "AA-C 定稿（2026-10-21 AA_358 人物知道不該知道的事：閒聊階梯 4 句改在企劃源檔，企劃分支 659d9d81；D100 台詞歸 AA）"
+    },
     {
      "sha": "49ed7e6a",
      "approvedBy": "AA-C 定稿（2026-10-20 交付：企劃分支 49ed7e6a——AA_313 第 1 節以安不延畢（A8-L1、L3、L7、L8 換掉補修班、明年才考、證書明年）、第 4、6 節芷若、子晴、學姊、沛珊；AA_306 經濟系那一年的層；D100 台詞歸 AA）"
@@ -2304,12 +2344,30 @@
   },
   {
    "path": "docs/story_planning/AA_415_邀約回覆照階段變_七位定稿.md",
-   "sha": "759e5c000",
+   "sha": "166dc131a",
    "status": "approved",
-   "approvedBy": "AA-B 2026-10-23 20:2x 定稿（D109）；b10d0567f：AA_576 以安改稿第一批（AA 2026-11-02 08:36 交；AA_576／BB_226 口氣審 PASS、使用者確認「都對，交出去」）：第 1 節以安的表；e1e361335：AA_579 學姊改稿第一批（AA 2026-11-02 09:37 交；AA_579／AA_580、BB_228 PASS；使用者看過精選句）：第 5 節學姊的表（22 句）；759e5c000：AA_580 以安改稿第二批（AA 2026-11-02 09:38 交；AA_579／AA_580、BB_228 PASS）：第 1 節以安新增三句答應（新1～新3）",
+   "approvedBy": "AA-B 2026-10-23 20:2x 定稿（D109）；b10d0567f：AA_576 以安改稿第一批（AA 2026-11-02 08:36 交；AA_576／BB_226 口氣審 PASS、使用者確認「都對，交出去」）：第 1 節以安的表；e1e361335：AA_579 學姊改稿第一批（AA 2026-11-02 09:37 交；AA_579／AA_580、BB_228 PASS；使用者看過精選句）：第 5 節學姊的表（22 句）；759e5c000：AA_580 以安改稿第二批（AA 2026-11-02 09:38 交；AA_579／AA_580、BB_228 PASS）：第 1 節以安新增三句答應（新1～新3）；166dc131a：AA 2026-11-02 10:18 回 AA_579 第 7 節第 2 點——學姊 sis4（第 2 階約麵店）「好啊。這次你選地方。」→「好啊。」（AA_415:246；地點已經選好的邀約不問地方）",
    "task": "D14-T9",
    "kind": "text",
-   "note": "tools/invite/build_replies.py → src/data/invite_replies.js（INVITE_REPLIES）；選句 src/invites3d.js 的 S.replyPick（AA_415 第 0-3 節）"
+   "note": "tools/invite/build_replies.py → src/data/invite_replies.js（INVITE_REPLIES）；選句 src/invites3d.js 的 S.replyPick（AA_415 第 0-3 節）",
+   "history": [
+    {
+     "sha": "b113e39d",
+     "approvedBy": "AA-B 2026-10-23 20:2x 定稿（D109）"
+    },
+    {
+     "sha": "b10d0567f",
+     "approvedBy": "AA_576 以安改稿第一批"
+    },
+    {
+     "sha": "e1e361335",
+     "approvedBy": "AA_579 學姊改稿第一批"
+    },
+    {
+     "sha": "759e5c000",
+     "approvedBy": "AA_580 以安改稿第二批（新1～新3）"
+    }
+   ]
   },
   {
    "path": "docs/story_planning/AA_417_健身定稿_升階一句_注意到_羽球晨跑.md",
@@ -3315,7 +3373,7 @@
   },
   {
    "path": "docs/story_planning/AA_503_女主角自己的生活_大一上_動態頁_圈子_她的事.md",
-   "sha": "bfede0a62",
+   "sha": "a49f12cdd",
    "status": "approved",
    "approvedBy": "AA-C 定稿（D109；使用者 10-28 01:2x 對 LAWWW-C「可攻略女主角 感覺都沒有自己的生活」，USER_WANTS X122★）；d13ab3ab7＝AA 更正後的版本（74916d73b 三處：芷若冬季菜單、語彤當筱涵的受試者、子晴系上的練習賽；62849944b：可昕第 5 則予樂寫的期末倒數；d13ab3ab7 第 12 節：可昕第 4 則私訊問「為什麼爬好幾趟？」、第 6 則分沒去／去了、12/16 書桌照片放回），舊版 c6c93432d 的句子不放進遊戲；bfede0a62＝AA_527（AA-B 10-30 讀 AA_496～523 的實作，AA-READ-1030）同一個 commit 改的原稿（D109；AA527-FIX-1030／AA528-FIX-1030，子代理 aa527-fix）",
    "task": "HEROINE-LIFE-1028",
@@ -3720,6 +3778,194 @@
    "task": "D118-MIDTERM-STORY-1102",
    "kind": "text",
    "note": "D118 沒有期中考：第 2 節 11 處改掛點、第 3 節台詞規則、第 5 節零碎字。閒聊階梯（tools/ladder/import_ladder.py）等匯入工具讀稿時照 tools/story/d118_fix.json 換字（import_guard.read_fix，和 ndl542_fix.json、nocmp_fix.json 同一個做法；tests/alison.js 一起）；其他句子手抄改 src。子代理 2026-11-02 代登，給值班 LAWWW 核"
+  },
+  {
+   "path": "docs/story_planning/study/cards_y1s1.json",
+   "sha": "545ac5b28",
+   "status": "approved",
+   "approvedBy": "AA（D109 劇情自主；AA 10:26 交付）",
+   "task": "D118-B2-1102",
+   "kind": "text",
+   "note": "大一上觀念卡 27 張（民總一 10、憲法上 9、刑總一 8）定稿（AA 照獨立核對改 9 張）；tools/study/build_units.py 讀這一版的 plain／example／cue／basis 寫進 src/data/study_units.js（tests/cards_import_unit.js）。子代理 2026-11-02 代登，給值班 LAWWW 核"
+  },
+  {
+   "path": "docs/story_planning/study/cards_y1s2.json",
+   "sha": "4f59adae0",
+   "status": "approved",
+   "approvedBy": "AA（D109 劇情自主；AA 10:26 交付）",
+   "task": "CARDS-Y1S2-IMPORT-1102",
+   "kind": "text",
+   "note": "大一下觀念卡 29 張（憲法下 9、刑總二 10、債總一 10；45 題）定稿（AA 照獨立核對改 21 張；c3660c6fe 的檔和這一版一字不差）；tools/study/build_units.py 讀這一版。子代理 2026-11-02 代登，給值班 LAWWW 核"
+  },
+  {
+   "path": "docs/story_planning/study/crimpro_titles.json",
+   "sha": "34b02abc3",
+   "status": "approved",
+   "approvedBy": "AA（D109 劇情自主；AA 10:26 交付）",
+   "task": "D118-B2-1102",
+   "kind": "text",
+   "note": "刑訴 QBANK 9 張卡（crimpro_q1～q9）的正式標題；tools/study/build_units.py 換掉「刑事訴訟法・章名（一）」的暫用標題。子代理 2026-11-02 代登，給值班 LAWWW 核"
+  },
+  {
+   "path": "docs/story_planning/study/cards_y2s1.json",
+   "sha": "f13fbaef9",
+   "status": "approved",
+   "approvedBy": "AA（D109 劇情自主；AA 11:04 定稿，已獨立核對）",
+   "task": "D118-B2-1102",
+   "kind": "text",
+   "note": "大二上觀念卡 33 張（行政法 8、刑法分則 8、債總二 8、物權 9；62 題）定稿（AA 照核對報告 c10293db4 改 9 張）；tools/study/build_units.py 讀這一版。子代理 2026-11-02 代登，給值班 LAWWW 核；2026-11-02 11:4x AA 補 basis＋family_law_w6 限縮一句（AA 回 5 點），LAWWW 換 sha",
+   "history": [
+    "cafc8dbbf"
+   ]
+  },
+  {
+   "path": "docs/story_planning/study/cards_y2s2.json",
+   "sha": "f13fbaef9",
+   "status": "approved",
+   "approvedBy": "AA（D109 劇情自主；AA 11:31 定稿，已獨立核對）",
+   "task": "D118-B2-1102",
+   "kind": "text",
+   "note": "大二下觀念卡 31 張（行政救濟 8、身分法 9、法學英文 8、債各 6；61 題）定稿（AA 照核對報告改 5 張）；tools/study/build_units.py 讀這一版，basis 照 AA 的話拿掉「法學英文用語（英美法，無我國條文）」（BASIS_DROP）。子代理 2026-11-02 代登，給值班 LAWWW 核；2026-11-02 11:4x AA 補 basis＋family_law_w6 限縮一句（AA 回 5 點），LAWWW 換 sha",
+   "history": [
+    "a5b859cae"
+   ]
+  },
+  {
+   "path": "docs/story_planning/study/cards_y3s1.json",
+   "sha": "44284c838",
+   "status": "approved",
+   "approvedBy": "AA（D109 劇情自主；AA 11:46 定稿，已獨立核對）",
+   "task": "D118-B2-1102",
+   "kind": "text",
+   "note": "大三上觀念卡 38 張（民訴 9、公司法 10、證交 9、刑訴 w10 1、刑訴題庫 crimpro_q1～q9 9；146 題，其中是非 42）；LAWWW 2026-11-02 登記"
+  },
+  {
+   "path": "docs/story_planning/study/cards_y3s2.json",
+   "sha": "1dd6c19be",
+   "status": "approved",
+   "approvedBy": "AA（D109 劇情自主；AA 12:02 定稿，已獨立核對）",
+   "task": "D118-B2-1102",
+   "kind": "text",
+   "note": "大三下觀念卡 35 張（民訴甲下 10、保險 9、勞動 8、票據 8；42 題）；LAWWW 2026-11-02 登記；AA 12:03 民訴甲下 w2↔w3、w11↔w12 對調、w15 併入 w6（配合 AI_CP2 scopeWeek），換 sha 1dd6c19be"
+  },
+  {
+   "path": "docs/story_planning/syllabus/Y1S1.json",
+   "sha": "1edea905f",
+   "status": "approved",
+   "approvedBy": "AA 2026-11-02 定稿（D109；AA_588 第 3 節「源稿已改（下次重匯不會蓋回去）」）",
+   "task": "AA588-AA581-TAIL-1102",
+   "kind": "data",
+   "note": "AA_588 第 3 節：_src/y1s1.py:46 第 7 週黑板「下週、下下週：前七週整理＋案例作業」（AA_581 第 11 節第 1 點；經濟系會計學那句不動），AA 用 build.py 重產。tools/syllabus/import_syllabus.py claude/story-planning@1edea905f 重匯；匯入工具讀學期檔前比對：要讀的那一版內容要和這裡 approved 的一樣。子代理 2026-11-02 代登（分支 worktree-agent-a56503a4cb939863c），給值班 LAWWW 核",
+   "history": [
+    {
+     "sha": "57b2a7b39",
+     "approvedBy": "之前的匯入基準：tools/syllabus/import_syllabus.py claude/magical-albattani-bk7b4n@57b2a7b39（學期檔還沒進白名單的時期；src/data/syllabus.js 的 source）"
+    }
+   ]
+  },
+  {
+   "path": "docs/story_planning/syllabus/Y2S1.json",
+   "sha": "1edea905f",
+   "status": "approved",
+   "approvedBy": "AA 2026-11-02 定稿（D109；AA_588 第 3 節「源稿已改（下次重匯不會蓋回去）」）",
+   "task": "AA588-AA581-TAIL-1102",
+   "kind": "data",
+   "note": "AA_588 第 3 節：_src/y2s1.py:138、:309 第 7 週黑板「下週、下下週：前七週整理＋案例作業」、:95 柏翰缺課訊息「期末考範圍表更新了。」（AA_581 第 66 列），AA 用 build.py 重產。tools/syllabus/import_syllabus.py claude/story-planning@1edea905f 重匯；匯入工具讀學期檔前比對：要讀的那一版內容要和這裡 approved 的一樣。子代理 2026-11-02 代登（分支 worktree-agent-a56503a4cb939863c），給值班 LAWWW 核",
+   "history": [
+    {
+     "sha": "57b2a7b39",
+     "approvedBy": "之前的匯入基準：tools/syllabus/import_syllabus.py claude/magical-albattani-bk7b4n@57b2a7b39（學期檔還沒進白名單的時期；src/data/syllabus.js 的 source）"
+    }
+   ]
+  },
+  {
+   "path": "docs/story_planning/syllabus/Y2S2.json",
+   "sha": "1edea905f",
+   "status": "approved",
+   "approvedBy": "AA 2026-11-02 定稿（D109；AA_588 第 3 節「源稿已改（下次重匯不會蓋回去）」）",
+   "task": "AA588-AA581-TAIL-1102",
+   "kind": "data",
+   "note": "AA_588 第 3 節：_src/y2s2.py:106 柏翰缺課訊息「期末考範圍表更新了。」（AA_581 第 67 列），AA 用 build.py 重產。tools/syllabus/import_syllabus.py claude/story-planning@1edea905f 重匯；匯入工具讀學期檔前比對：要讀的那一版內容要和這裡 approved 的一樣。子代理 2026-11-02 代登（分支 worktree-agent-a56503a4cb939863c），給值班 LAWWW 核",
+   "history": [
+    {
+     "sha": "57b2a7b39",
+     "approvedBy": "之前的匯入基準：tools/syllabus/import_syllabus.py claude/magical-albattani-bk7b4n@57b2a7b39（學期檔還沒進白名單的時期；src/data/syllabus.js 的 source）"
+    }
+   ]
+  },
+  {
+   "path": "docs/story_planning/syllabus/Y3S2.json",
+   "sha": "1edea905f",
+   "status": "approved",
+   "approvedBy": "AA 2026-10-23 定稿（D109；AA_389 第 9 點）",
+   "task": "AA588-AA581-TAIL-1102",
+   "kind": "data",
+   "note": "AA_389 第 9 點（企劃線 b30766683 同步原檔）：勞動法阿哲翹課訊息改「老師今天講加班費，舉了超商店員的例子。全班都在算自己以前打工被扣多少。」——之前的匯入基準 57b2a7b39 比 b30766683 早，遊戲一直還是舊句；這次重匯一起進來。tools/syllabus/import_syllabus.py claude/story-planning@1edea905f 重匯；匯入工具讀學期檔前比對：要讀的那一版內容要和這裡 approved 的一樣。子代理 2026-11-02 代登（分支 worktree-agent-a56503a4cb939863c），給值班 LAWWW 核",
+   "history": [
+    {
+     "sha": "57b2a7b39",
+     "approvedBy": "之前的匯入基準：tools/syllabus/import_syllabus.py claude/magical-albattani-bk7b4n@57b2a7b39（學期檔還沒進白名單的時期；src/data/syllabus.js 的 source）"
+    }
+   ]
+  },
+  {
+   "path": "docs/story_planning/AA_585_midweek.json",
+   "sha": "1bdfd2304",
+   "status": "approved",
+   "approvedBy": "AA 2026-11-02 定稿 1bdfd2304（D109）；BB 法律審 BB_231 @995ffc585：60 週全部 PASS（民總照留原題、不用備案）",
+   "task": "AA585-MIDWEEK-1102",
+   "kind": "data",
+   "note": "法律三十門第 8、9 週（前七週整理＋案例作業；D118 沒有期中考）。tools/syllabus/import_syllabus.py 當補丁來源疊在 BB 的源稿上（BB_231「匯入方式」：BB 源稿不動），reviewed 加 60 筆。995ffc585、1edea905f 的內容和 1bdfd2304 一樣。tests/aa585_midweek_unit.js。子代理 2026-11-02 代登（分支 worktree-agent-a56503a4cb939863c），給值班 LAWWW 核"
+  },
+  {
+   "path": "docs/story_planning/AA_138_回家_家人台詞池.md",
+   "sha": "1edea905f",
+   "status": "approved",
+   "approvedBy": "AA 2026-11-02 定稿（D109；AA_588 第 3 節：晚餐第 8 題改「這學期報告多不多？」／「還好。」「有一份不太順。」／「不順的先放著，先吃飯。」，週次 8～10 不動）",
+   "task": "AA588-AA581-TAIL-1102",
+   "kind": "text",
+   "note": "tools/home/import_home_lines.py 讀的就是 AA_138（PATH）；claude/story-planning@1edea905f 重匯 src/data/home_lines.js（AA_532、AA_533 照舊疊上去）。匯入工具比對：要讀的那一版內容要和這裡 approved 的一樣。子代理 2026-11-02 代登（分支 worktree-agent-a56503a4cb939863c），給值班 LAWWW 核",
+   "history": [
+    {
+     "sha": "ea43bd9a0",
+     "approvedBy": "之前的匯入基準：import_home_lines.py claude/magical-albattani-bk7b4n（ea43bd9a0；AA_138 還沒進白名單的時期；src/data/home_lines.js 的 source）"
+    }
+   ]
+  },
+  {
+   "path": "docs/story_planning/AA_588_回LAWWW_AA581收尾與交換延畢又被當.md",
+   "sha": "1edea905f",
+   "status": "approved",
+   "approvedBy": "AA 2026-11-02 定稿（D109，第②級）",
+   "task": "AA588-AA581-TAIL-1102",
+   "kind": "text",
+   "note": "第 1 節沛珊柏翰公開移到 4/15 傍晚麵店進店事件（events.js ev_psbh_public_0415、story3d.js phoneRules 17:00 兩則、20:30 滷蛋照片）＋期末那頓拿掉公開；第 2 節記憶標籤 AN_L8_MIDTERM（social3d.js）；第 3 節源稿（syllabus 學期檔、AA_138，見那幾列）；第 4 節 K1「又被當」七句（postgrad3d.js CARDS_DELAY、r2y4b3d.js y5Plan）手抄改 src。tests/aa588_unit.js。子代理 2026-11-02 代登（分支 worktree-agent-a56503a4cb939863c），給值班 LAWWW 核"
+  },
+  {
+   "path": "docs/story_planning/study/cards_y4.json",
+   "sha": "95630e2f1",
+   "status": "approved",
+   "approvedBy": "AA（D109 劇情自主；AA 14:18 交付，已獨立核對、改 8 張、可選建議 8 項全採用）",
+   "task": "D118-B2-1102",
+   "kind": "text",
+   "note": "大四觀念卡 68 張（Y4S1 59、Y4S2 9；88 題）；法律專題研究、法律實習不考試沒有卡；LAWWW 2026-11-02 登記"
+  },
+  {
+   "path": "docs/story_planning/AA_584_學姊改稿_第二批_閒聊階梯與邀約.md",
+   "sha": "14154434b",
+   "status": "approved",
+   "approvedBy": "AA（帳號 A）2026-11-02 定稿（第 9 節 AA 審查決定，D109）＋BB_230 口氣審 PASS（第 89～93 列）＋使用者 2026-11-02 18:0x 選擇題 1～10 確認（第 11 節：第 9、10、29、48、67、82 列用使用者的句子；大一上 S-L8、大一下 S2-L6、大二上 S3-L3 整層刪、S3-L6 extraIf[0] 刪、第 72 列那一格刪）；企劃線 14154434b「學姊第二批確認完，可整合」",
+   "task": "AA584-SIS-B2-1102",
+   "note": "閒聊階梯（ladder.js）：企劃線源稿 build_ladder_bb*.py／ladder_bb*.json 還沒照這份改，由 tools/ladder/import_ladder.py 讀這份對照表疊上去（第 2 節 ladder.js 的 83 列、爸爸三層＋第 11 節三層整層刪、S3-L6 extraIf[0]、大四上招呼一格；刪層的舊存檔進度在 src/story3d.js S.LAD_DEL 換算）；邀約 invites.js 第 79～87 列、sis_grad3d.js STUDY_YES 第 88 列手抄改 src；記憶名稱（第 9 節第 1 點、第 4-4 節連1、連2）在 src/social3d.js；修正本私訊條件（第 9 節第 1 點）在 src/sis_b13_3d.js。tests/aa584_sis_b2_unit.js。子代理 2026-11-02 代登（int/next1102 上），給值班 LAWWW 核"
+  },
+  {
+   "path": "docs/story_planning/AA_590_學姊改稿_第三批_大一大二事件.md",
+   "sha": "68ceea665",
+   "status": "approved",
+   "approvedBy": "AA 2026-11-02 審查（第 9 節，D109；決1～決4 定案）、BB_235 口氣審 PASS、使用者 2026-11-02 18:2x 選擇題 11 題確認（第 10 節：「學姊第三批使用者看完，照本節調整後可以交 LAWWW」）",
+   "task": "AA590-SIS-B3-1102",
+   "kind": "text",
+   "note": "學姊改稿第三批（大一、大二事件）：手抄檔、程式，沒有產生器——tools/story/apply_line_table.py 自動換 57 列，其餘（第 4～7、17、21、53、60、71～82 列、保104、保147）手改；空的保溫瓶（ev_sis_empty_flask，第 16 列）、等放榜（ev_sis15_novel，第 28、29 列）整場 retired（定義留給舊存檔）；成績那一則改問放假（grades3d.js，第 55、56 列；開學以後不演）。tests/aa590_sis_b3_unit.js（稿 tests/aa590_doc.js）。子代理 2026-11-02 代登（int/next1102 上），給值班 LAWWW 核"
   }
  ]
 }

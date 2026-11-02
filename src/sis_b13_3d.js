@@ -110,7 +110,7 @@ const SISB13=(function(){
   S.THESIS={ask:'2029-07-15',day:'2029-07-20'};
   S.THESIS_OUT={id:'sisb13_thesis',ev:'ev_sis13_thesis',h:18.5,late:0.5,place:'公館',title:'公館（學姊的論文）',travel:'走過去約 15 分鐘',travelH:0.25,hours:1};
   S.thesis=function(G){ const F=G.flags, a=D(S.THESIS.ask), d=D(S.THESIS.day), tag='sisb13_thesis_ask'; if(a==null||d==null||G.day<a||G.day>d+1) return;
-    if(!sent(G,tag)&&G.day<=a+1&&has(ID,'SIS6_FATHER_COPY')&&!!F.met_sis&&contact(G)){ const M=(L.thesisMsg||[]).map(dm); M[M.length-1].ask={id:tag,until:T(d,18),opts:(L.thesisOpts||[]).map(o=>Object.assign(reply(o),{set:{SIS_THESIS_GO:o.k==='yes'}}))}; PHONE.at(G,a,tzH(G,a,21),M,tag); }   /* 閒聊 S5-L5 的記憶（那一層兩個選項都記）*/
+    if(!sent(G,tag)&&G.day<=a+1&&friendUp(G)&&!!F.met_sis&&contact(G)){ const M=(L.thesisMsg||[]).map(dm); M[M.length-1].ask={id:tag,until:T(d,18),opts:(L.thesisOpts||[]).map(o=>Object.assign(reply(o),{set:{SIS_THESIS_GO:o.k==='yes'}}))}; PHONE.at(G,a,tzH(G,a,21),M,tag); }   /* 朋友以上（交往中也算）：原本是閒聊 S5-L5 的記憶 SIS6_FATHER_COPY，那一層（爸爸要一本論文）AA_584 刪了，條件照第 9 節第 1 點換（私訊內容「一本給我爸了……」留給事件那一批改）*/
     if(F.SIS_THESIS_GO===true&&F.SIS_THESIS_COPY==null&&now(G)<T(d,S.THESIS_OUT.h+S.THESIS_OUT.late)) plan(G,Object.assign({},S.THESIS_OUT,{day:d})); };
 
   /* ---------------- 第 2 節第 5 點：交往中，週一、三 19:00～21:30 她在研究室（大二上起）---------------- */

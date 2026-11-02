@@ -126,8 +126,8 @@ const J=x=>JSON.stringify(x);
 
   // ===== 5. 3-1 期中考完 =====
   const m24=D('2026-04-24');
-  chk('5. 4/24（五，大一下第 9 週）21:30 麵店團群組：Alison「期中考完的人 舉手」阿哲「🙋」柏翰「我還有一科。」Alison「柏翰 那你為什麼在這裡」柏翰「……我去念書了。」',()=>{ fresh(m24,9,'dorm'); noodle(); runTo(m24,21.75); const t=CALENDAR.termOf(m24);
-    return [t&&t.id==='Y1S2'&&t.week===9&&J(msgOf('y1s2_mid_done'))===J(['yu:期中考完的人 舉手','zhe:🙋','classmate_bohan:我還有一科。','yu:柏翰 那你為什麼在這裡','classmate_bohan:……我去念書了。'])&&near(atOf('y1s2_mid_done'),Tm(m24,21.5)),J(msgOf('y1s2_mid_done'))]; });
+  chk('5. 4/24（五，大一下第 9 週）21:30 麵店團群組：Alison「報告寫完的人 舉手」阿哲「🙋」柏翰「我還有一份。」Alison「柏翰 那你為什麼在這裡」柏翰「……我去寫了。」',()=>{ fresh(m24,9,'dorm'); noodle(); runTo(m24,21.75); const t=CALENDAR.termOf(m24);
+    return [t&&t.id==='Y1S2'&&t.week===9&&J(msgOf('y1s2_mid_done'))===J(['yu:報告寫完的人 舉手','zhe:🙋','classmate_bohan:我還有一份。','yu:柏翰 那你為什麼在這裡','classmate_bohan:……我去寫了。'])&&near(atOf('y1s2_mid_done'),Tm(m24,21.5)),J(msgOf('y1s2_mid_done'))]; });
 
   // ===== 6. 3-2 大一下的手機小事八則 =====
   const typical=(d0,days)=>{ fresh(d0,7,'dorm'); noodle(); PHONE.join(G,'family_law','法律系直屬家族'); R('heroine_01','FAM'); R('heroine_03','FAM'); R('classmate_xinci','ACQ'); R('kai','FAM');

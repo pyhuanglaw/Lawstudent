@@ -174,7 +174,7 @@ const IDS=['ev_y3s2_first_meal','ev_y3s2_228','ev_an_azalea_y3','ev_yu_club_mone
   fresh('2028-04-03',17.1,'dorm'); grpJoin(); ['zhe','yu','classmate_bohan','classmate_xinci','heroine_01'].forEach(id=>R(id,'FRI')); rules(); const tq=OUT.get(G,'y3s2_roof_toast');
   check('T0. 4/3 17:00 阿哲「今晚頂樓 烤吐司」「果醬自己帶」；排 20:00 宿舍頂樓', txt('g:noodle_team').join('|')==='zhe:今晚頂樓 烤吐司|zhe:果醬自己帶'&&tq&&tq.h===20);
   picks=[1]; await run('ev_y3s2_roof_toast');
-  check('T1. 台灣路線：「期中考版的春假。只有兩個小時。」；以安不在（她在日本：沒有她當面說話）；拍照傳給以安＝「這邊也是晚上。」（手機）', has('期中考版的春假。只有兩個小時。')&&!said.some(s=>s.who==='沈以安')&&has('這邊也是晚上。')&&txt('p:heroine_01').includes('heroine_01:這邊也是晚上。')&&G.flags.Y3S2_ROOF_TOAST===true, JSON.stringify(lines()));
+  check('T1. 台灣路線：「趕報告版的春假。只有兩個小時。」；以安不在（她在日本：沒有她當面說話）；拍照傳給以安＝「這邊也是晚上。」（手機）', has('趕報告版的春假。只有兩個小時。')&&!said.some(s=>s.who==='沈以安')&&has('這邊也是晚上。')&&txt('p:heroine_01').includes('heroine_01:這邊也是晚上。')&&G.flags.Y3S2_ROOF_TOAST===true, JSON.stringify(lines()));
   fresh('2028-04-03',17.1,'dorm',{EXCHANGE_ROUTE:'JP'}); grpJoin(); R('zhe','FRI'); date('heroine_01'); rules(); at('2028-04-03',21.6); rules();
   check('T2. 日本路線：沒有邀約；臺灣 20:30＝日本 21:30「你那邊有吐司嗎」', !OUT.get(G,'y3s2_roof_toast')&&txt('g:noodle_team').includes('zhe:你那邊有吐司嗎'));
   fresh('2028-04-03',17.1,'dorm'); grpJoin(); R('zhe','FRI'); rules(); at('2028-04-03',20.5); OUT.tick(GM); at('2028-04-03',22.1); rules();

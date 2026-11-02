@@ -365,8 +365,9 @@ const date=id=>H.date(id);
     at('2029-10-15',21); pg(); check('2-Y4-52 10 月明軒（FAMILIAR 以上）：「（照片：宿舍窗外的樹都黃了）」「這裡十月就要穿大衣了。」', JSON.stringify(th('p:classmate_mingxuan'))===JSON.stringify(['（照片：宿舍窗外的樹都黃了）','這裡十月就要穿大衣了。']));
     at('2030-01-21',10); H.said=[]; await H.run('r2y4b_y5_cert'); at('2030-01-21',12.1); PHONE.tick(H.G);
     check('X3 證書那天：10:00（系統）「畢業證書已可領取。」；助教「你們交換回來的，今天第三個了。」；媽媽「照片傳給我。我要傳給你爸。」；沒有以安的群組；CERT_DAY', th('sys').includes('畢業證書已可領取。')&&has('（系辦的助教把證書遞給你。）')&&has('你們交換回來的，今天第三個了。')&&th('p:mom').includes('照片傳給我。我要傳給你爸。')&&!th('g:noodle_team').length&&H.G.flags.CERT_DAY===D('2030-01-21'));
-    at('2030-02-16',9); H.said=[]; await H.run('r2y4b_grad_exam_2030'); at('2030-03-15',15); H.said=[]; await H.run('r2y4b_grad_result_2030');
-    check('X2 2030-02-16 筆試（黑幕兩節、字卡「考場」、沒有以安）→ 3/15 放榜：Y5S1 選了去總圖（一週 4 天）＝上；GRAD_ADMIT exam', H.G.flags.GRAD_EXAM_2030===true&&H.G.flags.GRAD_EXAM_RESULT==='pass'&&H.G.flags.GRAD_ADMIT==='exam'&&th('sys').includes('研究所放榜：法律學研究所，錄取。')); }
+    at('2030-02-16',9); H.said=[]; { const qs=PG.drawGrad(H.G,2030); H.picks=qs.map((q,i)=>{ const o=PG.opts(q), r=o.findIndex(x=>String(x.v)===String(q.answer)); return i<5?r:(r===0?1:0); }); }   /* D118-B6：筆試改成作答；Y5S1 選了去總圖＝門檻 5（原本看總圖天數）*/
+    await H.run('r2y4b_grad_exam_2030'); H.picks=[]; at('2030-03-15',15); H.said=[]; await H.run('r2y4b_grad_result_2030');
+    check('X2 2030-02-16 筆試（黑幕兩節、字卡「考場」、沒有以安）→ 3/15 放榜：Y5S1 選了去總圖、作答 5 題（門檻 5，D118-B6）＝上；GRAD_ADMIT exam', H.G.flags.GRAD_SCORE_2030===5&&H.G.flags.GRAD_EXAM_2030===true&&H.G.flags.GRAD_EXAM_RESULT==='pass'&&H.G.flags.GRAD_ADMIT==='exam'&&th('sys').includes('研究所放榜：法律學研究所，錄取。')); }
   { fresh('2030-02-16',8,'dorm',Object.assign({Y4_PATH:'grad',Y5_DAYS:'work'},GD),'US'); at('2030-02-16',9); H.said=[]; H.cards=[];
     check('2-Y4-52 2030 筆試只給交換延畢、選②、還沒上的', S.gradExam2030Due(H.G)&&dueHas('r2y4b_grad_exam_2030'));
     await H.run('r2y4b_grad_exam_2030');

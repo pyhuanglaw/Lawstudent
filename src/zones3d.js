@@ -110,11 +110,17 @@ const Z3 = (function(){
     // 校園配置依台大校總區平面圖（map.ntu.edu.tw，2025.10.13 版）壓縮：x 往東、-z 往北；椰林大道東西向（z=0），西端大門、東端總圖書館；
     // 大道南側：傅鐘＋行政大樓；北側：文學院、校史館、農業陳列館；小椰林道（x=30）往北通法學院；醉月湖在文學院北邊。
     // 主要道路：椰林大道 東西向（z=0），從校門 x=-124 到總圖前廣場 x≈72
-    strip(g,-124,0,72,0,16,W3.pathTex(),4); curb(g,-124,0,72,0,16);
+    /* LIB-FRONT-1102（使用者 11-02 08:45 五張照片＋09:4x 一張；LAWWW2 tools/blender/env_second/campus_library.py、campus_lib_lawn.py）：總圖前改成照片的樣子——
+       大道的柏油、步道在小椰林道路口以東（x 35）結束；x 35～63.5 是一大片長草坪（兩邊龍柏籬、籬笆外大王椰子、紅磚步道），x 63.5～73.75 淺色石板廣場（「台階下方還有磁磚 蠻寬的 之後才是草坪」），
+       x 73.75～76 五階寬台階走上 0.9 m 的平台；平台 6 m 深（x 76～82，10:4x「總圖出來還有個平台 之後才是階梯往下」）、再進一樓拱廊。總圖不搬（門口互動點 (86.4,0)、門外 (80,0)、門廊前 (82,0) 照舊走得到；LAWWW 11-02 09:11）。
+       兩個正式模型都有時才換（?nobldg 或 manifest 沒有：照舊是大道到 x 72＋石板小廣場＋套件的總圖）*/
+    const LIBF=typeof ASSETS!=='undefined'&&!!ASSETS.manifest['bldg.campus_lib_lawn']&&!!ASSETS.manifest['bldg.campus_library'];
+    const AVE_X1=LIBF?35:72;
+    strip(g,-124,0,AVE_X1,0,16,W3.pathTex(),4); curb(g,-124,0,AVE_X1,0,16);
     // v9.3 第十八批：大道中間 12 m 是柏油路面（黃色虛線中線、白色邊線；照使用者給的椰林大道照片），兩側各 2 m 石磚人行道（原本整條 16 m 都是淺色石磚，像廣場）。
     // 只是路面貼圖，導航不變；騎腳踏車的路人走 z=±3（路面上），行人走 z=±7（人行道上）
-    { const rt=avenueRoadTex().clone(); rt.needsUpdate=true; rt.repeat.set(1,196/9);
-      const road=new THREE.Mesh(new THREE.PlaneGeometry(12,196),texMat(rt,null,{roughness:0.9})); road.rotation.x=-Math.PI/2; road.rotation.z=-Math.PI/2; road.position.set(-26,0.024,0); road.receiveShadow=true; g.add(road); }
+    { const RL=AVE_X1+124; const rt=avenueRoadTex().clone(); rt.needsUpdate=true; rt.repeat.set(1,RL/9);
+      const road=new THREE.Mesh(new THREE.PlaneGeometry(12,RL),texMat(rt,null,{roughness:0.9})); road.rotation.x=-Math.PI/2; road.rotation.z=-Math.PI/2; road.position.set((AVE_X1-124)/2,0.024,0); road.receiveShadow=true; g.add(road); }
     // 總圖前廣場（椰林大道盡頭）
     const libPlaza=ground(g,17,36,W3.stoneTex('#e3d9c6'),[4,9],78.5,0,0.016);
     /* 總圖前草皮（X133 LIB-LAWN-1030 第一版，LAWWW2-B；tools/blender/env_second/campus_lib_lawn.py → bldg.campus_lib_lawn）：中軸（z −5～5）兩邊各一塊 L 形草皮、
@@ -122,17 +128,19 @@ const Z3 = (function(){
        有正式模型時才換：原本廣場兩邊的兩棵樹 (74,−12)、(78,14) 拿掉（位置在草皮上）。模型載入失敗時照舊是石板廣場（樹、長椅、路燈還在，走得到）。
        草皮走得到、坐得到（草皮面 4.5 cm、路緣 7 cm；導航是平的）。導航只擋樹幹、長椅、燈柱。 */
     const lawnGLB=typeof ASSETS!=='undefined'&&!!ASSETS.manifest['bldg.campus_lib_lawn'];
-    if(lawnGLB){
-      const ct=TK.tree(16,1331,{sp:'camphor'}); ct.name='lib_old_camphor'; place(g,ct,74.2,-11.6,0.4); nav.blockCircle(74.2,-11.6,1.0);   /* 老樟樹：比法律系館A 前的那棵（19 m）矮一點；樹冠蓋到中軸北半邊 */
-      const st=TREE(1.15); place(g,st,74.7,11.6,2.1); nav.blockCircle(74.7,11.6,0.8);   /* 南側草皮：中型的樹（校園其他闊葉樹同一套）*/
-      for(const s of [-1,1]) for(const x of [72.6,75.0,77.4]){ const b=BENCH(); place(g,b,x,s*5.75,s>0?Math.PI:0); nav.blockRect(x,s*5.75,1.4,0.7,0); seats.push({x,z:s*5.75+(s>0?-0.06:0.06),yaw:s>0?Math.PI:0,label:'坐在總圖前的長椅上'}); }
-      for(const [x,z,ry] of [[70.8,-5.75,0],[70.8,5.75,Math.PI],[79.0,-5.75,0],[79.0,5.75,Math.PI],[75.0,-17.3,0],[75.0,17.3,Math.PI]]){ const l=W3.lampPost(); place(g,l,x,z,ry); l.userData.roadPool=true; lamps.push(l); nav.blockCircle(x,z,0.5); }
+    if(lawnGLB){   /* LIB-FRONT-1102 第二版草坪（campus_lib_lawn.glb 的 info.layout）：老樟樹、南邊的大樹、四張長椅由遊戲放；白色球形路燈、龍柏籬、石墩在模型裡，這裡只擋導航 */
+      const ct=TK.tree(16,1331,{sp:'camphor'}); ct.name='lib_old_camphor'; place(g,ct,68.5,-25.5,0.4); nav.blockCircle(68.5,-25.5,1.0);   /* 老樟樹（「他在樟樹下等你」「總圖前面的樟樹比總圖老」）：廣場北邊 */
+      const st=TREE(1.15); place(g,st,68.5,25.5,2.1); nav.blockCircle(68.5,25.5,0.8);   /* 廣場南邊的大樹 */
+      for(const [x,z,ry] of [[65.3,-22.2,0.0],[71.7,-22.2,0.0],[65.3,22.2,Math.PI],[71.7,22.2,Math.PI]]){ const b=BENCH(); place(g,b,x,z,ry); nav.blockRect(x,z,1.4,0.7,0); seats.push({x,z:z+(ry?-0.06:0.06),yaw:ry,label:'坐在總圖前的長椅上'}); }   /* 大樹兩旁，面向廣場中間 */
+      for(const [x,z] of [[38.0,-15.35],[49.0,-15.35],[60.0,-15.35],[38.0,15.35],[49.0,15.35],[60.0,15.35],[64.3,-20.0],[64.3,20.0],[72.8,-19.2],[72.8,19.2]]) nav.blockCircle(x,z,0.5);   /* 白色球形路燈（模型裡；BUG-NAV-LAMPPOST-1021：r 0.25 在格角不擋任何格，用 0.5）*/
+      for(const [x,z] of [[40.0,-11.0],[40.0,11.0]]) nav.blockRect(x,z,0.9,0.9,0,0.05);   /* 草坪西端兩個白色石墩 */
+      for(const s of [-1,1]) nav.blockRect(51.8,s*11.0,22.6,1.4,0,0);   /* 龍柏籬（x 40.5～63.1、|z| 10.3～11.7）：草坪只能從兩頭進出，和照片一樣 */
     }
     // 椰林大道兩側的杜鵑花叢（真實的椰林大道中間沒有分隔島；開學的九月杜鵑不開花，只有綠叢）：每兩棵椰子樹中間一叢；
     // 路口（小椰林道、文學院、往醉月湖的小路、宿舍）、路燈、長椅前、傅鐘廣場前留空，草地和長椅都走得到
-    { const bin=new TK.Bin(); const lampXs=[], benchXs=[]; for(let x=-105;x<=55;x+=22) lampXs.push(x); for(let x=-100;x<=50;x+=25) benchXs.push(x);
+    { const bin=new TK.Bin(); const lampXs=[], benchXs=[]; for(let x=-105;x<=(LIBF?27:55);x+=22) lampXs.push(x); for(let x=-100;x<=(LIBF?25:50);x+=25) benchXs.push(x);
       const skipN=[[24,36],[-41,-35],[-15.5,-8.5]], skipS=[[-53,-23],[16,24]];
-      for(let x=-106.25;x<=66.25;x+=7.5){ if(lampXs.some(l=>Math.abs(x-l)<2.6)||benchXs.some(b=>Math.abs(x-b)<1.8)) continue;
+      for(let x=-106.25;x<=(LIBF?30:66.25);x+=7.5){ if(lampXs.some(l=>Math.abs(x-l)<2.6)||benchXs.some(b=>Math.abs(x-b)<1.8)) continue;   /* LIB-FRONT-1102：路口以東是草坪、龍柏籬 */
         for(const s of [-1,1]){ if((s<0?skipN:skipS).some(([a,b])=>x>a-1.5&&x<b+1.5)) continue; const z=s*10.8;
           for(let k=-1;k<=1;k++) TK.plantClump(bin,x+k*0.85,0,z+(k%2?0.12:-0.1)*s,0.95+(Math.abs(x*7+k*3)%3)*0.08,6,[0.62,0.82,0.6]);
           nav.blockRect(x,z,2.6,0.9,0,0); } }
@@ -170,11 +178,11 @@ const Z3 = (function(){
     // 圍牆（校門兩側）
     { const wb=new TK.Bin(); const wt=campusWallMat(); for(const s of [-1,1]){ wb.add(wt,TK.boxG(1,1.8,70,1.0),-124,0.9,s*45); wb.add(TK.paint('#d9d3c6'),TK.boxG(1.2,0.14,70.2),-124,1.87,s*45); nav.blockRect(-124,s*45,1.2,70,0,0.3); } wb.build(g); }   /* 第二十批：原本 W3.brickTex 沒設重複次數，整面 70 m 的牆只有一張貼圖、拉成一條條暗紋；改成和北側圍牆同一個面磚材質＋牆頭石材（尺寸、導航不變）*/
     // ---- 椰林大道：大王椰子 ----
-    for(let x=-110;x<=70;x+=7.5){ for(const s of [-1,1]){ palmIdx++; const p=TK.royalPalm((14.5+((x*7)%3)*0.8)*1.35,palmIdx,{crown:0.66});   /* v9.3 第十八批：照椰林大道照片拉高到約 20 m、樹冠相對變小 */ place(g,p,x,s*9.5,(x*0.3)%6.28); nav.blockCircle(x,s*9.5,0.5); } }
+    for(let x=-110;x<=70;x+=7.5){ for(const s of [-1,1]){ palmIdx++; if(LIBF&&x>66) continue; const pz=(LIBF&&x>35)?13.4:9.5;   /* LIB-FRONT-1102：草坪那一段的椰子在龍柏籬外面（照片：籬笆後面一排大王椰子）；x 70 那一棵在廣場上，拿掉 */ const p=TK.royalPalm((14.5+((x*7)%3)*0.8)*1.35,palmIdx,{crown:0.66});   /* v9.3 第十八批：照椰林大道照片拉高到約 20 m、樹冠相對變小 */ place(g,p,x,s*pz,(x*0.3)%6.28); nav.blockCircle(x,s*pz,0.5); } }
     // 兩側草地小徑與長椅、腳踏車
-    for(let x0=-100;x0<=50;x0+=25){ for(const s of [-1,1]){ const x=(x0===25&&s<0)?17:x0;   /* 南側 x=25 那張貼著小椰林道的椰子樹（24.2,-14，樹幹在椅背後 1.3 m）：移到 x=17（使用者 2026-10-16：這張椅子位子有夠奇怪）*/ const b=BENCH(); place(g,b,x,s*13,s>0?Math.PI:0); nav.blockRect(x,s*13,1.4,0.7,0); seats.push({x,z:s*13+(s>0?-0.06:0.06),yaw:s>0?Math.PI:0,label:'坐在椰影大道的長椅上'}); } }
+    for(let x0=-100;x0<=(LIBF?25:50);x0+=25){ for(const s of [-1,1]){ const x=(x0===25&&s<0)?17:x0;   /* 南側 x=25 那張貼著小椰林道的椰子樹（24.2,-14，樹幹在椅背後 1.3 m）：移到 x=17（使用者 2026-10-16：這張椅子位子有夠奇怪）*/ const b=BENCH(); place(g,b,x,s*13,s>0?Math.PI:0); nav.blockRect(x,s*13,1.4,0.7,0); seats.push({x,z:s*13+(s>0?-0.06:0.06),yaw:s>0?Math.PI:0,label:'坐在椰影大道的長椅上'}); } }
     for(let x=-90;x<=40;x+=32){ const r=parkedRack(7); place(g,r,x+8,-16,0); nav.blockRect(x+8,-16,5,1.4,0); }
-    for(let x=-105;x<=55;x+=22){ for(const s of [-1,1]) for(const lx of (s>0&&x===-39)?[-46.25,-31.25]:[x]){ const l=W3.lampPost(); place(g,l,lx,s*11,s>0?Math.PI:0); l.userData.roadPool=true; lamps.push(l); nav.blockCircle(lx,s*11,0.5); } }   /* 傅鐘那一側：原本 (-39, 11) 那一盞正好擋在鐘亭正前方（巡場景 P3）——改成鐘亭兩側各一盞（都在兩棵椰子中間、鐘亭前廣場的範圍裡，那一段本來就不放植栽）*/   /* 燈臂朝大道（2026-10-21 LAWWW2：原本背對大道，晚上 12 m 寬的路面完全照不到、整條是黑的——經濟系、法律系晚上都走這條；燈頭位置照 W3.lampPost 的約定，只是轉向）*/
+    for(let x=-105;x<=(LIBF?27:55);x+=22){ for(const s of [-1,1]) for(const lx of (s>0&&x===-39)?[-46.25,-31.25]:[x]){ const l=W3.lampPost(); place(g,l,lx,s*11,s>0?Math.PI:0); l.userData.roadPool=true; lamps.push(l); nav.blockCircle(lx,s*11,0.5); } }   /* 傅鐘那一側：原本 (-39, 11) 那一盞正好擋在鐘亭正前方（巡場景 P3）——改成鐘亭兩側各一盞（都在兩棵椰子中間、鐘亭前廣場的範圍裡，那一段本來就不放植栽）*/   /* 燈臂朝大道（2026-10-21 LAWWW2：原本背對大道，晚上 12 m 寬的路面完全照不到、整條是黑的——經濟系、法律系晚上都走這條；燈頭位置照 W3.lampPost 的約定，只是轉向）*/
     // ---- 傅鐘（大道南側小廣場，行政大樓正前方）----
     const plaza=ground(g,28,12,W3.stoneTex('#e3d9c6'),[7,3],-38,17,0.015); const bell=CK.bell(); place(g,bell,-38,16.5,Math.PI); placeBlocks(nav,bell,-38,16.5,Math.PI);   /* v9.3 第十六批：校園套件的鐘亭，石碑朝北對著大道 */
     const bellGLB=typeof ASSETS!=='undefined'&&!!ASSETS.manifest['bldg.campus_bell']; bell.userData.ckTag='bell'; if(bellGLB) bell.userData.dyn=true;   /* 傅鐘的 Blender 正式模型（第二個 AI：campus_bell.py → bldg.campus_bell）：和總圖同一套接法；導航阻擋照舊是套件的（placeBlocks） */ for(const [x,z] of [[-51,21.5],[-25,21.5]]){ const b=TREE(1.3); place(g,b,x,z,0); nav.blockCircle(x,z,0.9); }
@@ -237,6 +245,17 @@ const Z3 = (function(){
     /* 總圖的 Blender 正式模型（第二個 AI：tools/blender/env_second/campus_library.py → bldg.campus_library）：有模型時套件的總圖不參加整區靜態合併，載入後藏起套件外觀；
        ?nobldg 或載入失敗時照舊是套件。導航阻擋、鏡頭碰撞、門口互動點都還是套件的（ckPlace） */
     const libGLB=typeof ASSETS!=='undefined'&&!!ASSETS.manifest['bldg.campus_library']; lib.userData.ckTag='library'; if(libGLB) lib.userData.dyn=true;
+    if(LIBF){   /* LIB-FRONT-1102：照片的總圖（campus_library.layout.json）——一樓拱廊突出在前面（正面 x 81.6～82.6、拱的位置留開口）、拱廊後牆 x 86.4（大門 z=0）、
+         五階寬台階（x 73.75～76、|z| ≤ 18，一階 0.18 m）走上 0.9 m 的平台（x 76～82：使用者 10:4x「總圖出來還有個平台 之後才是階梯往下」，兩端白石矮牆）、兩旁花台、北邊的方塔。
+         套件的門廊、拱廊柱子（舊外觀）的導航先拿掉，再擋新的。 */
+      nav.freeRect(73.7,-30.0,87.2,30.0);
+      for(const s of [-1,1]) nav.blockCircle(78.9,s*12.4,0.75);   /* LIB-FRONT v3.1（照片 40）：平台上白石翼拱前的兩棵尖塔形針葉樹（模型在 campus_lib_lawn.glb；要在上一行的 freeRect 之後擋） */
+      for(const [x0,z0,x1,z1] of [[76.0,-30.0,82.05,-29.4],[76.0,29.4,82.05,30.0],[73.75,-30.0,76.0,-18.0],[73.75,18.0,76.0,30.0],[81.6,-8.4,82.6,-7.3],[81.6,-3.9,82.6,-2.3],[81.6,2.3,82.6,3.9],[81.6,7.3,82.6,8.4],[82.0,-30.0,82.6,-23.2],[82.0,-20.0,82.6,-13.8],[82.0,-10.6,82.6,-8.4],[82.0,8.4,82.6,10.6],[82.0,13.8,82.6,20.0],[82.0,23.2,82.6,30.0],[82.55,-30.0,86.5,-27.4],[82.55,27.4,86.5,30.0],[86.38,-27.4,87.0,27.4],[87.0,-30.0,113.0,30.0],[82.0,-37.6,87.6,-32.0]]) nav.blockRect((x0+x1)/2,(z0+z1)/2,x1-x0,z1-z0,0,0);
+      for(const s1 of [{"x0":73.75,"x1":76.0,"z0":-18.0,"z1":18.0,"axis":"x","ya":0.0,"yb":0.9,"tread":0.45,"rise":0.18,"low":"x0"},{"x0":76.0,"x1":86.4,"z0":-29.8,"z1":29.8,"y":0.9}]){ nav.addSurf(s1);   /* 點地面移動打得到的透明地面（平台 0.9 m、台階斜面；和霖澤館穿堂同一套 campusWalk）*/
+        const ya=s1.y!==undefined?s1.y:s1.ya, yb=s1.y!==undefined?s1.y:s1.yb, dx=s1.x1-s1.x0; const m=new THREE.Mesh(new THREE.PlaneGeometry(Math.hypot(dx,yb-ya),s1.z1-s1.z0),new THREE.MeshBasicMaterial({visible:false}));
+        m.rotation.order='ZYX'; m.rotation.z=Math.atan2(yb-ya,dx); m.rotation.x=-Math.PI/2; m.position.set((s1.x0+s1.x1)/2,(ya+yb)/2+0.01,(s1.z0+s1.z1)/2); m.userData.walkLv=0; m.userData.dyn=true; g.add(m); campusWalk.push(m); }
+      { const T=[82.1,0,-37.5,87.5,28,-32.1]; const m=new THREE.Mesh(new THREE.BoxGeometry(T[3]-T[0],T[4]-T[1],T[5]-T[2]),new THREE.MeshBasicMaterial({visible:false,side:THREE.DoubleSide})); m.position.set((T[0]+T[3])/2,(T[1]+T[4])/2,(T[2]+T[5])/2); g.add(m); E.colliders.push(m); }   /* 方塔的鏡頭碰撞 */
+    }
     // ---- 小椰林道（x=30，從椰林大道往北通到法學院）：兩排較矮的大王椰子 ----
     for(let z=-14;z>=-70;z-=8){ for(const x of [24.2,35.8]){ if(x>30&&z>-66&&z<-54) continue; const p=PALM(7+((-z*3)%2)); place(g,p,x,z,(-z*0.7)%6.28); nav.blockCircle(x,z,0.45); } }
     // ---- 醉月湖（文學院北邊）----
@@ -293,7 +312,7 @@ const Z3 = (function(){
     { const r=parkedRack(9); place(g,r,58,-102,0); nav.blockRect(58,-102,6,1.4,0); const r2=parkedRack(6); place(g,r2,10,-100,0); nav.blockRect(10,-100,4,1.4,0); }
     { const bb=W3.bulletin(); place(g,bb,16.6,-100.6,0); nav.blockRect(16.6,-100.6,2.6,0.4,0); /* v9.3 第十九批：原本掛在霖澤館一樓拱廊的內牆上；新的霖澤館沒有拱廊、正面整排是台階，移到台階西端外面的鋪面上 */ const v=W3.vending(); place(g,v,13.5,-107.5,-Math.PI/2); nav.blockRect(13.5,-107.5,0.9,1.2,0); /* 靠霖澤館西側牆（舊位置一半埋在建築轉角裡）*/ }
     for(const [x,z] of [[30,-86],[62,-86],[97.2,-96.5],[51,-100.5],[69,-98.5]]){ /* 後兩盞原本在 (46,-108)、(76,-108)：埋在霖澤館、萬才館的牆裡，第十九批移到門前；(94,-86) 第二十四批移到萬才館一樓入口東側 (97.2,-96.5)：原本擋在往入口的路線中間（照亮入口）*/ const l=W3.lampPost(); place(g,l,x,z,Math.PI/2); lamps.push(l); nav.blockCircle(x,z,0.5); }
-    for(const [x,z] of [...(SOCX?[]:[[8,-70],[8,-50],[0,-56]]),[52,-50],[-54,-19],[-5,-16],[40,-20],[-95,-12],[-62,-56],[-96,24],[-82,31],[-68,24],[78,-38],[64,-44]]){   /* 第十八批拿掉：(8,-30)、(20,-20)、(52,-30)、(66,-28)（新系館的位置）、(-10,18)、(10,18)、(50,18)（換成大道南側的大樹牆）；X75：(8,-70)、(8,-50)、(0,-56) 在社科院的新位置裡面 */ const b=TREE(1+((x+z)%3)*0.2); place(g,b,x,z,(x+z)*0.3); nav.blockCircle(x,z,0.8); }
+    for(const [x,z] of [...(SOCX?[]:[[8,-70],[8,-50],[0,-56]]),[52,-50],[-54,-19],[-5,-16],[40,-20],[-95,-12],[-62,-56],[-96,24],[-82,31],[-68,24],LIBF?[75,-41]:[78,-38],LIBF?[68.5,-45]:[64,-44]]){   /* 第十八批拿掉：(8,-30)、(20,-20)、(52,-30)、(66,-28)（新系館的位置）、(-10,18)、(10,18)、(50,18)（換成大道南側的大樹牆）；X75：(8,-70)、(8,-50)、(0,-56) 在社科院的新位置裡面 */ const b=TREE(1+((x+z)%3)*0.2); place(g,b,x,z,(x+z)*0.3); nav.blockCircle(x,z,0.8); }
     // 花圃
     for(const x of [-64,-48]){ const p=W3.planter(); place(g,p,x,-13,0); nav.blockRect(x,-13,1.2,0.5,0); }
     /* 社團博覽會（AA_110 6-8 (b)；activities.js 的 club_expo_y1s1：新局 9/6、舊局 9/30、10/1，CLUBFAIR-REAL-1027）那幾天：LAWWW2 479b7fc 的九頂帳篷（clubFair），原本的招生攤位、公告欄收起來 */
@@ -311,7 +330,7 @@ const Z3 = (function(){
     // 補上沒有掛名字的系館（不冒用真實系館的名字和位置），同一套校園套件語彙：紅磚／面磚、一樓拱廊、拱窗或方窗
     { const fill=[
         [CK.hall({w:26,d:14,floors:3,gfh:4.4,fh:3.8,wall:'#c8a27c',trim:'#e6dfd0',roof:'#4a3a33',roofH:3.8,arcade:true,porch:{bays:1,depth:2.4,pediment:false}}),7,-28,0],          // 大道北側、文學院東邊
-        [CK.hall({w:28,d:16,floors:4,gfh:4.4,fh:3.6,wall:'#a35c48',trim:'#ddd5c6',roofType:'flat',win:'rect',arcade:true,porch:{bays:3,depth:2.6,style:'flat'}}),57,-34,0],   // 大道北側、小椰林道東邊
+        [CK.hall({w:LIBF?23:28,d:16,floors:4,gfh:4.4,fh:3.6,wall:'#a35c48',trim:'#ddd5c6',roofType:'flat',win:'rect',arcade:true,porch:{bays:3,depth:2.6,style:'flat'}}),LIBF?51.5:57,-34,0],   // 大道北側、小椰林道東邊（LIB-FRONT-1102：總圖前的廣場 x 63.5～73.75、|z| ≤ 30，原本 x 43～71 壓到廣場西北角 → 23 m 寬、中心 x 51.5：x 40～63）
         [CK.hall({w:34,d:14,floors:4,gfh:4.2,fh:3.5,wall:'#d2c3a5',trim:'#ebe4d6',roofType:'flat',win:'rect',arcade:true,porch:{bays:3,depth:2.6,style:'flat'}}),45,33,Math.PI],   // 大道南側、往宿舍的路東邊
         [CK.hall({w:30,d:13,floors:5,gfh:3.6,fh:3.1,wall:'#bfb5a3',trim:'#e4ddd0',roofType:'flat',win:'rect',arcade:false,porch:{bays:1,depth:2.0,style:'flat',h:3.4}}),-34,68,Math.PI],   // 舟山路南側、宿舍區
         [CK.hall({w:30,d:13,floors:5,gfh:3.6,fh:3.1,wall:'#c9b49a',trim:'#e8e2d6',roofType:'flat',win:'rect',arcade:false,porch:{bays:1,depth:2.0,style:'flat',h:3.4}}),74,68,Math.PI],

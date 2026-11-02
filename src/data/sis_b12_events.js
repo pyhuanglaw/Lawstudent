@@ -75,7 +75,7 @@ const SISB12_EVENTS=(function(){
         SIS('期末考得怎樣。'),
         {choice:[{text:'「還可以。」',goto:'a'},{text:'「有一科不太好。」',goto:'b'},{text:'「妳改的考卷改完了？」',if:{events:['ev_sis_ta_papers']},goto:'c'}]},   /* 第三個：演過 AA_394 2-3 助教的考卷 */
         {label:'a'},SIS('嗯。考完的就不講了。'),{goto:'m'},
-        {label:'b'},SIS('哪一科。……開學去問老師你錯在哪裡。不用求分數，去問就好。'),{goto:'m'},
+        {label:'b'},SIS('哪一科。……開學可以去問老師錯在哪裡。我以前也去問過。'),{goto:'m'},
         {label:'c'},SIS('昨天改完。紅筆用完一支。'),
         {label:'m'},N('（湯滾了。她伸手把你那一鍋的火轉小。）'),
         SIS('Kevin 大一的時候，家聚吃到一半睡著。'),

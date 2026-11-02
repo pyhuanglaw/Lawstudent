@@ -98,10 +98,10 @@ const meet=id=>SOCIAL.remember(id,'FIRST_MET','');
     /* 沒有群組：G1 最後當面問 */
     const g1=async(flags,group,pk)=>{ fresh(midDay,midIt.t0+0.2,'classroom',Object.assign({readCase:'full'},flags||{})); if(group) PHONE.join(G,'noodle_team','麵店團'); picks=[0,0,0,0,0].concat(pk||[]); /* D118：期末考有五題選擇（GM.choose 五次），先答完再到 G1 的選項 */ await CLS.attend(GM,midIt); return lines(); };
     let L=await g1({},false,['去吃飯','「去。」']);
-    check('A15 沒有群組：G1 最後阿哲當面問「晚上滷味，來不來？」（兩個選項）',L[L.length-1]==='晚上滷味，來不來？'&&JSON.stringify(opts[opts.length-1])==='["「去。」","「這次不行。」"]',JSON.stringify({L:L.slice(-2),o:opts[opts.length-1]}));
+    check('A15 沒有群組：G1 最後阿哲當面問「明天晚上滷味，來不來？」（兩個選項；宵夜順延到隔天的版本，AA_581 第 70 列）',L[L.length-1]==='明天晚上滷味，來不來？'&&!L.includes('晚上滷味，來不來？')&&JSON.stringify(opts[opts.length-1])==='["「去。」","「這次不行。」"]',JSON.stringify({L:L.slice(-2),o:opts[opts.length-1]}));
     run(G.hour,G.hour+0.1); check('A15 回「去。」＝排 20:30 公館滷味攤（順延到隔天）',!!OUT.get(G,'supper_mid1')&&OUT.get(G,'supper_mid1').h===20.5&&OUT.get(G,'supper_mid1').day===supDay);
     await g1({},false,['去吃飯','這次不行']); run(G.hour,G.hour+0.1); check('A15 回「這次不行。」＝不排',!OUT.get(G,'supper_mid1'));
-    L=await g1({},true,['去吃飯']); check('A15 有群組的玩家 G1 不當面問（在群組揪）',!L.includes('晚上滷味，來不來？'));
+    L=await g1({},true,['去吃飯']); check('A15 有群組的玩家 G1 不當面問（在群組揪）',!L.includes('晚上滷味，來不來？')&&!L.includes('明天晚上滷味，來不來？'));
     /* 宵夜的內容 */
     const sup=async(setup,pk,go)=>{ fresh(midDay,20,'campus',{}); if(setup) setup(); OUT.plan(G,{id:'supper_mid1',ev:'ev_midterm_supper',day:midDay,h:20.5,place:'公館滷味攤',title:'考完的宵夜',travel:'走過去約 10 分鐘',travelH:1/6}); G.hour=20.4; picks=[go===false?'不去了':'出發'].concat(pk||[]); await tickOut(); return lines(); };
     L=await sup(null); check('A15 只認識阿哲：滷味攤前對答案、「不要跟我講第二題。」；沒有明軒那句、沒有吵第三題',caps.includes('公館・滷味攤')&&JSON.stringify(L)===JSON.stringify(['公館的滷味攤前，大家在對答案。','有人只想吃，不想對：「不要跟我講第二題。」']),JSON.stringify({L,caps}));
@@ -122,16 +122,16 @@ const meet=id=>SOCIAL.remember(id,'FIRST_MET','');
     check('A16 事件存在：民總下課（afterClass civ_general）、第 10～11 週、只一次',!!e&&e.afterClass==='civ_general'&&JSON.stringify(e.weeks)==='[10,11]'&&e.once&&!!w10&&!!w11);
     /* AA_546 1-2（NO-COMPARE-1030，D116）：問寫法、不問分數；「比他低／比他高」合成一版，「不想說」那一支拿掉 */
     let L=await cls(w10,12,true,['講你怎麼寫']); const o=opts.find(x=>x.includes('（講你怎麼寫的）'));
-    check('A16 柏翰「民總期中，第三題你怎麼寫？」「我問了十四個人。你是第十五個。」；三個選項（AA_546 1-2）；沒有「你民總幾分？」',L.includes('民總期中，第三題你怎麼寫？')&&L.includes('我問了十四個人。你是第十五個。')&&!L.includes('你民總幾分？')&&JSON.stringify(o)==='["（講你怎麼寫的）","「我也不確定。」","「你錯哪裡？」"]',JSON.stringify({L,o}));
+    check('A16 柏翰「民總那份案例作業，第三題你怎麼寫？」「我問了十四個人。你是第十五個。」；三個選項（AA_546 1-2）；沒有「你民總幾分？」',L.includes('民總那份案例作業，第三題你怎麼寫？')&&L.includes('我問了十四個人。你是第十五個。')&&!L.includes('你民總幾分？')&&JSON.stringify(o)==='["（講你怎麼寫的）","「我也不確定。」","「你錯哪裡？」"]',JSON.stringify({L,o}));
     const tail=a=>L.slice(L.indexOf('我問了十四個人。你是第十五個。')+1);
     check('A16 講你怎麼寫：「你講了你的寫法。」「……你先從事實看的。好。」「他寫進手機的備忘錄。」；畫面上沒有數字；TOLD_SCORE、BOHAN_SCORE told',JSON.stringify(tail())==='["你講了你的寫法。","……你先從事實看的。好。","他寫進手機的備忘錄。","考古題我晚上傳給你。"]'&&!tail().some(t=>/[0-9０-９]/.test(t))&&SOCIAL.has('classmate_bohan','TOLD_SCORE')&&G.flags.BOHAN_SCORE==='told',JSON.stringify(tail()));
     check('A16 只一次',!EVENTS.check(e,{chain:true}));
     L=await cls(w10,6,true,['講你怎麼寫']); check('A16 民總準備多少都同一版（不分比他高、比他低）',JSON.stringify(tail())==='["你講了你的寫法。","……你先從事實看的。好。","他寫進手機的備忘錄。","考古題我晚上傳給你。"]'&&G.flags.BOHAN_SCORE==='told',JSON.stringify(tail()));
     L=await cls(w10,12,true,['不確定']); check('A16「我也不確定。」：「好。不確定也算一種寫法。」「他也寫進去。」；沒有 TOLD_SCORE、BOHAN_SCORE unsure',JSON.stringify(tail())==='["好。不確定也算一種寫法。","他也寫進去。","考古題我晚上傳給你。"]'&&!SOCIAL.has('classmate_bohan','TOLD_SCORE')&&G.flags.BOHAN_SCORE==='unsure',JSON.stringify(tail()));
     L=await cls(w10,0,true,['你錯哪裡']); check('A16「你錯哪裡？」：他停了一下。「……第三題。整題。」（第一次有人反問他。）；ASKED_BACK；沒有名次',JSON.stringify(tail())==='["他停了一下。","……第三題。整題。","第一次有人反問他。","考古題我晚上傳給你。"]'&&SOCIAL.has('classmate_bohan','ASKED_BACK')&&!tail().some(t=>/第六|八十一/.test(t)),JSON.stringify(tail()));
-    L=await cls(w10,0,false,['不確定']); check('A16 沒見過柏翰：先「許柏翰。第一排那個。」',L.includes('許柏翰。第一排那個。')&&L.indexOf('許柏翰。第一排那個。')<L.indexOf('民總期中，第三題你怎麼寫？'),JSON.stringify(L));
-    L=await cls(w11,0,true,['不確定']); check('A16 第 10 週沒去：第 11 週那堂也會',L.includes('民總期中，第三題你怎麼寫？'));
-    L=await cls(w9,0,true,['不確定']); check('A16 第 10 週以前的民總下課沒有',!L.includes('民總期中，第三題你怎麼寫？')); }
+    L=await cls(w10,0,false,['不確定']); check('A16 沒見過柏翰：先「許柏翰。第一排那個。」',L.includes('許柏翰。第一排那個。')&&L.indexOf('許柏翰。第一排那個。')<L.indexOf('民總那份案例作業，第三題你怎麼寫？'),JSON.stringify(L));
+    L=await cls(w11,0,true,['不確定']); check('A16 第 10 週沒去：第 11 週那堂也會',L.includes('民總那份案例作業，第三題你怎麼寫？'));
+    L=await cls(w9,0,true,['不確定']); check('A16 第 10 週以前的民總下課沒有',!L.includes('民總那份案例作業，第三題你怎麼寫？')); }
   /* ---------- A17 以安新 4：和媽媽吃晚餐 ---------- */
   { const at=(w,wd,h)=>{ fresh(termDay(w,wd),h,'campus',{afternoonDone:true}); return STORY.whereIs(GM,'heroine_01'); };
     const a=at(10,5,19), b=at(10,5,17.5), c=at(10,4,19), d=at(11,5,19), e2=at(10,5,21.6);

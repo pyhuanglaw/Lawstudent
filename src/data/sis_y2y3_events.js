@@ -39,8 +39,8 @@ const SISY23_EVENTS=(function(){
   const route=G=>typeof STORY!=='undefined'&&STORY.route?STORY.route(G):null;
   /* 2-3 的台詞（說話前接演、台階那一版共用）*/
   const TOPIC=[ SIS('我想寫的東西，找到了。'),
-    SIS('債務清理案件的法律扶助。……題目還要再改，方向不會變了。'),
-    {if:{flagIs:{SIS_SEMINAR_Y2:'asked'}},speaker:ID,text:'你上次問我為什麼。……我想好怎麼講了。'},   /* 2-2 問過「妳為什麼選這個題目？」的 */
+    SIS('債務清理案件的法律扶助。題目還要再改，方向不會變了。'),
+    {if:{flagIs:{SIS_SEMINAR_Y2:'asked'}},speaker:ID,text:'你上次問我為什麼。我想好怎麼講了。'},   /* 2-2 問過「妳為什麼選這個題目？」的 */
     SIS('我大二在法服的時候，有一個阿姨拿著一袋信來。全部是銀行寄的。最舊的那一封，是我國小的時候寄的。'),
     SIS('我只能跟她說，這個要去找法扶。'),
     SIS('她說她去過了。排了很久。'),
@@ -48,7 +48,7 @@ const SISY23_EVENTS=(function(){
     {choice:[{text:'「那妳查到了嗎？」',goto:'tp_a'},{text:'「那個阿姨後來呢？」',goto:'tp_b'}]},
     {label:'tp_a'},SIS('還沒。所以要寫兩年。'),{goto:'tp_end'},
     {label:'tp_b'},SIS('……我不知道。那天以後，就沒再見過她。'),
-    {label:'tp_end'},{if:dt,speaker:ID,text:'我爸媽還不知道。……他們會問，寫這個以後要做什麼。'},
+    {label:'tp_end'},{if:dt,speaker:ID,text:'我媽還不知道。……她會問，寫這個以後要做什麼。'},
     {mem:[{npc:ID,tag:'SIS_TOPIC',note:''}]},{set:{SIS_TOPIC_Y2:true}} ];
   /* AA_386 第 2 節（企劃線 e848154a；AA_379 2-6 已加註）：聽過她提美國的——大二下閒聊階梯學姊的進度已經過了 S4-Lx（「碩三上，我想去美國交換一學期。」）、
      或有記憶 SIS5_EXCHANGE_APP（大三上 S5-L1「我在寫交換的申請。」）、或 AA_386 1-2 選了「學姊現在還可以去啊。」（SIS_ADV_EXCH go）——一般版那一句換成兩句；都沒聽過的照原句 */
@@ -71,10 +71,10 @@ const SISY23_EVENTS=(function(){
     {label:'us_d'},N('（她沒有說話。手翻過來，握回去。）'),
     {label:'us_end'},{mem:[{npc:ID,tag:'SIS_US_TOLD',note:''}]} ];
   /* 2-4 生日的一段（一般、交往中共用；year＝2026 'y1'／2027 'y2'）*/
-  const bday=(year,date)=>[ ...(date?[SIS('我自己訂的。我知道你會想訂，可是你會訂錯家。')]:[N('（她在讀書。保溫瓶旁邊多了一小盒蛋糕，還沒拆。）')]),
+  const bday=(year,date)=>[ ...(date?[SIS('我自己訂的。這家我想來很久了。')]:[N('（她在讀書。保溫瓶旁邊多了一小盒蛋糕，還沒拆。）')]),
     SIS('群組那則看到了吧。Kevin 每年都發。'),
     ...(year==='y1'?[SIS('這禮拜六畢業。……之後還是在這裡讀書，只是換一張學生證。')]:   /* AA_518 4-6：6/2（二）那場，畢業典禮是那個週六（原本「下禮拜畢業。」）*/[{if:{flagIs:{SIS_LAB_DESK:'went'}},speaker:ID,text:'碩一過完一年了。研究室那張靠門的椅子，我換了一個坐墊。'}]),
-    {choice:[{text:'「生日快樂。」',goto:'bd_a'},{text:'（遞給她一包茶葉）',goto:'bd_b'},{text:'（把她的保溫瓶拿去裝滿熱水）',goto:'bd_c'}]},
+    {choice:[{text:'「生日快樂。」',goto:'bd_a'},{text:'（遞給她一包茶葉）',goto:'bd_b'},{text:'（陪她去飲水機裝熱水）',goto:'bd_c'}]},
     {label:'bd_a'},SIS(date?'謝謝。……你今天穿得比平常好看。':'謝謝。……蛋糕分你一半，我吃不完。'),{set:{['SIS_BDAY_'+year.toUpperCase()]:'there'}},{goto:'bd_end'},
     {label:'bd_b'},SIS('（看了一下包裝）這家我喝過。……你怎麼知道。'),{speaker:'player',text:'妳保溫瓶的味道。'},SIS('……好。'),N('（她收進包包）'),{set:{['SIS_BDAY_'+year.toUpperCase()]:'tea'}},{goto:'bd_end'},
     {label:'bd_c'},SIS('這不算禮物。'),SIS('……算。'),{set:{['SIS_BDAY_'+year.toUpperCase()]:'water'}},
@@ -98,7 +98,7 @@ const SISY23_EVENTS=(function(){
     { id:'ev_sis_seminar_y2', title:'第一次 seminar', participants:[ID], location:'any', trigger:'outing', once:true, background:'dark', hours:1,
       dialogue:[ {scene:'法圖・討論室',bg:'wancai_seminar'},   /* 11-02 LAWWW-B 用現有的圖補黑底 （有白板的討論室）*/
         N('（白板上寫著她的報告題目，字很小。她站在白板前，手上是幾張講稿。）'),
-        SIS('二十分鐘。中間不要問，最後再問。'),
+        SIS('二十分鐘。有問題最後再問。'),
         N('（她講了十九分鐘。講到一半，停下來喝了一口保溫瓶。）'),
         SIS('好了。……哪裡聽不懂？'),
         {choice:[{text:'「中間那段，數字太多了。」',goto:'a'},{text:'「都聽得懂。」',goto:'b'},{text:'「妳為什麼選這個題目？」',goto:'c'}]},
@@ -106,7 +106,7 @@ const SISY23_EVENTS=(function(){
         {label:'b'},SIS('（看了你一眼）你上課也都說聽得懂。'),{set:{SIS_SEMINAR_Y2:'went'}},{goto:'end'},
         {label:'c'},SIS('……這是最後才要問的問題。你先問了。'),SIS('下次再回答你。我還沒想好怎麼講。'),{set:{SIS_SEMINAR_Y2:'asked'}},
         {label:'end'},{if:dt,speaker:ID,text:'你坐第一排，我比較不會看錯地方。'},
-        SIS('好。我回去改。……你先回宿舍，很晚了。') ],
+        SIS('好。我回去改。很晚了，回去小心。') ],
       outingMissed:G=>{ const x=X(); if(x) x.missed(G,'sem'); } },
     /* ---------- 2-3 第 11 週週三：法圖外面的台階（第 5～10 週沒遇到的，私訊來；可以略過）---------- */
     { id:'ev_sis_topic_steps', title:'想寫的東西', participants:[ID], location:'any', trigger:'outing', once:true, background:'dark', hours:0.5,

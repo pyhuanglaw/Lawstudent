@@ -7,7 +7,7 @@
    - 時間沒寫的是技術預設：語彤 21:20、阿哲 21:00、Alison 21:30、柏翰 22:00（九點四十離開總圖）、芯慈 21:10（「00:40 以後」的照稿：決定那天的半夜 00:40＝h 24+40/60，phone3d.js mk 換成隔天凌晨；睡著了醒來看到）、以安 21:40；人在國外照當地時間（STORY.tzOffset）。
    - 已經在遊戲裡的兩則：大三上 Alison 中秋（r3_3d.js y3_yu_moon，這次照 AA_555 改字）、大二下柏翰「祐廷接了讀書會」（story3d.js han3_chart，AA_555：照現在）。
    - AA-B 11-01 回 12 題（D109）：大三上阿哲系籃改成私訊祐廷（字照稿）；以安「研究所，我決定了：公法。」、「公法所放榜」、語彤 16b 機場照片、阿哲搬出租屋那天：拿掉；
-     芯慈 2028 暑假那則換句；柏翰期中倒數二十一天每天一則（第 11 題）。 */
+     芯慈 2028 暑假那則換句；柏翰期末倒數二十一天每天一則（第 11 題；AA_581 改成算到第一科期末考）。 */
 const AA555=(function(){
   const S={};
   const has=(id,tag)=>typeof SOCIAL!=='undefined'&&!!SOCIAL.has&&SOCIAL.has(id,tag);
@@ -121,10 +121,12 @@ const AA555=(function(){
   /* 固定日子：[id, 誰, 那一天 ()→day, 臺灣的時刻, 條件 (G, day), 訊息（dd＝晚幾天、dt＝晚幾小時）]；晚三天以內補送 */
   const D2=k=>()=>DK(k);
   const CN=n=>{ const d='零一二三四五六七八九'; return n<10?d[n]:(n===10?'十':(n<20?'十'+d[n-10]:d[Math.floor(n/10)]+'十'+(n%10?d[n%10]:''))); };
-  S.BH_COUNT_SP={14:'期中前十四天。進度落後半天。',7:'期中前七天。……今天念得很慢，可是記得住。',1:'明天考。我今天十點就睡。'};
-  S.bhCount=()=>{ const L=[]; for(let n=21;n>=1;n--){ const t=S.BH_COUNT_SP[n]||('期中前'+CN(n)+'天。'), m=M(BH,t); if(n<21) m.dd=21-n; L.push(m); } return L; };   /* 第 8 週週一考：二十一天＝第 5 週週一、前一天＝第 7 週週日 */
+  S.BH_COUNT_SP={14:'期末前十四天。進度落後半天。',7:'期末前七天。……今天念得很慢，可是記得住。',1:'明天考。我今天十點就睡。'};
+  S.bhCount=()=>{ const L=[]; for(let n=21;n>=1;n--){ const t=S.BH_COUNT_SP[n]||('期末前'+CN(n)+'天。'), m=M(BH,t); if(n<21) m.dd=21-n; L.push(m); } return L; };   /* 二十一天＝第一科期末考那天往前 21 天、前一天＝考試前一天（AA_581 第 1～3 列、連1；原本算到第 8 週週一的期中考，D118 沒有期中考）*/
+  /* AA_581 連1：大一上第一科期末考那天往前 21 天（CLS.examList 的第一科）；課表沒有期末考時用第 13 週週一（＝第 16 週週一往前 21 天）*/
+  S.bhCountDay=G=>{ const L=G&&typeof CLS!=='undefined'&&CLS.examList?CLS.examList(G,'Y1S1'):[]; if(L.length) return L[0].day-21; return TD('Y1S1',13,1); };
   S.AT=[
-    ['y1s1_bh_count',BH,()=>TD('Y1S1',5,1),22,(G,d)=>got(G,BH,d),()=>S.bhCount()],   /* AA-B 11-01 第 11 題：二十一天起每天一則「期中前 N 天。」（國字），十四天、七天、前一天換句 */   /* 期中前三週（第 8 週週一往前 21 天）；「他每天倒數一則，到考試那天為止」只寫了兩則，其他天的字要問 AA */
+    ['y1s1_bh_count',BH,G=>S.bhCountDay(G),22,(G,d)=>got(G,BH,d),()=>S.bhCount()],   /* AA-B 11-01 第 11 題：二十一天起每天一則「期末前 N 天。」（國字；AA_581 第 3 列，原本「期中前」），十四天、七天、前一天換句 */   /* 期末前三週（AA_581 連1：第一科期末考往前 21 天，S.bhCountDay）；「他每天倒數一則，到考試那天為止」只寫了兩則，其他天的字要問 AA */
     ['y1s2_bh_final30',BH,()=>{ const d=TD('Y1S2',16,1); return d==null?null:d-30; },22,(G,d)=>got(G,BH,d),()=>[M(BH,'期末前三十天。'),M(BH,'📷（一張試算表截圖：每天的進度，有一格寫著「休息（十分鐘）」）',1/60)]],
     ['y1s2_bh_platform',BH,D2('2026-02-22'),16.5,(G,d)=>got(G,BH,d),()=>SQ(BH,['📷（月台）','新竹的風。我在等車。不要問我為什麼傳這個。'])],   /* 寒假回新竹：寒假最後一天（大一下開學前一天）回臺北的月台 */
     ['y1s2_an_plg',AN,()=>TD('Y1S2',2,3),21,(G,d)=>got(G,AN,d)&&grp(G,'public_law'),()=>[M(AN,'讀書會，週四晚上，B館研討室。題目：集會遊行。Alison 說要帶零食。可以。但不准吵。')]],   /* AA_555〔時〕：大一下讀書會第一次（第 2 週週四）的前一天 */
@@ -140,7 +142,7 @@ const AA555=(function(){
     ['y4s2_yu_grad',YU,D2('2029-06-02'),22.5,(G,d)=>got(G,YU,d),()=>[M(YU,'拍了兩百張。只有一張是我一個人。我最喜歡那一張。')]] ];   /* 畢業典禮後 */
   const T=(d,h)=>d*24+h, now=G=>G.day*24+G.hour;
   S.atRule=function(G){ if(!law(G)||typeof PHONE==='undefined') return;
-    for(const [id,who,dayFn,hTW,ok,items] of S.AT){ const d=dayFn(); if(d==null||now(G)>=T(d+3,0)||G.day<d||PHONE.sent(G,'a118_'+id+'_0')) continue; const h=hTW+tz(G,d); if(now(G)<T(d,h)||!ok(G,d)) continue;
+    for(const [id,who,dayFn,hTW,ok,items] of S.AT){ const d=dayFn(G); if(d==null||now(G)>=T(d+3,0)||G.day<d||PHONE.sent(G,'a118_'+id+'_0')) continue; const h=hTW+tz(G,d); if(now(G)<T(d,h)||!ok(G,d)) continue;
       items(G).forEach((it,j)=>{ const x=Object.assign({},it), dt=x.dt||0, dd=x.dd||0; delete x.dt; delete x.dd; PHONE.at(G,d+dd,h+dt,[x],'a118_'+id+'_'+j); }); } };
   /* 「三週後」那種第二則：第一則送出的那一天（dailyPhone 的 dpDayOf）＋天數，同一個時刻 */
   S.thenRule=function(G){ if(!law(G)||typeof PHONE==='undefined') return;

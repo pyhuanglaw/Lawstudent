@@ -13,7 +13,7 @@ const ctx2d=new Proxy({}, {get:(o,k)=>k==='createRadialGradient'||k==='createLin
 global.document={ createElementNS:()=>({getContext:()=>ctx2d,style:{}}), createElement:()=>({width:1,height:1,getContext:()=>ctx2d,style:{}}), getElementById:()=>null, addEventListener(){} };
 global.navigator={userAgent:'node'}; global.addEventListener=()=>{}; global.innerWidth=844; global.innerHeight=390; global.location={search:''};
 const files=['lib/three.bundle.js','lib/three.jsm.bundle.js','src/people3d.js','src/assets3d.js','src/world3d.js','src/engine3d.js','src/townkit3d.js','src/campuskit3d.js','src/zones3d.js','src/data/dorm_room_layout.js','src/data/socsci_layout.js',
-  'src/data/linze_layout.js','src/data/classroom_layout.js','src/building3d.js','src/data/wancai_layout.js','src/wancai3d.js','src/data/library_layout.js','src/library3d.js','src/data/lawlib_layout.js','src/lawlib3d.js','src/data/gongtong_layout.js','src/data/boya_layout.js','src/data/putong_layout.js','src/teach3d.js',
+  'src/data/linze_layout.js','src/data/classroom_layout.js','src/building3d.js','src/data/wancai_layout.js','src/wancai3d.js','src/data/library_layout.js','src/library3d.js','src/library_hall_v2.js','src/data/lawlib_layout.js','src/lawlib3d.js','src/data/gongtong_layout.js','src/data/boya_layout.js','src/data/putong_layout.js','src/teach3d.js',
   'src/data/calendar.js','src/data/places.js','src/data/characters.js','src/data/courses.js','src/data/activities.js','src/classes3d.js'];
 for(const f of files){ let src=fs.readFileSync(path.join(ROOT,f),'utf8'); src=src.replace(/^const (\w+)\s*=/mg,(m,n)=>/^(THREE|THREE_JSM|P3|ASSETS|W3|E3|TK|CK|Z3|B3|WC3|LB3|LL3|LINZE_LAYOUT|CLASSROOM_LAYOUT|WANCAI_LAYOUT|LIBRARY_LAYOUT|LAWLIB_LAYOUT|GONGTONG_LAYOUT|BOYA_LAYOUT|PUTONG_LAYOUT|TB3|ACTIVITIES|CALENDAR|PLACES|CHARACTERS|UNFAMILIAR_POOL|SOCIAL_GRAPH|PORTRAITS|COURSES|CLS|PROPS|CHAR)$/.test(n)?'globalThis.'+n+'=':m); vm.runInThisContext(src,{filename:f}); }
 
@@ -22,7 +22,9 @@ process.on('unhandledRejection',()=>{});
 const SETS={library:'總圖',admin:'行政大樓',arts:'文學院',hist:'校史館'};
 /* 門廊高度（campus_hall.py：porch.h，沒給＝一樓高＋0.6）。門廊兩端的側牆（0.9 m 寬、通高）原本留在 ck_trim：BB-B（10-31 n27_halls_b）校史館門廊往旁邊 1.3～2.6 m 斜看時整個畫面是這一塊石面——
    CAM-PILLAR-HALLS-1031 續也改成 seethru_ck_col。柱子本身頂到柱頭（比門廊低），所以柱子材質的最高點＝門廊高度，就表示側牆在裡面 */
-const PH={library:9.0, admin:4.8, arts:5.4, hist:5.6};
+const PH={library:6.0, admin:4.8, arts:5.4, hist:5.6};
+/* 總圖 LIB-FRONT-1102（LAWWW2 11-02，照使用者的照片重做）：沒有門廊了，一樓是突出在前面的拱廊，正面牆（紅磚段 seethru_ck_pier、白石翼 seethru_ck_col）從平台 0.9 m 到簷口下 6.0 m */
+const LO={library:0.95};
 function yRange(j,bin,pred){ let lo=Infinity, hi=-Infinity, tri=0; const names=j.materials.map(m=>m.name);
   for(const nd of j.nodes){ if(nd.mesh==null) continue; const t=nd.translation||[0,0,0];
     for(const pr of j.meshes[nd.mesh].primitives){ if(!pred(names[pr.material])) continue; const a=j.accessors[pr.attributes.POSITION], bv=j.bufferViews[a.bufferView], o=(bv.byteOffset||0)+(a.byteOffset||0), st=bv.byteStride||12;
@@ -32,9 +34,9 @@ function yRange(j,bin,pred){ let lo=Infinity, hi=-Infinity, tri=0; const names=j
 for(const [k,nm] of Object.entries(SETS)){
   const b=fs.readFileSync(path.join(ROOT,'assets/models/env/second_ai/campus_'+k+'.glb')), n=b.readUInt32LE(12), j=JSON.parse(b.slice(20,20+n).toString('utf8')), off=20+n, bin=b.slice(off+8,off+8+b.readUInt32LE(off));
   const col=yRange(j,bin,x=>x==='seethru_ck_col'), pier=yRange(j,bin,x=>x==='seethru_ck_pier'), trim=yRange(j,bin,x=>x==='ck_trim'), wall=yRange(j,bin,x=>x==='ck_wall');
-  check(`① ${nm}：門廊石柱（seethru_ck_col）、拱廊柱墩（seethru_ck_pier）都在，只在一樓（10 m 以下：柱子，不含簷口、屋頂；總圖門廊 9 m）`,col.tri>0&&pier.tri>0&&col.hi<10&&pier.hi<8&&col.lo<0.05&&pier.lo<0.5,`柱子 ${col.tri} 個三角形、高 ${col.lo.toFixed(2)}～${col.hi.toFixed(2)} m；柱墩 ${pier.tri} 個、${pier.lo.toFixed(2)}～${pier.hi.toFixed(2)} m`);
+  check(`① ${nm}：門廊石柱（seethru_ck_col）、拱廊柱墩（seethru_ck_pier）都在，只在一樓（10 m 以下：柱子，不含簷口、屋頂；總圖門廊 9 m）`,col.tri>0&&pier.tri>0&&col.hi<10&&pier.hi<8&&col.lo<(LO[k]||0.05)&&pier.lo<(LO[k]||0.5),`柱子 ${col.tri} 個三角形、高 ${col.lo.toFixed(2)}～${col.hi.toFixed(2)} m；柱墩 ${pier.tri} 個、${pier.lo.toFixed(2)}～${pier.hi.toFixed(2)} m`);
   check(`① ${nm}：收邊（ck_trim）、牆（ck_wall）照舊在、比柱子高 3 m 以上（簷口、上面的樓層照舊不透視）`,trim.tri>0&&wall.tri>0&&trim.hi>col.hi+3&&wall.hi>pier.hi+3,`收邊到 ${trim.hi.toFixed(1)} m、牆到 ${wall.hi.toFixed(1)} m`);
-  check(`①b ${nm}：門廊兩端的側牆（0.9 m 寬、通高 ${PH[k]} m）也在 seethru_ck_col（柱子材質的最高點＝門廊高度）`,Math.abs(col.hi-PH[k])<0.02,`柱子材質最高 ${col.hi.toFixed(2)} m`);
+  check(k==='library'?`①b ${nm}：一樓拱廊的正面牆（拱和拱之間、到簷口下 ${PH[k]} m）是 seethru_ck_col／seethru_ck_pier（柱子材質的最高點＝簷口下緣）`:`①b ${nm}：門廊兩端的側牆（0.9 m 寬、通高 ${PH[k]} m）也在 seethru_ck_col（柱子材質的最高點＝門廊高度）`,Math.abs(col.hi-PH[k])<0.02,`柱子材質最高 ${col.hi.toFixed(2)} m`);
   const st=j.materials.map(m=>m.name).filter(x=>/^seethru_/.test(x)).sort().join();
   check(`① ${nm}：seethru_ 開頭的只有這兩個材質`,st==='seethru_ck_col,seethru_ck_pier',st);
 }

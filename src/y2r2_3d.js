@@ -495,7 +495,7 @@ const Y2R2=(function(){
   EV.push({ id:'ev_y2s2_thu_noodle_spring', title:'', participants:[], location:'noodle', trigger:'enter', term:['Y2S2'], weeks:[7,8,9,10], weekday:[1,2,3,4,5],ndlDay:true, time:[17.5,21], once:true, background:'blur',   /* 春假回來以後第一個麵店日（AA_542 9-2：第 7 週只挑到 1 天、錯過就整個錯過 → 第 7～10 週都可以；第 8～9 週期中週沒有麵店日）*/
     prereq:{custom:ndl},
     dialogue:[ {if:{custom:G=>{ const t=CALENDAR.termOf(G.day); return !t||t.week<10; }},speaker:null,text:'（春假回來以後，第一次在麵店遇到大家。每個人都在講自己這幾天去了哪裡。）'},
-      {if:{custom:G=>{ const t=CALENDAR.termOf(G.day); return !!t&&t.week>=10; }},speaker:null,text:'（期中考完，第一次在麵店遇到大家。春假去了哪裡，到現在還有人在講。）'} ] });   /* 第 10 週才遇到的換一句（9-2）*/
+      {if:{custom:G=>{ const t=CALENDAR.termOf(G.day); return !!t&&t.week>=10; }},speaker:null,text:'（期中週過了，第一次在麵店遇到大家。春假去了哪裡，到現在還有人在講。）'} ] });   /* 第 10 週才遇到的換一句（9-2）*/
   S.fillRules=function(G,GM){ if(!law(G)||!hasP()||!G.flags) return;
     /* 3/12（五）21:00 柏翰私訊（和柏翰 FAMILIAR 以上）*/
     { const m=d('f312'); if(m!=null&&knows('classmate_bohan',G)&&atLeast('classmate_bohan','FAMILIAR')&&win(G,m,21,1)&&!sent(G,'y2s2_bh_table')){ const B=t=>({th:'p:classmate_bohan',from:'classmate_bohan',text:t});
@@ -503,7 +503,7 @@ const Y2R2=(function(){
         at(G,m,21,[B('債各第一章的筆記，我做了表格。'),Object.assign(B('要的話傳給你。'),{ask:{id:'y2s2_bh_table',until:abs(m+2,21),opts:[{t:'要。',say:[{from:'classmate_bohan',text:'（照片：一張表格，欄位比內容多）'}]},{t:'我自己整理。',say:[{from:'classmate_bohan',text:'好。'}]}]}})],'y2s2_bh_table'); } }
     /* 4/21（三）22:00 麵店團群組 */
     { const m=d('f421'); if(m!=null&&inGroup(G,'noodle_team')&&knows('yu',G)&&win(G,m,22,1)&&!sent(G,'y2s2_grp_mid')){ const N=(f,t)=>({th:'g:noodle_team',from:f,text:t});
-        at(G,m,22,[N('yu','期中考完了'),N('yu','我要吃三碗麵'),N('zhe','我請一碗')],'y2s2_grp_mid'); } }
+        at(G,m,22,[N('yu','這週的報告交完了'),N('yu','我要吃三碗麵'),N('zhe','我請一碗')],'y2s2_grp_mid'); } }
     /* 5/21（五）22:00 阿凱私訊（不影響 6/11 暑住的選擇）*/
     { const m=d('f521'); if(m!=null&&knows('kai',G)&&win(G,m,22,1)&&!sent(G,'y2s2_kai_summer')){ const A=t=>({th:'p:kai',from:'kai',text:t});
         at(G,m,22,[Object.assign(A('暑假你回家還是留宿舍'),{ask:{id:'y2s2_kai_summer',until:abs(m+2,22),opts:[{t:'還沒想。',say:[{from:'kai',text:'我也是。'}]},{t:'回家吧。',say:[{from:'kai',text:'那我一個人吃宵夜'}]}]}})],'y2s2_kai_summer'); } } };
