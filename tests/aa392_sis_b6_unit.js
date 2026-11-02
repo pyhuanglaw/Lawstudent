@@ -40,7 +40,8 @@ await sec(1,async()=>{ check('1. 讀得到稿（企劃線 e81a1afe1 的 AA_392�
   const sec13=(doc.split('### 1-3.')[1]||'').split('### 1-4.')[0], lines=[...sec13.matchAll(/^書瑀：(.+)$/mg)].map(m=>m[1]).concat([...sec13.matchAll(/書瑀：「(.+?)」/g)].map(m=>m[1]));
   const narr=(doc.match(/用完以後每週一行旁白：「(.+?)」/)||[])[1];
   const A516={'二十三號早上到。':'二十三號晚上八點落地。','機場的班次我傳給你了。':'班次，回去前傳給你。'};   /* AA_516 第 1 節 1-1（企劃線 a9b87c588）：g6 這兩句改了（和 12/23 20:30 的接機對齊）*/
-  const lines2=lines.map(l=>A516[l]||l);
+  const A591=require('./aa591_doc.js');   /* AA_591（學姊改稿第四批，6b35748c7）第 94、95 列等：稿上的句子照 AA_591 的表換 */
+  const lines2=lines.map(l=>A516[l]||A591.MAP[l]||l);
   check('1. 六組視訊的台詞（書瑀說的）和稿一字不差都在（g6 兩句照 AA_516 1-1 改過的）',lines2.length>=20&&lines2.every(l=>txt.includes(l)||txt.includes(l.replace(/^照片你看到了吧。$/,'照片你看到了吧。')))&&Object.keys(A516).every(l=>lines.includes(l)&&!txt.includes(l)),J(lines2.filter(l=>!txt.includes(l))));
   check('1. 用完以後的旁白和稿一字不差',!!narr&&txt.includes(narr)&&S.SA_VG_NARR===narr,narr);
   /* 臺灣路線、7/29 就交往：8/6～12/17 每週日 10:00 */
@@ -86,8 +87,8 @@ await sec(2,async()=>{ const hk=TERMEND_LINES.HOOK.Y3S2.heroine_05, fl=r=>({flag
   check('2. 說過要送：群組那則沒有 Kevin 的按鈕；21:05 她私訊「八月二號早上八點，我家樓下。」「你說要送我。」，三個選項（有車）',!gb&&!pre&&J(thx('p:heroine_05'))===J(['八月二號早上八點，我家樓下。','你說要送我。'])&&!!dm&&J(dm.ask.opts.map(o=>o.t))===J(['我開車去載妳。','我到機場等妳。','那天我去不了了。']),J({dm:dm&&dm.ask.opts,th:thx('p:heroine_05')}));
   PHONE.answer(H.G,'y4_sis_hook_dm',1); yphone(); const q=OUT.get(H.G,'y4_sis_airport_wait');
   check('2. 「我到機場等妳。」：SIS_RIDE_ASK airport；8/2 08:30「桃園機場第二航廈・出境大廳」（機場捷運 1 小時）',H.G.flags.SIS_RIDE_ASK==='airport'&&!!q&&q.day===D('2028-08-02')&&q.h===8.5&&q.place==='桃園機場第二航廈・出境大廳'&&q.travelH===1&&!OUT.get(H.G,'y4_sis_airport'),J(q));
-  H.at('2028-08-02',7.4); await goOut('y4_sis_airport_wait'); const T5=['（八點半。她從客運站那邊走過來，戴著口罩，一個行李箱。）','……你說你會來。','（她從包包拿出冰的罐裝飲料。）','回程喝。','……回到家，傳訊息給我。'];
-  check('2. 機場等她：「（八點半。她從客運站那邊走過來…）」「……你說你會來。」→ 冰的罐裝飲料「回程喝。」「……回到家，傳訊息給我。」（照順序）',T5.every((t,i)=>idx(t)>=0&&(i===0||idx(t)>idx(T5[i-1]))),J(H.said.map(x=>x.t)));
+  H.at('2028-08-02',7.4); await goOut('y4_sis_airport_wait'); const T5=['（八點半。她從客運站那邊走過來，戴著口罩，一個行李箱。）','……你說你會來。','（她從包包拿出冰的罐裝飲料。）','回程喝。','回到家，傳訊息給我。'];   /* 最後一句 AA_591 第 53 列拿掉「……」*/
+  check('2. 機場等她：「（八點半。她從客運站那邊走過來…）」「……你說你會來。」→ 冰的罐裝飲料「回程喝。」「回到家，傳訊息給我。」（照順序；AA_591 第 53 列）',T5.every((t,i)=>idx(t)>=0&&(i===0||idx(t)>idx(T5[i-1]))),J(H.said.map(x=>x.t)));
   check('2. 記 SIS_SENDOFF airport、記憶 SAW_HER_OFF（不是 DROVE_HER）；09:00 沒有客運那則',H.G.flags.SIS_SENDOFF==='airport'&&SOCIAL.has('heroine_05','SAW_HER_OFF')&&!SOCIAL.has('heroine_05','DROVE_HER')&&(H.at('2028-08-02',9.2),yphone(),!thx('g:family_law').includes('出發了。'))&&!!SOCIAL.MEMORY_LABEL.SAW_HER_OFF);
   s0({HOOK_SIS_SENDOFF:1}); H.at('2028-07-26',21.1); yphone(); const dm2=(H.G.msgs||[]).find(m=>m.ask&&m.ask.id==='y4_sis_hook_dm');
   check('2. 沒說過有車（SAID_HAS_CAR）：只有「我到機場等妳。」「那天我去不了了。」',!!dm2&&J(dm2.ask.opts.map(o=>o.t))===J(['我到機場等妳。','那天我去不了了。']),J(dm2&&dm2.ask.opts));

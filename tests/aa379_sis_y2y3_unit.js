@@ -41,7 +41,8 @@ const dateSis=()=>{ H.G.flags['dating_'+ID]=true; ROM.get(H.G,ID).status='dating
   const AA512T=new Set(); for(const e of SISY23_EVENTS) for(const l of (e.dialogue||[])){ if(l&&l.aa512&&l.text) AA512T.add(l.text); if(l&&l.choice) for(const c of l.choice) if(c&&c.aa512) AA512T.add(c.text); }
   const AA518T=new Set(['這禮拜六畢業。……之後還是在這裡讀書，只是換一張學生證。']);   /* AA_518 4-6 改的那一句（對 AA_518 的稿，tests/aa518_sis_b15_unit.js）*/
   const A590=require('./aa590_doc.js');   /* AA_590（學姊改稿第三批，企劃線 68ceea665，使用者 11-02 確認）改過的句子在 AA_590 的表上，不在這份原稿 */
-  const notIn=quoted.filter(t=>!A590.has(t)&&!AA512T.has(t)&&!AA518T.has(t)&&!inDoc(t.replace('{name}','{name}'))&&!['法圖・討論室','法圖外面的台階','總圖門口的台階','法圖旁邊的簡餐','電話','霖澤館・研究室','法扶・臺北的辦公室','便利商店門口的桌子','公館・騎樓'].includes(t)&&!LATER.includes(t)&&!(doc392&&doc392.indexOf(t)>=0)&&!['社區活動中心・小房間','社區活動中心門口'].includes(t)&&!(t===CH4&&doc509.indexOf(CH4_SRC)>=0));
+  const A591=require('./aa591_doc.js');   /* AA_591（學姊改稿第四批，企劃線 6b35748c7，使用者 11-02 確認）改過的句子在 AA_591 的表上 */
+  const notIn=quoted.filter(t=>!A590.has(t)&&!A591.has(t)&&!AA512T.has(t)&&!AA518T.has(t)&&!inDoc(t.replace('{name}','{name}'))&&!['法圖・討論室','法圖外面的台階','總圖門口的台階','法圖旁邊的簡餐','電話','霖澤館・研究室','法扶・臺北的辦公室','便利商店門口的桌子','公館・騎樓'].includes(t)&&!LATER.includes(t)&&!(doc392&&doc392.indexOf(t)>=0)&&!['社區活動中心・小房間','社區活動中心門口'].includes(t)&&!(t===CH4&&doc509.indexOf(CH4_SRC)>=0));
   check('0. 每一句台詞都在稿裡（一字不差；地點字幕除外）',!notIn.length,J(notIn));
   /* ---- 1 2-1 研究室 ---- */
   { setup('2026-09-21',20,'dorm','FAMILIAR'); rules(); const a=dms().length; at('2026-09-21',21.05); rules(); const m=PHONE.byAsk(H.G,'sisy23_lab_ask');
@@ -98,7 +99,7 @@ const dateSis=()=>{ H.G.flags['dating_'+ID]=true; ROM.get(H.G,ID).status='dating
     setup('2027-10-15',20,'dorm','FRIEND'); at('2027-10-15',21.05); rules(); const m=PHONE.byAsk(H.G,'sisy23_iv_ask');
     check('5. 10/15（五）21:00 私訊兩則（朋友以上；熟悉的沒有）',a===0&&J(dms())===J(['明天早上九點，我要去訪談一位法扶的律師。','需要一個人幫我做筆記。你打字比我快。'])&&!!m&&J(m.ask.opts.map(o=>o.t))===J(['好。','明天早上不行。']),J(dms()));
     PHONE.answer(H.G,'sisy23_iv_ask',0); rules(); const q=OUT.get(H.G,'sisy23_iv'); dateSis(); const L=await play('ev_sis_interview',[0]);
-    check('5. 10/16 09:00 法扶（捷運）：「你多寫了一句：『他講到這裡，停了很久。』」；「在想一個當事人。他沒說是誰。」「……我也沒問。」；交往中資料夾「祐廷記的」；記憶 SIS_INTERVIEW',!!q&&q.h===9&&q.day===H.D('2027-10-16')&&L.includes('你多寫了一句：『他講到這裡，停了很久。』')&&L.includes('……我也沒問。')&&L.includes('（她把你的筆記存進雲端，資料夾的名字是「祐廷記的」。）')&&SOCIAL.has(ID,'SIS_INTERVIEW')&&H.G.flags.SIS_INTERVIEW==='went',J(L)); }
+    check('5. 10/16 09:00 法扶（捷運）：「你多寫了一句：『他講到這裡，停了很久。』」；「在想一個當事人。他沒說是誰。」「我也沒問。」（AA_591 第 9 列）；交往中資料夾「祐廷記的」；記憶 SIS_INTERVIEW',!!q&&q.h===9&&q.day===H.D('2027-10-16')&&L.includes('你多寫了一句：『他講到這裡，停了很久。』')&&L.includes('我也沒問。')&&L.includes('（她把你的筆記存進雲端，資料夾的名字是「祐廷記的」。）')&&SOCIAL.has(ID,'SIS_INTERVIEW')&&H.G.flags.SIS_INTERVIEW==='went',J(L)); }
   { setup('2027-10-15',20,'dorm','FRIEND'); at('2027-10-15',21.05); rules(); PHONE.answer(H.G,'sisy23_iv_ask',1); rules(); const a=dms().slice(-1)[0]; at('2027-10-16',12.6); rules();
     check('5. 「明天早上不行。」→「好。我錄音。」；12:30「訪談完了。錄音有雜音，我自己聽了兩遍。」',a==='好。我錄音。'&&dms().slice(-1)[0]==='訪談完了。錄音有雜音，我自己聽了兩遍。'&&H.G.flags.SIS_INTERVIEW==='missed'); }
   /* ---- 6 2-6 明年夏天 ---- */
@@ -117,7 +118,7 @@ const dateSis=()=>{ H.G.flags['dating_'+ID]=true; ROM.get(H.G,ID).status='dating
     check('7. 一般：「……上了。」「信是下午來的。……才打給你。」「八月二號的飛機。……」；「恭喜。」→「嗯。……我以為我會比較高興。……」；SIS_US_RESULT call',J(L.slice(0,3))===J(['……上了。','信是下午來的。我看了好幾遍，確定沒有看錯，才打給你。','八月二號的飛機。還沒訂，先把日子想好。'])&&L.includes('嗯。……我以為我會比較高興。現在只想到，要在那邊待四個多月。')&&H.G.flags.SIS_US_RESULT==='call',J(L)); }
   { setup('2028-03-15',21.5,'dorm','FRIEND',{EXCHANGE_ROUTE:'US'}); dateSis(); const a=await play('ev_sis_us_result',[1]);
     setup('2028-03-15',21.5,'dorm','FRIEND',{EXCHANGE_ROUTE:'JP'}); dateSis(); const b=await play('ev_sis_us_result',[0]);
-    check('7. 交往中：美國路線「八月二號。我們同一班。」、「我現在過去。」→「很晚了。……明天中午，研究室。」；其他路線「八月二號。你要來送我。」、「恭喜。」→「……你先不要掛。……」',a.includes('八月二號。我們同一班。')&&a.includes('很晚了。……明天中午，研究室。')&&!a.includes('信是下午來的。我看了好幾遍，確定沒有看錯，才打給你。')&&b.includes('八月二號。你要來送我。')&&b.includes('嗯。你可以先不要掛嗎。'),J({a,b})); }
+    check('7. 交往中：美國路線「八月二號。我們同一班。」、「我現在過去。」→「很晚了。明天中午，研究室。」（AA_591 第 37 列）；其他路線「八月二號。你要來送我。」、「恭喜。」→「……你先不要掛。……」',a.includes('八月二號。我們同一班。')&&a.includes('很晚了。明天中午，研究室。')&&!a.includes('信是下午來的。我看了好幾遍，確定沒有看錯，才打給你。')&&b.includes('八月二號。你要來送我。')&&b.includes('嗯。你可以先不要掛嗎。'),J({a,b})); }
   /* ---- 8 熟悉以下、前任 ---- */
   { const res=[];
     setup('2026-09-21',21.05,'dorm','FAMILIAR',{met_sis:false}); rules(); res.push(dms().length===0);

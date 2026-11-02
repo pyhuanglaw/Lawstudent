@@ -55,7 +55,7 @@ const sec=async(n,f)=>{ try{ await f(); }catch(e){ check(n+'. 丟出例外（中
     check('0. 劇情匯入白名單：AA_388 @3a509150 approved（AA-B 2026-10-23 07:0x 交付 DL-AA388-QIXI）、task SIS-QIXI-L-1023、kind text',!!f&&f.sha==='3a509150'&&f.status==='approved'&&/AA-B 2026-10-23 07:0x/.test(f.approvedBy||'')&&/DL-AA388-QIXI/.test(f.approvedBy||'')&&f.task==='SIS-QIXI-L-1023'&&f.kind==='text',J(f)); }
   { const e=ev('ev_sis_qixi');
     check('0. ev_sis_qixi 不是 once（每年同一個 id）、出遊（trigger outing）',!e.once&&e.trigger==='outing'&&Array.isArray(e.participants)&&e.participants[0]===ID); }
-  { const A590=require('./aa590_doc.js'), bad=[]; const T_=t=>{ if(typeof t==='string'&&!inDoc(t)&&!A590.has(t)) bad.push(t); };   /* AA_590（學姊改稿第三批，企劃線 68ceea665，使用者 11-02 確認）改過的句子在 AA_590 的表上，不在這份原稿 */
+  { const A590=require('./aa590_doc.js'), A591=require('./aa591_doc.js'), bad=[]; const T_=t=>{ if(typeof t==='string'&&!inDoc(t)&&!A590.has(t)&&!A591.has(t)) bad.push(t); };   /* AA_591（學姊改稿第四批，企劃線 6b35748c7）改過的句子在 AA_591 的表上 */   /* AA_590（學姊改稿第三批，企劃線 68ceea665，使用者 11-02 確認）改過的句子在 AA_590 的表上，不在這份原稿 */
     const walk=v=>{ if(typeof v==='string') T_(v); else if(Array.isArray(v)) v.forEach(walk); else if(v&&typeof v==='object') Object.values(v).forEach(walk); };
     for(const k in SISQX_LINES) walk(SISQX_LINES[k]);
     for(const e of SISQX_EVENTS) for(const l of e.dialogue){ if(l.text!==undefined) T_(l.text); if(l.scene!==undefined) T_(l.scene); for(const c of (l.choice||[])) T_(c.text.replace(/^「(.*)」$/,'$1')); }

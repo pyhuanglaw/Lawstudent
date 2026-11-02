@@ -5,13 +5,14 @@ const cp=require('child_process'), path=require('path');
 const ROOT=path.resolve(__dirname,'..');
 const SHA='6b35748c7', P='docs/story_planning/AA_591_學姊改稿_第四批_大三大四畢業後.md';
 let DOC=''; try{ DOC=cp.execFileSync('git',['-C',ROOT,'show',SHA+':'+P],{encoding:'utf8',maxBuffer:64*1024*1024}); }catch(e){ DOC=''; }
-const NEW=new Set();
+const NEW=new Set(), MAP={};   /* MAP：數字列 原句 → 改成（舊測試從原稿抄的句子換成 AA_591 的；刪句不在裡面）*/
 for(const line of DOC.split('\n')){
   const m=line.match(/^\|\s*([0-9]+|保[0-9]+|新[0-9]+)\s*\|(.*)$/); if(!m) continue;
   const c=m[2].split('|').map(s=>s.trim()); if(c.length<4) continue;
   const v=c[3].replace(/^`|`$/g,''); if(!v||v.startsWith('（刪')) continue;
   NEW.add(v); for(const p of v.split('／')) NEW.add(p.trim());
+  if(/^(保)?[0-9]+$/.test(m[1])){ const o=c[2].replace(/^`|`$/g,''); if(o&&o!=='—'&&o!==v&&!(o in MAP)) MAP[o]=v; }
 }
 const sec11=DOC.slice(DOC.indexOf('## 11.'));
 for(const q of sec11.match(/「[^」]+」/g)||[]) NEW.add(q.slice(1,-1));
-module.exports={SHA,P,DOC,NEW,has:t=>NEW.has(t)};
+module.exports={SHA,P,DOC,NEW,MAP,has:t=>NEW.has(t)};

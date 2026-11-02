@@ -177,7 +177,7 @@ const pr=(id,k)=>STORY.presence(id,Object.assign({},G||{flags:{}},{day:D(k),stag
       P('kexin').includes('這個週末記得視訊')&&P('kexin').includes('高雄今天出大太陽。你那邊呢')&&P('heroine_04').includes('你那邊幾點 我這邊還沒睡')&&P('heroine_05').includes('我今天在法圖待到閉館。你那邊現在幾點。')&&
       !all.some(t=>/晚上九點|明天週六|三十五度|你應該在吃午餐|我這邊三點|應該是早上/.test(t)),J(all));
     check('第 7 節第 6 題＋第 8 節第 6 題. L3 整句換：以安中間那則「你那邊現在幾點？……吃飯了沒？」、池子「你吃過了嗎？」（開頭不要刪節號）；可昕「你那邊現在幾點」「今天懶得出門」；舊的四句都沒有了',
-      M.heroine_01.mid.length===1&&M.heroine_01.mid[0]==='你那邊現在幾點？……吃飯了沒？'&&P('heroine_01').includes('你吃過了嗎？')&&!P('heroine_01').includes('你吃過了嗎？')&&P('kexin').includes('你那邊現在幾點')&&P('kexin').includes('今天懶得出門')&&
+      M.heroine_01.mid.length===1&&M.heroine_01.mid[0]==='你那邊現在幾點？……吃飯了沒？'&&P('heroine_01').includes('你吃過了嗎？')&&!P('heroine_01').includes('……你吃過了嗎？')&&P('kexin').includes('你那邊現在幾點')&&P('kexin').includes('今天懶得出門')&&
       !all.some(t=>['你那邊幾點？我算了一下，你吃飯了沒？','你那邊幾點？我算了一下，應該在吃早餐。','我算了一下 你那邊現在幾點','今天熱到不想出門'].includes(t)),J([P('heroine_01'),P('kexin')])); }
   // ===== L4 可昕大三下的約會分路線 =====
   { const KX=TERMEND_LINES.KX.Y3S2, tb=r=>{ fresh(D('2028-06-20'),12,'campus',r?{EXCHANGE_ROUTE:r}:{}); return typeof KX.table==='function'?KX.table(G):KX.table; };

@@ -32,7 +32,8 @@ let doc=''; try{ doc=cp.execSync('git show e81a1afe1:"docs/story_planning/AA_395
 await sec(0,()=>{ const html=fs.readFileSync(path.join(H.ROOT,'index.html'),'utf8');
   check('0. 新檔載得到、index.html 接在 sis_b8_3d.js 後面',ok1&&ok2&&!!X()&&/sis_b8_3d\.js\?v=[^"]+"><\/script>\n<script src="src\/data\/sis_b9_events\.js\?v=[^"]+"><\/script>\n<script src="src\/sis_b9_3d\.js\?v=[^"]+"><\/script>/.test(html));
   const all=J(SISB9_EVENTS)+J(SISB9_LINES), q=[...all.matchAll(/text":"([^"]+)"/g)].map(m=>m[1]).concat(Object.values(SISB9_LINES).flat().flatMap(x=>typeof x==='string'?[x]:[x.t,x.r]));
-  const notIn=[...new Set(q)].filter(t=>doc.indexOf(t.replace(/^「|」$/g,''))<0&&!['總圖・門口','公館・郵局','視訊','（背面一行小字：「這邊的葉子紅了。寄到的時候，應該掉光了。——書瑀」）'].includes(t));   /* 署名「書瑀」那一版＝稿「很熟以上、交往中：署名『書瑀』」套同一行 */
+  const A591=require('./aa591_doc.js');   /* AA_591（學姊改稿第四批，企劃線 6b35748c7）改過的句子在 AA_591 的表上 */
+  const notIn=[...new Set(q)].filter(t=>doc.indexOf(t.replace(/^「|」$/g,''))<0&&!A591.has(t.replace(/^「|」$/g,''))&&!['總圖・門口','公館・郵局','視訊','（背面一行小字：「這邊的葉子紅了。寄到的時候，應該掉光了。——書瑀」）'].includes(t));   /* 署名「書瑀」那一版＝稿「很熟以上、交往中：署名『書瑀』」套同一行 */
   check('0. 每一句台詞、選項都在稿裡（一字不差）',!!doc&&!notIn.length,J(notIn)); });
 /* ---- 1 ---- */
 await sec(1,async()=>{ const due=()=>X().rainDue(H.G,E);
@@ -57,8 +58,9 @@ await sec(1,async()=>{ const due=()=>X().rainDue(H.G,E);
 await sec(2,async()=>{ const talk=async(key,h,picks)=>{ H.at(key,h); H.G.zone='cafe'; H.said=[]; H.opts=[]; H.picks=picks||[]; return SISY23.preTalk(GM); };
   fresh('2028-05-18',19.4,'TW','FAMILIAR'); H.G.events.done.ev_sis_adv_y4=1; H.G.events.last.ev_sis_adv_y4=H.G.day-7; const a0=await talk('2028-05-18',19.4); const a1=await talk('2028-05-18',19.6,[0]); const O=H.opts[0];
   check('2. 5/18（四）19:30 以後在 Café：帶哪一本；三個選項；「刑訴。」→「……這是我大一的課本。」…；SIS_BOOK law；最後「另外一本，回來再看。」',!a0&&a1===true&&J(O)===J(['「刑訴。」','「小說。」','「兩本都帶。我幫妳寄一本。」'])&&seq(['行李只放得下一本。','你幫我選。','……這是我大一的課本。','好。帶這本。到了那邊，問號多的時候可以看。','（十點，她把兩本書收進包包。）','另外一本，回來再看。'])&&H.G.flags.SIS_BOOK==='law',J({O,s:H.said.map(x=>x.t)}));
-  fresh('2028-05-18',19.6,'TW','FAMILIAR'); const b0=await talk('2028-05-18',19.6); const b1=!!H.G.events.done.ev_sis_adv_y4&&!H.G.events.done.ev_sis_which_book; const b2=await talk('2028-05-25',19.7,[1]);
-  check('2. 那晚先演了 1-4：下一個週四（5/25）才演；「小說。」→ novel',b0===true&&b1&&b2===true&&has('好。帶這本。在那邊看完。')&&H.G.flags.SIS_BOOK==='novel');
+  /* AA_591 第 23～25 列：1-4「你的大四，你自己排」retired——原本「那晚先演了 1-4，下一個週四才演」不會再發生：5/18 那晚直接演帶哪一本 */
+  fresh('2028-05-18',19.6,'TW','FAMILIAR'); const b0=await talk('2028-05-18',19.6,[1]); const b1=!H.G.events.done.ev_sis_adv_y4&&!!H.G.events.done.ev_sis_which_book;
+  check('2. 1-4 retired（AA_591 第 23～25 列）：5/18 那晚沒有 1-4，直接演帶哪一本；「小說。」→ novel',b0===true&&b1&&has('好。帶這本。在那邊看完。')&&H.G.flags.SIS_BOOK==='novel');
   fresh('2028-05-25',19.6,'US','FAMILIAR'); H.G.events.done.ev_sis_adv_y4=1; H.G.events.last.ev_sis_adv_y4=H.G.day-7; H.date(ID); await talk('2028-05-25',19.6,[0]);
   check('2. 美國路線：沒有寄書那個選項；交往中最後「另外一本，放你那邊。……回來跟你拿。」',H.opts[0]&&H.opts[0].length===2&&has('另外一本，放你那邊。……回來跟你拿。'),J(H.opts));
   fresh('2028-06-01',19.6,'TW','FAMILIAR'); H.G.events.done.ev_sis_adv_y4=1; H.G.events.last.ev_sis_adv_y4=H.G.day-7; const c=await talk('2028-06-01',19.6); check('2. 6/1 不演',c!==true);
