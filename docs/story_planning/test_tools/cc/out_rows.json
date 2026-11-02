@@ -1,0 +1,954 @@
+[
+ {
+  "item": "displayName",
+  "st": "沒見過",
+  "str": "不認識的女生",
+  "exp": "不露名字",
+  "where": "social3d.js:80"
+ },
+ {
+  "item": "npcName",
+  "st": "沒見過",
+  "str": "不認識的女生",
+  "exp": "不露名字",
+  "where": "social3d.js:161"
+ },
+ {
+  "item": "datingName",
+  "st": "沒見過",
+  "str": "null",
+  "exp": "null",
+  "where": "social3d.js:168"
+ },
+ {
+  "item": "contactName",
+  "st": "沒見過",
+  "str": "溫書瑀（直屬）",
+  "exp": "非「貝貝」",
+  "where": "social3d.js:170"
+ },
+ {
+  "item": "gradOpt 選項",
+  "st": "沒見過",
+  "str": "讀學姊給的那篇文章",
+  "exp": "讀學姊給的那篇文章",
+  "where": "game3d.js:299"
+ },
+ {
+  "item": "FAV.pick 選項",
+  "st": "沒見過",
+  "str": "也幫學姊點一杯",
+  "exp": "也幫學姊點一杯",
+  "where": "foodfav3d.js:60"
+ },
+ {
+  "item": "takeFeel 只有她",
+  "st": "沒見過",
+  "str": "(無)",
+  "exp": "(無)",
+  "where": "social3d.js:28"
+ },
+ {
+  "item": "takeFeel 有別人",
+  "st": "沒見過",
+  "str": "(無)",
+  "exp": "無「和她」",
+  "where": "social3d.js:28"
+ },
+ {
+  "item": "rideBlock 只有她",
+  "st": "沒見過",
+  "str": "（不認識的女生說她走路就好。）",
+  "exp": "（<displayName>說她走路就好。）",
+  "where": "story3d.js:837"
+ },
+ {
+  "item": "rideBlock 有別人",
+  "st": "沒見過",
+  "str": "（不認識的女生說她走路就好。）",
+  "exp": "（<displayName>說她走路就好。）",
+  "where": "story3d.js:838"
+ },
+ {
+  "item": "shuyuT(和溫學姊吃飯)",
+  "st": "沒見過",
+  "str": "和溫學姊吃飯",
+  "exp": "—",
+  "where": "social3d.js:164"
+ },
+ {
+  "item": "shuyuT(和學姊去溫州街)",
+  "st": "沒見過",
+  "str": "和學姊去溫州街",
+  "exp": "—",
+  "where": "social3d.js:164"
+ },
+ {
+  "item": "shuyuT(直屬學姊的訊息)",
+  "st": "沒見過",
+  "str": "直屬學姊的訊息",
+  "exp": "—",
+  "where": "social3d.js:164"
+ },
+ {
+  "item": "shuyuT(登山社的學姊)",
+  "st": "沒見過",
+  "str": "登山社的學姊",
+  "exp": "—",
+  "where": "social3d.js:164"
+ },
+ {
+  "item": "shuyuT(溫書瑀學姊)",
+  "st": "沒見過",
+  "str": "溫書瑀學姊",
+  "exp": "—",
+  "where": "social3d.js:164"
+ },
+ {
+  "item": "shuyuT(學姊溫書瑀)",
+  "st": "沒見過",
+  "str": "學姊溫書瑀",
+  "exp": "—",
+  "where": "social3d.js:164"
+ },
+ {
+  "item": "shuyuT(溫學姊（溫書瑀）)",
+  "st": "沒見過",
+  "str": "溫學姊（溫書瑀）",
+  "exp": "—",
+  "where": "social3d.js:164"
+ },
+ {
+  "item": "ladGreet（10/14 學期）",
+  "st": "沒見過",
+  "str": "學弟。",
+  "exp": "—",
+  "where": "story3d ladGreet"
+ },
+ {
+  "item": "{name}句 LADDER.byTerm.Y1S2.heroine_05.greet.when.5.t",
+  "st": "沒見過",
+  "str": "祐廷。",
+  "exp": "含「祐廷」、無「林」",
+  "where": "data"
+ },
+ {
+  "item": "{name}句 LADDER.byTerm.Y2S1.heroine_05.greet.when.5.t",
+  "st": "沒見過",
+  "str": "祐廷。",
+  "exp": "含「祐廷」、無「林」",
+  "where": "data"
+ },
+ {
+  "item": "{name}句 LADDER.byTerm.Y2S2.heroine_05.greet.when.5.t",
+  "st": "沒見過",
+  "str": "祐廷。",
+  "exp": "含「祐廷」、無「林」",
+  "where": "data"
+ },
+ {
+  "item": "{name}句 LADDER.byTerm.Y3S1.heroine_05.greet.when.6.t",
+  "st": "沒見過",
+  "str": "祐廷。……碩二了。",
+  "exp": "含「祐廷」、無「林」",
+  "where": "data"
+ },
+ {
+  "item": "{name}句 LADDER.byTerm.Y3S2.heroine_05.greet.when.9.t",
+  "st": "沒見過",
+  "str": "祐廷。",
+  "exp": "含「祐廷」、無「林」",
+  "where": "data"
+ },
+ {
+  "item": "{name}句 LADDER.byTerm.Y4S1.heroine_05.greet.when.5.t",
+  "st": "沒見過",
+  "str": "祐廷。……沒事。叫一下。",
+  "exp": "含「祐廷」、無「林」",
+  "where": "data"
+ },
+ {
+  "item": "{name}句 LADDER.byTerm.Y4S2.heroine_05.greet.when.6.t",
+  "st": "沒見過",
+  "str": "祐廷。……論文寫到第四章了。",
+  "exp": "含「祐廷」、無「林」",
+  "where": "data"
+ },
+ {
+  "item": "{name}句 LADDER.byTerm.Y1S1.heroine_05.greet.when.3.t",
+  "st": "沒見過",
+  "str": "祐廷。",
+  "exp": "含「祐廷」、無「林」",
+  "where": "data"
+ },
+ {
+  "item": "{name}句 REL_LINES.heroine_05.up.FAMILIAR.l.0",
+  "st": "沒見過",
+  "str": "「祐廷，你最近很常來法圖。」",
+  "exp": "含「祐廷」、無「林」",
+  "where": "data"
+ },
+ {
+  "item": "displayName",
+  "st": "認識沒交往",
+  "str": "溫書瑀",
+  "exp": "溫書瑀",
+  "where": "social3d.js:80"
+ },
+ {
+  "item": "npcName",
+  "st": "認識沒交往",
+  "str": "溫書瑀",
+  "exp": "溫書瑀",
+  "where": "social3d.js:161"
+ },
+ {
+  "item": "datingName",
+  "st": "認識沒交往",
+  "str": "null",
+  "exp": "null",
+  "where": "social3d.js:168"
+ },
+ {
+  "item": "contactName",
+  "st": "認識沒交往",
+  "str": "溫學姊",
+  "exp": "非「貝貝」",
+  "where": "social3d.js:170"
+ },
+ {
+  "item": "gradOpt 選項",
+  "st": "認識沒交往",
+  "str": "讀學姊給的那篇文章",
+  "exp": "讀學姊給的那篇文章",
+  "where": "game3d.js:299"
+ },
+ {
+  "item": "FAV.pick 選項",
+  "st": "認識沒交往",
+  "str": "也幫學姊點一杯",
+  "exp": "也幫學姊點一杯",
+  "where": "foodfav3d.js:60"
+ },
+ {
+  "item": "takeFeel 只有她",
+  "st": "認識沒交往",
+  "str": "和溫學姊熟了一點。",
+  "exp": "和溫學姊?熟了一點",
+  "where": "social3d.js:28"
+ },
+ {
+  "item": "takeFeel 有別人",
+  "st": "認識沒交往",
+  "str": "和溫學姊熟了一點。|和小安熟了一點。",
+  "exp": "無「和她」",
+  "where": "social3d.js:28"
+ },
+ {
+  "item": "rideBlock 只有她",
+  "st": "認識沒交往",
+  "str": "（溫書瑀說她走路就好。）",
+  "exp": "（<displayName>說她走路就好。）",
+  "where": "story3d.js:837"
+ },
+ {
+  "item": "rideBlock 有別人",
+  "st": "認識沒交往",
+  "str": "（溫書瑀說她走路就好。）",
+  "exp": "（<displayName>說她走路就好。）",
+  "where": "story3d.js:838"
+ },
+ {
+  "item": "shuyuT(和溫學姊吃飯)",
+  "st": "認識沒交往",
+  "str": "和溫學姊吃飯",
+  "exp": "—",
+  "where": "social3d.js:164"
+ },
+ {
+  "item": "shuyuT(和學姊去溫州街)",
+  "st": "認識沒交往",
+  "str": "和學姊去溫州街",
+  "exp": "—",
+  "where": "social3d.js:164"
+ },
+ {
+  "item": "shuyuT(直屬學姊的訊息)",
+  "st": "認識沒交往",
+  "str": "直屬學姊的訊息",
+  "exp": "—",
+  "where": "social3d.js:164"
+ },
+ {
+  "item": "shuyuT(登山社的學姊)",
+  "st": "認識沒交往",
+  "str": "登山社的學姊",
+  "exp": "—",
+  "where": "social3d.js:164"
+ },
+ {
+  "item": "shuyuT(溫書瑀學姊)",
+  "st": "認識沒交往",
+  "str": "溫書瑀學姊",
+  "exp": "—",
+  "where": "social3d.js:164"
+ },
+ {
+  "item": "shuyuT(學姊溫書瑀)",
+  "st": "認識沒交往",
+  "str": "學姊溫書瑀",
+  "exp": "—",
+  "where": "social3d.js:164"
+ },
+ {
+  "item": "shuyuT(溫學姊（溫書瑀）)",
+  "st": "認識沒交往",
+  "str": "溫學姊（溫書瑀）",
+  "exp": "—",
+  "where": "social3d.js:164"
+ },
+ {
+  "item": "ladGreet（10/14 學期）",
+  "st": "認識沒交往",
+  "str": "祐廷。",
+  "exp": "—",
+  "where": "story3d ladGreet"
+ },
+ {
+  "item": "{name}句 LADDER.byTerm.Y1S2.heroine_05.greet.when.5.t",
+  "st": "認識沒交往",
+  "str": "祐廷。",
+  "exp": "含「祐廷」、無「林」",
+  "where": "data"
+ },
+ {
+  "item": "{name}句 LADDER.byTerm.Y2S1.heroine_05.greet.when.5.t",
+  "st": "認識沒交往",
+  "str": "祐廷。",
+  "exp": "含「祐廷」、無「林」",
+  "where": "data"
+ },
+ {
+  "item": "{name}句 LADDER.byTerm.Y2S2.heroine_05.greet.when.5.t",
+  "st": "認識沒交往",
+  "str": "祐廷。",
+  "exp": "含「祐廷」、無「林」",
+  "where": "data"
+ },
+ {
+  "item": "{name}句 LADDER.byTerm.Y3S1.heroine_05.greet.when.6.t",
+  "st": "認識沒交往",
+  "str": "祐廷。……碩二了。",
+  "exp": "含「祐廷」、無「林」",
+  "where": "data"
+ },
+ {
+  "item": "{name}句 LADDER.byTerm.Y3S2.heroine_05.greet.when.9.t",
+  "st": "認識沒交往",
+  "str": "祐廷。",
+  "exp": "含「祐廷」、無「林」",
+  "where": "data"
+ },
+ {
+  "item": "{name}句 LADDER.byTerm.Y4S1.heroine_05.greet.when.5.t",
+  "st": "認識沒交往",
+  "str": "祐廷。……沒事。叫一下。",
+  "exp": "含「祐廷」、無「林」",
+  "where": "data"
+ },
+ {
+  "item": "{name}句 LADDER.byTerm.Y4S2.heroine_05.greet.when.6.t",
+  "st": "認識沒交往",
+  "str": "祐廷。……論文寫到第四章了。",
+  "exp": "含「祐廷」、無「林」",
+  "where": "data"
+ },
+ {
+  "item": "{name}句 LADDER.byTerm.Y1S1.heroine_05.greet.when.3.t",
+  "st": "認識沒交往",
+  "str": "祐廷。",
+  "exp": "含「祐廷」、無「林」",
+  "where": "data"
+ },
+ {
+  "item": "{name}句 REL_LINES.heroine_05.up.FAMILIAR.l.0",
+  "st": "認識沒交往",
+  "str": "「祐廷，你最近很常來法圖。」",
+  "exp": "含「祐廷」、無「林」",
+  "where": "data"
+ },
+ {
+  "item": "displayName",
+  "st": "交往中",
+  "str": "溫書瑀",
+  "exp": "溫書瑀",
+  "where": "social3d.js:80"
+ },
+ {
+  "item": "npcName",
+  "st": "交往中",
+  "str": "溫書瑀",
+  "exp": "溫書瑀",
+  "where": "social3d.js:161"
+ },
+ {
+  "item": "datingName",
+  "st": "交往中",
+  "str": "溫書瑀",
+  "exp": "溫書瑀",
+  "where": "social3d.js:168"
+ },
+ {
+  "item": "contactName",
+  "st": "交往中",
+  "str": "貝貝",
+  "exp": "貝貝",
+  "where": "social3d.js:170"
+ },
+ {
+  "item": "gradOpt 選項",
+  "st": "交往中",
+  "str": "讀她給的那篇文章",
+  "exp": "讀她給的那篇文章",
+  "where": "game3d.js:299"
+ },
+ {
+  "item": "FAV.pick 選項",
+  "st": "交往中",
+  "str": "也幫她點一杯",
+  "exp": "也幫她點一杯",
+  "where": "foodfav3d.js:60"
+ },
+ {
+  "item": "takeFeel 只有她",
+  "st": "交往中",
+  "str": "和她熟了一點。",
+  "exp": "和她熟了一點。",
+  "where": "social3d.js:28"
+ },
+ {
+  "item": "takeFeel 有別人",
+  "st": "交往中",
+  "str": "和溫書瑀熟了一點。|和小安熟了一點。",
+  "exp": "含「和溫書瑀熟了一點。」、無「和她」",
+  "where": "social3d.js:28"
+ },
+ {
+  "item": "rideBlock 只有她",
+  "st": "交往中",
+  "str": "（她說她走路就好。）",
+  "exp": "（她說她走路就好。）",
+  "where": "story3d.js:837"
+ },
+ {
+  "item": "rideBlock 有別人",
+  "st": "交往中",
+  "str": "（溫書瑀說她走路就好。）",
+  "exp": "（<displayName>說她走路就好。）",
+  "where": "story3d.js:838"
+ },
+ {
+  "item": "shuyuT(和溫學姊吃飯)",
+  "st": "交往中",
+  "str": "和溫書瑀吃飯",
+  "exp": "—",
+  "where": "social3d.js:164"
+ },
+ {
+  "item": "shuyuT(和學姊去溫州街)",
+  "st": "交往中",
+  "str": "和溫書瑀去溫州街",
+  "exp": "—",
+  "where": "social3d.js:164"
+ },
+ {
+  "item": "shuyuT(直屬學姊的訊息)",
+  "st": "交往中",
+  "str": "直屬學姊的訊息",
+  "exp": "—",
+  "where": "social3d.js:164"
+ },
+ {
+  "item": "shuyuT(登山社的學姊)",
+  "st": "交往中",
+  "str": "登山社的學姊",
+  "exp": "—",
+  "where": "social3d.js:164"
+ },
+ {
+  "item": "shuyuT(溫書瑀學姊)",
+  "st": "交往中",
+  "str": "溫書瑀",
+  "exp": "—",
+  "where": "social3d.js:164"
+ },
+ {
+  "item": "shuyuT(學姊溫書瑀)",
+  "st": "交往中",
+  "str": "溫書瑀溫書瑀",
+  "exp": "—",
+  "where": "social3d.js:164"
+ },
+ {
+  "item": "shuyuT(溫學姊（溫書瑀）)",
+  "st": "交往中",
+  "str": "溫書瑀（溫書瑀）",
+  "exp": "—",
+  "where": "social3d.js:164"
+ },
+ {
+  "item": "ladGreet（10/14 學期）",
+  "st": "交往中",
+  "str": "祐廷。",
+  "exp": "—",
+  "where": "story3d ladGreet"
+ },
+ {
+  "item": "{name}句 LADDER.byTerm.Y1S2.heroine_05.greet.when.5.t",
+  "st": "交往中",
+  "str": "祐廷。",
+  "exp": "含「林祐廷」（AA_584 §9-3）",
+  "where": "data"
+ },
+ {
+  "item": "{name}句 LADDER.byTerm.Y2S1.heroine_05.greet.when.5.t",
+  "st": "交往中",
+  "str": "祐廷。",
+  "exp": "含「林祐廷」（AA_584 §9-3）",
+  "where": "data"
+ },
+ {
+  "item": "{name}句 LADDER.byTerm.Y2S2.heroine_05.greet.when.5.t",
+  "st": "交往中",
+  "str": "祐廷。",
+  "exp": "含「林祐廷」（AA_584 §9-3）",
+  "where": "data"
+ },
+ {
+  "item": "{name}句 LADDER.byTerm.Y3S1.heroine_05.greet.when.6.t",
+  "st": "交往中",
+  "str": "祐廷。……碩二了。",
+  "exp": "含「林祐廷」（AA_584 §9-3）",
+  "where": "data"
+ },
+ {
+  "item": "{name}句 LADDER.byTerm.Y3S2.heroine_05.greet.when.9.t",
+  "st": "交往中",
+  "str": "祐廷。",
+  "exp": "含「林祐廷」（AA_584 §9-3）",
+  "where": "data"
+ },
+ {
+  "item": "{name}句 LADDER.byTerm.Y4S1.heroine_05.greet.when.5.t",
+  "st": "交往中",
+  "str": "祐廷。……沒事。叫一下。",
+  "exp": "含「林祐廷」（AA_584 §9-3）",
+  "where": "data"
+ },
+ {
+  "item": "{name}句 LADDER.byTerm.Y4S2.heroine_05.greet.when.6.t",
+  "st": "交往中",
+  "str": "祐廷。……論文寫到第四章了。",
+  "exp": "含「林祐廷」（AA_584 §9-3）",
+  "where": "data"
+ },
+ {
+  "item": "{name}句 LADDER.byTerm.Y1S1.heroine_05.greet.when.3.t",
+  "st": "交往中",
+  "str": "祐廷。",
+  "exp": "含「林祐廷」（AA_584 §9-3）",
+  "where": "data"
+ },
+ {
+  "item": "{name}句 REL_LINES.heroine_05.up.FAMILIAR.l.0",
+  "st": "交往中",
+  "str": "「祐廷，你最近很常來法圖。」",
+  "exp": "含「林祐廷」（AA_584 §9-3）",
+  "where": "data"
+ },
+ {
+  "item": "displayName",
+  "st": "分手",
+  "str": "溫書瑀",
+  "exp": "溫書瑀",
+  "where": "social3d.js:80"
+ },
+ {
+  "item": "npcName",
+  "st": "分手",
+  "str": "溫書瑀",
+  "exp": "溫書瑀",
+  "where": "social3d.js:161"
+ },
+ {
+  "item": "datingName",
+  "st": "分手",
+  "str": "null",
+  "exp": "null",
+  "where": "social3d.js:168"
+ },
+ {
+  "item": "contactName",
+  "st": "分手",
+  "str": "溫學姊",
+  "exp": "非「貝貝」",
+  "where": "social3d.js:170"
+ },
+ {
+  "item": "gradOpt 選項",
+  "st": "分手",
+  "str": "讀學姊給的那篇文章",
+  "exp": "讀學姊給的那篇文章",
+  "where": "game3d.js:299"
+ },
+ {
+  "item": "FAV.pick 選項",
+  "st": "分手",
+  "str": "也幫學姊點一杯",
+  "exp": "也幫學姊點一杯",
+  "where": "foodfav3d.js:60"
+ },
+ {
+  "item": "takeFeel 只有她",
+  "st": "分手",
+  "str": "和溫學姊熟了一點。",
+  "exp": "和溫學姊?熟了一點",
+  "where": "social3d.js:28"
+ },
+ {
+  "item": "takeFeel 有別人",
+  "st": "分手",
+  "str": "和溫學姊熟了一點。|和小安熟了一點。",
+  "exp": "無「和她」",
+  "where": "social3d.js:28"
+ },
+ {
+  "item": "rideBlock 只有她",
+  "st": "分手",
+  "str": "（溫書瑀說她走路就好。）",
+  "exp": "（<displayName>說她走路就好。）",
+  "where": "story3d.js:837"
+ },
+ {
+  "item": "rideBlock 有別人",
+  "st": "分手",
+  "str": "（溫書瑀說她走路就好。）",
+  "exp": "（<displayName>說她走路就好。）",
+  "where": "story3d.js:838"
+ },
+ {
+  "item": "shuyuT(和溫學姊吃飯)",
+  "st": "分手",
+  "str": "和溫學姊吃飯",
+  "exp": "—",
+  "where": "social3d.js:164"
+ },
+ {
+  "item": "shuyuT(和學姊去溫州街)",
+  "st": "分手",
+  "str": "和學姊去溫州街",
+  "exp": "—",
+  "where": "social3d.js:164"
+ },
+ {
+  "item": "shuyuT(直屬學姊的訊息)",
+  "st": "分手",
+  "str": "直屬學姊的訊息",
+  "exp": "—",
+  "where": "social3d.js:164"
+ },
+ {
+  "item": "shuyuT(登山社的學姊)",
+  "st": "分手",
+  "str": "登山社的學姊",
+  "exp": "—",
+  "where": "social3d.js:164"
+ },
+ {
+  "item": "shuyuT(溫書瑀學姊)",
+  "st": "分手",
+  "str": "溫書瑀學姊",
+  "exp": "—",
+  "where": "social3d.js:164"
+ },
+ {
+  "item": "shuyuT(學姊溫書瑀)",
+  "st": "分手",
+  "str": "學姊溫書瑀",
+  "exp": "—",
+  "where": "social3d.js:164"
+ },
+ {
+  "item": "shuyuT(溫學姊（溫書瑀）)",
+  "st": "分手",
+  "str": "溫學姊（溫書瑀）",
+  "exp": "—",
+  "where": "social3d.js:164"
+ },
+ {
+  "item": "ladGreet（10/14 學期）",
+  "st": "分手",
+  "str": "祐廷。",
+  "exp": "—",
+  "where": "story3d ladGreet"
+ },
+ {
+  "item": "{name}句 LADDER.byTerm.Y1S2.heroine_05.greet.when.5.t",
+  "st": "分手",
+  "str": "祐廷。",
+  "exp": "含「祐廷」、無「林」",
+  "where": "data"
+ },
+ {
+  "item": "{name}句 LADDER.byTerm.Y2S1.heroine_05.greet.when.5.t",
+  "st": "分手",
+  "str": "祐廷。",
+  "exp": "含「祐廷」、無「林」",
+  "where": "data"
+ },
+ {
+  "item": "{name}句 LADDER.byTerm.Y2S2.heroine_05.greet.when.5.t",
+  "st": "分手",
+  "str": "祐廷。",
+  "exp": "含「祐廷」、無「林」",
+  "where": "data"
+ },
+ {
+  "item": "{name}句 LADDER.byTerm.Y3S1.heroine_05.greet.when.6.t",
+  "st": "分手",
+  "str": "祐廷。……碩二了。",
+  "exp": "含「祐廷」、無「林」",
+  "where": "data"
+ },
+ {
+  "item": "{name}句 LADDER.byTerm.Y3S2.heroine_05.greet.when.9.t",
+  "st": "分手",
+  "str": "祐廷。",
+  "exp": "含「祐廷」、無「林」",
+  "where": "data"
+ },
+ {
+  "item": "{name}句 LADDER.byTerm.Y4S1.heroine_05.greet.when.5.t",
+  "st": "分手",
+  "str": "祐廷。……沒事。叫一下。",
+  "exp": "含「祐廷」、無「林」",
+  "where": "data"
+ },
+ {
+  "item": "{name}句 LADDER.byTerm.Y4S2.heroine_05.greet.when.6.t",
+  "st": "分手",
+  "str": "祐廷。……論文寫到第四章了。",
+  "exp": "含「祐廷」、無「林」",
+  "where": "data"
+ },
+ {
+  "item": "{name}句 LADDER.byTerm.Y1S1.heroine_05.greet.when.3.t",
+  "st": "分手",
+  "str": "祐廷。",
+  "exp": "含「祐廷」、無「林」",
+  "where": "data"
+ },
+ {
+  "item": "{name}句 REL_LINES.heroine_05.up.FAMILIAR.l.0",
+  "st": "分手",
+  "str": "「祐廷，你最近很常來法圖。」",
+  "exp": "含「祐廷」、無「林」",
+  "where": "data"
+ },
+ {
+  "item": "displayName",
+  "st": "挽回中",
+  "str": "溫書瑀",
+  "exp": "溫書瑀",
+  "where": "social3d.js:80"
+ },
+ {
+  "item": "npcName",
+  "st": "挽回中",
+  "str": "溫書瑀",
+  "exp": "溫書瑀",
+  "where": "social3d.js:161"
+ },
+ {
+  "item": "datingName",
+  "st": "挽回中",
+  "str": "null",
+  "exp": "null",
+  "where": "social3d.js:168"
+ },
+ {
+  "item": "contactName",
+  "st": "挽回中",
+  "str": "溫學姊",
+  "exp": "非「貝貝」",
+  "where": "social3d.js:170"
+ },
+ {
+  "item": "gradOpt 選項",
+  "st": "挽回中",
+  "str": "讀學姊給的那篇文章",
+  "exp": "讀學姊給的那篇文章",
+  "where": "game3d.js:299"
+ },
+ {
+  "item": "FAV.pick 選項",
+  "st": "挽回中",
+  "str": "也幫學姊點一杯",
+  "exp": "也幫學姊點一杯",
+  "where": "foodfav3d.js:60"
+ },
+ {
+  "item": "takeFeel 只有她",
+  "st": "挽回中",
+  "str": "和溫學姊熟了一點。",
+  "exp": "和溫學姊?熟了一點",
+  "where": "social3d.js:28"
+ },
+ {
+  "item": "takeFeel 有別人",
+  "st": "挽回中",
+  "str": "和溫學姊熟了一點。|和小安熟了一點。",
+  "exp": "無「和她」",
+  "where": "social3d.js:28"
+ },
+ {
+  "item": "rideBlock 只有她",
+  "st": "挽回中",
+  "str": "（溫書瑀說她走路就好。）",
+  "exp": "（<displayName>說她走路就好。）",
+  "where": "story3d.js:837"
+ },
+ {
+  "item": "rideBlock 有別人",
+  "st": "挽回中",
+  "str": "（溫書瑀說她走路就好。）",
+  "exp": "（<displayName>說她走路就好。）",
+  "where": "story3d.js:838"
+ },
+ {
+  "item": "shuyuT(和溫學姊吃飯)",
+  "st": "挽回中",
+  "str": "和溫學姊吃飯",
+  "exp": "—",
+  "where": "social3d.js:164"
+ },
+ {
+  "item": "shuyuT(和學姊去溫州街)",
+  "st": "挽回中",
+  "str": "和學姊去溫州街",
+  "exp": "—",
+  "where": "social3d.js:164"
+ },
+ {
+  "item": "shuyuT(直屬學姊的訊息)",
+  "st": "挽回中",
+  "str": "直屬學姊的訊息",
+  "exp": "—",
+  "where": "social3d.js:164"
+ },
+ {
+  "item": "shuyuT(登山社的學姊)",
+  "st": "挽回中",
+  "str": "登山社的學姊",
+  "exp": "—",
+  "where": "social3d.js:164"
+ },
+ {
+  "item": "shuyuT(溫書瑀學姊)",
+  "st": "挽回中",
+  "str": "溫書瑀學姊",
+  "exp": "—",
+  "where": "social3d.js:164"
+ },
+ {
+  "item": "shuyuT(學姊溫書瑀)",
+  "st": "挽回中",
+  "str": "學姊溫書瑀",
+  "exp": "—",
+  "where": "social3d.js:164"
+ },
+ {
+  "item": "shuyuT(溫學姊（溫書瑀）)",
+  "st": "挽回中",
+  "str": "溫學姊（溫書瑀）",
+  "exp": "—",
+  "where": "social3d.js:164"
+ },
+ {
+  "item": "ladGreet（10/14 學期）",
+  "st": "挽回中",
+  "str": "祐廷。",
+  "exp": "—",
+  "where": "story3d ladGreet"
+ },
+ {
+  "item": "{name}句 LADDER.byTerm.Y1S2.heroine_05.greet.when.5.t",
+  "st": "挽回中",
+  "str": "祐廷。",
+  "exp": "含「祐廷」、無「林」",
+  "where": "data"
+ },
+ {
+  "item": "{name}句 LADDER.byTerm.Y2S1.heroine_05.greet.when.5.t",
+  "st": "挽回中",
+  "str": "祐廷。",
+  "exp": "含「祐廷」、無「林」",
+  "where": "data"
+ },
+ {
+  "item": "{name}句 LADDER.byTerm.Y2S2.heroine_05.greet.when.5.t",
+  "st": "挽回中",
+  "str": "祐廷。",
+  "exp": "含「祐廷」、無「林」",
+  "where": "data"
+ },
+ {
+  "item": "{name}句 LADDER.byTerm.Y3S1.heroine_05.greet.when.6.t",
+  "st": "挽回中",
+  "str": "祐廷。……碩二了。",
+  "exp": "含「祐廷」、無「林」",
+  "where": "data"
+ },
+ {
+  "item": "{name}句 LADDER.byTerm.Y3S2.heroine_05.greet.when.9.t",
+  "st": "挽回中",
+  "str": "祐廷。",
+  "exp": "含「祐廷」、無「林」",
+  "where": "data"
+ },
+ {
+  "item": "{name}句 LADDER.byTerm.Y4S1.heroine_05.greet.when.5.t",
+  "st": "挽回中",
+  "str": "祐廷。……沒事。叫一下。",
+  "exp": "含「祐廷」、無「林」",
+  "where": "data"
+ },
+ {
+  "item": "{name}句 LADDER.byTerm.Y4S2.heroine_05.greet.when.6.t",
+  "st": "挽回中",
+  "str": "祐廷。……論文寫到第四章了。",
+  "exp": "含「祐廷」、無「林」",
+  "where": "data"
+ },
+ {
+  "item": "{name}句 LADDER.byTerm.Y1S1.heroine_05.greet.when.3.t",
+  "st": "挽回中",
+  "str": "祐廷。",
+  "exp": "含「祐廷」、無「林」",
+  "where": "data"
+ },
+ {
+  "item": "{name}句 REL_LINES.heroine_05.up.FAMILIAR.l.0",
+  "st": "挽回中",
+  "str": "「祐廷，你最近很常來法圖。」",
+  "exp": "含「祐廷」、無「林」",
+  "where": "data"
+ },
+ {
+  "item": "ladGreet Y4S1 交往中（第 72 列）",
+  "st": "交往中",
+  "str": "(無)",
+  "exp": "林祐廷。……沒事。叫一下。",
+  "where": "ladder.js:3 Y4S1 greet.when[5]"
+ }
+]
