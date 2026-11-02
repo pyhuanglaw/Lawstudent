@@ -37,3 +37,10 @@
 English style keywords: high-quality Japanese anime film key visual, semi-realistic anime illustration, detailed painterly background art (Makoto Shinkai / Kyoto Animation quality), soft cel shading with smooth gradients, cinematic natural lighting, warm golden tones, shallow-to-medium depth of field, clean and polished, 4K detail. NOT photo, NOT 3D render, NOT flat vector, NOT chibi.
 ```
 - 例外：遊戲畫面（像素圖，例如 CG-106）另寫像素風格段落，但仍寫清楚品質要求。
+
+## 5. 有人物的 CG：一次一個人物（使用者 11-02 19:2x：「有單獨一個人物的，你先給我他的圖片，然後他的圖片的提示詞就可以一起，也是獨立生成」）
+- 單人 CG 照**人物分輪**：同一輪 10 張都是同一個人物，附圖只有兩張：`00_畫風參考`＋`0N_<人名>_人物參考`（BB_131 確認的全身標準圖）。先傳圖，同一則回覆給整塊提示詞。
+- 提示詞寫明：臉、髮型、髮色、身材照人物參考圖；**服裝照每個編號寫的**（不要照參考圖的衣服）；不戴耳環等識別規則照 AA_597 0-4。
+- 祐廷不附圖：一律背影或側後方，寫「黑色短髮的成年男大學生背影」。
+- **不要把編號畫進圖裡**（第一輪 CG-27 生成 AI 把「①」畫在左上角，BB 得事後蓋掉）：總說明寫「編號只放在檔名或回覆文字，畫面裡不要出現任何數字、圓圈編號或標籤」。
+- 多人（2～3 人）CG 等單人做完再排，照第 3 節。
