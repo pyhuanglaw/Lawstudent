@@ -272,7 +272,7 @@ async def wait_q1(pg, cdp, run, tag, qi, max_s):
     return False
 
 
-async def finish_say(pg, cdp, prefix, max_s=30):
+async def finish_say(pg, cdp, prefix, max_s=90):   # 30→90：PC headed 幀率較低（R6_layout headed Y4TAX_06_port、雲端 lay_seat2 都在這裡逾時）
     """等某一句（開頭）出來並打完字"""
     t0 = time.time()
     while time.time() - t0 < max_s:

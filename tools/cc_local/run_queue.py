@@ -346,7 +346,7 @@ class Runner(object):
             with open(pmf, encoding='utf-8-sig') as fh:   # 舊版 PowerShell 寫的有 BOM
                 pm = json.load(fh)
             pr = str(pm.get('rerun') or '')
-            return pm.get('sha') == sha and pm.get('exit') in (0, 1) and not pm.get('error') and pr == it.rerun
+            return pm.get('sha') == sha and pr == it.rerun   # BB 19:46：同一個 Id@sha#RERUN 有 meta 就跳過，不管 exit／error（逾時要重跑＝換 RERUN 記號）
         except Exception:
             log('meta.json of %s unreadable - rerun' % it.id)
             return False
@@ -396,7 +396,10 @@ class Runner(object):
             if not self.node:
                 raise RuntimeError('node not found (set CC_NODE)')
             os.makedirs(out, exist_ok=True)
-            return [self.node, os.path.join(wt, it.script)] + xa, wt
+            sp = os.path.join(wt, it.script)
+            if not os.path.exists(sp):   # N1_node：總管腳本（tools/cc_local/node_units.js）在 cc-testing（Work），受測版本裡沒有；cwd 照樣是 wt
+                sp = os.path.join(self.work, it.script)
+            return [self.node, sp] + xa, wt
         if k == 'blender':
             if not self.blender:
                 raise RuntimeError('blender not found (set CC_BLENDER)')
