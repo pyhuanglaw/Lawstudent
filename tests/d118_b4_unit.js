@@ -38,6 +38,7 @@ const run=async(G,e,pickFn)=>{ H.G=G; said=[]; ansPick=pickFn||null; const r=awa
     const {r}=await run(G,e,o=>{ i++; const q=qs[i]; const want=i===0?'wrong':'right'; const opts=o.map(x=>x.t);       for(let k=0;k<o.length;k++){ const t=String(o[k].t); const ok=t.startsWith('（'+q.answer+'）')||t.startsWith(q.answer+'.')||t.startsWith(q.answer+' '); if(want==='right'&&ok) return k; if(want==='wrong'&&!ok) return k; } return 0; });
     const n=(G.notes||[]).find(x=>x.id.startsWith('examfix_'));
     check('c1. 答錯的題（'+(5-r.correct)+' 題）寫成「考後訂正」筆記：有題目、答案',r.correct<5&&!!n&&n.body.includes(qs[0].q)&&/答案：/.test(n.body),J({correct:r.correct,n:n&&n.title}));
+    check('c1b. 訂正筆記標題有學期：「'+(n&&n.title)+'」（BB 09:31：<課名>・<學期>期末考訂正；補考＝補考訂正）',!!n&&n.title===e.c.name+'・大一上期末考訂正'&&STUDY.FIX_TITLE('海商法','Y4S2:maritime:makeup')==='海商法・大四下補考訂正',n&&n.title);
     const miss=STUDY.rec(G).miss; check('c2. 第 1 題的卡進 miss',STUDY.unitsOfQ(qs[0].id).some(u=>miss.includes(u.id)),J({miss:miss.slice(0,5)}));
     check('c3. 一則訂正筆記一次考試只有一則（id examfix_<學期:課:final>）',(G.notes||[]).filter(x=>x.id.startsWith('examfix_')).length===1); }
   /* d BUG-B4-CUE-LEAK-1102：提示的字只出現在正確選項＝不出；掃全部題庫列出被擋下的題 */

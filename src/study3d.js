@@ -187,10 +187,10 @@ const STUDY=(function(){
   S.cueFor=function(G,qOrId){ const qid=typeof qOrId==='object'&&qOrId?qOrId.id:qOrId; const q=typeof qOrId==='object'&&qOrId?qOrId:((typeof EXAM_BANK!=='undefined'?EXAM_BANK.questions.find(x=>x.id===qid):null)||(typeof QBANK!=='undefined'?QBANK.find(x=>x.id===qid):null)||null); if(!q) return null;
     for(const u of S.unitsOfQ(qid)){ const st=S.stateOf(G,u.id); if(st==='read'||st==='got'){ const t=(u.cue||'').trim()||(S.view(u)||{}).title||u.title; if(t&&!S.cueLeaks(q,t,u.title)) return S.CUE_PREFIX+t+'）'; } } return null; };
   /* D118-B4：考後訂正——答錯的題寫成一則筆記（同一科同一次考試一則；miss 已經在 STUDY.answer 記了）*/
-  S.FIX_TITLE=n=>n+'・期末考訂正';   /* 暫定字 */
+  S.FIX_TITLE=(n,key)=>{ const p=String(key||'').split(':'), tn=p[0]&&typeof CLS!=='undefined'&&CLS.termName?CLS.termName(p[0]):''; return n+'・'+(tn||'')+(p[2]==='makeup'?'補考訂正':'期末考訂正'); };   /* 暫定字；加學期（BB 09:31，CC M2：重修又被當、四年以後同名找不到）、補考另一個名字；舊存檔已有的筆記標題不動 */
   S.fixNote=function(GM,c,key,wrong){ if(!wrong.length||!GM.addNote) return false;
     const body=wrong.map(w=>'第 '+w.n+' 題　'+w.q.q+'\n答案：'+w.a+(w.q.core?'\n考點：'+w.q.core:'')+(w.q.explanation&&w.q.explanation!==w.q.core?'\n'+w.q.explanation:'')).join('\n\n');
-    return GM.addNote('examfix_'+key,S.FIX_TITLE(c.name),body); };
+    return GM.addNote('examfix_'+key,S.FIX_TITLE(c.name,key),body); };
   /* 家裡的選單（週末回家、HOME.MENU_OPTS）*/
   S.homeOpt=function(G){ const o=S.reviewOpt(G,{home:true}); if(!o) return null; return {t:o.t,hint:o.hint,run:async GM=>{ await S.review(GM,'final',{home:true}); }}; };
   if(typeof STORY!=='undefined'&&Array.isArray(STORY.PHONE_RULES)) STORY.PHONE_RULES.push(G=>S.remind(G));
