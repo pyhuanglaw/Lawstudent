@@ -5265,9 +5265,9 @@
   },
   {
    "branch": "claude/second-ai-env-art",
-   "sha": "(本 commit)",
+   "sha": "54d6e41c1",
    "receiver": "LAWWW",
-   "ack": "SENT",
+   "ack": "ACK",
    "task": "LIB-B1-V4-1102（總圖 B1 第四版：使用者 18:1x「太擠」「桌子和進門的門平行」）",
    "files": [
     "docs/art-rebuild/second_ai/patches/library_b1_v4_1102.patch",
@@ -5280,7 +5280,28 @@
    "remaining": "reachability_all(library_b1) 排在佇列；BB_236 ④牆面⑤烘焙還沒做；兩排中間走道的方柱 BB 覺得擋路可以拿掉",
    "next": "LAWWW 以 48918ca20 為基準套 patch（3e6855649、48918ca20 apply --check 乾淨）＋換三個二進位；跑 library_b1_unit、b1story_unit、aa497_supporting_unit 等",
    "noDirectIntegrate": false,
-   "note": "A 區正門搬到西段南牆、B 區門搬到南牆，桌子東西向＝和門平行；兩排雙面排距 5 m、桌間 2 m；自習室 101→72 位；spots.study_door／study_night、芯慈／明軒 seatAt 改座標（README 第六節對照表）。第三版不交件（材質、椅子、小物沿用）。"
+   "note": "A 區正門搬到西段南牆、B 區門搬到南牆，桌子東西向＝和門平行；兩排雙面排距 5 m、桌間 2 m；自習室 101→72 位；spots.study_door／study_night、芯慈／明軒 seatAt 改座標（README 第六節對照表）。第三版不交件（材質、椅子、小物沿用）。",
+   "integrated": "LAWWW 已整合：int/next1102 5627d9453（BB_242 方向 ACCEPT、不標 ART_APPROVED；4.1 接在後面）"
+  },
+  {
+   "branch": "claude/second-ai-env-art",
+   "sha": "(本 commit)",
+   "receiver": "LAWWW",
+   "ack": "SENT",
+   "task": "LIB-B1-V4-1102（總圖 B1 第 4.1 版：BB_242 ②③④⑤＋使用者 18:4x「B1 排距維持 4.4 m 就好」UA-LAWWW-1102-26）",
+   "files": [
+    "docs/art-rebuild/second_ai/patches/library_b1_v41_incr_1102.patch",
+    "docs/art-rebuild/second_ai/patches/library_b1_v41_1102.patch",
+    "assets/models/env/second_ai/library_b1.glb",
+    "assets/models/env/second_ai/library_b1.json",
+    "assets/models/env/second_ai/library_b1.layout.json",
+    "docs/art-rebuild/second_ai/test_shots/library_b1_v41_1102/README.md"
+   ],
+   "state": "已交付（READY_FOR_ART_REVIEW；BB 給使用者看照片對照、使用者點頭才標 ART_APPROVED）",
+   "remaining": "B1 光照烘焙（BB_242 ⑥，排到使用者電腦）；牆裙以上偏灰是沒烘光的關係；沒有 B1 專用的瀏覽器流程測試；沒跑實機",
+   "next": "已整合第四版（5627d9453）就套 library_b1_v41_incr_1102.patch（5627d9453、1a5110e07 apply --check 乾淨）＋換三個二進位；跑 library_b1_unit、b1story_unit、aa497_supporting_unit 等 9 支",
+   "noDirectIntegrate": false,
+   "note": "排距 5→4.4 m（背靠背 2.04 m、北走道約 1.9 m）；同一排連成長條桌，只在進門走道、中間走道斷開；自習室 72→76（A 56→60）；方柱 A 區中間 2→1 根（x −0.8）；北牆、B 區東牆、A 區南邊兩道隔間加 1 m 木牆裙、上面白一點；椅子加深加厚、隔板換蜂蜜橘。study_night、芯慈、明軒 seatAt 改座標（README 第六節）。library_b1_unit 背靠背門檻 2.3→2.0 m（使用者決定 4.4 m；第三版 1.64 m 照樣 FAIL）。reachability_all(library_b1) ALL PASS（109 互動點）"
   }
  ]
 }
