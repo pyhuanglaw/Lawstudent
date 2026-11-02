@@ -4,6 +4,7 @@
 //   2  src 全部沒有「臺北的家」「回臺北的家」（字卡、地點、提示「回家」）；以安 A-L10「寒假你會回家住嗎？」；祐廷自己的地點不再寫「回臺北」（AA_595 第 4 節列的那幾處）
 //   3  學姊不說「你們系」（sis_y2y3_events.js「系上的交換名單」、ladder 的「系上的交換」）
 //   4  空的保溫瓶那條線：ev_sis_empty_flask、ev_sis_flask_full retired（原本的時段不演）；熱水沒有 HELPED 那一句；心願 D15 沒有「妳的保溫瓶今天是滿的。」；旁白不寫「空的」
+//   6  畢業那天的新保溫瓶（AA 2026-11-02 20:26 定稿）：照留；「裡面是熱水。」（不是咖啡拿掉）、THERMOS.helped（黑咖啡）拿掉
 //   5  舊存檔：沒有 G.libNod、libNod 壞掉、存著空保溫瓶的旗標與記憶（flaskCoffeeDay、HELPED、done）——不丟例外、照常
 // 修改前（int/m590 0e11c43a3）：第 1 項沒有 LIBQ、第 2～4 項 FAIL。用法：node tests/aa595_rules_unit.js
 require('./alison.js');
@@ -134,6 +135,20 @@ await sec('5',async()=>{
   check('5. 舊存檔（存著 flaskCoffeeDay、演過兩場、HELPED／NOTICED_HER 記憶）：檢查事件、人物面板都不丟例外，兩場都不再演',threw===null&&J(r)===J([false,false]),threw||J(r));
   H.said=[]; const n=npc('classmate_bohan'); H.FAMILIAR('classmate_bohan'); STORY._bindGM(GM); threw=null; try{ await LIBQ.gate(GM,n); await STORY.talkCharacter('classmate_bohan',n); }catch(e){ threw=String(e&&e.stack||e); }
   check('5. 舊存檔在總圖二樓找人說話：點頭、說話照常',threw===null&&H.said[0]&&H.said[0].t===LIBQ.NOD.m&&spoken().length>0&&allQuiet(),threw||J(H.lines()));
+});
+
+await sec('6',async()=>{
+  /* AA 2026-11-02 20:26 定稿：畢業那天學姊遞的新保溫瓶留著（PG.thermos、SIS_THERMOS、epiThermos）；只改 (a)「裡面是熱水。不是咖啡。」→「裡面是熱水。」、(b) THERMOS.helped（黑咖啡）拿掉 */
+  const T=POSTGRAD_LINES.THERMOS;
+  check('6. (a) 新保溫瓶那一段還在：「（她還穿著碩士服，手上拿著一個新的保溫瓶。）」「（把保溫瓶遞給他）裡面是熱水。」「每天帶出門。」；沒有「不是咖啡」',J(T.lines).includes('手上拿著一個新的保溫瓶')&&T.lines.some(x=>x[1]==='（把保溫瓶遞給他）裡面是熱水。')&&T.lines.some(x=>x[1]==='每天帶出門。')&&!J(T.lines).includes('不是咖啡'),J(T.lines));
+  check('6. (b) THERMOS.helped 拿掉；postgrad3d.js 不再叫 helpedCoffee',!('helped' in T)&&!/helpedCoffee|W\.helped/.test(fs.readFileSync(path.join(H.ROOT,'src/postgrad3d.js'),'utf8'))&&typeof PG.helpedCoffee==='undefined');
+  const run=async(fl,mem)=>{ H.fresh('2029-06-02',12,'campus',fl); if(mem) SOCIAL.remember('heroine_05',mem[0],mem[1]); H.said=[]; H.opts=[]; H.picks=[]; await PG.thermos(GM); return H.said.map(s=>s.t); };
+  const a=await run({},['HELPED','空的保溫瓶，買了黑咖啡']);
+  check('6. 舊存檔（空保溫瓶選黑咖啡 HELPED）：新保溫瓶照演、遞保溫瓶「裡面是熱水。」，沒有黑咖啡那一句；記 SIS_THERMOS（尾聲 epiThermos 用）',a.includes('畢業快樂。')&&a.some(t=>t.endsWith('裡面是熱水。'))&&!a.some(t=>/黑咖啡|不是咖啡/.test(t))&&H.G.flags.SIS_THERMOS===true,J(a));
+  const b=await run({HOT_WATER:true});
+  check('6. 陪她等過熱水（HOT_WATER）：多一句「大一那年冬天，你陪我等熱水。我記到現在。」',b.includes(T.hotWater)&&!b.some(t=>/黑咖啡/.test(t)),J(b));
+  const D=typeof SISB16_LINES!=='undefined'?SISB16_LINES:null;
+  check('6. 尾聲學姊的保溫瓶（EPI_PARTNER.heroine_05.thermos）照留',!!(POSTGRAD_LINES.EPI_PARTNER&&POSTGRAD_LINES.EPI_PARTNER.heroine_05&&POSTGRAD_LINES.EPI_PARTNER.heroine_05.thermos));
 });
 
 H.done();
