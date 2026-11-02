@@ -8,9 +8,11 @@
   - CC_GPU=0：只做第一點，其他照原樣。
   - CC_BROWSER=webkit（run_queue.py 的 webkit kind）：探針呼叫 chromium.launch 時改開 webkit.launch，
     拿掉 chromium 專屬參數（args、executable_path、channel、chromium_sandbox）。CC_BROWSER 沒設時，上面的行為完全不變。
+  - CC_SLOT＋有視窗（CC_HEADLESS=0）：加 --window-position（槽位 × 920 px 並排）、--window-size（預設 900x900，CC_WINDOW_SIZE=WxH 可改）、
+    --window-name=CC 測試中，請勿點選 [<CC_ITEM>]。CC_GPU=0 時也照 CC_HEADLESS（有設才照）。CC_HEADLESS、CC_SLOT 都沒設時行為不變。
     注意：webkit 沒有 CDP，探針若用 ctx.new_cdp_session（playlib 的手機觸控）會在那一步失敗＝探針要另外支援。
 """
-import os, sys, runpy
+import os, re, sys, runpy
 
 GPU = os.environ.get('CC_GPU', '1') == '1'
 GPU_ARGS = ['--ignore-gpu-blocklist', '--use-gl=angle', '--use-angle=d3d11', '--enable-gpu-rasterization']
@@ -25,8 +27,25 @@ def fix_kwargs(kw):
         for a in GPU_ARGS:
             if a not in args: args.append(a)
         kw['headless'] = os.environ.get('CC_HEADLESS', '1') != '0'   # 00_gpu（c2d0c24bc）：d3d11 無視窗 26.6 fps ≥ 有視窗 17.1 fps，而且不會被誤關
+    elif os.environ.get('CC_HEADLESS') is not None:
+        kw['headless'] = os.environ['CC_HEADLESS'] != '0'            # CC_GPU=0 時：有設 CC_HEADLESS 才照它（沒設＝照探針原樣，和以前一樣）
+    if os.environ.get('CC_SLOT') is not None and kw.get('headless') is False:
+        args = args + window_args()
     kw['args'] = args
     return kw
+
+def window_args():
+    """run_queue.py 並行時，有視窗的瀏覽器照槽位並排、固定大小，標題註明 CC 測試中（只有 CC_SLOT 有設＋有視窗才加）"""
+    try: slot = int(os.environ.get('CC_SLOT', '0'))
+    except ValueError: slot = 0
+    w, h = 900, 900                       # launch 時還不知道探針的 viewport：900x900 裝得下橫向 844×390、直向 390×844
+    m = re.match(r'^(\d+)x(\d+)$', os.environ.get('CC_WINDOW_SIZE', ''))
+    if m: w, h = int(m.group(1)), int(m.group(2))
+    item = os.environ.get('CC_ITEM', '')
+    a = ['--window-position=%d,0' % (slot * (w + 20)), '--window-size=%d,%d' % (w, h),
+         '--window-name=CC 測試中，請勿點選 [%s]' % item]
+    _diag('headed slot %d: %s' % (slot, ' '.join(a)))
+    return a
 
 WEBKIT = os.environ.get('CC_BROWSER', '').strip().lower() == 'webkit'
 CHROMIUM_ONLY = ('args', 'executable_path', 'channel', 'chromium_sandbox', 'ignore_default_args')

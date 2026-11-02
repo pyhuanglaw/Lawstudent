@@ -17,6 +17,8 @@
   --no-push            只 commit 在本機分支，不 push
   --queue <檔>         改讀這個佇列檔（預設 <work>/tools/cc_local/queue.txt，每跑完一項重讀）
   --branch-local <名>  結果分支（預設 claude/cc-local）
+  --headless           不開視窗（預設：Windows 或有 DISPLAY 時，probe／game／webkit 開看得到的視窗，CC_HEADLESS=0；
+                       每一項傳 CC_SLOT＝並行槽位、CC_ITEM＝項目 ID，gpu_wrap 讓兩個視窗並排、標題寫「CC 測試中，請勿點選」）
 
 佇列格式：ID | SHA | KIND | script | url | timeout分鐘 | ENV(k=v;k=v)，# 開頭跳過。
   SHA：commit；head＝origin/claude/confident-ritchie-8rwh7t；lawww2＝origin/claude/second-ai-env-art
@@ -208,6 +210,8 @@ class Runner(object):
         self.py = sys.executable
         self.node = find_node()
         self.blender = find_blender()
+        # 有視窗：Windows 預設有；其他平台要有 DISPLAY（雲端用 xvfb-run）；--headless 一律無視窗
+        self.headed = not a.headless and (IS_WIN or bool(os.environ.get('DISPLAY')))
 
     # ---------- 版本／環境 ----------
     def banner(self):
@@ -229,6 +233,8 @@ class Runner(object):
         log('repo   : %s' % self.repo)
         log('work   : %s  (branch %s, %s)' % (self.work, self.branch, 'no push' if self.a.no_push else 'push to origin'))
         log('parallel: %d  (blender items run alone)' % self.a.parallel)
+        log('browser: %s' % ('visible windows side by side (probe/game/webkit; queue ENV CC_HEADLESS wins) - please do not click them' if self.headed
+                             else 'headless (no window)'))
 
     # ---------- 1. 結果分支的 worktree ----------
     def setup(self):
@@ -430,6 +436,10 @@ class Runner(object):
             env['PYTHONUTF8'] = '1'
             env['PYTHONIOENCODING'] = 'utf-8'
             env['CC_GPU'] = os.environ.get('CC_GPU', '1' if IS_WIN else '0')   # 舊版固定 1（Windows）；非 Windows 預設 0＝不加 d3d11
+            env['CC_SLOT'] = str(it.slot)          # 並行槽位：gpu_wrap 讓有視窗的瀏覽器並排
+            env['CC_ITEM'] = it.id
+            if it.kind in ('probe', 'game', 'webkit') and self.headed and 'CC_HEADLESS' not in os.environ:
+                env['CC_HEADLESS'] = '0'           # 預設有視窗，讓使用者看得到遊戲畫面（佇列 ENV 有寫 CC_HEADLESS 的照佇列）
             for kk, vv in it.envd.items():
                 env[kk] = vv
             cmd, cwd = self.build_cmd(it, wt, od, url, url2, env)
@@ -576,6 +586,8 @@ class Runner(object):
                     log('blender item %s waits until the %d running item(s) finish' % (pick.id, len(running)))
                     break
                 pick.rsha = self.resolve(pick.sha)
+                used = set(r[1].slot for r in running.values())
+                pick.slot = min(i for i in range(self.a.parallel + 1) if i not in used)
                 if pick.kind not in KINDS:
                     log('unknown kind %s for %s - will be recorded as error' % (pick.kind, pick.id))
                 attempted.add('%s@%s#%s' % (pick.id, pick.rsha, pick.rerun))
@@ -617,6 +629,7 @@ def parse_args(argv):
     ap.add_argument('--no-push', action='store_true')
     ap.add_argument('--queue', default=None)
     ap.add_argument('--branch-local', default='claude/cc-local')
+    ap.add_argument('--headless', action='store_true', help='no browser windows (default: visible windows on Windows / when DISPLAY is set)')
     a = ap.parse_args(argv)
     if not a.repo:
         ap.error('--repo is required on this platform')
