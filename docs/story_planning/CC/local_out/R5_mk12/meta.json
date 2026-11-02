@@ -1,0 +1,15 @@
+﻿{
+    "rerun":  "",
+    "id":  "R5_mk12",
+    "sha":  "b1b249873",
+    "kind":  "probe",
+    "script":  "docs/story_planning/test_tools/cc/cc_makeup_probe.py",
+    "env":  "FAIL_ROUTE=retake;CASES=study3h,skipnoon_seat,skipnoon_phone,old_delayed,homerest,home,mkbg",
+    "machine":  "MSI",
+    "start":  "2026-11-02T20:32:50",
+    "end":  "2026-11-02T20:57:09",
+    "seconds":  1459,
+    "exit":  1,
+    "error":  null,
+    "url":  "http://127.0.0.1:8801/index.html?turbo"
+}
