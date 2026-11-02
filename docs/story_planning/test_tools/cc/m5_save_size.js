@@ -15,6 +15,7 @@
 'use strict';
 const path=require('path'), fs=require('fs'), vm=require('vm');
 const SRC=path.resolve(process.argv[2]||'.');
+const SAVE_OUT=process.env.SAVE_OUT||null, BIG={chars:0,json:null,lab:null};   /* BB 13:52：把最大的那一份存檔（snapshot＋B 層推估）寫出來給 LAWWW 分析 */
 const JSON_OUT=(()=>{ const i=process.argv.indexOf('--json'); return i>0?process.argv[i+1]:null; })();
 const H=require(path.join(SRC,'tests/pg_harness.js'));
 const {GM}=H;
@@ -120,7 +121,7 @@ async function sim(name,opt){ rnd=rngOf(opt.seed); pRight=opt.pRight!=null?opt.p
     if(opt.grad&&rnd()<0.05) SOCIAL.gradBump('準備研究所：讀書會','civil');
     /* 量測點：每學期成績單那天、畢業、延畢後 */
     const lab=termEnds[d]?termEnds[d]+' 成績單後':d===PG.DK('2029-06-02')?'畢業典禮（2029-06-02）':d===END?'2029-06-30':d===END5?'延畢學期後（2030-01-31）':null;
-    if(lab){ const frac=Math.min(1,(d-D0)/(END-D0)); const S0=bLayer(snap(G),frac,opt); const fs_={}; for(const k in S0) fs_[k]=S0[k]===undefined?0:JSON.stringify(S0[k]).length; const chars=JSON.stringify(S0).length; const realChars=sizeOf(G); marks.push({lab,day:d,date:CALENDAR.dateOf(d).key,chars,realChars,fields:fs_,
+    if(lab){ const frac=Math.min(1,(d-D0)/(END-D0)); const S0=bLayer(snap(G),frac,opt); const fs_={}; for(const k in S0) fs_[k]=S0[k]===undefined?0:JSON.stringify(S0[k]).length; const chars=JSON.stringify(S0).length; if(SAVE_OUT&&chars>BIG.chars){ BIG.chars=chars; BIG.json=JSON.stringify(S0); BIG.lab=lab; } const realChars=sizeOf(G); marks.push({lab,day:d,date:CALENDAR.dateOf(d).key,chars,realChars,fields:fs_,
         detail:{courses:subSizes(G.courses),social:subSizes(G.social),notesN:(G.notes||[]).length,notesKinds:(G.notes||[]).reduce((a,n)=>{ const k=/^examfix_/.test(n.id)?'examfix':/^ask_/.test(n.id)?'ask':/_w\d+$/.test(n.id)?'study':'other'; a[k]=(a[k]||0)+1; a[k+'_chars']=(a[k+'_chars']||0)+JSON.stringify(n).length; return a; },{}),
           doneKeys:Object.keys(G.courses.done||{}).length,examKeys:Object.keys(G.courses.exam||{}).length,msgs:(G.msgs||[]).length,memN:Object.values(G.social.mem||{}).reduce((a,x)=>a+x.length,0),habitKeys:Object.keys(G.habits||{}).length,flagsN:Object.keys(G.flags).length,cut:((G.phone||{}).cut||[]).length}}); }
   }
@@ -163,6 +164,7 @@ async function sim(name,opt){ rnd=rngOf(opt.seed); pRight=opt.pRight!=null?opt.p
   const perSave=Math.floor(LIMIT/2/nFull); console.log('  要塞得下 '+nFull+' 份，單一存檔上限約 '+perSave+' 字（'+(perSave*2/1024).toFixed(0)+' KB）＝目前最大的 '+(perSave/worst).toFixed(1)+' 倍');
   check('1 最壞情況總量 < 5 MB',total*2<LIMIT,(total*2/1024/1024).toFixed(2)+' MB');
   check('2 最壞情況總量 < 5 MB 的 80%（留給之後的內容成長）',total*2<LIMIT*0.8,(total*2/1024/1024).toFixed(2)+' MB');
+  if(SAVE_OUT&&BIG.json){ fs.writeFileSync(SAVE_OUT,BIG.json); console.log('  最大一份存檔寫到 '+SAVE_OUT+'：'+BIG.chars+' 字（'+(BIG.chars*2/1048576).toFixed(2)+' MB UTF-16）時點 '+BIG.lab); }
   if(JSON_OUT) fs.writeFileSync(JSON_OUT,J({sha:SHA,routes:out.map(r=>({name:r.name,marks:r.marks})),worst,total,nFull,settings,stuck,y0,keyChars}));
   console.log(fails?('FAILED '+fails):'ALL PASS'); process.exit(fails?1:0);
 })().catch(e=>{ console.log('FAIL 例外 '+(e&&e.stack||e)); process.exit(1); });
