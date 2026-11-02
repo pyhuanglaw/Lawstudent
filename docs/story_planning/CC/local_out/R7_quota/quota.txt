@@ -1,0 +1,7 @@
+localStorage 配額（Chromium，全新設定檔）
+UA: Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) HeadlessChrome/156.0.8078.4 Safari/537.36
+storage.estimate: {"quota": 10737418240, "usage": 0, "usageDetails": {}}
+ASCII 寫到滿：5242368 字元（QuotaExceededError: Failed to execute 'setItem' on 'Storage': Setting the value of 'cc_quota_ascii_19' exceeded the quota.）
+中文寫到滿：5242368 字元（QuotaExceededError: Failed to execute 'setItem' on 'Storage': Setting the value of 'cc_quota_cjk_19' exceeded the quota.）
+開局 GAME.snapshot JSON：1690 字元
+開局時 localStorage 已用：0 字元；keys []

@@ -1,0 +1,23 @@
+{
+ "estimate": {
+  "quota": 10737418240,
+  "usage": 0,
+  "usageDetails": {}
+ },
+ "lsChars0": 0,
+ "ascii": {
+  "chunks": 19,
+  "chars": 5242368,
+  "error": "QuotaExceededError: Failed to execute 'setItem' on 'Storage': Setting the value of 'cc_quota_ascii_19' exceeded the quota.",
+  "tailKeys": 21
+ },
+ "cjk": {
+  "chunks": 19,
+  "chars": 5242368,
+  "error": "QuotaExceededError: Failed to execute 'setItem' on 'Storage': Setting the value of 'cc_quota_cjk_19' exceeded the quota.",
+  "tailKeys": 21
+ },
+ "snapshotChars": 1690,
+ "lsKeys": [],
+ "userAgent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) HeadlessChrome/156.0.8078.4 Safari/537.36"
+}
