@@ -38406,6 +38406,55 @@
    "source": "使用者 2026-11-02 03:3x（UA-LAWWW-1102-08）",
    "authorized": "AI_SESSION_HANDOFF.md 第 4 節",
    "next": "【LAWWW（帳號 A）03:4x】duty register（RULE_SOURCE→claude/confident-ritchie-8rwh7t）；下一步：send_message 測通訊、盤點與預估"
+  },
+  {
+   "area": null,
+   "first": {
+    "term": "Y1S1",
+    "week": null,
+    "earliest": "第一次期中考前（讀書、一鍵總複習）；國考與職涯在畢業以後",
+    "mainline": true,
+    "blocks": false,
+    "prereq": false,
+    "parallel": true,
+    "confirmed": true
+   },
+   "source": "使用者 2026-11-02 03:4x 直接對 BB（企劃線 d98c2566 BB_222 第 0 節；USER_WANTS X151）",
+   "authorized": "使用者直接指派（X151）；D111 LAWWW 遊戲總監",
+   "id": "STUDY-EXAM-CAREER-1102",
+   "title": "讀書／法律考試／國考／職涯結局的驗收（BB 測試總監；BB_222）：修改前盤點現況當基準、照第 0 節十六條＋回歸寫驗收計畫、修改後實測（D34：重要測試修改前 FAIL、修改後 PASS）",
+   "owner": "BB",
+   "status": "進行中",
+   "priority": "P0",
+   "next": "【LAWWW（帳號 A）03:4x 登記】BB 03:40 開工：先盤點修改前的現況（讀書、考試、成績公式、教材、法律服務社、國考、職涯結局、旗標），驗收計畫寫在 BB_222；有問題直接回報 LAWWW",
+   "xai": {
+    "spec": "BB_222 第 0 節（企劃線 d98c2566）",
+    "branch": "claude/story-planning",
+    "acceptance": "BB_222 每一條標 已實作／測試通過／測試失敗／尚未實作／待其他職位交付，附重現步驟與 commit",
+    "receiver": "LAWWW",
+    "ack": "ACK"
+   }
+  },
+  {
+   "area": null,
+   "first": {
+    "term": "Y1S1",
+    "week": null,
+    "earliest": "第一次期中考前（讀書、一鍵總複習）；國考與職涯在畢業以後",
+    "mainline": true,
+    "blocks": false,
+    "prereq": false,
+    "parallel": true,
+    "confirmed": true
+   },
+   "source": "使用者 2026-11-02 03:4x 直接對 BB（企劃線 d98c2566 BB_222 第 0 節；USER_WANTS X151）",
+   "authorized": "使用者直接指派（X151）；D111 LAWWW 遊戲總監",
+   "id": "STUDY-EXAM-SYS-1102",
+   "title": "讀書／考試／國考／職涯結局系統照使用者 11-02 要求調整（LAWWW 實作）：對照 BB_222 第 0 節十六條查現行程式（不讀書也能玩、沒有隱藏懲罰、一鍵總複習、學習進度、教材對得上考題、成績看答題、法律服務社不刷任務、國考六條路線）→ 缺口逐條改＋Node 測試（修改前 FAIL）→ BB 驗收",
+   "owner": "LAWWW",
+   "status": "待開工",
+   "priority": "P0",
+   "next": "【LAWWW（帳號 A）03:4x 登記】先做現況盤點（和 BB 的基準對照），列缺口與要 AA 定的結局條件；排在接班盤點回報使用者之後"
   }
  ]
 }
