@@ -93,7 +93,7 @@ const R2Y4B=(function(){
 
   /* ===================== 2-Y4-34 研究所放榜（3/22）===================== */
   const R34='2029-03-22';
-  S.gradPass2029=G=>S.libDays(G,'2028-09-04','2029-02-02')>=24;   /* 2-Y4-27 第 4 節：大四上＋寒假到考前一天 */
+  S.gradPass2029=G=>{ const F=G.flags||{}; const ps=typeof PG!=='undefined'&&PG.gradPassScore?PG.gradPassScore(G,2029):null; if(ps!=null) return ps; if(typeof F.GRAD_EXAM_2029_PASS==='boolean') return F.GRAD_EXAM_2029_PASS; return S.libDays(G,'2028-09-04','2029-02-02')>=24; };   /* D118-B6：作答（GRAD_SCORE_2029 ≥6）；考的那一刻記的 GRAD_EXAM_2029_PASS（舊存檔＝總圖天數，凍結）；都沒有的舊存檔照舊規則（2-Y4-27 第 4 節：大四上＋寒假到考前一天）*/
   S.anFarewell=G=>G.flags.AN_FAREWELL==='went'||evDone(G,'ev_an_farewell_dinner');   /* AA_322 1B-12 餞行 */
   /* 祐廷的結果：3/22 15:00 起算一次（2-Y4-27 第 4 節的總圖天數）；跳過 15:00 直接到晚上的也先算好，麵店那一段才讀得到 */
   S.gradResult=G=>{ const F=G.flags; if(F.GRAD_EXAM_2029===true&&F.GRAD_EXAM_RESULT==null&&at(G,R34,15)){ const ok=S.gradPass2029(G); F.GRAD_EXAM_RESULT=ok?'pass':'fail'; if(ok&&F.GRAD_ADMIT==null) F.GRAD_ADMIT='exam'; } return F.GRAD_EXAM_RESULT; };
@@ -323,9 +323,9 @@ const R2Y4B=(function(){
   S.cert=async function(GM,o){ o=o||{}; const G=GM.G, d=DK(o.key||'2030-01-21'), tg=o.tag||'y5'; if(typeof PHONE!=='undefined'){ PHONE.at(G,d,10,[{th:'sys',text:'畢業證書已可領取。'}],tg+'_cert_sys'); PHONE.tick(G); }
     await scene(GM,async()=>{ await GM.say(null,'（系辦的助教把證書遞給你。）'); await GM.say(TA,o.ta||(fdOnly(G)?'恭喜。……延了一學期，還是恭喜。':'你們交換回來的，今天第三個了。')); });   /* 被當延畢：AA_399 第 7 節延畢的證書那一句（「交換回來的」只給交換）*/
     G.flags.CERT_DAY=G.day; if(typeof PHONE!=='undefined') PHONE.at(G,d,12,[{th:'p:mom',from:'mom',text:'照片傳給我。我要傳給你爸。'}],tg+'_cert_mom'); return true; };
-  S.gradExam=async function(GM,y){ const G=GM.G; await scene(GM,async()=>{ if(GM.titleCard&&typeof PG!=='undefined') await GM.titleCard('考場',PG.dateLabel(G.day,G.hour),2200); await GM.say(null,'（兩節。第二節最後一題，你寫到鐘響。）'); });   /* 黑幕兩節（照 2-Y4-27），不出題目 */
+  S.gradExam=async function(GM,y){ const G=GM.G; await scene(GM,async()=>{ if(GM.titleCard&&typeof PG!=='undefined') await GM.titleCard('考場',PG.dateLabel(G.day,G.hour),2200); if(y===2030&&typeof PG!=='undefined'&&PG.gradQuiz) await PG.gradQuiz(GM,2030); await GM.say(null,'（兩節。第二節最後一題，你寫到鐘響。）'); });   /* D118-B6：2030 作答（10 題公法）；2031 照舊（再考＝上，AA_181 2-4）*/   /* 黑幕兩節（照 2-Y4-27），不出題目 */
     G.flags['GRAD_EXAM_'+y]=true; if(y===2031){ G.flags.GRAD_EXAM_RESULT='pass'; G.flags.GRAD_ADMIT='exam'; } return true; };   /* 2031 再考：上了（AA_181 2-4）*/
-  S.gradPass2030=G=>G.flags.GRAD_RETRY===true&&!delayed(G)?true:(S.libDays(G,'2029-02-19','2030-02-15')+(G.flags.Y5_DAYS==='study'?64:0))>=24;   /* 台灣路線明年再考＝上；交換延畢看總圖天數（Y5S1 選了去總圖＝一週 4 天，16 週；AA 審稿 #6）*/
+  S.gradPass2030=G=>{ if(G.flags.GRAD_RETRY===true&&!delayed(G)) return true; const ps=typeof PG!=='undefined'&&PG.gradPassScore?PG.gradPassScore(G,2030):null; if(ps!=null) return ps; return (S.libDays(G,'2029-02-19','2030-02-15')+(G.flags.Y5_DAYS==='study'?64:0))>=24; };   /* D118-B6：交換延畢看作答（GRAD_SCORE_2030 ≥6；Y5_DAYS study ≥5）；沒有作答紀錄的舊存檔照舊規則 */   /* 台灣路線明年再考＝上；交換延畢看總圖天數（Y5S1 選了去總圖＝一週 4 天，16 週；AA 審稿 #6）*/
   S.gradResult2030=async function(GM){ const G=GM.G, F=G.flags, ok=S.gradPass2030(G); F.GRAD_EXAM_RESULT=ok?'pass':'fail'; if(ok) F.GRAD_ADMIT='exam';
     const t=R34_SYS[F.GRAD_EXAM_RESULT]; if(typeof PHONE!=='undefined'&&!PHONE.sent(G,'y5_grad_result')) PHONE.post(G,{th:'sys',text:t,tag:'y5_grad_result'});
     await scene(GM,async()=>{ await GM.say(null,t); }); return true; };

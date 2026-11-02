@@ -63,7 +63,9 @@ const answerK=(qs,k)=>qs.map((q,i)=>{ const o=PG.opts(q); const right=o.findInde
   // ---- 16 題以上：司法官未錄取那一行 ----
   { const G=H.fresh('2029-08-04',8,'dorm',{BAR_REG:true}); graduated(G); const qs=PG.draw(G,2029); H.picks=answerK(qs,17); await H.run('exam_2029');
     H.at('2029-09-07',15.1); await H.run('r1_2029'); check('8. 答對 17＝「律師、司法官一試：通過。」',H.has('律師、司法官一試：通過。')&&G.flags.BAR_STAGE_2029==='both');
-    H.at('2029-12-14',15.1); H.said=[]; await H.run('r2_2029'); check('8. Z3：多「司法官二試：未錄取。」＋旁白',H.has('司法官二試：未錄取。')&&H.has('（你看了一下司法官那一欄，沒有你的號碼。）')); }
+    H.at('2029-12-14',15.1); H.said=[]; await H.run('r2_2029');   /* D118-B8（AA_582 (f)）：應屆一定沒上；15:05 只發系統字，那天晚上 20:30 演二選一（開頭就是那一行）*/
+    check('8. Z3：系統字「【考選部】司法官二試：未通過。」；晚上 20:30 二選一開頭「（【考選部】司法官二試：未通過。）」',H.msgs('sys').includes('【考選部】司法官二試：未通過。')&&!H.has('（你看了一下司法官那一欄，沒有你的號碼。）')&&G.flags.JUDGE_PASS_2029===false);
+    H.at('2029-12-14',20.6); H.said=[]; H.picks=[1]; await H.run('jretake_2029'); check('8. 二選一「就當律師。」＝JUDGE_RETAKE false（路線 d）',H.has('（【考選部】司法官二試：未通過。）')&&G.flags.JUDGE_RETAKE===false); }
   // ---- 學姊的便條：和別人交往中＝8/3 21:00 照片；戀人＝當面＋多一句 ----
   { const G=H.fresh('2029-08-03',20.6,'dorm',{BAR_REG:true}); graduated(G); H.FRIEND('heroine_05'); H.FRIEND('heroine_03'); H.date('heroine_03'); PG.rules(GM); H.at('2029-08-03',21.1); H.tick();
     check('9. 祐廷和別人交往中：8/3 21:00 收到便條的照片',H.msgs('p:heroine_05').join('|').includes('你可以。|……只有一句？|一句就夠了。'),JSON.stringify(H.msgs('p:heroine_05')));
