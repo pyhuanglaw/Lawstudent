@@ -926,8 +926,8 @@
       "title": "prop_pothos.glb",
       "area": "ART",
       "owner": "LAWWW2",
-      "status": "已整合待測試",
-      "next": "已接（zones3d.js z.setPothos＋story3d.js dormItems；大小 0～5／6～19／20～39／40＋次澆水＝S1～S4；v0_dorm_props_unit 第 5 項）。等瀏覽器看 L2 書桌上的盆栽（白天、晚上、四種大小）",
+      "status": "已驗收",
+      "next": "【LAWWW 2026-11-02 20:3x】BB_247 ART_APPROVED→已驗收｜已接（zones3d.js z.setPothos＋story3d.js dormItems；大小 0～5／6～19／20～39／40＋次澆水＝S1～S4；v0_dorm_props_unit 第 5 項）。等瀏覽器看 L2 書桌上的盆栽（白天、晚上、四種大小）",
       "priority": "P3",
       "first": {
         "term": "Y1S1",
@@ -952,7 +952,8 @@
         "spec": "黃金葛模型照 ART-04（203 窗台；位置尺寸 LAWWW2 定，互動點 LAWWW 已有）",
         "acceptance": "交付 GLB／圖＋遊戲內截圖；建築場景 READY_FOR_ART_REVIEW（使用者標 ART_APPROVED）、人物相關 BB-B 驗收",
         "ack": "SENT"
-      }
+      },
+      "evidence": "BB_247 ★ BB 判定（企劃線 974b8f173，2026-11-02 20:3x）：ART_APPROVED（D120／D128 建築場景 BB 定案）；截圖是 Playwright 手機模擬、不是實機；ART-04、DORM-Y2-312、SCN-V3-01 的截圖是 10-17 的，之後換模型另驗"
     },
     {
       "id": "ART-05",
@@ -9575,8 +9576,8 @@
       "title": "第二個房間（主線 3）2D＋物件",
       "area": "SCN",
       "owner": "LAWWW2",
-      "status": "已整合待測試",
-      "next": "【LAWWW-C 19:5x 另一半 dorm_y2_items.glb（LAWWW2-C 899f9bcd）接上：manifest bldg.dorm_y2_items；312 才載入；拆箱時一件一件出現（ROOM_Y2_ITEMS）、拆箱前封好／拆完壓平的紙箱、紙箱那一塊擋導航；搬進來那一刻用 ROOM_Y2_MOVING 直接蓋成 312；社團傳單釘在軟木板上；tests/dorm_y2_items_unit.js。還沒：字卡「一樓 112 號房」（story3d.js roomY2InDorm）要照 AA_208 改成 312，已問 AA-C；大三、大四要不要帶這組東西由劇情決定】【LAWWW-C 19:3x 整合 LAWWW2-C 4fa4a1e2（＋c53a6276）：312／507／409 窗景（朝宿舍背面的樟樹、依樓層俯角）、dorm_room4.glb 十二組 Y312_／Y507_／Y409_ 擺設、zones3d.js DORM_SETS／dormSetKey（ROOM_Y2→312、ROOM_Y3→507、ROOM_Y4→409）／dormSet 字頭／dormView，dorm_room_layout.js 重新產生；393eda85 的 218／105 照片刪掉；READY_FOR_ART_REVIEW（場景美術只有使用者能標 ART_APPROVED）】規格：AA_208 第 7-1 節（AA 分支 908ab287；AA-C 04:40）：大二 312（＝舊稱 112）用 dorm_room4，換房號與三樓窗景；祐廷 L2（大一五件＋主線 3 新物件）、阿哲 L1（籃球、零食箱、電風扇）、柏翰 R1（整齊的書、檯燈、考古題資料夾、耳塞）、大一學弟 R2 背景（新生手冊、兩個紙箱）；軟木板在祐廷書桌前的牆。WIP 8a1af723 照這個重擺",
+      "status": "已驗收",
+      "next": "【LAWWW 2026-11-02 20:3x】BB_247 ART_APPROVED→已驗收｜【LAWWW-C 19:5x 另一半 dorm_y2_items.glb（LAWWW2-C 899f9bcd）接上：manifest bldg.dorm_y2_items；312 才載入；拆箱時一件一件出現（ROOM_Y2_ITEMS）、拆箱前封好／拆完壓平的紙箱、紙箱那一塊擋導航；搬進來那一刻用 ROOM_Y2_MOVING 直接蓋成 312；社團傳單釘在軟木板上；tests/dorm_y2_items_unit.js。還沒：字卡「一樓 112 號房」（story3d.js roomY2InDorm）要照 AA_208 改成 312，已問 AA-C；大三、大四要不要帶這組東西由劇情決定】【LAWWW-C 19:3x 整合 LAWWW2-C 4fa4a1e2（＋c53a6276）：312／507／409 窗景（朝宿舍背面的樟樹、依樓層俯角）、dorm_room4.glb 十二組 Y312_／Y507_／Y409_ 擺設、zones3d.js DORM_SETS／dormSetKey（ROOM_Y2→312、ROOM_Y3→507、ROOM_Y4→409）／dormSet 字頭／dormView，dorm_room_layout.js 重新產生；393eda85 的 218／105 照片刪掉；READY_FOR_ART_REVIEW（場景美術只有使用者能標 ART_APPROVED）】規格：AA_208 第 7-1 節（AA 分支 908ab287；AA-C 04:40）：大二 312（＝舊稱 112）用 dorm_room4，換房號與三樓窗景；祐廷 L2（大一五件＋主線 3 新物件）、阿哲 L1（籃球、零食箱、電風扇）、柏翰 R1（整齊的書、檯燈、考古題資料夾、耳塞）、大一學弟 R2 背景（新生手冊、兩個紙箱）；軟木板在祐廷書桌前的牆。WIP 8a1af723 照這個重擺",
       "priority": "P2",
       "first": {
         "term": "Y2S1",
@@ -9597,7 +9598,8 @@
         "spec": "AA_208 第 7-1 節（908ab287）",
         "acceptance": "312 房號、窗景、四組物件照表、遊戲內截圖",
         "ack": "SENT"
-      }
+      },
+      "evidence": "BB_247 ★ BB 判定（企劃線 974b8f173，2026-11-02 20:3x）：ART_APPROVED（D120／D128 建築場景 BB 定案）；截圖是 Playwright 手機模擬、不是實機；ART-04、DORM-Y2-312、SCN-V3-01 的截圖是 10-17 的，之後換模型另驗"
     },
     {
       "id": "SCN-V3-02",
@@ -9664,8 +9666,8 @@
       "title": "第三個房間（主線 5）",
       "area": "SCN",
       "owner": "LAWWW2",
-      "status": "已整合待測試",
-      "next": "【LAWWW-C 2026-10-21 10:0x UTC】合併 18967267（美術子代理 a314094d，82f45a8b）：窗景照樓層（dorm_back_view.py＋Cycles）、走廊門牌 507／409、拆箱 23 件模型；READY_FOR_ART_REVIEW；男一舍 4 層 vs 五樓 507 問 AA（AA_QUESTIONS_1021 J1）；BB 清單 BB_HOLFF_ROOMS_1021 第三節 ｜ 【LAWWW-C 2026-10-20 19:2x】1A-03（507，2027-09-05）、1A-09（409，2028-09-03／美國 12/23）已經在開發分支；現在 507、409 和 312 同一組家具、看起來一樣（截圖 10、11）。要：每一年看得出不同（窗外 5F／4F 的景、門牌）、拆箱拿出來的東西有模型（story3d.js ROOM_Y3_TEXT 11 件：大二筆記、空白筆錄紙、學姊研究計畫第二段、那篇文章、測試版隨身碟、阿哲的筆記＋便利貼、系籃節目單、交換說明會手冊、小隊輔名牌、營隊名牌、日語單字卡、首爾交通卡、服務隊隊服、加州結業證書、東京講義、京都明信片），照 dorm_y2_items.glb 的做法（setY2Items）交 prop id → 位置的 JSON，LAWWW-C 接 ｜ SYS-06",
+      "status": "已驗收",
+      "next": "【LAWWW 2026-11-02 20:3x】BB_247 ART_APPROVED→已驗收｜【LAWWW-C 2026-10-21 10:0x UTC】合併 18967267（美術子代理 a314094d，82f45a8b）：窗景照樓層（dorm_back_view.py＋Cycles）、走廊門牌 507／409、拆箱 23 件模型；READY_FOR_ART_REVIEW；男一舍 4 層 vs 五樓 507 問 AA（AA_QUESTIONS_1021 J1）；BB 清單 BB_HOLFF_ROOMS_1021 第三節 ｜ 【LAWWW-C 2026-10-20 19:2x】1A-03（507，2027-09-05）、1A-09（409，2028-09-03／美國 12/23）已經在開發分支；現在 507、409 和 312 同一組家具、看起來一樣（截圖 10、11）。要：每一年看得出不同（窗外 5F／4F 的景、門牌）、拆箱拿出來的東西有模型（story3d.js ROOM_Y3_TEXT 11 件：大二筆記、空白筆錄紙、學姊研究計畫第二段、那篇文章、測試版隨身碟、阿哲的筆記＋便利貼、系籃節目單、交換說明會手冊、小隊輔名牌、營隊名牌、日語單字卡、首爾交通卡、服務隊隊服、加州結業證書、東京講義、京都明信片），照 dorm_y2_items.glb 的做法（setY2Items）交 prop id → 位置的 JSON，LAWWW-C 接 ｜ SYS-06",
       "priority": "P2",
       "first": {
         "term": "Y3S1",
@@ -9686,7 +9688,8 @@
         "spec": "第三個房間的 2D 與物件（主線 5）",
         "acceptance": "交付 GLB／圖＋遊戲內截圖；建築場景 READY_FOR_ART_REVIEW（使用者標 ART_APPROVED）、人物相關 BB-B 驗收",
         "ack": "SENT"
-      }
+      },
+      "evidence": "BB_247 ★ BB 判定（企劃線 974b8f173，2026-11-02 20:3x）：ART_APPROVED（D120／D128 建築場景 BB 定案）；截圖是 Playwright 手機模擬、不是實機"
     },
     {
       "id": "SCN-V4-02",
@@ -9773,8 +9776,8 @@
       "title": "第四個房間（主線 10）",
       "area": "SCN",
       "owner": "LAWWW2",
-      "status": "已整合待測試",
-      "next": "【LAWWW-C 2026-10-21 10:0x UTC】合併 18967267（美術子代理 a314094d，82f45a8b）：窗景照樓層（dorm_back_view.py＋Cycles）、走廊門牌 507／409、拆箱 23 件模型；READY_FOR_ART_REVIEW；男一舍 4 層 vs 五樓 507 問 AA（AA_QUESTIONS_1021 J1）；BB 清單 BB_HOLFF_ROOMS_1021 第三節 ｜ 【LAWWW-C 2026-10-20 19:2x】1A-03（507，2027-09-05）、1A-09（409，2028-09-03／美國 12/23）已經在開發分支；現在 507、409 和 312 同一組家具、看起來一樣（截圖 10、11）。要：每一年看得出不同（窗外 5F／4F 的景、門牌）、拆箱拿出來的東西有模型（story3d.js ROOM_Y3_TEXT 11 件：大二筆記、空白筆錄紙、學姊研究計畫第二段、那篇文章、測試版隨身碟、阿哲的筆記＋便利貼、系籃節目單、交換說明會手冊、小隊輔名牌、營隊名牌、日語單字卡、首爾交通卡、服務隊隊服、加州結業證書、東京講義、京都明信片），照 dorm_y2_items.glb 的做法（setY2Items）交 prop id → 位置的 JSON，LAWWW-C 接 ｜ SYS-06",
+      "status": "已驗收",
+      "next": "【LAWWW 2026-11-02 20:3x】BB_247 ART_APPROVED→已驗收｜【LAWWW-C 2026-10-21 10:0x UTC】合併 18967267（美術子代理 a314094d，82f45a8b）：窗景照樓層（dorm_back_view.py＋Cycles）、走廊門牌 507／409、拆箱 23 件模型；READY_FOR_ART_REVIEW；男一舍 4 層 vs 五樓 507 問 AA（AA_QUESTIONS_1021 J1）；BB 清單 BB_HOLFF_ROOMS_1021 第三節 ｜ 【LAWWW-C 2026-10-20 19:2x】1A-03（507，2027-09-05）、1A-09（409，2028-09-03／美國 12/23）已經在開發分支；現在 507、409 和 312 同一組家具、看起來一樣（截圖 10、11）。要：每一年看得出不同（窗外 5F／4F 的景、門牌）、拆箱拿出來的東西有模型（story3d.js ROOM_Y3_TEXT 11 件：大二筆記、空白筆錄紙、學姊研究計畫第二段、那篇文章、測試版隨身碟、阿哲的筆記＋便利貼、系籃節目單、交換說明會手冊、小隊輔名牌、營隊名牌、日語單字卡、首爾交通卡、服務隊隊服、加州結業證書、東京講義、京都明信片），照 dorm_y2_items.glb 的做法（setY2Items）交 prop id → 位置的 JSON，LAWWW-C 接 ｜ SYS-06",
       "priority": "P2",
       "first": {
         "term": "Y4S1",
@@ -9795,7 +9798,8 @@
         "spec": "第四個房間的 2D 與物件（主線 10）",
         "acceptance": "交付 GLB／圖＋遊戲內截圖；建築場景 READY_FOR_ART_REVIEW（使用者標 ART_APPROVED）、人物相關 BB-B 驗收",
         "ack": "SENT"
-      }
+      },
+      "evidence": "BB_247 ★ BB 判定（企劃線 974b8f173，2026-11-02 20:3x）：ART_APPROVED（D120／D128 建築場景 BB 定案）；截圖是 Playwright 手機模擬、不是實機"
     },
     {
       "id": "SCN-V5-02",
@@ -15425,9 +15429,9 @@
       "title": "3D 機場（桃園機場出境大廳／報到櫃台／出境安檢前；交換出發、送機、寒暑假出國共用）",
       "area": "ART",
       "owner": "LAWWW",
-      "status": "已整合待測試",
+      "status": "已驗收",
       "priority": "P1",
-      "next": "【LAWWW-C 2026-10-27 20:3x UTC】E08 第三輪（出國途中整個時鐘換當地時間＋途中存檔讀回來接著演；子代理 7b0510018，新測試 e08_tz_unit 基底 17 FAIL）合進開發分支 673e13527；BB_TEST_QUEUE_1027 第 5 節第三輪步驟｜【LAWWW-C 2026-10-27 19:5x UTC】E08 第二輪合併後開發分支 Node 654 支 0 失敗｜【LAWWW-C 2026-10-27 19:4x UTC】AA_478 第 7 節（6d9ebd49a）：C10 用 us_airport、標題「抵達」照現在；出國途中整個行程換當地時間（照日本 STORY.tzOffset：飛往字卡起、回桃園切回臺灣；手機照 place.tz 不改；最少要做到場次照當地時刻觸發、日期卡寫當地時間）——原子代理第三輪做（x58-e08-1027，基底 b24bbaa75）｜【LAWWW-C 2026-10-27 19:4x UTC】E08 第二輪（AA_478）合進開發分支 e1adf4cc5：飛往字卡（十項＋C13 七個目的地＋VA10）、C05／T02／C08 出發那幕進大廳演、C10 改「抵達」（背景 us_airport）、T03／T02 大廳各一句、挽回中以安站大廳另一頭；e08_hall_unit（改前 FAIL 30）；兩件給 AA：C10 背景用 us_airport 還是深色底、寒暑假出國途中日期卡是臺灣時間（AA_478 第 6 節，規格要定）｜【LAWWW-C 2026-10-27 19:0x UTC】開發分支合併 X58／E08 以後 Node 全部 652 支 0 失敗 ｜ 【LAWWW-C 2026-10-27 19:0x UTC】AA_478（企劃線 c88da7e75）回五題：1 補「飛往〇〇」字卡（日本 titleCard 格式，十項文字在第 1 節；T02 只寫時間）2 C05、T02、C08 的「出發」進大廳就演（疊模糊 3D 大廳，C08 不用 2D 機場圖）；C10 留在下飛機以後、標題改「抵達」、背景美國抵達機場圖或深色底 3 大廳只加 T03（子晴＋阿凱）、T02（方奕廷）各一句（第 3 節）4 挽回中以安不跟對；做得到就讓她站大廳另一頭不跟不能搭話 5 其他送機照 2D 不改——原子代理在同一條分支接著做（第二輪）｜【LAWWW-C 2026-10-27 19:1x UTC】E08 合進開發分支 c4581469a：寒暑假出國（C05、T02、T03、C08～C12、C13、C18／C18W、VA10）、日本路線 3/25 出發走 3D airport_dep（EXCH.airGo／airBoard／airTick；安檢入口登機或一小時後自動登機；同行的人跟著走、不能搭話；等登機不能回家；舊存檔照舊；沒有 3D 機場時照 2D）；新測試 e08_airport_unit（改前 FAIL 22）。還是 2D：其他送機（以安非日本 ev_an_sendoff、學姊 ev_sis_airport／_wait、芷若 zr_sendoff3d、明軒）、所有回程入境——五題問 AA（要不要補飛往字卡、出發那幕在大廳演、大廳一句話、以安挽回中、其他送機改 3D）｜【LAWWW-C 2026-10-27 18:0x UTC】查核（USER_WANTS_AUDIT_1027）：寒暑假出國、日本送機還是 2D 機場圖（3D airport_dep 只有美國交換出發和回國）→ E08 交子代理（和 X58 同一個，wt_x58）照 exchange3d.js 接 3D 出境大廳 ｜ 【LAWWW-C 2026-10-21 13:4x UTC】機場模型已接（4782cc29，美國交換出發用 airport_dep／airport_arr）；寒暑假出國（C13 等）、日本送機還沒接 3D 機場（grep：vac3d.js、jp3d.js 沒有 airport_dep）——D99 第二項寒暑假裡的出國照 2D 能玩，接 3D 排在美國交換後面 ｜ 【LAWWW-C 2026-10-21 稽核 C】做了一部分：LAWWW 把寒暑假出國出發、日本送機接到 3D airport_dep（airportBoard 互動）；暫停條件已成立 ｜ 【LAWWW2-C 06:42Z 交付 5aeb3220（DL-LW2-AIRPORT）】最早 2026-08-24 阿凱去日本：照 D81 排在 v2 之後、美國篇之前接成區域。【使用者 2026-10-17 00:0x：「美國的3D你交給lawww2了嗎? 他現在手上沒什麼任務 而且這種本來就要交給他」「機場的也是阿」】LAWWW-B 已正式派給 LAWWW2-B：順序 SCN-US-01（含 ART-US1～3）→ VAC-A2 機場 → SCN-US-03 超市 → SCN-US-02 街道，排在典禮背景重做之後（等使用者看小圖的空檔就開始）。｜排在 ART-GYM-BG1 之後。範圍等 AA_201 規格（AA-B 下一單位）；先做出境大廳＋報到櫃台＋送機的道別點（真實機場名稱照查證，航空公司、店名改虛構／諧音，D77）。Blender → GLB，走得進去（D38）。旅館、街景不做 3D：使用者給 CG，BB-B 去拿",
+      "next": "【LAWWW 2026-11-02 20:3x】BB_247 ART_APPROVED→已驗收｜【LAWWW-C 2026-10-27 20:3x UTC】E08 第三輪（出國途中整個時鐘換當地時間＋途中存檔讀回來接著演；子代理 7b0510018，新測試 e08_tz_unit 基底 17 FAIL）合進開發分支 673e13527；BB_TEST_QUEUE_1027 第 5 節第三輪步驟｜【LAWWW-C 2026-10-27 19:5x UTC】E08 第二輪合併後開發分支 Node 654 支 0 失敗｜【LAWWW-C 2026-10-27 19:4x UTC】AA_478 第 7 節（6d9ebd49a）：C10 用 us_airport、標題「抵達」照現在；出國途中整個行程換當地時間（照日本 STORY.tzOffset：飛往字卡起、回桃園切回臺灣；手機照 place.tz 不改；最少要做到場次照當地時刻觸發、日期卡寫當地時間）——原子代理第三輪做（x58-e08-1027，基底 b24bbaa75）｜【LAWWW-C 2026-10-27 19:4x UTC】E08 第二輪（AA_478）合進開發分支 e1adf4cc5：飛往字卡（十項＋C13 七個目的地＋VA10）、C05／T02／C08 出發那幕進大廳演、C10 改「抵達」（背景 us_airport）、T03／T02 大廳各一句、挽回中以安站大廳另一頭；e08_hall_unit（改前 FAIL 30）；兩件給 AA：C10 背景用 us_airport 還是深色底、寒暑假出國途中日期卡是臺灣時間（AA_478 第 6 節，規格要定）｜【LAWWW-C 2026-10-27 19:0x UTC】開發分支合併 X58／E08 以後 Node 全部 652 支 0 失敗 ｜ 【LAWWW-C 2026-10-27 19:0x UTC】AA_478（企劃線 c88da7e75）回五題：1 補「飛往〇〇」字卡（日本 titleCard 格式，十項文字在第 1 節；T02 只寫時間）2 C05、T02、C08 的「出發」進大廳就演（疊模糊 3D 大廳，C08 不用 2D 機場圖）；C10 留在下飛機以後、標題改「抵達」、背景美國抵達機場圖或深色底 3 大廳只加 T03（子晴＋阿凱）、T02（方奕廷）各一句（第 3 節）4 挽回中以安不跟對；做得到就讓她站大廳另一頭不跟不能搭話 5 其他送機照 2D 不改——原子代理在同一條分支接著做（第二輪）｜【LAWWW-C 2026-10-27 19:1x UTC】E08 合進開發分支 c4581469a：寒暑假出國（C05、T02、T03、C08～C12、C13、C18／C18W、VA10）、日本路線 3/25 出發走 3D airport_dep（EXCH.airGo／airBoard／airTick；安檢入口登機或一小時後自動登機；同行的人跟著走、不能搭話；等登機不能回家；舊存檔照舊；沒有 3D 機場時照 2D）；新測試 e08_airport_unit（改前 FAIL 22）。還是 2D：其他送機（以安非日本 ev_an_sendoff、學姊 ev_sis_airport／_wait、芷若 zr_sendoff3d、明軒）、所有回程入境——五題問 AA（要不要補飛往字卡、出發那幕在大廳演、大廳一句話、以安挽回中、其他送機改 3D）｜【LAWWW-C 2026-10-27 18:0x UTC】查核（USER_WANTS_AUDIT_1027）：寒暑假出國、日本送機還是 2D 機場圖（3D airport_dep 只有美國交換出發和回國）→ E08 交子代理（和 X58 同一個，wt_x58）照 exchange3d.js 接 3D 出境大廳 ｜ 【LAWWW-C 2026-10-21 13:4x UTC】機場模型已接（4782cc29，美國交換出發用 airport_dep／airport_arr）；寒暑假出國（C13 等）、日本送機還沒接 3D 機場（grep：vac3d.js、jp3d.js 沒有 airport_dep）——D99 第二項寒暑假裡的出國照 2D 能玩，接 3D 排在美國交換後面 ｜ 【LAWWW-C 2026-10-21 稽核 C】做了一部分：LAWWW 把寒暑假出國出發、日本送機接到 3D airport_dep（airportBoard 互動）；暫停條件已成立 ｜ 【LAWWW2-C 06:42Z 交付 5aeb3220（DL-LW2-AIRPORT）】最早 2026-08-24 阿凱去日本：照 D81 排在 v2 之後、美國篇之前接成區域。【使用者 2026-10-17 00:0x：「美國的3D你交給lawww2了嗎? 他現在手上沒什麼任務 而且這種本來就要交給他」「機場的也是阿」】LAWWW-B 已正式派給 LAWWW2-B：順序 SCN-US-01（含 ART-US1～3）→ VAC-A2 機場 → SCN-US-03 超市 → SCN-US-02 街道，排在典禮背景重做之後（等使用者看小圖的空檔就開始）。｜排在 ART-GYM-BG1 之後。範圍等 AA_201 規格（AA-B 下一單位）；先做出境大廳＋報到櫃台＋送機的道別點（真實機場名稱照查證，航空公司、店名改虛構／諧音，D77）。Blender → GLB，走得進去（D38）。旅館、街景不做 3D：使用者給 CG，BB-B 去拿",
       "first": {
         "term": "Y3S2",
         "week": 6,
@@ -15460,7 +15464,8 @@
           "note": "機場模型已在遊戲裡，只用在美國出發"
         }
       ],
-      "sha": "673e13527"
+      "sha": "673e13527",
+      "evidence": "BB_247 ★ BB 判定（企劃線 974b8f173，2026-11-02 20:3x）：ART_APPROVED（D120／D128 建築場景 BB 定案）；截圖是 Playwright 手機模擬、不是實機"
     },
     {
       "id": "BUG-MAPBLACK",
@@ -17946,9 +17951,9 @@
       "title": "大三男一舍 507、大四 409 的宿舍房間：沿用四人房模型 dorm_room4，換房號牌與窗外景（AA_208 第 8 節）",
       "area": "ART",
       "owner": "LAWWW2",
-      "status": "已整合待測試",
+      "status": "已驗收",
       "priority": "P2",
-      "next": "【LAWWW-C 19:3x 整合 LAWWW2-C 4fa4a1e2（＋c53a6276）：312／507／409 窗景（朝宿舍背面的樟樹、依樓層俯角）、dorm_room4.glb 十二組 Y312_／Y507_／Y409_ 擺設、zones3d.js DORM_SETS／dormSetKey（ROOM_Y2→312、ROOM_Y3→507、ROOM_Y4→409）／dormSet 字頭／dormView，dorm_room_layout.js 重新產生；393eda85 的 218／105 照片刪掉；READY_FOR_ART_REVIEW（場景美術只有使用者能標 ART_APPROVED）】照 DL-AA-DORMY34（AA 分支 4a6841eb，AA_208 第 8 節）：dorm_room4 換房號 507／409、window_views 加兩組窗景；交付時寫 outbox_LAWWW2.json",
+      "next": "【LAWWW 2026-11-02 20:3x】BB_247 ART_APPROVED→已驗收｜【LAWWW-C 19:3x 整合 LAWWW2-C 4fa4a1e2（＋c53a6276）：312／507／409 窗景（朝宿舍背面的樟樹、依樓層俯角）、dorm_room4.glb 十二組 Y312_／Y507_／Y409_ 擺設、zones3d.js DORM_SETS／dormSetKey（ROOM_Y2→312、ROOM_Y3→507、ROOM_Y4→409）／dormSet 字頭／dormView，dorm_room_layout.js 重新產生；393eda85 的 218／105 照片刪掉；READY_FOR_ART_REVIEW（場景美術只有使用者能標 ART_APPROVED）】照 DL-AA-DORMY34（AA 分支 4a6841eb，AA_208 第 8 節）：dorm_room4 換房號 507／409、window_views 加兩組窗景；交付時寫 outbox_LAWWW2.json",
       "first": {
         "term": "Y3S1",
         "week": 1,
@@ -17965,7 +17970,8 @@
         "spec": "AA_208 第 8 節（AA 分支 4a6841eb）",
         "acceptance": "房號牌、窗景兩組、遊戲內截圖（507、409 各一張）、不改四人房導航",
         "ack": "未派"
-      }
+      },
+      "evidence": "BB_247 ★ BB 判定（企劃線 974b8f173，2026-11-02 20:3x）：ART_APPROVED（D120／D128 建築場景 BB 定案）；截圖是 Playwright 手機模擬、不是實機"
     },
     {
       "id": "AB65-3-Y2S1-L",
@@ -18128,9 +18134,9 @@
       "title": "大二房間門牌 112→312（AA_177 改字、AA_208 7-1：三樓、看得到另一邊的樹）：dorm3d.js HOMES.y2 plate 112（一樓）要改；宿舍走廊模型只有兩層，照「房號只是門牌」的做法選一扇門＋312 窗景",
       "area": "V3",
       "owner": "LAWWW",
-      "status": "已整合待測試",
+      "status": "已驗收",
       "priority": "P2",
-      "next": "【2026-10-18 02:4x LAWWW-C】HOMES.y2 改 {plate:312, 二樓 x 11.15, 換掉 204 那扇門}（房號只是門牌，宿舍走廊模型兩層）；窗景早就是 312（dormSetKey）。nav_buildings_unit 宿舍房號四項改 312 ALL PASS。搬房間事件設 ROOM_Y2 的時機照舊。BB-C 測大二回房間。｜【LAWWW-C 19:3x 整合 LAWWW2-C 4fa4a1e2（＋c53a6276）：312／507／409 窗景（朝宿舍背面的樟樹、依樓層俯角）、dorm_room4.glb 十二組 Y312_／Y507_／Y409_ 擺設、zones3d.js DORM_SETS／dormSetKey（ROOM_Y2→312、ROOM_Y3→507、ROOM_Y4→409）／dormSet 字頭／dormView，dorm_room_layout.js 重新產生；393eda85 的 218／105 照片刪掉；READY_FOR_ART_REVIEW（場景美術只有使用者能標 ART_APPROVED）】還沒：HOMES.y2 的 plate、門的位置（dorm3d.js），搬房間事件設 ROOM_Y2 的時機。【17:5x LAWWW-C】LAWWW2-C 393eda85 交了 112（一樓）、218、105 的窗景：218、105 接上（zones3d.js dormView，ROOM_Y3／ROOM_Y4）；112 不接（大二已改 312），已請 LAWWW2 拍 dorm_room312（三樓高度、看得到另一邊的樹）。｜改 HOMES.y2 的 plate、門的位置（二樓的一扇寢室門）；窗景 dorm_room312（請 LAWWW2 拍，三樓高度）；和 SCN-V3-01 物件一起驗",
+      "next": "【LAWWW 2026-11-02 20:3x】BB_247 ART_APPROVED→已驗收｜【2026-10-18 02:4x LAWWW-C】HOMES.y2 改 {plate:312, 二樓 x 11.15, 換掉 204 那扇門}（房號只是門牌，宿舍走廊模型兩層）；窗景早就是 312（dormSetKey）。nav_buildings_unit 宿舍房號四項改 312 ALL PASS。搬房間事件設 ROOM_Y2 的時機照舊。BB-C 測大二回房間。｜【LAWWW-C 19:3x 整合 LAWWW2-C 4fa4a1e2（＋c53a6276）：312／507／409 窗景（朝宿舍背面的樟樹、依樓層俯角）、dorm_room4.glb 十二組 Y312_／Y507_／Y409_ 擺設、zones3d.js DORM_SETS／dormSetKey（ROOM_Y2→312、ROOM_Y3→507、ROOM_Y4→409）／dormSet 字頭／dormView，dorm_room_layout.js 重新產生；393eda85 的 218／105 照片刪掉；READY_FOR_ART_REVIEW（場景美術只有使用者能標 ART_APPROVED）】還沒：HOMES.y2 的 plate、門的位置（dorm3d.js），搬房間事件設 ROOM_Y2 的時機。【17:5x LAWWW-C】LAWWW2-C 393eda85 交了 112（一樓）、218、105 的窗景：218、105 接上（zones3d.js dormView，ROOM_Y3／ROOM_Y4）；112 不接（大二已改 312），已請 LAWWW2 拍 dorm_room312（三樓高度、看得到另一邊的樹）。｜改 HOMES.y2 的 plate、門的位置（二樓的一扇寢室門）；窗景 dorm_room312（請 LAWWW2 拍，三樓高度）；和 SCN-V3-01 物件一起驗",
       "first": {
         "term": "Y2S1",
         "week": 1,
@@ -18140,7 +18146,8 @@
         "prereq": false,
         "parallel": true,
         "confirmed": true
-      }
+      },
+      "evidence": "BB_247 ★ BB 判定（企劃線 974b8f173，2026-11-02 20:3x）：ART_APPROVED（D120／D128 建築場景 BB 定案）；截圖是 Playwright 手機模擬、不是實機；ART-04、DORM-Y2-312、SCN-V3-01 的截圖是 10-17 的，之後換模型另驗"
     },
     {
       "id": "MAIN-MOTIVE-1017",
@@ -24987,7 +24994,7 @@
       "title": "體育館樓梯的方向反了",
       "area": "V1",
       "owner": "LAWWW2",
-      "status": "已整合待測試",
+      "status": "已驗收",
       "priority": "P2",
       "first": {
         "term": "Y1S1",
@@ -25001,21 +25008,22 @@
       },
       "source": "使用者 2026-10-20 13:0x 試玩 v9.10.2 回報：「體育館樓梯的方向反了吧」",
       "authorized": "使用者直接指示（10-20 試玩回報）",
-      "next": "【10-20 16:0x 開發分支】LAWWW2-C 9eba1567：gym_interior.py stairs_down 改 zz=z1-(j+1)*run、重匯 gym_interior.glb（物件、三角形、材質不變；Blender 前後算圖）；B1 回 1F 的出生點朝向改 0（面向大廳，原本面向樓梯井）。等 BB 走一次 1F→B1→1F ｜ 【14:1x 轉 LAWWW2-C，排在 BUG-WZFLICKER-2 前面】BB-C 重現（x64_B1stairs_zoom.webp）：台階畫反、從入口看是掉下去的洞；B1 上來朝向 π（gym3d.js 回 1F 的 spawn）LAWWW 改 ｜ 查 gym／gym_b1 樓梯：模型和導航的上下方向",
+      "next": "【LAWWW 2026-11-02 20:3x】BB_247 ART_APPROVED→已驗收｜【10-20 16:0x 開發分支】LAWWW2-C 9eba1567：gym_interior.py stairs_down 改 zz=z1-(j+1)*run、重匯 gym_interior.glb（物件、三角形、材質不變；Blender 前後算圖）；B1 回 1F 的出生點朝向改 0（面向大廳，原本面向樓梯井）。等 BB 走一次 1F→B1→1F ｜ 【14:1x 轉 LAWWW2-C，排在 BUG-WZFLICKER-2 前面】BB-C 重現（x64_B1stairs_zoom.webp）：台階畫反、從入口看是掉下去的洞；B1 上來朝向 π（gym3d.js 回 1F 的 spawn）LAWWW 改 ｜ 查 gym／gym_b1 樓梯：模型和導航的上下方向",
       "xai": {
         "receiver": "LAWWW",
         "branch": "claude/focused-cray-c9uwvw",
         "spec": "BB-C 52acaadc：tools/blender/env_second/gym_interior.py 約 241 行 zz=z0+j*run 改 zz=z1-(j+1)*run，重匯 gym_interior.glb",
         "acceptance": "1F 往 B1 的樓梯井從欄杆開口（z1）往 −z 下去；導航、互動點不動",
         "ack": "ACTIONED"
-      }
+      },
+      "evidence": "BB_247 ★ BB 判定（企劃線 974b8f173，2026-11-02 20:3x）：ART_APPROVED（D120／D128 建築場景 BB 定案）；截圖是 Playwright 手機模擬、不是實機"
     },
     {
       "id": "LINZE-WANCAI-FLOORS-1020",
       "title": "霖澤館 3～8 樓、萬才館樓上不要永遠「整修中」",
       "area": "V1",
       "owner": "LAWWW2",
-      "status": "已整合待測試",
+      "status": "已驗收",
       "priority": "P2",
       "first": {
         "term": "Y1S1",
@@ -25029,7 +25037,7 @@
       },
       "source": "使用者 2026-10-20 13:0x 試玩 v9.10.2 回報：「霖澤館3-8樓為什麼永遠都在蓋 萬才也是阿」",
       "authorized": "使用者直接指示（10-20 試玩回報）",
-      "next": "【LAWWW-C 2026-10-21 稽核 C】程式已在開發分支（BB 跑 tests/flow_rooms.py）｜ 【LAWWW-C 19:5x】LAWWW2-C 0a5cc70a 接進開發分支：霖澤館 202、萬才館多功能教室、研討室 A 走得進去（門不再寫整修中）；萬才館的門有社課、研討課時照舊門口參加；BB 實玩 tests/flow_rooms.py（LAWWW2） ｜ 【10-20 17:0x】霖澤館 3F、4F 已接（LINZE-34F-TABLES-1020）、5F–8F 改研究室；還差：霖澤館 202 教室、萬才館研討室 A、多功能教室（LAWWW2 做模型，X78 的課要搬過去）｜ LAWWW2 先做霖澤 3、4 樓（含長條桌 LINZE-34F-TABLES-1020）、萬才至少一間教室；LAWWW 接導航、電梯樓層",
+      "next": "【LAWWW 2026-11-02 20:3x】BB_247 ART_APPROVED→已驗收｜【LAWWW-C 2026-10-21 稽核 C】程式已在開發分支（BB 跑 tests/flow_rooms.py）｜ 【LAWWW-C 19:5x】LAWWW2-C 0a5cc70a 接進開發分支：霖澤館 202、萬才館多功能教室、研討室 A 走得進去（門不再寫整修中）；萬才館的門有社課、研討課時照舊門口參加；BB 實玩 tests/flow_rooms.py（LAWWW2） ｜ 【10-20 17:0x】霖澤館 3F、4F 已接（LINZE-34F-TABLES-1020）、5F–8F 改研究室；還差：霖澤館 202 教室、萬才館研討室 A、多功能教室（LAWWW2 做模型，X78 的課要搬過去）｜ LAWWW2 先做霖澤 3、4 樓（含長條桌 LINZE-34F-TABLES-1020）、萬才至少一間教室；LAWWW 接導航、電梯樓層",
       "xai": {
         "receiver": "LAWWW",
         "branch": "claude/focused-cray-c9uwvw",
@@ -25045,7 +25053,7 @@
           "note": "「永遠整修中」已解決，待 BB 驗"
         }
       ],
-      "evidence": "霖澤館 3F、4F 區域（LINZE-34F-TABLES-1020，5566a0c5）、5F～8F 改研究室；霖澤館 202、萬才館多功能教室、研討室 A 走得進去（0a5cc70a；室內美術 76cf1bd8，d4512b7e）；萬才館門口照舊可參加社課（src/wancai3d.js:120-123）"
+      "evidence": "BB_247 ★ BB 判定（企劃線 974b8f173，2026-11-02 20:3x）：ART_APPROVED（D120／D128 建築場景 BB 定案）；截圖是 Playwright 手機模擬、不是實機"
     },
     {
       "id": "LINZE-34F-TABLES-1020",
@@ -25855,7 +25863,7 @@
       "title": "博雅→普通的空橋：通道上還有一扇很醜的門（跟現實不符）；走到普通後被擋住、到不了一樓或二樓其他地方",
       "area": "V1",
       "owner": "LAWWW2",
-      "status": "已整合待測試",
+      "status": "已驗收",
       "priority": "P1",
       "first": {
         "term": "Y1S1",
@@ -25869,14 +25877,15 @@
       },
       "source": "使用者 2026-10-20 直接對 LAWWW2-C：「博雅走到普通的連通道還是有一個很醜的門欸不應該吧 而且走到普通之後被擋住無法到一樓或二樓其他地方」「連通道可以走 只是要經過一個門 跟現實不符」（LAWWW2-C 17:38 轉 LAWWW-C）",
       "authorized": "使用者直接指示（10-20）",
-      "next": "【LAWWW-C 18:3x】LAWWW2-C c77e68a2 接進開發分支（GLB＋teach3d.js patch，buildLinkView 加 try）；下一步 BB 實玩 flow_skybridge（C0 通道沒有門板、C2 落在空橋鏡頭看得到人、D1 普通二樓東邊、D2 下到一樓大廳）＋看博雅二樓往南的空橋 ｜ 【LAWWW2-C 17:38】原因：boya_interior.glb、putong_interior.glb 是 10-18 用舊配置建的（往空橋那一間 closed＝木門板、博雅南牆沒開口）；換到普通時鏡頭在空橋天花板上面（skybridge.glb 雙面材質＋teach3d.js 門廳天花板方盒＝一片灰）。LAWWW2 重建兩個室內 GLB（passage＋linkDoor）、skybridge 天花板屋頂改單面；teach3d.js 的天花板改朝下 plane、buildLinkView（博雅二樓開口外面看得到整條空橋）＝patch 給 LAWWW 接；tests/flow_skybridge.py 加 C0、C2、D1、D2。交付後 LAWWW 接、BB 實玩",
+      "next": "【LAWWW 2026-11-02 20:3x】BB_247 ART_APPROVED→已驗收｜【LAWWW-C 18:3x】LAWWW2-C c77e68a2 接進開發分支（GLB＋teach3d.js patch，buildLinkView 加 try）；下一步 BB 實玩 flow_skybridge（C0 通道沒有門板、C2 落在空橋鏡頭看得到人、D1 普通二樓東邊、D2 下到一樓大廳）＋看博雅二樓往南的空橋 ｜ 【LAWWW2-C 17:38】原因：boya_interior.glb、putong_interior.glb 是 10-18 用舊配置建的（往空橋那一間 closed＝木門板、博雅南牆沒開口）；換到普通時鏡頭在空橋天花板上面（skybridge.glb 雙面材質＋teach3d.js 門廳天花板方盒＝一片灰）。LAWWW2 重建兩個室內 GLB（passage＋linkDoor）、skybridge 天花板屋頂改單面；teach3d.js 的天花板改朝下 plane、buildLinkView（博雅二樓開口外面看得到整條空橋）＝patch 給 LAWWW 接；tests/flow_skybridge.py 加 C0、C2、D1、D2。交付後 LAWWW 接、BB 實玩",
       "xai": {
         "receiver": "LAWWW",
         "branch": "claude/focused-cray-c9uwvw",
         "spec": "使用者 10-20 原話（經 LAWWW2-C）",
         "acceptance": "博雅、普通室內 GLB（通道沒有門板）＋skybridge.glb 單面天花板＋teach3d.js patch；flow_skybridge.py 在修改前 FAIL、修改後 PASS",
         "ack": "ACTIONED"
-      }
+      },
+      "evidence": "BB_247 ★ BB 判定（企劃線 974b8f173，2026-11-02 20:3x）：ART_APPROVED（D120／D128 建築場景 BB 定案）；截圖是 Playwright 手機模擬、不是實機"
     },
     {
       "id": "GG-STREETVIEW-1020",
@@ -26899,7 +26908,7 @@
       "id": "JP-ROOM-3D-1021",
       "title": "日本宿舍「你的房間」jp_room 3D 保留：LAWWW2 修可達性「窗外」那一項、交 GLB＋patch；LAWWW 從日本據點選單「在房間休息一下」進、走出房門回選單",
       "owner": "LAWWW2",
-      "status": "已整合待測試",
+      "status": "已驗收",
       "priority": "P2",
       "source": "使用者 10-21 13:0x 對 LAWWW2-C（UA-LAWWW2-1021-03；focused-cray d641dcad）；USER_WANTS X91；WIP 25c6c76d",
       "first": {
@@ -26919,9 +26928,9 @@
         "receiver": "LAWWW",
         "ack": "ACK"
       },
-      "next": "【LAWWW（帳號 A）15:5x】B 組：日本宿舍「你的房間」三個「看」（AA_341 檔尾附加）合併進 32148711 ｜ 【LAWWW-C 2026-10-21 13:3x UTC】BB 瀏覽器（日本路線存檔）：選單「在房間休息一下」進 3D 房間、走動、床「睡覺」回據點睡到隔天、房門「走出房間」回選單；AA 寫窗外、小冰箱、行李箱「看」的字",
+      "next": "【LAWWW 2026-11-02 20:3x】BB_247 ART_APPROVED→已驗收｜【LAWWW（帳號 A）15:5x】B 組：日本宿舍「你的房間」三個「看」（AA_341 檔尾附加）合併進 32148711 ｜ 【LAWWW-C 2026-10-21 13:3x UTC】BB 瀏覽器（日本路線存檔）：選單「在房間休息一下」進 3D 房間、走動、床「睡覺」回據點睡到隔天、房門「走出房間」回選單；AA 寫窗外、小冰箱、行李箱「看」的字",
       "sha": "c8c810e1",
-      "evidence": "LAWWW2 c8c810e1（patch jp_room_1021.diff：index.html、src/jp_dorm3d.js、src/data/jp_dorm_layouts.js；jp_room.glb、窗景兩張；LAWWW2 Playwright reachability jp_room ALL PASS）＋LAWWW-C 接線：jp3d.js 選單「在房間休息一下」走進 jp_room、JP.tick 人在房間不拉回、床＝回據點睡覺（S.bedFromRoom）；窗外／小冰箱／行李箱等 AA 的字（note 空的不開）；jp_semester_unit 3 項"
+      "evidence": "BB_247 ★ BB 判定（企劃線 974b8f173，2026-11-02 20:3x）：ART_APPROVED（D120／D128 建築場景 BB 定案）；截圖是 Playwright 手機模擬、不是實機"
     },
     {
       "id": "Y5-DELAY-1021",
@@ -31037,7 +31046,7 @@
       "id": "WZ-CAT-LIFE-1023",
       "title": "溫州街的貓要能動、能互動（3D 骨架走路、照時段天氣換位置姿勢、「摸摸貓」）；收養劇情（其中一位女主角收養）AA 寫",
       "owner": "LAWWW2",
-      "status": "已整合待測試",
+      "status": "已驗收",
       "priority": "P1",
       "area": "ART",
       "first": {
@@ -31052,7 +31061,7 @@
       },
       "source": "使用者 2026-10-23 08:1x 直接對 LAWWW2：「貓咪要能動 能互動吧 甚至安排其中一個女主角收養 跟AA討論」（UA-LAWWW2-1023-08）",
       "authorized": "使用者直接交代；D108（場景程式歸 LAWWW2）、D111",
-      "next": "【LAWWW-C 2026-10-28 01:1x UTC】LAWWW2 WZCAT.hold／release（ccc329672）合進 8531a71ab：所長回來那一場貓固定趴在圓椅上、句子用原句（AA_493 第 3 節第一選擇），白天備用句拿掉；aa420、aa493、wz_cat_walk ALL PASS｜【LAWWW-C 2026-10-27 23:0x UTC】AA_493（868726e5c）四句接好 199f71b40：環境句白天版、取名兩版、所長回來白天版；季節句不改｜【LAWWW-C 2026-10-27 22:5x UTC】LAWWW2 交件 0610ceeb1（wz_cat.glb v3 骨架＋四段動畫、src/wzcat3d.js、zones3d.js 接線；wz_cat_walk_unit 改前 FAILED 6）合進開發分支 4978b283a（合併 48e997635）；BB 測走路、摸、餵、晚上趴著；白天句子和畫面衝突（圓椅上睡覺）四處交 AA-C 定｜【LAWWW-C 2026-10-27 18:0x UTC】查核：貓還不會走動（摸、餵、子晴收養都有了）——派 LAWWW2-C 評估排期 ｜ 【LAWWW-B 10-23 08:3x】AA_397 第 3 節：子晴收養——2028-12-11～17 寒流那一週、12/14 22:10 在公園演出來；認識她的人每月一張照片；公布欄那張紙所有人看得到；大四下公園沒有貓；LAWWW2 做貓的 3D 與互動，LAWWW 接事件 ｜ 【LAWWW-B 10-23 08:0x ACK】LAWWW2 做 3D 與互動點（D108）；收養劇情 AA 定誰、什麼時候（D109）；LAWWW 接事件",
+      "next": "【LAWWW 2026-11-02 20:3x】BB_247 ART_APPROVED→已驗收｜【LAWWW-C 2026-10-28 01:1x UTC】LAWWW2 WZCAT.hold／release（ccc329672）合進 8531a71ab：所長回來那一場貓固定趴在圓椅上、句子用原句（AA_493 第 3 節第一選擇），白天備用句拿掉；aa420、aa493、wz_cat_walk ALL PASS｜【LAWWW-C 2026-10-27 23:0x UTC】AA_493（868726e5c）四句接好 199f71b40：環境句白天版、取名兩版、所長回來白天版；季節句不改｜【LAWWW-C 2026-10-27 22:5x UTC】LAWWW2 交件 0610ceeb1（wz_cat.glb v3 骨架＋四段動畫、src/wzcat3d.js、zones3d.js 接線；wz_cat_walk_unit 改前 FAILED 6）合進開發分支 4978b283a（合併 48e997635）；BB 測走路、摸、餵、晚上趴著；白天句子和畫面衝突（圓椅上睡覺）四處交 AA-C 定｜【LAWWW-C 2026-10-27 18:0x UTC】查核：貓還不會走動（摸、餵、子晴收養都有了）——派 LAWWW2-C 評估排期 ｜ 【LAWWW-B 10-23 08:3x】AA_397 第 3 節：子晴收養——2028-12-11～17 寒流那一週、12/14 22:10 在公園演出來；認識她的人每月一張照片；公布欄那張紙所有人看得到；大四下公園沒有貓；LAWWW2 做貓的 3D 與互動，LAWWW 接事件 ｜ 【LAWWW-B 10-23 08:0x ACK】LAWWW2 做 3D 與互動點（D108）；收養劇情 AA 定誰、什麼時候（D109）；LAWWW 接事件",
       "xai": {
         "spec": "使用者 2026-10-23 08:1x 直接對 LAWWW2：「貓咪要能動 能互動吧 甚至安排其中一個女主角收養 跟AA討論」（UA-LAWWW2-1023-08）",
         "owner": "LAWWW2",
@@ -31062,7 +31071,8 @@
         "ack": "ACK"
       },
       "note": "2026-10-23 12:0x LAWWW-B：劇情部分合併（728c7b7c0，wzpark3d.js catCold／catGone／catAdopted、公布欄告示、12/14 那一場、每月照片、去看貓）；貓 12/14 23:00 起不在公園。LAWWW2：3D 貓用 PARK.catAdopted(G) 不顯示、PARK.catCold(G) 用 CAT_curl（已轉）。 10-23 13:4x LAWWW-B 整合 LAWWW2 32e9ddf3（zones3d.js patch：收養以後公園的 3D 貓每一格看 PARK.catAdopted 不顯示；寒流 CAT_curl 縮在石桌下；wz_cat.glb 加 CAT_curl）；tests/wz_cat_unit.js 改成四個姿勢（12 個網格都有 fat）＋公園相關 24 支 ALL PASS；BB 清單第 50 項。還沒做：貓平常走動（CAT_walk 要遊戲端路線，排在後面）。",
-      "sha": "8531a71ab"
+      "sha": "8531a71ab",
+      "evidence": "BB_247 ★ BB 判定（企劃線 974b8f173，2026-11-02 20:3x）：ART_APPROVED（D120／D128 建築場景 BB 定案）；截圖是 Playwright 手機模擬、不是實機"
     },
     {
       "id": "CLOSED-SPACES-1023",
@@ -31545,7 +31555,7 @@
       "title": "店員支線做完的痕跡 3D 道具（SQ12 照片、SQ13 罐子、SQ14 貓照片、SQ19 失物籃、SQ20 證書、SQ16 紙條）＋公館輪轉單車店門口互動點",
       "area": "ART",
       "owner": "LAWWW2",
-      "status": "已整合待測試",
+      "status": "已驗收",
       "priority": "P2",
       "first": {
         "term": "Y2S1",
@@ -31560,7 +31570,7 @@
       "source": "AA_404／405 痕跡；LAWWW-B 10-23 派",
       "authorized": "D108、D111",
       "sha": "ed65a78e",
-      "next": "【LAWWW-B 10-23 14:1x】合併：五個 GLB、zones3d traceVis／店門口互動點；SIDEQ.traceOn 接；tests/sq_traces_unit.js；BB 清單第 53 項",
+      "next": "【LAWWW 2026-11-02 20:3x】BB_247 ART_APPROVED→已驗收｜【LAWWW-B 10-23 14:1x】合併：五個 GLB、zones3d traceVis／店門口互動點；SIDEQ.traceOn 接；tests/sq_traces_unit.js；BB 清單第 53 項",
       "xai": {
         "spec": "AA_404／405 痕跡",
         "owner": "LAWWW2",
@@ -31568,7 +31578,8 @@
         "acceptance": "TRACE_SQxx 節點＋遊戲內顯示／不顯示截圖",
         "receiver": "LAWWW",
         "ack": "ACK"
-      }
+      },
+      "evidence": "BB_247 ★ BB 判定（企劃線 974b8f173，2026-11-02 20:3x）：ART_APPROVED（D120／D128 建築場景 BB 定案）；截圖是 Playwright 手機模擬、不是實機"
     },
     {
       "id": "SIDEQ-SQ16-1023",
@@ -33821,7 +33832,7 @@
       "title": "溫州街 3 個、118 巷 9 個店內吊燈燈罩裡外相反（隔玻璃看只是明暗反；開發 5b6737cd3 就是）",
       "area": "Y1S1",
       "owner": "LAWWW2",
-      "status": "已整合待測試",
+      "status": "已驗收",
       "priority": "P3",
       "source": "LAWWW2-C 10-27 18:13 交件訊息（已知問題 P3，lib2.single_side 64 位元修正時發現）",
       "first": {
@@ -33834,7 +33845,7 @@
         "parallel": true,
         "confirmed": true
       },
-      "next": "【11-01 03:5x LAWWW-B】LAWWW2 10-31 交 9cc4810f2；整合在 feat-art-1031 54a5a2527，11-01 併進開發分支（8628c7e14）→ BB 看 118 巷／溫州街燈罩｜【LAWWW-C 2026-10-27 18:1x UTC】LAWWW2 自己排（D111），不擋",
+      "next": "【LAWWW 2026-11-02 20:3x】BB_247 ART_APPROVED→已驗收｜【11-01 03:5x LAWWW-B】LAWWW2 10-31 交 9cc4810f2；整合在 feat-art-1031 54a5a2527，11-01 併進開發分支（8628c7e14）→ BB 看 118 巷／溫州街燈罩｜【LAWWW-C 2026-10-27 18:1x UTC】LAWWW2 自己排（D111），不擋",
       "xai": {
         "spec": "LAWWW2-C 10-27 18:13 訊息",
         "branch": "claude/focused-cray-c9uwvw",
@@ -33842,7 +33853,8 @@
         "receiver": "LAWWW",
         "ack": "ACK"
       },
-      "sha": "9cc4810f2"
+      "sha": "9cc4810f2",
+      "evidence": "BB_247 ★ BB 判定（企劃線 974b8f173，2026-11-02 20:3x）：ART_APPROVED（D120／D128 建築場景 BB 定案）；截圖是 Playwright 手機模擬、不是實機"
     },
     {
       "id": "AA477-NYE-CARD-1027",
@@ -33937,7 +33949,7 @@
       "title": "美國交換祐廷租的單人公寓（us_apartment）照使用者描述改格局：小的 walk-in closet（走得進去，不是衣櫃）；床旁邊是書桌、再旁邊是洗手間；洗手間有浴缸（使用者 10-27 19:4x 對 LAWWW2-C 原話：「美國交換學生我租的地方 有一個小的WALKIN CLOSET 不是衣櫃 然後床旁邊是書桌再旁邊是洗手間 洗手間有浴缸」）",
       "area": "V4-US",
       "owner": "LAWWW2",
-      "status": "已整合待測試",
+      "status": "已驗收",
       "priority": "P1",
       "source": "使用者 2026-10-27 19:4x 直接對 LAWWW2-C（UA-LAWWW2-1027-02，LAWWW2 分支 131e59dfe；P0 通知 3dd0db7c4 docs/art-rebuild/second_ai/HANDOFF.md）",
       "first": {
@@ -33950,14 +33962,15 @@
         "parallel": true,
         "confirmed": true
       },
-      "next": "【LAWWW-C 2026-10-27 22:2x UTC】LAWWW2 f64e0e6d3＋a8fb7bf76 合進開發分支 9ac53ef1d；BB 瀏覽器：美國公寓衣物間、書桌、洗手間｜【LAWWW-C 2026-10-27 20:0x UTC】LAWWW2 照做（D108 場景＋程式）：US_APARTMENT_LAYOUT（src/data/us_layouts.js）、tools/blender/env_second/us_apartment.py、us_apartment.glb；寫死座標的程式（床、書桌、衣物間互動點、事件站位）列出來一起交 patch；C 棟合租戶不動。AA-C 查美國稿裡「衣櫃」、書桌在窗下、洗手間位置的句子。LAWWW 收到 patch 合併、跑 Node；BB 測公寓（進門、床、書桌、洗手間、衣物間、睡覺起床）。LAWWW2 佇列：公寓 → X14 登記 → B08 → PERF-TEX-DEDUP-1027",
+      "next": "【LAWWW 2026-11-02 20:3x】BB_247 ART_APPROVED→已驗收｜【LAWWW-C 2026-10-27 22:2x UTC】LAWWW2 f64e0e6d3＋a8fb7bf76 合進開發分支 9ac53ef1d；BB 瀏覽器：美國公寓衣物間、書桌、洗手間｜【LAWWW-C 2026-10-27 20:0x UTC】LAWWW2 照做（D108 場景＋程式）：US_APARTMENT_LAYOUT（src/data/us_layouts.js）、tools/blender/env_second/us_apartment.py、us_apartment.glb；寫死座標的程式（床、書桌、衣物間互動點、事件站位）列出來一起交 patch；C 棟合租戶不動。AA-C 查美國稿裡「衣櫃」、書桌在窗下、洗手間位置的句子。LAWWW 收到 patch 合併、跑 Node；BB 測公寓（進門、床、書桌、洗手間、衣物間、睡覺起床）。LAWWW2 佇列：公寓 → X14 登記 → B08 → PERF-TEX-DEDUP-1027",
       "xai": {
         "spec": "使用者原話（UA-LAWWW2-1027-02）；LAWWW2 解讀：床頭靠東牆→書桌貼床邊→洗手間門同一側（洗手間、衣物間對調）",
         "branch": "claude/focused-cray-c9uwvw",
         "acceptance": "公寓裡走得進衣物間、看得到吊衣桿和行李箱；床、書桌、洗手間門照使用者說的順序；洗手間走得進去看得到浴缸；舊存檔在公寓裡讀檔不卡牆；相關 Node 測試 ALL PASS",
         "receiver": "LAWWW",
         "ack": "ACK"
-      }
+      },
+      "evidence": "BB_247 ★ BB 判定（企劃線 974b8f173，2026-11-02 20:3x）：ART_APPROVED（D120／D128 建築場景 BB 定案）；截圖是 Playwright 手機模擬、不是實機"
     },
     {
       "id": "US-BLANK-1012-HINT-1027",
@@ -34081,7 +34094,7 @@
       "title": "社團博覽會照真實的臺大社博重做：攤位太少（九頂帳篷、選單五個社團）、沒人顧攤、看不出可以參加什麼——AA 查實際的社博（日期、地點、社團類型）重排攤位與可參加的社團（參加了有什麼）；LAWWW2 加帳篷、招牌；LAWWW 每攤放顧攤的人和逛的人",
       "area": "Y1S1",
       "owner": "AA",
-      "status": "已整合待測試",
+      "status": "已驗收",
       "priority": "P1",
       "source": "使用者 10-27 20:2x 對 LAWWW-C（UA-LAWWW-1027-12、-14）",
       "first": {
@@ -34094,14 +34107,15 @@
         "parallel": true,
         "confirmed": true
       },
-      "next": "【LAWWW-C 2026-10-27 22:0x UTC】y1fb 十五攤（5b227d3aa）＋LAWWW2 36 頂（1cb7bcbb3，位置對齊、顧攤的人每頂一個）＋AA_491（b1a71c1a3：嘉義校友會、說明沒有＝、系籃場邊、大二開場句）；BB 5k｜【LAWWW-C 2026-10-27 21:4x UTC】LAWWW2 3D 帳篷交件 1c537e9c9（DL-LW2-CLUBFAIR）；等 y1fb-1027 合進來再套 patch、把顧攤的人放到位置表",
+      "next": "【LAWWW 2026-11-02 20:3x】BB_247 ART_APPROVED→已驗收｜【LAWWW-C 2026-10-27 22:0x UTC】y1fb 十五攤（5b227d3aa）＋LAWWW2 36 頂（1cb7bcbb3，位置對齊、顧攤的人每頂一個）＋AA_491（b1a71c1a3：嘉義校友會、說明沒有＝、系籃場邊、大二開場句）；BB 5k｜【LAWWW-C 2026-10-27 21:4x UTC】LAWWW2 3D 帳篷交件 1c537e9c9（DL-LW2-CLUBFAIR）；等 y1fb-1027 合進來再套 patch、把顧攤的人放到位置表",
       "xai": {
         "spec": "使用者原話；AA-C 交攤位表",
         "branch": "claude/magical-albattani-bk7b4n",
         "acceptance": "社博那兩天椰林大道一整排攤位、每攤有人顧、有人逛；選單照攤位表；看得出哪些可以參加",
         "receiver": "LAWWW",
         "ack": "ACK"
-      }
+      },
+      "evidence": "BB_247 ★ BB 判定（企劃線 974b8f173，2026-11-02 20:3x）：ART_APPROVED（D120／D128 建築場景 BB 定案）；截圖是 Playwright 手機模擬、不是實機"
     },
     {
       "id": "SIS-EXPO-PRESENCE-1027",
@@ -34975,7 +34989,7 @@
     {
       "area": "Y1S1",
       "owner": "LAWWW2",
-      "status": "已整合待測試",
+      "status": "已驗收",
       "priority": "P2",
       "first": {
         "term": "Y1S1",
@@ -34997,12 +35011,13 @@
       "id": "LIGHTBAKE-UV-FIX-1028",
       "title": "光照貼圖 UV 修正：bake_room.py 填滿率只有 6～9% 的問題（共用材質自動拆、--nolm 照物件挑小島多的零件），201、202、多功能教室重烘",
       "source": "LAWWW2 10-28 04:4x WIP 92a50811d、265b65f55、89a386c64（X125 室內檢討第 6 節）",
-      "next": "【LAWWW-C 2026-10-28 05:3x UTC】e95a1aeb4 的十個檔整合進開發分支 ca50d6ab5（Node 11 支 ALL PASS）；BB 看畫面｜【LAWWW-C 2026-10-28 04:5x UTC】check 第 6 項抓到 LAWWW2 的 WIP commit 用了這個任務 ID、總表還沒有＝補登（LAWWW2 自領，屬 INTERIOR-AAA-REVIEW-1028）；交件後 LAWWW 套 patch、BB 看畫面"
+      "next": "【LAWWW 2026-11-02 20:3x】BB_247 ART_APPROVED→已驗收｜【LAWWW-C 2026-10-28 05:3x UTC】e95a1aeb4 的十個檔整合進開發分支 ca50d6ab5（Node 11 支 ALL PASS）；BB 看畫面｜【LAWWW-C 2026-10-28 04:5x UTC】check 第 6 項抓到 LAWWW2 的 WIP commit 用了這個任務 ID、總表還沒有＝補登（LAWWW2 自領，屬 INTERIOR-AAA-REVIEW-1028）；交件後 LAWWW 套 patch、BB 看畫面",
+      "evidence": "BB_247 ★ BB 判定（企劃線 974b8f173，2026-11-02 20:3x）：ART_APPROVED（D120／D128 建築場景 BB 定案）；截圖是 Playwright 手機模擬、不是實機"
     },
     {
       "area": "Y1S1",
       "owner": "LAWWW2",
-      "status": "已整合待測試",
+      "status": "已驗收",
       "priority": "P2",
       "first": {
         "term": "Y1S1",
@@ -35024,7 +35039,8 @@
       "id": "INTERIOR-202-1028",
       "title": "霖澤館 202 v2：家具、天花板＋重烘光照（X125 室內檢討第二間）",
       "source": "LAWWW2 10-28 04:0x WIP 902a22af5、89a386c64",
-      "next": "【LAWWW-C 2026-10-28 05:3x UTC】e95a1aeb4 的十個檔整合進開發分支 ca50d6ab5（Node 11 支 ALL PASS）；BB 看畫面｜【LAWWW-C 2026-10-28 04:5x UTC】check 第 6 項抓到 LAWWW2 的 WIP commit 用了這個任務 ID、總表還沒有＝補登（LAWWW2 自領，屬 INTERIOR-AAA-REVIEW-1028）；交件後 LAWWW 套 patch、BB 看畫面"
+      "next": "【LAWWW 2026-11-02 20:3x】BB_247 ART_APPROVED→已驗收｜【LAWWW-C 2026-10-28 05:3x UTC】e95a1aeb4 的十個檔整合進開發分支 ca50d6ab5（Node 11 支 ALL PASS）；BB 看畫面｜【LAWWW-C 2026-10-28 04:5x UTC】check 第 6 項抓到 LAWWW2 的 WIP commit 用了這個任務 ID、總表還沒有＝補登（LAWWW2 自領，屬 INTERIOR-AAA-REVIEW-1028）；交件後 LAWWW 套 patch、BB 看畫面",
+      "evidence": "BB_247 ★ BB 判定（企劃線 974b8f173，2026-11-02 20:3x）：ART_APPROVED（D120／D128 建築場景 BB 定案）；截圖是 Playwright 手機模擬、不是實機"
     },
     {
       "id": "HEROINE-CIRCLE3D-1028",
@@ -35433,7 +35449,7 @@
       "title": "霖澤館一樓大廳 11 個純色材質合成一個頂點色材質 lz_vc（網格 78→67、材質 32→22）：大廳第二版的 draw call 增加幅度從 22～34% 降到 12～25%",
       "area": "Y1S1",
       "owner": "LAWWW2",
-      "status": "已整合待測試",
+      "status": "已驗收",
       "priority": "P2",
       "source": "LAWWW2-C 自領（X125 室內第四包的效能收尾；交件 2026-10-28 09:24）",
       "first": {
@@ -35446,21 +35462,22 @@
         "parallel": true,
         "confirmed": true
       },
-      "next": "【LAWWW-C 2026-10-28 09:3x UTC】整合 2c338366d（只換 linze_interior.glb＋兩張光照貼圖）；linze_lightmap、nav_buildings ALL PASS；room_ceiling 照舊 FAIL 1（LOBBY-CEIL-1028）；BB 看大廳畫面",
+      "next": "【LAWWW 2026-11-02 20:3x】BB_247 ART_APPROVED→已驗收｜【LAWWW-C 2026-10-28 09:3x UTC】整合 2c338366d（只換 linze_interior.glb＋兩張光照貼圖）；linze_lightmap、nav_buildings ALL PASS；room_ceiling 照舊 FAIL 1（LOBBY-CEIL-1028）；BB 看大廳畫面",
       "xai": {
         "spec": "LAWWW2 README test_shots/linze_lobby_v2_1028 效能一節",
         "branch": "claude/focused-cray-c9uwvw",
         "acceptance": "外觀和第二版一樣、draw call 降",
         "receiver": "LAWWW",
         "ack": "ACTIONED"
-      }
+      },
+      "evidence": "BB_247 ★ BB 判定（企劃線 974b8f173，2026-11-02 20:3x）：ART_APPROVED（D120／D128 建築場景 BB 定案）；截圖是 Playwright 手機模擬、不是實機"
     },
     {
       "id": "WANCAI-LM-1028",
       "title": "萬才館室內照霖澤館大廳的做法做光照烘焙（樓梯只做看得到的面、止滑條自己的材質、lm 分組；bake_wancai.sh）",
       "area": "Y1S1",
       "owner": "LAWWW2",
-      "status": "已整合待測試",
+      "status": "已驗收",
       "priority": "P2",
       "source": "LAWWW2-C 自領（X125 室內提升的下一間；WIP 5ae9e8559）",
       "first": {
@@ -35473,14 +35490,15 @@
         "parallel": true,
         "confirmed": true
       },
-      "next": "【LAWWW-C 2026-10-28 10:3x UTC】整合 e1bc114e7（patch＋三個二進位檔）；wancai_lightmap 等 60 支 ALL PASS；下一版 v9.10.14；BB：萬才館進兩次、白天晚上看擺設與西南角亮度｜【LAWWW-C 2026-10-28 10:2x UTC】LAWWW2 交件 69bf6b2e4（patch wancai_lm_1028：wancai_layout 九筆擺設、wancai3d.js 家具 prop、wancai_interior.py、tests/wancai_lightmap_unit.js、LICENSES；二進位 wancai_interior.glb＋兩張光照貼圖；萬才館 draw call +7～10%；西南角、樓梯側比改前暗）；開發分支全部 Node 跑完再套；下一版 v9.10.14；BB 進兩次白天晚上看｜【LAWWW-C 2026-10-28 09:3x UTC】LAWWW2 做中；排在 LOBBY-CEIL-1028 後面（v9.10.13 擋件先修）",
+      "next": "【LAWWW 2026-11-02 20:3x】BB_247 ART_APPROVED→已驗收｜【LAWWW-C 2026-10-28 10:3x UTC】整合 e1bc114e7（patch＋三個二進位檔）；wancai_lightmap 等 60 支 ALL PASS；下一版 v9.10.14；BB：萬才館進兩次、白天晚上看擺設與西南角亮度｜【LAWWW-C 2026-10-28 10:2x UTC】LAWWW2 交件 69bf6b2e4（patch wancai_lm_1028：wancai_layout 九筆擺設、wancai3d.js 家具 prop、wancai_interior.py、tests/wancai_lightmap_unit.js、LICENSES；二進位 wancai_interior.glb＋兩張光照貼圖；萬才館 draw call +7～10%；西南角、樓梯側比改前暗）；開發分支全部 Node 跑完再套；下一版 v9.10.14；BB 進兩次白天晚上看｜【LAWWW-C 2026-10-28 09:3x UTC】LAWWW2 做中；排在 LOBBY-CEIL-1028 後面（v9.10.13 擋件先修）",
       "xai": {
         "spec": "X125 室內檢討（038fe55b1）＋大廳第二版的做法",
         "branch": "claude/focused-cray-c9uwvw",
         "acceptance": "同角度改前改後截圖、draw call 數字、相關 Node 通過",
         "receiver": "LAWWW",
         "ack": "自領"
-      }
+      },
+      "evidence": "BB_247 ★ BB 判定（企劃線 974b8f173，2026-11-02 20:3x）：ART_APPROVED（D120／D128 建築場景 BB 定案）；截圖是 Playwright 手機模擬、不是實機"
     },
     {
       "id": "FEED-DATES-1028",
@@ -35656,7 +35674,7 @@
       "title": "男一舍門廳（dorm_hall）照霖澤館大廳、萬才館的做法做擺設＋光照烘焙（dorm_hall.py、dorm_layout 擺設八筆、門上的東西照各扇門的旁白、bake_dorm_hall.sh；新測試 dorm_hall_lightmap_unit）",
       "area": "Y1S1",
       "owner": "LAWWW2",
-      "status": "已整合待測試",
+      "status": "已驗收",
       "priority": "P2",
       "source": "LAWWW2-C 自領（X125 室內提升，萬才館之後的下一間；WIP 5a5c8b218）",
       "first": {
@@ -35676,7 +35694,8 @@
         "receiver": "LAWWW",
         "ack": "ACK"
       },
-      "next": "【LAWWW-C 2026-10-28 13:0x UTC】開發分支 806d2691b（217e655bd 門廳整合＋第十五批第 6 節以後）全部 Node 727 支 0 失敗｜【LAWWW-C 2026-10-28 13:0x UTC】LAWWW2 交件 4d89f42fe 合進開發分支 217e655bd（patch＋三個二進位檔）；dorm_hall_lightmap、room_ceiling、nav_buildings、宿舍相關 17 支 0 失敗；全部 Node 背景跑；下一版 v9.10.14；BB：男一舍門廳白天晚上、進兩次、大四住 409 時 202 門上沒有社團貼紙、包裹架在舍監室窗口旁｜【LAWWW-C 2026-10-28 12:4x UTC】LAWWW2 WIP f6922e1a2（202 門上的社團貼紙大四 409 那年藏起來）、9dad133ab、51be20cfe（重烘：門框上方點狀黑線、貼紙不留影子）｜【LAWWW-C 2026-10-28 11:4x UTC】登記（incr 看到 LAWWW2 的 WIP 5a5c8b218、433ffb388、b1d60f05f、5e02adddd 沒有任務）；LAWWW2 交件後 LAWWW 合併、跑 dorm_hall_lightmap＋nav_buildings＋全部 Node；下一版 v9.10.14；BB：門廳進兩次、白天晚上看"
+      "next": "【LAWWW 2026-11-02 20:3x】BB_247 ART_APPROVED→已驗收｜【LAWWW-C 2026-10-28 13:0x UTC】開發分支 806d2691b（217e655bd 門廳整合＋第十五批第 6 節以後）全部 Node 727 支 0 失敗｜【LAWWW-C 2026-10-28 13:0x UTC】LAWWW2 交件 4d89f42fe 合進開發分支 217e655bd（patch＋三個二進位檔）；dorm_hall_lightmap、room_ceiling、nav_buildings、宿舍相關 17 支 0 失敗；全部 Node 背景跑；下一版 v9.10.14；BB：男一舍門廳白天晚上、進兩次、大四住 409 時 202 門上沒有社團貼紙、包裹架在舍監室窗口旁｜【LAWWW-C 2026-10-28 12:4x UTC】LAWWW2 WIP f6922e1a2（202 門上的社團貼紙大四 409 那年藏起來）、9dad133ab、51be20cfe（重烘：門框上方點狀黑線、貼紙不留影子）｜【LAWWW-C 2026-10-28 11:4x UTC】登記（incr 看到 LAWWW2 的 WIP 5a5c8b218、433ffb388、b1d60f05f、5e02adddd 沒有任務）；LAWWW2 交件後 LAWWW 合併、跑 dorm_hall_lightmap＋nav_buildings＋全部 Node；下一版 v9.10.14；BB：門廳進兩次、白天晚上看",
+      "evidence": "BB_247 ★ BB 判定（企劃線 974b8f173，2026-11-02 20:3x）：ART_APPROVED（D120／D128 建築場景 BB 定案）；截圖是 Playwright 手機模擬、不是實機"
     },
     {
       "id": "SIS-B15-1028",
@@ -35737,7 +35756,7 @@
       "title": "總圖大廳（library_hall）照霖澤館大廳、萬才館、男一舍門廳的做法做光照烘焙（bake_library_hall.sh；天窗只在白天）",
       "area": "Y1S1",
       "owner": "LAWWW2",
-      "status": "已整合待測試",
+      "status": "已驗收",
       "priority": "P2",
       "source": "LAWWW2-C 自領（X125 室內提升，男一舍門廳之後的下一間；WIP 9dad133ab）",
       "first": {
@@ -35757,16 +35776,17 @@
         "receiver": "LAWWW",
         "ack": "自領"
       },
-      "next": "BB 測（總圖大廳白天、晚上：天窗晚上暗、小零件不浮；宿舍、Café、A館大廳晚上小零件跟著暗；進兩次）",
+      "next": "【LAWWW 2026-11-02 20:3x】BB_247 ART_APPROVED→已驗收｜BB 測（總圖大廳白天、晚上：天窗晚上暗、小零件不浮；宿舍、Café、A館大廳晚上小零件跟著暗；進兩次）",
       "notes": "【11:5x】LAWWW-B 整合 bbe0c9469（c48a5c310 的兩份 patch＋GLB；v9.10.14 發布後漏套，這次補上）；dorm_lightmap_unit 改成真的 rtK ｜ 【LAWWW-B 10-30 03:3x】LAWWW2-B 交件 c48a5c310（DL-LW2-LIBHALL-LM-1030／DL-LW2-RTNIGHT-1030），v9.10.14 發布後套",
-      "sha": "bbe0c9469"
+      "sha": "bbe0c9469",
+      "evidence": "BB_247 ★ BB 判定（企劃線 974b8f173，2026-11-02 20:3x）：ART_APPROVED（D120／D128 建築場景 BB 定案）；截圖是 Playwright 手機模擬、不是實機"
     },
     {
       "id": "LM-SEAM-1028",
       "title": "之前交的 201、202、霖澤館大廳、萬才館的光照貼圖有 60～470 m² 全黑的面（牆段 T 形接頭露縫）：套 lm_fix_hidden.py 後處理，只換 GLB",
       "area": "Y1S1",
       "owner": "LAWWW2",
-      "status": "已整合待測試",
+      "status": "已驗收",
       "priority": "P2",
       "source": "LAWWW2-C DORM-HALL-LM-1028 交件訊息（12:55）",
       "first": {
@@ -35786,7 +35806,8 @@
         "receiver": "LAWWW",
         "ack": "ACK"
       },
-      "next": "【LAWWW-C 2026-10-28 14:0x UTC】合進開發分支 96e535901（六個 GLB）；lightmap／room_ceiling／nav 相關 20 支 0 失敗；開發分支 9ffa01251（AA_521 合併後）全部 Node 730 支 0 失敗；BB：201、萬才館、霖澤館大廳、男一舍門廳的黑線｜【LAWWW-C 2026-10-28 13:5x UTC】LAWWW2 交件 d5e28e291（六個 GLB：classroom_201、linze_202、linze_interior、wancai_interior、wancai_multi、dorm_hall；工具 lm_fix_hidden 第六版只改第二套 UV、貼圖不變）；開發分支這一輪全部 Node 跑完就換檔、跑 lightmap 相關＋全部 Node｜【LAWWW-C 2026-10-28 13:0x UTC】登記；LAWWW2 交只換 GLB 的包，LAWWW 換檔跑 linze_lightmap、wancai_lightmap、room_ceiling＋全部 Node"
+      "next": "【LAWWW 2026-11-02 20:3x】BB_247 ART_APPROVED→已驗收｜【LAWWW-C 2026-10-28 14:0x UTC】合進開發分支 96e535901（六個 GLB）；lightmap／room_ceiling／nav 相關 20 支 0 失敗；開發分支 9ffa01251（AA_521 合併後）全部 Node 730 支 0 失敗；BB：201、萬才館、霖澤館大廳、男一舍門廳的黑線｜【LAWWW-C 2026-10-28 13:5x UTC】LAWWW2 交件 d5e28e291（六個 GLB：classroom_201、linze_202、linze_interior、wancai_interior、wancai_multi、dorm_hall；工具 lm_fix_hidden 第六版只改第二套 UV、貼圖不變）；開發分支這一輪全部 Node 跑完就換檔、跑 lightmap 相關＋全部 Node｜【LAWWW-C 2026-10-28 13:0x UTC】登記；LAWWW2 交只換 GLB 的包，LAWWW 換檔跑 linze_lightmap、wancai_lightmap、room_ceiling＋全部 Node",
+      "evidence": "BB_247 ★ BB 判定（企劃線 974b8f173，2026-11-02 20:3x）：ART_APPROVED（D120／D128 建築場景 BB 定案）；截圖是 Playwright 手機模擬、不是實機"
     },
     {
       "id": "SIS-B16-1028",
@@ -35821,7 +35842,7 @@
       "title": "室內光照烘焙的房間裡，沒烘焙的細小零件照舊是即時光：晚上比旁邊亮（霖澤館大廳、萬才館、男一舍門廳…）——讓它們晚上跟著暗下來",
       "area": "Y1S1",
       "owner": "LAWWW2",
-      "status": "已整合待測試",
+      "status": "已驗收",
       "priority": "P3",
       "source": "LAWWW2-C DORM-HALL-LM-1028／LM-SEAM-1028 交件訊息（remaining：細小零件照舊即時光，RT-NIGHT-1028 另提）",
       "first": {
@@ -35841,9 +35862,10 @@
         "receiver": "LAWWW",
         "ack": "自領"
       },
-      "next": "BB 測（總圖大廳白天、晚上：天窗晚上暗、小零件不浮；宿舍、Café、A館大廳晚上小零件跟著暗；進兩次）",
+      "next": "【LAWWW 2026-11-02 20:3x】BB_247 ART_APPROVED→已驗收｜BB 測（總圖大廳白天、晚上：天窗晚上暗、小零件不浮；宿舍、Café、A館大廳晚上小零件跟著暗；進兩次）",
       "notes": "【11:5x】LAWWW-B 整合 bbe0c9469（c48a5c310 的兩份 patch＋GLB；v9.10.14 發布後漏套，這次補上）；dorm_lightmap_unit 改成真的 rtK ｜ 【LAWWW-B 10-30 03:3x】LAWWW2-B 交件 c48a5c310（DL-LW2-LIBHALL-LM-1030／DL-LW2-RTNIGHT-1030），v9.10.14 發布後套",
-      "sha": "bbe0c9469"
+      "sha": "bbe0c9469",
+      "evidence": "BB_247 ★ BB 判定（企劃線 974b8f173，2026-11-02 20:3x）：ART_APPROVED（D120／D128 建築場景 BB 定案）；截圖是 Playwright 手機模擬、不是實機"
     },
     {
       "id": "MEMO-NO-EVID-1028",
@@ -36170,8 +36192,8 @@
       "title": "宿舍睡覺要有畫面＋床比例＋室友書桌擺設不重疊（使用者 10-30 04:2x 對 LAWWW2）：LAWWW2 交床上躺位與頭向、梯子踏點、睡覺鏡頭、熄燈光照貼圖、床比例、書桌不重疊（dorm_room4.layout.json＋zones3d.js patch 草稿）；LAWWW 做爬梯／躺下動作與睡覺流程接線",
       "area": "ART",
       "owner": "LAWWW2",
-      "status": "已整合待測試",
-      "next": "已進開發分支（postrel-1030 合併 b576263b6、改名 ba315523b）→ BB 測（下一版）",
+      "status": "已驗收",
+      "next": "【LAWWW 2026-11-02 20:3x】BB_247 ART_APPROVED→已驗收｜已進開發分支（postrel-1030 合併 b576263b6、改名 ba315523b）→ BB 測（下一版）",
       "priority": "P1",
       "first": {
         "term": "Y1S1",
@@ -36192,7 +36214,8 @@
         "receiver": "LAWWW",
         "ack": "ACK"
       },
-      "notes": "【07:5x】v9.10.14 發布後 postrel-1030 合進開發分支（b576263b6）＋改名（ba315523b）｜ 【07:3x】床欄透空接好（S.lieDown 設 E.cam.seeThru，中心床墊上 0.28 m、r 0.2、aspect 0.5；爬下來、populate 清），postrel 4a4b0cd4a ｜ 【06:4x】床欄透空：LAWWW2 cine_seethru_1030.patch（E.cam.seeThru）由 jacket-econ-1030 子代理一起接（S.lieDown 設、起床清）｜ 【05:4x】子代理交件：走到梯子→爬四階→躺→熄燈（暫用曝光壓暗，z.lightsOff 有就用）→淡出；醒來在床上→爬下來站梯子前；小睡、經濟系「睡到下一件事」醒來直接站梯子前（沒有床上醒來那段）；室友照舊；存檔存梯子前；新測試 dorm_sleep_scene_unit（基準 FAILED 1→ALL PASS），全部 Node 739／0；截圖 7 張（SwiftShader）｜ 【LAWWW2-B 04:26】先交數字 98f8a41f7（dorm_room4.layout.json 每組床桌 sleep_scene：approach、steps 四階、bed_entry、lie head/feet/頭向、cam eye/look）；床墊 1.85→1.92 m、床尾擋板移到走道那一半（GLB 和熄燈光照之後交）→ LAWWW 接睡覺流程 ｜ LAWWW 部分（人物動作、流程）等 LAWWW2 的 layout；203 光照第四輪照舊，兩點半 Café 往後排"
+      "notes": "【07:5x】v9.10.14 發布後 postrel-1030 合進開發分支（b576263b6）＋改名（ba315523b）｜ 【07:3x】床欄透空接好（S.lieDown 設 E.cam.seeThru，中心床墊上 0.28 m、r 0.2、aspect 0.5；爬下來、populate 清），postrel 4a4b0cd4a ｜ 【06:4x】床欄透空：LAWWW2 cine_seethru_1030.patch（E.cam.seeThru）由 jacket-econ-1030 子代理一起接（S.lieDown 設、起床清）｜ 【05:4x】子代理交件：走到梯子→爬四階→躺→熄燈（暫用曝光壓暗，z.lightsOff 有就用）→淡出；醒來在床上→爬下來站梯子前；小睡、經濟系「睡到下一件事」醒來直接站梯子前（沒有床上醒來那段）；室友照舊；存檔存梯子前；新測試 dorm_sleep_scene_unit（基準 FAILED 1→ALL PASS），全部 Node 739／0；截圖 7 張（SwiftShader）｜ 【LAWWW2-B 04:26】先交數字 98f8a41f7（dorm_room4.layout.json 每組床桌 sleep_scene：approach、steps 四階、bed_entry、lie head/feet/頭向、cam eye/look）；床墊 1.85→1.92 m、床尾擋板移到走道那一半（GLB 和熄燈光照之後交）→ LAWWW 接睡覺流程 ｜ LAWWW 部分（人物動作、流程）等 LAWWW2 的 layout；203 光照第四輪照舊，兩點半 Café 往後排",
+      "evidence": "BB_247 ★ BB 判定（企劃線 974b8f173，2026-11-02 20:3x）：ART_APPROVED（D120／D128 建築場景 BB 定案）；截圖是 Playwright 手機模擬、不是實機"
     },
     {
       "id": "DORM203-LM-1030",
@@ -36295,8 +36318,8 @@
       "title": "兩點半 Café 往門口那一側的窗景是靜態貼圖 → 看得到外面（3D 溫州街、路人、時段光線）",
       "area": "ART",
       "owner": "LAWWW2",
-      "status": "已整合待測試",
-      "next": "已進開發分支（postrel-1030 合併 b576263b6、改名 ba315523b）→ BB 測（下一版）",
+      "status": "已驗收",
+      "next": "【LAWWW 2026-11-02 20:3x】BB_247 ART_APPROVED→已驗收｜已進開發分支（postrel-1030 合併 b576263b6、改名 ba315523b）→ BB 測（下一版）",
       "priority": "P1",
       "first": {
         "term": "Y1S1",
@@ -36317,15 +36340,16 @@
         "receiver": "LAWWW",
         "ack": "SENT"
       },
-      "notes": "【07:5x】v9.10.14 發布後 postrel-1030 合進開發分支（b576263b6）＋改名（ba315523b）｜ 【07:3x】LAWWW2-B 交件 f11f2ccb0：溫州街 3D 模型當窗景（裁切平面、晚上照時段、4 個路人）；cafe_street_live_unit（基準 10 FAIL）｜ "
+      "notes": "【07:5x】v9.10.14 發布後 postrel-1030 合進開發分支（b576263b6）＋改名（ba315523b）｜ 【07:3x】LAWWW2-B 交件 f11f2ccb0：溫州街 3D 模型當窗景（裁切平面、晚上照時段、4 個路人）；cafe_street_live_unit（基準 10 FAIL）｜ ",
+      "evidence": "BB_247 ★ BB 判定（企劃線 974b8f173，2026-11-02 20:3x）：ART_APPROVED（D120／D128 建築場景 BB 定案）；截圖是 Playwright 手機模擬、不是實機"
     },
     {
       "id": "CAFE-LM-1030",
       "title": "兩點半 Café 室內光照烘焙（INTERIOR-AAA 第二間；使用者 X125 室內廉價手遊感）",
       "area": "ART",
       "owner": "LAWWW2",
-      "status": "已整合待測試",
-      "next": "已進開發分支（LAWWW2-B 53153491e）→ BB 測（Café 白天／黃昏／晚上）；建築場景 ART_APPROVED 只有使用者能標",
+      "status": "已驗收",
+      "next": "【LAWWW 2026-11-02 20:3x】BB_247 ART_APPROVED→已驗收｜已進開發分支（LAWWW2-B 53153491e）→ BB 測（Café 白天／黃昏／晚上）；建築場景 ART_APPROVED 只有使用者能標",
       "priority": "P1",
       "first": {
         "term": "Y1S1",
@@ -36346,15 +36370,16 @@
         "receiver": "LAWWW",
         "ack": "ACTIONED"
       },
-      "notes": "【08:1x】整合：只換二進位（cafe_interior.glb＋lm_day／lm_night），不用改程式；晚上比原本暗一點（要更亮可吊燈 55 W 重烘）"
+      "notes": "【08:1x】整合：只換二進位（cafe_interior.glb＋lm_day／lm_night），不用改程式；晚上比原本暗一點（要更亮可吊燈 55 W 重烘）",
+      "evidence": "BB_247 ★ BB 判定（企劃線 974b8f173，2026-11-02 20:3x）：ART_APPROVED（D120／D128 建築場景 BB 定案）；截圖是 Playwright 手機模擬、不是實機"
     },
     {
       "id": "LIB-LAWN-PLAN-1030",
       "title": "照臺大校內地圖規劃總圖前草皮",
       "area": "ART",
       "owner": "LAWWW2",
-      "status": "已整合待測試",
-      "next": "BB 測（校園走到總圖前、坐長椅、路燈、老樟樹、reachability_all）；使用者回答三個問題（草皮形狀、台階、樟樹位置）再出第二版",
+      "status": "取消／被取代",
+      "next": "【LAWWW 2026-11-02 20:3x】取消／被取代→LIB-FRONT-1102｜BB 測（校園走到總圖前、坐長椅、路燈、老樟樹、reachability_all）；使用者回答三個問題（草皮形狀、台階、樟樹位置）再出第二版",
       "priority": "P1",
       "first": {
         "term": "Y1S1",
@@ -36379,7 +36404,9 @@
       "aliases": [
         "LIB-LAWN-1030"
       ],
-      "sha": "f75d60a4c"
+      "sha": "f75d60a4c",
+      "replacedBy": "LIB-FRONT-1102",
+      "reason": "總圖前草皮已由 LIB-FRONT-1102（大道柏油到 x≈20、x20～87 大草坪＋龍柏籬＋大王椰子，v3.1／v3.2 已進開發分支 ef63b1877，BB_247 ART_APPROVED）取代；原本等使用者回答的三個問題照 D128 不再問使用者（LAWWW 2026-11-02 回 BB_247）"
     },
     {
       "id": "WORLD-RENAME-1030",
@@ -36666,8 +36693,8 @@
       "title": "D115 改名美術字：校門石牌、晨思鐘、博思名牌、法律系館A 公布欄、201 傳單、博思 203 海報、ntu_linze 背景（只換貼圖不重烘）＋長條名牌外框上限",
       "area": "ART",
       "owner": "LAWWW2",
-      "status": "已整合待測試",
-      "next": "BB 測改名牌子近拍（n16_renart：校門、晨思鐘、博思名牌、A館公布欄、201 傳單、博思 203、社科院系所牌、溫州公園牌、ntu_linze）",
+      "status": "已驗收",
+      "next": "【LAWWW 2026-11-02 20:3x】BB_247 ART_APPROVED→已驗收｜BB 測改名牌子近拍（n16_renart：校門、晨思鐘、博思名牌、A館公布欄、201 傳單、博思 203、社科院系所牌、溫州公園牌、ntu_linze）",
       "priority": "P1",
       "first": {
         "term": "Y1S1",
@@ -36689,15 +36716,16 @@
         "receiver": "LAWWW",
         "ack": "ACTIONED"
       },
-      "notes": "【10:1x】LAWWW2 8ad003353：CG 78 張查完，沒有舊校名、館名字樣（六張放大看）｜ LAWWW2 交件 0235c71b9 → f75d60a4c；外框 patch 套了（4:1 以內不變）；還沒做：CG 78 張、BB 組校園 2D 背景只看縮圖"
+      "notes": "【10:1x】LAWWW2 8ad003353：CG 78 張查完，沒有舊校名、館名字樣（六張放大看）｜ LAWWW2 交件 0235c71b9 → f75d60a4c；外框 patch 套了（4:1 以內不變）；還沒做：CG 78 張、BB 組校園 2D 背景只看縮圖",
+      "evidence": "BB_247 ★ BB 判定（企劃線 974b8f173，2026-11-02 20:3x）：ART_APPROVED（D120／D128 建築場景 BB 定案）；截圖是 Playwright 手機模擬、不是實機"
     },
     {
       "id": "LAWLIB-LM-1030",
       "title": "法律學院圖書館室內光照烘焙（白天、晚上兩張；INTERIOR-AAA 第三間）",
       "area": "ART",
       "owner": "LAWWW2",
-      "status": "已整合待測試",
-      "next": "BB 測（法律學院圖書館一樓閱覽區、長桌、櫃台、二樓書庫、二樓閱覽區 14:00／20:30；進兩次）",
+      "status": "已驗收",
+      "next": "【LAWWW 2026-11-02 20:3x】BB_247 ART_APPROVED→已驗收｜BB 測（法律學院圖書館一樓閱覽區、長桌、櫃台、二樓書庫、二樓閱覽區 14:00／20:30；進兩次）",
       "priority": "P2",
       "first": {
         "term": "Y1S1",
@@ -36719,15 +36747,16 @@
         "receiver": "LAWWW",
         "ack": "ACTIONED"
       },
-      "notes": "LAWWW2 交件 015221528：GLB 多 TEXCOORD_1＋extras.lightmap，lm_day／lm_night 共 200 KB；不用改程式（B3.attachFormal 接）；READY_FOR_ART_REVIEW（建築場景 ART_APPROVED 只有使用者能標）"
+      "notes": "LAWWW2 交件 015221528：GLB 多 TEXCOORD_1＋extras.lightmap，lm_day／lm_night 共 200 KB；不用改程式（B3.attachFormal 接）；READY_FOR_ART_REVIEW（建築場景 ART_APPROVED 只有使用者能標）",
+      "evidence": "BB_247 ★ BB 判定（企劃線 974b8f173，2026-11-02 20:3x）：ART_APPROVED（D120／D128 建築場景 BB 定案）；截圖是 Playwright 手機模擬、不是實機"
     },
     {
       "id": "MULTI-ROOM-V2-1030",
       "title": "法律系館B 多功能教室 v2：一體成形塑膠椅、單人桌封邊、0.6 m 輕鋼架＋T5 格柵燈、白牆調暗、光照重烘（照 202 v2）",
       "area": "ART",
       "owner": "LAWWW2",
-      "status": "已整合待測試",
-      "next": "BB 測（法律系館B 多功能教室 14:00／20:30、坐下起身、上課同學坐好、進兩次）",
+      "status": "已驗收",
+      "next": "【LAWWW 2026-11-02 20:3x】BB_247 ART_APPROVED→已驗收｜BB 測（法律系館B 多功能教室 14:00／20:30、坐下起身、上課同學坐好、進兩次）",
       "priority": "P2",
       "first": {
         "term": "Y1S1",
@@ -36749,7 +36778,8 @@
         "receiver": "LAWWW",
         "ack": "ACTIONED"
       },
-      "notes": "LAWWW2 交件 2b5704f2a；layout 和開發分支一樣；flat_classroom.py 換 LAWWW2 的 v2＋改名版（開發分支原本是 10-22 舊版）；draw call 75→80；READY_FOR_ART_REVIEW"
+      "notes": "LAWWW2 交件 2b5704f2a；layout 和開發分支一樣；flat_classroom.py 換 LAWWW2 的 v2＋改名版（開發分支原本是 10-22 舊版）；draw call 75→80；READY_FOR_ART_REVIEW",
+      "evidence": "BB_247 ★ BB 判定（企劃線 974b8f173，2026-11-02 20:3x）：ART_APPROVED（D120／D128 建築場景 BB 定案）；截圖是 Playwright 手機模擬、不是實機"
     },
     {
       "id": "BOYA-LM-1030",
@@ -39635,8 +39665,8 @@
       "id": "LIB-FRONT-1102",
       "title": "總圖外觀、前草坪（照五張照片）、拱廊前寬台階走得上去",
       "owner": "LAWWW2",
-      "status": "已整合待測試",
-      "next": "v3.1、v3.2 已進開發分支 ef63b1877｜v3.1（LAWWW2 d594acbee：平台兩棵尖塔形針葉樹）已套進 int/m590 958859068；併進開發分支後派 BB 驗收（D120）；v3.2（BB_234 ①③④）排在 LAWWW2 展演廳第三版、3F 後面。大道柏油到 x≈20、x20～87 大草坪＋龍柏籬＋大王椰子；總圖不搬；(80,0)(82,0) 與步道要通；跑 campus_layout_nav、reachability_all、flow_library_*、guide_flow、nav_buildings_unit；CC 對照 2D 110b",
+      "status": "已驗收",
+      "next": "【LAWWW 2026-11-02 20:3x】BB_247 ART_APPROVED→已驗收｜v3.1、v3.2 已進開發分支 ef63b1877｜v3.1（LAWWW2 d594acbee：平台兩棵尖塔形針葉樹）已套進 int/m590 958859068；併進開發分支後派 BB 驗收（D120）；v3.2（BB_234 ①③④）排在 LAWWW2 展演廳第三版、3F 後面。大道柏油到 x≈20、x20～87 大草坪＋龍柏籬＋大王椰子；總圖不搬；(80,0)(82,0) 與步道要通；跑 campus_layout_nav、reachability_all、flow_library_*、guide_flow、nav_buildings_unit；CC 對照 2D 110b",
       "sha": "",
       "source": "使用者 11-02 08:45～09:03 直接對 LAWWW2（user_asks_LAWWW2 UA-LAWWW2-1102-02～06，387fa3aeb）",
       "xai": {
@@ -39646,7 +39676,8 @@
         "receiver": "LAWWW",
         "ack": "ACK"
       },
-      "note": " ｜14:3x LAWWW 整合進 int/next1102 3caff35d9（LAWWW2 32961b6ab v3c，BB_234 驗收通過）；排在 v9.10.16 之後；BB 在使用者電腦跑 reachability_all、flow_library_floors、campus_glb_integration"
+      "note": " ｜14:3x LAWWW 整合進 int/next1102 3caff35d9（LAWWW2 32961b6ab v3c，BB_234 驗收通過）；排在 v9.10.16 之後；BB 在使用者電腦跑 reachability_all、flow_library_floors、campus_glb_integration",
+      "evidence": "BB_247 ★ BB 判定（企劃線 974b8f173，2026-11-02 20:3x）：ART_APPROVED（D120／D128 建築場景 BB 定案）；截圖是 Playwright 手機模擬、不是實機"
     },
     {
       "priority": "P0",
