@@ -34,6 +34,10 @@
 | 新生導覽上三樓的落點（classes3d.js） | (0, 7)＋館員 (0.8, 5.6) | 讀 `reading.spawnFromStairs` (10.6, −6)＋館員 (8.98, −6.51)；第一版照舊算出 (0.8, 5.5) |
 | 樓梯間落點（reading.spawnFromStairs） | (0, 7) | (10.6, −6) |
 | 電梯（reading.elevator） | x 8.8～10.8、z −1～1.2 | x 9.4～11.4、z −2.6～−0.4（和大廳同一個井） |
+| 「看桌上的紙條」（守誠那張桌子；pool_more3d.js 的 POP） | (−2.4, 0.6)：第一版長桌上 | (−3.0, 6.75)：南側長桌上、他座位 (−3.0, 7.25) 前面 |
+| 「看期刊架」（語彤的系刊；r2y4a3d.js 的 shelfPlace） | (−9.7, 2.4)：西側書牆前 | (0, −2.75)：中間紅色現期期刊展示架（最南那一座）前面；第二版的 (−9.7, 2.4) 是靠窗的閱覽桌旁邊 |
+
+- 後兩個是互動點，程式裡照 `L3F.active()` 選第一版或第二版的點（第二版沒載入時照舊用第一版的）；座位（seatAt）照 LAWWW 15:34 說的直接改座標。
 
 - **單元測試**：`library_3f_v2_unit.js`（這裡放一份），在 `scratchpad/devwt_n`（int/next1102 `3e6855649`＋大廳第二版 patch＋這些）ALL PASS。
   - 44 個座位都走得到；
@@ -45,8 +49,15 @@
   - 人文庫走得進去；
   - 電梯在同一個井。
 
+- **整份 patch**（11-02 18:00）：`library_3f_v2_1102.patch`，接在 `3e6855649`＋大廳第二版 patch 上面（`git apply --check` 過）。
+  - 8 個檔：`index.html`（兩個 script）、`src/classes3d.js`、`src/data/pool_story.js`、`src/pool_more3d.js`、`src/r2y4a3d.js`、新的 `src/data/library_3f_layout.js`、`src/library_3f_v2.js`、`tests/library_3f_v2_unit.js`。
+  - `coords_wip.patch` 是 17:3x 的舊版（只有座標），被整份 patch 取代。
+- **單元測試**：多了 3 項（紙條、期刊架、程式裡的點和配置一致），共 15 項 ALL PASS。
+- **Blender**：`library_3f_v2.py` 試建 6.2 萬三角形、5.4 MB；人文庫的弧牆 18:0x 修過（頂點順序反了，和大廳展演廳同一個問題）。
+- **光照烘焙**：腳本 `tools/blender/env_second/lightbake/bake_library_3f_v2.sh` 寫好了，還沒跑（等大廳第二版重烘完）；遊戲模組 `attach()` 最後用 `Z3.roomLightmap` 接光照貼圖（18:0x 補上）。
+
 ## 還沒做
 
-- Blender 正式模型（`library_3f_v2.py`）、光照烘焙。
+- 光照烘焙（跑上面的腳本）。
 - 瀏覽器測試：flow_library_floors、flow_library_scene、flow_lib_tour、reachability_all、學姊總圖 unit、library_upper_unit 等。
 - 截圖、交件 README。

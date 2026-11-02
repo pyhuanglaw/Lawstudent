@@ -99,7 +99,9 @@ const L3F=(function(){
     const hid=new THREE.MeshBasicMaterial({visible:false}); for(const m of walkMeshes){ m.material=hid; m.userData.dyn=true; zone.group.attach(m); }
     fb.visible=false; walls.length=0; for(const w of nw) walls.push(w);
     /* 書架（2.1 m 高）擋住玩家時網點透空（engine3d.js 的樹幹透視；大廳第二版的書架同一套）*/
-    zone.seeThru=true; root.traverse(o=>{ if(!o.isMesh) return; for(const m of [].concat(o.material)){ if(!m||m.userData.seeThrough||!/l3_books|l3_vcm|l3_walnut/.test(m.name||'')) continue; m.userData.seeThrough=true; if(E&&E.patchSeeThrough) E.patchSeeThrough(m); } }); }
+    zone.seeThru=true; root.traverse(o=>{ if(!o.isMesh) return; for(const m of [].concat(o.material)){ if(!m||m.userData.seeThrough||!/l3_books|l3_vcm|l3_walnut/.test(m.name||'')) continue; m.userData.seeThrough=true; if(E&&E.patchSeeThrough) E.patchSeeThrough(m); } });
+    /* 光照貼圖最後才接（GLB 的 extras.lightmap；tools/blender/env_second/lightbake/bake_library_3f_v2.sh）：外牆的材質上面才複製過（clone 不會帶 onBeforeCompile），書架的透空也先包好（roomLightmap 會接著呼叫前一個 onBeforeCompile）*/
+    if(LMS&&typeof Z3!=='undefined'&&Z3.roomLightmap) zone.lightmappedN=Z3.roomLightmap(zone,root,LMS); }
 
   // 接手 zones3d.js 的 library（第二版的配置有載入才換）
   if(LAY()&&typeof Z3!=='undefined'&&Z3.ZONES&&Z3.ZONES.library){ const Z=Z3.ZONES.library; Z.buildV1=Z.build; Z.build=build; Z.name='總圖書館 3F 閱覽區'; }

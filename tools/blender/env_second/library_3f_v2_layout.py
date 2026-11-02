@@ -99,7 +99,9 @@ def build():
                     {'what': 'pool「坐窗邊的人」seatAt（pool_story.js:72）', 'v1': [5.6, -3.9], 'v2': [10.55, 1.6]},
                     {'what': '課程導覽最後一站（classes3d.js:410）', 'v1': [0, 3.2], 'v2': [0.0, 4.4]},
                     {'what': '從樓梯間進來（library_layout.js reading.spawnFromStairs）', 'v1': [0, 7], 'v2': [SPAWN_STAIRS['x'], SPAWN_STAIRS['z']]},
-                    {'what': '電梯（library_layout.js reading.elevator）', 'v1': [[8.8, 10.8], [-1, 1.2]], 'v2': [[ELEV['x0'], ELEV['x1']], [ELEV['z0'], ELEV['z1']]]}]
+                    {'what': '電梯（library_layout.js reading.elevator）', 'v1': [[8.8, 10.8], [-1, 1.2]], 'v2': [[ELEV['x0'], ELEV['x1']], [ELEV['z0'], ELEV['z1']]]},
+                    {'what': '「看桌上的紙條」（守誠那張桌子；pool_more3d.js 的 POP）', 'v1': [-2.4, 0.6], 'v2': [-3.0, 6.75]},
+                    {'what': '「看期刊架」（語彤的系刊；r2y4a3d.js 的 shelfPlace）', 'v1': [-9.7, 2.4], 'v2': [0.0, -2.75]}]
     L['signs'] = [{'text': '臺大人文庫', 'x': 0.0, 'z': -16.88, 'y': 3.0, 'ry': 0, 'w': 2.4},
                   {'text': '現期期刊', 'x': 0.0, 'z': -8.6, 'y': 2.6, 'ry': 0, 'w': 1.8},
                   {'text': '無線上網區', 'x': 9.2, 'z': -16.88, 'y': 2.9, 'ry': 0, 'w': 2.2},

@@ -43,6 +43,13 @@ process.on('unhandledRejection',()=>{}); global.fetch=()=>Promise.reject(new Err
   check('課程導覽最後一站的新座標站得住、走得到', ok(L.seatMap[3].v2[0],L.seatMap[3].v2[1]), JSON.stringify(L.seatMap[3].v2));
   { const sp=LIBRARY_LAYOUT.reading.spawnFromStairs, dx=0-sp.x, dz=-4-sp.z, dl=Math.hypot(dx,dz)||1, cx=sp.x+dx/dl*1.5-dz/dl*0.8, cz=sp.z+dz/dl*1.5+dx/dl*0.8;   /* classes3d.js 新生導覽上三樓：館員和同學站的位置（同一個算法）*/
     check('新生導覽上三樓：從樓梯間進來、館員站的位置站得住、走得到', ok(sp.x,sp.z)&&ok(cx,cz), [cx.toFixed(2),cz.toFixed(2)].join(',')); }
+  { const note=L.seatMap.find(m=>/紙條/.test(m.what)).v2, shelf=L.seatMap.find(m=>/期刊架/.test(m.what)).v2, boy=L.seatMap[1].v2;
+    const near=(x,zz,rad)=>{ for(let d=0;d<=rad+1e-9;d+=0.1) for(let a=0;a<Math.PI*2;a+=Math.PI/12){ if(ok(x+Math.cos(a)*d,zz+Math.sin(a)*d)) return +d.toFixed(2); } return null; };
+    const dn=near(note[0],note[1],1.0);
+    check('「看桌上的紙條」在守誠那張桌子上（他的座位前面），1 m 內有站得住、走得到的地方（互動半徑 1.2 m）', dn!=null&&Math.hypot(note[0]-boy[0],note[1]-boy[1])<0.8&&L.furniture.some(f=>f.type==='desk'&&Math.abs(f.x-note[0])<f.w/2&&Math.abs(f.z-note[1])<f.d/2), 'note '+JSON.stringify(note)+' 最近 '+dn+' m');
+    check('「看期刊架」在現期期刊展示架前面，站得住、走得到', ok(shelf[0],shelf[1])&&L.furniture.some(f=>f.type==='display'&&Math.abs(f.x-shelf[0])<f.w/2&&Math.abs(f.z-shelf[1])<1.0), JSON.stringify(shelf));
+    const src=f=>fs.readFileSync(path.join(ROOT,f),'utf8'), mN=src('src/pool_more3d.js').match(/x:v2\?(-?[\d.]+):-2\.4,z:v2\?(-?[\d.]+):0\.6/), mS=src('src/r2y4a3d.js').match(/x:v2\?(-?[\d.]+):-9\.7,z:v2\?(-?[\d.]+):2\.4/);
+    check('pool_more3d.js、r2y4a3d.js 第二版用的就是配置裡的這兩個點', !!mN&&!!mS&&+mN[1]===note[0]&&+mN[2]===note[1]&&+mS[1]===shelf[0]&&+mS[2]===shelf[1], JSON.stringify([mN&&mN.slice(1),mS&&mS.slice(1)])); }
   const R=L.rotunda; check('人文庫（北牆外的半圓）走得進去', ok(R.cx,R.cz-1.0)&&ok(R.cx+2.5,R.cz-1.5), '');
   check('電梯車廂在大廳同一個井的位置', !!z.elev&&Math.abs(z.elev.cx-(LIBRARY_LAYOUT.elevator.x0+LIBRARY_LAYOUT.elevator.x1)/2)<0.01, z.elev&&String(z.elev.cx));
   console.log(fails?('FAILED '+fails):'ALL PASS'); process.exit(fails?1:0);
