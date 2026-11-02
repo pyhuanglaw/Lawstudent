@@ -34,10 +34,10 @@ R8_y4s2rt   | b1b249873 | probe | docs/story_planning/test_tools/cc/cc_makeup_pr
 R8b_y4s2jp  | b1b249873 | probe | docs/story_planning/test_tools/cc/cc_makeup_probe.py   | index.html?turbo | 60  | FAIL_ROUTE=jp;CASES=route_grades;RERUN=paper1102
 R8c_y4s2fin | b1b249873 | probe | docs/story_planning/test_tools/cc/cc_y4s2final_probe.py | index.html?turbo | 200 | FAIL_ROUTE=retake;CASES=main,noexam_stay
 R9_roll     | b1b249873 | probe | docs/story_planning/test_tools/cc/cc_rollcall_probe.py | index.html | 120 | CASES=a,a0,b,c1,c2,d_old,d_new,cw,bedge
-R10_b3      | b1b249873 | probe | docs/story_planning/test_tools/cc/cc_d118b3_probe.py   | index.html | 240 |
-R11_b4      | b1b249873 | probe | docs/story_planning/test_tools/cc/cc_d118b4_probe.py   | index.html | 150 |
-R10pre      | 299e23345 | probe | docs/story_planning/test_tools/cc/cc_d118b3_probe.py   | index.html | 240 |
-R11pre      | f57e3ac75 | probe | docs/story_planning/test_tools/cc/cc_d118b4_probe.py   | index.html | 150 |
+R10_b3      | b1b249873 | probe | docs/story_planning/test_tools/cc/cc_d118b3_probe.py   | index.html | 240 | RERUN=retap1102
+R11_b4      | b1b249873 | probe | docs/story_planning/test_tools/cc/cc_d118b4_probe.py   | index.html | 150 | RERUN=retap1102
+R10pre      | 299e23345 | probe | docs/story_planning/test_tools/cc/cc_d118b3_probe.py   | index.html | 240 | RERUN=retap1102
+R11pre      | f57e3ac75 | probe | docs/story_planning/test_tools/cc/cc_d118b4_probe.py   | index.html | 150 | RERUN=retap1102
 # 4. 法服（FAFU 修正已含）＋修改前對照 ba125d6f3
 R12_fasat   | b1b249873 | probe | docs/story_planning/test_tools/cc/cc_fasat_probe.py    | index.html | 90 | CASES=same_sat,next_sat,wzline_same,wzline_first,old_y2_noflag;RERUN=sn1102
 R12b_fasatpre| ba125d6f3 | probe | docs/story_planning/test_tools/cc/cc_fasat_probe.py | index.html | 90 | CASES=wzline_same,wzline_first,old_y2_noflag;RERUN=sn1102
