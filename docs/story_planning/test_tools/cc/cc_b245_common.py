@@ -75,7 +75,9 @@ async def tap_interact(pg, cdp, s=20):
 
 
 CAP_HOOK = """(()=>{ if(window.__ccCap) return 'already'; window.__ccCap=[]; const el=document.getElementById('caption'); if(!el) return 'no #caption';
-  const mo=new MutationObserver(()=>{ const t=(el.textContent||'').trim(); const a=window.__ccCap; if(t&&(!a.length||a[a.length-1].t!==t||a[a.length-1].z!==GAME.G.zone)) a.push({t, z:GAME.G.zone, h:+GAME.G.hour.toFixed(3)}); });
+  let lastT='', lastVis=false;   /* 同一句連續出現兩次也要記：每次「從藏起來變成顯示」或字換了就記一筆 */
+  const mo=new MutationObserver(()=>{ const t=(el.textContent||'').trim(), vis=!el.classList.contains('hide'); const a=window.__ccCap;
+    if(t&&vis&&(t!==lastT||!lastVis)) a.push({t, z:GAME.G.zone, h:+GAME.G.hour.toFixed(3)}); lastT=t; lastVis=vis&&!!t; });
   mo.observe(el,{childList:true,subtree:true,characterData:true,attributes:true}); return 'ok'; })()"""
 
 
