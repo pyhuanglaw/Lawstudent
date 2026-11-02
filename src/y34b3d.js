@@ -698,7 +698,7 @@ const Y34B=(function(){
     {label:'m9c_a'},{speaker:'heroine_05',text:'嗯。'},{speaker:null,text:'（她停了一下）'},{speaker:'heroine_05',text:'下次不要忘。……蛋糕還有一半，明天中午研究室。'},{goto:'m9c_end'},
     {label:'m9c_b'},{speaker:'heroine_05',text:'……謝謝。他們買的蛋糕把我的名字寫錯了。明天中午你來，我給你看。'},
     {label:'m9c_end'},{set:{SIS_DEFENSE_CALL:true}} ];
-  const M9_CAKE=[ {scene:'法律系館A・研究室',bg:'dark'},{speaker:null,text:'（蛋糕上寫著『溫書玉』。她用叉子把那個字刮掉了。）'},{set:{SIS_DEFENSE_CAKE:'went'}} ];
+  const M9_CAKE=[ {scene:'法律系館A・研究室',bg:'sis_lab_room'},{speaker:null,text:'（蛋糕上寫著『溫書玉』。她用叉子把那個字刮掉了。）'},{set:{SIS_DEFENSE_CAKE:'went'}} ];
   /* AA_392 第 2-3 節：到機場等她（她搭客運來）；和車上那一版共用最後兩句的位置，開頭換成這兩行；記 SAW_HER_OFF（車上版照舊 DROVE_HER）*/
   const AIRPORT_WAIT=[ {scene:'桃園機場・出境大廳',bg:'airport_departure'},
     {speaker:null,text:'（八點半。她從客運站那邊走過來，戴著口罩，一個行李箱。）'},

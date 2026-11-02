@@ -9,7 +9,7 @@ let fails=0; const check=(name,ok,info)=>{ console.log((ok?'PASS ':'FAIL ')+name
 const SPECIAL=new Set(['dark','blur','video','freeze']);
 /* 不是 OUT.BG 的鍵（別的系統自己解讀）：jp3d 的房間；zq_testbuild3d 是測試建置 */
 const OTHER_FILES=new Set(['jp3d.js','data/jp_blank_lines.js','zq_testbuild3d.js']);   /* vac_activities.js 也走 OUT.bg（vac3d.js 的 S.key），要查 */
-const PENDING={   /* 鍵：任務（BG-DARK-SCENES-1024 第二批：LAWWW2 從 3D 拍；BB 向使用者要的另外寫）*/ community_room:'BG-DARK-SCENES-1024（BB 向使用者要）',
+const PENDING={   /* 鍵：任務（BG-DARK-SCENES-1024 第二批：LAWWW2 從 3D 拍；BB 向使用者要的另外寫）*/
   court_hall:'BB 要圖（AA_498 4-3 曾靖雯的旁聽：臺北地方法院；稿寫「沒有＝深色底」，src/pool3d.js 執行時登記 OUT.BG.court_hall image:null）',
   /* AA_499～501 第 6／7／5 節「新的 2D 場景（沒有背景圖＝深色底）」：src/pool_more3d.js 執行時登記 image:null（NPC-STORY-1028）*/
   radio_room:'BB 要圖（AA_499 2-5 徐靜儀：廣播社的錄音間）', putong_empty:'BB 要圖（AA_499 3-3 詹立群：普通教學館的空教室）', welfare_room:'BB 要圖（AA_499 4-3 蘇承恩：社福中心的教室）',

@@ -143,7 +143,7 @@ const SISY23_EVENTS=(function(){
         N('（一個五十幾歲的男人，手上一直轉著一支原子筆。）'),
         SIS('他同意錄音。你一樣要記。'),
         N('（他講了一個多小時。講到他太太的時候，原子筆停了。）'),
-        {scene:'社區活動中心門口',bg:'dark'},
+        {scene:'社區活動中心門口',bg:'community_gate'},
         SIS('你記到哪裡？'),
         {choice:[{text:'「他太太那段。」',goto:'a'},{text:'「他的原子筆。」',goto:'b'}]},
         {label:'a'},SIS('……那段我不會寫進論文。'),SIS('可是我要記得。'),{goto:'end'},

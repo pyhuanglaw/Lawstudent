@@ -369,7 +369,7 @@ const STORY_EVENTS=[
      那天沒演到（暑假快轉、整天在外面）：之後第一個能演的時候補，第一句換成「搬家後還有幾箱沒拆。」（AA 給的另一句；LAWWW 只是讓它不會整個錯過）*/
   { id:'ev_sis_c2_room', title:'筆記本', participants:[],   /* 只演她、祐廷不在場：不算期末的「一起在場」*/ location:'any', trigger:'auto', time:[15,23], once:true, priority:7, background:'dark',
     prereq:{flags:['dating_heroine_05','SIS_FESTIVAL_MET'],custom:G=>{ const d=typeof STORY!=='undefined'&&STORY.sisC2Day?STORY.sisC2Day(G):null; return d!=null&&G.day>=d; }},
-    dialogue:[ {scene:'溫學姊的房間'},
+    dialogue:[ {scene:'溫學姊的房間',bg:'sis_room_moving'},   /* 11-02 使用者生成（搬家的紙箱；原本沒有 bg＝深色底）*/
       {if:{custom:G=>G.day===STORY.dayOfKey('2026-07-11')},speaker:null,text:'（家裡要搬家。她的房間地上好幾個紙箱，一半已經封起來。）'},
       {unless:{custom:G=>G.day===STORY.dayOfKey('2026-07-11')},speaker:null,text:'（搬家後還有幾箱沒拆。）'},
       {speaker:null,text:'（書架最下面一層，一本封面有點皺的筆記本。大一的通識課。她翻開，停在一頁，笑了一下，拿起手機拍照。）'} ],
@@ -384,7 +384,7 @@ const STORY_EVENTS=[
      那晚玩家第一次睡覺時演給玩家看（睡覺觸發；字卡「17:00　資工系館」、暗底：走廊的圖還沒有）。祐廷不在場、不知道（ytKnows 不變）*/
   { id:'ev_zq_ask_kai', title:'你室友有女朋友嗎', participants:[],   /* 祐廷不在場：不放 participants（會被算成認識、期末的「一起在場」）；立繪照每一句的 speaker */ location:'any', trigger:'sleep', once:true, priority:6, background:'dark', sleepCard:['17:00','資工系館'],
     prereq:{custom:G=>G.flags.ZQ_ASK_KAI_D!=null&&G.day>=G.flags.ZQ_ASK_KAI_D},
-    dialogue:[ {scene:'資工系館・走廊'},
+    dialogue:[ {scene:'資工系館・走廊',bg:'csie_corridor'},   /* 11-02 使用者生成（原本暗底）*/
       {speaker:'heroine_04',expression:'neutral',text:'欸，你室友……有女朋友嗎？'},
       {speaker:'kai',text:'有啊，木柵大學的。怎樣？'},
       {speaker:'heroine_04',expression:'smile',text:'沒有啊，問問。'} ] },

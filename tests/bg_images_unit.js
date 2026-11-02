@@ -50,6 +50,10 @@ check('2f. 自由出行第一批四個景點的底圖（DL-06，LAWWW2-B）：d0
   const rd=f=>fs.readFileSync(path.join(ROOT,f),'utf8');
   const ok=[['src/data/r2y4b_events.js',"{scene:'峽谷',bg:'gc_rim_sunset'}"],['src/data/r2y4a_events.js',"{scene:'小教堂前的台階',bg:'us_chapel_snow'}"],['src/data/sis_y2y3_events.js',"{scene:'法圖外面的台階',bg:'lawlib_steps_night'}"],['src/data/sis_b4_events.js',"{scene:'臺北植物園',bg:'taipei_botanical_winter'}"]];
   check('2q. 第四批前五張接上：傍晚的峽谷（告白兩場）、下雪的小教堂台階（初雪兩場）、法圖外面的台階、冬天的植物園、荷花池',K.every(k=>B[k]&&B[k].image==='assets/bg/'+k+'.webp'&&fs.existsSync(path.join(ROOT,B[k].image)))&&ok.every(([f,x])=>rd(f).includes(x))&&(rd('src/data/r2y4b_events.js').match(/\{scene:'峽谷',bg:'gc_rim_sunset'\}/g)||[]).length===2,ok.filter(([f,x])=>!rd(f).includes(x)).map(([f,x])=>x).join('、')); }
+{ const K=['sis_lab_room','community_room','community_gate','sis_room_moving','csie_corridor'];   // 第四批第 6～10 張（使用者 11-02 生成）
+  const rd=f=>fs.readFileSync(path.join(ROOT,f),'utf8');
+  const ok=[['src/data/sis_b8_events.js',"{scene:'法律系館A・研究室',bg:'sis_lab_room'}"],['src/y34b3d.js',"{scene:'法律系館A・研究室',bg:'sis_lab_room'}"],['src/data/sis_y2y3_events.js',"{scene:'社區活動中心門口',bg:'community_gate'}"],['src/data/events.js',"{scene:'溫學姊的房間',bg:'sis_room_moving'}"],['src/data/events.js',"{scene:'資工系館・走廊',bg:'csie_corridor'}"]];
+  check('2r. 第四批後五張接上：研究室（外行人讀一章、口試隔天的蛋糕）、社區活動中心兩張、學姊搬家的房間、資工系館走廊',K.every(k=>B[k]&&B[k].image==='assets/bg/'+k+'.webp'&&fs.existsSync(path.join(ROOT,B[k].image)))&&ok.every(([f,x])=>rd(f).includes(x)),ok.filter(([f,x])=>!rd(f).includes(x)).map(([f,x])=>x).join('、')); }
 { const noImg=Object.keys(B).find(k=>!B[k].image&&k!=='car')||'zzz_not_registered';   // nccu_dorm 10-17 有圖了（3d4d1969）：改挑一個登記了、還沒有圖的背景
   check('3. OUT.bg(id)：有圖＝{image:路徑}、沒有圖＝深色底（'+noImg+'）',OUT.bg('riverside').image==='assets/bg/riverside.webp'&&OUT.bg(noImg)==='dark'&&OUT.bg('nccu_dorm').image==='assets/bg/nccu_dorm.webp',JSON.stringify([OUT.bg('riverside'),OUT.bg(noImg),OUT.bg('nccu_dorm')])); }
 { const v=[]; for(const [h,w] of [[10,'clear'],[20,'clear'],[10,'rain']]){ global.GAME={G:{hour:h,weather:w}}; v.push(OUT.bg('car').image); } delete global.GAME;
