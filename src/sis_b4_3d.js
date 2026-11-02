@@ -67,6 +67,7 @@ const SISB4=(function(){
   /* ---------------- 說話前接演（第 0 節：第 1 節四場、4-1）---------------- */
   S.READ_ZONES=['cafe','lawlib','library','library_hall'];   /* 她讀書的地方：Café、法圖、閱覽室、總圖大廳二樓自習區 */
   S.ok=(G,min)=>law(G)&&!!G.flags.met_sis&&!S.brokeUp(G)&&stageOk(min)&&here(G)&&!abroad(G);
+  S.retired=id=>typeof STORY_EVENTS!=='undefined'&&STORY_EVENTS.some(e=>e&&e.id===id&&!!e.retired);   /* 定義留給舊存檔、不再接演的事件（events.js 的 retired）*/
   S.preTalkEv=function(G){ if(!law(G)||!S.READ_ZONES.includes(G.zone)||!G.flags.met_sis||abroad(G)) return null;
     if(S.rebuildDue(G)) return 'ev_sis_three_conditions';
     if(!S.ok(G,'FAMILIAR')) return null;
@@ -74,7 +75,7 @@ const SISB4=(function(){
     { const dn=D('2026-03-27'); if(!done(G,'ev_sis_adv_grad')&&wk('Y1S2',6,12)&&(dn==null||G.day>dn)) return 'ev_sis_adv_grad'; }   /* 1-1：放榜聚餐（3/27）以後 */
     if(!done(G,'ev_sis_adv_exch')&&wk('Y2S1',12,15)) return 'ev_sis_adv_exch';
     { const a=D('2027-11-13'), b=D('2027-11-17'); if(!done(G,'ev_sis_adv_pick')&&a!=null&&b!=null&&G.day>=a&&G.day<=b) return 'ev_sis_adv_pick'; }
-    if(!done(G,'ev_sis_adv_y4')&&wk('Y3S2',10,14)&&route(G)!=='JP') return 'ev_sis_adv_y4';   /* 1-4：日本路線這時在日本 */
+    if(!done(G,'ev_sis_adv_y4')&&wk('Y3S2',10,14)&&route(G)!=='JP'&&!S.retired('ev_sis_adv_y4')) return 'ev_sis_adv_y4';   /* 1-4：日本路線這時在日本；AA_591 第 23～25 列（使用者 11-02 選擇題）整場拿掉＝retired，不再接演 */
     return null; };
   S.preTalk=async function(GM){ const G=GM&&GM.G, id=S.preTalkEv(G); if(!id||typeof EVENTS==='undefined'||!EVENTS.runLines||typeof STORY_EVENTS==='undefined') return false;
     const ev=STORY_EVENTS.find(e=>e.id===id); if(!ev) return false;

@@ -101,11 +101,9 @@ const SISB10_EVENTS=(function(){
         {label:'b'},SIS('嗯。我在趕一章。'),N('（你回到吧檯。十點，她先走了。）'),
         {label:'c'},{set:{SIS_EX_CAFE:true}} ] },
     { id:'ev_sis_ex_3', title:'樓梯間', participants:[ID], location:'linze', trigger:'manual', once:true, background:'blur',
-      dialogue:[ N('（她從樓上下來，抱著一疊影印稿。看到你，腳步慢了一點。）'),SIS('……最近好嗎。'),
-        {choice:[{text:'「還好。」',goto:'a'},{text:'「不太好。」',goto:'b'}]},
-        {label:'a'},SIS('嗯。那就好。'),{goto:'c'},
-        {label:'b'},N('（她停了一下。）'),SIS('要吃飯，要睡覺。'),SIS('……不要學我以前那樣。'),
-        {label:'c'},N('（她往下走。到轉角的時候，回頭看了一下，沒有說話。）') ] },
+      /* AA_591 第 191、192 列＋第 11 節第 6 點（使用者 2026-11-02 選擇題：分手後她很少理對方）：這一場改成只有一句旁白；
+         她不問你好不好、選項「不太好。」拿掉。原本「從樓上下來」「往下走」的兩句旁白和「就上樓了」方向相反，一起拿掉（回報 AA）*/
+      dialogue:[ N('（她看到你，點了一下頭，就上樓了。）') ] },
     /* ---------- 第 4 節：畢業以後的朋友，每季一次 Café（說話前接演）---------- */
     { id:'ev_sis_pg_q1', title:'上班三個月', participants:[ID], location:'cafe', trigger:'manual', once:true, background:'blur',
       dialogue:[ N('（她換了一個新的包包。筆電旁邊放著一張識別證，背面朝上。）'),SIS('你也還在來。'),SIS('上班以後，晚上反而比較有時間。……很奇怪。'),

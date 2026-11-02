@@ -88,7 +88,7 @@ const SISB16_EVENTS=(function(){
         {set:{SIS16_BOX:true}} ] },
     /* ---------- 1-3 研究單位回信了（A；ev_sis_y4_desks 3/28 那一晚 again 那一段的輪流旁白換成這一段，一次；3/28 沒去＝之後第一個有去的週三（到 4/11）照演。
          r3_events.js 的書桌夜問 SISB16.jobDue、用 call 接演這一筆（EVENTS.runLines；這一筆只放台詞，不會自己觸發）---------- */
-    { id:'ev_sis16_job', title:'研究單位的回信', participants:[ID], location:'any', trigger:'manual', once:true,
+    { id:'ev_sis16_job', title:'研究中心的回信', participants:[ID], location:'any', trigger:'manual', once:true,
       dialogue:[ N('（十一點。她的手停在鍵盤上，很久沒有動。第四章縮到螢幕旁邊，前面開著一封信。）'),
         SIS('研究中心那邊，下午回信了。'),
         SIS('七月二號報到。……口試完一個多月。'),

@@ -3,7 +3,7 @@
          週六、日 14:00～21:00 她在 C 棟 208（USL.c208Open：扣掉芝加哥 11/11～12、初雪那晚的小教堂台階；挽回中門關著＝不演）。
    怎麼演：進 208（社區「上樓（C 棟 208）」→ us_shared）以後，先演下面還沒演過、今天在日期範圍裡的第一場；一個週末（週六、日）最多一場（G.flags.US208_WK＝那個週六）；
          過了範圍沒去的那一場就不演（不補、不扣分）。演完照常可以和她說話（閒聊階梯、招呼：這裡不動）。
-     3-1 備忘錄 9/16～9/24　3-2 滷肉 9/23～10/1　3-3 剪報 10/14～10/22（聽過 S2-L5＝多一句旁白）　3-4 練習 10/21～10/29
+     3-1 備忘錄 9/16～9/24　3-2 滷肉 9/23～10/1　3-3 剪報 10/14～10/22（AA_591 決2 整場刪：六場）　3-4 練習 10/21～10/29
      3-5 多出來的一個小時 只有 11/5（冬令時間那天）　3-6 植物 11/18～12/3　3-7 你坐那裡就好 12/9～12/10（演過 3-6＝多一句旁白）
    關係：每場記一個記憶（第 3-8 節；人物面板的名稱在 social3d.js 的 MEMORY_LABEL），不另外加數值。事件標題＝筆記本那一行（EVENTS.run 記進筆記本的日誌）。
    背景：照 US2（ev_us2_kitchen）：人就在 3D 的 208 裡，background 'blur'＝模糊的 208 當背景、不換圖、不出地點字幕。
@@ -36,10 +36,9 @@ const US208=(function(){
      第 5 點（ca08e848c，改第 4 點的 3-2）：她說「亞洲超市買得到八角。」的時候鍋子還在煮，3-2 放在兩支選項會合的地方（{label:'e'} 後面、mem 前面），兩支都出——「很香。」接「香是香。吃了再說。」、「下次放冰糖。」接計畫本那一句；不放剛進門；
      us_blank3d.js 的「（你認得那包八角。）」（patchLurou）回到 AA_424 原本的位置（第一句旁白後面）*/
   const BOWL=Object.assign(IF(G=>typeof SISB14!=='undefined'&&!!SISB14.bowlDue&&SISB14.bowlDue(G),nar('（她把自己的碗放在你面前，換她用你上次帶來的那一個。）')),{set:{SIS14_BOWL:true},aa516:true});
-  /* 3-3：聽過她大一下那一層（閒聊階梯 S2-L5「她爸把剪報放在她書桌上」，記憶 SIS4_CLIPPINGS；過場演過的 ladSeen 也算）*/
-  S.heardClip=G=>(typeof SOCIAL!=='undefined'&&!!SOCIAL.has&&SOCIAL.has(S5,'SIS4_CLIPPINGS'))||!!(G&&G.social&&G.social.ladSeen&&G.social.ladSeen['S2-L5']!=null);
+  /* 3-3 剪報（S.heardClip：聽過 S2-L5 多一句旁白）：AA_591 決2 甲＋AA 對 AA_584 的補充第 3 點（2026-11-02 19:19）整場刪，七場變六場（她爸爸在遊戲開始前就過世、不提）*/
 
-  /* ---------------- 七場（第 3-1～3-7 節）；dm＝AA_454 第 1 節週末 14:00 她私訊的那一句（照稿的表；不搶那一場的第一句）----------------
+  /* ---------------- 六場（第 3-1～3-7 節，3-3 剪報 AA_591 決2 刪）；dm＝AA_454 第 1 節週末 14:00 她私訊的那一句（照稿的表；不搶那一場的第一句）----------------
      dmMore：AA_539 1-4（企劃線 c9f6dd6cb）——那一場沒演、下一個週末又傳的時候換句（第二次、第三次；每句最多傳一次，5-2 第 6 點）。稿只寫了 3-1、3-3、3-6；其他四場第二次起不傳（S.dmText）*/
   S.SCENES=[
     {n:'3-1',ev:'ev_us208_memo',from:'2028-09-16',to:'2028-09-24',tag:'US208_MEMO',label:'書瑀幫你看 Legal Writing 的作業',dm:'我在 208。門沒鎖。',dmMore:['今天也在 208。'],dialogue:[
@@ -64,17 +63,6 @@ const US208=(function(){
       {label:'a'},sis('香是香。吃了再說。'),{goto:'e'},
       {label:'b'},sis('這裡買不到。'),nar('（她在手機的備忘錄打了兩個字：冰糖。）'),
       {label:'e'},BOWL,mem('US208_LUROU') ]},   /* AA_516 第 8 節第 5 點（ca08e848c）：碗那一句在兩支選項會合的地方（盛出來吃的時候），兩支都出 */
-    {n:'3-3',ev:'ev_us208_clipping',from:'2028-10-14',to:'2028-10-22',tag:'US208_CLIPPING',label:'書瑀的爸爸寄了一張剪報到美國',dm:'臺灣寄來的東西到了。',dmMore:['東西還在客廳。你哪天過來拿。'],dialogue:[
-      nar('（沙發上放著一個從臺灣寄來的牛皮紙信封，郵票貼了一整排。）'),
-      sis('我爸寄的。'),
-      sis('一張剪報。法律扶助的新聞。……郵資比報紙貴。'),
-      nar('（信封裡只有那一張剪報，沒有信。剪報的邊剪得很整齊。）'),
-      IF(G=>S.heardClip(G),nar('（你想起她說過，她爸以前會把報紙剪下來，放在她的書桌上。）')),
-      sis('他還是一個字都沒寫。'),
-      {choice:[{text:'「妳要回他嗎？」',goto:'a'},{text:'「他在等妳回去。」',goto:'b'}]},
-      {label:'a'},sis('回了。我拍照傳給他，說收到了。'),nar('（她把手機轉過來給你看。她爸只回了一個字：好。）'),{goto:'e'},
-      {label:'b'},sis('……嗯。'),nar('（她把剪報夾進那本從臺灣帶來的、大一的民總。）'),
-      {label:'e'},mem('US208_CLIPPING') ]},
     {n:'3-4',ev:'ev_us208_rehearsal',from:'2028-10-21',to:'2028-10-29',tag:'US208_REHEARSAL',label:'聽書瑀練習英文報告',dm:'下午在 208。你來的時候先敲門。',dialogue:[
       nar('（她站在客廳中間，手上拿著幾張小卡。看到你進來，把卡片翻過去。）'),
       sis('下禮拜三研討課，我要報告。二十分鐘，英文。'),
@@ -83,7 +71,7 @@ const US208=(function(){
       sis('……哪裡？'),
       {choice:[{text:'「沒有，只是想試試看。」',goto:'a'},{text:'「Legal aid 妳念得太快。」',goto:'b'}]},
       {label:'a'},sis('手放下。'),nar('（她從第一句重新開始。這一次你沒有舉手，一直聽到最後。）'),{goto:'e'},
-      {label:'b'},sis('……真的？'),nar('（她在卡片上那個字的旁邊畫了一條線。之後每講到那個字，她都慢一點。）'),
+      {label:'b'},sis('真的？'),nar('（她在卡片上那個字的旁邊畫了一條線。之後每講到那個字，她都慢一點。）'),
       {label:'e'},sis('好。這樣可以。'),sis('冰箱裡有飲料。你自己拿。'),mem('US208_REHEARSAL') ]},
     {n:'3-5',ev:'ev_us208_extra_hour',from:'2028-11-05',to:'2028-11-05',tag:'US208_EXTRA_HOUR',label:'冬令時間那天，計畫本空了一格',dm:'冬令時間。手機自己改了。……你過來嗎。',dialogue:[   /* 只有這一天；11/5 沒去 208 就不演 */
       nar('（今天開始冬令時間。手機自己把時間往回撥了一個小時。）'),
@@ -92,7 +80,7 @@ const US208=(function(){
       sis('本來想拿來寫論文。……後來沒有寫上去。'),
       {choice:[{text:'「那拿來做什麼？」',goto:'a'},{text:'「拿來睡覺。」',goto:'b'}]},
       {label:'a'},sis('不知道。'),nar('（她把計畫本闔起來。）'),sis('坐著吧。'),nar('（你們坐在沙發上，看窗外的天比昨天早黑。誰都沒有去看時間。）'),{goto:'e'},
-      {label:'b'},sis('……也可以。'),nar('（她真的靠在沙發上睡著了。毯子是你幫她蓋的。）'),
+      {label:'b'},sis('也可以。'),nar('（她真的靠在沙發上睡著了。毯子是你幫她蓋的。）'),
       {label:'e'},mem('US208_EXTRA_HOUR') ]},
     {n:'3-6',ev:'ev_us208_plant',from:'2028-11-18',to:'2028-12-03',tag:'US208_PLANT',label:'書瑀在救客廳那盆植物',dm:'客廳那盆植物，我在救它。',dmMore:['植物多長了一片葉子。','它好像要放棄了。我還沒。'],dialogue:[
       nar('（客廳那盆快乾掉的植物，被搬到了窗邊。旁邊放著一個量杯。）'),
@@ -118,6 +106,9 @@ const US208=(function(){
   S.EV=S.SCENES.map(s=>({id:s.ev,title:s.label,participants:[S5],location:'us_shared',trigger:'manual',once:true,background:'blur',dialogue:s.dialogue,
     beforeOuting:G=>{ if(G&&G.flags) G.flags.US208_WK=S.wk(G); }}));   /* AA_454 1：回「我過去。」的出遊（OUT.go）演之前先記這個週末（同 S.tick）*/
   for(const e of S.EV) if(!STORY_EVENTS.some(x=>x.id===e.id)) STORY_EVENTS.push(e);
+  /* AA_591 決2：3-3 剪報 ev_us208_clipping retired——定義留給已經演過的舊存檔（筆記本那一行、記憶 US208_CLIPPING），不再演、不再傳私訊；標題照 AA_591 第 7-2 節「臺灣寄來的信封」*/
+  if(!STORY_EVENTS.some(x=>x.id==='ev_us208_clipping')) STORY_EVENTS.push({id:'ev_us208_clipping',retired:'AA_591 決2 甲（使用者 2026-11-02：學姊爸爸不在了、不提）：208 剪報那一場整場刪，七場變六場；定義留給舊存檔',title:'臺灣寄來的信封',participants:[S5],location:'us_shared',trigger:'manual',once:true,background:'blur',dialogue:[mem('US208_CLIPPING')]});
+
   /* 人物面板的記憶名稱（第 3-8 節）登記在 social3d.js 的 MEMORY_LABEL（和 label 同一句；人物面板的測試只讀那裡）*/
 
   /* ---------------- 什麼時候演 ---------------- */

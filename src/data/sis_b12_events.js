@@ -34,7 +34,7 @@ const SISB12_LINES={
   lastAway:{t:'我在{國}。',say:[['k','對齁 學弟在{國}'],['s','題目傳給你。']]},
   lastCancel:'行程取消：法圖・討論室（讀書會最後一次）。那天你在國外。',   /* 舊存檔：已經排好 7/13、後來才出國而取消的，取消那一刻手機系統提示（AA_492 第 1 節）*/
   /* 4-2 朋友版「另外一本，回來再看。」之後才交往的：下一次和她正式約會的結尾補演一次（AA_492 第 3 節；句子照 12-7 那兩版，旁白換成約會的場合；說話人照交往中的顯示「書瑀」）*/
-  bookLate:{law:['（她的包包裡露出那本小說。書籤還在快一半的地方。）','回來以後開始看。……還沒看完。'],
+  bookLate:{law:['（她的包包裡露出那本小說。書籤還在快一半的地方。）','回來以後開始看。還沒看完。'],
     novel:['（她的包包裡是那本舊的刑訴，書背的膠帶換了新的。）','回來第一個禮拜翻完了。問號少了一點。']} };
 
 const SISB12_EVENTS=(function(){
@@ -166,7 +166,7 @@ const SISB12_EVENTS=(function(){
         {label:'q'},SIS('（看了你一眼）……寫什麼。'),N('（你在下個禮拜那一格寫了「休息」。她看了一下，沒有擦掉。）'),{goto:'bk'},
         {label:'r'},Object.assign(SIS('……法圖的椅子比較矮。'),{aa523:true}),
         {label:'bk'},   /* 4-2「另外一本，回來再看。」朋友版（AA_395 1-2 的 SIS_BOOK；both、沒演過的沒有這段）*/
-        {if:{flagIs:{SIS_BOOK:'law'}},speaker:null,text:'（計畫本旁邊是那本小說。書籤還在快一半的地方。）',set:{SIS_BOOK_BACK:true}},{if:{flagIs:{SIS_BOOK:'law'}},speaker:ID,text:'回來以後開始看。……還沒看完。'},
+        {if:{flagIs:{SIS_BOOK:'law'}},speaker:null,text:'（計畫本旁邊是那本小說。書籤還在快一半的地方。）',set:{SIS_BOOK_BACK:true}},{if:{flagIs:{SIS_BOOK:'law'}},speaker:ID,text:'回來以後開始看。還沒看完。'},
         {if:{flagIs:{SIS_BOOK:'novel'}},speaker:null,text:'（計畫本旁邊是那本舊的刑訴，書背的膠帶換了新的。）',set:{SIS_BOOK_BACK:true}},   /* SIS_BOOK_BACK：「另外一本」演過了（交往以後的約會補演同一個記號，sis_b12_3d.js S.bookLate）*/{if:{flagIs:{SIS_BOOK:'novel'}},speaker:ID,text:'回來第一個禮拜翻完了。問號少了一點。'},
         SIS('下學期要的書，開學以前跟我說。法圖寒假開得很短。'),
         {if:{flags:['SIS_BLANK_JAN_REST']},speaker:null,text:'（她把計畫本收起來。那一格「休息」還在上面。）'},

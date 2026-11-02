@@ -460,7 +460,7 @@ const R2Y4B_EVENTS=(function(){
       {speaker:'heroine_05',text:'亞洲超市買的。一顆就要五塊美金。'},{speaker:'heroine_05',text:'……我切一半給你看。另一半留到星期二。'},
       {choice:[{text:'「我這邊也還沒吃。」',consequences:{stamp:['SIS13_G3_DAY']},goto:'g3a'},{text:'（把你桌上的柚子拿起來給她看）',goto:'g3b'}]},   /* AA_512 第 2 節第 9 點：記那一天（SIS13_G3_DAY），下一次視訊開頭兌現 */
       {label:'g3a'},{speaker:'heroine_05',text:'那星期二一起吃。你那邊早上，我這邊晚上。'},{end:true},
-      {label:'g3b'},{speaker:'heroine_05',text:'……不公平。'},{end:true},
+      {label:'g3b'},{speaker:'heroine_05',text:'不公平。'},{end:true},
       {label:'g4'},{speaker:'heroine_05',text:'這邊五點就天黑了。'},{speaker:'heroine_05',text:'從圖書館走回來，路上都沒有人。'},{speaker:null,text:'（她停了一下。）'},
       {speaker:'heroine_05',text:'……天黑得早，我就比較常想到你。說完了，換你講。'},   /* 這一段裡唯一一句講感情的話（AA_202 3-1 第 7 點）*/
       {choice:[{text:'「我也是。」',goto:'g4a'},{text:'「妳要早點回去。」',goto:'g4b'}]},

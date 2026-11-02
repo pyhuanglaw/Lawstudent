@@ -187,7 +187,7 @@ const SISB15_EVENTS=(function(){
         SIS('……昨天那通，我講完才發現自己的手在抖。'),
         {choice:[{text:'「現在還抖嗎？」',goto:'a'},{text:'（把她的便當蓋子打開）',goto:'b'}]},
         {label:'a'},N('（她把手伸出來給你看。）'),SIS('不抖了。吃飯。'),{goto:'e'},
-        {label:'b'},SIS('……謝謝。'),
+        {label:'b'},SIS('謝謝。'),
         {label:'e'},{set:{SIS15_LUNCH_0316:true}} ] },
     /* ---------- 第 3 節第 6 點：之後第一個下雨天 17:00 總圖門口（3D，走近時的旁白；一次）---------- */
     { id:'ev_sis15_umbrella', title:'兩把傘', participants:[ID], location:'campus', trigger:'auto', once:true, weekday:[1,2,3,4,5], time:[17,17.5], weather:'rain', near:{npc:ID,r:4}, background:'blur',

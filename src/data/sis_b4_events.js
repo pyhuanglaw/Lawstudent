@@ -174,7 +174,7 @@ const SISB4_EVENTS=(function(){
         {label:'b_c'},{scene:'終點站',bg:'country_road'},
         N('（終點站在山腳下。站牌旁邊有一家賣湯圓的小店，只有兩張桌子。）'),
         SIS('……情人節吃湯圓。'),
-        SIS('我記一下。明年不要再這樣排。'),
+        SIS('沒照計畫走。……可是這樣很好。'),   /* AA_591 保71（使用者 11-02 選擇題：她也喜歡旅途中的偶發事件）*/
         N('（她說不要再這樣排，可是一直在笑。）'),
         SIS('……下次還坐這一班。'),
         Object.assign({set:{SIS_VDAY_Y3:'went'}},mem('SIS_VDAY_Y3',VDAY)) ],
@@ -198,7 +198,7 @@ const SISB4_EVENTS=(function(){
     { id:'ev_sis_adv_grad', title:'什麼時候開始', participants:[ID], location:'any', trigger:'manual', once:true, dialogue:GRAD },
     { id:'ev_sis_adv_exch', title:'晚半年會怎樣？', participants:[ID], location:'any', trigger:'manual', once:true, dialogue:EXCH },
     { id:'ev_sis_adv_pick', title:'志願表', participants:[ID], location:'any', trigger:'manual', once:true, dialogue:PICK },
-    { id:'ev_sis_adv_y4', title:'你的大四，你自己排', participants:[ID], location:'any', trigger:'manual', once:true, dialogue:Y4 },
+    { id:'ev_sis_adv_y4', retired:'AA_591 第 23～25 列（使用者 2026-11-02 選擇題：她不會問人生規劃）：整場拿掉；定義留給已經演過的舊存檔', title:'你的大四，你自己排', participants:[ID], location:'any', trigger:'manual', once:true, dialogue:Y4 },
     { id:'ev_sis_three_conditions', title:'她要的時間', participants:[ID], location:'any', trigger:'manual', dialogue:THREE } ];   /* 這一次分開演一次（再分開一次＝再演一次，sis_b4_3d.js rebuildDue；BB_122 9-5 她永遠保留攻略可能）*/
 })();
 for(const e of SISB4_EVENTS){ if(!STORY_EVENTS.some(x=>x.id===e.id)) STORY_EVENTS.push(e); }

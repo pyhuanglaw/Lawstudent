@@ -65,7 +65,7 @@ const R2Y4A_EVENTS=(function(){
   const onBar=GM=>{ const P=GM&&GM.E&&GM.E.player; return !!(P&&P.seat&&P.seat.lift>0); };   /* 高腳椅（us3d.js：椅面 0.76，seat.lift＝0.31；合租戶只有吧台的高腳椅有 lift）*/
   /* AA_516 第 8 節第 1 點、第 3 點、第 4 點（企劃線 3cd10909b → d6f8621ac → 913802344 第 8 節第 4 點；SIS-B14-AAFIX-1028）：4-1 9/2 208 的咖哩她說「……下次你用我的碗。」（SIS14_US_CURRY，src/sis_b14_3d.js）＝
      之後第一次「有吃東西的」208 場景多一句旁白，一次（記 SIS14_BOWL；條件 SISB14.bowlDue）。先算這一場（9/13 US2），三支都出（第 4 點）：
-     「那就寫妳。」接在「（她把麵分到兩個碗。）」後面（第 3 點）；「先吃麵。」在「（你們隔著窗口吃完泡麵。）」前面；「書瑀，休息一下。」在「……休息完再改。先吃麵。」後面。
+     「那就寫妳。」接在「（她把麵分到兩個碗。）」後面（第 3 點）；「先吃麵。」在「（你們隔著窗口吃完泡麵。）」前面；「貝貝，休息一下。」在「休息完再改。先吃麵。」後面。
      沒演到 US2 才是 3-2 滷肉（src/us208_3d.js 的 BOWL，兩支選項會合的地方（label e 後面，盛出來吃的時候；第 5 點 ca08e848c））；4-2 煎蛋不算（盤子，不是碗）。
      字和 us208_3d.js 那一行相同（這個檔先載入，引用不到那邊）；aa516：tests/aa516_sis_b14_unit.js 逐句對稿用 */
   const BOWL=Object.assign(IF(G=>typeof SISB14!=='undefined'&&!!SISB14.bowlDue&&SISB14.bowlDue(G),nar('（她把自己的碗放在你面前，換她用你上次帶來的那一個。）')),{set:{SIS14_BOWL:true},aa516:true});
@@ -78,10 +78,10 @@ const R2Y4A_EVENTS=(function(){
       sis('（笑出來）……被說中了。'),
       sis('不過這次我知道要怎麼改了。'),
       sis('泡麵要不要。我煮了兩包。本來想說吃兩包，現在剛好一人一包。'),
-      {choice:[{text:'「那就寫妳。」',goto:'a'},{text:'「先吃麵。」',goto:'b'},{text:'「書瑀，休息一下。」',goto:'c'}]},   /* 第三個照使用者 10-17「交往當天起叫書瑀」（AA_243 第 5 節第 6 題）*/
+      {choice:[{text:'「那就寫妳。」',goto:'a'},{text:'「先吃麵。」',goto:'b'},{text:'「貝貝，休息一下。」',goto:'c'}]},   /* 第三個照使用者 10-17「交往當天起叫書瑀」（AA_243 第 5 節第 6 題）；AA_591 第 56 列：交往後叫「貝貝」*/
       {label:'a'},sis('對。'),nar('（她把麵分到兩個碗。）'),BOWL,sis('我要寫法服那兩年遇到的人。週六早上，那些拿著存證信函來問的阿伯阿姨。'),nar('（她拿出手機記下來。）'),sis('第一段有了。'),{goto:'end'},   /* BOWL：AA_516 第 8 節第 3 點（上面）*/
-      {label:'b'},sis('……好。'),BOWL,nar('（你們隔著窗口吃完泡麵。）'),sis('評價？'),me('很鹹。'),sis('我也覺得。這是我在美國學會的第一道菜。'),{goto:'end'},   /* BOWL：AA_516 第 8 節第 4 點，「（你們隔著窗口吃完泡麵。）」前面 */
-      {label:'c'},sis('……休息完再改。先吃麵。'),BOWL,   /* BOWL：AA_516 第 8 節第 4 點，「……休息完再改。先吃麵。」後面 */
+      {label:'b'},sis('好。'),BOWL,nar('（你們隔著窗口吃完泡麵。）'),sis('評價？'),me('很鹹。'),sis('我也覺得。這是我在美國學會的第一道菜。'),{goto:'end'},   /* BOWL：AA_516 第 8 節第 4 點，「（你們隔著窗口吃完泡麵。）」前面 */
+      {label:'c'},sis('休息完再改。先吃麵。'),BOWL,   /* BOWL：AA_516 第 8 節第 4 點，「休息完再改。先吃麵。」後面 */
       {label:'end'},{set:{US2:'there'}} ] });
   /* 挽回中（AA_253 §6 第 2 步原句）：她沒有約他；19:00 前後他去 C 棟還向她室友借的鍋子（r2y4a3d.js：人在社區就帶到 C 棟）。選「還沒。」＝REPAIR +1（after）*/
   EV.push({ id:'ev_us2_repair', title:'退回的報告', participants:[S5], location:'any', trigger:'manual', once:true, background:'blur',
@@ -276,7 +276,7 @@ const R2Y4A_EVENTS=(function(){
       {label:'m1'},
       sis('（小聲）我搭捷運就好。'),
       {speaker:'媽媽',text:'一起走啦，順路。'},
-      sis('……好。謝謝。'),
+      sis('好。謝謝。'),
       {scene:'車上',bg:'car_morning'},
       nar('（車上她坐後座，一路很安靜。到她家巷口下車前，對著前座說。）'),
       sis('謝謝載我。'),
@@ -604,7 +604,7 @@ const R2Y4A_EVENTS=(function(){
       /* AA_523 5-1（企劃線 0d7b5388b）：12/9 視訊 g6b「要我帶什麼？」→「外套。」（r2y4b_events.js 記 SIS16_G6B）——兩個人版、戀人版第一句旁白後面多兩句、記 SIS16_COAT（1/20 拆箱那天還外套，src/sis_b16_3d.js）；
          戀人版的第一句旁白＝出來、抱住到「（很久，她才放開。）」那一段（拆開會變成抱著遞外套；放在放開以後、日本路線外套那四句以前，子代理解讀）*/
       IF(G=>PV('two')(G)&&!!G.flags.SIS16_G6B,Object.assign(nar('（你把帶來的外套遞給她。她穿上，袖子長了一截。）'),{set:{SIS16_COAT:true},aa523:true})),
-      IF(G=>PV('two')(G)&&!!G.flags.SIS16_G6B,Object.assign(sis('……剛好。'),{aa523:true})),
+      IF(G=>PV('two')(G)&&!!G.flags.SIS16_G6B,Object.assign(sis('剛好。'),{aa523:true})),
       IF(G=>PV('lover')(G)&&!!G.flags.SIS14_RIGHT,Object.assign(nar('（你站在出口的右邊。）'),{aa516:true})),   /* AA_516 第 8 節第 2 點（企劃線 3cd10909b）：12/17 最後一通視訊 h9 選「我會去接妳。」（她「出口那邊，你站右邊。我出來先看右邊。」，SIS14_RIGHT）＝戀人版第一句旁白前面多一句，接「她一出來就看到你。」（CG 通過沒通過都一樣）*/
       IF(G=>PV('lover')(G)&&!cgOK('cg_airport_pickup_heroine05'),nar('（她一出來就看到你。推車停在原地，她走過來，抱住你。）')),   /* 冬天版還沒通過：照一句、不放 CG（AA_350 N4）*/
       IF(G=>PV('lover')(G)&&cgOK('cg_airport_pickup_heroine05'),nar('（她一出來就看到你。推車停在原地。）')),   /* 冬天版通過：第一句拆成兩句，CG 夾在中間（AA_350 N4）*/
@@ -612,7 +612,7 @@ const R2Y4A_EVENTS=(function(){
       IF(G=>PV('lover')(G)&&cgOK('cg_airport_pickup_heroine05'),nar('（她走過來，抱住你。）')),
       IF(PV('lover'),nar('（很久，她才放開。）')),
       IF(G=>PV('lover')(G)&&!!G.flags.SIS16_G6B,Object.assign(nar('（你把帶來的外套遞給她。她穿上，袖子長了一截。）'),{set:{SIS16_COAT:true},aa523:true})),   /* AA_523 5-1 */
-      IF(G=>PV('lover')(G)&&!!G.flags.SIS16_G6B,Object.assign(sis('……剛好。'),{aa523:true})),
+      IF(G=>PV('lover')(G)&&!!G.flags.SIS16_G6B,Object.assign(sis('剛好。'),{aa523:true})),
       /* AA_512 6-1（企劃線 c444f0757）：日本路線視訊的三句在戀人版兌現（ev_sis_jp_video 選的時候記 SIS_JP_COAT、SIS_JP_FIRST；兩個人版、家族共乘、那一通沒接的都不加）。
          (a) 外套：J3「咬了一口外套。」＋交往版的便條（SIS_JP_NOTE_GF）；aa512：tests/aa512_sis_b13_unit.js 對稿 */
       IF(G=>PV('lover')(G)&&!!G.flags.SIS_JP_COAT,Object.assign(nar('（你穿的是三月她塞進你背包的那件外套。）'),{aa512:true})),

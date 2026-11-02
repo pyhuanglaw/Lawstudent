@@ -132,7 +132,7 @@ const SISY23_EVENTS=(function(){
         SIS('你多寫了一句：『他講到這裡，停了很久。』'),
         SIS('……這句我要。錄音裡聽不到這個。'),
         {choice:[{text:'「他停下來的時候，在想什麼？」',goto:'a'},{text:'「下次還要記嗎？」',goto:'b'}]},
-        {label:'a'},SIS('在想一個當事人。他沒說是誰。'),SIS('……我也沒問。'),{goto:'end'},
+        {label:'a'},SIS('在想一個當事人。他沒說是誰。'),SIS('我也沒問。'),{goto:'end'},
         {label:'b'},SIS('要。'),SIS('你有空的話。'),{set:{SIS_IV_AGAIN:true}},   /* AA_392 第 5 節：記下來，11/24 約第二次訪談 */
         {label:'end'},{if:dt,speaker:null,text:'（她把你的筆記存進雲端，資料夾的名字是「{name}記的」。）'},
         {mem:[{npc:ID,tag:'SIS_INTERVIEW',note:''}]},{set:{SIS_INTERVIEW:'went'}} ],
@@ -185,11 +185,11 @@ const SISY23_EVENTS=(function(){
         {unless:dt,choice:[{text:'「恭喜。」',goto:'a'},{text:'「要慶祝嗎？」',set:{SIS_US_CELEB:true},goto:'b'}]},   /* AA_512 第 2 節第 4 點：選「要慶祝嗎？」記 SIS_US_CELEB（7/29 買鎖那天兌現，ev_sis_predepart）*/
         {if:{custom:G=>dating(G)&&route(G)==='US'},speaker:ID,text:'八月二號。我們同一班。'},
         {if:{custom:G=>dating(G)&&route(G)!=='US'},speaker:ID,text:'八月二號。你要來送我。'},
-        {if:dt,choice:[{text:'「恭喜。」',goto:'c'},{text:'「我現在過去。」',set:{SIS15_LUNCH_GO:true},goto:'d'}]},   /* AA_518 第 3 節第 4 點：「很晚了。……明天中午，研究室。」＝3/16 12:20 研究室（src/sis_b15_3d.js）*/
+        {if:dt,choice:[{text:'「恭喜。」',goto:'c'},{text:'「我現在過去。」',set:{SIS15_LUNCH_GO:true},goto:'d'}]},   /* AA_518 第 3 節第 4 點：「很晚了。明天中午，研究室。」＝3/16 12:20 研究室（src/sis_b15_3d.js）*/
         {label:'a'},SIS('嗯。……我以為我會比較高興。現在只想到，要在那邊待四個多月。'),{goto:'end'},
         {label:'b'},SIS('要。等我把八月以前的事排完。'),{goto:'end'},
         {label:'c'},SIS('嗯。你可以先不要掛嗎。'),{goto:'end'},
-        {label:'d'},SIS('很晚了。……明天中午，研究室。'),
+        {label:'d'},SIS('很晚了。明天中午，研究室。'),
         {label:'end'},{set:{SIS_US_RESULT:'call'}} ],
       outingMissed:G=>{ if(G.flags.SIS_US_RESULT==null) G.flags.SIS_US_RESULT='missed'; } } ].concat([
     /* 說話前接演的兩段（src/sis_y2y3_3d.js 的 preTalk 用 EVENTS.runLines 演；這兩筆只放台詞，不會自己觸發）*/

@@ -677,7 +677,7 @@ const Y34B=(function(){
     {if:C(fam2),cg:S.BCG31},   /* BCG-31（兩個人的版本；見上面 S.BCG31）*/
     {if:C(G=>dating(G,'heroine_05')),speaker:null,text:'（Kevin 去還推車的時候，她把口罩拉下來一下。）'},{if:C(G=>dating(G,'heroine_05')),speaker:'heroine_05',text:'到了先在群組說，再打給你。'},   /* AA_392 第 2-4 節：交往中（家族共乘）*/
     {if:C(famV),speaker:'heroine_05',text:'回到家，在群組說一聲。'},
-    {if:C(fam2),speaker:'heroine_05',text:'……回到家，傳訊息給我。'},
+    {if:C(fam2),speaker:'heroine_05',text:'回到家，傳訊息給我。'},
     {mem:[{npc:'heroine_05',tag:'DROVE_HER',note:''}]},
     {if:C(famV),set:{SIS_SENDOFF:'family'}},{if:C(fam2),set:{SIS_SENDOFF:'two'}} ];
   /* AA_392 第 7 節：出發前去總圖坐一下（階梯 S6-L7 的兌現）——2028-07-31 10:00～16:00 她在總圖三樓靠窗（characters.js 那一天的作息）；
@@ -707,7 +707,7 @@ const Y34B=(function(){
     {speaker:null,text:'（她從包包拿出冰的罐裝飲料。）'},
     {speaker:'heroine_05',text:'回程喝。'},
     {if:C(G=>dating(G,'heroine_05')),speaker:null,text:'（排進出境的隊伍以前，她把口罩拉下來一下，又拉回去。）'},{if:C(G=>dating(G,'heroine_05')),speaker:'heroine_05',text:'到了先在群組說，再打給你。'},   /* 第 2-4 節（交往中）：Kevin 那行只在家族共乘版，這一版換這一行（AA-B 10-23 09:31，企劃線 74fba9b7）*/
-    {speaker:'heroine_05',text:'……回到家，傳訊息給我。'},
+    {speaker:'heroine_05',text:'回到家，傳訊息給我。'},
     {mem:[{npc:'heroine_05',tag:'SAW_HER_OFF',note:''}]},{set:{SIS_SENDOFF:'airport'}} ];
   const dSis=G=>dating(G,'heroine_05'), xSis=G=>exOf(G,'heroine_05'), kxUn=G=>kxIn(G)&&!kxKnows(G,'heroine_05');
   const DEPART_US=[ {if:C(dSis),speaker:'heroine_05',text:'護照、簽證、學校的文件。……你的拿出來，我看一次。'},   /* AA_370 L8：交換生多半是 J-1，文件不是 I-20，不寫死（原「護照、入學許可、I-20。」）*/

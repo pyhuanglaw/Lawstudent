@@ -140,20 +140,12 @@ const R3_EVENTS=(function(){
     outingMissed:G=>{ if(typeof R3!=='undefined') R3.chiayiMissed(G); } };
 
   /* ---------- 3-14 學姊：交往中的大四（BB_99 2-7a～c；她 12/23 才回來，三件都在大四下）---------- */
-  /* 2-7a 兩張書桌：每週三 21:00 研究室（一律研究室，裁定 17）；第一次全演、之後旁白三句輪流（時間快轉到 23:30）。3/14 那晚人在研究室＝21:10 她當面說爸爸的晚餐（裁定 18）*/
+  /* 2-7a 兩張書桌：每週三 21:00 研究室（一律研究室，裁定 17）；第一次全演、之後旁白三句輪流（時間快轉到 23:30）。3/14 那晚當面說爸爸的晚餐（裁定 18）：AA_591 決1 刪 */
   const deskN=G=>G.flags.SIS_DESK_NIGHTS|0;
   const farY4S1=G=>{ const F=G.flags||{}, d=D('2028-12-23'); let s=F.SIS_DATING_D; if(s==null&&typeof ROM!=='undefined'&&ROM.get) s=ROM.get(G,'heroine_05').sinceDay; return route(G)!=='US'&&s!=null&&d!=null&&s<d; };   /* 上學期是遠距離交往（台灣、日本路線，12/23 以前就和她交往）*/
-  const FATHER_HERE={custom:G=>G.day===D('2029-03-14')&&G.flags.SIS_FATHER_ASKED==null};
   const DESKS={ id:'ev_sis_y4_desks', title:'兩張書桌', participants:['heroine_05'], location:'any', trigger:'outing', background:'dark', hours:1/60,
     dialogue:[ {scene:'研究室',bg:'linze_prof_hall'},
-      {if:FATHER_HERE,advance:toH(21+10/60)},
-      SIS('我爸週六會過來，他要請吃飯。',{if:FATHER_HERE}),
-      SIS('……你要不要來。六點半，公館。',{if:FATHER_HERE}),
-      {if:FATHER_HERE,choice:[{text:'「好。」',set:{SIS_FATHER_GO:true,SIS_FATHER_ASKED:'face'},goto:'fy'},{text:'「那天不行。」',set:{SIS_FATHER_GO:false,SIS_FATHER_ASKED:'face'},goto:'fn'}]},
-      {goto:'desk'},
-      {label:'fy'},SIS('好。不用穿太正式。'),{goto:'desk'},
-      {label:'fn'},SIS('好。我跟他說。'),
-      {label:'desk'},
+      /* AA_591 決1 甲（第 206～209 列）：3/14 那一晚當面約爸爸的晚餐那一段拿掉，照一般的書桌夜演 */
       {if:{custom:G=>deskN(G)>0},goto:'again'},
       {advance:toH(23.5)},
       {speaker:null,text:'（晚上十一點半。她還在打字，螢幕上是「第四章　第二節」。）'},
@@ -163,7 +155,7 @@ const R3_EVENTS=(function(){
       {label:'d2'},{speaker:null,text:'（她喝了一口，沒有停下來打字。）'},SIS('……謝謝。'),{goto:'end'},
       {label:'d3'},{advance:toH(24)},{speaker:null,text:'（十二點，她先收。）'},SIS('你今天比我晚。燈你關。'),{goto:'end'},
       {label:'again'},
-      {if:{custom:G=>typeof SISB16!=='undefined'&&SISB16.jobDue(G)},goto:'job'},   /* AA_523 1-3（企劃線 0d7b5388b）：3/28～4/11 第一個有去的週三，輪流旁白換成研究單位的回信（src/sis_b16_3d.js S.jobDesk 演 ev_sis16_job，一次）*/
+      {if:{custom:G=>typeof SISB16!=='undefined'&&SISB16.jobDue(G)},goto:'job'},   /* AA_523 1-3（企劃線 0d7b5388b）：3/28～4/11 第一個有去的週三，輪流旁白換成研究中心的回信（src/sis_b16_3d.js S.jobDesk 演 ev_sis16_job，一次）*/
       /* AA_523 第 6 節（書桌夜三句旁白輪十三次）：加四句，七句照順序輪流（前三句和原本一樣在第 1～3 次）*/
       {if:{custom:G=>deskN(G)%7===1},speaker:null,text:'（十一點。她的螢幕上還是第四章。你的筆記寫到第三頁。）'},
       {if:{custom:G=>deskN(G)%7===2},speaker:null,text:'（她起來倒水，順便把你的杯子也加滿，沒說話。）'},
@@ -179,7 +171,8 @@ const R3_EVENTS=(function(){
   /* 2-7b 她爸爸的晚餐：3/17（六）18:30 公館的餐廳（出遊）。照實說大四選擇（Y4_PATH；兩次都「還沒決定」的沒有這個選項）*/
   const pathKey=G=>{ const F=G.flags||{}, p=F.Y4_PATH, ab=abroadRoute(G); if(p==='bar') return ab?'bar_next':'bar'; if(p==='grad'){ if(ab) return 'grad_next'; return (F.Y4_PUSH==='pass'||F.GRAD_ADMIT==='push')?'grad_push':'grad_exam'; } if(p==='other') return 'other'; return null; };
   const PK=k=>({custom:G=>pathKey(G)===k});
-  const FATHER={ id:'ev_sis_y4_father', title:'她爸爸的晚餐', participants:['heroine_05'], location:'any', trigger:'outing', once:true, background:'dark', hours:1.5,
+  /* AA_591 決1 甲（第 210～216 列；使用者「學姊爸爸不在了，不用特別提，也不會帶男主角回去吃飯」）：整場不排——retired，定義留給已經演過的舊存檔（r3_3d.js 的 S.father 不再約、不再排出遊）*/
+  const FATHER={ id:'ev_sis_y4_father', retired:'AA_591 決1 甲（使用者 2026-11-02）：她爸爸的晚餐整場拿掉；定義留給舊存檔', title:'她爸爸的晚餐', participants:['heroine_05'], location:'any', trigger:'outing', once:true, background:'dark', hours:1.5,
     dialogue:[ {scene:'公館・餐廳',bg:'gongguan_hotpot'},
       {speaker:'她爸爸',text:'你念法律，以後要做什麼？'},
       {choice:[{text:'「我在準備國考。」',if:PK('bar'),goto:'p'},{text:'「我明年考國考。」',if:PK('bar_next'),goto:'p'},{text:'「我推甄上了研究所。」',if:PK('grad_push'),goto:'p'},{text:'「我考了研究所，月底放榜。」',if:PK('grad_exam'),goto:'p'},{text:'「我明年考研究所。」',if:PK('grad_next'),goto:'p'},{text:'「我想先去實習。」',if:PK('other'),goto:'p'},
