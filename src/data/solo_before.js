@@ -1,7 +1,7 @@
 /* 「你來過一次」（AA_160 4-4、AA_271、BB_213）：tools/freetrip/import_solo_before.py 產生，不要手改。src/date3d.js 的 S.soloBefore 讀 */
 'use strict';
 const SOLO_BEFORE={
- "source": "白名單 solo_before_aa_v1.json@01e9d706c＋solo_before_bb_v1.json@4618aed21",
+ "source": "白名單 solo_before_aa_v1.json@01e9d706c＋solo_before_bb_v1.json@be14d2d58",
  "rules": {
   "if": "G.places.free[地點] ≥ 1（自由出行的次數；約會、心願不算）",
   "when": "約會抵達的台詞說完以後",
@@ -644,7 +644,7 @@ const SOLO_BEFORE={
     },
     {
      "who": "heroine_04",
-     "text": "欸不是，你比我想的還要文青。這不是問句。"
+     "text": "欸不是，你比我想的還要文青。"
     }
    ],
    "D12": [

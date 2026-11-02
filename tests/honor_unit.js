@@ -68,8 +68,8 @@ await sec(5,()=>{ const d=termDay('Y1S1',12,1); at(d,7.5); const R=CLS.rec(H.G),
   at(d,10); const R2=CLS.rec(H.G); for(let dd=d-90;dd<d;dd++) for(const it of CLS.dayItems(H.G,dd)) if(CLS.attCourse(it.c)) R2.done[it.key]=1; X().phone(H.G); PHONE.tick(H.G); check('5. 點名都到了：不提醒',!H.msgs('sys').length); });
 
 await sec('5b',()=>{ const d=termDay('Y1S1',3,1); at(d,9); const L=id=>CLS.attRuleLines(H.G,Object.assign({},CLS.byId(id)));
-  check('5b. 國文：老師兩句',J(L('chinese_y1'))===J([['老師','這門課看出席。一學期來三次就及格。'],['老師','……可是我希望你們不是只來三次。']]),J(L('chinese_y1')));
-  check('5b. 日文：日文那句＋中文',L('japanese_1')[0][1]==='この授業は出席を見ます。三回来れば、合格です。');
+  check('5b. 國文：老師兩句（ATTEND-ROLLCALL-1102 AA 定稿）',J(L('chinese_y1'))===J([['老師','這門課我會點名，不會事先講。'],['老師','……可是我希望你們不是因為點名才來。']]),J(L('chinese_y1')));
+  check('5b. 日文：日文那句＋中文',L('japanese_1')[0][1]==='この授業は、ときどき出席を取ります。');
   check('5b. 經濟學原理：沒演過經濟系＝兩句；演過（Y0_LEFT）＝多一句旁白',L('econ_principles_1').length===2&&(H.G.flags.Y0_LEFT=true,L('econ_principles_1').length===3&&L('econ_principles_1')[2][0]===null));
   check('5b. 重修的學期：多「重修的同學，這學期重新算三次。」',CLS.attRuleLines(H.G,Object.assign({},CLS.byId('pe_y1s1'),{rt:{from:'Y1S1'}})).slice(-1)[0][1]==='重修的同學，這學期重新算三次。');
   const src=fs.readFileSync(path.join(H.ROOT,'src/classes3d.js'),'utf8');

@@ -3659,12 +3659,12 @@
   },
   {
    "path": "docs/story_planning/free_trip/solo_before_bb_v1.json",
-   "sha": "4618aed21",
+   "sha": "be14d2d58",
    "status": "approved",
    "approvedBy": "BB_213（AA-B 核對；BB-C b6697e981 第三批）＋ffd7eef85 學姊不說「三件事」＋4618aed21 RENAME-1030（D115 換名）；D100 起台詞歸 AA、AA 核對過的照用",
    "task": "ENC-B3-1017",
    "kind": "text",
-   "note": "同上；narr 沿用 solo_before_aa_v1.json"
+   "note": "同上；narr 沿用 solo_before_aa_v1.json；11-02 AA_573 #3 刪「這不是問句。」（be14d2d58）"
   },
   {
    "path": "docs/story_planning/AA_323_事件包_第三批之六_1B18到1B25.md",

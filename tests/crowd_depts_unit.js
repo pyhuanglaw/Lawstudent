@@ -82,7 +82,7 @@ if(MD){ const md=MD.split('\n'), sec=t=>{ const i=md.findIndex(l=>l.startsWith(t
   check('0. 體育館加三句：三句都在 CROWD.GYM_HEAR 那一區（羽球場、籃球場、場邊），說的人照稿（外文系、化學系、醫學系的學生）；全部 16 句',gym.length===3&&gl.every(Boolean)&&!!G3&&Object.values(G3).reduce((a,h)=>a+h.L.length,0)===16,J(gym));
   const r2=rows('## 2.'), t2=D?D.TALKS:[], b2=r2.filter(r=>{ const y=t2.find(q=>q.n===+r[0]); return !y||y.at!==r[1]||y.when!==r[2]||J(y.who)!==J(r[3].replace(/（[^）]*）$/,'').split('、').map(s=>s.replace(/（.*）$/,'')))||y.d!==r[4]; }).map(r=>r[0]);
   check('0. 第 2 節：18 組（在哪裡、什麼時候、誰、對話）和稿一樣',r2.length===18&&t2.length===18&&!b2.length,J(b2));
-  const r3=rows('## 3.'), t3=D?D.GE:[], b3=r3.filter(r=>{ const y=t3.find(q=>q.n===+r[0]), [ph,w]=r[1].split('、'), cs=r[2].replace(/`/g,'').replace(/（.*）$/,''); return !y||y.ph!==(ph==='上課前'?'pre':'post')||y.when!==w||y.course!==cs||J(y.who)!==J(r[3].replace(/（[^）]*）$/,'').split('、'))||y.d!==r[4]; }).map(r=>r[0]);
+  const r3=rows('## 3.'), t3=D?D.GE:[], b3=r3.filter(r=>{ const y=t3.find(q=>q.n===+r[0]), [ph,w]=r[1].split('、'), cs=r[2].replace(/`/g,'').replace(/（.*）$/,''); return !y||y.ph!==(ph==='上課前'?'pre':'post')||y.when!==w||y.course!==cs||J(y.who)!==J(r[3].replace(/（[^）]*）$/,'').split('、'))||y.d!==r[4].replace('A：因為每次都點名。','A：因為會突然點名。'); }).map(r=>r[0]);   /* ATTEND-ROLLCALL-1102：使用者改隨機點名（AA_574 末節、AA 06:39 確認「因為會突然點名」），稿等 AA 改 */
   check('0. 第 3 節：11 組（上課前／下課後、週次、課、誰、對話）和稿一樣',r3.length===11&&t3.length===11&&!b3.length,J(b3));
   const r4=rows('## 4.'), t4=D?D.LAW:[], b4=r4.filter(r=>{ const y=t4.find(q=>q.n===+r[0]), [ph,w]=r[1].split('、'); return !y||y.ph!==(ph==='上課前'?'pre':'post')||y.when!==w||y.d!==r[2]; }).map(r=>r[0]);
   check('0. 第 4 節：5 組和稿一樣',r4.length===5&&t4.length===5&&!b4.length,J(b4)); }
