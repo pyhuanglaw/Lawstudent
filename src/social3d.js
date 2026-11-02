@@ -41,7 +41,14 @@ const SOCIAL = (function(){
     if(Object.keys(add).length) S.adjust(id,add); else if(capped&&!P.cap&&S.feelOn&&!S.capNotes.includes(id)) S.capNotes.push(id);   /* 這一次因為上限什麼都沒加（玩家會以為壞掉）：那一天第一次才提示 */ return add; };
   S.stage=function(id,o){ let r=S.rel(id); if(o&&o.before){ r=Object.assign({},r); r[o.before.k]=o.before.v0; } const flags=G.flags||{}; if(flags['dating_'+id]) return 'RELATIONSHIP'; if(r.rom>=55&&r.npcRom>=45&&r.fam>=55) return 'ROMANTIC_TENSION'; if((r.rom>=30||r.npcRom>=30)&&r.fam>=45&&r.trust>=30) return 'POSSIBLE_ROMANTIC_INTEREST'; if(r.fam>=60&&r.trust>=45&&r.comf>=40) return 'CLOSE_FRIEND'; if(r.fam>=40&&r.trust>=25) return 'FRIEND'; if(r.fam>=20) return 'FAMILIAR'; if(r.fam>=5) return 'ACQUAINTANCE'; return 'STRANGER'; };
   // ---- NPC 記憶 ----
-  S.remember=function(id,tag,note){ const M=G.social.mem; if(!M[id]) M[id]=[]; if(tag!=='ADJUST'&&M[id].some(m=>m.tag===tag&&m.day===G.day)) return; M[id].push({tag,day:G.day,note:note||''}); if(M[id].length>80) M[id].splice(0,M[id].length-80); };
+  S.remember=function(id,tag,note){ const M=G.social.mem; if(!M[id]) M[id]=[]; if(tag!=='ADJUST'&&M[id].some(m=>m.tag===tag&&m.day===G.day)) return; M[id].push({tag,day:G.day,note:note||''}); if(M[id].length>S.MEM_CAP) S.memTrim(M[id]); };
+  /* 每人最多 S.MEM_CAP 筆。超過時刪哪一筆（BUG-MEM-FIRSTMET-1102）：原本從最舊的整筆刪，第一次見面（FIRST_MET）會被刪掉＝S.has 以為還不認識、metAtCamp 讀不到。
+     現在依序：最舊的 ADJUST（劇情不讀）→ 最舊的「同一個 tag 後面還有」的那一筆（S.has、lastDay 不變）→ 最舊的、不是 FIRST_MET 的那一筆；FIRST_MET 永遠留著 */
+  S.MEM_CAP=80;
+  S.memTrim=function(L){ while(L.length>S.MEM_CAP){ let i=L.findIndex(m=>m&&m.tag==='ADJUST');
+      if(i<0) i=L.findIndex((m,k)=>m&&m.tag!=='FIRST_MET'&&L.some((x,j)=>j>k&&x&&x.tag===m.tag));
+      if(i<0) i=L.findIndex(m=>!m||m.tag!=='FIRST_MET');
+      if(i<0) break; L.splice(i,1); } return L; };
   S.has=function(id,tag){ const M=G.social.mem[id]; return !!(M&&M.some(m=>m.tag===tag)); };
   S.lastDay=function(id,tag){ const M=G.social.mem[id]; if(!M) return -1; let d=-1; for(const m of M) if(m.tag===tag) d=Math.max(d,m.day); return d; };
   S.memories=function(id){ return (G.social.mem[id]||[]).filter(m=>m.tag!=='ADJUST'); };
