@@ -92,7 +92,12 @@ await sec(6,async()=>{ H.fresh('2029-09-02',9,'dorm',{FAIL_DELAY:true,FAIL_DELAY
   H.fresh('2029-09-02',9,'dorm',{FAIL_DELAY:true,FAIL_DELAY_COURSES:[fc.id]}); let stops=0; guard=0;
   while(guard++<400){ const t=PG.nextStop(H.G); if(t==null||t>=end) break; PG.setT(H.G,E,Math.floor(t/24),t-Math.floor(t/24)*24); if(FD.clsStop(H.G)!==t&&Y5.classItems(H.G).some(x=>x.fd&&Y5.status(H.G,x)==='open')) stops++; }
   PG.setT(H.G,E,D('2029-12-25'),9); FD.result(H.G);
-  check('6. 對照：每一堂都停過（'+stops+' 次）、不去上課＝證書延到 2030-06',stops>=3&&H.G.flags.FAIL_DELAY_PASS===false&&H.G.flags.FAIL_DELAY_CERT==='2030-06','stops='+stops);
+  check('6. 對照：不去上課＝停到湊不到三堂為止（'+stops+' 次，剩三堂那一次是最後一次）、證書延到 2030-06',stops>=3&&stops<15&&H.G.flags.FAIL_DELAY_PASS===false&&H.G.flags.FAIL_DELAY_CERT==='2030-06','stops='+stops);
+  /* BB 10:05：12 月只剩一堂、上過一堂＝湊不到三堂，不停；上過兩堂＝還湊得到，停 */
+  H.fresh('2029-12-13',9,'dorm',{FAIL_DELAY:true,FAIL_DELAY_COURSES:[fc.id]}); { const R=Y5.rec(H.G); R.cls[D('2029-09-05')+':'+fc.id]=1;
+    const n=(()=>{ let k=0; const r=CALENDAR.termDays('Y5S1'); for(let x=H.G.day;x<=r.to;x++) k+=Y5.classItems(H.G,x).filter(i=>i.fd).length; return k; })();
+    check('6. 12/13 剩 '+n+' 堂、上過 1 堂：湊不到三堂就不停',n===1&&FD.clsStop(H.G)==null,'n='+n);
+    R.cls[D('2029-09-12')+':'+fc.id]=1; check('6. 12/13 上過 2 堂、剩 1 堂：還湊得到，停',n>=1&&FD.clsStop(H.G)!=null,'n='+n); }
   /* 已經過了（FAIL_DELAY_PASS 有值）、不是延畢：沒有重修停點 */
   H.fresh('2029-09-02',9,'dorm',{}); check('6. 不是延畢：沒有重修停點',FD.clsStop(H.G)==null); });
 
