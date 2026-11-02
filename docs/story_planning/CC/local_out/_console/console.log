@@ -1,22 +1,21 @@
-[06:33:41] run_forever round: 4   runner sha256: 6cbec96f29
-[06:33:41] python : C:\Users\USER\AppData\Local\Python\pythoncore-3.15-64\python.exe (3.15.2)
-[06:33:41]          playwright 1.64.1 OK
-[06:33:41] git    : git version 2.56.0.windows.4
-[06:33:41] node   : C:\Program Files\nodejs\node.EXE  v26.13.0
-[06:33:41] blender: C:\Program Files\Blender Foundation\Blender 5.2\blender.exe  Blender 5.2.3 LTS (hash e13b728c6880 built 2026-10-22 01:37:16)
-[06:33:41] repo   : C:\Users\USER\Documents\Lawstudent
-[06:33:41] work   : C:\Users\USER\Documents\Lawstudent_cclocal  (branch claude/cc-local, push to origin)
-[06:33:41] parallel: 2  (blender items run alone)
-[06:33:41] browser: visible windows side by side (probe/game/webkit; queue ENV CC_HEADLESS wins) - please do not click them
-[06:33:41] git fetch
+[06:43:03] run_forever round: 5   runner sha256: a98287fbd6
+[06:43:03] python : C:\Users\USER\AppData\Local\Python\pythoncore-3.15-64\python.exe (3.15.2)
+[06:43:03]          playwright 1.64.1 OK
+[06:43:03] git    : git version 2.56.0.windows.4
+[06:43:03] node   : C:\Program Files\nodejs\node.EXE  v26.13.0
+[06:43:03] blender: C:\Program Files\Blender Foundation\Blender 5.2\blender.exe  Blender 5.2.3 LTS (hash e13b728c6880 built 2026-10-22 01:37:16)
+[06:43:03] repo   : C:\Users\USER\Documents\Lawstudent
+[06:43:03] work   : C:\Users\USER\Documents\Lawstudent_cclocal  (branch claude/cc-local, push to origin)
+[06:43:03] parallel: 2  (blender items run alone)
+[06:43:03] browser: visible windows side by side (probe/game/webkit; queue ENV CC_HEADLESS wins) - please do not click them
+[06:43:04] git fetch
     From https://github.com/pyhuanglaw/Lawstudent
      * branch                claude/cc-testing -> FETCH_HEAD
      * branch                claude/confident-ritchie-8rwh7t -> FETCH_HEAD
-       92f24b714..28ee9add9  claude/cc-testing -> origin/claude/cc-testing
-       165b02eb5..2d0b7d5a5  claude/confident-ritchie-8rwh7t -> origin/claude/confident-ritchie-8rwh7t
+       39fdb65b9..d22ddb3ad  claude/cc-testing -> origin/claude/cc-testing
     From https://github.com/pyhuanglaw/Lawstudent
      * branch                claude/second-ai-env-art -> FETCH_HEAD
-       b411cd0f0..5c33eb485  claude/second-ai-env-art -> origin/claude/second-ai-env-art
+       7a98a5379..fd0cf82af  claude/second-ai-env-art -> origin/claude/second-ai-env-art
     Already on 'claude/cc-local'
     M	docs/story_planning/CC/local_out/02_mk12/err.log
     M	docs/story_planning/CC/local_out/02_mk12/run.log
@@ -47,80 +46,8 @@
     Your branch is up to date with 'origin/claude/cc-local'.
     Already up to date.
     Merge made by the 'ort' strategy.
-     ...272\244\346\216\245\347\264\200\351\214\204.md" |   8 +
-     .../test_tools/cc/cc_bar_b8_prefix.js              |   9 +-
-     .../test_tools/cc/cc_bar_b8_probe.py               |  24 +-
-     docs/story_planning/test_tools/cc/cc_d124_probe.py |   7 +-
-     .../test_tools/cc/cc_drive_x81_probe.py            | 346 +++++++++++++++++++++
-     .../test_tools/cc/cc_libwhisper_probe.py           |  18 +-
-     6 files changed, 406 insertions(+), 6 deletions(-)
-     create mode 100644 docs/story_planning/test_tools/cc/cc_drive_x81_probe.py
-[06:33:48] dev head = 2d0b7d5a5   lawww2 head = 5c33eb485
-[06:33:50] killed leftover test browser pid 22164: C:\Users\USER\AppData\Local\ms-playwright\chromium-1248\chrome-win64\chrome.exe
-[06:33:50] killed leftover test browser pid 7484: C:\Users\USER\AppData\Local\ms-playwright\chromium-1248\chrome-win64\chrome.exe
-[06:33:51] killed leftover test browser pid 11148: C:\Users\USER\AppData\Local\ms-playwright\chromium-1248\chrome-win64\chrome.exe
-[06:33:51] killed leftover test browser pid 15540: C:\Users\USER\AppData\Local\ms-playwright\chromium-1248\chrome-win64\chrome.exe
-[06:33:51] killed leftover test browser pid 11804: C:\Users\USER\AppData\Local\ms-playwright\chromium-1248\chrome-win64\chrome.exe
-[06:33:51] killed leftover test browser pid 10824: C:\Users\USER\AppData\Local\ms-playwright\chromium-1248\chrome-win64\chrome.exe
-[06:33:52] killed leftover test browser pid 26564: C:\Users\USER\AppData\Local\ms-playwright\chromium-1248\chrome-win64\chrome.exe
-[06:33:52] killed leftover test browser pid 21448: C:\Users\USER\AppData\Local\ms-playwright\chromium-1248\chrome-win64\chrome.exe
-[06:33:52] killed leftover test browser pid 32132: C:\Users\USER\AppData\Local\ms-playwright\chromium-1248\chrome-win64\chrome.exe
-[06:33:52] killed leftover test browser pid 22304: C:\Users\USER\AppData\Local\ms-playwright\chromium-1248\chrome-win64\chrome.exe
-[06:33:53] killed leftover test browser pid 26992: C:\Users\USER\AppData\Local\ms-playwright\chromium-1248\chrome-win64\chrome.exe
-[06:33:53] killed leftover test browser pid 23280: C:\Users\USER\AppData\Local\ms-playwright\chromium-1248\chrome-win64\chrome.exe
-[06:33:53] killed leftover test browser pid 6444: C:\Users\USER\AppData\Local\ms-playwright\chromium-1248\chrome-win64\chrome.exe
-[06:33:53] killed leftover test browser pid 20920: C:\Users\USER\AppData\Local\ms-playwright\chromium-1248\chrome-win64\chrome.exe
-[06:33:54] killed leftover test browser pid 23812: C:\Users\USER\AppData\Local\ms-playwright\chromium-1248\chrome-win64\chrome.exe
-[06:33:54] killed leftover test browser pid 10072: C:\Users\USER\AppData\Local\ms-playwright\chromium-1248\chrome-win64\chrome.exe
-[06:33:54] killed leftover test browser pid 26128: C:\Users\USER\AppData\Local\ms-playwright\chromium-1248\chrome-win64\chrome.exe
-[06:33:54] killed leftover test browser pid 31604: C:\Users\USER\AppData\Local\ms-playwright\chromium-1248\chrome-win64\chrome.exe
-[06:33:55] killed leftover test browser pid 32436: C:\Users\USER\AppData\Local\ms-playwright\chromium-1248\chrome-win64\chrome.exe
-[06:33:55] killed leftover test browser pid 28068: C:\Users\USER\AppData\Local\ms-playwright\chromium-1248\chrome-win64\chrome.exe
-[06:33:55] config.txt: PARALLEL 2 -> 3
-[06:33:55] memory used: 37%  (new items wait while >= 85%)
-[06:33:59] queue: X_A1_adv, X_G5_term, X_G5b_ancf, X_G6a_v7, X_G6b_v95, X_G6c_fm, X_G3_libsc, X_P5_ui, X_P5w, X_G4v2, X_P3_ladder, X_P1_d124, X_P2_bar_a, X_P2_bar_b, N1_node, G1_reach, G2_libfl, G3_libsc, G5_termend, G6a_v7, G6b_v95, G6c_fm, G7_class, P3_ladder, P4_legal, P5_ui, A1_advskip, A2_dorm, A3_late15, A1_adv_ef63, A2_dorm_ef63, A3_l15_ef63, A1pre, A2pre, A3pre, ART_cop, ART_lband, ART_night, ART_uskit, BK1_cpu, BK1_hip, P3b_sl, R4main, R4b1b_rr, R4v2_b1b, B4main, R1_reach, R2_flowcls, R3_touchwz, R4_day12, R6_layout, R6b_layoutcss, R7_quota, R7b_quota15, R8b_y4s2jp, R8c_y4s2fin, R9_roll, R5_rr, R6_rr, R8_rr, R10_b3, R11_b4, R10_rr, R12_fasat, R12b_fasatpre, R10_rr2, R6_rr2, R8_rr2, F1_fps_hl, F2_fps_hd, R1_x2, R2_x2, R3_x2, R4_x2, R5_x2, R9_x2, R1_x3, R2_x3, R3_x3, R4_x3, R5_x3, R9_x3, 00_gpu, 01_p0speed, 10_deploy, 11_reach, 12_flowcls, 13_minimap, 14_zones, 15_touchwz, 16_p0, 17_savev7, 18_flowday12, 19_mkretake, 19b_mkjp, 02b_mk12dea, 06b_layoutP, 06c_layoutO, 32_wsem, 33_wsempre, 20_roll, 21_rollpre, 22_boya, 23_boyapre, 24_b3, 25_b3pre, 26_b3pre2, 27_b4, 28_b4pre, 29_jpmk, 34_day9, 02_mk12new, 04b_quota15, 04c_legal, 05_mk12old, 07_bg107, 08_pt106, 30_b1base, 31_b2base, G4_day12, FS112, R11_full, R10pre, R11pre
-[06:33:59] memory 36% before starting X_A1_adv (0 running)
-[06:33:59] memory 36% before starting X_G5_term (1 running)
-[06:33:59] memory 36% before starting X_G5b_ancf (2 running)
-[06:33:59] ==== START X_A1_adv  (probe @ 62d98bfa5) ====
-[06:33:59] ==== START X_G5_term  (game @ 62d98bfa5) ====
-[06:33:59] ==== START X_G5b_ancf  (probe @ 62d98bfa5) ====
-[06:34:02] [res] cpu=5% mem=36% (11.5/31.4 GB) chrome_testing=0  START X_G5_term
-[06:34:02] [res] cpu=5% mem=36% (11.5/31.4 GB) chrome_testing=0  START X_A1_adv
-[06:34:02] [res] cpu=5% mem=36% (11.5/31.4 GB) chrome_testing=0  START X_G5b_ancf
-[06:36:32] [res] cpu=24% mem=49% (15.6/31.4 GB) chrome_testing=18  END X_G5_term
-    To https://github.com/pyhuanglaw/Lawstudent.git
-       3223db2df..c81fbf56d  claude/cc-local -> claude/cc-local
-    branch 'claude/cc-local' set up to track 'origin/claude/cc-local'.
-[06:36:37] ==== END   X_G5_term  exit=0  154s   ====
-[06:36:39] memory 43% before starting X_G6a_v7 (2 running)
-[06:36:39] ==== START X_G6a_v7  (game @ 62d98bfa5) ====
-[06:36:42] [res] cpu=51% mem=43% (13.6/31.4 GB) chrome_testing=10  START X_G6a_v7
-[06:36:47] [res] cpu=23% mem=45% (13.7/31.4 GB) chrome_testing=10  END X_A1_adv
-    To https://github.com/pyhuanglaw/Lawstudent.git
-       c81fbf56d..ed42e33a3  claude/cc-local -> claude/cc-local
-    branch 'claude/cc-local' set up to track 'origin/claude/cc-local'.
-[06:37:07] ==== END   X_A1_adv  exit=1  168s   ====
-[06:37:13] memory 47% before starting X_G6b_v95 (2 running)
-[06:37:13] ==== START X_G6b_v95  (game @ 62d98bfa5) ====
-[06:37:17] [res] cpu=33% mem=47% (14.8/31.4 GB) chrome_testing=18  START X_G6b_v95
-[06:37:43] [res] cpu=35% mem=44% (13.3/31.4 GB) chrome_testing=9  END X_G5b_ancf
-    To https://github.com/pyhuanglaw/Lawstudent.git
-       ed42e33a3..11584816e  claude/cc-local -> claude/cc-local
-    branch 'claude/cc-local' set up to track 'origin/claude/cc-local'.
-[06:37:55] ==== END   X_G5b_ancf  exit=1  224s   ====
-[06:37:57] memory 46% before starting X_G6c_fm (2 running)
-[06:37:57] ==== START X_G6c_fm  (game @ 62d98bfa5) ====
-[06:38:01] [res] cpu=18% mem=45% (14.6/31.4 GB) chrome_testing=17  START X_G6c_fm
-[06:39:37] [res] cpu=28% mem=52% (16.3/31.4 GB) chrome_testing=18  END X_G6c_fm
-    To https://github.com/pyhuanglaw/Lawstudent.git
-       11584816e..28560ea35  claude/cc-local -> claude/cc-local
-    branch 'claude/cc-local' set up to track 'origin/claude/cc-local'.
-[06:39:42] ==== END   X_G6c_fm  exit=0  100s   ====
-[06:39:46] run_queue.py has a new version - restart (exit 75) after the running item(s) finish; while long items (>=120 min) run, free slots still take short items
-[06:41:34] [res] cpu=8% mem=42% (13.4/31.4 GB) chrome_testing=9  END X_G6a_v7
-    To https://github.com/pyhuanglaw/Lawstudent.git
-       28560ea35..999b4eea5  claude/cc-local -> claude/cc-local
-    branch 'claude/cc-local' set up to track 'origin/claude/cc-local'.
-[06:41:38] ==== END   X_G6a_v7  exit=0  294s   ====
-[06:42:57] [res] cpu=3% mem=36% (11.5/31.4 GB) chrome_testing=0  END X_G6b_v95
+     .../test_tools/cc/cc_next1102_ui_probe.py          | 31 +++++++++++++++++++---
+     1 file changed, 27 insertions(+), 4 deletions(-)
+[06:43:10] dev head = 2d0b7d5a5   lawww2 head = fd0cf82af
+[06:43:11] config.txt: PARALLEL 2 -> 3
+[06:43:11] memory used: 36%  (new items wait while >= 85%)
