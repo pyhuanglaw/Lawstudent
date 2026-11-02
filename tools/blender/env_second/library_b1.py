@@ -127,7 +127,7 @@ class B1(K.Shop):
             'floor': L.pbr(f'{self.sid}_floor', 'large_floor_tiles_02', tile=0.8, target='#d2d0ca', contrast=0.45, normal=0.25, maps=('diff', 'nor'), res=512, rough_value=0.22),
             'wall': L.pbr(f'{self.sid}_wall', 'painted_plaster_wall', tile=2.0, target='#ecebe6', contrast=0.3, normal=0.1, maps=('diff', 'nor'), res=256, rough_value=0.85),
             'wain': L.pbr(f'{self.sid}_granite', 'granite_tile_03', tile=1.2, target='#7d7a76', contrast=0.8, normal=0.3, maps=('diff', 'nor'), res=256, rough_value=0.3),
-            'wood': L.pbr(f'{self.sid}_wood', 'wood_table_001', tile=0.9, target='#b0824c', contrast=0.8, normal=0.25, maps=('diff', 'nor'), res=256, rough_value=0.4),
+            'wood': L.pbr(f'{self.sid}_wood', 'fine_grained_wood', tile=0.7, target='#c49862', contrast=0.45, normal=0.2, maps=('diff', 'nor'), res=256, rough_value=0.42),   # 第三版（BB_236 ①）：照片是細紋的淺橡木；原本 wood_table_001 條紋粗、對比 0.8
             'vc': L.vc_material(f'{self.sid}_vc', rough=0.6), 'vcm': L.vc_metal(f'{self.sid}_vcmetal', rough=0.32, metal=0.4),
             'steel': L.flat('l118_steel', '#b9bec2', rough=0.28, metal=0.45),
             'glass': L.flat('l118_glass', '#dfe9ec', rough=0.05, alpha=0.16),
@@ -141,7 +141,7 @@ class B1(K.Shop):
             'screen': img_mat(f'GLOW_{self.sid}_screens', 'library_b1_print.png', rough=0.3, emit=0.9),
             'print2': img_mat(f'{self.sid}_print2', 'library_b1_print2.png', rough=0.55),
             'col': L.flat(f'{self.sid}_column', '#f1f0ec', rough=0.7),
-            'woodpanel': L.pbr(f'{self.sid}_woodpanel', 'wood_table_001', tile=1.2, target='#8a6440', contrast=0.8, normal=0.25, maps=('diff', 'nor'), res=256, rough_value=0.5),
+            'woodpanel': L.pbr(f'{self.sid}_woodpanel', 'fine_grained_wood', tile=1.0, target='#93683f', contrast=0.5, normal=0.2, maps=('diff', 'nor'), res=256, rough_value=0.5),   # 第三版：同上，細紋
         }
         self.vc = CMesh(f'{self.sid}_props', M['vc']); self.vm = CMesh(f'{self.sid}_metal', M['vcm'])
         self.wood = Mesh(f'{self.sid}_woodparts', M['wood']); self.steel = Mesh(f'{self.sid}_steel', M['steel'])
@@ -267,12 +267,24 @@ def banker_lamp_parts(c, x, z, s):
 
 
 def study_chair(c, x, z, yaw):
-    """自習室的木椅（紅椅墊；ntu_lib_b1 的樣子）：只記位置，make_instances 用 instancing 放（一張椅子約 300 個三角形 × 115 張）"""
+    """自習室的木椅：只記位置，make_instances 用 instancing 放（一張椅子約 300 個三角形 × 115 張）"""
     c.__dict__.setdefault('inst_chairs', []).append((x, z, yaw))
 
 
 def study_chair_parts(c, x, z, yaw):
-    chair(c, x, z, yaw, 'wood', '#a8743e'); T = rot(x, z, yaw); rbox(c.vc, T, -0.19, 0.19, 0.45, 0.47, -0.18, 0.18, '#8a2a24', r=0.01, seg=1)
+    """第三版（BB_236 ②；使用者 10-17 的兩張 24 小時自習室照片）：高背、直條鏤空的蜂蜜色實木椅，木頭椅面、沒有坐墊。
+    第二版是一般的矮背木椅（0.86 m）＋暗紅坐墊。(x, z) 是坐的位置，面向 yaw；椅背在後面（本地 −z）"""
+    T = rot(x, z, yaw); col, dk, sh = '#b0763a', '#98632f', 0.45
+    rbox(c.vc, T, -0.215, 0.215, sh - 0.03, sh, -0.2, 0.2, col, r=0.008, seg=1)                                # 木頭椅面
+    for lx in (-0.185, 0.185):
+        (px, pz) = T(lx, 0.17); ccyl(c.vc, (px, 0.0, pz), (px, sh - 0.03, pz), 0.017, dk, seg=6)              # 前腳
+        (px, pz) = T(lx, -0.18); (qx, qz) = T(lx, -0.215); ccyl(c.vc, (px, 0.0, pz), (qx, 1.02, qz), 0.018, dk, seg=6)   # 後腳一路到椅背頂，往後一點
+        rbox(c.vc, T, lx - 0.01, lx + 0.01, 0.148, 0.172, -0.18, 0.17, dk)                                   # 側面的橫撐
+    rbox(c.vc, T, -0.185, 0.185, 0.188, 0.212, 0.158, 0.182, dk)                                               # 前面的橫撐
+    rbox(c.vc, T, -0.205, 0.205, 0.93, 1.02, -0.232, -0.198, col, r=0.01, seg=1)                               # 椅背上橫木
+    rbox(c.vc, T, -0.19, 0.19, 0.56, 0.6, -0.222, -0.196, col)                                                 # 椅背下橫木
+    for k in range(5):                                                                                          # 直條（照片：五根）
+        lx = -0.12 + k * 0.06; rbox(c.vc, T, lx - 0.011, lx + 0.011, 0.6, 0.93, -0.218, -0.202, col)
 
 
 def make_instances(c):
