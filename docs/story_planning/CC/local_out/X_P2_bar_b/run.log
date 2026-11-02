@@ -1,0 +1,29 @@
+[gpu_wrap] CC_GPU=1 跑 C:\Users\USER\Documents\Lawstudent_cclocal\docs\story_planning\test_tools\cc\cc_bar_b8_probe.py http://127.0.0.1:8808/index.html?turbo C:\Users\USER\Documents\Lawstudent_cclocal\docs\story_planning\CC\local_out\X_P2_bar_b\out
+==== CASE missed1（SHA 62d98bfa5）====
+PASS missed1：遊戲載入
+  [前置／捷徑] [前置／捷徑] missed1：Node 前置（cc_bar_b8_prefix.js，遊戲自己的 PG 程式）停在 exam_2029 開演之前（8/5（日）07:00）；讀檔 zone 改 gongguan；前置走過的場景 []；旗標 {"BAR_REG": true, "GRADUATED": 1355, "MOVED_OUT": 1381}
+  [  30.1s] missed1：讀檔後 {"key": "2029-08-05", "day": 1419, "h": 7.007, "zone": "gongguan", "flags": {"BAR_REG": true}, "path": "A_none", "done": {}, "title": false, "nmsg": 4}
+  [  46.0s] missed1 2029-08-16 20:45 gongguan 選項 ["接起來：杜可昕打視訊來21:00", "晚一點（20 分鐘後再提醒）", "先不接"] → 先不接（pick）
+  [ 102.7s] missed1 2029-12-14 15:05 gongguan 選項 ["「恭喜。」", "「妳查了幾遍？」"] → 「恭喜。」（first）
+  [ 121.1s] missed1：2030 年 2030-01-25
+  [ 123.2s] missed1 2030-01-25 21:00 gongguan 選項 ["「恭喜！」", "「美國那份呢？」"] → 「恭喜！」（first）
+  [ 148.7s] missed1 2030-05-10 21:00 gongguan 選項 ["報名", "不報名"] → 報名（pick）
+  [ 299.6s] missed1 2030-12-13 17:30 gongguan 選項 ["出發：阿鳳麵店・長桌18:00　走過去約 15 分鐘", "晚一點（20 分鐘後再提醒）", "不去了"] → 不去了（decline）
+  [ 308.2s] missed1：2034 年 2034-06-03
+  [ 334.8s] missed1：尾聲 21 句：[["五年後", ""], ["2034 年 6 月 3 日", "兩點半 Café"], ["", "（兩點半 Café。窗邊那張雙人桌坐滿了人，旁邊的桌子都被併過來了。）"], ["", "（阿哲的習慣。五年了，還是一樣。）"], ["Alison", "他現在每次都說『有事』。很煩。"], ["阿哲", "有事啊。我餓了。"], ["許柏翰", "我在念博士班，論文寫刑訴的證據排除。寫得很慢。"], ["沈以安", "我在事務所做公司跟證券的案子。合約一份兩百頁，我每一頁都看。"], ["不認識的女生", "我在事務所，租賃的案子比較多。"], ["不認識的女生", "阿姨說你很久沒來了。下禮拜二來吃。"], ["阿凱", "……喔對，你現在是律師。"], ["郭沛珊", "我學生問我為什麼當老師。"], ["郭沛珊", "我說：因為大一的時候，我發現自己比較想知道框外面的人在想什麼。"], ["杜可昕", "書狀寫到一半。……先吃。"], ["", "cg_reunion_window_table_kexin"], ["阿哲", "你一直都是這樣。誰有事，你就先去查。"], ["祐廷", "我在法扶。這禮拜開了三個庭。"], ["", "（桌上，你面前放著杯墊。你不記得是誰把它拿出來的。）"], ["", "（可昕把手機放在桌上。手機殼背面夾著一張摩天輪票根，邊角已經磨白了。）"], ["", "（有人在講大一的事，大家笑得很大聲。窗外的溫州街，路燈亮了。）"], ["法條之外", ""]]
+  [ 334.8s] missed1：演過的場景 ["miss_exam_2029", "kx_bar_2029", "an1", "an2", "reg_2030", "b1_2030", "exam_2030", "r1_2030", "first", "e2a_2030", "e2b_2030", "r2_2030", "epi"]
+  [ 334.8s] missed1：考卷 [["bar", 2030, 1, "Q025", null, true, true], ["bar", 2030, 2, "Q035", null, true, true], ["bar", 2030, 3, "CIVS_17", "oblig_gen2", true, true], ["bar", 2030, 4, "SEC40_01", "securities", true, true], ["bar", 2030, 5, "SEC40_31", "securities", true, true], ["bar", 2030, 6, "CIVS_21", "oblig_gen2", true, true], ["bar", 2030, 7, "SEC40_27", "securities", true, true], ["bar", 2030, 8, "CRIM45_42", "crim_gen2", true, true], ["bar", 2030, 9, "CRIM45_01", "crim_gen1", true, true], ["bar", 2030, 10, "AI_CON1_09", "const_1", true, true], ["bar", 2030, 11, "CIV40_25", "oblig_gen2", true, true], ["bar", 2030, 12, "BBAI_LAB_10", "labor_law", true, true], ["bar", 2030, 13, "Q072", null, true, true], ["bar", 2030, 14, "BBAI_INS_06", "insurance", true, true], ["bar", 2030, 15, "AI_CON2_02", "const_2", false, true], ["bar", 2030, 16, "CIV40_13", "property", false, true], ["bar", 2030, 17, "LENG25_02", "legal_english", false, true], ["bar", 2030, 18, "BBAI_COM_07", "company_law", false, true], ["bar", 2030, 19, "SEC40_22", "securities", false, true], ["bar", 2030, 20, "AI_CON2_08", "const_2", false, true]]
+PASS missed1：一路跑到尾聲演完（EPILOGUE_DONE；305 秒）  {"epi": "A_bar", "stuck": null}
+PASS missed1：考卷畫面的選項和題庫一樣（20 題）  []
+PASS missed1：讀檔時 exam_2029 判 missed（時間過了沒去考）  {"exam_2029": "missed", "sit": null}
+PASS missed1：錯過的旁白「（那天早上，你沒有走進考場。准考證還夾在書裡。）」  ["（那天早上，你沒有走進考場。准考證還夾在書裡。）"]
+PASS missed1：2030 年 5 月問得到報名（「報名／不報名」，按報名）→ BAR_REG_2030 true  {"regs": [["2030-05-10", "國考報名，這週五截止。", ["報名", "不報名"]]], "BAR_REG_2030": true}
+PASS missed1：2030 一試照玩家考（20 題、答對 14）、沒有 2029 的考卷  {"n30": 20, "n29": 0, "score": 14}
+PASS missed1：BAR_YEAR 2030（錄取年）  {"BAR_YEAR": 2030, "BAR_STAGE_2030": "lawyer", "BAR_REG": true, "BAR_REG_2030": true}
+PASS missed1：沒有律師版錯過 2030 的旁白（MISSED.exam2030）
+  [ 334.8s] missed1：路線 A_bar；最後一句 "我在法扶。這禮拜開了三個庭。"；epiAfterLast []
+PASS missed1：尾聲的最後一句（PG.lastLine）有說出來  "我在法扶。這禮拜開了三個庭。"
+PASS missed1：沒有卡住  null
+PASS missed1：沒有 JS 例外  []
+SHA 62d98bfa5 CASES missed1
+ALL PASS

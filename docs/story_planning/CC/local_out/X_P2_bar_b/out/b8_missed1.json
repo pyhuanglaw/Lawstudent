@@ -1,0 +1,2971 @@
+{
+ "case": "missed1",
+ "sha": "62d98bfa5",
+ "info": {
+  "route": "missed1",
+  "stopped": true,
+  "stop": "exam_2029",
+  "it": 2,
+  "err": null,
+  "warns": [],
+  "at": "8/5（日）07:00",
+  "day": 1419,
+  "hour": 7,
+  "zone": "dorm",
+  "order": [],
+  "flags": {
+   "BAR_REG": true,
+   "GRADUATED": 1355,
+   "MOVED_OUT": 1381
+  },
+  "path": "A_none"
+ },
+ "start": {
+  "key": "2029-08-05",
+  "day": 1419,
+  "h": 7.007,
+  "zone": "gongguan",
+  "flags": {
+   "BAR_REG": true
+  },
+  "path": "A_none",
+  "done": {},
+  "title": false,
+  "nmsg": 4
+ },
+ "epi": {
+  "flags": {
+   "KX_FIRST_MSG": true,
+   "fundsV2": 1,
+   "allowanceMonth": 8,
+   "examSeed": 12345,
+   "BAR_REG": true,
+   "Y4_PATH": "bar",
+   "GRADUATED": 1355,
+   "PG": {
+    "done": {
+     "grad": 1,
+     "b1": "missed",
+     "exam_2029": "missed",
+     "fd_grades_y4s2": "missed",
+     "miss_exam_2029": 1,
+     "kx_bar_2029": 1,
+     "an1": 1,
+     "an2": 1,
+     "reg_2030": 1,
+     "b1_2030": 1,
+     "exam_2030": 1,
+     "r1_2030": 1,
+     "first": 1,
+     "e2a_2030": 1,
+     "e2b_2030": 1,
+     "r2_2030": 1,
+     "epi": 1
+    },
+    "lines": [
+     "（考前三個禮拜。讀書計畫表的格子一格一格劃掉，剩下的比劃掉的少了。）",
+     "（十一月。公館的騎樓下，開始有人在賣烤地瓜。）"
+    ],
+    "exam": {
+     "2030": {
+      "qs": [
+       "Q025",
+       "Q035",
+       "CIVS_17",
+       "SEC40_01",
+       "SEC40_31",
+       "CIVS_21",
+       "SEC40_27",
+       "CRIM45_42",
+       "CRIM45_01",
+       "AI_CON1_09",
+       "CIV40_25",
+       "BBAI_LAB_10",
+       "Q072",
+       "BBAI_INS_06",
+       "AI_CON2_02",
+       "CIV40_13",
+       "LENG25_02",
+       "BBAI_COM_07",
+       "SEC40_22",
+       "AI_CON2_08"
+      ],
+      "ans": [
+       "錯",
+       "錯",
+       "B",
+       "C",
+       "B",
+       "B",
+       "C",
+       "B",
+       "C",
+       "A",
+       "A",
+       "B",
+       "錯",
+       "A",
+       "B",
+       "A",
+       "B",
+       "B",
+       "B",
+       "A"
+      ]
+     }
+    }
+   },
+   "MOVED_OUT": 1381,
+   "GRAD_EVENING": "none",
+   "GRAD_DONE": true,
+   "VA10": "no",
+   "SIS_RESULT_OUT": true,
+   "knowsRel": {},
+   "spreadScan": {},
+   "_bbqUntilFix": 1,
+   "ROMANCE_HISTORY": [],
+   "CLEANUP_DONE": true,
+   "romance": {
+    "kexin": {
+     "status": "dating",
+     "since": "Y0",
+     "knows": [],
+     "suspicion": 0,
+     "history": []
+    },
+    "heroine_01": {
+     "status": "none",
+     "since": null,
+     "knows": [],
+     "suspicion": 0,
+     "history": []
+    }
+   },
+   "knowsRel_V": 1,
+   "ytKnows": {},
+   "dpDay": 1914,
+   "companion": null,
+   "dating_kexin": true,
+   "KX_DEC3_MIGRATED": true,
+   "LIFELINE_V": 1,
+   "YT_CONFESSED": {},
+   "YT_PROMISED": {},
+   "YT_BROKE_PROMISE": {},
+   "YT_LIED": {},
+   "OPEN_OK": {},
+   "YT_HONEST": {},
+   "YT_DODGED": {},
+   "YT_INTENT": {},
+   "DATE_OVERNIGHT": {},
+   "EXCHANGE_ROUTE": "TW",
+   "EXCH_APPLIED_DAY": 1419,
+   "EXCH_RULE": 1,
+   "HCIRCLE": {
+    "heard": {},
+    "once": {},
+    "intro": {}
+   },
+   "deptHear": {
+    "經濟:寒暑假": 0
+   },
+   "HEARD": {
+    "said": {},
+    "day": {},
+    "ph": {
+     "h503_kevin": "x:late",
+     "h503_pinyu": "x:late",
+     "h503_yule": "x:late",
+     "h504_kevin": "x:late",
+     "h504_yule": "x:late",
+     "h505_kevin": "x:late",
+     "h505_yule": "x:late",
+     "h505_pinyu": "x:late",
+     "h506_kevin": "x:late",
+     "h506_yule": "x:late",
+     "h506_pinyu": "x:late",
+     "h507_kevin": "x:late",
+     "h507_yule": "x:late",
+     "h507_pinyu": "x:late",
+     "h508_yu_an": "x:late",
+     "h508_zq_zr": "x:late",
+     "h508_yu_yt": "x:late",
+     "h508_yule": "x:late",
+     "h508_pinyu": "x:late",
+     "h509_yu_an": "x:late",
+     "h509_zq_zr": "x:late",
+     "h509_kevin": "x:late",
+     "h509_yule": "x:late",
+     "h509_pinyu": "x:late",
+     "h510_yu_an": "x:late",
+     "h510_yule": "x:late",
+     "h513_kai_lab": "x:late",
+     "h513_kai_blanket": "x:late",
+     "h513_kai_cat": "x:late",
+     "h510_pinyu": "sent",
+     "h510_zq_zr": "x:zqZr"
+    }
+   },
+   "RENT_RENEWED": true,
+   "YT_EV13": true,
+   "STUDY_AT_LAW": 0,
+   "CAREER_LEAN_V": 2,
+   "ROOM_Y2": 355,
+   "ROOM_Y3": 1419,
+   "ROOM_Y3_ITEMS": [],
+   "ROOM_Y3_DISCARD": null,
+   "CRIMPRO_HW": "none",
+   "AN_ABROAD": {
+    "log": [],
+    "tier": 1,
+    "wk": 19,
+    "n1": 0,
+    "n2": 0,
+    "n3": 0
+   },
+   "SUMMER_Y3": "study",
+   "ZZ": {
+    "v": 1,
+    "state": "remain_friends",
+    "since": 1419,
+    "ev": {},
+    "yt": "none",
+    "sem": {},
+    "fy": null,
+    "f3": null,
+    "forceB": false,
+    "held": null,
+    "version": null,
+    "month": null,
+    "ending": "A"
+   },
+   "ZZ_STATE": "remain_friends",
+   "ZZ_DATING": false,
+   "ZR_UK_BACK": 1419,
+   "AN_JP_DEPARTED": 921,
+   "WZ_COPY_SHOP": "moved",
+   "MREL": {
+    "v": 1,
+    "disc": {},
+    "pend": {},
+    "st": {},
+    "zr": {},
+    "zz": {},
+    "gh": {},
+    "scan": {},
+    "block": {},
+    "prom": {},
+    "once": {},
+    "like": {},
+    "liked": {},
+    "cpend": {},
+    "rb": {}
+   },
+   "PS_YC": {},
+   "CRACKTALK": {
+    "r": {
+     "heroine_01": {
+      "talked": {}
+     },
+     "heroine_03": {
+      "talked": {}
+     },
+     "classmate_peishan": {
+      "talked": {}
+     },
+     "heroine_02": {
+      "talked": {}
+     },
+     "heroine_04": {
+      "talked": {}
+     }
+    },
+    "seat": {},
+    "pc": {
+     "from": 0,
+     "note": {}
+    },
+    "src": {
+     "an1": {},
+     "an2": {
+      "used": {}
+     },
+     "yt2": {
+      "next": null
+     },
+     "ps": {
+      "visits": []
+     },
+     "zr": {},
+     "zq": {}
+    }
+   },
+   "V6EX": {
+    "starts": [],
+    "notes": []
+   },
+   "FEED": {
+    "start": 1419,
+    "items": [
+     {
+      "id": "an4i",
+      "who": "heroine_01",
+      "day": 1882,
+      "h": 9,
+      "tr": "pg",
+      "back": 45951.000088
+     }
+    ],
+    "done": {
+     "kx1": "old",
+     "an1": "old",
+     "yt1": "old",
+     "zr1": "old",
+     "ps1": "old",
+     "zq1": "old",
+     "kx2": "old",
+     "yt2": "old",
+     "kx3": "old",
+     "sis1": "old",
+     "an2": "old",
+     "zq2": "old",
+     "kx4": "old",
+     "yt3": "old",
+     "ps2": "old",
+     "zr2": "old",
+     "an3": "old",
+     "zr4": "old",
+     "zq3": "old",
+     "sis2": "old",
+     "kx5": "old",
+     "an4": "old",
+     "ps3": "old",
+     "yt4": "old",
+     "zr3": "old",
+     "zq4": "old",
+     "kx6": "old",
+     "zr5": "old",
+     "an5": "old",
+     "ps4": "old",
+     "an6": "old",
+     "an7": "old",
+     "zq5": "old",
+     "kx7": "old",
+     "ps5": "old",
+     "sis3": "old",
+     "zq6": "old",
+     "an8": "old",
+     "yt5": "old",
+     "ps6": "old",
+     "kx8": "old",
+     "zr6": "old",
+     "zq7": "old",
+     "yt6": "old",
+     "sis1b": "old",
+     "zr1b": "old",
+     "zq1b": "old",
+     "ps1b": "old",
+     "zq2b": "old",
+     "kx1b": "old",
+     "an1b": "old",
+     "ps2b": "old",
+     "kx2b": "old",
+     "zq3b": "old",
+     "an2b": "old",
+     "yt1b": "old",
+     "zr2b": "old",
+     "ps3b": "old",
+     "zr3b": "old",
+     "kx3b": "old",
+     "zq4b": "old",
+     "yt2b": "old",
+     "an3b": "old",
+     "ps4b": "old",
+     "sis2b": "old",
+     "an4b": "old",
+     "an5b": "old",
+     "sis3b": "old",
+     "ps5b": "old",
+     "sis4b": "old",
+     "zq5b": "old",
+     "yt3b": "old",
+     "kx4b": "old",
+     "zr4b": "old",
+     "ps6b": "old",
+     "zq6b": "old",
+     "zr5b": "old",
+     "kx5b": "old",
+     "yt4b": "old",
+     "kx6b": "old",
+     "an6b": "old",
+     "ps7b": "old",
+     "zq7b": "old",
+     "zr6b": "old",
+     "yt5b": "old",
+     "kx7b": "old",
+     "an7b": "old",
+     "ps8b": "old",
+     "sis5b": "old",
+     "yt6b": "old",
+     "zq8b": "old",
+     "sis1c": "old",
+     "zr1c": "old",
+     "sis2c": "old",
+     "yt1c": "old",
+     "ps1c": "old",
+     "kx1c": "old",
+     "an1c": "old",
+     "sis3c": "old",
+     "ps2c": "old",
+     "yt2c": "old",
+     "an2c": "old",
+     "zq1c": "old",
+     "zr2c": "old",
+     "kx2c": "old",
+     "ps3c": "old",
+     "zr3c": "old",
+     "kx3c": "old",
+     "an3c": "old",
+     "ps4c": "old",
+     "yt3c": "old",
+     "zq3c": "old",
+     "zq2c": "old",
+     "zr4c": "old",
+     "ps5c": "old",
+     "sis4c": "old",
+     "zq4c": "old",
+     "kx4c": "old",
+     "an4c": "old",
+     "sis5c": "old",
+     "zr5c": "old",
+     "an5c": "old",
+     "zr6c": "old",
+     "kx4bc": "old",
+     "zq5c": "old",
+     "yt4c": "old",
+     "an6c": "old",
+     "kx5c": "old",
+     "zq6c": "old",
+     "zr1d": "old",
+     "zq1d": "old",
+     "yt1d": "old",
+     "kx1d": "old",
+     "an1d": "old",
+     "sis1d": "old",
+     "zr2d": "old",
+     "zq2d": "old",
+     "yt2d": "old",
+     "sis2d": "old",
+     "zr3d": "old",
+     "an2d": "old",
+     "kx2d": "old",
+     "zq3d": "old",
+     "an3d": "old",
+     "sis3d": "old",
+     "yt3d": "old",
+     "zr4d": "old",
+     "an4d": "old",
+     "zr5d": "old",
+     "zq4d": "old",
+     "zr6d": "old",
+     "yt4d": "old",
+     "sis4d": "old",
+     "an5d": "old",
+     "kx3d": "old",
+     "zq5d": "old",
+     "yt5d": "old",
+     "zr7d": "old",
+     "an6d": "old",
+     "an7d": "old",
+     "kx4d": "old",
+     "zq6d": "old",
+     "yt6d": "old",
+     "sis5d": "old",
+     "zr8d": "old",
+     "yt7d": "old",
+     "an8d": "old",
+     "zq7d": "old",
+     "ps1d": "old",
+     "zr1e": "old",
+     "sis1e": "old",
+     "zq1e": "old",
+     "kx1e": "old",
+     "zr2e": "old",
+     "an1e": "old",
+     "yt1e": "old",
+     "zq2e": "old",
+     "sis2e": "old",
+     "an2e": "old",
+     "kx2e": "old",
+     "yt2e": "old",
+     "zr3e": "old",
+     "ps1e": "old",
+     "zq3e": "old",
+     "sis3e": "old",
+     "zr4e": "old",
+     "yt3e": "old",
+     "ps2e": "old",
+     "an3e": "old",
+     "yt4e": "old",
+     "zq4e": "old",
+     "zr5e": "old",
+     "an4e": "old",
+     "ps3e": "old",
+     "kx3e": "old",
+     "zq5e": "old",
+     "sis4e": "old",
+     "an5e": "old",
+     "zr6e": "old",
+     "an6e": "old",
+     "ps4e": "old",
+     "kx4e": "old",
+     "zq6e": "old",
+     "yt5e": "old",
+     "zr7e": "old",
+     "an7e": "old",
+     "sis5e": "old",
+     "yt6e": "old",
+     "zr8e": "old",
+     "zq7e": "old",
+     "zq1f": "old",
+     "an1f": "old",
+     "yt1f": "old",
+     "sis1f": "old",
+     "kx1f": "old",
+     "zr1f": "old",
+     "ps1f": "old",
+     "sis2f": "old",
+     "yt2f": "old",
+     "zq2f": "old",
+     "kx2f": "old",
+     "ps2f": "old",
+     "an2f": "old",
+     "zq3f": "old",
+     "zr2f": "old",
+     "an3f": "old",
+     "yt3f": "old",
+     "ps3f": "old",
+     "zr3f": "old",
+     "sis3f": "old",
+     "kx3f": "old",
+     "zq4f": "old",
+     "yt4f": "old",
+     "zr4f": "old",
+     "ps4f": "old",
+     "an4f": "old",
+     "sis4f": "old",
+     "zq5f": "old",
+     "yt5f": "old",
+     "zq6f": "old",
+     "zr5f": "old",
+     "kx4f": "old",
+     "an5f": "old",
+     "yt6f": "old",
+     "ps5f": "old",
+     "zr6f": "old",
+     "an6f": "old",
+     "yt7f": "old",
+     "zq7f": "old",
+     "an7f": "old",
+     "zr7f": "old",
+     "yt1g": "old",
+     "an1g": "old",
+     "sis1g": "old",
+     "kx1g": "old",
+     "zr1g": "old",
+     "zq1g": "old",
+     "an2g": "old",
+     "ps1g": "old",
+     "zq2g": "old",
+     "kx2g": "old",
+     "sis2g": "old",
+     "zr2g": "old",
+     "yt2g": "old",
+     "ps2g": "old",
+     "zq3g": "old",
+     "kx3g": "old",
+     "an3g": "old",
+     "sis3g": "old",
+     "zr3g": "old",
+     "ps3g": "old",
+     "yt3g": "old",
+     "zq4g": "old",
+     "sis4g": "old",
+     "zr4g": "old",
+     "an4g": "old",
+     "ps4g": "old",
+     "yt4g": "old",
+     "kx4g": "old",
+     "an5g": "old",
+     "yt5g": "old",
+     "zq5g": "old",
+     "an6g": "old",
+     "zr5g": "old",
+     "kx1h": "old",
+     "an1h": "old",
+     "sis1h": "old",
+     "zq1h": "old",
+     "zr1h": "old",
+     "yt1h": "old",
+     "ps1h": "old",
+     "ps2h": "old",
+     "zq2h": "old",
+     "yt2h": "old",
+     "kx2h": "old",
+     "zr2h": "old",
+     "an2h": "old",
+     "sis2h": "old",
+     "zq3h": "old",
+     "ps3h": "old",
+     "yt3h": "old",
+     "zr3h": "old",
+     "kx3h": "old",
+     "sis3h": "old",
+     "an3h": "old",
+     "sis4h": "old",
+     "an4h": "old",
+     "yt4h": "old",
+     "zr4h": "old",
+     "zq4h": "old",
+     "ps4h": "old",
+     "kx4h": "p",
+     "an5h": "x:stage",
+     "yt5h": "x:contact",
+     "zr5h": "x:contact",
+     "zq5h": "x:contact",
+     "an6h": "p",
+     "zr1i": "x:contact",
+     "yt1i": "x:contact",
+     "an1i": "p",
+     "sis1i": "x:stage",
+     "ps1i": "x:contact",
+     "zq1i": "x:contact",
+     "yt2i": "x:contact",
+     "an2i": "x:stage",
+     "kx1i": "p",
+     "ps2i": "x:contact",
+     "zr2i": "x:contact",
+     "sis2i": "x:stage",
+     "zq2i": "x:contact",
+     "kx2i": "p",
+     "an3i": "p",
+     "yt3i": "x:contact",
+     "zr3i": "x:contact",
+     "zq3i": "x:contact",
+     "ps3i": "x:contact",
+     "sis3i": "x:stage",
+     "ps4i": "x:contact",
+     "kx3i": "p",
+     "an4i": "p"
+    },
+    "dm": {
+     "yt_subject": "old",
+     "ps_phil": "old",
+     "an_mom": "old",
+     "kx_rpt": "old",
+     "zr_exch": "old",
+     "kx_rpt2": "old",
+     "zq_practice": "old",
+     "zr_menu": "old",
+     "an_list": "old",
+     "sis_ch3": "old",
+     "yt_aunt": "old",
+     "zr_spring": "old",
+     "an_mom2": "old",
+     "sis_cap": "old",
+     "yt_pass": "old",
+     "kx_mei": "old",
+     "an_done": "old",
+     "kx_moot": "old",
+     "sis_chishang": "old",
+     "yt_sea": "old",
+     "kx_win": "old",
+     "sis_rest": "old",
+     "yt_ask_aunt": "old"
+    },
+    "seen": -1000000000,
+    "dq": [],
+    "dt": {},
+    "dtTrip": {}
+   },
+   "HASK": {
+    "sent": [],
+    "st": {},
+    "redo": [],
+    "plan": 1914
+   },
+   "YL_PH": {
+    "yl_run": "x:late",
+    "yl_halfmara": "x:late",
+    "yl_ahuang": "x:late",
+    "yl_officer": "x:late",
+    "yl_photo": "x:late",
+    "yl_chiayi": "x:late",
+    "yl_bday": "x:late",
+    "yl_family_law": "x:late",
+    "yl_interview": "x:late",
+    "yl_crayons": "x:late",
+    "yl_decide": "x:late",
+    "yl_report": "x:late",
+    "yl_study": "x:late",
+    "yl_lec_ask": "x:late",
+    "yl_rpt_after": "x:late",
+    "yl_kx_family": "x:late",
+    "yl_after_exam": "x:cond"
+   },
+   "EF_PH": {
+    "ef_chain": "x:late",
+    "ef_scatter": "x:late",
+    "ef_script": "x:late",
+    "ef_nine_hours": "x:late",
+    "ef_grad": "x:late",
+    "jpc_vet_level2": "x:late",
+    "jpc_korean": "x:late",
+    "jpc_vet_ask": "x:late"
+   },
+   "AA519": {
+    "talk": {}
+   },
+   "_autoAsk": [
+    "週末來木柵大學？我當導遊。",
+    "明軒那邊我開視訊 讓他看月亮",
+    "……地點你選。我那天下午有空。",
+    "有事想說。",
+    "早上十點 桃園 要去的舉手"
+   ],
+   "ROOM_Y4": 1419,
+   "ROOM_Y4_ITEMS": [],
+   "BOX_KEPT_Y4": null,
+   "kaiDorm": {},
+   "SIS_EXAM_DONE": true,
+   "amb": {},
+   "afternoonDone": true,
+   "anMissed": true,
+   "anAfter": true,
+   "_planHint": 2,
+   "OUT_WORLDREN": 1,
+   "MIDAUTUMN_2029": "no",
+   "KX_ANNIV": {
+    "5": "missed"
+   },
+   "BAR_REG_2030": true,
+   "BAR_SCORE_2030": 14,
+   "BAR_SIT_2030": true,
+   "AN_NY_SENDOFF": "missed",
+   "BAR_STAGE_2030": "lawyer",
+   "FIRST_DAY_SEEN": true,
+   "BAR_YEAR": 2030,
+   "EPI_ITEMS": [
+    "杯墊",
+    "摩天輪票根"
+   ],
+   "EPILOGUE_DONE": true
+  },
+  "path": "A_bar",
+  "last": "我在法扶。這禮拜開了三個庭。",
+  "after": [],
+  "done": {
+   "grad": 1,
+   "b1": "missed",
+   "exam_2029": "missed",
+   "fd_grades_y4s2": "missed",
+   "miss_exam_2029": 1,
+   "kx_bar_2029": 1,
+   "an1": 1,
+   "an2": 1,
+   "reg_2030": 1,
+   "b1_2030": 1,
+   "exam_2030": 1,
+   "r1_2030": 1,
+   "first": 1,
+   "e2a_2030": 1,
+   "e2b_2030": 1,
+   "r2_2030": 1,
+   "epi": 1
+  }
+ },
+ "rows": [
+  {
+   "k": "step",
+   "n": "start",
+   "t": "miss_exam_2029",
+   "d": "2029-08-05",
+   "h": 7.012,
+   "z": "gongguan"
+  },
+  {
+   "k": "say",
+   "n": "",
+   "c": null,
+   "t": "（那天早上，你沒有走進考場。准考證還夾在書裡。）",
+   "d": "2029-08-05",
+   "h": 7.012,
+   "z": "gongguan"
+  },
+  {
+   "k": "step",
+   "n": "end",
+   "t": "miss_exam_2029",
+   "d": "2029-08-05",
+   "h": 7.012,
+   "z": "gongguan"
+  },
+  {
+   "k": "card",
+   "n": "8/7（二）22:00",
+   "t": "",
+   "d": "2029-08-07",
+   "h": 22,
+   "z": "gongguan"
+  },
+  {
+   "k": "toast",
+   "n": "",
+   "t": "排進行程：今天 21:00　杜可昕打視訊來。時間到會跳出「出發」，手機的「今天」也看得到。",
+   "d": "2029-08-16",
+   "h": 0,
+   "z": "gongguan"
+  },
+  {
+   "k": "card",
+   "n": "8/16（四）20:45",
+   "t": "",
+   "d": "2029-08-16",
+   "h": 20.75,
+   "z": "gongguan"
+  },
+  {
+   "k": "toast",
+   "n": "dom",
+   "t": "排進行程：今天 21:00　杜可昕打視訊來。時間到會跳出「出發」，手機的「今天」也看得到。",
+   "d": "2029-08-16",
+   "h": 20.75,
+   "z": "gongguan"
+  },
+  {
+   "k": "choose",
+   "n": "",
+   "t": "接起來：杜可昕打視訊來〔21:00〕｜晚一點（20 分鐘後再提醒）｜先不接",
+   "d": "2029-08-16",
+   "h": 20.751,
+   "z": "gongguan"
+  },
+  {
+   "k": "card",
+   "n": "9/7（五）15:00",
+   "t": "",
+   "d": "2029-09-07",
+   "h": 15,
+   "z": "gongguan"
+  },
+  {
+   "k": "card",
+   "n": "9/20（四）21:00",
+   "t": "",
+   "d": "2029-09-20",
+   "h": 21,
+   "z": "gongguan"
+  },
+  {
+   "k": "card",
+   "n": "9/22（六）20:00",
+   "t": "",
+   "d": "2029-09-22",
+   "h": 20,
+   "z": "gongguan"
+  },
+  {
+   "k": "card",
+   "n": "10/10（三）23:00",
+   "t": "",
+   "d": "2029-10-10",
+   "h": 23,
+   "z": "gongguan"
+  },
+  {
+   "k": "card",
+   "n": "10/18（四）17:00",
+   "t": "",
+   "d": "2029-10-18",
+   "h": 17,
+   "z": "gongguan"
+  },
+  {
+   "k": "card",
+   "n": "12/14（五）15:00",
+   "t": "（十一月。公館的騎樓下，開始有人在賣烤地瓜。）",
+   "d": "2029-12-14",
+   "h": 15,
+   "z": "gongguan"
+  },
+  {
+   "k": "step",
+   "n": "start",
+   "t": "kx_bar_2029",
+   "d": "2029-12-14",
+   "h": 15.083,
+   "z": "gongguan"
+  },
+  {
+   "k": "toast",
+   "n": "",
+   "t": "手機響了。",
+   "d": "2029-12-14",
+   "h": 15.083,
+   "z": "gongguan"
+  },
+  {
+   "k": "say",
+   "n": "",
+   "c": null,
+   "t": "（下午三點多。可昕打來了。）",
+   "d": "2029-12-14",
+   "h": 15.083,
+   "z": "gongguan"
+  },
+  {
+   "k": "toast",
+   "n": "dom",
+   "t": "手機響了。",
+   "d": "2029-12-14",
+   "h": 15.083,
+   "z": "gongguan"
+  },
+  {
+   "k": "say",
+   "n": "杜可昕（電話）",
+   "c": null,
+   "t": "……律師考試放榜了。",
+   "d": "2029-12-14",
+   "h": 15.083,
+   "z": "gongguan"
+  },
+  {
+   "k": "say",
+   "n": "杜可昕（電話）",
+   "c": null,
+   "t": "我上了。",
+   "d": "2029-12-14",
+   "h": 15.083,
+   "z": "gongguan"
+  },
+  {
+   "k": "choose",
+   "n": "",
+   "t": "「恭喜。」｜「妳查了幾遍？」",
+   "d": "2029-12-14",
+   "h": 15.083,
+   "z": "gongguan"
+  },
+  {
+   "k": "say",
+   "n": "杜可昕（電話）",
+   "c": null,
+   "t": "嗯。",
+   "d": "2029-12-14",
+   "h": 15.083,
+   "z": "gongguan"
+  },
+  {
+   "k": "say",
+   "n": "杜可昕（電話）",
+   "c": null,
+   "t": "今天你負責宵夜。",
+   "d": "2029-12-14",
+   "h": 15.083,
+   "z": "gongguan"
+  },
+  {
+   "k": "say",
+   "n": "",
+   "c": null,
+   "t": "（那天晚上的宵夜，兩碗酸辣湯餃，你付的。她一直在笑。）",
+   "d": "2029-12-14",
+   "h": 15.083,
+   "z": "gongguan"
+  },
+  {
+   "k": "step",
+   "n": "end",
+   "t": "kx_bar_2029",
+   "d": "2029-12-14",
+   "h": 15.083,
+   "z": "gongguan"
+  },
+  {
+   "k": "step",
+   "n": "start",
+   "t": "an1",
+   "d": "2029-12-14",
+   "h": 21,
+   "z": "gongguan"
+  },
+  {
+   "k": "toast",
+   "n": "",
+   "t": "手機響了。",
+   "d": "2029-12-14",
+   "h": 21,
+   "z": "gongguan"
+  },
+  {
+   "k": "say",
+   "n": "沈以安（電話）",
+   "c": null,
+   "t": "二試過了。一月面試。",
+   "d": "2029-12-14",
+   "h": 21,
+   "z": "gongguan"
+  },
+  {
+   "k": "say",
+   "n": "沈以安（電話）",
+   "c": null,
+   "t": "我還寄了一份申請。美國的。……先不要問。",
+   "d": "2029-12-14",
+   "h": 21,
+   "z": "gongguan"
+  },
+  {
+   "k": "step",
+   "n": "end",
+   "t": "an1",
+   "d": "2029-12-14",
+   "h": 21,
+   "z": "gongguan"
+  },
+  {
+   "k": "card",
+   "n": "1/25（五）21:00",
+   "t": "",
+   "d": "2030-01-25",
+   "h": 21,
+   "z": "gongguan"
+  },
+  {
+   "k": "step",
+   "n": "start",
+   "t": "an2",
+   "d": "2030-01-25",
+   "h": 21,
+   "z": "gongguan"
+  },
+  {
+   "k": "toast",
+   "n": "",
+   "t": "手機響了。",
+   "d": "2030-01-25",
+   "h": 21,
+   "z": "gongguan"
+  },
+  {
+   "k": "say",
+   "n": "沈以安（電話）",
+   "c": null,
+   "t": "司法官上了。",
+   "d": "2030-01-25",
+   "h": 21,
+   "z": "gongguan"
+  },
+  {
+   "k": "choose",
+   "n": "",
+   "t": "「恭喜！」｜「美國那份呢？」",
+   "d": "2030-01-25",
+   "h": 21,
+   "z": "gongguan"
+  },
+  {
+   "k": "say",
+   "n": "沈以安（電話）",
+   "c": null,
+   "t": "嗯。……三月還有一個結果。",
+   "d": "2030-01-25",
+   "h": 21,
+   "z": "gongguan"
+  },
+  {
+   "k": "step",
+   "n": "end",
+   "t": "an2",
+   "d": "2030-01-25",
+   "h": 21,
+   "z": "gongguan"
+  },
+  {
+   "k": "card",
+   "n": "3/27（三）21:00",
+   "t": "",
+   "d": "2030-03-27",
+   "h": 21,
+   "z": "gongguan"
+  },
+  {
+   "k": "card",
+   "n": "3/28（四）22:00",
+   "t": "",
+   "d": "2030-03-28",
+   "h": 22,
+   "z": "gongguan"
+  },
+  {
+   "k": "card",
+   "n": "5/10（五）21:00",
+   "t": "",
+   "d": "2030-05-10",
+   "h": 21,
+   "z": "gongguan"
+  },
+  {
+   "k": "step",
+   "n": "start",
+   "t": "reg_2030",
+   "d": "2030-05-10",
+   "h": 21,
+   "z": "gongguan"
+  },
+  {
+   "k": "say",
+   "n": "",
+   "c": null,
+   "t": "國考報名，這週五截止。",
+   "d": "2030-05-10",
+   "h": 21,
+   "z": "gongguan"
+  },
+  {
+   "k": "choose",
+   "n": "",
+   "t": "報名｜不報名",
+   "d": "2030-05-10",
+   "h": 21,
+   "z": "gongguan"
+  },
+  {
+   "k": "step",
+   "n": "end",
+   "t": "reg_2030",
+   "d": "2030-05-10",
+   "h": 21,
+   "z": "gongguan"
+  },
+  {
+   "k": "card",
+   "n": "7/11（四）17:00",
+   "t": "",
+   "d": "2030-07-11",
+   "h": 17,
+   "z": "gongguan"
+  },
+  {
+   "k": "step",
+   "n": "start",
+   "t": "b1_2030",
+   "d": "2030-07-11",
+   "h": 20,
+   "z": "gongguan"
+  },
+  {
+   "k": "card",
+   "n": "7/11（四）20:00",
+   "t": "總圖 B1",
+   "d": "2030-07-11",
+   "h": 20,
+   "z": "gongguan"
+  },
+  {
+   "k": "bg",
+   "n": "begin",
+   "t": "{\"image\":\"assets/bg/ntu_lib_b1.webp\"}",
+   "d": "2030-07-11",
+   "h": 20,
+   "z": "gongguan"
+  },
+  {
+   "k": "say",
+   "n": "",
+   "c": null,
+   "t": "（總圖 B1。長桌只坐了一半，考古題疊得一樣高。）",
+   "d": "2030-07-11",
+   "h": 20,
+   "z": "gongguan"
+  },
+  {
+   "k": "say",
+   "n": "阿哲",
+   "c": "zhe",
+   "t": "（把滷味放在桌子正中間）剩三個禮拜了，吃好一點。",
+   "d": "2030-07-11",
+   "h": 20,
+   "z": "gongguan"
+  },
+  {
+   "k": "step",
+   "n": "end",
+   "t": "b1_2030",
+   "d": "2030-07-11",
+   "h": 22,
+   "z": "gongguan"
+  },
+  {
+   "k": "card",
+   "n": "8/3（六）07:30",
+   "t": "",
+   "d": "2030-08-03",
+   "h": 7.5,
+   "z": "gongguan"
+  },
+  {
+   "k": "step",
+   "n": "start",
+   "t": "exam_2030",
+   "d": "2030-08-03",
+   "h": 8,
+   "z": "gongguan"
+  },
+  {
+   "k": "card",
+   "n": "考場",
+   "t": "8/3（六）08:30",
+   "d": "2030-08-03",
+   "h": 8.5,
+   "z": "gongguan"
+  },
+  {
+   "k": "bg",
+   "n": "begin",
+   "t": "{\"image\":\"assets/bg/exam_hs_classroom.webp\"}",
+   "d": "2030-08-03",
+   "h": 8.5,
+   "z": "gongguan"
+  },
+  {
+   "k": "say",
+   "n": "",
+   "c": null,
+   "t": "1／20　正當法律程序只存在於審判階段，偵查完全不受拘束。",
+   "d": "2030-08-03",
+   "h": 8.5,
+   "z": "gongguan"
+  },
+  {
+   "k": "choose",
+   "n": "",
+   "t": "對｜錯",
+   "d": "2030-08-03",
+   "h": 8.5,
+   "z": "gongguan"
+  },
+  {
+   "k": "say",
+   "n": "",
+   "c": null,
+   "t": "2／20　自白只要內容最後被證明是真的，就不必考慮取得方法。",
+   "d": "2030-08-03",
+   "h": 8.5,
+   "z": "gongguan"
+  },
+  {
+   "k": "choose",
+   "n": "",
+   "t": "對｜錯",
+   "d": "2030-08-03",
+   "h": 8.5,
+   "z": "gongguan"
+  },
+  {
+   "k": "say",
+   "n": "",
+   "c": null,
+   "t": "3／20　依民法第227條，因可歸責於債務人的事由，致為不完全給付者，債權人得依其情形行使何種權利？",
+   "d": "2030-08-03",
+   "h": 8.5,
+   "z": "gongguan"
+  },
+  {
+   "k": "choose",
+   "n": "",
+   "t": "（A）一律直接取得債務人全部財產｜（B）依給付遲延或給付不能的規定行使權利｜（C）一律請求三倍懲罰性賠償｜（D）自動取得債務人的繼承權",
+   "d": "2030-08-03",
+   "h": 8.5,
+   "z": "gongguan"
+  },
+  {
+   "k": "say",
+   "n": "",
+   "c": null,
+   "t": "4／20　禁止內線交易規範的主要目的為何？",
+   "d": "2030-08-03",
+   "h": 8.5,
+   "z": "gongguan"
+  },
+  {
+   "k": "choose",
+   "n": "",
+   "t": "（A）確保所有投資人獲得相同報酬｜（B）禁止公司董事持有股票｜（C）維護證券市場交易公平性及投資人權益｜（D）保證股票價格持續上漲",
+   "d": "2030-08-03",
+   "h": 8.5,
+   "z": "gongguan"
+  },
+  {
+   "k": "say",
+   "n": "",
+   "c": null,
+   "t": "5／20　依證券交易法第28條之2，下列何者屬於上市或上櫃公司得依法買回自己股份的目的？",
+   "d": "2030-08-03",
+   "h": 8.5,
+   "z": "gongguan"
+  },
+  {
+   "k": "choose",
+   "n": "",
+   "t": "（A）無條件讓董事長永久持有公司股份｜（B）轉讓股份予員工｜（C）避免公司編製財務報告｜（D）使公司不再受到主管機關監督",
+   "d": "2030-08-03",
+   "h": 8.5,
+   "z": "gongguan"
+  },
+  {
+   "k": "say",
+   "n": "",
+   "c": null,
+   "t": "6／20　依民法第334條第1項，二人互負債務，給付種類相同，且均屆清償期者，原則上得如何？",
+   "d": "2030-08-03",
+   "h": 8.5,
+   "z": "gongguan"
+  },
+  {
+   "k": "choose",
+   "n": "",
+   "t": "（A）當然使兩個契約全部無效｜（B）各以其債務與他方債務互為抵銷｜（C）僅得聲請刑事法院處理｜（D）必須先經公證始得抵銷",
+   "d": "2030-08-03",
+   "h": 8.5,
+   "z": "gongguan"
+  },
+  {
+   "k": "say",
+   "n": "",
+   "c": null,
+   "t": "7／20　會計師辦理財務報告簽證時，違反業務上應盡的義務，致投資人因財報主要內容不實而受損害。依證券交易法第20條之1，下列何者正確？",
+   "d": "2030-08-03",
+   "h": 8.5,
+   "z": "gongguan"
+  },
+  {
+   "k": "choose",
+   "n": "",
+   "t": "（A）會計師一律不負民事責任｜（B）只有發行人可以向會計師請求賠償｜（C）符合法定要件時，會計師可能負損害賠償責任｜（D）會計師只要取得會計師執照，即永久免責",
+   "d": "2030-08-03",
+   "h": 8.5,
+   "z": "gongguan"
+  },
+  {
+   "k": "say",
+   "n": "",
+   "c": null,
+   "t": "8／20　甲教唆乙殺害丙，但乙完全不受影響，始終沒有產生殺人犯意，也未著手實行殺人。依刑法第29條及現行刑法的共犯從屬原則，下列何者最適當？",
+   "d": "2030-08-03",
+   "h": 8.5,
+   "z": "gongguan"
+  },
+  {
+   "k": "choose",
+   "n": "",
+   "t": "（A）甲必然成立殺人既遂罪｜（B）甲原則上不成立殺人罪的教唆犯｜（C）甲必然成立殺人未遂罪｜（D）只要甲曾說出教唆言詞，就必然與殺人既遂同刑",
+   "d": "2030-08-03",
+   "h": 8.5,
+   "z": "gongguan"
+  },
+  {
+   "k": "say",
+   "n": "",
+   "c": null,
+   "t": "9／20　甲於行為時觸犯某罪，法定刑為一年以上五年以下有期徒刑。案件尚未判決確定前，法律修正為六月以上三年以下有期徒刑。依刑法第2條第1項，下列何者正確？",
+   "d": "2030-08-03",
+   "h": 8.5,
+   "z": "gongguan"
+  },
+  {
+   "k": "choose",
+   "n": "",
+   "t": "（A）一律適用行為時法律｜（B）一律適用裁判時法律，不論是否有利｜（C）原則適用行為時法律，但行為後法律有利於行為人者，適用最有利的法律｜（D）由檢察官任意選擇適用法律",
+   "d": "2030-08-03",
+   "h": 8.5,
+   "z": "gongguan"
+  },
+  {
+   "k": "say",
+   "n": "",
+   "c": null,
+   "t": "10／20　政府為了開一條公共道路，依法徵收甲的土地。下列敘述何者最符合憲法保障財產權的意旨？",
+   "d": "2030-08-03",
+   "h": 8.5,
+   "z": "gongguan"
+  },
+  {
+   "k": "choose",
+   "n": "",
+   "t": "（A）國家依法徵收私人土地，應給予合理的補償｜（B）為了公共利益，國家可以無償取得甲的土地｜（C）只要符合公共利益，徵收不需要法律依據｜（D）財產權不是憲法列舉的權利，甲只能依第 22 條主張",
+   "d": "2030-08-03",
+   "h": 8.5,
+   "z": "gongguan"
+  },
+  {
+   "k": "say",
+   "n": "",
+   "c": null,
+   "t": "11／20　甲與乙訂立買賣契約後，因可歸責於甲的事由，致甲應交付的特定物滅失而不能給付。依民法第226條第1項，乙原則上得請求何者？",
+   "d": "2030-08-03",
+   "h": 8.5,
+   "z": "gongguan"
+  },
+  {
+   "k": "choose",
+   "n": "",
+   "t": "（A）損害賠償｜（B）撤銷乙自己的所有法律行為｜（C）直接取得甲的全部財產｜（D）宣告甲喪失行為能力",
+   "d": "2030-08-03",
+   "h": 8.5,
+   "z": "gongguan"
+  },
+  {
+   "k": "say",
+   "n": "",
+   "c": null,
+   "t": "12／20　申在公司任職已經滿一年，孩子剛滿一歲。依性別平等工作法第16條第1項，申可不可以申請育嬰留職停薪？期間最長到什麼時候？",
+   "d": "2030-08-03",
+   "h": 8.5,
+   "z": "gongguan"
+  },
+  {
+   "k": "choose",
+   "n": "",
+   "t": "（A）不可以，要任職滿三年｜（B）可以，期間至該子女滿三歲止，但不得逾二年｜（C）可以，期間不限｜（D）可以，但最多三個月",
+   "d": "2030-08-03",
+   "h": 8.5,
+   "z": "gongguan"
+  },
+  {
+   "k": "say",
+   "n": "",
+   "c": null,
+   "t": "13／20　羈押可以純粹作為提前懲罰被告的工具。",
+   "d": "2030-08-03",
+   "h": 8.5,
+   "z": "gongguan"
+  },
+  {
+   "k": "choose",
+   "n": "",
+   "t": "對｜錯",
+   "d": "2030-08-03",
+   "h": 8.5,
+   "z": "gongguan"
+  },
+  {
+   "k": "say",
+   "n": "",
+   "c": null,
+   "t": "14／20　己想多領一點錢，把同一輛機車的竊盜險，同時向三家保險公司投保，而且故意不告訴各家公司另外還有投保。依保險法，這些保險契約的效力如何？",
+   "d": "2030-08-03",
+   "h": 8.5,
+   "z": "gongguan"
+  },
+  {
+   "k": "choose",
+   "n": "",
+   "t": "（A）無效｜（B）有效，三家都要全額賠｜（C）有效，但只能領一家｜（D）效力未定，等保險公司承認",
+   "d": "2030-08-03",
+   "h": 8.5,
+   "z": "gongguan"
+  },
+  {
+   "k": "say",
+   "n": "",
+   "c": null,
+   "t": "15／20　依憲法增修條文，行政院院長怎麼產生？",
+   "d": "2030-08-03",
+   "h": 8.5,
+   "z": "gongguan"
+  },
+  {
+   "k": "choose",
+   "n": "",
+   "t": "（A）由總統任命，不須經立法院同意｜（B）由總統提名，經立法院同意後任命｜（C）由立法院選出｜（D）由人民直接選舉",
+   "d": "2030-08-03",
+   "h": 8.5,
+   "z": "gongguan"
+  },
+  {
+   "k": "say",
+   "n": "",
+   "c": null,
+   "t": "16／20　動產善意取得制度，主要保護何種利益？",
+   "d": "2030-08-03",
+   "h": 8.5,
+   "z": "gongguan"
+  },
+  {
+   "k": "choose",
+   "n": "",
+   "t": "（A）原所有人永遠不得喪失所有權｜（B）動產交易安全與善意受讓人的信賴｜（C）任何占有人都能立即取得所有權｜（D）所有無償取得人均受完全保護",
+   "d": "2030-08-03",
+   "h": 8.5,
+   "z": "gongguan"
+  },
+  {
+   "k": "say",
+   "n": "",
+   "c": null,
+   "t": "17／20　Which of the following means “a legally enforceable agreement”?",
+   "d": "2030-08-03",
+   "h": 8.5,
+   "z": "gongguan"
+  },
+  {
+   "k": "choose",
+   "n": "",
+   "t": "（A）Contract｜（B）Crime｜（C）Evidence｜（D）Judgment",
+   "d": "2030-08-03",
+   "h": 8.5,
+   "z": "gongguan"
+  },
+  {
+   "k": "say",
+   "n": "",
+   "c": null,
+   "t": "18／20　某股份有限公司要決定跟一家廠商簽一般的進貨合約。公司法和章程都沒有規定這件事要由股東會決議。這件事原則上由誰決議？",
+   "d": "2030-08-03",
+   "h": 8.5,
+   "z": "gongguan"
+  },
+  {
+   "k": "choose",
+   "n": "",
+   "t": "（A）董事會｜（B）股東會｜（C）監察人｜（D）主管機關",
+   "d": "2030-08-03",
+   "h": 8.5,
+   "z": "gongguan"
+  },
+  {
+   "k": "say",
+   "n": "",
+   "c": null,
+   "t": "19／20　依證券交易法第7條，下列何者最符合「募集」與「私募」的區別？",
+   "d": "2030-08-03",
+   "h": 8.5,
+   "z": "gongguan"
+  },
+  {
+   "k": "choose",
+   "n": "",
+   "t": "（A）募集係對非特定人公開招募，私募則依法律規定對特定人招募｜（B）募集只能發行公司債，私募只能發行股票｜（C）募集不受證券交易法規範，私募才受規範｜（D）募集必須在證券交易所進行，私募必須在銀行進行",
+   "d": "2030-08-03",
+   "h": 8.5,
+   "z": "gongguan"
+  },
+  {
+   "k": "say",
+   "n": "",
+   "c": null,
+   "t": "20／20　甲是剛滿十八歲、沒有受監護宣告的中華民國國民，從小一直住在臺灣。依現行規定，下列敘述何者正確？",
+   "d": "2030-08-03",
+   "h": 8.5,
+   "z": "gongguan"
+  },
+  {
+   "k": "choose",
+   "n": "",
+   "t": "（A）甲可以在總統選舉投票，但還不能參加公民投票｜（B）甲可以參加全國性公民投票，但還不能在總統選舉投票｜（C）甲兩者都可以參加｜（D）甲兩者都還不能參加",
+   "d": "2030-08-03",
+   "h": 8.5,
+   "z": "gongguan"
+  },
+  {
+   "k": "say",
+   "n": "",
+   "c": null,
+   "t": "交卷。",
+   "d": "2030-08-03",
+   "h": 8.5,
+   "z": "gongguan"
+  },
+  {
+   "k": "step",
+   "n": "end",
+   "t": "exam_2030",
+   "d": "2030-08-03",
+   "h": 17.5,
+   "z": "gongguan"
+  },
+  {
+   "k": "card",
+   "n": "8/10（六）21:00",
+   "t": "",
+   "d": "2030-08-10",
+   "h": 21,
+   "z": "gongguan"
+  },
+  {
+   "k": "card",
+   "n": "8/11（日）11:40",
+   "t": "",
+   "d": "2030-08-11",
+   "h": 11.667,
+   "z": "gongguan"
+  },
+  {
+   "k": "card",
+   "n": "9/6（五）15:00",
+   "t": "",
+   "d": "2030-09-06",
+   "h": 15,
+   "z": "gongguan"
+  },
+  {
+   "k": "step",
+   "n": "start",
+   "t": "r1_2030",
+   "d": "2030-09-06",
+   "h": 15.083,
+   "z": "gongguan"
+  },
+  {
+   "k": "say",
+   "n": "",
+   "c": null,
+   "t": "律師一試：通過。司法官一試：未通過。",
+   "d": "2030-09-06",
+   "h": 15.083,
+   "z": "gongguan"
+  },
+  {
+   "k": "step",
+   "n": "end",
+   "t": "r1_2030",
+   "d": "2030-09-06",
+   "h": 15.083,
+   "z": "gongguan"
+  },
+  {
+   "k": "card",
+   "n": "9/12（四）20:00",
+   "t": "",
+   "d": "2030-09-12",
+   "h": 20,
+   "z": "gongguan"
+  },
+  {
+   "k": "card",
+   "n": "10/1（二）21:00",
+   "t": "",
+   "d": "2030-10-01",
+   "h": 21,
+   "z": "gongguan"
+  },
+  {
+   "k": "step",
+   "n": "start",
+   "t": "first",
+   "d": "2030-10-01",
+   "h": 21,
+   "z": "gongguan"
+  },
+  {
+   "k": "say",
+   "n": "",
+   "c": null,
+   "t": "（那一年，群組的照片一張一張傳上來。每一張都寫著：我的第一天。）",
+   "d": "2030-10-01",
+   "h": 21,
+   "z": "gongguan"
+  },
+  {
+   "k": "say",
+   "n": "",
+   "c": null,
+   "t": "（你的第一天，還在後面。）",
+   "d": "2030-10-01",
+   "h": 21,
+   "z": "gongguan"
+  },
+  {
+   "k": "step",
+   "n": "end",
+   "t": "first",
+   "d": "2030-10-01",
+   "h": 21,
+   "z": "gongguan"
+  },
+  {
+   "k": "card",
+   "n": "10/19（六）08:30",
+   "t": "",
+   "d": "2030-10-19",
+   "h": 8.5,
+   "z": "gongguan"
+  },
+  {
+   "k": "step",
+   "n": "start",
+   "t": "e2a_2030",
+   "d": "2030-10-19",
+   "h": 8.5,
+   "z": "gongguan"
+  },
+  {
+   "k": "card",
+   "n": "考場",
+   "t": "10/19（六）08:30",
+   "d": "2030-10-19",
+   "h": 8.5,
+   "z": "gongguan"
+  },
+  {
+   "k": "step",
+   "n": "end",
+   "t": "e2a_2030",
+   "d": "2030-10-19",
+   "h": 17.501,
+   "z": "gongguan"
+  },
+  {
+   "k": "card",
+   "n": "10/20（日）17:30",
+   "t": "",
+   "d": "2030-10-20",
+   "h": 17.5,
+   "z": "gongguan"
+  },
+  {
+   "k": "step",
+   "n": "start",
+   "t": "e2b_2030",
+   "d": "2030-10-20",
+   "h": 17.5,
+   "z": "gongguan"
+  },
+  {
+   "k": "card",
+   "n": "10/20（日）17:30",
+   "t": "",
+   "d": "2030-10-20",
+   "h": 17.5,
+   "z": "gongguan"
+  },
+  {
+   "k": "bg",
+   "n": "begin",
+   "t": "{\"image\":\"assets/bg/exam_hs_classroom.webp\"}",
+   "d": "2030-10-20",
+   "h": 17.5,
+   "z": "gongguan"
+  },
+  {
+   "k": "say",
+   "n": "",
+   "c": null,
+   "t": "（交卷的鐘響了。你把筆收進筆袋。）",
+   "d": "2030-10-20",
+   "h": 17.5,
+   "z": "gongguan"
+  },
+  {
+   "k": "step",
+   "n": "end",
+   "t": "e2b_2030",
+   "d": "2030-10-20",
+   "h": 17.501,
+   "z": "gongguan"
+  },
+  {
+   "k": "card",
+   "n": "12/13（五）15:00",
+   "t": "",
+   "d": "2030-12-13",
+   "h": 15,
+   "z": "gongguan"
+  },
+  {
+   "k": "step",
+   "n": "start",
+   "t": "r2_2030",
+   "d": "2030-12-13",
+   "h": 15.083,
+   "z": "gongguan"
+  },
+  {
+   "k": "say",
+   "n": "",
+   "c": null,
+   "t": "律師二試：錄取。",
+   "d": "2030-12-13",
+   "h": 15.083,
+   "z": "gongguan"
+  },
+  {
+   "k": "say",
+   "n": "",
+   "c": null,
+   "t": "律師職前訓練：報到通知",
+   "d": "2030-12-13",
+   "h": 15.083,
+   "z": "gongguan"
+  },
+  {
+   "k": "toast",
+   "n": "",
+   "t": "排進行程：今天 18:00　阿鳳麵店・長桌",
+   "d": "2030-12-13",
+   "h": 15.083,
+   "z": "gongguan"
+  },
+  {
+   "k": "toast",
+   "n": "dom",
+   "t": "排進行程：今天 18:00　阿鳳麵店・長桌",
+   "d": "2030-12-13",
+   "h": 15.083,
+   "z": "gongguan"
+  },
+  {
+   "k": "step",
+   "n": "end",
+   "t": "r2_2030",
+   "d": "2030-12-13",
+   "h": 15.083,
+   "z": "gongguan"
+  },
+  {
+   "k": "choose",
+   "n": "",
+   "t": "出發：阿鳳麵店・長桌〔18:00　走過去約 15 分鐘〕｜晚一點（20 分鐘後再提醒）｜不去了",
+   "d": "2030-12-13",
+   "h": 17.501,
+   "z": "gongguan"
+  },
+  {
+   "k": "say",
+   "n": "",
+   "c": null,
+   "t": "（麵店門口的紅紙，多了你的名字。）",
+   "d": "2030-12-13",
+   "h": 17.501,
+   "z": "gongguan"
+  },
+  {
+   "k": "step",
+   "n": "start",
+   "t": "epi",
+   "d": "2030-12-13",
+   "h": 17.517,
+   "z": "gongguan"
+  },
+  {
+   "k": "card",
+   "n": "五年後",
+   "t": "",
+   "d": "2034-06-03",
+   "h": 19,
+   "z": "gongguan"
+  },
+  {
+   "k": "card",
+   "n": "2034 年 6 月 3 日",
+   "t": "兩點半 Café",
+   "d": "2034-06-03",
+   "h": 19,
+   "z": "gongguan"
+  },
+  {
+   "k": "enter",
+   "n": "{\"x\":0,\"z\":5,\"yaw\":3.141592653589793,\"lv\":0}",
+   "t": "cafe",
+   "d": "2034-06-03",
+   "h": 19,
+   "z": "gongguan"
+  },
+  {
+   "k": "bg",
+   "n": "begin",
+   "t": "blur",
+   "d": "2034-06-03",
+   "h": 19,
+   "z": "cafe"
+  },
+  {
+   "k": "say",
+   "n": "",
+   "c": null,
+   "t": "（兩點半 Café。窗邊那張雙人桌坐滿了人，旁邊的桌子都被併過來了。）",
+   "d": "2034-06-03",
+   "h": 19,
+   "z": "cafe"
+  },
+  {
+   "k": "say",
+   "n": "",
+   "c": null,
+   "t": "（阿哲的習慣。五年了，還是一樣。）",
+   "d": "2034-06-03",
+   "h": 19,
+   "z": "cafe"
+  },
+  {
+   "k": "say",
+   "n": "Alison",
+   "c": "yu",
+   "t": "他現在每次都說『有事』。很煩。",
+   "d": "2034-06-03",
+   "h": 19,
+   "z": "cafe"
+  },
+  {
+   "k": "say",
+   "n": "阿哲",
+   "c": "zhe",
+   "t": "有事啊。我餓了。",
+   "d": "2034-06-03",
+   "h": 19,
+   "z": "cafe"
+  },
+  {
+   "k": "say",
+   "n": "許柏翰",
+   "c": "classmate_bohan",
+   "t": "我在念博士班，論文寫刑訴的證據排除。寫得很慢。",
+   "d": "2034-06-03",
+   "h": 19,
+   "z": "cafe"
+  },
+  {
+   "k": "say",
+   "n": "沈以安",
+   "c": "heroine_01",
+   "t": "我在事務所做公司跟證券的案子。合約一份兩百頁，我每一頁都看。",
+   "d": "2034-06-03",
+   "h": 19,
+   "z": "cafe"
+  },
+  {
+   "k": "say",
+   "n": "不認識的女生",
+   "c": "heroine_03",
+   "t": "我在事務所，租賃的案子比較多。",
+   "d": "2034-06-03",
+   "h": 19,
+   "z": "cafe"
+  },
+  {
+   "k": "say",
+   "n": "不認識的女生",
+   "c": "heroine_03",
+   "t": "阿姨說你很久沒來了。下禮拜二來吃。",
+   "d": "2034-06-03",
+   "h": 19,
+   "z": "cafe"
+  },
+  {
+   "k": "say",
+   "n": "阿凱",
+   "c": "kai",
+   "t": "……喔對，你現在是律師。",
+   "d": "2034-06-03",
+   "h": 19,
+   "z": "cafe"
+  },
+  {
+   "k": "say",
+   "n": "郭沛珊",
+   "c": "classmate_peishan",
+   "t": "我學生問我為什麼當老師。",
+   "d": "2034-06-03",
+   "h": 19,
+   "z": "cafe"
+  },
+  {
+   "k": "say",
+   "n": "郭沛珊",
+   "c": "classmate_peishan",
+   "t": "我說：因為大一的時候，我發現自己比較想知道框外面的人在想什麼。",
+   "d": "2034-06-03",
+   "h": 19,
+   "z": "cafe"
+  },
+  {
+   "k": "say",
+   "n": "杜可昕",
+   "c": "kexin",
+   "t": "書狀寫到一半。……先吃。",
+   "d": "2034-06-03",
+   "h": 19,
+   "z": "cafe"
+  },
+  {
+   "k": "cg",
+   "n": "",
+   "t": "cg_reunion_window_table_kexin",
+   "d": "2034-06-03",
+   "h": 19,
+   "z": "cafe"
+  },
+  {
+   "k": "say",
+   "n": "阿哲",
+   "c": "zhe",
+   "t": "你一直都是這樣。誰有事，你就先去查。",
+   "d": "2034-06-03",
+   "h": 19,
+   "z": "cafe"
+  },
+  {
+   "k": "say",
+   "n": "祐廷",
+   "c": null,
+   "t": "我在法扶。這禮拜開了三個庭。",
+   "d": "2034-06-03",
+   "h": 19,
+   "z": "cafe"
+  },
+  {
+   "k": "say",
+   "n": "",
+   "c": null,
+   "t": "（桌上，你面前放著杯墊。你不記得是誰把它拿出來的。）",
+   "d": "2034-06-03",
+   "h": 19,
+   "z": "cafe"
+  },
+  {
+   "k": "say",
+   "n": "",
+   "c": null,
+   "t": "（可昕把手機放在桌上。手機殼背面夾著一張摩天輪票根，邊角已經磨白了。）",
+   "d": "2034-06-03",
+   "h": 19,
+   "z": "cafe"
+  },
+  {
+   "k": "say",
+   "n": "",
+   "c": null,
+   "t": "（有人在講大一的事，大家笑得很大聲。窗外的溫州街，路燈亮了。）",
+   "d": "2034-06-03",
+   "h": 19,
+   "z": "cafe"
+  },
+  {
+   "k": "card",
+   "n": "法條之外",
+   "t": "",
+   "d": "2034-06-03",
+   "h": 19,
+   "z": "cafe"
+  },
+  {
+   "k": "step",
+   "n": "end",
+   "t": "epi",
+   "d": "2034-06-03",
+   "h": 19,
+   "z": "cafe"
+  }
+ ],
+ "msgs": [
+  {
+   "th": "g:econ_friends",
+   "from": "econ_pinyu",
+   "tag": "heard_h510_pinyu",
+   "day": 1421,
+   "h": 21.33,
+   "text": "可昕一試考完，第一件事是去吃鹹酥雞。她說忍了半年。"
+  },
+  {
+   "th": "g:noodle_team",
+   "from": "yu",
+   "tag": "pg_r1g_2029",
+   "day": 1452,
+   "h": 15,
+   "text": "一試放榜了。"
+  },
+  {
+   "th": "g:noodle_team",
+   "from": null,
+   "tag": "pg_r1g_2029",
+   "day": 1452,
+   "h": 15,
+   "text": "（群組安靜了三秒。）"
+  },
+  {
+   "th": "g:noodle_team",
+   "from": "zhe",
+   "tag": "pg_r1g_2029",
+   "day": 1452,
+   "h": 15,
+   "text": "宵夜"
+  },
+  {
+   "th": "p:kexin",
+   "from": "kexin",
+   "tag": "pg_r1kx_2029",
+   "day": 1452,
+   "h": 15.13,
+   "text": "一試過了。二試十月。"
+  },
+  {
+   "th": "g:noodle_team",
+   "from": "zhe",
+   "tag": "pg_moon29",
+   "day": 1465,
+   "h": 21,
+   "text": "禮拜六中秋"
+  },
+  {
+   "th": "g:noodle_team",
+   "from": "zhe",
+   "tag": "pg_moon29",
+   "day": 1465,
+   "h": 21,
+   "text": "河濱 六點 一樣"
+  },
+  {
+   "th": "g:noodle_team",
+   "from": "zhe",
+   "tag": "pg_moon29",
+   "day": 1465,
+   "h": 21,
+   "text": "明軒那邊我開視訊 讓他看月亮"
+  },
+  {
+   "th": "g:home",
+   "from": "dad",
+   "tag": "home_moon_pg_1467",
+   "day": 1467,
+   "h": 20,
+   "text": "📷（上海的月亮，旁邊那棟樓蓋好了）"
+  },
+  {
+   "th": "g:home",
+   "from": "mom",
+   "tag": "home_moon_pg_1467",
+   "day": 1467,
+   "h": 20,
+   "text": "我們這邊陰天"
+  },
+  {
+   "th": "g:noodle_team",
+   "from": "zhe",
+   "tag": "pg_moon29_photo",
+   "day": 1467,
+   "h": 22,
+   "text": "📷（河濱，烤肉架，螢幕裡的明軒在揮手）"
+  },
+  {
+   "th": "p:kexin",
+   "from": "kexin",
+   "tag": "kx_anniv_ask5",
+   "day": 1485,
+   "h": 21,
+   "text": "下禮拜三。第五年。"
+  },
+  {
+   "th": "p:kexin",
+   "from": "kexin",
+   "tag": "kx_anniv_ask5",
+   "day": 1485,
+   "h": 21.01,
+   "text": "……地點你選。我那天下午有空。"
+  },
+  {
+   "th": "p:kexin",
+   "from": "kexin",
+   "tag": "kx_anniv_photo5",
+   "day": 1493,
+   "h": 12,
+   "text": "📷（一張卡片）"
+  },
+  {
+   "th": "p:kexin",
+   "from": "kexin",
+   "tag": "kx_anniv_photo5",
+   "day": 1493,
+   "h": 12.01,
+   "text": "週年快樂。下次你準備。"
+  },
+  {
+   "th": "g:noodle_team",
+   "from": "zhe",
+   "tag": "pg_r2g_2029",
+   "day": 1550,
+   "h": 15,
+   "text": "放榜了"
+  },
+  {
+   "th": "g:noodle_team",
+   "from": "yu",
+   "tag": "pg_r2g_2029",
+   "day": 1550,
+   "h": 15,
+   "text": "我先不看 我去洗澡"
+  },
+  {
+   "th": "g:noodle_team",
+   "from": "zhe",
+   "tag": "pg_r2g_2029",
+   "day": 1550,
+   "h": 15,
+   "text": "宵夜 洗完來"
+  },
+  {
+   "th": "p:heroine_01",
+   "from": "heroine_01",
+   "tag": "y6_an_col",
+   "day": 1653,
+   "h": 21,
+   "text": "明天晚上七點，麵店。"
+  },
+  {
+   "th": "p:heroine_01",
+   "from": "heroine_01",
+   "tag": "y6_an_col",
+   "day": 1653,
+   "h": 21,
+   "text": "有事想說。"
+  },
+  {
+   "th": "g:noodle_team",
+   "from": "heroine_01",
+   "tag": "y6_an_col_grp",
+   "day": 1654,
+   "h": 22,
+   "text": "紐約的法學院上了。八月去紐約。"
+  },
+  {
+   "th": "sys",
+   "from": null,
+   "tag": "pg_reg_sys_2030",
+   "day": 1697,
+   "h": 21,
+   "text": "國考報名，這週五截止。"
+  },
+  {
+   "th": "p:zhe",
+   "from": "zhe",
+   "tag": "pg_b1_zhe_2030",
+   "day": 1759,
+   "h": 17,
+   "text": "今天滷味我帶"
+  },
+  {
+   "th": "g:noodle_team",
+   "from": "zhe",
+   "tag": "pg_go_2030",
+   "day": 1782,
+   "h": 7.5,
+   "text": "出發"
+  },
+  {
+   "th": "g:noodle_team",
+   "from": "yu",
+   "tag": "pg_go_2030",
+   "day": 1782,
+   "h": 7.5,
+   "text": "帶准考證。"
+  },
+  {
+   "th": "g:noodle_team",
+   "from": "zhe",
+   "tag": "y6_an_ny_grp",
+   "day": 1789,
+   "h": 21,
+   "text": "明天以安的飛機"
+  },
+  {
+   "th": "g:noodle_team",
+   "from": "zhe",
+   "tag": "y6_an_ny_grp",
+   "day": 1789,
+   "h": 21,
+   "text": "早上十點 桃園 要去的舉手"
+  },
+  {
+   "th": "p:heroine_01",
+   "from": "heroine_01",
+   "tag": "y6_an_ny_photo",
+   "day": 1790,
+   "h": 11.67,
+   "text": "（照片：登機證）"
+  },
+  {
+   "th": "p:heroine_01",
+   "from": "heroine_01",
+   "tag": "y6_an_ny_photo",
+   "day": 1790,
+   "h": 11.67,
+   "text": "要登機了"
+  },
+  {
+   "th": "p:heroine_01",
+   "from": "heroine_01",
+   "tag": "y6_an_ny_photo",
+   "day": 1790,
+   "h": 11.67,
+   "text": "到了再傳"
+  },
+  {
+   "th": "g:noodle_team",
+   "from": "zhe",
+   "tag": "pg_r1g_2030",
+   "day": 1816,
+   "h": 15,
+   "text": "一試放榜了 今年換我先講"
+  },
+  {
+   "th": "g:noodle_team",
+   "from": "yu",
+   "tag": "pg_r1g_2030",
+   "day": 1816,
+   "h": 15,
+   "text": "……去年那三秒，好長。"
+  },
+  {
+   "th": "g:noodle_team",
+   "from": "zhe",
+   "tag": "pg_r1g_2030",
+   "day": 1816,
+   "h": 15,
+   "text": "宵夜"
+  },
+  {
+   "th": "sys",
+   "from": null,
+   "tag": "pg_r1sys_2030",
+   "day": 1816,
+   "h": 15.08,
+   "text": "律師一試：通過。司法官一試：未通過。"
+  },
+  {
+   "th": "g:noodle_team",
+   "from": "heroine_03",
+   "tag": "pg_yt_2030_r1",
+   "day": 1816,
+   "h": 15.17,
+   "text": "一試過了。"
+  },
+  {
+   "th": "g:home",
+   "from": "dad",
+   "tag": "home_moon_pg_1822",
+   "day": 1822,
+   "h": 20,
+   "text": "📷（上海的月亮）"
+  },
+  {
+   "th": "g:home",
+   "from": "dad",
+   "tag": "home_moon_pg_1822",
+   "day": 1822,
+   "h": 20,
+   "text": "明年回去看"
+  },
+  {
+   "th": "g:home",
+   "from": "mom",
+   "tag": "home_moon_pg_1822",
+   "day": 1822,
+   "h": 20,
+   "text": "你每年都這樣講"
+  },
+  {
+   "th": "g:noodle_team",
+   "from": "player",
+   "tag": "pg_first_day",
+   "day": 1841,
+   "h": 21,
+   "text": "📷（照片：補習班的自習室。）"
+  },
+  {
+   "th": "g:noodle_team",
+   "from": "zhe",
+   "tag": "pg_first_day",
+   "day": 1841,
+   "h": 21.01,
+   "text": "📷（照片：事務所門口）"
+  },
+  {
+   "th": "g:noodle_team",
+   "from": "zhe",
+   "tag": "pg_first_day",
+   "day": 1841,
+   "h": 21.02,
+   "text": "第一天 領帶打了三次"
+  },
+  {
+   "th": "g:noodle_team",
+   "from": "yu",
+   "tag": "pg_first_day",
+   "day": 1841,
+   "h": 21.03,
+   "text": "📷（照片：地檢署的大樓）"
+  },
+  {
+   "th": "g:noodle_team",
+   "from": "yu",
+   "tag": "pg_first_day",
+   "day": 1841,
+   "h": 21.04,
+   "text": "明年再考司法官。今天先上班。"
+  },
+  {
+   "th": "g:noodle_team",
+   "from": "classmate_bohan",
+   "tag": "pg_first_day",
+   "day": 1841,
+   "h": 21.05,
+   "text": "📷（照片：研究室的窗）"
+  },
+  {
+   "th": "g:noodle_team",
+   "from": "classmate_bohan",
+   "tag": "pg_first_day",
+   "day": 1841,
+   "h": 21.06,
+   "text": "論文第一頁。……還是空白的。"
+  },
+  {
+   "th": "g:noodle_team",
+   "from": "heroine_01",
+   "tag": "pg_first_day",
+   "day": 1841,
+   "h": 21.07,
+   "text": "📷（照片：紐約的街，一個背包）"
+  },
+  {
+   "th": "g:noodle_team",
+   "from": "heroine_01",
+   "tag": "pg_first_day",
+   "day": 1841,
+   "h": 21.08,
+   "text": "LL.M. 開學了。"
+  },
+  {
+   "th": "g:noodle_team",
+   "from": "heroine_03",
+   "tag": "pg_first_day",
+   "day": 1841,
+   "h": 21.09,
+   "text": "📷（照片：麵店的長桌，一本攤開的六法）"
+  },
+  {
+   "th": "g:noodle_team",
+   "from": "heroine_03",
+   "tag": "pg_first_day",
+   "day": 1841,
+   "h": 21.1,
+   "text": "二試還沒考。在店裡讀。"
+  },
+  {
+   "th": "g:noodle_team",
+   "from": "yu",
+   "tag": "pg_r2g_2030",
+   "day": 1914,
+   "h": 15,
+   "text": "放榜了。最後一次。"
+  },
+  {
+   "th": "g:noodle_team",
+   "from": "zhe",
+   "tag": "pg_r2g_2030",
+   "day": 1914,
+   "h": 15,
+   "text": "最後一次宵夜"
+  },
+  {
+   "th": "sys",
+   "from": null,
+   "tag": "pg_r2sys_2030",
+   "day": 1914,
+   "h": 15.08,
+   "text": "律師二試：錄取。"
+  },
+  {
+   "th": "sys",
+   "from": null,
+   "tag": "pg_r2sys_2030",
+   "day": 1914,
+   "h": 15.08,
+   "text": "律師職前訓練：報到通知"
+  },
+  {
+   "th": "g:noodle_team",
+   "from": "zhe",
+   "tag": "pg_zhe_2030_r2",
+   "day": 1914,
+   "h": 15.1,
+   "text": "我們兩個都上了 宵夜走"
+  },
+  {
+   "th": "g:noodle_team",
+   "from": "yu",
+   "tag": "pg_yu_2030_r2",
+   "day": 1914,
+   "h": 15.13,
+   "text": "司法官還是沒上。檢察事務官那個，筆試考完了，還在等。"
+  },
+  {
+   "th": "g:noodle_team",
+   "from": "heroine_03",
+   "tag": "pg_yt_2030_r2",
+   "day": 1914,
+   "h": 15.17,
+   "text": "上了。"
+  },
+  {
+   "th": "g:noodle_team",
+   "from": "heroine_03",
+   "tag": "pg_yt_2030_r2",
+   "day": 1914,
+   "h": 15.17,
+   "text": "阿姨已經在寫紅紙了。"
+  }
+ ],
+ "epilogue": [
+  [
+   "五年後",
+   ""
+  ],
+  [
+   "2034 年 6 月 3 日",
+   "兩點半 Café"
+  ],
+  [
+   "",
+   "（兩點半 Café。窗邊那張雙人桌坐滿了人，旁邊的桌子都被併過來了。）"
+  ],
+  [
+   "",
+   "（阿哲的習慣。五年了，還是一樣。）"
+  ],
+  [
+   "Alison",
+   "他現在每次都說『有事』。很煩。"
+  ],
+  [
+   "阿哲",
+   "有事啊。我餓了。"
+  ],
+  [
+   "許柏翰",
+   "我在念博士班，論文寫刑訴的證據排除。寫得很慢。"
+  ],
+  [
+   "沈以安",
+   "我在事務所做公司跟證券的案子。合約一份兩百頁，我每一頁都看。"
+  ],
+  [
+   "不認識的女生",
+   "我在事務所，租賃的案子比較多。"
+  ],
+  [
+   "不認識的女生",
+   "阿姨說你很久沒來了。下禮拜二來吃。"
+  ],
+  [
+   "阿凱",
+   "……喔對，你現在是律師。"
+  ],
+  [
+   "郭沛珊",
+   "我學生問我為什麼當老師。"
+  ],
+  [
+   "郭沛珊",
+   "我說：因為大一的時候，我發現自己比較想知道框外面的人在想什麼。"
+  ],
+  [
+   "杜可昕",
+   "書狀寫到一半。……先吃。"
+  ],
+  [
+   "",
+   "cg_reunion_window_table_kexin"
+  ],
+  [
+   "阿哲",
+   "你一直都是這樣。誰有事，你就先去查。"
+  ],
+  [
+   "祐廷",
+   "我在法扶。這禮拜開了三個庭。"
+  ],
+  [
+   "",
+   "（桌上，你面前放著杯墊。你不記得是誰把它拿出來的。）"
+  ],
+  [
+   "",
+   "（可昕把手機放在桌上。手機殼背面夾著一張摩天輪票根，邊角已經磨白了。）"
+  ],
+  [
+   "",
+   "（有人在講大一的事，大家笑得很大聲。窗外的溫州街，路燈亮了。）"
+  ],
+  [
+   "法條之外",
+   ""
+  ]
+ ],
+ "steps": [
+  "miss_exam_2029",
+  "kx_bar_2029",
+  "an1",
+  "an2",
+  "reg_2030",
+  "b1_2030",
+  "exam_2030",
+  "r1_2030",
+  "first",
+  "e2a_2030",
+  "e2b_2030",
+  "r2_2030",
+  "epi"
+ ],
+ "stuck": null,
+ "exam": [
+  {
+   "kind": "bar",
+   "y": 2030,
+   "i": 1,
+   "n": 20,
+   "id": "Q025",
+   "course": null,
+   "right": 1,
+   "picked": 1,
+   "correct": true,
+   "same": true
+  },
+  {
+   "kind": "bar",
+   "y": 2030,
+   "i": 2,
+   "n": 20,
+   "id": "Q035",
+   "course": null,
+   "right": 1,
+   "picked": 1,
+   "correct": true,
+   "same": true
+  },
+  {
+   "kind": "bar",
+   "y": 2030,
+   "i": 3,
+   "n": 20,
+   "id": "CIVS_17",
+   "course": "oblig_gen2",
+   "right": 1,
+   "picked": 1,
+   "correct": true,
+   "same": true
+  },
+  {
+   "kind": "bar",
+   "y": 2030,
+   "i": 4,
+   "n": 20,
+   "id": "SEC40_01",
+   "course": "securities",
+   "right": 2,
+   "picked": 2,
+   "correct": true,
+   "same": true
+  },
+  {
+   "kind": "bar",
+   "y": 2030,
+   "i": 5,
+   "n": 20,
+   "id": "SEC40_31",
+   "course": "securities",
+   "right": 1,
+   "picked": 1,
+   "correct": true,
+   "same": true
+  },
+  {
+   "kind": "bar",
+   "y": 2030,
+   "i": 6,
+   "n": 20,
+   "id": "CIVS_21",
+   "course": "oblig_gen2",
+   "right": 1,
+   "picked": 1,
+   "correct": true,
+   "same": true
+  },
+  {
+   "kind": "bar",
+   "y": 2030,
+   "i": 7,
+   "n": 20,
+   "id": "SEC40_27",
+   "course": "securities",
+   "right": 2,
+   "picked": 2,
+   "correct": true,
+   "same": true
+  },
+  {
+   "kind": "bar",
+   "y": 2030,
+   "i": 8,
+   "n": 20,
+   "id": "CRIM45_42",
+   "course": "crim_gen2",
+   "right": 1,
+   "picked": 1,
+   "correct": true,
+   "same": true
+  },
+  {
+   "kind": "bar",
+   "y": 2030,
+   "i": 9,
+   "n": 20,
+   "id": "CRIM45_01",
+   "course": "crim_gen1",
+   "right": 2,
+   "picked": 2,
+   "correct": true,
+   "same": true
+  },
+  {
+   "kind": "bar",
+   "y": 2030,
+   "i": 10,
+   "n": 20,
+   "id": "AI_CON1_09",
+   "course": "const_1",
+   "right": 0,
+   "picked": 0,
+   "correct": true,
+   "same": true
+  },
+  {
+   "kind": "bar",
+   "y": 2030,
+   "i": 11,
+   "n": 20,
+   "id": "CIV40_25",
+   "course": "oblig_gen2",
+   "right": 0,
+   "picked": 0,
+   "correct": true,
+   "same": true
+  },
+  {
+   "kind": "bar",
+   "y": 2030,
+   "i": 12,
+   "n": 20,
+   "id": "BBAI_LAB_10",
+   "course": "labor_law",
+   "right": 1,
+   "picked": 1,
+   "correct": true,
+   "same": true
+  },
+  {
+   "kind": "bar",
+   "y": 2030,
+   "i": 13,
+   "n": 20,
+   "id": "Q072",
+   "course": null,
+   "right": 1,
+   "picked": 1,
+   "correct": true,
+   "same": true
+  },
+  {
+   "kind": "bar",
+   "y": 2030,
+   "i": 14,
+   "n": 20,
+   "id": "BBAI_INS_06",
+   "course": "insurance",
+   "right": 0,
+   "picked": 0,
+   "correct": true,
+   "same": true
+  },
+  {
+   "kind": "bar",
+   "y": 2030,
+   "i": 15,
+   "n": 20,
+   "id": "AI_CON2_02",
+   "course": "const_2",
+   "right": 0,
+   "picked": 1,
+   "correct": false,
+   "same": true
+  },
+  {
+   "kind": "bar",
+   "y": 2030,
+   "i": 16,
+   "n": 20,
+   "id": "CIV40_13",
+   "course": "property",
+   "right": 1,
+   "picked": 0,
+   "correct": false,
+   "same": true
+  },
+  {
+   "kind": "bar",
+   "y": 2030,
+   "i": 17,
+   "n": 20,
+   "id": "LENG25_02",
+   "course": "legal_english",
+   "right": 0,
+   "picked": 1,
+   "correct": false,
+   "same": true
+  },
+  {
+   "kind": "bar",
+   "y": 2030,
+   "i": 18,
+   "n": 20,
+   "id": "BBAI_COM_07",
+   "course": "company_law",
+   "right": 0,
+   "picked": 1,
+   "correct": false,
+   "same": true
+  },
+  {
+   "kind": "bar",
+   "y": 2030,
+   "i": 19,
+   "n": 20,
+   "id": "SEC40_22",
+   "course": "securities",
+   "right": 0,
+   "picked": 1,
+   "correct": false,
+   "same": true
+  },
+  {
+   "kind": "bar",
+   "y": 2030,
+   "i": 20,
+   "n": 20,
+   "id": "AI_CON2_08",
+   "course": "const_2",
+   "right": 1,
+   "picked": 0,
+   "correct": false,
+   "same": true
+  }
+ ],
+ "opts": [
+  [
+   "2029-08-05",
+   "（那天早上，你沒有走進考場。准考證還夾在書裡。）",
+   [
+    "接起來：杜可昕打視訊來21:00",
+    "晚一點（20 分鐘後再提醒）",
+    "先不接"
+   ]
+  ],
+  [
+   "2029-12-14",
+   "我上了。",
+   [
+    "「恭喜。」",
+    "「妳查了幾遍？」"
+   ]
+  ],
+  [
+   "2030-01-25",
+   "司法官上了。",
+   [
+    "「恭喜！」",
+    "「美國那份呢？」"
+   ]
+  ],
+  [
+   "2030-05-10",
+   "國考報名，這週五截止。",
+   [
+    "報名",
+    "不報名"
+   ]
+  ],
+  [
+   "2030-12-13",
+   "律師職前訓練：報到通知",
+   [
+    "出發：阿鳳麵店・長桌18:00　走過去約 15 分鐘",
+    "晚一點（20 分鐘後再提醒）",
+    "不去了"
+   ]
+  ]
+ ],
+ "picks": [
+  [
+   "2029-08-16",
+   "20:45",
+   [
+    "接起來：杜可昕打視訊來21:00",
+    "晚一點（20 分鐘後再提醒）",
+    "先不接"
+   ],
+   "先不接"
+  ],
+  [
+   "2029-12-14",
+   "15:05",
+   [
+    "「恭喜。」",
+    "「妳查了幾遍？」"
+   ],
+   "「恭喜。」"
+  ],
+  [
+   "2030-01-25",
+   "21:00",
+   [
+    "「恭喜！」",
+    "「美國那份呢？」"
+   ],
+   "「恭喜！」"
+  ],
+  [
+   "2030-05-10",
+   "21:00",
+   [
+    "報名",
+    "不報名"
+   ],
+   "報名"
+  ],
+  [
+   "2030-12-13",
+   "17:30",
+   [
+    "出發：阿鳳麵店・長桌18:00　走過去約 15 分鐘",
+    "晚一點（20 分鐘後再提醒）",
+    "不去了"
+   ],
+   "不去了"
+  ]
+ ],
+ "shots": {
+  "bar_2030_q1": "C:\\Users\\USER\\Documents\\Lawstudent_cclocal\\docs\\story_planning\\CC\\local_out\\X_P2_bar_b\\out\\01_missed1_bar_2030_q1.png",
+  "end": "C:\\Users\\USER\\Documents\\Lawstudent_cclocal\\docs\\story_planning\\CC\\local_out\\X_P2_bar_b\\out\\02_missed1_end.png"
+ },
+ "elapsed": 305
+}
