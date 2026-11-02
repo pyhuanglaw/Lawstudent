@@ -27,5 +27,14 @@ GM.caption=()=>{}; GM.toast=()=>{};
   /* 6/26 以後 */
   PG.setT(G,H.E,PG.DK('2029-06-29'),9); PG.pending(G); const s=PG.due(G); if(s) await PG.runStep(GM,s);
   check('5. 6/29 以後也沒有延畢（FAIL_DELAY 沒被補記）',!G.flags.FAIL_DELAY,J({FAIL_DELAY:G.flags.FAIL_DELAY,step:s&&s.id}));
+  /* 6. 沒選（BB 10:57）：大四下選課選「這學期不修」（R.electives.y4s2_mar＝'none'）→ 整學期都沒有海商法 */
+  { const G2=H.fresh('2029-02-18',9,'dorm',{BAR_REG:true,Y4_PATH:'bar'}); const R2=CLS.rec(G2); R2.electives=R2.electives||{};
+    const grp=CLS.choiceGroups?CLS.choiceGroups('Y4S2'):{}; const g=Object.values(grp).find(x=>x.opts.some(c=>c.id==='maritime'));
+    check('6a. 大四下選課有海商法這一組、可以「這學期不修」',!!g&&g.none===true,J(g&&{group:g.group,none:g.none,opts:g.opts.map(c=>c.id)}));
+    if(g) R2.electives[g.group]='none';
+    const ids=CLS.termCourses(G2,'Y4S2').map(c=>c.id); let inDay=0; const r=CALENDAR.termDays('Y4S2');
+    for(let d=r.from;d<=r.to;d++){ if((CLS.dayItems(G2,d)||[]).some(it=>it.c.id==='maritime')) inDay++; }
+    const ex=(CLS.examList?CLS.examList(G2,'Y4S2'):[]).filter(e=>(e.c&&e.c.id||e.id)==='maritime').length;
+    check('6b. 選「不修」：大四下課表、每天的課、期末考都沒有海商法',!ids.includes('maritime')&&inDay===0&&ex===0,J({ids,inDay,ex})); }
   H.done();
 })();
