@@ -2,10 +2,10 @@
    存檔位置：G.social = {rel:{id:{fam,trust,aff,resp,comf,rom,npcRom,seen,talked}}, mem:{id:[{tag,day,note}]}, reveal:{id:stage}, prof:{id:{perf,part,office,research,rep}}, grad:{interest,field,prep}}
    玩家看到的是「這個人記得什麼」，不是數字（數字只在底層）。 */
 'use strict';
-/* 祐廷的姓（AA_566 第 13 節：祐廷全名「林{name}」；AA 對 AA_584 的補充第 1 點，2026-11-02 19:19）：和學姊交往中，她說的 {name} 都是「林{name}」（SOCIAL.ytNameT）*/
-const YT_SURNAME='林';
 const SOCIAL = (function(){
   const S={}; let G=null;
+  /* 祐廷的姓（AA_566 第 13 節：祐廷全名「林{name}」；AA 對 AA_584 的補充第 1 點，2026-11-02 19:19）：和學姊交往中，她說的 {name} 都是「林{name}」（S.ytNameT）*/
+  const YT_SURNAME='林'; S.YT_SURNAME=YT_SURNAME;
   const DIMS=['fam','trust','aff','resp','comf','rom'];
   S.STAGES=['STRANGER','ACQUAINTANCE','FAMILIAR','FRIEND','CLOSE_FRIEND','POSSIBLE_ROMANTIC_INTEREST','ROMANTIC_TENSION','RELATIONSHIP'];
   S.bind=function(g){ G=g; if(!G.social) G.social={rel:{},mem:{},reveal:{},prof:{},grad:{interest:'NONE',field:null,prep:0}}; // 舊版 G.rel（單一數字）→ familiarity
