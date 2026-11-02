@@ -22468,7 +22468,7 @@
    "title": "發布前照真實玩家玩法從頭玩經濟系路線到法律系開學（四種：天天睡覺、完全不開手機、邀約全拒絕、一直快轉）；任何一種卡住或看不懂就不發（使用者 10-18 同意：「你有覺得你這個遊戲漏洞兩百出嗎」之後）",
    "area": "P0",
    "owner": "BB",
-   "status": "進行中",
+   "status": "已驗收",
    "priority": "P0",
    "first": {
     "term": "Y0S1",
@@ -22482,14 +22482,15 @@
    },
    "source": "使用者 2026-10-18 07:1x（同意 LAWWW-C 提的做法）",
    "authorized": "使用者同意",
-   "next": "【10-31 17:3x】BB-B ACK、17:26 開跑（184efc3da，遊戲程式和 5a4480231 一樣）：qa_play 三種 → flow_v0_start／home／tolaw → savecompat（v7、v9.10.14 存檔）→ 寒暑假 flow_law_break、flow_vac_hometown → 美國 flow_exch_min、flow_us_exchange；AA_269 15 點照 AA_300／303 縮過的 KEEP 對（拿掉的記「已拿掉」不算 FAIL）；估 4～6 小時，跑完給逐點表和 GO／NO-GO｜【10-31 16:5x LAWWW-B】改名版發布前要跑：用開發分支頭（f2dc3e156 或更新），照玩家走、不用捷徑——剩的三種（天天睡覺、完全不開手機、邀約全拒絕）＋經濟系 AA_269 第 6 節 15 點逐點 PASS／FAIL；順便寒暑假、美國交換冒煙；FAIL 照平常格式報；這輪過了就用選擇題問使用者發布（send_message 這時呼叫失敗，先寫總表，恢復後補傳）｜一直快轉那一種已做（econ_transcript_*_1018b），剩天天睡覺、完全不開手機、邀約全拒絕三種；v9.10.1 已發布，改成 v9.10.2 的條件（10-18 13:5x 稽核 USER-WANTS-AUDIT-1018）；v9.10.1 發布條件之一。BB-C 做完 P0 那批測試後開始；換帳號時照交接接著做",
+   "next": "【LAWWW（帳號 A）04:4x】BB_223 指出應結案 → 已驗收 ｜ 【10-31 17:3x】BB-B ACK、17:26 開跑（184efc3da，遊戲程式和 5a4480231 一樣）：qa_play 三種 → flow_v0_start／home／tolaw → savecompat（v7、v9.10.14 存檔）→ 寒暑假 flow_law_break、flow_vac_hometown → 美國 flow_exch_min、flow_us_exchange；AA_269 15 點照 AA_300／303 縮過的 KEEP 對（拿掉的記「已拿掉」不算 FAIL）；估 4～6 小時，跑完給逐點表和 GO／NO-GO｜【10-31 16:5x LAWWW-B】改名版發布前要跑：用開發分支頭（f2dc3e156 或更新），照玩家走、不用捷徑——剩的三種（天天睡覺、完全不開手機、邀約全拒絕）＋經濟系 AA_269 第 6 節 15 點逐點 PASS／FAIL；順便寒暑假、美國交換冒煙；FAIL 照平常格式報；這輪過了就用選擇題問使用者發布（send_message 這時呼叫失敗，先寫總表，恢復後補傳）｜一直快轉那一種已做（econ_transcript_*_1018b），剩天天睡覺、完全不開手機、邀約全拒絕三種；v9.10.1 已發布，改成 v9.10.2 的條件（10-18 13:5x 稽核 USER-WANTS-AUDIT-1018）；v9.10.1 發布條件之一。BB-C 做完 P0 那批測試後開始；換帳號時照交接接著做",
    "xai": {
     "receiver": "LAWWW",
     "branch": "claude/wonderful-mayer-7fm9g6",
     "spec": "LAWWW-C 07:1x 回覆使用者的第 1 點",
     "acceptance": "四種玩法各走到 8/30 E37 以後，問題清單（重現步驟、截圖）",
     "ack": "SENT"
-   }
+   },
+   "evidence": "｜11-02 BB 交接盤點（BB_223）：BB_218 L6508 判 GO（基準 39f68236c）"
   },
   {
    "id": "QA-TRANSCRIPT-1018",
@@ -29889,7 +29890,7 @@
    "title": "瀏覽器驗收 v9.10.6 的東西（開發分支 91c5c7ea）：AA296、可昕慢慢分手（AA351／AA384／E 節）、芷若×子晴（AA_232／AA_385、曼谷）、可昕國外訊息與她那邊的時間、ZR_FY 尾聲、KAI-PICKUP、LAWWW2 天花板第二／四版與 118 巷、沛珊長裙樓梯、美國校園候車亭、nm3 短髮、公館斜亮條、遠距離路人低面數",
    "area": "TEST",
    "owner": "BB",
-   "status": "進行中",
+   "status": "已驗收",
    "priority": "P2",
    "first": {
     "term": "Y1S1",
@@ -29903,14 +29904,15 @@
    },
    "source": "LAWWW（帳號 A）2026-10-22 12:0x：BB 閒著，v9.10.5 發布前測試 LAWWW 自己在跑；v9.10.6 已單元測試、瀏覽器沒測的 12 項",
    "authorized": "D100（測試歸 BB）、D110",
-   "next": "【LAWWW（帳號 A）15:1x】BB（帳號 A）15:08 交班：第 1～3 項 ALL PASS；第 6 項中斷沒結果；第 4、5、7～14 項沒跑；後派三件（BB119-Y4-1017 腳本沒寫、USD_kexin FAIL＝BUG-US-BED-ALARM-1022／USD_kexin_alarm 沒跑、AA283-PARK-1021 沒開始）；兩條線佇列 60 項沒跑，清單抄在企劃線 BB_00 第 3 節「BB（帳號 A）交班」；結果在 BB_218 最後一節 ｜ 【LAWWW（帳號 A）14:5x】BB 14:45 美國交換第一批（f5c7e17b）：USC_class、USE_notw、USF_apple／cookie／dating PASS；USD_kexin FAIL（遊戲）→ BUG-KX-ANNIV4V-ALARM-1022 修好；USA／USB／USI／USJ 腳本 FAIL 改好重跑；第 3 項芷若×子晴 lw6 除 Z44 腳本（{name}）全 PASS ｜ 【LAWWW（帳號 A）14:0x】BB 14:0x：第 2 項（可昕慢慢分手 kxdrift，lw6 9f9e13cc）ALL PASS，四段（說一聲／不說／修補／分開）沒有 JS 例外；第 13 項 AA_364 5-5 味噌湯拿掉＝開發分支 732237be（BB 的 wzshop_probe d98a6749 已照改）；第 14 項 aa386a（15 個情境）、aa386b（9 個）寫好（企劃線 e8ed6f20），aa386c（3-3、12/24、4-2、階梯 S5-L8／S6-L1）接著寫；第 7～12 項畫面檢查搬到第二條線 ｜ 【LAWWW（帳號 A）13:3x】加第 13 項：溫州街四家店（WZ-SHOP-AA364-SYS a3d3845e，AA_364 第 4 節的測試） ｜ 【LAWWW（帳號 A）12:5x】BB 12:5x 先傳 FAIL：日本 3D 房間電話不響 → BUG-JP-ROOM-NOCALL-1022 修好（開發分支）；AA296 第一批其他項目 PASS、ZQ_NOREPLY 1ad1a710 蓋到 ｜ 排在 BB_HOLFF 寒暑假快轉完整補跑、BB-TEST-US-LIFE-1021 之後（D99 順序；LAWWW 12:0x 補充）；結果寫 BB_219「RELEASE-9106-TEST」，有 FAIL 先傳",
+   "next": "【LAWWW（帳號 A）04:4x】BB_223 指出應結案 → 已驗收 ｜ 【LAWWW（帳號 A）15:1x】BB（帳號 A）15:08 交班：第 1～3 項 ALL PASS；第 6 項中斷沒結果；第 4、5、7～14 項沒跑；後派三件（BB119-Y4-1017 腳本沒寫、USD_kexin FAIL＝BUG-US-BED-ALARM-1022／USD_kexin_alarm 沒跑、AA283-PARK-1021 沒開始）；兩條線佇列 60 項沒跑，清單抄在企劃線 BB_00 第 3 節「BB（帳號 A）交班」；結果在 BB_218 最後一節 ｜ 【LAWWW（帳號 A）14:5x】BB 14:45 美國交換第一批（f5c7e17b）：USC_class、USE_notw、USF_apple／cookie／dating PASS；USD_kexin FAIL（遊戲）→ BUG-KX-ANNIV4V-ALARM-1022 修好；USA／USB／USI／USJ 腳本 FAIL 改好重跑；第 3 項芷若×子晴 lw6 除 Z44 腳本（{name}）全 PASS ｜ 【LAWWW（帳號 A）14:0x】BB 14:0x：第 2 項（可昕慢慢分手 kxdrift，lw6 9f9e13cc）ALL PASS，四段（說一聲／不說／修補／分開）沒有 JS 例外；第 13 項 AA_364 5-5 味噌湯拿掉＝開發分支 732237be（BB 的 wzshop_probe d98a6749 已照改）；第 14 項 aa386a（15 個情境）、aa386b（9 個）寫好（企劃線 e8ed6f20），aa386c（3-3、12/24、4-2、階梯 S5-L8／S6-L1）接著寫；第 7～12 項畫面檢查搬到第二條線 ｜ 【LAWWW（帳號 A）13:3x】加第 13 項：溫州街四家店（WZ-SHOP-AA364-SYS a3d3845e，AA_364 第 4 節的測試） ｜ 【LAWWW（帳號 A）12:5x】BB 12:5x 先傳 FAIL：日本 3D 房間電話不響 → BUG-JP-ROOM-NOCALL-1022 修好（開發分支）；AA296 第一批其他項目 PASS、ZQ_NOREPLY 1ad1a710 蓋到 ｜ 排在 BB_HOLFF 寒暑假快轉完整補跑、BB-TEST-US-LIFE-1021 之後（D99 順序；LAWWW 12:0x 補充）；結果寫 BB_219「RELEASE-9106-TEST」，有 FAIL 先傳",
    "xai": {
     "spec": "LAWWW 12:0x send_message（12 項＋commit）；各項單元測試在開發分支 tests/",
     "branch": "claude/story-planning（BB_219）",
     "acceptance": "每項 PASS／FAIL＋重現步驟＋截圖；Playwright 不是 iPhone",
     "receiver": "LAWWW",
     "ack": "ACK"
-   }
+   },
+   "evidence": "｜11-02 BB 交接盤點（BB_223）：v9.10.6 早已發布"
   },
   {
    "id": "AA386-SIS-BATCH4-1022",
