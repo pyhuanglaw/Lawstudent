@@ -109,22 +109,28 @@ await sec(0,()=>{ const a=s=>html.indexOf(s);
     '學姊回來了！！':'AA_523 第 6 節 6-11 換成「禮拜四家聚！」（12/24 已經說過學姊回來了）','禮拜四家聚 歡迎回來 118 巷那家':'AA_523 第 6 節 6-11 換成「歡迎學姊回來 118 巷那家」',
     '你是{name}吧。群組裡的照片，看起來比本人緊張。':'AA_590 第 40 列（學姊改稿第三批，企劃線 68ceea665，使用者 11-02 確認）換成「你是{name}吧。你好。」'};
   const A590=require('./aa590_doc.js');
+  /* AA_591（學姊改稿第四批，企劃線 6b35748c7，使用者 11-02 確認）：表上換掉的句子照 MAP 換；整段刪的（決3 剪報段、第 11 節第 13 點重新開始那一版）、
+     AA 對 AA_584 的補充第 4 點（2026-11-02 19:19：修正本私訊「一本給我爸了」刪、下一則改「多印了一本。……你說過要的。」）不在遊戲裡 */
+  const A591=require('./aa591_doc.js');
+  const GONE591=new Set(['我爸寄了一份剪報給我。法律扶助的新聞。旁邊用原子筆寫：「妳寫的這個。」','他不會說。……他會寄剪報。','等的人越來越多。……我的論文寫的就是他們。','「他在關心妳。」','「剪報上寫什麼？」',
+    '你做到了。','……我也想好了。','其他的，想了很久。……沒有了。','這次，我選你。','一本給我爸了。他放在辦公室書架最上面。','另一本。……你說過要的。']);
+  const NEW584=['多印了一本。……你說過要的。'];
   /* AA_523 6-11（企劃線 0d7b5388b）：換掉的兩則不在遊戲裡；換上的兩則在遊戲裡、一字不差在 AA_523 第 6 節 6-11 那一列 */
   let D523=''; try{ D523=cp.execSync('git -c core.quotepath=false show 0d7b5388b:"docs/story_planning/AA_523_學姊第十六批_回臺灣以後的最後半年.md"',{cwd:process.env.AA523_DOCREPO||process.env.AA512_DOCREPO||H.ROOT,encoding:'utf8',maxBuffer:1<<24}); }catch(e){ D523=''; }
   const row611=D523.split('\n').find(l=>l.startsWith('| 6-11 |'))||'', NEW611=['禮拜四家聚！','歡迎學姊回來 118 巷那家'];
   check('0. AA_523 6-11：Kevin 舊的兩則（「學姊回來了！！」「禮拜四家聚 歡迎回來 118 巷那家」）不在遊戲裡；新的兩則在遊戲裡、一字不差在 AA_523 第 6 節 6-11 那一列（0d7b5388b）',
     !!row611&&['學姊回來了！！','禮拜四家聚 歡迎回來 118 巷那家'].every(t=>!GS.has(t)&&QUOTES.some(q=>q.t===t))&&NEW611.every(t=>GS.has(t)&&row611.includes('「'+t+'」')),J({row611:!!row611,miss:NEW611.filter(t=>!(GS.has(t)&&row611.includes('「'+t+'」')))}));
-  const lostQ=QUOTES.filter(q=>!GS.has(q.t)&&!SUPER[q.t]).map(q=>q.who+'：'+q.t), lostO=OPTS.filter(o=>!GS.has(o)&&!GS.has(unq(o))), lostG=GREET.filter(t=>!GS.has(t));
+  const lostQ=QUOTES.filter(q=>!GS.has(q.t)&&!SUPER[q.t]&&!GONE591.has(q.t)&&!GS.has(A591.MAP[q.t])).map(q=>q.who+'：'+q.t), lostO=OPTS.filter(o=>!GS.has(o)&&!GS.has(unq(o))&&!GONE591.has(o)), lostG=GREET.filter(t=>!GS.has(t));
   check('0. 稿 → 遊戲：第 1、2、5、6 節每一句（'+QUOTES.length+' 句「>」）都在遊戲裡',QUOTES.length>=150&&!lostQ.length,J(lostQ));
   check('0. 稿 → 遊戲：每個選項（'+OPTS.length+' 個）、13-6 三句短招呼都在遊戲裡',OPTS.length===37&&GREET.length===3&&!lostO.length&&!lostG.length,J({lostO,lostG}));
   const INLINE=['你說過要來吃。','（把學姊的筆記傳給她）','去。','好','（愛心貼圖）','麵店？說好的。'];   /* 稿寫在說明句裡的（「」括起來）：13-2 私訊、第 2 節第 1 點的選項、回「去。」、媽媽那則的回覆鍵、6-1 (c) 換上的選項 */
   check('0. 稿寫在說明裡的句子（13-2 私訊、佳穎那則的選項、回「去。」、回覆鍵「好」「（愛心貼圖）」）都在稿裡、也在遊戲裡',INLINE.every(t=>DOC.indexOf('「'+t+'」')>=0&&GS.has(t)),J(INLINE.filter(t=>!(DOC.indexOf('「'+t+'」')>=0&&GS.has(t)))));
   /* 遊戲 → 稿 */
-  const notIn=[...new Set(G0)].filter(t=>DOC.indexOf(t)<0&&DOC.indexOf(unq(t))<0&&!NEW611.includes(t)&&!A590.has(t));   /* AA_590 改過的句子：在 AA_590 的表上 */   /* AA_523 6-11 換上的兩則：上面對 AA_523 */
+  const notIn=[...new Set(G0)].filter(t=>DOC.indexOf(t)<0&&DOC.indexOf(unq(t))<0&&!NEW611.includes(t)&&!A590.has(t)&&!A591.has(t)&&!NEW584.includes(t)&&!['……我知道。','其實我也是。考試那時候就有一點了，只是那時候不想想這個。'].includes(t));   /* confess_lines.js 第一次答應的兩句：AA_591 拿掉重新開始那一版以後，帶 aa512 的那一行只剩它們（不是 AA_512 的稿）*/   /* AA_590 改過的句子：在 AA_590 的表上 */   /* AA_523 6-11 換上的兩則：上面對 AA_523 */
   check('0. 遊戲 → 稿：新檔的每一句、各檔帶 aa512 的行、SMALLTALK 的三句（'+new Set(G0).size+' 句）都在稿裡（一字不差；SMALLTALK 說的話加「」、手機選項不加「」）',G0.length>=150&&!notIn.length,J(notIn));
   /* 改在現有檔的字 */
   const yes=(typeof CONFESS_LINES!=='undefined'&&CONFESS_LINES.heroine_05&&CONFESS_LINES.heroine_05.yes)||null, rs=SISB4.restartYes; SISB4.restartYes=()=>true; let yl=null; try{ yl=yes?yes({flags:{}}):null; } finally { SISB4.restartYes=rs; }
-  check('0. 6-2：confess_lines.js 重新開始那一次四句（稿 6-2）',J(yl)===J(QUOTES.filter(q=>/^(你做到了。|……我也想好了。|其他的，想了很久。……沒有了。|這次，我選你。)$/.test(q.t)).map(q=>q.t))&&J(yl)===J(['你做到了。','……我也想好了。','其他的，想了很久。……沒有了。','這次，我選你。']),J(yl));
+  check('0. 6-2：confess_lines.js 重新開始那一次四句（稿 6-2）——AA_591 第 11 節第 13 點／AA_593（使用者「學姊不會先說」）整支拿掉：restartYes 也是第一次答應那一版',Array.isArray(yl)&&!yl.includes('你做到了。')&&!yl.includes('這次，我選你。')&&yl.includes('其實我也是。考試那時候就有一點了，只是那時候不想想這個。'),J(yl));
   const src4=fs.readFileSync(path.join(H.ROOT,'src/data/sis_b4_events.js'),'utf8'), feed=fs.readFileSync(path.join(H.ROOT,'src/data/feed_y3s1.js'),'utf8');
   check('0. 6-3：4-1 那句是「還有，我要時間。等到我說好的那天。」（稿 6-3 的「→」右邊）；舊句只剩註解',DOC.indexOf('→「還有，我要時間。等到我說好的那天。」')>0&&/SIS\('還有，我要時間。等到我說好的那天。'\)/.test(src4)&&!/SIS\('還有，我要時間。不是一週，是我說好的那天。'\)/.test(src4));
   const s1=typeof FEED_Y3S1!=='undefined'?FEED_Y3S1.posts.find(p=>p.id==='sis1e'):null;
@@ -165,11 +171,12 @@ await sec(3,async()=>{ const e3=ev('ev_sis13_walk'), d6=D('2027-12-06'), d7=D('2
   fresh(d6,17.2,'friend',{},{zone:'campus'}); place(34,-106); const ran=await tickOnly('ev_sis13_walk');
   check('3. 12/6（一）17:12 朋友、走過霖澤館門口：演（EVENTS.tick）',ran===true&&has('（學姊從法律系館A走出來，抱著一件外套，看到你，停了一下。）')&&has('論文卡住了。出來走一下。……你要一起嗎？'),J(said()));
   fresh(d6,17.2,'friend',{},{zone:'campus'}); place(34,-106); await runEv('ev_sis13_walk',[0,1]);
-  check('3. 「好。」→ 椰林大道：兩句（咖哩兩匙、剪報）；「剪報上寫什麼？」→「等的人越來越多。…」；回霖澤館門口三句；記 SIS13_WALK',
-    seq(['（傍晚的椰影大道。腳踏車一台一台從你們旁邊過去。）','咖哩的「適量」，我改成兩匙了。我自己決定的。','我爸寄了一份剪報給我。法律扶助的新聞。旁邊用原子筆寫：「妳寫的這個。」','等的人越來越多。……我的論文寫的就是他們。','好。可以回去寫了。','（她走上樓梯，走到一半回頭。）','謝謝你走這一圈。'])&&J(H.opts[0])===J(['「好。」','「我等一下有課。」'])&&J(H.opts[1])===J(['「他在關心妳。」','「剪報上寫什麼？」'])&&H.G.flags.SIS13_WALK===true,J({s:said(),o:H.opts}));
+  /* AA_591 決3 甲（第 194～198 列）：剪報那一段（她一句、兩個選項、兩句回答）拿掉，咖哩那一句後面直接接「好。可以回去寫了。」*/
+  check('3. 「好。」→ 椰林大道：咖哩兩匙一句（剪報段 AA_591 決3 刪）→ 回霖澤館門口三句；沒有選項；記 SIS13_WALK',
+    seq(['（傍晚的椰影大道。腳踏車一台一台從你們旁邊過去。）','咖哩的「適量」，我改成兩匙了。我自己決定的。','好。可以回去寫了。','（她走上樓梯，走到一半回頭。）','謝謝你走這一圈。'])&&!said().some(s=>/剪報/.test(s))&&J(H.opts)===J([['「好。」','「我等一下有課。」']])&&H.G.flags.SIS13_WALK===true,J({s:said(),o:H.opts}));
   fresh(d6,17.2,'friend',{},{zone:'campus'}); place(34,-106); await runEv('ev_sis13_walk',[1]);
   check('3. 「我等一下有課。」→「好。那你去。」結束，不記 SIS13_WALK、不再演（隔天 17:30 也不演）',has('好。那你去。')&&!has('咖哩的「適量」，我改成兩匙了。我自己決定的。')&&!H.G.flags.SIS13_WALK&&(at(d7,17.5),!EVENTS.check(e3)),J(said()));
-  fresh(d6,17.2,'friend',{},{zone:'campus'}); await runEv('ev_sis13_walk',[0,0]); check('3. 「他在關心妳。」→「他不會說。……他會寄剪報。」',has('他不會說。……他會寄剪報。'));
+  fresh(d6,17.2,'friend',{},{zone:'campus'}); await runEv('ev_sis13_walk',[0,0]); check('3. （AA_591 決3）沒有「他在關心妳。」那一支：「他不會說。……他會寄剪報。」不演',!has('他不會說。……他會寄剪報。')&&has('好。可以回去寫了。'));
   const no=[]; for(const [n,key,hh,kind,o] of [['交往中',d6,17.2,'dating'],['前任',d6,17.2,'ex'],['熟悉（不到朋友）',d6,17.2,'fam'],['沒認識',d6,17.2,'none'],['12/5（窗口前）',D('2027-12-05'),17.2,'friend'],['12/8（避開 12/8～10）',D('2027-12-08'),17.2,'friend'],['16:50',d6,16.83,'friend'],['18:00',d7,18,'friend'],['在宿舍',d6,17.2,'friend',{zone:'dorm'}]]){
     fresh(key,hh,kind,{},Object.assign({zone:'campus'},o||{})); if(EVENTS.check(e3)) no.push(n); }
   check('3. 交往中、前任、熟悉、沒認識、窗口外、時間外、不在校園：不演',!no.length,J(no));
@@ -202,8 +209,8 @@ await sec(5,async()=>{ const d=D('2028-06-02');
   jp('friend',13); const tp=MSG.topics(H.G,ID).map(q=>q.k).includes('bday'), r=MSG.send(H.G,ID,'bday'); const q=OUT.get(H.G,'sisb13_jp_bday'); phAt(d,21.9);
   check('5. 日本路線、朋友、沒交往：6/2（當地 13:00）傳「生日快樂」→ 那一句先不回；排視訊 6/2 當地 22:00（臺灣 21:00；接起來／先不接）',tp&&r&&r.ok&&!!q&&q.day===d&&q.h===22&&q.verb==='接起來'&&q.no==='先不接'&&q.ev==='ev_sis13_jp_bday'&&!txt('p:'+ID).includes('謝謝。研究室的人買了一個小蛋糕。')&&H.G.flags.SIS_BDAY_Y3==='msg',J({q,t:txt('p:'+ID)}));
   at(d,21.9); await goOut('sisb13_jp_bday',[1]);
-  check('5. 接起來：蛋糕的旁白、「研究室的人買的。我吃不完。」「你那邊幾點？」祐廷「十點。」「那你早點睡。我只打十分鐘。」；「許了什麼願？」→「一個。跟論文有關。……你不要笑。」；「好。十分鐘到了。謝謝你接。」；SIS13_JP_BDAY',
-    seq(['（視訊。她把一個小蛋糕拿到鏡頭前，上面插著一根蠟燭，已經吹熄了。）','研究室的人買的。我吃不完。','你那邊幾點？','十點。','那你早點睡。我只打十分鐘。','一個。跟論文有關。……你不要笑。','好。十分鐘到了。謝謝你接。'])&&H.said.find(x=>x.t==='十點。').who===H.G.name&&J(H.opts[0])===J(['「生日快樂。」','「許了什麼願？」'])&&H.G.flags.SIS13_JP_BDAY===true&&(phAt(d,23),!txt('p:'+ID).includes('謝謝。研究室的人買了一個小蛋糕。')),J(said()));
+  check('5. 接起來：蛋糕的旁白、「研究室的人買的。我吃不完。」「你那邊十點了吧。」（AA_591 第 17 列）祐廷「十點。」「那你早點睡。我只打十分鐘。」；「許了什麼願？」→「一個。跟論文有關。……你不要笑。」；「好。十分鐘到了。謝謝你接。」；SIS13_JP_BDAY',
+    seq(['（視訊。她把一個小蛋糕拿到鏡頭前，上面插著一根蠟燭，已經吹熄了。）','研究室的人買的。我吃不完。','你那邊十點了吧。','十點。','那你早點睡。我只打十分鐘。','一個。跟論文有關。……你不要笑。','好。十分鐘到了。謝謝你接。'])&&H.said.find(x=>x.t==='十點。').who===H.G.name&&J(H.opts[0])===J(['「生日快樂。」','「許了什麼願？」'])&&H.G.flags.SIS13_JP_BDAY===true&&(phAt(d,23),!txt('p:'+ID).includes('謝謝。研究室的人買了一個小蛋糕。')),J(said()));
   jp('friend',13); MSG.send(H.G,ID,'bday'); at(d,23); expire(); ph(); ph();
   check('5. 沒接（過了時間）：照現有那一句「謝謝。研究室的人買了一個小蛋糕。」；沒有 SIS13_JP_BDAY',txt('p:'+ID).includes('謝謝。研究室的人買了一個小蛋糕。')&&!H.G.flags.SIS13_JP_BDAY&&OUT.get(H.G,'sisb13_jp_bday').state==='missed',J(txt('p:'+ID)));
   jp('friend',13); MSG.send(H.G,ID,'bday'); at(d,21.8); H.picks=[2]; await OUT.prompt(GM,OUT.get(H.G,'sisb13_jp_bday')); ph();
@@ -219,8 +226,8 @@ await sec(6,async()=>{ const e6=ev('ev_sis13_laundry'), d=D('2028-10-10');
   us(d,21.3,'ex'); const r0=J(H.G.flags.REPAIR||{}); const ran=await tickOnly('ev_sis13_laundry');
   check('6. 美國路線挽回中、10/10 21:18 人在社區：演（tick）；C 棟洗衣間（2D 背景 us_c_laundry）',ran===true&&!!e6&&e6.location==='us_outside'&&J(e6.time)===J([21,22])&&has('（C 棟地下室的洗衣間。烘衣機在轉。學姊坐在摺衣台上，手上一本英文書。）')&&H.bgs.includes('dark')&&OUT.BG.us_c_laundry.label==='C 棟・地下室的洗衣間',J(said()));
   us(d,21.3,'ex'); await runEv('ev_sis13_laundry',[0]);
-  check('6. 「妳在讀什麼？」→「下週的報告。…」旁白「（她把書翻過來…）」「……謝謝。」→「你的還有十分鐘。我先上去了。」；SIS13_LAUNDRY；不改挽回（REPAIR 沒動）',
-    seq(['……你也來洗衣服。','（她挪了一下，讓出摺衣台的一角。）','這裡的烘衣機要投三次硬幣。我第一次只投一次，衣服還是濕的。','下週的報告。有一個字，我一直念錯。','（她把書翻過來，指給你看。你念了一次。她跟著念了一次。）','……謝謝。','你的還有十分鐘。我先上去了。'])&&H.G.flags.SIS13_LAUNDRY===true&&J(H.G.flags.REPAIR||{})===r0,J(said()));
+  check('6. 「妳在讀什麼？」→「下週的報告。…」旁白「（她把書翻過來…）」「謝謝。」（AA_591 第 78 列）→「你的還有十分鐘。我先上去了。」；SIS13_LAUNDRY；不改挽回（REPAIR 沒動）',
+    seq(['……你也來洗衣服。','（她挪了一下，讓出摺衣台的一角。）','這裡的烘衣機要投三次硬幣。我第一次只投一次，衣服還是濕的。','下週的報告。有一個字，我一直念錯。','（她把書翻過來，指給你看。你念了一次。她跟著念了一次。）','謝謝。','你的還有十分鐘。我先上去了。'])&&H.G.flags.SIS13_LAUNDRY===true&&J(H.G.flags.REPAIR||{})===r0,J(said()));
   us(d,21.3,'ex'); await runEv('ev_sis13_laundry',[1]); check('6. （坐在旁邊等）→「（你們都沒說話。…）」',seq(['（你們都沒說話。烘衣機停的時候，她先站起來。）','你的還有十分鐘。我先上去了。']));
   const no=[]; for(const [n,key,h,kind,fl,zone] of [['交往中',d,21.3,'dating'],['10/7（窗口前）','2028-10-07',21.3,'ex'],['10/21（窗口後）','2028-10-21',21.3,'ex'],['20:50',d,20.83,'ex'],['在公寓裡',d,21.3,'ex',{},'us_apartment'],['還沒到美國',d,21.3,'ex',{US_ARRIVED:false}]]){
     us(key,h,kind,fl,zone); if(EVENTS.check(e6)) no.push(n); }
@@ -282,14 +289,14 @@ await sec(9,async()=>{ const d=D('2027-03-08'), d20=D('2027-05-20'), d21=D('2027
 /* ---- 10 第 2 節第 3、4 點 ---- */
 await sec(10,async()=>{ const a=D('2029-07-15'), d=D('2029-07-20');
   fresh(a,20,'friend'); SOCIAL.remember(ID,'SIS6_FATHER_COPY','S5-L5'); phAt(a,21.1); const M=byTag('sisb13_thesis_ask');
-  check('10. 3 有 SIS6_FATHER_COPY：7/15（日）21:00 三則，選項「要。」「不用了，給更需要的人。」',J(M.map(m=>m.text))===J(['修正本印好了。','一本給我爸了。他放在辦公室書架最上面。','另一本。……你說過要的。'])&&J(askOpts('sisb13_thesis_ask'))===J(['要。','不用了，給更需要的人。'])&&CALENDAR.dateOf(a).wd===7,J(M));
+  check('10. 3 有 SIS6_FATHER_COPY：7/15（日）21:00 兩則（AA 對 AA_584 的補充第 4 點：「一本給我爸了」刪、下一則「多印了一本。……你說過要的。」），選項「要。」「不用了，給更需要的人。」',J(M.map(m=>m.text))===J(['修正本印好了。','多印了一本。……你說過要的。'])&&J(askOpts('sisb13_thesis_ask'))===J(['要。','不用了，給更需要的人。'])&&CALENDAR.dateOf(a).wd===7,J(M));
   answer('sisb13_thesis_ask',0); ph(); const q=OUT.get(H.G,'sisb13_thesis');
   check('10. 3「要。」→「週五晚上，公館。我放在陳助教那桌。」；排 7/20（五）18:30 公館',txt('p:'+ID).slice(-1)[0]==='週五晚上，公館。我放在陳助教那桌。'&&!!q&&q.day===d&&q.h===18.5&&CALENDAR.dateOf(d).wd===5,J(q));
   at(d,18.3); await goOut('sisb13_thesis'); check('10. 3 演：「（桌上一本裝訂好的論文，封面上寫著你的名字。）」「簽名不用。……我寫了一句在第一頁。你回家再看。」；SIS_THESIS_COPY',seq(['（桌上一本裝訂好的論文，封面上寫著你的名字。）','簽名不用。……我寫了一句在第一頁。你回家再看。'])&&H.G.flags.SIS_THESIS_COPY===true,J(said()));
   fresh(a,20,'friend'); SOCIAL.remember(ID,'SIS6_FATHER_COPY',''); phAt(a,21.1); answer('sisb13_thesis_ask',1); ph();
   check('10. 3「不用了…」→「……好。那我留一本在研究室，給學弟妹。」；不排',txt('p:'+ID).slice(-1)[0]==='……好。那我留一本在研究室，給學弟妹。'&&!OUT.get(H.G,'sisb13_thesis'));
   /* AA_584 第 9 節第 1 點：爸爸那一層（S5-L5，記憶 SIS6_FATHER_COPY）刪了，條件改「和她朋友以上」——沒有那個記憶的朋友也收到；有點熟（FAMILIAR）的沒有 */
-  fresh(a,20,'friend'); phAt(a,21.1); check('10. 3 沒有 SIS6_FATHER_COPY、朋友：照送（AA_584 第 9 節第 1 點，條件改朋友以上）',byTag('sisb13_thesis_ask').length===3,J(byTag('sisb13_thesis_ask').map(m=>m.text)));
+  fresh(a,20,'friend'); phAt(a,21.1); check('10. 3 沒有 SIS6_FATHER_COPY、朋友：照送（AA_584 第 9 節第 1 點，條件改朋友以上；兩則）',byTag('sisb13_thesis_ask').length===2,J(byTag('sisb13_thesis_ask').map(m=>m.text)));
   fresh(a,20,'fam'); SOCIAL.remember(ID,'SIS6_FATHER_COPY','S5-L5'); phAt(a,21.1); check('10. 3 只有點熟（FAMILIAR，有沒有 SIS6_FATHER_COPY 都一樣）：沒有',!byTag('sisb13_thesis_ask').length);
   /* 4 慶祝 */
   const call=ev('ev_sis_us_result'); fresh('2028-03-15',21.5,'friend'); await runEv('ev_sis_us_result',[1]);
@@ -378,7 +385,7 @@ await sec(13,async()=>{ const a=D('2029-01-03'), d=D('2029-01-06'), m7=D('2029-0
   check('13.「在。妳人來就好。」→「東西已經買了。……十一點半。」；排 1/6 11:30「家裡的中飯」',txt('p:'+ID).slice(-1)[0]==='東西已經買了。……十一點半。'&&!!q&&q.day===d&&q.h===11.5&&q.ev==='ev_sis13_gift',J(q));
   at(d,11); await goOut('sisb13_gift',[2]);
   check('13. 演（臺北家裡 home_living_day）：玄關、「阿姨好。」、果醬、媽媽「奶油？」…「書瑀，他在美國有沒有好好吃飯？」「有。……我煮的。」…「今年夏天。論文寫完的話。」；（夾一塊排骨給她）→ 旁白；一點半玄關、橘子；SIS13_GIFT',
-    seq(['（十一點半。門鈴響的時候，媽媽已經站在玄關了。爸爸和你姊都出門了，媽媽說這樣比較不會嚇到人。）','阿姨好。','（她把一個紙袋遞過去。裡面是一罐果醬，標籤是手寫的英文。）','那邊市集買的。蘋果奶油。','奶油？','裡面沒有奶油。只是叫這個名字。塗吐司。','好，明天早上就吃。','（中飯是媽媽一早去市場買的。桌上的菜，三個人吃不完。）','書瑀，他在美國有沒有好好吃飯？','有。……我煮的。','（媽媽看了你一眼。你低頭吃飯。）','那妳研究所呢？什麼時候畢業？','今年夏天。論文寫完的話。','（她看著碗裡多出來的那塊排骨，沒說什麼，吃掉了。媽媽又夾了一塊給她。）','（一點半。她在玄關穿鞋。）','下次來吃飯就好，不用帶東西。','……好。','（走的時候，她手上的紙袋換成了媽媽裝的一袋橘子。）'])
+    seq(['（十一點半。門鈴響的時候，媽媽已經站在玄關了。爸爸和你姊都出門了，媽媽說這樣比較不會嚇到人。）','阿姨好。','（她把一個紙袋遞過去。裡面是一罐果醬，標籤是手寫的英文。）','那邊市集買的。蘋果奶油。','奶油？','裡面沒有奶油。只是叫這個名字。塗吐司。','好，明天早上就吃。','（中飯是媽媽一早去市場買的。桌上的菜，三個人吃不完。）','書瑀，他在美國有沒有好好吃飯？','有。……我煮的。','（媽媽看了你一眼。你低頭吃飯。）','那妳研究所呢？什麼時候畢業？','今年夏天。論文寫完的話。','（她看著碗裡多出來的那塊排骨，沒說什麼，吃掉了。媽媽又夾了一塊給她。）','（一點半。她在玄關穿鞋。）','下次來吃飯就好，不用帶東西。','好。','（走的時候，她手上的紙袋換成了媽媽裝的一袋橘子。）'])
     &&J(H.opts[0])===J(['「她寫得很快。」','「媽，妳不要一直問。」','（夾一塊排骨給她）'])&&H.said.find(x=>x.t==='奶油？').who==='媽媽'&&H.said.find(x=>x.t==='阿姨好。').who===SOCIAL.displayName(ID)&&H.G.flags.SIS13_GIFT===true,J(said()));
   phAt(d,20.9); const k0=byTag('sisb13_gift_night').length; phAt(d,21.1); const N=byTag('sisb13_gift_night');
   check('13. 當晚 21:00「橘子很甜。」「今天其實很緊張。」＋「看不出來。」「我媽很喜歡妳。」',k0===0&&J(N.map(m=>m.text))===J(['橘子很甜。','今天其實很緊張。'])&&J(askOpts('sisb13_gift_night'))===J(['看不出來。','我媽很喜歡妳。']),J(N));
@@ -414,7 +421,7 @@ await sec(14,async()=>{
   await pick('lover',{},[1]); check('14. 6-1 臺灣路線、沒有旗標的戀人版：照舊（沒有新句子）',!said().some(t=>/鹿咬|七月說要保密|麵店？說好的|阿姨端了兩碗麵/.test(t))&&has('……還有。（她轉過頭看著你。）親一下。'));
   /* 6-2、6-3 */
   const yes=CONFESS_LINES.heroine_05.yes, rs=SISB4.restartYes; let a1, a2; SISB4.restartYes=()=>true; try{ a1=yes({flags:{}}); } finally { SISB4.restartYes=()=>false; } try{ a2=yes({flags:{}}); } finally { SISB4.restartYes=rs; }
-  check('14. 6-2 重新開始那一次（restartYes）：「你做到了。」「……我也想好了。」「其他的，想了很久。……沒有了。」「這次，我選你。」；第一次答應照舊',J(a1)===J(['你做到了。','……我也想好了。','其他的，想了很久。……沒有了。','這次，我選你。'])&&J(a2)===J(['……我知道。','其實我也是。考試那時候就有一點了，只是那時候不想想這個。','好。']),J([a1,a2]));
+  check('14. 6-2 重新開始那一次（restartYes）：AA_591 第 11 節第 13 點／AA_593（使用者「學姊不會先說」）整支拿掉＝和第一次答應一樣；第一次答應照舊',J(a1)===J(a2)&&!a1.includes('這次，我選你。')&&J(a2)===J(['……我知道。','其實我也是。考試那時候就有一點了，只是那時候不想想這個。','好。']),J([a1,a2]));
   const tc=ev('ev_sis_three_conditions'); fresh('2028-04-12',10,'friend'); await runEv('ev_sis_three_conditions',[0]);
   check('14. 6-3 4-1：「還有，我要時間。等到我說好的那天。」（舊句不出現）',has('還有，我要時間。等到我說好的那天。')&&!has('還有，我要時間。不是一週，是我說好的那天。')&&!!tc,J(said())); });
 
