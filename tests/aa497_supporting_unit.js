@@ -288,7 +288,7 @@ const inDoc=t=>DOC.indexOf(t)>=0||X547.indexOf(t)>=0;
   await sec('1-10',async()=>{ const run=(term,w,h,mem)=>{ const out=[]; const d0=TD(term,w,2); fresh(d0,h||14,'gongguan'); fam(YC); if(mem) for(const m of mem) SOCIAL.remember(m,'FIRST_MET','');
       for(let i=0;i<10;i++){ at(d0+i,h||14); const r=STORY.smallTalk(H.G,YC); out.push(r.say||r.narr); } return out; };
     const T=L().yc.talk;
-    let o=run('Y1S2',3); check('1-10. 大一下：「期中考前一週我會出現。這是我和學分的約定。」說一次（還有兩句原句）；說完＝「（他把一邊的耳機拿下來，算是打招呼。）」',o.filter(t=>t===T[2].t).length===1&&o.slice(-1)[0]===L().yc.after&&!o.some(t=>/聊兩句天氣/.test(t)),J(o));
+    let o=run('Y1S2',3); check('1-10. 大一下：「期末考前一週我會出現。這是我和學分的約定。」說一次（還有兩句原句）；說完＝「（他把一邊的耳機拿下來，算是打招呼。）」',o.filter(t=>t===T[2].t).length===1&&o.slice(-1)[0]===L().yc.after&&!o.some(t=>/聊兩句天氣/.test(t)),J(o));
     o=run('Y3S1',3,14,['pool_16']); check('1-10. 大三上認識詹立群：「立群背刑訴是用唱的。……」；沒認識：照 BB_113「刑訴的筆記有人用唱的背。……」',o.includes(T[5].t)&&!o.includes(T[6].t)&&(o=run('Y3S1',3),o.includes(T[6].t)&&!o.includes(T[5].t)));
     o=run('Y3S2',3); check('1-10. 大三下沒認識詹立群：沒有那一句',!o.includes(T[7].t));
     o=run('Y1S1',4,9); check('1-10. 原句：「……現在幾點？我昨天四點才睡。」（8～13 點）、「公館那間週五我放歌，來嗎？」（DJ 那段之前）各一次',o.filter(t=>t===T[0].t).length===1&&o.filter(t=>t===T[1].t).length===1,J(o));

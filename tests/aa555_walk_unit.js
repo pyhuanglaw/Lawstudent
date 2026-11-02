@@ -161,12 +161,12 @@ for(const r of P118){ const mods=MP.filter(m=>m.term===r.term&&m.who===r.who); l
   if(mod){ if(/^\*\*遊戲裡已改過/.test(mod.to)) special='han3'; else if(/照用|條件改|換 Alison|^「……|……」$/.test(mod.to)) {} else b=bubbles(mod.to); }
   if(r.who==='zhe'&&b[0]==='哥我今天在總圖'&&ZHE_GE) b[0]=ZHE_GE[1];
   PEXP.push({term:r.term,who:r.who,cond:r.cond,b,special,skip:skipKey(r),mod:!!mod}); }
-/* AA-B 11-01 回 12 題：阿哲系籃改私訊（第 1 題）、芯慈 2028 暑假換句（第 10 題）、柏翰期中倒數二十一天每天一則（第 11 題）*/
-{ const CN=n=>{ const d='零一二三四五六七八九'; return n<10?d[n]:(n===10?'十':(n<20?'十'+d[n-10]:d[Math.floor(n/10)]+'十'+(n%10?d[n%10]:''))); }, SP={14:'期中前十四天。進度落後半天。',7:'期中前七天。……今天念得很慢，可是記得住。',1:'明天考。我今天十點就睡。'};
+/* AA-B 11-01 回 12 題：阿哲系籃改私訊（第 1 題）、芯慈 2028 暑假換句（第 10 題）、柏翰期中倒數二十一天每天一則（第 11 題；AA_581 改成期末倒數）*/
+{ const CN=n=>{ const d='零一二三四五六七八九'; return n<10?d[n]:(n===10?'十':(n<20?'十'+d[n-10]:d[Math.floor(n/10)]+'十'+(n%10?d[n%10]:''))); }, SP={14:'期末前十四天。進度落後半天。',7:'期末前七天。……今天念得很慢，可是記得住。',1:'明天考。我今天十點就睡。'};   /* AA_581 第 1～3 列（D118 沒有期中考）：稿的「期中前」→ 遊戲「期末前」*/
   const fix=(f,b)=>{ const p=PEXP.find(f); if(p) p.b=b; else PUN.push('AA1101'); };
   fix(p=>p.term==='Y3S1'&&p.who==='zhe'&&/隊長/.test(p.cond),['明天練球','不來的要買飲料','來的也要買','我是隊長']);
   fix(p=>p.who==='classmate_xinci'&&p.b.some(t=>/影印機我已經會修了/.test(t)),['實習第一週。名牌上我的名字打錯一個字。……我還沒去改。']);
-  fix(p=>p.who==='classmate_bohan'&&p.b[0]==='期中前二十一天。',Array.from({length:21},(_,k)=>SP[21-k]||('期中前'+CN(21-k)+'天。'))); }
+  fix(p=>p.who==='classmate_bohan'&&p.b[0]==='期中前二十一天。',Array.from({length:21},(_,k)=>SP[21-k]||('期末前'+CN(21-k)+'天。'))); }
 check('0. 手機小事：AA_118 八學期（刪掉的語彤法服那則不算）＋ZHE_PHOTOS；AA_555 第 2 節每一列都對到原句',P118.length===96&&MP.length===21&&MP.every(m=>PEXP.some(p=>p.mod&&p.term===m.term&&p.who===m.who)),J({n:P118.length,mp:MP.length,沒對到:MP.filter(m=>!PEXP.some(p=>p.mod&&p.term===m.term&&p.who===m.who)).map(m=>m.term+m.who+m.orig)}));
 const A5=(typeof AA555!=='undefined')?AA555:null;
 const termOfAt=d=>{ const t=CALENDAR.termOf(d); if(t) return t.id; const m=CALENDAR.dateOf(d).m; for(let k=1;k<200;k++){ const x=CALENDAR.termOf(m<=2?d+k:d-k); if(x) return x.id; } return null; };   /* 寒假（1～2 月）算下一學期、暑假算上一學期（稿把「寒假回新竹」放大一下、「暑期實習之後」放大三下）*/
@@ -225,9 +225,11 @@ sec('6',()=>{ if(!A5){ check('6. 沒有 aa555_3d.js',false); return; }
     let first=null; try{ for(let k=0;k<30;k++){ G1.day=d+k; G1.weekday=wdOf(G1.day); runH(7,23.9,0.1); if(first==null&&msgs(G1,/a118_y2s1_an_rules/).length) first=G1.day; } } finally { STORY.DAILY_PHONE.splice(0,STORY.DAILY_PHONE.length,...keep); }
     const two=(G1.msgs||[]).find(m=>m.tag==='a118_then_y2s1_an_rules');
     check('6. 以安新 8「新規則：…第十條，不准賴。」→ 三週後（21 天後同一時間）「規則改成三條了。」',first!=null&&!!two&&two.text==='規則改成三條了。'&&two.day===first+21&&Math.abs(two.h-(21+40/60))<0.11,J([first,two&&[two.day,two.h,two.text]])); }
-  { const G1=STATE('none'); H.G=G1; SOCIAL.bind(G1); const d=STORY.termDay('Y1S1',5,1); for(let k=0;k<3;k++){ G1.day=d+k; G1.weekday=wdOf(G1.day); runH(7,23.9,0.1); }
+  { const G1=STATE('none'); H.G=G1; SOCIAL.bind(G1); const EL=CLS.examList?CLS.examList(G1,'Y1S1'):[], ex=EL.length?EL[0].day:STORY.termDay('Y1S1',16,1), d=ex-21; for(let k=0;k<21;k++){ G1.day=d+k; G1.weekday=wdOf(G1.day); runH(7,23.9,0.1); }
     const L=(G1.msgs||[]).filter(m=>/^a118_y1s1_bh_count/.test(m.tag)).map(m=>[m.day-d,+m.h.toFixed(2),m.text]);
-    check('6. 固定日子：柏翰「期中前二十一天。」大一上第 5 週週一（第 8 週週一前 21 天）22:00，之後每天一則「期中前二十天。」「期中前十九天。」（AA-B 11-01 第 11 題）',J(L)===J([[0,22,'期中前二十一天。'],[1,22,'期中前二十天。'],[2,22,'期中前十九天。']]),J(L)); }
+    const G2=STATE('none'); H.G=G2; SOCIAL.bind(G2); G2.day=d-1; G2.weekday=wdOf(G2.day); runH(7,23.9,0.1); const pre=(G2.msgs||[]).filter(m=>/^a118_y1s1_bh_count/.test(m.tag)).length; H.G=G1; SOCIAL.bind(G1);
+    const last=(G1.msgs||[]).find(m=>m.tag==='a118_y1s1_bh_count_20');
+    check('6. 固定日子：柏翰「期末前二十一天。」大一上第一科期末考那天往前 21 天 22:00（AA_581 連1，D118 沒有期中考），之後每天一則「期末前二十天。」「期末前十九天。」；「明天考。」在考試前一天；前一天沒有（AA-B 11-01 第 11 題）',J(L.slice(0,3))===J([[0,22,'期末前二十一天。'],[1,22,'期末前二十天。'],[2,22,'期末前十九天。']])&&L.length===21&&EL.length>0&&CALENDAR.termOf(ex).week===16&&!!last&&last.day===ex-1&&last.text==='明天考。我今天十點就睡。'&&pre===0,J([L.slice(0,3),L.length,EL.length,ex,last&&[last.day,last.text],pre])); }
   { const G1=STATE('none'); H.G=G1; SOCIAL.bind(G1); const d=D('2029-06-02'); G1.day=d; G1.weekday=wdOf(d); runH(7,23.9,0.1); const L=msgs(G1,/^a118_y4s2_/);
     check('6. 畢業典禮 6/2：柏翰最後一排的照片、芯慈「我媽哭了。我沒有。」、Alison「拍了兩百張。…」',L.includes('classmate_bohan:📷（從最後一排拍的會場）')&&L.includes('classmate_xinci:……有一點。')&&L.includes('yu:拍了兩百張。只有一張是我一個人。我最喜歡那一張。'),J(L)); }
   { const G1=STATE('none'); H.G=G1; SOCIAL.bind(G1); const d=D('2027-09-15'); G1.day=d; G1.weekday=wdOf(d); runH(20,23.9,0.1); const L=(G1.msgs||[]).filter(m=>/^r3_y3_yu_moon/.test(m.tag)).map(m=>m.text);

@@ -408,7 +408,7 @@ const askOpts=id=>{ const m=PHONE.byAsk(G,id); return m?m.ask.opts.map(o=>o.t):n
     check('14. M4 9/15 22:30 法一吃飯群組 Alison「今年中秋有月亮」「去年下雨」「我記得」（AA_555 第 2 節改字，企劃線 56c11668d；原本「芷若說英國的月亮比較小」「我不信」）', JSON.stringify(txt('g:noodle_team'))===JSON.stringify(['yu:今年中秋有月亮','yu:去年下雨','yu:我記得']));
     fresh(D('2027-09-08'),20.5,'dorm'); date('kexin'); run(G.day,20.5,21.5); check('14. 大三上 9/8 21:10 可昕「民訴開課了。第一堂就抄了十一頁。」', K().includes('kexin:民訴開課了。第一堂就抄了十一頁。'));
     fresh(D('2027-11-10'),8,'dorm'); date('kexin'); only('y3_kx_mid',()=>run(G.day,8,21.5)); ans('dp_y3_kx_mid',1);
-    check('14. 大三上第 10 週起「民訴期中，你們那邊考哪一題？」；「不想講。」→「好。不講。」「……我也不想講。」', JSON.stringify(K())===JSON.stringify(['kexin:民訴期中，你們那邊考哪一題？','player:不想講。','kexin:好。不講。','kexin:……我也不想講。']));
+    check('14. 大三上第 10 週起「民訴期中考完了。最後一題沒寫完。」；「不要想了。」→「好。不想。」「……還是會想。」（AA_581 第 53～58 列）', JSON.stringify(K())===JSON.stringify(['kexin:民訴期中考完了。最後一題沒寫完。','player:不要想了。','kexin:好。不想。','kexin:……還是會想。']));
     fresh(D('2027-10-06'),8,'dorm'); date('kexin'); only('y3_kx_zhan',()=>run(G.day,8,21.5)); check('14. 沒見過詹靖：「我那個拍片的朋友詹靖，……」', K()[0]==='kexin:我那個拍片的朋友詹靖，拍了山下那家的老闆一整天。老闆只說了一句：好。');
     fresh(D('2027-10-06'),8,'dorm',{KX_NCCU_FRIENDS:true}); date('kexin'); only('y3_kx_zhan',()=>run(G.day,8,21.5)); check('14. 見過詹靖（木柵大學的電影夜）：「詹靖拍了山下那家的老闆一整天，……」', K()[0]==='kexin:詹靖拍了山下那家的老闆一整天，老闆只說了一句：好。');
     fresh(D('2027-10-06'),8,'dorm',{KX_BDAY:{2:'class'}}); date('kexin'); only('y3_kx_zhan',()=>run(G.day,8,21.5)); check('14. C7 見過詹靖＝系上小教室的生日在場（舊存檔只有 KX_BDAY[2] class）：「詹靖拍了……」（AA_343 C7）', K()[0]==='kexin:詹靖拍了山下那家的老闆一整天，老闆只說了一句：好。', JSON.stringify(K()));

@@ -10,7 +10,7 @@ const NOODLE_TABLE={
   Y1:[
     {who:['zhe','classmate_bohan'],dialogue:[{speaker:null,text:'長桌已經坐了一半。阿哲把菜單推給你，雖然大家都只點那幾樣。'},{speaker:'zhe',text:'民總的作業誰寫完了？'},{speaker:'classmate_bohan',text:'寫完了。……不給抄。'}]},
     {who:['yu','zhe'],dialogue:[{speaker:null,text:'Alison 把滷蛋切成四份，分給整桌。'},{speaker:'yu',text:'阿姨今天心情很好！！滷蛋多一顆！'},{speaker:'zhe',text:'那是因為我昨天幫她搬瓦斯。'}]},
-    {who:['classmate_bohan'],dialogue:[{speaker:'classmate_bohan',text:'期中考範圍我整理成一張表了。'},{speaker:null,text:'他把表放在桌子中間。三個人同時拿出手機拍。'}]},
+    {who:['classmate_bohan'],dialogue:[{speaker:'classmate_bohan',text:'期末考範圍我整理成一張表了。'},{speaker:null,text:'他把表放在桌子中間。三個人同時拿出手機拍。'}]},
     {who:['classmate_xinci'],dialogue:[{speaker:null,text:'芯慈一坐下就趴在桌上。'},{speaker:'classmate_xinci',text:'昨天讀書讀到兩點。……麵來了再叫我。'}]},
     /* 第 5 則：沒有 ZHE_CALLS_GE＝「欸，」那一句；玩家不一定加入系籃，只寫記事本，不排活動 */
     {who:['zhe'],dialogue:[{if:{flags:['ZHE_CALLS_GE']},speaker:'zhe',text:'哥，下禮拜系籃練球，你來不來？'},{unless:{flags:['ZHE_CALLS_GE']},speaker:'zhe',text:'欸，下禮拜系籃練球，你來不來？'},{speaker:null,text:'你還沒回答，他已經在記事本上寫了你的名字。'}]},
@@ -23,7 +23,7 @@ const NOODLE_TABLE={
     {who:['classmate_bohan','zhe'],dialogue:[{speaker:'classmate_bohan',text:'法服這禮拜三個個案，兩個是房東不還押金。'},{speaker:'zhe',text:'那你可以開一門課了。'}]},
     /* 第 3 則：演過 ev_xinci_double（雙主修）＝3；沒有＝3b（取代第 3 則）*/
     {who:['classmate_xinci'],dialogue:[{if:{events:['ev_xinci_double']},speaker:'classmate_xinci',text:'經濟系的同學問我，法律系是不是每天都在背。……我說也有不背的時候。'},{unless:{events:['ev_xinci_double']},speaker:'classmate_xinci',text:'公車今天塞了二十分鐘。我以為趕不上了。'}]},
-    {who:['zhe'],if:{weeks:[6,7,14,15]}/* AA_491 第 7 點：只在考試前（期中第 6～7 週、期末第 14～15 週）輪到 */,dialogue:[{speaker:null,text:'考試前的麵店，長桌比平常安靜。每個人的碗旁邊都有一本書。'},{speaker:'zhe',text:'吃飯的時候不准讀。……好啦，讀到麵來。'}]},
+    {who:['zhe'],if:{weeks:[14,15]}/* AA_491 第 7 點：只在考試前輪到；D118 沒有期中考（AA_581 第 7 節 C、第 11 節第 3 點）：只留期末第 14～15 週 */,dialogue:[{speaker:null,text:'考試前的麵店，長桌比平常安靜。每個人的碗旁邊都有一本書。'},{speaker:'zhe',text:'吃飯的時候不准讀。……好啦，讀到麵來。'}]},
     {who:['yu','classmate_bohan'],dialogue:[{speaker:'yu',text:'欸，下禮拜的報告分組，你們不要又全部丟給柏翰。'},{speaker:'classmate_bohan',text:'我已經習慣了。'},{speaker:'yu',text:'就是因為你習慣了。'}]},
     {who:['heroine_03'],if:{ytShift:true},dialogue:[{speaker:null,text:'語彤在櫃台後面寫作業，社會系的書攤了一桌。阿姨叫她，她頭也沒抬就站起來。'}]} ],
   Y3:[

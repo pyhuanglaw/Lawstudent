@@ -155,8 +155,8 @@ const kxOD=()=>OUT.rec(G).filter(q=>/^kx_od_/.test(q.id));
   // ===== 第 15、16 項：期中晚餐 =====
   { const sup=async know=>{ fresh(D('2026-04-15'),19,'gongguan',{}); R('zhe','FAM'); if(know) R('heroine_03','FAM'); said=[]; await EVENTS.run(ev('ev_midterm_supper_y1s2')); return lines(); };
     const a=await sup(false), b=await sup(true);
-    check('15. 期中晚餐（4/15），還沒認識語彤：「（阿姨的手腕綁著護腕。今天端麵的是一個沒見過的女生。）」',a.includes('（阿姨的手腕綁著護腕。今天端麵的是一個沒見過的女生。）')&&!a.some(t=>/端麵的是語彤/.test(t)),J(a.slice(0,2)));
-    check('15. 對照：認識語彤的照舊「（阿姨的手腕綁著護腕。今天端麵的是語彤。）」',b.includes('（阿姨的手腕綁著護腕。今天端麵的是語彤。）')&&!b.some(t=>/沒見過的女生/.test(t)),J(b.slice(0,2)));
+    check('15. 考完的晚餐，還沒認識語彤：「（今天端麵的是一個沒見過的女生。）」（D118 晚餐在期末，AA_581 第 7 節 B 護腕改字）',a.includes('（今天端麵的是一個沒見過的女生。）')&&!a.some(t=>/語彤|護腕/.test(t)),J(a.slice(0,2)));
+    check('15. 對照：認識語彤的「（阿姨的手好了，今天端麵的還是語彤。）」（AA_581 第 7 節 B）',b.includes('（阿姨的手好了，今天端麵的還是語彤。）')&&!b.some(t=>/沒見過的女生|護腕/.test(t)),J(b.slice(0,2)));
     fresh(D('2026-04-15'),21,'dorm',{}); R('classmate_peishan','FAM'); PHONE.join(G,'noodle_team','麵店團'); ev('ev_midterm_supper_y1s2').outingMissed(G,GM,{day:G.day,h:19}); PHONE.tick(G);
     const M=TH('g:noodle_team').filter(m=>m.tag==='zhe_supper_mid2_egg').map(m=>m.from+':'+m.text);
     check('16. 期中晚餐沒去（認識沛珊）：麵店團群組阿哲傳滷蛋照片，配「柏翰幫沛珊切的」「……他們在一起了」（不再只有「……喔。」）',J(M)===J(['zhe:📷（一顆切成兩半的滷蛋）','zhe:柏翰幫沛珊切的','zhe:……他們在一起了']),J(M)); }

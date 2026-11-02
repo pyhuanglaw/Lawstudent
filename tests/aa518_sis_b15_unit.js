@@ -248,13 +248,13 @@ await sec(3,async()=>{
     check('3. 2 11/6 午餐選「都還好。」記 SIS15_ALLOK；選「債總。」不記',f1===true&&!f0,J([f1,f0]));
     const pre=async(key,h,fl,picks)=>{ fresh(key,h,'fam',Object.assign({SIS15_ALLOK:true},fl||{}),{zone:'library'}); H.said=[]; H.opts=[]; H.picks=(picks||[]).slice(); return X().preTalk(GM); };
     const r1=await pre('2026-11-16',10,{},[0]);
-    check('3. 2 11/16 起第一次找她說話：「期中考完了。……再說一次，都還好嗎？」兩個選項；「這次是真的還好。」→「好。」',r1===true&&J(said())===J(['期中考完了。……再說一次，都還好嗎？','好。'])&&J(H.opts[0])===J(['「這次是真的還好。」','「其實不太好。」']),J({s:said(),o:H.opts}));
+    check('3. 2 11/16 起第一次找她說話：「下下週了。……再說一次，都還好嗎？」兩個選項；「這次是真的還好。」→「好。」',r1===true&&J(said())===J(['下下週了。……再說一次，都還好嗎？','好。'])&&J(H.opts[0])===J(['「這次是真的還好。」','「其實不太好。」']),J({s:said(),o:H.opts}));
     const h0=(fresh('2026-11-17',10,'fam',{SIS15_ALLOK:true},{zone:'library'}),H.G.hour); H.said=[]; H.picks=[1]; await X().preTalk(GM);
     check('3. 2「其實不太好。」→「……說來聽聽。」＋旁白「（你講了二十分鐘，她都在聽，沒有打斷。）」、時間往前 20 分鐘；只一次',J(said().slice(1))===J(['……說來聽聽。','（你講了二十分鐘，她都在聽，沒有打斷。）'])&&Math.abs(H.G.hour-h0-1/3)<0.01&&!X().midDue(H.G),J(said()));
     const no=[]; if(await pre('2026-11-15',10)) no.push('11/15'); fresh('2026-11-20',10,'fam',{},{zone:'library'}); if(X().midDue(H.G)) no.push('沒有 SIS15_ALLOK');
     check('3. 2 11/16 以前、沒選「都還好。」：沒有',!no.length,J(no));
     fresh('2026-11-18',10,'fam',{SIS15_ALLOK:true},{zone:'library'}); H.said=[]; H.picks=[0]; const p0=SISY23.preTalk; await SISY23.preTalk(GM);
-    check('3. 2 接在找她說話的前面（SISY23.preTalk 整條鏈跑一次；同一天沒有她別的說話前接演）',typeof p0==='function'&&has('期中考完了。……再說一次，都還好嗎？'),J(said())); }
+    check('3. 2 接在找她說話的前面（SISY23.preTalk 整條鏈跑一次；同一天沒有她別的說話前接演）',typeof p0==='function'&&has('下下週了。……再說一次，都還好嗎？'),J(said())); }
   /* 3 3/15 21:30 */
   { const d=D('2028-03-15'); for(const kind of ['fam','friend']){ fresh(d,21,kind); phAt(d,21.4); const n0=byTag('sisb15_us_up').length; phAt(d,21.6); const M=byTag('sisb15_us_up'), call=OUT.get(H.G,'sisy23_result');
       check('3. 3 '+(kind==='fam'?'有點熟（沒有電話）':'朋友以上（有 21:30 的電話）')+'：3/15 21:30 家族群組 學姊「美國那邊，上了。」「八月走。」Kevin「學姊！！！！！」',n0===0&&J(M.map(m=>[m.from,m.text]))===J([[ID,'美國那邊，上了。'],[ID,'八月走。'],['kevin','學姊！！！！！']])&&(kind==='fam'?!call:!!call),J({M,call:!!call})); } }

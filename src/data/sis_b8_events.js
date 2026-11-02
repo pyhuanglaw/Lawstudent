@@ -46,7 +46,7 @@ const SISB8_EVENTS=(function(){
         SIS('大二到現在，哪一科最難？'),
         {choice:[{text:'「債總。」',goto:'a'},{text:'「都還好。」',set:{SIS15_ALLOK:true},goto:'b'}]},   /* AA_518 第 3 節第 2 點：選「都還好。」記 SIS15_ALLOK（2026-11-16 起第一次找她說話那一句，src/sis_b15_3d.js）*/
         {label:'a'},SIS('對。債總是第一個讓人覺得自己不會讀書的科目。……過了就好了。'),{goto:'c'},
-        {label:'b'},SIS('期中考完再告訴我一次。'),
+        {label:'b'},SIS('下下週再告訴我一次。'),
         {label:'c'},N('（結帳的時候她已經付好了。）'),
         {unless:dt,speaker:ID,text:'我大一的時候，我的學姊也請過我。'},{if:dt,speaker:ID,text:'……下次你請。',set:{SIS15_YOUPAY:true}},   /* AA_470 4-3：祐廷不會當別人的直屬（直屬學弟那條作廢，AA_208）——原句「下次你當直屬的時候，記得也要請。」換掉；交往版照舊。AA_518 第 3 節第 8 點：交往版記 SIS15_YOUPAY（大二上期末飯的收尾，termend_lines.js）*/
         Object.assign({set:{SIS_LUNCH_Y2:true}},rel({fam:2,comf:2})) ],

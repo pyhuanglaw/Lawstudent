@@ -63,7 +63,7 @@ const night=async()=>{ G.day=d24; G.hour=21.5; G.zone='dorm'; said=[]; cgs=[]; r
   check('1. C1 21:30 房間一句 → 手機響了 → 下樓到交誼廳（3D dorm_hall）', said[0].t==='（晚上九點半。你躺在床上，額頭燙得不像自己的。）'&&said[1].t==='（手機響了。你披了一件外套，下樓到交誼廳。）'&&entered.includes('dorm_hall'), JSON.stringify(entered));
   check('1. C1 出場順序與台詞（逐字）', L1.includes('陳語彤：嗯。阿姨煮的粥。不要問我怎麼知道的。')&&L1.indexOf('阿哲：滷味。我跟老闆說是病人吃的，他多給一顆蛋。')>L1.indexOf('陳語彤：嗯。阿姨煮的粥。不要問我怎麼知道的。')&&L1.indexOf('Alison：面紙。你鼻子好紅。')>L1.indexOf('阿哲：滷味。我跟老闆說是病人吃的，他多給一顆蛋。')&&L1.indexOf('許柏翰：刑訴的筆記。我多印了一份。')>L1.indexOf('Alison：面紙。你鼻子好紅。'), JSON.stringify(L1.slice(2,7)));
   check('1. C1 CG cg_cold_week_friends 在「那一句」之前', cgs[0]==='cg_cold_week_friends');
-  check('1. C1 阿哲問（通用一句）、選第 2 個、回答後「好。考完再跟我講一次。」、結尾（逐字）', L1.includes('阿哲：你每次都在幫別人查。你自己呢？你想用法律做什麼？')&&L1.includes('阿哲：好。考完再跟我講一次。')&&L1[L1.length-1]==='（十點半。交誼廳的燈關了一半。你上樓的時候，手上還提著一個塑膠袋。）', JSON.stringify(L1.slice(-3)));
+  check('1. C1 阿哲問（通用一句）、選第 2 個、回答後「好。病好了再跟我講一次。」、結尾（逐字）', L1.includes('阿哲：你每次都在幫別人查。你自己呢？你想用法律做什麼？')&&L1.includes('阿哲：好。病好了再跟我講一次。')&&L1[L1.length-1]==='（十點半。交誼廳的燈關了一半。你上樓的時候，手上還提著一個塑膠袋。）', JSON.stringify(L1.slice(-3)));
   check('1. C1 旗標：COLD_WEEK_PRESENT、COLD_WEEK_ANSWER why、BEING_HEARD（阿哲）、HELPED（四位）', JSON.stringify(G.flags.COLD_WEEK_PRESENT)===JSON.stringify(['heroine_03','zhe','yu','classmate_bohan'])&&G.flags.COLD_WEEK_ANSWER==='why'&&SOCIAL.has('zhe','BEING_HEARD')&&['heroine_03','zhe','yu','classmate_bohan'].every(id=>SOCIAL.has(id,'HELPED'))&&!SOCIAL.has('yu','BEING_HEARD'));
   check('1. C1 演完上樓：回到房間、22:30；不扣錢、不扣體力（C10）', G.zone==='dorm'&&Math.abs(G.hour-22.5)<0.01&&G.money===5000&&G.energy===70&&!said.some(s=>/好好照顧自己/.test(s.t)), G.zone+' '+G.hour);
   check('1. 事件 id 記成演過（ev_cold_week_sneeze、ev_cold_week_night）', !!G.events.done.ev_cold_week_sneeze&&!!G.events.done.ev_cold_week_night);
@@ -71,7 +71,7 @@ const night=async()=>{ G.day=d24; G.hour=21.5; G.zone='dorm'; said=[]; cgs=[]; r
 
   // 2. C2
   fresh(d23,8,'dorm'); date('kexin'); picks=['跟可昕']; await STORY.coldWeekSneeze(GM);
-  check('2. C2 選項有「（傳訊息跟可昕說：我好像感冒了。）」、可昕三則回覆（逐字；第三則照 AA_376 第 14 項「下週」）', opts[0][0]==='（傳訊息跟可昕說：我好像感冒了。）'&&JSON.stringify(txt('p:kexin').slice(-4))===JSON.stringify(['player:我好像感冒了。','kexin:幾度？','kexin:量了再跟我說。','kexin:……我下週也期中，二十六號考第一科。'])&&G.flags.KX_COLD_WEEK==='told', JSON.stringify(txt('p:kexin')));
+  check('2. C2 選項有「（傳訊息跟可昕說：我好像感冒了。）」、可昕三則回覆（逐字；第三則照 AA_376 第 14 項「下週」）', opts[0][0]==='（傳訊息跟可昕說：我好像感冒了。）'&&JSON.stringify(txt('p:kexin').slice(-4))===JSON.stringify(['player:我好像感冒了。','kexin:幾度？','kexin:量了再跟我說。','kexin:……我下週期中，二十六號考第一科。'])&&G.flags.KX_COLD_WEEK==='told', JSON.stringify(txt('p:kexin')));
   check('2. C2 10/24 21:00 沒有要打電話的人（被告知的可昕不打）', STORY.coldCallList(Object.assign({},G,{day:d24}))&&STORY.coldCallList(G).length===0);
   await night(); const L2=lines();
   check('2. C2 21:30 外送粥＋「我考完就過去。你先活著。」（手機）', L2.includes('（外送的粥送到宿舍門口。）')&&L2.includes('可昕（手機）：我考完就過去。你先活著。'), JSON.stringify(L2.slice(0,4)));
@@ -123,7 +123,7 @@ const night=async()=>{ G.day=d24; G.hour=21.5; G.zone='dorm'; said=[]; cgs=[]; r
   check('8. C8 問的人＝FAMILIAR 以上最熟的一位（阿哲）', STORY.coldNoodleAsker(G)==='zhe');
   G.day=dN; G.hour=18.2; G.zone='campus'; STORY.coldWeekTick(GM); const qn=OUT.get(G,'y3_cold_noodle'); check('8. C8 18:00 排 19:00 阿鳳麵店的出遊（可以不去）', !!qn&&!qn.must&&qn.goto&&qn.goto.zone==='noodle'&&qn.h===19, JSON.stringify(qn));
   G.hour=19.1; G.zone='noodle'; said=[]; picks=[2]; await STORY.coldWeekNoodle(GM,'zhe'); const L8=lines();
-  check('8. C8 麵店版（逐字；AA_578 #7 刪「期中考完的晚上，」）：「（麵店的長桌只剩你們兩個。他把筷子放下。）」→ 通用那一句 → 「好。考完再跟我講一次。」', L8[0]==='（麵店的長桌只剩你們兩個。他把筷子放下。）'&&L8.includes('阿哲：你每次都在幫別人查。你自己呢？你想用法律做什麼？')&&L8.includes('阿哲：好。考完再跟我講一次。')&&G.flags.COLD_WEEK_ANSWER==='life'&&SOCIAL.has('zhe','BEING_HEARD'), JSON.stringify(L8));
+  check('8. C8 麵店版（逐字；AA_578 #7 刪「期中考完的晚上，」）：「（麵店的長桌只剩你們兩個。他把筷子放下。）」→ 通用那一句 → 「好。病好了再跟我講一次。」', L8[0]==='（麵店的長桌只剩你們兩個。他把筷子放下。）'&&L8.includes('阿哲：你每次都在幫別人查。你自己呢？你想用法律做什麼？')&&L8.includes('阿哲：好。病好了再跟我講一次。')&&G.flags.COLD_WEEK_ANSWER==='life'&&SOCIAL.has('zhe','BEING_HEARD'), JSON.stringify(L8));
   // 私訊版
   fresh(dN,22.1,'dorm',{COLD_WEEK:'noodle',COLD_NOODLE_DAY:dN}); R('heroine_01','FAM'); STORY.coldWeekTick(GM); PHONE.tick(G); const dm=TH('p:heroine_01');
   check('8. C8 沒去：22:00 同一個人私訊兩則（逐字）、四個選項', dm.length===2&&dm[0].text==='你每次都在幫別人查。'&&dm[1].text==='你自己呢？你想用法律做什麼？'&&dm[1].ask&&dm[1].ask.opts.length===4&&G.flags.COLD_WEEK_NOODLE==='dm', JSON.stringify(dm.map(m=>m.text)));
@@ -139,13 +139,13 @@ const night=async()=>{ G.day=d24; G.hour=21.5; G.zone='dorm'; said=[]; cgs=[]; r
   fresh(d24,21.5,'dorm',{COLD_WEEK:'night',COLD_WEEK_TOLD:'none'}); R('heroine_04','CLO'); R('zhe','CLO');
   check('9. C9 子晴沒看過 Q6：「先看這個。期末的作業。」', JSON.stringify(STORY.coldWeekLines(G,'heroine_04'))===JSON.stringify([['heroine_04','你兩天沒回我訊息。我還以為你被當了。'],[null,'（她打開筆電）'],['heroine_04','先看這個。期末的作業。']]));
   SOCIAL.remember('heroine_04','PLAYTESTED',''); check('9. C9 看過 Q6（PLAYTESTED）：「先看這個。測試版。」', STORY.coldWeekLines(G,'heroine_04')[2][1]==='先看這個。測試版。');
-  check('11. 3b 阿哲：認識以安＝「小安的筆記」、不認識＝「刑訴的筆記我幫你印了。」', (()=>{ const a=STORY.coldWeekLines(G,'zhe')[0][1]; SOCIAL.remember('heroine_01','FIRST_MET',''); const b=STORY.coldWeekLines(G,'zhe')[0][1]; return a==='刑訴的筆記我幫你印了。後天才考，不要慌。'&&b==='你的筆記我幫你借了。小安的，她叫我跟你說不准還。'; })());
+  check('11. 3b 阿哲：認識以安＝「小安的筆記」、不認識＝「刑訴的筆記我幫你印了。」', (()=>{ const a=STORY.coldWeekLines(G,'zhe')[0][1]; SOCIAL.remember('heroine_01','FIRST_MET',''); const b=STORY.coldWeekLines(G,'zhe')[0][1]; return a==='刑訴的筆記我幫你印了。上禮拜的都在裡面，不要慌。'&&b==='你的筆記我幫你借了。小安的，她叫我跟你說不准還。'; })());
 
   // 11. 選項、裂縫
   fresh(d24,21.5,'dorm',{COLD_WEEK:'night'}); check('11. 第 1 個選項：一般', STORY.coldWeekOpts(G)[0].t==='「我想讓遇到事情的人，旁邊有一個看得懂的人。」'&&STORY.coldWeekOpts(G).length===4&&STORY.coldWeekOpts(G,true).length===3);
   SOCIAL.remember('heroine_03','RENT_RUMOR',''); check('11. 第 1 個選項：看過語彤家房東的事＝「我想讓麵店那種事，每次都有人幫得上忙。」', STORY.coldWeekOpts(G)[0].t==='「我想讓麵店那種事，每次都有人幫得上忙。」');
   fresh(d24,21.5,'dorm_hall',{COLD_WEEK:'night'}); said=[]; picks=[3,1]; await STORY._cwAsk(GM,'zhe','night');
-  check('11. 第 4 個：「好，那吃完再說。」「（你吃完了。）」再問一次通用那一句、沒有第 4 個', said.map(s=>s.t).join('|')==='你每次都在幫別人查。你自己呢？你想用法律做什麼？|好，那吃完再說。|（你吃完了。）|你每次都在幫別人查。你自己呢？你想用法律做什麼？|好。考完再跟我講一次。'&&opts[1].length===3&&G.flags.COLD_WEEK_ANSWER==='why', JSON.stringify(said.map(s=>s.t)));
+  check('11. 第 4 個：「好，那吃完再說。」「（你吃完了。）」再問一次通用那一句、沒有第 4 個', said.map(s=>s.t).join('|')==='你每次都在幫別人查。你自己呢？你想用法律做什麼？|好，那吃完再說。|（你吃完了。）|你每次都在幫別人查。你自己呢？你想用法律做什麼？|好。病好了再跟我講一次。'&&opts[1].length===3&&G.flags.COLD_WEEK_ANSWER==='why', JSON.stringify(said.map(s=>s.t)));
   fresh(d24,21.5,'dorm',{COLD_WEEK:'night',COLD_WEEK_TOLD:'heroine_01'}); date('heroine_01'); R('zhe','CLO'); ROM.crack(G,'heroine_01');
   { const C=STORY.coldWeekCast(G); check('11. 交往對象最近 14 天有裂縫：改成在場最熟的朋友問（阿哲）', G.flags.AN_CRACK_DAY===G.day&&C.partner==='heroine_01'&&C.asker==='zhe', JSON.stringify(C)); }
   G.flags.AN_CRACK_DAY=G.day-20; check('11. 裂縫是 20 天前：她問', STORY.coldWeekCast(G).asker==='heroine_01');
