@@ -1,6 +1,20 @@
+diff --git a/LICENSES.md b/LICENSES.md
+index eeb07469d09805f2da81dd9def6f66a8e8b4457a..e9b5875158d6e9310320e0f5709cc63332bd1112 100644
+--- a/LICENSES.md
++++ b/LICENSES.md
+@@ -197,6 +197,7 @@
+ | 萬才館 法律學院圖書館室內 `assets/models/env/lawlib_interior.glb`；萬才館西牆的門（`assets/models/env/wancai_interior.glb` 的一部分） | 本作 Blender 腳本 `tools/blender/lawlib_interior.py`（配置 `src/data/lawlib_layout.js`，LAWWW 製作）、`tools/blender/wancai_interior.py` 的門洞與門；書背、封面、出口標示燈的圖集是程式畫的（`tools/blender/env_second/lawlib_atlas.py`，書名只寫科目，沒有真實作者、出版社、刊名；字用系統字型**文泉驛正黑**（WenQuanYi Zen Hei，GPLv2＋字型嵌入例外）畫成點陣圖，GLB 裡沒有字型）；貼圖 Poly Haven `granite_tile`、`dirty_carpet`、`granite_tile_03`、`walnut_veneer`、`ceiling_interior`、`terrazzo_tiles`（**CC0**） | 本作（模型、圖集）＋CC0（貼圖） | 法律學院圖書館（區域 `src/lawlib3d.js`，LAWWW） |
+ | 總圖書館外觀 `assets/models/env/second_ai/campus_library.glb` | 本作 Blender 腳本 `tools/blender/env_second/campus_library.py`（位置、尺寸、樓層、開間照套件 `CK.hall`；匾額「總圖書館」是遊戲裡的 canvas 字） | 本作 | 校園椰林大道東端的總圖（取代套件 `CK.hall` 的外觀）。貼圖：`exterior_wall_cladding_02`（面磚）、`sandstone_blocks_08`（切石）、`grey_roof_tiles`（屋瓦）、`dark_wood`（大門、窗框；2026-10-11 起窗框也用木紋）、以及 `granite_tile_03`（勒腳、地坪；第一個 AI 已下載到 `tools/blender/textures/`，只讀使用） |
+ | Poly Haven `sandstone_blocks_08`（Rob Tuytel） | https://polyhaven.com/a/sandstone_blocks_08 | CC0 | 總圖的石材：拱廊柱頭柱腳、拱圈、門廊、樓層腰帶、簷口、窗框窗台（降低彩度、校正成淺米灰）；傅鐘的台基、柱子、梁、石碑 |
++| Poly Haven `large_sandstone_blocks`（作者見原頁） | https://polyhaven.com/a/large_sandstone_blocks ，`lib2.fetch()` 下載 1k JPG 到 `tools/blender/env_second/textures/` | CC0 | 總圖大廳第三版（11-02，BB_244）展演廳的白色石牆（降低彩度、調白、壓低對比）；美國校園的石灰岩台基（`tools/blender/env_second/us_campus_kit.py`，之前漏登） |
+ | 傅鐘 `assets/models/env/second_ai/campus_bell.glb` | 本作 Blender 腳本 `tools/blender/env_second/campus_bell.py`（尺寸照套件 `CK.bell`；石碑的「傅鐘」是遊戲裡的 canvas 字；柱面暖光的漸層貼圖本作程式產生） | 本作 | 校園傅鐘廣場（取代套件 `CK.bell` 的外觀）。貼圖：`sandstone_blocks_08`（切石）、`grey_roof_tiles`（屋瓦）、`dark_wood`（木橫梁），上面列過的 Poly Haven CC0 |
+ | 行政大樓外觀 `assets/models/env/second_ai/campus_admin.glb` | 本作 Blender 腳本 `tools/blender/env_second/campus_hall.py --set admin`（和總圖同一支腳本；位置、尺寸、樓層、開間照套件 `CK.hall`；匾額「行政大樓」是遊戲裡的 canvas 字） | 本作 | 校園椰林大道南側的行政大樓（取代套件 `CK.hall` 的外觀）。貼圖和總圖相同（上面列過的 Poly Haven CC0：面磚降低彩度後校正成米黃） |
+ | 文學院、校史館外觀 `assets/models/env/second_ai/campus_arts.glb`、`campus_hist.glb` | 本作 Blender 腳本 `tools/blender/env_second/campus_hall.py --set arts／hist`（和總圖、行政大樓同一支腳本；位置、尺寸、樓層、開間照套件 `CK.hall`；匾額「文學院」「校史館」是遊戲裡的 canvas 字） | 本作 | 校園椰林大道北側的文學院、校史館（取代套件 `CK.hall` 的外觀）。貼圖和總圖相同（上面列過的 Poly Haven CC0） |
+diff --git a/src/data/library_layout.js b/src/data/library_layout.js
+index 5466fe782fea236347cf456f477add1b855b6c43..22278afa48d540f8e7b8c58b5601b0586304d33c 100644
 --- a/src/data/library_layout.js
 +++ b/src/data/library_layout.js
-@@ -744,13 +744,13 @@
+@@ -744,13 +744,13 @@ const LIBRARY_LAYOUT={
        "type": "prop",
        "kind": "displayCase",
        "lv": 0,
@@ -16,7 +30,7 @@
          -2.9,
          0.8,
          3.5
-@@ -760,13 +760,13 @@
+@@ -760,13 +760,13 @@ const LIBRARY_LAYOUT={
        "type": "prop",
        "kind": "displayCase",
        "lv": 0,
@@ -32,7 +46,7 @@
          -2.9,
          0.8,
          3.5
-@@ -1311,11 +1311,9 @@
+@@ -1311,11 +1311,9 @@ const LIBRARY_LAYOUT={
        8.4
      ],
      "rotundaDeg": [
@@ -46,9 +60,11 @@
      ]
    },
    "directory": {
+diff --git a/src/library_hall_v2.js b/src/library_hall_v2.js
+index e4d0a75a82fcecf17660f934cd8beefe66bef5fb..be2e7e1cdc7291c68527660e8f44635675c366ba 100644
 --- a/src/library_hall_v2.js
 +++ b/src/library_hall_v2.js
-@@ -98,7 +98,7 @@
+@@ -98,7 +98,7 @@ const LBV2=(function(){
      // 窗外的景（備用模型：牆的內側貼一張）
      const outPlane=(w,h,x,y,z,ry,grp,kind)=>{ const m=new THREE.Mesh(new THREE.PlaneGeometry(w,h),new THREE.MeshBasicMaterial({map:LB3.outsideTex(false)})); m.position.set(x,y,z); m.rotation.y=ry; m.userData.libOut=true; m.userData.view=kind||'lawn'; grp.add(m); outs.push(m); return m; };
      for(const [grp,y0] of [[lv0,1.1],[lv1,Y1+1.0]]) for(const z of L.windowsV2.xWallZ){ if(grp===lv0&&L.b1Door&&Math.abs(z-L.b1Door.z)<0.6) continue; outPlane(1.6,2.4,B.x0+T/2+0.02,y0+1.2,z,Math.PI/2,grp,'lawn'); }
@@ -57,7 +73,7 @@
      { const gw=V.x1-V.x0, gh=RY-0.2; const gp=new THREE.Mesh(new THREE.PlaneGeometry(gw,gh),MAT.glass()); gp.position.set(0,gh/2,B.z1-0.02); gp.rotation.y=Math.PI; lv0.add(gp); outPlane(gw+8,RY+2,0,RY/2,B.z1+3.0,Math.PI,lv0,'avenue'); }
      b0.build(fb0); b1.build(fb1); }
  
-@@ -106,7 +106,7 @@
+@@ -106,7 +106,7 @@ const LBV2=(function(){
    function parallaxViews(zone,L,lv0,lv1){ const B=L.bounds, Y1=L.floors[1].y, RY=L.roofY, R=L.rotunda, V=L.vestibule, PO=zone.pOuts=[]; const Dd=B.z1-B.z0, cz=(B.z0+B.z1)/2;
      const mk=(w,h,x,y,z,ry,grp,kind,depth)=>{ const m=new THREE.Mesh(new THREE.PlaneGeometry(w,h),W3.windowMat(depth)); m.material.uniforms.sxy.value.set(1,0.5); m.position.set(x,y,z); m.rotation.y=ry; m.userData.view=kind; m.userData.libOut=true; grp.add(m); PO.push(m); };
      for(const [sx,ry] of [[-1,Math.PI/2],[1,-Math.PI/2]]){ mk(Dd+2,3.6,sx*(B.x1+0.35),2.3,cz,ry,lv0,'lawn',14); mk(Dd+2,3.6,sx*(B.x1+0.35),Y1+2.2,cz,ry,lv1,'lawn',14); }
@@ -66,7 +82,7 @@
      mk(V.x1-V.x0+12,RY*2+4,0,2.0,B.z1+1.2,Math.PI,lv0,'avenue',35);
      if(zone.applyTime&&typeof GAME!=='undefined'&&GAME.G) zone.applyTime(GAME.G.hour,GAME.G.weather); }
  
-@@ -150,7 +150,7 @@
+@@ -150,7 +150,7 @@ const LBV2=(function(){
      IT.push({x:SDR.x-0.7,z:SDR.z,radius:1.0,lv:1,label:SDR.label,exit:{to:'library',spawn:Object.assign({},L.reading.spawnFromStairs)}});
      if(L.b1Door&&typeof LIBRARY_B1_LAYOUT!=='undefined'){ const BD=L.b1Door, sp=LIBRARY_B1_LAYOUT.stairs.spawn; IT.push({x:BD.x+0.55,z:BD.z,radius:0.8,lv:0,label:BD.label,exit:{to:'library_b1',spawn:{x:sp.x,z:sp.z,yaw:sp.yaw}}}); }
      for(const lv of [0,1]) IT.push({x:zone.elev.cx,z:EL.callZ,radius:1.0,lv,label:'搭電梯',elevator:true});
@@ -75,3 +91,25 @@
      IT.push({x:0,z:BS.z1+0.9,radius:1.2,lv:0,label:'看台階書牆',look:'中庭的大階梯：中間走的樓梯上二樓，兩旁是可以坐的木頭階梯，每一階的立面都是書架。'});
      // 指標（中文字一直顯示：正式模型沒有字）——和第一版一樣
      for(const s of L.signs){ const y=(s.lv?Y1:0)+s.y; const sp=new THREE.Mesh(new THREE.PlaneGeometry(s.w,s.w*0.18),new THREE.MeshBasicMaterial({map:TK.signTex(s.text,{bg:'#24303a',color:'#f3efe4'})})); sp.position.set(s.x,y,s.z); sp.rotation.y=s.ry||0; (s.lv?lv1:lv0).add(sp); }
+diff --git a/tools/shots/library_views.py b/tools/shots/library_views.py
+index 200eb5614edfd72dba22e3d704560d071bef9bbd..6fb4c5f27297ee8c95b69b32e0fa190793fd229a 100644
+--- a/tools/shots/library_views.py
++++ b/tools/shots/library_views.py
+@@ -2,6 +2,7 @@
+ src/library3d.js 的 viewOf() 讀這些檔案（載不到就用程序化畫的）：
+   avenue：從總圖門口往西拍椰林大道（大廳正面的玻璃帷幕）
+   lawn：從總圖南側往南拍草地與系館（側窗、大樓梯平台後面的大窗）
++  trees：黑森林裡往北拍樹（大廳第三版的展演廳；照片 2 窗外是樹）
+ 白天 11:00、晚上 20:30；藏起路人與玩家。1024×1024（ART-LIB-VIEW-1018 起；之前是 1024×512）。拍的是遊戲畫面（Playwright＋SwiftShader），不是照片。
+ 用法（先開 http server）：python3 tools/shots/library_views.py http://127.0.0.1:8765/index.html"""
+ import json, os, subprocess, sys, tempfile
+@@ -13,7 +14,8 @@ URL = sys.argv[1] if len(sys.argv) > 1 else 'http://127.0.0.1:8765/index.html'
+ # 視線高度、正對窗外、水平和垂直都是 90°（1024×1024；遊戲端 sxy＝(1, 0.5)：景在 depth 公尺遠、寬 2×depth、高 2×depth）。
+ # 試做 2:1（垂直 53°）：正面 9.6 m 高的玻璃往上看超出照片，上緣被拉長成一條條。
+ # avenue：總圖門口外（門廊柱子後面）往西的椰林大道；lawn：總圖紅磚側翼和中庭草地（舊版從 7 m 高往南拍方盒系館）。
+-VIEWS = {'avenue': ([77, 2.0, 0], [30, 2.0, 0]), 'lawn': ([100, 2.3, 14.5], [100, 2.3, 60])}
++VIEWS = {'avenue': ([77, 2.0, 0], [30, 2.0, 0]), 'lawn': ([100, 2.3, 14.5], [100, 2.3, 60]),
++         'trees': ([70, 2.0, -61], [70, 4.5, -80])}   # trees：大廳第三版（BB_244，11-02）展演廳的窗景——黑森林裡往北拍（照片 2：窗外是樹）
+ FOV_JS = "(()=>{ const c=GAME.E.camera; c.fov=90; c.updateProjectionMatrix(); return c.fov; })()"
+ TIMES = {'day': 11.0, 'night': 20.5}
+ 
