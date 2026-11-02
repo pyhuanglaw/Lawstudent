@@ -34,7 +34,7 @@ for(const k of ONLY_REG) check('5. 只登錄、不放：'+k+' 事件裡找不到
   check('6. CG-32：k=2 那一拍在「我現在就可以回答。」前面；k=0 沒有',i>=0&&y2[i+1]==='我現在就可以回答。'&&!y0.some(x=>x&&x.cg),JSON.stringify(y2)); }
 // 跑告白台詞的三個地方都認得 {cg}
 check('7. date3d.js 告白（S.confess 的 run）、termend3d.js 回家路上、multirel3d.js 都會處理 {cg:id}',/if\(x\.cg!==undefined\)\{ if\(typeof ADV!=='undefined'&&ADV\.cg\) ADV\.cg\(x\.cg\); continue; \}/.test(R('src/date3d.js'))&&/x\.cg!==undefined/.test(R('src/termend3d.js'))&&/it\.cg!==undefined/.test(R('src/multirel3d.js')));
-check('8. CG-11 自己先說的那條路（yesCg）也放',/yesCg:'cg_reason_column_heroine01'/.test(R('src/data/termend_lines.js')));
+check('8. 一場只放一張（AA 2026-11-02 20:50）：CG-11 不放在玩家先說的那條路（以安 yesCg 是 null）',/HEART[\s\S]*?heroine_01:[\s\S]*?yesCg:null/.test(R('src/data/termend_lines.js'))&&!/yesCg:'cg_reason_column_heroine01'/.test(R('src/data/termend_lines.js')));
 // 背景
 { const o=R('src/outings3d.js'), y4a=R('src/data/r2y4a_events.js'), y4b=R('src/data/r2y4b_events.js');
   const bg=k=>{ const m=o.match(new RegExp(k+":\\{label:'[^']+',image:'([^']+)'\\}")); return m&&m[1]; };
@@ -42,4 +42,5 @@ check('8. CG-11 自己先說的那條路（yesCg）也放',/yesCg:'cg_reason_col
   check('10. 大峽谷兩條路線（ev_us_canyon、ev_sis_canyon）開頭「她靠在租來的車旁邊」換成 gc_roadside_car',(y4b.match(/\{scene:'亞利桑那',bg:'gc_roadside_car'\},[^\n]*\n\s*\{speaker:null,text:'（她靠在租來的車旁邊，手上拿著一張列印的地圖。）'\}/g)||[]).length===2&&!/bg:'az_roadside'/.test(y4b));
   check('11. 研究所筆試 ev_grad_exam 的「考場」（closed2_3d.js 認 scene:\'考場\'）換成 grad_exam_room',/id:'ev_grad_exam',[\s\S]{0,400}\{scene:'考場',bg:'grad_exam_room'\}/.test(y4a)); }
 { const lic=R('LICENSES.md'); check('12. LICENSES.md 有這一批的 CG、背景兩列',['cg_reason_column.webp','cg_sakura_riverbank.webp','cg_line_qr.webp','cg_date_answer.webp','cg_admin_court.webp','cg_japan_exchange.webp','cg_tanabata_pocket.webp','cg_airport_return.webp','cg_xmas_card.webp','cg_valentine_level.webp','cg_redpen_night.webp','cg_reunion_layer_umbrella_heroine03.webp'].every(f=>lic.includes(f))&&/gc_roadside_car[^\n]*grad_exam_room/.test(lic)); }
+{ const t=R('src/r2y4b3d.js'), g=t.slice(t.indexOf('S.gradExam=async function'),t.indexOf('S.gradExam=async function')+600); check('13. 2030 延畢版筆試（r2y4b3d gradExam）背景也是 grad_exam_room（BB 2026-11-02 20:50）',/bg\('grad_exam_room'\)/.test(g)); }
 console.log(fails?('FAILED '+fails):'ALL PASS'); process.exit(fails?1:0);
