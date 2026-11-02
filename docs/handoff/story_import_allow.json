@@ -3975,6 +3975,15 @@
    "task": "AA595-LIB-NOD-THERMOS-1102",
    "kind": "text",
    "note": "四條新規則：①圖書館讀書區第一次遇到只點頭、之後台詞加「（小聲）」＝共用機制 src/libquiet3d.js（game3d.js say／caption／doInteract；存檔 G.libNod），1-B～1-D 的縮短由 AA 分批寫，不在這一筆；②學姊「你們系的交換名單」→「系上的交換名單」；③空的保溫瓶那條線（ev_sis_flask_full、flaskCoffeeDay、「上次是黑咖啡」、心願約會選項）retired／拿掉、其餘 9 處旁白不寫「空的」；④src 全部「臺北的家」→「家」（字卡、地點、提示「回家」），以安 A-L10「寒假你會回家住嗎？」（tools/ladder/import_ladder.py 疊稿）。tests/aa595_rules_unit.js。子代理 2026-11-02 代登（aa595 分支，基準 int/m590 0e11c43a3），給值班 LAWWW 核"
+  },
+  {
+   "path": "docs/story_planning/AA_587_以安改稿_第三批_大一大二事件.md",
+   "sha": "1cf992d66",
+   "status": "approved",
+   "approvedBy": "AA 2026-11-02 審查（第 9 節，D109；S4 方案 A、S3 A 案、CG-11 想去的店）、BB_232 口氣審與法律查核（第 10 節：訴願）、使用者 2026-11-02 11:4x 告白那一場（第 11 節）＋19:xx 選擇題 1～4（第 14 節：「以安第三批使用者看完，照第 12～14 節可以交 LAWWW」）",
+   "task": "AA587-AN-B3-1102",
+   "kind": "text",
+   "note": "以安改稿第三批（大一、大二事件）：第 13 節（期末飯 HEART、第 58～71 列）先前已整合；這一筆＝第 2 節第 1～57 列（tools/story/apply_line_table.py 自動換 45 列，其餘手改：第 27、34、41 列、保51 刪、保61、第 29 列小考前提換成祐廷）、第 7-2 節 S4 新1～新9（開學第二天追出來分組＋LINE，CG-28 cg_line_qr_heroine01 放在「LINE。」那一拍；「為什麼念法律」整段拿掉；ev_an_report_split 加 notMemory REPORT_PARTNER）、第 7-3 節 S3（第 57 列）、第 10 節新10「我在查訴願怎麼寫。」；tests/aa587_b3_unit.js"
   }
  ]
 }

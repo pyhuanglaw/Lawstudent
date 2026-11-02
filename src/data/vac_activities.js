@@ -28,10 +28,10 @@ const VAC_DATA=(function(){
     {day:d1,h:19,title:'第一堂',bg:'classroom_small',lines:[G=>AN_C03(G)?[{narr:'（教室很小，十二個位子。以安坐在第一排正中間，筆記本已經畫好格子。）'},{who:'heroine_01',text:'你也來了。'},{who:'heroine_01',text:'老師說第一堂要自我介紹，用日文。'}]:[{narr:'（教室很小，十二個位子。你旁邊坐著一個上班族大姊，筆記本上已經寫滿了平假名。）'},OL('我是為了看日劇才來的。你呢？')]],   /* AA_533 2-1（企劃線 cf0066ed2）：以安沒去的三堂加同班的上班族大姊（原本只有「（教室裡都是不認識的人。）」）*/
       choiceIf:AN_C03, choice:[{t:'「我只會說名字。」',say:[{who:'heroine_01',text:'我上學期在學校上過，自我介紹會。……後面就不行了。'}]},{t:'「妳準備好了？」',say:[{who:'heroine_01',text:'寫在筆記本上了。……不要看。'}]}],
       choiceElse:[{t:'「我也是。」',say:[OL('那我們一樣。不要被老師發現。')]},{t:'「想去日本交換。」',say:[OL('那你要比我認真。')]}]},
-    {day:d2,h:19,title:'小考',bg:'classroom_small',lines:[G=>AN_C03(G)?[{who:'heroine_01',text:'九十二。片假名寫錯一個。'},{who:'heroine_01',text:'ツ跟シ。我每次都分不清楚。'}]:[{narr:'（小考發回來。大姊比你多錯兩題，她把考卷折起來，收進包包。）'},OL('……下次。')]],
-      choiceIf:AN_C03, choice:[{t:'「那兩個真的很像。」',say:[{who:'heroine_01',text:'很像不是理由。'},{narr:'（她在筆記本上把兩個字各寫了十遍。）'}]},{t:'「我錯了五個。」',say:[{who:'heroine_01',text:'……那下課一起練。十分鐘。'}],rel:{heroine_01:{fam:2}}}]},
+    {day:d2,h:19,title:'小考',bg:'classroom_small',lines:[G=>AN_C03(G)?[{narr:'（小考發回來。你把ツ跟シ寫反了。）'}]:[{narr:'（小考發回來。大姊比你多錯兩題，她把考卷折起來，收進包包。）'},OL('……下次。')]],
+      choiceIf:AN_C03, choice:[{t:'「那兩個真的很像。」',say:[{who:'heroine_01',text:'嗯。多寫幾次就分得出來。'},{narr:'（你在筆記本上把兩個字各寫了十遍。）'}]},{t:'「我錯了五個。」',say:[{who:'heroine_01',text:'……那下課一起練。十分鐘。'}],rel:{heroine_01:{fam:2}}}]},   /* AA_587 第 29 列＋第 14 節第 5 點（使用者 11-02：「她不會犯這種錯誤」）：寫反ツ和シ的人改成祐廷（她原本兩句「九十二。片假名寫錯一個。」「ツ跟シ。我每次都分不清楚。」換成一句旁白，LAWWW 照第 14 節換前提），旁白的十遍只有祐廷寫 */
     {day:d3,h:19,title:'最後一堂',bg:'classroom_small',lines:[G=>AN_C03(G)?[{who:'heroine_01',text:'這禮拜六我回台中，8 號回來。'},{who:'heroine_01',text:'日文我會繼續背。'}]:[{narr:'（下課的時候，大姊說她下一期要上中級班。）'},OL('中級班，我們看誰先去。')]],
-      choiceIf:AN_C03, choice:[{t:'「好，我也背。」',say:[{who:'heroine_01',text:'說好了。'}]},{t:'「回來要考我嗎？」',say:[{who:'heroine_01',text:'第三課的單字，你自己背。'}]}]} ];
+      choiceIf:AN_C03, choice:[{t:'「好，我也背。」',say:[{who:'heroine_01',text:'說好了。'}]},{t:'「回來要考我嗎？」',say:[{who:'heroine_01',text:'會。第三課的單字，你先背。'}]}]} ];
   /* VAC-C04 的共用部分（第一堂 Kevin 那段分寒暑假；模擬考、累到不行、正式考試；AA_241 第 9、10 節、AA_264 第 2 節）*/
   const KV=t=>({who:'kevin',name:'Kevin',text:t});
   const C04_REP={ keys2:['補習班第一堂。櫃台的人說：「又來了喔。」','模擬考。聽力比上次多對了幾題。','單字本寫到第三本了。','考場是同一間學校。這次你知道廁所在哪裡。'],
@@ -331,7 +331,7 @@ const VAC_DATA=(function(){
       trip:{ start:{day:'08-09',h:7}, end:{day:'08-27',h:22}, placeName:'京都', home:'auto' },
       keys:[
         {day:'08-10',h:9,title:'第一堂',bg:'intl_kyoto_school',lines:[G=>AN_C12(G)?(Y(G).dating_heroine_01===true?[{narr:'（休息時間，以安在走廊等你。她在中級班。）'},{who:'heroine_01',text:'分班考分的。我中級，你初級。'},{who:'heroine_01',text:'……下課我在這裡等你。'}]:[{narr:'（休息時間，走廊另一頭有人叫你的名字。是以安，她在中級班。）'},{who:'heroine_01',text:'你也來了？'},{who:'heroine_01',text:'我七月考完日檢，想說趁暑假多練口說。'}]):[{narr:'（教室裡有十二個人，來自八個國家。老師用日文說了一句話，大家都笑了，你沒聽懂。）'}]],   /* AA_532 6-1（企劃線 ade80d22f）：和以安交往中的第一堂換版（她知道你也報了，不說「你也來了？」）；選項照舊；交往中她剛說過「分班考分的。」，「妳是中級喔。」的回覆從「你不要叫我老師。」開始（AA-B 10-30 05:12 第 7 點）*/
-          choiceIf:G=>AN_C12(G), choice:[{t:'「妳是中級喔。」',say:[{who:'heroine_01',text:G=>Y(G).dating_heroine_01===true?'你不要叫我老師。':'分班考分的。……你不要叫我老師。'}]},{t:'「下課一起吃飯？」',say:[{who:'heroine_01',text:'好。我知道一間便宜的，我查過了。'}]}]},
+          choiceIf:G=>AN_C12(G), choice:[{t:'「妳是中級喔。」',say:[{who:'heroine_01',text:G=>Y(G).dating_heroine_01===true?'你不要叫我老師。':'分班考分的。……你不要叫我老師。'}]},{t:'「下課一起吃飯？」',say:[{who:'heroine_01',text:'好。'}]}]},
         {day:'08-19',h:14,title:'文化課：茶道',bg:'intl_kyoto_tearoom',lines:[{narr:'（跪坐十分鐘以後，你的腳麻了。老師說，茶碗要轉兩次。）'},{narr:'（你轉了三次。老師看了一眼，沒說話，笑了一下。）'},G=>AN_C12(G)?null:{who:'npc_tea_teacher',name:'茶道老師',text:'轉兩次，是讓客人看到最漂亮的那一面。'}]},   /* AA_533 2-4：以安不在的年份（第一次去）茶道老師一句；第二次以後 rep 照舊 */
         {day:'08-27',h:15,title:'最後一天',bg:'intl_kyoto_school',lines:[{narr:'（老師發了結業證書，上面的名字用片假名寫，你念了兩次才念對。）'},G=>AN_C12(G)?[{who:'heroine_01',text:'你的名字片假名好長。'},{who:'heroine_01',text:'……我幫你念一次。'}]:null]} ] },
     /* VAC-C16 法扶實習（法律扶助的基金會台北分會，辦公室和人物虛構）：AA_242 第 9 節。大二暑假起（大一不能報）、大四下以後沒有；暑假第 2 週起兩週、週一～五 9:00～18:00（80 小時），沒有薪水。

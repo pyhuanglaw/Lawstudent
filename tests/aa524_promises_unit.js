@@ -68,7 +68,7 @@ const NEW={
   A9:['……台中的夕陽在海邊。很遠，要開車。','……最南邊。好遠。','你上次說要去最南邊。……我查過了，坐車要六個小時。'],
   A10:['不用。我爸會來。……謝謝。'],
   A11:['讀書會在山上的茶館，一個月一次。','我們讀到七點。……你不用等，先下山。'],
-  A12:['第三課的單字，你自己背。'],
+  A12:['會。第三課的單字，你先背。'],
   A13:['哪一家？……看起來比麵店的辣。','看起來好好吃'],
   A14:['發回來你先對。不懂的問我。','例如？……你講。我聽十五分鐘。'],
   Z1:['（把筆電轉過去，螢幕上是一部片的片頭）……我排的那部。','機票太貴了，你不用來。我們一人一邊，按同一個播放。','（你們隔著視訊看完一部片。她那邊下午，你這邊半夜。）','……好。看過了。'],
@@ -107,10 +107,12 @@ const srcAll=(()=>{ const out=[]; const walk=d=>{ for(const n of fs.readdirSync(
 /* ---------------- 0 ---------------- */
 await sec(0,()=>{
   check('0. 讀得到稿（AA_524 '+SHA+'：第 1～5 節；A1～A14、Z1～Z11、Y1～Y9）',DOC.length>8000&&/### A14/.test(DOC)&&/### Z11/.test(DOC)&&/### Y9/.test(DOC),String(DOC.length));
-  const miss=[]; for(const k in NEW) for(const t of NEW[k]) if(k!=='A2'&&DOC.indexOf(t)<0) miss.push(k+'：'+t);   /* A2 兩句 11-02 改照 AA_587 第 12 節（下面另外比） */
+  const miss=[]; for(const k in NEW) for(const t of NEW[k]) if(k!=='A2'&&k!=='A12'&&DOC.indexOf(t)<0) miss.push(k+'：'+t);   /* A2 兩句 11-02 改照 AA_587 第 12 節、A12 改照 AA_587 第 30 列（下面另外比） */
   { const P587=(()=>{ try{ return cp.execSync('git -c core.quotepath=off ls-tree --name-only -r 27456316d docs/story_planning',{cwd:H.ROOT,encoding:'utf8'}).split('\n').find(x=>/AA_587_/.test(x)); }catch(e){ return null; } })();
     const D587=(()=>{ try{ return P587?cp.execSync('git show 27456316d:"'+P587+'"',{cwd:H.ROOT,encoding:'utf8',maxBuffer:1<<24}):''; }catch(e){ return ''; } })();
-    check('0. A2 兩句在 AA_587@27456316d 第 12 節（第 69、70 列）',NEW.A2.every(t=>D587.indexOf(t)>=0),J(NEW.A2.filter(t=>D587.indexOf(t)<0))); }
+    check('0. A2 兩句在 AA_587@27456316d 第 12 節（第 69、70 列）',NEW.A2.every(t=>D587.indexOf(t)>=0),J(NEW.A2.filter(t=>D587.indexOf(t)<0)));
+    const D587b=(()=>{ try{ return P587?cp.execSync('git show 1cf992d66:"'+P587+'"',{cwd:H.ROOT,encoding:'utf8',maxBuffer:1<<24}):''; }catch(e){ return ''; } })();
+    check('0. A12 在 AA_587@1cf992d66 第 30 列（以安第三批：「第三課的單字，你自己背。」→「會。第三課的單字，你先背。」）',NEW.A12.every(t=>D587b.indexOf('| 第三課的單字，你自己背。 | '+t+' |')>=0)); }
   check('0. 這支測試對的新句每一句都在稿裡（逐字；'+Object.values(NEW).reduce((a,b)=>a+b.length,0)+' 句）',DOC.length>0&&!miss.length,J(miss));
   const A=JSON.parse(fs.readFileSync(path.join(H.ROOT,'docs/handoff/story_import_allow.json'),'utf8')).files.filter(e=>/AA_524_/.test(e.path));
   { const miss=[]; for(const k in NEW526) for(const t of NEW526[k]) if(DOC526.indexOf(t)<0) miss.push(k+'：'+t);
@@ -246,7 +248,7 @@ await sec('A11',()=>{
   check('A11. 貓空偶遇：認識的「讀書會在山上的茶館，一個月一次。」（不約、不傳時間）、交往中「我們讀到七點。……你不用等，先下山。」',!!r&&r.lines.acq[1]===NEW.A11[0]&&r.lines.dating[1]===NEW.A11[1]&&r.lines.acq[0]==='你也來貓空？我們讀書會在這裡聚會。',J(r&&r.lines));
 });
 await sec('A12',()=>{
-  const s=J(VAC_DATA); check('A12. 日語課「回來要考我嗎？」→「第三課的單字，你自己背。」',s.indexOf('{"t":"「回來要考我嗎？」","say":[{"who":"heroine_01","text":"'+NEW.A12[0]+'"}]}')>=0);
+  const s=J(VAC_DATA); check('A12. 日語課「回來要考我嗎？」→「會。第三課的單字，你先背。」',s.indexOf('{"t":"「回來要考我嗎？」","say":[{"who":"heroine_01","text":"'+NEW.A12[0]+'"}]}')>=0);
 });
 await sec('A13',()=>{
   const ny=STORY.lunarNewYear(); fresh(ny,8); PHONE.join(H.G,'noodle_team','麵店團');

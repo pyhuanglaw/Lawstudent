@@ -207,7 +207,7 @@ const BBPACK_EVENTS=(function(){
       say(AN,'「得」改成「應」，就有一群人要多做一件事。'),
       say(AN,'……我想知道那一群人是誰。'),
       {choice:[{text:'「妳以後想寫法條？」',set:{B6B_PICK:'write'},goto:'w'},{text:'「會議紀錄很長喔。」',set:{B6B_PICK:'minutes'},goto:'m'},{text:'（聽她說）',set:{B6B_PICK:'listen'},goto:'l'}]},
-      {label:'w'},say(AN,'我想先看懂。……寫是很久以後的事。'),{goto:'end'},
+      {label:'w'},say(AN,'我想先看懂。寫是很久以後的事。'),{goto:'end'},
       {label:'m'},say(AN,'我知道。我已經下載了一份。'),say(AN,'公司法那次修的。我想看他們吵什麼。'),{goto:'end'},
       {label:'l'},nar('（她講了十分鐘。中間停下來兩次，問你有沒有在聽。）'),
       {label:'end'},say(AN,'好，我講完了。我回宿舍讀書。'),{rel:{[AN]:{fam:1}}} ],

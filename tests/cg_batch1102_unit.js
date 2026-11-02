@@ -13,8 +13,10 @@ const PLACED={
   cg_airport_return_heroine01:['src/data/r2y3b_events.js',"cg('cg_airport_return_heroine01')","{speaker:null,text:'（她一出來就看到你。行李箱上貼著一張商店街的七夕貼紙。）'}"],   // CG-35
   cg_xmas_card_heroine01:['src/data/fest_events.js',"cg('cg_xmas_card_heroine01')","N('（她遞過來一張卡片）')"],   // CG-38
   cg_valentine_level_heroine04:['src/data/fest_events.js',"cg('cg_valentine_level_heroine04')","N('（插座貓走到終點，畫面跳出一行字：「下次換你做一關給我。」）')"] };   // CG-106
-const ONLY_REG=['cg_line_qr_heroine01','cg_admin_court_heroine01','cg_japan_exchange_heroine01','cg_redpen_night_peishan','cg_reunion_window_table_layer_umbrella_heroine03'];   // CG-28、29、30、119、10b
-const ALL=Object.keys(PLACED).concat(ONLY_REG);
+const ONLY_REG=['cg_admin_court_heroine01','cg_japan_exchange_heroine01','cg_redpen_night_peishan','cg_reunion_window_table_layer_umbrella_heroine03'];   // CG-29、30、119、10b
+/* 放在程式碼裡（story3d.js 用 ADV.cg 叫）：key → [檔案, 叫 CG 的那一行, 下一拍]；CG-28 AA_587 第 7-2 節新4（開學第二天她追出來「LINE。」那一拍；原本只登錄不放）*/
+const PLACED_CODE={ cg_line_qr_heroine01:['src/story3d.js',"ADV.cg('cg_line_qr_heroine01');","await GM.say(an,'LINE。'); if(typeof ADV!=='undefined'&&ADV.cg) ADV.cg(null);"] };
+const ALL=Object.keys(PLACED).concat(Object.keys(PLACED_CODE),ONLY_REG);
 const miss=ALL.filter(k=>!REG[k]||!REG[k].title||!fs.existsSync(path.join(ROOT,REG[k].file)));
 check('1. 12 個 key 都在 CG_REGISTRY、有標題、檔案存在',!miss.length,miss.join('、'));
 const files=ALL.map(k=>REG[k]&&REG[k].file); check('2. 檔案不重複（每張一個檔）',new Set(files).size===files.length);
@@ -28,6 +30,8 @@ for(const [k,[f,cg,next]] of Object.entries(PLACED)){
 }
 { const s=R('src/data/r2y3b_events.js'); check('4. cg_sakura_riverbank_heroine01（CG-23 換圖，位置照舊）：以安坐著讀書那一句旁白之後',/以安坐著讀書，旁邊放著字典和一個保溫杯。）'\},\s*cg\('cg_sakura_riverbank_heroine01'\)/.test(s)); }
 for(const k of ONLY_REG) check('5. 只登錄、不放：'+k+' 事件裡找不到',!uses(k).length,uses(k).join('、'));
+for(const [k,[f,cg,next]] of Object.entries(PLACED_CODE)){ const s=R(f);
+  check('5b. '+k+'：只放在 '+f+' 一處、在對應台詞的前一拍（之後關掉）',s.split(cg).length-1===1&&uses(k).length===1&&uses(k)[0]===f&&s.includes(cg+' '+next),JSON.stringify(uses(k))); }
 // 以安告白 yes（confess_lines.js）：只有「妳不用現在回答」那一個選項（k=2）才有「我現在就可以回答。」和 CG-32
 { global.window=global; eval(R('src/data/confess_lines.js').replace(/^const CONFESS_LINES=/m,'global.CONFESS_LINES=')); const Y=CONFESS_LINES.heroine_01.yes;
   const y2=Y({flags:{}},null,2), y0=Y({flags:{}},null,0), i=y2.findIndex(x=>x&&x.cg==='cg_date_answer_heroine01');

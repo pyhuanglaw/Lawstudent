@@ -128,7 +128,7 @@ const lad=(term,cid,sid)=>(((LADDER.byTerm[term]||{})[cid]||{}).steps||[]).find(
     check('5. 4/4 春假出遊：車上最多三個人（照熟悉度；BB 測試）',Array.isArray(car)&&car.length===3&&car.includes('heroine_03')&&car.includes('classmate_bohan'),J(car));
     check('5. 認識的超過三個：「（車子坐不下。剩下的人搭火車，下午在那邊會合。）」接在開車那句後面',L[0]==='（你回家把車開出來。後座擠了三個人。）'&&L[1]==='（車子坐不下。剩下的人搭火車，下午在那邊會合。）',J(L.slice(0,2)));
     const mk=L.slice(0,L.indexOf('（第二站是海邊。四月的風還有點冷。）'));
-    check('5. 市場（早上）只有車上的人說話：語彤在、以安不在（搭火車）；會合以後海邊照樣有 Alison、芯慈的句子；回程「後座三個人都睡著了」照留',mk.includes('這個市場，我田野課看過資料。……想自己來看一次。')&&!mk.includes('第一站選得很有理由。')&&L.includes('我說要去海邊，真的來了。')&&L.includes('我們拍一張。……阿哲你站後面，你太高。')&&L[L.length-1]==='（回程，後座三個人都睡著了。你一個人開到臺北，收音機開得很小聲。）',J(L));
+    check('5. 市場（早上）只有車上的人說話：語彤在、以安不在（搭火車）；會合以後海邊照樣有 Alison、芯慈的句子；回程「後座三個人都睡著了」照留',mk.includes('這個市場，我田野課看過資料。……想自己來看一次。')&&!mk.includes('這裡選得好。早上來是對的。')&&L.includes('我說要去海邊，真的來了。')&&L.includes('我們拍一張。……阿哲你站後面，你太高。')&&L[L.length-1]==='（回程，後座三個人都睡著了。你一個人開到臺北，收音機開得很小聲。）',J(L));
     fresh(SD.trip,8,'dorm',{SPRING_Y2:'noodle'}); PHONE.join(G,'noodle_team','麵店團'); R('zhe','FAM'); R('heroine_03','FAM'); const L2=await play('ev_spring_y2_noodle',[0]);
     check('5. 對照：只認識兩個＝沒有搭火車那一句',!L2.includes('（車子坐不下。剩下的人搭火車，下午在那邊會合。）'),J(L2.slice(0,3))); }
   // ===== 第 6 項：期末邀約從最後一科考完的隔天 =====
@@ -190,7 +190,7 @@ const lad=(term,cid,sid)=>(((LADDER.byTerm[term]||{})[cid]||{}).steps||[]).find(
     check('16. 大二下第 8～9 週語彤不排麵店（4/13、4/20 週二 18:00）；對照第 6 週（3/30）在麵店',!!a&&a.zone!=='noodle'&&!!b&&b.zone!=='noodle'&&!!c&&c.zone==='noodle',J([a&&a.zone,b&&b.zone,c&&c.zone])); }
   // ===== 第 17 項：以安「上次那份公文」=====
   { fresh('2027-04-27',18,'noodle'); R('heroine_01','FAM'); STORY.neededRec(G).shown.an_admin=D('2026-12-06'); const L=await play('ev_an_mother_map',[0]);
-    check('17. an_admin 發過（聽過）：「上次那份公文，你還記得嗎？我後來陪他們寫了申覆。」，不再當新消息講',L.includes('上次那份公文，你還記得嗎？我後來陪他們寫了申覆。')&&!L.includes('我家教的學生，家裡申請的補助被駁回了。我在幫他們看那份公文。'),J(L.slice(0,2)));
+    check('17. an_admin 發過（聽過）：「上次那份公文，你還記得嗎？我後來陪他們寫了訴願書。」，不再當新消息講',L.includes('上次那份公文，你還記得嗎？我後來陪他們寫了訴願書。')&&!L.includes('我家教的學生，家裡申請的補助被駁回了。我在幫他們看那份公文。'),J(L.slice(0,2)));
     fresh('2027-04-27',18,'noodle'); R('heroine_01','FAM'); const L2=await play('ev_an_mother_map',[0]);
     check('17. 對照：沒聽過＝原本那句',L2[0]==='我家教的學生，家裡申請的補助被駁回了。我在幫他們看那份公文。',J(L2.slice(0,2))); }
   // ===== 第 18 項 =====

@@ -2,7 +2,7 @@
 //   0  src/honor3d.js 載得到、index.html 有接；story3d.js 認識的人說話前的掛勾 PRE_TALK
 //   1  平均：只算法律課期末考；缺考算 0；題庫不足沒開考的不算；≥ 4 才有
 //   2  公告：下學期第 2 週週一 09:00 以後（手機系統提醒、HONOR_<學期>）；好感照表、只算一次；沒拿到＝不公告
-//   3  公告以後第一次找以安：「名單上有你。理由？」；柏翰：（柏翰把名單拍下來。）「……好。」；只有一次
+//   3  公告以後第一次找以安：「名單上有你。……卷哥。」（AA_587 第 27 列，使用者 11-02 選；原本「名單上有你。理由？」）；柏翰：（柏翰把名單拍下來。）「……好。」；只有一次
 //   4  看出席的課：成績單及格／不及格（三堂）；課表寫「出席 n／3 堂（三堂及格）」「已達及格」；服務學習照舊
 //   5  第 12 週週一 08:00 還有不到三堂的課＝一門一則系統通知（AA_418）；5b 第一堂課老師說的規定（AA_418 第 1 節）
 //   6  成績單多一行「書卷獎」
@@ -46,7 +46,7 @@ await sec(2,()=>{ const d=termDay('Y1S2',2,1); at(d,8.5); const n=lawCs('Y1S1').
   at(d,10); setExam('Y1S1',Array(n).fill(2)); X().phone(H.G); check('2. 沒拿到：HONOR_Y1S1 false、沒有公告',H.G.flags.HONOR_Y1S1===false&&!H.msgs('sys').length); });
 
 await sec(3,async()=>{ const d=termDay('Y1S2',3,2); at(d,13); H.G.flags.HONOR_Y1S1=true; H.G.flags.HONOR_LAST='Y1S1';
-  await X().preTalk(GM,{name:'沈以安'},'heroine_01'); check('3. 以安：「名單上有你。理由？」',H.has('名單上有你。理由？'));
+  await X().preTalk(GM,{name:'沈以安'},'heroine_01'); check('3. 以安：「名單上有你。……卷哥。」（AA_587 第 27 列）；舊句「理由？」不出',H.has('名單上有你。……卷哥。')&&!H.has('名單上有你。理由？'));
   const n=H.said.length; await X().preTalk(GM,{name:'沈以安'},'heroine_01'); check('3. 第二次沒有',H.said.length===n);
   await X().preTalk(GM,{name:'柏翰'},'classmate_bohan'); check('3. 柏翰：（柏翰把名單拍下來。）「……好。」',H.has('（柏翰把名單拍下來。）')&&H.has('……好。'));
   at(d,13); H.G.flags.HONOR_Y1S1=false; H.G.flags.HONOR_LAST='Y1S1'; await X().preTalk(GM,{name:'沈以安'},'heroine_01'); check('3. 沒拿到：沒有',!H.said.length); });

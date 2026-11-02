@@ -62,8 +62,8 @@ const meet=id=>SOCIAL.remember(id,'FIRST_MET','');
     L=await exam({readCase:'none'},null,['要約']);
     check('G1：第一天沒讀案例：沒有「第二天那個案子就是這個」',JSON.stringify(opts[opts.length-1])===JSON.stringify(['「我寫要約。」','「去吃飯。」']),JSON.stringify(opts[opts.length-1]));
     L=await exam({met_yu:true},()=>{ for(const id of ['classmate_bohan','classmate_xinci','classmate_mingxuan','heroine_01']) meet(id); },['要約']);
-    const want=['第二題，你們是寫要約之引誘還是要約？','……有第二題？','我寫要約。我覺得是要約。（停）完了，我寫要約。','（小聲）我寫引誘，然後補了一段反對意見。','反對意見誰的？','我自己的。','……可以這樣寫嗎？','不要對了啦，去吃飯。','（從教室出來，把筆收進筆袋）對答案沒有用。考完了就是考完了。','……我寫引誘。','同一國的！'];
-    check('G1：大家都認識：AA_13 G1 原文照順序；選「我寫要約。」→ Alison「同一國的！」',want.every((t,i)=>L.indexOf(t)>=0&&(i===0||L.indexOf(t)>L.indexOf(want[i-1]))),JSON.stringify(L.slice(-12)));
+    const want=['第二題，你們是寫要約之引誘還是要約？','……有第二題？','我寫要約。我覺得是要約。（停）完了，我寫要約。','（小聲）我寫引誘，然後補了一段反對意見。','反對意見誰的？','我自己的。','……可以這樣寫嗎？','不要對了啦，去吃飯。','（從教室出來，把筆收進筆袋）對答案又不會加分。','同一國的！'];   /* 以安「……我寫引誘。」刪掉（AA_587 保51＋第 14 節第 6 點，使用者 11-02：「拿書卷的人會這樣？」） */
+    check('G1：大家都認識：AA_13 G1 原文照順序（以安「……我寫引誘。」照 AA_587 刪掉）；選「我寫要約。」→ Alison「同一國的！」',want.every((t,i)=>L.indexOf(t)>=0&&(i===0||L.indexOf(t)>L.indexOf(want[i-1])))&&!L.includes('……我寫引誘。'),JSON.stringify(L.slice(-12)));
     check('G1：SHARED_CLASS 記在認識的同學（阿哲、柏翰、Alison、芯慈、明軒、以安）',['zhe','classmate_bohan','yu','classmate_xinci','classmate_mingxuan','heroine_01'].every(id=>SOCIAL.has(id,'SHARED_CLASS')));
     L=await exam({},()=>meet('classmate_xinci'),['吃飯']);
     check('G1：只認識芯慈（不認識柏翰）：她和柏翰那段沒有；「去吃飯。」→ 阿哲「走！」（明軒不認識）',!L.includes('我自己的。')&&L[L.length-1]==='走！'&&said[said.length-1].who!=='阿哲、明軒'&&!SOCIAL.has('classmate_bohan','SHARED_CLASS'),JSON.stringify(said.slice(-1)));

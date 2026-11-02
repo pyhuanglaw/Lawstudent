@@ -62,7 +62,7 @@ const lecture=async(id,picks)=>{ H.said=[]; H.opts=[]; H.picks=(picks||[]).slice
       J(L.slice(6).filter(t=>!/演講結束了/.test(t)))===J(['三讀的順序，跟課本一樣。我先回總圖。','（柏翰走了。以安靠在走廊的窗邊，還在看她的筆記。）','「得」改成「應」，就有一群人要多做一件事。','……我想知道那一群人是誰。','我知道。我已經下載了一份。','公司法那次修的。我想看他們吵什麼。','好，我講完了。我回宿舍讀書。'])
       &&J(H.opts[0])===J(['「妳以後想寫法條？」','「會議紀錄很長喔。」','（聽她說）'])&&G.flags.B6B_PICK==='minutes'&&ACTIVITIES.attended(G,'B6b'),J([L,H.opts]));
     G=fresh(wed,18.9,'boya',[AN]); const fa=SOCIAL.rel(AN).fam; L=await lecture('B6b',['「妳以後想寫法條？」']);
-    check('2. B6b 不認識柏翰：沒有他那句，旁白只留以安那半句；「妳以後想寫法條？」→「我想先看懂。……寫是很久以後的事。」；以安熟悉 +1',!L.includes('三讀的順序，跟課本一樣。我先回總圖。')&&L.includes('（以安靠在走廊的窗邊，還在看她的筆記。）')&&L.includes('我想先看懂。……寫是很久以後的事。')&&SOCIAL.rel(AN).fam===fa+1,J([L,fa,SOCIAL.rel(AN).fam]));
+    check('2. B6b 不認識柏翰：沒有他那句，旁白只留以安那半句；「妳以後想寫法條？」→「我想先看懂。寫是很久以後的事。」；以安熟悉 +1',!L.includes('三讀的順序，跟課本一樣。我先回總圖。')&&L.includes('（以安靠在走廊的窗邊，還在看她的筆記。）')&&L.includes('我想先看懂。寫是很久以後的事。')&&SOCIAL.rel(AN).fam===fa+1,J([L,fa,SOCIAL.rel(AN).fam]));
     G=fresh(wed,18.9,'boya',[AN]); L=await lecture('B6b',['（聽她說）']);
     check('2. B6b（聽她說）→旁白「（她講了十分鐘。中間停下來兩次，問你有沒有在聽。）」→「好，我講完了。…」',L[L.length-2]==='（她講了十分鐘。中間停下來兩次，問你有沒有在聽。）'&&L[L.length-1]==='好，我講完了。我回宿舍讀書。',J(L.slice(-3)));
     G=fresh(wed,18.9,'boya',[]); L=await lecture('B6b',[]); check('2. B6b 不認識以安：講座最後一句只有「掌聲。」、沒有散場',L.includes('掌聲。')&&!L.some(t=>/以安/.test(t))&&!L.includes('好，我講完了。我回宿舍讀書。'),J(L));

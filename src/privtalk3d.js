@@ -161,7 +161,7 @@ const PRIVTALK=(function(){
     {n:2,desc:'子晴、芷若分開以後第一次說話（multirel3d.js zzPreTalk、ZZ_AFTER）',decided:'擋。',impl:'清單 zz_after（multirel3d.js S.zzPreDue 算出這一次要演的才問；吧檯的芷若第一句也是）'},
     {n:3,desc:'學姊說要去美國交換（sis_y2y3_3d.js ev_sis_us_told，大三上 11/1～11/9 說話前接演）',decided:'擋，同芷若的交換申請；期限 11/9。',impl:'清單 sis_us_told（due 2027-11-09）'},
     {n:4,desc:'沛珊說和柏翰分開了（events.js ev_peishan_split，大二上第 6 週中午霖澤館）',decided:'擋。',impl:'清單 ps_split（期限＝第 6 週的週五）'},
-    {n:5,desc:'以安「明軒的事……」（y2r2_3d.js TALK_OPTS；她回「他問了，我答了。我們還是朋友。」）',decided:'擋。',impl:'清單 an_mx（選項標 priv、privKey an_mx；期限 9/5）'},
+    {n:5,desc:'以安「明軒的事……」（y2r2_3d.js TALK_OPTS；她回「他還好嗎？」→祐廷「他今天還跟阿哲去打球。」→「嗯。」「……你今天晚餐吃什麼。」，AA_587 第 41 列）',decided:'擋。',impl:'清單 an_mx（選項標 priv、privKey an_mx；期限 9/5）'},
     {n:6,desc:'語彤麵店租約「幫她」三個選項（y2r2_3d.js TALK_OPTS），阿姨就在旁邊',decided:'不擋。租約是阿姨的事，阿姨就是當事人。',impl:'不改（那三個選項沒有標 priv）'},
     {n:7,desc:'閒聊階梯、沒回訊息那一句的「交往中版本」（linesIf／extraIf 的 dating_、needed_msgs.js 的 missDating）',decided:'當面的：旁邊有人時改說一般版，沒有一般版的照演。手機（missDating）不受影響。',
       impl:'STORY.DATING_QUIET（S.dateVar）：閒聊階梯 linesIf／extraIf、招呼（greet.when）、選項的回覆（LADDER_REPLY_IF）裡條件要 dating_ 的那一套，和見面時沒回訊息那一句的 missDating（story3d.js S.neededMiss，遊戲裡只在當面說），旁邊有她的人＝說一般版（沒有一般版的照說）；不擋、不等、不記'},

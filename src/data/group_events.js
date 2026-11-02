@@ -29,7 +29,7 @@ const GROUP_EVENTS=(function(){
       {speaker:null,text:'（市場在小鎮車站的後面。早上九點，攤販已經在收第一輪了。）'},
       {if:car('heroine_03'),speaker:'heroine_03',text:'這個市場，我田野課看過資料。……想自己來看一次。'},   /* 市場（早上）＝車上的人；搭火車的下午才到（AA_375 第 5 項）*/
       {if:car('zhe'),speaker:'zhe',text:'（手上拿著一袋剛炸好的東西）這個好吃。我不知道是什麼。'},
-      {if:car('heroine_01'),speaker:'heroine_01',text:'第一站選得很有理由。'},
+      {if:car('heroine_01'),speaker:'heroine_01',text:'這裡選得好。早上來是對的。'},
       {if:{custom:G=>stAt(G,'classmate_peishan','FAMILIAR')&&typeof STORY!=='undefined'&&STORY.knows('yu',G)&&inCar(G,'yu')},speaker:'yu',text:'（看著賣菜的阿姨）……以前這種行程都是沛珊排的。'},
       {if:{custom:G=>stAt(G,'classmate_peishan','FAMILIAR')&&typeof STORY!=='undefined'&&STORY.knows('yu',G)&&inCar(G,'yu')&&inCar(G,'heroine_03')},speaker:null,text:'（沒有人接話。語彤把一袋芭樂遞給 Alison。）'},
       {scene:'海邊',bg:'y0_sea_blue'},{speaker:null,text:'（第二站是海邊。四月的風還有點冷。）'},
