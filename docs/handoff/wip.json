@@ -1937,7 +1937,7 @@
    "role": "LAWWW",
    "task": "BAR-POOL-NOMAR-1102",
    "state": "WIP",
-   "sha": "HANDOFF_COMMIT",
+   "sha": "2b7605638",
    "branch": "int-m591（本機；交班 bundle wip_backup/handoff_A_1102_2310.bundle，基準＝遠端開發分支 5ec3a0836）",
    "files": [
     "wip_backup/handoff_A_1102_2310.bundle"
@@ -1953,7 +1953,7 @@
    "role": "LAWWW",
    "task": "AA598-SIS-1C-1102",
    "state": "WIP",
-   "sha": "HANDOFF_COMMIT",
+   "sha": "2b7605638",
    "branch": "sisdate（本機；交班 bundle wip_backup/handoff_A_1102_2310.bundle，基準＝遠端開發分支 5ec3a0836）",
    "files": [
     "wip_backup/handoff_A_1102_2310.bundle"
@@ -1969,7 +1969,7 @@
    "role": "LAWWW",
    "task": "AA595-LIB-NOD-THERMOS-1102",
    "state": "WIP",
-   "sha": "HANDOFF_COMMIT",
+   "sha": "2b7605638",
    "branch": "libq2（本機；交班 bundle wip_backup/handoff_A_1102_2310.bundle，基準＝遠端開發分支 5ec3a0836）",
    "files": [
     "wip_backup/handoff_A_1102_2310.bundle"
@@ -1985,7 +1985,7 @@
    "role": "LAWWW",
    "task": "AA595-LIB-NOD-THERMOS-1102",
    "state": "WIP",
-   "sha": "HANDOFF_COMMIT",
+   "sha": "2b7605638",
    "branch": "libq3（本機；交班 bundle wip_backup/handoff_A_1102_2310.bundle，基準＝遠端開發分支 5ec3a0836）",
    "files": [
     "wip_backup/handoff_A_1102_2310.bundle"
@@ -2001,7 +2001,7 @@
    "role": "LAWWW",
    "task": "AA592-AN-1B-1102",
    "state": "WIP",
-   "sha": "HANDOFF_COMMIT",
+   "sha": "2b7605638",
    "branch": "anb（本機；交班 bundle wip_backup/handoff_A_1102_2310.bundle，基準＝遠端開發分支 5ec3a0836）",
    "files": [
     "wip_backup/handoff_A_1102_2310.bundle"
@@ -2017,7 +2017,7 @@
    "role": "LAWWW",
    "task": "AA600-EX-NO-CONTACT-1102",
    "state": "WIP",
-   "sha": "HANDOFF_COMMIT",
+   "sha": "2b7605638",
    "branch": "ex600（本機；交班 bundle wip_backup/handoff_A_1102_2310.bundle，基準＝遠端開發分支 5ec3a0836）",
    "files": [
     "wip_backup/handoff_A_1102_2310.bundle"
