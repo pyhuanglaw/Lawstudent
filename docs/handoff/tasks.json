@@ -38506,6 +38506,154 @@
    "source": "使用者 2026-11-02 03:5x 對 BB（USER_WANTS X152；BB 03:51、03:54 轉）",
    "authorized": "使用者直接指示",
    "next": "【LAWWW（帳號 A）04:3x】合併 c2be66486＋修正 a3b1bd647（CC 水位線改 b4893fd5）：工具、duty.json、watermarks、值班表、7.13／7.14、D119／HV-22；handoff 測試六支全過；check／incr／duty verify OK。剩 CC 補：CC_00「全部待辦」、user_asks_CC.json、duty register（已請 BB 轉告） ｜ 【LAWWW（帳號 A）04:0x】子代理在 worktree 改工具與規則文件；合併後回 BB（SHA），BB 轉告 CC"
+  },
+  {
+   "id": "FAIR-TENT-CAM-1102",
+   "title": "社博帳篷頂擋跟隨鏡頭：帳篷改 seeThrough（WIP 沒交件）",
+   "area": "ART",
+   "owner": "LAWWW2",
+   "status": "待開工",
+   "priority": "P3",
+   "first": {
+    "term": "Y1S1",
+    "week": null,
+    "earliest": "—",
+    "mainline": false,
+    "blocks": false,
+    "prereq": false,
+    "parallel": true,
+    "confirmed": false
+   },
+   "source": "LAWWW2 11-02 04:39（交接檔有、總表沒有）",
+   "authorized": "D108",
+   "next": "【LAWWW（帳號 A）04:4x 登記】1～4.5h；玩家會遇到的鏡頭問題，排在 us_market／jp_room 之後",
+   "xai": {
+    "spec": "LAWWW2 HANDOFF.md",
+    "branch": "claude/second-ai-env-art",
+    "acceptance": "遊戲內截圖＋相關 Node 測試；交 LAWWW 合併、BB 看畫面",
+    "receiver": "LAWWW",
+    "ack": "ACK"
+   }
+  },
+  {
+   "id": "BADMINTON-CLIP-V4-1102",
+   "title": "羽球動作 v4（腳 IK、球放大加殘影；WIP 1aba3ec42 做一半）",
+   "area": "ART",
+   "owner": "LAWWW2",
+   "status": "暫停",
+   "priority": "P3",
+   "first": {
+    "term": "Y1S1",
+    "week": null,
+    "earliest": "—",
+    "mainline": false,
+    "blocks": false,
+    "prereq": false,
+    "parallel": true,
+    "confirmed": false
+   },
+   "source": "LAWWW2 11-02 04:39（交接檔有、總表沒有）",
+   "authorized": "D108",
+   "next": "【LAWWW（帳號 A）04:4x 登記】5～10h",
+   "xai": {
+    "spec": "LAWWW2 HANDOFF.md",
+    "branch": "claude/second-ai-env-art",
+    "acceptance": "遊戲內截圖＋相關 Node 測試；交 LAWWW 合併、BB 看畫面",
+    "receiver": "LAWWW",
+    "ack": "ACK"
+   },
+   "pausedBy": "LAWWW（帳號 A）",
+   "pausedReason": "不在 D99、不擋流程（D99 夠用的素材凍結）",
+   "resumeWhen": "D99 三項與 D118 驗收告一段落",
+   "recheckOn": "2026-11-09"
+  },
+  {
+   "id": "DORM1-WALL-SEAM-1102",
+   "title": "男一舍走廊、樓梯間牆接頭的縫：改建模＋重烘",
+   "area": "ART",
+   "owner": "LAWWW2",
+   "status": "待開工",
+   "priority": "P3",
+   "first": {
+    "term": "Y1S1",
+    "week": null,
+    "earliest": "—",
+    "mainline": false,
+    "blocks": false,
+    "prereq": false,
+    "parallel": true,
+    "confirmed": false
+   },
+   "source": "LAWWW2 11-02 04:39（交接檔有、總表沒有）",
+   "authorized": "D108",
+   "next": "【LAWWW（帳號 A）04:4x 登記】1.5～3h；玩家每天經過，排在 FAIR-TENT-CAM 之後",
+   "xai": {
+    "spec": "LAWWW2 HANDOFF.md",
+    "branch": "claude/second-ai-env-art",
+    "acceptance": "遊戲內截圖＋相關 Node 測試；交 LAWWW 合併、BB 看畫面",
+    "receiver": "LAWWW",
+    "ack": "ACK"
+   }
+  },
+  {
+   "id": "NPC-POOL-ART-REST-1102",
+   "title": "NPC-POOL-ART-1028 被 D99 擱置的部分（衣服類、趴著睡的動作、鯊魚夾）",
+   "area": "ART",
+   "owner": "LAWWW2",
+   "status": "暫停",
+   "priority": "P3",
+   "first": {
+    "term": "Y1S1",
+    "week": null,
+    "earliest": "—",
+    "mainline": false,
+    "blocks": false,
+    "prereq": false,
+    "parallel": true,
+    "confirmed": false
+   },
+   "source": "LAWWW2 11-02 04:39（交接檔有、總表沒有）",
+   "authorized": "D108",
+   "next": "【LAWWW（帳號 A）04:4x 登記】2～5h",
+   "xai": {
+    "spec": "LAWWW2 HANDOFF.md",
+    "branch": "claude/second-ai-env-art",
+    "acceptance": "遊戲內截圖＋相關 Node 測試；交 LAWWW 合併、BB 看畫面",
+    "receiver": "LAWWW",
+    "ack": "ACK"
+   },
+   "pausedBy": "LAWWW（帳號 A）",
+   "pausedReason": "D99 擱置（夠用的素材凍結）",
+   "resumeWhen": "D99 三項與 D118 驗收告一段落",
+   "recheckOn": "2026-11-09"
+  },
+  {
+   "id": "PUTONG101-WINDOW-1102",
+   "title": "普通 101 北窗白天整片深藍黑（博思一樓深色玻璃不反射天空）",
+   "area": "ART",
+   "owner": "LAWWW2",
+   "status": "待開工",
+   "priority": "P3",
+   "first": {
+    "term": "Y1S1",
+    "week": null,
+    "earliest": "—",
+    "mainline": false,
+    "blocks": false,
+    "prereq": false,
+    "parallel": true,
+    "confirmed": false
+   },
+   "source": "LAWWW2 11-02 04:39（交接檔有、總表沒有）",
+   "authorized": "D108",
+   "next": "【LAWWW（帳號 A）04:4x 登記】1.5～3.5h；D120 起由 BB 驗收場景美術，改好給 BB 看",
+   "xai": {
+    "spec": "LAWWW2 HANDOFF.md",
+    "branch": "claude/second-ai-env-art",
+    "acceptance": "遊戲內截圖＋相關 Node 測試；交 LAWWW 合併、BB 看畫面",
+    "receiver": "LAWWW",
+    "ack": "ACK"
+   }
   }
  ]
 }
