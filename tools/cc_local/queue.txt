@@ -33,8 +33,8 @@ G4v2_ef63   | ef63b1877 | probe | docs/story_planning/test_tools/cc/flow_main_da
 # 雲端還沒跑過（BB_229 規則 1）：子代理在雲端驗證中，跑過就解除
 #HOLD雲端 P1_d124    | ef63b1877 | probe | docs/story_planning/test_tools/cc/cc_d124_probe.py | index.html?turbo | 90 |
 #HOLD雲端 P2_bar     | ef63b1877 | probe | docs/story_planning/test_tools/cc/cc_bar_b8_probe.py | index.html?turbo | 90 |
-#HOLD雲端 G5b_ancf   | ef63b1877 | probe | docs/story_planning/test_tools/cc/cc_next1102_ui_probe.py | index.html | 90 | SHA=ef63b1877;CASES=ancf2;ORIENTS=port（BB：不開 turbo、不用 OUT.go、出發提示等 180 秒；探針要先改）
-#HOLD雲端 P5w_wake   | ef63b1877 | probe | docs/story_planning/test_tools/cc/cc_next1102_ui_probe.py | index.html | 60 | SHA=ef63b1877;CASES=examgoal_wake;ORIENTS=port
+G5b_ancf   | ef63b1877 | probe | docs/story_planning/test_tools/cc/cc_next1102_ui_probe.py | index.html | 90 | SHA=ef63b1877;CASES=ancf2;ORIENTS=port;REAL=1
+P5w_wake   | ef63b1877 | probe | docs/story_planning/test_tools/cc/cc_next1102_ui_probe.py | index.html | 60 | SHA=ef63b1877;CASES=examgoal_wake;ORIENTS=port
 A1_advskip | b1b249873 | probe | docs/story_planning/test_tools/cc/cc_advskip_probe.py | index.html | 60 | RERUN=c1
 A2_dorm    | b1b249873 | probe | docs/story_planning/test_tools/cc/cc_dorm_moveout_probe.py | index.html | 60 | RERUN=c1
 A3_late15  | b1b249873 | probe | docs/story_planning/test_tools/cc/cc_late15_probe.py | index.html | 60 | RERUN=c1
