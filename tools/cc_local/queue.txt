@@ -25,13 +25,13 @@ R2_flowcls  | b1b249873 | game  | tests/flow_class_real.py     | index.html     
 R3_touchwz  | b1b249873 | game  | tests/touch_flow_wenzhou.py  | index.html?turbo | 60  | XARGS={url}
 R4_day12    | b1b249873 | game  | tests/flow_main_day12.py     | index.html       | 180 | XARGS={url} {out}
 # 2. #12 補考（D124 後被當＝重修 enforcement）、#16 版面、#15 配額
-R5_mk12     | b1b249873 | probe | docs/story_planning/test_tools/cc/cc_makeup_probe.py   | index.html?turbo | 200 | FAIL_ROUTE=retake;CASES=study3h,skipnoon_seat,skipnoon_phone,old_delayed,homerest,home,mkbg;RERUN=paper1102
+#已被 *_rr 取代（新 runner 會因 RERUN 和舊 meta 不同而重跑，浪費時間） R5_mk12     | b1b249873 | probe | docs/story_planning/test_tools/cc/cc_makeup_probe.py   | index.html?turbo | 200 | FAIL_ROUTE=retake;CASES=study3h,skipnoon_seat,skipnoon_phone,old_delayed,homerest,home,mkbg;RERUN=paper1102
 R6_layout   | b1b249873 | probe | docs/story_planning/test_tools/cc/cc_layout16_probe.py | index.html?turbo | 60  | CASES=seat_exam,adv_safe,recall2;RERUN=fmt1102
 R6b_layoutcss| b1b249873 | game | tests/choices_landscape_css.py | index.html | 40 |
 R7_quota    | b1b249873 | py    | tools/cc_local/quota_check.py | index.html | 20 |
 R7b_quota15 | b1b249873 | probe | docs/story_planning/test_tools/cc/cc_quota15_probe.py  | index.html?turbo | 60  |
 # 3. Y4S2 流程（retake／jp）、點名、總複習、考試提示
-R8_y4s2rt   | b1b249873 | probe | docs/story_planning/test_tools/cc/cc_makeup_probe.py   | index.html?turbo | 200 | FAIL_ROUTE=retake;MAIN_FROM=0527;CASES=main_pass,main_fail,route_grades;RERUN=paper1102
+#已被 *_rr 取代（新 runner 會因 RERUN 和舊 meta 不同而重跑，浪費時間） R8_y4s2rt   | b1b249873 | probe | docs/story_planning/test_tools/cc/cc_makeup_probe.py   | index.html?turbo | 200 | FAIL_ROUTE=retake;MAIN_FROM=0527;CASES=main_pass,main_fail,route_grades;RERUN=paper1102
 R8b_y4s2jp  | b1b249873 | probe | docs/story_planning/test_tools/cc/cc_makeup_probe.py   | index.html?turbo | 60  | FAIL_ROUTE=jp;CASES=route_grades;RERUN=paper1102
 R8c_y4s2fin | b1b249873 | probe | docs/story_planning/test_tools/cc/cc_y4s2final_probe.py | index.html?turbo | 200 | FAIL_ROUTE=retake;CASES=main,noexam_stay
 R9_roll     | b1b249873 | probe | docs/story_planning/test_tools/cc/cc_rollcall_probe.py | index.html | 120 | CASES=a,a0,b,c1,c2,d_old,d_new,cw,bedge
