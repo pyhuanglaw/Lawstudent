@@ -39497,6 +39497,33 @@
         "receiver": "LAWWW",
         "ack": "ACK"
       }
+    },
+    {
+      "priority": "P0",
+      "first": {
+        "term": "Y1S1",
+        "week": null,
+        "earliest": "第一次期中考前（讀書、一鍵總複習）；國考與職涯在畢業以後",
+        "mainline": true,
+        "blocks": false,
+        "prereq": false,
+        "parallel": true,
+        "confirmed": true
+      },
+      "id": "CC-NOIDLE-1102",
+      "title": "CC 工作佇列不空轉（D121：BB 讓 CC 佇列至少五項；CC 剩兩項以下主動跟 BB 要；常備工作）",
+      "owner": "BB",
+      "status": "進行中",
+      "next": "規則（永久），BB 持續派工",
+      "sha": "",
+      "source": "使用者 11-02 06:4x 對 BB（D121，企劃線 743a1a6ea BB_224）",
+      "xai": {
+        "spec": "BB_224",
+        "branch": "claude/story-planning",
+        "acceptance": "CC 不閒置",
+        "receiver": "CC",
+        "ack": "ACK"
+      }
     }
   ]
 }
