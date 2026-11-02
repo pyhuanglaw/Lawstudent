@@ -6,9 +6,10 @@
 #        probe = repo script (CC probe), args <URL> <out>\out ; LW_TESTS / SHA set automatically
 #        py    = repo script, args <URL> <out dir>
 #  URL : path after http://127.0.0.1:<port>/
+# 2026-11-02 10:2x 使用者有空：00、01 量完整 fps／p0 時間；02 補考修改後（head）；03 #14 延畢重修；04 真實配額；05 補考修改前對照（b4f98ea4e）
 00_gpu      | head      | gpu   | tools/cc_local/gpu_check.py                                     | index.html        | 20  |
 01_p0speed  | head      | game  | tests/p0_movement.py                                            | index.html        | 60  |
-02_mk12     | b4f98ea4e | probe | docs/story_planning/test_tools/cc/cc_makeup_probe.py           | index.html?turbo  | 200 | CASES=study3h,skipnoon_seat,skipnoon_phone,homerest,old_delayed,home
-# K3（BB 10:07）：等 01、02 在這台確定能跑完再打開（把行首的 # 拿掉）
-#03_delay14 | 5506d6259 | probe | docs/story_planning/test_tools/cc/cc_delay14_probe.py | index.html?turbo | 120 | CASES=dorm_sleep,dorm_stand,home
-#04_quota   | head      | py    | tools/cc_local/quota_check.py                        | index.html        | 20  |
+02_mk12new  | head      | probe | docs/story_planning/test_tools/cc/cc_makeup_probe.py           | index.html?turbo  | 200 | CASES=study3h,skipnoon_seat,skipnoon_phone,homerest,old_delayed,home
+03_delay14  | head      | probe | docs/story_planning/test_tools/cc/cc_delay14_probe.py          | index.html?turbo  | 120 | CASES=dorm_sleep,dorm_stand,home
+04_quota    | head      | py    | tools/cc_local/quota_check.py                                   | index.html        | 20  |
+05_mk12old  | b4f98ea4e | probe | docs/story_planning/test_tools/cc/cc_makeup_probe.py           | index.html?turbo  | 200 | CASES=study3h,homerest,old_delayed,home
