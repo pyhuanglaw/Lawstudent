@@ -72,7 +72,7 @@ async def one(p, run, landscape):
     lad0 = await pg.evaluate(LAD_JS % json.dumps(tgt['id']))
     await L.tap(pg, cdp, '#interact')
     seen, boxes, chose = [], [], None
-    for _ in range(60):
+    for _ in range(400):   # 等打字完那幾輪也算在內（每輪 150 ms），上限放寬
         s = await L.state(pg)
         bx = await pg.evaluate(BOX_JS)
         if s['choices']:
