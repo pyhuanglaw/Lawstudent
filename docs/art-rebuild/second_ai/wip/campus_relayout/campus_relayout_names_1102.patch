@@ -1,0 +1,43 @@
+diff --git a/src/data/places.js b/src/data/places.js
+index 7682596a140f7d7823f36b541ace4e39a8c58c74..9bcdb665414dbb8842e86f7bfda0462c8902f9ef 100644
+--- a/src/data/places.js
++++ b/src/data/places.js
+@@ -83,7 +83,8 @@ const PLACES={
+   // 大地圖上的地名（沒有入口、或想讓玩家認得的地標）
+   landmarks:{
+     campus:[ ['校門',-120,0], ['椰影大道',-60,0], ['晨思鐘',-38,16.5], ['行政大樓',-38,33], ['共同教學館',2,33], ['大一女舍',-93,67], ['文學院',-38,-34], ['農業陳列館',-104,-30], ['校史館',-77,-29],
+-      ['普通教學館',-38,-58.5], ['博思教學館',-38,-83], ['映月湖',-36,-112], ['總圖書館',100,0], ['法律系館A',34,-112], ['法律系館B',88,-112], ['社會科學院',2,-85], ['社科院圖書館',2,-54], ['椰影小徑',30,-40], ['男生宿舍',20,68] ],
++      ['普通教學館',-38,-58.5], ['博思教學館',-38,-83], ['映月湖',-36,-112], ['總圖書館',100,0], ['法律系館A',34,-112], ['法律系館B',88,-112], ['社會科學院',2,-85], ['社科院圖書館',2,-54], ['椰影小徑',30,-40], ['男生宿舍',20,68],
++      ['電機二館',112,-62], ['土木工程館',7,-28], ['圖書資訊學系館',51.5,-34], ['農業綜合大樓',45,33] ],   /* CAMPUS-RELAYOUT-1102：照官方地圖同一個相對位置的系館（使用者 11-02 09:03） */
+     gongguan:[ ['捷運公館站',-36.6,11], ['羅斯福路',20,-6], ['往溫州街',-71,20], ['首都帝大校門',0,-46] ],
+     wenzhou:[ ['兩點半 Café',54.2,0], ['小公園',26,6], ['往公館',51.3,-13.4] ]
+   }
+diff --git a/src/zones3d.js b/src/zones3d.js
+index 048bbb648d68dcf25071f991bb1af041a72dccac..f7390de46c189da4181e4458959a476fb716a4c7 100644
+--- a/src/zones3d.js
++++ b/src/zones3d.js
+@@ -300,7 +300,7 @@ const Z3 = (function(){
+       for(const [x0,y0,z0,x1,y1,z1] of SOCX.cams){ const m=new THREE.Mesh(new THREE.BoxGeometry(x1-x0,y1-y0,z1-z0),new THREE.MeshBasicMaterial({visible:false,side:THREE.DoubleSide})); m.position.set((x0+x1)/2,(y0+y1)/2,(z0+z1)/2); g.add(m); E.colliders.push(m); }
+       for(const [x,z,w,d,yaw] of SOCX.benches){ const y=yaw||0; seats.push({x:+(x+0.06*Math.sin(y)).toFixed(2),z:+(z+0.06*Math.cos(y)).toFixed(2),yaw:y,label:'坐在社科院中庭的長椅'}); }   /* 清水混凝土長椅：朝中庭坐（X75 以後 z −67.1 的兩張面向北、x −10.6 的兩張面向東；坐的位置往面向那一邊 6 cm）*/
+       /* 社科院原本的位置（萬才館東南、總圖北邊）：X75 搬走以後放一棟沒有名字的系館（白色現代系館的套件，不掛名字；正面朝西、門對著 z=-60 那條路）*/
+-      { const hall=CK.modern({w:44,d:20,floors:4,gfh:4.4,fh:3.85}); ckPlace(hall,112,-62,-Math.PI/2); buildings.push(hall); }
++      { const hall=CK.modern({w:44,d:20,floors:4,gfh:4.4,fh:3.85,sign:'電機二館'}); ckPlace(hall,112,-62,-Math.PI/2); buildings.push(hall); }   /* CAMPUS-RELAYOUT-1102（使用者 11-02 09:03「舊的那棟要叫什麼」）：官方地圖總圖東北、過水杉道是電機二館 */
+     } else {   /* 舊外觀（manifest 沒有新模型時）*/
+       const soc=CK.modern({w:56,d:22,floors:4,gfh:4.4,fh:3.85,sign:'社會科學院'}); ckPlace(soc,110,-70,-Math.PI/2); buildings.push(soc);
+       socGLB=typeof ASSETS!=='undefined'&&!!ASSETS.manifest['bldg.campus_modern']; soc.userData.ckTag='soc'; if(socGLB) soc.userData.dyn=true;
+@@ -326,11 +326,11 @@ const Z3 = (function(){
+     for(const [x,z] of [[-60,-15.5],[-57,15.5],[0,-15.5],[24,-64],[36,-64]]){ const b=parkedBike(['#3a6fb0','#8c3b47','#2f5d50','#e0b95b'][(x+z)&3],x*7+z,null,1.7); place(g,b,x,z,Math.PI/2); nav.blockRect(x,z,1.7,0.6,0); }   /* v9.3 第十八批：車子沿 x 方向停，導航原本擋成沿 z 方向（走得過車頭車尾、旁邊空地反而不能走）*/
+     // ---- v9.3 第十八批：校園加密 ----
+     // 真實的椰林大道兩側幾乎整排都是系館（離大道 20–30 m、前面是草地）；原本這裡大道東半段兩側、行政大樓東邊、男一舍兩側都是空草地。
+-    // 補上沒有掛名字的系館（不冒用真實系館的名字和位置），同一套校園套件語彙：紅磚／面磚、一樓拱廊、拱窗或方窗
++    // 補上沒有掛名字的系館（CAMPUS-RELAYOUT-1102 起前三棟照官方地圖同一個相對位置掛系所的一般名稱：土木工程館、圖書資訊學系館、農業綜合大樓；舟山路南側兩棟對不到單一棟，照舊不掛），同一套校園套件語彙：紅磚／面磚、一樓拱廊、拱窗或方窗
+     { const fill=[
+-        [CK.hall({w:26,d:14,floors:3,gfh:4.4,fh:3.8,wall:'#c8a27c',trim:'#e6dfd0',roof:'#4a3a33',roofH:3.8,arcade:true,porch:{bays:1,depth:2.4,pediment:false}}),7,-28,0],          // 大道北側、文學院東邊
+-        [CK.hall({w:LIBF?23:28,d:16,floors:4,gfh:4.4,fh:3.6,wall:'#a35c48',trim:'#ddd5c6',roofType:'flat',win:'rect',arcade:true,porch:{bays:3,depth:2.6,style:'flat'}}),LIBF?51.5:57,-34,0],   // 大道北側、小椰林道東邊（LIB-FRONT-1102：總圖前的廣場 x 63.5～73.75、|z| ≤ 30，原本 x 43～71 壓到廣場西北角 → 23 m 寬、中心 x 51.5：x 40～63）
+-        [CK.hall({w:34,d:14,floors:4,gfh:4.2,fh:3.5,wall:'#d2c3a5',trim:'#ebe4d6',roofType:'flat',win:'rect',arcade:true,porch:{bays:3,depth:2.6,style:'flat'}}),45,33,Math.PI],   // 大道南側、往宿舍的路東邊
++        [CK.hall({w:26,d:14,floors:3,gfh:4.4,fh:3.8,wall:'#c8a27c',trim:'#e6dfd0',roof:'#4a3a33',roofH:3.8,arcade:true,porch:{bays:1,depth:2.4,pediment:false},sign:'土木工程館'}),7,-28,0],          // 大道北側、文學院東邊（CAMPUS-RELAYOUT-1102：官方地圖同一個位置是土木工程館）
++        [CK.hall({w:LIBF?23:28,d:16,floors:4,gfh:4.4,fh:3.6,wall:'#a35c48',trim:'#ddd5c6',roofType:'flat',win:'rect',arcade:true,porch:{bays:3,depth:2.6,style:'flat'},sign:'圖書資訊學系館'}),LIBF?51.5:57,-34,0],   // 大道北側、小椰林道東邊（LIB-FRONT-1102：總圖前的廣場 x 63.5～73.75、|z| ≤ 30，原本 x 43～71 壓到廣場西北角 → 23 m 寬、中心 x 51.5：x 40～63）
++        [CK.hall({w:34,d:14,floors:4,gfh:4.2,fh:3.5,wall:'#d2c3a5',trim:'#ebe4d6',roofType:'flat',win:'rect',arcade:true,porch:{bays:3,depth:2.6,style:'flat'},sign:'農業綜合大樓'}),45,33,Math.PI],   // 大道南側、往宿舍的路東邊（CAMPUS-RELAYOUT-1102：官方地圖共同教學館東北是農業綜合大樓）
+         [CK.hall({w:30,d:13,floors:5,gfh:3.6,fh:3.1,wall:'#bfb5a3',trim:'#e4ddd0',roofType:'flat',win:'rect',arcade:false,porch:{bays:1,depth:2.0,style:'flat',h:3.4}}),-34,68,Math.PI],   // 舟山路南側、宿舍區
+         [CK.hall({w:30,d:13,floors:5,gfh:3.6,fh:3.1,wall:'#c9b49a',trim:'#e8e2d6',roofType:'flat',win:'rect',arcade:false,porch:{bays:1,depth:2.0,style:'flat',h:3.4}}),74,68,Math.PI],
+ ];   // 第二十批的「舟山路西段南側」(-92,66) 2026-10-13 換成大一女舍（見行政大樓後面的大一女舍那一段）
