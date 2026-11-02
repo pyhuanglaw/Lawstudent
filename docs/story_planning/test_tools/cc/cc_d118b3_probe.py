@@ -421,11 +421,11 @@ async def run_review(pg, cdp, run, tag, menu, mode='end', shoot_cap=None, max_s=
         if s['phone'] and not s['ch'] and not s['dlg']: await L.phone_away(pg, cdp, tries=1); continue
         if s['ch']:
             T = [o['t'] for o in s['ch']]
-            if '下一張' in T:
+            if any(t.startswith('下一張') for t in T):
                 out['menus'].append(T)
                 want = {'all': '下一張', 'end': '結束總複習', 'skip': '跳到下一科'}.get(mode, '結束總複習')
                 k = next((i for i, t in enumerate(T) if t.startswith(want)), None)
-                if k is None: k = T.index('下一張')
+                if k is None: k = next(i for i, t in enumerate(T) if t.startswith('下一張'))
                 await P.tap_choice(pg, cdp, k); await pg.wait_for_timeout(900); continue
             k, _ = pick_opt(s['ch']); run.note('%s：總複習途中別的選項 %s → %s' % (tag, J(T), T[k]))
             await P.tap_choice(pg, cdp, k); await pg.wait_for_timeout(1100); continue
@@ -735,7 +735,7 @@ async def semff_run(pg, cdp, run, tag, on_remind, done_js, max_s):
                 c = await P.clock(pg); log.append([c['key'], hm(c['h']), 'REMIND_MENU', T, None if k is None else T[k]])
                 if k is None: return {'ok': False, 'log': log, 'n0': n0, 'remind_handled': handled, 'left_menu': True}
                 await P.tap_choice(pg, cdp, k); await pg.wait_for_timeout(1300); free_since = None; continue
-            if '下一張' in T:   # 提醒選單選了總複習以後的翻頁
+            if any(t.startswith('下一張') for t in T):   # 提醒選單選了總複習以後的翻頁
                 k = next((i for i, t in enumerate(T) if t.startswith('結束總複習' if ENVS('S2_READ', 'end') == 'end' else '下一張')), 0)
                 await P.tap_choice(pg, cdp, k); await pg.wait_for_timeout(900); continue
             k = next((i for i, o in enumerate(s['ch']) if o['t'].startswith('快轉') and not o['dim']), None)

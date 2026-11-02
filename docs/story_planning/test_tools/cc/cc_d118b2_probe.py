@@ -347,7 +347,7 @@ async def study_once(pg, cdp, run, tag, cid):
         s = await P.ts(pg)
         if s['ch']:
             T = [o['t'] for o in s['ch']]; r['opts'].append(T); k = None
-            if stage == 0 and any(t == '讀書' for t in T): k = T.index('讀書'); stage = 1
+            if stage == 0 and any(t.startswith('讀書') for t in T): k = next(i for i, t in enumerate(T) if t.startswith('讀書')); stage = 1
             elif nm and any(t.startswith(nm) for t in T): k = next(i for i, t in enumerate(T) if t.startswith(nm)); stage = 3
             elif stage == 1: k = next((i for i, o in enumerate(s['ch']) if not o['dim'] and not o['t'].startswith('算了')), 0); stage = 2
             else: k, _ = pick_opt(s['ch'])
