@@ -7,9 +7,10 @@
    - LIBQ.whisper(GM,who,text)：game3d.js 的 say、caption 呼叫；在讀書區＝加前綴，順便把說話的人記成「今天見過」（事件自己開口的也算見過）。
    讀書區（AA_595 開頭的區域；「AA 處理決定」：圖書館大廳、影印機、閉館後離開、美國的會所和中庭不算）：
      總圖 3F 閱覽區 library、總圖大廳只算二樓以上的自習區 library_hall（lv≥1）、研究小間 library_carrels、5F 書庫 library_stacks、
-     法圖 lawlib（一樓的討論室、影印室、館員辦公室、櫃台和門口不算）、社科圖 soclib、總圖 B1 只算 24 小時自習室（study24；討論室、影印中心、門廳不算）、
+     法圖 lawlib（一樓的影印室、館員辦公室、櫃台和門口不算）、社科圖 soclib、總圖 B1 只算 24 小時自習室和討論室（study24、disc1、disc2；影印中心、門廳、走廊不算）、
      美國法學院圖書館只算 2F 書庫 us_lawlib_2f（一樓中庭不算）。
-   2D 場景（ADV 背景是圖片）：照背景判斷——法圖二樓、總圖二樓、B1 自習室、社科圖閱覽區的背景算；門口、台階、簡餐、B1 討論室等其他背景都不算（事件搬到館外演就不會加）。
+   討論室（AA_595 拿不準 Q1～Q5）：「AA 處理決定」拿不準的照小聲講的原則處理，不算讀書區的只列了大廳、影印機、閉館後離開、美國的會所和中庭——討論室照小聲講。
+   2D 場景（ADV 背景是圖片）：照背景判斷——法圖二樓、總圖二樓、B1 自習室、B1 討論室、社科圖閱覽區的背景算；門口、台階、簡餐等其他背景都不算（事件搬到館外演就不會加）。
    事件想整場不加：事件定義寫 loud:true（events3d.js 開演時 LIBQ.loudBegin()）；程式裡用 LIBQ.loud(async()=>{…})。
    存檔：G.libNod＝{day, ids:{角色 id:1}}（今天在讀書區見過的人；換一天就清空）。舊存檔沒有這個欄位＝今天誰都還沒見過（LIBQ.rec 補預設值，壞掉的也重設）。
    測試：node tests/aa595_rules_unit.js */
@@ -19,17 +20,17 @@ const LIBQ=(function(){
   S.PREFIX='（小聲）';
   S.NOD={f:'（她抬頭看到你，點了一下頭。）',m:'（他抬頭看到你，點了一下頭。）'};   /* AA_595 1-A1「建議改法」的那一句（她＝同表 1-A2 的寫法）*/
   S.ZONES={library:1,library_hall:1,library_carrels:1,library_stacks:1,lawlib:1,soclib:1,library_b1:1,us_lawlib_2f:1};
-  S.BG_STUDY=['law_library.webp','ntu_library_2f.webp','ntu_lib_b1.webp','soc_library.webp'];   /* outings3d.js 的背景：法圖・二樓、總圖・二樓、總圖 B1・24 小時自習室、社科院圖書館・閱覽區 */
+  S.BG_STUDY=['law_library.webp','ntu_library_2f.webp','ntu_lib_b1.webp','library_b1.webp','soc_library.webp'];   /* outings3d.js 的背景：法圖・二樓、總圖・二樓、總圖 B1・24 小時自習室、總圖 B1・討論室、社科院圖書館・閱覽區 */
   const G_=GM=>GM&&GM.G;
   /* 區域＋位置＝是不是讀書區 */
   S.studyAt=function(zone,lv,x,z){ if(!S.ZONES[zone]) return false; lv=lv|0;
     if(zone==='library_hall') return lv>=1;   /* 一樓是大廳（門廳、閘門、服務台）*/
     if(zone==='lawlib'){ if(lv>=1) return true; const L=typeof LAWLIB_LAYOUT!=='undefined'?LAWLIB_LAYOUT:null; if(!L||typeof x!=='number'||typeof z!=='number') return true;
-      if(typeof L.frontZ==='number'&&z<L.frontZ) return false;   /* 北邊一排：討論室 A、B、影印室、館員辦公室 */
+      if(typeof L.frontZ==='number'&&z<L.frontZ&&Array.isArray(L.rooms)){ const r=L.rooms.find(q=>x>=q.x0&&x<=q.x1); if(r&&r.kind!=='discussion') return false; }   /* 北邊一排：影印室、館員辦公室不算；討論室 A、B 算 */
       const SA=L.staffArea; if(SA&&x>=SA.x0&&z>=SA.z0) return false;   /* 櫃台、閘門、門口（東南角）*/
       return true; }
     if(zone==='library_b1'){ const L=typeof LIBRARY_B1_LAYOUT!=='undefined'?LIBRARY_B1_LAYOUT:null; if(!L||!L.rooms||typeof x!=='number'||typeof z!=='number') return false;
-      return L.rooms.some(r=>r.id==='study24'&&x>=r.x0&&x<=r.x1&&z>=r.z0&&z<=r.z1); }
+      return L.rooms.some(r=>/^(study24|disc\d)$/.test(r.id)&&x>=r.x0&&x<=r.x1&&z>=r.z0&&z<=r.z1); }
     return true; };
   let loudN=0;
   S.loudBegin=()=>{ loudN++; }; S.loudEnd=()=>{ loudN=Math.max(0,loudN-1); };
