@@ -100,6 +100,7 @@ const SISG=(function(){
     { id:'ev_sis_walk_alone', title:'一個人走回去', participants:[ID], location:'lawlib', trigger:'auto', npcPresent:ID, term:['Y1S1'], weeks:[14,15], weekday:[1,2,3,4], time:[21+40/60,21.75], once:true, priority:8, background:'blur',
       prereq:{flags:['SIS_STUDY'],events:['ev_sis_hot_water'],custom:G=>{ const L=(G.events&&G.events.last)||{}; return law(G)&&L.ev_sis_hot_water!==G.day&&L.ev_sis_hot_water_again!==G.day; }},
       dialogue:[ {speaker:null,text:'（那一週她比較安靜。閉館的廣播響了，她收書收得比平常慢。）'},
+        {speaker:null,text:'（走到法圖門口，她才開口。）',libOut:true},   /* libOut（AA_595 1-B4；AA 11-02 22:30 定稿）*/
         {speaker:ID,expression:'tired',text:'今天我想一個人走回去。'},
         {choice:[{text:'「好。到家傳一下。」',set:{SISG_WALK_TEXT:true},goto:'a'},{text:'（點頭）',goto:'b'}]},
         {label:'a'},{speaker:ID,expression:'neutral',text:'嗯。'},{goto:'end'},

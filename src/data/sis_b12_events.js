@@ -109,7 +109,7 @@ const SISB12_EVENTS=(function(){
       outingMissed:G=>{ if(G.flags.SIS_FAM_STUDY==null) G.flags.SIS_FAM_STUDY='missed'; } },
     /* ---------- 12-5 大三下（臺灣）：法圖的午休（2028-03-03～04-21 的週五 12:00～14:00、日本路線到 3/24——AA_490 第 1 節；找她說話先演；Kevin 同框）---------- */
     { id:'ev_sis_lawlib_kevin', title:'法圖的午休', participants:[ID], location:'lawlib', trigger:'manual', once:true, background:'blur',
-      dialogue:[ N('（法圖最裡面那張桌子。她對面坐著 Kevin，額頭貼在一疊考古題上。）'),
+      dialogue:[ Object.assign(N('（法圖外的走廊。Kevin 趴在長椅上。）'),{libOut:true}),   /* libOut（AA_595 1-B35：搬到法圖外走廊，取代「（法圖最裡面那張桌子。她對面坐著 Kevin，額頭貼在一疊考古題上。）」；AA 11-02 22:30 定稿）*/
         KEV('學弟……救我。'),
         SIS('他沒事。他在休息。'),
         KEV('學姊，妳當年怎麼撐過來的。'),

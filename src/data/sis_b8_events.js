@@ -65,7 +65,7 @@ const SISB8_EVENTS=(function(){
         Object.assign({set:{SIS_TA_PAPERS:true}},rel({trust:1,comf:1})) ] },
     /* ---------- 3-1：大二下第 3 週週三 19:30 以後，法圖：那張圖（她論文讀到經濟學的論文；祐廷念過一年經濟）---------- */
     { id:'ev_sis_econ_graph', title:'那張圖', participants:[ID], location:'lawlib', trigger:'manual', once:true, background:'blur',
-      dialogue:[ N('（她把筆電轉過來。螢幕上是一張曲線圖。）'),
+      dialogue:[ Object.assign(N('（她把筆電轉過來，指了指門外。）'),{libOut:true}),   /* libOut（AA_595 1-B29：取代「（她把筆電轉過來。螢幕上是一張曲線圖。）」，搬到走廊；AA 11-02 22:30 定稿）*/
         SIS('你念過經濟。這張圖，我看了二十分鐘。'),
         {choice:[{text:'（講給她聽：橫軸是什麼、曲線往哪裡移）',if:{custom:G=>!!X()&&X().econFull(G)},goto:'a'},{text:'「我也忘得差不多了。」',goto:'b'}]},
         {label:'a'},N('（你講了五分鐘。她在筆記本上畫了一次，畫錯，又畫一次。）'),SIS('好。我懂了。……我欠你一杯咖啡。'),Object.assign({set:{SIS_ECON_GRAPH:'taught'}},rel({trust:2})),{end:true},

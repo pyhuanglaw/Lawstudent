@@ -496,7 +496,8 @@ const R2Y3A_EVENTS=(function(){
   const NGF_YT=ndt('heroine_03');
   const THU={ id:'ev_yt_thursday_free', title:'空出來的週四', participants:['heroine_03'], location:'library', trigger:'auto', once:true, background:'blur', npcNear:'heroine_03', nearDist:3,
     prereq:{custom:G=>on(G,'2027-12-16',18,19.75)&&stAt(G,'heroine_03','FRIEND')&&!!(G.flags&&G.flags.RENT_RENEWED)},
-    dialogue:[ {speaker:'heroine_03',text:'阿姨請了一個工讀生。今天第一天。'},
+    dialogue:[ {speaker:null,text:'（她看到你，闔上書，指了指外面。）',libOut:true},   /* libOut（AA_595 1-B51 開頭；AA 11-02 22:30 定稿）*/
+      {speaker:'heroine_03',text:'阿姨請了一個工讀生。今天第一天。'},
       {if:NGF_YT,speaker:'heroine_03',text:'她叫我今天不要去。……我不知道週四晚上要幹嘛。'},
       {if:NGF_YT,speaker:'heroine_03',text:'我在這裡坐了一個小時。只是坐著。'},
       {if:GF_YT,speaker:'heroine_03',text:'她叫我今天不要去。……我第一個想到的是你。第二個想到的是，我不知道週四晚上要幹嘛。'},

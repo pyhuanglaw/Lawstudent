@@ -55,6 +55,7 @@ const R3_EVENTS=(function(){
   const SK12={ id:'ev_sk12_soclib_table', title:'那張桌子', participants:['econ_pinyu'], location:'soclib', trigger:'auto', once:true, npcNear:'econ_pinyu', background:'blur',
     prereq:{custom:G=>!G.flags.SK12&&sk12Win(G,19,21)},
     dialogue:[ {speaker:null,text:'（期末考週。社科圖的長桌坐滿了。最裡面那張，品妤坐在桌角，攤著一本很厚的書，封面寫著「機率」。）'},
+      {speaker:null,text:'（她沒抬頭，用筆指了指對面的位子。）'},   /* AA_595 1-B47 開頭 */
       {unless:{flags:['MET_PINYU']},speaker:'品妤',text:'曾品妤。經濟系，可昕以前的室友。'},{set:{MET_PINYU:true}},
       {if:{flags:['ECON_NIGHT']},speaker:'品妤',text:'上次經濟系之夜，你收椅子收得很好。今天換我收你的書。'},
       {speaker:'品妤',text:'（沒抬頭）坐。這張桌子，我們一年級常坐。'},
@@ -64,7 +65,7 @@ const R3_EVENTS=(function(){
       {speaker:'品妤',text:'考不過我不怕。'},
       {speaker:'品妤',text:'我怕考了三年，才發現自己不喜歡。'},
       {choice:[{text:'「我陪妳讀到閉館。」',set:{PINYU_WORRY:'stay'},goto:'s'},{text:'「先考一科看看，不喜歡再說。」',set:{PINYU_WORRY:'one'},goto:'o'},{text:'「先去問考過的學長姊？」',set:{PINYU_WORRY:'ask'},goto:'a'},{text:'「妳可以兩個都試，只是不要同時。」',set:{PINYU_WORRY:'both'},goto:'b'}]},
-      {label:'s'},{advance:toH(22)},{speaker:null,text:'（你們讀到十點。閉館的音樂響起來的時候，她出了一題機率題考你。你算錯了。）'},{speaker:'品妤',text:'很好。你還是法律系的。'},{goto:'end'},   /* 快轉到 22:00：社科圖閉館（story3d.js 的閉館照常請你離館）*/
+      {label:'s'},{advance:toH(22)},{speaker:null,text:'（你們讀到十點。閉館的音樂響起來的時候，她出了一題機率題考你。你算錯了。）',libOut:true},   /* libOut（AA_595 1-B47：#s 閉館音樂那一步；AA 11-02 22:30 定稿）*/{speaker:'品妤',text:'很好。你還是法律系的。'},{goto:'end'},   /* 快轉到 22:00：社科圖閉館（story3d.js 的閉館照常請你離館）*/
       {label:'o'},{speaker:'品妤',text:'……一科。好。一科我算得出來。'},{goto:'tail'},
       {label:'a'},{speaker:'品妤',text:'……系上有一個。我明天去問。'},{goto:'tail'},
       {label:'b'},{speaker:'品妤',text:'你們法律系也懂排程？'},
