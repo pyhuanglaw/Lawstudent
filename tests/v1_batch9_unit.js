@@ -5,7 +5,7 @@
 //   麵店團（AA 2026-10-14）：上一個麵店日沒來，阿哲才在群組揪（17:30，四句輪流）；一直有來＝安靜；考試週、國定假日不是麵店日；舊存檔（開始記以前）當作有來。
 //   校慶攤：學姊「那是物權。你們大二才上。」（v1_batch4_unit 檢查）。
 //   A13 中秋烤肉（AA 2026-10-14）：沒有麵店團群組＝「大家借了一個烤肉架」；「你被分到顧火。火一直熄。」；只記 MIDAUTUMN_Y1，關係數值不變、沒有 SHARED_MEAL。
-//   A15 考完的宵夜（AA 2026-10-14）：民總期中考那天 20:30 公館滷味攤（出遊）；有麵店團群組＝考完阿哲在群組「考完了 滷味」；沒有＝G1 最後阿哲當面問「晚上滷味，來不來？」；
+//   A15 考完的宵夜（AA 2026-10-14）：民總期中考那天 20:30 公館滷味攤（出遊）——D118 沒有期中考，AA_578 第 2 節 #10 改到民總期末考那天；民總期末考是大一上最後一科、那晚是「期末最後一頓」，照 AA_578 第 1 節第 4 點宵夜順延到隔天同一時段；有麵店團群組＝考完阿哲在群組「考完了 滷味」；沒有＝G1 最後阿哲當面問「晚上滷味，來不來？」；
 //     明軒認識才有「明軒說他沒念。……我不信，他筆記比我多。」；SAW_HIM_STUDY 多一個選項「……他有念啦。」→ 瞪一眼、請一顆滷蛋；柏翰、芯慈、Alison 都認識才有吵第三題；不去不扣分。
 //   A16 翰 1（AA 2026-10-14）：第 10 週民總下課（第 10 週沒去的話第 11 週）；三個選項；「（告訴他分數）」只有旁白「你說了分數。」（畫面上沒有數字），
 //     比他高／低照民總準備程度（很好＝高）；TOLD_SCORE、ASKED_BACK、BOHAN_SCORE；沒見過他先自我介紹；只一次。
@@ -15,9 +15,9 @@ const fs=require('fs'), vm=require('vm'), path=require('path');
 const ROOT=path.resolve(__dirname,'..');
 global.window=global; global.self=global; global.P3={CAST:{}};
 global.document={ getElementById:()=>null, addEventListener(){} }; global.navigator={userAgent:'node'}; global.addEventListener=()=>{}; global.location={search:''};
-const load=f=>{ let src=fs.readFileSync(path.join(ROOT,f),'utf8'); src=src.replace(/^const (\w+)\s*=/mg,(m,n)=>/^(CHARACTERS|UNFAMILIAR_POOL|SOCIAL_GRAPH|PORTRAITS|STORY_EVENTS|STORY_EVENTS_V11|SMALLTALK|SOCIAL|EVENTS|STORY|CALENDAR|PLACES|INVITE_DATA|INV|PHONE|OUT|COURSES|CLS|ACTIVITIES)$/.test(n)?'globalThis.'+n+'=':m); vm.runInThisContext(src,{filename:f}); };
+const load=f=>{ let src=fs.readFileSync(path.join(ROOT,f),'utf8'); src=src.replace(/^const (\w+)\s*=/mg,(m,n)=>/^(CHARACTERS|UNFAMILIAR_POOL|SOCIAL_GRAPH|PORTRAITS|STORY_EVENTS|STORY_EVENTS_V11|SMALLTALK|SOCIAL|EVENTS|STORY|CALENDAR|PLACES|INVITE_DATA|INV|PHONE|OUT|COURSES|CLS|ACTIVITIES|EXAM_BANK)$/.test(n)?'globalThis.'+n+'=':m); vm.runInThisContext(src,{filename:f}); };
 global.THREE={Vector3:class{ constructor(x,y,z){ this.x=x||0; this.y=y||0; this.z=z||0; } }};
-for(const f of ['src/data/calendar.js','src/data/places.js','src/data/characters.js','src/data/courses.js','src/data/activities.js','src/data/events.js','src/social3d.js','src/events3d.js','src/data/invites.js','src/invites3d.js','src/phone3d.js','src/outings3d.js','src/story3d.js','src/classes3d.js']) load(f);
+for(const f of ['src/data/calendar.js','src/data/places.js','src/data/characters.js','src/data/courses.js','src/data/exam_bank.js','src/data/activities.js','src/data/events.js','src/social3d.js','src/events3d.js','src/data/invites.js','src/invites3d.js','src/phone3d.js','src/outings3d.js','src/story3d.js','src/classes3d.js']) load(f);
 let fails=0; const check=(name,ok,info)=>{ console.log((ok?'PASS ':'FAIL ')+name+(info?'　'+info:'')); if(!ok) fails++; };
 global.ADV={active:false,preload(){},begin(){},end(){},log(){},speaker(){},cg(){},setBg(){}}; global.CHAR={setExpr(){}};
 global.LEGAL={ask:async()=>{},apply(){},stateOf:()=>'unseen',STATES:['unseen']};
@@ -84,18 +84,22 @@ const meet=id=>SOCIAL.remember(id,'FIRST_MET','');
     const before=JSON.stringify(ids.map(id=>SOCIAL.rel(id))), e0=G.energy, m0=G.money; OUT.plan(G,{id:'bbq',ev:'ev_mid_autumn_bbq',day:SAT,h:15,place:'河濱',title:'中秋烤肉',travelH:0.25}); picks=['出發']; await tickOut();
     check('A13 不加數值：六個人的關係數值、體力、錢都不變',JSON.stringify(ids.map(id=>SOCIAL.rel(id)))===before&&G.energy===e0&&G.money===m0,JSON.stringify({after:ids.map(id=>SOCIAL.rel(id)),before:JSON.parse(before)})); }
   /* ---------- A15 考完的宵夜 ---------- */
-  { let midDay=null, midIt=null; for(let d=termDay(8,1);d<=termDay(9,7);d++){ fresh(d,8,'campus'); const it=CLS.dayItems(G,d).find(x=>x.c.id==='civ_general'&&x.exam==='mid'); if(it){ midDay=d; midIt=it; break; } }
-    check('A15：民總期中考那天（第 '+midDay+' 天，'+(midIt&&midIt.t1)+' 考完）',!!midDay);
+  /* D118（AA_578 #10）：民總期末考（第 16 週）；預設課表民總是大一上最後一科＝那晚是 ev_term_last_meal，宵夜順延到隔天（supDay）*/
+  { let midDay=null, midIt=null; for(let d=termDay(16,1);d<=termDay(16,7);d++){ fresh(d,8,'campus'); const it=CLS.dayItems(G,d).find(x=>x.c.id==='civ_general'&&x.exam==='final'); if(it){ midDay=d; midIt=it; break; } }
+    check('A15：民總期末考那天（第 '+midDay+' 天，'+(midIt&&midIt.t1)+' 考完；AA_578 #10）',!!midDay);
+    const lastE=CLS.lastExamEnd(G,'Y1S1','final'), supDay=lastE&&lastE.day===midDay?midDay+1:midDay;
+    check('A15：民總期末考是大一上最後一科（那晚是「期末最後一頓」）＝宵夜順延到隔天（AA_578 第 1 節第 4 點）',supDay===midDay+1,JSON.stringify({midDay,last:lastE}));
     const tickOut=async()=>{ const p=OUT.tick(GM); if(p) return await p; return null; };
     /* 有群組 */
-    fresh(midDay,8,'campus'); PHONE.join(G,'noodle_team','麵店團'); run(8,midIt.t1-0.05,0.05); const before=G.msgs.filter(m=>m.tag==='zhe_supper_mid1').length; run(midIt.t1,midIt.t1+0.3,0.05);
+    fresh(midDay,8,'campus'); PHONE.join(G,'noodle_team','麵店團'); run(8,22,0.05); const onExamDay=G.msgs.filter(m=>m.tag==='zhe_supper_mid1').length;
+    fresh(supDay,8,'campus'); PHONE.join(G,'noodle_team','麵店團'); run(8,midIt.t1-0.05,0.05); const before=G.msgs.filter(m=>m.tag==='zhe_supper_mid1').length; run(midIt.t1,midIt.t1+0.3,0.05);
     const gm=G.msgs.filter(m=>m.tag==='zhe_supper_mid1'), o=OUT.get(G,'supper_mid1');
-    check('A15 有麵店團群組：考完以後阿哲在群組「考完了 滷味」（考完以前沒有）；排 20:30 公館滷味攤',before===0&&gm.length===1&&gm[0].th==='g:noodle_team'&&gm[0].from==='zhe'&&gm[0].text==='考完了 滷味'&&!!o&&o.day===midDay&&o.h===20.5&&o.place==='公館滷味攤'&&o.ev==='ev_midterm_supper',JSON.stringify({gm:gm.map(m=>[m.h,m.text]),o}));
+    check('A15 有麵店團群組：考試那天群組沒有；隔天考完的時間以後阿哲在群組「考完了 滷味」（以前沒有）；排隔天 20:30 公館滷味攤',onExamDay===0&&before===0&&gm.length===1&&gm[0].th==='g:noodle_team'&&gm[0].from==='zhe'&&gm[0].text==='考完了 滷味'&&!!o&&o.day===supDay&&o.h===20.5&&o.place==='公館滷味攤'&&o.ev==='ev_midterm_supper',JSON.stringify({onExamDay,gm:gm.map(m=>[m.h,m.text]),o}));
     /* 沒有群組：G1 最後當面問 */
-    const g1=async(flags,group,pk)=>{ fresh(midDay,midIt.t0+0.2,'classroom',Object.assign({readCase:'full'},flags||{})); if(group) PHONE.join(G,'noodle_team','麵店團'); picks=pk||[]; await CLS.attend(GM,midIt); return lines(); };
+    const g1=async(flags,group,pk)=>{ fresh(midDay,midIt.t0+0.2,'classroom',Object.assign({readCase:'full'},flags||{})); if(group) PHONE.join(G,'noodle_team','麵店團'); picks=[0,0,0,0,0].concat(pk||[]); /* D118：期末考有五題選擇（GM.choose 五次），先答完再到 G1 的選項 */ await CLS.attend(GM,midIt); return lines(); };
     let L=await g1({},false,['去吃飯','「去。」']);
     check('A15 沒有群組：G1 最後阿哲當面問「晚上滷味，來不來？」（兩個選項）',L[L.length-1]==='晚上滷味，來不來？'&&JSON.stringify(opts[opts.length-1])==='["「去。」","「這次不行。」"]',JSON.stringify({L:L.slice(-2),o:opts[opts.length-1]}));
-    run(G.hour,G.hour+0.1); check('A15 回「去。」＝排 20:30 公館滷味攤',!!OUT.get(G,'supper_mid1')&&OUT.get(G,'supper_mid1').h===20.5);
+    run(G.hour,G.hour+0.1); check('A15 回「去。」＝排 20:30 公館滷味攤（順延到隔天）',!!OUT.get(G,'supper_mid1')&&OUT.get(G,'supper_mid1').h===20.5&&OUT.get(G,'supper_mid1').day===supDay);
     await g1({},false,['去吃飯','這次不行']); run(G.hour,G.hour+0.1); check('A15 回「這次不行。」＝不排',!OUT.get(G,'supper_mid1'));
     L=await g1({},true,['去吃飯']); check('A15 有群組的玩家 G1 不當面問（在群組揪）',!L.includes('晚上滷味，來不來？'));
     /* 宵夜的內容 */

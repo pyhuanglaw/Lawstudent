@@ -524,7 +524,7 @@ const SIDEQ=(function(){
   S.sisPre=async function(GM){ const G=GM&&GM.G; if(!law(G)||typeof EVENTS==='undefined'||!EVENTS.runLines) return false; S.lapse(G); const r=S.sisPreDue(G); if(!r) return false; r.sisSaid=G.day; const A=L.SQ15.sis;
     await EVENTS.runLines([{speaker:null,text:A.put},{speaker:SIS,text:A.how},{speaker:SIS,text:r.book==='bought'?A.bought:A.asked},{speaker:SIS,text:A.ugly},{speaker:SIS,text:A.keep},{consequences:{rel:{[SIS]:{fam:2,comf:2}}}}],{id:'sq15_sis',participants:[SIS]});
     if(r.book==='asked') setWait(r,'buy',G.day); return true; };
-  /* 房間物品「學姊大一的民法總則」：期中、期末考前一晚（明天有考試、18:00 以後）「看」＝最後一頁那一行（一次）；平常＝AA_408 6 那一句（封面內頁、字比現在圓一點）*/
+  /* 房間物品「學姊大一的民法總則」：期末考前一晚（明天有考試、18:00 以後；D118 沒有期中考，AA_578 第 2 節 #4 原本期中考前一晚——examList 只有期末考）「看」＝最後一頁那一行（一次）；平常＝AA_408 6 那一句（封面內頁、字比現在圓一點）*/
   S.examEve=function(G){ if(typeof CLS==='undefined'||!CLS.examList||typeof CALENDAR==='undefined'||hr(G)<18) return false; const t=CALENDAR.termOf(G.day+1); return !!t&&!!t.exam&&CLS.examList(G,t.id).some(e=>e.day===G.day+1); };
   S.bookLine=function(G){ const r=S.get(G,'SQ15'); if(r&&!r.eve&&S.examEve(G)){ r.eve=G.day; return L.SQ15.eve; } return L.SQ15.shelf; };
   S.room15=function(G,Lst){ const r=G&&S.get(G,'SQ15'); if(!r||r.owned==null) return; Lst.push([L.SQ15.item,[],async GM=>{ await GM.say(null,S.bookLine(GM.G)); }]); };

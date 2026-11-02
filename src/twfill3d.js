@@ -4,7 +4,7 @@
      5/10 家人群組回「回。」＝5/14 18:00 臺北的家（出遊）；4/26 回「去。」＝4/28 10:00 椰林大道（出遊），沒去＝4/28 12:30 群組照片；5/4 畢業紀念冊三選一記 F.YEARBOOK_LINE。
    - STORY.TICKS：在學期間的摘要日（4/12、5/26、11/3、12/8）：那一天 18:30 以後第一個空檔出日期卡＋一行旁白（同 y3fill3d.js）；只出一次（G.flags.TW_SUMS）；那一天過了不補。
    - 服務學習（二）10/7、11/18 那一堂的旁白（CLS.attend 外面包一層，那一堂把 serviceLines 換成這一句；同 fit3d.js 包 CLS.attend 的做法）；11/18 那句接 10/7（看過 10/7 才換）。
-   - 海商法期中考 4/11 的旁白：CLS.runExam 外面包一層，考卷前先說。
+   - 海商法期末考的旁白（原本期中考 4/11；D118 沒有期中考，AA_578 第 2 節 #2）：CLS.runExam 外面包一層，考卷前先說。
    - 「臺灣路線」（AA_342 第 3-2、4-1 節）＝那時候人在臺灣（STORY.abroad 不成立）：大三下日本路線、大四上美國路線不出；美國路線大三下、日本路線大四上人在臺灣，照出。
    - 4-2 第 4 週 3/13 法律實習那一句（TWFILL_LINES.practice0313）：CLS.OFFSITE_LINES（classes3d.js 校外上課 S.goOffsite，COURSE-PRACTICE-Y4-1024）。
    存檔：G.flags 的 Y2_SVC_CHESS（10/7 那一堂的日子）、Y3_MOM_DAY（'go'／'no'／'went'）、Y4_GRAD_PHOTO（'go'／'went'／'missed'）、YEARBOOK_LINE（'auntie'／'thursday'／'notyet'）、TW_SUMS（{日期:出了的那一天}）；訊息照 PHONE 的 tag。
@@ -116,9 +116,9 @@ const TWFILL=(function(){
   /* 2-1 服務學習（二）：10/7（第 5 週）、11/18（第 11 週，接 10/7：看過 10/7 那一堂才換）*/
   S.SVC=[{date:'2026-10-07',line:L.svc1007,mark:'Y2_SVC_CHESS'},{date:'2026-11-18',line:L.svc1118,need:'Y2_SVC_CHESS'}];
   S.svcFor=(G,it)=>{ if(!G||!it||!it.c||it.c.id!=='service_2') return null; for(const x of S.SVC){ if(D(x.date)!==G.day||!x.line) continue; if(x.need&&!(G.flags&&G.flags[x.need]!=null)) continue; return x; } return null; };
-  /* 4-2 海商法期中考（4/11）：考卷前一句 */
-  S.EXAM=[{date:'2029-04-11',course:'maritime',kind:'mid',line:L.maritime0411}];
-  S.examLine=(G,it)=>{ if(!G||!it||!it.c) return null; const x=S.EXAM.find(q=>q.course===it.c.id&&q.kind===it.exam&&D(q.date)===G.day); return x?x.line:null; };
+  /* 4-2 海商法考試：考卷前一句——原本期中考 4/11；D118 沒有期中考，AA_578 第 2 節 #2 改到海商法期末考那堂（不限日期：那門課期末考哪天考就哪天）*/
+  S.EXAM=[{course:'maritime',kind:'final',line:L.maritimeFinal}];
+  S.examLine=(G,it)=>{ if(!G||!it||!it.c) return null; const x=S.EXAM.find(q=>q.course===it.c.id&&q.kind===it.exam&&(!q.date||D(q.date)===G.day)); return x?x.line:null; };
   S.install=function(){ if(typeof CLS==='undefined') return false;
     if(CLS.attend&&!CLS.attend._twfill){ const a0=CLS.attend;
       CLS.attend=Object.assign(async function(GM,it){ const G=GM&&GM.G, x=S.svcFor(G,it); if(!x) return a0.apply(this,arguments);

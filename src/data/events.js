@@ -893,10 +893,10 @@ const STORY_EVENTS=[
     dialogue:[ {speaker:'classmate_peishan',expression:'thinking',text:'欸，你們宿舍規則有人全部讀完嗎？'},{speaker:'classmate_peishan',expression:'neutral',text:'我聽說以安讀完了，還寫了三頁意見。'},
       {speaker:'classmate_peishan',expression:'neutral',text:'大家笑她，她說：「規則是我們要住的，總要有人讀完。」'} ],
     consequences:{flags:{AN_DORM_RULES:'peishan'}} },
-  /* G1 考完試走出教室（交付清單 A15：AA_13 G1）：大一上民總期中考考完，在教室門口接著演（classes3d.js 的 afterClassEvent：afterExam 'mid'）；一定會發生。
+  /* G1 考完試走出教室（交付清單 A15：AA_13 G1）：大一上民總期末考考完（D118 沒有期中考，AA_578 第 2 節 #9：原本民總期中考），在教室門口接著演（classes3d.js 的 afterClassEvent：afterExam 'final'）；一定會發生。
      只有認識的人在場：柏翰沒見過＝第一句變成旁白（有人在問第二題）、他和芯慈的那段（和祐廷無關的一句）兩個人都認識才有；Alison、明軒、以安沒見過就跳過。
      第一個選項要第一天讀過案例（readCase 不是 none）。只改變誰跟你走；記憶 SHARED_CLASS（在場、認識的同學）。考題不出題庫，只說「第二題」*/
-  { id:'ev_midterm_walkout', title:'考完試走出教室', participants:[], location:'any', trigger:'class', afterClass:'civ_general', afterExam:'mid', term:['Y1S1'], once:true, background:'blur',
+  { id:'ev_midterm_walkout', title:'考完試走出教室', participants:[], location:'any', trigger:'class', afterClass:'civ_general', afterExam:'final', term:['Y1S1'], once:true, background:'blur', /* D118 沒有期中考：AA_578 第 2 節 #9 改到同一門課的期末考（afterExam:'final'）*/
     dialogue:[ {speaker:null,text:'走廊上一群人。有人在翻課本，有人已經在滑手機。'},
       {if:EV_KNOWS('classmate_bohan'),speaker:'classmate_bohan',expression:'neutral',text:'第二題，你們是寫要約之引誘還是要約？'},
       {unless:EV_KNOWS('classmate_bohan'),speaker:null,text:'有人在問：第二題，是寫要約之引誘還是要約？'},
@@ -917,7 +917,7 @@ const STORY_EVENTS=[
       /* 考完的宵夜（A15，AA 2026-10-14）：沒有麵店團群組的玩家，阿哲當面問；有群組的在群組揪（story3d.js 的 phoneRules）*/
       {unless:{custom:G=>typeof PHONE!=='undefined'&&PHONE.inGroup(G,'noodle_team')},speaker:'zhe',expression:'smile',text:'晚上滷味，來不來？'},
       {unless:{custom:G=>typeof PHONE!=='undefined'&&PHONE.inGroup(G,'noodle_team')},choice:[{text:'「去。」',set:{SUPPER_MID1:'yes'}},{text:'「這次不行。」',set:{SUPPER_MID1:'no'}}]} ],
-    after:G=>{ if(typeof SOCIAL==='undefined'||typeof STORY==='undefined') return; for(const id of ['zhe','classmate_bohan','yu','classmate_xinci','classmate_mingxuan','heroine_01']) if(STORY.knows(id,G)) SOCIAL.remember(id,'SHARED_CLASS','民總期中考'); } },
+    after:G=>{ if(typeof SOCIAL==='undefined'||typeof STORY==='undefined') return; for(const id of ['zhe','classmate_bohan','yu','classmate_xinci','classmate_mingxuan','heroine_01']) if(STORY.knows(id,G)) SOCIAL.remember(id,'SHARED_CLASS','民總期末考'); } },   /* AA_578 #9：「期中」→「期末」*/
   /* 翰 1 你考幾分（交付清單 A16：AA_40 翰 1，接 ev_bohan_kaogu；AA 2026-10-14）：大一上期中放榜——第 10 週的民總下課（第 10 週沒去上課的話第 11 週那堂），霖澤館走廊。
      遊戲不顯示分數（AA_104 第 10 節）：「（告訴他分數）」只有旁白「你說了分數。」，比他高／低照民總的準備程度（很好＝比他高，不錯以下＝比他低：CLS.gradeOf）。
      記憶 TOLD_SCORE（跟他講第三題怎麼寫）、ASKED_BACK（翰 4 多一句）；BOHAN_SCORE：told／unsure／asked（AA_546 1-2；舊存檔的 higher／lower／no 照舊有值）。
@@ -950,17 +950,18 @@ const STORY_EVENTS=[
       {if:EV_KNOWS('classmate_bohan','classmate_xinci','yu'),speaker:'柏翰、芯慈',text:'不要。'} ],
     consequences:{stamp:['supperMid1Day'],memo:'考完的宵夜（公館滷味攤）'} },
   /* 期中考完（大一下，交接包 v2 C11、C21 第二個畫面；AA 2026-10-14 64ceb70）：刑總二期中考那天（第 8 週週三 4/15，上午考完）。
+     D118 沒有期中考：AA_578 第 2 節 #9、#11 改到刑總二期末考那天（afterExam:'final'；晚上的麵店照舊）。
      G1 大一下版：旁白沿用大一上，加阿哲那句，沒有選項；沒有麵店團群組的玩家，最後阿哲當面問晚上的麵店（「去。」才排）。
      晚上 19:00 阿鳳麵店長桌（考完的晚餐；大一上是公館滷味，這次換地方）：出遊（到時候問要不要去，不去不扣分）；麵店有 3D 區域，長桌這一幕先用 2D 底＋字幕
      （背景 noodle_table 在 MISSING_EXTERNAL_ART）。開頭不重複大一上（Alison、阿哲：認識 Alison 才有）；明軒的回聲（有 SAW_HIM_STUDY、認識明軒）——
      「（繼續吃麵）」是 LAWWW 照大一上「（繼續吃滷味）」加的選項字；接著沛珊和柏翰（BB_100 2-3：認識沛珊才有；旁白的「她」寫成「沛珊」）。
      沒去、在麵店團群組、認識沛珊：20:30 群組裡阿哲「……喔。」＋切成兩半的滷蛋照片，記「聽說」（HEARD_ABOUT）*/
-  { id:'ev_midterm_walkout_y1s2', title:'考完試走出教室', participants:[], location:'any', trigger:'class', afterClass:'crim_gen2', afterExam:'mid', term:['Y1S2'], once:true, background:'blur',
+  { id:'ev_midterm_walkout_y1s2', title:'考完試走出教室', participants:[], location:'any', trigger:'class', afterClass:'crim_gen2', afterExam:'final', term:['Y1S2'], once:true, background:'blur', /* D118 沒有期中考：AA_578 第 2 節 #9 改到同一門課的期末考（afterExam:'final'）*/
     dialogue:[ {speaker:null,text:'走廊上一群人。有人在翻課本，有人已經在滑手機。'},
       {speaker:'zhe',expression:'laugh',text:'刑總二比上學期難好多，第三題我整題亂寫。'},   /* AA_209 附錄A §2 */
       {unless:{custom:G=>typeof PHONE!=='undefined'&&PHONE.inGroup(G,'noodle_team')},speaker:'zhe',expression:'smile',text:'晚上麵店，七點，來不來？'},
       {unless:{custom:G=>typeof PHONE!=='undefined'&&PHONE.inGroup(G,'noodle_team')},choice:[{text:'「去。」',set:{SUPPER_MID2:'yes'}},{text:'「這次不行。」',set:{SUPPER_MID2:'no'}}]} ],
-    after:G=>{ if(typeof SOCIAL==='undefined'||typeof STORY==='undefined') return; for(const id of ['zhe','classmate_bohan','yu','classmate_xinci','classmate_mingxuan','heroine_01']) if(STORY.knows(id,G)) SOCIAL.remember(id,'SHARED_CLASS','刑總二期中考'); } },
+    after:G=>{ if(typeof SOCIAL==='undefined'||typeof STORY==='undefined') return; for(const id of ['zhe','classmate_bohan','yu','classmate_xinci','classmate_mingxuan','heroine_01']) if(STORY.knows(id,G)) SOCIAL.remember(id,'SHARED_CLASS','刑總二期末考'); } },   /* AA_578 #9：「期中」→「期末」*/
   { id:'ev_midterm_supper_y1s2', title:'考完的晚餐', participants:[], location:'any', trigger:'outing', once:true, background:'dark', hours:1.5,
     dialogue:[ {scene:'阿鳳麵店・長桌',bg:'noodle_table'},
       {if:EV_KNOWS('heroine_03'),speaker:null,text:'（阿姨的手腕綁著護腕。今天端麵的是語彤。）'},   /* AA_185 3-8：接得上語彤事件 4（阿姨扭到手）*/
@@ -3485,10 +3486,10 @@ const STORY_EVENTS=[
         if(GM.enter){ if(G.hour%24>=20.5) GM.enter('dorm',{x:0,z:2.4,yaw:Math.PI}); else if(G.zone!=='campus') GM.enter('campus',{x:15,z:-68.5,yaw:Math.PI/2}); } }
       F.P2B_GO=null; F.P2B_E13=null; F.P2B_K=null; } },
   /* D7（交接包 v3 第 8～9 週）：G1 考完走出教室（大二上版，AA_143 1-4）＋語彤事件 10 期中考那一週（AA_11 事件 10、AA_177 第 5 節）。
-     G1：刑法分則期中考考完，在教室門口接著演（classes3d.js 的 afterClassEvent：afterExam 'mid'）；有去考才有、翹考＝沒有；只有認識的人；考題只說「第三題」。
+     G1：刑法分則期末考考完（D118 沒有期中考，AA_578 第 2 節 #9：原本期中考），在教室門口接著演（classes3d.js 的 afterClassEvent：afterExam 'final'）；有去考才有、翹考＝沒有；只有認識的人；考題只說「第三題」。
      語彤 10：大二上第 10 週起，週二或週四 20:45～21:15 在麵店（打烊的時候）、和語彤「朋友」以上；大二上沒遇到延到大二下，大二下結束還沒遇到＝不演。
        那週去過麵店、阿姨說過扭到手（yutong_hospital，大一下事件 4）的玩家第一句換一句；「我那週有注意到妳的位子空著。」只有大一下期中那兩週真的去過總圖才有（Y1_MID_LIB，story3d.js onEnter 記；舊存檔看習慣記錄）*/
-  { id:'ev_midterm_walkout_y2', title:'考完試走出教室', participants:[], location:'any', trigger:'class', afterClass:'crim_spec', afterExam:'mid', term:['Y2S1'], once:true, background:'blur',
+  { id:'ev_midterm_walkout_y2', title:'考完試走出教室', participants:[], location:'any', trigger:'class', afterClass:'crim_spec', afterExam:'final', term:['Y2S1'], once:true, background:'blur', /* D118 沒有期中考：AA_578 第 2 節 #9 改到同一門課的期末考（afterExam:'final'）*/
     dialogue:[ {speaker:'zhe',expression:'neutral',text:'第三題我寫了一整面，寫完才發現是第二題的答案。'},
       {if:EV_KNOWS('classmate_bohan'),speaker:'classmate_bohan',expression:'neutral',text:'第四題時間不夠，我最後一段沒寫。'}   /* AA_428 §2 第 2 點：換成 AA_211 3-3（原本 AA_313 5-5「大家都考幾分？……不對，大家覺得考得怎樣？」：問句沒有選項可以回、自己改口）*/,
       {if:EV_KNOWS('heroine_01'),speaker:'heroine_01',expression:'neutral',text:'考完的題目，不要對答案。改不了。'},
@@ -4255,7 +4256,7 @@ const SMALLTALK={
   heroine_04:[{t:'「你手指好了沒？」',term:['Y1S2'],if:{memory:[{npc:'heroine_04',tag:'INVITED_CLUB'}]}},{t:'「阿凱說他昨天又寫到四點。你們那間到底幾點關燈？」',term:['Y1S1','Y1S2'],if:{events:['ev_ziqing_club']}},{t:'「阿凱說他昨天又寫到四點。你看到他，叫他去睡。」',term:['Y2S1','Y2S2','Y3S1','Y3S2'],if:{events:['ev_ziqing_club']}},   /* BB_166 1-3：阿凱就是祐廷的室友、大二起不同房 */
               {t:'「期末成發你要來。」',if:{memory:[{npc:'heroine_04',tag:'INVITED_CLUB'}],stage:{npc:'heroine_04',min:'FAMILIAR'}},term:['Y1S2','Y2S2'],week:[10,13]}],   /* 手指痛＝學過和弦；成發在大一下、大二下第 14 週（AA_120 第 1 節、BB_96 4-4）。大二下的成發（Q9）還沒做，先只在大一下說（BB_134 1-8，AA-B 2026-10-16：先關，和 Q9 一起做時把 'Y2S2' 加回來）——AA_325 2-Y2-19 做了 Q9，'Y2S2' 加回來 */
   heroine_05:[{t:'「判決要看事實，不要只背結論。」',term:['Y1S1','Y1S2']},{t:'「總圖三樓靠窗那排，九點前就滿了。」',term:['Y1S1']},{t:'「……我沒事。只是沒睡。」',if:{stage:{npc:'heroine_05',min:'FAMILIAR'}}}],
-  classmate_bohan:['「我在寫考古題，第二題卡住了。」',{t:'「期中還有{n}天，我排了一份進度表，要的話傳你。」',midterm:[7,14],once:'term'}],   /* AA_209 附錄A §2 */   /* AA_120 7-1 第 1 項：{n}＝到這學期第一個期中考時段的天數（照課表和日曆，story3d.js 的 smallTalk），7～14 天才說、每學期一次 */
+  classmate_bohan:['「我在寫考古題，第二題卡住了。」',{t:'「期末還有{n}天，我排了一份進度表，要的話傳你。」',final:[7,14],once:'term'}],   /* AA_209 附錄A §2 */   /* AA_120 7-1 第 1 項：{n}＝到這學期第一個期末考時段的天數（D118 沒有期中考，AA_578 第 2 節 #1：原本到期中考、「期中」→「期末」；照課表和日曆，story3d.js 的 smallTalk），7～14 天才說、每學期一次 */
   classmate_xinci:[{t:'「筆記我還你了，你有收到嗎？」',if:{memory:[{npc:'classmate_xinci',tag:'LENT_NOTES'}]},once:true},/* AA_120 7-1 第 2 項：雙主修三個版本照她知道多少（ECON_PAST_SHARED）；到了雙主修事件就不再說 */
     {t:'「雙主修要多修好多學分，我排了好幾種課表，每一種都好滿。」',/* AA_209 附錄A §2 */term:['Y1S1','Y1S2'],if:{notEvents:['ev_xinci_double']},unless:{flagIs:{ECON_PAST_SHARED:['full','half']}}},
     {t:'「你說你自學過一點經濟。個經和總經，你覺得哪一個比較會卡住人？我排課表就卡在這一格。」',term:['Y1S1','Y1S2'],if:{notEvents:['ev_xinci_double'],flagIs:{ECON_PAST_SHARED:'half'}}},
@@ -4309,7 +4310,7 @@ const SMALLTALK={
 const STORY_EVENTS_V11=[
   // ── 小安 arc ──
   { id:'ev_an_library_study', title:'總圖的早上', term:['Y1S1'], participants:['heroine_01'], location:'library', trigger:'interact', priority:6, cooldown_days:2, max_times:2, day_min:3,   /* AA_186 第 6 節 A：最多兩次（第二次的新開場句等使用者確認口語準則）*/   /* 交接包 v1 第 1 節（AA 2026-10-14）：大一沒有刑訴，選項改刑總；兩個選項都是大一上的課 → 只在大一上 */ prereq:{stage:{npc:'heroine_01',min:'ACQUAINTANCE'}}, background:'blur',
-    dialogue:[ {speaker:'heroine_01',expression:'neutral',text:'（小聲）這裡有位子。你要讀什麼？'},{choice:[{text:'「民總。周老師說錯誤那段後面才會講。」',consequences:{mem:[{npc:'heroine_01',tag:'STUDIED_TOGETHER',note:'總圖讀民總'}],rel:{heroine_01:{fam:4,comf:3}},energy:-6,advance:1.5,knowledge:{study:null}},goto:'study'},{text:'「刑總。吳老師說期中會考。」',consequences:{mem:[{npc:'heroine_01',tag:'STUDIED_TOGETHER',note:'總圖讀刑總'}],rel:{heroine_01:{fam:4,comf:3}},energy:-6,advance:1.5,knowledge:{study:null}},goto:'study'},{text:'「我只是來吹冷氣。」',consequences:{rel:{heroine_01:{fam:1}}},goto:'ac'}]},{label:'study'},{speaker:null,text:'一個半小時。她翻頁的速度是你的兩倍，但每二十分鐘會停下來看窗外一次。'},{if:{memory:[{npc:'heroine_01',tag:'CAFE_AFTERNOON'}]},speaker:'heroine_01',expression:'smile',text:'（小聲）比咖啡廳安靜吧。……但那天比較好玩。'},{goto:'end'},{label:'ac'},{speaker:'heroine_01',expression:'annoyed',text:'（小聲）那你去三樓，那邊冷氣比較強。'},{label:'end'} ] },
+    dialogue:[ {speaker:'heroine_01',expression:'neutral',text:'（小聲）這裡有位子。你要讀什麼？'},{choice:[{text:'「民總。周老師說錯誤那段後面才會講。」',consequences:{mem:[{npc:'heroine_01',tag:'STUDIED_TOGETHER',note:'總圖讀民總'}],rel:{heroine_01:{fam:4,comf:3}},energy:-6,advance:1.5,knowledge:{study:null}},goto:'study'},{text:'「刑總。吳老師說會考。」',   /* D118：AA_578 第 3 節第 1 點，刪「期中」——待 AA 看 */consequences:{mem:[{npc:'heroine_01',tag:'STUDIED_TOGETHER',note:'總圖讀刑總'}],rel:{heroine_01:{fam:4,comf:3}},energy:-6,advance:1.5,knowledge:{study:null}},goto:'study'},{text:'「我只是來吹冷氣。」',consequences:{rel:{heroine_01:{fam:1}}},goto:'ac'}]},{label:'study'},{speaker:null,text:'一個半小時。她翻頁的速度是你的兩倍，但每二十分鐘會停下來看窗外一次。'},{if:{memory:[{npc:'heroine_01',tag:'CAFE_AFTERNOON'}]},speaker:'heroine_01',expression:'smile',text:'（小聲）比咖啡廳安靜吧。……但那天比較好玩。'},{goto:'end'},{label:'ac'},{speaker:'heroine_01',expression:'annoyed',text:'（小聲）那你去三樓，那邊冷氣比較強。'},{label:'end'} ] },
   { id:'ev_an_report_feedback', title:'報告發回來了', participants:['heroine_01'], location:['campus','library','cafe'], trigger:'interact', priority:8, once:true, day_min:9, prereq:{memory:[{npc:'heroine_01',tag:'CAFE_AFTERNOON'}],custom:G=>typeof STORY==='undefined'||!STORY.termDay||G.day>=STORY.termDay('Y1S1',6,1)}, background:'blur',   /* 交付清單 A4：第 6 週（報告交出去之後）；舊存檔過了第 6 週的照舊 */
     dialogue:[ {speaker:'heroine_01',expression:'surprised',text:'報告發回來了。周老師在我的結論旁邊寫了一行字。'},{if:{choice:{cafeView:'C'}},speaker:'heroine_01',expression:'laugh',text:'「無過失的判斷標準寫得好。」——所以我說了，是你的主意，他信了。'},{if:{choice:{cafeView:'A'}},speaker:'heroine_01',expression:'smile',text:'「兩邊的利益都有看到。」……那是你那天講的。'},{if:{choice:{cafeView:'B'}},speaker:'heroine_01',expression:'thinking',text:'「反方意見比正方精彩。」——那段是照你講的寫的。'},{choice:[{text:'「這份我學到很多。」',if:{memory:[{npc:'heroine_01',tag:'REPORT_PARTNER'}]},consequences:{rel:{heroine_01:{fam:5,aff:4,trust:3}},mem:[{npc:'heroine_01',tag:'IMPORTANT_CONVERSATION',note:'說從她的報告學到很多'}]}},{text:'「這份我學到很多。」',unless:{memory:[{npc:'heroine_01',tag:'REPORT_PARTNER'}]},consequences:{rel:{heroine_01:{fam:5,aff:4,trust:3}},mem:[{npc:'heroine_01',tag:'IMPORTANT_CONVERSATION',note:'說從她的報告學到很多'}]}},{text:'「那是妳寫的，不是我。」',consequences:{rel:{heroine_01:{resp:4,fam:2}}}}]},{speaker:'heroine_01',expression:'smile',text:'……嗯。'} ] },
   { id:'ev_an_mother', title:'書記官的女兒', retired:'D60（使用者 2026-10-14）：以安新版——母親是法官，停用書記官的舊事件。定義留著：已經演過的舊存檔（events.done、TALKED_FAMILY 記憶）照樣讀得到', participants:['heroine_01'], location:'campus', trigger:'interact', priority:7, once:true, time:[17.5,20.5], prereq:{stage:{npc:'heroine_01',min:'FAMILIAR'}}, background:'blur',

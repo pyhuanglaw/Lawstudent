@@ -566,7 +566,7 @@ const CLS=(function(){
     [/^econ_principles_\d$/,['法律系的經濟學原理會點名，不會事先講。','……我知道你們是被規定來的。我盡量講得有趣。']]];
   S.attRuleLines=function(G,c){ const row=S.ATT_RULE.find(r=>r[0].test(c.id)); if(!row) return []; const out=row[1].map(t=>['老師',t]);
     if(/^econ_principles_\d$/.test(c.id)&&G.flags&&(G.flags.Y0_LEFT||G.flags.Y0_MOVED_OUT)) out.push([null,'（你在經濟系聽過一次經濟學原理的開場。那時候是要考試的。）']);
-    if(c.rt) out.push(['老師','重修的同學，這學期重新算三次。']); return out; };
+    if(c.rt) out.push(['老師','重修的同學，這學期一樣會點名。']); return out; };   /* AA_578 第 5 節定稿（原本暫定「重修的同學，這學期重新算三次。」）*/
   S.noExam=c=>!!c&&typeof EXAM_BANK!=='undefined'&&!!EXAM_BANK.courseMap[c.id]&&EXAM_BANK.courseMap[c.id].exam==='none';
   /* BUG-EXAMDAY-MEMO-1102（BB 08:58，CC N1）：快取按存檔分（WeakMap 以 G 為鍵：讀另一份存檔＝另一個 G）；鍵含這門課的時段（重修換了時段）、選修、這學期的重修。讀檔、開新遊戲另外呼叫 S.resetExamMemo() */
   let examDayMemo=new WeakMap();

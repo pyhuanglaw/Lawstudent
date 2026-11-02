@@ -1,7 +1,7 @@
 // 路人分科系（AA_495，AA-C 2026-10-28 定稿；CROWD-DEPTS-1028、USER_WANTS X120）——不需要瀏覽器。
 // 使用者 10-28 00:5x：「路人也是 一堆 上課坐在後排的 路上遇到的 有必要嗎 都沒有別的系的學生 當台大只有法律系嗎」。
 // 在 Node 建出遊戲真正的校園、公館、總圖大廳、社科圖、普通教學館、博雅教學館、體育館（1F、3F），照 GAME.enter 進區域（CROWD.enter）檢查：
-//   0. 對稿：src/data/crowd_depts.js 的每一句都在 AA_495（AA 分支 5d7bd4040，用 git show 讀）裡、一字不差；稿上的每一句也都有（第 1 節 20 個系、
+//   0. 對稿：src/data/crowd_depts.js 的每一句都在 AA_495（企劃線 b13db535f＝AA_578 第 5 節改了第 3 節第 11 組「因為會突然點名」；原本 AA 分支 5d7bd4040，用 git show 讀）裡、一字不差；稿上的每一句也都有（第 1 節 20 個系、
 //      第 2 節 18 組、第 3 節 11 組、第 4 節 5 組、體育館加三句）；index.html 在 crowd3d.js 前面載入 crowd_depts.js
 //   1. 抽系照地點（「在哪裡」那一欄：椰／圖（圖資只在總圖）／體／館）；寒暑假只出寫了「寒暑假」那一欄的系；同一群人先把各系輪一遍；同一天同一群人一樣
 //   2. 時段欄：考試 → 開學 → 寒暑假 → 晚上 → 平常；那個系沒寫的欄用平常；旁白先出、再出那一句；旁白寫「他」「她」的只給男生／女生
@@ -64,8 +64,8 @@ const blk=async(name,fn)=>{ try{ await fn(); }catch(e){ check(name+'：執行到
 const pairOf=()=>{ const ppl=E.npcs.filter(n=>n.deptTalk&&n.talk); const ids=[...new Set(ppl.map(n=>n.deptTalk))]; return {ppl,ids}; };
 (async()=>{
 // ---------- 0. 對稿 ----------
-let MD=null; try{ MD=cp.execFileSync('git',['show','5d7bd4040:docs/story_planning/AA_495_路人分科系_各系的人說的話_走過聽到的對話_通識課前後.md'],{cwd:ROOT,encoding:'utf8',stdio:['ignore','pipe','ignore']}); }catch(e){}
-check('0. 讀得到 AA_495 的稿（git show 5d7bd4040；沒有的話先 git fetch origin claude/magical-albattani-bk7b4n）',!!MD);
+let MD=null; try{ MD=cp.execFileSync('git',['show','b13db535f:docs/story_planning/AA_495_路人分科系_各系的人說的話_走過聽到的對話_通識課前後.md'],{cwd:ROOT,encoding:'utf8',stdio:['ignore','pipe','ignore']}); }catch(e){}
+check('0. 讀得到 AA_495 的稿（git show b13db535f＝AA_578 改了第 3 節第 11 組的源稿；沒有的話先 git fetch origin claude/magical-albattani-bk7b4n）',!!MD);
 check('0. src/data/crowd_depts.js 載得到（CROWD_DEPTS）、index.html 在 crowd3d.js 前面載入',!!D&&!missing.length&&/<script src="src\/data\/crowd_depts\.js\?v=[^"]+"><\/script>\n<script src="src\/crowd3d\.js/.test(fs.readFileSync(path.join(ROOT,'index.html'),'utf8')),missing.join(','));
 if(MD){ const md=MD.split('\n'), sec=t=>{ const i=md.findIndex(l=>l.startsWith(t)); let j=i+1; while(j<md.length&&!/^## /.test(md[j])) j++; return md.slice(i+1,j); }, rows=t=>sec(t).filter(l=>/^\| \d+ \|/.test(l)).map(l=>l.split('|').slice(1,-1).map(c=>c.trim()));
   /* 第 1 節：自己從稿上讀（和程式的資料分開讀），再一個一個比 */
@@ -82,7 +82,7 @@ if(MD){ const md=MD.split('\n'), sec=t=>{ const i=md.findIndex(l=>l.startsWith(t
   check('0. 體育館加三句：三句都在 CROWD.GYM_HEAR 那一區（羽球場、籃球場、場邊），說的人照稿（外文系、化學系、醫學系的學生）；全部 16 句',gym.length===3&&gl.every(Boolean)&&!!G3&&Object.values(G3).reduce((a,h)=>a+h.L.length,0)===16,J(gym));
   const r2=rows('## 2.'), t2=D?D.TALKS:[], b2=r2.filter(r=>{ const y=t2.find(q=>q.n===+r[0]); return !y||y.at!==r[1]||y.when!==r[2]||J(y.who)!==J(r[3].replace(/（[^）]*）$/,'').split('、').map(s=>s.replace(/（.*）$/,'')))||y.d!==r[4]; }).map(r=>r[0]);
   check('0. 第 2 節：18 組（在哪裡、什麼時候、誰、對話）和稿一樣',r2.length===18&&t2.length===18&&!b2.length,J(b2));
-  const r3=rows('## 3.'), t3=D?D.GE:[], b3=r3.filter(r=>{ const y=t3.find(q=>q.n===+r[0]), [ph,w]=r[1].split('、'), cs=r[2].replace(/`/g,'').replace(/（.*）$/,''); return !y||y.ph!==(ph==='上課前'?'pre':'post')||y.when!==w||y.course!==cs||J(y.who)!==J(r[3].replace(/（[^）]*）$/,'').split('、'))||y.d!==r[4].replace('A：因為每次都點名。','A：因為會突然點名。'); }).map(r=>r[0]);   /* ATTEND-ROLLCALL-1102：使用者改隨機點名（AA_574 末節、AA 06:39 確認「因為會突然點名」），稿等 AA 改 */
+  const r3=rows('## 3.'), t3=D?D.GE:[], b3=r3.filter(r=>{ const y=t3.find(q=>q.n===+r[0]), [ph,w]=r[1].split('、'), cs=r[2].replace(/`/g,'').replace(/（.*）$/,''); return !y||y.ph!==(ph==='上課前'?'pre':'post')||y.when!==w||y.course!==cs||J(y.who)!==J(r[3].replace(/（[^）]*）$/,'').split('、'))||y.d!==r[4]; })   /* AA_578 第 5 節：源稿已改成「因為會突然點名」（b13db535f），不再當例外 */.map(r=>r[0]);   /* ATTEND-ROLLCALL-1102：使用者改隨機點名（AA_574 末節、AA 06:39 確認「因為會突然點名」），稿等 AA 改 */
   check('0. 第 3 節：11 組（上課前／下課後、週次、課、誰、對話）和稿一樣',r3.length===11&&t3.length===11&&!b3.length,J(b3));
   const r4=rows('## 4.'), t4=D?D.LAW:[], b4=r4.filter(r=>{ const y=t4.find(q=>q.n===+r[0]), [ph,w]=r[1].split('、'); return !y||y.ph!==(ph==='上課前'?'pre':'post')||y.when!==w||y.d!==r[2]; }).map(r=>r[0]);
   check('0. 第 4 節：5 組和稿一樣',r4.length===5&&t4.length===5&&!b4.length,J(b4)); }

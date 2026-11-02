@@ -71,7 +71,7 @@ await sec('5b',()=>{ const d=termDay('Y1S1',3,1); at(d,9); const L=id=>CLS.attRu
   check('5b. 國文：老師兩句（ATTEND-ROLLCALL-1102 AA 定稿）',J(L('chinese_y1'))===J([['老師','這門課我會點名，不會事先講。'],['老師','……可是我希望你們不是因為點名才來。']]),J(L('chinese_y1')));
   check('5b. 日文：日文那句＋中文',L('japanese_1')[0][1]==='この授業は、ときどき出席を取ります。');
   check('5b. 經濟學原理：沒演過經濟系＝兩句；演過（Y0_LEFT）＝多一句旁白',L('econ_principles_1').length===2&&(H.G.flags.Y0_LEFT=true,L('econ_principles_1').length===3&&L('econ_principles_1')[2][0]===null));
-  check('5b. 重修的學期：多「重修的同學，這學期重新算三次。」',CLS.attRuleLines(H.G,Object.assign({},CLS.byId('pe_y1s1'),{rt:{from:'Y1S1'}})).slice(-1)[0][1]==='重修的同學，這學期重新算三次。');
+  check('5b. 重修的學期：多「重修的同學，這學期一樣會點名。」（AA_578 第 5 節定稿）',CLS.attRuleLines(H.G,Object.assign({},CLS.byId('pe_y1s1'),{rt:{from:'Y1S1'}})).slice(-1)[0][1]==='重修的同學，這學期一樣會點名。');
   const src=fs.readFileSync(path.join(H.ROOT,'src/classes3d.js'),'utf8');
   check('5b. CLS.attend：看出席的課、這一學期第一次出席才說（R.attRule）',/if\(S\.attCourse\(c\)\)\{ const rk=it\.term\+':'\+c\.id;[^\n]*if\(!R\.attRule\[rk\]\)/.test(src)); });
 

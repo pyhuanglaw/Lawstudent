@@ -10,6 +10,7 @@
 //     ① 照學期換（大三下、大四上、大四下；祐廷的回覆固定）
 //   7 第 7 節（企劃線 7fa83ebc9，回 LAWWW-B 施工問題）：② 以安住公寓改字（第 1 則「公寓房間」、第 8 則回覆①「公寓有烘衣機嗎？」→「樓下有。……」）；
 //     ③ 沛珊① 觸發條件：第 8 或第 9 週有期中考＝有考試的第一個週五發第 8 週那一版（不加）、兩週都有的第二個週五發第 9 週那一版（+1）；每個她在台南的學期都至少一次，四組都用得到
+//        ——D118 沒有期中考（AA_578 第 2 節 #5、#8）：只在期末考週的週五發第 8 週那一版（不加）、第 8～9 週照常視訊；大四下那一組的「期中」→「期末」（AA_578 第 3 節第 2 點）
 // 修改前（0b474c8b4）：1～4 每一節至少一項 FAIL；7 在 89ac3bb65 FAIL。用法：node tests/aa463_y3s2_unit.js
 require('./alison.js');
 const H=require('./pg_harness.js');
@@ -57,6 +58,8 @@ const P2=rows(part('### 4-1.','### 4-2.')).filter(r=>/^\d$/.test(r[0])).map(r=>(
 const P3=rows(part('### 4-2.','### 4-3.')).filter(r=>/^\d$/.test(r[0])).map(r=>msgsOf(r[1]));
 const TERMS={大三上:'Y3S1',大三下:'Y3S2',大四上:'Y4S1',大四下:'Y4S2'};
 const P1={}; for(const r of rows(part('### 4-3.','## 5.'))) if(TERMS[r[0]]) P1[TERMS[r[0]]]={ask:strip(r[1]),w8:msgsOf(r[2]),w9:msgsOf(r[3])};
+/* D118（AA_578 第 2 節 #5、#8＋第 3 節第 2 點）：改到期末考週，那一版裡的「期中」→「期末」（大四下）*/
+for(const t in P1){ const f=s=>s.replace(/期中/g,'期末'); P1[t]={ask:f(P1[t].ask),w8:P1[t].w8.map(f),w9:P1[t].w9.map(f)}; }
 
 (async()=>{
 /* ---- 0 ---- */
@@ -176,23 +179,19 @@ await sec(4,()=>{
   const o3=(H.G.msgs||[]).filter(m=>/^ct_classmate_peishan_ps3_/.test(m.tag||'')).map(m=>m.text);
   check('4. ③ 舊存檔（問過一次、沒有記第幾次）：下一次＝第 2 句「'+P3[1].join('')+'」',J(o3)===J(P3[1]),J(o3));
   /* ① 照學期 */
-  /* ① 第 7 節③：第 8 或第 9 週有期中考的第一個週五＝第 8 週那一版（不加）；兩週都有的，第二個週五＝第 9 週那一版（+1）*/
+  /* ① 第 7 節③：第 8 或第 9 週有期中考的第一個週五＝第 8 週那一版（不加）；兩週都有的，第二個週五＝第 9 週那一版（+1）
+     D118 沒有期中考（AA_578 第 2 節 #5）：只在期末考週（那學期第一科期末考那一週）的週五發第 8 週那一版（不加）；第 8～9 週照常視訊（不發）；不再有第 9 週那一版 */
   const ME='這週考試，下週好不好？';
-  const ps1=(tid)=>{ const f8=termDay(tid,8,5), f9=termDay(tid,9,5); psG(keyOf(f8-3)); const MW=CRACKTALK.midWeeks(H.G,tid); clr(); const c0=cnt(); at(f8,21.05); rules(); const c8=cnt(); at(f9,21.05); rules();
-    return {MW,a:ctTxt('ct_ps1_'+tid+'_8'),b:ctTxt('ct_ps1_'+tid+'_9'),add8:c8-c0,add9:cnt()-c8}; };
+  const ps1=(tid)=>{ const f8=termDay(tid,8,5), f9=termDay(tid,9,5), fw=CRACKTALK.psExamWeek(H.G,tid), ff=fw!=null?termDay(tid,fw,5):null; psG(keyOf(f8-3)); clr(); const c0=cnt(); at(f8,21.05); rules(); at(f9,21.05); rules(); const c9=cnt(), a89=ctTxt('ct_ps1_'+tid+'_8').concat(ctTxt('ct_ps1_'+tid+'_9'));
+    if(ff!=null){ at(ff,21.05); rules(); }
+    return {fw,ff:ff!=null&&keyOf(ff),a89,a:fw!=null?ctTxt('ct_ps1_'+tid+'_'+fw):[],add89:c9-c0,addF:cnt()-c9}; };
   const r1={}; for(const tid of ['Y3S1','Y3S2','Y4S1','Y4S2']) r1[tid]=ps1(tid);
-  const exp1=(tid,x)=>{ const P=P1[tid], first=[P.ask,ME].concat(P.w8), sec=[P.ask,ME].concat(P.w9);
-    if(x.MW[8]&&x.MW[9]) return J(x.a)===J(first)&&x.add8===0&&J(x.b)===J(sec)&&x.add9===1;   /* 兩週都有 */
-    if(x.MW[8]) return J(x.a)===J(first)&&x.add8===0&&!x.b.length&&x.add9===0;   /* 只有第 8 週 */
-    if(x.MW[9]) return !x.a.length&&J(x.b)===J(first)&&x.add9===0;   /* 只有第 9 週：第 9 週的週五發第 8 週那一版 */
-    return false; };
-  check('7. ① 大三上～大四下每個她在台南的學期都至少收到一次（第 7 節③）：有考試的第一個週五＝問＋「'+ME+'」＋第 8 週那一版、不加；兩週都有的第二個週五＝第 9 週那一版、+1（'+Object.keys(r1).map(t=>t+':'+(r1[t].MW[8]?'8':'')+(r1[t].MW[9]?'9':'')).join(' ')+'）',
+  const exp1=(tid,x)=>{ const P=P1[tid], first=[P.ask,ME].concat(P.w8); return x.fw!=null&&x.fw>=15&&!x.a89.length&&x.add89===0&&J(x.a)===J(first)&&x.addF===0; };
+  check('7. ① 大三上～大四下每個她在台南的學期都至少收到一次（AA_578 #5）：第 8～9 週週五沒有；期末考週的週五＝問＋「'+ME+'」＋第 8 週那一版、不加（'+Object.keys(r1).map(t=>t+':第 '+r1[t].fw+' 週 '+r1[t].ff).join(' ')+'）',
     Object.keys(r1).every(t=>exp1(t,r1[t])),J(r1));
-  check('7. ① 四組都用得到（大三上的原句、大三下、大四上、大四下）',new Set(Object.values(r1).map(x=>(x.a[0]||x.b[0]))).size===4&&(r1.Y3S1.a[0]||r1.Y3S1.b[0])===CRACKTALK_LINES.SRC2.ps1.ask,J(Object.values(r1).map(x=>x.a[0]||x.b[0])));
+  check('7. ① 四組都用得到（大三上的原句、大三下、大四上、大四下（「期中」→「期末」））',new Set(Object.values(r1).map(x=>x.a[0])).size===4&&r1.Y3S1.a[0]===CRACKTALK_LINES.SRC2.ps1.ask&&r1.Y4S2.a[0]==='最後一個學期的期末了。這週末，視訊？',J(Object.values(r1).map(x=>x.a[0])));
   check('4. ① 大三上、大五上（表上沒有的學期）照原句',!CRACKTALK_LINES.SRC2.ps1.byTerm.Y3S1&&!CRACKTALK_LINES.SRC2.ps1.byTerm.Y5S1);
-  /* 只有第 9 週有期中考的學期（目前課表沒有，造一個）：第 9 週的週五發第 8 週那一版、不加 */
-  { const tid='Y3S2', f9=termDay(tid,9,5); psG(keyOf(f9-3)); const C=CRACKTALK, keep=C.midWeeks; C.midWeeks=()=>({8:false,9:true}); try{ clr(); at(termDay(tid,8,5),21.05); rules(); const a=ctTxt('ct_ps1_'+tid+'_8'); const c0=cnt(); at(f9,21.05); rules();
-      check('7. ① 只有第 9 週有期中考（造的課表）：第 9 週的週五發第 8 週那一版（「'+P1[tid].w8.join('')+'」）、不加',!a.length&&J(ctTxt('ct_ps1_'+tid+'_9'))===J([P1[tid].ask,ME].concat(P1[tid].w8))&&cnt()===c0,J(ctTxt('ct_ps1_'+tid+'_9'))); } finally { C.midWeeks=keep; } }
+  check('7. ① D118：midWeeks 恆為兩週都沒有、midBoth 恆為 false（AA_578 #8）',['Y3S1','Y3S2','Y4S1','Y4S2'].every(t=>J(CRACKTALK.midWeeks(H.G,t))===J({8:false,9:false})&&CRACKTALK.midBoth(H.G,t)===false));
 });
 
 H.done();

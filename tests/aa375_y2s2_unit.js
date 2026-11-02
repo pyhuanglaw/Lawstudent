@@ -151,8 +151,9 @@ const lad=(term,cid,sid)=>(((LADDER.byTerm[term]||{})[cid]||{}).steps||[]).find(
     check('7、11、12. 階梯疊在 ladder_*_y2s2.json 上：白名單 AA_375@45121a97（一個版本、approved），ladder.js 的來源寫了',a.length===1&&a[0].sha==='45121a97'&&a[0].status==='approved'&&/AA_375@45121a97/.test(LADDER.source||''),J(a.map(e=>e.sha)));
     check('第 4 節. AA_342 第 2-2 節的七則照抄：白名單 AA_342（一個版本、approved）',b.length===1&&b[0].status==='approved',J(b.map(e=>e.sha))); }
   // ===== 第 8 項：考完試走出教室 =====
-  { const e=ev('ev_midterm_walkout_y2s2'); fresh('2027-04-15',12.5,'linze'); const mids=CLS.examList(G,'Y2S2').filter(x=>x.kind==='mid'); const lastMid=mids.reduce((a,b)=>b.day>a.day?b:a);
-    check('8. 考完試走出教室移到最後一科考完（大二下期中的最後一科＝4/15 法學英文）',!!e&&e.afterClass===lastMid.c.id&&e.afterExam==='mid'&&K(lastMid.day)==='2027-04-15',J([e&&e.afterClass,lastMid.c.id,K(lastMid.day)]));
+  /* D118 沒有期中考（AA_578 第 2 節 #3、#9）：原本掛在大二下期中最後一科（4/15 法學英文）；改成同一門課（法學英文）的期末考、afterExam:'final'——這裡改成找期末考的日期 */
+  { const e=ev('ev_midterm_walkout_y2s2'); fresh('2027-04-15',12.5,'linze'); const fins=CLS.examList(G,'Y2S2').filter(x=>x.kind==='final'), le=fins.find(x=>x.c.id==='legal_english');
+    check('8. 考完試走出教室：法學英文期末考考完（AA_578 #9；原本期中 4/15）；大二下沒有期中考',!!e&&e.afterClass==='legal_english'&&e.afterExam==='final'&&!!le&&CALENDAR.termOf(le.day).week===16&&!CLS.examList(G,'Y2S2').some(x=>x.kind==='mid'),J([e&&e.afterClass,e&&e.afterExam,le&&K(le.day)]));
     const T=evTexts(e); check('8. Alison「債各的第二題，我寫了『買賣不破租賃』。……題目問的是租賃。」（贈與第 14 週才教）',T.includes('債各的第二題，我寫了『買賣不破租賃』。……題目問的是租賃。')&&!T.includes('債各的第二題，我寫了『買賣不破租賃』。……題目問的是贈與。'),J(T)); }
   // ===== 第 9 項 =====
   { const ta=fs.readFileSync(path.join(ROOT,'src/data/y2b_events.js'),'utf8');

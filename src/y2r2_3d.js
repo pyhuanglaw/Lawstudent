@@ -342,15 +342,16 @@ const Y2R2=(function(){
       {speaker:'zhe',expression:'smile',text:'好。你寫的那幾行傳給我，我轉給他。'} ],   /* 法律只講方向（擔保、正常耗損、調解），不寫條號；AA 已核方向（AA_338 第 9 題）*/
     after:G=>{ const F=G.flags; F.ZHE_DEPOSIT={basis:F._depB||'photos',ask:F._depA||'fair',day:G.day}; delete F._depB; delete F._depA; remember('zhe','ZHE_PHOTOS','學長的押金，搬進來要拍照'); } });
   /* AA_375 第 8 項：移到最後一科考完——大二下的期中考 4/12 債各、4/13 身分法、4/14 行政救濟、4/15（四）法學英文（法學英文沒有選擇，每個人都修：classes3d.js S.enrolled），
-     最後一科是 4/15 法學英文（AA 寫的「4/14」是沒算法學英文；給 AA 的問題）。原本在 4/12 債各考完 */
-  EV.push({ id:'ev_midterm_walkout_y2s2', title:'考完試走出教室', participants:[], location:'any', trigger:'class', afterClass:'legal_english', afterExam:'mid', term:['Y2S2'], once:true, background:'blur',
+     最後一科是 4/15 法學英文（AA 寫的「4/14」是沒算法學英文；給 AA 的問題）。原本在 4/12 債各考完
+     D118 沒有期中考：AA_578 第 2 節 #9 改到同一門課（法學英文）的期末考（afterExam:'final'）；芯慈那句「期中」→「期末」*/
+  EV.push({ id:'ev_midterm_walkout_y2s2', title:'考完試走出教室', participants:[], location:'any', trigger:'class', afterClass:'legal_english', afterExam:'final', term:['Y2S2'], once:true, background:'blur',
     dialogue:[ {speaker:null,text:'（法律系館A二樓的走廊。債各考完，大家還站在教室門口。）'},
       {if:KN('yu'),speaker:'yu',expression:'neutral',text:'債各的第二題，我寫了『買賣不破租賃』。……題目問的是租賃。'},   /* AA_375 第 8 項：贈與第 14 週才教；租賃第 4～6 週 */
       {if:{custom:G=>knows('yu',G)&&knows('zhe',G)},speaker:'zhe',expression:'laugh',text:'贈與那題我也寫錯了。我們一起錯。'},
       {if:KN('heroine_03'),speaker:'heroine_03',expression:'neutral',text:'……第二題寫完，我才發現背面還有一題。'},
       {if:KN('heroine_01'),speaker:'heroine_01',expression:'neutral',text:'我寫了三頁。第二題值得。'},
-      {if:KN('classmate_xinci'),speaker:'classmate_xinci',expression:'neutral',text:'期中考完了。今天之後，我不跟你們對答案。'} ],
-    after:G=>{ for(const id of ['yu','zhe','heroine_03','heroine_01','classmate_xinci']) if(knows(id,G)) remember(id,'SHARED_CLASS','債各期中考'); } });
+      {if:KN('classmate_xinci'),speaker:'classmate_xinci',expression:'neutral',text:'期末考完了。今天之後，我不跟你們對答案。'} ],   /* AA_578 #9：「期中」→「期末」*/
+    after:G=>{ for(const id of ['yu','zhe','heroine_03','heroine_01','classmate_xinci']) if(knows(id,G)) remember(id,'SHARED_CLASS','債各期末考'); } });   /* AA_578 #9 */
   /* Z8：吉他社社課（萬才館）走到子晴旁邊——AA_375 第 13 項：演唱會是 5/15（六）晚上，改 5/17（一）以後（5/17 週一；沒遇到 5/19 週三）；句子不改。原本 5/12、5/19 */
   const zrDate=G=>dating(G,'heroine_02')&&knowsOf(G,'heroine_04','heroine_02');   /* 交往版：子晴知道祐廷和芷若在交往 */
   const zrApplied=G=>done(G,'ev_zhiruo_applied')||!!G.flags.ZR_NOMINATED;

@@ -243,9 +243,9 @@ const K=t=>'kexin:'+t;
   check('11. D2 沒上債各第 5 週：依據兩個選項；沒回週訊息：「我學長退租，房東本來說押金扣一半。」',opts[0].length===2&&said[0].t==='我學長退租，房東本來說押金扣一半。'&&has('他自己去問，房東改口說牆上有釘子洞，全部不退。'));
 
   // 12. 2-Y2-14 G1
-  { const e=ev('ev_midterm_walkout_y2s2'); check('12. 考完最後一科期中（AA_375 第 8 項：法學英文 4/15；afterClass legal_english、afterExam mid、大二下）才有；翹考沒有',e.trigger==='class'&&e.afterClass==='legal_english'&&e.afterExam==='mid'&&JSON.stringify(e.term)===JSON.stringify(['Y2S2'])); }
+  { const e=ev('ev_midterm_walkout_y2s2'); check('12. 考完法學英文期末考（D118 沒有期中考，AA_578 第 2 節 #9；原本 AA_375 第 8 項期中最後一科 4/15；afterClass legal_english、afterExam final、大二下）才有；翹考沒有',e.trigger==='class'&&e.afterClass==='legal_english'&&e.afterExam==='final'&&JSON.stringify(e.term)===JSON.stringify(['Y2S2'])); }
   fresh('2027-04-20',12,'linze',{met_yu:true}); for(const id of ['heroine_03','heroine_01','classmate_xinci']) meet(id); await play('ev_midterm_walkout_y2s2');
-  check('12. W1 認識全部：旁白＋五句（以安那句沒有「理由：」）',said.length===6&&has('債各的第二題，我寫了『買賣不破租賃』。……題目問的是租賃。')/* AA_375 第 8 項 */&&has('贈與那題我也寫錯了。我們一起錯。')&&has('……第二題寫完，我才發現背面還有一題。')&&has('我寫了三頁。第二題值得。')&&has('期中考完了。今天之後，我不跟你們對答案。')&&!any(/理由：/),JSON.stringify(said.map(s=>s.t)));
+  check('12. W1 認識全部：旁白＋五句（以安那句沒有「理由：」）',said.length===6&&has('債各的第二題，我寫了『買賣不破租賃』。……題目問的是租賃。')/* AA_375 第 8 項 */&&has('贈與那題我也寫錯了。我們一起錯。')&&has('……第二題寫完，我才發現背面還有一題。')&&has('我寫了三頁。第二題值得。')&&has('期末考完了。今天之後，我不跟你們對答案。')/* AA_578 #9 */&&!any(/理由：/),JSON.stringify(said.map(s=>s.t)));
   fresh('2027-04-20',12,'linze',{met_yu:true}); meet('heroine_01'); await play('ev_midterm_walkout_y2s2'); check('12. W2 不認識語彤：沒有她那句',!has('……第二題寫完，我才發現背面還有一題。'));
 
   // 13. 2-Y2-15 生日

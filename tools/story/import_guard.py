@@ -69,7 +69,7 @@ def ndl542(s):
     if _NDL is None:
         import json as _json, os as _os
         _NDL = []
-        for fn in ('ndl542_fix.json', 'nocmp_fix.json'):   # nocmp_fix.json：NO-COMPARE-1030（D116 不跟別人比，AA_546）同一個做法
+        for fn in ('ndl542_fix.json', 'nocmp_fix.json', 'd118_fix.json'):   # nocmp_fix.json：NO-COMPARE-1030（D116 不跟別人比，AA_546）同一個做法；d118_fix.json：D118 沒有期中考（AA_578 b13db535f）
             try:
                 with open(_os.path.join(_os.path.dirname(_os.path.abspath(__file__)), fn), encoding='utf-8') as f:
                     _NDL += _json.load(f)['pairs']

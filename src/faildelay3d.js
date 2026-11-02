@@ -72,10 +72,10 @@ const FD=(function(){
      存檔：G.flags.FD_MAKEUP＝{v:1, courses:[課 id], status:'pending'|'pass'|'fail'|'missed', res:{課 id:'pass'|'fail'|'missed'}}；沒有＝沒有補考（舊存檔照舊，已經 FAIL_DELAY 的不補）。
      補考的五題：CLS.drawExam(G,課,'Y4S2','makeup')——同一份期末範圍，先抽期末沒考過的題（classes3d.js）；計分 CLS.scoreOf、及格＝答對 1 題以上（同 CLS.failedIn 的期末）。 */
   S.MK_AT=['2029-06-26',10]; S.MK_STEP_H=9.5; S.MK_UNTIL_H=11; S.MK_REMIND_AT=['2029-06-25',20];
-  S.MK_LINES={   /* 暫定字，AA 定稿後換（D118 補考；全部集中在這裡）*/
+  S.MK_LINES={   /* AA_578 定稿（企劃線 b13db535f 第 5 節；D118 補考；全部集中在這裡）：remind 刪後半「考前可以在讀書的地方做一次總複習。」，其餘照用 */
     notice:'（補考在 6/26（二）上午十點，法律系館A。考過了，就照常畢業。）',
     sys:'【教務處】大四下補考通知：{課名}。6/26（二）10:00，法律系館A。',
-    remind:'【教務處】明天上午 10:00 補考：{課名}（法律系館A）。考前可以在讀書的地方做一次總複習。',
+    remind:'【教務處】明天上午 10:00 補考：{課名}（法律系館A）。',
     open:'（法律系館A，一間小教室。來補考的只有幾個人。）',
     examName:'補考',
     pass:'（{課名}，補考過了。）',

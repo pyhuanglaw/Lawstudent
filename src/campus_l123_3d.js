@@ -51,7 +51,7 @@ const CL123=(function(){
      每一學年最多輪到一句（照順序），三句都用過以後＝「（電梯裡很擠，大家都在滑手機。）」。記 L1_ELEV.g（用到第幾句）、L1_ELEV.gy（哪一學年用過）*/
   S.GOSSIP_PRE='（電梯裡，後面有人在講手機。）';
   S.GOSSIP_NONE='（電梯裡很擠，大家都在滑手機。）';
-  S.GOSSIP=['「……對，我在電梯裡。收訊不好，我等一下打給你。」','「她說期中考申論，可是上次她也說考申論，結果全部選擇。」','「我早上沒吃，現在已經十二點了。這樣算早餐還是午餐？」'];
+  S.GOSSIP=['「……對，我在電梯裡。收訊不好，我等一下打給你。」','「她說考申論，可是上次她也說考申論，結果全部選擇。」',   /* D118：AA_578 第 3 節第 1 點，刪「期中」——待 AA 看 */'「我早上沒吃，現在已經十二點了。這樣算早餐還是午餐？」'];
   S.gossip=function(G){ const R=S.l1Rec(G), g=R.g|0, gy=Array.isArray(R.gy)?R.gy:(R.gy=[]), y=yearOf(G);
     if(g>=S.GOSSIP.length||gy.includes(y)) return [S.GOSSIP_NONE]; R.g=g+1; gy.push(y); return [S.GOSSIP_PRE,S.GOSSIP[g]]; };
   const ZK=G=>knows(ZHE,G);
