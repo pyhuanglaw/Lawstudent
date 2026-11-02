@@ -40828,6 +40828,33 @@
         "receiver": "BB",
         "ack": "ACK"
       }
+    },
+    {
+      "first": {
+        "term": "Y1S1",
+        "week": null,
+        "earliest": "第一次期中考前（讀書、一鍵總複習）；國考與職涯在畢業以後",
+        "mainline": true,
+        "blocks": false,
+        "prereq": false,
+        "parallel": true,
+        "confirmed": true
+      },
+      "area": null,
+      "id": "BUG-CLIMB-ZOMBIE-1102",
+      "title": "爬宿舍梯子上床，兩手直直往前抬像殭屍（使用者 22:2x）：character3d.js CLIMB_VRM 固定姿勢蓋掉走路片段的手——改成兩手交替抓梯子、手肘彎；附改前改後遊戲截圖",
+      "owner": "LAWWW",
+      "status": "進行中",
+      "priority": "P1",
+      "note": "UA-LAWWW-1102-30",
+      "next": "子代理在 worktree（基於 int/m591，新宿舍）改姿勢、截圖比較；回來後角色動作由 LAWWW 驗收（D100a），BB 測",
+      "xai": {
+        "spec": "使用者原話",
+        "branch": "int/next1102",
+        "acceptance": "BB 測",
+        "receiver": "BB",
+        "ack": "—"
+      }
     }
   ]
 }
