@@ -15,8 +15,9 @@ const X=()=>typeof FD!=='undefined'?FD:null;
 const sec=async(n,f)=>{ try{ await f(); }catch(e){ check(n+'. 丟出例外（這一節中斷）',false,String(e&&e.stack||e).split('\n').slice(0,3).join(' / ')); } };
 const D=k=>STORY.dayOfKey(k);
 /* 大四下：考試的課都考過（答對 3 題）、看出席的課都三堂；fail＝那一門答對 0 題 */
-const y4s2=(failId)=>{ const R=CLS.rec(H.G); R.exam=R.exam||{}; R.attend=R.attend||{}; let first=null;
-  for(const c of CLS.termCourses(H.G,'Y4S2')){ if(CLS.isExamCourse(c)){ if(!first) first=c; R.exam['Y4S2:'+c.id+':final']={status:'done',correct:3,score:60}; } if(CLS.attCourse(c)) R.attend[c.id]=3; }
+/* D124（海商法改選修：大四下選修被當不延畢）：'first'＝大四上強制執行法被當、排到大四下的重修 */
+const y4s2=(failId)=>{ const R=CLS.rec(H.G); R.exam=R.exam||{}; R.attend=R.attend||{}; let first=null; if(failId==='first') R.retake=[{id:'enforcement',from:'Y4S1',term:'Y4S2',slots:[{wd:5,block:'pm1'}]}];
+  for(const c of CLS.termCourses(H.G,'Y4S2')){ if(CLS.isExamCourse(c)){ if(!first||c.rt) first=c; R.exam['Y4S2:'+c.id+':final']={status:'done',correct:3,score:60}; } if(CLS.attCourse(c)) R.attend[c.id]=3; }
   const f=failId==='first'?first:(failId?CLS.termCourses(H.G,'Y4S2').find(c=>c.id===failId):null); if(f) R.exam['Y4S2:'+f.id+':final']={status:'done',correct:0,score:0}; return f; };
 const card=(a,b)=>PG.cardLine(H.G,D(a),D(b));
 
@@ -94,7 +95,8 @@ await sec(6,async()=>{ H.fresh('2029-09-02',9,'dorm',{FAIL_DELAY:true,FAIL_DELAY
   { let last3=null, n=0; const r=CALENDAR.termDays('Y5S1'); for(let x=r.to;x>=r.from&&n<3;x--){ if(Y5.classItems(H.G,x).some(i=>i.fd)){ n++; last3=x; } }
     check('6. C0（BB 10:12）：一堂都沒去＝最後一次停在倒數第三堂（'+PG.dateLabel(last3,0)+'），之後只剩兩堂不停',lastStop===last3,lastStop==null?'沒停':PG.dateLabel(lastStop,0)); }
   PG.setT(H.G,E,D('2029-12-25'),9); FD.result(H.G);
-  check('6. 對照：不去上課＝停到湊不到三堂為止（'+stops+' 次，剩三堂那一次是最後一次）、證書延到 2030-06',stops>=3&&stops<15&&H.G.flags.FAIL_DELAY_PASS===false&&H.G.flags.FAIL_DELAY_CERT==='2030-06','stops='+stops);
+  const tot=(()=>{ let k=0; const r=CALENDAR.termDays('Y5S1'); for(let x=r.from;x<=r.to;x++) k+=Y5.classItems(H.G,x).filter(i=>i.fd).length; return k; })();
+  check('6. 對照：不去上課＝停到湊不到三堂為止（'+stops+' 次；至少全部 '+tot+' 堂減最後兩堂——別的停點剛好落在上課時間也算；最後一次在哪一天見 C0）、證書延到 2030-06',stops>=3&&stops>=tot-2&&stops<=tot&&H.G.flags.FAIL_DELAY_PASS===false&&H.G.flags.FAIL_DELAY_CERT==='2030-06','stops='+stops);
   /* BB 10:05：12 月只剩一堂、上過一堂＝湊不到三堂，不停；上過兩堂＝還湊得到，停 */
   H.fresh('2029-12-13',9,'dorm',{FAIL_DELAY:true,FAIL_DELAY_COURSES:[fc.id]}); { const R=Y5.rec(H.G); R.cls[D('2029-09-05')+':'+fc.id]=1;
     const n=(()=>{ let k=0; const r=CALENDAR.termDays('Y5S1'); for(let x=H.G.day;x<=r.to;x++) k+=Y5.classItems(H.G,x).filter(i=>i.fd).length; return k; })();

@@ -39818,6 +39818,52 @@
         "parallel": true,
         "confirmed": true
       }
+    },
+    {
+      "id": "D124-MARITIME-ELECTIVE-1102",
+      "title": "D124 海商法與海洋法改成選修",
+      "owner": "LAWWW",
+      "status": "已整合待測試",
+      "priority": "P1",
+      "note": "2026-11-02 LAWWW：courses.js choice y4s2_mar；faildelay3d FD.counts／check filter；FD.rescueElective（migrate）；tests/d124_maritime_elective_unit.js（修改前 FAIL 6）；y4s2_makeup、faildelay、exam_every_term 改用強制執行法重修當被當的那一門。CC 探針（cc_makeup_probe、n14）由 BB 通知 CC 改。",
+      "first": {
+        "term": "Y4S2",
+        "earliest": "大四下開學選課",
+        "mainline": true,
+        "blocks": false,
+        "parallel": true,
+        "confirmed": true
+      },
+      "xai": {
+        "spec": "BB 10:45、10:47（使用者 10:4x）",
+        "branch": "claude/confident-ritchie-8rwh7t",
+        "receiver": "BB",
+        "ack": "ACK",
+        "acceptance": "BB 10:47 第 5 點 a、b、c；舊存檔只救 a"
+      }
+    },
+    {
+      "id": "BUG-FAFU-DOUBLE-1102",
+      "title": "法服值班次數：同一天 lineAt＋圓桌 +2；大二第一次值班是 lineAt 的話阿伯那一句永久錯過",
+      "owner": "LAWWW",
+      "status": "待開工",
+      "priority": "P3",
+      "note": "BB 10:49；LAWWW 10:5x 回分析：N++ 移進 LAST 的 if＋story3d.js:757 改成「大二、還沒有 FAFU_FIRST_SHIFT_Y2」，等 BB 同意，排下一版。",
+      "first": {
+        "term": "Y2S1",
+        "earliest": "大二法服值班",
+        "mainline": false,
+        "blocks": false,
+        "parallel": true,
+        "confirmed": true
+      },
+      "xai": {
+        "spec": "BB 10:49（CC 讀碼）",
+        "branch": "claude/confident-ritchie-8rwh7t",
+        "receiver": "BB",
+        "ack": "ACK",
+        "acceptance": "兩種順序的測試"
+      }
     }
   ]
 }
