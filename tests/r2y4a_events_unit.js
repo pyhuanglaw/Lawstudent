@@ -77,8 +77,9 @@ const sisSaid=()=>said.filter(s=>s.who&&/學姊|書瑀|溫書瑀/.test(s.who)).m
   at('2028-10-15',21.1); rules(); const v1early=txt('p:heroine_05').includes('改過的報告拿了 A。'); at('2028-10-16',21.1); rules(); check('V1. 10/16 21:00「改過的報告拿了 A。」（AA_340 第 11 週：日子新；10/15 還沒有）', !v1early&&txt('p:heroine_05').includes('heroine_05:改過的報告拿了 A。教授說：『這次我讀到妳了。』'));
   fresh('2028-09-13',18.1,'us_apartment',US()); date('heroine_05'); rules(); G.hour=19.6; rules(); G.hour=20.1; rules(); check('V1. 交往中、沒到：20:00「麵我吃完了。」', txt('p:heroine_05').includes('heroine_05:麵我吃完了。報告我自己再改一次。')&&G.flags.US2==='missed');
   fresh('2028-09-13',18.5,'us_shared',US()); E.player.seat={lift:0.31}; await tick(); check('V2. 挽回中 18:30 坐在高腳椅：不演交往中那一版', !has('（笑出來）……被說中了。'));
-  fresh('2028-09-13',19.0,'us_outside',US()); picks=['還沒']; await tick();
-  check('V2. 挽回中 19:00 人在社區＝帶到 C 棟：還鍋子；「你吃過了嗎？」；選「還沒。」＝REPAIR +1', entered.includes('us_shared')&&has('你吃過了嗎？')&&has('（她把那一把麵放回鍋子裡。你在窗口外的高腳椅坐下。）')&&G.flags.US2==='repair'&&G.flags.REPAIR.heroine_05===1, JSON.stringify({entered,R:G.flags.REPAIR}));
+  /* AA_600 3-3（企劃線 031414cad；使用者 11-02 選「祐廷先開口」）：她不先講報告、不問「你吃過了嗎？」——祐廷問「報告怎麼了？」、選「我陪妳吃完再走。」＝US2_STAYED、REPAIR +1；原本的期望照 AA_600 換 */
+  fresh('2028-09-13',19.0,'us_outside',US()); picks=['報告怎麼了','我陪妳吃完再走']; await tick();
+  check('V2. 挽回中 19:00 人在社區＝帶到 C 棟：還鍋子；她只點頭，祐廷問「報告怎麼了？」；選「我陪妳吃完再走。」＝「……隨你。」REPAIR +1', entered.includes('us_shared')&&!has('你吃過了嗎？')&&has('……隨你。')&&has('（你在窗口外的高腳椅坐下。）')&&G.flags.US2==='repair'&&G.flags.REPAIR.heroine_05===1, JSON.stringify({entered,R:G.flags.REPAIR}));
 
   // ---------- 2-Y4-18 芝加哥 ----------
   fresh('2028-11-03',21.1,'us_apartment',US()); date('heroine_05'); rules();
@@ -101,7 +102,8 @@ const sisSaid=()=>said.filter(s=>s.who&&/學姊|書瑀|溫書瑀/.test(s.who)).m
   at('2028-11-23',8.8); said=[]; await OUT.go(GM,ql);
   check('L1. 交往中、去過芝加哥：「這次乾脆不寫。」；手機上的清單；「那是我的句型。」；「跟你。」', has('上次在芝加哥，我把行程表摺起來了。這次乾脆不寫。')&&has('（她把手機給你看。備忘錄上只有一行：「睡到自然醒」。）')&&has('（愣住，然後笑出來）……你在管我。')&&has('（打字，停了一下，又加兩個字）跟你。')&&G.flags.US3==='two');
   fresh('2028-11-22',21.1,'us_apartment',US()); rules(); at('2028-11-23',8.8); picks=[0]; said=[]; await OUT.go(GM,OUT.get(G,'us3_lake'));
-  check('L2. 挽回中：「分手那天，你沒有解釋。」二選一；「那妳想因為什麼？」＝REPAIR +1', has('分手那天，你沒有解釋。')&&opts[0].length===2&&has('……因為你在這裡這三個月的樣子。')&&G.flags.REPAIR.heroine_05===1&&G.flags.US3==='repair');
+  /* AA_600 3-4：祐廷先說「分手那天，我沒有解釋。」（原本她說「分手那天，你沒有解釋。」）*/
+  check('L2. 挽回中：祐廷「分手那天，我沒有解釋。」（AA_600 3-4）；二選一；「那妳想因為什麼？」＝REPAIR +1', has('分手那天，我沒有解釋。')&&!has('分手那天，你沒有解釋。')&&opts[0].length===2&&has('……因為你在這裡這三個月的樣子。')&&G.flags.REPAIR.heroine_05===1&&G.flags.US3==='repair');
   fresh('2028-11-22',21.1,'us_apartment',US()); date('heroine_05'); rules(); at('2028-11-23',9.5); await outTick(); at('2028-11-23',10.1); rules();
   check('L. 交往中、09:15 沒到：10:00「我自己去了。氣象說錯了，沒有下雪。」「📷（灰色的湖，岸邊沒有人）」（AA_450 1-9，原「……下雪了。拍給你。」）', txt('p:heroine_05').slice(-2).join('|')==='heroine_05:我自己去了。氣象說錯了，沒有下雪。|heroine_05:📷（灰色的湖，岸邊沒有人）'&&!txt('p:heroine_05').some(t=>t.includes('下雪了。拍給你'))&&G.flags.US3==='missed');
 
@@ -118,9 +120,10 @@ const sisSaid=()=>said.filter(s=>s.who&&/學姊|書瑀|溫書瑀/.test(s.who)).m
   check('N4. 21:30 還沒到＝帶到場：「你還是去了。」接原台詞', has('（你還是去了。雪下得很小，她坐在台階最上面一階。）')&&has('剛買的。還燙。')&&G.flags.US_SNOW==='together'&&txt('p:heroine_05').includes('heroine_05:我還在台階上。雪還沒停。'), JSON.stringify(lines().slice(0,2)));
   fresh('2028-12-02',18.1,'us_apartment',US({REPAIR:{heroine_05:3}})); rules(); check('N2. 挽回中 18:00 交換生群組：何俊朗「今晚會積雪。」「上次那種落地就化了。這次會積起來。」（AA_345 F10；AA_452 1-2 換字；沒有沒名字的「同學」）；睡著也會 20:00 醒來', seq(txt('g:us_exchange'),['npc_long:今晚會積雪。','npc_long:上次那種落地就化了。這次會積起來。'])&&!(G.msgs||[]).some(m=>m.from==='us_classmate')&&(G.msgs||[]).filter(m=>m.from==='npc_long').every(m=>m.name==='何俊朗')&&STORY.lawWakeAt(G)===20, JSON.stringify(txt('g:us_exchange')));
   at('2028-12-02',20.1); said=[]; picks=[0]; await OUT.go(GM,OUT.get(G,'us_snow_r'));   /* AA_452 1-1：排進行程（19:45 問「出發：初雪」），不再只靠 20:00 自動到場 */
-  check('N2. 挽回中、REPAIR 3：出發（行程 us_snow_r）；「這次我先說。」→ 重新交往', has('如果你還想的話，我們重新開始。這次我先說。')&&G.flags.dating_heroine_05===true&&ROM.get(G,'heroine_05').status==='dating'&&G.flags.US_SNOW==='restart');
+  /* AA_600 3-5：她不先說——祐廷說重新開始，她「（看了你很久）……好。」；原本「這次我先說。」照 AA_600 換 */
+  check('N2. 挽回中、REPAIR 3：出發（行程 us_snow_r）；祐廷說、她「（看了你很久）……好。」→ 重新交往', has('（看了你很久）……好。')&&!has('如果你還想的話，我們重新開始。這次我先說。')&&G.flags.dating_heroine_05===true&&ROM.get(G,'heroine_05').status==='dating'&&G.flags.US_SNOW==='restart');
   fresh('2028-12-02',18.1,'us_apartment',US({REPAIR:{heroine_05:2}})); rules(); at('2028-12-02',20.1); said=[]; await OUT.go(GM,OUT.get(G,'us_snow_r'));
-  check('N3. 挽回中、REPAIR 2：前三句＋「回去吧，會冷。」', has('……我在臺灣，從來沒看過雪。')&&has('回去吧，會冷。')&&!has('如果你還想的話，我們重新開始。這次我先說。')&&!G.flags.dating_heroine_05&&G.flags.US_SNOW==='cold');
+  check('N3. 挽回中、REPAIR 2：前三句＋「……回去吧，會冷。」（AA_600 3-5 的字）', has('……我在臺灣，從來沒看過雪。')&&has('……回去吧，會冷。')&&!has('如果你還想的話，我們重新開始。這次我先說。')&&!G.flags.dating_heroine_05&&G.flags.US_SNOW==='cold');
 
   // ---------- 2-Y4-21 會所晚餐 ----------
   fresh('2028-12-13',21.1,'us_apartment',US()); date('heroine_05'); rules(); check('D0. 12/13 21:00 群組（AA_450 1-8：沒見過何俊朗＝國際學生會傳兩則）；三選一帶什麼掛在最後一則', txt('g:us_exchange').slice(-2).join('|')==='us_isa:明天晚上七點，會所。學期最後一頓。|us_isa:每個人帶一道菜。泡麵也算。'&&PHONE.byAsk(G,'us_club').ask.opts.length===3&&PHONE.byAsk(G,'us_club').text==='每個人帶一道菜。泡麵也算。');

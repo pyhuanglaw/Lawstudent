@@ -102,7 +102,7 @@ await sec('S10',async()=>{ const G=fresh('2027-11-10',13); H.CLOSE(SIS); breakup
   check('S10. 前任當面找她：這學期前兩次只點頭（旁白）、第三次「嗯。」，不閒聊（回傳 true＝說話到此為止）',J(out)===J([[true,'（她抬頭看了你一眼，點了一下頭。）'],[true,'（她抬頭看了你一眼，點了一下頭。）'],[true,'嗯。']]),J(out));
   at(D('2028-03-01'),13); H.said=[]; await V6EX.sisExTalk(GM,{name:'學姊'}); check('S10. 下一個學期又從點頭開始',said().join('')==='（她抬頭看了你一眼，點了一下頭。）',J(said()));
   { const G2=fresh('2027-11-10',13); H.CLOSE(SIS); date(SIS); H.said=[]; const ok=await V6EX.sisExTalk(GM,{name:'學姊'}); check('S10. 交往中不擋（false）',ok===false&&!said().length); }
-  check('S10. talkSis、talkCharacter（照作息的她）都先問 V6EX.sisExTalk',/V6EX\.sisExTalk&&await V6EX\.sisExTalk\(GM,n\)/.test(RAW('src/story3d.js'))&&/id==='heroine_05'&&!first&&typeof V6EX!=='undefined'&&V6EX\.sisExTalk&&await V6EX\.sisExTalk\(GM,who\)/.test(RAW('src/story3d.js'))); });
+  check('S10. talkSis、talkCharacter（照作息的她）都先問 V6EX.sisExTalk',/F\.met_sis&&await S\.sisExNod\(GM,n\)\) return;/.test(RAW('src/story3d.js'))&&/S\.sisExNod=async function\(GM,n\)\{ if\(typeof V6EX==='undefined'\|\|!V6EX\.sisExTalk/.test(RAW('src/story3d.js'))&&/id==='heroine_05'&&!first&&typeof V6EX!=='undefined'&&V6EX\.sisExTalk&&await V6EX\.sisExTalk\(GM,who\)/.test(RAW('src/story3d.js'))); });
 
 await sec('S11',async()=>{ check('S11. y1s2_an_ac（大一下以安的手機小事）：ok 有 noContact',/id:'y1s2_an_ac'[^\n]*V6EX\.noContact\(G,'heroine_01'\)/.test(RAW('src/y1fill3d.js'))); });
 

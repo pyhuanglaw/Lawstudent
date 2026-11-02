@@ -117,7 +117,8 @@ await sec('A',async()=>{
   fresh('2026-10-08',20,'wancai'); H.G.events.done.ev_public_law_group=1; breakup(AN,'apart_talk'); at(thu,20); H.G.zone='wancai';
   const e=plg(); check('A1. 分開後的讀書會：先演 ev_an_ex_plg',e&&e.id==='ev_an_ex_plg',e&&e.id);
   clear(); await EVENTS.run(ev('ev_an_ex_plg'));
-  check('A1. 以安：「規則沒有改。……你也不用換位子。」',J(said())===J(['規則沒有改。……你也不用換位子。'])&&H.G.flags.V6EX_AN_PLG===true,J(said()));
+  /* AA_600 A1（企劃線 031414cad；使用者 11-02「分手，不會主動聯絡」）：她的句子刪、改旁白——原本「規則沒有改。……」的期望照 AA_600 換 */
+  check('A1. 以安（AA_600 A1）：旁白「（她看了你一眼，點了一下頭，翻開講義。）」，她不說「規則沒有改。……你也不用換位子。」',J(said())===J(['（她看了你一眼，點了一下頭，翻開講義。）'])&&H.G.flags.V6EX_AN_PLG===true,J(said()));
   at(thu+7,20); const e2=plg(); check('A2. 下一次讀書會不再演',!e2||e2.id!=='ev_an_ex_plg');
   fresh('2026-10-08',20,'wancai'); at(thu,20); const e3=plg(); check('A3. 沒分開過：不演',!e3||e3.id!=='ev_an_ex_plg');
   fresh('2026-09-01',20,'wancai'); breakup(AN,'apart_talk'); at(thu,20); H.G.acts={att:{}}; const e4=plg(); check('A4. 第一次來讀書會（白板那一場還沒演）：不搶',!e4||e4.id!=='ev_an_ex_plg',e4&&e4.id);
