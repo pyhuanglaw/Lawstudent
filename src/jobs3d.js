@@ -75,7 +75,7 @@ const JOBS=(function(){
     return null; };
   S.excused=function(G,k,d){ const H0=S.hrs(k,d); if(CALENDAR.typhoon&&CALENDAR.typhoon(d)) return 'typhoon';
     if(k!=='cvs'&&H0[0]<10&&S.active(G,'cvs')&&S.scheduled(G,'cvs',d-1)&&S.hrs('cvs',d-1)[1]>24) return 'night';   /* 前一晚便利商店夜班：隔天 10:00 以前在睡覺（AA_433 第 1 節）*/
-    if(typeof CLS!=='undefined'&&CLS.dayItems&&!shop(k).classOk){ try{ for(const it of CLS.dayItems(G,d)) if(S.overlap(it.t0,it.t1,H0[0],H0[1])) return it.exam?'exam':'class'; }catch(e){} }   /* 第 9 條：期末考的時段；第 12 條：有課的時段 */
+    if(typeof CLS!=='undefined'&&CLS.dayItems){ const cok=!!shop(k).classOk; try{ for(const it of CLS.dayItems(G,d)) if((it.exam||!cok)&&S.overlap(it.t0,it.t1,H0[0],H0[1])) return it.exam?'exam':'class'; }catch(e){} }   /* 第 9 條：期末考的時段（classOk 的工作也一樣請假，BUG-JOBS-OFFICE-EXAM-1102）；第 12 條：有課的時段（classOk＝事務所可以排在有課的日子，只略過一般課）*/
     if(!S.termAt(G,d)&&S.vacBusy(G,d,k)) return 'busy';
     for(const f of S.EXCUSE){ try{ const r=f(G,k,d); if(r) return r; }catch(e){ console.warn('JOBS.EXCUSE',e); } }
     return null; };
