@@ -1,0 +1,29 @@
+[gpu_wrap] CC_GPU=1 跑 C:\Users\USER\Documents\Lawstudent_cclocal\docs\story_planning\test_tools\cc\cc_art247_probe.py http://127.0.0.1:8809/index.html C:\Users\USER\Documents\Lawstudent_cclocal\docs\story_planning\CC\local_out\ART_cop\out
+PASS coplanar：遊戲載入
+  [前置／捷徑] coplanar：wancai_front：讀檔到 campus (93.8, -90.0) 14:00、玩家面向 (93.8, -101.0)；E.cam.yaw=0.000（鏡頭固定）— BUG-COPLANAR-DEV：萬才館正面（弧形大台階、陽台；BB-C 10-20 wancai_front_15 同一處）
+  coplanar：wancai_front 連拍 10 張，實際 2.67 秒（第一張到最後一張的開始時間）；E.frame 623 → 749
+  coplanar：wancai_front diff：{"skipped": "沒有 PIL（pip 的 Pillow），沒算差異"}
+PASS coplanar：wancai_front：連拍 10 張都存了  n=10
+PASS coplanar：wancai_front：區域 campus、時間 14:00  [["campus", "campus", 14.075], ["campus", "campus", 14.092]]
+PASS coplanar：wancai_front：鏡頭方向固定（和設定的 yaw 差 ≤ 0.2 rad）  最大差 0.000 rad
+  [前置／捷徑] coplanar：wzpark_pavilion：讀檔到 wenzhou (18.6, 22.2) 14:00、玩家面向 (13.6, 26.6)；E.cam.yaw=2.292（鏡頭固定）— BACKLOG-A7：溫州街小公園涼亭＋土地公（cmp_pavilion_shrine 那一角）
+  coplanar：wzpark_pavilion 連拍 10 張，實際 3.14 秒（第一張到最後一張的開始時間）；E.frame 1504 → 1635
+  coplanar：wzpark_pavilion diff：{"skipped": "沒有 PIL（pip 的 Pillow），沒算差異"}
+PASS coplanar：wzpark_pavilion：連拍 10 張都存了  n=10
+PASS coplanar：wzpark_pavilion：區域 wenzhou、時間 14:00  [["wenzhou", "wenzhou", 14.053], ["wenzhou", "wenzhou", 14.07]]
+PASS coplanar：wzpark_pavilion：鏡頭方向固定（和設定的 yaw 差 ≤ 0.2 rad）  最大差 0.000 rad
+  [前置／捷徑] coplanar：linze_front：讀檔到 campus (34.0, -96.0) 14:00、玩家面向 (34.0, -108.0)；E.cam.yaw=0.000（鏡頭固定）— BUG-COPLANAR-DEV：霖澤館正面穿堂（可選）
+  coplanar：linze_front 連拍 10 張，實際 2.80 秒（第一張到最後一張的開始時間）；E.frame 2526 → 2652
+  coplanar：linze_front diff：{"skipped": "沒有 PIL（pip 的 Pillow），沒算差異"}
+PASS coplanar：linze_front：連拍 10 張都存了  n=10
+PASS coplanar：linze_front：區域 campus、時間 14:00  [["campus", "campus", 14.083], ["campus", "campus", 14.101]]
+PASS coplanar：linze_front：鏡頭方向固定（和設定的 yaw 差 ≤ 0.2 rad）  最大差 0.000 rad
+  [前置／捷徑] coplanar：wzpark_notice：讀檔到 wenzhou (23.6, 2.6) 14:00、玩家面向 (22.0, 6.3)；E.cam.yaw=2.733（鏡頭固定）— BACKLOG-A7：小公園入口公布欄（可選）
+  coplanar：wzpark_notice 連拍 10 張，實際 3.17 秒（第一張到最後一張的開始時間）；E.frame 3508 → 3635
+  coplanar：wzpark_notice diff：{"skipped": "沒有 PIL（pip 的 Pillow），沒算差異"}
+PASS coplanar：wzpark_notice：連拍 10 張都存了  n=10
+PASS coplanar：wzpark_notice：區域 wenzhou、時間 14:00  [["wenzhou", "wenzhou", 14.083], ["wenzhou", "wenzhou", 14.103]]
+PASS coplanar：wzpark_notice：鏡頭方向固定（和設定的 yaw 差 ≤ 0.2 rad）  最大差 0.000 rad
+PASS coplanar：沒有 JS 例外  []
+=== coplanar PASS（44 張、114 秒）
+ALL PASS
