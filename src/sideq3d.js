@@ -410,7 +410,7 @@ const SIDEQ=(function(){
   S.clubNext=function(G){ if(typeof ACTIVITIES==='undefined'||!ACTIVITIES.list||!ACTIVITIES.on) return null; const a=ACTIVITIES.list.find(x=>x.id==='club_guitar'); if(!a) return null;
     for(let d=G.day+1;d<=G.day+21;d++) if(ACTIVITIES.on(a,d)) return {day:d,t0:a.t0,room:a.roomName||'法律系館B'}; return null; };
   S.CLUB_EV={ id:'ev_sq06_club', title:'吉他社社課', participants:[ZQ], location:'any', trigger:'outing', background:'dark', hours:1,
-    dialogue:[{scene:'法律系館B 多功能教室'},{speaker:ZQ,text:L.SQ06.zq},{consequences:{rel:{[ZQ]:{fam:2}}}}],
+    dialogue:[{scene:'法律系館B 多功能教室',bg:'wancai_seminar'},{speaker:ZQ,text:L.SQ06.zq},{consequences:{rel:{[ZQ]:{fam:2}}}}],
     after:(G,GM)=>{ const r=S.get(G,'SQ06'); if(r&&r.state==='open'&&r.step==='club'){ r.helped=true; S.finish(GM||{G},'SQ06',r); } },
     outingMissed:(G)=>{ const r=S.get(G,'SQ06'); if(r&&r.state==='open'&&r.step==='club'){ r.state='lapsed'; r.lapseDay=G.day; } } };
 

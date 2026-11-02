@@ -2522,7 +2522,7 @@ const STORY_EVENTS=[
      演完時間到 12:10、人在霖澤館的穿堂（走出穿堂時回頭看）。低馬尾的女生是背景（法律系的人這一年不對話）*/
   { id:'ev_y0_e24b2', retired:'AA_218 第 11 節、AA_154 0b-2（2026-10-17）：祐廷 2024-10-17 休學，這件刪除。定義留給已經演過的舊存檔', stage:'econ', title:'偷偷旁聽', participants:[], location:'any', trigger:'auto', term:['Y0S2'], once:true, background:'dark',
     prereq:{custom:G=>{ const d=typeof STORY!=='undefined'&&STORY.dayOfKey?STORY.dayOfKey('2025-02-26'):null; return d!=null&&G.day===d&&G.hour>=7&&G.hour<10.5&&!!G.flags.E24B_HUANG; }},
-    dialogue:[ {scene:'法律系館A'},{speaker:null,text:'（你翹了微積分，走進法律系館A。一間大教室，你坐最後一排。）'},
+    dialogue:[ {scene:'法律系館A',bg:'ntu_linze'},{speaker:null,text:'（你翹了微積分，走進法律系館A。一間大教室，你坐最後一排。）'},
       {speaker:null,text:'（台上在講一個案子。前排一個綁低馬尾的女生舉手，說了一段話，大家都在抄。）'},
       {speaker:null,text:'（下課鐘響。你是第一個走的。沒有人認識你。）'},{speaker:null,text:'（走出穿堂時，你回頭看了一眼。）'} ],
     after:async(G,GM)=>{ if(G.hour<12+10/60) GM.advance(12+10/60-G.hour); if(GM.enter) await GM.enter('campus',{x:30.0,z:-107.4,yaw:Math.PI/2}); } },
@@ -3354,7 +3354,7 @@ const STORY_EVENTS=[
   /* ★E19 誤會（BB_104 8-6、第 3-1 節 E19 那一列；AA_154 第 139 行、A33、A34；固定核心）：1/2（四）會計考完，群組韋綸約（story3d.js）＋出發選單 19:00；19:15 沒出發＝韋綸打電話直接進出遊。
      E19_ASK：direct／joke／none（E25、E28 讀它）。開頭三句旁白與品妤那句取自 BB_104 第 3-1 節 E19 那一列的描述（等 BB-B 確認或給定稿）；不問的版本她之後傳一則（story3d.js） */
   { id:'ev_y0_e19', retired:'AA_224 1-3（LIFE-LINE，2026-10-17）：「以為她喜歡唐睿」併進 10/17 車上（ev_y0_e26），寒假前的聚餐不再單獨演。定義留給已經演過的舊存檔', stage:'econ', title:'誤會', participants:['econ_pinyu','kexin'], location:'any', trigger:'outing', once:true, background:'dark', hours:2.5,
-    dialogue:[ {scene:'公館'},
+    dialogue:[ {scene:'公館',bg:'gongguan'},
       {speaker:null,text:'（公館的聚餐。考完了，桌上的菜一盤一盤上來。）'},   /* 開頭：BB-B 定稿（BB_104，6d59df01）*/
       {speaker:null,text:'（可昕和唐睿聊劇社，聊到整桌都在聽。唐睿學了一段即興，她笑到筷子掉了。）'},
       {speaker:'econ_pinyu',text:'（夾菜，沒有看你）可昕說她喜歡很會講話的人。'},
@@ -3676,7 +3676,7 @@ const STORY_EVENTS=[
       if(GM&&GM.memo) GM.memo(sc>=3?'模擬法庭：你們準備得夠，結辯也站得住。':'模擬法庭：芯慈那隊準備得比你們多一步。'); } },
   /* 模 6 結果之後（當晚 19:00 麵店，出遊；可以錯過＝21:30 群組照片）：輸＝阿哲分滷味、學姊「這是最好的輸法」、以安手帳；贏＝芯慈「你們第三段很好」、學姊收評分表（BB_97 2-6）*/
   { id:'ev_moot_6', retired:'使用者 2026-10-17 刪除模擬法庭（「這不符合我在臺大法律的回憶」；AA_252：改成大四專題討論的法院旁聽）：停用，舊存檔的旗標留著、不再讀', title:'結果之後', participants:[], location:'any', trigger:'outing', once:true, background:'dark', hours:2,
-    dialogue:[ {scene:'阿鳳麵店'},
+    dialogue:[ {scene:'阿鳳麵店',bg:'noodle_table'},
       {unless:{flags:['MOOT_WIN']},speaker:null,text:'（阿哲把外帶的滷味分給大家。）'},
       {unless:{flags:['MOOT_WIN']},speaker:'heroine_05',expression:'smile',text:'你們輸給了一個準備得比你們好的隊伍。這是最好的輸法。'},
       {unless:{flags:['MOOT_WIN']},speaker:null,text:'（以安在手帳上寫：「計畫以外：輸了也很開心。」）'},
