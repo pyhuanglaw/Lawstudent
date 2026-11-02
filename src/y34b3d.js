@@ -843,9 +843,10 @@ const Y34B=(function(){
     {speaker:null,text:'（研究室門口的長椅，門上貼著「口試中」。）'},
     {speaker:null,text:'（門開了。她出來。研究室的同學先鼓掌。）'},
     {cg:'cg_defense_day_heroine05'},
-    {speaker:'heroine_05',text:'過了。'},
+    {speaker:'heroine_05',text:'許老師問我第四章為什麼那麼長。'},   /* AA_591 決5 乙（第 218～221 列、新5；使用者 11-02 照共創，新6「手在抖」拿掉）*/
     {speaker:'heroine_05',text:'我說因為我寫得很開心。'},
     {speaker:'player',text:'許老師怎麼說？'},
+    {speaker:'heroine_05',text:'他說過了。'},
     {unless:C(dSis),speaker:'heroine_05',text:'好。我請大家喝飲料。販賣機的。'},
     {if:C(G=>!dSis(G)&&G.flags.SIS_INTERVIEW==='went'),speaker:'heroine_05',text:'致謝裡有你。'},
     {if:C(G=>!dSis(G)&&G.flags.SIS_INTERVIEW==='went'),speaker:'heroine_05',text:'那一句『他講到這裡，停了很久』，我用在第四章了。'},   /* AA_379 3-4（企劃線 d037c668）：接 2-5 訪談去過（SIS_INTERVIEW went）；研究助理（M8、RA_WORK）作廢、不恢復 */

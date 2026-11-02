@@ -529,12 +529,11 @@ const R2Y4B_EVENTS=(function(){
       {speaker:null,text:'（太陽慢慢沉到峽谷另一邊。風很大，她把外套拉鍊拉到最上面。）'},
       {choice:[{text:'「學姊，我喜歡妳。」',goto:'say'},{text:'（看著峽谷，不說話）',goto:'she'}]},
       {label:'say'},{if:SIS_KNOWS,call:async(G,GM)=>{ const r=R(); if(r) await r.canyonKnow(GM,true); }},{goto:'air',if:CANYON_KNEW},   /* AA_474 3b：她知道祐廷正在和別人交往＝告白那一刻接 KNOW.heroine_05（R2Y4B.canyonKnow）*/
-      {speaker:'heroine_05',text:'（她笑了。）你確定？'},{speaker:'heroine_05',text:'好。'},{goto:'yes'},
-      {label:'she'},{speaker:'heroine_05',text:'那我先說。'},
-      {speaker:'heroine_05',text:'我喜歡你。……我想了很久，要不要在這裡說。'},
-      {goto:'shek',if:SIS_KNOWS},   /* AA_481 第 2 節：她知道＝只說前兩句就接知情對話（「你要說好，還是要我再說一次。」接著又先問另一個人，玩家還沒開口就被換了題目）*/
-      {speaker:'heroine_05',text:'你要說好，還是要我再說一次。'},{goto:'yes'},
-      {label:'shek'},{call:async(G,GM)=>{ const r=R(); if(r) await r.canyonKnow(GM,false); }},{goto:'air',if:CANYON_KNEW},
+      {speaker:'heroine_05',text:'（她笑了。）你確定？'},{speaker:'heroine_05',text:'我很難相處喔。'},   /* AA_591 決4 乙（第 204、205 列、新3、新4；使用者 11-02 照共創）*/
+      {speaker:null,text:'（她把手伸給你。）'},{speaker:'heroine_05',text:'走吧。'},{goto:'yes'},
+      /* AA_591 第 11 節第 13 點（使用者 2026-11-02 選「不會先說」）：她先說的那一支（保467～469「那我先說。」……）整支拿掉——
+         祐廷沒開口，這一次就什麼都沒發生（SIS_CANYON 'silent'：不交往，R2Y4B.canyonAfter 只在 'confess' 才開始交往），等下一次 */
+      {label:'she'},{set:{SIS_CANYON:'silent'}},{goto:'air'},
       {label:'yes'},{set:{SIS_CANYON:'confess',CALLED_SHUYU:true}},
       {label:'air'},   /* 知情對話演過（SIS_CANYON 由 canyonKnow 記：答應＝confess，不交往＝knows）*/
       {advance:toDay('2028-10-15',3)},{scene:'鳳凰城的機場',bg:'us_airport'},   /* BB_220★：鳳凰城機場→us_airport（AA_370 合併以後接，BG-DARK-70-1021 最後一列）*/

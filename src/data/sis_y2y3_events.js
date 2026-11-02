@@ -146,10 +146,11 @@ const SISY23_EVENTS=(function(){
         {scene:'社區活動中心門口',bg:'community_gate'},
         SIS('你記到哪裡？'),
         {choice:[{text:'「他太太那段。」',goto:'a'},{text:'「他的原子筆。」',goto:'b'}]},
-        {label:'a'},SIS('……那段我不會寫進論文。'),SIS('可是我要記得。'),{goto:'end'},
+        {label:'a'},SIS('……那段我不會寫進論文。'),SIS('可是我要記得。'),{unless:dt,goto:'end'},
+        N('（她沒有回答，把頭靠在你肩膀上一下。）'),SIS('好了。吃飯。'),{goto:'iv2set'},   /* AA_591 決6 乙（新1、新2；使用者 11-02 選「加」）：交往中這一支，咖啡那兩句不演 */
         {label:'b'},N('（她看了一下你的筆記。）'),SIS('我也看到了。'),
         {label:'end'},N('（她去便利商店買了兩杯咖啡，一杯給你。）'),SIS('今天的工資。'),
-        {set:{SIS_INTERVIEW2:'went'}} ],
+        {label:'iv2set'},{set:{SIS_INTERVIEW2:'went'}} ],
       outingMissed:G=>{ const x=X(); if(x) x.missed(G,'iv2'); } },
     /* ---------- 2-6 11/12（五）12:20 總圖門口的台階（第一次見面的那個台階；11/1～11/9 都沒遇到的）---------- */
     { id:'ev_sis_us_told_steps', title:'明年夏天', participants:[ID], location:'any', trigger:'outing', once:true, background:'dark', hours:0.5,
