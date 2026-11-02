@@ -47,7 +47,7 @@ await sec('1',async()=>{
   /* 1-B1 直屬學姊（閱覽室、大廳自習區）；台階、Café 不插 */
   await runOut('1-B1 ev_sis_w1（閱覽室）','ev_sis_w1','library',0,[],'（你們走到樓梯間。）',{date:'2025-09-10',h:15,nBefore:0});
   const r1=await runOut('1-B1 ev_sis_w1（大廳二樓自習區）','ev_sis_w1','library_hall',1,[],'（你們走到樓梯間。）',{date:'2025-09-10',h:15,nBefore:0});
-  check('1-B1：先「（她抬頭看到你，點了一下頭，指了指門外。）」再「（你們走到樓梯間。）」，再接「學姊好……」',!!r1&&r1.S[r1.k-1].t==='（她抬頭看到你，點了一下頭，指了指門外。）'&&/^學姊好/.test(r1.S[r1.k+1].t),r1&&J(r1.lines));
+  check('1-B1：先「（她抬頭看到你，點了一下頭，指了指門外。）」再「（你們走到樓梯間。）」，再接「學姊好……」',!!r1&&(r1.S[r1.k-1]||{}).t==='（她抬頭看到你，點了一下頭，指了指門外。）'&&/^學姊好/.test((r1.S[r1.k+1]||{}).t),r1&&J(r1.lines));
   H.fresh('2025-09-10',12.5,'cafe'); at('cafe',0,0,0); H.said=[]; await EVENTS.run(ev('ev_sis_w1'));
   check('1-B1：Café 版不插（不走樓梯間）',!H.said.some(s=>/樓梯間|指了指門外/.test(s.t)),J(H.lines()));
   /* 1-B2 晚到版（法圖、閱覽室、大廳自習區）；Café 不插 */
@@ -60,7 +60,7 @@ await sec('1',async()=>{
   await runOut('1-B7 ev_an_dorm_appeal_result','ev_an_dorm_appeal_result','library',0,[],'（她指了指外面。你們走到樓梯間。）',{nBefore:0});
   await runOut('1-B11 ev_bohan_exam_group','ev_bohan_exam_group','library',0,[1],'（他收書出來，在總圖門口叫住你。）',{date:'2026-10-20',nBefore:0});
   const r13=await runOut('1-B13 ev_yutong_thanks（交往中）','ev_yutong_thanks','library',0,[1],'（你們走到樓梯間。）',{h:21.5,flags:{yutong_hospital:true,dating_heroine_03:true},nBefore:0});
-  check('1-B13：開頭「（她看到你，闔上書，指了指外面。）」；結尾「閉館的時候叫我。」改旁白「（她趴在桌上，指了指手錶。）」',!!r13&&r13.S[0].t==='（她看到你，闔上書，指了指外面。）'&&!r13.S.some(s=>s.t.includes('閉館的時候叫我'))&&r13.S[r13.S.length-1].t==='（她趴在桌上，指了指手錶。）'&&!r13.S[r13.S.length-1].who,r13&&J(r13.lines));
+  check('1-B13：開頭「（她看到你，闔上書，指了指外面。）」；結尾「閉館的時候叫我。」改旁白「（她趴在桌上，指了指手錶。）」',!!r13&&(r13.S[0]||{}).t==='（她看到你，闔上書，指了指外面。）'&&!r13.S.some(s=>s.t.includes('閉館的時候叫我'))&&(r13.S[r13.S.length-1]||{}).t==='（她趴在桌上，指了指手錶。）'&&!r13.S[r13.S.length-1].who,r13&&J(r13.lines));
   const r14=await runOut('1-B14 ev_xinci_double','ev_xinci_double','library',0,[0],'（她在便利貼上寫：『出去一下？』你們走到樓梯間。）',{nBefore:0});
   check('1-B14：「（總圖裡，她壓低聲音。）」換掉了',!!r14&&!r14.S.some(s=>s.t.includes('壓低聲音')));
   await runOut('1-B22 ev_yt_ta_news_lib','ev_yt_ta_news_lib','library_hall',1,[0],'（她收書出來，在門口叫住你。）',{date:'2027-09-13',nBefore:0});
@@ -69,14 +69,14 @@ await sec('1',async()=>{
   const r35=await runOut('1-B35 ev_sis_lawlib_kevin','ev_sis_lawlib_kevin','lawlib',1,['那我不吵你們',0],'（法圖外的走廊。Kevin 趴在長椅上。）',{date:'2028-03-03',h:12.5,nBefore:0});
   check('1-B35：搬到走廊（「法圖最裡面那張桌子」那句換掉）',!!r35&&!r35.S.some(s=>s.t.includes('法圖最裡面那張桌子')));
   const r36=await runOut('1-B36 ev_sis15_flask','ev_sis15_flask','library',0,[0],'（她指了指外面。你們走到樓梯間。）',{date:'2026-01-14',h:15,nBefore:0});
-  check('1-B36：「幫我看一下東西。……我去裝熱水。」改便利貼「（她在便利貼上寫：『幫我看一下東西。我去裝水。』）」；樓梯間在「她回來的時候」之後',!!r36&&r36.S.some(s=>!s.who&&s.t==='（她在便利貼上寫：『幫我看一下東西。我去裝水。』）')&&!r36.S.some(s=>s.t.includes('我去裝熱水'))&&r36.S[r36.k-1].t==='（她回來的時候，你還坐在旁邊。）',r36&&J(r36.lines));
+  check('1-B36：「幫我看一下東西。……我去裝熱水。」改便利貼「（她在便利貼上寫：『幫我看一下東西。我去裝水。』）」；樓梯間在「她回來的時候」之後',!!r36&&r36.S.some(s=>!s.who&&s.t==='（她在便利貼上寫：『幫我看一下東西。我去裝水。』）')&&!r36.S.some(s=>s.t.includes('我去裝熱水'))&&(r36.S[r36.k-1]||{}).t==='（她回來的時候，你還坐在旁邊。）',r36&&J(r36.lines));
   await runOut('1-B44 ev_vf_y3_0214','ev_vf_y3_0214','lawlib',1,[1],'（借完書出來，在法圖門口。）',{date:'2028-02-14',h:19,nBefore:0});
   const r45=await runOut('1-B45 ev_an_sis_meet_lawlib','ev_an_sis_meet_lawlib','lawlib',1,[],'（閉館以後，你們在法圖門口又遇到。）',{date:'2027-11-10',h:20,nBefore:2});
   check('1-B45：借六法改便利貼「（便利貼：六法借我一下。）」',!!r45&&r45.S.some(s=>!s.who&&s.t==='（便利貼：六法借我一下。）')&&!r45.S.some(s=>s.t.includes('可以借一下六法嗎')),r45&&J(r45.lines));
   const r46=await runOut('1-B46 ev_sk01_soc','ev_sk01_soc','soclib',0,[0],'（社科圖門口。）',{date:'2025-09-18',h:12.5,nBefore:0});
-  check('1-B46：「（他把統計課本拿起來，用下巴指了指位子。）」之後、對話之前',!!r46&&r46.S[r46.k-1].t==='（他把統計課本拿起來，用下巴指了指位子。）'&&r46.S[r46.k+1].t==='坐。課本是佔位用的，我沒在讀。',r46&&J(r46.lines));
+  check('1-B46：「（他把統計課本拿起來，用下巴指了指位子。）」之後、對話之前',!!r46&&(r46.S[r46.k-1]||{}).t==='（他把統計課本拿起來，用下巴指了指位子。）'&&(r46.S[r46.k+1]||{}).t==='坐。課本是佔位用的，我沒在讀。',r46&&J(r46.lines));
   const r47=await runOut('1-B47 ev_sk12_soclib_table（陪她讀到閉館）','ev_sk12_soclib_table','soclib',0,[0],'（你們讀到十點。閉館的音樂響起來的時候，她出了一題機率題考你。你算錯了。）',{date:'2027-12-20',h:19.5,nBefore:6});
-  check('1-B47：開頭「（她沒抬頭，用筆指了指對面的位子。）」',!!r47&&r47.S[1].t==='（她沒抬頭，用筆指了指對面的位子。）',r47&&J(r47.lines));
+  check('1-B47：開頭「（她沒抬頭，用筆指了指對面的位子。）」',!!r47&&(r47.S[1]||{}).t==='（她沒抬頭，用筆指了指對面的位子。）',r47&&J(r47.lines));
   H.fresh('2027-12-20',19.5,'soclib'); at('soclib',0,0,0); LIBQ.reset(); H.said=[]; H.picks=[1]; await EVENTS.run(ev('ev_sk12_soclib_table'));
   check('1-B47：沒有陪到閉館的那幾支（沒走出去）：整場照加（小聲）',spoken(H.said).length>0&&spoken(H.said).every(s=>isQuiet(s.t)||isAct(s.t))&&balanced(),J(H.lines()));
   await runOut('1-B51 ev_yt_thursday_free','ev_yt_thursday_free','library',0,[0],'（她看到你，闔上書，指了指外面。）',{date:'2027-12-16',h:18.5,friends:['heroine_03'],nBefore:0});
