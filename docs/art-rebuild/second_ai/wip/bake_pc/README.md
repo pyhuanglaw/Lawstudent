@@ -4,9 +4,9 @@ LAWWW2（帳號 A）2026-11-02 21:1x。起因：BB 11-02 P1「光照烘焙搬到
 1. 寫烘焙工作單給 CC 排進佇列（KIND=blender、SHA=lawww2）；
 2. 第一張用小場景對照：雲端 CPU 和 PC Cycles GPU（HIP）各烘一次，比亮度和時間，**一致才採用**（BB_229 第 1 條）；
 3. 腳本讓 PC 選 GPU：`CC_BLENDER_DEVICE=HIP` 用 GPU，沒設就 CPU，雲端行為不變；
-4. 通過以後，3F、展演廳的烘焙交給 PC 夜間跑（發布前測試優先）。
+4. 通過以後，3F、展演廳的烘焙交給 PC 跑（發布前測試優先）。BB 21:08 更正：**不用排夜間**，使用者 20:4x 說電腦隨時可以用（BB_00 第 9 點），排在發布前測試後面就好。
 
-狀態：`CHECKPOINT_SAVED`（工作單和腳本寫好、雲端驗證過；PC 還沒跑）。commit、push 只是保存，不是核准，也不是發布。
+狀態：`CHECKPOINT_SAVED`（工作單和腳本寫好、雲端驗證過；PC 還沒跑）。CC 21:08：已排進 cc-testing 佇列（28fada015，BK1_cpu、BK1_hip，SHA lawww2＝fa9b9f5d8），在 ef63 發布前測試後面，預估 2～3 小時後開始；之後聯絡經 BB。commit、push 只是保存，不是核准，也不是發布。
 
 ## 改了什麼
 
@@ -48,5 +48,5 @@ python3 tools/blender/env_second/lightbake/pc_ref/compare_bakes.py <雲端參考
 
 ## 通過以後（還沒做）
 
-- 3F（`library_3f_v2`）、展演廳（`library_hall_v2` 第三版）的烘焙 driver：同樣做法（參數寫在 driver 裡、輸入 GLB commit），夜間排給 PC。
+- 3F（`library_3f_v2`）、展演廳（`library_hall_v2` 第三版）的烘焙 driver：同樣做法（參數寫在 driver 裡、輸入 GLB commit），通過對照就排給 PC（不用等夜間）。
 - BB 清單裡的「黑森林」：黑森林是戶外，**目前沒有光照烘焙**（即時光＋陰影），不用排。
