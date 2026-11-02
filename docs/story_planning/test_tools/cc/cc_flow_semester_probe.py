@@ -89,8 +89,9 @@ SKIP_FIRST = ('快轉', '存檔')   # 系統選單裡不當作「第一個選項
 
 
 def diff_keyf(a, b, htol):
-    """兩份 KEYF 的差異（list of str）"""
-    out = []
+    """兩份 KEYF 的差異 → (不一致, 只是新增)。新增＝前面沒有（null／沒有這個鍵）、後面有：
+    打開選單、存檔（snapshot）、讀檔（migrate）時各模組第一次用到才建的空紀錄（flags.FEED、MREL…；DAYS=1 雲端實測），不算資料不一致，只記 note"""
+    out, added = [], []
     for k in ('day', 'zone', 'stage', 'money', 'home', 'done', 'abs', 'late', 'evDone'):
         if a.get(k) != b.get(k): out.append('%s %s→%s' % (k, J(a.get(k)), J(b.get(k))))
     if abs(float(a.get('hour') or 0) - float(b.get('hour') or 0)) > htol: out.append('hour %s→%s' % (a.get('hour'), b.get('hour')))
@@ -99,8 +100,11 @@ def diff_keyf(a, b, htol):
     for grp in ('attend', 'exam', 'flags'):
         A, B = a.get(grp) or {}, b.get(grp) or {}
         for k in sorted(set(A) | set(B)):
-            if J(A.get(k)) != J(B.get(k)): out.append('%s.%s %s→%s' % (grp, k, J(A.get(k))[:80], J(B.get(k))[:80]))
-    return out
+            va, vb = A.get(k), B.get(k)
+            if J(va) == J(vb): continue
+            line = '%s.%s %s→%s' % (grp, k, J(va)[:80], J(vb)[:80])
+            (added if va is None else out).append(line)
+    return out, added
 
 
 # ---------------------------------------------------------------- 玩家操作
@@ -234,7 +238,7 @@ async def save_reload_check(pg, cdp, run, tag, fb_acc):
     raw = await pg.evaluate("localStorage.getItem('fatiao3d_slot_1')")
     if not raw: res['err'] = '欄位 1 是空的'; await L.close_panels(pg, cdp); return res
     slot = await pg.evaluate("(r=>(%s)(JSON.parse(r)))" % KEYF, raw)
-    d1 = diff_keyf(pre, slot, 0.05); res['pre_vs_slot'] = d1
+    d1, a1 = diff_keyf(pre, slot, 0.05); res['pre_vs_slot'] = d1; res['pre_vs_slot_added'] = a1
     fb_acc[0] += await pg.evaluate("GAME.walkFallbacks|0")
     ROWBUF.extend(await pg.evaluate(TAKE))
     await pg.reload()
@@ -250,7 +254,7 @@ async def save_reload_check(pg, cdp, run, tag, fb_acc):
         if imm: break
         await pg.wait_for_timeout(100)
     if not imm: res['err'] = '讀檔以後 GAME.G 沒換成欄位 1'; return res
-    d2 = diff_keyf(slot, imm, 0.01); res['slot_vs_load'] = d2
+    d2, a2 = diff_keyf(slot, imm, 0.01); res['slot_vs_load'] = d2; res['slot_vs_load_added'] = a2
     t0 = time.time(); free_since = None
     while time.time() - t0 < 300:   # 讀完、空下來 3 秒
         s = await P.ts(pg)
@@ -261,8 +265,9 @@ async def save_reload_check(pg, cdp, run, tag, fb_acc):
         else: free_since = None
         await pg.wait_for_timeout(500)
     settled = await pg.evaluate("(()=>{ const s=GAME.snapshot(); return (%s)(s); })()" % KEYF)
-    d3 = [x for x in diff_keyf(slot, settled, 0.5) if not x.startswith(('flags.', 'pos ', 'evDone'))]
-    res['settled_core'] = d3; res['settled_flags'] = [x for x in diff_keyf(slot, settled, 0.5) if x.startswith('flags.')]
+    d3a, d3b = diff_keyf(slot, settled, 0.5)
+    d3 = [x for x in d3a if not x.startswith(('flags.', 'pos ', 'evDone'))]
+    res['settled_core'] = d3; res['settled_flags'] = [x for x in d3a + d3b if x.startswith('flags.')]
     res['ok'] = not d1 and not d2 and not d3
     res['when'] = {'day': slot['day'], 'h': slot['hour'], 'zone': slot['zone']}
     return res
@@ -306,6 +311,7 @@ async def main():
 
             async def close_row(row, why):
                 rows = ROWBUF + await pg.evaluate(TAKE); ROWBUF.clear()
+                if not row['counted'] and not rows and not drv.picks: drv.reset_day(); return   # 開新遊戲以前的預設日期（G.day＝9/17，newGame 還沒改）：沒有任何紀錄＝不列
                 st = await pg.evaluate(STATE) or {}
                 exams = await pg.evaluate(EXAMS)
                 new_ex = {k: v for k, v in exams.items() if J(v) != J(row['exam0'].get(k))}
@@ -393,7 +399,8 @@ async def main():
                     try: res = await save_reload_check(pg, cdp, run, st['key'], fb_acc)
                     except Exception as e: res = {'ok': False, 'err': repr(e)[:300]}
                     row['save'] = res
-                    run.check('%s：選單存到欄位 1、重新整理、標題讀取欄位 1，day／hour／zone／flags／出席一致' % st['key'], res.get('ok'), J(res)[:900])
+                    if res.get('pre_vs_slot_added') or res.get('slot_vs_load_added'): run.note('%s 存讀檔：只是新增的鍵（不算不一致）%s' % (st['key'], J((res.get('pre_vs_slot_added') or []) + (res.get('slot_vs_load_added') or []))[:600]))
+                    run.check('%s：選單存到欄位 1、重新整理、標題讀取欄位 1，day／hour／zone／flags／出席一致' % st['key'], res.get('ok'), J({k: v for k, v in res.items() if not k.endswith('_added')})[:1500])
                     since = time.time(); last = None; continue
                 row['counted'] = True
                 await bed(pg, cdp, run, drv, ('睡到明天', '睡一下（', '睡覺'), '%s %s 晚上' % (st['key'], hm(h)))
