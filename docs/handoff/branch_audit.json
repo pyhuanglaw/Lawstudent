@@ -1,13 +1,13 @@
 {
- "at": "2026-11-01T06:11Z",
+ "at": "2026-11-02T03:46Z",
  "main": "27e6ce77e",
- "ruleSource": "claude/modest-rubin-2lyp7g",
+ "ruleSource": "claude/confident-ritchie-8rwh7t",
  "counts": {
   "保留｜主線": 1,
-  "保留｜崗位在用": 4,
+  "保留｜崗位在用": 3,
   "保留｜WIP 沒整合完": 4,
-  "保留｜main 沒有的內容": 3,
-  "清理候選": 14
+  "保留｜main 沒有的內容": 5,
+  "清理候選": 13
  },
  "branches": [
   {
@@ -21,44 +21,34 @@
    "ahead": 0
   },
   {
-   "ref": "origin/claude/cool-heisenberg-o8kuqx",
-   "branch": "claude/cool-heisenberg-o8kuqx",
-   "sha": "06ff0acc6dc2463639a12cb76b52eb62aa9e3cae",
-   "date": "2026-10-31T22:51:42+00:00",
-   "who": "AA-B",
+   "ref": "origin/claude/confident-ritchie-8rwh7t",
+   "branch": "claude/confident-ritchie-8rwh7t",
+   "sha": "40de68ef2746b3f03e7175ac145db3aa8564ecef",
+   "date": "2026-11-02T03:44:12+00:00",
+   "who": "LAWWW-A、RULE_SOURCE",
    "kind": "保留｜崗位在用",
-   "why": "duty.json：AA-B",
-   "ahead": 5087
+   "why": "duty.json：LAWWW-A、RULE_SOURCE",
+   "ahead": 241
   },
   {
-   "ref": "origin/claude/elegant-brown-fcos7n",
-   "branch": "claude/elegant-brown-fcos7n",
-   "sha": "3e8a3bf43e8d9edb96d6955e951233c7739ef5c6",
-   "date": "2026-11-01T06:07:54+00:00",
-   "who": "BB-B",
+   "ref": "origin/claude/second-ai-env-art",
+   "branch": "claude/second-ai-env-art",
+   "sha": "1b3e30244bf931306dc0e3e93736e77de9866820",
+   "date": "2026-11-02T03:43:41+00:00",
+   "who": "LAWWW2-A",
    "kind": "保留｜崗位在用",
-   "why": "duty.json：BB-B",
-   "ahead": 5201
+   "why": "duty.json：LAWWW2-A",
+   "ahead": 1508
   },
   {
-   "ref": "origin/claude/funny-albattani-iawshm",
-   "branch": "claude/funny-albattani-iawshm",
-   "sha": "55e2b226fa3399f017beedaea5e392e71e2c09da",
-   "date": "2026-11-01T05:50:55+00:00",
-   "who": "LAWWW2-B",
+   "ref": "origin/claude/story-planning",
+   "branch": "claude/story-planning",
+   "sha": "548707eb22000f8346c4d1c1e263b85f8858f817",
+   "date": "2026-11-02T03:43:08+00:00",
+   "who": "AA-A、BB-A",
    "kind": "保留｜崗位在用",
-   "why": "duty.json：LAWWW2-B",
-   "ahead": 1493
-  },
-  {
-   "ref": "origin/claude/modest-rubin-2lyp7g",
-   "branch": "claude/modest-rubin-2lyp7g",
-   "sha": "d1e842ba5238e704343995c8fa018118357d4904",
-   "date": "2026-11-01T06:09:39+00:00",
-   "who": "LAWWW-B、RULE_SOURCE",
-   "kind": "保留｜崗位在用",
-   "why": "duty.json：LAWWW-B、RULE_SOURCE",
-   "ahead": 133
+   "why": "duty.json：AA-A、BB-A",
+   "ahead": 5417
   },
   {
    "ref": "origin/claude/adoring-meitner-mqzst8",
@@ -101,16 +91,55 @@
    "ahead": 4381
   },
   {
-   "ref": "origin/claude/second-ai-env-art",
-   "branch": "claude/second-ai-env-art",
-   "sha": "ff339df10b86bfffdb44097f9404191c1b297ef9",
-   "date": "2026-10-22T15:09:52+00:00",
-   "who": "LAWWW2-A（交班過）",
-   "ahead": 850,
-   "why": "main 沒有的 commit 844 個（內容比對）；分出去以後改的檔案有 2254 個和 main 不一樣；整條分支已經在 claude/funny-albattani-iawshm 裡（還沒發布到 main）",
+   "ref": "origin/claude/cool-heisenberg-o8kuqx",
+   "branch": "claude/cool-heisenberg-o8kuqx",
+   "sha": "c989cc066b5a0953e2430a8024f21382117929f1",
+   "date": "2026-11-01T08:58:22+00:00",
+   "who": "AA-B（交班過）",
+   "ahead": 5094,
+   "why": "main 沒有的 commit 4645 個（內容比對）；分出去以後改的檔案有 2123 個和 main 不一樣；整條分支已經在 claude/story-planning 裡（還沒發布到 main）",
    "kind": "保留｜main 沒有的內容",
    "inside": [
-    "claude/funny-albattani-iawshm"
+    "claude/story-planning"
+   ]
+  },
+  {
+   "ref": "origin/claude/elegant-brown-fcos7n",
+   "branch": "claude/elegant-brown-fcos7n",
+   "sha": "22ddbea54deb8201e2c5f2bc0f80e4930850f816",
+   "date": "2026-11-01T08:59:12+00:00",
+   "who": "BB-B（交班過）",
+   "ahead": 5223,
+   "why": "main 沒有的 commit 4776 個（內容比對）；分出去以後改的檔案有 2126 個和 main 不一樣；整條分支已經在 claude/story-planning 裡（還沒發布到 main）",
+   "kind": "保留｜main 沒有的內容",
+   "inside": [
+    "claude/story-planning"
+   ]
+  },
+  {
+   "ref": "origin/claude/funny-albattani-iawshm",
+   "branch": "claude/funny-albattani-iawshm",
+   "sha": "e16b32ad00e6bc9a23432c177b2626b7dab61c21",
+   "date": "2026-11-01T09:02:19+00:00",
+   "who": "LAWWW2-B（交班過）",
+   "ahead": 1506,
+   "why": "main 沒有的 commit 1500 個（內容比對）；分出去以後改的檔案有 2998 個和 main 不一樣；整條分支已經在 claude/second-ai-env-art 裡（還沒發布到 main）",
+   "kind": "保留｜main 沒有的內容",
+   "inside": [
+    "claude/second-ai-env-art"
+   ]
+  },
+  {
+   "ref": "origin/claude/modest-rubin-2lyp7g",
+   "branch": "claude/modest-rubin-2lyp7g",
+   "sha": "02898d56c89b78d57a92fbc4f10ba407fc142575",
+   "date": "2026-11-02T03:09:45+00:00",
+   "who": "LAWWW-B（交班過）",
+   "ahead": 237,
+   "why": "main 沒有的 commit 219 個（內容比對）；分出去以後改的檔案有 434 個和 main 不一樣；整條分支已經在 claude/confident-ritchie-8rwh7t 裡（還沒發布到 main）",
+   "kind": "保留｜main 沒有的內容",
+   "inside": [
+    "claude/confident-ritchie-8rwh7t"
    ]
   },
   {
@@ -123,31 +152,6 @@
    "why": "main 沒有的 commit 5 個（內容比對）；分出去以後改的檔案有 16 個和 main 不一樣",
    "kind": "保留｜main 沒有的內容",
    "inside": []
-  },
-  {
-   "ref": "origin/claude/story-planning",
-   "branch": "claude/story-planning",
-   "sha": "4a25046b784343b5d1556eabaa3bd41783dd2f42",
-   "date": "2026-10-22T15:08:42+00:00",
-   "who": "AA-A（交班過）、BB-A（交班過）",
-   "ahead": 3835,
-   "why": "main 沒有的 commit 3389 個（內容比對）；分出去以後改的檔案有 1733 個和 main 不一樣；整條分支已經在 claude/cool-heisenberg-o8kuqx、claude/elegant-brown-fcos7n 裡（還沒發布到 main）",
-   "kind": "保留｜main 沒有的內容",
-   "inside": [
-    "claude/cool-heisenberg-o8kuqx",
-    "claude/elegant-brown-fcos7n"
-   ]
-  },
-  {
-   "ref": "origin/claude/confident-ritchie-8rwh7t",
-   "branch": "claude/confident-ritchie-8rwh7t",
-   "sha": "719cca3bc3d9adce0cb0c92c1786d96eea524c18",
-   "date": "2026-10-22T15:12:12+00:00",
-   "who": "LAWWW-A（交班過）",
-   "ahead": 0,
-   "why": "整條分支是 main 的祖先",
-   "kind": "清理候選",
-   "restore": "git push origin 719cca3bc3d9:refs/heads/claude/confident-ritchie-8rwh7t"
   },
   {
    "ref": "origin/claude/friendly-brahmagupta-6bbkzc",

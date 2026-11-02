@@ -20,23 +20,23 @@
 <!-- BRANCH-AUDIT:BEGIN（tools/handoff/branch_audit.py --write 產生，不要手改）-->
 ## 定期唯讀稽核（最新一次；BRANCH-AUDIT-1028）
 
-**稽核時間**：2026-11-01T06:11Z（`tools/handoff/branch_audit.py`，只讀）；main＝`27e6ce77e`；共 26 條遠端分支：保留｜主線 1、保留｜崗位在用 4、保留｜WIP 沒整合完 4、保留｜main 沒有的內容 3、清理候選 14
+**稽核時間**：2026-11-02T03:46Z（`tools/handoff/branch_audit.py`，只讀）；main＝`27e6ce77e`；共 26 條遠端分支：保留｜主線 1、保留｜崗位在用 3、保留｜WIP 沒整合完 4、保留｜main 沒有的內容 5、清理候選 13
 
 | 分類 | 分支 | 最後 commit | 誰的（duty.json） | main 沒有的 commit | 判斷 |
 |---|---|---|---|---|---|
 | 保留｜主線 | `main` | `27e6ce77e`（2026-11-01） | — | 0 | GitHub Pages 正式版 |
-| 保留｜崗位在用 | `claude/cool-heisenberg-o8kuqx` | `06ff0acc6`（2026-10-31） | AA-B | 5087 | duty.json：AA-B |
-| 保留｜崗位在用 | `claude/elegant-brown-fcos7n` | `3e8a3bf43`（2026-11-01） | BB-B | 5201 | duty.json：BB-B |
-| 保留｜崗位在用 | `claude/funny-albattani-iawshm` | `55e2b226f`（2026-11-01） | LAWWW2-B | 1493 | duty.json：LAWWW2-B |
-| 保留｜崗位在用 | `claude/modest-rubin-2lyp7g` | `d1e842ba5`（2026-11-01） | LAWWW-B、RULE_SOURCE | 133 | duty.json：LAWWW-B、RULE_SOURCE |
+| 保留｜崗位在用 | `claude/confident-ritchie-8rwh7t` | `40de68ef2`（2026-11-02） | LAWWW-A、RULE_SOURCE | 241 | duty.json：LAWWW-A、RULE_SOURCE |
+| 保留｜崗位在用 | `claude/second-ai-env-art` | `1b3e30244`（2026-11-02） | LAWWW2-A | 1508 | duty.json：LAWWW2-A |
+| 保留｜崗位在用 | `claude/story-planning` | `548707eb2`（2026-11-02） | AA-A、BB-A | 5417 | duty.json：AA-A、BB-A |
 | 保留｜WIP 沒整合完 | `claude/adoring-meitner-mqzst8` | `c76d0cb69`（2026-10-28） | LAWWW-C（交班過） | 0 | wip.json：WIP-DORM-ROOM4-0829、WIP-AB65-3-Y1S2-L、WIP-V0-REWRITE-L、WIP-LAWWW-RC4-1021 |
 | 保留｜WIP 沒整合完 | `claude/focused-cray-c9uwvw` | `4b1fcc458`（2026-10-28） | LAWWW2-C（交班過） | 1201 | wip.json：WIP-L2-YUTING-FACE、WIP-L2-SHOP-BG、WIP-L2-DATE-CUTOUTS、WIP-L2-SOP、WIP-L2-PS-SKIRT-LEG、WIP-L2-SOC-COURT-1021 |
 | 保留｜WIP 沒整合完 | `claude/magical-albattani-bk7b4n` | `ea43bd9a0`（2026-10-28） | AA-C（交班過） | 4325 | wip.json：WIP-AA-211、WIP-AA-194-L12、WIP-AA-199-VAC、WIP-AA-210-NYE、WIP-AA-212-AB655、WIP-AA-208-ROOM4、WIP-AA-103-SP、WIP-AA-213-US |
 | 保留｜WIP 沒整合完 | `claude/wonderful-mayer-7fm9g6` | `3e23808e7`（2026-10-28） | BB-C（交班過） | 4381 | wip.json：WIP-BB-181、WIP-BB-LADDER-Y2Y4、WIP-BB-HOLIDAY-SYS、WIP-BB-START-WEEK、WIP-BB-SIS-BF、WIP-BB-POSTCARDS、WIP-BB-S3 |
-| 保留｜main 沒有的內容 | `claude/second-ai-env-art` | `ff339df10`（2026-10-22） | LAWWW2-A（交班過） | 850 | main 沒有的 commit 844 個（內容比對）；分出去以後改的檔案有 2254 個和 main 不一樣；整條分支已經在 claude/funny-albattani-iawshm 裡（還沒發布到 main） |
+| 保留｜main 沒有的內容 | `claude/cool-heisenberg-o8kuqx` | `c989cc066`（2026-11-01） | AA-B（交班過） | 5094 | main 沒有的 commit 4645 個（內容比對）；分出去以後改的檔案有 2123 個和 main 不一樣；整條分支已經在 claude/story-planning 裡（還沒發布到 main） |
+| 保留｜main 沒有的內容 | `claude/elegant-brown-fcos7n` | `22ddbea54`（2026-11-01） | BB-B（交班過） | 5223 | main 沒有的 commit 4776 個（內容比對）；分出去以後改的檔案有 2126 個和 main 不一樣；整條分支已經在 claude/story-planning 裡（還沒發布到 main） |
+| 保留｜main 沒有的內容 | `claude/funny-albattani-iawshm` | `e16b32ad0`（2026-11-01） | LAWWW2-B（交班過） | 1506 | main 沒有的 commit 1500 個（內容比對）；分出去以後改的檔案有 2998 個和 main 不一樣；整條分支已經在 claude/second-ai-env-art 裡（還沒發布到 main） |
+| 保留｜main 沒有的內容 | `claude/modest-rubin-2lyp7g` | `02898d56c`（2026-11-02） | LAWWW-B（交班過） | 237 | main 沒有的 commit 219 個（內容比對）；分出去以後改的檔案有 434 個和 main 不一樣；整條分支已經在 claude/confident-ritchie-8rwh7t 裡（還沒發布到 main） |
 | 保留｜main 沒有的內容 | `claude/second-ai-env-art-wip-trees` | `22ff594d7`（2026-10-14） | — | 7 | main 沒有的 commit 5 個（內容比對）；分出去以後改的檔案有 16 個和 main 不一樣 |
-| 保留｜main 沒有的內容 | `claude/story-planning` | `4a25046b7`（2026-10-22） | AA-A（交班過）、BB-A（交班過） | 3835 | main 沒有的 commit 3389 個（內容比對）；分出去以後改的檔案有 1733 個和 main 不一樣；整條分支已經在 claude/cool-heisenberg-o8kuqx、claude/elegant-brown-fcos7n 裡（還沒發布到 main） |
-| 清理候選 | `claude/confident-ritchie-8rwh7t` | `719cca3bc`（2026-10-22） | LAWWW-A（交班過） | 0 | 整條分支是 main 的祖先。還原：`git push origin 719cca3bc3d9:refs/heads/claude/confident-ritchie-8rwh7t` |
 | 清理候選 | `claude/friendly-brahmagupta-6bbkzc` | `eb53fd75c`（2026-10-10） | — | 0 | 整條分支是 main 的祖先。還原：`git push origin eb53fd75caa4:refs/heads/claude/friendly-brahmagupta-6bbkzc` |
 | 清理候選 | `claude/release-v9.8` | `e987af481`（2026-10-16） | — | 0 | 整條分支是 main 的祖先。還原：`git push origin e987af48137a:refs/heads/claude/release-v9.8` |
 | 清理候選 | `claude/release-v9.8-rc2` | `1ebfefcb9`（2026-10-16） | — | 0 | 整條分支是 main 的祖先。還原：`git push origin 1ebfefcb94bd:refs/heads/claude/release-v9.8-rc2` |

@@ -439,7 +439,7 @@ await sec(6,async()=>{
 /* ---- 7 第 7、9 節給 BB 的測試項目、2D 背景；舊存檔 ---- */
 await sec(7,async()=>{
   const sb=fs.readFileSync(path.join(H.ROOT,'tests/scene_bg_keys_unit.js'),'utf8');
-  check('7. 新體育館游泳池的 2D 背景＝gym_pool：OUT.BG 登記 image:null（深色底＋地點字幕）、tests/scene_bg_keys_unit.js 的 PENDING 有（BB 跟使用者要圖）',!!OUT.BG.gym_pool&&OUT.BG.gym_pool.image===null&&OUT.bg('gym_pool')==='dark'&&/gym_pool:'BB 要圖（AA_523/.test(sb),J(OUT.BG.gym_pool));
+  check('7. 新體育館游泳池的 2D 背景＝gym_pool：11-02 使用者生成的圖到了（outings3d.js 登記 assets/bg/gym_pool.webp；scene_bg_keys PENDING 拿掉）',!!OUT.BG.gym_pool&&OUT.BG.gym_pool.image==='assets/bg/gym_pool.webp'&&!/gym_pool:'BB 要圖（AA_523/.test(sb),J(OUT.BG.gym_pool));
   const KEYS=['sis_new_home','linze_prof_hall','law_library_gate','library_gate_day','law_library','soymilk_shop','gongguan'], bad=KEYS.filter(k=>!(OUT.BG[k]&&OUT.BG[k].image));
   check('7. 現成的背景都有圖：她的新家（12/31 那一張）、研究室、法圖門口、總圖門口、法圖討論室（AA_518 那一張 law_library）、早餐店（豆漿店）、公館',!bad.length,J(bad));
   const used=new Set(); for(const e of SISB16_EVENTS) for(const l of e.dialogue) if(l.scene!==undefined&&l.bg) used.add(l.bg);

@@ -54,6 +54,10 @@ check('2f. 自由出行第一批四個景點的底圖（DL-06，LAWWW2-B）：d0
   const rd=f=>fs.readFileSync(path.join(ROOT,f),'utf8');
   const ok=[['src/data/sis_b8_events.js',"{scene:'法律系館A・研究室',bg:'sis_lab_room'}"],['src/y34b3d.js',"{scene:'法律系館A・研究室',bg:'sis_lab_room'}"],['src/data/sis_y2y3_events.js',"{scene:'社區活動中心門口',bg:'community_gate'}"],['src/data/events.js',"{scene:'溫學姊的房間',bg:'sis_room_moving'}"],['src/data/events.js',"{scene:'資工系館・走廊',bg:'csie_corridor'}"]];
   check('2r. 第四批後五張接上：研究室（外行人讀一章、口試隔天的蛋糕）、社區活動中心兩張、學姊搬家的房間、資工系館走廊',K.every(k=>B[k]&&B[k].image==='assets/bg/'+k+'.webp'&&fs.existsSync(path.join(ROOT,B[k].image)))&&ok.every(([f,x])=>rd(f).includes(x)),ok.filter(([f,x])=>!rd(f).includes(x)).map(([f,x])=>x).join('、')); }
+{ const K=['gym_pool','ziqing_studio','tc_schoolroad','court_hall','radio_room'];   // 第五批第 1～5 張（使用者 11-02 生成，LAWWW 帳號 A 接）
+  const rd=f=>fs.readFileSync(path.join(ROOT,f),'utf8');
+  const ok=[['src/data/sis_b16_events.js',"{scene:'新體育館・游泳池',bg:'gym_pool'}"],['src/v6b_3d.js',"{scene:'子晴的工作室',bg:'ziqing_studio'}"],['src/data/hometown_lines.js',"scene:'台中・她國中走路上學的那條路',bg:'tc_schoolroad'"],['src/data/pool_story.js',"{scene:'臺北地方法院',bg:'court_hall'}"],['src/data/pool_story_b2.js',"{scene:'廣播社的錄音間',bg:'radio_room'}"]];
+  check('2s. 第五批前五張接上：新體育館游泳池（看她游泳）、子晴的工作室（深夜）、台中國中上學的路（沛珊）、臺北地方法院（旁聽）、廣播社錄音間',K.every(k=>B[k]&&B[k].image==='assets/bg/'+k+'.webp'&&fs.existsSync(path.join(ROOT,B[k].image)))&&ok.every(([f,x])=>rd(f).includes(x)),ok.filter(([f,x])=>!rd(f).includes(x)).map(([f,x])=>x).join('、')); }
 { const noImg=Object.keys(B).find(k=>!B[k].image&&k!=='car')||'zzz_not_registered';   // nccu_dorm 10-17 有圖了（3d4d1969）：改挑一個登記了、還沒有圖的背景
   check('3. OUT.bg(id)：有圖＝{image:路徑}、沒有圖＝深色底（'+noImg+'）',OUT.bg('riverside').image==='assets/bg/riverside.webp'&&OUT.bg(noImg)==='dark'&&OUT.bg('nccu_dorm').image==='assets/bg/nccu_dorm.webp',JSON.stringify([OUT.bg('riverside'),OUT.bg(noImg),OUT.bg('nccu_dorm')])); }
 { const v=[]; for(const [h,w] of [[10,'clear'],[20,'clear'],[10,'rain']]){ global.GAME={G:{hour:h,weather:w}}; v.push(OUT.bg('car').image); } delete global.GAME;
