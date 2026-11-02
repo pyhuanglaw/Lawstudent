@@ -10,7 +10,9 @@
 AA_373（企劃線修正稿，白名單 AA373-Y1S2-FIX-1021；AA 定稿）第 9 項：大一下通識第 6 週（ge_y1s2，週一 13:20）改成天文館的圓頂——宥辰那句、觀察的開頭兩處整句換掉；第 6-2 節第 3 題（bdab2f42）再換黑板「（本週在天文館）」、觀察的結果「宥辰仰著頭，一直到燈亮都沒有說話。」
 （旁白「（這堂課移到天文館。）」「（天文館的圓頂關了燈。）」在 src/classes3d.js 的 SPECIAL_PRE）。只讀匯入白名單上的版本；企劃線的 JSON 下一版自己改好了就跳過
 AA_377（大三下修正稿，白名單 AA377-Y3S2-FIX-1021）第 9 項：民訴 civpro_2 第 14 週拿掉作廢的模擬法庭（改成言詞辯論的練習）、第 15 週板書第 2 行
-AA_255（大二下審稿，白名單 AA_255 附錄@52900eb23，任務 AA255-Y2S2）第 4 節第 7 點：行政救濟第 7 週以安「如果……」、親屬第 11 週阿哲刪後半（句子照附錄 A 的改法）"""
+AA_255（大二下審稿，白名單 AA_255 附錄@52900eb23，任務 AA255-Y2S2）第 4 節第 7 點：行政救濟第 7 週以安「如果……」、親屬第 11 週阿哲刪後半（句子照附錄 A 的改法）
+AA_585（白名單 AA_585_midweek.json@1bdfd2304，BB_231 法律審 60 週 PASS，任務 AA585-MIDWEEK-1102）：法律三十門第 8、9 週（前七週整理＋案例作業）當補丁來源疊上去、reviewed 加 60 筆
+白名單上有的學期檔（syllabus/Y1S1.json 等，AA_588 第 3 節）：要讀的那一版內容一定要和名單上 approved 的一樣（2026-11-02 起：claude/story-planning@1edea905f）"""
 import json, os, subprocess, sys
 ROOT = os.path.dirname(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
 sys.path.insert(0, os.path.join(ROOT, 'tools', 'story'))
@@ -207,7 +209,7 @@ dst = os.path.join(ROOT, 'src', 'data', 'syllabus.js')
 with open(dst, 'w', encoding='utf8') as f:
     f.write('/* 普通課堂內容（BB 撰寫；AA_104 第 1 節的 syllabus 格式）。產生器：tools/syllabus/import_syllabus.py（不要手改，改企劃分支的 JSON 再匯入）。\n'
             '   來源：' + out['source'] + '。法律系八學期＋日文＋經濟系那一年（遊戲裡還沒有那一年的課，先放著）。heroine_06 等新人物的句子在遊戲裡略過（人物設定還沒確認）。\n'
-            '   reviewed：法律審查（BB_115）那一週的項目全部通過、或那一週沒有項目，才顯示 BB 的內容；其他週只用寫主題的一般句子（AA_122 第 0a 節）。' + drop_note + ' */\n')
+            '   reviewed：法律審查（BB_115）那一週的項目全部通過、或那一週沒有項目，才顯示 BB 的內容；其他週只用寫主題的一般句子（AA_122 第 0a 節）。AA_585 的第 8、9 週照 BB_231 的法律審（60 週全部 PASS）。' + drop_note + ' */\n')
     f.write('const SYLLABUS=' + json.dumps(out, ensure_ascii=False, separators=(',', ':')) + ';\n')
 nweeks = sum(len(v) for v in out['courses'].values())
 print('wrote', dst, 'courses', len(out['courses']), 'weeks', nweeks, 'reviewed', len(out['reviewed']), 'closed', len(closed), 'pools', len(out['pools']), 'skip', len(out['skip']), 'second', len(out['second']), 'bytes', os.path.getsize(dst))
