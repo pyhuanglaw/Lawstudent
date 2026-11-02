@@ -514,7 +514,8 @@
    "task": "LAW-RELAYOUT-1102",
    "quote": "現在校園地圖不對阿霖澤館跟萬才不應該是平行隔壁（之後選「照提案做（建議）」）",
    "src": "使用者直接對帳號 A 的 LAWWW2 說；提案圖 docs/art-rebuild/second_ai/wip/campus_relayout/law_relayout_plan.jpg",
-   "note": "觸發 D31 的重新討論條件（使用者要求法學院區照真實配置）。使用者選：霖澤館不動、國青和研三舍在霖澤館東邊、萬才館移到東南、小湖在霖澤館南邊、黑森林在兩館之間。LAWWW 22:17 ACK：照 D108 由 LAWWW2 主導整包（萬才館外觀與入口、落點、wancaiStairs 第 1 層導航、國青／研三舍、小湖、黑森林、舊存檔落點遷移、7 支測試；zrzq3d.js:169、classes3d.js:1015、places.js 一起改）。實作差異：萬才館正面維持朝南（大樓梯的兩層導航整套照朝南寫，轉 90° 要重寫；朝南的正面對著樹林和 z −60 的路），已告訴使用者。"
+   "note": "觸發 D31 的重新討論條件（使用者要求法學院區照真實配置）。使用者選：霖澤館不動、國青和研三舍在霖澤館東邊、萬才館移到東南、小湖在霖澤館南邊、黑森林在兩館之間。LAWWW 22:17 ACK：照 D108 由 LAWWW2 主導整包（萬才館外觀與入口、落點、wancaiStairs 第 1 層導航、國青／研三舍、小湖、黑森林、舊存檔落點遷移、7 支測試；zrzq3d.js:169、classes3d.js:1015、places.js 一起改）。實作差異：萬才館正面維持朝南（大樓梯的兩層導航整套照朝南寫，轉 90° 要重寫；朝南的正面對著樹林和 z −60 的路），已告訴使用者。",
+   "progress": "22:4x：整包 patch（含黑森林 v4）WIP 5c33eb485：docs/art-rebuild/second_ai/wip/blackforest/law_relayout_blackforest_1102_wip.patch；10 支 Node 單元 ALL PASS；172 支校園 Node 單元、7 支瀏覽器測試、前後截圖排隊中；已通知 LAWWW（DELIVERED，舊黑森林 patch 先不要整合）。"
   }
  ]
 }
