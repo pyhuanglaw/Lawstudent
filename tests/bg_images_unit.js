@@ -80,6 +80,11 @@ check('2f. 自由出行第一批四個景點的底圖（DL-06，LAWWW2-B）：d0
 { const K=['sf_photo_cablecar','sf_photo_chowder','sf_photo_postbox','us_farmers_market','us_chapel_steps_snow'];   // 第七批第 6～10 張（使用者 11-02，BB_132 第 104 組；12/2 兩場照 BB 987cdace 換成 us_chapel_steps_snow（和秋天的 us_chapel_steps 同角度），us_chapel_snow 留著當備用）
   const rd=f=>fs.readFileSync(path.join(ROOT,f),'utf8'); const t=rd('src/data/r2y4a_events.js');
   check('2w. 第七批後五張接上：舊金山三張手機照片（ev_sf_photo17／19／21）、週六農夫市集；下雪的小教堂台階登記',K.every(k=>B[k]&&B[k].image==='assets/bg/'+k+'.webp'&&fs.existsSync(path.join(ROOT,B[k].image)))&&/'ev_sf_photo17'[^\n]*'sf_photo_cablecar'\)/.test(t)&&/'ev_sf_photo19'[^\n]*'sf_photo_chowder'\)/.test(t)&&/'ev_sf_photo21'[^\n]*'sf_photo_postbox'\)/.test(t)); }
+{ const K=['sis_new_home','putong_empty','ntu_library_2f','wenzhou_park','wenzhou','ra_lab','boya_lecture_hall','linze_201','law_courtyard','boya_201'];   // 第八批 10 張（使用者 11-02 06:08 傳給 BB，BB_132 第 105 組，BB 審過）
+  const rd=f=>fs.readFileSync(path.join(ROOT,f),'utf8');
+  const ok=[['src/sideq3d.js',"{scene:'溫州街・小公園',bg:'wenzhou_park'}"],['src/data/r2y3a_events.js',"scene:'博思教學館',bg:'boya_lecture_hall'"]];
+  const miss=ok.filter(([f,t])=>!rd(f).includes(t));
+  check('2x. 第八批 10 張接上：學姊的新家、普通空教室、總圖二樓、溫州街小公園（SQ18）、溫州街、研究室、博思講堂（可昕講座）、法律系館A 201、法學院前庭、博思 201',K.every(k=>B[k]&&B[k].image==='assets/bg/'+k+'.webp'&&fs.existsSync(path.join(ROOT,B[k].image)))&&!miss.length,JSON.stringify({miss,bad:K.filter(k=>!(B[k]&&B[k].image==='assets/bg/'+k+'.webp'))})); }
 { const noImg=Object.keys(B).find(k=>!B[k].image&&k!=='car')||'zzz_not_registered';   // nccu_dorm 10-17 有圖了（3d4d1969）：改挑一個登記了、還沒有圖的背景
   check('3. OUT.bg(id)：有圖＝{image:路徑}、沒有圖＝深色底（'+noImg+'）',OUT.bg('riverside').image==='assets/bg/riverside.webp'&&OUT.bg(noImg)==='dark'&&OUT.bg('nccu_dorm').image==='assets/bg/nccu_dorm.webp',JSON.stringify([OUT.bg('riverside'),OUT.bg(noImg),OUT.bg('nccu_dorm')])); }
 { const v=[]; for(const [h,w] of [[10,'clear'],[20,'clear'],[10,'rain']]){ global.GAME={G:{hour:h,weather:w}}; v.push(OUT.bg('car').image); } delete global.GAME;

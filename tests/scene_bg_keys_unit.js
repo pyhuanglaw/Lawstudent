@@ -11,10 +11,10 @@ const SPECIAL=new Set(['dark','blur','video','freeze']);
 const OTHER_FILES=new Set(['jp3d.js','data/jp_blank_lines.js','zq_testbuild3d.js']);   /* vac_activities.js 也走 OUT.bg（vac3d.js 的 S.key），要查 */
 const PENDING={   /* 鍵：任務（BG-DARK-SCENES-1024 第二批：LAWWW2 從 3D 拍；BB 向使用者要的另外寫）*/
   /* AA_499～501 第 6／7／5 節「新的 2D 場景（沒有背景圖＝深色底）」：src/pool_more3d.js 執行時登記 image:null（NPC-STORY-1028）*/
-  putong_empty:'BB 要圖（AA_499 3-3 詹立群：普通教學館的空教室）',
-  law_courtyard:'BB 要圖（AA_499 5-3 馬佳蓉：搬影印機，法學院前庭）', boya_201:'BB 要圖（AA_500 3-3 楊書豪：博雅 201 社內賽）',
+
+
   /* AA_520 4-2（NPC-STORY2-1028）：予樂那一場演講，霖澤館 201 的階梯教室（晚上，坐了一半）；src/yule3d.js 執行時登記 image:null */
-  linze_201:'BB 要圖（AA_520 4-2 霖澤館 201：晚上的演講，階梯教室坐了一半）' };
+ };
 const keys=new Set(Object.keys(OUT.BG||{})), used={};
 const walk=d=>fs.readdirSync(path.join(ROOT,d)).filter(x=>x.endsWith('.js')).map(x=>(d==='src'?'':'data/')+x);
 for(const f of walk('src').concat(walk('src/data'))){ if(OTHER_FILES.has(f)) continue; const s=fs.readFileSync(path.join(ROOT,'src',f),'utf8'); for(const m of s.matchAll(/\bbg:'([a-z0-9_]+)'/g)) (used[m[1]]=used[m[1]]||new Set()).add(f); }

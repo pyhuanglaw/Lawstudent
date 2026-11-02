@@ -210,7 +210,7 @@ const R2Y3A_EVENTS=(function(){
 
   /* ---------- 2-Y3-07 可昕 K11「她來台大聽講座」（裁定 #30）：9/29（三）19:00～20:30 博雅的大教室。一起聽＝出遊；她自己聽＝20:30～21:00 在博雅一樓的小桌子（作息在 r2y3a3d.js）---------- */
   const LECTURE={ id:'ev_kexin_lecture_ntu', title:'她來首都帝大聽講座', participants:['kexin'], location:'any', trigger:'outing', once:true, background:'dark', hours:0.25,
-    dialogue:[ {scene:'博思教學館',bg:'linze_auditorium'},   /* 講座在博雅 101（3D 區域的大教室）；出遊的 2D 沒有這張圖：深色底＋字幕 */
+    dialogue:[ {scene:'博思教學館',bg:'boya_lecture_hall'},   /* 講座在博雅 101（3D 區域的大教室）；出遊的 2D 沒有這張圖：深色底＋字幕 */
       {speaker:null,text:'（博思的大教室。講座的題目是「平台、新創與新的規則」。可昕坐第三排，筆記寫了兩頁。）'},
       {speaker:null,text:'（講者一直說「彈性」。）'},
       {advance:toH(20.5)},

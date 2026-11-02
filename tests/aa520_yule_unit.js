@@ -335,8 +335,8 @@ await sec(8,()=>{ const P=typeof PORTRAIT_FILES!=='undefined'?PORTRAIT_FILES:(ty
   const E1=ev('ev_yule_lecture');
   check('8. 不用 3D：事件是出遊（trigger outing、沒有 3D 當面的入口、沒有 prereq）、participants 空的（予樂沒有 3D 模型）',!!E1&&E1.trigger==='outing'&&!E1.near&&!E1.prereq&&J(E1.participants)===J([])&&!(typeof CHARACTERS!=='undefined'&&CHARACTERS.yule),J(E1&&{t:E1.trigger,p:E1.participants}));
   const bgs=evLines().filter(l=>l.scene).map(l=>l.bg);
-  check('8. 2D 背景：法律系館A 201（linze_201，沒有圖＝深色底，執行時登記、scene_bg_keys 的 PENDING 等 BB 要圖）、阿鳳麵店（noodle_table 有圖）',
-    bgs.includes('linze_201')&&bgs.includes('noodle_table')&&!!OUT.BG.linze_201&&OUT.BG.linze_201.image===null&&!!OUT.BG.noodle_table.image&&/linze_201:/.test(fs.readFileSync(path.join(H.ROOT,'tests/scene_bg_keys_unit.js'),'utf8')),J(bgs)); });
+  check('8. 2D 背景：法律系館A 201（linze_201，11-02 第八批有圖）、阿鳳麵店（noodle_table 有圖）',
+    bgs.includes('linze_201')&&bgs.includes('noodle_table')&&!!OUT.BG.linze_201&&OUT.BG.linze_201.image==='assets/bg/linze_201.webp'&&!!OUT.BG.noodle_table.image,J(bgs)); });
 
 H.done();
 })();

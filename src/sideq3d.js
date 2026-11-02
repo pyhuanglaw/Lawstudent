@@ -547,7 +547,7 @@ const SIDEQ=(function(){
   S.knowsChief=G=>{ const r=G&&S.get(G,'SQ18'); return !!r&&r.state==='done'; };   /* 知道里長是誰：之後公布欄「——里長」的紙、名牌多一行（wzpark3d.js）*/
   const chessWin=()=>{ const C=typeof PARK!=='undefined'&&PARK.LINES&&PARK.LINES.CHESS; return C&&C.win?C.win:null; };   /* WZ-P3 的象棋：贏（AA_171 的句子，照年級）*/
   S.PARK18_EV={ id:'ev_sq18_park', title:'清掃日', participants:[], location:'any', trigger:'outing', background:'dark', hours:1,
-    dialogue:[{scene:'溫州街・小公園',bg:'wenzhou'},{speaker:null,text:L.SQ18.clean},{speaker:null,text:L.SQ18.chief},{speaker:'阿伯',text:L.SQ18.who},
+    dialogue:[{scene:'溫州街・小公園',bg:'wenzhou_park'},{speaker:null,text:L.SQ18.clean},{speaker:null,text:L.SQ18.chief},{speaker:'阿伯',text:L.SQ18.who},
       {if:{custom:G=>S.sq08Done(G)},speaker:'阿伯',text:L.SQ18.sheet},{unless:{custom:G=>S.sq08Done(G)},speaker:'阿伯',text:L.SQ18.papers},{speaker:null,text:L.SQ18.stay}]
       .concat(chessWin()?[{unless:{custom:G=>typeof PARK!=='undefined'&&PARK.year&&PARK.year(G)>=4},speaker:'阿伯',text:chessWin()[0][0]},{if:{custom:G=>typeof PARK!=='undefined'&&PARK.year&&PARK.year(G)>=4},speaker:'阿伯',text:chessWin()[1][0]}]:[],
         [{speaker:'阿伯',text:L.SQ18.cup}]),   /* 掃完落葉以後，阿伯從袋子裡拿出最後一杯（AA_408 6）：運費＝一杯，不給錢 */
