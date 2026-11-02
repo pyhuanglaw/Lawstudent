@@ -547,6 +547,7 @@ async def play(pg, cdp, run, tag, prefs=(), shot_if=None, max_s=600, idle_s=5, s
             started = True; idle = None
             says = [x for x in await pg.evaluate(PL, 0) if x['k'] == 'say']
             if last_n is not None and len(says) == last_n: await L.tap(pg, cdp, '#dlg'); await pg.wait_for_timeout(600); continue
+            for x in says[(last_n or 0) if last_n is not None else len(says) - 1:-1]: out['lines'].append({'n': x['n'], 't': x['t'], 'h': x.get('h'), 'adv': None, 'shot': None, 'missed': True})   # 兩次輪詢之間就點過去的句子（只記字）
             last_n = len(says); cur = says[-1] if says else {'n': '', 't': ''}
             m = await pg.evaluate(DLGM)
             if m['text'] != cur['t']: await L.tap(pg, cdp, '#dlg'); await pg.wait_for_timeout(500)
@@ -581,7 +582,8 @@ async def psbhbg_pass(p, run, orient):
         R = await pg.evaluate(PL, 0); rec['log'] = R; rec['play'] = r
         advs = [x for x in R if x['k'] == 'adv']; rec['adv_calls'] = advs
         ev = [x['id'] for x in R if x['k'] == 'event']
-        run.check('%s：ev_psbh_public_0415 演了（6 句）' % tag, EVID in ev and [l['t'] for l in r['lines'] if l['t'] in PS_LINES] == PS_LINES, J([l['t'] for l in r['lines']]))
+        says = [x['t'] for x in R if x['k'] == 'say']
+        run.check('%s：ev_psbh_public_0415 演了（6 句，GAME.say 紀錄）' % tag, EVID in ev and [t for t in says if t in PS_LINES] == PS_LINES, J(says))
         beg = next((x for x in advs if x['fn'] == 'begin'), None)
         run.check('%s：（只記）ADV.begin 的 background＝%s；之後 setBg %s' % (tag, J(beg and beg['arg']), J([x['arg'] for x in advs if x['fn'] == 'setBg'])), True)
         l1 = next((l for l in r['lines'] if l['t'] == PS_LINES[0]), None); l4 = next((l for l in r['lines'] if l['t'] == PS_LINES[3]), None)
