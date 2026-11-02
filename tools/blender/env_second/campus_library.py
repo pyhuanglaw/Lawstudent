@@ -69,15 +69,15 @@ def build(out, render_dir=None):
     B.reset(texres=512)
     root = B.group('campus_library', props={'kind': 'campus_library'})
     M = {
-        'wall': L.pbr('ck_wall', 'exterior_wall_cladding_02', tile=2.0, target='#a26c58', sat=0.55, normal=0.8, maps=('diff', 'nor'), rough_value=0.88),
-        'white': L.pbr('ck_white', 'sandstone_blocks_08', tile=3.6, sat=0.12, target='#dcd8cf', normal=0.45, maps=('diff', 'nor'), res=512, rough_value=0.78),
-        'trim': L.pbr('ck_trim', 'sandstone_blocks_08', tile=3.0, sat=0.12, target='#e4e0d7', normal=0.5, maps=('diff', 'nor'), res=512, rough_value=0.75),
+        'wall': L.pbr('ck_wall', 'exterior_wall_cladding_02', tile=2.0, target='#a26c58', sat=0.55, normal=1.2, contrast=1.25, maps=('diff', 'nor'), rough_value=0.88),   # v3.2（BB_234 ④）：近看磚紋偏淡 → 法線 0.8→1.2、對比 1.25
+        'white': L.pbr('ck_white', 'sandstone_blocks_08', tile=3.6, sat=0.12, target='#dcd8cf', normal=0.9, maps=('diff', 'nor'), res=512, rough_value=0.78),   # v3.2（BB_234 ④）：石面的接縫立體一點（法線 0.45→0.9）
+        'trim': L.pbr('ck_trim', 'sandstone_blocks_08', tile=3.0, sat=0.12, target='#e4e0d7', normal=0.9, maps=('diff', 'nor'), res=512, rough_value=0.75),
         'trimw': L.pbr('ck_trim_win', 'sandstone_blocks_08', tile=3.0, sat=0.12, target='#e4e0d7', maps=('diff',), res=512, rough_value=0.75),
-        'pier': L.pbr('seethru_ck_pier', 'exterior_wall_cladding_02', tile=2.0, target='#a26c58', sat=0.55, normal=0.8, maps=('diff', 'nor'), rough_value=0.88),
-        'col': L.pbr('seethru_ck_col', 'sandstone_blocks_08', tile=3.6, sat=0.12, target='#dcd8cf', normal=0.45, maps=('diff', 'nor'), res=512, rough_value=0.78),
+        'pier': L.pbr('seethru_ck_pier', 'exterior_wall_cladding_02', tile=2.0, target='#a26c58', sat=0.55, normal=1.2, contrast=1.25, maps=('diff', 'nor'), rough_value=0.88),
+        'col': L.pbr('seethru_ck_col', 'sandstone_blocks_08', tile=3.6, sat=0.12, target='#dcd8cf', normal=0.9, maps=('diff', 'nor'), res=512, rough_value=0.78),
         'base': L.pbr('ck_stone_base', 'granite_tile', tile=1.6, sat=0.5, target='#a8a49c', maps=('diff',), res=512, rough_value=0.7),
         'roof': L.pbr('ck_roof', 'grey_roof_tiles', tile=3.0, target='#4c535b', normal=0.8, maps=('diff', 'nor'), rough_value=0.82),   # 鳥瞰圖：深灰藍
-        'ceil': L.flat('ck_ceiling', '#e6e1d7', rough=0.95),
+        'ceil': L.flat('ck_ceiling', '#a49d91', rough=0.95),   # v3.2（BB_234 ①）：拱廊天花板、屋簷底下暗一點（原本 #e6e1d7：從草坪看拱裡面是亮的，像牆上的窗框，沒有深度）
         'flat': L.flat('ck_flatroof', '#b9b4aa', rough=0.92),
         'frame': L.flat('ck_frame', '#3d3f42', rough=0.5),
         'glass': L.vc_material('ck_glass', rough=0.12),
@@ -322,7 +322,7 @@ def build(out, render_dir=None):
     # 走道：天花板、兩端實牆、後牆（大門、玻璃店面）
     face(acc('ceil'), [(XIN, CEIL, -ZA), (XIN, CEIL, ZA), (AB, CEIL, ZA), (AB, CEIL, -ZA)], (0, -1, 0))
     for s in (-1, 1):
-        face(acc('white'), [(XIN, P, s * ZA), (AB, P, s * ZA), (AB, CEIL, s * ZA), (XIN, CEIL, s * ZA)], (0, 0, -s))
+        face(acc('base'), [(XIN, P, s * ZA), (AB, P, s * ZA), (AB, CEIL, s * ZA), (XIN, CEIL, s * ZA)], (0, 0, -s))   # v3.2：白石 → 花崗石（和後牆一樣）
         blk(XIN - 0.05, s * ZA, AB + 0.1, s * ZW, '拱廊走道兩端的實牆')
     fb = FW(AB); holes = []
     for (z, r, kind) in ARCHES:
@@ -349,7 +349,19 @@ def build(out, render_dir=None):
     glass_face(fb, [(-rr, P + door_h + 0.1), (rr, P + door_h + 0.1), (rr, P + door_h + 1.25), (-rr, P + door_h + 1.25)], -0.08, True, P + door_h, P + door_h + 1.25)
     rect(fm, fb, -0.03, 0.03, P + door_h + 0.1, P + door_h + 1.25, -0.04)
     holes.append({'u': 0.0, 'a': rr + 0.22, 'vb': P, 'vs': P + door_h + 1.47, 'arch': False, 'vt': P + door_h + 1.47})
-    wall_strip(fb, -ZA, ZA, P, CEIL, holes, 'white')
+    wall_strip(fb, -ZA, ZA, P, CEIL, holes, 'base')   # v3.2（BB_234 ①）：拱廊後牆白石 → 花崗石（#a8a49c，比白石暗；照片裡拱裡面是暗的、看得出深度）。用現有的材質，不多 draw call
+    # v3.2（BB_234 ①）：拱廊裡的吊燈——中間三拱各一盞，從拱廊天花板垂下來；四面玻璃（亮燈那一半 UV：和亮著的窗一樣，晚上才亮）
+    def lantern(xc, zc):
+        fm_ = acc('frame'); s_ = 0.2; y0, y1 = CEIL - 1.55, CEIL - 0.95
+        box(fm_, xc - 0.012, xc + 0.012, y1 + 0.16, CEIL, zc - 0.012, zc + 0.012)                          # 吊桿
+        box(fm_, xc - s_ - 0.04, xc + s_ + 0.04, y1, y1 + 0.16, zc - s_ - 0.04, zc + s_ + 0.04)            # 頂蓋
+        box(fm_, xc - s_ - 0.03, xc + s_ + 0.03, y0 - 0.06, y0, zc - s_ - 0.03, zc + s_ + 0.03)            # 底座
+        for (dx, dz) in ((-1, -1), (-1, 1), (1, -1), (1, 1)):                                              # 四根角柱
+            box(fm_, xc + dx * s_ - 0.016, xc + dx * s_ + 0.016, y0, y1, zc + dz * s_ - 0.016, zc + dz * s_ + 0.016, skip=('top', 'bottom'))
+        for fr_, uc_ in ((FW(xc - s_), zc), (FE(xc + s_), -zc), (FN(zc - s_), -xc), (FS(zc + s_), xc)):
+            glass_face(fr_, [(uc_ - s_ + 0.016, y0), (uc_ + s_ - 0.016, y0), (uc_ + s_ - 0.016, y1), (uc_ - s_ + 0.016, y1)], 0.0, True, y0, y1)
+    for (z, r, kind) in ARCHES:
+        if kind == 'c': lantern((XIN + AB) / 2, z)
     blk(AB - 0.02, -ZA, AB + 0.6, ZA, '拱廊後牆（大門在 z=0，遊戲的門口互動點 (86.4,0)）')
     # 簷口帶（6.0～6.6）＋露台的女兒牆（6.6～7.5）：沿正面（紅磚段在 81.6、白石翼在 82.0）
     for (z0, z1, xo) in ((-ZC, ZC, AFC), (-ZW, -ZC, AFW), (ZC, ZW, AFW)):
@@ -514,6 +526,18 @@ def build(out, render_dir=None):
     for s in (-1, 1):
         box(acc('trim'), XPAV + 0.35 - 0.1, XPAV + 0.35, 14.3, 16.0, s * 5.2 - 0.85, s * 5.2 + 0.85, skip=('right',))
         box(acc('trim'), XPAV + 0.35 - 0.16, XPAV + 0.35 - 0.1, 14.6, 15.7, s * 5.2 - 0.55, s * 5.2 + 0.55, skip=('right',))
+    # v3.2（BB_234 ③）：白石面的線腳——兩邊的壁柱、上下兩排小窗之間的腰帶、小山牆下兩層的簷口、大拱窗的拱心石和拱墩（都是白石 trim，不多 draw call）
+    XW = XPAV + 0.35; tm2 = acc('trim')
+    for s in (-1, 1):
+        za, zb = sorted((s * (WF - 0.42), s * WF))
+        box(tm2, XW - 0.07, XW, F2 + 0.3, WEAVE - 0.32, za, zb, skip=('right', 'front' if s > 0 else 'back'))   # 壁柱（貼著紅磚框的那一面不做：和凹面同一個平面會閃）
+        za, zb = sorted((s * (GR + 0.45), s * (WF - 0.42)))
+        box(tm2, XW - 0.1, XW, F2 + FH + 0.14, F2 + FH + 0.34, za, zb, skip=('right', 'back' if s > 0 else 'front'))   # 腰帶（靠大拱窗框那一端貼著拱框，不做）
+        za, zb = sorted((s * (GR - 0.05), s * (GR + 0.6)))
+        box(tm2, XW - 0.2, XW, gvs - 0.3, gvs, za, zb, skip=('right',))                                             # 大拱窗的拱墩
+    box(tm2, XW - 0.24, XW, WEAVE - 0.32, WEAVE - 0.08, -WF - 0.08, WF + 0.08, skip=('right',))                      # 小山牆下的簷口（兩端埋進紅磚框）
+    box(tm2, XW - 0.32, XW, WEAVE - 0.08, WEAVE + 0.02, -WF - 0.14, WF + 0.14, skip=('right',))
+    box(tm2, XW - 0.22, XW, gvs + GR + 0.3, gvs + GR + 1.05, -0.32, 0.32, skip=('right',))                            # 大拱窗的拱心石
     # 白石面四周的凹面（紅磚框的內側面）
     for s in (-1, 1):
         face(acc('wall'), [(XPAV, F2 + 0.3, s * WF), (XPAV + 0.35, F2 + 0.3, s * WF), (XPAV + 0.35, WEAVE, s * WF), (XPAV, WEAVE, s * WF)], (0, 0, -s))

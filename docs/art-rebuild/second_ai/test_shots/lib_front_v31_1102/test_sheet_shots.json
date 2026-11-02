@@ -1,0 +1,147 @@
+[
+ {
+  "out": "shots_v31/after_front_close.png",
+  "w": 1280,
+  "h": 720,
+  "hidePlayer": true,
+  "hideNPCs": true,
+  "state": {
+   "zone": "campus",
+   "hour": 14.0,
+   "pos": {
+    "x": 30,
+    "z": 0,
+    "yaw": -1.5708
+   }
+  },
+  "cam": {
+   "pos": [
+    76,
+    1.7,
+    0
+   ],
+   "look": [
+    100,
+    7,
+    0
+   ]
+  },
+  "wait": 6000
+ },
+ {
+  "out": "shots_v31/after_diag_n.png",
+  "w": 1280,
+  "h": 720,
+  "hidePlayer": true,
+  "hideNPCs": true,
+  "state": {
+   "zone": "campus",
+   "hour": 14.0,
+   "pos": {
+    "x": 30,
+    "z": 0,
+    "yaw": -1.5708
+   }
+  },
+  "cam": {
+   "pos": [
+    66,
+    1.7,
+    -15
+   ],
+   "look": [
+    96,
+    6,
+    2
+   ]
+  },
+  "wait": 6000
+ },
+ {
+  "out": "shots_v31/after_diag_s.png",
+  "w": 1280,
+  "h": 720,
+  "hidePlayer": true,
+  "hideNPCs": true,
+  "state": {
+   "zone": "campus",
+   "hour": 14.0,
+   "pos": {
+    "x": 30,
+    "z": 0,
+    "yaw": -1.5708
+   }
+  },
+  "cam": {
+   "pos": [
+    66,
+    1.7,
+    15
+   ],
+   "look": [
+    96,
+    6,
+    -2
+   ]
+  },
+  "wait": 6000
+ },
+ {
+  "out": "shots_v31/after_photo3_plaza.png",
+  "w": 1280,
+  "h": 720,
+  "hidePlayer": true,
+  "hideNPCs": true,
+  "state": {
+   "zone": "campus",
+   "hour": 15.5,
+   "pos": {
+    "x": 30,
+    "z": 0,
+    "yaw": -1.5708
+   }
+  },
+  "cam": {
+   "pos": [
+    67,
+    1.6,
+    0
+   ],
+   "look": [
+    100,
+    11,
+    0
+   ]
+  },
+  "wait": 6000
+ },
+ {
+  "w": 1280,
+  "h": 720,
+  "hidePlayer": true,
+  "hideNPCs": true,
+  "state": {
+   "zone": "campus",
+   "hour": 14.0,
+   "pos": {
+    "x": 30,
+    "z": 0,
+    "yaw": -1.5708
+   }
+  },
+  "cam": {
+   "pos": [
+    77.0,
+    2.5,
+    27.5
+   ],
+   "look": [
+    80.5,
+    0.9,
+    -8
+   ]
+  },
+  "wait": 6000,
+  "out": "shots_v31/after_terrace_side.png"
+ }
+]
