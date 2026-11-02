@@ -3756,6 +3756,15 @@
    "task": "D118-B2-1102",
    "kind": "text",
    "note": "大二上觀念卡 33 張（行政法 8、刑法分則 8、債總二 8、物權 9；62 題）定稿（AA 照核對報告 c10293db4 改 9 張）；tools/study/build_units.py 讀這一版。子代理 2026-11-02 代登，給值班 LAWWW 核"
+  },
+  {
+   "path": "docs/story_planning/study/cards_y2s2.json",
+   "sha": "a5b859cae",
+   "status": "approved",
+   "approvedBy": "AA（D109 劇情自主；AA 11:31 定稿，已獨立核對）",
+   "task": "D118-B2-1102",
+   "kind": "text",
+   "note": "大二下觀念卡 31 張（行政救濟 8、身分法 9、法學英文 8、債各 6；61 題）定稿（AA 照核對報告改 5 張）；tools/study/build_units.py 讀這一版，basis 照 AA 的話拿掉「法學英文用語（英美法，無我國條文）」（BASIS_DROP）。子代理 2026-11-02 代登，給值班 LAWWW 核"
   }
  ]
 }

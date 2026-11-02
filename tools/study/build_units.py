@@ -20,9 +20,12 @@ import import_guard as GD
 # AA 的觀念卡稿（一學期一個檔）。要加學期：AA 交「定稿＋commit」→ 值班 LAWWW 把那一版加進白名單 → 在這裡加一行
 CARD_FILES = [('docs/story_planning/study/cards_y1s1.json', 'Y1S1'),
               ('docs/story_planning/study/cards_y1s2.json', 'Y1S2'),
-              ('docs/story_planning/study/cards_y2s1.json', 'Y2S1')]
+              ('docs/story_planning/study/cards_y2s1.json', 'Y2S1'),
+              ('docs/story_planning/study/cards_y2s2.json', 'Y2S2')]
 TITLES_FILE = 'docs/story_planning/study/crimpro_titles.json'
 CARD_FIELDS = ('plain', 'example', 'cue')
+# basis 裡不是條文出處、AA 說匯入時拿掉的（AA 11:31 交大二下：法學英文那一項是給審稿看的）
+BASIS_DROP = {'法學英文用語（英美法，無我國條文）'}
 ALLOW = GD.load(ROOT)
 APPROVED = GD.approved_files(ALLOW, 'docs/story_planning/')
 
@@ -155,7 +158,7 @@ for path, term in CARD_FILES:
                 v = ''
             u[k] = v
         b = c.get('basis')
-        u['basis'] = [x for x in b if isinstance(x, str) and x] if isinstance(b, list) else []
+        u['basis'] = [x for x in b if isinstance(x, str) and x and x not in BASIS_DROP] if isinstance(b, list) else []
         got += 1
     imported[term] = imported.get(term, 0) + got
     # 那一學期、稿裡有寫到的那幾門課，遊戲有卡但稿裡沒有的
@@ -200,3 +203,7 @@ if missing_board:
 print('  觀念卡匯入：' + '、'.join(f'{t} {n} 張' for t, n in imported.items()) + f'；刑訴題庫卡正式標題 {nt} 張（來源 {"、".join(sources)}）')
 for p in problems:
     print('  對不上：' + p)
+# 太長的卡（plain＋example 字數，每學期前 5 張；不拆卡，給 LAWWW 決定要不要請 AA 縮）
+for path, term in CARD_FILES:
+    longest = sorted((u for u in allu if u['term'] == term and u['plain']), key=lambda u: -len(u['plain'] + u['example']))[:5]
+    print(f'  {term} 最長的卡：' + '、'.join(f'{u["id"]} {len(u["plain"] + u["example"])} 字' for u in longest))

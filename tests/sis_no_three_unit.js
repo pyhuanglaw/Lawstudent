@@ -17,7 +17,7 @@ function lits(src){ const out=[]; let i=0; const n=src.length;
   return out; }
 const files=fs.readdirSync(path.join(ROOT,'src')).filter(f=>f.endsWith('.js')).map(f=>'src/'+f)
   .concat(fs.readdirSync(path.join(ROOT,'src/data')).filter(f=>f.endsWith('.js')).map(f=>'src/data/'+f))
-  .filter(f=>!/legal_qbank|exam_bank|syllabus|chars3d/.test(f));
+  .filter(f=>!/legal_qbank|exam_bank|syllabus|study_units|chars3d/.test(f));   /* study_units＝觀念卡（AA 的課堂內容，不是人物台詞；和 syllabus 一樣不掃）*/
 const found=new Map(); for(const f of files){ for(const s of lits(fs.readFileSync(path.join(ROOT,f),'utf8'))) if(RE.test(s)){ const k=s.trim(); if(!found.has(k)) found.set(k,f); } }
 /* ---- 看過、可以留的 ---- */
 const OK={
