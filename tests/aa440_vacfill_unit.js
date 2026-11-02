@@ -231,7 +231,7 @@ const b532all=v=>typeof v==='string'?b532(v):Array.isArray(v)?v.map(b532all):(v&
     rep=answer('vf_y2_0724',0); const w22a=r22[0][1];
     check('2-2. 「在家，也在讀書。」→「讀哪一科？」→（你說了。）→「好。我也讀那一科。明天對進度。」（旁白是對話串裡的一行）',J(rep)===J([AN+':'+qs(w22a)[0],'-:'+nar(w22a)[0],AN+':'+qs(w22a)[1]])&&msgs('p:'+AN).some(m=>m.text==='（你說了。）'&&m.who===null&&!m.from),J(rep));
     G=lawG('2027-07-24',21.55,{date:[AN]}); rules(); rep=answer('vf_y2_0724',1); rules(); const before=tagged('vf_y2_0724_photo').length; setT('2027-07-24',22.55); rules(); const w22b=r22[1][1];
-    check('2-2. 「在想妳。」→「……嗯。」「我要讀書了。十點半再傳。」；22:30（十點半她傳了一張課本的照片，旁邊空白處畫了一個小小的箭頭。）',J(rep)===J(qs(w22b).map(t=>AN+':'+t))&&before===0&&J(tagged('vf_y2_0724_photo').map(m=>m.text))===J(nar(w22b))&&tagged('vf_y2_0724_photo')[0].h>=22.5&&tagged('vf_y2_0724_photo')[0].h<22.6,J(rep));
+    check('2-2. 「在想妳。」→「……嗯。」「……看不太下去了。」；22:30（十點半她傳了一張課本的照片，旁邊空白處畫了一個小小的箭頭。）',J(rep)===J(qs(w22b).map(t=>AN+':'+t))&&before===0&&J(tagged('vf_y2_0724_photo').map(m=>m.text))===J(nar(w22b))&&tagged('vf_y2_0724_photo')[0].h>=22.5&&tagged('vf_y2_0724_photo')[0].h<22.6,J(rep));
     G=lawG('2027-07-24',21.55,{fam:[AN]}); rules(); check('2-2. 沒交往：沒有',!tagged('vf_y2_0724').length);
     /* 2-3 */
     G=lawG('2027-07-28',16.05,{fam:[SIS]}); rules(); const q23=Q(S23);
@@ -325,7 +325,7 @@ const b532all=v=>typeof v==='string'?b532(v):Array.isArray(v)?v.map(b532all):(v&
     const r0803=row4('8/3（一）');
     G=lawG('2026-08-03',21.05,{fam:[YT]}); rules(); check('4. 8/3（一）語彤（FAMILIAR 以上）「阿姨問你暑假有沒有回來吃麵。」＋「明天去。」',J(tagged('vf_y1s_0803').map(m=>m.text))===J([qs(r0803)[0]])&&J(optsOf('vf_y1s_0803'))===J([qs(r0803)[1]]));
     answer('vf_y1s_0803',0); rules(); check('4. 「明天去。」＝8/4 麵店一鍵（18:00）',isAt(out('vf_y1s_0804'),'2026-08-04',18)&&out('vf_y1s_0804').goto.zone==='noodle');
-    G=lawG('2026-08-05',21.55,{date:[AN]}); rules(); check('4. 交往以安的：8/5 21:30 她從台中「我媽今天問你是誰。」「我說是一起讀書的人。……她說好。」（不用回）',J(tagged('vf_y1s_0805').map(m=>m.text))===J(qs(r0803).slice(2,4))&&!optsOf('vf_y1s_0805').length);
+    G=lawG('2026-08-05',21.55,{date:[AN]}); rules(); check('4. 交往以安的：8/5 21:30 她從台中「我媽今天問你是誰。」「我說是男朋友。……她說好。」（不用回）',J(tagged('vf_y1s_0805').map(m=>m.text))===J(qs(r0803).slice(2,4))&&!optsOf('vf_y1s_0805').length);
     G=lawG('2026-08-05',21.55,{fam:[AN]}); rules(); check('4. 沒交往：沒有',!tagged('vf_y1s_0805').length);
     const r0828=row4('8/28（五）');
     G=lawG('2026-08-28',18,{home:true}); const e28=ev('ev_vf_y1s_0828'); setT('2026-08-28',17.9); const c28=EVENTS.check(e28); setT('2026-08-28',18); Ls=await run('ev_vf_y1s_0828');

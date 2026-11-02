@@ -95,7 +95,7 @@ const ents=(G,k,h)=>{ setT(k,h); G.zone='noodle'; return EVENTS.check; };
     G=fresh('2028-11-17',21.05); H.rel(BH,10,0,0); rules(); check('3. 11/17 和柏翰只是認識：沒有',!msgs('p:'+BH).length);
     const A=ACTIVITIES.list.find(a=>a.id==='public_law_group');
     G=fresh('2028-12-07',20,'wancai',{CLUB_public_law_group:true,PLG_HANDOVER:'there'}); const ce=CLS.clubEvent(G,A); let Lp=await run('ev_y4_plg_last');
-    check('3. 12/7（四）最後一次讀書會（有 PLG_HANDOVER）：「（大四上最後一次讀書會。學弟把白板擦得很乾淨，只留最上面那一行沒擦：說理由。）」',!!ce&&ce.id==='ev_y4_plg_last'&&J(Lp)===J([L().plgLast]),ce&&ce.id);
+    check('3. 12/7（四）最後一次讀書會（有 PLG_HANDOVER）：「（大四上最後一次讀書會。學弟把白板擦得很乾淨，只留最上面那一行沒擦：每個人講完。）」',!!ce&&ce.id==='ev_y4_plg_last'&&J(Lp)===J([L().plgLast]),ce&&ce.id);
     G=fresh('2028-12-07',20,'wancai',{CLUB_public_law_group:true}); const ce2=CLS.clubEvent(G,A); check('3. 12/7 沒有 PLG_HANDOVER：不演這一句',!ce2||ce2.id!=='ev_y4_plg_last');
     G=fresh('2028-12-08',18.6); check('3. 12/8（五）摘要日（沒參加讀書會的）：「（十二月。總圖前面的聖誕樹立起來了。）」',J(sumAt('2028-12-08',18.6))===J([L().sum1208]));
     G=fresh('2028-12-08',18.6,'dorm',{CLUB_public_law_group:true}); check('3. 12/8 參加讀書會的：沒有（12/7 有讀書會）',sumAt('2028-12-08',18.6).length===0);

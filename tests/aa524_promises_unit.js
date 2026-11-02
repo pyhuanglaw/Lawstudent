@@ -66,7 +66,7 @@ const NEW={
   A7:['好。……櫻花下週就謝了。我拍給你。'],
   A8:['夜景很好看。……另一個原因，我不說。'],
   A9:['……台中的夕陽在海邊。很遠，要開車。','……最南邊。好遠。','你上次說要去最南邊。……我查過了，坐車要六個小時。'],
-  A10:['不用。我爸會來。……謝謝。'],
+  A10:['不用。我媽會來。……謝謝。'],
   A11:['讀書會在山上的茶館，一個月一次。','我們讀到七點。……你不用等，先下山。'],
   A12:['會。第三課的單字，你先背。'],
   A13:['哪一家？……看起來比麵店的辣。','看起來好好吃'],
@@ -237,11 +237,11 @@ await sec('A10',async()=>{
   fresh('2028-03-26',19); H.FAMILIAR(AN); contact(AN);
   const w=sweepTo('2028-07-30'); const m=w&&PHONE.byAsk(H.G,'y3_ab_w'+w.wk);
   if(m){ answer('y3_ab_w'+w.wk,0); PHONE.tick(H.G); }
-  check('A10. 沒交往的朋友：7/30 行李箱那則回「我去機場接妳。」→「不用。我爸會來。……謝謝。」',!!m&&J(t1Of(w.wk))===J(['（照片：行李箱，攤開在床上）','八月五號。我開始收了。'])&&J(txt('p:heroine_01').slice(-2))===J(['我去機場接妳。',NEW.A10[0]]),J({t1:w&&t1Of(w.wk),last:txt('p:heroine_01').slice(-2)}));
+  check('A10. 沒交往的朋友：7/30 行李箱那則回「我去機場接妳。」→「不用。我媽會來。……謝謝。」',!!m&&J(t1Of(w.wk))===J(['（照片：行李箱，攤開在床上）','八月五號。我開始收了。'])&&J(txt('p:heroine_01').slice(-2))===J(['我去機場接妳。',NEW.A10[0]]),J({t1:w&&t1Of(w.wk),last:txt('p:heroine_01').slice(-2)}));
   fresh('2028-03-26',19); H.FRIEND(AN); H.date(AN); contact(AN);
   let wd=null; for(const x of SUNS()){ at(x.day,20.05); ph(); const L=t1Of(x.wk); if(L[0]==='（照片：行李箱，攤開在床上）'){ wd=x; break; } at(x.day+1,19); ph(); }
   const md=wd&&PHONE.byAsk(H.G,'y3_ab_w'+wd.wk); if(md){ answer('y3_ab_w'+wd.wk,0); PHONE.tick(H.G); }
-  check('A10. 交往中照現有：「好。……我記在手帳了。」（8/5 接機）',!!md&&J(txt('p:heroine_01').slice(-2))===J(['我去機場接妳。','好。……我記在手帳了。']),J(txt('p:heroine_01').slice(-2)));
+  check('A10. 交往中照現有：「好。班機號碼我再傳給你。」（8/5 接機）',!!md&&J(txt('p:heroine_01').slice(-2))===J(['我去機場接妳。','好。班機號碼我再傳給你。']),J(txt('p:heroine_01').slice(-2)));
 });
 await sec('A11',()=>{
   const r=ENCOUNTERS.rows.find(x=>x.who===AN&&x.spot==='D09');

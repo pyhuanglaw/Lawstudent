@@ -86,7 +86,7 @@ const meet=id=>SOCIAL.remember(id,'FIRST_MET','');
     check('A19：第 15 週週一 20:00（認識以上）：以安約隔天 8:00 總圖（邀約系統，等你回）；18:00、第 14 週、週五、沒有她的聯絡方式：不約',!!a&&a.place==='library'&&a.day===W16+1&&a.h===8&&a.state==='offered'&&a.by==='npc'&&!b&&!c&&!d&&!e,JSON.stringify({a,b:!!b,c:!!c,d:!!d,e:!!e}));
     fresh(W16,20,'campus',{afternoonDone:true}); meet('heroine_01'); STORY.phoneRules(GM); check('A19：還不認識（STRANGER）不約',!(G.invites||[]).some(iv=>iv.who==='heroine_01'));
     fresh(W16,20,'campus',{afternoonDone:true}); knowAn(); STORY.phoneRules(GM); const t=(G.msgs||[]).filter(x=>x.who==='heroine_01').map(x=>x.text);
-    check('A19：訊息原文「明天 8:00 總圖。周老師那題，我寫了反方的理由。你來反駁。」',t.includes('明天 8:00 總圖。周老師那題，我寫了反方的理由。你來反駁。'),JSON.stringify(t));
+    check('A19：訊息原文「明天八點總圖。周老師那題我寫了反方，你來挑毛病。」',t.includes('明天八點總圖。周老師那題我寫了反方，你來挑毛病。'),JSON.stringify(t));
     STORY.phoneRules(GM); G.hour=21; STORY.phoneRules(GM); check('A19：只約一次',(G.invites||[]).filter(iv=>iv.who==='heroine_01').length===1);
     const iv=G.invites.find(x=>x.who==='heroine_01'); const r=INV.answer(G,iv.id,'yes'); check('A19：答應＝約好了（之後照邀約系統見面）',r&&r.res==='accept'&&iv.state==='accepted');
     fresh(W16,20,'campus',{afternoonDone:true}); knowAn(); STORY.phoneRules(GM); const iv2=G.invites.find(x=>x.who==='heroine_01'); const r2=INV.answer(G,iv2.id,'later'); const r3=(fresh(W16,20,'campus',{afternoonDone:true}),knowAn(),STORY.phoneRules(GM),INV.answer(G,G.invites.find(x=>x.who==='heroine_01').id,'no'));

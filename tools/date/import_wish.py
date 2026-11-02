@@ -108,6 +108,35 @@ if A595:
         sys.exit(f'AA_595 3-14：學姊的心願約會「{T595}」有 {n595} 個（應該是 1 個，或已經刪了）')
     SRC525 += f'＋{os.path.basename(P595)[:6]}@{S595}（學姊 D15 保溫瓶選項刪）'
 
+# ---- 1d. AA_592（以安改稿①b，白名單 AA592-AN-1B-1102；第 9 節第 2 點：媽媽那一句統一）第 53 列：以安 D07 法庭「我媽說，坐在上面的人，要先把對方的理由講得比他自己還好，再決定。」
+#      →「我媽說，坐在上面的人，要先把兩邊都講得比他們自己還好，再決定。」（法官面前是兩造、不是「反方」）。整句相同才換；wish_aa.json 下一版自己改好了就跳過。
+#      換上去的句子不在 AA_127 原稿：第 2 步逐句對稿時，那一句改對 AA_592 第 53 列的「改成」欄 ----
+A592 = G.approved_files(ALLOW, SP + 'AA_592_')
+FIX592 = set()
+if A592:
+    P592, S592 = next(iter(A592.items()))
+    ok, why = G.allowed(P592, S592, ALLOW)
+    if not ok:
+        sys.exit('拒絕匯入：' + why)
+    md592 = subprocess.check_output(['git', '-C', ROOT, 'show', f'{S592}:{P592}'], text=True)
+    OLD53, NEW53 = '我媽說，坐在上面的人，要先把對方的理由講得比他自己還好，再決定。', '我媽說，坐在上面的人，要先把兩邊都講得比他們自己還好，再決定。'
+    if f'| {OLD53} | {NEW53} |' not in md592:
+        sys.exit(f'AA_592@{S592} 裡找不到第 53 列（法庭那一句）')
+    def _fix592(o):
+        n = 0
+        if isinstance(o, dict):
+            if o.get('text') in (OLD53, NEW53) and o.get('who') == 'heroine_01':
+                o['text'] = NEW53; return 1
+            for v in o.values(): n += _fix592(v)
+        elif isinstance(o, list):
+            for v in o: n += _fix592(v)
+        return n
+    n592 = _fix592(EV['heroine_01'])
+    if n592 != 1:
+        sys.exit(f'AA_592 第 53 列：以安 D07 法庭「{OLD53}」有 {n592} 句（應該是 1 句）')
+    FIX592.add(NEW53)
+    SRC525 += f'＋{os.path.basename(P592)[:6]}@{S592}（以安 D07 法庭 1 句）'
+
 # ---- 2. 逐句對原稿（台詞、旁白、選項的字；說明欄不算）----
 SKIP = ('wish', 'rule', 'note', 'where', 'context', 'source', 'title', 'hotspotsTitle', 'scene', 'repeat', 'costNote', 'likeNote', 'album', 'code', 'name', 'memory', 'record')
 def all_text(o, path=''):
@@ -137,6 +166,7 @@ for k, e in EV.items():
     for path, who, t0 in all_text(e, k):
         t = norm(t0)
         parts = [p for p in re.split(r'[（）「」]', t) if p] if who in ('narr', 'opt') else [t]
+        if t0 in FIX592: continue   # AA_592 第 53 列換上去的句子（上面 1d 已對過 AA_592 的表）
         if all(found(MDN[e['src']], p) for p in parts): continue
         (extra if path.startswith(free) and free else miss).append(f'{path}：{t0}')
 

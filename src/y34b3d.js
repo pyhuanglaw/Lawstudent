@@ -83,7 +83,7 @@ const Y34B=(function(){
       if(sent(G,'y3_an_sendoff_ask')&&F.AN_SENDOFF==null&&typeof OUT!=='undefined'&&!OUT.get(G,'y3_an_sendoff')&&NOW(G)<T(d25,10.5))
         OUT.plan(G,{id:'y3_an_sendoff',ev:'ev_an_sendoff',day:d25,h:10,late:0.5,place:'桃園機場第二航廈',title:'桃園機場',travel:'機場捷運 約 1 小時',travelH:1,hours:1.5,alarm:true,back:'回到台北。'});
       if(F.AN_SENDOFF==null&&NOW(G)>=T(d25,11+40/60)){ F.AN_SENDOFF='missed';   /* 11:40（AA_180 2-6）*/
-        const L=[DM('heroine_01','（照片：登機證）'),DM('heroine_01','要登機了'),DM('heroine_01','到了再傳')]; if(F.HOOK_AN_SENDOFF!=null) L.push(DM('heroine_01','……你說你會來的。沒關係。'));
+        const L=[DM('heroine_01','（照片：登機證）'),DM('heroine_01','要登機了。'),DM('heroine_01','到了再傳。')]; if(F.HOOK_AN_SENDOFF!=null) L.push(DM('heroine_01','……你說你會來的。沒關係。'));
         at(G,d25,11+40/60,L,'y3_an_sendoff_miss'); } } };
   /* 日本路線 3/25 一起出發（AA_253 9-1；exchange3d.js 的美國那一套照樣做一份：機場 → 登機 → 字卡「飛往日本」→ 抵達）。
      E08（使用者 10-16 21:49「3d做機場…」、10-17 00:0x「機場的也是阿」；2026-10-27）：機場改成 3D 的出境大廳（EXCH.airGo，同美國那一趟）——
@@ -356,7 +356,7 @@ const Y34B=(function(){
   S.a23CallDue=G=>{ const d=D('a23'); return law(G)&&!US(G)&&d!=null&&G.day===d&&G.hour>=19.5&&G.hour<23&&G.flags.ANNIV23==null&&G.zone!=='noodle'&&!(typeof TRIP!=='undefined'&&TRIP.at&&TRIP.at(G)); };   /* 一定會發生：19:30 還沒到＝電話帶到場 */
   S.a23TueDue=G=>{ const d=D('a23tue'); return law(G)&&d!=null&&G.day===d&&G.zone==='noodle'&&!G.flags.ANNIV23_TOLD&&fam('heroine_03')&&!!(typeof EVENTS!=='undefined'&&EVENTS.npcOf&&EVENTS.npcOf('heroine_03')); };   /* 12/12（二）語彤的班：人在店裡才說 */
   S.a23Phone=function(G){ const F=G.flags, d=D('a23'), m=D('a23msg'); if(d==null||G.day<m||G.day>d+1||!law(G)) return;
-    { const hm=tzH(G,m,21); if(inGrp(G,'public_law')&&met('heroine_01')&&NOW(G)>=T(m,hm)&&G.day<=m+1) at(G,m,G.day===m?Math.max(hm,G.hour):G.hour,[{th:'g:public_law',from:'heroine_01',text:'學弟說這週四停一次'},{th:'g:public_law',from:'heroine_01',text:'大家去麵店'}],'y4_a23_group'); }   /* 美國路線照當地時間（AA_340 S8：台灣 21:00＝當地 08:00）*/
+    { const hm=tzH(G,m,21); if(inGrp(G,'public_law')&&met('heroine_01')&&NOW(G)>=T(m,hm)&&G.day<=m+1) at(G,m,G.day===m?Math.max(hm,G.hour):G.hour,[{th:'g:public_law',from:'heroine_01',text:'學弟說這週四停一次。'},{th:'g:public_law',from:'heroine_01',text:'大家去麵店。'}],'y4_a23_group'); }   /* 美國路線照當地時間（AA_340 S8：台灣 21:00＝當地 08:00）*/
     if(inGrp(G,'noodle_team')) for(const [k,L] of [['a23msg',[GZ('週四 麵店二十三週年 倒數三天')]],['a23tue',[{th:'g:noodle_team',from:'yu',text:'兩天'}]],['a23wed',[GZ('明天七點 不准遲到'),{th:'g:noodle_team',from:'classmate_bohan',text:'我六點半到。'}]]]){
       const dd=D(k), hh=dd!=null?tzH(G,dd,21):21; if(dd!=null&&NOW(G)>=T(dd,hh)&&G.day<=dd+1) at(G,dd,hh,L,'y4_a23_count_'+k); }   /* 麵店團群組的倒數（AA_337 第 3 節）：12/11、12/12、12/13 21:00 */
     if(!US(G)&&F.ANNIV23==='there'&&dating(G,'kexin')&&!F.KX_MET_NOODLE_TEAM&&NOW(G)>=T(d,22.5)&&G.day<=d+1)
@@ -409,7 +409,7 @@ const Y34B=(function(){
   /* ================= 1B-24 以安新 20 ================= */
   S.an20Mode=G=>datingOther(G,'heroine_01')?'noodle':'cafe';
   S.an20Phone=function(G){ const F=G.flags, a=D('an20ask'), d=D('an20'); if(a==null||G.day<a||G.day>d||!law(G)||!fri('heroine_01')||F.AN_YOUR_TURN!=null) return;
-    if(S.an20Mode(G)==='cafe'){ if(NOW(G)>=T(a,21)&&NOW(G)<T(d,16)) at(G,a,G.day===a?Math.max(21,G.hour):G.hour,[DM('heroine_01','明天下午四點有空嗎'),DM('heroine_01','兩點半窗邊 想找人聊天')],'y4_an20_ask');
+    if(S.an20Mode(G)==='cafe'){ if(NOW(G)>=T(a,21)&&NOW(G)<T(d,16)) at(G,a,G.day===a?Math.max(21,G.hour):G.hour,[DM('heroine_01','明天下午四點有空嗎？'),DM('heroine_01','兩點半，窗邊。想找人聊天。')],'y4_an20_ask');
       if(G.day===d&&G.hour>=16.5&&G.zone!=='cafe') at(G,d,16.5,[DM('heroine_01','我在窗邊。')],'y4_an20_window'); } };   /* AA_181 2-7 */
   S.an20Due=G=>{ const d=D('an20'), F=G.flags; if(!law(G)||d==null||G.day!==d||F.AN_YOUR_TURN!=null||!fri('heroine_01')) return false;
     if(S.an20Mode(G)==='cafe') return G.zone==='cafe'&&G.hour>=15.75&&G.hour<(sent(G,'y4_an20_window')?17:16.25);
@@ -481,7 +481,7 @@ const Y34B=(function(){
     STORY.y4FromHome=function(GM,k){ if(k==='y34b_a23') return S.a23Bring(GM,{fromHome:true}); if(k==='y34b_an20') return S.an20Bring(GM,{fromHome:true}); return hf0?hf0.apply(this,arguments):null; }; }
   /* ---------------- 手機、醒來、鬧鐘 ---------------- */
   S.phone=function(G){ if(!law(G)) return; for(const f of [S.anPhone,S.ytPhone,S.ytJPPhone,S.zqKaiPhone,S.zqPhone,S.kx19Phone,S.bdayPhone,S.sisPhone,S.an18Phone,S.a23Phone,S.kx23Phone,S.q14Phone,S.an20Phone,S.m9Phone]){ try{ f(G); }catch(e){ console.warn('Y34B phone',e); } }
-    { const F=G.flags, r1=DK('2028-09-07'); if(r1!=null&&F.AN_PAGE_GIVEN&&dating(G,'heroine_01')&&!JP(G)&&(F.R1_SEEN||G.day>r1)&&G.day<=r1+3&&!(STORY.abroad&&STORY.abroad(G))) at(G,G.day,Math.max(22,G.hour),[DM('heroine_01','明天把那一頁帶來'),DM('heroine_01','我要看')],'y4_an_page'); } };   /* 大四 R1 之後（AA_187 1-3）*/
+    { const F=G.flags, r1=DK('2028-09-07'); if(r1!=null&&F.AN_PAGE_GIVEN&&dating(G,'heroine_01')&&!JP(G)&&(F.R1_SEEN||G.day>r1)&&G.day<=r1+3&&!(STORY.abroad&&STORY.abroad(G))) at(G,G.day,Math.max(22,G.hour),[DM('heroine_01','明天把那一頁帶來。'),DM('heroine_01','我要看。')],'y4_an_page'); } };   /* 大四 R1 之後（AA_187 1-3）*/
   S.wakeAt=function(G){ if(!law(G)) return null; const d=G.day, F=G.flags;
     if(d===D('a23')&&!US(G)&&F.ANNIV23==null&&G.hour<19.5) return 19.5;   /* 二十三週年一定會發生 */
     if(d===D('an20')&&F.AN_YOUR_TURN==null&&fri('heroine_01')){ const w=S.an20Mode(G)==='cafe'?17.25:18.5; if(G.hour<w) return w; }   /* 新 20：祐廷一定在場 */

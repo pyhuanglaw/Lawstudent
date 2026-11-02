@@ -140,7 +140,7 @@ await sec('X',async()=>{
   check('X4. 以安週二約讀書會完吃飯（INV.anAsk）：這段期間不約',INV._v6exAsk===true&&INV.anAsk(H.G)===false&&!(H.G.invites||[]).some(iv=>iv.who===AN&&iv.by==='npc'));
   check('X4. 可昕不管（照 AA_351）',!V().COOL_IDS.includes(KX));
   /* 寒暑假活動她私訊約（vac3d.js 的 signup kind dm）：這段期間不傳；報名的公告欄照樣在 */
-  const c03=ok=>{ H.fresh('2026-06-01',10,'dorm'); H.G.stage='law'; H.FRIEND(AN); INV.addContact(H.G,AN); if(!ok){ H.CLOSE(AN); ROM.start(H.G,AN); ROM.end(H.G,AN,'apart_talk'); H.FRIEND(AN); } H.G.day=D('2026-06-20'); H.G.hour=21.1; H.G.weekday=wdOf(H.G.day); STORY.phoneRules(GM); PHONE.tick(H.G); return H.msgs('p:'+AN).includes('我暑假要上日語課，公館那間，週二四晚上'); };
+  const c03=ok=>{ H.fresh('2026-06-01',10,'dorm'); H.G.stage='law'; H.FRIEND(AN); INV.addContact(H.G,AN); if(!ok){ H.CLOSE(AN); ROM.start(H.G,AN); ROM.end(H.G,AN,'apart_talk'); H.FRIEND(AN); } H.G.day=D('2026-06-20'); H.G.hour=21.1; H.G.weekday=wdOf(H.G.day); STORY.phoneRules(GM); PHONE.tick(H.G); return H.msgs('p:'+AN).includes('我暑假要上日語課。公館那間，週二、四晚上。'); };
   check('X4. 寒暑假活動以安私訊約（C03 日語課 6/20 21:00）：平常傳；6/1 和她分開＝這段期間不傳（vac3d.js 讀 V6EX.cool）',c03(true)&&!c03(false));
 });
 

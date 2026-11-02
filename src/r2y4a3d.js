@@ -397,7 +397,7 @@ const R2Y4A=(function(){
         if(PHONE.inGroup(G,'noodle_team')&&knows(AN,G)&&stageAt(AN,'FRIEND')&&pastTW(G,d,21)&&!PHONE.sent(G,'y4_an_eve')){ const A=t=>({th:'g:noodle_team',from:AN,text:t}), L=[A('明天考試，今天早點睡。'),A('考完再跟你們說。')];
           L[1].ask={id:'y4_an_eve',until:T(d+1,9),opts:[{t:'加油。',set:{AN_EXAM_EVE:'reply'},say:[{from:AN,text:'好。'}]},{t:'早點睡。',set:{AN_EXAM_EVE:'reply'},say:[{from:AN,text:'好。你們也是。'}]}]}; atTW(G,d,21,L,'y4_an_eve'); }
         if(PHONE.sent(G,'y4_an_eve')&&!F.AN_EXAM_EVE&&now(G)>=T(d+1,9)) F.AN_EXAM_EVE='none';   /* 不回（不扣分）*/
-        if(dating(G,AN)&&pastTW(G,d,23+10/60)&&!PHONE.sent(G,'y4_an_eve_dm')){ const A=t=>({th:'p:'+AN,from:AN,text:t}), ex=S.examOn(G), L=ex?[A('明天考完 一起去麵店'),A('大碗')]:[A('明天考完 我想吃麵店的大碗'),A('你可以先去排嗎')];
+        if(dating(G,AN)&&pastTW(G,d,23+10/60)&&!PHONE.sent(G,'y4_an_eve_dm')){ const A=t=>({th:'p:'+AN,from:AN,text:t}), ex=S.examOn(G), L=ex?[A('明天考完，一起去麵店。'),A('大碗。')]:[A('明天考完，我想吃麵店的大碗。'),A('你可以先去排嗎？')];
           L[1].ask={id:'y4_an_eve_dm',opts:[{t:'好。',say:[{from:AN,text:ex?'好。……早點睡。':'好。考完打給你。'}]}]}; atTW(G,d,23+10/60,L,'y4_an_eve_dm'); } } }
     /* ---- 2-Y4-28 除夕：2/12 22:00（她在高雄）三選一；「打給妳。」＝電話；不回＝隔天 10:00 ---- */
     { const d=D('2029-02-12'); if(d!=null&&kxOn(G)&&G.day>=d&&G.day<=d+2){

@@ -292,7 +292,7 @@ const date=id=>H.date(id);
     check('1B-19 美國路線、和以安交往中、視訊沒接（30 分鐘）：照原本當地 10:00 的私訊「先跟我媽說了。然後是你。……你那邊早上十點，先去上課。」（AA_337 第 4 節改句）', th('p:heroine_01').includes('先跟我媽說了。然後是你。……你那邊早上十點，先去上課。')&&!th('p:heroine_01').some(t=>/你是第二個/.test(t))&&H.G.flags.AN_CHOICE==='dm'); }
   /* ===== 1B-20 ===== */
   fresh('2028-12-11',20,'dorm'); H.FAMILIAR('heroine_01'); PHONE.join(H.G,'public_law','公法讀書會'); at('2028-12-11',21); phone();
-  check('1B-20 12/11 21:00 讀書會群組：以安「學弟說這週四停一次」「大家去麵店」', th('g:public_law').join('|')==='學弟說這週四停一次|大家去麵店');
+  check('1B-20 12/11 21:00 讀書會群組：以安「學弟說這週四停一次。」「大家去麵店。」', th('g:public_law').join('|')==='學弟說這週四停一次。|大家去麵店。');
   { fresh('2028-12-12',19,'noodle'); H.FAMILIAR('heroine_03'); const a=S.a23TueDue(H.G); GM.npc.heroine_03={obj:{position:{x:0,y:0,z:0},rotation:{y:0}}}; const b=S.a23TueDue(H.G); await run('ev_yt_23rd_notice');
     check('1B-20 12/12 語彤的班（她在店裡）：「週四，二十三週年。你要來。」', !a&&b&&has('週四，二十三週年。你要來。')); GM.npc={}; }
   fresh('2028-12-14',18.9,'noodle',{rain_umbrella:'none'}); H.FRIEND('heroine_03'); H.FAMILIAR('yu'); H.FAMILIAR('heroine_05'); SOCIAL.remember('heroine_03','SHARED_MEAL','她端來的乾麵');
@@ -359,7 +359,7 @@ const date=id=>H.date(id);
     check('第 6 題 U_COPYRIGHT＋U_CONTRACT：多「先看權利歸誰、錢怎麼分、怎麼解約。然後拿去給律師看。」→「……你講話越來越像律師了。好，找律師。」', k>=0&&th('p:heroine_04').includes('……你講話越來越像律師了。好，找律師。')&&H.G.flags.ZQ_CONTRACT==='lawyer'); }
   /* ===== 1B-24 ===== */
   fresh('2029-05-02',20,'dorm',{whyLaw:'econ'}); H.FRIEND('heroine_01'); at('2029-05-02',21); phone();
-  check('1B-24 5/2 21:00 以安「明天下午四點有空嗎」「兩點半窗邊 想找人聊天」', th('p:heroine_01').join('|')==='明天下午四點有空嗎|兩點半窗邊 想找人聊天');
+  check('1B-24 5/2 21:00 以安「明天下午四點有空嗎？」「兩點半，窗邊。想找人聊天。」', th('p:heroine_01').join('|')==='明天下午四點有空嗎？|兩點半，窗邊。想找人聊天。');
   at('2029-05-03',16); H.G.zone='cafe'; check('1B-24 16:00 在 Café＝演', S.an20Due(H.G)); H.picks=[2]; await run('ev_an_your_turn');
   check('A1 「換妳問我。」＋第二天 econ：「我念過一個多月經濟……」→「你四年前也是這樣講。」；IMPORTANT_CONVERSATION', has('以安，妳為什麼念法律？')&&has('所以我念法律，是為了把地圖畫好。')&&has('我念過一個多月經濟，才知道我想念的是這個。')&&has('你四年前也是這樣講。')&&SOCIAL.has('heroine_01','IMPORTANT_CONVERSATION')&&H.G.flags.AN_YOUR_TURN===true);
   { fresh('2029-05-03',16,'cafe'); H.FRIEND('heroine_01'); date('heroine_01'); H.picks=[2]; await run('ev_an_your_turn');

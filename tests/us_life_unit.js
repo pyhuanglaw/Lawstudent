@@ -177,7 +177,7 @@ const interact=async(o)=>{ said=[]; opts=[]; caps=[]; toasts=[]; return STORY.in
     check('S8. 10/16 晚上上床：每個睡覺選項都被 08:30 的鬧鐘叫醒（不會睡過週年視訊）；選項名字不重複', sl.length>0&&sl.every(x=>x.wake<=8.51)&&sl.some(x=>/可昕的視訊：週年/.test(x.alarm||''))&&new Set(sl.map(x=>x.t)).size===sl.length, JSON.stringify(sl)); }
   { const src=fs.readFileSync(path.join(ROOT,'src/story3d.js'),'utf8'); check('S8. story3d.js「視訊版目前不會發生」的舊註解拿掉了', !/視訊版目前不會發生/.test(src)); }
   fresh('2028-12-11',7,'us_apartment',US()); PHONE.join(G,'public_law','公法讀書會'); R('heroine_01','FAM'); runRules('2028-12-11',7,9);
-  check('S8. 12/11 讀書會群組：當地 08:00（台灣 21:00）', txt('g:public_law').includes('heroine_01:學弟說這週四停一次')&&G.msgs.find(m=>m.th==='g:public_law').h===8, JSON.stringify(txt('g:public_law')));
+  check('S8. 12/11 讀書會群組：當地 08:00（台灣 21:00）', txt('g:public_law').includes('heroine_01:學弟說這週四停一次。')&&G.msgs.find(m=>m.th==='g:public_law').h===8, JSON.stringify(txt('g:public_law')));
   fresh('2028-09-07',19,'us_apartment',US()); runRules('2028-09-07',19,23);
   check('S8. 家人群組週四 20:00「這週回來吃飯嗎」：人在美國不問', !txt('g:home').some(t=>/回來吃飯/.test(t)));
   fresh('2028-09-07',19,'dorm',TWF()); runRules('2028-09-07',19,21); check('S8. 臺灣路線照舊問', txt('g:home').length>0);

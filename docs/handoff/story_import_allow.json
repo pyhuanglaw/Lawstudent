@@ -3993,6 +3993,15 @@
    "task": "AA589-AN-B4-1102",
    "kind": "text",
    "note": "以安改稿第四批（大三、大四、畢業後）：tools/story/apply_line_table.py 自動換 75 列（第 56～58 列為什麼念法律等使用者選，先不動）；手改第 16、27～29（町公所轉述宿舍管理員阿姨；挽回中祐廷先問「要幫忙嗎？」、選項照表）、42～44、67、68（APART_HEAR 鍵）、71、72、82 列；第 10 節「想去的店」看過那一頁（AN_SHOP_PAGE）的承接寫法（TE.HEART she、七夕、日本的手帳、七月最後一次）；第 7-5 節 S6 國考放榜改祐廷自己查到（postgrad3d.js anCall、AN 資料、群組阿哲先貼）；CG-23 換新圖（62395d7da）；tests/aa589_an_b4_unit.js"
+  },
+  {
+   "path": "docs/story_planning/AA_592_以安改稿_1b_手機訊息與一般閒聊.md",
+   "sha": "4162d22e1",
+   "status": "approved",
+   "approvedBy": "AA 2026-11-02 審查（第 9 節，D109；決1～決6＝第 50～55 列、新1 兔子貼圖）、BB_238 口氣審 PASS（第 1 列退回原句）、第 10 節 AA 照既有規則定（AA_596 第六節）：「本批全部可以交 LAWWW 整合」",
+   "task": "AA592-AN-1B-1102",
+   "kind": "text",
+   "note": "以安改稿①b（手機訊息＋一般閒聊）：tools/story/apply_line_table.py 自動換 46 列（第 1 列照 BB_238 原句）；手改第 11、12（vacfill 7/24 只換那兩處）、15、16（送機兩處）、26、29、32、48 列（標點，原句出現多次只換那一處）、新1（開學第二天第一則私訊後面加「（兔子揮手）」）；第 53 列 date_wish.js 是產生檔：tools/date/import_wish.py 疊這份第 53 列（法庭那一句）重匯；tests/aa592_an_1b_unit.js"
   }
  ]
 }

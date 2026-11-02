@@ -72,7 +72,7 @@ const R2Y4B=(function(){
   S.azaleaNow=G=>G.flags.AZALEA_VER||S.azaleaVer(G);
   S.azaleaPhoto=G=>{ const d=DK(AZ); if(d!=null&&grp(G)) PHONE.at(G,d,12+40/60,[GR('heroine_01','📷（同一叢杜鵑，同一個位置。以安一個人。第四張。）')],'y4_azalea_photo'); };   /* 12:40 群組一張照片（她請 Alison 拍的）：照片的說明照 AA_345 G5 */
   const azaleaPhone=G=>{ const d=DK(AZ), F=G.flags; if(d==null||G.day<d||G.day>d+7) return;
-    if(G.day===d&&at(G,AZ,12+10/60)&&hh(G)<12+55/60&&knows('heroine_01',G)&&stageAt('heroine_01','ACQUAINTANCE')&&!F.EX_heroine_01&&contact(G,'heroine_01')) PHONE.at(G,d,12+10/60,[P_('heroine_01','杜鵑開了'),P_('heroine_01','十二點半 老位置')],'y4_azalea_dm');
+    if(G.day===d&&at(G,AZ,12+10/60)&&hh(G)<12+55/60&&knows('heroine_01',G)&&stageAt('heroine_01','ACQUAINTANCE')&&!F.EX_heroine_01&&contact(G,'heroine_01')) PHONE.at(G,d,12+10/60,[P_('heroine_01','杜鵑開了。'),P_('heroine_01','十二點半，老位置。')],'y4_azalea_dm');
     if(at(G,AZ,12+55/60)&&F.AZALEA_Y4==null&&knows('heroine_01',G)){ F.AZALEA_Y4='missed'; S.azaleaPhoto(G); } };
 
   /* ===================== 2-Y4-32 明軒 M4「存夠了」（3/8 19:00 麵店）===================== */
@@ -145,7 +145,7 @@ const R2Y4B=(function(){
     const L=S.SPRING_PICK[k]; if(L&&grp(G)&&PHONE.sent(G,'y4_spring_grp')) PHONE.at(G,G.day,G.hour+0.05,L.map(x=>msg(NG,x)),'y4_spring_pick'); };
   S.springPhoto=G=>{ const D=SPD(); if(D.d0!=null&&grp(G)) PHONE.at(G,D.d0,21.5,[GR('heroine_01','📷（火車站的月台。他們改搭火車。）')],'y4_spring_photo'); };   /* 祐廷沒去：他們改搭火車 */
   const springPhone=function(G,GM){ const F=G.flags, D=SPD(); if(D.inv==null||G.day<D.inv||G.day>D.d1+1) return;
-    if(grp(G)&&G.day<=D.dl&&at(G,SP.inv,20.5)) PHONE.at(G,D.inv,atH(G,D.inv,20.5),[GR('heroine_01','春假要不要出去 兩天一夜'),GR('heroine_01','行程我排好了 4/1 前跟我說')],'y4_spring_grp');
+    if(grp(G)&&G.day<=D.dl&&at(G,SP.inv,20.5)) PHONE.at(G,D.inv,atH(G,D.inv,20.5),[GR('heroine_01','春假要不要出去？兩天一夜。'),GR('heroine_01','行程我排好了。4/1 前跟我說。')],'y4_spring_grp');
     if(dating(G,'kexin')&&G.day<=D.dl&&at(G,SP.inv,21)) PHONE.at(G,D.inv,atH(G,D.inv,21),[P_('kexin',S.kxWaiao(G)?'最後一個春假。……一樣不排行程表。':'最後一個春假。……這次不排行程表。')],'y4_spring_kx');
     if(G.day>D.dl&&F.SPRING_Y4==null&&(PHONE.sent(G,'y4_spring_grp')||PHONE.sent(G,'y4_spring_kx'))) S.springChoose(GM||G,'none',{silent:true});
     if(dating(G,'heroine_03')&&PHONE.sent(G,'y4_spring_grp')&&at(G,SP.d0,18)&&G.day<=D.d1) PHONE.at(G,D.d0,18,[P_('heroine_03','看到群組了。……店裡今天很空。')],'y4_spring_yt'); };   /* 和語彤交往中：她春假照樣顧店（AA_71 2-10）*/
@@ -240,7 +240,7 @@ const R2Y4B=(function(){
 
   /* ===================== 2-Y4-46 七月最後一次的心意邀約（7/13 21:00 邀約、7/14）===================== */
   S.JULY={
-    heroine_01:{inv:['明天晚上有空嗎。','六點半，同一家。……手帳我帶著。'],h:18.5,place:'eatery',placeName:'公館巷子裡她知道的小店',
+    heroine_01:{inv:['明天晚上有空嗎。','六點半，同一家。'],h:18.5,place:'eatery',placeName:'公館巷子裡她知道的小店',
       last:[G=>(typeof SOCIAL!=='undefined'&&SOCIAL.has('heroine_01','AN_SHOP_PAGE'))?{narr:'（她把手帳翻到「想去的店」那一頁，推到你面前。最下面那一行，還是只有「和你」。）'}:{narr:'（她把手帳翻到「想去的店」那一頁，推到你面前。最下面一行沒有店名，只寫著「和你」。）'},{remember:'AN_SHOP_PAGE'},'這一行，我想今天勾掉。','你回答。'],   /* AA_589 第 88、89 列＋第 10 節：沒看過那一頁＝第一次揭曉的寫法、記 AN_SHOP_PAGE */friend:'好。……八月四號，你考試加油。',friendNo:'好。……九月見。',friendK:'……八月四號，你考試加油。',friendNoK:'……九月見。'},
     heroine_03:{inv:['明天打烊以後，你來店裡。','我煮。'],h:21,place:'noodle_closed',placeName:'麵店（打烊以後）',
       last:['你上次說要想。我等到現在。','……我還是想坐你旁邊。'],friend:'好。考完來吃麵，算我的。',friendNo:'好。下次來吃麵，算我的。',friendK:'考完來吃麵，算我的。',friendNoK:'下次來吃麵，算我的。'},
@@ -782,7 +782,7 @@ const R2Y4B=(function(){
     {tag:'y6_an_ny_grp',at:['2030-08-10',21],cond:G=>grp(G)&&knows('heroine_01',G),items:G=>{ const L=[GR('zhe','明天以安的飛機'),GR('zhe','早上十點 桃園 要去的舉手')];
       if(met(G,'heroine_01','FRIEND')) L[1].ask={id:'y6_an_ny',until:T(DK('2030-08-11'),9),opts:[{t:'我去。',set:{AN_NY_GO:true}}]}; return L; }},
     {tag:'y6_an_ny_photo',at:['2030-08-11',11+40/60],cond:G=>knows('heroine_01',G)&&G.flags.AN_NY_SENDOFF!=='went'&&(met(G,'heroine_01','FRIEND')?contact(G,'heroine_01'):grp(G)),
-      items:G=>{ const th=met(G,'heroine_01','FRIEND')?'p:heroine_01':NG; return ['（照片：登機證）','要登機了','到了再傳'].map(t=>({th,from:'heroine_01',text:t})); },after:G=>{ G.flags.AN_NY_SENDOFF='missed'; }},   /* 不到 FRIEND：只有群組 */
+      items:G=>{ const th=met(G,'heroine_01','FRIEND')?'p:heroine_01':NG; return ['（照片：登機證）','要登機了。','到了再傳。'].map(t=>({th,from:'heroine_01',text:t})); },after:G=>{ G.flags.AN_NY_SENDOFF='missed'; }},   /* 不到 FRIEND：只有群組 */
     /* 2-Y4-51 2030 重考：和可昕交往中，考前一晚 */
     {tag:'y5_kx_0802',at:['2030-08-02',22],cond:G=>S.retaker(G)&&dating(G,'kexin'),items:G=>[P_('kexin','明天你考。'),P_('kexin','……早點睡。我十點不打給你。')]},
     /* 2-Y4-52 交換延畢：明軒（10 月）、證書那天媽媽在 S.cert */

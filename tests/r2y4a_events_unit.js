@@ -421,9 +421,9 @@ const sisSaid=()=>said.filter(s=>s.who&&/學姊|書瑀|溫書瑀/.test(s.who)).m
   fresh('2029-02-02',21.1,'dorm',TWF()); join('noodle_team','麵店團'); R('heroine_01','FRI'); rules(); const ev0=txt('g:noodle_team'); answer('y4_an_eve',0);
   check('EX0. 2/2 21:00 麵店團「明天考試，今天早點睡。」「考完再跟你們說。」；回「加油。」→「好。」；AN_EXAM_EVE reply', JSON.stringify(ev0)===JSON.stringify(['heroine_01:明天考試，今天早點睡。','heroine_01:考完再跟你們說。'])&&txt('g:noodle_team').includes('heroine_01:好。')&&G.flags.AN_EXAM_EVE==='reply');
   fresh('2029-02-02',23.2,'dorm',TWF()); join('noodle_team','麵店團'); R('heroine_01','FRI'); date('heroine_01'); rules();
-  check('EX2. 和以安交往、不考：23:10「明天考完 我想吃麵店的大碗」「你可以先去排嗎」', JSON.stringify(txt('p:heroine_01'))===JSON.stringify(['heroine_01:明天考完 我想吃麵店的大碗','heroine_01:你可以先去排嗎']));
+  check('EX2. 和以安交往、不考：23:10「明天考完，我想吃麵店的大碗。」「你可以先去排嗎？」', JSON.stringify(txt('p:heroine_01'))===JSON.stringify(['heroine_01:明天考完，我想吃麵店的大碗。','heroine_01:你可以先去排嗎？']));
   fresh('2029-02-02',23.2,'dorm',EXF()); join('noodle_team','麵店團'); R('heroine_01','FRI'); date('heroine_01'); rules(); answer('y4_an_eve_dm',0);
-  check('EX3. 和以安交往、也考：「明天考完 一起去麵店」「大碗」→「好。……早點睡。」', txt('p:heroine_01').slice(0,2).join('|')==='heroine_01:明天考完 一起去麵店|heroine_01:大碗'&&txt('p:heroine_01').includes('heroine_01:好。……早點睡。'));
+  check('EX3. 和以安交往、也考：「明天考完，一起去麵店。」「大碗」→「好。……早點睡。」', txt('p:heroine_01').slice(0,2).join('|')==='heroine_01:明天考完，一起去麵店。|heroine_01:大碗'&&txt('p:heroine_01').includes('heroine_01:好。……早點睡。'));
   goals=[]; GM.setGoal=(t,d)=>{ goals.push(t); };
   fresh('2029-02-03',8.1,'campus',EXF()); R('heroine_01','FAM'); E.player.obj.position={x:30,y:0,z:30}; await tick(); const g27=goals.includes('09:00 教學館（研究所筆試）');
   E.player.obj.position={x:2,y:0,z:21.5}; G.hour=8.6; said=[]; await tick();
@@ -460,7 +460,7 @@ const sisSaid=()=>said.filter(s=>s.who&&/學姊|書瑀|溫書瑀/.test(s.who)).m
   check('V. 沒接：照片＋「情人節快樂。十點那一格，今天先空著。」；KX_VDAY[4] missed', txt('p:kexin').includes('kexin:📷（讀書計畫表）')&&txt('p:kexin').includes('kexin:情人節快樂。十點那一格，今天先空著。')&&G.flags.KX_VDAY[4]==='missed');
 
   // ---------- 人物面板名稱（AA_345 第 4 節，F11）----------
-  { const ML=SOCIAL.MEMORY_LABEL; check('F11. 人物面板名稱定稿：CHICAGO_TRIP「芝加哥的週末，她把行程表摺起來收進口袋」、PLG_LAST_RULE「讀書會交棒那天，白板上只剩一條：「說理由。」」、PICKED_HER_UP「她從美國回來那晚，去機場接她」', ML.CHICAGO_TRIP==='芝加哥的週末，她把行程表摺起來收進口袋'&&ML.PLG_LAST_RULE==='讀書會交棒那天，白板上只剩一條：「說理由。」'&&ML.PICKED_HER_UP==='她從美國回來那晚，去機場接她', JSON.stringify([ML.CHICAGO_TRIP,ML.PLG_LAST_RULE,ML.PICKED_HER_UP])); }
+  { const ML=SOCIAL.MEMORY_LABEL; check('F11. 人物面板名稱定稿：CHICAGO_TRIP「芝加哥的週末，她把行程表摺起來收進口袋」、PLG_LAST_RULE「讀書會交棒那天，白板上只剩一條：「每個人講完。」」、PICKED_HER_UP「她從美國回來那晚，去機場接她」', ML.CHICAGO_TRIP==='芝加哥的週末，她把行程表摺起來收進口袋'&&ML.PLG_LAST_RULE==='讀書會交棒那天，白板上只剩一條：「每個人講完。」'&&ML.PICKED_HER_UP==='她從美國回來那晚，去機場接她', JSON.stringify([ML.CHICAGO_TRIP,ML.PLG_LAST_RULE,ML.PICKED_HER_UP])); }
 
   // ---------- 沒有落掉的掛勾錯誤 ----------
   { const bad=warns.filter(w=>/PHONE_RULES|STORY\.TICKS|R2Y4A/.test(w)); check('Z9. 掛勾沒有丟錯（PHONE_RULES、TICKS、R2Y4A）', !bad.length, bad.slice(0,3).join(' / ')); }

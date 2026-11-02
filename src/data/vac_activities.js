@@ -143,7 +143,7 @@ const VAC_DATA=(function(){
     C03:{ id:'C03', title:'日語課（暑期密集班）', cat:'學習考試', season:'summer', years:['Y1','Y2','Y3'], days:['07-07','07-23'],
       rep:{ keys2:['第一堂。老師記得你，說你去年的作業字很工整。','小考。助詞還是錯在同一個地方。','最後一堂。老師發了一張中級班的報名表。'], keys3:['第一堂。這次你坐第一排。','小考。你比隔壁的人先寫完。','最後一堂。老師問你要不要去考日檢。'] },   /* 大二起沒有以安的私訊：行事曆報名（AA_264 第 3 節）*/ wd:[2,4], slot:'eve', place:{kind:'taipei',name:'公館的語言中心'}, cost:{payer:'family'}, free:'yes',
       signup:{kind:'dm', who:'heroine_01', min:'FAMILIAR', day:'06-20', h:21, until:'06-26', flag:'VAC_C03',
-        msgs:['我暑假要上日語課，公館那間，週二四晚上','三個禮拜，在我回台中以前上完','你如果也想學，報名到這個禮拜五'], yes:{t:'我也報。',say:[]}, board:true },   /* 不熟的玩家：公館語言中心的公告欄（行事曆）照樣報得到 */
+        msgs:['我暑假要上日語課。公館那間，週二、四晚上。','三個禮拜，回台中以前上完。','你也想學的話，報名到這個禮拜五。'], yes:{t:'我也報。',say:[]}, board:true },   /* 不熟的玩家：公館語言中心的公告欄（行事曆）照樣報得到 */
       keys:C03_KEYS(['07-07','07-16','07-23']),
       byYear:{ Y2:{ keys:C03_KEYS(['07-08','07-15','07-22']) }, Y3:{ keys:C03_KEYS(['07-11','07-18','07-20']) } } },   /* AA_369 M4：日子照每年的週二、四 */
     /* VAC-C04 托福／多益補習＋考試（AA_199 7-2；台詞 AA_241 第 9、10 節、AA_264 第 2 節）：公館二樓的英語補習班（BB_176 2-5 那塊招牌），每週一、三晚上；
@@ -416,9 +416,9 @@ const VAC_DATA=(function(){
   const TRIP_MSG={
     gf:{
       heroine_01:{freq:{h:21.5},dep:['到了傳一張照片。一張就好。'],mid:['你那邊現在幾點？……吃飯了沒？'],back:['明天有空的話，一起吃飯。'],   /* AA_369 L3：不分目的地；第 7 節第 6 題：整句換（原本只換了引號裡的那段）*/
-        pool:[['今天讀了四十頁。你那邊天氣好嗎？'],['手帳今天只寫了一行：等你回來那天。……不要笑。'],['我媽問你吃得習不習慣。她沒問我。'],['Alison 說你不在，宵夜沒人跟她搶。'],['📷（總圖三樓靠窗的位子）','這裡沒人坐。'],['今天背單字背到「おかえり」。……先存著。'],['你吃過了嗎？'],['睡前跟你說一聲。晚安。']],rep:['好。','我也想妳。'],   /* AA_369 M3：寒暑假沒有讀書會（Alison 那句換掉）；第 7 節第 6 題：「…應該在吃早餐。」整句換；第 8 節第 6 題：「你吃過了嗎？」開頭不要刪節號 */
+        pool:[['今天讀了四十頁。你那邊天氣好嗎？'],['我把你回來那天圈在月曆上了。……不要笑。'],['我媽問你吃得習不習慣。她沒問我。'],['Alison 說你不在，宵夜沒人跟她搶。'],['📷（總圖三樓靠窗的位子）','這裡沒人坐。'],['今天背單字背到「おかえり」。……先存著。'],['你吃過了嗎？'],['晚安。']],rep:['好。','我也想妳。'],   /* AA_369 M3：寒暑假沒有讀書會（Alison 那句換掉）；第 7 節第 6 題：「…應該在吃早餐。」整句換；第 8 節第 6 題：「你吃過了嗎？」開頭不要刪節號 */
         tp:{pool:[4],backNext:true},   /* AA_369 M3：總圖的照片只在她人在臺北的日子用（vac3d.js S.tripMsgs）；第 7 節第 7 題：回來那天的「明天見。……」限臺北＝隔天她在臺北才傳（隔天她在台中＝改第 2 題那句，reunionHome）*/
-        dark:['今天沒有回。……你那邊還好嗎？'],darkAns:'好。……下次停電，也先跟我說。',miss:['手帳翻到你回來那天了。……我先夾一張便利貼。']},
+        dark:['今天沒有回。……你那邊還好嗎？'],darkAns:'好。……下次停電，也先跟我說。',miss:['今天一個人去吃了你常點的那家。……有點想你。']},
       heroine_03:{freq:{h:22.5,tt:23},dep:['落地跟我說'],mid:['📷（麵店的鍋子）','今天也有開'],back:['回來了嗎','阿姨說幫你留一碗'],
         shopOpen:{mid:true,pool:[0,1,2,3,4,5],back:true},   /* 講店裡生意的那幾則（中間那則「今天也有開」、池子：店裡很忙、客人的乾麵、修鞋的阿伯、店裡的蛋、收店了、沒什麼客人；回來那天「阿姨說幫你留一碗」）：
                                                                麵店過年店休那幾天（noodle_closed3d.js）不傳——AA_369 第 7 節第 7 題、第 8 節第 5 題（套 H5 ④，店休不說有開）*/
@@ -584,14 +584,14 @@ const VAC_DATA=(function(){
     {tag:'va02_4',day:'2026-08-08',h:21,th:'p:heroine_01',min:['heroine_01','FAMILIAR'],ms:[{from:'heroine_01',text:'回臺北了。台中好熱。'}]},
     {tag:'va02_5',day:'2026-08-21',h:19,th:'g:noodle_team',ms:[{from:'zhe',text:'我回來了'},{from:'zhe',text:'誰要吃麵'}]},
     /* VA-11 交往中的反應（以安、語彤；她也講自己在做什麼，不吃醋）*/
-    {tag:'va11_camp_an',day:'2026-07-03',h:22.5,th:'p:heroine_01',dating:'heroine_01',vac:'C02',ms:[{from:'heroine_01',text:'營隊第三天了。你有睡覺嗎？'},{from:'heroine_01',text:'……我是問真的。'}]},
+    {tag:'va11_camp_an',day:'2026-07-03',h:22.5,th:'p:heroine_01',dating:'heroine_01',vac:'C02',ms:[{from:'heroine_01',text:'營隊第三天了。你有睡覺嗎？'},{from:'heroine_01',text:'我是認真問。'}]},
     {tag:'va11_camp_yt',day:'2026-07-03',h:22.5,th:'p:heroine_03',dating:'heroine_03',vac:'C02',ms:[{from:'heroine_03',text:'營隊結束來店裡'},{from:'heroine_03',text:'阿姨問你去哪了'}]},
     /* C05 日本五天的 va11_jp_an、va11_jp_yt、va11_jpb_yt 拿掉（AA_313 4-3、4-4「拿掉 va11_jp_*」）：出國輪播（TRIP_MSG）照樣跑，8/24「到了傳一張照片。一張就好。」、8/28「回來了嗎」原本同一天收到兩次；
        輪播保留（AA_369 第 7 節第 7 題：日本五天回來那天以安「明天有空的話，一起吃飯。」照傳）*/
     {tag:'va11_video_an',day:'2026-07-30',h:21.5,th:'p:heroine_01',dating:'heroine_01',ms:[{from:'heroine_01',text:'我媽在後面。……她說嗨。'},{from:'heroine_01',text:'她問你吃飽了沒。我說你一定吃了。'}]},
     {tag:'va11_exam_yt',day:'2026-06-18',h:18,th:'p:heroine_03',dating:'heroine_03',ms:[{from:'heroine_03',text:'考完了'},{from:'heroine_03',text:'憲法最後一題我寫不完'},{from:'heroine_03',text:'……不要問我分數 7/3 才知道'}]},
     /* va11_exam_yt：雙主修筆試 6/18 考完那天傍晚（AA_313 4-4，原本 6/19 中午）；收過這則的人，期末飯她只說「成績單七月三號才寄。」（termend_lines.js POOL.Y1S2）*/
-    {tag:'va11_idle_an',day:'2026-07-31',h:21,th:'p:heroine_01',dating:'heroine_01',idle:true,ms:[{from:'heroine_01',text:'你這個暑假在做什麼？'},{from:'heroine_01',text:'我不是在檢查。我在想要不要排一天一起去哪裡。'}]},
+    {tag:'va11_idle_an',day:'2026-07-31',h:21,th:'p:heroine_01',dating:'heroine_01',idle:true,ms:[{from:'heroine_01',text:'你這個暑假在做什麼？'},{from:'heroine_01',text:'我想排一天一起出去。你哪天有空？'}]},
     {tag:'va11_idle_yt',day:'2026-07-31',h:21,th:'p:heroine_03',dating:'heroine_03',idle:true,ms:[{from:'heroine_03',text:'你暑假是不是很閒'},{from:'heroine_03',text:'那明天下午陪我去進貨'}]},
     /* AA_549 2-7（企劃線 AA_549 第 2 節第 7 點）：語彤大二暑假在台東做田野（characters.js 2027-07-19～07-30）——她傳兩則私訊，和她朋友（FRIEND）以上 */
     {tag:'va549_yt_field_1',day:'2027-07-21',h:21,th:'p:heroine_03',min:['heroine_03','FRIEND'],ms:[{from:'heroine_03',text:'這裡的阿嬤說話很快。我錄音錄了兩小時，聽懂一半。'}]},
