@@ -38927,9 +38927,9 @@
       "title": "沒有期中考：期中考相關的場景改掛、第 8～9 週課堂內容、台詞裡的「期中」改稿",
       "area": null,
       "owner": "AA",
-      "status": "待開工",
+      "status": "進行中",
       "priority": "P0",
-      "next": "AA 法律案恢復後：照 docs/handoff/D118_MIDTERM_REFS.md 第 1 節定每個場景改掛到哪、寫第 8～9 週 syllabus、改台詞",
+      "next": "子代理在 worktree",
       "first": {
         "term": "Y1S1",
         "week": null,
@@ -38949,7 +38949,8 @@
         "acceptance": "每個期中考場景有新的掛點或明確刪除；44 門課有第 8～9 週內容；台詞不再提期中考",
         "receiver": "LAWWW",
         "ack": "DELIVERED"
-      }
+      },
+      "sha": ""
     },
     {
       "id": "NOT-QUESTION-DEL-1102",
@@ -39161,9 +39162,9 @@
       "id": "AA576-YIAN-B1-1102",
       "title": "以安改稿第一批（手機與邀約）",
       "owner": "LAWWW",
-      "status": "進行中",
-      "next": "rel_lines 已換（60eb71149）；等 AA 改 AA_202／AA_415／AA_329 源稿給 sha → 白名單、重匯、apply_line_table",
-      "sha": "60eb71149",
+      "status": "已整合待測試",
+      "next": "CC 實測（連兩次「好。」AA 說是個性，先不改）；第二批含 invites.js 手帳 6 句、理由 3 句",
+      "sha": "17c799df2",
       "source": "AA_576@179f227ca、BB_226 PASS、使用者確認",
       "xai": {
         "spec": "AA_576@179f227ca、BB_226 PASS、使用者確認",
@@ -39277,6 +39278,141 @@
         "spec": "D118_PLAN 第 10 節 Q4",
         "branch": "claude/confident-ritchie-8rwh7t",
         "acceptance": "子代理在 worktree 實作；暫定字交 AA",
+        "receiver": "BB",
+        "ack": "SENT"
+      }
+    },
+    {
+      "priority": "P0",
+      "first": {
+        "term": "Y1S1",
+        "week": null,
+        "earliest": "第一次期中考前（讀書、一鍵總複習）；國考與職涯在畢業以後",
+        "mainline": true,
+        "blocks": false,
+        "prereq": false,
+        "parallel": true,
+        "confirmed": true
+      },
+      "id": "BUG-BAR2030-TIER-1102",
+      "title": "2030 國考取消保底（同 2029 門檻）＋可以考到 2033（使用者 09:1x 經 AA 轉述，AA_572@751ebf171）",
+      "owner": "LAWWW",
+      "status": "進行中",
+      "next": "子代理在 worktree 做機制；2030 沒過、2031～2033 字卡、各落點尾聲句等 AA 隨 B8 交",
+      "sha": "",
+      "source": "BB 09:02（CC N4）；使用者決定 AA_572 第 5 節末",
+      "xai": {
+        "spec": "BB 09:02（CC N4）；使用者決定 AA_572 第 5 節末",
+        "branch": "claude/confident-ritchie-8rwh7t",
+        "acceptance": "子代理在 worktree 做機制；2030 沒過、2031～2033 字卡、各落點尾聲句等 AA 隨 B8 交",
+        "receiver": "BB",
+        "ack": "SENT"
+      }
+    },
+    {
+      "priority": "P0",
+      "first": {
+        "term": "Y1S1",
+        "week": null,
+        "earliest": "第一次期中考前（讀書、一鍵總複習）；國考與職涯在畢業以後",
+        "mainline": true,
+        "blocks": false,
+        "prereq": false,
+        "parallel": true,
+        "confirmed": true
+      },
+      "id": "ZQLINE-PATHTOP-1102",
+      "title": "子晴線落點 zqLine 和 path 用同一個 pathTop",
+      "owner": "LAWWW",
+      "status": "已整合待測試",
+      "next": "CC n4 重跑",
+      "sha": "926cbee98",
+      "source": "BB 09:02 ②",
+      "xai": {
+        "spec": "BB 09:02 ②",
+        "branch": "claude/confident-ritchie-8rwh7t",
+        "acceptance": "CC n4 重跑",
+        "receiver": "BB",
+        "ack": "SENT"
+      }
+    },
+    {
+      "priority": "P0",
+      "first": {
+        "term": "Y1S1",
+        "week": null,
+        "earliest": "第一次期中考前（讀書、一鍵總複習）；國考與職涯在畢業以後",
+        "mainline": true,
+        "blocks": false,
+        "prereq": false,
+        "parallel": true,
+        "confirmed": true
+      },
+      "id": "BUG-RETAKE-NOEXAM-1102",
+      "title": "重修課一定有期末考日、補排不撞別科考試",
+      "owner": "LAWWW",
+      "status": "已整合待測試",
+      "next": "CC N1 重跑",
+      "sha": "85aef74d7",
+      "source": "BB 08:58、09:01",
+      "xai": {
+        "spec": "BB 08:58、09:01",
+        "branch": "claude/confident-ritchie-8rwh7t",
+        "acceptance": "CC N1 重跑",
+        "receiver": "BB",
+        "ack": "SENT"
+      }
+    },
+    {
+      "priority": "P0",
+      "first": {
+        "term": "Y1S1",
+        "week": null,
+        "earliest": "第一次期中考前（讀書、一鍵總複習）；國考與職涯在畢業以後",
+        "mainline": true,
+        "blocks": false,
+        "prereq": false,
+        "parallel": true,
+        "confirmed": true
+      },
+      "id": "BUG-EXAMDAY-MEMO-1102",
+      "title": "考試日快取按存檔分、讀檔清",
+      "owner": "LAWWW",
+      "status": "已整合待測試",
+      "next": "CC N1 重跑",
+      "sha": "d2716c89e",
+      "source": "BB 08:58",
+      "xai": {
+        "spec": "BB 08:58",
+        "branch": "claude/confident-ritchie-8rwh7t",
+        "acceptance": "CC N1 重跑",
+        "receiver": "BB",
+        "ack": "SENT"
+      }
+    },
+    {
+      "priority": "P0",
+      "first": {
+        "term": "Y1S1",
+        "week": null,
+        "earliest": "第一次期中考前（讀書、一鍵總複習）；國考與職涯在畢業以後",
+        "mainline": true,
+        "blocks": false,
+        "prereq": false,
+        "parallel": true,
+        "confirmed": true
+      },
+      "id": "BUG-MAKEUP-TIMESKIP-1102",
+      "title": "補考時間窗不被跳時間略過（讀書、skipTo、在家休息）＋缺考旁白＋舊存檔給補考",
+      "owner": "LAWWW",
+      "status": "進行中",
+      "next": "子代理在 worktree",
+      "sha": "",
+      "source": "BB 08:59（CC audit_makeup_timeskip）",
+      "xai": {
+        "spec": "BB 08:59（CC audit_makeup_timeskip）",
+        "branch": "claude/confident-ritchie-8rwh7t",
+        "acceptance": "子代理在 worktree",
         "receiver": "BB",
         "ack": "SENT"
       }
