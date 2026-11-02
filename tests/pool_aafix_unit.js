@@ -95,7 +95,7 @@ await sec('4 維倫第四句',async()=>{
   const PMx=PM(); const line4='（維倫的手機亮了一下。他看了一眼，小聲說：「……靖雯傳早安。現在下午三點。」）';
   check('4. 實習第四句在 practice[3]、第 14 次出席起（PRACTICE_AT[3]＝13）',!!PMx&&(L(SC).practice||[])[3]===line4&&PMx.PRACTICE_AT[3]===13,J(PMx&&PMx.PRACTICE_AT));
   if(!PMx) return;
-  const hadCLS=typeof CLS!=='undefined'; const C0=hadCLS?CLS.rec:null; let N=0; const stub=()=>({attend:{legal_practice:N}});
+  const hadCLS=typeof CLS!=='undefined'; const C0=hadCLS?CLS.rec:null; let N=0; const stub=()=>({attend:{legal_practice:N},electives:{}});   /* electives：D124 海商法改選修以後 CLS.enrolled 讀 rec.electives（真的 CLS.rec 一定有）*/
   if(hadCLS) CLS.rec=stub; else globalThis.CLS={rec:stub,OFFSITE_AFTER:[]};
   try{
     const at=(n,o)=>{ o=o||{}; fresh(TD('Y4S2',14,3),15,'campus'); meet(SC); if(o.jw) meet(ZJW); if(o.jwC) INV.addContact(H.G,ZJW); P().rec(H.G).sceP=3; N=n; return PMx.practiceLine(H.G,{c:{id:'legal_practice'}},'x'); };
