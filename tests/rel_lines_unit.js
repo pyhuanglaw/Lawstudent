@@ -40,7 +40,7 @@ R('heroine_01',12); check('2. 以安「認識」：沒有門檻台詞',SOCIAL.up
 R('heroine_01',25);
 (async()=>{
   let gm=mockGM(); let ok1=await SOCIAL.playUp(gm,{name:"以安"},"heroine_01");
-  check("2. 以安升到「有點熟」：下一次見面先說（手帳那一句）",ok1&&gm.out[0]==='N:（她把手帳翻到最後一頁）'&&gm.out[1]==='S:你名字是哪個字？我上次好像寫錯了。',gm.out.join('｜'));
+  check("2. 以安升到「有點熟」：下一次見面先說（AA_576 #25～26：手帳旁白刪、班群那一句）",ok1&&gm.out[0]==='S:你在班群用什麼名字？我找不到你。',gm.out.join('｜'));
   gm=mockGM(); ok1=await SOCIAL.playUp(gm,{name:"以安"},"heroine_01"); check("2. 說過就不再說",!ok1&&!gm.out.length);
   R('heroine_03',8); R('heroine_03',65,50,45); gm=mockGM(); await SOCIAL.playUp(gm,{name:'語彤'},'heroine_03');
   check('2. 語彤從「認識」直接跳到「好朋友」：只說最高的那一句，之後不補說低的',gm.out.join('｜')==='S:阿姨問你這禮拜會不會來。｜S:她說她記得你都點什麼。'&&SOCIAL.upLine('heroine_03')===null,gm.out.join('｜'));
