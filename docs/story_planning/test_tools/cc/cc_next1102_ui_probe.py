@@ -55,6 +55,7 @@ NOODLE_SUBS = LST('NOODLE_SUBS', 'in,enter,away')
 BOARD_SUBS = LST('BOARD_SUBS', 'measure,class3d,classcap')
 BOARD3D = os.environ.get('BOARD3D', 'crim_gen1'); BOARDCAP = os.environ.get('BOARDCAP', 'tax_law'); BOARD_WEEK = ENVI('BOARD_WEEK', 8)
 CARD = os.environ.get('CARD', 'securities_w5')
+DESIGN = os.environ.get('ANCF_DESIGN', '62d')   # ancf2 的期待值：62d（62d98bfa5 起：CG-11 第一次巷子、第二次桌邊 CG-27）／ef63（ef63b1877：第二次也在巷子、CG-11 不放）
 EVID = 'ev_psbh_public_0415'
 PS_LINES = ['柏翰幫沛珊把滷蛋切成兩半。', '……喔。', '全桌安靜三秒。', '對，我們在一起了。你們吃你們的。', '上禮拜的事。', '（他把另一半滷蛋推回她碗裡。）']
 A585 = ['civ_general', 'crim_gen1', 'const_1', 'const_2', 'crim_gen2', 'oblig_gen1', 'admin_law', 'crim_spec', 'property', 'oblig_gen2', 'oblig_spec', 'family_law', 'admin_remedy',
@@ -842,23 +843,45 @@ async def ancf2_pass(p, run, orient, route):
             m1 = await pg.evaluate(SOCMEM); rec['mem1'] = m1
             run.check('%s：第一次她說＝記 AN_SHOP_PAGE、人物面板不顯示' % tag, 'AN_SHOP_PAGE' in m1['mem'] and 'AN_SHOP_PAGE' not in m1['panel'], J(m1))
             if R1.get('end'): run.check('%s：第一次「讓我想想」＝think、沒交往' % tag, R1['end']['result'] == 'think' and not R1['end']['dating'], J(R1['end']))
+            if R1.get('log') and DESIGN == '62d':   # 62d98bfa5：第一次（巷子）she 第三拍放 CG-11（新圖：手帳舉到下巴前）；一場只放一張
+                L1 = R1['log']; cg1 = [x['arg'] for x in L1 if x['k'] == 'adv' and x['fn'] == 'cg']
+                j = next((n for n, x in enumerate(L1) if x['k'] == 'say' and x['t'].startswith('（那一頁的標題是「想去的店」')), -1)
+                nxt = next((x for x in L1[j + 1:] if x['k'] in ('say', 'adv')), None) if j >= 0 else None
+                await pg.wait_for_timeout(2000); c1 = await pg.evaluate(CGST); rec['cg_Y1S1'] = {'calls': cg1, 'unlocked': c1['unlocked']}
+                run.check('%s：第一次（巷子，背景 gongguan）she 的「想去的店」那一拍之後放 CG-11、只放這一張、G.cg.unlocked 有它' % tag,
+                          cg1 == ['cg_reason_column_heroine01'] and bool(nxt) and nxt['k'] == 'adv' and nxt.get('arg') == 'cg_reason_column_heroine01' and 'cg_reason_column_heroine01' in c1['unlocked']
+                          and any(x['k'] == 'adv' and x['fn'] == 'begin' and 'gongguan' in J(x['arg']) for x in L1),
+                          J({'calls': cg1, 'next_after_page': nxt, 'unlocked': c1['unlocked']}))
             R2 = await an_term(pg, cdp, run, tag, 'Y1S2', ('（先不說）', '「好。」'), land, rec); rec['Y1S2'] = R2
             if R2.get('play'):
                 says = [x['t'] for x in R2['log'] if x['k'] == 'say']
                 i = says.index('上次那一頁，最下面那一行還沒勾。……你要看嗎？') if '上次那一頁，最下面那一行還沒勾。……你要看嗎？' in says else -1
                 rec['after_she2'] = says[i:] if i >= 0 else says[-8:]
-                run.check('%s：she2 之後選「好。」＝承接兩拍（逐字）' % tag, i >= 0 and says[i + 1:i + 3] == SHE2YES, J(rec['after_she2']))
+                if DESIGN == '62d':   # 62d98bfa5：第二次在桌邊（againAtTable）：背景＝店（xiaofu）、收尾換「（兩個碗都空了。…）」、不演走出店門那兩句；she2Yes 之後才「（餐盤疊好，拿去回收。）」「（走出店門，…）」
+                    want = SHE2YES + ['（餐盤疊好，拿去回收。）', '（走出店門，她沒有往宿舍那邊走。）']
+                    run.check('%s：she2 之後選「好。」＝承接兩拍＋收盤子、走出店門（逐字）' % tag, i >= 0 and says[i + 1:i + 5] == want, J(rec['after_she2']))
+                    pre = says[:i] if i >= 0 else says
+                    run.check('%s：第二次在桌邊：收尾是「（兩個碗都空了。窗外的路燈已經亮了。）」、she2 以前沒有「走一下。我有東西給你看。」' % tag,
+                              '（兩個碗都空了。窗外的路燈已經亮了。）' in pre and '走一下。我有東西給你看。' not in pre and '（餐盤疊好，拿去回收。外面的路燈已經亮了。）' not in pre, J(pre[-8:]))
+                    begs = [x['arg'] for x in R2['log'] if x['k'] == 'adv' and x['fn'] == 'begin']
+                    run.check('%s：第二次那一段的 ADV.begin 背景是店（xiaofu），不是巷子（gongguan）' % tag, any('xiaofu' in J(a) for a in begs[1:]) and not any('gongguan' in J(a) for a in begs), J(begs))
+                else:
+                    run.check('%s：she2 之後選「好。」＝承接兩拍（逐字）' % tag, i >= 0 and says[i + 1:i + 3] == SHE2YES, J(rec['after_she2']))
                 run.check('%s：第二次「好。」→ 交往（sheSaid）' % tag, R2['end']['result'] == 'sheSaid' and R2['end']['dating'], J(R2['end']))
                 cg2 = [x for x in R2['log'] if x['k'] == 'adv' and x['fn'] == 'cg']; rec['cg_calls_Y1S2'] = cg2
                 cge = await pg.evaluate(CGST); rec['cgEnd'] = cge
                 await pg.wait_for_timeout(3000); cge = await pg.evaluate(CGST); rec['cgEnd'] = cge
-                run.check('%s：CG-27（cg_shop_page_check_heroine01）出現（she2Yes 那一段 ADV.cg、G.cg.unlocked 有它）' % tag, any(x['arg'] == 'cg_shop_page_check_heroine01' for x in cg2) and 'cg_shop_page_check_heroine01' in cge['unlocked'],
-                          J({'cg_calls': cg2, 'unlocked': cge['unlocked'], 'note': 'ef63b1877 起 she2Yes 第一拍 {cg:cg_shop_page_check_heroine01}'}))
+                run.check('%s：CG-27（cg_shop_page_check_heroine01）出現（she2Yes 那一段 ADV.cg、這一場只有它一張、G.cg.unlocked 有它）' % tag, [x['arg'] for x in cg2] == ['cg_shop_page_check_heroine01'] and 'cg_shop_page_check_heroine01' in cge['unlocked'],
+                          J({'cg_calls': cg2, 'unlocked': cge['unlocked'], 'note': 'she2Yes 第一拍 {cg:cg_shop_page_check_heroine01}'}))
                 m2 = await pg.evaluate(SOCMEM); rec['mem2'] = m2
                 run.check('%s：（只記）第二次後記憶 %s；人物面板 %s' % (tag, J(m2['mem'][-6:]), J(m2['panel'][-6:])), True)
         cgs = [x for k in ('Y1S1', 'Y1S2') for x in ((rec.get(k) or {}).get('log') or []) if x['k'] == 'adv' and x['fn'] == 'cg']
         cge = await pg.evaluate(CGST); rec['cgAll'] = cgs
-        run.check('%s：CG-11 舊圖（cg_reason_column_heroine01）沒有呼叫、沒有解鎖' % tag, not any('reason_column' in J(x) for x in cgs) and 'cg_reason_column_heroine01' not in cge['unlocked'], J({'cg_calls': cgs, 'unlocked': cge['unlocked']}))
+        if DESIGN == '62d' and route == 'think':
+            c11 = [x for x in cgs if x['arg'] == 'cg_reason_column_heroine01']
+            run.check('%s：CG-11 全程只呼叫一次（大一上 she）、第二次不放' % tag, len(c11) == 1 and c11[0]['d'] == (rec.get('Y1S1') or {}).get('end', {}).get('done', {}).get('day'), J({'cg_calls': cgs}))
+        else:
+            run.check('%s：CG-11（cg_reason_column_heroine01）沒有呼叫、沒有解鎖（說出來那條 yesCg＝null）' % tag, not any('reason_column' in J(x) for x in cgs) and 'cg_reason_column_heroine01' not in cge['unlocked'], J({'cg_calls': cgs, 'unlocked': cge['unlocked']}))
         with open(os.path.join(OUT, '%s_lines.txt' % tag), 'w', encoding='utf-8') as f:
             for k in ('Y1S1', 'Y1S2'):
                 Rk = rec.get(k)
