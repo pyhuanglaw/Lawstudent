@@ -5,8 +5,10 @@
 
 立繪 vs compact（src/adv3d.js）：GAME.say(who) 有 who.charId＝ADV.speaker(charId) → render → A.resolve：PORTRAIT_FILES（portrait_manifest.js）有檔＝<img>（.advSlot.show），
   沒有檔＝compact（#adv 加 class compact、框清空）。events3d.js 的台詞 speaker 用 X.speakerId（CHARACTERS／PORTRAIT_ONLY 的 alias，例：「采蓁」→ jp_caizhen）。
-  ★已知（讀碼）：9/2 新生茶會的 Kevin（story3d.js teaLines：GAME.say({name:'Kevin',charId:null})）沒有 charId＝不會叫 ADV.speaker('npc_kevin')——
-    照現在的程式茶會那兩場應該是沒有 Kevin 立繪；探針照樣量、照樣記（check 會 FAIL＝客觀結果，不改標準）。
+  只寫名字的說話者（開發分支 e46dd568／8faa0306c 以後，game3d.js showLine）：who 沒有 charId、不是 3D 人物（沒有 who.obj）時，GAME.portraitIdByName(名字)
+    對到「唯一一個有立繪檔」的人物（CHARACTERS＋PORTRAIT_ONLY 的 name／alias）才用那個人的立繪；同名兩個以上、沒有立繪檔的照舊（ADV.speaker('player')／compact）。
+    茶會的 Kevin 改帶 charId npc_kevin（story3d.js KV）。探針的 GAME.say 掛勾記 cid（who.charId）和 rcid（portraitIdByName 對到的）。
+  版本：不寫死 SHA——用跑的時候的開發分支 head（要包含 8faa0306c；五張去背 LAWWW 會重做），SHA 只從環境變數印出來。
 
 每個人一場（Kevin 兩場：宿營、茶會），每一場：點對話直到「那個人」說的那一句打完字（GAME.say 的 who.charId＝那個人，或名字對得上），
   ① 截圖：橫向 844×390、直向 390×844（同一頁同一句，切 viewport；同 cc_bg5_probe.py）
@@ -18,13 +20,13 @@
 check 只客觀記錄：事件演出（那個人說了話）、那個人說話時不是 compact（他的 img 在框裡、框是 show）、src 是正式檔（assets/portraits/<id>/.../*.webp 且在 PORTRAIT_FILES）、
   截圖存在、沒有頁面 JS 例外。
 
-十一場（觸發方式；【前置】＝最小存檔讀到條件成立的時間地點，遊戲自己演；【捷徑】＝寫理由）：
+十五場（觸發方式；【前置】＝最小存檔讀到條件成立的時間地點，遊戲自己演；【捷徑】＝寫理由）：
   kevin_camp  ev_camp_d1_ice（camp_y1.js:43；S.campY1 依 CAMP_SEQ 跑，第二段 8/22 10:30 破冰）。【前置】最小存檔 2025-08-22 10:24、CAMP_Y1_ON、campStep=1（遊覽車那段記成演過）
               → 讀檔時 game3d.js applySave 自己叫 STORY.campY1 resume，從破冰接著演；Kevin 第一句「（搶在她前面）第七小隊，有到！」（名字「凱文」）。
               沒開演＝【捷徑】void STORY.campY1(GAME,{resume:true,next:false})。
   kevin_tea   9/2 新生茶會（story3d.js:1440～1471）。【前置】最小存檔 2025-09-02 18:28 萬才館、KAI_MOVEIN、CAMP_Y1、MAIN_D1＝STORY.MAIN_D1_NEW、LAW_START_DAY＝8/29（tests/camp_y1_unit.js K 節的 setup）
               → 18:30 STORY.teaTick 自己演簽到桌（Kevin「{name}。這次是真的學長了。」）→ 像玩家走到窗邊家族那一桌 (3,3.6)、按「家族那一桌（新生茶會）」
-              → Kevin「名牌終於發完了。」。兩句都拍。簽到沒開演＝【捷徑】void STORY.teaSignIn；走不到那一桌＝【捷徑】void STORY.teaTable。
+              → Kevin「名牌終於發完了。」。兩句都拍（8faa0306c 以後兩句都應該有立繪）。簽到沒開演＝【捷徑】void STORY.teaSignIn；走不到那一桌＝【捷徑】void STORY.teaTable。
   pool_1      林采潔 認識（meetBook，pool3d.js meetVersion：舊路書房）。【前置】大一上第 3 週週二 14:00 bookstore → 像玩家走到她旁邊按「和…說話」。
   pool_7      曾靖雯 陪去旁聽 ev_pool_zjw_court（出遊；同 cc_bg5 court_hall）。【前置】大一下第 4 週週三 13:27 宿舍＋已經約好的出遊 → 等遊戲跳「出發」→ 點。
   pool_11     葉晨希 認識（pool_more3d.js MEETV：campus 那一筆＝週一、三 19～21 法律系館B旁邊 (97.5,-95)，吉他社沒社課的週）。【前置】大一上第 3 週週一 19:18 校園、站到她 4 m 外 → 走過去說話。
@@ -37,12 +39,26 @@ check 只客觀記錄：事件演出（那個人說了話）、那個人說話�
   pool_5      劉晏如 認識 meetCafe（兩點半 Café 11～17）。【前置】大一上第 3 週週二 14:00 cafe → 走過去說話。
   pool_4      黃郁婷 迎新報到桌 ev_pool_yt_desk（出遊；pool3d.js:243 acceptYt2，大二上第 1 週週三 08:30 法律系館A一樓）。【前置】08:03 宿舍＋已經約好的出遊；
               她只在第三個選項「「問旁邊那個班代。」」之後說話（picks）；立繪一開始就在（participants）。
+  kevin_grad  Kevin 的畢業照 ev_sis15_kv_grad（data/sis_b15_events.js:174，speaker 'Kevin'→X.speakerId 對到 PORTRAIT_ONLY 的 npc_kevin；sis_b15_3d.js:91 GRAD_OUT）
+              真實：2028-06-01 21:00 Kevin 在家族群組揪、回「去。」→ 6/3（六）10:30 法律系館A門口（學士服、學姊站在他旁邊）。
+              【前置】2028-06-03 10:06 宿舍＋已經約好的出遊 sisb15_kv_grad、SIS15_KV_GRAD_GO、met_sis → 等「出發」→ 點。台上一開始是學姊（participants），Kevin 說話時進另一個框。
+  yule_name   予樂 偶遇（encounter3d.js ENC.meet；data/encounters.js:47 淡水 D13 可昕交往中，datingAfter {who:'予樂',text:'我們什麼都沒看到。邵鈞，走。'}＝資料裡只寫名字的那一句，
+              ENC.sayer → {name:'予樂',charId:'yule'}；沒有 charId 時 portraitIdByName('予樂') 也對到 yule）。
+              【捷徑】真實要出遊到淡水（G.trip、D13 散步點）、和可昕交往中、日期＋地點＋時段的種子擲到她（S.decide）——最小存檔做不到；
+              改成存檔 dating_kexin、ADV.begin({background:'dark'})＋void ENC.meet(GAME, D13 可昕那一列, {t:'dating'})（同 tests/yule_portrait_unit.js 第 5 項），選「打招呼」。
+  neg_noportrait 反例：沒有立繪的人——宿營破冰的「小隊輔」（camp_y1.js:47「我是你們的小隊輔。名牌拿一下，名字上面都有。」；events3d 的 speaker 不是人物 id，ADV.speaker('小隊輔')
+              → 沒有 PORTRAITS／PORTRAIT_FILES＝compact）。觸發同 kevin_camp（【前置】CAMP_Y1_ON、campStep=1，讀檔接著演）。
+  neg_samename 反例：同名、多於一人——「學長」（台詞裡不同的人都叫「學長」：events.js:405、1939、3302…；不是人物、沒有立繪檔）。讀碼查過：CHARACTERS＋PORTRAIT_ONLY 裡
+              沒有「兩個不同的人同名或同別名、而且都有立繪檔」的情況（只有同一人 name＝alias：Kevin、予樂、唐睿）——探針執行時也在頁面重算一次（dupNames，記在 note）。
+              事件 ev_grad_seniors_y1（events.js:1936「學弟，幫我們拍一張！」；campus、auto、大一下第 15 週週六 10～15 點）：【前置】那天 10:10 校園、**不關條件事件**（quiet 0）讓 EVENTS.tick 自己演；
+              90 秒沒演＝【捷徑】void EVENTS.run(ev_grad_seniors_y1)。
+  反例兩場的 check 反過來：說話時「是 compact」（框裡沒有任何立繪 img、#adv 有 compact）。
   3D 說話的四位（pool_1／11／20／5）：wait_present 90 秒沒出現、或三輪走不到／按了沒開始說話＝【捷徑】void EVENTS.run（暫時事件 {participants:[id],background:'blur',dialogue:POOL.LINES[id][那一場]}，
   同 POOL.run＝EVENTS.runLines 的做法；寫理由）。出遊的：PROMPT_S 秒內沒有自己開演＝【捷徑】void OUT.go(GAME,q)（同 cc_bg5）。
 
 不是 iPhone：Playwright 手機模擬（is_mobile、觸控、SwiftShader 1～4 fps）。
 用法：LW_TESTS=<工作樹>/tests SHA=<sha> [IDS=npc_kevin,pool_1,...] python3 cc_pt106_probe.py '<URL>/index.html?turbo' <輸出資料夾>
-  IDS：人物 id（npc_kevin＝kevin_camp＋kevin_tea 兩場）或場次 key（kevin_camp、kevin_tea）；預設十個人全部（十一場）。
+  IDS：人物 id（npc_kevin＝kevin_camp＋kevin_tea＋kevin_grad 三場、yule＝yule_name）或場次 key（kevin_camp、kevin_tea、kevin_grad、yule_name、neg_noportrait、neg_samename；neg_compact＝兩個反例）；預設全部十五場。
 環境變數：ORIENT=both|land|port、REF=1（0＝不拍沈以安參考）、PROMPT_S（等開演，預設 90）、SPEAK_S（開演後等那個人說話，預設 240）、CASE_MAX（一場最多幾秒，預設 900）、
   RELAYOUT_MS（切方向後等多久，預設 1800）、STATS_ONLY=1（只用 PIL 印十張原檔的數字，不開瀏覽器）。
 不要和別的瀏覽器測試同時跑（SwiftShader 搶 CPU）。"""
@@ -78,7 +94,7 @@ BASEF = {'introDone': True, 'campusIntro': True, 'readCase': 'full', 'classDone'
 ROOMS = (('ROOM_Y2', '2026-09-06'), ('ROOM_Y3', '2027-09-05'), ('ROOM_Y4', '2028-09-03'))
 VISITED = ('noodle', 'cafe', 'library_hall', 'library', 'lawlib', 'wancai', 'linze', 'gongguan', 'wenzhou', 'soclib', 'cvs', 'bookstore')
 
-# ---------------------------------------------------------------- 十一場
+# ---------------------------------------------------------------- 十五場
 CASES = [
     dict(k='kevin_camp', who='npc_kevin', names=['凱文', 'Kevin'], kind='camp', ev='ev_camp_d1_ice', when='2025-08-22', load_h=10.4, zone='dorm',
          flags={'CAMP_Y1_ON': True, 'campStep': 1, 'CAMP_BUS': 'win'}, drop=['CEREMONY_Y1', 'KAI_MOVEIN', 'FAM_GROUP_SENT'],
@@ -110,7 +126,20 @@ CASES = [
     dict(k='pool_4', who='pool_4', names=['黃郁婷', '郁婷'], kind='outing', ev='ev_pool_yt_desk', when=['Y2S1', 1, 3], load_h=8.05, zone='dorm', match='報到',
          q=dict(id='pool_yt_desk', ev='ev_pool_yt_desk', h=8.5, late=0.5, place='法律系館A一樓', title='黃郁婷：迎新報到桌（法律系館A一樓 8:30）', travel='走過去約 10 分鐘', travelH=0.25),
          picks=('「問旁邊那個班代。」',), src='src/pool3d.js:243 acceptYt2 的 plan；台詞 pool_story.js:184 desk（她只在選③之後說話）'),
+    dict(k='kevin_grad', who='npc_kevin', names=['Kevin'], kind='outing', ev='ev_sis15_kv_grad', when='2028-06-03', load_h=10.1, zone='dorm', match='Kevin',
+         q=dict(id='sisb15_kv_grad', ev='ev_sis15_kv_grad', h=10.5, late=0.25, place='法律系館A門口', title='法律系館A門口（Kevin 的畢業照）', travel='走路 約 10 分鐘', travelH=1 / 6, hours=0.5, back='回到住的地方。'),
+         flags={'SIS15_KV_GRAD_GO': True, 'met_sis': True}, src='src/sis_b15_3d.js:91 GRAD_OUT／S.grad；台詞 src/data/sis_b15_events.js:174 ev_sis15_kv_grad（KEV＝speaker Kevin）'),
+    dict(k='yule_name', who='yule', names=['予樂'], kind='enc', spot='D13', row_who='kexin', tier='dating', when='2026-10-03', load_h=15.0, zone='dorm',
+         flags={'dating_kexin': True}, picks=('打招呼',),
+         why='偶遇要出遊到淡水（G.trip、D13）、和可昕交往中、S.decide 的種子擲到她，最小存檔做不到；照 tests/yule_portrait_unit.js 第 5 項直接 ENC.meet',
+         src='src/encounter3d.js ENC.meet／S.sayer；src/data/encounters.js:47 D13 datingAfter {who:予樂}'),
+    dict(k='neg_noportrait', who='小隊輔', names=['小隊輔'], kind='camp', ev='ev_camp_d1_ice', expect='compact', when='2025-08-22', load_h=10.4, zone='dorm',
+         flags={'CAMP_Y1_ON': True, 'campStep': 1, 'CAMP_BUS': 'win'}, drop=['CEREMONY_Y1', 'KAI_MOVEIN', 'FAM_GROUP_SENT'],
+         src='src/data/camp_y1.js:47 小隊輔（沒有立繪檔、不是人物）'),
+    dict(k='neg_samename', who='學長', names=['學長'], kind='auto', ev='ev_grad_seniors_y1', expect='compact', when=['Y1S2', 15, 6], load_h=10.17, zone='campus', quiet=False,
+         src='src/data/events.js:1936 ev_grad_seniors_y1 的「學長」（多個不同的人都叫學長、沒有立繪檔）'),
 ]
+GROUPS = {'npc_kevin': ['kevin_camp', 'kevin_tea', 'kevin_grad'], 'yule': ['yule_name'], 'neg_compact': ['neg_noportrait', 'neg_samename']}
 
 # ---------------------------------------------------------------- 頁面裡的小工具
 CLEARP = "(()=>{ if(typeof CLS!=='undefined'&&CLS.clearPending){ CLS.clearPending(); return true; } return false; })()"
@@ -120,10 +149,10 @@ HOOK = r"""(()=>{ if(window.__PTH) return 'again'; window.__PTH=1; const Lg=wind
   if(typeof OUT!=='undefined'&&OUT.go){ const g0=OUT.go; OUT.go=function(GM,q){ push({k:'out',t:String((q&&q.id)||'')}); return g0.apply(this,arguments); }; }
   if(typeof EVENTS!=='undefined'&&EVENTS.run){ const r0=EVENTS.run; EVENTS.run=function(ev){ push({k:'ev',t:String((ev&&ev.id)||'')}); return r0.apply(this,arguments); }; }
   if(typeof STORY!=='undefined'){ for(const f of ['teaSignIn','teaTable','campY1']) if(STORY[f]){ const f0=STORY[f]; STORY[f]=function(){ push({k:'story',t:f}); return f0.apply(this,arguments); }; } }
-  const y0=GAME.say; GAME.say=function(w,t){ n++; const o={k:'say',n,cid:(w&&w.charId)||null,name:(w&&w.name)||(typeof w==='string'?w:''),t:String(t==null?'':t).slice(0,80)}; window.__PTS=o; push(Object.assign({},o)); return y0.apply(this,arguments); };
+  const y0=GAME.say; GAME.say=function(w,t){ n++; let rc=null; try{ rc=(w&&!w.charId&&!w.obj&&w.name&&GAME.portraitIdByName)?GAME.portraitIdByName(w.name):null; }catch(e){} const o={k:'say',n,rcid:rc,cid:(w&&w.charId)||null,name:(w&&w.name)||(typeof w==='string'?w:''),t:String(t==null?'':t).slice(0,80)}; window.__PTS=o; push(Object.assign({},o)); return y0.apply(this,arguments); };
   const c0=GAME.choose; GAME.choose=function(o){ push({k:'choose',t:(o||[]).filter(x=>x&&!x.hidden).map(x=>((x.t||x.text)||'')).join('｜')}); return c0.apply(this,arguments); };
   return 'ok'; })()"""
-STARTED_JS = r"""(c=>{ const Lg=window.__PT||[]; const hit=e=>(!!c.qid&&e.k==='out'&&e.t===c.qid)||(!!c.ev&&e.k==='ev'&&e.t===c.ev)||(!!c.story&&e.k==='story'&&e.t===c.story)||(!!c.who&&e.k==='say'&&e.cid===c.who);
+STARTED_JS = r"""(c=>{ const Lg=window.__PT||[]; const hit=e=>(!!c.qid&&e.k==='out'&&e.t===c.qid)||(!!c.ev&&e.k==='ev'&&e.t===c.ev)||(!!c.story&&e.k==='story'&&e.t===c.story)||(!!c.who&&e.k==='say'&&(e.cid===c.who||e.rcid===c.who));
   const f=Lg.filter(hit); return f.length?f.slice(0,4).map(e=>({k:e.k,t:e.t||e.cid,d:e.d,h:e.h})):null; })"""
 LASTSAY_JS = "(()=>window.__PTS)()"
 TYPED_JS = "(()=>{ const n=document.getElementById('dlgNext'); return !!n&&n.style.visibility==='visible'; })()"
@@ -141,7 +170,14 @@ MEASURE_JS = r"""(who=>{ const adv=document.getElementById('adv'); const VW=inne
     if(o.file&&o.file.indexOf('assets/portraits/'+who+'/')===0) out.target=o; }
   const t=out.target; out.srcOk=!!t&&new RegExp('^assets/portraits/'+who+'/[^/]+/[^/]+\\.webp$').test(t.file)&&!!out.manifest&&(()=>{ const m=/^assets\/portraits\/[^/]+\/([^/]+)\/([^/]+)\.webp$/.exec(t.file); return !!m&&!!out.manifest[m[1]]&&out.manifest[m[1]].includes(m[2]); })();
   out.portraitShown=!!t&&t.show&&!out.compact&&t.boxVis!=='hidden'&&+t.boxOpacity>0.05;
+  out.anyImgShown=out.imgs.filter(i=>i.show&&i.src&&i.boxVis!=='hidden'&&+i.boxOpacity>0.05&&!i.dim).map(i=>i.slot+':'+i.file);   /* 亮著（沒變暗）的立繪：反例那句不該有 */
   return out; })"""
+DUP_JS = r"""(()=>{ const F=typeof PORTRAIT_FILES!=='undefined'?PORTRAIT_FILES:{}, m={}; const add=c=>{ if(!c||!c.id) return; for(const n of [c.name].concat(c.alias||[])) if(n){ (m[n]=m[n]||new Set()).add(c.id); } };
+  if(typeof CHARACTERS!=='undefined') for(const k in CHARACTERS) add(CHARACTERS[k]); if(typeof PORTRAIT_ONLY!=='undefined') for(const k in PORTRAIT_ONLY) add(PORTRAIT_ONLY[k]);
+  const all=[], withP=[]; for(const n in m){ if(m[n].size>1){ const ids=[...m[n]]; all.push([n,ids]); if(ids.filter(i=>F[i]).length>1) withP.push([n,ids]); } }
+  return {multi:all.slice(0,30),multiWithPortrait:withP,byName:typeof GAME!=='undefined'&&GAME.portraitIdByName?{學長:GAME.portraitIdByName('學長'),小隊輔:GAME.portraitIdByName('小隊輔'),Kevin:GAME.portraitIdByName('Kevin'),予樂:GAME.portraitIdByName('予樂')}:null}; })()"""
+ENC_JS = r"""(a=>{ try{ if(typeof ENC==='undefined'||typeof ENCOUNTERS==='undefined') return '沒有 ENC／ENCOUNTERS'; const row=(ENCOUNTERS.rows||[]).find(r=>r.who===a.who&&r.spot===a.spot); if(!row) return '找不到 '+a.who+'@'+a.spot;
+  if(typeof ADV!=='undefined'&&!ADV.active) ADV.begin({background:'dark'}); void ENC.meet(GAME,row,{t:a.tier}); return 'ADV.begin(dark)＋void ENC.meet(GAME,ENCOUNTERS 的 '+a.who+'@'+a.spot+',{t:'+a.tier+'})；datingAfter='+JSON.stringify(row.lines&&row.lines.datingAfter); }catch(e){ return '例外 '+e.message; } })"""
 LINES_JS = r"""(a=>{ const notes=[]; if(typeof EVENTS!=='undefined'&&EVENTS.running) notes.push('（注意：別的事件正在演 EVENTS.running='+EVENTS.running+'，EVENTS.run 會直接 return）');
   let lines=null; try{ lines=POOL.LINES[a.who][a.key]; }catch(e){ lines=null; }
   if(!Array.isArray(lines)||!lines.length) return notes.concat(['找不到 POOL.LINES.'+a.who+'.'+a.key]).join('');
@@ -325,7 +361,7 @@ async def ts(pg):
 
 
 def is_target(c, ls):
-    return bool(ls) and (ls.get('cid') == c['who'] or (not ls.get('cid') and ls.get('name') in c['names']))
+    return bool(ls) and (ls.get('cid') == c['who'] or ls.get('rcid') == c['who'] or (not ls.get('cid') and not ls.get('rcid') and ls.get('name') in c['names']))
 
 
 async def wait_speak(pg, cdp, run, c, max_s, picks=(), since_n=0):
@@ -378,10 +414,14 @@ async def shoot(pg, run, c, rec, tag, orients, errs):
             c['k'], ONAME[o], tag, m.get('compact'), m.get('dlgName'), m.get('dlgText'), J(m.get('slots')), t.get('file'), t.get('nat'), t.get('rect'), t.get('fit'), t.get('pos'),
             t.get('show'), t.get('dim'), t.get('off'), (hi or {}).get('head_top_y'), (hi or {}).get('head_top_pct_vh'), (hi or {}).get('figure_h'), (hi or {}).get('figure_h_pct_vh'),
             (hi or {}).get('cut_by_bottom_px'), J([{k: i.get(k) for k in ('slot', 'file', 'show', 'dim', 'off', 'rect')} for i in m.get('imgs') or []])[:600]))
-        run.check('%s［%s・%s］：%s 說話時不是 compact（他的立繪在框裡、框是 show）' % (c['k'], ONAME[o], tag, who), bool(m.get('portraitShown')),
-                  J({'compact': m.get('compact'), 'advCls': m.get('advCls'), 'slots': m.get('slots'), 'target': bool(m.get('target'))}))
-        run.check('%s［%s・%s］：立繪 src 是正式檔 assets/portraits/%s/…（且在 PORTRAIT_FILES）' % (c['k'], ONAME[o], tag, who), bool(m.get('srcOk')),
-                  J({'file': t.get('file'), 'manifest': m.get('manifest'), 'portraitReg': m.get('portraitReg')}))
+        if c.get('expect') == 'compact':   # 反例：照舊 compact、沒有亮著的立繪
+            run.check('%s［%s・%s］：反例「%s」說話時照舊 compact（#adv 有 compact、沒有亮著的立繪）' % (c['k'], ONAME[o], tag, who), bool(m.get('compact')) and not m.get('anyImgShown'),
+                      J({'compact': m.get('compact'), 'advCls': m.get('advCls'), 'slots': m.get('slots'), 'anyImgShown': m.get('anyImgShown'), 'manifest': m.get('manifest')}))
+        else:
+            run.check('%s［%s・%s］：%s 說話時不是 compact（他的立繪在框裡、框是 show）' % (c['k'], ONAME[o], tag, who), bool(m.get('portraitShown')),
+                      J({'compact': m.get('compact'), 'advCls': m.get('advCls'), 'slots': m.get('slots'), 'target': bool(m.get('target'))}))
+            run.check('%s［%s・%s］：立繪 src 是正式檔 assets/portraits/%s/…（且在 PORTRAIT_FILES）' % (c['k'], ONAME[o], tag, who), bool(m.get('srcOk')),
+                      J({'file': t.get('file'), 'manifest': m.get('manifest'), 'portraitReg': m.get('portraitReg')}))
         run.check('%s［%s・%s］：截圖存在' % (c['k'], ONAME[o], tag), exists(shot), J([shot, crop]))
     return res
 
@@ -473,10 +513,14 @@ async def case_run(p, run, c, orients):
         await pg.evaluate("localStorage.clear()"); await P.init(pg); await pg.evaluate(HOOK)
         st, d, q = await build_state(pg, c)
         rec.update(day=d, q=q, load_h=c['load_h'], zone=c['zone'])
-        await L.load_state(pg, st, quiet_events=True, quiet_phone=True); await pg.evaluate(CLEARP)
-        run.setup('[前置] %s：最小存檔讀到 %s（%s 第 %s 週，星期%s%s）%s %s；旗標 %s%s；條件事件、手機自動打開先關（quiet_events）；%s' % (
+        quiet = c.get('quiet', True)
+        await L.load_state(pg, st, quiet_events=quiet, quiet_phone=True); await pg.evaluate(CLEARP)
+        if c.get('expect') == 'compact':
+            dup = await pg.evaluate(DUP_JS); rec['dupNames'] = dup
+            run.note('%s：頁面裡同名（name／alias）對到兩個以上人物 id：%s；其中兩個以上有立繪檔：%s；portraitIdByName：%s' % (k, J(dup.get('multi')), J(dup.get('multiWithPortrait')), J(dup.get('byName'))))
+        run.setup('[前置] %s：最小存檔讀到 %s（%s 第 %s 週，星期%s%s）%s %s；旗標 %s%s；手機自動打開先關（quiet_phone）、條件事件預設先關（quiet_events）；%s' % (
             k, d['key'], d.get('term'), d.get('week'), '日一二三四五六'[d['wd'] % 7], '，假日' if d.get('hol') else '', hm(c['load_h']), c['zone'],
-            J({fk: st['flags'].get(fk) for fk in (c.get('flags') or {})}), ('；拿掉 %s' % J(c['drop'])) if c.get('drop') else '',
+            J({fk: st['flags'].get(fk) for fk in (c.get('flags') or {})}), (('；拿掉 %s' % J(c['drop'])) if c.get('drop') else '') + ('' if quiet else '；★條件事件照常（不關）'),
             ('存檔裡已經約好的出遊 %s（%s %s，%s）；' % (q['id'], d['key'], hm(q['h']), q['place']) if q else '') + c['src']))
         await pg.wait_for_timeout(2500)
         if c['kind'] != 'camp': await L.phone_away(pg, cdp); await L.close_panels(pg, cdp)
@@ -499,6 +543,16 @@ async def case_run(p, run, c, orients):
                 r = await pg.evaluate(STORYCALL_JS, {'fn': 'teaSignIn'}); how = 'fallback'
                 run.setup('【捷徑】%s：%d 秒內 18:30 的簽到桌沒有自己演（STORY.teaTick）→ %s' % (k, PROMPT_S, r)); await pg.wait_for_timeout(2500)
                 started = await pg.evaluate(STARTED_JS, {'story': 'teaSignIn'})
+        elif c['kind'] == 'auto':   # 條件事件（trigger auto），讀檔不關條件事件、等 EVENTS.tick 自己演
+            how, started = await wait_started(pg, cdp, run, c, {'ev': c['ev']})
+            if not how:
+                r = await pg.evaluate(DIRECT_JS, {'ev': c['ev']}); how = 'fallback'
+                run.setup('【捷徑】%s：%d 秒內條件事件沒有自己演（遊戲時間 %s；可能別的事件先演、或條件不成立）→ %s' % (k, PROMPT_S, J(await P.clock(pg)), r)); await pg.wait_for_timeout(2500)
+                started = await pg.evaluate(STARTED_JS, {'ev': c['ev']})
+        elif c['kind'] == 'enc':
+            r = await pg.evaluate(ENC_JS, {'who': c['row_who'], 'spot': c['spot'], 'tier': c['tier']}); how = 'enc'
+            run.setup('【捷徑】%s：（理由：%s）→ %s' % (k, c['why'], r)); await pg.wait_for_timeout(2500)
+            started = [{'k': 'enc', 't': r[:80]}] if r.startswith('ADV.begin') else None
         elif c['kind'] == 'direct':
             r = await pg.evaluate(DIRECT_JS, {'ev': c['ev']}); how = 'direct'
             run.setup('【捷徑】%s：DIRECT（理由：%s）→ %s' % (k, c['why'], r)); await pg.wait_for_timeout(2500)
@@ -513,7 +567,7 @@ async def case_run(p, run, c, orients):
                 await pg.wait_for_timeout(2500); started = await pg.evaluate(STARTED_JS, {'ev': 'cc_pt106_' + k})
         rec.update(how=how, started=started)
         how_t = {'prompt': '遊戲自己跳出「出發」→ 點', 'self': '讀檔／到了時間自己演', 'fallback': '【捷徑】直接開演', 'direct': '【捷徑】DIRECT：void EVENTS.run',
-                 'talk': '3D 走過去按「和…說話」', 'fallback_lines': '【捷徑】暫時事件演 POOL.LINES'}.get(how, how)
+                 'talk': '3D 走過去按「和…說話」', 'fallback_lines': '【捷徑】暫時事件演 POOL.LINES', 'enc': '【捷徑】void ENC.meet'}.get(how, how)
         # 那個人說話的那一句
         spoke, s, ls, pre = await wait_speak(pg, cdp, run, c, SPEAK_S, picks=c.get('picks') or ())
         rec.update(spoke=spoke, said=ls, lines_before=pre)
@@ -552,7 +606,7 @@ async def case_run(p, run, c, orients):
             run.check('%s：家族那一桌 Kevin 說了話（%s）' % (k, '按互動' if rec['table_how'] == 'interact' else '【捷徑】void STORY.teaTable'), sp2,
                       J({'said': ls2, 'line': s2 and [s2.get('name'), s2.get('txt')]})[:400])
             if sp2: await shoot(pg, run, c, rec, 'table', orients, errs); last_tag = 'table'
-        if REF and last_tag: await reference(pg, run, c, rec, last_tag, orients)
+        if REF and last_tag and c.get('expect') != 'compact': await reference(pg, run, c, rec, last_tag, orients)
     finally:
         rec['pageerrors'] = errs[:5]
         run.check('%s：沒有頁面 JS 例外' % k, not errs, J(errs[:3])[:600])
@@ -562,23 +616,22 @@ async def case_run(p, run, c, orients):
 
 def pick_cases():
     if not IDS: return list(CASES)
-    out = []
-    for c in CASES:
-        if c['k'] in IDS or c['who'] in IDS: out.append(c)
-    return out
+    want = set()
+    for x in IDS: want.update(GROUPS.get(x, [x]))
+    return [c for c in CASES if c['k'] in want or c['who'] in want]
 
 
 async def main():
     os.makedirs(OUT, exist_ok=True)
     run = L.Run('pt106', OUT)
-    known = {c['k'] for c in CASES} | {c['who'] for c in CASES}
-    for x in [x for x in IDS if x not in known]: run.check('IDS 認得 %s' % x, False, '認得的：%s' % ','.join(PEOPLE + ['kevin_camp', 'kevin_tea']))
+    known = {c['k'] for c in CASES} | {c['who'] for c in CASES} | set(GROUPS)
+    for x in [x for x in IDS if x not in known]: run.check('IDS 認得 %s' % x, False, '認得的：%s' % ','.join(PEOPLE + [c['k'] for c in CASES if c['k'] not in PEOPLE] + list(GROUPS)))
     if ORIENT not in ('both', 'land', 'port'): run.check('ORIENT 認得', False, ORIENT); sys.exit(run.finish())
     cases = pick_cases()
     if not cases: run.check('IDS 選到至少一場', False, J(IDS)); sys.exit(run.finish())
     orients = ['land', 'port'] if ORIENT == 'both' else [ORIENT]
     print('==== cc_pt106_probe（SHA %s；%d 場［%s］；ORIENT=%s；REF=%s）====' % (os.environ.get('SHA', '?'), len(cases), ','.join(c['k'] for c in cases), ORIENT, REF), flush=True)
-    print_stats(sorted({c['who'] for c in cases}, key=PEOPLE.index))
+    print_stats([x for x in PEOPLE + ['yule'] if x in {c['who'] for c in cases}])
     async with async_playwright() as p:
         for c in cases:
             print('---- %s（%s，%s）----' % (c['k'], c['who'], c['kind']), flush=True)
