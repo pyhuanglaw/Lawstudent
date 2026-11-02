@@ -642,7 +642,7 @@ const R2Y3B=(function(){
     const t=x=>M&&M.subst?M.subst(x,G,c):String(x).replace(/\{她\}/g,c.her||'');
     return PHONE.at(G,G.day,hh(G),X.Q15.knowsMsg.map(x=>({th:'p:heroine_04',from:'heroine_04',text:t(x)})),'y3_zq_knows_msg'); };
   S.q15NoReply=function(G){ const Q=G.flags&&G.flags.ZQ_Q15; if(!Q||Q.res!=null) return; Q.res='none'; if(typeof TERMEND!=='undefined'){ TERMEND.rec(G).think.heroine_04='Y3S2'; TERMEND.rec(G,'Y3S2').result='think'; } };   /* 不回＝「讓我想想」：這學期不交往，下學期她用第二次的邀約 */
-  S.q15NoReplyDm=function(G){ const Q=G.flags&&G.flags.ZQ_Q15, X=XT(); if(!Q||!X) return; S.q15NoReply(G); if(Q.res!=='none'||typeof PHONE==='undefined') return; PHONE.at(G,Q.day+2,21,[{th:'p:heroine_04',from:'heroine_04',text:Q.k==='not_question'?X.Q15.noReplyNQ:X.Q15.noReply}],'y3_zq_noreply'); };
+  S.q15NoReplyDm=function(G){ const Q=G.flags&&G.flags.ZQ_Q15, X=XT(); if(!Q||!X) return; S.q15NoReply(G); if(Q.res!=='none'||typeof PHONE==='undefined') return; PHONE.at(G,Q.day+2,21,[{th:'p:heroine_04',from:'heroine_04',text:X.Q15.noReply}]   /* AA_573：「這次是直述句」拿掉以後兩支同一句（noReplyNQ 刪了）*/,'y3_zq_noreply'); };
   /* 家裡（home3d.js 的 loop 問 STORY.y4HomeDue）：「回答.exe」在家演（stay）；Z13 帶到場＝先離開家 */
   S.homeDue=G=>{ if(!law(G)) return null; if(S.exeDue(G)) return 'stay'; if(S.z13BringDue(G)) return 'r2y3b_z13'; return null; };
   if(typeof STORY!=='undefined'&&!STORY._r2y3bHome){ const hd0=STORY.y4HomeDue, hs0=STORY.y4HomeScene, hf0=STORY.y4FromHome;

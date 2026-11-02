@@ -2063,7 +2063,7 @@ const STORY = (function(){
     if(PHONE.inGroup(G,'family_law')&&(G.stage||'law')==='law'){ const d=S.dayOfKey('2027-03-12'); if(d!=null&&G.day>=d-3&&G.day<=d){ const th='g:family_law';
       if(G.day>d-3||h(G)>=21) PHONE.at(G,d-3,21,[{th,from:'kevin',name:'Kevin',text:'這學期的家聚！！禮拜五七點 公館那間'},{th,from:'kevin',name:'Kevin',text:'學弟妹第一次來 大家要到喔'},{th,from:'heroine_05',name:'溫學姊',text:'好。'}],'fam_dinner_y2s2_invite');
       if(G.day===d&&h(G)>=18&&h(G)<19&&!F.famDinnerY2Toast&&!(G.events&&G.events.done&&G.events.done.ev_family_dinner_y2s2)){ F.famDinnerY2Toast=true; if(GM.toast) GM.toast('今天 19:00 家族聚餐（公館）',4200); } } }
-    if(F.guitarFirstDay!=null&&!PHONE.sent(G,'guitar_grp1')){ PHONE.join(G,'guitar','吉他社'); PHONE.at(G,F.guitarFirstDay,21.5,[{th:'g:guitar',from:'heroine_04',text:'新人自己報名字，不要讓我問。這不是問句。'}],'guitar_grp1'); }
+    if(F.guitarFirstDay!=null&&!PHONE.sent(G,'guitar_grp1')){ PHONE.join(G,'guitar','吉他社'); PHONE.at(G,F.guitarFirstDay,21.5,[{th:'g:guitar',from:'heroine_04',text:'新人自己報名字，不要讓我問。'}],'guitar_grp1'); }
     if(G.msgs&&G.msgs.some(m=>m.tag==='sis_yutong')&&!F.yutongFwd){ F.yutongFwd=true;
       if(typeof INV!=='undefined'&&INV.hasContact(G,'heroine_03')){ PHONE.post(G,{th:'p:heroine_03',from:'player',who:null,text:'（把學姊的回覆截圖傳給語彤）',tag:'yutong_fwd_q'}); PHONE.at(G,G.day,G.hour+0.1,[{th:'p:heroine_03',from:'heroine_03',text:'……法服是什麼？'}],'yutong_fwd'); }
       else F.yutongFwdInPerson=true; }
@@ -2727,7 +2727,7 @@ const STORY = (function(){
        收到邀請或是吉他社的人卻沒去＝「你沒來」（ZQ_SHOW absent；之後一週她不約他：zqColdUntil）*/
     { const dInv=termDay('Y1S2',13,3), dShow=termDay('Y1S2',14,3);
       if(dInv&&dShow&&G.day>=dShow-15&&G.day<=dShow+2){ const th='p:heroine_04', Z=t=>({th,from:'heroine_04',text:t});
-        if(PHONE.inGroup(G,'guitar')&&!PHONE.sent(G,'zq_show_inv')) PHONE.at(G,dInv,21.5,[{th:'g:guitar',from:'heroine_04',text:'期末成發你要來。這不是問句。'}],'zq_show_inv');
+        if(PHONE.inGroup(G,'guitar')&&!PHONE.sent(G,'zq_show_inv')) PHONE.at(G,dInv,21.5,[{th:'g:guitar',from:'heroine_04',text:'期末成發你要來。'}],'zq_show_inv');   /* AA_573（使用者 11-02「不是問句這種句型給我全部刪掉」）*/
         if(PHONE.inGroup(G,'guitar')&&!PHONE.sent(G,'zq_show_cd')&&G.day<=dShow-14) PHONE.at(G,dShow-14,21,['成發','倒數','十四天','不能請假','都要來'].map((t,k)=>({th:'g:guitar',from:'heroine_04',text:t})),'zq_show_cd');   /* 成發倒數（BB_96 第 5 節）：十四天前 */
         { const R4=F.romance&&F.romance.heroine_04; if(PHONE.sent(G,'zq_show_cd')&&(F.dating_heroine_04===true||!!(R4&&R4.status==='dating'))&&!PHONE.sent(G,'zq_show_cd_dh')&&G.day<=dShow-14+1) PHONE.at(G,dShow-14,21+3/60,[Z('你也不能請假喔')],'zq_show_cd_dh'); }   /* BB_187 2-4：和她交往中，群組那則三分鐘後私訊（AA_230 Q-12）*/
         if(G.day>dShow||(G.day===dShow&&G.hour>=21.2)){

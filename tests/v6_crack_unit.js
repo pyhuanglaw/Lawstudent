@@ -206,7 +206,7 @@ const ZQ_BODY=['我有話要說。','我們最近一直在錯過。我不想變�
 await sec('Q',async()=>{
   const zqG=k=>{ fresh(k||'2028-10-09',10,'dorm'); date(ZQ); for(let i=0;i<3;i++) crack(ZQ,1); return pr(ZQ).plan; };
   let p=zqG(); const sat=D('2028-10-14');
-  check('Q1. 到 3：週六 19:00 河堤；週五 21:00「明天晚上七點，河堤。」「……你會來吧。這次是問句。」',p&&p.att[0].day===sat&&p.att[0].h===19&&J(p.att[0].invite.msgs)===J(['明天晚上七點，河堤。','……你會來吧。這次是問句。'])&&p.att[1].day===sat+1,J(p&&p.att));
+  check('Q1. 到 3：週六 19:00 河堤；週五 21:00「明天晚上七點，河堤。」「……你會來吧。」（AA_573）',p&&p.att[0].day===sat&&p.att[0].h===19&&J(p.att[0].invite.msgs)===J(['明天晚上七點，河堤。','……你會來吧。'])&&p.att[1].day===sat+1,J(p&&p.att));
   at(sat-1,21); rules(); const q=outOf(ZQ)[0]; check('Q2. 週五 21:00 私訊、行事曆排週六 19:00 河堤（走路 15 分鐘）',dm(ZQ).length===2&&q&&q.day===sat&&q.h===19&&q.place==='河堤');
   at(sat,19.5); rules(); check('Q3. 19:30「我在河堤」「等到八點」',J(dm(ZQ).slice(-2))===J(['heroine_04:我在河堤','heroine_04:等到八點']));
   at(sat,20.1); expire(); rules(); check('Q4. 沒到：20:00「明天。一樣七點。」→ 週日 19:00',dm(ZQ).slice(-1)[0]==='heroine_04:明天。一樣七點。'&&pr(ZQ).plan.i===1&&!!outOf(ZQ).find(x=>x.day===sat+1&&x.state==='planned'));

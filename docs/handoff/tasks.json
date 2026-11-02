@@ -38924,6 +38924,34 @@
         "receiver": "LAWWW",
         "ack": "DELIVERED"
       }
+    },
+    {
+      "id": "NOT-QUESTION-DEL-1102",
+      "title": "刪除「這不是問句／這次是問句／這次是直述句」句型（使用者 11-02 原話，AA_573）",
+      "area": "劇情",
+      "owner": "LAWWW",
+      "status": "已實作待整合",
+      "priority": "P1",
+      "next": "#3 solo_before D06 等 AA 改企劃 json（solo_before_bb_v1.json:226）再改白名單、重匯；其餘 9 處＋邏輯 B、C 已做（開發分支）",
+      "first": {
+        "term": "Y1S1",
+        "week": null,
+        "earliest": "第一次期中考前（讀書、一鍵總複習）；國考與職涯在畢業以後",
+        "mainline": true,
+        "blocks": false,
+        "prereq": false,
+        "parallel": true,
+        "confirmed": true
+      },
+      "source": "使用者 11-02「不是問句這種句型給我全部刪掉遊戲裡如果有」（AA 轉述；AA_573 @ad64e1094）",
+      "authorized": "使用者直接指示",
+      "xai": {
+        "spec": "docs/story_planning/AA_573_刪除不是問句句型_修改清單.md",
+        "branch": "claude/confident-ritchie-8rwh7t",
+        "acceptance": "玩家看得到的文字沒有這個句型；舊存檔 not_question、事件 id 照舊",
+        "receiver": "BB",
+        "ack": "DELIVERED"
+      }
     }
   ]
 }

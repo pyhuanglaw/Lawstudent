@@ -560,16 +560,15 @@ const R2Y3B_EVENTS=(function(){
     table:'發表會那天的錄影，我爸看了三遍。……第三遍他在做筆記。',
     opts:[{k:'first_player',t:'「妳下一個遊戲，我也要當第一個玩的。」',r:'……第一個玩的要負責找 bug 喔。很多。',exe:'第一個玩家：{name}'},
       {k:'like_long',t:'「我喜歡妳。喜歡很久了。」',r:'……你不要現在講啦。',exe:'我也是。'},
-      {k:'not_question',t:'「我喜歡妳。這不是問句。」',r:'……那是我的台詞。',exe:'這不是問句。'}],
+      {k:'not_question',t:'「我喜歡妳。」',r:'……嗯。',exe:'我也是。'}],   /* AA_573：key 不改（舊存檔 ZQ_Q15.k）；r、exe 是暫用句，等子晴共創重寫 */
     sure:'欸不是……你認真的？',   /* 說出來的三支都是這一句（這一場「欸不是」一次）*/
     run:['（她講話變快）我、我家到了。我先上去。',{narr:'（她跑進巷子。）'}],   /* BB_98 4-6 原文 */
     exe:'（《找插座的貓》的新關卡。貓找到了插座，插座旁邊坐著另一隻貓。兩隻貓一起充電。）',
-    noReply:'好，我收到你的不回答了。我們還是最好的朋友。這次是直述句。', noReplyNQ:'好，我收到你的不回答了。我們還是最好的朋友。',   /* 選「這不是問句」的那一支拿掉「這次是直述句。」（裁定 #27）；AA_296 2-3-1 ② 起是不回的那通電話沒接的替代版 */
+    noReply:'好，我收到你的不回答了。我們還是最好的朋友。',   /* 選「這不是問句」的那一支拿掉「這次是直述句。」（裁定 #27）；AA_296 2-3-1 ② 起是不回的那通電話沒接的替代版 */
     exeOpts:['（回一張插座貓貼紙）','（還沒想好怎麼回）'],
     knowsMsg:['我才知道{她}的事','電話先不打了 我要想一下'] };   /* AA_483 第 1 節第 6 點：回答.exe 傳了、玩家也回了貼紙，之後她才知道祐廷有別人＝原本她打來的時間改傳這兩則（子晴的手機訊息不加句號；{她}＝她知道的那一位，同 KNOW 的寫法）*/   /* AA_296 2-3-1 ②（企劃線 3f406dbc）：回答.exe 最後那一行字疊完，直接在場面裡給的兩個選項 */
   /* ---------- 2-Y3-47 Q15 的兩通電話（AA_296 2-3-1 ②，企劃線 3f406dbc；新寫）：有沒有在一起不再只靠手機回貼紙 ----------
      回了貼紙＝她馬上打來（場面裡選的＝回答.exe 演完接著演；手機回的＝OUT 的電話）；到期限（收到檔案的隔天 21:00）還是沒回＝21:00 她打來（沒接＝原本那一則私訊，r2y3b3d.js 的 q15NoReplyDm）*/
-  const NQ={custom:G=>((G.flags||{}).ZQ_Q15||{}).k==='not_question'};
   const EXE_CALL={ id:'ev_ziqing_exe_call', title:'電話', participants:['heroine_04'], location:'any', trigger:'outing', once:true, background:'dark', hours:0.25,
     dialogue:[ {scene:'電話'},
       {speaker:null,text:'（手機震了。是她打來的。）'},
@@ -585,7 +584,6 @@ const R2Y3B_EVENTS=(function(){
       {speaker:'heroine_04',text:'……你沒回耶。'},
       {speaker:'heroine_04',text:'好，我收到你的不回答了。'},
       {speaker:'heroine_04',text:'我們還是最好的朋友。'},
-      {unless:NQ,speaker:'heroine_04',text:'這次是直述句。'},   /* not_question 那一支一樣拿掉最後一句（裁定 #27）*/
       {speaker:null,text:'（她沒有等你說話，就掛了。）'} ],
     after:G=>{ const x=X(); if(x) x.q15NoReply(G); },
     outingMissed:G=>{ const x=X(); if(x) x.q15NoReplyDm(G); } };

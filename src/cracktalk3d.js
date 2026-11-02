@@ -179,7 +179,7 @@ const CRACKTALK=(function(){
   /* ======================= 談話本身 ======================= */
   const PRE={ev_an_talk_plg:L.PRE.plg,ev_an_talk_video:L.PRE.video,ev_an_talk_jp:L.PRE.jp,ev_yt_talk_video:L.PRE.video,ev_peishan_two_directions:L.PRE.video,ev_zhiruo_timezone_talk:L.PRE.video,ev_ziqing_direct_statement:L.PRE.river};
   const WHO={ev_an_talk:AN,ev_an_talk_plg:AN,ev_an_talk_video:AN,ev_an_talk_jp:AN,ev_yt_talk:YT,ev_yt_talk_video:YT,ev_peishan_two_directions:PS,ev_zhiruo_timezone_talk:ZR,ev_ziqing_direct_statement:ZQ};
-  const TITLE={[AN]:'以安：理由',[YT]:'語彤：分出來的時間',[PS]:'沛珊：兩個方向',[ZR]:'芷若：時差',[ZQ]:'子晴：直述句'};
+  const TITLE={[AN]:'以安：理由',[YT]:'語彤：分出來的時間',[PS]:'沛珊：兩個方向',[ZR]:'芷若：時差',[ZQ]:'子晴：錯過'};   /* AA_573（使用者 11-02「不是問句這種句型給我全部刪掉」）；事件 id ev_ziqing_direct_statement 不改：舊存檔的 plan、done 靠它 */
   const OUTING=new Set(['ev_an_talk_video','ev_an_talk_jp','ev_yt_talk_video','ev_peishan_two_directions','ev_zhiruo_timezone_talk','ev_ziqing_direct_statement']);
   S.prep=function(G,id){ const F=G.flags; F.CT_RES=null; F.CT_ASKED=false;
     if(id===ZR){ const td=Math.floor(twNow(G)/24+1e-9); F.CT_ZR_WINTER=typeof ZRUK!=='undefined'&&ZRUK.winter?!!ZRUK.winter(G,td):false;
