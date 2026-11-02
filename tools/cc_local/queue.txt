@@ -79,8 +79,8 @@ R9_x3       | b1b249873 | probe | docs/story_planning/test_tools/cc/cc_rollcall_
 #HOLD雲端 33_wsempre  | dea6b1944 | probe | docs/story_planning/test_tools/cc/cc_wsem_probe.py | index.html?turbo | 120 | CASES=all;EXAM_ROUTES=door;CLASS_ROUTES=door
 20_roll     | 4c8f138f7 | probe | docs/story_planning/test_tools/cc/cc_rollcall_probe.py | index.html | 120 | CASES=a,a0,b,c1,c2,d_old,d_new,cw,bedge
 21_rollpre  | 82f8d28c5 | probe | docs/story_planning/test_tools/cc/cc_rollcall_probe.py | index.html | 120 |
-#HOLD雲端 22_boya     | 6f0122821 | probe | docs/story_planning/test_tools/cc/cc_boya203_probe.py  | index.html | 60  |
-#HOLD雲端 23_boyapre  | 2c8d47e70 | probe | docs/story_planning/test_tools/cc/cc_boya203_probe.py  | index.html | 60  |
+22_boya     | 6f0122821 | probe | docs/story_planning/test_tools/cc/cc_boya203_probe.py  | index.html | 60  |
+23_boyapre  | 2c8d47e70 | probe | docs/story_planning/test_tools/cc/cc_boya203_probe.py  | index.html | 60  |
 24_b3       | d75871437 | probe | docs/story_planning/test_tools/cc/cc_d118b3_probe.py   | index.html | 240 |
 25_b3pre    | 299e23345 | probe | docs/story_planning/test_tools/cc/cc_d118b3_probe.py   | index.html | 90  | CASES=S1,night
 26_b3pre2   | 6ba2a22ad | probe | docs/story_planning/test_tools/cc/cc_d118b3_probe.py   | index.html | 60  | CASES=S2a
