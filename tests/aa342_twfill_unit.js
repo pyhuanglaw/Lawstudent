@@ -33,7 +33,8 @@ const ents=(G,k,h)=>{ setT(k,h); G.zone='noodle'; return EVENTS.check; };
     const all=[]; const walk=v=>{ if(typeof v==='string') all.push(v); else if(Array.isArray(v)) v.forEach(walk); };
     for(const k in L()) walk(L()[k]);
     const ids=/^(classmate_xinci|classmate_bohan|zhe|yu|sister|heroine_01|auntie|thursday|notyet)$/;
-    const bad=all.filter(t=>!ids.test(t)&&DOC.indexOf(t)<0&&DOC.indexOf(t.replace(/^「|」$/g,''))<0);   /* D118：海商法那一句（AA_578 #2）、大四上 11/3 摘要日（AA_578 第 3 節第 1 點）讀稿時照 tools/story/d118_fix.json 換（tests/alison.js）*/
+    const A581={'過一半了':'考完了'};   /* AA_581 第 13 列（D118 沒有期中考）：稿的「考完了」→「過一半了」（短句，不放進 d118_fix.json，這裡逐句對）*/
+    const bad=all.filter(t=>!ids.test(t)&&DOC.indexOf(t)<0&&DOC.indexOf(t.replace(/^「|」$/g,''))<0&&!(A581[t]&&DOC.indexOf(A581[t])>=0));   /* D118：海商法那一句（AA_578 #2）、大四上 11/3 摘要日（AA_578 第 3 節第 1 點）讀稿時照 tools/story/d118_fix.json 換（tests/alison.js）*/
     check('0. TWFILL_LINES 的每一句都在 AA_342（人物 id、記錄的代號除外）',bad.length===0,bad.join('｜'));
     const src=fs.readFileSync(path.join(H.ROOT,'src/data/twfill_events.js'),'utf8');
     check('0. 沒有「小語」（改名 Alison，AA_380）',src.indexOf('小語')<0);
@@ -60,7 +61,7 @@ const ents=(G,k,h)=>{ setT(k,h); G.zone='noodle'; return EVENTS.check; };
 
   /* ===== 2 大三下 ===== */
   await sec('2',async()=>{
-    let G=fresh('2028-04-12',18.6); check('2. 4/12（三）摘要日：「（大三下的期中考。你在考卷背面算了一下：再三個學期就畢業了。）」（18:30 以後、日期卡）',J(sumAt('2028-04-12',18.6))===J([L().sum0412]));
+    let G=fresh('2028-04-12',18.6); check('2. 4/12（三）摘要日：「（大三下的期中週。你在筆記本最後一頁算了一下：再三個學期就畢業了。）」（18:30 以後、日期卡）',J(sumAt('2028-04-12',18.6))===J([L().sum0412]));
     check('2. 摘要日只出一次',sumAt('2028-04-12',19).length===0);
     G=fresh('2028-04-12',18.6,'dorm',{EXCHANGE_ROUTE:'JP'}); check('2. 日本路線（4/12 人在日本）：沒有',STORY.abroad(G)&&sumAt('2028-04-12',18.6).length===0);
     G=fresh('2028-05-10',21.05,'dorm',{},{groups:['home']}); rules(); const m=msgs('g:home').filter(x=>x.tag==='tw_y3_mom_day_ask');
@@ -84,7 +85,7 @@ const ents=(G,k,h)=>{ setT(k,h); G.zone='noodle'; return EVENTS.check; };
   /* ===== 3 大四上 ===== */
   await sec('3',async()=>{
     let G=fresh('2028-09-28',21.05); rules(); check('3. 9/28（四）教師節 21:00：Alison「教師節。我傳訊息給大一的導師。」「她說她記得我。……然後把我的名字打錯了。」',J(grp(NG,'tw_y4_teachers'))===J(['yu:教師節。我傳訊息給大一的導師。','yu:她說她記得我。……然後把我的名字打錯了。']),J(grp(NG,'tw_y4_teachers')));
-    G=fresh('2028-10-27',21.05); rules(); check('3. 10/27（五）21:00：阿哲「大四的期中考 為什麼還是期中考」、Alison「因為你還沒畢業」',J(grp(NG,'tw_y4_mid_1027'))===J(['zhe:大四的期中考 為什麼還是期中考','yu:因為你還沒畢業']));
+    G=fresh('2028-10-27',21.05); rules(); check('3. 10/27（五）21:00：阿哲「大四的期中週 為什麼還是要交報告」、Alison「因為你還沒畢業」',J(grp(NG,'tw_y4_mid_1027'))===J(['zhe:大四的期中週 為什麼還是要交報告','yu:因為你還沒畢業']));
     G=fresh('2028-10-31',22.05); rules(); check('3. 10/31（二）22:00：Alison「（照片：公館的路口，有人扮成一本六法全書）」「拍到了」',J(grp(NG,'tw_y4_mid_1031'))===J(['yu:（照片：公館的路口，有人扮成一本六法全書）','yu:拍到了']));
     G=fresh('2028-11-01',21.05,'dorm',{CLUB_public_law_group:true},{groups:['noodle_team','public_law']}); rules();
     check('3. 11/1（三）21:00 讀書會群組（參加讀書會的）：以安「下週四恢復。題目是第十一章。」',J(grp('g:public_law','tw_y4_plg_1101'))===J([AN+':下週四恢復。題目是第十一章。']));
@@ -113,7 +114,7 @@ const ents=(G,k,h)=>{ setT(k,h); G.zone='noodle'; return EVENTS.check; };
     G=fresh(fd||H.D('2029-06-13'),9,'linze'); const it=CLS.dayItems(G).find(i=>i.c.id==='maritime'); H.said=[]; H.picks=[0,0,0,0,0,0]; await CLS.attend(GM,it,{forced:true});
     check('4. 海商法期末考（'+(fd&&CALENDAR.dateOf(fd).key)+'）：考卷前一句「（海商法的期末考。題目裡的那艘船，沉在一個你沒聽過的海峽。）」（AA_578 #2）',!!fd&&!!it&&it.exam==='final'&&L().maritimeFinal==='（海商法的期末考。題目裡的那艘船，沉在一個你沒聽過的海峽。）'&&H.said[0].t===L().maritimeFinal&&/考卷發下來/.test(H.said[1].t),J(H.said.slice(0,2)));
     check('4. 別的考試、別的課沒有這一句',!X().examLine(G,Object.assign({},it,{exam:'mid'}))&&!X().examLine(G,Object.assign({},it,{c:{id:'admin_law'}})));
-    G=fresh('2029-04-13',22.05); rules(); check('4. 4/13（五）22:00：Alison「最後一次期中考」「考完了」、阿哲「最後一次」',J(grp(NG,'tw_y4s2_last_mid'))===J(['yu:最後一次期中考','yu:考完了','zhe:最後一次']));
+    G=fresh('2029-04-13',22.05); rules(); check('4. 4/13（五）22:00：Alison「最後一次期中週」「過一半了」、阿哲「最後一次」（AA_581 第 12、13 列）',J(grp(NG,'tw_y4s2_last_mid'))===J(['yu:最後一次期中週','yu:過一半了','zhe:最後一次']));
     G=fresh('2029-04-26',21.05,'dorm',{},{know:[BH]}); rules(); const g=msgs(NG).filter(m=>m.tag==='tw_y4s2_grad_ask');
     check('4. 4/26（四）21:00 阿哲「禮拜六十點 椰影大道 學士服拍照」「衣服我先租了 錢之後給」＋「去。」',J(g.map(m=>m.text))===J(['禮拜六十點 椰影大道 學士服拍照','衣服我先租了 錢之後給'])&&J(g[1].ask.opts.map(o=>o.t))===J(['去。']));
     PHONE.answer(G,'tw_y4s2_grad_ask',0); rules(); const q=OUT.get(G,'tw_y4_grad_photo');

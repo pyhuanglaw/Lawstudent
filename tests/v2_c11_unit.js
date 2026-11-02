@@ -59,7 +59,7 @@ const meet=id=>SOCIAL.remember(id,'FIRST_MET','');
   /* 晚餐 */
   const dinner=async(setup,pk)=>{ fresh(midDay,18.9,'campus',{}); meet('zhe'); if(setup) setup(); picks=pk||[]; await EVENTS.run(sup); return lines(); };
   L=await dinner(()=>{ meet('yu'); });
-  check('5. 開頭：旁白（還沒認識語彤＝「（阿姨的手腕綁著護腕。今天端麵的是一個沒見過的女生。）」，AA_373 #15；認識的照 AA_185 3-8「…今天端麵的是語彤。」，見 aa373_y1s2）；認識 Alison：Alison「今天不講考試。誰講誰請。」阿哲「那第二題——」Alison「你請。」阿哲「我還沒講完！」',JSON.stringify(L.slice(0,5))===JSON.stringify(['（阿姨的手腕綁著護腕。今天端麵的是一個沒見過的女生。）','Alison：今天不講考試。誰講誰請。','阿哲：那第二題——','Alison：你請。','阿哲：我還沒講完！']),JSON.stringify(L));
+  check('5. 開頭：旁白（還沒認識語彤＝「（今天端麵的是一個沒見過的女生。）」，AA_373 #15、AA_581 第 7 節 B 拿掉護腕；認識的「（阿姨的手好了，今天端麵的還是語彤。）」，見 aa373_y1s2）；認識 Alison：Alison「今天不講考試。誰講誰請。」阿哲「那第二題——」Alison「你請。」阿哲「我還沒講完！」',JSON.stringify(L.slice(0,5))===JSON.stringify(['（今天端麵的是一個沒見過的女生。）','Alison：今天不講考試。誰講誰請。','阿哲：那第二題——','Alison：你請。','阿哲：我還沒講完！']),JSON.stringify(L));
   L=await dinner(null); check('5. 不認識 Alison：沒有那四句',!L.some(l=>l.includes('誰講誰請')),JSON.stringify(L));
   L=await dinner(()=>{ meet('classmate_mingxuan'); SOCIAL.remember('classmate_mingxuan','SAW_HIM_STUDY',''); },['他有念']);
   check('6. 明軒的回聲（SAW_HIM_STUDY）：阿哲「明軒說他這次也沒念。」→「……他有念。我看到了。」→（他低頭吃了一口麵）明軒「……好啦，這次我請。」（AA_209）',L.includes('阿哲：明軒說他這次也沒念。')&&JSON.stringify(opts[0])==='["「……他有念。我看到了。」","（繼續吃麵）"]'&&L.includes('（他低頭吃了一口麵）')&&L.some(l=>l.endsWith('……好啦，這次我請。'))&&G.flags.SUPPER2_MX===true,JSON.stringify({L,opts}));

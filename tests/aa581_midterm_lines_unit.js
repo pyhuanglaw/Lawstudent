@@ -117,7 +117,7 @@ for (const [row, f, oldS, newS] of ROWS) {
     !!y && y.ask === '明天平安夜。……這週末要視訊嗎？還是你還在考試？' && JSON.stringify(y.w8) === JSON.stringify(['好啊！考試加油。……聖誕快樂。']) && ps1.ask === '這週末要視訊嗎？還是你要考試？' && ps1.me === '這週考試，下週好不好？', JSON.stringify(y));
   const c = R('src/cracktalk3d.js');
   check('(a) 第 73 列：大三上週四（psWd 4）21:00 發、其他學期週五；那一週已經約好去台南找她（S.psTnBooked：fest3d 聖誕、termend3d te_gf_、ev_hv_ps_tn）就不發',
-    c.includes("const psWd=t&&t.id==='Y3S1'?4:5;") && c.includes("wdOf(d)===psWd&&h>=21&&t.week===S.psExamWeek(G,t.id)&&!(t.id==='Y3S1'&&S.psTnBooked(G,d))") && /S\.psTnBooked=\(G,d\)=>[^\n]*q\.fest\.id===PS&&q\.place==='台南'[^\n]*te_gf_[^\n]*ev_hv_ps_tn/.test(c)); }
+    c.includes("const psWd=t&&t.id==='Y3S1'?4:5;") && c.includes("wdOf(d)===psWd&&h>=21&&t.week===S.psExamWeek(G,t.id)&&!(t.id==='Y3S1'&&S.psTnBooked(G,d))") && /S\.psTnBooked=\(G,d\)=>[^\n]*q\.fest\.id===PS&&q\.fest\.mode==='meet'&&q\.place==='台南'[^\n]*te_gf_[^\n]*ev_hv_ps_tn/.test(c)); }
 /* 記憶 id、標籤 id 不改（存檔相容）*/
 { const lad = R('src/data/ladder.js'), ev = R('src/data/events.js');
   check('(a) 記憶 id 不改：AN_L8_MIDTERM、AN_L9_MIDTERM_WEEK 還在 ladder.js；TOLD_SCORE、ASKED_BACK、SUPPER_MID1、SUPPER_MID2 還在 events.js',

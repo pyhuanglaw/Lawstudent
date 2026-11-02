@@ -37,6 +37,9 @@ const asec=async(name,fn)=>{ try{ await fn(); }catch(e){ check(name+'（例外�
 const html=fs.readFileSync(path.join(H.ROOT,'index.html'),'utf8');
 const show=(sha,f)=>{ try{ return cp.execSync('git show '+sha+':"'+f+'"',{cwd:H.ROOT,encoding:'utf8',maxBuffer:1<<24}); }catch(e){ return ''; } };
 const doc={Y1S2:show(DOC.Y1S2.sha,DOC.Y1S2.spec),Y2S1:show(DOC.Y2S1.sha,DOC.Y2S1.spec)}, old505=show(OLD505,DOC.Y2S1.spec);
+/* AA_581 第 23～25 列（D118 沒有期中考；企劃線 454218182）：以安 an3b（大一下第 9 週週四）照片「期中考的考卷」→「案例作業的題目紙」（讀稿時 d118_fix.json 已換）、
+   她的一句「考完。」→「交了。」、留言「考得怎樣？」→「寫得怎樣？」（短句，只換這一列）；「還沒改。」「背面朝上？」「不想看。」照留（保9～保11）*/
+doc.Y1S2=doc.Y1S2.split('\n').map(l=>l.indexOf('| 案例作業的題目紙，背面朝上 |')>=0?l.replace('| 考完。 |','| 交了。 |').replace('「考得怎樣？」','「寫得怎樣？」'):l).join('\n');
 
 /* ---------- 共用 ---------- */
 const DK=k=>PG.DK(k);

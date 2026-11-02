@@ -312,7 +312,7 @@ const CRACKTALK=(function(){
     const L=CLS.examList(G,tid).filter(e=>e.kind==='final').sort((a,b)=>a.day-b.day), t=L.length?CALENDAR.termOf(L[0].day):null; return fwCache[tid]=t&&t.id===tid?t.week:null; };
   /* 那一週（d 的前後三天＝週一～週日）已經約好、或已經去過台南找她（OUT 排好或演完）：她的節日那一場（fest3d.js，當面、在台南）、女朋友的學期末約會（termend3d.js te_gf_<學期>_沛珊）、
      「我去台南找妳？」（hometown3d.js ev_hv_ps_tn）；AA_581 第 73 列 */
-  S.psTnBooked=(G,d)=>typeof OUT!=='undefined'&&!!OUT.rec&&OUT.rec(G).some(q=>q&&q.day>=d-3&&q.day<=d+3&&(q.state==='planned'||q.state==='done')&&((!!q.fest&&q.fest.id===PS&&q.place==='台南')||/^te_gf_/.test(q.id||'')&&String(q.id).slice(-PS.length)===PS||(q.ev==='ev_hv_ps_tn'&&!!q.hv&&q.hv.key===PS+'@台南')));
+  S.psTnBooked=(G,d)=>typeof OUT!=='undefined'&&!!OUT.rec&&OUT.rec(G).some(q=>q&&q.day>=d-3&&q.day<=d+3&&(q.state==='planned'||q.state==='done')&&((!!q.fest&&q.fest.id===PS&&q.fest.mode==='meet'&&q.place==='台南')||/^te_gf_/.test(q.id||'')&&String(q.id).slice(-PS.length)===PS||(q.ev==='ev_hv_ps_tn'&&!!q.hv&&q.hv.key===PS+'@台南')));
   S.ps=function(G){ const R=sub(S.src(G),'ps'), d=G.day, h=hh(G), t=CALENDAR.termOf(d); S.psVisits(G);
     const on=dating(G,PS)&&!abroad(G)&&S.psTN(G,d);
     /* ① 考試週的週五 21:00：改期（避不掉）*/
