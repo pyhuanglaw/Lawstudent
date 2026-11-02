@@ -45,8 +45,9 @@ for(const [id,key,o] of [
   const want='assets/bg/'+key+'.webp', r=await play(id,o);
   check('1. '+id+'（'+o.name+'）：'+key+' 有登錄、檔案在，演出時用這張',!!OUT.BG[key]&&OUT.BG[key].image===want&&fs.existsSync(path.join(H.ROOT,want))&&!!r.e&&r.got.includes(want),J({found:!!r.e,got:r.got,err:r.err})); }
 /* ---- 2 沒接的 ---- */
-for(const [id,scene] of [['ev_jpb_w_fire','河堤'],['ev_jpb_r_fire','河堤'],['ev_jpb_w_chain','宿舍門口'],['ev_jpb_clean','她的房間']]){ const e=ev(id), l=e&&e.dialogue.find(x=>x&&x.scene!==undefined);
-  check('2. '+id+'（'+scene+'）：圖對不上，照舊只有地點字幕（沒有 bg）',!!l&&l.scene===scene&&l.bg===undefined,J(l)); }
+/* 第 109 組（BB 07:50）補了對得上的圖：煙火、五月上午的宿舍門口、以安的房間（打包好）——不再借用白天櫻花／七夕／你的房間 */
+for(const [id,scene,bg] of [['ev_jpb_w_fire','河堤','jp_riverbank_fireworks'],['ev_jpb_r_fire','河堤','jp_riverbank_fireworks'],['ev_jpb_w_chain','宿舍門口','jp_dorm_gate_morning'],['ev_jpb_clean','她的房間','jp_an_room_packed'],['ev_jpb_w_light','她的房間門口','jp_an_room_door']]){ const e=ev(id), l=e&&e.dialogue.find(x=>x&&x.scene!==undefined);
+  check('2. '+id+'（'+scene+'）：第 109 組的 '+bg+'（不借用對不上的圖）',!!l&&l.scene===scene&&l.bg===bg&&!!OUT.bg(bg),J(l)); }
 /* ---- 3 臺北的家 ---- */
 for(const [id,day,h] of [['ev_vf_y0_0713','2025-07-13',10],['ev_vf_y0_0719_sis','2025-07-19',12],['ev_vf_y0_0726_sis','2025-07-26',12]]){ const r=await play(id,{day,h,zone:'home',econ:true,home:true});
   check('3. '+id+'（臺北的家 '+h+':00，在家）：沒給 bg 也是家裡的背景 home_dining_day（HOME.bgNow），不是深色底',!!r.e&&r.got.includes('assets/bg/home_dining_day.webp'),J({found:!!r.e,got:r.got,err:r.err})); }

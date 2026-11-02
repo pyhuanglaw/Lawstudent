@@ -94,7 +94,7 @@ const JP_BLANK_LINES=(function(){
     {label:'a'},an('好。我要熱的。'),{goto:'e'},
     {label:'b'},nar('（二十八分鐘裡，她翻了四頁。洗衣機停的時候，她剛好闔上書。）'),
     {label:'e'} ]);
-  out('ev_jpb_w_chain','腳踏車的鏈條',[ {scene:'宿舍門口'},   /* 不接 jp_dorm_gate：那張是傍晚、門口掛著七夕的竹子（七夕那兩場用）；這一場是 5/13 上午 */
+  out('ev_jpb_w_chain','腳踏車的鏈條',[ {scene:'宿舍門口',bg:'jp_dorm_gate_morning'},   /* 第 109 組（BB 07:50）：五月上午、沒有七夕竹子的版本（jp_dorm_gate 是傍晚、七夕那兩場用）*/
     nar('（她的腳踏車倒放在宿舍門口，鏈條垂在地上。）'),
     an('我查了怎麼裝。看了三遍影片。……還是裝不上去。'),
     {choice:[{text:'「我來。」',goto:'a'},{text:'「一起弄。」',goto:'b'}]},
@@ -108,7 +108,7 @@ const JP_BLANK_LINES=(function(){
     {label:'a'},an('好。可是這本已經改過三次法了。'),nar('（她還是買了。）'),{goto:'e'},
     {label:'b'},an('看他們以前怎麼想，有用。'),
     {label:'e'} ]);
-  out('ev_jpb_w_light','她房間的燈',[ {scene:'她的房間門口'},   /* 她的房間第一次出現；不寫留下來、不寫進房間以後的事（AA_359）*/
+  out('ev_jpb_w_light','她房間的燈',[ {scene:'她的房間門口',bg:'jp_an_room_door'},   /* 第 109 組（BB 07:50）*/   /* 她的房間第一次出現；不寫留下來、不寫進房間以後的事（AA_359）*/
     nar('（她租的房間在二樓。門口放著一雙拖鞋、一袋新的燈管。）'),
     an('椅子在這裡。……我扶著。'),
     {choice:[{text:'「我站上去。」',goto:'a'},{text:'「找房東？」',goto:'b'}]},
@@ -129,7 +129,7 @@ const JP_BLANK_LINES=(function(){
     {label:'a'},an('水要多。'),nar('（她把紙條摺起來，收進手帳。）'),{goto:'e'},
     {label:'b'},an('……水要多。'),nar('（她站在你旁邊看著鍋子。）'),
     {label:'e'} ],{hours:1.5});
-  out('ev_jpb_w_fire','河堤的煙火',[ {scene:'河堤'},   /* 不接 jp_riverbank：那張是白天、櫻花（花見那一場用）；7/22 19:30 的煙火要夜晚、夏天的河堤，等圖 */
+  out('ev_jpb_w_fire','河堤的煙火',[ {scene:'河堤',bg:'jp_riverbank_fireworks'},   /* 第 109 組（BB 07:50）：夏天晚上的河堤（jp_riverbank 是白天櫻花，花見用）*/
     nar('（河堤上的人很多。第一發煙火上去的時候，旁邊的小孩叫了一聲。）'),
     IF(tamsui,an('……淡水那一次，我們在看夕陽。')),UN(tamsui,an('……臺灣的煙火，我只在電視上看過。')),   /* 沒和她去過淡水（D13）的換這一句 */
     {choice:[{text:'「這次看煙火。」',goto:'a'},{text:'（不說話）',goto:'b'}]},
@@ -144,7 +144,7 @@ const JP_BLANK_LINES=(function(){
   ev('ev_jpb_r_laundry','投幣洗衣店',[ {scene:'宿舍的投幣洗衣店',bg:'jp_laundry'},
     nar('（梅雨。宿舍的投幣洗衣店排了五個人，都是交換生。有人在放手機的歌。）'),
     nar('（輪到你的時候，雨停了一下。）'),{advance:1} ]);
-  out('ev_jpb_r_fire','河堤的煙火',[ {scene:'河堤'},   /* 同上：不接白天櫻花的 jp_riverbank */
+  out('ev_jpb_r_fire','河堤的煙火',[ {scene:'河堤',bg:'jp_riverbank_fireworks'},   /* 同上 */
     nar('（河堤上的人很多。交換生擠在橋下。以安站在最旁邊，手上拿著一罐飲料。）'),
     nar('（第一發煙火上去的時候，她抬頭看。你也抬頭看。）') ],{hours:1.5});   /* 不加台詞；這一場不推進挽回 */
 
@@ -176,7 +176,7 @@ const JP_BLANK_LINES=(function(){
     {label:'e'} ],{hours:2});   /* 挽回成功、已經回到交往的玩家照交往版（演的那一刻看）*/
   /* 4-2 7/30（日）14:00 以安退租前打掃（交往中；7/29 22:30 她私訊，回「我去幫忙。」＝出遊）*/
   const lightDone=G=>done(G,'ev_jpb_w_light');
-  out('ev_jpb_clean','她退租前的打掃',[ {scene:'她的房間'},   /* 不接 jp_room：那張是「你的房間」（jp3d.js、jp_dorm_layouts.js），晚上、窗外櫻花；以安的房間沒有圖 */
+  out('ev_jpb_clean','她退租前的打掃',[ {scene:'她的房間',bg:'jp_an_room_packed'},   /* 第 109 組（BB 07:50）：以安的房間、打包好的版本（jp_room 是「你的房間」，不能借）*/
     IF(lightDone,nar('（她的房間已經收得差不多了。地上只剩兩個紙箱，和那盞你換過的燈。）')),
     IF(lightDone,an('燈管要留給下一個人。')),IF(lightDone,an('……你換的那一支。')),
     UN(lightDone,nar('（她的房間已經收得差不多了。地上只剩兩個紙箱。天花板的燈閃了一下。）')),   /* 6/11 那一場（2-1 e）沒有演過的：整段換（AA_437 第 7 節第 1 點）*/

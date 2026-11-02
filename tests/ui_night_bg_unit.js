@@ -9,7 +9,7 @@ vm.runInThisContext(fs.readFileSync(path.join(ROOT,'src/outings3d.js'),'utf8').r
 let fails=0; const check=(n,ok,info)=>{ console.log((ok?'PASS ':'FAIL ')+n+(info&&!ok?'　'+info:'')); if(!ok) fails++; };
 const src=f=>fs.readFileSync(path.join(ROOT,f),'utf8');
 { const n=OUT.bg('camp_trail_night'), d=OUT.bg('camp_trail'), camp=src('src/data/camp_y1.js'), i=camp.indexOf("id:'ev_camp_d1_walk'"), j=camp.indexOf('dialogue:[',i);
-  check('1. 夜遊第一個場景用 camp_trail_night；OUT.bg 給步道那張圖＋night（圖在）；白天的 camp_trail 不調暗',i>=0&&camp.slice(j,j+80).includes("bg:'camp_trail_night'")&&n&&n.night===true&&n.image==='assets/bg/camp_trail.webp'&&fs.existsSync(path.join(ROOT,n.image))&&d&&d.image===n.image&&!d.night,JSON.stringify({n,d,first:camp.slice(j,j+80)})); }
+  check('1. 夜遊第一個場景用 camp_trail_night；第 109 組真的夜景圖、不再 night 調暗（BB 07:50）；白天的 camp_trail 不調暗',i>=0&&camp.slice(j,j+80).includes("bg:'camp_trail_night'")&&n&&!n.night&&n.image==='assets/bg/camp_trail_night.webp'&&fs.existsSync(path.join(ROOT,n.image))&&d&&d.image==='assets/bg/camp_trail.webp'&&!d.night,JSON.stringify({n,d,first:camp.slice(j,j+80)})); }
 { const A=src('src/adv3d.js'), k=A.indexOf('A.setBg=function'), fn=A.slice(k,A.indexOf('\n',A.indexOf('\n',A.indexOf('\n',k)+1)+1));
   check('2. ADV.setBg：night 加 #adv.night、換場景先拿掉；CSS 有 #adv.night #advBg 的調暗',/\['blur','freeze','dark','image','cg','night'\]/.test(fn)&&/mode\.night\)\s*A\.root\.classList\.add\('night'\)/.test(fn)&&/#adv\.night #advBg\{filter:brightness\(/.test(A),fn.slice(0,300)); }
 check('3. 筆記本（#menu）開著時 #advTop（紀錄、略過對話）不顯示',/body:has\(#menu:not\(\.hide\)\) #advTop\{display:none\}/.test(src('src/adv3d.js')));
