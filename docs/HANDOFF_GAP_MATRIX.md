@@ -60,6 +60,23 @@
 
 **F｜測試與問題**：瀏覽器、iPhone 實機都還沒驗今天的改動（Playwright 由 BB 跑）；BUG-02 偶發全黑只在 iPhone。`9aa82ecda` 那一輪 classes3d 361 支在交班時跑（結果寫在收尾）。
 
+**LAWWW-B 第四段（11-02 00:2x～03:1x；使用者直接交辦生圖、接圖，最後「剛剛那批圖放完就交班」；其他三個職位沒叫醒）**
+**A｜成果**（19 個 commit，`c88647335`～`9e1b1e5e0`，都在開發分支，**沒有發布**）：
+- **使用者生成的背景 44 張接進遊戲**（轉 WebP、OUT.BG 登記、劇情的 bg 改掉、LICENSES、`tests/bg_images_unit.js` 2k～2r）：第 100 組十張＋重生兩張（cvs_table_day、淺色地板的 mucha_cafe_night）、第二批十張（映月湖白天、芒果冰、家裡的車三張換使用者版、溫州街冰店、元宵燈會、市區公車、會所草地、C 棟洗衣間）、第三批十張（小鎮早市、迪化街、宜蘭民宿、實習自助餐、往芝加哥巴士、亞利桑那公路、白天大峽谷、服飾店、法圖旁簡餐、公館家聚）、第四批十張（傍晚峽谷＝告白、下雪的小教堂、法圖外台階、冬天植物園、荷花池、研究室、社區活動中心兩張、學姊搬家的房間、資工系館走廊）。每批有 1～3 處像品牌的標記 LAWWW-B 柔化（超商條紋、背包、飲料罐、電視、車牌、筆電、飲水機）。
+- **用現有的圖補黑底 11 處**（`4328fee54`、`91e013027`）：A館一樓聖誕、法圖三場、法圖討論室、總圖門口台階、Café 兩場、美國會所自習室、總圖下雨（暫借 library_gate_night）、颱風天線上讀書室（video）。
+- **黑畫面盤點**（`tools/story/black_bg_audit.js`）：59 段 401 句 → **25 段 130 句**。
+- **使用者定的名稱**（`c1b32deac`）：哥大→紐約的法學院、杜鵑花節→松鼠節進換字規則（world_names.py、social3d.js、world_rename_unit），apply_game 改 6 處、重跑 ladder／invite 產生器，WORLD_NAMING 第 8 節寫定案；舊存檔的備註鍵照留。
+**B｜全部未完成**：
+- **第五批 10 張提示詞已給使用者、圖還沒到**（gym_pool、ziqing_studio、tc_schoolroad、court_hall、radio_room、welfare_room、phil_cafe、psy_lab、jp_eatery、jp_intl_office）：接法寫在 AA299-IMAGES-1018 最前面。下一班 BB 檢查、LAWWW 接。
+- **剩的黑底要附 3D 截圖**（D97 X93）：新體育館（球場、看台、門口）、兩點半 Café 門口夜景（21 句）、法律系館B大廳、C 棟門口、法學院前庭、A館 201、博雅 201、總圖下雨（正式版）→ BLACK-BG-AUDIT-1018（BB）／BG-DARK-SCENES-1024（LAWWW2），誰先做都可以。
+- 日本路線、在家的場景盤點工具看不出（執行時換當地背景），BB 實際玩一次確認；可昕大二七夕開頭（舊車停在旅館門口，2 句）還沒圖。
+- AA：企劃稿換名（哥大、杜鵑花節、女九）、「紐約的法學院上了。八月去紐約。」要不要換說法（ASK-5NAMES）。
+- 第三段以前的未完成照舊（見下）：incr 116 項 outbox 用字、BB 驗收佇列、BUG-02 暫停、照片比對等使用者。
+**C｜正在做的**：沒有（交班時沒有背景工作、沒有排程接續）。
+**D｜最新決策與規則**（user_asks_LAWWW.json UA-LAWWW-1102-01～07）：2D 背景也不要深色木地板（1102-02）；使用者貼的圖直接從對話拿原檔（/root/.claude/uploads/<session>/*.png，或 BB 的 extract_pasted_images.py）（1102-03）；提示詞一次十張、一段文字、寫明十張分開生成不要合在一張（1102-05）；1～10 編號、寫尺寸格式（1101-07）。
+**E｜跨 AI 協作**：沒有傳訊息（其他職位休班）。
+**F｜測試與問題**：每批相關測試都跑過、改了跟著換圖要變的期待值（aa414_hol、zr_summer_misc、aa386、aa556、group_events、r3_events、r2y4a、aa377、r2y4b）；整套 Node **840／840**（`c1b32deac` 換名以後；之後第四批的圖跑相關 21＋14 支 ALL PASS）。交班核對：`check` OK、`roles` OK、`asks` OK（309 筆）、**`incr` 異常 116 項照舊**（AA、LAWWW2 分支上 outbox 的用字，交班後不能寫；水位線不前進）。瀏覽器沒看過這 44 張在遊戲裡的樣子 → BB。研究所筆試考場是故意深色底（rooms_ab3_people_unit 7）。
+
 **LAWWW-B 第三段（22:0x～22:5x，使用者 22:0x：「還有4%每週使用量 請你繼續做兩小時……就是只有你」）**
 - DL-04：捷運出遊出發前 TRIP.evMiss（B 表短窗口列出來、【必】不能出發）`19eaa15e7`；V0-B4 改已整合待測試。
 - DL-04B：手機快速前往的 R2（CLS.routeStopTo＋quickGo）`856099bb3`、週日住家裡的 R1（HOME.dormMiss）`38752c06c`。

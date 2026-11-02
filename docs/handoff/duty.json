@@ -4,8 +4,8 @@
  "ruleVersion": "HV-20",
  "ruleSource": {
   "branch": "claude/modest-rubin-2lyp7g",
-  "sha": "3f4614e8",
-  "updated": "2026-11-01T22:04Z"
+  "sha": "9e1b1e5e",
+  "updated": "2026-11-02T03:08Z"
  },
  "accounts": [
   "A",
@@ -13,11 +13,11 @@
   "C",
   "D"
  ],
- "onDuty": null,
+ "onDuty": "B",
  "previous": "B",
  "accountState": {
   "A": "off",
-  "B": "off",
+  "B": "on",
   "C": "off",
   "D": "unused"
  },
@@ -26,18 +26,16 @@
    "account": "B",
    "session": "session_01DvRVNNnivf7da7qqWuGmw6",
    "branch": "claude/modest-rubin-2lyp7g",
-   "sha": "c49cd222",
-   "sinceSha": "3f4614e8",
-   "since": "2026-11-01T22:04Z",
-   "state": "handed-off",
+   "sha": "9e1b1e5e",
+   "sinceSha": "9e1b1e5e",
+   "since": "2026-11-02T03:08Z",
+   "state": "on",
    "prev": {
     "account": "B",
     "session": "session_01DvRVNNnivf7da7qqWuGmw6",
     "branch": "claude/modest-rubin-2lyp7g",
-    "sha": "11cccba5"
-   },
-   "handedOffAt": "2026-11-01T22:57Z",
-   "handoffSnapshot": "2026-11-01T2257Z_B_LAWWW.json"
+    "sha": "c49cd222"
+   }
   },
   "LAWWW2": {
    "account": "B",
@@ -790,7 +788,7 @@
    "note": "LAWWW-B 11-01 22:5x 查核：帳號 C 這條分支最後 commit 3e23808e7（10-28 15:2x～15:33），比帳號 B 10-30 02:07 接班早，而且已經是帳號 B 同一職位分支的祖先（接班時合併了）——不是兩個帳號同時寫；duty.json 記的 C 交班 SHA 是舊的"
   }
  ],
- "seq": 40,
+ "seq": 41,
  "chain": [
   {
    "seq": 1,
@@ -1071,6 +1069,13 @@
    "account": "B",
    "role": "LAWWW",
    "event": "handoff"
+  },
+  {
+   "seq": 41,
+   "at": "2026-11-02T03:08Z",
+   "account": "B",
+   "role": "LAWWW",
+   "event": "register"
   }
  ],
  "pending": null
