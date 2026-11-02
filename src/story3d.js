@@ -1443,7 +1443,7 @@ const STORY = (function(){
      簽到時 Kevin 說直屬是誰（9/4 才分直屬）都拿掉；第一次見面在 W1（events.js ev_sis_w1）*/
   const TEA_TABLE={x:3,z:3.6};   /* 窗邊家族那一桌（萬才館大廳的圓桌之一）*/
   S.teaOn=G=>{ const F=G.flags; return !!F.KAI_MOVEIN&&(G.stage||'law')==='law'&&S.week1Start(G)&&G.day===S.dayOfKey('2025-09-02'); };
-  const KV=t=>['Kevin',t];
+  const KV=t=>['Kevin',t,'npc_kevin'];
   async function teaLines(GM,L){ for(const l of L){ if(typeof l==='string') await GM.say(null,l); else await GM.say({name:l[0],charId:l[2]||null},l[1]); } }
   S.teaSignIn=async function(GM){ const G=GM.G, F=G.flags; if(F.TEA_STEP) return false; F.TEA_STEP=1; GM.sceneBegin();
     try{ if(typeof ADV!=='undefined') ADV.begin({background:'blur'});

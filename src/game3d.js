@@ -96,10 +96,16 @@ const GAME = (function(){
     const by=((new Error().stack||'').split('\n')[2]||'?').trim().replace(/^at /,'').slice(0,140);
     return new Promise(res=>{ if(D.active&&D.resolve){ sayStack.push({who:D.who,text:D.sayText,opts:D.sayOpts||{},res:D.resolve,depth:D.sayDepth|0,by:D.sayBy}); D.coverWho=by; console.warn('一句話還沒點，另一段的話蓋上來，演完會放回去',{under:D.sayBy,over:by}); }
       showLine(who,text,opts,res,false,by); }); }
+  /* 只寫名字的說話者（{name:'Kevin'}、['Kevin',t]）也顯示立繪（BB 11-02 P2：茶會 Kevin 用 compact）：名字對到「唯一一個有立繪檔」的人物才用；同名兩個以上不猜。測試 tests/say_name_portrait_unit.js */
+  function portraitIdByName(n){ const files=typeof PORTRAIT_FILES!=='undefined'?PORTRAIT_FILES:{}, hit=new Set();
+    const add=c=>{ if(c&&c.id&&files[c.id]&&(c.name===n||(c.alias||[]).includes(n))) hit.add(c.id); };
+    if(typeof CHARACTERS!=='undefined') for(const k in CHARACTERS) add(CHARACTERS[k]); if(typeof PORTRAIT_ONLY!=='undefined') for(const k in PORTRAIT_ONLY) add(PORTRAIT_ONLY[k]);
+    return hit.size===1?[...hit][0]:null; }
+  GM.portraitIdByName=portraitIdByName;
   function showLine(who,text,opts,res,restored,by){ D.active=true; D.resolve=res; D.sayText=text; D.sayOpts=opts; D.sayDepth=D.busyDepth; D.sayBy=by; const box=$('dlg'); box.classList.remove('hide'); overFade(box); $('dlgName').textContent=who?(who.name||who):''; $('dlgName').style.display=who?'block':'none'; D.full=subst(text); D.shown=restored?D.full.length:0; D.typing=!restored; $('dlgText').textContent=restored?D.full:''; $('dlgNext').style.visibility=restored?'visible':'hidden'; const spd=S.textSpeed>=9?9999:(S.textSpeed===1?18:(S.textSpeed===2?32:60)); D.cps=spd; // 說話者姿態與表情
       if(who&&who.obj){ if(opts.expr) CHAR.setExpr(who.obj,opts.expr); if(who.pose!=='sit'&&who.pose!=='read'&&who.pose!=='lie'&&!opts.keepPose){ who.pose='talk'; who._talkPose=true; } if(E.player&&who.obj!==E.player.obj){ who.lookAt=E.player.obj.position; who._sayLook=true; } }
       if(opts.me&&E.player&&E.player.pose!=='lie'){ E.player.pose='talk'; }   /* 躺在床上說話（睡著以後的事件）：不站起來（DORM-SLEEP-1030）*/
-      if(typeof ADV!=='undefined'&&ADV.active){ const EXPR={normal:'neutral',smile:'smile',laugh:'laugh',surprise:'surprised',worried:'sad',shy:'embarrassed'}; if(who&&who.charId) ADV.speaker(who.charId,opts.expression||(opts.expr?EXPR[opts.expr]:undefined));   /* opts.expression：立繪表情檔名（閒聊階梯的 e）*/ else ADV.speaker(who?'player':null); if(!restored) ADV.log(who?(who.name||''):'',D.full); }
+      if(typeof ADV!=='undefined'&&ADV.active){ const EXPR={normal:'neutral',smile:'smile',laugh:'laugh',surprise:'surprised',worried:'sad',shy:'embarrassed'}; const cid=who&&(who.charId||(!who.obj&&who.name?portraitIdByName(who.name):null)); if(cid) ADV.speaker(cid,opts.expression||(opts.expr?EXPR[opts.expr]:undefined));   /* opts.expression：立繪表情檔名（閒聊階梯的 e）*/ else ADV.speaker(who?'player':null); if(!restored) ADV.log(who?(who.name||''):'',D.full); }
       D.who=who; if(typeof ADV!=='undefined'&&ADV.active&&ADV.skip) setTimeout(()=>{ if(D.resolve===res){ D.typing=false; dlgAdvance(); } },40); }   /* 略過對話（ADV.skip）：一路翻到下一個選項；放回去的那一句（restored）已經整句顯示 */
   function sayRestore(){ if(D.active||chooseCur||!sayStack.length||sayStack[sayStack.length-1].depth<D.busyDepth) return; const q=sayStack.pop(); if(typeof ADV!=='undefined'&&ADV.active&&ADV.narrate) ADV.narrate(!q.who); showLine(q.who,q.text,q.opts,q.res,true,q.by); }
   const sayRestoreSoon=()=>{ if(sayStack.length) setTimeout(sayRestore,0); };   /* 點完一句、選完一個選項：等接著跑的那一段（microtask）先說下一句，沒有說才放回去 */
