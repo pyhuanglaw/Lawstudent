@@ -39462,7 +39462,7 @@
       "id": "LIB-INTERIOR-1102",
       "title": "總圖室內照真實平面圖重排：一樓中庭木階梯座位＋夾層、半圓大廳；B1 24h 自習室 A/B、中庭、國際會議廳、行政入口；2F/3F",
       "owner": "LAWWW2",
-      "status": "待開工",
+      "status": "進行中",
       "next": "LIB-FRONT 之後；舊配置能用的沿用；劇情站位照舊或給對照表",
       "sha": "",
       "source": "同上",
@@ -39472,7 +39472,8 @@
         "acceptance": "LIB-FRONT 之後；舊配置能用的沿用；劇情站位照舊或給對照表",
         "receiver": "LAWWW",
         "ack": "ACK"
-      }
+      },
+      "note": " ｜使用者 18:4x「B1 排距維持 4.4 m 就好」（UA-LAWWW-1102-26）：4.1 排距照 4.4 m；第四版已整合 int/next1102 5627d9453"
     },
     {
       "priority": "P0",
@@ -40147,6 +40148,34 @@
         "receiver": "BB",
         "ack": "ACK"
       }
+    },
+    {
+      "priority": "P1",
+      "first": {
+        "term": "Y1S1",
+        "week": null,
+        "earliest": "第一次期中考前（讀書、一鍵總複習）；國考與職涯在畢業以後",
+        "mainline": true,
+        "blocks": false,
+        "prereq": false,
+        "parallel": true,
+        "confirmed": true
+      },
+      "id": "LIB-B1-V4-1102",
+      "title": "總圖 B1 自習室第四版／4.1（使用者 18:1x「太擠」「桌子和進門的門平行」；18:4x「排距維持 4.4 m」）",
+      "owner": "LAWWW2",
+      "status": "進行中",
+      "next": "LAWWW2 交 4.1 → LAWWW 整合 → BB 給使用者比較圖、標 ART_APPROVED",
+      "sha": "",
+      "source": "同上",
+      "xai": {
+        "spec": "使用者 18:1x、18:4x；BB_242",
+        "branch": "claude/second-ai-env-art",
+        "acceptance": "BB ART_APPROVED（D120）",
+        "receiver": "LAWWW",
+        "ack": "ACK"
+      },
+      "note": "v4 54d6e41c1 已整合 int/next1102 5627d9453（READY_FOR_ART_REVIEW；BB_242 方向 ACCEPT、不標 ART_APPROVED）；4.1（長條桌＋矮隔板、木牆裙、椅子加深，排距約 4.4 m，使用者確認）進行中，座位座標會再動一次附對照"
     }
   ]
 }
