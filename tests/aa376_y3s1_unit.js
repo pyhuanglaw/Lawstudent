@@ -69,7 +69,8 @@ const in376=t=>MD376.includes(t), in342=t=>MD342.includes(t);
     check('0. 匯入白名單：AA_376@69aa3b0c、AA_342@f2de8d1c（approved）',!!a376&&a376.sha==='69aa3b0c'&&a376.status==='approved'&&!!a342&&a342.sha==='f2de8d1c'&&a342.status==='approved');
     const L=typeof Y3FILL_LINES!=='undefined'?Y3FILL_LINES:null, flat=x=>typeof x==='string'?[x]:Array.isArray(x)?x.flatMap(flat):x&&typeof x==='object'?Object.values(x).flatMap(flat):[];
     const S342=L?flat(L).filter(t=>!/^(zhe|yu|classmate_bohan)$/.test(t)).map(t=>t.replace(/^「(.*)」$/,'$1')):[];
-    check('0. AA_342 3-1 的每一句都在稿上（逐字）',!!L&&S342.length>=14&&S342.every(in342),S342.filter(t=>!in342(t)).join('｜'));
+    const A600=require('./aa600_doc.js'), in342x=t=>in342(t)||A600.has(t);   /* AA_600 A22（企劃線 031414cad）：前任那一句旁白「（她把下週的題目寫在白板上。）」在 AA_600 的稿裡 */
+    check('0. AA_342 3-1 的每一句都在稿上（逐字；AA_600 新寫的在 AA_600）',!!L&&S342.length>=14&&S342.every(in342x),S342.filter(t=>!in342x(t)).join('｜'));
     const NEW376=['明天第一次上台。我要講二十分鐘。','……上次跟你說的那個遊戲。','民總讀書會，我先講一次給你聽。','（翻開手帳）讀書會八點。……我們先走。','我們那棟停電了。你們這棟還有電。','那天的柚子，阿哲剝完就沒人吃。……我帶回去了，我室友說太酸。','那天晚上，我看了手機好幾次。','他高中的時候也來這裡吃過麵。','刑訴老師昨天點了後面三排。','我七點要回學校。','……我下週期中，二十六號考第一科。','你兩天沒出門了吧。……我猜的。','那我們在日本找一家麵店。','我們同一班。','……那我十點去機場。送兩個。','嗯。大四還沒開始，我想在這裡過。','（你想，大四還沒開始。你想在這裡過。）'];
     check('0. AA_376 的「改成」都在稿上（測試用的句子對過稿）',NEW376.every(in376),NEW376.filter(t=>!in376(t)).join('｜'));
   });

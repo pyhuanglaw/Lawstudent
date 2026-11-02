@@ -28,7 +28,8 @@ await sec(0,()=>{ const html=fs.readFileSync(path.join(H.ROOT,'index.html'),'utf
   check('0. 新檔載得到、index.html 接在 sis_b9_3d.js 後面；STORY.sisNyeDate',ok1&&ok2&&!!X()&&typeof STORY.sisNyeDate==='function'&&/sis_b9_3d\.js\?v=[^"]+"><\/script>\n<script src="src\/data\/sis_b10_events\.js\?v=[^"]+"><\/script>\n<script src="src\/sis_b10_3d\.js\?v=[^"]+"><\/script>/.test(html));
   const all=J(SISB10_EVENTS)+J(SISB10_LINES), q=[...all.matchAll(/"(?:text|t|r)":"([^"]+)"/g)].map(m=>m[1]).concat(Object.values(SISB10_LINES).flat().filter(x=>typeof x==='string'));
   const A591=require('./aa591_doc.js');   /* AA_591（學姊改稿第四批，企劃線 6b35748c7）改過的句子在 AA_591 的表上 */
-  const notIn=[...new Set(q)].filter(t=>doc.indexOf(t.replace(/^「|」$/g,''))<0&&!A591.has(t.replace(/^「|」$/g,''))&&!['映月湖','總圖前','學姊家的巷口','跨年：映月湖','跨年：總圖前','跨年：學姊家的巷口','走路 約 10 分鐘','捷運 約 30 分鐘','總圖・門口','巷口的便利商店前','電話','法圖・二樓','兩點半 Café'].includes(t));
+  const A600=require('./aa600_doc.js');   /* AA_600（分手後不主動聯絡，企劃線 031414cad）新寫的旁白在 AA_600 的稿裡 */
+  const notIn=[...new Set(q)].filter(t=>doc.indexOf(t.replace(/^「|」$/g,''))<0&&!A591.has(t.replace(/^「|」$/g,''))&&!A600.has(t.replace(/^「|」$/g,''))&&!['映月湖','總圖前','學姊家的巷口','跨年：映月湖','跨年：總圖前','跨年：學姊家的巷口','走路 約 10 分鐘','捷運 約 30 分鐘','總圖・門口','巷口的便利商店前','電話','法圖・二樓','兩點半 Café'].includes(t));
   check('0. 每一句台詞、選項都在稿裡（一字不差）',!!doc&&!notIn.length,J(notIn)); });
 /* ---- 1 ---- */
 await sec(1,async()=>{ fresh('2026-12-24',20,'TW','FRIEND'); H.date(ID); H.at('2026-12-24',21); ph(); const m=(H.G.msgs||[]).find(x=>x.ask&&x.ask.id==='sisb10_nye_ask_y2');
@@ -69,14 +70,16 @@ await sec(3,async()=>{ const ex=(key)=>{ fresh(key,12,'TW','FRIEND'); H.date(ID)
   check('3. 分手滿 3 週以後的週三晚上在法圖、她在＝還東西（未滿 3 週、她不在＝沒有）',a0===null&&a1==='ev_sis_ex_1'&&a2===null,J([a0,a1,a2]));
   here('lawlib'); X().tick(GM); await new Promise(r=>setTimeout(r,0)); await new Promise(r=>setTimeout(r,0));
   H.said=[]; H.picks=[1]; await EVENTS.run(STORY_EVENTS.find(e=>e.id==='ev_sis_ex_1'));
-  check('3. 3-1 照稿：「你的東西。一直在我那裡。」→「妳最近好嗎？」→「在寫論文。」「……你也好好念。」；SIS_EX_SEEN 1',seq(['你的東西。一直在我那裡。','在寫論文。','……你也好好念。','（她回到自己的位子。整個晚上，她沒有再抬頭。）'])&&H.G.flags.SIS_EX_SEEN===1&&H.G.flags.SIS_EX_LAST===D('2027-03-24'));
+  /* AA_600 B2（企劃線 031414cad；使用者 11-02「分手，他不太會理我」）：她不走過來、不說話，櫃台轉交——原本的期望（她說「你的東西。一直在我那裡。」、選項問她）照 AA 定稿換，不是放寬 */
+  check('3. 3-1（AA_600 B2）：「（法圖的櫃台叫住你：有人放了一個紙袋給你。裡面是你的東西。）」「（紙袋裡是你的筆記本…）」；她不說話、沒有選項；SIS_EX_SEEN 1',seq(['（法圖的櫃台叫住你：有人放了一個紙袋給你。裡面是你的東西。）','（紙袋裡是你的筆記本，還有一支你以為弄丟的筆。）'])&&!H.said.some(x=>x.t==='你的東西。一直在我那裡。'||x.t==='在寫論文。')&&H.G.flags.SIS_EX_SEEN===1&&H.G.flags.SIS_EX_LAST===D('2027-03-24'),J(H.said.map(x=>x.t)));
   H.at('2027-04-01',19.5); here('cafe'); const b0=tick(); H.at('2027-04-15',19.5); here('cafe'); const b1=tick();
   check('3. 第二場和上一場隔 3 週（4/1 沒有、4/15（四）Café 有）',b0===null&&b1==='ev_sis_ex_2',J([b0,b1]));
   H.G.flags.SIS_EX_SEEN=2; H.G.flags.SIS_EX_LAST=D('2027-04-15'); H.at('2027-05-10',14); H.G.zone='linze'; GM.npc={}; const c1=tick(); H.at('2027-05-10',15); const c2=tick();
   check('3. 3-3 霖澤館一樓大廳、週一～四 14:00 前後（5F 研究室還沒做好）',c1==='ev_sis_ex_3'&&c2===null,J([c1,c2]));
   H.G.flags.SIS_EX_SEEN=1; H.G.flags.SIS_EX_LAST=D('2027-03-24'); H.at('2028-08-02',19.5); here('cafe'); check('3. 過了 2028-08-01：沒演到的不補',tick()===null);
   for(const r of ['TW','US']){ ex('2028-05-01'); H.G.flags.EXCHANGE_ROUTE=r; H.at('2028-08-01',21+(r==='US'?0:0)); ph(); const m=(H.G.msgs||[]).find(x=>x.ask&&x.ask.id==='sisb10_ex_last');
-    check('3. 3-4（'+r+'）：8/1 21:00「明天走了。」「……你也保重。」；「一路順風。」／「到了說一聲。」',!!m&&th().some(x=>x.text==='明天走了。')&&J(m.ask.opts.map(o=>o.t))===J(['一路順風。','到了說一聲。']),J(th().map(x=>x.text))); }
+    /* AA_600 B5：3-4 私訊「明天走了。」「……你也保重。」刪（分手以後她不主動傳）——原本的期望照 AA 定稿換 */
+    check('3. 3-4（'+r+'，AA_600 B5）：8/1 21:00 不再私訊「明天走了。」「……你也保重。」',!m&&!th().some(x=>x.text==='明天走了。'||x.text==='……你也保重。'),J(th().map(x=>x.text))); }
   ex('2028-07-20'); H.at('2028-08-01',21); ph(); check('3. 分手未滿 3 週：8/1 沒有那則',!th().some(x=>x.text==='明天走了。'));
   ex('2027-03-01'); H.G.flags.dating_heroine_05=true; H.at('2027-03-24',19.5); here('lawlib'); check('3. 重新交往以後：沒有',tick()===null); GM.npc={}; });
 /* ---- 4 ---- */

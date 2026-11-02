@@ -252,9 +252,9 @@ const sec=async(n,f)=>{ try{ await f(); }catch(e){ check(n+'. 丟出例外（中
     H.said=[]; await date(H.G); const O1=H.opts.flat(), c1=DATE.canConfess(H.G,ID);
     H.G.day+=3; H.said=[]; H.picks=[0,0]; await date(H.G); const O2=H.opts.flat(), L=said();
     check('4-2. 三件事以後：第一次正式校外約會的結尾沒有告白（不要求四次：次數從三件事那天起算）',c0.ok===false&&c0.why==='count'&&c0.count===0&&!O1.includes('（告訴她）')&&c1.why==='count'&&c1.count===1,J({c0,c1,O1}));
-    /* AA_591 第 11 節第 13 點＋AA_593（使用者 2026-11-02「學姊不會先說」）：重新開始那一版「你做到了。」……「這次，我選你。」整支拿掉，照第一次答應那一版 */
-    check('4-2. 第二次那一趟的結尾：「（告訴她）」→ 答應（AA_591／AA_593：重新開始那一版「你做到了。」……「這次，我選你。」拿掉，照第一次答應的句子）；交往中',
-      O2.includes('（告訴她）')&&!L.includes('你做到了。')&&!L.includes('這次，我選你。')&&L.includes('其實我也是。考試那時候就有一點了，只是那時候不想想這個。')&&H.G.flags.dating_heroine_05===true&&ROM.get(H.G,ID).status==='dating',J({O2,L})); }
+    /* AA_591 整合九件第 4 件（AA 11-02 21:25，企劃線 43d27cd80）：重新開始那一版（restartYes）放回——祐廷在約會結尾先說以後她的回答，不算她先告白（AA_591 第 11 節第 13 點曾拿掉，這一項當時改成「拿掉」，現在照 AA 的決定換回原本的期望）*/
+    check('4-2. 第二次那一趟的結尾：「（告訴她）」→ 答應：「你做到了。」「……我也想好了。」「其他的，想了很久。……沒有了。」（AA_512 6-2 加的）「這次，我選你。」（AA_398 第 47 列）（不是第一次的「考試那時候就有一點了」）；交往中',
+      O2.includes('（告訴她）')&&L.includes('你做到了。')&&L[L.indexOf('你做到了。')+1]==='……我也想好了。'&&L[L.indexOf('你做到了。')+2]==='其他的，想了很久。……沒有了。'&&doc512.includes('> 學姊：其他的，想了很久。……沒有了。')&&L[L.indexOf('你做到了。')+3]==='這次，我選你。'&&!L.includes('其實我也是。考試那時候就有一點了，只是那時候不想想這個。')&&H.G.flags.dating_heroine_05===true&&ROM.get(H.G,ID).status==='dating',J({O2,L})); }
   { brk('ex'); at('2028-04-12',10); await pre([0]); stage6(); H.G.zone='dorm'; await date(H.G); H.G.day+=3; H.picks=[0,0]; await date(H.G); const back=H.G.flags.dating_heroine_05===true, dB=H.G.day;   /* 重新開始了 */
     ROM.end(H.G,ID,'apart_talk'); H.G.zone='library'; at(CALENDAR.dateOf(dB+41).key,10); const a=ev1(), rb=X()&&X().rebuild(H.G), c=DATE.canConfess(H.G,ID); at(CALENDAR.dateOf(dB+42).key,10); const b=ev1();
     check('4-1. 重新開始以後又分開：上一次的三件事不算這一次——沒有告白（why rebuild），滿 6 週再演一次三件事（BB_122 9-5：她永遠保留攻略可能）',back&&a===null&&!!rb&&rb.done===false&&c.why==='rebuild'&&b==='ev_sis_three_conditions',J({back,a,rb,c,b})); }
