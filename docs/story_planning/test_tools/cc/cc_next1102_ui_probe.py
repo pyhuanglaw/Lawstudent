@@ -43,7 +43,9 @@ sys.path.insert(0, os.path.dirname(os.path.dirname(os.path.abspath(__file__))));
 from playwright.async_api import async_playwright
 
 URL, OUT = sys.argv[1], sys.argv[2]
-if os.environ.get('TURBO', '1') == '1' and 'turbo' not in URL: URL = URL + ('&' if '?' in URL else '?') + 'turbo'
+REAL = os.environ.get('REAL', '0') == '1'   # 真實流程（BB 對 ancf：不用 OUT.go；URL 不加 ?turbo）
+if REAL: URL = URL.replace('?turbo&', '?').replace('&turbo', '').replace('?turbo', '')
+if not REAL and os.environ.get('TURBO', '1') == '1' and 'turbo' not in URL: URL = URL + ('&' if '?' in URL else '?') + 'turbo'
 J = lambda o: json.dumps(o, ensure_ascii=False)
 ENVI = lambda k, d: int(os.environ.get(k, str(d)))
 LST = lambda k, d: [c.strip() for c in os.environ.get(k, d).split(',') if c.strip()]
@@ -716,14 +718,34 @@ async def an_term(pg, cdp, run, tag, term, prefs, land, rec):
     R['after_ok'] = st
     run.check('%s %s：手機邀約（%s）→ 按「好。」→ 排了出遊 te_%s' % (tag, term, J([m['text'] for m in st['msgs']]), term), ans is not None and st['out'] is not None, J({'asks': th['asks'], 'out': st['out'], 'picked': st['picked']}))
     if not st['out']: return R
-    q = st['out']; await P.jump(pg, cdp, run, q['key'], q['h'] - 0.6, 'dorm', note='（飯那天 %s，等出發的提示）' % P_hm(q['h']))
+    q = st['out']; await P.jump(pg, cdp, run, q['key'], q['h'] - (0.52 if REAL else 0.6), 'dorm', note='（飯那天 %s，等出發的提示）' % P_hm(q['h']))
     n0 = await pg.evaluate(PLN)
+    if REAL:   # 真實流程：等出發提示（OUT.due → OUT.prompt 的選單「出發：…」）最多 180 秒、觸控按下去；等不到＝FAIL
+        t1 = time.time(); k = None; s = None
+        while time.time() - t1 < 180:
+            s = await P.ts(pg)
+            if s['phone'] and not s['ch']: await L.phone_away(pg, cdp, tries=2); continue
+            if s['ch']:
+                k = next((i for i, o in enumerate(s['ch']) if o['t'].startswith('出發')), None)
+                if k is not None: break
+                run.note('%s %s：等出發時出現別的選單 %s' % (tag, term, J([o['t'] for o in s['ch']])))
+                await P.tap_choice(pg, cdp, pick_by(s['ch'], ('晚一點',))); await pg.wait_for_timeout(1000); continue
+            if s['dlg']: await L.tap(pg, cdp, '#dlg')
+            await pg.wait_for_timeout(1000)
+        waited = round(time.time() - t1, 1); R['go_wait_s'] = waited
+        if k is None:
+            os_ = await pg.evaluate("t=>{ const q=OUT.get(GAME.G,'te_'+t); let due=null; try{ due=OUT.due(GAME.G); due=due&&due.id; }catch(e){ due='err:'+e.message; } return {hour:+(+GAME.G.hour).toFixed(3),zone:GAME.G.zone,q,due,busy:!!GAME.E.player.busy,dlg:!!(GAME.D&&GAME.D.active)}; }", term)
+            R['go_fail'] = os_; R['shot_nogo'] = await run.shot(pg, '%s_%s_nogo' % (tag, term))
+            run.check('%s %s：出發提示出現（真實流程）' % (tag, term), False, '出發提示 180 秒沒出現 ' + J(os_)); return R
+        R['shot_go'] = await run.shot(pg, '%s_%s_go' % (tag, term))
+        run.check('%s %s：出發提示出現（真實流程，等了 %s 秒）' % (tag, term, waited), True, J([o['t'] for o in s['ch']]))
+        await P.tap_choice(pg, cdp, k); await pg.wait_for_timeout(1200)
     def shot_if(t, i):
         if t == '__choice__': return 'choice%d' % (i + 1)
         if not land: return 'L%02d' % (i + 1)
         return ('L%02d' % (i + 1)) if any(k in t for k in AN_KEY) else None
     r = await play(pg, cdp, run, '%s_%s' % (tag, term), prefs=('出發',) + tuple(prefs), shot_if=shot_if, max_s=ENVI('AN_MAX', 900), idle_s=8)
-    if not r['lines']:
+    if not r['lines'] and not REAL:
         st2 = await pg.evaluate(TESTATE, term); run.setup('【捷徑】%s %s：30 秒內沒有出發的提示（%s）→ 直接 OUT.go(GAME, 那一趟)' % (tag, term, J(st2['out'])))
         await pg.evaluate("t=>{ void OUT.go(GAME, OUT.get(GAME.G,'te_'+t)); }", term); R['forced_go'] = True
         r = await play(pg, cdp, run, '%s_%s' % (tag, term), prefs=tuple(prefs), shot_if=shot_if, max_s=ENVI('AN_MAX', 900), idle_s=8)
@@ -829,8 +851,9 @@ async def ancf2_pass(p, run, orient, route):
                 run.check('%s：第二次「好。」→ 交往（sheSaid）' % tag, R2['end']['result'] == 'sheSaid' and R2['end']['dating'], J(R2['end']))
                 cg2 = [x for x in R2['log'] if x['k'] == 'adv' and x['fn'] == 'cg']; rec['cg_calls_Y1S2'] = cg2
                 cge = await pg.evaluate(CGST); rec['cgEnd'] = cge
-                run.check('%s：CG-27 出現（she2Yes 那一段有 ADV.cg、G.cg.unlocked 有它）' % tag, bool(cg2) and any(x['arg'] in cge['unlocked'] for x in cg2),
-                          J({'cg_calls': cg2, 'unlocked': cge['unlocked'], 'note': '0e11c43a3 的 src 沒有 CG-27（c9aa5f3ad 不在這一版）'}))
+                await pg.wait_for_timeout(3000); cge = await pg.evaluate(CGST); rec['cgEnd'] = cge
+                run.check('%s：CG-27（cg_shop_page_check_heroine01）出現（she2Yes 那一段 ADV.cg、G.cg.unlocked 有它）' % tag, any(x['arg'] == 'cg_shop_page_check_heroine01' for x in cg2) and 'cg_shop_page_check_heroine01' in cge['unlocked'],
+                          J({'cg_calls': cg2, 'unlocked': cge['unlocked'], 'note': 'ef63b1877 起 she2Yes 第一拍 {cg:cg_shop_page_check_heroine01}'}))
                 m2 = await pg.evaluate(SOCMEM); rec['mem2'] = m2
                 run.check('%s：（只記）第二次後記憶 %s；人物面板 %s' % (tag, J(m2['mem'][-6:]), J(m2['panel'][-6:])), True)
         cgs = [x for k in ('Y1S1', 'Y1S2') for x in ((rec.get(k) or {}).get('log') or []) if x['k'] == 'adv' and x['fn'] == 'cg']
