@@ -8,7 +8,7 @@ check → duty register（四職位）→ LAWWW duty sync → duty verify），�
 import json, os, shutil, subprocess, sys, tempfile
 
 REPO = os.path.abspath(os.path.join(os.path.dirname(__file__), '..'))
-ROLES = ('LAWWW', 'LAWWW2', 'AA', 'BB')
+ROLES = ('LAWWW', 'LAWWW2', 'AA', 'BB', 'CC')   # 和 tools/handoff/duty_state.py 的 ROLES 一樣（2026-11-02 加 CC，D119／HV-22）
 results = []
 
 
@@ -369,6 +369,29 @@ def role_branch_no_ref():
         w.done()
 
 
+def cc_role():
+    """D119／HV-22（使用者 2026-11-02 03:5x 對 BB）：第五個職位 CC（BB 的測試執行助手）和 LAWWW2／AA／BB 一樣走交接；帳號 B／C／D 的 CC 叫 CC-B、CC-C、CC-D。"""
+    w = World('A')
+    try:
+        w.work('A', 'A1'); w.handoff('A')
+        r = w.takeover('D', expect_rs=branch('LAWWW', 'A'))
+        cc = ((r.get('duty') or {}).get('roles') or {}).get('CC') or {}
+        check('CC（D119）：A → D 接班，plan 寫「你的工作階段叫 CC-D」、CC 改登記帳號 D、verify OK、A 的 CC 成果接得到',
+              r.get('verify_rc') == 0 and '你的工作階段叫 CC-D' in r.get('plan', '') and cc.get('account') == 'D' and cc.get('state') == 'on'
+              and 'A:A1' in (r.get('work') or {}).get('CC', ''), json.dumps({'v': r.get('verify_rc'), 'cc': cc}, ensure_ascii=False) + (r.get('verify_out') or '')[-300:])
+        d = w.clone('CC', 'D')
+        rc, out = w.tool(d, 'duty', 'handoff', '--account', 'D', '--role', 'CC')   # CC 的分支沒有 duty.json、也沒給 --ref
+        reg = w.rjson(d, 'docs/handoff/duty_CC.json') if rc == 0 else {}
+        w.push(d, 'CC handoff')
+        lw = w.clone('LAWWW', 'D'); rc2, out2 = w.tool(lw, 'duty', 'sync'); w.push(lw, 'sync')
+        dj = w.rjson(lw, 'docs/handoff/duty.json')
+        check('CC 交班（D119）：CC 分支沒有 duty.json、沒給 --ref 也找得到 RULE_SOURCE；寫自己的 duty_CC.json（handed-off）；LAWWW duty sync 收進 duty.json、pending 列出 CC',
+              rc == 0 and '交班：CC-D 交出 CC' in out and reg.get('state') == 'handed-off' and rc2 == 0 and dj['roles']['CC'].get('state') == 'handed-off'
+              and 'CC' in ((dj.get('pending') or {}).get('rolesHandedOff') or []), out[-200:] + out2[-200:])
+    finally:
+        w.done()
+
+
 def stale_sync():
     """HV-20：duty sync 不能收舊登記（兩次真實事故）。
     ① 10-27：帳號 C 的 LAWWW2、BB 交班時沒用 duty handoff 改自己的 duty_<職位>.json（一直寫 state on、since 10-20）；中間帳號 B 值班；
@@ -380,12 +403,12 @@ def stale_sync():
             d = w.clone(r, 'C'); reg = w.rjson(d, f'docs/handoff/duty_{r}.json'); reg['since'] = '2026-10-20T13:04Z'
             w.wjson(d, f'docs/handoff/duty_{r}.json', reg); w.push(d, f'{r} 10-20 登記')
         w.work('C', 'C1')
-        w.handoff('C', skip=('LAWWW2', 'AA', 'BB'))   # 只有 LAWWW 正式交班；三個職位的檔還是 state on
+        w.handoff('C', skip=('LAWWW2', 'AA', 'BB', 'CC'))   # 只有 LAWWW 正式交班；其他職位的檔還是 state on
         r1 = w.takeover('B', user_ok=True)
         r2 = w.takeover('C', user_ok=True, roles=('LAWWW', 'AA'))   # 帳號 C 回來，只有 LAWWW、AA 重新登記
         acc = {x: r2['duty']['roles'][x]['account'] for x in ROLES}
-        check('HV-20 ① 10-27 事故：C 回來只有 LAWWW、AA 重新登記；sync 收 AA＝C，LAWWW2、BB 留在 B（10-20 的舊登記不收，印「略過」）',
-              r1.get('reg_rc') == 0 and acc == {'LAWWW': 'C', 'LAWWW2': 'B', 'AA': 'C', 'BB': 'B'} and '[略過] LAWWW2' in (r2.get('sync') or '') and '[略過] BB' in (r2.get('sync') or ''),
+        check('HV-20 ① 10-27 事故：C 回來只有 LAWWW、AA 重新登記；sync 收 AA＝C，LAWWW2、BB、CC 留在 B（10-20 的舊登記不收，印「略過」）',
+              r1.get('reg_rc') == 0 and acc == {'LAWWW': 'C', 'LAWWW2': 'B', 'AA': 'C', 'BB': 'B', 'CC': 'B'} and all(f'[略過] {x}' in (r2.get('sync') or '') for x in ('LAWWW2', 'BB', 'CC')),
               json.dumps({'acc': acc, 'sync': (r2.get('sync') or '')[-400:]}, ensure_ascii=False))
     finally:
         w.done()
@@ -413,8 +436,8 @@ def stale_sync():
 
 
 def main():
-    if 'stale' in sys.argv[1:]:   # 只跑 HV-20 的兩個情境
-        stale_sync()
+    if 'stale' in sys.argv[1:] or 'cc' in sys.argv[1:]:   # 只跑 HV-20 的兩個情境／D119 CC 的兩個情境
+        stale_sync() if 'stale' in sys.argv[1:] else cc_role()
         bad = [n for n, ok, _ in results if not ok]
         print(f'結果：{len(results) - len(bad)}／{len(results)} PASS' + (f'；FAIL：{bad}' if bad else ''))
         return 1 if bad else 0
@@ -426,6 +449,7 @@ def main():
     chain(['B', 'C', 'C'], '同一個帳號正式交班以後又回來（B → C，C 交班，中間沒人值班，C 回來）')
     anomalies()
     role_branch_no_ref()
+    cc_role()
     stale_sync()
     bad = [n for n, ok, _ in results if not ok]
     print(f'結果：{len(results) - len(bad)}／{len(results)} PASS' + (f'；FAIL：{bad}' if bad else ''))
