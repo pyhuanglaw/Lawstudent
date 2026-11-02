@@ -64,7 +64,7 @@ const R2Y3A_EVENTS=(function(){
     dialogue:[ {speaker:null,text:'（下午四點，一台舊舊的家用車停在旅館門口。她沒有下車，按了一下喇叭。）'},
       {speaker:'kexin',expression:'teasing',text:'上車。……音樂你管。'},
       {advance:toH(19.5)},
-      {scene:'高雄・港邊的山上',bg:'kh_river_night'},   /* BG-DARK-70-1021（BB_220★）：晚上那 7 句先用 kh_river_night 暫代（河邊步道，不是山上；之後換新圖 kh_hill_harbor_night）；原本：背景沒有：深色底＋字幕（第 5 節）；可昕七夕 CG 還沒生成（構圖要改高雄港），沒有以前不放 */
+      {scene:'高雄・港邊的山上',bg:'kh_hill_harbor_night'},   /* 第七批背景（使用者 11-02 生成，BB_132 第 104 組）*/   /* BG-DARK-70-1021（BB_220★）：晚上那 7 句先用 kh_river_night 暫代（河邊步道，不是山上；之後換新圖 kh_hill_harbor_night）；原本：背景沒有：深色底＋字幕（第 5 節）；可昕七夕 CG 還沒生成（構圖要改高雄港），沒有以前不放 */
       {speaker:null,text:'（天黑以後，整個港口的燈都亮了。船慢慢開進來。）'},
       {speaker:'kexin',expression:'thinking',text:'牛郎織女要等一年。'},
       {speaker:'kexin',expression:'smile',text:'……我們有車。'},

@@ -71,6 +71,12 @@ check('2f. 自由出行第一批四個景點的底圖（DL-06，LAWWW2-B）：d0
     ['src/data/jpprep_events.js',"ev('ev_jpp_0221',[ {scene:'臺北的家',bg:'home_room_day'}"],['src/data/jpprep_events.js',"ev('ev_jpp_0319',[ {scene:'臺北的家',bg:'home_living_day'}"]];
   const miss=ok.filter(([f,t])=>!rd(f).includes(t));
   check('2u. 第六批 10 張接上：獸醫診所（SQ14）、華新街（SQ10）、高雄旅館門口（可昕七夕）、麵店門口（語彤情人節）、日本海邊（以安海之日）、新體育館門口（看學姊游泳）、球場（四場系籃）、Café 門口聖誕夜（學姊）、法律系館B大廳（成發）、美國 C 棟門口（兩把傘）；臺北的家四場改用既有圖',K.every(k=>B[k]&&B[k].image==='assets/bg/'+k+'.webp'&&fs.existsSync(path.join(ROOT,B[k].image)))&&!miss.length,JSON.stringify(miss)); }
+{ const K=['kh_hill_harbor_night','jp_konbini_summer','us_lake_bare','us_lake_summer','gg_luggage_shop'];   // 第七批第 1～5 張（使用者 11-02 生成，BB_132 第 104 組）
+  const rd=f=>fs.readFileSync(path.join(ROOT,f),'utf8');
+  const ok=[['src/data/r2y3a_events.js',"{scene:'高雄・港邊的山上',bg:'kh_hill_harbor_night'}"],['src/data/jp_events.js',"const LAST=[ {scene:'便利商店',bg:'jp_konbini_summer'}"],['src/data/jp_events.js',"const LAST_ALONE=[ {scene:'便利商店',bg:'jp_konbini_summer'}"],['src/data/jp_events.js',"{scene:'公館',bg:'gg_luggage_shop'}"]];
+  const miss=ok.filter(([f,t])=>!rd(f).includes(t));
+  const G0=global.GAME; const at=(y,m,d)=>{ global.GAME={G:{day:global.CALENDAR?CALENDAR.dayOfYMD?CALENDAR.dayOfYMD(y,m,d):0:0}}; };
+  check('2v. 第七批前五張接上：七夕港邊的山上、日本最後一晚的便利商店（八月）、行李箱的店；美國湖邊兩張季節版登記',K.every(k=>B[k]&&B[k].image==='assets/bg/'+k+'.webp'&&fs.existsSync(path.join(ROOT,B[k].image)))&&!miss.length,JSON.stringify(miss)); global.GAME=G0; }
 { const noImg=Object.keys(B).find(k=>!B[k].image&&k!=='car')||'zzz_not_registered';   // nccu_dorm 10-17 有圖了（3d4d1969）：改挑一個登記了、還沒有圖的背景
   check('3. OUT.bg(id)：有圖＝{image:路徑}、沒有圖＝深色底（'+noImg+'）',OUT.bg('riverside').image==='assets/bg/riverside.webp'&&OUT.bg(noImg)==='dark'&&OUT.bg('nccu_dorm').image==='assets/bg/nccu_dorm.webp',JSON.stringify([OUT.bg('riverside'),OUT.bg(noImg),OUT.bg('nccu_dorm')])); }
 { const v=[]; for(const [h,w] of [[10,'clear'],[20,'clear'],[10,'rain']]){ global.GAME={G:{hour:h,weather:w}}; v.push(OUT.bg('car').image); } delete global.GAME;

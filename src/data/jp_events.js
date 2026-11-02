@@ -15,7 +15,7 @@ const JP_EVENTS=(function(){
   const j2=G=>{ const v=G&&G.flags&&G.flags.AN_TOWN_NOTICE; return v==='there'||v==='photo'; };   /* 5/6 町公所那張通知（AA_326 2-Y3-43 的旗標：去了、或收到她的照片）*/
   const repairOk=G=>{ const R=G&&G.flags&&G.flags.REPAIR; return !!R&&typeof R==='object'&&(R.heroine_01|0)>=3; };   /* AA_254 第 10 節：REPAIR ≥ 3（G.flags.REPAIR.heroine_01，和 r2y3b3d.js 町公所那一步同一個；說謊歸零：日本這學期沒有說謊的事件）*/
   /* G0 3/11（六）14:00 公館：行李箱（交往中；3/10 21:00 她私訊、排出遊在 jp3d.js）*/
-  const SUITCASE=[ {scene:'公館',bg:'gongguan'},
+  const SUITCASE=[ {scene:'公館',bg:'gg_luggage_shop'},   /* 第七批（11-02）：行李箱的店（原本借公館街景）*/
     {speaker:null,text:'（行李箱的店。她把每一個都推了一圈，聽輪子的聲音。）'},
     {speaker:'heroine_01',text:'這個比較安靜。公寓的走廊晚上會有回音。'},   /* AA_377 第 4 項：以安在大學城隔壁的小鎮租公寓（AA_341 裁定 1）；AA_426 第 5 節（967b4273a）拿掉「理由：」*/
     {choice:[{text:'「那我也買這個。」',goto:'g0_a'},{text:'「妳連這個都查了？」',goto:'g0_b'}]},
@@ -98,7 +98,7 @@ const JP_EVENTS=(function(){
     {speaker:null,text:'（回來的時候，兩個人的手臂都曬紅了。）'},
     {set:{AN_JP_SEA:true}},{advance:G=>Math.max(0,18-((G.hour%24)))} ];
   /* G8 8/4（五）22:00 最後一個晚上的便利商店（交往中、挽回成功；接 3/26 J1）。jp_konbini 的窗外有雪（3 月底那一張），8 月不用：深色底＋字幕 */
-  const LAST=[ {scene:'便利商店'},
+  const LAST=[ {scene:'便利商店',bg:'jp_konbini_summer'},   /* 第七批背景（使用者 11-02 生成，BB_132 第 104 組）*/
     {speaker:null,text:'（宿舍附近的便利商店。和第一個晚上同一間。）'},
     {speaker:'heroine_01',text:'第一個晚上，你在這裡看不懂標籤。'},
     {speaker:'heroine_01',text:'……現在看得懂了嗎？'},
@@ -106,7 +106,7 @@ const JP_EVENTS=(function(){
     {label:'l8_a'},{speaker:'heroine_01',text:'一半夠了。另一半，明年再來看。'},{goto:'l8_end'},
     {label:'l8_b'},{speaker:'heroine_01',text:'我只教你看字。標籤是你自己看懂的。'},   /* AA_435 第 0 節 */{speaker:null,text:'（她把兩個飯糰放進籃子。）'},
     {label:'l8_end'},{set:{AN_JP_LASTNIGHT:'together'}} ];
-  const LAST_ALONE=[ {scene:'便利商店'},
+  const LAST_ALONE=[ {scene:'便利商店',bg:'jp_konbini_summer'},
     {speaker:null,text:'（最後一個晚上。你一個人去了便利商店。冷藏櫃的燈，和第一個晚上一樣亮。）'},
     {set:{AN_JP_LASTNIGHT:'alone'}} ];
   /* 8/5 入境大廳（AA_253 9-2 日本欄；AA_341 裁定 3：「……好熱。」）。挽回不成的：旁白一句 */
