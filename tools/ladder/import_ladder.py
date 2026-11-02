@@ -358,7 +358,9 @@ if X584:
             if not m: sys.exit(f'{tag584}：看不懂位置 {term} {path}')
             keys.append(m.group(1))
             if m.group(2) is not None: keys.append(int(m.group(2)))
-        for k in keys[:-1]: o = o[k]
+        for k in keys[:-1]:
+            try: o = o[k]
+            except (KeyError, IndexError): return None   # 源稿已經照 AA_584 改掉（例：S3-L6 的 extraIf 整個拿掉，AA 2026-11-02 19:29 @03af79d17）
         return o, keys[-1]
     DROP_STEPS = {('Y1S2', 'S2-L5'), ('Y3S1', 'S5-L5'), ('Y4S2', 'S7-L6'), ('Y1S1', 'S-L8'), ('Y1S2', 'S2-L6'), ('Y2S1', 'S3-L3')}
     for q in ['→ **整層刪**（S-L8，連選項）', '大一下 S2-L6 整層刪', '大二上 S3-L6 的 extraIf[0]（第 38 列「去年總圖那個空的保溫瓶……」）刪掉', '→ **整層刪**（S3-L3，連第 34 列）',
@@ -381,6 +383,7 @@ if X584:
         at = _path584(term, path)
         if at is None:
             if (term, path.split('.')[0]) in DROP_STEPS: continue   # 那一層已經不在（企劃線源稿刪了）
+            if term == 'Y2S1' and path.startswith('S3-L6.extraIf[0]'): continue   # 第 38、39 列：這一格本來就要刪（保溫瓶），源稿已經沒有 extraIf
             sys.exit(f'{tag584} 第 {n} 列：{term} 找不到 {path}')
         o, k = at; cur = o[k]
         if cur == new: continue
