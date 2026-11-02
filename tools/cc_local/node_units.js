@@ -22,7 +22,12 @@ for (const f of files) {
   const last = lines.slice(-5);
   const st = r.error && r.error.code === 'ETIMEDOUT' ? 'TIMEOUT' : (r.status === 0 ? 'PASS' : 'FAIL');
   if (st !== 'PASS') bad++;
-  rows.push({ file: f, status: st, exit: r.status, sec, last });
+  const row = { file: f, status: st, exit: r.status, sec, last };
+  if (st !== 'PASS') {   // 失敗的：留下所有 FAIL／Error 行和最前面 20 行（BB 22:3x：PC 和雲端不一致時要看得到原因）
+    row.fails = lines.filter(l => /^(FAIL|\s*at |.*Error|fatal:)/.test(l)).slice(0, 40).map(l => l.slice(0, 400));
+    row.head = lines.slice(0, 20).map(l => l.slice(0, 300));
+  }
+  rows.push(row);
   console.log((st + '    ').slice(0, 8) + f + '　' + sec + 's　' + (last[last.length - 1] || '').slice(0, 120));
 }
 if (OUT) { fs.mkdirSync(OUT, { recursive: true }); fs.writeFileSync(path.join(OUT, 'node_units.json'), JSON.stringify({ node: process.version, n: files.length, bad, rows }, null, 1)); }
