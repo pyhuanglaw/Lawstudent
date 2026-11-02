@@ -202,7 +202,7 @@ def court_garden(c, X0, CG0, CG1):
         uvl = m.bm.loops.layers.uv.verify()
         for lp, uv in zip(f.loops, ((0, 0), (1, 0), (1, 1), (0, 1))): lp[uvl].uv = uv
     def crown(cx, cy, cz, rx, ry, rz, n, csz):
-        v0 = set(core.bm.verts); core.ell((cx, cy, cz), rx * 0.6, ry * 0.6, rz * 0.6, seg=7, rings=4)
+        v0 = set(core.bm.verts); core.ell((cx, cy, cz), rx * 0.45, ry * 0.45, rz * 0.45, seg=9, rings=5)   # 芯縮小、多分段（11-02 遊戲截圖：灌木的深色芯露出來像多面體）
         c0 = L.g2b(cx, cy, cz)
         for vv in core.bm.verts:
             if vv not in v0: vv.co = c0 + (vv.co - c0) * rng.uniform(0.86, 1.08)
@@ -223,7 +223,7 @@ def court_garden(c, X0, CG0, CG1):
         bark.cyl((tx_, yb, tz_), (tx_ + math.cos(a_) * 1.2, th * rng.uniform(0.62, 0.74), tz_ + math.sin(a_) * 1.2), 0.06, seg=6, r2=0.025)
     for k in range(6):
         a_ = rng.uniform(0, 2 * PI); d_ = rng.uniform(0.3, 1.1); r_ = rng.uniform(0.8, 1.1)
-        crown(tx_ + math.cos(a_) * d_, th * rng.uniform(0.66, 0.8), tz_ + math.sin(a_) * d_, r_, r_ * 0.62, r_, int(12 * r_ * r_), 0.62)
+        crown(tx_ + math.cos(a_) * d_, th * rng.uniform(0.66, 0.8), tz_ + math.sin(a_) * d_, r_, r_ * 0.62, r_, int(18 * r_ * r_), 0.62)
     # 對面擋土牆上的藤蔓（爬牆虎：貼著牆的葉片卡，一片一片往上爬；牆不再是一整面灰）
     for (vz, vh) in ((CG0 - 1.0, 3.6), (zc + 0.6, 2.8), (CG1 + 1.2, 3.9)):
         for _ in range(int(26 * vh)):
@@ -232,7 +232,7 @@ def court_garden(c, X0, CG0, CG1):
     # 灌木（靠牆那條花台上，一叢一叢；葉片卡圍著深色芯）
     z = CG0 - 1.6
     while z < CG1 + 1.6:
-        r_ = rng.uniform(0.42, 0.6); crown(X0 - 5.4 + rng.uniform(-0.15, 0.15), 0.3 + r_ * 0.8, z, r_, r_ * 0.85, r_, int(14 * r_ * r_ + 8), 0.42); z += rng.uniform(0.75, 0.95)
+        r_ = rng.uniform(0.42, 0.6); crown(X0 - 5.4 + rng.uniform(-0.15, 0.15), 0.3 + r_ * 0.8, z, r_, r_ * 0.85, r_, int(34 * r_ * r_ + 14), 0.42); z += rng.uniform(0.75, 0.95)
     # 蕨類（樹下花台、兩頭的牆腳）：蕨葉卡從中心往外斜出去
     for (fx, fz) in [(X0 - 3.6 + dx, zc + dz) for (dx, dz) in ((-0.5, -0.5), (0.5, 0.45), (-0.45, 0.55), (0.5, -0.5))] + [(X0 - 1.2, CG0 - 1.5), (X0 - 1.2, CG1 + 1.5), (X0 - 2.0, CG0 - 1.6), (X0 - 2.0, CG1 + 1.6)]:
         y0 = 0.3 if abs(fx - (X0 - 3.6)) < 1.0 and abs(fz - zc) < 1.0 else 0.0

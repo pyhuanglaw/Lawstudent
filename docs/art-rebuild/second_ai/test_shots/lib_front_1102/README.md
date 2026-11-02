@@ -128,10 +128,41 @@
 
 ## 六、測試
 
-（瀏覽器測試跑完後補：campus_layout_nav、flow_library_floors、flow_library_scene、guide_flow、campus_glb_integration、reachability_all、全部 Node。）
+- **環境**：開發分支 `ba125d6f3`＋這個 patch＋兩個 GLB（乾淨的 worktree）。Playwright＋SwiftShader（電腦 1280×720／手機 390×844 模擬），不是實機。
+- **瀏覽器，一次跑一支**：
+
+| 測試 | 結果 | 時間（UTC） |
+|---|---|---|
+| campus_layout_nav | ALL PASS | 11:06–11:08 |
+| flow_library_floors（從校園走上台階、平台 → 進總圖 → 大樓梯上二樓 → 3F 閱覽室 → 電梯 → 存讀檔 → 下樓 → 離開總圖，回到平台上的 (80,0)） | ALL PASS | 11:08–11:25 |
+| flow_library_scene（小安「總圖的下午」） | ALL PASS | 11:33–11:43 |
+| guide_flow（`?turbo`） | ALL PASS | 11:43–11:45 |
+| reachability_all（113 項） | ALL PASS | 11:48–11:56 |
+| campus_glb_integration | **FAIL：這個 patch 之前就壞了**（下面說明） | 11:46–11:48 |
+
+- **campus_glb_integration**：
+  - 在乾淨的 `b1b249873`（沒有這個 patch）照樣 FAIL，壞法一樣（12:01 跑過）：
+    - `soc` 那一項還在找 `campus_modern_glb`。開發分支的社科院有 `SOCX`（新社科院，節點叫 `campus_socsci_glb`），所以「soc 的正式模型接上」FAIL；
+    - 量外框量到 soc 時，`glb` 是 undefined，`traverse` 丟例外，後面的檢查都沒跑到；
+    - `TAGS` 清單還是舊的：male1、gate、boya、putong 現在都有正式模型，「先不放正式模型的」兩項 FAIL。
+    - 這些不在這次的範圍，我沒改。要修的話是改 `tests/campus_glb_integration.py` 的 TAGS。
+  - **這個 patch 和總圖有關的**：總圖第三版的外框和套件「設計上就不同」：
+    - x0 多了拱廊前的平台＋台階；
+    - z0 多了北邊方塔；
+    - y1 是方塔頂。
+  - 照共同教學館的做法，在 `BBOX_TOL` 加 `library` 的容許值（patch 裡改了這支測試）。
+  - 改完在 patch 的樹上重跑（12:03–12:05）：總圖那兩項（外框、匾額）都 PASS；FAIL 的項目、在 soc 丟例外的地方，都和乾淨的 b1b249873 一樣。
+- **Node 單元測試**：`tests/lib_front_unit.js`（新，25 項）、`lib_lawn_unit.js`、`campus_hall_pillar_seethru_unit.js` ALL PASS。
+  - 全部 `tests/*_unit.js`（864 支，12:17 跑完）：863 PASS、1 FAIL。
+    - FAIL 的是 `socsci_place_unit` 第 6 項：這個 patch 給路人、腳踏車加的路線點 (37,17) 剛好在草坪南側步道的一個擋住的格子上（x 37.0～37.4、z 17.0～17.8）。
+    - 改成 (37,16.2)（四周都站得住）以後，`socsci_place_unit`、`crowd_depts_unit`、`lane118_walkers_unit`、`lib_front_unit`、`lib_lawn_unit` ALL PASS。這是 patch 的 v3c。
 
 ## 七、還沒做的、限制
 
 - 草坪長度、一樓白石翼的高度、磚色，見第二節。
+- **v3.1（下一包）**：照片 40（從廣場低角度拍）裡，平台上白石翼的拱前面各有一棵尖塔形針葉樹，第三版沒有。
+  - 6 m 的平台放得下，平台不用加深。
+  - 台階寬度照片和第三版一樣：約平台寬的 3/4，兩側是石塊花台。
+  - 這是 BB 11:05 轉來的 CC 差異清單第 ③ 點。
 - 總圖北側的 B1 下沉中庭（鳥瞰圖）、行政入口：這一包沒有做，排在 LIB-INTERIOR-1102（B1）一起做。
 - 沒跑手機實機。
