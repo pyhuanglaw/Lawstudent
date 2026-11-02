@@ -65,8 +65,9 @@ BB 11-02 加（BUG-MAKEUP-BG-1102，開發分支 e27dd033e：補考整場用 OUT
              修改前 b4f98ea4e 預期 home 的考試中背景 FAIL（在家考還是家裡的背景）；campus／library 修改前預期考試中 ADV 沒開（背景 FAIL）、考完那一項照樣 PASS。
 BB 10:48 加（D124：大四下「海商法與海洋法」改成選修、被當只記成績不延畢；大四下延畢只剩「前面學期被當、重修排到大四下又沒過」和「日本路線補修沒過」。
   LAWWW 給 SHA 以前預設照舊＝FAIL_ROUTE maritime）：
-  FAIL_ROUTE  maritime（預設，舊規則：被當的是大四下海商法，所有 case 和以前一模一樣）
-              retake   【前置】大四上（Y4S1）考五題的課 RETAKE_COURSE（預設 enforcement 強制執行法）期末答對 0 題，
+  （BB 10:57：D124 定版 690ac5f4d 起預設 FAIL_ROUTE＝retake、補考科目＝enforcement 強制執行法；要跑 D124 以前的版本請明寫 FAIL_ROUTE=maritime）
+  FAIL_ROUTE  maritime（舊規則：被當的是大四下海商法，所有 case 和以前一模一樣）
+              retake   （預設）【前置】大四上（Y4S1）考五題的課 RETAKE_COURSE（預設 enforcement 強制執行法）期末答對 0 題，
                        在頁面裡用遊戲的 CLS.planRetakes(假存檔,'Y4S1') 排進大四下（只讓那一門算被當：暫時包住 CLS.failedIn，排完還原），
                        courses.retake 照排出來的那一筆；大四下海商法期末答對 3 題（及格）、重修那一門期末答對 0 題（qs 照 examSeed 抽）。
                        所有 case 的「補考科目」改成那門重修課（FD_MAKEUP.courses、FAIL_DELAY_COURSES、成績、教務處通知、old_delayed 的舊旗標）。
@@ -94,7 +95,7 @@ URL, OUT = sys.argv[1], sys.argv[2]
 J = lambda o: json.dumps(o, ensure_ascii=False)
 ENVI = lambda k, d: int(os.environ.get(k, str(d)))
 # BB 10:48（D124）：被當的那一門照路線（預設 maritime＝舊規則）
-FAIL_ROUTE = (os.environ.get('FAIL_ROUTE', 'maritime').strip() or 'maritime')
+FAIL_ROUTE = (os.environ.get('FAIL_ROUTE', 'retake').strip() or 'retake')   # BB 10:57：D124 定版 690ac5f4d 起預設 retake（強制執行法 enforcement 大四上被當→大四下重修→重修期末沒過，同 LAWWW 的測試路線）；舊規則＝FAIL_ROUTE=maritime
 if FAIL_ROUTE not in ('maritime', 'retake', 'jp'): raise SystemExit('FAIL_ROUTE 只能是 maritime／retake／jp：%s' % FAIL_ROUTE)
 MK_COURSE = os.environ.get('MK_COURSE', '').strip() or {'maritime': 'maritime', 'retake': os.environ.get('RETAKE_COURSE', 'enforcement'),
                                                         'jp': os.environ.get('JP_COURSE', 'civpro_2_re')}[FAIL_ROUTE]

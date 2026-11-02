@@ -1,6 +1,6 @@
 // CC #14（BB 10:01）：BUG-DELAY-RETAKE-SKIP-1102——延畢大五上，畢業後篇跳日期（PG.advance）要停在重修課前
 // 用法：WT=<受測資料夾> [FD_COURSE=<課 id>] node n14_delay_retake.js     （修改前 5b40dad61：A1 FAIL；修改後 5506d6259：全 PASS）
-// FD_COURSE：延畢那一門（FAIL_DELAY_COURSES，預設 maritime＝舊規則）。BB 10:48 D124：海商法改成選修、被當不延畢以後，
+// FD_COURSE：延畢那一門（FAIL_DELAY_COURSES，預設 enforcement＝D124 定版 690ac5f4d 起；maritime＝舊規則）。BB 10:48 D124：海商法改成選修、被當不延畢以後，
 //   延畢的課應改用「前面學期被當、重修排到大四下又沒過」的那門重修課（例如大四上的 enforcement 強制執行法），或日本路線的補修（civpro_2_re、insurance_re）。
 //   A1/A2 的期望時間（2029-09-05（三）08:25）是照海商法週三上午寫的；換成別的課，Y5.classItems 的時段照那門課，期望要照下面印出的「重修課全部 N 堂」看。
 'use strict';
@@ -12,7 +12,7 @@ const load=f=>{ const p=path.join(H.ROOT,f); if(!fs.existsSync(p)) return; const
 for(const f of ['src/data/study_units.js','src/study3d.js','src/data/r2y4b_events.js','src/r2y4b3d.js','src/y5s1_3d.js','src/faildelay3d.js']) try{ if(f==='src/y5s1_3d.js'&&typeof Y5!=='undefined') continue; load(f); }catch(e){ console.log('載入失敗 '+f+'：'+e); }
 GM.caption=()=>{}; GM.toast=()=>{};
 const D=k=>PG.DK(k), now=()=>H.G.day*24+H.G.hour, lbl=t=>{ const d=Math.floor(t/24), h=t-d*24, x=CALENDAR.dateOf(d); return x.key+'('+'日一二三四五六'[x.wd%7]+') '+String(Math.floor(h)).padStart(2,'0')+':'+String(Math.round((h%1)*60)).padStart(2,'0'); };
-const FDC=process.env.FD_COURSE||'maritime';   /* D124 以後應改用重修課（例如 retake 那門 enforcement）或 JP 補修（civpro_2_re／insurance_re）*/
+const FDC=process.env.FD_COURSE||'enforcement';   /* BB 10:57：D124 定版 690ac5f4d 起預設強制執行法（大四上被當→大四下重修沒過）；舊規則＝FD_COURSE=maritime */   /* D124 以後應改用重修課（例如 retake 那門 enforcement）或 JP 補修（civpro_2_re／insurance_re）*/
 console.log('FD_COURSE＝'+FDC);
 const base=()=>{ const G=H.fresh('2029-09-02',22,'dorm',{FAIL_DELAY:true,FAIL_DELAY_V:2,FAIL_DELAY_COURSES:[FDC],FAIL_DELAY_DAY:D('2029-06-26'),Y5_DAYS:'study',BAR_REG:false,
   GRADUATED:D('2029-06-02'),GRAD_DONE:true,MOVED_OUT:D('2029-06-28'),HOME_AFTER:'home',PACKED_Y4:D('2029-06-01')}); PG.rec(G).done.grad=1; return G; };

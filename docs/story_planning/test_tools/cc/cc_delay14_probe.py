@@ -51,10 +51,10 @@ SLEEP_AT = os.environ.get('SLEEP_AT', 'home')
 STAND_ZONE = os.environ.get('STAND_ZONE', 'campus')
 LAND = {'width': 844, 'height': 390}; PORT = {'width': 390, 'height': 844}
 DAY0 = '2029-09-02'; H0 = 22.0
-# BB 10:48（D124）：延畢那一門改讀環境變數 FD_COURSE（預設 maritime＝舊規則）。D124 以後海商法被當不延畢，應改用重修課（例如大四上的 enforcement）或 JP 補修
+# BB 10:48（D124）：延畢那一門改讀環境變數 FD_COURSE（預設 enforcement，BB 10:57；maritime＝舊規則）。D124 以後海商法被當不延畢，應改用重修課（例如大四上的 enforcement）或 JP 補修
 #   （civpro_2_re、insurance_re）。期望的前三個停點照那門課在大五上的時段（n14_delay_retake.js 用 hd10＝d75871437、台灣路線的 base() 跑出來的；交換路線 FD 可能換時段，
 #   K1 記過 JP 的兩門排在週二）；別的課或要改期望＝FD_EXP='2029-09-03,2029-09-10,2029-09-17'（上午的課 08:25；不是上午的課另給 FD_EXP_H，例如 13.0）。
-CID = os.environ.get('FD_COURSE', 'maritime').strip() or 'maritime'
+CID = os.environ.get('FD_COURSE', 'enforcement').strip() or 'enforcement'   # BB 10:57：D124 定版 690ac5f4d 起預設強制執行法；舊規則＝FD_COURSE=maritime
 _EXP0 = {'maritime': ['2029-09-05', '2029-09-12', '2029-09-19'],       # 週三上午
          'enforcement': ['2029-09-03', '2029-09-10', '2029-09-17'],    # 週一上午
          'civpro_2_re': ['2029-09-03', '2029-09-10', '2029-09-17'],    # 週一上午（台灣路線 base()）
@@ -180,7 +180,7 @@ async def shoot_both(pg, run, tag):
 
 
 def is_home_menu(s):
-    return bool(s['ch']) and any(o['t'] == '睡覺' for o in s['ch']) and any(o['t'] == '存檔' for o in s['ch'])
+    return bool(s['ch']) and any(o['t'].startswith('睡覺') for o in s['ch']) and any(o['t'].startswith('存檔') for o in s['ch'])
 
 
 class Driver:
@@ -296,7 +296,7 @@ async def case_sleep(pg, cdp, run):
             if s['ch']: bops = [o['t'] for o in s['ch']]; break
             await L.tap(pg, cdp, '#interact'); await pg.wait_for_timeout(1500)
         out['bed_menu'] = bops; run.note('%s：床的選單 %s' % (tag, J(bops)))
-        k = next((i for i, t in enumerate(bops) if t == '睡覺'), None)
+        k = next((i for i, t in enumerate(bops) if t.startswith('睡覺')), None)
         run.check('%s：（SLEEP_AT=dorm）床有「睡覺」' % tag, k is not None, J(bops))
         if k is None: dump(tag, rows=await rows(pg, n0), **out); return
         await P.tap_choice(pg, cdp, k); await pg.wait_for_timeout(1500)
