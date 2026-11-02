@@ -834,7 +834,9 @@ const STORY = (function(){
   /* 上車、下車的一句話（字幕，不停下遊戲）；一趟只說一次 */
   S.onRide=function(GM,n,on){ const G=GM.G, id=n.charId||n.id, r=S.rideInfo(G,id), nm=SOCIAL.displayName(id); if(on){ n.astride=!!r.astride; if(r.on&&GM.caption) GM.caption(nm,'「'+r.on+'」',2800); } else if(r.off&&GM.caption) GM.caption(nm,'「'+r.off+'」',2600); };
   /* 不坐後座的理由（上車前）：回傳字幕的文字；null＝可以上車 */
-  S.rideBlock=function(GM,n){ const G=GM.G, id=n.charId||n.id; if(S.rideMode(n)==='ride') return null; const r=S.rideInfo(G,id), nm=SOCIAL.displayName(id); return r.decline?nm+'：「'+r.decline+'」':'（'+nm+'說她走路就好。）'; };
+  S.rideBlock=function(GM,n){ const G=GM.G, id=n.charId||n.id; if(S.rideMode(n)==='ride') return null; const r=S.rideInfo(G,id), nm=SOCIAL.displayName(id); if(r.decline) return nm+'：「'+r.decline+'」';
+    { const fol=((GM.E&&GM.E.npcs)||[]).filter(x=>x.beh==='follow'&&!x.noRide).length; if(id==='heroine_05'&&SOCIAL.datingName&&SOCIAL.datingName(id)&&fol<=1) return '（她說她走路就好。）'; }   /* AA 11:14：交往中的學姊、只有她一個同行＝「她」；有別人同行照舊寫名字 */
+    return '（'+nm+'說她走路就好。）'; };
   S.SMALL_AFTER={};   /* 人物 id → 句子用完以後的那一句旁白（AA_497）*/
   S.SMALL_DAILY={};   /* 人物 id → fn(G,id,r,nm)：自己的一天一句（AA_519：陳助教、筱涵照學年、阿凱週五資工系館前；src/sup519_3d.js 登記）；回傳 null＝照下面的規則 */
   S.smallTalk=function(G,id){ const c=CHARACTERS[id]||{}, nm=SOCIAL.displayName(id); const R=G.social.small||(G.social.small={}), r=R[id]||(R[id]={day:0,used:[],last:null});
