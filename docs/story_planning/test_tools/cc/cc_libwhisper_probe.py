@@ -17,6 +17,8 @@
 流程（一個瀏覽器、橫向；每一場）：
   [前置] 讀檔到那一天那個時間那一區（GAME.applySave，安靜模式：條件事件不自動演）；【捷徑】SOCIAL.meet＋熟悉度 25（認識、有點熟；學姊另外 met_sis、ev_sis_w1 記成演過），快照再讀；
   [前置] 那個人在別的樓層或太遠：玩家放到他 4 m 外（同一層）。
+  總圖：62d 實測沛珊被排在一樓電腦桌（作息寫「總圖二樓自習區」，story3d.js:472 seatFree 不看樓層）——先記一行 FAIL（遊戲問題），
+    再【捷徑】把她換到二樓自習區的空座位（E.placeAt lv1），讓「小聲講」本身驗得到。
   第 1 次：走到他旁邊、按「和…說話」、點對話（選項點「就這樣」那一類）。
   第 2 次：同一天再找他說一次（同上）。
   三處讀書區（總圖二樓 library_hall lv1、法圖 lawlib、B1 自習室 library_b1 study24）：第 1 次只有點頭那一句（GAME.say 原文、說話的人＝旁白）、G.libNod 記到今天這個人；
@@ -38,7 +40,7 @@ PRE = '（小聲）'
 NOD = {'f': '（她抬頭看到你，點了一下頭。）', 'm': '（他抬頭看到你，點了一下頭。）'}
 SOFT = re.compile('小聲|氣音|口型|噓|壓低聲音|悄悄')
 SCENES = [
-    dict(tag='lib2f', name='總圖二樓自習區', key='2026-10-06', hour=16.6, zone='library_hall', cid='classmate_peishan', sex='f', quiet=True),
+    dict(tag='lib2f', name='總圖二樓自習區', key='2026-10-06', hour=16.6, zone='library_hall', cid='classmate_peishan', sex='f', quiet=True, move_lv1=True),
     dict(tag='lawlib', name='法圖', key='2025-10-21', hour=15.0, zone='lawlib', cid='heroine_05', sex='f', quiet=True),
     dict(tag='b1', name='總圖 B1 二十四小時自習室', key='2025-10-28', hour=22.3, zone='library_b1', cid='classmate_mingxuan', sex='m', quiet=True),
     dict(tag='cafe', name='兩點半 Café（反例：圖書館以外）', key='2025-10-21', hour=17.5, zone='cafe', cid='heroine_01', sex='f', quiet=False),
@@ -130,8 +132,22 @@ def box_has(r, text):
     return any(text.startswith(t) or t.startswith(text[:8]) for t in lines if t)
 
 
+MOVE_LV1_JS = r"""(id=>{ const E=GAME.E, n=__BBF.npc(id); if(!n||!n.obj) return null; const occ=E.npcs.filter(m=>m!==n&&m.obj).map(m=>m.obj.position);
+  const st=(E.zone.seats||[]).find(s=>(s.lv|0)===1&&!occ.some(p=>Math.hypot(p.x-s.x,p.z-s.z)<0.6)); if(!st) return null;
+  E.placeAt(n,st.x,st.z,1); n.obj.rotation.y=st.yaw||0; n.seat=st; n.path=null; return {x:st.x,z:st.z,lv:1,yaw:st.yaw}; })(%s)"""
+
+
 async def quiet_scene(pg, cdp, run, sc):
     w, loc0 = await start_scene(pg, cdp, run, sc)
+    if sc.get('move_lv1') and loc0.get('here') and not loc0.get('npcStudyOwn'):
+        # 遊戲問題（見回報）：作息寫「總圖二樓自習區」，人卻坐在一樓的座位（story3d.js seatFree 不看樓層）
+        run.check('%s：%s 照作息坐在二樓自習區（lv≥1）' % (sc['name'], sc['cid']), False, J(loc0))
+        mv = await pg.evaluate(MOVE_LV1_JS % J(sc['cid']))
+        run.setup('【捷徑】把 %s 換到二樓自習區的空座位（為了讓「小聲講」本身驗得到）：%s' % (sc['cid'], J(mv)))
+        await pg.wait_for_timeout(1500)
+        loc0 = await pg.evaluate(WHERE_JS % J(sc['cid']))
+        if loc0.get('here'):
+            await P.place_near(pg, run, loc0['x'], loc0['z'], R=4.0, lv=loc0['lv'], what='%s 旁邊（同一層 lv%d）' % (sc['cid'], loc0['lv']))
     if not run.check('%s：前置——%s 在這一區、站在讀書區' % (sc['name'], sc['cid']), bool(loc0.get('here')) and loc0.get('npcStudyOwn') and not loc0.get('hidden'), J(loc0)): return
     nod = NOD[sc['sex']]
     r1, s1, n1, l1 = await talk(pg, cdp, run, sc, 1)
