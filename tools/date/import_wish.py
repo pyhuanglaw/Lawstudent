@@ -137,6 +137,43 @@ if A592:
     FIX592.add(NEW53)
     SRC525 += f'＋{os.path.basename(P592)[:6]}@{S592}（以安 D07 法庭 1 句）'
 
+# ---- 1e. AA_594（以安改稿④b，白名單 AA594-AN-4B-1102；第 9、10 節「本批全部可以交 LAWWW 整合」）第 2-13 節：心願「規則之外的人」（以安 D07）的 16 列＋記憶名稱（第 368 列）。
+#      源稿 wish_aa.json 沒改（企劃線），照表疊：位置欄寫 date_wish.js 的數字列，在以安那一場裡把整句相同的換掉（台詞、旁白、記憶名稱；旁白的括號照原樣）；
+#      備註寫「兩處都換」的要剛好 2 處，其他剛好 1 處（第 40 列「原句出現 2 次，只換這一處」的另一處不在這一場）；改成＝原句的列（BB_240 補回）跳過 ----
+A594 = G.approved_files(ALLOW, SP + 'AA_594_')
+if A594:
+    P594, S594 = next(iter(A594.items()))
+    ok, why = G.allowed(P594, S594, ALLOW)
+    if not ok:
+        sys.exit('拒絕匯入：' + why)
+    md594 = subprocess.check_output(['git', '-C', ROOT, 'show', f'{S594}:{P594}'], text=True)
+    rows594 = []
+    for ln in md594.split('\n'):
+        m = re.match(r'^\|\s*([0-9]+)\s*\|(.*)\|\s*$', ln)
+        if not m: continue
+        c = [x.strip() for x in m.group(2).split('|')]
+        if len(c) < 5 or not c[0].startswith('date_wish.js') or c[2] == c[3]: continue
+        rows594.append((m.group(1), c[2], c[3], 2 if '兩處都換' in c[4] else 1))
+    if len(rows594) != 16:
+        sys.exit(f'AA_594@{S594} 第 2-13 節（date_wish.js）應該有 16 列要換，讀到 {len(rows594)} 列')
+    def _sub594(o, old, new):
+        n = 0
+        if isinstance(o, dict):
+            for k, v in list(o.items()):
+                if k in ('text', 't') and isinstance(v, str) and v in (old, '（' + old + '）'):
+                    o[k] = new if v == old else '（' + new + '）'; n += 1
+                elif k not in ('note', 'source', 'rule', 'where', 'context'): n += _sub594(v, old, new)
+        elif isinstance(o, list):
+            for v in o: n += _sub594(v, old, new)
+        return n
+    for n, old, new, want in rows594:
+        cnt = lambda: json.dumps(EV['heroine_01'], ensure_ascii=False).count(json.dumps(new, ensure_ascii=False)[1:-1])
+        c0 = cnt(); _sub594(EV['heroine_01'], old, new); got = cnt() - c0   # 輸出裡多了幾處（AA_127 大一版收尾和一般版共用同一個旁白物件，算輸出的處數）
+        if got != want:
+            sys.exit(f'AA_594 第 {n} 列：以安 D07「{old}」換了 {got} 處（應該是 {want} 處）')
+        FIX592.add(new); FIX592.add('（' + new + '）')
+    SRC525 += f'＋{os.path.basename(P594)[:6]}@{S594}（以安 D07 心願 16 列）'
+
 # ---- 2. 逐句對原稿（台詞、旁白、選項的字；說明欄不算）----
 SKIP = ('wish', 'rule', 'note', 'where', 'context', 'source', 'title', 'hotspotsTitle', 'scene', 'repeat', 'costNote', 'likeNote', 'album', 'code', 'name', 'memory', 'record')
 def all_text(o, path=''):

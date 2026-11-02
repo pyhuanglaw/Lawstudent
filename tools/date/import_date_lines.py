@@ -342,6 +342,58 @@ print('旁白改成註記（不顯示）：', len(noted), '行')
 bad = [(w, k) for w in NAME.values() for k in KEYS + ['cancel', 'flaked'] if not (L.get(w) or {}).get(k)]
 if bad:
     sys.exit('拆不出來（表格格式變了？）：' + json.dumps(bad, ensure_ascii=False))
+# AA_594（以安改稿④b，白名單 AA594-AN-4B-1102；第 9、10 節「本批全部可以交 LAWWW 整合」）第 2-14 節：以安的約會台詞改 314 列（含全域那幾格，源頭 AA_127 第 8 節）。
+# 源稿 lines/Dxx.json、AA_127 沒改（企劃線），照表疊：位置欄的 `路徑`（DATE_LINES 底下的 lines.… 或 loc.…）那一格現在的字要剛好是「原句」（旁白的括號照原樣），換成「改成」；
+# 對不上（路徑找不到、字不一樣）＝停下來，不猜。改成＝原句的列（BB_240 補回原句）跳過。白名單沒有 AA_594＝不疊
+A594 = G.approved_files(ALLOW, SP + 'AA_594_')
+FIXED594 = 0
+if A594:
+    P594, S594 = next(iter(A594.items()))
+    ok, why = G.allowed(P594, S594, ALLOW)
+    if not ok:
+        sys.exit('拒絕匯入：' + why)
+    md594 = subprocess.check_output(['git', '-C', ROOT, 'show', f'{S594}:{P594}'], text=True)
+    ROOT594 = {'lines': L, 'loc': LOC}
+    nrow = 0
+    for ln in md594.split('\n'):
+        m = re.match(r'^\|\s*([0-9]+)\s*\|(.*)\|\s*$', ln)
+        if not m: continue
+        c = [x.strip() for x in m.group(2).split('|')]
+        if len(c) < 5 or not c[0].startswith('date_lines.js'): continue
+        nrow += 1
+        if c[2] == c[3]: continue
+        pm = re.search(r'`([^`]+)`', c[0])
+        if not pm:
+            sys.exit(f'AA_594 第 {m.group(1)} 列：位置欄沒有路徑')
+        toks = re.findall(r"\['[^']*'\]|\[\d+\]|[^.\[\]]+", pm.group(1))
+        cur, par, key = ROOT594, None, None
+        i = 0
+        while i < len(toks):
+            t = toks[i]; k = t[2:-2] if t.startswith("['") else int(t[1:-1]) if t.startswith('[') else t
+            if isinstance(cur, dict) and k not in cur and i + 1 < len(toks) and not toks[i + 1].startswith('[') and f'{k}.{toks[i + 1]}' in cur:
+                k = f'{k}.{toks[i + 1]}'; i += 1   # hotspots 的 key 本身有點（D01.expo）
+            try:
+                par, key, cur = cur, k, cur[k]
+            except (KeyError, IndexError, TypeError):
+                sys.exit(f'AA_594 第 {m.group(1)} 列：路徑 {pm.group(1)} 找不到（在 {t}）')
+            i += 1
+        old, new = c[2], c[3]
+        if isinstance(cur, str):
+            if cur != old:
+                sys.exit(f'AA_594 第 {m.group(1)} 列：{pm.group(1)} 現在是「{cur}」，不是原句「{old}」')
+            par[key] = new
+        elif isinstance(cur, dict) and isinstance(cur.get('text'), str):
+            v = cur['text']
+            if v == old: cur['text'] = new
+            elif '（' + v + '）' == old and new.startswith('（') and new.endswith('）'): cur['text'] = new[1:-1]
+            else: sys.exit(f'AA_594 第 {m.group(1)} 列：{pm.group(1)} 現在是「{v}」，不是原句「{old}」')
+        else:
+            sys.exit(f'AA_594 第 {m.group(1)} 列：{pm.group(1)} 不是一句台詞')
+        FIXED594 += 1
+    if nrow != 314:
+        sys.exit(f'AA_594 第 2-14 節應該有 314 列，讀到 {nrow} 列')
+    FILES['fix594'] = P594
+    print(f'AA_594 第 2-14 節：314 列，換了 {FIXED594} 列（其他是 BB_240 補回原句）')
 out = {'source': '白名單 ' + '＋'.join(f'{os.path.basename(p)}@{APPROVED[p]}' for p in FILES.values()), 'lines': L, 'prefs': prefs, 'loc': LOC}
 dst = os.path.join(ROOT, 'src', 'data', 'date_lines.js')
 with open(dst, 'w', encoding='utf8') as fo:

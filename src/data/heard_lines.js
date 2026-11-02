@@ -54,7 +54,7 @@ const HEARD_LINES={
     {id:'h504_ta_sis',who:'npc_ta_chen',about:'heroine_05',t:'書瑀上榜以後，第一件事是去 Café 看小說。她說等了一年。',from:'Y1S2:W6一',until:'Y1S2:end',src:'AA_504 5-4'},
     {id:'h504_an_ps',who:'heroine_01',about:'classmate_peishan',t:'沛珊上禮拜跟我說的。柏翰以外，我大概是最早知道的。',from:'2026-04-15',until:'2026-04-26',cond:'psBohan',src:'AA_504 6-4'},   /* 「4/15 以後」＋「上禮拜」：4/15～第 9 週；沛珊和柏翰那一段在 */
     /* ---------- AA_505（大二上＋寒假）---------- */
-    {id:'h505_yu_an',who:'yu',about:'heroine_01',t:'以安的十二條規則，我撕了一半。她把另一半貼在手帳裡了。',from:'Y2S1:W7五',until:'Y2S1:end',src:'AA_505 1-4'},   /* 第 7 週週四 ev_plg_rules 以後（玩家在不在場都一樣）*/
+    {id:'h505_yu_an',who:'yu',about:'heroine_01',t:'以安的十二條規則，我撕了一半。她把另一半收起來了。',from:'Y2S1:W7五',until:'Y2S1:end',src:'AA_505 1-4'},   /* 第 7 週週四 ev_plg_rules 以後（玩家在不在場都一樣）*/
     {id:'h505_xc_an',who:'classmate_xinci',about:'heroine_01',t:'以安寒假要去東京。她說是去看書店。……她說的是真的，她只去書店。',from:'Y2S1:W1一',until:'2027-01-16',src:'AA_505 1-4'},   /* 她 1/17 出發以前 */
     {id:'h505_zq_zr',who:'heroine_04',about:'heroine_02',t:'芷若的申請送出去了。她說十一點五十九分才按。……她前一天就寫好了。',from:'2026-12-11',until:'Y2S1:end',src:'AA_505 2-4'},   /* 12/11 以後（AA_505 第 9 節第 2 點，795fbecfd）*/
     {id:'h505_xh_yt',who:'npc_huangxh',about:'heroine_03',t:'語彤帶她阿姨去看海。她說她阿姨在車上睡著，她一路都沒有開音樂。',from:'2027-02-09',until:'Y2S2:W2日',src:'AA_505 3-4'},   /* 2/9 開店以後 */

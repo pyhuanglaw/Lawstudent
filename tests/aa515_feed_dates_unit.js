@@ -126,11 +126,11 @@ await sec('1',async()=>{ need(); setup('2025-10-04',8,[AN]); const d=H.G.day;
   const x=postAt(T(d,21.5),'dt_an_1');
   check('1. 21:29 還沒有、21:30 動態頁出一則 dt_an_1',!x.before&&!!x.it&&x.it.day===d&&hh(x.it.h)===hh(21.5),J(R().items));
   const p=P('dt_an_1'), D=FD();
-  check('1. 照片是 D01 那一張（有你：兩個人的影子並排）、一句是第 1 句、留言私訊第 1 組',!!p&&p.who===AN&&p.pic===D.pic.D01&&p.say==='手帳上劃掉一個。'&&J(p.cm)===J(['今天很開心。','我也是。……你剛剛已經說過了。'])&&J(p.dm)===J(['手帳上寫了什麼？','日期和地點。還有一句，不給你看。']),J(p));
+  check('1. 照片是 D01 那一張（有你：兩個人的影子並排）、一句是第 1 句、留言私訊第 1 組',!!p&&p.who===AN&&p.pic===D.pic.D01&&p.say==='想去的地方，劃掉一個。'&&J(p.cm)===J(['今天很開心。','我也是。……你剛剛已經說過了。'])&&J(p.dm)===J(['妳今天記了什麼？','日期和地點。還有一句，不給你看。']),J(p));
   check('1. 動態頁籤亮小點（新的）',FEED.newCount(H.G)===1);
   const h=FEED.html(H.G);
-  check('1. 動態頁：她的名字、今天 21:30、（照片：紅磚牆前，兩個人的影子並排）、手帳上劃掉一個。、三個按鈕（按愛心、留言、私訊問一句）',
-    h.includes('今天 21:30')&&h.includes('（照片：紅磚牆前，兩個人的影子並排）')&&h.includes('<div>手帳上劃掉一個。</div>')&&h.includes('data-fd="dt_an_1|heart"')&&h.includes('>今天很開心。</button>')&&h.includes('（私訊問一句）')&&h.includes('手帳上寫了什麼？'),h.slice(0,400));
+  check('1. 動態頁：她的名字、今天 21:30、（照片：紅磚牆前，兩個人的影子並排）、想去的地方，劃掉一個。、三個按鈕（按愛心、留言、私訊問一句）',
+    h.includes('今天 21:30')&&h.includes('（照片：紅磚牆前，兩個人的影子並排）')&&h.includes('<div>想去的地方，劃掉一個。</div>')&&h.includes('data-fd="dt_an_1|heart"')&&h.includes('>今天很開心。</button>')&&h.includes('（私訊問一句）')&&h.includes('妳今天記了什麼？'),h.slice(0,400));
   check('1. 看過就熄',FEED.newCount(H.G)===0);
   check('1. 約會動態不在 G.msgs（不是私訊、不算未讀）',!(H.G.msgs||[]).some(m=>m.fd==='dt_an_1'||/手帳上劃掉一個/.test(m.text||'')));
   check('1. 存檔：R.dt 記第幾句、第幾組、地點、行程、約會的那一天；R.dtTrip 那一趟＝dt_an_1；dq 清掉',J(R().dt.dt_an_1)===J({who:AN,loc:'D01',s:0,g:1,trip:r.trip,b:d})&&R().dtTrip[r.trip]==='dt_an_1'&&!R().dq.length,J([R().dt,R().dtTrip,R().dq]));
@@ -281,7 +281,7 @@ await sec('10',async()=>{ need(); setup('2025-10-04',8,[]); const d=H.G.day;
   at(d+2,20); H.G.flags.dating_heroine_01=false; tickAt(d+2,21.5); tickAt(d+2,23.9);
   check('10. 排好以後、21:30 以前分開了：不貼（x:dating）',!dts().length&&R().dtTrip[r2.trip]==='x:dating',J(R().dtTrip));
   H.G.flags.dating_heroine_01=true; const r5=await goDate(AN,['D03'],d+4,13); postAt(expect(AN,d+4,r5.end),'dt_an_1'); at(d+5,10); H.G.flags.dating_heroine_01=false; tickAt(d+6,12);
-  check('10. 分開以後：已經貼出來的照七天規則留著，不收回（稿第 4 節）',!!item('dt_an_1')&&FEED.visible(H.G).some(i=>i.id==='dt_an_1')&&/手帳上劃掉一個。/.test(FEED.html(H.G)));
+  check('10. 分開以後：已經貼出來的照七天規則留著，不收回（稿第 4 節）',!!item('dt_an_1')&&FEED.visible(H.G).some(i=>i.id==='dt_an_1')&&/想去的地方，劃掉一個。/.test(FEED.html(H.G)));
   setup('2025-10-04',8,[KX],{stage:'econ'}); const t={trip:'TE1',who:KX,locs:['D02'],day:H.G.day,depart:13,back:17,transport:'mrt',departed:true,status:'done',spots:['D02.pond']};
   DATE.complete(H.G,t);
   check('10. 經濟系那一年不排（動態頁只在法律系）',FEED.dateDone(H.G,DATE.trip(H.G,'TE1'),T(H.G.day,17))===null);
@@ -301,7 +301,7 @@ await sec('11',async()=>{ need(); setup('2025-10-04',8,[AN]); const d=H.G.day;
   check('11. 留言（第 2 則＝第 2 組）：你「照片好看。」→ 她「你站得很好。」，進私訊對話串、標「動態「（她那一則的一句，超過十四個字截短）」」',J(b.txt)===J(['照片好看。','你站得很好。'])&&!!b.m&&b.m.fk==='cm'&&(H.G.msgs||[]).filter(m=>m.text==='你站得很好。').every(m=>m.th==='p:'+AN)&&FEED.refLabel(H.G,b.m)===' · 動態「今天沒有照計畫走。」',J([b.txt,b.m&&FEED.refLabel(H.G,b.m)]));
   check('11. 同一個人一天只加一次熟悉（留言那一次不再加）',SOCIAL.rel(AN).fam===f0+1);
   const c=resp('dt_an_3','dm');
-  check('11. 私訊問一句（第 3 則＝第 1 組）：「手帳上寫了什麼？」→「日期和地點。還有一句，不給你看。」',J(c.txt)===J(['手帳上寫了什麼？','日期和地點。還有一句，不給你看。'])&&!!c.m&&c.m.fk==='dm',J(c.txt));
+  check('11. 私訊問一句（第 3 則＝第 1 組）：「妳今天記了什麼？」→「日期和地點。還有一句，不給你看。」',J(c.txt)===J(['妳今天記了什麼？','日期和地點。還有一句，不給你看。'])&&!!c.m&&c.m.fk==='dm',J(c.txt));
   check('11. 回過的：按鈕換成結果（看私訊）',/你留言：照片好看。/.test(FEED.card(H.G,item('dt_an_2')))&&/♥ 你按了愛心/.test(FEED.card(H.G,item('dt_an_1'))));
 });
 
@@ -311,7 +311,7 @@ await sec('12',async()=>{ need(); setup('2025-10-04',8,[AN]); const d=H.G.day;
   tickAt(d+7,21.49); const in7=FEED.visible(H.G).some(i=>i.id==='dt_an_1'); tickAt(d+7,21.51);
   check('12. 只留七天（同其他動態）',in7&&!FEED.visible(H.G).some(i=>i.id==='dt_an_1'));
   tickAt(d+16,12);
-  check('12. 十五天以後 items 清掉；私訊對話串還認得那一則（R.dt 不刪）',!item('dt_an_1')&&!!R().dt.dt_an_1&&FEED.refLabel(H.G,m)===' · 動態「手帳上劃掉一個。」',FEED.refLabel(H.G,m));
+  check('12. 十五天以後 items 清掉；私訊對話串還認得那一則（R.dt 不刪）',!item('dt_an_1')&&!!R().dt.dt_an_1&&FEED.refLabel(H.G,m)===' · 動態「想去的地方，劃掉一個。」',FEED.refLabel(H.G,m));
   /* 舊存檔：FEED 是上一版的樣子（沒有 dq、dt、dtTrip）*/
   setup('2025-10-04',8,[AN]); const d2=H.G.day; H.G.flags.FEED={start:d2-40,items:[],done:{an1:'p'},dm:{},seen:-1e9};
   const r2=await goDate(AN,['D01'],d2,13); postAt(expect(AN,d2,r2.end),'dt_an_1');

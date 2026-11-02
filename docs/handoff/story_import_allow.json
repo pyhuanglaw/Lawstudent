@@ -4002,6 +4002,15 @@
    "task": "AA592-AN-1B-1102",
    "kind": "text",
    "note": "以安改稿①b（手機訊息＋一般閒聊）：tools/story/apply_line_table.py 自動換 46 列（第 1 列照 BB_238 原句）；手改第 11、12（vacfill 7/24 只換那兩處）、15、16（送機兩處）、26、29、32、48 列（標點，原句出現多次只換那一處）、新1（開學第二天第一則私訊後面加「（兔子揮手）」）；第 53 列 date_wish.js 是產生檔：tools/date/import_wish.py 疊這份第 53 列（法庭那一句）重匯；tests/aa592_an_1b_unit.js"
+  },
+  {
+   "path": "docs/story_planning/AA_594_以安改稿_4b_不分年級系統事件.md",
+   "sha": "4162d22e1",
+   "status": "approved",
+   "approvedBy": "AA 2026-11-02 審查（第 9 節，D109；決1～決4＝第 366～368 列）、BB_240 口氣審 PASS（22 列補回原句、7 列留轉折那一個「……」）、第 10 節 AA 照既有規則定（使1～使8 採新版、「本批全部可以交 LAWWW 整合」）",
+   "task": "AA594-AN-4B-1102",
+   "kind": "text",
+   "note": "以安改稿④b（不分年級的系統事件）：手抄檔、程式用 tools/story/apply_line_table.py（使1～使8 採新版；使2 只換 multirel_lines.js:416）；第 33 列（v6ex_lines.js 前任那一句）先不改，交 AA_600；date_wish.js（第 2-13 節 16 列＋第 368 列記憶名稱）由 tools/date/import_wish.py 疊這份重匯；date_lines.js（第 2-14 節 314 列，位置欄是 JSON 路徑）由 tools/date/import_date_lines.py 疊這份重匯；源稿（wish_aa.json、lines/Dxx.json、AA_127）沒改；tests/aa594_an_4b_unit.js"
   }
  ]
 }

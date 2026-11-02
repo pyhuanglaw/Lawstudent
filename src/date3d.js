@@ -345,8 +345,8 @@ const DATE=(function(){
      leaveEarly＝一個點都沒去就回去、noPair＝合照還不到第 6 階。date_lines.js 是匯入工具產生的（不手改），這幾格它沒有的才用這裡（S.lineFor）。
      以安「明天早上有讀書會」只在學期中（寒暑假換另一句）；語彤「晚上我要幫阿姨」只在她在臺北、麵店那天有開（不然換「走累了。回去吧。」）——S.LINE_IF 的 enough */
   S.EXTRA_LINES={
-    heroine_01:{depart:['我到了。早到十分鐘，不是在催你。','出門了。手帳帶了。','車上。我在看等一下要去的地方的地圖。'],enough:['……今天差不多了。明天早上有讀書會。','排的都走完了。……多走的那一段，我很喜歡。'],
-      leaveEarly:['……這樣就回去了？好。手帳上寫的，下次再用。'],noPair:['照片？……我幫你拍。我拍得比較正。']},
+    heroine_01:{depart:['我到了。早到十分鐘。你慢慢來。','出門了。傘帶了。','車上。我在看等一下要去的地方的地圖。'],enough:['……今天差不多了。明天早上有課。','排的都走完了。……多走的那一段，我很喜歡。'],
+      leaveEarly:['……這樣就回去了？好。排好的，下次再用。'],noPair:['照片？……我幫你拍。我拍得比較正。']},
     heroine_03:{depart:['我到了。','出門了。阿姨叫我帶傘。','車上。人很多。'],enough:['……差不多了。晚上我要幫阿姨。','走累了。回去吧。'],leaveEarly:['……就這樣？好。那我回店裡。'],noPair:['我不用。……我幫你拍。']} };
   const inTerm=day=>typeof CALENDAR!=='undefined'&&!!CALENDAR.termOf&&!!CALENDAR.termOf(day)&&!(typeof HOME!=='undefined'&&HOME.breakOf&&HOME.breakOf(day));
   const ytShop=(G,day)=>{ const p=typeof STORY!=='undefined'&&STORY.presence?STORY.presence('heroine_03',Object.assign({},G,{day})):{here:true}; return (p.here||p.kind==='taipei')&&!noodleOff(day)&&!(typeof PLACES!=='undefined'&&PLACES.isOpen&&!PLACES.isOpen('noodle',18,day)); };
