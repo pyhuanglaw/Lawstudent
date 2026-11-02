@@ -14,6 +14,8 @@ const FRIENDS=['zhe','yu','classmate_bohan','heroine_01','heroine_03','classmate
 const ROUTES={
   /* r11：2029 一試 18（both）、二試 4（應屆一定沒上）→ 二選一「再考」→ 2030、2031 一試 17、二試 3 → 停在 2032 一試（瀏覽器：一試 17、二試 9＝2033 錄取＝受訓中）*/
   trainee:{key:'2029-08-04',h:7,flags:{},plan:{exam:{2029:18,2030:17,2031:17},judge:{2029:4,2030:3,2031:3},retake:true},stop:'exam_2032',setup:G=>{ H.FRIEND('heroine_03'); H.date('heroine_03'); }},
+  /* missed1：2029-08-01 起（畢業、退宿、Y4_PATH bar 自動報名）→ 停在 2029 一試開演之前；之後【捷徑】時間改到 8/5 07:00（after）＝一試的時間過了沒去考，瀏覽器讀檔時自己標 missed */
+  missed1:{key:'2029-08-01',h:10,flags:{},plan:{},stop:'exam_2029',after:['2029-08-05',7]},
   /* a1：2029、2030 一試 5（沒過）→ 2031、2032 一試 5 → 停在 2033 一試（瀏覽器：一試 17＝第一次到 both、二試 3＝沒上，沒有下一年）*/
   judge2033:{key:'2031-05-01',h:10,flags:{BAR_REG:true,BAR_SIT_2029:true,BAR_SCORE_2029:5,BAR_STAGE_2029:'none',BAR_SIT_2030:true,BAR_SCORE_2030:5,BAR_STAGE_2030:'none',FIRST_DAY_SEEN:true},
     plan:{exam:{2031:5,2032:5}},stop:'exam_2033',setup:G=>{ const d=PG.rec(G).done; for(const id of ['exam_2029','r1_2029','exam_2030','r1_2030','first','reg_2030']) d[id]=1; }},
@@ -37,6 +39,7 @@ const ROUTES={
       else if(typeof HOME!=='undefined'&&HOME.at&&HOME.at(G)){ if(!await PG.sleepJump(GM)){ const t0=G.day*24+G.hour; await HOME.sleep(GM); if(G.day*24+G.hour<=t0) break; } }
       else if(!await PG.advance(GM)) break; }
   }catch(e){ err=e; } finally { PG.runStep=orun; }
+  if(stopped&&RT.after){ const d=PG.DK(RT.after[0]); G.day=d; G.hour=RT.after[1]; const w=CALENDAR.dateOf(d).wd; G.weekday=w===7?0:w; }   /* 【捷徑】跳過那一場的時間（沒有跑 PG.pending：讓瀏覽器讀檔時自己判 missed）*/
   const F=G.flags, info={route:name,stopped,stop:RT.stop,it,err:err?String(err.stack||err):null,warns:warns.slice(0,5),at:PG.dateLabel(G.day,G.hour),day:G.day,hour:G.hour,zone:G.zone,order,
     flags:Object.fromEntries(Object.keys(F).filter(k=>/^(BAR_|JUDGE_|FIRST_DAY_SEEN|MOVED_OUT|GRADUATED)/.test(k)).map(k=>[k,F[k]])),path:PG.path(G)};
   fs.writeFileSync(out,JSON.stringify({info,G},(k,v)=>v===Infinity?1e15:v));
