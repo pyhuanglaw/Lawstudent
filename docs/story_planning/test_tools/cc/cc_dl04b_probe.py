@@ -818,7 +818,8 @@ async def late_case(pg, cdp, run, c):
     run.check('%s：%s 有 %s（只讀）' % (tag, d['key'], X['cid']), isinstance(it, dict), J(it))
     if not isinstance(it, dict): return
     tr = await trip(pg, cdp, run, tag, it)
-    run.check('%s：手機「今天」有「直接去上課」（%s）' % (tag, tr.get('btn')), (tr.get('btn') or '').startswith('直接去上課'), (tr.get('today') or '')[:300])
+    want_btn = '去聽後半堂（記缺席）' if c == 'abs' else '直接去上課'   # 超過 15 分鐘按鈕字樣不同（classes3d.js todayHTML；BB 11-02 05:0x）
+    run.check('%s：手機「今天」有「%s」（%s）' % (tag, want_btn, tr.get('btn')), (tr.get('btn') or '').startswith(want_btn), (tr.get('today') or '')[:300])
     if not tr.get('btn'): return
     att = tr.get('att') or {}
     run.check('%s：上完、沒有卡住' % tag, tr.get('ok') and not tr.get('stuck') and (tr.get('fin') or {}).get('done'), J({'end': tr.get('end'), 'stuck': tr.get('stuck_at'), 'fin': tr.get('fin')}))
