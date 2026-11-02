@@ -253,7 +253,8 @@ const R2Y4A=(function(){
   S.pushPass=G=>{ const l=S.pushLevel(G); return l==='high'||(l==='mid'&&S.letter(G)); };
   /* 2-Y4-27 研究所筆試的結果：2028-09-04～2029-02-02 在總圖（含法律學院圖書館）的天數 ≥ 24（裁定第 2 點；G.habits 的 place:／seat: 紀錄）。考完那一刻記 GRAD_EXAM_2029_PASS（放榜在 2-Y4-34）*/
   S.libDays=function(G,a,b){ const H=G.habits||{}, set=new Set(); for(const k in H){ if(!/^(place|seat):(library|library_hall|lawlib):/.test(k)) continue; for(const d of (H[k].days||[])) if(d>=a&&d<=b) set.add(d); } return set.size; };
-  S.gradExamPass=G=>{ const F=G.flags||{}; if(typeof F.GRAD_EXAM_2029_PASS==='boolean') return F.GRAD_EXAM_2029_PASS; const a=D('2028-09-04'), b=D('2029-02-02'); return a!=null&&b!=null&&S.libDays(G,a,b)>=24; };
+  /* D118-B6：研究所筆試改成作答（PG.gradQuiz：10 題公法，答對 ≥6）。已經記了 GRAD_EXAM_2029_PASS 的（考過、舊存檔）照記的；沒有作答紀錄、考試日已經過了的舊存檔＝照舊規則（總圖天數）算一次 */
+  S.gradExamPass=G=>{ const F=G.flags||{}; if(typeof F.GRAD_EXAM_2029_PASS==='boolean') return F.GRAD_EXAM_2029_PASS; const ps=typeof PG!=='undefined'&&PG.gradPassScore?PG.gradPassScore(G,2029):null; if(ps!=null) return ps; const a=D('2028-09-04'), b=D('2029-02-02'); return a!=null&&b!=null&&S.libDays(G,a,b)>=24; };
 
   /* ===================== 大四上（臺灣這邊）的手機之二：大四要怎麼過的姊姊、語彤、推甄、可昕的實習 ===================== */
   S.phoneY4b=function(G){ const F=G.flags, us=isUS(G), SIS=t=>({th:'p:sister',from:'sister',name:'姊姊',text:t});
@@ -494,8 +495,8 @@ const R2Y4A=(function(){
   S.exam=async function(GM,o){ const G=GM.G, F=G.flags; if(!S.exOn(G)) return false;
     if(!S.exHere(GM)){ GM.sceneBegin(); try{ if(o&&o.fromHome) leaveHome(G); if(GM.fade) await GM.fade(true); at(GM,8+50/60); if(GM.enter) await GM.enter('campus',Object.assign({},EX_SPAWN),{noFade:true}); if(GM.fade) await GM.fade(false); } finally{ GM.sceneEnd(); } }
     else at(GM,8+40/60);   /* 08:40 教學館門口 */
-    if(typeof F.GRAD_EXAM_2029_PASS!=='boolean') F.GRAD_EXAM_2029_PASS=S.gradExamPass(G);   /* 9/4～2/2 的總圖天數（考的那一刻定；放榜在 2-Y4-34）*/
-    await run(GM,'ev_grad_exam'); at(GM,12.5);
+    await run(GM,'ev_grad_exam'); at(GM,12.5);   /* 考場裡作答（ev_grad_exam 的 call → PG.gradQuiz）*/
+    if(typeof F.GRAD_EXAM_2029_PASS!=='boolean') F.GRAD_EXAM_2029_PASS=S.gradExamPass(G);   /* 作答沒有跑到（沒有 PG）：照舊規則 */
     if(AN_FAM(G)) await run(GM,'ev_grad_exam_after',{noTitle:true});
     backGoal(GM); if(GM.autosave) GM.autosave(); return true; };
   /* 寒假一起讀（期末飯的以安鉤子 HOOK_AN_WINTER_STUDY，termend_lines.js Y4S1；AA_262 第 2 節第 8 點）：寒假的總圖，早上一句；柏翰（推甄沒上、11/24 去了晚餐）在二樓一句。一天各一次 */
