@@ -39618,6 +39618,75 @@
         "ack": "ACK",
         "acceptance": "三種情況補考期間都是考場背景；考完回原處"
       }
+    },
+    {
+      "owner": "LAWWW",
+      "first": {
+        "term": "Y1S1",
+        "earliest": "第一次期末考",
+        "mainline": true,
+        "blocks": false,
+        "parallel": true,
+        "confirmed": true
+      },
+      "id": "BUG-EXAM-LAND-SEAT-1102",
+      "title": "手機橫向坐著考試：選項出現時題目被收掉、非 ADV 沒有紀錄（CC K2、BB 10:15）",
+      "status": "已整合待測試",
+      "priority": "P2",
+      "note": "2026-11-02 LAWWW：renderChoose 放不下時，非 ADV、寬 600 以上、左欄 ≥260 px＝題目加 .side 移到選單左邊（不收）；ADV 照舊收（有紀錄）。P3：「想起課本」再選之前題目再說一次（classes3d runExam）。tests/exam_land_seat_unit.js（字串）、books_unit 6c。版面要 CC 瀏覽器＋iPhone 實機確認。",
+      "xai": {
+        "spec": "BB 10:15；cc-testing 583c7739d CC_K2_exam_overflow.md",
+        "branch": "claude/confident-ritchie-8rwh7t",
+        "receiver": "BB",
+        "ack": "ACK",
+        "acceptance": "橫向選項上方或旁邊一直看得到題目"
+      }
+    },
+    {
+      "owner": "LAWWW",
+      "first": {
+        "term": "Y1S1",
+        "earliest": "第一次期末考",
+        "mainline": true,
+        "blocks": false,
+        "parallel": true,
+        "confirmed": true
+      },
+      "id": "BUG-ADV-CHOICES-SAFEAREA-1102",
+      "title": ".adv-on #choices 瀏海機右欄超出畫面約 19 px（CC K2、BB 10:15）",
+      "status": "已整合待測試",
+      "priority": "P2",
+      "note": "2026-11-02 LAWWW：adv3d.js .adv-on #choices 寬度扣掉左右 safe-area（直向單欄 min(400,…)、橫向兩欄 calc(100% − 左 − 右)）。tests/exam_land_seat_unit.js 第 2 項。要 iPhone 實機確認。",
+      "xai": {
+        "spec": "BB 10:15；CC_K2_exam_overflow.md",
+        "branch": "claude/confident-ritchie-8rwh7t",
+        "receiver": "BB",
+        "ack": "ACK",
+        "acceptance": "瀏海機橫向四個選項都在畫面內"
+      }
+    },
+    {
+      "owner": "LAWWW",
+      "first": {
+        "term": "Y1S1",
+        "earliest": "第一次期末考",
+        "mainline": true,
+        "blocks": false,
+        "parallel": true,
+        "confirmed": true
+      },
+      "id": "BUG-SAVE-QUOTA-HEAVY-1102",
+      "title": "重度玩家 7 份存檔約 5.93 MB 還超過 5 MB（social.mem 22.4 萬字）（BB 10:15）",
+      "status": "待開工",
+      "priority": "P2",
+      "note": "評估：①social.mem 每人每種只留最近 N 筆、劇情讀到的 tag 一律保留（要先列出所有被讀的 tag：SOCIAL.has 等，範圍大、風險高）；②備份（backup、backup_new）壓縮後再存（要引入壓縮程式碼＋授權）。目標重度 7 份 ≤ 4 MB。不進今晚版本（已有空間不足提示＋可以刪欄位）；排下一版。CC 會在使用者電腦用真的瀏覽器量配額。",
+      "xai": {
+        "spec": "BB 10:15；CC 583c7739d",
+        "branch": "claude/confident-ritchie-8rwh7t",
+        "receiver": "BB",
+        "ack": "ACK",
+        "acceptance": "重度玩家 7 份 ≤ 4 MB"
+      }
     }
   ]
 }

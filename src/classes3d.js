@@ -664,7 +664,7 @@ const CLS=(function(){
     let recall=(kind==='final'||kind==='makeup')&&S.hasBook(G,c)?1:0;   /* 補考同期末 */   /* 有那一科的教科書：期末考多一次想起答案（D102）——第一次選錯，那個選項拿掉、旁白一句（AA 2026-10-21 20:23）、再選一次 */
     for(let i=0;i<5;i++){ const q=r.qs[i]; if(typeof STUDY!=='undefined'&&STUDY.cueFor){ let cue=null; try{ cue=STUDY.cueFor(G,q); }catch(e){ console.warn('STUDY.cueFor',e); } if(cue) await GM.say(null,cue); }   /* D118-B4：讀過那張卡＝想起筆記上的一行（不影響計分）*/
       await GM.say(null,(i+1)+'／5　'+q.q); let opts=optList(q); const j=await GM.choose(opts.map(o=>({t:o.t}))); let v=(opts[j]||opts[0]).v;
-      if(recall&&String(v)!==String(q.answer)&&opts.length>2){ recall=0; R.examRecall=R.examRecall||{}; R.examRecall[r.key]=(i+1); opts=opts.filter((o,x)=>x!==j); await GM.say(null,'（你想起課本上那一段。旁邊還有你自己畫的線。）'); const j2=await GM.choose(opts.map(o=>({t:o.t}))); v=(opts[j2]||opts[0]).v; }
+      if(recall&&String(v)!==String(q.answer)&&opts.length>2){ recall=0; R.examRecall=R.examRecall||{}; R.examRecall[r.key]=(i+1); opts=opts.filter((o,x)=>x!==j); await GM.say(null,'（你想起課本上那一段。旁邊還有你自己畫的線。）'); await GM.say(null,(i+1)+'／5　'+q.q); const j2=await GM.choose(opts.map(o=>({t:o.t}))); v=(opts[j2]||opts[0]).v; }
       ans.push(v); if(String(v)===String(q.answer)) k++; }
     const score=S.scoreOf(k); R.exam[r.key]=Object.assign({},R.exam[r.key]||{},{qs:r.qs.map(q=>q.id),ans,correct:k,score,status:'done'});
     if(typeof STUDY!=='undefined'){ try{ r.qs.forEach((q,i)=>STUDY.answer(G,q.id,String(ans[i])===String(q.answer),'exam')); }catch(e){ console.warn('STUDY.answer',e); } }   /* D118-B2：答對＝那張觀念卡答對過；答錯只記進 miss（不扣任何東西）*/
