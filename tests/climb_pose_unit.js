@@ -7,8 +7,9 @@
 //   ⑤ 抓在梯子兩側：手離身體中線 12～30 cm、左手在左邊、右手在右邊（舊版兩手在胸前中間碰在一起）；
 //   ⑥ 高度在胸口到頭頂之間：肩膀下 25 cm ～ 頭頂（頭骨＋20 cm）；在肩膀前面 15～50 cm（往前抓梯子，沒有縮進身體）；
 //   ⑦ 平滑：每一格手最多移動 6 cm（30 fps；從站姿換成爬梯子那一刻也一樣，沒有跳格）；
-//   ⑧ 上身往前靠：頭比站著的時候往前 ≥ 3 cm。
-// 修改前（CLIMB_VRM：兩隻手固定往前平舉）：①②③④⑤ 失敗。
+//   ⑧ 上身往前靠：頭比站著的時候往前 ≥ 3 cm；
+//   ⑨ 握住梯子：中指彎 ≥ 60°（指根到指尖的方向和手掌方向的夾角），而且是往掌心彎（中指末節離大拇指根比站著的時候近）。
+// 修改前（CLIMB_VRM：兩隻手固定往前平舉）：①②③④⑤⑦⑧⑨ 失敗。
 // 用法：node tests/climb_pose_unit.js [char.yuting ...]（不給就祐廷：只有玩家會爬宿舍的梯子）
 const {preload}=require('../tools/dev_scratch/spring_sim/harness.js');
 const keys=process.argv.slice(2).length?process.argv.slice(2):['char.yuting'];
@@ -23,13 +24,16 @@ const scene=new THREE.Scene();
     const Lc=n=>{ const p=new THREE.Vector3(); R(n).getWorldPosition(p); return h.worldToLocal(p); };
     for(let i=0;i<30;i++) CHAR.animate(h,1/30,{pose:'idle',speed:0}); scene.updateMatrixWorld(true);
     const head0=Lc('head'), hips0=Lc('hips'), lean0=head0.z-hips0.z;
+    const thumbN=s=>R(s+'ThumbMetacarpal')?s+'ThumbMetacarpal':s+'ThumbProximal';
+    const curl=s=>{ const hd=Lc(s+'Hand'), p=Lc(s+'MiddleProximal'), m=Lc(s+'MiddleIntermediate'), d=Lc(s+'MiddleDistal'); return {bend:p.clone().sub(hd).angleTo(d.clone().sub(m))*180/Math.PI, toThumb:d.distanceTo(Lc(thumbN(s)))}; };
+    const fing0=['left','right'].map(curl);
     const F=[]; let prev=[Lc('leftHand'),Lc('rightHand')], jump=0;
     for(let i=0;i<100;i++){ CHAR.animate(h,1/30,{pose:'climb',speed:0}); scene.updateMatrixWorld(true);
       const hand=[Lc('leftHand'),Lc('rightHand')], el=[Lc('leftLowerArm'),Lc('rightLowerArm')], sh=[Lc('leftUpperArm'),Lc('rightUpperArm')];
       jump=Math.max(jump,hand[0].distanceTo(prev[0]),hand[1].distanceTo(prev[1])); prev=hand;
       const elbow=[0,1].map(k=>sh[k].clone().sub(el[k]).angleTo(hand[k].clone().sub(el[k]))*180/Math.PI);
       const knee=(Lc('leftLowerLeg').z-Lc('leftUpperLeg').z)-(Lc('rightLowerLeg').z-Lc('rightUpperLeg').z);
-      F.push({i,hand,sh,elbow,knee,head:Lc('head'),hips:Lc('hips')}); }
+      F.push({i,hand,sh,elbow,knee,head:Lc('head'),hips:Lc('hips'),fing:['left','right'].map(curl)}); }
     const S=F.slice(15);   /* 換成爬梯子 0.5 秒以後（剛開始那幾格只量平滑）*/
     const yL=S.map(f=>f.hand[0].y), yR=S.map(f=>f.hand[1].y), rng=a=>Math.max(...a)-Math.min(...a), mean=a=>a.reduce((s,v)=>s+v,0)/a.length;
     const corr=(()=>{ const mx=mean(yL), my=mean(yR); let sxy=0,sxx=0,syy=0; for(let i=0;i<yL.length;i++){ sxy+=(yL[i]-mx)*(yR[i]-my); sxx+=(yL[i]-mx)**2; syy+=(yR[i]-my)**2; } return sxy/Math.sqrt(sxx*syy||1e-12); })();
@@ -50,6 +54,8 @@ const scene=new THREE.Scene();
     check(`⑥ ${key} 高度在胸口到頭頂之間、在肩膀前面 15～50 cm`,lowOK&&fw.every(z=>z>=0.15&&z<=0.5),'往前 '+cm(Math.min(...fw))+'～'+cm(Math.max(...fw))+'、頭頂 '+cm(headTop));
     check(`⑦ ${key} 平滑：每一格手最多移動 6 cm（含從站姿換過來那一刻）`,jump<=0.06,'最大 '+cm(jump));
     check(`⑧ ${key} 上身往前靠向梯子（頭比站著往前 ≥ 3 cm）`,lean>=0.03,'往前 '+cm(lean));
+    const bend=Math.min(...S.flatMap(f=>f.fing.map(g=>g.bend))), palmOK=S.every(f=>[0,1].every(k=>f.fing[k].toThumb<fing0[k].toThumb-0.005));
+    check(`⑨ ${key} 握住：中指往掌心彎 ≥ 60°`,bend>=60&&palmOK,'最少 '+bend.toFixed(0)+'°（站著 '+fing0.map(g=>g.bend.toFixed(0)+'°').join('／')+'）、末節到大拇指根 '+cm(Math.max(...S.map(f=>f.fing[0].toThumb)))+'（站著 '+cm(fing0[0].toThumb)+'）');
     scene.remove(h); CHAR.release(h);
   }
   console.log(fails?('FAIL '+fails):'ALL PASS'); process.exit(fails?1:0);
