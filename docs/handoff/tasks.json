@@ -38447,14 +38447,14 @@
     "parallel": true,
     "confirmed": true
    },
-   "source": "使用者 2026-11-02 03:4x 直接對 BB（企劃線 d98c2566 BB_222 第 0 節；USER_WANTS X151）",
+   "source": "使用者 2026-11-02 03:5x 直接對 LAWWW（D118、UA-LAWWW-1102-10）＋03:4x 對 BB（BB_222）",
    "authorized": "使用者直接指派（X151）；D111 LAWWW 遊戲總監",
    "id": "STUDY-EXAM-SYS-1102",
    "title": "讀書／考試／國考／職涯結局系統照使用者 11-02 要求調整（LAWWW 實作）：對照 BB_222 第 0 節十六條查現行程式（不讀書也能玩、沒有隱藏懲罰、一鍵總複習、學習進度、教材對得上考題、成績看答題、法律服務社不刷任務、國考六條路線）→ 缺口逐條改＋Node 測試（修改前 FAIL）→ BB 驗收",
    "owner": "LAWWW",
-   "status": "待開工",
+   "status": "進行中",
    "priority": "P0",
-   "next": "【LAWWW（帳號 A）03:4x 登記】先做現況盤點（和 BB 的基準對照），列缺口與要 AA 定的結局條件；排在接班盤點回報使用者之後"
+   "next": "【LAWWW（帳號 A）04:0x】使用者直接下 D118（PROJECT_DECISIONS、CLAUDE.md、USER_INSTRUCTION_LOG 已寫）：先現況盤點（多代理唯讀：學習／讀書、考試與成績、法律服務社、國考與職涯結局、交班紀錄與企劃稿）→ 對照 D118 列缺口 → 分工（AA 內容與結局文本、BB 測試、LAWWW2 必要 3D）→ 實作計畫 → 開發 ｜ 【LAWWW（帳號 A）03:4x 登記】先做現況盤點（和 BB 的基準對照），列缺口與要 AA 定的結局條件；排在接班盤點回報使用者之後"
   }
  ]
 }
