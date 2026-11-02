@@ -159,10 +159,10 @@ const FD=(function(){
   /* BUG-DELAY-RETAKE-SKIP-1102（CC M1、BB 09:57）：畢業後篇跳日期（PG.nextStop）原本看不到重修課——9/2 一跳就到 12/14，中間沒機會上課，12/26 就「不到三堂、證書延到六月」。
      還不到三堂的那幾門：下一堂上課前 45 分鐘當停點（Y5.status 上課前 1 小時起是 open；剛好 1 小時會因為小數誤差差一點點還沒開）；到三堂、12/24 判過了、剩下的堂數已經湊不到三堂（BB 10:05）就不再停 */
   S.clsStop=function(G){ if(!S.on(G)||G.flags.FAIL_DELAY_PASS!=null||typeof Y5==='undefined'||!Y5.classItems||!Y5.status) return null; const need=S.short(G); if(!need.length) return null;
-    const r=typeof CALENDAR!=='undefined'&&CALENDAR.termDays?CALENDAR.termDays('Y5S1'):null; if(!r) return null; const t=now(G), left={}, first={};
+    const r=typeof CALENDAR!=='undefined'&&CALENDAR.termDays?CALENDAR.termDays('Y5S1'):null; if(!r) return null; const t=now(G), L={};
     for(let d=Math.max(G.day,r.from);d<=r.to;d++){ for(const it of Y5.classItems(G,d)){ if(!it.fd||!need.includes(it.c.id)) continue; const st=d===G.day?Y5.status(G,it):'upcoming'; if(st==='done'||st==='missed') continue;
-      left[it.c.id]=(left[it.c.id]||0)+1; const at=T(d,it.t0-0.75); if(at>t+1e-6&&first[it.c.id]==null) first[it.c.id]=at; } }
-    let best=null; for(const id of need){ if(first[id]==null||S.attended(G,id)+(left[id]||0)<ATT()) continue; if(best==null||first[id]<best) best=first[id]; }   /* BB 10:05：剩下的堂數已經湊不到三堂的那一門不再停 */
+      (L[it.c.id]||(L[it.c.id]=[])).push(T(d,it.t0-0.75)); } }
+    let best=null; for(const id of need){ const A=L[id]||[]; for(let i=0;i<A.length;i++){ if(A[i]<=t+1e-6) continue; if(S.attended(G,id)+(A.length-i)>=ATT()&&(best==null||A[i]<best)) best=A[i]; break; } }   /* 在那個停點那一刻算：已上的＋從那一堂起還有的 ≥ 三堂才停（BB 10:05、10:12 C0）*/
     return best; };
   if(typeof PG!=='undefined'&&Array.isArray(PG.stops)&&!PG.stops.some(f=>f&&f._fdCls)){ const f=G=>S.clsStop(G); f._fdCls=true; PG.stops.push(f); }
   if(typeof STORY!=='undefined'&&Array.isArray(STORY.PHONE_RULES)) STORY.PHONE_RULES.push(G=>{ if(law(G)) S.result(G); });

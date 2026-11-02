@@ -89,8 +89,10 @@ await sec(6,async()=>{ H.fresh('2029-09-02',9,'dorm',{FAIL_DELAY:true,FAIL_DELAY
   check('6. 照停點去上課：出席到三堂（實際 '+went+'）、到了就不再停在重修',went===3&&FD.attended(H.G,fc.id)===3&&FD.clsStop(H.G)==null,'went='+went+' guard='+guard);
   PG.setT(H.G,E,D('2029-12-25'),9); FD.result(H.G); check('6. 12/24 以後：過了、證書不延',H.G.flags.FAIL_DELAY_PASS===true&&!H.G.flags.FAIL_DELAY_CERT);
   /* 對照：停下來也不去上課＝證書延到六月 */
-  H.fresh('2029-09-02',9,'dorm',{FAIL_DELAY:true,FAIL_DELAY_COURSES:[fc.id]}); let stops=0; guard=0;
-  while(guard++<400){ const t=PG.nextStop(H.G); if(t==null||t>=end) break; PG.setT(H.G,E,Math.floor(t/24),t-Math.floor(t/24)*24); if(FD.clsStop(H.G)!==t&&Y5.classItems(H.G).some(x=>x.fd&&Y5.status(H.G,x)==='open')) stops++; }
+  H.fresh('2029-09-02',9,'dorm',{FAIL_DELAY:true,FAIL_DELAY_COURSES:[fc.id]}); let stops=0, lastStop=null; guard=0;
+  while(guard++<400){ const t=PG.nextStop(H.G); if(t==null||t>=end) break; PG.setT(H.G,E,Math.floor(t/24),t-Math.floor(t/24)*24); if(FD.clsStop(H.G)!==t&&Y5.classItems(H.G).some(x=>x.fd&&Y5.status(H.G,x)==='open')){ stops++; lastStop=H.G.day; } }
+  { let last3=null, n=0; const r=CALENDAR.termDays('Y5S1'); for(let x=r.to;x>=r.from&&n<3;x--){ if(Y5.classItems(H.G,x).some(i=>i.fd)){ n++; last3=x; } }
+    check('6. C0（BB 10:12）：一堂都沒去＝最後一次停在倒數第三堂（'+PG.dateLabel(last3,0)+'），之後只剩兩堂不停',lastStop===last3,lastStop==null?'沒停':PG.dateLabel(lastStop,0)); }
   PG.setT(H.G,E,D('2029-12-25'),9); FD.result(H.G);
   check('6. 對照：不去上課＝停到湊不到三堂為止（'+stops+' 次，剩三堂那一次是最後一次）、證書延到 2030-06',stops>=3&&stops<15&&H.G.flags.FAIL_DELAY_PASS===false&&H.G.flags.FAIL_DELAY_CERT==='2030-06','stops='+stops);
   /* BB 10:05：12 月只剩一堂、上過一堂＝湊不到三堂，不停；上過兩堂＝還湊得到，停 */
