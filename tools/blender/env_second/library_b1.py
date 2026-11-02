@@ -129,7 +129,8 @@ class B1(K.Shop):
         self.blocks, self.seats, self.inter = [], [], []; self.clerk = self.order = self.counter = None
         self.M = M = {
             'floor': L.pbr(f'{self.sid}_floor', 'large_floor_tiles_02', tile=0.8, target='#d2d0ca', contrast=0.45, normal=0.25, maps=('diff', 'nor'), res=512, rough_value=0.22),
-            'wall': L.pbr(f'{self.sid}_wall', 'painted_plaster_wall', tile=2.0, target='#ecebe6', contrast=0.3, normal=0.1, maps=('diff', 'nor'), res=256, rough_value=0.85),
+            'wall': L.pbr(f'{self.sid}_wall', 'painted_plaster_wall', tile=2.0, target='#f3f2ee', contrast=0.3, normal=0.1, maps=('diff', 'nor'), res=256, rough_value=0.85),   # 4.1（BB_242 ③）：牆裙以上白一點；第四版 #ecebe6 看起來灰
+            'divider': L.pbr(f'{self.sid}_divider', 'fine_grained_wood', tile=0.7, target='#a8652e', contrast=0.45, normal=0.2, maps=('diff', 'nor'), res=256, rough_value=0.45),   # 4.1（BB_242 ④）：桌上的隔板蜂蜜橘、比桌面深（照片）
             'wain': L.pbr(f'{self.sid}_granite', 'granite_tile_03', tile=1.2, target='#7d7a76', contrast=0.8, normal=0.3, maps=('diff', 'nor'), res=256, rough_value=0.3),
             'wood': L.pbr(f'{self.sid}_wood', 'fine_grained_wood', tile=0.7, target='#c49862', contrast=0.45, normal=0.2, maps=('diff', 'nor'), res=256, rough_value=0.42),   # 第三版（BB_236 ①）：照片是細紋的淺橡木；原本 wood_table_001 條紋粗、對比 0.8
             'vc': L.vc_material(f'{self.sid}_vc', rough=0.6), 'vcm': L.vc_metal(f'{self.sid}_vcmetal', rough=0.32, metal=0.4),
@@ -148,7 +149,7 @@ class B1(K.Shop):
             'woodpanel': L.pbr(f'{self.sid}_woodpanel', 'fine_grained_wood', tile=1.0, target='#93683f', contrast=0.5, normal=0.2, maps=('diff', 'nor'), res=256, rough_value=0.5),   # 第三版：同上，細紋
         }
         self.vc = CMesh(f'{self.sid}_props', M['vc']); self.vm = CMesh(f'{self.sid}_metal', M['vcm'])
-        self.wood = Mesh(f'{self.sid}_woodparts', M['wood']); self.steel = Mesh(f'{self.sid}_steel', M['steel'])
+        self.wood = Mesh(f'{self.sid}_woodparts', M['wood']); self.steel = Mesh(f'{self.sid}_steel', M['steel']); self.divider = Mesh(f'{self.sid}_dividers', M['divider'])
         self.tube = Mesh(f'{self.sid}_tubes', M['tube']); self.warm = Mesh(f'{self.sid}_warm', M['warm']); self.fridgel = Mesh(f'{self.sid}_fridgelight', M['fridge'])
         self.shade = Mesh(f'{self.sid}_lampshades', M['shade'])
         self.prt = Mesh(f'{self.sid}_prints', M['print']); self.scr = Mesh(f'{self.sid}_screens', M['screen']); self.prt2 = Mesh(f'{self.sid}_prints2', M['print2'])
@@ -278,17 +279,17 @@ def study_chair(c, x, z, yaw):
 def study_chair_parts(c, x, z, yaw):
     """第三版（BB_236 ②；使用者 10-17 的兩張 24 小時自習室照片）：高背、直條鏤空的蜂蜜色實木椅，木頭椅面、沒有坐墊。
     第二版是一般的矮背木椅（0.86 m）＋暗紅坐墊。(x, z) 是坐的位置，面向 yaw；椅背在後面（本地 −z）"""
-    T = rot(x, z, yaw); col, dk, sh = '#b0763a', '#98632f', 0.45
+    T = rot(x, z, yaw); col, dk, sh = '#a55f2a', '#8a4d21', 0.45   # 4.1（BB_242 ④）：蜂蜜橘再深一點、料厚一點（第三、四版 #b0763a、腳 1.7～1.8 cm、直條 2.2 cm 太細）
     rbox(c.vc, T, -0.215, 0.215, sh - 0.03, sh, -0.2, 0.2, col, r=0.008, seg=1)                                # 木頭椅面
     for lx in (-0.185, 0.185):
-        (px, pz) = T(lx, 0.17); ccyl(c.vc, (px, 0.0, pz), (px, sh - 0.03, pz), 0.017, dk, seg=6)              # 前腳
-        (px, pz) = T(lx, -0.18); (qx, qz) = T(lx, -0.215); ccyl(c.vc, (px, 0.0, pz), (qx, 1.02, qz), 0.018, dk, seg=6)   # 後腳一路到椅背頂，往後一點
-        rbox(c.vc, T, lx - 0.01, lx + 0.01, 0.148, 0.172, -0.18, 0.17, dk)                                   # 側面的橫撐
+        (px, pz) = T(lx, 0.17); ccyl(c.vc, (px, 0.0, pz), (px, sh - 0.03, pz), 0.023, dk, seg=6)              # 前腳
+        (px, pz) = T(lx, -0.18); (qx, qz) = T(lx, -0.215); ccyl(c.vc, (px, 0.0, pz), (qx, 1.02, qz), 0.025, dk, seg=6)   # 後腳一路到椅背頂，往後一點
+        rbox(c.vc, T, lx - 0.014, lx + 0.014, 0.145, 0.175, -0.18, 0.17, dk)                                 # 側面的橫撐
     rbox(c.vc, T, -0.185, 0.185, 0.188, 0.212, 0.158, 0.182, dk)                                               # 前面的橫撐
-    rbox(c.vc, T, -0.205, 0.205, 0.93, 1.02, -0.232, -0.198, col, r=0.01, seg=1)                               # 椅背上橫木
-    rbox(c.vc, T, -0.19, 0.19, 0.56, 0.6, -0.222, -0.196, col)                                                 # 椅背下橫木
+    rbox(c.vc, T, -0.21, 0.21, 0.92, 1.02, -0.238, -0.192, col, r=0.012, seg=1)                                # 椅背上橫木
+    rbox(c.vc, T, -0.19, 0.19, 0.55, 0.6, -0.226, -0.194, col)                                                 # 椅背下橫木
     for k in range(5):                                                                                          # 直條（照片：五根）
-        lx = -0.12 + k * 0.06; rbox(c.vc, T, lx - 0.011, lx + 0.011, 0.6, 0.93, -0.218, -0.202, col)
+        lx = -0.12 + k * 0.06; rbox(c.vc, T, lx - 0.015, lx + 0.015, 0.6, 0.92, -0.22, -0.2, col)
 
 
 BAG_COLS = (('#22304a', '#1a2438'), ('#2b2b2e', '#1d1d20'), ('#56603e', '#424a2f'))   # 深藍、黑、橄欖綠（主色、側邊／揹帶）
@@ -362,7 +363,7 @@ def long_desk(c, x0, x1, zc, depth, sides, seats_x):
     z0, z1 = zc - depth / 2, zc + depth / 2; dbl = len(sides) == 2
     c.wood.rbox(x0, x1, 0.72, 0.75, z0, z1, r=0.006, seg=1)
     for xx in (x0 + 0.04, (x0 + x1) / 2 - 0.02, x1 - 0.08): c.wood.box(xx, xx + 0.04, 0.0, 0.72, z0 + 0.04, z1 - 0.04)
-    if dbl: c.wood.box(x0 + 0.08, x1 - 0.08, 0.35, 0.7, zc - 0.015, zc + 0.015); c.wood.rbox(x0, x1, 0.75, 1.1, zc - 0.015, zc + 0.015, r=0.004, seg=1)
+    if dbl: c.wood.box(x0 + 0.08, x1 - 0.08, 0.35, 0.7, zc - 0.015, zc + 0.015); c.divider.rbox(x0, x1, 0.75, 1.1, zc - 0.015, zc + 0.015, r=0.004, seg=1)   # 4.1：中間的隔板蜂蜜橘
     else:
         s0 = 1 if sides[0] == '+z' else -1; zb = zc - s0 * (depth / 2 - 0.04); c.wood.box(x0 + 0.08, x1 - 0.08, 0.35, 0.7, zb - 0.015, zb + 0.015)
     c.block(x0 - 0.02, x1 + 0.02, z0 - 0.02, z1 + 0.02, 'study_desk')
@@ -374,7 +375,7 @@ def long_desk(c, x0, x1, zc, depth, sides, seats_x):
             banker_lamp(c, xx + 0.3, zl, s)
             if k:   # 座位之間的矮隔板（雙面：中間到這一側的桌緣；單面：整個桌深）
                 xm = (seats_x[k - 1] + xx) / 2; za, zb_ = (zc, z1 - 0.03) if (dbl and s > 0) else ((z0 + 0.03, zc) if dbl else (z0 + 0.03, z1 - 0.03))
-                c.wood.box(xm - 0.015, xm + 0.015, 0.75, 1.02, za, zb_)
+                c.divider.box(xm - 0.015, xm + 0.015, 0.75, 1.02, za, zb_)
             # 第三版（BB_236 ③）：有人坐過的座位——桌上一組小物（desk_props.glb 的 tset_*）、椅腳邊的背包；第二版是一個色塊的「書」
             r_ = c.rng.random()
             if r_ < 0.55:
@@ -662,11 +663,13 @@ def build2(c):
     #   兩排雙面長桌（排距 5 m：椅背之間 1.9 m、靠北牆、靠南牆各 1.3 m），一張桌子每邊四個位子（1.2 m 一位），桌子之間 2 m 的走道；
     #   x −13.0…−11.4 是進門那條南北向的走道（正對正門，兩邊都是桌子，照片 room_a 的樣子）。西段只留服務台、參考書架（進門的地方空出來）。
     #   第三版：靠北牆單面一排＋兩排雙面（排距 4 m，椅背之間 1.1 m）、桌子之間只隔 0.3 m（幾乎連成一整排），A 區 81 位；第四版 56 位。
-    for zc in (-10.2, -5.2):
-        for (x0, n) in ((-15.4, 2), (-11.4, 4), (-4.6, 4), (2.2, 4)):        # （西端, 每邊幾個位子）
+    #   4.1（BB_242 ①②，11-02 18:4x）：同一排連成長條桌（矮隔板隔開位子），桌和桌之間只留進門那條走道、中間一條南北向走道（x −1.8…0.2，方柱在這裡）；
+    #   排距 5 m → 4.7 m（背靠背 2.34 m；BB 要的 3.2～3.5 m 比使用者說太擠的第三版 4.0 m 還密，沒有照做，等使用者決定）。A 區 56 → 60 位
+    for zc in (-10.05, -5.35):
+        for (x0, n) in ((-15.4, 2), (-11.4, 8), (0.2, 5)):                   # （西端, 每邊幾個位子）
             long_desk(c, x0, x0 + 1.2 * n, zc, 1.4, ('-z', '+z'), [round(x0 + 0.6 + 1.2 * k, 3) for k in range(n)])
     # 排和排之間的走道：北排椅背 −11.47 ↔ 第一排北側椅背 −10.33（1.14 m）；第一排南側 −7.47 ↔ 第二排北側 −6.33（1.14 m）——東門、B 區的門開在第二條走道
-    for (x, z) in ((-5.6, -7.7), (1.2, -7.7)): column(c, x, z, w=0.5)                    # 方柱：桌子之間 2 m 的走道和兩排中間的走道交會的地方（柱子四邊各留 0.7 m 以上）
+    column(c, -0.8, -7.7, w=0.5)                                         # 方柱：中間那條南北向走道和兩排中間的走道交會的地方（BB_242 ⑤ 保留；四邊各留 0.75 m 以上）
     column(c, 8.0 - 0.32, -11.0)
     K.counter(c, -15.4, -13.0, 3.4, 4.2, h=1.0, top='wood', front='#d9d6cf', why='service_counter')    # 服務台（面向北：第四版從南邊正門進來在左手邊）
     LU.task_chair(c, -14.2, 4.6, PI, '#2e3440')
@@ -678,6 +681,15 @@ def build2(c):
             y_ = 0.12 + r_ * 0.38; c.vc.cbox(LX1 - 0.43, LX1 - 0.14, y_, y_ + 0.3, z0_ + 0.06, z0_ + 1.64, ['#7a2a2a', '#2a4a6a', '#e8dcc0', '#3a5a3a', '#6a5a2a'][(k + r_) % 5])
     c.block(LX1 - 0.47, LX1, -2.6, -2.6 + 4 * 1.8, 'shelves')
     LU.board(c, 'P2', 'x', AZ1, (0, -1), -6.6, -4.2, 1.25, 1.95, 'RULE', frame='#3a5c4a')               # 使用須知（A 區南牆＝會議廳北牆）
+    # ---- 4.1（BB_242 ③）：自習室的牆加約 1 m 的木頭牆裙（和桌子同一種細紋木頭、深一點的 woodpanel），上半白；花崗石踢腳照舊
+    def wainscot(key, axis, at, a0, a1, side, y1=1.0):
+        m = c.wg(key, 'woodwain', M['woodpanel']); t0, t1 = sorted((at, at + side * 0.025))
+        if axis == 'x': m.box(a0, a1, 0.12, y1, t0, t1); m.box(a0, a1, y1, y1 + 0.035, t0 - (0.012 if side < 0 else 0), t1 + (0.012 if side > 0 else 0))   # 上緣一條壓條
+        else: m.box(t0, t1, 0.12, y1, a0, a1); m.box(t0 - (0.012 if side < 0 else 0), t1 + (0.012 if side > 0 else 0), y1, y1 + 0.035, a0, a1)
+    wainscot('N', 'x', Z0, AX0, X1, +1)                                  # 北牆（A 區、電梯走道、B 區）
+    wainscot('E', 'z', X1, Z0, BZ1, -1)                                  # 東牆（B 區）
+    wainscot('P2', 'x', AZ1 - 0.05, LX1, AX1, -1)                        # A 區南邊的隔間（會議廳北牆）朝北那一面
+    wainscot('P3', 'z', LX1 - 0.05, AZ1, LZ1, -1)                        # A 區西段東邊的隔間朝西那一面（參考書架後面）
     # ---- 電梯走道：自助借還書機兩台（靠 B 區玻璃）、還書口
     for kz in (-5.6, -4.4):
         c.vc.crbox(BX0 - 0.67, BX0 - 0.17, 0.0, 1.0, kz - 0.3, kz + 0.3, '#e4e4e0', r=0.02, seg=1)
@@ -691,7 +703,7 @@ def build2(c):
     # ---- B 區（禁用筆電）：靠北牆單面一排、中間兩排雙面
     # 第四版：門在南牆 BDX（從影印中心那一邊進來、面向北），桌子東西向＝和門平行；兩排雙面（排距 5 m）、每邊兩個位子，中間 x 16.3…18.7 南北向走道正對著門。
     #   第三版：靠北牆單面一排＋兩排雙面，20 位；第四版 16 位
-    for zc in (-10.0, -5.0):
+    for zc in (-9.95, -5.25):                                            # 4.1：排距 4.7 m（同 A 區）
         for x0 in (13.9, 18.7):
             long_desk(c, x0, x0 + 2.4, zc, 1.4, ('-z', '+z'), [round(x0 + 0.6 + 1.2 * k, 3) for k in range(2)])
     # ---- 西門廳：置物櫃（北牆）、公告欄、飲水機、樓層指引、長椅
@@ -758,7 +770,7 @@ def build2(c):
                    disc2_head=dict(x=3.1, z=round(zc2 + 2.0, 3), yaw=PI, note='討論室 2：白板和桌子中間、面向桌子（國考讀書會）'),
                    disc2_door=dict(x=3.0, z=DZ0 + 0.8, yaw=0.0, note='討論室 2：剛進門、面向南'),
                    study_door=dict(x=ADX, z=LZ1 - 0.9, yaw=PI, note='24 小時自習室 A 區：從南走廊刷卡進門、面向北（看到整間；第四版起正門在西段南牆）'),
-                   study_night=dict(x=-0.4, z=-6.38, yaw=0.0, note='A 區南邊那一排雙面長桌北側、靠中間走道的位子（期末前的夜，偶遇柏翰；AA_399 第 2 節）＝seats 裡同一個位子（kind study）：要讓 NPC 坐就用那個 seat；第三版 (−0.25, −6.08)'),
+                   study_night=dict(x=-2.4, z=-6.53, yaw=0.0, note='A 區南邊那一排長條桌北側、靠中間南北向走道的位子（期末前的夜，偶遇柏翰；AA_399 第 2 節）＝seats 裡同一個位子（kind study）：要讓 NPC 坐就用那個 seat；第三版 (−0.25, −6.08)、第四版 (−0.4, −6.38)'),
                    selfcheck=dict(x=BX0 - 1.4, z=-5.0, yaw=-PI / 2, note='自助借還書機前、面向東（interact id selfcheck）'),
                    stairs_door=dict(x=round(X0 + 1.5, 3), z=STAIR['z'], yaw=PI / 2, note='樓梯間的門前 1.5 m、面向東（＝spawn；從 1F 走樓梯下來站在這裡）')),
         nodes={'GLOW_l118_warm': '綠色檯燈燈罩下面亮的那一片（整層一個網格）', 'GLOW_library_b1_courtsky': '中庭上面的天光（白天亮）'})
@@ -768,10 +780,10 @@ def finish(c):
     D = {'N': [0, 0, 1], 'W': [1, 0, 0], 'E': [-1, 0, 0], 'S': [0, 0, -1]}
     for k, ms in c.WG.items():
         for key, m in ms.items():
-            uv = key in ('wall', 'wain', 'door'); mg = key not in ('print', 'screen', 'view', 'glass', 'frost')
+            uv = key in ('wall', 'wain', 'door', 'woodwain'); mg = key not in ('print', 'screen', 'view', 'glass', 'frost')
             m.finish(c.root, props=dict({'dir': D.get(k) or c.PDIR[k]}, **c.WGP.get(k, {})), uv=uv, merge=mg)
     for m in (c.vc, c.vm, c.tube, c.warm, c.fridgel, c.steel, c.shade): m.finish(c.root, uv=False)
-    c.wood.finish(c.root)
+    c.wood.finish(c.root); c.divider.finish(c.root)
     for m in (c.prt, c.scr, c.prt2): m.finish(c.root, uv=False, merge=False)
     c.colm.finish(c.root); c.panel.finish(c.root)
     for m in c.extra.values(): m.finish(c.root, uv=False)
