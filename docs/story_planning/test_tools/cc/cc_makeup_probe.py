@@ -409,7 +409,10 @@ class Driver:
             m = Q_RE.match(lastsay['t']) if lastsay else None
             if m and not any(t.startswith(CONT) for t in T):
                 pp = self.paper or {}
-                cid = await pg.evaluate(CNAME2ID, pp.get('name', ''))
+                cur = await pg.evaluate("(typeof CLS!=='undefined'&&CLS.curExam)?Object.assign({},CLS.curExam):null")   # BB_229 第 7 條：48918ca20 起有 CLS.curExam {cid,kind,term,i,qid}；舊版（b1b）沒有＝照舊後備
+                if cur and cur.get('cid'):
+                    pp = {'name': '', 'kind': cur.get('kind') or 'final', 'd': lastsay.get('d'), 'via': 'curExam'}; self.paper = pp
+                cid = cur['cid'] if cur and cur.get('cid') else await pg.evaluate(CNAME2ID, pp.get('name', ''))
                 if not cid:   # 「考卷發下來。」被擠出最近 14 行（d75871437 起期末考前有研討室旁白／cue）：改用今天是哪一門課的考試日（cloud／cc-local R5 11-02）
                     tod = await pg.evaluate(TODAY_EXAM)
                     if tod: cid = tod['id']; pp = dict(pp, kind=pp.get('kind') or tod['kind'], via='examDay'); self.paper = self.paper or {'name': tod['name'], 'kind': tod['kind'], 'd': lastsay.get('d')}
