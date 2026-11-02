@@ -1,0 +1,165 @@
+{
+ "case": "bar_pool",
+ "sha": "62d98bfa5",
+ "pool": {
+  "bankMar": [
+   [
+    "Y4_MAR_01",
+    "Y4_CROSS_REVIEWED",
+    "maritime"
+   ],
+   [
+    "Y4_MAR_04",
+    "Y4_CROSS_REVIEWED",
+    "maritime"
+   ],
+   [
+    "Y4MAR_01",
+    "Y4_CROSS_REVIEWED",
+    "maritime"
+   ],
+   [
+    "Y4MAR_02",
+    "Y4_CROSS_REVIEWED",
+    "maritime"
+   ],
+   [
+    "Y4MAR_03",
+    "Y4_CROSS_REVIEWED",
+    "maritime"
+   ],
+   [
+    "Y4MAR_04",
+    "Y4_CROSS_REVIEWED",
+    "maritime"
+   ],
+   [
+    "Y4MAR_05",
+    "Y4_CROSS_REVIEWED",
+    "maritime"
+   ],
+   [
+    "Y4MAR_06",
+    "Y4_CROSS_REVIEWED",
+    "maritime"
+   ],
+   [
+    "Y4MAR_07",
+    "Y4_CROSS_REVIEWED",
+    "maritime"
+   ],
+   [
+    "Y4MAR_08",
+    "Y4_CROSS_REVIEWED",
+    "maritime"
+   ],
+   [
+    "Y4MAR_09",
+    "Y4_CROSS_REVIEWED",
+    "maritime"
+   ],
+   [
+    "Y4MAR_10",
+    "Y4_CROSS_REVIEWED",
+    "maritime"
+   ],
+   [
+    "Y4MAR_11",
+    "Y4_CROSS_REVIEWED",
+    "maritime"
+   ]
+  ],
+  "exclude": [
+   "/^Y4MAR_/",
+   "/^Y4IP_/",
+   "/^Y4LSO_/",
+   "/^Y4TAX_/"
+  ],
+  "poolN": 434,
+  "poolMar": [
+   "Y4_MAR_01",
+   "Y4_MAR_04"
+  ],
+  "poolAllN": 483,
+  "poolAllMar": [
+   "Y4_MAR_01",
+   "Y4_MAR_04",
+   "Y4MAR_01",
+   "Y4MAR_02",
+   "Y4MAR_03",
+   "Y4MAR_04",
+   "Y4MAR_05",
+   "Y4MAR_06",
+   "Y4MAR_07",
+   "Y4MAR_08",
+   "Y4MAR_09",
+   "Y4MAR_10",
+   "Y4MAR_11"
+  ],
+  "draw": {
+   "seeds": 200,
+   "years": [
+    2029,
+    2033
+   ],
+   "questions": 20000,
+   "poolCalls": 2000,
+   "mar": {
+    "Y4_MAR_04": 47,
+    "Y4_MAR_01": 47
+   },
+   "err": null
+  },
+  "judgeN": 74,
+  "judgeMar": [],
+  "drawUsesPool": true,
+  "byCourse": {
+   "maritime": [
+    "Y4_MAR_01",
+    "Y4_MAR_04"
+   ],
+   "ip_law": [],
+   "labor_social": [
+    "Y4_LSO_06",
+    "Y4_LSO_08"
+   ],
+   "tax_law": [
+    "Y4_TAX_03",
+    "Y4_TAX_06",
+    "Y4_TAX_08"
+   ]
+  },
+  "bankCourses": [
+   "admin_law",
+   "admin_remedy",
+   "civ_general",
+   "oblig_gen1",
+   "oblig_gen2",
+   "oblig_spec",
+   "property",
+   "family_law",
+   "crim_gen1",
+   "const_1",
+   "crim_spec",
+   "crimpro",
+   "securities",
+   "insurance",
+   "labor_law",
+   "crim_gen2",
+   "legal_english",
+   "civpro_1",
+   "civpro_2",
+   "const_2",
+   "company_law",
+   "negotiable",
+   "crim_judgment_sem",
+   "enforcement",
+   "labor_social",
+   "legal_ethics",
+   "maritime",
+   "public_judgment_sem",
+   "tax_law",
+   "ip_law"
+  ]
+ }
+}

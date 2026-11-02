@@ -1,0 +1,125 @@
+[gpu_wrap] CC_GPU=1 跑 C:\Users\USER\Documents\Lawstudent_cclocal\docs\story_planning\test_tools\cc\cc_d124_probe.py http://127.0.0.1:8807/index.html?turbo C:\Users\USER\Documents\Lawstudent_cclocal\docs\story_planning\CC\local_out\X_P1_d124\out
+==== CASE take（SHA 62d98bfa5）====
+PASS take：遊戲載入
+  [前置／捷徑] [前置] take：最小存檔改到 2029-02-18 21:00 宿舍（法律系、台灣路線、Y4_PATH bar；R.grades.Y4S1 先填好 ["enforcement", "legal_ethics", "ip_law", "labor_social", "crim_judgment_sem"]＝不發大四上成績單、不排重修）
+  [  28.6s] take：讀檔後 {"clock": {"key": "2029-02-18", "day": 1251, "h": 21.009, "zone": "dorm", "term": null, "week": null}, "electives": {}, "sel": false, "termCourses": ["legal_research", "legal_practice", "maritime"], "examDay": {"key": "2029-05-30", "day": 1352, "block": "am"}, "examList": [["maritime", "final", "2029-05-30", "am"]], "exam": null, "grades": null, "flags": {"Y4_PATH": "bar"}, "pgOn": false, "delayed": false, "fdOn": false, "failed": ["maritime"], "curExamHook": true, "curExam": null, "nmsg": 1, "groups": [{"group": "y4s2_mar", "def": "maritime", "none": true, "opts": ["maritime"]}]}
+PASS take：前置成立（2029-02-18、還沒選大四下的課、choiceGroups(Y4S2) 有 y4s2_mar）  {"clock": {"key": "2029-02-18", "day": 1251, "h": 21.009, "zone": "dorm", "term": null, "week": null}, "groups": [{"group": "y4s2_mar", "def": "maritime", "none": true, "opts": ["maritime"]}], "sel": false}
+  [  31.8s] 到達「床」附近（0.24 m）：點地面 1 次、轉鏡頭 0 次、搖桿 0 次，3 秒
+  [  33.5s] take 2029-02-18 21:00：床的選單 ["睡到明天中午（12:20）12:20（第一堂 13:20 法律專題研究前一小時）", "睡到明天下午14:00。會錯過：13:20 法律專題研究", "睡到明天晚上18:00。會錯過：13:20 法律專題研究", "再撐一下"] → 睡到明天中午（12:20）12:20（第一堂 13:20 法律專題研究前一小時）
+  [  45.8s] take：選課「海商法與海洋法要修嗎？」選項 ["海商法與海洋法週三上午・法律系館A 202", "這學期不修海商法與海洋法那個時段沒有課"] → 按「海商法與海洋法週三上午・法律系館A 202」
+PASS take：選課畫面有海商法這一組：「海商法與海洋法」和「這學期不修…」兩個選項（startswith）  {"asked": "海商法與海洋法要修嗎？", "opts": ["海商法與海洋法週三上午・法律系館A 202", "這學期不修海商法與海洋法那個時段沒有課"]}
+  [  56.3s] take_after_select：手機「課表」考試欄 "考試（這段時間不能約人、約會）\n期末　海商法與海洋法　5/30（三）09:10–12:10　法律系館A 202"
+  [  56.3s] take：選課以後 {"clock": {"key": "2029-02-19", "day": 1252, "h": 12.341, "zone": "dorm", "term": "Y4S2", "week": 1}, "electives": {"y4s2_mar": "maritime"}, "sel": true, "termCourses": ["legal_research", "legal_practice", "maritime"], "examDay": {"key": "2029-05-30", "day": 1352, "block": "am"}, "examList": [["maritime", "final", "2029-05-30", "am"]], "exam": null, "grades": null, "flags": {"Y4_PATH": "bar"}, "pgOn": false, "delayed": false, "fdOn": false, "failed": ["maritime"], "curExamHook": true, "curExam": null, "nmsg": 1, "groups": [{"group": "y4s2_mar", "def": "maritime", "none": true, "opts": ["maritime"]}]}；整學期有海商法的日子 13 天（前三天 ["2029-02-21", "2029-03-07", "2029-03-14"]）
+PASS take：按「海商法與海洋法」→ electives.y4s2_mar＝maritime、termCourses 有 maritime  {"el": {"y4s2_mar": "maritime"}, "tc": ["legal_research", "legal_practice", "maritime"]}
+PASS take：examDay(maritime,Y4S2,final) 有日期、examList 有  {"examDay": {"key": "2029-05-30", "day": 1352, "block": "am"}, "examList": [["maritime", "final", "2029-05-30", "am"]]}
+PASS take：手機「課表」考試欄有海商法  "考試（這段時間不能約人、約會）\n期末　海商法與海洋法　5/30（三）09:10–12:10　法律系館A 202"
+  [前置／捷徑] [前置／捷徑] take：讀檔到 2029-05-29 21:00 宿舍（courses 照剛才遊戲裡的：electives {"y4s2_mar": "maritime"}；flags {"Y4_PATH": "bar", "BAR_REG": true}）
+  [  63.8s] 到達「床」附近（0.24 m）：點地面 1 次、轉鏡頭 0 次、搖桿 0 次，3 秒
+  [  65.6s] take 考試前一晚：床的選單 ["睡到明天早上（08:10）08:10（考試 09:10 海商法與海洋法前一小時）", "快轉到下一個有事的時候、過一週；沒有劇情的課自動去上", "再撐一下"] → 睡到明天早上（08:10）08:10（考試 09:10 海商法與海洋法前一小時）
+  [  71.2s] take 2029-05-30 08:10 dorm 選項 ["沒選到的那堂，等第二階段有人退選，再上網加加看。", "算了，下學期再選。"] → 算了，下學期再選。（decline）
+  [  73.7s] take 2029-05-30 08:11 dorm 選項 ["直接去考場：海商法與海洋法走路 18 分鐘，09:00 ", "先起床考試前 10 分鐘會自動帶你進考場"] → 先起床考試前 10 分鐘會自動帶你進考場（wake）
+  [  95.3s] take_20290530：手機「今天」"5/30 週三・大四下 第 15 週（期末考週）\n現在 08:16\n今天的時間　上午 ○○　下午 ○○　晚上 ○○\n每個時段一件主要的事：上課、社團活動、出遊約會、自習、打工、自由出行、健身都算一件（上課、約好的出遊照樣能去）；吃飯、聊天、約好的見面不算。考試週：每個時段多一次（金色），只能拿來自習。\n09:10–12:10 海商法與海洋法（考試）\n法律系館A 202・兼任老師・還沒開始\n直接去上課\n法律學院圖書館：今天 08:10–21:45　總圖：08:00–22:00\n跳過時間\n沒有想做的事可以跳過；遇到特殊課堂、約好的時間、劇情會停下來。\n等到下一堂課前（09:00）\n等到中午（12:00）\n等到下午（14:00）\n等到傍晚（17:30）\n等到晚上（20:00）\n翹課不會被扣分；沒去的課，可以在宿舍、圖書館、Café 讀書補回來。"；dayItems [{"key": "1352:maritime:am", "cid": "maritime", "t0": 9.166666666666666, "exam": "final", "examMain": true, "status": "upcoming"}]；按鈕 [["1352:maritime:am", "直接去上課"]]
+  [ 108.4s] take 2029-05-30 09:00 linze_202 選項 ["坐中間的位子第一次上這門課", "自己找位子走過去坐下就可以上課"] → 坐中間的位子第一次上這門課（pick）
+  [ 116.0s] take：考卷第 1 題（curExam，{"cid": "maritime", "kind": "final", "term": "Y4S2", "i": 1, "qid": "Y4MAR_10"} Y4MAR_10）【捷徑】讀正解第 1 個 → 按第 2 個
+  [ 119.5s] take：考卷第 2 題（curExam，{"cid": "maritime", "kind": "final", "term": "Y4S2", "i": 2, "qid": "Y4MAR_03"} Y4MAR_03）【捷徑】讀正解第 4 個 → 按第 1 個
+  [ 122.9s] take：考卷第 3 題（curExam，{"cid": "maritime", "kind": "final", "term": "Y4S2", "i": 3, "qid": "Y4MAR_04"} Y4MAR_04）【捷徑】讀正解第 1 個 → 按第 2 個
+  [ 126.4s] take：考卷第 4 題（curExam，{"cid": "maritime", "kind": "final", "term": "Y4S2", "i": 4, "qid": "Y4MAR_06"} Y4MAR_06）【捷徑】讀正解第 3 個 → 按第 1 個
+  [ 129.8s] take：考卷第 5 題（curExam，{"cid": "maritime", "kind": "final", "term": "Y4S2", "i": 5, "qid": "Y4MAR_07"} Y4MAR_07）【捷徑】讀正解第 3 個 → 按第 1 個
+  [ 141.8s] take_20290530_maritime：1352:maritime:am 結束 {"day": 1352, "key": "2029-05-30", "h": 12.169, "zone": "linze_202"}；上完 True；換區域 [["linze_202", 9]]
+PASS take：考試那天（2029-05-30）手機「今天」有「海商法與海洋法（考試）」  "5/30 週三・大四下 第 15 週（期末考週）\n現在 08:16\n今天的時間　上午 ○○　下午 ○○　晚上 ○○\n每個時段一件主要的事：上課、社團活動、出遊約會、自習、打工、自由出行、健身都算一件（上課、約好的出遊照樣能去）；吃飯、聊天、約好的見面不算。考試週：每個時段多一次（金色），只能拿來自習。\n09:10–12:10 海商法與海洋法（考試）\n法律系館A 202・兼任老師・還沒開始\n直接去上課\n法律學院圖書館：今天 08:10–21:45　總圖：08:00–22:00\n跳過時間\n沒有想做的事可以跳過；遇到特殊課堂、約好的時間、劇情會停下來。\n等到下一堂課前（09:00）\n等到中午（12:"
+  [ 141.8s] take：考卷 [{"i": 1, "ce": {"cid": "maritime", "kind": "final", "term": "Y4S2", "i": 1, "qid": "Y4MAR_10"}, "by": "curExam", "id": "Y4MAR_10", "right": 0, "picked": 1, "correct": false, "d": "2029-05-30"}, {"i": 2, "ce": {"cid": "maritime", "kind": "final", "term": "Y4S2", "i": 2, "qid": "Y4MAR_03"}, "by": "curExam", "id": "Y4MAR_03", "right": 3, "picked": 0, "correct": false, "d": "2029-05-30"}, {"i": 3, "ce": {"cid": "maritime", "kind": "final", "term": "Y4S2", "i": 3, "qid": "Y4MAR_04"}, "by": "curExam", "id": "Y4MAR_04", "right": 0, "picked": 1, "correct": false, "d": "2029-05-30"}, {"i": 4, "ce": {"cid": "maritime", "kind": "final", "term": "Y4S2", "i": 4, "qid": "Y4MAR_06"}, "by": "curExam", "id": "Y4MAR_06", "right": 2, "picked": 0, "correct": false, "d": "2029-05-30"}, {"i": 5, "ce": {"cid": "maritime", "kind": "final", "term": "Y4S2", "i": 5, "qid": "Y4MAR_07"}, "by": "curExam", "id": "Y4MAR_07", "right": 2, "picked": 0, "correct": false, "d": "2029-05-30"}]
+PASS take：期末考得到：CLS.curExam 認得考卷 {cid maritime, kind final, term Y4S2}（5 題）  {"curExamHook": true, "exam": [{"i": 1, "ce": {"cid": "maritime", "kind": "final", "term": "Y4S2", "i": 1, "qid": "Y4MAR_10"}, "by": "curExam", "id": "Y4MAR_10", "right": 0, "picked": 1, "correct": false, "d": "2029-05-30"}, {"i": 2, "ce": {"cid": "maritime", "kind": "final", "term": "Y4S2", "i": 2, "qid": "Y4MAR_03"}, "by": "curExam", "id": "Y4MAR_03", "right": 3, "picked": 0, "correct": false, "d": "2029-05-30"}, {"i": 3, "ce": {"cid": "maritime", "kind": "final", "term": "Y4S2", "i": 3, "qid": "Y4MAR_04"}, "by": "curExam", "id": "Y4MAR_04", "right": 0, "picked": 1, "correct": false, "d": "2029-05-30"}, {"i": 4, "ce": {"cid": "maritime", "kind": "final", "term": "Y4S2", "i": 4, "qid": "Y4MAR_06"}, "by": "curExam", "id": "Y4MAR_06", "right": 2, "picked": 0, "correct": false, "d": "2029-05-30"}, {"i": 5, "ce": {"cid": "maritime", "kind": "final", "term": "Y4S2", "i": 5, "qid": "Y4MAR_07"}, "by": "curExam", "id": "Y4MAR_07", "right": 2, "picked": 0, "correct": false, "d": "2029-05-30"}]}
+PASS take：期末紀錄 status done、答對 0 題（照玩家按的）  {"qs": ["Y4MAR_10", "Y4MAR_03", "Y4MAR_04", "Y4MAR_06", "Y4MAR_07"], "ans": ["B", "A", "B", "A", "A"], "correct": 0, "score": 0, "status": "done"}
+  [前置／捷徑] [前置／捷徑] take：讀檔到 2029-06-17 21:00 宿舍（GRADUATED、GRAD_DONE、PACKED_Y4、典禮那幾場 done；BAR_REG true；courses 照剛才的：exam {"qs": ["Y4MAR_10", "Y4MAR_03", "Y4MAR_04", "Y4MAR_06", "Y4MAR_07"], "ans": ["B", "A", "B", "A", "A"], "correct": 0, "score": 0, "status": "done"}）
+  [ 165.3s] take 2029-06-27 23:00 dorm 選項 ["「（去關燈）」", "「再聊一下。」"] → 「（去關燈）」（first）
+  [ 213.1s] take 2029-08-04 08:30 gongguan 選項 ["（A）假處分", "（B）再審", "（C）第三審上訴", "（D）假扣押"] → （A）假處分（first）
+  [ 214.9s] take 2029-08-04 08:30 gongguan 選項 ["（A）每日 10 小時，每週 50 小時", "（B）每日 8 小時，每週 48 小時", "（C）每日 8 小時，每週 40 小時", "（D）每日 12 小時，每週 60 小時"] → （A）每日 10 小時，每週 50 小時（first）
+  [ 217.3s] take 2029-08-04 08:30 gongguan 選項 ["（A）10 萬元", "（B）不用負任何責任", "（C）5 萬元", "（D）1 萬元"] → （A）10 萬元（first）
+  [ 219.7s] take 2029-08-04 08:30 gongguan 選項 ["（A）立法院", "（B）行政院", "（C）司法院大法官組成的憲法法庭", "（D）最高法院"] → （A）立法院（first）
+  [ 222.1s] take 2029-08-04 08:30 gongguan 選項 ["（A）可以，只要股東會同意", "（B）不可以，公司無盈餘時，不得分派股息及紅利", "（C）可以，只要不超過資本的一成", "（D）可以，因為股東本來就有權拿回自己的錢"] → （A）可以，只要股東會同意（first）
+  [ 224.5s] take 2029-08-04 08:30 gongguan 選項 ["（A）三分之一", "（B）二分之一", "（C）三分之二", "（D）全部"] → （A）三分之一（first）
+  [ 226.9s] take 2029-08-04 08:30 gongguan 選項 ["（A）一律以股票價格實際上漲日為準", "（B）一律以新聞媒體報導日為準", "（C）一律以股東會正式通過日為準", "（D）依事實發生日、協議日、簽約日、董事會決議日或其他具"] → （A）一律以股票價格實際上漲日為準（first）
+  [ 229.3s] take 2029-08-04 08:30 gongguan 選項 ["（A）無限公司", "（B）兩合公司", "（C）有限公司", "（D）股份有限公司"] → （A）無限公司（first）
+  [ 231.7s] take 2029-08-04 08:30 gongguan 選項 ["（A）Evidence", "（B）Punishment", "（C）Property", "（D）Contract"] → （A）Evidence（first）
+  [ 233.5s] take 2029-08-04 08:30 gongguan 選項 ["對", "錯"] → 對（first）
+  [ 235.9s] take 2029-08-04 08:30 gongguan 選項 ["（A）不必理會，依辯論主義由甲自己承擔", "（B）直接駁回甲的訴", "（C）應向當事人發問或曉諭，令其敘明或補充", "（D）請檢察官替甲補充事實"] → （A）不必理會，依辯論主義由甲自己承擔（first）
+  [ 238.3s] take 2029-08-04 08:30 gongguan 選項 ["（A）公司應請求將利益歸於公司", "（B）利益一律由證券交易所取得", "（C）利益一律由交易相對人取得", "（D）只要交易合法交割，利益即絕對不得請求歸入"] → （A）公司應請求將利益歸於公司（first）
+  [ 240.0s] take 2029-08-04 08:30 gongguan 選項 ["（A）因是自白所以證明力最高", "（B）任意性存在重大問題", "（C）必然勝過物證", "（D）不需法院審查"] → （A）因是自白所以證明力最高（first）
+  [ 242.4s] take 2029-08-04 08:30 gongguan 選項 ["（A）每一位股東一票，不論持股多少", "（B）只有持股超過百分之五的股東才有表決權", "（C）董事的表決權加倍計算", "（D）除公司法另有規定外，每股有一表決權"] → （A）每一位股東一票，不論持股多少（first）
+  [ 244.9s] take 2029-08-04 08:30 gongguan 選項 ["（A）百分之四十", "（B）百分之五十", "（C）百分之六十", "（D）百分之七十"] → （A）百分之四十（first）
+  [ 247.3s] take 2029-08-04 08:30 gongguan 選項 ["（A）百分之三", "（B）百分之五", "（C）百分之十", "（D）百分之二十"] → （A）百分之三（first）
+  [ 249.7s] take 2029-08-04 08:30 gongguan 選項 ["（A）損害賠償", "（B）撤銷乙自己的所有法律行為", "（C）直接取得甲的全部財產", "（D）宣告甲喪失行為能力"] → （A）損害賠償（first）
+  [ 252.1s] take 2029-08-04 08:30 gongguan 選項 ["（A）須經十位以上立法委員連署", "（B）須先向監察院陳情", "（C）須經依法定程序用盡審級救濟程序", "（D）只要對法律內容不滿意即可"] → （A）須經十位以上立法委員連署（first）
+  [ 254.5s] take 2029-08-04 08:30 gongguan 選項 ["（A）符合中止未遂要件時，減輕或免除其刑", "（B）甲必然成立殺人既遂", "（C）甲因未造成死亡，一律不成立任何犯罪", "（D）中止未遂必須由警察制止才成立"] → （A）符合中止未遂要件時，減輕或免除其刑（first）
+  [ 256.9s] take 2029-08-04 08:30 gongguan 選項 ["（A）國家依法徵收私人土地，應給予合理的補償", "（B）為了公共利益，國家可以無償取得甲的土地", "（C）只要符合公共利益，徵收不需要法律依據", "（D）財產權不是憲法列舉的權利，甲只能依第 22 條主張"] → （A）國家依法徵收私人土地，應給予合理的補償（first）
+  [ 272.3s] take：6/18 以後 {"clock": {"key": "2029-09-07", "day": 1452, "h": 15.088, "zone": "gongguan", "term": null, "week": null}, "electives": {"y4s2_mar": "maritime"}, "sel": true, "termCourses": ["legal_research", "legal_practice", "maritime"], "examDay": {"key": "2029-05-30", "day": 1352, "block": "am"}, "examList": [["maritime", "final", "2029-05-30", "am"]], "exam": {"qs": ["Y4MAR_10", "Y4MAR_03", "Y4MAR_04", "Y4MAR_06", "Y4MAR_07"], "ans": ["B", "A", "B", "A", "A"], "correct": 0, "score": 0, "status": "done"}, "grades": {"legal_research": "通過", "legal_practice": "通過", "maritime": "0 分（不及格）"}, "flags": {"BAR_REG": true, "Y4_PATH": "bar", "FAIL_DELAY_COURSES": [], "FAIL_DELAY_V": 2, "GRADUATED": 1355}, "pgOn": true, "delayed": false, "fdOn": false, "failed": ["maritime"], "curExamHook": true, "curExam": null, "nmsg": 3, "groups": [{"group": "y4s2_mar", "def": "maritime", "none": true, "opts": ["maritime"]}]}；成績單 "法律專題研究：通過　法律實習或法律扶助實務：通過　海商法與海洋法：0 分（不及格）"；步驟 ["fd_grades_y4s2", "b1", "exam_2029", "r1_2029"]；延畢／補考的句子 []；新訊息 [["heard_h510_pinyu", "可昕一試考完，第一件事是去吃鹹酥雞。她說忍了半年。"], ["pg_r1sys_2029", "律師、司法官一試：未通過。"]]
+PASS take：6/18 成績單有「海商法與海洋法：…不及格」（被當只記成績）  {"line": "法律專題研究：通過　法律實習或法律扶助實務：通過　海商法與海洋法：0 分（不及格）", "grades": {"legal_research": "通過", "legal_practice": "通過", "maritime": "0 分（不及格）"}}
+PASS take：不延畢（沒有 FAIL_DELAY、FAIL_DELAY_COURSES 不含 maritime、PG.delayed false、FD.on false）  {"flags": {"BAR_REG": true, "Y4_PATH": "bar", "FAIL_DELAY_COURSES": [], "FAIL_DELAY_V": 2, "GRADUATED": 1355}, "delayed": false, "fdOn": false, "failed": ["maritime"]}
+PASS take：不排補考（FD_MAKEUP 不是 pending、沒有補考通知）  {"FD_MAKEUP": null, "msgs": []}
+PASS take：BAR_REG 保留 true  {"BAR_REG": true, "Y4_PATH": "bar", "FAIL_DELAY_COURSES": [], "FAIL_DELAY_V": 2, "GRADUATED": 1355}
+PASS take：沒有延畢／補考的句子  []
+PASS take：沒有卡住  null
+PASS take：沒有 JS 例外  []
+==== CASE skip（SHA 62d98bfa5）====
+PASS skip：遊戲載入
+  [前置／捷徑] [前置] skip：最小存檔改到 2029-02-18 21:00 宿舍（法律系、台灣路線、Y4_PATH bar；R.grades.Y4S1 先填好 ["enforcement", "legal_ethics", "ip_law", "labor_social", "crim_judgment_sem"]＝不發大四上成績單、不排重修）
+  [ 303.1s] skip：讀檔後 {"clock": {"key": "2029-02-18", "day": 1251, "h": 21.01, "zone": "dorm", "term": null, "week": null}, "electives": {}, "sel": false, "termCourses": ["legal_research", "legal_practice", "maritime"], "examDay": {"key": "2029-05-30", "day": 1352, "block": "am"}, "examList": [["maritime", "final", "2029-05-30", "am"]], "exam": null, "grades": null, "flags": {"Y4_PATH": "bar"}, "pgOn": false, "delayed": false, "fdOn": false, "failed": ["maritime"], "curExamHook": true, "curExam": null, "nmsg": 1, "groups": [{"group": "y4s2_mar", "def": "maritime", "none": true, "opts": ["maritime"]}]}
+PASS skip：前置成立（2029-02-18、還沒選大四下的課、choiceGroups(Y4S2) 有 y4s2_mar）  {"clock": {"key": "2029-02-18", "day": 1251, "h": 21.01, "zone": "dorm", "term": null, "week": null}, "groups": [{"group": "y4s2_mar", "def": "maritime", "none": true, "opts": ["maritime"]}], "sel": false}
+  [ 306.3s] 到達「床」附近（0.24 m）：點地面 1 次、轉鏡頭 0 次、搖桿 0 次，3 秒
+  [ 308.0s] skip 2029-02-18 21:00：床的選單 ["睡到明天中午（12:20）12:20（第一堂 13:20 法律專題研究前一小時）", "睡到明天下午14:00。會錯過：13:20 法律專題研究", "睡到明天晚上18:00。會錯過：13:20 法律專題研究", "再撐一下"] → 睡到明天中午（12:20）12:20（第一堂 13:20 法律專題研究前一小時）
+  [ 320.2s] skip：選課「海商法與海洋法要修嗎？」選項 ["海商法與海洋法週三上午・法律系館A 202", "這學期不修海商法與海洋法那個時段沒有課"] → 按「這學期不修海商法與海洋法那個時段沒有課」
+PASS skip：選課畫面有「這學期不修…」可以按  {"asked": "海商法與海洋法要修嗎？", "opts": ["海商法與海洋法週三上午・法律系館A 202", "這學期不修海商法與海洋法那個時段沒有課"]}
+  [ 330.7s] skip_after_select：手機「課表」考試欄 null
+  [ 330.7s] skip：選課以後 {"clock": {"key": "2029-02-19", "day": 1252, "h": 12.341, "zone": "dorm", "term": "Y4S2", "week": 1}, "electives": {"y4s2_mar": "none"}, "sel": true, "termCourses": ["legal_research", "legal_practice"], "examDay": null, "examList": [], "exam": null, "grades": null, "flags": {"Y4_PATH": "bar"}, "pgOn": false, "delayed": false, "fdOn": false, "failed": [], "curExamHook": true, "curExam": null, "nmsg": 1, "groups": [{"group": "y4s2_mar", "def": "maritime", "none": true, "opts": ["maritime"]}]}；整學期有海商法的日子 0 天（前三天 []）
+PASS skip：electives.y4s2_mar＝none、termCourses 沒有 maritime  {"el": {"y4s2_mar": "none"}, "tc": ["legal_research", "legal_practice"]}
+PASS skip：沒有海商法考試日（examDay null、examList 沒有）  {"examDay": null, "examList": []}
+PASS skip：整學期每天的課（dayItems）都沒有海商法  []
+PASS skip：手機「課表」沒有海商法  {"exam": null, "text": "大四下・第 1 週\n週一\n週二\n週三\n週四\n週五\n上午\n09:10\n法律實習或法律扶助實務\n法扶・臺北的辦公室\n下午一\n13:20\n法律專題研究\n法律系館B 研討室\n法律實習或法律扶助實務\n法扶・臺北的辦公室\n下午二\n15:30\n出席：法律專題研究 0 次、法律實習或法律扶助實務 0 次"}
+  [前置／捷徑] [前置／捷徑] skip：讀檔到 2029-05-29 21:00 宿舍（courses 照剛才遊戲裡的：electives {"y4s2_mar": "none"}；flags {"Y4_PATH": "bar", "BAR_REG": true}）
+  [ 338.3s] 到達「床」附近（0.24 m）：點地面 1 次、轉鏡頭 0 次、搖桿 0 次，3 秒
+  [ 340.0s] skip 考試前一晚：床的選單 ["睡到明天早上（07:30）07:30（明天沒有課）", "睡到明天中午12:00", "睡到明天下午14:00", "睡到明天晚上18:00", "快轉到下一個有事的時候、過一週；沒有劇情的課自動去上", "再撐一下"] → 睡到明天早上（07:30）07:30（明天沒有課）
+  [ 345.7s] skip 2029-05-30 07:30 dorm 選項 ["沒選到的那堂，等第二階段有人退選，再上網加加看。", "算了，下學期再選。"] → 算了，下學期再選。（decline）
+  [ 369.9s] skip_20290530：手機「今天」"5/30 週三・大四下 第 15 週（期末考週）\n現在 07:37\n今天的時間　上午 ○○　下午 ○○　晚上 ○○\n每個時段一件主要的事：上課、社團活動、出遊約會、自習、打工、自由出行、健身都算一件（上課、約好的出遊照樣能去）；吃飯、聊天、約好的見面不算。考試週：每個時段多一次（金色），只能拿來自習。\n今天沒有課\n法律學院圖書館：今天 08:10–21:45　總圖：08:00–22:00\n跳過時間\n沒有想做的事可以跳過；遇到特殊課堂、約好的時間、劇情會停下來。\n等到中午（12:00）\n等到下午（14:00）\n等到傍晚（17:30）\n等到晚上（20:00）\n翹課不會被扣分；沒去的課，可以在宿舍、圖書館、Café 讀書補回來。"；dayItems []；按鈕 []
+PASS skip：選了才會考的那一天（2029-05-30）手機「今天」沒有海商法、「直接去上課」沒有  {"today": "5/30 週三・大四下 第 15 週（期末考週）\n現在 07:37\n今天的時間　上午 ○○　下午 ○○　晚上 ○○\n每個時段一件主要的事：上課、社團活動、出遊約會、自習、打工、自由出行、健身都算一件（上課、約好的出遊照樣能去）；吃飯、聊天、約好的見面不算。考試週：每個時段多一次（金色），只能拿來自習。\n今天沒有課\n法律學院圖書館：今天 08:10–21:45　總圖：08:00–22:00\n跳過時間\n沒有想做的事可以跳過；遇到特殊課堂、約好的時間、劇情會停下來。\n等到中午（12:00）\n等到下午（14:00）\n等到傍晚（17:30）\n等到晚上（20:00）\n翹課不會被扣分；沒去的課，可以在宿舍、", "go": []}
+  [前置／捷徑] [前置／捷徑] skip：讀檔到 2029-06-17 21:00 宿舍（GRADUATED、GRAD_DONE、PACKED_Y4、典禮那幾場 done；BAR_REG true；courses 照剛才的：exam null）
+  [ 392.7s] skip 2029-06-27 23:00 dorm 選項 ["「（去關燈）」", "「再聊一下。」"] → 「（去關燈）」（first）
+  [ 437.6s] skip 2029-08-04 08:30 gongguan 選項 ["對", "錯"] → 對（first）
+  [ 439.3s] skip 2029-08-04 08:30 gongguan 選項 ["對", "錯"] → 對（first）
+  [ 441.7s] skip 2029-08-04 08:30 gongguan 選項 ["（A）犯罪行為或結果有一在我國領域內，即屬在我國領域內犯", "（B）只有甲本人進入台灣，才可能適用我國刑法", "（C）網路犯罪一律不適用屬地原則", "（D）必須甲乙均具有我國國籍才可適用"] → （A）犯罪行為或結果有一在我國領域內，即屬在我國領域內犯罪（first）
+  [ 444.0s] skip 2029-08-04 08:30 gongguan 選項 ["（A）只要有人曾經通行一次即可成立", "（B）私有土地一旦有人通行，所有權立即移轉給國家", "（C）須依供公眾通行的必要性、長期通行事實及其他實務所定", "（D）只要行政機關口頭宣稱即可成立"] → （A）只要有人曾經通行一次即可成立（first）
+  [ 446.3s] skip 2029-08-04 08:30 gongguan 選項 ["（A）各罰鍰全部累加，絕無例外", "（B）依法定罰鍰額最高的規定裁處，並受法定最低額等限制", "（C）一律不處罰", "（D）交由人民自行選擇處罰依據"] → （A）各罰鍰全部累加，絕無例外（first）
+  [ 448.7s] skip 2029-08-04 08:30 gongguan 選項 ["（A）契約當然無效", "（B）撤銷意思表示", "（C）契約自動解除", "（D）僅得請求精神慰撫金"] → （A）契約當然無效（first）
+  [ 451.1s] skip 2029-08-04 08:30 gongguan 選項 ["（A）法律設有發行人及其負責人等人的損害賠償責任", "（B）只有股票上漲時才可能成立責任", "（C）所有投資人都必須先取得刑事有罪判決才能請求賠償", "（D）只有公司員工可以請求賠償"] → （A）法律設有發行人及其負責人等人的損害賠償責任（first）
+  [ 453.4s] skip 2029-08-04 08:30 gongguan 選項 ["（A）一律以股票價格實際上漲日為準", "（B）一律以新聞媒體報導日為準", "（C）一律以股東會正式通過日為準", "（D）依事實發生日、協議日、簽約日、董事會決議日或其他具"] → （A）一律以股票價格實際上漲日為準（first）
+  [ 455.2s] skip 2029-08-04 08:30 gongguan 選項 ["（A）有法律依據", "（B）警察覺得方便即可", "（C）被害人要求即可", "（D）媒體同意"] → （A）有法律依據（first）
+  [ 457.5s] skip 2029-08-04 08:30 gongguan 選項 ["（A）在球場上因為心臟病發作而倒下", "（B）長期熬夜導致身體變差", "（C）走在騎樓下，被突然掉落的招牌砸傷", "（D）慢性病惡化住院"] → （A）在球場上因為心臟病發作而倒下（first）
+  [ 459.9s] skip 2029-08-04 08:30 gongguan 選項 ["（A）因甲沒有與乙見面，所以不可能成立詐欺", "（B）只有金額超過十萬元才可能成立詐欺", "（C）甲可能成立詐欺取財罪", "（D）甲必然僅成立民事債務不履行"] → （A）因甲沒有與乙見面，所以不可能成立詐欺（first）
+  [ 462.2s] skip 2029-08-04 08:30 gongguan 選項 ["（A）可以，授權撤回後乙就是無權代理，甲一定不受拘束", "（B）可以，只要甲事後通知丙", "（C）不可以，因為乙是甲的受僱人", "（D）不可以，代理權之撤回不得以之對抗善意第三人"] → （A）可以，授權撤回後乙就是無權代理，甲一定不受拘束（first）
+  [ 464.6s] skip 2029-08-04 08:30 gongguan 選項 ["（A）只有文件經過公證才成立犯罪", "（B）只有乙實際受傷才可能成立犯罪", "（C）可能成立刑法第304條強制罪", "（D）甲只要沒有取得財物就必然無罪"] → （A）只有文件經過公證才成立犯罪（first）
+  [ 466.9s] skip 2029-08-04 08:30 gongguan 選項 ["（A）防止妨礙他人自由", "（B）避免緊急危難", "（C）增進公共利益", "（D）增加政府的稅收"] → （A）防止妨礙他人自由（first）
+  [ 469.2s] skip 2029-08-04 08:30 gongguan 選項 ["（A）借用人須返還原來同一張鈔票", "（B）借用人應返還同種類、品質及數量之物", "（C）出借人仍保有已交付金錢的所有權", "（D）消費借貸一律無償"] → （A）借用人須返還原來同一張鈔票（first）
+  [ 471.0s] skip 2029-08-04 08:30 gongguan 選項 ["對", "錯"] → 對（first）
+  [ 472.8s] skip 2029-08-04 08:30 gongguan 選項 ["（A）總統公布後即通過", "（B）經全國人民投票，同意票多於不同意票即通過", "（C）經公告半年後，由中華民國自由地區選舉人投票複決，有", "（D）經司法院大法官審查通過"] → （A）總統公布後即通過（first）
+  [ 474.6s] skip 2029-08-04 08:30 gongguan 選項 ["（A）可以，偵查不公開只拘束檢察官與警察", "（B）原則上不得公開或揭露予執行法定職務必要範圍以外之人", "（C）只要被告同意，就一律可以", "（D）只有起訴以後才禁止"] → （A）可以，偵查不公開只拘束檢察官與警察（first）
+  [ 476.9s] skip 2029-08-04 08:30 gongguan 選項 ["（A）interests", "（B）punishments", "（C）judgments", "（D）violations"] → （A）interests（first）
+  [ 479.4s] skip 2029-08-04 08:30 gongguan 選項 ["對", "錯"] → 對（first）
+  [ 495.1s] skip：6/18 以後 {"clock": {"key": "2029-09-07", "day": 1452, "h": 15.087, "zone": "gongguan", "term": null, "week": null}, "electives": {"y4s2_mar": "none"}, "sel": true, "termCourses": ["legal_research", "legal_practice"], "examDay": null, "examList": [], "exam": null, "grades": {"legal_research": "通過", "legal_practice": "通過"}, "flags": {"BAR_REG": true, "Y4_PATH": "bar", "FAIL_DELAY_COURSES": [], "FAIL_DELAY_V": 2, "GRADUATED": 1355}, "pgOn": true, "delayed": false, "fdOn": false, "failed": [], "curExamHook": true, "curExam": null, "nmsg": 3, "groups": [{"group": "y4s2_mar", "def": "maritime", "none": true, "opts": ["maritime"]}]}；成績單 "法律專題研究：通過　法律實習或法律扶助實務：通過"；步驟 ["fd_grades_y4s2", "b1", "exam_2029", "r1_2029"]；延畢／補考的句子 []；新訊息 [["heard_h510_pinyu", "可昕一試考完，第一件事是去吃鹹酥雞。她說忍了半年。"], ["pg_r1sys_2029", "律師、司法官一試：未通過。"]]
+PASS skip：6/18 成績單沒有「海商法與海洋法：」那一行（R.grades.Y4S2 也沒有 maritime）  {"line": "法律專題研究：通過　法律實習或法律扶助實務：通過", "grades": {"legal_research": "通過", "legal_practice": "通過"}}
+PASS skip：畢業照常（沒有 FAIL_DELAY、FD.on false、PG.delayed false；GRADUATED 是前置設的）  {"flags": {"BAR_REG": true, "Y4_PATH": "bar", "FAIL_DELAY_COURSES": [], "FAIL_DELAY_V": 2, "GRADUATED": 1355}, "fdl": []}
+PASS skip：沒有卡住  null
+PASS skip：沒有 JS 例外  []
+==== CASE bar_pool（SHA 62d98bfa5）====
+PASS bar_pool：遊戲載入
+  [ 516.6s] bar_pool：{"bankMar": [["Y4_MAR_01", "Y4_CROSS_REVIEWED", "maritime"], ["Y4_MAR_04", "Y4_CROSS_REVIEWED", "maritime"], ["Y4MAR_01", "Y4_CROSS_REVIEWED", "maritime"], ["Y4MAR_02", "Y4_CROSS_REVIEWED", "maritime"], ["Y4MAR_03", "Y4_CROSS_REVIEWED", "maritime"], ["Y4MAR_04", "Y4_CROSS_REVIEWED", "maritime"], ["Y4MAR_05", "Y4_CROSS_REVIEWED", "maritime"], ["Y4MAR_06", "Y4_CROSS_REVIEWED", "maritime"], ["Y4MAR_07", "Y4_CROSS_REVIEWED", "maritime"], ["Y4MAR_08", "Y4_CROSS_REVIEWED", "maritime"], ["Y4MAR_09", "Y4_CROSS_REVIEWED", "maritime"], ["Y4MAR_10", "Y4_CROSS_REVIEWED", "maritime"], ["Y4MAR_11", "Y4_CROSS_REVIEWED", "maritime"]], "exclude": ["/^Y4MAR_/", "/^Y4IP_/", "/^Y4LSO_/", "/^Y4TAX_/"], "poolN": 434, "poolMar": ["Y4_MAR_01", "Y4_MAR_04"], "poolAllN": 483, "poolAllMar": ["Y4_MAR_01", "Y4_MAR_04", "Y4MAR_01", "Y4MAR_02", "Y4MAR_03", "Y4MAR_04", "Y4MAR_05", "Y4MAR_06", "Y4MAR_07", "Y4MAR_08", "Y4MAR_09", "Y4MAR_10", "Y4MAR_11"], "draw": {"seeds": 200, "years": [2029, 2033], "questions": 20000, "poolCalls": 2000, "mar": {"Y4_MAR_04": 47, "Y4_MAR_01": 47}, "err": null}, "judgeN": 74, "judgeMar": [], "drawUsesPool": true, "byCourse": {"maritime": ["Y4_MAR_01", "Y4_MAR_04"], "ip_law": [], "labor_social": ["Y4_LSO_06", "Y4_LSO_08"], "tax_law": ["Y4_TAX_03", "Y4_TAX_06", "Y4_TAX_08"]}, "bankCourses": ["admin_law", "admin_remedy", "civ_general", "oblig_gen1", "oblig_gen2", "oblig_spec", "property", "family_law", "crim_gen1", "const_1", "crim_spec", "crimpro", "securities", "insurance", "labor_law", "crim_gen2", "legal_english", "civpro_1", "civpro_2", "const_2", "company_law", "negotiable", "crim_judgment_sem", "enforcement", "labor_social", "legal_ethics", "maritime", "public_judgment_sem", "tax_law", "ip_law"]}
+PASS bar_pool：EXAM_BANK 有海商法題（>0，不然這一項沒有意義）  [["Y4_MAR_01", "Y4_CROSS_REVIEWED", "maritime"], ["Y4_MAR_04", "Y4_CROSS_REVIEWED", "maritime"], ["Y4MAR_01", "Y4_CROSS_REVIEWED", "maritime"], ["Y4MAR_02", "Y4_CROSS_REVIEWED", "maritime"], ["Y4MAR_03", "Y4_CROSS_REVIEWED", "maritime"], ["Y4MAR_04", "Y4_CROSS_REVIEWED", "maritime"], ["Y4MAR_05", "Y4_CROSS_REVIEWED", "maritime"], ["Y4MAR_06", "Y4_CROSS_REVIEWED", "maritime"], ["Y4MAR_07", "Y4_CROSS_REVIEWED", "maritime"], ["Y4MAR_08", "Y4_CROSS_REVIEWED", "maritime"], ["Y4MAR_09", "Y4_CROSS_REVIEWED", "maritime"], ["Y4MAR_10", "Y4_CROSS_REVIEWED", "maritime"], ["Y4MAR_11", "Y4_CROSS_REVIEWED", "maritime"]]
+PASS bar_pool：律師一試的抽題函式 PG.draw 用 PG.pool()（包住計數 >0；原始碼也有 S.pool()）  {"calls": 2000, "src": true}
+FAIL bar_pool：PG.pool()（一試題池）窮舉沒有海商法題（434 題）  ["Y4_MAR_01", "Y4_MAR_04"]
+FAIL bar_pool：PG.draw 200 個 examSeed × 2029～2033 抽出來都沒有海商法  {"seeds": 200, "years": [2029, 2033], "questions": 20000, "poolCalls": 2000, "mar": {"Y4_MAR_04": 47, "Y4_MAR_01": 47}, "err": null}
+FAIL bar_pool：PG.pool() 裡 course＝maritime 的題數 0（用 course 判斷；EXAM_BANK 有這個 course：True）  ["Y4_MAR_01", "Y4_MAR_04"]
+PASS bar_pool：PG.pool() 裡 course＝ip_law 的題數 0（用 course 判斷；EXAM_BANK 有這個 course：True）  []
+FAIL bar_pool：PG.pool() 裡 course＝labor_social 的題數 0（用 course 判斷；EXAM_BANK 有這個 course：True）  ["Y4_LSO_06", "Y4_LSO_08"]
+FAIL bar_pool：PG.pool() 裡 course＝tax_law 的題數 0（用 course 判斷；EXAM_BANK 有這個 course：True）  ["Y4_TAX_03", "Y4_TAX_06", "Y4_TAX_08"]
+  [ 516.6s] bar_pool：舊存檔用的 PG.pool(true) 有海商法 13 題（照設計：已經抽好的照舊）；司法官二試 judgePool 74 題、其中海商法 []（AA_583，只記錄）
+PASS bar_pool：沒有 JS 例外  []
+SHA 62d98bfa5 CASES take,skip,bar_pool
+FAILED: bar_pool：PG.pool()（一試題池）窮舉沒有海商法題（434 題）, bar_pool：PG.draw 200 個 examSeed × 2029～2033 抽出來都沒有海商法, bar_pool：PG.pool() 裡 course＝maritime 的題數 0（用 course 判斷；EXAM_BANK 有這個 course：True）, bar_pool：PG.pool() 裡 course＝labor_social 的題數 0（用 course 判斷；EXAM_BANK 有這個 course：True）, bar_pool：PG.pool() 裡 course＝tax_law 的題數 0（用 course 判斷；EXAM_BANK 有這個 course：True）
