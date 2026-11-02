@@ -39462,8 +39462,8 @@
       "id": "LIB-INTERIOR-1102",
       "title": "總圖室內照真實平面圖重排：一樓中庭木階梯座位＋夾層、半圓大廳；B1 24h 自習室 A/B、中庭、國際會議廳、行政入口；2F/3F",
       "owner": "LAWWW2",
-      "status": "進行中",
-      "next": "LIB-FRONT 之後；舊配置能用的沿用；劇情站位照舊或給對照表",
+      "status": "已實作待整合",
+      "next": "LAWWW2 c7c2996ff 第二版已套進 int/m590（0e11c43a3）；Node 92 支背景重跑中；併進開發分支後派 BB 跑瀏覽器 7 支＋截圖 15 張（TEST-OFFLOAD）、BB 驗收 ART（D120）",
       "sha": "",
       "source": "同上",
       "xai": {
@@ -40110,10 +40110,10 @@
       "id": "AA595-LIB-NOD-THERMOS-1102",
       "title": "使用者新規則（經 AA 18:10）：①圖書館讀書區域遇到人不開口、最多點頭 ②「空的保溫瓶」這條線全部拿掉——AA 掃全遊戲（AA_595），交 LAWWW 改",
       "owner": "LAWWW",
-      "status": "待開工",
+      "status": "進行中",
       "priority": "P1",
       "note": "AA 掃描中；LAWWW 收到清單後實作（已知相關：postgrad3d helpedCoffee 讀 HELPED 黑咖啡） ｜18:22 AA 轉使用者新規則③：祐廷和學姊都住臺北、學校也在臺北，不能寫「回臺北」 ｜18:38 AA 交清單 AA_595@4755968a4：①讀書區小聲講（系統層：第一次點頭、之後台詞加「（小聲）」，第 1-A 節位置）②「臺北的家」→「家」約 20 處（第 4 節）③sis_y2y3_events.js:65「你們系」→「系上」④剩下 9 處空保溫瓶＋已裝滿那一場、flaskCoffeeDay、「上次是黑咖啡」、心願選項「妳的保溫瓶今天是滿的」拿掉（W8 停用照留）⑤以安「寒假你會回家住嗎？」、經濟系退宿「回家」。等 AA584、AA590 兩個子代理合併後做（同檔案避免衝突）",
-      "next": "AA584、AA590 合併進 int/next1102 以後，照 AA_595 實作",
+      "next": "子代理在 worktree（aa595，基於 int/m590 0e11c43a3）：小聲講共用機制、臺北的家→家、你們系→系上、保溫瓶整條 retired、以安寒假那句；回來後合併、測試、派 BB",
       "xai": {
         "spec": "AA 18:10 訊息",
         "branch": "int/next1102",
@@ -40137,10 +40137,10 @@
       "id": "AA590-SIS-B3-1102",
       "title": "AA_590 學姊第三批（@68ceea665，使用者確認）：拿掉等放榜看小說、空保溫瓶兩場；第一次見面退回原句；grades 改問放假打算；選課「好。」；研究所刪一句、標題「什麼時候開始」",
       "owner": "LAWWW",
-      "status": "進行中",
+      "status": "已實作待整合",
       "priority": "P1",
       "note": "LAWWW 18:2x 派第二個子代理在 worktree 整合（基準 int/next1102 48918ca20，和 AA584 平行）；完成後合併、交 BB",
-      "next": "",
+      "next": "int/m590 3b045a056 已合併（子代理 a92d6d5f2）；AA_590@97e39e67e 補記「期末飯她先說」整支拿掉→併進 AA591 子代理；5 項問 AA（成績條件、選課「……沒有。」、雙「收進口袋」、sis_no_three 兩句、confess_lines.js:46）；併進開發分支後派 BB",
       "xai": {
         "spec": "AA 18:10 訊息",
         "branch": "int/next1102",
@@ -40206,6 +40206,61 @@
       "note": "使用者 18:1x 問 LAWWW2「現在測試的部分你自己進行的有多少？你覺得要不要交給 BB，他可以請我的電腦測試比較快」；LAWWW2 建議交給 BB／CC、每次交件附測試單；BB 18:14 同意（條件：CC 的 runner 抓得到 claude/second-ai-env-art、v9.10.16 發布以後） ｜使用者 18:5x 對 LAWWW：「同意，LAWWW2 的測試改用我的電腦跑」（UA-LAWWW-1102-27）",
       "pausedReason": "使用者已同意；等 CC 的 runner 支援 claude/second-ai-env-art（現在就可以先做）、v9.10.16 發布後切換",
       "resumeWhen": "runner 支援＋v9.10.16 已發布"
+    },
+    {
+      "first": {
+        "term": "Y1S1",
+        "week": null,
+        "earliest": "第一次期中考前（讀書、一鍵總複習）；國考與職涯在畢業以後",
+        "mainline": true,
+        "blocks": false,
+        "prereq": false,
+        "parallel": true,
+        "confirmed": true
+      },
+      "area": null,
+      "id": "AA591-SIS-B4-1102",
+      "title": "AA_591 學姊改稿第四批（大三、大四、畢業以後；使用者 11-02 18:5x 選擇題確認；學姊不會先告白——她先說的支線整支拿掉）＋AA 19:19 AA_584 補充（林{name}、sis3h、heardClip 刪、修正本私訊、family_context）",
+      "owner": "LAWWW",
+      "status": "進行中",
+      "priority": "P1",
+      "note": "企劃線 6b35748c7（AA 19:21 P1）",
+      "next": "子代理在 worktree（aa591，基於 0e11c43a3）；回來後合併、測試、派 BB",
+      "xai": {
+        "spec": "企劃線 docs/story_planning/AA_591_學姊改稿_第四批_大三大四畢業後.md @6b35748c7",
+        "branch": "int/next1102",
+        "acceptance": "BB 測",
+        "receiver": "BB",
+        "ack": "ACK"
+      }
+    },
+    {
+      "first": {
+        "term": "Y1S1",
+        "week": null,
+        "earliest": "第一次期中考前（讀書、一鍵總複習）；國考與職涯在畢業以後",
+        "mainline": true,
+        "blocks": false,
+        "prereq": false,
+        "parallel": true,
+        "confirmed": true
+      },
+      "area": null,
+      "id": "CG27-AN-SHOP-PAGE-1102",
+      "title": "CG-27 以安第二次告白手帳特寫（BB 19:20 交件，AA 確認）：termend HEART.heroine_01 she2Yes 第一拍、標題「……勾了。」",
+      "owner": "LAWWW",
+      "status": "待開工",
+      "priority": "P2",
+      "note": "BB 19:20",
+      "next": "從企劃線 496150a1f 取 cg_shop_page_check_heroine01.webp 接進 she2Yes",
+      "xai": {
+        "spec": "企劃線 docs/story_planning/cg_approved/cg_shop_page_check_heroine01.webp @496150a1f",
+        "branch": "int/next1102",
+        "acceptance": "BB 測",
+        "receiver": "LAWWW",
+        "ack": "ACK",
+        "owner": "LAWWW"
+      }
     }
   ]
 }
