@@ -754,7 +754,7 @@ const STORY = (function(){
       if(F.YT_LEGALAID_Y2&&S.ytFafu(G)&&S.knows('heroine_03',G)&&(R.yt|0)<S.FAFU_YT.length){ await GM.say({name:SOCIAL.displayName('heroine_03'),charId:'heroine_03'},S.FAFU_YT[R.yt|0]); R.yt=(R.yt|0)+1; }   /* AA_469 2-3：六句只用一輪 */
       { const t=CALENDAR.termOf(G.day); if(t&&!bhHello&&!(t.id==='Y2S1'&&t.week<6)&&S.knows('classmate_bohan',G)){ const L=/^Y2/.test(t.id)?S.FAFU_BH:S.FAFU_BH_Y3; await GM.say({name:SOCIAL.displayName('classmate_bohan'),charId:'classmate_bohan'},L[R.bh%2]); R.bh++; } }
       { const more=S.fafuSisLines(G,'back',{retell}); if(more.lines.length) await sayL(sisWho,more.lines); }
-      { const t=CALENDAR.termOf(G.day); if(F.FAFU_SHIFT_N===1&&t&&/^Y2S[12]$/.test(t.id)){ F.FAFU_FIRST_SHIFT_Y2=G.day; await GM.say(null,'（隔壁桌，一個阿伯講了十分鐘，一直在講他兒子。大家都在翻六法。）'); } }   /* AA_325 2-Y2-01：大二第一次值班的前提畫面（語彤事件 7 新版的麵店閒聊讀 FAFU_FIRST_SHIFT_Y2，src/y2r2_3d.js）*/
+      { const t=CALENDAR.termOf(G.day); if(!F.FAFU_FIRST_SHIFT_Y2&&t&&/^Y2S[12]$/.test(t.id)){ F.FAFU_FIRST_SHIFT_Y2=G.day;   /* BUG-FAFU-DOUBLE-1102（BB 10:53 核准，D50 第①級）：大二第一次坐圓桌值班＝還沒有 FAFU_FIRST_SHIFT_Y2（原本看 N===1：大二第一次值班是溫州街線那一場的話 N 已經是 1，之後永遠錯過；舊存檔 N≥2、還在大二的，下一次坐圓桌補演）*/ await GM.say(null,'（隔壁桌，一個阿伯講了十分鐘，一直在講他兒子。大家都在翻六法。）'); } }   /* AA_325 2-Y2-01：大二第一次值班的前提畫面（語彤事件 7 新版的麵店閒聊讀 FAFU_FIRST_SHIFT_Y2，src/y2r2_3d.js）*/
       await GM.say(null,sis.sign?'（初談紀錄，一頁。學姊在最下面簽名。）':'（初談紀錄，一頁。學長在最下面簽名。）');
       GM.advance(1);
       const s=await GM.choose([{t:'再待到十二點。'},{t:'先走。'}]);

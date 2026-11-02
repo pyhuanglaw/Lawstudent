@@ -39846,9 +39846,9 @@
       "id": "BUG-FAFU-DOUBLE-1102",
       "title": "法服值班次數：同一天 lineAt＋圓桌 +2；大二第一次值班是 lineAt 的話阿伯那一句永久錯過",
       "owner": "LAWWW",
-      "status": "待開工",
+      "status": "已整合待測試",
       "priority": "P3",
-      "note": "BB 10:49；LAWWW 10:5x 回分析：N++ 移進 LAST 的 if＋story3d.js:757 改成「大二、還沒有 FAFU_FIRST_SHIFT_Y2」，等 BB 同意，排下一版。",
+      "note": "BB 10:49；LAWWW 10:5x 回分析：N++ 移進 LAST 的 if＋story3d.js:757 改成「大二、還沒有 FAFU_FIRST_SHIFT_Y2」，等 BB 同意，排下一版。 2026-11-02 LAWWW：BB 10:53 同意（D50 第①級）並加舊存檔情況；wzlines3d N++ 移進 if、story3d 改「大二、還沒有 FAFU_FIRST_SHIFT_Y2」。tests/fafu_double_unit.js（修改前 FAIL 3）。",
       "first": {
         "term": "Y2S1",
         "earliest": "大二法服值班",

@@ -90,7 +90,7 @@ const WZL=(function(){
   /* 那個週六早午餐自動請假（JOBS.EXCUSE）*/
   S.excuse=(G,k,d)=>{ if(k!=='brunch') return null; const F=G.flags; for(const key of ['WZ_LINE_L','WZ_LINE_I']){ const R=F[key]; if(R&&R.day===d) return 'fafu_line'; } return null; };
   S.lineAt=function(GM){ const G=GM.G; if(G.zone!=='wancai'||hh(G)<9||hh(G)>=12) return false; const R=S.lineToday(G); if(!R) return false; const F=G.flags;
-    return fire(GM,S.LINE[R.k].ev,()=>{ if(F.LAWCLUB_SAT_LAST!==G.day){ F.LAWCLUB_SAT_LAST=G.day; F.LAWCLUB_SAT_VISITS=(F.LAWCLUB_SAT_VISITS|0)+1; } if(S.fafuMember(G)) F.FAFU_SHIFT_N=(F.FAFU_SHIFT_N|0)+1; if(GM.autosave) GM.autosave(); }); };   /* LAWCLUB_SAT_VISITS +1（落點 A）*/
+    return fire(GM,S.LINE[R.k].ev,()=>{ if(F.LAWCLUB_SAT_LAST!==G.day){ F.LAWCLUB_SAT_LAST=G.day; F.LAWCLUB_SAT_VISITS=(F.LAWCLUB_SAT_VISITS|0)+1; if(S.fafuMember(G)) F.FAFU_SHIFT_N=(F.FAFU_SHIFT_N|0)+1; }   /* BUG-FAFU-DOUBLE-1102：同一天（先坐了圓桌）不再多算一次值班 */ if(GM.autosave) GM.autosave(); }); };   /* LAWCLUB_SAT_VISITS +1（落點 A）*/
   /* 1-5 結果 */
   S.lease4=function(G){ const F=G.flags; if(!law(G)||!F.WZ_C_L1||F.WZ_COPY_SHOP) return null; if(!S.after(G,'Y2S1',13)) return null;
     const v=+F.WZ_COPY_LEASE||0; if(v>=3) return G.day>=(+F.WZ_C_L3||0)+14?'stay':null;
