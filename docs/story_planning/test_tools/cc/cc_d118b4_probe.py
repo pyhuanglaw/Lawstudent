@@ -617,7 +617,10 @@ def exam_checks(run, tag, cname, e, wrong):
     run.check('%s：%s 畫面出現 5 題、題幹和考前預測相同（預測可用）' % (tag, cname), len(rows_) == 5 and all(x['stem_match'] for x in rows_), J([[x['n'], x['id'], x['stem_match']] for x in rows_]))
     rd = [x for x in rows_ if x['readAny']]; un = [x for x in rows_ if not x['readAny']]
     if rd:
-        run.check('%s：%s ①讀過（卡片 read／got）的 %d 題，題目前面都有提示行（修改前預期 FAIL）' % (tag, cname, len(rd)), all(x['cue'] for x in rd), J([[x['n'], x['id'], x['cue']] for x in rd]))
+        # BB 17:07：CUE-LEAK 以後 STUDY.cueFor＝null 的題目刻意不給提示（避免洩題）→ 有 cue（cueExpect）的要顯示、沒有 cue 的不能顯示（兩個方向都驗）
+        withc = [x for x in rd if x.get('cueExpect')]; noc = [x for x in rd if not x.get('cueExpect')]
+        run.check('%s：%s ①讀過的題目裡，有 cue（考前預測 cueFor 非 null）的 %d 題，題目前面都有提示行（修改前預期 FAIL）' % (tag, cname, len(withc)), bool(withc) and all(x['cue'] for x in withc), J([[x['n'], x['id'], x['cue']] for x in withc]))
+        run.check('%s：%s ①讀過但 cueFor＝null 的 %d 題，題目前面沒有提示行（不洩題）' % (tag, cname, len(noc)), all(not x['cue'] for x in noc), J([[x['n'], x['id'], x['cue']] for x in noc]))
         pm = [x['n'] for x in rd if x['cue'] and not x['prefix_ok']]
         if pm: run.note('INFO %s：%s 第 %s 題的提示行不是 CUE_PREFIX 開頭（prefix_mismatch：字可能已換，或抓錯那一句）' % (tag, cname, pm))
         ce = [[x['n'], x['cue'], x['cueExpect']] for x in rd if x['cueExpect'] is not None and x['cue'] != x['cueExpect']]
