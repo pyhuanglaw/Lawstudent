@@ -1,0 +1,15 @@
+﻿{
+    "rerun":  "fmt1102",
+    "id":  "R6_rr",
+    "sha":  "b1b249873",
+    "kind":  "probe",
+    "script":  "docs/story_planning/test_tools/cc/cc_layout16_probe.py",
+    "env":  "CASES=seat_exam,adv_safe,recall2;RERUN=fmt1102",
+    "machine":  "MSI",
+    "start":  "2026-11-03T00:27:28",
+    "end":  "2026-11-03T00:37:20",
+    "seconds":  592,
+    "exit":  1,
+    "error":  null,
+    "url":  "http://127.0.0.1:8801/index.html?turbo"
+}
