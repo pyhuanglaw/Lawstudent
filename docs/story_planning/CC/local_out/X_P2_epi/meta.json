@@ -1,0 +1,23 @@
+{
+  "rerun": "",
+  "id": "X_P2_epi",
+  "sha": "62d98bfa5",
+  "kind": "probe",
+  "script": "docs/story_planning/test_tools/cc/cc_bar_b8_probe.py",
+  "env": "CASES=epi_social",
+  "machine": "MSI",
+  "start": "2026-11-03T06:57:44",
+  "end": "2026-11-03T06:59:50",
+  "seconds": 126,
+  "exit": 0,
+  "error": null,
+  "runner": "a98287fbd6",
+  "rf_round": "5",
+  "url": "http://127.0.0.1:8808/index.html?turbo",
+  "res_peak": {
+    "cpu": 47,
+    "mem": 53,
+    "used_gb": 16.8,
+    "chrome_testing": 28
+  }
+}
