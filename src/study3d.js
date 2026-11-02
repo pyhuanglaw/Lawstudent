@@ -159,7 +159,11 @@ const STUDY=(function(){
     return PHONE.at(G,sun,20,[{th:'sys',text:S.REMIND_TEXT}],tag); };
   /* D118-B4：考試裡的 cue——那一題的觀念卡讀過以上（read、got）才出一行提醒（只提醒觀念、不點出選項）；cue 是 AA 的稿，空的時候先用卡片標題（黑板第一行）。不影響計分 */
   S.CUE_PREFIX='（你想起筆記上寫的：';   /* 暫定字（AA 定稿後換，D118_PLAN 第 6 節第 7 點）*/
-  S.cueFor=function(G,qid){ for(const u of S.unitsOfQ(qid)){ const st=S.stateOf(G,u.id); if(st==='read'||st==='got'){ const t=(u.cue||'').trim()||(S.view(u)||{}).title||u.title; if(t) return S.CUE_PREFIX+t+'）'; } } return null; };
+  /* BUG-B4-CUE-LEAK-1102（BB 07:28）：提示的字出現在正確選項、卻沒有出現在任何錯誤選項＝等於指答案，這一題不出提示（例：CRIM45_34「因果關係」只在 (B)）*/
+  S.cueLeaks=function(q,t){ if(!q||!t||!q.options||q.type==='tf') return false; const keys=Object.keys(q.options); const right=keys.filter(k=>String(k)===String(q.answer)), wrong=keys.filter(k=>String(k)!==String(q.answer));
+    const has=k=>String(q.options[k]||'').includes(t); return right.some(has)&&!wrong.some(has); };
+  S.cueFor=function(G,qOrId){ const q=typeof qOrId==='object'?qOrId:null, qid=q?q.id:qOrId;
+    for(const u of S.unitsOfQ(qid)){ const st=S.stateOf(G,u.id); if(st==='read'||st==='got'){ const t=(u.cue||'').trim()||(S.view(u)||{}).title||u.title; if(t&&!S.cueLeaks(q,t)) return S.CUE_PREFIX+t+'）'; } } return null; };
   /* D118-B4：考後訂正——答錯的題寫成一則筆記（同一科同一次考試一則；miss 已經在 STUDY.answer 記了）*/
   S.FIX_TITLE=n=>n+'・期末考訂正';   /* 暫定字 */
   S.fixNote=function(GM,c,key,wrong){ if(!wrong.length||!GM.addNote) return false;

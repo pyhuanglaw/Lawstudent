@@ -2,7 +2,8 @@
 //   a 同一組答案：R.prep 0／100、stats.study 0／500、卡片全空／全讀過 → 答對題數、分數完全相同（讀書次數不進分數）
 //   b 讀過（read 以上）那張卡的題目前面多一行「（你想起筆記上寫的：…）」；沒讀過的不出
 //   c 答錯的題寫成一則「考後訂正」筆記（題目、答案、考點），那張卡進 miss；全對不寫
-// 修改前（f57e3ac75）：b、c FAIL。用法：node tests/d118_b4_unit.js
+//   d 提示的字只出現在正確選項、錯誤選項都沒有＝不出（BUG-B4-CUE-LEAK-1102）；e 筆記頁 pre-line
+// 修改前（f57e3ac75）：b、c FAIL；（a2e466ee7）：d、e FAIL。用法：node tests/d118_b4_unit.js
 'use strict';
 const H=require('./pg_harness.js');
 const fs=require('fs'), vm=require('vm'), path=require('path');
@@ -39,5 +40,15 @@ const run=async(G,e,pickFn)=>{ H.G=G; said=[]; ansPick=pickFn||null; const r=awa
     check('c1. 答錯的題（'+(5-r.correct)+' 題）寫成「考後訂正」筆記：有題目、答案',r.correct<5&&!!n&&n.body.includes(qs[0].q)&&/答案：/.test(n.body),J({correct:r.correct,n:n&&n.title}));
     const miss=STUDY.rec(G).miss; check('c2. 第 1 題的卡進 miss',STUDY.unitsOfQ(qs[0].id).some(u=>miss.includes(u.id)),J({miss:miss.slice(0,5)}));
     check('c3. 一則訂正筆記一次考試只有一則（id examfix_<學期:課:final>）',(G.notes||[]).filter(x=>x.id.startsWith('examfix_')).length===1); }
+  /* d BUG-B4-CUE-LEAK-1102：提示的字只出現在正確選項＝不出；掃全部題庫列出被擋下的題 */
+  { const blocked=[]; let n=0; for(const q of EXAM_BANK.questions.concat(typeof QBANK!=='undefined'?QBANK:[])){ for(const u of STUDY.unitsOfQ(q.id)){ const t=(u.cue||'').trim()||u.title; if(!t) continue; n++; if(STUDY.cueLeaks(q,t)) blocked.push(q.id+'「'+t+'」'); } }
+    console.log('    被擋下的題（提示字只在正確選項）'+blocked.length+'／'+n+'：'+blocked.join('、'));
+    check('d1. CRIM45_34「因果關係」只在 (B)：擋下',blocked.some(x=>x.startsWith('CRIM45_34')),J(blocked.length));
+    const q=EXAM_BANK.questions.find(x=>x.id==='CRIM45_34'), G=clone(base); for(const u of STUDY.unitsOfQ(q.id)) STUDY.mark(G,u.id,'read','test');
+    check('d2. 讀過那張卡，CRIM45_34 也不出提示',STUDY.cueFor(G,q)===null,STUDY.cueFor(G,q));
+    const fake={id:'X',type:'mc',options:{A:'因果關係',B:'因果關係中斷'},answer:'B'}; check('d3. 提示字錯誤選項也有＝不算指答案（照出）',!STUDY.cueLeaks(fake,'因果關係'));
+    check('d4. 是非題、沒有選項的題：不擋',!STUDY.cueLeaks({type:'tf',answer:'O'},'因果關係')); }
+  /* e 訂正筆記用 \n 分段：筆記頁的內文要 pre-line */
+  { const g=fs.readFileSync(path.join(H.ROOT,'src/game3d.js'),'utf8'); check('e. 筆記頁內文 white-space:pre-line（訂正筆記不擠成一段）',/<div style=\\?"white-space:pre-line\\?">'\+WN\(n\.body\)/.test(g)); }
   H.done();
 })().catch(e=>{ console.log('FAIL 例外',e&&e.stack||e); process.exit(1); });
