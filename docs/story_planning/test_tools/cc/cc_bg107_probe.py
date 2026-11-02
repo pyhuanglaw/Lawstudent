@@ -60,13 +60,21 @@ check 只有幾種：事件真的演出來（EVENTS.run 收到那一件，畫面
                            序章串（經濟系那一年 S.campY1）最小存檔接不上：【前置】法律系 Y1S1 第 2 週週五 21:30 宿舍＋【捷徑】EVENTS.run（背景只看 OUT.bg，和日期無關）。
                            另外查：OUT.BG.camp_trail_night 不再有 night:true（7ee28d48d 以前借白天圖 camp_trail＋night）＝#adv 沒有 night class、#advBg 的 filter 是 none
                            （adv3d.js:17 的 #adv.night #advBg{filter:brightness(.42) saturate(.6)}＋::after 藍色蓋層）——記錄 class 與 computed filter（check）。
+  GROUP=lib（d8dbcd7d5，第 110b 組，BB 08:54 PASS：總圖兩張新背景）：
+    ntu_library_rain    ev_sis_y3s2_rain（src/data/sis_b9_events.js:23，trigger manual；src/sis_b9_3d.js:44 S.rainDue＋80：大三下第 10～11 週、下雨的平日 16:50～17:20、
+                        在 3D 總圖門口附近、met_sis、okY3）。探針【前置】Y3S2 第 10 週週二 16:55 校園、weather rain、met_sis（沒有站到總圖門口＝多半不會自己演）→【捷徑】EVENTS.run。
+    ntu_library_night   以安的白色情人節（FEST：src/data/fest_events.js:37 white 2026／2027／2029；ask 的 bg 'library_gate_night'，d8dbcd7d5 起 OUT.BG.library_gate_night 指到
+                        assets/bg/ntu_library_night.webp）。不是 STORY_EVENTS 裡有 {scene,bg} 的事件：出遊 ev_fest_heroine_01（fest_events.js:229，dialogue 是 call → FEST.playOut
+                        → fest3d.js:177 head {scene:總圖門口,bg:library_gate_night}）。真實：3/13 21:00 她私訊、回「好。」→ fest3d.js S.plan2D 排 fest_heroine_01_white_<年> 3/14 18:30。
+                        探針【前置】2027-03-14 18:06 宿舍＋存檔裡已經約好的那一趟（照 S.plan2D 抄：late 0.25、走路約 15 分鐘、fest{id,k:white,y:2027,mode:meet,scene,bg,after:2,slot:eve}）、
+                        dating_heroine_01 → 等遊戲自己跳「出發：……」點；PRE_S 秒內沒有＝【捷徑】void OUT.go(GAME,q)。只讀確認改成查 OUT.bg('library_gate_night').image（和 ev_sis_nye_y3 的 ntu_library_night 同一張）。
   沒有地方讀的資料（INFO，不演）：tainan_school＝y2b3d.js 的 Y2B.PS_TAINAN（第一次去台南；hometown3d.js 用的是 PS_TAINAN_VISITS 的結構，PS_TAINAN 本身沒有人讀）。
   （最小存檔：關係、記憶都是空的，if:custom 的句子照當下的存檔走哪一版就是哪一版；只看畫面，不驗台詞。）
 
 輸出：<輸出資料夾>/NN_<case>_<land|port>_<first|spk|cap>_<dlg|bgonly|bgbox>.png、<case>_<方向>_<tag>_cropmap.png（示意圖，不是遊戲截圖）、cc_bg107_measure.json。
 不是 iPhone：Playwright 手機模擬（is_mobile、觸控、SwiftShader 1～4 fps）。
 用法：LW_TESTS=<工作樹>/tests SHA=<sha> [IDS=police_station,gym_court] python3 cc_bg107_probe.py '<URL>/index.html?turbo' <輸出資料夾>
-環境變數：GROUP=107,dark,108,109（只跑這幾組；預設全部；停用／INFO 那一段屬於 107＋dark）、IDS（只跑這幾場；用 case 名稱、事件 id 或底圖名；和 GROUP 取交集）、ORIENT=both|land|port、QUIET=1、SPK=1（0＝不拍有人說話那一句）、BGONLY=1（0＝不拍只有底圖的兩張，省時間）、
+環境變數：GROUP=107,dark,108,109,lib（只跑這幾組；預設全部；停用／INFO 那一段屬於 107＋dark）、IDS（只跑這幾場；用 case 名稱、事件 id 或底圖名；和 GROUP 取交集）、ORIENT=both|land|port、QUIET=1、SPK=1（0＝不拍有人說話那一句）、BGONLY=1（0＝不拍只有底圖的兩張，省時間）、
   PRE_S（讀檔後等遊戲自己演，預設 25）、SCENE_S（開演後等到那一張底圖，預設 120）、CASE_MAX（一場最多幾秒，預設 600）、RELAYOUT_MS（預設 1800）。
 不要和別的瀏覽器測試同時跑（SwiftShader 搶 CPU）。"""
 import os, sys, json, asyncio, time, copy, traceback
@@ -77,7 +85,7 @@ from playwright.async_api import async_playwright
 URL, OUT = sys.argv[1], sys.argv[2]
 ROOT = os.path.dirname(os.path.abspath(os.environ['LW_TESTS']))   # 工作樹根目錄（畫 cropmap 用原圖）
 J = lambda o: json.dumps(o, ensure_ascii=False)
-GROUPS = [x.strip() for x in os.environ.get('GROUP', '107,dark,108,109').replace('，', ',').split(',') if x.strip()]
+GROUPS = [x.strip() for x in os.environ.get('GROUP', '107,dark,108,109,lib').replace('，', ',').split(',') if x.strip()]
 ONLY = [x.strip() for x in os.environ.get('IDS', '').replace('，', ',').split(',') if x.strip()]
 ORIENT = os.environ.get('ORIENT', 'both').strip()
 QUIET = os.environ.get('QUIET', '1') != '0'
@@ -172,6 +180,14 @@ CASES = [
          src='src/data/jp_blank_lines.js:209 clean（7/29 22:30 私訊）→ src/jp_blank3d.js:113 plan jpb_clean（7/30 14:00）'),
     dict(k='camp_trail_night', bg='camp_trail_night', ev='ev_camp_d1_walk', grp=109, when=['Y1S1', 2, 5], h=21.5, zone='dorm', flags={}, nonight=True,
          src='src/data/camp_y1.js:137 ev_camp_d1_walk（真實：2025-08-22 21:30 迎新宿營序章 story3d.js:122 S.CAMP_SEQ；探針日期不是真實日期，背景只看 OUT.bg）'),
+    # ---- GROUP=lib（d8dbcd7d5，總圖兩張新背景）
+    dict(k='ntu_library_rain', bg='ntu_library_rain', ev='ev_sis_y3s2_rain', grp='lib', when=['Y3S2', 10, 2], h=16 + 55 / 60, zone='campus', weather='rain', flags={'met_sis': True},
+         src='src/sis_b9_3d.js:44 S.rainDue／80 S.tick → EVENTS.run(ev_sis_y3s2_rain)（src/data/sis_b9_events.js:23 {scene:總圖・門口,bg:ntu_library_rain}）'),
+    dict(k='ntu_library_night_white', bg='ntu_library_night', alias='library_gate_night', ev='ev_fest_heroine_01', grp='lib', when='2027-03-14', h=18.1, zone='dorm', match='白色情人節',
+         q=dict(id='fest_heroine_01_white_2027', ev='ev_fest_heroine_01', h=18.5, late=0.25, place='總圖門口', title='白色情人節（總圖門口）', travel='走路約 15 分鐘', travelH=0.25, alarm=True,
+                fest={'id': 'heroine_01', 'k': 'white', 'y': 2027, 'mode': 'meet', 'scene': '總圖門口', 'bg': 'library_gate_night', 'after': 2, 'slot': 'eve'}),
+         flags={'dating_heroine_01': True},
+         src='src/fest3d.js:151 S.plan2D（以安 ask：3/14 18:30 總圖門口，bg library_gate_night）→ OUT.go → ev_fest_heroine_01 → FEST.playOut（fest3d.js:170、177）'),
 ]
 RETIRED = [('gg_scooter_shop', 'ev_moot_2'), ('noodle_table', 'ev_moot_6'), ('gongguan', 'ev_y0_e19'), ('ntu_linze', 'ev_y0_e24b2')]
 SUMMARY = {}
@@ -350,6 +366,14 @@ RUN_JS = r"""(a=>{ const notes=[]; if(typeof EVENTS!=='undefined'&&EVENTS.runnin
   try{ void EVENTS.run(ev); notes.push('void EVENTS.run('+ev.id+')'); }catch(x){ notes.push('例外 '+x.message); }
   return notes.join(''); })"""
 SEEN_JS = r"""(a=>{ const Lg=window.__BG5||[]; return Lg.filter(e=>(e.k==='begin'||e.k==='setbg')&&e.ms>=a.since).map(e=>({k:e.k,t:String(e.t).slice(0,120),hit:String(e.t)===a.bg||String(e.t).indexOf('assets/bg/'+a.bg+'.webp')>=0})); })"""
+OUTBG_JS = r"""(a=>{ let b=null; try{ b=typeof OUT!=='undefined'&&OUT.bg?OUT.bg(a.alias):null; }catch(e){ b='err '+e.message; }
+  const e=typeof STORY_EVENTS!=='undefined'?STORY_EVENTS.find(x=>x&&x.id===a.ev):null;
+  return {found:!!e,retired:e&&e.retired?String(e.retired).slice(0,80):'',off:!!(e&&e.off),image:b&&typeof b==='object'?b.image:b,night:!!(b&&b.night)}; })"""
+OUTGO_JS = r"""(qid=>{ const G=GAME.G, notes=[]; if(typeof EVENTS!=='undefined'&&EVENTS.running) notes.push('（注意：別的事件正在演 EVENTS.running='+EVENTS.running+'）');
+  { const ch=document.getElementById('choices'); if(ch&&!ch.classList.contains('hide')) notes.push('（注意：畫面上的選單還開著［'+[...ch.querySelectorAll('button')].map(b=>(b.textContent||'').trim().slice(0,24)).join('｜')+'］）'); }
+  const q=typeof OUT!=='undefined'&&OUT.get?OUT.get(G,qid):null; if(!q) return notes.concat(['存檔裡找不到出遊 '+qid]).join('');
+  notes.push('出遊原本 state='+q.state); q.state='planned'; q.ask=null;
+  try{ void OUT.go(GAME,q); notes.push('；void OUT.go(GAME,q)'); }catch(e){ notes.push('例外 '+e.message); } return notes.join(''); })"""
 RUNNING_JS = "(()=>typeof EVENTS!=='undefined'?(EVENTS.running||null):null)()"
 
 
@@ -372,8 +396,10 @@ async def build_state(pg, c):
         dd = (await P.day_of(pg, kk))['d']
         if dd <= d['d']: F[k] = dd
     for fk, fv in (c.get('flags') or {}).items(): F[fk] = await resolve(pg, fv, d['d'])
-    st.update(day=d['d'], weekday=d['wd'], hour=c['h'], zone=c['zone'], pos=None, weather='clear', stage='law', money=30000)
+    st.update(day=d['d'], weekday=d['wd'], hour=c['h'], zone=c['zone'], pos=None, weather=c.get('weather', 'clear'), stage='law', money=30000)
     st['visited'] = {z: True for z in VISITED}
+    if c.get('q'):   # 存檔裡已經約好的那一趟出遊（玩家之前回了「好」）
+        q = copy.deepcopy(c['q']); q['day'] = d['d']; q.setdefault('state', 'planned'); q.setdefault('ask', None); st['outings'] = [q]
     return st, d
 
 
@@ -403,7 +429,7 @@ async def wait_scene(pg, cdp, run, c, hold=False):
 
 async def pre_wait(pg, cdp, run, c):
     """讀檔後 PRE_S 秒：遊戲自己演了那一件＝'self'；別的事件／選單照玩家點過去（記下來）"""
-    cinfo = {'qid': None, 'ev': c['ev'], 'stop': None}
+    cinfo = {'qid': (c.get('q') or {}).get('id'), 'ev': c['ev'], 'stop': None}
     t0 = time.time(); other = []
     while time.time() - t0 < PRE_S:
         st = await pg.evaluate(STARTED_JS, cinfo)
@@ -411,6 +437,10 @@ async def pre_wait(pg, cdp, run, c):
         s = await ts(pg)
         if s['phone'] and not s['ch'] and not s['dlg']: await L.phone_away(pg, cdp); continue
         if s['ch']:
+            k2 = next((i for i, o in enumerate(s['ch']) if c.get('match') and not o['dim'] and o['t'].startswith('出發') and c['match'] in o['t']), None)
+            if k2 is not None:
+                run.note('%s：遊戲自己跳出選單 %s → 點「%s」（像玩家）' % (c['k'], J([o['t'] for o in s['ch']]), s['ch'][k2]['t']))
+                await P.tap_choice(pg, cdp, k2); await pg.wait_for_timeout(1500); continue
             k2, _ = P.pick_of(s['ch'], (), decline=False)
             other.append(['［選項］', J([o['t'] for o in s['ch']]) + ' → ' + s['ch'][k2]['t'], s.get('running')])
             run.note('%s：讀檔後畫面上有選單 %s（running=%s）→ 點「%s」（照玩家）' % (c['k'], J([o['t'] for o in s['ch']]), s.get('running'), s['ch'][k2]['t']))
@@ -464,9 +494,14 @@ async def case_run(p, run, c):
         await pg.goto(URL); loaded = await L.wait_loaded(pg)
         if not loaded: run.note('%s：遊戲沒有在時間內載入完（照樣往下）' % k)
         await pg.evaluate("localStorage.clear()"); await P.init(pg); await pg.evaluate(HOOK)
-        rd = await pg.evaluate(READ_JS, [[bg, c['ev']]] + [[bg, x] for x in c.get('also') or []])
-        me = (rd or {}).get(c['ev']) or {}; rec['read'] = rd
-        run.check('%s：只讀確認 %s 有接 %s（背景或 {scene,bg}）' % (k, c['ev'], bg), bool(me.get('hit')), J(me))
+        if c.get('alias'):   # 背景不在事件裡（FEST 的 call）：只讀確認 OUT.bg(代號) 指到那張圖
+            me = await pg.evaluate(OUTBG_JS, {'alias': c['alias'], 'ev': c['ev']}); rd = {c['ev']: me}; rec['read'] = rd
+            run.check('%s：只讀確認 OUT.bg(%s).image＝assets/bg/%s.webp、事件 %s 在 STORY_EVENTS' % (k, c['alias'], bg, c['ev']),
+                      bool(me.get('found')) and me.get('image') == 'assets/bg/%s.webp' % bg, J(me))
+        else:
+            rd = await pg.evaluate(READ_JS, [[bg, c['ev']]] + [[bg, x] for x in c.get('also') or []])
+            me = (rd or {}).get(c['ev']) or {}; rec['read'] = rd
+            run.check('%s：只讀確認 %s 有接 %s（背景或 {scene,bg}）' % (k, c['ev'], bg), bool(me.get('hit')), J(me))
         if me.get('retired') or me.get('off'):
             rec['info'] = '停用'; run.note('%s：INFO %s 已停用（%s）→ 不演' % (k, c['ev'], me.get('retired') or 'off')); return
         for x in c.get('also') or []:
@@ -499,13 +534,21 @@ async def case_run(p, run, c):
             ok, s, g, pre = await wait_scene(pg, cdp, run, c, hold=True)
             how_t = '照原樣演（%s）＋【捷徑：只為拍照】hold 暫時事件' % ('自己演' if how == 'self' else '【捷徑】EVENTS.run')
         else:
-            if not how:
+            if not how and c.get('q'):   # 出遊：【捷徑】直接出發（同 cc_bg5_probe 的 FALLBACK_JS）
+                cinfo = {'qid': c['q']['id'], 'ev': c['ev'], 'stop': None}
+                r = await pg.evaluate(OUTGO_JS, c['q']['id'])
+                run.setup('【捷徑】%s：讀檔後 %d 秒內沒有自己開演（遊戲時間 %s）→ %s' % (k, PRE_S, J(await P.clock(pg)), r)); how = 'shortcut_out'
+                await pg.wait_for_timeout(2500)
+                started = await pg.evaluate(STARTED_JS, cinfo)
+            elif not how:
                 r = await pg.evaluate(RUN_JS, {'ev': c['ev'], 'hold': False})
                 run.setup('【捷徑】%s：讀檔後 %d 秒內沒有自己演（遊戲時間 %s）→ %s' % (k, PRE_S, J(await P.clock(pg)), r)); how = 'shortcut'
                 await pg.wait_for_timeout(2000)
                 started = await pg.evaluate(STARTED_JS, cinfo)
             ok, s, g, pre = await wait_scene(pg, cdp, run, c)
-            how_t = {'self': '遊戲自己演', 'shortcut': '【捷徑】void EVENTS.run'}.get(how, how)
+            if how == 'self' and c.get('q'): cinfo = {'qid': c['q']['id'], 'ev': c['ev'], 'stop': None}
+            if c.get('q') and not started: started = await pg.evaluate(STARTED_JS, {'qid': c['q']['id'], 'ev': c['ev'], 'stop': None})
+            how_t = {'self': '遊戲自己演（出遊＝跳出「出發」→ 點）' if c.get('q') else '遊戲自己演', 'shortcut': '【捷徑】void EVENTS.run', 'shortcut_out': '【捷徑】void OUT.go(GAME,q)'}.get(how, how)
             run.check('%s：事件演出（%s；%s）' % (k, c['ev'], how_t), bool(started) and ok,
                       J({'started': started, 'bg': g and g.get('bg'), 'adv': g and g.get('cls'), 'line': s and [s.get('name'), s.get('txt')], 'choices': s and s.get('ch')})[:700])
         rec.update(how=how_t, started=started, scene_ok=ok, lines_before_bg=pre, bg_now=g)
@@ -580,7 +623,7 @@ async def main():
     run = L.Run('bg107', OUT); os.makedirs(OUT, exist_ok=True)
     cases = [c for c in CASES if str(c['grp']) in GROUPS and (not ONLY or c['k'] in ONLY or c['ev'] in ONLY or c['bg'] in ONLY)]
     if ORIENT not in ('both', 'land', 'port'): run.check('ORIENT 認得', False, ORIENT); sys.exit(run.finish())
-    for x in [x for x in GROUPS if x not in ('107', 'dark', '108', '109')]: run.check('GROUP 認得 %s' % x, False, '認得的：107,dark,108,109')
+    for x in [x for x in GROUPS if x not in ('107', 'dark', '108', '109', 'lib')]: run.check('GROUP 認得 %s' % x, False, '認得的：107,dark,108,109,lib')
     known = {c['k'] for c in CASES} | {c['ev'] for c in CASES} | {c['bg'] for c in CASES} | {'info'}
     for x in [x for x in ONLY if x not in known]: run.check('IDS 認得 %s' % x, False, '認得的：%s' % ','.join(c['k'] for c in CASES))
     print('==== cc_bg107_probe（SHA %s；GROUP=%s；%d 場［%s］；ORIENT=%s；QUIET=%s；BGONLY=%s）====' % (
