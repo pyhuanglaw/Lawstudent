@@ -31,6 +31,7 @@ CASES（逗號隔開；每個 case 開一個新的瀏覽器、從最小存檔開
                    「考卷發下來。大一國文（上）期中考。」＋prep 那一句、字幕「考完了。」、R.attend.chinese_y1 不加（attend 的 else if(exam) 分支）。
                    PASS：exam 是 null、手機沒有「（考試）」、黑板／台詞沒有期中考、字幕「下課了。」、R.attend.chinese_y1 +1、walkFallbacks 0。
 
+注意：STATE 會讀 PG.due／PG.nextStop／PG.pending（遊戲每 0.5 秒 PG.tick 自己也在叫；時間窗過了的場景在這裡被標 missed，和遊戲自己標的是同一件事、同一個時刻附近）。
 記錄（只記不改）：TR 逐字稿 GAME.say／choose（連 hint）／caption／titleCard／toast／ADV.begin、cg／GAME.enter／PG.runStep／EVENTS.run／CLS.attend、goClass → <輸出>/transcript_<case>.json
   （retake_saveload 每一段分開記，另外存新增的手機訊息）；SV：第一份工作後、尾聲後（GAME.snapshot()＋fatiao3d_auto）→ sv_<case>_{first,epi}.json，retake_saveload 另存三個欄位的內容 sv_<case>_slot{1,2,3}.json；
   截圖：第一份工作的手機群組、尾聲最後一句（EPI.last）、卡住時、國文那一堂第一句——橫向＋直向各一張（390×844，截完轉回 844×390）。
@@ -148,7 +149,7 @@ HOOK = r"""(()=>{ if(window.__PLH) return 'again'; window.__PLH=1; window.__PL=[
       try{ const R=CLS.rec(GAME.G); push({k:'attended',n:it.key,t:JSON.stringify({ret:r,done:!!R.done[it.key],att:(R.attend[it.c.id]|0),prep:(R.prep[it.c.id]|0),late:!!(R.late&&R.late[it.key]),abs:!!(R.abs&&R.abs[it.key])})}); }catch(e){} return r; }; }
     if(CLS.goClass){ const g0=CLS.goClass; CLS.goClass=async function(GM,it,o){ push({k:'go',n:(it&&it.key)||'',t:JSON.stringify(Object.assign({exam:(it&&it.exam)||null},o||{}))}); return g0.apply(this,arguments); }; }
   }
-  if(GAME.E&&GAME.E.zone&&GAME.E.zone.setBoard){}   /* 黑板：每次進區域重建，改在 BOARD 讀 */
+  if(typeof W3!=='undefined'&&W3.canvasTex){ const k0=W3.canvasTex; W3.canvasTex=function(key){ if(typeof key==='string'&&key.indexOf('chalk_')===0) push({k:'board',n:'',t:key.slice(6)}); return k0.apply(this,arguments); }; }   /* 黑板（zones3d.js setBoard 的貼圖 key＝chalk_標題＋兩行）*/
   const te=document.getElementById('toast'); if(te){ let lt=''; new MutationObserver(()=>{ const h=(te.textContent||'').trim(); if(h&&h!==lt){ lt=h; push({k:'toast',n:'dom',t:h}); } }).observe(te,{childList:true,subtree:true,characterData:true}); }
   return 'ok'; })()"""
 
@@ -382,13 +383,17 @@ async def ui_reload_load(pg, cdp, run, tag, i, url):
     """重新整理 → 標題「讀取／匯入存檔」→ 欄位 i「讀取」；回傳讀進來以後（已經在遊戲裡）的 STATE。HOOK 重新掛（逐字稿分段）"""
     await pg.goto(url); ok = await L.wait_loaded(pg); run.check('%s：重新整理後遊戲載入' % tag, ok)
     await P.init(pg); await pg.evaluate(HOOK)
+    sm = await pg.evaluate(SLOT_SUM, i)
     await L.tap(pg, cdp, '#btnLoadMenu'); await pg.wait_for_timeout(1200)
     row = await pg.evaluate(SAVE_BTN, [i, '讀取'])
-    if row is None: run.check('%s：標題「讀取」頁有欄位 %d 的「讀取」' % (tag, i), False); return None
+    if row is None or not sm: run.check('%s：標題「讀取」頁有欄位 %d 的「讀取」' % (tag, i), False, J(sm)); return None
     await L.tap(pg, cdp, '#__d118btn')
-    for _ in range(600):
-        if await pg.evaluate("document.getElementById('titleScreen').classList.contains('hide')&&!!GAME.G&&!!GAME.G.flags&&GAME.running!==false"): break
+    W = "(([k,h])=>{ try{ return document.getElementById('titleScreen').classList.contains('hide')&&!!GAME.G&&CALENDAR.dateOf(GAME.G.day).key===k&&Math.abs(GAME.G.hour-h)<0.6; }catch(e){ return false; } })"
+    got = False
+    for _ in range(900):   # 讀進來那一刻就往下（① 要趕在畢業後篇空下來 2 秒就跳之前）
+        if await pg.evaluate(W, [sm['day'], sm['h']]): got = True; break
         await pg.wait_for_timeout(100)
+    if not got: run.check('%s：讀欄位 %d 讀進來（日期 %s）' % (tag, i, sm['day']), False); return None
     g = await pg.evaluate(STATE)
     run.setup('%s：重新整理 → 標題「讀取／匯入存檔」→ 欄位 %d「讀取」（%s）→ 讀進來 %s' % (tag, i, row, J({k: g[k] for k in ('clock', 'exam2030', 'flags', 'pendingExam', 'epiCond')})))
     return g
@@ -478,13 +483,12 @@ ITEM = r"""(cid=>{ try{ const G=GAME.G; const it=CLS.dayItems(G).find(q=>q.c&&q.
           isExamCourse:!!CLS.isExamCourse(it.c),status:CLS.status(G,it),att:(CLS.rec(G).attend[cid]|0),prep:(CLS.rec(G).prep[cid]|0),dayLabel:CLS.dayLabel(G),todayLine:CLS.todayLine(G)}; }catch(e){ return 'ERR '+e.message; } })"""
 KEYST = """(key=>{ try{ const G=GAME.G, it=CLS.dayItems(G).find(q=>q.key===key), R=CLS.rec(G), c=it&&it.c;
   return {status:it?CLS.status(G,it):null,done:!!R.done[key],late:!!(R.late&&R.late[key]),abs:!!(R.abs&&R.abs[key]),att:c?((R.attend&&R.attend[c.id])|0):null}; }catch(e){ return {err:String(e.message)}; } })"""
-BOARD = "(()=>{ try{ const z=GAME.E.zone; const b=z&&(z.boardText||z.board||null); return b?JSON.stringify(b).slice(0,200):null; }catch(e){ return null; } })()"
 BTN_TXT = "(s=>{ const e=document.querySelector(s); return e?(e.textContent||'').trim():null; })"
 PHROW = """(name=>{ const b=document.getElementById('phoneBody'); if(!b) return null; const e=[...b.querySelectorAll('.item.phrow')].find(x=>(x.innerText||'').indexOf(name)>=0);
   if(!e) return null; e.scrollIntoView({block:'center'}); return (e.innerText||'').replace(/\\s+/g,' ').trim(); })"""
 GO_PICKS = ('繼續去上課', '照樣跳過', '老位子', '坐中間的位子', '還是進去聽', '先自由活動')
 CDECL = ('晚一點', '不去了', '先不', '不用了', '算了', '就這樣', '先這樣', '沒事', '「我晚上要念書。」', '「那天我有事。」', '「我也要念書。」', '「我週六有事。」')
-EXAM_WORDS = ('考卷發下來', '期中考', '期末考', '考完了。', '認得題目裡的每一個字', '題目你都見過', '有幾題你有印象', '不可以翻書', '鈴響請停筆')
+EXAM_WORDS = ('考卷發下來', '期中考。', '：期中考', '考完了。', '認得題目裡的每一個字', '題目你都見過——', '有幾題你有印象', '不可以翻書', '鈴響請停筆')   # classes3d.js attend 的考試分支、examBoard 的原文（不用單獨的「期末考」：一般上課黑板第三行會寫「第 16 週期末考」）
 
 
 def cpick(ch):
@@ -522,16 +526,13 @@ async def case_guowen(pg, cdp, run, case):
     run.check('%s：手機「今天」有「直接去上課」' % tag, (btn or '').startswith('直接去上課'), J(btn))
     if not btn: await L.close_panels(pg, cdp); return
     await L.tap(pg, cdp, sel); await pg.wait_for_timeout(1200)
-    t0 = time.time(); last = None; since = time.time(); shot_cls = None; stuck = None; boards = []; ok = False
+    t0 = time.time(); last = None; since = time.time(); shot_cls = None; stuck = None; ok = False
     while time.time() - t0 < ENVI('TRIP_MAX', 1200):
         s = await P.ts(pg)
         R = await rows(pg, n0)
         att_started = any(r['k'] == 'attend' and r['n'] == it['key'] for r in R)
         attended = any(r['k'] == 'attended' and r['n'] == it['key'] for r in R)
         free = not s['dlg'] and not s['ch'] and not s['busy'] and s['depth'] == 0 and not s['phone']
-        if s['zone'] == it['zone']:
-            b = await pg.evaluate(BOARD)
-            if b and (not boards or boards[-1] != b): boards.append(b)
         if attended and free: ok = True; break
         sig = (s['day'], s['zone'], s['txt'][:40], tuple(o['t'] for o in s['ch']), s['busy'], s['depth'] > 0, round(s['h'], 2))
         if sig != last: last = sig; since = time.time()
@@ -549,7 +550,7 @@ async def case_guowen(pg, cdp, run, case):
                 shot_cls = {'line': full, 'shots': await shoot_both(pg, run, tag + '_class_first_line', full)}
             await L.tap(pg, cdp, '#dlg'); await pg.wait_for_timeout(600); continue
         await pg.wait_for_timeout(900)
-    R = await rows(pg, n0); end = await pg.evaluate(KEYST, it['key']); wf = (await pg.evaluate("GAME.walkFallbacks|0")) - wf0
+    R = await rows(pg, n0); end = await pg.evaluate(KEYST, it['key']); boards = [r['t'] for r in R if r['k'] == 'board']; wf = (await pg.evaluate("GAME.walkFallbacks|0")) - wf0
     att = next((json.loads(r['t']) for r in R if r['k'] == 'attend' and r['n'] == it['key']), None)
     fin = next((json.loads(r['t']) for r in R if r['k'] == 'attended' and r['n'] == it['key']), None)
     caps = [r['t'] for r in R if r['k'] == 'cap']
