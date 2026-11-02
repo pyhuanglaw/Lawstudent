@@ -102,6 +102,8 @@ GM.money=function(n){ G.money+=n; };
   { run(20,21); PHONE.answer(G,'te_Y1S2_heroine_01',0); STORY.phoneRules(GM); const q=OUT.get(G,'te_Y1S2'); cgs=[]; said=[]; picks=[3,0]; await TERMEND.dinner(GM,q); const L=lines();
     check('6b. 以安第二次（AA_587 第 68 列）：「上次那一頁，最下面那一行還沒勾。……你要看嗎？」；CG 只有你說好以後那一拍的 CG-27 手帳特寫（BB 2026-11-02 19:20 交件、AA 確認；CG-11 新圖出來以前其他拍照舊不放）',L.some(t=>t.endsWith('上次那一頁，最下面那一行還沒勾。……你要看嗎？'))&&cgs.join()==='cg_shop_page_check_heroine01',JSON.stringify(cgs)+' '+JSON.stringify(L.slice(-6)));
     const i1=L.findIndex(t=>t==='（她把手帳翻到「想去的店」那一頁，推到你面前。在「和你」旁邊，畫了一個勾。）'), i2=L.findIndex(t=>t.endsWith('……勾了。'));
+    { const iq=L.findIndex(t=>t.endsWith('上次那一頁，最下面那一行還沒勾。……你要看嗎？')), io=L.lastIndexOf('（走出店門，她沒有往宿舍那邊走。）');
+      check('6b. 以安第二次在店裡桌邊演（AA＋BB 2026-11-02 20:55，CG-27 是桌邊）：問「你要看嗎？」之前沒有「走一下。我有東西給你看。」、「（走出店門…）」挪到「……勾了。」之後',iq>0&&!L.slice(0,iq).some(t=>t.endsWith('走一下。我有東西給你看。'))&&io>i2&&i2>0,JSON.stringify(L.slice(-8))); }
     check('6b. 以安第二次、你說好（AA_587 第 13 節）：補兩拍「（……在「和你」旁邊，畫了一個勾。）」「……勾了。」再交往；記 AN_SHOP_PAGE、人物面板不顯示',i1>0&&i2===i1+1&&G.flags.dating_heroine_01===true&&SOCIAL.has('heroine_01','AN_SHOP_PAGE')&&!SOCIAL.panelMemories('heroine_01').some(m=>m.tag==='AN_SHOP_PAGE')&&SOCIAL.memories('heroine_01').some(m=>m.tag==='AN_SHOP_PAGE'),JSON.stringify(L.slice(-5)));
     check('6b. AN_SHOP_PAGE 只記一次（第一次那一頁和第二次說好都是它；BB_246 P3）',SOCIAL.memories('heroine_01').filter(m=>m.tag==='AN_SHOP_PAGE').length===1,SOCIAL.memories('heroine_01').filter(m=>m.tag==='AN_SHOP_PAGE').length); }
   TERMEND.hookFor=hookFor0;
