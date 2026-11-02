@@ -11,10 +11,10 @@ index 75e25e388..37411dc6a 100644
  <script src="src/library_b1_3d.js?v=9.10.15"></script>
  <script src="src/data/library_upper_layouts.js?v=9.10.15"></script>
 diff --git a/src/data/library_layout.js b/src/data/library_layout.js
-index a8ba2ae5d..c3f4240dd 100644
+index a8ba2ae5d..209f71f62 100644
 --- a/src/data/library_layout.js
 +++ b/src/data/library_layout.js
-@@ -1,104 +1,1168 @@
+@@ -1,104 +1,1174 @@
  /* ===== 總圖書館 大廳配置（總圖第一階段：大廳＋二樓自習區，D43）=====
     遊戲（src/library3d.js：導航格、地板高度、互動點、程序化備用模型）和 Blender（tools/blender/library_interior.py：正式模型）
 -   讀同一份資料，兩邊的牆、樓梯、樓板、電梯、門的位置一定一致。這份檔案必須是「const LIBRARY_LAYOUT=」後面接純 JSON（Blender 端用 json 解析）。
@@ -27,6 +27,7 @@ index a8ba2ae5d..c3f4240dd 100644
 -   3F 閱覽區＝現有的 library 區域（劇情裡陳語彤說「我看過你在三樓」：閱覽室在三樓）。座位、出口、劇情人物位置都不動，從樓梯間或電梯過去。
 -   真實性：外觀是第二個 AI 的總圖正式模型（照片參考）；室內沒有照片或平面圖支持，是「遊戲化設計」，不宣稱還原真實建築。 */
 +   讀同一份資料，兩邊的牆、樓梯、樓板、電梯、門的位置一定一致。這份檔案必須是「
++/* v2（LIB-INTERIOR-1102）：由 tools/blender/env_second/library_hall_v2_layout.py 產生（沿用上面第一版的說明；第二版改了什麼看那支腳本的開頭）*/
 +/* v2（LIB-INTERIOR-1102）：由 tools/blender/env_second/library_hall_v2_layout.py 產生（沿用上面第一版的說明；第二版改了什麼看那支腳本的開頭）*/
 +/* v2（LIB-INTERIOR-1102）：由 tools/blender/env_second/library_hall_v2_layout.py 產生（沿用上面第一版的說明；第二版改了什麼看那支腳本的開頭）*/
 +/* v2（LIB-INTERIOR-1102）：由 tools/blender/env_second/library_hall_v2_layout.py 產生（沿用上面第一版的說明；第二版改了什麼看那支腳本的開頭）*/
@@ -1279,6 +1280,11 @@ index a8ba2ae5d..c3f4240dd 100644
 +      72
 +    ]
 +  },
++  "directory": {
++    "x": -3.6,
++    "z": 0.0,
++    "note": "樓層簡介立牌：入口閘門後面、西側展示櫃前面，面朝南（門口）；第一版掛在核心書架上 (−3.2, −0.48)。字是遊戲畫的 canvas，架子在正式模型、備用模型各一份"
++  },
 +  "furnitureNote": "v2 新的型別：groupTable（一樓四人桌）、pcDesk（電腦桌）、roundTable（圓桌）——src/library3d.js 第二版處理；prop 的 kind 只影響 Blender 畫什麼"
  };
 diff --git a/src/library3d.js b/src/library3d.js
@@ -1304,10 +1310,10 @@ index 321f56fa8..4e80fc9ae 100644
  Z3.ZONES.library_hall=LB3.library_hall;
 diff --git a/src/library_hall_v2.js b/src/library_hall_v2.js
 new file mode 100644
-index 000000000..4a88cfef9
+index 000000000..da7ff1857
 --- /dev/null
 +++ b/src/library_hall_v2.js
-@@ -0,0 +1,157 @@
+@@ -0,0 +1,169 @@
 +/* ===== 總圖大廳第二版（LIB-INTERIOR-1102 一樓，LAWWW2 帳號 A 2026-11-02）=====
 +   使用者 11-02：08:58「舊有的空間配置 能用的就沿用 按造實際配置安排」＋1F 平面圖；09:01「總圖一樓」兩張照片：
 +     ① 中庭——深灰地毯走道、兩旁亮燈的木頭展示櫃，盡頭一整片木頭「台階書牆」（坐的大階梯＋中間走的樓梯，階梯立面是書架）上二樓，兩側二樓迴廊玻璃欄杆；
@@ -1350,12 +1356,14 @@ index 000000000..4a88cfef9
 +    nav1.freeRect(K.x0,BS.z0,K.x1,BS.z1); for(const s of ss.all) nav1.addSurf(Object.assign({},s));
 +    for(const r of L.rails){ const [x0,z0,x1,z1]=r, horiz=Math.abs(z1-z0)<1e-6; nav1.blockRect((x0+x1)/2,(z0+z1)/2,horiz?Math.abs(x1-x0)+0.04:0.3,horiz?0.3:Math.abs(z1-z0)+0.04,0); }
 +    nav1.freeRect(K.x0,U.north.z1-0.25,K.x1,U.north.z1+0.25);                                                     // 台階上來接北側連廊（欄杆在那裡開口）
++    for(const [x,z] of [[-5.2,U.band.z1],[5.2,U.band.z1],[-5.2,GT.z],[5.2,GT.z],[-5.2,U.north.z1],[5.2,U.north.z1]]) nav1.blockCircle(x,z,0.62);   // 柱子一直到屋頂：二樓也擋（中庭四角＋北側連廊邊上）
 +    for(const nav of [nav0,nav1]){ nav.blockRect(EL.x0-0.1,(EL.z0+EL.z1)/2,0.24,EL.z1-EL.z0+0.2,0); nav.blockRect(EL.x1+0.1,(EL.z0+EL.z1)/2,0.24,EL.z1-EL.z0+0.2,0); nav.blockRect((EL.x0+EL.x1)/2,EL.z1+0.1,EL.x1-EL.x0+0.44,0.24,0); }   // 電梯井道玻璃（和第一版一樣）
 +    nav0._cm=null; nav1._cm=null; return {nav0,nav1,ss}; }
 +
 +  // ---- 一樓的新家具（有座位的）：四人桌、電腦桌、圓桌；其他照第一版的 buildFurniture ----
 +  function furniture2(E,L,lv0,lv1,fb0,fb1,nav0,nav1,zone){ const IT=E.interactables, seats=zone.seats||(zone.seats=[]); const b0=new TK.Bin(), b1=new TK.Bin();
-+    for(const f of L.furniture){ const lv=f.lv|0, nav=lv?nav1:nav0, y=lv?L.floors[1].y:0, b=lv?b1:b0, fb=lv?fb1:fb0, grp=lv?lv1:lv0;
++    const up1=new THREE.Group(); up1.position.y=L.floors[1].y; fb1.add(up1);   /* 椅子放進備用群組（正式模型載入後跟著藏起來）；二樓的 Z3.chair 以地面為準 */
++    for(const f of L.furniture){ const lv=f.lv|0, nav=lv?nav1:nav0, y=lv?L.floors[1].y:0, b=lv?b1:b0, fb=lv?fb1:fb0, grp=lv?up1:fb0;
 +      if(f.type==='groupTable'){ b.add(M('#c9a57a',{rough:0.6}),TK.boxG(f.w,0.05,f.d),f.x,y+0.73,f.z); b.add(M('#3a3f45',{rough:0.5}),TK.boxG(0.08,0.7,0.08),f.x,y+0.35,f.z);
 +        nav.blockRect(f.x,f.z,f.w+0.1,f.d+0.1,0,0);
 +        for(const s of [-1,1]) for(const dx of [-f.w/4,f.w/4]){ const cz=f.z+s*(f.d/2+0.42), yaw=s>0?Math.PI:0, seat={x:f.x+dx,z:cz,yaw,lv}; Z3.chair(grp,seat.x,cz,yaw,'#5d6a74'); seats.push(seat); IT.push({x:seat.x,z:cz,radius:0.8,lv,label:'坐下',seat}); } }
@@ -1457,6 +1465,16 @@ index 000000000..4a88cfef9
 +    for(const lv of [0,1]) IT.push({x:zone.elev.cx,z:EL.callZ,radius:1.0,lv,label:'搭電梯',elevator:true});
 +    IT.push({x:R.cx,z:R.cz-1.6,radius:1.6,lv:0,label:'看展演廳',look:'展演廳：半圓形的大廳挑高兩層，一圈高窗，弧形的展示櫃裡放著這學期的館藏特展。'});
 +    IT.push({x:0,z:BS.z1+0.9,radius:1.2,lv:0,label:'看台階書牆',look:'中庭的大階梯：中間走的樓梯上二樓，兩旁是可以坐的木頭階梯，每一階的立面都是書架。'});
++    // 指標（中文字一直顯示：正式模型沒有字）——和第一版一樣
++    for(const s of L.signs){ const y=(s.lv?Y1:0)+s.y; const sp=new THREE.Mesh(new THREE.PlaneGeometry(s.w,s.w*0.18),new THREE.MeshBasicMaterial({map:TK.signTex(s.text,{bg:'#24303a',color:'#f3efe4'})})); sp.position.set(s.x,y,s.z); sp.rotation.y=s.ry||0; (s.lv?lv1:lv0).add(sp); }
++    // 樓層簡介（入口閘門後面的立牌，面朝門口；第一版掛在大樓梯旁的核心書架上）：字是 canvas、架子在正式模型和備用模型各一份
++    { const D=L.directory; if(D){ const tx=W3.canvasTex('lbboard2',512,256,(x,w,h)=>{ x.fillStyle='#24303a'; x.fillRect(0,0,w,h); x.fillStyle='#f3efe4'; x.font='bold 34px "Noto Sans TC",sans-serif'; x.fillText('總圖書館 樓層簡介',24,52); x.font='22px "Noto Sans TC",sans-serif';
++        x.fillText('1F　大廳｜台階書牆｜展演廳｜共享區｜媒體區',24,100); x.fillText('2F　自習區｜研究小間',24,138); x.fillText('3F　閱覽區（東側樓梯間、電梯）',24,176); x.fillText(L.stacks?'4F–6F　書庫（5F 開放，搭電梯）':'4F–6F　書庫（整理中）',24,214); if(L.b1Door) x.fillText('B1　自習室｜討論室｜影印（西側樓梯）',24,246); });
++        const bd=new THREE.Mesh(new THREE.PlaneGeometry(1.8,0.9),new THREE.MeshBasicMaterial({map:tx})); bd.position.set(D.x,1.6,D.z+0.032); lv0.add(bd);
++        const stM=new THREE.MeshStandardMaterial({color:0x3a3d41,roughness:0.45}), st=new THREE.Mesh(new THREE.BoxGeometry(1.9,1.0,0.05),stM); st.position.set(D.x,1.6,D.z); fb0.add(st);
++        for(const sx of [-0.85,0.85]){ const leg=new THREE.Mesh(new THREE.BoxGeometry(0.05,1.1,0.04),stM); leg.position.set(D.x+sx,0.55,D.z); fb0.add(leg); }
++        nav0.blockRect(D.x,D.z,2.0,0.3,0); nav0._cm=null;
++        IT.push({x:D.x,z:D.z+0.9,radius:1.0,lv:0,label:'看樓層簡介',look:'總圖書館 樓層簡介：1F 大廳、服務台、中庭的台階書牆、展演廳、多元共享區、數位媒體區；2F 自習區、研究小間；3F 閱覽區（從二樓東側的樓梯間，或搭電梯）；'+(L.stacks?'5F 書庫是自然科學（搭電梯；4F、6F 這學期整理中）。':'4F–6F 書庫（這學期整理中）。')+(L.b1Door?'B1 是 24 小時自習室、討論室、影印中心（一樓西側的樓梯間下去）。':'')+'中庭台階書牆中間的樓梯上二樓。'}); } }
 +    // 正式模型（GLB）：載入成功就藏起程序化備用模型（導航、互動點不變）
 +    zone.formal=false; if(typeof ASSETS!=='undefined'&&ASSETS.manifest['bldg.library_hall_v2']){ ASSETS.loadOne('bldg.library_hall_v2').then(c=>{ if(!c||!c.scene||E.zone!==zone) return; const root=c.scene.clone(true); B3.attachFormal(zone,root,fb0,fb1,lv0,lv1,walls,walkMeshes); for(const o of outs) o.visible=false;
 +      zone.seeThru=true; g.traverse(o=>{ if(!o.isMesh) return; for(const m of [].concat(o.material)){ if(!m||m.userData.seeThrough||!/leaf|lh2_books|lh2_shelf/.test(m.name||'')) continue; m.userData.seeThrough=true; if(E.patchSeeThrough) E.patchSeeThrough(m); } });
@@ -1869,10 +1887,10 @@ index 792fa6134..61300964b 100644
  let fails=0; const check=(name,ok,info)=>{ console.log((ok?'PASS ':'FAIL ')+name+(info?'  '+info:'')); if(!ok) fails++; };
  const E=E3; E.scene=new THREE.Scene(); E.q={level:'medium'};
 diff --git a/tests/library_hall_cam_core_unit.js b/tests/library_hall_cam_core_unit.js
-index 83ef486ad..475fdddfc 100644
+index 83ef486ad..b82769b78 100644
 --- a/tests/library_hall_cam_core_unit.js
 +++ b/tests/library_hall_cam_core_unit.js
-@@ -17,7 +17,7 @@ global.document={ createElementNS:()=>({getContext:()=>ctx2d,style:{}}), createE
+@@ -17,18 +17,63 @@ global.document={ createElementNS:()=>({getContext:()=>ctx2d,style:{}}), createE
  global.navigator={userAgent:'node'}; global.addEventListener=()=>{}; global.innerWidth=844; global.innerHeight=390; global.location={search:''};
  process.on('unhandledRejection',()=>{}); global.fetch=()=>Promise.reject(new Error('no fetch in node'));
  const _warn=console.warn; console.warn=(...a)=>{ if(/正式模型載入失敗/.test(String(a[0]))) return; _warn(...a); };   /* Node 沒有 fetch：正式模型載入失敗、用備用模型（預期的）*/
@@ -1881,11 +1899,69 @@ index 83ef486ad..475fdddfc 100644
  for(const f of files){ let src=fs.readFileSync(path.join(ROOT,f),'utf8'); src=src.replace(/^const (\w+)\s*=/m,'globalThis.$1='); vm.runInThisContext(src,{filename:f}); }
  let fails=0; const check=(name,ok,info)=>{ console.log((ok?'PASS ':'FAIL ')+name+(info?'　'+info:'')); if(!ok) fails++; };
  const E=E3; E.scene=new THREE.Scene(); E.q={level:'medium'}; E.ray=E.ray||new THREE.Raycaster();
+ E.interactables=[]; E.colliders=[]; E.lampGlows=[]; E.seats=[]; E.npcs=[]; E.spawnHint=null;
+ /* 假的正式模型（L0_root／L1_root＋幾種材質）：照遊戲真正的流程載入（attachFormal 會把 L0_root／L1_root 搬到區域的樓層群組）*/
+ const FAKE=(()=>{ const r=new THREE.Group(), r0=new THREE.Group(), r1=new THREE.Group(); r0.name='L0_root'; r1.name='L1_root'; r.add(r0); r.add(r1);
+-  for(const [nm,par] of [['lb_leaf_small',r0],['lb_leaf_dark',r1],['lb_walnut',r0],['lb_vc',r0],['lb_steel',r0],['lb_plaster',r0],['lb_terrazzo',r0]]){ const m=new THREE.Mesh(new THREE.BoxGeometry(0.1,0.1,0.1),new THREE.MeshStandardMaterial({name:nm})); m.name='FAKE_'+nm; par.add(m); }
++  for(const [nm,par] of [['lb_leaf_small',r0],['lb_leaf_dark',r1],['lb_walnut',r0],['lb_vc',r0],['lb_steel',r0],['lb_plaster',r0],['lb_terrazzo',r0],['lh2_books',r0],['lh2_plaster',r0],['lh2_floor',r0],['lh2_wood_honey',r1]]){ const m=new THREE.Mesh(new THREE.BoxGeometry(0.1,0.1,0.1),new THREE.MeshStandardMaterial({name:nm})); m.name='FAKE_'+nm; par.add(m); }
+   return r; })();
+-let fakeLoaded=null; { const lo=ASSETS.loadOne; ASSETS.loadOne=function(k){ if(k==='bldg.library_interior'){ return (fakeLoaded=Promise.resolve({scene:FAKE})); } return lo.apply(this,arguments); }; }
++let fakeLoaded=null; { const lo=ASSETS.loadOne; ASSETS.loadOne=function(k){ if(k==='bldg.library_interior'||k==='bldg.library_hall_v2'){ return (fakeLoaded=Promise.resolve({scene:FAKE})); } return lo.apply(this,arguments); }; }
+ const z=Z3.ZONES.library_hall.build(E); E.zone=z; E.levels=z.levels; E.nav=z.nav; for(const n of E.levels) n._cm=null;
+ E.player={obj:{position:new THREE.Vector3(),rotation:{y:0}},radius:0.32,lv:0}; z.group.updateMatrixWorld(true);
++/* ---- version 2（LIB-INTERIOR-1102，使用者 11-02 照實際配置：中庭是木頭台階書牆、沒有實心核心和兩側那一跑）----
++   第一版的核心、兩側那一跑、BB n31／n33 那 4 個位置都不存在了。改量：台階書牆下面（實心的木頭量體，斜面以下）和中庭六根柱子；
++   「修改前」＝同一個引擎、把碰撞盒拿掉（一定要量得到穿過去的方向）；正式模型照遊戲的流程載入後，書（台階書牆的書格、書架）網點透空。 */
++if(LIBRARY_LAYOUT.version===2){ (async()=>{
++  const L=LIBRARY_LAYOUT, BS=L.bookstair, Y1=L.floors[1].y, U=L.upper, NB=L.navBox, DIST=Z3.ZONES.library_hall.camDist||4.8, PITCH=0.38;
++  const cols=(z.camCols||[])[0]||[], cols1=(z.camCols||[])[1]||[];
++  check('v2-1a. zone.camCols：第 0、1 層都有台階書牆下面的斜塊＋中庭六根柱子（7 個），看不見、不參加合併',
++    cols.length===7&&cols1.length===7&&cols.filter(m=>m.name==='CAMCOL_bookstair').length===1&&cols.filter(m=>m.name==='CAMCOL_column').length===6&&cols.every(m=>m.material.visible===false&&m.userData.noMerge),
++    (z.camCols||[]).map(a=>a?a.map(m=>m.name).join('+'):'—').join(' / '));
++  { const w=cols.find(m=>m.name==='CAMCOL_bookstair'), b=new THREE.Box3().setFromObject(w||new THREE.Object3D());
++    check('v2-1b. 台階書牆的斜塊涵蓋整座台階（中間走的樓梯＋兩側坐的大階梯）：南端貼地、北端到二樓樓面下 5 cm',
++      !!w&&b.min.x<=BS.x0&&b.max.x>=BS.x1&&Math.abs(b.min.z-BS.z0)<0.01&&Math.abs(b.max.z-BS.z1)<0.01&&b.min.y<=0.001&&Math.abs(b.max.y-(Y1-0.05))<0.01,
++      `x ${b.min.x.toFixed(2)}～${b.max.x.toFixed(2)}、z ${b.min.z.toFixed(2)}～${b.max.z.toFixed(2)}、y ${b.min.y.toFixed(2)}～${b.max.y.toFixed(2)}`); }
++  const COLS=[[-5.2,U.band.z1],[5.2,U.band.z1],[-5.2,L.gates.z],[5.2,L.gates.z],[-5.2,U.north.z1],[5.2,U.north.z1]];
++  const ys=zz=>(BS.z1-zz)/(BS.z1-BS.z0)*Y1;   /* 台階的斜面（南端 0、北端二樓樓面）：每一階的踏面都在這條斜線上或上面 */
++  const solid=p=>(p.x>BS.x0&&p.x<BS.x1&&p.z>BS.z0&&p.z<BS.z1&&p.y<ys(p.z)-0.02)||COLS.some(([cx,cz])=>Math.hypot(p.x-cx,p.z-cz)<0.26);
++  const through=(a,b)=>{ const n=Math.ceil(a.distanceTo(b)/0.02); for(let i=1;i<=n;i++) if(solid(a.clone().lerp(b,i/n))) return true; return false; };
++  const keep=z.camCols, camNow=(t,yaw,lv,out)=>{ z._lcAll=null; return E.followCam(t,yaw,PITCH,DIST,lv,out); };
++  const camBefore=(t,yaw,lv,out)=>{ z.camCols=null; z._lcAll=null; const r=E.followCam(t,yaw,PITCH,DIST,lv,out); z.camCols=keep; z._lcAll=null; return r; };
++  const REPORT={};
++  function sweep(name,lv,step,pick){ let n=0,bad=0,badOld=0,same=0,ex=null; E.player.lv=lv;
++    for(let x=NB.x0+0.5;x<=NB.x1-0.5;x+=step) for(let zz=NB.z0+0.3;zz<=NB.z1-0.3;zz+=step){ if(!E.canStand(x,zz,0.32,lv)) continue; const fy=E.heightAt(x,zz,lv); if(!pick(x,zz,fy)) continue;
++      const t=new THREE.Vector3(x,fy+1.45,zz);
++      for(let k=0;k<8;k++){ const yaw=k*Math.PI/4; n++; const c=new THREE.Vector3(), o=new THREE.Vector3(); camNow(t,yaw,lv,c); camBefore(t,yaw,lv,o);
++        if(through(t,c)){ bad++; if(!ex) ex={x:+x.toFixed(2),z:+zz.toFixed(2),yaw:+yaw.toFixed(2),cam:c.toArray().map(v=>+v.toFixed(2))}; } if(through(t,o)) badOld++; if(c.distanceTo(o)<1e-6) same++; } }
++    REPORT[name]={samples:n,before:badOld,after:bad,unchanged:same}; return {n,bad,badOld,same,ex}; }
++  const onStair=(x,zz)=>x>BS.x0-0.05&&x<BS.x1+0.05&&zz>BS.z0-0.05&&zz<BS.z1+0.05;
++  { const r=sweep('1F 大廳、展演廳',0,0.5,(x,zz,fy)=>fy<0.05&&!onStair(x,zz));
++    check('v2-2a. 1F：修改前（沒有碰撞盒）量得到鏡頭穿進台階書牆下面、柱子（測試抓得到）',r.badOld>0,`${r.badOld}/${r.n}`);
++    check('v2-2b. 1F：頭 → 鏡頭沒有穿過台階書牆下面、柱子',r.bad===0,`${r.bad}/${r.n}`+(r.ex?' 例：'+JSON.stringify(r.ex):''));
++    check('v2-2c. 1F：離台階、柱子遠的地方鏡頭和修改前一樣（大部分方向沒變）',r.same>=r.n*0.6,`沒變 ${r.same}/${r.n}`); }
++  for(const lv of [0,1]){ const r=sweep('台階書牆中間的樓梯（第 '+lv+' 層）',lv,0.25,(x,zz,fy)=>onStair(x,zz)&&fy>0.05&&fy<Y1-0.05);
++    check(`v2-2d. 走在台階書牆中間的樓梯上（第 ${lv} 層）：頭 → 鏡頭沒有穿過台階下面`,r.n>0&&r.bad===0,`${r.bad}/${r.n}`+(r.ex?' 例：'+JSON.stringify(r.ex):'')); }
++  { const r=sweep('2F 樓面',1,0.5,(x,zz,fy)=>fy>Y1-0.05);
++    check('v2-2e. 2F：頭 → 鏡頭沒有穿過柱子',r.n>0&&r.bad===0,`修改前 ${r.badOld}、修改後 ${r.bad}/${r.n}`+(r.ex?' 例：'+JSON.stringify(r.ex):''));
++    check('v2-2f. 2F：除了柱子附近，鏡頭和修改前一樣',r.same>=r.n*0.9,`沒變 ${r.same}/${r.n}`); }
++  await fakeLoaded; await new Promise(r=>setTimeout(r,0));
++  { const mats={}; z.group.traverse(o=>{ if(o.isMesh&&/^FAKE_/.test(o.name)) mats[o.material.name]=o.material; });
++    check('v2-3. 正式模型照遊戲的流程載入後：區域 seeThru 打開；書（台階書牆的書格、書架）標 seeThrough、patch 過；灰泥、地板、木頭不標',
++      z.seeThru===true&&!!mats.lh2_books&&!!mats.lh2_books.userData.seeThrough&&!!mats.lh2_books.userData._st&&['lh2_plaster','lh2_floor','lh2_wood_honey'].every(k=>mats[k]&&!mats[k].userData.seeThrough),
++      JSON.stringify(Object.fromEntries(Object.entries(mats).map(([k,m])=>[k,!!m.userData.seeThrough])))); }
++  { const before=z.camCols; E.cam={manualT:1.2,dragging:true}; z.update(1/30);
++    check('v2-4. 沒有實心核心：拖著鏡頭時照舊是同一組碰撞盒（第一版的薄板只給核心用）',z.camCols===before&&z.camCols[0]===z.camColsThick); E.cam={manualT:0,dragging:false}; }
++  console.log(JSON.stringify({version:2,sweep:REPORT}));
++  console.log(fails?('FAILED '+fails):'ALL PASS'); process.exit(fails?1:0); })(); return; }
+ const L=LIBRARY_LAYOUT, S=L.stair, CO=L.core, Y1=L.floors[1].y, DIST=Z3.ZONES.library_hall.camDist||4.8, PITCH=0.38, DT=1/30;
+ 
+ /* ---- 1. 碰撞盒 ---- */
 diff --git a/tests/library_hall_lightmap_unit.js b/tests/library_hall_lightmap_unit.js
-index e04690ee4..6fef0e822 100644
+index e04690ee4..24a64be06 100644
 --- a/tests/library_hall_lightmap_unit.js
 +++ b/tests/library_hall_lightmap_unit.js
-@@ -15,7 +15,7 @@ global.window=global; global.self=global;
+@@ -15,23 +15,25 @@ global.window=global; global.self=global;
  const ctx2d=new Proxy({}, {get:(o,k)=>k==='createRadialGradient'||k==='createLinearGradient'||k==='createPattern'?()=>({addColorStop(){}}):(k==='getImageData'?()=>({data:new Uint8ClampedArray(16)}):(k==='measureText'?()=>({width:10}):(()=>{})))});
  global.document={ createElementNS:()=>({getContext:()=>ctx2d,style:{},addEventListener(){},removeEventListener(){}}), createElement:()=>({width:1,height:1,getContext:()=>ctx2d,style:{}}), getElementById:()=>null, addEventListener(){} };
  global.navigator={userAgent:'node'}; global.addEventListener=()=>{}; global.innerWidth=844; global.innerHeight=390; global.location={search:''};
@@ -1894,6 +1970,85 @@ index e04690ee4..6fef0e822 100644
  for(const f of files){ let src=fs.readFileSync(path.join(ROOT,f),'utf8'); src=src.replace(/^const (\w+)\s*=/m,'globalThis.$1='); vm.runInThisContext(src,{filename:f}); }
  let fails=0; const check=(name,ok,info)=>{ console.log((ok?'PASS ':'FAIL ')+name+(info?'  '+info:'')); if(!ok) fails++; };
  const E=E3; E.scene=new THREE.Scene(); E.q={level:'medium'};
++/* version 2（LIB-INTERIOR-1102，11-02 照實際配置重排：中庭台階書牆、展演廳）用第二版的正式模型；version 1 照舊 */
++const V2=LIBRARY_LAYOUT.version===2, GLBF=V2?'assets/models/env/second_ai/library_hall_v2.glb':'assets/models/env/library_interior.glb', KEY=V2?'bldg.library_hall_v2':'bldg.library_interior';
+ 
+ // ---- 1. 正式模型的內容（只讀 GLB 的 JSON）----
+-const b=fs.readFileSync(path.join(ROOT,'assets/models/env/library_interior.glb')); const J=JSON.parse(b.slice(20,20+b.readUInt32LE(12)).toString('utf8'));
++const b=fs.readFileSync(path.join(ROOT,GLBF)); const J=JSON.parse(b.slice(20,20+b.readUInt32LE(12)).toString('utf8'));
+ const lm=J.scenes[J.scene|0].extras&&J.scenes[J.scene|0].extras.lightmap;
+ check('GLB 場景有 extras.lightmap', !!(lm&&lm.day&&lm.night&&lm.intensity>0), JSON.stringify(lm));
+ if(lm) for(const k of ['day','night']) check('光照貼圖檔案在 repo 裡：'+lm[k], fs.existsSync(path.join(ROOT,lm[k])));
+ const names=J.nodes.map(n=>n.name||''); check('L0_root、L1_root 在', names.includes('L0_root')&&names.includes('L1_root'));
+ const uv1=n=>J.meshes[n.mesh].primitives.every(p=>'TEXCOORD_1' in p.attributes);
+ const meshNode=rx=>J.nodes.find(n=>'mesh' in n&&rx.test(n.name||''));
+-for(const [label,rx] of [['一樓地板',/^L0_floor/],['二樓地板（淺色人字拼）',/^L1_.*parquet/],['大樓梯',/^L0_.*step/],['平台',/^L0_landing/],['外牆',/^L0_WALL_wall.*plaster/],['書架、長桌（胡桃木）',/^L1_lb_walnut/],['沙發',/^L0_lb_leather/]]){ const n=meshNode(rx); check('有第二套 UV：'+label+'（'+(n&&n.name)+'）', !!(n&&uv1(n))); }
+-for(const n of J.nodes.filter(n=>'mesh' in n&&/light_panel|skylight|_lb_vc|lampglow/.test(n.name||''))) check('沒有第二套 UV（照舊即時光）：'+n.name, !uv1(n));
+-const withUv1=J.nodes.filter(n=>'mesh' in n&&uv1(n)).length; check('有第二套 UV 的網格不少於 30 個', withUv1>=30, withUv1+' 個');
+-check('天窗寫在 extras.lightmap.dayEmit（晚上調暗）', !!(lm&&[].concat(lm.dayEmit||[]).some(k=>/skylight/.test(k))), JSON.stringify(lm&&lm.dayEmit));
++for(const [label,rx] of V2?[['一樓地板',/^L0_floor/],['二樓地板',/^L1_floor/],['台階書牆（蜂蜜色木頭）',/^L0_wood/],['展演廳的木地板',/^L0_parquet/],['外牆',/^WALL_W0/],['灰泥',/^L0_plaster/],['展示櫃、書架（胡桃木）',/^L0_walnut/]]:[['一樓地板',/^L0_floor/],['二樓地板（淺色人字拼）',/^L1_.*parquet/],['大樓梯',/^L0_.*step/],['平台',/^L0_landing/],['外牆',/^L0_WALL_wall.*plaster/],['書架、長桌（胡桃木）',/^L1_lb_walnut/],['沙發',/^L0_lb_leather/]]){ const n=meshNode(rx); check('有第二套 UV：'+label+'（'+(n&&n.name)+'）', !!(n&&uv1(n))); }
++for(const n of J.nodes.filter(n=>'mesh' in n&&(V2?/^L[01]_(light|warm|vc|vcm|books)$|plant/:/light_panel|skylight|_lb_vc|lampglow/).test(n.name||''))) check('沒有第二套 UV（照舊即時光）：'+n.name, !uv1(n));
++const withUv1=J.nodes.filter(n=>'mesh' in n&&uv1(n)).length; check('有第二套 UV 的網格不少於 '+(V2?25:30)+' 個', withUv1>=(V2?25:30), withUv1+' 個');
++if(!V2) check('天窗寫在 extras.lightmap.dayEmit（晚上調暗）', !!(lm&&[].concat(lm.dayEmit||[]).some(k=>/skylight/.test(k))), JSON.stringify(lm&&lm.dayEmit));
+ { const bin=b.slice(20+b.readUInt32LE(12)+8), acc=i=>{ const a=J.accessors[i], bv=J.bufferViews[a.bufferView], o=(bv.byteOffset||0)+(a.byteOffset||0), nc={SCALAR:1,VEC2:2,VEC3:3}[a.type], ct=a.componentType, cs={5126:4,5125:4,5123:2,5121:1}[ct], st=bv.byteStride||nc*cs, out=[];
+     for(let k=0;k<a.count;k++) for(let c=0;c<nc;c++){ const q=o+k*st+c*cs; out.push(ct===5126?bin.readFloatLE(q):ct===5125?bin.readUInt32LE(q):ct===5123?bin.readUInt16LE(q):bin.readUInt8(q)); } return out; };
+   const dup=[]; for(const n of J.nodes.filter(n=>'mesh' in n&&uv1(n))) for(const pr of J.meshes[n.mesh].primitives){ const P=acc(pr.attributes.POSITION), I=acc(pr.indices), seen=new Map(); let d=0;
+@@ -52,7 +54,7 @@ function fakeFromGLB(){
+   for(const i of J.scenes[J.scene|0].nodes) build(i,root); return root; }
+ (async()=>{
+   const orig=ASSETS.loadOne; const root=fakeFromGLB();
+-  ASSETS.loadOne=(k)=>k==='bldg.library_interior'?Promise.resolve({scene:root}):orig.call(ASSETS,k);
++  ASSETS.loadOne=(k)=>k===KEY?Promise.resolve({scene:root}):orig.call(ASSETS,k);
+   const enter=async()=>{ E.interactables=[]; E.colliders=[]; E.lampGlows=[]; E.seats=[]; E.npcs=[]; E.spawnHint=null; const zz=Z3.ZONES.library_hall.build(E); E.zone=zz; await new Promise(r=>setTimeout(r,0)); return zz; };
+   const z0=await enter();   /* 第一次進去（下面 2b 再進一次）*/
+   let fl0=null; z0.group.traverse(o=>{ if(!fl0&&o.isMesh&&/^L0_floor/.test(o.name)) fl0=o; });
+diff --git a/tests/library_hall_v2_oldsave_unit.js b/tests/library_hall_v2_oldsave_unit.js
+new file mode 100644
+index 000000000..541e06939
+--- /dev/null
++++ b/tests/library_hall_v2_oldsave_unit.js
+@@ -0,0 +1,41 @@
++// 總圖大廳第二版（LIB-INTERIOR-1102）：舊存檔站在第一版的位置，讀進第二版以後站得住、走得到（LAWWW 11-02 11:14「舊存檔站在舊位置的要能 unstick」）——不需要瀏覽器。
++//   V1POS＝第一版（version 1，ba125d6f3 的 src/data/library_layout.js）總圖大廳每 0.8 m 取樣、站得住的位置（兩層）＋座位＋互動點，共 715 個（[x, z, 層, 0 取樣／1 座位／2 互動點]）。
++//   照引擎進區域的做法（engine3d.js 換區域那一段：E.unstick 16 格 → 90 格 → 區域出生點）把玩家放上去，最後的位置要站得住、從入口（一樓）或二樓連廊走得到（不會被關在孤島）。
++//   也記下幾成原地不動、幾成挪了多遠（第二版的中庭從實心核心＋帝國式大樓梯改成台階書牆，原本站在核心旁、平台上的會被挪開）。
++// 用法：node tests/library_hall_v2_oldsave_unit.js
++const fs=require('fs'), vm=require('vm'), path=require('path');
++const ROOT=path.resolve(__dirname,'..');
++global.window=global; global.self=global;
++const ctx2d=new Proxy({}, {get:(o,k)=>k==='createRadialGradient'||k==='createLinearGradient'||k==='createPattern'?()=>({addColorStop(){}}):(k==='getImageData'?()=>({data:new Uint8ClampedArray(16)}):(k==='measureText'?()=>({width:10}):(()=>{})))});
++global.document={ createElementNS:()=>({getContext:()=>ctx2d,style:{},addEventListener(){},removeEventListener(){}}), createElement:()=>({width:1,height:1,getContext:()=>ctx2d,style:{}}), getElementById:()=>null, addEventListener(){} };
++global.navigator={userAgent:'node'}; global.addEventListener=()=>{}; global.innerWidth=844; global.innerHeight=390; global.location={search:''};
++const files=['lib/three.bundle.js','lib/three.jsm.bundle.js','src/people3d.js','src/assets3d.js','src/world3d.js','src/engine3d.js','src/townkit3d.js','src/campuskit3d.js','src/zones3d.js','src/data/socsci_layout.js','src/data/linze_layout.js','src/data/classroom_layout.js','src/building3d.js','src/data/library_layout.js','src/library3d.js','src/library_hall_v2.js'];
++for(const f of files){ let src=fs.readFileSync(path.join(ROOT,f),'utf8'); src=src.replace(/^const (\w+)\s*=/m,'globalThis.$1='); vm.runInThisContext(src,{filename:f}); }
++let fails=0; const check=(name,ok,info)=>{ console.log((ok?'PASS ':'FAIL ')+name+(info?'  '+info:'')); if(!ok) fails++; };
++const E=E3; E.scene=new THREE.Scene(); E.q={level:'medium'};
++process.on('unhandledRejection',()=>{}); global.fetch=()=>Promise.reject(new Error('no fetch in node')); const _warn=console.warn; console.warn=(...a)=>{ if(/正式模型載入失敗/.test(String(a[0]))) return; _warn(...a); };
++const V1POS=[[-11.2,-8,0,0],[-11.2,-7.2,0,0],[-11.2,-4,0,0],[-11.2,-3.2,0,0],[-11.2,-2.4,0,0],[-11.2,-1.6,0,0],[-11.2,-0.8,0,0],[-11.2,0,0,0],[-11.2,0.8,0,0],[-11.2,1.6,0,0],[-11.2,2.4,0,0],[-11.2,3.2,0,0],[-11.2,4,0,0],[-11.2,8,0,0],[-10.4,-8,0,0],[-10.4,-7.2,0,0],[-10.4,-4,0,0],[-10.4,-3.2,0,0],[-10.4,-2.4,0,0],[-10.4,-1.6,0,0],[-10.4,-0.8,0,0],[-10.4,0,0,0],[-10.4,0.8,0,0],[-10.4,1.6,0,0],[-10.4,2.4,0,0],[-10.4,3.2,0,0],[-10.4,4,0,0],[-10.4,4.8,0,0],[-10.4,8,0,0],[-9.6,-8,0,0],[-9.6,-7.2,0,0],[-9.6,-6.4,0,0],[-9.6,-5.6,0,0],[-9.6,-4.8,0,0],[-9.6,-4,0,0],[-9.6,-3.2,0,0],[-9.6,-0.8,0,0],[-9.6,0,0,0],[-9.6,0.8,0,0],[-9.6,3.2,0,0],[-9.6,4,0,0],[-9.6,4.8,0,0],[-9.6,5.6,0,0],[-9.6,6.4,0,0],[-9.6,7.2,0,0],[-9.6,8,0,0],[-8.8,-8,0,0],[-8.8,-7.2,0,0],[-8.8,-6.4,0,0],[-8.8,-5.6,0,0],[-8.8,-4.8,0,0],[-8.8,-4,0,0],[-8.8,-3.2,0,0],[-8.8,-0.8,0,0],[-8.8,0,0,0],[-8.8,0.8,0,0],[-8.8,3.2,0,0],[-8.8,4,0,0],[-8.8,4.8,0,0],[-8.8,5.6,0,0],[-8.8,6.4,0,0],[-8.8,7.2,0,0],[-8.8,8,0,0],[-8,-8,0,0],[-8,-7.2,0,0],[-8,-6.4,0,0],[-8,-5.6,0,0],[-8,-4.8,0,0],[-8,-4,0,0],[-8,-3.2,0,0],[-8,-0.8,0,0],[-8,0,0,0],[-8,0.8,0,0],[-8,3.2,0,0],[-8,4,0,0],[-8,4.8,0,0],[-8,5.6,0,0],[-8,6.4,0,0],[-8,7.2,0,0],[-8,8,0,0],[-7.2,-8,0,0],[-7.2,-7.2,0,0],[-7.2,-6.4,0,0],[-7.2,-5.6,0,0],[-7.2,-4.8,0,0],[-7.2,-4,0,0],[-7.2,-3.2,0,0],[-7.2,-0.8,0,0],[-7.2,0,0,0],[-7.2,0.8,0,0],[-7.2,3.2,0,0],[-7.2,4,0,0],[-7.2,4.8,0,0],[-7.2,5.6,0,0],[-7.2,6.4,0,0],[-7.2,7.2,0,0],[-7.2,8,0,0],[-6.4,-8,0,0],[-6.4,-7.2,0,0],[-6.4,-5.6,0,0],[-6.4,-4.8,0,0],[-6.4,-4,0,0],[-6.4,-3.2,0,0],[-6.4,-2.4,0,0],[-6.4,-1.6,0,0],[-6.4,-0.8,0,0],[-6.4,0,0,0],[-6.4,0.8,0,0],[-6.4,1.6,0,0],[-6.4,2.4,0,0],[-6.4,3.2,0,0],[-6.4,4,0,0],[-6.4,4.8,0,0],[-6.4,5.6,0,0],[-6.4,6.4,0,0],[-6.4,7.2,0,0],[-6.4,8,0,0],[-5.6,0,0,0],[-5.6,2.4,0,0],[-5.6,3.2,0,0],[-5.6,4,0,0],[-4.8,2.4,0,0],[-4.8,4,0,0],[-4,1.6,0,0],[-4,2.4,0,0],[-4,4,0,0],[-4,6.4,0,0],[-4,7.2,0,0],[-4,8,0,0],[-3.2,0,0,0],[-3.2,0.8,0,0],[-3.2,1.6,0,0],[-3.2,2.4,0,0],[-3.2,3.2,0,0],[-3.2,4,0,0],[-3.2,6.4,0,0],[-3.2,7.2,0,0],[-3.2,8,0,0],[-2.4,-8,0,0],[-2.4,-7.2,0,0],[-2.4,-6.4,0,0],[-2.4,-5.6,0,0],[-2.4,-4.8,0,0],[-2.4,-4,0,0],[-2.4,-3.2,0,0],[-2.4,-2.4,0,0],[-2.4,-1.6,0,0],[-2.4,0,0,0],[-2.4,0.8,0,0],[-2.4,1.6,0,0],[-2.4,2.4,0,0],[-2.4,3.2,0,0],[-2.4,4,0,0],[-2.4,6.4,0,0],[-2.4,7.2,0,0],[-2.4,8,0,0],[-1.6,-8,0,0],[-1.6,-7.2,0,0],[-1.6,-6.4,0,0],[-1.6,-5.6,0,0],[-1.6,0,0,0],[-1.6,0.8,0,0],[-1.6,1.6,0,0],[-1.6,2.4,0,0],[-1.6,3.2,0,0],[-1.6,4,0,0],[-1.6,6.4,0,0],[-1.6,7.2,0,0],[-1.6,8,0,0],[-0.8,-8,0,0],[-0.8,-7.2,0,0],[-0.8,-6.4,0,0],[-0.8,-5.6,0,0],[-0.8,-4.8,0,0],[-0.8,-4,0,0],[-0.8,-3.2,0,0],[-0.8,-2.4,0,0],[-0.8,-1.6,0,0],[-0.8,-0.8,0,0],[-0.8,0,0,0],[-0.8,0.8,0,0],[-0.8,1.6,0,0],[-0.8,2.4,0,0],[-0.8,3.2,0,0],[-0.8,4,0,0],[-0.8,6.4,0,0],[-0.8,7.2,0,0],[-0.8,8,0,0],[0,-8,0,0],[0,-7.2,0,0],[0,-6.4,0,0],[0,-5.6,0,0],[0,-4.8,0,0],[0,-4,0,0],[0,-3.2,0,0],[0,-2.4,0,0],[0,-1.6,0,0],[0,-0.8,0,0],[0,0,0,0],[0,0.8,0,0],[0,1.6,0,0],[0,2.4,0,0],[0,3.2,0,0],[0,4,0,0],[0,4.8,0,0],[0,5.6,0,0],[0,6.4,0,0],[0,7.2,0,0],[0,8,0,0],[0.8,-8,0,0],[0.8,-7.2,0,0],[0.8,-6.4,0,0],[0.8,-5.6,0,0],[0.8,-4.8,0,0],[0.8,-4,0,0],[0.8,-3.2,0,0],[0.8,-2.4,0,0],[0.8,-1.6,0,0],[0.8,-0.8,0,0],[0.8,0,0,0],[0.8,0.8,0,0],[0.8,1.6,0,0],[0.8,2.4,0,0],[0.8,3.2,0,0],[0.8,4,0,0],[0.8,6.4,0,0],[0.8,7.2,0,0],[0.8,8,0,0],[1.6,-8,0,0],[1.6,-7.2,0,0],[1.6,-6.4,0,0],[1.6,-5.6,0,0],[1.6,0,0,0],[1.6,0.8,0,0],[1.6,1.6,0,0],[1.6,2.4,0,0],[1.6,3.2,0,0],[1.6,4,0,0],[1.6,6.4,0,0],[1.6,7.2,0,0],[1.6,8,0,0],[2.4,-8,0,0],[2.4,-7.2,0,0],[2.4,-6.4,0,0],[2.4,-5.6,0,0],[2.4,-4.8,0,0],[2.4,-4,0,0],[2.4,-3.2,0,0],[2.4,-2.4,0,0],[2.4,-1.6,0,0],[2.4,0,0,0],[2.4,0.8,0,0],[2.4,1.6,0,0],[2.4,2.4,0,0],[2.4,3.2,0,0],[2.4,4,0,0],[2.4,6.4,0,0],[2.4,7.2,0,0],[2.4,8,0,0],[3.2,0,0,0],[3.2,0.8,0,0],[3.2,1.6,0,0],[3.2,2.4,0,0],[3.2,3.2,0,0],[3.2,4,0,0],[3.2,6.4,0,0],[3.2,7.2,0,0],[3.2,8,0,0],[4,1.6,0,0],[4,2.4,0,0],[4,4,0,0],[4,6.4,0,0],[4,8,0,0],[4.8,2.4,0,0],[5.6,0,0,0],[5.6,2.4,0,0],[5.6,3.2,0,0],[6.4,-8,0,0],[6.4,-7.2,0,0],[6.4,-6.4,0,0],[6.4,-5.6,0,0],[6.4,-4.8,0,0],[6.4,-4,0,0],[6.4,-3.2,0,0],[6.4,-2.4,0,0],[6.4,-1.6,0,0],[6.4,-0.8,0,0],[6.4,0,0,0],[6.4,0.8,0,0],[6.4,1.6,0,0],[6.4,2.4,0,0],[6.4,3.2,0,0],[7.2,-8,0,0],[7.2,-7.2,0,0],[7.2,-6.4,0,0],[7.2,-5.6,0,0],[7.2,-4.8,0,0],[7.2,-4,0,0],[7.2,-3.2,0,0],[7.2,-2.4,0,0],[7.2,-1.6,0,0],[7.2,-0.8,0,0],[7.2,0,0,0],[7.2,0.8,0,0],[7.2,1.6,0,0],[7.2,2.4,0,0],[7.2,3.2,0,0],[8,-4.8,0,0],[8,-4,0,0],[8,-3.2,0,0],[8,-2.4,0,0],[8,-1.6,0,0],[8,-0.8,0,0],[8,0,0,0],[8,0.8,0,0],[8,1.6,0,0],[8,2.4,0,0],[8,3.2,0,0],[8.8,-4.8,0,0],[8.8,-4,0,0],[8.8,-3.2,0,0],[8.8,0,0,0],[8.8,0.8,0,0],[8.8,1.6,0,0],[8.8,2.4,0,0],[8.8,3.2,0,0],[9.6,-8,0,0],[9.6,-7.2,0,0],[9.6,-6.4,0,0],[9.6,-5.6,0,0],[9.6,-4.8,0,0],[9.6,-4,0,0],[9.6,-3.2,0,0],[9.6,0.8,0,0],[9.6,1.6,0,0],[9.6,2.4,0,0],[9.6,3.2,0,0],[10.4,-8,0,0],[10.4,-7.2,0,0],[10.4,-6.4,0,0],[10.4,-5.6,0,0],[10.4,-4.8,0,0],[10.4,-4,0,0],[10.4,-3.2,0,0],[10.4,0.8,0,0],[10.4,1.6,0,0],[10.4,2.4,0,0],[10.4,3.2,0,0],[-11.2,-8,1,0],[-11.2,-7.2,1,0],[-11.2,-6.4,1,0],[-11.2,-5.6,1,0],[-11.2,-4.8,1,0],[-11.2,-4,1,0],[-11.2,-3.2,1,0],[-11.2,-2.4,1,0],[-11.2,-1.6,1,0],[-11.2,-0.8,1,0],[-11.2,1.6,1,0],[-11.2,2.4,1,0],[-11.2,3.2,1,0],[-11.2,4,1,0],[-11.2,4.8,1,0],[-11.2,5.6,1,0],[-11.2,6.4,1,0],[-11.2,7.2,1,0],[-11.2,8,1,0],[-10.4,-8,1,0],[-10.4,-6.4,1,0],[-10.4,-5.6,1,0],[-10.4,-4.8,1,0],[-10.4,-3.2,1,0],[-10.4,-2.4,1,0],[-10.4,-1.6,1,0],[-10.4,-0.8,1,0],[-10.4,0,1,0],[-10.4,0.8,1,0],[-10.4,1.6,1,0],[-10.4,4,1,0],[-10.4,4.8,1,0],[-10.4,5.6,1,0],[-10.4,8,1,0],[-9.6,-8,1,0],[-9.6,-5.6,1,0],[-9.6,-4.8,1,0],[-9.6,-2.4,1,0],[-9.6,-1.6,1,0],[-9.6,-0.8,1,0],[-9.6,0,1,0],[-9.6,0.8,1,0],[-9.6,1.6,1,0],[-9.6,4,1,0],[-9.6,4.8,1,0],[-9.6,5.6,1,0],[-9.6,8,1,0],[-8.8,-8,1,0],[-8.8,-5.6,1,0],[-8.8,-4.8,1,0],[-8.8,-2.4,1,0],[-8.8,-1.6,1,0],[-8.8,-0.8,1,0],[-8.8,0,1,0],[-8.8,0.8,1,0],[-8.8,1.6,1,0],[-8.8,4,1,0],[-8.8,4.8,1,0],[-8.8,5.6,1,0],[-8.8,8,1,0],[-8,-8,1,0],[-8,-5.6,1,0],[-8,-4.8,1,0],[-8,-2.4,1,0],[-8,-1.6,1,0],[-8,-0.8,1,0],[-8,0,1,0],[-8,0.8,1,0],[-8,1.6,1,0],[-8,4,1,0],[-8,4.8,1,0],[-8,5.6,1,0],[-8,8,1,0],[-7.2,-8,1,0],[-7.2,-5.6,1,0],[-7.2,-4.8,1,0],[-7.2,-2.4,1,0],[-7.2,-1.6,1,0],[-7.2,-0.8,1,0],[-7.2,0,1,0],[-7.2,0.8,1,0],[-7.2,1.6,1,0],[-7.2,4,1,0],[-7.2,4.8,1,0],[-7.2,5.6,1,0],[-7.2,8,1,0],[-6.4,-8,1,0],[-6.4,-5.6,1,0],[-6.4,-4.8,1,0],[-6.4,-2.4,1,0],[-6.4,-1.6,1,0],[-6.4,-0.8,1,0],[-6.4,0,1,0],[-6.4,0.8,1,0],[-6.4,1.6,1,0],[-6.4,4,1,0],[-6.4,4.8,1,0],[-6.4,5.6,1,0],[-6.4,8,1,0],[-5.6,-8,1,0],[-5.6,-6.4,1,0],[-5.6,-5.6,1,0],[-5.6,-4.8,1,0],[-5.6,-3.2,1,0],[-5.6,-2.4,1,0],[-5.6,-1.6,1,0],[-5.6,-0.8,1,0],[-5.6,0,1,0],[-5.6,0.8,1,0],[-4.8,-8,1,0],[-4.8,-7.2,1,0],[-4.8,-6.4,1,0],[-4.8,-5.6,1,0],[-4.8,-4.8,1,0],[-4.8,-4,1,0],[-4.8,-3.2,1,0],[-4.8,-2.4,1,0],[-4.8,-1.6,1,0],[-4.8,-0.8,1,0],[-4.8,0,1,0],[-4.8,0.8,1,0],[-4,-0.8,1,0],[-4,0,1,0],[-4,0.8,1,0],[-3.2,-0.8,1,0],[-3.2,0,1,0],[-3.2,0.8,1,0],[-2.4,-4,1,0],[-2.4,-3.2,1,0],[-2.4,-2.4,1,0],[-2.4,-1.6,1,0],[-2.4,-0.8,1,0],[-2.4,0,1,0],[-2.4,0.8,1,0],[-1.6,0,1,0],[-1.6,0.8,1,0],[-0.8,0,1,0],[-0.8,0.8,1,0],[0,0,1,0],[0,0.8,1,0],[0.8,0,1,0],[0.8,0.8,1,0],[1.6,0,1,0],[1.6,0.8,1,0],[2.4,-4,1,0],[2.4,-3.2,1,0],[2.4,-2.4,1,0],[2.4,-1.6,1,0],[2.4,-0.8,1,0],[2.4,0,1,0],[2.4,0.8,1,0],[3.2,-0.8,1,0],[3.2,0,1,0],[3.2,0.8,1,0],[4,-0.8,1,0],[4,0,1,0],[4,0.8,1,0],[4.8,-8,1,0],[4.8,-7.2,1,0],[4.8,-6.4,1,0],[4.8,-5.6,1,0],[4.8,-4.8,1,0],[4.8,-4,1,0],[4.8,-3.2,1,0],[4.8,-2.4,1,0],[4.8,-1.6,1,0],[4.8,-0.8,1,0],[4.8,0,1,0],[4.8,0.8,1,0],[5.6,-8,1,0],[5.6,-7.2,1,0],[5.6,-6.4,1,0],[5.6,-5.6,1,0],[5.6,-4.8,1,0],[5.6,-4,1,0],[5.6,-3.2,1,0],[5.6,-2.4,1,0],[5.6,-1.6,1,0],[5.6,-0.8,1,0],[5.6,0,1,0],[5.6,0.8,1,0],[6.4,-8,1,0],[6.4,-7.2,1,0],[6.4,-6.4,1,0],[6.4,-5.6,1,0],[6.4,-4.8,1,0],[6.4,-4,1,0],[6.4,-3.2,1,0],[6.4,-2.4,1,0],[6.4,-1.6,1,0],[6.4,-0.8,1,0],[6.4,0,1,0],[6.4,0.8,1,0],[6.4,1.6,1,0],[6.4,2.4,1,0],[6.4,3.2,1,0],[6.4,4,1,0],[6.4,4.8,1,0],[6.4,5.6,1,0],[6.4,6.4,1,0],[6.4,8,1,0],[7.2,-8,1,0],[7.2,-7.2,1,0],[7.2,-6.4,1,0],[7.2,-5.6,1,0],[7.2,-4.8,1,0],[7.2,-4,1,0],[7.2,-3.2,1,0],[7.2,-2.4,1,0],[7.2,-1.6,1,0],[7.2,-0.8,1,0],[7.2,0,1,0],[7.2,0.8,1,0],[7.2,1.6,1,0],[7.2,2.4,1,0],[7.2,3.2,1,0],[7.2,4,1,0],[7.2,4.8,1,0],[7.2,5.6,1,0],[7.2,6.4,1,0],[8,-8,1,0],[8,-7.2,1,0],[8,-6.4,1,0],[8,-5.6,1,0],[8,-4.8,1,0],[8,-4,1,0],[8,-3.2,1,0],[8,-2.4,1,0],[8,-1.6,1,0],[8,-0.8,1,0],[8,0,1,0],[8,0.8,1,0],[8,1.6,1,0],[8,2.4,1,0],[8,3.2,1,0],[8,4,1,0],[8,4.8,1,0],[8,5.6,1,0],[8,6.4,1,0],[8.8,-6.4,1,0],[8.8,-5.6,1,0],[8.8,-4.8,1,0],[8.8,-4,1,0],[8.8,-3.2,1,0],[8.8,0,1,0],[8.8,0.8,1,0],[8.8,1.6,1,0],[8.8,2.4,1,0],[8.8,3.2,1,0],[8.8,4,1,0],[8.8,4.8,1,0],[8.8,5.6,1,0],[8.8,6.4,1,0],[9.6,-6.4,1,0],[9.6,-5.6,1,0],[9.6,-4.8,1,0],[9.6,-4,1,0],[9.6,-3.2,1,0],[9.6,0.8,1,0],[9.6,1.6,1,0],[9.6,2.4,1,0],[9.6,3.2,1,0],[9.6,4,1,0],[9.6,4.8,1,0],[9.6,5.6,1,0],[9.6,6.4,1,0],[9.6,8,1,0],[10.4,-8,1,0],[10.4,-7.2,1,0],[10.4,-6.4,1,0],[10.4,-5.6,1,0],[10.4,-4.8,1,0],[10.4,-4,1,0],[10.4,-3.2,1,0],[10.4,0.8,1,0],[10.4,1.6,1,0],[10.4,2.4,1,0],[10.4,3.2,1,0],[10.4,4,1,0],[10.4,4.8,1,0],[10.4,5.6,1,0],[10.4,6.4,1,0],[10.4,7.2,1,0],[10.4,8,1,0],[11.2,-8,1,0],[11.2,-7.2,1,0],[11.2,-6.4,1,0],[11.2,-5.6,1,0],[11.2,-4.8,1,0],[11.2,-4,1,0],[11.2,-3.2,1,0],[11.2,3.2,1,0],[11.2,4,1,0],[11.2,4.8,1,0],[11.2,5.6,1,0],[11.2,6.4,1,0],[11.2,7.2,1,0],[11.2,8,1,0],[-10.17,2.2,1,1],[-10.17,3.8,1,1],[-9.77,-7.6,1,1],[-9.77,-6,1,1],[-8.72,-7.6,1,1],[-8.72,-6,1,1],[-7.67,-7.6,1,1],[-7.67,-6,1,1],[-6.62,-7.6,1,1],[-6.62,-6,1,1],[-9.77,-4.6,1,1],[-9.77,-3,1,1],[-8.72,-4.6,1,1],[-8.72,-3,1,1],[-7.67,-4.6,1,1],[-7.67,-3,1,1],[-6.62,-4.6,1,1],[-6.62,-3,1,1],[-9.13,2.2,1,1],[-9.13,3.8,1,1],[-8.07,2.2,1,1],[-8.07,3.8,1,1],[-7.02,2.2,1,1],[-7.02,3.8,1,1],[-10.17,5.8,1,1],[-10.17,7.4,1,1],[-9.13,5.8,1,1],[-9.13,7.4,1,1],[-8.07,5.8,1,1],[-8.07,7.4,1,1],[-7.02,5.8,1,1],[-7.02,7.4,1,1],[-3.95,7.1,0,2],[3.85,7.6,0,2],[4.08,6.2,0,2],[7.8,3.25,0,2],[-6.4,2.4,0,2],[-6.4,-1.6,0,2],[-10.3,-5.6,0,2],[-10.3,6.2,0,2],[10.45,-6.6,0,2],[9.35,-5.8,0,2],[9.35,-7.4,0,2],[-9.77,-7.6,1,2],[-8.72,-6,1,2],[-7.67,-7.6,1,2],[-6.62,-6,1,2],[-9.77,-4.6,1,2],[-8.72,-3,1,2],[-7.67,-4.6,1,2],[-6.62,-3,1,2],[-10.17,2.2,1,2],[-9.13,3.8,1,2],[-8.07,2.2,1,2],[-7.02,3.8,1,2],[-10.17,5.8,1,2],[-9.13,7.4,1,2],[-8.07,5.8,1,2],[-7.02,7.4,1,2],[7.2,6.85,1,2],[9,6.85,1,2],[11.05,5.6,1,2],[10.4,-8.05,1,2],[10.8,4.95,0,2],[-3.2,0.35,0,2],[0,8.3,0,2],[11.1,-6,1,2],[10.4,-3.6,0,2],[10.4,-3.6,1,2]];
++(async()=>{
++  check('配置是第二版', LIBRARY_LAYOUT.version===2);
++  E.interactables=[]; E.colliders=[]; E.lampGlows=[]; E.seats=[]; E.npcs=[]; E.spawnHint=null;
++  const z=Z3.ZONES.library_hall.build(E); E.zone=z; E.levels=z.levels; E.nav=z.nav; for(const n of E.levels) n._cm=null;
++  const P={obj:{position:new THREE.Vector3(),rotation:{y:0}},radius:0.32,lv:0}; E.player=P;
++  const nav=z.levels, SP=z.spawn;
++  const reach=(n,x0,z0)=>{ const [c0,r0]=n.toCell(x0,z0), seen=new Uint8Array(n.cols*n.rows), q=[[c0,r0]]; seen[r0*n.cols+c0]=1;
++    while(q.length){ const [c,r]=q.pop(); for(const [dc,dr] of [[1,0],[-1,0],[0,1],[0,-1]]){ const cc=c+dc, rr=r+dr; if(cc<0||rr<0||cc>=n.cols||rr>=n.rows||seen[rr*n.cols+cc]||n.blocked(cc,rr)) continue; seen[rr*n.cols+cc]=1; q.push([cc,rr]); } }
++    return seen; };
++  const U=LIBRARY_LAYOUT.upper, R=[reach(nav[0],SP.x,SP.z), reach(nav[1],0,(U.band.z0+U.band.z1)/2)];
++  const st={same:0,near:0,far:0,spawn:0}, bad=[], moves=[];
++  for(const [x,zz,lv,k] of V1POS){ P.lv=lv; E.nav=nav[lv]; P.obj.position.set(x,0,zz); let s='same';
++    if(E.unstick(P,16)) s='near';
++    if(!E.canStand(P.obj.position.x,P.obj.position.z,0.3,P.lv)){ if(E.unstick(P,90)&&E.canStand(P.obj.position.x,P.obj.position.z,0.3,P.lv)) s='far'; else { P.obj.position.set(SP.x,0,SP.z); P.lv=SP.lv|0; s='spawn'; } }
++    st[s]++; const fx=P.obj.position.x, fz=P.obj.position.z, n=nav[P.lv|0], [c,r]=n.toCell(fx,fz);
++    if(!E.canStand(fx,fz,0.3,P.lv)||!R[P.lv|0][r*n.cols+c]) bad.push([x,zz,lv,s,+fx.toFixed(2),+fz.toFixed(2),P.lv]);
++    if(s!=='same') moves.push(Math.hypot(fx-x,fz-zz)); }
++  const mx=moves.length?Math.max(...moves):0, med=moves.length?moves.slice().sort((a,b)=>a-b)[moves.length>>1]:0;
++  check('第一版的 '+V1POS.length+' 個位置讀進第二版：最後都站得住、從入口或二樓連廊走得到（沒有關在孤島）', bad.length===0, JSON.stringify(st)+(bad.length?'；有問題：'+JSON.stringify(bad.slice(0,6)):''));
++  check('沒有一個要退回區域出生點（16 格、90 格內都找得到空地）', st.spawn===0, JSON.stringify(st));
++  check('挪開的距離：最遠不超過 6.5 m（16 格）', mx<=6.5, '挪開 '+moves.length+' 個、最遠 '+mx.toFixed(2)+' m、中位數 '+med.toFixed(2)+' m');
++  console.log(JSON.stringify({stats:st,moved:moves.length,maxMove:+mx.toFixed(2),median:+med.toFixed(2)}));
++  console.log(fails?('FAILED '+fails):'ALL PASS'); process.exit(fails?1:0);
++})();
 diff --git a/tests/library_media_unit.js b/tests/library_media_unit.js
 index 94c22f8d3..60730fffc 100644
 --- a/tests/library_media_unit.js

@@ -396,6 +396,47 @@ for cl in U.get('closed', []):
 # 八、家具（第一版的種類照第一版的位置；第二版新加的）
 # =====================================================================
 CHAIRS = {0: [], 1: []}; TCHAIRS = {0: [], 1: []}   # instancing：木椅、辦公椅
+# 室內的大葉盆栽（琴葉榕一類）：樹幹＋幾團葉子（深色芯外面一圈葉片卡）——和 B1 下沉中庭、118 巷的大樹同一套（tools/blender/plants.py 的葉子貼圖）；
+#   第一版程序化的「幾根細枝」從畫面上看像枯枝。葉子的材質名有 leaf：遊戲擋到鏡頭時網點透空（library_hall_v2.js 的 seeThru）。
+PLM = {}
+def pmesh(k, kind):
+    if not PLM:
+        try:
+            import plants as PL
+            P = PL.materials('lh2_'); PLM.update(leaf=P['leaf_small'], bark=P['bark'])
+        except Exception as ex:   # noqa: BLE001
+            print('plants', ex); PLM.update(leaf=L.flat('lh2_leaf_small', '#46683a', rough=0.8), bark=L.flat('lh2_bark', '#5a4a3c', rough=0.9))
+        PLM['core'] = L.flat('lh2_leaf_core', '#2c4325', rough=0.98)
+    key = (k, kind)
+    if key not in PL_MESH: PL_MESH[key] = Mesh(f'L{k}_lh2_plant_{kind}', PLM[kind])
+    return PL_MESH[key]
+PL_MESH = {}
+def leafy(k, x, y0, z, r, seed, h=1.55):
+    rr = random.Random(seed); cards, bark, core = pmesh(k, 'leaf'), pmesh(k, 'bark'), pmesh(k, 'core')
+    def card(px, py, pz, sz, yaw, tilt):
+        ca, sa = math.cos(yaw), math.sin(yaw)
+        P = lambda du, dv: (px + ca * du, py + dv + tilt * du, pz + sa * du)
+        fc = cards.bm.faces.new([cards.bm.verts.new(g2b(*P(du, dv))) for (du, dv) in ((-sz / 2, -sz / 2), (sz / 2, -sz / 2), (sz / 2, sz / 2), (-sz / 2, sz / 2))])
+        uvl = cards.bm.loops.layers.uv.verify()
+        for lp, uv in zip(fc.loops, ((0, 0), (1, 0), (1, 1), (0, 1))): lp[uvl].uv = uv
+    top = y0 + h
+    bark.cyl((x, y0, z), (x, top - 0.35, z), 0.035, seg=6, r2=0.022)
+    tufts = []
+    for j in range(4):
+        a_ = j * PI / 2 + rr.uniform(-0.5, 0.5); yb = y0 + h * rr.uniform(0.35, 0.55); d_ = rr.uniform(0.18, 0.3)
+        tx, ty, tz = x + math.cos(a_) * d_, y0 + h * rr.uniform(0.55, 0.8), z + math.sin(a_) * d_
+        bark.cyl((x, yb, z), (tx, ty, tz), 0.018, seg=5, r2=0.012); tufts.append((tx, ty, tz, rr.uniform(0.24, 0.32)))
+    tufts.append((x, top - 0.2, z, 0.3))
+    for (cx, cy, cz, rad) in tufts:
+        v0 = set(core.bm.verts); core.ell((cx, cy, cz), rad * 0.55, rad * 0.5, rad * 0.55, seg=7, rings=4)
+        c0 = g2b(cx, cy, cz)
+        for vv in core.bm.verts:
+            if vv not in v0: vv.co = c0 + (vv.co - c0) * rr.uniform(0.85, 1.08)
+        for _ in range(int(30 * rad / 0.3)):
+            a_ = rr.uniform(0, 2 * PI); e_ = math.asin(rr.uniform(-0.6, 1.0)); q = rr.uniform(0.75, 1.0)
+            card(cx + rad * q * math.cos(a_) * math.cos(e_), cy + rad * 0.85 * q * math.sin(e_), cz + rad * q * math.sin(a_) * math.cos(e_), rr.uniform(0.2, 0.3), rr.uniform(0, PI), rr.uniform(-0.6, 0.6))
+
+
 def lvl(f): return (C0, 0.0) if not f.get('lv') else (C1, Y1)
 def bookrow(c, x0, x1, y, z, depth, facing, h=0.3):
     x = x0
@@ -449,7 +490,8 @@ for f in LAY['furniture']:
         shelf(c, f['x'], f['z'], f['w'], ry, y, H=1.6, Dp=0.5)
     elif t == 'planter':
         clathe(c.vc, [(0.0, 0.0), (f['r'] * 0.8, 0.0), (f['r'], 0.55), (f['r'] * 1.02, 0.6), (0.0, 0.6)], f['x'], y, f['z'], '#d9d3c6', seg=16)
-        plant(c, f['x'], f['z'], h=1.5)
+        ccyl(c.vc, (f['x'], y + 0.6, f['z']), (f['x'], y + 0.606, f['z']), f['r'] * 0.95, '#3d3226', seg=16)   # 土
+        leafy(c.k, f['x'], y + 0.6, f['z'], f['r'], seed=int(abs(f['x']) * 31 + abs(f['z']) * 17) + 7 * c.k)
     elif t == 'studyTable':                            # 二樓的長桌（第一版同一個位置：小安的座位）
         x, z, w = f['x'], f['z'], f['w']
         C1.get('wood', tile=1.6).box(x - w / 2, x + w / 2, y + 0.72, y + 0.76, z - 0.5, z + 0.5)
@@ -538,6 +580,12 @@ for px in GT['posts']:
 for sxx in (-1, 0, 1):
     pass
 ep = GT['posts'][-1]
+DIR = LAY.get('directory')
+if DIR:                                                                                   # 樓層簡介立牌（字是遊戲畫的 canvas，貼在板子的南面）
+    dx_, dz_ = DIR['x'], DIR['z']
+    C0.get('frame').box(dx_ - 0.95, dx_ + 0.95, 1.1, 2.1, dz_ - 0.025, dz_ + 0.025)
+    for sx in (-0.85, 0.85): C0.get('steel').box(dx_ + sx - 0.025, dx_ + sx + 0.025, 0.0, 1.1, dz_ - 0.02, dz_ + 0.02)
+    for sx in (-0.85, 0.85): C0.get('steel').box(dx_ + sx - 0.05, dx_ + sx + 0.05, 0.0, 0.025, dz_ - 0.22, dz_ + 0.22)
 for sx in (-1, 1):
     a, b = sorted((sx * ep, sx * V['x1'])); C0.get('glass').box(a, b, 0.0, 1.0, GT['z'] - 0.02, GT['z'] + 0.02)
 
@@ -547,6 +595,7 @@ for sx in (-1, 1):
 for wid, (m, par, d) in WALLS.items():
     m.finish(par, props={'dir': d})
 C0.finish(); C1.finish()
+for (k, kind), m in PL_MESH.items(): m.finish(R0 if k == 0 else R1, uv=False, merge=False, smooth=(kind == 'core'))
 L.merge_by_material(root, keep=lambda ob: 'WALL_' in ob.name or ob.name.startswith('INST_') or (ob.data.users > 1), key=lambda ob: 'L0' if ob.parent == R0 else 'L1')
 for ob in [o for o in root.children_recursive if o.type == 'MESH' and o.parent == root]:
     pass

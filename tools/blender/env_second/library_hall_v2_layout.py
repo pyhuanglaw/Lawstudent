@@ -107,6 +107,7 @@ def build(v1):
     L['signs'] = signs
     # 窗：西、東外牆（每 2.4 m 一扇；北段新加），展演廳的窗角度（度，0＝正北）
     L['windowsV2'] = {'xWallZ': [round(-15.6 + 2.4 * k, 2) for k in range(11)], 'rotundaDeg': [-72, -36, 0, 36, 72]}   # 展演廳的窗：弧牆 15 段（一段 12°）的第 1、4、7、10、13 段（library_hall_v2.py）
+    L['directory'] = {'x': -3.6, 'z': 0.0, 'note': '樓層簡介立牌：入口閘門後面、西側展示櫃前面，面朝南（門口）；第一版掛在核心書架上 (−3.2, −0.48)。字是遊戲畫的 canvas，架子在正式模型、備用模型各一份'}
     L['furnitureNote'] = 'v2 新的型別：groupTable（一樓四人桌）、pcDesk（電腦桌）、roundTable（圓桌）——src/library3d.js 第二版處理；prop 的 kind 只影響 Blender 畫什麼'
     return L
 

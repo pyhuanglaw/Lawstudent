@@ -1,5 +1,5 @@
 diff --git a/src/story3d.js b/src/story3d.js
-index f42a6d029..b3d10ca26 100644
+index fe2197c34..5c10204eb 100644
 --- a/src/story3d.js
 +++ b/src/story3d.js
 @@ -256,8 +256,8 @@ const STORY = (function(){
@@ -115,6 +115,21 @@ index d5c7087d2..048bbb648 100644
          [CK.hall({w:34,d:14,floors:4,gfh:4.2,fh:3.5,wall:'#d2c3a5',trim:'#ebe4d6',roofType:'flat',win:'rect',arcade:true,porch:{bays:3,depth:2.6,style:'flat'}}),45,33,Math.PI],   // 大道南側、往宿舍的路東邊
          [CK.hall({w:30,d:13,floors:5,gfh:3.6,fh:3.1,wall:'#bfb5a3',trim:'#e4ddd0',roofType:'flat',win:'rect',arcade:false,porch:{bays:1,depth:2.0,style:'flat',h:3.4}}),-34,68,Math.PI],   // 舟山路南側、宿舍區
          [CK.hall({w:30,d:13,floors:5,gfh:3.6,fh:3.1,wall:'#c9b49a',trim:'#e8e2d6',roofType:'flat',win:'rect',arcade:false,porch:{bays:1,depth:2.0,style:'flat',h:3.4}}),74,68,Math.PI],
+diff --git a/tests/campus_glb_integration.py b/tests/campus_glb_integration.py
+index 1a6ac8614..953596e74 100644
+--- a/tests/campus_glb_integration.py
++++ b/tests/campus_glb_integration.py
+@@ -45,7 +45,9 @@ for _k, _v in (('gongtong', ('bldg.campus_gongtong', 'campus_gongtong_glb', None
+ #   大一女舍（LAWWW2 55fbedb）：A、B 兩棟＋天橋三個套件物件都標 freshman，外框取三個的聯集（原本只取第一個＝A 棟，差 29.85 m）。
+ BBOX_REGION = {'gongtong': {'zmin': 21.5}}   # 外框只算這個範圍的頂點（共同教學館：前庭的蒲葵在 z 17–21，本體從 z 22.7 開始）
+ PALM_ZONE = (17.5, 21.0)   # 蒲葵樹幹底部（y ≤ 0.5）的 z 範圍
+-BBOX_TOL = {'gongtong': {0: 4.5, 4: 2.4}}   # 外框 [x0,y0,z0,x1,y1,z1] 的第幾個 → 容許差：x0 西側木造走廊（實際 4.2 m）、y1 四樓屋頂（實際 2.08 m）；其他照 1.5 m
++BBOX_TOL = {'gongtong': {0: 4.5, 4: 2.4},   # 外框 [x0,y0,z0,x1,y1,z1] 的第幾個 → 容許差：x0 西側木造走廊（實際 4.2 m）、y1 四樓屋頂（實際 2.08 m）；其他照 1.5 m
++            'library': {0: 8.4, 2: 7.3, 4: 2.8}}   # 總圖第三版（LIB-FRONT-1102，使用者 11-02 照片）：x0 拱廊前的平台＋台階（x 73.75；套件從 81.9 開始，實際 8.16 m）、
++                                                  #   z0 北邊方塔（照片 3；z −37.9，套件 −30.8，實際 7.1 m）、y1 方塔頂 28.05（套件最高 30.6，實際 2.55 m）；其他照 1.5 m
+ GT_PALMS = [(-10.5, 19.2), (-6.5, 18.8), (-2.5, 19.1), (6.5, 19.0), (10.5, 18.9), (14.5, 19.2)]   # 和 zones3d.js 的 GT_PALMS 相同（模型載入後 nav.blockCircle）
+ GT_PALM_NAV = 0.6   # 蒲葵的導航阻擋只能在樹幹中心 0.6 m 以內（blockCircle 的半徑可以調，不綁死）；每棵樹幹中心所在的那一格一定要擋住（不然走得進樹幹）
+ GT_FRONT = (-12.0, 16.0, 16.5, 19.5)   # 大樹牆拿掉樹的那一段（x0, x1, z0, z1）：樹幹 z 17.5–18.5、導航半徑 0.8
 diff --git a/tests/campus_hall_pillar_seethru_unit.js b/tests/campus_hall_pillar_seethru_unit.js
 index d8aa85297..7d6bfdac1 100644
 --- a/tests/campus_hall_pillar_seethru_unit.js
