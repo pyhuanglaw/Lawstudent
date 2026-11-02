@@ -129,3 +129,25 @@
        20407a2ed..a9f7ce67b  claude/cc-local -> claude/cc-local
     branch 'claude/cc-local' set up to track 'origin/claude/cc-local'.
 [06:59:53] ==== END   X_P2_bar_a  exit=0  549s   ====
+    To https://github.com/pyhuanglaw/Lawstudent.git
+       a9f7ce67b..713879822  claude/cc-local -> claude/cc-local
+    branch 'claude/cc-local' set up to track 'origin/claude/cc-local'.
+[06:59:58] ==== END   X_P2_epi  exit=0  126s   ====
+[07:00:00] memory 43% before starting N1_node (2 running)
+[07:00:00] ==== START N1_node  (node @ ef63b1877) ====
+[07:00:02] skip G1_reach (already done on ef63b1877)
+[07:00:02] skip G2_libfl (already done on ef63b1877)
+[07:00:02] skip G3_libsc (already done on ef63b1877)
+[07:00:02] skip G5_termend (already done on ef63b1877)
+[07:00:02] skip G6a_v7 (already done on ef63b1877)
+[07:00:02] skip G6b_v95 (already done on ef63b1877)
+[07:00:02] skip G6c_fm (already done on ef63b1877)
+[07:00:02] skip G7_class (already done on ef63b1877)
+[07:00:02] skip P3_ladder (already done on ef63b1877)
+[07:00:02] skip P4_legal (already done on ef63b1877)
+[07:00:02] skip P5_ui (already done on ef63b1877)
+[07:00:02] memory 43% before starting A1_advskip (2 running)
+[07:00:02] ==== START A1_advskip  (probe @ b1b249873) ====
+[07:00:02] [res] cpu=9% mem=43% (13.6/31.4 GB) chrome_testing=8  START N1_node
+[07:00:05] [res] cpu=12% mem=43% (13.5/31.4 GB) chrome_testing=8  START A1_advskip
+[07:03:29] [res] cpu=7% mem=43% (13.6/31.4 GB) chrome_testing=9  END A1_advskip
