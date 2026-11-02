@@ -125,3 +125,13 @@
 - 邀約（`G.invites`）、出遊（`outings`）、約會紀錄（`dateLog`、`dateMemory`）、打工（`jobs.worked` 上限 80）、交換生活（`jp`、`usLife`）、寒暑假（`vac`、`vacfill`）、家（`home`）、相簿（`album`）、`daily` 等：Node 演不出來，**沒有量**。原始碼裡看得到的上限：`jobs.worked` 80、`fest.bk` 80、`encLog` 30、`heroine_asks.sent` 60、`home`／`jp`／`story` 的 `seen` 各 200、`kxdrift.log` 40、`privtalk` 40、`zr_uk` 80——都是有上限的短字串陣列，估計合計 1～3 萬字。
 - 手機訊息、記憶、習慣的「頻率」是 CC 估的；課業的頻率照遊戲課表。B 層（事件、旗標）是照數量推的。
 - 沒在瀏覽器裡實際 `setItem` 量配額錯誤，也沒在 iPhone Safari 上試。建議 BB 若要確認，請開發在瀏覽器版做一次「塞滿 10 份 70 萬字存檔」的實測（Playwright＋WebKit 或 iPhone 實機）。
+
+## #15 重驗 @ 888d14c38（含 781bd3039 BUG-SAVE-QUOTA-1102；BB 10:10）
+
+- m5b_quota_recheck.js：888d14c38 ALL PASS；修改前 7776c53c8 FAILED 4（0、6、7、8）。
+  - 1006 個習慣鍵 → 可刪的剩 300；劇情鍵（seat:boya:study、meal:noodle、meal:xiaofu:fri）與 invite:／retake:／kai_supper 就算最舊也保留；habits 44,860 → 13,820 字；再跑一次不再刪；讀檔時呼叫 habitTrim（靜態）；NEW_KEEP=1；autosave 失敗提示＋5 分鐘不重複（靜態）。
+- m5_save_size.js（份數還是舊的 10 份算法）重跑：最壞 8.20 MB → 兩項 FAIL，這是腳本份數沒更新。照 BB 的口徑重算（auto＋quick＋三格＋backup＋開新遊戲前備份 1 份＝7 份完整大小）：
+  - TW 一般畢業 ≈26.8 萬字／份 ×7 ≈ 188 萬字 ≈ 3.75 MB（UTF-16 ×2）→ < 5 MB，也 < 4 MB（80%）。
+  - 重度玩家最大 42.4 萬字／份 ×7 ≈ 297 萬字 ≈ 5.93 MB → **仍超過 5 MB**。重度存檔最大的是 social 22.4 萬字（記憶 ×3、58 人；habits 只剩 2.5 萬字），修 habits 對它幫助有限。
+  - 舊存檔另有 backup_fm120 一份（遷移前備份），會再多 1 份。
+  - 5 MB 怎麼算（字元數×2 還是字元數）各瀏覽器不同，要用 cc-local 04_quota（quota_check.py）在真的 Chromium 量；Safari 要使用者實機。
