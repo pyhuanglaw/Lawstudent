@@ -2916,7 +2916,7 @@ const STORY_EVENTS=[
     const madeDue=G=>{ const d=DK('2025-07-25'); return d!=null&&(G.day>d||(G.day===d&&G.hour>=22.5))&&G.day<=d+1&&!!G.flags.KH_CALL_DONE&&!G.flags.KH_MADEUP; };
     const d25=G=>{ const d=DK('2025-07-25'); return d!=null&&G.day===d&&!!G.flags.dating_kexin&&!G.flags.KH_DAY; };
     const busDue=G=>d25(G)&&G.hour>=2.5&&G.flags.KH_GO==='bus', homeDue=G=>d25(G)&&G.hour>=7.5&&G.flags.KH_GO!=='bus';
-    const BUS_BG=()=>typeof OUT!=='undefined'&&OUT.bg?OUT.bg('bus_night'):'dark';   /* 客運版開頭「（凌晨兩點半，你搭上南下的夜班客運。）」先借夜裡的客運 bus_night（BLACK-BG-AUDIT-1018，BB_132 第 100 組；夜班客運車廂另外要一張 coach_night）*/   /* AA_368 M7：客運版 02:30 開始（原本 06:00）*/
+    const BUS_BG=()=>typeof OUT!=='undefined'&&OUT.bg?OUT.bg('coach_night'):'dark';   /* 11-02 起用夜班客運車廂 coach_night（BB_132 第 100 組第 1 張，使用者生成）；原本先借 bus_night */   /* 客運版開頭「（凌晨兩點半，你搭上南下的夜班客運。）」先借夜裡的客運 bus_night（BLACK-BG-AUDIT-1018，BB_132 第 100 組；夜班客運車廂另外要一張 coach_night）*/   /* AA_368 M7：客運版 02:30 開始（原本 06:00）*/
     return [
       { id:'ev_y0_kh_bus_h', stage:'econ', title:'成績公布', participants:['kexin'], portraitLater:true, location:'any', trigger:'home', once:true, get background(){ return BUS_BG(); }, prereq:{custom:busDue}, dialogue:busLines, after:busAfter },
       { id:'ev_y0_kh_bus', stage:'econ', title:'成績公布', participants:['kexin'], portraitLater:true, location:'any', trigger:'auto', once:true, get background(){ return BUS_BG(); }, prereq:{custom:G=>busDue(G)&&!atHome(G)}, dialogue:busLines, after:busAfter },

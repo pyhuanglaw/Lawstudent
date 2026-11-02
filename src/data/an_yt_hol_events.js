@@ -167,9 +167,9 @@ const ANYTHOL_EVENTS=(function(){
         Y('……是我自己想在這裡吃的。'),
         ...endV(YT,'YT_VDAY_Y2','went','YT_VDAY_SHOP') ],
       after:crack(YT), outingMissed:missed },
-    /* ---------- 2-3 2028-02-14（一）14:00 麵店門口 → 寶藏巖（沒有底圖：深色底＋地點字幕）---------- */
-    { id:'ev_yt_vday_y3', title:'情人節', participants:[YT], location:'any', trigger:'outing', once:true, background:'dark', hours:2,
-      dialogue:[ {scene:'寶藏巖',bg:'dark'},
+    /* ---------- 2-3 2028-02-14（一）14:00 麵店門口 → 寶藏巖（底圖 treasure_hill：BB_132 第 100 組第 2 張，11-02 使用者生成）---------- */
+    { id:'ev_yt_vday_y3', title:'情人節', participants:[YT], location:'any', trigger:'outing', once:true, get background(){ return BG('treasure_hill'); }, hours:2,
+      dialogue:[ {scene:'寶藏巖',bg:'treasure_hill'},
         N('（河邊的老聚落，房子一層一層疊在山坡上。巷子窄到兩個人要側身才過得去。）'),
         Y('上學期的田野，我在這裡做訪談。'),
         Y('有一個阿公，每天下午坐在那張椅子上。他跟我講了三個下午。'),

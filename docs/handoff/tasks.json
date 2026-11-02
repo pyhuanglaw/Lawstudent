@@ -22663,7 +22663,7 @@
    },
    "source": "AA-C 1c341e21（AA_299）；使用者 10-18",
    "authorized": "使用者直接要求（D104）",
-   "next": "【11-01 23:3x LAWWW-B】使用者「場景圖一次給我10張的提示詞」（同 D97）：改成只給第 100 組 10 張（檔案已給）；第 101、102 組 7 張下次由 BB 補 3 張湊成 10 張一起給｜【11-01 23:1x LAWWW-B】使用者要圖：LAWWW-B 23:1x 把 BB_132 第 100～102 組（17 張純場景，含 coach_night、wenzhou_ice、家裡的車三張）的提示詞整理成檔案給使用者；等使用者生好交給 BB／LAWWW 接｜【LAWWW-C 2026-10-21 稽核 C】等圖：BB 照 D97 向使用者要 bus_tour＋三張車內（純場景一次四份）；收到後 LAWWW 換檔、改 camp_y1.js 兩處、LICENSES BG-08 ｜ BB 圖回來檢查（沒有人、沒有字）→ bg_approved/ → LAWWW 換｜BB-C 0182b085 已交 exam_hs_classroom、daan_park：outings3d.js 已註冊；ev_y0_exam1／exam1h 考場已改 exam_hs_classroom（LAWWW-C 07:5x）；daan_park 等 R3 搬到大安森林公園（AA298）時用",
+   "next": "【11-02 00:3x LAWWW-B】使用者交了第 100 組第 1～5 張（coach_night、treasure_hill、oia_meeting、visa_counter、hypermarket）：已轉 WebP 放 assets/bg、OUT.BG 登記；經濟系夜班客運（ev_y0_kh_bus／_h）改 coach_night、語彤大三情人節 ev_yt_vday_y3 改 treasure_hill、日本行前 ev_jpp_0226／0301／0314 改 hypermarket／oia_meeting／visa_counter；bg_images_unit 2k、LICENSES。還沒到：第 6～10 張（mucha_cafe_night、teishoku_night、tn_cafe、cvs_table_night、law_dept_office）；BB 下一班瀏覽器看這五場｜【11-01 23:3x LAWWW-B】使用者「場景圖一次給我10張的提示詞」（同 D97）：改成只給第 100 組 10 張（檔案已給）；第 101、102 組 7 張下次由 BB 補 3 張湊成 10 張一起給｜【11-01 23:1x LAWWW-B】使用者要圖：LAWWW-B 23:1x 把 BB_132 第 100～102 組（17 張純場景，含 coach_night、wenzhou_ice、家裡的車三張）的提示詞整理成檔案給使用者；等使用者生好交給 BB／LAWWW 接｜【LAWWW-C 2026-10-21 稽核 C】等圖：BB 照 D97 向使用者要 bus_tour＋三張車內（純場景一次四份）；收到後 LAWWW 換檔、改 camp_y1.js 兩處、LICENSES BG-08 ｜ BB 圖回來檢查（沒有人、沒有字）→ bg_approved/ → LAWWW 換｜BB-C 0182b085 已交 exam_hs_classroom、daan_park：outings3d.js 已註冊；ev_y0_exam1／exam1h 考場已改 exam_hs_classroom（LAWWW-C 07:5x）；daan_park 等 R3 搬到大安森林公園（AA298）時用",
    "xai": {
     "receiver": "LAWWW",
     "branch": "claude/wonderful-mayer-7fm9g6",

@@ -78,12 +78,12 @@ const JPPREP_EVENTS=(function(){
   const choice=(opts,labels)=>({choice:opts.map((t,i)=>({text:'「'+t+'」',goto:labels[i]}))});
   const L=[
     ev('ev_jpp_0221',[ {scene:'臺北的家'}, {speaker:null,text:X.d0221.narr}, {speaker:'媽媽',name:'媽媽',text:X.d0221.mom}, {speaker:null,text:X.d0221.end} ]),
-    ev('ev_jpp_0226',[ {scene:'大賣場',bg:'dark'}, {speaker:null,text:X.d0226.narr}, {speaker:'媽媽',name:'媽媽',text:X.d0226.mom}, {speaker:null,text:X.d0226.end} ]),
+    ev('ev_jpp_0226',[ {scene:'大賣場',bg:'hypermarket'}, {speaker:null,text:X.d0226.narr}, {speaker:'媽媽',name:'媽媽',text:X.d0226.mom}, {speaker:null,text:X.d0226.end} ]),
     /* 3/1 行前說明會：一鍵的出遊（2D）*/
-    ev('ev_jpp_0301',[ {scene:'國際事務處',bg:'dark'}, {speaker:null,text:X.d0301.room}, {speaker:null,text:X.d0301.ins},
+    ev('ev_jpp_0301',[ {scene:'國際事務處',bg:'oia_meeting'}, {speaker:null,text:X.d0301.room}, {speaker:null,text:X.d0301.ins},
       {if:{custom:G=>dat(G)},speaker:null,text:X.d0301.dating}, {if:{custom:G=>!dat(G)},speaker:null,text:X.d0301.repair} ],{title:'出國交換行前說明會',trigger:'outing',hours:2,after:undefined}),
     ev('ev_jpp_0312',[ {scene:'臺北的家'}, {speaker:'媽媽',name:'媽媽',text:X.d0312.mom}, {speaker:null,text:X.d0312.end} ]),
-    ev('ev_jpp_0314',[ {scene:'日本台灣交流協會',bg:'dark'}, {speaker:null,text:X.d0314.narr}, {if:{custom:G=>dat(G)},speaker:null,text:X.d0314.dating} ]),
+    ev('ev_jpp_0314',[ {scene:'日本台灣交流協會',bg:'visa_counter'}, {speaker:null,text:X.d0314.narr}, {if:{custom:G=>dat(G)},speaker:null,text:X.d0314.dating} ]),
     ev('ev_jpp_0317',[ {scene:'系辦',bg:'dark'}, {speaker:null,text:X.d0317.narr}, {speaker:'助教',name:'助教',text:X.d0317.ta},
       choice(X.d0317.opts.map(o=>o[0]),['a','b']),
       {label:'a'},{speaker:'助教',name:'助教',text:X.d0317.opts[0][1]},{goto:'e'},
