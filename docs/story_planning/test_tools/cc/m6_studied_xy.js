@@ -154,6 +154,10 @@ async function sim(seed,opt){ opt=opt||{}; rnd=rngOf(seed*977+3); REVIEWED=new S
   console.log('—— 各路線摘要 ——');
   for(const [name,{G,log}] of runs){ console.log('  '+name+'：動作 '+J(log.actions)+'；retake='+J((G.courses.retake||[]).map(r=>r.id+':'+r.from+'→'+r.term)));
     for(const x of log.retake.concat(log.redo,log.reset)) console.log('    INFO 新學期第一天 '+x.kind+' '+x.T+' '+x.name+'：學過 '+x.x+'／'+x.y+'・答對過 '+x.z+'；法律頁 '+x.rows+' 列、放在「'+(x.sec==='cur'?'這學期':x.sec==='prev'?'之前的學期':'?')+'」（學期標示 '+x.tn+'）'); }
+  /* 重修那一學期：重修課是這學期的課，法律頁應該放在「這學期」（CC 判準，BB 判定）*/
+  { const all=[].concat(...runs.map(r=>r[1].log.retake)); const bad=all.filter(x=>x.sec!=='cur');
+    check('7 重修那一學期第一天，重修課在法律頁「這學期」那一區（'+all.length+' 門次）',!bad.length,bad.length?bad.length+' 門次放在「之前的學期」，例：'+bad.slice(0,3).map(x=>x.T+' '+x.name+'→'+x.tn).join('、'):'');
+    const carried=all.filter(x=>x.x>0).length; console.log('  INFO 重修課第一天就有學過 x>0：'+carried+'／'+all.length+' 門次（原課的觀念卡狀態帶過來；x＝y 的 '+all.filter(x=>x.x===x.y).length+' 門次）'); }
   /* 只上課的玩家：期末時每一門課的 x＝上過的週有卡的數量（不應該是 0） */
   { const {G}=runs.find(r=>r[0].startsWith('TW 只上課'))[1]; const rows=legalRows(G); console.log('  只上課路線 大四下結束時法律頁：'+rows.filter(r=>r.x!=null).map(r=>r.name+' '+r.x+'／'+r.y).join('、'));
     check('5a 只上課不自習：每一門考五題的課學過 x > 0（上課也算學過）',rows.filter(r=>r.x!=null&&r.name!=='刑事訴訟法').every(r=>r.x>0),J(rows.filter(r=>r.x===0))); }

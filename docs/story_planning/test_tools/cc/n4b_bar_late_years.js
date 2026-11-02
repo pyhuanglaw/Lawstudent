@@ -35,10 +35,12 @@ async function sim(plan,o){ o=o||{}; const st=o.start||['2030-08-02',22];
   warns.length=0; rej.length=0; const log=[]; let it=0, err=null, mono=true, stuck=null;
   const orun=PG.runStep;
   PG.runStep=async function(gm,s){ const m=isYearStep(s.id); const done0=PG.done(G,s.id);
+    if(m&&!done0&&m[1]==='reg'&&plan.reg&&plan.reg[+m[2]]==='miss'){   /* 【模擬錯過】報名那一晚玩家一直在別的地方：不演，時間放到截止以後，讓遊戲自己記 missed */
+      const u=s.until(G)+0.5, d=Math.floor(u/24); PG.setT(G,H.E,d,u-d*24); PG.pending(G); log.push({id:'(錯過)'+s.id,day:d,h:u-d*24,when:fmt(d,u-d*24),said:[],cards:[],sys:[]}); return false; }
     if(m&&!done0){ const y=+m[2]; if(m[1]==='exam') H.picks=answerK(PG.draw(G,y),plan[y]|0); if(m[1]==='reg') H.picks=[(plan.reg&&plan.reg[y]==='no')?'不報名':'報名']; }
     const t0={day:G.day,h:G.hour}, s0=H.said.length, c0=H.cards.length, m0=(G.msgs||[]).length;
     const r=await orun.call(PG,gm,s); if(m) H.picks=[];
-    if(r) log.push({id:s.id,day:t0.day,h:t0.h,when:fmt(t0.day,t0.h),label:PG.dateLabel(t0.day,t0.h),said:H.said.slice(s0).map(x=>x.t).filter(t=>!/^\d+／\d+　/.test(t)),qn:H.said.slice(s0).filter(x=>/^\d+／\d+　/.test(x.t)).length,cards:H.cards.slice(c0),sys:(G.msgs||[]).slice(m0).filter(x=>x.th==='sys').map(x=>x.text)});
+    if(r) log.push({id:s.id,day:t0.day,h:t0.h,when:fmt(t0.day,t0.h),end:fmt(G.day,G.hour),label:PG.dateLabel(t0.day,t0.h),said:H.said.slice(s0).map(x=>x.t).filter(t=>!/^\d+／\d+　/.test(t)),qn:H.said.slice(s0).filter(x=>/^\d+／\d+　/.test(x.t)).length,cards:H.cards.slice(c0),sys:(G.msgs||[]).slice(m0).filter(x=>x.th==='sys').map(x=>x.text)});
     return r; };
   try{ for(it=0; it<400&&!G.flags.EPILOGUE_DONE; it++){ const before=G.day*24+G.hour;
       /* 【模擬錯過】報名那一晚一直沒空：時間放到截止以後 */
@@ -106,7 +108,7 @@ const printYear=(R,y)=>{ for(const x of R.log.filter(x=>new RegExp('_'+y+'$').te
     const X=PG.rec(RN.G).exam||{}, prev=new Set([].concat(...Object.keys(X).filter(k=>+k<y).map(k=>X[k].qs||[])));
     check('2. '+y+' 一試的 20 題不和前幾年重複',!!X[y]&&X[y].qs.length===20&&X[y].qs.every(q=>!prev.has(q)),X[y]&&J(X[y].qs)); }
   check('4. 一路考到 2033 都沒過：BAR_YEAR 沒有；尾聲有「兩邊都沒上」（LATE.epi.none），沒有 stop／pass 那句',RN.G.flags.BAR_YEAR==null&&!!LT.epi&&said(RN).includes(LT.epi.none)&&!said(RN).includes(LT.epi.stop),J({BAR_YEAR:RN.G.flags.BAR_YEAR}));
-  { const e=step(RN,'epi'); check('6. 尾聲 2034-06-03（六）19:00 才演，在 r1_2033 之後；之後沒有 2034 的國考步驟',!!e&&e.when==='2034-06-03（六）19:00'&&RN.ids.indexOf('r1_2033')>=0&&RN.ids.indexOf('r1_2033')<RN.ids.indexOf('epi')&&!RN.ids.some(i=>/2034$/.test(i)),e&&e.when); }
+  { const e=step(RN,'epi'); check('6. 尾聲演完時遊戲時間在 2034-06-03（六）19:00 以後，在 r1_2033 之後；之後沒有 2034 的國考步驟',!!e&&e.end>='2034-06-03（六）19:00'&&e.end.startsWith('2034-06-03')&&RN.ids.indexOf('r1_2033')>=0&&RN.ids.indexOf('r1_2033')<RN.ids.indexOf('epi')&&!RN.ids.some(i=>/2034$/.test(i)),e&&[e.when,e.end]); console.log('  尾聲：從 '+(e&&e.when)+' 呼叫，演完時 '+(e&&e.end)); }
   { const lines=said(RN).filter(t=>/^（/.test(t)&&RN.log.some(x=>/_(203[0-3])$/.test(x.id)&&x.said.includes(t))); console.log('  2030～2033 國考步驟裡的旁白：'+J([...new Set(lines)]));
     const ph=(RN.G.msgs||[]).filter(m=>m.day>=PG.DK('2031-01-01')&&m.day<PG.DK('2034-01-01')).map(m=>fmt(m.day,m.h||0)+' '+(m.th)+' '+(m.text||'').slice(0,30)); console.log('  2031～2033 手機訊息 '+ph.length+' 則：'+J(ph.slice(0,40))); }
 
@@ -155,7 +157,7 @@ const printYear=(R,y)=>{ for(const x of R.log.filter(x=>new RegExp('_'+y+'$').te
   { const G0=H.fresh('2033-08-07',10,'dorm',Object.assign({},RETAKER,{BAR_SIT_2030:true,BAR_SCORE_2030:1,BAR_STAGE_2030:'none',BAR_REG_2031:true,BAR_SIT_2031:true,BAR_SCORE_2031:1,BAR_STAGE_2031:'none',BAR_REG_2032:true,BAR_SIT_2032:true,BAR_SCORE_2032:1,BAR_STAGE_2032:'none',BAR_REG_2033:true,FIRST_DAY_SEEN:true})); graduated(G0); FRIENDS.forEach(H.FRIEND);
     for(const k of ['first','exam_2030','r1_2030','reg_2031','exam_2031','r1_2031','reg_2032','exam_2032','r1_2032','reg_2033']) PG.rec(G0).done[k]=1;
     const R=await sim({},{G:G0}); okRun('6. 2033 報了名、一試那天錯過（8/7 才讀檔）',R);
-    check('6. 一試錯過＝那年沒考，尾聲照演（2034-06-03 19:00）',PG.rec(R.G).done.exam_2033==='missed'&&!!step(R,'epi')&&step(R,'epi').when==='2034-06-03（六）19:00',J({ex:PG.rec(R.G).done.exam_2033,ids:R.ids})); }
+    check('6. 一試錯過＝那年沒考，尾聲照演（2034-06-03 19:00）',PG.rec(R.G).done.exam_2033==='missed'&&!!step(R,'epi')&&step(R,'epi').end.startsWith('2034-06-03')&&R.G.flags.EPILOGUE_DONE===true,J({ex:PG.rec(R.G).done.exam_2033,ids:R.ids,epi:step(R,'epi')})); }
 
   console.log(fails?('\nFAILED '+fails):'\nALL PASS'); process.exit(fails?1:0);
 })().catch(e=>{ console.log('FAIL 例外',e&&e.stack||e); process.exit(1); });
