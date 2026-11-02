@@ -1154,6 +1154,10 @@ const CLS=(function(){
     const one=(t,hh)=>{ const pl=S.slotPlan(G,hh,'study'); let dim=!pl.ok, hint=pl.ok?pl.hint:pl.why; if(!dim&&close!=null&&h+hh>close+1e-6){ dim=true; hint='閉館前讀不完'; } if(!dim&&h+hh>26.5){ dim=true; hint='太晚了'; } const m=dim?[]:miss(hh); return {t,hours:hh,dim,hint:hint+(m.length?'。會錯過：'+m.join('、'):''),uses:pl.uses}; };
     const out=[1,2,3].map(hh=>one('讀 '+hh+' 小時',hh)); const fx=S.nextFixed(GM); if(fx){ const hh=Math.round((fx.t-h)*60)/60; if(hh>=0.5&&hh<=3+1e-6) out.push(one('讀到'+fx.label+'前（'+hhmm(fx.t)+'）',hh)); }
     return out; };
+  /* 從現在起讀 hh 小時：閉館前讀不完（closed）、會錯過的課（miss）、其中的考試（exam）——和 studyLengths 同一套判斷（D118-B3 一鍵總複習用，study3d.js STUDY.reviewCheck）。o.noClose：不看閉館（在家）*/
+  S.spanCheck=function(G,hh,o){ o=o||{}; const h=G.hour; const ow=!o.noClose&&typeof PLACES!=='undefined'&&PLACES.hours?PLACES.hours[G.zone]:null; const close=ow?(ow.rules?(PLACES.windowOf(G.zone,G.day,h)||[0,0])[1]:(ow.close!=null&&ow.close<=24?ow.close:null)):null;
+    const its=S.dayItems(G).filter(it=>S.status(G,it)!=='done'&&!S.planSkip(G,it)&&!S.storyClass(G,it)&&it.t0<h+hh&&it.t1-LATE_END>h&&!(h>it.t0+WIN1));
+    return {closed:close!=null&&h+hh>close+1e-6,miss:its.map(it=>hhmm(it.t0)+' '+it.c.name),exam:its.filter(it=>it.exam==='final').map(it=>hhmm(it.t0)+' '+it.c.name)}; };
   /* 選讀多久；回傳 {hours,uses} 或 null（算了、變灰的選項）。呼叫的地方讀完再 S.slotUse */
   S.chooseStudy=async function(GM){ const L=S.studyLengths(GM); const opts=L.map(q=>({t:q.t,hint:q.hint,dim:q.dim})).concat([{t:'算了'}]); const i=await GM.choose(opts); const q=L[i]; if(!q) return null; if(q.dim){ GM.toast(q.hint.replace(/。會錯過.*$/,''),3000); return null; } return {hours:q.hours,uses:q.uses}; };
   return S;

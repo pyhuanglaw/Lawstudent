@@ -3348,9 +3348,10 @@ const STORY = (function(){
       else { F.readCase='none'; await GM.say(null,'你把影本推到桌角。反正一班六十幾個人，不會那麼剛好。'); GM.memo('沒有讀案例'); }
       GM.setGoal('睡覺（明天 13:20 民法總則）'); }
     else { const C=typeof CLS!=='undefined'&&CLS.slotPlan?CLS:null, s1=C?C.slotPlan(G,1,'study'):{ok:true,hint:''}, s2=C?C.slotPlan(G,0.5,'study'):{ok:true,hint:''};   /* 書桌讀書、整理筆記都算一次自習（DL-03 2-3）*/
-      const opts=[{t:'讀書',hint:s1.ok?'選讀多久（1～3 小時只算一次）。'+s1.hint:s1.why,dim:!s1.ok},{t:'整理今天的筆記（30 分鐘）',hint:s2.ok?s2.hint:s2.why,dim:!s2.ok},{t:'起身'}]; const i=await GM.choose(opts);
+      const opts=[{t:'讀書',hint:s1.ok?'選讀多久（1～3 小時只算一次）。'+s1.hint:s1.why,dim:!s1.ok},{t:'整理今天的筆記（30 分鐘）',hint:s2.ok?s2.hint:s2.why,dim:!s2.ok}]; { const rv=typeof STUDY!=='undefined'&&STUDY.reviewOpt?STUDY.reviewOpt(G):null; if(rv) opts.push(rv); }   /* D118-B3-1102 一鍵總複習 */ opts.push({t:'起身'}); const i=await GM.choose(opts);
       if(i<2&&opts[i].dim) GM.toast(opts[i].hint,3000);
       else if(i===0){ const L=C&&C.chooseStudy?await C.chooseStudy(GM):{hours:1,uses:[]}; if(L){ P.pose='read'; P.idlePose='read'; await GM.studySession(false,L.hours); if(C){ C.slotUse(G,L.uses); if(C.queueJump) C.queueJump(G); } } }
+      else if(opts[i]&&opts[i].review){ if(opts[i].dim) GM.toast(opts[i].hint,3000); else { P.pose='read'; P.idlePose='read'; await STUDY.review(GM,'final'); } }
       else if(i===1){ P.pose='read'; await GM.fade(true); GM.advance(0.5); await GM.fade(false); await GM.say(null,'你把筆記重看一遍。有些地方當時覺得懂，現在看又不太確定。'); if(C) C.slotUse(G,s2.uses); } }
     GM.standUp(P); GM.sceneEnd(); }
   /* ===== 宿舍睡覺的畫面（DORM-SLEEP-1030；使用者 10-30 04:2x 對 LAWWW2：「宿舍玩加上去睡覺要真的有畫面 不然從頭到尾都是站在門口說睡完覺 很沒有真實感」）=====
