@@ -648,7 +648,7 @@ const R2Y4A_EVENTS=(function(){
   EV.push({ id:'ev_grad_exam', title:'研究所筆試', participants:[], location:'any', trigger:'manual', once:true, background:'blur',
     dialogue:[ IF(AN_FAM,nar('（教學館門口，以安在看考場的配置圖。）')),
       IF(AN_FAM,an('你在三樓。我在二樓。')),IF(AN_FAM,an('……考完，門口。')),
-      {scene:'考場',bg:'dark'},   /* 故意的深色底：人已經走進 3D 的共同教學館 3F 考場，考試本身用深色底帶過（tests/rooms_ab3_people_unit.js 7）。黑畫面盤點會列出來，不用補圖 */
+      {scene:'考場',bg:'grad_exam_room'},   /* 人已經走進 3D 的共同教學館 3F 考場（tests/rooms_ab3_people_unit.js 7）；考試本身原本用深色底帶過，11-02 BB 跟使用者要了考場的圖（BB_241 第五、六節，企劃線 62395d7da bg_approved/grad_exam_room）*/
       {call:async(G,GM)=>{ if(typeof PG!=='undefined'&&PG.gradQuiz) await PG.gradQuiz(GM,2029); }},   /* D118-B6：研究所筆試改成作答（10 題公法，PG.gradQuiz；GRAD_SCORE_2029、GRAD_EXAM_2029_PASS）*/
       nar('（兩節。第二節最後一題，你寫到鐘響。）'),
       {set:{GRAD_EXAM_2029:true}} ] });

@@ -362,7 +362,7 @@ const R2Y4B_EVENTS=(function(){
     outingMissed:G=>{ const r=R(); if(r) r.anSendoffMissed(G); } },
   /* ---------- 2-Y4-56 美國路線、和學姊交往中：秋假大峽谷（美東 10/7～10/14；AA_291 2-1）---------- */
   { id:'ev_us_canyon', title:'秋假：大峽谷', participants:['heroine_05'], location:'any', trigger:'outing', once:true, background:'dark', hours:1,
-    dialogue:[ {scene:'亞利桑那',bg:'az_roadside'},   /* 11-02 使用者生成（原本 gc_roadside_car 沒有＝深色底）*/
+    dialogue:[ {scene:'亞利桑那',bg:'gc_roadside_car'},   /* 「她靠在租來的車旁邊」：11-02 19:4x BB 交 gc_roadside_car（BB_132 第 74 組十月版、BB_220 美國那一列；企劃線 62395d7da），原本暫用 az_roadside */
       {speaker:null,text:'（她靠在租來的車旁邊，手上拿著一張列印的地圖。）'},
       {speaker:'heroine_05',text:'路線我排好了。上車。'},
       {advance:toDay('2028-10-08',12)},{titleCard:'10/8（日）',sub:'亞利桑那'},{speaker:null,text:'（沙漠裡的加油站，她買了兩瓶很大的水。）'},
@@ -515,7 +515,7 @@ const R2Y4B_EVENTS=(function(){
     outingMissed:(G,GM,q)=>{ if(typeof PHONE!=='undefined') PHONE.post(G,{th:'p:heroine_05',from:'heroine_05',text:'你在忙。下週。',tag:'y4_sa_gmiss_'+((q.sa&&q.sa.k)|0)}); } },
   /* ---------- 2-Y4-57 台灣、日本路線：學姊在美國，秋假大峽谷（告白；AA_253 10-2、10-3）。10/7 早上桃園起飛 → 10/13 日落 → 10/14 起飛、10/15 晚上回到臺北 ---------- */
   { id:'ev_sis_canyon', title:'秋假：大峽谷', participants:['heroine_05'], location:'any', trigger:'outing', once:true, background:'dark', hours:0.5,
-    dialogue:[ {scene:'亞利桑那',bg:'az_roadside'},
+    dialogue:[ {scene:'亞利桑那',bg:'gc_roadside_car'},   /* 同 ev_us_canyon：11-02 BB 交 gc_roadside_car，原本暫用 az_roadside */
       {speaker:null,text:'（她靠在租來的車旁邊，手上拿著一張列印的地圖。）'},
       {speaker:'heroine_05',text:'路線我排好了。你坐副駕，負責放音樂。'},
       {advance:toDay('2028-10-09',3)},{titleCard:'10/8（日）',sub:'亞利桑那'},{speaker:null,text:'（沙漠裡的加油站，她買了兩瓶很大的水。）'},
