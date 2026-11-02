@@ -39435,7 +39435,7 @@
       "title": "總圖外觀、前草坪（照五張照片）、拱廊前寬台階走得上去",
       "owner": "LAWWW2",
       "status": "已整合待測試",
-      "next": "大道柏油到 x≈20、x20～87 大草坪＋龍柏籬＋大王椰子；總圖不搬；(80,0)(82,0) 與步道要通；跑 campus_layout_nav、reachability_all、flow_library_*、guide_flow、nav_buildings_unit；CC 對照 2D 110b",
+      "next": "v3.1（LAWWW2 d594acbee：平台兩棵尖塔形針葉樹）已套進 int/m590 958859068；併進開發分支後派 BB 驗收（D120）；v3.2（BB_234 ①③④）排在 LAWWW2 展演廳第三版、3F 後面。大道柏油到 x≈20、x20～87 大草坪＋龍柏籬＋大王椰子；總圖不搬；(80,0)(82,0) 與步道要通；跑 campus_layout_nav、reachability_all、flow_library_*、guide_flow、nav_buildings_unit；CC 對照 2D 110b",
       "sha": "",
       "source": "使用者 11-02 08:45～09:03 直接對 LAWWW2（user_asks_LAWWW2 UA-LAWWW2-1102-02～06，387fa3aeb）",
       "xai": {
@@ -40083,10 +40083,10 @@
       "id": "AA584-SIS-B2-1102",
       "title": "AA_584 學姊第二批（閒聊階梯與邀約，@14154434b，使用者用選擇題確認完 10 句）：第 11 節的改字、刪 S-L8／S2-L6／S3-L3 三層和 S3-L6 extraIf[0]",
       "owner": "LAWWW",
-      "status": "進行中",
+      "status": "已實作待整合",
       "priority": "P1",
       "note": "LAWWW 18:1x 派子代理在 worktree 整合（基準 int/next1102 48918ca20）；完成後合併、交 BB",
-      "next": "",
+      "next": "int/next1102 99fa65eee 已合併；AA 19:29 源稿照 AA_584 改好（企劃線 03af79d17）→白名單換版、疊稿找不到就跳過、SIS5_LIBRARY_SEAT 名稱補（int/m590 258e5dcbe）；AA 19:19 回的四件（林{name}、sis3h、heardClip 刪、修正本私訊、family_context）併進 AA591 子代理；併進開發分支後派 BB",
       "xai": {
         "spec": "AA 18:10 訊息",
         "branch": "int/next1102",
@@ -40249,10 +40249,10 @@
       "id": "CG27-AN-SHOP-PAGE-1102",
       "title": "CG-27 以安第二次告白手帳特寫（BB 19:20 交件，AA 確認）：termend HEART.heroine_01 she2Yes 第一拍、標題「……勾了。」",
       "owner": "LAWWW",
-      "status": "待開工",
+      "status": "已實作待整合",
       "priority": "P2",
       "note": "BB 19:20",
-      "next": "從企劃線 496150a1f 取 cg_shop_page_check_heroine01.webp 接進 she2Yes",
+      "next": "int/m590 c9aa5f3ad（she2Yes 第一拍、CG_REGISTRY、LICENSES、tests/cg27_shop_page_unit.js）；併進開發分支後派 BB 看畫面",
       "xai": {
         "spec": "企劃線 docs/story_planning/cg_approved/cg_shop_page_check_heroine01.webp @496150a1f",
         "branch": "int/next1102",
@@ -40260,6 +40260,33 @@
         "receiver": "LAWWW",
         "ack": "ACK",
         "owner": "LAWWW"
+      }
+    },
+    {
+      "first": {
+        "term": "Y1S1",
+        "week": null,
+        "earliest": "第一次期中考前（讀書、一鍵總複習）；國考與職涯在畢業以後",
+        "mainline": true,
+        "blocks": false,
+        "prereq": false,
+        "parallel": true,
+        "confirmed": true
+      },
+      "area": null,
+      "id": "AA593-SIS-1B-1102",
+      "title": "AA_593 學姊手機與其他系統（使用者 11-02 確認，第 10 節）：約人改問句、約總圖「明天五點以後，我在總圖三樓。」、礁溪只打招呼、情人節「你睡了嗎？」、生病「燒退了嗎？」、放榜只回「謝啦。」、一試沒過拿掉祐廷那句、上班只留新助理那句、講上司那句刪、空保溫瓶動態刪；產生檔（pg_dates、date_wish、solo_before、date_lines）照第 0 節改源稿重匯",
+      "owner": "LAWWW",
+      "status": "待開工",
+      "priority": "P1",
+      "note": "AA 19:30 P1",
+      "next": "等 AA591 子代理回來合併（同一批學姊檔）再派子代理；企劃線 0e66f9e9d",
+      "xai": {
+        "spec": "企劃線 docs/story_planning/AA_593_學姊改稿_1b_手機與其他系統.md @0e66f9e9d",
+        "branch": "int/next1102",
+        "acceptance": "BB 測",
+        "receiver": "BB",
+        "ack": "ACK"
       }
     }
   ]
