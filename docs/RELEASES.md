@@ -38,6 +38,7 @@
 | v9.10.13 | `37603ad6a`（PR [pyhuanglaw/Lawstudent#19](https://github.com/pyhuanglaw/Lawstudent/pull/19)；遊戲檔案＝候選 rc2 `da50fbdc1`＋版本字樣；LAWWW-B 接班完成發布） | 2026-10-30 02:11:54 UTC（run 40990069412） | v9.10.12 `d5ca27b89` |
 | v9.10.14 | `271cd2305`（PR [pyhuanglaw/Lawstudent#20](https://github.com/pyhuanglaw/Lawstudent/pull/20)；遊戲檔案＝發布樹 `9293c245d`＝候選 `b38b112a8`＋版本字樣） | 2026-10-30 07:52:40 UTC（run 41022443245） | v9.10.13 `37603ad6a` |
 | v9.10.15 | `27e6ce77e`（PR [pyhuanglaw/Lawstudent#21](https://github.com/pyhuanglaw/Lawstudent/pull/21)；遊戲檔案＝BB GO 的基準 `39f68236c`＋版本字樣，發布樹 `8fb7212b1`） | 2026-11-01 02:54:35 UTC（run 41266933798） | v9.10.14 `271cd2305` |
+| v9.10.16 | `e3d773589`（PR [pyhuanglaw/Lawstudent#22](https://github.com/pyhuanglaw/Lawstudent/pull/22)；遊戲檔案＝候選 `b1b249873`，BB_222 GO） | 2026-11-02（run 41508079716） | v9.10.15 `27e6ce77e` |
 
 ---
 
@@ -51,7 +52,7 @@ git push origin $C:main        # 快轉，不是強制推送；之後用 GitHub 
 ```
 （原本要用 tag `v9.3-25` 標記回復點：本機建立了，但這個沙盒推 tag 會被代理斷線，遠端沒有這個 tag——回復點以 commit SHA 為準。）
 
-## v9.10.16（草稿，等 BB GO；候選 `b1b249873`）——法律學習與考試第一版（D118）、海商法改選修、以安與學姊改稿、背景與立繪
+## v9.10.16（2026-11-02 19:14 UTC 合併 `e3d773589`，PR [pyhuanglaw/Lawstudent#22](https://github.com/pyhuanglaw/Lawstudent/pull/22)；BB_222 GO（企劃線 08b72e805）；GitHub Pages run 41508079716）——法律學習與考試第一版（D118）、海商法改選修、以安與學姊改稿、背景與立繪
 
 **遊戲檔案**＝候選 `b1b249873`；開發分支之後只多了 docs、tests、wip_backup（`git diff b1b249873 HEAD -- src index.html lib assets` 為空）。
 
@@ -86,7 +87,8 @@ git push origin $C:main        # 快轉，不是強制推送；之後用 GitHub 
 
 **這一版沒有、在下一版的**：AA 的白話觀念卡（八學期）、AA_581、名字規則、K1（交換延畢又被當）、D118-B6／B8 職涯與司法官補充、AA_588（4/15 沛珊柏翰）、AA_585 期中週黑板、以安告白那一場（想去的店）、總圖正門第三版、B1 新配置、考試日目標欄、第二天帶進教室的時間、存檔重度玩家精簡。
 
-**部署**：（GO 後補：PR、合併 commit、GitHub Pages run）
+**部署**：PR #22 合併 `e3d773589`（開發分支 `d824252f4`；遊戲檔案＝候選 `b1b249873`，git diff 為空）。GitHub Pages run 41508079716（19:14:27 開始；結果見下一行）。
+**發布後要使用者用 iPhone 看**（BB_222）：橫向的考試畫面、safe-area。
 
 ## v9.10.15（2026-11-01 02:52 UTC 合併 `27e6ce77e`，PR #21；GitHub Pages 部署 run 41266933798 02:54:35 成功）——改名版：虛構校名館名、芯慈新個性與感情線、不跟別人比、宿舍與光照
 
