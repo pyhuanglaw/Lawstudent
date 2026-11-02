@@ -1,7 +1,7 @@
 """單張灰底立繪去背、縮放到和既有表情同一個外框（可昕 teasing，BB-C 61a1db97，2026-10-18 LAWWW-C）。
 只用 numpy＋PIL（沙盒沒有 scipy、rembg）：邊框取底色 → 從邊框 flood fill 出背景＋被圍住的底色小區塊（頭髮絲中間，2026-11-02）→ 開運算去碎點 → 邊緣用附近的前景色估 alpha、顏色修回前景色（defringe，2026-11-02 BB 第 106 組）→ 腳下地面陰影（底部 3%、比底色暗、沒彩度）去掉 →
 依參考圖（同一套衣服的 smile.webp）的外框高度縮放、頭頂和中心對齊。
-用法：python3 tools/portraits/matte_gray.py <來源.png> <輸出.webp> <參考.webp> [--noscale]（--noscale：來源已經對齊成參考圖的大小，只去背、不縮放）"""
+用法：python3 tools/portraits/matte_gray.py <來源.png> <輸出.webp> <參考.webp> [--noscale] [--bg x,y …]（--noscale：來源已經對齊成參考圖的大小，只去背、不縮放）"""
 import sys, numpy as np
 from PIL import Image, ImageDraw, ImageFilter
 src, out, ref = sys.argv[1], sys.argv[2], sys.argv[3]
@@ -30,7 +30,7 @@ def _skinny(sl,r):   # 四周有皮膚（暖色、有彩度、不暗）＝眼白
     px=a[sl][r].astype(np.float32); sk=(px[:,0]-px[:,2]>=18)&(px.mean(axis=1)>110)
     return sk.mean()>=0.04 if len(px) else False
 tint=bg-bg.mean()
-_outer=np.array(Image.fromarray(((np.array(mark)==128)*255).astype(np.uint8)).filter(ImageFilter.MaxFilter(41)))>127   # 外面那一大片背景往內 20 px：被圍住的小塊要在這裡面才算（眼白在臉的中間，離外面的背景 40 px 以上；pool_16，11-02）
+_outer=np.array(Image.fromarray(((np.array(mark)==128)*255).astype(np.uint8)).filter(ImageFilter.MaxFilter(41)))>127   # 外面那一大片背景往內 20 px（30 px 會把 pool_16 的眼白去掉；更裡面的空隙用 --bg 手動指定）：被圍住的小塊要在這裡面才算（眼白在臉的中間，離外面的背景 40 px 以上；pool_16，11-02）
 for y in range(0,H,2):
     for x in range(0,W,2):
         if mark.getpixel((x,y))==255:
@@ -42,6 +42,12 @@ for y in range(0,H,2):
             else: isbg=False
             arr[m]=128 if isbg else 200; mark=Image.fromarray(arr).copy()   # .copy()：fromarray 的圖是唯讀的，floodfill 寫不進去
 bgm=np.array(mark)==128
+# 手動指定的背景點（--bg x,y，來源圖座標，可以給好幾次）：從那一點往外填「和底色差 ≤ 14」的區塊（pool_1 脖子旁、耳朵下面的髮絲空隙，11-02 BB 第二次）
+for i,arg in enumerate(sys.argv):
+    if arg=='--bg' and i+1<len(sys.argv):
+        x,y=map(int,sys.argv[i+1].split(',')); nm=Image.fromarray(((diff<=14)&~bgm).astype(np.uint8)*255).copy()
+        if nm.getpixel((x,y))==255: ImageDraw.floodfill(nm,(x,y),64); bgm|=np.array(nm)==64; print('--bg',x,y,'填了',int((np.array(nm)==64).sum()),'px')
+        else: print('--bg',x,y,'那一點不是接近底色的點（差',int(diff[y,x]),'）')
 # 頭髮絲中間「比底色亮」的沒彩度小洞（pool_11 髮髻旁邊 235～238：和底色差超過 14，上面的「接近底色」抓不到；BB 11-02）：
 # 沒彩度、比底色暗不到 30、離背景 12 px 以內、面積 < 300、四周 2 px 七成以上是深色頭髮 → 背景
 _sat=a.max(axis=2)-a.min(axis=2)
@@ -53,7 +59,7 @@ for y,x in zip(*np.nonzero(_cand)):
     ImageDraw.floodfill(cm,(int(x),int(y)),64); arr=np.array(cm); m=arr==64; n=int(m.sum()); ok=False
     if n<300:
         sl,ring=_ring(m); rb_=bgm[sl][ring]; rd=diff[sl][ring]
-        ok=ring.sum()>0 and ((rd>60)|rb_).mean()>=0.7 and (rd>60).mean()>=0.3 and not _skinny(sl,ring)
+        ok=ring.sum()>0 and ((rd>60)|rb_).mean()>=0.7 and (rd>60).mean()>=0.3 and not _skinny(sl,ring)   # 四周有皮膚的（脖子旁的空隙）不自動判，用 --bg 指定：放寬會把白襯衫的褶子挖掉（pool_7，11-02）
     if ok: bgm[m]=True
     arr[m]=32; cm=Image.fromarray(arr).copy()
 import os
@@ -79,6 +85,10 @@ alpha=fg.astype(np.float32)
 use=band&(DD>=30*30); alpha[use]=proj[use]
 old=band&(DD<30*30); alpha[old]=soft[old]*fg[old]
 alpha[~band&~fg]=0
+# 淺色衣服的最外圈（白襯衫袖子：前景色和底色太近，上面估不出 alpha，留一圈淺色光暈；pool_7，11-02 BB 第二次）：最外面 1 px 再內縮
+_e3=np.array(fgimg.filter(ImageFilter.MinFilter(3)))>127; _e5=np.array(fgimg.filter(ImageFilter.MinFilter(5)))>127
+_lt=(DD<45*45)&(a.mean(axis=2)>=140)   # 前景是淺色、這一點也是淺色（原圖淺色衣服外面那一圈 227 的亮邊、170 的淺灰線）
+alpha[fg&~_e3&_lt]*=0.25; alpha[_e3&~_e5&_lt]*=0.6   # 最外面 1 px 幾乎拿掉、第 2 px 淡一點；深色的線（頭髮、深色衣服）不動
 alpha[(alpha<0.08)]=0
 # 腳下的地面陰影（比底色暗、沒有彩度）：底部 3% 的範圍去掉
 y0=int(H*0.968); sub=a[y0:]; sat=sub.max(axis=2)-sub.min(axis=2); darker=sub.mean(axis=2)<bg.mean()-8
