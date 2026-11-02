@@ -123,6 +123,36 @@
    "task": "STUDY-EXAM-CAREER-1102",
    "src": "BB（帳號 A，session_01XVHYLaK9Vcnae3U1aAJoZv）對話",
    "note": "四大項：法律學習與考試九條（不讀書可玩、三週沒讀書沒有隱藏懲罰、一鍵總複習、考前集中學、學習進度、教材找得到答案、答案和教材一致、成績看答題、答對多不能被判低分）；法律服務社不刷任務；國考與職涯六條路線；回歸五類。報告分已實作／測試通過／測試失敗／尚未實作／待其他職位交付。總表 id 由值班 LAWWW 登記，BB 先用 STUDY-EXAM-CAREER-1102"
+  },
+  {
+   "id": "UA-BB-1102-02",
+   "at": "2026-11-02T03:4x",
+   "quote": "你覺得你需要助手嗎？再開一個對話框分擔你的工作。",
+   "kind": "原話",
+   "status": "已完成",
+   "task": "STUDY-EXAM-CAREER-1102",
+   "src": "BB（帳號 A）對話",
+   "note": "BB 建議開「測試執行助手」（另一個容器＝另一份 CPU，測試線多兩條；不當第二個 BB，判定權在 BB）；使用者選「你開」（UA-BB-1102-04）"
+  },
+  {
+   "id": "UA-BB-1102-03",
+   "at": "2026-11-02T03:5x",
+   "quote": "我可以用我的電腦幫助你測試嗎 要怎麼設定／我只有windows電腦",
+   "kind": "原話",
+   "status": "暫停",
+   "task": "STUDY-EXAM-CAREER-1102",
+   "src": "BB（帳號 A）對話",
+   "note": "Remote Control 只接受 Mac／Linux；Windows 可以試 WSL（沒實測，設定完 BB 用 list_computer_folders 查能不能連）；BB 建議先開雲端助手，新系統交付後請使用者用 iPhone 實機照清單試玩。使用者還沒決定要不要裝 WSL"
+  },
+  {
+   "id": "UA-BB-1102-04",
+   "at": "2026-11-02T03:5x",
+   "quote": "你開 請lawww新增這個角色 叫做CC 交班規則也要有",
+   "kind": "原話",
+   "status": "進行中",
+   "task": "STUDY-EXAM-CAREER-1102",
+   "src": "BB（帳號 A）對話",
+   "note": "BB 03:51 開 CC（session_01TdESzxBpdGoPhdkPD2ENce，分支 claude/cc-testing，BB 的測試執行助手）並派第一批；已請 LAWWW 把 CC 加進 AI_SESSION_HANDOFF 值班表、交接班程序、CLAUDE.md、duty 工具、PROJECT_DECISIONS（等 LAWWW 回 SHA）"
   }
  ]
 }
