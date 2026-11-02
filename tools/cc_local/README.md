@@ -122,4 +122,5 @@ runner 印到畫面上的每一行都會留一份，只保留最後 2000 行，�
 - **記憶體保護**：開新項目前讀系統記憶體使用率，≥85% 就先不開，等一項跑完再看。手上沒有項目時照樣開，不會卡住。每開一項，都會在 console 印 `memory NN% before starting <ID>`，雲端看 console.log 就知道最高值。
 - **殘留瀏覽器**：runner 啟動時（還沒有任何項目在跑），會結束 Playwright 下載路徑（`ms-playwright`）底下所有還在跑的瀏覽器程序，通常是上次 Ctrl+C 或當機留下的。每結束一個印一行 `killed leftover test browser pid …`。**使用者自己的 Google Chrome 不在這個路徑底下，不會被動到。**
 - 單元測試：`python3 tools/cc_local/guard_unit.py`。
+- **資源用量**（BB 22:11）：每一項 START、END 各印一行 `[res] cpu=xx% mem=yy% (used/total GB) chrome_testing=N`，跟著 console.log 推上去；這一項期間每 30 秒取樣一次，最高值寫進 meta.json 的 `res_peak`。只記數字：chrome_testing 只算 ms-playwright 路徑底下的程序數，不記程序名稱。CPU 的讀法依序是 psutil → PowerShell（Win32_Processor LoadPercentage）→ /proc/stat。
 

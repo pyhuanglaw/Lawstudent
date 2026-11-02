@@ -224,6 +224,67 @@ def kill_leftover_browsers():
     return found
 
 
+_CPU_PREV = [None]
+
+
+def cpu_pct():
+    """整台 CPU 使用率 %（psutil → Windows PowerShell → Linux /proc/stat）；讀不到回 None。只讀數字"""
+    try:
+        import psutil
+        return int(round(psutil.cpu_percent(interval=0.5)))
+    except Exception:
+        pass
+    try:
+        if IS_WIN:
+            r = subprocess.run(['powershell', '-NoProfile', '-Command',
+                                '(Get-CimInstance Win32_Processor | Measure-Object -Property LoadPercentage -Average).Average'],
+                               stdout=subprocess.PIPE, stderr=subprocess.DEVNULL, text=True, errors='replace', timeout=60)
+            v = (r.stdout or '').strip().splitlines()
+            return int(round(float(v[-1]))) if v else None
+        def snap():
+            with open('/proc/stat') as fh:
+                f = [int(x) for x in fh.readline().split()[1:]]
+            return sum(f), f[3] + (f[4] if len(f) > 4 else 0)
+        t1, i1 = snap(); time.sleep(0.5); t2, i2 = snap()
+        return int(round(100 * (1 - (i2 - i1) / float(max(1, t2 - t1)))))
+    except Exception:
+        return None
+
+
+def mem_gb():
+    """(已用 GB, 總共 GB)；讀不到回 (None, None)"""
+    try:
+        if IS_WIN:
+            import ctypes
+
+            class MS(ctypes.Structure):
+                _fields_ = [('dwLength', ctypes.c_ulong), ('dwMemoryLoad', ctypes.c_ulong),
+                            ('ullTotalPhys', ctypes.c_ulonglong), ('ullAvailPhys', ctypes.c_ulonglong),
+                            ('ullTotalPageFile', ctypes.c_ulonglong), ('ullAvailPageFile', ctypes.c_ulonglong),
+                            ('ullTotalVirtual', ctypes.c_ulonglong), ('ullAvailVirtual', ctypes.c_ulonglong),
+                            ('ullAvailExtendedVirtual', ctypes.c_ulonglong)]
+            m = MS(); m.dwLength = ctypes.sizeof(MS)
+            ctypes.windll.kernel32.GlobalMemoryStatusEx(ctypes.byref(m))
+            return round((m.ullTotalPhys - m.ullAvailPhys) / 2.0 ** 30, 1), round(m.ullTotalPhys / 2.0 ** 30, 1)
+        d = {}
+        with open('/proc/meminfo') as fh:
+            for line in fh:
+                k, v = line.split(':', 1); d[k] = int(v.split()[0])
+        return round((d['MemTotal'] - d['MemAvailable']) / 2.0 ** 20, 1), round(d['MemTotal'] / 2.0 ** 20, 1)
+    except Exception:
+        return None, None
+
+
+def res_snapshot():
+    """BB 22:11：只記數字。chrome_testing＝ms-playwright 路徑底下的程序數"""
+    u, t = mem_gb()
+    return {'cpu': cpu_pct(), 'mem': mem_used_pct(), 'used_gb': u, 'total_gb': t, 'chrome_testing': len(leftover_browsers())}
+
+
+def res_line(r):
+    return '[res] cpu=%s%% mem=%s%% (%s/%s GB) chrome_testing=%s' % (r['cpu'], r['mem'], r['used_gb'], r['total_gb'], r['chrome_testing'])
+
+
 def read_config(path):
     """tools/cc_local/config.txt：k=v 一行一個（# 註解）；回傳 dict"""
     d = {}
@@ -626,6 +687,29 @@ class Runner(object):
         srv = srv2 = p = None
         ports = []
         log('==== START %s  (%s @ %s) ====' % (it.id, it.kind, sha))
+        peak = {'cpu': None, 'mem': None, 'used_gb': None, 'chrome_testing': None}
+        stop_res = threading.Event()
+
+        def sample(tag=None):
+            r = res_snapshot()
+            for k in peak:
+                if r.get(k) is not None and (peak[k] is None or r[k] > peak[k]):
+                    peak[k] = r[k]
+            if tag:
+                log('%s  %s %s' % (res_line(r), tag, it.id))
+
+        def sampler():                      # 這一項期間每 30 秒取一次，記最高值（meta.json 的 res_peak）
+            while not stop_res.wait(30):
+                try:
+                    sample()
+                except Exception:
+                    pass
+        try:
+            sample('START')
+        except Exception:
+            pass
+        th_res = threading.Thread(target=sampler, daemon=True)
+        th_res.start()
         try:
             wt = self.wt_add(wt, sha)
             srv, port = self.start_server(wt, 8800)
@@ -675,6 +759,12 @@ class Runner(object):
             if wt2:
                 self.wt_remove(wt2)
             self.wt_remove(wt)
+        stop_res.set()
+        try:
+            sample('END')
+        except Exception:
+            pass
+        meta['res_peak'] = peak
         meta['end'] = datetime.now().strftime('%Y-%m-%dT%H:%M:%S')
         meta['seconds'] = int(round(time.time() - t0))
         with open(os.path.join(od, 'meta.json'), 'w', encoding='utf-8') as fh:
