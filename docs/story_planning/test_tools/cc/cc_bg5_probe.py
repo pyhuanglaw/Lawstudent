@@ -1,6 +1,7 @@
 """CC（帳號 A）11-02：第五批 10 張 ADV 2D 底圖（開發分支 63f00030＝第 1～5 張、78ebf658＝第 6～10 張）
   ＋第六批 10 張（c3036bc9，BB_132 第 103 組；清單在檔案下面的 CASES6）
-  ＋第七批 10 張（8c00f06d＝前 5 張、6767db8f＝後 5 張，BB_132 第 104 組；清單在 CASES7）在遊戲裡的畫面——
+  ＋第七批 10 張（8c00f06d＝前 5 張、6767db8f＝後 5 張，BB_132 第 104 組；清單在 CASES7）
+  ＋第八批 10 張（296ed2d0a，BB_132 第 105 組；清單在 CASES8）在遊戲裡的畫面——
   ① 對話框（字幕框）有沒有擋到底圖的重點；② 直向（390×844）、橫向（844×390）手機模擬的裁切。
 探針只「客觀記錄＋截圖」：好不好看、重點有沒有被擋，由人看截圖判斷（不寫死「全部通過」）。
 check 只有三種：事件真的演出來（遊戲的 OUT.go／EVENTS.run／JP.playStop 收到那一件，而且畫面到了那一張底圖、對話框開著）、
@@ -99,9 +100,25 @@ check 只有三種：事件真的演出來（遊戲的 OUT.go／EVENTS.run／JP.
                   探針先在頁面只讀 STORY_EVENTS 確認這一版事件有沒有接這張圖（hookcheck）：沒接＝記 INFO「先登記、還沒接到事件」，不演、不算 FAIL。探針 19:48。
   （美國四張、舊金山三張用 USF 美國路線旗標＋met_sis＋dating_heroine_05；最小存檔沒有其他美國篇進度，只看畫面，不驗台詞。）
 
+第八批 10 張（296ed2d0a；做法同上；kind 'lines'＝不是出遊也不是 STORY_EVENTS 的台詞，一開始就【捷徑】；每一張的條件寫在 CASES8 那一行的 src）：
+  sis_new_home    ev_sis16_box（sis_b16_3d.js:65 BOX_OUT，2029-01-20（六）14:00）；探針 13:16 宿舍＋出遊。同一張圖的 ev_sis14_curry_home（12/31，要 h5 的承諾＋12/30 私訊，條件比較深）、
+                  ev_sis13_curry 只讀確認（also，不演）。
+  wenzhou         ev_kexin_our_day_wk 的 _kxODP wenzhou（story3d.js:2172 大一下「我們的日子」固定格，約在中間輪到溫州街；beforeOuting 記 _kxODP）；探針大一下第 5 週週六 13:36＋出遊（odPlace wenzhou）。
+  wenzhou_park    ev_sq18_park（sideq3d.js:288 SQ18，大二下起，下個週日 08:30）；探針大二下第 5 週週日 08:06＋出遊。
+  ntu_library_2f  ev_zq_testbuild（zq_testbuild3d.js:37，2028-03-08 12:10）；探針 11:46＋出遊、ZQ_TB_GO。
+  putong_empty    ev_pool_lq_teach（pool_more3d.js:256 acceptLq，週四 19:00）；探針大一下第 12 週週四 18:33＋出遊。
+  law_courtyard   馬佳蓉 5-3 搬影印機（pool_story_b2.js:173 copier）：只在萬才館 3D 跟她說話（法服值班的週六）→ P.offer 答應 → P.run＝EVENTS.runLines——探針做不到，
+                  【捷徑】void EVENTS.run（暫時事件包同一段台詞，participants pool_20、background dark）；探針大一下第 13 週週六 12:06 宿舍。
+  boya_201        ev_pool_ysh_debate（pool_more3d.js:309 acceptYsh，週六 14:00）；探針大一下第 10 週週六 13:33＋出遊。
+  linze_201       ev_yule_lecture ①（yule3d.js:83 OUTS.listen，2027-10-20 18:50；YL_LEC listen）；探針 18:27＋出遊。第一句就是這張（第二段換 noodle_table）。
+  boya_lecture_hall ev_kexin_lecture_ntu（r2y3a3d.js:157 y3_k11，2027-09-29 19:00；KX_K11_GO）；探針 18:39＋出遊。
+  ra_lab          ev_pg_sis_bday（postgrad3d.js:182 planBday，畢業典禮那天 2029-06-02 20:30；beforeOuting → bdayScene 的 ADV.begin(ra_lab)）；探針 20:06＋出遊，
+                  【前置】畢業典禮那一段記成演過（ev_grad_family、F.PG.done.grad、GRADUATED），不然讀檔就先演整段畢業典禮。
+  （linze_201 也是 3D 教室的 view、ra_lab 也在 lab5f3d 的 OUT.bg 包裝裡＝3D 的參數，不是 ADV 底圖：只記 INFO。）
+
 不是 iPhone：Playwright 手機模擬（is_mobile、觸控、SwiftShader 1～4 fps），不用 ?turbo 也可以（要更快可以加）。
 用法：LW_TESTS=<工作樹>/tests SHA=<sha> python3 cc_bg5_probe.py '<URL>/index.html' <輸出資料夾> [使用者存檔.json]
-環境變數：BATCH=5,6,7（只跑這幾批；預設 5,6,7 三批 30 張全跑）、IDS=gym_court,jp_beach（只跑這幾張；舊的 ONLY 同義，可以和 BATCH 一起用＝交集）、
+環境變數：BATCH=5,6,7,8（只跑這幾批；預設 5,6,7,8 四批 40 張全跑）、IDS=gym_court,jp_beach（只跑這幾張；舊的 ONLY 同義，可以和 BATCH 一起用＝交集）、
   DIRECT=kh_hotel_front,kh_hill_harbor_night（有寫 direct 的那幾張一開始就走【捷徑】EVENTS.run）、ORIENT=both|land|port、QUIET=1（0＝讀檔不關條件事件）、SPK=1（0＝不拍有人說話那一句）、
   PROMPT_S（等遊戲自己開演，預設 90）、SCENE_S（開演後等到那一張底圖＋對話框，預設 150；CASES 裡有 scene_s 的那一張取比較大的）、CASE_MAX（一張最多幾秒，預設 900；有 case_max 的取比較大的）、RELAYOUT_MS（切方向後等多久，預設 1800）。
 不要和別的瀏覽器測試同時跑（SwiftShader 搶 CPU）。"""
@@ -118,7 +135,7 @@ if SAVEF:
     SAVE = json.load(open(SAVEF, encoding='utf-8')); SAVE = SAVE.get('G', SAVE)
 J = lambda o: json.dumps(o, ensure_ascii=False)
 ONLY = [x.strip() for x in (os.environ.get('IDS', '') + ',' + os.environ.get('ONLY', '')).split(',') if x.strip()]
-BATCH = [int(x) for x in os.environ.get('BATCH', '5,6,7').replace('，', ',').split(',') if x.strip().isdigit()]
+BATCH = [int(x) for x in os.environ.get('BATCH', '5,6,7,8').replace('，', ',').split(',') if x.strip().isdigit()]
 DIRECT = [x.strip() for x in os.environ.get('DIRECT', '').split(',') if x.strip()]
 ORIENT = os.environ.get('ORIENT', 'both').strip()
 QUIET = os.environ.get('QUIET', '1') != '0'
@@ -253,7 +270,59 @@ CASES7 = [
          flags=dict(USS), src='src/r2y4a3d.js:178 OUT.plan us_snow；6767db8f 只先登記（12/2 照舊 us_chapel_snow）、366ac3e2 才接到 ev_us_first_snow／ev_us_snow_repair'),
 ]
 for _c in CASES7: _c['batch'] = 7
-CASES = CASES + CASES6 + CASES7
+
+# ---------------------------------------------------------------- 第八批 10 張（296ed2d0a；BB_132 第 105 組）；load_h＝約好的時間－車程－15 分鐘再加一點（同上）
+CASES8 = [
+    dict(k='sis_new_home', kind='outing', ev='ev_sis16_box', when='2029-01-20', load_h=13.27, zone='dorm', match='箱子', also=['ev_sis14_curry_home', 'ev_sis13_curry'],
+         q=dict(id='sisb16_box', ev='ev_sis16_box', h=14, late=0.5, place='學姊的新家', title='學姊家（美國寄回來的箱子）', travel='捷運 約 30 分鐘', travelH=0.5, hours=2, alarm=True),
+         flags={'met_sis': True},
+         src='src/sis_b16_3d.js:65 SISB16.BOX_OUT（1/19 21:00 私訊回「好。」→ 1/20（六）14:00；plan 加 alarm）；同一張圖也接在 ev_sis14_curry_home（12/31 12:00，要 h5「好吃嗎？」＋12/30 私訊）、'
+             'ev_sis13_curry——只讀確認（也是 also）。沒有交往的最小存檔（同 gym_pool）：S.boxOk 不成立＝不傳 1/19 那則、不動存檔裡的出遊'),
+    dict(k='wenzhou', kind='outing', ev='ev_kexin_our_day_wk', when=['Y1S2', 5, 6], load_h=13.6, zone='dorm', match='溫州街',
+         q=dict(id='kx_od_{d}', ev='ev_kexin_our_day_wk', h=14, place='溫州街', title='我們的日子：溫州街', travel='走過去約 10 分鐘', travelH=1 / 6, odPlace='wenzhou'),
+         flags={},
+         src='src/story3d.js:2172 大一下「我們的日子」固定格的 OUT.plan（約在中間＝公館、溫州街、河濱輪流，P[0]＝odPlace wenzhou；週六 14:00）→ events.js:2117 beforeOuting 記 _kxODP → 2123 {scene:溫州街,bg:wenzhou}'
+             '（大二以後 src/kxod3d.js:80 同一行）。最小存檔沒有 KX_OUR_DAY、dating_kexin false：story3d／kxod3d 的固定格規則不跑、不會把這一格改 skipped；台詞不驗'),
+    dict(k='wenzhou_park', kind='outing', ev='ev_sq18_park', when=['Y2S2', 5, 7], load_h=8.1, zone='dorm', match='小公園',
+         q=dict(id='sq18_park_{d}', ev='ev_sq18_park', h=8.5, late=0.5, place='溫州街・小公園', title='週日早上：二十杯飲料送到小公園', travel='走路 約 10 分鐘', travelH=1 / 6),
+         flags={}, src='src/sideq3d.js:288 SQ18 accept 的 OUT.plan（大二下起清葉茶行接單 → 下個週日 08:30）；sideq3d.js:550 {scene:溫州街・小公園,bg:wenzhou_park}（296ed2d0a 由 wenzhou 換成 wenzhou_park）。'
+             '支線紀錄 G.sideq 沒放：after 不推進 SQ18，只看畫面'),
+    dict(k='ntu_library_2f', kind='outing', ev='ev_zq_testbuild', when='2028-03-08', load_h=11.77, zone='dorm', match='測試版',
+         q=dict(id='zqtb_lib', ev='ev_zq_testbuild', h=12 + 10 / 60, late=0.5, place='總圖二樓', title='總圖二樓：子晴的測試版', travel='走路 約 10 分鐘', travelH=1 / 6, alarm=True, back='回到總圖一樓。'),
+         flags={'ZQ_TB_GO': True},
+         src='src/zq_testbuild3d.js:37 ZQTB.phone 的 OUT.plan（3/7 21:00 子晴私訊、兩個回覆都排 3/8 12:10）；最小存檔沒有 zqtb_ask 那則＝ZQTB.phone 在「!sent(zqtb_ask)」就 return，不動出遊'),
+    dict(k='putong_empty', kind='outing', ev='ev_pool_lq_teach', when=['Y1S2', 12, 4], load_h=18.55, zone='dorm', match='試教',
+         q=dict(id='pool_lq_teach_{d}', ev='ev_pool_lq_teach', h=19, late=0.5, place='普通教學館', title='詹立群：試教（普通教學館的空教室 19:00）', travel='走過去約 10 分鐘', travelH=0.25),
+         flags={}, src='src/pool_more3d.js:256 POOL_MORE.acceptLq（大一下第 11～13 週答應 → 那週週四 19:00；planOut 預設 late 0.5、走過去約 10 分鐘）；台詞 pool_story_b2.js:107 teach'),
+    dict(k='law_courtyard', kind='lines', ev='cc_bg8_copier', who='pool_20', key='copier', when=['Y1S2', 13, 6], load_h=12.1, zone='dorm', match='',
+         q=None, flags={},
+         why='5-3 馬佳蓉搬影印機不是出遊、也不是 STORY_EVENTS 裡的事件：大一下第 12～15 週、法服值班的週六 12:00 以後在萬才館 3D 跟她說話（有點熟、STORY.fafuDuty、P.canOpen）→ P.offer 答應 → '
+             'P.run＝EVENTS.runLines(POOL.LINES.pool_20.copier)。要走到 3D 的 NPC 面前說話＋法服社員＋值班日＋熟悉度，探針的存檔做不到；改成 void EVENTS.run(暫時事件 {participants:[pool_20],background:dark,dialogue:同一段台詞})'
+             '（暫時事件沒有標題＝不出標題字幕、不寫日誌；G.events.done 多一筆 cc_bg8_copier，只在這個新瀏覽器裡）。真實流程是在 3D 對話裡接（ADV 可能已經開著、立繪照當時），所以開頭的樣子不一定和真的一樣',
+         src='src/pool_more3d.js:286 FLOW[pool_20] 第三步（5-3）accept → P.run(GM2,M,L[M].copier)；台詞 pool_story_b2.js:173 copier 的 {scene:法學院前庭,bg:law_courtyard}'),
+    dict(k='boya_201', kind='outing', ev='ev_pool_ysh_debate', when=['Y1S2', 10, 6], load_h=13.55, zone='dorm', match='社內賽',
+         q=dict(id='pool_ysh_debate_{d}', ev='ev_pool_ysh_debate', h=14, late=0.5, place='博思 201', title='楊書豪：社內賽（博思 201 14:00）', travel='走過去約 10 分鐘', travelH=0.25),
+         flags={}, src='src/pool_more3d.js:309 POOL_MORE.acceptYsh（大一下第 8～12 週椰林大道答應 → 下個週六 14:00）；台詞 pool_story_b3.js:82 debate'),
+    dict(k='linze_201', kind='outing', ev='ev_yule_lecture', when='2027-10-20', load_h=18.45, zone='dorm', match='演講',
+         q=dict(id='yl_lecture', ev='ev_yule_lecture', h=18 + 50 / 60, late=0.5, place='法律系館A 201', title='家事調查官的演講（法律系館A 201）', travel='走過去約 10 分鐘', travelH=1 / 6, alarm=True),
+         flags={'YL_LEC': 'listen'},
+         info='linze_201 另外是 3D 教室 classroom 的 view（src/zones3d.js:1398 room 的 view:linze_201）——那是 3D 區域的參數，不是 ADV 底圖，這裡不拍',
+         src='src/yule3d.js:83 S.OUTS.listen（10/14 22:00 予樂私訊回①「去聽」→ 10/20 18:50）；yule_lines.js:62 {scene:法律系館A 201,bg:linze_201}（第二段換 noodle_table，第一句就拍）。'
+             '最小存檔沒有 yl_lec_ask 那則：S.lecture 在 10/20 讀到＝記 x:late 就 return，不動存檔裡的出遊'),
+    dict(k='boya_lecture_hall', kind='outing', ev='ev_kexin_lecture_ntu', when='2027-09-29', load_h=18.65, zone='dorm', match='講座',
+         q=dict(id='y3_k11', ev='ev_kexin_lecture_ntu', h=19, late=0.25, place='博思教學館', title='講座（博思）19:00', travel='走過去約 8 分鐘', travelH=8 / 60, alarm=True),
+         flags={'KX_K11_GO': True},
+         src='src/r2y3a3d.js:157 k11Phone 的 y3_k11（交往中，9/27 21:00 可昕私訊回「一起去。」→ 9/29（三）19:00）；r2y3a_events.js:213 {scene:博思教學館,bg:boya_lecture_hall}（296ed2d0a 由 linze_auditorium 換）。'
+             '最小存檔 dating_kexin false（同 kh_hotel_front）：k11Phone 一開頭就 return，不動出遊；交往版的句子不驗'),
+    dict(k='ra_lab', kind='outing', ev='ev_pg_sis_bday', when='2029-06-02', load_h=20.1, zone='dorm', match='生日', done=['ev_grad_family'],
+         q=dict(id='pg_sis_bday', ev='ev_pg_sis_bday', h=20.5, late=0.5, place='法律系館A・研究室', title='學姊的生日：研究室，八點半', travel='走過去約 10 分鐘', travelH=1 / 6),
+         flags={'met_sis': True, 'GRADUATED': ('REL', 0), 'GRAD_DONE': True, 'PG': {'done': {'grad': True}}},
+         info='ra_lab 另外：src/lab5f3d.js:84 法學院五樓研究室走進去（S.staged）時 OUT.bg(ra_lab) 改成 blur——3D 畫面，不是 ADV 底圖，這裡不拍；畢業傍晚「和學姊吃飯→走回研究室」（STEPS bday_walk）是同一個 bdayScene，不另拍',
+         src='src/postgrad3d.js:182 S.planBday（畢業典禮那天 2029-06-02 20:30）→ ev_pg_sis_bday 的 beforeOuting → S.bdayScene(GM,outing)：ADV.begin({background:OUT.bg(ra_lab)})（postgrad3d.js:293；296ed2d0a 以前借 linze_prof_hall）。'
+             '【前置】畢業典禮那一段記成演過（ev_grad_family、F.PG.done.grad、GRADUATED）＝不先演一整段畢業典禮；不是交往＝朋友版'),
+]
+for _c in CASES8: _c['batch'] = 8
+CASES = CASES + CASES6 + CASES7 + CASES8
 
 # ---------------------------------------------------------------- 頁面裡的小工具
 CLEARP = "(()=>{ if(typeof CLS!=='undefined'&&CLS.clearPending){ CLS.clearPending(); return true; } return false; })()"
@@ -344,6 +413,13 @@ ALSO_JS = r"""(a=>{ const out={}; for(const id of a.ids){ const e=typeof STORY_E
     for(const l of (Array.isArray(e.dialogue)?e.dialogue:[])) if(l&&l.bg) bgs.push('bg:'+(typeof l.bg==='string'?l.bg:JSON.stringify(l.bg)));
     out[id]={hit:bgs.some(s=>s==='background:'+a.k||s==='bg:'+a.k||s.indexOf('/assets/bg/'+a.k+'.webp')>=0),bgs:bgs.slice(0,10)}; }
   return out; })"""
+LINES_JS = r"""(a=>{ const notes=[]; if(typeof EVENTS!=='undefined'&&EVENTS.running) notes.push('（注意：別的事件正在演 EVENTS.running='+EVENTS.running+'，EVENTS.run 會直接 return）');
+  { const ch=document.getElementById('choices'); if(ch&&!ch.classList.contains('hide')) notes.push('（注意：畫面上的選單還開著，之後的截圖可能帶著它）'); }
+  let lines=null; try{ lines=POOL.LINES[a.who][a.key]; }catch(e){ lines=null; }
+  if(!Array.isArray(lines)||!lines.length) return notes.concat(['找不到 POOL.LINES.'+a.who+'.'+a.key]).join('');
+  const ev={id:a.ev,title:'',participants:[a.who],location:'any',trigger:'manual',background:'dark',dialogue:lines};   /* 同 POOL.run：EVENTS.runLines(lines,{participants:[id]})；沒有標題＝不出標題字幕、不寫日誌 */
+  try{ void EVENTS.run(ev); notes.push('void EVENTS.run({id:'+a.ev+',participants:['+a.who+'],background:dark,dialogue:POOL.LINES.'+a.who+'.'+a.key+'（'+lines.length+' 行）})'); }catch(e){ notes.push('例外 '+e.message); }
+  return notes.join(''); })"""
 EXITS = ('不用了', '算了', '就這樣', '先不要', '先這樣', '沒事', '離開', '取消')
 SUMMARY = {}
 
@@ -579,6 +655,8 @@ async def case_run(p, run, c):
                 run.note('%s：INFO 這一版 %s 的背景沒有 %s（%s）＝先登記、還沒接到事件（6767db8f 的狀態；366ac3e2 以後才接）→ 不演、不拍' % (k, c['ev'], k, J(a.get('bgs'))))
                 return
             run.note('%s：只讀確認 %s 已經接這張圖（%s）→ 照常演' % (k, c['ev'], J(a.get('bgs'))))
+        if c.get('info'):   # 同一張圖另外接的地方（3D 區域參數等，不是 ADV 底圖）：只記
+            run.note('%s：INFO %s' % (k, c['info']))
         if c.get('phone_photo'):
             run.note('%s：手機照片＝遊戲在 S.leave 裡用 ADV 全畫面底圖＋「📷（…）」顯示（不是手機 App 畫面）；手機相簿沒有這張，不另拍（INFO）' % k)
         st, d, q = await build_state(pg, cs)
@@ -589,10 +667,15 @@ async def case_run(p, run, c):
             ('；存檔裡已經約好的出遊 %s（%s %s，%s；照 %s）' % (q['id'], d['key'], hm(q['h']), q['place'], c['src'])) if q else '；' + c['src'],
             ('；旗標 %s' % J(st['flags'] and {fk: st['flags'].get(fk) for fk in (cs.get('flags') or {})})) if cs.get('flags') else '',
             '條件事件、手機自動打開先關（QUIET）' if QUIET else '條件事件照常'))
-        if c.get('done'): run.setup('[前置] %s：劇情串前面的 %s 在存檔裡記成演過（G.events.done），讓遊戲自己的串（%s）從這一張開始' % (k, J(c['done']), c['src']))
+        if c.get('done'): run.setup('[前置] %s：%s 在存檔裡記成演過（G.events.done）%s' % (k, J(c['done']), '，讓遊戲自己的串（%s）從這一張開始' % c['src'] if c['kind'] == 'self' else '（照 src 的說明）'))
         await pg.wait_for_timeout(2500); await L.phone_away(pg, cdp); await L.close_panels(pg, cdp)
         cinfo = {'qid': None, 'ev': c['ev'], 'stop': None, 'kind': 'direct'}
-        if direct_mode:
+        if c['kind'] == 'lines':   # 在 3D 對話裡接的台詞（不是出遊、不是 STORY_EVENTS）：一開始就【捷徑】
+            r = await pg.evaluate(LINES_JS, {'ev': c['ev'], 'who': c['who'], 'key': c['key']})
+            run.setup('【捷徑】%s：%s → %s' % (k, c.get('why', ''), r))
+            await pg.wait_for_timeout(2500)
+            how, started, menus, lines = 'lines', await pg.evaluate(STARTED_JS, cinfo), [], []
+        elif direct_mode:
             r = await pg.evaluate(DIRECT_JS, {'ev': c['ev'], 'day': None, 'h': None, 'key': None, 'flags': None})
             run.setup('【捷徑】%s：DIRECT 指定一開始就直接演（理由：%s）→ %s' % (k, dr.get('why', ''), r))
             await pg.wait_for_timeout(2500)
@@ -614,7 +697,8 @@ async def case_run(p, run, c):
         rec.update(scene_ok=ok, lines_in_event_before_bg=pre, bg_now=g)
         if pre: run.note('%s：到那一張底圖以前點過的：%s' % (k, J(pre)[:1200]))
         how_t = {'prompt': '遊戲自己跳出「出發」→ 點', 'self': '到了時間自己演', 'fallback': '【捷徑】直接出發',
-                 'direct': '【捷徑】DIRECT：直接 EVENTS.run', 'fallback_direct': '【捷徑】真實的一串沒接到 → 直接 EVENTS.run'}.get(how, how)
+                 'direct': '【捷徑】DIRECT：直接 EVENTS.run', 'fallback_direct': '【捷徑】真實的一串沒接到 → 直接 EVENTS.run',
+                 'lines': '【捷徑】3D 對話裡接的台詞 → EVENTS.run 包一個暫時事件演同一段'}.get(how, how)
         run.check('%s：事件演出（%s；%s）' % (k, c['ev'], how_t), bool(started) and ok,
                   J({'started': started, 'bg': g and g.get('bg'), 'adv': g and g.get('cls'), 'line': s and [s.get('name'), s.get('txt')], 'choices': s and s.get('ch')})[:700])
         if not ok:
