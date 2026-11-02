@@ -96,3 +96,8 @@
 [05:30:36] skip G1_reach (already done on ef63b1877)
 [05:30:36] ==== START G2_libfl  (game @ ef63b1877) ====
 [05:30:36] ==== START G3_libsc  (game @ ef63b1877) ====
+    To https://github.com/pyhuanglaw/Lawstudent.git
+       e368ecb20..900ba3d64  claude/cc-local -> claude/cc-local
+    branch 'claude/cc-local' set up to track 'origin/claude/cc-local'.
+[05:33:52] ==== END   G3_libsc  exit=0  191s   ====
+[05:33:56] run_queue.py has a new version - restart (exit 75) after the running item(s) finish; while long items (>=120 min) run, free slots still take short items
