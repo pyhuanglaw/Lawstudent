@@ -117,10 +117,11 @@ cp = C0.get('carpet', tile=2.0)
 cp.quad([(-2.6, 0.004, V['z0']), (2.6, 0.004, V['z0']), (2.6, 0.004, BS['z1']), (-2.6, 0.004, BS['z1'])])   # 中庭走道（照片 1）
 fl.quad([(-2.6, 0.0, BS['z1']), (2.6, 0.0, BS['z1']), (2.6, 0.0, BS['z0']), (-2.6, 0.0, BS['z0'])])           # 台階下面（看不到，補洞）
 # 展演廳：淺色人字拼木地板（半圓＋開口那一條）
+#   扇形的頂點順序：圓心 → a0 → a1（朝上）。11-02 第一次烘焙寫成圓心 → a1 → a0，法線朝下：材質是雙面所以看得到，可是光照貼圖烘的是朝下那一面（0.001，整片黑；lm_probe 抓到）
 pq = C0.get('parquet', tile=2.2); NR = 36
 for i in range(NR):
     a0, a1 = PI * i / NR, PI * (i + 1) / NR
-    pq.quad([(R['cx'], 0.002, R['cz']), (R['cx'] + R['r'] * math.cos(a1), 0.002, R['cz'] - R['r'] * math.sin(a1)), (R['cx'] + R['r'] * math.cos(a0), 0.002, R['cz'] - R['r'] * math.sin(a0))])
+    pq.quad([(R['cx'], 0.002, R['cz']), (R['cx'] + R['r'] * math.cos(a0), 0.002, R['cz'] - R['r'] * math.sin(a0)), (R['cx'] + R['r'] * math.cos(a1), 0.002, R['cz'] - R['r'] * math.sin(a1))])
 pq.quad([(R['open']['x0'], 0.002, ZI0 + 0.001), (R['open']['x1'], 0.002, ZI0 + 0.001), (R['open']['x1'], 0.002, Z0 - 0.001), (R['open']['x0'], 0.002, Z0 - 0.001)])
 
 
@@ -288,10 +289,10 @@ for (lv, par, y0, y1, wa, wb) in TIERS:
             facet_quad(m, p0, p1, y0, y1)
         if lv == 0:                                    # 深灰石材牆裙（照片 2：窗台以下）
             facet_quad(c.get('stone', tile=1.4), p0, p1, 0.0, 0.9, off=-0.012)
-# 展演廳的天花板（半圓）＋中間一圈燈
+# 展演廳的天花板（半圓）＋中間一圈燈：頂點順序圓心 → a1 → a0（朝下；和地板相反，11-02 第一次烘焙寫反了）
 for i in range(NR):
     a0, a1 = PI * i / NR, PI * (i + 1) / NR
-    C1.get('ceil', tile=2.4).quad([(R['cx'], RY, R['cz']), (R['cx'] + R['r'] * math.cos(a0), RY, R['cz'] - R['r'] * math.sin(a0)), (R['cx'] + R['r'] * math.cos(a1), RY, R['cz'] - R['r'] * math.sin(a1))])
+    C1.get('ceil', tile=2.4).quad([(R['cx'], RY, R['cz']), (R['cx'] + R['r'] * math.cos(a1), RY, R['cz'] - R['r'] * math.sin(a1)), (R['cx'] + R['r'] * math.cos(a0), RY, R['cz'] - R['r'] * math.sin(a0))])
 # 弧形軌道燈（照片 2）：半徑 3.4、離地 6.6，吊線六條，燈頭一顆一顆
 RR, RYL = 3.4, 6.6
 for i in range(24):

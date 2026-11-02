@@ -15,7 +15,26 @@
 
 ## 一、怎麼套（給 LAWWW）
 
-（交件時補：patch 路徑、基準、二進位清單。）
+1. **二進位**（從我的分支 `claude/second-ai-env-art` 拿，路徑照抄）：
+   - `assets/models/env/second_ai/library_hall_v2.glb`（有光照貼圖用的第二套 UV、`extras.lightmap`）；
+   - `assets/models/env/second_ai/library_hall_v2_lm_day.webp`、`library_hall_v2_lm_night.webp`；
+   - `tools/blender/env_second/lightbake/library_hall_v2_lm.json`（烘焙的紀錄，遊戲不讀）。
+   - manifest 的 key `bldg.library_hall_v2` 由 `src/library_hall_v2.js` 自己登記，`src/assets3d.js` 不用改。
+2. **patch**：`docs/art-rebuild/second_ai/patches/library_hall_v2_1102.patch`。
+   - `b1b249873`、`int/next1102` 的 `3e6855649` 都 `git apply --check` 乾淨。
+   - 動到的檔：
+     - `src/library_hall_v2.js`（新）：第二版的區域。
+     - `src/data/library_layout.js`：version 2。由 `tools/blender/env_second/library_hall_v2_layout.py` 從第一版產生，不要手改。
+     - `src/library3d.js`：layout 是 version 2、而且 `LBV2` 有載入，才改走第二版；另外把 `buildFurniture`、`viewOf`、`outsideTex` 給第二版共用。
+     - `index.html`：多載 `src/library_hall_v2.js`。
+     - `src/story3d.js`：上下樓的路人，東翼那一點 (8,−5) → (8,−3.4)。原本那點在第二版的西文書架上。
+     - tests（62 支）：
+       - 載入檔案清單有列 `src/library3d.js` 的 60 支，加上 `src/library_hall_v2.js`；
+       - `library_hall_cam_core_unit`、`library_hall_lightmap_unit`、`nav_buildings_unit`、`flow_library_floors`、`flow_library_scene` 改成認得第二版；
+       - 新增 `library_hall_v2_oldsave_unit`。
+3. **要退回第一版**：把 `src/data/library_layout.js` 換回 base 的版本（version 1）就好。
+   - `library_hall_v2.js` 可以留著；layout 是 version 1 時不會用到它，`src/library3d.js` 照舊建第一版。
+   - 二進位 `library_hall.glb`（第一版）沒有動。
 
 ## 二、照片、平面圖對照
 
