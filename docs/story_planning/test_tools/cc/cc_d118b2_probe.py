@@ -25,14 +25,32 @@ MODE（一次一個）：
   打開「法律」頁（橫向截圖、讀 DOM）→【前置】同一份進度在直向畫面重新讀檔（新的瀏覽器）→「法律」頁直向截圖。
   WANCAI=1（預設）：另開瀏覽器【前置】大二上第 2 週週二 12:30 宿舍 →「直接去上課：民法物權」（萬才館多功能教室）→ 記上課期間的字幕＋截圖。WANCAI_ONLY=1 只跑這一段。
 
+★11-02 更新（ba7983b6f＝D118-B1、B2 整合；讀碼＋node tests/d118_b2_unit.js ALL PASS）：改成 CASES（逗號隔開，各開一個瀏覽器；預設 wancai,y1_rooms,ask_note,legal_page；
+  原本的兩週真實流程是 flow，預設不跑；WANCAI_ONLY=1＝CASES=wancai）。NO_STUDY=1（預設）：flow 不做自習那一段（BB 自己測 SE-07），「法律」頁照兩週上完課的狀態判定。
+  實作（讀碼 classes3d.js:307–308）：有 3D 黑板（只有 201 classroom 的 setBoard）照舊寫黑板；沒有的教室（含門口上課）＝GAME.caption('黑板', 三行.filter(Boolean).join('　'), 6000)
+  ——不是 say、不是 toast。探針記 HOOK 的 cap（n＝'黑板'），判定「黑板字幕＝三行用全形空白接起來」（capExact）。
+  wancai      【前置】大二上第 2 週週二 2026-09-15 12:30 宿舍 → 民法物權（萬才館多功能教室 wancai_multi）照玩家上完；黑板字幕＝「物權法定（§757）　物權的種類和內容……　你不能自己發明一種物權」；
+              這一堂也有課堂提問 CIVS_30（只記筆記）。修改前 FAIL（沒有字幕），修改後預期 PASS。
+  y1_rooms    【前置】大一上第 2 週：2025-09-09（二）08:30 → 大一國文（博思 101）；同一天 12:36 → 通識：電影與敘事（普通 101）；2025-09-11（四）08:30 → 大一英文（共同 102）；
+              每一堂各讀一次檔（不真實過兩週），手機「直接去上課」照玩家上完，逐堂記黑板三行、黑板字幕。黑板：國文「大一國文（上）：現代散文　本週：現代散文」、
+              通識「鏡頭的距離　特寫、中景、遠景　靠得越近，觀眾越相信嗎？」、英文「大一英文（上）：閱讀　本週：閱讀」。修改前 FAIL，修改後預期 PASS。Y1R_SPECS 可以換。
+  ask_note    【前置】大一上第 5 週週四 2025-10-02 12:36 宿舍 → 民法總則（201）照玩家上完；課堂提問 CIVS_01 選正確答案（B）（ASK_PICK=right；first＝第一個）→ ☰「筆記」
+              找「民法總則・第 5 週課堂提問」：題目、「答案：（B）滿十八歲之成年人」、「考點：行為能力」（直向橫向各一張）＋只讀 G.notes、STUDY.status（civ_general_w5＝got）。
+              修改前 FAIL（classAsk 不記筆記），修改後預期 PASS。
+  legal_page  同一個瀏覽器接著 ask_note：☰「法律」頁 憲法（上）、民法總則「期末範圍：讀過 x／y・答對過 z」＝只讀 STUDY.progress(G,c,'final',term)（renderLegal 用的同一個）；
+              點開兩科的「觀念卡（n 張）」，每一列「· 第 n 週　標題　上過課／讀過／答對過／還沒讀」＝只讀 STUDY.status；橫向、直向各截圖。
+              預期（只上了第 5 週民總、選對）：民總 讀過 1／10・答對過 1（答對過也算讀過），憲法 讀過 0／9・答對過 0。修改前 FAIL（沒有數字、沒有 STUDY）。
+  flow        原本的兩週真實流程（MODE pre／full、SPLIT、LEGACY 照舊）。
+
 check（客觀記錄；判定一律 BB，這裡是 CC 初判）：
   ① 「法律」頁有憲法（上）、民法總則兩列，各有「讀過 x／y、答對過 z」（修改前 FAIL）；② 數字＝頁面裡只讀算的 STUDY.progress(G,課,kind)（kind 試 final／mid／不給；
   修改前 STUDY 不存在 ⇒ 印 N/A、FAIL）；③ 自習民總後，民總的「讀過」比自習前多（SE-07 ① 的自習來源；修改前沒有數字 ⇒ FAIL）；
   ④ 萬才館多功能教室那一堂：那一區沒有 setBoard、上課期間有一句字幕含黑板第一行（修改前 FAIL）；⑤ 兩週裡沒有 setBoard 的每一堂（國文、英文、通識）同上（修改前 FAIL）；
   ⑥ 沒有 JS 例外；⑦ GAME.walkFallbacks＝0；⑧ 兩週真的上到課（出席次數＞0、沒有卡住）。
 逐字稿：<輸出>/transcript.json（GAME.say／caption／toast／choose／enter／CLS.attend／EVENTS.run 全文＋#caption DOM 變化＋各段的「法律」頁文字與只讀算的值）。
-用法：LW_TESTS=<工作樹>/tests SHA=<sha> [MODE=pre|full] python3 cc_d118b2_probe.py '<URL>/index.html' <輸出資料夾>
+用法：LW_TESTS=<工作樹>/tests SHA=<sha> [CASES=wancai,y1_rooms,ask_note,legal_page|flow] [MODE=pre|full] python3 cc_d118b2_probe.py '<URL>/index.html' <輸出資料夾>
 環境變數：START（'Y1S1,1,1'）、WEEKS（2）、SPLIT（0）、LEGACY（0）、STUDY_CID（civ_general）、WANCAI（1）、WANCAI_ONLY（0）、WC_KEY（'Y2S1,2,2'）、WC_CID（property）、
+  NO_STUDY（1）、Y1R_SPECS、ASK_SPEC（'2025-10-02@12.6:civ_general'）、ASK_PICK（right）、
   PORTRAIT（1）、DAY_MAX（一個遊戲日的上限秒數，900）、TRIP_MAX（600）、STUCK_S（240）、FULL_MAX（full 模式整段上限秒數，14400）。"""
 import os, sys, json, asyncio, re, time, copy, traceback
 sys.path.insert(0, os.environ['LW_TESTS']); import playlib as L
@@ -52,6 +70,17 @@ STUDY_CID = os.environ.get('STUDY_CID', 'civ_general')
 WC_KEY = ENVK('WC_KEY', 'Y2S1,2,2')
 WC_CID = os.environ.get('WC_CID', 'property')
 COURSES_CHK = (('const_1', '憲法（上）'), ('civ_general', '民法總則'))
+NO_STUDY = ENVI('NO_STUDY', 1)
+_cdef = 'wancai' if ENVI('WANCAI_ONLY', 0) else os.environ.get('CASES', 'wancai,y1_rooms,ask_note,legal_page')
+CASES = [c.strip() for c in _cdef.split(',') if c.strip()]
+Y1R_SPECS = [x.strip() for x in os.environ.get('Y1R_SPECS', '2025-09-09@8.5:chinese_y1,2025-09-09@12.6:ge_film_y1s1,2025-09-11@8.5:english_y1').split(',') if x.strip()]
+ASK_SPEC = os.environ.get('ASK_SPEC', '2025-10-02@12.6:civ_general')   # 大一上第 5 週週四 13:20 民法總則（201），那一週 syllabus ask＝CIVS_01
+ASK_PICK = os.environ.get('ASK_PICK', 'right')   # right＝選正確答案（玩家選得到）；first＝第一個
+LAND = {'width': 844, 'height': 390}; PORT = {'width': 390, 'height': 844}
+
+
+class _Done(Exception):
+    pass
 CONT = '繼續去上課'
 TR = {'sha': os.environ.get('SHA', '?'), 'url': URL, 'mode': MODE, 'checks': [], 'segments': {}}
 RX = re.compile(r'讀過\s*(\d+)\s*[／/]\s*(\d+)[^0-9]{0,10}?答對過\s*(\d+)')
@@ -147,6 +176,7 @@ EXPECT = r"""(cids=>{ const G=GAME.G; if(typeof STUDY==='undefined'||!STUDY.prog
   const t=CALENDAR.termOf(G.day), term=t&&t.id; const rank={heard:1,read:2,got:3};
   for(const cid of cids){ const r={progress:{},units:null,raw:null};
     for(const k of ['final','mid',null]){ try{ r.progress[String(k)]=k===null?STUDY.progress(G,cid):STUDY.progress(G,cid,k); }catch(e){ r.progress[String(k)]='ERR '+e.message; } }
+    try{ const c=CLS.byId?CLS.byId(cid):null, e=STUDY.courses?STUDY.courses(G).find(x=>x.c.id===cid):null; r.progress['final@'+(e?e.term:term)]=STUDY.progress(G,c||cid,'final',e?e.term:term); }catch(e){ r.progress['final@term']='ERR '+e.message; }   /* game3d.js renderLegal 用的就是這個（ST.progress(G,e.c,'final',e.term)）*/
     try{ if(STUDY.units){ const us=STUDY.units(G,cid,term,'final')||[]; const rec=STUDY.rec?STUDY.rec(G):G.study; const U=(rec&&rec.u)||{};
       const st=us.map(u=>{ const id=typeof u==='string'?u:u.id; const s=U[id]; return typeof s==='object'&&s?(s.s||s.state||null):s||null; });
       r.units={n:us.length,ids:us.slice(0,40).map(u=>typeof u==='string'?u:u.id),states:st.slice(0,40)};
@@ -346,7 +376,10 @@ def class_boards(R):
         seg = R[i + 1:j]
         caps = [x['t'] for x in seg if x['k'] == 'cap']; said = [x['t'] for x in seg if x['k'] == 'say']; toasts = [x['t'] for x in seg if x['k'] == 'toast']
         b0 = ((m.get('board') or [''])[0] or '').strip()
+        capb = [x['t'] for x in seg if x['k'] == 'cap' and x.get('n') == '黑板']   # D118-B2（ba7983b6f classes3d.js:308）：GAME.caption('黑板', 三行.filter(Boolean).join('　'), 6000)
+        want = '　'.join([t for t in (m.get('board') or []) if t])
         out.append({'key': r['n'], 'cid': m.get('cid'), 'name': m.get('name'), 'd': r.get('d'), 'zone': m.get('zone'), 'room': m.get('room'), 'hasBoard': m.get('hasBoard'),
+                    'boardCaps': capb, 'boardWant': want, 'capExact': bool(want) and want in capb, 'capsN': [[x.get('n'), x['t']] for x in seg if x['k'] == 'cap'],
                     'door': m.get('door'), 'kind': m.get('kind'), 'board': m.get('board'), 'capBoard': bool(b0) and any(b0 in c for c in caps),
                     'sayBoard': bool(b0) and any(b0 in t for t in said), 'toastBoard': bool(b0) and any(b0 in t for t in toasts), 'caps': caps,
                     'done': j < len(R) and json.loads(R[j]['t']).get('done')})
@@ -395,13 +428,22 @@ async def seg_flow(p, run):
         att = sum(v for v in (rc.get('attend') or {}).values()) if isinstance(rc.get('attend'), dict) else 0
         chk(run, 'flow：兩週照玩家上完課（出席 %d 堂、沒有卡住、到第 %d 週結束）' % (att, last_w), fl.get('ok') and not fl.get('stuck') and att > 0, J({'end': fl.get('end'), 'stuck': fl.get('stuck'), 'attend': rc.get('attend')}))
         run.note('flow：每一堂 %s' % J([[x['d'], x['name'], x['zone'], 'setBoard' if x['hasBoard'] else '沒有setBoard', x['capBoard'], (x['board'] or [''])[0]] for x in boards]))
-        nob = [x for x in boards if x['hasBoard'] is False and not x['door'] and x['kind'] != 'service' and x['board']]
+        nob = [x for x in boards if (x['hasBoard'] is False or x['door']) and x['kind'] != 'service' and x['board']]   # ba7983b6f：門口上課也用字幕
         chk(run, 'flow：沒有 setBoard 的教室（%s）每一堂上課期間都有字幕含黑板第一行（%d／%d 堂）' % ('、'.join(sorted({x['room'] or '' for x in nob})), sum(1 for x in nob if x['capBoard']), len(nob)),
             bool(nob) and all(x['capBoard'] for x in nob), J([[x['d'], x['name'], (x['board'] or [''])[0], x['caps'], 'say有' if x['sayBoard'] else '', 'toast有' if x['toastBoard'] else ''] for x in nob]))
         # 自習前的「法律」頁（只記）
         lg0 = await open_legal(pg, cdp, run, 'flow_before_study', shot=True); ex0 = await pg.evaluate(EXPECT, [c for c, _ in COURSES_CHK])
         seg['legal_before'] = {'legal': lg0, 'expect': ex0}
         row0, nums0 = parse_row(lg0['items'], '民法總則')
+        if NO_STUDY:   # 自習（SE-07）BB 自己測：預設不做；「法律」頁照兩週上完課的狀態判定
+            run.note('flow：NO_STUDY=1（預設）——不做自習那一段（BB 自己測 SE-07）')
+            lg = lg0; ex = ex0; seg['legal_after'] = {'legal': lg, 'expect': ex}
+            await legal_checks(run, 'flow 橫向（兩週上完、沒有自習）', lg, ex, '')
+            seg['wf'] = await pg.evaluate("GAME.walkFallbacks||0")
+            chk(run, 'flow：GAME.walkFallbacks＝0（%s）' % seg['wf'], seg['wf'] == 0)
+            snap = await pg.evaluate("()=>GAME.snapshot()")
+            seg['pl'] = R + (await rows(pg, len(R))); seg['capdom'] = await P.captions(pg, 0)
+            raise _Done()
         # 自習一次（宿舍書桌）
         sr = await study_once(pg, cdp, run, 'flow_study', STUDY_CID); seg['study'] = {k: v for k, v in sr.items() if k != 'rows'}
         rc2 = await pg.evaluate(REC); seg['rec_after_study'] = rc2
@@ -417,6 +459,8 @@ async def seg_flow(p, run):
         chk(run, 'flow：GAME.walkFallbacks＝0（%s）' % seg['wf'], seg['wf'] == 0)
         snap = await pg.evaluate("()=>GAME.snapshot()")
         seg['pl'] = R + (await rows(pg, len(R))); seg['capdom'] = await P.captions(pg, 0)
+    except _Done:
+        pass
     except Exception as e:
         chk(run, 'flow：跑完（沒有探針例外）', False, repr(e)[:500]); traceback.print_exc()
         try: await run.shot(pg, 'flow_exception'); seg['pl'] = await rows(pg, 0)
@@ -488,6 +532,9 @@ async def seg_wancai(p, run):
                 chk(run, 'wancai：萬才館多功能教室這一區沒有 setBoard（前置成立；hasBoard=%s，zone=%s）' % (x.get('hasBoard'), x.get('zone')), x.get('hasBoard') is False and x.get('zone') == 'wancai_multi')
                 chk(run, 'wancai：上課期間有一句字幕含黑板第一行「%s」' % ((x.get('board') or [''])[0]), bool(x.get('capBoard')),
                     J({'caps': x.get('caps'), 'say裡有': x.get('sayBoard'), 'toast裡有': x.get('toastBoard'), 'board': x.get('board')}))
+                chk(run, 'wancai：黑板字幕（GAME.caption 標「黑板」）＝黑板三行「%s」' % x.get('boardWant'), bool(x.get('capExact')), J({'boardCaps': x.get('boardCaps'), 'capsN': x.get('capsN')}))
+                nt = await pg.evaluate(NOTES_RO, 'ask_')
+                run.note('wancai：這一堂的課堂提問筆記（只讀 G.notes，ask_ 開頭）%s' % J(nt))
         seg['wf'] = await pg.evaluate("GAME.walkFallbacks||0")
         chk(run, 'wancai：GAME.walkFallbacks＝0（%s）' % seg['wf'], seg['wf'] == 0)
     except Exception as e:
@@ -500,15 +547,208 @@ async def seg_wancai(p, run):
     save_tr()
 
 
+NOTES_RO = r"""(pre=>{ try{ return (GAME.G.notes||[]).filter(n=>String(n.id).startsWith(pre)).map(n=>({id:n.id,title:n.title,body:n.body,day:n.day})); }catch(e){ return 'ERR '+e.message; } })"""
+ASKQ = r"""(key=>{ try{ const G=GAME.G, it=CLS.dayItems(G).find(i=>i.key===key); if(!it) return null; const q=CLS.askOf?CLS.askOf(it):null; if(!q) return {none:true};
+  const a=q.type==='tf'||!q.options?String(q.answer):'（'+q.answer+'）'+q.options[q.answer];
+  return {qid:q.id,q:q.q,answer:q.answer,ansText:a,core:q.core||null,explanation:q.explanation||null,units:typeof STUDY!=='undefined'&&STUDY.unitsOfQ?STUDY.unitsOfQ(q.id).map(u=>u.id):null}; }catch(e){ return 'ERR '+e.message; } })"""
+UNIT_ST = r"""(ids=>{ try{ if(typeof STUDY==='undefined') return null; const o={}; for(const id of ids||[]) o[id]=STUDY.status(GAME.G,id); o._miss=(GAME.G.study&&GAME.G.study.miss)||null; return o; }catch(e){ return 'ERR '+e.message; } })"""
+CARDS_RO = r"""(cid=>{ try{ if(typeof STUDY==='undefined') return null; const G=GAME.G, e=STUDY.courses(G).find(x=>x.c.id===cid); if(!e) return {listed:false};
+  return {listed:true,term:e.term,rows:STUDY.units(G,e.c,e.term,'final').map(u=>{ const label=STUDY.LABEL[STUDY.status(G,u)]||'還沒讀'; return {id:u.id,week:u.week,title:u.title,label,line:('· '+(u.week!=null?'第 '+u.week+' 週　':'')+u.title+'　'+label).replace(/\s+/g,' ').trim()}; }),progress:STUDY.progress(G,e.c,'final',e.term)}; }catch(e){ return 'ERR '+e.message; } })"""
+CARDS_DOM = r"""(nm=>{ const box=document.getElementById('legalList'); if(!box) return null; const it=[...box.querySelectorAll('.item')].find(x=>{ const b=x.querySelector('b'); return b&&(b.textContent||'').trim()===nm; });
+  if(!it) return null; const dt=it.querySelector('details'); if(!dt) return {head:(it.innerText||'').trim(),details:false};
+  return {head:(it.innerText||'').split('\n').slice(0,2).join(' ').trim(),details:true,open:dt.open,summary:(dt.querySelector('summary')||{}).textContent||'',
+    rows:[...dt.children].filter(e=>e.tagName==='DIV').map(e=>(e.innerText||'').replace(/\s+/g,' ').trim()).filter(t=>t.startsWith('·'))}; })"""
+
+
+async def trip(pg, cdp, run, tag, it, n0, pick=None, shot_tag=None):
+    """手機「今天」→「直接去上課」已經按了：照玩家上完那一堂（seg_wancai 的迴圈；pick(s) 回傳 index＝先決定）。回傳 {ok, stuck}"""
+    t0 = time.time(); shot_done = False; last = None; since = time.time(); out = {'ok': False, 'stuck': None}
+    while time.time() - t0 < ENVI('TRIP_MAX', 600):
+        R = await rows(pg, n0); fin = any(r['k'] == 'attended' and r['n'] == it['key'] for r in R)
+        s = await P.ts(pg)
+        free = not s['dlg'] and not s['ch'] and not s['busy'] and s['depth'] == 0 and not s['phone']
+        if fin and free: out['ok'] = True; break
+        sig = (s['zone'], s['txt'][:40], tuple(o['t'] for o in s['ch']), s['busy'], round(s['h'], 2))
+        if sig != last: last = sig; since = time.time()
+        elif time.time() - since > ENVI('STUCK_S', 240): out['stuck'] = {'ts': s}; await run.shot(pg, tag + '_stuck'); break
+        started = any(r['k'] == 'attend' and r['n'] == it['key'] for r in R)
+        if started and not shot_done and shot_tag:
+            await pg.wait_for_timeout(1500); await run.shot(pg, shot_tag); shot_done = True
+        if s['ch']:
+            k = pick(s) if pick else None; why = 'pick-fn'
+            if k is None: k, why = pick_opt(s['ch'], PRIO)
+            run.note('%s 選項 %s → %s（%s）' % (tag, J([o['t'][:28] for o in s['ch']]), s['ch'][k]['t'][:30], why))
+            await P.tap_choice(pg, cdp, k); await pg.wait_for_timeout(1000); continue
+        if s['phone'] and not s['dlg']: await L.phone_away(pg, cdp, tries=1); continue
+        if s['dlg']: await L.tap(pg, cdp, '#dlg'); await pg.wait_for_timeout(700); continue
+        await pg.wait_for_timeout(900)
+    return out
+
+
+async def go_class(pg, cdp, run, tag, key, hh, cid, newstart=True):
+    """【前置】最小存檔 key hh 宿舍 → 手機「今天」那一堂「直接去上課」。回傳 (it, n0, d) 或 (None, …)"""
+    st, d = await state_at(pg, key, hh, 'dorm', newstart=newstart)
+    await load(pg, cdp, run, st, '%s：最小存檔 %s（%s 第 %s 週，%s）%s 宿舍%s' % (tag, d['key'], d['term'], d['week'], '日一二三四五六'[d['wd']], hm(hh), '（補新開局旗標）' if newstart else ''))
+    items = await pg.evaluate(DAYITEMS, d['d']); it = next((x for x in items if isinstance(items, list) and x['cid'] == cid), None)
+    chk(run, '%s：%s 有 %s（只讀 CLS.dayItems）' % (tag, d['key'], cid), bool(it), J(items))
+    if not it: return None, 0, d
+    n0 = await pl_len(pg)
+    await P.phone_tab(pg, cdp, 'today'); sel = '#phoneBody [data-go="%s"]' % it['key']
+    btn = await pg.evaluate("(s=>{ const e=document.querySelector(s); return e?(e.textContent||'').trim():null; })", sel)
+    chk(run, '%s：手機「今天」%s 有「直接去上課」（%s）' % (tag, it['name'], btn), (btn or '').startswith('直接去上課'))
+    if not btn: await L.close_panels(pg, cdp); return None, 0, d
+    await L.tap(pg, cdp, sel); await pg.wait_for_timeout(1200)
+    return it, n0, d
+
+
+async def both_shots(pg, run, tag):
+    a = await run.shot(pg, tag + '_land')
+    await pg.set_viewport_size(PORT); await pg.wait_for_timeout(2000); b = await run.shot(pg, tag + '_port')
+    await pg.set_viewport_size(LAND); await pg.wait_for_timeout(2000)
+    return [a, b]
+
+
+async def seg_y1_rooms(p, run):
+    """大一上博思 101（國文）、普通 101（通識）、共同 102（英文）各一堂：【前置】讀到那天上課前 → 手機「直接去上課」→ 照玩家上完，逐堂記黑板字幕"""
+    seg = TR['segments'].setdefault('y1_rooms', {'classes': []})
+    b, ctx, pg, cdp, errs = await L.launch(p, landscape=True); pg.on('dialog', lambda dd: asyncio.ensure_future(dd.accept()))
+    try:
+        await pg.goto(URL); chk(run, 'y1_rooms：遊戲載入', await L.wait_loaded(pg))
+        await pg.evaluate("localStorage.clear()"); await P.init(pg); await pg.evaluate(HOOK)
+        for spec in Y1R_SPECS:
+            kh, _, cid = spec.partition(':'); key, _, hh = kh.partition('@'); tag = 'y1_rooms_' + cid
+            it, n0, d = await go_class(pg, cdp, run, tag, key, float(hh or 8.5), cid)
+            if not it: continue
+            tr = await trip(pg, cdp, run, tag, it, n0, shot_tag=tag + '_class')
+            R = await rows(pg, n0); x = next((y for y in class_boards(R) if y['key'] == it['key']), {})
+            x['trip'] = tr; seg['classes'].append(x)
+            run.note('%s：%s %s 那一區 %s、door=%s；黑板三行 %s；黑板字幕 %s；全部字幕 %s' % (tag, x.get('d'), x.get('room'), 'setBoard' if x.get('hasBoard') else '沒有setBoard', x.get('door'), J(x.get('board')), J(x.get('boardCaps')), J(x.get('capsN'))))
+            chk(run, '%s：上完 %s（%s）' % (tag, it['name'], it['room']), tr['ok'] and bool(x.get('done')), J(tr.get('stuck')))
+            chk(run, '%s：那一區沒有 3D 黑板（前置成立；hasBoard=%s）' % (tag, x.get('hasBoard')), x.get('hasBoard') is False)
+            chk(run, '%s：上課期間有黑板字幕（GAME.caption「黑板」）＝「%s」' % (tag, x.get('boardWant')), bool(x.get('capExact')), J({'boardCaps': x.get('boardCaps'), 'capsN': x.get('capsN')}))
+        seg['wf'] = await pg.evaluate("GAME.walkFallbacks||0")
+        chk(run, 'y1_rooms：GAME.walkFallbacks＝0（%s）' % seg['wf'], seg['wf'] == 0)
+        seg['pl'] = await rows(pg, 0); seg['capdom'] = await P.captions(pg, 0)
+    except Exception as e:
+        chk(run, 'y1_rooms：跑完（沒有探針例外）', False, repr(e)[:500]); traceback.print_exc()
+        try: await run.shot(pg, 'y1_rooms_exception')
+        except Exception: pass
+    chk(run, 'y1_rooms：沒有 JS 例外', not errs, J(errs[:5])); seg['errs'] = errs[:20]
+    try: await asyncio.wait_for(b.close(), 30)
+    except Exception: pass
+    save_tr()
+
+
+async def seg_ask_legal(p, run):
+    """ask_note：【前置】大一上第 5 週週四 12:36 宿舍 → 民法總則（201，課堂提問 CIVS_01）照玩家上完、提問選答案 → ☰「筆記」看那一則（答案、考點）。
+    legal_page（同一個瀏覽器接著做）：☰「法律」頁：每一科「期末範圍：讀過 x／y・答對過 z」＝只讀 STUDY.progress；點開民總、憲法的「觀念卡」清單＝只讀 STUDY.status；橫向、直向各截一張"""
+    seg = TR['segments'].setdefault('ask_legal', {})
+    b, ctx, pg, cdp, errs = await L.launch(p, landscape=True); pg.on('dialog', lambda dd: asyncio.ensure_future(dd.accept()))
+    try:
+        await pg.goto(URL); chk(run, 'ask：遊戲載入', await L.wait_loaded(pg))
+        await pg.evaluate("localStorage.clear()"); await P.init(pg); await pg.evaluate(HOOK)
+        kh, _, cid = ASK_SPEC.partition(':'); key, _, hh = kh.partition('@')
+        st, d = await state_at(pg, key, float(hh or 12.6), 'dorm')
+        await load(pg, cdp, run, st, 'ask：最小存檔 %s（%s 第 %s 週）%s 宿舍（補新開局旗標）' % (d['key'], d['term'], d['week'], hm(float(hh or 12.6))))
+        items = await pg.evaluate(DAYITEMS, d['d']); it0 = next((x for x in items if isinstance(items, list) and x['cid'] == cid), None)
+        aq = await pg.evaluate(ASKQ, it0['key']) if it0 else None
+        seg['askq'] = aq; run.note('ask：那一堂的課堂提問（只讀 CLS.askOf）%s' % J(aq))
+        chk(run, 'ask：前置成立：%s 那一堂有課堂提問' % cid, isinstance(aq, dict) and bool(aq.get('qid')), J(aq))
+        st0 = await pg.evaluate(UNIT_ST, (aq or {}).get('units') or []) if isinstance(aq, dict) else None
+        n0 = await pl_len(pg)
+        await P.phone_tab(pg, cdp, 'today'); sel = '#phoneBody [data-go="%s"]' % (it0 or {}).get('key')
+        btn = await pg.evaluate("(s=>{ const e=document.querySelector(s); return e?(e.textContent||'').trim():null; })", sel)
+        chk(run, 'ask：手機「今天」有「直接去上課」（%s）' % btn, (btn or '').startswith('直接去上課'))
+        tr = {'ok': False}
+        if btn and it0:
+            await L.tap(pg, cdp, sel); await pg.wait_for_timeout(1200)
+            want = (aq or {}).get('ansText') if ASK_PICK == 'right' and isinstance(aq, dict) else None
+
+            def pick(s):
+                if not want: return None
+                T = [o['t'] for o in s['ch']]
+                return T.index(want) if want in T else None
+            tr = await trip(pg, cdp, run, 'ask', it0, n0, pick=pick, shot_tag='ask_class')
+        R = await rows(pg, n0); said = [x['t'] for x in R if x['k'] == 'say']; seg['said'] = said
+        chk(run, 'ask：上完那一堂（課堂提問演了：「（下課前，教授在黑板角落寫了一題。）」）', tr.get('ok') and any('黑板角落寫了一題' in t for t in said), J(said[-8:]))
+        st1 = await pg.evaluate(UNIT_ST, (aq or {}).get('units') or []) if isinstance(aq, dict) else None
+        nro = await pg.evaluate(NOTES_RO, 'ask_'); seg['notes_ro'] = nro
+        # 玩家看筆記：☰ →「筆記」
+        await L.close_panels(pg, cdp); await L.tap(pg, cdp, '#btnMenu'); await pg.wait_for_timeout(900)
+        await L.tap(pg, cdp, '#menu .tabs button[data-tab="notes"]'); await pg.wait_for_timeout(900)
+        title = None; ndom = None
+        if isinstance(aq, dict) and aq.get('qid'):
+            title = await pg.evaluate("(cid=>{ const c=COURSES.list.find(x=>x.id===cid); return c?c.name:null; })", cid)
+            title = '%s・第 %s 週課堂提問' % (title, d['week'])
+            ndom = await pg.evaluate("(t=>{ const box=document.getElementById('notesList'); if(!box) return null; const e=[...box.querySelectorAll('.item')].find(x=>{ const b=x.querySelector('b'); return b&&(b.textContent||'').trim()===t; }); if(!e) return null; e.scrollIntoView({block:'center'}); return (e.innerText||'').replace(/\\s+\\n/g,'\\n').trim(); })", title)
+        seg['notes_dom'] = ndom; seg['notes_shots'] = await both_shots(pg, run, 'ask_notes')
+        await L.close_panels(pg, cdp)
+        run.note('ask：☰「筆記」那一則 %s；只讀 G.notes %s；觀念卡 上課前 %s → 上完 %s' % (J(ndom), J(nro), J(st0), J(st1)))
+        core = (aq or {}).get('core') if isinstance(aq, dict) else None
+        chk(run, 'ask：☰「筆記」有「%s」、內容有題目、答案「%s」、考點「%s」（玩家畫面）' % (title, (aq or {}).get('ansText') if isinstance(aq, dict) else None, core),
+            bool(ndom) and isinstance(aq, dict) and aq['q'] in ndom and ('答案：' + aq['ansText']) in ndom and (not core or ('考點：' + core) in ndom), J(ndom))
+        if isinstance(aq, dict) and aq.get('units') is not None:
+            exp_st = 'got' if ASK_PICK == 'right' else None
+            chk(run, 'ask：只讀 STUDY：那一題的觀念卡 %s 上完以後＝%s（ASK_PICK=%s）' % (aq['units'], exp_st or '上過課以上', ASK_PICK),
+                isinstance(st1, dict) and all((st1.get(u) == exp_st) if exp_st else st1.get(u) in ('heard', 'read', 'got') for u in aq['units']), J({'before': st0, 'after': st1}))
+        if 'legal_page' in CASES:
+            lg = await open_legal(pg, cdp, run, 'legal_land', shot=True); ex = await pg.evaluate(EXPECT, [c for c, _ in COURSES_CHK])
+            seg['legal_land'] = {'legal': lg, 'expect': ex}
+            await legal_checks(run, 'legal_page 橫向', lg, ex, '')
+            seg['cards'] = {}
+            for c2, nm in COURSES_CHK:
+                await L.close_panels(pg, cdp); await L.tap(pg, cdp, '#btnMenu'); await pg.wait_for_timeout(900)
+                await L.tap(pg, cdp, '#menu .tabs button[data-tab="legal"]'); await pg.wait_for_timeout(900)
+                opened = await tap_sel_js(pg, cdp, "(()=>{ const box=document.getElementById('legalList'); const it=box&&[...box.querySelectorAll('.item')].find(x=>{ const b=x.querySelector('b'); return b&&(b.textContent||'').trim()===%s; }); return it?it.querySelector('details summary'):null; })()" % json.dumps(nm))
+                await pg.wait_for_timeout(800)
+                dom = await pg.evaluate(CARDS_DOM, nm); ro = await pg.evaluate(CARDS_RO, c2)
+                shots = await both_shots(pg, run, 'legal_cards_' + c2)
+                seg['cards'][c2] = {'tapped': opened, 'dom': dom, 'ro': ro, 'shots': shots}
+                run.note('legal_page：%s 點「%s」→ 觀念卡 %s；只讀 %s' % (nm, opened, J(dom)[:900], J(ro)[:900]))
+                rws = (dom or {}).get('rows') or []
+                exp_rows = [r['line'] for r in ((ro or {}).get('rows') or [])] if isinstance(ro, dict) else []
+                same = bool(rws) and rws == exp_rows
+                chk(run, 'legal_page：%s 點開「觀念卡」看得到清單（%d 張；只讀 %d 張）、每張的狀態＝只讀 STUDY.status' % (nm, len(rws), len(exp_rows)), bool(dom and dom.get('details')) and same,
+                    J({'dom': rws[:20], 'expect': exp_rows[:20]}))
+            await L.close_panels(pg, cdp)
+            await pg.set_viewport_size(PORT); await pg.wait_for_timeout(2000)
+            lgp = await open_legal(pg, cdp, run, 'legal_port', shot=True); exp_ = await pg.evaluate(EXPECT, [c for c, _ in COURSES_CHK])
+            seg['legal_port'] = {'legal': lgp, 'expect': exp_}
+            await legal_checks(run, 'legal_page 直向', lgp, exp_, '')
+            await pg.set_viewport_size(LAND); await pg.wait_for_timeout(1500)
+        seg['wf'] = await pg.evaluate("GAME.walkFallbacks||0")
+        chk(run, 'ask：GAME.walkFallbacks＝0（%s）' % seg['wf'], seg['wf'] == 0)
+        seg['pl'] = await rows(pg, 0)
+    except Exception as e:
+        chk(run, 'ask：跑完（沒有探針例外）', False, repr(e)[:500]); traceback.print_exc()
+        try: await run.shot(pg, 'ask_exception')
+        except Exception: pass
+    chk(run, 'ask：沒有 JS 例外', not errs, J(errs[:5])); seg['errs'] = errs[:20]
+    try: await asyncio.wait_for(b.close(), 30)
+    except Exception: pass
+    save_tr()
+
+
+async def _ask_legal_once(p, run):
+    if TR.get('_ask_done'): return
+    TR['_ask_done'] = 1; await seg_ask_legal(p, run)
+
+
+RUNNERS = {'flow': seg_flow, 'wancai': seg_wancai, 'y1_rooms': seg_y1_rooms, 'ask_note': _ask_legal_once, 'legal_page': _ask_legal_once}
+
+
 async def main():
-    run = L.Run('d118b2_' + MODE, OUT); os.makedirs(OUT, exist_ok=True)
+    run = L.Run('d118b2_' + '+'.join(CASES), OUT); os.makedirs(OUT, exist_ok=True)
     if 'turbo' in URL: run.setup('【捷徑】URL 有 ?turbo（TESTING.md：真實玩家流程不用 turbo；這次結果不能叫真實流程）')
     print('==== D118-B2 探針 MODE %s（SHA %s）START %s WEEKS %d SPLIT %d LEGACY %d ====' % (MODE, TR['sha'], START, WEEKS, SPLIT, LEGACY), flush=True)
+    print('CASES', ','.join(CASES), 'NO_STUDY', NO_STUDY, flush=True)
     async with async_playwright() as p:
-        if not ENVI('WANCAI_ONLY', 0): await seg_flow(p, run)
-        if ENVI('WANCAI', 1) or ENVI('WANCAI_ONLY', 0): await seg_wancai(p, run)
+        for c in CASES:
+            if c not in RUNNERS: chk(run, 'CASE %s 認得' % c, False, ','.join(RUNNERS)); continue
+            print('==== CASE %s ====' % c, flush=True)
+            await RUNNERS[c](p, run)
     TR['fails'] = run.fails; save_tr()
-    print('SHA', TR['sha'], 'MODE', MODE, flush=True)
+    print('SHA', TR['sha'], 'CASES', ','.join(CASES), flush=True)
     sys.exit(run.finish())
 
 if __name__ == '__main__':
