@@ -35,7 +35,8 @@ WT = os.path.dirname(os.path.abspath(os.environ['LW_TESTS']))
 CASES = [c.strip() for c in os.environ.get('CASES', 'missed1,trainee,judge2033').split(',') if c.strip()]
 PLAN = {'missed1': {'bar': {2030: 14}, 'judge': {}},
         'trainee': {'bar': {2032: 17}, 'judge': {2032: 9}},
-        'judge2033': {'bar': {2033: 17}, 'judge': {2033: 3}}}
+        'judge2033': {'bar': {2033: 17}, 'judge': {2033: 3}},
+        'epi_social': {'bar': {}, 'judge': {}}}
 QX = re.compile(r'^(\d+)／(10|20)　(.*)$', re.S)
 RETAKE_OPTS = ('「再考一次司法官。」', '「就當律師。」')
 
@@ -198,7 +199,26 @@ async def case_judge2033(pg, cdp, run):
     run.check('%s：沒有卡住' % tag, o['stuck'] is None, J(o['stuck']))
 
 
-CASEFN = {'missed1': case_missed1, 'trainee': case_trainee, 'judge2033': case_judge2033}
+NAMES = r"""(()=>{ const G=GAME.G; return PG.EPI_ORDER.filter(id=>PG.epiPresent(G,id)).map(id=>[id,SOCIAL.displayName(id),SOCIAL.metD(id),SOCIAL.friendLevel(id)]); })()"""
+
+
+async def case_epi_social(pg, cdp, run):
+    """BB CC_34 第 3 點：人際照玩家真的存檔（SOCIAL_FROM，預設 docs/history/user_saves/2026-10-15_v97_day7.json）→ Node 只用 PG 推到尾聲前 → 瀏覽器演尾聲：
+    在場的人（PG.epiPresent）名字都認得（SOCIAL.metD）、沒有「不認識的…」在說話"""
+    tag = 'epi_social'
+    if not os.environ.get('SOCIAL_FROM'): os.environ['SOCIAL_FROM'] = os.path.join(WT, 'docs/history/user_saves/2026-10-15_v97_day7.json')
+    run.setup('[前置] %s：人際（social、rel、contacts、events.done、met 旗標）照玩家存檔 %s' % (tag, os.environ['SOCIAL_FROM']))
+    o = await play(pg, cdp, run, tag)
+    unk = [[x.get('c'), x['n'], x['t'][:30]] for x in o['said'] if x['n'].startswith('不認識')]
+    run.note('%s：Node 前置時在場的人 %s' % (tag, J(o['info'].get('names'))))
+    run.check('%s：尾聲沒有「不認識的…」在說話' % tag, not unk, J(unk))
+    run.note('%s：尾聲說話的角色 %s' % (tag, J(sorted({(x.get('c'), x['n']) for x in o['said'] if x.get('c')}))))
+    try: nb = await pg.evaluate(NAMES)
+    except Exception as e: nb = 'ERR %r' % e
+    run.check('%s：瀏覽器裡（讀檔遷移以後）尾聲在場的人都認得（SOCIAL.metD）' % tag, isinstance(nb, list) and all(x[2] for x in nb), J(nb))
+
+
+CASEFN = {'epi_social': case_epi_social, 'missed1': case_missed1, 'trainee': case_trainee, 'judge2033': case_judge2033}
 
 
 async def main():
