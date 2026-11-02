@@ -126,7 +126,7 @@ await sec('0',async()=>{ const html=fs.readFileSync(path.join(H.ROOT,'index.html
   check('0. 對稿（git show 白名單上的 AA_503 '+SHA503+'）：保底的旁白、第 9 項的旁白、第 10 項的兩句、第 12 項三組都在第 14 節；遊戲裡一字不差',
     DOC503.indexOf('## 14. 私密的再補 12 項')>0&&DOC503.includes('> '+NARR)&&DOC503.includes(Q7NARR)&&DOC503.includes('`anOther`「理由我懂。不用解釋。」')&&DOC503.includes('`ytAfterAn`「嗯。……她會讓你說理由的。」')
     &&DOC503.includes('・語彤和阿姨（媽媽的事）')&&DOC503.includes('・芷若和子晴（交換申請）')&&PRIVTALK.NARR===NARR&&(PRIVTALK.SCENE_LEAD||[]).length===2&&PRIVTALK.SCENE_LEAD.every(q=>q.text===Q7NARR)
-    &&V6EX_LINES.EX.anOther==='理由我懂。不用解釋。'&&V6EX_LINES.EX.ytAfterAn==='嗯。……她會讓你說理由的。'&&PRIVTALK.WAIT===7,'長度 '+DOC503.length); });
+    &&V6EX_LINES.EX.anOther==='理由我懂。不用解釋。'&&V6EX_LINES.EX.ytAfterAn==='嗯。……她會讓你把話講完的。'&&PRIVTALK.WAIT===7,'長度 '+DOC503.length); });
 
 /* ---------- 1 約會、priv 的一次性選項 ---------- */
 await sec('1',async()=>{ fresh('2025-10-09',15,'campus'); H.FAMILIAR('heroine_03'); SOCIAL.meet('heroine_03','campus'); const n=npc('heroine_03');

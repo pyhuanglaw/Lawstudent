@@ -143,7 +143,7 @@ await sec('Y',async()=>{
   fresh('2026-10-14',20); breakup(YT,'apart_talk'); at(H.G.day+8,12); date(ZQ); ROM.learn(H.G,YT,ZQ,'test');
   check('Y1. 之後和子晴交往：語彤那一句只給「和以安」',!(await pre(YT)).length);
   date(AN); ROM.learn(H.G,YT,AN,'test');
-  check('Y2. 之後和以安交往、她知道：「嗯。……她會讓你說理由的。」只說一次',J(await pre(YT))===J(['嗯。……她會讓你說理由的。'])&&!(await pre(YT)).length);
+  check('Y2. 之後和以安交往、她知道：「嗯。……她會讓你把話講完的。」只說一次',J(await pre(YT))===J(['嗯。……她會讓你把話講完的。'])&&!(await pre(YT)).length);
 });
 
 /* ======================= B 子晴、芷若、學姊 ======================= */

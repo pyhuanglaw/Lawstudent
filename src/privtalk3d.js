@@ -134,7 +134,7 @@ const PRIVTALK=(function(){
     /* ---- 第 10 項 前任第一次見面：講到祐廷現在的人的兩句 ---- */
     {key:'ex_an_other',cat:'講到祐廷現在的人',topic:'前任第一次見面',who:'heroine_01',kind:'pre',gate:'wrap',flag:'V6EX_AN_OTHER',desc:'src/v6ex3d.js V6EX.preLine anOther「理由我懂。不用解釋。」（祐廷之後和別人交往，以安只說一次）',
       note:'這一次不說；沒有期限：等了 7 天照說。其他第一次見面的招呼（zqFirst、zrFirst、sisLaw／sisRA、kxFirst）不擋'},
-    {key:'ex_yt_an',cat:'講到祐廷現在的人',topic:'前任第一次見面',who:'heroine_03',kind:'pre',gate:'wrap',flag:'V6EX_YT_AN',desc:'src/v6ex3d.js V6EX.preLine ytAfterAn「嗯。……她會讓你說理由的。」（之後和以安交往，語彤只說一次）',
+    {key:'ex_yt_an',cat:'講到祐廷現在的人',topic:'前任第一次見面',who:'heroine_03',kind:'pre',gate:'wrap',flag:'V6EX_YT_AN',desc:'src/v6ex3d.js V6EX.preLine ytAfterAn「嗯。……她會讓你把話講完的。」（之後和以安交往，語彤只說一次）',
       note:'這一次不說；等了 7 天照說'},
     /* ---- AA_512 學姊第十三批（PRIV-SIS13-1028；AA-C 08:29、AA_512 第 7 節）：擋研究室的晚上、13-3 走一圈（期限 12/7）、13-6 洗衣間；不擋 13-8 游完泳、13-6 三句短招呼 ---- */
     {key:'sis13_lab_eve',cat:'交往中才有的互動',topic:'學姊研究室的晚上',who:'heroine_05',kind:'event',gate:'prereq',ev:'ev_sis13_lab_eve',desc:'src/data/sis_b13_events.js 2-5「七點以後。……你準時。」（交往中，週一、三 19:00～21:30 霖澤館 5F 研究室，走進去就演）',
@@ -167,7 +167,7 @@ const PRIVTALK=(function(){
       impl:'STORY.DATING_QUIET（S.dateVar）：閒聊階梯 linesIf／extraIf、招呼（greet.when）、選項的回覆（LADDER_REPLY_IF）裡條件要 dating_ 的那一套，和見面時沒回訊息那一句的 missDating（story3d.js S.neededMiss，遊戲裡只在當面說），旁邊有她的人＝說一般版（沒有一般版的照說）；不擋、不等、不記'},
     {n:8,desc:'子晴講爸爸的閒聊階梯（Q-L6、Q2-L1、Q2-L8、Q3-L1、Q3-L6、Q4-L6、Q5-L3、Q5-L8、Q6-L1…；不是 Q8 那一類）',decided:'不擋。她自己隨口講的。',impl:'不改'},
     {n:9,desc:'子晴 Q7「實驗室的信」（ev_ziqing_lab_letter，吉他社）、「那天」（ev_ziqing_dad_sorry，吉他社社課）',decided:'不擋，開頭加一句旁白，把場景移到走廊：（她把吉他放下，朝門外偏了一下頭。你們走到社辦外面的走廊。）',impl:'S.SCENE_LEAD（兩場對話最前面加這一句旁白，不管旁邊有沒有人）'},
-    {n:10,desc:'前任第一次見面那一句（v6ex3d.js preLine）',decided:'講到祐廷現在的人的兩句擋：anOther「理由我懂。不用解釋。」、ytAfterAn「嗯。……她會讓你說理由的。」；其他第一次見面的招呼不擋：zqFirst、zrFirst、sisLaw／sisRA、kxFirst。',impl:'清單 ex_an_other、ex_yt_an'},
+    {n:10,desc:'前任第一次見面那一句（v6ex3d.js preLine）',decided:'講到祐廷現在的人的兩句擋：anOther「理由我懂。不用解釋。」、ytAfterAn「嗯。……她會讓你把話講完的。」；其他第一次見面的招呼不擋：zqFirst、zrFirst、sisLaw／sisRA、kxFirst。',impl:'清單 ex_an_other、ex_yt_an'},
     {n:11,desc:'到場就演的知情場景（MREL.dueAuto）、裂縫談話（cracktalk3d.js：語彤「人到三樓就演」）',decided:'不改。地點本來就排在有阿姨、同事的地方。',impl:'不改'},
     {n:12,desc:'旁邊的人本來就知道的（語彤和阿姨談媽媽、芷若和子晴談交換申請）',decided:'例外，照出。只限這幾組：語彤和阿姨（媽媽的事）、芷若和子晴（交換申請）、第 1 項的對方本人。',
       impl:'清單的 except：yt_mom_lad、yt_mom_ask＝阿姨（hc_ayi）；zr_exch_ev、zr_exch_applied、zr_exch_ask、zr_exch_lad＝子晴；zz_told_*、zz_f3_told＝對方本人（STORY.COMPANY 回傳旁邊那幾個人的 id：HCIRCLE.withNow）；語彤在麵店，阿姨對她所有私密的都不算（後補第 6 點：S.PLACE_EXCEPT），「約她去…」照擋只限旁邊還有別的圈子同伴'}];
