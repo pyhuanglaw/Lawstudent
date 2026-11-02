@@ -3944,7 +3944,7 @@ const STORY = (function(){
      （使用者 10-20：「只定義劇情選項與結局如何讀取，不要擅自增加新的數值玩法」）。只有四處讀：主線 7 選項②（只有 C 的玩家才有）、尾聲祐廷的最後一句、
      尾聲朋友那句、?dev。每次叫都重算，不存結果。
      v2（D118-B6，CAREER_LEAN_V＝2；D118 不准隱藏的累計：拿掉自習時數、法服次數封頂，看課業）：
-     A 幫人：加入法服 +2、法服週六去過的次數（最多 4；B5a 的固定場次 FAFU_STORY_SEEN 有了以後讀它）、寒暑假 C16 法扶實習 ×5、C09 海外志工 ×5、C02 隊輔 ×3、YT_LEASE_HELP（語彤家的租約）+3；
+     A 幫人：加入法服 +2、法服週六去過的次數（最多 3；B5a 的固定場次 FAFU_STORY_SEEN 有了以後讀它，最多 4）、寒暑假 C16 法扶實習 ×5、C09 海外志工 ×5、C02 隊輔 ×3、YT_LEASE_HELP（語彤家的租約）+3；
      B 研究：讀書會出席（public_law_group@、舊存檔的 lawclub_study@；中途離開不算；最多 3）、GRAD_SCHOOL_DISCUSSION（每人一件）、grad_read_done（學姊給的文章）各 +2、C10 海外暑期課 ×4、
        大一～大三期末平均答對高（推甄的 pushLevel high）+2——自習、總複習的時數都不算（BB Q4：可以刷）；
      C 跨領域：子晴的 PLAYTESTED、CONTEST_DAY 各 +2、C08／C11／C12 ×3、交換（JP／US）回到臺灣以後 +2（原本 +6，出國回來的人幾乎固定落到 C，BB／CC N4）、法律系那幾年及格的通識（ge_ 開頭的真正通識，不算國文、英文、體育，BB Q3）×1。
@@ -3967,8 +3967,8 @@ const STORY = (function(){
     const passStr=v=>typeof v==='string'&&!!v.trim()&&!/不及格|缺考|未開考|未過/.test(v);   /* 及格、通過、N 分、及格（補考）；舊存檔的「很好／不錯／過了」也算 */
     const geSet=new Set(); const GR=(G&&G.courses&&G.courses.grades)||{}; if(typeof COURSES!=='undefined'&&COURSES.list) for(const t in GR){ if(/^Y0/.test(t)) continue; const g=GR[t]||{}; for(const cid in g){ const c=COURSES.list.find(x=>x.id===cid); if(c&&c.kind==='general'&&/^ge_/.test(cid)&&passStr(g[cid])) geSet.add(cid); } }
     const ge=geSet.size;
-    const fafuN=F.FAFU_STORY_SEEN!=null?(+F.FAFU_STORY_SEEN||0):(+F.LAWCLUB_SAT_VISITS||0);
-    const A=((F.CLUB_lawclub_study||F.lawclub)?2:0)+Math.min(4,fafuN)+5*vac('C16')+5*vac('C09')+3*vac('C02')+(F.YT_LEASE_HELP?3:0);
+    const fafuN=F.FAFU_STORY_SEEN!=null?Math.min(4,+F.FAFU_STORY_SEEN||0):Math.min(3,+F.LAWCLUB_SAT_VISITS||0);   /* B5a 的固定場次（最多 4）還沒有以前：週六去過的次數最多算 3（去 3 次和 30 次一樣，D118_PLAN B6 測試 (a)）*/
+    const A=((F.CLUB_lawclub_study||F.lawclub)?2:0)+fafuN+5*vac('C16')+5*vac('C09')+3*vac('C02')+(F.YT_LEASE_HELP?3:0);
     const B=Math.min(3,grp)+2*gradTalk+(F.grad_read_done?2:0)+4*vac('C10')+(S.pushHigh(G)?2:0);
     const C=2*zq+3*(vac('C08')+vac('C11')+vac('C12'))+(back?2:0)+ge;
     const sc={A,B,C}, mx=Math.max(A,B,C); let cand=['B','A','C'].filter(k=>sc[k]===mx);
