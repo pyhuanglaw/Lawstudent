@@ -719,7 +719,7 @@ const CLS=(function(){
       if(!hold) await S.showGrades(GM,prev.id); }
     if(R.note.gradesDue&&!R.grades[R.note.gradesDue]){ const t=R.note.gradesDue; delete R.note.gradesDue; await S.showGrades(GM,t); }   /* 先等的成績單、那晚沒有一起打開：隔天早上照常發 */
     const tmr=CALENDAR.termOf(G.day+1), selT=tmr&&tmr.week===1&&(!now||now.id!==tmr.id)?tmr:(now&&now.week<=2?now:null);
-    const skipT=id=>!!id&&typeof JP!=='undefined'&&!!JP.skipTerm&&JP.skipTerm(G,id);   /* 日本路線的大三下（AA_341 J-S6、JP-H）：不選課、不跳「開學了」、期中期末的提示 */
+    const skipT=id=>!!id&&S.termAway(G,id);   /* 人在國外的學期（日本路線的大三下 AA_341 J-S6、JP-H；美國路線的大四上 BUG-US-Y4S1-SELECT-1102，BB 11:20）：不選課、不跳「開學了」、期中期末的提示 */
     if(selT&&skipT(selT.id)) R.note['sel_'+selT.id]=1;
     if(selT&&!R.note['sel_'+selT.id]) await S.selectTerm(GM,selT.id);
     else if(now&&!R.note['sel_'+now.id]) R.note['sel_'+now.id]=1;
