@@ -38927,9 +38927,9 @@
       "title": "沒有期中考：期中考相關的場景改掛、第 8～9 週課堂內容、台詞裡的「期中」改稿",
       "area": null,
       "owner": "AA",
-      "status": "進行中",
+      "status": "已整合待測試",
       "priority": "P0",
-      "next": "子代理在 worktree",
+      "next": "11 處改掛點＋第 5 節＋第 3 節 26 句已做；66 句等 AA（docs/handoff/D118_MIDTERM_UNSURE.md）；BB／CC 驗 11 處新掛點",
       "first": {
         "term": "Y1S1",
         "week": null,
@@ -38950,7 +38950,7 @@
         "receiver": "LAWWW",
         "ack": "DELIVERED"
       },
-      "sha": ""
+      "sha": "87269ae41"
     },
     {
       "id": "NOT-QUESTION-DEL-1102",
