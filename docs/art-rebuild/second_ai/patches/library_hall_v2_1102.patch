@@ -2208,7 +2208,7 @@ index 83ef486ad..b82769b78 100644
  
  /* ---- 1. 碰撞盒 ---- */
 diff --git a/tests/library_hall_lightmap_unit.js b/tests/library_hall_lightmap_unit.js
-index e04690ee4..75c792e54 100644
+index e04690ee4..ff4ccbd49 100644
 --- a/tests/library_hall_lightmap_unit.js
 +++ b/tests/library_hall_lightmap_unit.js
 @@ -15,23 +15,25 @@ global.window=global; global.self=global;
@@ -2243,7 +2243,7 @@ index e04690ee4..75c792e54 100644
  { const bin=b.slice(20+b.readUInt32LE(12)+8), acc=i=>{ const a=J.accessors[i], bv=J.bufferViews[a.bufferView], o=(bv.byteOffset||0)+(a.byteOffset||0), nc={SCALAR:1,VEC2:2,VEC3:3}[a.type], ct=a.componentType, cs={5126:4,5125:4,5123:2,5121:1}[ct], st=bv.byteStride||nc*cs, out=[];
      for(let k=0;k<a.count;k++) for(let c=0;c<nc;c++){ const q=o+k*st+c*cs; out.push(ct===5126?bin.readFloatLE(q):ct===5125?bin.readUInt32LE(q):ct===5123?bin.readUInt16LE(q):bin.readUInt8(q)); } return out; };
    const dup=[]; for(const n of J.nodes.filter(n=>'mesh' in n&&uv1(n))) for(const pr of J.meshes[n.mesh].primitives){ const P=acc(pr.attributes.POSITION), I=acc(pr.indices), seen=new Map(); let d=0;
-@@ -39,7 +41,16 @@ check('天窗寫在 extras.lightmap.dayEmit（晚上調暗）', !!(lm&&[].concat
+@@ -39,7 +41,28 @@ check('天窗寫在 extras.lightmap.dayEmit（晚上調暗）', !!(lm&&[].concat
      const nrm=(a,b,c)=>{ const u=[0,1,2].map(j=>P[b*3+j]-P[a*3+j]), w=[0,1,2].map(j=>P[c*3+j]-P[a*3+j]); return [u[1]*w[2]-u[2]*w[1],u[2]*w[0]-u[0]*w[2],u[0]*w[1]-u[1]*w[0]]; };
      for(let t=0;t<I.length;t+=3){ const k=key(I[t],I[t+1],I[t+2]), nn=nrm(I[t],I[t+1],I[t+2]), g=seen.get(k); if(g){ if(g[0]*nn[0]+g[1]*nn[1]+g[2]*nn[2]<0) d++; } else seen.set(k,nn); }
      if(d) dup.push(n.name+' '+d); }
@@ -2257,11 +2257,23 @@ index e04690ee4..75c792e54 100644
 +      for(const pr of J.meshes[n.mesh].primitives){ const P=acc(pr.attributes.POSITION); for(let k=0;k<P.length;k+=3){ sx+=P[k]; sz+=P[k+2]; cnt++; } }
 +      const mx=sx/cnt, mz=sz/cnt, tx=(isR?R.cx:HX)-mx, tz=(isR?R.cz:HZ)-mz;
 +      if(d[0]*tx+d[2]*tz<=0) badDir.push(n.name+' 中心('+mx.toFixed(1)+','+mz.toFixed(1)+') dir['+d.join(',')+']'); }
-+    check('牆的 dir 朝房間裡面（展演廳的弧牆朝圓心）', badDir.length===0, badDir.join('、')); } }
++    check('牆的 dir 朝房間裡面（展演廳的弧牆朝圓心）', badDir.length===0, badDir.join('、'));
++    /* 11-02 第二次（重拍才看到）：dir 對了，展演廳弧牆照樣一片一片的平三角——library_hall_v2.py 的 facet_quad 兩面的頂點順序反了：
++       室內那一面（半徑 5.4）法線朝外、外面那一面（5.6）法線朝內。烘焙照 dir 把室內那一面縮成一點，遊戲裡（雙面材質）看到的就是那一點的光。
++       檢查：每一面牆，法線和 dir 同向的面（看得到、要烘的）沿 dir 的平均位置，要比反向的面更靠室內。*/
++    const badSide=[];
++    for(const n of J.nodes.filter(n=>/^WALL_/.test(n.name||'')&&'mesh' in n&&n.extras&&n.extras.dir)){ const d=n.extras.dir, dl=Math.hypot(d[0],d[1],d[2]); let ai=0, pi=0, ao=0, po=0;
++      for(const pr of J.meshes[n.mesh].primitives){ const P=acc(pr.attributes.POSITION), I=acc(pr.indices);
++        for(let t=0;t<I.length;t+=3){ const a=I[t], b2=I[t+1], c=I[t+2], u=[0,1,2].map(j=>P[b2*3+j]-P[a*3+j]), w=[0,1,2].map(j=>P[c*3+j]-P[a*3+j]);
++          const nn=[u[1]*w[2]-u[2]*w[1],u[2]*w[0]-u[0]*w[2],u[0]*w[1]-u[1]*w[0]], ar=Math.hypot(nn[0],nn[1],nn[2])/2; if(ar<1e-6) continue;
++          const dot=(nn[0]*d[0]+nn[1]*d[1]+nn[2]*d[2])/(2*ar*dl), pj=[0,1,2].reduce((q,j)=>q+(P[a*3+j]+P[b2*3+j]+P[c*3+j])*d[j],0)/(3*dl);
++          if(dot>0.3){ ai+=ar; pi+=ar*pj; } else if(dot<-0.3){ ao+=ar; po+=ar*pj; } } }
++      if(ai===0) badSide.push(n.name+' 沒有朝室內的面'); else if(ao>0&&pi/ai<po/ao-0.01) badSide.push(n.name+' 朝室內的面在外側（'+(pi/ai).toFixed(2)+' < '+(po/ao).toFixed(2)+'）'); }
++    check('牆朝室內（dir）的那一面在室內那一側（頂點順序沒有反）', badSide.length===0, badSide.join('、')); } }
  
  // ---- 2. 總圖大廳真正的建區域流程（假場景：照 GLB 的節點名、材質名、有沒有第二套 UV 做，幾何是小平面）----
  function fakeFromGLB(){
-@@ -52,7 +63,7 @@ function fakeFromGLB(){
+@@ -52,7 +75,7 @@ function fakeFromGLB(){
    for(const i of J.scenes[J.scene|0].nodes) build(i,root); return root; }
  (async()=>{
    const orig=ASSETS.loadOne; const root=fakeFromGLB();
