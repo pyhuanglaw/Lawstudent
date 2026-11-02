@@ -77,8 +77,8 @@ R9_x3       | b1b249873 | probe | docs/story_planning/test_tools/cc/cc_rollcall_
 02b_mk12dea | dea6b1944 | probe | docs/story_planning/test_tools/cc/cc_makeup_probe.py           | index.html?turbo  | 120 | CASES=home,mkbg;FAIL_ROUTE=maritime
 06b_layoutP | c2d0c24bc | probe | docs/story_planning/test_tools/cc/cc_layout16_probe.py        | index.html?turbo  | 60  | CASES=seat_exam,adv_safe,recall2
 06c_layoutO | e27dd033e | probe | docs/story_planning/test_tools/cc/cc_layout16_probe.py        | index.html?turbo  | 60  | CASES=seat_exam,adv_safe,recall2
-#HOLD雲端 32_wsem     | d75871437 | probe | docs/story_planning/test_tools/cc/cc_wsem_probe.py | index.html?turbo | 120 | CASES=all;NARR=1
-#HOLD雲端 33_wsempre  | dea6b1944 | probe | docs/story_planning/test_tools/cc/cc_wsem_probe.py | index.html?turbo | 120 | CASES=all;EXAM_ROUTES=door;CLASS_ROUTES=door
+32_wsem     | d75871437 | probe | docs/story_planning/test_tools/cc/cc_wsem_probe.py | index.html?turbo | 120 | CASES=all;NARR=1
+33_wsempre  | dea6b1944 | probe | docs/story_planning/test_tools/cc/cc_wsem_probe.py | index.html?turbo | 120 | CASES=all;EXAM_ROUTES=door;CLASS_ROUTES=door
 20_roll     | 4c8f138f7 | probe | docs/story_planning/test_tools/cc/cc_rollcall_probe.py | index.html | 120 | CASES=a,a0,b,c1,c2,d_old,d_new,cw,bedge
 21_rollpre  | 82f8d28c5 | probe | docs/story_planning/test_tools/cc/cc_rollcall_probe.py | index.html | 120 |
 22_boya     | 6f0122821 | probe | docs/story_planning/test_tools/cc/cc_boya203_probe.py  | index.html | 60  |
