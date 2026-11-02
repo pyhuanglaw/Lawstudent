@@ -1,0 +1,50 @@
+Traceback (most recent call last):
+  File "C:\Users\USER\Documents\Lawstudent_cclocal\docs\story_planning\test_tools\cc\cc_layout16_probe.py", line 351, in exam_pass
+    run.check('%s：下一題那一句 #dlg 回到原位（left、bottom 和第 1 題那一句一樣 ±%g px、沒有 side／static）' % tag,
+              ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~^~~~~
+TypeError: not enough arguments for format string (got 1)
+[gpu_wrap 64.1s] page close url=http://127.0.0.1:8801/index.html?turbo
+[gpu_wrap 64.1s] BROWSER DISCONNECTED
+Traceback (most recent call last):
+  File "C:\Users\USER\Documents\Lawstudent_cclocal\docs\story_planning\test_tools\cc\cc_layout16_probe.py", line 351, in exam_pass
+    run.check('%s：下一題那一句 #dlg 回到原位（left、bottom 和第 1 題那一句一樣 ±%g px、沒有 side／static）' % tag,
+              ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~^~~~~
+TypeError: not enough arguments for format string (got 1)
+[gpu_wrap 118.7s] page close url=http://127.0.0.1:8801/index.html?turbo
+[gpu_wrap 118.7s] BROWSER DISCONNECTED
+Traceback (most recent call last):
+  File "C:\Users\USER\Documents\Lawstudent_cclocal\docs\story_planning\test_tools\cc\cc_layout16_probe.py", line 351, in exam_pass
+    run.check('%s：下一題那一句 #dlg 回到原位（left、bottom 和第 1 題那一句一樣 ±%g px、沒有 side／static）' % tag,
+              ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~^~~~~
+TypeError: not enough arguments for format string (got 1)
+[gpu_wrap 179.5s] page close url=http://127.0.0.1:8801/index.html?turbo
+[gpu_wrap 179.5s] BROWSER DISCONNECTED
+Traceback (most recent call last):
+  File "C:\Users\USER\Documents\Lawstudent_cclocal\docs\story_planning\test_tools\cc\cc_layout16_probe.py", line 351, in exam_pass
+    run.check('%s：下一題那一句 #dlg 回到原位（left、bottom 和第 1 題那一句一樣 ±%g px、沒有 side／static）' % tag,
+              ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~^~~~~
+TypeError: not enough arguments for format string (got 1)
+[gpu_wrap 233.4s] page close url=http://127.0.0.1:8801/index.html?turbo
+[gpu_wrap 233.4s] BROWSER DISCONNECTED
+Traceback (most recent call last):
+  File "C:\Users\USER\Documents\Lawstudent_cclocal\docs\story_planning\test_tools\cc\cc_layout16_probe.py", line 351, in exam_pass
+    run.check('%s：下一題那一句 #dlg 回到原位（left、bottom 和第 1 題那一句一樣 ±%g px、沒有 side／static）' % tag,
+              ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~^~~~~
+TypeError: not enough arguments for format string (got 1)
+[gpu_wrap 287.4s] page close url=http://127.0.0.1:8801/index.html?turbo
+[gpu_wrap 287.5s] BROWSER DISCONNECTED
+Traceback (most recent call last):
+  File "C:\Users\USER\Documents\Lawstudent_cclocal\docs\story_planning\test_tools\cc\cc_layout16_probe.py", line 351, in exam_pass
+    run.check('%s：下一題那一句 #dlg 回到原位（left、bottom 和第 1 題那一句一樣 ±%g px、沒有 side／static）' % tag,
+              ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~^~~~~
+TypeError: not enough arguments for format string (got 1)
+[gpu_wrap 338.1s] page close url=http://127.0.0.1:8801/index.html?turbo
+[gpu_wrap 338.1s] BROWSER DISCONNECTED
+[gpu_wrap 382.7s] page close url=http://127.0.0.1:8801/index.html?turbo
+[gpu_wrap 382.7s] BROWSER DISCONNECTED
+[gpu_wrap 426.9s] page close url=http://127.0.0.1:8801/index.html?turbo
+[gpu_wrap 426.9s] BROWSER DISCONNECTED
+[gpu_wrap 483.1s] page close url=http://127.0.0.1:8801/index.html?turbo
+[gpu_wrap 483.1s] BROWSER DISCONNECTED
+[gpu_wrap 538.3s] page close url=http://127.0.0.1:8801/index.html?turbo
+[gpu_wrap 538.3s] BROWSER DISCONNECTED
