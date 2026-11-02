@@ -39434,7 +39434,7 @@
       "id": "LIB-FRONT-1102",
       "title": "總圖外觀、前草坪（照五張照片）、拱廊前寬台階走得上去",
       "owner": "LAWWW2",
-      "status": "進行中",
+      "status": "已整合待測試",
       "next": "大道柏油到 x≈20、x20～87 大草坪＋龍柏籬＋大王椰子；總圖不搬；(80,0)(82,0) 與步道要通；跑 campus_layout_nav、reachability_all、flow_library_*、guide_flow、nav_buildings_unit；CC 對照 2D 110b",
       "sha": "",
       "source": "使用者 11-02 08:45～09:03 直接對 LAWWW2（user_asks_LAWWW2 UA-LAWWW2-1102-02～06，387fa3aeb）",
@@ -39444,7 +39444,8 @@
         "acceptance": "大道柏油到 x≈20、x20～87 大草坪＋龍柏籬＋大王椰子；總圖不搬；(80,0)(82,0) 與步道要通；跑 campus_layout_nav、reachability_all、flow_library_*、guide_flow、nav_buildings_unit；CC 對照 2D 110b",
         "receiver": "LAWWW",
         "ack": "ACK"
-      }
+      },
+      "note": " ｜14:3x LAWWW 整合進 int/next1102 3caff35d9（LAWWW2 32961b6ab v3c，BB_234 驗收通過）；排在 v9.10.16 之後；BB 在使用者電腦跑 reachability_all、flow_library_floors、campus_glb_integration"
     },
     {
       "priority": "P0",
