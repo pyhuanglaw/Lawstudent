@@ -39694,7 +39694,7 @@
       "owner": "LAWWW",
       "status": "已整合待測試",
       "priority": "P2",
-      "note": "2026-11-02 LAWWW：postgrad3d.js S.POOL_EXCLUDE=[/^Y4MAR_/]，S.pool() 排除；S.pool(true) 給 S.draw 讀舊存檔已抽好的（照舊不重抽）。LEGAL_REVIEW_REQUIRED。Y4IP_/Y4LSO_/Y4TAX_ 等使用者答覆（BB 在問）。tests/bar_pool_nomar_unit.js（修改前 FAIL 2）。",
+      "note": "2026-11-02 LAWWW：postgrad3d.js S.POOL_EXCLUDE=[/^Y4MAR_/]，S.pool() 排除；S.pool(true) 給 S.draw 讀舊存檔已抽好的（照舊不重抽）。LEGAL_REVIEW_REQUIRED。Y4IP_/Y4LSO_/Y4TAX_ 等使用者答覆（BB 在問）。tests/bar_pool_nomar_unit.js（修改前 FAIL 2）。 10:2x 使用者「智財勞社財稅也拿掉」：加 Y4IP_、Y4LSO_、Y4TAX_；一試題庫 483→434 題（五年 100 題夠、不重複），bar_pool_nomar_unit 擴充。",
       "first": {
         "term": "PG",
         "earliest": "2029 律師一試",
@@ -39738,9 +39738,9 @@
       "id": "WSEM-EXAM-LINE-AA-1102",
       "title": "研討室 A 期末考開頭一句旁白（交代研討室裡的人）",
       "owner": "AA",
-      "status": "待開工",
+      "status": "已整合待測試",
       "priority": "P2",
-      "note": "BB 10:24 轉 AA；到了填 classes3d.js CLS.DOOR_EXAM_LINE.wancai_seminar。",
+      "note": "BB 10:24 轉 AA；到了填 classes3d.js CLS.DOOR_EXAM_LINE.wancai_seminar。 2026-11-02 LAWWW：AA_578 第 7 節 @9a767de08 填進 CLS.DOOR_EXAM_LINE（{課名}換成那一門）；wsem_bg_unit 第 2 項檢查原句。",
       "first": {
         "term": "Y4S1",
         "earliest": "大四上期末",
@@ -39755,6 +39755,52 @@
         "receiver": "LAWWW",
         "ack": "SENT",
         "acceptance": "一句旁白"
+      }
+    },
+    {
+      "id": "CUE-LEAK-CUEONLY-1102",
+      "title": "考試提示洩題檢查：有 cue 只看 cue、沒有 cue 才看標題（AA 10:26）",
+      "owner": "LAWWW",
+      "status": "已整合待測試",
+      "priority": "P3",
+      "note": "study3d.js cueFor；d118_b4_unit c2（修改前 FAIL）。",
+      "first": {
+        "term": "Y1S1",
+        "earliest": "第一次期末考",
+        "mainline": true,
+        "blocks": false,
+        "parallel": true,
+        "confirmed": true
+      },
+      "xai": {
+        "spec": "AA 10:26（cards_y1s2 @c3660c6fe 附註）",
+        "branch": "claude/confident-ritchie-8rwh7t",
+        "receiver": "AA",
+        "ack": "ACK",
+        "acceptance": "6 題（AI_CON2_10 等）有 cue 時出提示"
+      }
+    },
+    {
+      "id": "CARDS-Y1S2-IMPORT-1102",
+      "title": "匯入大一下觀念卡 29 張（AA cards_y1s2.json @c3660c6fe）",
+      "owner": "LAWWW",
+      "status": "待開工",
+      "priority": "P2",
+      "note": "憲法下 9、刑總二 10、債總一 10（45 題）＋notes＋review。走匯入白名單。",
+      "first": {
+        "term": "Y1S2",
+        "earliest": "大一下讀書",
+        "mainline": true,
+        "blocks": false,
+        "parallel": true,
+        "confirmed": true
+      },
+      "xai": {
+        "spec": "AA 10:26",
+        "branch": "claude/story-planning",
+        "receiver": "LAWWW",
+        "ack": "ACK",
+        "acceptance": "29 張卡進遊戲、cue 不洩題"
       }
     }
   ]

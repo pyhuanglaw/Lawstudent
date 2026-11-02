@@ -84,9 +84,9 @@ const PG=(function(){
   S.lateAsk=(G,y)=>{ const F=G.flags||{}; return y>2030&&S.LATE_YEARS.includes(y)&&F.BAR_YEAR==null&&S.failed(G,y-1)&&F['BAR_REG_'+y]==null; };   /* 2031～2033 那一年的報名還沒問：前一年一試沒過、還沒考上 */
   S.lastSat=G=>{ const F=G.flags||{}; let y=null; for(const k of [2029,2030].concat(S.LATE_YEARS)) if(F['BAR_SIT_'+k]===true) y=k; return y; };   /* 最後一次去考是哪一年（沒考過＝null）*/
   S.N_Q=20;
-  /* LEGAL_REVIEW_REQUIRED：使用者 2026-11-02 10:2x（經 BB）「一試不考海商法了」——海商法與海洋法（Y4MAR_）不放進一試的抽題範圍；題目、答案不改，期末考照用。
-     已經抽好的舊存檔（R.exam[y].qs 記著的）照舊（S.draw 先讀存下來的那一份）。智慧財產法、勞動社會法、財稅法（同一組選試科目）BB 在問使用者，先不動 */
-  S.POOL_EXCLUDE=[/^Y4MAR_/];
+  /* LEGAL_REVIEW_REQUIRED：使用者 11-02：一試不考海商法、智財、勞社、財稅（10:2x，經 BB）——海商法與海洋法（Y4MAR_）、智慧財產法（Y4IP_）、勞動社會法（Y4LSO_）、財稅法（Y4TAX_）不放進一試的抽題範圍；題目、答案不改，期末考照用。
+     已經抽好的舊存檔（R.exam[y].qs 記著的）照舊（S.draw 先讀存下來的那一份：S.pool(true)）*/
+  S.POOL_EXCLUDE=[/^Y4MAR_/,/^Y4IP_/,/^Y4LSO_/,/^Y4TAX_/];
   S.pool=function(all){ const out=[];   /* all：連排除的也算（讀舊存檔已經抽好的題目用）*/ if(typeof EXAM_BANK!=='undefined') for(const q of EXAM_BANK.questions) if((q.status==='USER_CONFIRMED'||q.status==='AI_CROSS_REVIEWED'||q.status==='Y4_CROSS_REVIEWED')&&(all||!S.POOL_EXCLUDE.some(r=>r.test(q.id)))) out.push(q);
     if(typeof QBANK!=='undefined') for(const q of QBANK) if(q.complete!==false) out.push(q); return out; };   /* 四年各科期末考的題庫＋刑訴（AA_126 第 3 節）*/
   const hashStr=str=>{ let h=2166136261>>>0; for(let i=0;i<str.length;i++){ h^=str.charCodeAt(i); h=Math.imul(h,16777619)>>>0; } return h>>>0; };

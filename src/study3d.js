@@ -188,7 +188,7 @@ const STUDY=(function(){
     const has=k=>String(q.options[k]||'').includes(t); if(right.some(has)&&!wrong.some(has)) return true;   /* 整段字串（第一輪）*/
     const h=S.cueHits(q,[t,title]); return h.tier==='A'||h.tier==='B'; };
   S.cueFor=function(G,qOrId){ const qid=typeof qOrId==='object'&&qOrId?qOrId.id:qOrId; const q=typeof qOrId==='object'&&qOrId?qOrId:((typeof EXAM_BANK!=='undefined'?EXAM_BANK.questions.find(x=>x.id===qid):null)||(typeof QBANK!=='undefined'?QBANK.find(x=>x.id===qid):null)||null); if(!q) return null;
-    for(const u of S.unitsOfQ(qid)){ const st=S.stateOf(G,u.id); if(st==='read'||st==='got'){ const t=(u.cue||'').trim()||(S.view(u)||{}).title||u.title; if(t&&!S.cueLeaks(q,t,u.title)) return S.CUE_PREFIX+t+'）'; } } return null; };
+    for(const u of S.unitsOfQ(qid)){ const st=S.stateOf(G,u.id); if(st==='read'||st==='got'){ const cue=(u.cue||'').trim(), t=cue||(S.view(u)||{}).title||u.title; if(t&&!S.cueLeaks(q,t)) return S.CUE_PREFIX+t+'）';   /* AA 10:26：有 cue＝只看 cue 會不會洩題（卡片標題是黑板第一行、常常就是答案術語，不算進去）；沒有 cue＝標題本身當提示、就檢查標題 */ } } return null; };
   /* D118-B4：考後訂正——答錯的題寫成一則筆記（同一科同一次考試一則；miss 已經在 STUDY.answer 記了）*/
   S.FIX_TITLE=(n,key)=>{ const p=String(key||'').split(':'), tn=p[0]&&typeof CLS!=='undefined'&&CLS.termName?CLS.termName(p[0]):''; return n+'・'+(tn||'')+(p[2]==='makeup'?'補考訂正':'期末考訂正'); };   /* 暫定字；加學期（BB 09:31，CC M2：重修又被當、四年以後同名找不到）、補考另一個名字；舊存檔已有的筆記標題不動 */
   S.fixNote=function(GM,c,key,wrong){ if(!wrong.length||!GM.addNote) return false;

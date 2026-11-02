@@ -18,8 +18,8 @@ const H=require('./pg_harness.js'); const {check,GM}=H, J=JSON.stringify;
   /* 期末考那一堂 */
   const ex=(()=>{ for(let d=H.G.day;d<H.G.day+140;d++){ const L=(CLS.dayItems(Object.assign(H.G,{day:d}))||[]).filter(x=>x.c.id==='legal_ethics'&&x.exam); if(L.length) return L[0]; } return null; })();
   check('0. 找得到法律倫理的期末考那一堂',!!ex);
-  if(ex){ H.G.day=ex.day; H.G.hour=ex.t0-0.1; CLS.DOOR_EXAM_LINE.wancai_seminar='（測試用旁白）'; cur=null; sayBg.length=0; await CLS.attend(GM,ex,{door:true}); CLS.DOOR_EXAM_LINE.wancai_seminar='';
-    check('2. 期末考：背景 wancai_seminar；第一句是 DOOR_EXAM_LINE',sayBg.length>0&&sayBg.every(x=>x[0]===id(want))&&sayBg[0][1]==='（測試用旁白）',J(sayBg.slice(0,3))); }
+  if(ex){ H.G.day=ex.day; H.G.hour=ex.t0-0.1; cur=null; sayBg.length=0; await CLS.attend(GM,ex,{door:true});
+    check('2. 期末考：背景 wancai_seminar；第一句是 AA_578 第 7 節的旁白（{課名}＝法律倫理）',sayBg.length>0&&sayBg.every(x=>x[0]===id(want))&&sayBg[0][1]==='（法律系館B 的研討室。法律倫理只有十幾個人，大家圍著長桌坐，老師坐在桌子的另一頭，手邊一疊考卷。）',J(sayBg.slice(0,3))); }
   check('3. 共同、普通、博思、體育館不在 DOOR_BG',['common','putong','boya','gym'].every(k=>!CLS.DOOR_BG[k]));
   ADV.begin=b0; ADV.setBg=s0; GM.say=say0; GM.sceneBegin=sb0; H.done();
 })();

@@ -59,5 +59,13 @@ const run=async(G,e,pickFn)=>{ H.G=G; said=[]; ansPick=pickFn||null; const r=awa
     check('d6. BB 舉的例子（'+must.join('、')+'）讀過卡也不出提示',must.length>0&&must.every(id=>STUDY.cueFor(G4,id)===null),J(must.map(id=>[id,STUDY.cueFor(G4,id)]))); }
   /* e 訂正筆記用 \n 分段：筆記頁的內文要 pre-line */
   { const g=fs.readFileSync(path.join(H.ROOT,'src/game3d.js'),'utf8'); check('e. 筆記頁內文 white-space:pre-line（訂正筆記不擠成一段）',/<div style=\\?"white-space:pre-line\\?">'\+WN\(n\.body\)/.test(g)); }
+  /* AA 10:26：有 cue＝只看 cue 會不會洩題（標題常常就是答案術語）；沒有 cue＝檢查標題 */
+  { const q={id:'zz_t1',q:'測試題',options:{A:'緊急避難',B:'正當防衛',C:'依法令之行為',D:'業務上正當行為'},answer:'A'};
+    const u1={id:'zz_u1',qids:['zz_t1'],title:'緊急避難',cue:'兩害相權，取其輕。'}, u2={id:'zz_u2',qids:['zz_t1'],title:'緊急避難',cue:''};
+    const o1=STUDY.unitsOfQ, o2=STUDY.stateOf, o3=STUDY.view; STUDY.stateOf=()=>'read'; STUDY.view=u=>({title:u.title});
+    STUDY.unitsOfQ=()=>[u1]; const c1=STUDY.cueFor(H.G,q); STUDY.unitsOfQ=()=>[u2]; const c2=STUDY.cueFor(H.G,q);
+    STUDY.unitsOfQ=o1; STUDY.stateOf=o2; STUDY.view=o3;
+    check('c2. 有 cue（不洩題）、標題剛好是答案術語：照樣出提示（cue 那一句）',c1===STUDY.CUE_PREFIX+u1.cue+'）',String(c1));
+    check('c2. 沒有 cue：標題本身當提示＝會洩題就不出',c2===null,String(c2)); }
   H.done();
 })().catch(e=>{ console.log('FAIL 例外',e&&e.stack||e); process.exit(1); });
