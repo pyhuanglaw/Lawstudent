@@ -4,7 +4,11 @@
 #  KIND: gpu   = repo script, args <URL> <out>\gpu.txt
 #        game  = script inside the game worktree (cwd = game worktree), args <URL>
 #        probe = repo script (CC probe), args <URL> <out>\out ; LW_TESTS / SHA set automatically
+#        py    = repo script, args <URL> <out dir>
 #  URL : path after http://127.0.0.1:<port>/
 00_gpu      | head      | gpu   | tools/cc_local/gpu_check.py                                     | index.html        | 20  |
 01_p0speed  | head      | game  | tests/p0_movement.py                                            | index.html        | 60  |
 02_mk12     | b4f98ea4e | probe | docs/story_planning/test_tools/cc/cc_makeup_probe.py           | index.html?turbo  | 200 | CASES=study3h,skipnoon_seat,skipnoon_phone,homerest,old_delayed,home
+# K3（BB 10:07）：等 01、02 在這台確定能跑完再打開（把行首的 # 拿掉）
+#03_delay14 | 5506d6259 | probe | docs/story_planning/test_tools/cc/cc_delay14_probe.py | index.html?turbo | 120 | CASES=dorm_sleep,dorm_stand,home
+#04_quota   | head      | py    | tools/cc_local/quota_check.py                        | index.html        | 20  |
