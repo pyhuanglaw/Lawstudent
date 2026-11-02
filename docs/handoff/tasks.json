@@ -39060,6 +39060,141 @@
         "receiver": "BB",
         "ack": "SENT"
       }
+    },
+    {
+      "priority": "P1",
+      "first": {
+        "term": "Y1S1",
+        "week": null,
+        "earliest": "第一次期中考前（讀書、一鍵總複習）；國考與職涯在畢業以後",
+        "mainline": true,
+        "blocks": false,
+        "prereq": false,
+        "parallel": true,
+        "confirmed": true
+      },
+      "id": "BUG-ROLLCALL-CURWEEK-1102",
+      "title": "點名：這一週還沒上的課不算缺",
+      "owner": "LAWWW",
+      "status": "已整合待測試",
+      "next": "BB／CC 驗：第 12 週週一提醒、課表的缺席次數",
+      "sha": "4c8f138f7",
+      "source": "BB 07:01（企劃線 BB_218）",
+      "xai": {
+        "spec": "BB 07:01（企劃線 BB_218）",
+        "branch": "claude/confident-ritchie-8rwh7t",
+        "acceptance": "BB／CC 驗：第 12 週週一提醒、課表的缺席次數",
+        "receiver": "BB",
+        "ack": "SENT"
+      }
+    },
+    {
+      "priority": "P1",
+      "first": {
+        "term": "Y1S1",
+        "week": null,
+        "earliest": "第一次期中考前（讀書、一鍵總複習）；國考與職涯在畢業以後",
+        "mainline": true,
+        "blocks": false,
+        "prereq": false,
+        "parallel": true,
+        "confirmed": true
+      },
+      "id": "D118-B3-SEMFF-MENU-1102",
+      "title": "快轉停在考前提醒時選單直接列總複習",
+      "owner": "LAWWW",
+      "status": "已整合待測試",
+      "next": "BB／CC 驗：學期中快轉到週日 20:00 → 選總複習 → 停在 23:00；繼續快轉停在期末考；選項字等 AA 定稿",
+      "sha": "5d3fbd32e",
+      "source": "BB 07:01 ③（BB_222 3-5）",
+      "xai": {
+        "spec": "BB 07:01 ③（BB_222 3-5）",
+        "branch": "claude/confident-ritchie-8rwh7t",
+        "acceptance": "BB／CC 驗：學期中快轉到週日 20:00 → 選總複習 → 停在 23:00；繼續快轉停在期末考；選項字等 AA 定稿",
+        "receiver": "BB",
+        "ack": "SENT"
+      }
+    },
+    {
+      "priority": "P1",
+      "first": {
+        "term": "Y1S1",
+        "week": null,
+        "earliest": "第一次期中考前（讀書、一鍵總複習）；國考與職涯在畢業以後",
+        "mainline": true,
+        "blocks": false,
+        "prereq": false,
+        "parallel": true,
+        "confirmed": true
+      },
+      "id": "PT106-REMATTE-1102",
+      "title": "第 106 組十張立繪重新去背（matte_gray 改版）",
+      "owner": "LAWWW",
+      "status": "已整合待測試",
+      "next": "CC 放大檢查（深灰、洋紅底），BB 判定",
+      "sha": "6ba2a22ad",
+      "source": "BB 07:00（CC cc-testing 8a11adc9）",
+      "xai": {
+        "spec": "BB 07:00（CC cc-testing 8a11adc9）",
+        "branch": "claude/confident-ritchie-8rwh7t",
+        "acceptance": "CC 放大檢查（深灰、洋紅底），BB 判定",
+        "receiver": "BB",
+        "ack": "SENT"
+      }
+    },
+    {
+      "priority": "P1",
+      "first": {
+        "term": "Y1S1",
+        "week": null,
+        "earliest": "第一次期中考前（讀書、一鍵總複習）；國考與職涯在畢業以後",
+        "mainline": true,
+        "blocks": false,
+        "prereq": false,
+        "parallel": true,
+        "confirmed": true
+      },
+      "id": "AA576-YIAN-B1-1102",
+      "title": "以安改稿第一批（手機與邀約）",
+      "owner": "LAWWW",
+      "status": "進行中",
+      "next": "rel_lines 已換（60eb71149）；等 AA 改 AA_202／AA_415／AA_329 源稿給 sha → 白名單、重匯、apply_line_table",
+      "sha": "60eb71149",
+      "source": "AA_576@179f227ca、BB_226 PASS、使用者確認",
+      "xai": {
+        "spec": "AA_576@179f227ca、BB_226 PASS、使用者確認",
+        "branch": "claude/confident-ritchie-8rwh7t",
+        "acceptance": "rel_lines 已換（60eb71149）；等 AA 改 AA_202／AA_415／AA_329 源稿給 sha → 白名單、重匯、apply_line_table",
+        "receiver": "BB",
+        "ack": "SENT"
+      }
+    },
+    {
+      "priority": "P1",
+      "first": {
+        "term": "Y1S1",
+        "week": null,
+        "earliest": "第一次期中考前（讀書、一鍵總複習）；國考與職涯在畢業以後",
+        "mainline": true,
+        "blocks": false,
+        "prereq": false,
+        "parallel": true,
+        "confirmed": true
+      },
+      "id": "BG107-WIRE-1102",
+      "title": "第 107 組十張背景接進遊戲",
+      "owner": "LAWWW",
+      "status": "進行中",
+      "next": "子代理在 worktree 接；接好派 BB／CC",
+      "sha": "",
+      "source": "BB 07:04（BB_132 第 107 組驗收）",
+      "xai": {
+        "spec": "BB 07:04（BB_132 第 107 組驗收）",
+        "branch": "claude/confident-ritchie-8rwh7t",
+        "acceptance": "子代理在 worktree 接；接好派 BB／CC",
+        "receiver": "BB",
+        "ack": "SENT"
+      }
     }
   ]
 }
