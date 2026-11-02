@@ -25,7 +25,7 @@ const SOCIAL = (function(){
   S.takeFeel=function(max){ const out=[]; const ids=new Set([...Object.keys(S.feel),...S.capNotes]);
     for(const id of ids){ const P=S.feel[id]||{}; if(!CHARACTERS[id]) continue;
       const heroine=/^heroine_0[1-5]$/.test(id), known=S.has(id,'FIRST_MET')||(!heroine&&S.reveal(id)!=='UNKNOWN'); if(!known) continue;   /* 還沒認識的人（女主角要正式見過）不顯示 */
-      const name=heroine&&(S.datingName(id)||CHARACTERS[id].nickname)||S.displayName(id), sum=FEEL_ORDER.reduce((a,q)=>a+(P[q]||0),0);   /* 交往中的學姊：「和書瑀熟了一點。」（CALLED_SHUYU）*/
+      const name=heroine&&(S.datingName(id)?(ids.size===1?'她':S.datingName(id)):CHARACTERS[id].nickname)||S.displayName(id), sum=FEEL_ORDER.reduce((a,q)=>a+(P[q]||0),0);   /* 交往中的學姊：「和她熟了一點。」（AA 2026-11-02 10:18 稱呼規則①：只有她一個人的提示用「她」；同一次有別人的提示時寫名字「溫書瑀」，不然「她」分不出是誰）*/
       const st0=S.feelStage[id], st1=S.stage(id); if(st0!==undefined&&STAGE_LINE[st1]&&(STAGE_RANK[st1]||0)>(STAGE_RANK[st0]||0)){ out.push({text:STAGE_LINE[st1](name),sum:1000+sum}); continue; }   /* 換階段優先 */
       let k=null; for(const q of FEEL_ORDER) if((P[q]||0)>0&&(!k||P[q]>P[k])) k=q; if(k) out.push({text:FEEL_TEXT[k](name),sum});
       else if(S.capNotes.includes(id)){ out.push({text:'今天和'+name+'已經聊很多了。',sum:0}); const D=G.social&&G.social.daily; if(D&&D.p[id]) D.p[id].cap=1; } }   /* 真的顯示了才算（一天一次）*/

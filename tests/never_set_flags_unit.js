@@ -207,7 +207,9 @@ const sec=async(n,f)=>{ try{ await f(); }catch(e){ check(n+'. 丟出例外（中
       const ev={id:'t_sis_line',participants:[S5],dialogue:[{speaker:S5,text:'（測試）'}]}; H.said=[]; await EVENTS.runLines(ev.dialogue,ev);
       check('5-4. 劇情事件裡她說話：名字框「溫書瑀」',H.said.length===1&&H.said[0].who==='溫書瑀',JSON.stringify(H.said));
       SOCIAL.feel[S5]={fam:2}; const ft=SOCIAL.takeFeel(2);
-      check('5-5. 交往中的「熟了一點」提示照對話框的名字（「和溫書瑀熟了一點。」）',ft.includes('和溫書瑀熟了一點。'),JSON.stringify(ft));
+      check('5-5. 交往中、只有她的「熟了一點」提示用「她」（「和她熟了一點。」；AA 2026-11-02 10:18 稱呼規則①）',ft.includes('和她熟了一點。'),JSON.stringify(ft));
+      SOCIAL.feel[S5]={fam:2}; SOCIAL.feel.heroine_01={fam:1}; const ft2=SOCIAL.takeFeel(2);
+      check('5-5. 同一次也有別人的提示：寫名字「溫書瑀」（「她」分不出是誰）',ft2.includes('和溫書瑀熟了一點。')&&!ft2.some(t=>/和她/.test(t)),JSON.stringify(ft2));
       ROM.end(G,S5,'apart_talk');
       check('5-6. 分手以後：CALLED_SHUYU 留著（叫過）；名字回到「溫書瑀」（分手以後怎麼叫等 BB 定）',G.flags.CALLED_SHUYU===true&&SOCIAL.displayName(S5)==='溫書瑀'); }
     { const G=fresh('2026-04-10',20,'dorm'); H.rel(S5,45,30,0); H.rel('heroine_01',45,30,0); ROM.start(G,'heroine_01');

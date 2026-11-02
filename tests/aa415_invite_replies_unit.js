@@ -1,5 +1,5 @@
-// 邀約回覆照階段變（D14-T9／USER_WANTS D37；AA_415 七位定稿，企劃線 b113e39d；以安的表照 AA_576 改稿第一批換成 b10d0567f；學姊的表照 AA_579 改稿第一批、以安新增三句答應照 AA_580 換成 759e5c000）——不需要瀏覽器。
-//   0  接線：index.html 在 invites.js 後面載 invite_replies.js；白名單有 AA_415@759e5c000；INV.replyPick／REPLY_ON／REPLY_COND
+// 邀約回覆照階段變（D14-T9／USER_WANTS D37；AA_415 七位定稿，企劃線 b113e39d；以安的表照 AA_576 改稿第一批換成 b10d0567f；學姊的表照 AA_579 改稿第一批、以安新增三句答應照 AA_580 換成 759e5c000；學姊 sis4 照 AA 10:18 換成 166dc131a）——不需要瀏覽器。
+//   0  接線：index.html 在 invites.js 後面載 invite_replies.js；白名單有 AA_415@166dc131a；INV.replyPick／REPLY_ON／REPLY_COND
 //   1  資料＝AA_415 的表：七位各自的列數、每一列的原文一字不差、抽查句子；「現有」的答應句和 INVITE_DATA 一樣；學姊沒有件數、編號、「重點是」，
 //      子晴沒有「欸不是」「這不是問句」，可昕沒有「假設」；條件都接得上（接不上的標 off）
 //   2  七位：第 1～6 階、交往中的答應句來自那一階
@@ -46,12 +46,12 @@ await sec(0,()=>{ const html=fs.readFileSync(path.join(H.ROOT,'index.html'),'utf
   check('0. INV.replyPick、INV.replyMark、INV.REPLY_ON、INV.REPLY_COND',typeof INV.replyPick==='function'&&typeof INV.replyMark==='function'&&!!INV.REPLY_ON&&!!INV.REPLY_COND);
   check('0. 節日、外出、開車先關（AA_415 第 8 節：D38 節日系統、外出的邀約接上才用）',INV.REPLY_ON['節日']===false&&INV.REPLY_ON['外出']===false&&INV.REPLY_ON['開車']===false);
   const A=JSON.parse(fs.readFileSync(path.join(H.ROOT,'docs/handoff/story_import_allow.json'),'utf8')).files.filter(e=>e.path===SPEC);
-  check('0. 白名單：AA_415@759e5c000 approved、AA-B 2026-10-23 20:2x 定稿（D109）（＋AA_576 以安、AA_579 學姊改稿第一批、AA_580 以安第二批）、D14-T9、text',A.length===1&&A[0].sha==='759e5c000'&&/AA_579/.test(A[0].approvedBy)&&/AA_580/.test(A[0].approvedBy)&&A[0].status==='approved'&&A[0].approvedBy.startsWith('AA-B 2026-10-23 20:2x 定稿（D109）')&&/AA_576/.test(A[0].approvedBy)&&A[0].task==='D14-T9'&&A[0].kind==='text',J(A));
-  check('0. 產生器 tools/invite/build_replies.py；資料檔寫著來源 commit',fs.existsSync(path.join(H.ROOT,'tools/invite/build_replies.py'))&&INVITE_REPLIES.sha==='759e5c000'&&INVITE_REPLIES.src===SPEC); });
+  check('0. 白名單：AA_415@166dc131a approved、AA-B 2026-10-23 20:2x 定稿（D109）（＋AA_576 以安、AA_579 學姊改稿第一批、AA_580 以安第二批、AA 10:18 sis4；舊版本在 history）、D14-T9、text',A.length===1&&A[0].sha==='166dc131a'&&['b10d0567f','e1e361335','759e5c000'].every(s=>(A[0].history||[]).some(h=>h.sha===s))&&/AA_579/.test(A[0].approvedBy)&&/AA_580/.test(A[0].approvedBy)&&A[0].status==='approved'&&A[0].approvedBy.startsWith('AA-B 2026-10-23 20:2x 定稿（D109）')&&/AA_576/.test(A[0].approvedBy)&&A[0].task==='D14-T9'&&A[0].kind==='text',J(A));
+  check('0. 產生器 tools/invite/build_replies.py；資料檔寫著來源 commit',fs.existsSync(path.join(H.ROOT,'tools/invite/build_replies.py'))&&INVITE_REPLIES.sha==='166dc131a'&&INVITE_REPLIES.src===SPEC); });
 if(!ok){ H.done(); return; }
 
-await sec(1,()=>{ let md=''; try{ md=cp.execSync('git -C "'+H.ROOT+'" show 759e5c000:"'+SPEC+'"',{encoding:'utf8'}); }catch(e){ md=''; }
-  check('1. 讀得到企劃線 759e5c000 的 AA_415',md.length>1000);
+await sec(1,()=>{ let md=''; try{ md=cp.execSync('git -C "'+H.ROOT+'" show 166dc131a:"'+SPEC+'"',{encoding:'utf8'}); }catch(e){ md=''; }
+  check('1. 讀得到企劃線 166dc131a 的 AA_415',md.length>1000);
   const cnt={}; let who=null;
   for(const ln of md.split('\n')){ const m=/^## \d+\. .*（(\w+)[，）]/.exec(ln); if(m){ who=m[1]; continue; } if(/^## /.test(ln)){ who=null; continue; }
     if(who&&ln.startsWith('|')&&!/^\|\s*階段\s*\|/.test(ln)&&!/^\|[-\s|:]+\|$/.test(ln)) cnt[who]=(cnt[who]||0)+1; }
