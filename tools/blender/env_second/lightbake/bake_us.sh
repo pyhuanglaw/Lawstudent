@@ -144,11 +144,11 @@ bigmart)
   # 外殼（--shell S）：正面玻璃那一面不包。
   NAME=us_market; PLAINBLOB=54fea93dcabd6fb16317c09bfb1a152c2b2bbb85
   HIDE='glass|case_doors|usm_outside|GLOW_|DOOR_usm'
-  NOLM='usm_products|usm_price|usm_shelves|usm_aisle_signs|usm_fruit|usm_cart|usm_chrome|usm_black|usm_joists|usm_ducts|usm_belts|PLATE_FACE|usm_vc|usm_outside|usm_case_frame|usm_mats'
+  NOLM='usm_products|usm_price|usm_shelves|usm_aisle_signs|usm_fruit|usm_cart|usm_chrome|usm_black|usm_joists|usm_ducts|usm_belts|PLATE_FACE|usm_vc|usm_outside|usm_case_frame|usm_mats|usm_case_back|usm_checkout_top'
   LIGHTS=$(python3 - "${LEDW:-18}" <<'PY'
 import json, sys
 J = json.load(open('assets/models/env/second_ai/us_market.layout.json')); W = sys.argv[1]; col = '0.97,0.98,1.0'
-FROZEN = (-19.0, -13.9)   # 西邊冷凍區的兩條走道（冷凍牆和冷凍島中間、冷凍島和第 1 排中間）：見上面「冷凍區」
+FROZEN = (-19.0, -13.9, 19.9)   # 天花板沒有燈條的三條走道：西邊冷凍區兩條（冷凍牆和冷凍島中間、冷凍島和第 1 排中間）、東邊蔬果牆前面：見上面「冷凍區」
 out = []
 for g in J['gondolas']:
     xa = g['x'] + 1.45
@@ -164,7 +164,7 @@ PY
   PT=$(python3 - "${UPW:-10}" <<'PY'
 import json, sys
 J = json.load(open('assets/models/env/second_ai/us_market.layout.json')); W = sys.argv[1]; col = '0.97,0.98,1.0'
-FROZEN = (-19.0, -13.9)
+FROZEN = (-19.0, -13.9, 19.9)
 out = []
 for g in J['gondolas']:
     for zz in (-7.5, -3.8, -0.1, 3.6): out.append(f'{g["x"] + 1.45:.2f},3.35,{zz:.2f},{W},{col},0.3')
@@ -175,7 +175,8 @@ for xx in range(-20, 22, 4):
 print(';'.join(out))
 PY
 )
-  EXTRA=(--sun 180,40,"${SUNW:-1.0}" --sky "${SKY:-0.8}" --daywb ${DAYWB:-0.98,0.98,1.0} --daylights "${DAYL:-1.0}" --shell S) ;;
+  SATD=0.6
+  EXTRA=(--sun 180,40,"${SUNW:-1.0}" --sky "${SKY:-0.8}" --daywb ${DAYWB:-1.0,0.97,0.92} --nightwb ${NIGHTWB:-1.0,0.97,0.92} --daylights "${DAYL:-1.0}" --shell S) ;;
 *) echo "未知的區域：$ZONE"; exit 1 ;;
 esac
 LIGHTS=${LIGHTS#;}
@@ -188,7 +189,7 @@ fi
 /opt/blenv/bin/python tools/blender/env_second/lightbake/bake_room.py -- --in "$TMP/plain.glb" --out "$OUTDIR/$NAME.glb" \
   --lm "$TMP/lm" --url assets/models/env/second_ai/${NAME}_lm --res "$RES" --samples "$SAMPLES" --hide "$HIDE" --nolm "$NOLM" \
   --lights "$LIGHTS" --points "$PT" ${DF:+--dayfill "$DF"} "${EXTRA[@]}" --smooth ${SMOOTH:-1}
-python3 tools/blender/env_second/lightbake/to_webp.py "$TMP/lm" "$OUTDIR/${NAME}_lm" 90
+python3 tools/blender/env_second/lightbake/to_webp.py "$TMP/lm" "$OUTDIR/${NAME}_lm" 90 "${SAT:-${SATD:-1.0}}"   # 彩度（to_webp.py 第 4 個參數；只有 bigmart 設 SATD）
 /opt/blenv/bin/python tools/blender/env_second/lightbake/lm_fix_hidden.py -- --in "$OUTDIR/$NAME.glb" --out "$OUTDIR/$NAME.glb" --lm "$OUTDIR/${NAME}_lm"
 python3 tools/blender/env_second/lightbake/glb_restore_sides.py "$OUTDIR/$NAME.glb" "$REF" $DROPDE   # 材質單面／雙面照部署中的那一份還原（見 bake_gym.sh）
 # 烘焙紀錄：輸出到正式資料夾時才寫進 tools/（試烘到別的資料夾時放在那裡，不覆蓋 repo 裡定案那一份）
