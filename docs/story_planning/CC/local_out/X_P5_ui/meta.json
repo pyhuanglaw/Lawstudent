@@ -1,0 +1,23 @@
+{
+  "rerun": "",
+  "id": "X_P5_ui",
+  "sha": "62d98bfa5",
+  "kind": "probe",
+  "script": "docs/story_planning/test_tools/cc/cc_next1102_ui_probe.py",
+  "env": "SHA=62d98bfa5;CASES=examgoal,psbhbg;ORIENTS=port,land",
+  "machine": "MSI",
+  "start": "2026-11-03T06:43:14",
+  "end": "2026-11-03T06:49:48",
+  "seconds": 394,
+  "exit": 0,
+  "error": null,
+  "runner": "a98287fbd6",
+  "rf_round": "5",
+  "url": "http://127.0.0.1:8809/index.html",
+  "res_peak": {
+    "cpu": 61,
+    "mem": 55,
+    "used_gb": 17.3,
+    "chrome_testing": 29
+  }
+}

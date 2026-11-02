@@ -1,0 +1,260 @@
+{
+ "orient": "land",
+ "log": [
+  {
+   "k": "event",
+   "id": "ev_psbh_public_0415",
+   "h": 17.018,
+   "d": 211,
+   "z": "noodle",
+   "ms": 31076
+  },
+  {
+   "k": "adv",
+   "fn": "begin",
+   "arg": {
+    "background": "dark",
+    "right": null,
+    "left": null
+   },
+   "h": 17.018,
+   "d": 211,
+   "z": "noodle",
+   "ms": 31078
+  },
+  {
+   "k": "caption",
+   "n": "",
+   "t": "上禮拜的事",
+   "dur": 1500,
+   "h": 17.018,
+   "d": 211,
+   "z": "noodle",
+   "ms": 31080
+  },
+  {
+   "k": "adv",
+   "fn": "setBg",
+   "arg": {
+    "image": "assets/bg/noodle_table.webp",
+    "label": null
+   },
+   "h": 17.018,
+   "d": 211,
+   "z": "noodle",
+   "ms": 31207
+  },
+  {
+   "k": "caption",
+   "n": "",
+   "t": "阿鳳麵店・長桌",
+   "dur": 2400,
+   "h": 17.018,
+   "d": 211,
+   "z": "noodle",
+   "ms": 31208
+  },
+  {
+   "k": "say",
+   "n": "",
+   "t": "柏翰幫沛珊把滷蛋切成兩半。",
+   "h": 17.018,
+   "d": 211,
+   "z": "noodle",
+   "ms": 31353
+  },
+  {
+   "k": "say",
+   "n": "阿哲",
+   "t": "……喔。",
+   "h": 17.018,
+   "d": 211,
+   "z": "noodle",
+   "ms": 32494
+  },
+  {
+   "k": "say",
+   "n": "",
+   "t": "全桌安靜三秒。",
+   "h": 17.018,
+   "d": 211,
+   "z": "noodle",
+   "ms": 33175
+  },
+  {
+   "k": "say",
+   "n": "郭沛珊",
+   "t": "對，我們在一起了。你們吃你們的。",
+   "h": 17.018,
+   "d": 211,
+   "z": "noodle",
+   "ms": 33843
+  },
+  {
+   "k": "say",
+   "n": "許柏翰",
+   "t": "上禮拜的事。",
+   "h": 17.018,
+   "d": 211,
+   "z": "noodle",
+   "ms": 34716
+  },
+  {
+   "k": "say",
+   "n": "",
+   "t": "（他把另一半滷蛋推回她碗裡。）",
+   "h": 17.018,
+   "d": 211,
+   "z": "noodle",
+   "ms": 35375
+  },
+  {
+   "k": "adv",
+   "fn": "end",
+   "arg": null,
+   "h": 17.018,
+   "d": 211,
+   "z": "noodle",
+   "ms": 36029
+  }
+ ],
+ "play": {
+  "lines": [
+   {
+    "n": "",
+    "t": "柏翰幫沛珊把滷蛋切成兩半。",
+    "h": 17.018,
+    "adv": {
+     "active": true,
+     "mode": {
+      "image": "assets/bg/noodle_table.webp"
+     },
+     "bgImg": "url(\"assets/bg/noodle_table.webp\")",
+     "cls": "on image narr",
+     "cgImg": ""
+    },
+    "shot": "C:\\Users\\USER\\Documents\\Lawstudent_cclocal\\docs\\story_planning\\CC\\local_out\\X_P5_ui\\out\\07_psbhbg_land_line1.png"
+   },
+   {
+    "n": "阿哲",
+    "t": "……喔。",
+    "h": 17.018,
+    "adv": {
+     "active": true,
+     "mode": {
+      "image": "assets/bg/noodle_table.webp"
+     },
+     "bgImg": "url(\"assets/bg/noodle_table.webp\")",
+     "cls": "on image",
+     "cgImg": ""
+    },
+    "shot": null
+   },
+   {
+    "n": "",
+    "t": "全桌安靜三秒。",
+    "h": 17.018,
+    "adv": {
+     "active": true,
+     "mode": {
+      "image": "assets/bg/noodle_table.webp"
+     },
+     "bgImg": "url(\"assets/bg/noodle_table.webp\")",
+     "cls": "on image narr",
+     "cgImg": ""
+    },
+    "shot": null
+   },
+   {
+    "n": "郭沛珊",
+    "t": "對，我們在一起了。你們吃你們的。",
+    "h": 17.018,
+    "adv": {
+     "active": true,
+     "mode": {
+      "image": "assets/bg/noodle_table.webp"
+     },
+     "bgImg": "url(\"assets/bg/noodle_table.webp\")",
+     "cls": "on image",
+     "cgImg": ""
+    },
+    "shot": "C:\\Users\\USER\\Documents\\Lawstudent_cclocal\\docs\\story_planning\\CC\\local_out\\X_P5_ui\\out\\08_psbhbg_land_line4.png"
+   },
+   {
+    "n": "許柏翰",
+    "t": "上禮拜的事。",
+    "h": 17.018,
+    "adv": {
+     "active": true,
+     "mode": {
+      "image": "assets/bg/noodle_table.webp"
+     },
+     "bgImg": "url(\"assets/bg/noodle_table.webp\")",
+     "cls": "on image",
+     "cgImg": ""
+    },
+    "shot": null
+   },
+   {
+    "n": "",
+    "t": "（他把另一半滷蛋推回她碗裡。）",
+    "h": 17.018,
+    "adv": {
+     "active": true,
+     "mode": {
+      "image": "assets/bg/noodle_table.webp"
+     },
+     "bgImg": "url(\"assets/bg/noodle_table.webp\")",
+     "cls": "on image narr",
+     "cgImg": ""
+    },
+    "shot": null
+   }
+  ],
+  "chose": []
+ },
+ "adv_calls": [
+  {
+   "k": "adv",
+   "fn": "begin",
+   "arg": {
+    "background": "dark",
+    "right": null,
+    "left": null
+   },
+   "h": 17.018,
+   "d": 211,
+   "z": "noodle",
+   "ms": 31078
+  },
+  {
+   "k": "adv",
+   "fn": "setBg",
+   "arg": {
+    "image": "assets/bg/noodle_table.webp",
+    "label": null
+   },
+   "h": 17.018,
+   "d": 211,
+   "z": "noodle",
+   "ms": 31207
+  },
+  {
+   "k": "adv",
+   "fn": "end",
+   "arg": null,
+   "h": 17.018,
+   "d": 211,
+   "z": "noodle",
+   "ms": 36029
+  }
+ ],
+ "shots": [
+  "C:\\Users\\USER\\Documents\\Lawstudent_cclocal\\docs\\story_planning\\CC\\local_out\\X_P5_ui\\out\\07_psbhbg_land_line1.png",
+  "C:\\Users\\USER\\Documents\\Lawstudent_cclocal\\docs\\story_planning\\CC\\local_out\\X_P5_ui\\out\\08_psbhbg_land_line4.png"
+ ],
+ "errs": [],
+ "sha": "62d98bfa5",
+ "tag": "psbhbg_land",
+ "url": "http://127.0.0.1:8809/index.html?turbo"
+}

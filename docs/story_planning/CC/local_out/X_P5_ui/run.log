@@ -1,0 +1,39 @@
+[gpu_wrap] CC_GPU=1 跑 C:\Users\USER\Documents\Lawstudent_cclocal\docs\story_planning\test_tools\cc\cc_next1102_ui_probe.py http://127.0.0.1:8809/index.html C:\Users\USER\Documents\Lawstudent_cclocal\docs\story_planning\CC\local_out\X_P5_ui\out
+==== CASE examgoal（SHA 62d98bfa5，ORIENTS port,land）====
+PASS examgoal_port：遊戲載入
+  [前置／捷徑] [前置] examgoal_port exam：最小存檔 2025-12-15 06:30 宿舍、目標欄「—」（劇情演完沒有目標的狀態）；條件事件照常（起床／室友的劇情照玩家點）
+  [  66.6s] examgoal_port exam：途中台詞 []；選單 []
+PASS examgoal_port：考試日劇情後目標欄＝「09:10 期末考：憲法（上）…」（G.goal 與 #goal）  {"goalG": "09:10 期末考：憲法（上）（法律系館A 201）", "dom": "目標：09:10 期末考：憲法（上）（法律系館A 201）", "next": {"exam": "final", "t0": 9.166666666666666, "name": "憲法（上）"}, "curExam": null, "h": 6.745, "zone": "dorm"}
+  [前置／捷徑] [前置] examgoal_port normal：最小存檔 2025-12-12 06:30 宿舍、目標欄「—」（劇情演完沒有目標的狀態）；條件事件照常（起床／室友的劇情照玩家點）
+  [ 104.9s] examgoal_port normal：途中台詞 []；選單 []
+PASS examgoal_port：一般有課的日子（2025-12-12）目標欄沒有「期末考：」  {"goalG": "—", "dom": "目標：—", "next": {"exam": null, "t0": 9.166666666666666, "name": "經濟學原理（上）"}, "curExam": null, "h": 6.752, "zone": "dorm"}
+PASS examgoal_port：沒有 JS 例外  []
+PASS examgoal_land：遊戲載入
+  [前置／捷徑] [前置] examgoal_land exam：最小存檔 2025-12-15 06:30 宿舍、目標欄「—」（劇情演完沒有目標的狀態）；條件事件照常（起床／室友的劇情照玩家點）
+  [ 172.1s] examgoal_land exam：途中台詞 []；選單 []
+PASS examgoal_land：考試日劇情後目標欄＝「09:10 期末考：憲法（上）…」（G.goal 與 #goal）  {"goalG": "09:10 期末考：憲法（上）（法律系館A 201）", "dom": "目標：09:10 期末考：憲法（上）（法律系館A 201）", "next": {"exam": "final", "t0": 9.166666666666666, "name": "憲法（上）"}, "curExam": null, "h": 6.752, "zone": "dorm"}
+  [前置／捷徑] [前置] examgoal_land normal：最小存檔 2025-12-12 06:30 宿舍、目標欄「—」（劇情演完沒有目標的狀態）；條件事件照常（起床／室友的劇情照玩家點）
+  [ 210.4s] examgoal_land normal：途中台詞 []；選單 []
+PASS examgoal_land：一般有課的日子（2025-12-12）目標欄沒有「期末考：」  {"goalG": "—", "dom": "目標：—", "next": {"exam": null, "t0": 9.166666666666666, "name": "經濟學原理（上）"}, "curExam": null, "h": 6.752, "zone": "dorm"}
+PASS examgoal_land：沒有 JS 例外  []
+==== CASE psbhbg（SHA 62d98bfa5，ORIENTS port,land）====
+PASS psbhbg_port：遊戲載入
+  [前置／捷徑] [前置] psbhbg_port：最小存檔 2026-04-15 16:59 麵店；【捷徑】認識沛珊、柏翰、阿哲、加入麵店團群組 → 快照重讀；條件事件打開；URL http://127.0.0.1:8809/index.html?turbo
+PASS psbhbg_port：前置成立  {"knowsPS": true, "knowsBH": true, "knowsZhe": true, "group": true, "dating": false, "psbh": true, "termDay": 211, "key": "2026-04-15", "ev": {"location": "noodle", "trigger": "auto", "term": ["Y1S2"], "weeks": [8], "weekday": [3], "time": [17, 20.5], "once": true, "lines": 7}}
+PASS psbhbg_port：ev_psbh_public_0415 演了（6 句，GAME.say 紀錄）  ["柏翰幫沛珊把滷蛋切成兩半。", "……喔。", "全桌安靜三秒。", "對，我們在一起了。你們吃你們的。", "上禮拜的事。", "（他把另一半滷蛋推回她碗裡。）"]
+PASS psbhbg_port：（只記）ADV.begin 的 background＝{"background": "dark", "right": null, "left": null}；之後 setBg [{"image": "assets/bg/noodle_table.webp", "label": null}]
+PASS psbhbg_port：第 1 句的背景是 noodle_table 2D 圖（ADV.bgMode 是圖、#advBg 是 noodle_table）  {"active": true, "mode": {"image": "assets/bg/noodle_table.webp"}, "bgImg": "url(\"assets/bg/noodle_table.webp\")", "cls": "on image", "cgImg": ""}
+PASS psbhbg_port：第 4 句的背景是 noodle_table 2D 圖（ADV.bgMode 是圖、#advBg 是 noodle_table）  {"active": true, "mode": {"image": "assets/bg/noodle_table.webp"}, "bgImg": "url(\"assets/bg/noodle_table.webp\")", "cls": "on image", "cgImg": ""}
+PASS psbhbg_port：結束後不卡  {"free": {"busy": false, "dlg": false, "depth": 0, "adv": false, "phone": false, "zone": "noodle", "h": 17.048, "running": null}, "joy": [2.29, 3.85, 2.49]}
+PASS psbhbg_port：沒有 JS 例外  []
+PASS psbhbg_land：遊戲載入
+  [前置／捷徑] [前置] psbhbg_land：最小存檔 2026-04-15 16:59 麵店；【捷徑】認識沛珊、柏翰、阿哲、加入麵店團群組 → 快照重讀；條件事件打開；URL http://127.0.0.1:8809/index.html?turbo
+PASS psbhbg_land：前置成立  {"knowsPS": true, "knowsBH": true, "knowsZhe": true, "group": true, "dating": false, "psbh": true, "termDay": 211, "key": "2026-04-15", "ev": {"location": "noodle", "trigger": "auto", "term": ["Y1S2"], "weeks": [8], "weekday": [3], "time": [17, 20.5], "once": true, "lines": 7}}
+PASS psbhbg_land：ev_psbh_public_0415 演了（6 句，GAME.say 紀錄）  ["柏翰幫沛珊把滷蛋切成兩半。", "……喔。", "全桌安靜三秒。", "對，我們在一起了。你們吃你們的。", "上禮拜的事。", "（他把另一半滷蛋推回她碗裡。）"]
+PASS psbhbg_land：（只記）ADV.begin 的 background＝{"background": "dark", "right": null, "left": null}；之後 setBg [{"image": "assets/bg/noodle_table.webp", "label": null}]
+PASS psbhbg_land：第 1 句的背景是 noodle_table 2D 圖（ADV.bgMode 是圖、#advBg 是 noodle_table）  {"active": true, "mode": {"image": "assets/bg/noodle_table.webp"}, "bgImg": "url(\"assets/bg/noodle_table.webp\")", "cls": "on image narr", "cgImg": ""}
+PASS psbhbg_land：第 4 句的背景是 noodle_table 2D 圖（ADV.bgMode 是圖、#advBg 是 noodle_table）  {"active": true, "mode": {"image": "assets/bg/noodle_table.webp"}, "bgImg": "url(\"assets/bg/noodle_table.webp\")", "cls": "on image", "cgImg": ""}
+PASS psbhbg_land：結束後不卡  {"free": {"busy": false, "dlg": false, "depth": 0, "adv": false, "phone": false, "zone": "noodle", "h": 17.057, "running": null}, "joy": [2.27, 4.08, 2.52]}
+PASS psbhbg_land：沒有 JS 例外  []
+SHA 62d98bfa5 CASES examgoal,psbhbg
+ALL PASS
