@@ -62,7 +62,7 @@ const CLS=(function(){
     if(c.route&&!(G&&typeof STORY!=='undefined'&&STORY.route&&c.route.includes(STORY.route(G)))) return false;   /* 只給某條交換路線的課（AA_144 X4 日本路線大四下的補修，courses.js 的 route）*/
     if(!c.route&&G&&S.termAway(G,c.term)) return false;   /* 日本路線不修台灣的大三下（AA_341 J-S6；src/jp3d.js）：不排課、不考試、成績單換日本的兩門。
        K1-1（CC_K1、BB 10:21）：美國路線不修台灣的大四上也一樣（原本只問 JP.skipTerm：手機「法律」頁的「這學期」在美國時列出台灣大四上的課、每門 0／N；examList 也排出 5 場）*/
-    if(!c.choice) return true; const pick=S.rec(G).electives[c.choice.group]; const cur=pick===undefined?c.choice.default:pick; return cur===c.id; };
+    if(!c.choice) return true; const pick=(S.rec(G).electives||{})[c.choice.group];   /* ||{}：rec 被換掉、沒有 electives 時不丟例外（pool_aafix 的假 rec）*/ const cur=pick===undefined?c.choice.default:pick; return cur===c.id; };
   S.termCourses=(G,termId)=>{ const L=COURSES.list.filter(c=>c.term===termId&&S.enrolled(G,c)); if(G) S._lastG=G; const rt=G&&G.courses&&Array.isArray(G.courses.retake)?G.courses.retake.filter(r=>r.term===termId):[]; return rt.length?L.concat(rt.map(r=>S.rtCourse(r)).filter(Boolean)):L; };
   /* ---------- 被當、重修（D42：使用者 10-18 02:2x「沒有暑修」，被當的課下一學期再修；衝堂就開另一個老師的同一門課，放在不衝堂的時段；00_現行設定總表第 3 節）----------
      被當：法律課期末考 0 分（答對 0 題）或缺考；看出席的課不到三堂。成績單發的那一刻（showGrades）排進下一個學期（G.courses.retake：{id,from,term,slots,alt}）；
