@@ -81,13 +81,20 @@ const CLS=(function(){
   /* D118 大四下補考（使用者 2026-11-02 05:0x Q4；src/faildelay3d.js）：補考的紀錄 R.exam['學期:課:makeup']（drawExam／runExam 的 kind 'makeup'）；及格門檻同期末（答對 1 題以上） */
   S.makeupPassed=(R,termId,id)=>{ const m=R&&R.exam&&R.exam[termId+':'+id+':makeup']; return !!m&&m.status==='done'&&(m.correct|0)>0; };
   S.planRetakes=function(G,termId){ const R=S.rec(G); if(!Array.isArray(R.retake)) R.retake=[]; const fails=S.failedIn(G,termId), to=S.retakeTermAfter(G,termId), made=[]; if(!to) return made;
-    for(const c of fails){ if(R.retake.some(r=>r.id===c.id&&r.from===termId)) continue;
-      const used=new Set(); for(const x of S.termCourses(G,to)) for(const s of x.slots) used.add(s.wd+':'+s.block);
+    /* 排進某一學期：那學期的課（含已排的重修）佔掉的時段避開；排不下回 null */
+    const place=(c,tt)=>{ const used=new Set(); for(const x of S.termCourses(G,tt)) for(const s of x.slots) used.add(s.wd+':'+s.block);
       const clash=c.slots.some(s=>used.has(s.wd+':'+s.block)); let slots=c.slots.map(s=>({wd:s.wd,block:s.block})), alt=false;
       if(clash){ alt=true; slots=[]; for(let wd=1;wd<=5&&slots.length<c.slots.length;wd++) for(const b of ['am','pm1','pm2']){ if(slots.length>=c.slots.length) break; const k=wd+':'+b; if(used.has(k)||slots.some(s=>s.wd===wd)) continue; slots.push({wd,block:b}); used.add(k); } }
-      if(slots.length<c.slots.length) continue;   /* 一週排不下（不會發生：一週有 15 個時段）*/
-      const r={id:c.id,from:termId,base:(c.rt&&c.rt.base)||termId,term:to,slots,alt}; R.retake.push(r); made.push(r); if(S.attCourse(c)) R.attend[c.id]=0;   /* 看出席的課：重修那一學期重新算三堂 */ }
+      return slots.length<c.slots.length?null:{slots,alt}; };
+    for(const c of fails){ if(R.retake.some(r=>r.id===c.id&&r.from===termId)) continue;
+      /* BUG-RETAKE-OVERFLOW-1102（BB 09:45，CC M3）：全部被當時重修可能把下一學期一週 15 個時段排滿，後面的原本直接消失（繼續修不到、成績一直是不及格）。
+         排不下＝順延到再下一學期，手機用教務處的系統通知告訴玩家（暫定字 S.RT_DEFER_TEXT，AA 定稿後換）；再下一學期也排不下（或已經沒有學期）才放棄並記 R.retakeDropped */
+      let tt=to, pl=place(c,tt), deferred=false; while(!pl){ const nx=S.retakeTermAfter(G,tt); if(!nx){ tt=null; break; } tt=nx; deferred=true; pl=place(c,tt); }
+      if(!pl){ R.retakeDropped=R.retakeDropped||[]; if(!R.retakeDropped.includes(c.id)) R.retakeDropped.push(c.id); console.warn('CLS.planRetakes 排不下',c.id,termId); continue; }
+      const r={id:c.id,from:termId,base:(c.rt&&c.rt.base)||termId,term:tt,slots:pl.slots,alt:pl.alt}; if(deferred) r.deferred=true; R.retake.push(r); made.push(r); if(S.attCourse(c)) R.attend[c.id]=0;   /* 看出席的課：重修那一學期重新算三堂 */
+      if(deferred&&typeof PHONE!=='undefined'&&PHONE.post&&!PHONE.sent(G,'rt_defer_'+c.id+'_'+termId)) PHONE.post(G,{th:'sys',text:S.RT_DEFER_TEXT(c.name,S.termName(tt)),tag:'rt_defer_'+c.id+'_'+termId}); }
     return made; };
+  S.RT_DEFER_TEXT=(n,tn)=>'【教務處】'+n+'的重修，下學期的課表排不進去，改到'+tn+'。';   /* 暫定字（AA 定稿後換）*/
   /* 書店的教科書（SYS-BOOKS-1018；使用者 10-18 選擇題 D102、USER_WANTS X15）：這學期（放假時＝下一個學期）修的必修、選修各一本，書名照課名（去掉「（上）」「（一）」）；
      同一本書上下學期共用（經濟學原理（上）（下）是同一本）；研討、實習沒有教科書。買了記 G.flags.books[書名]；舊存檔買過民總（F.textbook）算有《民法總則》。
      效果只有讀那一科（D102：不做書架、同學注意、解鎖內容）：自學那一科多一分準備（studyPick）、那一科的期末考（五題）多一次想起答案（runExam）*/
@@ -540,9 +547,10 @@ const CLS=(function(){
   S.ROLL_N=4; S.ROLL_FAIL=3; S.ROLL_WEEKS=[2,3,4,5,6,7,10,11,12,13,14,15];
   const hashS=str=>{ let h=2166136261>>>0; for(let i=0;i<str.length;i++){ h^=str.charCodeAt(i); h=Math.imul(h,16777619)>>>0; } return h>>>0; };
   S.rollWeeks=function(G,c,termId){ if(!c||!S.attCourse(c)) return []; const R=G?S.rec(G):null, key=termId+':'+c.id; if(R&&R.roll&&Array.isArray(R.roll[key])) return R.roll[key].slice();
+    if(G&&G.flags&&G.flags.examSeed==null) G.flags.examSeed=Math.floor(Math.random()*1e9);   /* BUG-ROLLCALL-SEED0-1102（BB 09:45，CC M3）：新遊戲 9/1 就抽點名週，原本 examSeed 要到 12/15 第一次考試才產生＝種子 0、每個玩家大一上點名週都一樣。已經抽好存起來的（R.roll）照舊 */
     const F=G&&G.flags||{}; const seed=(F.examSeed!=null?F.examSeed:0)+'|roll|'+termId+'|'+c.id;
-    const met=new Set(); if(G&&typeof CALENDAR!=='undefined') for(let d=-600;d<2400;d++){ const t=CALENDAR.termOf(d); if(!t||t.id!==termId) continue; if(S.dayItems(Object.assign({},G,{day:d}),d).some(it=>it.c.id===c.id)) met.add(t.week); }   /* 那門課這學期真的有上的週（開學前、放假、只有某幾週的課都排除）*/
-    const cand=S.ROLL_WEEKS.filter(w=>(!c.weeks||c.weeks.includes(w))&&(!met.size||met.has(w))); const a=cand.slice(); let h=hashS(seed);
+    const met=new Set(); let fw=null; if(G&&typeof CALENDAR!=='undefined') for(let d=-600;d<2400;d++){ const t=CALENDAR.termOf(d); if(!t||t.id!==termId) continue; if(t.exam==='final') fw=fw==null?t.week:Math.min(fw,t.week); if(S.dayItems(Object.assign({},G,{day:d}),d).some(it=>it.c.id===c.id)) met.add(t.week); }   /* fw＝期末考週（大四下 15 週＝第 15 週，BUG-ROLLCALL-Y4S2W15-1102）*/   /* 那門課這學期真的有上的週（開學前、放假、只有某幾週的課都排除）*/
+    const cand=S.ROLL_WEEKS.filter(w=>(fw==null||w<fw)&&(!c.weeks||c.weeks.includes(w))&&(!met.size||met.has(w))); const a=cand.slice(); let h=hashS(seed);
     for(let i=a.length-1;i>0;i--){ h=Math.imul(h^(h>>>13),0x5bd1e995)>>>0; const j=h%(i+1); const x=a[i]; a[i]=a[j]; a[j]=x; }
     const W=a.slice(0,S.ROLL_N).sort((x,y)=>x-y); if(R&&met.size&&W.length){ if(!R.roll||typeof R.roll!=='object') R.roll={}; R.roll[key]=W.slice(); } return W; };   /* 抽好就存進存檔（G.courses.roll），之後照存的 */
   S.rollStat=function(G,c,termId,upToDay){ const R=S.rec(G), W=S.rollWeeks(G,c,termId), hit=new Set();
@@ -650,7 +658,8 @@ const CLS=(function(){
   S.runExam=async function(GM,it){ const G=GM.G, R=S.rec(G), c=it.c, kind=it.exam, termId=it.term; const nm=it.examName||(kind==='mid'?'期中練習':'期末考');   /* it.examName：大四下補考（faildelay3d.js 的 FD.MK_LINES.examName）*/
     const r=S.drawExam(G,c.id,termId,kind);
     if(!r.ok){ console.error('EXAM_BANK_INSUFFICIENT',c.id,r.n); R.exam=R.exam||{}; R.exam[r.key]={status:'insufficient',n:r.n};
-      await GM.say(null,'這一科的'+nm+'題庫還沒準備好（題目 '+r.n+'／5）。'+(kind==='mid'?'這次不舉行。':'這學期不舉行期末考。')); return {held:false,n:r.n}; }
+      /* BB 09:45 P3：補考（題庫不夠）說「這次不舉行」，不說「這學期不舉行期末考」*/
+      await GM.say(null,'這一科的'+nm+'題庫還沒準備好（題目 '+r.n+'／5）。'+(kind==='mid'||kind==='makeup'?'這次不舉行。':'這學期不舉行期末考。')); return {held:false,n:r.n}; }
     await GM.say(null,'考卷發下來。'+c.name+nm+(kind==='mid'?'（不算成績）':'')+'。五題。'); const ans=[]; let k=0;
     let recall=(kind==='final'||kind==='makeup')&&S.hasBook(G,c)?1:0;   /* 補考同期末 */   /* 有那一科的教科書：期末考多一次想起答案（D102）——第一次選錯，那個選項拿掉、旁白一句（AA 2026-10-21 20:23）、再選一次 */
     for(let i=0;i<5;i++){ const q=r.qs[i]; if(typeof STUDY!=='undefined'&&STUDY.cueFor){ let cue=null; try{ cue=STUDY.cueFor(G,q); }catch(e){ console.warn('STUDY.cueFor',e); } if(cue) await GM.say(null,cue); }   /* D118-B4：讀過那張卡＝想起筆記上的一行（不影響計分）*/

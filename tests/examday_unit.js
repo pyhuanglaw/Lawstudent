@@ -42,4 +42,11 @@ const finalDays=termId=>{ const out=[]; for(let d=1;d<1600;d++){ const t=CALENDA
 /* c */
 { const g=fs.readFileSync(path.join(H.ROOT,'src/game3d.js'),'utf8');
   check('c. CLS.resetExamMemo；讀檔（loadFrom）、開新遊戲（newGameAbort）都清',typeof CLS.resetExamMemo==='function'&&/async function loadFrom\(s\)\{ if\(typeof CLS!=='undefined'&&CLS\.resetExamMemo\) CLS\.resetExamMemo\(\)/.test(g)&&/function newGameAbort\(\)\{ if\(typeof CLS!=='undefined'&&CLS\.resetExamMemo\) CLS\.resetExamMemo\(\)/.test(g)); }
+/* d BUG-RETAKE-OVERFLOW-1102（BB 09:45，CC M3）：下一學期一週 15 個時段都排滿＝重修順延到再下一學期（不消失）、手機教務處通知 */
+{ const G=mk('TW','Y2S1',null); const prev='Y1S2', to='Y2S1'; const tc0=CLS.termCourses; const full={id:'__full',term:to,kind:'law',slots:[]}; for(let wd=1;wd<=5;wd++) for(const b of blocks) full.slots.push({wd,block:b});
+  const c=CLS.termCourses(G,prev).find(x=>CLS.isExamCourse(x)); const ap=CLS.attPass, fi=CLS.failedIn; CLS.failedIn=(g,t)=>t===prev?[c]:fi(g,t);
+  CLS.termCourses=function(g,t){ const L=tc0.apply(this,arguments); return t===to?L.concat([full]):L; }; let made=[];
+  try{ made=CLS.planRetakes(G,prev); } finally { CLS.termCourses=tc0; CLS.failedIn=fi; }
+  const r=made.find(x=>x.id===c.id); H.G=G; const sys=H.msgs('sys').some(t=>String(t).includes(c.name)&&/重修/.test(t));
+  check('d. 大二上排滿：'+c.name+' 的重修順延到大二下（不消失）、手機有教務處通知',!!r&&r.term==='Y2S2'&&r.deferred===true&&sys,J({r,sys})); }
 H.done();
