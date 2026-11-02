@@ -40288,6 +40288,61 @@
         "receiver": "BB",
         "ack": "ACK"
       }
+    },
+    {
+      "first": {
+        "term": "Y1S1",
+        "week": null,
+        "earliest": "第一次期中考前（讀書、一鍵總複習）；國考與職涯在畢業以後",
+        "mainline": true,
+        "blocks": false,
+        "prereq": false,
+        "parallel": true,
+        "confirmed": true
+      },
+      "area": null,
+      "id": "AA587-AN-B3-1102",
+      "title": "AA_587 以安改稿第三批（使用者 11-02 確認，第 14 節）：跨年隔天午餐、交換禮物咖啡豆原句、地圖「嗯。我畫了三次。」、日文小考 C03 寫反的人改祐廷、民總「……我寫引誘。」刪、書卷獎「名單上有你。……卷哥。」；新規則：以安是拿書卷的人，不寫她犯低級錯誤（AA_565）",
+      "owner": "LAWWW",
+      "status": "待開工",
+      "priority": "P1",
+      "note": "AA 19:46 P1",
+      "next": "等 CG 批次子代理（會插以安事件的 CG）合併後派子代理；企劃線 1cf992d66；termend HEART 那一段已在 99fa65eee 整合（AA_587 第 13 節）",
+      "xai": {
+        "spec": "企劃線 docs/story_planning/AA_587 @1cf992d66（第 14 節）",
+        "branch": "int/next1102",
+        "acceptance": "BB 測",
+        "receiver": "BB",
+        "ack": "ACK"
+      }
+    },
+    {
+      "first": {
+        "term": "Y1S1",
+        "week": null,
+        "earliest": "第一次期中考前（讀書、一鍵總複習）；國考與職涯在畢業以後",
+        "mainline": true,
+        "blocks": false,
+        "prereq": false,
+        "parallel": true,
+        "confirmed": true
+      },
+      "area": null,
+      "id": "CG-BATCH-1102",
+      "title": "BB 19:40 CG／背景交件（企劃線 62395d7da、c2a4d1a87；BB_241 第六節）：換圖 CG-11、CG-23；以安 CG-28/29/30/32/34/35/38；子晴 CG-106、沛珊 CG-119、語彤 CG-10b 圖層；背景 grad_exam_room、gc_roadside_car",
+      "owner": "LAWWW",
+      "status": "進行中",
+      "priority": "P2",
+      "note": "BB 19:40",
+      "next": "子代理在 worktree（cgb1102，基於 958859068）；回來後合併、派 BB 看畫面",
+      "xai": {
+        "spec": "企劃線 62395d7da、c2a4d1a87；AA_597 CG 總表",
+        "branch": "int/next1102",
+        "acceptance": "BB 測",
+        "receiver": "LAWWW",
+        "ack": "ACK",
+        "owner": "LAWWW"
+      }
     }
   ]
 }
