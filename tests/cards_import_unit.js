@@ -17,7 +17,7 @@ const fs=require('fs'), vm=require('vm'), path=require('path'), cp=require('chil
 const {check}=H, J=JSON.stringify;
 for(const f of ['src/data/study_units.js','src/study3d.js']){ const p=path.join(H.ROOT,f); if(!fs.existsSync(p)) continue; const src=fs.readFileSync(p,'utf8').replace(/^const ([A-Z][A-Z0-9_]*)\s*=/mg,'globalThis.$1='); vm.runInThisContext(src,{filename:f}); }
 const DIR='docs/story_planning/study/';
-const FILES={Y1S1:DIR+'cards_y1s1.json',Y1S2:DIR+'cards_y1s2.json',Y2S1:DIR+'cards_y2s1.json',Y2S2:DIR+'cards_y2s2.json',Y3S1:DIR+'cards_y3s1.json'}, TITLES=DIR+'crimpro_titles.json';
+const FILES={Y1S1:DIR+'cards_y1s1.json',Y1S2:DIR+'cards_y1s2.json',Y2S1:DIR+'cards_y2s1.json',Y2S2:DIR+'cards_y2s2.json',Y3S1:DIR+'cards_y3s1.json',Y3S2:DIR+'cards_y3s2.json'}, TITLES=DIR+'crimpro_titles.json';
 const ALLOW=JSON.parse(fs.readFileSync(path.join(H.ROOT,'docs/handoff/story_import_allow.json'),'utf8'));
 const approved=p=>ALLOW.files.filter(e=>e.path===p&&e.status==='approved'&&e.approvedBy&&e.sha);
 const show=(sha,p)=>{ try{ return JSON.parse(cp.execFileSync('git',['-C',H.ROOT,'show',sha+':'+p],{encoding:'utf8',stdio:['ignore','pipe','pipe']})); }catch(e){ return null; } };

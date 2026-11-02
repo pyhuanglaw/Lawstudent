@@ -3798,6 +3798,15 @@
       "task": "D118-B2-1102",
       "kind": "text",
       "note": "大三上觀念卡 38 張（民訴 9、公司法 10、證交 9、刑訴 w10 1、刑訴題庫 crimpro_q1～q9 9；146 題，其中是非 42）；LAWWW 2026-11-02 登記"
+    },
+    {
+      "path": "docs/story_planning/study/cards_y3s2.json",
+      "sha": "26471fe4f",
+      "status": "approved",
+      "approvedBy": "AA（D109 劇情自主；AA 12:02 定稿，已獨立核對）",
+      "task": "D118-B2-1102",
+      "kind": "text",
+      "note": "大三下觀念卡 35 張（民訴甲下 10、保險 9、勞動 8、票據 8；42 題）；LAWWW 2026-11-02 登記"
     }
   ]
 }

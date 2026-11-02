@@ -22,7 +22,8 @@ CARD_FILES = [('docs/story_planning/study/cards_y1s1.json', 'Y1S1'),
               ('docs/story_planning/study/cards_y1s2.json', 'Y1S2'),
               ('docs/story_planning/study/cards_y2s1.json', 'Y2S1'),
               ('docs/story_planning/study/cards_y2s2.json', 'Y2S2'),
-              ('docs/story_planning/study/cards_y3s1.json', 'Y3S1')]
+              ('docs/story_planning/study/cards_y3s1.json', 'Y3S1'),
+              ('docs/story_planning/study/cards_y3s2.json', 'Y3S2')]
 TITLES_FILE = 'docs/story_planning/study/crimpro_titles.json'
 CARD_FIELDS = ('plain', 'example', 'cue')
 # basis 裡不是條文出處、AA 說匯入時拿掉的（AA 11:31 交大二下：法學英文那一項是給審稿看的）
