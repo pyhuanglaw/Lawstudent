@@ -38835,7 +38835,7 @@
       "title": "職涯落點 v2：careerLean、律師家族保證、研究所改成作答",
       "area": null,
       "owner": "LAWWW",
-      "status": "待開工",
+      "status": "進行中",
       "priority": "P0",
       "next": "見 docs/handoff/D118_PLAN.md 第 4 節 D118-B6",
       "first": {
@@ -38851,7 +38851,8 @@
       "source": "D118_PLAN.md D118-B6（使用者 11-02 D118）",
       "authorized": "使用者直接指派（X151）；D111 LAWWW 遊戲總監",
       "parent": "STUDY-EXAM-SYS-1102",
-      "notes": "依賴：AA：L_firm 結局稿、研究所考場台詞；B5a（法服旗標）；工時：LAWWW 2.5h；BB 30 分鐘；BB 驗收：大四上存檔（傾向 C、報國考）→ 一路到 2030-10-01 → 第一份工作是律師的卡。另一份存檔報研究所，筆試照作答，答 7 題錄取、答 3 題落榜，尾聲分別正確。約 30 分鐘。"
+      "notes": "依賴：AA：L_firm 結局稿、研究所考場台詞；B5a（法服旗標）；工時：LAWWW 2.5h；BB 30 分鐘；BB 驗收：大四上存檔（傾向 C、報國考）→ 一路到 2030-10-01 → 第一份工作是律師的卡。另一份存檔報研究所，筆試照作答，答 7 題錄取、答 3 題落榜，尾聲分別正確。約 30 分鐘。",
+      "note": "2026-11-02 09:5x 子代理 a7de3d0b1 施工中（AA_582@14ce865f0）；不進今晚版本。"
     },
     {
       "id": "D118-B7-1102",
@@ -38881,7 +38882,7 @@
       "title": "司法官二試、三試、重考：六條路線",
       "area": null,
       "owner": "LAWWW",
-      "status": "待開工",
+      "status": "進行中",
       "priority": "P0",
       "next": "見 docs/handoff/D118_PLAN.md 第 4 節 D118-B8",
       "first": {
@@ -38897,7 +38898,8 @@
       "source": "D118_PLAN.md D118-B8（使用者 11-02 D118）",
       "authorized": "使用者直接指派（X151）；D111 LAWWW 遊戲總監",
       "parent": "STUDY-EXAM-SYS-1102",
-      "notes": "依賴：使用者回答 user_decisions 第 1、2 題；AA 的路線稿（aa_asks 第 4 項）；B7；工時：LAWWW 3h；BB 2h；BB 驗收：情境 S2（主驗收）：大四下存檔 → 報名 → 國考總複習 → 一試作答 → 二試作答 → 放榜 → 三試或重考選擇 → 第一份工作 → 尾聲。(b)、(c→e)、(d)、(f) 四條各走一次，全程不用 turbo。每條約 30 分鐘，共約 2 小時，可以交給 CC 執行，由 BB 判定 PASS／FAIL。"
+      "notes": "依賴：使用者回答 user_decisions 第 1、2 題；AA 的路線稿（aa_asks 第 4 項）；B7；工時：LAWWW 3h；BB 2h；BB 驗收：情境 S2（主驗收）：大四下存檔 → 報名 → 國考總複習 → 一試作答 → 二試作答 → 放榜 → 三試或重考選擇 → 第一份工作 → 尾聲。(b)、(c→e)、(d)、(f) 四條各走一次，全程不用 turbo。每條約 30 分鐘，共約 2 小時，可以交給 CC 執行，由 BB 判定 PASS／FAIL。",
+      "note": "2026-11-02 09:5x 子代理 a7de3d0b1 施工中（AA_582@14ce865f0）；不進今晚版本。 二試題池照 AA_583@b76dd619e（使用者 09:5x 經 AA：從已核對題庫用程式篩事例題，不出新題；每年民3刑3公2訴2；排除當年一試、重考年換題；AI_CROSS_REVIEWED／Y4_CROSS_REVIEWED 算已核對）。"
     },
     {
       "id": "D118-B9-1102",
