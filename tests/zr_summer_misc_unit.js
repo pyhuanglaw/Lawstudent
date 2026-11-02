@@ -131,7 +131,7 @@ const queued=th=>[].concat(...(PHONE.rec(H.G).q||[]).map(q=>(q.items||[]).filter
     { const b=block('src/data/r2y4a_events.js','ev_kexin_trip_winter_y4'), n=(b.match(/\{scene:'高雄・左營站',bg:'kh_station'\}/g)||[]).length;
       check('C. ev_kexin_trip_winter_y4：左營站兩段（開頭、傍晚）都是 kh_station',n===2&&!/\{scene:'高雄・左營站',bg:'dark'\}/.test(b)&&hasImg('kh_station'),String(n)); }
     /* BB 列的另外兩個代號遊戲裡沒有：不改 */
-    check('C. market 不在 OUT.BG、小鎮的市場（ev_spring_y2_noodle）照舊；bus_day 11-02 有圖了（第 102 組第 1 張），公車上（ev_sis_vday_y3）改 bus_day',!!(OUT.BG.bus_day&&OUT.BG.bus_day.image)&&!OUT.BG.market&&block('src/data/sis_b4_events.js','ev_sis_vday_y3').includes("{scene:'公車上',bg:'bus_day'}")&&block('src/data/group_events.js','ev_spring_y2_noodle').includes("{scene:'小鎮的市場',bg:'dark'}"));
+    check('C. 11-02 第 102 組 bus_day、第三批 town_market 有圖了：公車上（ev_sis_vday_y3）＝bus_day、小鎮的市場（ev_spring_y2_noodle）＝town_market；沒有 market 這個代號',!!(OUT.BG.bus_day&&OUT.BG.bus_day.image)&&!!(OUT.BG.town_market&&OUT.BG.town_market.image)&&!OUT.BG.market&&block('src/data/sis_b4_events.js','ev_sis_vday_y3').includes("{scene:'公車上',bg:'bus_day'}")&&block('src/data/group_events.js','ev_spring_y2_noodle').includes("{scene:'小鎮的市場',bg:'town_market'}"));
     /* 盤點工具：經濟系沒有深色底了 */
     { let out=''; try{ out=cp.execSync('node tools/story/black_bg_audit.js --stage econ',{cwd:H.ROOT,encoding:'utf8'}); }catch(e){ out=String(e.stdout||''); }
       const rows=(out.split('## 2.')[1]||'').split('## 3.')[0].split('\n').filter(l=>/^\| ev_/.test(l)), wrong=(out.split('## 3.')[1]||'').split('## 4.')[0].split('\n').filter(l=>/^\| ev_y0/.test(l));

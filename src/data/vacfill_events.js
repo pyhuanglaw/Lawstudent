@@ -279,7 +279,7 @@ const VACFILL_EVENTS=(function(){
       dialogue:[ {scene:'臺北的家'}, {speaker:'媽媽',name:'媽媽',text:X.y1w_0123.mom} ],
       after:noMemo('ev_vf_y1w_0123',G=>{ G.flags.VF_Y1W_DIHUA_MODE='home'; G.flags.VF_Y1W_DIHUA='go'; if(typeof VACFILL!=='undefined'&&VACFILL.phone) VACFILL.phone(G); } )},
     { id:'ev_vf_y1w_0124', title:'迪化街', participants:[], location:'any', trigger:'outing', once:true, background:'dark', hours:3,
-      dialogue:[ {scene:'迪化街'}, {speaker:null,text:X.y1w_0123.narr}, {speaker:'媽媽',name:'媽媽',text:X.y1w_0123.fish} ] },
+      dialogue:[ {scene:'迪化街',bg:'dihua_newyear'}, {speaker:null,text:X.y1w_0123.narr}, {speaker:'媽媽',name:'媽媽',text:X.y1w_0123.fish} ] },
     /* 大一暑假 8/28（五）～8/29：姊姊回家住兩天（在家的時候演）*/
     { id:'ev_vf_y1s_0828', title:'', participants:[], location:'any', trigger:'home', once:true, background:'dark',
       prereq:{custom:G=>win(G,'2026-08-28',18,'2026-08-30',0)},

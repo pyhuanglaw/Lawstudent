@@ -1391,7 +1391,8 @@ const STORY_EVENTS=[
     outingMissed:(G,GM,q)=>{ if(typeof VAC!=='undefined'&&VAC.missed) VAC.missed(GM,q); } },
   /* 學期末的飯帶出的單日小活動（AA_251：C14 事務所參觀、C15 朋友約的單日小事；termend3d.js 的 dayOuting）*/
   /* VA-09 芯慈實習公司樓下的午餐（AA_256 第 1 節；src/vac3d.js 的 va09Phone 排；她只有五十分鐘）。AA_549 2-1（AA 回第 1 題）：證券公司法務部，換掉「事務所」三處 */
-  { id:'ev_va09_lunch', title:'實習公司樓下的午餐', participants:['classmate_xinci'], location:'any', trigger:'outing', once:true, background:'dark', hours:50/60,
+  { id:'ev_va09_lunch', title:'實習公司樓下的午餐', participants:['classmate_xinci'], location:'any', trigger:'outing', once:true, get background(){ return typeof OUT!=='undefined'&&OUT.bg?OUT.bg('office_buffet'):'dark'; },   /* 11-02 使用者生成（BB_132 第 96 組第 2 張）*/
+    hours:50/60,
     dialogue:[ {speaker:null,text:'（那棟大樓的一樓，自助餐。芯慈的識別證反過來別在衣服上。）'},
       {speaker:'classmate_xinci',text:'我只有五十分鐘。……先拿菜。'},
       {speaker:null,text:'（她夾了三樣，每一樣都很少。）'},

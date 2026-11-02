@@ -79,7 +79,7 @@ const NAME=id=>SOCIAL.displayName(id);
   check('1. S1 車上：「（你回家把車開出來。後座擠了三個人。）」→ 市場 → 海邊 → 回程', L1[0]==='（你回家把車開出來。後座擠了三個人。）'&&has('（市場在小鎮車站的後面。早上九點，攤販已經在收第一輪了。）')&&has('（第二站是海邊。四月的風還有點冷。）')&&L1[L1.length-1]==='（回程，後座三個人都睡著了。你一個人開到臺北，收音機開得很小聲。）', JSON.stringify(L1.slice(0,3)));
   check('1. S1 市場「這個好吃。我不知道是什麼。」、以安「第一站選得很有理由。」（不是「理由很充分」）', L1.includes(NAME('zhe')+'：（手上拿著一袋剛炸好的東西）這個好吃。我不知道是什麼。')&&L1.includes(NAME('heroine_01')+'：第一站選得很有理由。')&&!L1.some(t=>/理由很充分/.test(t)));
   check('1. S1 海邊二選一（下去踩水／坐在堤防上）；沒有沛珊', JSON.stringify(opts[0])===JSON.stringify(['（下去踩水）','（坐在堤防上）'])&&!L1.some(t=>/沛珊/.test(t))&&has('（水真的很冷。Alison 在後面笑到蹲下。）'));
-  check('1. 背景：車上（早上）→ 小鎮的市場（深色底）→ 海邊 y0_sea_blue', JSON.stringify(scenes[0])===JSON.stringify(OUT.bg('car_morning'))&&scenes[1]==='dark'&&JSON.stringify(scenes[2])===JSON.stringify(OUT.bg('y0_sea_blue')));
+  check('1. 背景：車上（早上）→ 小鎮的市場（town_market，11-02 使用者生成；原本深色底）→ 海邊 y0_sea_blue', JSON.stringify(scenes[0])===JSON.stringify(OUT.bg('car_morning'))&&JSON.stringify(scenes[1])===JSON.stringify(OUT.bg('town_market'))&&!!(OUT.bg('town_market')||{}).image&&JSON.stringify(scenes[2])===JSON.stringify(OUT.bg('y0_sea_blue')));
   fresh(SD.trip,8,'dorm'); team(); R('yu','FRI'); R('heroine_03','FRI'); R('classmate_peishan','FAM'); L1=await play('ev_spring_y2_noodle',[1]);   /* AA_375 第 5 項：車上最多三個人（照熟悉度），市場那兩句要 Alison、語彤在車上 */
   check('1. S2 和沛珊熟：Alison「……以前這種行程都是沛珊排的。」＋沒有人接話；坐堤防＝坐到語彤旁邊', L1.includes(NAME('yu')+'：（看著賣菜的阿姨）……以前這種行程都是沛珊排的。')&&has('（沒有人接話。語彤把一袋芭樂遞給 Alison。）')&&has('（你坐到語彤旁邊。她看著海，筆記本放在膝蓋上，一個字都沒寫。）'));
   fresh(SD.trip,8,'dorm'); PHONE.join(G,'noodle_team','麵店團'); R('zhe','FAM'); L1=await play('ev_spring_y2_noodle',[0]);

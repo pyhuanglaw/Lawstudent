@@ -149,7 +149,7 @@ const R2Y4B_EVENTS=(function(){
       {if:kn('zhe'),speaker:'zhe',text:'（後座）司機，我要聽歌。'},
       {if:kn('yu'),speaker:'yu',text:'不要放他的歌。'},
       {advance:toH(20)},
-      {scene:'宜蘭・民宿',bg:'dark'},   /* 民宿（夜）沒有底圖：dark＋字幕 */
+      {scene:'宜蘭・民宿',bg:'yilan_minsu_night'},   /* 11-02 使用者生成（原本深色底＋字幕）*/
       {speaker:null,text:'（民宿的老闆送了一大盤水果。大家坐在榻榻米上，有人說要講大一的事。）'},
       {if:kn('yu','classmate_bohan'),speaker:'yu',text:'大一迎新，柏翰說我講了四個社團。'},
       {if:kn('yu','classmate_bohan'),speaker:'classmate_bohan',text:'妳講了四個。'},   /* 接 AA_71 2-1 大一迎新 */

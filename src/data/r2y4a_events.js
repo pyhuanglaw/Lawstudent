@@ -97,7 +97,8 @@ const R2Y4A_EVENTS=(function(){
     after:G=>{ if(G.flags.US2_STAYED&&typeof R2Y4A!=='undefined') R2Y4A.repairAdd(G,'us2'); } });
 
   /* ---- 2-Y4-18 芝加哥的週末（BB_98 2-9；D47：芝加哥用圖片）：11/11 07:00 出發（出遊），兩天＝兩段（第二天在 afterOuting 接 ev_us_chicago2）---- */
-  EV.push({ id:'ev_us_chicago', title:'芝加哥的週末', participants:[S5], location:'any', trigger:'outing', once:true, background:'dark', hours:0.25,
+  EV.push({ id:'ev_us_chicago', title:'芝加哥的週末', participants:[S5], location:'any', trigger:'outing', once:true, get background(){ return typeof OUT!=='undefined'&&OUT.bg?OUT.bg('us_bus_chicago'):'dark'; },   /* 11-02 使用者生成：巴士上（原本深色底）*/
+    hours:0.25,
     dialogue:[ {if:{custom:LONG},goto:'chi0'},   /* AA_451 1-1：沒見過他的（8/14 迎新、9/8 下課都沒去），11/3 學姊說「我們一起認識他」——在巴士上認識（MET_LONG＋LONG_CHI）；之後的句子照有見過的版本 */
       nar('（巴士上，坐在你們前面的是一個戴圓框眼鏡的男生。車子一開，他就回頭。）'),
       {speaker:'何俊朗',text:'臺灣來的？我聽你們講話聽出來的。'},

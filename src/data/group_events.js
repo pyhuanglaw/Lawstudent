@@ -25,7 +25,7 @@ const GROUP_EVENTS=(function(){
     beforeOuting:G=>{ const g=G1(); if(g&&g.springSeat) g.springSeat(G); },   /* 車上的三個人（AA_375 第 5 項，照熟悉度）*/
     dialogue:[ {scene:'車上',bg:'car_morning'},{speaker:null,text:'（你回家把車開出來。後座擠了三個人。）'},
       {if:{custom:G=>{ const g=G1(); return !!g&&g.springTrain(G); }},speaker:null,text:'（車子坐不下。剩下的人搭火車，下午在那邊會合。）'},   /* AA_375 第 5 項：認識的超過三個＝其他人搭火車；會合以後（海邊）照樣有他們的句子 */
-      {scene:'小鎮的市場',bg:'dark'},   /* 小鎮的傳統市場背景沒有（AA_143，底圖等使用者）→ dark＋字幕 */
+      {scene:'小鎮的市場',bg:'town_market'},   /* 11-02 使用者生成（BB_132 第 96 組第 3 張；原本深色底＋字幕）*/
       {speaker:null,text:'（市場在小鎮車站的後面。早上九點，攤販已經在收第一輪了。）'},
       {if:car('heroine_03'),speaker:'heroine_03',text:'這個市場，我田野課看過資料。……想自己來看一次。'},   /* 市場（早上）＝車上的人；搭火車的下午才到（AA_375 第 5 項）*/
       {if:car('zhe'),speaker:'zhe',text:'（手上拿著一袋剛炸好的東西）這個好吃。我不知道是什麼。'},
