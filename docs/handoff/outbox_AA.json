@@ -4616,6 +4616,23 @@
    "receiver": "BB",
    "ack": "SENT",
    "note": "使用者 11-02 說以安定型、看過精選 10 句回「都對，交出去」"
+  },
+  {
+   "task": "STUDY-EXAM-STORY-1102",
+   "branch": "claude/story-planning",
+   "sha": "2296dc164",
+   "files": [
+    "docs/story_planning/study/cards_y1s1.json",
+    "docs/story_planning/study/cards_y1s1_notes.md",
+    "docs/story_planning/study/cards_y1s1_review.md"
+   ],
+   "state": "已交付",
+   "remaining": "大一下起各科、刑訴 9 張正式標題",
+   "next": "LAWWW 加白名單匯入 study_units；BB 驗收",
+   "noDirectIntegrate": false,
+   "receiver": "LAWWW",
+   "ack": "SENT",
+   "note": "大一上 27 張（民總 10、憲法上 9、刑總一 8），獨立核對後改 9 張"
   }
  ],
  "items": [
