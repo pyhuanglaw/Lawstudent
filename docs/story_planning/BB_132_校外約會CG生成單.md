@@ -4395,3 +4395,10 @@
   - wenzhou_teahouse：茶壺、兩杯茶、竹茶盤，舊收銀機、茶葉罐，山水畫，院子有石凳。
   - pasta118_night：窗邊桌上點著燭燈，吧檯、廚房、牆上的照片，窗外是夜晚的巷子。其他桌也放了小燭杯，和提示詞的「只有一桌點燈」不一樣，但是不影響劇情（照樣看得出是公休日的空店），接受。
 - 另外五張（jp_supermarket、jp_morning_market、jp_old_bookstore、jp_post_office、jp_secondhand_shop）等使用者傳。
+- **後五張（07:36 傳，從 queued_command 抓出，縮圖核對過）也都 PASS**：
+  - jp_old_bookstore：書架疊到天花板，窄走道，最裡面一排厚書，門口小櫃台＋檯燈，書背上沒有字。
+  - jp_morning_market：疊得很高的草莓，竹筍、青菜、蛋，價錢牌是空白色塊，有山和電線桿。
+  - jp_supermarket：生魚片盒上貼著黃色、紅色圓形貼紙，傍晚的天色，櫻花。
+  - jp_secondhand_shop：轉動中的電風扇、電子鍋、冰箱、微波爐，手寫價錢貼紙看不清楚，外面下雨。
+  - jp_post_office：兩個封好的紙箱，小的那個貼紅色貼紙，填單桌、綁繩子的筆，號碼燈是空白方塊，夏天。
+- **第 108 組十張全部 PASS**，交 LAWWW 接。ART_APPROVED 要等 CC 在遊戲裡截到對話畫面才標。
