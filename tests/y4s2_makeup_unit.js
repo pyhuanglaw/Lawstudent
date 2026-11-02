@@ -189,5 +189,18 @@ await sec('k',async()=>{ const bgId=x=>x&&typeof x==='object'?x.image||'obj':x; 
     if(hb0) HOME.bgNow=hb0;
   } finally { ADV.begin=b0; ADV.setBg=s0; ADV.end=e0; GM.say=say0; GM.caption=cap0; ADV.active=false; if(H.E.player) delete H.E.player.seat; } });
 
+/* BUG-MAKEUP-HOME-SLEEP-WARN-1102（BB 11:03，CC 02_mk12new）：補考當天在家睡覺，警告「會錯過補考」選「照樣」＝缺考（不偷偷幫玩家去考、不沒有車程就開考）；前一晚睡照舊停在 09:30 家裡的選單 */
+await sec('l',async()=>{ const exams=()=>H.said.filter(x=>/^\d／5　/.test(x.t)).length;
+  for(const h of [8.9,10.52]){ const {G,c}=await planned(); G.home=Object.assign(G.home||{},{at:true}); PG.setT(G,H.E,D('2029-06-26'),h); H.said=[]; H.picks=[0]; QS=[];
+    const ok=await HOME.confirmMiss(GM,24+8.5);
+    check('l1. '+h+' 在家睡覺：警告「會錯過：10:00 補考」、選「照樣」＝缺考（missed）',ok===true&&H.said.some(x=>/^會錯過：10:00 補考/.test(x.t))&&G.flags.FD_MAKEUP.status==='missed'&&!FD.mkPending(G),J({ok,st:G.flags.FD_MAKEUP.status,said:H.lines().slice(0,2)}));
+    H.said=[]; for(let k=0;k<8&&G.day===D('2029-06-26');k++){ PG.busy=false; await HOME.sleep(GM); PG.pending(G); const s=PG.due(G); if(s) await PG.runStep(GM,s); }   /* 睡覺＝跳到下一件事（途中有訊息會先停，再睡一次）*/
+    check('l2. '+h+' 睡下去：沒有開考（0 題）、缺考旁白出現、延畢',exams()===0&&H.has(FD.fillIds(G.flags.FD_MAKEUP.courses,L.missed))&&G.flags.FAIL_DELAY===true,J({ex:exams(),fd:G.flags.FAIL_DELAY,l:H.lines().slice(0,4)})); }
+  const {G}=await planned(); G.home=Object.assign(G.home||{},{at:true}); PG.setT(G,H.E,D('2029-06-25'),21); H.said=[]; H.picks=[0];
+  const ok=await HOME.confirmMiss(GM,24+8.5);
+  check('l3. 前一晚 21:00 睡覺：不警告、補考照樣 pending',ok===true&&!H.said.some(x=>/會錯過/.test(x.t))&&FD.mkPending(G));
+  for(let k=0;k<8&&G.day===D('2029-06-25');k++){ PG.busy=false; await HOME.sleep(GM); }
+  check('l4. 前一晚睡：醒來是補考日 09:30（家裡）、「出發：補考」在選單上、還沒開考',G.day===D('2029-06-26')&&Math.abs(G.hour-9.5)<0.01&&!!FD.homeMakeupOpt(G)&&exams()===0,J({day:G.day,h:G.hour,opt:!!FD.homeMakeupOpt(G),st:G.flags.FD_MAKEUP.status,ex:exams(),l:H.lines().slice(-4)})); });
+
 H.done();
 })();

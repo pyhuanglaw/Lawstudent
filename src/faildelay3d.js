@@ -183,11 +183,12 @@ const FD=(function(){
   if(typeof PG!=='undefined'&&Array.isArray(PG.stops)&&!PG.stops.some(f=>f&&f._fdCls)){ const f=G=>S.clsStop(G); f._fdCls=true; PG.stops.push(f); }
   if(typeof STORY!=='undefined'&&Array.isArray(STORY.PHONE_RULES)) STORY.PHONE_RULES.push(G=>{ if(law(G)) S.result(G); });
   if(typeof PG!=='undefined'&&Array.isArray(PG.STEPS)&&!PG.STEPS.some(s=>s.id==='fd_makeup')){ const md=()=>S.mkDay();
-    PG.STEPS.push({id:'fd_makeup',at:G=>{ const d=md(); return d==null?null:T(d,S.MK_STEP_H); },until:G=>{ const d=md(); return d==null?null:T(d,S.MK_UNTIL_H); },cond:G=>S.mkPending(G),run:GM=>S.makeup(GM),onMiss:G=>{ S.mkMissed(G); },seatOk:true},   /* D118 補考（seatOk：坐著也演，見 postgrad3d.js S.tick）*/
+    PG.STEPS.push({id:'fd_makeup',at:G=>{ const d=md(); return d==null?null:T(d,S.MK_STEP_H); },until:G=>{ const d=md(); return d==null?null:T(d,S.MK_UNTIL_H); },cond:G=>S.mkPending(G),ready:G=>!(typeof HOME!=='undefined'&&HOME.at&&HOME.at(G)),run:GM=>S.makeup(GM),onMiss:G=>{ S.mkMissed(G); },seatOk:true},   /* ready：人在家＝不自己開考（睡覺停在 09:30 家裡的選單，按「出發：補考」才去；BB 11:03 第 1 點）*/   /* D118 補考（seatOk：坐著也演，見 postgrad3d.js S.tick）*/
       {id:'fd_mk_missed',at:G=>{ const d=md(); return d==null?null:T(d,S.MK_UNTIL_H); },until:G=>Infinity,cond:G=>{ const M=S.mk(G); return !!M&&M.status==='missed'&&!M.said&&law(G); },run:GM=>S.mkMissedNarr(GM)},   /* 補考沒去：旁白（延畢那幾句）。until 不設上限（BB 08:59 ④）：缺考是 PG.pending 第一次跑到時才記，之後下一個停點一定演（M.said 擋重複）*/
       {id:'fd_mk_notice',at:G=>{ const M=S.mk(G); return M&&M.mig!=null?M.mig:null; },until:G=>{ const d=md(); return d==null?null:T(d,S.MK_STEP_H); },cond:G=>{ const M=S.mk(G); return !!M&&M.mig!=null&&!M.noticed&&S.mkPending(G); },run:GM=>S.mkMigNarr(GM)}); }   /* BB 08:59 ⑤：舊存檔改給補考，下一個停點補一句通知 */
   /* BUG-MAKEUP-HOME-1102（BB 08:34 P1）：6/26 人在家（HOME.at）時 PG.tick 不跑，原本會一直待到 11:00 被算缺考。
-     家裡的選單直接列「出發：補考」（一鍵：照補考那一場演、考完回到家的選單）；在家睡覺照舊由 PG.sleepJump 跳到 09:30 那一場 */
+     家裡的選單直接列「出發：補考」（一鍵：照補考那一場演、考完回到家的選單）；
+     在家睡覺（BUG-MAKEUP-HOME-SLEEP-WARN-1102，BB 11:03）：前一晚睡＝醒來停在補考日家裡的選單（09:30，有「出發：補考」）；補考當天 11:00 以前睡，「會錯過：補考」選「照樣」＝睡過頭、算缺考（HOME.MISS_OK → S.mkMissed），不會再自己去考 */
   S.homeMakeupOpt=G=>{ if(!S.mkPending(G)) return null; const d=S.mkDay(); if(d==null||G.day!==d||now(G)>=T(d,S.MK_UNTIL_H)) return null;
     return {t:S.MK_LINES.homeOpt,hint:S.fillIds(S.mk(G).courses,S.MK_LINES.homeHint),run:async GM=>{ await S.makeup(GM); }}; };
   if(typeof HOME!=='undefined'&&Array.isArray(HOME.MENU_OPTS)&&!HOME.MENU_OPTS.includes(S.homeMakeupOpt)) HOME.MENU_OPTS.push(S.homeMakeupOpt);
@@ -206,6 +207,7 @@ const FD=(function(){
   S.mkMissList=(G,toH)=>{ if(!S.mkPending(G)) return []; const d=S.mkDay(); if(d==null) return []; const u=T(d,S.MK_UNTIL_H), a=now(G), b=G.day*24+toH; return u>a&&u<=b?[String(S.MK_AT[1]).padStart(2,'0')+':00 '+S.mkLabel(G)]:[]; };
   if(typeof CLS!=='undefined'){ if(Array.isArray(CLS.HARD_FNS)&&!CLS.HARD_FNS.includes(S.mkHard)) CLS.HARD_FNS.push(S.mkHard); if(Array.isArray(CLS.STOP_FNS)&&!CLS.STOP_FNS.includes(S.mkStops)) CLS.STOP_FNS.push(S.mkStops);
     if(CLS.canSkip&&!CLS._fdSkip){ const cs0=CLS.canSkip; CLS.canSkip=function(GM){ const r=cs0.apply(this,arguments); if(r) return r; return GM&&GM.G?S.mkNoSkip(GM.G):''; }; CLS._fdSkip=true; } }
+  if(typeof HOME!=='undefined'&&Array.isArray(HOME.MISS_OK)&&!HOME.MISS_OK.some(f=>f&&f._fdMk)){ const f=(G,toH)=>{ if(S.mkMissList(G,toH).length) S.mkMissed(G); }; f._fdMk=true; HOME.MISS_OK.push(f); }   /* 警告說會錯過補考、玩家選「照樣」＝缺考（BB 11:03）*/
   if(typeof HOME!=='undefined'&&HOME.wouldMiss&&!HOME._fdMiss){ const w0=HOME.wouldMiss; HOME.wouldMiss=function(G,toH){ const r=w0.apply(this,arguments)||[]; try{ return S.mkMissList(G,toH).concat(r); }catch(e){ console.warn('FD wouldMiss',e); return r; } }; HOME._fdMiss=true; }   /* 補考排第一個（BB 09:27，CC F5：confirmMiss 只列前三件，接在後面會被擠掉；錯過補考＝延畢）*/   /* home3d.js 的 confirmMiss 叫 S.wouldMiss（＝HOME.wouldMiss）；jp3d.js 也用它 */
   if(typeof TRIP!=='undefined'&&TRIP.wouldMiss&&!TRIP._fdMiss){ const w0=TRIP.wouldMiss; TRIP.wouldMiss=function(G,h1){ const r=w0.apply(this,arguments)||[]; try{ return S.mkMissList(G,h1).concat(r).slice(0,3); }catch(e){ return r; } }; TRIP._fdMiss=true; }
   /* ⑤ 舊存檔改給補考（BB 08:59 判定）：冪等（有 FD_MAKEUP 就不動）。BAR_REG 是被延畢取消的（FAIL_DELAY_BARCANCEL）才恢復；22:00 阿哲那兩則還沒送的拿掉。
