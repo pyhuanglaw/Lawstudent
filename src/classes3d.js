@@ -94,7 +94,7 @@ const CLS=(function(){
       const r={id:c.id,from:termId,base:(c.rt&&c.rt.base)||termId,term:tt,slots:pl.slots,alt:pl.alt}; if(deferred) r.deferred=true; R.retake.push(r); made.push(r); if(S.attCourse(c)) R.attend[c.id]=0;   /* 看出席的課：重修那一學期重新算三堂 */
       if(deferred&&typeof PHONE!=='undefined'&&PHONE.post&&!PHONE.sent(G,'rt_defer_'+c.id+'_'+termId)) PHONE.post(G,{th:'sys',text:S.RT_DEFER_TEXT(c.name,S.termName(tt)),tag:'rt_defer_'+c.id+'_'+termId}); }
     return made; };
-  S.RT_DEFER_TEXT=(n,tn)=>'【教務處】'+n+'的重修，下學期的課表排不進去，改到'+tn+'。';   /* 暫定字（AA 定稿後換）*/
+  S.RT_DEFER_TEXT=(n,tn)=>'【教務處】'+n+'重修：下學期課表衝堂，改排在'+tn+'。';   /* AA 2026-11-02 09:51 定稿 */
   /* 書店的教科書（SYS-BOOKS-1018；使用者 10-18 選擇題 D102、USER_WANTS X15）：這學期（放假時＝下一個學期）修的必修、選修各一本，書名照課名（去掉「（上）」「（一）」）；
      同一本書上下學期共用（經濟學原理（上）（下）是同一本）；研討、實習沒有教科書。買了記 G.flags.books[書名]；舊存檔買過民總（F.textbook）算有《民法總則》。
      效果只有讀那一科（D102：不做書架、同學注意、解鎖內容）：自學那一科多一分準備（studyPick）、那一科的期末考（五題）多一次想起答案（runExam）*/
