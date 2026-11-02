@@ -860,10 +860,10 @@ const STORY = (function(){
     const out={fresh:true}; if(pick.say) out.say=pick.say; else out.narr=pick.narr; return out; };
   /* 不熟同學說完三句以後（AA_120 7-2 第 3 點）：開學（第 1～3 週）、期中（第 7～9 週）、期末（第 14～16 週；AA_243 #61）偶爾一句短招呼——每人每天最多一句、
      同一個人同一學期同一句只說一次；其他日子只有旁白（點頭、揮手、笑一下）。記在 r.greet＝{term, used} */
-  const B_GREET=[{w:[1,3],L:['「開學了。」','「這學期修了什麼？」']},{w:[7,9],L:['「期中加油。」','「你也在趕報告嗎？」']},{w:[14,16],L:['「期末了，撐住。」','「考完了嗎？我還有一科。」']}];
+  const B_GREET=[{w:[1,3],L:['「開學了。」','「這學期修了什麼？」']},{w:[7,9],L:['「期中加油。」','「你也在趕報告嗎？」'],law:['「加油。」','「你也在趕報告嗎？」']},   /* law：法律系沒有期中考（D118；AA_578 第 3 節第 1 點刪「期中」，待 AA 看）；經濟系那一年照舊 */{w:[14,16],L:['「期末了，撐住。」','「考完了嗎？我還有一科。」']}];
   const B_NOD=['（{n}對你點點頭。）','（{n}揮了一下手。）','（{n}抬頭看了你一眼，笑了一下。）'];
   function greetB(G,id,r,nm,T,tid){ r.day=G.day; const per=T&&B_GREET.find(p=>T.week>=p.w[0]&&T.week<=p.w[1]); let hsh=0; for(const ch of id) hsh=(hsh*31+ch.charCodeAt(0))>>>0;
-    if(per&&(G.day+hsh)%3===0){ const g=r.greet||(r.greet={}); if(g.term!==tid){ g.term=tid; g.used=[]; } const line=per.L.find(t=>!g.used.includes(t)); if(line){ g.used.push(line); return {say:line,fresh:false}; } }
+    if(per&&(G.day+hsh)%3===0){ const g=r.greet||(r.greet={}); if(g.term!==tid){ g.term=tid; g.used=[]; } const PL=per.law&&!/^Y0/.test(tid)?per.law:per.L, line=PL.find(t=>!g.used.includes(t)); if(line){ g.used.push(line); return {say:line,fresh:false}; } }
     return {narr:B_NOD[(((G.day+hsh)%B_NOD.length)+B_NOD.length)%B_NOD.length].replace('{n}',nm),fresh:false}; }   /* 經濟系那一年 G.day 是負的：取正的餘數 */
   S.greetB=greetB;
   /* 柏翰的倒數：今天到這學期第一個考試時段（kind＝'final' 期末／'mid' 期中；照玩家的課表與日曆；放假的日子沒有課，自然跳過）的天數；這學期沒有那種考試＝null

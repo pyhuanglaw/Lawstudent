@@ -128,7 +128,7 @@ const ENCOUNTERS={
     /* 第三批（AA_271 1-3 的 followUp；aa_walk_v1.json 0b478a53）*/
     ENC_D26_AN:{who:'heroine_01',lines:['上次在臺中，我媽那張清單最後還是漏買一樣。我又跑了一趟。']},
     ENC_D14_YT:{who:'heroine_03',lines:['漁人碼頭那天，你後來搭幾點的車？我那班好擠。']},
-    ENC_D11_BH:{who:'classmate_bohan',lines:['北投那間圖書館，期中前你要去的話跟我講。我早上會先到。']},
+    ENC_D11_BH:{who:'classmate_bohan',lines:['北投那間圖書館，這陣子你要去的話跟我講。我早上會先到。']},   /* D118：AA_578 第 3 節第 1 點的例字「期中考前」→「這陣子」（大一下～大二下第 6～7 週）*/
     ENC_D01_YU:{who:'yu',lines:['欸，華山那個第六個章！在廁所旁邊。我又跑去一次。']},
     ENC_D02_XC:{who:'classmate_xinci',lines:['松菸那個特展下禮拜就撤了。我又去了一次，這次只買一樣。']},
     ENC_D29_ZHE:{who:'zhe',lines:['上次在駁二，我同學說你很好聊。下次回高雄再約。']},

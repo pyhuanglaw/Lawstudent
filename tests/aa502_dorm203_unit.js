@@ -41,8 +41,7 @@ try{ ok=load('src/data/dorm203_lines.js','DORM203_LINES')&&load('src/dorm203_3d.
 const X=()=>typeof DORM203!=='undefined'?DORM203:null, LL=()=>typeof DORM203_LINES!=='undefined'?DORM203_LINES:null;
 let DOC='';
 try{ DOC=cp.execSync('git show 7ad5fee84:"docs/story_planning/AA_502_203室友日常_阿哲_柏翰_阿凱.md"',{cwd:process.env.AA502_GIT_DIR||H.ROOT,encoding:'utf8',stdio:['ignore','pipe','ignore']}); }catch(e){ DOC=''; }
-DOC=require('./alison.js').ndl(DOC);
-DOC=DOC.split('今天晚上十一點熄燈。期中。').join('今天晚上十一點熄燈。');   /* D118 沒有期中考：大一下第 9 週那一則照 AA_578 第 3 節第 1 點刪「期中。」（遊戲照它改了）*/   /* AA_542（NOODLE-TEAM-SHRINK-1030）：麵店團的字照 tools/story/ndl542_fix.json 換（遊戲照它改了）；只換這一張表，不動這支原本的 Alison／校名讀法 */
+DOC=require('./alison.js').ndl(DOC);   /* D118 沒有期中考：大一下第 9 週那一則照 AA_578 第 3 節第 1 點刪「期中。」——讀稿時照 tools/story/d118_fix.json 換（ndl 一起）*/   /* AA_542（NOODLE-TEAM-SHRINK-1030）：麵店團的字照 tools/story/ndl542_fix.json 換（遊戲照它改了）；只換這一張表，不動這支原本的 Alison／校名讀法 */
 const NAME={kai:'阿凱',zhe:'阿哲',classmate_bohan:'柏翰',yu:'Alison'};
 const sec=async(n,f)=>{ try{ await f(); }catch(e){ check(n+'. （丟例外）',false,String(e&&e.stack||e).split('\n').slice(0,3).join(' | ')); } };
 /* 假的生人物、坐下、走路（同 tests/dorm_mates_live_unit.js；E.moveTo 先記下來，測試決定走到了沒有）*/

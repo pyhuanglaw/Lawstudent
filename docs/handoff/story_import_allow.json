@@ -3674,6 +3674,15 @@
    "task": "EVPKG-1B18-25-1020",
    "kind": "text",
    "note": "1B-20 第 1 節「12/11（一）起，麵店門口貼一張白紙：『12/14（四）晚上七點　二十三週年』」白紙上的字手抄進 src/y34b3d.js 的 Y34B.A23_PAPER（外面的括號旁白照 r2y4b3d.js AUNT_DOOR 的寫法）、第 6 節「天氣 12/14 晚上強制下雨」＝Y34B.a23Rain；tests/y34b_a23_paper_unit.js。3D 的白紙（第 5 節素材表）是場景物件，歸 LAWWW2（D108）。子代理 2026-11-01 代登，給 LAWWW-B 核"
+  },
+  {
+   "path": "docs/story_planning/AA_578_取消期中考_劇情改掛點與台詞規則.md",
+   "sha": "b13db535f",
+   "status": "approved",
+   "approvedBy": "AA 2026-11-02 08:37 定稿（D109）",
+   "task": "D118-MIDTERM-STORY-1102",
+   "kind": "text",
+   "note": "D118 沒有期中考：第 2 節 11 處改掛點、第 3 節台詞規則、第 5 節零碎字。閒聊階梯（tools/ladder/import_ladder.py）等匯入工具讀稿時照 tools/story/d118_fix.json 換字（import_guard.read_fix，和 ndl542_fix.json、nocmp_fix.json 同一個做法；tests/alison.js 一起）；其他句子手抄改 src。子代理 2026-11-02 代登，給值班 LAWWW 核"
   }
  ]
 }

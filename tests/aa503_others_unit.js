@@ -1,4 +1,5 @@
 // 別人說起她（AA_503 @ d13ab3ab7、AA_504 @ da3e72727（3-4 阿哲那句 10-30 14:30 改）、AA_505 @ 795fbecfd、AA_506／AA_507 @ 31a4c4002，每位女主角那一節最後；HEROINE-LIFE-1028，
+// D118（AA_578 第 3 節第 1 點，tools/story/d118_fix.json）：法律系第 8～9 週的考試不提——期望值跟著刪「期中」「考」
 // 使用者 2026-10-28 01:2x「可攻略女主角 感覺都沒有自己的生活」，USER_WANTS X122★）——不需要瀏覽器。src/data/heard_lines.js（台詞）、src/heard3d.js（HEARD）。
 //   0  載得到、index.html 順序（dorm203_3d.js 以後、bbpack_events.js 前面）；遊戲裡每一句都在它那一份稿裡（git show，一字不差）；
 //      稿上「別人說起她」的每一句，不是在遊戲裡，就是在「沒做」的清單（二十位同學 pool_*、小婷、大一的學妹、新來的工讀生、阿凱大二上和大三上、本來就有的）——沒有漏掉沒說的
@@ -174,7 +175,7 @@ await sec('3',async()=>{ if(!HAS()||typeof NOODLE_TABLE==='undefined'){ check('3
   /* 大一下第 9 週是期中週（不算麵店日；麵店團考試週不去麵店，AA-B 10-30 14:30）：weekFrom 9 實際第 10 週起第一個麵店日演 */
   const W9=NDt('Y1S2',10,0); setup(W9); H.G.flags.ndlTalkN={Y1:3}; const p=STORY.ndlTalkPick(H.G);
   H.said=[]; await STORY.ndlTalk(GM); const s=said();
-  check('3. AA_504 3-4：大一下第 9 週起第一個麵店日（第 10 週）先挑阿哲「考期中那兩個禮拜，阿姨的手包著。……」（只演一次、不動輪到第幾則）',!!p&&p.e.once==='h504_zhe_hand'&&J(s)===J(['考期中那兩個禮拜，阿姨的手包著。語彤一個人顧店。我去吃麵順便幫忙收碗，她說你坐著。'])&&H.G.flags.ndlTalkN.Y1===3&&H.G.flags.ndlTalkOnce.h504_zhe_hand===W9,J({s,N:H.G.flags.ndlTalkN}));
+  check('3. AA_504 3-4：大一下第 9 週起第一個麵店日（第 10 週）先挑阿哲「期中那兩個禮拜，阿姨的手包著。……」（只演一次、不動輪到第幾則）',!!p&&p.e.once==='h504_zhe_hand'&&J(s)===J(['期中那兩個禮拜，阿姨的手包著。語彤一個人顧店。我去吃麵順便幫忙收碗，她說你坐著。'])&&H.G.flags.ndlTalkN.Y1===3&&H.G.flags.ndlTalkOnce.h504_zhe_hand===W9,J({s,N:H.G.flags.ndlTalkN}));
   at(NDt('Y1S2',10,1),18); const p2=STORY.ndlTalkPick(H.G); check('3. 同一週的下一個麵店日：照原本輪到的第 4 則',!!p2&&p2.i===3,J(p2&&[p2.i,p2.e.once]));
   setup(NDt('Y1S2',11,0)); H.G.flags.ndlTalkN={Y1:3}; H.G.flags.ndlTalkOnce={h504_zhe_hand:W9}; const p3=STORY.ndlTalkPick(H.G); check('3. 第 10 週演過了：第 11 週沒有那一則',!!p3&&p3.e.once!=='h504_zhe_hand');
   setup(NDt('Y1S2',11,0)); H.G.flags.ndlTalkN={Y1:3}; const p4=STORY.ndlTalkPick(H.G); check('3. AA_527 第 2 點（2026-10-30）：第 10 週沒演到＝第 11 週的麵店日先挑它（大一下學期內順延）',!!p4&&p4.e.once==='h504_zhe_hand');

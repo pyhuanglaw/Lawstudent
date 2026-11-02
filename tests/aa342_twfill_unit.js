@@ -12,7 +12,6 @@ const load=f=>{ const p=path.join(H.ROOT,f); if(!fs.existsSync(p)) return false;
 let err=''; try{ load('src/data/twfill_events.js'); load('src/twfill3d.js'); }catch(e){ err=String(e); }
 const git=(sha,f)=>{ try{ return cp.execSync('git show '+sha+':"docs/story_planning/'+f+'"',{cwd:H.ROOT,encoding:'utf8',maxBuffer:1<<26}); }catch(e){ return ''; } };
 const DOC=git('f2de8d1cd','AA_342_臺灣路線六學期_每一週能做什麼_覆蓋盤點與補空白.md');
-const DOC578=git('b13db535f','AA_578_取消期中考_劇情改掛點與台詞規則.md');   /* D118：AA_578 第 2 節 #2 海商法那一句「期中」→「期末」*/
 const J=JSON.stringify, ev=id=>STORY_EVENTS.find(e=>e.id===id), X=()=>typeof TWFILL!=='undefined'?TWFILL:null, L=()=>TWFILL_LINES;
 const NG='g:noodle_team', BH='classmate_bohan', XC='classmate_xinci', AN='heroine_01';
 const setT=(k,h)=>{ const G=H.G, d=typeof k==='number'?k:H.D(k); G.day=d; G.hour=h; const w=CALENDAR.dateOf(d).wd; G.weekday=w===7?0:w; };
@@ -34,8 +33,7 @@ const ents=(G,k,h)=>{ setT(k,h); G.zone='noodle'; return EVENTS.check; };
     const all=[]; const walk=v=>{ if(typeof v==='string') all.push(v); else if(Array.isArray(v)) v.forEach(walk); };
     for(const k in L()) walk(L()[k]);
     const ids=/^(classmate_xinci|classmate_bohan|zhe|yu|sister|heroine_01|auntie|thursday|notyet)$/;
-    const by578=t=>t===L().maritimeFinal&&DOC.indexOf(t.replace('期末考','期中考'))>=0&&/海商法期末考/.test(DOC578);   /* AA_578 #2：原句在 AA_342、只換「期中」→「期末」*/
-    const bad=all.filter(t=>!ids.test(t)&&DOC.indexOf(t)<0&&DOC.indexOf(t.replace(/^「|」$/g,''))<0&&!by578(t));
+    const bad=all.filter(t=>!ids.test(t)&&DOC.indexOf(t)<0&&DOC.indexOf(t.replace(/^「|」$/g,''))<0);   /* D118：海商法那一句（AA_578 #2）、大四上 11/3 摘要日（AA_578 第 3 節第 1 點）讀稿時照 tools/story/d118_fix.json 換（tests/alison.js）*/
     check('0. TWFILL_LINES 的每一句都在 AA_342（人物 id、記錄的代號除外）',bad.length===0,bad.join('｜'));
     const src=fs.readFileSync(path.join(H.ROOT,'src/data/twfill_events.js'),'utf8');
     check('0. 沒有「小語」（改名 Alison，AA_380）',src.indexOf('小語')<0);

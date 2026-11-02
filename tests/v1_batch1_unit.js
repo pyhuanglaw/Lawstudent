@@ -1,6 +1,7 @@
 // 交接包 v1（大一上）第 1 批：交付清單第 1 節「先改的文字」——不需要瀏覽器。
+// D118（AA_578 第 3 節第 1 點，tools/story/d118_fix.json）：法律系第 8～9 週的考試不提——期望值跟著刪「期中」「考」
 // 檢查（每項修改前都會失敗）：
-//   A3 ev_an_library_study：選項改「刑總。吳老師說期中會考。」、記憶備註「總圖讀刑總」、只在大一上觸發。
+//   A3 ev_an_library_study：選項改「刑總。吳老師說會考。」、記憶備註「總圖讀刑總」、只在大一上觸發。
 //   A4 ev_an_report_feedback：cafeView A 的評語改成「兩邊的利益都有看到。」；「周老師寫給妳的，不關我的事。」（comf −3）拿掉。
 //   A5 ev_bohan_kaogu：「我在看刑總的題目……」；不出題（沒有 legal 那一行，演一次不會問法律題）。
 //   A7 ev_yutong_absent、ev_yutong_thanks：大一上條件都成立也不觸發，大一下才會。
@@ -37,7 +38,7 @@ const Y1S1=dayIn('Y1S1'), Y1S2=dayIn('Y1S2');
   { const e=ev('ev_an_library_study'); fresh(Y1S1+7,9,'library'); SOCIAL.meet('heroine_01','campus'); SOCIAL.adjust('heroine_01',{fam:30});
     check('A3 大一上、認識以安：總圖的早上會觸發',EVENTS.check(e)===true);
     picks=['刑總']; await EVENTS.run(e); const o=opts[0]||[];
-    check('A3 選項是「刑總。吳老師說期中會考。」（沒有刑訴）',o.includes('「刑總。吳老師說期中會考。」')&&!o.some(t=>/刑訴/.test(t)),JSON.stringify(o));
+    check('A3 選項是「刑總。吳老師說會考。」（沒有刑訴）',o.includes('「刑總。吳老師說會考。」')&&!o.some(t=>/刑訴/.test(t)),JSON.stringify(o));
     check('A3 記憶備註「總圖讀刑總」',(G.social.mem.heroine_01||[]).some(m=>m.tag==='STUDIED_TOGETHER'&&m.note==='總圖讀刑總'));
     fresh(Y1S2+7,9,'library'); SOCIAL.meet('heroine_01','campus'); SOCIAL.adjust('heroine_01',{fam:30});
     check('A3 大一下：不觸發（兩個選項都是大一上的課）',EVENTS.check(e)===false); }
