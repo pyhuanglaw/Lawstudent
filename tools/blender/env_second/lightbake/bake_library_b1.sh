@@ -67,5 +67,5 @@ echo "lights $(echo "$LIGHTS" | tr ';' '\n' | wc -l), points $(echo "$POINTS" | 
   --sun 0,30,0 --sky 0 --nightsky 0 --lights "$LIGHTS" --points "$POINTS" --daylights 1.0 --smooth 1 --shell NONE
 python3 tools/blender/env_second/lightbake/to_webp.py "$TMP/b1" "$OUTDIR/library_b1_lm" 90
 /opt/blenv/bin/python tools/blender/env_second/lightbake/lm_fix_hidden.py -- --in "$OUTDIR/library_b1.glb" --out "$OUTDIR/library_b1.glb" --lm "$OUTDIR/library_b1_lm"
-cp "$TMP/b1.json" tools/blender/env_second/lightbake/library_b1_lm.json
+if [ "$OUTDIR" = "assets/models/env/second_ai" ]; then cp "$TMP/b1.json" tools/blender/env_second/lightbake/library_b1_lm.json; else cp "$TMP/b1.json" "$OUTDIR/library_b1_lm.json"; fi   # 試烘到別的資料夾時不覆蓋 repo 裡定案那一份（照 bake_us.sh）
 echo "done: $OUTDIR/library_b1.glb + library_b1_lm_day/night.webp"

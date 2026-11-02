@@ -1,0 +1,28 @@
+diff --git a/src/us3d.js b/src/us3d.js
+index b5b61c44d..f30a5ecad 100644
+--- a/src/us3d.js
++++ b/src/us3d.js
+@@ -363,8 +363,8 @@ const US3=(function(){
+     // 備用模型：地板、貨架、冷藏櫃的方塊
+     plane(fb,Bd.x1-Bd.x0,Bd.z1-Bd.z0,M('#d9d6cc'),0,0,0.005); const bm=M('#c9c6be'); for(const b of L.blocks){ const h=/gondola|freezer|dairy|meat|deli|produce wall/.test(b.why)?1.9:1.0; const m=new THREE.Mesh(new THREE.BoxGeometry(Math.max(b.x1-b.x0,0.1),h,Math.max(b.z1-b.z0,0.1)),bm); m.position.set((b.x0+b.x1)/2,h/2,(b.z0+b.z1)/2); fb.add(m); }
+     const lamps=[]; for(let i=-1;i<=1;i++) for(const zz of [-8,4]){ const l=new THREE.PointLight(0xf8f6ee,4,24,2); l.position.set(i*14,H-1.0,zz); l.userData.on=9; l.userData.off=6; g0.add(l); lamps.push(l); }
+-    let glow=[]; const onLamps0=z.onLamps; z.onLamps=function(on){ onLamps0.call(z,on); for(const l of lamps) l.intensity=on?l.userData.on:l.userData.off; };
+-    const applyTime0=z.applyTime; z.applyTime=function(h,weather){ applyTime0.call(z,h,weather); setGlow(glow,1); };   /* 冷藏櫃、收銀台的燈、螢幕整天都亮 */
++    let glow=[], views=[]; const onLamps0=z.onLamps; z.onLamps=function(on){ onLamps0.call(z,on); for(const l of lamps) l.intensity=on?l.userData.on:l.userData.off; };
++    const applyTime0=z.applyTime; z.applyTime=function(h,weather){ applyTime0.call(z,h,weather); setGlow(glow,1); viewTint(views,h); };   /* 冷藏櫃、收銀台的燈、螢幕整天都亮；正面玻璃外的停車場窗景照時段變暗（viewTint，和公寓、亞洲超市一樣） */
+     const IT=E.interactables;
+     for(const q of L.interact) IT.push({x:q.x,z:q.z,radius:q.r,lv:0,label:q.label,usMarket:q.id,look:lookText(q.label+'。')});   /* usMarket＝互動的 id（serviceDesk、dairy……）：採買、US1 的「看蛋的日期」由交換系統（LAWWW-C）接 */
+     for(const a of L.aisle_signs){ const gd=L.gondolas.find(q=>q.aisle===a.aisle); const cat=gd?AISLE_ZH[gd.cat]||gd.cat:''; IT.push({x:a.x,z:a.z,radius:1.0,lv:0,label:'第 '+a.aisle+' 走道：'+cat,usMarket:'aisle_'+(gd?gd.cat:a.aisle),look:lookText(cat+'。')}); }
+@@ -373,8 +373,11 @@ const US3=(function(){
+     if(typeof US_ASIAN_MARKET_LAYOUT!=='undefined'&&!MS()){ const X=L.exit; IT.push({x:X.x+2.6,z:X.z-0.4,radius:1.0,lv:0,label:'過馬路（對面的亞洲超市）',exit:{to:'us_asian_market',spawn:Object.assign({},US_ASIAN_MARKET_LAYOUT.spawn)}}); }
+     z.formal=false; if(has('bldg.us_market')) ASSETS.loadOne('bldg.us_market').then(c=>{ if(!c||!c.scene||E.zone!==z) return; const root=c.scene.clone(true);
+       root.traverse(o=>{ if(o.isMesh){ o.castShadow=false; o.receiveShadow=true; } }); g0.add(root); fb.visible=false; z.formal=true;
++      { const LMS=root.userData&&root.userData.lightmap; if(LMS) Z3.roomLightmap(z,root,LMS); }   /* 光照貼圖（INTERIOR-AAA-REVIEW-1028，LAWWW2 11-02；tools/blender/env_second/lightbake/bake_us.sh bigmart）：這一間沒走 attachRoomGLB（正式模型沒有會淡出的牆），光照貼圖另外接 */
+       root.traverse(o=>{ if(o.isMesh&&/^PLATE_FACE_lane/.test(o.name)) paintPlate(o,(/(\d+)$/.exec(o.name)||[])[1]||'','#1f4f8f','#ffffff'); });
+-      glow=glowMats(root,/^GLOW_/); const G=G_(); if(G) z.applyTime(G.hour,G.weather); }).catch(e=>console.warn('草原超市正式模型載入失敗，用程序化備用模型',e));
++      glow=glowMats(root,/^GLOW_/);
++      { const vm=new Set(); root.traverse(q=>{ if(q.isMesh&&/^usm_outside_view/.test(q.name)) vm.add(q.material); }); views=[...vm]; glow=glow.filter(m=>!vm.has(m)); }   /* 窗景（材質 GLOW_usm_outside）原本算在整天都亮的燈裡：晚上 20:30 窗外停車場還是白天（LAWWW2 11-02 光照烘焙時看到）*/
++      const G=G_(); if(G) z.applyTime(G.hour,G.weather); }).catch(e=>console.warn('草原超市正式模型載入失敗，用程序化備用模型',e));
+     return z; } };
+ 
+   // =================== 大超市對面的小亞洲超市 us_asian_market（竹葉亞洲超市，虛構；使用者 2026-10-17 23:0x）===================

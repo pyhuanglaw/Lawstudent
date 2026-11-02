@@ -1,12 +1,12 @@
 #!/bin/bash
 # 美國交換的室內光照烘焙（INTERIOR-AAA-REVIEW-1028 最後一批，LAWWW2-B 2026-10-31；照 bake_gym.sh）：建模 → 光照烘焙（白天／晚上）→ WebP。repo 根目錄跑：
-#   bash tools/blender/env_second/lightbake/bake_us.sh apartment|shared|lawlib|market [取樣數，預設 256] [輸出資料夾，預設 assets/models/env/second_ai] [貼圖邊長，預設 1024]
+#   bash tools/blender/env_second/lightbake/bake_us.sh apartment|shared|lawlib|market|bigmart [取樣數，預設 256] [輸出資料夾，預設 assets/models/env/second_ai] [貼圖邊長，預設 1024]
 # apartment＝祐廷的單人戶（us_apartment 區域，us_apartment.glb；us_apartment.py，配置 src/data/us_apartment_layout.js）；shared＝學姊她們的 C 棟合租戶（us_shared，同一支 us_apartment.py）；
 # lawlib＝法學院圖書館（us_lawlib）；market＝竹葉亞洲超市（us_asian_market）。各自的說明在下面。
 #   遊戲：us3d.js 的公寓區域走 Z3.attachRoomGLB，看到 GLB 的 extras.lightmap 就接（和台灣那幾間一樣，不用改程式）。
 # 輸出：<名字>.glb（多一套 UV＝TEXCOORD_1、extras.lightmap）＋ <名字>_lm_day.webp、_night.webp。
 set -e
-ZONE=${1:?apartment|shared|lawlib|market}
+ZONE=${1:?apartment|shared|lawlib|market|bigmart}
 SAMPLES=${2:-256}
 OUTDIR=${3:-assets/models/env/second_ai}
 RES=${4:-1024}
@@ -126,12 +126,56 @@ print(';'.join(out))
 PY
 )
   EXTRA=(--sun 180,35,"${SUNW:-1.0}" --sky "${SKY:-0.8}" --daywb ${DAYWB:-0.98,0.98,1.0} --daylights "${DAYL:-1.0}" --shell S) ;;
+bigmart)
+  # 草原超市（美式大型超市；us_market 區域，us_market.glb；us_market.py，配置 assets/models/env/second_ai/us_market.layout.json；LAWWW2（帳號 A）2026-11-02，D99 第三項美國交換）：
+  #   44×32 m、挑高 6.4 m（外露鋼桁架、鋼承板）。正面（南，z 16）玻璃帷幕＋兩組自動門，外面是停車場（窗景平面）。
+  #   遊戲：us3d.js 的 us_market 區域「沒有」走 Z3.attachRoomGLB（g0.add(root)），要加一行 Z3.roomLightmap（patches/us_market_lm_1102.patch）。
+  # 輸入：烘焙前、遊戲裡正在用的 us_market.glb（git blob 54fea93d，見 PLAINBLOB）——不從 us_market.py 重做（和總圖 B1 一樣，避免重做出來和部署中的檔不同）。
+  # 燈（照 us_market.py「長條 LED」那一段；發光面 GLOW_usm_leds 不烘、照舊自己發光）：每條 LED（4.55～4.6 m）一個往下照的面光源：
+  #   貨架走道上方沿 z 的（每排貨架 x＋1.45，z −7.5／−3.8／−0.1／3.6，長 2.8 m）；前段、後段、蔬果區沿 x 的（x −20～20 每 4 m，z −12.6／9.5／13.2）；熟食那三條（x 14～18.6）。
+  #   挑高的天花板只吃得到地板反彈的光（總圖 3F 10-31 的教訓）：每條燈下 1.2 m 再一顆往四周散的點光源。白天燈照樣開（--daylights 1.0）。
+  #   太陽在南邊（--sun 180），從正面玻璃照進門口那一帶，強度小（亞洲超市第一版 2.5 太亮，定案 1.0）。
+  # --hide：玻璃（正面帷幕、冷藏櫃的門）、窗外的景、發光面 GLOW_、自動門。
+  # --nolm：貨架上的商品、價格條、層板、走道牌、水果、推車、鍍鉻、黑色小零件、桁架、風管、收銀台輸送帶、門牌（遊戲畫字）、頂點色小東西、店外的地面——
+  #   上千個小島排不進一張貼圖（總圖 B1 11-02 試烘：只用到左下角、隔間牆整片黑三角）。
+  # 外殼（--shell S）：正面玻璃那一面不包。
+  NAME=us_market; PLAINBLOB=54fea93dcabd6fb16317c09bfb1a152c2b2bbb85
+  HIDE='glass|case_doors|usm_outside|GLOW_|DOOR_usm'
+  NOLM='usm_products|usm_price|usm_shelves|usm_aisle_signs|usm_fruit|usm_cart|usm_chrome|usm_black|usm_joists|usm_ducts|usm_belts|PLATE_FACE|usm_vc|usm_outside|usm_case_frame|usm_mats'
+  LIGHTS=$(python3 - "${LEDW:-18}" <<'PY'
+import json, sys
+J = json.load(open('assets/models/env/second_ai/us_market.layout.json')); W = sys.argv[1]; col = '0.97,0.98,1.0'
+out = []
+for g in J['gondolas']:
+    xa = g['x'] + 1.45
+    for zz in (-7.5, -3.8, -0.1, 3.6): out.append(f'{xa - 0.01:.2f},{xa + 0.01:.2f},{zz - 0.01:.2f},{zz + 0.01:.2f},4.53,1,1,{W},0.12,2.8,{col}')
+for xx in range(-20, 22, 4):
+    for zz in (-12.6, 9.5, 13.2): out.append(f'{xx - 0.01:.2f},{xx + 0.01:.2f},{zz - 0.01:.2f},{zz + 0.01:.2f},4.53,1,1,{W},2.8,0.12,{col}')
+for zz in (-6.0, -1.6, 2.8): out.append(f'16.29,16.31,{zz - 0.01:.2f},{zz + 0.01:.2f},4.53,1,1,{W},4.6,0.12,{col}')
+print(';'.join(out))
+PY
+)
+  PT=$(python3 - "${UPW:-10}" <<'PY'
+import json, sys
+J = json.load(open('assets/models/env/second_ai/us_market.layout.json')); W = sys.argv[1]; col = '0.97,0.98,1.0'
+out = []
+for g in J['gondolas']:
+    for zz in (-7.5, -3.8, -0.1, 3.6): out.append(f'{g["x"] + 1.45:.2f},3.35,{zz:.2f},{W},{col},0.3')
+for xx in range(-20, 22, 4):
+    for zz in (-12.6, 9.5, 13.2): out.append(f'{xx:.2f},3.35,{zz:.2f},{W},{col},0.3')
+print(';'.join(out))
+PY
+)
+  EXTRA=(--sun 180,40,"${SUNW:-1.0}" --sky "${SKY:-0.8}" --daywb ${DAYWB:-0.98,0.98,1.0} --daylights "${DAYL:-1.0}" --shell S) ;;
 *) echo "未知的區域：$ZONE"; exit 1 ;;
 esac
 LIGHTS=${LIGHTS#;}
 REF="$TMP/plain.glb"; [ -f "assets/models/env/second_ai/$NAME.glb" ] && cp "assets/models/env/second_ai/$NAME.glb" "$TMP/ref.glb" && REF="$TMP/ref.glb"
+if [ -n "$PLAINBLOB" ]; then git cat-file -p "$(git rev-parse "$PLAINBLOB")" > "$TMP/plain.glb"   # 部署中的檔（不重做）；統計 json 照舊用 repo 裡那一份
+else
 /opt/blenv/bin/python $SCRIPT -- "${SARGS[@]}" --out "$TMP/plain.glb"
 python3 -c "import json,sys; d=json.load(open(sys.argv[1])); d['out']='assets/models/env/second_ai/$NAME.glb'; json.dump(d,open(sys.argv[2],'w'),ensure_ascii=False,indent=1)" "$TMP/plain.json" "$OUTDIR/$NAME.json"
+fi
 /opt/blenv/bin/python tools/blender/env_second/lightbake/bake_room.py -- --in "$TMP/plain.glb" --out "$OUTDIR/$NAME.glb" \
   --lm "$TMP/lm" --url assets/models/env/second_ai/${NAME}_lm --res "$RES" --samples "$SAMPLES" --hide "$HIDE" --nolm "$NOLM" \
   --lights "$LIGHTS" --points "$PT" ${DF:+--dayfill "$DF"} "${EXTRA[@]}" --smooth ${SMOOTH:-1}
