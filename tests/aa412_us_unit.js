@@ -70,7 +70,7 @@ const grp=()=>PHONE.join(H.G,'noodle_team','麵店團');
 await sec(0,()=>{ const html=fs.readFileSync(path.join(ROOT,'index.html'),'utf8');
   check('0. 美國篇的檔案都載得到（含新的 src/us208_3d.js）',!loadErr.length,loadErr.join('；'));
   check('0. index.html：us208_3d.js 接在 us_life3d.js 的下一行',/src\/us_life3d\.js\?v=[^"]+"><\/script>\n<script src="src\/us208_3d\.js\?v=[^"]+"><\/script>/.test(html));
-  check('0. ev_far_call_us 在 STORY_EVENTS、R2Y3B.farPhoneUS／farPhotoUS；US208 七場事件、掛在 STORY.TICKS',!!ev('ev_far_call_us')&&typeof R2Y3B.farPhoneUS==='function'&&typeof R2Y3B.farPhotoUS==='function'&&typeof US208!=='undefined'&&US208.SCENES&&US208.SCENES.length===7&&US208.SCENES.every(s=>!!ev(s.ev))&&STORY.TICKS.length>0); });
+  check('0. ev_far_call_us 在 STORY_EVENTS、R2Y3B.farPhoneUS／farPhotoUS；US208 六場事件（AA_591 決2：3-3 剪報刪）、掛在 STORY.TICKS',!!ev('ev_far_call_us')&&typeof R2Y3B.farPhoneUS==='function'&&typeof R2Y3B.farPhotoUS==='function'&&typeof US208!=='undefined'&&US208.SCENES&&US208.SCENES.length===6&&US208.SCENES.every(s=>!!ev(s.ev))&&STORY.TICKS.length>0); });
 if(typeof US208==='undefined'||!ev('ev_far_call_us')){ H.done(); return; }
 
 /* ======================= F 主線 8「遠方」美國版 ======================= */
@@ -137,23 +137,25 @@ const W={
   '3-3x':'（你想起她說過，她爸以前會把報紙剪下來，放在她的書桌上。）', '3-3c':['他還是一個字都沒寫。'],
   '3-3a':['回了。我拍照傳給他，說收到了。','（她把手機轉過來給你看。她爸只回了一個字：好。）'], '3-3b':['……嗯。','（她把剪報夾進那本從臺灣帶來的、大一的民總。）'],
   '3-4':['（她站在客廳中間，手上拿著幾張小卡。看到你進來，把卡片翻過去。）','下禮拜三研討課，我要報告。二十分鐘，英文。','可以聽我講一次嗎？哪裡聽不懂就舉手。','（她開始講。你在第二句就舉手了。）','……哪裡？'],
-  '3-4a':['手放下。','（她從第一句重新開始。這一次你沒有舉手，一直聽到最後。）'], '3-4b':['……真的？','（她在卡片上那個字的旁邊畫了一條線。之後每講到那個字，她都慢一點。）'], '3-4e':['好。這樣可以。','冰箱裡有飲料。你自己拿。'],
+  '3-4a':['手放下。','（她從第一句重新開始。這一次你沒有舉手，一直聽到最後。）'], '3-4b':['真的？','（她在卡片上那個字的旁邊畫了一條線。之後每講到那個字，她都慢一點。）'], '3-4e':['好。這樣可以。','冰箱裡有飲料。你自己拿。'],
   '3-5':['（今天開始冬令時間。手機自己把時間往回撥了一個小時。）','今天多一個小時。','（她的計畫本攤在桌上。今天那一格，什麼都沒寫。）','本來想拿來寫論文。……後來沒有寫上去。'],
-  '3-5a':['不知道。','（她把計畫本闔起來。）','坐著吧。','（你們坐在沙發上，看窗外的天比昨天早黑。誰都沒有去看時間。）'], '3-5b':['……也可以。','（她真的靠在沙發上睡著了。毯子是你幫她蓋的。）'],
+  '3-5a':['不知道。','（她把計畫本闔起來。）','坐著吧。','（你們坐在沙發上，看窗外的天比昨天早黑。誰都沒有去看時間。）'], '3-5b':['也可以。','（她真的靠在沙發上睡著了。毯子是你幫她蓋的。）'],
   '3-6':['（客廳那盆快乾掉的植物，被搬到了窗邊。旁邊放著一個量杯。）','室友說它九月就這樣了。','我查了。是水澆太多。','（她把量杯裡的水倒掉一半，才澆下去。）'],
   '3-6a':['不知道。我只顧到十二月。','之後交給室友。我寫在冰箱上了。'], '3-6b':['沒有排。','……好，有排。星期六。'],
   '3-7':['（客廳的桌上堆滿了影印的資料。她在寫期末的報告，沒有抬頭。）','你坐那裡就好。','……有人在，我寫得比較快。','（你在沙發上讀你的期末。兩個小時，她只說了一句話。）','幫我倒水。熱的。'],
   '3-7x':'（窗邊那盆植物長出了一片新的葉子，很小。她沒有提，你也沒有。）', '3-7a':['還沒。今天的寫完了。'], '3-7b':['（過了一會兒，她起來倒水，把你的杯子也倒滿了。）'] };
 const OPTS={'3-1':['「那要搬到前面嗎？」','「妳英文寫得比我好。」'],'3-2':['「很香。」','「下次放冰糖。」'],'3-3':['「妳要回他嗎？」','「他在等妳回去。」'],'3-4':['「沒有，只是想試試看。」','「Legal aid 妳念得太快。」'],
   '3-5':['「那拿來做什麼？」','「拿來睡覺。」'],'3-6':['「救得回來嗎？」','「妳連植物都排時間。」'],'3-7':['「寫完了嗎？」','（不問，繼續讀）']};
-const MEM={'3-1':['US208_MEMO','書瑀幫你看 Legal Writing 的作業'],'3-2':['US208_LUROU','書瑀煮了有一點焦的滷肉'],'3-3':['US208_CLIPPING','書瑀的爸爸寄了一張剪報到美國'],'3-4':['US208_REHEARSAL','聽書瑀練習英文報告'],
+/* AA_591 決2：3-3 剪報整場刪（retired），記憶 US208_CLIPPING 的名稱改「臺灣寄來的信封」（舊存檔）——不在 MEM 裡、W0 另外驗 */
+const MEM={'3-1':['US208_MEMO','書瑀幫你看 Legal Writing 的作業'],'3-2':['US208_LUROU','書瑀煮了有一點焦的滷肉'],'3-4':['US208_REHEARSAL','聽書瑀練習英文報告'],
   '3-5':['US208_EXTRA_HOUR','冬令時間那天，計畫本空了一格'],'3-6':['US208_PLANT','書瑀在救客廳那盆植物'],'3-7':['US208_LASTWEEK','期末那個週末，坐在 208 的沙發上讀書']};
 const sc=n=>US208.SCENES.find(s=>s.n===n);
 const w208=(key,h,flags)=>{ const G=fresh(key,h,'us_shared',US(Object.assign({US2:'there'},flags||{}))); dateSis(); return G; };
 const play=async picks=>{ H.said=[]; H.opts=[]; H.picks=(picks||[]).slice(); const r=US208.tick(GM,0.5); for(let i=0;i<100&&US208.isBusy();i++) await new Promise(res=>setTimeout(res,1)); return r; };
 const who=()=>[...new Set(H.said.filter(s=>s.who).map(s=>s.who))];
 await sec('W0',()=>{
-  check('W0. 七場的日期範圍照 AA_412 第 3 節的標題',J(US208.SCENES.map(s=>[s.n,s.from,s.to]))===J([['3-1','2028-09-16','2028-09-24'],['3-2','2028-09-23','2028-10-01'],['3-3','2028-10-14','2028-10-22'],['3-4','2028-10-21','2028-10-29'],['3-5','2028-11-05','2028-11-05'],['3-6','2028-11-18','2028-12-03'],['3-7','2028-12-09','2028-12-10']]));
+  check('W0. 3-3 剪報 retired（AA_591 決2）：定義留著、記憶名稱「臺灣寄來的信封」、不在 SCENES',!!ev('ev_us208_clipping')&&/AA_591/.test(String(ev('ev_us208_clipping').retired))&&SOCIAL.MEMORY_LABEL.US208_CLIPPING==='臺灣寄來的信封'&&!sc('3-3'));
+  check('W0. 六場的日期範圍照 AA_412 第 3 節的標題（3-3 AA_591 決2 刪）',J(US208.SCENES.map(s=>[s.n,s.from,s.to]))===J([['3-1','2028-09-16','2028-09-24'],['3-2','2028-09-23','2028-10-01'],['3-4','2028-10-21','2028-10-29'],['3-5','2028-11-05','2028-11-05'],['3-6','2028-11-18','2028-12-03'],['3-7','2028-12-09','2028-12-10']]));
   check('W0. 2028-09-16 是週六、11/5 是週日（冬令時間那天：STORY.tzOffset 從 −12 變 −13）、12/9 是週六',wdOf(D('2028-09-16'))===6&&wdOf(D('2028-11-05'))===0&&wdOf(D('2028-12-09'))===6&&(w208('2028-11-05',14.5),STORY.tzOffset(H.G,D('2028-11-05'))===-13&&STORY.tzOffset(H.G,D('2028-11-04'))===-12));
   check('W0. 記憶與面板名稱（第 3-8 節）：social3d.js 的 MEMORY_LABEL；事件標題＝筆記本那一行',Object.keys(MEM).every(n=>sc(n).tag===MEM[n][0]&&SOCIAL.MEMORY_LABEL[MEM[n][0]]===MEM[n][1]&&ev(sc(n).ev).title===MEM[n][1]),J(Object.keys(MEM).map(n=>SOCIAL.MEMORY_LABEL[MEM[n][0]]))); });
 await sec('W1',async()=>{ let G=w208('2028-09-16',14.5);
@@ -169,7 +171,7 @@ await sec('W1',async()=>{ let G=w208('2028-09-16',14.5);
   await play([1]); check('W1. 3-2 台詞逐字、選「下次放冰糖。」',J(H.said.map(s=>s.t))===J(W['3-2'].concat(W['3-2b']))&&J(H.opts[0])===J(OPTS['3-2'])&&SOCIAL.has(S5,'US208_LUROU'),J(L()));
   check('W1. 演完不吃掉當天的閒聊階梯（照常可以和她說話）',!(G.social&&G.social.ladderDay&&G.social.ladderDay[S5]===G.day));
   at('2028-09-30',15); check('W1. 9/30（六）：3-1、3-2 都演過，下一場 3-3 從 10/14 起，今天沒有',US208.due(G)===null);
-  at('2028-10-14',14); check('W1. 10/14（六）14:00：3-3',US208.due(G)===sc('3-3')); });
+  at('2028-10-14',14); check('W1. 10/14（六）14:00：沒有該演的（3-3 AA_591 決2 刪；3-4 從 10/21）',US208.due(G)===null); });
 await sec('W2',async()=>{ let G=w208('2028-09-23',16);
   check('W2. 9/16～9/17 沒去：9/23 先演 3-1（範圍 9/16～9/24 還在），不是 3-2',US208.due(G)===sc('3-1'));
   await play([1]); check('W2. 3-1 選「妳英文寫得比我好。」',J(H.said.map(s=>s.t))===J(W['3-1'].concat(W['3-1b'])),J(L()));
@@ -177,8 +179,8 @@ await sec('W2',async()=>{ let G=w208('2028-09-23',16);
   G=w208('2028-09-30',16);
   check('W2. 9/16～9/24 都沒去：3-1 過了範圍就不演（9/30 直接 3-2）',US208.due(G)===sc('3-2'));
   G=w208('2028-10-21',16);
-  check('W2. 3-1、3-2、3-3 都沒演：10/21 在 3-3、3-4 的範圍重疊，先演 3-3',US208.due(G)===sc('3-3'));
-  G.events.done.ev_us208_clipping=1; check('W2. 3-3 演過：10/21 演 3-4',US208.due(G)===sc('3-4'));
+  check('W2. 3-1、3-2 都沒演：10/21 演 3-4（3-3 AA_591 決2 刪，不再先演）',US208.due(G)===sc('3-4'));
+  G.events.done.ev_us208_clipping=1; check('W2. 舊存檔演過 3-3：10/21 一樣演 3-4',US208.due(G)===sc('3-4'));
   G=w208('2028-11-18',15); check('W2. 前面的都沒去：11/18 只剩 3-6（3-1～3-5 不補）',US208.due(G)===sc('3-6'));
   G=w208('2028-12-10',15); check('W2. 12/10（日）：3-7',US208.due(G)===sc('3-7')); });
 await sec('W3',async()=>{ let G=w208('2028-11-04',15);
@@ -190,10 +192,8 @@ await sec('W3',async()=>{ let G=w208('2028-11-04',15);
   at('2028-11-18',15); check('W3. 11/5 沒去：之後不補 3-5（11/18 是 3-6）',US208.due(G)===sc('3-6'));
   at('2028-11-11',15); check('W3. 11/11（六）她在芝加哥（門關著）：不演',US208.due(G)===null&&USL.c208Open(G)===false); });
 await sec('W4',async()=>{ let G=w208('2028-10-14',15);
-  await play([0]); check('W4. 3-3 沒聽過她大一下 S2-L5（剪報那一層）：沒有「你想起她說過……」；選「妳要回他嗎？」',J(H.said.map(s=>s.t))===J(W['3-3'].concat(W['3-3c'],W['3-3a']))&&J(H.opts[0])===J(OPTS['3-3']),J(L()));
-  G=w208('2028-10-14',15); SOCIAL.remember(S5,'SIS4_CLIPPINGS','S2-L5'); await play([1]);
-  check('W4. 3-3 聽過 S2-L5（記憶 SIS4_CLIPPINGS）：多一句旁白，在「他還是一個字都沒寫。」前面；選「他在等妳回去。」',J(H.said.map(s=>s.t))===J(W['3-3'].concat([W['3-3x']],W['3-3c'],W['3-3b']))&&SOCIAL.has(S5,'US208_CLIPPING'),J(L()));
-  G=w208('2028-10-14',15); G.social.ladSeen={'S2-L5':D('2027-03-20')}; await play([0]); check('W4. 3-3 S2-L5 是過場演過的（ladSeen）也算',H.has(W['3-3x']));
+  /* AA_591 決2：3-3 剪報整場刪——10/14 進 208 不演；聽過 S2-L5 的旁白（S.heardClip）一起拿掉 */
+  { const r=await play([0]); check('W4. 10/14 進 208：不演（3-3 刪）；沒有 S.heardClip、沒有「我爸寄的。」',r===false&&!H.said.length&&typeof US208.heardClip==='undefined'&&!J(US208.SCENES).includes('我爸寄的。'),J(L())); }
   G=w208('2028-10-21',15); G.events.done.ev_us208_clipping=1; await play([1]);
   check('W4. 3-4「練習」台詞逐字、選「Legal aid 妳念得太快。」，兩支都接「好。這樣可以。」「冰箱裡有飲料。你自己拿。」',J(H.said.map(s=>s.t))===J(W['3-4'].concat(W['3-4b'],W['3-4e']))&&J(H.opts[0])===J(OPTS['3-4']),J(L()));
   G=w208('2028-10-28',15); await play([0]); check('W4. 3-4 選「沒有，只是想試試看。」',J(H.said.map(s=>s.t))===J(W['3-4'].concat(W['3-4a'],W['3-4e'])),J(L()));

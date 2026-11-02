@@ -47,7 +47,8 @@ await sec(1,()=>{
   check('1. 表：數字列 82 列（第 1～70 列＋第 71～82 列；其中刪句 5 列：第 16、28、29、31、79 列）',num.length===82&&J(del.map(r=>+r.n).sort((a,b)=>a-b))===J([16,28,29,31,79]),J([num.length,del.map(r=>r.n)]));
   /* 選項在遊戲裡帶「」或括號；她的話、旁白就是字串 */
   /* 第 57 列「好。有翻開就好。」：使用者 11-02 第 55 列改成不問成績，照級別回的那幾句（第 57 列、保289～保291）整段不再演，不在遊戲裡 */
-  const miss=keep.filter(r=>r.n!=='57'&&!inGame(r.nw)).map(r=>'#'+r.n+' '+r.nw);
+  /* 第 66 列（期末飯她先說的那一版「我原本想講得比較好。」）：AA_591 第 11 節第 13 點（使用者 2026-11-02「學姊不會先說」）整支拿掉，第 8 節驗不在 */
+  const miss=keep.filter(r=>r.n!=='57'&&r.n!=='66'&&!inGame(r.nw)).map(r=>'#'+r.n+' '+r.nw);
   check('1. 每一列「改成」一字不差在遊戲裡（字串常數；第 57 列跟著第 55 列整段拿掉）',!miss.length&&!inGame('好。有翻開就好。')&&!inGame('下學期，我出難一點的題目給你。'),J(miss));
   const P104='……其實一點都不早。真的想準備的人，有的大一就開始了。';
   check('1. 保104、保147（使用者 11-02 選擇題改的兩列）：「'+P104+'」「好。」在遊戲裡、表上一字不差',inGame(P104)&&ROWS.some(r=>r.n==='保104'&&r.nw===P104)&&ROWS.some(r=>r.n==='保147'&&r.nw==='好。')&&/\{label:'a'\},SIS\('好。'\)/.test(ALL));
@@ -113,7 +114,7 @@ await sec(7,()=>{ const e=ev('ev_sis_graduation'), D=e.dialogue.filter(l=>l.text
 await sec(8,()=>{ const Y=TERMEND_LINES.HEART.heroine_05.yes, s=Y.map(x=>typeof x==='string'?x:(x.cg?'CG:'+x.cg:(x.narr?'N:'+x.narr:J(x))));
   check('8. 第 80～82 列（決3 乙）：便條旁白 →「（她笑了。）你確定？」→ BCG-44 →「我很難相處喔。」→「（她把便條收進口袋，把手伸給你。）走吧。」→ 便條旁白；不加祐廷「我確定。」',
     J(s)===J(['N:（她手上拿著一張摺過的小便條。從吃飯的時候就一直拿著。）','（她笑了。）你確定？','CG:cg_three_things_heroine05','我很難相處喔。','（她把便條收進口袋，把手伸給你。）走吧。','N:（她把便條摺好，收進口袋。上面寫的字，她一句都沒有念。）']),J(s));
-  check('8. 她主動說的那一版（第 66 列）：「我原本想講得比較好。」（「……我喜歡你。」照留）',J(TERMEND_LINES.HEART.heroine_05.she).includes('"我原本想講得比較好。"')&&J(TERMEND_LINES.HEART.heroine_05.she).includes('"……我喜歡你。"')); });
+  check('8. 她主動說的那一版（第 66 列）：AA_591 第 11 節第 13 點（使用者「學姊不會先說」）整支拿掉——沒有 she、she2，「我原本想講得比較好。」「……我喜歡你。」都不在',TERMEND_LINES.HEART.heroine_05.she===undefined&&TERMEND_LINES.HEART.heroine_05.she2===undefined&&!inGame('我原本想講得比較好。')&&!J(TERMEND_LINES.HEART.heroine_05).includes('……我喜歡你。')); });
 
 H.done();
 })();
