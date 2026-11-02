@@ -1,17 +1,23 @@
 {
-  "rerun": "lf",
+  "rerun": "lf2",
   "id": "N1_node",
   "sha": "ef63b1877",
   "kind": "node",
   "script": "tools/cc_local/node_units.js",
-  "env": "XARGS=--out {out} --timeout 600;RERUN=lf",
+  "env": "XARGS=--out {out} --timeout 600;RERUN=lf2",
   "machine": "MSI",
-  "start": "2026-11-03T05:35:56",
-  "end": "2026-11-03T06:33:36",
-  "seconds": 3459,
+  "start": "2026-11-03T07:00:00",
+  "end": "2026-11-03T07:49:13",
+  "seconds": 2953,
   "exit": 1,
   "error": null,
-  "runner": "b46848d180",
-  "rf_round": "3",
-  "url": "http://127.0.0.1:8807/index.html"
+  "runner": "a98287fbd6",
+  "rf_round": "5",
+  "url": "http://127.0.0.1:8808/index.html",
+  "res_peak": {
+    "cpu": 50,
+    "mem": 52,
+    "used_gb": 16.0,
+    "chrome_testing": 19
+  }
 }
