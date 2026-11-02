@@ -3,12 +3,16 @@
 //   cd /home/user/Lawstudent && git archive <SHA> src tests index.html | tar -x -C <資料夾>
 //   nice -n 19 node docs/story_planning/test_tools/cc/m4_makeup_qs.js <資料夾> [種子數，預設 12]
 //   （資料夾＝有 src/、tests/pg_harness.js 的受測版本根目錄）
+//   C 節的路線：[FAIL_ROUTE=retake|maritime] [RETAKE_COURSE=enforcement]（D124 690ac5f4d 起預設 retake；D124 以前的版本用 FAIL_ROUTE=maritime）
 // 做什麼：
 //   A 真實流程（一般路線、台灣交換路線＝不是國外交換，遊戲裡會排補考）：Y3S2、Y4S1、Y4S2 每一門考五題的課都用真的 CLS.runExam 考期末、全部答錯，
 //     學期末真的 CLS.showGrades（planRetakes 把 Y3S2→Y4S1→Y4S2 的重修鏈、Y4S1→Y4S2 的重修排進大四下），6/18 真的 FD.check 排補考、6/26 真的 FD.makeup
 //     （runExam kind='makeup'）。比對每一科 R.exam['Y4S2:課:final'].qs 和 ['Y4S2:課:makeup'].qs，以及補考時實際唸出來的題幹。
 //   B 國外交換路線（JP、US）：遊戲裡 FD.check 不排補考（faildelay3d.js 的 exch）；這裡期末照真的 runExam 考，補考題「直接呼叫 CLS.drawExam(...,'makeup')」看抽題結果（標明是直接呼叫）。
-//   C 題庫不到 10 題：A 裡面就有真的（Y4S1 的強制執行法、法律倫理、刑事判決研討各 8 題，重修排到大四下）；另外在模擬裡把海商法題庫縮成 4～10 題（構造情境）逐一示範。
+//   C 題庫不到 10 題：A 裡面就有真的（Y4S1 的強制執行法、法律倫理、刑事判決研討各 8 題，重修排到大四下）；另外在模擬裡把補考科目的期末題庫縮成 4～k 題（構造情境）逐一示範。
+//     D124（海商法改選修、被當不延畢不補考）起預設 FAIL_ROUTE=retake：補考科目＝RETAKE_COURSE（預設 enforcement，題庫是 Y4S1 的），
+//     【前置】大四上那一門期末答對 0 題、用遊戲的 CLS.planRetakes(G,'Y4S1') 排進大四下（暫時包住 CLS.failedIn，只讓那一門算被當），再只考大四下；
+//     FAIL_ROUTE=maritime＝舊做法（縮海商法 Y4S2 的題庫）。
 //   D 同一份存檔重抽：①補考考完存檔→JSON→讀檔→再 drawExam；②補考前（6/18 以後）的存檔→JSON→讀檔→再跑 FD.makeup；③換一個 examSeed 對照（應該不同）。
 //   E 突變測試：故意把抽題改壞，上面的檢查必須 FAIL（證明檢查不是空的）。
 // 出席制的課不在 M4 範圍：CLS.attPass 一律及格（免得點名讓 FD.check 不排補考）。
@@ -48,10 +52,10 @@ async function runTerm(G,T){ const ex=CLS.examList(G,T).slice().sort((a,b)=>a.da
   await CLS.showGrades(GM,T,{inScene:true}); return ex; }
 
 /* A：真實流程。回傳每一科的比對 */
-async function realFlow(seed,route,{stopBeforeMakeup,terms}={}){
+async function realFlow(seed,route,{stopBeforeMakeup,terms,pre}={}){
   rnd=rngOf(seed*7919+13); ASKED={};
   const fl={examSeed:1000+seed}; if(route) fl.EXCHANGE_ROUTE=route;
-  const G=H.fresh('2028-02-20',8,'dorm',fl); G.notes=[]; G.memo=[];
+  const G=H.fresh('2028-02-20',8,'dorm',fl); G.notes=[]; G.memo=[]; if(pre) pre(G);
   for(const T of (terms||['Y3S2','Y4S1','Y4S2'])) await runTerm(G,T);
   let planned=false;
   if(typeof FD!=='undefined'){ await FD.check(GM,{inScene:true}); planned=!!(FD.mkPending&&FD.mkPending(G)); }
@@ -102,14 +106,23 @@ function compare(G,T,direct){ const R=CLS.rec(G), out=[];
   console.log('—— B 每科表 ——'); for(const [k,t] of Object.entries(tableB)) console.log('  '+k+'｜'+t.name+'｜題庫 '+t.n+'｜'+t.runs+' 次｜最多重複 '+t.ovMax);
 
   /* ---------- C 題庫縮小（構造情境）---------- */
-  console.log('\n== C 構造情境：模擬裡把海商法（maritime）期末範圍縮成 k 題（不改 src）==');
-  const allQ=EXAM_BANK.questions.slice(); const mar=allQ.filter(q=>q.course==='maritime'&&q.term==='Y4S2');
+  const FAIL_ROUTE=process.env.FAIL_ROUTE||'retake'; if(!['retake','maritime'].includes(FAIL_ROUTE)) throw new Error('FAIL_ROUTE 只能是 retake／maritime：'+FAIL_ROUTE);
+  const CC=FAIL_ROUTE==='retake'?(process.env.RETAKE_COURSE||'enforcement'):'maritime', CT=FAIL_ROUTE==='retake'?(process.env.RETAKE_FROM||'Y4S1'):'Y4S2';   /* 補考科目、它的題庫學期 */
+  /* 【前置】retake：大四上 CC 期末答對 0 題 → CLS.planRetakes 排進大四下（只讓那一門算被當）；之後只考大四下 */
+  const planRT=G=>{ const R=CLS.rec(G); R.exam=R.exam||{}; R.exam[CT+':'+CC+':final']={qs:[],ans:[],status:'done',correct:0,score:0};
+    const f0=CLS.failedIn; CLS.failedIn=function(g,t){ if(g===G&&t===CT){ const c=CLS.termCourses(G,CT).find(x=>x.id===CC); return c?[c]:[]; } return f0.apply(this,arguments); };
+    try{ CLS.planRetakes(G,CT); } finally { CLS.failedIn=f0; }
+    const r=(R.retake||[]).find(x=>x.id===CC&&x.from===CT); if(!r||r.term!=='Y4S2') throw new Error('[前置] '+CC+' 沒有排進大四下：'+J(R.retake)); };
+  const cpre=FAIL_ROUTE==='retake'?planRT:null;
+  console.log('\n== C 構造情境（FAIL_ROUTE='+FAIL_ROUTE+'）：模擬裡把補考科目 '+CC+'（'+(CLS.byId(CC)||{}).name+'，題庫 '+CT+'）期末範圍縮成 k 題（不改 src）'+(cpre?'；【前置】大四上被當、CLS.planRetakes 排進大四下重修':'')+' ==');
+  const allQ=EXAM_BANK.questions.slice(); const mar=allQ.filter(q=>q.course===CC&&q.term===CT);
+  console.log('  '+CC+' '+CT+' 題庫原本 '+mar.length+' 題（k 大於這個數＝全部）');
   for(const k of [4,5,6,7,8,9,10,11]){
-    const keep=new Set(mar.slice(0,k)); EXAM_BANK.questions.length=0; for(const q of allQ) if(q.course!=='maritime'||keep.has(q)) EXAM_BANK.questions.push(q);
+    const keep=new Set(mar.slice(0,k)); EXAM_BANK.questions.length=0; for(const q of allQ) if(q.course!==CC||q.term!==CT||keep.has(q)) EXAM_BANK.questions.push(q);
     let info={}; try{
-      const {G,planned}=await realFlow(300+k,null,{terms:['Y4S2']});   /* 只考大四下：不讓重修的課混進補考 */ const R=CLS.rec(G); const fin=R.exam['Y4S2:maritime:final']||{}, mk=R.exam['Y4S2:maritime:makeup']||null;
-      const fq=fin.qs||[], mq=(mk&&mk.qs)||[]; const ov=mq.filter(id=>fq.includes(id)); const nn=poolN(G,'maritime','Y4S2');
-      const g=(R.grades.Y4S2||{}).maritime;
+      const {G,planned}=await realFlow(300+k,null,{terms:['Y4S2'],pre:cpre});   /* 只考大四下：不讓別的重修課混進補考 */ const R=CLS.rec(G); const fin=R.exam['Y4S2:'+CC+':final']||{}, mk=R.exam['Y4S2:'+CC+':makeup']||null;
+      const fq=fin.qs||[], mq=(mk&&mk.qs)||[]; const ov=mq.filter(id=>fq.includes(id)); const nn=poolN(G,CC,'Y4S2');
+      const g=(R.grades.Y4S2||{})[CC];
       info={題庫:nn,期末狀態:fin.status,期末題數:fq.length,排補考:planned,補考狀態:mk&&mk.status,補考題數:mq.length,補考內不重複:new Set(mq).size===mq.length,重複:ov.length,成績單:g,FAIL_DELAY:!!G.flags.FAIL_DELAY};
       console.log('  k='+k+' '+J(info));
       if(nn<5) check('C k='+k+' 題庫不足 5：期末不開考（insufficient）、不算被當、不排補考、沒有例外',fin.status==='insufficient'&&!planned&&!mk&&!G.flags.FAIL_DELAY,J(info));
@@ -118,8 +131,8 @@ function compare(G,T,direct){ const R=CLS.rec(G), out=[];
   }
   EXAM_BANK.questions.length=0; for(const q of allQ) EXAM_BANK.questions.push(q);
   /* C2 構造情境：期末有開考（13 題）、被當、排了補考，之後題庫變成 4 題（例：改版刪題）才進補考 */
-  { const pre=await realFlow(400,null,{stopBeforeMakeup:true,terms:['Y4S2']}); const keep=new Set(mar.slice(0,4)); EXAM_BANK.questions.length=0; for(const q of allQ) if(q.course!=='maritime'||keep.has(q)) EXAM_BANK.questions.push(q);
-    let info; try{ const G=pre.G; G.day=FD.mkDay(); G.hour=9.5; H.said=[]; await FD.makeup(GM); const R=CLS.rec(G); info={補考紀錄:R.exam['Y4S2:maritime:makeup'],補考結果:G.flags.FD_MAKEUP.status,res:G.flags.FD_MAKEUP.res,成績單:(R.grades.Y4S2||{}).maritime,FAIL_DELAY:!!G.flags.FAIL_DELAY,台詞:H.lines().slice(0,4)}; }catch(e){ info={例外:String(e)}; }
+  { const pre=await realFlow(400,null,{stopBeforeMakeup:true,terms:['Y4S2'],pre:cpre}); const keep=new Set(mar.slice(0,4)); EXAM_BANK.questions.length=0; for(const q of allQ) if(q.course!==CC||q.term!==CT||keep.has(q)) EXAM_BANK.questions.push(q);
+    let info; try{ const G=pre.G; G.day=FD.mkDay(); G.hour=9.5; H.said=[]; await FD.makeup(GM); const R=CLS.rec(G); info={補考紀錄:R.exam['Y4S2:'+CC+':makeup'],補考結果:G.flags.FD_MAKEUP&&G.flags.FD_MAKEUP.status,res:G.flags.FD_MAKEUP&&G.flags.FD_MAKEUP.res,成績單:(R.grades.Y4S2||{})[CC],FAIL_DELAY:!!G.flags.FAIL_DELAY,台詞:H.lines().slice(0,4)}; }catch(e){ info={例外:String(e)}; }
     console.log('  C2（資訊，不計 PASS/FAIL）期末後題庫縮成 4 題才補考：'+J(info));
     EXAM_BANK.questions.length=0; for(const q of allQ) EXAM_BANK.questions.push(q); }
 
