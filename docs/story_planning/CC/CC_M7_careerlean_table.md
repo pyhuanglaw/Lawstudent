@@ -132,3 +132,12 @@ story3d.js:3934–3935 註解：「只有四處讀：主線 7 選項②、尾聲
 - **文件層級**：Q5（「只有四處讀」改成實際讀者清單；career_lean_unit 掃描加 `src/data/`）。
 - Q7、Q8、Q9：記錄即可，影響小。
 - 沒測：瀏覽器真實流程；US 路線 Y4S1 第 1 週 CAREER_Y4_BASE 是否記得到；C16×C02 撞期的實際結果。
+
+## 重驗 @ 188412f3b（BB 09:40）
+
+- 腳本 m7b_recheck.js：188412f3b ALL PASS（R1、R2a、R2b、R3、R4a～c）；修改前 5b40dad61 FAILED 6（R1、R2a、R2b、R4a～c；R3 兩版都 PASS）。
+- R1 不及格／缺考／未開考／空字串的通識 C＝0；R3 及格類字串（及格、通過、85 分、及格（補考）、及格（期末考補登）、很好、不錯、過了）照算 1。
+- R2 重修同一課號只算一次；被當再重修過不會比一次過多分（修改前 3 vs 2）。
+- R4 postgrad3d.js 沒有直接讀原始 top；ytEnd、epiAlways、path、zqLine 都呼叫 pathTop；原始 top B／pathTop A 時 ytEnd＝{end 3}（修改前 {end 1}）。
+- 成績字串來源（classes3d.js:673-675）：不及格一律帶「不及格」字樣，passStr 的排除字（不及格|缺考|未開考|未過）涵蓋現有全部寫法。
+- 舊的 m7_careerlean.js S4（疑點重現，期望 6）在修改後是 4＝已修，該項 FAIL 是預期。

@@ -35,6 +35,7 @@ const TERMS=CLS.LAW_TERMS.slice();
 const TDEF=id=>CALENDAR.TERMS.find(t=>t.id===id);
 const SEEDS=[777,12345,1,2,99991,424242,31337,8080,5,600613,13,271828].slice(0,Math.max(2,NSEED));
 const BT=COURSES.blocks;
+const WANT_N=4;   /* 期望值寫死：classes3d.js 註解「看出席的課每學期 4 個點名週」（ATTEND-ROLLCALL-1102／AA_574 末節）；不讀 CLS.ROLL_N，免得程式改壞時跟著改 */
 
 /* ---------- 存檔 ---------- */
 function mk(seed,route,startB){ const fl={examSeed:seed}; if(route) fl.EXCHANGE_ROUTE=route; if(startB){ fl.LAW_START_DAY=STORY.LAW_D0; fl.MAIN_D1=STORY.MAIN_D1_NEW; }
@@ -74,13 +75,13 @@ function runSave(G,opt){ opt=opt||{}; const res={}; for(const T of TERMS){ const
 
 /* ================= 1、2、3：點名週 ================= */
 function suiteWeeks(){ const scen=[]; for(const s of SEEDS){ scen.push({seed:s,route:null,startB:false,retake:false,tag:'TW 9/17 開局'}); scen.push({seed:s,route:null,startB:true,retake:true,tag:'TW 8/29 開局＋重修'}); scen.push({seed:s,route:'JP',startB:true,retake:false,tag:'JP'}); scen.push({seed:s,route:'US',startB:true,retake:false,tag:'US'}); scen.push({seed:s,route:'JP',startB:true,retake:true,tag:'JP＋重修'}); scen.push({seed:s,route:'US',startB:true,retake:true,tag:'US＋重修'}); for(const r of [null,'JP','US']) scen.push({seed:s,route:r,startB:true,retake:false,chain:'chinese_y1',tag:(r||'TW')+' 國文一路重修'}); }
-  const bySeed={}, perTerm={}; let nCourse=0, nRt=0, bad1a=[], bad2=[], badMis=[], awayRoll=[]; const shortCand=[]; const awayInfo=[];
+  const bySeed={}, perTerm={}; let y4s2N=0, nCourse=0, nRt=0, bad1a=[], bad2=[], badMis=[], awayRoll=[]; const shortCand=[]; const awayInfo=[];
   for(const sc of scen){ const G=mk(sc.seed,sc.route,sc.startB); const res=runSave(G,{retake:sc.retake,chain:sc.chain});
     for(const T of TERMS) for(const id in res[T]){ const {W,rt,c}=res[T][id]; nCourse++; if(rt) nRt++;
       const lab=sc.tag+' 種子'+sc.seed+' '+T+' '+id+(rt?'（重修）':''); if(sc.seed===SEEDS[0]){ const pk=sc.tag+' '+T; (perTerm[pk]=perTerm[pk]||[]).push(id+(rt?'(重修)':'')+J(W)); }
-      const away=CLS.termAway(G,T);
-      if(!(W.length===CLS.ROLL_N&&new Set(W).size===W.length&&W.every((x,i)=>i===0||W[i-1]<x)&&W.every(x=>CLS.ROLL_WEEKS.includes(x)))) bad1a.push(lab+' '+J(W));
-      const vw=validWeeks(G,c,T); if(vw.length<CLS.ROLL_N) shortCand.push(lab+' 可點名的週只有 '+J(vw));
+      const away=CLS.termAway(G,T); if(T==='Y4S2') y4s2N++;
+      if(!(W.length===WANT_N&&new Set(W).size===W.length&&W.every((x,i)=>i===0||W[i-1]<x)&&W.every(x=>CLS.ROLL_WEEKS.includes(x)))) bad1a.push(lab+' '+J(W));
+      const vw=validWeeks(G,c,T); if(vw.length<WANT_N) shortCand.push(lab+' 可點名的週只有 '+J(vw));
       for(const w of W){ const v=weekVerdict(G,c,T,w); if(!v.ok){ (away?awayRoll:bad2).push(lab+' 第 '+w+' 週：'+v.why.join('；')); } }
       if(away) awayInfo.push(lab+' W='+J(W)+' stored='+J(((G.courses.roll||{})[T+':'+id])||null));
       if(sc.seed===SEEDS[0]&&!away){ const mm=modelMismatch(G,c,T); if(mm.length) badMis.push(lab+'：'+mm.slice(0,3).join('、')+(mm.length>3?'…共 '+mm.length:'')); }
@@ -91,12 +92,13 @@ function suiteWeeks(){ const scen=[]; for(const s of SEEDS){ scen.push({seed:s,r
     if(sc.retake===false&&!sc.chain){ const G2=mk(sc.seed,sc.route,sc.startB); const r2=runSave(G2); for(const T of TERMS) for(const id in res[T]) if(!res[T][id].rt){ const a=J(res[T][id].W), b=J(((r2[T]||{})[id]||{}).W); if(a!==b) bad1a.push('1b '+sc.tag+' 種子'+sc.seed+' '+T+' '+id+' 第二份存檔不同 '+a+' vs '+b); }
       for(const T of TERMS) for(const id in res[T]){ if(res[T][id].rt) continue; const c=res[T][id].c; delete G2.courses.roll; const w3=J(CLS.rollWeeks(G2,c,T)); if(w3!==J(res[T][id].W)) bad1a.push('1b 刪掉 R.roll 重算不同 '+sc.tag+' '+T+' '+id); } } }
   info('看過的（存檔×學期×課）共 '+nCourse+'，其中重修課 '+nRt); if(!quiet) for(const k in perTerm) console.log('     種子'+SEEDS[0]+' '+k+'：'+perTerm[k].join(' '));
-  check('1a/1b 每學期每門看出席的課剛好 '+CLS.ROLL_N+' 個點名週（不重複、遞增、在 ROLL_WEEKS）；同種子兩份存檔／刪 R.roll 重算都一樣',bad1a.length===0,bad1a.slice(0,6).join('｜')+(bad1a.length>6?'…共 '+bad1a.length:''));
-  check('1a′ 每門課可點名的週（獨立模型）至少 '+CLS.ROLL_N+' 個（不足時程式只能抽到較少週）',shortCand.length===0,shortCand.slice(0,5).join('｜')+(shortCand.length>5?'…共 '+shortCand.length:''));
+  check('1a/1b 每學期每門看出席的課剛好 '+WANT_N+' 個點名週（不重複、遞增、在 ROLL_WEEKS）；同種子兩份存檔／刪 R.roll 重算都一樣',bad1a.length===0,bad1a.slice(0,6).join('｜')+(bad1a.length>6?'…共 '+bad1a.length:''));
+  check('1a′ 每門課可點名的週（獨立模型）至少 '+WANT_N+' 個（不足時程式只能抽到較少週）',shortCand.length===0,shortCand.slice(0,5).join('｜')+(shortCand.length>5?'…共 '+shortCand.length:''));
   /* 1c：不同種子 */
   const same=[]; let tot=0; for(const k in bySeed){ const v=Object.values(bySeed[k]); if(v.length<2) continue; tot++; if(new Set(v).size===1) same.push(k+' '+v[0]); }
   check('1c 不同種子會變：'+tot+' 組（路線×學期×課），在 '+SEEDS.length+' 個種子下沒有一組全部相同',tot>0&&same.length===0,same.slice(0,5).join('｜'));
   check('2  點名週都落在「那門課真的有上」的週（非假日／颱風假／國外／開局前／期末考週／學期最後一週）——台灣的學期、含重修',bad2.length===0,bad2.slice(0,8).join('｜')+(bad2.length>8?'…共 '+bad2.length:''));
+  { const y4=bad2.filter(x=>/ Y4S2 .*第 15 週/.test(x)).length; info('其中「大四下第 15 週（期末考週）」'+y4+' 筆／'+bad2.length+' 筆；大四下有看出席的課（重修）的存檔共 '+y4s2N+' 份'); }
   check('2m 獨立模型＝CLS.dayItems（非考試週）',badMis.length===0,badMis.slice(0,5).join('｜'));
   check('3  人在國外的學期（CLS.termAway）不應該抽出點名週（或抽出的週要能上課）',awayRoll.length===0,awayRoll.slice(0,3).join('｜')+(awayRoll.length>3?'…共 '+awayRoll.length:''));
   if(awayInfo.length) info('國外學期的 rollWeeks（舉例）：'+awayInfo.slice(0,3).join('｜'));
@@ -167,8 +169,11 @@ if(!NOMUT){ console.log('\n== MUT 故意改壞（每一種都應該讓對應的�
   const save={RW:CLS.ROLL_WEEKS,RN:CLS.ROLL_N,RF:CLS.ROLL_FAIL,rw:CLS.rollWeeks,rs:CLS.rollStat,hol:CALENDAR.holiday};
   const restore=()=>{ CLS.ROLL_WEEKS=save.RW; CLS.ROLL_N=save.RN; CLS.ROLL_FAIL=save.RF; CLS.rollWeeks=save.rw; CLS.rollStat=save.rs; CALENDAR.holiday=save.hol; };
   const SEED_BAK=SEEDS.slice();
-  const mut=(name,setup,suite)=>{ SEEDS.length=0; SEED_BAK.slice(0,4).forEach(s=>SEEDS.push(s)); fails=0; FAILS.length=0; quiet=true; setup(); let err=null; try{ suite(); }catch(e){ err=e; } restore(); quiet=false; SEEDS.length=0; SEED_BAK.forEach(s=>SEEDS.push(s));
-    const caught=fails>0||!!err; console.log((caught?'PASS ':'FAIL ')+'MUT '+name+' → '+(err?'例外 '+err.message:('抓到 '+fails+' 項：'+FAILS.slice(0,2).map(s=>s.slice(0,90)).join('｜')))); if(!caught) mutMiss++; };
+  /* 同樣 4 個種子、沒改壞時的 FAIL 清單（本體已經有的 FAIL 不算「抓到」：改壞以後要多出新的 FAIL 字串才算）*/
+  const runQ=(setup,suite)=>{ SEEDS.length=0; SEED_BAK.slice(0,4).forEach(s=>SEEDS.push(s)); fails=0; FAILS.length=0; quiet=true; setup(); let err=null; try{ suite(); }catch(e){ err=e; } restore(); quiet=false; SEEDS.length=0; SEED_BAK.forEach(s=>SEEDS.push(s)); return {err,list:FAILS.slice()}; };
+  const base=new Map(); for(const su of [suiteWeeks,suiteAttPass]) base.set(su,new Set(runQ(()=>{},su).list));
+  const mut=(name,setup,suite)=>{ const r=runQ(setup,suite); const nw=r.list.filter(x=>!base.get(suite).has(x));
+    const caught=nw.length>0||!!r.err; console.log((caught?'PASS ':'FAIL ')+'MUT '+name+' → '+(r.err?'例外 '+r.err.message:(caught?'多出 '+nw.length+' 項 FAIL：'+nw.slice(0,2).map(s=>s.slice(0,110)).join('｜'):'沒有多出新的 FAIL（沒抓到）'))); if(!caught) mutMiss++; };
   let mutMiss=0;
   mut('ROLL_WEEKS 加入 8、9、16（期中週、期末考週）',()=>{ CLS.ROLL_WEEKS=save.RW.concat([8,9,16]); },suiteWeeks);
   mut('抽週時不排除假日（CALENDAR.holiday 在 rollWeeks 裡當作沒有）',()=>{ CLS.rollWeeks=function(){ CALENDAR.holiday=()=>null; try{ return save.rw.apply(this,arguments); } finally { CALENDAR.holiday=save.hol; } }; },suiteWeeks);
