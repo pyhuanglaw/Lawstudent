@@ -49,7 +49,7 @@ const FD=(function(){
   S.certLate=G=>!!(G&&G.flags&&G.flags.FAIL_DELAY_CERT);
   /* ---------- 6/18 成績單 ---------- */
   S.check=async function(GM,o){ o=o||{}; const G=GM.G, F=G.flags; if(!law(G)||F.FAIL_DELAY_COURSES!=null||typeof CLS==='undefined'||!CLS.failedIn) return false;
-    const fails=CLS.failedIn(G,'Y4S2');
+    const fails=CLS.failedIn(G,'Y4S2').filter(S.counts);   /* D124：大四下只判必修和重修；選修（海商法…）被當只記成績、不延畢、不排補考（前面學期的選修被當照舊排重修）*/
     if(fails.length&&!exch(G)&&fails.every(c=>CLS.isExamCourse&&CLS.isExamCourse(c))&&S.mkOpen(G)) return S.mkPlan(GM,fails.map(c=>c.id),o);   /* D118：全部是考五題的課＝排補考，先不延畢 */
     F.FAIL_DELAY_COURSES=fails.map(c=>c.id); F.FAIL_DELAY_V=2; if(!fails.length) return false;   /* FAIL_DELAY_V＝2：修好以後判的延畢（BUG-Y4S2-NOFINAL-1102 的救援不碰，BB 06:46）*/
     if(exch(G)) return true;   /* 交換路線又被當：大五上多那一門重修，其他照交換版 */
@@ -87,6 +87,16 @@ const FD=(function(){
     gradePass:'及格（補考）', gradeFail:'不及格（補考未過）', gradeMissed:'不及格（補考缺考）',
     missItem:'補考：{課名}', fixLabel:'補考',noSkip:'補考的時間到了（10:00，法律系館A）。', migNotice:'（教務處來了通知：{課名}，可以補考。）',
     reviewWhat:'補考的', reviewBlock:'會錯過補考。' , homeOpt:'出發：補考（法律系館A）', homeHint:'{課名}　10:00　捷運＋公車 約 40 分鐘'};
+  S.counts=c=>!!c&&(!!c.rt||(c.kind!=='elective'&&c.kind!=='general'));   /* D124：會讓大四下延畢的課＝必修，或重修（c.rt，原本是選修也算）*/
+  /* D124 舊存檔（BB 決定只救這一種）：6/18 排了補考、還沒考（FD_MAKEUP pending、不是舊延畢改的 mig），補考的課裡有選修＝那幾門拿掉；全部是選修＝取消補考、照常畢業（FD_RESCUE_ELECTIVE）。
+     補考沒過／沒去、已經延畢、已經進大五上的照舊（延畢劇情演過了，回頭改會前後矛盾）*/
+  S.rescueElective=function(s){ const F=s&&s.flags, M=F&&F.FD_MAKEUP; if(!M||typeof M!=='object'||M.status!=='pending'||M.mig!=null||F.FD_RESCUE_ELECTIVE||!Array.isArray(M.courses)) return false;
+    const RT=s.courses&&Array.isArray(s.courses.retake)?s.courses.retake:[]; const keep=M.courses.filter(id=>{ if(RT.some(r=>r.id===id&&r.term==='Y4S2')) return true; const c=course(id); return !c||S.counts(c); });
+    if(keep.length===M.courses.length) return false; F.FD_RESCUE_ELECTIVE=true;
+    if(keep.length){ M.courses=keep; return true; }
+    M.status='cancelled'; M.cancel='elective';
+    const P=s.phone; if(P&&Array.isArray(P.q)) P.q=P.q.filter(q=>!q||q.tag!=='fd_mk_remind');   /* 前一天的補考提醒不再送 */
+    return true; };
   S.mk=G=>{ const M=G&&G.flags&&G.flags.FD_MAKEUP; return M&&typeof M==='object'&&Array.isArray(M.courses)?M:null; };
   S.mkPending=G=>{ const M=S.mk(G); return !!M&&M.status==='pending'&&law(G); };
   S.mkDay=()=>DK(S.MK_AT[0]);
@@ -212,7 +222,7 @@ const FD=(function(){
     if(PHONE.post&&!PHONE.sent(G,'fd_mk_sys')) PHONE.post(G,{th:'sys',text:S.fillIds(M.courses,L.sys),tag:'fd_mk_sys'});
     const rd=DK(S.MK_REMIND_AT[0]); if(rd!=null&&now(G)<T(rd,S.MK_REMIND_AT[1])) PHONE.at(G,rd,S.MK_REMIND_AT[1],[{th:'sys',text:S.fillIds(M.courses,L.remind)}],'fd_mk_remind'); return true; };
   S.mkMigNarr=async function(GM){ const G=GM.G, M=S.mk(G); if(!M||M.noticed) return false; M.noticed=G.day; S.mkNotify(G); GM.sceneBegin(); try{ await GM.say(null,S.fillIds(M.courses,S.MK_LINES.migNotice)); await GM.say(null,S.MK_LINES.notice); } finally { GM.sceneEnd(); } return true; };
-  { const mig0=S.migrate; S.migrate=function(s){ let a=false, b=false; try{ a=mig0(s); }catch(e){ console.warn('FD.migrate',e); } try{ b=S.migrateMk(s); }catch(e){ console.warn('FD.migrateMk',e); } return a||b; }; }   /* 先跑原本的救援（BUG-Y4S2-NOFINAL），再看要不要改給補考 */
+  { const mig0=S.migrate; S.migrate=function(s){ let a=false, b=false, c=false; try{ a=mig0(s); }catch(e){ console.warn('FD.migrate',e); } try{ b=S.migrateMk(s); }catch(e){ console.warn('FD.migrateMk',e); } try{ c=S.rescueElective(s); }catch(e){ console.warn('FD.rescueElective',e); } return a||b||c; }; }   /* 先跑原本的救援（BUG-Y4S2-NOFINAL），再看要不要改給補考 */
   if(typeof STORY!=='undefined'&&Array.isArray(STORY.PHONE_RULES)) STORY.PHONE_RULES.push(G=>{ if(law(G)) S.mkNotify(G); });
   if(typeof STUDY!=='undefined'){ if(Array.isArray(STUDY.REVIEW_EXTRA)&&!STUDY.REVIEW_EXTRA.includes(S.mkReview)) STUDY.REVIEW_EXTRA.push(S.mkReview); if(Array.isArray(STUDY.REVIEW_CHECKS)&&!STUDY.REVIEW_CHECKS.includes(S.mkReviewBlock)) STUDY.REVIEW_CHECKS.push(S.mkReviewBlock); }
   return S;

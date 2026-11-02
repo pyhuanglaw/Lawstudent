@@ -28,8 +28,10 @@ const choose0=GM.choose;
 GM.choose=async o=>{ const last=[...H.said].reverse().find(s=>/^\d／5　/.test(s.t)); if(!last||!QS.length) return choose0(o); const q=QS[+last.t[0]-1]; const ok=x=>{ const t=x.t||x.text; return t===String(q.answer)||t.startsWith('（'+q.answer+'）'); };
   const k=o.findIndex(x=>mode==='right'?ok(x):!ok(x)); return k<0?0:k; };
 /* 大四下：考五題的課照 fail 決定；fail 的那一門期末答對 0 題（qs 照 drawExam 存著）*/
-const y4s2=(G,failExam)=>{ const R=CLS.rec(G); R.exam=R.exam||{}; let first=null;
-  for(const c of CLS.termCourses(G,'Y4S2')){ if(!CLS.isExamCourse(c)) continue; if(!first) first=c; const d=CLS.drawExam(G,c.id,'Y4S2','final'); R.exam['Y4S2:'+c.id+':final']={qs:d.qs.map(q=>q.id),ans:[],status:'done',correct:3,score:80}; }
+/* D124（海商法改選修、大四下選修被當不延畢）：被當的那一門改用「大四上強制執行法被當 → 大四下重修」（RT_Y4S2）；海商法照舊選了、考過 */
+const RT_Y4S2={id:'enforcement',from:'Y4S1',term:'Y4S2',slots:[{wd:5,block:'pm1'}]};
+const y4s2=(G,failExam)=>{ const R=CLS.rec(G); R.exam=R.exam||{}; let first=null; G.courses=G.courses||{}; G.courses.retake=[Object.assign({},RT_Y4S2,{slots:RT_Y4S2.slots.map(x=>Object.assign({},x))})];
+  for(const c of CLS.termCourses(G,'Y4S2')){ if(!CLS.isExamCourse(c)) continue; if(!first||c.rt) first=c; const d=CLS.drawExam(G,c.id,'Y4S2','final'); R.exam['Y4S2:'+c.id+':final']={qs:d.qs.map(q=>q.id),ans:[],status:'done',correct:3,score:80}; }
   if(failExam&&first) Object.assign(R.exam['Y4S2:'+first.id+':final'],{correct:0,score:0}); return first; };
 const fresh=(key,h,fl)=>{ const G=H.fresh(key,h,'dorm',Object.assign({BAR_REG:true,Y4_PATH:'bar',GRADUATED:PG.gradDay()},fl||{})); PG.rec(G).done.grad=1; H.FRIEND('zhe'); return G; };
 const hasMk=typeof FD!=='undefined'&&!!FD.MK_LINES;
@@ -73,7 +75,7 @@ await sec('c',async()=>{ const {G,c}=await planned(); const nm=FD.cname(c.id); P
   G.hour=22; PHONE.tick(G); check('c4. 22:00 阿哲私訊',J(H.msgs('p:zhe').slice(-2))===J(FD.LINES.zhe)); });
 
 await sec('d',async()=>{ /* 點名制的課：大四下沒有，用一門排在大四下的重修（日文二，看出席）*/
-  const mkRt=G=>{ const R=CLS.rec(G); R.retake=[{id:'japanese_2',from:'Y3S2',base:'Y2S2',term:'Y4S2',slots:[{wd:3,block:'pm1'}],alt:false}]; R.attend.japanese_2=0; };
+  const mkRt=G=>{ const R=CLS.rec(G); R.retake=(R.retake||[]).filter(r=>r.id!=='japanese_2').concat([{id:'japanese_2',from:'Y3S2',base:'Y2S2',term:'Y4S2',slots:[{wd:3,block:'pm1'}],alt:false}]); R.attend.japanese_2=0; };   /* D124：保留 y4s2() 排的強制執行法重修 */
   let G=fresh('2029-06-18',9); y4s2(G,false); mkRt(G); const att=CLS.termCourses(G,'Y4S2').find(c=>c.id==='japanese_2');
   const f0=CLS.failedIn(G,'Y4S2').map(c=>c.id);
   check('d0. 前置：重修日文二排在大四下、是看出席的課、沒去＝被當',!!att&&CLS.attCourse(att)&&J(f0)===J(['japanese_2']),J(f0));
