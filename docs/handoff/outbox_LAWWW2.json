@@ -5250,7 +5250,7 @@
    "branch": "claude/second-ai-env-art",
    "sha": "219e5dc45",
    "receiver": "LAWWW",
-   "ack": "SENT",
+   "ack": "ACKNOWLEDGED",
    "task": "CGI-TESTS-1102（campus_glb_integration 只改 tests）",
    "files": [
     "docs/art-rebuild/second_ai/patches/campus_glb_integration_1102.patch",
@@ -5261,7 +5261,7 @@
    "next": "LAWWW 套 patch（a5935aa30、3e6855649 apply --check 乾淨）；LAWWW2 之後：①找出雜訊讓量測固定（只改 tests，另交）②校門、男一舍、普通、博雅四棟減 draw call",
    "noDirectIntegrate": false,
    "note": "LAWWW 11-02 14:30 要的。原因：soc 接的是 campus_socsci_glb（X75）；TAGS 少四棟；改之前那一輪刪 key 會改到總圖（LIBF）、社科院（SOCX）、校門（ckTag）、男一舍（門廊燈）的配置（13 個 key 全刪：擋住的導航格少 4784、互動點少 2、鏡頭碰撞少 8）。改成：刪 key／STUB（key 留著、loadOne 回 null）／KEEP（新社科院兩輪都有）。外框容許只放寬屋頂樓梯間、機房（量過）。兩次全套都是 94 PASS／1 FAIL",
-   "integrated": ""
+   "integrated": "LAWWW 11-02 15:31 ACK：已進 int/next1102＝eb3920914（apply 乾淨；效能門檻不改，同意）"
   }
  ]
 }
