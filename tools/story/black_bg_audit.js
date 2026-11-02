@@ -27,7 +27,8 @@ for(const e of (typeof STORY_EVENTS!=='undefined'?STORY_EVENTS:[])){ if(e.retire
   const when=[e.term&&e.term.join('/'),e.weeks&&('第'+e.weeks.join(',')+'週'),e.trigger].filter(Boolean).join(' ');
   let d=e.dialogue; if(typeof d==='function'){ try{ d=d({flags:{},events:{done:{}},rel:{},day:0,hour:12}); }catch(_){ d=null; } }
   if(Array.isArray(d)){ scan(e.id,e.title||'',e.stage||'law',when,e.background||'blur',d,e.trigger);
-    const f=d.find(l=>l&&typeof l==='object'&&(l.text||l.scene!==undefined)); if(e.trigger==='outing'&&(e.background||'blur')!=='dark'&&!(f&&f.scene!==undefined)) wrong.push({id:e.id,title:e.title||'',stage:e.stage||'law',bg:e.background||'blur',first:text(f)}); } }
+    const f=d.find(l=>l&&typeof l==='object'&&(l.text||l.scene!==undefined)), b0=e.background, img0=!!b0&&typeof b0==='object'&&!!b0.image;   /* img0：事件的 background 是 OUT.bg(...) 的圖（getter，稿沒有地點字幕的開場）＝有底圖，不是 3D 模糊底 */
+    if(e.trigger==='outing'&&!img0&&(b0||'blur')!=='dark'&&!(f&&f.scene!==undefined)) wrong.push({id:e.id,title:e.title||'',stage:e.stage||'law',bg:b0||'blur',first:text(f)}); } }
 if(typeof RETAKE_HOME!=='undefined'&&(!stage||stage==='econ')){ for(const e of [].concat(RETAKE_HOME.long||[],RETAKE_HOME.short||[])){ if(!e) continue; const d=[{scene:e.place||'',bg:e.bg===false?false:(e.bg||'home_living')}].concat((e.lines||[]).map(x=>Array.isArray(x)?{speaker:x[0],text:x[1]}:x)); scan('RH:'+e.id,e.title||e.id,'econ',e.date||e.kind||'',e.bg===false?'dark':'blur',d); } }
 const byKey={}; for(const r of rows){ const k=r.key+'｜'+r.why; (byKey[k]=byKey[k]||[]).push(r); }
 const out=[]; out.push('# 黑畫面盤點（tools/story/black_bg_audit.js 自動產生）','',`> 產生：${new Date().toISOString().slice(0,16)}Z；範圍：${stage||'全部'}的 STORY_EVENTS＋重考期在家。玩家看到深色底（沒有圖）的段落 ${rows.length} 段、共 ${rows.reduce((a,r)=>a+r.lines,0)} 句。`,'> 依「背景代號」分組：同一個代號補一張圖，就補好那一組的全部段落。電話（「電話」場景）深色底可能是故意的，BB 和使用者決定要不要補。','');

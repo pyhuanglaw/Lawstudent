@@ -355,7 +355,7 @@ await sec('7',async()=>{ if(!HAS()){ check('7. HCIRCLE',false,'沒有 HCIRCLE');
       J(a)===J(want)&&again===0&&!b.length&&!c.length&&!e.length&&J(g)===J(want)&&!!r.spot&&HCIRCLE.on(r,(fresh(d10,18,'library_hall'),H.G))===true,J({a,again,b,c,e,g})); }
   /* (d) 語彤的法律課（一個人）、以安週四麵店（一個人）、子晴公館騎樓（一個人＋補的作息）*/
   { const L=[]; for(const rid of ['c509_1_1','c509_3_3','c509_4_1','c510_3_2']){ const r=Rw(rid), f=findOn(r); L.push([rid,!!f&&r.alone===true&&HCIRCLE.heroEnt(r,(fresh(f.d,f.h,r.zone),H.G)).zone===r.zone]); }
-    const zq=(()=>{ const r=Rw('c509_4_1'), f=findOn(r); fresh(f.d,22.5,'gongguan'); const e=ent('heroine_04'); return e&&e.act==='linger'&&e.hc==='c509_4_1'&&J(e.at)===J([16,20.6,Math.PI,0]); })();
+    const zq=(()=>{ const r=Rw('c509_4_1'), f=findOn(r); fresh(f.d,22.5,'gongguan'); const e=ent('heroine_04'); return e&&e.act==='read'&&e.hc==='c509_4_1'&&J(e.seatAt)===J([15.6,19.8])&&e.prop==='laptop_lap'; })();   /* 2026-11-01 ZQ-ARCADE-SEAT-1028：原本站在插座旁邊（linger），改坐柱子旁的凳子、腿上筆電 */
     check('7. 一個人的列：以安週四麵店（第 2～13 週）、語彤的法律課（週一上午、週四下午）、子晴公館騎樓（插座旁邊，補的作息）、語彤暑假週四麵店都找得到成立的時候',L.every(x=>x[1])&&zq,J({L,zq})); }
   /* (e) 子晴 6/28 起週五公館和阿凱（畢業以後篇照樣成立）：兩個人都生在公館、一起走 */
   { const r=Rw('c510_4_1'), d=DK('2029-07-06'); fresh(d,22.5,'gongguan',{GRADUATED:true}); const on=HCIRCLE.on(r,H.G); stage('gongguan'); STORY._bindGM(GM); POOL.bind(GM); HCIRCLE.bind(GM); STORY.refreshSchedule(GM);
@@ -388,7 +388,7 @@ await sec('8',async()=>{ if(!HAS()){ check('8. HCIRCLE',false); return; }
     const e1=(fresh(DK('2029-06-27'),22.5,'gongguan'),ent('heroine_04')), e2=(fresh(DK('2029-06-28'),22.5,'gongguan'),ent('heroine_04'));
     const k=(fresh(DK('2029-06-29'),22.5,'gongguan'),HCIRCLE.on(Rw('c510_4_1'),H.G)), k0=(fresh(DK('2029-06-22'),22.5,'gongguan'),HCIRCLE.on(Rw('c510_4_1'),H.G));
     check('8. 第 4 點：子晴騎樓（一個人）大四上、寒假、大四下都成立，到 6/27 為止（6/27 的作息＝騎樓插座旁邊）；6/28 起不成立、作息照原本；6/29（週五）起和阿凱那一列（6/22 還沒）',
-      a&&b&&c&&d&&!e&&!f&&!!e1&&e1.hc==='c509_4_1'&&e1.act==='linger'&&!!e2&&e2.hc!=='c509_4_1'&&e2.zone==='gongguan'&&k===true&&k0===false,J({a,b,c,d,e,f,e1:e1&&e1.hc,e2:e2&&[e2.hc,e2.act],k,k0})); }
+      a&&b&&c&&d&&!e&&!f&&!!e1&&e1.hc==='c509_4_1'&&e1.act==='read'&&!!e2&&e2.hc!=='c509_4_1'&&e2.zone==='gongguan'&&k===true&&k0===false,J({a,b,c,d,e,f,e1:e1&&e1.hc,e2:e2&&[e2.hc,e2.act],k,k0})); }
   /* 第 5 點：語彤暑假在麵店——坐長桌最裡面、靠廚房；客人進來站在長桌那一頭、門口那一側 */
   { const r=Rw('c510_3_2'), d=DK('2029-06-07'); const ndl=[]; for(let i=0;i<3;i++){ const x=-3+i*3; for(const s of [-1,1]) ndl.push({x,z:0.5+s*0.8,yaw:s>0?Math.PI:0}); }   /* zones3d.js 麵店：三張桌子 x＝−3／0／3、z＝0.5，椅子 z＝−0.3／1.3 */
     fresh(d,18,'noodle'); const on=HCIRCLE.on(r,H.G); stage('noodle',ndl); E.zone.spawn={x:0,z:3.5}; STORY._bindGM(GM); HCIRCLE.bind(GM);

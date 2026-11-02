@@ -77,7 +77,7 @@ await sec(5,()=>{ const w=P.heroine_05.walk, f=P.heroine_05.firstAt;
     &&J(f.brunch)===J(['「三分四十秒。老闆娘說的。……她每一顆都這樣計時？」'])&&J(f.teahouse)===J(['「這裡不能讀書。……我很少去不能讀書的地方。」']));
   check('5. 子晴 Q6、Q8 照 10-20 AA 直接改的句子',J(P.heroine_04.walk.any[0])===J(['（她看到一隻松鼠。）','「那隻松鼠在看我。……牠在看我的餅乾。」'])&&J(P.heroine_04.firstAt.teahouse)===J(['「地板是榻榻米。我要脫鞋？……我的襪子是貓的。不准看。」']));
   check('5. AA_415 的格子沒動（芷若 acc、plan；子晴 first；沛珊 acc、first；學姊 partnerSay）',J(P.heroine_02.acc.cafe)===J({A:['「我放假不太想來上班的地方。……好啦。但我不幫忙收杯子。」'],R:['「去我們家。我坐客人那一邊，看起來會很奇怪。」']})&&J(P.heroine_02.plan.library)===J(['「我在上班。十點下班，總圖也十點關。……你自己加油。」'])
-    &&J(P.heroine_04.first.wenzhou)===J(['「散步？散步是什麼？」','（你解釋了一下。）','「……好啦。但要有目的地。」'])&&J(P.classmate_peishan.first.wenzhou)===J(['「散步是最好的思考。……我在書上看到的。」'])&&J(P.heroine_05.partnerSay.teahouse)===J(['「一盞……那裡太安靜了。Café 可以，帶你的筆記。」']));
+    &&J(P.heroine_04.first.wenzhou)===J(['「散步？散步是什麼？」','（你解釋了一下。）','「……好啦。但要有目的地。」'])&&J(P.classmate_peishan.first.wenzhou)===J(['「散步是最好的思考。……我在書上看到的。」'])&&J(P.heroine_05.partnerSay.teahouse)===J(['「一盞……那裡太安靜了。去 Café 讀書吧。」']));
   let out='', rc=0; try{ out=cp.execSync('python3 "'+path.join(H.ROOT,'tools/invite/build_replies.py')+'"',{encoding:'utf8'}); }catch(e){ rc=1; out=String(e.stdout||e); }
   check('5. build_replies.py 照樣通過（AA_415 的「現有」都對得上），產生的檔案沒有變',rc===0&&cp.execSync('git -C "'+H.ROOT+'" status --porcelain -- src/data/invite_replies.js',{encoding:'utf8'}).trim()==='',out.slice(0,120)); });
 

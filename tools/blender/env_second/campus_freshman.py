@@ -256,7 +256,7 @@ def build():
 
     # ---------------- 完成 ----------------
     K.finish(accs, root, VC)
-    for (m, props) in plates: uv01(m.finish(root, uv=True, props=props))
+    for (m, props) in plates: L.uv_text(m.finish(root, uv=True, props=props))   # PLATE-MIRROR-1101：照幾何給 UV（uv01 會讓側牆的名牌字上下顛倒、左右相反）
     # v9.7 合併材質（LAWWW 2026-10-14 04:52Z）：純色、頂點色的零件併成一個頂點色材質 wz_vc_fd（遊戲端整個網格投影、陰影一次 draw call）。
     # 留下：面磚、漆面（含窗台）、石材勒腳、玻璃、燈罩、匾額
     VCM = L.vc_material('wz_vc_fd', rough=0.6)

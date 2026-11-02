@@ -37,7 +37,7 @@
 | v9.10.12 | `d5ca27b89`（PR [pyhuanglaw/Lawstudent#18](https://github.com/pyhuanglaw/Lawstudent/pull/18)；遊戲檔案＝發布樹 `96358789f`＝候選 rc3b `d6694cad0`＋版本字樣） | 2026-10-28 04:46:30 UTC（run 40634003965） | v9.10.11 `c8b9659e5` |
 | v9.10.13 | `37603ad6a`（PR [pyhuanglaw/Lawstudent#19](https://github.com/pyhuanglaw/Lawstudent/pull/19)；遊戲檔案＝候選 rc2 `da50fbdc1`＋版本字樣；LAWWW-B 接班完成發布） | 2026-10-30 02:11:54 UTC（run 40990069412） | v9.10.12 `d5ca27b89` |
 | v9.10.14 | `271cd2305`（PR [pyhuanglaw/Lawstudent#20](https://github.com/pyhuanglaw/Lawstudent/pull/20)；遊戲檔案＝發布樹 `9293c245d`＝候選 `b38b112a8`＋版本字樣） | 2026-10-30 07:52:40 UTC（run 41022443245） | v9.10.13 `37603ad6a` |
-| v9.10.15 | （發布中：PR 合併後補 main SHA；遊戲檔案＝BB GO 的基準 `39f68236c`＋版本字樣，發布樹 `8fb7212b1`） | — | v9.10.14 `271cd2305` |
+| v9.10.15 | `27e6ce77e`（PR [pyhuanglaw/Lawstudent#21](https://github.com/pyhuanglaw/Lawstudent/pull/21)；遊戲檔案＝BB GO 的基準 `39f68236c`＋版本字樣，發布樹 `8fb7212b1`） | 2026-11-01 02:54:35 UTC（run 41266933798） | v9.10.14 `271cd2305` |
 
 ---
 
@@ -51,7 +51,44 @@ git push origin $C:main        # 快轉，不是強制推送；之後用 GitHub 
 ```
 （原本要用 tag `v9.3-25` 標記回復點：本機建立了，但這個沙盒推 tag 會被代理斷線，遠端沒有這個 tag——回復點以 commit SHA 為準。）
 
-## v9.10.15（2026-11-01，發布中）——改名版：虛構校名館名、芯慈新個性與感情線、不跟別人比、宿舍與光照
+## v9.10.16（草稿，等 BB GO；候選 `b1b249873`）——法律學習與考試第一版（D118）、海商法改選修、以安與學姊改稿、背景與立繪
+
+**遊戲檔案**＝候選 `b1b249873`；開發分支之後只多了 docs、tests、wip_backup（`git diff b1b249873 HEAD -- src index.html lib assets` 為空）。
+
+**這一版玩家會看到的**
+- **法律學習與考試（D118，使用者 11-02）**：
+  - 沒有期中考了，第 8、9 週照常上課。
+  - 期末週照日曆，考五題的法律課才考。
+  - 一鍵總複習：快轉停在考前一週時，選單直接列出來。
+  - 考試時讀過那張卡的題目會多一行提示。
+  - 法律頁顯示「期末範圍：學過 x／y」「答對過 z」。
+  - 觀念卡這一版先用黑板三行＋教授那一句＋考點；AA 寫的白話卡在下一版。
+- **大四下被當**：先排 6/26 補考。補考考場有人、有陳助教，用法律系館A 201 的背景。補考過了照常畢業、照常考當年國考；補考沒過才延畢，延畢的重修停點照實際剩下的堂數排。
+- **海商法與海洋法改成選修（D124）**：大四下開學選課時問，預設修。選修被當只記成績，不延畢。
+- **其他**：
+  - 隨機點名週（每學期 4 週）；
+  - 國考可以考到 2033；
+  - 職涯傾向的計算修正；
+  - 存檔空間不足會提示，存檔也變小了；
+  - 法服值班同一天不多算。
+- **劇情**：以安改稿第一、二批（AA_576、AA_580），學姊改稿第一批（AA_579），都經使用者確認；不是問句的句型全部刪掉（AA_573）；「哥大」改成「紐約的法學院」，「杜鵑花節」改成「松鼠節」。
+- **畫面**：第三～十批 2D 背景（BB 驗收），第 106、110 組立繪，總圖兩張新背景。
+
+**測試**
+- 雲端（乾淨 checkout `b1b249873`）：deploy_check、p0_movement、zone_transitions、minimap_direction、save_compat_v7 都 ALL PASS。
+- 使用者電腦（D123，Windows＋GPU 的 Playwright，**不是 iPhone 實機**），BB 判定：R1 可達性、R2 上課真實流程、R3 溫州街觸控、R4 第一二天主線都 PASS。R4 第一次 FAIL 是測試在快 GPU 上的時序競爭，重寫成 v2 以後，重跑和線上 main 對照都 ALL PASS。其餘 R5～R12 見 BB 的判定紀錄。
+- 單元測試全套平行跑。
+
+**已知、不擋發布**
+- 補考當天在家睡覺，醒來會直接去考。下一版已修，補考步驟加了 ready 條件。
+- 補考和期末重複 2 題：那一門題庫只有 8 題。
+- 考試版面的左右欄只在選項放不下時才切。
+
+**這一版沒有、在下一版的**：AA 的白話觀念卡（八學期）、AA_581、名字規則、K1（交換延畢又被當）、D118-B6／B8 職涯與司法官補充、AA_588（4/15 沛珊柏翰）、AA_585 期中週黑板、以安告白那一場（想去的店）、總圖正門第三版、B1 新配置、考試日目標欄、第二天帶進教室的時間、存檔重度玩家精簡。
+
+**部署**：（GO 後補：PR、合併 commit、GitHub Pages run）
+
+## v9.10.15（2026-11-01 02:52 UTC 合併 `27e6ce77e`，PR #21；GitHub Pages 部署 run 41266933798 02:54:35 成功）——改名版：虛構校名館名、芯慈新個性與感情線、不跟別人比、宿舍與光照
 
 **候選＝基準**：開發分支 `39f68236c`（BB-B 10-31 20:09 凍結；之後開發分支只多 docs、wip_backup、`src/r2y4b3d.js` 兩行註解，`git diff 39f68236c 8fb7212b1 -- src tests assets lib` 只有那兩行註解）。
 
@@ -65,6 +102,8 @@ git push origin $C:main        # 快轉，不是強制推送；之後用 GitHub 
 - 寒暑假（vachome、lawbreak）、美國（exchmin；usexch 機場、公寓、回程）走得通；大三 507、大四 409 晚讀 ALL PASS。原本的幾支流程測試跟不上 10-21 以後的設計（D103 手機自動打開、志願表拿掉、超市街改版），BB 改跑探針複本，測試本身發布後改。
 
 **LAWWW 發布前清單**（docs/TESTING.md 第五節；乾淨 checkout `fc5086f92`＝基準＋文件，發布樹 `8fb7212b1` 再跑 deploy_check）：deploy_check（發布樹也 ALL PASS）、reachability_all、flow_class_real、minimap_direction、joystick_direction、zone_transitions、p0_movement、flow_main_day12、flow_linze_floors PASS；save_compat_v7（對 v7 `a81fa62a1`）ALL PASS；題庫漏收：重產只差來源標籤、399 題一字不差；check_orphans、check_lines 列的是還沒整合的企劃和相近句。touch_flow_wenzhou 三次 FAIL 都是測試時機：負載 7～8 時走不到門口；空機器時只有「搖桿往前走」那一步碰上 D103 手機自動打開，之後進出 Café、坐下、存讀檔都 PASS（BB 會在測試裡先收手機）。發布樹全部 Node（`8fb7212b1`，tests/*_unit.js 790 支，一次 3 支）：790／790 ALL PASS（11-01 02:5x）。
+
+**發布後確認**：BB-B 11-01 03:0x 對 main `27e6ce77e` 乾淨 checkout 跑 deploy_check＝ALL PASS 37 項（標題「版本 v9.10.15（2026-11-01）」、288 個 script 帶 ?v=、各區域進得去、正式 VRM、沒有 404、沒有 JS 例外；沙盒連不到線上網址，用的是發布的同一組檔案；BB_218）。
 
 **這版有的（v9.10.14 以後，玩家玩得到的）**：
 - **改名（D115）**：全遊戲照 `docs/WORLD_NAMING.md`——首都帝國大學（首都帝大）、木柵大學、法律系館A／B、博思教學館、晨思鐘、椰影大道、映月湖…；台詞用口語、旁白與地點字幕用正式名稱；校門石牌、晨思鐘、名牌、公布欄、海報等圖上的字也換了。舊存檔照讀。

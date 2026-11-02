@@ -1,23 +1,25 @@
 # 歷史待辦複核報告（工具產生，不要手改）
 
-- 產生：`tools/handoff/history_audit.py`；開發分支 HEAD `695dbc2b6160`、main `271cd2305892`
+- 產生：`tools/handoff/history_audit.py`；開發分支 HEAD `e934529a6255`、main `27e6ce77e807`
 - 七類定義與判定規則：同資料夾 README.md。auto＝工具自動判定（只看總表狀態、程式識別字在不在 main、BB 實測紀錄有沒有 PASS），還沒有人工看過；人工判定寫進 judgments_<職位>.jsonl 以後改成人工。
 - BB 實際操作證據來源：elegant-brown-fcos7n:BB_218_瀏覽器實測紀錄.md、wonderful-mayer-7fm9g6:BB_218_瀏覽器實測紀錄.md、story-planning:BB_218_瀏覽器實測紀錄.md、BB 分支 test_shots/*.log 64 個
 
 ## 摘要
 
-- 10/21 稽核 B 段 266 項（重算）：1 正式版已完成且實際驗收 16、2 已實作但尚未實際驗收 202、4 部分完成 17、5 完全未開工 5、6 等待素材或使用者決定 4、7 經確認取消或被取代 22
-- 其中原本 done 的 133 項：tier 1 8、tier 2 124、tier 4 1
+- 10/21 稽核 B 段 266 項（重算）：1 正式版已完成且實際驗收 18、2 已實作但尚未實際驗收 202、4 部分完成 16、5 完全未開工 4、6 等待素材或使用者決定 4、7 經確認取消或被取代 22
+- 其中原本 done 的 133 項：tier 1 10、tier 2 122、tier 4 1
 - 原本 done、證據在開發分支找不到（要人工查）：0
 - 原本 done、main 狀態：{'yes': 133}
-- 各職位另外查到的 865 項（企劃、美術、交付；以各職位的人工判定為準）：1 正式版已完成且實際驗收 30、2 已實作但尚未實際驗收 511、3 已驗收但尚未發布 11、4 部分完成 64、5 完全未開工 17、6 等待素材或使用者決定 90、7 經確認取消或被取代 142
+- 各職位另外查到的 866 項（企劃、美術、交付；以各職位的人工判定為準）：1 正式版已完成且實際驗收 42、2 已實作但尚未實際驗收 521、4 部分完成 55、5 完全未開工 16、6 等待素材或使用者決定 90、7 經確認取消或被取代 142
 
 ## 10/21 判 done 的 133 項
 
 | ID | 現在 | 總表狀態 | main | BB 實測 | 負責 | 依據／缺的 |
 |---|---|---|---|---|---|---|
+| BB204-EXROUTE | 1 正式版已完成且實際驗收（auto） | 已整合待測試 | yes | elegant-brown-fcos7n:BB_218_瀏覽器實測紀錄.md:6482（pass） | LAWWW | 總表：已整合待測試；main 有、BB 實測紀錄有 PASS |
 | BUG-KXFIRST-0830 | 1 正式版已完成且實際驗收 | 已整合待測試 | yes | elegant-brown-fcos7n:BB_218_瀏覽器實測紀錄.md:128（mention） | BB | 總表：已整合待測試；沒有找到 BB 實際操作紀錄；BB 盤點 B：跑流程 ② 可以涵蓋 |
 | CRAM-LEAVE-LAUGH-1018 | 1 正式版已完成且實際驗收 | 已整合待測試 | yes | — | BB | 總表：已整合待測試；沒有找到 BB 實際操作紀錄；BB 盤點 B：跑流程 ② 可以涵蓋 |
+| V4-E10 | 1 正式版已完成且實際驗收（auto） | 已整合待測試 | yes | elegant-brown-fcos7n:BB_218_瀏覽器實測紀錄.md:6482（pass） | LAWWW | 總表：已整合待測試；main 有、BB 實測紀錄有 PASS |
 | V4-E24 | 1 正式版已完成且實際驗收 | 已驗收 | yes | tasks.json evidence（pass） | BB | 總表：已驗收；main 有、BB 實測紀錄有 PASS |
 | V5-B05 | 1 正式版已完成且實際驗收 | 已驗收 | yes | tasks.json evidence（pass） | BB | 總表：已驗收；main 有、BB 實測紀錄有 PASS |
 | V5-B08 | 1 正式版已完成且實際驗收 | 已驗收 | yes | tasks.json evidence（pass） | BB | 總表：已驗收；main 有、BB 實測紀錄有 PASS |
@@ -27,7 +29,6 @@
 | AA185-Y3 | 2 已實作但尚未實際驗收（auto） | 已整合待測試 | yes | — | LAWWW | 總表：已整合待測試；沒有找到 BB 實際操作紀錄；BB 盤點 B：跑流程 ⑩Y3S1 可以涵蓋 |
 | AA185-Y4 | 2 已實作但尚未實際驗收（auto） | 已整合待測試 | yes | — | LAWWW | 總表：已整合待測試；沒有找到 BB 實際操作紀錄；BB 盤點 B：跑流程 ⑩Y4S1 可以涵蓋 |
 | AN-Y3S2-PRE | 2 已實作但尚未實際驗收（auto） | 已整合待測試 | yes | — | LAWWW | 總表：已整合待測試；沒有找到 BB 實際操作紀錄；BB 盤點 B：跑流程 ⑩Y3S2 可以涵蓋 |
-| BB204-EXROUTE | 2 已實作但尚未實際驗收（auto） | 已整合待測試 | yes | elegant-brown-fcos7n:test_shots/qa_repro_1020/route_run5.log:108（fail） | LAWWW | 總表：已整合待測試；沒有找到 BB 實際操作紀錄（有 FAIL 字樣，要看）；BB 盤點 C：要單獨測 |
 | BUG-11 | 2 已實作但尚未實際驗收（auto） | 已整合待測試 | yes | — | LAWWW | 總表：已整合待測試；沒有找到 BB 實際操作紀錄；BB 盤點 B：跑流程 ⑩Y1S1 可以涵蓋 |
 | CRIMPRO-HW-Y3S1 | 2 已實作但尚未實際驗收（auto） | 已整合待測試 | yes | — | LAWWW | 總表：已整合待測試；沒有找到 BB 實際操作紀錄；BB 盤點 B：跑流程 ⑩Y3S1 可以涵蓋 |
 | D14-T3 | 2 已實作但尚未實際驗收（auto） | 已整合待測試 | yes | — | LAWWW | 總表：已整合待測試；沒有找到 BB 實際操作紀錄；BB 盤點 B：跑流程 ⑧ 可以涵蓋 |
@@ -73,7 +74,6 @@
 | V4-B05 | 2 已實作但尚未實際驗收（auto） | 已整合待測試 | yes | — | LAWWW | 總表：已整合待測試；沒有找到 BB 實際操作紀錄；BB 盤點 B：跑流程 ⑩Y3S1 可以涵蓋 |
 | V4-B134 | 2 已實作但尚未實際驗收（auto） | 已整合待測試 | yes | — | LAWWW | 總表：已整合待測試；沒有找到 BB 實際操作紀錄；BB 盤點 B：跑流程 ⑩Y3S1 可以涵蓋 |
 | V4-E1 | 2 已實作但尚未實際驗收（auto） | 已整合待測試 | yes | elegant-brown-fcos7n:BB_218_瀏覽器實測紀錄.md:361（mention） | LAWWW | 總表：已整合待測試；沒有找到 BB 實際操作紀錄；BB 盤點 B：跑流程 ③ 可以涵蓋 |
-| V4-E10 | 2 已實作但尚未實際驗收（auto） | 已整合待測試 | yes | elegant-brown-fcos7n:test_shots/qa_repro_1020/route_run5.log:108（fail） | LAWWW | 總表：已整合待測試；沒有找到 BB 實際操作紀錄（有 FAIL 字樣，要看）；BB 盤點 C：要單獨測 |
 | V4-E11 | 2 已實作但尚未實際驗收（auto） | 已整合待測試 | yes | — | LAWWW | 總表：已整合待測試；沒有找到 BB 實際操作紀錄；BB 盤點 B：跑流程 ⑩Y3S1 可以涵蓋 |
 | V4-E12 | 2 已實作但尚未實際驗收（auto） | 已整合待測試 | yes | elegant-brown-fcos7n:BB_218_瀏覽器實測紀錄.md:5537（mention） | LAWWW | 總表：已整合待測試；沒有找到 BB 實際操作紀錄；BB 盤點 B：跑流程 ⑩Y3S1 可以涵蓋 |
 | V4-E13 | 2 已實作但尚未實際驗收（auto） | 已整合待測試 | yes | — | LAWWW | 總表：已整合待測試；沒有找到 BB 實際操作紀錄；BB 盤點 B：跑流程 ⑩Y3S1 可以涵蓋 |
@@ -164,6 +164,7 @@
 | AA342-COVERAGE-1021 | 2 已實作但尚未實際驗收（auto） | 已整合待測試 | yes | — | LAWWW | 總表：已整合待測試；沒有找到 BB 實際操作紀錄；BB 盤點 B：跑流程 ⑩Y4S2 可以涵蓋 |
 | AB65-2-L | 2 已實作但尚未實際驗收（auto） | 已整合待測試 | yes | — | LAWWW | 總表：已整合待測試；沒有找到 BB 實際操作紀錄；BB 盤點 B：跑流程 ⑩Y1S1 可以涵蓋 |
 | BB119-Y4-1017 | 2 已實作但尚未實際驗收（auto） | 已整合待測試 | yes | — | LAWWW | 總表：已整合待測試；沒有找到 BB 實際操作紀錄；BB 盤點 C：要單獨測 |
+| BUG-03 | 2 已實作但尚未實際驗收（auto） | 已整合待測試 | partial | elegant-brown-fcos7n:BB_218_瀏覽器實測紀錄.md:2625（mention） | LAWWW | 總表：已整合待測試；沒有找到 BB 實際操作紀錄 |
 | D14-T10 | 2 已實作但尚未實際驗收（auto） | 已整合待測試 | yes | — | LAWWW | 總表：已整合待測試；沒有找到 BB 實際操作紀錄；BB 盤點 C：要單獨測 |
 | D14-T11 | 2 已實作但尚未實際驗收（auto） | 已整合待測試 | yes | — | LAWWW | 總表：已整合待測試；沒有找到 BB 實際操作紀錄；BB 盤點 B：跑流程 ⑦ 可以涵蓋 |
 | D14-T4 | 2 已實作但尚未實際驗收（auto） | 已整合待測試 | yes | — | LAWWW | 總表：已整合待測試；沒有找到 BB 實際操作紀錄；BB 盤點 B：跑流程 ⑧ 可以涵蓋 |
@@ -189,7 +190,6 @@
 | AA267-Y5 | 4 部分完成（auto） | 待開工 | unknown | — | LAWWW | 總表：待開工 |
 | AA290-INTAKE | 4 部分完成（auto） | 待開工 | yes | — | LAWWW | 總表：待開工 |
 | BB210-Y4S2 | 4 部分完成（auto） | 待開工 | yes | — | LAWWW | 總表：待開工 |
-| BUG-03 | 4 部分完成（auto） | 待開工 | yes | elegant-brown-fcos7n:BB_218_瀏覽器實測紀錄.md:2625（mention） | LAWWW | 總表：待開工 |
 | DL-04 | 4 部分完成（auto） | 待開工 | yes | — | LAWWW | 總表：待開工 |
 | SYS-03 | 4 部分完成（auto） | 待開工 | yes | — | LAWWW | 總表：待開工 |
 | SYS-04 | 4 部分完成（auto） | 待開工 | yes | — | LAWWW | 總表：待開工 |
@@ -217,6 +217,7 @@
 | AA185-V6 | 2 已實作但尚未實際驗收（auto） | 已整合待測試 | yes | — | LAWWW | 總表：已整合待測試；沒有找到 BB 實際操作紀錄；BB 盤點 C：要單獨測 |
 | AA294-SKIPCLASS-1018 | 2 已實作但尚未實際驗收（auto） | 已整合待測試 | yes | — | LAWWW | 總表：已整合待測試；沒有找到 BB 實際操作紀錄；BB 盤點 C：要單獨測 |
 | BB194-YTFLAGS | 2 已實作但尚未實際驗收（auto） | 已整合待測試 | yes | — | LAWWW | 總表：已整合待測試；沒有找到 BB 實際操作紀錄；BB 盤點 C：要單獨測 |
+| BUG-04 | 2 已實作但尚未實際驗收（auto） | 已整合待測試 | partial | elegant-brown-fcos7n:BB_218_瀏覽器實測紀錄.md:2625（mention） | LAWWW | 總表：已整合待測試；沒有找到 BB 實際操作紀錄 |
 | BUG-07 | 2 已實作但尚未實際驗收（auto） | 已驗收 | yes | — | LAWWW | 總表：已驗收；沒有找到 BB 實際操作紀錄；BB 盤點 D（不是 BB 能驗）：favicon 404 是測試環境的 console 訊息，不是玩家看得到的；deploy_check 3fca77687「沒有 console error」（ |
 | BUG-ECON-MONEY-1020 | 2 已實作但尚未實際驗收（auto） | 已驗收 | yes | — | LAWWW | 總表：已驗收；沒有找到 BB 實際操作紀錄 |
 | D14-T5 | 2 已實作但尚未實際驗收（auto） | 已整合待測試 | yes | — | LAWWW | 總表：已整合待測試；沒有找到 BB 實際操作紀錄；BB 盤點 B：跑流程 ⑧ 可以涵蓋 |
@@ -235,7 +236,6 @@
 | V6-B4 | 2 已實作但尚未實際驗收（auto） | 已整合待測試 | yes | — | LAWWW | 總表：已整合待測試；沒有找到 BB 實際操作紀錄；BB 盤點 C：要單獨測 |
 | V6-S4 | 2 已實作但尚未實際驗收（auto） | 已整合待測試 | yes | — | LAWWW | 總表：已整合待測試；沒有找到 BB 實際操作紀錄；BB 盤點 C：要單獨測 |
 | ANIM-BENCH-SIT | 5 完全未開工（auto） | 待開工 | yes | — | LAWWW | 總表：待開工 |
-| BUG-04 | 5 完全未開工（auto） | 待開工 | unknown | elegant-brown-fcos7n:BB_218_瀏覽器實測紀錄.md:2625（mention） | LAWWW | 總表：待開工 |
 | SYS-19 | 5 完全未開工（auto） | 待開工 | yes | — | LAWWW | 總表：待開工 |
 | V6-B2 | 5 完全未開工（auto） | 待開工 | yes | — | LAWWW | 總表：待開工 |
 | V6-B5 | 5 完全未開工（auto） | 待開工 | yes | — | LAWWW | 總表：待開工 |
@@ -305,34 +305,20 @@
 | V6-CATCH | 7 經確認取消或被取代（auto） | 取消／被取代 | yes | — | LAWWW | 取消依據：取代它的決定（使用者／AA 已定，出處見 reason；稽核 B2 核對）AA_126 9-2 懷疑值已取消、BB_125 抓包規則作廢（00_文件狀態表 BB_128、BB_187 列）；改成使用者 10-17「多線戀愛自然抓包」→BB_ |
 | V6-X3 | 7 經確認取消或被取代（auto） | 取消／被取代 | yes | — | LAWWW | 取消依據：取代它的決定（使用者／AA 已定，出處見 reason；稽核 B2 核對）AA_215 取消故事閘門（storyGate）；BB_203／AA_254（使用者 10-17 確認）告白只在學期末心意邀約、條件改她的戀愛≥30＋4 次約會含心願 |
 
-## AA-B 另外查到的 610 項（不在 10/21 稽核 B 段）
+## AA-B 另外查到的 600 項（不在 10/21 稽核 B 段）
 
 | ID | 現在 | main | 負責 | 證據 | 缺的／下一步 |
 |---|---|---|---|---|---|
-| AA_542 | 3 已驗收但尚未發布 | no | LAWWW | src/data/events.js:674 阿哲「晚上吃麵？公館那家，阿鳳。」（1-1 第一次併桌）；src/story3d.js:1053「法一吃飯」每學年改名（2-1）、:1 | 等下一版發布；BB 疑點 roomY2Due 沒有上限另測（n20_y2late） |
-| AA_543 | 3 已驗收但尚未發布 | no | LAWWW | 人物頁句子在 src：「張哲維，大家叫他阿哲。法律系，跟你同班。高雄人。」「大二上他民法差點被當，你陪他念了四個禮拜。」、個性「總是笑著、講義氣；吃過一次的店都記得」；第 6 節經 | 等下一版發布 |
-| AA_546 | 3 已驗收但尚未發布 | no | LAWWW | 柏翰翰 0～翰 4、阿哲、子晴和阿凱、可昕、宿營破冰的新句都在 src（例「我也是。所以才組的。」「你講了你的寫法。」）；腳本對稿漏掉的都是表格左欄的原句；第 8 節灰色三句照 N | 等下一版發布；阿凱秋葉原、可昕視訊、可昕重考、feed_pg 四處 BB 只 Node 確認，前置太長 |
-| AA_547 | 3 已驗收但尚未發布 | no | LAWWW | 對稿第 2 節 20/21（缺的是表格原句「我在會計師事務所做法遵。」）、2-1～2-5、3-1、3-2 全在；2-6 人物頁「雙主修財金。她說看財報比看小說好看。」「爸媽都是律師 | 等下一版發布 |
-| AA_548 | 3 已驗收但尚未發布 | no | LAWWW | src/xcrom3d.js S.gates（第 1 節）、S.TELL_OPT／TELL_LINES／KNOWN_LINE（第 7 節）、S.NIGHT_L；對稿 1、2、3-1 | 等下一版發布；法律系館A門口鏡頭被柱子擋另列 BUG-CAM-PILLAR-LAWA-1031（LAWWW2） |
 | 00_現行設定總表#2-芷若缺第3環 | 4 部分完成 | no | LAWWW | r2y4b3d.js:7、:285 自註「2-Y4-47 芷若回國（8/25、9/1）。延後的回答：PROPOSAL，等使用者，不做」；只有 zr_last3d.js:30 bac | 七環 10-18 作廢後，使用者 10-17 甲（9/1 寫在杯子上）對應的沒交往版本是 ev_zhiruo_ticket_again（zr_last_events.js:65），杯子上沒有字；X36 原本指到交往中版本 back_cafe |
-| AA_117 | 4 部分完成 | yes | LAWWW | 九件事都進遊戲：C0 韋綸二手腳踏車（econ 事件）、C1 src/data/bbpack_events.js:533-545（手機筆記四行，玩家選「請求什麼」）、C2 src/ | 第 1 節第 2 步「整理」的四行手機筆記畫面只有 C1 有（bbpack_events.js:545）；C4 程式註明「『四個問題』的筆記畫面還沒有：先用訊息的回覆」（src/r2y3a3d.js:260），C2、C3、C5～C8 也都是 |
-| AA_121 | 4 部分完成 | partial | LAWWW | AA 負責的 CG 已登錄並放進事件：CG-1 src/data/events.js:178 cg_id、CG-2 以 cg_plg_rules 登錄（同一張圖）events.js | CG-20 cg_saved_seat_heroine03（斜對面的位子）已登錄在 src/adv3d.js:114 但沒有任何事件放它；2026-10-17 改場面後應放在大四下律師讀書小組第一次一起讀的那一晚、她先占好斜對面位子放一杯熱 |
-| AA_13 | 4 部分完成 | yes | LAWWW | G1 src/data/events.js:872-877（柏翰「第二題，你們是寫要約之引誘還是要約」）；G3 以子晴 Q5 版實作 src/data/events.js:1806 | G2 放榜（大一上期末成績公布的同班群組畫面）找不到：阿哲倒地的狗貼圖、小語「民總 B-。我媽問我為什麼不是 A。我說因為我是我。」、柏翰「大家都考幾分？」等整段，以及交接包_v1_交付清單第 12 點「G2 群組畫面之後問要不要先看自己的 |
-| AA_143 | 4 部分完成 | yes | LAWWW | 大二上群戲都在：1-1～1-6 有 AA_143 標記（例 src/data/events.js:3633 系籃＋語 3）、1-7 跨年 src/data/events.js:36 | 2-7 大二下期末最後一頓沒有事件（只有大一上、大一下、大二上與大四的；找不到 ev_term_last_meal_y2s2）：阿姨「明年你們大三了。……我記得你們大一的樣子。」，以及 AA_177 第 206 行兩學期都要的「最後一科考完 |
 | AA_145 | 4 部分完成 | partial | LAWWW | v0 與法律系第一次出現的背景大多已有圖並被使用（assets/bg：bowling、ferris_wheel、econ_camp、econ_camp_room、girls_dor | 3-6 日本線的 jp_notice（町公所門口的公告欄，J2 前半）沒有底圖：src/data/r2y3b_events.js:342 ev_an_town_notice 用 bg:'jp_town_hall'，註「2D 沒有＝深色底＋字 |
 | AA_160 | 4 部分完成 | yes | LAWWW | 一鍵上課 classes3d.js:882～887；時段次數 classes3d.js:1014；體力拿掉 game3d.js:40；自由出行 freetrip3d.js:1；偶遇 | classes3d.js:886 自己記著「還沒做」兩項：①1-3 第 3 點：一鍵上課路上經過的區域有【固】【必】事件時要停下來演；②1-5：翹課確認要列出會錯過的事件名，現在只寫一般的「這堂課裡的事你會錯過。」 |
 | AA_170 | 4 部分完成 | yes | LAWWW | 社團博覽會大二版 events.js:3881～3919（Y2_EXPO_BOOTH、Y2_EXPO_SENIOR）；大二暑假摘要日 r3_3d.js:105～125（S.SUM_ | 第 2 節「營隊」那一支：主線 5 房間物件「小孩畫給祐廷的一張卡片『法律系的大哥哥』」沒有（r3_3d.js roomY3Extra 只有 work／home 兩件），記憶 Y2_CAMP 也沒有 |
-| AA_187 | 4 部分完成 | partial | LAWWW | 已做：第 9 節告白定稿 src/data/confess_lines.js:20～33（AA_187 9-1、9-2）、termend_lines.js:71（語彤「你每次吃完， | 沒找到：①1-1 新 13b「反駁的次數」（手帳一排正字、「十七。」「其他人加起來是三。」「……樣本還不夠。」，記 AN_COUNTED；confess_lines.js:20 只註「十七次 AN_COUNTED 不放」，場面本身不在）；② |
 | AA_204 | 4 部分完成 | yes | LAWWW | 跨年頂樓 events.js:68、1493～1532（ev_nye_roof、語彤交往中 00:01 電話）；12/29 海邊 events.js:1541、story3d.js | 第 1-4 節聖誕群戲散場後的兩人段落沒進遊戲：以安單身「剛剛那個是抽的。」「我另外有帶一個。走一段再給你。」、以安交往中「這個不是抽的。」「鋼筆。申論題寫比較快。」、語彤單身「阿姨說明天要用的蒜頭還沒剝。」「打烊以後，你要不要來幫忙。」（ |
 | AA_204#1-4 | 4 部分完成 | no | LAWWW | AA_416 是聖誕的單獨約會版本，團體事件保留；AA_204 1-4 聖誕群戲散場後以安、語彤兩人段落（單身版、交往版共四段）開發分支沒有 | AA_204 1-4 四段（以安、語彤各單身版、交往版） |
 | AA_208 | 4 部分完成 | partial | LAWWW | 203：story3d.js:1327、1339、1351（8/29 柏翰、阿哲、遙控器）；events.js:4275、4284（9/1）、2021、1465（颱風夜）、564（ | ①2-4 返鄉當天旁白兩句沒進遊戲：1/9「（柏翰的床鋪捲起來了，桌上只剩檯燈。）」、1/2「（阿哲的籃球不在了。）」（AA_502 誤以為已有）；②第 7 節 312 拆箱前兩句旁白沒有：「（312。阿哲的籃球已經滾到門口了，柏翰的檯燈放 |
-| AA_258 | 4 部分完成 | partial | LAWWW | 第 5 節芷若第一張明信片照「8/26 才交往不加熱可可那一行」做在 r2y4a3d.js:417（zrLate）；6-1 的旗標名 ev_family_dinner_y2s2 只 | ①6-1 大二下家族聚餐沒有事件（2027-03-12 19:00 公館簡餐店、Kevin 群組「這學期的家聚！！禮拜五七點 公館那間」、學姊「……坐。我坐下來你們再坐。」），所以學姊 S4-L8 的「……你也看到了。」linesIf 永遠 |
 | AA_271 | 4 部分完成 | yes | LAWWW | 第 1 節偶遇 src/data/encounters.js:59～72（以安 D26、語彤 D14「船還要二十分鐘。」、柏翰 D11、Alison D01、芯慈 D02、阿哲 D | 第 2 節「你來過一次」（solo_before_aa_v1.json，以安、語彤、阿哲、小語、柏翰、芯慈在 D01～D32 的旁白與台詞，例「你來過一次。上次走出這棟樓，耳朵還嗡嗡響了一陣子。」）沒有匯入，也沒有程式接（見 AA_160# |
 | AA_289 | 4 部分完成 | yes | LAWWW | 打工小事件 src/data/wz_jobs.js:192～209（便利商店夜班：芯慈、颱風泡麵、外送員；補習班助教三件；事務所工讀三件）、jobs3d.js:20、413（家教第 | 3-7 研究助理（學姊 M8，大四下）整段沒有：「（逐字稿裡有一段十五秒的咳嗽。）」「照打。『（咳嗽十五秒）』。」、咖啡機三條、碩一「你是學姊的研究助理？她會不會很兇？」；v6ex3d.js:19 也註明「JOB_RA 遊戲裡還沒有」 |
-| AA_407 | 4 部分完成 | yes | LAWWW | src/loans3d.js:1-52（L1～L4 借書、到期通知、逾期、L3 接 ev_sis_db_taught）；src/lupstory3d.js:6（5F 方奕廷已做） | 第 2 節 R1《臺灣原生植物圖鑑》：服務台「那本只能在館內看。」沒做（loans3d.js:8 還寫「等 5F 做好再接」，但 5F 書庫 library_stacks 和 lupstory3d.js 3-3 方奕廷已經在了）；第 1 節 |
 | AA_509 | 4 部分完成 | partial | LAWWW | tests/aa508_509_feed_unit.js、tests/aa509_s0_unit.js；src/data/heard_lines.js 開頭「沒做」清單 | 以安 1-4「讀書會的學弟」（標籤人物，12 月起法律系館B）那一句沒做：「以安學姊交棒的時候，把規則本每一條都念了一次。……」——heard_lines.js 寫「讀書會的學弟照舊等」3D 標籤人物（AA_527 2-6 也寫等，不急） |
-| AA_537 | 4 部分完成 | no | LAWWW | 第 6 節尾聲／畢業禮物沒做；AA 已補稿 AA_548 第 9 節（換掉禁用句型、工作改國際所） | 芯慈交往版尾聲兩句（AA_548 第 9 節）、畢業禮物「這一頁你寫。」 |
-| AA_537b | 4 部分完成 | no | LAWWW | 第 1 節 17/17、第 3 節 47/47、第 4 節 4/5（NOPE 那句照 7 節作廢）、第 7、8 節（HEART、GF、心願 D04、walkAgain）都在 src | 第 5 節五個節日全部沒做（fest_events.js 沒有 classmate_xinci）：她生日 3/28「我會留著。包裝紙也是。」、你的生日 00:00「生日快樂。我設了鬧鐘。……」、交往中聖誕「今年是十三部。最後一部，我想跟你一 |
 | AA_550#3 | 4 部分完成 | no | LAWWW | src/story3d.js:3033 S.dormMates：ROOM_Y3／ROOM_Y4 柏翰 22:30 起在房間（AA_517 已做）；src 沒有「柏翰的檯燈又放在靠窗 | 大三、大四搬房間的旁白順序（回宿舍字卡→搬到新房間字卡→AA_208 第 8 節室友旁白→AA_315 拆箱）和兩句室友旁白（507、409）沒做；柏翰大三「總圖閉館後回來、戴耳塞」只有通用的 22:30 回房，大四上第 1～12 週桌燈開 |
 | BB_119 | 4 部分完成 | yes | LAWWW | 1b-3 放榜那天 psresults3d.js:20～30 ev_peishan_results；1c-2 學士帽歪了 adv3d.js:114；2-1/2-3/2-4/2-5b | 1b-1 沛珊「考完再說」（ev_peishan_wait；P3 之後到 P4 那天，「我現在要先決定我自己的事。」）開發分支找不到；1c-1 芷若「英國的雨」（ev_zhiruo_uk_visit，BCG-25）沒做（v6ex3d.js: |
 | BB_120 | 4 部分完成 | yes | LAWWW | 第 1 節好感看得見：story3d.js:2884（1-7c 固定的改變）、:2308（方奕廷寒流）、開發分支有 BB_120 1-0～1-7c 參照；第 3 節國考：postg | 第 2 節讀書的影響找不到：2-1 每個人看到成績的反應（子晴「程設 很好／必修 很好／選修 過了」、明軒「我有看到你在念」「你隨便念念？」等）、2-1b 被當的時候（「歡迎加入暑修」——暑修已依 D42 取消，要改句）、2-3 念書多出來 |
@@ -344,7 +330,6 @@
 | BB_198 | 4 部分完成 | yes | LAWWW | 7-1 人物不在臺北的日子已照 BB_198 實作（characters.js:38～46 芷若、:119～121 明軒等 presence，AA_350 S4）；msg_kai_ | 7-2 新事件與訊息大多找不到：阿凱 ev_kai_winter_203（大一寒假 203 過夜）、ev_kai_shop_visit（電腦行打工）、ev_kai_back_y1s2、inv_kai_supper 寒暑假擴充、ev_kai_ |
 | BB_99 | 4 部分完成 | yes | LAWWW | sis_b14_events／r2y4a_events.js ev_sis_pickup（2-1 M7）；sis_b11_3d.js:57 ev_sis_defense（2-5 M | 2-3 學姊 M8 研究助理（大四下第 1 週「三件事。一，我需要一個研究助理。」、打工 JOB_RA）沒做：v6ex3d.js:19 自註「JOB_RA 遊戲裡還沒有」；9-K 可昕法院旁聽那天（21:00「今天去法院？」「怎麼樣」，台詞 |
 | 交接包_v6_多段感情_交付清單 | 4 部分完成 | yes | LAWWW | S2 ROMANCE_HISTORY（encounter3d.js:30）、S3 EX_<id>、S4 CLEANUP_DONE（story3d.js:1170、zr_last3d | B2 芷若「英國的雨」（BB_119 1c-1，大四寒假，旁白＋手機照片、BCG-25）沒做：v6ex3d.js:221 自註「ev_zhiruo_uk_visit，遊戲裡還沒有這一趟」 |
-| AA_118 | 5 完全未開工 | no | LAWWW | 交接包_v1_大一上 第 65 行把同行聊天指到 AA_70 1-5＋AA_118；開發分支的一起走路台詞只有 AA_70 第 2 節那批（src/data/invites.js: | 第 2 節同行聊天 144 句（阿哲、小語、柏翰、芯慈、語彤、以安，每人每學年 6 句）、第 3 節手機小事 96 則（八學期每人 2 則）、第 5 節 L1 法律系館A電梯 12:10、L2 校史館門口、L3 圓窗館前的合照，以及語 1  |
 | AA_160#4-4 | 5 完全未開工 | no | LAWWW | G.places.soloSaid 只在 freetrip3d.js:16 初始化，沒有任何程式讀寫；企劃線 free_trip/solo_before_aa_v1.json（AA | 4-4「約會時多一句『你來過一次』」整個功能沒做：約會地點有 G.places.free[地點]≥1 時，抵達台詞後旁白一句＋她的一兩句（例 D01 旁白「你來過一次。上次在高架道路下面，等了兩次紅燈。」以安「你來過？那草地在哪一邊，你帶路 |
 | AA_530 | 5 完全未開工 | no | LAWWW | tasks.json AA530-PG-CONFESS-1030 狀態「待開工」；src 沒有 2-1「組長回她信，說她寫的那一段」、2-2「騎樓下有一隻貓躺在機車坐墊上」、2-3 | 整份沒做：第 1 節七位「要見面才往下走」改畢業以後篇停點（以安每週四 21:30、學姊研究單位樓下、可昕每 4 天、子晴工作室樓下、芷若打烊後 Café、語彤麵店／河堤、8/31 還沒結果的電話版）；第 2 節四處換字（學姊 SELF w |
 | AA_299 | 6 等待素材或使用者決定 | partial | USER | 已有：tour_bus（assets/bg/tour_bus.webp，10-21；camp_y1.js:17 用 bg:'tour_bus'）、exam_hs_classroom | 三張家裡的車（car_night、car_morning、car_rain）還是 Blender 舊圖，沒有換成使用者生成的版本 |
@@ -482,18 +467,12 @@
 | 交接包_v5_大四_畢業後_尾聲_骨架#重訪日5/§4國考/M4/18週 | 7 經確認取消或被取代 | yes | LAWWW | ev_revisit_y4 不存在（照計畫取消） | 檔頭【文件狀態】：重訪日 5 取消（AA_249、AA_250 第8節）；§4「祐廷依準備程度」以總表§2 為準（報名就應屆考上律師）；§3 明軒 M4 德國獎學金改自己存錢；大四上十八週以 16 週制為準；以安不延畢（使用者 10-18， |
 | 交接包_v6#S1/A1/A4/B5/抓包 | 7 經確認取消或被取代 | yes | LAWWW | — | 檔頭【文件狀態】：S1「同時最多一個」被 AA_140 第0節（可以同時交往）覆蓋；多重交往抓包架構改新規則（使用者指示_20261017_多線戀愛原文、BB_194、AA_221）；A1 以安告白窗口、A4 語彤第二窗口 4/19、B5  |
 | 交接包_校外約會#C6/S7/S8 | 7 經確認取消或被取代 | yes | LAWWW | — | 檔頭【文件狀態】：C6 告白條件（4 次＋心願地點）維持但告白只在學期末心意邀約（BB_203）；S8「大三下在國外不能預約」改美國大四上（AA_213）；S7 學姊有伴侶部分作廢（AA_218 §16） |
-| （另有第 1、2 類 437 項：見 ledger.json） | | | | | |
+| （另有第 1、2 類 442 項：見 ledger.json） | | | | | |
 
 ## BB-B 另外查到的 62 項（不在 10/21 稽核 B 段）
 
 | ID | 現在 | main | 負責 | 證據 | 缺的／下一步 |
 |---|---|---|---|---|---|
-| BUG-E30-CLERK-1018 | 3 已驗收但尚未發布 | unknown | BB | 三輪 10/17 E30：「（承辦人蓋了章，把收據推過來。）」「承辦人：好了。」「手續比你想的快。十五分鐘。」（n36_qa_sleep/say.json 2024-10-17 1 | 等發布。 |
-| BUG-HOME-CAMPUS-BG-1018 | 3 已驗收但尚未發布 | unknown | BB | 住在家裡的轉場、對話後面都是家裡的背景，沒有椰林大道：n36_qa_sleep/10_month_2025-06-08.png（日期卡「6/8（日）15:00」底下是客廳）、n36 | 30 分鐘版住在家裡沒有在家選單（事件接事件），「選單後面」那一半沒機會看；等發布。 |
-| KH-SCORE-TIMING-1018 | 3 已驗收但尚未發布 | unknown | BB | 客運版（n36_qa_sleep/say.json 2025-07-25）：7.5 車上收到成績簡訊、8「（早餐店。她點了兩份蛋餅…）」、10「（十點，手機震了一下。補習班傳來今年 | 在家版選「我的還好。」那一支（→「……「還好」是幾分。傳給我。」）三輪沒選到；等發布。 |
-| Q-E27-WHY-1018 | 3 已驗收但尚未發布 | unknown | BB | 可昕休學的理由現在當面講：n36_qa_sleep/say.json 2025-01-31 8（高雄蓮池潭）「成績下禮拜出來。」「國文那科，一定會被當。」「我在想要不要休學。」；前 | 2/13 E27 水餃店本身還是沒講理由（「從今天開始，我們兩個都是休學的人了。」）——理由移到 1/31 高雄當面講（econff3d.js S.CUT_MSG 註解「AA_303：1/11「我在想要不要休學」那則拿掉（高雄當面說）」）。 |
-| Q-NYE-E21A-1018 | 3 已驗收但尚未發布 | unknown | BB | 三輪 12/31：群組「放假一個多禮拜了！今晚跨年，走啦！」「十一點，市府站二號出口。」（final_snap msgs y0_e21a_ask）；say 2024-12-31 2 | 等發布。 |
-| V2-CHR | 3 已驗收但尚未發布 | unknown | BB | 對話框看得到阿勳（盧正勳）和品妤的立繪：n36_qa_sleep/screens_sheet_4.png #38「盧正勳：雞腿便當？……那我不客氣了。」、sheet_2 #18「曾 | 法律系時期四人的作息（AA_155／AA_159）不在這一段，跟 V0-SK 一起驗；品妤立繪重切後要不要換，看 LAWWW2。等發布。 |
 | AA295-KX-NOHYPO-1018 | 4 部分完成 | yes | BB | 三輪可昕 131～142 句（kexin.json）和手機訊息都沒有出假設題（say／msgs 搜「假設」0 句；9/29 颱風那則是「明天放假，你們要幹嘛？」）；E26 摩天輪最 | 尾聲物件換摩天輪票根（法律系 K7 週年禮物「摩天輪票根的影本」，events.js:2081）三輪只玩到 9/2，沒走到；E26「不說話」已被 AA_303 取代，請 LAWWW 判那部分 tier 7。 |
 | AA304-QA2-1018 | 4 部分完成 | yes | BB | 看得到的列：第 3 列 11/6 17:20 約（msgs y0_e12_ask h 17.33「今天下課以後，去湖邊坐一下？」）→ 17:45 映月湖「她剛上完體育課」（n36_ | 第 1、2、10、12、16 列沒有逐列對 AA_304 原稿；E12 18:15／18:30 手機版（沒去湖邊的分支）、E21o、2/13 遲到電話、K7（法律系）三輪都沒走到；第 8、9 列等使用者。 |
 | AA306-KX-LADDER-1018 | 4 部分完成 | yes | BB | 重考期讀書在你房間的書桌：日期卡「（她住進來以後，你房間的書桌，一半是她的書。…）」（三輪 final_snap ECONFF.lines 第 14 句）；可昕 Y0S2 階梯演了 | Y0S1 可昕 13 層與品妤、唐睿、阿勳、韋綸的階梯三輪都是 0 層（social.ladder 只有 kexin@Y0S2）：30 分鐘版沒有自由走動、沒機會聊；可昕 Y0S2 只看到 2 層。 |
@@ -501,7 +480,7 @@
 | AA348-ECON-1021 | 4 部分完成 | yes | BB | 照 bb_checklists/BB_AA348_1021.md（c167f38dc）：①日期卡句子三輪 final_snap ECONFF.lines 第 8「（十一月。你沒有課 | ②B2（停在手機訊息上先出日期卡、再開手機）只有每月截圖，沒有截到日期卡那一刻，看不出順序。 |
 | AA529-ECON-FIX-1030 | 4 部分完成 | yes | BB | 走啦群組 10/15 聚會回家路上建（三輪 toasts.json 2024-10-15 22.6x「手機｜走啦｜韋綸建立了群組「走啦」，把你加了進來。」）；10/16 總圖、7/ | BUG：第二張日期卡（5/19～6/7）30 分鐘版出不來（S.cardLine1 一跳只出一張）。另外 K7 週年卡 p4、K0b-L1 國界（聊天）、8/29 換字沒對到。 |
 | ART-09 | 4 部分完成 | unknown | BB | 品妤、唐睿、阿勳、韋綸的立繪在對話框裡出現（n36_qa_sleep/screens_sheet_2.png #17～#20、sheet_4 #37～#38、sheet_10 #1 | 家豪（經濟系那年只在旁白「小隊輔是家豪學長」，沒有台詞）、予樂（法律系）沒出現；各人的表情是否照 BB_131 沒逐張對（縮圖太小）。 |
-| BUG-ADV-LINGER-1018 | 4 部分完成 | yes | BB | n36_qa_sleep/screens_sheet_8.png #95：7/25 ev_y0_kh_bus_h 第一句「（凌晨兩點半，你搭上南下的夜班客運。）」深色底，右邊還站著 | BUG：換場景（換背景、換事件）以後，上一段的可昕立繪還留在舞台上，下一個說話的人還沒出來；原本回報的 E20 火鍋店 30 分鐘版已拿掉，沒走到。 |
+| BUG-ADV-LINGER-1018 | 4 部分完成 | partial | BB | n36_qa_sleep/screens_sheet_8.png #95：7/25 ev_y0_kh_bus_h 第一句「（凌晨兩點半，你搭上南下的夜班客運。）」深色底，右邊還站著 | BUG：換場景（換背景、換事件）以後，上一段的可昕立繪還留在舞台上，下一個說話的人還沒出來；原本回報的 E20 火鍋店 30 分鐘版已拿掉，沒走到。 |
 | BUG-CLS-EARLY-1018 | 4 部分完成 | yes | BB | 法律系 9/1 憲法 9:00 提早坐下（上課 9:10）：n36_qa_sleep/screens_sheet_14.png #167～#168 教室裡已經有同學、講台前站著人； | 原本回報的經濟系共同教學館微積分、英文、國文：30 分鐘版不演課（econff3d.js stepCut s.cls；n36_v0start.log「跳過的 9/2～9/13 經濟系的課自動算出席」），沒有機會提早坐下；提早 20 分鐘以上 |
 | BUG-E30-PLACE-1018 | 4 部分完成 | unknown | BB | 10/17 電話後接媽媽那段（臺北的家）正常、沒有回到 3D 可以走動；但下一段 E26 第一句「（你拿了車鑰匙出門。）」底下露出 3D 的兩點半 Café 和站在裡面的祐廷：n3 | BUG：辦休學那天「（你拿了車鑰匙出門。）」還看得到原本站的地方（咖啡店）。 |
 | BUG-ECON-FRIENDS-1018 | 4 部分完成 | yes | BB | 經濟系那年阿凱（法律系的室友，2025-08-29 才認識，三輪 final_snap contacts kai:-18）傳了四次「泡麵評鑑表」：三輪 final_snap msg | BUG：訊息分頁有還不認識的阿凱；朋友分頁沒有打開看（knownIds 那一半沒驗）。 |
@@ -512,19 +491,31 @@
 | V0-A2 | 4 部分完成 | yes | BB | n36_v0start.log「PASS 跳過的 9/2～9/13 經濟系的課自動算出席（會計、經原都有）」["-379:econ_principles_y0:am","-376: | 手機「課表」頁沒打開；30 分鐘版不演課（stepCut s.cls），沒有實際上一次經原、會計。 |
 | V0-B3 | 4 部分完成 | yes | BB | A3 退宿 10/31 有演（ev_y0_a3；n36_qa_sleep/say.json 2024-10-31 9「箱子我幫你封。你的膠帶貼得很醜。」）；韋綸的腳踏車：final | A1、A2、T1、T2、XL-2、R1～R7（RH-L*、RH-O*）30 分鐘版都是 cut（三輪 ECONFF.done）——短版已拿掉（econff3d.js S.KEEP 沒有），請 LAWWW 判 tier 7；T3 去了的那一支 |
 | V0-B4 | 4 部分完成 | yes | BB | F1 小年夜 2025-01-27 群組（msgs y0_f1「各縣市年菜價格比較」…可昕「明天年夜飯你們家幾個人？」）；T0b 9/29 兩封信＋新聞＋群組，可昕問「明天放假，你 | BUG：L5a 演完還會再問一次去不去（10/11 可昕群組約的那筆出遊沒有跟著 30 分鐘版的演出記成已去）。另外 C1 即興劇社依 AA_293 拿掉；L5b、C2 出發選單（吉他社 3D）30 分鐘版沒走到。 |
-| V0-KXPHONE | 4 部分完成 | yes | BB | 三輪 final_snap flags.dpN 都沒有可昕的 y0_kx_luroufan／obvious／laugh／rain（其他人的 17 則每輪收到 16 則）；經濟系大一 | BUG：可昕經濟系那年的手機小事玩家收不到（8 則 0 則）。讀碼：30 分鐘版小事至少隔 3 天、「快過期的先排」（story3d.js dailyPhone），9/23～10/16 只有 5 格，可昕 4 則都輸給別人。 |
+| V0-KXPHONE | 4 部分完成 | partial | BB | 三輪 final_snap flags.dpN 都沒有可昕的 y0_kx_luroufan／obvious／laugh／rain（其他人的 17 則每輪收到 16 則）；經濟系大一 | BUG：可昕經濟系那年的手機小事玩家收不到（8 則 0 則）。讀碼：30 分鐘版小事至少隔 3 天、「快過期的先排」（story3d.js dailyPhone），9/23～10/16 只有 5 格，可昕 4 則都輸給別人。 |
 | V0-LADDER | 4 部分完成 | unknown | BB | 三輪 final_snap social.ladder 只有 {kexin@Y0S2:2}（4/24 生日演完「（晚上，回到家。）」接可昕兩句）。 | Y0S1 可昕、品妤、唐睿、阿勳、韋綸各 8 層，Y0S2 其他人都是 0 層：30 分鐘版沒有自由走動、沒機會聊（第 2 級「經濟系開局後實際聊一次」沒做到）。 |
-| WORLD-RENAME-1030 | 4 部分完成 | no | BB | BB_218:4654-4692 rename_probe（ca5f3381c）oldsave2、views portrait2／landscape2／desktop、route  | 3D 模型、貼圖、2D 背景、CG 裡烘進去的字（LAWWW2 清單）沒驗；四年全部台詞只看了經濟系那年＋9/1；真 iPhone 沒測（BB_218:4687-4691）。 |
-| （另有第 1、2 類 35 項：見 ledger.json） | | | | | |
+| WORLD-RENAME-1030 | 4 部分完成 | yes | BB | BB_218:4654-4692 rename_probe（ca5f3381c）oldsave2、views portrait2／landscape2／desktop、route  | 3D 模型、貼圖、2D 背景、CG 裡烘進去的字（LAWWW2 清單）沒驗；四年全部台詞只看了經濟系那年＋9/1；真 iPhone 沒測（BB_218:4687-4691）。 |
+| （另有第 1、2 類 41 項：見 ledger.json） | | | | | |
 
-## LAWWW-B 另外查到的 2 項（不在 10/21 稽核 B 段）
+## LAWWW-B 另外查到的 14 項（不在 10/21 稽核 B 段）
 
 | ID | 現在 | main | 負責 | 證據 | 缺的／下一步 |
 |---|---|---|---|---|---|
+| BUG-CAM-LIBHALL-CORE-1031 | 1 正式版已完成且實際驗收 | yes | LAWWW2 | main 27e6ce77e（v9.10.15，含 3094e123b 第二輪）；BB_218 n37_lhcore2 | 結案 |
+| AA_117 | 2 已實作但尚未實際驗收 | no | LAWWW | 朋友的案子 C0～C8 手機筆記四格（events.js、story3d.js、y2r2_3d.js、r2y3a3d.js、y2b_events.js、r2y3b_events.j | BB 瀏覽器驗 |
+| AA_118 | 2 已實作但尚未實際驗收 | no | LAWWW | 同行聊天 144 句、手機小事（aa555_3d.js）、L1～L3 三段場景（campus_l123_3d.js）；tests/aa555_walk_unit.js、campus | BB 瀏覽器驗 |
+| AA_121 | 2 已實作但尚未實際驗收 | no | LAWWW | CG-20 cg_saved_seat_heroine03：r2y4b_events.js ev_bar_group_night 第一次在總圖（AA-B 定 (a)）；開發分支 8 | BB 瀏覽器驗（11-01 派） |
+| AA_13 | 2 已實作但尚未實際驗收 | no | LAWWW | G3 成發觀眾席 ev_ziqing_show 開頭（阿凱、Alison、芷若）＋沒去隔天阿凱私訊；開發分支 cbd1de273／8891f6f99 | BB 瀏覽器驗（11-01 派） |
+| AA_143 | 2 已實作但尚未實際驗收 | no | LAWWW | ev_term_last_meal_y2s2＋17:00 阿哲那則（events.js、story3d.js）；開發分支 9f3cf6e76 | BB 瀏覽器驗（11-01 派） |
+| AA_187 | 2 已實作但尚未實際驗收 | no | LAWWW | src/aa187_3d.js（ev_an_counted、ev_an_walk_home、ev_yt_umbrella_hook、ev_yt_family_dinner、ev_y | BB 瀏覽器驗（11-01 派） |
+| AA_258 | 2 已實作但尚未實際驗收 | no | LAWWW | ① ev_family_dinner_y2s2（events.js）、② sis_b10_3d.js S.cny1、③ r2y4a3d.js 美國路線 11/08／11/10；④  | BB 瀏覽器驗（11-01 派） |
 | AA_277 | 2 已實作但尚未實際驗收 | partial | LAWWW | CLAUDE.md 開發分支有 10 處過時標記（第 420 行 v9.7 後面「【過時（2026-10-30 LAWWW-B 更新）：線上是 v9.10.14…】」、第 439  | 下一次發布帶上；AA-B 第 5 批判 tier 5 是看漏了標記 |
+| AA_407 | 2 已實作但尚未實際驗收 | no | LAWWW | R1 植物圖鑑服務台（loans3d.js DESK_EXTRA）；讀書旁白「（你翻了一下借來的那本。）」原稿可選、不做；開發分支 dfe02e51d | BB 瀏覽器驗（11-01 派） |
 | AA_476#B-1 | 2 已實作但尚未實際驗收 | no | BB | 開發分支 9c84a54f9＋f32a11388：src/multirel3d.js 門鈴（bellNightOk／bellSecret／bellHint*／bellDue／zzB | BB 瀏覽器：同時和芷若、子晴交往（互不知道）→ 第 5 週週一和芷若說話聽到提示 → 週三 21:40 坐吧檯 → 門鈴＋CG → 隔天 19:30 攤牌 |
+| AA_537 | 2 已實作但尚未實際驗收 | no | LAWWW | 尾聲兩句＋畢業禮物（AA_548 第 9 節取代第 6 節；postgrad_lines.js、postgrad3d.js）；開發分支 bfafd1a62 | BB 瀏覽器驗（11-01 派） |
+| AA_537b | 2 已實作但尚未實際驗收 | no | LAWWW | 第 5 節五個節日（fest_events.js 芯慈那一格、fest3d.js S.dmRule）；「你的生日」等祐廷的生日（USER-PLAYER-BDAY-1101）；開發分 | BB 瀏覽器驗（11-01 派） |
+| AA_554 | 2 已實作但尚未實際驗收 | no | LAWWW | BB_187／BB_189 和她交往中的版本＋AA_419 第一次交換每週視訊＋五處時間線修正；src/aa554_3d.js、events.js DH／GFO、story3d.j | BB 瀏覽器驗 |
 
-## LAWWW2-B 另外查到的 191 項（不在 10/21 稽核 B 段）
+## LAWWW2-B 另外查到的 190 項（不在 10/21 稽核 B 段）
 
 | ID | 現在 | main | 負責 | 證據 | 缺的／下一步 |
 |---|---|---|---|---|---|
@@ -652,4 +643,4 @@
 | claude/second-ai-env-art-wip-props | 7 經確認取消或被取代 | yes | LAWWW2 | fa626b9df 是 main 祖先；⑥販賣機在 street_props.glb（src/assets3d.js:109 prop.street、src/world3d.js: | D88（使用者 10-16 分支收斂指示）＋LAWWW-B 10-16 複核：props6、soclib、props、pavsoc 互相包含 |
 | claude/second-ai-env-art-wip-trees | 7 經確認取消或被取代 | yes | LAWWW2 | 22ff594d7 不是 main 祖先：7 個 commit 不在 main／開發分支；內容⑦行道樹＋seated_figures 第一版。開發分支 src/townkit3d. | D88（使用者 10-16 分支收斂指示）＋LAWWW-B 10-16 複核：trees 的 17 個檔案「已由更新版本取代」；branch_audit 10-31 仍列「保留｜main 沒有的內容」（只是 commit 不同） |
 | 沛珊第 29～31 版（DL-LAWWW2-9b0ec2db、7e64ec43、DL-LW2-PS31） | 7 經確認取消或被取代 | no | LAWWW2 | bl_classmate_peishan.vrm 第 30 版（7e64ec436）、glasses_peishan.glb（f510b1b70）只在 LAWWW2 分支；開發分支 | D100（使用者授權 LAWWW 驗收人物修正）：LAWWW 10-22 12:5x／13:5x、LAWWW-B 10-23 16:5x 逐版退件 |
-| （另有第 1、2 類 67 項：見 ledger.json） | | | | | |
+| （另有第 1、2 類 66 項：見 ledger.json） | | | | | |

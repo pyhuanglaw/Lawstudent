@@ -30,11 +30,11 @@ const ADV2=global.ADV; ADV2.active=false;
 (async()=>{
   const d0=termDay('Y1S2',1,1); fresh(d0,9,'dorm',{}); G.contacts.heroine_03=1;
   const ex=CLS.examList(G,'Y1S2'); const wk=e=>CALENDAR.termOf(e.day).week;
-  check('1. 大一下的考試清單：有期中、期末，期中在第 8～9 週、期末在第 16 週（16 週制），時間是那一節',ex.some(e=>e.kind==='mid')&&ex.some(e=>e.kind==='final')&&ex.every(e=>(e.kind==='mid'?[8,9]:[16]).includes(wk(e))&&e.t1>e.t0),JSON.stringify(ex.map(e=>[e.c.name,e.kind,wk(e),e.t0])));
-  const e=ex.find(x=>x.kind==='mid'); check('1. CLS.examAt：那一節有考試；前一天、同一天別的時間沒有',!!CLS.examAt(G,e.day,e.t0,e.t1)&&!CLS.examAt(G,e.day-1,e.t0,e.t1)&&!CLS.examAt(G,e.day,22,23));
+  check('1. 大一下的考試清單：D118 起沒有期中考，只有期末（第 16 週，16 週制），時間是那一節',!ex.some(e=>e.kind==='mid')&&ex.some(e=>e.kind==='final')&&ex.every(e=>[16].includes(wk(e))&&e.t1>e.t0),JSON.stringify(ex.map(e=>[e.c.name,e.kind,wk(e),e.t0])));
+  const e=ex.find(x=>x.kind==='final'); check('1. CLS.examAt：那一節有考試；前一天、同一天別的時間沒有',!!CLS.examAt(G,e.day,e.t0,e.t1)&&!CLS.examAt(G,e.day-1,e.t0,e.t1)&&!CLS.examAt(G,e.day,22,23));
   check('1. 不是考試週：沒有考試',!CLS.examAt(G,d0,0,24));
   // 課表
-  const html=CLS.weekHTML(G); check('2. 手機「課表」列出考試（期中／期末、科目、日期、時間）',/<b>考試<\/b>/.test(html)&&html.includes(e.c.name)&&/期中/.test(html)&&/期末/.test(html),html.slice(html.indexOf('考試')-20,html.indexOf('考試')+200));
+  const html=CLS.weekHTML(G); check('2. 手機「課表」列出考試（期末、科目、日期、時間；沒有期中）',/<b>考試<\/b>/.test(html)&&html.includes(e.c.name)&&!/期中考/.test(html)&&/期末/.test(html),html.slice(html.indexOf('考試')-20,html.indexOf('考試')+200));
   // 邀約避開
   G.day=e.day-1; G.weekday=wdOf(G.day); G.hour=20; const P=INV.place('cafe'); const h=Math.max(P.hours?P.hours[0]:8,Math.ceil(e.t0*2)/2);
   check('3. 約人：考試那一節不是空的時間（INV.freeAt）',!INV.freeAt(G,'heroine_03',P,e.day,h)||h>=e.t1,JSON.stringify({h,t0:e.t0,t1:e.t1}));

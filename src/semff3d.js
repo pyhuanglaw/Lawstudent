@@ -81,8 +81,10 @@ const SEMFF=(function(){
   /* 一定要演的事件（trigger auto、不用走近、只演一次；地點照事件寫的，人在宿舍房間）：跳之前先記下已經成立的，途中「新成立」的才停 */
   S.mustEvs=function(G){ if(typeof STORY_EVENTS==='undefined'||typeof EVENTS==='undefined'||!EVENTS.check) return []; const done=(G.events&&G.events.done)||{}, out=[];
     for(const e of STORY_EVENTS){ if(e.trigger!=='auto'||!e.once||done[e.id]||e.retired||e.off||e.near||e.spawn||e.random_weight!==undefined) continue; let ok=false; try{ ok=!!EVENTS.check(e); }catch(err){ ok=false; } if(ok) out.push(e.id); } return out; };
-  S.snap=G=>({asks:new Set(typeof PHONE!=='undefined'&&PHONE.pending?PHONE.pending(G):[]),inv:new Set((G.invites||[]).filter(iv=>iv.state==='offered'||iv.state==='changed').map(iv=>iv.id)),evs:new Set(S.mustEvs(G))});
+  const rvTag=G=>{ const t=CALENDAR.termOf(G.day); return t?'review_'+t.id:null; }, rvSent=(G,tg)=>{ if(!tg||typeof PHONE==='undefined'||!PHONE.sent||!PHONE.sent(G,tg)) return false; const sun=typeof STUDY!=='undefined'&&STUDY.remindDay?STUDY.remindDay(tg.slice(7)):null; return sun==null||now(G)>=T(sun,20)-1e-6; };   /* PHONE.at 排好就算 sent：要到週日 20:00 那則真的出現才算 */
+  S.snap=G=>({rv:rvSent(G,rvTag(G))?rvTag(G):null,asks:new Set(typeof PHONE!=='undefined'&&PHONE.pending?PHONE.pending(G):[]),inv:new Set((G.invites||[]).filter(iv=>iv.state==='offered'||iv.state==='changed').map(iv=>iv.id)),evs:new Set(S.mustEvs(G))});
   S.newThing=function(G,w){ if(typeof PHONE!=='undefined'&&PHONE.pending&&PHONE.pending(G).some(m=>!w.asks.has(m))) return 'msg'; if((G.invites||[]).some(iv=>(iv.state==='offered'||iv.state==='changed')&&!w.inv.has(iv.id))) return 'msg';
+    if(rvSent(G,rvTag(G))&&w.rv!==rvTag(G)&&typeof STUDY!=='undefined'&&STUDY.reviewOpt&&STUDY.reviewOpt(G,{})) return 'remind';   /* 考前一週的系統提醒（週日 20:00）：停下來問要不要總複習（D118-B3，BB 07:01 ③）*/
     return S.mustEvs(G).some(id=>!w.evs.has(id))?'event':null; };
   const setTime=(G,E,tt)=>{ const d=dayOf(tt); if(d>G.day){ G.day=d; G.weekday=wdOf(d); G.energy=100; G.flags.companion=null; G.flags.nightKai=false; G.weather=(CALENDAR.typhoon&&CALENDAR.typhoon(d))?'rain':(Math.random()<0.7?'clear':'cloudy'); } G.hour=tt-G.day*24; if(E) E.hour=G.hour; };   /* 和 home3d.js 的 setTime 一樣（DL-02：體力固定 100）*/
   /* 睡著以後才演的事件（trigger sleep；EVENTS.sleepEvent 照上床的時間判斷）*/
@@ -122,7 +124,15 @@ const SEMFF=(function(){
   S.menu=async function(GM){ const G=GM.G, O=S.opts(G); if(!O) return false; GM.sceneBegin();
     try{ const o=O[await GM.choose(O.map(x=>({t:x.t,hint:x.hint})),{menu:true})]; if(!o||o.to==null) return false;
       const d0=G.day; let r=null, auto=0;
-      for(let k=0;k<40;k++){ r=await S.jump(GM,o.to); auto+=r.auto|0; if(r.why!=='msg') break;
+      /* D118-B3（BB 07:01 ③）：快轉停在「考前一週」的系統提醒時，選單直接列「考前總複習」（一鍵，不用自己走去書桌）；選了就複習完停下來，不再接著快轉（期末考那天一定停：考試是有劇情的課）*/
+      const rv0=new Set(); { const tg=rvTag(G); if(rvSent(G,tg)) rv0.add(tg); } let rvAsked=false;
+      for(let k=0;k<40;k++){ r=await S.jump(GM,o.to); auto+=r.auto|0;
+        { const tg=rvTag(G); if(!rvAsked&&r.why==='remind'&&rvSent(G,tg)&&!rv0.has(tg)&&typeof STUDY!=='undefined'&&STUDY.reviewOpt){ rvAsked=true; const ro=STUDY.reviewOpt(G,{});
+            if(ro){ const opts=[{t:ro.t,hint:ro.hint,dim:ro.dim},{t:'繼續快轉',hint:'考試那天一定會停'},{t:'先停在這裡',hint:''}]; const j=await GM.choose(opts,{menu:true});   /* 選項文字：暫定字（AA 定稿後換）*/
+              if(j===0&&!ro.dim){ await STUDY.review(GM,'final',{}); r=Object.assign({},r,{why:'review'}); break; }
+              if(j===2){ r=Object.assign({},r,{why:'review_stop'}); break; }
+              if(now(G)>=o.to-1e-6||!S.on(G)) break; continue; } } if(r.why==='remind'){ if(now(G)>=o.to-1e-6||!S.on(G)) break; continue; } }
+        if(r.why!=='msg') break;
         const opened=typeof HOME!=='undefined'&&HOME.ffPhone?await HOME.ffPhone(GM,true):false; if(!opened||now(G)>=o.to-1e-6||!S.on(G)||(typeof OUT!=='undefined'&&OUT.due&&OUT.due(G))) break; }   /* 要回的訊息：停在那一刻打開手機，關掉以後接著跳（D103）*/
       if(r&&r.why==='now'){ if(GM.toast) GM.toast(r.stop.why+'快開始了，先去上課。',3200); return r; }
       if(auto&&GM.toast) GM.toast('快轉的這幾天，你照常去上了 '+auto+' 堂課。',3200);

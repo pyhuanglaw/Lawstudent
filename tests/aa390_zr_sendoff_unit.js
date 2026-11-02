@@ -15,7 +15,7 @@ const {check,GM}=H;
 const load=f=>{ const p=path.join(H.ROOT,f); if(!fs.existsSync(p)) return false; let src=fs.readFileSync(p,'utf8'); src=src.replace(/^const ([A-Z][A-Z0-9_]*)\s*=/mg,'globalThis.$1='); vm.runInThisContext(src,{filename:f}); return true; };
 for(const f of ['src/data/msg_pool.js','src/data/msg2_pool.js','src/msg3d.js','src/data/y2b_events.js','src/y2b3d.js']) load(f);
 const okNew=load('src/zr_sendoff3d.js');
-let doc=''; for(const r of ['5f4b9c7b','origin/claude/cool-heisenberg-o8kuqx']){ try{ doc=cp.execSync('git show '+r+':"docs/story_planning/AA_390_芷若2027年9月2日出發那天.md"',{cwd:H.ROOT,encoding:'utf8',stdio:['ignore','pipe','ignore']}); if(doc) break; }catch(e){ doc=''; } }
+let doc=''; for(const r of ['5f4b9c7b','origin/claude/story-planning']){ try{ doc=cp.execSync('git show '+r+':"docs/story_planning/AA_390_芷若2027年9月2日出發那天.md"',{cwd:H.ROOT,encoding:'utf8',stdio:['ignore','pipe','ignore']}); if(doc) break; }catch(e){ doc=''; } }
 const inDoc=t=>doc.indexOf(t.replace(/^「|」$/g,''))>=0;
 const J=JSON.stringify, ZR='heroine_02', X=()=>typeof ZRSENDOFF!=='undefined'?ZRSENDOFF:null;
 const D=k=>STORY.dayOfKey(k);

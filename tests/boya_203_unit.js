@@ -49,7 +49,7 @@ check('2. 前一天、後一天、隔週週三的 19:00 關', !op(A-1,19)&&!op(A
   const bad=[]; L.seats.forEach((s,k)=>{ const tg=s.ap; if(!(tg&&E.canStand(tg[0],tg[1],0.3,0)&&walk(sp,tg).ok)) bad.push('座位 '+k); });
   for(const q of L.interact) if(!reachNear(q.x,q.z,q.r)) bad.push(q.label);
   if(!reachNear(L.exits[0].x,L.exits[0].z,L.exits[0].r)) bad.push('出口');
-  check('6. 18 個座位、白板、畫架、簽到表、出口都從門口走得到', L.seats.length===18&&!bad.length, bad.join('、'));
+  check('6. 18 個座位、白板、畫架、節目單（ATTEND-ROLLCALL-1102：簽到表拿掉）、出口都從門口走得到', L.seats.length===18&&!bad.length, bad.join('、'));
   const ex=E.interactables.find(i=>i.exit&&i.exit.to==='boya'); check('6. 「離開 203」的落點＝back_spawn', !!ex&&ex.exit.spawn&&ex.exit.spawn.lv===1&&Math.abs(ex.exit.spawn.x-L.back_spawn.x)<1e-6&&Math.abs(ex.exit.spawn.z-L.back_spawn.z)<1e-6, ex&&JSON.stringify(ex.exit.spawn));
   const S=L.spots, isSeat=p=>L.seats.some(s=>Math.abs(s.x-p.x)<1e-6&&Math.abs(s.z-p.z)<1e-6);
   check('6. 品妤、玩家、阿哲、其他觀眾坐在座位上（第一排）', isSeat(S.pinyu)&&isSeat(S.me)&&isSeat(S.zhe)&&S.pinyu.x===S.me.x&&S.me.x===S.zhe.x&&S.audience.every(isSeat)&&new Set([S.pinyu,S.me,S.zhe,...S.audience].map(p=>p.x+','+p.z)).size===3+S.audience.length);

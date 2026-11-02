@@ -35,6 +35,10 @@ B.reset(texres=512)
 root = B.group('campus_bell', props={'kind': 'campus_bell'})
 M = {
     'stone': L.pbr('ck_bell_stone', 'sandstone_blocks_08', tile=3.0, sat=0.45, target='#d8cfbd', normal=0.5, maps=('diff', 'nor'), res=512, rough_value=0.8),
+    # 柱子、梁、石碑另外一個材質（CAM-BELL-1031，10-31）：名字 seethru_ 開頭，遊戲的 attachWenzhouModel 標樹幹透視（擋住玩家時網點透空）。
+    #   行政大樓門廊往旁邊走 1.3 m，跟隨鏡頭在人後面 5.9 m，正好落在鐘亭裡，整個畫面是柱子、梁的石材。和總圖、行政大樓門廊石柱同一個做法（seethru_ck_col）。
+    #   台基照舊 ck_bell_stone（鏡頭在台基上面，不會擋）。
+    'pstone': L.pbr('seethru_bell_stone', 'sandstone_blocks_08', tile=3.0, sat=0.45, target='#d8cfbd', normal=0.5, maps=('diff', 'nor'), res=512, rough_value=0.8),
     'roof': L.pbr('ck_bell_roof', 'grey_roof_tiles', tile=3.0, target='#3f4842', normal=0.8, maps=('diff', 'nor'), res=256, rough_value=0.82),
     'dark': L.flat('ck_bell_dark', '#35302c', rough=0.75),            # 屋簷板、脊瓦、地燈燈座、吊件
     'wood': L.pbr('ck_bell_wood', 'dark_wood', tile=1.0, target='#4a3426', maps=('diff',), res=256, rough_value=0.65),
@@ -108,25 +112,26 @@ st = acc('stone')
 cbox(st, 0, 0, 4.8, 4.8, 0.0, 0.2, ch=0.03, skip=('bottom',))
 cbox(st, 0, 0, 4.0, 4.0, 0.2, F, ch=0.03, skip=('bottom',))
 
+pst = acc('pstone')   # 柱子、梁、線腳、石碑：seethru_bell_stone（見材質那裡）
 # ---------------- 四根柱子：柱腳（切石、倒角）＋柱身（粉光、四角倒角）＋柱頸＋柱頭 ----------------
 for sx in (-1, 1):
     for sz in (-1, 1):
         x, z = sx * C, sz * C
-        cbox(st, x, z, CW + 0.14, CW + 0.14, F, F + 0.14, ch=0.03, skip=('bottom',))
-        cbox(st, x, z, CW, CW, F + 0.14, F + 0.14 + CH - 0.04, corner=0.035, skip=('bottom', 'top'))   # 柱身也是切石（第一版用粉光 white_plaster_02：灰色斑駁，像髒的水泥）
-        cbox(st, x, z, CW + 0.04, CW + 0.04, F + 0.14 + CH - 0.04, F + 0.14 + CH, skip=('bottom', 'top'))         # 柱頸
-        cbox(st, x, z, CW + 0.16, CW + 0.16, F + 0.14 + CH, BT, cb=0.03, skip=('top',))                           # 柱頭（下緣倒角）
+        cbox(pst, x, z, CW + 0.14, CW + 0.14, F, F + 0.14, ch=0.03, skip=('bottom',))
+        cbox(pst, x, z, CW, CW, F + 0.14, F + 0.14 + CH - 0.04, corner=0.035, skip=('bottom', 'top'))   # 柱身也是切石（第一版用粉光 white_plaster_02：灰色斑駁，像髒的水泥）
+        cbox(pst, x, z, CW + 0.04, CW + 0.04, F + 0.14 + CH - 0.04, F + 0.14 + CH, skip=('bottom', 'top'))         # 柱頸
+        cbox(pst, x, z, CW + 0.16, CW + 0.16, F + 0.14 + CH, BT, cb=0.03, skip=('top',))                           # 柱頭（下緣倒角）
 
 # ---------------- 梁（四面；轉角不重疊）＋梁上的線腳 ----------------
 # 重疊的面在同一個平面上會閃爍（材質是雙面的）：梁頂被屋簷板蓋住不做；沿 z 的梁兩端插進沿 x 的梁 1 cm、底面高 4 mm；
 # 線腳往梁裡面埋 1 cm（裡面那一面不和梁的外面同一個平面），轉角那兩段少凸 1 mm
 for s in (-1, 1):
-    cbox(st, 0, s * C, BL, 0.4, BT, BT + 0.34, skip=('top',))                                   # 沿 x 的兩根（長，蓋住轉角）
-    cbox(st, s * C, 0, 0.4, 2 * C - 0.4 + 0.02, BT + 0.004, BT + 0.34, skip=('top',))          # 沿 z 的兩根（夾在中間）
+    cbox(pst, 0, s * C, BL, 0.4, BT, BT + 0.34, skip=('top',))                                   # 沿 x 的兩根（長，蓋住轉角）
+    cbox(pst, s * C, 0, 0.4, 2 * C - 0.4 + 0.02, BT + 0.004, BT + 0.34, skip=('top',))          # 沿 z 的兩根（夾在中間）
 ho, hz_ = BL / 2, C + 0.2
 for (x0, x1, z0, z1) in ((-ho - 0.05, ho + 0.05, hz_ - 0.01, hz_ + 0.05), (-ho - 0.05, ho + 0.05, -hz_ - 0.05, -hz_ + 0.01),
                          (ho - 0.01, ho + 0.049, -hz_ + 0.01, hz_ - 0.01), (-ho - 0.049, -ho + 0.01, -hz_ + 0.01, hz_ - 0.01)):
-    cbox(st, (x0 + x1) / 2, (z0 + z1) / 2, x1 - x0, z1 - z0, BT + 0.24, BT + 0.32, skip=())   # 外凸 5 cm、高 8 cm 的一圈線腳
+    cbox(pst, (x0 + x1) / 2, (z0 + z1) / 2, x1 - x0, z1 - z0, BT + 0.24, BT + 0.32, skip=())   # 外凸 5 cm、高 8 cm 的一圈線腳
 
 # ---------------- 屋簷板＋四坡屋頂（瓦）＋垂脊＋寶頂 ----------------
 cbox(acc('dark'), 0, 0, RW, RW, RY, RY + 0.12, skip=())
@@ -175,8 +180,8 @@ acc('dark').cyl(W(0, y0 + 0.6, 0), W(0, y0 + 0.2, 0), 0.016, seg=6)
 acc('bronze').sphere(W(0, y0 + 0.16, 0), 0.065, seg=8, rings=5)
 
 # ---------------- 石碑（正面 +z）：倒角的碑身＋碑帽＋碑面 ----------------
-cbox(st, 0, 3.05, 1.5, 0.28, 0.0, 0.85, ch=0.02, skip=('bottom', 'top'))   # 碑頂被碑帽蓋住
-cbox(st, 0, 3.05, 1.62, 0.36, 0.85, 0.95, ch=0.025, cb=0.02, skip=())
+cbox(pst, 0, 3.05, 1.5, 0.28, 0.0, 0.85, ch=0.02, skip=('bottom', 'top'))   # 碑頂被碑帽蓋住
+cbox(pst, 0, 3.05, 1.62, 0.36, 0.85, 0.95, ch=0.025, cb=0.02, skip=())
 plate = Mesh('PLATE_FACE_BELL', M['board'])
 pz = 3.05 + 0.14 + 0.006
 face(plate, [(-0.68, 0.35, pz), (0.68, 0.35, pz), (0.68, 0.69, pz), (-0.68, 0.69, pz)], (0, 0, 1))   # 點的順序＝uv01 的 (0,0)(1,0)(1,1)(0,1)：從正面看左下開始（和總圖的匾額一樣；反了字會左右顛倒）

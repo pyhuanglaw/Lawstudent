@@ -1,5 +1,5 @@
 // 多段感情 v6：裂縫計數 → 談話（V6-S5、A2、A5、B4；src/cracktalk3d.js、src/data/cracktalk_lines.js）——不需要瀏覽器。
-//   台詞逐字對企劃（企劃線 claude/cool-heisenberg-o8kuqx @ d805bceee）：AA_123 4-2、5-2；AA_182 第 1 節；BB_119 2-1、2-3、2-4、第 2 節開頭、9-1。每一句直接寫在這裡比對（不從程式讀）。
+//   台詞逐字對企劃（企劃線 claude/story-planning @ d805bceee）：AA_123 4-2、5-2；AA_182 第 1 節；BB_119 2-1、2-3、2-4、第 2 節開頭、9-1。每一句直接寫在這裡比對（不從程式讀）。
 //   0 接線　C 計數（每一段關係各自算、同一學期、換學期歸零、只在交往中加、一學期只談一次、舊存檔）
 //   A 以安（讀書會散會後、沒去＝Café、讀書會不開的週、她在日本＝視訊、沒有誰對誰錯的一次、三種結果）
 //   Y 語彤（裂縫①週四 12:10 留位子、談話在總圖三樓、延一週、不回答＝一週後麵店那句、你在國外＝視訊）
@@ -206,7 +206,7 @@ const ZQ_BODY=['我有話要說。','我們最近一直在錯過。我不想變�
 await sec('Q',async()=>{
   const zqG=k=>{ fresh(k||'2028-10-09',10,'dorm'); date(ZQ); for(let i=0;i<3;i++) crack(ZQ,1); return pr(ZQ).plan; };
   let p=zqG(); const sat=D('2028-10-14');
-  check('Q1. 到 3：週六 19:00 河堤；週五 21:00「明天晚上七點，河堤。」「……你會來吧。這次是問句。」',p&&p.att[0].day===sat&&p.att[0].h===19&&J(p.att[0].invite.msgs)===J(['明天晚上七點，河堤。','……你會來吧。這次是問句。'])&&p.att[1].day===sat+1,J(p&&p.att));
+  check('Q1. 到 3：週六 19:00 河堤；週五 21:00「明天晚上七點，河堤。」「……你會來吧。」（AA_573）',p&&p.att[0].day===sat&&p.att[0].h===19&&J(p.att[0].invite.msgs)===J(['明天晚上七點，河堤。','……你會來吧。'])&&p.att[1].day===sat+1,J(p&&p.att));
   at(sat-1,21); rules(); const q=outOf(ZQ)[0]; check('Q2. 週五 21:00 私訊、行事曆排週六 19:00 河堤（走路 15 分鐘）',dm(ZQ).length===2&&q&&q.day===sat&&q.h===19&&q.place==='河堤');
   at(sat,19.5); rules(); check('Q3. 19:30「我在河堤」「等到八點」',J(dm(ZQ).slice(-2))===J(['heroine_04:我在河堤','heroine_04:等到八點']));
   at(sat,20.1); expire(); rules(); check('Q4. 沒到：20:00「明天。一樣七點。」→ 週日 19:00',dm(ZQ).slice(-1)[0]==='heroine_04:明天。一樣七點。'&&pr(ZQ).plan.i===1&&!!outOf(ZQ).find(x=>x.day===sat+1&&x.state==='planned'));
@@ -252,12 +252,14 @@ await sec('S',async()=>{
   ans('ct_yt2_1',0); rules(); check('S8. 「要我一起去嗎？」→「不用。……可是謝謝。」不加',dm(YT).slice(-1)[0]==='heroine_03:不用。……可是謝謝。'&&cnt(YT)===1);
   /* 沛珊（大三起在台南）*/
   const psD=k=>{ fresh(k,10,'dorm'); date(PS); ROM.get(H.G,PS).sinceDay=D('2027-09-01'); };
-  const f8=firstWd('Y4S1',8,5), f9=firstWd('Y4S1',9,5);
-  psD('2028-10-16'); at(f8,21.05); rules();
-  check('S9. 沛珊①：期中考週（第 8 週）週五 21:00（大四上照 AA_463 4-3）「週末視訊？還是又是考試週？」→ 祐廷（固定）「這週考試，下週好不好？」→「好。我也在改考卷，剛好。」、不加',J(dm(PS).slice(-3))===J(['classmate_peishan:週末視訊？還是又是考試週？','player:這週考試，下週好不好？','classmate_peishan:好。我也在改考卷，剛好。'])&&cnt(PS)===0,J(dm(PS)));
-  at(f9,21.05); rules(); check('S9. 第 9 週第二次改期：（大四上）「下週。我寫進去了，用紅筆。」、+1',J(dm(PS).slice(-1))===J(['classmate_peishan:下週。我寫進去了，用紅筆。'])&&cnt(PS)===1);
-  psD('2027-10-01'); at(firstWd('Y3S1',8,5),21.05); rules(); { const a=dm(PS).slice(), c8=cnt(PS); at(firstWd('Y3S1',9,5),21.05); rules();
-    check('S9. 期中考只有第 8 週的學期（大三上；AA_463 第 7 節③換觸發條件）：第 8 週週五發第 8 週那一版（原句「這週末要視訊嗎？還是你要考試？」→「好啊！考試加油。」）、不加；第 9 週週五沒有',J(a)===J(['classmate_peishan:這週末要視訊嗎？還是你要考試？','player:這週考試，下週好不好？','classmate_peishan:好啊！考試加油。'])&&c8===0&&J(dm(PS))===J(a)&&cnt(PS)===0,J(dm(PS))); }
+  /* D118 沒有期中考（AA_578 第 2 節 #8）：只看期末考週；第 8～9 週照常視訊（不發）、midBoth 恆為 false（沒有第 9 週那一版、不加）*/
+  const f8=firstWd('Y4S1',8,5), f9=firstWd('Y4S1',9,5), f16=firstWd('Y4S1',CRACKTALK.psExamWeek(H.G,'Y4S1')||16,5);
+  psD('2028-10-16'); at(f8,21.05); rules(); at(f9,21.05); rules(); const n89=dm(PS).length;
+  check('S9. 沛珊①：第 8～9 週（沒有期中考）週五沒有改期、不加',n89===0&&cnt(PS)===0&&CRACKTALK.midBoth(H.G,'Y4S1')===false,J(dm(PS)));
+  at(f16,21.05); rules();
+  check('S9. 沛珊①：期末考週（第 '+CALENDAR.termOf(f16).week+' 週）週五 21:00（大四上照 AA_463 4-3）「週末視訊？還是又是考試週？」→ 祐廷（固定）「這週考試，下週好不好？」→「好。我也在改考卷，剛好。」、不加',J(dm(PS).slice(-3))===J(['classmate_peishan:週末視訊？還是又是考試週？','player:這週考試，下週好不好？','classmate_peishan:好。我也在改考卷，剛好。'])&&dm(PS).length===3&&cnt(PS)===0,J(dm(PS)));
+  psD('2027-10-01'); at(firstWd('Y3S1',8,5),21.05); rules(); at(firstWd('Y3S1',9,5),21.05); rules(); { const a0=dm(PS).slice(); at(firstWd('Y3S1',CRACKTALK.psExamWeek(H.G,'Y3S1')||16,5),21.05); rules();
+    check('S9. 大三上：第 8～9 週週五沒有；期末考週週五發第 8 週那一版（原句「這週末要視訊嗎？還是你要考試？」→「好啊！考試加油。」）、不加',!a0.length&&J(dm(PS))===J(['classmate_peishan:這週末要視訊嗎？還是你要考試？','player:這週考試，下週好不好？','classmate_peishan:好啊！考試加油。'])&&cnt(PS)===0,J(dm(PS))); }
   const w5=firstWd('Y3S1',5,3); psD('2027-10-01'); at(w5,23.2); rules();
   check('S10. 沛珊②：第 5 週週三 23:10「今天有一個孩子說，他爸爸說他是笨蛋。」',dm(PS).slice(-1)[0]==='classmate_peishan:今天有一個孩子說，他爸爸說他是笨蛋。'&&J(optsOf('ct_ps2_Y3S1'))===J(['這可能已經算言語上的……','後來呢？妳怎麼跟他說？']));
   ans('ct_ps2_Y3S1',0); rules(); check('S10. 用法條回答：「我不是要答案。我只是想講。」+1',dm(PS).slice(-1)[0]==='classmate_peishan:我不是要答案。我只是想講。'&&cnt(PS)===1);

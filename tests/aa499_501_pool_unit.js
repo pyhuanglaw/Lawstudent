@@ -147,8 +147,9 @@ await sec(1,()=>{ check('1. 十五位都有自己那一套（POOL.owns；認識�
   /* personality：AA_501 第 5 節第 5 點的表 */
   const tb={}; for(const m of DOC.B4.matchAll(/^\| (pool_\d+) \S+ \| ([^|]+?) \|$/mg)) tb[m[1]]=m[2];
   check('1. personality：AA_501 第 5 節第 5 點的表（十五位）照填（蔡宗霖原本「修太多學分的人」換表上那一句）',Object.keys(tb).length===15&&Object.keys(tb).every(id=>CHARACTERS[id].personality===tb[id]),J(Object.keys(tb).filter(id=>CHARACTERS[id].personality!==tb[id]).map(id=>[id,CHARACTERS[id].personality])));
-  const BG=['radio_room','putong_empty','welfare_room','law_courtyard','boya_201','phil_cafe'];
-  check('1. 新的 2D 場景（AA_499 第 6 節第 3 點、AA_500 第 7 節第 4 點、AA_501 第 5 節第 4 點）：沒有背景圖＝深色底（OUT.BG 登記 image:null，BB 跟使用者要）',BG.every(k=>OUT.BG[k]&&OUT.BG[k].image===null&&OUT.bg(k)==='dark'),J(BG.map(k=>[k,OUT.BG[k]])));
+  const BG=['putong_empty','law_courtyard','boya_201'];   /* radio_room、welfare_room、phil_cafe 11-02 有圖了（第五批，使用者生成）：見下一項 */
+  check('1. 新的 2D 場景（AA_499 第 6 節第 3 點、AA_500 第 7 節第 4 點、AA_501 第 5 節第 4 點）：11-02 第八批有圖了（BB_132 第 105 組）',BG.every(k=>OUT.BG[k]&&OUT.BG[k].image==='assets/bg/'+k+'.webp'),J(BG.map(k=>[k,OUT.BG[k]])));
+  check('1. 11-02 有圖了（第五批，使用者生成）：廣播社錄音間 radio_room（AA_499 2-5）、社福中心教室 welfare_room（AA_499 4-3）、文學院教室 phil_cafe（AA_501 3-3）',['radio_room','welfare_room','phil_cafe'].every(k=>!!OUT.BG[k]&&OUT.BG[k].image==='assets/bg/'+k+'.webp'),J(['radio_room','welfare_room','phil_cafe'].map(k=>OUT.BG[k])));
   /* 作息加的時段（各人那條線要的）：外觀描述照 AA_498 第 3 節（同一個人的那一句）*/
   const d498=ofDoc(DOC498[0],DOC498[1]), bad=[]; for(const id in (P().WHERE_MORE||{})) for(const e of P().WHERE_MORE[id]){ const base=(POOL_STORY.PEOPLE[id].where||[]).map(x=>x.desc); if(!base.includes(e.desc)||d498.indexOf(e.desc)<0) bad.push(id+':'+e.desc); }
   check('1. 作息加的時段（蟑螂、畢業、值班結束、推甄、期末前、打拍子）用 AA_498 第 3 節同一個人的外觀描述',Object.keys(P().WHERE_MORE||{}).length>=7&&!bad.length,J(bad)); });
@@ -383,7 +384,7 @@ await sec('9 楊書豪',async()=>{ const d=TD('Y1S1',4,2); fresh(d,12.3,'campus'
   const r=quest('PQ_YSH'), q=outing('ev_pool_ysh_debate');
   check('9. 楊書豪 3-3 第一次上台（大一下第 8～12 週，椰影大道，有點熟）：二辯感冒、秘密在這裡說；「我去。」＝排這個週六 14:00 博思 201',has('其實……我很怕上台。所以我一直當計時。')&&SOCIAL.has(SH,'SHARED_SECRET')&&r.state==='open'&&!!q&&wdOf(q.day)===6&&q.h===14&&!INV.hasContact(H.G,SH),J([r,q&&keyOf(q.day)]));
   await go('ev_pool_ysh_debate',['慢一點']);
-  check('9. 楊書豪 社內賽（2D，博思 201，沒有圖＝深色底）：選「（比一個「慢一點」的手勢）」→ YSH_UP slow；下台以後那兩句；交換聯絡方式、人物頁「看過他第一次上台」',has('（他放慢了。三分鐘講完，剛好。計時器響的時候，他已經坐下了。）')&&has('可是我講完了。')&&H.G.flags.YSH_UP==='slow'&&INV.hasContact(H.G,SH)&&deeds(SH).includes('看過他第一次上台')&&r.state==='done'&&OUT.bg('boya_201')==='dark',J(said()));
+  check('9. 楊書豪 社內賽（2D，博思 201；11-02 第八批有圖）：選「（比一個「慢一點」的手勢）」→ YSH_UP slow；下台以後那兩句；交換聯絡方式、人物頁「看過他第一次上台」',has('（他放慢了。三分鐘講完，剛好。計時器響的時候，他已經坐下了。）')&&has('可是我講完了。')&&H.G.flags.YSH_UP==='slow'&&INV.hasContact(H.G,SH)&&deeds(SH).includes('看過他第一次上台')&&r.state==='done'&&OUT.bg('boya_201').image==='assets/bg/boya_201.webp',J(said()));
   phAt(TD('Y2S1',2,1),21.1); const ch=msgs(SH).includes(L(SH).chair);
   phAt(PM().yuQuitDay(),21.6);
   check('9. 楊書豪：大二上當社長那一則；Alison 退社那天（認識 Alison、有聯絡方式）兩則',ch&&J(msgs(SH).slice(-2))===J(L(SH).yuQuit),J(msgs(SH)));

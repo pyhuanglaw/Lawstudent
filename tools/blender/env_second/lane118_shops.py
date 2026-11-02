@@ -607,7 +607,9 @@ def pendant(c, x, z, y=2.15, col='#2b2b2b', r=0.2, grp=None):
     """吊燈（金屬燈罩，下面一顆暖光燈泡）；grp＝'N' 等：跟著那一面牆淡出（吧檯上面的燈：鏡頭從吧檯那邊往門口看時不擋住人物）"""
     vc = c.wg(grp, 'lamps', c.M['vc'], cm=True) if grp else c.vc; vm = c.wg(grp, 'lampshade', c.M['vcm'], cm=True) if grp else c.vm; wm = c.wg(grp, 'lampbulb', c.M['warm']) if grp else c.warm
     ccyl(vc, (x, y + 0.2, z), (x, H, z), 0.005, '#2a2a2a', seg=4)
-    clathe(vm, [(0.02, 0.2), (0.05, 0.19), (r * 0.6, 0.1), (r, 0.0), (r * 0.97, -0.004), (r * 0.57, 0.095), (0.0, 0.185)], x, y, z, col, seg=18)
+    # 輪廓從軸心往外、往下、再沿內面回到軸心（ART-LAMPSHADE-FLIP-1027，10-31）：原本的順序車出來的殼體積是負的＝裡外相反，
+    #   單面材質從外面看到的是背面（慢讀咖啡 5 盞、義大利麵 3 盞；部署的 GLB 用 glb_flip_insideout.py 修過）
+    clathe(vm, [(0.0, 0.185), (r * 0.57, 0.095), (r * 0.97, -0.004), (r, 0.0), (r * 0.6, 0.1), (0.05, 0.19), (0.02, 0.2)], x, y, z, col, seg=18)
     wm.sphere((x, y + 0.03, z), 0.055, seg=10, rings=6)
 
 

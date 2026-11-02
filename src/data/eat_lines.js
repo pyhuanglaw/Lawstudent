@@ -1,10 +1,10 @@
 /* ===== 吃東西（X67，使用者 10-20「吃東西好像只是花錢沒有別的功用」）：一起吃、吃過的、店員認得你——台詞 AA_329＋AA_336 第 A 節（AA-C 定稿，D100 照抄）=====
-   自動產生：python3 tools/eat/import_eat_lines.py（只讀匯入白名單上的版本 AA_329@724d7703、AA_336@724d7703）。不要手改；改字請 AA 改企劃、改白名單、重匯。
+   自動產生：python3 tools/eat/import_eat_lines.py（只讀匯入白名單上的版本 AA_329@759e5c000、AA_336@724d7703）。不要手改；改字請 AA 改企劃、改白名單、重匯。
    together[id][ACQ|FAM|FRI|dating|exFriend|exLow]＝[說話的人, 台詞]（null＝旁白、me＝祐廷）；first[店]＝第一次的旁白；staff[店]＝{who,line5,same,alt}；
    staff[店].line5Alt＝{when,t,reply}：上次點的東西符合 when 時，第 5 次那一句換成 t、祐廷回 reply（AA_336 A4，只有便利商店）。程式：src/eat3d.js */
 'use strict';
 const EAT_LINES={
- "source": "AA_329（企劃 724d7703）＋AA_336 第 A 節（企劃 724d7703）＋AA_497 第 8 節第 3 點換一句（企劃 60fc3b9a3）",
+ "source": "AA_329（企劃 759e5c000）＋AA_336 第 A 節（企劃 724d7703）＋AA_497 第 8 節第 3 點換一句（企劃 60fc3b9a3）",
  "open": "（你端著餐盤走過去。）",
  "closeRecycle": "（吃完，你們一起把盤子拿去回收。）",
  "closeDoor": "（吃完，你們在店門口分開。）",
@@ -22,11 +22,11 @@ const EAT_LINES={
    "ACQ": [
     [
      "heroine_01",
-     "（把手帳往旁邊移了一點）坐。"
+     "（把包包從旁邊的椅子拿起來）坐。"
     ],
     [
      "heroine_01",
-     "……這家的椒麻雞，第一次吃的人都會被辣到。"
+     "這家我常來。"
     ]
    ],
    "FAM": [
@@ -36,7 +36,7 @@ const EAT_LINES={
     ],
     [
      "heroine_01",
-     "那就一起。……吃完我要回去讀行政法。"
+     "那就一起。吃完我要回總圖。"
     ]
    ],
    "FRI": [
@@ -232,7 +232,7 @@ const EAT_LINES={
    "dating": [
     [
      "me",
-     "書瑀。"
+     "貝貝。"
     ],
     [
      "heroine_05",

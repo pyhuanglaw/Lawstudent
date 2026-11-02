@@ -1,0 +1,30 @@
+// 店內吊燈燈罩裡外相反（ART-LAMPSHADE-FLIP-1027，LAWWW2-B 2026-10-31）——不需要瀏覽器，讀 GLB。
+// lib2.single_side 改 64 位元的時候（LAWWW2-C 10-27）找到的：溫州街 3 家店、118 巷慢讀咖啡 5 盞、Pasta 118 吧檯上 3 盞的燈罩，
+//   車床（lathe）的輪廓方向反了，車出來的封閉殼體積是負的＝裡外相反；單面材質從外面看到的是背面（隔著店面玻璃看，明暗是反的）。
+// 修法：部署的 GLB 用 tools/blender/env_second/glb_flip_insideout.py 把那幾個零件的三角形順序、法線反過來（只改這些，其他零件不動）；
+//   產生它們的腳本（lane118_shops.py 的 pendant、wz_shopkit.py 店內的吊燈）輪廓也反過來，之後重匯就是對的。
+// 檢查：三個 GLB 的燈罩節點裡，沒有封閉、體積是負的、最小邊長 1 mm～1 m 的零件；燈罩還在（三角形數不變）。
+// 用法：node tests/lampshade_flip_unit.js
+const fs=require('fs'), path=require('path');
+const ROOT=path.resolve(__dirname,'..');
+let fails=0; const check=(name,ok,info)=>{ console.log((ok?'PASS ':'FAIL ')+name+(info?'　'+info:'')); if(!ok) fails++; };
+function load(f){ const b=fs.readFileSync(path.join(ROOT,'assets/models/env/second_ai/'+f)), n=b.readUInt32LE(12), J=JSON.parse(b.slice(20,20+n).toString('utf8')), bin=b.slice(20+n+8);
+  const acc=i=>{ const a=J.accessors[i], bv=J.bufferViews[a.bufferView], off=(bv.byteOffset||0)+(a.byteOffset||0), k={SCALAR:1,VEC3:3}[a.type], T={5126:Float32Array,5125:Uint32Array,5123:Uint16Array,5121:Uint8Array}[a.componentType];
+    return new T(bin.buffer.slice(bin.byteOffset+off, bin.byteOffset+off+a.count*k*T.BYTES_PER_ELEMENT)); };
+  return {J,acc}; }
+function insideOut(G,nodeRe){ const out=[]; let tris=0;
+  for(const nd of G.J.nodes){ if(nd.mesh==null||!nodeRe.test(nd.name||'')) continue; const t=nd.translation||[0,0,0];
+    for(const p of G.J.meshes[nd.mesh].primitives){ const P=G.acc(p.attributes.POSITION), I=p.indices!=null?G.acc(p.indices):null, nt=(I?I.length:P.length/3)/3; tris+=nt;
+      const V=k=>I?I[k]:k, key=v=>P[v*3].toFixed(4)+','+P[v*3+1].toFixed(4)+','+P[v*3+2].toFixed(4); const par=Array.from({length:nt},(_,i)=>i), find=x=>{ while(par[x]!==x){ par[x]=par[par[x]]; x=par[x]; } return x; };
+      const ed=new Map(); for(let tr=0;tr<nt;tr++){ const ks=[0,1,2].map(e=>key(V(tr*3+e))); for(let e=0;e<3;e++){ const a=ks[e], c=ks[(e+1)%3]; if(a===c) continue; const k=a<c?a+'|'+c:c+'|'+a; if(!ed.has(k)) ed.set(k,[]); ed.get(k).push([tr,a<c]); } }
+      const bad=new Set(); for(const l of ed.values()){ if(l.length===2&&l[0][1]!==l[1][1]){ const ra=find(l[0][0]), rb=find(l[1][0]); if(ra!==rb) par[ra]=rb; } else l.forEach(([tr])=>bad.add(tr)); }
+      const badr=new Set([...bad].map(find)), comp=new Map();
+      for(let tr=0;tr<nt;tr++){ const r=find(tr); if(badr.has(r)) continue; const c=comp.get(r)||{v:0,mn:[1e9,1e9,1e9],mx:[-1e9,-1e9,-1e9]}; comp.set(r,c); const q=[0,1,2].map(e=>{ const v=V(tr*3+e); return [P[v*3],P[v*3+1],P[v*3+2]]; });
+        c.o=c.o||q[0]; const a=q[0].map((x,i)=>x-c.o[i]), b2=q[1].map((x,i)=>x-c.o[i]), d=q[2].map((x,i)=>x-c.o[i]);
+        c.v+=(a[0]*(b2[1]*d[2]-b2[2]*d[1])-a[1]*(b2[0]*d[2]-b2[2]*d[0])+a[2]*(b2[0]*d[1]-b2[1]*d[0]))/6; for(const pt of q) for(let i=0;i<3;i++){ c.mn[i]=Math.min(c.mn[i],pt[i]); c.mx[i]=Math.max(c.mx[i],pt[i]); } }
+      for(const c of comp.values()){ const ext=c.mx.map((x,i)=>x-c.mn[i]), m=Math.min(...ext); if(c.v<0&&m>=0.001&&m<=1.0) out.push(nd.name+' @('+(c.mn[0]+t[0]).toFixed(2)+','+(c.mn[1]+t[1]).toFixed(2)+','+(c.mn[2]+t[2]).toFixed(2)+')'); } } }
+  return {out,tris}; }
+const CASES=[['l118_cafe2.glb',/^l118_cafe2_metal$/,'118 巷 慢讀咖啡（5 盞）'],['l118_pasta.glb',/lampshade/,'118 巷 Pasta 118 吧檯（3 盞）'],['wenzhou_street.glb',/^wz_in_shop$/,'溫州街 店內吊燈（3 盞）']];
+for(const [f,re,name] of CASES){ const r=insideOut(load(f),re);
+  check(name+'：燈罩沒有裡外相反的零件、燈罩還在',r.tris>0&&!r.out.length,r.out.length?r.out.slice(0,5).join('；'):r.tris+' 個三角形'); }
+console.log(fails?('FAIL '+fails):'ALL PASS'); process.exit(fails?1:0);

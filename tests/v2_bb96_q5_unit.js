@@ -36,7 +36,7 @@ const txt=(th)=>TH(th).map(m=>(m.from||'')+':'+m.text);
   const dShow=termDay('Y1S2',14,3), dInv=termDay('Y1S2',13,3);
   check('成發：大一下第 14 週週三 19:00–21:00、萬才館大廳（第 13 週、週四、大一上沒有）；去看＝演 Q5',ACTIVITIES.on(A,dShow)&&!ACTIVITIES.on(A,dInv)&&!ACTIVITIES.on(A,dShow+1)&&A.t0===19&&A.t1===21&&A.zone==='wancai'&&A.event==='ev_ziqing_show');
   const lawL=ACTIVITIES.list.find(a=>a.id==='lawclub_study'); check('法服讀書會停用（AA_218 17-4）：成發那晚不再撞期',!ACTIVITIES.on(lawL,dShow));
-  { fresh(dInv,20,'dorm'); PHONE.join(G,'guitar','吉他社'); run(20,22); check('第 13 週週三 21:30 吉他社群組：子晴「期末成發你要來。這不是問句。」',txt('g:guitar').slice(-1)[0]==='heroine_04:期末成發你要來。這不是問句。',JSON.stringify(txt('g:guitar'))); }
+  { fresh(dInv,20,'dorm'); PHONE.join(G,'guitar','吉他社'); run(20,22); check('第 13 週週三 21:30 吉他社群組：子晴「期末成發你要來。」（AA_573）',txt('g:guitar').slice(-1)[0]==='heroine_04:期末成發你要來。',JSON.stringify(txt('g:guitar'))); }
   const nm=CHARACTERS.heroine_04.name;
   const show=async(pick,o)=>{ o=o||{}; fresh(dShow,19.05,'wancai',o.flags||{}); SOCIAL.meet('heroine_04','wancai'); if(o.fam) R('heroine_04',...o.fam); picks=[pick]; await CLS.attendActivity(GM,A,{}); return lines(); };
   { let L=await show('拍手');
@@ -51,7 +51,7 @@ const txt=(th)=>TH(th).map(m=>(m.from||'')+':'+m.text);
     L=await show('先走'); G.hour=21.3; run(21.3,23); G.day=dShow+1; run(9,10.5);
     check('先走：隔天 10:00 手機「你看到一半。後半比較好。」；沒有 CLAPPED',txt('p:heroine_04').slice(-1)[0]==='heroine_04:你看到一半。後半比較好。'&&!SOCIAL.has('heroine_04','CLAPPED')&&G.flags.ZQ_SHOW==='half',JSON.stringify(txt('p:heroine_04').slice(-2))); }
   /* 沒去 */
-  { const absent=(o)=>{ fresh(dShow,18,'dorm',o.flags||{}); SOCIAL.meet('heroine_04','wancai'); if(o.grp) PHONE.join(G,'guitar','吉他社'); if(o.grp) PHONE.at(G,dInv,21.5,[{th:'g:guitar',from:'heroine_04',text:'期末成發你要來。這不是問句。'}],'zq_show_inv'); run(18,23); G.day=dShow+1; run(9,10.5); return txt('p:heroine_04'); };
+  { const absent=(o)=>{ fresh(dShow,18,'dorm',o.flags||{}); SOCIAL.meet('heroine_04','wancai'); if(o.grp) PHONE.join(G,'guitar','吉他社'); if(o.grp) PHONE.at(G,dInv,21.5,[{th:'g:guitar',from:'heroine_04',text:'期末成發你要來。'}],'zq_show_inv'); run(18,23); G.day=dShow+1; run(9,10.5); return txt('p:heroine_04'); };
     let L=absent({grp:true}); check('收到邀請卻沒去：隔天 10:00「你沒來」（沒有標點）；ZQ_SHOW absent；之後一週她不約（zqColdUntil）',L.slice(-1)[0]==='heroine_04:你沒來'&&G.flags.ZQ_SHOW==='absent'&&G.flags.zqColdUntil===dShow+8,JSON.stringify(L.slice(-1)));
     L=absent({flags:{CLUB_club_guitar:true}}); check('吉他社的人（沒有群組）沒去：一樣「你沒來」',L.slice(-1)[0]==='heroine_04:你沒來');
     L=absent({}); check('沒收到邀請、不是吉他社：沒有訊息',!L.some(t=>/你沒來/.test(t))&&G.flags.ZQ_SHOW==null); }

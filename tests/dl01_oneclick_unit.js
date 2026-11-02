@@ -7,7 +7,7 @@ const vm=require('vm'), fs=require('fs'), path=require('path');
 const ROOT=path.resolve(__dirname,'..');
 global.window=global; global.location={search:''}; global.document={getElementById:()=>null,addEventListener(){}};
 global.SOCIAL={displayName:id=>(CHARACTERS[id]&&CHARACTERS[id].name)||id,stage:id=>id==='heroine_01'?'ACQUAINTANCE':'STRANGER'};
-for(const f of ['src/data/characters.js','src/data/places.js','src/data/calendar.js','src/data/courses.js','src/classes3d.js']) vm.runInThisContext(fs.readFileSync(path.join(ROOT,f),'utf8').replace(/^const (CHARACTERS|PLACES|SOCIAL_GRAPH|UNFAMILIAR_POOL|PORTRAITS|CALENDAR|COURSES|CLS)\s*=/mg,'global.$1='),{filename:f});
+for(const f of ['src/data/characters.js','src/data/places.js','src/data/calendar.js','src/data/courses.js','src/data/exam_bank.js','src/classes3d.js']) vm.runInThisContext(fs.readFileSync(path.join(ROOT,f),'utf8').replace(/^const (CHARACTERS|PLACES|SOCIAL_GRAPH|UNFAMILIAR_POOL|PORTRAITS|CALENDAR|COURSES|CLS|EXAM_BANK)\s*=/mg,'global.$1='),{filename:f});
 let fails=0; const check=(name,ok,info)=>{ console.log((ok?'PASS ':'FAIL ')+name+(info?'　'+info:'')); if(!ok) fails++; };
 check('有 CLS.goClass、wakeMenu、afterMenu、skipClass、goPlan',['goClass','wakeMenu','afterMenu','skipClass','goPlan','seatChoices','oneTick','queueWake'].every(k=>typeof CLS[k]==='function'));
 if(fails){ console.log('FAILED '+fails); process.exit(1); }

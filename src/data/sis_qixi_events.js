@@ -26,7 +26,7 @@ const SISQX_EVENTS=(function(){
   const VDAY={fam:3,comf:6,npcRom:5}, CALL={fam:2,comf:3,npcRom:3};
   const QIXI=[ {if:{custom:G=>vid(G)},goto:'vd'}, {if:{custom:G=>yr(G)===2027},goto:'y27'}, {if:{custom:G=>yr(G)===2028},goto:'y28'},
     /* ---------- 1-1 2026-08-19（三）19:00 溫州街・定食店（第一次一起過；定食店裡面沒有 2D 底圖：深色底＋地點字幕）---------- */
-    {scene:'溫州街・定食店',bg:'dark'},
+    {scene:'溫州街・定食店',bg:'teishoku_night'},   /* BB_132 第 100 組第 7 張（11-02）*/
     N('（店裡只有兩桌客人。她已經坐在靠牆的位子，菜單沒有翻開。）'),
     SIS('這家今天不會客滿。我查過了。'),
     SIS('鯖魚。你呢？'),

@@ -2,6 +2,7 @@
  "version": 1,
  "note": "劇情匯入白名單（使用者 2026-10-17 P0）：逐檔列路徑＋來源 commit；status 只有 approved 才匯入（WIP／pending 拒絕）；新版本要 AA（人物台詞先經 BB）明確交付「已審版本＋commit」才改這裡，由值班 LAWWW 更新。大一下閒聊階梯可昕 17 處（AA 分支 WIP）還沒審，不在名單。labelsRef＝讀記憶中文名稱表的企劃線 commit。",
  "labelsRef": [
+  "759e5c000",
   "49ed7e6a",
   "93f356cc",
   "6b01c841",
@@ -19,9 +20,9 @@
  "files": [
   {
    "path": "docs/story_planning/ladder/ladder_aa.json",
-   "sha": "7fca0df5",
+   "sha": "759e5c000",
    "status": "approved",
-   "approvedBy": "AA（帳號 A）2026-10-21 定稿（AA_372 第 6 節：第 13、18 項以安的兩句「考完我還會留在臺北一個月。」「你期中哪一週最多？期中考那週我有三科。」改進企劃源檔 ladder_aa.json＋build_ladder_aa.py，企劃線 7fca0df5；和 659d9d81 只差這兩句；D100 台詞歸 AA）",
+   "approvedBy": "AA（帳號 A）2026-10-21 定稿（AA_372 第 6 節：第 13、18 項以安的兩句「考完我還會留在臺北一個月。」「你期中哪一週最多？期中考那週我有三科。」改進企劃源檔 ladder_aa.json＋build_ladder_aa.py，企劃線 7fca0df5；和 659d9d81 只差這兩句；D100 台詞歸 AA）；759e5c000：AA_580 以安改稿第二批（AA 2026-11-02 09:38 交；AA_579／AA_580、BB_228 PASS；使用者確認精選 10 句）：第 1～8 列；另外和舊版只差 RENAME-1030 地名",
    "task": "AA372-Y1S1-FIX-1021",
    "note": "AA-C：8 個檔已審；25e89f6e 補齊記憶名稱（JSON 和 77c7f3db 一樣）；7fca0df5 起 tools/ladder/import_ladder.py 不再疊 AA_372 那兩句",
    "history": [
@@ -33,14 +34,18 @@
      "sha": "659d9d81",
      "approvedBy": "AA-C 定稿（2026-10-21 AA_358 人物知道不該知道的事：閒聊階梯 4 句改在企劃源檔，企劃分支 659d9d81；D100 台詞歸 AA）",
      "task": "SYS-15"
+    },
+    {
+     "sha": "7fca0df5",
+     "approvedBy": "（2026-11-02 換成 759e5c000 以前的版本；AA_580 以安改稿第二批）"
     }
    ]
   },
   {
    "path": "docs/story_planning/ladder/ladder_aa_y1s2.json",
-   "sha": "25e89f6e",
+   "sha": "759e5c000",
    "status": "approved",
-   "approvedBy": "AA-C（2026-10-17 13:30／13:36 已審表）",
+   "approvedBy": "AA-C（2026-10-17 13:30／13:36 已審表）；759e5c000：AA_580 以安改稿第二批（AA 2026-11-02 09:38 交；AA_579／AA_580、BB_228 PASS；使用者確認精選 10 句）：第 9～11 列；另外和舊版只差 RENAME-1030 地名",
    "task": "ROM-1017",
    "history": [
     {
@@ -50,15 +55,19 @@
     {
      "sha": "72ea87f5",
      "approvedBy": "使用者 2026-10-15 閒聊階梯全案通過；遊戲現行版本（src/data/ladder.js 來源 72ea87f5＋9ebf6663，a0de035b、bdfdb9d3）"
+    },
+    {
+     "sha": "25e89f6e",
+     "approvedBy": "（2026-11-02 換成 759e5c000 以前的版本；AA_580 以安改稿第二批）"
     }
    ],
    "note": "AA-C：8 個檔已審；25e89f6e 補齊記憶名稱（JSON 和 77c7f3db 一樣）"
   },
   {
    "path": "docs/story_planning/ladder/ladder_aa_y2s1.json",
-   "sha": "49ed7e6a",
+   "sha": "759e5c000",
    "status": "approved",
-   "approvedBy": "AA-C 定稿（2026-10-20 交付：企劃分支 49ed7e6a——AA_313 第 1 節以安不延畢（A8-L1、L3、L7、L8 換掉補修班、明年才考、證書明年）、第 4、6 節芷若、子晴、學姊、沛珊；AA_306 經濟系那一年的層；D100 台詞歸 AA）",
+   "approvedBy": "AA-C 定稿（2026-10-20 交付：企劃分支 49ed7e6a——AA_313 第 1 節以安不延畢（A8-L1、L3、L7、L8 換掉補修班、明年才考、證書明年）、第 4、6 節芷若、子晴、學姊、沛珊；AA_306 經濟系那一年的層；D100 台詞歸 AA）；759e5c000：AA_580 以安改稿第二批（AA 2026-11-02 09:38 交；AA_579／AA_580、BB_228 PASS；使用者確認精選 10 句）：第 12～20 列；另外和舊版只差 RENAME-1030 地名",
    "task": "AB65-3-Y2S1-L",
    "history": [
     {
@@ -68,45 +77,65 @@
     {
      "sha": "72ea87f5",
      "approvedBy": "使用者 2026-10-15 閒聊階梯全案通過；遊戲現行版本（src/data/ladder.js 來源 72ea87f5＋9ebf6663，a0de035b、bdfdb9d3）"
+    },
+    {
+     "sha": "49ed7e6a",
+     "approvedBy": "（2026-11-02 換成 759e5c000 以前的版本；AA_580 以安改稿第二批）"
     }
    ],
    "note": "AA-C：8 個檔已審；25e89f6e 補齊記憶名稱（JSON 和 77c7f3db 一樣）"
   },
   {
    "path": "docs/story_planning/ladder/ladder_aa_y2s2.json",
-   "sha": "25e89f6e",
+   "sha": "759e5c000",
    "status": "approved",
-   "approvedBy": "AA-C（2026-10-17 13:30／13:36 已審表）",
+   "approvedBy": "AA-C（2026-10-17 13:30／13:36 已審表）；759e5c000：AA_580 以安改稿第二批（AA 2026-11-02 09:38 交；AA_579／AA_580、BB_228 PASS；使用者確認精選 10 句）：第 21～23 列；另外和舊版只差 RENAME-1030 地名",
    "task": "SYS-15",
-   "note": "AA-C：8 個檔已審；25e89f6e 補齊記憶名稱（JSON 和 77c7f3db 一樣）"
+   "note": "AA-C：8 個檔已審；25e89f6e 補齊記憶名稱（JSON 和 77c7f3db 一樣）",
+   "history": [
+    {
+     "sha": "25e89f6e",
+     "approvedBy": "（2026-11-02 換成 759e5c000 以前的版本；AA_580 以安改稿第二批）"
+    }
+   ]
   },
   {
    "path": "docs/story_planning/ladder/ladder_aa_y3s1.json",
-   "sha": "b5acbaad",
+   "sha": "759e5c000",
    "status": "approved",
-   "approvedBy": "AA-C（2026-10-17 13:30／13:36 已審表）；2026-10-18 AA-C：口氣表第 5 節第 8、9 項（模板句、「騙你的」殘留），只改一句",
+   "approvedBy": "AA-C（2026-10-17 13:30／13:36 已審表）；2026-10-18 AA-C：口氣表第 5 節第 8、9 項（模板句、「騙你的」殘留），只改一句；759e5c000：AA_580 以安改稿第二批（AA 2026-11-02 09:38 交；AA_579／AA_580、BB_228 PASS；使用者確認精選 10 句）：第 24、25 列",
    "task": "SYS-15",
-   "note": "AA-C：8 個檔已審；25e89f6e 補齊記憶名稱（JSON 和 77c7f3db 一樣）"
+   "note": "AA-C：8 個檔已審；25e89f6e 補齊記憶名稱（JSON 和 77c7f3db 一樣）",
+   "history": [
+    {
+     "sha": "b5acbaad",
+     "approvedBy": "（2026-11-02 換成 759e5c000 以前的版本；AA_580 以安改稿第二批）"
+    }
+   ]
   },
   {
    "path": "docs/story_planning/ladder/ladder_aa_y3s2.json",
-   "sha": "49ed7e6a",
+   "sha": "759e5c000",
    "status": "approved",
-   "approvedBy": "AA-C 定稿（2026-10-20 交付：企劃分支 49ed7e6a——AA_313 第 1 節以安不延畢（A8-L1、L3、L7、L8 換掉補修班、明年才考、證書明年）、第 4、6 節芷若、子晴、學姊、沛珊；AA_306 經濟系那一年的層；D100 台詞歸 AA）",
+   "approvedBy": "AA-C 定稿（2026-10-20 交付：企劃分支 49ed7e6a——AA_313 第 1 節以安不延畢（A8-L1、L3、L7、L8 換掉補修班、明年才考、證書明年）、第 4、6 節芷若、子晴、學姊、沛珊；AA_306 經濟系那一年的層；D100 台詞歸 AA）；759e5c000：AA_580 以安改稿第二批（AA 2026-11-02 09:38 交；AA_579／AA_580、BB_228 PASS；使用者確認精選 10 句）：第 26 列（源稿寫「小語」，匯入時換 Alison）；另外和舊版只差 RENAME-1030 地名",
    "task": "SYS-15",
    "note": "AA-C：8 個檔已審；25e89f6e 補齊記憶名稱（JSON 和 77c7f3db 一樣）",
    "history": [
     {
      "sha": "25e89f6e",
      "approvedBy": "AA-C（2026-10-17 13:30／13:36 已審表）"
+    },
+    {
+     "sha": "49ed7e6a",
+     "approvedBy": "（2026-11-02 換成 759e5c000 以前的版本；AA_580 以安改稿第二批）"
     }
    ]
   },
   {
    "path": "docs/story_planning/ladder/ladder_aa_y4s1.json",
-   "sha": "6e0d1313",
+   "sha": "759e5c000",
    "status": "approved",
-   "approvedBy": "AA（帳號 A）2026-10-22 04:29 交付（AA_378 #9、#11、#13、#14：以安 A7-L5 選項兩種說法（choiceVariants）、招呼兩句、A7-L1 回答；語彤 Y7-L6 牆上的紅紙）；條件（A7-L5 選項、招呼 12/18～12/21、讀書會跳過第 8～9 週）照 AA 指示放 story3d.js",
+   "approvedBy": "AA（帳號 A）2026-10-22 04:29 交付（AA_378 #9、#11、#13、#14：以安 A7-L5 選項兩種說法（choiceVariants）、招呼兩句、A7-L1 回答；語彤 Y7-L6 牆上的紅紙）；條件（A7-L5 選項、招呼 12/18～12/21、讀書會跳過第 8～9 週）照 AA 指示放 story3d.js；759e5c000：AA_580 以安改稿第二批（AA 2026-11-02 09:38 交；AA_579／AA_580、BB_228 PASS；使用者確認精選 10 句）：第 27、28 列",
    "task": "AA378-Y4S1-FIX-1021",
    "note": "AA-C：8 個檔已審；25e89f6e 補齊記憶名稱（JSON 和 77c7f3db 一樣）",
    "history": [
@@ -118,14 +147,18 @@
      "sha": "49ed7e6a",
      "approvedBy": "AA-C 定稿（2026-10-20 交付：企劃分支 49ed7e6a——AA_313 第 1 節以安不延畢（A8-L1、L3、L7、L8 換掉補修班、明年才考、證書明年）、第 4、6 節芷若、子晴、學姊、沛珊；AA_306 經濟系那一年的層；D100 台詞歸 AA）",
      "task": "SYS-15"
+    },
+    {
+     "sha": "6e0d1313",
+     "approvedBy": "（2026-11-02 換成 759e5c000 以前的版本；AA_580 以安改稿第二批）"
     }
    ]
   },
   {
    "path": "docs/story_planning/ladder/ladder_aa_y4s2.json",
-   "sha": "49ed7e6a",
+   "sha": "759e5c000",
    "status": "approved",
-   "approvedBy": "AA-C 定稿（2026-10-20 交付：企劃分支 49ed7e6a——AA_313 第 1 節以安不延畢（A8-L1、L3、L7、L8 換掉補修班、明年才考、證書明年）、第 4、6 節芷若、子晴、學姊、沛珊；AA_306 經濟系那一年的層；D100 台詞歸 AA）",
+   "approvedBy": "AA-C 定稿（2026-10-20 交付：企劃分支 49ed7e6a——AA_313 第 1 節以安不延畢（A8-L1、L3、L7、L8 換掉補修班、明年才考、證書明年）、第 4、6 節芷若、子晴、學姊、沛珊；AA_306 經濟系那一年的層；D100 台詞歸 AA）；759e5c000：AA_580 以安改稿第二批（AA 2026-11-02 09:38 交；AA_579／AA_580、BB_228 PASS；使用者確認精選 10 句）：第 29～31 列；另外和舊版只差 RENAME-1030 地名",
    "task": "AA263-Y4S2",
    "note": "AA-C：週次上限 15（典禮 6/2）、GRAD_DONE 暫名、語彤延畢一年",
    "history": [
@@ -136,6 +169,10 @@
     {
      "sha": "25e89f6e",
      "approvedBy": "AA-C（2026-10-17 13:30／13:36 已審表）"
+    },
+    {
+     "sha": "49ed7e6a",
+     "approvedBy": "（2026-11-02 換成 759e5c000 以前的版本；AA_580 以安改稿第二批）"
     }
    ]
   },
@@ -225,11 +262,15 @@
   },
   {
    "path": "docs/story_planning/ladder/ladder_bb_y2s1.json",
-   "sha": "ffd7eef8",
+   "sha": "06ff0acc6",
    "status": "approved",
-   "approvedBy": "AA-C 定稿（2026-10-21 AA_362 禁用句型第三輪「不是 X，是 Y」，企劃分支 bde0df0a；D100 台詞歸 AA）｜AA_398 第 20 列（學姊不數件數）企劃線 ffd7eef8：LAWWW-B 10-23 換版重新匯入",
+   "approvedBy": "AA-B 2026-11-01 定稿（AA_560 2-7 C2：沛珊 P3-L4「問我以後要做什麼、有沒有好好睡、有沒有好好吃飯。」；同一版另含 D115 改名，遊戲已照 WORLD_NAMING 換過）；LAWWW-B 換版重新匯入",
    "task": "AB65-3-Y2S1-L",
    "history": [
+    {
+     "sha": "ffd7eef8",
+     "approvedBy": "AA-C 定稿（2026-10-21 AA_362 禁用句型第三輪「不是 X，是 Y」，企劃分支 bde0df0a；D100 台詞歸 AA）｜AA_398 第 20 列（學姊不數件數）企劃線 ffd7eef8：LAWWW-B 10-23 換版重新匯入"
+    },
     {
      "sha": "49ed7e6a",
      "approvedBy": "AA-C 定稿（2026-10-20 交付：企劃分支 49ed7e6a——AA_313 第 1 節以安不延畢（A8-L1、L3、L7、L8 換掉補修班、明年才考、證書明年）、第 4、6 節芷若、子晴、學姊、沛珊；AA_306 經濟系那一年的層；D100 台詞歸 AA）"
@@ -622,6 +663,15 @@
    "note": "AA-C 交付：第 4 節給 LAWWW 的程式清單（以安兩句、語彤不在法服…）；2026-10-23 20:1x 改到 52900eb23（AB65-3-Y2S1-L、AA312-INTEGRATE-1020 子代理照這一版）"
   },
   {
+   "path": "docs/story_planning/AA_255_附錄_審稿原文.md",
+   "sha": "52900eb23",
+   "status": "approved",
+   "approvedBy": "AA-C 2026-10-17 12:4x（AA_255 檔首：「AA 人物：照附錄 A 的改法定稿」，例外與裁定在 AA_255 第 2 節；附錄 B 由 AA-C 2026-10-20 在 AA_255 檔尾另外定稿，不從這個檔讀）；附錄檔首的【文件狀態｜歷史】＝「現行以 AA_255 為準」，AA_255 指回這裡的改法",
+   "task": "AA255-Y2S2",
+   "kind": "text",
+   "note": "LAWWW-B 2026-11-01 子代理登記（AA255-Y2S2 收尾，分支 feat-aa255-1101）：附錄 A 第 1 節三列照字進遊戲（AA_255 第 4 節第 3、7 點）——課堂 admin_remedy 第 7 週以安「如果申請的是……呢？」、family_law 第 11 週阿哲「……最後還是教練決定。」由 tools/syllabus/import_syllabus.py 疊在 BB_102 的 JSON 上匯入（整句相同才換）；群組 y2_spring_plan 七則手動放進 story3d.js。附錄 A 其他列已經做了或被後來的稿取代（AA_313、AA_325、AA_497、AA_546、AA_558），不從這裡再讀。tests/aa255_y2s2_unit.js"
+  },
+  {
    "path": "docs/story_planning/AA_259_大三上口語改稿_AA與BB人物.md",
    "sha": "dd9b704aa",
    "status": "approved",
@@ -995,17 +1045,17 @@
   },
   {
    "path": "docs/story_planning/AA_202_玩家主動傳訊息_規格.md",
-   "sha": "65239add",
+   "sha": "b10d0567f",
    "status": "approved",
-   "approvedBy": "AA-B 定稿（22:5x 交 LAWWW-B；BB 互審通過），AA-C 11:04 更新：第 6 節 AA 六位回覆池；AA-C 19:16 改 67f74502：阿哲加回問、柏翰晚安改句、學姊問課改句；AA-C 19:44 指定 MSG-2 全部用 b61e4f55（已含 0ec9b2d7：AA_202 第 7 節 AA 六位第二批、以安／語彤 L 的回問；第 6 節、BB_178 和 67f74502 相同）",
+   "approvedBy": "AA-B 定稿（22:5x 交 LAWWW-B；BB 互審通過），AA-C 11:04 更新：第 6 節 AA 六位回覆池；AA-C 19:16 改 67f74502：阿哲加回問、柏翰晚安改句、學姊問課改句；AA-C 19:44 指定 MSG-2 全部用 b61e4f55（已含 0ec9b2d7：AA_202 第 7 節 AA 六位第二批、以安／語彤 L 的回問；第 6 節、BB_178 和 67f74502 相同）；b10d0567f：AA_576 以安改稿第一批（AA 2026-11-02 08:36 交；AA_576／BB_226 口氣審 PASS、使用者確認「都對，交出去」）：6-2 三句、7-3 謝謝 L；msg_pool、msg2_pool 都用這一版",
    "task": "SYS-PHONE-CHAT, MSG-2",
    "kind": "text"
   },
   {
    "path": "docs/story_planning/BB_178_玩家主動傳訊息_BB回覆池.md",
-   "sha": "bb6baddf",
+   "sha": "759e5c000",
    "status": "approved",
-   "approvedBy": "BB_178 第二版 AA-B 核過（AA_200 5-7、34ea4e1d）；AA-C 12:01／12:04 定稿 MSG-2 條件與學姊美國日期：第 0～8b 節；AA-C 19:16 改 67f74502：阿哲加回問、柏翰晚安改句、學姊問課改句；AA-C 19:44 指定 MSG-2 全部用 b61e4f55（已含 0ec9b2d7：AA_202 第 7 節 AA 六位第二批、以安／語彤 L 的回問；第 6 節、BB_178 和 67f74502 相同）；bb6baddf 第 5 節可昕學期中／在老家（AA_278）",
+   "approvedBy": "BB_178 第二版 AA-B 核過（AA_200 5-7、34ea4e1d）；AA-C 12:01／12:04 定稿 MSG-2 條件與學姊美國日期：第 0～8b 節；AA-C 19:16 改 67f74502：阿哲加回問、柏翰晚安改句、學姊問課改句；AA-C 19:44 指定 MSG-2 全部用 b61e4f55（已含 0ec9b2d7：AA_202 第 7 節 AA 六位第二批、以安／語彤 L 的回問；第 6 節、BB_178 和 67f74502 相同）；bb6baddf 第 5 節可昕學期中／在老家（AA_278）；759e5c000：AA_579 學姊改稿第一批（AA 2026-11-02 09:38 交；AA_579／AA_580、BB_228 PASS；使用者看過精選句）：第 3 節學姊問課、考試週、分享吃的七句（BB_228 同意改 BB 的稿）；msg_pool 用這一版",
    "task": "SYS-PHONE-CHAT, MSG-2",
    "kind": "text"
   },
@@ -1019,9 +1069,9 @@
   },
   {
    "path": "docs/story_planning/AA_257_MSG2_BB九位回覆池.md",
-   "sha": "558ccff8",
+   "sha": "759e5c000",
    "status": "approved",
-   "approvedBy": "AA-C 定稿（第②級，「AA 定稿，可以實作」；條件照 BB_178 第 10 節 BB-C 定稿 4b01f600）；19:44 AA-C 補十處回問 b61e4f55，指定 MSG-2 全部用這一版；659af025 沛珊新年句改台中（AA_276 第 3 節）；558ccff8 Kevin 生日 R 拿掉「你是第一個」（AA-C AA_335，口氣表 0-3）",
+   "approvedBy": "AA-C 定稿（第②級，「AA 定稿，可以實作」；條件照 BB_178 第 10 節 BB-C 定稿 4b01f600）；19:44 AA-C 補十處回問 b61e4f55，指定 MSG-2 全部用這一版；659af025 沛珊新年句改台中（AA_276 第 3 節）；558ccff8 Kevin 生日 R 拿掉「你是第一個」（AA-C AA_335，口氣表 0-3）；759e5c000：AA_579 學姊改稿第一批（AA 2026-11-02 09:38 交；AA_579／AA_580、BB_228 PASS；使用者看過精選句）：第 3 節學姊生日 R、新年 R／L 三句；msg2_pool 用這一版（之前 build_msg2.py 讀 5f9957a2）",
    "task": "MSG-2",
    "kind": "text"
   },
@@ -1193,9 +1243,9 @@
   },
   {
    "path": "docs/story_planning/AA_329_吃東西_一起吃_吃過的_店員認得你.md",
-   "sha": "724d7703",
+   "sha": "759e5c000",
    "status": "approved",
-   "approvedBy": "AA-C 定稿（2026-10-20 18:06 UTC 交付 X67 台詞，D100 台詞歸 AA）；724d7703 末尾補 AA_336 第 A 節的指引（第 0～5 節和 c11945d0 相同）",
+   "approvedBy": "AA-C 定稿（2026-10-20 18:06 UTC 交付 X67 台詞，D100 台詞歸 AA）；724d7703 末尾補 AA_336 第 A 節的指引（第 0～5 節和 c11945d0 相同）；b10d0567f：AA_576 以安改稿第一批（AA 2026-11-02 08:36 交；AA_576／BB_226 口氣審 PASS、使用者確認「都對，交出去」）：1-1 三句＋第 300 行 E1；759e5c000：AA_579 學姊改稿第一批（AA 2026-11-02 09:38 交；AA_579／AA_580、BB_228 PASS；使用者看過精選句）：1-5 交往中祐廷叫她「貝貝。」、第 5 節 E3",
    "task": "EAT-EFFECT-1020",
    "note": "tools/eat/import_eat_lines.py → src/data/eat_lines.js"
   },
@@ -2126,9 +2176,9 @@
   },
   {
    "path": "docs/story_planning/AA_393_學姊第七批_日本路線.md",
-   "sha": "e81a1afe1",
+   "sha": "759e5c000",
    "status": "approved",
-   "approvedBy": "AA-B 2026-10-23 07:4x 定稿（D109）；LAWWW-B 10-23 實作 src/sis_jp3d.js、src/data/sis_jp_events.js、msg_pool（build_pool.py）",
+   "approvedBy": "AA-B 2026-10-23 07:4x 定稿（D109）；LAWWW-B 10-23 實作 src/sis_jp3d.js、src/data/sis_jp_events.js、msg_pool（build_pool.py）；759e5c000：AA_579 學姊改稿第一批（AA 2026-11-02 09:38 交；AA_579／AA_580、BB_228 PASS；使用者看過精選句）：第 4 節祐廷在日本三句；msg_pool 用這一版",
    "task": "SIS-B7-L-1023、SIS-B7-1023",
    "kind": "text"
   },
@@ -2254,9 +2304,9 @@
   },
   {
    "path": "docs/story_planning/AA_415_邀約回覆照階段變_七位定稿.md",
-   "sha": "b113e39d",
+   "sha": "759e5c000",
    "status": "approved",
-   "approvedBy": "AA-B 2026-10-23 20:2x 定稿（D109）",
+   "approvedBy": "AA-B 2026-10-23 20:2x 定稿（D109）；b10d0567f：AA_576 以安改稿第一批（AA 2026-11-02 08:36 交；AA_576／BB_226 口氣審 PASS、使用者確認「都對，交出去」）：第 1 節以安的表；e1e361335：AA_579 學姊改稿第一批（AA 2026-11-02 09:37 交；AA_579／AA_580、BB_228 PASS；使用者看過精選句）：第 5 節學姊的表（22 句）；759e5c000：AA_580 以安改稿第二批（AA 2026-11-02 09:38 交；AA_579／AA_580、BB_228 PASS）：第 1 節以安新增三句答應（新1～新3）",
    "task": "D14-T9",
    "kind": "text",
    "note": "tools/invite/build_replies.py → src/data/invite_replies.js（INVITE_REPLIES）；選句 src/invites3d.js 的 S.replyPick（AA_415 第 0-3 節）"
@@ -3634,6 +3684,42 @@
    "approvedBy": "AA-B 定稿（D109）",
    "task": "XINCI-ROMANCE-1030",
    "note": "LAWWW-B 10-30：芯慈第二份（使用者 X139 芯慈可以交往）。第 1～3 節由 tools/date/import_date_lines.py 匯入 src/data/date_lines.js（一般台詞十一個 key、128 點喜好、15 句不喜歡、八個常去地點）；第 4、5 節（期末飯、節日）手寫進 termend_lines.js／fest 那幾檔，台詞一字照稿；10-30 16:2x 第 7 節（學期末告白欄位 HEART／NOPE）在 5ba143d2c：手寫進 src/data/termend_lines.js（第 1～3 節和 508568ae5 一字不差，匯入結果不變）"
+  },
+  {
+   "path": "docs/story_planning/free_trip/solo_before_aa_v1.json",
+   "sha": "01e9d706c",
+   "status": "approved",
+   "approvedBy": "AA-B 2026-10-16 定稿（b8fd9d660，第②級日常內容，D109：AA 的稿就是定稿）＋b68fb586f 語彤四處換說法＋AA-C 2026-10-17 第三批 AA_271（01e9d706c）",
+   "task": "ENC-B3-1017",
+   "kind": "text",
+   "note": "「你來過一次」：rules 照檔（G.places.free[地點]≥1、約會抵達句以後、同一人同一地一次、心願地點改走 wish 的 freeVisited）；匯入 tools/freetrip/import_solo_before.py → src/data/solo_before.js（LAWWW-B 11-01）"
+  },
+  {
+   "path": "docs/story_planning/free_trip/solo_before_bb_v1.json",
+   "sha": "be14d2d58",
+   "status": "approved",
+   "approvedBy": "BB_213（AA-B 核對；BB-C b6697e981 第三批）＋ffd7eef85 學姊不說「三件事」＋4618aed21 RENAME-1030（D115 換名）；D100 起台詞歸 AA、AA 核對過的照用",
+   "task": "ENC-B3-1017",
+   "kind": "text",
+   "note": "同上；narr 沿用 solo_before_aa_v1.json；11-02 AA_573 #3 刪「這不是問句。」（be14d2d58）"
+  },
+  {
+   "path": "docs/story_planning/AA_323_事件包_第三批之六_1B18到1B25.md",
+   "sha": "4618aed21",
+   "status": "approved",
+   "approvedBy": "AA-C 2026-10-20 定稿（D100、D109：AA 的稿就是定稿；1B-12～25 第②級，原本 c9b4f60e，src/y34b3d.js 已照它實作）＋4618aed21 RENAME-1030（D115 換名；1B-20 這兩句沒有改到）",
+   "task": "EVPKG-1B18-25-1020",
+   "kind": "text",
+   "note": "1B-20 第 1 節「12/11（一）起，麵店門口貼一張白紙：『12/14（四）晚上七點　二十三週年』」白紙上的字手抄進 src/y34b3d.js 的 Y34B.A23_PAPER（外面的括號旁白照 r2y4b3d.js AUNT_DOOR 的寫法）、第 6 節「天氣 12/14 晚上強制下雨」＝Y34B.a23Rain；tests/y34b_a23_paper_unit.js。3D 的白紙（第 5 節素材表）是場景物件，歸 LAWWW2（D108）。子代理 2026-11-01 代登，給 LAWWW-B 核"
+  },
+  {
+   "path": "docs/story_planning/AA_578_取消期中考_劇情改掛點與台詞規則.md",
+   "sha": "b13db535f",
+   "status": "approved",
+   "approvedBy": "AA 2026-11-02 08:37 定稿（D109）",
+   "task": "D118-MIDTERM-STORY-1102",
+   "kind": "text",
+   "note": "D118 沒有期中考：第 2 節 11 處改掛點、第 3 節台詞規則、第 5 節零碎字。閒聊階梯（tools/ladder/import_ladder.py）等匯入工具讀稿時照 tools/story/d118_fix.json 換字（import_guard.read_fix，和 ndl542_fix.json、nocmp_fix.json 同一個做法；tests/alison.js 一起）；其他句子手抄改 src。子代理 2026-11-02 代登，給值班 LAWWW 核"
   }
  ]
 }

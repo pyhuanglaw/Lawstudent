@@ -71,5 +71,12 @@ await sec('4b',async()=>{ const d=D('2026-11-02'); H.fresh(keyOf(d),10,'library_
   check('4. 她在英國（2027-09～2028-02）還 L4：不傳',!H.msgs('p:heroine_02').includes('你真的借了。……第八章是我最喜歡的。')); });
 await sec(5,()=>{ const d=D('2026-12-01'); H.fresh(keyOf(d),9.5,'dorm',{}); delete H.G.loans; tick(); const L=[]; X().room(H.G,L);
   check('5. 舊存檔沒有 G.loans：沒借過、沒有到期通知、房間沒有書',!H.msgs('sys').some(t=>/到期/.test(t))&&!L.length&&Array.isArray(H.G.loans)&&!H.G.loans.length); });
+/* 6 R1（AA407-LOANS-1031）：回過方奕廷「總圖五樓最裡面。」以後，服務台「借《臺灣原生植物圖鑑》」→ 館員「那本只能在館內看。」；不借出、問過一次就沒有；沒回過沒有 */
+await sec(6,async()=>{ const d=D('2026-12-08'); H.fresh(keyOf(d),15,'library_hall',{}); const o0=X().deskOptions(H.G).map(o=>o.t);
+  H.G.flags.NEED_ANS_fy_quiet=d-3; const o1=X().deskOptions(H.G).map(o=>o.t); H.said=[]; H.picks=['借《臺灣原生植物圖鑑》']; await X().interact({label:'服務台'},GM); const o2=X().deskOptions(H.G).map(o=>o.t);
+  check('6. R1：沒回過方奕廷沒有；回過「總圖五樓最裡面。」＝服務台「借《臺灣原生植物圖鑑》」→ 館員「那本只能在館內看。」、沒有借出、問過一次就沒有',!o0.some(t=>/植物圖鑑/.test(t))&&o1.includes('借《臺灣原生植物圖鑑》')&&H.has('那本只能在館內看。')&&!H.G.loans.length&&!o2.some(t=>/植物圖鑑/.test(t)),J([o0,o1,o2,H.said]));
+  if(typeof NEEDED_MSGS==='undefined') vm.runInThisContext(fs.readFileSync(path.join(H.ROOT,'src/data/needed_msgs.js'),'utf8').replace(/^const NEEDED_MSGS\s*=/m,'globalThis.NEEDED_MSGS='),{filename:'src/data/needed_msgs.js'});
+  const e=NEEDED_MSGS.list.find(x=>x.id==='fy_quiet'); H.fresh(keyOf(d),15,'library_hall',{}); STORY.neededAnswered(H.G,{ask:{grp:'need_'+d}},{need:'fy_quiet'});
+  check('6. 回那一則（STORY.neededAnswered）記 NEED_ANS_fy_quiet（batches 只留四批，舊的也查得到）',!!e&&H.G.flags.NEED_ANS_fy_quiet===H.G.day&&X().r1Known(H.G)); });
 H.done();
 })().catch(e=>{ console.error(e); process.exit(1); });

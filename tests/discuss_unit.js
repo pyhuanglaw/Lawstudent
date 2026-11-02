@@ -9,7 +9,7 @@ const fs=require('fs'), vm=require('vm'), path=require('path');
 const ROOT=path.resolve(__dirname,'..');
 global.window=global;
 const load=f=>{ let src=fs.readFileSync(path.join(ROOT,f),'utf8'); src=src.replace(/^const (\w+)\s*=/mg,(m,n)=>/^(CHARACTERS|UNFAMILIAR_POOL|SOCIAL_GRAPH|PORTRAITS|CALENDAR|PLACES|COURSES|SYLLABUS|CLS|INV|ACTIVITIES)$/.test(n)?'globalThis.'+n+'=':m); vm.runInThisContext(src,{filename:f}); };
-for(const f of ['src/data/characters.js','src/data/calendar.js','src/data/places.js','src/data/courses.js','src/data/syllabus.js','src/data/activities.js','src/invites3d.js','src/classes3d.js']) load(f);
+for(const f of ['src/data/characters.js','src/data/calendar.js','src/data/places.js','src/data/courses.js','src/data/exam_bank.js','src/data/syllabus.js','src/data/activities.js','src/invites3d.js','src/classes3d.js']) load(f);
 /* 這裡檢查討論課的流程：當作每一週都審查過（法律審查的閘門——沒審查的週不用 BB 的內容——在 tests/syllabus_unit.js 檢查）*/
 SYLLABUS.reviewed=[]; for(const id in SYLLABUS.courses) for(const w of SYLLABUS.courses[id]) SYLLABUS.reviewed.push(id+'|'+w.w);
 let fails=0; const check=(name,ok,info)=>{ console.log((ok?'PASS ':'FAIL ')+name+(info?'　'+info:'')); if(!ok) fails++; };
@@ -91,7 +91,7 @@ const attendAt=async(it,ans)=>{ G.day=it.day; G.hour=it.t0; said.length=0; chose
   fresh(); { const it=itemOf('Y1S1',14,'civ_general'); G.day=it.day+1; G.hour=7.5; INV.msg(G,null,'今天早上的訊息'); CLS.skipNotes(GM); const k=G.msgs.findIndex(m=>m.text===wantS);
     check('睡過那一天：隔天早上補進前一天那堂課的轉述（日期、時間是那堂課下課，排在今天早上的訊息前面）',k===0&&G.msgs[0].day===it.day&&G.msgs[1].text==='今天早上的訊息',JSON.stringify(G.msgs)); }
   /* 不發的：考試、服務學習、第二天的劇情課 */
-  fresh(); { const ex=itemOf('Y1S1',8,'civ_general'); G.day=ex.day; G.hour=ex.t1+1; CLS.skipNotes(GM); check('考試週：不發',!G.msgs.length&&!!ex.exam); }
+  fresh(); { const ex=itemOf('Y1S1',16,'civ_general'); G.day=ex.day; G.hour=ex.t1+1; CLS.skipNotes(GM); check('考試週（D118 起只有期末，第 16 週）：不發',!G.msgs.length&&!!ex.exam); }
   fresh(); { const sv=itemOf('Y1S1',4,'service_1'); G.day=sv.day; G.hour=sv.t1+1; const before=G.msgs.length; CLS.skipNotes(GM); check('服務學習：不發',!G.msgs.slice(before).some(m=>/服務/.test(m.text))&&!G.msgs.length||G.msgs.every(m=>!/服務學習/.test(m.text))); }
   fresh(); { const d2=CLS.dayItems(G,2).find(q=>q.c.id==='civ_general'); if(d2){ G.day=3; G.hour=8; CLS.skipNotes(GM); check('第二天的民總（劇情課）：隔天不發',!G.msgs.length); } else check('第二天的民總（劇情課）：那天沒有排課',true); }
   fresh(); { G.day=1; G.hour=21.5; const n1=CLS.dayItems(G,1).length; CLS.skipNotes(GM); const a1=G.msgs.length; G.day=2; G.hour=22; const n2=CLS.dayItems(G,2).length; CLS.skipNotes(GM); G.day=3; G.hour=7.5; CLS.skipNotes(GM);

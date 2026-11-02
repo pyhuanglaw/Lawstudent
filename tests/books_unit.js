@@ -39,6 +39,7 @@ if(typeof CLS.bookList!=='function'){ check('1. 有 CLS.bookList',false); consol
     const a=await run(true), b=await run(false); CLS.drawExam=orig;
     check('6. 期末考：有《憲法》的第一次選錯（A）可以再選一次＝第 1 題算對、之後照常；沒買的第 1 題就是錯的',a.res.correct===5&&b.res.correct===4,JSON.stringify({a:a.res,b:b.res}));
     const R1='（你想起課本上那一段。旁邊還有你自己畫的線。）';
-    check('6b. 再選一次那一刻：AA 的旁白「（你想起課本上那一段。旁邊還有你自己畫的線。）」一次（原本只有提示）；沒買書的沒有',a.said.filter(t=>t===R1).length===1&&!b.said.includes(R1),JSON.stringify({a:a.said.filter(t=>/課本/.test(t)),toasts:a.toasts})); }
+    check('6b. 再選一次那一刻：AA 的旁白「（你想起課本上那一段。旁邊還有你自己畫的線。）」一次（原本只有提示）；沒買書的沒有',a.said.filter(t=>t===R1).length===1&&!b.said.includes(R1),JSON.stringify({a:a.said.filter(t=>/課本/.test(t)),toasts:a.toasts}));
+    { const k=a.said.indexOf(R1); check('6c. 再選一次之前：題目再出現一次（BB 10:15 P3：「想起課本」第二次選的時候畫面上要看得到題目）',k>=0&&a.said[k+1]==='1／5　測試題',JSON.stringify(a.said.slice(k,k+2))); } }
   console.log(fails?'FAILED '+fails:'ALL PASS'); process.exit(fails?1:0);
 })().catch(e=>{ console.error(e); process.exit(1); });

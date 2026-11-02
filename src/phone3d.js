@@ -28,7 +28,7 @@ const PHONE=(function(){
   S.join=function(G,gid,name){ const P=S.rec(G); if(!P.groups[gid]) P.groups[gid]={name,day:G.day}; return P.groups[gid]; };
   S.inGroup=(G,gid)=>!!S.rec(G).groups[gid];
   S.title=function(G,th){ if(th.startsWith('g:')){ const g=S.rec(G).groups[th.slice(2)]; return g?g.name:th.slice(2); } if(th.startsWith('p:')) return nm(th.slice(2)); return '通知'; };
-  S.who=m=>m.from==='player'?'你':((m.from&&typeof SOCIAL!=='undefined'&&SOCIAL.datingName&&SOCIAL.datingName(m.from))||m.name||(m.from?nm(m.from):''));   /* 交往中：她的訊息顯示交往中的叫法（學姊＝「書瑀」，AA_313 6-5 第 8 點）*/
+  S.who=m=>m.from==='player'?'你':((m.from&&typeof SOCIAL!=='undefined'&&(SOCIAL.datingContact||SOCIAL.datingName)&&(SOCIAL.datingContact||SOCIAL.datingName)(m.from))||m.name||(m.from?nm(m.from):''));   /* 交往中：她的訊息顯示交往中的叫法（學姊＝「書瑀」，AA_313 6-5 第 8 點）*/
   const mk=(G,it,day,h)=>{ const hh=((h%24)+24)%24, dd=day+Math.floor(h/24); const th=it.th||(it.who?'p:'+it.who:'sys');
     const m={day:dd,h:+hh.toFixed(2),who:it.who!==undefined?it.who:(th.startsWith('p:')&&it.from!=='player'?th.slice(2):null),text:it.text,iv:null,th};
     if(it.from) m.from=it.from; if(it.name) m.name=it.name; if(it.pin) m.pin=true; if(it.tag) m.tag=it.tag; if(Array.isArray(it.fold)) m.fold=it.fold.slice();   /* fold：折起來的長訊息（手機上點開看全文；W3b）*/

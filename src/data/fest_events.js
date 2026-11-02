@@ -7,19 +7,25 @@
    - 學姊的禮物照 BB_122 3-7（企劃線 5788b1cb）單身以後那一欄，花那一句照 AA_416 第 7 節改；芷若 2029 白色情人節的明信片照 BB_124 第 1 節（企劃線 96847346）。
    - CG（第 1-9 節）：CG_REGISTRY 有登錄才放。芷若聖誕 cg_one_cup_heroine02（第 6 階以上）、沛珊白色情人節 cg_last_page_peishan（醉月湖那一版；台南運河那一版不放，BB-B 18:09）、
      子晴跨年 cg_savefile_heroine04（交往中）、可昕七夕改成高雄的山上＝新的一張 cg_our_car_kh_kexin（還沒畫；舊的政大後山 cg_our_car_kexin 不用，BB-B 18:09）。
+   - 芯慈（只有交往中）：AA_537b 第 5 節的五個節日（XINCI-EPI-FEST-1031；在第 9 節可昕後面，tests/xinci_fest_unit.js）。
    測試：node tests/aa416_fest_unit.js */
 'use strict';
 const FEST_DATA=(function(){
-  const AN='heroine_01', ZR='heroine_02', YT='heroine_03', ZQ='heroine_04', SIS='heroine_05', PS='classmate_peishan', KX='kexin';
+  const AN='heroine_01', ZR='heroine_02', YT='heroine_03', ZQ='heroine_04', SIS='heroine_05', PS='classmate_peishan', KX='kexin', XC='classmate_xinci';
   const S_=id=>t=>({speaker:id,text:t}), N=t=>({speaker:null,text:t});
-  const A=S_(AN), Z=S_(ZR), Y=S_(YT), Q=S_(ZQ), W=S_(SIS), P=S_(PS), K=S_(KX);
+  const A=S_(AN), Z=S_(ZR), Y=S_(YT), Q=S_(ZQ), W=S_(SIS), P=S_(PS), K=S_(KX), C=S_(XC);
   const yr=G=>typeof CALENDAR!=='undefined'&&CALENDAR.dateOf?CALENDAR.dateOf(G.day).y:null;
   const route=G=>typeof STORY!=='undefined'&&STORY.route?STORY.route(G):null;
   const hasCG=id=>typeof CG_REGISTRY!=='undefined'&&!!CG_REGISTRY[id];
   const F=(G,k)=>(G&&G.flags||{})[k];
   const cg=(id,extra)=>({if:{custom:G=>hasCG(id)&&(!extra||extra(G))},cg:id});
   const inY=(...ys)=>({custom:G=>ys.includes(yr(G))});
+  /* 芷若人在台中（presence：回台中那幾段，absentDates 的 home）。AA_550 第 4 節第 1 點（企劃線 2664ed6f1）：七夕去台中找她（背景 tc_cafe）換的那一句 */
+  const zrTc=G=>{ const p=typeof STORY!=='undefined'&&STORY.presence?STORY.presence(ZR,G):null; return !!p&&p.here===false&&p.kind==='home'&&/台中/.test(String(p.home||p.away||'')); };
+  const ZR_TC={custom:zrTc}, ZR_TC_QIXI='我在家裡的廚房試做了一杯特調。很甜。……想給你喝。';   /* aa550：這一句的出處是 AA_550，不是 AA_416（tests/aa416_fest_unit.js 第 0 節照 AA_550 對）*/
   const tainan=G=>yr(G)>=2028;   /* 沛珊 2027-08 放榜以後在台南：白色情人節 2028、2029 在運河邊 */
+  /* AA_204 1-4（企劃線 4618aed21，2026-10-17 AA-C）：大一聖誕群戲（ev_xmas_exchange，story3d.js 的 xmas_y1）她在場＝events.js 的 XMAS_HERE（玩家認識的人）*/
+  const inXmas=id=>G=>typeof XMAS_HERE==='function'&&XMAS_HERE(G).includes(id);
   /* 以安 2/14 那一年她送過東西（AA_414 1-1 太陽餅、1-2 御守、2029 補救那一場的紙袋）*/
   const anGave=G=>{ const y=yr(G); return (y===2026&&F(G,'AN_VDAY_Y1')==='went')||(y===2027&&F(G,'AN_VDAY_Y2')==='went')||(y===2029&&F(G,'AN_VDAY_Y4B')==='went'); };
   const NAMES={vday:'情人節',white:'白色情人節',qixi:'七夕',bday:'生日',xmas:'聖誕節',nye:'跨年'};
@@ -44,7 +50,12 @@ const FEST_DATA=(function(){
           dt:[{unless:inY(2027),speaker:AN,text:'今天的行程是你排的？……好。今天我不挑錯。'},{if:inY(2027),speaker:AN,text:'晚上大家要幫我過。……中午這一頓，只有你知道。'}],
           vid:{years:[2028],route:'US',lines:[A('你那邊是早上吧。我這邊快睡了。'),A('……生日還剩三個小時。你剛好趕上。')]}},   /* 臺灣 21:00＝美國 09:00 */
         xmas:{s6:[A('聖誕節。……我手帳上這一天本來是空的。'),A('現在不是了。')],
-          dt:[N('（她遞過來一張卡片）'),A('字很少。回去再看。'),N('（卡片上只有一行：「明年也一起過。——以安」）')]} },
+          dt:[N('（她遞過來一張卡片）'),A('字很少。回去再看。'),N('（卡片上只有一行：「明年也一起過。——以安」）')],
+          /* grp：大一 2025-12-24 的晚上場＝麵店的交換禮物群戲＋散場以後兩個人的那一段（AA_204 1-4，台詞照稿不改字；取代上面 s6／dt 那幾句，其餘照 AA_416：好感、記憶、送禮）。
+             q＝接在哪一趟出遊後面（OUT.AFTER）、ev＝那一場群戲、here＝她在群戲裡、end＝演完的時間（兩個人走溫州街回學校，到 21:30）。fest3d.js S.grpAfter */
+          grp:{years:[2025],q:'xmas_y1',ev:'ev_xmas_exchange',end:21.5,here:inXmas(AN),
+            s6:[N('（大家在麵店門口散了。以安沒有往女舍的方向走。）'),A('剛剛那個是抽的。'),A('我另外有帶一個。走一段再給你。')],
+            dt:[N('（大家在麵店門口散了。以安從包包裡拿出一個小盒子。）'),A('這個不是抽的。'),A('鋼筆。申論題寫比較快。')]}} },
       ask:{lines:['明天是情人節。','晚上六點半，總圖門口。……你不要排別的。'],no:['好。那我讀書。'],h:18.5,place:'總圖門口',bg:'library_gate_night',
         by:{vday:['明天是情人節。','晚上六點半，總圖門口。……你不要排別的。'],white:['明天是白色情人節。','晚上六點半，總圖門口。手帳上這一格，我先寫了。'],qixi:['明天是七夕。','晚上六點半，總圖門口。農曆的日子，我查了兩次。'],
           xmas:['明天是聖誕節。','晚上六點半，總圖門口。……穿暖一點。']}},   /* AA_460 4-2（企劃線 b9362f474）：照節日換整組（原本只換第一句的節日名、第二句每次一樣）。生日那一列當作沒有（AA_460 第 9 節，企劃線 cb5caad65）：fest3d.js 的她約（herAsks）只跑情人節、白色情人節、七夕、聖誕（S.HER_K），生日不是她約 */
@@ -62,9 +73,10 @@ const FEST_DATA=(function(){
           vid:{years:[2029],lines:[Z('這裡下午一點。外面在下雨。'),Z('……倫敦的情人節也在下雨。')]}},   /* 倫敦 13:00＝臺灣 21:00 */
         white:{s6:[Z('白色情人節要回禮。……我回你一杯不在菜單上的。')],dt:[Z('今天的拉花，我練了一個月。……不要拍。')],
           card:{years:[2029]}},   /* 2029（她在英國）：明信片＋當晚 21:00 私訊（src/fest3d.js S.card）*/
-        qixi:{s6:[Z('七夕我們店有一款特調。很甜。我不喝，可是想做給你。')],
+        qixi:{s6:[{if:ZR_TC,speaker:ZR,text:ZR_TC_QIXI,aa550:true},{unless:ZR_TC,speaker:ZR,text:'七夕我們店有一款特調。很甜。我不喝，可是想做給你。'}],   /* AA_550 第 4 節第 1 點（ZR-SUMMER-LINES-1031）：她人在台中（2026 七夕 8/19，大一暑假回台中）＝換這一句 */
           dt:[{if:inY(2028),speaker:ZR,text:'下個月我就走了。今天的特調還沒取名。'},{if:inY(2028),speaker:ZR,text:'……你取。'},
-            {unless:inY(2028),speaker:ZR,text:'七夕我們店有一款特調。很甜。我不喝，可是想做給你。'}]},   /* 交往中那一格只寫了 2028（她九月出發）；其他年份照第 6 階 */
+            {if:{custom:G=>yr(G)!==2028&&zrTc(G)},speaker:ZR,text:ZR_TC_QIXI,aa550:true},
+            {if:{custom:G=>yr(G)!==2028&&!zrTc(G)},speaker:ZR,text:'七夕我們店有一款特調。很甜。我不喝，可是想做給你。'}]},   /* 交往中那一格只寫了 2028（她九月出發）；其他年份照第 6 階（在台中那一年也一樣換）*/
         bday:{years:[2025,2026],s6:[Z('你怎麼知道？……我沒有跟店裡的人說。'),Z('生日我都一個人看一部電影。今年兩個人。')],abroadDedicated:true},   /* 英國：ev_zhiruo_bday_video */
         xmas:{years:[2025,2026],venue:'cafe',abroadDedicated:true,   /* 英國：ev_zhiruo_xmas_video */
           s5:[Z('聖誕夜我有班。……打烊以後，你可以來。'),N('（打烊後，她做了兩杯，一杯給自己。）')],
@@ -89,7 +101,16 @@ const FEST_DATA=(function(){
         bday:{venue:'noodle',s6:[Y('……你怎麼知道。'),Y('阿姨說的？……嗯。'),Y('今天麵店。你來就好。')],dt:[Y('今天阿姨煮了豬腳麵線。……多一碗。你的。')],
           vid:{years:[2028],route:'JP',lines:[Y('麵店今天好吵。阿姨在後面煮麵線。'),Y('……你那邊幾點？')]}},   /* 臺灣 21:00＝日本 22:00 */
         xmas:{venueBy:{s6:'noodle'},s6:[Y('聖誕節麵店照常。……打烊以後，你要不要來剝蒜頭。')],
-          dt:[Y('今天打烊早。阿姨說，聖誕節要給年輕人。'),{if:inY(2025,2026,2028),speaker:YT,text:'交換禮物我抽到一條圍巾。……我換給你了。阿哲不知道。'}]} },   /* 有麵店團交換禮物的年份多一句 */
+          dt:[Y('今天打烊早。阿姨說，聖誕節要給年輕人。'),{if:inY(2025,2026,2028),speaker:YT,text:'交換禮物我抽到一條圍巾。……我換給你了。阿哲不知道。'}],   /* 有麵店團交換禮物的年份多一句 */
+          /* grp：大一群戲散場以後（AA_204 1-4，同以安那一格）。單身：「好。」＝打烊後剝蒜頭（不另外演對話）到 21:30；「今天不行。」＝「嗯，沒關係。」這一場結束
+             （no：選了這個＝不扣分、不給節日好感、不記節日記憶、不送禮，FEST 的 done 記 declined）。YT_XMAS_GARLIC_Y1：'yes'／'no' */
+          grp:{years:[2025],q:'xmas_y1',ev:'ev_xmas_exchange',end:21.5,here:inXmas(YT),no:{flag:'YT_XMAS_GARLIC_Y1',is:'no'},
+            s6:[N('（大家走了以後，語彤還沒走。阿姨在櫃台後面喊她。）'),Y('阿姨說明天要用的蒜頭還沒剝。'),Y('打烊以後，你要不要來幫忙。'),
+              {choice:[{text:'「好。」',set:{YT_XMAS_GARLIC_Y1:'yes'},goto:'g_yes'},{text:'「今天不行。」',set:{YT_XMAS_GARLIC_Y1:'no'},goto:'g_no'}]},
+              {label:'g_yes'},N('（剝到九點半，手上都是蒜味。）'),{goto:'g_end'},
+              {label:'g_no'},Y('嗯，沒關係。'),
+              {label:'g_end'}],
+            dt:[N('（大家走了以後，語彤從櫃台底下拿出一個紙袋。）'),Y('給你。圍巾。'),Y('你騎車脖子都露在外面。')]}} },
       ask:{lines:['明天晚上有空嗎','麵店門口 六點半'],by:{vday:['明天情人節 晚上有空嗎','麵店門口 六點半'],white:['明天三月十四 有空嗎','麵店門口 六點半 今天我不顧店'],qixi:['明天七夕 晚上有空嗎','麵店門口 六點半'],bday:['明天我生日','麵店門口 六點半 不要帶東西'],xmas:['明天聖誕節 店裡早關','麵店門口 六點半']},no:['嗯。'],h:18.5,place:'麵店門口',bg:'noodle_table'},
       gifts:[ {id:'hairtie',name:'一條髮圈',price:120,ok:true,lines:[Y('……舊的那條鬆了。你有看到。')]},
         {id:'umbrella',name:'一把新的傘',price:350,ok:true,lines:[Y('……我有傘。'),Y('……可是這把我會用。')]},
@@ -171,10 +192,30 @@ const FEST_DATA=(function(){
         bday:{dedicated:{dt:[2026,2027,2028,2029]}},
         xmas:{years:[2025],dedicated:{dt:[2026,2027,2028]},dt:[K('聖誕節。……我從山上下來了。你要請客。')],taipei:[2025]} },   /* 2025：她從政大下來（寒假的高雄還沒開始那一版）*/
       ask:{lines:['明天晚上六點半 公館','你敢遲到試試看'],by:{vday:['明天情人節 晚上六點半 公館','你敢遲到試試看'],white:['明天三月十四 晚上六點半 公館','回禮我準備好了'],qixi:['明天七夕 晚上六點半 公館','我訂位了'],bday:['明天我生日 晚上六點半 公館','你敢忘記試試看'],xmas:['明天聖誕節 晚上六點半 公館','這次我先到']},no:['好。……你記得你欠我一次。'],h:18.5,place:'公館',bg:'gongguan'},
-      home:{city:'高雄',bg:'kh_sizihwan'} } };
+      home:{city:'高雄',bg:'kh_sizihwan'} },
+    /* ---------------- 吳芯慈（只有交往中）：AA_537b 第 5 節（企劃線 b3df9c4e9）；AA_548 第 9 節（d145b889a）「交往中的五個節日：照 AA_537b 第 5 節，句子不改」——XINCI-EPI-FEST-1031 後半 ----------------
+       台詞一字照稿（tests/xinci_fest_unit.js 對稿）。稿沒寫清楚的地方用最保守的技術預設（照其他人「交往中」那一格的流程），寫在每一格旁邊，回報 AA：
+       - 她的生日 3/28、聖誕：跟其他人的生日、聖誕一樣＝玩家約（邀約選單「約她過節」→ 中午場／晚上場 → 地點），到了先演這一格（dt）。她沒有禮物表（稿沒有四樣禮物）＝不跳禮物選單、不扣錢；
+         生日那一格的旁白本身就是她收到禮物。聖誕「她約」稿沒寫＝她不先約（ask.only 只有情人節）。
+       - 情人節：「我不太會過這種節。……可是我提前一天約你了。」＝她前一天 21:00 約你的那一則私訊（她「吃飯要提前一天約」，同 termend_lines.js GF 的「明天晚上吃飯。……我提前一天約了。」）；
+         回「好。」＝隔天 18:00 巷口家常菜（她常去的地方、時間照期末飯 GF：l118_home 18:00；118 巷的店沒有 2D 底圖＝深色底＋地點字幕）。
+         見面那一場稿沒有台詞＝只演地點字幕（dt 空的；好感、記憶 HOL_VDAY_<年> 照記）。玩家不另外約她過情人節（herOnly：稿寫她提前一天約）。
+       - 跨年、你的生日：只有訊息（P.dm；fest3d.js S.dmRule）。跨年 23:58、00:01 兩則；你的生日 00:00 一則——祐廷的生日是人物設定、留給使用者（AA_384 第 4 項），
+         還沒定＝FEST_DATA.PLAYER_BDAY null＝這一則先不發（定了填 'MM-DD' 就會發）。
+       - 線開關：XCROM.ON 關著＝都沒有（on）。 */
+    [XC]:{ datingOnly:true, on:G=>typeof XCROM==='undefined'||!!XCROM.ON,
+      fest:{
+        vday:{herOnly:true,dt:[]},   /* 見面那一場稿沒有台詞（只演地點字幕）；台詞是前一天她約你的那一則（ask）*/
+        bday:{dt:[N('（她收到禮物，拆得很慢，包裝紙摺好才放進包包。）'),C('我會留著。包裝紙也是。')]},
+        xmas:{dt:[C('今年是十三部。最後一部，我想跟你一起看。')]} },   /* 大一上她送筆記本那段（events.js ev_xmas_exchange「十二部。看完跟我說。」）照舊，這裡不動 */
+      ask:{only:['vday'],lines:['我不太會過這種節。……可是我提前一天約你了。'],no:[],h:18,place:'巷口家常菜',bg:'dark'},   /* only：她只先約情人節（稿只寫情人節「提前一天約」）；回「那天不行。」稿沒有她的回話＝不回 */
+      dm:{ nye:[{h:23+58/60,lines:['我在家。我媽在看晚會。']},{h:24+1/60,lines:['新年快樂。這是今年第一則。']}],   /* 12/31 23:58、1/1 00:01（24 以上＝隔天凌晨，PHONE.at）*/
+        myBday:[{h:0,lines:['生日快樂。我設了鬧鐘。……我本來就醒著，鬧鐘是保險。']}] } } };   /* 你的生日 00:00（PLAYER_BDAY）*/
   return {NAMES,PEOPLE:P_,
     QIXI:{2026:'2026-08-19',2027:'2027-08-08',2028:'2028-08-26',2029:'2029-08-16'},
-    BDAY:{[AN]:'09-15',[ZR]:'09-28',[YT]:'07-09',[ZQ]:'02-10',[SIS]:'06-02',[PS]:'03-15',[KX]:'04-24'},
+    BDAY:{[AN]:'09-15',[ZR]:'09-28',[YT]:'07-09',[ZQ]:'02-10',[SIS]:'06-02',[PS]:'03-15',[KX]:'04-24',[XC]:'03-28'},   /* 芯慈 3/28（msg2_pool.js、AA_537b 第 5 節）*/
+    /* 祐廷的生日（'MM-DD'）：人物設定、留給使用者（AA_384 第 4 項：「祐廷的生日是人物設定，留給使用者，AA 不定」）——還沒定＝null，芯慈 00:00 那一則（dm.myBday）先不發 */
+    PLAYER_BDAY:null,
     /* 第 6 階以上 1-3：三個情人節＝第 6 階或交往中；生日、聖誕（子晴的跨年同）＝第 5 階以上 */
     MIN:{vday:6,white:6,qixi:6,bday:5,xmas:5,nye:5},
     /* 好感 1-7（不受每天上限）*/
@@ -183,7 +224,7 @@ const FEST_DATA=(function(){
     CITY:{台中:'D26',台南:'D28',高雄:'D29'} };
 })();
 /* 每個人一個出遊事件（OUT 的 trigger 'outing'）：台詞照 src/fest3d.js 排好的那一場（beforeOuting 記下這一趟，call 那一行演）*/
-const FEST_EVENTS=['heroine_01','heroine_02','heroine_03','heroine_04','heroine_05','classmate_peishan','kexin'].map(id=>{
+const FEST_EVENTS=['heroine_01','heroine_02','heroine_03','heroine_04','heroine_05','classmate_peishan','kexin','classmate_xinci'].map(id=>{   /* 芯慈：情人節她約的那一場（XINCI-EPI-FEST-1031）*/
   const X=()=>typeof FEST!=='undefined'?FEST:null;
   return { id:'ev_fest_'+id, participants:[id], location:'any', trigger:'outing', background:'dark',
     get title(){ const x=X(), q=x&&x._q; return q&&q.fest?x.name(q.fest.k):'節日'; },

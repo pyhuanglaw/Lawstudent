@@ -21,8 +21,8 @@ const has=(G,term,id)=>CLS.termCourses(G,term).some(c=>c.id===id);
 (async()=>{
   // ---------- 1. 資料（2026-10-14 課程調整，使用者 16:15，AA_130：法律與社會（下）、公平交易法刪掉，勞動法固定）----------
   { const gs=t=>(CLS.choiceGroups?CLS.choiceGroups(t):[]).map(g=>g.group+':'+g.opts.map(c=>c.id).join('|')+(g.none?'|none':'')+'＞'+g.def);
-    check('選修群組：只剩大四上的勞動社會法／財稅法、刑事／公法判決研討各二選一；大一下、大三下和其他學期都沒有',
-      gs('Y4S1').length===2&&['Y1S1','Y1S2','Y2S1','Y2S2','Y3S1','Y3S2','Y4S2','Y0S1','Y0S2'].every(t=>!gs(t).length),JSON.stringify(['Y1S2','Y3S2','Y4S1'].map(gs))); }
+    check('選修群組：大四上的勞動社會法／財稅法、刑事／公法判決研討各二選一；大四下海商法可以不修（D124，預設修）；大一下、大三下和其他學期都沒有',
+      gs('Y4S1').length===2&&JSON.stringify(gs('Y4S2'))===JSON.stringify(['y4s2_mar:maritime|none＞maritime'])&&['Y1S1','Y1S2','Y2S1','Y2S2','Y3S1','Y3S2','Y0S1','Y0S2'].every(t=>!gs(t).length),JSON.stringify(['Y1S2','Y3S2','Y4S1','Y4S2'].map(gs))); }
   // ---------- 2. 大一下：開學前一天（2026-02-22 週日）早上——沒有選修，選課結果照樣播（通識那兩句），沒有「要不要修」 ----------
   const SUN=dayOf('2026-02-22'), TUE=dayOf('2026-02-24');
   { const G=mkG(SUN,7.5), GM=mkGM(G,[1]); await CLS.morning(GM);

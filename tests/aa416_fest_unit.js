@@ -25,6 +25,9 @@ const git=(sha,f)=>{ try{ return cp.execSync('git show '+sha+':"docs/story_plann
 const doc=git('2af5f4899','AA_416_節日總規格_三個情人節生日聖誕_七位.md')   /* 2af5f4899：第 11 節（10-23 19:2x）學姊禮物價錢、送花那一句 */, doc122=git('5788b1cb4','BB_122_溫學姊戀愛線v2_分手前後與重新開始.md'), doc124=git('968473469','BB_124_節日開車約會與健身_BB人物.md');
 let doc523=''; try{ doc523=cp.execSync('git show bfede0a62:"docs/story_planning/AA_523_學姊第十六批_回臺灣以後的最後半年.md"',{cwd:process.env.AA523_DOCREPO||H.ROOT,encoding:'utf8'}); }catch(e){ doc523=''; }
 const row614=(doc523.split('\n').find(l=>l.startsWith('| 6-14 |'))||'');   /* AA_523 第 6 節 6-14 那一列 */
+/* 2026-10-31 AA_550 第 4 節（企劃線 2664ed6f1，ZR-SUMMER-LINES-1031）：芷若 2026 七夕在台中換的那一句（資料標 aa550）——對 AA_550 第 4 節第 1 點 */
+let doc550=''; for(const r of ['2664ed6f1','origin/claude/story-planning']){ try{ doc550=cp.execSync('git show '+r+':"docs/story_planning/AA_550_假期人物不在臺北_跨年訊息_大三大四房間旁白順序.md"',{cwd:H.ROOT,encoding:'utf8',stdio:['ignore','pipe','ignore']}); if(doc550) break; }catch(e){ doc550=''; } }
+const sec550=(doc550.split('## 4.')[1]||'');
 const norm=t=>String(t).replace(/^（/,'').replace(/）$/,'').replace(/[。：]$/,'');   /* 稿裡沒有括號的動作描寫：演成旁白、加（）*/
 const inDoc=(t,d)=>(d||doc).indexOf(t)>=0||(d||doc).indexOf(norm(t))>=0;
 const J=JSON.stringify, AN='heroine_01', ZR='heroine_02', YT='heroine_03', ZQ='heroine_04', SIS='heroine_05', PS='classmate_peishan', KX='kexin', ALL=[AN,ZR,YT,ZQ,SIS,PS,KX];
@@ -52,7 +55,7 @@ const REG=o=>{ global.CG_REGISTRY=o||{}; };
 (async()=>{
   /* ======================= 0 讀稿、接線 ======================= */
   check('0. 讀稿（企劃線 ed80edb71 AA_416：沛珊 3/14 只放映月湖那一版；BB_122 3-7；BB_124 第 1 節明信片）',doc.length>5000&&inDoc('台南的年份不放（BB-B 18:09）')&&doc122.indexOf('### 3-7.')>=0&&doc124.indexOf('這裡沒有白色情人節。所以我畫了一杯。')>=0);
-  check('0. 新檔載得到：FEST、FEST_DATA、FEST_EVENTS（七位各一個出遊事件 ev_fest_<人物>）',ok1&&ok2&&!!X()&&FEST_EVENTS.length===7&&ALL.every(id=>!!ev('ev_fest_'+id)&&ev('ev_fest_'+id).trigger==='outing'),err);
+  check('0. 新檔載得到：FEST、FEST_DATA、FEST_EVENTS（七位各一個出遊事件 ev_fest_<人物>；2026-11-01 多芯慈交往中情人節她約的那一場＝8 個，XINCI-EPI-FEST-1031、tests/xinci_fest_unit.js）',ok1&&ok2&&!!X()&&FEST_EVENTS.length===8&&!!ev('ev_fest_classmate_xinci')&&ALL.every(id=>!!ev('ev_fest_'+id)&&ev('ev_fest_'+id).trigger==='outing'),err);
   if(!X()){ H.done(); return; }
   await sec('0',async()=>{
   { const html=fs.readFileSync(path.join(H.ROOT,'index.html'),'utf8');
@@ -61,7 +64,7 @@ const REG=o=>{ global.CG_REGISTRY=o||{}; };
   { const ML=SOCIAL.MEMORY_LABEL||{}; check('0. 人物頁記憶 HOL_<節日>_<年>（1-7：「<年> 的情人節，和她一起過」照節日換字）',ML.HOL_VDAY_2027==='2027 的情人節，和她一起過'&&ML.HOL_WHITE_2026==='2026 的白色情人節，和她一起過'&&ML.HOL_QIXI_2028==='2028 的七夕，和她一起過'&&ML.HOL_BDAY_2026==='2026 的生日，和她一起過'&&ML.HOL_XMAS_2025==='2025 的聖誕節，和她一起過'&&ML.HOL_NYE_2026==='2026 的跨年，和她一起過'&&inDoc('「<年> 的情人節，和她一起過」')); }
   { const bad=[], normed=[]; const T=(t,d)=>{ if(typeof t!=='string') return; if((d||doc).indexOf(t)>=0) return; if(inDoc(t,d)){ normed.push(t); return; } bad.push(t); };
     const T523=t=>{ const q=(/「[^」]+」/.exec(t)||[''])[0]; if(!(q&&row614.includes(q)&&doc.indexOf(t.replace(q,'「明年也要。」'))>=0)) bad.push('（AA_523 6-14）'+t); };
-    const lines=(L,d)=>{ for(const l of (L||[])){ if(l.aa523){ T523(l.text); continue; } if(l.text!==undefined) T(l.text,d); if(l.scene!==undefined) T(l.scene,d); for(const c of (l.choice||[])) T(c.text,d); } };
+    const lines=(L,d)=>{ for(const l of (L||[])){ if(l.aa523){ T523(l.text); continue; } if(l.aa550){ if(sec550.indexOf('> 芷若：'+l.text)<0) bad.push('（AA_550 第 4 節）'+l.text); continue; } if(l.text!==undefined) T(l.text,d); if(l.scene!==undefined) T(l.scene,d); for(const c of (l.choice||[])) T(c.text,d); } };
     for(const id of ALL){ const P=FEST_DATA.PEOPLE[id];
       for(const k in P.fest){ const c=P.fest[k]; for(const v of ['s5','s6','dt']) lines(c[v]); if(c.vid) lines(c.vid.lines); if(c.noonDm) c.noonDm.forEach(t=>T(t)); }
       if(P.ask){ (P.ask.lines||[]).forEach(t=>T(t)); (P.ask.homeLines||[]).forEach(t=>T(t)); (P.ask.no||[]).forEach(t=>T(t)); T(P.ask.place); }
@@ -107,8 +110,8 @@ const REG=o=>{ global.CG_REGISTRY=o||{}; };
     check('1b. 可昕沒有交往：不列',!a,J(a)); }
   { setup('2026-03-13',10,{lv:{[AN]:4}}); const a=x.flowOpt(H.G,AN,null,false);
     check('1b. 關係階段還不到（以安第 4 階）照 1-3：照列、選了她婉拒（下一項）',!!a&&a.t==='約她過節：白色情人節'&&!a.dim,J(a)); }
-  { setup('2026-03-13',10,{lv:{[AN]:4}}); const {r,L}=await ask(AN,[]); const want=okR&&accRows(AN,6).length?'「那天我排了讀書會。不是藉口，是真的排了。」':null;
-    check('1. 第 4 階約節日：婉拒（AA_415 標「節日」的婉拒句，以安：「那天我排了讀書會。不是藉口，是真的排了。」）、沒有排',r===null&&!x.rec(H.G).bk.length&&(!want||L.includes(want)),J(L)); }
+  { setup('2026-03-13',10,{lv:{[AN]:4}}); const {r,L}=await ask(AN,[]); const want=okR&&accRows(AN,6).length?'「那天有讀書會，很早就排了。」':null;
+    check('1. 第 4 階約節日：婉拒（AA_415 標「節日」的婉拒句，以安：「那天有讀書會，很早就排了。」）、沒有排',r===null&&!x.rec(H.G).bk.length&&(!want||L.includes(want)),J(L)); }
   });
 
   /* ======================= 2 一天最多兩場 ======================= */
@@ -141,7 +144,7 @@ const REG=o=>{ global.CG_REGISTRY=o||{}; };
   { setup('2026-03-13',20,{lv:{[AN]:'dt'}}); rules(); const pre=dms(AN).length; at('2026-03-13',21.05); rules(); const m=PHONE.byAsk(H.G,'fest_ask_heroine_01_white_2026');
     check('3. 她約（交往中）：前一天 21:00「明天是白色情人節。」「晚上六點半，總圖門口。手帳上這一格，我先寫了。」（AA_460 4-2 照節日換整組）；回覆「好。」「那天不行。」',pre===0&&J(dms(AN))===J(['明天是白色情人節。','晚上六點半，總圖門口。手帳上這一格，我先寫了。'])&&!!m&&J(m.ask.opts.map(o=>o.t))===J(['好。','那天不行。']),J(dms(AN)));
     PHONE.answer(H.G,'fest_ask_heroine_01_white_2026',0); rules(); const q=OUT.get(H.G,'fest_heroine_01_white_2026'); at('2026-03-14',18.1); const r0=relOf(AN); const g=await goOut(q.id);
-    check('3. 「好。」＝出遊 3/14 18:30 總圖門口（library_gate_night），到了演交往中那一段',!!q&&q.h===18.5&&q.place==='總圖門口'&&img(H.bgs.find(b=>b&&b.image))==='library_gate_night'&&g.L.includes('白色情人節。……我們都沒送東西。')&&dRel(AN,r0)===J({fam:3,comf:6,npcRom:5})&&H.G.hour===20.5,J({q,L:g.L,h:H.G.hour}));
+    check('3. 「好。」＝出遊 3/14 18:30 總圖門口（library_gate_night，圖是第 110b 組的 ntu_library_night），到了演交往中那一段',!!q&&q.h===18.5&&q.place==='總圖門口'&&img(H.bgs.find(b=>b&&b.image))==='ntu_library_night'&&g.L.includes('白色情人節。……我們都沒送東西。')&&dRel(AN,r0)===J({fam:3,comf:6,npcRom:5})&&H.G.hour===20.5,J({q,L:g.L,h:H.G.hour}));
     setup('2026-03-13',21.05,{lv:{[AN]:'dt'}}); rules(); PHONE.answer(H.G,'fest_ask_heroine_01_white_2026',1); rules();
     check('3. 「那天不行。」→「好。那我讀書。」、不排',dms(AN).slice(-1)[0]==='好。那我讀書。'&&!OUT.get(H.G,'fest_heroine_01_white_2026'));
     setup('2026-03-13',20,{lv:{[AN]:'dt',[ZQ]:6}}); await ask(AN,[0,0]); at('2026-03-13',21.05); rules(); check('3. 玩家前一天 21:00 以前已經約了她：她不約',!PHONE.byAsk(H.G,'fest_ask_heroine_01_white_2026')); }

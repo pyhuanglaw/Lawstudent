@@ -5,7 +5,7 @@
 // 檢查（從 src/game3d.js 抽出 backupKeys／backupList／backupBeforeNew 原樣執行，假的 localStorage；按鈕、存檔頁看字串）：
 //   1. 有自動存檔＋快速存檔：各備份一份、標籤寫明、原本的兩格不動
 //   2. 再按一次（同一份存檔）：不重複備份
-//   3. 最多 3 份：超過刪實際玩得最少（演過的事件數、步數）的；同一個開局狀態只留一份；經濟系序章不會因為 day 小先被刪（BB-B 10-30）
+//   3. 最多 1 份（BUG-SAVE-QUOTA-1102，原本 3 份）：先刪沒玩過的（0 件 0 步），再刪舊的＝留最近一次有實際進度的；剛開局連按開新遊戲擠不掉真正的進度
 //   4. 備份寫不進去：問玩家（confirm），不要就不開新遊戲
 //   5. 沒有存檔：不備份、照常開新遊戲
 //   6. 三個開新遊戲按鈕都先 backupBeforeNew（不要就 return）再 newGameAbort
@@ -15,7 +15,7 @@ const fs=require('fs'), vm=require('vm'), path=require('path');
 const ROOT=path.resolve(__dirname,'..');
 const SRC=fs.readFileSync(process.argv[2]||path.join(ROOT,'src/game3d.js'),'utf8');
 let fails=0; const check=(name,ok,info)=>{ console.log((ok?'PASS ':'FAIL ')+name+(info?'　'+info:'')); if(!ok) fails++; };
-const blk=SRC.match(/\n  const NEW_KEEP=3, KEY_NEWBK=[\s\S]*?\n  GM\.backupBeforeNew=backupBeforeNew; GM\.backupList=backupList;\n/);
+const blk=SRC.match(/\n  const NEW_KEEP=1, KEY_NEWBK=[\s\S]*?\n  GM\.backupBeforeNew=backupBeforeNew; GM\.backupList=backupList;\n/);
 check('0. 抽得到 backupKeys、backupList、backupBeforeNew',!!blk);
 if(fails){ console.log('FAILED '+fails); process.exit(1); }
 // 假的 localStorage
@@ -31,20 +31,20 @@ const put=(k,o)=>st.setItem(k,JSON.stringify(o)), get=k=>JSON.parse(st.getItem(k
 // 1.
 put('fatiao3d_auto',{day:120,hour:14.5,name:'祐廷',zone:'campus',savedAt:1000,events:{count:40}}); put('fatiao3d_quick',{day:119,hour:9,name:'祐廷',zone:'dorm',savedAt:900,events:{count:39}});
 let r=ctx.backupBeforeNew();
-check('1. 有自動存檔＋快速存檔：各備份一份（fatiao3d_backup_new_<savedAt>）、標籤寫明、原本兩格不動',r===true&&newKeys().length===2&&get('fatiao3d_backup_new_1000').day===120&&/自動存檔（開新遊戲前）/.test(get('fatiao3d_backup_new_1000').backupLabel)&&/快速存檔（開新遊戲前）/.test(get('fatiao3d_backup_new_900').backupLabel)&&get('fatiao3d_auto').day===120&&get('fatiao3d_quick').day===119,JSON.stringify(newKeys()));
+check('1. 有自動存檔＋快速存檔：都寫過備份、只留一份＝比較新的自動存檔（savedAt 1000）、標籤寫明、原本兩格不動（BUG-SAVE-QUOTA-1102：最多 1 份）',r===true&&newKeys().length===1&&get('fatiao3d_backup_new_1000').day===120&&/自動存檔（開新遊戲前）/.test(get('fatiao3d_backup_new_1000').backupLabel)&&get('fatiao3d_auto').day===120&&get('fatiao3d_quick').day===119,JSON.stringify(newKeys()));
 // 2.
 r=ctx.backupBeforeNew();
-check('2. 同一份存檔再按一次：不重複備份',r===true&&newKeys().length===2,JSON.stringify(newKeys()));
+check('2. 同一份存檔再按一次：不重複備份',r===true&&newKeys().length===1&&newKeys()[0]==='fatiao3d_backup_new_1000',JSON.stringify(newKeys()));
 // 3. 開新遊戲以後玩了一下（第一天），連按幾次開新遊戲
 put('fatiao3d_quick',{day:1,savedAt:2000}); st.removeItem('fatiao3d_quick');
 for(const [d,t,c] of [[1,3000,0],[1,4000,0],[2,5000,1]]){ put('fatiao3d_auto',{day:d,hour:21,savedAt:t,events:{count:c}}); ctx.backupBeforeNew(); }
 const kept=newKeys().map(k=>get(k).day);
-check('3. 最多 3 份：連按開新遊戲擠掉的是實際玩得最少的（演過的事件數），day 120、119 那兩份留著；同一個開局狀態（day 1 21:00、0 件）只留一份',newKeys().length===3&&kept.includes(120)&&kept.includes(119)&&kept.includes(2)&&kept.filter(x=>x===1).length===0,JSON.stringify(newKeys().map(k=>[k.slice(21),get(k).day])));
+check('3. 最多 1 份：剛開局（0 件）連按開新遊戲不會擠掉有進度的；之後玩了 1 件的第 2 天（比較新、有進度）換掉舊的',newKeys().length===1&&kept[0]===2,JSON.stringify(newKeys().map(k=>[k,get(k).day])));
 /* BB-B 10-30：經濟系序章（day 很小、但玩了很多）不能因為 day 小就先被刪 */
 st=mkStore(); put('fatiao3d_auto',{day:-380,hour:21,stage:'econ',savedAt:100,events:{count:20}}); ctx.backupBeforeNew();
 for(const t of [200,300,400]){ put('fatiao3d_auto',{day:-25,hour:8.5,stage:'law',savedAt:t,events:{count:0}}); ctx.backupBeforeNew(); }
 put('fatiao3d_auto',{day:9,hour:20,stage:'law',savedAt:500,events:{count:12}}); ctx.backupBeforeNew();
-{ const ks=newKeys().map(k=>get(k)); check('3. 經濟系玩了 20 件那一份留著；剛開局（day −25、0 件）連按三次只留一份；第 9 天那份留著',ks.length===3&&ks.some(b=>b.day===-380)&&ks.filter(b=>b.day===-25).length===1&&ks.some(b=>b.day===9),JSON.stringify(ks.map(b=>[b.day,b.events.count]))); }
+{ const ks=newKeys().map(k=>get(k)); check('3. 經濟系玩了 20 件那一份：剛開局（day −25、0 件）連按三次都擠不掉；之後法律系第 9 天（12 件，比較新）換掉它',ks.length===1&&ks[0].day===9,JSON.stringify(ks.map(b=>[b.day,b.events&&b.events.count]))); }
 // 4.
 st.full=true; put; asked=[]; answer=false; st.full=false; put('fatiao3d_auto',{day:200,savedAt:9000}); st.full=true;
 r=ctx.backupBeforeNew();
@@ -62,5 +62,5 @@ check('5. backupList：全部 fatiao3d_backup*（不含自動存檔、壞掉的�
 const btns=['btnNew','btnNewLaw','btnNewEcon'].map(id=>new RegExp("\\$\\('"+id+"'\\)\\.onclick=async\\(\\)=>\\{ A3\\.start\\(\\); await waitChars\\(\\); if\\(!backupBeforeNew\\(\\)\\) return; if\\(G\\) newGameAbort\\(\\);").test(SRC));
 check('6. 三個開新遊戲按鈕都先 backupBeforeNew（不要就 return）再 newGameAbort',btns.every(Boolean),JSON.stringify(btns));
 // 7.
-check('7. 存檔頁：#saveBackups 一區列出 backupList()，只有讀取（mk 的 onSave 是 null）',/bx\.id='saveBackups'/.test(SRC)&&/const L=backupList\(\);/.test(SRC)&&/mk\('備份：'\+[^;]*,b,null,\(\)=>loadFrom\(b\),bx\)/.test(SRC));
+check('7. 存檔頁：#saveBackups 一區列出 backupList()，只有讀取（mk 的 onSave 是 null）',/bx\.id='saveBackups'/.test(SRC)&&/const L=backupList\(\);/.test(SRC)&&/mk\(nm,b,null,\(\)=>loadFrom\(b\),bx,/.test(SRC));
 console.log(fails?'FAILED '+fails:'ALL PASS'); process.exit(fails?1:0);

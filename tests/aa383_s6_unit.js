@@ -9,6 +9,7 @@ const H=require('./pg_harness.js');
 const cp=require('child_process');
 const {check,GM,E}=H;
 const J=JSON.stringify, ID='heroine_05';
+const show=t=>t.replace(/^「([^「」]*)」$/,'$1');   /* 說話框裡顯示的字：整句外層「」拿掉（2026-11-01 SOCIAL.playSteps，BB-B n40）；第 0～2 項照查資料 */
 const NEW=['（她把手機收進包包。）','「今天什麼都沒帶。難得。」','「這一次我請你。」'], OLD=['（她把筆電闔上。）','「今天寫完了，難得。」','「你要吃什麼？我請你。」'];
 let doc=''; try{ doc=cp.execSync('git show 67b7b2ca:"docs/story_planning/AA_383_回BB_0400_五題_台詞與企劃對不上.md"',{cwd:H.ROOT,encoding:'utf8'}); }catch(e){}
 const sec=(doc.split('## 6.')[1]||'').split('\n## ')[0];
@@ -23,7 +24,7 @@ check('2. 約在 Café、總圖，和直接找她說話（沒有見面地點）�
   const meetAt=async place=>{ const G=setup(); G.zone=INV.place(place).zone; const iv=INV.accept(G,ID,place,G.day,15,{by:'player'}); const n={id:ID,obj:{position:{x:0,z:0},rotation:{y:0}},beh:'idle',pose:'idle'}; GM.npc={}; GM.npc[ID]=n; E.npcs=[n];
     H.said=[]; H.picks=[0,0,0,0]; await INV.meet(GM,iv,n); return H.said.map(s=>s.t); };
   const tea=await meetAt('teahouse'), cafe=await meetAt('cafe');
-  check('3. 真的在一盞見面：演手機收進包包那一版，沒有筆電那一句',NEW.every(t=>tea.includes(t))&&!tea.includes(OLD[0]),J(tea.slice(0,6)));
-  check('3. 在 Café 見面：照原本筆電那一版',OLD.every(t=>cafe.includes(t))&&!cafe.includes(NEW[0]),J(cafe.slice(0,6)));
+  check('3. 真的在一盞見面：演手機收進包包那一版，沒有筆電那一句',NEW.every(t=>tea.includes(show(t)))&&!tea.includes(OLD[0]),J(tea.slice(0,6)));
+  check('3. 在 Café 見面：照原本筆電那一版',OLD.every(t=>cafe.includes(show(t)))&&!cafe.includes(NEW[0]),J(cafe.slice(0,6)));
   H.done();
 })().catch(e=>{ console.log('FAIL 例外 '+(e&&e.stack||e)); process.exit(1); });

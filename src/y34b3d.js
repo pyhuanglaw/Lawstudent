@@ -364,6 +364,16 @@ const Y34B=(function(){
     if(US(G)&&F.ANNIV23==null&&NOW(G)>=T(d,tzH(G,d,19.5))){ F.ANNIV23='remote'; remember('heroine_03','ANNIVERSARY_23','聽說');   /* 美國路線：遠端版（AA_181 2-5、BB_99 9-0b）*/
       if(fam('heroine_03')&&inGrp(G,'noodle_team')) at(G,d,tzH(G,d,19.5),[{th:'g:noodle_team',from:'heroine_03',text:'（一張滿座的照片）'},GZ('美國那兩個 阿姨說照片也算')],'y4_a23_us');
       if(dating(G,'kexin')) at(G,d,tzH(G,d,19.5),[DM('kexin','你說了四年的麵。……今天少你一碗。'),DM('kexin','23 號回來，第一碗我請。')],'y4_a23_us_kx'); } };
+  /* AA_323 1B-20 第 1、6 節「12/11（一）起，麵店門口貼一張白紙：『12/14（四）晚上七點　二十三週年』」＋「天氣 12/14 晚上強制下雨」（10-20 稽核列的「門口白紙」）：
+     公館麵店門口（zones3d.js 的「進入阿鳳麵店」旁邊）多一個「看」——12/11 到 12/14 當天、二十三週年還沒演完；白紙裡的字照稿逐字（外面的括號旁白照 r2y4b3d.js AUNT_DOOR 的寫法）。
+     3D 的白紙（稿：「3D 物件：可以用公告欄那一種」）是場景物件，歸 LAWWW2（D108），這裡只有互動點。下雨：12/14 17:00 起（照 1B-08 事件 12 y2b3d.js 的寫法），美國路線不管臺北的天氣 */
+  S.A23_PAPER='（麵店門口貼著一張白紙：「12/14（四）晚上七點　二十三週年」）';
+  S.a23PaperOn=G=>{ const a=D('a23msg'), d=D('a23'); return law(G)&&!US(G)&&a!=null&&d!=null&&G.day>=a&&G.day<=d&&G.flags.ANNIV23==null; };
+  S.a23Paper=function(GM){ const G=GM.G, E=GM.E; if(!E||!Array.isArray(E.interactables)) return; const k=E.interactables.findIndex(it=>it.a23Paper);
+    if(G.zone!=='gongguan'||!S.a23PaperOn(G)){ if(k>=0) E.interactables.splice(k,1); return; } if(k>=0) return;
+    const door=E.interactables.find(it=>it.exit&&it.exit.to==='noodle'); if(!door) return;
+    E.interactables.push({x:door.x+1.6,z:door.z,radius:0.9,prio:-0.2,label:'門口的白紙',a23Paper:true,onInteract:()=>{ if(busy) return; go(async()=>{ GM.sceneBegin(); try{ await GM.say(null,S.A23_PAPER); } finally { GM.sceneEnd(); } }); }}); };
+  S.a23Rain=function(GM){ const G=GM.G, d=D('a23'); if(d!=null&&law(G)&&!US(G)&&G.day===d&&G.hour>=17&&G.weather!=='rain'&&G.weather!=='typhoon'){ G.weather='rain'; if(GM.E&&GM.E.setWeather) GM.E.setWeather('rain'); } };
   S.a23AuntDue=G=>{ const r=D('usRet'); return law(G)&&US(G)&&G.flags.ANNIV23==='remote'&&!G.flags.ANNIV23_AUNT&&r!=null&&G.day>=r&&G.zone==='noodle'; };
   /* ================= 1B-21 可昕 K23 ================= */
   /* 美國路線（AA_370 H1）：人在美國，不約政大——「週五晚上七點，你那邊是早上。我們視訊，各自說。」；改天那一場＝週六臺灣 21:00（當地 09:00，AA_323 1B-21：臺灣晚上、美東早上；原本臺灣 15:00＝當地 03:00）*/
@@ -384,6 +394,9 @@ const Y34B=(function(){
   /* AA_370 M8：美國路線、和學姊去大峽谷（10/7～10/14 不能用手機，USL.canyonBack）＝期限延到回到印第安納的隔天中午（大峽谷那段不算）；Q14 的時間照亞利桑那（USL 的 tzOffset −15）*/
   S.q14Until=function(G){ const d=D('q14'); if(d==null) return null; const u=T(d+2,tzH(G,d+2,0)), b=US(G)&&typeof USL!=='undefined'&&USL.canyonBack?USL.canyonBack(G):null; if(b!=null) return Math.max(u,T(Math.floor(b/24)+1,12));
     const q=!US(G)&&typeof OUT!=='undefined'&&OUT.get?OUT.get(G,'y4_sis_canyon'):null, d16=DK('2028-10-16'); return q&&q.state==='done'&&d16!=null?Math.max(u,T(d16,12)):u; };   /* AA_378 #15（企劃線 5cd35678）：臺灣、日本路線去大峽谷找學姊（10/7～10/15）的，期限延到回到臺北的隔天中午 10/16 12:00（同美國路線，AA_370 M8）*/
+  /* 手機筆記（AA_117 C8；AA117-CASE-NOTES-1031）：請求什麼（她要在合約裡看懂什麼）是玩家選的那一行（下面的選項）；誰、向誰、依據什麼照 AA-B 2026-11-01 回覆（D109）的字。
+     LEGAL_REVIEW_REQUIRED：只寫方向（權利歸誰、錢怎麼分、怎麼解約），不寫結論 */
+  S.Q14_NOTE=['誰：子晴（要簽約的人）','向誰：發行商','依據什麼：合約本身（權利歸誰、錢怎麼分、怎麼解約）','請求什麼：'];
   S.q14Phone=function(G){ const F=G.flags, d=D('q14'); if(d==null||G.day<d||!law(G)||!fri('heroine_04')||sent(G,'y4_q14')) return; const until=S.q14Until(G); if(G.day>Math.max(d+2,Math.floor(until/24))) return; if(NOW(G)<T(d,tzH(G,d,21))) return;
     const Q=t=>DM('heroine_04',t), us=US(G), dt=dating(G,'heroine_04');
     const open=dt?[Q('我們要跟一間發行商簽約。合約四十頁。'),Q('你不用當律師啦。陪我看到第四十頁就好')]:(us?[Q('你那邊是早上吧'),Q('你是法律系的吧'),Q('我們要跟一間發行商簽約。合約四十頁。'),Q('我看不懂'),Q('你看得懂嗎')]:[Q('欸不是，你是法律系的吧。'),Q('我們要跟一間發行商簽約。合約四十頁。'),Q('我看不懂'),Q('你看得懂嗎')]);
@@ -392,7 +405,7 @@ const Y34B=(function(){
     if(fafu) o.push({t:'介紹法服的指導律師給妳。',set:{ZQ_CONTRACT:'legal_aid'},say:[R('法服？你們系上那個社團？……好。')]});   /* AA_378 S5（企劃線 5cd35678）：學姊四年都不在法服 */
     o.push({t:'我還是學生，不能給妳正式的法律意見。',set:{ZQ_CONTRACT:'honest'},say:[R('……你好老實。好，那你陪我去找律師。')]});
     if(three) o.push({t:'先看權利歸誰、錢怎麼分、怎麼解約。然後拿去給律師看。',set:{ZQ_CONTRACT:'lawyer'},say:[R('……你講話越來越像律師了。好，找律師。')]});   /* AA_398 第 33 列 */   /* U_COPYRIGHT（大四上智財法第 4 週 9/27、第 10 週的討論課）＋U_CONTRACT（民總第 14 週、債總的討論課）：classes3d.js 的討論課照 syllabus 的 understand 記（AA_337 第 6 題）*/
-    open[open.length-1].ask={id:'y4_q14',until,opts:o}; at(G,d,tzH(G,d,21),open,'y4_q14'); };
+    open[open.length-1].ask={id:'y4_q14',until,opts:o,note:S.Q14_NOTE.slice()}; at(G,d,tzH(G,d,21),open,'y4_q14'); };
   /* ================= 1B-24 以安新 20 ================= */
   S.an20Mode=G=>datingOther(G,'heroine_01')?'noodle':'cafe';
   S.an20Phone=function(G){ const F=G.flags, a=D('an20ask'), d=D('an20'); if(a==null||G.day<a||G.day>d||!law(G)||!fri('heroine_01')||F.AN_YOUR_TURN!=null) return;
@@ -426,7 +439,8 @@ const Y34B=(function(){
   const go=f=>{ busy=true; Promise.resolve().then(f).catch(e=>console.warn('Y34B',e)).finally(()=>{ busy=false; }); return true; };
   const play=id=>GM=>{ const ev=evOf(id); return ev&&typeof EVENTS!=='undefined'?EVENTS.run(ev):null; };
   const failed=id=>typeof EVENTS!=='undefined'&&!!EVENTS.failed&&!!EVENTS.failed[id];   /* 演到一半出錯的事件不再自動開（不然每 0.5 秒都在重開，後面的 S.tick 全部被擋住）*/
-  S.tick=function(GM){ const G=GM.G; if(busy||!G||!G.flags||!law(G)||atHome(G)) return false; if(typeof TRIP!=='undefined'&&TRIP.at&&TRIP.at(G)) return false; const E=GM.E;
+  S.tick=function(GM){ const G=GM.G; if(G&&G.flags&&law(G)){ S.a23Rain(GM); S.a23Paper(GM); }   /* 1B-20 門口的白紙、12/14 晚上下雨（不管 busy：只改天氣和互動點）*/
+    if(busy||!G||!G.flags||!law(G)||atHome(G)) return false; if(typeof TRIP!=='undefined'&&TRIP.at&&TRIP.at(G)) return false; const E=GM.E;
     const L=[
       [()=>S.sendoffJPDue(G),'ev_an_depart_jp',()=>S.departJP(GM)],
       [()=>S.farewellDue(G),'ev_an_farewell_dinner',()=>{ if(typeof OUT!=='undefined'){ const q=OUT.get(G,'y3_an_farewell'); if(q&&q.state==='planned') q.state='done'; } return play('ev_an_farewell_dinner')(GM); }],
@@ -684,7 +698,7 @@ const Y34B=(function(){
     {label:'m9c_a'},{speaker:'heroine_05',text:'嗯。'},{speaker:null,text:'（她停了一下）'},{speaker:'heroine_05',text:'下次不要忘。……蛋糕還有一半，明天中午研究室。'},{goto:'m9c_end'},
     {label:'m9c_b'},{speaker:'heroine_05',text:'……謝謝。他們買的蛋糕把我的名字寫錯了。明天中午你來，我給你看。'},
     {label:'m9c_end'},{set:{SIS_DEFENSE_CALL:true}} ];
-  const M9_CAKE=[ {scene:'法律系館A・研究室',bg:'dark'},{speaker:null,text:'（蛋糕上寫著『溫書玉』。她用叉子把那個字刮掉了。）'},{set:{SIS_DEFENSE_CAKE:'went'}} ];
+  const M9_CAKE=[ {scene:'法律系館A・研究室',bg:'sis_lab_room'},{speaker:null,text:'（蛋糕上寫著『溫書玉』。她用叉子把那個字刮掉了。）'},{set:{SIS_DEFENSE_CAKE:'went'}} ];
   /* AA_392 第 2-3 節：到機場等她（她搭客運來）；和車上那一版共用最後兩句的位置，開頭換成這兩行；記 SAW_HER_OFF（車上版照舊 DROVE_HER）*/
   const AIRPORT_WAIT=[ {scene:'桃園機場・出境大廳',bg:'airport_departure'},
     {speaker:null,text:'（八點半。她從客運站那邊走過來，戴著口罩，一個行李箱。）'},

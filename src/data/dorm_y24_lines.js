@@ -37,7 +37,7 @@ const DORMY24_LINES=(function(){
             {k:'z3',term:'Y2S1',need:'split',t:'柏翰這禮拜都很早上床。……你有發現嗎？'},
             {k:'z4',term:'Y2S1',from:'2026-12-19',t:'我最近比較晚回來。……送 Alison 去捷運站。'},   /* 稿寫的是 AA_380 改名以前的舊叫法：使用者 10-21「改成Alison」，遊戲裡一律 Alison，照匯入工具 alison 的寫法換（tools/story/import_guard.py、tests/alison.js）。
                 稿「12/19 以後（ev_yu_together）」：看日期（S.dormMates 阿哲 12/19 起 23:00 才回來也是看日期）*/
-            {k:'z5',term:'Y2S2',t:'學弟期中考前問我民總怎麼讀。我說問柏翰。'},
+            {k:'z5',term:'Y2S2',t:'學弟考前問我民總怎麼讀。我說問柏翰。'},   /* D118：AA_578 第 3 節第 1 點，刪「期中」——待 AA 看 */
             {k:'z6',term:'Y2S2',prefinal:true,t:'明年抽籤，我感覺我會輸。'} ],   /* 接 AA_208 第 9 節 2027-07-15「我二樓」*/
           after:[nar('（他在床上講電話，看到你，比了一下「等一下」。）'),{text:'欸，宵夜？……好啦，明天。'}] },
         classmate_bohan:{ rows:[

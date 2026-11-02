@@ -1,0 +1,117 @@
+{
+ "objects": 7,
+ "unique_meshes": 7,
+ "tris": 10254,
+ "tris_drawn": 10254,
+ "materials": 2,
+ "out": "assets/models/env/second_ai/aa_support/soy_props.glb",
+ "bytes": 436300,
+ "texres": 1024,
+ "modules": {
+  "SOY_COUNTER": {
+   "tris": 2608,
+   "min": [
+    -1.2,
+    0.0,
+    -0.35
+   ],
+   "max": [
+    1.2786,
+    1.4808,
+    0.35
+   ]
+  },
+  "SOY_OVEN": {
+   "tris": 1480,
+   "min": [
+    -0.412,
+    0.0,
+    -0.412
+   ],
+   "max": [
+    1.05,
+    0.9,
+    0.424
+   ]
+  },
+  "SOY_FRYER": {
+   "tris": 2222,
+   "min": [
+    -0.6,
+    0.0,
+    -0.37
+   ],
+   "max": [
+    0.6,
+    0.9276,
+    0.37
+   ]
+  },
+  "SOY_DISPLAY": {
+   "tris": 1246,
+   "min": [
+    -0.5,
+    -0.0,
+    -0.25
+   ],
+   "max": [
+    0.5,
+    0.5,
+    0.25
+   ]
+  },
+  "SOY_TABLE": {
+   "tris": 1340,
+   "min": [
+    -0.81,
+    0.0,
+    -0.81
+   ],
+   "max": [
+    0.8071,
+    0.74,
+    0.8071
+   ]
+  },
+  "SOY_CONDIMENT": {
+   "tris": 882,
+   "min": [
+    -0.17,
+    -0.0,
+    -0.06
+   ],
+   "max": [
+    0.25,
+    0.24,
+    0.06
+   ]
+  },
+  "SOY_STEAMER": {
+   "tris": 476,
+   "min": [
+    -0.204,
+    0.0,
+    -0.2019
+   ],
+   "max": [
+    0.204,
+    0.3243,
+    0.2019
+   ]
+  }
+ },
+ "atlas": [
+  "tools/blender/env_second/textures/gen/soy_props_atlas.png",
+  "tools/blender/env_second/textures/gen/soy_props_orm.png"
+ ],
+ "origins": {
+  "*": "底部中央、y=0＝地面或放的那個面、正面（客人那一側）朝 +z",
+  "SOY_COUNTER": "台面高 0.9 m；豆漿桶、碗、湯匙筒在台面上，塑膠袋掛在 +x 那一側",
+  "SOY_DISPLAY": "放在前檯上就把原點對到台面（y=0.9）；玻璃是第二個材質 soy_glass",
+  "SOY_OVEN": "爐在原點，木板在 +x 0.75 m",
+  "SOY_FRYER": "大鍋在 −x，瀝油架在 +x",
+  "SOY_TABLE": "桌子在原點，四張凳子在四邊",
+  "SOY_CONDIMENT": "放在桌面上（y=桌面）"
+ },
+ "note": "兩個材質：soy_props（底色 1024＋ORM 256，metal 最高 0.40）、soy_glass（保溫櫃玻璃，alpha 0.16）；每件一個網格；GLB 裡的位置只是排開給人看（SPREAD）"
+}

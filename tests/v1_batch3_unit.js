@@ -91,7 +91,7 @@ const sisN={id:'sis',charId:'heroine_05',name:'溫學姊',obj:{position:{x:1,y:0
       const want=inv?'你是阿凱的室友？法律系那個？':'新人？……法律系的？坐那邊，零食自己拿。', other=inv?'新人？……法律系的？坐那邊，零食自己拿。':'你是阿凱的室友？法律系那個？';   /* AA_207 §5（BB_167 SC3 第 21 列）：第一次見面不用「欸不是」 */
       check('Q2 '+(inv?'有':'沒有')+' guitar_invite：開場只有「'+want.slice(0,8)+'…」那一種，接自我介紹和「今天系上有程式比賽，一半的人跑去了，所以人很少。」（AA_207 附錄 §2）',L[0]===want&&!L.includes(other)&&L[1]==='我高子晴，資工系的。先講好：我們社團沒有人會彈，都是來吃東西的。'&&L[2]==='今天系上有程式比賽，一半的人跑去了，所以人很少。',JSON.stringify(L.slice(0,3))); }
     STORY.phoneRules(GM); G.hour=21.6; PHONE.tick(G); const T=PHONE.thread(G,'g:guitar');
-    check('Q2 第一次去的晚上：進吉他社群組，她的第一則「新人自己報名字，不要讓我問。這不是問句。」',PHONE.inGroup(G,'guitar')&&T.length===1&&T[0].text==='新人自己報名字，不要讓我問。這不是問句。');
+    check('Q2 第一次去的晚上：進吉他社群組，她的第一則「新人自己報名字，不要讓我問。」（AA_573 拿掉「這不是問句」）',PHONE.inGroup(G,'guitar')&&T.length===1&&T[0].text==='新人自己報名字，不要讓我問。');
     fresh(mon+7,19.2,'wancai',{}); SOCIAL.meet('heroine_04','wancai'); SOCIAL.adjust('heroine_04',{fam:40,trust:20,comf:20}); const r0=Object.assign({},SOCIAL.rel('heroine_04')); picks=['程式比賽，妳怎麼沒去']; await EVENTS.run(e); const r1=SOCIAL.rel('heroine_04'), L=lines();
     check('Q2 「上次那個程式比賽，妳怎麼沒去？」（AA_207 附錄 §2；原本「為什麼不去比賽？」；沒有「阿凱說妳系上第一名」）',opts[0].includes('「上次那個程式比賽，妳怎麼沒去？」')&&!opts[0].some(t=>/第一名/.test(t)),JSON.stringify(opts[0]));
     check('Q2 不扣 trust、fam +3',r1.trust===r0.trust&&r1.fam-r0.fam===3,JSON.stringify({trust:[r0.trust,r1.trust],fam:[r0.fam,r1.fam]}));

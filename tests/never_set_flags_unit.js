@@ -79,23 +79,23 @@ const sec=async(n,f)=>{ try{ await f(); }catch(e){ check(n+'. 丟出例外（中
 
   /* ======================= 3. AA294-SKIPCLASS-1018 ======================= */
   await sec('3',async()=>{
-  /* ① 期中考：起床選單只有兩個、不能翹、到時間帶進考場、跳過時間停在考試前 */
-  { const G=fresh('2025-10-23',7.5,'dorm'); const c=COURSES.list.find(x=>x.id==='civ_general'), ed=CLS.examDay(G,c,'Y1S1','mid');
+  /* ① 期末考：起床選單只有兩個、不能翹、到時間帶進考場、跳過時間停在考試前 */
+  { const G=fresh('2025-10-23',7.5,'dorm'); const c=COURSES.list.find(x=>x.id==='civ_general'), ed=CLS.examDay(G,c,'Y1S1','final');
     check('3-0. 有 CLS.day2Due、CLS.goDay2、CLS.examName',typeof CLS.day2Due==='function'&&typeof CLS.goDay2==='function'&&typeof CLS.examName==='function');
     setDay(ed.day,7.5); const it=CLS.dayItems(G).find(q=>q.c.id==='civ_general');
-    check('3-1. 前提：民總期中考那一堂（mc5，exam mid）',!!it&&it.exam==='mid'&&it.examMain===true,JSON.stringify(it&&{exam:it.exam,main:it.examMain}));
-    CLS.clearPending(); H.opts=[]; H.picks=[1]; const list=CLS.goList(G); let wk=false; if(list[0]===it||list[0].exam){ wk=await CLS.wakeMenu(GM); }
+    check('3-1. 前提：民總期末考那一堂（mc5，exam final；D118 起沒有期中考，這一節改測期末考）',!!it&&it.exam==='final'&&it.examMain===true,JSON.stringify(it&&{exam:it.exam,main:it.examMain}));
+    CLS.clearPending(); H.opts=[]; H.picks=[1]; for(const q of CLS.dayItems(G)) if(q.t0<it.t0&&!q.exam) CLS.rec(G).done[q.key]=1;   /* D118：期末考那天早上的大一英文不再是考試（照常上課）；先當它上過了，起床選單的第一件才是民總期末考 */ const list=CLS.goList(G); let wk=false; if(list[0]===it||list[0].exam){ wk=await CLS.wakeMenu(GM); }
     const m=H.opts[0]||[];
-    check('3-2. 期中考那天起床選單：只有「直接去考場」「先起床」，沒有翹（原本只有期末）',wk&&m.length===2&&/^直接去考場：/.test(m[0])&&!m.some(t=>t.includes('翹')),JSON.stringify(H.opts));
+    check('3-2. 期末考那天起床選單：只有「直接去考場」「先起床」，沒有翹',wk&&m.length===2&&/^直接去考場：/.test(m[0])&&!m.some(t=>t.includes('翹')),JSON.stringify(H.opts));
     toasts=[]; const sk=await CLS.skipClass(GM,it);
-    check('3-3. 期中考不能翹：skipClass 回 false、不記 plan_skip、提示「期中考不能翹。」',sk===false&&!CLS.planSkip(G,it)&&toasts.includes('期中考不能翹。'),JSON.stringify(toasts));
+    check('3-3. 期末考不能翹：skipClass 回 false、不記 plan_skip、提示「期末考不能翹。」',sk===false&&!CLS.planSkip(G,it)&&toasts.includes('期末考不能翹。'),JSON.stringify(toasts));
     setDay(ed.day,10); const st=CLS.skipStops(GM,17);
     check('3-4. 跳過時間停在考試前 10 分鐘（「考試：民法總則」）',st.some(s=>/^考試：/.test(s.why)&&Math.abs(s.h-(it.t0-1/6))<1e-6),JSON.stringify(st));
     setDay(ed.day,it.t0-1/6+0.02); G.zone='dorm'; H.entered=[]; caps=[]; const real=Date.now; let T=1e12; Date.now=()=>T; CLS.clearPending();
     try{ for(let i=0;i<5;i++){ CLS.oneTick(GM); T+=600; } await new Promise(r=>setTimeout(r,30)); } finally { Date.now=real; CLS.clearPending(); }
-    check('3-5. 期中考前 10 分鐘玩家空下來＝帶進考場（「期中考快開始了。你收拾東西往考場走。」）',H.entered.includes('classroom')&&caps.includes('期中考快開始了。你收拾東西往考場走。'),JSON.stringify({entered:H.entered,caps}));
+    check('3-5. 期末考前 10 分鐘玩家空下來＝帶進考場（「期末考快開始了。你收拾東西往考場走。」）',H.entered.includes('classroom')&&caps.includes('期末考快開始了。你收拾東西往考場走。'),JSON.stringify({entered:H.entered,caps}));
     toasts=[]; setDay(ed.day,it.t0-0.1); G.zone='dorm'; const okSkip=await CLS.skipTo(GM,17);
-    check('3-6. 考試前 10 分鐘以後不能用跳過時間跳過去',okSkip===false&&toasts.includes('期中考快開始了。'),JSON.stringify(toasts)); }
+    check('3-6. 考試前 10 分鐘以後不能用跳過時間跳過去',okSkip===false&&toasts.includes('期末考快開始了。'),JSON.stringify(toasts)); }
   /* ① 開學第二天的民總：12:30 帶過去（先霖澤館前那一段，再 201）*/
   { const G=fresh('2025-09-18',12.6,'dorm');
     check('3-7. 前提：法律系主線第 2 天（週四）',STORY.mainDay(G)===2&&G.weekday===4&&STORY.opening(G));
@@ -203,18 +203,18 @@ const sec=async(n,f)=>{ try{ await f(); }catch(e){ check(n+'. 丟出例外（中
       check('5-1. 前提：還沒交往＝沒有 CALLED_SHUYU、對話框的名字「溫書瑀」',!G.flags.CALLED_SHUYU&&SOCIAL.displayName(S5)==='溫書瑀',SOCIAL.displayName(S5));
       const ok=ROM.start(G,S5);
       check('5-2. 和學姊開始交往（ROM.start，期末飯、大峽谷都走這裡）那天就記 CALLED_SHUYU（原本只有大峽谷那一場記）',ok&&G.flags.CALLED_SHUYU===true);
-      check('5-3. 讀的地方：交往中對話框、按鈕上她的名字＝「書瑀」（原本「溫書瑀」）；聯絡人、她的訊息照舊「書瑀」',SOCIAL.displayName(S5)==='書瑀'&&SOCIAL.contactName(S5)==='書瑀'&&PHONE.who({from:S5,name:'溫學姊'})==='書瑀',SOCIAL.displayName(S5));
+      check('5-3. 讀的地方：交往中對話框、按鈕上她的名字＝「溫書瑀」；聯絡人、她的訊息＝「貝貝」（AA_579 第 39 列：DATING 貝貝、DATING_NAME 溫書瑀）',SOCIAL.displayName(S5)==='溫書瑀'&&SOCIAL.contactName(S5)==='貝貝'&&PHONE.who({from:S5,name:'溫學姊'})==='貝貝',SOCIAL.displayName(S5));
       const ev={id:'t_sis_line',participants:[S5],dialogue:[{speaker:S5,text:'（測試）'}]}; H.said=[]; await EVENTS.runLines(ev.dialogue,ev);
-      check('5-4. 劇情事件裡她說話：名字框「書瑀」',H.said.length===1&&H.said[0].who==='書瑀',JSON.stringify(H.said));
+      check('5-4. 劇情事件裡她說話：名字框「溫書瑀」',H.said.length===1&&H.said[0].who==='溫書瑀',JSON.stringify(H.said));
       SOCIAL.feel[S5]={fam:2}; const ft=SOCIAL.takeFeel(2);
-      check('5-5. 交往中的「熟了一點」提示也叫書瑀（「和書瑀熟了一點。」）',ft.includes('和書瑀熟了一點。'),JSON.stringify(ft));
+      check('5-5. 交往中的「熟了一點」提示照對話框的名字（「和溫書瑀熟了一點。」）',ft.includes('和溫書瑀熟了一點。'),JSON.stringify(ft));
       ROM.end(G,S5,'apart_talk');
       check('5-6. 分手以後：CALLED_SHUYU 留著（叫過）；名字回到「溫書瑀」（分手以後怎麼叫等 BB 定）',G.flags.CALLED_SHUYU===true&&SOCIAL.displayName(S5)==='溫書瑀'); }
     { const G=fresh('2026-04-10',20,'dorm'); H.rel(S5,45,30,0); H.rel('heroine_01',45,30,0); ROM.start(G,'heroine_01');
       check('5-7. 條件不成立不設：和別人（以安）交往＝沒有 CALLED_SHUYU、學姊照原本的名字',!G.flags.CALLED_SHUYU&&SOCIAL.displayName(S5)==='溫書瑀'&&SOCIAL.displayName('heroine_01')==='沈以安'); }
     { const G=fresh('2026-04-10',20,'dorm',{dating_heroine_05:true}); H.rel(S5,45,30,0); delete G.flags.CALLED_SHUYU;
-      check('5-8. 舊存檔還沒記：交往中的「書瑀」要等 CALLED_SHUYU（datingName 讀它）',SOCIAL.displayName(S5)==='溫書瑀'&&!G.flags.CALLED_SHUYU,SOCIAL.displayName(S5));
-      ROM.rec(G); check('5-9. 舊存檔：讀檔（ROM.rec）時和學姊交往中＝補記 CALLED_SHUYU',G.flags.CALLED_SHUYU===true&&SOCIAL.displayName(S5)==='書瑀'); }
+      check('5-8. 舊存檔還沒記：交往中的叫法（聯絡人「貝貝」）要等 CALLED_SHUYU（datingName／datingContact 讀它）',SOCIAL.displayName(S5)==='溫書瑀'&&SOCIAL.contactName(S5)!=='貝貝'&&!G.flags.CALLED_SHUYU,SOCIAL.displayName(S5));
+      ROM.rec(G); check('5-9. 舊存檔：讀檔（ROM.rec）時和學姊交往中＝補記 CALLED_SHUYU',G.flags.CALLED_SHUYU===true&&SOCIAL.displayName(S5)==='溫書瑀'&&SOCIAL.contactName(S5)==='貝貝'); }
     { const G=fresh('2026-04-10',20,'dorm',{EX_heroine_05:true,romance:{heroine_05:{status:'ex',since:null,knows:[],suspicion:0,history:[{ev:'start',at:'Y1S2W5'},{ev:'end',at:'Y1S2W8'}]}}}); ROM.rec(G);
       check('5-10. 舊存檔：交往過（歷史有開始）也補記',G.flags.CALLED_SHUYU===true); }
   }

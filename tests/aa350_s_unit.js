@@ -48,15 +48,16 @@ const txt=th=>(G.msgs||[]).filter(m=>m.th===th).map(m=>(m.from||'')+':'+m.text);
     ['2027-07-01','2027-01-14','2028-01-13','2028-02-10'].every(k=>wdOf(D(k))===4)&&['2027-01-02','2027-01-09','2029-02-17'].every(k=>wdOf(D(k))===6));
 
   /* ===== S1 柏翰暑假 ===== */
-  rowCheck('S1. 柏翰大二暑假（2027）：6/27 還在臺北、6/28～8/24 新竹（週四 7/1 也在新竹：大二以後沒有週四總圖）、8/25 起臺北（香港「我 24 號晚上上來」）','classmate_bohan',
-    [['2027-06-27',here],['2027-06-28',p=>isHome(p,'新竹')],['2027-07-01',p=>isHome(p,'新竹')],['2027-08-24',p=>isHome(p,'新竹')],['2027-08-25',here]]);
-  rowCheck('S1. 柏翰大三暑假（2028）：6/27 在臺北、6/28～7/2 新竹、7/3 起臺北（7/08 公館補習班照舊）','classmate_bohan',
-    [['2028-06-27',here],['2028-06-28',p=>isHome(p,'新竹')],['2028-07-02',p=>isHome(p,'新竹')],['2028-07-03',here],['2028-07-08',here]]);
+  /* AA_350 T1（第 9 節，同一天後來的裁定；2026-11-01 照改期待值）：離開那天起算新竹、回來那天算臺北——原本照 S1 的含頭尾查 6/27 臺北、8/24 新竹、1/28 新竹、7/2 新竹 */
+  rowCheck('S1＋T1. 柏翰大二暑假（2027）：6/26 在臺北、6/27（20:00「我回新竹了。」離開那天）～8/23 新竹（週四 7/1 也在新竹：大二以後沒有週四總圖）、8/24 回來那天起臺北（香港「我 24 號晚上上來」）','classmate_bohan',
+    [['2027-06-26',here],['2027-06-27',p=>isHome(p,'新竹')],['2027-07-01',p=>isHome(p,'新竹')],['2027-08-23',p=>isHome(p,'新竹')],['2027-08-24',here],['2027-08-25',here]]);
+  rowCheck('S1＋T1. 柏翰大三暑假（2028）：6/26 在臺北、6/27～7/1 新竹、7/2 回來那天起臺北（7/08 公館補習班照舊）','classmate_bohan',
+    [['2028-06-26',here],['2028-06-27',p=>isHome(p,'新竹')],['2028-07-01',p=>isHome(p,'新竹')],['2028-07-02',here],['2028-07-03',here],['2028-07-08',here]]);
   /* ===== S2 柏翰寒假 ===== */
   rowCheck('S2. 柏翰大二寒假：整段新竹、週四（1/14）不上來；2/18 新竹、2/19 回來那天照舊在臺北','classmate_bohan',
     [['2027-01-09',p=>isHome(p,'新竹')],['2027-01-14',p=>isHome(p,'新竹')],['2027-02-11',p=>isHome(p,'新竹')],['2027-02-18',p=>isHome(p,'新竹')],['2027-02-19',here]]);
-  rowCheck('S2. 柏翰大三寒假只回去過年：1/13、1/24 在臺北，1/25～1/28 新竹，1/29、2/10 在臺北','classmate_bohan',
-    [['2028-01-13',here],['2028-01-24',here],['2028-01-25',p=>isHome(p,'新竹')],['2028-01-28',p=>isHome(p,'新竹')],['2028-01-29',here],['2028-02-10',here]]);
+  rowCheck('S2＋T1. 柏翰大三寒假只回去過年：1/13、1/24 在臺北，1/25～1/27 新竹，1/28 回來那天起臺北、2/10 在臺北','classmate_bohan',
+    [['2028-01-13',here],['2028-01-24',here],['2028-01-25',p=>isHome(p,'新竹')],['2028-01-27',p=>isHome(p,'新竹')],['2028-01-28',here],['2028-02-10',here]]);
   check('S2. presence 的結果不帶 exceptWd',!('exceptWd' in P('classmate_bohan','2027-01-14'))&&!('exceptWd' in P('classmate_bohan','2028-01-26')));
   /* ===== S3 芷若大一暑假 ===== */
   rowCheck('S3. 芷若大一暑假 8/25 還在台中、8/26 回臺北（防回歸）','heroine_02',[['2026-08-25',p=>isHome(p,'台中')],['2026-08-26',here]]);
@@ -110,6 +111,8 @@ const txt=th=>(G.msgs||[]).filter(m=>m.th===th).map(m=>(m.from||'')+':'+m.text);
     check('S6. 以安：約 D26 臺中不擋（她人在臺中）；8/9（回來了）、7/24（還沒走）照常',b.why!==AN&&c.why!==AN&&d.why!==AN,JSON.stringify([b.ok,b.why,c.ok,c.why,d.ok,d.why])); }
   { const ZR='「那個禮拜我回台中了。換一天好不好？」', a=ask('heroine_02','2026-06-29','2026-07-02','D13',10,{dating_heroine_02:true}), b=ask('heroine_02','2026-06-29','2026-07-04','D26',8,{dating_heroine_02:true}), c=ask('heroine_02','2026-06-29','2026-06-30','D13',10,{dating_heroine_02:true});
     check('S6. 芷若：6/29 約 7/2（她回台中了）淡水＝擋，「那個禮拜我回台中了。換一天好不好？」；D26 臺中不擋；6/30 照常',!a.ok&&a.why===ZR&&b.why!==ZR&&c.why!==ZR,JSON.stringify([a.why,b.why,c.why])); }
+  { const e=ask('heroine_02','2026-07-03','2026-07-06','D26',8,{dating_heroine_02:true}), f=ask('heroine_02','2026-07-03','2026-07-08','D26',15,{dating_heroine_02:true});
+    check('S6b. 芷若在台中（7/6 週一、7/8 週三）：去台中找她（D26）不會被她臺北的 Café 班表擋成「她那時候有事」（子代理 10-31 讀碼：INV.busyAt 不看 presence）',!/她那時候|隔天她/.test(e.why||'')&&!/她那時候|隔天她/.test(f.why||''),JSON.stringify([e.ok,e.why,f.ok,f.why])); }
   { fresh(D('2026-07-23'),9,'dorm',{dating_heroine_01:true}); know('heroine_01',60); const t=DATE.book(G,{who:'heroine_01',locs:['D13'],day:D('2026-07-24'),depart:10,by:'player'}); const q=OUT.rec(G).find(x=>x.dateTrip===t.trip);
     const keep=GM.toast; let toasts=[]; GM.toast=m=>toasts.push(m); picks=[1,0]; G.day=D('2026-07-24'); G.weekday=wdOf(G.day); G.hour=10; const r=await DATE.move(GM,q,t); GM.toast=keep;
     check('S6. 改時間「改到明天同一個時間」撞到她回台中（7/25）：說那一句、不改',toasts.includes('「那幾天我在台中。……換一天。」')&&t.day===D('2026-07-24'),JSON.stringify([toasts,K(t.day),r])); }

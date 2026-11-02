@@ -95,7 +95,7 @@ const YL='assets/portraits/yule/campus/';
 
   // 6. 沒有 charId 的說話者：ADV.speaker('player')
   const gsrc=fs.readFileSync(path.join(ROOT,'src/game3d.js'),'utf8');
-  check('6. game3d.js 的 say：有 charId＝ADV.speaker(charId)；沒有＝ADV.speaker(who?\'player\':null)',gsrc.includes('if(who&&who.charId) ADV.speaker(who.charId,')&&gsrc.includes("else ADV.speaker(who?'player':null);"));
+  check('6. game3d.js 的 say：有 charId（或名字對到唯一有立繪檔的人物，say_name_portrait_unit.js）＝ADV.speaker(charId)；沒有＝ADV.speaker(who?\'player\':null)',gsrc.includes('if(cid) ADV.speaker(cid,')&&gsrc.includes('const cid=who&&(who.charId||')&&gsrc.includes("else ADV.speaker(who?'player':null);"));
   said.length=0; ADV.begin({background:'dark',right:{charId:'kexin',expression:'neutral'}}); await settle();
   await GM.say({name:'予樂'},'（修改前偶遇的同行句：只有名字）'); const p=said[0]; ADV.end();
   check('6. ADV.speaker(\'player\')：不佔立繪框、沒有新的圖（祐廷沒有立繪檔，不會出現祐廷），台上的可昕變暗',!!p&&!['left','right'].some(q=>p.st[q].id==='player'||p.st[q].id==='予樂')&&p.st.right.id==='kexin'&&p.st.right.dim&&!p.st.left.img&&!PORTRAIT_FILES.player&&!fs.existsSync(path.join(ROOT,'assets/portraits/player')),JSON.stringify(p&&p.st));

@@ -174,7 +174,7 @@ await sec('4 曾靖雯',async()=>{ const d1=TD('Y1S1',4,2); fresh(d1,6.75,'campu
   check('4. 曾靖雯 4-3：大一下第 3 週平日早上在晨思鐘（有點熟）開口 →「我跟妳去。」＝加好友、掛「陪靖雯去旁聽」、排下一個下午沒課的平日 14:00 臺北地方法院（AA_498「實作時定的」第 3 點：大一下平日每天早上都有課）；她問「你哪天下午沒課？」',has('我想去地方法院旁聽。網站上說誰都可以進去，可是我一個人……有點不敢走進去。')&&has('好。那我們加一下好友。')&&!!r&&r.state==='open'&&INV.hasContact(H.G,Z)&&has('你哪天下午沒課？')&&!!q&&q.h===14&&q.place==='臺北地方法院'&&!CLS.dayItems(H.G,q.day).some(it=>it.t0<16.5&&(it.t1==null?it.t0+2:it.t1)>13.5)&&q.day-d2<=7&&/陪靖雯去旁聽/.test(SIDEQ.todayHTML(H.G)),J([said(),q&&keyOf(q.day)]));
   phAt(q.day-1,21.1); check('4. 曾靖雯：前一晚 21:00 她傳「明天兩點，法院門口。早安先說了，我明天會很緊張。」（她下午也說早安）',msgs(Z).includes('明天兩點，法院門口。早安先說了，我明天會很緊張。'),J(msgs(Z)));
   H.said=[]; H.picks=['要看他做了什麼']; set(q.day,13.7); await OUT.go(GM,q);
-  check('4. 曾靖雯 旁聽（2D，court_hall 沒有圖＝深色底）：選「要看他做了什麼」→ ZJW_HELP depends；記 SHARED_SECRET；人物頁「陪她去過地方法院旁聽」；做完',has('你講話好像法官。……可是你說得對，我們連他做了什麼都還沒聽完。')&&H.G.flags.ZJW_HELP==='depends'&&SOCIAL.has(Z,'SHARED_SECRET')&&P().deeds(H.G,Z).includes('陪她去過地方法院旁聽')&&r.state==='done'&&OUT.bg('court_hall')==='dark',J(said()));
+  check('4. 曾靖雯 旁聽（2D，court_hall＝使用者 11-02 生成的法院走廊）：選「要看他做了什麼」→ ZJW_HELP depends；記 SHARED_SECRET；人物頁「陪她去過地方法院旁聽」；做完',has('你講話好像法官。……可是你說得對，我們連他做了什麼都還沒聽完。')&&H.G.flags.ZJW_HELP==='depends'&&SOCIAL.has(Z,'SHARED_SECRET')&&P().deeds(H.G,Z).includes('陪她去過地方法院旁聽')&&r.state==='done'&&!!OUT.BG.court_hall&&OUT.BG.court_hall.image==='assets/bg/court_hall.webp',J(said()));
   /* 畢業典禮早上 */
   const gd=D('2029-06-02'); set(gd,6.4,'campus'); GM.npc={}; spawn(Z); await talk(Z,[]);
   check('4. 曾靖雯 4-6 畢業典禮早上（晨思鐘）：depends 版「你說要看他做了什麼。…」，最後「好了。……再見。這次不說早安了。」',has('早安。……我多買了一個，猜你會來。')&&has('你說要看他做了什麼。我後來每一次旁聽，都先把那個人做了什麼聽完。……考上以後，我想去法扶。')&&!has('我還是不知道要幫誰。可是我會一直找下去。')&&has('好了。……再見。這次不說早安了。'),J(said()));

@@ -7,7 +7,7 @@
 //   5. C5 單身、語彤好朋友以上、學姊 FRIEND：語彤帶粥＋學姊的湯（手機兩則）；
 //   6. C6 和以安交往、誰都不說、語彤也知道：以安先說「……你為什麼不說？」、語彤也來（不是一個人放下就走）；
 //   7. C7 和可昕交往、只有語彤：東西在舍監那裡、傳訊息就走、那晚沒人問；之後麵店版；
-//   8. C8 沒有好朋友、沒有交往：沒有打噴嚏；期中最後一科考完 19:00 麵店（出遊）、最熟的人問；沒去＝22:00 私訊（第 4 個＝30 分鐘後再問、沒有第 4 個）；沒有人到 FAMILIAR＝不演；
+//   8. C8 沒有好朋友、沒有交往：沒有打噴嚏；10/29（D118 沒有期中考，AA_578 第 2 節 #7 固定這一天；原本期中最後一科考完）19:00 麵店（出遊）、最熟的人問；沒去＝22:00 私訊（第 4 個＝30 分鐘後再問、沒有第 4 個）；沒有人到 FAMILIAR＝不演；
 //   9. C9 子晴：沒看過 Q6＝「期末的作業」、看過＝「測試版」；10. C10 不扣錢、不扣體力，沒有客套話；
 //  11. 第 4 個選項（吃完再問一次）、第 1 個選項的房東版、最近 14 天有裂縫＝改成最熟的朋友問；第 5 點只包括非交往對象；3b 阿哲的兩種說法；
 //  12. 接線：S.tick、sleepNow（10/24 21:00、21:30 醒來）、home3d.js（在家打噴嚏、18:00 回宿舍）、CG 登記與檔案、BEING_HEARD 記憶名稱。
@@ -96,7 +96,7 @@ const night=async()=>{ G.day=d24; G.hour=21.5; G.zone='dorm'; said=[]; cgs=[]; r
   check('4. C4 學姊回覆「……知道了。今天先睡。」', txt('p:heroine_05').includes('heroine_05:……知道了。今天先睡。'));
   { const C=STORY.coldWeekCast(G); check('4. C4 學姊親自來、沒有 CG、她問', C.partner==='heroine_05'&&!C.cg&&C.asker==='heroine_05'&&!C.drop, JSON.stringify(C)); }
   picks=[0]; await night(); const L4=lines();
-  check('4. C4 學姊交往版（被告知）逐字（名字框照交往中的叫法「書瑀」，CALLED_SHUYU）、她分兩句問、回答後「……好。先吃，要冷了。」', L4.includes('書瑀：粥。還是熱的。你先吃，我坐一下就走。')&&L4.includes('（你吃粥的時候，她把你帶下來的講義疊好，沒有翻開。）')&&L4.includes('書瑀：明天早上我傳訊息給你。有回就好。')&&!L4.includes('書瑀：語彤說你兩天沒出門。')&&L4.includes('書瑀：你每次都在幫別人查。你自己呢？')&&L4.includes('書瑀：你想用法律做什麼？')&&L4.includes('書瑀：……好。先吃，要冷了。')&&cgs.length===0, JSON.stringify(L4));
+  check('4. C4 學姊交往版（被告知）逐字（名字框照交往中的叫法「溫書瑀」，AA_579 第 39 列：對話框維持「溫書瑀」）、她分兩句問、回答後「……好。先吃，要冷了。」', L4.includes('溫書瑀：粥。還是熱的。你先吃，我坐一下就走。')&&L4.includes('（你吃粥的時候，她把你帶下來的講義疊好，沒有翻開。）')&&L4.includes('溫書瑀：明天早上我傳訊息給你。有回就好。')&&!L4.includes('溫書瑀：語彤說你兩天沒出門。')&&L4.includes('溫書瑀：你每次都在幫別人查。你自己呢？')&&L4.includes('溫書瑀：你想用法律做什麼？')&&L4.includes('溫書瑀：……好。先吃，要冷了。')&&cgs.length===0, JSON.stringify(L4));
   check('4. C4 選第 1 個：COLD_WEEK_ANSWER help', G.flags.COLD_WEEK_ANSWER==='help');
 
   // 5. C5
@@ -119,11 +119,11 @@ const night=async()=>{ G.day=d24; G.hour=21.5; G.zone='dorm'; said=[]; cgs=[]; r
   // 8. C8
   fresh(d23,8,'dorm'); R('heroine_01','FAM'); R('zhe','FAM',5);
   check('8. C8 很少交會：10/23 打噴嚏不演、COLD_WEEK noodle', (await STORY.coldWeekSneeze(GM))===false&&said.length===0&&G.flags.COLD_WEEK==='noodle');
-  const dN=STORY.coldNoodleDay(G); check('8. C8 麵店那天＝期中最後一科考完那天（CLS.lastExamEnd，大三上期中考週）', dN!=null&&dN>=d25&&CALENDAR.termOf(dN).id==='Y3S1'&&CALENDAR.termOf(dN).exam==='mid'&&dN===((CLS.lastExamEnd(G,'Y3S1','mid')||{}).day), dN+' '+(dN!=null?CALENDAR.dateOf(dN).key:''));
+  const dN=STORY.coldNoodleDay(G); check('8. C8 麵店那天＝固定 2027-10-29（週五，大三上期中週；AA_578 #7 寫第 9 週，日曆上是第 8 週）', dN!=null&&dN>=d25&&CALENDAR.dateOf(dN).key==='2027-10-29'&&CALENDAR.termOf(dN).id==='Y3S1'&&[8,9].includes(CALENDAR.termOf(dN).week), dN+' '+(dN!=null?CALENDAR.dateOf(dN).key:''));
   check('8. C8 問的人＝FAMILIAR 以上最熟的一位（阿哲）', STORY.coldNoodleAsker(G)==='zhe');
   G.day=dN; G.hour=18.2; G.zone='campus'; STORY.coldWeekTick(GM); const qn=OUT.get(G,'y3_cold_noodle'); check('8. C8 18:00 排 19:00 阿鳳麵店的出遊（可以不去）', !!qn&&!qn.must&&qn.goto&&qn.goto.zone==='noodle'&&qn.h===19, JSON.stringify(qn));
   G.hour=19.1; G.zone='noodle'; said=[]; picks=[2]; await STORY.coldWeekNoodle(GM,'zhe'); const L8=lines();
-  check('8. C8 麵店版（逐字）：「（期中考完的晚上，麵店的長桌只剩你們兩個。他把筷子放下。）」→ 通用那一句 → 「好。考完再跟我講一次。」', L8[0]==='（期中考完的晚上，麵店的長桌只剩你們兩個。他把筷子放下。）'&&L8.includes('阿哲：你每次都在幫別人查。你自己呢？你想用法律做什麼？')&&L8.includes('阿哲：好。考完再跟我講一次。')&&G.flags.COLD_WEEK_ANSWER==='life'&&SOCIAL.has('zhe','BEING_HEARD'), JSON.stringify(L8));
+  check('8. C8 麵店版（逐字；AA_578 #7 刪「期中考完的晚上，」）：「（麵店的長桌只剩你們兩個。他把筷子放下。）」→ 通用那一句 → 「好。考完再跟我講一次。」', L8[0]==='（麵店的長桌只剩你們兩個。他把筷子放下。）'&&L8.includes('阿哲：你每次都在幫別人查。你自己呢？你想用法律做什麼？')&&L8.includes('阿哲：好。考完再跟我講一次。')&&G.flags.COLD_WEEK_ANSWER==='life'&&SOCIAL.has('zhe','BEING_HEARD'), JSON.stringify(L8));
   // 私訊版
   fresh(dN,22.1,'dorm',{COLD_WEEK:'noodle',COLD_NOODLE_DAY:dN}); R('heroine_01','FAM'); STORY.coldWeekTick(GM); PHONE.tick(G); const dm=TH('p:heroine_01');
   check('8. C8 沒去：22:00 同一個人私訊兩則（逐字）、四個選項', dm.length===2&&dm[0].text==='你每次都在幫別人查。'&&dm[1].text==='你自己呢？你想用法律做什麼？'&&dm[1].ask&&dm[1].ask.opts.length===4&&G.flags.COLD_WEEK_NOODLE==='dm', JSON.stringify(dm.map(m=>m.text)));

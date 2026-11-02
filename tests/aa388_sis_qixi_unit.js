@@ -133,8 +133,8 @@ const sec=async(n,f)=>{ try{ await f(); }catch(e){ check(n+'. 丟出例外（中
     const L=await play('ev_sis_qixi_us_ask'); const q=OUT.get(H.G,'sisqx_2028');
     check('1-3 美國. 她一句「明天早上九點，我在社區門口等你。這邊週六有市集。」→ 排 8/26（六）09:00（出遊、不算正式校外約會）',J(L)===J(['明天早上九點，我在社區門口等你。這邊週六有市集。'])&&!!q&&q.day===H.D('2028-08-26')&&q.h===9&&q.ev==='ev_sis_qixi'&&!q.dateTrip&&!EVENTS.check(E1),J({L,q}));
     at('2028-08-26',9); H.G.flags.SIS_CRACK=1; const c00=logN(), r0=relOf(); const L2=await play('ev_sis_qixi',[0]); const r1=relOf();
-    check('1-3 美國. 週六市集（美國篇沒有市集的圖：先用校園底圖＝小教堂前的台階）：桃子和玉米、「這邊沒有七夕。」；「那我們過這邊的。」→「這邊的七夕是什麼？」祐廷「買桃子。」「……好。那就買桃子。」',
-      J(L2)===J(L13)&&J(H.opts[0])===J(['「那我們過這邊的。」','「妳想家嗎？」'])&&H.bgs.some(b=>b&&b.image==='assets/bg/us_chapel_steps.webp')&&H.said[5].who!==null&&H.said[5].who!=='溫書瑀',J({L2,O:H.opts,bgs:H.bgs}));
+    check('1-3 美國. 週六市集（11-02 第七批有自己的圖：us_farmers_market）：桃子和玉米、「這邊沒有七夕。」；「那我們過這邊的。」→「這邊的七夕是什麼？」祐廷「買桃子。」「……好。那就買桃子。」',
+      J(L2)===J(L13)&&J(H.opts[0])===J(['「那我們過這邊的。」','「妳想家嗎？」'])&&H.bgs.some(b=>b&&b.image==='assets/bg/us_farmers_market.webp')&&H.said[5].who!==null&&H.said[5].who!=='溫書瑀',J({L2,O:H.opts,bgs:H.bgs}));
     check('1-3 美國. SIS_QIXI[2028] met；+3／+6／+5、裂縫 1→0；不進 dateLog',QX(2028)==='met'&&dRel(r0,r1)===VDAY&&H.G.flags.SIS_CRACK===0&&logN()===c00,dRel(r0,r1)); }
   { setup('2028-08-26',9,'us_apartment','CLOSE',US()); dateSis(); const L=await play('ev_sis_qixi',[1]);
     check('1-3 美國. 「妳想家嗎？」→「有一點。昨天打給我媽，講了一個小時。」',L[L.length-1]==='有一點。昨天打給我媽，講了一個小時。'&&!L.includes('買桃子。'),J(L)); }

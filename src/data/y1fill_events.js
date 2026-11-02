@@ -71,10 +71,18 @@ const Y1FILL_EVENTS=(function(){
         {speaker:'zhe',text:'第五名耶！'},
         {speaker:null,text:'（他舉著獎狀跑過來，比拿第一名的人還開心。）'} ],
       after:G=>{ G.flags.Y1_RELAY='went'; } },
-    /* ---------- 2-1 店休前的麵店：2/7（六）18:00 ---------- */
-    { id:'ev_y1w_noodle_last', title:'阿鳳麵店', participants:[], location:'any', trigger:'outing', once:true, background:'dark',
+    /* ---------- 2-1 店休前的麵店：2/7（六）18:00 ----------
+       AA_549 3-3（企劃線 AA_549 第 3 節 3-3；第①級）：原本只有一句旁白（「過年前最後一個週末。長桌只坐了三個人……」）＝換成語彤的場景 */
+    { id:'ev_y1w_noodle_last', title:'阿鳳麵店', participants:['heroine_03'], location:'any', trigger:'outing', once:true, background:'dark',
       dialogue:[ {scene:'阿鳳麵店・長桌',bg:'noodle_table'},
-        {speaker:null,text:'（過年前最後一個週末。長桌只坐了三個人，阿姨多給每個人一顆滷蛋，說是提早發的紅包。）'} ],
+        {speaker:null,text:'（寒假的麵店，客人只有兩桌。語彤在櫃台後面包餛飩。）'},
+        {speaker:'heroine_03',text:'你來了。'},
+        {speaker:'heroine_03',text:'今天的餛飩是我包的。形狀不一樣，味道一樣。'},
+        {speaker:'阿姨',text:'她包的比我包的好看。不要跟她說。'},
+        {choice:[{text:'「（點一碗餛飩湯）」',goto:'a'},{text:'「妳寒假都在店裡？」',goto:'b'}]},
+        {label:'a'},{speaker:null,text:'（她端過來。）'},{speaker:'heroine_03',text:'最醜的那顆是第一顆。你吃到了。'},{goto:'e'},
+        {label:'b'},{speaker:'heroine_03',text:'嗯。過年那一個禮拜休息。'},
+        {label:'e'} ],
       after:G=>{ G.flags.Y1W_NOODLE_LAST='went'; } },
     /* ---------- 5-1 寒流日（STORY.firstColdDay，大一上第 15 週週一 12/8）：y1fill3d.js 在醒來的那一刻叫 ---------- */
     { id:'ev_y1_cold_box_glad', title:'冬天的衣服', participants:[], location:'dorm', trigger:'manual', once:true, background:'blur',

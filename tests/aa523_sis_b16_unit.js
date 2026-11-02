@@ -439,11 +439,11 @@ await sec(6,async()=>{
 /* ---- 7 第 7、9 節給 BB 的測試項目、2D 背景；舊存檔 ---- */
 await sec(7,async()=>{
   const sb=fs.readFileSync(path.join(H.ROOT,'tests/scene_bg_keys_unit.js'),'utf8');
-  check('7. 新體育館游泳池的 2D 背景＝gym_pool：OUT.BG 登記 image:null（深色底＋地點字幕）、tests/scene_bg_keys_unit.js 的 PENDING 有（BB 跟使用者要圖）',!!OUT.BG.gym_pool&&OUT.BG.gym_pool.image===null&&OUT.bg('gym_pool')==='dark'&&/gym_pool:'BB 要圖（AA_523/.test(sb),J(OUT.BG.gym_pool));
+  check('7. 新體育館游泳池的 2D 背景＝gym_pool：11-02 使用者生成的圖到了（outings3d.js 登記 assets/bg/gym_pool.webp；scene_bg_keys PENDING 拿掉）',!!OUT.BG.gym_pool&&OUT.BG.gym_pool.image==='assets/bg/gym_pool.webp'&&!/gym_pool:'BB 要圖（AA_523/.test(sb),J(OUT.BG.gym_pool));
   const KEYS=['sis_new_home','linze_prof_hall','law_library_gate','library_gate_day','law_library','soymilk_shop','gongguan'], bad=KEYS.filter(k=>!(OUT.BG[k]&&OUT.BG[k].image));
   check('7. 現成的背景都有圖：她的新家（12/31 那一張）、研究室、法圖門口、總圖門口、法圖討論室（AA_518 那一張 law_library）、早餐店（豆漿店）、公館',!bad.length,J(bad));
   const used=new Set(); for(const e of SISB16_EVENTS) for(const l of e.dialogue) if(l.scene!==undefined&&l.bg) used.add(l.bg);
-  check('7. 這一批的 2D 場景只用這幾張（新體育館門口：P17 是 3D，沒有 2D 的圖＝深色底＋地點字幕，子代理解讀）',[...used].every(k=>KEYS.includes(k)||k==='gym_pool'||k==='dark'),J([...used]));
+  check('7. 這一批的 2D 場景只用這幾張（新體育館門口 gym_gate：11-02 第六批有圖）',[...used].every(k=>KEYS.includes(k)||k==='gym_pool'||k==='gym_gate'||k==='dark'),J([...used]));
   check('7. 稿第 9 節給 BB：新體育館游泳池、1-4 是 A 唯一看她游泳的一場——1-4 只有 A 有（私訊只給交往中）',/新體育館游泳池/.test(S9)&&/1-4/.test(S9));
   /* 舊存檔：沒有新旗標照常跑、不丟例外 */
   let err=null; try{ const G=fresh('2028-12-23',23,'dating',{SIS_PICKUP:'lover'}); delete G.flags.SIS16_LUROU; for(const k of ['2028-12-24','2029-01-10','2029-01-19','2029-02-16','2029-03-20','2029-03-28','2029-04-15','2029-05-11','2029-05-28','2029-06-04','2029-06-22','2029-06-29']){ phAt(k,21.5); phAt(k,22.5); }

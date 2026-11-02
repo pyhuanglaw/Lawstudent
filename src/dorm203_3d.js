@@ -11,6 +11,7 @@
    ■ 第 3 節 六件小事（STORY_EVENTS，trigger auto，location dorm，一次）：條件＝祐廷在房間、那個時間該在的人照作息都在（STORY.dormWho；正在走進來的等他坐下）。
        3-1 冷氣幾度：大一上第 3 週週二（9/16）22:30～23:30。之後這一學期，晚上（18:00～09:00）走進房間一週一次一句旁白；大一下第 1 週阿哲一句（字幕）。
        3-2 誰關燈：民法總則期中考前一晚（大一上第 8 週週三 10/22）23:00～23:30，開演時鐘到 23:30（稿「23:30。柏翰站在燈的開關旁邊。」）。隔天 ev_midterm_walkout 最後阿哲一句。
+       D118 沒有期中考（AA_578 第 2 節 #6）：改到民總期末考前一晚（第 16 週；預設課表 12/17（三）23:00），稿照舊；隔天接期末那場 walkout（#9）。柏翰的考試週作息只在期末考週（story3d.js r203Exams 只取 examList 裡的考試＝期末）。
          （第 6 節第 5 點：柏翰那句是「我要睡了。明天考試。」——民總 13:20 考）
        3-3 宵夜：大一上第 13 週週四（11/27）23:00～23:30。KAI_COUNTED → 阿凱閒聊換句。
        3-4 帶回來的東西：大一下開學那天（2/23）晚上 22:30～23:30（柏翰 22:30 回來，四個人都在）。
@@ -86,7 +87,7 @@ const DORM203=(function(){
     const r=S.nextRow(G,'kai'); if(!r) return false; await sayRow(GM,n,'kai',r); return true; };
 
   /* ======================= 第 3 節：四個人的小事 ======================= */
-  const civMid=G=>{ try{ if(typeof CLS!=='undefined'&&CLS.examList){ const e=CLS.examList(G,'Y1S1').find(x=>x.c&&x.c.id==='civ_general'&&x.kind==='mid'); if(e) return e.day; } }catch(e){} const d=TD('Y1S1',8,4); return d; };
+  const civMid=G=>{ try{ if(typeof CLS!=='undefined'&&CLS.examList){ const e=CLS.examList(G,'Y1S1').find(x=>x.c&&x.c.id==='civ_general'&&x.kind==='final'); if(e) return e.day; } }catch(e){} const d=TD('Y1S1',16,4); return d; };   /* 民總期末考那天（D118／AA_578 #6；原本期中考、第 8 週週四）；名字照舊 */
   S.EVS=[
     {k:'ac',id:'ev_r203_ac',title:'冷氣幾度',days:G=>[TD('Y1S1',3,2)],t:[22.5,23.5],need:IDS},
     {k:'light',id:'ev_r203_light',title:'誰關燈',days:G=>{ const d=civMid(G); return [d!=null?d-1:null]; },t:[23,23.5],need:IDS},

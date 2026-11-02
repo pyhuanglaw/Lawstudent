@@ -1,6 +1,6 @@
 // AA_120 第 7 節（使用者 2026-10-13 批准，開發分支、不發布）：五處改字、20 位不熟同學的 60 句、資料一致性、初遇與舊存檔——不需要瀏覽器。
 // 檢查：
-//   7-1 柏翰的天數＝到這學期第一個期中考時段的天數（7～14 天才說、每學期一次）；芯慈三個版本照 ECON_PAST_SHARED；ev_xinci_double 只在大一下第 6～7 週、台詞改了；
+//   7-1 柏翰的天數＝到這學期第一個期末考時段的天數（D118 沒有期中考，AA_578 第 2 節 #1；要載期末考題庫 exam_bank.js 才排得出考試）（7～14 天才說、每學期一次）；芯慈三個版本照 ECON_PAST_SHARED；ev_xinci_double 只在大一下第 6～7 週、台詞改了；
 //       黃教授那句只在上過她的課以後、是書不是電影；Alison 的引號、第 4～6 週。
 //   7-2 20 人各三句、每句只說一次、第 3 句要 SHARED_SECRET；心事（facts[1]）說出來以前不出現在任何閒聊、旁白、手機的人物說明；心事在兩句說完以後、一天一句。
 //   7-3 年級跟著遊戲走（大四封頂）、pool_3 的外觀、學長姊照年級畢業（presence）。
@@ -12,8 +12,8 @@ const fs=require('fs'), vm=require('vm'), path=require('path');
 const ROOT=path.resolve(__dirname,'..');
 global.window=global; global.P3={CAST:{}}; global.THREE={Vector3:function(){}};
 global.document={ getElementById:()=>null, addEventListener(){} }; global.navigator={userAgent:'node'}; global.addEventListener=()=>{}; global.location={search:''};
-const load=f=>{ let src=fs.readFileSync(path.join(ROOT,f),'utf8'); src=src.replace(/^const (\w+)\s*=/mg,(m,n)=>/^(CHARACTERS|UNFAMILIAR_POOL|SOCIAL_GRAPH|PORTRAITS|STORY_EVENTS|SMALLTALK|SOCIAL|EVENTS|STORY|CALENDAR|PLACES|COURSES|CLS|ACTIVITIES)$/.test(n)?'globalThis.'+n+'=':m); vm.runInThisContext(src,{filename:f}); };
-for(const f of ['src/data/characters.js','src/data/calendar.js','src/data/places.js','src/data/courses.js','src/data/activities.js','src/data/events.js','src/social3d.js','src/events3d.js','src/story3d.js','src/classes3d.js']) load(f);
+const load=f=>{ let src=fs.readFileSync(path.join(ROOT,f),'utf8'); src=src.replace(/^const (\w+)\s*=/mg,(m,n)=>/^(CHARACTERS|UNFAMILIAR_POOL|SOCIAL_GRAPH|PORTRAITS|STORY_EVENTS|SMALLTALK|SOCIAL|EVENTS|STORY|CALENDAR|PLACES|COURSES|CLS|ACTIVITIES|EXAM_BANK)$/.test(n)?'globalThis.'+n+'=':m); vm.runInThisContext(src,{filename:f}); };
+for(const f of ['src/data/characters.js','src/data/calendar.js','src/data/places.js','src/data/courses.js','src/data/activities.js','src/data/exam_bank.js','src/data/events.js','src/social3d.js','src/events3d.js','src/story3d.js','src/classes3d.js']) load(f);
 let fails=0; const check=(name,ok,info)=>{ console.log((ok?'PASS ':'FAIL ')+name+(info?'　'+info:'')); if(!ok) fails++; };
 const DAY=86400000, dayOf=s=>{ const [y,m,d]=s.split('-').map(Number); return Math.round((Date.UTC(y,m-1,d)-Date.UTC(2025,8,17))/DAY)+1; };
 const dOf=(term,w,wd)=>{ for(let d=1;d<2000;d++){ const t=CALENDAR.termOf(d); if(t&&t.id===term&&t.week===w&&(wd==null||CALENDAR.dateOf(d).wd===wd)) return d; } return null; };
@@ -23,13 +23,13 @@ const fresh=(day)=>{ G={day,hour:15,weekday:CALENDAR.dateOf(day).wd%7,zone:'camp
 const ST=id=>SMALLTALK[id]||[];
 const line=(id,re)=>ST(id).find(e=>(typeof e==='string'?e:e.t).match(re));
 /* ---------- 7-1 五處改字 ---------- */
-{ const e=line('classmate_bohan',/期中還有/);   /* AA_209 附錄A §2 改字 */
-  check('柏翰：「期中還有{n}天，我排了一份進度表，要的話傳你。」（AA_209；midterm 7～14、每學期一次）；舊的「二十一天」拿掉了',!!e&&JSON.stringify(e.midterm)==='[7,14]'&&e.once==='term'&&!ST('classmate_bohan').some(q=>/二十一天/.test(typeof q==='string'?q:q.t)));
-  const mid=dOf('Y1S1',8,1);   /* 第 8 週週一（期中考週的第一天）*/ fresh(mid-10); const n=STORY.daysToMidterm(G); const first=(()=>{ for(let d=mid-10;d<mid+14;d++){ if(CLS.dayItems(G,d).some(it=>it.exam==='mid')) return d; } return null; })();
-  check('天數＝今天到這學期第一個期中考時段（照課表與日曆）',n===first-(mid-10),'n='+n+'，第一科在 '+(first&&CALENDAR.dateOf(first).key));
-  const said=[]; for(let k=0;k<30;k++){ fresh(mid-20+k); G.social.small={classmate_bohan:{day:0,used:['「我在寫考古題，第二題卡住了。」'],last:null}}; const L=STORY.smallTalk(G,'classmate_bohan'); if(L.say&&/期中還有/.test(L.say)) said.push(STORY.daysToMidterm(G)+':'+L.say); }
+{ const e=line('classmate_bohan',/期末還有/);   /* AA_209 附錄A §2 改字；D118 沒有期中考，AA_578 第 2 節 #1 改到第一科期末考 */
+  check('柏翰：「期末還有{n}天，我排了一份進度表，要的話傳你。」（AA_209；AA_578 #1 期中→期末、final 7～14、每學期一次）；舊的「二十一天」拿掉了',!!e&&JSON.stringify(e.final)==='[7,14]'&&e.once==='term'&&!ST('classmate_bohan').some(q=>/二十一天/.test(typeof q==='string'?q:q.t)));
+  const mid=dOf('Y1S1',16,1);   /* 第 16 週週一（期末考週的第一天；D118 沒有期中考，AA_578 #1）*/ fresh(mid-10); const n=STORY.daysToFinal(G); const first=(()=>{ for(let d=mid-10;d<mid+14;d++){ if(CLS.dayItems(G,d).some(it=>it.exam==='final')) return d; } return null; })();
+  check('天數＝今天到這學期第一個期末考時段（照課表與日曆）',n===first-(mid-10),'n='+n+'，第一科在 '+(first&&CALENDAR.dateOf(first).key));
+  const said=[]; for(let k=0;k<30;k++){ fresh(mid-20+k); G.social.small={classmate_bohan:{day:0,used:['「我在寫考古題，第二題卡住了。」'],last:null}}; const L=STORY.smallTalk(G,'classmate_bohan'); if(L.say&&/期末還有/.test(L.say)) said.push(STORY.daysToFinal(G)+':'+L.say); }
   check('只在 7～14 天前說，句子裡的天數是那一天算出來的（中文數字）',said.length>0&&said.every(t=>{ const n=+t.split(':')[0]; return n>=7&&n<=14&&t.includes('還有'+STORY.zhNum(n)+'天'); }),said.slice(0,3).join(' / '));
-  fresh(mid-10); G.social.small={classmate_bohan:{day:0,used:[],last:null,once:{[e.t]:'Y1S1'}}}; let again=false; for(let k=0;k<3;k++){ G.day=mid-10+k; G.social.small.classmate_bohan.day=0; const L=STORY.smallTalk(G,'classmate_bohan'); if(L.say&&/期中還有/.test(L.say)) again=true; }
+  fresh(mid-10); G.social.small={classmate_bohan:{day:0,used:[],last:null,once:{[e.t]:'Y1S1'}}}; let again=false; for(let k=0;k<3;k++){ G.day=mid-10+k; G.social.small.classmate_bohan.day=0; const L=STORY.smallTalk(G,'classmate_bohan'); if(L.say&&/期末還有/.test(L.say)) again=true; }
   check('同一學期說過就不再說（once:term）',!again); }
 { const L=ST('classmate_xinci').filter(e=>typeof e==='object'&&/雙主修|自學過一點經濟|念過經濟系，我只問/.test(e.t)&&e.t!=='「這學期雙主修的課沒有撞堂。……我把那一格空下來了。」');   /* AA_497 2-9（2026-10-28）大三上新閒聊也有「雙主修」三個字，不是這三個版本 */
   check('芯慈：「經濟系那邊的課比較輕鬆」拿掉，換成三個版本（大一上、下；雙主修事件以後不說）',L.length===3&&L.every(e=>JSON.stringify(e.term)==='["Y1S1","Y1S2"]'&&e.if&&JSON.stringify(e.if.notEvents)==='["ev_xinci_double"]')&&!ST('classmate_xinci').some(q=>/比較輕鬆/.test(typeof q==='string'?q:q.t)));

@@ -25,7 +25,7 @@ const GROUP_EVENTS=(function(){
     beforeOuting:G=>{ const g=G1(); if(g&&g.springSeat) g.springSeat(G); },   /* 車上的三個人（AA_375 第 5 項，照熟悉度）*/
     dialogue:[ {scene:'車上',bg:'car_morning'},{speaker:null,text:'（你回家把車開出來。後座擠了三個人。）'},
       {if:{custom:G=>{ const g=G1(); return !!g&&g.springTrain(G); }},speaker:null,text:'（車子坐不下。剩下的人搭火車，下午在那邊會合。）'},   /* AA_375 第 5 項：認識的超過三個＝其他人搭火車；會合以後（海邊）照樣有他們的句子 */
-      {scene:'小鎮的市場',bg:'dark'},   /* 小鎮的傳統市場背景沒有（AA_143，底圖等使用者）→ dark＋字幕 */
+      {scene:'小鎮的市場',bg:'town_market'},   /* 11-02 使用者生成（BB_132 第 96 組第 3 張；原本深色底＋字幕）*/
       {speaker:null,text:'（市場在小鎮車站的後面。早上九點，攤販已經在收第一輪了。）'},
       {if:car('heroine_03'),speaker:'heroine_03',text:'這個市場，我田野課看過資料。……想自己來看一次。'},   /* 市場（早上）＝車上的人；搭火車的下午才到（AA_375 第 5 項）*/
       {if:car('zhe'),speaker:'zhe',text:'（手上拿著一袋剛炸好的東西）這個好吃。我不知道是什麼。'},
@@ -139,7 +139,7 @@ const GROUP_EVENTS=(function(){
     afterOuting:async(G,GM)=>{ if((G.flags||{}).ZHE4_REPLY!=='out'||['dorm','dorm_hall'].includes(G.zone)||!GM.enter) return; if(GM.fade) await GM.fade(true); await GM.enter('dorm',{x:0,z:2.4,yaw:Math.PI},{noFade:true,deferStory:true}); } },
   /* 冠軍賽（2028-04-29 19:00 新體育館；AA_40 哲 4、BB_98 5-2 明軒 M3）→ 20:40 全隊去麵店。和明軒 FAMILIAR 以上：他經過你旁邊、三選一 */
   { id:'ev_final_game_y3', title:'系籃冠軍賽', participants:[], location:'any', trigger:'outing', once:true, background:'dark', hours:1,
-    dialogue:[ {scene:'新體育館・球場',bg:'dark'},{speaker:null,text:'（新體育館一樓的球場。看台坐滿了。）'},
+    dialogue:[ {scene:'新體育館・球場',bg:'gym_court'},{speaker:null,text:'（新體育館一樓的球場。看台坐滿了。）'},
       {if:{custom:G=>!!(G.flags||{}).ZHE_SCOOTER||(typeof SOCIAL!=='undefined'&&SOCIAL.has('zhe','ZHE_SCOOTER'))},speaker:null,text:'（球場外面，阿哲的機車停得特別整齊。）'},
       {speaker:null,text:'（最後一顆，阿哲傳給明軒。他們贏了。）'},
       {speaker:'zhe',text:'（把獎盃塞給明軒）你拿。最後那顆是你的。'},

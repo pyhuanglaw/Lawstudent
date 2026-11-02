@@ -23,7 +23,7 @@ const setExam=(id,ks)=>{ const R=CLS.rec(H.G); R.exam=R.exam||{}; lawCs(id).forE
 (async()=>{
 await sec(0,()=>{ const html=fs.readFileSync(path.join(H.ROOT,'index.html'),'utf8'), st=fs.readFileSync(path.join(H.ROOT,'src/story3d.js'),'utf8');
   check('0. src/honor3d.js 載得到、index.html 接在 closed3d.js 後面',ok&&!!X()&&/closed3d\.js\?v=[^"]+"><\/script>\n<script src="src\/honor3d\.js\?v=[^"]+"><\/script>/.test(html),err);
-  check('0. story3d.js：S.PRE_TALK、說話前一個一個問',Array.isArray(STORY.PRE_TALK)&&STORY.PRE_TALK.includes(X()&&X().preTalk)&&/for\(const f of S\.PRE_TALK\)\{ try\{ await f\(GM,who,id\); \}/.test(st)); });
+  check('0. story3d.js：S.PRE_TALK、說話前一個一個問',Array.isArray(STORY.PRE_TALK)&&STORY.PRE_TALK.includes(X()&&X().preTalk)&&/for\(const f of S\.PRE_TALK\)\{ (?:if\([^)]*\) continue; )?try\{ await f\(GM,who,id\); \}/.test(st)); });
 if(!X()){ H.done(); return; }
 
 await sec(1,()=>{ const d=termDay('Y1S2',2,1); at(d,10); const n=lawCs('Y1S1').length;
@@ -56,22 +56,22 @@ await sec(4,()=>{ const d=termDay('Y1S1',5,1); at(d,10); const R=CLS.rec(H.G); c
   const c1=att[0], c2=att[1]; R.attend[c1.id]=2; R.attend[c2.id]=3; const g=CLS.reportFor(H.G,'Y1S1');
   check('4. 成績單：兩堂「不及格（下學期重修）」、三堂「及格」',g[c1.id]==='不及格（下學期重修）'&&g[c2.id]==='及格',J([g[c1.id],g[c2.id]]));
   const h=CLS.weekHTML(H.G);
-  check('4. 課表：「出席 2／3 堂（三堂及格）」「已達及格（3 次）」',h.includes(c1.name+' 出席 2／3 堂（三堂及格）')&&h.includes(c2.name+' 已達及格（3 次）'));
+  check('4. 課表（ATTEND-ROLLCALL-1102）：看出席的課寫「點過 n 次名（缺 m 次）」，只算已經點過的',new RegExp(c1.name.replace(/[()（）]/g,'.')+' 點過 \\d 次名').test(h)&&!/三堂及格/.test(h),h.slice(h.indexOf('出席：'),h.indexOf('出席：')+200));
   check('4. 服務學習照舊只記次數',!sv||h.includes(sv.name+' '+(R.attend[sv.id]||0)+'／')); });
 
 await sec(5,()=>{ const d=termDay('Y1S1',12,1); at(d,7.5); const R=CLS.rec(H.G), att=CLS.termCourses(H.G,'Y1S1').filter(CLS.attCourse); for(const c of att) R.attend[c.id]=3; R.attend[att[0].id]=1; R.attend[att[1].id]=2;
   X().phone(H.G); check('5. 第 12 週週一 07:30 還沒',!PHONE.sent(H.G,'att_warn_Y1S1'));
   H.G.hour=8.1; X().phone(H.G); PHONE.tick(H.G); const m=H.msgs('sys');
   const e0='【出席】'+att[0].name+'：這學期出席 1／3 堂。三堂及格，還有 5 週。', e1='【出席】'+att[1].name+'：這學期出席 2／3 堂。三堂及格，還有 5 週。';
-  check('5. 08:06：不到三堂的兩門各一則（AA_418 第 2 節的字）',m.length===2&&m.includes(e0)&&m.includes(e1),J(m));
-  H.G.hour=15; X().phone(H.G); PHONE.tick(H.G); check('5. 只提醒一次',H.msgs('sys').length===2);
-  at(d,10); const R2=CLS.rec(H.G); for(const c of CLS.termCourses(H.G,'Y1S1').filter(CLS.attCourse)) R2.attend[c.id]=3; X().phone(H.G); PHONE.tick(H.G); check('5. 都滿三堂：不提醒',!H.msgs('sys').length); });
+  const risk=att.filter(c=>CLS.rollStat(H.G,c,'Y1S1',H.G.day).missed>=2); check('5. 08:06（ATTEND-ROLLCALL-1102）：點名已經缺 2 次以上的每門一則「這學期點過 n 次名，你缺了 m 次。」',m.length===risk.length&&m.length>0&&m.every(x=>/^【出席】.+：這學期點過 \d 次名，你缺了 \d 次。$/.test(x)),J({m,risk:risk.map(c=>c.id)}));
+  H.G.hour=15; X().phone(H.G); PHONE.tick(H.G); check('5. 只提醒一次',H.msgs('sys').length===risk.length);
+  at(d,10); const R2=CLS.rec(H.G); for(let dd=d-90;dd<d;dd++) for(const it of CLS.dayItems(H.G,dd)) if(CLS.attCourse(it.c)) R2.done[it.key]=1; X().phone(H.G); PHONE.tick(H.G); check('5. 點名都到了：不提醒',!H.msgs('sys').length); });
 
 await sec('5b',()=>{ const d=termDay('Y1S1',3,1); at(d,9); const L=id=>CLS.attRuleLines(H.G,Object.assign({},CLS.byId(id)));
-  check('5b. 國文：老師兩句',J(L('chinese_y1'))===J([['老師','這門課看出席。一學期來三次就及格。'],['老師','……可是我希望你們不是只來三次。']]),J(L('chinese_y1')));
-  check('5b. 日文：日文那句＋中文',L('japanese_1')[0][1]==='この授業は出席を見ます。三回来れば、合格です。');
+  check('5b. 國文：老師兩句（ATTEND-ROLLCALL-1102 AA 定稿）',J(L('chinese_y1'))===J([['老師','這門課我會點名，不會事先講。'],['老師','……可是我希望你們不是因為點名才來。']]),J(L('chinese_y1')));
+  check('5b. 日文：日文那句＋中文',L('japanese_1')[0][1]==='この授業は、ときどき出席を取ります。');
   check('5b. 經濟學原理：沒演過經濟系＝兩句；演過（Y0_LEFT）＝多一句旁白',L('econ_principles_1').length===2&&(H.G.flags.Y0_LEFT=true,L('econ_principles_1').length===3&&L('econ_principles_1')[2][0]===null));
-  check('5b. 重修的學期：多「重修的同學，這學期重新算三次。」',CLS.attRuleLines(H.G,Object.assign({},CLS.byId('pe_y1s1'),{rt:{from:'Y1S1'}})).slice(-1)[0][1]==='重修的同學，這學期重新算三次。');
+  check('5b. 重修的學期：多「重修的同學，這學期一樣會點名。」（AA_578 第 5 節定稿）',CLS.attRuleLines(H.G,Object.assign({},CLS.byId('pe_y1s1'),{rt:{from:'Y1S1'}})).slice(-1)[0][1]==='重修的同學，這學期一樣會點名。');
   const src=fs.readFileSync(path.join(H.ROOT,'src/classes3d.js'),'utf8');
   check('5b. CLS.attend：看出席的課、這一學期第一次出席才說（R.attRule）',/if\(S\.attCourse\(c\)\)\{ const rk=it\.term\+':'\+c\.id;[^\n]*if\(!R\.attRule\[rk\]\)/.test(src)); });
 

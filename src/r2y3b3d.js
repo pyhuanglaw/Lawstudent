@@ -85,9 +85,11 @@ const R2Y3B=(function(){
   S.C6_PHONE={open:['欸，成發的錢對不起來。少了三千。經手的是學弟。','我不想讓他覺得我在懷疑他。可是三千塊。'],
     opts:[{k:'pay',t:'要學弟賠。',r:'……他是學弟耶。我先不要這樣。'},{k:'open',t:'把帳攤開，請大家補單據。',r:'……好。這樣比較不像在抓人。'},{k:'rule',t:'社團的錢是大家的。先照社團的規則，把收支表和單據放在一起。',r:'對！我們社團有規則！……我去找出來。',assoc:true}],
     ask:'妳真正想要的是什麼？',ans:'……我想要帳對得起來，學弟也還會來社課。',last:'那先找社團的指導老師。這個不用去法服。'};
+  /* 手機筆記（AA_117 C6；AA117-CASE-NOTES-1031）：請求什麼是玩家選的那一行（同當面版 r2y3b_events.js）；誰、向誰、依據什麼照 AA-B 2026-11-01 回覆（D109）的字。LEGAL_REVIEW_REQUIRED：只寫方向 */
+  S.C6_NOTE=['誰：社團（她是負責人）','向誰：經手的學弟，和社團大家','依據什麼：社團的規則、收支表和單據','請求什麼：'];
   S.c6PhoneItems=function(G){ const C=S.C6_PHONE, Y=t=>({from:'yu',text:t}), P=t=>({from:'player',text:t});
     const items=[].concat(...C.open.map(YU_SPLIT)).map(Y), opts=C.opts.filter(o=>!o.assoc||!!G.flags.U_ASSOC).map(o=>({t:o.t,set:{YU_C6:o.k},say:YU_SPLIT(o.r).map(Y).concat([P(C.ask)],YU_SPLIT(C.ans).map(Y),[P(C.last)])}));
-    items[items.length-1]=Object.assign(items[items.length-1],{ask:{id:'y3_yu_c6_phone',opts}}); return items; };
+    items[items.length-1]=Object.assign(items[items.length-1],{ask:{id:'y3_yu_c6_phone',opts,note:S.C6_NOTE.slice()}}); return items; };
   S.c6MeetDue=G=>{ const d=D('2028-03-16'); return d!=null&&G.day===d&&hh(G)>=12.5&&hh(G)<13&&G.flags.YU_C6_MEET===true&&!G.flags.YU_C6; };
   S.c6Phone=function(G){ const d15=D('2028-03-15'), d16=D('2028-03-16'), d23=D('2028-03-23'); if(d15==null||G.day<d15||G.day>d23+7) return; const F=G.flags;
     if(now(G)>=T(d15,21)&&!PHONE.sent(G,'y3_yu_c6')&&met(G,'yu','FAMILIAR')&&dmOk(G,'yu')&&G.day<=d16){ const Y=M('p:yu','yu');
@@ -436,6 +438,34 @@ const R2Y3B=(function(){
       G=>tutor(G)?'最後一堂課，學生的媽媽塞了一盒水果給你。':'最後一班，老闆多給了一個便當。'],
     study:['你把大一的《民法》從紙箱裡拿出來。書角都翻捲了。','七月。冷氣開著，你讀完第一本。','姊姊回家，看到你的筆記：『這是你寫的？字變小了。』']};
   S.sumLine=function(G,i){ const k=G.flags&&G.flags.SUMMER_Y3; const x=(S.SUMMER_LINES[k]||[])[i]; return typeof x==='function'?x(G):(x||null); };
+  /* AA_549 3-1（企劃線 AA_549 第 3 節 3-1；第①級）：三選一整個暑假只有三句旁白＝改成九個小場景。日子照 S.SUM_DAYS（臺灣 6/26、7/24、8/21；美國 6/26、7/24、7/31；日本沒有）。
+     每一場：原本那一句旁白（S.sumLine）先演，接這裡的台詞，演完照舊。稿上第一行就是原本那一句的（實習 6/26、7/24，家教 7/24）不重複演；replace＝這一場取代原本那一句（實習 8/21 主任開口，AA 回第 5 題）。
+     {lines, choice:[{t, say}]}；函式＝照打工的種類、以安回來了沒；null＝只有原本那一句（其他打工的 6/26）。不取名的人照稿寫稱呼（指導律師、主任、學生、學生的媽媽、老闆、隔壁的考生）*/
+  const NPS=(name,text)=>({who:'npc_aa549',name,text});
+  S.anBackY3=G=>{ const d=D('2028-08-05'); return d!=null&&G.day>=d&&knows('heroine_01',G)&&!!(typeof STORY!=='undefined'&&STORY.presence&&STORY.presence('heroine_01',G).here); };   /* 「認識以安、她從日本回來（8/5 起）」*/
+  S.SUMMER_SCENES={
+    intern:[
+      {lines:[NPS('指導律師','影印完，順便看一下你印的是什麼。'),NPS('指導律師','……看懂了嗎？')],
+        choice:[{t:'「一半。」',say:[NPS('指導律師','一半很好。我第一年只看懂三分之一。')]},{t:'「看懂了。」',say:[NPS('指導律師','那明天你來寫摘要。')]}]},
+      {lines:[NPS('指導律師','這兩個字很重要。「可能」跟「應該」，不一樣。')]},
+      {replace:true,lines:[NPS('主任','明年考完，再來。'),{narr:'（你的桌上多了一張卡片，事務所五個人的字。最下面那個字最醜，是主任寫的。）'}]}],   /* AA 回第 5 題：主任開口取代原本那一句旁白（「最後一天，主任說：『明年考完，再來。』」不再說）*/
+    work:[
+      G=>tutor(G)?{lines:[NPS('學生','老師，暑假也要上喔？')],choice:[{t:'「暑假才要上。」',say:[NPS('學生','……好啦。')]},{t:'「上完帶你去吃冰。」',say:[NPS('學生','說好的喔。')]}]}:null,   /* 家教：原本那一句（在家／宿舍兩版）＋；其他打工的 6/26 稿上沒有 */
+      G=>tutor(G)?{lines:[NPS('學生','那我不要念法律。……我要念背完就結束的。')]}:{lines:[NPS('老闆','冷氣修好了。這三天辛苦你了。')]},
+      G=>tutor(G)?{lines:[NPS('學生的媽媽','這一盒是我們家自己種的芒果。拿回去。'),{narr:'（學生在門口揮手，揮到電梯門關起來。）'}]}:{lines:[NPS('老闆','便當帶走。明年暑假還要來喔。')]}],
+    study:[
+      {lines:[{narr:'（總圖 B1 的位子，八點以前就被書包佔滿。你搶到靠插座的那一個。）'},NPS('隔壁的考生','同學，你也是明年考？')],
+        choice:[{t:'「對。」',say:[NPS('隔壁的考生','加油。我第三年了。……今年會上。')]},{t:'「還沒決定。」',say:[NPS('隔壁的考生','那很好。慢慢想。')]}]},
+      {lines:[{narr:'（七月最熱的那個禮拜，B1 的冷氣開到最強。你帶了一件外套。）'},{narr:'（隔壁的考生把一包餅乾推過來。）'},NPS('隔壁的考生','多買的。')]},
+      G=>S.anBackY3(G)?{lines:[{who:'heroine_01',text:'你暑假都在這裡？'},{who:'heroine_01',text:'……我在京都的圖書館，也是坐最角落。'},{who:'heroine_01',text:'明天開始，我也來。'}]}
+        :{lines:[{narr:'（隔壁的考生今天沒有來。他的位子上放了一張紙條：「我上了。這個位子給你。」）'}]}]};
+  S.sumScene=function(G,i){ const k=G.flags&&G.flags.SUMMER_Y3; let x=(S.SUMMER_SCENES[k]||[])[i]; if(typeof x==='function') x=x(G); return x||null; };
+  const runS=async(GM,L)=>{ const G=GM.G; for(const x of (L||[])){ if(!x) continue; if(x.narr) await GM.say(null,x.narr); else if(x.who&&x.name) await GM.say({name:x.name},x.text); else if(x.who) await GM.say({name:nm(x.who),charId:x.who},x.text); } };
+  /* 摘要日 18:30 在宿舍／家裡演，說話的是白天的人（指導律師、主任、學生的媽媽）：這一段背景改模糊（像回想），演完換回原本的背景（BB-B 11-01 n40：背景是 3D 宿舍，對不上）*/
+  S.playSumScene=async function(GM,i){ const sc=S.sumScene(GM.G,i); if(!sc) return false; const A=typeof ADV!=='undefined'&&ADV.active&&ADV.setBg?ADV:null, prev=A?A.bgMode:null; if(A&&prev!=='blur') A.setBg('blur');
+    try{ await runS(GM,sc.lines); if(sc.choice&&sc.choice.length){ const c=sc.choice[await GM.choose(sc.choice.map(o=>({t:o.t})))]||sc.choice[0]; await runS(GM,c.say); } }
+    finally{ if(A&&prev&&prev!=='blur'&&A.active) A.setBg(prev); }   /* 原本是圖片（家裡的底圖）也換得回去：ADV.setBg 收物件 */
+    return true; };
   /* 7/9（日）12:00 語彤生日：照大一的寫法（home3d.js 2026 那一則）——麵店團群組 Alison＋按鈕「傳一句生日快樂」；不在群組、和語彤 FAMILIAR 以上＝她的私訊放同一個按鈕。日本路線也是同一則 */
   S.ytBdayPhone=function(G){ const d=D('2028-07-09'); if(d==null||now(G)<T(d,lt(G,d,12))||now(G)>=T(d+1,lt(G,d+1,0))||PHONE.sent(G,'yt_bday_y3')) return;
     const reply={from:'heroine_03',text:'……謝謝。今年的田野，訪問到第二十二個了。'}   /* AA_509 0-2 第 2 點：8/22 問阿姨才是第二十三個（9/7「阿姨是第二十三個」）；宜蘭的田野課不算 */, opt={t:'傳一句生日快樂',post:'生日快樂。',say:[reply],set:{YT_BDAY_Y3:true}};
@@ -485,7 +515,7 @@ const R2Y3B=(function(){
   S.breakArrive=async function(GM){ const G=GM.G, t=now(G), r=rk(G), at=(k,h)=>{ const d=D(k); return d!=null&&Math.abs(T(d,h)-t)<1e-6; };
     if(at('2028-07-15',10)&&r!=='JP'){ phoneNow(GM); await GM.say(null,'（最後一次抽籤。四樓。）'); }   /* lottery4（2-Y3-49；台灣、美國路線）*/
     for(const [k,i] of (S.SUM_DAYS[r]||[])){ if(!at(k,18.5)) continue; const d=D(k); if(typeof HOME!=='undefined'&&HOME.sumSkip&&HOME.sumSkip(G,d)) continue;
-      const l=S.sumLine(G,i); if(l) await GM.say(null,l); } };   /* 8/21 的「信封到了」作廢（AA_343 D8）*/
+      const l=S.sumLine(G,i), sc=S.sumScene(G,i); if(l&&sc&&sc.replace){ await S.playSumScene(GM,i); continue; } if(l){ await GM.say(null,l); await S.playSumScene(GM,i); } } };   /* 8/21 的「信封到了」作廢（AA_343 D8）；AA_549 3-1：原本那一句之後接小場景（replace＝小場景取代那一句）*/
   if(typeof HOME!=='undefined'&&!HOME._r2y3bBreak){ if(Array.isArray(HOME.STOPS)) HOME.STOPS.push((G,nowT)=>S.stops(G,nowT));
     if(HOME.breakArrive){ const ba0=HOME.breakArrive; HOME.breakArrive=async function(GM){ const r=await ba0.apply(this,arguments); try{ await S.breakArrive(GM); }catch(e){ console.warn('R2Y3B breakArrive',e); } return r; }; }
     HOME._r2y3bBreak=true; }
@@ -612,7 +642,7 @@ const R2Y3B=(function(){
     const t=x=>M&&M.subst?M.subst(x,G,c):String(x).replace(/\{她\}/g,c.her||'');
     return PHONE.at(G,G.day,hh(G),X.Q15.knowsMsg.map(x=>({th:'p:heroine_04',from:'heroine_04',text:t(x)})),'y3_zq_knows_msg'); };
   S.q15NoReply=function(G){ const Q=G.flags&&G.flags.ZQ_Q15; if(!Q||Q.res!=null) return; Q.res='none'; if(typeof TERMEND!=='undefined'){ TERMEND.rec(G).think.heroine_04='Y3S2'; TERMEND.rec(G,'Y3S2').result='think'; } };   /* 不回＝「讓我想想」：這學期不交往，下學期她用第二次的邀約 */
-  S.q15NoReplyDm=function(G){ const Q=G.flags&&G.flags.ZQ_Q15, X=XT(); if(!Q||!X) return; S.q15NoReply(G); if(Q.res!=='none'||typeof PHONE==='undefined') return; PHONE.at(G,Q.day+2,21,[{th:'p:heroine_04',from:'heroine_04',text:Q.k==='not_question'?X.Q15.noReplyNQ:X.Q15.noReply}],'y3_zq_noreply'); };
+  S.q15NoReplyDm=function(G){ const Q=G.flags&&G.flags.ZQ_Q15, X=XT(); if(!Q||!X) return; S.q15NoReply(G); if(Q.res!=='none'||typeof PHONE==='undefined') return; PHONE.at(G,Q.day+2,21,[{th:'p:heroine_04',from:'heroine_04',text:X.Q15.noReply}]   /* AA_573：「這次是直述句」拿掉以後兩支同一句（noReplyNQ 刪了）*/,'y3_zq_noreply'); };
   /* 家裡（home3d.js 的 loop 問 STORY.y4HomeDue）：「回答.exe」在家演（stay）；Z13 帶到場＝先離開家 */
   S.homeDue=G=>{ if(!law(G)) return null; if(S.exeDue(G)) return 'stay'; if(S.z13BringDue(G)) return 'r2y3b_z13'; return null; };
   if(typeof STORY!=='undefined'&&!STORY._r2y3bHome){ const hd0=STORY.y4HomeDue, hs0=STORY.y4HomeScene, hf0=STORY.y4FromHome;

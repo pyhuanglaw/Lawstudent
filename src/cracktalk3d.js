@@ -18,7 +18,7 @@
      不回答＝幾天以後她傳的那幾句（AA_123、BB_119）、ROM.end(…,'apart_drift')、EX_<id>_REASON='drift'（語彤：一週後到麵店那一句；芷若：兩週後的信封）；
      BB 的三位：讓計數到 3 的那一件是避不掉的（沒有選項的：芷若②明信片）＝那一次「不回答」改成她傳「我們再試一個月」、歸零（一次）。
      修補承諾（BB_119 第 7 節）：芷若「每週固定一個時間」＝ZR_WEEKLY_FIX（zr_uk3d.js 讀）、之後的固定時間視訊八次接六次（ZRUK 的紀錄）；沒做到＝分開（apart_talk）＋她最後一句私訊。
-       芷若「寒假我去英國找妳」：1c-1 那一趟（ev_zhiruo_uk_visit）還沒進遊戲，這個選項先不出；大四下（寒假以後）本來就沒有（AA_263 C19）。
+       芷若「寒假我去英國找妳」：1c-1 那一趟（ev_zhiruo_uk_visit）進遊戲以前不出（現在在 src/v6b_3d.js，它另外擋了邀約期限過了、沒答應的）；大四下（寒假以後）本來就沒有（AA_263 C19）。
        沛珊、子晴的修補怎麼驗照 AA_431 1-7（見下面）。
    ■ 裂縫來源（遊戲裡真的有給機會的）：
      語彤①（AA_182 1-2）：交往中、她的週四是自己的（STORY.ytThuFree）、那天 17:00～20:00 她照作息在總圖三樓＝12:10 她傳「今天週四。總圖三樓，斜對面的位子我留了。」；
@@ -179,7 +179,7 @@ const CRACKTALK=(function(){
   /* ======================= 談話本身 ======================= */
   const PRE={ev_an_talk_plg:L.PRE.plg,ev_an_talk_video:L.PRE.video,ev_an_talk_jp:L.PRE.jp,ev_yt_talk_video:L.PRE.video,ev_peishan_two_directions:L.PRE.video,ev_zhiruo_timezone_talk:L.PRE.video,ev_ziqing_direct_statement:L.PRE.river};
   const WHO={ev_an_talk:AN,ev_an_talk_plg:AN,ev_an_talk_video:AN,ev_an_talk_jp:AN,ev_yt_talk:YT,ev_yt_talk_video:YT,ev_peishan_two_directions:PS,ev_zhiruo_timezone_talk:ZR,ev_ziqing_direct_statement:ZQ};
-  const TITLE={[AN]:'以安：理由',[YT]:'語彤：分出來的時間',[PS]:'沛珊：兩個方向',[ZR]:'芷若：時差',[ZQ]:'子晴：直述句'};
+  const TITLE={[AN]:'以安：理由',[YT]:'語彤：分出來的時間',[PS]:'沛珊：兩個方向',[ZR]:'芷若：時差',[ZQ]:'子晴：錯過'};   /* AA_573（使用者 11-02「不是問句這種句型給我全部刪掉」）；事件 id ev_ziqing_direct_statement 不改：舊存檔的 plan、done 靠它 */
   const OUTING=new Set(['ev_an_talk_video','ev_an_talk_jp','ev_yt_talk_video','ev_peishan_two_directions','ev_zhiruo_timezone_talk','ev_ziqing_direct_statement']);
   S.prep=function(G,id){ const F=G.flags; F.CT_RES=null; F.CT_ASKED=false;
     if(id===ZR){ const td=Math.floor(twNow(G)/24+1e-9); F.CT_ZR_WINTER=typeof ZRUK!=='undefined'&&ZRUK.winter?!!ZRUK.winter(G,td):false;
@@ -300,17 +300,22 @@ const CRACKTALK=(function(){
     for(const n of Object.keys(R.sent||{})){ const P=sub(R,'done'); if(P[n]) continue; const a=ansOf(tag(n)); if(a==null) continue; P[n]=true; const X=X2.yt2[R.sent[n]]; if(X.opts[a]&&X.opts[a][2]) S.add(G,YT); } };   /* 不回＝0（她本來就只是告知）*/
 
   /* ---------- 1-4 沛珊（大三起她在台南）---------- */
-  /* 第 8、9 週哪幾週有期中考（AA_463 第 7 節③）：{8:bool, 9:bool}，同 S.midBoth 的算法 */
+  /* 第 8、9 週哪幾週有期中考（AA_463 第 7 節③）：{8:bool, 9:bool}，同 S.midBoth 的算法——D118 沒有期中考，恆為 {8:false,9:false}（留著給舊的呼叫）*/
   const mwCache={}; S.midWeeks=function(G,tid){ if(tid in mwCache) return mwCache[tid]; if(typeof CLS==='undefined'||!CLS.dayItems) return mwCache[tid]={8:false,9:false};
     const has=w=>{ for(let wd=1;wd<=5;wd++){ const d=dayOfTerm(tid,w,wd); if(d!=null&&CLS.dayItems(Object.assign({},G,{day:d}),d).some(it=>it.exam==='mid')) return true; } return false; };
     return mwCache[tid]={8:has(8),9:has(9)}; };
   const midCache={}; S.midBoth=function(G,tid){ if(tid in midCache) return midCache[tid]; if(typeof CLS==='undefined'||!CLS.dayItems) return midCache[tid]=false; const has=w=>{ for(let wd=1;wd<=5;wd++){ const d=dayOfTerm(tid,w,wd); if(d!=null&&CLS.dayItems(Object.assign({},G,{day:d}),d).some(it=>it.exam==='mid')) return true; } return false; };
-    return midCache[tid]=has(8)&&has(9); };   /* 祐廷的期中考在第 8、9 兩週都有；只有一週的學期沒有這一項 */
+    return midCache[tid]=has(8)&&has(9); };   /* 祐廷的期中考在第 8、9 兩週都有；只有一週的學期沒有這一項——D118 沒有期中考：恆為 false（AA_578 第 2 節 #8）*/
+  /* D118（使用者 11-02「沒有期中考」；AA_578 第 2 節 #5、#8）：沛珊①改成只看期末考週——那學期第一科期末考那一週（通常第 16 週；大四下第 15 週）的週五 21:00 發第 8 週那一版（不加）；
+     第 8～9 週照常視訊；第二次改期（第 9 週那一版、加裂縫）不再發生。回傳那一週的週次，沒有期末考＝null */
+  const fwCache={}; S.psExamWeek=function(G,tid){ if(tid in fwCache) return fwCache[tid]; if(typeof CLS==='undefined'||!CLS.examList) return fwCache[tid]=null;
+    const L=CLS.examList(G,tid).filter(e=>e.kind==='final').sort((a,b)=>a.day-b.day), t=L.length?CALENDAR.termOf(L[0].day):null; return fwCache[tid]=t&&t.id===tid?t.week:null; };
   S.ps=function(G){ const R=sub(S.src(G),'ps'), d=G.day, h=hh(G), t=CALENDAR.termOf(d); S.psVisits(G);
     const on=dating(G,PS)&&!abroad(G)&&S.psTN(G,d);
-    /* ① 期中考週的週五 21:00：改期（避不掉）*/
-    /* 觸發條件（AA_463 第 7 節③）：那學期第 8 或第 9 週有期中考＝有考試的第一個週五發第 8 週那一版（不加）；兩週都有考試的，第二個週五（第 9 週）再發第 9 週那一版（加裂縫，避不掉）。tag 照週次 ct_ps1_<學期>_<週> */
-    if(on&&t&&(t.week===8||t.week===9)&&wdOf(d)===5&&h>=21){ const k='ps1_'+t.id+'_'+t.week, S1=sub(R,'sent'), MW=S.midWeeks(G,t.id); if(!S1[k]&&MW[t.week]){ S1[k]=d; const second=t.week===9&&MW[8], P1=Object.assign({},X2.ps1,(X2.ps1.byTerm||{})[t.id]||{});   /* 她的話照學期換（AA_463 4-3）*/
+    /* ① 考試週的週五 21:00：改期（避不掉）*/
+    /* 觸發條件（AA_463 第 7 節③）：那學期第 8 或第 9 週有期中考＝有考試的第一個週五發第 8 週那一版（不加）；兩週都有考試的，第二個週五（第 9 週）再發第 9 週那一版（加裂縫，避不掉）。tag 照週次 ct_ps1_<學期>_<週>
+       D118 沒有期中考（AA_578 第 2 節 #5、#8）：只在期末考週（S.psExamWeek）的週五發第 8 週那一版（不加）；第 8～9 週照常視訊；second（第 9 週那一版）恆為 false */
+    if(on&&t&&wdOf(d)===5&&h>=21&&t.week===S.psExamWeek(G,t.id)){ const k='ps1_'+t.id+'_'+t.week, S1=sub(R,'sent'); if(!S1[k]){ S1[k]=d; const second=false, P1=Object.assign({},X2.ps1,(X2.ps1.byTerm||{})[t.id]||{});   /* 她的話照學期換（AA_463 4-3）*/
         PHONE.at(G,d,21,[DM(PS,P1.ask),{th:'p:'+PS,from:'player',who:null,text:P1.me}].concat((second?P1.w9:P1.w8).map(x=>DM(PS,x))),'ct_'+k); if(second) S.add(G,PS,{unavoidable:true}); } }
     /* ② 第 5 週週三 23:10：用法條回答 */
     if(on&&t&&t.week===5&&wdOf(d)===3&&h>=23+10/60){ const k='ps2_'+t.id, S1=sub(R,'sent'); if(!S1[k]){ const c=Object.keys(S1).filter(x=>/^ps2_/.test(x)).length, i=S.nthRot(c,1+(X2.ps2x||[]).length), X=S.ps2Of(i);   /* 照第幾次換（AA_463 4-1）：已經收過幾次（sent 裡 ps2_ 的筆數，舊存檔照算）*/
@@ -394,7 +399,7 @@ const CRACKTALK=(function(){
     '以安①「20:30 還沒到、也沒再傳訊息」：玩家那天有沒有再傳訊息給她沒有判斷（只看 20:30 以前有沒有到讀書會）',
     '子晴③：手機「傳訊息」的話題（MSG.topics／MSG.send 包一層）——一天只能傳一次的限制照 MSG' ];
   S.GAPS=[
-    '芷若「寒假我去英國找妳」：1c-1 那一趟（ev_zhiruo_uk_visit）還沒進遊戲，選項先不出（AA_431 1-7 第 5 點：照這樣）',
+    '芷若「寒假我去英國找妳」：1c-1 那一趟（ev_zhiruo_uk_visit）在 src/v6b_3d.js（feat-v6b-1101）；那邊另外包 S.prep：12/18 的邀約期限（12/19 18:00）過了、沒有回「我去。」＝這個選項不出（去不了的承諾不給選）',
     '語彤②第一次：交往開始 28 天以後（AA_431 只寫「每 4 週一次」，沒寫從哪一天算）；之後每 28 天，A、B 輪流',
     '沛珊③、修補驗證的「一個月」：那個月有 15 天以上是學期中、月中她在台南才算（寒暑假她在台中，不算、往後延）；修補漏一個月＝下個月 1 日 21:00 她問「這個月你會來嗎？」',
     '子晴修補三次邀約的「第二週」「第三週」：從她第一次約的那個週三算（第二週週四＝＋8 天、第三週週二＝＋13 天）；沒回＝那一次沒到',

@@ -1,5 +1,5 @@
 // 多段感情 v6：收拾的時刻（V6-S4）、EX_<id>_REASON（V6-S3）、前任版（V6-A3 以安、A6 語彤、B6 子晴／芷若／學姊）、麵店團（V6-A7）——不需要瀏覽器。
-//   src/v6ex3d.js（V6EX）、src/data/v6ex_lines.js。台詞逐字對企劃（企劃線 claude/cool-heisenberg-o8kuqx @ d805bceee）：
+//   src/v6ex3d.js（V6EX）、src/data/v6ex_lines.js。台詞逐字對企劃（企劃線 claude/story-planning @ d805bceee）：
 //   AA_123 4-3、4-3b、5-3、第 6 節；AA_182 第 2、3 節；BB_119 第 4 節、9-4。每一句直接寫在這裡比對（不從程式讀）。
 //   0 接線　R 分開的原因（EX_<id>_REASON）　S 收拾的時刻（第一個空檔的系統字、書桌的「收拾」、四個選項、在家一天問一次、第七天 22:00 自動補）
 //   A 以安（讀書會分開後第一次、之後和別人交往說一次、送機多一句、新 20 改麵店長桌）　Y 語彤（之後和以安交往說一次）

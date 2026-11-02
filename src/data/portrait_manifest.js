@@ -151,6 +151,21 @@ const PORTRAIT_FILES={
    "smile"
   ]
  },
+ "jp_caizhen": {
+  "campus": [
+   "neutral"
+  ]
+ },
+ "jp_liheng": {
+  "campus": [
+   "neutral"
+  ]
+ },
+ "jp_yuheng": {
+  "campus": [
+   "neutral"
+  ]
+ },
  "kai": {
   "campus": [
    "laugh",
@@ -188,11 +203,56 @@ const PORTRAIT_FILES={
    "neutral"
   ]
  },
+ "npc_kevin": {
+  "campus": [
+   "neutral"
+  ]
+ },
  "npc_ta_chen": {
   "campus": [
    "neutral",
    "smile",
    "thinking"
+  ]
+ },
+ "pool_1": {
+  "campus": [
+   "neutral"
+  ]
+ },
+ "pool_11": {
+  "campus": [
+   "neutral"
+  ]
+ },
+ "pool_15": {
+  "campus": [
+   "neutral"
+  ]
+ },
+ "pool_16": {
+  "campus": [
+   "neutral"
+  ]
+ },
+ "pool_20": {
+  "campus": [
+   "neutral"
+  ]
+ },
+ "pool_4": {
+  "campus": [
+   "neutral"
+  ]
+ },
+ "pool_5": {
+  "campus": [
+   "neutral"
+  ]
+ },
+ "pool_7": {
+  "campus": [
+   "neutral"
   ]
  },
  "prof_huang": {

@@ -1734,7 +1734,7 @@ Meshopt／KTX2 壓縮還沒做。
 - **做法**：LAWWW2-B 用 Blender（bpy）做的社科院：玻璃圖書館（綠屋頂、裡面的蓮花柱）＋清水混凝土大樓＋中庭。取代舊的白色系館和七根柱子（`CK.modern` 的程序化版本留著當導航與 GLB 載入失敗的備用，D38 分類 ③）。
 - **接線**：配置 `src/data/socsci_layout.js`；導航阻擋、鏡頭碰撞、圖書館的門（社科圖）照新外觀；大樓的門這一版不開（告示）。
 - **測試**（瀏覽器，候選工作樹 8769）：`tests/flow_soclib.py` 全過（走到社科圖的門、進去、出來）；`tests/campus_layout_nav.py` 全過。手機實機沒測。
-- **狀態**：`READY_FOR_ART_REVIEW`（建築美術只有使用者能標 ART_APPROVED）。
+- **狀態**：`READY_FOR_ART_REVIEW`（2026-11-02 起 D120：建築、場景美術由 BB 標 ART_APPROVED）。
 
 同一個鏡頭、同一個時間，左邊舊、右邊新：
 
@@ -1785,7 +1785,7 @@ Meshopt／KTX2 壓縮還沒做。
      - 白天＝窗外天光＋太陽＋室內燈；
      - 晚上＝只有室內燈。
   3. 遊戲照時段混合兩張。
-- **驗收狀態**：七間都是 `READY_FOR_ART_REVIEW`。建築、場景只有使用者能標 `ART_APPROVED`。
+- **驗收狀態**：七間都是 `READY_FOR_ART_REVIEW`。建築、場景的 `ART_APPROVED` 2026-11-02 起由 BB 標（D120）。
 - **截圖條件**：
   - 遊戲內、玩家鏡頭。
   - 手機橫向 844×390，Playwright＋SwiftShader 模擬，**不是 iPhone 實機**。

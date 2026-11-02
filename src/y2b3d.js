@@ -55,7 +55,9 @@ const Y2B=(function(){
         PHONE.at(G,d,22,L,'y2_zq_dad_msg'); F.ZQ_DAD_HEARD=true; } }
     /* ---- 1B-06 芷若 Z9：錯過最後一班＝9/2 出發那天 10:00 三則（FAMILIAR 以上、有聯絡方式）；TICKET_STUB 照樣有 ---- */
     { const d=D('2027-09-02'); if(d!=null&&G.day>=d&&G.day<=d+21&&past(G,'2027-09-02',10)&&!done(G,'ev_zhiruo_last_shift')&&!F.ZR_LAST_SHIFT&&stageAt('heroine_02','FAMILIAR')&&contact(G,'heroine_02')&&!PHONE.sent(G,'y2_zr_depart')){
-        const L=!dating(G,'heroine_02')&&datingAny(G)?[R('今天出發去英國了。'),R('櫃台有一疊電影票根，常客一人一張，跟老闆拿。'),R('看完寫一句話，寄到店裡。我會回。')]:[R('今天出發去英國了。'),R('櫃台有一張電影票根，給你的，跟老闆拿。'),R('我不在的時候，去看一部電影。看完寫一句話給我。')];   /* 一疊票根那一版只給和別人交往中的（AA_338 第 0 節）；和芷若交往中、單身＝給你的那一張 */
+        const L=!dating(G,'heroine_02')&&datingAny(G)?[R('今天出發去英國了。'),R('櫃台有一疊電影票根，常客一人一張，跟老闆拿。'),R('看完寫一句話，寄到店裡。我會回。')]
+          :dating(G,'heroine_02')?[R('今天出發了。'),R('櫃台有一張票根，你的，跟老闆拿。'),R('星期天晚上十點。不要忘記。')]   /* BB_189 2-4 錯過最後一班、和她交往中（AA_554 第 2 節：9/2 沒去送機的三則照用、早上傳＝照原本 10:00）；去了送機的在 src/aa554_3d.js */
+          :[R('今天出發去英國了。'),R('櫃台有一張電影票根，給你的，跟老闆拿。'),R('我不在的時候，去看一部電影。看完寫一句話給我。')];   /* 一疊票根那一版只給和別人交往中的（AA_338 第 0 節）；單身＝給你的那一張 */
         PHONE.at(G,d,10,L,'y2_zr_depart'); F.ZR_LAST_SHIFT='missed'; if(SOCIAL.remember) SOCIAL.remember('heroine_02','TICKET_STUB','她出發那天，櫃台的電影票根'); } }
     /* ---- 1B-07 可昕 K12：3/21（日）21:00 邀約；不回＝3/23（二）21:00 再一則；答應＝3/25（四）18:00 麵店（出遊）---- */
     { const d21=D('2027-03-21'), d23=D('2027-03-23'), d25=D('2027-03-25');
@@ -108,7 +110,7 @@ const Y2B=(function(){
     const at=MSG.replyAt?MSG.replyAt(G,id):{day:G.day,h:G.hour%24+0.25}, tc=S.psTaichung(G,at.day);
     PHONE.at(G,at.day,at.h,[P(tc?'好久不見。……我現在在台中，開學以後在台南。':'好久不見。……我現在在台南。'),P('你要來的話，跟我說。')],'ps_back_first'); G.flags.PS_BACK_FIRST=G.day; return {ok:true,text,at}; };
   /* 去台南的那一天（AA_282 3-1，原文）：presence 改台南、邀約目的地台南要一起做（AA_282 第 5 節）——2026-10-21 已接：presence「在台南」在 characters.js，演出照 hometown3d.js 的結構（PS_TAINAN_VISITS）；AA_507 0-2 第 8 點更新註解 */
-  S.PS_TAINAN={ first:[{narr:'（台南車站。她站在出口，兩手各拿一杯飲料。）'},'{name}！這杯你的。這邊的紅茶很甜喔，你先喝一口。',{scene:'台南・她的學校'},'這是我們學校。很小吧？走一圈十分鐘。','欸，你覺得我有沒有哪裡不一樣？'],
+  S.PS_TAINAN={ first:[{narr:'（台南車站。她站在出口，兩手各拿一杯飲料。）'},'{name}！這杯你的。這邊的紅茶很甜喔，你先喝一口。',{scene:'台南・她的學校',bg:'tainan_school'},'這是我們學校。很小吧？走一圈十分鐘。','欸，你覺得我有沒有哪裡不一樣？'],
     firstOpts:[{t:'曬黑了。',say:['對！這裡的太陽跟台中不一樣。']},{t:'頭髮剪短了？',say:['上個月剪的。我室友到現在都還沒發現。']}],
     send:{narr:'（傍晚，她陪你坐車到高鐵站。）',dating:['下次待久一點。末班車太早了。'],other:['謝謝你跑這麼遠！到臺北傳給我喔。']},
     again:[{key:'books',scene:'台南・她打工的二手書店',lines:['這一區是我排的。你看得出來照什麼排的嗎？','……照書背的顏色。老闆說隨便我。']},{key:'food',scene:'台南・老街',lines:['我室友說這攤一定要吃。……其實我也是第一次來。']},{key:'canal',scene:'台南・運河邊',lines:['欸，那艘船是不是一直停在那裡？','它在等什麼啊？']}] };

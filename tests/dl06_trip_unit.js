@@ -6,7 +6,7 @@
 const vm=require('vm'), fs=require('fs'), path=require('path');
 const ROOT=path.resolve(__dirname,'..');
 global.window=global; global.location={search:''}; global.document={getElementById:()=>null,addEventListener(){}};
-for(const f of ['src/data/characters.js','src/data/places.js','src/data/calendar.js','src/data/courses.js','src/classes3d.js','src/outings3d.js','src/data/free_trips.js','src/freetrip3d.js'])
+for(const f of ['src/data/characters.js','src/data/places.js','src/data/calendar.js','src/data/courses.js','src/data/exam_bank.js','src/classes3d.js','src/outings3d.js','src/data/free_trips.js','src/freetrip3d.js'])
   vm.runInThisContext(fs.readFileSync(path.join(ROOT,f),'utf8').replace(/^const (CHARACTERS|PLACES|SOCIAL_GRAPH|UNFAMILIAR_POOL|PORTRAITS|CALENDAR|COURSES|CLS|OUT|FREE_TRIPS|TRIP)\s*=/mg,'global.$1='),{filename:f});
 let fails=0; const check=(name,ok,info)=>{ console.log((ok?'PASS ':'FAIL ')+name+(info?'　'+info:'')); if(!ok) fails++; };
 check('1. 有 TRIP.menu、go、loop、back、check、tick，第一批四個景點＋第二批五個（DL-06B）＋第三批十八個（DL-06C spots_v3 3b599624；開車的 D15、D16、D22、D23、D32 不收）',typeof TRIP!=='undefined'&&['menu','go','loop','back','check','tick','at'].every(k=>typeof TRIP[k]==='function')&&TRIP.list().map(s=>s.id).join()==='D04,D06,D12,D13,D09,D18,D20,D24,D25,D01,D02,D03,D05,D07,D08,D10,D11,D14,D17,D19,D21,D26,D27,D28,D29,D30,D31',TRIP.list().map(s=>s.id).join());

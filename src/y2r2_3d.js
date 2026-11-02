@@ -281,7 +281,7 @@ const Y2R2=(function(){
     after:G=>{ const F=G.flags; remember('econ_pinyu','ECON_NIGHT','經濟系之夜：前系友席'); if(F.Y2R2_EN_KX) F.KX_ECON_NIGHT='together'; delete F.Y2R2_EN_KX; } });
   /* ---------- 2-Y2-20 系籃（大二下）：5/29（六）14:00 新體育館 ---------- */
   EV.push({ id:'ev_zhe_game_y2s2', title:'系籃比賽（大二下）', participants:['zhe'], location:'any', trigger:'outing', once:true, background:'dark', hours:2,
-    dialogue:[ {scene:'新體育館'},
+    dialogue:[ {scene:'新體育館',bg:'gym_court'},   /* 第六批背景（使用者 11-02 生成，BB_132 第 103 組）*/
       {speaker:null,text:'（系籃比賽。這學期最後一場。阿哲、明軒上場。）'},
       {if:{custom:G=>knows('yu',G)&&!!G.flags.Y2_BALL_SEEN},speaker:null,text:'（Alison 的加油板換了一面：「17 號，可以犯規一次。」）'},
       {if:{custom:G=>knows('yu',G)&&!G.flags.Y2_BALL_SEEN},speaker:null,text:'（Alison 坐在你旁邊，舉著一塊加油板。）'},
@@ -298,7 +298,7 @@ const Y2R2=(function(){
   /* ---------- 2-Y2-18 明軒 M2：6/12（六）09:00 三對三（和以安交往中、明軒知道的那一版）---------- */
   EV.push({ id:'ev_mx_3on3', title:'三對三', participants:['classmate_mingxuan'], location:'any', trigger:'outing', once:true, background:'dark', hours:2,
     outingMissed:(G,GM,q)=>{ G.flags.MX_3ON3='missed'; at(G,q.day,12,[{th:'p:zhe',from:'zhe',text:'三對三我們兩個打對面三個'},{th:'p:zhe',from:'zhe',text:'輸了'},{th:'p:zhe',from:'zhe',text:'你欠我們一次'}],'y2r2_3on3_missed'); },
-    dialogue:[ {scene:'新體育館・1F 球場'},
+    dialogue:[ {scene:'新體育館・1F 球場',bg:'gym_court'},   /* 原本深色底＋字幕；第六批的球場圖（BB 掃描 11-02）*/
       {speaker:null,text:'（早上九點。三對三：阿哲、明軒、你一隊。）'},
       {speaker:'classmate_mingxuan',expression:'smile',text:'你真的起來了。'},
       {speaker:null,text:'（打完，三個人坐在場邊。明軒把水丟給你。）'},
@@ -326,12 +326,15 @@ const Y2R2=(function(){
       {if:{custom:G=>!depAns(G)&&!GE(G)},speaker:'zhe',expression:'neutral',text:'我學長退租，房東本來說押金扣一半。'},
       {unless:{custom:depAns},speaker:'zhe',expression:'neutral',text:'他自己去問，房東改口說牆上有釘子洞，全部不退。'},
       {speaker:'zhe',expression:'annoyed',text:'兩個月的押金耶。他本來要拿去買系籃鞋。'},
-      {speaker:null,text:'（你打開手機的筆記，先寫了兩行：誰——阿哲的學長；向誰——房東。）'},
+      /* 手機筆記（AA_117 C3，AA117-CASE-NOTES-1031）：格式同 C1（bbpack_events.js 阿凱的鍵盤，說話人「手機筆記」）——誰、向誰照 AA_325 原本那句旁白的字；
+         依據什麼、請求什麼是玩家選的兩行（AA_117 重點一、二）：寫到「：」為止，下面接那一行的選項。
+         旁白「（你打開手機的筆記，先寫了兩行：誰——阿哲的學長；向誰——房東。）」拿掉（AA-B 2026-11-01 回覆，D109：和筆記重複）*/
+      {speaker:'手機筆記',text:'誰：阿哲的學長'},{speaker:'手機筆記',text:'向誰：房東'},{speaker:'手機筆記',text:'依據什麼：'},
       {choice:[{text:'「先把租約和搬進來的照片給我看。」',set:{_depB:'photos'},goto:'b1'},{text:'「押金是擔保，扣要說得出理由。」',if:{flags:['U_LEASE']},set:{_depB:'lease'},goto:'b2'},{text:'「我不確定。週六去法服問。」',set:{_depB:'fafu'},goto:'b3'}]},
       {label:'b1'},{speaker:'zhe',expression:'surprised',text:'……搬進來時要拍照？'},{goto:'ask'},
       {label:'b2'},{speaker:'player',text:'押金是擔保。房東要扣，要說得出弄壞了什麼、修要多少。正常住的痕跡不一樣。'},{speaker:'zhe',expression:'thinking',text:'……所以釘子洞要看算不算『弄壞』。'},{goto:'ask'},
       {label:'b3'},{speaker:'zhe',expression:'neutral',text:'好。法服我知道在哪。'},
-      {label:'ask'},
+      {label:'ask'},{speaker:'手機筆記',text:'請求什麼：'},
       {choice:[{text:'「全部退。」',set:{_depA:'all'},goto:'a1'},{text:'「退押金，牆要補就扣合理的錢。」',set:{_depA:'fair'},goto:'a2'}]},
       {label:'a1'},{speaker:'zhe',expression:'laugh',text:'全部退。好，聽起來很有氣勢。'},{goto:'next'},
       {label:'a2'},{speaker:'zhe',expression:'neutral',text:'……好啦，那個洞是他掛球衣的。'},
@@ -339,15 +342,16 @@ const Y2R2=(function(){
       {speaker:'zhe',expression:'smile',text:'好。你寫的那幾行傳給我，我轉給他。'} ],   /* 法律只講方向（擔保、正常耗損、調解），不寫條號；AA 已核方向（AA_338 第 9 題）*/
     after:G=>{ const F=G.flags; F.ZHE_DEPOSIT={basis:F._depB||'photos',ask:F._depA||'fair',day:G.day}; delete F._depB; delete F._depA; remember('zhe','ZHE_PHOTOS','學長的押金，搬進來要拍照'); } });
   /* AA_375 第 8 項：移到最後一科考完——大二下的期中考 4/12 債各、4/13 身分法、4/14 行政救濟、4/15（四）法學英文（法學英文沒有選擇，每個人都修：classes3d.js S.enrolled），
-     最後一科是 4/15 法學英文（AA 寫的「4/14」是沒算法學英文；給 AA 的問題）。原本在 4/12 債各考完 */
-  EV.push({ id:'ev_midterm_walkout_y2s2', title:'考完試走出教室', participants:[], location:'any', trigger:'class', afterClass:'legal_english', afterExam:'mid', term:['Y2S2'], once:true, background:'blur',
+     最後一科是 4/15 法學英文（AA 寫的「4/14」是沒算法學英文；給 AA 的問題）。原本在 4/12 債各考完
+     D118 沒有期中考：AA_578 第 2 節 #9 改到同一門課（法學英文）的期末考（afterExam:'final'）；芯慈那句「期中」→「期末」*/
+  EV.push({ id:'ev_midterm_walkout_y2s2', title:'考完試走出教室', participants:[], location:'any', trigger:'class', afterClass:'legal_english', afterExam:'final', term:['Y2S2'], once:true, background:'blur',
     dialogue:[ {speaker:null,text:'（法律系館A二樓的走廊。債各考完，大家還站在教室門口。）'},
       {if:KN('yu'),speaker:'yu',expression:'neutral',text:'債各的第二題，我寫了『買賣不破租賃』。……題目問的是租賃。'},   /* AA_375 第 8 項：贈與第 14 週才教；租賃第 4～6 週 */
       {if:{custom:G=>knows('yu',G)&&knows('zhe',G)},speaker:'zhe',expression:'laugh',text:'贈與那題我也寫錯了。我們一起錯。'},
       {if:KN('heroine_03'),speaker:'heroine_03',expression:'neutral',text:'……第二題寫完，我才發現背面還有一題。'},
       {if:KN('heroine_01'),speaker:'heroine_01',expression:'neutral',text:'我寫了三頁。第二題值得。'},
-      {if:KN('classmate_xinci'),speaker:'classmate_xinci',expression:'neutral',text:'期中考完了。今天之後，我不跟你們對答案。'} ],
-    after:G=>{ for(const id of ['yu','zhe','heroine_03','heroine_01','classmate_xinci']) if(knows(id,G)) remember(id,'SHARED_CLASS','債各期中考'); } });
+      {if:KN('classmate_xinci'),speaker:'classmate_xinci',expression:'neutral',text:'期末考完了。今天之後，我不跟你們對答案。'} ],   /* AA_578 #9：「期中」→「期末」*/
+    after:G=>{ for(const id of ['yu','zhe','heroine_03','heroine_01','classmate_xinci']) if(knows(id,G)) remember(id,'SHARED_CLASS','債各期末考'); } });   /* AA_578 #9 */
   /* Z8：吉他社社課（萬才館）走到子晴旁邊——AA_375 第 13 項：演唱會是 5/15（六）晚上，改 5/17（一）以後（5/17 週一；沒遇到 5/19 週三）；句子不改。原本 5/12、5/19 */
   const zrDate=G=>dating(G,'heroine_02')&&knowsOf(G,'heroine_04','heroine_02');   /* 交往版：子晴知道祐廷和芷若在交往 */
   const zrApplied=G=>done(G,'ev_zhiruo_applied')||!!G.flags.ZR_NOMINATED;
@@ -384,9 +388,9 @@ const Y2R2=(function(){
       {if:{custom:G=>G.flags.ZR_ADMIT_CALL==='stayed'},speaker:'player',text:'……沒有。'},
       {if:{custom:G=>G.flags.ZR_ADMIT_CALL==='stayed'},speaker:'heroine_02',expression:'laugh',text:'……你好笨。電話費。'},
       {if:{custom:G=>G.flags.ZR_ADMIT_CALL!=='stayed'},speaker:null,text:'（她把吧檯擦了一遍，沒有看你。）'},
-      {speaker:'heroine_02',expression:'neutral',text:'九月我就走了。五個多月。'},   /* AA_375 第 2 項：「四個月」→「五個多月」（她 9/2～2/12 不在台灣）*/
-      {choice:[{text:'「五個多月很快。」',goto:'d1'},{text:'「我去看妳。」',set:{ZR_VISIT_PROMISE:true},goto:'d2'},{text:'「妳的點法，我會記得。」',if:{memory:[{npc:'heroine_02',tag:'ASKED_HER_DRINK'}]},goto:'d3'}]},
-      {label:'d1'},{speaker:'heroine_02',expression:'smile',text:'五個多月欸。……好啦，你這樣講我比較安心。'},{goto:'end'},
+      {speaker:'heroine_02',expression:'neutral',text:'九月我就走了。五個月。'},   /* AA_375 第 2 項「四個月」→「五個多月」；AA_554 第 2 節（2026-10-31，較新）定「五個月」（三處都換：她 2027-09-02 出發、2028-02-12 回臺灣）*/
+      {choice:[{text:'「五個月很快。」',goto:'d1'},{text:'「我去看妳。」',set:{ZR_VISIT_PROMISE:true},goto:'d2'},{text:'「妳的點法，我會記得。」',if:{memory:[{npc:'heroine_02',tag:'ASKED_HER_DRINK'}]},goto:'d3'}]},
+      {label:'d1'},{speaker:'heroine_02',expression:'smile',text:'五個月欸。……好啦，你這樣講我比較安心。'},{goto:'end'},
       {label:'d2'},{speaker:'heroine_02',expression:'neutral',text:'機票很貴。'},{speaker:'player',text:'我存。'},{speaker:'heroine_02',expression:'smile',text:'……好。那我排一部電影，等你來一起看。'},{goto:'end'},
       {label:'d3'},{speaker:'heroine_02',expression:'smile',text:'……我回來再做給你喝。不要讓新店員做。'},{goto:'end'},
       {label:'h1'},{speaker:null,text:'（她笑。）'},{speaker:'heroine_02',expression:'laugh',text:'子晴跟你說了吧。你裝得很爛。'},{goto:'end'},

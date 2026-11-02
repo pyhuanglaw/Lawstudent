@@ -272,7 +272,7 @@ const askOpts=id=>{ const m=PHONE.byAsk(G,id); return m?m.ask.opts.map(o=>o.t):n
     fresh(b18,18.5,'us_apartment',{EXCHANGE_ROUTE:'US'}); date('heroine_05'); C('heroine_05'); run(b18,18.5,19.25);
     { const q=OUT.get(G,'r3_sis_plan_us'); check('11. S2 美國路線、交往中：10/18 當地 19:00「你的讀書計畫，帶去會所給我看。八點。」＋20:00 會所（出遊）', txt('p:heroine_05').slice(-1)[0]==='heroine_05:你的讀書計畫，帶去會所給我看。八點。'&&!!q&&q.day===b18&&q.h===20&&q.late===0.5); }
     let P=await play('ev_sis_plan_us',['妳自己']);
-    check('11. S2 會所「你週六排了十二個小時。」「改成八個。……」；選項是「妳自己呢？」→「……我也改。我們一起改。」；名字照交往中的叫法；SIS_PLAN_SEEN us', has('（會所的自習室。她把你的讀書計畫從頭看到尾。）')&&has('你週六排了十二個小時。')&&has('改成八個。剩下四個拿去睡覺。')&&JSON.stringify(opts[0])===JSON.stringify(['「好。」','「妳自己呢？」'])&&has('……我也改。我們一起改。')&&G.flags.SIS_PLAN_SEEN==='us'&&said.find(s=>s.t==='你週六排了十二個小時。').who===(SOCIAL.datingName('heroine_05')||NAME('heroine_05'))&&scenes.includes('dark'), JSON.stringify(P));
+    check('11. S2 會所（11-02 起背景 us_club_study，原本深色底）「你週六排了十二個小時。」「改成八個。……」；選項是「妳自己呢？」→「……我也改。我們一起改。」；名字照交往中的叫法；SIS_PLAN_SEEN us', has('（會所的自習室。她把你的讀書計畫從頭看到尾。）')&&has('你週六排了十二個小時。')&&has('改成八個。剩下四個拿去睡覺。')&&JSON.stringify(opts[0])===JSON.stringify(['「好。」','「妳自己呢？」'])&&has('……我也改。我們一起改。')&&G.flags.SIS_PLAN_SEEN==='us'&&said.find(s=>s.t==='你週六排了十二個小時。').who===(SOCIAL.datingName('heroine_05')||NAME('heroine_05'))&&scenes.some(b=>b&&b.image==='assets/bg/us_club_study.webp'), JSON.stringify(P));
     G.day=c20; G.hour=20.5; run(c20,20.5,21.25); check('11. B 演過的：C 不再演', !PHONE.sent(G,'r3_sis_plan_c'));
     fresh(b18,18.5,'us_apartment',{EXCHANGE_ROUTE:'US'}); date('heroine_05'); C('heroine_05'); run(b18,18.5,19.25); G.hour=20.6; for(const q of OUT.expire(G)) OUT.onMissed(GM,q); run(b18,20.75,21.25);
     check('11. B 沒到（20:30 前）：21:00「……下次帶來。」；SIS_PLAN_SEEN missed', txt('p:heroine_05').slice(-1)[0]==='heroine_05:……下次帶來。'&&G.flags.SIS_PLAN_SEEN==='missed');
@@ -405,7 +405,7 @@ const askOpts=id=>{ const m=PHONE.byAsk(G,id); return m?m.ask.opts.map(o=>o.t):n
     check('14. 大三上 10/15 17:05 家族群組 Kevin「這週辛苦了各位」「@學姊 妳也是」、溫學姊「辛苦了。」', JSON.stringify(TH('g:family_law').map(m=>m.name+':'+m.text))===JSON.stringify(['Kevin:這週辛苦了各位','Kevin:@學姊 妳也是','溫學姊:辛苦了。'])&&at('g:family_law','辛苦了。')-at('g:family_law','這週辛苦了各位')>=2/60);
     run(D('2027-12-03'),16.5,17.25,0.05); check('14. 12/03 再一次', TH('g:family_law').length===6);
     fresh(D('2027-09-15'),22,'dorm'); PHONE.join(G,'noodle_team','麵店團'); R('heroine_02','FAM'); run(G.day,22,22.75);
-    check('14. M4 9/15 22:30 麵店團群組 Alison「芷若說英國的月亮比較小」「我不信」（沒有「欸芷若妳拍給我看」）', JSON.stringify(txt('g:noodle_team'))===JSON.stringify(['yu:芷若說英國的月亮比較小','yu:我不信']));
+    check('14. M4 9/15 22:30 法一吃飯群組 Alison「今年中秋有月亮」「去年下雨」「我記得」（AA_555 第 2 節改字，企劃線 56c11668d；原本「芷若說英國的月亮比較小」「我不信」）', JSON.stringify(txt('g:noodle_team'))===JSON.stringify(['yu:今年中秋有月亮','yu:去年下雨','yu:我記得']));
     fresh(D('2027-09-08'),20.5,'dorm'); date('kexin'); run(G.day,20.5,21.5); check('14. 大三上 9/8 21:10 可昕「民訴開課了。第一堂就抄了十一頁。」', K().includes('kexin:民訴開課了。第一堂就抄了十一頁。'));
     fresh(D('2027-11-10'),8,'dorm'); date('kexin'); only('y3_kx_mid',()=>run(G.day,8,21.5)); ans('dp_y3_kx_mid',1);
     check('14. 大三上第 10 週起「民訴期中，你們那邊考哪一題？」；「不想講。」→「好。不講。」「……我也不想講。」', JSON.stringify(K())===JSON.stringify(['kexin:民訴期中，你們那邊考哪一題？','player:不想講。','kexin:好。不講。','kexin:……我也不想講。']));

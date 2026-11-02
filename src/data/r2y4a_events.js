@@ -97,7 +97,8 @@ const R2Y4A_EVENTS=(function(){
     after:G=>{ if(G.flags.US2_STAYED&&typeof R2Y4A!=='undefined') R2Y4A.repairAdd(G,'us2'); } });
 
   /* ---- 2-Y4-18 芝加哥的週末（BB_98 2-9；D47：芝加哥用圖片）：11/11 07:00 出發（出遊），兩天＝兩段（第二天在 afterOuting 接 ev_us_chicago2）---- */
-  EV.push({ id:'ev_us_chicago', title:'芝加哥的週末', participants:[S5], location:'any', trigger:'outing', once:true, background:'dark', hours:0.25,
+  EV.push({ id:'ev_us_chicago', title:'芝加哥的週末', participants:[S5], location:'any', trigger:'outing', once:true, get background(){ return typeof OUT!=='undefined'&&OUT.bg?OUT.bg('us_bus_chicago'):'dark'; },   /* 11-02 使用者生成：巴士上（原本深色底）*/
+    hours:0.25,
     dialogue:[ {if:{custom:LONG},goto:'chi0'},   /* AA_451 1-1：沒見過他的（8/14 迎新、9/8 下課都沒去），11/3 學姊說「我們一起認識他」——在巴士上認識（MET_LONG＋LONG_CHI）；之後的句子照有見過的版本 */
       nar('（巴士上，坐在你們前面的是一個戴圓框眼鏡的男生。車子一開，他就回頭。）'),
       {speaker:'何俊朗',text:'臺灣來的？我聽你們講話聽出來的。'},
@@ -156,7 +157,7 @@ const R2Y4A_EVENTS=(function(){
   /* ---- 2-Y4-20 US4 初雪：小教堂的台階（AA_254 第 8 節；挽回中 AA_253 §6 第 4 步）。這不是告白（BB_203 第 3 節）---- */
   const SNOW_END=[ nar('（回公寓以前，她翻開計畫本，在 12 月 2 日那一格寫了一個字。）'),me('寫什麼？'),sis('不給你看。'),nar('（她把計畫本闔起來。那一格寫的是「雪」。）') ];   /* 「回宿舍」改「回公寓」（裁定第 14 點）*/
   EV.push({ id:'ev_us_first_snow', title:'初雪', participants:[S5], location:'any', trigger:'outing', once:true, background:'dark', hours:1,
-    dialogue:[ {scene:'小教堂前的台階',bg:'dark'},
+    dialogue:[ {scene:'小教堂前的台階',bg:'us_chapel_steps_snow'},
       {if:{flags:['US_SNOW_LATE']},speaker:null,text:'（你還是去了。雪下得很小，她坐在台階最上面一階。）'},   /* 20:30 以後、21:30 還沒到＝帶到場 */
       {if:{flags:['SIS14_COAT']},speaker:null,text:'（你穿著那件外套。她也是。）',aa516:true},   /* AA_516 4-3（企劃線 a9b87c588）：SU-L7「好。週六。」那一趟買了外套（src/sis_b14_3d.js）＝開頭多一句 */
       nar('（她坐在台階最上面一階，旁邊放著兩杯熱可可。你坐下的時候，她把一杯推過來。）'),
@@ -179,7 +180,7 @@ const R2Y4A_EVENTS=(function(){
   /* 挽回中：REPAIR ≥ 3、分手以後沒有再說謊（BB_204 第 4 節的對照）＝「這次我先說」→ 重新交往；沒到只演前三句 */
   const REP_OK=G=>typeof R2Y4A!=='undefined'&&R2Y4A.repairOK(G);
   EV.push({ id:'ev_us_snow_repair', title:'初雪', participants:[S5], location:'any', trigger:'outing', once:true, background:'dark', hours:1,
-    dialogue:[ {scene:'小教堂前的台階',bg:'dark'},
+    dialogue:[ {scene:'小教堂前的台階',bg:'us_chapel_steps_snow'},
       nar('（下雪了。學姊坐在小教堂前面的台階上，沒有撐傘。）'),
       sis('你看。'),
       sis('……我在臺灣，從來沒看過雪。'),
@@ -250,10 +251,10 @@ const R2Y4A_EVENTS=(function(){
       {label:'a'},nar('（她把詩集翻到一半推過來。）'),sis('你讀左邊，我讀右邊。'),{goto:'e'},
       {label:'b'},nar('（回來的時候她睡著了，詩集蓋在腿上。你沒有叫她。）'),
       {label:'e'},nar('（她買了那本詩集。）') ] });
-  const PHOTO=(id,photo,line)=>({ id, title:'舊金山', participants:[S5], location:'any', trigger:'manual', once:true, background:'dark', dialogue:[ {scene:'舊金山',bg:false},nar('📷（'+photo+'）'),sis(line) ] });   /* 摘要日的照片（手機相簿；BB_183 5-3，12/19 那句改字見裁定第 10 點）*/
-  EV.push(PHOTO('ev_sf_photo17','旅館窗外的坡道和叮噹車的電纜','睡到自然醒。……十點。我已經很努力了。'),
-          PHOTO('ev_sf_photo19','碼頭邊的一碗蛤蜊湯（麵包碗）','好喝。……比我想的好喝。'),
-          PHOTO('ev_sf_photo21','郵筒前，她手上一張明信片（字看不到）','寄給家族了。Kevin 收到會說我終於寫超過三句。'));
+  const PHOTO=(id,photo,line,bg)=>({ id, title:'舊金山', participants:[S5], location:'any', trigger:'manual', once:true, background:'dark', dialogue:[ {scene:'舊金山',bg:bg||false},nar('📷（'+photo+'）'),sis(line) ] });   /* 摘要日的照片（手機相簿；BB_183 5-3，12/19 那句改字見裁定第 10 點）*/
+  EV.push(PHOTO('ev_sf_photo17','旅館窗外的坡道和叮噹車的電纜','睡到自然醒。……十點。我已經很努力了。','sf_photo_cablecar'),
+          PHOTO('ev_sf_photo19','碼頭邊的一碗蛤蜊湯（麵包碗）','好喝。……比我想的好喝。','sf_photo_chowder'),
+          PHOTO('ev_sf_photo21','郵筒前，她手上一張明信片（字看不到）','寄給家族了。Kevin 收到會說我終於寫超過三句。','sf_photo_postbox'));
   const BLOOM=(id,t)=>({ id, title:'布魯明頓', participants:[], location:'any', trigger:'manual', once:true, background:'blur', dialogue:[ nar(t) ] });   /* 挽回中、挽回不成：三個摘要日（AA_291 2-2）*/
   EV.push(BLOOM('ev_us_bloom16','（社區很安靜。你把冰箱裡剩下的東西煮成一鍋。）'),
           BLOOM('ev_us_bloom18','（你去會所把借的書還了。交誼廳的聖誕樹還亮著，沒有人。）'),
@@ -529,9 +530,9 @@ const R2Y4A_EVENTS=(function(){
   const usR=G=>typeof STORY!=='undefined'&&!!STORY.route&&STORY.route(G)==='US';
   const PLAN=G=>!!G.flags.KX_STUDY_PLAN;
   const merge=(G,k,v)=>{ G.flags[k]=Object.assign({},(G.flags[k]&&typeof G.flags[k]==='object')?G.flags[k]:{},v); };
-  EV.push({ id:'ev_kexin_xmas_y4', title:'聖誕，讀到打烊', participants:[KX], location:'any', trigger:'outing', once:true, background:'dark', hours:2/3,
+  EV.push({ id:'ev_kexin_xmas_y4', title:'聖誕，讀到打烊', participants:[KX], location:'any', trigger:'outing', once:true, get background(){ return typeof OUT!=='undefined'&&OUT.bg?OUT.bg('mucha_cafe_night'):'dark'; }, hours:2/3,
     outingMissed:(G,GM,q)=>{ if(typeof R2Y4A!=='undefined') R2Y4A.kxXmasMissed(G); },
-    dialogue:[ {scene:'木柵大學山下・咖啡店',bg:'dark'},
+    dialogue:[ {scene:'木柵大學山下・咖啡店',bg:'mucha_cafe_night'},   /* BB_132 第 100 組第 6 張（11-02）*/
       IF(usR,kx('你的時差還沒調回來吧。……那今天讀到打烊，剛好。')),   /* 美國路線（12/23 已經回來）*/
       {advance:G=>Math.max(0,22-hh(G))},
       nar('（兩個人讀到店員開始收椅子。走出來，山上的風。）'),
@@ -565,7 +566,7 @@ const R2Y4A_EVENTS=(function(){
       {label:'c'},kx('……你很無聊。'),nar('（她還是坐下來了。一個小時，兩個人都沒說話。）'),
       {label:'e'},
       {advance:G=>Math.max(0,17-hh(G))},   /* 傍晚 */
-      {scene:'高雄・左營站',bg:'dark'},
+      {scene:'高雄・左營站',bg:'kh_station'},   /* 傍晚回到左營站：和開頭同一張 kh_station（高鐵、火車共構；BLACK-BG-AUDIT-1018，BB_132 第 100 組）*/
       kx('回去讀書。……二月十四號，視訊。') ],
     after:G=>{ merge(G,'KX_TRIP',{Y4WIN:'kaohsiung'}); const F=G.flags; (F.HV_LAST||(F.HV_LAST={})).kexin=G.day; } });
 
@@ -647,7 +648,7 @@ const R2Y4A_EVENTS=(function(){
   EV.push({ id:'ev_grad_exam', title:'研究所筆試', participants:[], location:'any', trigger:'manual', once:true, background:'blur',
     dialogue:[ IF(AN_FAM,nar('（教學館門口，以安在看考場的配置圖。）')),
       IF(AN_FAM,an('你在三樓。我在二樓。')),IF(AN_FAM,an('……考完，門口。')),
-      {scene:'考場',bg:'dark'},
+      {scene:'考場',bg:'dark'},   /* 故意的深色底：人已經走進 3D 的共同教學館 3F 考場，考試本身用深色底帶過（tests/rooms_ab3_people_unit.js 7）。黑畫面盤點會列出來，不用補圖 */
       nar('（兩節。第二節最後一題，你寫到鐘響。）'),
       {set:{GRAD_EXAM_2029:true}} ] });
   EV.push({ id:'ev_grad_exam_after', title:'研究所筆試', participants:[AN], location:'any', trigger:'manual', once:true, background:'blur',

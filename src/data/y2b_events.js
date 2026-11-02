@@ -22,6 +22,7 @@ const Y2B_EVENTS=(function(){
   const at=(G,key,h0,h1)=>{ const d=D(key), hh=((G.hour%24)+24)%24; return d!=null&&G.day===d&&hh>=h0&&hh<h1; };
   const toH=h=>G=>{ const hh=((G.hour%24)+24)%24; return h>hh?h-hh+1e-6:0; };   /* advance：跳到當天的某個時間（已經過了就不動）*/
   const Q6=G=>done(G,'ev_ziqing_secret_game')||has('heroine_04','PLAYTESTED');   /* 看過 Q6（Q8b 還沒做，同 story3d.js 的期末飯）*/
+  const ZQD={custom:G=>dating(G,'heroine_04')}, ZRD={custom:G=>dating(G,'heroine_02')};   /* AA_554：和她交往中（BB_189 的「和她交往中」版本；不是和別人交往中）*/
 
   /* ---- 1B-01 可昕 K10c「她第一次考壞一科」（AA_316；BB_97 9-4、AA_177 第 8 節②）：11/19 20:30 政大自強十舍樓下的長椅 ---- */
   const BAD_EXAM={ id:'ev_kexin_bad_exam', title:'她第一次考壞一科', participants:['kexin'], location:'any', trigger:'outing', once:true, background:'dark', hours:2/3, kxAway:true,
@@ -94,6 +95,9 @@ const Y2B_EVENTS=(function(){
       {speaker:'heroine_04',text:'陪我走一下。河堤。'},
       {scene:'河濱',bg:'riverside'},
       {if:{custom:()=>hasCG('cg_riverbank_heroine04')},cg:'cg_riverbank_heroine04'},   /* BCG-02（企劃分支 cg_approved/，還沒登錄）*/
+      /* BB_189 1-2（AA_554 核過）：和她交往中，河堤那段第一句前多兩句；流程、CG 照原文 */
+      {if:ZQD,speaker:'heroine_04',text:'他剛剛問我，有沒有男朋友。'},
+      {if:ZQD,speaker:'heroine_04',text:'我說有。他問：「會打電動嗎？」……我說會，很爛。他笑了。'},
       {speaker:'heroine_04',text:'他說：「妳在做遊戲？……做好了，給我玩。」'},
       {speaker:'heroine_04',text:'我五歲的時候，他會陪我打電動。他很爛。每次都輸我。'},
       {speaker:'heroine_04',text:'後來他很忙，就沒有再打了。'},
@@ -103,12 +107,17 @@ const Y2B_EVENTS=(function(){
       {speaker:'heroine_04',text:'做完就要給他看。……我好怕他玩了說不好玩。'},
       {choice:[{text:'「做完了，可以不給他看。」',mem:[{npc:'heroine_04',tag:'SHARED_SECRET',note:'河堤那晚，她說了爸爸和那個遊戲'}],goto:'a'},
         {text:'「我想玩玩看。」',set:{TESTER:true},mem:[{npc:'heroine_04',tag:'SHARED_SECRET',note:'河堤那晚，她說了爸爸和那個遊戲'}],goto:'b'},
-        {text:'「妳很有天分。他一定會懂。」',consequences:{stamp:['ZQ_DAD_ARGUED_DAY']},mem:[{npc:'heroine_04',tag:'ARGUED',note:'河堤那晚，你說「他一定會懂」'}],goto:'c'}]},
-      {label:'a'},{speaker:null,text:'（她停下來。）'},{speaker:'heroine_04',text:'……可以嗎？'},{speaker:'player',text:'可以。'},{speaker:'heroine_04',text:'……欸不是，你好會講話。'},{speaker:null,text:'（她的語氣回來了。）'},{goto:'end'},
+        {text:'「妳很有天分。他一定會懂。」',unless:ZQD,consequences:{stamp:['ZQ_DAD_ARGUED_DAY']},mem:[{npc:'heroine_04',tag:'ARGUED',note:'河堤那晚，你說「他一定會懂」'}],goto:'c'},
+        /* 和她交往中（BB_189 1-2）：不扣分、那天沒有先走；隔天 08:40 手機三則（src/aa554_3d.js，ZQ_DAD_DH_DAY）取代兩週內社課的 ev_ziqing_dad_sorry（不記 ZQ_DAD_ARGUED_DAY）。記憶照記 */
+        {text:'「妳很有天分。他一定會懂。」',if:ZQD,consequences:{stamp:['ZQ_DAD_DH_DAY']},mem:[{npc:'heroine_04',tag:'ARGUED',note:'河堤那晚，你說「他一定會懂」'}],goto:'cD'}]},
+      {label:'a'},{if:ZQD,goto:'aD'},{speaker:null,text:'（她停下來。）'},{speaker:'heroine_04',text:'……可以嗎？'},{speaker:'player',text:'可以。'},{speaker:'heroine_04',text:'……欸不是，你好會講話。'},{speaker:null,text:'（她的語氣回來了。）'},{goto:'end'},
+      {label:'aD'},{speaker:'heroine_04',text:'……可以嗎？'},{speaker:'player',text:'可以。'},{speaker:'heroine_04',text:'……欸不是，你好會講話。'},{speaker:null,text:'（她把頭靠在你肩上一秒，就拿開。）'},{goto:'end'},
+      {label:'cD'},{speaker:'heroine_04',text:'……『一定會』。'},{set:{_zqDadCD:true}},{goto:'end'},
       {label:'b'},{speaker:'heroine_04',text:'不行。還沒做完。'},{speaker:null,text:'（很久以後）'},{speaker:'heroine_04',text:'……做完，你們先幫我測。阿凱抓 bug，你抓劇情的漏洞。測完，再給他。'},{goto:'end'},
       {label:'c'},{speaker:null,text:'（她轉過來。）'},{speaker:'heroine_04',text:'……『一定會』。'},{speaker:null,text:'（她把耳機戴上。那天沒有再說話。）'},
       {label:'end'},{speaker:null,text:'（你們走到河堤的盡頭，又走回來。她的耳機一直掛在脖子上。）'},
-      {set:{ZQ_DAD_HEARD:true}} ] };
+      {if:{flags:['_zqDadCD']},speaker:null,text:'（那天她不說話，可是沒有先走，兩個人一起走到捷運站。）'},   /* 和她交往中選「一定會懂」：BB_189 1-2 的描述寫成旁白，放在河堤走完之後 */
+      {set:{ZQ_DAD_HEARD:true,_zqDadCD:false}} ] };
   /* 選「他一定會懂」：兩週內在吉他社社課遇到她，她先說（classes3d.js 的 clubEvent：clubEvent:'club_guitar'）*/
   const DAD_SORRY={ id:'ev_ziqing_dad_sorry', title:'那天', participants:['heroine_04'], location:'any', trigger:'manual', clubEvent:'club_guitar', once:true, background:'blur',
     prereq:{custom:G=>{ const d=G.flags.ZQ_DAD_ARGUED_DAY; return typeof d==='number'&&G.day>d&&G.day-d<=14; }},
@@ -124,9 +133,14 @@ const Y2B_EVENTS=(function(){
       {if:{custom:G=>!dating(G,'heroine_02')&&datingOther(G,'heroine_02').length>0},goto:'gf'},   /* BB_97 3-6「交往中的玩家」＝祐廷在和別人交往（AA_338 第 0 節更正 AA_336 B2）：一疊票根給常客，不單獨給他；和芷若交往中、單身＝主版（只給他一張） */
       {if:{custom:()=>hasCG('cg_last_shift_heroine02')},cg:'cg_last_shift_heroine02'},   /* BCG-15（企劃分支 cg_approved/，還沒登錄；交往中不放）*/
       {speaker:'heroine_02',text:'（從包包拿出一張電影票根）幫我做一件事。'},
+      {if:ZRD,goto:'zd'},
       {speaker:'heroine_02',text:'我不在的時候，去看一部電影。'},
       {speaker:'heroine_02',text:'看完，寫一句話給我。一句就好。'},
       {if:{memory:[{npc:'heroine_02',tag:'ASKED_HER_DRINK'}]},speaker:'heroine_02',text:'……我的那杯，我沒有教她。'},
+      {goto:'close'},
+      /* BB_189 2-4（AA_554 核過；AA_230 Z-26～Z-29）：和她交往中，「幫我做一件事。」（BCG-15 照放）之後換兩句；ASKED_HER_DRINK 不另加句子 */
+      {label:'zd'},{speaker:'heroine_02',text:'我不在的時候，你去看一部電影。看完傳一句話給我。'},
+      {speaker:'heroine_02',text:'還有，每個星期天晚上十點我打給你。台灣時間。我媽那邊，我改早上打。'},
       {goto:'close'},
       {label:'gf'},{speaker:null,text:'（她從圍裙口袋拿出一疊電影票根。）'},
       {speaker:'heroine_02',text:'常客一人一張。我不在的時候，去看一部電影。看完寫一句話，寄到店裡。我會回。'},
@@ -250,7 +264,20 @@ const Y2B_EVENTS=(function(){
       {label:'music'},
       {speaker:'heroine_04',text:'還有一件事。我要請吉他社的學妹做配樂。'},
       {speaker:'heroine_04',text:'我要簽什麼？我會不會被告？'},
-      {speaker:'player',text:'法律上大概是：要她同意、講清楚怎麼用。……可是妳真正想要的是什麼？'},
+      /* 手機筆記（AA_117 C5；AA117-CASE-NOTES-1031；LEGAL_REVIEW_REQUIRED：只寫方向——要她同意、講清楚怎麼用——不寫結論）：格式同 C1（bbpack_events.js 阿凱的鍵盤）。
+         向誰＝學妹（BB_70 8b-1 C5 自動填好的）；請求什麼照 AA-B 2026-11-01 回覆（D109）的字；玩家選兩行：
+         ①誰：BB_70 8b-1 C5 的兩個選項和她的反應（老實的「妳會不會被告，我不確定。我們問法服。」、正解「這件事的主角是學妹。那是她的歌，是妳要請她同意。」），一字照稿；
+         ②依據什麼：原本那句「法律上大概是：要她同意、講清楚怎麼用。……可是妳真正想要的是什麼？」（BB_98 4-2，字不改，從說出來的一句改成這一行的選項）；
+           自學過著作權（U_COPYRIGHT）多一個（BB_70 8b-1 C5「依據什麼再多一個」），接著祐廷問大三的那一題「可是妳真正想要的是什麼？」（BB_70 8b-1 C5「兩種都接」那一句）。
+           AA_117 C5 老實的「要她同意，講清楚怎麼用。細節我不確定，問法服。」沒有另外放（和 BB_98 那一句方向一樣、兩句連著會重複；BB_98 4-2 寫「兩份統一以這裡為準」）*/
+      {speaker:'手機筆記',text:'誰：'},{speaker:'手機筆記',text:'向誰：學妹'},{speaker:'手機筆記',text:'依據什麼：'},{speaker:'手機筆記',text:'請求什麼：請學妹同意，講清楚怎麼用（能不能放進要賣的遊戲、要不要寫名字）'},
+      {choice:[{text:'「妳會不會被告，我不確定。我們問法服。」',set:{ZQ_C5_WHO:'honest'},goto:'mw1'},{text:'「這件事的主角是學妹。那是她的歌，是妳要請她同意。」',set:{ZQ_C5_WHO:'her'},goto:'mw2'}]},
+      {label:'mw1'},{speaker:'heroine_04',text:'……好。可是我比較想知道，她會不會開心。'},{goto:'mb'},
+      {label:'mw2'},{speaker:'heroine_04',text:'……對耶。我一直在想我自己。'},
+      {label:'mb'},
+      {choice:[{text:'「法律上大概是：要她同意、講清楚怎麼用。……可是妳真正想要的是什麼？」',goto:'mb1'},{text:'「要講清楚：能不能放進要賣的遊戲、能不能改編、要不要寫名字。」',if:{flags:['U_COPYRIGHT']},goto:'mb2'}]},
+      {label:'mb2'},{speaker:'player',text:'可是妳真正想要的是什麼？'},
+      {label:'mb1'},
       {speaker:null,text:'（她想了很久。）'},
       {speaker:'heroine_04',text:'……我想要她的歌在我的遊戲裡，而且她很開心。'},
       {speaker:'player',text:'那妳們先把說好的事寫下來。誰做什麼、做完歸誰、可不可以放在別的地方。'},

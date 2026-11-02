@@ -6,6 +6,7 @@
 //   4. 見面時的旁白：地點×階段；「—」的格子照舊（null）；明軒總圖朋友以上看 SAW_HIM_STUDY；說話的那種（「開頭）是那個人說的
 //   5. 任一方有伴侶時，芷若好朋友那句的旁白拿掉
 //   6. 約好的見面（INV.meet）：門檻台詞 → 地點的旁白 → 見面結束的一句；手機聯絡人的名字跟著關係改（phone3d.js 的 nm）
+//   （2026-11-01 LAWWW-B：稿上整句「」括起來的台詞，說話框裡不再多一層「」——social3d.js playSteps；BB-B n40。資料本身照舊有「」，第 1 項照查）
 //   7. 接線：talkCharacter、舊的對話函式（以安、阿哲、學姊、阿凱、Alison）、index.html 載入 data/rel_lines.js
 // 修正前（沒有 data/rel_lines.js、SOCIAL.playUp）這個測試會失敗。用法：node tests/rel_lines_unit.js
 const fs=require('fs'), path=require('path'), vm=require('vm');
@@ -39,17 +40,17 @@ R('heroine_01',12); check('2. 以安「認識」：沒有門檻台詞',SOCIAL.up
 R('heroine_01',25);
 (async()=>{
   let gm=mockGM(); let ok1=await SOCIAL.playUp(gm,{name:"以安"},"heroine_01");
-  check("2. 以安升到「有點熟」：下一次見面先說（手帳那一句）",ok1&&gm.out[0]==='N:（她把手帳翻到最後一頁）'&&gm.out[1]==='S:「你名字是哪個字？我上次好像寫錯了。」',gm.out.join('｜'));
+  check("2. 以安升到「有點熟」：下一次見面先說（AA_576 #25～26：手帳旁白刪；#26 使用者改選＝旁白「她坐到你旁邊」＋「早。」，企劃線 9bf7d6a97）",ok1&&gm.out[0]==='N:（她坐到你旁邊。）'&&gm.out[1]==='S:早。',gm.out.join('｜'));
   gm=mockGM(); ok1=await SOCIAL.playUp(gm,{name:"以安"},"heroine_01"); check("2. 說過就不再說",!ok1&&!gm.out.length);
   R('heroine_03',8); R('heroine_03',65,50,45); gm=mockGM(); await SOCIAL.playUp(gm,{name:'語彤'},'heroine_03');
-  check('2. 語彤從「認識」直接跳到「好朋友」：只說最高的那一句，之後不補說低的',gm.out.join('｜')==='S:「阿姨問你這禮拜會不會來。」｜S:「她說她記得你都點什麼。」'&&SOCIAL.upLine('heroine_03')===null,gm.out.join('｜'));
+  check('2. 語彤從「認識」直接跳到「好朋友」：只說最高的那一句，之後不補說低的',gm.out.join('｜')==='S:阿姨問你這禮拜會不會來。｜S:她說她記得你都點什麼。'&&SOCIAL.upLine('heroine_03')===null,gm.out.join('｜'));
   // 學姊：照一般階段（AA_219 A-11：W8 上限拿掉；「筆試前不想交往」只影響告白）
   R('heroine_05',45,30,10); W8=false;
   check('2. 學姊「朋友」、W8 還沒發生：照一般階段算「朋友」（聯絡人「溫學姊」），不再卡在「有點熟」',SOCIAL.friendLevel('heroine_05')==='FRIEND'&&SOCIAL.contactName('heroine_05')==='溫學姊',SOCIAL.friendLevel('heroine_05')+' '+SOCIAL.contactName('heroine_05'));
   gm=mockGM(); await SOCIAL.playUp(gm,{name:'溫學姊'},'heroine_05');
   check('2. 學姊 W8 以前就說朋友那句（筆電闔上；跳階只說最高的）',gm.out[0]==='N:（她把筆電闔上。）'&&SOCIAL.upLine('heroine_05')===null,gm.out.join('｜'));
   R('heroine_04',65,50,45); gm=mockGM([2]); await SOCIAL.playUp(gm,{name:'子晴'},'heroine_04');
-  check('2. 子晴好朋友的小選擇：選「妳呢？」→ 兩句回答',gm.out.join('｜')==='S:「你最近還好嗎？看起來很累。」｜C:還好。/有點累。/妳呢？｜S:「我？還行啦。」｜S:「就最近都很晚睡。」',gm.out.join('｜'));
+  check('2. 子晴好朋友的小選擇：選「妳呢？」→ 兩句回答',gm.out.join('｜')==='S:你最近還好嗎？看起來很累。｜C:還好。/有點累。/妳呢？｜S:我？還行啦。｜S:就最近都很晚睡。',gm.out.join('｜'));
   // ---------- 3. 見面結束的一句 ----------
   R('classmate_mingxuan',10); G.weekday=2; const b2=steps(SOCIAL.byeLine('classmate_mingxuan')); G.weekday=1; const b1=steps(SOCIAL.byeLine('classmate_mingxuan'));
   check('3. 明軒「認識」：二四六（家教的晚上）「我去家教了，掰。」、其他天「好，下次見。」',b2[0]==='「我去家教了，掰。」'&&b1[0]==='「好，下次見。」',b2+' / '+b1);
@@ -58,7 +59,7 @@ R('heroine_01',25);
   R('kai',65,50,45); const py=SOCIAL.playerYear; SOCIAL.playerYear=()=>1; const k1=SOCIAL.upLine('kai'); SOCIAL.playerYear=()=>2; const k2=SOCIAL.upLine('kai'); SOCIAL.playerYear=py;
   check('3. 阿凱好朋友那句（沒有 KAI_TAPE）：大一（宵夜）、大二以後（新房間）',k1&&k1.l[0]==='「欸，今天宵夜你要不要？我請。」'&&k2&&k2.l[0]==='「欸，你哪天來我新房間，我螢幕換大的了。」');
   R('npc_fangyt',25); G.name='小明'; gm=mockGM(); await SOCIAL.playUp(gm,{name:'方奕廷'},'npc_fangyt'); G.name='祐廷';
-  check('3. 玩家的名字換進去（方奕廷有點熟那句；BB_169 F-1。阿哲好朋友那句 AA_194 改稿以後沒有 {name}）',gm.out[0]==='S:「小明，你等一下要去哪？」',gm.out[0]);
+  check('3. 玩家的名字換進去（方奕廷有點熟那句；BB_169 F-1。阿哲好朋友那句 AA_194 改稿以後沒有 {name}）',gm.out[0]==='S:小明，你等一下要去哪？',gm.out[0]);
   // ---------- 4. 見面時的旁白 ----------
   R('heroine_02',10); check('4. 芷若「認識」約總圖：那一格是「—」，照舊（null）',SOCIAL.meetLine('heroine_02','library')===null);
   R('heroine_02',25); check('4. 芷若「有點熟」約總圖：「她讀英文小說，推過來一張便利貼。」',SOCIAL.meetLine('heroine_02','library')==='她讀英文小說，推過來一張便利貼。');
@@ -69,12 +70,12 @@ R('heroine_01',25);
   R('heroine_02',65,50,45); G.flags.dating_kexin=true; gm=mockGM(); await SOCIAL.playUp(gm,{name:'芷若'},'heroine_02');
   check('5. 祐廷交往中：芷若好朋友那句沒有「從來沒傳給誰」的旁白（BB_169 Z-3 已拿掉 solo 旁白：三句照說）',gm.out.length===3&&!gm.out.some(t=>t.indexOf('從來沒傳給誰')>=0),gm.out.join('｜'));
   G.flags.dating_kexin=false; G.social.relUp.heroine_02=0; gm=mockGM(); await SOCIAL.playUp(gm,{name:'芷若'},'heroine_02');
-  check('5. 單身：一樣三句（BB_169 Z-3）',gm.out.length===3&&gm.out[2]==='S:「我覺得這張最好看。那杯沒有客人點，我自己喝掉了。」',gm.out.join('｜'));
+  check('5. 單身：一樣三句（BB_169 Z-3）',gm.out.length===3&&gm.out[2]==='S:我覺得這張最好看。那杯沒有客人點，我自己喝掉了。',gm.out.join('｜'));
   // ---------- 6. 約好的見面（INV.meet）、手機聯絡人 ----------
   R('heroine_04',25); G.social.relUp.heroine_04=0; const iv={id:'m1',who:'heroine_04',place:'cafe',zone:'cafe',day:G.day,h:15,state:'going',by:'player'}; G.invites=[iv];
   const said=[]; const GMm={G,sceneBegin(){},sceneEnd(){},say:async(w,t)=>{ said.push(t); },choose:async()=>0,fade:async()=>{},advance(dh){ G.hour+=dh; },caption(){},autosave(){}};
   await INV.meet(GMm,iv,null);
-  check('6. 約好的見面：門檻台詞（有點熟）→ Café 的旁白（有點熟）→ 見面結束的一句',said[0]==='「喔你來了。」'&&said[1]==='「等我一下，我回個訊息。」'&&said[2]==='她寫程式，你念書。她偶爾念出一行錯誤訊息。'&&said[said.length-1]==='「好。掰。」',said.join('｜'));
+  check('6. 約好的見面：門檻台詞（有點熟）→ Café 的旁白（有點熟）→ 見面結束的一句',said[0]==='喔你來了。'&&said[1]==='等我一下，我回個訊息。'&&said[2]==='她寫程式，你念書。她偶爾念出一行錯誤訊息。'&&said[said.length-1]==='好。掰。',said.join('｜'));
   const titleR=()=>PHONE.title(G,'p:heroine_04'); G.social.mem.heroine_04=[]; R('heroine_04',25); const t0=titleR();
   check('6. 還沒見過（沒有 FIRST_MET）：手機上照舊「不認識的女生」，聯絡人名稱不提前露出名字',t0==='不認識的女生',t0);
   SOCIAL.remember('heroine_04','FIRST_MET','x'); const t1=titleR(); R('heroine_04',45,30); const t2=titleR();

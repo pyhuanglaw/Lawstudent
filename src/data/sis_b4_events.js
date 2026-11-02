@@ -104,7 +104,7 @@ const SISB4_EVENTS=(function(){
   return [
     /* ---------- 3-1 2026-12-24（四）22:00 兩點半 Café 門口（Café 門口的夜景沒有底圖：深色底＋地點字幕）---------- */
     { id:'ev_sis_xmas_y2', title:'聖誕夜', participants:[ID], location:'any', trigger:'outing', once:true, background:'dark', hours:0.5,
-      dialogue:[ {scene:'兩點半 Café 門口',bg:'dark'},
+      dialogue:[ {scene:'兩點半 Café 門口',bg:'cafe_door_night'},   /* 第六批背景（使用者 11-02 生成，BB_132 第 103 組）*/
         N('（Café 的燈一盞一盞關掉。她站在門口，手上拿著兩個紙杯。）'),
         SIS('熱水。加了一點蜂蜜。'),
         SIS('……今天聖誕節，算特別的。'),
@@ -139,7 +139,7 @@ const SISB4_EVENTS=(function(){
       outingMissed:G=>{ const x=X(); if(x) x.missed(G,'xmas_y3'); } },
     /* ---------- 3-4 2027-02-14（日）14:00 臺北植物園（大二寒假；植物園沒有底圖：深色底＋地點字幕）---------- */
     { id:'ev_sis_vday_y2', title:'情人節', participants:[ID], location:'any', trigger:'outing', once:true, background:'dark', hours:4,
-      dialogue:[ {scene:'臺北植物園',bg:'dark'},
+      dialogue:[ {scene:'臺北植物園',bg:'taipei_botanical_winter'},   /* 11-02 使用者生成（原本深色底）*/
         N('（植物園分成很多區，每一區門口都有一塊說明牌。她每一塊都停下來讀，大概一分鐘。）'),
         SIS('一區一分鐘。'),
         SIS('……這樣才走得完。'),
@@ -167,7 +167,7 @@ const SISB4_EVENTS=(function(){
         N('（她站在出口，手上沒有計畫本。）'),
         SIS('今天沒帶。放在家裡了。'),
         SIS('第一班來的公車，我們就上去。坐到最後一站。'),
-        {scene:'公車上',bg:'dark'},
+        {scene:'公車上',bg:'bus_day'},   /* 11-02 使用者生成（BB_132 第 102 組第 1 張）*/
         N('（她一開始看著窗外，小聲念站名。念到第七站，就不念了。）'),
         {choice:[{text:'（拿出手機查終點站）',goto:'b_a'},{text:'（陪她看窗外）',goto:'b_b'}]},
         {label:'b_a'},SIS('不要查。'),SIS('……今天不要查。'),{goto:'b_c'},

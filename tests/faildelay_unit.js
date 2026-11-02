@@ -1,5 +1,5 @@
 // 大四下被當的延畢（D14-T5B；AA_421 第 1 節）——不需要瀏覽器。src/faildelay3d.js＋postgrad3d.js／r2y4b3d.js／y5s1_3d.js／termend3d.js
-//   1  6/18 大四下成績單：有一門不及格＝FAIL_DELAY（旁白兩句；已報名國考多一句、BAR_REG＝false；22:00 阿哲兩則）；PG.delayed 成立、PG.exchDelayed 不成立
+//   1  6/18 大四下成績單：有一門不及格（D118 起：考五題的課先排 6/26 補考，這一節用「補考沒去」）＝FAIL_DELAY（旁白兩句；已報名國考多一句、BAR_REG＝false；22:00 阿哲兩則）；PG.delayed 成立、PG.exchDelayed 不成立
 //   2  沒有不及格＝照常畢業；交換路線又被當＝只記那一門（大五上多一門重修），不另外演
 //   3  日期卡：6/18～6/27、9/4 起（first）、10/17～11/19 共通、12/19～12/23 共通、2030-03～04 沒報名照 AA_421 1-4；{課名} 換成那一門
 //   4  大五上：重修那一門在原本的時段（今日頁、課表）；週二沒有實習；第一次上課老師一句；12/24 出席三堂＝過，不到三堂＝證書延到 2030-06（兩張日期卡、1/22 證書不出）
@@ -15,8 +15,9 @@ const X=()=>typeof FD!=='undefined'?FD:null;
 const sec=async(n,f)=>{ try{ await f(); }catch(e){ check(n+'. 丟出例外（這一節中斷）',false,String(e&&e.stack||e).split('\n').slice(0,3).join(' / ')); } };
 const D=k=>STORY.dayOfKey(k);
 /* 大四下：考試的課都考過（答對 3 題）、看出席的課都三堂；fail＝那一門答對 0 題 */
-const y4s2=(failId)=>{ const R=CLS.rec(H.G); R.exam=R.exam||{}; R.attend=R.attend||{}; let first=null;
-  for(const c of CLS.termCourses(H.G,'Y4S2')){ if(CLS.isExamCourse(c)){ if(!first) first=c; R.exam['Y4S2:'+c.id+':final']={status:'done',correct:3,score:60}; } if(CLS.attCourse(c)) R.attend[c.id]=3; }
+/* D124（海商法改選修：大四下選修被當不延畢）：'first'＝大四上強制執行法被當、排到大四下的重修 */
+const y4s2=(failId)=>{ const R=CLS.rec(H.G); R.exam=R.exam||{}; R.attend=R.attend||{}; let first=null; if(failId==='first') R.retake=[{id:'enforcement',from:'Y4S1',term:'Y4S2',slots:[{wd:5,block:'pm1'}]}];
+  for(const c of CLS.termCourses(H.G,'Y4S2')){ if(CLS.isExamCourse(c)){ if(!first||c.rt) first=c; R.exam['Y4S2:'+c.id+':final']={status:'done',correct:3,score:60}; } if(CLS.attCourse(c)) R.attend[c.id]=3; }
   const f=failId==='first'?first:(failId?CLS.termCourses(H.G,'Y4S2').find(c=>c.id===failId):null); if(f) R.exam['Y4S2:'+f.id+':final']={status:'done',correct:0,score:0}; return f; };
 const card=(a,b)=>PG.cardLine(H.G,D(a),D(b));
 
@@ -31,6 +32,9 @@ let fc=null;
 await sec(1,async()=>{ H.fresh('2029-06-18',9,'dorm',{BAR_REG:true,Y4_PATH:'bar'}); H.FRIEND('zhe'); fc=y4s2('first');
   check('1. 成績單以前：不是延畢',!PG.delayed(H.G)&&!Y5.delayed(H.G));
   await CLS.showGrades(GM,'Y4S2');
+  /* D118 補考（使用者 2026-11-02 05:0x Q4）：被當的是考五題的課＝6/18 先排補考、不延畢；補考沒去（11:00 以前沒開始）才延畢——延畢那幾句、阿哲、BAR_REG 照舊（tests/y4s2_makeup_unit.js 測補考本身）*/
+  check('1. （D118）6/18 考五題的課被當：先排補考、還不是延畢',!H.G.flags.FAIL_DELAY&&!PG.delayed(H.G)&&!!H.G.flags.FD_MAKEUP&&H.G.flags.FD_MAKEUP.status==='pending'&&H.G.flags.BAR_REG===true);
+  PG.setT(H.G,E,D('2029-06-26'),11.25); { PG.pending(H.G); const s=PG.due(H.G); if(s) await PG.runStep(GM,s); }   /* 補考沒去 */
   check('1. 有一門不及格：FAIL_DELAY、FAIL_DELAY_COURSES＝那一門',H.G.flags.FAIL_DELAY===true&&J(H.G.flags.FAIL_DELAY_COURSES)===J([fc.id]),J(H.G.flags.FAIL_DELAY_COURSES));
   const nm=FD.cname(fc.id);
   check('1. 旁白「（{課名}，不及格。）」「（證書要等下學期。九月，你要回學校重修。）」',H.has('（'+nm+'，不及格。）')&&H.has('（證書要等下學期。九月，你要回學校重修。）'),J(H.lines().slice(-4)));
@@ -74,6 +78,32 @@ await sec(5,async()=>{ H.fresh('2029-09-03',9,'dorm',{FAIL_DELAY:true,FAIL_DELAY
   H.fresh('2030-01-21',10,'dorm',{FAIL_DELAY:true,FAIL_DELAY_COURSES:[fc.id],FAIL_DELAY_PASS:true}); await R2Y4B.cert(GM);
   check('5. 證書：助教「恭喜。……延了一學期，還是恭喜。」（不是「你們交換回來的」）',H.has('恭喜。……延了一學期，還是恭喜。')&&!H.has('你們交換回來的，今天第三個了。'));
   H.fresh('2030-01-21',10,'dorm',{EXCHANGE_ROUTE:'US'}); await R2Y4B.cert(GM); check('5. 交換延畢的證書照舊',H.has('你們交換回來的，今天第三個了。')); });
+
+/* BUG-DELAY-RETAKE-SKIP-1102（CC M1）：畢業後篇跳日期要停在重修課前（修改前：9/2 一跳到 12/14、沒機會上課）*/
+await sec(6,async()=>{ H.fresh('2029-09-02',9,'dorm',{FAIL_DELAY:true,FAIL_DELAY_COURSES:[fc.id]}); const s=FD.slots(H.G)[0];
+  let d=D('2029-09-03'); while(CALENDAR.dateOf(d).wd!==s.slot.wd||CALENDAR.holiday(d)) d++; const it0=Y5.classItems(H.G,d)[0];
+  /* 照玩家：跳到下一個停點，停在重修開放的時間就去上課（不是重修的停點照跳）；到 12/25 為止 */
+  let went=0, guard=0, first=null; const end=D('2029-12-25')*24+9;
+  while(guard++<400){ const t=PG.nextStop(H.G); if(t==null||t>=end) break; PG.setT(H.G,E,Math.floor(t/24),t-Math.floor(t/24)*24);
+    const its=Y5.classItems(H.G).filter(x=>x.fd&&Y5.status(H.G,x)==='open'); if(its.length&&first==null) first=H.G.day; for(const x of its){ if(await Y5.attend(GM,x)) went++; } }
+  check('6. 從 9/2 照停點跳：第一次停在能去上課的時間＝第一堂（'+PG.dateLabel(d,it0.t0)+'）',first===d,first==null?'沒停過':PG.dateLabel(first,0));
+  check('6. 照停點去上課：出席到三堂（實際 '+went+'）、到了就不再停在重修',went===3&&FD.attended(H.G,fc.id)===3&&FD.clsStop(H.G)==null,'went='+went+' guard='+guard);
+  PG.setT(H.G,E,D('2029-12-25'),9); FD.result(H.G); check('6. 12/24 以後：過了、證書不延',H.G.flags.FAIL_DELAY_PASS===true&&!H.G.flags.FAIL_DELAY_CERT);
+  /* 對照：停下來也不去上課＝證書延到六月 */
+  H.fresh('2029-09-02',9,'dorm',{FAIL_DELAY:true,FAIL_DELAY_COURSES:[fc.id]}); let stops=0, lastStop=null; guard=0;
+  while(guard++<400){ const t=PG.nextStop(H.G); if(t==null||t>=end) break; PG.setT(H.G,E,Math.floor(t/24),t-Math.floor(t/24)*24); if(FD.clsStop(H.G)!==t&&Y5.classItems(H.G).some(x=>x.fd&&Y5.status(H.G,x)==='open')){ stops++; lastStop=H.G.day; } }
+  { let last3=null, n=0; const r=CALENDAR.termDays('Y5S1'); for(let x=r.to;x>=r.from&&n<3;x--){ if(Y5.classItems(H.G,x).some(i=>i.fd)){ n++; last3=x; } }
+    check('6. C0（BB 10:12）：一堂都沒去＝最後一次停在倒數第三堂（'+PG.dateLabel(last3,0)+'），之後只剩兩堂不停',lastStop===last3,lastStop==null?'沒停':PG.dateLabel(lastStop,0)); }
+  PG.setT(H.G,E,D('2029-12-25'),9); FD.result(H.G);
+  const tot=(()=>{ let k=0; const r=CALENDAR.termDays('Y5S1'); for(let x=r.from;x<=r.to;x++) k+=Y5.classItems(H.G,x).filter(i=>i.fd).length; return k; })();
+  check('6. 對照：不去上課＝停到湊不到三堂為止（'+stops+' 次；至少全部 '+tot+' 堂減最後兩堂——別的停點剛好落在上課時間也算；最後一次在哪一天見 C0）、證書延到 2030-06',stops>=3&&stops>=tot-2&&stops<=tot&&H.G.flags.FAIL_DELAY_PASS===false&&H.G.flags.FAIL_DELAY_CERT==='2030-06','stops='+stops);
+  /* BB 10:05：12 月只剩一堂、上過一堂＝湊不到三堂，不停；上過兩堂＝還湊得到，停 */
+  H.fresh('2029-12-13',9,'dorm',{FAIL_DELAY:true,FAIL_DELAY_COURSES:[fc.id]}); { const R=Y5.rec(H.G); R.cls[D('2029-09-05')+':'+fc.id]=1;
+    const n=(()=>{ let k=0; const r=CALENDAR.termDays('Y5S1'); for(let x=H.G.day;x<=r.to;x++) k+=Y5.classItems(H.G,x).filter(i=>i.fd).length; return k; })();
+    check('6. 12/13 剩 '+n+' 堂、上過 1 堂：湊不到三堂就不停',n===1&&FD.clsStop(H.G)==null,'n='+n);
+    R.cls[D('2029-09-12')+':'+fc.id]=1; check('6. 12/13 上過 2 堂、剩 1 堂：還湊得到，停',n>=1&&FD.clsStop(H.G)!=null,'n='+n); }
+  /* 已經過了（FAIL_DELAY_PASS 有值）、不是延畢：沒有重修停點 */
+  H.fresh('2029-09-02',9,'dorm',{}); check('6. 不是延畢：沒有重修停點',FD.clsStop(H.G)==null); });
 
 H.done();
 })();

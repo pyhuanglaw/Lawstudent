@@ -23,7 +23,7 @@ const JP_BLANK_LINES=(function(){
 
   /* ---------------- 第 1 節 抵達以後、開學以前（3/29～4/9）---------------- */
   /* 1-1 3/29（三）11:00 百元商店：交往中（前一晚 21:30 她私訊，回「好。」＝出遊）*/
-  out('ev_jpb_100yen','車站旁邊的百元商店',[ {scene:'車站旁邊的百元商店'},
+  out('ev_jpb_100yen','車站旁邊的百元商店',[ {scene:'車站旁邊的百元商店',bg:'jp_100yen'},
     nar('（車站旁邊的百元商店。她拿了一個籃子，照手帳上的清單一樣一樣放進去。）'),
     an('衣架、垃圾袋、拖鞋。……你的呢？'),
     {choice:[{text:'「我沒有寫清單。」',goto:'a'},{text:'「跟妳一樣。」',goto:'b'}]},
@@ -31,10 +31,10 @@ const JP_BLANK_LINES=(function(){
     {label:'b'},an('好。那結帳的時候分開。'),
     {label:'e'} ]);
   /* 1-1 挽回中（一個人，一鍵）*/
-  ev('ev_jpb_100yen_alone','車站旁邊的百元商店',[ {scene:'車站旁邊的百元商店'},
+  ev('ev_jpb_100yen_alone','車站旁邊的百元商店',[ {scene:'車站旁邊的百元商店',bg:'jp_100yen'},
     nar('（車站旁邊的百元商店。你買了衣架和拖鞋。結帳的時候才想起來，沒有買垃圾袋。）'),{advance:1} ]);
   /* 1-2 3/31（五）15:00 二手腳踏車：交往中（12:00 她私訊）*/
-  ev('ev_jpb_bike','二手腳踏車',[ {scene:'宿舍旁邊的二手腳踏車店'},
+  ev('ev_jpb_bike','二手腳踏車',[ {scene:'宿舍旁邊的二手腳踏車店',bg:'jp_bike_shop'},
     nar('（店裡一排舊的腳踏車，每一台都掛著手寫的價錢。老闆在後面修輪胎。）'),
     an('這一台的煞車比較緊。'),an('……我騎騎看。'),
     nar('（她在店門口騎了一圈，回來的時候頭髮被風吹亂了。她沒有整理。）'),
@@ -43,12 +43,12 @@ const JP_BLANK_LINES=(function(){
     {label:'b'},an('國中以後就沒騎過了。'),
     {label:'e'},{set:{JP_BIKE:true}},{advance:1} ]);
   /* 1-2 挽回中（遇過立衡：12:00 他私訊；沒遇過：隔壁房間的交換生）*/
-  ev('ev_jpb_bike_repair','二手腳踏車',[ {scene:'宿舍旁邊的二手腳踏車店'},
+  ev('ev_jpb_bike_repair','二手腳踏車',[ {scene:'宿舍旁邊的二手腳踏車店',bg:'jp_bike_shop'},
     IF(metLH,nar('（立衡幫你挑了一台。他蹲下來看鏈條，看了很久。）')),IF(metLH,lh('這台可以。……騎到八月沒問題。')),
     UN(metLH,nar('（宿舍旁邊的二手腳踏車店。隔壁房間的交換生也在挑。你們各買了一台，一起騎回宿舍，路上沒說什麼話。）')),
     {set:{JP_BIKE:true}},{advance:1} ]);
   /* 1-3 4/1（六）17:00 超市：交往中（15:30 她私訊；回「我陪妳去。」＝出遊）*/
-  out('ev_jpb_market','小鎮的超市',[ {scene:'小鎮的超市'},
+  out('ev_jpb_market','小鎮的超市',[ {scene:'小鎮的超市',bg:'jp_supermarket'},
     nar('（小鎮的超市。生魚片在六點以後貼了半價的貼紙。）'),
     an('……原來要等到六點。'),an('下週六，六點以後再來。'),
     {choice:[{text:'「今天也等？」',goto:'a'},{text:'「先買別的。」',goto:'b'}]},
@@ -71,7 +71,7 @@ const JP_BLANK_LINES=(function(){
     IF(repair,nar('（以安的名字在同一張公告上。中級。）')),
     {set:{JP_PLACEMENT:true}},{advance:2} ]);
   /* 1-6 4/8（六）13:00 交換生的花見：挽回中（交換生群組 4/7 21:00，回「+1」＝去）*/
-  out('ev_jpb_hanami','交換生的花見',[ {scene:'河堤'},
+  out('ev_jpb_hanami','交換生的花見',[ {scene:'河堤',bg:'jp_riverbank'},
     nar('（河堤上一排櫻花，交換生鋪了三張藍色的塑膠布。有人帶了吉他。）'),
     nar('（以安坐在另一張布上，和兩個韓國來的交換生講話。她看到你，點了一下頭。）'),
     IF(metLH,nar('（立衡坐到你旁邊。）')),IF(metLH,lh('……你們同一個學校來的？')),
@@ -80,42 +80,42 @@ const JP_BLANK_LINES=(function(){
     {set:{JP_HANAMI_GROUP:true}} ],{hours:2});   /* 不加 REPAIR、不算挽回的一步 */
 
   /* ---------------- 第 2-1 節 交往中的固定小場景（她的生活上的事；回「好。」＝出遊）---------------- */
-  out('ev_jpb_w_market','小鎮的早市',[ {scene:'小鎮的早市'},
+  out('ev_jpb_w_market','小鎮的早市',[ {scene:'小鎮的早市',bg:'jp_morning_market'},
     nar('（早市的攤子沿著小路排開。草莓一盒一盒疊得很高。）'),
     an('臺灣的草莓，三月就沒有了。'),an('……這裡四月才最好吃。'),
     {choice:[{text:'「買兩盒。」',goto:'a'},{text:'「妳很喜歡草莓？」',goto:'b'}]},
     {label:'a'},an('一盒就好。吃不完會壞。'),{goto:'e'},
     {label:'b'},an('我媽喜歡。……我拍給她看。'),nar('（她拍了一張照片，傳出去。）'),
     {label:'e'} ]);
-  out('ev_jpb_w_laundry','投幣洗衣店',[ {scene:'投幣洗衣店'},
+  out('ev_jpb_w_laundry','投幣洗衣店',[ {scene:'投幣洗衣店',bg:'jp_laundry'},
     nar('（洗衣機轉著。她坐在塑膠椅上看行政法，你坐在旁邊。）'),
     an('還有二十八分鐘。'),
     {choice:[{text:'「去買飲料？」',goto:'a'},{text:'（一起等）',goto:'b'}]},
     {label:'a'},an('好。我要熱的。'),{goto:'e'},
     {label:'b'},nar('（二十八分鐘裡，她翻了四頁。洗衣機停的時候，她剛好闔上書。）'),
     {label:'e'} ]);
-  out('ev_jpb_w_chain','腳踏車的鏈條',[ {scene:'宿舍門口'},
+  out('ev_jpb_w_chain','腳踏車的鏈條',[ {scene:'宿舍門口',bg:'jp_dorm_gate_morning'},   /* 第 109 組（BB 07:50）：五月上午、沒有七夕竹子的版本（jp_dorm_gate 是傍晚、七夕那兩場用）*/
     nar('（她的腳踏車倒放在宿舍門口，鏈條垂在地上。）'),
     an('我查了怎麼裝。看了三遍影片。……還是裝不上去。'),
     {choice:[{text:'「我來。」',goto:'a'},{text:'「一起弄。」',goto:'b'}]},
     {label:'a'},nar('（你弄了十分鐘，手都黑了。鏈條卡進去的時候，她說了一聲「好」。）'),an('……手去洗。我請你吃午餐。'),{goto:'e'},
     {label:'b'},nar('（她扶著車，你轉踏板。第三次卡上去了。兩個人的手都是黑的。）'),
     {label:'e'} ]);
-  out('ev_jpb_w_books','鎮上的舊書店',[ {scene:'鎮上的舊書店'},
+  out('ev_jpb_w_books','鎮上的舊書店',[ {scene:'鎮上的舊書店',bg:'jp_old_bookstore'},
     nar('（舊書店裡很窄，書一路疊到天花板。法律書在最裡面那一排。）'),
     an('這本是二十年前的行政法教科書。……一百日圓。'),
     {choice:[{text:'「買。」',goto:'a'},{text:'「舊的有用嗎？」',goto:'b'}]},
     {label:'a'},an('好。可是這本已經改過三次法了。'),nar('（她還是買了。）'),{goto:'e'},
     {label:'b'},an('看他們以前怎麼想，有用。'),
     {label:'e'} ]);
-  out('ev_jpb_w_light','她房間的燈',[ {scene:'她的房間門口'},   /* 她的房間第一次出現；不寫留下來、不寫進房間以後的事（AA_359）*/
+  out('ev_jpb_w_light','她房間的燈',[ {scene:'她的房間門口',bg:'jp_an_room_door'},   /* 第 109 組（BB 07:50）*/   /* 她的房間第一次出現；不寫留下來、不寫進房間以後的事（AA_359）*/
     nar('（她租的房間在二樓。門口放著一雙拖鞋、一袋新的燈管。）'),
     an('椅子在這裡。……我扶著。'),
     {choice:[{text:'「我站上去。」',goto:'a'},{text:'「找房東？」',goto:'b'}]},
     {label:'a'},nar('（燈管換好，房間一下子亮了。她看了天花板一下。）'),an('……原來這麼亮。'),{goto:'e'},
     {label:'b'},an('房東週末不在。我傳過了。'),nar('（你還是站上去換了。）'),
     {label:'e'},{mem:[{npc:A1,tag:'AN_JP_LIGHT',note:''}]} ]);
-  out('ev_jpb_w_temple','寺的繡球花',[ {scene:'附近的寺'},
+  out('ev_jpb_w_temple','寺的繡球花',[ {scene:'附近的寺',bg:'jp_temple_hydrangea'},
     nar('（寺的石階兩邊都是繡球花，藍的、紫的。下過雨，石階有一點滑。）'),
     an('土是酸的，花就是藍的。'),an('……我昨天查的。'),
     {choice:[{text:'「那紫的呢？」',goto:'a'},{text:'（拍一張她和花）',goto:'b'}]},
@@ -129,7 +129,7 @@ const JP_BLANK_LINES=(function(){
     {label:'a'},an('水要多。'),nar('（她把紙條摺起來，收進手帳。）'),{goto:'e'},
     {label:'b'},an('……水要多。'),nar('（她站在你旁邊看著鍋子。）'),
     {label:'e'} ],{hours:1.5});
-  out('ev_jpb_w_fire','河堤的煙火',[ {scene:'河堤'},
+  out('ev_jpb_w_fire','河堤的煙火',[ {scene:'河堤',bg:'jp_riverbank_fireworks'},   /* 第 109 組（BB 07:50）：夏天晚上的河堤（jp_riverbank 是白天櫻花，花見用）*/
     nar('（河堤上的人很多。第一發煙火上去的時候，旁邊的小孩叫了一聲。）'),
     IF(tamsui,an('……淡水那一次，我們在看夕陽。')),UN(tamsui,an('……臺灣的煙火，我只在電視上看過。')),   /* 沒和她去過淡水（D13）的換這一句 */
     {choice:[{text:'「這次看煙火。」',goto:'a'},{text:'（不說話）',goto:'b'}]},
@@ -138,13 +138,13 @@ const JP_BLANK_LINES=(function(){
     {label:'e'},{mem:[{npc:A1,tag:'AN_JP_FIREWORK',note:''}]} ],{hours:1.5});
 
   /* ---------------- 第 2-2 節 挽回中的固定小場景（週六；她不在場或只遠遠出現）---------------- */
-  ev('ev_jpb_r_shop','二手店',[ {scene:'二手店'},
+  ev('ev_jpb_r_shop','二手店',[ {scene:'二手店',bg:'jp_secondhand_shop'},
     IF(metLH,nar('（二手店的電器區。立衡把每一台電風扇都打開，聽它的聲音。）')),IF(metLH,lh('這台比較安靜。……晚上寫論文，吵的會睡著。')),
     UN(metLH,nar('（宿舍的布告欄貼了二手店的傳單。你一個人去，買了一台電風扇，騎腳踏車載回來的時候，綁了三次。）')),{advance:1.5} ]);
-  ev('ev_jpb_r_laundry','投幣洗衣店',[ {scene:'宿舍的投幣洗衣店'},
+  ev('ev_jpb_r_laundry','投幣洗衣店',[ {scene:'宿舍的投幣洗衣店',bg:'jp_laundry'},
     nar('（梅雨。宿舍的投幣洗衣店排了五個人，都是交換生。有人在放手機的歌。）'),
     nar('（輪到你的時候，雨停了一下。）'),{advance:1} ]);
-  out('ev_jpb_r_fire','河堤的煙火',[ {scene:'河堤'},
+  out('ev_jpb_r_fire','河堤的煙火',[ {scene:'河堤',bg:'jp_riverbank_fireworks'},   /* 同上 */
     nar('（河堤上的人很多。交換生擠在橋下。以安站在最旁邊，手上拿著一罐飲料。）'),
     nar('（第一發煙火上去的時候，她抬頭看。你也抬頭看。）') ],{hours:1.5});   /* 不加台詞；這一場不推進挽回 */
 
@@ -159,7 +159,7 @@ const JP_BLANK_LINES=(function(){
 
   /* ---------------- 第 4 節 最後一週（7/29～8/2）---------------- */
   /* 4-1 7/29（六）18:00 交換生的送別會（兩版；交換生群組 7/27 21:00，回「+1」＝去）*/
-  out('ev_jpb_farewell','交換生的送別會',[ {scene:'宿舍大廳'},
+  out('ev_jpb_farewell','交換生的送別會',[ {scene:'宿舍大廳',bg:'jp_dorm_lobby'},
     nar('（宿舍大廳。長桌上擺滿了不同國家的零食。有人帶了一整盒月餅，大家都說季節不對。）'),
     nar('（輪到你。你拿出一包從臺灣帶來、一直沒吃的鳳梨酥。）'),
     {if:C(repair),goto:'r'},
@@ -176,7 +176,7 @@ const JP_BLANK_LINES=(function(){
     {label:'e'} ],{hours:2});   /* 挽回成功、已經回到交往的玩家照交往版（演的那一刻看）*/
   /* 4-2 7/30（日）14:00 以安退租前打掃（交往中；7/29 22:30 她私訊，回「我去幫忙。」＝出遊）*/
   const lightDone=G=>done(G,'ev_jpb_w_light');
-  out('ev_jpb_clean','她退租前的打掃',[ {scene:'她的房間'},
+  out('ev_jpb_clean','她退租前的打掃',[ {scene:'她的房間',bg:'jp_an_room_packed'},   /* 第 109 組（BB 07:50）：以安的房間、打包好的版本（jp_room 是「你的房間」，不能借）*/
     IF(lightDone,nar('（她的房間已經收得差不多了。地上只剩兩個紙箱，和那盞你換過的燈。）')),
     IF(lightDone,an('燈管要留給下一個人。')),IF(lightDone,an('……你換的那一支。')),
     UN(lightDone,nar('（她的房間已經收得差不多了。地上只剩兩個紙箱。天花板的燈閃了一下。）')),   /* 6/11 那一場（2-1 e）沒有演過的：整段換（AA_437 第 7 節第 1 點）*/
@@ -186,16 +186,16 @@ const JP_BLANK_LINES=(function(){
     {label:'b'},an('好。'),nar('（她坐在紙箱上，看了房間一圈。）'),
     {label:'e'} ],{hours:2});
   /* 4-3 7/31（一）郵局寄箱子（兩版，一鍵）*/
-  ev('ev_jpb_post','郵局',[ {scene:'郵局'},
+  ev('ev_jpb_post','郵局',[ {scene:'郵局',bg:'jp_post_office'},
     nar('（郵局的櫃台。海運要兩個月才到。你在單子上寫臺北的地址，寫得比平常慢。）'),
     IF(dating,nar('（以安排在你後面。她的箱子比你的小，貼了三張「易碎」。）')),{advance:1} ]);
   /* 4-4 8/2（三）10:00 最後一次去學校（兩版，一鍵；接 3/27 第一天那一句 AA_341 G1）*/
-  ev('ev_jpb_lastschool','最後一次去學校',[ {scene:'國際學生辦公室'},
+  ev('ev_jpb_lastschool','最後一次去學校',[ {scene:'國際學生辦公室',bg:'jp_intl_office'},
     nar('（退宿的手續。職員用很慢的日文說了一句話，這次你全部聽懂了。）'),
     IF(dating,nar('（出來以後，她說要再去一次圖書館。你們在她常坐的位子坐了半個小時，什麼都沒讀。）')),{advance:1} ]);
 
   /* ---------------- 第 5 節 挽回中 7/17（一，海之日）：交換生群組 7/16 21:00，回「+1」＝一鍵 ---------------- */
-  ev('ev_jpb_r_sea','海之日',[ {scene:'海邊'},
+  ev('ev_jpb_r_sea','海之日',[ {scene:'海邊',bg:'jp_beach'},
     nar('（交換生坐滿了一節車廂。海很藍，水很冷。你在沙灘上坐了一下午，曬紅了手臂。）'),{advance:6} ]);
 
   /* ---------------- 私訊、群組（手機的字）---------------- */

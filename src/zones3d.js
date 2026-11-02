@@ -21,7 +21,7 @@ const Z3 = (function(){
   /* 正式街景模型門口、騎樓裡的雜物：人貼牆走會穿過去的那幾個，模型接上以後才擋住那幾格（ART-WZ0，LAWWW2 10-21；套件備用模型沒有這些雜物，不能先擋，不然是看不見的牆）。
      [x, z, 寬, 深]＝wenzhou_street.props.json／gongguan_shops.props.json 的腳印（wz_street.py 建模時寫出來）；pad 半格（blockRect 只擋格子中心在範圍裡的）。改了 Blender 的雜物要跟著改，tests/street_props_nav_unit.js 會抓 */
   const WZ_PROP_BLOCKS=[[-1.82,5.02,0.83,0.83],[-21.9,-4.9,0.6,0.46],[22.73,-7.6,1.46,0.44],[29.5,-7.5,0.6,0.44],[-37.2,-3.02,0.8,0.64],[-37.23,-3.5,0.63,0.61]];   /* A2 公寓門邊盆栽、B1 鐵捲門前紙箱、B5 茶飲騎樓回收桶、冰菓室 A 字立牌、W0 兩個盆栽 */
-  const GG_PROP_BLOCKS=[[-58.0,21.65,0.34,0.34],[-58.6,21.65,0.34,0.34],[-66.23,21.65,1.46,0.44],[-48.8,21.4,0.6,0.44],[-54.83,21.4,1.46,0.44],[-37.4,21.65,1.24,0.52],[-35.41,21.7,0.49,0.52],[-46.0,21.65,0.6,0.44],[-31.43,21.68,1.46,0.44],[-25.6,21.7,0.25,0.26],[-33.3,21.57,0.9,0.74],[-17.0,21.65,0.6,0.44],[-15.2,21.7,0.6,0.46],[-22.12,21.71,0.82,0.68],[-5.9,21.65,0.34,0.34],[-6.5,21.6,0.34,0.34],[-12.23,21.65,1.46,0.44],[11.3,21.6,0.6,0.44],[8.59,21.7,0.49,0.52],[7.3,21.65,1.4,0.36],[6.0,21.7,0.56,0.54],[21.4,21.56,2.2,1.09],[17.0,21.7,0.6,0.46],[27.7,21.65,1.4,0.36],[25.1,21.57,0.9,0.74],[40.3,21.57,0.9,0.74],[38.9,21.7,0.6,0.46],[46.4,21.6,0.6,0.44],[43.0,21.7,0.52,0.54],[50.9,21.7,0.25,0.26],[57.6,21.65,1.24,0.52],[59.0,21.7,0.6,0.46],[52.27,21.7,0.85,0.81],[63.7,21.6,0.6,0.44],[62.7,21.7,0.25,0.26],[60.48,21.71,0.77,0.58],[73.9,21.6,0.6,0.44],[75.9,21.65,1.4,0.36],[69.5,21.7,0.52,0.54]];   /* 公館騎樓 14 間店玻璃前的雜物（G06 腳踏車行的車另外擋） */
+  const GG_PROP_BLOCKS=[[15.6,19.8,0.34,0.34],[-58.0,21.65,0.34,0.34],[-58.6,21.65,0.34,0.34],[-66.23,21.65,1.46,0.44],[-48.8,21.4,0.6,0.44],[-54.83,21.4,1.46,0.44],[-37.4,21.65,1.24,0.52],[-35.41,21.7,0.49,0.52],[-46.0,21.65,0.6,0.44],[-31.43,21.68,1.46,0.44],[-25.6,21.7,0.25,0.26],[-33.3,21.57,0.9,0.74],[-17.0,21.65,0.6,0.44],[-15.2,21.7,0.6,0.46],[-22.12,21.71,0.82,0.68],[-5.9,21.65,0.34,0.34],[-6.5,21.6,0.34,0.34],[-12.23,21.65,1.46,0.44],[11.3,21.6,0.6,0.44],[8.59,21.7,0.49,0.52],[7.3,21.65,1.4,0.36],[6.0,21.7,0.56,0.54],[21.4,21.56,2.2,1.09],[17.0,21.7,0.6,0.46],[27.7,21.65,1.4,0.36],[25.1,21.57,0.9,0.74],[40.3,21.57,0.9,0.74],[38.9,21.7,0.6,0.46],[46.4,21.6,0.6,0.44],[43.0,21.7,0.52,0.54],[50.9,21.7,0.25,0.26],[57.6,21.65,1.24,0.52],[59.0,21.7,0.6,0.46],[52.27,21.7,0.85,0.81],[63.7,21.6,0.6,0.44],[62.7,21.7,0.25,0.26],[60.48,21.71,0.77,0.58],[73.9,21.6,0.6,0.44],[75.9,21.65,1.4,0.36],[69.5,21.7,0.52,0.54]];   /* 公館騎樓 14 間店玻璃前的雜物（G06 腳踏車行的車另外擋） */
   function propBlocks(nav,list){ for(const [x,z,w,d] of list) nav.blockRect(x,z,w,d,0,0.25); }
   const BENCH=()=>W3.formalBench()||ASSETS.get('prop.bench',{});   /* 第二個 AI 的公園長椅（prop.street）優先 */
   const PROP=(g,key,x,y,z,ry,scale)=>{ const o=ASSETS.get(key,{}); if(!o) return null; o.position.set(x,y,z); if(ry) o.rotation.y=ry; if(scale) o.scale.multiplyScalar(scale); g.add(o); return o; };
@@ -445,6 +445,9 @@ const Z3 = (function(){
     // 燈光光暈
     for(const l of lamps){ const glow=new THREE.Sprite(new THREE.SpriteMaterial({map:glowTex(),color:0xffd88a,transparent:true,opacity:0.55,depthWrite:false,blending:THREE.AdditiveBlending})); glow.scale.set(3,3,1); glow.position.set(0,3.9,0.75); l.add(glow); glow.visible=false; E.lampGlows.push(glow); const pool=new THREE.Mesh(new THREE.CircleGeometry(4.2,16),new THREE.MeshBasicMaterial({map:glowTex(),color:0xffd08a,transparent:true,opacity:0.34,depthWrite:false,blending:THREE.AdditiveBlending})); pool.rotation.x=-Math.PI/2; pool.position.set(0,0.03,0.75); l.add(pool); pool.visible=false; E.lampGlows.push(pool);
       if(l.userData.roadPool){ const rp=new THREE.Mesh(new THREE.CircleGeometry(6.5,24),new THREE.MeshBasicMaterial({map:glowTex(),color:0xffd59a,transparent:true,opacity:0.38,depthWrite:false,blending:THREE.AdditiveBlending})); rp.rotation.x=-Math.PI/2; rp.scale.set(1.3,1,1); rp.position.set(0,0.035,4.5); rp.material.polygonOffset=true; rp.material.polygonOffsetFactor=-8; rp.material.polygonOffsetUnits=-16; l.add(rp);   /* 深度偏移（LAWWW2-B 10-24）：和步道交疊的柏油路（舟山路）會被 stripLayer 往上推一層，斜看時把只高 1.5 cm 的光圈蓋掉——光圈固定比任何路面層級都前面 */ rp.visible=false; E.lampGlows.push(rp); } }   /* 椰林大道：路面上一圈淡的燈光（離燈 4.5 m、半徑 6.5 m、沿路拉長 1.3 倍），兩側的在路中間接起來 */
+    /* 湖心亭的宮燈（ART-ECON-3D-GAP-1021 D，LAWWW2-B 11-01）：燈旁一團光暈、亭子平台上一圈光（和路燈同一套開關 E.lampGlows；水面的倒影在 lake() 的 shader）*/
+    if(lakeU&&lakeU.lantern){ const [lx,ly,lz]=lakeU.lantern; const glow=new THREE.Sprite(new THREE.SpriteMaterial({map:glowTex(),color:0xffd08a,transparent:true,opacity:0.6,depthWrite:false,blending:THREE.AdditiveBlending})); glow.scale.set(1.7,1.7,1); glow.position.set(lx,ly,lz); g.add(glow); glow.visible=false; E.lampGlows.push(glow);
+      const pool=new THREE.Mesh(new THREE.CircleGeometry(2.2,24),new THREE.MeshBasicMaterial({map:glowTex(),color:0xffd59a,transparent:true,opacity:0.42,depthWrite:false,blending:THREE.AdditiveBlending})); pool.rotation.x=-Math.PI/2; pool.position.set(lx,0.065,lz); g.add(pool); pool.visible=false; E.lampGlows.push(pool); }
     /* 大一女舍 A、B 門廊的吸頂燈（LAWWW2 6f98244 加大燈罩）：晚上燈罩下一團光暈、門口地上一圈光（和路燈同一套開關 E.lampGlows；位置＝campus_freshman.py 門廊天花板中心） */
     if(!/[?&]noporch\b/.test(location.search||'')) for(const [px,pz] of [[-108,61],[-78,59]].concat(m1GLB?[[20,60]]:[]))   /* 男一舍（ART-EXT-M1）門廊的吸頂燈：campus_male1.py 門廊天花板中心 */{ const glow=new THREE.Sprite(new THREE.SpriteMaterial({map:glowTex(),color:0xffe2a8,transparent:true,opacity:0.6,depthWrite:false,blending:THREE.AdditiveBlending})); glow.scale.set(1.8,1.8,1); glow.position.set(px,3.15,pz); g.add(glow); glow.visible=false; E.lampGlows.push(glow);
       for(const [y,dz,r,op] of [[0.112,0,1.7,0.85],[0.035,-2.4,2.8,0.6]]){ const pool=new THREE.Mesh(new THREE.CircleGeometry(r,20),new THREE.MeshBasicMaterial({map:glowTex(),color:0xffe0a8,transparent:true,opacity:op,depthWrite:false,blending:THREE.AdditiveBlending})); pool.rotation.x=-Math.PI/2; pool.position.set(px,y,pz+dz); g.add(pool); pool.visible=false; E.lampGlows.push(pool); } }   /* 門廊地坪（高 10 cm）上一圈、門口地上一圈 */
@@ -564,10 +567,11 @@ const Z3 = (function(){
     const onBoard=(x,z)=>Math.abs(x-PX)<=BW/2+0.05&&z>=bwZ0-0.2&&z<=bwZ1+0.2;
     // 水面
     const sh=new THREE.Shape(); P.forEach((p,i)=>{ const x=p[0]-cx+NR[i][0]*0.12, y=-(p[1]-cz+NR[i][1]*0.12); if(i===0) sh.moveTo(x,y); else sh.lineTo(x,y); });
-    const U={time:{value:0},deep:{value:new THREE.Color().setRGB(0.12,0.2,0.15,THREE.LinearSRGBColorSpace)},skyLo:{value:new THREE.Color(0.7,0.8,0.88)},skyHi:{value:new THREE.Color(0.5,0.65,0.8)},sunDir:{value:new THREE.Vector3(0.3,0.8,0.2)},sunCol:{value:new THREE.Color(1,1,1)}};
+    const U={time:{value:0},deep:{value:new THREE.Color().setRGB(0.12,0.2,0.15,THREE.LinearSRGBColorSpace)},skyLo:{value:new THREE.Color(0.7,0.8,0.88)},skyHi:{value:new THREE.Color(0.5,0.65,0.8)},sunDir:{value:new THREE.Vector3(0.3,0.8,0.2)},sunCol:{value:new THREE.Color(1,1,1)},
+      lampP:{value:Array.from({length:8},()=>new THREE.Vector3())},lampN:{value:0},lampK:{value:0},lampC:{value:new THREE.Color(1.0,0.78,0.5)}};   /* 路燈、湖心亭宮燈在水面的倒影（ART-ECON-3D-GAP-1021 D，LAWWW2-B 11-01）：updateLake 照 E.lampsOn 開 */
     const wmat=new THREE.ShaderMaterial({uniforms:THREE.UniformsUtils.merge([THREE.UniformsLib.fog,U]),fog:true,
       vertexShader:['#include <fog_pars_vertex>','varying vec3 vW;','void main(){ vec4 wp=modelMatrix*vec4(position,1.0); vW=wp.xyz; vec4 mvPosition=viewMatrix*wp; gl_Position=projectionMatrix*mvPosition;','#include <fog_vertex>','}'].join('\n'),
-      fragmentShader:['#include <fog_pars_fragment>','uniform float time; uniform vec3 deep,skyLo,skyHi,sunCol,sunDir; varying vec3 vW;',
+      fragmentShader:['#include <fog_pars_fragment>','uniform float time; uniform vec3 deep,skyLo,skyHi,sunCol,sunDir; varying vec3 vW;','uniform vec3 lampP[8]; uniform int lampN; uniform float lampK; uniform vec3 lampC;',
         'float hs(vec2 q){ return fract(sin(dot(q,vec2(127.1,311.7)))*43758.5453); }',
         'float vn(vec2 q){ vec2 i=floor(q), f=fract(q); vec2 u=f*f*(3.0-2.0*f); return mix(mix(hs(i),hs(i+vec2(1.0,0.0)),u.x),mix(hs(i+vec2(0.0,1.0)),hs(i+vec2(1.0,1.0)),u.x),u.y); }',
         'float hg(vec2 q){ return vn(q*1.3+vec2(time*0.25,time*0.18))*0.5+vn(q*2.9-vec2(time*0.31,-time*0.22))*0.3+vn(q*6.3+vec2(-time*0.42,time*0.35))*0.2; }',
@@ -575,6 +579,8 @@ const Z3 = (function(){
         '  vec3 n=normalize(vec3(-gr.x,1.0,-gr.y)); vec3 v=normalize(cameraPosition-vW); float ndv=max(dot(n,v),0.0); float fr=0.06+0.84*pow(1.0-ndv,4.0);',
         '  vec3 r=reflect(-v,n); vec3 sky=mix(skyLo,skyHi,clamp(r.y*1.6,0.0,1.0))*0.86; vec3 trees=deep*0.55+vec3(0.02,0.035,0.02); vec3 refl=mix(trees,sky,smoothstep(0.03,0.24,r.y)); vec3 c=mix(deep,refl,fr);',
         '  float sp=pow(max(dot(r,normalize(sunDir)),0.0),220.0); c+=sunCol*sp*1.4;',
+        /* 燈的倒影：水平方向要對準（窄），上下可以差很多（一條往看的人拉長的光柱）；波紋的法線把它打碎成一段一段 */
+        '  if(lampK>0.0){ vec2 rh=normalize(r.xz+vec2(1e-5)); for(int i=0;i<8;i++){ if(i>=lampN) break; vec3 ld=normalize(lampP[i]-vW); float a=max(dot(rh,normalize(ld.xz+vec2(1e-5))),0.0); float e=r.y-ld.y; c+=lampC*lampK*pow(a,700.0)*exp(-e*e*30.0)*(0.35+0.65*fr)*1.6; } }',
         '  gl_FragColor=vec4(c,1.0);','#include <fog_fragment>','}'].join('\n')});
     const water=new THREE.Mesh(new THREE.ShapeGeometry(sh,1),wmat); water.rotation.x=-Math.PI/2; water.position.set(cx,0.035,cz); water.userData.dyn=true; g.add(water);
     const lfb=new THREE.Group(); lfb.name='lake_fallback'; lfb.userData.dyn=true; g.add(lfb);   /* 湖岸、湖心亭、木棧道的程序化版本放進 lake_fallback（dyn：不被 mergeStatic 合併）；正式模型（LAWWW2 campus_lake.glb）載入後整組藏起來（attachLakeGLB）*/
@@ -607,16 +613,22 @@ const Z3 = (function(){
     for(const [x,z,s] of [[cx-21,cz-4,1.25],[cx-19,cz+8.5,1.0],[cx+20,cz-5,1.2],[cx+19.5,cz+8,1.0],[cx-10,cz-13,1.15],[cx+7.5,cz-13,1.3],[cx-1,cz-14,1.0]]){ const t=TK.tree(7.5*s,Math.abs(x*7+z*3)|0); place(g,t,x,z,(x+z)*0.37); nav.blockCircle(x,z,0.6); }
     // 南岸步道旁：面向湖的長椅、路燈
     { const bz=cz+12.1, lz=cz+17.4; for(const x of [cx-11,cx+7]){ const b=BENCH(); place(g,b,x,bz,Math.PI); nav.blockRect(x,bz,1.4,0.7,0); seats.push({x,z:bz-0.06,yaw:Math.PI,label:'坐在映月湖畔的長椅'}); }
-      for(const x of [cx-16,cx+12]){ const l=W3.lampPost(); place(g,l,x,lz,Math.PI); lamps.push(l); nav.blockCircle(x,lz,0.5); } }
-    return {mat:wmat,fb:lfb,cx,cz};
+      for(const x of [cx-16,cx+12]){ const l=W3.lampPost(); place(g,l,x,lz,Math.PI); lamps.push(l); nav.blockCircle(x,lz,0.5); wmat.uniforms.lampP.value[wmat.uniforms.lampN.value++].set(x,3.95,lz-0.75); } }
+    /* 北岸的路燈（ART-ECON-3D-GAP-1021 D，LAWWW2-B 11-01）：E12「湖對面的燈一盞一盞亮起來」（11/6 17:45 在南岸步道，那時已經天黑）原本北岸一盞燈都沒有。
+       湖岸往外 3.4 m（岸邊的草叢在 1.6～2.4 m）、燈臂朝湖；四盞的位置避開北岸的三棵樹（離樹 3 m 以上）。外形 80 點的第 48、56、62、70 點 */
+    for(const i of [48,56,62,70]){ const p=P[i], n=NR[i], x=p[0]+n[0]*3.4, z=p[1]+n[1]*3.4, ry=Math.atan2(-n[0],-n[1]); const l=W3.lampPost(); place(g,l,x,z,ry); lamps.push(l); nav.blockCircle(x,z,0.5);
+      wmat.uniforms.lampP.value[wmat.uniforms.lampN.value++].set(x+Math.sin(ry)*0.75,3.95,z+Math.cos(ry)*0.75); }
+    const lantern=[PX,2.28,PZ]; wmat.uniforms.lampP.value[wmat.uniforms.lampN.value++].set(lantern[0],lantern[1],lantern[2]);   /* 湖心亭的宮燈（正式模型 campus_lake.glb 的 lake_lantern_paper；光暈在 campus 的 build 加）*/
+    return {mat:wmat,fb:lfb,cx,cz,lantern};
   }
   /* 醉月湖的正式模型（LAWWW2 tools/blender/env_second/campus_lake.py → campus_lake.glb，湖的本地座標＝原點在湖中心）：石砌湖岸、置石、湖心亭、2.3 m 寬的木棧道。
      亭子屋頂、橫梁加「樹幹透視」（鏡頭在亭子外面、人在亭子裡時網點透空）；湖岸、置石不投影。導航不變（lake() 裡已經照正式模型：亭子 2.0 m＋擋柱子、地板 0.05）*/
   function attachLakeGLB(E,g,lakeU,m){ m.name='campus_lake_glb'; m.position.set(lakeU.cx,0,lakeU.cz);
     m.traverse(o=>{ if(!o.isMesh) return; const nm=o.name+'|'+((o.material&&o.material.name)||''); o.receiveShadow=true; o.castShadow=!/lake_rim|lake_rocks/.test(nm);   /* 網格名（Blender 物件名）：lake_rim_stone、lake_rocks_rock、lake_pavilion_*、lake_boardwalk_* */
-      if(/lake_pavilion_(tile|soffit|gold|teal|red)/.test(nm)&&E.patchSeeThrough){ o.material.userData.seeThrough=true; E.patchSeeThrough(o.material); } });
+      if(/lake_pavilion_(tile|soffit|gold|teal|red)/.test(nm)&&E.patchSeeThrough){ o.material.userData.seeThrough=true; E.patchSeeThrough(o.material); }
+      if(/lake_lantern_paper/.test(nm)){ const mt=o.material; mt.emissive=new THREE.Color(0xffc477); TK.addNight(mt,1.15,0); o.castShadow=false; } });   /* 宮燈的燈紙：和路燈同一個開關（校園 onLamps → CK.setNight → TK.setNight）*/
     g.add(m); if(lakeU.fb) lakeU.fb.visible=false; }
-  function updateLake(L,E){ if(!L||!E.sky) return; const U=L.mat.uniforms, S=E.sky.material.uniforms; U.time.value=E.time||0; U.skyLo.value.copy(S.bot.value).lerp(S.mid.value,0.25); U.skyHi.value.copy(S.mid.value).lerp(S.top.value,0.5); U.sunDir.value.copy(S.sunDir.value); U.sunCol.value.copy(E.sun.color).multiplyScalar(Math.min(1.6,E.sun.intensity)); }
+  function updateLake(L,E){ if(!L||!E.sky) return; const U=L.mat.uniforms, S=E.sky.material.uniforms; U.time.value=E.time||0; U.skyLo.value.copy(S.bot.value).lerp(S.mid.value,0.25); U.skyHi.value.copy(S.mid.value).lerp(S.top.value,0.5); U.sunDir.value.copy(S.sunDir.value); U.sunCol.value.copy(E.sun.color).multiplyScalar(Math.min(1.6,E.sun.intensity)); U.lampK.value=E.lampsOn?1:0; }
   function glowTex(){ return W3.canvasTex('glow',64,64,(x,w,h)=>{ const g=x.createRadialGradient(32,32,2,32,32,32); g.addColorStop(0,'rgba(255,255,255,1)'); g.addColorStop(0.4,'rgba(255,255,255,0.35)'); g.addColorStop(1,'rgba(255,255,255,0)'); x.fillStyle=g; x.fillRect(0,0,w,h); }); }
   // ---------- 公館商圈 ----------
   const gongguan={ id:'gongguan', name:'公館', indoor:false, cityLight:1.0, size:[160,110], camDist:6.5, sunYaw:Math.PI/2, build(E){   /* sunYaw：公館的區域座標 +x 往南、+z 往西（羅斯福路南北向、校門在東邊；和校園的換算見 campusBackdrop），太陽方向要轉 90° */
@@ -770,7 +782,11 @@ const Z3 = (function(){
     for(const l of lamps){ const glow=new THREE.Sprite(new THREE.SpriteMaterial({map:glowTex(),color:0xffd88a,transparent:true,opacity:0.5,depthWrite:false,blending:THREE.AdditiveBlending})); glow.scale.set(3,3,1); glow.position.set(0,3.9,0.75); l.add(glow); glow.visible=false; E.lampGlows.push(glow); const pool=new THREE.Mesh(new THREE.CircleGeometry(4.2,16),new THREE.MeshBasicMaterial({map:glowTex(),color:0xffd08a,transparent:true,opacity:0.34,depthWrite:false,blending:THREE.AdditiveBlending})); pool.rotation.x=-Math.PI/2; pool.position.set(0,0.03,0.75); l.add(pool); pool.visible=false; E.lampGlows.push(pool); }
     // 招牌、店內、窗戶的夜間亮度跟著時間漸變（和溫州街同一套：17:24 開始、19:12 全亮）
     const zoneTime=(h)=>{ let k=h>=19.2||h<5.6?1:(h>=17.4?(h-17.4)/1.8:(h<6.3?(6.3-h)/0.7:0)); TK.setNight(Math.max(0,Math.min(1,k))); };
-    const zone={group:g,nav,spawn:{x:0,z:-30,yaw:Math.PI},lamps,buildings,applyTimeOutdoor:zoneTime,onLamps(on){}};
+    /* 騎樓的板凳（ZQ-ARCADE-SEAT-1028，LAWWW2-B 11-01）：G07／G08 交界那根柱子（x 15.6、z 19.3）靠騎樓那一面一張紅色塑膠凳（背靠柱子、面向騎樓），柱子那一面離地 35 cm 一個插座（她左手邊）（都在 gongguan_shops.glb：wz_shopkit.py 的 G08 clutter）。
+       子晴（heroine_04）linger 在 (16, 20.6)「坐在騎樓下的插座旁邊，筆電開著」：作息的 seatAt 找這一張（3.5 m 內最近的空位）；玩家也坐得下去。凳子只在正式模型裡，模型沒有登記就不放座位 */
+    const seats=ggGLB?[{x:15.6,z:19.8,yaw:0,label:'坐在騎樓的板凳',kind:'stool'}]:[];
+    for(const s of seats) E.interactables.push({x:s.x,z:s.z,radius:1.4,label:s.label,seat:s});
+    const zone={group:g,nav,spawn:{x:0,z:-30,yaw:Math.PI},lamps,buildings,seats,applyTimeOutdoor:zoneTime,onLamps(on){}};
     // 店面街的 Blender 正式模型（第二個 AI）：載入後藏起套件外觀（和溫州街同一套接法；招牌、直立招牌合成一張 atlas，晚上照 TK.setNight 發光）；失敗或 ?nobldg 時維持套件
     gateGLB(E,g,gate,0,-46,0,zone);   /* 校門（ART-EXT-GATE）：和校園同一個模型 */
     if(ggGLB) ASSETS.loadOne('bldg.gongguan_shops').then(c=>{ if(!c||!c.scene||E.zone!==zone) return; attachWenzhouModel(E,g,c.scene.clone(true),'ggShop','gongguan_shops_glb'); propBlocks(nav,GG_PROP_BLOCKS); }).catch(e=>console.warn('公館店面正式模型載入失敗，用套件的外觀',e));

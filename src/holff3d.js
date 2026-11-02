@@ -58,7 +58,7 @@ const HOLFF=(function(){
     /* 事件包登記的「睡著也會醒來」（STORY.WAKE_AT、STORY.lawWakeAt）＝快轉也停：今天還沒到的那個時間（breakJump 每小時問一次，G 就是那個時間）*/
     if(typeof STORY!=='undefined'&&STORY.lawWakeAt&&Math.abs(T(G.day,G.hour)-now)<1e-6){ let w=null; try{ w=STORY.lawWakeAt(G); }catch(err){ w=null; } if(w!=null) out.push(T(G.day,w)); }
     for(const x of S.sums(G,B)) out.push(T(x.day,x.h));   /* 6-3 摘要日 */
-    for(const x of S.eveStops(G)) out.push(x);   /* AA_532 2-1：除夕 18:30 年夜飯（還沒演的那兩年）：睡覺、快轉都停在那裡 */
+    for(const x of S.eveStops(G)) out.push(x);   /* AA_532 2-1：除夕 18:30 年夜飯（還沒演的那幾年；AA_549 3-2 加 2028）：睡覺、快轉都停在那裡 */
     { const d=DK('2029-02-03'), r=typeof STORY!=='undefined'&&STORY.route?STORY.route(G):null; if(d!=null&&B.key==='Y4W'&&r!=='JP'&&r!=='US'&&F.Y4_PATH==='grad'&&F.Y4_PUSH==='fail'&&!F.GRAD_EXAM_2029) out.push(T(d,8)); }   /* 2-Y4-27：台灣路線、選研究所、推甄沒上＝2/3 09:00 研究所筆試（R8 強制進考場，08:00 起）*/
     return out.filter(x=>x>now+1e-6); };
 
@@ -83,6 +83,7 @@ const HOLFF=(function(){
     {tag:'hol_y2s_an_home',day:'2027-07-24',h:15,anS:[['heroine_01','📷（台中家裡的書桌，疊著一疊書）'],['heroine_01','回台中了。這次帶了六本。8 號回去。']]},
     {tag:'hol_y2s_an_back',day:'2027-08-08',h:21,anS:[['heroine_01','回臺北了。六本讀完四本。']]},
     {tag:'hol_y2s_zhe_back',day:'2027-08-21',h:19,th:NT,ms:[['zhe','我回來了'],['zhe','遠端吃麵 一次都沒成功'],['zhe','誰要吃麵']]},
+    {tag:'hol_y2s_bh_back',day:'2027-08-24',h:20,th:NT,ms:[['classmate_bohan','回來了。明天香港。']]},   /* AA_350 9-1 缺的字（企劃線 2e255e9a）：柏翰 2027-08-24 20:00 回臺北（S1「8/24 晚上回臺北」、香港那句「我 24 號晚上上來」）*/
     {tag:'hol_y3w_zhe_home',c01:'Y3',h:21,th:NT,ms:[['zhe','明天回高雄 我阿嬤問你們今年要不要來']]},   /* AA_456 1-4（企劃線 71f260ecc）：大二～大四原本都是「我明天回高雄」，照年份換字；tag 不變 */
     {tag:'hol_y3w_an_home',day:'2028-01-24',h:15,an:['回台中了。','這次只住五天。']},
     {tag:'hol_y3w_bh_home',day:'2028-01-24',h:17,th:NT,ms:[['classmate_bohan','我明天回新竹過年。初三回來。']]},   /* AA_350 S2：大三寒假只回去過年（期末飯「寒假我每天都去總圖」；2028 除夕 1/25）；蓋掉 AA 170a150d 那兩句（1/9「寒假要把民訴讀完」、2/19「民訴沒讀完」）*/
@@ -142,7 +143,8 @@ const HOLFF=(function(){
   const noSend=(G,tag)=>{ const F=G.flags||(G.flags={}), L=Array.isArray(F.AA532_NO)?F.AA532_NO:(F.AA532_NO=[]); if(!L.includes(tag)) L.push(tag); };
   const noSent=(G,tag)=>Array.isArray(G.flags&&G.flags.AA532_NO)&&G.flags.AA532_NO.includes(tag);
   /* 2-1 除夕的年夜飯：在家（HOME.at）、18:30 以後演一次（trigger:'home'：放假在家的選單每一輪檢查；快轉、睡覺也停在 18:30，S.stops）。日本、美國路線那兩年人在臺灣（照演），人在國外的不演 */
-  S.EVE_DINNER={y2:'2027-02-05',y4:'2029-02-12'};
+  S.EVE_DINNER={y2:'2027-02-05',y3:'2028-01-25',y4:'2029-02-12'};   /* y3：AA_549 3-2（2028 除夕原本有停點、回家沒有年夜飯；照 y2、y4 的做法）*/
+  S.EVE_ID={y2:'ev_aa532_eve_y2',y3:'ev_aa549_eve_y3',y4:'ev_aa532_eve_y4'};
   const eveOn=(G,k)=>law(G)&&G.day===DK(k)&&typeof HOME!=='undefined'&&!!HOME.at&&HOME.at(G)&&!abroadOn(G,G.day);
   S.EVENTS.push(
     { id:'ev_aa532_eve_y2', title:'除夕', participants:[], location:'any', trigger:'home', priority:9, time:[18.5,24], once:true, background:'dark', prereq:{custom:G=>eveOn(G,S.EVE_DINNER.y2)},
@@ -164,8 +166,19 @@ const HOLFF=(function(){
         {label:'w'},{speaker:'爸爸',text:'上班就沒有寒假了。……今年多吃一點。'},{goto:'m'},
         {label:'s'},{speaker:'爸爸',text:'讀書好。讀到什麼時候，跟家裡講一聲就好。'},{goto:'m'},
         {label:'n'},{speaker:'爸爸',text:'（點了一下頭）我在你這個年紀也不知道。'},
-        {label:'m'},{speaker:null,text:'（吃完飯，媽媽拿出四個紅包。最後一個是給爸爸的。爸爸說他不要，媽媽還是塞給他了。）'} ], consequences:{advance:1.5} } );
-  S.eveStops=function(G){ const out=[], done=(G.events&&G.events.done)||{}; for(const k of ['y2','y4']){ const d=DK(S.EVE_DINNER[k]); if(d!=null&&!done['ev_aa532_eve_'+k]&&!abroadOn(G,d)) out.push(T(d,18.5)); } return out; };
+        {label:'m'},{speaker:null,text:'（吃完飯，媽媽拿出四個紅包。最後一個是給爸爸的。爸爸說他不要，媽媽還是塞給他了。）'} ], consequences:{advance:1.5} },
+    /* AA_549 3-2（企劃線 AA_549 第 3 節 3-2；第①級）：2028 除夕（大三寒假）的年夜飯。日本路線（2/20 才出發）、美國路線那天都在臺灣，照演（eveOn 的 abroadOn 照舊）*/
+    { id:'ev_aa549_eve_y3', title:'除夕', participants:[], location:'any', trigger:'home', priority:9, time:[18.5,24], once:true, background:'dark', prereq:{custom:G=>eveOn(G,S.EVE_DINNER.y3)},
+      dialogue:[ {scene:'臺北・家裡的客廳',bg:'home_living_cny'},
+        {speaker:null,text:'（除夕。爸爸今年早一天從上海回來，在廚房幫媽媽切菜，切得很慢。）'},
+        {speaker:'媽媽',text:'你爸切的，每一塊大小都不一樣。'},
+        {speaker:'爸爸',text:'法律系第三年。……明年要考了吧？'},
+        {choice:[{text:'「明年考。」',goto:'a'},{text:'「還沒決定考什麼。」',goto:'b'}]},
+        {label:'a'},{speaker:'爸爸',text:'考試的事我不懂。你需要什麼，跟你媽說。'},{goto:'m'},
+        {label:'b'},{speaker:'爸爸',text:'不急。你姊也是大四才決定的。'},{speaker:'姊姊',text:'我是大四下。'},
+        {label:'m'},{speaker:'姊姊',text:'（塞給你一個紅包）這是我第一次包給你。不准拆給媽看。'},
+        {speaker:null,text:'（十點，爸爸在沙發上睡著了。電視在重播去年的跨年。）'} ], consequences:{advance:1.5} } );
+  S.eveStops=function(G){ const out=[], done=(G.events&&G.events.done)||{}; for(const k in S.EVE_DINNER){ const d=DK(S.EVE_DINNER[k]); if(d!=null&&!done[S.EVE_ID[k]]&&!abroadOn(G,d)) out.push(T(d,18.5)); } return out; };   /* AA_549 3-2：y3 一起停 */
   /* 2-2 初一 08:00 家人群組（四年；不用回）*/
   S.CNY_FAM={2026:[['dad','（長輩圖：一匹金色的馬，寫著「馬到成功」）'],['sister','爸 我們都在客廳']],
     2027:[['dad','（長輩圖：一隻羊，寫著「三陽開泰」）'],['mom','你昨天傳過了']],

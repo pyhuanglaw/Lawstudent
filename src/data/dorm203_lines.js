@@ -124,7 +124,7 @@ const DORM203_LINES=(function(){
       ac:[{from:BH,text:'冷氣遙控器在阿凱的抽屜。請用完放回去。'}],
       trash:[{at:20,from:'kai',text:'所以垃圾今天誰倒'},{at:20.5,from:'kai',text:'我倒了'}],
       y1s2:[{from:'zhe',text:'明天大家幾點到'},{from:'zhe',text:'我帶雞腳'}],
-      mid2:[{at:22,from:BH,text:'今天晚上十一點熄燈。期中。'},{at:23+1/60,from:'zhe',text:'（照片：黑暗中一支手機的燈照著筆記）'}],
+      mid2:[{at:22,from:BH,text:'今天晚上十一點熄燈。'},   /* D118 沒有期中考：大一下第 9 週，AA_578 第 3 節第 1 點「改成不提考試」——刪「期中。」（最小改法，待 AA 確認）*/{at:23+1/60,from:'zhe',text:'（照片：黑暗中一支手機的燈照著筆記）'}],
       out:[{from:'zhe',text:'203 解散'},{from:'zhe',text:'（貼圖）'}],   /* 搬出 203 那天（6/15，阿哲、柏翰搬出）*/
       oldRename:{at:21,text:'阿凱 把群組名稱改成「203（舊生）」'},   /* 第 6 節第 1 點：改到大二 9/6 晚上（阿凱搬去別棟那天）；稿寫「晚上」，21:00 */
       accident:[{at:23,from:'kai',text:'所以阿哲還好嗎'},{at:23,from:BH,text:'還好。我在旁邊。'}],

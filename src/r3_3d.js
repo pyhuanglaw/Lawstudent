@@ -50,12 +50,16 @@ const R3=(function(){
   /* ===================== 3-01 芷若的試譯稿費（BB_70 8b、8b-1 C2；AA_117 C2；BB_97 第 0b 節）===================== */
   /* 第二張換字（AA_461 第 3 節：兩張原本一字不差）*/
   S.ZR_FEE_SHOTS=[R('📷（對話的截圖）'),R('📷（對話的截圖，往上滑的那一段）'),NAR('（你問了四件事：誰找她、要她做什麼、有沒有說好價錢、他們拿去做了什麼。她一題一題回。）')];
+  /* 手機筆記（AA_117 C2；BB_70 8b-1 C2「自動填好的：誰＝芷若；向誰＝出版社；請求什麼＝照用的部分付稿費，或不要用」、玩家選的那一行＝依據什麼；AA117-CASE-NOTES-1031）：
+     回覆按鈕上面顯示（game3d.js noteHint）；「依據什麼：」到冒號為止＝下面兩個按鈕。字照 BB_70 8b-1，格式同 C1（bbpack_events.js 阿凱的鍵盤）。
+     AA_328 3-01 寫「誰、向誰、請求什麼已經填好，不顯示」是筆記畫面還沒做的時候：現在照 AA_117 第 1 節四行都顯示（回報 AA）*/
+  S.ZR_FEE_NOTE=['誰：芷若','向誰：出版社','依據什麼：','請求什麼：照用的部分付稿費，或不要用'];
   S.zrFee=function(G){ const F=G.flags, d=D('2026-11-11'), d2=D('2026-11-25'); if(d==null||now(G)<T(d,0)||now(G)>=T(d2+2,0)) return;
     const ok=met(G,'heroine_02','FAMILIAR')&&contact(G,'heroine_02');
     if(ok&&G.day<=d+1&&now(G)>=T(d,S.zrHour(G))&&!PHONE.sent(G,'r3_zr_fee')){ const h=S.zrHour(G), sh=S.ZR_FEE_SHOTS.map(x=>Object.assign({},x)), mem=[{npc:'heroine_02',tag:'ZR_FEE_LETTER',note:''}];
       const opts=[{t:'妳先把你們的對話拍給我看。',say:sh.concat([{from:'heroine_02',text:'……好。我整理一下。'}]),set:{ZR_FEE:'honest'},mem}];   /* 老實的選項，永遠在；二十分鐘後的時間表在下面 */
       if(F.U_CONTRACT) opts.push({t:'先看你們說好了什麼。',say:[ME('說好試譯不付錢，是試譯。拿去用，就不是試譯了。')].concat(sh,[{from:'heroine_02',text:'……原來我可以這樣講。'},ME('翻譯算不算妳的作品、能不能被拿去用，我還沒學到。這部分我們問法服。'),{from:'heroine_02',text:'好。我先寫信，不行再去問。'}]),set:{ZR_FEE:'contract'},mem});   /* 大一下債總契約成立那幾週（U_CONTRACT）才有 */
-      PHONE.at(G,d,h,[R('我幫一個出版社翻了一篇短文，對方說「先試譯，不付錢」。'),Object.assign(R('可是他們拿去用了。……這樣正常嗎。'),{ask:{id:'r3_zr_fee',until:T(d+1,18),opts}})],'r3_zr_fee'); }
+      PHONE.at(G,d,h,[R('我幫一個出版社翻了一篇短文，對方說「先試譯，不付錢」。'),Object.assign(R('可是他們拿去用了。……這樣正常嗎。'),{ask:{id:'r3_zr_fee',until:T(d+1,18),opts,note:S.ZR_FEE_NOTE.slice()}})],'r3_zr_fee'); }
     if(F.ZR_FEE==='honest'&&!PHONE.sent(G,'r3_zr_fee_tl')){ if(F.ZR_FEE_T==null) F.ZR_FEE_T=now(G); const t=F.ZR_FEE_T+20/60, dd=Math.floor(t/24);   /* （二十分鐘後）*/
       PHONE.at(G,dd,t-dd*24,[R('📷（一張時間表。日期、誰說了什麼，一格一格排好。）'),MEp('heroine_02')('翻譯算不算妳的作品、能不能被拿去用，我還沒學到。這部分我們問法服。'),R('好。我先寫信，不行再去問。')],'r3_zr_fee_tl'); }
     if(F.ZR_FEE==null&&PHONE.sent(G,'r3_zr_fee')&&now(G)>T(d+1,18)){ const m=PHONE.byAsk(G,'r3_zr_fee'); if(!m||m.ans==null){ F.ZR_FEE='missed'; PHONE.at(G,d+1,18,[R('沒事。我自己先問問看。')],'r3_zr_fee_miss'); } }   /* 沒回（隔天 18:00 前）*/
@@ -139,6 +143,9 @@ const R3=(function(){
 
   /* ===================== 3-10 阿凱 K5 所以他可以告我嗎（BB_40 K5；BB_99 5-1；AA_117 C7）===================== */
   /* 2028-11-22（三）23:40（臺灣；美國路線照當地時間）。回覆期限例外：到 11/23 08:00。演過＝msg3d.js 的 'kai:k5_sue'（還好嗎的回覆，三天）*/
+  /* 手機筆記（AA_117 C7；AA117-CASE-NOTES-1031）：向誰是玩家選的那一行（下面的選項：三個語氣＋U_WORK）；誰、請求什麼照 BB_70 8b-1 C7「誰＝阿凱；請求什麼＝玩家要道具回來」，
+     依據什麼照 AA-B 2026-11-01 回覆（D109）的字。LEGAL_REVIEW_REQUIRED：只寫方向 */
+  S.KAI_K5_NOTE=['誰：阿凱','向誰：','依據什麼：公司和玩家之間的使用規定','請求什麼：玩家要道具回來'];
   S.kaiK5=function(G){ const F=G.flags, d=D('2028-11-22'); if(d==null||!knows('kai',G)) return; const z=tz(G,d), us=z<0, t0=T(d,23+40/60+z), tEnd=T(d+1,8+z);
     if(now(G)<t0||now(G)>=T(d+4,0)) return;
     if(!PHONE.sent(G,'r3_kai_k5')){ const opts=[
@@ -146,7 +153,7 @@ const R3=(function(){
         {t:'我不能給正式意見。',post:us?'我還是學生，不能給你正式的法律意見。但我可以陪你聊到你睡著。':'我還是學生，不能給你正式的法律意見。但我可以陪你醒著。',say:[{from:'kai',text:'好 那你不要睡'},NAR('（你們開著電話。二十分鐘，誰都沒說話，只聽得到兩邊在打字。）')],set:{KAI_K5:'awake',KAI_STAYED_UP:true},mem:[{npc:'kai',tag:'KAI_STAYED_UP',note:''}]},
         {t:'先修 bug。',say:[{from:'kai',text:'對 先修 bug'},{from:'kai',text:'你比我們主管冷靜'}],set:{KAI_K5:'bug'}}];
       if(F.U_WORK) opts.push({t:'對外通常是公司處理。',post:'你是在工作時出的事，對外通常是公司處理。你要做的是把經過如實告訴公司。',say:[{from:'kai',text:'……所以不是我一個人被告'},{from:'kai',text:'那我現在可以哭了嗎'},ME('可以。哭完寫經過。')],set:{KAI_K5:'company'}});   /* 大三下修過勞動法（U_WORK）*/
-      PHONE.at(G,d,23+40/60+z,(us?[A('你那邊是早上吧 那剛好 我這邊睡不著')]:[]).concat([A('你醒著嗎'),A('我寫的一個 bug 讓一些玩家的道具不見了'),A('有一個玩家在論壇說要告我們'),A('所以他可以告我嗎'),Object.assign(A('這次不是開玩笑'),{ask:{id:'r3_kai_k5',until:tEnd,opts}})]),'r3_kai_k5');
+      PHONE.at(G,d,23+40/60+z,(us?[A('你那邊是早上吧 那剛好 我這邊睡不著')]:[]).concat([A('你醒著嗎'),A('我寫的一個 bug 讓一些玩家的道具不見了'),A('有一個玩家在論壇說要告我們'),A('所以他可以告我嗎'),Object.assign(A('這次不是開玩笑'),{ask:{id:'r3_kai_k5',until:tEnd,opts,note:S.KAI_K5_NOTE.slice()}})]),'r3_kai_k5');
       const E=G.events||(G.events={done:{},last:{},count:0}); E.done=E.done||{}; E.last=E.last||{}; E.done.ev_kai_can_they_sue=(E.done.ev_kai_can_they_sue|0)+1; E.last.ev_kai_can_they_sue=d; }   /* 收到那幾則＝演過（msg3d.js 的 k5_sue 後續）*/
     if(!F.KAI_K5&&PHONE.sent(G,'r3_kai_k5')&&now(G)>=tEnd){ const m=PHONE.byAsk(G,'r3_kai_k5'); if(!m||m.ans==null){ F.KAI_K5='none'; PHONE.at(G,d+1,8+z,[A('沒事了 不用回')],'r3_kai_k5_none'); } }
     if(PHONE.sent(G,'r3_kai_k5')&&now(G)>=T(d+1,22.5+z)&&!PHONE.sent(G,'r3_kai_k5_b')) PHONE.at(G,d+1,22.5+z,[A('公司處理了 道具都補回去了'),A('我以前覺得玩家是數字'),A('昨天我把那個人的留言看了十遍'),A('他是一個國中生 存了三個月的錢')],'r3_kai_k5_b'); };
@@ -321,7 +328,7 @@ const R3=(function(){
   S.zqDogTold=G=>has('heroine_04','ZQ_DOG_TOLD')||!!(G.flags&&G.flags.ZQ_DOG_TOLD);
   S.DP3_AT=[
     ['y2s_fang_moss','2027-07-19',19.5,fangOk,()=>SQ('npc_fangyt',['📷（山上的一片苔蘚，上面有露水）','沒訊號。下山才傳。'])],
-    ['y3_yu_moon','2027-09-15',22.5,G=>PHONE.inGroup(G,'noodle_team')&&knows('heroine_02',G),()=>[{th:'g:noodle_team',from:'yu',text:'芷若說英國的月亮比較小'},{th:'g:noodle_team',from:'yu',text:'我不信',dt:1/60}]],
+    ['y3_yu_moon','2027-09-15',22.5,G=>PHONE.inGroup(G,'noodle_team'),()=>[{th:'g:noodle_team',from:'yu',text:'今年中秋有月亮'},{th:'g:noodle_team',from:'yu',text:'去年下雨',dt:1/60},{th:'g:noodle_team',from:'yu',text:'我記得',dt:2/60}]],   /* AA_555 第 2 節（企劃線 56c11668d）：原本「芷若說英國的月亮比較小」「我不信」——Alison 和芷若不在同一個群組，換成這三則；不再要認識芷若。群組照舊（法一吃飯 noodle_team）*/
     ['y3_kx_civpro','2027-09-08',21+10/60,kxOn,()=>[P1('kexin','民訴開課了。第一堂就抄了十一頁。')]],
     ['y3_kevin_week_1015','2027-10-15',17+5/60,G=>PHONE.inGroup(G,'family_law'),KW],
     ['y3_fang_sample','2027-11-01',7.5,fangOk,()=>SQ('npc_fangyt',['📷（雲海）','畢業專題的樣區在這裡。這禮拜收不到訊號。'])],

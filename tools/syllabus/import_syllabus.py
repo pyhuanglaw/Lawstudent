@@ -9,7 +9,8 @@
 （2026-10-14 起企劃分支是 claude/story-planning；舊的企劃分支已經移除，不要再用那個名字——D66）
 AA_373（企劃線修正稿，白名單 AA373-Y1S2-FIX-1021；AA 定稿）第 9 項：大一下通識第 6 週（ge_y1s2，週一 13:20）改成天文館的圓頂——宥辰那句、觀察的開頭兩處整句換掉；第 6-2 節第 3 題（bdab2f42）再換黑板「（本週在天文館）」、觀察的結果「宥辰仰著頭，一直到燈亮都沒有說話。」
 （旁白「（這堂課移到天文館。）」「（天文館的圓頂關了燈。）」在 src/classes3d.js 的 SPECIAL_PRE）。只讀匯入白名單上的版本；企劃線的 JSON 下一版自己改好了就跳過
-AA_377（大三下修正稿，白名單 AA377-Y3S2-FIX-1021）第 9 項：民訴 civpro_2 第 14 週拿掉作廢的模擬法庭（改成言詞辯論的練習）、第 15 週板書第 2 行"""
+AA_377（大三下修正稿，白名單 AA377-Y3S2-FIX-1021）第 9 項：民訴 civpro_2 第 14 週拿掉作廢的模擬法庭（改成言詞辯論的練習）、第 15 週板書第 2 行
+AA_255（大二下審稿，白名單 AA_255 附錄@52900eb23，任務 AA255-Y2S2）第 4 節第 7 點：行政救濟第 7 週以安「如果……」、親屬第 11 週阿哲刪後半（句子照附錄 A 的改法）"""
 import json, os, subprocess, sys
 ROOT = os.path.dirname(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
 sys.path.insert(0, os.path.join(ROOT, 'tools', 'story'))
@@ -144,6 +145,27 @@ if A123:
     if w12 is None or not any(r.get('who') == 'heroine_01' and r.get('text') == '……你這樣講，我要改我的答案。' for r in w12.get('react', [])): sys.exit('AA_123 4-3b：admin_law 第 12 週不是以安新 9 的課堂（找不到「……你這樣講，我要改我的答案。」）')
     w12['exAfter'] = [{'who': 'heroine_01', 'text': EX9}]
     out['source'] += f'＋{os.path.basename(P123)[:6]}@{S123}（行政法第 12 週前任版 1 句）'
+# AA_255 第 4 節第 7 點（大二下審稿；AA-C 定稿：AA_255 檔首「AA 人物：照附錄 A 的改法定稿」；白名單 AA_255 附錄@52900eb23，任務 AA255-Y2S2）：
+#   行政救濟第 7 週以安「如果……」不用「假設」開頭（「假設」是可昕的習慣）；親屬第 11 週阿哲刪後半（Alison 那句 AA_313 5-4 已經改在 JSON 裡）。
+#   句子照附錄 A 第 1 節以安表、阿哲表的「改法」。整句相同才換；企劃線的 JSON 下一版自己改好了（已經是新句）就跳過，舊的、新的都不是＝停下來
+P255 = 'docs/story_planning/AA_255_附錄_審稿原文.md'
+A255 = GUARD.approved_files(ALLOW, P255)
+if P255 in A255:
+    S255 = A255[P255]
+    ok, why = GUARD.allowed(P255, S255, ALLOW)
+    if not ok: sys.exit('拒絕匯入：' + why)
+    md255 = GUARD.read_fix(subprocess.check_output(['git', '-C', ROOT, 'show', f'{S255}:{P255}'], text=True))
+    for cid, wk, who, old, new in [
+        ('admin_remedy', 7, 'heroine_01', '假設申請的是一個不知道『處分』是什麼的家。處分書上寫了三十天，他們看得懂嗎？', '如果申請的是一個不知道『處分』是什麼的家呢？處分書上寫了三十天，他們看得懂嗎？'),
+        ('family_law', 11, 'zhe', '就像系籃選隊長，大家投票，最後是教練決定。……可是投的人知道有人在聽。', '就像系籃選隊長，大家投票，最後還是教練決定。')]:
+        if f'「{old}」' not in md255 or f'「{new}」' not in md255: sys.exit(f'AA_255@{S255} 附錄 A 裡找不到 {cid} 第 {wk} 週的原句或改法：{new}')
+        w = next((x for x in out['courses'].get(cid, []) if x.get('w') == wk), None)
+        reps = ((w or {}).get('obs') or {}).get('replies') or []
+        hits = [r for r in reps if r.get('who') == who and r.get('text') == old]
+        news = [r for r in reps if r.get('who') == who and r.get('text') == new]
+        if len(hits) == 1: hits[0]['text'] = new
+        elif not (len(hits) == 0 and len(news) == 1): sys.exit(f'AA_255 第 4 節第 7 點：{cid} 第 {wk} 週 {who} 的「{old}」有 {len(hits)} 處（應該是 1 處；或已經是新句）')
+    out['source'] += f'＋{os.path.basename(P255)[:6]}@{S255}（行政救濟第 7 週以安、親屬第 11 週阿哲 2 句）'
 dst = os.path.join(ROOT, 'src', 'data', 'syllabus.js')
 with open(dst, 'w', encoding='utf8') as f:
     f.write('/* 普通課堂內容（BB 撰寫；AA_104 第 1 節的 syllabus 格式）。產生器：tools/syllabus/import_syllabus.py（不要手改，改企劃分支的 JSON 再匯入）。\n'

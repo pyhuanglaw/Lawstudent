@@ -20,6 +20,10 @@ for(const f of ['src/data/msg_pool.js','src/data/msg2_pool.js','src/msg3d.js','s
 const okNew=load('src/data/zr_last_events.js')&&load('src/zr_last3d.js');
 let doc=''; for(const r of ['021ffe76','608b9adc','origin/claude/story-planning']){ try{ doc=cp.execSync('git show '+r+':"docs/story_planning/AA_387_芷若出國前的最後一場_定稿.md"',{cwd:H.ROOT,encoding:'utf8',stdio:['ignore','pipe','ignore']}); if(doc) break; }catch(e){ doc=''; } }
 const inDoc=t=>doc.indexOf(t)>=0;
+/* 2026-10-31 AA_551 第 2 節（企劃線 32772d7a4，ZR-CUP-AA551-1031）：A1「我一直收著。」那一支的旁白 keepN 補上杯子上的字——那一句改對 AA_551 */
+let doc551=''; for(const r of ['32772d7a4','origin/claude/story-planning']){ try{ doc551=cp.execSync('git show '+r+':"docs/story_planning/AA_551_芷若九月一日杯子上的字_補在票根第二次.md"',{cwd:H.ROOT,encoding:'utf8',stdio:['ignore','pipe','ignore']}); if(doc551) break; }catch(e){ doc551=''; } }
+const KEEPN551='（她做了一杯熱可可，加了一份濃縮，推到你面前。杯子上用麥克筆寫著：「熱可可＋濃縮」。下面一行小字：「不用還了。」）';
+const in551=t=>t===KEEPN551&&doc551.indexOf('改成：「'+t+'」')>=0;
 const J=JSON.stringify, ZR='heroine_02', X=()=>typeof ZRLAST!=='undefined'?ZRLAST:null;
 const T=(d,h)=>d*24+h, D=k=>STORY.dayOfKey(k);
 const ev=id=>STORY_EVENTS.find(e=>e.id===id);
@@ -67,7 +71,7 @@ const roomList=()=>STORY.roomItemList(H.G).filter(r=>r&&r[0]===ROOM[0]);
     const html=fs.readFileSync(path.join(H.ROOT,'index.html'),'utf8');
     check('0. index.html：data/zr_last_events.js、zr_last3d.js 接在 zrzq3d.js 後面（?v= 和旁邊一樣）',/src\/zrzq3d\.js\?v=([^"]+)"><\/script>\n<script src="src\/data\/zr_last_events\.js\?v=\1"><\/script>\n<script src="src\/zr_last3d\.js\?v=\1"><\/script>/.test(html));
     check('0. 人物頁記憶 ZR_LAST_SCREENING「出國前的最後一場，二輪戲院」（social3d.js MEMORY_LABEL；稿第 4 節）',(SOCIAL.MEMORY_LABEL||{}).ZR_LAST_SCREENING==='出國前的最後一場，二輪戲院'&&inDoc('記憶 `ZR_LAST_SCREENING`「出國前的最後一場，二輪戲院」'));
-    const bad=[]; const T_=t=>{ if(typeof t==='string'&&!inDoc(t)) bad.push(t); };
+    const bad=[]; const T_=t=>{ if(typeof t==='string'&&!inDoc(t)&&!in551(t)) bad.push(t); };   /* keepN 對 AA_551 */
     if(typeof ZRLAST_LINES==='undefined'||!ev('ev_zhiruo_last_screening')) bad.push('沒有 ZRLAST_LINES／ev_zhiruo_last_screening');
     else { for(const k in ZRLAST_LINES){ const v=ZRLAST_LINES[k]; if(Array.isArray(v)) v.forEach(T_); else if(v&&typeof v==='object') Object.values(v).forEach(T_); else T_(v); }
       for(const id of ['ev_zhiruo_last_screening','ev_zhiruo_ticket_again']) for(const l of ((ev(id)||{}).dialogue||[])){ if(l.text!==undefined) T_(l.text); for(const c of (l.choice||[])) T_(c.text); } }
@@ -201,10 +205,10 @@ const roomList=()=>STORY.roomItemList(H.G).filter(r=>r&&r[0]===ROOM[0]);
   /* ======================= 10 第 10 節（AA 2026-10-22 回六題，企劃線 021ffe76）======================= */
   // 修改前（開發分支 36ff04ed8）：沒有 ev_zhiruo_ticket_again、ZR_LAST2、方奕廷兩則、A2／A3 條件（這一節大部分 FAIL）
   const A2={n0:'（她在吧檯後面。看到你，停了一下。）',hi:'……好久不見。',ask:'票根，還在嗎？',me:'還在。',take:'寄放的，要拿回來了。……還是，你要一直收著？',keepT:'「我一直收著。」',giveT:'「還給妳。」',
-    keepN:'（她做了一杯熱可可，加了一份濃縮，推到你面前。）',keep:'……那這杯，也是你的。',giveN:'（你把票根放在吧檯上。她把它夾進牆上班表的夾板裡。）',give:'……謝謝你幫我收了一年。',hiNo:'好久不見。',no:'……票根，你留著就好。'};
+    keepN:KEEPN551,keep:'……那這杯，也是你的。',giveN:'（你把票根放在吧檯上。她把它夾進牆上班表的夾板裡。）',give:'……謝謝你幫我收了一年。',hiNo:'好久不見。',no:'……票根，你留著就好。'};
   const FANG2=['她說不行。','我一個人去看了。……片子很好。'];
   await sec('10',async()=>{
-    check('10. 讀稿第 10 節（021ffe76）：A1 台詞、A4 兩則都在稿裡',inDoc('## 10. 回 LAWWW 14:5x 六題')&&Object.values(A2).every(t=>inDoc(t.replace(/^「|」$/g,'')))&&FANG2.every(inDoc));
+    check('10. 讀稿第 10 節（021ffe76）：A1 台詞、A4 兩則都在稿裡',inDoc('## 10. 回 LAWWW 14:5x 六題')&&Object.values(A2).every(t=>inDoc(t.replace(/^「|」$/g,''))||in551(t))&&FANG2.every(inDoc));
     /* A2：祐廷單身 */
     { const r=invite({dating_heroine_03:true}); check('10. A2 祐廷和別人交往中（dating_heroine_03）＝8/24 沒有邀約（8/26 是七夕，只給單身）',!r.m&&!(X()&&X().cond(H.G)),J(X()?X().cond(H.G,true):null)); }
     /* A3：她和子晴 mutual_interest、held(uk) */

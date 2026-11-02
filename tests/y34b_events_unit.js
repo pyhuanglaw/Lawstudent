@@ -219,7 +219,7 @@ const date=id=>H.date(id);
     check('1B-17 前任：只回「謝謝。」', JSON.stringify(th('p:heroine_05'))===JSON.stringify(['生日快樂','謝謝。'])&&H.G.flags.SIS_BDAY_Y3==='msg', JSON.stringify(th('p:heroine_05'))); }
   { fresh('2028-06-02',12,'dorm'); H.FAMILIAR('heroine_05'); PHONE.join(H.G,'family_law','法律系直屬家族'); phone(); const a=bdayTp(); at('2028-06-03',12); const b=bdayTp();
     fresh('2027-06-02',12,'dorm'); H.FRIEND('heroine_05'); MSG.send(H.G,'heroine_05','bday'); at('2027-06-02',12.2); phone();
-    check('1B-17 不到 FRIEND（也不是交往、前任）：2028 沒有「生日快樂」、沒有群組那則；6/3 沒有；2027 照 MSG-2 原本的回覆池', !a&&!b&&!th('g:family_law').length&&th('p:heroine_05').slice(-1)[0]==='謝謝。今天的計畫本，我沒有排事情。', JSON.stringify(th('p:heroine_05'))); }
+    check('1B-17 不到 FRIEND（也不是交往、前任）：2028 沒有「生日快樂」、沒有群組那則；6/3 沒有；2027 照 MSG-2 原本的回覆池', !a&&!b&&!th('g:family_law').length&&th('p:heroine_05').slice(-1)[0]==='謝謝。今天難得沒有排事情。', JSON.stringify(th('p:heroine_05'))); }
   /* ===== 1B-18＋22 ===== */
   fresh('2028-07-26',20,'dorm',{SAID_HAS_CAR:true}); H.FRIEND('heroine_05'); SOCIAL.remember('heroine_05','FAMILY_DINNER',''); PHONE.join(H.G,'family_law','法律系直屬家族'); at('2028-07-26',21); phone();
   const mr=(H.G.msgs||[]).find(m=>m.ask&&m.ask.id==='y4_sis_ride');

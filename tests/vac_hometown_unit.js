@@ -110,12 +110,12 @@ const txt=(th)=>TH(th).map(m=>(m.from||'')+':'+m.text);
     law('2027-07-05',17); R(xc,30,20,20); SOCIAL.remember(xc,'FIRST_MET'); G.contacts[xc]=G.day-300; step('2027-07-05',18.5);
     const m1=txt('p:'+xc); check('8. 7/5 18:10「第一天。我負責影印。」＋卡紙那句；回覆兩個（沒有午餐）',m1.includes(xc+':第一天。我負責影印。')&&(TH('p:'+xc).slice(-1)[0].ask||{opts:[]}).opts.length===2,J(m1));
     step('2027-07-14',22); const last=TH('p:'+xc).slice(-1)[0]; const op=(last.ask||{opts:[]}).opts.map(o=>o.t);
-    check('8. 7/14 21:30 開庭時間表（沒去過 C14：「我爸說排得很好」）、多「要不要一起吃午餐？」',/我爸說排得很好/.test(last.text)&&op.includes('要不要一起吃午餐？'),J([last.text,op]));
+    check('8. 7/14 21:30 查核的時間表（沒去過 C14：AA_549 2-1 實習版「主管說排得很好。……我回家跟我媽講，她比我還高興。」）、多「要不要一起吃午餐？」',last.text==='主管說排得很好。……我回家跟我媽講，她比我還高興。'&&txt('p:'+xc).includes(xc+':今天幫忙整理一份查核的時間表。很長。')&&op.includes('要不要一起吃午餐？'),J([last.text,op]));
     const r=PHONE.answer(G,last.ask.id,op.indexOf('要不要一起吃午餐？')); G.hour=22.2; STORY.phoneRules(GM); const q=OUT.get(G,'va09_lunch');
-    check('8. 回「要不要一起吃午餐？」→ 她「平日十二點到一點。事務所樓下有一間。」、行事曆排隔天（週四）12:00',txt('p:'+xc).includes(xc+':平日十二點到一點。事務所樓下有一間。')&&!!q&&q.day===DK('2027-07-15')&&q.h===12,J(q));
+    check('8. 回「要不要一起吃午餐？」→ 她「平日十二點到一點。公司樓下有一間。」（AA_549 2-1）、行事曆排隔天（週四）12:00',txt('p:'+xc).includes(xc+':平日十二點到一點。公司樓下有一間。')&&!!q&&q.day===DK('2027-07-15')&&q.h===12,J(q));
     step('2027-07-28',13); const l3=TH('p:'+xc).slice(-1)[0]; check('8. 7/28 便當照片那則：午餐問過了就不再出現',/午餐。/.test(l3.text)&&!(l3.ask.opts.map(o=>o.t).includes('要不要一起吃午餐？')),J(l3.ask.opts.map(o=>o.t)));
     law('2027-07-14',20,{C14_VISITED:DK('2026-12-30')}); R(xc,30,20,20); SOCIAL.remember(xc,'FIRST_MET'); G.contacts[xc]=G.day-300; step('2027-07-05',18.5); step('2027-07-14',22);
-    check('8. 去過 C14 的玩家：第二句換「就是你上次來，白板上那種。現在是我排的。」',txt('p:'+xc).includes(xc+':就是你上次來，白板上那種。現在是我排的。'));
+    check('8. 去過 C14 的玩家：第二句換「就像你在我家事務所看到的白板。現在是我排的。」（AA_549 2-1）',txt('p:'+xc).includes(xc+':就像你在我家事務所看到的白板。現在是我排的。'));
     law('2027-07-05',17); step('2027-07-05',18.5); check('8. 不熟（沒有 FAMILIAR）：收不到',!txt('p:'+xc).length); }
   // 9. VA-10 麵店團出國：香港（AA_256 第 2 節）：7/20 21:00 群組揪 → 我也去 → 8/25 出發的行程；三場（以安交往中最後一晚多一句）；8/28 21:00 群組四則。沒去：阿哲一句、地鐵門外 Alison 的照片、最後「欠一次」
   { const step=(k,h)=>{ G.day=DK(k); G.weekday=wdOf(G.day); G.hour=h; STORY.phoneRules(GM); PHONE.tick(G); }, g='g:noodle_team';

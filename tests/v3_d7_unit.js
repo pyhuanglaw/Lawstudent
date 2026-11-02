@@ -37,9 +37,9 @@ GM.money=function(n){ G.money+=n; };
   const NM={'許柏翰':'柏翰','吳芯慈':'芯慈','沈以安':'以安','陳語彤':'語彤','不認識的女生':'以安'}; const lines0=lines; const linesN=()=>lines0().map(t=>t.replace(/^([^：]+)：/,(m,n)=>(NM[n]||n)+'：'));
   const G1=ev('ev_midterm_walkout_y2'), Y10=ev('ev_yutong_midterm_week');
   check('0. 兩個事件都在',!!G1&&!!Y10);
-  check('1. G1 大二上版：刑法分則期中考之後（afterClass crim_spec、afterExam mid、大二上），一次；刑法分則是大二上的課',G1.afterClass==='crim_spec'&&G1.afterExam==='mid'&&JSON.stringify(G1.term)==='["Y2S1"]'&&G1.once&&!!COURSES.list.find(c=>c.id==='crim_spec'&&c.term==='Y2S1'));
-  const mid=[...Array(20).keys()].map(w=>termDay('Y2S1',w,2)).filter(d=>d!=null&&(CALENDAR.termOf(d)||{}).exam==='mid');
-  check('1. 大二上有期中考週（刑法分則週二的考試在那裡）',mid.length>=1,JSON.stringify(mid.map(d=>CALENDAR.termOf(d).week)));
+  check('1. G1 大二上版：刑法分則期末考之後（D118 沒有期中考，AA_578 第 2 節 #9：afterClass crim_spec、afterExam final、大二上），一次；刑法分則是大二上的課',G1.afterClass==='crim_spec'&&G1.afterExam==='final'&&JSON.stringify(G1.term)==='["Y2S1"]'&&G1.once&&!!COURSES.list.find(c=>c.id==='crim_spec'&&c.term==='Y2S1'));
+  const mid=[...Array(20).keys()].map(w=>termDay('Y2S1',w,2)).filter(d=>d!=null&&(CALENDAR.termOf(d)||{}).exam==='final');   /* D118：期末考週（刑法分則週二的期末考在那裡）*/
+  check('1. 大二上有期末考週（刑法分則週二的考試在那裡）',mid.length>=1,JSON.stringify(mid.map(d=>CALENDAR.termOf(d).week)));
   const g1=async(know)=>{ fresh(mid[0],12.3,'classroom'); const k0=STORY.knows; STORY.knows=(id)=>id==='zhe'||know.includes(id); try{ said=[]; await EVENTS.run(G1); } finally { STORY.knows=k0; } return linesN(); };
   let L=await g1(['classmate_bohan','classmate_xinci','heroine_01']);
   check('1. 都認識（AB65-3：AA_211 第 3 節 3-3）：阿哲「第三題我寫了一整面，寫完才發現是第二題的答案。」、柏翰「第四題時間不夠，我最後一段沒寫。」（AA_428 §2 第 2 點：換成 AA_211 3-3）、芯慈那句刪掉、以安，以安後面旁白「（說完，她自己翻開課本查了一題。）」',JSON.stringify(L)===JSON.stringify(['阿哲：第三題我寫了一整面，寫完才發現是第二題的答案。','柏翰：第四題時間不夠，我最後一段沒寫。','以安：考完的題目，不要對答案。改不了。','（說完，她自己翻開課本查了一題。）']),JSON.stringify(L));

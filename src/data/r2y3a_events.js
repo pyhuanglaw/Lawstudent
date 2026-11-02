@@ -59,12 +59,12 @@ const R2Y3A_EVENTS=(function(){
     after:(G,GM)=>{ const r=R(); if(r) r.khNight(G,GM); },   /* 旅館一晚（不演室內）：日期往後到 8/8 16:00 */
     outingMissed:(G,GM,q)=>{ const r=R(); if(r) r.khMissed(G,q); },   /* C：09:30 還沒到左營＝她打來；18:00 燈塔的照片；8/8 照 D 的視訊；KX_RUB +1 */
     next_event:'ev_kexin_qixi_y2' };
-  const KH_B={ id:'ev_kexin_qixi_y2', title:'七夕', participants:['kexin'], location:'any', trigger:'manual', once:true, background:'dark',
+  const KH_B={ id:'ev_kexin_qixi_y2', title:'七夕', participants:['kexin'], location:'any', trigger:'manual', once:true, background:'kh_hotel_front',
     prereq:{custom:G=>!!(G.flags&&G.flags.KX_KH_DAY1)&&G.day===D('2027-08-08')},
     dialogue:[ {speaker:null,text:'（下午四點，一台舊舊的家用車停在旅館門口。她沒有下車，按了一下喇叭。）'},
       {speaker:'kexin',expression:'teasing',text:'上車。……音樂你管。'},
       {advance:toH(19.5)},
-      {scene:'高雄・港邊的山上',bg:'kh_river_night'},   /* BG-DARK-70-1021（BB_220★）：晚上那 7 句先用 kh_river_night 暫代（河邊步道，不是山上；之後換新圖 kh_hill_harbor_night）；原本：背景沒有：深色底＋字幕（第 5 節）；可昕七夕 CG 還沒生成（構圖要改高雄港），沒有以前不放 */
+      {scene:'高雄・港邊的山上',bg:'kh_hill_harbor_night'},   /* 第七批背景（使用者 11-02 生成，BB_132 第 104 組）*/   /* BG-DARK-70-1021（BB_220★）：晚上那 7 句先用 kh_river_night 暫代（河邊步道，不是山上；之後換新圖 kh_hill_harbor_night）；原本：背景沒有：深色底＋字幕（第 5 節）；可昕七夕 CG 還沒生成（構圖要改高雄港），沒有以前不放 */
       {speaker:null,text:'（天黑以後，整個港口的燈都亮了。船慢慢開進來。）'},
       {speaker:'kexin',expression:'thinking',text:'牛郎織女要等一年。'},
       {speaker:'kexin',expression:'smile',text:'……我們有車。'},
@@ -210,7 +210,7 @@ const R2Y3A_EVENTS=(function(){
 
   /* ---------- 2-Y3-07 可昕 K11「她來台大聽講座」（裁定 #30）：9/29（三）19:00～20:30 博雅的大教室。一起聽＝出遊；她自己聽＝20:30～21:00 在博雅一樓的小桌子（作息在 r2y3a3d.js）---------- */
   const LECTURE={ id:'ev_kexin_lecture_ntu', title:'她來首都帝大聽講座', participants:['kexin'], location:'any', trigger:'outing', once:true, background:'dark', hours:0.25,
-    dialogue:[ {scene:'博思教學館',bg:'linze_auditorium'},   /* 講座在博雅 101（3D 區域的大教室）；出遊的 2D 沒有這張圖：深色底＋字幕 */
+    dialogue:[ {scene:'博思教學館',bg:'boya_lecture_hall'},   /* 講座在博雅 101（3D 區域的大教室）；出遊的 2D 沒有這張圖：深色底＋字幕 */
       {speaker:null,text:'（博思的大教室。講座的題目是「平台、新創與新的規則」。可昕坐第三排，筆記寫了兩頁。）'},
       {speaker:null,text:'（講者一直說「彈性」。）'},
       {advance:toH(20.5)},
@@ -285,7 +285,8 @@ const R2Y3A_EVENTS=(function(){
   const plgThisTerm=G=>{ const A=(G.acts&&G.acts.att)||{}, C=typeof CALENDAR!=='undefined'&&CALENDAR.termOf?CALENDAR:null, t0=C?C.termOf(G.day):null; if(!t0) return false;
     for(const k in A){ const m=/^public_law_group@(-?\d+)$/.exec(k); if(!m) continue; const t=C.termOf(+m[1]); if(t&&t.id===t0.id) return true; } return false; };
   const PLG={custom:G=>(typeof STORY!=='undefined'&&!!STORY.plgY1Count&&STORY.plgY1Count(G)>0)||plgThisTerm(G)};
-  const TY_FAMILY={ id:'ev_typhoon_y3_family', title:'照常的讀書會', participants:[], location:'any', trigger:'outing', once:true, background:'dark', hours:50/60,
+  const TY_FAMILY={ id:'ev_typhoon_y3_family', title:'照常的讀書會', participants:[], location:'any', trigger:'outing', once:true, get background(){ return typeof OUT!=='undefined'&&OUT.bg?OUT.bg('video'):'dark'; },   /* 11-02 LAWWW-B：線上讀書室＝視訊的底圖（原本深色底）*/
+    hours:50/60,
     dialogue:[ {speaker:null,text:'（七點整，線上讀書室只有兩格。兩格的鏡頭都關著。）'},
       {speaker:null,text:'（她的麥克風沒有關。翻頁的聲音、螢光筆的蓋子，偶爾一聲很小的「……嗯。」）'},
       {speaker:null,text:'（七點五十分，她那一格先打了一行字。）'},

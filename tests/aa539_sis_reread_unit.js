@@ -1,4 +1,4 @@
-// AA_539 學姊重讀（SIS-LEAD-1021；企劃線 claude/cool-heisenberg-o8kuqx c9f6dd6cb → 第 5 節更正 90d0a41d0，AA-B 2026-10-30；USER_WANTS C25「學姊才是真正的女主角」）——不需要瀏覽器。
+// AA_539 學姊重讀（SIS-LEAD-1021；企劃線 claude/story-planning c9f6dd6cb → 第 5 節更正 90d0a41d0，AA-B 2026-10-30；USER_WANTS C25「學姊才是真正的女主角」）——不需要瀏覽器。
 //   0   讀稿（90d0a41d0）：遊戲裡新的句子都在稿裡（一字不差）、輪流的順序和稿的編號一樣（總圖第五句＝5-1 的慢讀）、208 的表、私訊與群組的表逐則對（7/20 照 5-1）；白名單 AA_539＝90d0a41d0；index.html 載入新的兩支
 //   1-1 美國路線交往中 2028-12-24 期末飯（te_gf_Y4S1_heroine_05）：「時差還沒調回來。……今天晚上，法圖旁邊那家？」；臺灣、日本路線照原句「我回來了。……」
 //   1-2 交往中、有研究室以前（約的那一天 ≦ 9/21）：晨跑不說「研究室」（「……之後我回家念書。」）；9/22 起原句回來
@@ -69,7 +69,7 @@ const cycOk=(L,pool)=>{ const ix=L.map(x=>pool.indexOf(x.text)); if(ix.some(i=>i
 (async()=>{
 /* ================= 0 讀稿 ================= */
 await sec(0,()=>{
-  check('0. 讀得到稿（AA_539 '+SHA+'，有第 5 節）、檔都載得到（含 sis_aa539_lines.js、sis_aa539_3d.js）',doc.length>3000&&doc.indexOf('## 4. 給 LAWWW-B')>0&&doc.indexOf('## 5. 更正與實作問答')>0&&!loadErr.length&&typeof SIS539!=='undefined',loadErr.join('；')||'git fetch origin claude/cool-heisenberg-o8kuqx');
+  check('0. 讀得到稿（AA_539 '+SHA+'，有第 5 節）、檔都載得到（含 sis_aa539_lines.js、sis_aa539_3d.js）',doc.length>3000&&doc.indexOf('## 4. 給 LAWWW-B')>0&&doc.indexOf('## 5. 更正與實作問答')>0&&!loadErr.length&&typeof SIS539!=='undefined',loadErr.join('；')||'git fetch origin claude/story-planning');
   const idx=fs.readFileSync(path.join(ROOT,'index.html'),'utf8'), i1=idx.indexOf('src/data/sis_aa539_lines.js'), i2=idx.indexOf('src/sis_aa539_3d.js'), i0=idx.indexOf('src/sis_b16_3d.js'), i3=idx.indexOf('src/heroine_asks3d.js');
   check('0. index.html 載入 src/data/sis_aa539_lines.js → src/sis_aa539_3d.js（學姊第十六批之後）',i0>0&&i1>i0&&i2>i1&&i3>0,J([i0,i1,i2]));
   const L=[NEW_TE,NO_LAB,JP0529[1]];

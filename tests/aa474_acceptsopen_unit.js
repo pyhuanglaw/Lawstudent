@@ -287,13 +287,13 @@ await sec('8-7',async()=>{
 /* ---------------- 9. 台詞照稿（第 3 節、第 5 節；企劃線 020f695a3）---------------- */
 await sec(9,async()=>{
   const cp=require('child_process'); let doc='';
-  for(const r of ['187584ca8','origin/claude/cool-heisenberg-o8kuqx']){ try{ doc=['AA_474_acceptsOpen使用者回答C_七位各自的條件','AA_483_回LAWWW_AA474子代理八題_BB審稿定稿_美國秋假自習室提示'].map(f=>cp.execSync('git show '+r+':"docs/story_planning/'+f+'.md"',{cwd:H.ROOT,encoding:'utf8',stdio:['ignore','pipe','ignore']})).join('\n'); if(doc) break; }catch(e){ doc=''; } }   /* AA_474（第 3、5 節）＋AA_483（第 1 節第 1、2 點、第 2-1、2-2 節取代 ①② 與視訊的字）*/
+  for(const r of ['187584ca8','origin/claude/story-planning']){ try{ doc=['AA_474_acceptsOpen使用者回答C_七位各自的條件','AA_483_回LAWWW_AA474子代理八題_BB審稿定稿_美國秋假自習室提示'].map(f=>cp.execSync('git show '+r+':"docs/story_planning/'+f+'.md"',{cwd:H.ROOT,encoding:'utf8',stdio:['ignore','pipe','ignore']})).join('\n'); if(doc) break; }catch(e){ doc=''; } }   /* AA_474（第 3、5 節）＋AA_483（第 1 節第 1、2 點、第 2-1、2-2 節取代 ①② 與視訊的字）*/
   const inDoc=t=>doc.indexOf(t)>=0, K5=KNOWL(SIS).opts.find(o=>o.t==='「她知道。」').sub.find(q=>q.t==='「她說可以。」');
   check('9. 第 5 節三處：學姊 Byes 第三句「……你去見她那天，出門前傳一句給我就好。」；沛珊知情心意邀約的接受「好。可是她那邊也要知道喔。兩邊都不要偷偷的。」；學姊「她說可以。」第二次 then「……嗯。」、yes「這學期我一直在想這件事。」「……好。我們試試看。」（第一次照原本「……好。我想一下。」）',
     Lm().REPAIR.heroine_05.result.Byes[2]==='……你去見她那天，出門前傳一句給我就好。'&&J(KNOWL(PS).opts.find(o=>o.t==='「我想跟妳們都在一起。」').accept.yes)===J(['好。可是她那邊也要知道喔。兩邊都不要偷偷的。'])
     &&J(K5.then)===J(['……好。我想一下。'])&&K5.first==='think'&&J(K5.again.then)===J(['……嗯。'])&&J(K5.again.accept.yes)===J(['這學期我一直在想這件事。','……好。我們試試看。'])&&J(K5.again.accept.no)===J(['我還沒準備好。']));
   const all=[].concat(W().broke,W().heard,W().self,W().pause,W().end,W().endVideo,W().told,W().videoOpen).filter(x=>x!=null).map(x=>typeof x==='string'?x:String(x.n).replace(/^（|）$/g,''));
-  check('9. 可昕收回的台詞（AA_474 第 3 節＋AA_483 第 1 節第 1、2 點、第 2-1、2-2 節，24 句）、第 5 節改的句子都在企劃線的稿裡（一字不改）',!!doc&&all.length===24&&all.every(inDoc)&&['……你去見她那天，出門前傳一句給我就好。','好。可是她那邊也要知道喔。兩邊都不要偷偷的。','這學期我一直在想這件事。','……好。我們試試看。'].every(inDoc),doc?J(all.filter(t=>!inDoc(t))):'讀不到企劃線 187584ca8（先 git fetch origin claude/cool-heisenberg-o8kuqx）');
+  check('9. 可昕收回的台詞（AA_474 第 3 節＋AA_483 第 1 節第 1、2 點、第 2-1、2-2 節，24 句）、第 5 節改的句子都在企劃線的稿裡（一字不改）',!!doc&&all.length===24&&all.every(inDoc)&&['……你去見她那天，出門前傳一句給我就好。','好。可是她那邊也要知道喔。兩邊都不要偷偷的。','這學期我一直在想這件事。','……好。我們試試看。'].every(inDoc),doc?J(all.filter(t=>!inDoc(t))):'讀不到企劃線 187584ca8（先 git fetch origin claude/story-planning）');
   check('9. 七位「接受」的說法都不一樣（第 5 節：改過以後沒有撞句）',(()=>{ const ys=[Lm().REPAIR.heroine_05.result.Byes,Lm().REPAIR.kexin.result.Byes,Lm().REPAIR.heroine_04.result.Byes,Lm().REPAIR.heroine_02.result.Byes,Lm().REPAIR.heroine_03.result.B,Lm().REPAIR.heroine_01.result.C,
       KNOWL(PS).opts.find(o=>o.t==='「我想跟妳們都在一起。」').accept.yes,KNOWL(YT).opts.find(o=>o.accept).accept.yes].map(x=>J(x)); return new Set(ys).size===ys.length&&!ys.some(y=>/她的事，你要自己跟我講/.test(y)); })());
 });

@@ -74,7 +74,7 @@ const freshJP=(key,h)=>{ const G=H.fresh(key,h,'jp_hub',{EXCHANGE_ROUTE:'JP',EXC
   { H.fresh('2027-07-05',9.5,'dorm'); reset(); msg(D('2027-07-05'),14,'測試：上班的時候','x58_c2'); await VAC.jump(GM,T(D('2027-07-05'),18),'法律扶助基金會',{quiet:true});
     check('C2. 同一天下班的跳過（quiet，09:30 起每小時看一次手機）：14:00 那一則在 14:30 停下來打開手機，不出日期卡；到 18:00',calls.some(x=>x.t>=T(D('2027-07-05'),14)&&x.t<T(D('2027-07-05'),15))&&H.cards.length===0&&now()===T(D('2027-07-05'),18),JSON.stringify([calls.map(x=>lbl(x.t)),H.cards])); }
   // C3 整趟出國旅遊（C13 自己排、5 天）：每天一則，全部一路按「跳過」走完
-  { H.fresh('2026-07-01',10,'dorm'); H.picks=['韓國','自己去','5 天',0]; await VAC.plan13(GM); const r=VAC.rec(H.G).t13[0], q=OUT.get(H.G,'vac_t13_1');
+  { H.fresh('2026-07-01',10,'dorm'); H.picks=['韓國','5 天',0,'自己去'];   /* AA_549 回第 4 題：先選日子再選人 */ await VAC.plan13(GM); const r=VAC.rec(H.G).t13[0], q=OUT.get(H.G,'vac_t13_1');
     reset(); for(let d=r.from;d<=r.to;d++) msg(d,21,'測試：第 '+(d-r.from+1)+' 天','x58_c3_'+d); H.G.day=r.from; H.G.weekday=CALENDAR.dateOf(r.from).wd%7; H.G.hour=8; await VAC.outing(GM,q);
     const want=[]; for(let d=r.from;d<r.to;d++) want.push(T(d,21));
     check('C3. 出國旅遊 5 天：中間每天 21:00 那一則都停下來打開手機（最後一天 18:00 就回來了）；整趟走完（done、BACK_FROM_T13）；沒有「這幾天收到 N 則」',!!r&&want.every(t=>at(t,calls))&&calls.every(x=>x.skip&&x.fresh>0)&&r.done===true&&H.G.flags.BACK_FROM_T13===r.to&&now()===T(r.to,18)&&noCount(),JSON.stringify([calls.map(x=>lbl(x.t)),lbl(now()),toasts])); }

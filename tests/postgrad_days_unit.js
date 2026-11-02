@@ -40,7 +40,7 @@ const FRIENDS=['zhe','yu','classmate_bohan','classmate_xinci','classmate_mingxua
     const ran=new Set(); const orun=PG.runStep; PG.runStep=async function(GM,s){ const r=await orun.call(PG,GM,s); if(r){ order.push(s.id); ran.add(s.id); } return r; };
     try{
       for(it=0; it<120&&!G.flags.EPILOGUE_DONE; it++){ const before=G.day*24+G.hour;
-        const ns=PG.nextStop(G), ex=PG.byId('exam_2029'); if(o.score!=null&&!PG.done(G,'exam_2029')&&ex.cond(G)&&(PG.due(G)===ex||(ns!=null&&Math.abs(ns-ex.at(G))<1e-6))) H.picks=answerK(PG.draw(G,2029),o.score);
+        const ns=PG.nextStop(G); for(const [yy,sc] of [[2029,o.score],[2030,o.score2030]]){ const ex=PG.byId('exam_'+yy); if(sc!=null&&!PG.done(G,'exam_'+yy)&&ex.cond(G)&&(PG.due(G)===ex||(ns!=null&&Math.abs(ns-ex.at(G))<1e-6))) H.picks=answerK(PG.draw(G,yy),sc); }   /* score2030：2030 一試答對幾題（使用者 2026-11-02 09:1x A4 取消 2030 保底以後，2030 要考上得真的答對 12 題）*/
         const y=await y4(GM); if(y){ order.push('y4:'+y); if(G.day*24+G.hour<before-1e-6) mono=false; continue; }
         if(OUT.due(G)){ H.picks=[0]; await OUT.tick(GM); }
         else { const s=PG.due(G); if(s) await PG.runStep(GM,s);
@@ -56,7 +56,7 @@ const FRIENDS=['zhe','yu','classmate_bohan','classmate_xinci','classmate_mingxua
     const env=ix('y4:envelope')>=0?ix('y4:envelope'):ix('sleep'), ED=G.events.done;
     check(name+'：6/2 照順序：家人（撥穗）→ 拍照 → 午餐 → 大伯的信封（22:00 以後回宿舍，或睡著時）；6/28 搬走（AA_318 那一批照常演，跳的時候不會跳過）',ix('y4:family')===0&&ix('grad')===1&&ix('y4:lunch')===2&&env>2&&!!(ED.ev_grad_envelope||ED.ev_grad_envelope_bed)&&ix('y4:moveout')>env&&G.flags.MOVED_OUT===PG.DK('2029-06-28'),order.slice(0,8).join(' → '));
     return {G,order,ran,sleeps}; };
-  { const {G,order}=await sim('B1 和可昕交往、2029 一試沒過（全部選第一個）',{BAR_REG:true,LAWCLUB_SAT_VISITS:10},()=>{ H.FRIEND('kexin'); H.date('kexin'); });
+  { const {G,order}=await sim('B1 和可昕交往、2029 一試沒過（全部選第一個）、2030 答對 13',{BAR_REG:true,LAWCLUB_SAT_VISITS:10},()=>{ H.FRIEND('kexin'); H.date('kexin'); },{score2030:13});
     const want=['grad','cafe','b1','exam_2029','r1_2029','an1','an2','exam_2030','r1_2030','first','e2a_2030','e2b_2030','r2_2030','epi'];
     check('B1. 順序：典禮 → Café → B1 → 2029 一試 → 放榜 → 以安的電話 → 2030 再考 → 第一份工作（還在準備二試）→ 二試 → 放榜 → 尾聲',want.every((id,i)=>order.indexOf(id)>=0&&(i===0||order.indexOf(id)>order.indexOf(want[i-1]))),order.join(' → '));
     check('B1. 2029 沒有二試；2030 考上（BAR_YEAR 2030）；第一份工作是補習班的自習室',!order.includes('e2a_2029')&&G.flags.BAR_YEAR===2030&&H.msgs('g:noodle_team').includes('📷（照片：補習班的自習室。）'));
@@ -66,7 +66,7 @@ const FRIENDS=['zhe','yu','classmate_bohan','classmate_xinci','classmate_mingxua
     check('B2. 順序：典禮 → B1 → 一試 → 放榜 → 二試兩天 → 12/14 放榜 → 以安的電話 → 第一份工作 → 尾聲（睡覺、站著不動交替）',want.every((id,i)=>order.indexOf(id)>=0&&(i===0||order.indexOf(id)>order.indexOf(want[i-1])))&&!order.some(id=>/2030/.test(id)),order.join(' → '));
     check('B2. BAR_YEAR 2029、司法官一試也過（17 題）、第一份工作是法扶',G.flags.BAR_YEAR===2029&&G.flags.BAR_STAGE_2029==='both'&&H.msgs('g:noodle_team').includes('📷（照片：法律扶助基金會的櫃台。名牌上的字還是新的。）'));
     check('B2. 12/14 的麵店（出遊）去了；尾聲祐廷「我在法扶。這禮拜開了三個庭。」',OUT.get(G,'pg_bar_noodle_2029')&&OUT.get(G,'pg_bar_noodle_2029').state==='done'&&H.has('我在法扶。這禮拜開了三個庭。')); }
-  { const {G,order}=await sim('B3 日本交換延畢',{EXCHANGE_ROUTE:'JP',LAWCLUB_SAT_VISITS:10},()=>{ H.FRIEND('kexin'); H.date('kexin'); });
+  { const {G,order}=await sim('B3 日本交換延畢、2030 答對 13',{EXCHANGE_ROUTE:'JP',LAWCLUB_SAT_VISITS:10},()=>{ H.FRIEND('kexin'); H.date('kexin'); },{score2030:13});
     check('B3. 2029 沒有考試（只有群組＋「（明年八月，換你。）」），2030 一試 → 第一份工作（補習班）→ 二試 → 放榜 → 尾聲',!order.includes('exam_2029')&&order.includes('late_2029')&&order.indexOf('exam_2030')<order.indexOf('first')&&order.indexOf('first')<order.indexOf('e2a_2030')&&order.indexOf('r2_2030')<order.indexOf('epi')&&G.flags.BAR_YEAR===2030,order.join(' → ')); }
   { const {G,order}=await sim('B4 沒報名國考',{BAR_REG:false,LAWCLUB_SAT_VISITS:10});
     check('B4. 沒有任何考試；第一份工作（NGO 的白板）→ 尾聲',!order.some(id=>/^(exam|r1|e2|r2|b1)/.test(id))&&order.includes('first')&&order.includes('epi')&&G.flags.BAR_YEAR==null&&H.msgs('g:noodle_team').includes('📷（照片：NGO 辦公室的白板。上面是你寫的第一個個案。）'),order.join(' → ')); }

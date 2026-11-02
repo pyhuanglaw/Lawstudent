@@ -15,7 +15,7 @@ const JP_EVENTS=(function(){
   const j2=G=>{ const v=G&&G.flags&&G.flags.AN_TOWN_NOTICE; return v==='there'||v==='photo'; };   /* 5/6 町公所那張通知（AA_326 2-Y3-43 的旗標：去了、或收到她的照片）*/
   const repairOk=G=>{ const R=G&&G.flags&&G.flags.REPAIR; return !!R&&typeof R==='object'&&(R.heroine_01|0)>=3; };   /* AA_254 第 10 節：REPAIR ≥ 3（G.flags.REPAIR.heroine_01，和 r2y3b3d.js 町公所那一步同一個；說謊歸零：日本這學期沒有說謊的事件）*/
   /* G0 3/11（六）14:00 公館：行李箱（交往中；3/10 21:00 她私訊、排出遊在 jp3d.js）*/
-  const SUITCASE=[ {scene:'公館',bg:'gongguan'},
+  const SUITCASE=[ {scene:'公館',bg:'gg_luggage_shop'},   /* 第七批（11-02）：行李箱的店（原本借公館街景）*/
     {speaker:null,text:'（行李箱的店。她把每一個都推了一圈，聽輪子的聲音。）'},
     {speaker:'heroine_01',text:'這個比較安靜。公寓的走廊晚上會有回音。'},   /* AA_377 第 4 項：以安在大學城隔壁的小鎮租公寓（AA_341 裁定 1）；AA_426 第 5 節（967b4273a）拿掉「理由：」*/
     {choice:[{text:'「那我也買這個。」',goto:'g0_a'},{text:'「妳連這個都查了？」',goto:'g0_b'}]},
@@ -23,7 +23,7 @@ const JP_EVENTS=(function(){
     {label:'g0_b'},{speaker:'heroine_01',text:'交換生的論壇有寫。'},
     {label:'g0_end'},{set:{AN_JP_SUITCASE:true}} ];
   /* G1 3/27（一）10:00 國際學生辦公室報到（一鍵，地點字幕；入住是 3/25 抵達那天，AA_377 第 17 項）*/
-  const OFFICE=[ {scene:'國際學生辦公室'},
+  const OFFICE=[ {scene:'國際學生辦公室',bg:'jp_intl_office'},   /* 第五批（使用者 11-02 生成）*/
     {speaker:null,text:'（國際學生辦公室。你們排在一列交換生的最後面。輪到你的時候，職員用很慢的日文說了一句話，你只聽懂「宿舍」。）'},
     {if:C(dating),speaker:null,text:'（以安在旁邊小聲翻譯。翻完她說：「我也只聽懂一半。剩下一半是猜的。」）'},
     {if:C(repair),speaker:null,text:'（以安排在你前面兩個人。她辦完，沒有回頭。）'},
@@ -60,7 +60,7 @@ const JP_EVENTS=(function(){
   /* G7 以安約的那一頓（AA_250 6-2 的三句）。AA_355 1-1（AA-C 2026-10-21）：6/9（五）21:00 她私訊約、「好。」＝6/10（六）18:30 出遊（src/jp3d.js 的 S.dinnerPhone；交往中或 FRIEND 以上），
      地點字幕「日本・學校後面的小餐館」、深色底（原本 AA_341 G7：6/16（五）19:00 自動演、商店街 jp_street_night）。不算學期末的飯（BB_203 第 9 點）。出遊演完照 hours 往後。
      AA_355 第 5 節（2f1aaa22）：4b 第一句「今天」改「昨天」（台大 6/9 考完，她 6/10 說）；4c 挽回中、冷靜中不約（jp3d.js）*/
-  const DINNER=[ {scene:'日本・學校後面的小餐館'},
+  const DINNER=[ {scene:'日本・學校後面的小餐館',bg:'jp_eatery'},   /* 第五批（使用者 11-02 生成）*/
     {speaker:'heroine_01',text:'首都帝大昨天考完了。Alison 在群組說她要睡三天。'},
     {speaker:'heroine_01',text:'我們這邊七月底才考，還有一個多月。'},
     {speaker:'heroine_01',text:'八月五號那班，我跟你一起訂好了。'},
@@ -92,13 +92,13 @@ const JP_EVENTS=(function(){
     {speaker:'heroine_01',text:'……不准賴。'},
     {set:{AN_TANABATA_JP_REPAIR:'again',AN_JP_RECONCILED:true}} ];
   /* G8 7/17（一）海之日（交往中；7/16 21:00 她私訊）：摘要一段，2D 深色底＋字幕「海邊」*/
-  const SEA=[ {scene:'海邊'},
+  const SEA=[ {scene:'海邊',bg:'jp_beach'},   /* 第六批背景（使用者 11-02 生成，BB_132 第 103 組）*/
     {speaker:null,text:'（你們搭了一個小時的電車。她在海邊脫了鞋，走到水剛好淹過腳踝的地方。）'},
     {speaker:'heroine_01',text:'比淡水的冷。'},
     {speaker:null,text:'（回來的時候，兩個人的手臂都曬紅了。）'},
     {set:{AN_JP_SEA:true}},{advance:G=>Math.max(0,18-((G.hour%24)))} ];
   /* G8 8/4（五）22:00 最後一個晚上的便利商店（交往中、挽回成功；接 3/26 J1）。jp_konbini 的窗外有雪（3 月底那一張），8 月不用：深色底＋字幕 */
-  const LAST=[ {scene:'便利商店'},
+  const LAST=[ {scene:'便利商店',bg:'jp_konbini_summer'},   /* 第七批背景（使用者 11-02 生成，BB_132 第 104 組）*/
     {speaker:null,text:'（宿舍附近的便利商店。和第一個晚上同一間。）'},
     {speaker:'heroine_01',text:'第一個晚上，你在這裡看不懂標籤。'},
     {speaker:'heroine_01',text:'……現在看得懂了嗎？'},
@@ -106,7 +106,7 @@ const JP_EVENTS=(function(){
     {label:'l8_a'},{speaker:'heroine_01',text:'一半夠了。另一半，明年再來看。'},{goto:'l8_end'},
     {label:'l8_b'},{speaker:'heroine_01',text:'我只教你看字。標籤是你自己看懂的。'},   /* AA_435 第 0 節 */{speaker:null,text:'（她把兩個飯糰放進籃子。）'},
     {label:'l8_end'},{set:{AN_JP_LASTNIGHT:'together'}} ];
-  const LAST_ALONE=[ {scene:'便利商店'},
+  const LAST_ALONE=[ {scene:'便利商店',bg:'jp_konbini_summer'},
     {speaker:null,text:'（最後一個晚上。你一個人去了便利商店。冷藏櫃的燈，和第一個晚上一樣亮。）'},
     {set:{AN_JP_LASTNIGHT:'alone'}} ];
   /* 8/5 入境大廳（AA_253 9-2 日本欄；AA_341 裁定 3：「……好熱。」）。挽回不成的：旁白一句 */

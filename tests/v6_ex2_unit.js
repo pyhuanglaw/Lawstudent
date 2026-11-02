@@ -1,5 +1,5 @@
 // 多段感情 v6 前任版（第二批，V6-A3、A6、S4）：要動別的檔案的那幾件——不需要瀏覽器。
-//   台詞逐字對企劃（企劃線 claude/cool-heisenberg-o8kuqx @ d805bceee）：AA_123 4-3、4-3b、5-3；AA_182 第 2 節；AA_11 事件 17／AA_319 1A-13 ⑤（友情版、和別人交往中那兩句）。
+//   台詞逐字對企劃（企劃線 claude/story-planning @ d805bceee）：AA_123 4-3、4-3b、5-3；AA_182 第 2 節；AA_11 事件 17／AA_319 1A-13 ⑤（友情版、和別人交往中那兩句）。
 //   G 畢業典禮（postgrad3d.js）：以安新 21、語彤事件 17 的前任＝友情版（修改前前任直接不演）
 //   S 以安新 9（syllabus.js 的 exAfter，tools/syllabus/import_syllabus.py 從 AA_123 匯入；src/v6ex3d.js 的 ev_an_ex_admin 下課後演）
 //   N 以安新 8（ev_plg_rules_after 週六補讀，她看到你那一句）

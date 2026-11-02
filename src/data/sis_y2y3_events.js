@@ -96,7 +96,7 @@ const SISY23_EVENTS=(function(){
       outingMissed:G=>{ const x=X(); if(x) x.missed(G,'lab'); } },
     /* ---------- 2-2 11/18（三）19:00 法圖・討論室（她週三晚上本來就在法圖）---------- */
     { id:'ev_sis_seminar_y2', title:'第一次 seminar', participants:[ID], location:'any', trigger:'outing', once:true, background:'dark', hours:1,
-      dialogue:[ {scene:'法圖・討論室'},
+      dialogue:[ {scene:'法圖・討論室',bg:'wancai_seminar'},   /* 11-02 LAWWW-B 用現有的圖補黑底 （有白板的討論室）*/
         N('（白板上寫著她的報告題目，字很小。她站在白板前，手上是幾張講稿。）'),
         SIS('二十分鐘。中間不要問，最後再問。'),
         N('（她講了十九分鐘。講到一半，停下來喝了一口保溫瓶。）'),
@@ -110,7 +110,7 @@ const SISY23_EVENTS=(function(){
       outingMissed:G=>{ const x=X(); if(x) x.missed(G,'sem'); } },
     /* ---------- 2-3 第 11 週週三：法圖外面的台階（第 5～10 週沒遇到的，私訊來；可以略過）---------- */
     { id:'ev_sis_topic_steps', title:'想寫的東西', participants:[ID], location:'any', trigger:'outing', once:true, background:'dark', hours:0.5,
-      dialogue:[ {scene:'法圖外面的台階'} ].concat(TOPIC) },
+      dialogue:[ {scene:'法圖外面的台階',bg:'lawlib_steps_night'} ].concat(TOPIC) },
     /* ---------- 2-4 6/2 晚上：在她讀書的地方找她說話（2026 週二＝Café、2027 週三＝法圖）；熟悉以上、沒在交往 ---------- */
     { id:'ev_sis_bday_y1', title:'她的生日', participants:[ID], location:['cafe','lawlib'], trigger:'interact', priority:9, once:true, background:'blur',
       prereq:{custom:G=>{ const x=X(); return !!x&&x.bdayTalkDue(G,'y1'); }}, dialogue:bday('y1',false) },
@@ -118,16 +118,16 @@ const SISY23_EVENTS=(function(){
       prereq:{custom:G=>{ const x=X(); return !!x&&x.bdayTalkDue(G,'y2'); }}, dialogue:bday('y2',false) },
     /* ---------- 2-4 交往中：前一天 21:00 她約，6/2 19:00 法圖旁邊那家 ---------- */
     { id:'ev_sis_bday_date_y1', title:'她的生日', participants:[ID], location:'any', trigger:'outing', once:true, background:'dark', hours:1.5,
-      dialogue:[ {scene:'法圖旁邊的簡餐'} ].concat(bday('y1',true)),
+      dialogue:[ {scene:'法圖旁邊的簡餐',bg:'lawlib_diner'} ].concat(bday('y1',true)),
       outingMissed:G=>{ const x=X(); if(x) x.missed(G,'bday_y1'); } },
     { id:'ev_sis_bday_date_y2', title:'她的生日', participants:[ID], location:'any', trigger:'outing', once:true, background:'dark', hours:1.5,
-      dialogue:[ {scene:'法圖旁邊的簡餐'} ].concat(bday('y2',true)),
+      dialogue:[ {scene:'法圖旁邊的簡餐',bg:'lawlib_diner'} ].concat(bday('y2',true)),
       outingMissed:G=>{ const x=X(); if(x) x.missed(G,'bday_y2'); } },
     /* ---------- 2-5 10/16（六）09:00 法扶・臺北的辦公室 → 便利商店門口的桌子 ---------- */
     { id:'ev_sis_interview', title:'訪談', participants:[ID], location:'any', trigger:'outing', once:true, background:'dark', hours:2.5,
       dialogue:[ {scene:'法扶・臺北的辦公室',bg:'legal_aid_office'},
         N('（會議室很小。律師講了一個半小時，你打了十一頁。）'),
-        {scene:'便利商店門口的桌子',bg:'dark'},
+        {scene:'便利商店門口的桌子',bg:'cvs_table_day'},   /* 上午版（11-02 使用者選「重生白天版」；傍晚的 cvs_table_night 對不上 10:30）*/
         N('（她把你的筆記從頭滑到尾。）'),
         SIS('你多寫了一句：『他講到這裡，停了很久。』'),
         SIS('……這句我要。錄音裡聽不到這個。'),
@@ -143,7 +143,7 @@ const SISY23_EVENTS=(function(){
         N('（一個五十幾歲的男人，手上一直轉著一支原子筆。）'),
         SIS('他同意錄音。你一樣要記。'),
         N('（他講了一個多小時。講到他太太的時候，原子筆停了。）'),
-        {scene:'社區活動中心門口',bg:'dark'},
+        {scene:'社區活動中心門口',bg:'community_gate'},
         SIS('你記到哪裡？'),
         {choice:[{text:'「他太太那段。」',goto:'a'},{text:'「他的原子筆。」',goto:'b'}]},
         {label:'a'},SIS('……那段我不會寫進論文。'),SIS('可是我要記得。'),{goto:'end'},
@@ -153,7 +153,7 @@ const SISY23_EVENTS=(function(){
       outingMissed:G=>{ const x=X(); if(x) x.missed(G,'iv2'); } },
     /* ---------- 2-6 11/12（五）12:20 總圖門口的台階（第一次見面的那個台階；11/1～11/9 都沒遇到的）---------- */
     { id:'ev_sis_us_told_steps', title:'明年夏天', participants:[ID], location:'any', trigger:'outing', once:true, background:'dark', hours:0.5,
-      dialogue:[ {scene:'總圖門口的台階'} ].concat(US,[{set:{SIS_US_TOLD:'steps'}}]) },
+      dialogue:[ {scene:'總圖門口的台階',bg:'library_gate_day'} ].concat(US,[{set:{SIS_US_TOLD:'steps'}}]) },
     /* ---------- 2-7 3/15（三）21:30 她打電話來（朋友以上；臺灣、美國路線，日本路線 3/25 才出發）---------- */
     /* 3-2 出國前最後一個週六：7/29（六）15:00 公館（AA_379 3-2）；結尾照 7/26 群組那則有沒有按「我送妳。我有車。」（SIS_RIDE_ASK）*/
     { id:'ev_sis_predepart', title:'出國前最後一個週六', participants:[ID], location:'any', trigger:'outing', once:true, background:'dark', hours:1,

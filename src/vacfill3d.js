@@ -10,12 +10,15 @@
    - 1-5 7/27 去學校走一走（10:00 在家醒來選「（去學校走一走）」）：15:00 一鍵到校門口（OUT goto），到了一句、走到霖澤館前面一句、走進穿堂就結束。經濟系休學在家的時候人在外面空下來 3 秒會自動回家（ECONFF.tick2）——
      這一段走路的期間外面包一層先不回家；走進穿堂（或過了那一天）以後照原本的。
    - 4 大四寒假 1/20 以安「我去。」：1/21～1/27 每天 9:00～17:00 她在總圖三樓（作息多一筆，照總圖的座位系統；不另外寫台詞）。
+   - AA_556（企劃線 3d7ad0024；VAC-GAP2-1031）寒暑假第二批：6/24 阿凱回「我也來打。」＝當晚 22:00 線上語音（電話式出遊，取代對話串的旁白）；大二暑假 7/10 阿凱、8/12 語彤，
+     大二寒假 2/11 芯慈私訊約隔天，回「好。」＝OUT.plan（台詞 VACFILL_LINES2、場景 VACFILL_EVENTS 最後四個，src/data/vacfill_events.js）。
    存檔：G.vacfill＝{pool:{'Y1W:home':用了幾句}, wake:最後一次醒來放過的那一天, sum:{y3_0219:那一天}}；旗標 VF_*（回覆）。舊存檔沒有＝空的。
-   測試：node tests/aa440_vacfill_unit.js */
+   測試：node tests/aa440_vacfill_unit.js、node tests/aa556_vacgap2_unit.js */
 'use strict';
 const VACFILL=(function(){
   const S={};
   const X=typeof VACFILL_LINES!=='undefined'?VACFILL_LINES:null, U=typeof VACFILL_UI!=='undefined'?VACFILL_UI:{};
+  const X2=typeof VACFILL_LINES2!=='undefined'?VACFILL_LINES2:null;   /* AA_556 寒暑假第二批（src/data/vacfill_events.js）*/
   if(!X) return S;
   const DK=k=>typeof STORY!=='undefined'&&STORY.dayOfKey?STORY.dayOfKey(k):null;
   const T=(d,h)=>d*24+h, NOW=G=>T(G.day,G.hour);
@@ -36,6 +39,11 @@ const VACFILL=(function(){
   const abroadOn=(G,d)=>(typeof STORY!=='undefined'&&!!STORY.abroad&&!!STORY.abroad(onDay(G,d)))||(typeof VAC!=='undefined'&&!!VAC.abroadOn&&!!VAC.abroadOn(G,d));
   const brk=G=>law(G)&&typeof HOME!=='undefined'&&HOME.lawBreak?HOME.lawBreak(G):null;
   const livesHome=G=>typeof HOME!=='undefined'&&((HOME.at&&HOME.at(G))||(HOME.breakMode&&HOME.breakMode(G)));
+  /* AA_556 第 5、6 節「祐廷那天在臺灣」（約的那一天）：活動卡的出國、交換（abroadOn）＋自己排的出國（C13：排了、還沒錯過的，或去過的那幾天）。
+     麵店團香港（VA10 2027-08-25～08-28）和這三天（7/11、8/13、2/12）不重疊，不另外看 */
+  const meAway=(G,d)=>{ if(abroadOn(G,d)) return true; if(typeof VAC==='undefined'||!VAC.rec) return false;
+    for(const r of (VAC.rec(G).t13||[])){ if(!r||d<r.from||d>r.to) continue; const q=typeof OUT!=='undefined'&&OUT.get?OUT.get(G,'vac_t13_'+r.n):null; if(r.done||(q&&q.state!=='missed'&&q.state!=='cancelled')) return true; }
+    return false; };
   S.rec=G=>{ if(!G.vacfill||typeof G.vacfill!=='object') G.vacfill={}; const R=G.vacfill; if(!R.pool||typeof R.pool!=='object') R.pool={}; if(!R.sum||typeof R.sum!=='object') R.sum={}; return R; };
 
   /* ===================== 手機 ===================== */
@@ -95,7 +103,7 @@ const VACFILL=(function(){
       ask:d=>({until:[d+1,8],opts:[{t:X.y1w_0123.go,set:{VF_Y1W_DIHUA:'go'}}]}),after:G=>{ Fl(G).VF_Y1W_DIHUA_MODE='dm'; }},
     {tag:'vf_y1w_0127',day:'2026-01-27',h:21,th:HG,ms:X.y1w_0127.ms,stop:true,join:true,ask:d=>({until:R7(d),opts:[{t:X.y1w_0127.ok}]})},
     {tag:'vf_y1s_0624',day:'2026-06-24',h:21,th:'p:kai',ms:one('kai',X.y1s_0624.ms),stop:true,if:()=>met('kai'),
-      ask:d=>({until:[d,23],opts:[{t:X.y1s_0624.yes,say:[['kai',X.y1s_0624.yesSay],[null,X.y1s_0624.narr]]}]})},   /* 不演，旁白一句（對話串裡）*/
+      ask:d=>({until:[d,23],opts:[{t:X.y1s_0624.yes,set:{VF_Y1S_0624:'go'},say:[['kai',X.y1s_0624.yesSay]]}]})},   /* AA_556 第 4 節：對話串裡那一句旁白拿掉，換成當晚 22:00 的線上語音（S.OUTS vf_y1s_0624，ev_vf_y1s_0624）*/
     {tag:'vf_y1s_0803',day:'2026-08-03',h:21,th:'p:'+YT,ms:one(YT,X.y1s_0803.ms),stop:true,if:(G,d)=>inTaipei(G,YT,d)&&atLeast(YT,'FAMILIAR'),contact:YT,
       ask:d=>({until:[d+1,16],opts:[{t:X.y1s_0803.yes,set:{VF_Y1S_0803:'go'}}]})},
     {tag:'vf_y1s_0805',day:'2026-08-05',h:21.5,th:'p:'+AN,ms:one(AN,X.y1s_0805.ms),stop:true,if:(G,d)=>dat(G,AN)&&(pres(G,AN,d)||{}).kind==='home',contact:AN},   /* 交往中、她在台中（不用回）*/
@@ -110,7 +118,18 @@ const VACFILL=(function(){
     {tag:'vf_y4w_0111',day:'2029-01-11',h:21,th:NG,ms:X.y4w_0111.ms,stop:true,if:G=>inGrp(G,'noodle_team')},
     {tag:'vf_y4w_0120',day:'2029-01-20',h:21,th:'p:'+AN,ms:one(AN,X.y4w_0120.ms),stop:true,if:(G,d)=>dat(G,AN)&&inTaipei(G,AN,d),contact:AN,
       ask:()=>({until:[DK('2029-01-27'),12],opts:[{t:X.y4w_0120.yes,set:{VF_Y4_AN_LIB:'go'}}]})},
-    {tag:'vf_y4w_0127',day:'2029-01-27',h:21,th:HG,ms:X.y4w_0127.ms,stop:true,join:true} ];
+    {tag:'vf_y4w_0127',day:'2029-01-27',h:21,th:HG,ms:X.y4w_0127.ms,stop:true,join:true} ].concat(X2?[
+    /* ---------- AA_556（企劃線 3d7ad0024；VAC-GAP2-1031）第 5、6 節：私訊約隔天；回「好。」＝排進行事曆（S.OUTS）、不回＝不去（不追）----------
+       條件照稿：那一天（隔天）祐廷在臺灣（meAway）；回覆開到見面前兩小時（同 2-3 子晴 7/31 → 8/1 的做法）*/
+    {tag:'vf_y2s_0710',day:'2027-07-10',h:20,th:'p:kai',ms:one('kai',X2.y2s_0710.ms),stop:true,contact:'kai',
+      if:(G,d)=>atLeast('kai','FRIEND')&&inTaipei(G,'kai',d+1)&&!meAway(G,d+1),   /* 5-1：和阿凱朋友以上、7/11 他在臺北（8 月回宜蘭）*/
+      ask:d=>({until:[d+1,13],opts:[{t:X2.y2s_0710.yes,set:{VF_Y2S_0711:'go'}}]})},
+    {tag:'vf_y2s_0812',day:'2027-08-12',h:21,th:'p:'+YT,ms:one(YT,X2.y2s_0812.ms),stop:true,contact:YT,
+      if:(G,d)=>atLeast(YT,'FAMILIAR')&&inTaipei(G,YT,d+1)&&!meAway(G,d+1),   /* 5-2：和語彤有點熟以上、8/13 她在臺北 */
+      ask:d=>({until:[d+1,14],opts:[{t:X2.y2s_0812.yes,set:{VF_Y2S_0813:'go'}}]})},
+    {tag:'vf_y2w_0211',day:'2027-02-11',h:21,th:'p:classmate_xinci',ms:one('classmate_xinci',X2.y2w_0211.ms),stop:true,contact:'classmate_xinci',
+      if:(G,d)=>atLeast('classmate_xinci','FAMILIAR')&&!meAway(G,d+1)&&inTaipei(G,'classmate_xinci',d+1),   /* 6：和芯慈有點熟以上、祐廷在臺灣；AA-B 11-01 回第 3 題：她那天在臺北才傳；芯慈戀愛線的旗標不讀 */
+      ask:d=>({until:[d+1,8],opts:[{t:X2.y2w_0211.yes,set:{VF_Y2W_0212:'go'}}]})} ]:[]);
   S.dayOf=(m,G)=>{ if(!m.dayFn) return DK(m.day); const B=brk(G); return B&&B.key===m.brk?m.dayFn(G):null; };   /* 照行程算日子的（2-2）：只在那個假期裡算 */
   /* 這一則現在成立嗎（stage、國外、條件）。d＝那一則的日子（人物在不在臺北照那一天算）*/
   S.gate=function(G,m,d){ if(m.stage==='econ'?!econ(G):!law(G)) return false; if(d==null) return false; if(!m.stage&&abroadOn(G,d)) return false;
@@ -143,7 +162,13 @@ const VACFILL=(function(){
     {flag:'VF_Y1W_DIHUA',v:['go'],q:{id:'vf_y1w_0124',ev:'ev_vf_y1w_0124',day:'2026-01-24',h:10,late:0.5,place:'迪化街',title:'迪化街',travel:'捷運 約 40 分鐘',travelH:2/3}},
     {flag:'VF_Y1S_0803',v:['go'],q:{id:'vf_y1s_0804',goto:NOODLE,day:'2026-08-04',h:18,late:0.75,place:'公館',title:'阿鳳麵店',travel:'走過去約 15 分鐘',travelH:0.25}},
     {flag:'VF_Y2W_0114',v:['go'],q:{id:'vf_y2w_0116',ev:'ev_vf_y2w_0116',day:'2027-01-16',h:18,late:0.5,place:'公館',title:'阿鳳麵店',travel:'走過去約 15 分鐘',travelH:0.25}},
-    {flag:'VF_Y3W_0106',v:['go'],q:{id:'vf_y3w_0108',ev:'ev_vf_y3w_0108',day:'2028-01-08',h:15,late:0.5,place:'參創',title:'參創',travel:'捷運 約 30 分鐘',travelH:0.5}} ];
+    {flag:'VF_Y3W_0106',v:['go'],q:{id:'vf_y3w_0108',ev:'ev_vf_y3w_0108',day:'2028-01-08',h:15,late:0.5,place:'參創',title:'參創',travel:'捷運 約 30 分鐘',travelH:0.5}},
+    /* AA_556 第 4 節：6/24 22:00 阿凱的線上語音＝電話式的出遊（call：在家、在宿舍都不用出門；演完 2:00）。late 1：回覆開到 23:00，22:00 以後才回的也接得到 */
+    {flag:'VF_Y1S_0624',v:['go'],q:{id:'vf_y1s_0624',ev:'ev_vf_y1s_0624',day:'2026-06-24',h:22,late:1,place:'線上',title:'和阿凱打遊戲（線上）',verb:'上線',no:'今天先不要',call:true,travel:'',travelH:0,back:'語音結束。'}},
+    /* AA_556 第 5、6 節 */
+    {flag:'VF_Y2S_0711',v:['go'],q:{id:'vf_y2s_0711',ev:'ev_vf_y2s_0711',day:'2027-07-11',h:15,late:0.5,place:'溫州街',title:'溫州街的冰店',travel:'走過去約 15 分鐘',travelH:0.25}},
+    {flag:'VF_Y2S_0813',v:['go'],q:{id:'vf_y2s_0813',ev:'ev_vf_y2s_0813',day:'2027-08-13',h:16,late:0.5,place:'公館',title:'公館的修鞋店',travel:'走過去約 15 分鐘',travelH:0.25}},
+    {flag:'VF_Y2W_0212',v:['go'],q:{id:'vf_y2w_0212',ev:'ev_vf_y2w_0212',day:'2027-02-12',h:10,late:0.5,place:'永和',title:'永和的豆漿店',travel:'捷運 約 30 分鐘',travelH:0.5}} ];
   S.plans=function(G){ const F=Fl(G); for(const o of S.OUTS){ if(!o.v.includes(F[o.flag])) continue; if(o.stage==='econ'?!econ(G):!law(G)) continue; const d=DK(o.q.day); if(d==null||NOW(G)>=T(d,o.q.h+(o.q.late!=null?o.q.late:0.75))) continue;
       const q=Object.assign({},o.q,{day:d}); if(q.goto) q.goto=Object.assign({},q.goto); plan(G,q); } };
   /* 回覆以後的下一則：2-2「在想妳。」＝十點半那一張照片（對話串裡的旁白）*/

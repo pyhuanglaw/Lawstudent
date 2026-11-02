@@ -15,7 +15,7 @@ global.CHAR={build:()=>mkObj(),setExpr(){}}; global.location={search:''}; global
 global.SOCIAL={displayName:id=>(CHARACTERS[id]&&CHARACTERS[id].name)||id,stage:()=>'ACQ',noticed(){},reveal:()=>'ACQUAINTANCE',has:()=>true};
 let GM=null; const ALIAS={heroine_01:'an',heroine_05:'sis',prof_zhou:'prof'};
 global.EVENTS={npcOf:id=>GM.npc[id]||GM.npc[ALIAS[id]]||null,onEnter(){},tick(){}};
-for(const f of ['src/data/characters.js','src/data/places.js','src/data/calendar.js','src/data/courses.js','src/story3d.js','src/classes3d.js']) vm.runInThisContext(fs.readFileSync(path.join(ROOT,f),'utf8').replace(/^const (CHARACTERS|STORY|PLACES|SOCIAL_GRAPH|UNFAMILIAR_POOL|PORTRAITS|CALENDAR|COURSES|CLS)\s*=/mg,'global.$1='),{filename:f});
+for(const f of ['src/data/characters.js','src/data/places.js','src/data/calendar.js','src/data/courses.js','src/data/exam_bank.js','src/story3d.js','src/classes3d.js']) vm.runInThisContext(fs.readFileSync(path.join(ROOT,f),'utf8').replace(/^const (CHARACTERS|STORY|PLACES|SOCIAL_GRAPH|UNFAMILIAR_POOL|PORTRAITS|CALENDAR|COURSES|CLS|EXAM_BANK)\s*=/mg,'global.$1='),{filename:f});
 let fails=0; const check=(name,ok,info)=>{ console.log((ok?'PASS ':'FAIL ')+name+(info?'　'+info:'')); if(!ok) fails++; };
 function newGM(zone,day,hour,flags,seats){
   const wd=(3+day-1)%7;   // 第 1 天週三＝3，週日＝0（和遊戲的 G.weekday 一樣）
@@ -52,9 +52,9 @@ const kinds=G=>opts(G).map(o=>o.kind+(o.to!=null?':'+(+o.to.toFixed(2)):'')+(o.w
   check('過午夜 25:00：一樣是睡到明天（早上 08:10…）',kinds(sun(25))===kinds(sun(22)),kinds(sun(25)));
   const sat=g(4);   /* 9/20 週六晚上 → 明天週日沒課 */
   check('週六晚上：明天沒課，早上是 07:30（「明天沒有課」）',(opts(sat(23))[0]||{}).wake===7.5&&/明天沒有課/.test(opts(sat(23))[0].hint),opts(sat(23))[0]&&opts(sat(23))[0].hint);
-  const ex=g(33);   /* 10/19 週日 → 明天 10/20 週一期中考 */
+  const ex=g(89);   /* D118 起沒有期中考：12/14 週日 → 明天 12/15 週一期末考 */
   const e22=opts(ex(22));
-  check('明天期中考（A 類）：鬧鐘一定叫醒——只剩「睡到明天早上（08:10）」，寫考試',e22.filter(o=>o.kind==='sleep').length===1&&Math.abs(e22[0].wake-(8+10/60))<0.01&&/考試 09:10/.test(e22[0].hint),e22.map(o=>o.t+'｜'+o.hint).join(' / '));
+  check('明天期末考（A 類）：鬧鐘一定叫醒——只剩「睡到明天早上（08:10）」，寫考試',e22.filter(o=>o.kind==='sleep').length===1&&Math.abs(e22[0].wake-(8+10/60))<0.01&&/考試 09:10/.test(e22[0].hint),e22.map(o=>o.t+'｜'+o.hint).join(' / '));
   const inv=sun(22); inv.invites=[{who:'zhe',day:6,h:13,accepted:true,done:false,label:'和阿哲吃午餐'}]; const i22=opts(inv);
   check('明天 13:00 答應了的約（A 類）：下午、晚上的選項改成鬧鐘 12:30 叫醒（只列一次）',i22.some(o=>o.kind==='sleep'&&Math.abs(o.wake-12.5)<0.01&&/約好的時間：和阿哲吃午餐，鬧鐘 12:30/.test(o.hint))&&!i22.some(o=>o.kind==='sleep'&&o.wake>12.5),i22.map(o=>o.t+'｜'+o.hint).join(' / '));
   check('桌上趴著睡最多 1 小時：napOptions(G,1) 只有 30 分鐘、1 小時',STORY.napOptions(mon(9.5),1).map(o=>o.t).join('、')==='小睡 30 分鐘、小睡 1 小時');

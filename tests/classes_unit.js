@@ -44,7 +44,7 @@ const mkG=(day,hour)=>({day,hour,flags:{},weekday:CALENDAR.dateOf(day).wd%7});
   check('週末沒有課',!CLS.dayItems(mkG(4,8)).length&&!CLS.dayItems(mkG(5,8)).length);
   check('國慶日（10/10 週五）沒有課',!CLS.dayItems(mkG(dayOf('2025-10-10'),8)).length);
   check('寒假（2026-01-14）沒有課',!CLS.dayItems(mkG(dayOf('2026-01-14'),8)).length);
-  const ex=CLS.dayItems(mkG(dayOf('2025-10-22'),8)); check('第 8 週（期中考週）的課是考試',ex.length&&ex.every(it=>it.exam==='mid'),JSON.stringify(ex.map(i=>i.exam)));
+  const ex=CLS.dayItems(mkG(dayOf('2025-10-22'),8)); check('第 8 週（期中週）：D118 起沒有期中考，課照常上（不是考試）',ex.length&&ex.every(it=>!it.exam),JSON.stringify(ex.map(i=>i.exam)));
   const y3=CLS.dayItems(mkG(dayOf('2027-09-09'),8)).map(it=>it.c.name).join('、'); check('大三上的週四：民訴甲上（第二格）、證券交易法',y3==='民事訴訟法甲上、證券交易法',y3); }
 // ---------- 狀態、教授的位置、目標 ----------
 { const D=dayOf('2025-10-02');   /* 週四第 5 週：13:20 民法總則（原本用週五的法律與社會，2026-10-14 刪掉了）*/ const st=h=>{ const G=mkG(D,h); const it=CLS.dayItems(G).find(q=>q.c.id==='civ_general'); return CLS.status(G,it); };   /* 週四上午還有大一英文：取 13:20 那一堂 */
@@ -117,7 +117,7 @@ const mkG=(day,hour)=>({day,hour,flags:{},weekday:CALENDAR.dateOf(day).wd%7});
 function afterSkip(){
 // ---------- 成績單、自學 ----------
 { const R={prep:{con_law1:12,crim_gen1:6,civ_general:2}}; const G=Object.assign(mkG(dayOf('2026-01-05'),7.5),{courses:R}); const rep=CLS.reportFor(G,'Y1S1');
-  check('成績（文字）：法律課照準備 ≥10 很好、≥5 不錯、其他 過了；看出席的課（D43，10-14 使用者：三堂才及格）照出席寫及格／不及格；舊代號的紀錄（con_law1）自動換成新代號（const_1）',rep.const_1==='很好'&&rep.crim_gen1==='不錯'&&rep.civ_general==='過了'&&Object.keys(rep).every(id=>CLS.attCourse(CLS.byId(id))?/^不及格/.test(rep[id]):['很好','不錯','過了'].includes(rep[id]))&&rep.chinese_y1==='不及格（下學期重修）',JSON.stringify(rep));
+  check('成績（文字）：D118 起不照讀書次數——這支測試沒載題庫（法律課不是考五題的課）＝固定「及格」，準備 12、6、2 都一樣；看出席的課（D43）照出席寫及格／不及格；舊代號的紀錄（con_law1）自動換成新代號（const_1）',rep.const_1==='及格'&&rep.crim_gen1==='及格'&&rep.civ_general==='及格'&&(G.courses.prep.const_1===12)&&Object.keys(rep).every(id=>CLS.attCourse(CLS.byId(id))?/^不及格/.test(rep[id]):rep[id]==='及格')&&rep.chinese_y1==='不及格（下學期重修）',JSON.stringify({rep,prep:G.courses.prep}));
   const said=[]; const GM={G,sceneBegin(){},sceneEnd(){},say:async(n,t)=>{ said.push(t); },toast(t){ said.push('toast:'+t); }};
   (async()=>{ await CLS.morning(GM); const n1=said.length; await CLS.morning(GM); check('學期結束的第一個早上發成績單一次（第二次不再發）',n1>=2&&said.length===n1&&!!G.courses.grades.Y1S1,said.slice(0,2).join(' | '));
     finish(); })(); }

@@ -65,8 +65,18 @@ GM.money=function(n){ G.money+=n; };
   mk(D(y4w3)); G.flags.STUDY_AT_LAW=0; STORY.careerTick(G); check('3. 大四上第 3 週才讀檔、沒有起點：不補', G.flags.CAREER_Y4_BASE==null);
   // 4
   mk(); G.flags.LAWCLUB_SAT_VISITS=2; const snap=JSON.stringify(G.flags), relSnap=JSON.stringify(SOCIAL.rel('heroine_05')); L(); L();
+  { /* BB 09:38 Q1、Q2（CC M7）：不及格、缺考的通識不加分；重修同一個課號只算一次 */
+    const g1=COURSES.list.find(c=>c.kind==='general'&&!/^Y0/.test(c.term||'')); const base=L().C;
+    G.courses.grades={Y2S1:{[g1.id]:'不及格（下學期重修）'}}; const c1=L().C;
+    G.courses.grades={Y2S1:{[g1.id]:'缺考'}}; const c2=L().C;
+    G.courses.grades={Y2S1:{[g1.id]:'不及格（下學期重修）'},Y2S2:{[g1.id]:'及格'}}; const c3=L().C;
+    G.courses.grades={Y2S1:{[g1.id]:'及格'},Y2S2:{[g1.id]:'及格'}}; const c4=L().C;
+    G.courses.grades={};
+    check('5. 通識不及格、缺考不加分；重修以後及格只算一次（同一個課號兩學期都及格也只算一次）',c1===base&&c2===base&&c3===base+1&&c4===base+1,JSON.stringify({base,c1,c2,c3,c4})); }
+  { const p=fs.readFileSync(path.join(ROOT,'src/postgrad3d.js'),'utf8');
+    check('6. 尾聲（語彤、學姊、朋友那句）讀 PG.pathTop，不讀原始 top（BB 09:38 Q6）',!/S\.lean\(G\)\.top/.test(p)&&/S\.epiAlways=[^\n]*S\.pathTop\(G\)/.test(p)&&/S\.ytEnd=[^\n]*S\.pathTop\(G\)/.test(p)); }
   check('4. careerLean 只讀：不改旗標、不改關係', JSON.stringify(G.flags)===snap&&JSON.stringify(SOCIAL.rel('heroine_05'))===relSnap);
-  { const g3=fs.readFileSync(path.join(ROOT,'src/game3d.js'),'utf8'); const used=[]; for(const f of fs.readdirSync(path.join(ROOT,'src'))){ if(!/\.js$/.test(f)) continue; const t=fs.readFileSync(path.join(ROOT,'src',f),'utf8'); if(/careerLean/.test(t)) used.push(f); }
-    check('4. 畫面上只有 ?dev 看得到（game3d.js devCareer 只在網址有 dev 時建立）；讀它的只有畢業以後（postgrad3d.js：第一份工作、尾聲祐廷的路，AA_319），其他檔案還沒有（主線 7 接進來時才加）', /const DEV_Q=typeof location!=='undefined'&&\/\[\?&\]dev\\b\/\.test/.test(g3)&&/function devCareer\(\)\{ if\(!DEV_Q/.test(g3)&&used.sort().join()==='game3d.js,postgrad3d.js,story3d.js', used.join()); }
+  { const g3=fs.readFileSync(path.join(ROOT,'src/game3d.js'),'utf8'); const used=[]; for(const dir of ['src','src/data']) for(const f of fs.readdirSync(path.join(ROOT,dir))){ if(!/\.js$/.test(f)) continue; const t=fs.readFileSync(path.join(ROOT,dir,f),'utf8'); if(/careerLean\s*\(/.test(t)) used.push((dir==='src'?'':'data/')+f); }   /* BB 09:38 Q5：src/data 也掃（主線 7 在 data/events.js）；只算真的呼叫 careerLean(…)，註解提到的不算（data/vac_activities.js）*/
+    check('4. 畫面上只有 ?dev 看得到（game3d.js devCareer 只在網址有 dev 時建立）；讀它的只有畢業以後（postgrad3d.js：第一份工作、尾聲祐廷的路，AA_319），主線 7 選項②（data/events.js，只有 C 的玩家才有）', /const DEV_Q=typeof location!=='undefined'&&\/\[\?&\]dev\\b\/\.test/.test(g3)&&/function devCareer\(\)\{ if\(!DEV_Q/.test(g3)&&used.sort().join()==='data/events.js,game3d.js,postgrad3d.js,story3d.js', used.join()); }
   console.log(fails?('FAILED '+fails):'ALL PASS'); process.exit(fails?1:0);
 })().catch(e=>{ console.log('FAIL 例外',e&&e.stack||e); process.exit(1); });

@@ -1,0 +1,407 @@
+# D118 拿掉期中考：程式與台詞裡跟期中考有關的地方（給 AA 改稿、LAWWW 改程式）
+
+> 使用者 2026-11-02 05:0x 選「沒有期中考」（D118_PLAN 第 10、11 節）。開發分支從 5f9d661fc 起 CALENDAR.termOf 第 8～9 週不再是考試週。下面是 `grep 期中` 和 `exam==='mid'`、`afterExam:'mid'` 的結果（自動產生，2026-11-02T05:23Z）。
+
+## 1. 掛在期中考上、現在不會觸發的事件／程式
+
+- `src/story3d.js:871:    for(let d=G.day;d<G.day+140;d++){ const tt=CALENDAR.termOf(d); if(!tt||tt.id!==t.id) return null; if(tt.exam==='mid'&&CLS.dayItems(G,d).some(it=>it.exam==='mid')) return d-G.day; } return null; };`
+- `src/story3d.js:2072:    if(typeof CLS!=='undefined'&&typeof OUT!=='undefined'){ const it=CLS.dayItems(G,G.day).find(x=>x.c.id==='civ_general'&&x.exam==='mid'), t=CALENDAR.termOf(G.day);`
+- `src/story3d.js:2078:      const it2=CLS.dayItems(G,G.day).find(x=>x.c.id==='crim_gen2'&&x.exam==='mid');`
+- `src/story3d.js:4110:  S.coldNoodleDay=function(G){ let d=null; try{ const e=typeof CLS!=='undefined'&&CLS.lastExamEnd?CLS.lastExamEnd(G,'Y3S1','mid'):null; if(e) d=e.day; }catch(e){ d=null; } return d!=null?d:S.dayOfKey(`
+- `src/y2r2_3d.js:346:  EV.push({ id:'ev_midterm_walkout_y2s2', title:'考完試走出教室', participants:[], location:'any', trigger:'class', afterClass:'legal_english', afterExam:'mid', term:['Y2S2'], once:true, backgro`
+- `src/cracktalk3d.js:303:  /* 第 8、9 週哪幾週有期中考（AA_463 第 7 節③）：{8:bool, 9:bool}，同 S.midBoth 的算法 */`
+- `src/cracktalk3d.js:305:    const has=w=>{ for(let wd=1;wd<=5;wd++){ const d=dayOfTerm(tid,w,wd); if(d!=null&&CLS.dayItems(Object.assign({},G,{day:d}),d).some(it=>it.exam==='mid')) return true; } return false; };`
+- `src/cracktalk3d.js:307:  const midCache={}; S.midBoth=function(G,tid){ if(tid in midCache) return midCache[tid]; if(typeof CLS==='undefined'||!CLS.dayItems) return midCache[tid]=false; const has=w=>{ for(let wd=1;wd<=5;w`
+- `src/classes3d.js:143:    if(t) s+='・'+S.termName(t.id)+' 第 '+t.week+' 週'+(t.exam==='mid'?'（期中考週）':t.exam==='final'?'（期末考週）':''); else s+='・'+(d.m>=6&&d.m<=9?'暑假':'寒假'); return s; }`
+- `src/classes3d.js:307:      if(!door&&E.zone&&E.zone.setBoard) E.zone.setBoard(exam?c.name+'：'+(exam==='mid'?'期中考':'期末考'):ct.board[0],exam?'不可以翻書':ct.board[1],exam?'鈴響請停筆':ct.board[2]);`
+- `src/classes3d.js:309:      else if(exam){ const p=R.prep[c.id]||0; await GM.say(null,'考卷發下來。'+c.name+(exam==='mid'?'期中考':'期末考')+'。');`
+- `src/classes3d.js:383:    { const ev2=S.afterClassAlso(ev,ok); if(ev2) await EVENTS.run(ev2); }   /* classAlso：同一堂下課前面已經演了別的，也接著演（阿哲第一次民總下課約吃麵，AA_542 1-1`
+- `src/classes3d.js:526:  S.EXAM_WEEKS={mid:[8,9],final:[16]};   /* 16 週制（AA_197 1-6）：期末只有第 16 週 */`
+- `src/classes3d.js:528:  S.examBoard=function(G,zone){ const h=hr(G), R=S.rec(G); const it=S.dayItems(G).find(x=>x.exam&&x.room&&x.room.zone===zone&&h<x.t1&&!(R.done&&R.done[x.key])); return it?[it.c.name+'：'+(it.exam===`
+- `src/classes3d.js:549:    const wk=S.EXAM_WEEKS[kind]||[]; const days=[]; let d0=null; for(let d=(/^Y0/.test(termId)?-420:1);d<1600;d++){ const t=CALENDAR.termOf(d); if(t&&t.id===termId){ if(d0==null) d0=d; if(wk.includes`
+- `src/classes3d.js:663:    if(now&&!skipT(now.id)&&(now.exam)&&R.note['exam_'+now.id+'_'+now.exam]!==1){ R.note['exam_'+now.id+'_'+now.exam]=1; GM.toast(now.exam==='mid'?'期中考週開始了。這兩週的課都是考試`
+- `src/classes3d.js:993:                     :[{t:'直接去上課：'+(it.exam==='mid'?'期中練習：':'')+it.c.name,hint:hhmm(it.t0)+'，'+(it.room.name||'')+'。'+S.planHint(GM,it,pl)},{t:'翹這堂課',hint:'記沒去`
+- `src/classes3d.js:999:  S.examName=it=>it&&it.exam==='mid'?'期中考':'期末考';`
+- `src/data/events.js:899:  { id:'ev_midterm_walkout', title:'考完試走出教室', participants:[], location:'any', trigger:'class', afterClass:'civ_general', afterExam:'mid', term:['Y1S1'], once:true, background:'blur',`
+- `src/data/events.js:958:  { id:'ev_midterm_walkout_y1s2', title:'考完試走出教室', participants:[], location:'any', trigger:'class', afterClass:'crim_gen2', afterExam:'mid', term:['Y1S2'], once:true, background:'blu`
+- `src/data/events.js:3116:  { id:'ev_y0_e11', retired:'AA_218 第 11 節、AA_154 0b-2（2026-10-17）：祐廷 2024-10-17 休學，這件刪除。定義留給已經演過的舊存檔', stage:'econ', title:'期中考後', `
+- `src/data/events.js:3491:  { id:'ev_midterm_walkout_y2', title:'考完試走出教室', participants:[], location:'any', trigger:'class', afterClass:'crim_spec', afterExam:'mid', term:['Y2S1'], once:true, background:'blur`
+
+## 2. 台詞、旁白裡提到期中（要 AA 看要不要改）
+
+- `src/r2y3a3d.js:64:    ['heroine_01',{days:[1,2,3],from:18,to:21,zone:'library',act:'read',terms:['Y3S1'],weeks:[13],note:'2-Y3-18 慈 5：和芯慈在總圖三樓對刑訴期中的答案'}],`
+- `src/r2y3a3d.js:366:  if(typeof CLS!=='undefined'&&Array.isArray(CLS.IN_CLASS)){ const f=(GM,it,prof,ct)=>S.crClass(GM,it,prof,ct); f.due=(G,it,ct)=>{ const F=G.flags||{}; if(!it||!it.c||it.c.id!=='crimpro'||it.exam||!law`
+- `src/social3d.js:138:  const NOTE_RENAMED_N9={"heroine_02":{"ASKED_HER_DRINK|她下班前，你問她自己都喝什麼":"她下班前","ZHIRUO_MET_YU|告訴她戲院旁邊的女生是 Alison":"","SHE_SAW_HIM|你最近很`
+- `src/social3d.js:180:  const MEMORY_LABEL={XC_MIDNIGHT:'一起去看了西門町的午夜場',   /* 芯慈的心願（XINCI-ROMANCE-1030，src/xcrom3d.js；這條線現在關著）*/ AN_L1_NOTES_PHONE:'跟她說筆記寫`
+- `src/social3d.js:185:    BLUFFED:'在她面前裝懂過',ARGUED_GOOD:'在手機上跟她吵過一篇文章',NOTICED_EMPTY_SEAT:'注意到她期中那週不在總圖',ASKED_TELL_ME:'要她不管考得怎樣都要說',WATCH`
+- `src/social3d.js:187:    AN2_TOMATO_EGG:'知道她寒假學了番茄炒蛋',AN2_JAPANESE:'知道她早上七點上日文課',AN2_AZALEA:'看過她拍杜鵑花（每年同一個位置）',AN2_LIKE_MOM:'聽她說講話越`
+- `src/sis_b9_3d.js:1:/* ===== 學姊第九批：大三下學期中兩場、大四上她在美國時朋友的遠距（AA_395；任務 SIS-B9-L-1023；D111）：接線 =====`
+- `src/sis_b11_3d.js:8:     快轉停一次：4/18 那天排一個「去：總圖」（goto 總圖門口 17:00、沒有車程、不提示「排進行程」）＝OUT.due 16:45，學期中的快轉（semff3d.js）停在那裡`
+- `src/story3d.js:69:  S.Y0_CLUB_MSG={y0_guitar:{who:'吉他社社長',from:'npc_y0_guitar_pres',m:[['2024-09-27',['這週社課練 C 和弦，沒有吉他的可以借社辦的']],['2024-10-18',['期中考週停社課，下`
+- `src/story3d.js:434:  /* 宥辰的出席（AA_497 第 1-2 節；AA_496 第 6 節「設定考前才出現、白天起不來，程式讓他每一堂必修都坐在教室」）：12:00 以前的必修只在第 1 週、期中`
+- `src/story3d.js:436:     it＝課表的一堂（CLS.dayItems）。考試週照 calendar.js（期中第 8～9 週、期末最後一週）。他不在的那一堂，課堂上他那一句的說話人改「同學」（classes`
+- `src/story3d.js:441:    if(n1&&n1.id===t.id&&n1.exam) return false;   /* 期中考、期末考的前一週 */`
+- `src/story3d.js:639:  /* AA_378 #11（企劃線 5cd35678；源檔 6e0d1313）：以安大四上期末那句只在 12/18～12/21；讀書會那句跳過第 8～9 週（期中考週）*/`
+- `src/story3d.js:846:      if(e.midterm){ const n=S.daysToMidterm(G); if(n==null||n<e.midterm[0]||n>e.midterm[1]) return false; }   /* 柏翰的倒數（AA_120 7-1 第 1 項）：到第一科期中考的天數在範圍裡`
+- `src/story3d.js:861:  /* 不熟同學說完三句以後（AA_120 7-2 第 3 點）：開學（第 1～3 週）、期中（第 7～9 週）、期末（第 14～16 週；AA_243 #61）偶爾一句短招呼——每人每天`
+- `src/story3d.js:863:  const B_GREET=[{w:[1,3],L:['「開學了。」','「這學期修了什麼？」']},{w:[7,9],L:['「期中加油。」','「你也在趕報告嗎？」']},{w:[14,16],L:['「期末了，撐住。」','`
+- `src/story3d.js:869:  /* 柏翰的期中倒數：今天到這學期第一個期中考時段（照玩家的課表與日曆；放假的日子沒有課，自然跳過）的天數；這學期沒有期中考＝null */`
+- `src/story3d.js:934:  S.onEnter=async function(zoneId,GM,opts){ opts=opts||{}; const G=GM.G, F=G.flags, E=GM.E; if(zoneId==='dorm'&&typeof DORMY24!=='undefined'&&DORMY24.entered){ try{ DORMY24.entered(GM,opts); }catch(e){`
+- `src/story3d.js:1213:    if(S.coldWeekTick(GM)) return;   /* 1A-04 感冒的那一週（AA_315）：10/23 打噴嚏、10/24 晚上、10/25、10/26 可昕、期中考完的麵店 */`
+- `src/story3d.js:1462:      await teaLines(GM,[i===0?KV('好，晚上丟群組。'):KV('不用啦，期中前再看就好。要的時候跟我說。')]);`
+- `src/story3d.js:1796:        PHONE.at(G,tue7,17.5,[{th:T,from:'econ_weilun',name:'韋綸',text:'今晚七點，公館！期中考前最後一次放風。'},{th:T,from:'econ_pinyu',text:'我跟同事換了班，可以去`
+- `src/story3d.js:1799:      if(tue7!=null&&F.Y0_GATHER_TH&&F.E10_EVE!=='went'&&!(qg&&qg.state==='done')&&(G.day>tue7||G.hour>=21+40/60)&&G.day<=tue7+1&&!PHONE.sent(G,'y0_gather_miss')) PHONE.at(G,tue7,21+40/60,[{th:F.Y0_GA`
+- `src/story3d.js:1800:    /* ★E10 的邀約（BB_104 8b-4；AA_154 第 116、117 行）：10/15（二）22:30 可昕私訊「玩了一整晚。明天去總圖念書吧。期中考快到了。」（回到 10/16 19:00）`
+- `src/story3d.js:1804:        if(typeof ECONFF!=='undefined'&&ECONFF.short&&ECONFF.short(G)){ F.E10_GO='yes'; F.E10_TOAST=1; PHONE.at(G,tue7,F.E10_EVE==='went'?23.75:22.5,F.E10_EVE==='went'?[{th:'p:kexin',from:'kexin',text`
+- `src/story3d.js:1806:        PHONE.at(G,tue7,F.E10_EVE==='went'?23.75:22.5,F.E10_EVE==='went'?[Object.assign(KX('玩了一整晚。明天去總圖念書吧。期中考快到了。'),{ask:askO})]:[KX('你今天沒來。我`
+- `src/story3d.js:2070:    /* 考完的宵夜（A15，AA 2026-10-14）：民總期中考那天，考完（考試結束後 6 分鐘）阿哲在麵店團群組「考完了 滷味」＝排 20:30 公館滷味攤（出遊，到`
+- `src/story3d.js:2076:      /* 期中考完的晚餐（大一下，交接包 v2 C11、C21；AA 64ceb70）：刑總二期中考那天，考完阿哲在麵店團群組「刑總考完了 今天麵店，七點，長桌」＝`
+- `src/story3d.js:2177:        if(!PHONE.sent(G,'kx_quiz_ask')) PHONE.at(G,w7,21,[K('期中前，兩校互考。'),K('只能出老師上課講過的。冷門學說算犯規。'),Object.assign(K('考完去吃山下那攤，`
+- `src/story3d.js:2183:    /* K6b 第一次寫申論題（BB_96 9-7）：第 9 週週三 21:00 她考完民總期中（時間是提案值）；只一次；記 KX_DIR {Y1:'reasons'}（第 10 週以後手機小事「答案被`
+- `src/story3d.js:2368:      if(mon1&&G.day>=mon1-1&&G.day<=mon1+3&&PHONE.inGroup(G,'law_class')&&!PHONE.sent(G,'plg_invite')){ const th='g:law_class', cls={th,name:'同學'};   /* AA_238 5-1、5-2：那天早上憲法發`
+- `src/story3d.js:2369:        PHONE.at(G,mon1,20.5,[Object.assign({text:'憲法期中有人知道第三題到底在問什麼嗎'},cls),Object.assign({text:'我到現在還是不知道憲法在幹嘛'},cls),{th,from:'zhe',t`
+- `src/story3d.js:2690:    /* W3b 不讓步的晚上（BB_96 2-4；文章 BB 137bf31，不是法律、不需法律審查）：ev_grad_debate 之後每兩週一次，20:30，大一下到大二上（學期中；BB_205 第 4 `
+- `src/story3d.js:2811:    {title:'期中考應該全部改成開書考',pts:['背得起來不等於會用。','以後工作都能查資料，開書考比較接近真的工作。','開書考不用作弊，也就沒人作弊`
+- `src/story3d.js:2959:      items:()=>seq('classmate_mingxuan',['今天家教的學生段考考完了 終於可以喘一下 哈哈','你們考試也快了吧 加油'])},   /* AA_209 附錄B §2（第二則照 AA_209 2-1 `
+- `src/story3d.js:2974:      items:()=>[P1('kexin','民總期中考，我的答案被老師拿去當範例。匿名的，可是我認得自己的字。')]},`
+- `src/story3d.js:3104:       考試週（日曆的考試週、後面還有必修的考試）：柏翰 06:00 起、00:30 才回來、01:00 上床——隔天就要考的那一晚照平常 22:30 回來（AA_502 3-2：期中`
+- `src/story3d.js:3115:  const r203Exams=(G,t)=>{ if(!t||!t.exam||typeof CLS==='undefined'||!CLS.examList) return []; try{ return CLS.examList(G,t.id).filter(e=>e&&e.c&&e.c.kind==='required'&&e.kind===t.exam).map(e=>e.day);`
+- `src/story3d.js:3343:  S.nightEvent=GM=>nightEvent(GM);   /* 睡著以後才演的事件（學期中的快轉跳過夜裡時也演，src/semff3d.js）*/`
+- `src/story3d.js:3439:    { const q37=S.e37CallReady(G); if(q37){ await S.e37CallRun(GM,q37); return; } }   /* 8/30 可昕要打來了（14:15 以後）：點床先接電話、出發（BB-B 10-31 ③ 睡三次）*/   /* BB`
+- `src/story3d.js:3481:    if(typeof HOME!=='undefined'&&HOME.ffOpts&&HOME.ffOpts(G)) out.push({kind:'ff',t:'快轉',hint:'到下一個有事的日子、過三天、過一週'}); else if(typeof SEMFF!=='undefined'&&SEMFF.on`
+- `src/story3d.js:3756:    const tired=lv!=='ACQUAINTANCE'&&!!D.tired&&busy;   /* BB_169 W-11：她累的晚上＝單週週六法服值班、日曆標成考試週（看日曆的標記，不寫死週次）；祐廷大一那`
+- `src/story3d.js:3872:      return Object.assign({here:false,away:away||'',kind:kind||'abroad',back:d1},xo); } }   /* keepDating：AA_276 第 4 節，消失期開始時和玩家交往中＝只有玩家聯絡得到（在老`
+- `src/story3d.js:3984:     都不成立＝很少交會版：沒有感冒，期中最後一科考完那天 19:00 麵店、沒去 22:00 私訊（3-6）。名單 S.coldWeekCast(G)（第 4 節）。不扣分、不扣體力、`
+- `src/story3d.js:4011:  const CW_SNEEZE={kexin:['幾度？','量了再跟我說。','……我下週也期中，二十六號考第一科。'],   /* AA_376 #14：10/23 是週六，10/26 在下週 */`
+- `src/story3d.js:4108:  /* 3-6 很少交會的版本（也接 3-5：一般版但那晚沒有人問、可昕也不問）：期中最後一科考完那天 19:00 阿鳳麵店（出遊，可以不去）；沒去＝22:00 同一`
+- `src/story3d.js:4110:  S.coldNoodleDay=function(G){ let d=null; try{ const e=typeof CLS!=='undefined'&&CLS.lastExamEnd?CLS.lastExamEnd(G,'Y3S1','mid'):null; if(e) d=e.day; }catch(e){ d=null; } return d!=null?d:S.dayOfKey(`
+- `src/story3d.js:4118:      const c=typeof CHARACTERS!=='undefined'&&CHARACTERS[who]; await GM.say(null,'（期中考完的晚上，麵店的長桌只剩你們兩個。'+(c&&c.gender==='m'?'他':'她')+'把筷子放下。`
+- `src/story3d.js:4514:  /* from 可以是學期（'Y1S2'）或日期（'YYYY-MM-DD'，那一天起；AA_373 #3：沛珊 2026-04-06＝大一下第 7 週週一，4/15 期中晚餐柏翰「上禮拜的事。」）*/`
+- `src/story3d.js:4630:  /* 大一下期中那兩週（第 8～9 週，語彤顧店的那一週，AA_11 事件 4）有沒有去過總圖：Y1_MID_LIB；舊存檔沒有這個旗標就看習慣記錄（place:library…）*/`
+- `src/y2r2_3d.js:344:  /* AA_375 第 8 項：移到最後一科考完——大二下的期中考 4/12 債各、4/13 身分法、4/14 行政救濟、4/15（四）法學英文（法學英文沒有選擇，每個人都修：c`
+- `src/y2r2_3d.js:352:      {if:KN('classmate_xinci'),speaker:'classmate_xinci',expression:'neutral',text:'期中考完了。今天之後，我不跟你們對答案。'} ],`
+- `src/y2r2_3d.js:353:    after:G=>{ for(const id of ['yu','zhe','heroine_03','heroine_01','classmate_xinci']) if(knows(id,G)) remember(id,'SHARED_CLASS','債各期中考'); } });`
+- `src/y2r2_3d.js:494:  EV.push({ id:'ev_y2s2_thu_noodle_spring', title:'', participants:[], location:'noodle', trigger:'enter', term:['Y2S2'], weeks:[7,8,9,10], weekday:[1,2,3,4,5],ndlDay:true, time:[17.5,21], once:true, b`
+- `src/y2r2_3d.js:497:      {if:{custom:G=>{ const t=CALENDAR.termOf(G.day); return !!t&&t.week>=10; }},speaker:null,text:'（期中考完，第一次在麵店遇到大家。春假去了哪裡，到現在還有人在講。`
+- `src/y2r2_3d.js:505:        at(G,m,22,[N('yu','期中考完了'),N('yu','我要吃三碗麵'),N('zhe','我請一碗')],'y2s2_grp_mid'); } }`
+- `src/y2r2_3d.js:509:  /* 摘要日的旁白（3/6（六）、5/20（四））：學期中沒有摘要日的停點——那一天（08:00 起）第一次空下來的時候說一句；在臺北的家不說，隔天還沒說`
+- `src/y2r2_3d.js:536:        if(win(G,a,21,3)&&!sent(G,'y2r2_q_ask')) at(G,a,21,[K('這學期起，期中、期末前都互相出題。'),K(K6(G)?'規則照舊，只能出老師上課講過的。':'只能出老師上課講`
+- `src/y2r2_3d.js:537:          KASK('第一次：期中前那個週五，晚上六點半，山下那一攤。不能來就視訊，題目照出。',{id:'y2r2_q_ask',until:abs(m,17.5),opts:[{t:'好。',set:{KX_QUIZ_MODE_Y2:'`
+- `src/y34b3d.js:311:  S.M6_QUIET=['今天不吵。今天只放空白。','今天不吵。外面在下雨。','今天不吵。我在洗衣服。','今天不吵。圖書館那一題，我現在十二點就走。','今天不`
+- `src/campus_l123_3d.js:54:  S.GOSSIP=['「……對，我在電梯裡。收訊不好，我等一下打給你。」','「她說期中考申論，可是上次她也說考申論，結果全部選擇。」','「我早上沒`
+- `src/group3d.js:115:  /* 人不在臺北（AA_336 C10「例如出遊」）：捷運自由出行去了臺北市以外的地方（景點的 area）。學期中其他不在臺北的時候（出遊、去她的縣市）都在`
+- `src/sup497_3d.js:229:  /* 2-2 影印機（以安同框 2）：大一下期中考前一週（稿寫第 9 週＝期中考的第二週；照「期中考前一週」到第 9 週都算）、總圖一樓的影印機、中午 1`
+- `src/sup497_3d.js:339:  /* (b) 咖啡：大二上第 8 週（期中考週），總圖三樓，以安在、祐廷走近。一次，沒有選項 */`
+- `src/sup497_3d.js:404:       2-4 芯慈那天在霖澤館門口、3-3 Alison 在傅鐘旁的長椅（118 巷作息後面）、3-7 Alison 在法圖二樓（118 巷作息後面）、4-1 明軒在 B1、4-2 (b) 以安期中`
+- `src/loans3d.js:99:  if(typeof CLS!=='undefined'&&Array.isArray(CLS.IN_CLASS)){ const f=(GM,it,prof,ct)=>S.inClass(GM,it,prof,ct); f.due=(G,it)=>law(G)&&!!it&&!!it.c&&it.c.id==='civ_general'&&!it.exam&&it.term==='Y1S1'&&i`
+- `src/library3d.js:147:      else if(f.type==='notice'){ const bb=W3.bulletin(); bb.position.set(f.x,y,f.z); bb.rotation.y=ry; fb.add(bb); nav.blockRect(f.x,f.z,2.4,0.4,ry,0); IT.push({x:f.x+Math.sin(ry)*1.0,z:f.z+Math.cos`
+- `src/termend3d.js:11:   - 學期中、正式校外約會的收尾不再有告白（DATE.confessOffer 看 S.ON）。`
+- `src/semff3d.js:1:/* ===== 學期中的快轉（FF-SEMESTER-1023；使用者 10-23 08:0x「能不能有一個跳過整個禮拜的選項 自動會去上課之類的? 劇情強制撥放 不然要玩好久」「或者跳到`
+- `src/semff3d.js:3:   法律系、學期中（寒暑假照舊用 home3d.js 的快轉）：宿舍的床多一個「快轉」→「到下一個有事的時候」／「過一週」／「不用了」。`
+- `src/semff3d.js:30:  /* 能不能快轉：法律系、學期中、不在開場的兩天、不在寒暑假（home3d 的快轉）、不在國外、不在畢業後篇 */`
+- `src/wzshops3d.js:45:    if(t&&t.week>=6) out.push(['印報告＋釘書（約 40 頁）',50]);   /* 學期中第 6 週以後才有報告 */`
+- `src/wzshops3d.js:136:     期中、期末考週 21:00 以後結帳多一句（一天一次）。餵貓那一條照舊是公館便利商店的夜班店員（AA_397 SQ08），這裡不搬。`
+- `src/multirel3d.js:481:       n2：大二上她說要重考以後（ev_peishan_decision 演過，AA_432）、還沒消失＝期中考那一週（第 8 週）週三 23:10 麵店團群組她那一句（P3 比較晚＝那之`
+- `src/closed3d.js:2:   第 6 節　霖澤館 101＝學姊的助教課：大二上（Y2S1）週二 18:30～20:20，第 4～15 週（第 8、9 週期中除外；AA_518 4-14 原本第 3 週起）。門上的小窗可以「看`
+- `src/closed3d.js:16:  /* 那一週有沒有助教課（Y2S1 的週二、第 3～15 週扣期中、不是放假）*/`
+- `src/sup519_3d.js:230:  /* 5-4：一般聊天池（msg_pool.js 是產生器的檔，不手改）kai「寫作業 好難」：大四起「寫 code 好難」，畢業以後「上班好難」（畢業以後沒有學期中：`
+- `src/sup519_3d.js:235:    const v=S.kaiHw(G); if(!E0||!v) return pk0.apply(self,args); const t0=E0.tags; if(G.flags.GRADUATED) E0.tags=(t0||[]).filter(t=>t!=='學期中');`
+- `src/sup519_3d.js:253:  /* 語彤那一週在總圖（照她 4/19 那則的回覆「我在總圖。期中考，店剛好也沒開。」）：顧店的兩個時段（週二晚上、週六早上）換總圖；放在作息`
+- `src/kxod3d.js:6:     第 2 週起排；期中考週（第 8、9 週）、期末考週（最後一週）不排；寒暑假不排（她在高雄）；那一週有她自己的事件不排（生日 4/24、週年 10/17、她`
+- `src/kxod3d.js:56:    const tw=CALENDAR.termOf(at.day); if(!tw||tw.id!==term||tw.exam) return null;   /* 期中考週、期末考週不排（大四下第 15 週＝畢業典禮那一週，也是期末考週）*/`
+- `src/hometown3d.js:5:   - 別的城市那一組（AA_328 3-09，沛珊大三、大四的學期中在台南）：HOMETOWN_LINES['classmate_peishan@台南']，STORY.presence 回 city（或 home）＝'台南' 的時候用（`
+- `src/hometown3d.js:6:     presence 已改台南（AA_282 第 5 節第 1、3 點，任務 PS-TAINAN-AA282）：學期中「我去台南找妳？」（出遊 ev_hv_ps_tn，回程高鐵約一小時四十分鐘）、寒暑假`
+- `src/hometown3d.js:21:  /* 同一個人在別的城市的那一組（AA_328 3-09：沛珊大三、大四的學期中在台南）：HOMETOWN_LINES['id@城市']；STORY.presence 的 city（或 home）是那個城市就用`
+- `src/hometown3d.js:92:     - 她主動約（手機，S.museumPhone）：雙方都單身或她是祐廷的女友、第 5 階以上；學期中第 3 週起的晚上 21:00，每學期最多一次（時間是 LAWWW 暫排）`
+- `src/hometown3d.js:132:  /* ---------- 交往中的視訊（AA_349 K5；台詞在 hometown_lines.js 的 video）：手機約她的清單多「視訊？」（invites3d.js 的 S.flow）——晚上 21:00～22:30、一週最`
+- `src/aa555_3d.js:10:     芯慈 2028 暑假那則換句；柏翰期中倒數二十一天每天一則（第 11 題）。 */`
+- `src/aa555_3d.js:39:    ['y1s1_zhe_voice',ZHE,wk('Y1S1',5,7),(G,d)=>got(G,ZHE,d),()=>[M(ZHE,'（語音，背景很吵）哥，民總第三章你抄了沒——（斷掉）'),M(ZHE,'抄了拍給我。',1/60)]],   /* 期中`
+- `src/aa555_3d.js:54:    ['y1s2_xc_coffee',XC,wk('Y1S2',8,9),(G,d)=>got(G,XC,d)&&done(G,'ev_xinci_double'),()=>[M(XC,'會計學和民總同一天。我把咖啡換成兩杯。')]],   /* AA_555〔慈〕；慈 2（雙主修`
+- `src/aa555_3d.js:85:    ['y3s1_bh_exam',BH,wk('Y3S1',10,12),(G,d)=>got(G,BH,d)&&!G.flags.BH4_DONE&&!done(G,'ev_bohan_third_floor'),()=>SQ(BH,['📷（考卷，紅字很多）','不用安慰我。我只是要讓你知道`
+- `src/aa555_3d.js:124:  S.BH_COUNT_SP={14:'期中前十四天。進度落後半天。',7:'期中前七天。……今天念得很慢，可是記得住。',1:'明天考。我今天十點就睡。'};`
+- `src/aa555_3d.js:125:  S.bhCount=()=>{ const L=[]; for(let n=21;n>=1;n--){ const t=S.BH_COUNT_SP[n]||('期中前'+CN(n)+'天。'), m=M(BH,t); if(n<21) m.dd=21-n; L.push(m); } return L; };   /* 第 8 週週一考：二十`
+- `src/aa555_3d.js:127:    ['y1s1_bh_count',BH,()=>TD('Y1S1',5,1),22,(G,d)=>got(G,BH,d),()=>S.bhCount()],   /* AA-B 11-01 第 11 題：二十一天起每天一則「期中前 N 天。」（國字），十四天、七天、`
+- `src/linze_upper3d.js:40:      notice:'公告欄：讀書會招人、二手書轉讓、系學會的考古題借閱。最下面一張寫著：「三樓請降低音量。」', whiteboard:'白板上寫著期中考的範圍`
+- `src/pool3d.js:13:   2-4 閒聊：每人 8～10 句照學期、熟悉度、做過的事解鎖，每句一次、一天一句；說完以後三句「之後的招呼」輪流（開學、期中、期末的短招呼照舊穿`
+- `src/pool3d.js:157:    if(id===Y) return e.door&&(ti(G)>0||week(G)>=2)?'meet':null;   /* 教室門口（上課前、期中考前一週週三下課）。5-1 寫大一上第 2～4 週：第 1 週不演；第 5 週以後沒`
+- `src/pool3d.js:189:    const o=typeof STORY!=='undefined'&&STORY.greetB?STORY.greetB(G,id,r,nm,T,tid0):null; r.day=G.day;   /* 開學、期中、期末的短招呼照舊穿插 */`
+- `src/pool3d.js:232:  /* 5-3 郁婷：考前補給包（期中考前一週的週三下課＝大一上第 7 週週三；當晚 19～21 萬才館一樓）*/`
+- `src/pool3d.js:378:  /* 劇情以外的私訊（閒聊型）的上限：有聯絡方式；二十位加起來七天內一則；同一個人三十天內一則；考試週（期中、期末）不送 */`
+- `src/twfill3d.js:7:   - 海商法期中考 4/11 的旁白：CLS.runExam 外面包一層，考卷前先說。`
+- `src/twfill3d.js:119:  /* 4-2 海商法期中考（4/11）：考卷前一句 */`
+- `src/y2b3d.js:6:   AA_350 P1（2026-10-21）：第一次回覆照她那天在哪（STORY.presence）——寒暑假在台中＝台中那一句，學期中＝台南那一句（S.psTaichung）。`
+- `src/y2b3d.js:105:     AA_350 P1（2026-10-21）：不只 8/7～9/3——之後的寒暑假（她在台中）第一次回也是台中那一句；學期中照原文。在哪照 STORY.presence（手機「現在大概在」`
+- `src/y2b3d.js:238:  if(typeof CLS!=='undefined'&&Array.isArray(CLS.IN_CLASS)){ const f=(GM,it,prof,ct)=>S.leaseClass(GM,it,prof,ct); f.due=(G,it)=>!!it&&!!it.c&&it.c.id==='oblig_spec'&&!it.exam&&law(G)&&it.term==='Y2S2'&&`
+- `src/slowread3d.js:4:      學期中、上課日（第 1～16 週、noHoliday），寒暑假和國定假日不來；接在各人作息的最後面而且寫學期（terms）：她原本有寫學期的作息照原本的（`
+- `src/cracktalk3d.js:10:     以安：學期中＝到 3 以後的下一個週四。那晚有公法讀書會、你有去＝散會後「你留一下。」→ 萬才館研討室；沒去＝22:00 私訊 → 隔天 16:00 Café `
+- `src/cracktalk3d.js:29:       語彤②每 4 週一次（顧店那天 16:30／回診前一晚週五 21:00，第三個選項＋1）；沛珊①期中考週改期（第 9 週＋1，避不掉）、②第 5 週週三 23:10、`
+- `src/cracktalk3d.js:265:  /* 算不算一個月（她在台南的學期中）：那個月有 15 天以上是學期中、而且月中她在台南——寒暑假（她在台中）不算 */`
+- `src/cracktalk3d.js:303:  /* 第 8、9 週哪幾週有期中考（AA_463 第 7 節③）：{8:bool, 9:bool}，同 S.midBoth 的算法 */`
+- `src/cracktalk3d.js:308:    return midCache[tid]=has(8)&&has(9); };   /* 祐廷的期中考在第 8、9 兩週都有；只有一週的學期沒有這一項 */`
+- `src/cracktalk3d.js:311:    /* ① 期中考週的週五 21:00：改期（避不掉）*/`
+- `src/cracktalk3d.js:312:    /* 觸發條件（AA_463 第 7 節③）：那學期第 8 或第 9 週有期中考＝有考試的第一個週五發第 8 週那一版（不加）；兩週都有考試的，第二個週五（第`
+- `src/cracktalk3d.js:399:    '沛珊③、修補驗證的「一個月」：那個月有 15 天以上是學期中、月中她在台南才算（寒暑假她在台中，不算、往後延）；修補漏一個月＝下個月 1`
+- `src/kxdrift3d.js:128:  S.inTerm=(G,d)=>!!termOf(d)&&!S.exch(G,d);   /* 學期中、不在交換那一學期（D2 的見面、21 天）*/`
+- `src/whois3d.js:72:  const psBh=G=>{ const d=G&&G.events&&G.events.last&&G.events.last.ev_midterm_supper_y1s2; if(d==null) return mem(G,PS,'HEARD_ABOUT');   /* 大一下刑總二期中考完的晚餐（沛珊：「對，`
+- `src/whois3d.js:84:    {c:3,id:'score',if:f('BOHAN_SCORE'),t:'大一上期中考完，他問過你第三題怎麼寫。'},   /* AA_546 1-6（D116）*/`
+- `src/lane118.js:84:     第 8 次起「老樣子」那一句 →「好」直接點上次那一樣、「看一下菜單」照常點；考試週（CALENDAR.termOf 的 exam：期中第 8～9 週、期末第 16 週，大四`
+- `src/jpprep3d.js:7:     - 什麼時候發（AA_443 第 3 節範圍更正）：只在原本就會發的時候換掉＝法律系、學期中（CALENDAR.termOf 有、STORY.mainDay≥2），人卻住家裡。`
+- `src/jpprep3d.js:8:       實際用到：日本路線出發前 2/20～3/24（大三下學期中，JP.homeOn）、畢業以後住家裡（pgHome；學期表還在算的話——延畢）。`
+- `src/jpprep3d.js:12:     - 學期中住家裡的時候，家人群組照原本每次加入（PHONE.join），週四 20:00 才發。`
+- `src/jpprep3d.js:59:  /* 學期中（原本 home3d.js 會發的時候：法律系、CALENDAR.termOf 有、STORY.mainDay≥2）*/`
+- `src/jpprep3d.js:67:  S.liveGroup=function(G){ if(typeof PHONE==='undefined'||!S.on(G)) return false; PHONE.join(G,'home','家人');   /* 同 home3d.js：學期中就在家人群組裡 */`
+- `src/r3_3d.js:20:        （presence 改台南、學期中的邀約是 AA_282 第 5 節第 1、3 點——2026-10-21 已接：characters.js 的 presence「在台南」、台南邀約在 hometown3d.js（PS_TAINAN_VISITS）`
+- `src/r3_3d.js:111:  S.SUM_Y2={ '2027-06-28':{work:'暑假的班表排出來了。比學期中多兩倍。',home:'媽媽把你的房間打掃過了。'},`
+- `src/r3_3d.js:309:    KX('y3_kx_mid',Tm=>inT(Tm,'Y3S1','Y3S1',10),21+10/60,null,{items:G=>[Object.assign(P1('kexin','民訴期中，你們那邊考哪一題？'),{ask:{id:'dp_y3_kx_mid',until:until(G),opts:[{t:'最後一`
+- `src/crowd3d.js:46:    if(T&&T.exam) return S.FDORM_LINES.exam;   /* 期中、期末考週 */`
+- `src/crowd3d.js:275:  /* 時段（第 0-2 節）：exam＝期中、期末週；open＝學期第 1～2 週；brk＝沒有學期；eve＝18:00 以後（到清晨 6 點）*/`
+- `src/msg3d.js:6:     先挑情況版（在國外 → 放假 → 考試週 → 深夜），沒有才用一般版；同一層輪流用；句子的標籤（早上、平日、學期中、大一…）不對就不用。`
+- `src/msg3d.js:90:      1:['新的一年，我買了一本新的筆記本。第一頁寫片名。','今天看完一部老片。下次回去，我們去那家二輪戲院。','下雪了。這次有積。'],2:['（照片：`
+- `src/msg3d.js:219:    if(p==='平日') return wd>=1&&wd<=5; if(p==='週末') return wd===0||wd===6; if(p==='學期中') return !brk; if(/^(放假|放假中|寒暑假)$/.test(p)) return brk; if(p==='暑假') return brk&&((`
+- `src/sis_b15_3d.js:16:       2 2026-11-16 起第一次找她說話（SISY23.preTalk 包一層）：11/6 午餐選「都還好。」（sis_b8_events.js 記 SIS15_ALLOK）＝「期中考完了。……」一次；`
+- `src/sis_b15_3d.js:98:  /* ---------------- 第 3 節第 2 點 期中考完再說一次（找她說話前接演；同一天只演一場她的說話前接演）---------------- */`
+- `src/heroine_asks3d.js:32:  /* 考試週和考前一週（AA_494 0-4：期中第 8～9 週、期末最後兩週，加考前一週＝第 7 週、倒數第三週）*/`
+- `src/heroine_asks3d.js:58:  /* AA_532 第 3 節：寒暑假（HOME.breakOf：兩學期中間的放假）用放假版的句子（data 的 vac：{line, h}）*/`
+- `src/heroine_asks3d.js:146:        const vac0=S.vacDay(day)&&!!v0.vac&&(!v0.vac.wkend||wd===0||wd===6);   /* AA_532 第 3 節：放假版（句子、學姊的時間）；wkend：學姊平日照學期中（AA-B 10-30 05:12`
+- `src/heroine_asks3d.js:164:    R.seq=(R.seq|0)+1; const rec={sid:R.seq,id:x.id,k:x.k,vk:x.vk,day:x.day,send:x.send,state:'planned'}; if(x.vac) rec.vac=true;   /* AA_532 第 3 節：放假版（舊存檔沒有＝學期中`
+- `src/aa187_3d.js:13:           定的「大一期中那週，我的位子空著。……你那時候就看到了。」——不改（以較新的 AA 決定為準；要問 AA 用哪一版）。這裡只有測試。`
+- `src/data/y1fill_events.js:19:  /* 3-1 大一下第 9 週：期中考完。4/24（五）21:30 麵店團群組 */`
+- `src/data/y1fill_events.js:20:  midDone:[['yu','期中考完的人 舉手'],['zhe','🙋'],['classmate_bohan','我還有一科。'],['yu','柏翰 那你為什麼在這裡'],['classmate_bohan','……我去念書了。']],`
+- `src/data/y1fill_events.js:46:  /* 1-1 三天後：10/30（四）18:00 以後第一次回房間；期中考那一週的晚上（到 11/2 週日晚上）*/`
+- `src/data/y1fill_events.js:55:        {speaker:'kai',text:'期中考週。這裡是國界。'},`
+- `src/data/y1fill_events.js:66:        {speaker:'kai',text:'（沒有回頭）期中考完了。國界放寬。'} ] },`
+- `src/data/calendar.js:3:   - 學期：**16 週制**（使用者 2026-10-16 21:08 P0、10-17「16周才是對的」；AA_197 1-6、AA_198）：第 1～15 週上課、第 8～9 週期中、第 16 週期末、第 17 週起`
+- `src/data/calendar.js:74:    /* 這一天在哪個學期：{id, week（1～16）, exam：'final'（第 16 週）｜null}（D118 起沒有期中考）；寒暑假＝null */`
+- `src/data/calendar.js:75:    termOf(day){ const t=C.tOf(day); for(const T of TERMS){ if(t>=T.t0&&t<T.t1){ const week=Math.floor((t-T.t0)/(7*DAY))+1; return {id:T.id,week,exam:week>=T.weeks?'final':null};   /* D118（使`
+- `src/data/characters.js:33:    daily_schedule:[{days:[1,3,4,5],from:14,to:17,zone:'library',act:'read',terms:['Y2S1'],weeks:[8],noHoliday:true,if:{notEvents:['ev_mx_coffee']},label:'在總圖三樓念書',note:'AA_497 4-2`
+- `src/data/characters.js:47:    ['2029-02-19','2029-06-03','英國','absent'],['2029-06-03','2029-08-25','英國','abroad'],['2029-08-25','2029-09-01','回台中','home',{home:'台中'}]]},   /* AA_327 2-Y4-47：大四下`
+- `src/data/characters.js:61:    daily_schedule:[{days:[3],from:8.9,to:12.2,zone:'classroom',act:'class',seat:[1,4],terms:['Y3S1'],note:'AA_507 0-2 第 6 點（e4fbd0192）：雙主修大三上修刑法總則（一）——`
+- `src/data/characters.js:86:      {days:[1],from:10,to:16,zone:'library',act:'read',label:'坐在三樓靠窗那個位子',dates:[['2028-07-31','2028-07-31']],note:'AA_392 第 7 節：出國前最後一天，整天在總`
+- `src/data/characters.js:102:    daily_schedule:[/* AA_320 118 巷作息表（X68）：放在最前面＝蓋過同時段的一般作息（AA 逐格查過不撞上課、家教、顧店、社課、讀書會；tests/lane118_s`
+- `src/data/characters.js:115:    daily_schedule:[{days:[6],from:9,to:12,zone:'wancai_semb',act:'help',spot:'duty',terms:['Y2S1','Y2S2','Y3S1','Y3S2','Y4S1','Y4S2'],weeks:[3,5,7,11,13,15],termWeeks:{Y4S2:[3,5,7,11,13]},noHo`
+- `src/data/characters.js:117:    daily_schedule:[{days:[1,2,3,4,5],from:9,to:17,zone:null,act:'out',away:'在證券公司實習',dates:[['2027-07-05','2027-08-27']],note:'AA_549 2-1：大二暑假在證券公司法務部`
+- `src/data/characters.js:141:    ['2026-12-18','2027-08-06','聯絡不到','unreachable','keepDating'],['2027-08-06','2027-09-04','在台中','home',{home:'台中'}],['2028-07-17','2028-07-31','在山上帶營隊','trip'],`
+- `src/data/characters.js:188:      {days:[4],from:19,to:21,zone:'soclib',act:'read',seatAt:[-7.6,-5.9],label:'期中、期末抱佛腳',terms:['Y2S1','Y2S2','Y3S1','Y3S2'],noHoliday:true,dates:[['2026-09-07','2028-06-03']]`
+- `src/data/ladder.js:3:const LADDER={"source": "白名單 06ff0acc6（1 檔）＋088556ed（2 檔）＋25e89f6e（2 檔）＋49ed7e6a（5 檔）＋5ef4e291（1 檔）＋659d9d81（2 檔）＋6e0d1313（1 檔）＋7fca0df5`
+- `src/data/postgrad_lines.js:225:    bohan:{base:'我在念博士班，論文寫刑訴的證據排除。寫得很慢。',bh4:'我在帶大學部刑訴的討論課。期中考完，我第一件事是問他們錯哪裡。',b`
+- `src/data/sis_b15_events.js:201:      dialogue:[ SIS('期中考完了。……再說一次，都還好嗎？'),`
+- `src/data/feed_y2s1.js:26:    {id:'zr3c',who:'heroine_02',t:'W8日 11:20',st:'很熟',went:'zrEarly',pic:{no:'早場電影的票根，片名《冬天以前的港口》',yes:'兩張早場電影的票根，片名《冬天`
+- `src/data/twfill_events.js:4:   手機、出遊、摘要日、服務學習和海商法期中考的那一句的接線在 src/twfill3d.js。`
+- `src/data/twfill_events.js:25:  sum0412:'（大三下的期中考。你在考卷背面算了一下：再三個學期就畢業了。）',`
+- `src/data/twfill_events.js:39:  mid1027:[['zhe','大四的期中考 為什麼還是期中考'],['yu','因為你還沒畢業']],`
+- `src/data/twfill_events.js:42:  sum1103:'（期中考完。你數了一下大四上剩下的課：六週。）',`
+- `src/data/twfill_events.js:51:  maritime0411:'（海商法的期中考。題目裡的那艘船，沉在一個你沒聽過的海峽。）',`
+- `src/data/twfill_events.js:52:  lastMid:[['yu','最後一次期中考'],['yu','考完了'],['zhe','最後一次']],`
+- `src/data/date_lines.js:3:const DATE_LINES={"source": "白名單 BB_128_校外單獨約會_心願地點與淡水示範規格.md@ab9d70fe0＋AA_127_以安語彤_心願約會與邀約變化.md@482c7f6e9＋date_prefs_bb.json`
+- `src/data/hometown_lines.js:39:  /* 沛珊大三、大四的學期中在台南（AA_328 3-09，AA-C 5ae6a133；第一次＝AA_321 1B-11／AA_282 3-1 原文，第二次以後的接人＝3-09 第 2 節新寫，裁定 9）`
+- `src/data/crowd_depts.js:6:   - 每個系的句子分五欄：開學（第 1～2 週）、考試（期中、期末週）、晚上（18:00 以後；程式算到清晨 6 點）、寒暑假（沒有學期）、平常；誰`
+- `src/data/crowd_depts.js:30:      考試:['「普生的期中範圍是整本。……整本。」']}},`
+- `src/data/crowd_depts.js:86:    {n:4,at:'椰',when:'考試',who:['經濟','化學'],d:'A：你期中考完了嗎？／B：考完一科，還有三科。／A：那你現在要去哪？／B：吃飯。吃完再難過。'},`
+- `src/data/crowd_depts.js:110:    {n:7,ph:'pre',when:'考試',course:'通識',who:['心理','土木'],d:'A：通識也有期中考？／B：有，選擇題。／A：選擇題我可以。'},`
+- `src/data/heroine_asks.js:11:   vac＝寒暑假的放假版（AA_532 第 3 節，企劃線 ade80d22f，台詞一字不差）：line 換句；h 換時間（學姊放假改下午，照 AA_494 0-3 從 INV.times 挑下午的 `
+- `src/data/heroine_asks.js:81:              {place:'slowread',h:[15],line:'明天下午三點，慢讀。今天不問題目。'}]}},   /* wkend：放假版只在週末（AA-B 10-30 05:12 第 1 點：放假照學期中，`
+- `src/data/heroine_asks.js:96:        winter:{place:'library',wkend:true,v:{d:'next',h:[10,9],line:'明天早上，總圖。一起讀到中午，然後吃熱的。',first:'先讀。吃飯的時候再講話。'}} },   /* AA`
+- `src/data/events.js:8:/* 柏翰×沛珊那一段（大一下第 7 週起的 partner、4/15 期中晚餐公開、大二上第 6 週分手、ps_split_group）：認識沛珊、而且沒有和她交往（AA_374 第 11 項）`
+- `src/data/events.js:11:const PS_DT_BH=G=>PS_DT(G)&&typeof STORY!=='undefined'&&!!STORY.knows&&STORY.knows('classmate_bohan',G);   /* 交往中、認識柏翰＝期中晚餐柏翰算麵錢三句（AA_245 第 1 節、AA_409`
+- `src/data/events.js:13:const PS_NOBH={custom:G=>!!(G.flags&&G.flags.dating_classmate_peishan)&&typeof STORY!=='undefined'&&!!STORY.knows&&STORY.knows('classmate_bohan',G)};   /* AA_245（企劃線 2af03a63）：沛珊和`
+- `src/data/events.js:507:  { id:'ev_class_crimpro', retired:'AA_376 #2（企劃線 69aa3b0c，AA 定）：v7 舊課堂，課表系統已經有刑訴（9:10 開始）；沒有 once、每週二重演（期中考當天、第 `
+- `src/data/events.js:508:    dialogue:[ {speaker:null,text:'法律系館A二樓。林教授把判決影本放在講台上，聲音不大，但沒有人講話。'},{speaker:'prof_lin',expression:'neutral',text:'「上週我`
+- `src/data/events.js:545:  /* 交接包 v1 A5 的週次：第 7 週（期中考前）起才問考古題（v1 稽核：原本沒有週次限制）*/`
+- `src/data/events.js:623:  /* 沛珊 P2b：溫州街的三段論（BB_95 3-5）：P2（ev_peishan_doubt）之後、大一上第 6～7 週（期中前），平日 16–19 在總圖和她說話（她的日程本來就在總`
+- `src/data/events.js:638:     和他至少 ACQUAINTANCE、大一上第 7 週（期中前一週）起、只一次。SAW_HIM_STUDY：期中後麵店團的聚餐（A15）阿哲說「明軒從來不念書」時多一個選項`
+- `src/data/events.js:896:  /* G1 考完試走出教室（交付清單 A15：AA_13 G1）：大一上民總期中考考完，在教室門口接著演（classes3d.js 的 afterClassEvent：afterExam 'mid'）；一定會發生`
+- `src/data/events.js:920:    after:G=>{ if(typeof SOCIAL==='undefined'||typeof STORY==='undefined') return; for(const id of ['zhe','classmate_bohan','yu','classmate_xinci','classmate_mingxuan','heroine_01']) if(STORY.knows`
+- `src/data/events.js:921:  /* 翰 1 你考幾分（交付清單 A16：AA_40 翰 1，接 ev_bohan_kaogu；AA 2026-10-14）：大一上期中放榜——第 10 週的民總下課（第 10 週沒去上課的話第 11 週那`
+- `src/data/events.js:927:      {speaker:'classmate_bohan',expression:'serious',text:'民總期中，第三題你怎麼寫？'},`
+- `src/data/events.js:929:      {choice:[{text:'（講你怎麼寫的）',set:{BOHAN_SCORE:'told'},goto:'tell'},{text:'「我也不確定。」',set:{BOHAN_SCORE:'unsure'},goto:'unsure'},{text:'「你錯哪裡？」',set:{B`
+- `src/data/events.js:931:      {mem:[{npc:'classmate_bohan',tag:'TOLD_SCORE',note:'期中放榜，跟他講第三題你怎麼寫'}]},{goto:'end'},`
+- `src/data/events.js:934:      {label:'end'},{unless:{custom:G=>typeof INV!=='undefined'&&INV.hasContact(G,'classmate_bohan')},speaker:'classmate_bohan',expression:'neutral',text:'考古題我晚上傳給你。',consequenc`
+- `src/data/events.js:935:  /* 考完的宵夜（交付清單 A15：AA_71 2-4、BB_95 3-6，AA 2026-10-14）：民總期中考那天晚上 20:30 公館滷味攤。公館有 3D 區域，滷味攤還沒有：先用出遊（`
+- `src/data/events.js:952:  /* 期中考完（大一下，交接包 v2 C11、C21 第二個畫面；AA 2026-10-14 64ceb70）：刑總二期中考那天（第 8 週週三 4/15，上午考完）。`
+- `src/data/events.js:963:    after:G=>{ if(typeof SOCIAL==='undefined'||typeof STORY==='undefined') return; for(const id of ['zhe','classmate_bohan','yu','classmate_xinci','classmate_mingxuan','heroine_01']) if(STORY.knows`
+- `src/data/events.js:996:     那天沒去上課的，延到下一個有去的週五（第 3～5、7 週；第 6 週週五是春假、第 8 週是期中考）；一直沒去就不發生。`
+- `src/data/events.js:1060:      {if:{custom:G=>(G.flags.SK03_N|0)%3===1},speaker:'品妤',text:'你們法律系的期中考，也要背那麼多嗎？'},`
+- `src/data/events.js:1069:  /* SK03 1-4 沒去時（BB_135 1-4；AA-B 2026-10-16：第 8 週週五重修經原（下）期中考前、在重修教室，舞台說明「（考卷還沒發。）」）：沒有 ECON_LAW_BRIDGE`
+- `src/data/events.js:1094:      {if:{custom:G=>(CALENDAR.termOf(G.day)||{}).week===7},speaker:'classmate_xinci',text:'期中考的範圍，你好像不用看。'},`
+- `src/data/events.js:1235:     週五中午的活大＝SK03、期中期末前的博雅＝SK10、期末考週的販賣機＝SK05（各自的事件）；可昕和品妤在社科院門口那一列（交往中、她來台大`
+- `src/data/events.js:1407:  /* 沛珊大三、大四的學期中在台南（AA_282 第 3 節，hometown_lines.js 的台南那一組）：回程的高鐵約一小時四十分鐘 */`
+- `src/data/events.js:1692:     還沒認識沛珊的玩家沒有。第二個畫面（期中的麵店長桌）跟大一下期中的宵夜一起做 */`
+- `src/data/events.js:2048:  /* 可昕的生日（BB_96 9-7b；2026-10-15 BB-B：生日改 4/24，AA_137 第 1 節；AA_140 G01）：大一下第 9 週週五 4/24（期中考週）。做法和 12/3 同一套（story3d.js ph`
+- `src/data/events.js:2366:  /* ★可昕交往前的六段過場 T1～T6（AA_293 第 2 節，企劃 81d42881／9fecc202（T6 換期中考前）；使用者 10-18「足夠讓我跟可昕在一起嗎？我覺得可能會太`
+- `src/data/events.js:2387:    T('ev_y0_kt6','手機・可昕',[ {scene:'手機・可昕',bg:false},{speaker:'kexin',expression:'serious',text:'下下禮拜就期中考了。你經原讀到哪了？'},{speaker:'kexin',expre`
+- `src/data/events.js:2419:    dialogue:[ {speaker:'econ_zhengxun',text:'那罐肉燥還有嗎？我期中需要它。'} ] },`
+- `src/data/events.js:2679:      {scene:'電話',bg:'mrt_night'},{speaker:null,text:'（捷運上。你撥給她。響了兩聲。）'},{speaker:'player',text:'我今天去辦休學了。'},{speaker:'kexin',expression:'surp`
+- `src/data/events.js:2680:      {speaker:'player',text:'就是因為快期中考了。我還是不想念書。'},{speaker:'player',text:'我覺得很完蛋。所以就去辦了。'},{speaker:'kexin',expression:'serious',te`
+- `src/data/events.js:3017:     「我覺得很好。數字有溫度。」記 XUN_WARM（法律系大三 SK13 多一句）。沒去：期中考完（11/1 以後）門上的紙條（ev_y0_a1_note）*/`
+- `src/data/events.js:3034:    dialogue:[ {speaker:null,text:'期中考完，阿勳在門上貼了一張紙：「第四題，答案是零。」'} ] },`
+- `src/data/events.js:3065:      {speaker:null,text:'（公館。下禮拜就是期中考。）'},   /* AA_368 L1（企劃線 e55fda50）：10/15 演，原本「期中考前的最後一個晚上」*/`
+- `src/data/events.js:3066:      {speaker:'韋綸',text:'今天不准聊期中喔。誰聊到，今晚的桌遊錢他出。'},`
+- `src/data/events.js:3074:      {speaker:'唐睿',text:'我講一件不是期中的事喔——'},`
+- `src/data/events.js:3081:      {speaker:null,text:'（沒有人提期中。她把蘿蔔分你一半。）'},`
+- `src/data/events.js:3115:  /* E11 期中考：考完走出普通教學館（BB_104 8b-5；AA_154 第 122 行）：Y0S1 第 9 週最後一科＝10/31（四）下午的初等會計（考場在普通；AA_154 寫 11/1，週`
+- `src/data/events.js:3116:  { id:'ev_y0_e11', retired:'AA_218 第 11 節、AA_154 0b-2（2026-10-17）：祐廷 2024-10-17 休學，這件刪除。定義留給已經演過的舊存檔', stage:'econ', title:'期中考後', `
+- `src/data/events.js:3410:  /* P2b 門口有人在揪（AA_154 2-5a；台詞 BB_105 P2b，BB-B 定稿 6d59df01；背景、可重複）：P2 演過以後，Y0S1 第 6～16 週（期中考週除外）、Y0S2 第 1～5 週的`
+- `src/data/events.js:3464:      {choice:[{text:'「要。期中快到了。」',goto:'a1'},{text:'「不想回去。」',goto:'a2'},{text:'「妳呢？」',goto:'a3'}]},`
+- `src/data/events.js:3487:  /* D7（交接包 v3 第 8～9 週）：G1 考完走出教室（大二上版，AA_143 1-4）＋語彤事件 10 期中考那一週（AA_11 事件 10、AA_177 第 5 節）。`
+- `src/data/events.js:3488:     G1：刑法分則期中考考完，在教室門口接著演（classes3d.js 的 afterClassEvent：afterExam 'mid'）；有去考才有、翹考＝沒有；只有認識的人；考題只說「`
+- `src/data/events.js:3490:       那週去過麵店、阿姨說過扭到手（yutong_hospital，大一下事件 4）的玩家第一句換一句；「我那週有注意到妳的位子空著。」只有大一下期中那兩`
+- `src/data/events.js:3496:  { id:'ev_yutong_midterm_week', title:'期中考那一週', participants:['heroine_03'], location:'noodle', trigger:'auto', term:['Y1S2'], weekday:[2,4], time:[20.75,21.25], once:true,   /* AA_37`
+- `src/data/events.js:3499:    dialogue:[ {unless:{flags:['yutong_hospital']},speaker:'heroine_03',expression:'neutral',text:'大一期中考那週，你有沒有發現我不在圖書館？'},`
+- `src/data/events.js:3504:      {label:'seen'},{speaker:'heroine_03',expression:'neutral',text:'……你有注意到。'},{mem:[{npc:'heroine_03',tag:'NOTICED_EMPTY_SEAT',note:'大一下期中那週，他注意到她在`
+- `src/data/events.js:4146:     沒加入的、在麵店團：Alison 在群組傳撕掉一半的規則＋以安一句（記「聽說」）。後半：同一週週六 14:00 期中前的補讀（以安在群組約、出發選`
+- `src/data/events.js:4187:    prereq:{memory:[{npc:'prof_xu',tag:'XU_TYPHOON'}],custom:G=>typeof STORY!=='undefined'&&G.day>=STORY.dayOfKey('2026-11-09')&&G.day<=STORY.dayOfKey('2026-11-15')},   /* AA_374 第 13 項：期`
+- `src/data/events.js:4253:  heroine_02:[{t:'「今天的豆子很酸，我不推。」',location:'cafe'},'「你有看過《進城的那一週》嗎？沒有？那我們沒得聊了——開玩笑。」',{t:'「外文系`
+- `src/data/events.js:4258:  classmate_bohan:['「我在寫考古題，第二題卡住了。」',{t:'「期中還有{n}天，我排了一份進度表，要的話傳你。」',midterm:[7,14],once:'term'}],   /* AA_209 附錄`
+- `src/data/events.js:4262:    {t:'「你念過經濟系，我只問一件事：經濟系的期中，會不會跟法律系的撞在同一週？」',term:['Y1S1','Y1S2'],if:{notEvents:['ev_xinci_double'],flagIs:{ECON_PAST_SH`
+- `src/data/events.js:4266:    {t:'「家教那個學生期中考進步了。他媽媽塞給我一袋柳丁。」',term:['Y1S2'],once:true},{t:'「這學期家教多接了一個。週六早上，小學五年級，很吵。`
+- `src/data/events.js:4271:    {t:'「期中考前一週我會出現。這是我和學分的約定。」',term:['Y1S2'],once:true},{t:'「你有沒有發現，A館的電梯門關起來之前，會停一下。」',term:['Y2S`
+- `src/data/events.js:4312:    dialogue:[ {speaker:'heroine_01',expression:'neutral',text:'（小聲）這裡有位子。你要讀什麼？'},{choice:[{text:'「民總。周老師說錯誤那段後面才會講。」',conseq`
+- `src/data/events.js:4316:    dialogue:[ {speaker:'heroine_01',expression:'neutral',text:'我媽今天打來，問我期中考幾分。還沒考。'},{speaker:'heroine_01',expression:'thinking',text:'她是書記官。從`
+- `src/data/events.js:4499:  { id:'ev_yutong_customer', title:'麵店的糾紛', participants:['heroine_03'], location:'noodle', trigger:'interact', priority:9, once:true, minWeek:{term:'Y1S1',week:15}, term:['Y1S1','Y1S2']`
+- `src/data/events.js:4519:  { id:'ev_yutong_absent', title:'她今天沒來', term:['Y1S2'], weeks:[8,9], participants:['heroine_03'],   /* 交接包 v2（AA_11 事件 4）：大一下期中這兩週的週二、週四晚`
+- `src/data/events.js:4703:  { id:'ev_xinci_double', title:'雙主修', participants:['classmate_xinci'], location:'library', trigger:'interact', priority:6, once:true, term:['Y1S2'], weeks:[6,7], prereq:{memory:[{npc:'clas`
+- `src/data/events.js:4704:    dialogue:[ {speaker:null,text:'（總圖裡，她壓低聲音。）'},/* AA_209 附錄A §2：開頭一句旁白，其他的（小聲）×11 拿掉 */{if:{memory:[{npc:'classmate_xinci',tag:'L`
+- `src/data/events.js:4731:  { id:'ev_midnight_snack', title:'考前宵夜', participants:['zhe'], location:'dorm', trigger:'enter', weeks:[7,8], term:['Y1S1','Y1S2'],   /* AA_313 5-1 第 3 點：只在大一（四年都會`
+- `src/data/events.js:4738:  { id:'ev_quiz_crimpro', retired:'AA_376 #2（企劃線 69aa3b0c，AA 定）：v7 舊課堂，課表系統已經有刑訴（9:10 開始）；沒有 once、每週二重演（期中考當天、第 `
+- `src/data/activities.js:35:    /* 大一下也有（交接包 v2：第 4 週讀書會結束後的沛珊和柏翰、第 14 週和成發同一晚、第 15 週「最後幾次」）；大一下的週次原文沒寫，先排`
+- `src/data/activities.js:55:    {id:'public_law_group',title:'公法讀書會',clubName:'公法讀書會',kind:'club',zone:'wancai',room:'seminarA',door:true,roomName:'法律系館B 研討室 A',term:['Y1S1','Y1S2','Y2S1',`
+- `src/data/pool_story.js:51:      where:[ {days:[3],from:12+10/60,to:12+40/60,zone:'classroom',act:'linger',at:[1.2,6.9,-1.2,0],terms:['Y1S1'],weeks:[7],noHoliday:true,pri:true,door:true,desc:'總是最後進教室的人',`
+- `src/data/home_lines.js:159:"mom": "期中考考得怎麼樣？",`
+- `src/data/cracktalk_lines.js:107:        Y4S2:{ask:'最後一個學期的期中了。這週末，視訊？',w8:['好！最後一次期中，加油！'],w9:['……好。畢業以後，就不用一直下週了。']}}},`
+- `src/data/feed_y1s2.js:16:    {id:'an3b',who:'heroine_01',t:'W9四 21:30',st:'認識',pic:'期中考的考卷，背面朝上',say:'考完。',cm:['考得怎樣？','還沒改。'],dm:['背面朝上？','不想看。']},`
+- `src/data/feed_y1s2.js:53:    {id:'ps3b',who:'classmate_peishan',t:'2026-04-09 23:40',st:'朋友',if:'psBohan',pic:'兩杯手搖飲，一杯微糖，一杯無糖',say:'',cm:['兩杯？','……嗯。'],dm:['另一杯誰`
+- `src/data/sis_b9_events.js:1:/* ===== 學姊第九批：大三下學期中兩場、大四上她在美國時朋友的遠距（AA_395，企劃線 e81a1afe1；任務 SIS-B9-L-1023）的台詞與事件 =====`
+- `src/data/dorm_layout.js:32:    {"id":"r102","lv":0,"x":-5.25,"side":"N","label":"102 寢室","plate":"102","closed":"102 寢室。門上貼著一張紙：「期中考週，請小聲，謝謝。」"},`
+- `src/data/sup497_lines.js:86:      {t:'「期中考前一週我會出現。這是我和學分的約定。」',term:'Y1S2'},`
+- `src/data/sup497_lines.js:196:    talk:[ {t:'「家教那個學生期中考進步了。他媽媽塞給我一袋柳丁。」',term:'Y1S2'},{t:'「這學期家教多接了一個。週六早上，小學五年級，很吵。`
+- `src/data/linze_upper_layouts.js:2:const LINZE_UPPER_LAYOUTS={"3f": {"version": 1, "zone": "linze_3f", "name": "法律系館A 3F", "label": "3F 討論區", "src": "使用者 10-20（X73、X74）；LINZE-34F-TABLES-1020、`
+- `src/data/needed_msgs.js:29:    {id:'yt_floor',who:'heroine_03',term:'Y2S1',w:[8,9],msg:['期中考你在總圖哪一層？我想找一個不會遇到麵店客人的地方。'],reply:'三樓。最裡面。',resp:['好。`
+- `src/data/needed_msgs.js:30:      miss:['期中那幾天，我找到一個沒有客人的地方了。……不告訴你。'],missDating:['期中那幾天，我找到一個沒有客人的地方了。……不告訴你。']`
+- `src/data/needed_msgs.js:57:    {id:'xc_grade',who:'classmate_xinci',term:'Y2S2',w:[5,7],msg:['期中成績出來，不要跟我說以安考幾分。……我想先自己對完。'],reply:'好。',resp:['謝啦。對完`
+- `src/data/needed_msgs.js:92:    {id:'kx_cv',who:'kexin',term:'Y2S2',w:[6,8],tie:true,anyone:true,cond:G=>!!F(G).dating_kexin,msg:['期中報告的摘要，幫我挑錯字。其他的不要有意見。'],reply:'第一行`
+- `src/data/vac_activities.js:290:        {day:'07-15',h:16,title:'圖書館的讀書小組',bg:'intl_ca_classroom',lines:[{narr:'（期中前，Priya 找了兩個美國同學一起讀。休息的時候，其中一個問你`
+- `src/data/noodle_table.js:13:    {who:['classmate_bohan'],dialogue:[{speaker:'classmate_bohan',text:'期中考範圍我整理成一張表了。'},{speaker:null,text:'他把表放在桌子中間。三個人同時拿出手`
+- `src/data/noodle_table.js:26:    {who:['zhe'],if:{weeks:[6,7,14,15]}/* AA_491 第 7 點：只在考試前（期中第 6～7 週、期末第 14～15 週）輪到 */,dialogue:[{speaker:null,text:'考試前的麵店，長桌`
+- `src/data/msg_pool.js:11:   {"topic": "chat", "tier": "A", "variant": null, "msgs": ["剛下課，要去吃飯。"], "tags": ["學期中、平日課後"], "ask": null, "src": "AA_202 6-2 在幹嘛"},`
+- `src/data/msg_pool.js:14:   {"topic": "chat", "tier": "R", "variant": null, "msgs": ["在想報告要怎麼分工。"], "tags": ["學期中"], "ask": null, "src": "AA_202 6-2 在幹嘛"},`
+- `src/data/msg_pool.js:82:   {"topic": "chat", "tier": "A", "variant": null, "msgs": ["在社辦～", "你呢"], "tags": ["學期中"], "ask": {"opts": [{"t": "總圖", "r": ["好喔～"]}, {"t": "宿舍", "r": ["好喔～`
+- `src/data/msg_pool.js:84:   {"topic": "chat", "tier": "R", "variant": null, "msgs": ["在等社課開始", "好無聊"], "tags": ["學期中、社課那天"], "ask": null, "src": "AA_202 6-5 在幹嘛"},`
+- `src/data/msg_pool.js:120:   {"topic": "chat", "tier": "A", "variant": null, "msgs": ["在排下禮拜的讀書計畫。"], "tags": ["學期中"], "ask": null, "src": "AA_202 6-7 在幹嘛"},`
+- `src/data/msg_pool.js:122:   {"topic": "chat", "tier": "R", "variant": null, "msgs": ["在算經濟學的作業。"], "tags": ["學期中"], "ask": null, "src": "AA_202 6-7 在幹嘛"},`
+- `src/data/msg_pool.js:139:   {"topic": "chat", "tier": "A", "variant": null, "msgs": ["在寫外文系的報告。"], "tags": ["學期中"], "ask": null, "src": "BB_178 1 在幹嘛"},`
+- `src/data/msg_pool.js:206:   {"topic": "chat", "tier": "A", "variant": null, "msgs": ["在系館", "冷氣好冷"], "tags": ["學期中，大一～大三"], "ask": null, "src": "BB_178 2 在幹嘛"},`
+- `src/data/msg_pool.js:207:   {"topic": "chat", "tier": "A", "variant": null, "msgs": ["寫作業", "資工的", "你不會想知道"], "tags": ["學期中，大一～大三"], "ask": null, "src": "BB_178 2 在幹嘛"},`
+- `src/data/msg_pool.js:342:   {"topic": "chat", "tier": "L", "variant": null, "msgs": ["在圖書館。", "予樂在旁邊睡著了。"], "tags": ["學期中"], "ask": null, "src": "BB_178 5 在幹嘛"},`
+- `src/data/msg_pool.js:343:   {"topic": "chat", "tier": "L", "variant": null, "msgs": ["在宿舍。予樂在講她的報告，講了四十分鐘。"], "tags": ["學期中"], "ask": null, "src": "BB_178 5 在幹嘛"},`
+- `src/data/msg_pool.js:345:   {"topic": "chat", "tier": "L", "variant": null, "msgs": ["予樂問我在跟誰傳訊息。", "我說不告訴她。"], "tags": ["學期中；帶感情的那一句"], "ask": null, "src": "BB_1`
+- `src/data/msg_pool.js:346:   {"topic": "share_cat", "tier": "L", "variant": null, "msgs": ["（長頸鹿貼圖）", "木柵大學的貓比較胖。"], "tags": ["學期中"], "ask": null, "src": "BB_178 5 分享 貓"},`
+- `src/data/msg_pool.js:348:   {"topic": "share_food", "tier": "L", "variant": null, "msgs": ["下次你來木柵大學，我帶你吃這邊的。"], "tags": ["學期中"], "ask": null, "src": "BB_178 5 分享 吃的"},`
+- `src/data/msg_pool.js:352:   {"topic": "night", "tier": "L", "variant": null, "msgs": ["晚安。予樂已經在打呼了。"], "tags": ["學期中"], "ask": null, "src": "BB_178 5 晚安"},`
+- `src/data/msg_pool.js:364:   {"topic": "chat", "tier": "A", "variant": null, "msgs": ["寫作業 好難"], "tags": ["學期中"], "ask": null, "src": "BB_178 6 在幹嘛"},`
+- `src/data/msg_pool.js:366:   {"topic": "chat", "tier": "R", "variant": null, "msgs": ["在跑程式 跑十分鐘了還沒好"], "tags": ["學期中"], "ask": null, "src": "BB_178 6 在幹嘛"},`
+- `src/data/msg_pool.js:389:   {"topic": "chat", "tier": "A", "variant": null, "msgs": ["剛下課 要去家教"], "tags": ["學期中，週二、週四下午"], "ask": null, "src": "BB_178 7 在幹嘛"},`
+- `src/data/msg_pool.js:422:   {"topic": "chat", "tier": "A", "variant": null, "msgs": ["學弟好。剛從系館出來。"], "tags": ["學期中"], "ask": null, "src": "BB_178 8 在幹嘛"},`
+- `src/data/msg_pool.js:425:   {"topic": "chat", "tier": "R", "variant": null, "msgs": ["在溫室澆水。有一株蘭花開了。", "（照片）"], "tags": ["學期中"], "ask": null, "src": "BB_178 8 在幹嘛"},`
+- `src/data/msg_pool.js:426:   {"topic": "chat", "tier": "R", "variant": null, "msgs": ["在系館念書。"], "tags": ["學期中"], "ask": {"opts": [{"t": "我也在念書。", "r": ["那我們都念。"]}, {"t": "在休`
+- `src/data/msg_pool.js:451:   {"topic": "chat", "tier": "A", "variant": null, "msgs": ["在系學會開會，好無聊"], "tags": ["學期中，祐廷大一～大三"], "ask": null, "src": "BB_178 8b 在幹嘛"},`
+- `src/data/msg_pool.js:452:   {"topic": "chat", "tier": "A", "variant": null, "msgs": ["在幫系上搬東西啦"], "tags": ["學期中，祐廷大一～大三"], "ask": null, "src": "BB_178 8b 在幹嘛"},`
+- `src/data/msg_pool.js:476:   {"topic": "chat", "tier": "A", "variant": "深夜", "msgs": ["還沒睡，在弄系學會的海報"], "tags": ["學期中，祐廷大一～大三"], "ask": null, "src": "BB_178 8b 在幹嘛 `
+- `src/data/heroine_circle.js:141:      heard:'大一的學妹：學姊，妳是社會系的？／語彤：嗯。雙主修。／大一的學妹：那妳為什麼坐最後一排？／語彤：……習慣。',place:'霖澤`
+- `src/data/heroine_circle.js:148:       她照作息週二、四晚上在不在麵店（src/data/characters.js heroine_03，2026-10-28 逐週查）：大二下 週二、四（第 8～9 週期中在總圖，AA_375 第 16 `
+- `src/data/invites.js:269:   2-1 法律學院圖書館（法圖）：念書；剛認識就可以約（reason）；開放時間照 places.js 的 lawlib（學期中平日 08:10～21:45、週末 09:10～17:00；寒暑假照`
+- `src/data/invites.js:306:   每句 one＝只說一次（AA_118 第 0 節「同一句只出現一次」）。條件：學年（學期中照學期、寒暑假照日期，9 月起算新學年）＋稿上的時機（AA_555 `
+- `src/data/invites.js:307:   時機寫法的技術預設（稿沒寫死的，LAWWW 子代理照最保守的定，要問 AA 的寫在回報）：開學＝第 1～4 週；期中前＝第 5～8 週；期中放榜後＝第 10`
+- `src/data/invites.js:424:      W('w118_xc_7','any',inT('Y2S1',8,9),['「財管的期中跟債總同一天。早上算利息，下午寫遲延利息。……至少主題有連起來。」']),`
+- `src/data/dorm203_lines.js:127:      mid2:[{at:22,from:BH,text:'今天晚上十一點熄燈。期中。'},{at:23+1/60,from:'zhe',text:'（照片：黑暗中一支手機的燈照著筆記）'}],`
+- `src/data/bbpack_events.js:93:  /* G4 考前一起讀單字：第 7 週（小考那天，期中前）、第 16 週（口試考完）的下課；日文上、日文下都有（BB_137 1-3 日文下第 16 週多一句）。`
+- `src/data/bbpack_events.js:96:    dialogue:[ ...(fin?[say('立衡','口試考完了。還有筆試。'),say('采蓁','這學期最後一次了，一起吧？')]:[say('立衡','下週期中。我把單字做成卡片了。`
+- `src/data/bbpack_events.js:100:      {set:{['JP_VOCAB_'+(fin?'期末':'期中')+(term==='Y2S2'?'_下':'')]:true}},{inc:{JP_FAM_CAIZHEN:1,JP_FAM_LIHENG:1},rel:{jp_caizhen:{fam:1},jp_liheng:{fam:1}}},{advance:1},{goto:'end'`
+- `src/data/bbpack_events.js:190:  /* B6b 公共政策的講座「一條法律是怎麼被寫出來的」（BB_105 4-1b 第 3 場、4-2；台詞 AA_430 第 1 節 @7525db6a5）：大二上第 10 週（期中考第 8～9 週`
+- `src/data/bbpack_events.js:386:  /* D6 沛珊和柏翰（AA_289 5-4）：大一下第 10 週起（期中公開以後）的週四 18:30，公法讀書會前的晚餐——柏翰在女舍門口等她（第 11 週讀書會`
+- `src/data/bbpack_events.js:458:  /* SK10 一題民法換一題微積分：大二上～大三下，每學期第 6 週（期中前）、第 15 週（期末前）的週三 19:00～21:00，博雅自習區（芯慈週一 21:00`
+- `src/data/sis_b12_events.js:12:    /* AA_497 5-4：Kevin 的動物影片第 6 則（照原本的日期）換成他自己的事第 4 則；跟著影片的「學姊這次有看完嗎」「有。牠到最後都沒醒。」`
+- `src/data/sis_b12_events.js:13:    {day:'2026-10-26',h:21,L:[['k','家聚吃什麼 不要再吃咖哩了'],['k','期中加油各位'],['s','收到。']]}],`
+- `src/data/us_blank_lines.js:108:      ['2028-10-21',['期中報告的格式，教授在課程網站上改過了。看最新的那一版。'],'還好有看到。',null],`
+- `src/data/dorm_y24_lines.js:40:            {k:'z5',term:'Y2S2',t:'學弟期中考前問我民總怎麼讀。我說問柏翰。'},`
+- `src/data/encounters.js:54:    {who:'heroine_01',spot:'D26',why:'她坐在審計新村一間小店門口的階梯上，手上拿著一張寫滿字的購物清單。',days:[6],from:14,to:17,terms:null,dates:[['2025-09-27',`
+- `src/data/encounters.js:98:    {who:'yu',spot:'D20',why:'她在老街口數人頭，手上拿著社團的點名單。',days:[6],from:10,to:16,terms:['Y1S1','Y1S2','Y2S1','Y2S2'],weeks:[6],termWeeks:{Y1S2:[8]}/* AA_373 #5`
+- `src/data/encounters.js:131:    ENC_D11_BH:{who:'classmate_bohan',lines:['北投那間圖書館，期中前你要去的話跟我講。我早上會先到。']},`
+- `src/data/eat_lines.js:275:     "你今天的課，老師有講到期中考的範圍嗎？我那時候在恍神。"`
+- `src/data/y3fill_events.js:20:  sum1103:'（期中考完的那一週，沒有課。你把刑訴旁聽作業的筆記整理成兩頁。）',`
+- `src/data/termend_lines.js:71:          G=>typeof SOCIAL!=='undefined'&&SOCIAL.has&&SOCIAL.has('heroine_03','NOTICED_EMPTY_SEAT')?['大一期中那週，我的位子空著。……你那時候就看到了。']:['你每次`
+- `src/data/msg_kx_y0.js:3:const MSG_KX_Y0={"closed": {"from": "2025-02-14", "to": "2025-07-11", "why": "她就在家裡。直接去講。"}, "variants": [{"variant": "經濟系學期中", "from": "2024-10-17", "to": "2024-`
+- `src/data/sis_b8_events.js:49:        {label:'b'},SIS('期中考完再告訴我一次。'),`
+- `src/data/us_life_events.js:190:  /* ---------------- 上課的特別日子（AA_340 4-2：10/26 期中報告、12/8 最後一堂）---------------- */`
+- `src/data/us_life_events.js:191:  /* G4 10/26（四）比較憲法的期中報告：選項都過、不計分；德國同學不給名字 */`
+- `src/data/us_life_events.js:194:    nar('（期中報告。你和德國來的同學講隱私：她講德國的，你講台灣的。）'),`
+- `src/data/us_life_events.js:236:      us_comp:['今天比較兩國的言論自由。教授要你講臺灣的。','你發現自己講憲法的時候，用的是中文的順序。','今天比較大法官怎麼選。教授`
+- `src/data/us_life_events.js:238:        '教授問，判決要不要寫上是哪幾位大法官投反對票。德國來的同學說要，你說臺灣本來就會寫。','今天比較死刑。教室一下子很安靜，平`
+- `src/data/heard_lines.js:102:    {id:'h506_yx_ps',who:'pool_15',about:'classmate_peishan',t:'沛珊這學期沒有來。她的位子我幫她留到期中。',from:'Y2S2:W5一',until:'Y2S2:end',src:'AA_506 6-4'},   /* 廖`
+- `src/data/heard_lines.js:118:      {who:['zhe'],know:['heroine_03'],about:'heroine_03',once:'h504_zhe_hand',pri:true,if:{term:['Y1S2'],weekFrom:9},dialogue:[{speaker:'zhe',text:'考期中那兩個禮拜，阿姨的手包`
+- `src/data/heard_lines.js:151:    /* 1-4：Alison（4 月起，麵店團群組或麵店）＝麵店團群組。哪一天、幾點稿沒寫，取 4/5（三）21:20（四月避開的日子：4/1、4/3～4、4/7～9、期中 `
+- `src/data/pool_story_b3.js:155:        L('b'), nw('好。那你要是期中前改變主意，B1 找我。'), L('e') ],`
+- `src/data/pool_story_b3.js:156:      /* AA_528 1-5（企劃線 7ad5fee84）：選「我自己做筆記就好。」（NW_SELF）的，那學期期中考以前（第 8 週週日以前）平日 19～22 在 B1 和她說話，`
+- `src/data/pool_story_b3.js:157:         之後照「謝謝學姊。」那一支（記 NW_BORROW：週五以前還、逾期私訊、6-3 網拍接得上；src/pool_more3d.js S.nwBorrowOpt）。過了期中考還沒借的，`
+- `src/data/r2y3b_events.js:206:      {if:kn('zhe'),speaker:'zhe',text:'期中考版的春假。只有兩個小時。'},`
+- `src/data/r2y3b_events.js:211:      {choice:[{text:'「我來烤。」',goto:'a'},{text:'（拍一張傳給以安）',if:fam('heroine_01','FRIEND'),goto:'b'},{text:'「期中考完再來一次？」',goto:'c'}]},`
+- `src/data/r2y3b_events.js:214:      {label:'c'},{if:kn('classmate_bohan'),speaker:'classmate_bohan',text:'期中考完是第十週。我記一下。'},`
+- `src/data/r2y3b_events.js:447:    t2:[{L:['上課聽懂七成了。剩下三成，我回房間查字典。','你那邊期中考了嗎？'],O:['考了。','下禮拜。']},{L:['町公所前面的阿伯一直跟我講話，`
+- `src/data/courses.js:36:    /* 課堂內容：BB 的 syllabus（Y0S1、Y0S2；經原、通識、會計有每週內容，其他是台詞池）。休學（E30，2024-10-17，Y0_LEFT；AA_218 第 11 節）以後經濟系的`
+- `src/data/feed_y1s1.js:58:    {id:'kx4',who:'kexin',t:'W9三 22:40',st:'朋友',pic:'木柵大學圖書館的樓梯，從下往上拍',say:'期中。這個樓梯我今天爬了好幾趟。',cm:['腿還好嗎？','不好`
+- `src/data/feed_y1s1.js:96:    /* 10-2 沛珊：哲學概論的期中報告（第 10 週週二 23:15，有點熟以上；這學期唯一一則）*/`
+- `src/data/feed_y1s1.js:97:    {id:'ps_phil',who:'classmate_peishan',t:'W10二 23:15',st:'有點熟',lines:['欸，我跟你說一件事，你不用回喔。','哲學概論的期中報告，我交給老師了。我沒有`
+- `src/wzpark3d.js:49:  S.examWeek=G=>{ const T=T_(G); return !!(T&&T.exam); };   /* 期中第 8～9 週、期末第 16 週（16 週制）*/`
+- `src/wzpark3d.js:50:  /* 大三上第 10 週（AA_166 線四；AA_420 6-1：第 9 週是期中考週，改第 10 週）：貓不見了；找到的隔天（或第 11 週）公布欄換成「已找到」（src/wzlines3d.js `
+- `src/wzpark3d.js:130:  /* 寒暑假＝兩個學期中間（CALENDAR.termOf 是 null）；畢業那年的九月以後沒有學期表，照平常上學 */`
+- `src/dorm203_3d.js:8:       「大一上」＝大一上起；「第 1～4 週」「期中前（第 1～7 週）」「期末前（第 10～15 週）」只在那一學期那幾週；「期中後」＝第 10 週起（之後`
+- `src/dorm203_3d.js:13:       3-2 誰關燈：民法總則期中考前一晚（大一上第 8 週週三 10/22）23:00～23:30，開演時鐘到 23:30（稿「23:30。柏翰站在燈的開關旁邊。」）。隔天 ev_midt`
+- `src/jp3d.js:17:   - 台灣的大三下（J-S6、J-S15）：日本路線不排台灣的課、不跳開學和期中期末的提示（classes3d.js 問 JP.skipTerm）；成績單只有日本的兩門（日本語不算學分`
+- `src/jp3d.js:72:  S.skipTerm=(G,termId)=>termId==='Y3S2'&&isJP(G);   /* J-S6：日本路線不修台灣的大三下（classes3d.js：不排課、不跳開學和期中期末的提示；成績單換日本的兩門）*/`
+- `src/sideq3d.js:527:  /* 房間物品「學姊大一的民法總則」：期中、期末考前一晚（明天有考試、18:00 以後）「看」＝最後一頁那一行（一次）；平常＝AA_408 6 那一句（封面`
+- `src/romance3d.js:70:    if(wd<1||wd>5||!T||CALENDAR.holiday(G.day)) return false; if(typeof STORY!=='undefined'&&STORY.presence&&(!STORY.presence('heroine_04',G).here||!STORY.presence('kai',G).here)) return false; if(!on`
+- `src/date3d.js:81:  /* 去她的城市那一天＝一次正式校外約會（AA_349 K3：沛珊放榜以後只能私下約，去台南（學期中）、去台中（寒暑假）那一天算一次；告白條件的 4 次可`
+- `src/date3d.js:232:  S.homeOnly=function(G,id){ const c=S.homeCity(G,id); if(!c) return null; { const T=typeof CALENDAR!=='undefined'&&CALENDAR.termOf?CALENDAR.termOf(G.day):null; if(T&&T.exam) return null; }   /* AA_383 `
+- `src/date3d.js:247:    if(ov||P.kind==='day') for(const [d] of span){ const T=typeof CALENDAR!=='undefined'&&CALENDAR.termOf?CALENDAR.termOf(d):null; if(T&&T.exam) return no('考試週'); }   /* AA_126 1-1（企劃線第 `
+- `src/date3d.js:346:     以安「明天早上有讀書會」只在學期中（寒暑假換另一句）；語彤「晚上我要幫阿姨」只在她在臺北、麵店那天有開（不然換「走累了。回去吧。」`
+- `src/date3d.js:363:  /* 她不上來的日子（presence.noTaipei＝從哪一天起；沛珊放榜以後學期中在台南、寒暑假在台中，AA_282 第 1、6 節）：北部的校外約會地點全部約不到（AA_3`
+- `src/econsl3d.js:9:       pool 的「今天說過了」是 STORY.greetB 的通用招呼（「期中加油。」、點頭旁白）——這裡不用：那些句子不在 AA_536，改用 AA_536 的打招呼輪流。`
+- `src/pool_more3d.js:120:    [NW]:G=>{ S.nwLend(G); if(G.flags&&G.flags.NW_SELF&&!G.flags.NW_BORROW&&R_(G).nwSelf==null) R_(G).nwSelf=tid(G)||null; } });   /* NW_SELF：記下是哪一學期說「我自己做筆記就好`
+- `src/pool_more3d.js:121:  /* AA_528 1-5：乃文「期中前改變主意，B1 找我」——那學期第 8 週週日以前、平日 19～22、在 B1 和她說話，選單多一個「（借筆記）」（STORY.TALK_OPTS`
+- `src/outings3d.js:39:    /* DL-06C 第三批（spots_v3 3b599624；使用者 10-17 核准的 33 張，abad2fa0 照原檔複製）*/ d01_base_afternoon:{label:'華山1914文創園區・下午',image:'assets/bg/d01_base_aft`
+- `src/wish3d.js:127:    const day=S.nextDay(G,I.dateWeekday); if(day==null) return false; const T2=CALENDAR.termOf(day); if(!T2||(I.notExamWeek&&T2.exam)) return false;   /* 約的那天：學期中、不是考試週 */`
+- `src/r2y4b3d.js:172:      {t:'妳呢？',set:{YT_AUNT_PHOTO:'you'},say:[{from:'heroine_03',text:'我在總圖。期中考，店剛好也沒開。'}]}]};`
+- `src/r2y4b3d.js:822:  if(typeof CLS!=='undefined'&&Array.isArray(CLS.IN_CLASS)){ const f=(GM,it)=>S.journal(GM,it); f.due=(G,it)=>!!it&&!!it.c&&it.c.id==='legal_research'&&!it.exam&&law(G)&&it.term==='Y4S2'&&it.week===15&`
+- `src/home3d.js:576:       → 考試週（期中第 8～9 週、期末）→ 天氣（涼：11 月第一個週四；熱：5 月第一個週四；被上面佔走往後一週）→ 爸爸寄東西（第 7 週週四；被上`
+- `src/home3d.js:586:  /* AA_459 第 1 節（企劃線 c0972cd32）：連假②「放三天 回來住兩晚」→「這次連假 回來住幾天」（大一下春假放四天）；期中（第 8～9 週）只用一次＝第`
+- `src/home3d.js:610:    let lj=0, mid=0; W.forEach((d,i)=>{ const f=fest(d), ex=(C.termOf(d)||{}).exam; P[d]=tid==='Y1S1'&&i===0?(C.dateOf(d+2).d<=7?'first_sis':'first'):(gd!=null&&d+2===gd)?'grad':f?f:((nat(d+1)||nat(d+4)`
+- `src/home3d.js:619:    const H=S.rec(G), C=H.grp&&typeof H.grp==='object'?H.grp:(H.grp={p:0,e:0}), p=k==='p'; if(C.t!==Tm.id){ if(C.t!=null){ C.p=0; C.e=0; } C.t=Tm.id; }   /* 平常、長輩圖照「這學期」用到第`
+- `src/home3d.js:625:  /* AA_532 第 4 節（企劃線 ade80d22f；第①級）：留宿舍的玩家，寒暑假的週四照常發（同學期中那一套輪：平常①、平常③、長輩圖；次數接著這學期的 G.`
+- `src/invites3d.js:98:  const hoursOf=(G,P,day)=>{ if(P.hoursFrom&&typeof PLACES!=='undefined'&&PLACES.windowsOf){ const ws=PLACES.windowsOf(P.hoursFrom,day); if(ws!==undefined) return ws&&ws[0]?ws[0]:[99,0]; }   /* hoursF`
+- `src/postgrad3d.js:582:    ['2029-10-17','2029-11-19',G=>y5d(G,'work'),'（高二那個學生期中考進步了。他媽媽多塞了一袋橘子給你。）'],`
+- `src/econff3d.js:56:           ['2024-10-08','2024-10-11','（期中考的範圍公布了。阿勳把考試日期寫在一張紙上，貼在桌前。）'],`
+- `src/econff3d.js:84:    ev_y0_kt6:()=>({msgs:[KT('下下禮拜就期中考了。你經原讀到哪了？'),KT('……你不用回答。我猜還沒開始。')],`
+- `src/econff3d.js:99:    ['2024-10-13','2024-10-14','（期中考的範圍公布了。阿勳把考試日期寫在一張紙上，貼在桌前。）'],`
+- `src/r2y3b3d.js:214:  S.SCHED.classmate_xinci=[{days:[4],from:19,to:20,zone:'noodle',act:'eat',terms:['Y3S2'],weeks:[11],dates:[['2028-05-04','2028-05-04']],note:'AA_326 2-Y3-42：慈 6，期中放榜後的第一個週四`
+- `src/r2y3b3d.js:326:  /* AA_377 第 5 項：訊息池不看日期——3/26 就傳四月的櫻花、問大二上的行政法期中、7/30 還說「這禮拜的課很難」（她的課 7/21 結束）。照日子挑：`
+- `src/r2y3b3d.js:327:     櫻花那則只在 4 月；「你那邊期中考了嗎？」只在臺灣的第 8～9 週；「這禮拜的課很難。」那段視訊只在 7/21 以前；讀書會 Alison 那則只給參加過讀`
+- `src/r2y3b3d.js:436:    work:[G=>tutor(G)?(atHome(G)?'暑假學生的課排得比學期中多。你從家裡搭捷運去。':'暑假學生的課排得比學期中多。宿舍沒什麼人，你每次都是第一個出門`
+- `src/y5s1_3d.js:4:   - 日期標籤（CLS.dayLabel）：「大五上 第 N 週」（照其他學期的格式；沒有期中、期末考週）。12/24～1/20 照原本寫「寒假」，1/21 以後照畢業後篇。`
+- `src/y5s1_3d.js:52:      return x.m+'/'+x.d+' '+CLS.WD[x.wd]+(hol?'・'+hol:'')+'・'+CLS.termName(t.id)+' 第 '+t.week+' 週'; };   /* 大五上沒有期中、期末考（AA_357 第 4 節「這一次，沒有期末考」`
+- `src/v6b_3d.js:164:  S.DP=[{id:S.RP_ID,term:t=>!!t&&(t.id==='Y4S1'||t.id==='Y4S2'),max:()=>99,h:()=>23+10/60,ok:(G,day)=>S.rpOk(G,day),items:()=>S.L.rpPhoto.map((t,k)=>Object.assign(dm(PS)(t),{dt:k/60}))}];   /* 5-2 在`
+- `src/v6b_3d.js:245:    '5-2 紅筆照片的時間 23:10（她 23:00 以後最常傳，BB_165 5-1）；只在學期中（每天的手機小事的規則）'];`
+- `src/practice3d.js:16:    '2029-04-10':'（期中考那一週，實習照樣要去。午休的時候，你在會議室角落讀筆記。助理經過，把冷氣調小了一點。）',`
+- `src/fest3d.js:142:  /* 出發地（DATE-C7、AA_128 4-1、11-1）：寒暑假住臺北的家（車就在家裡）＝不加回家取車、還車的 30 分（DATE.fromHomeOn）；學期中從宿舍出發照舊去回各多 `
+- `src/us_life3d.js:7:       10/26 期中報告、12/8 最後一堂換旁白；出席不影響結果。入口：起床選單（CLS.wakeMenu）、公寓平台「去上課」、社區「搭公車（去學校）」、校園「`
+- `src/us_life3d.js:15:   S7  台灣的大四上：不選課、不跳開學／期中／期末提示；成績單只有美國三門（2029-01-08「三門通過」）。`
+
+## 3. 拿掉期中考以後要跟著改的測試（05:4x LAWWW；做法改成「日曆上的期中週照舊、只是不考試」以後，原本 32 支剩 14 支）
+
+- 純機制（測試寫的是舊規則，LAWWW 改）：classes_unit（第 8 週是考試、成績照準備次數）、exam_slots_unit、multiweek_sim_unit、never_set_flags_unit 3-1～3-6、semff_unit 2b、bed_nap_unit、discuss_unit（考試週不發）
+- 掛在期中考上的劇情（現在不會演；等 AA 定新掛點，測試再跟著改）：aa120_s7（距離第一個期中考的天數）、aa342_twfill 4（海商法 4/11 期中考）、aa463_y3s2 7（她在台南：考試週的週五）、cold_week 8（冷麵日＝期中最後一科考完）、aa404_sideq SQ15（學姊的民總：期中考前一晚那一句）、aa502_dorm203 1、9（室友考試週作息）、aa375_y2s2（找不到期中考日期就當掉的測試）
+
+## 4. 全套測試結果（06:0x LAWWW；基準＝c3036bc90 全部 841 支只有 v6b 失敗）
+
+- 寫舊規則的測試（LAWWW 已改，全部 PASS）：classes、exam_slots、multiweek_sim、never_set_flags、semff、bed_nap、discuss、v2_econ（第 8 週照常上課＝第一次出席演 P4d）、dl01、dl05、dl06、v3_d12（這幾支沒載題庫）
+- 經濟系那一年 Y0 的考試照舊（E11、E19 等劇情掛在那幾場考試上）；成績固定及格。v0_e11、v0_e19 恢復 PASS
+- 刪分支的連帶：27 支測試／工具讀帳號 B 的舊分支名，已改成現在的分支（909792383）
+- **掛在法律系期中考上的劇情，等 AA 定新掛點（11 支測試）**：aa120_s7（距離第一個期中考的天數）、aa342_twfill 4（海商法 4/11 期中考那一句）、aa375_y2s2、aa404_sideq SQ15（學姊的民總：期中考前一晚）、aa463_y3s2 7（她在台南：考試週的週五視訊改期）、aa502_dorm203 1、9（室友考試週作息）、cold_week 8（冷麵日）、v6_crack S9（沛珊考試週視訊改期）、v1_batch8 G1（民總期中考）、v1_batch9 A15（考完試走出教室）、v2_c11 2（刑總二期中考）

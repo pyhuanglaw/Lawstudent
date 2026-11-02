@@ -674,7 +674,7 @@ const inDoc=t=>DOC.indexOf(t)>=0||X547.indexOf(t)>=0;
       check('5-4. 動物影片：每日那四則保留前 2 則（貓、柯基），第 3、4 則換成他自己的事第 1、2 則',arr.length===4&&/^📹/.test(arr[0])&&/^📹/.test(arr[1])&&arr[2]===K.vids[0]&&arr[3]===K.vids[1],J(arr));
       check('5-4. 跟著影片的「學姊妳到底有沒有看」「有。三分十二秒。」拿掉',!src.includes('學姊妳到底有沒有看')&&!src.includes('有。三分十二秒。')); }
     check('5-4. 第 5 則（鸚鵡）換成「考古題資料夾我整理了一個晚上 ……已刪除」，學姊的「七八五十六。」拿掉',typeof Y1FILL_LINES!=='undefined'&&J(Y1FILL_LINES.dp.kevin_parrot)===J([['kevin',K.vids[2]]])&&!noCmt('src/data/y1fill_events.js').includes('七八五十六。'));
-    { const e=SISB12_LINES.fam2.find(x=>x.day==='2026-10-26'); check('5-4. 第 6 則（2026-10-26）換成「家聚吃什麼 不要再吃咖哩了」；「期中加油各位」「收到。」照留',!!e&&J(e.L)===J([['k',K.vids[3]],['k','期中加油各位'],['s','收到。']]),J(e&&e.L)); }
+    { const e=SISB12_LINES.fam2.find(x=>x.day==='2026-10-26'); check('5-4. 第 6 則（2026-10-26）換成「家聚吃什麼 不要再吃咖哩了」；「加油各位」（D118：AA_578 第 3 節第 1 點刪「期中」）「收到。」照留',!!e&&J(e.L)===J([['k',K.vids[3]],['k','加油各位'],['s','收到。']]),J(e&&e.L)); }
     check('5-4. 民法第 184 條（侵權行為）的那一則條號照實',K.vids[1].includes('民法第一百八十四條')); });
 
   /* ===================== 6 陳助教 ===================== */

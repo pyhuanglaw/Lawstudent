@@ -71,8 +71,8 @@ const CALENDAR=(function(){
     /* 這一天是哪個節日（放不放假都算）：'中秋'、'端午'、'冬至'（LUNAR 的表）、'母親節'（五月第二個星期日）；不是＝null。家人群組週四挑句子用（AA_458 1-2，home3d.js 的 HOME.grpPlan）*/
     fest(day){ const x=C.dateOf(day), L=LUNAR[x.y]||{}; if(L.moon===x.key) return '中秋'; if(L.dragon===x.key) return '端午'; if(L.dz===x.key) return '冬至'; if(x.m===5&&x.wd===7&&x.d>=8&&x.d<=14) return '母親節'; return null; },
     mark(day){ return MARK[C.dateOf(day).key]||null; },   /* 日曆上只標字、照常上課的日子（大二起的全校運動會，AA_355 第 5 節第 6 題）*/
-    /* 這一天在哪個學期：{id, week（1～16）, exam：'mid'（第 8～9 週）｜'final'（第 16 週）｜null}；寒暑假＝null */
-    termOf(day){ const t=C.tOf(day); for(const T of TERMS){ if(t>=T.t0&&t<T.t1){ const week=Math.floor((t-T.t0)/(7*DAY))+1; return {id:T.id,week,exam:week>=8&&week<=9?'mid':(week>=T.weeks?'final':null)}; } } return null; },
+    /* 這一天在哪個學期：{id, week（1～16）, exam：'mid'（第 8～9 週＝期中週；D118 起不考試）｜'final'（第 16 週）｜null}；寒暑假＝null */
+    termOf(day){ const t=C.tOf(day); for(const T of TERMS){ if(t>=T.t0&&t<T.t1){ const week=Math.floor((t-T.t0)/(7*DAY))+1; return {id:T.id,week,exam:week>=8&&week<=9?'mid':(week>=T.weeks?'final':null)};   /* 'mid'＝期中週（D118 起沒有期中考，但日曆上的期中週照舊給劇情、約會、打工等時間系統用；不考試是 classes3d.js 的事）*/ } } return null; },
     /* 學期的天數範圍（第 1 天＝開學週一、最後一天＝第 16 週週日）*/
     termDays(id){ const T=TERMS.find(x=>x.id===id)||TERMS_DELAYED.find(x=>x.id===id); if(!T) return null; const d0=Math.round((T.t0-DAY1)/DAY)+1; return {from:d0,to:d0+T.weeks*7-1}; },
     /* 成績公布日（AA_197 1-6）：放假後第 3 個週一＝第 16 週之後第 3 個週一（114-1＝2026-01-05、114-2＝2026-06-29）*/

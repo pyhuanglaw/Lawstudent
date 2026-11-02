@@ -1,0 +1,53 @@
+// ATTEND-ROLLCALL-1102（使用者 11-02「教授通常是隨機點名 一年只點名幾次」→ 選「改成隨機點名日」；AA_574 末節）——不需要瀏覽器。
+//   a 看出席的課每學期 4 個點名週（第 2～7、10～15 週；照存檔種子；每門課不一樣；同一份存檔每次一樣）
+//   b 新遊戲：只去不是點名的那幾堂（出席 10 次）、點名日全缺＝不及格
+//   c 只去了 2 個點名日（出席只有 2 次）＝及格（缺 2 次，不到 3 次）
+//   d 舊存檔（這學期在改規則以前就開始了）：出席 ≥3 照舊及格，不會突然被當
+//   e 法律課不點名：沒有點名週
+//   f 這一週的點名：上課前不算缺、下課沒去才算、去了不變（BUG-ROLLCALL-CURWEEK-1102，修改前 f1 FAIL）
+// 修改前（82f8d28c5）：a、b、c、e FAIL。用法：node tests/attend_rollcall_unit.js
+'use strict';
+const H=require('./pg_harness.js'); const {check}=H; const J=JSON.stringify;
+const C=id=>COURSES.list.find(c=>c.id===id);
+const itemsOf=(G,cid,term)=>{ const out=[]; for(let d=-500;d<900;d++){ const t=CALENDAR.termOf(d); if(!t||t.id!==term) continue; for(const it of CLS.dayItems(G,d)) if(it.c.id===cid) out.push(it); } return out; };
+const go=(G,its)=>{ const R=CLS.rec(G); for(const it of its){ R.done[it.key]=1; R.attend[it.c.id]=(R.attend[it.c.id]||0)+1; } };
+const fresh=()=>{ const G=H.fresh('2025-09-01',8,'dorm',{examSeed:777}); CLS.rec(G); return G; };
+/* a */
+{ const G=fresh(); const w=CLS.rollWeeks?CLS.rollWeeks(G,C('chinese_y1'),'Y1S1'):null, w2=CLS.rollWeeks?CLS.rollWeeks(G,C('english_y1'),'Y1S1'):null;
+  const ok=w&&w.length===4&&new Set(w).size===4&&w.every(x=>(x>=2&&x<=7)||(x>=10&&x<=15));
+  check('a. 國文（上）4 個點名週，在第 2～7、10～15 週；同一份存檔再算一次一樣；和英文不一樣',!!ok&&J(w)===J(CLS.rollWeeks(G,C('chinese_y1'),'Y1S1'))&&J(w)!==J(w2),J({w,w2})); }
+/* b */
+{ const G=fresh(); G.courses.rollSince=-9999; const c=C('chinese_y1'), w=CLS.rollWeeks?CLS.rollWeeks(G,c,'Y1S1'):[]; const its=itemsOf(G,'chinese_y1','Y1S1');
+  go(G,its.filter(it=>!w.includes(it.week))); const f=CLS.failedIn(G,'Y1S1').map(x=>x.id); const rep=CLS.reportFor(G,'Y1S1');
+  check('b. 只去不是點名的那幾堂（出席 '+(CLS.rec(G).attend.chinese_y1||0)+' 次）、點名日全缺＝不及格',f.includes('chinese_y1')&&/^不及格/.test(rep.chinese_y1||''),J({f,rep:rep.chinese_y1,w})); }
+/* c */
+{ const G=fresh(); G.courses.rollSince=-9999; const c=C('chinese_y1'), w=CLS.rollWeeks?CLS.rollWeeks(G,c,'Y1S1'):[]; const its=itemsOf(G,'chinese_y1','Y1S1');
+  go(G,its.filter(it=>w.slice(0,2).includes(it.week))); const f=CLS.failedIn(G,'Y1S1').map(x=>x.id); const rep=CLS.reportFor(G,'Y1S1');
+  check('c. 只去了 2 個點名日（出席 2 次）＝及格（缺 2 次）',!f.includes('chinese_y1')&&rep.chinese_y1==='及格',J({f,rep:rep.chinese_y1,att:CLS.rec(G).attend.chinese_y1,w})); }
+/* d */
+{ const G=fresh(); G.courses.rollSince=PG.DK('2025-11-01'); const c=C('chinese_y1'), w=CLS.rollWeeks?CLS.rollWeeks(G,c,'Y1S1'):[]; const its=itemsOf(G,'chinese_y1','Y1S1');
+  go(G,its.filter(it=>!w.includes(it.week)).slice(0,3)); const f=CLS.failedIn(G,'Y1S1').map(x=>x.id);
+  check('d. 舊存檔（這學期在改規則以前就開始）：出席 3 次照舊及格，點名日缺了也不會突然被當',!f.includes('chinese_y1'),J({f,att:CLS.rec(G).attend.chinese_y1})); }
+/* e */
+{ const G=fresh(); const w=CLS.rollWeeks?CLS.rollWeeks(G,C('civ_general'),'Y1S1'):null;
+  check('e. 法律課（考五題）不點名：沒有點名週',Array.isArray(w)&&w.length===0,J(w)); }
+/* f BUG-ROLLCALL-CURWEEK-1102（BB 07:01）：這一週的點名，還沒上的那一堂不算缺；下課以後沒去才算；去了不變 */
+{ const G=fresh(); G.courses.rollSince=-9999; const c=C('chinese_y1'), w=CLS.rollWeeks(G,c,'Y1S1'), its=itemsOf(G,'chinese_y1','Y1S1'), tg=w[2];
+  go(G,its.filter(it=>it.week===w[0])); const it=its.find(x=>x.week===tg); G.day=it.day; G.hour=Math.max(0,it.t0-1);
+  const s1=CLS.rollStat(G,c,'Y1S1',G.day); G.hour=it.t1+0.1; const s2=CLS.rollStat(G,c,'Y1S1',G.day);
+  go(G,[it]); const s3=CLS.rollStat(G,c,'Y1S1',G.day);
+  check('f1. 第 '+tg+' 週上課那天、上課前：只缺 1 次（這一週還沒上不算）',s1.missed===1&&s1.past===2,J(s1));
+  check('f2. 下課以後沒去：缺 2 次',s2.missed===2&&s2.past===3,J(s2));
+  check('f3. 有去：缺的次數不變（1 次）',s3.missed===1&&s3.past===3,J(s3));
+  G.day=it.day-1; G.hour=10; const s0=CLS.rollStat(G,c,'Y1S1',G.day); check('f4. 前一天（同一週或上一週）：缺 1 次',s0.missed===1,J(s0)); }
+/* g BUG-ROLLCALL-SEED0-1102（BB 09:45，CC M3）：新遊戲沒有 examSeed 時，抽點名週的當下就產生種子（不再用種子 0）；已經抽好存起來的不改 */
+{ const G1=H.fresh('2025-09-01',8,'dorm',{}); delete G1.flags.examSeed; CLS.rec(G1); const c=C('chinese_y1'); const w1=CLS.rollWeeks(G1,c,'Y1S1');
+  check('g1. 沒有 examSeed：抽點名週時產生種子（不是 0、存進 flags）',G1.flags.examSeed!=null&&G1.flags.examSeed!==0,String(G1.flags.examSeed));
+  const seen=new Set(); for(let i=0;i<8;i++){ const Gx=H.fresh('2025-09-01',8,'dorm',{}); delete Gx.flags.examSeed; CLS.rec(Gx); seen.add(J(CLS.rollWeeks(Gx,c,'Y1S1'))); }
+  check('g2. 八個新遊戲：國文（上）點名週不會全部一樣',seen.size>1,J([...seen]));
+  const R1=CLS.rec(G1); const saved=J(R1.roll['Y1S1:chinese_y1']); G1.flags.examSeed=999; check('g3. 已經抽好存起來的點名週照舊（換種子也不變）',J(CLS.rollWeeks(G1,c,'Y1S1'))===saved); }
+/* h BUG-ROLLCALL-Y4S2W15-1102：大四下只有 15 週、第 15 週是期末考週——點名週只能在 2～7、10～14 */
+{ const G=H.fresh('2029-02-20',8,'dorm',{examSeed:31}); const R=CLS.rec(G); R.retake=[{id:'japanese_2',from:'Y3S2',base:'Y2S2',term:'Y4S2',slots:[{wd:3,block:'pm1'}],alt:false}];
+  const att=CLS.termCourses(G,'Y4S2').filter(x=>CLS.attCourse(x)); const bad=[]; for(const x of att){ const w=CLS.rollWeeks(G,x,'Y4S2'); if(w.some(v=>v>=15)) bad.push([x.id,w]); }
+  check('h. 大四下看出席的課：點名週沒有第 15 週（期末考週）',att.length>0&&bad.length===0,J({n:att.length,bad})); }
+H.done();

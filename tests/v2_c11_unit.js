@@ -1,6 +1,7 @@
 // 交接包 v2 C11、C21 第二個畫面（AA 2026-10-14 64ceb70）：大一下期中考完（刑總二，第 8 週週三）——G1 大一下版＋晚上 19:00 阿鳳麵店長桌——不需要瀏覽器。
 // 修改前沒有 ev_midterm_walkout_y1s2（第 1 項失敗）。檢查：G1 的兩句、沒有選項（沒有群組的玩家最後被當面問）；群組揪人的時間與排程；「去。」才排、「這次不行。」不排；
 //   晚餐的開頭（認識 Alison 才有）、明軒的回聲（SAW_HIM_STUDY）、沛珊和柏翰（認識沛珊才有）；沒去的群組成員 20:30 收到滷蛋照片＋「柏翰幫沛珊切的」「……他們在一起了」（AA_373 #16，照交接包 v2）、記聽說；不去不扣分；大一上不受影響
+// D118 沒有期中考（AA_578 第 2 節 #9、#11）：G1 大一下版改到刑總二期末考（afterExam:'final'）、晚餐改到刑總二期末考那天（預設課表 6/10，不是大一下最後一科，不順延）；字照舊。
 // 用法：node tests/v2_c11_unit.js
 const fs=require('fs'), vm=require('vm'), path=require('path');
 const ROOT=path.resolve(__dirname,'..');
@@ -8,7 +9,7 @@ global.window=global; global.self=global; global.P3={CAST:{}};
 global.document={ getElementById:()=>null, addEventListener(){} }; global.navigator={userAgent:'node'}; global.addEventListener=()=>{}; global.location={search:''};
 const load=f=>{ let src=fs.readFileSync(path.join(ROOT,f),'utf8'); src=src.replace(/^const (\w+)\s*=/mg,(m,n)=>/^(CHARACTERS|UNFAMILIAR_POOL|SOCIAL_GRAPH|PORTRAITS|STORY_EVENTS|STORY_EVENTS_V11|SMALLTALK|SOCIAL|EVENTS|STORY|CALENDAR|PLACES|INVITE_DATA|INV|PHONE|COURSES|CLS|ACTIVITIES|REL_LINES|OUT)$/.test(n)?'globalThis.'+n+'=':m); vm.runInThisContext(src,{filename:f}); };
 global.THREE={Vector3:class{ constructor(x,y,z){ this.x=x||0; this.y=y||0; this.z=z||0; } }};
-for(const f of ['src/data/calendar.js','src/data/places.js','src/data/characters.js','src/data/rel_lines.js','src/data/courses.js','src/data/activities.js','src/data/events.js','src/social3d.js','src/events3d.js','src/data/invites.js','src/invites3d.js','src/phone3d.js','src/outings3d.js','src/story3d.js','src/classes3d.js']) if(fs.existsSync(path.join(ROOT,f))) load(f);
+for(const f of ['src/data/calendar.js','src/data/places.js','src/data/characters.js','src/data/rel_lines.js','src/data/courses.js','src/data/exam_bank.js','src/data/activities.js','src/data/events.js','src/social3d.js','src/events3d.js','src/data/invites.js','src/invites3d.js','src/phone3d.js','src/outings3d.js','src/story3d.js','src/classes3d.js']) if(fs.existsSync(path.join(ROOT,f))) load(f);
 let fails=0; const check=(name,ok,info)=>{ console.log((ok?'PASS ':'FAIL ')+name+(info?'　'+info:'')); if(!ok) fails++; };
 global.ADV={active:false,preload(){},begin(){},end(){},log(){},speaker(){},cg(){}}; global.CHAR={setExpr(){}};
 global.LEGAL={ask:async()=>{},apply(){},stateOf:()=>'unseen',STATES:['unseen']};
@@ -34,12 +35,13 @@ const meet=id=>SOCIAL.remember(id,'FIRST_MET','');
   const g1=ev('ev_midterm_walkout_y1s2'), sup=ev('ev_midterm_supper_y1s2');
   check('1. G1 大一下版、考完的晚餐兩個事件都在',!!g1&&!!sup);
   if(!g1||!sup){ console.log('FAILED '+fails); process.exit(1); }
-  check('1. G1 接在刑總二的期中考之後、只在大一下',g1.afterClass==='crim_gen2'&&g1.afterExam==='mid'&&JSON.stringify(g1.term)==='["Y1S2"]'&&g1.once===true);
-  let midDay=null, midIt=null; for(let d=termDay('Y1S2',8,1);d<=termDay('Y1S2',9,7);d++){ fresh(d,8,'campus'); const it=CLS.dayItems(G,d).find(x=>x.c.id==='crim_gen2'&&x.exam==='mid'); if(it){ midDay=d; midIt=it; break; } }
-  check('2. 刑總二期中考在第 8 週週三（4/15）',midDay===termDay('Y1S2',8,3),JSON.stringify({midDay,want:termDay('Y1S2',8,3),date:midDay&&CALENDAR.dateOf(midDay)}));
+  check('1. G1 接在刑總二的期末考之後、只在大一下（AA_578 #9）',g1.afterClass==='crim_gen2'&&g1.afterExam==='final'&&JSON.stringify(g1.term)==='["Y1S2"]'&&g1.once===true);
+  let midDay=null, midIt=null; for(let d=termDay('Y1S2',16,1);d<=termDay('Y1S2',16,7);d++){ fresh(d,8,'campus'); const it=CLS.dayItems(G,d).find(x=>x.c.id==='crim_gen2'&&x.exam==='final'); if(it){ midDay=d; midIt=it; break; } }
+  const lastY1S2=CLS.lastExamEnd(G,'Y1S2','final');
+  check('2. 刑總二期末考在第 16 週週三（6/10），不是大一下最後一科（晚餐不順延）',midDay===termDay('Y1S2',16,3)&&!!lastY1S2&&lastY1S2.day>midDay,JSON.stringify({midDay,want:termDay('Y1S2',16,3),date:midDay&&CALENDAR.dateOf(midDay),last:lastY1S2}));
   if(!midDay){ console.log('FAILED '+fails); process.exit(1); }
   /* G1 */
-  const runG1=async(group,pk)=>{ fresh(midDay,midIt.t0+0.2,'classroom',{}); for(const id of ['zhe','yu','classmate_peishan','classmate_bohan']) meet(id); if(group) PHONE.join(G,'noodle_team','麵店團'); picks=pk||[]; await CLS.attend(GM,midIt); return lines(); };
+  const runG1=async(group,pk)=>{ fresh(midDay,midIt.t0+0.2,'classroom',{}); for(const id of ['zhe','yu','classmate_peishan','classmate_bohan']) meet(id); if(group) PHONE.join(G,'noodle_team','麵店團'); picks=[0,0,0,0,0].concat(pk||[]);   /* D118：期末考五題選擇先答完 */ await CLS.attend(GM,midIt); return lines(); };
   let L=await runG1(true);
   const i0=L.indexOf('走廊上一群人。有人在翻課本，有人已經在滑手機。');
   check('3. G1 大一下版：旁白沿用大一上＋阿哲「刑總二比上學期難好多，第三題我整題亂寫。」（AA_209）',i0>=0&&L[i0+1]==='阿哲：刑總二比上學期難好多，第三題我整題亂寫。',JSON.stringify(L.slice(Math.max(0,i0),i0+3)));

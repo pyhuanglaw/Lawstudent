@@ -48,6 +48,17 @@ const TRIP=(function(){
     for(const iv of (G.invites||[])) if(iv.day===G.day&&(iv.accepted||iv.state==='accepted')&&!iv.done&&iv.h>h0&&iv.h<h1) out.push(hm(iv.h)+' '+(iv.label||'約好的見面'));
     if(typeof OUT!=='undefined'&&OUT.rec) for(const q of OUT.rec(G)) if(q.state==='planned'&&q.day===G.day&&q.h>h0&&q.h<h1) out.push(hm(q.h)+' '+(q.title||'出遊'));
     return out.slice(0,3); };
+  /* R1 補（AA_160 3-4 D 第 3 點；DL-04）：這一趟的時間裡有 B 表那種窗口很短的劇情（家族聚餐、校慶問答攤）＝照 R1 列出來；有【必】（keep:'must'）＝不能出發（「今天下午有一件事」）。
+     聖誕交換禮物是出遊（OUT，上面 wouldMiss 已經列）、颱風夜的泡麵那天不能搭捷運（S.check）。預告時當作人會在（npcPresent／near 不看，同翹課預告 CLS.classMissList）。
+     作法：把時間、地點暫時放到那一段（每 15 分鐘）問 EVENTS.check，問完放回去 */
+  S.R1_EV=['ev_sis_family_dinner','ev_sis_festival_booth'];
+  S.evMiss=function(G,h1){ const out={fixed:[],must:[]}; if(typeof STORY_EVENTS==='undefined'||typeof EVENTS==='undefined'||!EVENTS.check) return out; const h0=G.hour, done=(G.events&&G.events.done)||{};
+    for(const e of STORY_EVENTS){ const must=e.keep==='must'; if(!must&&!S.R1_EV.includes(e.id)) continue; if(done[e.id]&&e.once!==false) continue;
+      const a=Math.max(h0,e.time?e.time[0]:h0), b=Math.min(h1,e.time?e.time[1]:h1); if(!(b>a)) continue; const z=e.location&&e.location!=='any'?[].concat(e.location)[0]:null, ev=Object.assign({},e,{npcPresent:undefined,near:undefined,npcNear:undefined});
+      const k={hour:G.hour,zone:G.zone}; let at=null;
+      try{ for(let h=a;h<b-1e-6&&at==null;h+=0.25){ G.hour=h; if(z) G.zone=z; if(EVENTS.check(ev)) at=h; } }catch(err){ console.warn('FREETRIP evMiss',err); } finally{ G.hour=k.hour; G.zone=k.zone; }
+      if(at!=null) (must?out.must:out.fixed).push({id:e.id,h:at,t:hm(at)+' '+(e.title||'（劇情）')}); }
+    return out; };
   /* 入口：捷運公館站（4-1）*/
   S.menu=async function(GM){ const G=GM.G; const L=S.list(); if(!L.length){ GM.sceneBegin(); try{ await GM.say(null,'捷運公館站。'); } finally { GM.sceneEnd(); } return false; }
     /* 外縣市（要轉火車、高鐵、客運）分開列（2026-10-18 使用者：「為什麼公館捷運可以去花蓮七星潭、高雄、台南、嘉義、台中？捷運可以去嗎」）：
@@ -58,7 +69,8 @@ const TRIP=(function(){
     const o=opts[i]; if(!o||!o.s) return false; if(o.dim){ GM.toast(o.hint.replace(/　（.*$/,''),3200); return false; } return S.go(GM,o.s); };
   /* 去程（4-3）*/
   S.go=async function(GM,s){ const G=GM.G, k=S.check(G,s); if(!k.ok){ GM.toast(k.why,3000); return false; } const m=s.transit.minutes/60, stay=Math.max(G.hour+m,s.open[0])+1;
-    const miss=S.wouldMiss(G,stay+m); if(miss.length){ let j=1; GM.sceneBegin(); try{ await GM.say(null,'這一趟會錯過：'+miss.join('、')+'。'); j=await GM.choose([{t:'照樣出發'},{t:'先不要'}]); } finally { GM.sceneEnd(); } if(j!==0) return false; }
+    const em=S.evMiss(G,stay+m); if(em.must.length){ const hh=em.must[0].h; GM.sceneBegin(); try{ await GM.say(null,'今天'+(hh<12?'上午':(hh<18?'下午':'晚上'))+'有一件事。'); } finally { GM.sceneEnd(); } return false; }   /* 【必】：不能出發（AA_160 3-4 D 第 3 點）*/
+    const miss=S.wouldMiss(G,stay+m).concat(em.fixed.map(x=>x.t)).slice(0,3); if(miss.length){ let j=1; GM.sceneBegin(); try{ await GM.say(null,'這一趟會錯過：'+miss.join('、')+'。'); j=await GM.choose([{t:'照樣出發'},{t:'先不要'}]); } finally { GM.sceneEnd(); } if(j!==0) return false; }
     const c=C(), p=c&&c.periodAt?c.periodAt(G.hour):null; if(c&&c.slotsOn&&c.slotsOn(G)&&p) c.slotUse(G,[p]);
     G.trip={spot:s.id,depart:G.hour,arrive:null,done:[],walk:0,photo:false,p:p?[p]:[],from:G.zone};
     GM.sceneBegin(); try{ await GM.fade(true); if(GM.titleCard) await GM.titleCard(legLine(s),'公館 → '+legTo(s)+'　'+s.transit.minutes+' 分鐘',2200); GM.advance(m); GM.money(-Math.ceil(s.transit.fareRound/2)); if(G.hour<s.open[0]) GM.advance(s.open[0]-G.hour);

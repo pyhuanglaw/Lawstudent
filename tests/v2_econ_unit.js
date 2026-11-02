@@ -60,7 +60,7 @@ const meet=id=>SOCIAL.remember(id,'FIRST_MET','');
   /* AA_294 ②（企劃 b3ec8820，2026-10-18 取代 BB_161 ⑱ 的「第 7 週以後走廊直接遇到」）：不限週次，這學期第一次出席經原下就演 P4d */
   L=await attendWeek(11,null,['「重修。」']); check('5. 第 7 週以前都沒去：第 11 週第一次去照樣演 P4d「你怎麼又在這裡？」（AA_294 ②：這學期第一次出席就演；原本 BB_161 ⑱ 是走廊直接遇到）',L&&L.includes('阿勳：……你怎麼又在這裡？')&&L.includes('阿勳：盧正勳。你經濟系那年的室友。……你該不會連我都忘了。')&&L.includes('阿勳：週五中午，我們在學活。你要來就來。')&&!!G.flags.MET_XUN&&G.flags.P4D_ANSWER==='retake'&&G.flags.ECON_HALLWAY_DAY===termDay('Y1S2',11,5),JSON.stringify(L));
   { const {d,it}=(()=>{ const d=termDay('Y1S2',8,5); fresh(d,8,'putong'); return {d,it:CLS.dayItems(G,d).find(x=>x.c.id==='econ_principles_2')}; })();
-    if(it){ G.hour=it.t0+0.1; said=[]; await CLS.attend(GM,it); } check('5. 第 8 週（期中考週）考完經原不演',!it||!lines().some(l=>l.includes('你怎麼又在這裡')),JSON.stringify({exam:it&&it.exam,L:lines()})); }
+    if(it){ G.hour=it.t0+0.1; said=[]; await CLS.attend(GM,it); } check('5. 第 8 週（D118 起沒有期中考，照常上課）：這學期第一次出席經原＝照 AA_294 ② 演 P4d',!!it&&!it.exam&&lines().some(l=>l.includes('你怎麼又在這裡')),JSON.stringify({exam:it&&it.exam,L:lines()})); }
   /* 大一上 */
   { let d1=null,it1=null; for(let d=termDay('Y1S1',4,5);d<termDay('Y1S1',8,1);d++){ fresh(d,8,'putong'); const it=CLS.dayItems(G,d).find(x=>x.c.id==='econ_principles_1'); if(it){ d1=d; it1=it; break; } }
     if(it1){ G.hour=it1.t0+0.1; said=[]; await CLS.attend(GM,it1); } check('6. 大一上的經原（上）下課不演',!!it1&&!lines().some(l=>l.includes('你怎麼又在這裡')),JSON.stringify({d1,L:lines()})); }

@@ -38,6 +38,11 @@ const TH=th=>PHONE.thread(G,th).map(m=>m.text);
   // 沒去
   fresh(LD-1,21.1,'dorm'); PHONE.join(G,'econ_friends','走啦'); run(); at(LD,15.9); check('5. 沒去：16:00 以前沒有',!PHONE.sent(G,'y0_l5a_miss'));
   at(LD,16.1); const T=TH('g:econ_friends'); check('5. 沒去：16:00 品妤「📷（短脖子的長頸鹿）」「驗證結果：是馬。」可昕「是很努力的長頸鹿。」、沒有 Y0_CAFE_ORDER',T.includes('📷（短脖子的長頸鹿）')&&T.includes('驗證結果：是馬。')&&T.includes('是很努力的長頸鹿。')&&!G.flags.Y0_CAFE_ORDER);
+  /* 6 V0-B4（BB-B 歷史複核第 1 批）：自己先走進 Café 演完了，14:00 不再跳出出發選單 */
+  { fresh(LD-1,21.1,'dorm'); PHONE.join(G,'econ_friends','走啦'); run(); const q0=OUT.get(G,'y0_l5a'); G.day=LD; G.hour=13.8; G.weekday=wdOf(LD); G.zone='cafe'; picks=['冰美式']; await EVENTS.run(ev);
+    const dueAt=h=>{ G.hour=h; run(); const d=OUT.due(G); return d&&d.id; }, d1=dueAt(13.95), d2=dueAt(14.05), q1=OUT.get(G,'y0_l5a');
+    check('6. 13:48 自己走進 Café 演完：13:57、14:03 都不再跳出「出發：兩點半 Café 14:00」，那一筆記 done（不算沒去）',!!q0&&!!(G.events.done&&G.events.done.ev_y0_l5a)&&d1!=='y0_l5a'&&d2!=='y0_l5a'&&q1&&q1.state==='done',JSON.stringify({q0:!!q0,d1,d2,st:q1&&q1.state})); }
+  fresh(LD-1,21.1,'dorm'); PHONE.join(G,'econ_friends','走啦'); run();
   at(LD+7,10); check('5. 10/19 不再邀',PHONE.thread(G,'g:econ_friends').filter(m=>/長頸鹿。……我沒看過/.test(m.text)).length===1);
   console.log(fails?'FAILED '+fails:'ALL PASS'); process.exit(fails?1:0);
 })().catch(e=>{ console.error(e); process.exit(1); });

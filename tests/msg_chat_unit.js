@@ -27,7 +27,7 @@ global.DATE={stageNum:id=>STAGE[id]||1};
 const STN=['STRANGER','ACQUAINTANCE','FAMILIAR','FRIEND','CLOSE_FRIEND','POSSIBLE_ROMANTIC_INTEREST','ROMANTIC_TENSION']; SOCIAL.stage=id=>STN[STAGE[id]||0];   /* 第幾階（DATE.stageNum 的 1～6）→ SOCIAL 的階段名 */
 /* 假的回覆池（真的不在時用；真的在時第 A～E 項也用假的，避免台詞改了測試跟著變）*/
 const FAKE={people:{
-  heroine_01:{replies:[{topic:'chat',tier:'A',msgs:['在總圖。'],tags:[]},{topic:'chat',tier:'A',msgs:['剛下課，要去吃飯。'],tags:['學期中、平日']},{topic:'chat',tier:'R',msgs:['總圖二樓，旁邊有位子。'],tags:[]},{topic:'chat',tier:'R',msgs:['剛跑完步，在等洗澡。'],tags:['傍晚、晚上']},
+  heroine_01:{replies:[{topic:'chat',tier:'A',msgs:['在總圖。'],tags:[]},{topic:'chat',tier:'A',msgs:['剛下課，要去吃飯。'],tags:['學期中、平日']},{topic:'chat',tier:'R',msgs:['總圖二樓，旁邊有位子。'],tags:[]},{topic:'chat',tier:'R',msgs:['剛從家教回來，在等洗澡。'],tags:['傍晚、晚上']},
     {topic:'chat',tier:'L',msgs:['在宿舍，剛洗好頭。','你呢？'],tags:['晚上'],ask:{opts:[{t:'在讀書',r:['好。']},{t:'在發呆',r:['嗯。']}]}},{topic:'course',tier:'A',msgs:['我有抄到。','（照片：一頁筆記，字很整齊）'],tags:[]},
     {topic:'share_cat',tier:'A',msgs:['（兔子「收到」）'],tags:[]},{topic:'night',tier:'R',msgs:['晚安。','（兔子「收到」）'],tags:[]},{topic:'chat',tier:'R',variant:'放假',msgs:['在台中。'],tags:[]}]},
   heroine_03:{replies:[{topic:'chat',tier:'A',msgs:['在店裡'],tags:[]},{topic:'share',tier:'A',msgs:['（照片）'],tags:[]},{topic:'course',tier:'A',msgs:['不該出現'],tags:[]}]},
@@ -84,7 +84,7 @@ const th=id=>PHONE.thread(G,'p:'+id).filter(m=>m.from).map(m=>(m.from==='player'
 // D 層、輪流、情況版
 { fresh(day,15); INV.addContact(G,'heroine_01'); STAGE.heroine_01=3; global.MSG_POOL=FAKE;
   const a=MSG.pick(G,'heroine_01','chat').msgs[0], b=MSG.pick(G,'heroine_01','chat').msgs[0];
-  check('D1. R 層 15:00：只有沒有標籤的「總圖二樓」（「剛跑完步」標傍晚、晚上）',a==='總圖二樓，旁邊有位子。'&&b===a,a+' / '+b);
+  check('D1. R 層 15:00：只有沒有標籤的「總圖二樓」（「剛從家教回來」標傍晚、晚上）',a==='總圖二樓，旁邊有位子。'&&b===a,a+' / '+b);
   G.hour=18.5; const c1=MSG.pick(G,'heroine_01','chat').msgs[0], c2=MSG.pick(G,'heroine_01','chat').msgs[0]; check('D2. 18:30：兩句輪流',c1!==c2,c1+' / '+c2);
   check('D3. L 層只給交往中或第 5 階以上而且兩人都單身',MSG.tier(G,'heroine_01')==='R'&&(STAGE.heroine_01=5,MSG.tier(G,'heroine_01')==='L')&&(G.flags.dating_classmate_peishan=true,MSG.tier(G,'heroine_01')==='R'));
   delete G.flags.dating_classmate_peishan; STAGE.zhe=6; check('D4. 不是戀愛對象：最高 R',MSG.tier(G,'zhe')==='R');
@@ -173,7 +173,7 @@ if(typeof MSG2_POOL!=='undefined'){ global.MSG_POOL=REAL?realPool:FAKE; const P2
   { const s=(k,st,fl)=>{ mk('heroine_05',st,K(k),10,fl); return tk('heroine_05').includes('bday'); };
     check('H8. 學姊 6/2：2026 有；2028（照 BB_98 2-11，句子還沒進回覆池）先不開',s('2026-06-02',3)&&!s('2028-06-02',3));
     s('2026-06-02',2); MSG.send(G,'heroine_05','bday'); check('H8. 有點熟（事務版）：回 A「謝謝。」',reply().slice(-1)[0]==='謝謝。',JSON.stringify(reply()));
-    s('2027-06-02',3); MSG.send(G,'heroine_05','bday'); check('H8. 朋友、兩人都單身：回 R「謝謝。今天的計畫本，我沒有排事情。」',reply().slice(-1)[0]==='謝謝。今天的計畫本，我沒有排事情。',JSON.stringify(reply())); }
+    s('2027-06-02',3); MSG.send(G,'heroine_05','bday'); check('H8. 朋友、兩人都單身：回 R「謝謝。今天難得沒有排事情。」（AA_579 第 11 列）',reply().slice(-1)[0]==='謝謝。今天難得沒有排事情。',JSON.stringify(reply())); }
   { const zq=k=>{ mk('heroine_04',3,K(k),15); G.events.done.ev_ziqing_secret_game=1; MSG.send(G,'heroine_04','bday'); return reply().join('/'); };
     const a=zq('2027-02-10'), b=zq('2029-02-10'); check('H9. 子晴生日 R：2027「我今天收到一個 bug 當禮物」、2029 換「同事買了一個很大的蛋糕」',/bug/.test(a)&&/同事買了一個很大的蛋糕/.test(b),a+' ｜ '+b); }
   { mk('classmate_peishan',3,K('2027-03-15'),15); const t=tk('classmate_peishan'); const r=MSG.send(G,'classmate_peishan','bday');

@@ -1,13 +1,13 @@
 // AA_375（企劃線 45121a97；AA 2026-10-21 定稿）法律系大二下：芷若「最後一個班」以後、時間、人在哪——不需要瀏覽器。任務 AA375-Y2S2-FIX-1021。
 //   1 芷若上班作息到 6/3：之後吧檯是小婷、約她「今天是客人」、心意／女朋友的期末新句、招呼不用上班版、回訊息不照上班作息
-//   2 錄取那一場 6/3 那個班以前、「五個多月」　3 子晴爸爸那則第 12 週（5/16）　4 阿哲外澳大二下只在 6/5　5 春假一台車最多三個人
+//   2 錄取那一場 6/3 那個班以前、「五個多月」（AA_554 第 2 節改「五個月」）　3 子晴爸爸那則第 12 週（5/16）　4 阿哲外澳大二下只在 6/5　5 春假一台車最多三個人
 //   6 期末邀約從最後一科考完的隔天　7 語彤 Y4-L7　8 考完試走出教室在最後一科、Alison「租賃」　9 「上次我陪阿姨去法服。」　10 明軒說明會那則 3/15 21:00
 //   11 可昕 K4-L2 第 5 週起、只給 3/25 去了的　12 芷若 Z4-L4 第 11 週以後跳過　13 子晴說演唱會 5/17 以後（演唱會 5/15）　14 春假出遊那天去的人作息停掉
 //   15 可昕見麵店團「我們八點讀書會」、Alison 拉著柏翰、群組不算他們　16 語彤第 8～9 週不在麵店　17 以安「上次那份公文」　18 可昕「你們講過了嗎？」
 //   19 語彤的債各　20 許教授那句只在大一　21 語彤事件 11 補演和期末飯互斥　22 阿哲期末一起讀第 14～15 週　23 讀了幾頁
 //   第 4 節提醒：AA_342 第 2-2 節七則、AA_255 說明會散場三句、6/4 子晴四則版、AA_255 第 2 節第 5 點（以安讀書會招呼避開第 8、9、16 週）
 //   LAWWW 補充（AA_373 第 6 節第 9 題，企劃線 bdab2f42）：6/3 以前芷若「九點」改「十點」、邀約 22:00（含 MSG-2 生日回問「十點，店門口。」）
-//   BB 測試（第 6 節）：6/4 以後吧檯不是芷若、「今天是客人」；大二下期末不說「九點下班」；5/12～6/3 聽到錄取（五個多月）、6/4 以後不會第一次聽到；5/16 收到爸爸那則；4/4 車上最多三個人
+//   BB 測試（第 6 節）：6/4 以後吧檯不是芷若、「今天是客人」；大二下期末不說「九點下班」；5/12～6/3 聽到錄取（五個多月；AA_554 改「五個月」）、6/4 以後不會第一次聽到；5/16 收到爸爸那則；4/4 車上最多三個人
 // 修改前（開發分支 89008abd、合併後 468ea48f）：上面每一項都會失敗（標「對照」的照樣通過）。用法：node tests/aa375_y2s2_unit.js
 const fs=require('fs'), vm=require('vm'), path=require('path');
 const ROOT=path.resolve(__dirname,'..');
@@ -110,9 +110,10 @@ const lad=(term,cid,sid)=>(((LADDER.byTerm[term]||{})[cid]||{}).steps||[]).find(
   { const e=ev('ev_zhiruo_admitted'), ok=k=>{ const [key,h]=k; fresh(key,h,'cafe'); R('heroine_02','FAM'); return !!e.prereq.custom(G); };
     check('2. 錄取（BB 測試）：5/12、6/2、6/3 20:00 進 Café 可以第一次聽到；6/3 21:30、6/4、7/1 不會',ok(['2027-05-12',15])&&ok(['2027-06-02',15])&&ok(['2027-06-03',20])&&!ok(['2027-06-03',21.5])&&!ok(['2027-06-04',15])&&!ok(['2027-07-01',15]));
     fresh('2027-06-02',15,'cafe'); R('heroine_02','FAM'); G.events.done.ev_zhiruo_last_shift=1; check('2. Z9（最後一個班）演過以後就不會再第一次聽到',!e.prereq.custom(G));
-    const T=evTexts(e); check('2. 「四個月」→「五個多月」：沒有「四個月」；「九月我就走了。五個多月。」「「五個多月很快。」」「五個多月欸。……」',!T.some(t=>/四個月/.test(t))&&T.includes('九月我就走了。五個多月。')&&T.includes('「五個多月很快。」')&&T.includes('五個多月欸。……好啦，你這樣講我比較安心。'),J(T.filter(t=>/個月/.test(t))));
+    /* AA_554 第 2 節（企劃線 AA-B 2026-10-31，比 AA_375 新）：「五個多月」→「五個月」（三處都換）；本來就是要拿掉「四個月」 */
+    const T=evTexts(e); check('2. 「四個月」→「五個月」（AA_375 第 2 項的「五個多月」由 AA_554 第 2 節改成「五個月」）：沒有「四個月」「五個多月」；「九月我就走了。五個月。」「「五個月很快。」」「五個月欸。……」',!T.some(t=>/四個月|五個多月/.test(t))&&T.includes('九月我就走了。五個月。')&&T.includes('「五個月很快。」')&&T.includes('五個月欸。……好啦，你這樣講我比較安心。'),J(T.filter(t=>/個月/.test(t))));
     fresh('2027-05-14',15,'cafe'); R('heroine_02','FRI'); dateWith('heroine_02'); const L=await play('ev_zhiruo_admitted',[0]);
-    check('2. 交往中的那一版播得到「九月我就走了。五個多月。」',L.includes('九月我就走了。五個多月。'),J(L)); }
+    check('2. 交往中的那一版播得到「九月我就走了。五個月。」（AA_554）',L.includes('九月我就走了。五個月。'),J(L)); }
   // ===== 第 3 項：子晴爸爸那則 =====
   { fresh('2027-05-09',21.5,'dorm'); R('heroine_04','FAM'); const a=STORY.neededPick(G,D('2027-05-09')).map(e=>e.id), b=STORY.neededPick(G,D('2027-05-16')).map(e=>e.id);
     check('3. 子晴「我爸下週要來台北」：5/9（第 11 週）不發、5/16（第 12 週）發（BB 測試）',!a.includes('zq_dad')&&b.includes('zq_dad'),J([a,b]));
@@ -150,8 +151,9 @@ const lad=(term,cid,sid)=>(((LADDER.byTerm[term]||{})[cid]||{}).steps||[]).find(
     check('7、11、12. 階梯疊在 ladder_*_y2s2.json 上：白名單 AA_375@45121a97（一個版本、approved），ladder.js 的來源寫了',a.length===1&&a[0].sha==='45121a97'&&a[0].status==='approved'&&/AA_375@45121a97/.test(LADDER.source||''),J(a.map(e=>e.sha)));
     check('第 4 節. AA_342 第 2-2 節的七則照抄：白名單 AA_342（一個版本、approved）',b.length===1&&b[0].status==='approved',J(b.map(e=>e.sha))); }
   // ===== 第 8 項：考完試走出教室 =====
-  { const e=ev('ev_midterm_walkout_y2s2'); fresh('2027-04-15',12.5,'linze'); const mids=CLS.examList(G,'Y2S2').filter(x=>x.kind==='mid'); const lastMid=mids.reduce((a,b)=>b.day>a.day?b:a);
-    check('8. 考完試走出教室移到最後一科考完（大二下期中的最後一科＝4/15 法學英文）',!!e&&e.afterClass===lastMid.c.id&&e.afterExam==='mid'&&K(lastMid.day)==='2027-04-15',J([e&&e.afterClass,lastMid.c.id,K(lastMid.day)]));
+  /* D118 沒有期中考（AA_578 第 2 節 #3、#9）：原本掛在大二下期中最後一科（4/15 法學英文）；改成同一門課（法學英文）的期末考、afterExam:'final'——這裡改成找期末考的日期 */
+  { const e=ev('ev_midterm_walkout_y2s2'); fresh('2027-04-15',12.5,'linze'); const fins=CLS.examList(G,'Y2S2').filter(x=>x.kind==='final'), le=fins.find(x=>x.c.id==='legal_english');
+    check('8. 考完試走出教室：法學英文期末考考完（AA_578 #9；原本期中 4/15）；大二下沒有期中考',!!e&&e.afterClass==='legal_english'&&e.afterExam==='final'&&!!le&&CALENDAR.termOf(le.day).week===16&&!CLS.examList(G,'Y2S2').some(x=>x.kind==='mid'),J([e&&e.afterClass,e&&e.afterExam,le&&K(le.day)]));
     const T=evTexts(e); check('8. Alison「債各的第二題，我寫了『買賣不破租賃』。……題目問的是租賃。」（贈與第 14 週才教）',T.includes('債各的第二題，我寫了『買賣不破租賃』。……題目問的是租賃。')&&!T.includes('債各的第二題，我寫了『買賣不破租賃』。……題目問的是贈與。'),J(T)); }
   // ===== 第 9 項 =====
   { const ta=fs.readFileSync(path.join(ROOT,'src/data/y2b_events.js'),'utf8');

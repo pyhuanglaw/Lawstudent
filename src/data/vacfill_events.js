@@ -7,7 +7,8 @@
    第 2 節 大二暑假（2027）：ev_vf_y2_0729（法圖）、ev_vf_y2_0801（兩點半 Café）
    第 3 節 大三寒假（2028）：ev_vf_y3_0204（麵店的新菜單，AA_445 1-1）、ev_vf_y3_0209（元宵的燈會）、ev_vf_y3_0214（法圖開館）
    第 4 節：ev_vf_y1w_0123（住家裡：媽媽說要去迪化街）、ev_vf_y1w_0124（迪化街）、ev_vf_y1s_0828（姊姊回家住兩天）、ev_vf_y2w_0116（麵店長桌）、ev_vf_y3w_0108（參創）
-   測試：node tests/aa440_vacfill_unit.js */
+   AA_556（企劃線 3d7ad0024，寒暑假第二批；台詞在 VACFILL_LINES2）：ev_vf_y1s_0624（6/24 阿凱線上語音）、ev_vf_y2s_0711（溫州街的冰店）、ev_vf_y2s_0813（公館的修鞋店）、ev_vf_y2w_0212（永和的豆漿店）
+   測試：node tests/aa440_vacfill_unit.js、node tests/aa556_vacgap2_unit.js */
 'use strict';
 const VACFILL_LINES={
   /* ---------- 第 1 節 經濟系那年暑假（2025-07-12～08-12）---------- */
@@ -127,8 +128,22 @@ const VACFILL_LINES={
 };
 /* 稿裡只寫了「傳一張……的照片」、沒有照片說明的兩則：手機上照片那一則的字（LAWWW 寫的系統字，括號裡的字取自稿；不是台詞）*/
 const VACFILL_UI={photoTyphoon:'📷（上海下大雨）',photoLantern:'📷（燈）'};
+/* ===== AA_556（企劃線 3d7ad0024；VAC-GAP2-1031；AA-B 2026-10-31 定稿、D109）寒暑假第二批：台詞一字不改（AA_440 的 VACFILL_LINES 不混進來，tests/aa440_vacfill_unit.js 對 AA_440 逐句比）=====
+   第 4 節 大一暑假 6/24 阿凱：回「我也來打。」＝當晚 22:00 線上語音（取代原本對話串裡那一句旁白）
+   第 5 節 大二暑假：7/10 20:00 阿凱私訊 → 7/11（日）15:00 溫州街的冰店；8/12 21:00 語彤私訊 → 8/13（五）16:00 公館的修鞋店（記憶 FIELD_WITH_YT）
+   第 6 節 大二寒假：2/11 21:00 芯慈私訊 → 2/12（五）10:00 永和的豆漿店（芯慈戀愛線的旗標不讀、不寫）
+   私訊、出遊的接線在 src/vacfill3d.js（S.MSGS、S.OUTS）；場景在下面 VACFILL_EVENTS 最後四個 */
+const VACFILL_LINES2={
+  y1s_0624:{yesSay:'所以今晚 線上',narr:'（耳機裡，阿凱那邊有泡麵的聲音。）',kai1:'所以第三關的王，要先打牠的尾巴。',kai2:'……我也是剛剛才知道。我已經死了四十次。',narr2:'（凌晨一點半，你們第一次打到牠剩一半的血。）',kai3:'所以我們差一半。……明天再打。',end:'（那天晚上你們打到兩點。還是打不過。）'},
+  y2s_0710:{ms:['所以溫州街那家冰店開了','明天下午三點','我請 我的泡麵評鑑表滿一百家了 慶祝'],yes:'好。',narr:'（冰店的電風扇轉得很慢。阿凱點了兩碗，說一碗是評鑑用的。）',kai:'所以這家要寫進表裡嗎。它不是泡麵。',
+    opts:['開一張新的表。','好吃就寫進去。'],say:['……所以我暑假有事做了。','好。那它是第一百零一家。雖然它是冰。']},   /* 阿凱的私訊不加句號（照稿）*/
+  y2s_0812:{ms:['明天下午我要去訪問修鞋店的老闆。','……你要不要一起。你負責拿錄音筆就好。'],yes:'好。',narr:'（修鞋店很小，只放得下一張板凳。語彤坐板凳，你站在門口拿錄音筆。）',boss:'這雙鞋，我修過三次了。客人每次都說是最後一次。',
+    narr2:'（他把鞋底翻過來給你們看，上面有三種顏色的線。）',narr3:'（回程的路上。）',yt1:'我問了十個問題，他回答了一個。',yt2:'……可是那一個很好。'},
+  y2w_0211:{ms:['我爸媽的事務所今天開工。我去幫忙。','明天早上十點，永和的豆漿店。我請。'],yes:'好。',narr:'（永和的豆漿店，早上十點還是滿的。芯慈已經點好了，桌上兩碗鹹豆漿。）',xc:'我爸說開工第一天要吃熱的。我覺得他只是想吃。',
+    opts:['事務所開工忙嗎？','妳寒假都在幫忙？'],say:['忙。我負責發紅包。……我發錯一包，給了我媽。','一個禮拜。剩下的時間在追劇。……第八集很好看。']}
+};
 const VACFILL_EVENTS=(function(){
-  const X=VACFILL_LINES;
+  const X=VACFILL_LINES, X2=VACFILL_LINES2;
   const D=k=>typeof STORY!=='undefined'&&STORY.dayOfKey?STORY.dayOfKey(k):null;
   const F=G=>(G&&G.flags)||{};
   const hh=G=>((G.hour%24)+24)%24;
@@ -226,11 +241,19 @@ const VACFILL_EVENTS=(function(){
 
     /* ===================== 第 2 節 大二暑假 ===================== */
     { id:'ev_vf_y2_0729', title:'法圖', participants:['heroine_05'], location:'any', trigger:'outing', once:true, background:'dark', hours:2,
-      dialogue:[ {scene:'法圖'}, {speaker:null,text:X.y2_0728.narr}, {speaker:'heroine_05',text:X.y2_0728.sit},
+      dialogue:[ {scene:'法圖',bg:'law_library'}, {speaker:null,text:X.y2_0728.narr}, {speaker:'heroine_05',text:X.y2_0728.sit},
         {if:{custom:G=>F(G).VF_Y2_0729!=='find'},speaker:null,text:X.y2_0728.coat},
         {if:{custom:G=>F(G).VF_Y2_0729==='find'},speaker:'heroine_05',text:X.y2_0728.two} ] },   /* 和學姊交往中、回「我去找妳。」：最後一句換成「……下次我帶兩件。」*/
+    /* AA_549 3-3（企劃線 AA_549 第 3 節 3-3；第①級）：原本只有一句旁白（X.y2_0731.narr）＝換成子晴的場景 */
     { id:'ev_vf_y2_0801', title:'兩點半 Café', participants:['heroine_04'], location:'any', trigger:'outing', once:true, background:'dark', hours:1.5,
-      dialogue:[ {scene:'兩點半 Café'}, {speaker:null,text:X.y2_0731.narr} ] },
+      dialogue:[ {scene:'兩點半 Café',bg:'cafe'},
+        {speaker:null,text:'（下午的兩點半 Café。子晴坐在最裡面，筆電貼滿貼紙，桌上兩杯冰美式。）'},
+        {speaker:'heroine_04',text:'一杯是你的。我猜你會遲到，所以先點了。冰塊都化了。'},
+        {speaker:'heroine_04',text:'我在做一個小遊戲。你幫我玩一關。'},
+        {choice:[{text:'「好。」',goto:'a'},{text:'「妳在實習耶，週末還做？」',goto:'b'}]},
+        {label:'a'},{speaker:null,text:'（你玩了三分鐘，死了四次。）'},{speaker:'heroine_04',text:'很好。這就是我要的難度。'},{goto:'e'},
+        {label:'b'},{speaker:'heroine_04',text:'實習是別人的遊戲。這個是我的。'},
+        {label:'e'} ] },
 
     /* ===================== 第 3 節 大三寒假 ===================== */
     { id:'ev_vf_y3_0204', title:'阿鳳麵店', participants:['heroine_03'], location:'any', trigger:'outing', once:true, background:'dark', hours:1,
@@ -242,7 +265,7 @@ const VACFILL_EVENTS=(function(){
         {if:{custom:G=>!here(G,'zhe')},speaker:null,text:X.y3_0209.backNoZhe} ],   /* 阿哲大三寒假多半在高雄（BB_303 第 3 節）：2/9 他不在臺北＝他的句子拿掉、回程旁白換 */
       after:G=>{ G.flags.VF_Y3_LANTERN='went'; } },
     { id:'ev_vf_y3_0214', title:'法圖', participants:['heroine_05'], location:'any', trigger:'outing', once:true, background:'dark', hours:1.5,
-      dialogue:[ {scene:'法圖'}, {speaker:null,text:X.y3_0212.narr},
+      dialogue:[ {scene:'法圖',bg:'law_library'}, {speaker:null,text:X.y3_0212.narr},
         /* AA_533 4-3（企劃線 cf0066ed2）*/
         {speaker:'heroine_05',text:'開學前來借的人，通常是要補上學期的。'},{speaker:'heroine_05',text:'……你是哪一種？'},
         {choice:[{text:'「補上學期的。」',goto:'aa533_a'},{text:'「預習下學期的。」',goto:'aa533_b'}]},
@@ -256,7 +279,7 @@ const VACFILL_EVENTS=(function(){
       dialogue:[ {scene:'臺北的家'}, {speaker:'媽媽',name:'媽媽',text:X.y1w_0123.mom} ],
       after:noMemo('ev_vf_y1w_0123',G=>{ G.flags.VF_Y1W_DIHUA_MODE='home'; G.flags.VF_Y1W_DIHUA='go'; if(typeof VACFILL!=='undefined'&&VACFILL.phone) VACFILL.phone(G); } )},
     { id:'ev_vf_y1w_0124', title:'迪化街', participants:[], location:'any', trigger:'outing', once:true, background:'dark', hours:3,
-      dialogue:[ {scene:'迪化街'}, {speaker:null,text:X.y1w_0123.narr}, {speaker:'媽媽',name:'媽媽',text:X.y1w_0123.fish} ] },
+      dialogue:[ {scene:'迪化街',bg:'dihua_newyear'}, {speaker:null,text:X.y1w_0123.narr}, {speaker:'媽媽',name:'媽媽',text:X.y1w_0123.fish} ] },
     /* 大一暑假 8/28（五）～8/29：姊姊回家住兩天（在家的時候演）*/
     { id:'ev_vf_y1s_0828', title:'', participants:[], location:'any', trigger:'home', once:true, background:'dark',
       prereq:{custom:G=>win(G,'2026-08-28',18,'2026-08-30',0)},
@@ -267,7 +290,33 @@ const VACFILL_EVENTS=(function(){
         {speaker:null,text:X.y2w_0114.narr2} ] },
     { id:'ev_vf_y3w_0108', title:'參創', participants:['heroine_04'], location:'any', trigger:'outing', once:true, background:'dark', hours:2,
       dialogue:[ {scene:'參創生活園區',bg:'d03_base_afternoon'}, {speaker:null,text:X.y3w_0106.narr},
-        {speaker:'heroine_04',text:'這台是我學長做的。他去年也在這裡排隊，排到最後一個。'},{speaker:'heroine_04',text:'……明年我也要有一台。'} ] }   /* AA_533 4-2 */
+        {speaker:'heroine_04',text:'這台是我學長做的。他去年也在這裡排隊，排到最後一個。'},{speaker:'heroine_04',text:'……明年我也要有一台。'} ] },   /* AA_533 4-2 */
+
+    /* ===================== AA_556（企劃線 3d7ad0024；VAC-GAP2-1031）===================== */
+    /* 第 4 節 大一暑假 6/24 22:00 阿凱：線上語音（回「我也來打。」才有；src/vacfill3d.js 排成電話式的出遊＝在家、在宿舍都不用出門）。
+       hours 4：演完是 2:00（稿：「那天晚上你們打到兩點」）*/
+    { id:'ev_vf_y1s_0624', title:'和阿凱打遊戲（線上）', participants:['kai'], location:'any', trigger:'outing', once:true, background:'dark', hours:4,
+      dialogue:[ {scene:'線上',bg:'dorm_desk'}, {speaker:null,text:X2.y1s_0624.narr}, {speaker:'kai',text:X2.y1s_0624.kai1}, {speaker:'kai',text:X2.y1s_0624.kai2},
+        {speaker:null,text:X2.y1s_0624.narr2}, {speaker:'kai',text:X2.y1s_0624.kai3}, {speaker:null,text:X2.y1s_0624.end} ] },
+    /* 第 5-1 節 大二暑假 7/11（日）15:00 溫州街的冰店（阿凱）：背景還沒有溫州街的 2D 圖（OUT.BG.wenzhou image null）＝深色底＋地點字幕 */
+    { id:'ev_vf_y2s_0711', title:'溫州街的冰店', participants:['kai'], location:'any', trigger:'outing', once:true, background:'dark', hours:1,
+      dialogue:[ {scene:'溫州街的冰店',bg:'wenzhou_ice'},   /* 11-02 使用者生成（BB_132 第 102 組第 4 張；原本 wenzhou 沒有圖＝深色底）*/ {speaker:null,text:X2.y2s_0710.narr}, {speaker:'kai',text:X2.y2s_0710.kai},
+        choice(X2.y2s_0710.opts,['a','b']),
+        {label:'a'},{speaker:'kai',text:X2.y2s_0710.say[0]},{goto:'e'},
+        {label:'b'},{speaker:'kai',text:X2.y2s_0710.say[1]},
+        {label:'e'} ] },
+    /* 第 5-2 節 大二暑假 8/13（五）16:00 語彤的田野（公館的修鞋店；背景照公館）：演完記 FIELD_WITH_YT（記在語彤身上，大三的田野回想可以讀）*/
+    { id:'ev_vf_y2s_0813', title:'公館的修鞋店', participants:['heroine_03'], location:'any', trigger:'outing', once:true, background:'dark', hours:1.5,
+      dialogue:[ {scene:'公館的修鞋店',bg:'gongguan'}, {speaker:null,text:X2.y2s_0812.narr}, {speaker:'老闆',name:'老闆',text:X2.y2s_0812.boss},
+        {speaker:null,text:X2.y2s_0812.narr2}, {speaker:null,text:X2.y2s_0812.narr3}, {speaker:'heroine_03',text:X2.y2s_0812.yt1}, {speaker:'heroine_03',text:X2.y2s_0812.yt2} ],
+      after:G=>{ if(typeof SOCIAL!=='undefined'&&SOCIAL.remember) SOCIAL.remember('heroine_03','FIELD_WITH_YT','大二暑假，公館的修鞋店（語彤的田野）'); } },
+    /* 第 6 節 大二寒假 2/12（五）10:00 永和的豆漿店（芯慈；背景照早餐店＝soymilk_shop）。芯慈戀愛線的旗標不讀、不寫 */
+    { id:'ev_vf_y2w_0212', title:'永和的豆漿店', participants:['classmate_xinci'], location:'any', trigger:'outing', once:true, background:'dark', hours:1,
+      dialogue:[ {scene:'永和的豆漿店',bg:'soymilk_shop'}, {speaker:null,text:X2.y2w_0211.narr}, {speaker:'classmate_xinci',text:X2.y2w_0211.xc},
+        choice(X2.y2w_0211.opts,['a','b']),
+        {label:'a'},{speaker:'classmate_xinci',text:X2.y2w_0211.say[0]},{goto:'e'},
+        {label:'b'},{speaker:'classmate_xinci',text:X2.y2w_0211.say[1]},
+        {label:'e'} ] }
   ];
 })();
 /* 元宵的燈會：2D 夜景、人潮（AA_440 3-2）——還沒有圖＝深色底＋地點字幕（MISSING_EXTERNAL_ART，等 BB 跟使用者要）*/

@@ -78,6 +78,8 @@ const R2Y3B_EVENTS=(function(){
     prereq:{custom:G=>{ const x=X(); return !!x&&x.c6MeetDue(G); }},
     dialogue:[ {speaker:'yu',text:'欸，成發的錢對不起來。少了三千。經手的是學弟。'},
       {speaker:'yu',text:'我不想讓他覺得我在懷疑他。可是三千塊。'},
+      /* 手機筆記（AA_117 C6；AA117-CASE-NOTES-1031）：請求什麼是玩家選的那一行（下面的選項）；誰、向誰、依據什麼照 AA-B 2026-11-01 回覆（D109）的字。LEGAL_REVIEW_REQUIRED：只寫方向 */
+      {speaker:'手機筆記',text:'誰：社團（她是負責人）'},{speaker:'手機筆記',text:'向誰：經手的學弟，和社團大家'},{speaker:'手機筆記',text:'依據什麼：社團的規則、收支表和單據'},{speaker:'手機筆記',text:'請求什麼：'},
       {choice:C6_OPTS},
       {label:'p'},{speaker:'yu',text:'……他是學弟耶。我先不要這樣。'},{goto:'q'},
       {label:'o'},{speaker:'yu',text:'……好。這樣比較不像在抓人。'},{goto:'q'},
@@ -354,7 +356,7 @@ const R2Y3B_EVENTS=(function(){
       {set:{AN_TOWN_NOTICE:'there'}} ],   /* 法律：旁白不說這張通知是行政指導（AA_30 J2）*/
     outingMissed:G=>{ const x=X(); if(x) x.noticePhoto(G); } };
   const J2_REPAIR={ id:'ev_an_town_notice_repair', title:'町公所的一張通知', participants:['heroine_01'], location:'any', trigger:'outing', once:true, background:'dark', hours:0.5,
-    dialogue:[ {scene:'宿舍大廳',bg:'jp_dorm_lobby'},   /* 2D 沒有＝深色底＋字幕；沒有 CG-17 */
+    dialogue:[ {scene:'宿舍大廳',bg:'jp_dorm_lobby'},   /* 11-02 第九批有自己的圖（BB_132 第 107 組；原本借 jp_lounge）；沒有 CG-17 */
       {speaker:'heroine_01',text:'……你看得懂這個字嗎？'},
       {speaker:'player',text:'（看了一下）這是「截止日」。後面那個是「本人到場」。'},
       {speaker:'heroine_01',text:'……謝謝。'},
@@ -558,16 +560,15 @@ const R2Y3B_EVENTS=(function(){
     table:'發表會那天的錄影，我爸看了三遍。……第三遍他在做筆記。',
     opts:[{k:'first_player',t:'「妳下一個遊戲，我也要當第一個玩的。」',r:'……第一個玩的要負責找 bug 喔。很多。',exe:'第一個玩家：{name}'},
       {k:'like_long',t:'「我喜歡妳。喜歡很久了。」',r:'……你不要現在講啦。',exe:'我也是。'},
-      {k:'not_question',t:'「我喜歡妳。這不是問句。」',r:'……那是我的台詞。',exe:'這不是問句。'}],
+      {k:'not_question',t:'「我喜歡妳。」',r:'……嗯。',exe:'我也是。'}],   /* AA_573：key 不改（舊存檔 ZQ_Q15.k）；r、exe 是暫用句，等子晴共創重寫 */
     sure:'欸不是……你認真的？',   /* 說出來的三支都是這一句（這一場「欸不是」一次）*/
     run:['（她講話變快）我、我家到了。我先上去。',{narr:'（她跑進巷子。）'}],   /* BB_98 4-6 原文 */
     exe:'（《找插座的貓》的新關卡。貓找到了插座，插座旁邊坐著另一隻貓。兩隻貓一起充電。）',
-    noReply:'好，我收到你的不回答了。我們還是最好的朋友。這次是直述句。', noReplyNQ:'好，我收到你的不回答了。我們還是最好的朋友。',   /* 選「這不是問句」的那一支拿掉「這次是直述句。」（裁定 #27）；AA_296 2-3-1 ② 起是不回的那通電話沒接的替代版 */
+    noReply:'好，我收到你的不回答了。我們還是最好的朋友。',   /* 選「這不是問句」的那一支拿掉「這次是直述句。」（裁定 #27）；AA_296 2-3-1 ② 起是不回的那通電話沒接的替代版 */
     exeOpts:['（回一張插座貓貼紙）','（還沒想好怎麼回）'],
     knowsMsg:['我才知道{她}的事','電話先不打了 我要想一下'] };   /* AA_483 第 1 節第 6 點：回答.exe 傳了、玩家也回了貼紙，之後她才知道祐廷有別人＝原本她打來的時間改傳這兩則（子晴的手機訊息不加句號；{她}＝她知道的那一位，同 KNOW 的寫法）*/   /* AA_296 2-3-1 ②（企劃線 3f406dbc）：回答.exe 最後那一行字疊完，直接在場面裡給的兩個選項 */
   /* ---------- 2-Y3-47 Q15 的兩通電話（AA_296 2-3-1 ②，企劃線 3f406dbc；新寫）：有沒有在一起不再只靠手機回貼紙 ----------
      回了貼紙＝她馬上打來（場面裡選的＝回答.exe 演完接著演；手機回的＝OUT 的電話）；到期限（收到檔案的隔天 21:00）還是沒回＝21:00 她打來（沒接＝原本那一則私訊，r2y3b3d.js 的 q15NoReplyDm）*/
-  const NQ={custom:G=>((G.flags||{}).ZQ_Q15||{}).k==='not_question'};
   const EXE_CALL={ id:'ev_ziqing_exe_call', title:'電話', participants:['heroine_04'], location:'any', trigger:'outing', once:true, background:'dark', hours:0.25,
     dialogue:[ {scene:'電話'},
       {speaker:null,text:'（手機震了。是她打來的。）'},
@@ -583,7 +584,6 @@ const R2Y3B_EVENTS=(function(){
       {speaker:'heroine_04',text:'……你沒回耶。'},
       {speaker:'heroine_04',text:'好，我收到你的不回答了。'},
       {speaker:'heroine_04',text:'我們還是最好的朋友。'},
-      {unless:NQ,speaker:'heroine_04',text:'這次是直述句。'},   /* not_question 那一支一樣拿掉最後一句（裁定 #27）*/
       {speaker:null,text:'（她沒有等你說話，就掛了。）'} ],
     after:G=>{ const x=X(); if(x) x.q15NoReply(G); },
     outingMissed:G=>{ const x=X(); if(x) x.q15NoReplyDm(G); } };

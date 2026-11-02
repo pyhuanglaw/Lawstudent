@@ -180,7 +180,7 @@ let money=[]; GM.money=(n,why)=>{ money.push([n,why]); H.G.money+=n; };
     PHONE.answer(H.G,'anyt_yt_y2_ask',1); rules(); const r=dms(YT).slice(-1)[0], q=OUT.get(H.G,'anyt_yt_vday_y2');
     check('2-2. 「不去別的地方？」→「……麵店就好。今天外面人多，我會累。」；出遊 12:00、走路、late 0.5、標題「情人節（阿鳳麵店）」',r==='……麵店就好。今天外面人多，我會累。'&&H.G.flags.YT_VDAY_Y2_GO===true&&!!q&&q.h===12&&q.late===0.5&&q.travel==='走路'&&q.title==='情人節（阿鳳麵店）',J(q));
     at('2027-02-14',11.6); const a=relOf(YT), n0=(H.G.dateLog&&H.G.dateLog[YT]&&H.G.dateLog[YT].count)|0; const {L}=await goOut('anyt_yt_vday_y2',[0]);
-    check('2-2. 背景 noodle_table_window（最裡面靠窗那一桌）；紅紙、滷蛋；「謝謝阿姨。」→阿姨「謝什麼。吃。」；「今天我沒班。」「……是我自己想在這裡吃的。」',img(H.bgs[0])==='noodle_table_window'&&J(L)===J(['（麵店門口貼了一張紅紙，是阿姨的字：「情人節：兩碗乾麵，送一顆滷蛋」。）','阿姨自己寫的。……我叫她不要貼。','（店裡坐滿了。阿姨把最裡面靠窗的那一桌留給你們，桌上已經放了兩顆滷蛋。）','送的。一人一顆。不是一桌一顆。','……阿姨。','謝什麼。吃。','今天我沒班。','……是我自己想在這裡吃的。']),J({b:img(H.bgs[0]),L}));
+    check('2-2. 背景 noodle_door（門口，11-02 第六批；進店以後 noodle_table）；紅紙、滷蛋；「謝謝阿姨。」→阿姨「謝什麼。吃。」；「今天我沒班。」「……是我自己想在這裡吃的。」',img(H.bgs[0])==='noodle_door'&&J(L)===J(['（麵店門口貼了一張紅紙，是阿姨的字：「情人節：兩碗乾麵，送一顆滷蛋」。）','阿姨自己寫的。……我叫她不要貼。','（店裡坐滿了。阿姨把最裡面靠窗的那一桌留給你們，桌上已經放了兩顆滷蛋。）','送的。一人一顆。不是一桌一顆。','……阿姨。','謝什麼。吃。','今天我沒班。','……是我自己想在這裡吃的。']),J({b:img(H.bgs[0]),L}));
     check('2-2. YT_VDAY_Y2 went、記憶 YT_VDAY_SHOP、+3／+6／+5；不是正式校外約會（dateLog 次數不加）',H.G.flags.YT_VDAY_Y2==='went'&&SOCIAL.has(YT,'YT_VDAY_SHOP')&&dRel(YT,a)===VDAY&&((H.G.dateLog&&H.G.dateLog[YT]&&H.G.dateLog[YT].count)|0)===n0,dRel(YT,a)); }
   { setup('2027-02-13',21.05,YT); rules(); PHONE.answer(H.G,'anyt_yt_y2_ask',0); const r=dms(YT).slice(-1)[0]; const L=await play('ev_yt_vday_y2',[1]);
     check('2-2. 「好。」→「嗯。」；「（先吃）」→旁白「（你們吃得很慢。語彤一直沒有看手機。）」',r==='嗯。'&&L[5]==='（你們吃得很慢。語彤一直沒有看手機。）'&&!L.includes('謝什麼。吃。')&&J(H.opts[0])===J(['「謝謝阿姨。」','（先吃）']),J(L)); }
@@ -199,7 +199,7 @@ let money=[]; GM.money=(n,why)=>{ money.push([n,why]); H.G.money+=n; };
     PHONE.answer(H.G,'anyt_yt_y3_ask',0); rules(); const r=dms(YT).slice(-2), q=OUT.get(H.G,'anyt_yt_vday_y3');
     check('2-3. 「好。去哪裡？」→「去了就知道。」「兩點，麵店門口。走過去。」；出遊 14:00、走路約 15 分鐘、late 0.25、標題「情人節（語彤要帶你去的地方）」',J(r)===J(['去了就知道。','兩點，麵店門口。走過去。'])&&!!q&&q.h===14&&q.travel==='走路約 15 分鐘'&&q.travelH===0.25&&q.late===0.25&&q.title==='情人節（語彤要帶你去的地方）',J(q));
     at('2028-02-14',13.6); const a=relOf(YT); const {L}=await goOut('anyt_yt_vday_y3',[0]);
-    check('2-3. 寶藏巖沒有底圖（深色底＋字幕「寶藏巖」）；「他講了什麼？」→「他年輕的時候怎麼搬來的。」「我寫了很多頁。報告只能用三頁。」',H.bgs.every(b=>b==='dark')&&ev('ev_yt_vday_y3').dialogue[0].scene==='寶藏巖'&&J(L)===J(['（河邊的老聚落，房子一層一層疊在山坡上。巷子窄到兩個人要側身才過得去。）','上學期的田野，我在這裡做訪談。','有一個阿公，每天下午坐在那張椅子上。他跟我講了三個下午。','（她指的那張椅子是空的。）','……今天他不在。','他年輕的時候怎麼搬來的。','我寫了很多頁。報告只能用三頁。','（下坡的時候，她走在前面。走到巷口，才回頭看你有沒有跟上。）']),J({b:H.bgs,L}));
+    check('2-3. 寶藏巖用底圖 treasure_hill（BB_132 第 100 組第 2 張，11-02 使用者生成；原本深色底）＋字幕「寶藏巖」；「他講了什麼？」→「他年輕的時候怎麼搬來的。」「我寫了很多頁。報告只能用三頁。」',H.bgs.length>0&&H.bgs.every(b=>b&&b.image==='assets/bg/treasure_hill.webp')&&ev('ev_yt_vday_y3').dialogue[0].scene==='寶藏巖'&&J(L)===J(['（河邊的老聚落，房子一層一層疊在山坡上。巷子窄到兩個人要側身才過得去。）','上學期的田野，我在這裡做訪談。','有一個阿公，每天下午坐在那張椅子上。他跟我講了三個下午。','（她指的那張椅子是空的。）','……今天他不在。','他年輕的時候怎麼搬來的。','我寫了很多頁。報告只能用三頁。','（下坡的時候，她走在前面。走到巷口，才回頭看你有沒有跟上。）']),J({b:H.bgs,L}));
     check('2-3. YT_VDAY_Y3 went、記憶 YT_VDAY_FIELD、+3／+6／+5',H.G.flags.YT_VDAY_Y3==='went'&&SOCIAL.has(YT,'YT_VDAY_FIELD')&&dRel(YT,a)===VDAY,dRel(YT,a)); }
   { setup('2028-02-13',21.05,YT); rules(); PHONE.answer(H.G,'anyt_yt_y3_ask',0); const L=await play('ev_yt_vday_y3',[1]);
     check('2-3. 「為什麼帶我來？」→「……我想讓你看一次。」「我在做的事。」',J(L.slice(5,7))===J(['……我想讓你看一次。','我在做的事。']),J(L)); }
