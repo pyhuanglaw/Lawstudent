@@ -24,6 +24,8 @@
 - 退回層：舊的 run_queue.ps1（main→stable→proven）**完全沒動**。
 
 ## 使用者操作卡（草稿，給 BB 轉）
+**（BB 19:26 審過：第 3 行用 `python`，不用 `py -3`——使用者昨天用 `python -m playwright install webkit` 成功，這一支確定有 playwright 和 webkit；第一行會印出 python 路徑和 playwright 版本，可以核對。）**
+
 **什麼時候做**：LAWWW 發布 v9.10.16 完成，**而且** PC 上目前那一項跑完（看到「CC-local: … result」推上去）以後。
 
 1. 把正在跑的舊視窗（PowerShell）關掉，或在那個視窗按 Ctrl+C。
@@ -31,14 +33,14 @@
 ```
 git -C "$env:USERPROFILE\Documents\Lawstudent" fetch origin claude/cc-testing claude/second-ai-env-art
 git -C "$env:USERPROFILE\Documents\Lawstudent_cclocal" merge --no-edit origin/claude/cc-testing
-py -3 "$env:USERPROFILE\Documents\Lawstudent_cclocal\tools\cc_local\run_queue.py" --parallel 2
+python "$env:USERPROFILE\Documents\Lawstudent_cclocal\tools\cc_local\run_queue.py" --parallel 2
 ```
 3. **貼完應該看到**：
    - 第 1、2 行：幾行灰色或白色的 git 訊息，最後回到 `PS C:\...>` 提示字元。如果第 2 行出現 `CONFLICT`，就停下來，把畫面截圖給 BB。
    - 第 3 行：大約 10 行設定說明：
 ```
 [時:分:秒] python : C:\...\python.exe (3.x.x)
-[時:分:秒]          playwright OK
+[時:分:秒]          playwright 1.xx.x OK
 [時:分:秒] git    : git version 2.x.x.windows.1
 [時:分:秒] node   : C:\Program Files\nodejs\node.exe  v26.13.0
 [時:分:秒] blender: C:\Program Files\Blender Foundation\Blender 5.2\blender.exe  Blender 5.2.3

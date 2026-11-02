@@ -218,9 +218,14 @@ class Runner(object):
         log('python : %s (%s)' % (self.py, sys.version.split()[0]))
         try:
             import playwright  # noqa: F401
-            log('         playwright OK')
+            try:
+                from importlib.metadata import version as _pv
+                pwv = _pv('playwright')
+            except Exception:
+                pwv = '?'
+            log('         playwright %s OK' % pwv)   # BB 19:26：第一行要印 python 路徑＋playwright 版本（確認是裝了 webkit 的那一支 python）
         except ImportError:
-            log('No usable playwright in this Python. Fix: py -3 -m pip install playwright==1.63.0 ; py -3 -m playwright install chromium')
+            log('No usable playwright in this Python. Fix: python -m pip install playwright==1.63.0 ; python -m playwright install chromium')
             sys.exit(1)
         log('git    : %s' % (tool_version([GIT, '--version']) if GIT else 'not found'))
         log('node   : %s' % ((self.node + '  ' + tool_version([self.node, '--version'])) if self.node else 'not found (node items will fail; set CC_NODE)'))
