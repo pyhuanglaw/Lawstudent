@@ -32,14 +32,16 @@ AREAS = [{'id': 'nw', 'x0': 36.0, 'x1': 62.0, 'z0': -84.0, 'z1': -65.4},
 # 土徑（中心線、寬）：細的（照片 3 那種一人寬的小徑）；往萬才館那條是鋪面路（kind paved，遊戲 zones3d 照舊畫成鋪面），不放樹
 PATHS = [{'id': 'nw', 'w': 1.2, 'pts': [[43.4, -84.6], [43.2, -78.0], [40.0, -72.0], [35.2, -67.0]]},
          {'id': 'nw2', 'w': 1.2, 'pts': [[56.0, -84.6], [57.5, -76.0], [54.0, -69.0], [52.0, -65.0]]},
-         {'id': 'ne', 'w': 1.2, 'pts': [[65.5, -79.5], [71.0, -79.0], [78.5, -80.5], [84.0, -77.0], [90.5, -74.0]]},
-         {'id': 'ne3', 'w': 1.2, 'pts': [[71.0, -79.0], [73.5, -72.0], [70.0, -65.0]]},
+         {'id': 'ne', 'w': 1.2, 'pts': [[65.5, -79.5], [71.0, -77.5], [78.0, -76.6], [84.5, -75.4], [90.5, -73.5]]},
+         {'id': 'ne3', 'w': 1.2, 'pts': [[71.0, -77.5], [73.5, -72.0], [70.0, -65.0]]},
          {'id': 'wancai', 'w': 4.0, 'kind': 'paved', 'pts': [[92.5, -97.0], [92.5, -64.0]]},
          {'id': 'walk', 'w': 3.0, 'kind': 'paved', 'pts': [[63.75, -104.0], [63.75, -64.0]]},
          {'id': 's1', 'w': 1.2, 'pts': [[55.0, -55.0], [52.2, -50.2], [47.0, -44.2]]},
          {'id': 's2', 'w': 1.2, 'pts': [[82.0, -55.0], [85.0, -49.6], [80.4, -44.2]]}]
-POND = {'x': 73.5, 'z': -87.0, 'rx': 6.5, 'rz': 4.2, 'willow': [68.2, -92.6]}   # 小湖（水泥池邊 +0.35、水邊植物、石頭在 Blender 模型裡）；垂柳在西北岸（走道邊）
-KEEP = [[50, -80], [66, -80], [93, -66], [92, -62], [80, -62], [60, -62], [36, -62]]   # 路人走的點（story3d.js walkRoutes）
+# 小湖（第三版，BB_248 末節第 2 點：照片是彎曲、長條、像水道的形狀，水泥矮邊沿著彎走）：中心線＋每點半寬；輪廓、池邊外緣由 pond_outline() 算好寫進配置（Blender、遊戲共用）
+POND = {'pts': [[67.6, -93.0], [70.4, -90.4], [74.2, -88.9], [77.8, -86.6], [80.0, -83.4], [81.8, -80.9]],
+        'hw': [1.3, 2.1, 2.7, 2.6, 2.0, 1.3], 'rim': 0.3, 'willow': [66.4, -89.2]}
+KEEP = [[50, -80], [66, -80], [93, -66], [92, -62], [80, -62], [60, -62], [36, -62], [40, -70]]   # 路人走的點（story3d.js walkRoutes）、以安散步的檢查點（story3d.js walkChecks (40,−70)）
 PLAZA_TREES = [[22.0, -80.0], [24.5, -94.5], [61.4, -88.0]]     # 範圍外、保持距離的東西（霖澤館前庭西邊那棵樹、大樟樹、湖邊長椅）
 SPACING = 4.3          # 樹的間距（格子）；隨機偏移 ±1.4、最近不小於 3.0 m
 MIN_TREE = 3.0
@@ -60,10 +62,39 @@ def path_dist(x, z):
     return best
 
 
+def pond_hw(x, z):
+    """到水道中心線的距離、那裡的半寬（沿中心線內插）"""
+    best = (1e9, 1.0)
+    P = POND['pts']; H = POND['hw']
+    for i in range(len(P) - 1):
+        ax, az = P[i]; bx, bz = P[i + 1]; dx, dz = bx - ax, bz - az; L2 = dx * dx + dz * dz or 1e-9
+        t = max(0.0, min(1.0, ((x - ax) * dx + (z - az) * dz) / L2)); d = math.hypot(x - ax - t * dx, z - az - t * dz)
+        if d < best[0]: best = (d, H[i] + (H[i + 1] - H[i]) * t)
+    return best
+
+
 def pond_dist(x, z):
-    """到池邊（含石砌一圈、水邊植物）的大約距離（負的＝在池子裡）"""
-    dx, dz = (x - POND['x']) / (POND['rx'] + 0.85), (z - POND['z']) / (POND['rz'] + 0.75)
-    return (math.hypot(dx, dz) - 1.0) * min(POND['rx'], POND['rz'])
+    """到池邊外緣（水＋水泥池邊）的距離（負的＝在池子裡）"""
+    d, hw = pond_hw(x, z); return d - hw - POND['rim']
+
+
+def pond_outline(off=0.0, n_cap=6):
+    """水道的輪廓多邊形（水邊；off＝往外再推，池邊外緣用 off=rim）：左邊順著走、尾端半圓、右邊倒著走、頭端半圓"""
+    P = POND['pts']; H = POND['hw']; L_, R_ = [], []
+    for i in range(len(P)):
+        a = P[max(0, i - 1)]; b = P[min(len(P) - 1, i + 1)]; tx, tz = b[0] - a[0], b[1] - a[1]; tl = math.hypot(tx, tz) or 1; tx, tz = tx / tl, tz / tl
+        nx, nz = -tz, tx; w = H[i] + off
+        L_.append([P[i][0] + nx * w, P[i][1] + nz * w]); R_.append([P[i][0] - nx * w, P[i][1] - nz * w])
+    def cap(c, w, tx, tz, sgn):
+        nx, nz = -tz, tx; out = []
+        for k in range(1, n_cap):
+            a = math.pi * k / n_cap; ca, sa = math.cos(a), math.sin(a)
+            out.append([c[0] + (nx * ca + tx * sa * sgn) * w, c[1] + (nz * ca + tz * sa * sgn) * w])
+        return out
+    e = P[-1]; tx, tz = P[-1][0] - P[-2][0], P[-1][1] - P[-2][1]; tl = math.hypot(tx, tz); tx, tz = tx / tl, tz / tl
+    s0 = P[0]; ux, uz = P[1][0] - P[0][0], P[1][1] - P[0][1]; ul = math.hypot(ux, uz); ux, uz = ux / ul, uz / ul
+    poly = L_ + cap(e, H[-1] + off, tx, tz, 1) + R_[::-1] + [[p[0], p[1]] for p in cap(s0, H[0] + off, -ux, -uz, 1)]
+    return [[round(p[0], 3), round(p[1], 3)] for p in poly]
 
 
 def in_area(x, z, m=0.0):
@@ -72,35 +103,39 @@ def in_area(x, z, m=0.0):
 
 def build():
     rnd = random.Random(SEED); trees = []
+    # 第三版（BB_248 末節第 1 點：65 棵像同一棵、排成等距的一排排）：泊松圓盤（每棵自己的最小間距 2.8～4.6 m、試很多次隨機點），
+    # 大小 0.6～1.3 倍、方向隨機；三種：榕樹（矮、寬、氣根）、樟樹（高直、樹冠圓）、高瘦的樹（照片 3、5 那種高直樹幹：樟樹模型拉高、樹冠縮窄）
     for A in AREAS:
-        nx = int((A['x1'] - A['x0']) / SPACING) + 1; nz = int((A['z1'] - A['z0']) / SPACING) + 1
-        for i in range(nx):
-            for j in range(nz):
-                x = A['x0'] + (i + 0.5) * (A['x1'] - A['x0']) / nx + rnd.uniform(-1.3, 1.3)
-                z = A['z0'] + (j + 0.5) * (A['z1'] - A['z0']) / nz + rnd.uniform(-1.3, 1.3)
-                if not in_area(x, z, 0.8) or path_dist(x, z) < 0.9 or pond_dist(x, z) < 1.4: continue
-                if any(math.hypot(x - k[0], z - k[1]) < 2.4 for k in KEEP + PLAZA_TREES) or math.hypot(x - POND['willow'][0], z - POND['willow'][1]) < 3.2: continue
-                if any(math.hypot(x - t['x'], z - t['z']) < MIN_TREE for t in trees): continue
-                r = rnd.random()
-                if r < 0.78:   # 榕樹：枝幹多、樹冠寬、深綠
-                    t = {'sp': 'banyan', 'h': round(6.4 * rnd.uniform(1.45, 1.95), 2), 'spread': round(rnd.uniform(1.15, 1.45), 2), 'dark': round(rnd.uniform(0.62, 0.74), 2), 'trunk': 0.7}
-                else:          # 樟樹：直一點、高一點
-                    t = {'sp': 'camphor', 'h': round(6.4 * rnd.uniform(1.6, 2.1), 2), 'spread': round(rnd.uniform(1.0, 1.2), 2), 'dark': round(rnd.uniform(0.8, 0.9), 2), 'trunk': 0.5}
-                t.update({'x': round(x, 2), 'z': round(z, 2), 'ry': round(rnd.uniform(0, 6.283), 3), 'seed': 900 + len(trees)}); trees.append(t)
+        area = (A['x1'] - A['x0']) * (A['z1'] - A['z0'])
+        for _ in range(int(area * 2.2)):
+            x = rnd.uniform(A['x0'], A['x1']); z = rnd.uniform(A['z0'], A['z1'])
+            if not in_area(x, z, 0.8) or path_dist(x, z) < 0.9 or pond_dist(x, z) < 1.2: continue
+            if any(math.hypot(x - k[0], z - k[1]) < 2.4 for k in KEEP + PLAZA_TREES) or math.hypot(x - POND['willow'][0], z - POND['willow'][1]) < 3.2: continue
+            gap = rnd.uniform(2.8, 4.6)
+            if any(math.hypot(x - t['x'], z - t['z']) < max(gap, t['gap']) * 0.85 for t in trees): continue
+            sc = rnd.uniform(0.6, 1.3); r = rnd.random()
+            if r < 0.55:   # 榕樹：枝幹多、樹冠寬、深綠
+                t = {'sp': 'banyan', 'h': round(6.4 * 1.7 * sc, 2), 'spread': round(rnd.uniform(1.05, 1.5), 2), 'dark': round(rnd.uniform(0.6, 0.78), 2), 'trunk': round(0.45 + 0.3 * sc, 2)}
+            elif r < 0.8:  # 樟樹：直一點、高一點
+                t = {'sp': 'camphor', 'h': round(6.4 * 1.85 * sc, 2), 'spread': round(rnd.uniform(0.95, 1.25), 2), 'dark': round(rnd.uniform(0.78, 0.92), 2), 'trunk': round(0.35 + 0.2 * sc, 2)}
+            else:          # 高瘦：高直的樹幹、樹冠窄（照片 3、5）
+                t = {'sp': 'camphor', 'h': round(6.4 * rnd.uniform(2.1, 2.6), 2), 'spread': round(rnd.uniform(0.62, 0.8), 2), 'dark': round(rnd.uniform(0.7, 0.85), 2), 'trunk': 0.35, 'tall': True}
+            t.update({'x': round(x, 2), 'z': round(z, 2), 'ry': round(rnd.uniform(0, 6.283), 3), 'seed': 900 + len(trees), 'gap': round(gap, 2)}); trees.append(t)
     # 林下灌木、蕨類（Blender 模型；不擋導航——高 0.5～1.3 m，人可以從旁邊擠過去的那種密度）
     shrubs = []
     for A in AREAS:
-        n = int((A['x1'] - A['x0']) * (A['z1'] - A['z0']) / 22.0)   # 照片：林下大多是草，灌木、蕨類稀稀落落
+        n = int((A['x1'] - A['x0']) * (A['z1'] - A['z0']) / 55.0)   # 照片：林下大多是草加落葉，只有零星小灌木（BB_248 末節第 3 點：大蕨類太多）
         for _ in range(n * 3):
             if len([s for s in shrubs if s['a'] == A['id']]) >= n: break
             x = rnd.uniform(A['x0'] + 0.4, A['x1'] - 0.4); z = rnd.uniform(A['z0'] + 0.4, A['z1'] - 0.4)
             if path_dist(x, z) < 0.5 or pond_dist(x, z) < 0.3: continue
             if any(math.hypot(x - t['x'], z - t['z']) < t['trunk'] + 0.5 for t in trees): continue
             if any(math.hypot(x - s['x'], z - s['z']) < 1.5 for s in shrubs): continue
-            shrubs.append({'a': A['id'], 'x': round(x, 2), 'z': round(z, 2), 'h': round(rnd.uniform(0.5, 1.3), 2), 'r': round(rnd.uniform(0.45, 0.95), 2), 'ry': round(rnd.uniform(0, 6.283), 2),
-                           'kind': 'fern' if rnd.random() < 0.45 else 'shrub'})
+            shrubs.append({'a': A['id'], 'x': round(x, 2), 'z': round(z, 2), 'h': round(rnd.uniform(0.35, 0.8), 2), 'r': round(rnd.uniform(0.3, 0.6), 2), 'ry': round(rnd.uniform(0, 6.283), 2),
+                           'kind': 'fern' if rnd.random() < 0.2 else 'shrub'})
     area_m2 = sum((a['x1'] - a['x0']) * (a['z1'] - a['z0']) for a in AREAS)
-    return {'version': 2, 'areas': AREAS, 'paths': PATHS, 'pond': POND, 'keep': KEEP, 'trees': trees, 'shrubs': shrubs,
+    pond = dict(POND); pond['outline'] = pond_outline(0.0); pond['outer'] = pond_outline(POND['rim'])
+    return {'version': 3, 'areas': AREAS, 'paths': PATHS, 'pond': pond, 'keep': KEEP, 'trees': trees, 'shrubs': shrubs,
             'stats': {'area_m2': round(area_m2), 'trees': len(trees), 'banyan': sum(t['sp'] == 'banyan' for t in trees), 'shrubs': len(shrubs)}}
 
 

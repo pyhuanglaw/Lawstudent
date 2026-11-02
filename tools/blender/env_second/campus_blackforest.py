@@ -82,13 +82,13 @@ def litter_tex(path, w=512, seed=21):
     rgba = np.dstack([np.asarray(im), a]); Image.fromarray(rgba, 'RGBA').save(path)
 
 
-def willow_tex(path, w=64, h=512, seed=5):
+def willow_tex(path, w=32, h=512, seed=5):
     """垂柳的一條枝（照片 4）：細的枝條從上往下，兩邊一片片細長的柳葉（淺黃綠），透明背景"""
     from PIL import Image, ImageDraw
     rnd = random.Random(seed); im = Image.new('RGBA', (w, h), (0, 0, 0, 0)); d = ImageDraw.Draw(im); cx = w / 2
     d.line([(cx, 0), (cx + 3, h)], fill=(96, 92, 58, 255), width=2)
-    for i in range(70):
-        y = rnd.uniform(4, h - 6); x = cx + 3 * y / h; sgn = rnd.choice((-1, 1)); L_ = rnd.uniform(14, 24); ang = math.radians(rnd.uniform(55, 80))
+    for i in range(110):
+        y = rnd.uniform(4, h - 6); x = cx + 2 * y / h; sgn = rnd.choice((-1, 1)); L_ = rnd.uniform(8, 13); ang = math.radians(rnd.uniform(60, 82))
         g = rnd.uniform(140, 190); col = (int(g * 0.72), int(g), int(g * 0.42), 255)
         tx, ty = x + sgn * math.sin(ang) * L_, y + math.cos(ang) * L_
         d.polygon([(x, y), (x + sgn * 2.2 + (tx - x) * 0.5, y + (ty - y) * 0.5 - 1.5), (tx, ty), (x + (tx - x) * 0.5, y + (ty - y) * 0.5 + 1.5)], fill=col)
@@ -158,9 +158,16 @@ def build():
     rnd = random.Random(1102)
     P = Lay['pond']
 
+    def pond_hw(x, z):   # 到水道中心線的距離、那裡的半寬（和配置產生器同一個算法）
+        best = (1e9, 1.0); PP = P['pts']; HH = P['hw']
+        for i in range(len(PP) - 1):
+            ax, az = PP[i]; bx, bz = PP[i + 1]; dx, dz = bx - ax, bz - az; L2 = dx * dx + dz * dz or 1e-9
+            t = max(0.0, min(1.0, ((x - ax) * dx + (z - az) * dz) / L2)); d = math.hypot(x - ax - t * dx, z - az - t * dz)
+            if d < best[0]: best = (d, HH[i] + (HH[i + 1] - HH[i]) * t)
+        return best
+
     def in_pond(x, z, pad):
-        dx, dz = x - P['x'], z - P['z']; a_ = math.atan2(dz / P['rz'], dx / P['rx']); k = pond_r(a_)
-        return (dx / (P['rx'] * k + pad)) ** 2 + (dz / (P['rz'] * k + pad)) ** 2 < 1.0
+        d, hw = pond_hw(x, z); return d < hw + pad
 
     # ---- 落葉泥土地：1 m 格；外框的頂點往外、往內亂移 0～0.5 m（邊緣不規則）；地面輕微起伏 ----
     for A in Lay['areas']:
@@ -259,13 +266,9 @@ def build():
             co = lp.vert.co; lp[uvl_li].uv = (co.x / 4.0, co.y / 4.0)
         n_lit += 1
     # ---- 小湖（第二版，照片 4、5）：水泥弧形池邊（高出地面 0.3 m、寬 0.4 m）、深綠的水、岸邊和水裡的石頭、輪傘莎草、垂柳 ----
-    N = 72; inner = []; outer = []
-    for k in range(N):
-        a_ = 2 * math.pi * k / N; kk = pond_r(a_); ca, sa = math.cos(a_), math.sin(a_)
-        ix, iz = P['x'] + ca * P['rx'] * kk, P['z'] + sa * P['rz'] * kk
-        nx_, nz_ = ca / P['rx'], sa / P['rz']; nl = math.hypot(nx_, nz_); nx_, nz_ = nx_ / nl, nz_ / nl
-        inner.append((ix, iz)); outer.append((ix + nx_ * 0.3, iz + nz_ * 0.3))
-    YT, YW = 0.2, 0.1   # 池邊比地面高 0.2 m（照片：低矮的水泥緣石；第一輪 0.3 m 像澡盆）
+    # 第三版（BB_248 末節第 2 點）：彎曲長條的水道，水泥矮邊沿著彎走；對岸（東北岸）一排石頭和輪傘莎草
+    inner = [tuple(p) for p in P['outline']]; outer = [tuple(p) for p in P['outer']]; N = len(inner)
+    YT, YW = 0.2, 0.1   # 池邊比地面高 0.2 m（照片：低矮的水泥緣石）
     for k in range(N):
         k2 = (k + 1) % N; (ix0, iz0), (ix1, iz1) = inner[k], inner[k2]; (ox0, oz0), (ox1, oz1) = outer[k], outer[k2]
         for q in ([(ix0, YT, iz0), (ix1, YT, iz1), (ox1, YT, oz1), (ox0, YT, oz0)],      # 池邊頂面
@@ -278,22 +281,24 @@ def build():
         res = bmesh.ops.create_icosphere(rk.bm, subdivisions=1, radius=r, matrix=Matrix.Translation(g2b(x, y0 + r * 0.35, z)))
         for v in res['verts']:
             v.co.x += rnd.uniform(-0.25, 0.25) * r; v.co.y += rnd.uniform(-0.25, 0.25) * r; v.co.z = max(y0, y0 + (v.co.z - y0) * rnd.uniform(0.55, 0.8))   # Blender z＝遊戲高度：壓扁、不陷到地下
-    n_rock = 0
-    for k in range(9):   # 東岸、南岸的大石頭（照片 5）
-        a_ = rnd.uniform(-1.4, 1.1); kk = pond_r(a_); rr = rnd.uniform(0.35, 0.7)
-        rock(P['x'] + math.cos(a_) * (P['rx'] * kk + 0.6 + rr), P['z'] + math.sin(a_) * (P['rz'] * kk + 0.6 + rr), rr); n_rock += 1
-    for k in range(5):   # 水裡露出來的石頭
-        a_ = rnd.uniform(-1.2, 1.4); f_ = rnd.uniform(0.55, 0.85); rr = rnd.uniform(0.25, 0.45)
-        rock(P['x'] + math.cos(a_) * P['rx'] * f_, P['z'] + math.sin(a_) * P['rz'] * f_, rr, YW - 0.1); n_rock += 1
-    uvl_pp = pp.bm.loops.layers.uv.verify(); n_pap = 0
-    for k in range(7):   # 輪傘莎草：池邊內側、東半邊
-        a_ = rnd.uniform(-1.3, 1.6); f_ = rnd.uniform(0.72, 0.9); x = P['x'] + math.cos(a_) * P['rx'] * f_; z = P['z'] + math.sin(a_) * P['rz'] * f_; hh = rnd.uniform(1.1, 1.6); ww = hh * 0.55
+    PP = P['pts']; HH = P['hw']; n_rock = n_pap = 0; uvl_pp = pp.bm.loops.layers.uv.verify()
+    def papyrus(x, z, hh):
+        ww = hh * 0.55
         for j in range(3):
             b_ = rnd.uniform(0, math.pi) + j * math.pi / 3; cb, sb = math.cos(b_), math.sin(b_)
             q = [(x - cb * ww / 2, YW, z - sb * ww / 2), (x + cb * ww / 2, YW, z + sb * ww / 2), (x + cb * ww / 2, YW + hh, z + sb * ww / 2), (x - cb * ww / 2, YW + hh, z - sb * ww / 2)]
             vs = [pp.bm.verts.new(g2b(*c)) for c in q]; f = pp.bm.faces.new(vs)
             for lp, uv in zip(f.loops, [(0, 0), (1, 0), (1, 1), (0, 1)]): lp[uvl_pp].uv = uv
-        n_pap += 1
+    for i in range(len(PP) - 1):   # 沿著中心線走，對岸（法線的反方向＝東北）放石頭、莎草，近岸偶爾一顆
+        ax, az = PP[i]; bx, bz = PP[i + 1]; seg = math.hypot(bx - ax, bz - az); tx, tz = (bx - ax) / seg, (bz - az) / seg; nx_, nz_ = -tz, tx
+        for k in range(int(seg / 1.1) + 1):
+            t = (k + rnd.uniform(0.1, 0.9)) / (int(seg / 1.1) + 1); cx, cz = ax + (bx - ax) * t, az + (bz - az) * t; hw = HH[i] + (HH[i + 1] - HH[i]) * t
+            rr = rnd.uniform(0.3, 0.6); d = hw + P['rim'] + rr * 0.8
+            rock(cx - nx_ * d, cz - nz_ * d, rr); n_rock += 1   # 對岸的石頭
+            if rnd.random() < 0.7:   # 對岸水邊的輪傘莎草（水裡、靠池邊）
+                f_ = hw - rnd.uniform(0.3, 0.7); papyrus(cx - nx_ * f_, cz - nz_ * f_, rnd.uniform(0.9, 1.5)); n_pap += 1
+            if rnd.random() < 0.25:   # 水裡露出來的石頭
+                f_ = rnd.uniform(-0.4, 0.5) * hw; rock(cx - nx_ * f_, cz - nz_ * f_, rnd.uniform(0.2, 0.4), YW - 0.1); n_rock += 1
     # 垂柳（照片 4：池邊、走道旁）：彎一點的樹幹＋往下垂的枝條（細長的葉片卡）
     WX, WZ = P['willow']; lean = (0.7, -0.25)
     def limb(p0, p1, r0, r1, segs=6, bend=(0.0, 0.0)):   # 一段彎的樹幹／主枝（8 邊形管）
@@ -309,9 +314,9 @@ def build():
         limb(top, (top[0] + dx, top[1] + dy, top[2] + dz), 0.16, 0.06, 5, (0.0, 0.0))
     uvl_wl = wl.bm.loops.layers.uv.verify(); n_str = 0
     CX, CZ = WX + lean[0], WZ + lean[1]
-    for k in range(150):
+    for k in range(340):   # 第三版（BB_248 末節第 4 點：近看是大片平面卡）：細枝條 0.1～0.17 m 寬、更多條
         a_ = rnd.uniform(0, 2 * math.pi); rr = 2.8 * math.sqrt(rnd.uniform(0.05, 1.0)); top = 5.0 - 1.4 * (rr / 2.8) ** 2 + rnd.uniform(-0.25, 0.25)
-        x = CX + math.cos(a_) * rr; z = CZ + math.sin(a_) * rr; ln = rnd.uniform(2.2, 3.6); bot = max(0.6, top - ln); ww = rnd.uniform(0.3, 0.45)
+        x = CX + math.cos(a_) * rr; z = CZ + math.sin(a_) * rr; ln = rnd.uniform(1.4, 3.2); bot = max(0.7, top - ln); ww = rnd.uniform(0.1, 0.17)
         b_ = rnd.uniform(0, math.pi); cb, sb = math.cos(b_), math.sin(b_); dx_, dz_ = math.cos(a_) * 0.25, math.sin(a_) * 0.25   # 下端往外飄一點
         q = [(x - cb * ww / 2 + dx_, bot, z - sb * ww / 2 + dz_), (x + cb * ww / 2 + dx_, bot, z + sb * ww / 2 + dz_), (x + cb * ww / 2, top, z + sb * ww / 2), (x - cb * ww / 2, top, z - sb * ww / 2)]
         vs = [wl.bm.verts.new(g2b(*c)) for c in q]; f = wl.bm.faces.new(vs)
