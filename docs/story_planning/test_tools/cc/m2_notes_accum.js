@@ -156,5 +156,18 @@ function verify(tag,G,log,{printOrder}={}){
     console.log('   [allwrong] 補考的訂正筆記標題：'+mkN.map(n=>n.title).join('、')); }
   { const {G,log}=await sim(303,'mkpass'); const v=verify('[mkpass]',G,log);
     const mk=log.filter(x=>x.kind==='makeup'); check('[mkpass] 大四下補考全對：補考那幾場沒有筆記、期末那幾場有',mk.length>0&&mk.every(x=>x.correct===5&&!G.notes.some(n=>n.id==='examfix_'+x.key))&&mk.every(x=>G.notes.some(n=>n.id==='examfix_Y4S2:'+x.cid+':final')),JSON.stringify(mk.map(x=>x.key+':'+x.correct))); }
+  /* 自我驗證（突變測試）：故意把程式改壞，上面的檢查必須 FAIL——證明檢查不是空的 */
+  console.log('—— 突變測試（每一種都應該被抓到；這一段的 FAIL 不算進總數）——');
+  const quiet=async(fn)=>{ const f0=fails, logOld=console.log, lines=[]; console.log=(...a)=>lines.push(a.join(' ')); try{ await fn(); } finally { console.log=logOld; } const caught=lines.filter(l=>l.startsWith('FAIL ')); fails=f0; R0.length=0; return caught; };
+  const MUT=[
+    ['M1 訂正筆記 key 不含學期（重修那一場會被當成同一則而漏掉）',()=>{ const o=STUDY.fixNote; STUDY.fixNote=(gm,c,key,w)=>o(gm,c,key.split(':').slice(1).join(':'),w); return ()=>{ STUDY.fixNote=o; }; },'allwrong'],
+    ['M2 訂正內文只寫第一題答錯的',()=>{ const o=STUDY.fixNote; STUDY.fixNote=(gm,c,key,w)=>o(gm,c,key,w.slice(0,1)); return ()=>{ STUDY.fixNote=o; }; },'random'],
+    ['M3 全對也寫一則（空的）訂正筆記',()=>{ const o=STUDY.fixNote; STUDY.fixNote=(gm,c,key,w)=>w.length?o(gm,c,key,w):gm.addNote('examfix_'+key,c.name,''); return ()=>{ STUDY.fixNote=o; }; },'mix'],
+    ['M4 miss 不去重、不移到最後',()=>{ const o=STUDY.miss; STUDY.miss=(G,u)=>{ const r=STUDY.rec(G); if(STUDY.unit(u)) r.miss.push(u); }; return ()=>{ STUDY.miss=o; }; },'allwrong'],
+    ['M5 答錯不記進 miss',()=>{ const o=STUDY.answer; STUDY.answer=(G,q,ok,src)=>ok?o(G,q,ok,src):0; return ()=>{ STUDY.answer=o; }; },'random'],
+    ['M6 筆記插在最前面（新→舊）',()=>{ const o=GM.addNote; GM.addNote=(id,t,b)=>{ const r=o(id,t,b); if(r){ const n=H.G.notes.pop(); H.G.notes.unshift(n); } return r; }; return ()=>{ GM.addNote=o; }; },'random'],
+    ['M7 讀檔掉了最後一則筆記',()=>{ const o=JSON.stringify; JSON.stringify=function(v,...a){ if(v&&v.notes&&v.study&&v.savedAt) v=Object.assign({},v,{notes:v.notes.slice(0,-1)}); return o.call(this,v,...a); }; return ()=>{ JSON.stringify=o; }; },'random']];
+  for(const [name,patch,md] of MUT){ const undo=patch(); let caught; try{ caught=await quiet(async()=>{ const {G,log}=await sim(7,md); verify('[mut]',G,log); }); } finally { undo(); }
+    const ok=caught.length>0; console.log((ok?'PASS ':'FAIL ')+'突變 '+name+' → '+(ok?'被抓到：'+caught.map(l=>l.replace(/^FAIL \[mut\] /,'').split('　')[0].split('（')[0]).join('；'):'沒被抓到（檢查是空的）')); if(!ok) fails++; }
   console.log(fails?('FAILED '+fails):'ALL PASS'); process.exit(fails?1:0);
 })().catch(e=>{ console.log('FAIL 例外 '+(e&&e.stack||e)); process.exit(1); });
