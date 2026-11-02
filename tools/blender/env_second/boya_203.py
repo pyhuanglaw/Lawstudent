@@ -8,7 +8,8 @@
   - 西邊是「舞台」：地上白色膠帶圍的一塊、兩張木椅＋一張小桌、椅子上一頂帽子、畫架上一塊「給我一個詞」的板子；西牆白板寫「即興劇社　期末小演出」。
   - 兩支三腳架夾燈對著舞台。
   - 觀眾席：三排、每排六張摺疊椅，面向西；門那一側留一條走道。品妤坐第一排。
-  - 討論室原本的桌子推到東牆、椅子倒放在桌上；教室後面一張小桌放簽到表、一袋零食。
+  - 討論室原本的桌子推到東牆、椅子倒放在桌上；教室後面一張小桌放節目單、一袋零食。
+    （11-02 ATTEND-ROLLCALL-1102：原本是簽到表；使用者 11-02 決定「非上課的簽到只留補習班」（AA_574），換成節目單、拿掉「簽到表」的互動點 look 'signup'。）
 內容虛構（社團、演出都是遊戲裡的；沒有真實社團名稱或商標）。
 區域的 x 和博雅教學館同方向（西＝−x）、+z＝南（窗外是南邊：窗景用 boya_2f_south）。做法和萬才館研討室 B、系辦、考場一樣（lane118_shops.py 的共用零件；遊戲端 rooms_glb3d.js）。"""
 import json, math, os, random, sys, types
@@ -25,7 +26,7 @@ GEN = K.GEN; PI = math.pi
 H = 3.2; K.H = H
 CJK = '/usr/share/fonts/truetype/wqy/wqy-zenhei.ttc'
 SID = 'boya_203'
-REG = {'BOARD': (0, 0, 1024, 384), 'EASEL': (0, 384, 384, 768), 'SIGN': (384, 384, 768, 640), 'POSTER': (768, 384, 1024, 768), 'CLOCK': (384, 640, 640, 896), 'SIGNUP': (640, 640, 768, 896), 'NOTICE': (0, 768, 384, 1024)}
+REG = {'BOARD': (0, 0, 1024, 384), 'EASEL': (0, 384, 384, 768), 'SIGN': (384, 384, 768, 640), 'POSTER': (768, 384, 1024, 768), 'CLOCK': (384, 640, 640, 896), 'PROGRAM': (640, 640, 768, 896), 'NOTICE': (0, 768, 384, 1024)}
 ROWS = [-1.6, 0.0, 1.6]                        # 觀眾席的三排（x；排和排之間 1.6 m：0.4 m 導航格上留得出一條走道）
 COLS = [-1.2, -0.6, 0.0, 0.6, 1.2, 1.8]        # 每排六張（z）；門那一側（−z）留 1.5 m 的走道
 DX = -0.15                                     # 門（−z 那一面）：博雅 2F 的 203 門在 x −12.2～−11.0，房間 −16.9～−6.0 的中間偏西 0.15 m
@@ -38,7 +39,7 @@ def ctext(d, cx, y, t, f, fill): w = d.textlength(t, font=f); d.text((cx - w / 2
 
 
 def make_tex():
-    """白板（手寫的演出名稱、小塗鴉）、畫架上的板子、門口的小海報、時鐘、簽到表、公告"""
+    """白板（手寫的演出名稱、小塗鴉）、畫架上的板子、門口的小海報、時鐘、節目單、公告"""
     im = Image.new('RGB', (1024, 1024), '#808080'); d = ImageDraw.Draw(im); rr = random.Random(9)
     x0, y0, x1, y1 = REG['BOARD']; d.rectangle([x0, y0, x1 - 1, y1 - 1], fill=(246, 248, 248))
     d.text((x0 + 60, y0 + 40), '即興劇社', font=F(70), fill=(30, 60, 150)); d.text((x0 + 60, y0 + 140), '期末小演出', font=F(90), fill=(30, 60, 150))
@@ -55,9 +56,9 @@ def make_tex():
     d.rectangle([x0, y0, x1 - 1, y1 - 1], fill=(246, 246, 242)); d.ellipse([cx - r, cy - r, cx + r, cy + r], outline=(40, 40, 40), width=8)
     for k in range(12): a = k * PI / 6; d.line([(cx + (r - 20) * math.sin(a), cy - (r - 20) * math.cos(a)), (cx + (r - 6) * math.sin(a), cy - (r - 6) * math.cos(a))], fill=(40, 40, 40), width=6)
     d.line([(cx, cy), (cx + 50 * math.sin(3.7), cy - 50 * math.cos(3.7))], fill=(30, 30, 30), width=10); d.line([(cx, cy), (cx + 80 * math.sin(0.5), cy - 80 * math.cos(0.5))], fill=(30, 30, 30), width=6)
-    x0, y0, x1, y1 = REG['SIGNUP']; d.rectangle([x0, y0, x1 - 1, y1 - 1], fill=(252, 252, 250)); ctext(d, (x0 + x1) / 2, y0 + 10, '簽到', F(26), (40, 40, 40))
-    for k in range(8): yy = y0 + 50 + k * 24; d.line([(x0 + 8, yy), (x1 - 8, yy)], fill=(170, 170, 170), width=2)
-    for k in range(5): d.line([(x0 + 14, y0 + 44 + k * 24), (x0 + 14 + rr.randint(30, 90), y0 + 42 + k * 24)], fill=(40, 50, 120), width=3)
+    x0, y0, x1, y1 = REG['PROGRAM']; d.rectangle([x0, y0, x1 - 1, y1 - 1], fill=(252, 250, 244)); d.rectangle([x0, y0, x1 - 1, y0 + 40], fill=(250, 214, 92))   # 節目單：黃色抬頭（和門口海報同一色）
+    ctext(d, (x0 + x1) / 2, y0 + 8, '節目單', F(24), (40, 30, 20)); ctext(d, (x0 + x1) / 2, y0 + 50, '即興劇社', F(18), (40, 40, 40))
+    for k in range(6): yy = y0 + 92 + k * 26; d.ellipse([x0 + 12, yy - 4, x0 + 20, yy + 4], fill=(200, 60, 50)); d.line([(x0 + 28, yy), (x0 + 28 + rr.randint(50, 84), yy)], fill=(70, 70, 70), width=4)   # 印刷的節目（小到看不清楚的字：灰色橫條）
     x0, y0, x1, y1 = REG['NOTICE']; d.rectangle([x0, y0, x1 - 1, y1 - 1], fill=(250, 250, 248)); d.rectangle([x0, y0, x1 - 1, y0 + 50], fill=(70, 80, 90))
     ctext(d, (x0 + x1) / 2, y0 + 8, '討論室使用須知', F(30), (255, 255, 255))
     for k, t in enumerate(['借用請到系辦登記', '桌椅用完請歸位', '離開時關燈、關冷氣']): d.text((x0 + 20, y0 + 74 + k * 44), '・' + t, font=F(24), fill=(50, 50, 46))
@@ -158,14 +159,14 @@ def build():
     uvquad(pn, [(0.7, 1.2, Z0 + 0.015), (1.3, 1.2, Z0 + 0.015), (1.3, 2.08, Z0 + 0.015), (0.7, 2.08, Z0 + 0.015)], uv('POSTER'))
     uvquad(pn, [(-2.4, 1.25, Z0 + 0.015), (-1.6, 1.25, Z0 + 0.015), (-1.6, 1.85, Z0 + 0.015), (-2.4, 1.85, Z0 + 0.015)], uv('NOTICE'))
     uvquad(pn, [(2.6, 2.45, Z0 + 0.016), (3.1, 2.45, Z0 + 0.016), (3.1, 2.95, Z0 + 0.016), (2.6, 2.95, Z0 + 0.016)], uv('CLOCK'))
-    # 教室後面的小桌：簽到表、一袋零食、筆
+    # 教室後面的小桌：節目單、一袋零食
     tx, tz = 2.9, Z0 + 0.45
     c.wood.rbox(tx - 0.45, tx + 0.45, 0.72, 0.75, tz - 0.25, tz + 0.25, r=0.01, seg=1)
     for xx in (tx - 0.41, tx + 0.41):
         for zz in (tz - 0.21, tz + 0.21): c.vm.cbox(xx - 0.012, xx + 0.012, 0.0, 0.72, zz - 0.012, zz + 0.012, '#5a5f63')
-    uvquad(c.prt, [(tx - 0.3, 0.752, tz + 0.1), (tx - 0.06, 0.752, tz + 0.1), (tx - 0.06, 0.752, tz - 0.2), (tx - 0.3, 0.752, tz - 0.2)], uv('SIGNUP'))
+    uvquad(c.prt, [(tx - 0.3, 0.752, tz + 0.1), (tx - 0.06, 0.752, tz + 0.1), (tx - 0.06, 0.752, tz - 0.2), (tx - 0.3, 0.752, tz - 0.2)], uv('PROGRAM'))
     rbox(c.vc, rot(tx + 0.22, tz, 0.3), -0.12, 0.12, 0.75, 0.93, -0.07, 0.07, '#e8a030', r=0.03)                              # 一袋零食
-    c.block(tx - 0.48, tx + 0.48, Z0, tz + 0.28, 'signup_table')
+    c.block(tx - 0.48, tx + 0.48, Z0, tz + 0.28, 'program_table')
     # 西牆（舞台那一面）：白板
     wl = c.wg('W', 'wall', M['wall']); wn = c.wg('W', 'wain', M['wain']); tr = c.wg('W', 'trim', M['vc'], cm=True); bd = c.wg('W', 'board', M['print'])
     wl.quad([(X0, wh, Z1), (X0, wh, Z0), (X0, H, Z0), (X0, H, Z1)]); wn.quad([(X0, 0, Z1), (X0, 0, Z0), (X0, wh, Z0), (X0, wh, Z1)])
@@ -220,7 +221,7 @@ def build():
     for z in (-1.5, 1.5): c.vc.cbox(-4.0 - 0.62, -4.0 + 0.62, H - 0.02, H, z - 0.32, z + 0.32, '#e4e4e0')                       # 舞台上面那兩盞關著
     spots = {'tang': dict(x=-3.5, z=SZ, yaw=round(PI / 2, 4), act='stand', note='唐睿（舞台中間、道具前面，面向觀眾）'),
              'member': [dict(x=-3.4, z=SZ + 1.6, yaw=round(PI / 2 + 0.5, 4), act='stand', note='即興劇社的社員（舞台邊）'),
-                        dict(x=3.45, z=round(tz + 0.65, 3), yaw=round(-PI / 2, 4), act='stand', note='簽到桌旁的社員（看著舞台）')],
+                        dict(x=3.45, z=round(tz + 0.65, 3), yaw=round(-PI / 2, 4), act='stand', note='節目單桌旁的社員（看著舞台）')],
              'pinyu': dict(x=ROWS[0], z=0.0, yaw=round(-PI / 2, 4), act='sit', note='品妤（第一排正中間，沒有表情）'),
              'me': dict(x=ROWS[0], z=0.6, yaw=round(-PI / 2, 4), act='sit', note='玩家（第一排，品妤旁邊）'),
              'zhe': dict(x=ROWS[0], z=1.2, yaw=round(-PI / 2, 4), act='sit', note='阿哲（被玩家拉來的）'),
@@ -228,7 +229,6 @@ def build():
                           if (x, z) not in ((ROWS[0], 0.0), (ROWS[0], 0.6), (ROWS[0], 1.2), (ROWS[0], 1.8), (ROWS[1], -0.6), (ROWS[2], -1.2), (ROWS[2], 1.8))]}
     c.look('board', round(X0 + 0.65, 3), round(SZ - 1.7, 3), 0.9, '白板', '', dev='「即興劇社　期末小演出」「今晚的規則」；遊戲裡顯示的字等 AA 寫')
     c.look('easel', -2.9, round(SZ - 1.2, 3), 0.7, '「給我一個詞」', '', dev='畫架上的板子；遊戲裡顯示的字等 AA 寫')
-    c.look('signup', 2.5, round(tz + 0.65, 3), 0.7, '簽到表', '', dev='教室後面小桌上的簽到表、一袋零食；遊戲裡顯示的字等 AA 寫')
     c.door = dict(x=dx, w=dw, z=Z0, note='−z 那一面的中間；從博雅教學館 2F 的 203 門（teach3d.js 關著的房間，lv 1）進來')
     c.spawn = dict(x=dx, z=round(Z0 + 1.25, 3), yaw=round(-PI / 2, 4), note='進門、面向舞台（−x）')
     c.exits = [dict(x=dx, z=round(Z0 + 0.4, 3), r=0.6, label='離開 203', to='boya', spawn_note='回到博雅教學館 2F、203 的門前面（back_spawn）')]
