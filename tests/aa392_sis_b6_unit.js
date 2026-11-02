@@ -41,7 +41,8 @@ await sec(1,async()=>{ check('1. 讀得到稿（企劃線 e81a1afe1 的 AA_392�
   const narr=(doc.match(/用完以後每週一行旁白：「(.+?)」/)||[])[1];
   const A516={'二十三號早上到。':'二十三號晚上八點落地。','機場的班次我傳給你了。':'班次，回去前傳給你。'};   /* AA_516 第 1 節 1-1（企劃線 a9b87c588）：g6 這兩句改了（和 12/23 20:30 的接機對齊）*/
   const A591=require('./aa591_doc.js');   /* AA_591（學姊改稿第四批，6b35748c7）第 94、95 列等：稿上的句子照 AA_591 的表換 */
-  const lines2=lines.map(l=>A516[l]||A591.MAP[l]||l);
+  const A591x={'……不公平。':'不公平。'};   /* AA_591 第 95 列（原句到處都有，不在 MAP）：只有視訊 g3b 這一句 */
+  const lines2=lines.map(l=>A516[l]||A591.MAP[l]||A591x[l]||l);
   check('1. 六組視訊的台詞（書瑀說的）和稿一字不差都在（g6 兩句照 AA_516 1-1 改過的）',lines2.length>=20&&lines2.every(l=>txt.includes(l)||txt.includes(l.replace(/^照片你看到了吧。$/,'照片你看到了吧。')))&&Object.keys(A516).every(l=>lines.includes(l)&&!txt.includes(l)),J(lines2.filter(l=>!txt.includes(l))));
   check('1. 用完以後的旁白和稿一字不差',!!narr&&txt.includes(narr)&&S.SA_VG_NARR===narr,narr);
   /* 臺灣路線、7/29 就交往：8/6～12/17 每週日 10:00 */

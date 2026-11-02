@@ -115,12 +115,13 @@ await sec(0,()=>{ const a=s=>html.indexOf(s);
   const GONE591=new Set(['我爸寄了一份剪報給我。法律扶助的新聞。旁邊用原子筆寫：「妳寫的這個。」','他不會說。……他會寄剪報。','等的人越來越多。……我的論文寫的就是他們。','「他在關心妳。」','「剪報上寫什麼？」',
     '你做到了。','……我也想好了。','其他的，想了很久。……沒有了。','這次，我選你。','一本給我爸了。他放在辦公室書架最上面。','另一本。……你說過要的。']);
   const NEW584=['多印了一本。……你說過要的。'];
+  const A591x={'你那邊幾點？':'你那邊十點了吧。','……謝謝。':'謝謝。','……好。':'好。'};   /* 第 17、78、126 列（原句到處都有、不在 MAP）：這份稿裡十分鐘、洗衣間、家裡的中飯那三句，第 5、6、13 節逐場驗 */
   /* AA_523 6-11（企劃線 0d7b5388b）：換掉的兩則不在遊戲裡；換上的兩則在遊戲裡、一字不差在 AA_523 第 6 節 6-11 那一列 */
   let D523=''; try{ D523=cp.execSync('git -c core.quotepath=false show 0d7b5388b:"docs/story_planning/AA_523_學姊第十六批_回臺灣以後的最後半年.md"',{cwd:process.env.AA523_DOCREPO||process.env.AA512_DOCREPO||H.ROOT,encoding:'utf8',maxBuffer:1<<24}); }catch(e){ D523=''; }
   const row611=D523.split('\n').find(l=>l.startsWith('| 6-11 |'))||'', NEW611=['禮拜四家聚！','歡迎學姊回來 118 巷那家'];
   check('0. AA_523 6-11：Kevin 舊的兩則（「學姊回來了！！」「禮拜四家聚 歡迎回來 118 巷那家」）不在遊戲裡；新的兩則在遊戲裡、一字不差在 AA_523 第 6 節 6-11 那一列（0d7b5388b）',
     !!row611&&['學姊回來了！！','禮拜四家聚 歡迎回來 118 巷那家'].every(t=>!GS.has(t)&&QUOTES.some(q=>q.t===t))&&NEW611.every(t=>GS.has(t)&&row611.includes('「'+t+'」')),J({row611:!!row611,miss:NEW611.filter(t=>!(GS.has(t)&&row611.includes('「'+t+'」')))}));
-  const lostQ=QUOTES.filter(q=>!GS.has(q.t)&&!SUPER[q.t]&&!GONE591.has(q.t)&&!GS.has(A591.MAP[q.t])).map(q=>q.who+'：'+q.t), lostO=OPTS.filter(o=>!GS.has(o)&&!GS.has(unq(o))&&!GONE591.has(o)), lostG=GREET.filter(t=>!GS.has(t));
+  const lostQ=QUOTES.filter(q=>!GS.has(q.t)&&!SUPER[q.t]&&!GONE591.has(q.t)&&!GS.has(A591.MAP[q.t])&&!GS.has(A591x[q.t])).map(q=>q.who+'：'+q.t), lostO=OPTS.filter(o=>!GS.has(o)&&!GS.has(unq(o))&&!GONE591.has(o)), lostG=GREET.filter(t=>!GS.has(t));
   check('0. 稿 → 遊戲：第 1、2、5、6 節每一句（'+QUOTES.length+' 句「>」）都在遊戲裡',QUOTES.length>=150&&!lostQ.length,J(lostQ));
   check('0. 稿 → 遊戲：每個選項（'+OPTS.length+' 個）、13-6 三句短招呼都在遊戲裡',OPTS.length===37&&GREET.length===3&&!lostO.length&&!lostG.length,J({lostO,lostG}));
   const INLINE=['你說過要來吃。','（把學姊的筆記傳給她）','去。','好','（愛心貼圖）','麵店？說好的。'];   /* 稿寫在說明句裡的（「」括起來）：13-2 私訊、第 2 節第 1 點的選項、回「去。」、媽媽那則的回覆鍵、6-1 (c) 換上的選項 */

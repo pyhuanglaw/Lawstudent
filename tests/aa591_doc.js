@@ -5,13 +5,15 @@ const cp=require('child_process'), path=require('path');
 const ROOT=path.resolve(__dirname,'..');
 const SHA='6b35748c7', P='docs/story_planning/AA_591_學姊改稿_第四批_大三大四畢業後.md';
 let DOC=''; try{ DOC=cp.execFileSync('git',['-C',ROOT,'show',SHA+':'+P],{encoding:'utf8',maxBuffer:64*1024*1024}); }catch(e){ DOC=''; }
+/* 原句是到處都有的短句（別人也說、同一個人別的場也說）的列不放進 MAP：只換表上那一處，舊測試逐一改（第 9、17、22、57、75、78、85、86、95、103、126、172、175、205、218 列）*/
+const AMBIG=new Set(['9','17','22','57','75','78','85','86','95','103','126','172','175','205','218']);
 const NEW=new Set(), MAP={};   /* MAP：數字列 原句 → 改成（舊測試從原稿抄的句子換成 AA_591 的；刪句不在裡面）*/
 for(const line of DOC.split('\n')){
   const m=line.match(/^\|\s*([0-9]+|保[0-9]+|新[0-9]+)\s*\|(.*)$/); if(!m) continue;
   const c=m[2].split('|').map(s=>s.trim()); if(c.length<4) continue;
   const v=c[3].replace(/^`|`$/g,''); if(!v||v.startsWith('（刪')) continue;
   NEW.add(v); for(const p of v.split('／')) NEW.add(p.trim());
-  if(/^(保)?[0-9]+$/.test(m[1])){ const o=c[2].replace(/^`|`$/g,''); if(o&&o!=='—'&&o!==v&&!(o in MAP)) MAP[o]=v; }
+  if(/^(保)?[0-9]+$/.test(m[1])&&!AMBIG.has(m[1])){ const o=c[2].replace(/^`|`$/g,''); if(o&&o!=='—'&&o!==v&&!(o in MAP)) MAP[o]=v; }
 }
 const sec11=DOC.slice(DOC.indexOf('## 11.'));
 for(const q of sec11.match(/「[^」]+」/g)||[]) NEW.add(q.slice(1,-1));
