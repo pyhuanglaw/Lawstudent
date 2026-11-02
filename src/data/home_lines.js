@@ -1,7 +1,7 @@
-/* 週末回臺北的家：家人台詞池（AA_138；產生器 tools/home/import_home_lines.py，不要手改）。來源：claude/magical-albattani-bk7b4n ea43bd9a0＋AA_532 ade80d22f＋AA_533 cf0066ed2 */
+/* 週末回臺北的家：家人台詞池（AA_138；產生器 tools/home/import_home_lines.py，不要手改）。來源：claude/story-planning 1edea905f＋AA_532 ade80d22f＋AA_533 cf0066ed2 */
 'use strict';
 const HOME_LINES={
-"source": "claude/magical-albattani-bk7b4n ea43bd9a0＋AA_532 ade80d22f＋AA_533 cf0066ed2",
+"source": "claude/story-planning 1edea905f＋AA_532 ade80d22f＋AA_533 cf0066ed2",
 "group": [
 {
 "who": null,

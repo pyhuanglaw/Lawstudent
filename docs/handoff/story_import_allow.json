@@ -3738,6 +3738,99 @@
    "task": "D118-MIDTERM-STORY-1102",
    "kind": "text",
    "note": "D118 沒有期中考：第 2 節 11 處改掛點、第 3 節台詞規則、第 5 節零碎字。閒聊階梯（tools/ladder/import_ladder.py）等匯入工具讀稿時照 tools/story/d118_fix.json 換字（import_guard.read_fix，和 ndl542_fix.json、nocmp_fix.json 同一個做法；tests/alison.js 一起）；其他句子手抄改 src。子代理 2026-11-02 代登，給值班 LAWWW 核"
+  },
+  {
+   "path": "docs/story_planning/syllabus/Y1S1.json",
+   "sha": "1edea905f",
+   "status": "approved",
+   "approvedBy": "AA 2026-11-02 定稿（D109；AA_588 第 3 節「源稿已改（下次重匯不會蓋回去）」）",
+   "task": "AA588-AA581-TAIL-1102",
+   "kind": "data",
+   "note": "AA_588 第 3 節：_src/y1s1.py:46 第 7 週黑板「下週、下下週：前七週整理＋案例作業」（AA_581 第 11 節第 1 點；經濟系會計學那句不動），AA 用 build.py 重產。tools/syllabus/import_syllabus.py claude/story-planning@1edea905f 重匯；匯入工具讀學期檔前比對：要讀的那一版內容要和這裡 approved 的一樣。子代理 2026-11-02 代登（分支 worktree-agent-a56503a4cb939863c），給值班 LAWWW 核",
+   "history": [
+    {
+     "sha": "57b2a7b39",
+     "approvedBy": "之前的匯入基準：tools/syllabus/import_syllabus.py claude/magical-albattani-bk7b4n@57b2a7b39（學期檔還沒進白名單的時期；src/data/syllabus.js 的 source）"
+    }
+   ]
+  },
+  {
+   "path": "docs/story_planning/syllabus/Y2S1.json",
+   "sha": "1edea905f",
+   "status": "approved",
+   "approvedBy": "AA 2026-11-02 定稿（D109；AA_588 第 3 節「源稿已改（下次重匯不會蓋回去）」）",
+   "task": "AA588-AA581-TAIL-1102",
+   "kind": "data",
+   "note": "AA_588 第 3 節：_src/y2s1.py:138、:309 第 7 週黑板「下週、下下週：前七週整理＋案例作業」、:95 柏翰缺課訊息「期末考範圍表更新了。」（AA_581 第 66 列），AA 用 build.py 重產。tools/syllabus/import_syllabus.py claude/story-planning@1edea905f 重匯；匯入工具讀學期檔前比對：要讀的那一版內容要和這裡 approved 的一樣。子代理 2026-11-02 代登（分支 worktree-agent-a56503a4cb939863c），給值班 LAWWW 核",
+   "history": [
+    {
+     "sha": "57b2a7b39",
+     "approvedBy": "之前的匯入基準：tools/syllabus/import_syllabus.py claude/magical-albattani-bk7b4n@57b2a7b39（學期檔還沒進白名單的時期；src/data/syllabus.js 的 source）"
+    }
+   ]
+  },
+  {
+   "path": "docs/story_planning/syllabus/Y2S2.json",
+   "sha": "1edea905f",
+   "status": "approved",
+   "approvedBy": "AA 2026-11-02 定稿（D109；AA_588 第 3 節「源稿已改（下次重匯不會蓋回去）」）",
+   "task": "AA588-AA581-TAIL-1102",
+   "kind": "data",
+   "note": "AA_588 第 3 節：_src/y2s2.py:106 柏翰缺課訊息「期末考範圍表更新了。」（AA_581 第 67 列），AA 用 build.py 重產。tools/syllabus/import_syllabus.py claude/story-planning@1edea905f 重匯；匯入工具讀學期檔前比對：要讀的那一版內容要和這裡 approved 的一樣。子代理 2026-11-02 代登（分支 worktree-agent-a56503a4cb939863c），給值班 LAWWW 核",
+   "history": [
+    {
+     "sha": "57b2a7b39",
+     "approvedBy": "之前的匯入基準：tools/syllabus/import_syllabus.py claude/magical-albattani-bk7b4n@57b2a7b39（學期檔還沒進白名單的時期；src/data/syllabus.js 的 source）"
+    }
+   ]
+  },
+  {
+   "path": "docs/story_planning/syllabus/Y3S2.json",
+   "sha": "1edea905f",
+   "status": "approved",
+   "approvedBy": "AA 2026-10-23 定稿（D109；AA_389 第 9 點）",
+   "task": "AA588-AA581-TAIL-1102",
+   "kind": "data",
+   "note": "AA_389 第 9 點（企劃線 b30766683 同步原檔）：勞動法阿哲翹課訊息改「老師今天講加班費，舉了超商店員的例子。全班都在算自己以前打工被扣多少。」——之前的匯入基準 57b2a7b39 比 b30766683 早，遊戲一直還是舊句；這次重匯一起進來。tools/syllabus/import_syllabus.py claude/story-planning@1edea905f 重匯；匯入工具讀學期檔前比對：要讀的那一版內容要和這裡 approved 的一樣。子代理 2026-11-02 代登（分支 worktree-agent-a56503a4cb939863c），給值班 LAWWW 核",
+   "history": [
+    {
+     "sha": "57b2a7b39",
+     "approvedBy": "之前的匯入基準：tools/syllabus/import_syllabus.py claude/magical-albattani-bk7b4n@57b2a7b39（學期檔還沒進白名單的時期；src/data/syllabus.js 的 source）"
+    }
+   ]
+  },
+  {
+   "path": "docs/story_planning/AA_585_midweek.json",
+   "sha": "1bdfd2304",
+   "status": "approved",
+   "approvedBy": "AA 2026-11-02 定稿 1bdfd2304（D109）；BB 法律審 BB_231 @995ffc585：60 週全部 PASS（民總照留原題、不用備案）",
+   "task": "AA585-MIDWEEK-1102",
+   "kind": "data",
+   "note": "法律三十門第 8、9 週（前七週整理＋案例作業；D118 沒有期中考）。tools/syllabus/import_syllabus.py 當補丁來源疊在 BB 的源稿上（BB_231「匯入方式」：BB 源稿不動），reviewed 加 60 筆。995ffc585、1edea905f 的內容和 1bdfd2304 一樣。tests/aa585_midweek_unit.js。子代理 2026-11-02 代登（分支 worktree-agent-a56503a4cb939863c），給值班 LAWWW 核"
+  },
+  {
+   "path": "docs/story_planning/AA_138_回家_家人台詞池.md",
+   "sha": "1edea905f",
+   "status": "approved",
+   "approvedBy": "AA 2026-11-02 定稿（D109；AA_588 第 3 節：晚餐第 8 題改「這學期報告多不多？」／「還好。」「有一份不太順。」／「不順的先放著，先吃飯。」，週次 8～10 不動）",
+   "task": "AA588-AA581-TAIL-1102",
+   "kind": "text",
+   "note": "tools/home/import_home_lines.py 讀的就是 AA_138（PATH）；claude/story-planning@1edea905f 重匯 src/data/home_lines.js（AA_532、AA_533 照舊疊上去）。匯入工具比對：要讀的那一版內容要和這裡 approved 的一樣。子代理 2026-11-02 代登（分支 worktree-agent-a56503a4cb939863c），給值班 LAWWW 核",
+   "history": [
+    {
+     "sha": "ea43bd9a0",
+     "approvedBy": "之前的匯入基準：import_home_lines.py claude/magical-albattani-bk7b4n（ea43bd9a0；AA_138 還沒進白名單的時期；src/data/home_lines.js 的 source）"
+    }
+   ]
+  },
+  {
+   "path": "docs/story_planning/AA_588_回LAWWW_AA581收尾與交換延畢又被當.md",
+   "sha": "1edea905f",
+   "status": "approved",
+   "approvedBy": "AA 2026-11-02 定稿（D109，第②級）",
+   "task": "AA588-AA581-TAIL-1102",
+   "kind": "text",
+   "note": "第 1 節沛珊柏翰公開移到 4/15 傍晚麵店進店事件（events.js ev_psbh_public_0415、story3d.js phoneRules 17:00 兩則、20:30 滷蛋照片）＋期末那頓拿掉公開；第 2 節記憶標籤 AN_L8_MIDTERM（social3d.js）；第 3 節源稿（syllabus 學期檔、AA_138，見那幾列）；第 4 節 K1「又被當」七句（postgrad3d.js CARDS_DELAY、r2y4b3d.js y5Plan）手抄改 src。tests/aa588_unit.js。子代理 2026-11-02 代登（分支 worktree-agent-a56503a4cb939863c），給值班 LAWWW 核"
   }
  ]
 }
