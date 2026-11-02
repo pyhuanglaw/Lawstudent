@@ -3978,12 +3978,36 @@
   },
   {
    "path": "docs/story_planning/AA_591_學姊改稿_第四批_大三大四畢業後.md",
-   "sha": "6b35748c7",
+   "sha": "43d27cd80",
    "status": "approved",
+   "history": [
+    {
+     "sha": "6b35748c7",
+     "approvedBy": "AA 2026-11-02 審查（第 9 節，D109；決1～決9 定案）、BB_237 口氣審 PASS、使用者 2026-11-02 18:5x 起選擇題 14 題確認（第 11 節）"
+    }
+   ],
    "approvedBy": "AA 2026-11-02 審查（第 9 節，D109；決1～決9 定案）、BB_237 口氣審 PASS、使用者 2026-11-02 18:5x 起選擇題 14 題確認（第 11 節：「學姊第四批 14 題使用者看完，照第 11 節可以交 LAWWW」）",
    "task": "AA591-SIS-B4-1102",
    "kind": "text",
-   "note": "學姊改稿第四批（大三、大四、畢業以後）：手抄檔、程式，沒有產生器——tools/story/apply_line_table.py 自動換 171 列，其餘手改；你的大四你自己排（ev_sis_adv_y4，第 23～25 列）、她爸爸的晚餐（ev_sis_y4_father，決1）、208 剪報（ev_us208_clipping，決2）retired（定義留給舊存檔）；第 11 節：她不先說（大峽谷保467～469、畢業那天保630、631、AA_590 期末飯、AA_593 重新開始那一版、多段感情 Byes）；AA 對 AA_584 的補充（交往中『林{name}』、sis3h、修正本私訊、family_context）一起做"
+   "note": "43d27cd80：AA 2026-11-02 21:25 回 LAWWW 的「整合時的 AA 決定」九件（本檔最後一節）——sis_b4 情人節旁白、除夕只留「厲害吧。」、ev_sis_ex_3 方向兩句不放回＋AA_600 B4、restartYes 放回、multirel「我還是喜歡你。」放回、termend 學姊 invite2／yes2 和第一次相同、大峽谷照留、林{name} 送出時定字（phone3d.js mk）、她爸爸三處改媽媽（pg_dates 源稿 AA_367 那一格照 tools/story/aa600_fix.json 疊稿；D12.tea 另一個子代理處理）。子代理 2026-11-02 代登（ex600 分支），給值班 LAWWW 核。學姊改稿第四批（大三、大四、畢業以後）：手抄檔、程式，沒有產生器——tools/story/apply_line_table.py 自動換 171 列，其餘手改；你的大四你自己排（ev_sis_adv_y4，第 23～25 列）、她爸爸的晚餐（ev_sis_y4_father，決1）、208 剪報（ev_us208_clipping，決2）retired（定義留給舊存檔）；第 11 節：她不先說（大峽谷保467～469、畢業那天保630、631、AA_590 期末飯、AA_593 重新開始那一版、多段感情 Byes）；AA 對 AA_584 的補充（交往中『林{name}』、sis3h、修正本私訊、family_context）一起做"
+  },
+  {
+   "path": "docs/story_planning/AA_600_分手後不主動聯絡_全遊戲修正.md",
+   "sha": "031414cad",
+   "status": "approved",
+   "approvedBy": "使用者 2026-11-02（以安「分手，不會主動聯絡」、學姊「如果分手他不太會理我，就算主動找他，也要很多次才回」；挽回劇情選擇題選「祐廷先開口」）；AA 定稿（第②級，第 1、2、4 節；第 3 節挽回改稿照使用者選的方向）",
+   "task": "AA600-EX-NO-CONTACT-1102",
+   "kind": "text",
+   "note": "分手後（ROM.exOf：EX_、ex／paused／friend_after_catch、挽回中）以安、學姊不主動聯絡：系統 S1～S11（V6EX.noContact；學姊前任要找三次才回 V6EX.sisExMsg／sisExInvite／sisExTalk，計數 G.flags.SIS_EXC）、以安 A1～A24、學姊 B1～B33、挽回改稿（jp_events.js REPAIR4、TANABATA_R；r2y4a_events.js ev_us2_repair、ev_us3_lake、ev_us_snow_repair）。附錄（逐條表）在同一個 commit：docs/story_planning/AA_600_附錄_分手後主動聯絡清查表.md。讀稿比對用 tools/story/aa600_fix.json。tests/aa600_ex_unit.js。子代理 2026-11-02 代登（ex600 分支），給值班 LAWWW 核"
+  },
+  {
+   "path": "docs/story_planning/AA_602_以安學姊改稿_1c_動態與零星台詞.md",
+   "sha": "e648d5b31",
+   "status": "approved",
+   "approvedBy": "AA 2026-11-02 晚審查決定（第 8 節，第②級，不問使用者；決1～決3 採 A 案、第 32 列 an_mom2「我把課表傳給她。她說：好。」）",
+   "task": "AA602-FEED-1C-1102",
+   "kind": "text",
+   "note": "以安動態與零星台詞 32 列（tools/story/apply_line_table.py 自動換 31 列，第 19 列 r2y3a_events.js 手改、註解順手改）；第 8 節 (a) 她先傳的動態私訊分手後不送（feed3d.js S.dmBlocked 走 V6EX.noContact，不走 coolSkip）；(b) 已在 ec2814492。企劃源稿（AA_503～AA_511、AA_504 6-4）還是舊句，讀稿比對用 tools/story/aa602_fix.json。tests/aa602_feed_unit.js。子代理 2026-11-02 代登（ex600 分支），給值班 LAWWW 核"
   }
  ]
 }
