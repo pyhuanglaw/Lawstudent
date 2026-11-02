@@ -146,3 +146,5 @@ fatal: 'C:/Users/USER/Documents/wt_cc_R8_rr2' already exists    [ 135.3s] main_p
       err.log (last 5): [gpu_wrap 1.3s] headed slot 1: --window-position=920,0 --window-size=900,900 --window-name=CC 測試中，請勿點選 [A1pre] | [gpu_wrap 170.4s] page close url=http://127.0.0.1:8809/index.html | [gpu_wrap 170.5s] BROWSER DISCONNECTED
 - 2026-11-03T07:15:17  A2pre  sha=3c6207b60  exit=1  133s    PASS law_old b 「回臺北的家」有無＝HOME.canGo&&!HOME.at（照程式）  gohome=False 預期=False / PASS 沒有 JS 例外  [] / FAILED 6
       err.log (last 5): [gpu_wrap 1.2s] headed slot 2: --window-position=1840,0 --window-size=900,900 --window-name=CC 測試中，請勿點選 [A2pre] | [gpu_wrap 106.6s] page close url=http://127.0.0.1:8807/index.html | [gpu_wrap 106.6s] BROWSER DISCONNECTED
+- 2026-11-03T07:16:38  A3pre  sha=dc36b401e  exit=1  75s    FAIL c 執行  例外：AttributeError("module 'playlib' has no attribute 'close_panels'") / PASS 沒有 JS 例外  [] / FAILED 4
+      err.log (last 5): [gpu_wrap 1.1s] headed slot 1: --window-position=920,0 --window-size=900,900 --window-name=CC 測試中，請勿點選 [A3pre] | [gpu_wrap 54.2s] page close url=http://127.0.0.1:8807/index.html | [gpu_wrap 54.3s] BROWSER DISCONNECTED

@@ -1,0 +1,23 @@
+{
+  "rerun": "",
+  "id": "A3pre",
+  "sha": "dc36b401e",
+  "kind": "probe",
+  "script": "docs/story_planning/test_tools/cc/cc_late15_probe.py",
+  "env": "",
+  "machine": "MSI",
+  "start": "2026-11-03T07:15:23",
+  "end": "2026-11-03T07:16:38",
+  "seconds": 75,
+  "exit": 1,
+  "error": null,
+  "runner": "a98287fbd6",
+  "rf_round": "5",
+  "url": "http://127.0.0.1:8807/index.html",
+  "res_peak": {
+    "cpu": 26,
+    "mem": 44,
+    "used_gb": 15.3,
+    "chrome_testing": 16
+  }
+}
