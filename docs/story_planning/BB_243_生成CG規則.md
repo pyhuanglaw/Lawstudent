@@ -20,3 +20,20 @@
 - **一張 CG 最多附 3 位的參考圖**：正面、看得到臉的人才附；其他人在提示詞裡寫成背影、側面或遠景。祐廷不附（他一律背影或側後方）。
 - 4 人以上、每個人都要看得清楚的合照：改用「一人一張再合成」（像大一班級合照 C1～C5 那樣），BB 會在那一輪先說明。
 - 同一輪裡，同一個人物的參考圖只傳一次，提示詞旁註明「用 ref_以安」。
+
+## 4. 畫風（使用者 11-02 19:1x：「你的生成詞沒寫畫風，生成圖片都超醜，請你寫入規則」；永久）
+- **每一輪都附畫風參考圖**，排在附圖第一張、檔名 `00_畫風參考.webp`：`art_reference/from06/style_07_cafe_dusk.webp`（07 Café 黃昏目標圖，BB_118 定案的畫風）。人物的參考圖排在它後面。
+- **總說明裡寫完整的畫風段落**（下面整段照抄，不准縮短），**每個編號裡也再寫一次「畫風照總說明和 00_畫風參考」**。BB 11-02 第一輪只寫了一句「日系青春半寫實插畫風」、沒附畫風圖 → 生成結果很醜；這是錯誤示範。
+- 畫風段落（中文＋英文關鍵字，兩種都放，生成 AI 對英文關鍵字比較敏感）：
+
+```
+【畫風（每一張都要照這個，最重要）】
+畫風完全照附圖「00_畫風參考」：高品質的日系動畫電影／視覺小說關鍵畫面（key visual）的半寫實數位繪畫。
+- 人物：日系動畫風但比例寫實的成年大學生（7～8 頭身），眼睛自然大小、五官精緻，柔和的賽璐璐上色加上細膩的漸層陰影；頭髮一束一束、有光澤。
+- 背景：細節豐富的繪畫風背景（像新海誠、京都動畫那種精緻的背景美術），物件有真實的材質和生活感，但看得出是畫的。
+- 光影：電影感的自然光，主光方向清楚，柔和的反光和光暈，中等景深；白天乾淨明亮，黃昏金黃溫暖，夜晚是暖色燈光配冷色環境。
+- 色彩：飽和度適中、略暖、乾淨通透。
+- 不要：照片、寫實攝影、3D 渲染、塑膠感、粗糙的 AI 感、扁平向量圖、兒童繪本風、Q 版、過大的眼睛、粗黑線稿、過度 HDR 和霓虹濾鏡、畫面髒或糊。
+English style keywords: high-quality Japanese anime film key visual, semi-realistic anime illustration, detailed painterly background art (Makoto Shinkai / Kyoto Animation quality), soft cel shading with smooth gradients, cinematic natural lighting, warm golden tones, shallow-to-medium depth of field, clean and polished, 4K detail. NOT photo, NOT 3D render, NOT flat vector, NOT chibi.
+```
+- 例外：遊戲畫面（像素圖，例如 CG-106）另寫像素風格段落，但仍寫清楚品質要求。
