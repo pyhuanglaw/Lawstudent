@@ -229,7 +229,8 @@ const TERMEND=(function(){
       else await talk(3);
       await S.hook(GM,te.term,who);   /* 邀約鉤子（AA_250 10-1：話題之後、收尾之前）*/
       if(kind==='gf'&&spec.lastByTerm&&spec.lastByTerm[te.term]) await run(GM,who,lines(spec.lastByTerm[te.term],G));   /* 那一頓的最後（收尾之前；AA_470 4-2 學姊大四上）。約在哪一家都演（AA_490 第 2 節：句子沒提到店；原本玩家自己約別家＝other 不演）——lastByTerm 只放和店無關的句子 */
-      const cl=kind==='gf'&&P.closeGf?P.closeGf:P.close; if(cl) await GM.say(null,cl); }   /* 學姊的女朋友版收尾（AA_250 10-1）*/
+      const atTbl=kind==='heart'&&spec.againAtTable&&spec.closeAgain&&S.rec(G).think[who]!=null;   /* 以安第二次在桌邊演：收尾換一句，收盤子挪到「……勾了。」之後（AA 2026-11-02 20:57）*/
+      const cl=atTbl?spec.closeAgain:(kind==='gf'&&P.closeGf?P.closeGf:P.close); if(cl) await GM.say(null,cl); }   /* 學姊的女朋友版收尾（AA_250 10-1）*/
     R.done={who,kind,day:G.day};
     if(kind==='heart') await S.walkHome(GM,who,te.term);
     return true; };
