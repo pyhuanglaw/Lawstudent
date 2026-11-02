@@ -391,6 +391,15 @@ async def se06_round(pg, cdp, run, tr, base, rnd, summary):
         got, log2 = await ff_until(pg, cdp, run, "(()=>{ const R=CLS.rec(GAME.G); return !!(R.grades&&R.grades.Y1S1); })()", 600, 'se06_%s_sleep' % rnd, prefer=('睡到明天',), shoot_txt=[(gl, 'grades')])
         S['grade_sleep_log'] = log2; how = '【前置／捷徑】跳到 2026-01-04 22:30 → 床「睡到明天早上」' if got else '沒等到'
     R = await tr.take(pg, n2, rnd, 'grades')
+    # 逐字稿分段：快轉途中的台詞（邀約常有「今天不讀書」）標 ff；showGrades 那一刻起的「成績出來了」＋成績那一句＋「重修：」才算 grades
+    mine = [x for x in tr.items if x['round'] == rnd and x['phase'] == 'grades' and x['i'] > n2]
+    g0 = next((x['i'] for x in mine if x['k'] == 'grades'), None); keep = 0
+    for x in mine:
+        if g0 is None or x['i'] < g0: x['phase'] = 'ff'; continue
+        if x['k'] == 'say':
+            if keep < 2 or x['t'].startswith('重修：'): keep += 1
+            else: x['phase'] = 'ff'
+        elif x['k'] != 'grades' and keep >= 2: x['phase'] = 'ff'
     says = [x['t'] for x in R if x['k'] == 'say']
     gi = next((i for i, t in enumerate(says) if t.endswith('的成績出來了。') and '大一上' in t), None)
     line = says[gi + 1] if gi is not None and gi + 1 < len(says) else None

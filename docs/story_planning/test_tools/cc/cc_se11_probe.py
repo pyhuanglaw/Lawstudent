@@ -12,7 +12,7 @@
     所以答案要比兩種：class＝照課堂公布的答案點，交卷後那一題沒有列在答錯裡＝期末也判它對；wrong＝故意點別的，看期末顯示的答案和課堂一字不差。
 流程：
   [前置] 最小存檔（法律系、過了開場）改到 2025-12-11 12:30 宿舍。
-  ① 手機「今天」→ 民法總則那一列「直接去上課」→ 照玩家點對話；課堂提問照玩家點（預設第一個選項，ASK_PICK 可以改）；記下題幹、選項、「答案是…」原文；截圖（題目＋選項、公布答案）。
+  ① 手機「今天」→ 民法總則那一列「直接去上課」→ 照玩家點對話；課堂提問照玩家點第一個選項（不計分）；記下題幹、選項、「答案是…」原文；截圖（題目＋選項、公布答案）。
   ② [前置] 同一份進度（上完課的 GAME.snapshot()）跳到 2025-12-18 12:20 宿舍（讀檔到期末）。
   ③ 手機「今天」→ 民法總則期末「直接去上課」→ 每一輪各自從②的存檔開始（CIV_PICK 預設 class,wrong）：
      題幹和課堂那一題一樣的那一題照 class／wrong 點；其他題照玩家點第一個選項（不讀答案）。記下抽到哪五題（畫面上的題幹）。截圖（考卷上那一題、交卷）。
@@ -20,7 +20,7 @@
      沒抽到：印 INFO「沒抽到 CIV40_03，可以用頁面讀出期末題庫裡 CIV40_03 的全文做只讀對照」→【捷徑：只讀】讀 EXAM_BANK 的 CIV40_03、CLS.examPool 有沒有它，和課堂原文比。
 檢查只客觀記錄（BB 判定）；真實流程要求 GAME.walkFallbacks=0（這支只有讀檔、跳日期兩個前置，沒有作答捷徑）。逐字稿 <輸出>/transcript_SE-11.json；黑名單照 SE-06 那一組記 INFO。
 用法：LW_TESTS=<工作樹>/tests SHA=<sha> python3 cc_se11_probe.py '<URL>/index.html' <輸出資料夾>
-環境變數：CIV_PICK=class,wrong　ASK_PICK=（課堂提問點第幾個，預設 0）　TRIP_MAX=900　STUCK_S=240
+環境變數：CIV_PICK=class,wrong　TRIP_MAX=900　STUCK_S=240
 """
 import os, sys, json, asyncio, re, time, traceback
 sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
@@ -72,7 +72,7 @@ async def exam_round(pg, cdp, run, tr, snap, mode, cls, S):
 
     n1 = await C.pl_n(pg)
     r = await C.play_trip(pg, cdp, run, 'se11_%s' % mode, it, answer=answer,
-                          shoot_txt=[(lambda t: t.startswith('交卷。'), 'submit'), (lambda t: WRONG_RE.match(t) is not None and target and False, 'x')],
+                          shoot_txt=[(lambda t: t.startswith('交卷。'), 'submit'), (lambda t: mode == 'wrong' and WRONG_RE.match(t) is not None and bool(cls.get('core')) and cls['core'] in t, 'exam_answer')],
                           shoot_ch=[(lambda T, lt: lt.endswith(target or '\u0000') and C.EXQ_RE.match(lt) is not None, 'exam_q')])
     R = await tr.take(pg, n1, mode, 'exam')
     run.check('SE-11 %s：一鍵去考民總期末、考完' % mode, r['ok'], J({x: r[x] for x in ('btn', 'stuck', 'jumped', 'end')}))
@@ -138,15 +138,11 @@ async def main():
             ask_id = await pg.evaluate(ASKOF, it['key']) if isinstance(it, dict) else None
             run.note('SE-11：民總那一堂 %s；CLS.askOf（只讀）＝%s' % (J(it), ask_id))
             run.check('SE-11：第 15 週週四有民總那一堂、課堂提問是 CIV40_03（只讀）', isinstance(it, dict) and ask_id == 'CIV40_03', J([it, ask_id]))
-            ask_pick = int(os.environ.get('ASK_PICK', '0'))
-
-            async def ask_answer(qi, stem, T): return None
             n1 = await C.pl_n(pg)
             r = await C.play_trip(pg, cdp, run, 'se11_class', it, picks=(),
                                   shoot_txt=[(lambda t: t.startswith('答案是'), 'class_answer')],
                                   shoot_ch=[(lambda T, lt: bool(T) and T[0].startswith('（A）'), 'class_question')])
-            # 課堂提問的選項：play_trip 的 pick_opt 會點第一個（「（A）…」），ASK_PICK 只有 0 這一種照實作；要改點別的請改 picks
-            if ask_pick: run.note('注意：ASK_PICK=%d 目前沒有接（課堂提問一律點第一個選項；不計分）' % ask_pick)
+            # 課堂提問的選項：play_trip 的 pick_opt 點第一個（「（A）…」；不計分）
             R = await tr.take(pg, n1, 'class', 'class')
             run.check('SE-11：一鍵去上民總、上完（CLS.attend 跑完）', r['ok'], J({x: r[x] for x in ('btn', 'stuck', 'jumped', 'end')}))
             cls = class_ask(R); S['class'] = cls
