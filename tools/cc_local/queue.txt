@@ -24,8 +24,8 @@
 # D124（BB 10:57）：y4s2 瀏覽器流程改用重修路線（大四上強制執行法被當→大四下重修），690ac5f4d；jp 補修路線
 19_mkretake | 690ac5f4d | probe | docs/story_planning/test_tools/cc/cc_makeup_probe.py | index.html?turbo | 200 | FAIL_ROUTE=retake;MAIN_FROM=0527;CASES=main_pass,main_fail,route_grades
 19b_mkjp    | 690ac5f4d | probe | docs/story_planning/test_tools/cc/cc_makeup_probe.py | index.html?turbo | 60  | FAIL_ROUTE=jp;CASES=route_grades
-02b_mk12dea | dea6b1944 | probe | docs/story_planning/test_tools/cc/cc_makeup_probe.py           | index.html?turbo  | 120 | CASES=home,mkbg
-02c_mkhome  | c2d0c24bc | probe | docs/story_planning/test_tools/cc/cc_makeup_probe.py | index.html?turbo | 120 | CASES=homerest,home,mkbg;MKBG_SUBS=home;RERUN=fix-home-menu
+02b_mk12dea | dea6b1944 | probe | docs/story_planning/test_tools/cc/cc_makeup_probe.py           | index.html?turbo  | 120 | CASES=home,mkbg;FAIL_ROUTE=maritime
+02c_mkhome  | c2d0c24bc | probe | docs/story_planning/test_tools/cc/cc_makeup_probe.py | index.html?turbo | 120 | CASES=homerest,home,mkbg;MKBG_SUBS=home;RERUN=fix-home-menu;FAIL_ROUTE=maritime
 06b_layoutP | c2d0c24bc | probe | docs/story_planning/test_tools/cc/cc_layout16_probe.py        | index.html?turbo  | 60  | CASES=seat_exam,adv_safe,recall2
 06c_layoutO | e27dd033e | probe | docs/story_planning/test_tools/cc/cc_layout16_probe.py        | index.html?turbo  | 60  | CASES=seat_exam,adv_safe,recall2
 32_wsem     | d75871437 | probe | docs/story_planning/test_tools/cc/cc_wsem_probe.py | index.html?turbo | 120 | CASES=all;NARR=1
@@ -42,12 +42,12 @@
 29_jpmk     | d75871437 | probe | docs/story_planning/test_tools/cc/cc_d118b1_probe.py   | index.html | 60  | CASES=jp_makeup
 34_day9     | d75871437 | probe | docs/story_planning/test_tools/cc/cc_day9_probe.py   | index.html | 60 | CASES=main
 35_fasat    | d75871437 | probe | docs/story_planning/test_tools/cc/cc_fasat_probe.py  | index.html | 60 | CASES=same_sat,next_sat,wzline_same,wzline_first,old_y2_noflag
-02_mk12new  | c2d0c24bc | probe | docs/story_planning/test_tools/cc/cc_makeup_probe.py           | index.html?turbo  | 200 | CASES=study3h,skipnoon_seat,skipnoon_phone,homerest,old_delayed,home,mkbg
-03_delay14  | c2d0c24bc | probe | docs/story_planning/test_tools/cc/cc_delay14_probe.py          | index.html?turbo  | 120 | CASES=dorm_sleep,dorm_stand,home
+02_mk12new  | c2d0c24bc | probe | docs/story_planning/test_tools/cc/cc_makeup_probe.py           | index.html?turbo  | 200 | CASES=study3h,skipnoon_seat,skipnoon_phone,homerest,old_delayed,home,mkbg;FAIL_ROUTE=maritime
+03_delay14  | c2d0c24bc | probe | docs/story_planning/test_tools/cc/cc_delay14_probe.py          | index.html?turbo  | 120 | CASES=dorm_sleep,dorm_stand,home;FD_COURSE=maritime
 04_quota    | c2d0c24bc | py    | tools/cc_local/quota_check.py                                   | index.html        | 20  |
 04b_quota15 | c2d0c24bc | probe | docs/story_planning/test_tools/cc/cc_quota15_probe.py          | index.html?turbo  | 60  |
 04c_legal   | c2d0c24bc | probe | docs/story_planning/test_tools/cc/cc_legalpage_probe.py        | index.html?turbo  | 30  |
-05_mk12old  | b4f98ea4e | probe | docs/story_planning/test_tools/cc/cc_makeup_probe.py           | index.html?turbo  | 200 | CASES=study3h,homerest,old_delayed,home,mkbg_home
+05_mk12old  | b4f98ea4e | probe | docs/story_planning/test_tools/cc/cc_makeup_probe.py           | index.html?turbo  | 200 | CASES=study3h,homerest,old_delayed,home,mkbg_home;FAIL_ROUTE=maritime
 06_layout16 | c2d0c24bc | game  | tests/choices_landscape_css.py                                  | index.html        | 40  |
 07_bg107    | c2d0c24bc | probe | docs/story_planning/test_tools/cc/cc_bg107_probe.py            | index.html?turbo  | 120 |
 08_pt106    | c2d0c24bc | probe | docs/story_planning/test_tools/cc/cc_pt106_probe.py            | index.html?turbo  | 120 |
