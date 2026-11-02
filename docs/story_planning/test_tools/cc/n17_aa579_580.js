@@ -5,7 +5,7 @@
 //              會 require <ROOT>/tests/pg_harness.js 載入遊戲資料與系統；另外載入 invite_replies／msg_pool／msg2_pool／eat_lines。
 //     AA_579 ：git show origin/claude/story-planning:docs/story_planning/AA_579_學姊改稿_第一批_手機與邀約.md > aa579.md
 //     AA_580 ：git show origin/claude/story-planning:docs/story_planning/AA_580_以安改稿_第二批_閒聊階梯與邀約.md > aa580.md
-//     --seeds：③ 邀約模擬每種組合跑幾個種子（預設 6）。
+//     --seeds：③ 邀約模擬每種組合跑幾個種子（預設 6）；--json <檔>：另外把逐列結果、禁用詞、新增句寫成 JSON（給報告用）。
 // 做法：從「載入後的資料結構」取出每一個字串（含 rule 等函式裡的字串常值，去掉註解），記下路徑與誰說的；
 //   台詞＝會播出的欄位。不算：說明欄（src、note(s)、say、off、cond、tags、rowLabel、*Text、conds、bdayInfo…）、條件欄、註解。
 // 輸出：① 逐列比對（AA_579 57 列＋連1～6、AA_580 59 列＋新1～3）② 禁用詞 ③ 空句／undefined（資料＋模擬）。結尾印 SUMMARY JSON。
@@ -90,7 +90,7 @@ function hintToks(fk,pos){
   return {toks:idt?[idt]:toks.filter(t=>!/^(js)$/.test(t)),nth,idt}; }
 function hintOK(h,p){ if(!h) return true; const q=normP(p);
   if(h.ladder){ const w=h.want.replace('steps[*]',''); const qq=q.replace(/steps\[\d+\]/,''); return qq.endsWith(w.replace(/^byTerm\.[^.]+\.heroine_01\./,'.').slice(1))&&q.includes(h.want.split('.heroine_01')[0]); }
-  if(!h.toks.every(t=>new RegExp('(^|[.\\[{])'+t+'([.\\]}\\[]|$)').test(q))) return false;
+  if(!h.toks.every(t=>new RegExp('(^|[.\\[{/,])'+t+'([.\\]}\\[/,]|$)').test(p))) return false;
   return true; }
 const OVR579={7:{want:'考試週先複習就好。',why:'BB_228：第 7 列只留前半句'}};
 function checkRow(batch,r){
@@ -185,3 +185,4 @@ const SUMMARY={rows579:rows579.length,rows580:rows580.length,diff:R1.filter(x=>!
   ban:Object.fromEntries([ID1,ID5].flatMap(cid=>BAN[cid].map(w=>[cid+':'+w,{all:R2.filter(x=>x.cid===cid&&x.w===w).length,herNonExc:R2.filter(x=>x.cid===cid&&x.w===w&&WMSG(x)&&!x.exc).length}]))),
   empty:bad.length+rowBad.length+sim.empty.length,simInvites:sim.n,simLines:sim.lines,newRows:NEW.map(x=>[x.n,x.found,J(x.st),J(x.tags)])};
 console.log('\nSUMMARY '+J(SUMMARY));
+{ const i=argv.indexOf('--json'); if(i>=0) fs.writeFileSync(argv[i+1],J({R1:R1.map(x=>Object.assign({},x,{hintTok:undefined})),LINK,NEW,R2,SAY,sim:{n:sim.n,lines:sim.lines,empty:sim.empty,err:sim.err},bad,SUMMARY},null,1)); }
