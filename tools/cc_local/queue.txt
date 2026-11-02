@@ -15,6 +15,22 @@
 # BB_229（11:52 UTC）規則 1（BB 11:57 修正：只有從來沒有在任何地方完整跑過、而且改動很大的才 HOLD＝day9、boya203、wsem；其餘照跑，這一輪就當第一次實跑）。原文：今晚新寫或改過、雲端沒有跑過紀錄的探針（quota15、legalpage、layout16、wsem、day9、delay14、fasat、makeup、y4s2final、d118b3、d118b4、rollcall、boya203、bg107、pt106）要先在雲端跑過一次。跑過以前，項目前面標「#HOLD雲端 」，PC 會跳過；雲端 PASS 以後拿掉標記。
 # 規則 5（修改前對照）：R5 → 05_mk12old（b4f98ea4e）；R8 → 雲端 4734c3d9e 已跑（CC_01 §13b）；R9 → 21_rollpre；R12 → R12b_fasatpre；R10 → R10pre（299e23345，B3 合併前）；R11 → R11pre（f57e3ac75，B4 前）；R1～R4、R6b、R7 是回歸／量測，不是修 bug 的項目，沒有修改前對照。
 # P0（BB 13:37）：R4 對照組＋b4 對照，排在最前面。main＝27e6ce77e（v9.10.15，床的選單 566f60cd6 已經在裡面）
+# ===== BB 22:03：發布候選換成 62d98bfa5（開發分支頭 ef3c6cfe9；含 CC_31／CC_32 的 window.GAME 修正）。排最前面 =====
+X_A1_adv   | 62d98bfa5 | probe | docs/story_planning/test_tools/cc/cc_advskip_probe.py | index.html | 60 |
+X_G5_term  | 62d98bfa5 | game  | tests/flow_termend.py        | index.html | 90  | XARGS={url} {out}
+X_G5b_ancf | 62d98bfa5 | probe | docs/story_planning/test_tools/cc/cc_next1102_ui_probe.py | index.html | 90 | SHA=62d98bfa5;CASES=ancf2;ORIENTS=port;REAL=1
+X_G6a_v7   | 62d98bfa5 | game  | tests/save_compat_v7.py      | index.html | 60  | SHA2=385e194;XARGS={url2} {url}
+X_G6b_v95  | 62d98bfa5 | game  | tests/save_compat_v95.py     | index.html | 60  | SHA2=a4f2760;XARGS={url2} {url} {out}
+X_G6c_fm   | 62d98bfa5 | game  | tests/save_firstmet_migration.py | index.html | 60 | XARGS={url} {out}
+X_G3_libsc | 62d98bfa5 | game  | tests/flow_library_scene.py  | index.html | 60  | XARGS={url} {out}
+X_P5_ui    | 62d98bfa5 | probe | docs/story_planning/test_tools/cc/cc_next1102_ui_probe.py | index.html | 90 | SHA=62d98bfa5;CASES=examgoal,psbhbg;ORIENTS=port,land
+X_P5w      | 62d98bfa5 | probe | docs/story_planning/test_tools/cc/cc_next1102_ui_probe.py | index.html | 60 | SHA=62d98bfa5;CASES=examgoal_wake;ORIENTS=port
+X_G4v2     | 62d98bfa5 | probe | docs/story_planning/test_tools/cc/flow_main_day12_v2.py | index.html | 110 |
+#HOLD雲端 X_P1_d124  | 62d98bfa5 | probe | docs/story_planning/test_tools/cc/cc_d124_probe.py | index.html?turbo | 90 |
+#HOLD雲端 X_P2_bar   | 62d98bfa5 | probe | docs/story_planning/test_tools/cc/cc_bar_b8_probe.py | index.html?turbo | 90 |
+#HOLD雲端 X_LIBWHISPER | 62d98bfa5 | probe | docs/story_planning/test_tools/cc/cc_libwhisper_probe.py | index.html | 60 | （探針撰寫中）
+#HOLD雲端 X_DRIVE_X81  | 62d98bfa5 | probe | docs/story_planning/test_tools/cc/cc_drive_x81_probe.py | index.html | 60 | （探針撰寫中）
+# 新存檔相容的 backfillCG（帶旗標的存檔相簿多出那幾張、沒旗標的不多）：G6 系列看結果，不夠的話另寫探針
 # ===== BB 20:23：下一版 ef63b1877（int/next1102 合進開發分支）驗收（BB_246）。全部排在最前面；長項目（逾時 ≥120）一律在檔尾 =====
 # 規則 B（run_queue.py）：有新版時，長項目還在跑，空格照樣開短項目；長項目全部結束才 exit 75
 # 21:3x：第一次 PC 跑 95／891 FAIL（CRLF＋企劃分支 commit 不在 PC）→ runner 改 autocrlf=false＋fetch story-planning，RERUN=lf 重跑
@@ -30,12 +46,12 @@ G7_class    | ef63b1877 | game  | tests/flow_class_real.py     | index.html | 11
 P3_ladder   | ef63b1877 | game  | tests/flow_ladder_y1s2.py    | index.html | 110 | XARGS={url} {out}
 P4_legal    | ef63b1877 | probe | docs/story_planning/test_tools/cc/cc_legalpage_probe.py | index.html?turbo | 60 | RERUN=ef63
 P5_ui       | ef63b1877 | probe | docs/story_planning/test_tools/cc/cc_next1102_ui_probe.py | index.html | 90 | SHA=ef63b1877;CASES=examgoal,psbhbg;ORIENTS=port,land
-G4v2_ef63   | ef63b1877 | probe | docs/story_planning/test_tools/cc/flow_main_day12_v2.py | index.html | 110 |
+# 已改到 62d98bfa5（X_ 系列）：G4v2_ef63   | ef63b1877 | probe | docs/story_planning/test_tools/cc/flow_main_day12_v2.py | index.html | 110 |
 # 雲端還沒跑過（BB_229 規則 1）：子代理在雲端驗證中，跑過就解除
 #HOLD雲端 P1_d124    | ef63b1877 | probe | docs/story_planning/test_tools/cc/cc_d124_probe.py | index.html?turbo | 90 |
 #HOLD雲端 P2_bar     | ef63b1877 | probe | docs/story_planning/test_tools/cc/cc_bar_b8_probe.py | index.html?turbo | 90 |
-G5b_ancf   | ef63b1877 | probe | docs/story_planning/test_tools/cc/cc_next1102_ui_probe.py | index.html | 90 | SHA=ef63b1877;CASES=ancf2;ORIENTS=port;REAL=1
-P5w_wake   | ef63b1877 | probe | docs/story_planning/test_tools/cc/cc_next1102_ui_probe.py | index.html | 60 | SHA=ef63b1877;CASES=examgoal_wake;ORIENTS=port
+# 已改到 62d98bfa5（X_ 系列）：G5b_ancf   | ef63b1877 | probe | docs/story_planning/test_tools/cc/cc_next1102_ui_probe.py | index.html | 90 | SHA=ef63b1877;CASES=ancf2;ORIENTS=port;REAL=1
+# 已改到 62d98bfa5（X_ 系列）：P5w_wake   | ef63b1877 | probe | docs/story_planning/test_tools/cc/cc_next1102_ui_probe.py | index.html | 60 | SHA=ef63b1877;CASES=examgoal_wake;ORIENTS=port
 A1_advskip | b1b249873 | probe | docs/story_planning/test_tools/cc/cc_advskip_probe.py | index.html | 60 | RERUN=c1
 A2_dorm    | b1b249873 | probe | docs/story_planning/test_tools/cc/cc_dorm_moveout_probe.py | index.html | 60 | RERUN=c1
 A3_late15  | b1b249873 | probe | docs/story_planning/test_tools/cc/cc_late15_probe.py | index.html | 60 | RERUN=c1
