@@ -231,7 +231,7 @@ git log --oneline <自己上次的 commit>..origin/<那條分支>               
 | 2 | **找最新的有效 RULE_SOURCE** | `python3 tools/handoff/check_handoff.py duty find`（第 0a 節）。結束碼 1（分岔、找不到）→ **停在這裡回報使用者**，不自己挑 |
 | 3 | **讀最新的永久規則**：五份規則檔＋第 13 節自己上次值班之後新增的 HV | 每次接班必讀：**D93（逐職位核對）**、**D92（本程序）**、D90、D88、D87、D86、D85、D84、D81。不能只靠對話記憶或啟動時載入的 `CLAUDE.md` |
 | 4 | **找出上一任值班帳號與最近一次正式交班紀錄** | `python3 tools/handoff/check_handoff.py duty plan --account <你的帳號> --role <職位> --ref origin/<RULE_SOURCE>`：列出上一任（以 `duty.json` 為準）、各職位要合併的分支、交班快照、WIP、還沒交班的職位 |
-| 5 | **讀上一任各職位（LAWWW、LAWWW2、AA、BB、CC）的交接紀錄** | 各職位進度檔最新版（第 1 節最後一欄；可能在另一個帳號的分支上：`git log --all -1 -- <檔>`）＋交接紀錄六類（第 5 節 A～F） |
+| 5 | **讀上一任各職位（LAWWW、LAWWW2、AA、BB、CC）的交接紀錄** | 各職位進度檔最新版（第 1 節最後一欄；可能在另一個帳號的分支上：`git log --all -1 -- <檔>`）＋交接紀錄六類（第 5 節 A～F）；**BB、CC 接班先讀 BB_00「P0 接班必讀：使用者電腦測試流程（PC 迴圈）」和 CC_29（新 runner 操作卡）**（BB 2026-11-02 19:59；使用者 20:0x 問「交班之後新的帳號會知道嗎？會知道怎麼操作嗎？」） |
 | 6 | **讀任務總表與交付登記** | `docs/handoff/tasks.json`（以它為準）＋`docs/HANDOFF_GAP_MATRIX.md`（閱讀版）＋`docs/handoff/deliveries.json` |
 | 7 | **用最新交班快照比對** | `python3 tools/handoff/check_handoff.py check --ref origin/<RULE_SOURCE>`：九項；結束碼 0 正常、1 有異常或查不了（不算正常）、**2 快照不存在或壞掉 → 寫 `REMEDIAL_FULL_AUDIT`，補做一次全面盤點** |
 | 8 | **找出未整合分支、未測試成果、WIP、待 ACK 的交付**＋**增量核對（D94）** | `python3 tools/handoff/check_handoff.py incr --ref origin/<RULE_SOURCE>`：各職位（含 CC）水位線以後的新 commit 逐一要有分類（outbox／deliveries／ignored kind）、`wip.json` 每項找得到、上一班的 WIP 沒有消失；異常才深入舊歷史（不重掃全部）；合併、登記後 LAWWW 在自己分支 `incr --advance all --by <工作階段>`（通過且 push 才前進）；`python3 tools/handoff/check_handoff.py duty verify --ref origin/<RULE_SOURCE>`（第 11 項 WIP、第 4 項分支在記錄後多了幾個 commit）；check 第 6、7、11 項（未登記的交付、未 ACK、待整合待測試）；`docs/handoff/BRANCH_INVENTORY.md` |
