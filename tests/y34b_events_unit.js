@@ -60,7 +60,7 @@ const date=id=>H.date(id);
   { fresh('2028-03-25',9,'dorm'); H.FAMILIAR('heroine_01'); H.FAMILIAR('zhe'); date('heroine_01'); PHONE.join(H.G,'noodle_team','麵店團'); at('2028-03-24',21); phone(); at('2028-03-25',9); await goOut('y3_an_sendoff',[2]);
     check('A2 和以安交往：先跟大家說完「位子幫我占著」才撕一頁「上面是空的。」；AN_PAGE_GIVEN', idx('八月五號回來。位子幫我占著。')>=0&&idx('上面是空的。')>idx('八月五號回來。位子幫我占著。')&&has('（她看了你一下，轉身走進去。走到一半回頭，揮了一下手。）')&&H.G.flags.AN_PAGE_GIVEN===true&&!has('（看著你）你說你會來。……你來了。')); }
   { fresh('2028-03-24',21,'dorm',{HOOK_AN_SENDOFF:1}); H.FAMILIAR('heroine_01'); H.FAMILIAR('zhe'); PHONE.join(H.G,'noodle_team','麵店團'); phone(); at('2028-03-25',11.7); phone();
-    check('A4 期末說了「我去送妳」、沒去：11:40 登機證照片＋「……你說你會來的。沒關係。」', JSON.stringify(th('p:heroine_01'))===JSON.stringify(['（照片：登機證）','要登機了','到了再傳','……你說你會來的。沒關係。'])&&H.G.flags.AN_SENDOFF==='missed', JSON.stringify(th('p:heroine_01'))); }
+    check('A4 期末說了「我去送妳」、沒去：11:40 登機證照片＋「……你說你會來的。沒關係。」（「要登機了。」「到了再傳。」補句號：AA_592 第 15、16 列）', JSON.stringify(th('p:heroine_01'))===JSON.stringify(['（照片：登機證）','要登機了。','到了再傳。','……你說你會來的。沒關係。'])&&H.G.flags.AN_SENDOFF==='missed', JSON.stringify(th('p:heroine_01'))); }
   { fresh('2028-03-25',7,'dorm',{},'JP'); H.FAMILIAR('heroine_01'); date('heroine_01'); H.FAMILIAR('zhe'); PHONE.join(H.G,'noodle_team','麵店團');
     check('1B-12 日本路線 3/25：前一晚的鬧鐘 07:30', S.alarms(H.G,D('2028-03-25')).some(a=>a.h===7.5)); at('2028-03-25',8);
     check('1B-12 日本路線 3/25 08:00 以後：一起出發到期（在家也是：STORY.y4HomeDue＝stay）', S.sendoffJPDue(H.G)&&(()=>{ const old=HOME.at; HOME.at=()=>true; const r=STORY.y4HomeDue(H.G); HOME.at=old; return r==='stay'; })());
@@ -361,9 +361,9 @@ const date=id=>H.date(id);
   fresh('2029-05-02',20,'dorm',{whyLaw:'econ'}); H.FRIEND('heroine_01'); at('2029-05-02',21); phone();
   check('1B-24 5/2 21:00 以安「明天下午四點有空嗎？」「兩點半，窗邊。想找人聊天。」', th('p:heroine_01').join('|')==='明天下午四點有空嗎？|兩點半，窗邊。想找人聊天。');
   at('2029-05-03',16); H.G.zone='cafe'; check('1B-24 16:00 在 Café＝演', S.an20Due(H.G)); H.picks=[2]; await run('ev_an_your_turn');
-  check('A1 「換妳問我。」＋第二天 econ：「我念過一個多月經濟……」→「你四年前也是這樣講。」；IMPORTANT_CONVERSATION', has('以安，妳為什麼念法律？')&&has('所以我念法律，是為了把地圖畫好。')&&has('我念過一個多月經濟，才知道我想念的是這個。')&&has('你四年前也是這樣講。')&&SOCIAL.has('heroine_01','IMPORTANT_CONVERSATION')&&H.G.flags.AN_YOUR_TURN===true);
+  check('A1 「換妳問我。」＋第二天 econ：「我念過一個多月經濟……」→「你四年前也是這樣講。」；IMPORTANT_CONVERSATION', has('以安，妳為什麼念法律？')&&has('我想把那種地圖畫好。')&&has('我念過一個多月經濟，才知道我想念的是這個。')&&has('你四年前也是這樣講。')&&SOCIAL.has('heroine_01','IMPORTANT_CONVERSATION')&&H.G.flags.AN_YOUR_TURN===true);
   { fresh('2029-05-03',16,'cafe'); H.FRIEND('heroine_01'); date('heroine_01'); H.picks=[2]; await run('ev_an_your_turn');
-    check('A3 和以安交往：「……第一個問我的人是你。這也是理由之一。」；沒聊過＝「……也沒有人問過我。」「那你畢業以前要告訴我。」', has('……第一個問我的人是你。這也是理由之一。')&&has('……也沒有人問過我。讓我想一下。')&&has('好。那你畢業以前要告訴我。')); }
+    check('A3 和以安交往：「第一個問我的，是你。」（AA_589 第 58 列）；沒聊過＝「……也沒有人問過我。」「那你畢業以前要告訴我。」', has('第一個問我的，是你。')&&has('……也沒有人問過我。讓我想一下。')&&has('好。那你畢業以前要告訴我。')); }
   { fresh('2029-05-03',18,'noodle'); H.FRIEND('heroine_01'); date('kexin'); check('A2 和可昕交往：5/3 18:00 麵店長桌（Café 不演）', S.an20Mode(H.G)==='noodle'&&S.an20Due(H.G)); await run('ev_an_your_turn_noodle'); check('A2 麵店版一樣的回答', has('以安，妳為什麼念法律？')); }
   { fresh('2029-05-03',16.4,'dorm'); H.FRIEND('heroine_01'); phone(); at('2029-05-03',16.5); phone(); at('2029-05-03',16.8); H.G.zone='cafe';
     check('1B-24 16:30「我在窗邊。」＝延到 17:00', th('p:heroine_01').includes('我在窗邊。')&&S.an20Due(H.G)); }

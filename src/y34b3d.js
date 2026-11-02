@@ -817,13 +817,16 @@ const Y34B=(function(){
   /* 1B-24 */
   const ANY=G=>STORY.whyLawKey?STORY.whyLawKey(G.flags):null;
   const AN20_BODY=[ {speaker:'player',text:'以安，妳為什麼念法律？'},
+    /* AA_589 第 13 節（企劃線 2414f251c；使用者 11-02 晚上定「分數到了，後來進法律系才真的喜歡法律」）：第 56～58 列＋新13、新14；祐廷的問句、選項、分支照舊 */
     {speaker:'heroine_01',text:'……沒有人問過我。'},
+    {speaker:'heroine_01',text:'高三，分數到了，就填了。'},
+    {speaker:'heroine_01',text:'真的喜歡上，是進來以後。'},
     {speaker:'heroine_01',text:'大一女舍，舍友被記點，沒有人先問她那天怎麼了。'},
-    {speaker:'heroine_01',text:'大二，一個國中生的家，申請被駁回。我寫了一頁流程說明。'},
+    {speaker:'heroine_01',text:'大二，我家教學生的家裡申請補助，被駁回了。我幫他們寫了一頁流程。'},
     {speaker:'heroine_01',text:'我媽說，那只是地圖，路還是要他們自己走。'},
-    {speaker:'heroine_01',text:'所以我念法律，是為了把地圖畫好。'},
+    {speaker:'heroine_01',text:'我想把那種地圖畫好。'},
     {if:C(dAn),cg:'cg_first_to_ask_heroine01'},   /* CG-19 第一個問我的人（企劃線 cg_approved/ README：交往版的最後一句；Café 窗邊）*/
-    {if:C(dAn),speaker:'heroine_01',text:'……第一個問我的人是你。這也是理由之一。'},
+    {if:C(dAn),speaker:'heroine_01',text:'第一個問我的，是你。'},
     {choice:[{text:'「妳媽媽好像很懂這些。」',goto:'a_mom'},{text:'「妳大一就知道了嗎？」',goto:'a_y1'},{text:'「換妳問我。」',goto:'a_me'}]},
     {label:'a_mom'},{speaker:'heroine_01',text:'她工作的關係。典禮那天你就知道了。'},{goto:'a_end'},
     {label:'a_y1'},{speaker:'heroine_01',text:'大一只知道我不想變成那個舍監。後面是慢慢想的。'},{goto:'a_end'},

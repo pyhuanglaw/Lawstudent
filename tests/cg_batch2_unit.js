@@ -2,7 +2,7 @@
 //   1. CG_REGISTRY 還是一行；這一批 48 個 key 都在、檔案都在、整個 CG_REGISTRY 沒有兩個 key 指同一個檔；40 張原檔、8 張合成都是 1672×941
 //   2. CG-10：8 個 key 和尾聲 PG.epiCg（src/postgrad3d.js）對得上（單身＝阿凱、交往中＝那一位）
 //   3. 插的 cg（位置與條件照 README）：
-//      1B-24 以安新 20 交往版：CG-19 在「……第一個問我的人是你。這也是理由之一。」那一句；沒交往（朋友版）沒有
+//      1B-24 以安新 20 交往版：CG-19 在「第一個問我的，是你。」那一句（AA_589 第 58 列，原本「……第一個問我的人是你。這也是理由之一。」）；沒交往（朋友版）沒有
 //      K10 互相出題：BCG-30 在山下小吃那一版「換她出題」那一拍（她舉起題目卡）；視訊版沒有
 //      語彤事件 17 一起畢業：CG-21 只在交往中那一句「恭喜。……四年，我們都在總圖三樓。」，說完回到椰林大道；朋友版沒有
 //      學姊學期末告白（AA_343 E1）：答應、她說兩支都有便條那一拍；BCG-44 在答應的「好。」、她說的「……我喜歡你。」；第二次沒有
@@ -48,10 +48,10 @@ const run=async(id,picks)=>{ H.said=[]; H.cgs=[]; H.picks=picks||[]; await EVENT
 (async()=>{
   // 1B-24 以安新 20（y34b3d.js AN20_BODY）
   { const G=H.fresh('2029-05-03',16,'cafe',{EXCHANGE_ROUTE:'TW',EXCH_RULE:1}); G.acts={att:{}}; G.outings=[]; H.FRIEND('heroine_01'); H.date('heroine_01'); await run('ev_an_your_turn',[0]);
-    const c=cgAt('cg_first_to_ask_heroine01'), l=idx('……第一個問我的人是你。這也是理由之一。');
-    check('3. 1B-24 和以安交往：CG-19 就在「……第一個問我的人是你。這也是理由之一。」那一句（前一拍），之後才是三個選項',c>=0&&l===c+1&&H.opts.length>0,JSON.stringify(H.said.slice(Math.max(0,c-1),c+2))); }
+    const c=cgAt('cg_first_to_ask_heroine01'), l=idx('第一個問我的，是你。');
+    check('3. 1B-24 和以安交往：CG-19 就在「第一個問我的，是你。」那一句（前一拍），之後才是三個選項',c>=0&&l===c+1&&H.opts.length>0,JSON.stringify(H.said.slice(Math.max(0,c-1),c+2))); }
   { const G=H.fresh('2029-05-03',16,'cafe',{EXCHANGE_ROUTE:'TW',EXCH_RULE:1}); G.acts={att:{}}; G.outings=[]; H.FRIEND('heroine_01'); await run('ev_an_your_turn',[0]);
-    check('3. 1B-24 沒交往（朋友版）：沒有 CG-19、也沒有那一句',cgAt('cg_first_to_ask_heroine01')<0&&idx('……第一個問我的人是你。這也是理由之一。')<0&&idx('所以我念法律，是為了把地圖畫好。')>=0); }
+    check('3. 1B-24 沒交往（朋友版）：沒有 CG-19、也沒有那一句',cgAt('cg_first_to_ask_heroine01')<0&&idx('第一個問我的，是你。')<0&&idx('我想把那種地圖畫好。')>=0); }
   // K10 互相出題（y2r2_3d.js quizEv）
   { const G=H.fresh('2026-10-23',18.5,'any'); H.date('kexin'); await run('ev_kexin_quiz_y2',[0]);   /* K10 改到 10/23（五）18:30（AA_343 E4：BCG-30 是十月星期五晚上的圖）*/
     const c=cgAt('cg_quiz_kexin'), l=idx('（換她出題。三題都是物權：誰的房子、誰的地、誰先登記。）');

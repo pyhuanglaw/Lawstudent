@@ -1,6 +1,6 @@
 // AA_589 以安改稿第四批（大三、大四、畢業後）：企劃線 2e4439756 的表逐列核對（AA589-AN-B4-1102）——不需要瀏覽器。
-//   1  稿讀得到；白名單有這一份（sha 2e4439756、approved、task AA589-AN-B4-1102）
-//   2  表上第 1～97 列（第 9 節：原決1～決22＝第 76～97 列）：第 56～58 列（為什麼念法律，等使用者選高中以前的理由，第 11、12 節）原句照留、改成不在；
+//   1  稿讀得到；白名單有這一份（sha 2414f251c＝多了第 13 節的那一版、approved、task AA589-AN-B4-1102）
+//   2  表上第 1～97 列（第 9 節：原決1～決22＝第 76～97 列）：第 56～58 列（為什麼念法律）照第 13 節（使用者 11-02 晚上定）：AN20_BODY 她的部分逐句、祐廷的問句和選項照舊；
 //      其他一般列「改成」在位置欄那個檔、「原句」不在 src 程式碼（原句＝改成的第 86、87、92 列、原句在別處合法出現的「……好。」「理由呢？」另外驗）
 //   3  第 11 節：第 10 列「我知道了。」；第 27 列轉述宿舍管理員阿姨兩句；第 28、29 列祐廷先問「要幫忙嗎？」、選項「（不再多說）」／「那我們可以談一下嗎？」、REPAIR 條件照舊
 //   4  第 10 節「想去的店」四個地方：看過那一頁（AN_SHOP_PAGE）換承接的寫法、第一次看到才記；③ TE.HEART she 前兩拍、② 七夕告白、② 日本的手帳、④ 七月最後一次的邀約（實際跑）
@@ -12,7 +12,7 @@ const fs=require('fs'), path=require('path'), cp=require('child_process'), crypt
 const GITDIR=path.join(__dirname,'..'), ROOT=path.resolve(process.env.AA589_ROOT||GITDIR);
 let fails=0; const check=(n,ok,info)=>{ console.log((ok?'PASS ':'FAIL ')+n+(ok||info===undefined?'':'　'+info)); if(!ok) fails++; };
 const J=JSON.stringify, R=p=>fs.readFileSync(path.join(ROOT,p),'utf8');
-const SHA='2e4439756', SPEC='docs/story_planning/AA_589_以安改稿_第四批_大三大四畢業後.md';
+const SHA='2414f251c', SPEC='docs/story_planning/AA_589_以安改稿_第四批_大三大四畢業後.md';
 const gshow=(sha,p,enc)=>{ try{ return cp.execSync('git show '+sha+':"'+p+'"',{cwd:GITDIR,encoding:enc||'utf8',maxBuffer:1<<26}); }catch(e){ return enc==='buffer'?Buffer.alloc(0):''; } };
 const DOC=gshow(SHA,SPEC);
 const SRC={}; (function walk(d){ for(const f of fs.readdirSync(path.join(ROOT,d))){ const p=d+'/'+f; if(fs.statSync(path.join(ROOT,p)).isDirectory()) walk(p); else if(/\.js$/.test(f)&&!/chars3d/.test(f)) SRC[p]=R(p); } })('src');
@@ -23,14 +23,19 @@ const fileOf=where=>{ const m=where.match(/^`?([\w.]+\.js)/); if(!m) return null
 const rows=[]; for(const line of DOC.split('\n')){ const m=line.match(/^\|\s*([0-9]+)\s*\|(.*)\|\s*$/); if(!m) continue; const c=m[2].split('|').map(x=>x.trim()); if(c.length<5) continue; rows.push({n:+m[1],where:c[0],who:c[1],old:c[2],nw:c[3],why:c[4]}); }
 const row=n=>rows.find(r=>r.n===n);
 // ---------- 1 ----------
-check('1. 讀得到稿（AA_589 @'+SHA+'：第 9～12 節）',DOC.length>30000&&/## 12\. 樣 5～10/.test(DOC)&&/第 56～58 列先照原句不動/.test(DOC),String(DOC.length));
+check('1. 讀得到稿（AA_589 @'+SHA+'：第 9～13 節）',DOC.length>30000&&/## 12\. 樣 5～10/.test(DOC)&&/## 13\. 為什麼念法律（第 56～58 列）/.test(DOC)&&/第 56～58 列與新13、新14 可以整合/.test(DOC),String(DOC.length));
 { const A=JSON.parse(R('docs/handoff/story_import_allow.json')).files.filter(e=>e.path===SPEC);
   check('1. 白名單有 AA_589（sha '+SHA+'、approved、AA589-AN-B4-1102）',A.length===1&&A[0].sha===SHA&&A[0].status==='approved'&&A[0].task==='AA589-AN-B4-1102',J(A)); }
 // ---------- 2 ----------
 check('2. 表上第 1～97 列都讀到',rows.length===97&&new Set(rows.map(r=>r.n)).size===97,rows.length);
 const HOLD=[56,57,58], SPECIAL=[16,72,67,27,28,29,30,82,90,91,93,94,95,96];   /* 第 30 列（a 的旁白「收進口袋」）和第 29 列（第 11 節後來改寫整條 a：「收進包包」）衝突：照第 29 列，3-4 驗 */
-{ const bad=HOLD.filter(n=>{ const r=row(n), f=fileOf(r.where); return !f||!SRC[f].includes(r.old)||SRC[f].includes(r.nw); });
-  check('2. 第 56～58 列（為什麼念法律，等使用者選）照原句、沒有換成改成欄',!bad.length,J(bad)); }
+{ /* 第 13 節的稿（code block）：祐廷那一句以外、她的每一句（「［交往中，CG-19］」那一句接在 CG-19 後面、if dAn）*/
+  const blk=(DOC.split('## 13.')[1]||'').split('```')[1]||'', SPEC13=blk.split('\n').map(l=>l.trim()).filter(Boolean);
+  const want=SPEC13.filter(l=>!/^祐廷：/.test(l)).map(l=>l.replace(/^［交往中，CG-19］/,'').replace(/^以安：/,''));
+  const y=SRC['src/y34b3d.js'], i=y.indexOf('const AN20_BODY=['), body=y.slice(i,y.indexOf("{choice:[",i)), got=[...body.matchAll(/speaker:'heroine_01',text:'([^']*)'/g)].map(m=>m[1]);
+  check('2. 第 56～58 列＋新13、新14（第 13 節，使用者 11-02 晚上定）：AN20_BODY 她說的八句逐句照稿、順序照稿（最後一句只在交往中、CG-19 在它前面）',
+    want.length===8&&J(got)===J(want)&&/\{if:C\(dAn\),cg:'cg_first_to_ask_heroine01'\},[^\n]*\n\s*\{if:C\(dAn\),speaker:'heroine_01',text:'第一個問我的，是你。'\}/.test(body),J({want,got}));
+  check('2. 第 13 節：祐廷的問句「以安，妳為什麼念法律？」、三個選項、分支 a_y1 照舊；舊句不在',SPEC13[0]==='祐廷：以安，妳為什麼念法律？'&&body.includes("{speaker:'player',text:'以安，妳為什麼念法律？'}")&&y.includes("{choice:[{text:'「妳媽媽好像很懂這些。」',goto:'a_mom'},{text:'「妳大一就知道了嗎？」',goto:'a_y1'},{text:'「換妳問我。」',goto:'a_me'}]}")&&y.includes('大一只知道我不想變成那個舍監。後面是慢慢想的。')&&!/一個國中生的家|所以我念法律，是為了把地圖畫好|這也是理由之一/.test(stripC(y))); }
 { const bad=[]; for(const r of rows){ if(HOLD.includes(r.n)||SPECIAL.includes(r.n)) continue; const f=fileOf(r.where);
     if(!f||!SRC[f].includes(r.nw)) bad.push('#'+r.n+' 改成不在 '+f+'：'+r.nw);
     if(r.old!==r.nw&&!r.nw.includes(r.old)&&inCode(r.old).length) bad.push('#'+r.n+' 原句還在 '+inCode(r.old).join('、')+'：'+r.old); }

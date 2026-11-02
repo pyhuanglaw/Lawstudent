@@ -4,10 +4,10 @@
 //          或是 AA_589 第 7-5 節（S6）、第 10 節（想去的店，看過那一頁）稿裡用「」或（）引的整句。
 const cp=require('child_process'), path=require('path');
 const ROOT=path.resolve(__dirname,'..');
-const DOCS=[['1cf992d66','docs/story_planning/AA_587_以安改稿_第三批_大一大二事件.md'],['2e4439756','docs/story_planning/AA_589_以安改稿_第四批_大三大四畢業後.md'],
+const DOCS=[['1cf992d66','docs/story_planning/AA_587_以安改稿_第三批_大一大二事件.md'],['2414f251c','docs/story_planning/AA_589_以安改稿_第四批_大三大四畢業後.md'],
   ['4162d22e1','docs/story_planning/AA_592_以安改稿_1b_手機訊息與一般閒聊.md'],['4162d22e1','docs/story_planning/AA_594_以安改稿_4b_不分年級系統事件.md']];
 const show=(sha,p)=>{ try{ return cp.execFileSync('git',['-C',ROOT,'show',sha+':'+p],{encoding:'utf8',maxBuffer:64*1024*1024}); }catch(e){ return ''; } };
-const HOLD589=['56','57','58'];
+const HOLD589=[];   /* AA_589 第 56～58 列：第 13 節（2414f251c）解除保留，句子照第 13 節的稿（下面一起收）*/
 const TXT={}, NEW=new Set(), MAP=new Map();   /* MAP：原句 → 改成（一句換一句的列；原句太短（4 個字以內，例「……好。」）、刪掉、拆句的不放——那幾句只換了某一處，要看情境）*/
 const add=v=>{ v=v.trim().replace(/^`|`$/g,''); if(!v) return; NEW.add(v); const q=v.replace(/^「(.*)」$/,'$1'); NEW.add(q); };
 for(const [sha,p] of DOCS){ const D=show(sha,p); TXT[p]=D;
@@ -19,7 +19,8 @@ for(const [sha,p] of DOCS){ const D=show(sha,p); TXT[p]=D;
     if(!v.includes('／')&&c[2].replace(/^`|`$/g,'').length>4&&!MAP.has(c[2])) MAP.set(c[2].replace(/^`|`$/g,''),v.replace(/^`|`$/g,''));
     add(v); for(let s of v.split('／')){ s=s.trim().replace(/^(祐廷|以安|阿哲)：/,'').replace(/^（(以安|阿哲在麵店團)）/,''); add(s); }
   } }
-{ const D=TXT[DOCS[1][1]]; for(const sec of [D.slice(D.indexOf('### 7-5'),D.indexOf('### 7-6')),D.slice(D.indexOf('## 10.'),D.indexOf('## 11.'))]){
+{ const D=TXT[DOCS[1][1]]; for(const l of ((D.split('## 13.')[1]||'').split('```')[1]||'').split('\n')){ const m=l.trim().match(/^(?:［[^］]*］)?(?:以安|祐廷)：(.+)$/); if(m) NEW.add(m[1]); }
+  for(const sec of [D.slice(D.indexOf('### 7-5'),D.indexOf('### 7-6')),D.slice(D.indexOf('## 10.'),D.indexOf('## 11.'))]){
     for(const q of sec.match(/「[^」]+」/g)||[]) NEW.add(q.slice(1,-1));
     for(const q of sec.match(/（[^（）]*(?:「[^」]*」[^（）]*)*）/g)||[]) NEW.add(q);
     for(const l of sec.split('\n')){ const m=l.match(/^\s*-\s*(?:以安|旁白|祐廷[^：]*)：(.+?)\s*$/); if(m) for(const s of m[1].split('／')) NEW.add(s.trim()); } } }
