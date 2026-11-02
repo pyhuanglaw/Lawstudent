@@ -1,0 +1,64 @@
+diff --git a/tests/flow_lib_tour.py b/tests/flow_lib_tour.py
+index f7ba6143c..37cace2f8 100644
+--- a/tests/flow_lib_tour.py
++++ b/tests/flow_lib_tour.py
+@@ -16,10 +16,30 @@ PRE = {'zone': 'library_hall', 'hour': 15.33, 'day': DAY, 'weekday': 5, 'weather
+ LIB = "(()=>{ const n=GAME.E.npcs.find(n=>n.name==='館員'); return n?{x:+n.obj.position.x.toFixed(2),z:+n.obj.position.z.toFixed(2),lv:n.lv|0}:null; })()"
+ CAP = "(()=>{ const el=document.getElementById('caption'); return el&&!el.classList.contains('hide')?el.textContent:''; })()"
+ ST = "(()=>ACTIVITIES.stateOf(GAME.G,'lib_tour_y1s1',GAME.G.day))()"
++# 館員的話用 GM.caption 顯示 5 秒左右；跟著館員走的時候（go_to 最多 60 秒）這支測試輪詢不到，常常漏看
++#   （11-02 LAWWW2：第二版大廳走完全程、記成 full，這一項卻是 []；之前第一版也出現過 [0]、[2]）。
++#   改成在頁面裡把每一句 caption 記下來（包一層 GAME.caption）；檢查的標準不變：七站的話依序都出現。
++CAPHOOK = "(()=>{ if(window.__capHook) return true; window.__capHook=true; window.__caps=[]; const f=GAME.caption; GAME.caption=function(w,t,ms){ try{ window.__caps.push(String(t||'')); }catch(e){} return f.apply(this,arguments); }; return true; })()"
+ LINES = ['新生導覽，十五分鐘', '進出都要刷學生證', '借書、還書、預約研究小間', '二樓的長桌不用預約', '研究小間要上網預約', '三樓比較安靜', '以上。法律的書在四樓以上']
+ 
++async def handle_choices(pg, cdp, run):
++    """跟著館員走的時候跳出來的選單。
++    圓窗館前的合照（AA_555 L3，src/campus_l123_3d.js；11-01 加的）：大一上第 3 週週五 16:00，正好是這支測試的 9/19；
++    手機邀請會排進行程（OUT.plan），15:55 跳「出發：圓窗館前 16:00：系學會合照／晚一點／不去了」。
++    人在導覽裡，像玩家一樣先「不去了」（outings3d.js：不扣分）。其他選單照舊點第一個（和原本 go_to 裡的 advance_dialogs 一樣）。
++    11-02 LAWWW2：原本沒處理，go_to 點了第一個「出發」，人被帶到圓窗館前 (−104,−17)，導覽記成沒走完——第一版、第二版大廳都一樣"""
++    c = await pg.evaluate("[...document.querySelectorAll('#choices button')].map(b=>b.textContent)")
++    if not c: return False
++    if any(x.startswith('出發：') for x in c):
++        i = next((k for k, x in enumerate(c) if x.startswith('不去')), None)
++        if i is not None:
++            run.note('跳出「%s」：在導覽裡，選「%s」' % (c[0][:30], c[i])); await L.tap(pg, cdp, '#choices button:nth-child(%d)' % (i + 1)); await pg.wait_for_timeout(1200); return True
++    await L.advance_dialogs(pg, cdp, run, until=lambda q: not q['choices'] and not q['dlg'], max_steps=20); return True
++
++
+ async def join(pg, cdp, run):
+     await L.load_state(pg, PRE, quiet_events=True); await pg.wait_for_timeout(5000)
++    await pg.evaluate(CAPHOOK); await pg.evaluate("window.__caps=[]")
+     it = await L.find_it(pg, '新生導覽集合點')
+     ok = bool(it) and await L.go_to(pg, cdp, run, it['x'], it['z'], 0.8, '集合點')
+     s = await L.state(pg)
+@@ -38,19 +58,24 @@ async def main():
+         await join(pg, cdp, run)
+         seen, t0, zones = [], time.time(), set()
+         while time.time() - t0 < 1500:
+-            cap = await pg.evaluate(CAP)
+-            for i, l in enumerate(LINES):
+-                if l in cap and i not in seen: seen.append(i); await run.shot(pg, f'A_stop{i}')
++            caps = await pg.evaluate("(window.__caps||[]).slice()")
++            for cap in caps:
++                for i, l in enumerate(LINES):
++                    if l in cap and i not in seen: seen.append(i); await run.shot(pg, f'A_stop{i}')
+             st = await pg.evaluate(ST); zones.add(await pg.evaluate("GAME.G.zone"))
+             if st == 'full': break
+             s = await L.state(pg)
++            if s['choices'] and await handle_choices(pg, cdp, run): continue
+             if s['dlg']: await L.tap(pg, cdp, '#dlg'); continue
+             lib = await pg.evaluate(LIB)
+             if lib:
+                 d = await pg.evaluate("(l=>{ const P=GAME.E.player; return (P.lv|0)!==l.lv?99:Math.hypot(P.obj.position.x-l.x,P.obj.position.z-l.z); })(%s)" % json.dumps(lib))
+-                if d > 2.5: await L.go_to(pg, cdp, run, lib['x'], lib['z'], 1.8, '跟著館員', max_s=60, lv=lib['lv'])
++                if d > 2.5: await L.go_to(pg, cdp, run, lib['x'], lib['z'], 1.8, '跟著館員', max_s=60, lv=lib['lv'], stop=lambda q: q['choices'] > 0)   # 選單交給 handle_choices
+             await pg.wait_for_timeout(1200)
+         st = await pg.evaluate(ST)
++        for cap in await pg.evaluate("(window.__caps||[]).slice()"):
++            for i, l in enumerate(LINES):
++                if l in cap and i not in seen: seen.append(i)
+         run.check('A 七站的話依序都出現（館員說）', seen == list(range(7)), json.dumps(seen))
+         run.check('A 跟著館員從總圖大廳走到三樓閱覽區（換區域）', 'library' in zones and 'library_hall' in zones, json.dumps(sorted(zones)))
+         run.check('A 走完：記為參加完（full）', st == 'full', str(st))

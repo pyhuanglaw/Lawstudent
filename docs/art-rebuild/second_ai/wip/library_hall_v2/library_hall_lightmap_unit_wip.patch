@@ -1,0 +1,75 @@
+diff --git a/tests/library_hall_lightmap_unit.js b/tests/library_hall_lightmap_unit.js
+index e04690ee4..ff4ccbd49 100644
+--- a/tests/library_hall_lightmap_unit.js
++++ b/tests/library_hall_lightmap_unit.js
+@@ -15,23 +15,25 @@ global.window=global; global.self=global;
+ const ctx2d=new Proxy({}, {get:(o,k)=>k==='createRadialGradient'||k==='createLinearGradient'||k==='createPattern'?()=>({addColorStop(){}}):(k==='getImageData'?()=>({data:new Uint8ClampedArray(16)}):(k==='measureText'?()=>({width:10}):(()=>{})))});
+ global.document={ createElementNS:()=>({getContext:()=>ctx2d,style:{},addEventListener(){},removeEventListener(){}}), createElement:()=>({width:1,height:1,getContext:()=>ctx2d,style:{}}), getElementById:()=>null, addEventListener(){} };
+ global.navigator={userAgent:'node'}; global.addEventListener=()=>{}; global.innerWidth=844; global.innerHeight=390; global.location={search:''};
+-const files=['lib/three.bundle.js','lib/three.jsm.bundle.js','src/people3d.js','src/assets3d.js','src/world3d.js','src/engine3d.js','src/townkit3d.js','src/campuskit3d.js','src/zones3d.js','src/data/socsci_layout.js','src/data/linze_layout.js','src/data/classroom_layout.js','src/building3d.js','src/data/library_layout.js','src/library3d.js'];
++const files=['lib/three.bundle.js','lib/three.jsm.bundle.js','src/people3d.js','src/assets3d.js','src/world3d.js','src/engine3d.js','src/townkit3d.js','src/campuskit3d.js','src/zones3d.js','src/data/socsci_layout.js','src/data/linze_layout.js','src/data/classroom_layout.js','src/building3d.js','src/data/library_layout.js','src/library3d.js','src/library_hall_v2.js'];
+ for(const f of files){ let src=fs.readFileSync(path.join(ROOT,f),'utf8'); src=src.replace(/^const (\w+)\s*=/m,'globalThis.$1='); vm.runInThisContext(src,{filename:f}); }
+ let fails=0; const check=(name,ok,info)=>{ console.log((ok?'PASS ':'FAIL ')+name+(info?'  '+info:'')); if(!ok) fails++; };
+ const E=E3; E.scene=new THREE.Scene(); E.q={level:'medium'};
++/* version 2（LIB-INTERIOR-1102，11-02 照實際配置重排：中庭台階書牆、展演廳）用第二版的正式模型；version 1 照舊 */
++const V2=LIBRARY_LAYOUT.version===2, GLBF=V2?'assets/models/env/second_ai/library_hall_v2.glb':'assets/models/env/library_interior.glb', KEY=V2?'bldg.library_hall_v2':'bldg.library_interior';
+ 
+ // ---- 1. 正式模型的內容（只讀 GLB 的 JSON）----
+-const b=fs.readFileSync(path.join(ROOT,'assets/models/env/library_interior.glb')); const J=JSON.parse(b.slice(20,20+b.readUInt32LE(12)).toString('utf8'));
++const b=fs.readFileSync(path.join(ROOT,GLBF)); const J=JSON.parse(b.slice(20,20+b.readUInt32LE(12)).toString('utf8'));
+ const lm=J.scenes[J.scene|0].extras&&J.scenes[J.scene|0].extras.lightmap;
+ check('GLB 場景有 extras.lightmap', !!(lm&&lm.day&&lm.night&&lm.intensity>0), JSON.stringify(lm));
+ if(lm) for(const k of ['day','night']) check('光照貼圖檔案在 repo 裡：'+lm[k], fs.existsSync(path.join(ROOT,lm[k])));
+ const names=J.nodes.map(n=>n.name||''); check('L0_root、L1_root 在', names.includes('L0_root')&&names.includes('L1_root'));
+ const uv1=n=>J.meshes[n.mesh].primitives.every(p=>'TEXCOORD_1' in p.attributes);
+ const meshNode=rx=>J.nodes.find(n=>'mesh' in n&&rx.test(n.name||''));
+-for(const [label,rx] of [['一樓地板',/^L0_floor/],['二樓地板（淺色人字拼）',/^L1_.*parquet/],['大樓梯',/^L0_.*step/],['平台',/^L0_landing/],['外牆',/^L0_WALL_wall.*plaster/],['書架、長桌（胡桃木）',/^L1_lb_walnut/],['沙發',/^L0_lb_leather/]]){ const n=meshNode(rx); check('有第二套 UV：'+label+'（'+(n&&n.name)+'）', !!(n&&uv1(n))); }
+-for(const n of J.nodes.filter(n=>'mesh' in n&&/light_panel|skylight|_lb_vc|lampglow/.test(n.name||''))) check('沒有第二套 UV（照舊即時光）：'+n.name, !uv1(n));
+-const withUv1=J.nodes.filter(n=>'mesh' in n&&uv1(n)).length; check('有第二套 UV 的網格不少於 30 個', withUv1>=30, withUv1+' 個');
+-check('天窗寫在 extras.lightmap.dayEmit（晚上調暗）', !!(lm&&[].concat(lm.dayEmit||[]).some(k=>/skylight/.test(k))), JSON.stringify(lm&&lm.dayEmit));
++for(const [label,rx] of V2?[['一樓地板',/^L0_floor/],['二樓地板（人字拼）',/^L1_parquet/],['台階書牆（蜂蜜色木頭）',/^L0_wood/],['展演廳的木地板',/^L0_parquet/],['外牆',/^WALL_W0/],['灰泥',/^L0_plaster/],['展示櫃、書架（胡桃木）',/^L0_walnut/]]:[['一樓地板',/^L0_floor/],['二樓地板（淺色人字拼）',/^L1_.*parquet/],['大樓梯',/^L0_.*step/],['平台',/^L0_landing/],['外牆',/^L0_WALL_wall.*plaster/],['書架、長桌（胡桃木）',/^L1_lb_walnut/],['沙發',/^L0_lb_leather/]]){ const n=meshNode(rx); check('有第二套 UV：'+label+'（'+(n&&n.name)+'）', !!(n&&uv1(n))); }
++for(const n of J.nodes.filter(n=>'mesh' in n&&(V2?/^L[01]_(light|warm|vc|vcm|books)$|plant/:/light_panel|skylight|_lb_vc|lampglow/).test(n.name||''))) check('沒有第二套 UV（照舊即時光）：'+n.name, !uv1(n));
++const withUv1=J.nodes.filter(n=>'mesh' in n&&uv1(n)).length; check('有第二套 UV 的網格不少於 '+(V2?25:30)+' 個', withUv1>=(V2?25:30), withUv1+' 個');
++if(!V2) check('天窗寫在 extras.lightmap.dayEmit（晚上調暗）', !!(lm&&[].concat(lm.dayEmit||[]).some(k=>/skylight/.test(k))), JSON.stringify(lm&&lm.dayEmit));
+ { const bin=b.slice(20+b.readUInt32LE(12)+8), acc=i=>{ const a=J.accessors[i], bv=J.bufferViews[a.bufferView], o=(bv.byteOffset||0)+(a.byteOffset||0), nc={SCALAR:1,VEC2:2,VEC3:3}[a.type], ct=a.componentType, cs={5126:4,5125:4,5123:2,5121:1}[ct], st=bv.byteStride||nc*cs, out=[];
+     for(let k=0;k<a.count;k++) for(let c=0;c<nc;c++){ const q=o+k*st+c*cs; out.push(ct===5126?bin.readFloatLE(q):ct===5125?bin.readUInt32LE(q):ct===5123?bin.readUInt16LE(q):bin.readUInt8(q)); } return out; };
+   const dup=[]; for(const n of J.nodes.filter(n=>'mesh' in n&&uv1(n))) for(const pr of J.meshes[n.mesh].primitives){ const P=acc(pr.attributes.POSITION), I=acc(pr.indices), seen=new Map(); let d=0;
+@@ -39,7 +41,28 @@ check('天窗寫在 extras.lightmap.dayEmit（晚上調暗）', !!(lm&&[].concat
+     const nrm=(a,b,c)=>{ const u=[0,1,2].map(j=>P[b*3+j]-P[a*3+j]), w=[0,1,2].map(j=>P[c*3+j]-P[a*3+j]); return [u[1]*w[2]-u[2]*w[1],u[2]*w[0]-u[0]*w[2],u[0]*w[1]-u[1]*w[0]]; };
+     for(let t=0;t<I.length;t+=3){ const k=key(I[t],I[t+1],I[t+2]), nn=nrm(I[t],I[t+1],I[t+2]), g=seen.get(k); if(g){ if(g[0]*nn[0]+g[1]*nn[1]+g[2]*nn[2]<0) d++; } else seen.set(k,nn); }
+     if(d) dup.push(n.name+' '+d); }
+-  check('有第二套 UV 的網格沒有疊在一起、方向相反的面（烘焙會全黑）', dup.length===0, dup.slice(0,6).join('、')); }
++  check('有第二套 UV 的網格沒有疊在一起、方向相反的面（烘焙會全黑）', dup.length===0, dup.slice(0,6).join('、'));
++  /* 牆（WALL_，extras.dir＝往室內）：dir 要朝房間裡面（展演廳的牆 WALL_R* 朝圓心，其他朝大廳中心）。遊戲 building3d.js 照 dir 決定鏡頭在牆外時淡出；
++     烘焙（bake_room.py）照 dir 把背對室內的面縮成一點、不分像素。11-02 第二版第一次烘焙：展演廳兩側弧牆東西寫反（dir 朝外）——朝室內的面被縮成一點，
++     牆上一片一片的平三角；鏡頭在展演廳裡反而把兩側的牆淡出。（朝室內的面沒分到像素不能當檢查：被家具擋住的牆面 lm_fix_hidden.py 會故意接到別的面，UV 面積也是 0）*/
++  if(V2){ const L=LIBRARY_LAYOUT, R=L.rotunda, HX=(L.bounds.x0+L.bounds.x1)/2, HZ=(L.bounds.z0+L.bounds.z1)/2, badDir=[];
++    for(const n of J.nodes.filter(n=>/^WALL_/.test(n.name||'')&&'mesh' in n&&n.extras&&n.extras.dir)){ const d=n.extras.dir, isR=/^WALL_R/.test(n.name); let sx=0, sz=0, cnt=0;
++      for(const pr of J.meshes[n.mesh].primitives){ const P=acc(pr.attributes.POSITION); for(let k=0;k<P.length;k+=3){ sx+=P[k]; sz+=P[k+2]; cnt++; } }
++      const mx=sx/cnt, mz=sz/cnt, tx=(isR?R.cx:HX)-mx, tz=(isR?R.cz:HZ)-mz;
++      if(d[0]*tx+d[2]*tz<=0) badDir.push(n.name+' 中心('+mx.toFixed(1)+','+mz.toFixed(1)+') dir['+d.join(',')+']'); }
++    check('牆的 dir 朝房間裡面（展演廳的弧牆朝圓心）', badDir.length===0, badDir.join('、'));
++    /* 11-02 第二次（重拍才看到）：dir 對了，展演廳弧牆照樣一片一片的平三角——library_hall_v2.py 的 facet_quad 兩面的頂點順序反了：
++       室內那一面（半徑 5.4）法線朝外、外面那一面（5.6）法線朝內。烘焙照 dir 把室內那一面縮成一點，遊戲裡（雙面材質）看到的就是那一點的光。
++       檢查：每一面牆，法線和 dir 同向的面（看得到、要烘的）沿 dir 的平均位置，要比反向的面更靠室內。*/
++    const badSide=[];
++    for(const n of J.nodes.filter(n=>/^WALL_/.test(n.name||'')&&'mesh' in n&&n.extras&&n.extras.dir)){ const d=n.extras.dir, dl=Math.hypot(d[0],d[1],d[2]); let ai=0, pi=0, ao=0, po=0;
++      for(const pr of J.meshes[n.mesh].primitives){ const P=acc(pr.attributes.POSITION), I=acc(pr.indices);
++        for(let t=0;t<I.length;t+=3){ const a=I[t], b2=I[t+1], c=I[t+2], u=[0,1,2].map(j=>P[b2*3+j]-P[a*3+j]), w=[0,1,2].map(j=>P[c*3+j]-P[a*3+j]);
++          const nn=[u[1]*w[2]-u[2]*w[1],u[2]*w[0]-u[0]*w[2],u[0]*w[1]-u[1]*w[0]], ar=Math.hypot(nn[0],nn[1],nn[2])/2; if(ar<1e-6) continue;
++          const dot=(nn[0]*d[0]+nn[1]*d[1]+nn[2]*d[2])/(2*ar*dl), pj=[0,1,2].reduce((q,j)=>q+(P[a*3+j]+P[b2*3+j]+P[c*3+j])*d[j],0)/(3*dl);
++          if(dot>0.3){ ai+=ar; pi+=ar*pj; } else if(dot<-0.3){ ao+=ar; po+=ar*pj; } } }
++      if(ai===0) badSide.push(n.name+' 沒有朝室內的面'); else if(ao>0&&pi/ai<po/ao-0.01) badSide.push(n.name+' 朝室內的面在外側（'+(pi/ai).toFixed(2)+' < '+(po/ao).toFixed(2)+'）'); }
++    check('牆朝室內（dir）的那一面在室內那一側（頂點順序沒有反）', badSide.length===0, badSide.join('、')); } }
+ 
+ // ---- 2. 總圖大廳真正的建區域流程（假場景：照 GLB 的節點名、材質名、有沒有第二套 UV 做，幾何是小平面）----
+ function fakeFromGLB(){
+@@ -52,7 +75,7 @@ function fakeFromGLB(){
+   for(const i of J.scenes[J.scene|0].nodes) build(i,root); return root; }
+ (async()=>{
+   const orig=ASSETS.loadOne; const root=fakeFromGLB();
+-  ASSETS.loadOne=(k)=>k==='bldg.library_interior'?Promise.resolve({scene:root}):orig.call(ASSETS,k);
++  ASSETS.loadOne=(k)=>k===KEY?Promise.resolve({scene:root}):orig.call(ASSETS,k);
+   const enter=async()=>{ E.interactables=[]; E.colliders=[]; E.lampGlows=[]; E.seats=[]; E.npcs=[]; E.spawnHint=null; const zz=Z3.ZONES.library_hall.build(E); E.zone=zz; await new Promise(r=>setTimeout(r,0)); return zz; };
+   const z0=await enter();   /* 第一次進去（下面 2b 再進一次）*/
+   let fl0=null; z0.group.traverse(o=>{ if(!fl0&&o.isMesh&&/^L0_floor/.test(o.name)) fl0=o; });
