@@ -4282,3 +4282,23 @@
   - tainan_school：老榕樹、鳳凰木、紅磚步道、米色牆紅瓦校舍、腳踏車、長椅。
 - **給 LAWWW**：放進 assets/bg。八個新代號要在場景加 bg（police_station、brunch_back、zq_home、gg_basement_gig、gg_scooter_shop、tainan_school、jp_laundry 兩場、jp_temple_hydrangea）；outings3d.js 的 `jp_dorm_lobby`、`prof_door` 改成指到新圖。
 - **場景美術 ART_APPROVED（D120）**：要等 CC 在遊戲裡截圖確認對話時的構圖以後才標。
+
+### 缺圖盤點（2026-11-02 07:2x BB（帳號 A）；開發分支 head；掃描 `background:'dark'` 加上只有地點字幕 `{scene}`、沒有 bg 的場景，並對照 assets/bg 和 outings3d.js 的對照表）
+- **已經有圖、只是沒接上的（不用生，請 LAWWW 加 bg）**：
+  - 新體育館・1F 球場 → gym_court（y2r2_3d.js:301）
+  - 日本・宿舍門口 → jp_dorm_gate
+  - 日本・宿舍大廳 → jp_dorm_lobby（第 107 組）
+  - 河堤（3 場）→ jp_riverbank
+  - 海邊 → jp_beach
+  - 國際學生辦公室 → jp_intl_office
+  - 她的房間 → jp_room（要先確認 jp_room 是不是以安的房間）
+  - 阿鳳麵店 → noodle_table
+  - 臺北的家（vacfill 三場）→ home_living_day 等，照時段挑
+  - 公館 → gongguan
+  - 法律系館A → ntu_linze
+  - 法律系館B 多功能教室 → wancai_seminar
+- **真的沒有圖（第 108 組候選）**：
+  - 台北：巷口家常菜（xcrom）、118 巷 Pasta 118（sideq）、溫州街・一盞茶屋（sideq SQ14）、登山社・行前會（events 3301）
+  - 日本空白日：車站旁邊的百元商店、宿舍旁邊的二手腳踏車店、二手店（電器區）、小鎮的超市、小鎮的早市、鎮上的舊書店、郵局、她的房間門口
+  - 天氣不對：ntu_library_rain 借用夜晚的圖，要附 3D 參考截圖
+- 「電話」（49 處）照設計是深色底，不算缺圖。
