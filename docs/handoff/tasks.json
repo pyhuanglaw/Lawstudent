@@ -38671,9 +38671,9 @@
       "title": "卡死與考試例外修正（不需要等 AA）",
       "area": null,
       "owner": "LAWWW",
-      "status": "進行中",
+      "status": "已整合待測試",
       "priority": "P0",
-      "next": "a～f 已做（44b1ec89a、5f9d661fc、WIP c～f）；全套測試核對中；剩 release_suite.sh:7、錯過 2029 報名／一試旁白（等 AA 字）",
+      "next": "剩：錯過一試旁白、S.zhe2030（等 AA）；11 支期中考掛點測試等 AA（D118_MIDTERM_REFS 第 4 節）；BB 驗收照 D118_PLAN 第 13 節",
       "first": {
         "term": "Y1S1",
         "week": null,
@@ -38687,16 +38687,23 @@
       "source": "D118_PLAN.md D118-B1（使用者 11-02 D118）",
       "authorized": "使用者直接指派（X151）；D111 LAWWW 遊戲總監",
       "parent": "STUDY-EXAM-SYS-1102",
-      "notes": "依賴：無；兩句旁白先用暫定字，AA 之後替換；工時：LAWWW 2h；BB 20 分鐘；BB 驗收：1. 從 2029-08-02 的重考存檔，8/3 整天待在家不去考 → 2030-10-01 第一份工作卡、2034 尾聲照常演出。\n2. 大一上第 8 週國文那一堂進教室是一般上課、出席有加。\n約 20 分鐘。"
+      "notes": "依賴：無；兩句旁白先用暫定字，AA 之後替換；工時：LAWWW 2h；BB 20 分鐘；BB 驗收：1. 從 2029-08-02 的重考存檔，8/3 整天待在家不去考 → 2030-10-01 第一份工作卡、2034 尾聲照常演出。\n2. 大一上第 8 週國文那一堂進教室是一般上課、出席有加。\n約 20 分鐘。",
+      "xai": {
+        "spec": "docs/handoff/D118_PLAN.md 第 4 節 B1、第 13 節",
+        "branch": "claude/confident-ritchie-8rwh7t",
+        "acceptance": "2030 錯過一試尾聲照常；沒有期中考；考試週非法律課照常上課；日本補修考原課五題；專題實習通過",
+        "receiver": "BB",
+        "ack": "SENT"
+      }
     },
     {
       "id": "D118-B2-1102",
       "title": "觀念卡資料層＋「法律」頁的學習進度",
       "area": null,
       "owner": "LAWWW",
-      "status": "待開工",
+      "status": "已整合待測試",
       "priority": "P0",
-      "next": "見 docs/handoff/D118_PLAN.md 第 4 節 D118-B2",
+      "next": "BB／CC 驗收：大二上第 2 週週二民法物權（萬才館多功能教室，【前置】2026-09-15）黑板字幕；大一上兩週課＋一次自習後「法律」頁進度；手機直、橫截圖（D118_PLAN 第 4、13 節）。待 AA：觀念卡 plain／cue（261 張）、刑訴題庫卡標題",
       "first": {
         "term": "Y1S1",
         "week": null,
@@ -38710,7 +38717,15 @@
       "source": "D118_PLAN.md D118-B2（使用者 11-02 D118）",
       "authorized": "使用者直接指派（X151）；D111 LAWWW 遊戲總監",
       "parent": "STUDY-EXAM-SYS-1102",
-      "notes": "依賴：無（先用 fallback 內容）；AA 的觀念卡之後用白名單匯入、逐學期替換；工時：LAWWW 3h；BB 25 分鐘；BB 驗收：新遊戲大一上：上兩週課，其中一堂在萬才館多功能教室，再自習一次 → 「法律」頁憲法、民總的進度數字正確；在萬才館看得到黑板內容的字幕。手機直向、橫向各截圖一張。約 25 分鐘。"
+      "notes": "依賴：無（先用 fallback 內容）；AA 的觀念卡之後用白名單匯入、逐學期替換；工時：LAWWW 3h；BB 25 分鐘；BB 驗收：新遊戲大一上：上兩週課，其中一堂在萬才館多功能教室，再自習一次 → 「法律」頁憲法、民總的進度數字正確；在萬才館看得到黑板內容的字幕。手機直向、橫向各截圖一張。約 25 分鐘。",
+      "sha": "2a5062099",
+      "xai": {
+        "spec": "docs/handoff/D118_PLAN.md 第 4 節 B2、第 13 節",
+        "branch": "claude/confident-ritchie-8rwh7t",
+        "acceptance": "法律頁每科讀過 x／y・答對過 z；沒有 setBoard 的教室看得到黑板；課堂提問答案進筆記",
+        "receiver": "BB",
+        "ack": "SENT"
+      }
     },
     {
       "id": "D118-B3-1102",
