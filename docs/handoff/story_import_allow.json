@@ -4011,6 +4011,15 @@
    "task": "AA594-AN-4B-1102",
    "kind": "text",
    "note": "以安改稿④b（不分年級的系統事件）：手抄檔、程式用 tools/story/apply_line_table.py（使1～使8 採新版；使2 只換 multirel_lines.js:416）；第 33 列（v6ex_lines.js 前任那一句）先不改，交 AA_600；date_wish.js（第 2-13 節 16 列＋第 368 列記憶名稱）由 tools/date/import_wish.py 疊這份重匯；date_lines.js（第 2-14 節 314 列，位置欄是 JSON 路徑）由 tools/date/import_date_lines.py 疊這份重匯；源稿（wish_aa.json、lines/Dxx.json、AA_127）沒改；tests/aa594_an_4b_unit.js"
+  },
+  {
+   "path": "docs/story_planning/AA_601_以安_一起去行政法院旁聽_CG29.md",
+   "sha": "ebab78c45",
+   "status": "approved",
+   "approvedBy": "AA 定稿（第②級，照已定的以安大三上主線 AA_113 事件 14；D109）",
+   "task": "AA601-AN-ADMIN-1102",
+   "kind": "text",
+   "note": "以安一起去行政法院旁聽（CG-29 的場）：ev_an_admin_court a3 多記 AN_ADMIN_NEXT；r2y3a3d.js anAdminPhone（10/27 21:00 私訊三則＋回覆，FRIEND 以上、不是前任）；「好。」＝出遊 11/3（三）13:50（11/3 下午沒有必修，不用挪）；ev_an_admin_court_together（r2y3a_events.js，法庭裡全是旁白、CG-29）；記憶 AN_ADMIN_TOGETHER；第 3 節的回聲（可選）沒做；LEGAL_REVIEW_REQUIRED 同 ev_an_admin_court；tests/aa601_admin_court_unit.js"
   }
  ]
 }

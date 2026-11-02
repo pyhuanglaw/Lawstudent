@@ -353,11 +353,31 @@ const R2Y3A_EVENTS=(function(){
       {label:'a1'},{speaker:'heroine_01',text:'嗯。可是法官一直讓他講完。'},{speaker:null,text:'（她把開庭表摺起來。）'},{speaker:'heroine_01',expression:'thinking',text:'……我在想，那是規定，還是那個法官。'},{goto:'end'},
       {label:'a2'},{speaker:'heroine_01',text:'禮拜五去。'},{speaker:null,text:'（她停了一下。）'},{speaker:'heroine_01',text:'刑事庭的旁聽席，有人會認得我。行政法院不會。'},
         {if:kn('zhe'),speaker:'zhe',text:'認得妳？妳是明星喔。'},{if:kn('zhe'),speaker:'heroine_01',text:'……不是。麵要糊了。'},{goto:'end'},
-      {label:'a3'},{speaker:'heroine_01',text:'好。開庭表我傳給你。……要早到，旁聽席很小。'},
+      {label:'a3'},{speaker:'heroine_01',text:'好。開庭表我傳給你。……要早到，旁聽席很小。'},{set:{AN_ADMIN_NEXT:true}},   /* AA_601 第 1 節第 1 點：接 10/27 她傳開庭表 */
       {label:'end'},{advance:toH(19+40/60)},
       {speaker:null,text:'（七點四十，她看了一下錶，把麵吃完。）'},
       {speaker:'heroine_01',text:'讀書會。我先走。'},
       {set:{AN14:'there'}},(mem('heroine_01','AN_ADMIN_COURT')) ] };
+
+  /* ---------- AA_601（企劃線 ebab78c45，AA 定稿第②級）以安「一起去行政法院旁聽」（CG-29 的場）：ev_an_admin_court 選「下次我也想去。」（AN_ADMIN_NEXT）→ 10/27 21:00 她傳開庭表
+     （r2y3a3d.js anAdminPhone；FRIEND 以上、不是前任）→「好。」＝出遊 11/3（三）13:50「行政法院・旁聽席」（不是 must；11/3 下午沒有必修，不用挪）。
+     法庭裡全是旁白（旁聽不說話）。LEGAL_REVIEW_REQUIRED：同 ev_an_admin_court，旁白只寫「行政法院」，不寫哪一級、不寫案由 ---------- */
+  const hasCG=id=>typeof CG_REGISTRY!=='undefined'&&!!CG_REGISTRY[id];
+  const ADMIN_TOGETHER={ id:'ev_an_admin_court_together', title:'行政法院的旁聽席', participants:['heroine_01'], location:'any', trigger:'outing', once:true, background:'dark', hours:2,
+    dialogue:[ {scene:'行政法院・旁聽席'},
+      {speaker:null,text:'（行政法院的旁聽席只有三排。你們坐在最後一排。）'},
+      {speaker:null,text:'（左邊是一個人和他的律師，右邊是機關的兩個代理人。法官進來，大家站起來，再坐下。）'},
+      {if:{custom:()=>hasCG('cg_admin_court_heroine01')},cg:'cg_admin_court_heroine01'},   /* CG-29 */
+      {speaker:null,text:'（一個小時。以安的筆一直停在筆記本上，一個字都沒寫。）'},
+      {speaker:null,text:'（退庭以後，你們走出法院。外面的太陽很大。）'},
+      {speaker:'heroine_01',text:'……他講完了。'},
+      {choice:[{text:'「法官一直讓他講完。」',goto:'a'},{text:'「妳怎麼一個字都沒寫？」',goto:'b'},{text:'（不說話，陪她走到捷運站）',goto:'c'}]},
+      {label:'a'},{speaker:'heroine_01',text:'嗯。這次我自己看到了。'},{goto:'end'},
+      {label:'b'},{speaker:'heroine_01',text:'寫不下來。……我想先記住。'},{goto:'end'},
+      {label:'c'},{speaker:null,text:'（走到捷運站，她才開口。）'},{speaker:'heroine_01',text:'謝謝你來。'},
+      {label:'end'},{set:{AN_ADMIN_TOGETHER:'there'}},(mem('heroine_01','AN_ADMIN_TOGETHER')) ],
+    consequences:{rel:{heroine_01:{fam:2,trust:1}}},
+    outingMissed:(G,GM,q)=>{ const r=R(); if(r) r.anAdminMissed(G,q); } };
 
   /* ---------- 2-Y3-14 翰 4「四樓的樓梯間」（裁定 #8）：第 10 週（11/8～11/12）平日 12:10～13:00，霖澤館 4F（linze_4f）樓梯間，他坐在往五樓那扇刷卡門前的台階上（「5 樓以上是研究室，樓梯間的門要刷教職員證。」；作息在 r2y3a3d.js），和柏翰 FAMILIAR 以上。
      三、四樓已經開放、沒有整修的樓梯口了（AA_343 B7，569621e0 改四樓；第一版的 202 門口作廢：202 已做成正式教室）：標題改、id 不變；「台階」、選項、「走了兩階」照原文。
@@ -546,6 +566,6 @@ const R2Y3A_EVENTS=(function(){
     after:G=>{ const r=R(); if(r){ r.kxYear(G,'KX_VDAY','video'); r.vdayGiraffe(G); } },
     outingMissed:(G,GM,q)=>{ const r=R(); if(r) r.vdayMissed(G); } };
 
-  return [KH_A,KH_B,KH_CALL,QIXI_VIDEO,MOUNTAIN,WELCOME,FIRST_MEAL,CAPTAIN,THIRTY,LECTURE,LECTURE_TABLE,DAD_STUCK,TY_NOODLE,TY_FAMILY,CALL1,CALL2,COURT,ADMIN,THIRD,BOOTH,BOOTH_PASS,SCOOTER,RENEW,RETELL,ANSWERS,ANSWERS_FAR,TUTOR,JUNIORS,JUNIORS_VIDEO,THU,XMAS,KN_CALL,VDAY];
+  return [KH_A,KH_B,KH_CALL,QIXI_VIDEO,MOUNTAIN,WELCOME,FIRST_MEAL,CAPTAIN,THIRTY,LECTURE,LECTURE_TABLE,DAD_STUCK,TY_NOODLE,TY_FAMILY,CALL1,CALL2,COURT,ADMIN,ADMIN_TOGETHER,THIRD,BOOTH,BOOTH_PASS,SCOOTER,RENEW,RETELL,ANSWERS,ANSWERS_FAR,TUTOR,JUNIORS,JUNIORS_VIDEO,THU,XMAS,KN_CALL,VDAY];
 })();
 Array.prototype.push.apply(STORY_EVENTS,R2Y3A_EVENTS);

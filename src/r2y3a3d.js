@@ -242,6 +242,16 @@ const R2Y3A=(function(){
     /* AA_462 第 1 節：「我自己去」緊接在「我跟以安去。」後面像放你鴿子——換字；約了她週五一起去地院的（CRIMPRO_WITH 'an'）多一句 */
     PHONE.at(G,d,atH(G,d,22),[{th,from:'heroine_01',text:'今天下午我先去了一趟行政法院。自己想看的。'},{th,from:'heroine_01',text:'是一個人告區公所。'}].concat(F.CRIMPRO_WITH==='an'?[{th,from:'heroine_01',text:'禮拜五的地院照舊。'}]:[]),'y3_an14_msg'); F.AN14='group'; remember('heroine_01','AN_ADMIN_COURT'); };
 
+  /* ===================== AA_601 以安「一起去行政法院旁聽」：ev_an_admin_court 選「下次我也想去。」（AN_ADMIN_NEXT）、FRIEND 以上、不是前任（AA_600）＝10/27（三）21:00 她傳開庭表；
+     「好。」＝出遊 11/3（三）13:50（不是 must；11/3 下午沒有必修）；「那天我有課。」→「好。」；不回＝不約（她不再提）。沒去＝AN_ADMIN_TOGETHER 'missed'、她不再提 ===================== */
+  const AN_ADM={msg:'2027-10-27',day:'2027-11-03'};
+  const isExAn=G=>!!(G.flags&&(G.flags.EX_heroine_01||(typeof ROM!=='undefined'&&ROM.isEx&&ROM.isEx(G,'heroine_01'))))&&!dating(G,'heroine_01');
+  S.anAdminPhone=function(G){ const F=G.flags, a=DK(AN_ADM.msg), d=DK(AN_ADM.day); if(a==null||d==null||G.day<a||G.day>d+1||!F.AN_ADMIN_NEXT||F.AN_ADMIN_TOGETHER) return; const n=now(G);
+    if(n>=T(a,21)&&n<T(d,12)&&!sent(G,'y3_an_admin')&&met(G,'heroine_01','FRIEND')&&!isExAn(G)){ const A=P('heroine_01'), Ar=R('heroine_01');
+      PHONE.at(G,a,atH(G,a,21),[A('下禮拜三下午兩點半，行政法院。'),A('📷（一張開庭表，第二行用螢光筆畫了一條線。）'),Object.assign(A('旁聽席很小。我一點五十到。'),{ask:{id:'y3_an_admin',until:T(d,12),opts:[{t:'好。',set:{AN_ADMIN_GO:true}},{t:'那天我有課。',say:[Ar('好。')],set:{AN_ADMIN_TOGETHER:'no'}}]}})],'y3_an_admin'); }
+    if(F.AN_ADMIN_GO&&!F.AN_ADMIN_TOGETHER&&!outGet(G,'y3_an_admin')&&n<T(d,13+50/60+0.25)) plan(G,{id:'y3_an_admin',ev:'ev_an_admin_court_together',day:d,h:13+50/60,late:0.25,place:'行政法院・旁聽席',title:'行政法院旁聽（以安）13:50',travel:'捷運約 30 分鐘',travelH:0.5,alarm:true}); };
+  S.anAdminMissed=function(G){ G.flags.AN_ADMIN_TOGETHER='missed'; };
+
   /* ===================== 2-Y3-14 翰 4：柏翰接讀書會的版本＝11/18（四）21:40 私訊 ===================== */
   S.bohanPhone=function(G){ const F=G.flags, d=DK('2027-11-18'); if(d==null||G.day<d||G.day>d+1||now(G)<T(d,21+40/60)||sent(G,'y3_bohan_w11')) return;
     if(!done(G,'ev_bohan_third_floor')||F.STUDYGROUP_LEADER||!done(G,'ev_bohan_scores')) return; silentContact(G,'classmate_bohan');
@@ -351,7 +361,7 @@ const R2Y3A=(function(){
   /* ===================== 掛勾 ===================== */
   S.phone=function(G,GM){ if(!G||!G.flags||!law(G)||typeof PHONE==='undefined') return;
     S.khPhone(G); S.qixiPhone(G); S.f2Phone(G); S.welcomePhone(G); S.firstMealPhone(G); S.captainPhone(G); S.k15Phone(G); S.k11Phone(G); S.q8bPhone(G); S.typhoonPhone(G);
-    S.callPhone(G); S.crPhone(G); S.an14Phone(G); S.bohanPhone(G); S.fairPhone(G); S.c4Phone(G); S.leasePhone(G); S.k17Phone(G); S.yt13Phone(G); S.xmasPhone(G);
+    S.callPhone(G); S.crPhone(G); S.an14Phone(G); S.anAdminPhone(G); S.bohanPhone(G); S.fairPhone(G); S.c4Phone(G); S.leasePhone(G); S.k17Phone(G); S.yt13Phone(G); S.xmasPhone(G);
     S.knPhone(G); S.vdayPhone(G); S.x1Phone(G); };
   let busy=false;
   (globalThis.LOADLOCKS=globalThis.LOADLOCKS||{})['r2y3a3d:busy']=()=>{ busy=false; };   /* 讀檔時放開（LOADGEN-LOCKS-1028）：讀檔凍住的舊劇情走不到 finally，只把旗標設回初始值 */
