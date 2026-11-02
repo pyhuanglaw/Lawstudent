@@ -359,7 +359,7 @@ async def se06_round(pg, cdp, run, tr, base, rnd, summary):
         n1 = await pl_n(pg)
         tag = 'se06_%s_%s' % (rnd, cid)
         r = await play_trip(pg, cdp, run, tag, it, answer=answer,
-                            shoot_txt=[(lambda t: t.startswith('交卷。'), 'submit')] if ci == 0 or rnd == 'four' else [(lambda t: t.startswith('交卷。'), 'submit')],
+                            shoot_txt=[(lambda t: t.startswith('交卷。'), 'submit')],
                             shoot_ch=[(lambda T, lt: lt.startswith('1／5'), 'q1')] if ci == 0 else [])
         R = await tr.take(pg, n1, rnd, 'exam')
         says = [x['t'] for x in R if x['k'] == 'say']
