@@ -13,7 +13,7 @@ import asyncio, json, sys, time, math
 from playwright.async_api import async_playwright
 sys.path.insert(0, __import__('os').environ.get('LW_TESTS') or __import__('os').path.join(__import__('os').path.dirname(__file__), '..', '..', '..', '..', 'tests'))
 import playlib as L
-SAY_HOOK = "(()=>{ if(window.__SAYH) return; window.__SAYH=1; window.__SAY=[]; const s0=GAME.say; GAME.say=function(w,t){ try{ window.__SAY.push({n:((w&&(w.name||''))+'|'+(w&&(w.id||w.charId||''))+'|'+(typeof w==='string'?w:'')),t:String(t==null?'':t),h:+(+GAME.G.hour).toFixed(2)}); }catch(e){} return s0.apply(this,arguments); }; })()"
+SAY_HOOK = "(()=>{ if(window.__SAYH) return; window.__SAYH=1; window.__SAY=[]; const s0=GAME.say; GAME.say=function(w,t){ try{ window.__SAY.push({n:((w&&(w.name||''))+'|'+(w&&(w.id||w.charId||''))+'|'+(typeof w==='string'?w:'')),t:String(t==null?'':t),h:+(+GAME.G.hour).toFixed(2)}); }catch(e){} return s0.apply(this,arguments); }; if(GAME.caption){ const c0=GAME.caption; GAME.caption=function(n,t){ try{ window.__SAY.push({n:'caption',t:String(t==null?'':t),h:+(+GAME.G.hour).toFixed(2),rt:performance.now()}); }catch(e){} return c0.apply(this,arguments); }; } })()"
 
 URL = sys.argv[1] if len(sys.argv) > 1 else 'http://127.0.0.1:8765/index.html'
 OUT = sys.argv[2] if len(sys.argv) > 2 else '/tmp/flow_main_day12'
@@ -142,14 +142,17 @@ async def main():
             run.check('阿哲那一場演完、在霖澤館前恢復控制（第二天、還沒上課）', ctrl_t is not None and day == 2 and s and s['zone'] == 'campus' and not await pg.evaluate("!!GAME.G.flags.classDone"), f'day={day} h={h2} goal={g} ' + json.dumps(s, ensure_ascii=False))
             # 恢復控制以後：不點對話、不動，量 goDay2 多久把人帶進 201（BB 13:37 第 4 點：體驗參考，不算 PASS／FAIL）
             took_s = None; t1 = time.time()
-            while ctrl_t and time.time() - t1 < 90:
+            while ctrl_t and time.time() - t1 < S_(300):   # 8c99c2d02（UX-DAY2-AUTOPULL）起：等到 13:15＋空下來 8 秒才帶走；舊版 1.5 秒
                 if (await pg.evaluate("GAME.G.zone")) == 'classroom': took_s = round(time.time() - ctrl_t, 2); break
                 await pg.wait_for_timeout(100)
             fr = await pg.evaluate("GAME.E.frame|0")
             run.note(f'【體驗參考】從霖澤館前恢復控制到被帶進 201：{took_s} 秒真實時間（遊戲 {h2:.2f} 恢復控制；幀數計數 {fr}）')
-            print(json.dumps({'cc_takeover_real_s': took_s, 'ctrl_hour': h2}), flush=True)
+            caps = [x for x in (await pg.evaluate("window.__SAY||[]")) if x.get('n') == 'caption' and '快上課了' in (x.get('t') or '')]
+            took_h = await pg.evaluate("+GAME.G.hour.toFixed(2)")
+            run.note(f'【體驗參考】帶進 201 時遊戲時間 {took_h}；「快上課了」字幕：{json.dumps([[c["h"], c["t"][:30]] for c in caps], ensure_ascii=False)}')
+            print(json.dumps({'cc_takeover_real_s': took_s, 'ctrl_hour': h2, 'took_hour': took_h, 'caption': [c['t'] for c in caps]}, ensure_ascii=False), flush=True)
             if took_s is None:
-                run.note('90 秒內沒有被帶進 201：照原測試自己走過去（點地面）')
+                run.note(f'{S_(300)} 秒內沒有被帶進 201：照原測試自己走過去（點地面）')
                 door = await L.find_it(pg, '進入法律系館A')
                 ok = bool(door) and await L.go_to(pg, cdp, run, door['x'], door['z'], door['r'] * 0.8, '法律系館A門口', max_s=S_(420), stop=TAKEN)
                 if ok and not TAKEN(await L.state(pg)):
