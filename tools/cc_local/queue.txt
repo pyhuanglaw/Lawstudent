@@ -46,6 +46,8 @@ R10_rr      | b1b249873 | probe | docs/story_planning/test_tools/cc/cc_d118b3_pr
 # 4. 法服（FAFU 修正已含）＋修改前對照 ba125d6f3
 R12_fasat   | b1b249873 | probe | docs/story_planning/test_tools/cc/cc_fasat_probe.py    | index.html | 90 | CASES=same_sat,next_sat,wzline_same,wzline_first,old_y2_noflag;RERUN=sn1102
 R12b_fasatpre| ba125d6f3 | probe | docs/story_planning/test_tools/cc/cc_fasat_probe.py | index.html | 90 | CASES=wzline_same,wzline_first,old_y2_noflag;RERUN=sn1102
+# 18:1x：R10_rr 的 S2a／S2b＝探針用 == 認提醒選單（按鈕是標題＋提示）認不出來 → 預設選了繼續快轉；遊戲有在 12/14 20:00 停、選單也有出現。R10_rr2 只跑 S2a、S2b（GO 必要）
+R10_rr2     | b1b249873 | probe | docs/story_planning/test_tools/cc/cc_d118b3_probe.py   | index.html | 240 | CASES=S2a,S2b;RERUN=menu1102
 # BB 17:26：GO 只等 R10_rr、R12、R12b；R6_rr2、R8_rr2（探針重跑）排在它們後面、FS112 前面
 # 16:59：R6_rr 剩「題目在左欄」2 項＝探針太嚴（遊戲只在選項放不下時才 side；放得下時不重疊）→ 探針改條件、R6_rr2 重跑
 R6_rr2      | b1b249873 | probe | docs/story_planning/test_tools/cc/cc_layout16_probe.py | index.html?turbo | 60  | CASES=seat_exam,adv_safe,recall2;RERUN=side1102

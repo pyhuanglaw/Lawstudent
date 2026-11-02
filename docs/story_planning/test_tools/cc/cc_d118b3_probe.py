@@ -421,11 +421,11 @@ async def run_review(pg, cdp, run, tag, menu, mode='end', shoot_cap=None, max_s=
         if s['phone'] and not s['ch'] and not s['dlg']: await L.phone_away(pg, cdp, tries=1); continue
         if s['ch']:
             T = [o['t'] for o in s['ch']]
-            if '下一張' in T:
+            if any(t.startswith('下一張') for t in T):
                 out['menus'].append(T)
                 want = {'all': '下一張', 'end': '結束總複習', 'skip': '跳到下一科'}.get(mode, '結束總複習')
                 k = next((i for i, t in enumerate(T) if t.startswith(want)), None)
-                if k is None: k = T.index('下一張')
+                if k is None: k = next(i for i, t in enumerate(T) if t.startswith('下一張'))
                 await P.tap_choice(pg, cdp, k); await pg.wait_for_timeout(900); continue
             k, _ = pick_opt(s['ch']); run.note('%s：總複習途中別的選項 %s → %s' % (tag, J(T), T[k]))
             await P.tap_choice(pg, cdp, k); await pg.wait_for_timeout(1100); continue
@@ -716,7 +716,7 @@ SEMFF_HOOK = r"""(()=>{ if(window.__SFH||typeof SEMFF==='undefined') return 'ski
     push({k:'sfjump',n:'',t:JSON.stringify({from:t0,to:+(+to).toFixed(3),why:r&&r.why,stop:r&&r.stop?r.stop.why:null,auto:r&&r.auto,msgs:r&&r.msgs,pending:typeof PHONE!=='undefined'&&PHONE.pending?PHONE.pending(GAME.G).map(m=>(PHONE.th?PHONE.th(m):(m.th||m.who||m.from))+':'+String(m.text||'').slice(0,30)):null})}); return r; };
   const m0=SEMFF.menu; SEMFF.menu=async function(GM){ push({k:'sfmenu0',n:'',t:''}); const r=await m0.apply(this,arguments); push({k:'sfmenu1',n:'',t:JSON.stringify(r?{why:r.why,stop:r.stop?r.stop.why:null}:r)}); return r; };
   return 'ok'; })()"""
-S2_REMIND_MENU = lambda T: any(t.startswith(LABEL) for t in T) and '繼續快轉' in T
+S2_REMIND_MENU = lambda T: any(t.startswith(LABEL) for t in T) and any(t.startswith('繼續快轉') for t in T)   # 按鈕＝標題＋提示（「繼續快轉考試那天一定會停」）：== 永遠不成立（R10_rr PC S2a／S2b）
 
 
 async def semff_run(pg, cdp, run, tag, on_remind, done_js, max_s):
@@ -735,7 +735,7 @@ async def semff_run(pg, cdp, run, tag, on_remind, done_js, max_s):
                 c = await P.clock(pg); log.append([c['key'], hm(c['h']), 'REMIND_MENU', T, None if k is None else T[k]])
                 if k is None: return {'ok': False, 'log': log, 'n0': n0, 'remind_handled': handled, 'left_menu': True}
                 await P.tap_choice(pg, cdp, k); await pg.wait_for_timeout(1300); free_since = None; continue
-            if '下一張' in T:   # 提醒選單選了總複習以後的翻頁
+            if any(t.startswith('下一張') for t in T):   # 提醒選單選了總複習以後的翻頁
                 k = next((i for i, t in enumerate(T) if t.startswith('結束總複習' if ENVS('S2_READ', 'end') == 'end' else '下一張')), 0)
                 await P.tap_choice(pg, cdp, k); await pg.wait_for_timeout(900); continue
             k = next((i for i, o in enumerate(s['ch']) if o['t'].startswith('快轉') and not o['dim']), None)
@@ -1053,7 +1053,7 @@ async def main():
             try: await asyncio.wait_for(b.close(), 30)
             except Exception: pass
     for c in CASES:
-        for v in (SUMMARY.get(c) or {}).values():
+        for v in (SUMMARY.get('case_' + c) or {}).values():
             if isinstance(v, dict): v.pop('R', None)
     dump('d118b3_summary.json', SUMMARY)
     print('SHA', SUMMARY['sha'], 'CASES', ','.join(CASES), flush=True)
