@@ -4205,7 +4205,7 @@ const STORY = (function(){
      可昕（交往中）：11/15～11/17 下一次見面的最後（outings3d.js 的出遊、約會），沒見面＝11/17 22:00 電話（2-6）。*/
   const AN15_K={d15:'2027-11-15',d16:'2027-11-16',d17:'2027-11-17',d18:'2027-11-18'};
   const an15D=()=>({d15:S.dayOfKey(AN15_K.d15),d16:S.dayOfKey(AN15_K.d16),d17:S.dayOfKey(AN15_K.d17),d18:S.dayOfKey(AN15_K.d18)});
-  S.an15On=function(G){ const F=(G&&G.flags)||{}, R=(F.romance||{}).heroine_01; return (G.stage||'law')==='law'&&S.knows('heroine_01',G)&&cwAt('heroine_01','FAMILIAR')&&!(R&&R.status==='ex'); };   /* 第 1 節：認識、FAMILIAR 以上、沒有和她分手（包括 11/11 攤牌選了學姊）*/
+  S.an15On=function(G){ const F=(G&&G.flags)||{}, R=(F.romance||{}).heroine_01; return (G.stage||'law')==='law'&&S.knows('heroine_01',G)&&cwAt('heroine_01','FAMILIAR')&&!(R&&R.status==='ex')&&!(typeof ROM!=='undefined'&&ROM.exOf&&ROM.exOf(G,'heroine_01')); };   /* AA_600 A5：ex／paused／friend_after_catch 全部擋（私訊、16:00「我在窗邊。」、18:00 都不傳）*/   /* 第 1 節：認識、FAMILIAR 以上、沒有和她分手（包括 11/11 攤牌選了學姊）*/
   S.an15Due=function(G){ const D=an15D(), F=(G&&G.flags)||{}; return D.d17!=null&&G.day===D.d17&&G.zone==='cafe'&&h(G)>=15.25&&h(G)<17&&F.AN15_SEEN==null&&S.an15On(G)&&typeof PHONE!=='undefined'&&PHONE.sent(G,'y3_an15_invite'); };   /* 窗口 15:15～16:00，16:00 那則訊息延到 17:00 */
   /* 2-2 祐廷寫了什麼的旁白（A／B／C 第一句）：Café 和前任的麵店長桌版（AA_437 第 4 節）共用 */
   S.AN15_FORM={JP:'（志願表第一欄，你寫了日本那所大學的名字。和她填的是同一所。附件欄夾了一張語言成績單。）',US:'（志願表第一欄，你寫了美國那所大學的名字。大四上，和她同一個學期。附件欄夾了一張語言成績單。）',TW:'（志願表你拿了一張。到現在還是空白的。）'};
@@ -4238,7 +4238,7 @@ const STORY = (function(){
     open:[[null,'（長桌。以安把自己的志願表放在桌子中間。第一志願「日本」，字很工整。申請理由那一欄寫得很滿。）'],['heroine_01','我的。'],[null,'（申請理由第一行寫著：「行政指導：沒有命令，對方照做。是信任，還是壓力？」）'],
       ['heroine_01','台灣也有這一條。可是條文只寫了怎麼規定，我想看的是那邊的人為什麼照做。'],['heroine_01','那個要去那裡看。']],
     zhe:'……妳連申請理由都寫好了。我還在想要不要申請。', yu:'日本！！我可以去找妳玩嗎', reply:'可以。……先等我上。', replyZhe:'申請不用想太久。明天中午截止。',   /* replyZhe：只認識阿哲、不認識 Alison（AA_437 第 10 節第 2 點）*/
-    close:[[null,'（她把志願表收回去，看了你一眼。）'],['heroine_01','你不用為了這個說什麼。']] };
+    close:[[null,'（她把志願表收回去，看了你一眼。）']] };   /* AA_600 A6：長桌最後對他說的「你不用為了這個說什麼。」刪（群組揪人照留）*/
   S.an15ExOn=function(G){ const F=(G&&G.flags)||{}, R=(F.romance||{}).heroine_01; return (G.stage||'law')==='law'&&S.knows('heroine_01',G)&&!cwDating(G,'heroine_01')&&!!(R&&R.status==='ex')&&typeof PHONE!=='undefined'&&PHONE.inGroup(G,'noodle_team'); };
   S.an15ExDue=function(G){ const D=an15D(), F=(G&&G.flags)||{}; return D.d17!=null&&G.day===D.d17&&G.zone==='noodle'&&h(G)>=18.25&&h(G)<19.5&&F.AN15_SEEN==null&&S.an15ExOn(G)&&PHONE.sent(G,'y3_an15_ex_invite'); };
   S.an15Noodle=async function(GM){ const G=GM.G, F=G.flags; if(!S.an15ExDue(G)) return false; F.AN15_SEEN=G.day; F.AN15_MODE='noodle'; cwDone(G,'ev_an_why_japan');
@@ -4259,7 +4259,7 @@ const STORY = (function(){
     return ['（志願表你拿了一張，放在書包裡一個禮拜。最後沒有交。）','（你想，大四還沒開始。你想在這裡過。）']; };   /* AA_376 #20 */
   S.routeNarr=async function(GM){ const G=GM.G; if(!S.routeNarrDue(G)) return false; G.flags.ROUTE_NARR=G.day; GM.sceneBegin(); try{ for(const t of S.routeNarrLines(G)) await GM.say(null,t); } finally { GM.sceneEnd(); } return true; };
   /* 2-5 學姊：交往中，或 FRIEND 以上（不是的沒有這一段）*/
-  S.sisFormOn=G=>(G.stage||'law')==='law'&&(cwDating(G,'heroine_05')||cwAt('heroine_05','FRIEND'));
+  S.sisFormOn=G=>(G.stage||'law')==='law'&&(cwDating(G,'heroine_05')||cwAt('heroine_05','FRIEND'))&&!(typeof ROM!=='undefined'&&ROM.exOf&&ROM.exOf(G,'heroine_05'));   /* AA_600 B1：前任（含 11/11 攤牌沒被選的學姊）不傳「我在法圖。九點四十五關門。」、22:30 手機版也不傳 */
   S.sisFormLines=function(G){ const r=S.routeFor(G);
     if(cwDating(G,'heroine_05')) return {pre:[['sis','志願表交了？'],['me','交了。美國。'],['sis','……我知道你會填那裡。'],['sis','可是你要自己也想去。不是只因為我在那邊。']],opts:[['我自己也想去。','好。那我相信你。'],['一半一半。','……誠實。好。']],route:r};
     const single=!cwPartners(G).length&&!cwHasMate(G,'heroine_05'), last=r!=='JP'&&single?'好。那我明年在美國，每天傳一張照片給你。':'好。那我明年在美國，每天在家族群組放一張照片。……你們要回。';   /* 雙方都單身：最後一句改 */

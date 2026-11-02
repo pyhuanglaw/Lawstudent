@@ -1325,7 +1325,7 @@ const STORY_EVENTS=[
      「好。」＝記 B5_GO（今天）：以安、Alison 照作息在博雅的圓桌（characters.js），玩家走過去才開始 B5（ev_b5_table）；
      「我約了人，先走。」＝以安「好。」Alison「明天群組見。」，記 LEFT_AFTER_B4（AA_115 的 left_after:B4；第 12 週以安好奇地問，不懲罰）*/
   { id:'ev_b4_after', title:'散場', participants:['heroine_01'], location:'boya', trigger:'auto', activity:'B4', activityPhase:'justEnded', once:true, background:'blur',
-    prereq:{attended:['B4'],memory:[{npc:'heroine_01',tag:'FIRST_MET'}]},
+    prereq:{attended:['B4'],memory:[{npc:'heroine_01',tag:'FIRST_MET'}],custom:G=>!(typeof ROM!=='undefined'&&ROM.exOf&&ROM.exOf(G,'heroine_01'))},   /* AA_600 A23：她先開口的這一場，前任不演 */
     dialogue:[ {speaker:'heroine_01',expression:'neutral',text:'要不要去小桌子整理一下？'},
       {choice:[{text:'「好。」',set:{B5_GO:true},goto:'go'},{text:'「我約了人，先走。」',set:{LEFT_AFTER_B4:true},goto:'leave'}]},
       {label:'go'},{goto:'end'},

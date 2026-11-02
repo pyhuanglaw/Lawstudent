@@ -59,8 +59,9 @@ const V6EX=(function(){
   S.termKey=function(G){ if(typeof CALENDAR==='undefined'||!CALENDAR.termOf) return 'd'+Math.floor(G.day/180); for(let x=G.day;x>G.day-200;x--){ const t=CALENDAR.termOf(x); if(t) return t.id; } return 'd'+Math.floor(G.day/180); };   /* 寒暑假算前一個學期 */
   /* S8 傳訊息（msg3d.js 的 MSG.send）：第 1、2 則已讀不回（「（她已讀了。）」，us_blank_lines.js 同一句旁白）；第 3 則才回最短的一句，回完歸零 */
   S.SIS_EX_READ='（她已讀了。）';
-  S.sisExShort=topic=>['thanks','bday','newyear'].includes(topic)?'謝謝。':(['course','ask','help'].includes(topic)?'好。':'嗯。');
-  S.sisExMsg=function(G){ const R=S.sisExRec(G); R.tries++; R.msg=(R.msg|0)+1; if(R.msg<3) return 0; R.msg=0; return 3; };
+  S.sisExShort=topic=>['thanks','newyear'].includes(topic)?'謝謝。':(['course','ask','help'].includes(topic)?'好。':'嗯。');
+  S.sisExMsg=function(G,topic){ const R=S.sisExRec(G); R.tries++; if(topic==='bday') return 0;   /* B8、B10：前任傳生日快樂＝已讀不回（不回「謝謝。」），也不算進第 3 則 */
+    R.msg=(R.msg|0)+1; if(R.msg<3) return 0; R.msg=0; return 3; };
   /* S9 約她（invites3d.js 的 INV.flow，校內的邀約；校外約會 DATE 照它自己的條件）：第 1、2 次已讀不回；第 3 次回「最近忙。」；不答應。回傳 'read'／'busy' */
   S.SIS_EX_BUSY='最近忙。';
   S.sisExInvite=function(G){ const R=S.sisExRec(G); R.tries++; R.inv=(R.inv|0)+1; if(R.inv<3) return 'read'; R.inv=0; return 'busy'; };
@@ -156,10 +157,11 @@ const V6EX=(function(){
     {id:'ev_an_ex_plg',title:'公法讀書會',participants:[AN],portraitLater:true,location:'any',trigger:'club',clubEvent:'public_law_group',background:'blur',
       prereq:{custom:G=>S.plgBefore(G)&&(S.anPlgDue(G)||S.seatDue(G))},
       dialogue:[{if:{custom:G=>S.seatDue(G)},text:L.TEAM.xinciSeat[0],speaker:null},{if:{custom:G=>S.seatDue(G)},text:L.TEAM.xinciSeat[1],speaker:null},{call:G=>{ S.seatDone(G); }},
-        {if:{custom:G=>S.anPlgDue(G)},speaker:AN,text:X.anPlg},{if:{custom:G=>S.anPlgDue(G)},set:{V6EX_AN_PLG:true}}]} ];
+        {if:{custom:G=>S.anPlgDue(G)},speaker:null,text:X.anPlgNod},   /* AA_600 A1：她的句子刪，旁白「（她看了你一眼，點了一下頭，翻開講義。）」*/{if:{custom:G=>S.anPlgDue(G)},set:{V6EX_AN_PLG:true}}]} ];
   /* A3 新 9（AA_123 4-3b）：大二上行政法第 12 週，課堂照演；下課後多一句。句子在 syllabus.js 那一週的 exAfter（tools/syllabus/import_syllabus.py 從 AA_123 匯入）*/
   S.exAfter=(cid,wk)=>{ const w=typeof SYLLABUS!=='undefined'&&SYLLABUS.courses&&(SYLLABUS.courses[cid]||[]).find(x=>x&&x.w===wk); return (w&&Array.isArray(w.exAfter))?w.exAfter:[]; };
-  { const A9=S.exAfter('admin_law',12); if(A9.length) S.EV.push({id:'ev_an_ex_admin',title:'行政法',participants:[AN],location:'any',trigger:'class',afterClass:'admin_law',term:['Y2S1'],weeks:[12],once:true,background:'blur',
+  S.AN_EX_ADMIN_OFF=true;   /* AA_600 A2（企劃線 031414cad）：下課後她先開口的那一句＝前任不演（syllabus.js 的 exAfter 資料留著，不接）*/
+  { const A9=S.AN_EX_ADMIN_OFF?[]:S.exAfter('admin_law',12); if(A9.length) S.EV.push({id:'ev_an_ex_admin',title:'行政法',participants:[AN],location:'any',trigger:'class',afterClass:'admin_law',term:['Y2S1'],weeks:[12],once:true,background:'blur',
       prereq:{custom:G=>isEx(G,AN)&&(typeof STORY.present!=='function'||STORY.present(AN,G))},dialogue:A9.map(r=>say(r.who,r.text))}); }
   for(const e of S.EV) if(!STORY_EVENTS.some(x=>x.id===e.id)) STORY_EVENTS.push(e);
   /* A3 新 16 送機：她走進去以前多一句（前任；不給那一頁＝原本就只有交往版給）*/
@@ -171,7 +173,8 @@ const V6EX=(function(){
   S.patchPlgAfter=function(){ const e=evOf('ev_plg_rules_after'); if(!e||!Array.isArray(e.dialogue)||e.v6exPatched) return false;
     const i=e.dialogue.findIndex(l=>l&&l.cg==='cg_plg_rules'); if(i<0) return false;
     e.dialogue.splice(i,0,{if:{custom:G=>isEx(G,AN)},speaker:AN,text:X.anPlg8}); e.v6exPatched=true; return true; };
-  S.patchPlgAfter();
+  S.AN_PLG8_OFF=true;   /* AA_600 A3：ev_plg_rules_after 的前任插句「……你也來了。坐原來的位子。」刪（她不先開口）——不再插 */
+  if(!S.AN_PLG8_OFF) S.patchPlgAfter();
   /* A3 新 20：前任＝麵店長桌那一版（照「和別人交往中」）*/
   if(typeof Y34B!=='undefined'&&Y34B.an20Mode&&!Y34B._v6exAn20){ const m0=Y34B.an20Mode; Y34B.an20Mode=function(G){ if(G&&isEx(G,AN)) return 'noodle'; return m0.apply(this,arguments); }; Y34B._v6exAn20=true; }
 

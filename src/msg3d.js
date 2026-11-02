@@ -449,7 +449,7 @@ const MSG=(function(){
     R.sent[id]=G.day; const wk=weekKey(G); const W=R.wk[id]&&R.wk[id].k===wk?R.wk[id]:(R.wk[id]={k:wk,n:0}); W.n++;
     if(topic==='bday') R.bday[id+':'+calY(G)]=G.day;   /* 沛珊放榜那天（2027-08-06）看 3/15 有沒有傳過（AA_257 §4 表下註）*/
     if(o.mode==='silent') return {ok:true,silent:true,text};   /* 沛珊重考消失期：已送達、不回（BB_178 0-1）*/
-    if(id==='heroine_05'&&typeof V6EX!=='undefined'&&V6EX.sisExMsg&&V6EX.noContact(G,id)){ const n=V6EX.sisExMsg(G), at=S.replyAt(G,id);   /* AA_600 S8（企劃線 031414cad）：前任的學姊——第 1、2 則已讀不回；第 3 則才回最短的一句（「嗯。」「好。」「謝謝。」），回完計數歸零 */
+    if(id==='heroine_05'&&typeof V6EX!=='undefined'&&V6EX.sisExMsg&&V6EX.noContact(G,id)){ const n=V6EX.sisExMsg(G,topic), at=S.replyAt(G,id);   /* AA_600 S8（企劃線 031414cad）：前任的學姊——第 1、2 則已讀不回；第 3 則才回最短的一句（「嗯。」「好。」「謝謝。」），回完計數歸零 */
       if(typeof PHONE!=='undefined') PHONE.at(G,at.day,at.h,[n<3?{th,text:V6EX.SIS_EX_READ}:{th,from:id,text:V6EX.sisExShort(topic)}],null);
       return n<3?{ok:true,exRead:true,text,at}:{ok:true,exShort:V6EX.sisExShort(topic),text,at}; }
     if(o.mode==='keep'&&!S.isT2(topic)){ const KR=keepReplies(), L=KR&&(KR[topic==='share'?'share_'+(sub||'cat'):topic]||KR[topic])||[]; const k='keep:'+topic+(topic==='share'?'_'+(sub||'cat'):''), i=(R.rot[k]|0)%Math.max(1,L.length); R.rot[k]=i+1;

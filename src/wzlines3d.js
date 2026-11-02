@@ -122,8 +122,8 @@ const WZL=(function(){
     tea:[
       {id:'ev_wz_t3',due:G=>S.typhoonPend(G)!=null,pre:G=>{ G.flags.WZ_T3_TY=S.typhoonPend(G); }},
       {id:'@line2',due:G=>!!S.line2Due(G,'shift')},
-      {id:'ev_wz_t5',due:G=>{ const t=S.term(G); return sat(G)&&S.momSat(G)&&!!t&&ti(t.id)>=1&&ti(t.id)<=7&&S.atLeast('heroine_01','FAMILIAR')&&S.reachable('heroine_01',G)&&!done(G,'ev_wz_t5'); }},
-      {id:'ev_wz_t4',due:G=>{ if(!sat(G)||!S.atLeast('heroine_05','FAMILIAR')) return false; const y=S.year(G), t=S.term(G); if(y<2||y>4) return false; if(y===4&&!(t&&t.id==='Y4S2')) return false;   /* 大四上她在美國（2028-08～12）*/
+      {id:'ev_wz_t5',due:G=>{ const t=S.term(G); return sat(G)&&S.momSat(G)&&!!t&&ti(t.id)>=1&&ti(t.id)<=7&&S.atLeast('heroine_01','FAMILIAR')&&S.reachable('heroine_01',G)&&!done(G,'ev_wz_t5')&&!(typeof ROM!=='undefined'&&!!ROM.exOf&&ROM.exOf(G,'heroine_01')); }},   /* AA_600 A18：前任不帶媽媽來、之後的私訊也不送 */
+      {id:'ev_wz_t4',due:G=>{ if(!sat(G)||!S.atLeast('heroine_05','FAMILIAR')||(typeof ROM!=='undefined'&&!!ROM.exOf&&ROM.exOf(G,'heroine_05'))) return false;   /* AA_600 B28：她不會一個人去前任打工的茶屋 */ const y=S.year(G), t=S.term(G); if(y<2||y>4) return false; if(y===4&&!(t&&t.id==='Y4S2')) return false;   /* 大四上她在美國（2028-08～12）*/
         const R=G.flags.WZ_T4||{}; return !R['Y'+y]; },pre:G=>{ const R=G.flags.WZ_T4=Object.assign({},G.flags.WZ_T4); R['Y'+S.year(G)]=G.day; }} ] };
   /* 線二（週六下午，打工或喝茶）：2-6 → 2-2 → 2-3 → 2-1 */
   S.line2Due=function(G,how){ const F=G.flags; if(!law(G)||!sat(G)||hh(G)<12||hh(G)>=18) return null; const ye=+F.WZ_YE||0;
@@ -225,10 +225,10 @@ const WZL=(function(){
     S.linePlan(G); S.grpbZhe(G);
     { const r=CALENDAR.termDays('Y2S2'); if(r&&G.day>=r.from&&!F.WZ_C_L1&&!F.WZ_COPY_SHOP) F.WZ_COPY_SHOP='moved'; }   /* 沒有 1-2 的玩家：大二下第 1 週店搬走（AA_420 3-1）*/
     /* 2-5 以安媽媽的一句話（AN_MOM_TEA＋AN_YE_STUDY 的隔天 21:00）*/
-    if(F.AN_MOM_TEA&&F.AN_YE_STUDY&&!PHONE.sent(G,'wz_t_hint')){ const d=Math.max(+F.WZ_YE_STUDY_DAY||0,+F.WZ_AN_MOM_DAY||0)+1, A=t=>({th:'p:heroine_01',from:'heroine_01',text:t});
+    if(F.AN_MOM_TEA&&F.AN_YE_STUDY&&!PHONE.sent(G,'wz_t_hint')&&!(typeof ROM!=='undefined'&&!!ROM.exOf&&ROM.exOf(G,'heroine_01'))){   /* AA_600 A18 */ const d=Math.max(+F.WZ_YE_STUDY_DAY||0,+F.WZ_AN_MOM_DAY||0)+1, A=t=>({th:'p:heroine_01',from:'heroine_01',text:t});
       if(G.day>=d){ PHONE.at(G,d,21,[A('我媽問起那位老師的事。我只說了大概。'),A('她說：先去調最早的那一份，再往後看。'),Object.assign(A('……她只說了這兩句。她平常不會說這麼多。'),{ask:{id:'wz_t_hint',opts:[{t:'替我謝謝媽媽。',say:[A('好。她會說『不用』。')]},{t:'最早的那一份，是哪一份？',say:[A('這就是我們下次讀書會要查的。')]}]}})],'wz_t_hint'); F.WZ_YE_HINT=true; if(typeof SOCIAL!=='undefined') SOCIAL.adjust('heroine_01',{fam:1}); } }
     /* WZ-T5 晚上以安的私訊 */
-    if(F.WZ_AN_MOM_DAY!=null&&!PHONE.sent(G,'wz_t5_msg')){ const A=t=>({th:'p:heroine_01',from:'heroine_01',text:t}); PHONE.at(G,F.WZ_AN_MOM_DAY,21,[A('今天謝謝你'),A('我媽回家路上問，那間茶屋週末都有開嗎')],'wz_t5_msg'); }
+    if(F.WZ_AN_MOM_DAY!=null&&!PHONE.sent(G,'wz_t5_msg')&&!(typeof ROM!=='undefined'&&!!ROM.exOf&&ROM.exOf(G,'heroine_01'))){   /* AA_600 A18 */ const A=t=>({th:'p:heroine_01',from:'heroine_01',text:t}); PHONE.at(G,F.WZ_AN_MOM_DAY,21,[A('今天謝謝你'),A('我媽回家路上問，那間茶屋週末都有開嗎')],'wz_t5_msg'); }
     /* WZ-P4 → 6/18 沛珊的私訊（只給 6/18 以前演過的玩家）、6/25 法律小教室、沒來＝18:30 那一句 */
     { const d18=DK('2026-06-18'), d25=DK('2026-06-25'), P=t=>({th:'p:classmate_peishan',from:'classmate_peishan',text:t});
       if(F.WZ_P4_DAY!=null&&d18!=null&&F.WZ_P4_DAY<=d18&&G.day>=d18&&G.day<=d25&&!PHONE.sent(G,'wz_p4_invite'))

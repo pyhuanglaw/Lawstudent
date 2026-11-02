@@ -105,7 +105,9 @@ const HOLFF=(function(){
      （遊戲時鐘是當地時間；AA_341 J-S13、AA_342 C6；美國路線 AA_370 L2——原本只換日本路線，美國當地 19:00 才收到＝臺灣隔天 07:00）。不在國外＝0 */
   const abTz=(G,d)=>typeof STORY!=='undefined'&&STORY.tzOffset?(STORY.tzOffset(G,d)||0):0;
   S.homeMsgs=function(G){ const now=T(G.day,G.hour), F=G.flags||{};
+    const anEx=typeof ROM!=='undefined'&&!!ROM.exOf&&ROM.exOf(G,'heroine_01');   /* AA_600 A14（企劃線 031414cad）：前任的以安回台中、回臺北的訊息不送（私訊、群組都不送）*/
     for(const m of S.HOME_MSGS){ if(PHONE.sent(G,m.tag)) continue; const d=S.msgDay(m), h=d==null?m.h:m.h+abTz(G,d); if(d==null||now<T(d,h)||G.day>d+(m.c01?1:3)) continue;
+      if((m.an||m.anS)&&anEx) continue;
       if(m.an){ const th='p:heroine_01'; if(atLeast('heroine_01','FAMILIAR')) PHONE.at(G,d,h,m.an.map(t=>({th,from:'heroine_01',text:t})),m.tag); else if(inGrp(G,'noodle_team')&&met('heroine_01')) PHONE.at(G,d,h,[{th:NT,from:'heroine_01',text:m.an[0]}],m.tag); continue; }   /* 大一寒假的寫法（story3d.js an_home_y1）*/
       if(m.anS){ if(!atLeast('heroine_01','FAMILIAR')||F.dating_heroine_01) continue; PHONE.at(G,d,h,m.anS.map(([w,t])=>({th:'p:heroine_01',from:w,text:t})),m.tag); continue; }   /* 大一暑假的寫法（va02_3、va02_4：交往中的另外補）*/
       if(!inGrp(G,m.th.slice(2))) continue; PHONE.at(G,d,h,m.ms.map(([w,t])=>({th:m.th,from:w,text:t})),m.tag); } };
@@ -217,6 +219,7 @@ const HOLFF=(function(){
   S.anPlan=function(G){ const now=T(G.day,G.hour), AN='heroine_01';
     for(const tid in S.AN_PLAN){ const X=S.AN_PLAN[tid], d=S.anPlanDay(tid), tag='aa532_an_plan_'+tid; if(d==null||now<T(d,21)||G.day>d+1||PHONE.sent(G,tag)) continue;
       if(!met(AN)||abroadOn(G,d)) continue;
+      if(typeof ROM!=='undefined'&&ROM.exOf&&ROM.exOf(G,AN)) continue;   /* AA_600 A15：前任不送（附邀約選項的那一則）*/
       const fam=atLeast(AN,'FAMILIAR'), th=fam?'p:'+AN:NT; if(!fam&&!inGrp(G,'noodle_team')) continue;
       const say=t=>[{th,from:AN,text:t}], set={['AN_PLAN_'+X.key]:'join'};
       const opts=[{t:X.o1||'我也想報。',set,say:say(X.r1)},{t:'好，加油。',say:[]}]; if(fam&&X.r3) opts.push({t:'那我們那邊見？',set,say:say(X.r3)});

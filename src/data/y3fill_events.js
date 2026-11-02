@@ -12,6 +12,7 @@ const Y3FILL_LINES={
   riverNo:'好喔',
   river:'（三對三。你們輸了兩場，贏了一場。阿哲說贏的那一場才算。飲料還是你們請的。）',
   /* 3-1 第 5～6 週：讀書會的題目。參加公法讀書會的＝10/7（四）散會時以安；10/14（四）讀書會（颱風假隔天照開）的旁白 */
+  plgTopicEx:'（她把下週的題目寫在白板上。）',   /* AA_600 A22（企劃線 031414cad）：前任＝她不點名他，改這一句旁白（沒有選項、不記 Y3_PLG_TOPIC）*/
   plgTopic:'下週的題目，你帶。', plgYes:'「好。」', plgNotYet:'「我還不會。」', plgNotYetReply:'不會才要帶。',
   plgLead:'（你講了十五分鐘。以安只問了一個問題：「理由呢？」你答了。她在手帳上畫了一個勾。）',
   /* 沒參加讀書會的：10/8（五）21:00 柏翰私訊 */
@@ -34,6 +35,7 @@ const Y3FILL_EVENTS=(function(){
     const H=G.habits||{}; for(const k in H){ if(!/^place:noodle:/.test(k)||!H[k]) continue; if((H[k].days||[]).some(old)) return true; } return false; };
   const member=G=>{ const F=(G&&G.flags)||{}; return !!(F.PUBLIC_LAW_GROUP||F.CLUB_public_law_group); };   /* 參加公法讀書會的（第一次去就算加入，classes3d.js 的 CLUB_<id>）*/
   const here=(id,G)=>typeof STORY==='undefined'||!STORY.present||STORY.present(id,G);
+  const exAn=G=>typeof ROM!=='undefined'&&!!ROM.exOf&&ROM.exOf(G,'heroine_01');   /* AA_600 的「分手後」*/
   const L=Y3FILL_LINES;
   return [
     /* ---------- 3-1 第 3 週：這學期第一次週二進麵店（9/21 起、麵店團的時間）---------- */
@@ -47,7 +49,8 @@ const Y3FILL_EVENTS=(function(){
     /* ---------- 3-1 第 5 週：10/7（四）讀書會散會（參加公法讀書會的；以安在）---------- */
     { id:'ev_y3_plg_topic', title:'下週的題目', participants:['heroine_01'], location:['wancai','wancai_sema'], trigger:'activity', afterActivity:'public_law_group', once:true, term:['Y3S1'], background:'blur',
       prereq:{custom:G=>G.day===D('2027-10-07')&&member(G)&&here('heroine_01',G)},
-      dialogue:[ {speaker:'heroine_01',text:L.plgTopic},
+      dialogue:[ {if:{custom:exAn},speaker:null,text:L.plgTopicEx},{if:{custom:exAn},goto:'pt_end'},
+        {speaker:'heroine_01',text:L.plgTopic},
         {choice:[{text:L.plgYes,set:{Y3_PLG_TOPIC:'yes'},goto:'pt_end'},{text:L.plgNotYet,set:{Y3_PLG_TOPIC:'notyet'},goto:'pt_n'}]},
         {label:'pt_n'},{speaker:'heroine_01',text:L.plgNotYetReply},
         {label:'pt_end'} ] },
