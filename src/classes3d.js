@@ -545,7 +545,10 @@ const CLS=(function(){
     const W=a.slice(0,S.ROLL_N).sort((x,y)=>x-y); if(R&&met.size&&W.length){ if(!R.roll||typeof R.roll!=='object') R.roll={}; R.roll[key]=W.slice(); } return W; };   /* 抽好就存進存檔（G.courses.roll），之後照存的 */
   S.rollStat=function(G,c,termId,upToDay){ const R=S.rec(G), W=S.rollWeeks(G,c,termId), hit=new Set();
     for(const k in R.done){ const p=k.split(':'); if(p.length<3||p[1]!==c.id||R.abs[k]) continue; const t=typeof CALENDAR!=='undefined'?CALENDAR.termOf(+p[0]):null; if(t&&t.id===termId&&W.includes(t.week)) hit.add(t.week); }
-    let past=W; if(upToDay!=null&&typeof CALENDAR!=='undefined'){ const tw=(CALENDAR.termOf(upToDay)||{}); past=tw.id===termId?W.filter(w=>w<=tw.week):W; }
+    let past=W; if(upToDay!=null&&typeof CALENDAR!=='undefined'){ const tw=(CALENDAR.termOf(upToDay)||{});
+      /* BUG-ROLLCALL-CURWEEK-1102（BB 07:01）：這一週的點名，要那一堂已經去了、或下課時間已經過了才算（週一早上不能把週二還沒上的課算成缺）*/
+      const over=w=>{ if(hit.has(w)) return true; for(let d=upToDay-7;d<=upToDay;d++){ const t=CALENDAR.termOf(d); if(!t||t.id!==termId||t.week!==w) continue; for(const it of S.dayItems(Object.assign({},G,{day:d}),d)){ if(it.c.id!==c.id) continue; if(d<upToDay||(d===G.day&&(G.hour||0)>=it.t1)) return true; } } return false; };
+      past=tw.id===termId?W.filter(w=>w<tw.week||(w===tw.week&&over(w))):W; }
     return {weeks:W,past:past.length,present:past.filter(w=>hit.has(w)).length,missed:past.filter(w=>!hit.has(w)).length}; };
   S.termStartDay=function(termId){ if(typeof CALENDAR==='undefined') return null; const T=(CALENDAR.TERMS||[]).find(x=>x.id===termId); if(T&&T.t0!=null&&CALENDAR.DAY) return Math.floor(T.t0/CALENDAR.DAY); for(let d=-500;d<2000;d++){ const t=CALENDAR.termOf(d); if(t&&t.id===termId) return d; } return null; };
   S.attPass=function(G,c,termId){ const R=S.rec(G); const st=S.rollStat(G,c,termId); if(st.missed<S.ROLL_FAIL) return true;

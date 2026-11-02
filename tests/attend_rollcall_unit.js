@@ -4,6 +4,7 @@
 //   c 只去了 2 個點名日（出席只有 2 次）＝及格（缺 2 次，不到 3 次）
 //   d 舊存檔（這學期在改規則以前就開始了）：出席 ≥3 照舊及格，不會突然被當
 //   e 法律課不點名：沒有點名週
+//   f 這一週的點名：上課前不算缺、下課沒去才算、去了不變（BUG-ROLLCALL-CURWEEK-1102，修改前 f1 FAIL）
 // 修改前（82f8d28c5）：a、b、c、e FAIL。用法：node tests/attend_rollcall_unit.js
 'use strict';
 const H=require('./pg_harness.js'); const {check}=H; const J=JSON.stringify;
@@ -30,4 +31,13 @@ const fresh=()=>{ const G=H.fresh('2025-09-01',8,'dorm',{examSeed:777}); CLS.rec
 /* e */
 { const G=fresh(); const w=CLS.rollWeeks?CLS.rollWeeks(G,C('civ_general'),'Y1S1'):null;
   check('e. 法律課（考五題）不點名：沒有點名週',Array.isArray(w)&&w.length===0,J(w)); }
+/* f BUG-ROLLCALL-CURWEEK-1102（BB 07:01）：這一週的點名，還沒上的那一堂不算缺；下課以後沒去才算；去了不變 */
+{ const G=fresh(); G.courses.rollSince=-9999; const c=C('chinese_y1'), w=CLS.rollWeeks(G,c,'Y1S1'), its=itemsOf(G,'chinese_y1','Y1S1'), tg=w[2];
+  go(G,its.filter(it=>it.week===w[0])); const it=its.find(x=>x.week===tg); G.day=it.day; G.hour=Math.max(0,it.t0-1);
+  const s1=CLS.rollStat(G,c,'Y1S1',G.day); G.hour=it.t1+0.1; const s2=CLS.rollStat(G,c,'Y1S1',G.day);
+  go(G,[it]); const s3=CLS.rollStat(G,c,'Y1S1',G.day);
+  check('f1. 第 '+tg+' 週上課那天、上課前：只缺 1 次（這一週還沒上不算）',s1.missed===1&&s1.past===2,J(s1));
+  check('f2. 下課以後沒去：缺 2 次',s2.missed===2&&s2.past===3,J(s2));
+  check('f3. 有去：缺的次數不變（1 次）',s3.missed===1&&s3.past===3,J(s3));
+  G.day=it.day-1; G.hour=10; const s0=CLS.rollStat(G,c,'Y1S1',G.day); check('f4. 前一天（同一週或上一週）：缺 1 次',s0.missed===1,J(s0)); }
 H.done();
