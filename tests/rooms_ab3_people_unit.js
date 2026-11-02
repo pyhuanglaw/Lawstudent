@@ -195,7 +195,7 @@ await sec(7,async()=>{
   await R2Y4A.exam(GM); GM.sitAt=s0; const L3d=lines(), bg3=H.bgs.slice();
   check('7. 門口三句以後走上 3F（考場的門口），走到 15 號的走近點坐下',entered[0]&&entered[0].z==='gongtong_3f'&&near({x:entered[0].x,z:entered[0].z_},L.spawn)&&walks.some(w=>Math.abs(w[0]-me.x)<0.05)&&!!sat&&near(sat,me),J({entered,walks,sat}));
   check('7. 考場有監考老師、考生；考完他們離開',extras.some(e=>e.id==='rab3_g3f_proctor')&&removed.includes('rab3_g3f_proctor')&&removed.filter(id=>/rab3_g3f_exam/.test(id)).length===11,J(removed));
-  check('7. 考試本身黑底（走上去以後 ADV 用 dark）',bg3.includes('dark')&&!bg3.some(isImg),J(bg3));
+  check('7. 考試本身用考場的圖（走上去以後 ADV 用 grad_exam_room；原本黑底，11-02 BB 交 bg_approved/grad_exam_room）',bg3.some(b=>isImg(b)&&/grad_exam_room/.test(J(b))),J(bg3));
   check('7. 以安 FAMILIAR：考完帶回教學館門口演「考完了」',entered.map(e=>e.z).join('>')==='gongtong_3f>campus'&&G.zone==='campus'&&L3d[L3d.length-1]===NM('heroine_01')+'：考完了。……先吃麵。'&&G.flags.GRAD_EXAM_2029===true&&G.events.done.ev_grad_exam===1,J(entered.map(e=>e.z)));
   check('7. D118-B6：考場裡作答 10 題（GRAD_SCORE_2029）',H.said.filter(x=>/^\d+／10　/.test(x.t)).length===10&&typeof G.flags.GRAD_SCORE_2029==='number');
   check('7. 台詞照原文（門口三句、考場兩句〔AA_582 補充二，作答前〕、兩節、考完）',J(L3d)===J(['（教學館門口，以安在看考場的配置圖。）',NM('heroine_01')+'：你在三樓。我在二樓。',NM('heroine_01')+'：……考完，門口。'].concat(POSTGRAD_LINES.GRAD_EXAM.hall,['（兩節。第二節最後一題，你寫到鐘響。）',NM('heroine_01')+'：考完了。……先吃麵。'])),J(L3d));
