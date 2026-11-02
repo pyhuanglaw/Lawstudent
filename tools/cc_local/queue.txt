@@ -43,13 +43,14 @@ R10_b3      | b1b249873 | probe | docs/story_planning/test_tools/cc/cc_d118b3_pr
 R11_b4      | b1b249873 | probe | docs/story_planning/test_tools/cc/cc_d118b4_probe.py   | index.html | 150 | CASES=S1,mix;RERUN=retap1102
 # BB 16:17：R10 的 S2a、S2b、seed＝探針例外沒測到，night＝期待值改「沒有跳時間（< 0.5 小時）」；R10_rr PASS 才能 GO
 R10_rr      | b1b249873 | probe | docs/story_planning/test_tools/cc/cc_d118b3_probe.py   | index.html | 240 | CASES=S2a,S2b,seed,night;RERUN=fix1102
+# 4. 法服（FAFU 修正已含）＋修改前對照 ba125d6f3
+R12_fasat   | b1b249873 | probe | docs/story_planning/test_tools/cc/cc_fasat_probe.py    | index.html | 90 | CASES=same_sat,next_sat,wzline_same,wzline_first,old_y2_noflag;RERUN=sn1102
+R12b_fasatpre| ba125d6f3 | probe | docs/story_planning/test_tools/cc/cc_fasat_probe.py | index.html | 90 | CASES=wzline_same,wzline_first,old_y2_noflag;RERUN=sn1102
+# BB 17:26：GO 只等 R10_rr、R12、R12b；R6_rr2、R8_rr2（探針重跑）排在它們後面、FS112 前面
 # 16:59：R6_rr 剩「題目在左欄」2 項＝探針太嚴（遊戲只在選項放不下時才 side；放得下時不重疊）→ 探針改條件、R6_rr2 重跑
 R6_rr2      | b1b249873 | probe | docs/story_planning/test_tools/cc/cc_layout16_probe.py | index.html?turbo | 60  | CASES=seat_exam,adv_safe,recall2;RERUN=side1102
 # 17:2x：R8_rr 的「讀得到正解」＝探針沿用上一場（海商法）的課名；改成用題目文字反查課，R8_rr2 重跑
 R8_rr2      | b1b249873 | probe | docs/story_planning/test_tools/cc/cc_makeup_probe.py   | index.html?turbo | 200 | FAIL_ROUTE=retake;MAIN_FROM=0527;CASES=main_pass,main_fail,route_grades;RERUN=rev1102
-# 4. 法服（FAFU 修正已含）＋修改前對照 ba125d6f3
-R12_fasat   | b1b249873 | probe | docs/story_planning/test_tools/cc/cc_fasat_probe.py    | index.html | 90 | CASES=same_sat,next_sat,wzline_same,wzline_first,old_y2_noflag;RERUN=sn1102
-R12b_fasatpre| ba125d6f3 | probe | docs/story_planning/test_tools/cc/cc_fasat_probe.py | index.html | 90 | CASES=wzline_same,wzline_first,old_y2_noflag;RERUN=sn1102
 # BB 13:31 第 1 類：長時間真實流程（🟢 不用 turbo；唯一前置＝開頭 localStorage.clear()）。雲端 b1b DAYS=4 2318 秒 ALL PASS（8/29～9/1，存讀檔每天一致、fallbacks 0、pageerror 0）。PC 估每天 1.5～3 分鐘
 FS112       | b1b249873 | probe | docs/story_planning/test_tools/cc/cc_flow_semester_probe.py | index.html | 360 | DAYS=112
 # BB 16:01：R11 完整 4 個 case、R10pre／R11pre（修改前對照，規則 5）排在 FS112 後面
