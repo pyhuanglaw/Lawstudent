@@ -56,7 +56,7 @@ const CLS=(function(){
     const T=G&&typeof CALENDAR!=='undefined'&&CALENDAR.termOf?CALENDAR.termOf(G.day):null; const ti=T?S.termIndex(T.id):-1;
     if(ti>S.termIndex('Y2S2')) R.leMoved={after:T.id,took:(R.attend.legal_english|0)>0};
     R.idv=3; }
-  S.rec=function(G){ const R=G.courses&&typeof G.courses==='object'?G.courses:(G.courses={}); for(const k of ['done','attend','prep','electives','grades','note','disc','ask','late','abs']) if(!R[k]||typeof R[k]!=='object') R[k]={}; migrateIds(R,G); return R; };
+  S.rec=function(G){ const R=G.courses&&typeof G.courses==='object'?G.courses:(G.courses={}); for(const k of ['done','attend','prep','electives','grades','note','disc','ask','late','abs']) if(!R[k]||typeof R[k]!=='object') R[k]={}; migrateIds(R,G); if(R.rollSince==null) R.rollSince=G.day!=null?G.day:0; return R; };   /* rollSince：ATTEND-ROLLCALL-1102 的規則從哪一天開始（新遊戲＝開局那天、舊存檔＝第一次讀到的那天）*/
   S.byId=id=>COURSES.list.find(c=>c.id===id)||null;
   S.enrolled=function(G,c){ if(c.y0leave&&G&&G.flags&&G.flags.Y0_LEFT) return false;   /* 經濟系大一下休學以後（E30，AA_106 第 0 節第 5 點）：經濟系的課、法學緒論都不排 */
     if(c.route&&!(G&&typeof STORY!=='undefined'&&STORY.route&&c.route.includes(STORY.route(G)))) return false;   /* 只給某條交換路線的課（AA_144 X4 日本路線大四下的補修，courses.js 的 route）*/
@@ -77,7 +77,7 @@ const CLS=(function(){
     for(i++;i<S.LAW_TERMS.length;i++){ const t=S.LAW_TERMS[i]; if(S.termAway(G,t)) continue; return t; } return null; };
   S.failedIn=function(G,termId){ const R=S.rec(G), out=[]; if(S.termAway(G,termId)) return out; for(const c of S.termCourses(G,termId)){ if(c.kind==='service') continue;
       if(S.isExamCourse(c)){ const e=(R.exam||{})[termId+':'+c.id+':final']; if(e&&e.status==='insufficient') continue; const p=S.examPool(c.id,termId,'final'); if(!e&&p.cls.length+p.bank.length+p.ai.length<5) continue; if(!e||e.status!=='done'||(e.correct|0)===0) out.push(c); continue; }
-      if(S.attCourse(c)&&(R.attend[c.id]||0)<S.ATT_PASS) out.push(c); } return out; };
+      if(S.attCourse(c)&&!S.attPass(G,c,termId)) out.push(c); } return out; };
   S.planRetakes=function(G,termId){ const R=S.rec(G); if(!Array.isArray(R.retake)) R.retake=[]; const fails=S.failedIn(G,termId), to=S.retakeTermAfter(G,termId), made=[]; if(!to) return made;
     for(const c of fails){ if(R.retake.some(r=>r.id===c.id&&r.from===termId)) continue;
       const used=new Set(); for(const x of S.termCourses(G,to)) for(const s of x.slots) used.add(s.wd+':'+s.block);
@@ -313,7 +313,7 @@ const CLS=(function(){
         if(p1&&lateAbs){ await GM.say(null,S.P1_SKIP); G.flags=G.flags||{}; G.flags.Y0_P1_DONE='skip'; }   /* 略過（BB_105 P1，AA_154 AB-09）：一句旁白，Y0_P1_SEAT 不記 */
         else {
         if(p1){ const k=await GM.choose(S.P1_SEATS.map(q=>({t:q[1]}))); G.flags=G.flags||{}; G.flags.Y0_P1_SEAT=(S.P1_SEATS[k]||S.P1_SEATS[0])[0]; }   /* 坐哪裡（法律系 P4c 的旁白讀它）*/
-        if(S.attCourse(c)){ const rk=it.term+':'+c.id; R.attRule=R.attRule&&typeof R.attRule==='object'?R.attRule:{}; if(!R.attRule[rk]){ R.attRule[rk]=G.day; for(const [w,t] of S.attRuleLines(G,c)) await GM.say(w?{name:w}:null,t); } }   /* AA_418 第 1 節：這一學期第一次出席（遲到記缺席的那一堂不算）*/
+        if(S.attCourse(c)){ const rk=it.term+':'+c.id; R.attRule=R.attRule&&typeof R.attRule==='object'?R.attRule:{}; if(!R.attRule[rk]){ R.attRule[rk]=G.day; for(const [w,t] of S.attRuleLines(G,c)) await GM.say(w?{name:w}:null,t); } if(!lateAbs&&S.rollWeeks(G,c,it.term).includes(it.week)){ R.rollSaid=R.rollSaid&&typeof R.rollSaid==='object'?R.rollSaid:{}; const rk2=it.term+':'+c.id+':'+it.week; if(!R.rollSaid[rk2]){ R.rollSaid[rk2]=1; await GM.say(null,'（老師今天點名。）'); } } }   /* ATTEND-ROLLCALL-1102（AA_574 方案 B）：點名日那堂坐在教室才知道；遲到超過 15 分鐘＝缺，不說 */   /* AA_418 第 1 節：這一學期第一次出席（遲到記缺席的那一堂不算）*/
         for(const [w,t] of (S.SPECIAL_PRE[c.id+'|'+it.week]||[])) await GM.say(w==='prof'?(prof||null):w,(w==='prof'&&!prof?(ct.prof||S.profName(c))+'：':'')+t);   /* 特別週：黑板第一行講完以後、原本那一句之前（AA-103-SP）*/
         await GM.say(prof||null,(prof?'':(ct.prof||S.profName(c))+'：')+ct.line);
         if(c.id==='econ_principles_y0'&&!e03&&it.week===1&&!/邊際效用遞減/.test(ct.line+(ct.react||''))) await GM.say(prof||null,(prof?'':(ct.prof||S.profName(c))+'：')+S.ECON_W1_MU);   /* AA_200 7-2：魏老師第一堂順口講（可昕下午迎新用）；之後企劃的 syllabus 有這句就不重複 */
@@ -530,7 +530,26 @@ const CLS=(function(){
   S.redoOf=id=>{ const c=typeof COURSES!=='undefined'&&COURSES.list?COURSES.list.find(x=>x.id===id):null; if(!c||!c.redo) return null; const o=COURSES.list.find(x=>x.id===c.redo); return o?{id:o.id,term:o.term}:null; };   /* D118-B1：日本路線的補修（civpro_2_re、insurance_re）考原課（大三下那一門）的題庫——原本只上課、成績照讀書次數（AA_144 X4，D118 取代）*/
   S.isExamCourse=c=>{ if(!c||typeof EXAM_BANK==='undefined') return false; const id=c.redo&&S.redoOf(c.id)?c.redo:c.id; return !!EXAM_BANK.courseMap[id]&&EXAM_BANK.courseMap[id].exam==='mc5'; };
   /* 看出席的課（D43／AA_126 1-4：國文、英文、通識、體育、日文、經濟學原理）：每學期出席三堂才及格，不到三堂不及格；成績單寫及格／不及格。服務學習照舊只記次數 */
-  S.ATT_PASS=3;
+  S.ATT_PASS=3;   /* 舊規則（D74 出席三堂）：只給「這學期在改規則以前就開始」的舊存檔當保底（ATTEND-ROLLCALL-1102）*/
+  /* ATTEND-ROLLCALL-1102（使用者 2026-11-02「教授通常是隨機點名 一年只點名幾次」→「改成隨機點名日」；AA_574 末節）：
+     看出席的課每學期 4 個點名週（第 2～7、10～15 週；照存檔種子 examSeed，每門課不一樣，玩家事先看不到）；只有點名日記到／缺；
+     點名缺 3 次以上（只到 0～1 次）不及格。到沒到從 R.done（上過的那一堂）算，所以自動上課、跳過時間補上的課都算；遲到算缺（R.abs）。
+     R.rollSince＝開始用這個規則的那一天：在那之前就開始的學期，出席 ≥3（舊規則）照樣及格，舊存檔不會突然被當 */
+  S.ROLL_N=4; S.ROLL_FAIL=3; S.ROLL_WEEKS=[2,3,4,5,6,7,10,11,12,13,14,15];
+  const hashS=str=>{ let h=2166136261>>>0; for(let i=0;i<str.length;i++){ h^=str.charCodeAt(i); h=Math.imul(h,16777619)>>>0; } return h>>>0; };
+  S.rollWeeks=function(G,c,termId){ if(!c||!S.attCourse(c)) return []; const R=G?S.rec(G):null, key=termId+':'+c.id; if(R&&R.roll&&Array.isArray(R.roll[key])) return R.roll[key].slice();
+    const F=G&&G.flags||{}; const seed=(F.examSeed!=null?F.examSeed:0)+'|roll|'+termId+'|'+c.id;
+    const met=new Set(); if(G&&typeof CALENDAR!=='undefined') for(let d=-600;d<2400;d++){ const t=CALENDAR.termOf(d); if(!t||t.id!==termId) continue; if(S.dayItems(Object.assign({},G,{day:d}),d).some(it=>it.c.id===c.id)) met.add(t.week); }   /* 那門課這學期真的有上的週（開學前、放假、只有某幾週的課都排除）*/
+    const cand=S.ROLL_WEEKS.filter(w=>(!c.weeks||c.weeks.includes(w))&&(!met.size||met.has(w))); const a=cand.slice(); let h=hashS(seed);
+    for(let i=a.length-1;i>0;i--){ h=Math.imul(h^(h>>>13),0x5bd1e995)>>>0; const j=h%(i+1); const x=a[i]; a[i]=a[j]; a[j]=x; }
+    const W=a.slice(0,S.ROLL_N).sort((x,y)=>x-y); if(R&&met.size&&W.length){ if(!R.roll||typeof R.roll!=='object') R.roll={}; R.roll[key]=W.slice(); } return W; };   /* 抽好就存進存檔（G.courses.roll），之後照存的 */
+  S.rollStat=function(G,c,termId,upToDay){ const R=S.rec(G), W=S.rollWeeks(G,c,termId), hit=new Set();
+    for(const k in R.done){ const p=k.split(':'); if(p.length<3||p[1]!==c.id||R.abs[k]) continue; const t=typeof CALENDAR!=='undefined'?CALENDAR.termOf(+p[0]):null; if(t&&t.id===termId&&W.includes(t.week)) hit.add(t.week); }
+    let past=W; if(upToDay!=null&&typeof CALENDAR!=='undefined'){ const tw=(CALENDAR.termOf(upToDay)||{}); past=tw.id===termId?W.filter(w=>w<=tw.week):W; }
+    return {weeks:W,past:past.length,present:past.filter(w=>hit.has(w)).length,missed:past.filter(w=>!hit.has(w)).length}; };
+  S.termStartDay=function(termId){ if(typeof CALENDAR==='undefined') return null; const T=(CALENDAR.TERMS||[]).find(x=>x.id===termId); if(T&&T.t0!=null&&CALENDAR.DAY) return Math.floor(T.t0/CALENDAR.DAY); for(let d=-500;d<2000;d++){ const t=CALENDAR.termOf(d); if(t&&t.id===termId) return d; } return null; };
+  S.attPass=function(G,c,termId){ const R=S.rec(G); const st=S.rollStat(G,c,termId); if(st.missed<S.ROLL_FAIL) return true;
+    const since=R.rollSince, t0=S.termStartDay(termId); return since!=null&&t0!=null&&t0<since&&(R.attend[c.id]||0)>=S.ATT_PASS; };
   S.attCourse=c=>!!c&&!S.isExamCourse(c)&&(c.kind==='general'||c.kind==='elective'||/^econ_principles_\d$/.test(c.id));
   /* 第一堂課老師說的規定（AA_418 第 1 節，企劃線 2e90719c／f4aab3d2）：那一學期第一次出席的那一堂、課堂開頭，一學期一次；重修的學期多一句；
      法律系的經濟學原理：演過經濟系那一年的玩家多一句旁白 */
@@ -628,7 +647,7 @@ const CLS=(function(){
   S.gradeOf=p=>p>=10?'很好':(p>=5?'不錯':'過了');
   S.reportFor=function(G,termId){ const R=S.rec(G); const g={}; for(const c of S.termCourses(G,termId)){ if(c.kind==='service') continue;
       if(S.isExamCourse(c)){ const e=(R.exam||{})[termId+':'+c.id+':final']; const p=S.examPool(c.id,termId,'final'); g[c.id]=e&&e.status==='done'?e.score+' 分':e&&e.status==='insufficient'?'未開考':(p.cls.length+p.bank.length+p.ai.length<5?'未開考':'缺考'); if(S.failedIn&&S.failedIn(G,termId).includes(c)) g[c.id]+=S.retakeTermAfter(G,termId)?'（不及格，下學期重修）':'（不及格）'; continue; }   /* D42 */   /* BB 退件 GRADE-NOBANK（10-21）：原本寫「未開考（題庫不足）」＝開發用語給玩家看到；而且沒考的課算題數時漏了 AI 補的題（抽題照課堂→使用者題目→AI 補到 5 題），憲法、民訴甲上被說成題庫不足——其實是缺考。題數不夠的原因只在 ?dev（CLS.examShort）*/   /* 未開考：不算不及格、不算進書卷獎、不擋畢業（AA_130 第 3-2 節第 4 點）*/
-      if(S.attCourse(c)){ g[c.id]=(R.attend[c.id]||0)>=S.ATT_PASS?'及格':('不及格'+(S.retakeTermAfter(G,termId)?'（下學期重修）':'')); continue; }   /* D43：出席三堂（舊存檔已經發過的成績單照舊：R.grades 已經存了就不重算）*/
+      if(S.attCourse(c)){ g[c.id]=S.attPass(G,c,termId)?'及格':('不及格'+(S.retakeTermAfter(G,termId)?'（下學期重修）':'')); continue; }   /* D43：出席三堂（舊存檔已經發過的成績單照舊：R.grades 已經存了就不重算）*/
       g[c.id]=S.noExam(c)?'通過':'及格'; } return g; };   /* D118-B1：剩下的課（法律專題研究、法律實習＝通過；經濟系那一年的必修＝及格）不照讀書次數（原本 S.gradeOf(R.prep)）*/   /* 服務學習只記次數，不進成績單（AA_110 6-1）*/
   // ---------- 選課結果（AA_104 第 2 節、AA_110 第 4 點）----------
   /* 新學期第一週的前一天早上，讓玩家選這學期的選修：同一組二選一；choice.none＝可以不修（大一下的法律與社會）。預設的那一門排第一。
@@ -897,7 +916,7 @@ const CLS=(function(){
     if(!termId) return '<div class="item">沒有課表。</div>'; const cs=S.termCourses(G,termId); const todayWd=CALENDAR.dateOf(G.day).wd; const R=S.rec(G);
     let h='<div class="item"><b>'+S.termName(termId)+'</b>'+(t?'・第 '+t.week+' 週':'（下學期）')+'</div><div class="tt"><div class="tth"></div>'; for(let d=1;d<=5;d++) h+='<div class="tth'+(d===todayWd&&t?' on':'')+'">'+WD[d]+'</div>';
     for(const bk of ['am','pm1','pm2']){ h+='<div class="ttb">'+B(bk).label+'<br><span class="muted">'+hhmm(B(bk).t0)+'</span></div>'; for(let d=1;d<=5;d++){ const c=cs.find(q=>q.slots.some(s=>s.wd===d&&s.block===bk)); h+='<div class="ttc'+(d===todayWd&&t?' on':'')+'">'+(c?esc(c.name)+'<br><span class="muted">'+esc(S.roomName(c))+(c.weeks?'・'+esc(S.weeksText(c)):'')+'</span>':'')+'</div>'; } }
-    h+='</div><div class="item muted">出席：'+cs.map(c=>{ const n=R.attend[c.id]||0; if(S.attCourse(c)) return esc(c.name)+(n>=S.ATT_PASS?' 已達及格（'+n+' 次）':' 出席 '+n+'／'+S.ATT_PASS+' 堂（三堂及格）'); return esc(c.name)+' '+n+(c.weeks?'／'+c.weeks.length:'')+' 次'; }).join('、')+'</div>';   /* D43：看出席的課隨時看得到還差幾堂 */
+    h+='</div><div class="item muted">出席：'+cs.map(c=>{ const n=R.attend[c.id]||0; if(S.attCourse(c)){ const st=S.rollStat(G,c,termId,G.day); return esc(c.name)+' 點過 '+st.past+' 次名'+(st.missed?'（缺 '+st.missed+' 次）':''); }   /* ATTEND-ROLLCALL-1102：看出席的課只顯示已經點過的（還沒到的點名日看不到）*/ return esc(c.name)+' '+n+(c.weeks?'／'+c.weeks.length:'')+' 次'; }).join('、')+'</div>';   /* D43：看出席的課隨時看得到還差幾堂 */
     const ex=S.examList(G,termId); if(ex.length) h+='<div class="item"><b>考試</b><span class="muted">（這段時間不能約人、約會）</span>'+ex.map(e=>{ const dt=CALENDAR.dateOf(e.day), past=e.day<G.day; return '<div class="'+(past?'muted':'')+'" style="margin-top:4px">'+(e.kind==='mid'?'期中':'期末')+'　'+esc(e.c.name)+'　'+dt.m+'/'+dt.d+'（'+'日一二三四五六日'[dt.wd]+'）'+hhmm(e.t0)+'–'+hhmm(e.t1)+'　'+esc(S.roomName(e.c))+(e.makeup?'（補考那一堂）':'')+(past?'　考過了':'')+'</div>'; }).join('')+'</div>';   /* D14-T3：考試時段標在課表 */
     return h; };
 
