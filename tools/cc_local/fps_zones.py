@@ -28,8 +28,9 @@ SECS = float(os.environ.get('SECS', '15')); WARM = float(os.environ.get('WARM', 
 LAND = os.environ.get('LAND', '1') != '0'
 FLAGS = {'introDone': True, 'campusIntro': True, 'classDone': True, 'metAn': True, 'met_an': True, 'afternoonDone': True, 'lawclub': True, 'wenzhouLine': True}
 
+# FRAMES_JS：至少收 7 個間隔，上限 6 倍時間（雲端 SwiftShader 換區域後第一幀可能好幾秒：fps_min 3 秒只收到 1 個＝n 0）
 FRAMES_JS = """(ms)=>new Promise(r=>{ const dt=[]; let last=performance.now(); const t0=last;
-  function f(t){ dt.push(t-last); last=t; if(t-t0<ms) requestAnimationFrame(f); else r(dt); } requestAnimationFrame(f); })"""
+  function f(t){ dt.push(t-last); last=t; if((t-t0<ms||dt.length<7)&&t-t0<ms*6) requestAnimationFrame(f); else r(dt); } requestAnimationFrame(f); })"""
 INFO_JS = """(()=>{ const E=GAME.E, G=GAME.G; let rnd=''; try{ const gl=E.renderer.getContext(); const x=gl.getExtension('WEBGL_debug_renderer_info'); rnd=x?gl.getParameter(x.UNMASKED_RENDERER_WEBGL):gl.getParameter(gl.RENDERER); }catch(e){ rnd=String(e); }
   return {zone:(E.zone&&E.zone.id)||G.zone, hour:+(+G.hour).toFixed(2), weather:E.weather||G.weather, renderer:rnd, dpr:devicePixelRatio, q:(E.q&&E.q.level)||null, draw:(E.renderer&&E.renderer.info&&E.renderer.info.render)?E.renderer.info.render.calls:null, tris:(E.renderer&&E.renderer.info&&E.renderer.info.render)?E.renderer.info.render.triangles:null}; })()"""
 

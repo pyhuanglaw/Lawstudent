@@ -456,7 +456,7 @@ async def play_trip(pg, cdp, run, tag, it, answer=None, on_q=None, shoot_txt=(),
         await L.close_panels(pg, cdp); return out
     n0 = await pl_n(pg); done_shots = set(); answered = set()
     await L.tap(pg, cdp, sel); await pg.wait_for_timeout(1200)
-    t0 = time.time(); last = None; since = time.time()
+    t0 = time.time(); last = None; since = time.time(); retaps = 0
     while time.time() - t0 < max_s:
         R = await rows(pg, n0)
         attended = any(r['k'] == 'attended' and r['n'] == it['key'] for r in R)
@@ -468,6 +468,13 @@ async def play_trip(pg, cdp, run, tag, it, answer=None, on_q=None, shoot_txt=(),
             out['jumped'] = True; out['jumped_to'] = await P.clock(pg); out['shots'].append(await run.shot(pg, tag + '_jumped')); break
         sig = (s['day'], s['zone'], s['txt'][:40], tuple(o['t'] for o in s['ch']), s['busy'], s['depth'] > 0, tuple(pos))
         if sig != last: last = sig; since = time.time()
+        elif free and not attended and retaps < 3 and time.time() - since > 20 and s['h'] < it.get('t0', 99):
+            # 劇情（例：期末日早上的室友）進行中按一鍵上課＝遊戲回「現在不能移動」、沒有開始；玩家會在劇情結束後再按一次（cloud b4_S1 12/17，BB 14:27）
+            retaps += 1; run.note('%s：畫面空下來 20 秒還沒出門，像玩家一樣再按一次手機「今天」的一鍵（第 %d 次）' % (tag, retaps))
+            await P.phone_tab(pg, cdp, 'today')
+            if await pg.evaluate(BTN_TXT, sel): await L.tap(pg, cdp, sel)
+            else: await L.close_panels(pg, cdp)
+            await pg.wait_for_timeout(1200); last = None; since = time.time(); continue
         elif free and time.time() - since > ENVI('STUCK_S', 240):
             out['stuck'] = True; out['stuck_at'] = {'clock': await P.clock(pg), 'pos': pos}; out['shots'].append(await run.shot(pg, tag + '_stuck')); break
         if s['phone'] and not s['ch'] and not s['dlg']:

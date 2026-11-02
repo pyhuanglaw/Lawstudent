@@ -17,7 +17,8 @@
 # P0（BB 13:37）：R4 對照組＋b4 對照，排在最前面。main＝27e6ce77e（v9.10.15，床的選單 566f60cd6 已經在裡面）
 R4main      | 27e6ce77e | game  | tests/flow_main_day12.py     | index.html       | 180 | XARGS={url} {out}
 R4b1b_rr    | b1b249873 | game  | tests/flow_main_day12.py     | index.html       | 180 | XARGS={url} {out};RERUN=rr1
-#HOLD雲端 R4v2_b1b    | b1b249873 | probe | docs/story_planning/test_tools/cc/flow_main_day12_v2.py | index.html | 120 | （雲端跑過才放行；probe 類只傳 <url> <out>，v2 的第二個參數就是輸出資料夾）
+# R4v2：雲端 b1b 14:01 ALL PASS（阿哲有演、進 201 課還沒被跳過、fallbacks 0、存檔成功；接手 70.6 秒）→ 解除 HOLD
+R4v2_b1b    | b1b249873 | probe | docs/story_planning/test_tools/cc/flow_main_day12_v2.py | index.html | 120 |
 B4main      | 27e6ce77e | probe | docs/story_planning/test_tools/cc/cc_d118b4_probe.py   | index.html | 60 | CASES=S1
 R1_reach    | b1b249873 | game  | tests/reachability_all.py    | index.html?turbo | 90  | XARGS={url}
 R2_flowcls  | b1b249873 | game  | tests/flow_class_real.py     | index.html       | 120 | XARGS={url} {out}
@@ -34,13 +35,15 @@ R8_y4s2rt   | b1b249873 | probe | docs/story_planning/test_tools/cc/cc_makeup_pr
 R8b_y4s2jp  | b1b249873 | probe | docs/story_planning/test_tools/cc/cc_makeup_probe.py   | index.html?turbo | 60  | FAIL_ROUTE=jp;CASES=route_grades;RERUN=paper1102
 R8c_y4s2fin | b1b249873 | probe | docs/story_planning/test_tools/cc/cc_y4s2final_probe.py | index.html?turbo | 200 | FAIL_ROUTE=retake;CASES=main,noexam_stay
 R9_roll     | b1b249873 | probe | docs/story_planning/test_tools/cc/cc_rollcall_probe.py | index.html | 120 | CASES=a,a0,b,c1,c2,d_old,d_new,cw,bedge
-R10_b3      | b1b249873 | probe | docs/story_planning/test_tools/cc/cc_d118b3_probe.py   | index.html | 240 |
-R11_b4      | b1b249873 | probe | docs/story_planning/test_tools/cc/cc_d118b4_probe.py   | index.html | 150 |
-R10pre      | 299e23345 | probe | docs/story_planning/test_tools/cc/cc_d118b3_probe.py   | index.html | 240 |
-R11pre      | f57e3ac75 | probe | docs/story_planning/test_tools/cc/cc_d118b4_probe.py   | index.html | 150 |
+R10_b3      | b1b249873 | probe | docs/story_planning/test_tools/cc/cc_d118b3_probe.py   | index.html | 240 | RERUN=retap1102
+R11_b4      | b1b249873 | probe | docs/story_planning/test_tools/cc/cc_d118b4_probe.py   | index.html | 150 | RERUN=retap1102
+R10pre      | 299e23345 | probe | docs/story_planning/test_tools/cc/cc_d118b3_probe.py   | index.html | 240 | RERUN=retap1102
+R11pre      | f57e3ac75 | probe | docs/story_planning/test_tools/cc/cc_d118b4_probe.py   | index.html | 150 | RERUN=retap1102
 # 4. 法服（FAFU 修正已含）＋修改前對照 ba125d6f3
 R12_fasat   | b1b249873 | probe | docs/story_planning/test_tools/cc/cc_fasat_probe.py    | index.html | 90 | CASES=same_sat,next_sat,wzline_same,wzline_first,old_y2_noflag;RERUN=sn1102
 R12b_fasatpre| ba125d6f3 | probe | docs/story_planning/test_tools/cc/cc_fasat_probe.py | index.html | 90 | CASES=wzline_same,wzline_first,old_y2_noflag;RERUN=sn1102
+# BB 13:31 第 1 類：長時間真實流程（🟢 不用 turbo；唯一前置＝開頭 localStorage.clear()）。雲端 b1b DAYS=4 2318 秒 ALL PASS（8/29～9/1，存讀檔每天一致、fallbacks 0、pageerror 0）。PC 估每天 1.5～3 分鐘
+FS112       | b1b249873 | probe | docs/story_planning/test_tools/cc/cc_flow_semester_probe.py | index.html | 360 | DAYS=112
 # BB 13:31 第 2 類：各區 fps（校園、溫州街、公館、總圖大廳、萬才館、霖澤館 × 白天 11:00／晚上 21:00／雨天 15:00，每格 15 秒；平均 fps＋1% low）。headed、headless 各一次。【捷徑】讀檔進各區。雲端驗證過以前先 HOLD
 #HOLD雲端 F1_fps_hl   | b1b249873 | probe | tools/cc_local/fps_zones.py | index.html | 30 | CC_HEADLESS=1
 #HOLD雲端 F2_fps_hd   | b1b249873 | probe | tools/cc_local/fps_zones.py | index.html | 30 | CC_HEADLESS=0
@@ -78,8 +81,8 @@ R9_x3       | b1b249873 | probe | docs/story_planning/test_tools/cc/cc_rollcall_
 #HOLD雲端 33_wsempre  | dea6b1944 | probe | docs/story_planning/test_tools/cc/cc_wsem_probe.py | index.html?turbo | 120 | CASES=all;EXAM_ROUTES=door;CLASS_ROUTES=door
 20_roll     | 4c8f138f7 | probe | docs/story_planning/test_tools/cc/cc_rollcall_probe.py | index.html | 120 | CASES=a,a0,b,c1,c2,d_old,d_new,cw,bedge
 21_rollpre  | 82f8d28c5 | probe | docs/story_planning/test_tools/cc/cc_rollcall_probe.py | index.html | 120 |
-#HOLD雲端 22_boya     | 6f0122821 | probe | docs/story_planning/test_tools/cc/cc_boya203_probe.py  | index.html | 60  |
-#HOLD雲端 23_boyapre  | 2c8d47e70 | probe | docs/story_planning/test_tools/cc/cc_boya203_probe.py  | index.html | 60  |
+22_boya     | 6f0122821 | probe | docs/story_planning/test_tools/cc/cc_boya203_probe.py  | index.html | 60  |
+23_boyapre  | 2c8d47e70 | probe | docs/story_planning/test_tools/cc/cc_boya203_probe.py  | index.html | 60  |
 24_b3       | d75871437 | probe | docs/story_planning/test_tools/cc/cc_d118b3_probe.py   | index.html | 240 |
 25_b3pre    | 299e23345 | probe | docs/story_planning/test_tools/cc/cc_d118b3_probe.py   | index.html | 90  | CASES=S1,night
 26_b3pre2   | 6ba2a22ad | probe | docs/story_planning/test_tools/cc/cc_d118b3_probe.py   | index.html | 60  | CASES=S2a
