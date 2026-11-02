@@ -53,6 +53,7 @@ PORT_LOCK = threading.Lock()
 _reserved_ports = set()
 
 
+STORY_BRANCH = 'claude/story-planning'
 RESTART_EXIT = 75     # BB 2026-11-02 20:08：runner 自己有新版 → 跑完手上的項目、push 完，用 75 結束；run_forever.ps1 收到 75 立刻重跑新版
 SELF_FILE = os.path.abspath(__file__)
 LONG_MIN = 120       # 逾時 ≥120 分鐘＝長項目（BB 20:23 規則 B）
@@ -106,6 +107,49 @@ def install_console_tee():
         sys.stdout = ConsoleTee(sys.stdout, CONSOLE_BUF, CONSOLE_LOCK)
     if not isinstance(sys.stderr, ConsoleTee):
         sys.stderr = ConsoleTee(sys.stderr, CONSOLE_BUF, CONSOLE_LOCK)
+
+
+LOCK_STALE_SEC = 600   # BB 21:06：當機留下的 git lock，超過 10 分鐘沒更新、而且沒有 git 在跑，才刪
+
+
+def git_running():
+    """有沒有其他 git 程序在跑（Windows：tasklist 找 git.exe；其他：pgrep -x git）。查不到時當作「有」，不刪。"""
+    try:
+        if IS_WIN:
+            r = subprocess.run(['tasklist', '/FI', 'IMAGENAME eq git.exe', '/NH'], stdout=subprocess.PIPE,
+                               stderr=subprocess.STDOUT, text=True, errors='replace', timeout=30)
+            return 'git.exe' in (r.stdout or '').lower()
+        r = subprocess.run(['pgrep', '-x', 'git'], stdout=subprocess.PIPE, stderr=subprocess.DEVNULL, timeout=30)
+        return r.returncode == 0
+    except Exception:
+        return True
+
+
+def clear_stale_git_locks(gitdir, now=None, running=None):
+    """刪掉 gitdir 底下（不含 objects）過期的 *.lock；回傳刪掉的路徑。只在 runner 啟動的 setup 呼叫。"""
+    now = time.time() if now is None else now
+    found = []
+    for dp, dns, fs in os.walk(gitdir):
+        dns[:] = [d for d in dns if d != 'objects']
+        for f in fs:
+            if f.endswith('.lock'):
+                found.append(os.path.join(dp, f))
+    old = [f for f in found if now - os.path.getmtime(f) > LOCK_STALE_SEC]
+    if not old:
+        return []
+    if (git_running() if running is None else running):
+        log('stale git lock(s) found but a git process is running - not removed: %s' % ', '.join(old))
+        return []
+    gone = []
+    for f in old:
+        try:
+            age = int((now - os.path.getmtime(f)) // 60)
+            os.remove(f)
+            gone.append(f)
+            log('removed stale git lock (%d min old, left by a crash?): %s' % (age, f))
+        except OSError as e:
+            log('could not remove stale git lock %s: %r' % (f, e))
+    return gone
 
 
 def log(msg):
@@ -311,9 +355,11 @@ class Runner(object):
             print('  git config --global user.name "Your Name"')
             print('  git config --global user.email "you@example.com"')
             sys.exit(1)
+        clear_stale_git_locks(os.path.join(self.repo, '.git'))   # 當機留下的 index.lock 等（工作樹的在 .git/worktrees/ 底下）
         log('git fetch')
         git('-C', self.repo, 'fetch', 'origin', CC_BRANCH, DEV_BRANCH)
         self.fetch_lawww2(quiet=False)
+        git('-C', self.repo, 'fetch', 'origin', STORY_BRANCH, quiet=True)   # 有些單元測試會 git show 企劃分支的 commit（N1：v1_inv_wording、heroine_circle3d）
         rc, _ = git('-C', self.repo, 'fetch', 'origin', self.branch, quiet=True)
         has_remote_local = rc == 0
         if not os.path.exists(self.work):
@@ -423,7 +469,8 @@ class Runner(object):
                     alt = '%s_%d' % (path, int(time.time()))
                     log('leftover %s cannot be removed - using %s' % (path, alt))
                     path = alt
-            rc, out = git('-C', self.repo, 'worktree', 'add', '--detach', path, sha, quiet=True)
+            # core.autocrlf=false：受測檔案保持 LF，和雲端、Pages 一樣（Windows 預設會轉 CRLF，N1 有一批「從原始碼抽函式」的單元測試因此 FAIL，BB 21:3x）
+            rc, out = git('-c', 'core.autocrlf=false', '-c', 'core.eol=lf', '-C', self.repo, 'worktree', 'add', '--detach', path, sha, quiet=True)
         if rc != 0:
             raise RuntimeError('worktree add %s failed: %s' % (sha, out.strip()[-200:]))
         return path
