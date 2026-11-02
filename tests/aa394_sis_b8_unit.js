@@ -27,7 +27,7 @@ await sec(0,()=>{ const html=fs.readFileSync(path.join(H.ROOT,'index.html'),'utf
   check('0. 新檔載得到、index.html 接在 sis_jp3d.js 後面',ok1&&ok2&&!!X()&&/sis_jp3d\.js\?v=[^"]+"><\/script>\n<script src="src\/data\/sis_b8_events\.js\?v=[^"]+"><\/script>\n<script src="src\/sis_b8_3d\.js\?v=[^"]+"><\/script>/.test(html));
   const all=J(SISB8_EVENTS)+J(SISB8_LINES), q=[...all.matchAll(/text":"([^"]+)"/g)].map(m=>m[1]).concat(Object.values(SISB8_LINES).flat().filter(x=>typeof x==='string'));
   const A590=require('./aa590_doc.js');   /* AA_590（學姊改稿第三批，企劃線 68ceea665，使用者 11-02 確認）改過的句子在 AA_590 的表上，不在這份原稿 */
-  const notIn=[...new Set(q)].filter(t=>doc.indexOf(t.replace(/^「|」$/g,''))<0&&!A590.has(t)&&!['兩點半 Café','公館・自助餐','霖澤館・研究室','我大一的時候，我的學姊也請過我。'].includes(t));   /* 「我大一的時候，我的學姊也請過我。」：AA_470 4-3（企劃線 5f54b6545）換掉的那一句 */
+  const notIn=[...new Set(q)].filter(t=>doc.indexOf(t.replace(/^「|」$/g,''))<0&&!A590.has(t)&&!require('./libq_out_lines.js').added(t)&&!['兩點半 Café','公館・自助餐','霖澤館・研究室','我大一的時候，我的學姊也請過我。'].includes(t));   /* libq_out_lines：AA_595 1-B29 搬到走廊（AA 11-02 22:30 定稿）*/   /* 「我大一的時候，我的學姊也請過我。」：AA_470 4-3（企劃線 5f54b6545）換掉的那一句 */
   check('0. 每一句台詞、選項都在稿裡（一字不差）',!!doc&&!notIn.length,J(notIn));
   check('0. SISY23.preTalk 包了這一層（_sisb8），前面幾層的記號還在',!!SISY23.preTalk._sisb8&&!!SISY23.preTalk._sisb4&&!!SISY23.preTalk._sisjp); });
 /* ---- 1 ---- */

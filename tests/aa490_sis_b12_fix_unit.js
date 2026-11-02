@@ -82,7 +82,7 @@ await sec(1,async()=>{ const c=CHARACTERS[ID], L5=(c.daily_schedule||[]).filter(
       ['3/3 11:54','2028-03-03',11.9],['3/3 14:00','2028-03-03',14],['3/4（六）','2028-03-04',12.5],['日本路線 3/31（五）','2028-03-31',12.5,'JP']]){ fresh(key,h,'fam',{},{route}); H.G.zone='lawlib'; if(X().preTalkEv(H.G)) no.push(n); }
   check('1. 週一～週四（就算人在法圖）、窗口外的週五、12 點前、14:00、週六、日本路線 3/31：不演',!no.length,J(no));
   fresh('2028-03-03',12.5,'fam'); const r0=relNow(); const ran=await talk('lawlib',[2,0]); const d1=dRel(r0,relNow());
-  check('1. 3/3（五）12:30 熟悉、法圖找她說話：先演「法圖的午休」（Kevin 同框照稿）；熟悉 +1、自在 +2；記憶 SIS_LAWLIB_KEVIN',ran===true&&seq(['（法圖最裡面那張桌子。她對面坐著 Kevin，額頭貼在一疊考古題上。）','學弟……救我。','他沒事。他在休息。'])&&H.said[1].who==='Kevin'&&d1.fam===1&&d1.comf===2&&SOCIAL.has(ID,'SIS_LAWLIB_KEVIN'),J({d1,s:said().slice(0,4)}));
+  check('1. 3/3（五）12:30 熟悉、法圖找她說話：先演「法圖的午休」（Kevin 同框照稿）；熟悉 +1、自在 +2；記憶 SIS_LAWLIB_KEVIN',ran===true&&seq(['（法圖外的走廊。Kevin 趴在長椅上。）','學弟……救我。','他沒事。他在休息。'])&&H.said[1].who==='Kevin'&&d1.fam===1&&d1.comf===2&&SOCIAL.has(ID,'SIS_LAWLIB_KEVIN'),J({d1,s:said().slice(0,4)}));
   at('2028-03-10',12.5); H.G.zone='lawlib'; check('1. 演過了：3/10（五）不再演',evDone('ev_sis_lawlib_kevin')&&X().preTalkEv(H.G)==null);
   fresh('2028-04-21',13,'dating',{},{route:'US'}); const ran2=await talk('lawlib',[1,1]);
   check('1. 4/21（五）13:00 美國路線、交往中：照樣演（選項一「妳以前不睡覺？」；兩點了去研究小間）',ran2===true&&J(H.opts[0])===J(['「妳以前不睡覺？」','「Kevin 學長加油。」','「那我不吵你們。」'])&&seq(['學弟好溫暖。學姊妳學一下。','那先不要想。大四上再想也來得及。','兩點了。我去研究小間。']),J({o:H.opts,s:said()})); });

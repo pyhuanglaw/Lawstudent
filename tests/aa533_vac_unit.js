@@ -35,7 +35,7 @@ const keyOf=(id,title)=>(A[id].keys||[]).find(k=>k.title===title);
   for(const id of ['ev_vf_y2w_0116','ev_vf_y3w_0108','ev_vf_y3_0214']){ const ev=STORY_EVENTS.find(e=>e.id===id); for(const s of (ev?ev.dialogue:[])){ if(s.text&&s.text.indexOf('X.')<0&&!Object.values(VACFILL_LINES).some(v=>v&&typeof v==='object'&&Object.values(v).includes(s.text))) L.push(s.text); if(s.choice) for(const c of s.choice) L.push(c.text); } }
   if(HOME.BREAK_SKIP_Y) for(const k in HOME.BREAK_SKIP_Y) L.push(...HOME.BREAK_SKIP_Y[k],...HOME.BREAK_SKIP_DORM_Y[k]);
   for(const d of HOME_LINES.dinner.filter(x=>x.n>=9)){ L.push(d.mom,d.dad,...d.opts.map(o=>o.t)); }
-  const bad=L.filter(t=>!doc.includes(strip(t)));
+  const bad=L.filter(t=>!doc.includes(strip(t))&&!require('./libq_out_lines.js').added(t));   /* 「（借完書出來，在法圖門口。）」：AA_595 1-B44（AA 11-02 22:30 定稿，圖書館小聲講）*/
   check('0. 新句都在 AA_533 稿裡（一字不差；'+L.length+' 句）',L.length>=110&&!bad.length,J(bad));
   const Al=JSON.parse(fs.readFileSync(path.join(H.ROOT,'docs/handoff/story_import_allow.json'),'utf8')).files.find(e=>e.path===A533);
   check('0. 白名單有 AA_533（cf0066ed2、approved、AA-B 定稿（D109））',!!Al&&Al.sha==='cf0066ed2'&&Al.status==='approved'&&Al.approvedBy==='AA-B 定稿（D109）',J(Al)); }
@@ -86,7 +86,8 @@ const keyOf=(id,title)=>(A[id].keys||[]).find(k=>k.title===title);
     H.fresh('2028-01-08',15,'dorm'); const L2=await runEv('ev_vf_y3w_0108');
     check('4-2. 參創：旁白後面子晴兩句',L2.length===3&&/：這台是我學長做的。他去年也在這裡排隊，排到最後一個。$/.test(L2[1])&&/：……明年我也要有一台。$/.test(L2[2]),J(L2));
     H.fresh('2028-02-14',10,'dorm'); const L3=await runEv('ev_vf_y3_0214',['補上學期']); const o3=H.opts[0]; H.fresh('2028-02-14',10,'dorm'); const L4=await runEv('ev_vf_y3_0214',['預習']);
-    check('4-3. 法圖：學姊兩句＋「補上學期的。」「預習下學期的。」兩種回覆',J(o3)===J(['「補上學期的。」','「預習下學期的。」'])&&/：……你是哪一種？$/.test(L3[2])&&/：（把一本書從書架抽出來，放在你手上）這本。$/.test(L3[3])&&L3.length===4&&/：嗯。那你比我大二的時候好。$/.test(L4[3])&&L4.length===4,J([L3,L4])); }
+    const OUT44='（借完書出來，在法圖門口。）', ok44=[L3,L4].every(x=>x[1]===OUT44); for(const x of [L3,L4]) if(x[1]===OUT44) x.splice(1,1);   /* AA_595 1-B44：旁白後面先「（借完書出來，在法圖門口。）」（AA 11-02 22:30 定稿），下面照舊比對學姊兩句 */
+    check('4-3. 法圖：學姊兩句＋「補上學期的。」「預習下學期的。」兩種回覆',J(o3)===J(['「補上學期的。」','「預習下學期的。」'])&&/：……你是哪一種？$/.test(L3[2])&&/：（把一本書從書架抽出來，放在你手上）這本。$/.test(L3[3])&&L3.length===4&&/：嗯。那你比我大二的時候好。$/.test(L4[3])&&L4.length===4&&ok44,J([L3,L4])); }
   { const out={}; for(const [yk,n] of [['Y2',1],['Y3',2]]){ const G=H.fresh(yk==='Y2'?'2026-08-20':'2027-08-20',8,'dorm'); G.flags.VA03_BEACH='went'; if(n===2) VAC.rec(G).c01={Y2:'done'}; H.said=[]; await VAC.outing(GM,{vac:{key:'C01#'+yk}}); out[yk]=H.lines(); }
     check('4-5. 海邊第二次：第一句後面阿哲「防曬跟乳液，差很多嗎？」；第三次：Alison「去年那塊石頭！大家站好，我數到三！」；三句旁白照舊',out.Y2.length===4&&/：防曬跟乳液，差很多嗎？$/.test(out.Y2[1])&&out.Y2[0]===VAC_DATA.C01.diary[2][0]&&out.Y3.length===4&&/：去年那塊石頭！大家站好，我數到三！$/.test(out.Y3[1])&&out.Y3[2]===VAC_DATA.C01.diary[3][1],J(out)); }
 
