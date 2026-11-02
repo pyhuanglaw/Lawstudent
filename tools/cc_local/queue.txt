@@ -36,6 +36,22 @@ R11pre      | f57e3ac75 | probe | docs/story_planning/test_tools/cc/cc_d118b4_pr
 # 4. 法服（FAFU 修正已含）＋修改前對照 ba125d6f3
 R12_fasat   | b1b249873 | probe | docs/story_planning/test_tools/cc/cc_fasat_probe.py    | index.html | 90 | CASES=same_sat,next_sat,wzline_same,wzline_first,old_y2_noflag;RERUN=sn1102
 R12b_fasatpre| ba125d6f3 | probe | docs/story_planning/test_tools/cc/cc_fasat_probe.py | index.html | 90 | CASES=wzline_same,wzline_first,old_y2_noflag;RERUN=sn1102
+# BB 13:31 第 2 類：各區 fps（校園、溫州街、公館、總圖大廳、萬才館、霖澤館 × 白天 11:00／晚上 21:00／雨天 15:00，每格 15 秒；平均 fps＋1% low）。headed、headless 各一次。【捷徑】讀檔進各區。雲端驗證過以前先 HOLD
+#HOLD雲端 F1_fps_hl   | b1b249873 | py    | tools/cc_local/fps_zones.py | index.html | 30 | CC_HEADLESS=1
+#HOLD雲端 F2_fps_hd   | b1b249873 | py    | tools/cc_local/fps_zones.py | index.html | 30 | CC_HEADLESS=0
+# BB 13:31（使用者同意）第 3 類：重跑三次找不穩定。R1～R4、R5、R9 第一輪＋下面兩輪（RERUN=x2／x3）；結果不一致的列出來。🟢／🟡 照原項目
+R1_x2       | b1b249873 | game  | tests/reachability_all.py    | index.html?turbo | 90  | XARGS={url};RERUN=x2
+R2_x2       | b1b249873 | game  | tests/flow_class_real.py     | index.html       | 120 | XARGS={url} {out};RERUN=x2
+R3_x2       | b1b249873 | game  | tests/touch_flow_wenzhou.py  | index.html?turbo | 60  | XARGS={url};RERUN=x2
+R4_x2       | b1b249873 | game  | tests/flow_main_day12.py     | index.html       | 180 | XARGS={url} {out};RERUN=x2
+R5_x2       | b1b249873 | probe | docs/story_planning/test_tools/cc/cc_makeup_probe.py   | index.html?turbo | 200 | FAIL_ROUTE=retake;CASES=study3h,skipnoon_seat,skipnoon_phone,old_delayed,homerest,home,mkbg;RERUN=paper1102;RERUN=x2
+R9_x2       | b1b249873 | probe | docs/story_planning/test_tools/cc/cc_rollcall_probe.py | index.html | 120 | CASES=a,a0,b,c1,c2,d_old,d_new,cw,bedge;RERUN=x2
+R1_x3       | b1b249873 | game  | tests/reachability_all.py    | index.html?turbo | 90  | XARGS={url};RERUN=x3
+R2_x3       | b1b249873 | game  | tests/flow_class_real.py     | index.html       | 120 | XARGS={url} {out};RERUN=x3
+R3_x3       | b1b249873 | game  | tests/touch_flow_wenzhou.py  | index.html?turbo | 60  | XARGS={url};RERUN=x3
+R4_x3       | b1b249873 | game  | tests/flow_main_day12.py     | index.html       | 180 | XARGS={url} {out};RERUN=x3
+R5_x3       | b1b249873 | probe | docs/story_planning/test_tools/cc/cc_makeup_probe.py   | index.html?turbo | 200 | FAIL_ROUTE=retake;CASES=study3h,skipnoon_seat,skipnoon_phone,old_delayed,homerest,home,mkbg;RERUN=paper1102;RERUN=x3
+R9_x3       | b1b249873 | probe | docs/story_planning/test_tools/cc/cc_rollcall_probe.py | index.html | 120 | CASES=a,a0,b,c1,c2,d_old,d_new,cw,bedge;RERUN=x3
 # ===== 5. 原本佇列的其他項目 =====
 00_gpu      | head      | gpu   | tools/cc_local/gpu_check.py                                     | index.html        | 20  |
 01_p0speed  | head      | game  | tests/p0_movement.py                                            | index.html        | 60  |
