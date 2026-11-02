@@ -56,7 +56,7 @@ await sec(5,()=>{
   const ask=(key,h,pid,wk)=>{ H.fresh(key,h,'campus'); H.FRIEND('heroine_05'); const G=H.G; const P=INV.place(pid); return INV.personal(G,'heroine_05',P,G.day,h,{res:'accept'}); };
   const wp=key=>{ H.fresh(key,10,'campus'); H.G.flags.walkChatN={}; const e=INV.walkPick(H.G,'heroine_05','library'); return e&&e.lines; };
   check('5. 學姊一起走去總圖：大三起「萬才館的電梯還是很慢。」「我現在比較常去法圖。總圖的位子，給你們搶。」',J(wp('2027-10-13'))===J(['「B館的電梯還是很慢。」','「我現在比較常去法圖。總圖的位子，給你們搶。」']),J(wp('2027-10-13')));
-  check('5. 大二以前照原本三句',J(wp('2026-10-14'))===J(['「B館的電梯很慢，走樓梯比較快。」','「總圖三樓靠窗的位子，九點以前就要去搶。」','「……我大一的時候，這些都沒人告訴我。」']),J(wp('2026-10-14')));
+  check('5. 大二以前照原本三句（第 2 句照 AA_584 第 79 列）',J(wp('2026-10-14'))===J(['「B館的電梯很慢，走樓梯比較快。」','「總圖三樓靠窗的位子，九點以前去才有。」','「……我大一的時候，這些都沒人告訴我。」']),J(wp('2026-10-14')));
   const r3=ask('2027-10-13',10,'library'), r1=ask('2026-10-14',10,'library');
   check('5. 大三起平日約總圖：resched「我在法圖。五點以後過去找你。」，改到 17:00 以後；大二以前照舊「好啊，我在總圖三樓。到了跟我說。」（here，AA_579 第 15 列）',r3.res==='resched'&&J(r3.lines)===J(['「我在法圖。五點以後過去找你。」'])&&!!r3.alt&&r3.alt.h>=17&&r1.res==='here'&&J(r1.lines)===J(['「好啊，我在總圖三樓。到了跟我說。」']),J([r3,r1]));
   const s=ask('2026-10-14',10,'wenzhou');

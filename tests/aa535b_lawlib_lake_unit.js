@@ -51,7 +51,9 @@ const once=async(id,pid,day,h)=>{ const P=INV.place(pid); return INV.personal(G,
   /* 以安的法圖 firstAt、walk、映月湖 walk 2026-11-02 照 AA_580 第 38～41 列改：也接受 AA_580 的稿（企劃線 759e5c000）*/
   let spec580=''; try{ spec580=cp.execSync('git -c core.quotepath=false show 759e5c000:"docs/story_planning/AA_580_以安改稿_第二批_閒聊階梯與邀約.md"',{cwd:GIT,encoding:'utf8',maxBuffer:8<<20,stdio:['ignore','pipe','ignore']}); }catch(e){}
   let spec579=''; try{ spec579=cp.execSync('git show 759e5c000:"docs/story_planning/AA_579_學姊改稿_第一批_手機與邀約.md"',{cwd:GIT,encoding:'utf8',maxBuffer:8<<20,stdio:['ignore','pipe','ignore']}); }catch(e){}
-  const inSpec=t=>{ const x=String(t).replace(/^「|」$/g,'').replace(/^（|）$/g,''); return !spec||spec.includes(x)||(!!spec576&&spec576.includes(x))||(!!spec579&&spec579.includes(x))||(!!spec580&&spec580.includes(x)); };
+  /* 學姊的法圖 first／acc.A／here／walk、映月湖 acc／firstAt 2026-11-02 照 AA_584 第 82～87 列改（BB_230 PASS、使用者確認第 82 列）：也接受 AA_584 的稿（企劃線 14154434b）*/
+  let spec584=''; try{ spec584=cp.execSync('git -c core.quotepath=false show 14154434b:"docs/story_planning/AA_584_學姊改稿_第二批_閒聊階梯與邀約.md"',{cwd:GIT,encoding:'utf8',maxBuffer:8<<20,stdio:['ignore','pipe','ignore']}); }catch(e){}
+  const inSpec=t=>{ const x=String(t).replace(/^「|」$/g,'').replace(/^（|）$/g,''); return !spec||spec.includes(x)||(!!spec576&&spec576.includes(x))||(!!spec579&&spec579.includes(x))||(!!spec580&&spec580.includes(x))||(!!spec584&&spec584.includes(x)); };
   { const bad=[]; const walk=(tag,v)=>{ if(v==null) return; if(typeof v==='function') return walk(tag,v(null,{r:{}})); if(typeof v==='string'){ if(!inSpec(v)) bad.push(tag+':'+v); return; } if(Array.isArray(v)) return v.forEach(x=>walk(tag,x)); if(v.l) return walk(tag,v.l); for(const k in v) walk(tag+'.'+k,v[k]); };
     walk('lawlib',INVITE_DATA.lawlibLines); walk('lake',INVITE_DATA.lakeLines);
     for(const id of ['heroine_01','heroine_03','kexin']) for(const p of ['cafe','library','noodle','wenzhou']) walk('meet.'+id+'.'+p,((REL_LINES[id]||{}).meet||{})[p]);
@@ -124,7 +126,7 @@ const once=async(id,pid,day,h)=>{ const P=INV.place(pid); return INV.personal(G,
     const w15=TD('Y1S1',15,2); fresh(w15,9,{met_sis:true}); know('heroine_05',S4); const r2=await once('heroine_05','lawlib',TD('Y1S1',15,6),10);
     check('2-1. 學姊筆試前（第 15 週）約法圖：「好。法圖開到九點四十五，我們念到最後一分鐘。」',r2.res==='accept'&&J(r2.lines)===J(['「好。法圖開到九點四十五，我們念到最後一分鐘。」']),J([r2.res,r2.lines]));
     const w=TD('Y1S1',6,3); fresh(w-1,9,{met_sis:true}); know('heroine_05',S4); const e=INV.entAt(G,'heroine_05',w,19.5); const r3=await once('heroine_05','lawlib',w,19.5);
-    check('2-1. 她本來就在法圖的時段（筆試前週三晚上）＝here「我在法圖。三樓。你來。」',!e||e.zone!=='lawlib'?true:(r3.res==='here'&&J(r3.lines)===J(['「我在法圖。三樓。你來。」'])),J([e&&e.zone,r3.res,r3.lines]));
+    check('2-1. 她本來就在法圖的時段（筆試前週三晚上）＝here「好啊，我在法圖三樓。到了跟我說。」（AA_584 第 84 列）',!e||e.zone!=='lawlib'?true:(r3.res==='here'&&J(r3.lines)===J(['「好啊，我在法圖三樓。到了跟我說。」'])),J([e&&e.zone,r3.res,r3.lines]));
     const w5=TD('Y1S1',5,6); fresh(w5-1,9,{met_sis:true}); know('heroine_05',S6); const r4=await once('heroine_05','lake',w5,17.5);
     check('2-2. 學姊筆試前約映月湖：照溫州街婉拒（「散步的話，等我考完。」）',r4.res==='decline'&&r4.why==='exam'&&(r4.lines||[])[0]==='「散步的話，等我考完。」',J(r4)); }
   // ===== 有伴侶約映月湖 → 系統說明 =====

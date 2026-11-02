@@ -168,7 +168,7 @@ const meet=id=>SOCIAL.remember(id,'FIRST_MET','');
     check('21. ladPlay 實際播出來的也是原本的 lines',lines().join('｜').includes(A3.lines[0])&&!lines().join('｜').includes('杜鵑都謝了'),lines().slice(0,2).join('｜')); }
   { const W=LADDER.byTerm.Y1S2.heroine_05.greet.when;   // 2026-10-17 BB-C 408398d7：學姊不在法服值班（YT_FAFU／法服方案改），「今天值班」那句拿掉；第 15 週換成畢業典禮那句
     check('22. 學姊大一下的招呼沒有「今天值班」（weekParity 那一句）',!W.some(w=>w.weekParity)&&!W.some(w=>/值班/.test(w.t)),JSON.stringify(W.map(w=>w.t)));
-    const J=JSON.stringify; check('22. 第 15 週「這週六畢業典禮。不要下雨就好。」、第 16 週「期末了，記得睡覺。」',W.some(w=>J(w.week)==='[15,15]'&&/畢業典禮/.test(w.t))&&W.some(w=>J(w.week)==='[16,16]'&&/記得睡覺/.test(w.t))); }
+    const J=JSON.stringify; check('22. 第 15 週「這週六畢業典禮。不要下雨就好。」、第 16 週「期末了。最近有睡嗎？」（AA_584 第 90 列，BB_230 口氣審）',W.some(w=>J(w.week)==='[15,15]'&&/畢業典禮/.test(w.t))&&W.some(w=>J(w.week)==='[16,16]'&&w.t==='期末了。最近有睡嗎？')); }
   { const src=require('fs').readFileSync(require('path').join(__dirname,'..','src/story3d.js'),'utf8'), m=src.match(/const l=\['判決要看事實，不要只背結論。'[^\n]*?\]\.filter\(\(t,i\)=>i>0\|\|!\(typeof SOCIAL!=='undefined'&&SOCIAL\.playerYear&&SOCIAL\.playerYear\(\)>=2\)\)/);
     check('23. 學姊沒有階梯時的備用句：「判決要看事實，不要只背結論。」只在大一（AA_263 (b) 第 4 點）',!!m); }
   console.log(fails?('FAILED '+fails):'ALL PASS'); process.exit(fails?1:0);

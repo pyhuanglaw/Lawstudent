@@ -282,7 +282,7 @@ const sec=async(n,f)=>{ try{ await f(); }catch(e){ check(n+'. 丟出例外（中
   const s58=st('Y3S1','S5-L8'), s61=st('Y3S2','S6-L1');
   check('5. ladder.js 從白名單 5ef4e291 匯入（source 有 5ef4e291）',/5ef4e291/.test(LADDER.source||''),LADDER.source);
   { setup('2027-12-13',20,'cafe','FRIEND'); const a=STORY.ladLines(s58,H.G,ID); dateSis(); const b=STORY.ladLines(s58,H.G,ID);
-    check('5. 大三上 S5-L8：交往中的多一句（extraIf）「……哪一天，到時候傳訊息給你。」；其他人照舊',!!s58&&J(a)===J(['寒假我想把論文寫到第三章。然後放一天假。','那一天我已經寫進計畫本了。'])&&J(b)===J(a.concat(['……哪一天，到時候傳訊息給你。'])),J({a,b})); }
+    check('5. 大三上 S5-L8：交往中的多一句（extraIf）「哪一天，到時候傳訊息給你。」；其他人照舊（AA_584 第 58、59 列改字）',!!s58&&J(a)===J(['寒假我想把論文寫到第三章。然後放一天假。','那一天我已經空下來了。'])&&J(b)===J(a.concat(['哪一天，到時候傳訊息給你。'])),J({a,b})); }
   { const d=CALENDAR.termDays('Y3S2').from+1, key=CALENDAR.dateOf(d).key; setup(key,10,'library','FRIEND'); const a=STORY.ladNext(H.G,ID); setup(key,10,'library','FRIEND',{SIS_VDAY_Y3:'went'}); const b=STORY.ladNext(H.G,ID);
     check('5. 大三下 S6-L1：2/14 坐公車到終點站的（SIS_VDAY_Y3 went）直接算過（skipIf）；其他人照舊從 S6-L1 開始',!!s61&&J(s61.skipIf)===J({flagIs:{SIS_VDAY_Y3:'went'}})&&!!a&&a.id==='S6-L1'&&(!b||b.id!=='S6-L1'),J({a:a&&a.id,b:b&&b.id})); }
   });
