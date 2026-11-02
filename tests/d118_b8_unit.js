@@ -4,7 +4,7 @@
 //   (p) 題池：EXAM_BANK 三種已核對＋QBANK、mc、四類科目、題幹有甲乙丙且 ≥45 字；每年 民3 刑3 公2 訴2；不和當年一試重複；重考年換題。
 //   (r1)～(r6) 六條路線從 2029-08-04 一路「跳到下一件事」到尾聲：沒有卡死、BAR_YEAR 一定有值、落點對；全對全錯結果不同；讀書天數不影響；
 //   (o) 舊存檔：BAR_STAGE_2029 both、二試放榜演過＝隔年 5/9 以前補演二選一、之後＝路線 d；不丟例外。
-//   修改前 FAIL（沒有 PG.drawJudge、JUDGE_*、J 結局）。用法：node tests/d118_b8_unit.js（r9～r11、舊存檔在 d118_b8b_unit.js）
+//   修改前 FAIL（沒有 PG.drawJudge、JUDGE_*、J 結局）。用法：node tests/d118_b8_unit.js（r5～r8 在 d118_b8c_unit.js，r9～r11、舊存檔、CC_25 在 d118_b8b_unit.js）
 const H=require('./pg_harness.js'); const {check}=H;
 const warns=[]; console.warn=(...a)=>{ warns.push(a.map(x=>x&&x.stack?x.stack.split('\n').slice(0,3).join(' / '):String(x)).join(' ')); };
 const rej=[]; process.on('unhandledRejection',e=>rej.push(String(e&&e.stack||e)));
@@ -85,18 +85,5 @@ const sameLast=(R)=>R.lastKey===PG.path(R.G);
   // ---- (r4) d：應屆二試 4 → 就當律師 ----
   { const R=await sim('2029-08-04',7,{},{exam:{2029:18},judge:{2029:4},retake:false}); okRun('r4 不重考（路線 d）',R); const F=R.G.flags;
     check('r4. JUDGE_RETAKE false、BAR_YEAR 2029、律師家族、尾聲多 (i) d「司法官那一年沒考上……」、照片和尾聲同一個落點',F.JUDGE_RETAKE===false&&F.BAR_YEAR===2029&&FAMILY.includes(PG.path(R.G))&&R.said.includes(J.epiD)&&!R.said.includes(J.epiF)&&sameLast(R)&&!R.order.includes('exam_2030'),PG.path(R.G)+' '+R.lastKey); }
-  // ---- (r5) f：重考 2030、2031 都沒上，2032 不報 ----
-  { const R=await sim('2029-08-04',7,{},{exam:{2029:18,2030:17,2031:16},judge:{2029:4,2030:3,2031:2},retake:true,reg:{2032:false}}); okRun('r5 重考兩次都沒上、2032 不報（路線 f）',R); const F=R.G.flags;
-    check('r5. 2031 報名問題（年份字卡「還在考。」）、JUDGE_REG_2031 true、JUDGE_REG_2032 false、JUDGE_RETAKE done、JUDGE_TRIES 2',F.JUDGE_REG_2031===true&&F.JUDGE_REG_2032===false&&F.JUDGE_RETAKE==='done'&&F.JUDGE_TRIES===2&&H.cards.some(c=>c[0]==='2031 年'&&c[1]==='還在考。'),JSON.stringify({r31:F.JUDGE_REG_2031,r32:F.JUDGE_REG_2032,rt:F.JUDGE_RETAKE,tr:F.JUDGE_TRIES})+' '+R.order.join(' '));
-    check('r5. 律師家族＋(i) f「司法官考了幾次，最後沒有上……」；BAR_YEAR 2029 不變',FAMILY.includes(PG.path(R.G))&&R.said.includes(J.epiF)&&F.BAR_YEAR===2029&&sameLast(R)); }
-  // ---- (r6) f：重考一路到 2033 都沒上；中間有一年一試沒到司法官 ----
-  { const R=await sim('2029-08-04',7,{},{exam:{2029:16,2030:13,2031:16,2032:16,2033:16},judge:{2029:2,2031:1,2032:1,2033:1},retake:true}); okRun('r6 重考到 2033（2030 一試只到律師）',R); const F=R.G.flags;
-    check('r6. 2030 一試 13＝「【考選部】司法官一試：未通過。」、沒有二試；2031～2033 都考、JUDGE_TRIES 4、JUDGE_RETAKE done、律師家族＋(i) f',R.said.includes('【考選部】司法官一試：未通過。')&&!R.said.includes('司法官一試：未通過。')&&!R.order.includes('e2b_2030')&&F.JUDGE_TRIES===4&&F.JUDGE_RETAKE==='done'&&R.said.includes(J.epiF)&&FAMILY.includes(PG.path(R.G))&&F.BAR_YEAR===2029,JSON.stringify({tr:F.JUDGE_TRIES,rt:F.JUDGE_RETAKE})+' '+R.order.join(' ')); }
-  // ---- 讀書天數不影響：r3 同樣的作答、自習 9999 小時＋總圖 300 天 ----
-  { const R=await sim('2029-08-04',7,{},{exam:{2029:17,2030:16},judge:{2029:4,2030:8},retake:true},G=>{ G.stats.study=9999; G.habits={'place:library:day':{n:300,days:Array.from({length:300},(_,i)=>PG.DK('2029-01-01')+i)}}; });
-    check('r7. 讀書天數不影響：同樣的作答一樣錄取（JUDGE_YEAR 2031）',R.G.flags.JUDGE_YEAR===2031&&R.G.flags.EPILOGUE_DONE===true); }
-  // ---- 交換延畢：第一次考在 2030 也一定沒上，2031 重考才可能 ----
-  { const R=await sim('2030-08-03',7,{EXCHANGE_ROUTE:'JP',BAR_REG_2030:true,BAR_REG:false},{exam:{2030:20,2031:20},judge:{2030:10,2031:9},retake:true}); okRun('r8 交換延畢 2030 第一次→2031 重考上',R); const F=R.G.flags;
-    check('r8. 2030（交換延畢的畢業那一年）全對也沒上、BAR_YEAR 2030；2031 重考上（2032 錄取＝JUDGE_YEAR 2032，2034-05-01 選）',F.BAR_YEAR===2030&&F.JUDGE_PASS_2030===false&&F.JUDGE_YEAR===2032&&PG.path(R.G)==='J_judge'&&PG.roleDay(R.G)===PG.DK('2034-05-01')&&R.order.includes('jrole'),JSON.stringify({by:F.BAR_YEAR,p30:F.JUDGE_PASS_2030,jy:F.JUDGE_YEAR})+' '+R.order.join(' ')); }
   H.done();
 })().catch(e=>{ console.log('FAIL 例外',e&&e.stack||e); process.exit(1); });

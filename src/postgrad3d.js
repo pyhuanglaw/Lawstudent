@@ -466,7 +466,7 @@ const PG=(function(){
       if(both){ if(pass){ await GM.say(null,jsys[0]); for(const t of J.pass.narr) await GM.say(null,t); }   /* (b) */
         else if(jr){ await GM.say(null,'（'+J.no+'）'); for(const t of J.still) await GM.say(null,t); }   /* (h) 仍落榜 */
         else if(!choiceLater){ await GM.say(null,J.no); await GM.say(null,R.judgeNarr); } } } finally { GM.sceneEnd(); }
-    if(both&&!pass){ if(jr&&y>=S.JUDGE_LAST) F.JUDGE_RETAKE='done'; if(!jr&&!choiceLater&&F.JUDGE_RETAKE==null) F.JUDGE_RETAKE=false; }
+    if(both&&!pass){ if(jr&&y>=S.JUDGE_LAST) F.JUDGE_RETAKE='done'; if(!jr&&!choiceLater&&F.JUDGE_RETAKE==null){ F.JUDGE_RETAKE=false; F.JUDGE_RETAKE_AUTO=true; } }   /* 2033 第一次到司法官、沒有下一年＝沒有選過（CC_25 P3：尾聲用 epiAuto，不說「我後來沒有再考」）*/
     if(jr) return;
     if(y===2029){ if(S.studyGroup(G)==='yutong'){ if(typeof PHONE!=='undefined') PHONE.at(G,S.DK(Y[y].r2),18,L().R2.study.yutong.map(t=>P_('heroine_03',t)),'pg_noodle_yt_'+y); } else S.planNoodle(G,y); }
     else if(y===2030&&L().R2_2030&&typeof OUT!=='undefined') OUT.plan(G,{id:'pg_bar_noodle_2030',ev:'ev_pg_noodle_2030',day:S.DK(Y[y].r2),h:18,late:0.5,place:'阿鳳麵店',title:'阿鳳麵店・長桌',travel:'走過去約 15 分鐘',travelH:0.25}); }   /* AA_331 2a：2030 的 12/13 18:00 麵店（可以錯過）*/   /* 2030 的麵店 AA 沒寫（阿哲那一句在群組）；只有語彤的讀書小組＝18:00 她傳照片 */
@@ -595,7 +595,7 @@ const PG=(function(){
   /* ⑤ 後面多的句子（AA_582）：J 結局交往中＝旁白「這個月輪到你回臺北」（A5）；路線 d（不重考）、f（重考過、沒上）各一句；B_grad 有律師證照一句 */
   S.epiAfterLast=function(G){ const F=G.flags||{}, J=L().JUDGE, p=S.path(G), out=[]; if(!J) return out;
     if(S.isJ(G)){ if(S.partners(G).length) out.push([null,J.distance]); return out; }
-    if(F.JUDGE_RETAKE===false) out.push(['me',J.epiD]); else if(F.JUDGE_RETAKE==='done'&&(F.JUDGE_TRIES|0)>0) out.push(['me',J.epiF]);
+    if(F.JUDGE_RETAKE===false) out.push(['me',F.JUDGE_RETAKE_AUTO&&J.epiAuto?J.epiAuto:J.epiD]); else if(F.JUDGE_RETAKE==='done'&&(F.JUDGE_TRIES|0)>0) out.push(['me',J.epiF]);
     if(p==='B_grad'&&F.BAR_YEAR!=null) out.push(['me',J.epiGradLic]); return out; };
   async function epilogue(GM){ const G=GM.G, F=G.flags, E=L().EPI, A=adv(); let ok=false;
     GM.sceneBegin(); try{ await GM.fade(true); if(A&&A.active) A.end();
@@ -622,15 +622,20 @@ const PG=(function(){
     if(ok){ F.EPILOGUE_DONE=true; if(GM.autosave) GM.autosave(true); S.toTitle(GM); } if(GM.fade) await GM.fade(false); }
   /* ---------- 場景表 ---------- */
   const yStep=y=>{ const K=Y[y]; return [
-    {id:'exam_'+y,at:G=>T(K.exam,8),until:G=>T(K.exam,30),cond:G=>S.sitsAny(G,y),run:GM=>examDay(GM,y)},   /* 司法官重考生（S.jsits）也考一試 */
+    {id:'exam_'+y,at:G=>T(K.exam,8),until:G=>T(K.exam,30),cond:G=>S.sitsAny(G,y),run:GM=>examDay(GM,y),onMiss:G=>{ if(S.isJR(G,y)) G.flags.JUDGE_TRIES=(G.flags.JUDGE_TRIES|0)+1; }},   /* 司法官重考那一年錯過一試也算考過一年（CC_25 P3：之後不報＝路線 f 那一句）*/   /* 司法官重考生（S.jsits）也考一試 */
     {id:'r1_'+y,at:G=>T(K.r1,15+5/60),until:G=>T(K.r1,48),cond:G=>G.flags['BAR_SIT_'+y]===true,run:GM=>result1(GM,y)},
     {id:'e2a_'+y,at:G=>T(K.e2a,8.5),until:G=>T(K.e2a,30),cond:G=>G.flags['BAR_SIT_'+y]===true&&S.stage2(G,y)&&!S.isJR(G,y),run:GM=>exam2(GM,y,1)},   /* 律師二試第一天（已經是律師的司法官重考生不考）*/
     {id:'e2b_'+y,at:G=>T(K.e2b,S.stage(G,y)==='both'?8.5:17.5),until:G=>T(K.e2b,30),cond:G=>S.two(G,y),run:GM=>exam2(GM,y,2)},   /* both＝早上 8:30 考司法官二試（D118-B8）*/
-    {id:'r2_'+y,at:G=>T(K.r2,15+5/60),until:G=>T(K.r2,48),cond:G=>S.two(G,y),run:GM=>result2(GM,y),onMiss:G=>S.r2Apply(G,y,{judgeOnly:true})} ]; };
+    {id:'r2_'+y,at:G=>T(K.r2,15+5/60),until:G=>T(K.r2,48),cond:G=>S.two(G,y),run:GM=>result2(GM,y),onMiss:G=>S.r2Missed(G,y)} ]; };
+  /* 二試放榜那一場錯過（CC_25 BUG-BAR-MISS-NOYEAR；原本只算司法官、BAR_YEAR 沒有＝考上的人落到 A_none）：結果照正常放榜一樣記（律師二試一定錄取＝BAR_YEAR），
+     下一個停點演一句「過了幾天才打開考選部的網頁」（AA_582 補充三①；已經是律師的重考生沒有律師那一半，不演）。司法官的結果照算；2033 第一次到司法官沒上＝自動不重考（JUDGE_RETAKE_AUTO）*/
+  S.r2Missed=function(G,y){ const F=G.flags, jr=S.isJR(G,y); S.r2Apply(G,y); if(!jr) F['BAR_R2_MISSED_'+y]=true;
+    if(!jr&&S.stage(G,y)==='both'&&F['JUDGE_PASS_'+y]!==true&&y>=S.JUDGE_LAST&&F.JUDGE_RETAKE==null){ F.JUDGE_RETAKE=false; F.JUDGE_RETAKE_AUTO=true; }
+    if(jr&&S.stage(G,y)==='both'&&F['JUDGE_PASS_'+y]!==true&&y>=S.JUDGE_LAST) F.JUDGE_RETAKE='done'; };
   S.two=(G,y)=>G.flags['BAR_SIT_'+y]===true&&(S.isJR(G,y)?S.stage(G,y)==='both':S.stage2(G,y));   /* 有二試：一試到律師以上；司法官重考生要到司法官（both）*/
   /* 司法官（D118-B8）的場景：judge:true＝尾聲要等它演完（S.pendingExam）*/
   const jSteps=()=>{ const out=[]; for(let y=2029;y<=S.JUDGE_LAST;y++){ const K=Y[y];
-      out.push({id:'jretake_'+y,judge:true,at:G=>T(K.r2,20.5),until:G=>T((y+1)+'-05-09',0),cond:G=>y<S.JUDGE_LAST&&G.flags.JUDGE_RETAKE==null&&S.jFirstFail(G,y),run:GM=>jRetakeScene(GM,y),onMiss:G=>{ if(G.flags.JUDGE_RETAKE==null) G.flags.JUDGE_RETAKE=false; }});   /* (f)；舊存檔（both、二試放榜演過）在隔年報名以前讀檔也補演一次；過了＝不重考（路線 d）*/
+      out.push({id:'jretake_'+y,judge:true,at:G=>G.flags['BAR_R2_MISSED_'+y]?T(K.r2,48)+0.1:T(K.r2,20.5),   /* 放榜那一場錯過：排在「過了幾天才打開網頁」那一句之後 */until:G=>T((y+1)+'-05-09',0),cond:G=>y<S.JUDGE_LAST&&G.flags.JUDGE_RETAKE==null&&S.jFirstFail(G,y),run:GM=>jRetakeScene(GM,y),onMiss:G=>{ if(G.flags.JUDGE_RETAKE==null){ G.flags.JUDGE_RETAKE=false; G.flags.JUDGE_RETAKE_AUTO=true; } }});   /* 二選一沒演到（舊存檔過了隔年 5/9 才讀）＝沒有選過：尾聲 epiAuto */   /* (f)；舊存檔（both、二試放榜演過）在隔年報名以前讀檔也補演一次；過了＝不重考（路線 d）*/
       out.push({id:'j3_'+y,judge:true,at:G=>T(S.oralDay(y),10),until:G=>Infinity,cond:G=>G.flags['JUDGE_PASS_'+y]===true&&G.flags.JUDGE_YEAR==null,run:GM=>oralScene(GM,y)});   /* (c) 三試 */
       out.push({id:'jb2_'+y,judge:true,at:G=>T(S.admitDay(y),15),until:G=>Infinity,cond:G=>G.flags['JUDGE_PASS_'+y]===true&&G.flags.JUDGE_YEAR==null&&S.done(G,'j3_'+y),run:GM=>admitScene(GM,y)});   /* (b2)＋(h) 錄取 */
       if(y>=2030){ const jr=G=>S.isJR(G,y)&&S.jsits(G,y);
@@ -643,7 +648,10 @@ const PG=(function(){
     /* (l) 錯過的旁白 */
     out.push({id:'miss_reg_2029',at:G=>T('2029-05-12',0),until:G=>T('2029-07-01',0),cond:G=>G.flags.BAR_REG_MISSED_2029===true&&G.flags.BAR_REG==null,run:GM=>narrScene(GM,[L().MISSED.reg2029])});
     out.push({id:'miss_exam_2029',at:G=>T(Y[2029].exam,30),until:G=>T(Y[2029].r1,0),cond:G=>S.rec(G).done.exam_2029==='missed',run:GM=>narrScene(GM,[L().MISSED.exam2029])});
-    out.push({id:'miss_exam_2030',at:G=>T(Y[2030].exam,30),until:G=>T(Y[2030].r1,0),cond:G=>S.rec(G).done.exam_2030==='missed',run:GM=>narrScene(GM,[L().MISSED.exam2030])});
+    for(let y=2030;y<=S.JUDGE_LAST;y++){ out.push({id:'miss_jexam_'+y,at:G=>T(Y[y].exam,30),until:G=>T(Y[y].r1,0),cond:G=>S.rec(G).done['exam_'+y]==='missed'&&S.isJR(G,y),run:GM=>narrScene(GM,[L().MISSED.judgeExam])});   /* AA_582 補充三③：司法官重考那一年錯過一試 */
+      out.push({id:'r2miss_'+y,at:G=>T(Y[y].r2,48),until:G=>T(Y[y].r2,48)+24*30,cond:G=>G.flags['BAR_R2_MISSED_'+y]===true,run:GM=>narrScene(GM,[L().MISSED.r2])}); }   /* AA_582 補充三① */
+    out.push({id:'r2miss_2029',at:G=>T(Y[2029].r2,48),until:G=>T(Y[2029].r2,48)+24*30,cond:G=>G.flags.BAR_R2_MISSED_2029===true,run:GM=>narrScene(GM,[L().MISSED.r2])});
+    out.push({id:'miss_exam_2030',at:G=>T(Y[2030].exam,30),until:G=>T(Y[2030].r1,0),cond:G=>S.rec(G).done.exam_2030==='missed'&&!S.isJR(G,2030),run:GM=>narrScene(GM,[L().MISSED.exam2030])});
     return out; };
   S.STEPS=[
     {id:'reg',at:G=>T('2029-05-10',21),until:G=>T('2029-05-12',0),cond:G=>!S.delayed(G)&&G.flags.BAR_REG==null&&G.flags.Y4_PATH!=='bar',run:regScene,onMiss:G=>{ if(G.flags.BAR_REG==null&&G.flags.Y4_PATH!=null&&NOW(G)<T('2029-05-14',0)) G.flags.BAR_REG_MISSED_2029=true; }},   /* 錯過報名（D118 ③-13）：一句旁白、2030 年可以報名（大四選過路的玩家才算；Y4_PATH bar 的 5/10 自動報名）。只算玩的時候真的錯過（跳時間會先停在 5/10 那一場，所以截止後兩天內才標）；很久以後才讀的存檔不補 */
