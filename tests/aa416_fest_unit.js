@@ -144,7 +144,7 @@ const REG=o=>{ global.CG_REGISTRY=o||{}; };
   { setup('2026-03-13',20,{lv:{[AN]:'dt'}}); rules(); const pre=dms(AN).length; at('2026-03-13',21.05); rules(); const m=PHONE.byAsk(H.G,'fest_ask_heroine_01_white_2026');
     check('3. 她約（交往中）：前一天 21:00「明天是白色情人節。」「晚上六點半，總圖門口。手帳上這一格，我先寫了。」（AA_460 4-2 照節日換整組）；回覆「好。」「那天不行。」',pre===0&&J(dms(AN))===J(['明天是白色情人節。','晚上六點半，總圖門口。手帳上這一格，我先寫了。'])&&!!m&&J(m.ask.opts.map(o=>o.t))===J(['好。','那天不行。']),J(dms(AN)));
     PHONE.answer(H.G,'fest_ask_heroine_01_white_2026',0); rules(); const q=OUT.get(H.G,'fest_heroine_01_white_2026'); at('2026-03-14',18.1); const r0=relOf(AN); const g=await goOut(q.id);
-    check('3. 「好。」＝出遊 3/14 18:30 總圖門口（library_gate_night），到了演交往中那一段',!!q&&q.h===18.5&&q.place==='總圖門口'&&img(H.bgs.find(b=>b&&b.image))==='library_gate_night'&&g.L.includes('白色情人節。……我們都沒送東西。')&&dRel(AN,r0)===J({fam:3,comf:6,npcRom:5})&&H.G.hour===20.5,J({q,L:g.L,h:H.G.hour}));
+    check('3. 「好。」＝出遊 3/14 18:30 總圖門口（library_gate_night，圖是第 110b 組的 ntu_library_night），到了演交往中那一段',!!q&&q.h===18.5&&q.place==='總圖門口'&&img(H.bgs.find(b=>b&&b.image))==='ntu_library_night'&&g.L.includes('白色情人節。……我們都沒送東西。')&&dRel(AN,r0)===J({fam:3,comf:6,npcRom:5})&&H.G.hour===20.5,J({q,L:g.L,h:H.G.hour}));
     setup('2026-03-13',21.05,{lv:{[AN]:'dt'}}); rules(); PHONE.answer(H.G,'fest_ask_heroine_01_white_2026',1); rules();
     check('3. 「那天不行。」→「好。那我讀書。」、不排',dms(AN).slice(-1)[0]==='好。那我讀書。'&&!OUT.get(H.G,'fest_heroine_01_white_2026'));
     setup('2026-03-13',20,{lv:{[AN]:'dt',[ZQ]:6}}); await ask(AN,[0,0]); at('2026-03-13',21.05); rules(); check('3. 玩家前一天 21:00 以前已經約了她：她不約',!PHONE.byAsk(H.G,'fest_ask_heroine_01_white_2026')); }
