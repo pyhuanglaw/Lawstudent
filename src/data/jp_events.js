@@ -23,7 +23,7 @@ const JP_EVENTS=(function(){
     {label:'g0_b'},{speaker:'heroine_01',text:'交換生的論壇有寫。'},
     {label:'g0_end'},{set:{AN_JP_SUITCASE:true}} ];
   /* G1 3/27（一）10:00 國際學生辦公室報到（一鍵，地點字幕；入住是 3/25 抵達那天，AA_377 第 17 項）*/
-  const OFFICE=[ {scene:'國際學生辦公室'},
+  const OFFICE=[ {scene:'國際學生辦公室',bg:'jp_intl_office'},   /* 第五批（使用者 11-02 生成）*/
     {speaker:null,text:'（國際學生辦公室。你們排在一列交換生的最後面。輪到你的時候，職員用很慢的日文說了一句話，你只聽懂「宿舍」。）'},
     {if:C(dating),speaker:null,text:'（以安在旁邊小聲翻譯。翻完她說：「我也只聽懂一半。剩下一半是猜的。」）'},
     {if:C(repair),speaker:null,text:'（以安排在你前面兩個人。她辦完，沒有回頭。）'},
@@ -60,7 +60,7 @@ const JP_EVENTS=(function(){
   /* G7 以安約的那一頓（AA_250 6-2 的三句）。AA_355 1-1（AA-C 2026-10-21）：6/9（五）21:00 她私訊約、「好。」＝6/10（六）18:30 出遊（src/jp3d.js 的 S.dinnerPhone；交往中或 FRIEND 以上），
      地點字幕「日本・學校後面的小餐館」、深色底（原本 AA_341 G7：6/16（五）19:00 自動演、商店街 jp_street_night）。不算學期末的飯（BB_203 第 9 點）。出遊演完照 hours 往後。
      AA_355 第 5 節（2f1aaa22）：4b 第一句「今天」改「昨天」（台大 6/9 考完，她 6/10 說）；4c 挽回中、冷靜中不約（jp3d.js）*/
-  const DINNER=[ {scene:'日本・學校後面的小餐館'},
+  const DINNER=[ {scene:'日本・學校後面的小餐館',bg:'jp_eatery'},   /* 第五批（使用者 11-02 生成）*/
     {speaker:'heroine_01',text:'首都帝大昨天考完了。Alison 在群組說她要睡三天。'},
     {speaker:'heroine_01',text:'我們這邊七月底才考，還有一個多月。'},
     {speaker:'heroine_01',text:'八月五號那班，我跟你一起訂好了。'},

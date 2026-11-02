@@ -218,7 +218,7 @@ const inJapan=(key,h,flags,dating)=>{ const G=fresh(key,h,'jp_hub','JP',Object.a
     check('G7／AA_355 1-1 回「好。」：排出遊 6/10（六）18:30「日本・學校後面的小餐館」（ev_jp_dinner）', !!q&&q.state==='planned'&&q.day===D('2028-06-10')&&q.h===18.5&&q.ev==='ev_jp_dinner'&&q.place==='日本・學校後面的小餐館', JSON.stringify(q));
     check('G7／AA_355 第 5 節 1-1：學校後面的小餐館走路約 10 分鐘（字幕「走路約 10 分鐘」）', !!q&&q.travel==='走路約 10 分鐘'&&Math.abs(q.travelH-1/6)<1e-9, JSON.stringify(q&&[q.travel,q.travelH]));
     at('2028-06-10',18.25); H.said=[]; H.bgs=[]; const logs=[], log0=ADV.log; ADV.log=(a,b)=>{ logs.push(b); }; if(q) await OUT.go(GM,q); ADV.log=log0;
-    check('G7／AA_355 1-1 6/10 那一頓：地點字幕「日本・學校後面的小餐館」、深色底（不是商店街 jp_street_night）；AA_250 6-2 三句照抄；AN_JP_DINNER', DINNER3.every(has)&&logs.includes('日本・學校後面的小餐館')&&H.bgs.length>0&&H.bgs.every(b=>b==='dark')&&G.flags.AN_JP_DINNER===true&&!!q&&q.state==='done', JSON.stringify([logs,H.bgs]));
+    check('G7／AA_355 1-1 6/10 那一頓：地點字幕「日本・學校後面的小餐館」、底圖 jp_eatery（11-02 使用者生成；原本深色底，不是商店街 jp_street_night）；AA_250 6-2 三句照抄；AN_JP_DINNER', DINNER3.every(has)&&logs.includes('日本・學校後面的小餐館')&&H.bgs.some(b=>b&&b.image==='assets/bg/jp_eatery.webp')&&!H.bgs.some(b=>b&&b.image&&/jp_street_night/.test(b.image))&&G.flags.AN_JP_DINNER===true&&!!q&&q.state==='done', JSON.stringify([logs,H.bgs]));
     at('2028-06-16',19); H.said=[]; const st=S.dueStop(G,'jp'); if(st) await S.playStop(GM,st,'jp');
     check('G7／AA_355 1-1 6/16 19:00 不再自動演那一頓（AA_341 G7 那一場拿掉）', (!st||st.k!=='g7_dinner')&&!DINNER3.some(has)&&!S.SCH.some(s=>s.k==='g7_dinner'), st&&st.k); }
   { const G=inJapan('2028-06-09',21); phone(); PHONE.answer(G,'jp_g7_dinner_ask',1); phone(); at('2028-06-16',19); H.said=[]; const st=S.dueStop(G,'jp'); if(st) await S.playStop(GM,st,'jp');
