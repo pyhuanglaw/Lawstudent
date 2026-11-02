@@ -91,3 +91,8 @@
     branch 'claude/cc-local' set up to track 'origin/claude/cc-local'.
 [06:02:00] ==== END   P5_ui  exit=0  327s   ====
 [06:02:02] ==== START G4v2_ef63  (probe @ ef63b1877) ====
+    To https://github.com/pyhuanglaw/Lawstudent.git
+       91709cea9..a503e48ce  claude/cc-local -> claude/cc-local
+    branch 'claude/cc-local' set up to track 'origin/claude/cc-local'.
+[06:18:07] ==== END   G4v2_ef63  exit=0  959s   ====
+[06:18:14] run_queue.py has a new version - restart (exit 75) after the running item(s) finish; while long items (>=120 min) run, free slots still take short items
