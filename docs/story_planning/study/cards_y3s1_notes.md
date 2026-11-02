@@ -210,3 +210,10 @@
 - `cue` 寫成筆記口吻（前面會接「（你想起筆記上寫的：」），不寫條號、不寫法律效果。
 - `basis` 有幾項不是條號（給審稿看，匯入時可以去掉括號說明）：civpro_1_w2「處分權主義、辯論主義（學說名稱）」；securities_w5「關係論、市場論（學說）」「美國 Dirks 案（題幹已載明）」；crimpro_q1「罪疑唯輕、法定法官、武器平等、聽審權、競合管轄（學說名稱）」；crimpro_q6「惡意規避的判斷（一般見解）」；crimpro_q7「令狀原則（學說名稱）」；crimpro_q8「比例原則（學說名稱）」。securities_w5 的管理辦法用全名。
 - 檢查都在 scratchpad 的副本上跑（`scratchpad/y3s1c/check.py` 兩字詞組、`leaks.js` 遊戲 cueLeaks）；沒有改 repo 裡任何其他檔，沒有 commit。
+
+
+## AA 修正紀錄（2026-11-02，依 `cards_y3s1_review.md`）
+- 需修改 6 張照核對報告改：company_law_w11（例子改成董事長借錢給公司，§15 I）、securities_w2（私募「原則上」＋普通公司債 §43-6 III）、crimpro_q9（§154 I「確定」、§158-4「除法律另有規定外」）、crimpro_q7（§128-1 司法警察官先報請檢察官許可）、company_law_w10（§8 II、刪 §23 III 歸入半句）、civpro_1_w11（cue）。
+- 可選建議採用：civpro_1_w2、civpro_1_w15、company_law_w13、crimpro_w10（例子）、securities_w5、crimpro_q1（a）（b）（c）、crimpro_q4、crimpro_q6（cue）。不採用：civpro_1_w13（例子照留）、crimpro_q2（§181 是證人的拒絕證言，放在被告權利那句容易混淆）、securities_w4（plain 已經寫了第 20 條之 1 第 2 項的免責）。
+- securities_w5 長度：建議 LAWWW 先改 `S.cardLines`，太長時依句號分成幾則顯示；不拆卡（拆卡要動舊存檔的 id）。
+- crimpro_q1～q9 標題：`study_units.js` 裡還是舊標題，請 LAWWW 改用 `crimpro_titles.json`。
