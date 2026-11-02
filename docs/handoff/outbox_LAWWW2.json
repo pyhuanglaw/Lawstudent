@@ -5173,6 +5173,29 @@
    "next": "下一班：開發分支最新版＋這一包跑全部 Node → 沒問題就 send_message 交件給 LAWWW-B（outbox 這一筆改 SENT）",
    "noDirectIntegrate": true,
    "note": "｜11-02 LAWWW2（帳號 A）接班時照 outbox 格式整理（LAWWW 03:39 要求）；原欄位：state「WIP：成果都已 push、README 寫好，沒有 send_message 交件（11-01 09:0x 使用者交班，交班時停在這裡）。柱子靠騎樓那一面紅凳子 (15.6,19.8) yaw 0＋柱子上的插座；patch（對開發 bd7754e2e）：zones3d 公館座位＋GG_PROP_BLOCKS、assets3d／props3d／character3d 各一行筆電道具、新 tests/zq_arcade_seat_unit.js（開發原樣 FAIL 4、只套 patch FAIL 2、加新模型 ALL PASS）；street_props_nav_unit ALL PASS。」、ack「NOT_SENT」、task「ZQ-ARCADE-SEAT-1028：子晴公館騎樓坐凳＋插座＋腿上筆電（(a) GLB、(b) laptop_lap 道具接法、(c) zones3d 公館座位）」｜11-02 LAWWW2（帳號 A）接班查證：LAWWW-B 11-01 21:2x 已整合（0b4acc850＋5d84b825e，整套 Node 835／835），總表 已整合待測試；不用再跑全部 Node、不用再交件"
+  },
+  {
+   "branch": "claude/second-ai-env-art",
+   "sha": "542b715f2",
+   "receiver": "LAWWW",
+   "ack": "SENT",
+   "task": "ATTEND-ROLLCALL-1102",
+   "files": [
+    "assets/models/env/second_ai/boya_203.glb",
+    "assets/models/env/second_ai/boya_203.layout.json",
+    "assets/models/env/second_ai/boya_203.json",
+    "tools/blender/env_second/boya_203.py",
+    "tools/blender/env_second/textures/gen/boya_203_print.png",
+    "docs/art-rebuild/second_ai/patches/boya_203_program_1102.patch",
+    "docs/art-rebuild/second_ai/test_shots/boya_203_program_1102/README.md",
+    "docs/art-rebuild/second_ai/test_shots/boya_203_program_1102/before_after.webp",
+    "docs/art-rebuild/second_ai/test_shots/boya_203_program_1102/texture.webp"
+   ],
+   "state": "已交付",
+   "remaining": "遊戲裡的「簽到表」互動、台詞由 LAWWW 拿掉；boya_203_unit 第 6 項說明文字還寫「簽到表」（LAWWW 的檔，沒動）；沒跑全部 Node、瀏覽器真實流程、手機實機",
+   "next": "LAWWW 換 GLB＋layout、套 room_glb_layouts patch（或用 README 那段重新產生 boya_203 那一筆）；BB 看桌上節目單（D120）",
+   "noDirectIntegrate": false,
+   "note": "LAWWW 06:05（P2）派：使用者 11-02「非上課的簽到只留補習班」（AA_574）。簽到→節目單貼圖、拿掉 look signup；GLB 幾何／材質和部署中的相同、只差貼圖；boya 相關 19 支 Node ALL PASS（開發 94c89e8e6＋這包）"
   }
  ]
 }
