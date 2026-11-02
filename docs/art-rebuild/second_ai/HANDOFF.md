@@ -1,5 +1,30 @@
 # LAWWW2 交接紀錄（隨時更新；工作階段中斷時從這裡接）
 
+## 🛑 交班（2026-11-02 22:5x UTC，使用者「現在換班」）——帳號 A LAWWW2 停止寫入
+- **交班登記**：帳號 A｜LAWWW2｜session_01AC1WVgJSmoJK1uRsPK2Zn1｜分支 `claude/second-ai-env-art`｜最後 commit 見這一節的 commit（push 後 ls-remote 核對）｜正常交班。**交班紀錄不代表新帳號已接班。**
+- **下一班第一步**：fetch → 讀這一節 → `docs/handoff/user_asks_LAWWW2.json` 的 UA-LAWWW2-1102-15／-16（進行中）→ 下面「①法學院區重排」的「還沒跑」那幾支瀏覽器測試。
+- **D75**：不要 send_message 給帳號 A 的這個工作階段。
+
+### ① LAW-RELAYOUT-1102＋黑森林 v4（使用者 P0，UA-LAWWW2-1102-15、-16）：`WORK_IN_PROGRESS`，還沒交件
+- patch：`docs/art-rebuild/second_ai/wip/blackforest/law_relayout_blackforest_1102_wip.patch`（對 int/m590 `0e11c43a3`，apply --cached --check 過；最後一版 `d73588749`）。二進位：`assets/models/env/second_ai/campus_blackforest.glb`、`.json`（v4，已 push）；配置 `src/data/blackforest_layout.js`（v4）＋`tools/blender/env_second/campus_blackforest_layout.py`。
+- 說明：`wip/campus_relayout/README.md` 最後一節、`wip/blackforest/README.md` 的 v4 一節。萬才館 (90,−100)、正面照舊朝南（已告訴使用者）；國青 (65,−119)、研三舍 (63,−108)、小湖、黑森林 1,572 m²／81 棵；電機二館讓到 (119,−62)。
+- **已測（雲端）**：校園相關 Node 單元 172 支全部 ALL PASS（22:47；bike_unit、socsci_place_unit 修過測試的座標範圍，沒放寬標準）；瀏覽器 `campus_layout_nav` ALL PASS（22:49，含 5 個舊存檔位置）。
+- **中斷**：`flow_wancai_stairs` 跑到一半（讀檔到陽台、走到陽台東側都 PASS）被交班停掉，**沒有結論**。
+- **還沒跑**：`flow_wancai_stairs`（重跑）、`flow_wancai_floors`、`tap_floor_levels`、`zone_transitions`、`wancai_glb_integration`、`reachability_all --zones campus`、前後截圖（`scratchpad/lr4/before.json`／`after.json` 的 8 個鏡頭：鳥瞰、照片 2 小湖、照片 5 土徑、萬才館正面、國青研三舍…；before 用 int/m590＋總圖 patch 的樹，after 用整包 patch）。腳本 `scratchpad/lr4/chain.sh`（**scratchpad 沒有遠端備份**：重建方法＝`git worktree add --detach <dir> 0e11c43a3`＋`git apply` 上面的 patch＋複製 GLB）。
+- 跑完以後：把結果寫進兩份 README → 交 LAWWW（他 22:4x 已 DELIVERED 知道 WIP、舊黑森林 patch 不要整合）→ 截圖交 BB 驗收（D128；BB_248 要照片同角度）。
+- 實機沒測。
+
+### ② DORM-LOFT-SCALE-1102：`ART_APPROVED`（BB_249）、瀏覽器 4 支全部 ALL PASS（22:43）——已交 LAWWW（DELIVERED），等他整合
+### ③ 總圖 B1 落點修正：`library_b1_spawn_fix_1102.patch`（`wip/library_b1_v4/`）——Node 6 支 ALL PASS，瀏覽器 reachability_all 沒重跑；已告訴 LAWWW（DELIVERED）
+### ④ 總圖其他（q4 那輪的結果，devwt_k）
+- flow_library_floors／flow_library_scene 被我自己中途停過（22:08 為了森林截圖），**要重跑**；reachability_all 失敗的就是 ③；seats_on_furniture hall／3f 是測試 launch 沒指定 Chromium 路徑（環境問題）→ 用 `scratchpad/pwrun.py` 包起來重跑（不改測試）。
+- campus_glb_integration 效能那一項 FAIL（gate_avenue draw call 1.15 倍、avenue 1.17 倍；PERF-CAMPUS-GLB-1102 ②，還沒處理）。
+- 3F（LIB-3F-1102）、展演廳第三版（BB_244）：README 的「還沒做」照舊（瀏覽器測試、截圖、交件）。
+### ⑤ BAKE-PC-1102：工作單已在 CC 佇列（BK1_cpu、BK1_hip），等 PC 結果（經 BB 轉）→ `compare_bakes.py` 比對 → 通過才把 3F／展演廳烘焙交 PC。
+### ⑥ 其他照舊的待辦：電機一館位置（等使用者選，建議 A）、系館名字 patch（`campus_relayout_names_1102.patch`）交件、us_market、jp_room、B1 烘焙。
+### 沒有遠端備份的東西
+- scratchpad 的 worktree（devwt_h/i/j/k/m/n/p/q/r）、測試 log、截圖、`lr4/`、`lib1102/q4/` 的結果檔——重要結論都已寫在這一節和各 README；patch、GLB、配置都已 push。
+
 ## 🔨 現在在做（11-02 20:3x 更新）：使用者 P0「總圖」——大廳第三版（展演廳，BB_244）→ 3F → 效能
 - **⛔ D128（使用者 19:5x：「美術應該只需要給B驗收，或者你不用經過我」＋「全部交出去」）**：建築、場景 BB 標 ART_APPROVED；角色 LAWWW；畫風 LAWWW2 提案、BB＋LAWWW 同意。交件不寫「最終美術要使用者確認」。20:0x 已改 README、outbox（`f3ab9487b`），19:57 回 LAWWW、BB ACK。
 - **今天已交件**：B1 4.1（已定稿 ART_APPROVED）、一樓二樓第二版（int/m590 `0e11c43a3`）、LIB-FRONT v3.1、v3.2（LAWWW 19:48 ACK：已進 int/m590）。
