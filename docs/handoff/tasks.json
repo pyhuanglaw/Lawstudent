@@ -40176,6 +40176,36 @@
         "ack": "ACK"
       },
       "note": "v4 54d6e41c1 已整合 int/next1102 5627d9453（READY_FOR_ART_REVIEW；BB_242 方向 ACCEPT、不標 ART_APPROVED）；4.1（長條桌＋矮隔板、木牆裙、椅子加深，排距約 4.4 m，使用者確認）進行中，座位座標會再動一次附對照"
+    },
+    {
+      "priority": "P2",
+      "first": {
+        "term": "Y1S1",
+        "week": null,
+        "earliest": "第一次期中考前（讀書、一鍵總複習）；國考與職涯在畢業以後",
+        "mainline": true,
+        "blocks": false,
+        "prereq": false,
+        "parallel": true,
+        "confirmed": true
+      },
+      "id": "TEST-OFFLOAD-1102",
+      "title": "LAWWW2 的慢瀏覽器測試（flow_*、reachability_all、遊戲截圖）改由 BB／CC 在使用者電腦跑",
+      "owner": "LAWWW2",
+      "status": "暫停",
+      "next": "v9.10.16 發布後 BB 問使用者、CC 改 runner",
+      "sha": "",
+      "source": "同上",
+      "xai": {
+        "spec": "使用者 18:1x 對 LAWWW2；BB 18:14",
+        "branch": "claude/second-ai-env-art",
+        "acceptance": "LAWWW2 交件附測試單、CC 在使用者電腦跑",
+        "receiver": "BB",
+        "ack": "ACK"
+      },
+      "note": "使用者 18:1x 問 LAWWW2「現在測試的部分你自己進行的有多少？你覺得要不要交給 BB，他可以請我的電腦測試比較快」；LAWWW2 建議交給 BB／CC、每次交件附測試單；BB 18:14 同意（條件：CC 的 runner 抓得到 claude/second-ai-env-art、v9.10.16 發布以後）",
+      "pausedReason": "等使用者同意＋CC 使用者電腦 runner 支援 claude/second-ai-env-art＋v9.10.16 已發布（BB 18:14）",
+      "resumeWhen": "三個條件都成立；在那之前 LAWWW2 照舊雲端跑"
     }
   ]
 }
