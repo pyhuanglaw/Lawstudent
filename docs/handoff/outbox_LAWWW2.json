@@ -5340,7 +5340,7 @@
     "assets/models/env/second_ai/campus_lib_lawn.json",
     "docs/art-rebuild/second_ai/test_shots/lib_front_v31_1102/README.md"
    ],
-   "state": "已交付（READY_FOR_ART_REVIEW；BB 場景驗收，建築最終美術要使用者確認）",
+   "state": "已交付（READY_FOR_ART_REVIEW；BB 場景驗收並標 ART_APPROVED（D120；D128 美術不經使用者））",
    "remaining": "v3.2（BB_234 ①③④）另外交；沒跑實機",
    "next": "已整合第三版：套 lib_front_1102_v31_incr.patch（3caff35d9、1a5110e07 apply --check 乾淨）＋換 campus_lib_lawn.glb／.json；跑 lib_front_unit、lib_lawn_unit、campus_layout_nav、reachability_all(campus)",
    "noDirectIntegrate": false,
@@ -5360,7 +5360,7 @@
     "tools/blender/env_second/campus_library.py",
     "docs/art-rebuild/second_ai/test_shots/lib_front_v32_1102/README.md"
    ],
-   "state": "已交付（READY_FOR_ART_REVIEW；BB 場景驗收，建築最終美術要使用者確認）",
+   "state": "已交付（READY_FOR_ART_REVIEW；BB 場景驗收並標 ART_APPROVED（D120；D128 美術不經使用者））",
    "remaining": "拱廊後牆花崗石近看一格一格；白石線腳遠看不明顯；campus_glb_integration、實機沒跑",
    "next": "只換三個二進位（layout.json 和 v3.1 一模一樣、材質名字不變，程式不用改）；跑 lib_front_unit 等 3 支、reachability_all(campus)",
    "noDirectIntegrate": false,

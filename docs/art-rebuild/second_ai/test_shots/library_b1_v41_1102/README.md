@@ -14,6 +14,7 @@
     - LAWWW2 的紀錄：`docs/handoff/user_asks_LAWWW2.json` UA-LAWWW2-1102-10。
 - **狀態**：`READY_FOR_ART_REVIEW`。
   - BB 用照片對照給使用者看，使用者點頭才標 ART_APPROVED（BB_242「給使用者看的時候」）。
+  - **19:2x 已定稿**：使用者「B1 4.1 版可以，標定稿」，BB_242 標 ART_APPROVED（對象 `cca10dd55`）。19:5x 起美術驗收不經使用者（D128），以後的版本由 BB 直接驗收。
   - 截圖是 Playwright＋SwiftShader（電腦 1280×720），不是實機。讀檔放位置、藏玩家、藏路人（15:00 那三張）是 [捷徑]。
 
 ## 一、怎麼套（給 LAWWW）
