@@ -176,8 +176,8 @@ expect('六 duty.json 有 roles.CC：帳號 A、session_01TdESzxBpdGoPhdkPD2ENce
        and str(cc.get('progressFile', '')).startswith(CC_FILE) and cc.get('state') in D.ROLE_STATES, cc)
 wm = json.load(open(os.path.join(ROOT, 'docs/handoff/watermarks.json'), encoding='utf-8'))
 w = wm['roles'].get('CC') or {}
-expect('六 watermarks.json 有 CC：claude/cc-testing、分岔點 7340266599e7（完整 SHA）、open／history 是陣列',
-       w.get('branch') == 'claude/cc-testing' and w.get('sha', '').startswith('7340266599e7') and len(w.get('sha', '')) == 40 and isinstance(w.get('open'), list) and isinstance(w.get('history'), list), w)
+expect('六 watermarks.json 有 CC：claude/cc-testing、AA 已核對的水位線 b4893fd5（完整 SHA；不能用分岔點 7340266599e7，會讓 AA、BB 少核對）、open／history 是陣列',
+       w.get('branch') == 'claude/cc-testing' and w.get('sha', '').startswith('b4893fd5') and len(w.get('sha', '')) == 40 and isinstance(w.get('open'), list) and isinstance(w.get('history'), list), w)
 out = []
 D.verify(type('A', (), {'root': ROOT, 'ref': None, 'no_git': True})(), d=dj, out=out)
 expect('六 duty verify（--no-git）沒有 CC 的值班紀錄異常', not any('CC' in m for _, m in out), out)

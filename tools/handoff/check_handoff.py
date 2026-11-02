@@ -685,14 +685,14 @@ def roles(args):
 
 
 def incr_run(root, ref=None, remote=True, src=None):
-    """增量核對（使用者 2026-10-17 P0）：四職位水位線以後的新 commit 逐一要有結構化分類；outbox 與 WIP 索引的欄位；WIP 不能比上一份快照少。
+    """增量核對（使用者 2026-10-17 P0）：各職位水位線以後的新 commit 逐一要有結構化分類；outbox 與 WIP 索引的欄位；WIP 不能比上一份快照少。
     回傳 (結果 dict, 異常列表, 資訊列表)。只讀。"""
     src = src or Src(root, ref)
     probs, info = [], []
     try:
         wm = json.loads(src.read(INC.WM))
     except FileNotFoundError:
-        return None, [f'{INC.WM} 不存在：還沒建立四職位水位線'], info
+        return None, [f'{INC.WM} 不存在：還沒建立各職位水位線'], info
     tasks = json.loads(src.read(TASKS))
     dv = json.loads(src.read(DELIV))
     duty = json.loads(src.read(duty_state.DUTY))

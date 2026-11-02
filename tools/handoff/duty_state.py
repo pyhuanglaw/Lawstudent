@@ -6,7 +6,7 @@
 帳號只是輪值身分；職位是 LAWWW、LAWWW2、AA、BB，2026-11-02 起加 CC（BB 的測試執行助手，D119／HV-22；帳號 B／C／D 叫 CC-B、CC-C、CC-D）。接班看「最近一次正式的值班與交班紀錄」，**不照 A→B→C 的順序猜、不看 commit 時間判定值班權**。
 
   duty verify  [--ref origin/<RULE_SOURCE>] [--no-git]     對帳：只讀，列出異常（結束碼 0 正常／1 有異常／2 duty.json 不存在或壞掉＝不能猜，回報使用者）
-  duty plan    --account C [--role LAWWW] [--ref …]        接班清單：上一任是誰、四職位的分支與 SHA、快照、待整合（只讀）
+  duty plan    --account C [--role LAWWW] [--ref …]        接班清單：上一任是誰、各職位的分支與 SHA、快照、待整合（只讀）
   duty register --account C --role LAWWW --session <id> --branch <分支> [--user-ok]   接班登記（寫工作目錄的 duty.json／duty_<職位>.json）
   duty handoff --account B --role LAWWW [--snapshot <檔名>]  交班登記（寫工作目錄；快照先用 check_handoff.py snapshot 做好）
   duty find                                               找 RULE_SOURCE：掃所有遠端分支的 duty.json，照「登記鏈」（seq＋chain）選最新的那一份；

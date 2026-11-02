@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""增量交接（使用者 2026-10-17 P0「交接制度效能改善」）：四職位已核對水位線、結構化分類、交付當下登記、永久 WIP 索引。
+"""增量交接（使用者 2026-10-17 P0「交接制度效能改善」）：各職位已核對水位線、結構化分類、交付當下登記、永久 WIP 索引。
 
 檔案（都在 docs/handoff/）：
   watermarks.json   每個職位（ROLES）各一條「已核對到哪個 commit」：{roles: {職位: {branch, sha（完整）, at, by, scanned, open: [ID…], history: […]}}}
