@@ -95,6 +95,8 @@ HOOK = r"""(()=>{ if(window.__PLH) return 'again'; window.__PLH=1; window.__PL=[
   const c0=GAME.choose; GAME.choose=function(o){ push({k:'choose',t:(o||[]).filter(x=>x&&!x.hidden).map(x=>(x.t||x.text)||''),hint:(o||[]).filter(x=>x&&!x.hidden).map(x=>x.hint||'')}); return c0.apply(this,arguments); };
   const p0=GAME.caption; if(p0) GAME.caption=function(w,t,ms){ push({k:'caption',n:String(w||''),t:String(t==null?'':t),dur:ms||null}); return p0.apply(this,arguments); };
   const r0=EVENTS.run; EVENTS.run=function(ev){ push({k:'event',id:ev&&ev.id||String(ev)}); return r0.apply(this,arguments); };
+  if(typeof ADV!=='undefined'){ const bgOf=m=>m&&typeof m==='object'?{image:m.image||null,label:m.label||null}:(m==null?null:String(m));
+    for(const fn of ['begin','setBg','cg','end']){ const f0=ADV[fn]; if(typeof f0!=='function') continue; ADV[fn]=function(a){ push({k:'adv',fn,arg:fn==='begin'?{background:bgOf(a&&a.background),right:a&&a.right&&a.right.charId||null,left:a&&a.left&&a.left.charId||null}:(fn==='setBg'?bgOf(a):(fn==='cg'?String(a):null))}); return f0.apply(this,arguments); }; } }
   setInterval(()=>{ try{ const z=GAME.E&&GAME.E.zone; if(z&&z.setBoard&&!z.setBoard.__w){ const f=z.setBoard; z.setBoard=function(a,b,c){ push({k:'board',t:[a,b,c]}); return f.apply(this,arguments); }; z.setBoard.__w=1; } }catch(e){} },150);
   return 'ok'; })()"""
 PL = "(n=>(window.__PL||[]).slice(n))"
@@ -511,6 +513,279 @@ async def card_pass(p, run, orient):
         except Exception: pass
 
 
+# ================================================================ 4e72c157a 追加（BB 16:59）：psbhbg、boardcap2、ancf
+ADVST = r"""(()=>{ const A=typeof ADV!=='undefined'?ADV:null; if(!A) return null; const m=A.bgMode; return {active:!!A.active,mode:m&&typeof m==='object'?{image:m.image||null}:(m==null?null:String(m)),
+  bgImg:A.bg&&A.bg.style?A.bg.style.backgroundImage:null,cls:A.root?A.root.className:null,cgImg:A.cgEl&&A.cgEl.style?A.cgEl.style.backgroundImage:null}; })()"""
+CGST = r"""(()=>{ const G=GAME.G; return {unlocked:(G.cg&&G.cg.unlocked||[]).slice(),reg:typeof CG_REGISTRY!=='undefined'&&!!CG_REGISTRY.cg_reason_column_heroine01,regFile:typeof CG_REGISTRY!=='undefined'&&CG_REGISTRY.cg_reason_column_heroine01?CG_REGISTRY.cg_reason_column_heroine01.file:null}; })()"""
+
+
+def pick_by(opts, prefs):
+    for pf in prefs:
+        for i, o in enumerate(opts):
+            if not o['dim'] and o['t'].startswith(pf): return i
+    for i, o in enumerate(opts):
+        if not o['dim']: return i
+    return 0
+
+
+async def play(pg, cdp, run, tag, prefs=(), shot_if=None, max_s=600, idle_s=5, stop=None):
+    """照 GAME.say 的紀錄一句一句點（輪詢畫面會漏句）；選單照 prefs（開頭符合、照順序），沒有＝第一個沒變暗的。
+    shot_if(text, idx)→名字（要截圖）或 None。回傳 {lines:[{n,t,adv,shot}], chose:[{opts,picked,shot}]}"""
+    t0 = time.time(); last_n = None; idle = None; out = {'lines': [], 'chose': []}; started = False
+    while time.time() - t0 < max_s:
+        s = await P.ts(pg)
+        if s['phone'] and not s['dlg'] and not s['ch']: await L.phone_away(pg, cdp, tries=2); continue
+        if s['ch']:
+            started = True; idle = None; await pg.wait_for_timeout(500); s = await P.ts(pg)
+            if not s['ch']: continue
+            k = pick_by(s['ch'], prefs); nm = shot_if('__choice__', len(out['chose'])) if shot_if else None
+            shp = await run.shot(pg, '%s_%s' % (tag, nm)) if nm else None
+            out['chose'].append({'opts': [o['t'] for o in s['ch']], 'picked': s['ch'][k]['t'], 'shot': shp})
+            run.note('%s：選單 %s → %s' % (tag, J([o['t'] for o in s['ch']]), s['ch'][k]['t']))
+            await P.tap_choice(pg, cdp, k); await pg.wait_for_timeout(1200); continue
+        if s['dlg']:
+            started = True; idle = None
+            says = [x for x in await pg.evaluate(PL, 0) if x['k'] == 'say']
+            if last_n is not None and len(says) == last_n: await L.tap(pg, cdp, '#dlg'); await pg.wait_for_timeout(600); continue
+            last_n = len(says); cur = says[-1] if says else {'n': '', 't': ''}
+            m = await pg.evaluate(DLGM)
+            if m['text'] != cur['t']: await L.tap(pg, cdp, '#dlg'); await pg.wait_for_timeout(500)
+            adv = await pg.evaluate(ADVST); nm = shot_if(cur['t'], len(out['lines'])) if shot_if else None
+            shp = await run.shot(pg, '%s_%s' % (tag, nm)) if nm else None
+            out['lines'].append({'n': cur['n'], 't': cur['t'], 'h': cur.get('h'), 'adv': adv, 'shot': shp})
+            if stop and stop(cur['t']): return out
+            await L.tap(pg, cdp, '#dlg'); await pg.wait_for_timeout(600); continue
+        if s['busy'] or s['depth'] > 0: idle = None; await pg.wait_for_timeout(500); continue
+        if started:
+            idle = idle or time.time()
+            if time.time() - idle > idle_s: break
+        elif time.time() - t0 > 30: break
+        await pg.wait_for_timeout(500)
+    return out
+
+
+async def psbhbg_pass(p, run, orient):
+    """UX-PSBH-BG：4/15 麵店那一幕的背景＝noodle_table（2D）。前置同 noodle in"""
+    tag = 'psbhbg_%s' % orient; land = orient == 'land'
+    b, ctx, pg, cdp, errs = await L.launch(p, landscape=land)
+    pg.on('dialog', lambda dd: asyncio.ensure_future(dd.accept()))
+    rec = {'orient': orient}
+    try:
+        await pg.goto(URL); ok = await L.wait_loaded(pg); run.check('%s：遊戲載入' % tag, ok)
+        await pg.evaluate("localStorage.clear()"); await P.init(pg); await pg.evaluate(HOOK)
+        st, d = await state_at(pg, ['Y1S2', 8, 3], 16 + 59 / 60, 'noodle'); await load(pg, cdp, st)
+        su = await pg.evaluate(SETUP_PS); snap = await P.snapshot(pg); await load(pg, cdp, snap); await P.events_on(pg)
+        run.setup('[前置] %s：最小存檔 %s 16:59 麵店；【捷徑】認識沛珊、柏翰、阿哲、加入麵店團群組 → 快照重讀；條件事件打開；URL %s' % (tag, d['key'], URL))
+        run.check('%s：前置成立' % tag, su['key'] == '2026-04-15' and su['psbh'], J(su))
+        r = await play(pg, cdp, run, tag, shot_if=lambda t, i: ('line1' if t == PS_LINES[0] else ('line4' if t == PS_LINES[3] else None)), max_s=ENVI('EV_MAX', 300))
+        R = await pg.evaluate(PL, 0); rec['log'] = R; rec['play'] = r
+        advs = [x for x in R if x['k'] == 'adv']; rec['adv_calls'] = advs
+        ev = [x['id'] for x in R if x['k'] == 'event']
+        run.check('%s：ev_psbh_public_0415 演了（6 句）' % tag, EVID in ev and [l['t'] for l in r['lines'] if l['t'] in PS_LINES] == PS_LINES, J([l['t'] for l in r['lines']]))
+        beg = next((x for x in advs if x['fn'] == 'begin'), None)
+        run.check('%s：（只記）ADV.begin 的 background＝%s；之後 setBg %s' % (tag, J(beg and beg['arg']), J([x['arg'] for x in advs if x['fn'] == 'setBg'])), True)
+        l1 = next((l for l in r['lines'] if l['t'] == PS_LINES[0]), None); l4 = next((l for l in r['lines'] if l['t'] == PS_LINES[3]), None)
+        for nm_, l in (('第 1 句', l1), ('第 4 句', l4)):
+            a = l and l['adv']
+            run.check('%s：%s的背景是 noodle_table 2D 圖（ADV.bgMode 是圖、#advBg 是 noodle_table）' % (tag, nm_),
+                      bool(a) and a['active'] and isinstance(a['mode'], dict) and 'noodle_table' in str(a['mode'].get('image')) and 'noodle_table' in str(a['bgImg']), J(a))
+        rec['shots'] = [l['shot'] for l in r['lines'] if l['shot']]
+        okf, fs = await wait_free(pg, cdp, 60); mv = await joy_moves(pg, cdp)
+        run.check('%s：結束後不卡' % tag, okf and max(mv) > 0.3, J({'free': fs, 'joy': mv}))
+    except Exception as e:
+        run.check('%s：跑完（沒有探針例外）' % tag, False, repr(e)[:500]); traceback.print_exc()
+    finally:
+        run.check('%s：沒有 JS 例外' % tag, not errs, J(errs[:3])); rec['errs'] = errs[:5]
+        dump(tag, **rec)
+        try: await asyncio.wait_for(b.close(), 30)
+        except Exception: pass
+
+
+# 字幕「黑板」出現後的第一句 GAME.say：頁面裡在那一句畫出來以後（300 ms）量字幕和對話框（不靠 Python 輪詢，SwiftShader 太慢會錯過）
+CAPHOOK = r"""(()=>{ if(window.__CAPH) return 'again'; window.__CAPH=1; window.__capAt=null; window.__CAPDLG=null;
+  const R=e=>{ const b=e.getBoundingClientRect(); return {l:+b.left.toFixed(1),t:+b.top.toFixed(1),r:+b.right.toFixed(1),b:+b.bottom.toFixed(1),w:+b.width.toFixed(1),h:+b.height.toFixed(1)}; };
+  const meas=(why)=>{ const c=document.getElementById('caption'), d=document.getElementById('dlg'), cs=getComputedStyle(c), ds=getComputedStyle(d);
+    return {why,ms:Math.round(performance.now()),W:innerWidth,H:innerHeight,cap:R(c),capHidden:c.classList.contains('hide'),capOp:+cs.opacity,capBottom:cs.bottom,capText:(c.textContent||''),
+      dlg:R(d),dlgHidden:d.classList.contains('hide'),dlgText:(document.getElementById('dlgText').textContent||''),dlgH:getComputedStyle(document.getElementById('ui')).getPropertyValue('--dlgH'),
+      hasSel:(()=>{ try{ return document.querySelector('#ui:has(#dlg:not(.hide)) #caption')!==null; }catch(e){ return 'unsupported'; } })()}; };
+  window.__capMeas=meas;
+  const p0=GAME.caption; GAME.caption=function(w,t){ const r=p0.apply(this,arguments); if(w==='黑板'){ window.__capAt=performance.now(); window.__CAPM0=meas('caption'); } return r; };
+  const s0=GAME.say; GAME.say=function(w,t){ const r=s0.apply(this,arguments); if(window.__capAt&&!window.__CAPDLG&&performance.now()-window.__capAt<6000){ window.__SAY1=String(t); setTimeout(()=>{ window.__CAPDLG=meas('say'); },300); } return r; };
+  return 'ok'; })()"""
+
+
+async def boardcap2_pass(p, run, orient, cid='tax_law'):
+    """UX-BOARDCAP-LAND：實際上課，字幕「黑板」和老師那一句同時在畫面上：字幕底 ≤ 對話框頂"""
+    tag = 'boardcap2_%s_%s' % (cid, orient); land = orient == 'land'
+    b, ctx, pg, cdp, errs = await L.launch(p, landscape=land)
+    pg.on('dialog', lambda dd: asyncio.ensure_future(dd.accept()))
+    rec = {'orient': orient, 'cid': cid, 'shots': {}}
+    try:
+        await pg.goto(URL); ok = await L.wait_loaded(pg); run.check('%s：遊戲載入' % tag, ok)
+        await pg.evaluate("localStorage.clear()"); await P.init(pg); await pg.evaluate(HOOK)
+        st, d = await state_at(pg, '2025-09-20', 10.0, 'dorm'); await load(pg, cdp, st)
+        await pg.evaluate(CAPHOOK)
+        fd = await pg.evaluate(FINDDAY, [cid, BOARD_WEEK]); rec['day'] = fd
+        if fd.get('err'): run.check('%s：找得到第 %d 週那一堂' % (tag, BOARD_WEEK), False, J(fd)); return
+        zone = fd['zone'] or 'linze'; h = fd['t0'] - 7 / 60
+        st, d = await state_at(pg, fd['key'], h, zone, {'ROOM_FIRST_' + zone: True})
+        if fd['choice']: st['courses']['electives'][fd['choice']['group']] = cid
+        await load(pg, cdp, st)
+        run.setup('[前置] %s：最小存檔 %s（%s 第 %d 週）%s %s（%s %s，%s 開始；這間教室第一次的旁白關掉；條件事件關掉）'
+                  % (tag, fd['key'], fd['term'], BOARD_WEEK, P_hm(h), zone, fd['name'], fd['room'], P_hm(fd['t0'])))
+        it = await pg.evaluate(GOITEM, cid); rec['go'] = it
+        if not it or it.get('err'): run.check('%s：goList 有那一堂' % tag, False, J(it)); return
+        await P.phone_tab(pg, cdp, 'today'); sel = '#phoneBody [data-go="%s"]' % it['key']
+        if await pg.evaluate("s=>!!document.querySelector(s)", sel): await L.tap(pg, cdp, sel); rec['route'] = 'phone'
+        else:
+            await L.close_panels(pg, cdp); await pg.evaluate(GOFORCED); rec['route'] = 'forced'; run.setup('【捷徑】%s：手機「今天」沒有按鈕 → CLS.goClass forced' % tag)
+        t0 = time.time(); got = None
+        while time.time() - t0 < ENVI('CLASS_MAX', 420):
+            got = await pg.evaluate("window.__CAPDLG")
+            if got: break
+            capAt = await pg.evaluate("window.__capAt")
+            s = await P.ts(pg)
+            if s['phone'] and not s['dlg'] and not s['ch']: await L.phone_away(pg, cdp, tries=2); continue
+            if s['ch'] and not capAt:
+                T = [o['t'] for o in s['ch']]
+                k = next((i for i, t in enumerate(T) if t.startswith('坐中間') or t.startswith('老位子')), None)
+                if k is None: k = next((i for i, t in enumerate(T) if not t.startswith('自己找位子') and not t.startswith('算了')), 0)
+                run.note('%s：選單 %s → %s' % (tag, J(T), T[k])); await P.tap_choice(pg, cdp, k); await pg.wait_for_timeout(1200); continue
+            if s['dlg'] and not capAt: await L.tap(pg, cdp, '#dlg'); await pg.wait_for_timeout(600); continue
+            await pg.wait_for_timeout(200)
+        if not got:
+            rec['shots']['fail'] = await run.shot(pg, tag + '_nocap'); run.check('%s：字幕「黑板」之後老師那一句出現' % tag, False, J(await pg.evaluate("[window.__capAt,window.__CAPM0]"))); return
+        rec['shots']['both'] = await run.shot(pg, tag + '_cap_and_say')   # 不點對話框：老師那一句停著，字幕 6 秒內
+        live = await pg.evaluate("window.__capMeas('shot')"); rec['inpage'] = got; rec['live'] = live; rec['m0'] = await pg.evaluate("window.__CAPM0"); rec['say1'] = await pg.evaluate("window.__SAY1")
+        rec['log'] = await pg.evaluate(PL, 0)
+        for nm_, m in (('老師那一句畫出來 300 ms', got), ('截圖之後', live)):
+            vis = not m['capHidden'] and m['capOp'] > 0.5 and not m['dlgHidden']
+            gap = round(m['dlg']['t'] - m['cap']['b'], 1)
+            run.check('%s：%s：字幕和對話框同時在畫面上、字幕底 %s ≤ 對話框頂 %s（間距 %s px）' % (tag, nm_, m['cap']['b'], m['dlg']['t'], gap),
+                      vis and gap >= 0 and inside(m['cap'], m['W'], m['H']), J({k: m[k] for k in ('cap', 'capHidden', 'capOp', 'capBottom', 'dlg', 'dlgHidden', 'dlgH', 'hasSel', 'dlgText', 'capText')}))
+        run.note('%s：老師那一句「%s」；字幕「%s」；:has() 支援＝%s' % (tag, rec['say1'], got['capText'], got['hasSel']))
+    except Exception as e:
+        run.check('%s：跑完（沒有探針例外）' % tag, False, repr(e)[:500]); traceback.print_exc()
+        try: await run.shot(pg, tag + '_exception')
+        except Exception: pass
+    finally:
+        run.check('%s：沒有 JS 例外' % tag, not errs, J(errs[:3])); rec['errs'] = errs[:5]
+        dump(tag, **rec)
+        try: await asyncio.wait_for(b.close(), 30)
+        except Exception: pass
+
+
+# ---------------- 以安告白（3043c1d27）
+AN = 'heroine_01'
+SETUP_AN = r"""(term=>{ const G=GAME.G, id='heroine_01'; G.contacts=G.contacts||{}; const R=SOCIAL.rel(id); R.fam=Math.max(R.fam|0,60); R.trust=Math.max(R.trust|0,50); R.comf=Math.max(R.comf|0,50); R.npcRom=Math.max(+R.npcRom||0,45); R.rom=Math.max(+R.rom||0,45);
+  if(!SOCIAL.has(id,'FIRST_MET')) SOCIAL.remember(id,'FIRST_MET',''); if(G.contacts[id]==null) G.contacts[id]=G.day-30;
+  const Lg=DATE.log(G,id); Lg.count=Math.max(Lg.count|0,4); Lg.wish=true; Lg.wishKnown=true;
+  const w=TERMEND.windowOf(term); const P=TERMEND.plan(G,w); const Rt=TERMEND.rec(G);
+  return {term,w:{from:CALENDAR.dateOf(w.from).key,to:CALENDAR.dateOf(w.to).key},plan:{back:P.back!=null?CALENDAR.dateOf(P.back).key:null,heart:P.heart,friend:P.friend,fallback:P.fallback,nope:P.nope},
+    cond:TERMEND.cond(G,id),think:Rt.think,dating:!!G.flags['dating_'+id],stage:SOCIAL.stage(id),npcRom:R.npcRom}; })"""
+TESTATE = r"""(term=>{ const G=GAME.G, id='heroine_01', R=TERMEND.rec(G,term), Rt=TERMEND.rec(G); const q=OUT.get(G,'te_'+term);
+  const msgs=(G.msgs||[]).filter(m=>m.th==='p:'+id&&/^te_/.test(m.tag||'')).map(m=>({tag:m.tag,day:CALENDAR.dateOf(m.day).key,h:m.h,text:String(m.text||''),ask:m.ask?m.ask.opts.map(o=>o.t):null}));
+  return {picked:R.picked||null,done:R.done||null,result:R.result||null,second:R.second||null,think:Rt.think,dating:!!G.flags['dating_'+id],confessed:G.flags.confessed||null,
+    out:q?{day:q.day,key:CALENDAR.dateOf(q.day).key,h:q.h,state:q.state,title:q.title}:null,msgs,queued:PHONE.sent(G,'te_'+term+'_'+id)}; })"""
+AN_KEY = ('想去的店', '和你', '你不說的話', '最下面那一行', '這一行我先不劃掉', '同一家', '走一下', '走出店門')
+
+
+async def an_term(pg, cdp, run, tag, term, prefs, land, rec):
+    """一個學期：【前置】時段前一天設條件、算 plan → 跳到邀約那天 20:20 → 手機邀約（截圖）→「好。」→ 跳到那天 18:20 → 出發 → 飯 → 回家路上"""
+    R = {}
+    w0 = await pg.evaluate("t=>{ const w=TERMEND.windowOf(t); return {from:w.from,key:CALENDAR.dateOf(w.from-1).key}; }", term)
+    await P.jump(pg, cdp, run, w0['key'], 10.0, 'dorm', pos=None, note='（%s 期末時段前一天：設條件）' % term)
+    su = await pg.evaluate(SETUP_AN, term); R['setup'] = su
+    run.setup('【捷徑】%s %s：以安 npcRom≥45、熟度、FIRST_MET、DATE.log 正式約會 4 次＋心願地點（C1、C2）；TERMEND.plan 先算好 → %s' % (tag, term, J(su)))
+    run.check('%s %s：心意邀約排了以安（plan.heart）' % (tag, term), AN in su['plan']['heart'], J(su))
+    if AN not in su['plan']['heart']: return R
+    snap = await P.snapshot(pg)
+    await P.jump(pg, cdp, run, su['plan']['back'], 20 + 20 / 60, 'dorm', snap=snap, note='（邀約那天 20:20，等 20:30 她的訊息）')
+    await P.wait_hour(pg, cdp, 20.55, max_s=300); await pg.wait_for_timeout(3000)
+    st = await pg.evaluate(TESTATE, term); R['invite'] = st['msgs']
+    th = await P.phone_thread(pg, cdp, 'p:' + AN); R['thread'] = th['text'][-500:]; R['asks'] = th['asks']
+    R['shot_invite'] = await run.shot(pg, '%s_%s_invite' % (tag, term))
+    ans = await P.phone_answer(pg, cdp, 'p:' + AN, '好。'); R['shot_answer'] = await run.shot(pg, '%s_%s_answered' % (tag, term)); await L.close_panels(pg, cdp)
+    t1 = time.time()
+    while time.time() - t1 < 60:   # TE_PICK → 下一次手機規則（pickCheck）才排出遊
+        st = await pg.evaluate(TESTATE, term)
+        if st['out']: break
+        await pg.wait_for_timeout(2000)
+    R['after_ok'] = st
+    run.check('%s %s：手機邀約（%s）→ 按「好。」→ 排了出遊 te_%s' % (tag, term, J([m['text'] for m in st['msgs']]), term), ans is not None and st['out'] is not None, J({'asks': th['asks'], 'out': st['out'], 'picked': st['picked']}))
+    if not st['out']: return R
+    q = st['out']; await P.jump(pg, cdp, run, q['key'], q['h'] - 0.6, 'dorm', note='（飯那天 %s，等出發的提示）' % P_hm(q['h']))
+    n0 = await pg.evaluate(PLN)
+    def shot_if(t, i):
+        if t == '__choice__': return 'choice%d' % (i + 1)
+        if not land: return 'L%02d' % (i + 1)
+        return ('L%02d' % (i + 1)) if any(k in t for k in AN_KEY) else None
+    r = await play(pg, cdp, run, '%s_%s' % (tag, term), prefs=('出發',) + tuple(prefs), shot_if=shot_if, max_s=ENVI('AN_MAX', 900), idle_s=8)
+    if not r['lines']:
+        st2 = await pg.evaluate(TESTATE, term); run.setup('【捷徑】%s %s：30 秒內沒有出發的提示（%s）→ 直接 OUT.go(GAME, 那一趟)' % (tag, term, J(st2['out'])))
+        await pg.evaluate("t=>{ void OUT.go(GAME, OUT.get(GAME.G,'te_'+t)); }", term); R['forced_go'] = True
+        r = await play(pg, cdp, run, '%s_%s' % (tag, term), prefs=tuple(prefs), shot_if=shot_if, max_s=ENVI('AN_MAX', 900), idle_s=8)
+    R['play'] = r; R['log'] = await pg.evaluate(PL, n0); R['end'] = await pg.evaluate(TESTATE, term); R['cg'] = await pg.evaluate(CGST)
+    return R
+
+
+async def ancf_pass(p, run, orient):
+    tag = 'ancf_%s' % orient; land = orient == 'land'
+    b, ctx, pg, cdp, errs = await L.launch(p, landscape=land)
+    pg.on('dialog', lambda dd: asyncio.ensure_future(dd.accept()))
+    rec = {'orient': orient}
+    try:
+        await pg.goto(URL); ok = await L.wait_loaded(pg); run.check('%s：遊戲載入' % tag, ok)
+        await pg.evaluate("localStorage.clear()"); await P.init(pg); await pg.evaluate(HOOK)
+        st, d = await state_at(pg, '2025-12-20', 10.0, 'dorm'); await load(pg, cdp, st)
+        run.setup('[前置] %s：最小存檔（法律系、大一上）；條件事件關掉、手機不自動打開' % tag)
+        rec['cg0'] = await pg.evaluate(CGST)
+        # 第一次（大一上）：（先不說）→ 她說 →「讓我想想。」
+        R1 = await an_term(pg, cdp, run, tag, 'Y1S1', ('（先不說）', '「讓我想想。」'), land, rec); rec['Y1S1'] = R1
+        if R1.get('play'):
+            L1 = R1['play']['lines']; T1 = [l['t'] for l in L1]
+            walk = [l for l in L1 if l['adv'] and l['adv']['active'] and 'gongguan' in J(l['adv'])]
+            advs = [x for x in R1['log'] if x['k'] == 'adv']
+            begs = [x['arg'] for x in advs if x['fn'] == 'begin']
+            run.check('%s：(a) 回家路上 ADV.begin 背景＝gongguan（公館巷子）（全部 begin：%s）' % (tag, J(begs)), any('gongguan' in J(a) for a in begs), '')
+            iw = next((i for i, t in enumerate(T1) if t.startswith('（走出店門')), -1)
+            run.check('%s：(a) 「（走出店門，她沒有往宿舍那邊走。）」那一句畫面背景是 gongguan 圖（#advBg）' % tag, iw >= 0 and 'gongguan' in str(L1[iw]['adv'] and L1[iw]['adv']['bgImg']), J(L1[iw]['adv'] if iw >= 0 else T1[-12:]))
+            want = '（那一頁的標題是「想去的店」。一行一家，前面的都打了勾，今天這一家也勾了。最下面一行沒有店名，只寫著：和你。）'
+            run.check('%s：(b) 手帳那一頁＝「想去的店」、最下面一行「和你」（逐字）' % tag, want in T1, J([t for t in T1 if '手帳' in t or '想去' in t]))
+            run.check('%s：(b) 選單有「（先不說）」→ 她說 → 「讓我想想。」→「好。這一行我先不劃掉。」、這學期沒交往' % tag,
+                      '好。這一行我先不劃掉。' in T1 and R1['end']['result'] == 'think' and not R1['end']['dating'], J({'chose': [c['picked'] for c in R1['play']['chose']], 'end': R1['end']}))
+        # 第二次（大一下）：invite2 → （先不說）→ she2 →「好。」
+        R2 = await an_term(pg, cdp, run, tag, 'Y1S2', ('（先不說）', '「好。」'), land, rec); rec['Y1S2'] = R2
+        if R2.get('play'):
+            T2 = [l['t'] for l in R2['play']['lines']]
+            run.check('%s：第二次的邀約＝「考完了。七點，同一家。」' % tag, any(m['text'] == '考完了。七點，同一家。' for m in R2['invite']), J(R2['invite']))
+            run.check('%s：(d) 第二次她說＝「上次那一頁，最下面那一行還沒勾。……你要看嗎？」（3043c1d27 的 she2）' % tag, '上次那一頁，最下面那一行還沒勾。……你要看嗎？' in T2, J(T2[-10:]))
+            run.check('%s：(d)（只記）AN_SHOP_PAGE（AA_589 承接字）在這一版沒有出現（src 裡找不到）' % tag, True, J([t for t in T2 if '想去的店' in t or '那一頁' in t]))
+            run.check('%s：第二次「好。」→ 交往' % tag, R2['end']['dating'], J(R2['end']))
+        cgs = [x for k in ('Y1S1', 'Y1S2') for x in (rec.get(k, {}).get('log') or []) if x['k'] == 'adv' and x['fn'] == 'cg']
+        cgE = await pg.evaluate(CGST); rec['cgEnd'] = cgE
+        run.check('%s：(c) 沒有呼叫 ADV.cg、存檔 G.cg.unlocked 沒有 cg_reason_column_heroine01（登錄表還在＝%s %s）' % (tag, cgE['reg'], cgE['regFile']),
+                  not any('reason_column' in J(x) for x in cgs) and 'cg_reason_column_heroine01' not in cgE['unlocked'], J({'cg_calls': cgs, 'unlocked': cgE['unlocked']}))
+        with open(os.path.join(OUT, '%s_lines.txt' % tag), 'w', encoding='utf-8') as f:
+            for k in ('Y1S1', 'Y1S2'):
+                Rk = rec.get(k) or {}; f.write('==== %s ====\n手機：%s\n' % (k, J([m['text'] for m in Rk.get('invite') or []])))
+                for x in (Rk.get('log') or []):
+                    if x['k'] == 'say': f.write('%s：%s\n' % (x['n'] or '（旁白）', x['t']))
+                    elif x['k'] == 'choose': f.write('［選項］%s\n' % J(x['t']))
+                    elif x['k'] == 'adv': f.write('［ADV.%s］%s\n' % (x['fn'], J(x['arg'])))
+                    elif x['k'] == 'caption': f.write('［字幕］%s\n' % x['t'])
+                f.write('選了：%s\n結果：%s\n\n' % (J([c['picked'] for c in (Rk.get('play') or {}).get('chose', [])]), J(Rk.get('end'))))
+    except Exception as e:
+        run.check('%s：跑完（沒有探針例外）' % tag, False, repr(e)[:500]); traceback.print_exc()
+        try: await run.shot(pg, tag + '_exception')
+        except Exception: pass
+    finally:
+        run.check('%s：沒有 JS 例外' % tag, not errs, J(errs[:3])); rec['errs'] = errs[:5]
+        dump(tag, **rec)
+        try: await asyncio.wait_for(b.close(), 30)
+        except Exception: pass
+
+
 async def main():
     os.makedirs(OUT, exist_ok=True)
     run = L.Run('next1102_ui_' + '+'.join(CASES), OUT)
@@ -527,7 +802,10 @@ async def main():
                         elif sb == 'classcap': await board_class(p, run, 'classcap', BOARDCAP, o)
                         else: run.check('BOARD_SUBS %s 認得' % sb, False)
                 elif cs == 'card': await card_pass(p, run, o)
-                else: run.check('CASE %s 認得' % cs, False, '可以用：noodle,board,card')
+                elif cs == 'psbhbg': await psbhbg_pass(p, run, o)
+                elif cs == 'boardcap2': await boardcap2_pass(p, run, o, BOARDCAP)
+                elif cs == 'ancf': await ancf_pass(p, run, o)
+                else: run.check('CASE %s 認得' % cs, False, '可以用：noodle,board,card,psbhbg,boardcap2,ancf')
     print('SHA', os.environ.get('SHA', '?'), 'CASES', ','.join(CASES), flush=True)
     sys.exit(run.finish())
 
