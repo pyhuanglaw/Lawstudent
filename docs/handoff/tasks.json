@@ -40572,10 +40572,10 @@
       "id": "AA587-AN-B3-1102",
       "title": "AA_587 以安改稿第三批（使用者 11-02 確認，第 14 節）：跨年隔天午餐、交換禮物咖啡豆原句、地圖「嗯。我畫了三次。」、日文小考 C03 寫反的人改祐廷、民總「……我寫引誘。」刪、書卷獎「名單上有你。……卷哥。」；新規則：以安是拿書卷的人，不寫她犯低級錯誤（AA_565）",
       "owner": "LAWWW",
-      "status": "待開工",
+      "status": "進行中",
       "priority": "P1",
       "note": "AA 19:46 P1",
-      "next": "等 CG 批次子代理（會插以安事件的 CG）合併後派子代理；企劃線 1cf992d66；termend HEART 那一段已在 99fa65eee 整合（AA_587 第 13 節）",
+      "next": "以安合併子代理（AA_587 第三批＋AA_589＋AA_592＋AA_594）",
       "xai": {
         "spec": "企劃線 docs/story_planning/AA_587 @1cf992d66（第 14 節）",
         "branch": "int/next1102",
@@ -40602,7 +40602,7 @@
       "status": "已實作待整合",
       "priority": "P2",
       "note": "BB 19:40",
-      "next": "int/m590 4fdb28c92（子代理 cgb1102 合併）：放進事件 CG-11（換圖）、32、34、35、38、106、背景 grad_exam_room、gc_roadside_car；只登錄 CG-28（等 AA_587 7-2）、29、119（遊戲沒有那一場，問 AA）、30（AA 未排）、10b（要離線合成，問 BB）；CG-23 先換回舊圖（等 AA_589）；tests/cg_batch1102_unit.js",
+      "next": "CG-119 照 BB 20:51：沛珊重考那年交往中每晚一則的第一句（story3d PS_KEEP_ROWS[0]）第一次那晚附照片；int/m590 4fdb28c92（子代理 cgb1102 合併）：放進事件 CG-11（換圖）、32、34、35、38、106、背景 grad_exam_room、gc_roadside_car；只登錄 CG-28（等 AA_587 7-2）、29、119（遊戲沒有那一場，問 AA）、30（AA 未排）、10b（要離線合成，問 BB）；CG-23 先換回舊圖（等 AA_589）；tests/cg_batch1102_unit.js",
       "xai": {
         "spec": "企劃線 62395d7da、c2a4d1a87；AA_597 CG 總表",
         "branch": "int/next1102",
@@ -40688,6 +40688,114 @@
       "next": "等 AA591 子代理合併（學姊檔重疊）再派子代理；企劃線 031414cad（AA_600＋附錄 69 處清查表，基準 0b5493c2b）；每處加「前任收不到／不演」測試",
       "xai": {
         "spec": "企劃線 docs/story_planning/AA_600_分手後不主動聯絡_全遊戲修正.md＋附錄 @031414cad",
+        "branch": "int/next1102",
+        "acceptance": "BB 測",
+        "receiver": "BB",
+        "ack": "ACK"
+      }
+    },
+    {
+      "first": {
+        "term": "Y1S1",
+        "week": null,
+        "earliest": "第一次期中考前（讀書、一鍵總複習）；國考與職涯在畢業以後",
+        "mainline": true,
+        "blocks": false,
+        "prereq": false,
+        "parallel": true,
+        "confirmed": true
+      },
+      "area": null,
+      "id": "AA589-AN-B4-1102",
+      "title": "AA_589 以安改稿第四批（大三大四畢業後；第 9～12 節 AA＋使用者決定；第 56～58 列等使用者先不動；CG-23 新圖跟第 81、82 列換）",
+      "owner": "LAWWW",
+      "status": "進行中",
+      "priority": "P1",
+      "note": "AA 20:52 P1",
+      "next": "以安合併子代理（AA_587 第三批＋AA_589＋AA_592＋AA_594）",
+      "xai": {
+        "spec": "企劃線 docs/story_planning/AA_589_以安改稿_第四批_大三大四畢業後.md @2e4439756",
+        "branch": "int/next1102",
+        "acceptance": "BB 測",
+        "receiver": "BB",
+        "ack": "ACK"
+      }
+    },
+    {
+      "first": {
+        "term": "Y1S1",
+        "week": null,
+        "earliest": "第一次期中考前（讀書、一鍵總複習）；國考與職涯在畢業以後",
+        "mainline": true,
+        "blocks": false,
+        "prereq": false,
+        "parallel": true,
+        "confirmed": true
+      },
+      "area": null,
+      "id": "AA592-AN-1B-1102",
+      "title": "AA_592 以安①b 手機訊息與一般閒聊（第 9、10 節全部；第 1 列照 BB_238 退回原句）",
+      "owner": "LAWWW",
+      "status": "進行中",
+      "priority": "P1",
+      "note": "AA 20:53 P1",
+      "next": "以安合併子代理",
+      "xai": {
+        "spec": "企劃線 docs/story_planning/AA_592_以安改稿_1b_手機訊息與一般閒聊.md @4162d22e1",
+        "branch": "int/next1102",
+        "acceptance": "BB 測",
+        "receiver": "BB",
+        "ack": "ACK"
+      }
+    },
+    {
+      "first": {
+        "term": "Y1S1",
+        "week": null,
+        "earliest": "第一次期中考前（讀書、一鍵總複習）；國考與職涯在畢業以後",
+        "mainline": true,
+        "blocks": false,
+        "prereq": false,
+        "parallel": true,
+        "confirmed": true
+      },
+      "area": null,
+      "id": "AA594-AN-4B-1102",
+      "title": "AA_594 以安④b 不分年級系統事件（第 9、10 節全部，使1～使8 採新版；使2 只換 multirel_lines.js:416；和 AA_600 衝突的 v6ex 前任句以 AA_600 為準）",
+      "owner": "LAWWW",
+      "status": "進行中",
+      "priority": "P1",
+      "note": "AA 20:53 P1",
+      "next": "以安合併子代理",
+      "xai": {
+        "spec": "企劃線 docs/story_planning/AA_594_以安改稿_4b_不分年級系統事件.md @4162d22e1",
+        "branch": "int/next1102",
+        "acceptance": "BB 測",
+        "receiver": "BB",
+        "ack": "ACK"
+      }
+    },
+    {
+      "first": {
+        "term": "Y1S1",
+        "week": null,
+        "earliest": "第一次期中考前（讀書、一鍵總複習）；國考與職涯在畢業以後",
+        "mainline": true,
+        "blocks": false,
+        "prereq": false,
+        "parallel": true,
+        "confirmed": true
+      },
+      "area": null,
+      "id": "AA598-SIS-1C-1102",
+      "title": "AA_598 學姊①c 約會地點台詞（date_lines 改 92 列；改 Dxx.py→build json→白名單→import_date_lines；D13 走 BB_128，date_lines_regress 第 0 項 sha 跟著改；D15.py:23 同步）",
+      "owner": "LAWWW",
+      "status": "進行中",
+      "priority": "P1",
+      "note": "AA 20:51 P1",
+      "next": "約會台詞子代理",
+      "xai": {
+        "spec": "企劃線 docs/story_planning/AA_598_學姊改稿_1c_約會地點台詞.md @c389462be",
         "branch": "int/next1102",
         "acceptance": "BB 測",
         "receiver": "BB",
