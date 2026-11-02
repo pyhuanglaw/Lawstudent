@@ -40639,6 +40639,33 @@
         "ack": "SENT",
         "owner": "LAWWW"
       }
+    },
+    {
+      "first": {
+        "term": "Y1S1",
+        "week": null,
+        "earliest": "第一次期中考前（讀書、一鍵總複習）；國考與職涯在畢業以後",
+        "mainline": true,
+        "blocks": false,
+        "prereq": false,
+        "parallel": true,
+        "confirmed": true
+      },
+      "area": null,
+      "id": "AA599-NO-CARPICK-1102",
+      "title": "AA_599 開車出門不寫取車過程（使用者 11-02 選擇題「不寫交通過程」）：畫面只寫結果，取車 30 分照算；ev_y0_e37 拿掉「你把車開回家，再搭捷運回宿舍」、可昕私訊、y0_e26、春假與 K18、台中／老家的 travel 字",
+      "owner": "LAWWW",
+      "status": "進行中",
+      "priority": "P1",
+      "note": "AA 20:33 P1，第②級直接做",
+      "next": "int/m590 已改（story3d、group3d、r2y3b3d、r2y4b3d、an_yt_hol3d、fest3d、events.js）＋三支測試期望值；掃相關測試中",
+      "xai": {
+        "spec": "企劃線 docs/story_planning/AA_599_開車不寫取車過程.md @4ca9995ec",
+        "branch": "int/next1102",
+        "acceptance": "BB 測",
+        "receiver": "BB",
+        "ack": "ACK"
+      }
     }
   ]
 }
