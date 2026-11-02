@@ -1,3 +1,4 @@
+/* BB 11-02 11:1x：D124 以後海商法改選修，新的一局不會再產生 FAIL_DELAY_COURSES:[maritime]；X9 保留，當作「舊存檔已因海商法延畢（D124 救援 b～d 照舊）」的情境。*/
 // BB 基準盤點（修改前）：國考六條路線＋職涯結局，用遊戲自己的「跳到下一件事」從 2029-06-02 一路跑到尾聲。不改任何遊戲檔。
 const LW='/tmp/claude-0/-home-user-Lawstudent/a08a2075-8dd6-5be2-9e44-b63f69067248/scratchpad/lw';
 require(LW+'/tests/alison.js'); const H=require(LW+'/tests/pg_harness.js');
