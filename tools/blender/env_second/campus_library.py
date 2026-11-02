@@ -73,7 +73,7 @@ def build(out, render_dir=None):
         'pier': L.pbr('seethru_ck_pier', 'exterior_wall_cladding_02', tile=2.0, target='#a26c58', sat=0.55, normal=0.8, maps=('diff', 'nor'), rough_value=0.88),
         'col': L.pbr('seethru_ck_col', 'sandstone_blocks_08', tile=3.6, sat=0.12, target='#dcd8cf', normal=0.45, maps=('diff', 'nor'), res=512, rough_value=0.78),
         'base': L.pbr('ck_stone_base', 'granite_tile', tile=1.6, sat=0.5, target='#a8a49c', maps=('diff',), res=512, rough_value=0.7),
-        'roof': L.pbr('ck_roof', 'grey_roof_tiles', tile=3.0, target='#5b5650', normal=0.8, maps=('diff', 'nor'), rough_value=0.82),
+        'roof': L.pbr('ck_roof', 'grey_roof_tiles', tile=3.0, target='#4c535b', normal=0.8, maps=('diff', 'nor'), rough_value=0.82),   # 鳥瞰圖：深灰藍
         'ceil': L.flat('ck_ceiling', '#e6e1d7', rough=0.95),
         'flat': L.flat('ck_flatroof', '#b9b4aa', rough=0.92),
         'frame': L.flat('ck_frame', '#3d3f42', rough=0.5),
@@ -337,6 +337,7 @@ def build(out, render_dir=None):
         hx = b - 0.16 if a < 0 else a + 0.16; rect(fm, fb, hx - 0.02, hx + 0.02, P + 0.85, P + 1.65, 0.03)
         glass_face(fb, [(a + 0.09, P + 0.18), (b - 0.09, P + 0.18), (b - 0.09, P + door_h - 0.12), (a + 0.09, P + door_h - 0.12)], -0.06, True, P, P + door_h)
     rect(fm, fb, -rr, rr, P + door_h, P + door_h + 0.1, -0.02)
+    rect(fm, fb, -rr - 0.05, rr + 0.05, P, P + door_h + 1.3, -0.16)   # 門後面一片深色底板（遊戲內 11-02：兩扇門中間的縫看得到後面的草地，一條綠線；campus_hall.py 10-21 同一個問題）
     glass_face(fb, [(-rr, P + door_h + 0.1), (rr, P + door_h + 0.1), (rr, P + door_h + 1.25), (-rr, P + door_h + 1.25)], -0.08, True, P + door_h, P + door_h + 1.25)
     rect(fm, fb, -0.03, 0.03, P + door_h + 0.1, P + door_h + 1.25, -0.04)
     holes.append({'u': 0.0, 'a': rr + 0.22, 'vb': P, 'vs': P + door_h + 1.47, 'arch': False, 'vt': P + door_h + 1.47})
@@ -557,6 +558,22 @@ def build(out, render_dir=None):
     face(acc('wall'), [(xr1, EAVE - 0.1, -GW - 0.3), (xr1, EAVE - 0.1, GW + 0.3), (xr1, PEAK + 0.15, 0)], (1, 0, 0))
     face(acc('wall'), [(xr1, ROOF, -GW), (xr1, ROOF, GW), (xr1, EAVE - 0.1, GW + 0.3), (xr1, EAVE - 0.1, -GW - 0.3)], (1, 0, 0))
     box(acc('frame'), xr0, xr1, PEAK + 0.1, PEAK + 0.3, -0.12, 0.12, skip=('bottom',))
+
+    # 四坡屋頂（使用者 11-02 給的行政入口鳥瞰圖：主體、磚塔上面是深灰藍的四坡屋頂；從地面只看得到一點，從高處、遠處看得到）
+    def hip(x0, x1, z0, z1, y, rise, over=0.45):
+        x0 -= over; x1 += over; z0 -= over; z1 += over; w, d = x1 - x0, z1 - z0; rm = acc('roof')
+        if w >= d:
+            r = d / 2; A, Bq = (x0 + r, y + rise, (z0 + z1) / 2), (x1 - r, y + rise, (z0 + z1) / 2)
+            face(rm, [(x0, y, z0), (x1, y, z0), Bq, A], (0, 1, -1)); face(rm, [(x0, y, z1), A, Bq, (x1, y, z1)], (0, 1, 1))
+            face(rm, [(x0, y, z0), A, (x0, y, z1)], (-1, 1, 0)); face(rm, [(x1, y, z0), (x1, y, z1), Bq], (1, 1, 0))
+        else:
+            r = w / 2; A, Bq = ((x0 + x1) / 2, y + rise, z0 + r), ((x0 + x1) / 2, y + rise, z1 - r)
+            face(rm, [(x0, y, z0), (x0, y, z1), Bq, A], (-1, 1, 0)); face(rm, [(x1, y, z0), A, Bq, (x1, y, z1)], (1, 1, 0))
+            face(rm, [(x0, y, z0), A, (x1, y, z0)], (0, 1, -1)); face(rm, [(x0, y, z1), (x1, y, z1), Bq], (0, 1, 1))
+        face(acc('ceil'), [(x0, y, z0), (x1, y, z0), (x1, y, z1), (x0, y, z1)], (0, -1, 0))      # 屋簷底下
+    for s in (-1, 1):
+        za, zb = sorted((s * BAYZ0, s * BAYZ1)); hip(XBAY + 0.4, BAYX1 - 0.2, za + 0.3, zb - 0.3, BAYTOP + 0.75, 1.6, 0.0)   # 磚塔（白色壓頂裡面；從地面只露出一點）
+    hip(99.4, XBACK - 0.6, -ZW + 0.6, ZW - 0.6, ROOF + 0.15, 4.2, 0.0)                                                    # 主體後半（山牆屋頂後面）
 
     # 二樓以上：鏡頭碰撞（各量體的盒子）
     lay['cams'].append([XBAY, F2, -ZW, XBACK, ROOF, ZW])
