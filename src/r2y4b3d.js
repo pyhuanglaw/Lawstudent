@@ -98,6 +98,7 @@ const R2Y4B=(function(){
   /* 祐廷的結果：3/22 15:00 起算一次（2-Y4-27 第 4 節的總圖天數）；跳過 15:00 直接到晚上的也先算好，麵店那一段才讀得到 */
   S.gradResult=G=>{ const F=G.flags; if(F.GRAD_EXAM_2029===true&&F.GRAD_EXAM_RESULT==null&&at(G,R34,15)){ const ok=S.gradPass2029(G); F.GRAD_EXAM_RESULT=ok?'pass':'fail'; if(ok&&F.GRAD_ADMIT==null) F.GRAD_ADMIT='exam'; } return F.GRAD_EXAM_RESULT; };
   S.anPassDue=G=>{ const d=DK(R34); const ok=d!=null&&G.day===d&&hh(G)>=18.75&&hh(G)<=19.25&&!G.flags.AN_GRAD_PASS_SEEN&&met(G,'heroine_01','FRIEND'); if(ok) S.gradResult(G); return ok; };
+  S.gradNoticeDue=G=>{ const d=DK(R34), F=G.flags; if(d==null||F.GRAD_EXAM_2029!==true||F.GRAD_NOTICE_2029||!at(G,R34,15)||G.day>d+6) return false; S.gradResult(G); return F.GRAD_EXAM_RESULT==='pass'||F.GRAD_EXAM_RESULT==='fail'; };   /* AA_582 補充二第 1 點 */
   S.gradResultDue=G=>{ const d=DK(R34), F=G.flags; return d!=null&&F.GRAD_EXAM_RESULT==='fail'&&F.GRAD_RETRY==null&&F.GRAD_QUIT==null&&at(G,R34,21)&&G.day<=d+6&&!F.GRAD_EXAM_2030; };
   const R34_SYS={pass:'研究所放榜：法律學研究所，錄取。',fail:'研究所放榜：法律學研究所，未錄取。'};
   const gradPhone=G=>{ const d=DK(R34), F=G.flags; if(d==null||G.day<d||G.day>d+7) return;
@@ -328,7 +329,7 @@ const R2Y4B=(function(){
   S.gradPass2030=G=>{ if(G.flags.GRAD_RETRY===true&&!delayed(G)) return true; const ps=typeof PG!=='undefined'&&PG.gradPassScore?PG.gradPassScore(G,2030):null; if(ps!=null) return ps; return (S.libDays(G,'2029-02-19','2030-02-15')+(G.flags.Y5_DAYS==='study'?64:0))>=24; };   /* D118-B6：交換延畢看作答（GRAD_SCORE_2030 ≥6；Y5_DAYS study ≥5）；沒有作答紀錄的舊存檔照舊規則 */   /* 台灣路線明年再考＝上；交換延畢看總圖天數（Y5S1 選了去總圖＝一週 4 天，16 週；AA 審稿 #6）*/
   S.gradResult2030=async function(GM){ const G=GM.G, F=G.flags, ok=S.gradPass2030(G); F.GRAD_EXAM_RESULT=ok?'pass':'fail'; if(ok) F.GRAD_ADMIT='exam';
     const t=R34_SYS[F.GRAD_EXAM_RESULT]; if(typeof PHONE!=='undefined'&&!PHONE.sent(G,'y5_grad_result')) PHONE.post(G,{th:'sys',text:t,tag:'y5_grad_result'});
-    await scene(GM,async()=>{ await GM.say(null,t); }); return true; };
+    await scene(GM,async()=>{ if(typeof PG!=='undefined'&&PG.gradNotice&&typeof F.GRAD_SCORE_2030==='number') await PG.gradNotice(GM,ok); else await GM.say(null,t); }); return true; };   /* 作答過的：AA_582 補充二第 1 點的系統字＋旁白（手機照舊）；沒有作答紀錄的舊存檔照原本那一句 */
   S.gradRetry2030=async function(GM){ const G=GM.G, F=G.flags; await scene(GM,async()=>{ await GM.say(null,'（書桌上，二月那份考古題還攤著。）');
       const k=await GM.choose([{t:'「明年再考。」'},{t:'「不考了。」'}]); if(k===0) F.GRAD_RETRY2=true; else F.GRAD_QUIT=true; }); return true; };   /* 2030 沒上：二選一（旁白沿用 3/22 那一句，AA 沒有另外寫）*/
   S.gradExam2030Due=G=>{ const F=G.flags; return (F.GRAD_RETRY===true&&!delayed(G))||(delayed(G)&&F.Y4_PATH==='grad'&&!(typeof PG!=='undefined'&&PG.gradAdmit&&PG.gradAdmit(G))); };

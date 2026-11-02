@@ -60,7 +60,11 @@ const FAMILY=['A_bar','C_zq','B_grad','L_firm'];
     const G5=H.fresh('2030-02-16',9,'campus',{EXCHANGE_ROUTE:'US',Y4_PATH:'grad',Y5_DAYS:'study',examSeed:7}); const q5=PG.drawGrad(G5,2030); H.picks=answerK(q5,5); await R2Y4B.gradExam(GM,2030); H.picks=[];
     check('c5. 交換延畢 2030 筆試也作答（GRAD_SCORE_2030）；Y5_DAYS study 門檻 5',G5.flags.GRAD_SCORE_2030===5&&R2Y4B.gradPass2030(G5)===true&&G5.flags.GRAD_EXAM_2030===true);
     G5.flags.Y5_DAYS='work'; check('c5. Y5_DAYS 不是 study：5 題不上',R2Y4B.gradPass2030(G5)===false);
-    const r2=PG.drawGrad(r7.G,2030); check('c6. 第二年換題',r2.every(q=>!r7.qs.includes(q))); }
+    const r2=PG.drawGrad(r7.G,2030); check('c6. 第二年換題',r2.every(q=>!r7.qs.includes(q)));
+    const GE=POSTGRAD_LINES.GRAD_EXAM; check('c7. 作答前先說考場兩句（AA_582 補充二第 1 點）',H.said.findIndex(x=>x.t===GE.hall[1])>=0&&H.said.findIndex(x=>x.t===GE.hall[1])<H.said.findIndex(x=>x.t.startsWith('1／10　')));
+    { const G=r7.G; H.G=G; H.at('2029-03-22',15.2); G.flags.GRAD_EXAM_2029=true; const ev=STORY_EVENTS.find(e=>e.id==='ev_grad_notice'); const ok=!!ev&&ev.prereq.custom(G); H.said=[]; if(ev) await EVENTS.run(ev);
+      check('c8. 3/22 15:00 以後：研究所放榜系統字＋旁白（錄取）；手機原本的系統字照舊',ok&&H.has(GE.pass.sys)&&H.has(GE.pass.narr)&&G.flags.GRAD_NOTICE_2029===true&&!ev.prereq.custom(G),JSON.stringify({ok,said:H.said.map(x=>x.t),r:G.flags.GRAD_EXAM_RESULT,run:EVENTS.running,failed:EVENTS.failed})); }
+    { H.G=G5; G5.flags.Y5_DAYS='study'; H.at('2030-03-15',15); H.said=[]; await R2Y4B.gradResult2030(GM); check('c9. 2030 放榜：系統字＋旁白（錄取）、手機照原本那一句',H.has(GE.pass.sys)&&H.has(GE.pass.narr)&&(G5.msgs||[]).some(m=>m.th==='sys'&&m.text==='研究所放榜：法律學研究所，錄取。')); } }
   // ---- (d) 舊存檔 ----
   { const G=H.fresh('2029-02-03',8.5,'campus',{Y4_PATH:'grad',GRAD_EXAM_2029_PASS:true}); H.said=[]; const k=await PG.gradQuiz(GM,2029);
     check('d1. 已經記了 GRAD_EXAM_2029_PASS 的舊存檔：不再考、結果照舊',k===null&&!H.said.length&&R2Y4B.gradPass2029(G)===true&&R2Y4A.gradExamPass(G)===true);

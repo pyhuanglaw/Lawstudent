@@ -138,6 +138,10 @@ const R2Y4B_EVENTS=(function(){
       {speaker:'heroine_01',text:'我也寫到鐘響。'},
       {label:'end'},{mem:[{npc:'heroine_01',tag:'AN_GRAD_PASS',note:''}]},{set:{AN_GRAD_PASS_SEEN:true}} ] },
   /* 祐廷沒上：21:00 以後第一次在宿舍房間（AA_181 2-4 二選一）。明年再考＝2030-02-16 筆試、3/15 放榜（照 2-Y4-52 的做法，台灣路線也一樣；多準備一年就上）*/
+  /* 研究所放榜那一刻（AA_582 補充二第 1 點）：3/22 15:00 以後第一次空下來，系統字＋旁白（手機原本的系統字照舊）*/
+  { id:'ev_grad_notice', title:'研究所放榜', participants:[], location:'any', trigger:'auto', once:true, background:'blur',
+    prereq:{custom:G=>{ const r=R(); return !!r&&!!r.gradNoticeDue&&r.gradNoticeDue(G); }},
+    dialogue:[ {call:async(G,GM)=>{ if(typeof PG!=='undefined'&&PG.gradNotice) await PG.gradNotice(GM,GM.G.flags.GRAD_EXAM_RESULT==='pass'); GM.G.flags.GRAD_NOTICE_2029=true; }} ] },
   { id:'ev_grad_result', title:'研究所放榜', participants:[], location:['dorm'], trigger:'auto', once:true, background:'blur',
     prereq:{custom:G=>{ const r=R(); return !!r&&r.gradResultDue(G); }},
     dialogue:[ {speaker:null,text:'（書桌上，二月那份考古題還攤著。）'},
