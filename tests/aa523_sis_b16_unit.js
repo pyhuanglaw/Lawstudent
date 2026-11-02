@@ -73,11 +73,12 @@ const part=(a,b,src)=>{ const S=src==null?DOC:src, i=S.indexOf(a); if(i<0) retur
 const S0=part('## 0. ','## 1. '), S1=part('## 1. A（交往中）','## 2. '), S2=part('## 2. B（朋友以上）','## 3. '), S3=part('## 3. 家族','## 4. '), S4=part('## 4. R','## 5. '), S5=part('## 5. 說了沒發生的','## 6. '), S6=part('## 6. 對不上的','## 7. '), S7=part('## 7. 新旗標','## 8. '), S9=part('## 9. 給 LAWWW、BB');
 const sub=(a,b,src)=>part('### '+a,b?'### '+b:null,src);
 const SPK=/^(學姊|Kevin|佳穎|學妹)：/;
-const qtext=s=>/^（/.test(s)?s:s.replace(SPK,'');   /* 「> 學姊：…」→ 那一句；「> （…）」→ 旁白整句 */
+const A591=require('./aa591_doc.js'), A591x={'……剛好。':'剛好。'}, G591=s=>A591.MAP[s]||A591x[s]||s;   /* A591x：第 103 列（原句到處都有、不在 MAP；這份稿只有接機外套那一句）*/   /* AA_591（學姊改稿第四批，6b35748c7，使用者 11-02 確認）：稿上的句子照 AA_591 的表換成遊戲現在的字 */
+const qtext=s=>G591(/^（/.test(s)?s:s.replace(SPK,''));   /* 「> 學姊：…」→ 那一句；「> （…）」→ 旁白整句 */
 const quotesOf=t=>String(t).split('\n').map(l=>/^\s*>\s*(.+)$/.exec(l)).filter(Boolean).map(m=>qtext(m[1].trim()));
 const OPTRE=/^\s*- (「[^」]+」|（[^）]+）)→\s*(.*)$/;
 const unwrap=t=>/^「[^「」]*」$/.test(t)?t.slice(1,-1):t;
-const atoms=r=>String(r).split(/(?:學姊|Kevin|佳穎|學妹)：/).map(x=>x.trim()).filter(x=>x&&!/^電話：?$/.test(x)).map(unwrap);   /* → 後面：說話的人前綴拿掉，旁白、台詞拆開 */
+const atoms=r=>String(r).split(/(?:學姊|Kevin|佳穎|學妹)：/).map(x=>x.trim()).filter(x=>x&&!/^電話：?$/.test(x)).map(unwrap).map(G591);   /* → 後面：說話的人前綴拿掉，旁白、台詞拆開 */
 const optsOf=t=>{ const out=[]; for(const l of String(t).split('\n')){ const m=OPTRE.exec(l); if(m) out.push({o:m[1],r:atoms(m[2])}); } return out; };
 const PHR=/(?:(?<!她)回|選項)「([^」]+)」(?:→\s*學姊：「([^」]+)」)?/g;   /* 私訊、群組的回覆：「回「好。」排出遊」「回「明天不行。」→ 學姊：「好。我先拆一半。」」「選項「生日快樂。」→ 學姊：「謝謝。」」*/
 const BODY=[S1,S2,S3,S4,S5].join('\n');
@@ -126,7 +127,7 @@ await sec(0,()=>{ const a=s=>html.indexOf(s);
   const INLINE=['Shu，謝謝。'];   /* 稿寫在說明句裡的（「」括起來）*/
   check('0. 稿寫在說明裡的句子（1-2 多的那個選項「Shu，謝謝。」）都在稿裡、也在遊戲裡',INLINE.every(t=>DOC.indexOf('「'+t+'」')>=0&&covered(GS,t)),J(INLINE));
   /* 遊戲 → 稿 */
-  const notIn=[...new Set(G0)].filter(t=>DOC.indexOf(t)<0&&DOC.indexOf(t.replace(/^「|」$/g,''))<0);
+  const notIn=[...new Set(G0)].filter(t=>DOC.indexOf(t)<0&&DOC.indexOf(t.replace(/^「|」$/g,''))<0&&!A591.has(t)&&!A591.has(t.replace(/^「|」$/g,'')));
   check('0. 遊戲 → 稿：新檔的每一句、改字（'+new Set(G0).size+' 句）都在稿裡（一字不差）',G0.length>=200&&!notIn.length,J({n:G0.length,notIn}));
   /* 第 6 節換掉的舊句不在遊戲裡（註解除外）*/
   const OLD=[['src/data/sis_b13_events.js',"'學姊回來了！！'"],['src/data/sis_b13_events.js',"'禮拜四家聚 歡迎回來 118 巷那家'"],['src/data/sis_b12_events.js',"'「美國好玩嗎？」'"],['src/data/sis_b12_events.js',"'好玩。……照片你都看過了。'"],
@@ -343,7 +344,7 @@ await sec(4,async()=>{
 await sec(5,async()=>{
   const pick=async(v,fl,o,picks)=>{ fresh('2028-12-23',20.4,v==='lover'?'dating':'friend',Object.assign({SIS_PICKUP_V:v},fl||{}),o); await runEv('ev_sis_pickup',picks||[0]); return said(); };
   /* 1 g6b 外套 */
-  { const COAT=['（你把帶來的外套遞給她。她穿上，袖子長了一截。）','……剛好。'];
+  { const COAT=['（你把帶來的外套遞給她。她穿上，袖子長了一截。）','剛好。'];   /* 第二句：AA_591 第 103 列拿掉「……」（接機兩版）*/
     const sT=await pick('two',{SIS16_G6B:true}); const fT=H.G.flags.SIS16_COAT; const sL=await pick('lover',{SIS16_G6B:true}); const fL=H.G.flags.SIS16_COAT; const sJ=await pick('lover',{SIS16_G6B:true,SIS_JP_COAT:true},{route:'JP'});
     const sF=await pick('family',{SIS16_G6B:true}); const fF=H.G.flags.SIS16_COAT; const sN=await pick('lover',{}); const fN=H.G.flags.SIS16_COAT;
     check('5. 1 g6b（12/9 視訊「要我帶什麼？」→「外套。」）：兩個人版第一句旁白後面多兩句、記 SIS16_COAT',sT.indexOf(COAT[0])===sT.indexOf('（她推著行李推車走出來。看到你，停了一下。）')+1&&sT.indexOf(COAT[1])===sT.indexOf(COAT[0])+1&&fT===true,J(sT.slice(0,4)));
