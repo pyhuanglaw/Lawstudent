@@ -42,7 +42,7 @@ const CONFESS_LINES={
     prerank:G=>G.flags&&G.flags.SIS_DECLINED_PRERANK?['還沒放榜啦。……我說過的，等放榜。']:['……謝謝你。','考完了，可是還沒放榜。我現在每天都在想那個數字。','等放榜好不好？放榜以後，你再跟我說一次。'],
     prerankFlag:'SIS_DECLINED_PRERANK',
     /* AA_591 第 11 節第 13 點＋AA_593 最後一點（使用者 2026-11-02「學姊不會先說」）：重新開始那一版（restartYes：「你做到了。」「……我也想好了。」「其他的，想了很久。……沒有了。」「這次，我選你。」，AA_386 4-2、AA_512 6-2）整支拿掉，照第一次答應那一版 */
-    yes:G=>['……我知道。','其實我也是。考試那時候就有一點了，只是那時候不想想這個。'].concat(G.flags&&(G.flags.SIS_DECLINED_PREEXAM||G.flags.SIS_DECLINED_PRERANK)?['你上次說的，我有記得。']:[]).concat(['好。']),
+    yes:G=>['……我知道。','其實我也是。考試那時候就有一點了，只是那時候不想想這個。','好。'],   /* AA 2026-11-02 20:26：「你上次說的，我有記得。」拿掉（照 AA_254 第 3 節作廢，和期末飯那一句同一類）*/
     decide:(G,t,k)=>typeof SISB4!=='undefined'&&SISB4.rebuildReady&&SISB4.rebuildReady(G)?'yes':DATE.confessDecide(G,'heroine_05'),   /* AA_386 4-2：三件事以後第二次正式校外約會的結尾告白＝答應（她說好的那天）；其他照 DATE.confessDecide */
     notYet:['……謝謝你。可是我還沒想好。','不是你不好。我想再多認識你一點。'], notYetFlag:'SIS_NOT_YET' },
   /* 芷若：AA_223 第 2 節（32424049；LAWWW Q11 以後第一句不綁約會內容）。有看電影的約會（西門町 D04、光點 D05）第一句換成「今天的電影」 */

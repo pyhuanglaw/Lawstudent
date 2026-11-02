@@ -99,7 +99,7 @@ await sec(4,async()=>{ const OPTS=['在家讀書。','出去玩。','還沒想�
 
 /* ---------- 5 選課 ---------- */
 await sec(5,async()=>{ const e=ev('ev_sis_course_y2'); H.fresh('2026-08-14',15,'cafe'); H.FAMILIAR(ID); H.said=[]; H.picks=[0]; await EVENTS.run(e); const L=H.said.map(s=>s.t);
-  check('5. 第 35 列、保147：「這樣排可以。」→「那堂很好過。」→「好。」（不提那堂通識、不提出席紀錄）',L.includes('這樣排可以。')&&L[L.indexOf('這樣排可以。')+1]==='好。'&&!L.some(t=>/通識|出席|起不來/.test(t)),J(L)); });
+  check('5. 第 35 列、保147：「這樣排可以。」→ 選項「債總一定要周老師那班嗎？」（AA 2026-11-02 20:26 改，原「那堂很好過。」）→「不一定。可是你會想上他的課。」（不提那堂通識、不提出席紀錄；祐廷「……沒有。」刪）',L.includes('這樣排可以。')&&L[L.indexOf('這樣排可以。')+1]==='不一定。可是你會想上他的課。'&&!L.includes('……沒有。')&&J(H.opts[0])===J(['「債總一定要周老師那班嗎？」','「妳大二修了什麼？」'])&&!L.some(t=>/通識|出席|起不來/.test(t)),J(L)); });
 
 /* ---------- 6 研究所 ---------- */
 await sec(6,async()=>{ const e=ev('ev_sis_adv_grad'); H.fresh(keyOf(wk('Y1S2',8,3)),15,'cafe'); H.FAMILIAR(ID); H.said=[]; H.picks=[1]; await EVENTS.run(e); const L=H.said.map(s=>s.t);
@@ -113,7 +113,7 @@ await sec(7,()=>{ const e=ev('ev_sis_graduation'), D=e.dialogue.filter(l=>l.text
 /* ---------- 8 期末飯告白 ---------- */
 await sec(8,()=>{ const Y=TERMEND_LINES.HEART.heroine_05.yes, s=Y.map(x=>typeof x==='string'?x:(x.cg?'CG:'+x.cg:(x.narr?'N:'+x.narr:J(x))));
   check('8. 第 80～82 列（決3 乙）：便條旁白 →「（她笑了。）你確定？」→ BCG-44 →「我很難相處喔。」→「（她把便條收進口袋，把手伸給你。）走吧。」→ 便條旁白；不加祐廷「我確定。」',
-    J(s)===J(['N:（她手上拿著一張摺過的小便條。從吃飯的時候就一直拿著。）','（她笑了。）你確定？','CG:cg_three_things_heroine05','我很難相處喔。','（她把便條收進口袋，把手伸給你。）走吧。','N:（她把便條摺好，收進口袋。上面寫的字，她一句都沒有念。）']),J(s));
+    J(s)===J(['N:（她手上拿著一張摺過的小便條。從吃飯的時候就一直拿著。）','（她笑了。）你確定？','CG:cg_three_things_heroine05','我很難相處喔。','（她把便條收進口袋，把手伸給你。）走吧。','N:（便條上寫的字，她一句都沒有念。）']),J(s));
   check('8. 她主動說的那一版（第 66 列）：AA_591 第 11 節第 13 點（使用者「學姊不會先說」）整支拿掉——沒有 she、she2，「我原本想講得比較好。」「……我喜歡你。」都不在',TERMEND_LINES.HEART.heroine_05.she===undefined&&TERMEND_LINES.HEART.heroine_05.she2===undefined&&!inGame('我原本想講得比較好。')&&!J(TERMEND_LINES.HEART.heroine_05).includes('……我喜歡你。')); });
 
 H.done();

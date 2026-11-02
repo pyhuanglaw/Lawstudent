@@ -36,7 +36,7 @@ await sec(1,async()=>{ fresh('2026-08-12',20); H.at('2026-08-12',21); ph(); cons
   PHONE.answer(H.G,'sisb8_course_ask',1); ph(); PHONE.tick(H.G); const q=OUT.get(H.G,'sisb8_course');
   check('1. 「我已經排好了。」→「那帶來給我看。排好的最需要看。」；排 8/14（五）15:00 Café',th().includes('那帶來給我看。排好的最需要看。')&&!!q&&keyOf(q.day)==='2026-08-14'&&q.h===15&&CALENDAR.dateOf(q.day).wd===5,J(q));
   const r0=Object.assign({},SOCIAL.rel(ID)); H.at('2026-08-14',14.6); await goOut('sisb8_course',[0]); const r1=SOCIAL.rel(ID);
-  check('1. 選課那一場照稿；AA_590 第 35 列、保147（使用者 11-02）：「這樣排可以。」、「那堂很好過。」→「好。」祐廷「……沒有。」；SIS_COURSE_Y2、熟悉 +2',seq(['（她把你的課表印出來，用紅筆在上面畫。）','債總選周老師那班。他會點人，你會被逼著想。','這樣排可以。','好。','……沒有。','剩下的你自己決定。我只看我看得出來的。'])&&H.G.flags.SIS_COURSE_Y2===true&&r1.fam-r0.fam===2,J(H.said.map(x=>x.t)));
+  check('1. 選課那一場照稿；AA_590 第 35 列、保147（使用者 11-02）：「這樣排可以。」；AA 2026-11-02 20:26：選項「債總一定要周老師那班嗎？」→「不一定。可是你會想上他的課。」、祐廷「……沒有。」刪；SIS_COURSE_Y2、熟悉 +2',seq(['（她把你的課表印出來，用紅筆在上面畫。）','債總選周老師那班。他會點人，你會被逼著想。','這樣排可以。','不一定。可是你會想上他的課。','（她把紅筆蓋起來，課表推回給你。）','剩下的你自己決定。我只看我看得出來的。'])&&!H.has('……沒有。')&&H.G.flags.SIS_COURSE_Y2===true&&r1.fam-r0.fam===2,J(H.said.map(x=>x.t)));
   fresh('2026-08-12',21); ph(); PHONE.answer(H.G,'sisb8_course_ask',2); ph(); H.at('2026-08-14',20); ph();
   check('1. 「那天不行。」→「好。截圖傳給我。」；8/14 20:00「債總選周老師那班。他會點人，你會被逼著想。」；不排出遊',th().includes('好。截圖傳給我。')&&th().includes('債總選周老師那班。他會點人，你會被逼著想。')&&!OUT.get(H.G,'sisb8_course'));
   fresh('2026-11-04',21); ph(); PHONE.answer(H.G,'sisb8_lunch_ask',0); ph(); const ql=OUT.get(H.G,'sisb8_lunch'); H.at('2026-11-06',12); await goOut('sisb8_lunch',[0]);

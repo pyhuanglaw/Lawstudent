@@ -11,6 +11,7 @@
 //      重新開始那一版沒有「這次，我選你。」；多段感情 Byes 沒有「我還是喜歡你。」；這幾句都不在遊戲裡
 //   5  林{name}：只有她說、只有交往中；分手以後、沒交往、別人說照舊；不重複加姓；對話框（game3d.js showLine）、手機（她的訊息）都接
 //   6  AA 對 AA_584 的補充：sis3h、修正本私訊、family_context、us208 沒有 heardClip
+//   7  AA 2026-11-02 20:26 定稿：選課分支 a、告白「收進口袋」不重複、confess_lines 拿掉「你上次說的，我有記得。」、爸爸（THERMOS.father／fatherGrad）舊存檔旗標不壞、sis_no_three 例外
 // 修改前（int/m590 0e11c43a3，實測）：46 項 FAIL、7 項 PASS（讀稿、表的列數、沒改的第 183 列、照舊的兩條路線：訪談沒交往／選原子筆、祐廷先說的期末飯與大峽谷交往）。用法：node tests/aa591_sis_b4_unit.js
 require('./alison.js');
 const H=require('./pg_harness.js');
@@ -181,6 +182,22 @@ await sec(6,()=>{
   check('6. 修正本私訊：「修正本印好了。」「多印了一本。……你說過要的。」；沒有「一本給我爸了」',J(SISB13_LINES.thesisMsg)===J(['修正本印好了。','多印了一本。……你說過要的。'])&&!inAny('一本給我爸了'),J(SISB13_LINES.thesisMsg));
   check('6. 人物卡 family_context：「媽媽是公務員，期待她考司法官」（不寫爸爸）',CHARACTERS.heroine_05.family_context==='媽媽是公務員，期待她考司法官',CHARACTERS.heroine_05.family_context);
   check('6. us208：沒有 heardClip（3-3 整場刪，七場變六場）',typeof US208.heardClip==='undefined'&&!/heardClip/.test(RAW['src/us208_3d.js']||''));
+});
+
+/* ---------- 7 AA 2026-11-02 20:26 定稿（LAWWW 追加）---------- */
+await sec(7,async()=>{
+  { setup('2026-08-14',15,'cafe','FAMILIAR'); const L=await runEv('ev_sis_course_y2',[0]);
+    check('7. 選課分支 a：選項「債總一定要周老師那班嗎？」→「不一定。可是你會想上他的課。」→ 接 c；祐廷「……沒有。」、「那堂很好過。」都不在',J(H.opts[0])===J(['「債總一定要周老師那班嗎？」','「妳大二修了什麼？」'])&&L[L.indexOf('這樣排可以。')+1]==='不一定。可是你會想上他的課。'&&L[L.indexOf('不一定。可是你會想上他的課。')+1]==='（她把紅筆蓋起來，課表推回給你。）'&&!L.includes('……沒有。')&&!inAny('那堂很好過。'),J(L)); }
+  { setup('2026-08-14',15,'cafe','FAMILIAR'); const L=await runEv('ev_sis_course_y2',[1]);
+    check('7. 選課分支 b 不動',L.includes('跟你差不多。……我大二的課表比你滿，我那時候不知道要留時間給自己。'),J(L)); }
+  { const Y=TERMEND_LINES.HEART.heroine_05.yes, s=Y.map(x=>typeof x==='string'?x:(x.cg?'CG:'+x.cg:'N:'+x.narr));
+    check('7. 告白「收進口袋」不重複：第 82 列「（她把便條收進口袋，把手伸給你。）走吧。」留、最後旁白「（便條上寫的字，她一句都沒有念。）」',s[s.length-2]==='（她把便條收進口袋，把手伸給你。）走吧。'&&s[s.length-1]==='N:（便條上寫的字，她一句都沒有念。）'&&(J(Y).match(/收進口袋/g)||[]).length===1,J(s)); }
+  { const a=CONFESS_LINES[ID].yes({flags:{SIS_DECLINED_PREEXAM:{day:1}}}), b=CONFESS_LINES[ID].yes({flags:{}});
+    check('7. confess_lines 學姊答應：婉拒過的也沒有「你上次說的，我有記得。」（照 AA_254 第 3 節作廢），其餘照留',J(a)===J(['……我知道。','其實我也是。考試那時候就有一點了，只是那時候不想想這個。','好。'])&&J(a)===J(b)&&!inAny('你上次說的，我有記得。'),J(a)); }
+  for(const fl of [{MET_SIS_FATHER:'grad'},{MET_SIS_FATHER:true},{SIS_FATHER_ASKED:'msg',SIS_FATHER_GO:false},{SIS_FATHER_ASKED:'face',SIS_FATHER_GO:true}]){ setup('2029-06-02',12,'campus','CLOSE',fl); H.date(ID); H.said=[]; H.picks=[0,0]; let err=null; try{ await PG.thermos(GM); }catch(e){ err=String(e); }
+    const L=said(); check('7. 舊存檔旗標 '+J(fl)+'：畢業典禮保溫瓶照演、沒有她爸爸、不丟例外；SIS_THERMOS 照記',!err&&!L.some(x=>/爸/.test(x))&&L.includes('恭喜畢業。')&&H.G.flags.SIS_THERMOS===true&&POSTGRAD_LINES.THERMOS.father===undefined&&POSTGRAD_LINES.THERMOS.fatherGrad===undefined&&typeof PG.fatherGrad==='undefined'&&typeof PG.fatherGradDue==='undefined',J({err,L})); }
+  { const src=fs.readFileSync(path.join(H.ROOT,'tests/sis_no_three_unit.js'),'utf8');
+    check('7. sis_no_three 例外：第 65 列「這學期，還有一件事沒做完。」、第 69 列「還有一件事。」在允許清單（AA_590 收的，AA 20:26 確認）',src.includes("'還有一件事。':'學姊（AA_590 第 69 列")&&src.includes("'這學期，還有一件事沒做完。':'學姊（AA_590 第 65 列")); }
 });
 
 H.done();
