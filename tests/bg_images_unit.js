@@ -48,7 +48,7 @@ check('2f. 自由出行第一批四個景點的底圖（DL-06，LAWWW2-B）：d0
   check('2p. 第三批後五張接上：亞利桑那公路旁（兩條路線開頭）、白天的大峽谷（10/9 第一眼看到峽谷）、美國服飾店、法圖旁邊的簡餐、公館家聚；傍晚告白的「峽谷」不借白天那張',K.every(k=>B[k]&&B[k].image==='assets/bg/'+k+'.webp'&&fs.existsSync(path.join(ROOT,B[k].image)))&&ok.every(([f,x])=>rd(f).includes(x))&&(y4b.match(/\{scene:'亞利桑那',bg:'az_roadside'\}/g)||[]).length===2&&(y4b.match(/\{scene:'大峽谷',bg:'az_canyon'\}/g)||[]).length===2&&!/\{scene:'峽谷',bg:'az_canyon'\}/.test(y4b),ok.filter(([f,x])=>!rd(f).includes(x)).map(([f,x])=>x).join('、')); }
 { const K=['gc_rim_sunset','us_chapel_snow','lawlib_steps_night','taipei_botanical_winter','botanical_lotus'];   // 第四批第 1～5 張（使用者 11-02 生成）
   const rd=f=>fs.readFileSync(path.join(ROOT,f),'utf8');
-  const ok=[['src/data/r2y4b_events.js',"{scene:'峽谷',bg:'gc_rim_sunset'}"],['src/data/r2y4a_events.js',"{scene:'小教堂前的台階',bg:'us_chapel_snow'}"],['src/data/sis_y2y3_events.js',"{scene:'法圖外面的台階',bg:'lawlib_steps_night'}"],['src/data/sis_b4_events.js',"{scene:'臺北植物園',bg:'taipei_botanical_winter'}"]];
+  const ok=[['src/data/r2y4b_events.js',"{scene:'峽谷',bg:'gc_rim_sunset'}"],['src/data/r2y4a_events.js',"{scene:'小教堂前的台階',bg:'us_chapel_steps_snow'}"],['src/data/sis_y2y3_events.js',"{scene:'法圖外面的台階',bg:'lawlib_steps_night'}"],['src/data/sis_b4_events.js',"{scene:'臺北植物園',bg:'taipei_botanical_winter'}"]];
   check('2q. 第四批前五張接上：傍晚的峽谷（告白兩場）、下雪的小教堂台階（初雪兩場）、法圖外面的台階、冬天的植物園、荷花池',K.every(k=>B[k]&&B[k].image==='assets/bg/'+k+'.webp'&&fs.existsSync(path.join(ROOT,B[k].image)))&&ok.every(([f,x])=>rd(f).includes(x))&&(rd('src/data/r2y4b_events.js').match(/\{scene:'峽谷',bg:'gc_rim_sunset'\}/g)||[]).length===2,ok.filter(([f,x])=>!rd(f).includes(x)).map(([f,x])=>x).join('、')); }
 { const K=['sis_lab_room','community_room','community_gate','sis_room_moving','csie_corridor'];   // 第四批第 6～10 張（使用者 11-02 生成）
   const rd=f=>fs.readFileSync(path.join(ROOT,f),'utf8');
@@ -77,7 +77,7 @@ check('2f. 自由出行第一批四個景點的底圖（DL-06，LAWWW2-B）：d0
   const miss=ok.filter(([f,t])=>!rd(f).includes(t));
   const G0=global.GAME; const at=(y,m,d)=>{ global.GAME={G:{day:global.CALENDAR?CALENDAR.dayOfYMD?CALENDAR.dayOfYMD(y,m,d):0:0}}; };
   check('2v. 第七批前五張接上：七夕港邊的山上、日本最後一晚的便利商店（八月）、行李箱的店；美國湖邊兩張季節版登記',K.every(k=>B[k]&&B[k].image==='assets/bg/'+k+'.webp'&&fs.existsSync(path.join(ROOT,B[k].image)))&&!miss.length,JSON.stringify(miss)); global.GAME=G0; }
-{ const K=['sf_photo_cablecar','sf_photo_chowder','sf_photo_postbox','us_farmers_market','us_chapel_steps_snow'];   // 第七批第 6～10 張（使用者 11-02，BB_132 第 104 組；us_chapel_steps_snow 先登記，12/2 兩場照舊用第四批的 us_chapel_snow，換不換 BB 定）
+{ const K=['sf_photo_cablecar','sf_photo_chowder','sf_photo_postbox','us_farmers_market','us_chapel_steps_snow'];   // 第七批第 6～10 張（使用者 11-02，BB_132 第 104 組；12/2 兩場照 BB 987cdace 換成 us_chapel_steps_snow（和秋天的 us_chapel_steps 同角度），us_chapel_snow 留著當備用）
   const rd=f=>fs.readFileSync(path.join(ROOT,f),'utf8'); const t=rd('src/data/r2y4a_events.js');
   check('2w. 第七批後五張接上：舊金山三張手機照片（ev_sf_photo17／19／21）、週六農夫市集；下雪的小教堂台階登記',K.every(k=>B[k]&&B[k].image==='assets/bg/'+k+'.webp'&&fs.existsSync(path.join(ROOT,B[k].image)))&&/'ev_sf_photo17'[^\n]*'sf_photo_cablecar'\)/.test(t)&&/'ev_sf_photo19'[^\n]*'sf_photo_chowder'\)/.test(t)&&/'ev_sf_photo21'[^\n]*'sf_photo_postbox'\)/.test(t)); }
 { const noImg=Object.keys(B).find(k=>!B[k].image&&k!=='car')||'zzz_not_registered';   // nccu_dorm 10-17 有圖了（3d4d1969）：改挑一個登記了、還沒有圖的背景
