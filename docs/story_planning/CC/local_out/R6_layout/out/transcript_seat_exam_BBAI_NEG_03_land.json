@@ -52,11 +52,11 @@
   "dlg": {
    "rect": {
     "l": 42,
-    "t": 271.2,
+    "t": 272.3,
     "r": 802,
-    "b": 376,
+    "b": 376.3,
     "w": 760,
-    "h": 104.8
+    "h": 103.9
    },
    "cls": [],
    "vis": true,
@@ -67,36 +67,36 @@
   "dlgText": "1／5　甲向乙買二手機車，簽發一張本票給乙。乙把本票背書轉讓給不知情、也沒有惡意的丙。後來甲發現機車有瑕疵、和乙的買賣契約解除了。丙向甲請求票款，甲可不可以用「我跟乙的買賣已經解除」拒絕付款？",
   "samples": [
    {
-    "x": 131.6,
-    "y": 307.3,
+    "x": 131.3,
+    "y": 308,
     "inDlg": true,
     "inCh": false,
     "el": "dlgText"
    },
    {
     "x": 422,
-    "y": 307.3,
+    "y": 308,
     "inDlg": true,
     "inCh": false,
     "el": "dlgText"
    },
    {
-    "x": 712.4,
-    "y": 307.3,
+    "x": 712.7,
+    "y": 308,
     "inDlg": true,
     "inCh": false,
     "el": "dlgText"
    },
    {
-    "x": 276.8,
-    "y": 345.6,
+    "x": 276.6,
+    "y": 346.4,
     "inDlg": true,
     "inCh": false,
     "el": "dlgText"
    },
    {
-    "x": 567.2,
-    "y": 345.6,
+    "x": 567.4,
+    "y": 346.4,
     "inDlg": true,
     "inCh": false,
     "el": "dlgText"
@@ -125,9 +125,9 @@
   "btns": []
  },
  "shots": {
-  "q_say": "C:\\Users\\USER\\Documents\\Lawstudent_cclocal\\docs\\story_planning\\CC\\local_out\\R6_layout\\out\\09_seat_exam_BBAI_NEG_03_land_q1_say.png",
-  "choices": "C:\\Users\\USER\\Documents\\Lawstudent_cclocal\\docs\\story_planning\\CC\\local_out\\R6_layout\\out\\10_seat_exam_BBAI_NEG_03_land_q1_choices.png",
-  "next_say": "C:\\Users\\USER\\Documents\\Lawstudent_cclocal\\docs\\story_planning\\CC\\local_out\\R6_layout\\out\\11_seat_exam_BBAI_NEG_03_land_q2_say.png"
+  "q_say": "C:\\Users\\USER\\Documents\\Lawstudent_cclocal\\docs\\story_planning\\CC\\local_out\\R6_layout\\out\\07_seat_exam_BBAI_NEG_03_land_q1_say.png",
+  "choices": "C:\\Users\\USER\\Documents\\Lawstudent_cclocal\\docs\\story_planning\\CC\\local_out\\R6_layout\\out\\08_seat_exam_BBAI_NEG_03_land_q1_choices.png",
+  "next_say": "C:\\Users\\USER\\Documents\\Lawstudent_cclocal\\docs\\story_planning\\CC\\local_out\\R6_layout\\out\\09_seat_exam_BBAI_NEG_03_land_q2_say.png"
  },
  "seat": {
   "pose": "read",
@@ -147,11 +147,11 @@
   "dlg": {
    "rect": {
     "l": 14,
-    "t": 220,
+    "t": 221.2,
     "r": 416,
-    "b": 376,
+    "b": 376.3,
     "w": 402,
-    "h": 156
+    "h": 155.1
    },
    "cls": [
     "static",
@@ -165,36 +165,36 @@
   "dlgText": "1／5　甲向乙買二手機車，簽發一張本票給乙。乙把本票背書轉讓給不知情、也沒有惡意的丙。後來甲發現機車有瑕疵、和乙的買賣契約解除了。丙向甲請求票款，甲可不可以用「我跟乙的買賣已經解除」拒絕付款？",
   "samples": [
    {
-    "x": 67.8,
-    "y": 271.4,
+    "x": 67.5,
+    "y": 272.1,
     "inDlg": true,
     "inCh": false,
     "el": "dlgText"
    },
    {
     "x": 215,
-    "y": 271.4,
+    "y": 272.1,
     "inDlg": true,
     "inCh": false,
     "el": "dlgText"
    },
    {
-    "x": 362.2,
-    "y": 271.4,
+    "x": 362.5,
+    "y": 272.1,
     "inDlg": true,
     "inCh": false,
     "el": "dlgText"
    },
    {
-    "x": 141.4,
-    "y": 335.4,
+    "x": 141.2,
+    "y": 336.1,
     "inDlg": true,
     "inCh": false,
     "el": "dlgText"
    },
    {
-    "x": 288.6,
-    "y": 335.4,
+    "x": 288.8,
+    "y": 336.1,
     "inDlg": true,
     "inCh": false,
     "el": "dlgText"
@@ -203,11 +203,11 @@
   "ch": {
    "rect": {
     "l": 430,
-    "t": 115,
+    "t": 116.1,
     "r": 830,
-    "b": 362,
+    "b": 362.3,
     "w": 400,
-    "h": 247
+    "h": 246.1
    },
    "cls": [],
    "vis": true,
@@ -215,17 +215,17 @@
    "grid": "none",
    "left": "430px",
    "width": "400px",
-   "scrollH": 247,
-   "clientH": 247
+   "scrollH": 246,
+   "clientH": 246
   },
   "btns": [
    {
     "t": "（A）可以，原因關係不存在，票據也跟著無效",
     "rect": {
      "l": 430,
-     "t": 115,
+     "t": 116.1,
      "r": 830,
-     "b": 161,
+     "b": 162.1,
      "w": 400,
      "h": 46
     }
@@ -234,20 +234,20 @@
     "t": "（B）不可以；票據債務人不得以自己與執票人之前手間所存抗辯之事由對抗執票人，除非執票人取得票據出於惡意",
     "rect": {
      "l": 430,
-     "t": 169,
+     "t": 170.1,
      "r": 830,
-     "b": 254,
+     "b": 254.3,
      "w": 400,
-     "h": 85
+     "h": 84.1
     }
    },
    {
     "t": "（C）可以，只要甲能證明機車有瑕疵",
     "rect": {
      "l": 430,
-     "t": 262,
+     "t": 262.3,
      "r": 830,
-     "b": 308,
+     "b": 308.3,
      "w": 400,
      "h": 46
     }
@@ -256,9 +256,9 @@
     "t": "（D）可以，但要先付一半",
     "rect": {
      "l": 430,
-     "t": 316,
+     "t": 316.3,
      "r": 830,
-     "b": 362,
+     "b": 362.3,
      "w": 400,
      "h": 46
     }
@@ -280,11 +280,11 @@
   "dlg": {
    "rect": {
     "l": 42,
-    "t": 296,
+    "t": 297.1,
     "r": 802,
-    "b": 376,
+    "b": 376.3,
     "w": 760,
-    "h": 80
+    "h": 79.1
    },
    "cls": [],
    "vis": true,
@@ -295,36 +295,36 @@
   "dlgText": "2／5　依票據法第1條，票據法所稱的「票據」是哪三種？",
   "samples": [
    {
-    "x": 131.6,
-    "y": 324.6,
+    "x": 131.3,
+    "y": 325.3,
     "inDlg": true,
     "inCh": false,
     "el": "dlgText"
    },
    {
     "x": 422,
-    "y": 324.6,
+    "y": 325.3,
     "inDlg": true,
     "inCh": false,
     "el": "dlgText"
    },
    {
-    "x": 712.4,
-    "y": 324.6,
+    "x": 712.7,
+    "y": 325.3,
     "inDlg": true,
     "inCh": false,
     "el": "dlgText"
    },
    {
-    "x": 276.8,
-    "y": 350.6,
+    "x": 276.6,
+    "y": 351.3,
     "inDlg": true,
     "inCh": false,
     "el": "dlgText"
    },
    {
-    "x": 567.2,
-    "y": 350.6,
+    "x": 567.4,
+    "y": 351.3,
     "inDlg": true,
     "inCh": false,
     "el": "dlgText"
@@ -365,11 +365,11 @@
   "dlg": {
    "rect": {
     "l": 42,
-    "t": 296,
+    "t": 297.1,
     "r": 802,
-    "b": 376,
+    "b": 376.3,
     "w": 760,
-    "h": 80
+    "h": 79.1
    },
    "cls": [],
    "vis": true,
@@ -380,36 +380,36 @@
   "dlgText": "2／5　依票據法第1條，票據法所稱的「票據」是哪三種？",
   "samples": [
    {
-    "x": 131.6,
-    "y": 324.6,
+    "x": 131.3,
+    "y": 325.3,
     "inDlg": true,
     "inCh": false,
     "el": "dlgText"
    },
    {
     "x": 422,
-    "y": 324.6,
+    "y": 325.3,
     "inDlg": true,
     "inCh": false,
     "el": "dlgText"
    },
    {
-    "x": 712.4,
-    "y": 324.6,
+    "x": 712.7,
+    "y": 325.3,
     "inDlg": true,
     "inCh": false,
     "el": "dlgText"
    },
    {
-    "x": 276.8,
-    "y": 350.6,
+    "x": 276.6,
+    "y": 351.3,
     "inDlg": true,
     "inCh": false,
     "el": "dlgText"
    },
    {
-    "x": 567.2,
-    "y": 350.6,
+    "x": 567.4,
+    "y": 351.3,
     "inDlg": true,
     "inCh": false,
     "el": "dlgText"
@@ -445,22 +445,22 @@
     "坐中間的位子",
     "自己找位子"
    ],
-   "h": 13.552,
-   "ms": 43660
+   "h": 13.55,
+   "ms": 41139
   },
   {
    "k": "say",
    "n": "",
    "t": "考卷發下來。票據及支付工具法期末考。五題。",
-   "h": 13.552,
-   "ms": 51910
+   "h": 13.55,
+   "ms": 50228
   },
   {
    "k": "say",
    "n": "",
    "t": "1／5　甲向乙買二手機車，簽發一張本票給乙。乙把本票背書轉讓給不知情、也沒有惡意的丙。後來甲發現機車有瑕疵、和乙的買賣契約解除了。丙向甲請求票款，甲可不可以用「我跟乙的買賣已經解除」拒絕付款？",
-   "h": 13.552,
-   "ms": 52936
+   "h": 13.55,
+   "ms": 51357
   },
   {
    "k": "choose",
@@ -470,15 +470,15 @@
     "（C）可以，只要甲能證明機車有瑕疵",
     "（D）可以，但要先付一半"
    ],
-   "h": 13.552,
-   "ms": 55402
+   "h": 13.55,
+   "ms": 61189
   },
   {
    "k": "say",
    "n": "",
    "t": "2／5　依票據法第1條，票據法所稱的「票據」是哪三種？",
-   "h": 13.552,
-   "ms": 57486
+   "h": 13.55,
+   "ms": 63610
   }
  ],
  "sha": "b1b249873",

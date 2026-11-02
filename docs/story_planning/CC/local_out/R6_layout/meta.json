@@ -1,15 +1,15 @@
-﻿{
-    "rerun":  "",
-    "id":  "R6_layout",
-    "sha":  "b1b249873",
-    "kind":  "probe",
-    "script":  "docs/story_planning/test_tools/cc/cc_layout16_probe.py",
-    "env":  "CASES=seat_exam,adv_safe,recall2",
-    "machine":  "MSI",
-    "start":  "2026-11-02T20:57:34",
-    "end":  "2026-11-02T21:07:01",
-    "seconds":  567,
-    "exit":  1,
-    "error":  null,
-    "url":  "http://127.0.0.1:8801/index.html?turbo"
+{
+  "rerun": "fmt1102",
+  "id": "R6_layout",
+  "sha": "b1b249873",
+  "kind": "probe",
+  "script": "docs/story_planning/test_tools/cc/cc_layout16_probe.py",
+  "env": "CASES=seat_exam,adv_safe,recall2;RERUN=fmt1102",
+  "machine": "MSI",
+  "start": "2026-11-03T03:32:54",
+  "end": "2026-11-03T03:45:00",
+  "seconds": 726,
+  "exit": 1,
+  "error": null,
+  "url": "http://127.0.0.1:8802/index.html?turbo"
 }

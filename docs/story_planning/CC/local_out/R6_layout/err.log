@@ -1,50 +1,30 @@
-Traceback (most recent call last):
-  File "C:\Users\USER\Documents\Lawstudent_cclocal\docs\story_planning\test_tools\cc\cc_layout16_probe.py", line 351, in exam_pass
-    run.check('%s：下一題那一句 #dlg 回到原位（left、bottom 和第 1 題那一句一樣 ±%g px、沒有 side／static）' % tag,
-              ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~^~~~~
-TypeError: not enough arguments for format string (got 1)
-[gpu_wrap 64.1s] page close url=http://127.0.0.1:8801/index.html?turbo
-[gpu_wrap 64.1s] BROWSER DISCONNECTED
-Traceback (most recent call last):
-  File "C:\Users\USER\Documents\Lawstudent_cclocal\docs\story_planning\test_tools\cc\cc_layout16_probe.py", line 351, in exam_pass
-    run.check('%s：下一題那一句 #dlg 回到原位（left、bottom 和第 1 題那一句一樣 ±%g px、沒有 side／static）' % tag,
-              ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~^~~~~
-TypeError: not enough arguments for format string (got 1)
-[gpu_wrap 118.7s] page close url=http://127.0.0.1:8801/index.html?turbo
-[gpu_wrap 118.7s] BROWSER DISCONNECTED
-Traceback (most recent call last):
-  File "C:\Users\USER\Documents\Lawstudent_cclocal\docs\story_planning\test_tools\cc\cc_layout16_probe.py", line 351, in exam_pass
-    run.check('%s：下一題那一句 #dlg 回到原位（left、bottom 和第 1 題那一句一樣 ±%g px、沒有 side／static）' % tag,
-              ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~^~~~~
-TypeError: not enough arguments for format string (got 1)
-[gpu_wrap 179.5s] page close url=http://127.0.0.1:8801/index.html?turbo
-[gpu_wrap 179.5s] BROWSER DISCONNECTED
-Traceback (most recent call last):
-  File "C:\Users\USER\Documents\Lawstudent_cclocal\docs\story_planning\test_tools\cc\cc_layout16_probe.py", line 351, in exam_pass
-    run.check('%s：下一題那一句 #dlg 回到原位（left、bottom 和第 1 題那一句一樣 ±%g px、沒有 side／static）' % tag,
-              ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~^~~~~
-TypeError: not enough arguments for format string (got 1)
-[gpu_wrap 233.4s] page close url=http://127.0.0.1:8801/index.html?turbo
-[gpu_wrap 233.4s] BROWSER DISCONNECTED
-Traceback (most recent call last):
-  File "C:\Users\USER\Documents\Lawstudent_cclocal\docs\story_planning\test_tools\cc\cc_layout16_probe.py", line 351, in exam_pass
-    run.check('%s：下一題那一句 #dlg 回到原位（left、bottom 和第 1 題那一句一樣 ±%g px、沒有 side／static）' % tag,
-              ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~^~~~~
-TypeError: not enough arguments for format string (got 1)
-[gpu_wrap 287.4s] page close url=http://127.0.0.1:8801/index.html?turbo
-[gpu_wrap 287.5s] BROWSER DISCONNECTED
-Traceback (most recent call last):
-  File "C:\Users\USER\Documents\Lawstudent_cclocal\docs\story_planning\test_tools\cc\cc_layout16_probe.py", line 351, in exam_pass
-    run.check('%s：下一題那一句 #dlg 回到原位（left、bottom 和第 1 題那一句一樣 ±%g px、沒有 side／static）' % tag,
-              ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~^~~~~
-TypeError: not enough arguments for format string (got 1)
-[gpu_wrap 338.1s] page close url=http://127.0.0.1:8801/index.html?turbo
-[gpu_wrap 338.1s] BROWSER DISCONNECTED
-[gpu_wrap 382.7s] page close url=http://127.0.0.1:8801/index.html?turbo
-[gpu_wrap 382.7s] BROWSER DISCONNECTED
-[gpu_wrap 426.9s] page close url=http://127.0.0.1:8801/index.html?turbo
-[gpu_wrap 426.9s] BROWSER DISCONNECTED
-[gpu_wrap 483.1s] page close url=http://127.0.0.1:8801/index.html?turbo
-[gpu_wrap 483.1s] BROWSER DISCONNECTED
-[gpu_wrap 538.3s] page close url=http://127.0.0.1:8801/index.html?turbo
-[gpu_wrap 538.3s] BROWSER DISCONNECTED
+[gpu_wrap 1.1s] headed slot 1: --window-position=920,0 --window-size=900,900 --window-name=CC 測試中，請勿點選 [R6_layout]
+[gpu_wrap 57.0s] page close url=http://127.0.0.1:8802/index.html?turbo
+[gpu_wrap 57.1s] BROWSER DISCONNECTED
+[gpu_wrap 57.9s] headed slot 1: --window-position=920,0 --window-size=900,900 --window-name=CC 測試中，請勿點選 [R6_layout]
+[gpu_wrap 109.5s] page close url=http://127.0.0.1:8802/index.html?turbo
+[gpu_wrap 109.6s] BROWSER DISCONNECTED
+[gpu_wrap 110.5s] headed slot 1: --window-position=920,0 --window-size=900,900 --window-name=CC 測試中，請勿點選 [R6_layout]
+[gpu_wrap 177.4s] page close url=http://127.0.0.1:8802/index.html?turbo
+[gpu_wrap 177.5s] BROWSER DISCONNECTED
+[gpu_wrap 178.3s] headed slot 1: --window-position=920,0 --window-size=900,900 --window-name=CC 測試中，請勿點選 [R6_layout]
+[gpu_wrap 237.3s] page close url=http://127.0.0.1:8802/index.html?turbo
+[gpu_wrap 237.4s] BROWSER DISCONNECTED
+[gpu_wrap 238.2s] headed slot 1: --window-position=920,0 --window-size=900,900 --window-name=CC 測試中，請勿點選 [R6_layout]
+[gpu_wrap 305.5s] page close url=http://127.0.0.1:8802/index.html?turbo
+[gpu_wrap 305.6s] BROWSER DISCONNECTED
+[gpu_wrap 306.4s] headed slot 1: --window-position=920,0 --window-size=900,900 --window-name=CC 測試中，請勿點選 [R6_layout]
+[gpu_wrap 422.7s] page close url=http://127.0.0.1:8802/index.html?turbo
+[gpu_wrap 422.7s] BROWSER DISCONNECTED
+[gpu_wrap 423.3s] headed slot 1: --window-position=920,0 --window-size=900,900 --window-name=CC 測試中，請勿點選 [R6_layout]
+[gpu_wrap 479.6s] page close url=http://127.0.0.1:8802/index.html?turbo
+[gpu_wrap 479.7s] BROWSER DISCONNECTED
+[gpu_wrap 480.4s] headed slot 1: --window-position=920,0 --window-size=900,900 --window-name=CC 測試中，請勿點選 [R6_layout]
+[gpu_wrap 537.5s] page close url=http://127.0.0.1:8802/index.html?turbo
+[gpu_wrap 537.6s] BROWSER DISCONNECTED
+[gpu_wrap 538.3s] headed slot 1: --window-position=920,0 --window-size=900,900 --window-name=CC 測試中，請勿點選 [R6_layout]
+[gpu_wrap 608.1s] page close url=http://127.0.0.1:8802/index.html?turbo
+[gpu_wrap 608.2s] BROWSER DISCONNECTED
+[gpu_wrap 608.9s] headed slot 1: --window-position=920,0 --window-size=900,900 --window-name=CC 測試中，請勿點選 [R6_layout]
+[gpu_wrap 674.2s] page close url=http://127.0.0.1:8802/index.html?turbo
+[gpu_wrap 674.2s] BROWSER DISCONNECTED

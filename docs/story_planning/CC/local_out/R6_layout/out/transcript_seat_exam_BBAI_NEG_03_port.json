@@ -38,7 +38,7 @@
    "BBAI_NEG_05"
   ]
  },
- "route": "goclass-forced",
+ "route": "goclass",
  "base": {
   "W": 390,
   "H": 844,
@@ -125,9 +125,9 @@
   "btns": []
  },
  "shots": {
-  "q_say": "C:\\Users\\USER\\Documents\\Lawstudent_cclocal\\docs\\story_planning\\CC\\local_out\\R6_layout\\out\\13_seat_exam_BBAI_NEG_03_port_q1_say.png",
-  "choices": "C:\\Users\\USER\\Documents\\Lawstudent_cclocal\\docs\\story_planning\\CC\\local_out\\R6_layout\\out\\14_seat_exam_BBAI_NEG_03_port_q1_choices.png",
-  "next_say": "C:\\Users\\USER\\Documents\\Lawstudent_cclocal\\docs\\story_planning\\CC\\local_out\\R6_layout\\out\\15_seat_exam_BBAI_NEG_03_port_q2_say.png"
+  "q_say": "C:\\Users\\USER\\Documents\\Lawstudent_cclocal\\docs\\story_planning\\CC\\local_out\\R6_layout\\out\\10_seat_exam_BBAI_NEG_03_port_q1_say.png",
+  "choices": "C:\\Users\\USER\\Documents\\Lawstudent_cclocal\\docs\\story_planning\\CC\\local_out\\R6_layout\\out\\11_seat_exam_BBAI_NEG_03_port_q1_choices.png",
+  "next_say": "C:\\Users\\USER\\Documents\\Lawstudent_cclocal\\docs\\story_planning\\CC\\local_out\\R6_layout\\out\\12_seat_exam_BBAI_NEG_03_port_q2_say.png"
  },
  "seat": {
   "pose": "read",
@@ -444,38 +444,22 @@
     "坐中間的位子",
     "自己找位子"
    ],
-   "h": 13.552,
-   "ms": 37235
-  },
-  {
-   "k": "choose",
-   "t": [
-    "坐中間的位子",
-    "自己找位子"
-   ],
-   "h": 13.552,
-   "ms": 43168
+   "h": 13.55,
+   "ms": 40660
   },
   {
    "k": "say",
    "n": "",
    "t": "考卷發下來。票據及支付工具法期末考。五題。",
-   "h": 13.552,
-   "ms": 43698
-  },
-  {
-   "k": "say",
-   "n": "",
-   "t": "考卷發下來。票據及支付工具法期末考。五題。",
-   "h": 13.552,
-   "ms": 45176
+   "h": 13.55,
+   "ms": 49621
   },
   {
    "k": "say",
    "n": "",
    "t": "1／5　甲向乙買二手機車，簽發一張本票給乙。乙把本票背書轉讓給不知情、也沒有惡意的丙。後來甲發現機車有瑕疵、和乙的買賣契約解除了。丙向甲請求票款，甲可不可以用「我跟乙的買賣已經解除」拒絕付款？",
-   "h": 13.552,
-   "ms": 46417
+   "h": 13.55,
+   "ms": 50918
   },
   {
    "k": "choose",
@@ -485,15 +469,15 @@
     "（C）可以，只要甲能證明機車有瑕疵",
     "（D）可以，但要先付一半"
    ],
-   "h": 13.552,
-   "ms": 48738
+   "h": 13.55,
+   "ms": 53533
   },
   {
    "k": "say",
    "n": "",
    "t": "2／5　依票據法第1條，票據法所稱的「票據」是哪三種？",
-   "h": 13.552,
-   "ms": 50688
+   "h": 13.55,
+   "ms": 55811
   }
  ],
  "sha": "b1b249873",

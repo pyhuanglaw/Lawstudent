@@ -25,8 +25,8 @@
  },
  "safe_how": "cdp",
  "shots": {
-  "q_say": "C:\\Users\\USER\\Documents\\Lawstudent_cclocal\\docs\\story_planning\\CC\\local_out\\R6_layout\\out\\27_adv_safe_BBAI_NEG_03_safe47_q1_say.png",
-  "choices": "C:\\Users\\USER\\Documents\\Lawstudent_cclocal\\docs\\story_planning\\CC\\local_out\\R6_layout\\out\\28_adv_safe_BBAI_NEG_03_safe47_q1_choices.png"
+  "q_say": "C:\\Users\\USER\\Documents\\Lawstudent_cclocal\\docs\\story_planning\\CC\\local_out\\R6_layout\\out\\20_adv_safe_BBAI_NEG_03_safe47_q1_say.png",
+  "choices": "C:\\Users\\USER\\Documents\\Lawstudent_cclocal\\docs\\story_planning\\CC\\local_out\\R6_layout\\out\\21_adv_safe_BBAI_NEG_03_safe47_q1_choices.png"
  },
  "choose": {
   "W": 844,
@@ -165,14 +165,14 @@
    "n": "",
    "t": "考卷發下來。票據及支付工具法期末考。五題。",
    "h": 13.373,
-   "ms": 38317
+   "ms": 49473
   },
   {
    "k": "say",
    "n": "",
    "t": "1／5　甲向乙買二手機車，簽發一張本票給乙。乙把本票背書轉讓給不知情、也沒有惡意的丙。後來甲發現機車有瑕疵、和乙的買賣契約解除了。丙向甲請求票款，甲可不可以用「我跟乙的買賣已經解除」拒絕付款？",
    "h": 13.373,
-   "ms": 39638
+   "ms": 51435
   },
   {
    "k": "choose",
@@ -183,7 +183,7 @@
     "（D）可以，但要先付一半"
    ],
    "h": 13.373,
-   "ms": 41757
+   "ms": 53911
   }
  ],
  "sha": "b1b249873",

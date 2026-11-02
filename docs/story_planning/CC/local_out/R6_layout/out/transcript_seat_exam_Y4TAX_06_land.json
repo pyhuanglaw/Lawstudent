@@ -38,7 +38,7 @@
    "Y4TAX_01"
   ]
  },
- "route": "goclass",
+ "route": "goclass-forced",
  "base": {
   "W": 844,
   "H": 390,
@@ -125,9 +125,9 @@
   "btns": []
  },
  "shots": {
-  "q_say": "C:\\Users\\USER\\Documents\\Lawstudent_cclocal\\docs\\story_planning\\CC\\local_out\\R6_layout\\out\\17_seat_exam_Y4TAX_06_land_q1_say.png",
-  "choices": "C:\\Users\\USER\\Documents\\Lawstudent_cclocal\\docs\\story_planning\\CC\\local_out\\R6_layout\\out\\18_seat_exam_Y4TAX_06_land_q1_choices.png",
-  "next_say": "C:\\Users\\USER\\Documents\\Lawstudent_cclocal\\docs\\story_planning\\CC\\local_out\\R6_layout\\out\\19_seat_exam_Y4TAX_06_land_q2_say.png"
+  "q_say": "C:\\Users\\USER\\Documents\\Lawstudent_cclocal\\docs\\story_planning\\CC\\local_out\\R6_layout\\out\\13_seat_exam_Y4TAX_06_land_q1_say.png",
+  "choices": "C:\\Users\\USER\\Documents\\Lawstudent_cclocal\\docs\\story_planning\\CC\\local_out\\R6_layout\\out\\14_seat_exam_Y4TAX_06_land_q1_choices.png",
+  "next_say": "C:\\Users\\USER\\Documents\\Lawstudent_cclocal\\docs\\story_planning\\CC\\local_out\\R6_layout\\out\\15_seat_exam_Y4TAX_06_land_q2_say.png"
  },
  "seat": {
   "pose": "read",
@@ -445,22 +445,39 @@
     "坐在沈以安旁邊",
     "自己找位子"
    ],
-   "h": 13.553,
-   "ms": 37333
+   "h": 13.552,
+   "ms": 46131
+  },
+  {
+   "k": "choose",
+   "t": [
+    "坐中間的位子",
+    "坐在沈以安旁邊",
+    "自己找位子"
+   ],
+   "h": 13.552,
+   "ms": 52782
   },
   {
    "k": "say",
    "n": "",
    "t": "考卷發下來。財稅法期末考。五題。",
-   "h": 13.553,
-   "ms": 45021
+   "h": 13.552,
+   "ms": 55307
+  },
+  {
+   "k": "say",
+   "n": "",
+   "t": "考卷發下來。財稅法期末考。五題。",
+   "h": 13.552,
+   "ms": 56830
   },
   {
    "k": "say",
    "n": "",
    "t": "1／5　在中華民國境內居住的個人甲，2025年買進一間房屋（不是自住，也沒有調職、非自願離職等特殊情形），持有一年後出售而有交易所得。依所得稅法第14條之4，這筆房屋、土地交易所得適用的稅率是多少？",
-   "h": 13.553,
-   "ms": 46153
+   "h": 13.552,
+   "ms": 58224
   },
   {
    "k": "choose",
@@ -470,15 +487,15 @@
     "（C）百分之三十五",
     "（D）百分之四十五"
    ],
-   "h": 13.553,
-   "ms": 48681
+   "h": 13.552,
+   "ms": 61387
   },
   {
    "k": "say",
    "n": "",
    "t": "2／5　依納稅者權利保護法第7條，稅捐稽徵機關認定課徵租稅之構成要件事實時，應以什麼為依據？",
-   "h": 13.553,
-   "ms": 50723
+   "h": 13.552,
+   "ms": 63967
   }
  ],
  "sha": "b1b249873",
