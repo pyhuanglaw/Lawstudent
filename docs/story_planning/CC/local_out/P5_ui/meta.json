@@ -1,0 +1,17 @@
+{
+  "rerun": "",
+  "id": "P5_ui",
+  "sha": "ef63b1877",
+  "kind": "probe",
+  "script": "docs/story_planning/test_tools/cc/cc_next1102_ui_probe.py",
+  "env": "SHA=ef63b1877;CASES=examgoal,psbhbg;ORIENTS=port,land",
+  "machine": "MSI",
+  "start": "2026-11-03T05:56:27",
+  "end": "2026-11-03T06:01:54",
+  "seconds": 327,
+  "exit": 0,
+  "error": null,
+  "runner": "b46848d180",
+  "rf_round": "3",
+  "url": "http://127.0.0.1:8808/index.html"
+}
