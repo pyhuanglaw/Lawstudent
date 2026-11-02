@@ -1,6 +1,6 @@
-/* ===== 日本那一學期（AA_341，AA-C 2026-10-20 定稿，企劃線 c2c5a66e；J-S1～S19、G0～G9）：出發前住臺北的家 → 3/25 出發 → 2D 的據點（國際學生宿舍）→ 8/5 回程 =====
+/* ===== 日本那一學期（AA_341，AA-C 2026-10-20 定稿，企劃線 c2c5a66e；J-S1～S19、G0～G9）：出發前住家裡 → 3/25 出發 → 2D 的據點（國際學生宿舍）→ 8/5 回程 =====
    原本（AA_341 J-S10）：ev_an_depart_jp 演完沒有進日本，玩家留在臺灣的 3D 區域，3/25～8/4 照樣能走校園、去 Café、約臺灣的朋友、打工，8/5 也沒有回程。
-   - 出發：y34b3d.js 的 S.departJP 演完 → JP.arrive：離開臺北的家、進 3D 的空區域 jp_hub（看不到：畫面是 2D 的據點，home3d.js 的 backdrop 把 3D 藏起來）。
+   - 出發：y34b3d.js 的 S.departJP 演完 → JP.arrive：離開家、進 3D 的空區域 jp_hub（看不到：畫面是 2D 的據點，home3d.js 的 backdrop 把 3D 藏起來）。
      E08（2026-10-27）：departJP 先到 3D 的出境大廳（exchange3d.js EXCH.airGo），安檢入口「登機」以後 Y34B.departFly 演登機口、飛往日本，這裡包住 departFly 進據點。
      手機和時鐘是日本時間（台灣＋1，STORY.tzOffset）。日本路線的玩家 3/25 一定出發（J-S12：交往中、挽回中都是；睡過頭、那天在出遊，醒來就出發）。
    - 人在日本（JP.inJapan(G)＝STORY.inJapan(G)：日本路線、出發了、還沒回來）：story3d.js S.tick 在事件包的 STORY.TICKS 之後叫 JP.tick（在家判斷之前）→ 據點的選單 JP.loop：
@@ -11,9 +11,9 @@
    - 快轉、睡覺（J-S3）：到下一個有事的日子／過三天／過一週；停在 JP.SCH、開發分支其他事件包在日本那幾個月的時間（JP.KNOWN、JP.STOPS、STORY.WAKE_AT）、約好的出遊（AA_326 大三後半在日本的事件都是出遊）、特別的課、回程。
      日期卡寫「宿舍」，手機規則每小時跑一次。玩家選的快轉：途中收到要回的訊息就停、打開手機（「跳過」接著跳；AA_340 6-1 H2，同 home3d.js）；選單前有沒開過的要回的訊息也先打開手機（D103）。
      X58（使用者 10-18 15:4x）：快轉、睡覺的途中收到任何一則訊息（不用回的也算）都停、打開手機，「跳過」接著跳；跳完不再說「收到 N 則」。
-   - 住臺北的家（J-S11）：2/20 退宿（r2y3a3d.js 2-Y3-25）以後到 3/25 出發、8/5 回來以後到 9/3 搬進 409：home3d.js 的 loop 交給 JP.homeRound——沒有「回宿舍」，有「出門」、快轉（摘要日 G0）；
+   - 住家裡（J-S11）：2/20 退宿（r2y3a3d.js 2-Y3-25）以後到 3/25 出發、8/5 回來以後到 9/3 搬進 409：home3d.js 的 loop 交給 JP.homeRound——沒有「回宿舍」，有「出門」、快轉（摘要日 G0）；
      宿舍進不去（story3d.js populate、game3d.js 的手機「地點」）。
-   - 8/5 回程（J-S9、J-S19）：入境大廳（AA_253 9-2）→ 回臺北的家（AA_144 X2）→ 當晚 1A-08（story3d.js，在家的版本）；大三暑假三選一不演（裁定 10）。時間換回臺灣時間。
+   - 8/5 回程（J-S9、J-S19）：入境大廳（AA_253 9-2）→ 回家（AA_144 X2）→ 當晚 1A-08（story3d.js，在家的版本）；大三暑假三選一不演（裁定 10）。時間換回臺灣時間。
    - 台灣的大三下（J-S6、J-S15）：日本路線不排台灣的課、不跳開學和期中期末的提示（classes3d.js 問 JP.skipTerm）；成績單只有日本的兩門（日本語不算學分），回來以後照公布日在早上發。
      大四下補修（AA_144 X4；以安不補修，裁定 7）：courses.js 的 civpro_2_re、insurance_re（route JP；redo＝重播大三下那一門的 syllabus）。
    - 以安的手機（G9、J-S16）、時差（J-S7、J-S13、AA_342 C6：group3d.js、y34b3d.js、r2y3a3d.js、r2y3b3d.js、home3d.js、holff3d.js、vac3d.js 各自換算；這裡包住 MSG.replyAt、STORY.DAILY_PHONE）、
@@ -58,7 +58,7 @@ const JP=(function(){
   S.inJapan=G=>S.departed(G)&&G.flags.JP_RETURNED==null;   /* 人在日本：出發以後、回程以前 */
   S.returned=G=>isJP(G)&&!!G.flags&&G.flags.JP_RETURNED!=null;
   S.movedOut=G=>isJP(G)&&!!G.flags&&G.flags.X1_JP!=null&&!G.flags.ROOM_Y4;   /* 2/20 退宿以後到搬進 409：台灣沒有宿舍（AA_158 第 4 節「住處」）*/
-  S.homeOn=G=>S.movedOut(G)&&!S.inJapan(G);   /* 住臺北的家：出發前（2/20～3/25）、回來以後（8/5～9/3）*/
+  S.homeOn=G=>S.movedOut(G)&&!S.inJapan(G);   /* 住家裡：出發前（2/20～3/25）、回來以後（8/5～9/3）*/
   S.place=G=>S.inJapan(G)?(S.rec(G).place||'room'):null;
   S.hasRoom3d=()=>typeof Z3!=='undefined'&&!!Z3.ZONES&&!!Z3.ZONES.jp_room&&typeof JP_DORM_LAYOUTS!=='undefined'&&!!JP_DORM_LAYOUTS.jp_room;
   S.room3d=G=>!!G&&G.zone==='jp_room'&&S.hasRoom3d();   /* 人在 3D 的「你的房間」 */
@@ -103,7 +103,7 @@ const JP=(function(){
       await GM.say(null,line); }
     if(G.hour<it.t1) GM.advance(it.t1-G.hour);
     if(A&&A.active&&A.setBg) A.setBg(S.bgNow(G)); return true; };
-  /* ---------------- 要演的事（G0～G8；AA_341 第 3 節）：[key, 日期, 幾點, 在哪（home＝住臺北的家／jp＝日本）, 條件]；sum＝摘要日的一句（照抄）；ev＝事件（data/jp_events.js）---------------- */
+  /* ---------------- 要演的事（G0～G8；AA_341 第 3 節）：[key, 日期, 幾點, 在哪（home＝住家裡／jp＝日本）, 條件]；sum＝摘要日的一句（照抄）；ev＝事件（data/jp_events.js）---------------- */
   S.SCH=[
     {k:'g0_s1',d:'2028-02-27',h:18.5,w:'home',sum:'（不用上課的第一週。你每天早上還是七點醒。）'},
     {k:'g0_s2',d:'2028-03-06',h:18.5,w:'home',sum:'（你把日文課本的第一課念了五遍。）'},
@@ -256,7 +256,7 @@ const JP=(function(){
     else if(typeof HOME!=='undefined'){ if(HOME.dueInvites&&HOME.dueInvites(G).length) return 'stop'; const be=HOME.breakEvent||HOME.homeEvent; if(be&&be(G)) return 'stop'; if(STORY.y4HomeDue&&STORY.y4HomeDue(G)) return 'stop'; }
     return null; };
   const setTime=(G,E,tt)=>{ const d=Math.floor(tt/24+1e-9); if(d>G.day){ G.day=d; G.weekday=wdOf(d); if(G.flags) G.flags.companion=null; G.weather=Math.random()<0.7?'clear':'cloudy'; } G.hour=tt-d*24; if(E) E.hour=G.hour; };   /* 同 home3d.js 的快轉 */
-  /* 跳到 t（where＝'jp'：日本的據點；'home'：臺北的家）：每 15 分鐘看要不要停；整點跑手機規則、生活費。
+  /* 跳到 t（where＝'jp'：日本的據點；'home'：家）：每 15 分鐘看要不要停；整點跑手機規則、生活費。
      X58（使用者 10-18 15:4x「跳過途中收到訊息就跳出來、按了繼續跳；不要跳完才說「收到 N 則」」）：途中收到任何一則別人傳的訊息（不用回的也算）就停在那一刻（回傳 'msg'）——
      呼叫的人打開手機（S.ffPhone，「跳過」）、關掉以後接著跳（S.ff 快轉、S.sleep 睡覺）；跳完不再說「收到 N 則」（同 home3d.js 的 breakJump、經濟系 y0Jump）*/
   const recvN=out=>(out||[]).filter(m=>m&&m.from!=='player'&&!m.quiet).length;   /* 這一批裡別人傳的（祐廷自己那一句不算「收到」；同 HOME.recvN）*/
@@ -271,7 +271,7 @@ const JP=(function(){
       const nx=S.nextStop(G,tt,where); if(nx!=null&&nx<t) t=nx; }
     if(!why&&NOW(G)<t-1e-6) setTime(G,E,t);
     if(E&&E.setWeather) E.setWeather(G.weather); if(GM.updateHUD) GM.updateHUD();
-    const brief=G.day===d0&&NOW(G)-t0<1; if(GM.titleCard&&!brief) await GM.titleCard(dateLabel(NOW(G)),where==='jp'?'宿舍':'臺北的家',2200);   /* J-S3：日期卡寫「宿舍」*/
+    const brief=G.day===d0&&NOW(G)-t0<1; if(GM.titleCard&&!brief) await GM.titleCard(dateLabel(NOW(G)),where==='jp'?'宿舍':'家',2200);   /* J-S3：日期卡寫「宿舍」*/
     const A=A_(); if(A&&A.begin) A.begin({background:where==='jp'?S.bgNow(G):(typeof HOME!=='undefined'&&HOME.bgNow?HOME.bgNow():'dark')}); await GM.fade(false);
     if(mo&&GM.toast) GM.toast(mo.text,3800); /* 收到 N 則：改成途中一則一則停下來看（上面 why＝'msg'），跳完不再統計（X58）*/ if(n&&GM.phoneBadge) GM.phoneBadge(); if(GM.autosave) GM.autosave(); return why||'end'; };
   /* 玩家選的快轉：停在要回的訊息＝打開手機（「跳過」關掉），關掉以後接著跳到原本選的日子（同 home3d.js 的 S.ffMenu；AA_340 6-1 H2、D103）；X58 起不用回的也停 */
@@ -388,12 +388,12 @@ const JP=(function(){
     { const ev=evOf('ev_jp_return_hall'); if(ev&&typeof EVENTS!=='undefined') await EVENTS.run(ev); }   /* 入境大廳（AA_253 9-2）*/
     S.cancelTW(G);
     GM.sceneBegin();
-    try{ await GM.fade(true); if(GM.titleCard) await GM.titleCard('回臺北的家','機場捷運＋捷運　約 1 小時',2400); GM.advance(1);
+    try{ await GM.fade(true); if(GM.titleCard) await GM.titleCard('回家','機場捷運＋捷運　約 1 小時',2400); GM.advance(1);
       if(typeof HOME!=='undefined'&&HOME.rec){ const H=HOME.rec(G); H.at=true; H.day=G.day; H.wakeAsk=null; if(A&&A.begin) A.begin({background:HOME.bgNow?HOME.bgNow():'dark'}); }
       await GM.fade(false); await GM.say(null,S.X2); if(typeof HOME!=='undefined'&&HOME.pick) await S.momSay(GM,HOME.pick(G,'arrive')); if(GM.memo) GM.memo('從日本回來'); if(GM.autosave) GM.autosave(); }
     finally{ GM.sceneEnd(); }
     return true; };   /* 之後 home3d.js 的 loop：當晚 20:00 1A-08「大四要怎麼過？」（STORY.y4HomeDue）、9/3 搬進 409 */
-  /* ---------------- 住臺北的家（J-S11；home3d.js 的 loop 每一輪叫）---------------- */
+  /* ---------------- 住家裡（J-S11；home3d.js 的 loop 每一輪叫）---------------- */
   S.goList=function(G){ const L=typeof PLACES!=='undefined'&&PLACES.quickList?PLACES.quickList():[], V=G.visited||{}, K0=(typeof PLACES!=='undefined'&&PLACES.known0)||{};
     return ['公館商圈','阿鳳麵店','溫州街','兩點半 Café','校門口'].map(n=>L.find(p=>p[1]===n)).filter(p=>p&&(K0[p[0]]||V[p[0]])); };   /* 出門：照手機「地點」的名字；店要去過一次（D54 ①）*/
   S.homeRound=async function(GM){ const G=GM.G, H=HOME.rec(G), h=G.hour, A=A_(), bg=()=>HOME.bgNow?HOME.bgNow():'dark';
@@ -414,9 +414,9 @@ const JP=(function(){
     const o=O[await GM.choose(O,{menu:true})]||O.find(x=>x.k==='sleep');
     if(o.k==='save'){ if(GM.saveMenu) await GM.saveMenu(); return H.at; }
     if(o.k==='out'){ const call=S.callLike(o.q); H.at=false; if(A&&A.end) A.end(); const ok=await OUT.go(GM,o.q,{fromHome:true});
-      if(ok&&!o.q.goto){ if(!call){ await GM.fade(true); if(GM.titleCard) await GM.titleCard('回臺北的家','捷運＋公車 約 30 分鐘',2000); GM.advance(0.5); } H.at=true; H.day=G.day; if(A&&A.begin) A.begin({background:bg()}); if(!call) await GM.fade(false); return true; }   /* 同 home3d.js 的 breakRound */
+      if(ok&&!o.q.goto){ if(!call){ await GM.fade(true); if(GM.titleCard) await GM.titleCard('回家','捷運＋公車 約 30 分鐘',2000); GM.advance(0.5); } H.at=true; H.day=G.day; if(A&&A.begin) A.begin({background:bg()}); if(!call) await GM.fade(false); return true; }   /* 同 home3d.js 的 breakRound */
       if(!ok&&!(typeof EXCH!=='undefined'&&EXCH.airPending&&EXCH.airPending(G))){ H.at=true; if(A&&A.begin) A.begin({background:bg()}); return true; }   /* 去了出境大廳等登機（E08，寒暑假出國）不算沒出門 */
-      if(o.q.goto&&GM.toast) GM.toast('要回家：手機「地點」→ 回臺北的家（或走到校門口）。',5200); return false; }
+      if(o.q.goto&&GM.toast) GM.toast('要回家：手機「地點」→ 回家（或走到校門口）。',5200); return false; }
     if(o.k==='inv'){ await HOME.leaveTo(GM,o.P); return false; }
     if(o.k==='go'){ const L=S.goList(G), k=await GM.choose(L.map(p=>({t:p[1]})).concat([{t:'不用了'}]),{menu:true}), p=L[k]; if(!p) return H.at; await HOME.leaveTo(GM,{name:p[1],zone:p[0],spawn:p[2]||undefined}); return false; }
     if(o.k==='phone'){ if(GM.phoneThread){ if(A&&A.end) A.end(); await GM.phoneThread(null); if(A&&A.begin) A.begin({background:bg()}); } return H.at; }
@@ -445,7 +445,7 @@ const JP=(function(){
   if(typeof Y34B!=='undefined'&&Y34B.departResume){ const rs0=Y34B.departResume; Y34B.departResume=async function(GM){ const r=await rs0.apply(this,arguments); if(r) await S.arrive(GM); return r; }; }   /* 登機口那一段演完就關掉的存檔：接著飛往日本 → 日本的據點（y34b3d.js S.departResume）*/
   if(typeof HOME!=='undefined'){ const live0=HOME.livesHome, can0=HOME.canGo;
     if(live0) HOME.livesHome=function(G){ return S.homeOn(G)||live0.apply(this,arguments); };   /* 從家裡出發、出遊演完回家 */
-    if(can0) HOME.canGo=function(G){ if(S.inJapan(G)) return false; if(typeof EXCH!=='undefined'&&EXCH.airPending&&EXCH.airPending(G)) return false; if(S.homeOn(G)) return true; return can0.apply(this,arguments); }; }   /* 在出境大廳等登機（E08）：不能回家 */   /* 人在日本：手機沒有「回臺北的家」；住家裡：隨時可以回家 */
+    if(can0) HOME.canGo=function(G){ if(S.inJapan(G)) return false; if(typeof EXCH!=='undefined'&&EXCH.airPending&&EXCH.airPending(G)) return false; if(S.homeOn(G)) return true; return can0.apply(this,arguments); }; }   /* 在出境大廳等登機（E08）：不能回家 */   /* 人在日本：手機沒有「回家」；住家裡：隨時可以回家 */
   if(STORY.forceHome){ const f0=STORY.forceHome; let forcing=false;
     (globalThis.LOADLOCKS=globalThis.LOADLOCKS||{})['jp3d:forcing']=()=>{ forcing=false; };   /* 讀檔時放開（LOADGEN-LOCKS-1028）：讀檔凍住的舊劇情走不到 finally，只把旗標設回初始值 */
     STORY.forceHome=async function(GM){ const G=GM.G; if(S.inJapan(G)) return;   /* 據點自己處理凌晨（JP.loop）*/

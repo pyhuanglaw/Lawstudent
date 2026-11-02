@@ -62,7 +62,7 @@ const SISY23_EVENTS=(function(){
     {if:{custom:G=>!dating(G)&&heardUS(G)},speaker:ID,text:'之前跟你提過。'},
     {if:{custom:G=>!dating(G)&&heardUS(G)},speaker:ID,text:'……申請送出去了。今天才覺得是真的。'},
     {unless:dt,choice:[{text:'「去啊。」',goto:'us_a'},{text:'「那妳會回來吧？」',goto:'us_b'}]},
-    {if:dt,speaker:ID,text:'你們系的交換名單，美國那間我查過了。跟我同一個學期。'},
+    {if:dt,speaker:ID,text:'系上的交換名單，美國那間我查過了。跟我同一個學期。'},
     {if:dt,speaker:ID,text:'你如果去，我們同一班飛機。'},
     {if:dt,choice:[{text:'「好。」',goto:'us_c'},{text:'（握住她的手）',goto:'us_d'}]},
     {label:'us_a'},SIS('嗯。'),N('（她把計畫本闔上）'),SIS('……你說得好簡單。'),{goto:'us_end'},

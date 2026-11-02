@@ -231,7 +231,7 @@ const answer=(id,k)=>PHONE.answer(G,id,k);
   await card924('dorm'); at('2027-09-28',22); said=[]; opts=[]; picks=[1]; await tickWait();
   check('B6. 選「不打。」：沒有視訊、記 {2027:false}、不再問', !V3.some(t=>has(t))&&!!G.flags.ZR_BDAY_CALL&&G.flags.ZR_BDAY_CALL[2027]===false&&!Y2B.bdayDue(G)&&!OUT.get(G,'y3_zr_bday_call'));
   await card924('dorm'); at('2027-09-28',22.6); check('B6. 22:30 以後才有空：不問（這一通沒有）', !Y2B.bdayDue(G));
-  await card924('dorm'); at('2027-09-28',22); G.home={at:true}; check('B6. 人在臺北的家：不問', Y2B.tick(GM,0.6)===false); delete G.home;
+  await card924('dorm'); at('2027-09-28',22); G.home={at:true}; check('B6. 人在家：不問', Y2B.tick(GM,0.6)===false); delete G.home;
   fresh('2027-09-28',22,'dorm'); R('heroine_02','FAM'); Y2B.tick(GM,0.6); check('B6. 沒讀 9/24 那張（沒收到明信片）：不問', !Y2B.bdayDue(G)&&Y2B.tick(GM,0.6)===false&&!G.flags.ZR_BDAY_CALL);
   await card924('cafe',{},'kexin');
   check('B6. 寄到 Café 的常客版（和可昕交往）：背面沒有那一行；9/28 不問', said.length>0&&!has(BACK)&&(at('2027-09-28',22),!Y2B.bdayDue(G)), JSON.stringify(said.map(s=>s.t)));

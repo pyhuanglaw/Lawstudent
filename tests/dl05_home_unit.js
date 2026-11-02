@@ -50,7 +50,7 @@ const choices=()=>opts.map(o=>o.join('｜'));
       check('6. 週一第一堂是期末考：「今晚住家裡」變灰、寫「明天早上期末考，回宿舍睡吧」、選了也不住',(choices()[0]||'').includes('今晚住家裡')&&toasts.some(t=>/明天早上期末考，回宿舍睡吧/.test(t))&&G.day===exS,JSON.stringify(toasts)); }
     else check('6. 前提：找得到週一第一堂是期末考的週日',false); }
   { const FRI=termDay('Y1S1',5,5), SAT=FRI+1; fresh(FRI,21,'dorm',{introDone:true,classDone:true,afternoonDone:true}); HOME.rec(G).at=true; HOME.rec(G).eat={day:FRI}; G.invites=[{id:'iv_sat',who:'heroine_01',place:'library',day:SAT,h:10,state:'accepted'}];
-    let woke=null; const tc=GM.titleCard; GM.titleCard=async(a,b)=>{ if(/臺北的家/.test(b||'')) woke={day:G.day,h:G.hour}; }; picks=['睡覺','回宿舍']; await HOME.loop(GM); GM.titleCard=tc;
+    let woke=null; const tc=GM.titleCard; GM.titleCard=async(a,b)=>{ if(/家/.test(b||'')) woke={day:G.day,h:G.hour}; }; picks=['睡覺','回宿舍']; await HOME.loop(GM); GM.titleCard=tc;
     check('7. 週六早上約在學校（10:00）：週五晚上在家睡，週六 09:10 醒（開始前 50 分鐘）',!!woke&&woke.day===SAT&&Math.abs(woke.h-(10-50/60))<0.02,JSON.stringify(woke)); }
   /* BUG-HOME-REST-NOCAP-1027（BB-C 10-27）：凌晨 2:30 以後家的選單不出「在家休息一下」（休息可以一直按、日子不換）；23:00 照舊有 */
   { const WED=termDay('Y1S1',6,3); fresh(WED,23,'dorm',{introDone:true,classDone:true,afternoonDone:true}); HOME.rec(G).at=true; HOME.rec(G).eat={day:WED}; picks=['回宿舍']; await HOME.loop(GM); const o23=opts[0]||[];

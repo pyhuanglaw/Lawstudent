@@ -474,7 +474,7 @@ const VAC=(function(){
   /* ===== E08：寒暑假出國從 3D 的出境大廳出發（使用者 10-16 21:49「3d做機場 旅館 街景 這種都我給妳CG」、10-17 00:0x「機場的也是阿」；src/exchange3d.js 的 EXCH.airGo）=====
      出國的那一趟（出國活動 trip：C05、T02、T03、C08～C12、C18／C18W；C13 自己排的出國旅遊 T13#；VA10 麵店團香港）時間到了「出發」（3D 的出發選單、放假住家裡的「出發」）：
      原本那一張字卡（標題＋「去機場 約 1 小時」）→ 3D 出境大廳（一起出發的人跟在旁邊）→ 走到安檢入口「登機」（或進大廳一小時以後自動登機）
-     → 原本的整趟照舊演（OUT.go：中間的日子 S.jump、關鍵事件、台詞都沒改）→ 演完回到出發前的地方（宿舍等；放假住家裡的＝回臺北的家）。
+     → 原本的整趟照舊演（OUT.go：中間的日子 S.jump、關鍵事件、台詞都沒改）→ 演完回到出發前的地方（宿舍等；放假住家裡的＝回家）。
      存檔：那一趟出遊 q.state＝'airport'（在大廳等登機：OUT 不會再問「出發」、不會算沒去）、q.airFrom（出發前在哪裡）、q.airHome（從家裡出發）、q.airDone（登機了）；G.flags.AIR_DEP（EXCH）。舊存檔都沒有＝照舊。
      進大廳就演：C05、T02、C08 的「出發」那一幕（關鍵事件的 hall:true，AA_478 第 2 節；S.airHallScene）、T03 子晴和阿凱各一句（hallLines，第 3 節；T02 方奕廷兩句接在「出發」後面）；
      其他（C09～C12、C18、VA10、C13）照舊只跟著走、不加話。C10 的那一場改成「抵達」、留在下飛機以後（資料）。
@@ -518,21 +518,21 @@ const VAC=(function(){
     const L=S.hallKeys(G,q); if(!L.length) return false;
     GM.sceneBegin(); try{ for(const x of L) await S.key(GM,x.k,x.I); } finally{ if(typeof ADV!=='undefined'&&ADV.active&&ADV.end) ADV.end(); GM.sceneEnd(); }
     return true; };
-  /* 登機：原本的整趟（OUT.go；已經到了、字卡出過了）。從家裡出發的演完回臺北的家（同 home3d.js breakRound「出遊演完回家」）*/
+  /* 登機：原本的整趟（OUT.go；已經到了、字卡出過了）。從家裡出發的演完回家（同 home3d.js breakRound「出遊演完回家」）*/
   S.airBoardTrip=async function(GM,rec){ const G=GM.G, q=typeof OUT!=='undefined'&&OUT.get?OUT.get(G,rec.q):null;
     if(!q||q.state!=='airport'){ await S.airBack(GM,q,false); return false; }   /* 找不到那一趟（不該發生）：回到出發前的地方 */
     q.state='flying'; q.arrived=true; q.airDone=true;   /* flying：登機了、整趟演完以前（OUT 不會再問「出發」、不會算沒去；途中存的檔讀回來接著演，S.airResume）*/
     return S.airFly(GM,q,S.flyCard(G,q)); };   /* 「飛往〇〇」字卡（AA_478 第 1 節）*/
-  /* 整趟（OUT.go；已經到了、去機場的字卡出過了）。從家裡出發的（OUT.go 不換區域）演完回臺北的家；3D 出發的在 OUT.go 結尾就換回去了（S.airStage）*/
+  /* 整趟（OUT.go；已經到了、去機場的字卡出過了）。從家裡出發的（OUT.go 不換區域）演完回家；3D 出發的在 OUT.go 結尾就換回去了（S.airStage）*/
   S._fly=new Set();   /* 正在演的那一趟（不存檔）*/
   (globalThis.LOADLOCKS=globalThis.LOADLOCKS||{})['vac3d:_fly']=()=>{ S._fly.clear(); };   /* 讀檔時放開（LOADGEN-LOCKS-1028）：讀檔凍住的舊劇情走不到 finally，只把旗標設回初始值 */
   S.airFly=async function(GM,q,card){ const G=GM.G; S._fly.add(q.id);
     try{ const ok=await OUT.go(GM,q,{fromHome:!!q.airHome,noCard:true,card:card||null}); if(G.zone==='airport_dep') await S.airBack(GM,q,false); return ok; }
     finally{ S._fly.delete(q.id); } };
-  /* 回到出發前的地方：放假住家裡＝回臺北的家（字卡「回臺北的家」；inFade＝在 OUT.go 結尾的黑幕裡，不出字卡）；其他＝出發前站的地方（找不到＝宿舍房間）*/
+  /* 回到出發前的地方：放假住家裡＝回家（字卡「回家」；inFade＝在 OUT.go 結尾的黑幕裡，不出字卡）；其他＝出發前站的地方（找不到＝宿舍房間）*/
   S.airBack=async function(GM,q,inFade){ const G=GM.G; if(G.zone!=='airport_dep') return false;
     if(q&&q.airHome&&typeof HOME!=='undefined'&&HOME.livesHome&&HOME.livesHome(G)){ const H=HOME.rec(G);
-      if(!inFade){ await GM.fade(true); if(GM.titleCard) await GM.titleCard('回臺北的家','捷運＋公車 約 30 分鐘',2000); GM.advance(0.5); }
+      if(!inFade){ await GM.fade(true); if(GM.titleCard) await GM.titleCard('回家','捷運＋公車 約 30 分鐘',2000); GM.advance(0.5); }
       H.at=true; H.day=G.day; if(typeof ADV!=='undefined'&&ADV.begin) ADV.begin({background:HOME.bgNow?HOME.bgNow():'dark'}); if(!inFade) await GM.fade(false); return true; }   /* 家裡的選單：story3d.js 的 HOME.tick 接著 */
     const f0=q&&q.airFrom, fine=!!f0&&!!f0.zone&&f0.zone!=='airport_dep'&&(typeof Z3==='undefined'||!Z3.ZONES||!!Z3.ZONES[f0.zone]), f=fine?f0:{zone:'dorm',x:0,z:2.4,yaw:Math.PI,lv:0};
     if(GM.enter) await GM.enter(f.zone,{x:f.x,z:f.z,yaw:f.yaw||0,lv:f.lv|0},inFade?{noFade:true,deferStory:true,noAutosave:true}:{}); return true; };

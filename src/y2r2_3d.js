@@ -170,7 +170,7 @@ const Y2R2=(function(){
     after:G=>{ const F=G.flags; merge(G,'KX_VDAY',{2:'video'}); if(F._y2Vwx){ merge(G,'KX_VDAY_WX',{2:F._y2Vwx}); delete F._y2Vwx; } } });
   /* ---------- 電話（演出來的；call:true 在家也不用出門）：除夕「打給妳。」、生日的電話版、K14 沒見面、芷若錄取那晚 ---------- */
   EV.push({ id:'ev_kexin_lunar_eve_y2_call', title:'除夕的電話', participants:['kexin'], location:'any', trigger:'outing', once:true, background:'dark', hours:0.25, kxAway:true,
-    dialogue:[ {scene:'電話',bg:'home_living'},   /* 祐廷在臺北的家（AA_325 2-Y2-11 第 1 節）*/
+    dialogue:[ {scene:'電話',bg:'home_living'},   /* 祐廷在家（AA_325 2-Y2-11 第 1 節）*/
       {speaker:null,text:'（你打過去。她那邊的鞭炮聲還沒停。）'},
       {speaker:'kexin',expression:'neutral',text:'……你那邊好安靜。'},
       {speaker:null,text:'（她後面有人在喊她。）'},
@@ -507,7 +507,7 @@ const Y2R2=(function(){
     /* 5/21（五）22:00 阿凱私訊（不影響 6/11 暑住的選擇）*/
     { const m=d('f521'); if(m!=null&&knows('kai',G)&&win(G,m,22,1)&&!sent(G,'y2s2_kai_summer')){ const A=t=>({th:'p:kai',from:'kai',text:t});
         at(G,m,22,[Object.assign(A('暑假你回家還是留宿舍'),{ask:{id:'y2s2_kai_summer',until:abs(m+2,22),opts:[{t:'還沒想。',say:[{from:'kai',text:'我也是。'}]},{t:'回家吧。',say:[{from:'kai',text:'那我一個人吃宵夜'}]}]}})],'y2s2_kai_summer'); } } };
-  /* 摘要日的旁白（3/6（六）、5/20（四））：學期中沒有摘要日的停點——那一天（08:00 起）第一次空下來的時候說一句；在臺北的家不說，隔天還沒說到照說（STORY.TICKS）*/
+  /* 摘要日的旁白（3/6（六）、5/20（四））：學期中沒有摘要日的停點——那一天（08:00 起）第一次空下來的時候說一句；在家不說，隔天還沒說到照說（STORY.TICKS）*/
   S.SUM_LINES=[['f306','（大二下的第二週。你終於記住了這學期的課表：週二要跑法律系館B。）'],['f520','（五月。宿舍走廊開始有人在討論暑假要去哪裡。）']];
   let sumBusy=false;
   (globalThis.LOADLOCKS=globalThis.LOADLOCKS||{})['y2r2_3d:sumBusy']=()=>{ sumBusy=false; };   /* 讀檔時放開（LOADGEN-LOCKS-1028）：讀檔凍住的舊劇情走不到 finally，只把旗標設回初始值 */

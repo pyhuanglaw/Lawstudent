@@ -1,7 +1,7 @@
 /* ===== 臺灣路線逐週補空白的接線：大二上、大三下、大四（AA_342 第 2-1、3-2、4 節；任務 AA342-COVERAGE-1021）=====
    台詞在 src/data/twfill_events.js（TWFILL_LINES、TWFILL_EVENTS，照 AA_342 不改字）。這個檔只接線：
    - STORY.PHONE_RULES：群組（麵店團、家人、公法讀書會）在那一天一開始就排好（PHONE.at），晚兩天以上才讀到的不補（同 y3fill3d.js）；私訊（阿凱、媽媽、柏翰）；
-     5/10 家人群組回「回。」＝5/14 18:00 臺北的家（出遊）；4/26 回「去。」＝4/28 10:00 椰林大道（出遊），沒去＝4/28 12:30 群組照片；5/4 畢業紀念冊三選一記 F.YEARBOOK_LINE。
+     5/10 家人群組回「回。」＝5/14 18:00 家（出遊）；4/26 回「去。」＝4/28 10:00 椰林大道（出遊），沒去＝4/28 12:30 群組照片；5/4 畢業紀念冊三選一記 F.YEARBOOK_LINE。
    - STORY.TICKS：在學期間的摘要日（4/12、5/26、11/3、12/8）：那一天 18:30 以後第一個空檔出日期卡＋一行旁白（同 y3fill3d.js）；只出一次（G.flags.TW_SUMS）；那一天過了不補。
    - 服務學習（二）10/7、11/18 那一堂的旁白（CLS.attend 外面包一層，那一堂把 serviceLines 換成這一句；同 fit3d.js 包 CLS.attend 的做法）；11/18 那句接 10/7（看過 10/7 才換）。
    - 海商法期末考的旁白（原本期中考 4/11；D118 沒有期中考，AA_578 第 2 節 #2）：CLS.runExam 外面包一層，考卷前先說。
@@ -83,9 +83,9 @@ const TWFILL=(function(){
 
   /* ===================== 出遊 ===================== */
   const plan=(G,q)=>{ if(typeof OUT==='undefined'||!OUT.plan||OUT.get(G,q.id)) return; OUT.plan(G,q); };
-  /* 3-2 母親節：5/10 回「回。」＝5/14（日）18:00 臺北的家；「這週不行。」或沒回：沒有後續 */
+  /* 3-2 母親節：5/10 回「回。」＝5/14（日）18:00 家；「這週不行。」或沒回：沒有後續 */
   S.momDay=function(G){ const F=G.flags, d=D('2028-05-14'); if(d==null||F.Y3_MOM_DAY!=='go'||now(G)>=T(d,18.5)) return;
-    plan(G,{id:'tw_y3_mom_day',ev:'ev_y3_mothers_day',day:d,h:18,late:0.5,place:'臺北的家',title:'母親節（臺北的家）',travel:'捷運＋公車 約 40 分鐘',travelH:2/3,back:'回到宿舍。'}); };
+    plan(G,{id:'tw_y3_mom_day',ev:'ev_y3_mothers_day',day:d,h:18,late:0.5,place:'家',title:'母親節（家）',travel:'捷運＋公車 約 40 分鐘',travelH:2/3,back:'回到宿舍。'}); };
   /* 4-2 學士服拍照：4/26 回「去。」＝4/28（六）10:00 椰林大道；沒去（沒回、沒出發、遲到太久）＝12:30 Alison 在群組傳照片 */
   S.gradPhoto=function(G){ const F=G.flags, d=D('2029-04-28'); if(d==null) return;
     if(F.Y4_GRAD_PHOTO==='go'&&now(G)<T(d,10.25)) plan(G,{id:'tw_y4_grad_photo',ev:'ev_y4_grad_photo',day:d,h:10,late:0.25,place:'椰影大道',title:'學士服拍照（椰影大道）',travel:'走過去約 10 分鐘',travelH:1/6});

@@ -105,7 +105,7 @@ const dateSis=()=>{ H.G.flags['dating_'+ID]=true; ROM.get(H.G,ID).status='dating
   { setup('2027-11-03',19.5,'lawlib','FAMILIAR'); const e=X().preTalkEv(H.G); H.said=[]; H.picks=[0]; await X().preTalk(GM); const L=H.said.map(s=>s.t);
     check('6. 11/3（三）晚上在法圖第一次找她說話：「明年夏天，我想去美國待一個學期。研究交換。」…「計畫本上寫了很久。今天才決定要跟人說。」；「去啊。」→「嗯。」（她把計畫本闔上）「……你說得好簡單。」；SIS_US_TOLD here',e==='ev_sis_us_told'&&L[0]==='明年夏天，我想去美國待一個學期。研究交換。'&&L.includes('計畫本上寫了很久。今天才決定要跟人說。')&&J(L.slice(-3))===J(['嗯。','（她把計畫本闔上）','……你說得好簡單。'])&&H.G.flags.SIS_US_TOLD==='here'&&SOCIAL.has(ID,'SIS_US_TOLD'),J(L)); }
   { setup('2027-11-04',20,'cafe','FAMILIAR'); dateSis(); H.said=[]; H.picks=[1]; await X().preTalk(GM); const L=H.said.map(s=>s.t);
-    check('6. 交往中：「你們系的交換名單，美國那間我查過了。……」「你如果去，我們同一班飛機。」；「（握住她的手）」→「（她沒有說話。手翻過來，握回去。）」；沒有「計畫本上寫了很久」',L.includes('你如果去，我們同一班飛機。')&&L[L.length-1]==='（她沒有說話。手翻過來，握回去。）'&&!L.includes('計畫本上寫了很久。今天才決定要跟人說。'),J(L)); }
+    check('6. 交往中：「系上的交換名單，美國那間我查過了。……」「你如果去，我們同一班飛機。」；「（握住她的手）」→「（她沒有說話。手翻過來，握回去。）」；沒有「計畫本上寫了很久」',L.includes('你如果去，我們同一班飛機。')&&L[L.length-1]==='（她沒有說話。手翻過來，握回去。）'&&!L.includes('計畫本上寫了很久。今天才決定要跟人說。'),J(L)); }
   { setup('2027-11-10',20,'cafe','FAMILIAR'); const a=X().preTalkEv(H.G); setup('2027-11-11',10,'dorm','FAMILIAR'); rules(); at('2027-11-11',21.05); rules(); const q=OUT.get(H.G,'sisy23_us');
     check('6. 11/10 以後不再當面演；11/11 21:00「明天中午，總圖門口的台階。」→ 11/12 12:20 台階',a===null&&dms().slice(-1)[0]==='明天中午，總圖門口的台階。'&&!!q&&q.day===H.D('2027-11-12')&&Math.abs(q.h-(12+20/60))<1e-6,J(q));
     const L=await play('ev_sis_us_told_steps',[1]); check('6. 台階那一版：同一段（「那妳會回來吧？」→「十二月。……我不會改。」）；SIS_US_TOLD steps',L.includes('十二月。回程的日子，計畫本上寫好了。我不會改。')&&H.G.flags.SIS_US_TOLD==='steps'); }

@@ -41,8 +41,8 @@ const SISB15_EVENTS=(function(){
     dialogue:[{scene:'法圖・討論室',bg:'law_library'}].concat(lines,[{set:{['SIS15_STUDY_'+n]:true}},metEnd]) });
   return [
     /* ---------- 1-1 筆試前兩週（大一寒假 2026-01-14 週三 14:00～17:00，總圖寒假閱覽區）---------- */
-    Y1({id:'ev_sis15_flask',title:'空的保溫瓶',location:'library',time:[14,17]},[
-      N('（她坐在靠窗那排，桌上攤著三本書，旁邊一個空的保溫瓶。看到你，她把保溫瓶推過來一點。）'),
+    Y1({id:'ev_sis15_flask',title:'裝熱水',location:'library',time:[14,17]},[
+      N('（她坐在靠窗那排，桌上攤著三本書，旁邊一個保溫瓶。看到你，她拿起保溫瓶，指了指外面的飲水機。）'),
       SIS('幫我看一下東西。……我去裝熱水。'),
       N('（她回來的時候，你還坐在旁邊。）'),
       SIS('謝謝。考試前，連裝熱水都要算時間。'),

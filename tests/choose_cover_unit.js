@@ -41,8 +41,8 @@ const tick=()=>new Promise(r=>setImmediate(r));
   // 1～3：床邊選單被第 2 層的選單蓋掉
   let bedGot=null; const bed=(async()=>{ GM.sceneBegin(); const i=await GM.choose([{t:'睡到明天早上'},{t:'再撐一下'}]); GM.sceneEnd(); bedGot=i; })();
   await tick(); check('1a. 床邊選單開著（第 1 層）',JSON.stringify(shown())==='["睡到明天早上","再撐一下"]'&&D.busyDepth===1,JSON.stringify(shown()));
-  let otherGot=null; const other=(async()=>{ GM.sceneBegin(); const k=await GM.choose([{t:'出發：臺北的家樓下 14:00'},{t:'不去了'}]); otherGot=k; await tick(); GM.sceneEnd(); })();
-  await tick(); check('1b. 另一段的選單蓋上去：畫面是新的、記下誰蓋的（D.coverWho）、console 有警告',JSON.stringify(shown())==='["出發：臺北的家樓下 14:00","不去了"]'&&D.busyDepth===2&&('coverWho' in D?!!D.coverWho:false)&&ctx.warns.length===1,JSON.stringify(shown())+' cover='+D.coverWho);
+  let otherGot=null; const other=(async()=>{ GM.sceneBegin(); const k=await GM.choose([{t:'出發：家樓下 14:00'},{t:'不去了'}]); otherGot=k; await tick(); GM.sceneEnd(); })();
+  await tick(); check('1b. 另一段的選單蓋上去：畫面是新的、記下誰蓋的（D.coverWho）、console 有警告',JSON.stringify(shown())==='["出發：家樓下 14:00","不去了"]'&&D.busyDepth===2&&('coverWho' in D?!!D.coverWho:false)&&ctx.warns.length===1,JSON.stringify(shown())+' cover='+D.coverWho);
   click(0); check('2. 新的選完、那一段還在第 2 層：床邊選單先不放回來',shown()===null&&otherGot===null||shown()===null,JSON.stringify(shown()));
   await other; await tick();
   check('3a. 那一段演完（回到第 1 層）：床邊選單放回來',JSON.stringify(shown())==='["睡到明天早上","再撐一下"]'&&otherGot===0&&D.busyDepth===1,JSON.stringify(shown())+' depth='+D.busyDepth);

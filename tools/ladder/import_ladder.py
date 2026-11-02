@@ -400,6 +400,13 @@ if X584:
     for n, term, path, old in drop_when:
         g = _chars584(term)['heroine_05']['greet']; g['when'] = [w for w in g['when'] if w.get('t') != old]
     out['source'] += f'＋{os.path.basename(P584)[:6]}@{S584}（學姊第二批：{len(rows)} 列、刪 {len(DROP_STEPS)} 層、S3-L6 extraIf、大四上招呼一格）'
+#      AA_595（四條新規則違反清單，任務 AA595-LIB-NOD-THERMOS-1102；「AA 處理決定」第 4 節：使用者 2026-11-02 選「改成『回家』」）：4-1 以安大一上 A-L10 第一句「寒假你回臺北的家，對吧。」→「寒假你會回家住嗎？」
+#      （AA 定稿的句子；整句相同才換，企劃線源稿自己改好了就跳過）。其他「臺北的家」都在手抄檔、程式裡，直接改 src（tests/aa595_rules_unit.js）
+X595 = _approved_md('docs/story_planning/AA_595_')
+if X595:
+    P595, S595, md595 = X595
+    _swap(f'AA_595@{S595}', md595, y1, [('4-1', 'heroine_01', '寒假你回臺北的家，對吧。', '寒假你會回家住嗎？', '「寒假你會回家住嗎？」')])
+    out['source'] += f'＋{os.path.basename(P595)[:6]}@{S595}（以安 A-L10 一句）'
 with open(dst, 'w', encoding='utf8') as fo:
     fo.write('/* 閒聊階梯（大一上；AA_135、AA_136、BB_130；README 在企劃線 docs/story_planning/ladder/）。產生器：tools/ladder/import_ladder.py（不要手改）。來源：' + out['source'] + ' */\n')
     fo.write("'use strict';\nconst LADDER=" + json.dumps(out, ensure_ascii=False) + ';\nLADDER.byTerm.Y1S1=LADDER.characters;   /* 大一上：舊的 characters／terms 照留（舊程式、舊測試讀得到）*/\n')

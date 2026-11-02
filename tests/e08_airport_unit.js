@@ -4,7 +4,7 @@
 //   E1 從 3D（宿舍）出發的 C13：進大廳、等登機（OUT 不再問、不算沒去、不能回家、「搭車離開」拿掉）→「登機」→「飛往〇〇」字卡、深色底（AA_478 第 1 節，2026-10-27 改：原本是模糊的大廳）→ 整趟照演、只出一次「去機場」字卡 → 回宿舍
 //   （AA_478 的其他項目：tests/e08_hall_unit.js）
 //   E2 一小時以後自動登機；E3 人不在大廳了＝直接登機；E4 在大廳存檔、讀檔（JSON）以後照樣登機；舊存檔沒有 AIR_DEP＝「登機」照舊只是告示
-//   E5 放假住家裡從家裡「出發」：家裡的選單收起來、到大廳；演完回臺北的家（字卡「回臺北的家」）
+//   E5 放假住家裡從家裡「出發」：家裡的選單收起來、到大廳；演完回家（字卡「回家」）
 //   E6 一起出發的人：C13 和誰去、C05 阿凱、VA10 麵店團；C11、C12 的以安（到了才遇到）不算；跟著走、不能搭話
 //   E7 日本路線 3/25：出境大廳演報到櫃台那一段（地點字幕、不換 2D 背景）→「登機」→ 登機口（2D＋CG-22）→ 飛往日本 → 抵達、進據點；當天紀錄一筆
 //   E8 沒有 3D 機場＝照原本（2D 一口氣演完）
@@ -37,7 +37,7 @@ const atDue=q=>{ H.G.day=q.day; H.G.weekday=CALENDAR.dateOf(q.day).wd%7; H.G.hou
     check('E1. 出發：原本那張字卡（標題＋「去機場 約 1 小時」）→ 進 3D 出境大廳（airport_dep）；還沒演旅程',ok===false&&H.entered.join()==='airport_dep'&&H.G.zone==='airport_dep'&&goCards()===1&&!r.done&&!H.G.flags.BACK_FROM_T13,JSON.stringify([ok,H.entered,H.cards]));
     check('E1. 等登機：G.flags.AIR_DEP＝{k:vac, q}、那一趟出遊 airport（OUT 不再問「出發」、過了時間也不算沒去）、記得從宿舍出發',!!A&&A.k==='vac'&&A.q===q.id&&q.state==='airport'&&!!q.airFrom&&q.airFrom.zone==='dorm'&&!q.airHome&&!OUT.due(H.G),JSON.stringify([A,q.state,q.airFrom]));
     { const h0=H.G.hour; H.G.hour=h0+3; const ex=OUT.expire(H.G); H.G.hour=h0; check('E1. 等登機的時候過了出發時間：不會被當成沒去',!ex.includes(q)&&q.state==='airport'); }
-    check('E1. 等登機的時候不能回臺北的家（手機「地點」沒有「回臺北的家」）',!HOME.canGo(H.G));
+    check('E1. 等登機的時候不能回家（手機「地點」沒有「回家」）',!HOME.canGo(H.G));
     hall(); const t1=tick();
     check('E1. 大廳：「搭車離開（回台北）」拿掉、「登機」還在；還不到一小時不自動登機',t1===false&&!E.interactables.some(it=>it.exit)&&E.interactables.some(it=>it.airportBoard),JSON.stringify(E.interactables.map(it=>it.label)));
     H.cards=[]; H.bgs=[]; const b=await board();
@@ -69,7 +69,7 @@ const atDue=q=>{ H.G.day=q.day; H.G.weekday=CALENDAR.dateOf(q.day).wd%7; H.G.hou
     try{ await HOME.loop(GM); } finally{ GM.choose=ch; }
     check('E5. 放假住家裡：家裡的選單「出發」→ 字卡 → 出境大廳；家裡的選單收起來（不在家、沒有被送回家）',menus.some(L=>L.some(t=>/^出發：出國旅遊/.test(t)))&&!HOME.at(H.G)&&H.G.zone==='airport_dep'&&q.state==='airport'&&q.airHome===true&&goCards()===1,JSON.stringify([H.entered,q.state,HOME.at(H.G)]));
     hall(); H.cards=[]; await board();
-    check('E5. 登機、整趟演完：回臺北的家（字卡「回臺北的家」、人在家、放假模式還在）',r.done===true&&HOME.at(H.G)&&HOME.breakMode(H.G)&&H.cards.some(c=>c[0]==='回臺北的家')&&!pending(H.G),JSON.stringify([r.done,HOME.at(H.G),H.cards.slice(-2)])); }
+    check('E5. 登機、整趟演完：回家（字卡「回家」、人在家、放假模式還在）',r.done===true&&HOME.at(H.G)&&HOME.breakMode(H.G)&&H.cards.some(c=>c[0]==='回家')&&!pending(H.G),JSON.stringify([r.done,HOME.at(H.G),H.cards.slice(-2)])); }
 
   /* ===================== E6 一起出發的人 ===================== */
   { const {q}=await plan('2026-07-01',10,'kai'); atDue(q); hall(); await OUT.go(GM,q); const A=H.G.flags.AIR_DEP||{}, n=GM.npc.kai;   /* AA_549 2-6：七月阿哲在高雄＝約不到，改阿凱 */
@@ -86,7 +86,7 @@ const atDue=q=>{ H.G.day=q.day; H.G.weekday=CALENDAR.dateOf(q.day).wd%7; H.G.hou
   { H.fresh('2028-03-25',8,'dorm',{EXCHANGE_ROUTE:'JP',EXCH_RULE:1,X1_JP:D('2028-02-20')}); H.G.acts={att:{}}; H.G.outings=[]; H.G.visited={}; GM.npc={}; HOME.rec(H.G).at=true; H.FAMILIAR('heroine_01'); H.date('heroine_01'); H.FAMILIAR('zhe'); PHONE.join(H.G,'noodle_team','麵店團');
     H.said=[]; H.cgs=[]; H.cards=[]; H.bgs=[]; H.entered=[]; caps.length=0; H.G.memo=[];
     const r=await Y34B.departJP(GM); const A=H.G.flags.AIR_DEP||null, img=b=>b&&typeof b==='object'&&/airport_departure/.test(b.image||'');
-    check('E7. 出發：字卡「出發｜桃園機場第二航廈」→ 進 3D 出境大廳（還沒飛、還沒進日本）；離開臺北的家；以安跟著',r===true&&H.entered.join()==='airport_dep'&&H.G.zone==='airport_dep'&&H.cards.some(c=>c[1]==='出發｜桃園機場第二航廈')&&H.G.flags.JP_DEPARTED==null&&!HOME.at(H.G)&&!!A&&A.k==='jp'&&JSON.stringify(A.with)===JSON.stringify(['heroine_01'])&&H.G.flags.AN_SENDOFF==='together',JSON.stringify([H.entered,A]));
+    check('E7. 出發：字卡「出發｜桃園機場第二航廈」→ 進 3D 出境大廳（還沒飛、還沒進日本）；離開家；以安跟著',r===true&&H.entered.join()==='airport_dep'&&H.G.zone==='airport_dep'&&H.cards.some(c=>c[1]==='出發｜桃園機場第二航廈')&&H.G.flags.JP_DEPARTED==null&&!HOME.at(H.G)&&!!A&&A.k==='jp'&&JSON.stringify(A.with)===JSON.stringify(['heroine_01'])&&H.G.flags.AN_SENDOFF==='together',JSON.stringify([H.entered,A]));
     check('E7. 大廳那一段（台詞照舊）：「行李我量過了，二十二公斤。……你的呢？」、麵店團、「好。走吧。」；地點字幕「桃園機場・出境大廳」但不換 2D 機場圖（背景是模糊的 3D 大廳）；登機口那一段還沒演',
       H.has('行李我量過了，二十二公斤。……你的呢？')&&H.has('兩個人都要傳照片')&&H.has('好。走吧。')&&caps.includes('桃園機場・出境大廳')&&H.bgs.includes('blur')&&!H.bgs.some(img)&&!H.has('（她靠著窗，把手帳翻到四月那一頁。）')&&!H.cgs.length,JSON.stringify([H.bgs,caps]));
     check('E7. 等登機：不能回家、不會再出發一次',!HOME.canGo(H.G)&&!Y34B.sendoffJPDue(H.G));

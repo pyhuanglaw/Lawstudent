@@ -18,7 +18,7 @@
    2-Y3-18 慈 5：第 13 週以安、芯慈在總圖三樓　2-Y3-19 K17：12/8 21:00 → 12/9 21:45 視訊；4/25 21:00 → 4/26 18:30 政大山下（日本路線＝視訊被看；不去＝21:00 照片）
    2-Y3-20 事件 13：12/16 17:00 語彤兩則、18:00～19:45 總圖三樓　2-Y3-21 聖誕：12/24 21:00 → 12/25 21:00 視訊（沒接＝一則）
    2-Y3-23 KN：2028-01-25 22:00（回覆到 1/26 09:00；「打給妳。」＝演出來的短電話；不回＝1/26 09:00 一則）　2-Y3-24 情人節：2/13 21:00 → 2/14 20:00 視訊（沒接＝20:30 兩則）
-   2-Y3-25 日本路線 X1：2/20 14:00 以後人在宿舍房間＝裝箱、搬回臺北的家（人在家＝先帶回宿舍）；21:00 柏翰兩則；2/23 10:00 系辦
+   2-Y3-25 日本路線 X1：2/20 14:00 以後人在宿舍房間＝裝箱、搬回家（人在家＝先帶回宿舍）；21:00 柏翰兩則；2/23 10:00 系辦
    測試：node tests/r2y3a_events_unit.js */
 'use strict';
 const R2Y3A=(function(){
@@ -335,14 +335,14 @@ const R2Y3A=(function(){
       await GM.say(null,'（宿舍的床墊翻起來的時候，下面有一張不知道誰的課表。）');   /* AA_377 第 18 項：507 是大三才搬進去的 */
       await GM.say(null,'（507 你那半邊空了。檯燈原本的位置，桌上留下一圈比較白的印子。）');
       if(typeof ADV!=='undefined'&&ADV.active&&ADV.end) ADV.end();
-      await GM.fade(true); if(GM.titleCard) await GM.titleCard('搬回臺北的家','計程車　約 30 分鐘',2400); GM.advance(0.5);
+      await GM.fade(true); if(GM.titleCard) await GM.titleCard('搬回家','計程車　約 30 分鐘',2400); GM.advance(0.5);
       if(typeof HOME!=='undefined'&&HOME.rec){ const H=HOME.rec(G); H.at=true; H.day=G.day; if(typeof ADV!=='undefined'&&ADV.begin) ADV.begin({background:HOME.bgNow?HOME.bgNow():'dark'}); }
       await GM.fade(false); if(GM.memo) GM.memo('退宿（日本路線）'); if(GM.autosave) GM.autosave(); }
     finally{ GM.sceneEnd(); }
-    if(typeof HOME!=='undefined'&&HOME.loop&&HOME.at(G)) await HOME.loop(GM);   /* 之後住臺北的家（2/21～3/24 不在臺大修課）：HOME 還沒有「日本路線住家裡」的模式（要 LAWWW 在 home3d.js 接 STORY.movedOut）*/
+    if(typeof HOME!=='undefined'&&HOME.loop&&HOME.at(G)) await HOME.loop(GM);   /* 之後住家裡（2/21～3/24 不在臺大修課）：HOME 還沒有「日本路線住家裡」的模式（要 LAWWW 在 home3d.js 接 STORY.movedOut）*/
     return true; };
   S.x1Phone=function(G){ const F=G.flags, d=DK(X1D); if(d==null||G.day<d) return;
-    if(S.x1Due(G)&&atHome(G)&&!outGet(G,'y3_x1_back')) plan(G,{id:'y3_x1_back',must:true,goto:{zone:'dorm',x:0,z:2.4,yaw:Math.PI},day:G.day,h:G.hour,late:8,place:'宿舍',title:'回宿舍',travel:'捷運＋公車 約 40 分鐘',travelH:0.7});   /* 人在臺北的家：先帶回宿舍（字卡「回宿舍」）*/
+    if(S.x1Due(G)&&atHome(G)&&!outGet(G,'y3_x1_back')) plan(G,{id:'y3_x1_back',must:true,goto:{zone:'dorm',x:0,z:2.4,yaw:Math.PI},day:G.day,h:G.hour,late:8,place:'宿舍',title:'回宿舍',travel:'捷運＋公車 約 40 分鐘',travelH:0.7});   /* 人在家：先帶回宿舍（字卡「回宿舍」）*/
     if(F.X1_JP==null) return;
     if(knows('classmate_bohan',G)&&G.day<=d+1&&now(G)>=T(d,21)&&!sent(G,'y3_x1_bohan')){ silentContact(G,'classmate_bohan'); const B=P('classmate_bohan');
       PHONE.at(G,d,atH(G,d,21),[B('你的床，下學期學弟要來住。'),Object.assign(B('東西都拿走了嗎。'),{ask:{id:'y3_x1_bohan',opts:[{t:'拿走了。',say:[R('classmate_bohan')('好。八月見。')]}]}})],'y3_x1_bohan'); }

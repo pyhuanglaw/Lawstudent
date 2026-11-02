@@ -1,4 +1,4 @@
-"""v0 經濟系 → 法律系的瀏覽器流程（LIFE-LINE：8/22 法律系宿營之後、8/29 搬進法律系宿舍；START-WEEK 選 1 預設）：在真的遊戲裡從 8/28 晚上（臺北的家）睡覺 →
+"""v0 經濟系 → 法律系的瀏覽器流程（LIFE-LINE：8/22 法律系宿營之後、8/29 搬進法律系宿舍；START-WEEK 選 1 預設）：在真的遊戲裡從 8/28 晚上（家）睡覺 →
 8/29 早上自動換階段（3b② 前兩句、備份）→ 8/29 15:00 搬宿舍（「你去年也搬過一次宿舍，這次只有一個行李箱。」）→ 法律系、宿舍。
 確認：前兩句、搬宿舍、法律系 8/29、可昕交往中與經濟系的旗標帶過來、備份存檔（fatiao3d_backup_y0end）讀得回 8/29 早上（還是經濟系）、全程沒有 JS 例外。
 [前置／捷徑]：用遊戲自己的讀檔（GAME.applySave）把玩家放到 8/28 22:00 在家（經濟系、休學後住家裡、宿營演過）；對話、選項都用觸控點；用 ?turbo。
@@ -53,7 +53,7 @@ async def main():
               'home': {'at': True, 'base': True, 'day': d28},
               'flags': {'CAMP_Y1': True, 'Y0_MOVED_OUT': True, 'LEAVE_WEEK': 6, 'Y0_LEFT': True, 'E36_PACT': 'weekly', 'E25_ANSWER': 'only_me', 'E35_PLAN': 'sea', 'Y0_STICKY': True, 'dating_kexin': False, 'KX_FIRST_MSG': True, 'fundsV2': 1, 'allowanceMonth': 8, 'E01_DONE': True},
               'events': {'done': {'ev_y0_e36': 1, 'ev_y0_e36n': 1, 'ev_y0_e37': 1, 'ev_y0_a3': 1, 'ev_y0_e35': 1, 'ev_y0_e35sh': 1}, 'last': {}, 'count': 6}}
-        run.setup('讀檔到 8/28（四）22:00 在臺北的家（經濟系、休學後、宿營演過）')
+        run.setup('讀檔到 8/28（四）22:00 在家（經濟系、休學後、宿營演過）')
         await L.load_state(pg, st)
         ok, log = await drive(pg, cdp, "!!document.querySelector('#choices button')&&[...document.querySelectorAll('#choices button')].some(x=>x.textContent.includes('睡覺'))", [], 60)
         run.check('在家的選單出來了（有「睡覺」）', ok, json.dumps(log[-4:], ensure_ascii=False))

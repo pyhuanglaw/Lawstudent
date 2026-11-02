@@ -19,7 +19,7 @@ const near=it=>Math.hypot(it.x-20,it.z-59.6)<0.01;   /* 男一舍門口（zones3
 const LOOK='（宿舍門口。門禁卡已經還了。）';
 const door=G=>{ build(G); return E.interactables.filter(near); };
 { const L=door({stage:'law',flags:{GRADUATED:1380,MOVED_OUT:1406,HOME_AFTER:'home'},day:1420});
-  check('1. 退宿以後（MOVED_OUT，住臺北的家）：宿舍門口不能進去——沒有往宿舍的出口，只有「看」：「（宿舍門口。門禁卡已經還了。）」',L.length===1&&!L[0].exit&&L[0].look===LOOK&&!E.interactables.some(i=>i.exit&&(i.exit.to==='dorm_hall'||i.exit.to==='dorm')),JSON.stringify(L.map(i=>[i.label,i.look,i.exit&&i.exit.to]))); }
+  check('1. 退宿以後（MOVED_OUT，住家裡）：宿舍門口不能進去——沒有往宿舍的出口，只有「看」：「（宿舍門口。門禁卡已經還了。）」',L.length===1&&!L[0].exit&&L[0].look===LOOK&&!E.interactables.some(i=>i.exit&&(i.exit.to==='dorm_hall'||i.exit.to==='dorm')),JSON.stringify(L.map(i=>[i.label,i.look,i.exit&&i.exit.to]))); }
 { const L=door({stage:'law',flags:{GRADUATED:1380,MOVED_OUT:1406,HOME_AFTER:'gongguan'},day:1420});
   check('2. 住公館套房的（也退宿了）：一樣只能看',L.length===1&&!L[0].exit&&L[0].look===LOOK,JSON.stringify(L.map(i=>[i.label,i.look]))); }
 { const a=door({stage:'law',flags:{},day:20}), b=door({stage:'law',flags:{GRADUATED:1380},day:1390}), c=door({stage:'law',flags:{MOVED_OUT:false},day:1390});
