@@ -18,7 +18,7 @@ CASES（逗號隔開，每個 case 開一個新的瀏覽器；預設 take,skip,b
         手機「課表」沒有海商法；【捷徑】期末考那天（take 那一天：用課表定義算，5/30）手機「今天」沒有海商法；
         【捷徑】6/17 → 6/18 成績單沒有「海商法與海洋法：」那一行、沒有延畢（FAIL_DELAY 沒有、FD.on false）＝畢業照常（GRADUATED 是前置設好的，典禮本身不在這個 case 裡走）。
   bar_pool 只讀：律師一試的考卷＝postgrad3d.js examDay → PG.draw(G,年) → PG.pool()（包住 PG.pool 確認 draw 真的叫它）；
-        窮舉 PG.pool() 有沒有海商法題（id ^Y4MAR_ 或 course maritime）；PG.pool(true)（舊存檔已抽好的題）有幾題；EXAM_BANK 裡海商法題總數（>0 才有意義）；
+        窮舉 PG.pool() 有沒有海商法題（id ^Y4MAR_ 或 course maritime）；BB CC_34：PG.pool() 裡 course 是 maritime／ip_law／labor_social／tax_law 的題數各一行，都要 0；PG.pool(true)（舊存檔已抽好的題）有幾題；EXAM_BANK 裡海商法題總數（>0 才有意義）；
         假存檔 examSeed 0..SEEDS-1（預設 200）× 2029～2033 PG.draw 抽出來的題目都沒有海商法；司法官二試 PG.judgePool() 有沒有海商法題（AA_583，只記錄）。
 修改前對照：b1b249873（11-02 讀碼：D124 的 choice、FD.counts、PG.POOL_EXCLUDE 在 b1b 已經有；b1b 沒有的是 CLS.curExam＝48918ca20，和 CLS.enrolled 防呆 71ce570f4）。
 用法：LW_TESTS=<工作樹>/tests SHA=<sha> [CASES=take,skip,bar_pool] [EXAM_RIGHT=0] python3 cc_d124_probe.py '<URL>/index.html?turbo' <輸出資料夾>
@@ -72,6 +72,8 @@ POOL = r"""(([seeds])=>{ const isMar=q=>!!q&&(/^Y4MAR_/.test(String(q.id))||q.co
   out.draw={seeds,years:[2029,2033],questions:n,poolCalls:calls,mar:hit,err};
   try{ const jp=PG.judgePool?PG.judgePool():null; out.judgeN=jp?jp.length:null; out.judgeMar=jp?jp.filter(isMar).map(q=>q.id):null; }catch(e){ out.judge='ERR '+e.message; }
   out.drawUsesPool=/S\.pool\(\)/.test(String(PG.draw));
+  out.byCourse={}; for(const c of ['maritime','ip_law','labor_social','tax_law']) out.byCourse[c]=pool.filter(q=>q.course===c).map(q=>q.id);   /* BB CC_34：用 course 判斷（不看 id 寫法）*/
+  out.bankCourses=[...new Set((typeof EXAM_BANK!=='undefined'?EXAM_BANK.questions:[]).map(q=>q.course))];
   return out; })"""
 
 
@@ -289,6 +291,9 @@ async def case_pool(pg, cdp, run):
     run.check('%s：律師一試的抽題函式 PG.draw 用 PG.pool()（包住計數 >0；原始碼也有 S.pool()）' % tag, o['draw']['poolCalls'] > 0 and o['drawUsesPool'], J({'calls': o['draw']['poolCalls'], 'src': o['drawUsesPool']}))
     run.check('%s：PG.pool()（一試題池）窮舉沒有海商法題（%s 題）' % (tag, o.get('poolN')), o.get('poolMar') == [], J(o.get('poolMar')))
     run.check('%s：PG.draw %s 個 examSeed × 2029～2033 抽出來都沒有海商法' % (tag, o['draw']['seeds']), not o['draw']['mar'] and not o['draw']['err'] and o['draw']['questions'] > 0, J(o['draw']))
+    for c in ('maritime', 'ip_law', 'labor_social', 'tax_law'):   # BB CC_34：一試不考的四科，PG.pool() 裡用 course 數，都要 0
+        ids = (o.get('byCourse') or {}).get(c)
+        run.check('%s：PG.pool() 裡 course＝%s 的題數 0（用 course 判斷；EXAM_BANK 有這個 course：%s）' % (tag, c, c in (o.get('bankCourses') or [])), ids == [], J(ids))
     run.note('%s：舊存檔用的 PG.pool(true) 有海商法 %s 題（照設計：已經抽好的照舊）；司法官二試 judgePool %s 題、其中海商法 %s（AA_583，只記錄）' %
              (tag, len(o.get('poolAllMar') or []), o.get('judgeN'), J(o.get('judgeMar'))))
     dump(tag, pool=o)
