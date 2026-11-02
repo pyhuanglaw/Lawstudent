@@ -18,7 +18,7 @@
   值班日 DAY1：Y2S1 第 W1 週（預設 11）星期六起找第一個 fafuDuty、不是 2027-05-22（阿姨諮詢）的週六；DAY2＝STORY.fafuSat(DAY1)（下一個值班週六）。環境變數 DAY1＝'YYYY-MM-DD' 可以指定。
   起點 08:15 宿舍（START=out，預設）；START=wancai＝【前置】直接 09:05 萬才館一樓出生點（不經過出發選單）。QUIET=0（預設）＝條件事件照常、只關手機自動打開（quiet_phone）。
 
-CASES（逗號隔開，每個 case 開一個新的瀏覽器；預設 same_sat,next_sat）：
+CASES（逗號隔開，每個 case 開一個新的瀏覽器；預設 same_sat,next_sat,wzline_same,wzline_first）：
   same_sat  DAY1 08:15 宿舍 → 站著等出發提醒（途中的對話照玩家點）→「出發：法服值班…」→ 萬才館一樓 → 走到圓桌、按「坐到圓桌（做初談紀錄）」→ 照玩家點完
             （「你先問什麼？」選 PICK_Q（預設「「先請他從頭講一次。」」）、最後選「先走。」——留在 12:00 以前，第二次才有意義）。
             記第一次前後：LAWCLUB_SAT_VISITS、LAWCLUB_SAT_LAST、FAFU_SHIFT_N、FAFU_ROT、careerLean A（全部 B、C）、遊戲時間（advance 1 小時）、fafuShiftable。
@@ -28,16 +28,34 @@ CASES（逗號隔開，每個 case 開一個新的瀏覽器；預設 same_sat,ne
   next_sat  DAY2（下一個值班週六）08:15 宿舍：有 same_sat 跑完的進度就用那一份（GAME.snapshot()）跳日期【前置】；單獨跑＝【前置】最小存檔＋旗標
             LAWCLUB_SAT_VISITS 1、LAWCLUB_SAT_LAST＝DAY1、FAFU_SHIFT_N 1、FAFU_ROT {open:1,cs:1,…}。之後同 same_sat 的第一次。
             check：VISITS、FAFU_SHIFT_N、careerLean A 都 +1、LAWCLUB_SAT_LAST＝DAY2。
-截圖（直向＋橫向）：出發選單、萬才館圓桌（第一次按之前）、「你先問什麼？」、「再待到十二點／先走」、第二次走到圓桌旁（萬才館裡、重新進來以後）、等到 11:55。
-逐字稿：HOOK（GAME.say／choose／caption／toast／enter／EVENTS.run／STORY.fafuShift 進出＋當下計數）→ transcript_<case>.json。
+  wzline_same（BB 10:49，BUG-FAFU-DOUBLE）DAY1：先照 same_sat 第一次的流程坐圓桌值班（選「先走。」，留在 12:00 以前）→【前置】同一份進度（GAME.snapshot()）寫進溫州街線的旗標
+            （WZ_K 預設 lease3：WZ_COPY_LEASE 2、WZ_C_L1／WZ_C_L2 是前幾週、WZ_LINE_L＝{k:'lease3',day:DAY1,tries:0}；ins2＝WZ_BRUNCH_INS 1＋WZ_LINE_I）、讀檔回萬才館一樓出生點
+            （WZ_INJECT=live＝不讀檔、直接改 GAME.G.flags）→ 站著等 WZL.tick 的 lineAt（萬才館、9～12 點、今天的線還沒演）演溫州街線的值班事件（S.LINE[k].ev）→ 照玩家點完
+            → 再走到圓桌旁看一次。量從坐圓桌之前到演完：LAWCLUB_SAT_VISITS、FAFU_SHIFT_N、careerLean A 的增加量。
+            check：VISITS 只 +1、FAFU_SHIFT_N 只 +1（wzlines3d.js:93 只用 LAWCLUB_SAT_LAST 擋 VISITS，FAFU_SHIFT_N 沒擋：head d75871437 預期 FAIL＝+2；
+            Node 已重現 n20_fafu_double.js）、careerLean A 只 +1；溫州街線那一段真的演了（HOOK 的 WZL.run）。
+            另外：story3d.js:757「大二第一次值班的前提畫面」＝fafuShift 裡 FAFU_SHIFT_N===1 且大二（Y2S1／Y2S2）時設 FAFU_FIRST_SHIFT_Y2＝今天、
+            旁白「（隔壁桌，一個阿伯講了十分鐘，一直在講他兒子。大家都在翻六法。）」（AA_325 2-Y2-01；語彤事件 7 的麵店閒聊讀這個旗標，y2r2_3d.js）。
+            記：FAFU_FIRST_SHIFT_Y2、逐字稿裡有沒有那句（check：圓桌先＝有演）。
+  wzline_first 反過來：【前置】讀檔的存檔一開始就有溫州街線的旗標（同上）→ DAY1 08:15 宿舍 → 出發提醒（標題變成「法服值班（今天陪阿德）」）→ 萬才館 →
+            lineAt 自動演溫州街線的值班事件、照玩家點完 → 走到圓桌旁（LAST 已是今天＝「坐到圓桌」應該不見；萬一還在就照玩家按下去點完）。
+            記三個數值（VISITS、FAFU_SHIFT_N、careerLean A）在：一開始、溫州街線演完、圓桌之後。check：溫州街線演完 VISITS +1、FAFU_SHIFT_N +1（社員）；
+            圓桌被擋、三個數值沒有再加。前提畫面（757）：這個順序 fafuShift 不會跑＝FAFU_FIRST_SHIFT_Y2 不會設、那句旁白不會出現——只記錄（不算 check）。
+截圖（直向＋橫向）：出發選單、萬才館圓桌（第一次按之前）、「你先問什麼？」、「再待到十二點／先走」、第二次走到圓桌旁（萬才館裡、重新進來以後）、等到 11:55；
+  wzline_*：溫州街線事件的第一句對話、演完、之後圓桌旁。
+逐字稿：HOOK（GAME.say／choose／caption／toast／enter／EVENTS.run／STORY.fafuShift 進出／WZL.lineAt 開演／WZL.run 進出＋當下計數）→ transcript_<case>.json。
 不確定處：
   - 出發提醒要等 STORY.tick 排進 OUT（09:30 以前）再到 08:30 才問；最小存檔在大二上會不會先跳一連串補演的事件（events 照常）、把出發拖過 09:45（lateEnd）——
     09:40 還沒到萬才館＝記「前置沒成立」，改【捷徑】同一份進度跳到 09:05 萬才館一樓繼續（標示出來）。
   - 「被擋」的形式：照碼是圓桌按鈕 hidden（沒有旁白、沒有選單）；按鈕旁邊的其他互動（「看門口的告示」等）會記下來。fafuWatch 對社員不出現。
   - 等到 11:55 期間可能有萬才館的其他劇情（pool_more3d 的 meetB、zjwDuty、y2 的人）；照玩家點，計數變化會記哪一段造成的（HOOK 的 fafuShift 進出）。
+  - wzline_same 不能一開始就把溫州街線的旗標寫進存檔：lineAt 是 WZL.tick 自己叫的，一進萬才館（9 點以後）就會先演，順序就變成 wzline_first。
+    所以先坐圓桌、再用同一份進度寫旗標讀檔（【前置】）。WZ_COPY_LEASE 一定要跟著寫：WZL.linePlan（每格的 PHONE_RULES）看 leaseStep，對不上會把 WZ_LINE_L 清掉。
+  - wzline_*：WZL.run 的 end 在 lineAt 的加分回呼之前（計數在 end 那一筆還沒加），量計數用演完、WZL.playing 放開以後的 FL_JS。
   - DAY1 預設第 11 週；如果那天剛好是溫州街線一／線三的目標週六（WZ_LINE_L／WZ_LINE_I；最小存檔沒有那幾條的前置，應該不會），劇情會不一樣——會記 wzline 狀態。
-環境變數：CASES、W1（11）、DAY1、START（out／wancai）、QUIET（0）、PICK_Q、WAIT_NOON（1）、STAY（0：最後選「先走。」；1：選「再待到十二點。」）。
-用法：LW_TESTS=<工作樹>/tests SHA=<sha> [CASES=same_sat,next_sat] python3 cc_fasat_probe.py '<URL>/index.html' <輸出資料夾>"""
+環境變數：CASES、W1（11）、DAY1、START（out／wancai）、QUIET（0）、PICK_Q、WAIT_NOON（1）、STAY（0：最後選「先走。」；1：選「再待到十二點。」——wzline_same 一律選「先走。」）、
+  WZ_K（lease3／lease2／ins2）、WZ_INJECT（reload／live）。
+用法：LW_TESTS=<工作樹>/tests SHA=<sha> [CASES=same_sat,next_sat,wzline_same,wzline_first] python3 cc_fasat_probe.py '<URL>/index.html' <輸出資料夾>"""
 import os, sys, json, asyncio, copy, math, time, traceback
 sys.path.insert(0, os.environ['LW_TESTS']); import playlib as L
 sys.path.insert(0, os.path.dirname(os.path.dirname(os.path.abspath(__file__)))); import bbplay as P   # bbplay 在上一層（BB 的 test_tools）
@@ -45,7 +63,7 @@ from playwright.async_api import async_playwright
 
 URL, OUT = sys.argv[1], sys.argv[2]
 J = lambda o: json.dumps(o, ensure_ascii=False)
-CASES = [c.strip() for c in os.environ.get('CASES', 'same_sat,next_sat').split(',') if c.strip()]
+CASES = [c.strip() for c in os.environ.get('CASES', 'same_sat,next_sat,wzline_same,wzline_first').split(',') if c.strip()]
 W1 = int(os.environ.get('W1', '11'))
 DAY1 = os.environ.get('DAY1', '')
 START = os.environ.get('START', 'out')
@@ -57,6 +75,10 @@ LAND = {'width': 844, 'height': 390}; PORT = {'width': 390, 'height': 844}
 SHIFT_LABEL = '坐到圓桌'
 GO_PICK = '出發：法服值班'
 AUNT_DAY = '2027-05-22'
+WZ_K = os.environ.get('WZ_K', 'lease3')
+WZ_INJECT = os.environ.get('WZ_INJECT', 'reload')
+LINE_EV = {'lease2': 'ev_wz_c_lease2', 'lease3': 'ev_wz_c_lease3', 'ins2': 'ev_wz_b_ins2'}[WZ_K]
+FIRST_Y2_LINE = '隔壁桌，一個阿伯'
 
 
 def hm(h):
@@ -98,7 +120,9 @@ FL_JS = r"""(()=>{ const G=GAME.G, F=G.flags||{}; let cl=null; try{ cl=STORY.car
   return {VIS:F.LAWCLUB_SAT_VISITS|0,LAST:F.LAWCLUB_SAT_LAST==null?null:F.LAWCLUB_SAT_LAST,N:F.FAFU_SHIFT_N|0,ROT:F.FAFU_ROT||null,TRK:F.FAFU_TRK||null,
     A:cl&&cl.A,lean:cl,day:G.day,key:CALENDAR.dateOf(G.day).key,h:+(+G.hour).toFixed(3),zone:G.zone,
     duty:!!STORY.fafuDuty(G),member:!!STORY.fafuMember(G),shiftable:!!STORY.fafuShiftable(G),watchable:!!(STORY.fafuWatchable&&STORY.fafuWatchable(G)),
-    notice:STORY.fafuNotice?STORY.fafuNotice(G):null,outs,table:it,wz:{L:F.WZ_LINE_L||null,I:F.WZ_LINE_I||null}}; })()"""
+    notice:STORY.fafuNotice?STORY.fafuNotice(G):null,outs,table:it,wz:{L:F.WZ_LINE_L||null,I:F.WZ_LINE_I||null},
+    FIRST_Y2:F.FAFU_FIRST_SHIFT_Y2==null?null:F.FAFU_FIRST_SHIFT_Y2,COPY_LEASE:F.WZ_COPY_LEASE==null?null:F.WZ_COPY_LEASE,
+    line:(typeof WZL!=='undefined')?{today:WZL.lineToday?WZL.lineToday(G):null,playing:!!WZL.playing,done:Object.fromEntries(Object.values(WZL.LINE||{}).map(x=>[x.ev,((G.events||{}).done||{})[x.ev]|0]))}:null}; })()"""
 NEAR_IT = "(()=>{ const P=GAME.E.player.obj.position; return (GAME.E.interactables||[]).filter(i=>!(i.lv|0)&&Math.hypot(i.x-P.x,i.z-P.z)<3.5).map(i=>({label:i.label||'',hidden:!!i.hidden,fafuShift:!!i.fafuShift,fafuWatch:!!i.fafuWatch,d:+Math.hypot(i.x-P.x,i.z-P.z).toFixed(2)})); })()"
 EXIT_JS = "(to=>{ const it=(GAME.E.interactables||[]).find(i=>i.exit&&i.exit.to===to&&!i.hidden&&!(i.lv|0)); return it?{x:it.x,z:it.z,r:it.radius||1.5,label:it.label||'',lv:it.lv|0}:null; })"
 LIVEN = "(()=>({frame:GAME.E.frame|0,day:GAME.G.day,h:+(+GAME.G.hour).toFixed(3),busy:!!GAME.E.player.busy,zone:GAME.G.zone,x:+GAME.E.player.obj.position.x.toFixed(2),z:+GAME.E.player.obj.position.z.toFixed(2)}))()"
@@ -113,6 +137,9 @@ HOOK = r"""(()=>{ if(window.__PLH) return 'again'; window.__PLH=1; window.__PL=[
   if(GAME.enter){ const e0=GAME.enter; GAME.enter=function(z,sp){ push({k:'enter',n:'',t:String(z)}); return e0.apply(this,arguments); }; }
   if(typeof EVENTS!=='undefined'&&EVENTS.run){ const v0=EVENTS.run; EVENTS.run=function(ev){ push({k:'ev',n:'',t:String((ev&&ev.id)||'')}); return v0.apply(this,arguments); }; }
   if(STORY.fafuShift){ const f0=STORY.fafuShift; STORY.fafuShift=async function(GM){ push({k:'shift',n:'start',t:String(STORY.fafuShiftable(GM.G))}); const r=await f0.apply(this,arguments); push({k:'shift',n:'end',t:String(r)}); return r; }; }
+  if(typeof WZL!=='undefined'){
+    if(WZL.lineAt){ const l0=WZL.lineAt; WZL.lineAt=function(GM){ let R=null; try{ R=WZL.lineToday(GM.G); }catch(e){} const r=l0.apply(this,arguments); if(r) push({k:'line',n:'fire',t:JSON.stringify(R)}); return r; }; }
+    if(WZL.run){ const r0=WZL.run; WZL.run=async function(GM,id){ push({k:'wzrun',n:'start',t:String(id)}); const r=await r0.apply(this,arguments); push({k:'wzrun',n:'end',t:String(id)+':'+String(r)}); return r; }; } }
   return 'ok'; })()"""
 
 
@@ -138,7 +165,7 @@ async def fl(pg):
 
 
 def slimfl(f):
-    return {k: f.get(k) for k in ('VIS', 'LAST', 'N', 'A', 'key', 'h', 'zone', 'duty', 'member', 'shiftable', 'table')} if f else f
+    return {k: f.get(k) for k in ('VIS', 'LAST', 'N', 'A', 'key', 'h', 'zone', 'duty', 'member', 'shiftable', 'table', 'FIRST_Y2', 'COPY_LEASE', 'wz')} if f else f
 
 
 async def load(pg, cdp, st):
@@ -147,12 +174,12 @@ async def load(pg, cdp, st):
     await pg.evaluate(HOOK)
 
 
-async def play_until(pg, cdp, run, cond, max_s, tag, picks=(), shots=None, shot_on=None):
+async def play_until(pg, cdp, run, cond, max_s, tag, picks=(), shots=None, shot_on=None, live_js=LIVEN):
     """照玩家點對話、選選項（picks 開頭優先，沒有就婉拒那一類、再沒有就第一個）、收手機，直到 cond(live) 成立。
     shot_on(選項文字清單)為真的選單第一次出現時 shoot_both（存進 shots）"""
     t0 = time.time(); seen = []; menus = []
     while time.time() - t0 < max_s:
-        lv = await pg.evaluate(LIVEN)
+        lv = await pg.evaluate(live_js)
         if cond(lv): break
         s = await P.ts(pg)
         if s['txt'] and (not seen or seen[-1] != [s['name'], s['txt']]): seen.append([s['name'], s['txt']])
@@ -165,7 +192,7 @@ async def play_until(pg, cdp, run, cond, max_s, tag, picks=(), shots=None, shot_
         if s['dlg']: await L.tap(pg, cdp, '#dlg'); await pg.wait_for_timeout(650); continue
         if s['phone']: await L.phone_away(pg, cdp); continue
         await pg.wait_for_timeout(800)
-    ok = cond(await pg.evaluate(LIVEN))
+    ok = cond(await pg.evaluate(live_js))
     if seen: run.note('%s 途中點過的對話：%s' % (tag, J(P.clean(seen))[:2000]))
     return ok, P.clean(seen), menus
 
@@ -218,7 +245,7 @@ async def arrive_wancai(pg, cdp, run, res, tag, snap_for_fallback):
     return False
 
 
-async def one_shift(pg, cdp, run, res, tag):
+async def one_shift(pg, cdp, run, res, tag, final=None):
     """走到圓桌 → 按「坐到圓桌」→ 照玩家點完。回傳 (前, 後, 有沒有按到)"""
     shots = res['shots']
     b4 = await fl(pg); res[tag + '_before'] = b4
@@ -231,7 +258,7 @@ async def one_shift(pg, cdp, run, res, tag):
         return b4, await fl(pg), False
     n0 = await pl_len(pg)
     await L.tap(pg, cdp, '#interact')
-    final = '再待到十二點。' if STAY else '先走。'
+    final = final or ('再待到十二點。' if STAY else '先走。')
     t0 = time.time(); started = False; seen = []; menus = []
     while time.time() - t0 < 600:
         s = await P.ts(pg)
@@ -386,6 +413,161 @@ async def case_next(p, run, ctx_out):
     return res
 
 
+# ---------------------------------------------------------------- 溫州街線的值班事件（wzline_same／wzline_first）
+LINE_LIVE = ("(()=>({frame:GAME.E.frame|0,day:GAME.G.day,h:+(+GAME.G.hour).toFixed(3),busy:!!GAME.E.player.busy,zone:GAME.G.zone,"
+             "x:+GAME.E.player.obj.position.x.toFixed(2),z:+GAME.E.player.obj.position.z.toFixed(2),"
+             "lineDone:!!((GAME.G.events||{}).done||{})['%s'],playing:!!(typeof WZL!=='undefined'&&WZL.playing),"
+             "evr:!!(typeof EVENTS!=='undefined'&&EVENTS.running),dlg:!!(document.getElementById('dlg')&&getComputedStyle(document.getElementById('dlg')).display!=='none')}))()") % LINE_EV
+
+
+def wz_flags(d):
+    """【前置】溫州街線走到「法服值班的週六」那一步、目標週六＝d（day 數字）"""
+    if WZ_K == 'ins2':
+        return {'WZ_BRUNCH_INS': 1, 'WZ_B_INS_DAY': d - 14, 'WZ_LINE_I': {'k': 'ins2', 'day': d, 'tries': 0}}
+    f = {'WZ_COPY_LEASE': 2 if WZ_K == 'lease3' else 1, 'WZ_C_L1': d - 28, 'WZ_LINE_L': {'k': WZ_K, 'day': d, 'tries': 0}}
+    if WZ_K == 'lease3': f['WZ_C_L2'] = d - 14
+    return f
+
+
+def tri(f):
+    return {'VIS': f['VIS'], 'N': f['N'], 'A': f['A'], 'LAST': f['LAST'], 'FIRST_Y2': f.get('FIRST_Y2'), 'h': hm(f['h'])}
+
+
+async def play_line(pg, cdp, run, res, tag):
+    """站著等 lineAt 演溫州街線的值班事件 → 照玩家點完。回傳 (有沒有演, 演完的 FL_JS)"""
+    n0 = await pl_len(pg); shots = res['shots']
+    ok, _, _ = await play_until(pg, cdp, run, lambda lv: lv['lineDone'] or lv['playing'], 120, tag + '_等開演', live_js=LINE_LIVE)
+    lv = await pg.evaluate(LINE_LIVE)
+    if not ok:
+        f = await fl(pg)
+        run.check('%s：溫州街線的值班事件（%s）有開演' % (tag, LINE_EV), False, J({'live': lv, 'wz': f.get('wz'), 'today': (f.get('line') or {}).get('today'), 'fl': slimfl(f)}))
+        res[tag + '_line_rows'] = await rows(pg, n0)
+        return False, f
+    if lv['playing'] and not lv['lineDone']:
+        shots[tag + '_line_dialog'] = await shoot_both(pg, run, tag + '_line_dialog')
+    ok2, seen, menus = await play_until(pg, cdp, run, lambda lv: lv['lineDone'] and not lv['playing'] and not lv['busy'] and not lv['evr'], 600, tag + '_溫州街線',
+                                        live_js=LINE_LIVE)
+    await pg.wait_for_timeout(2500)
+    f = await fl(pg)
+    rr = await rows(pg, n0)
+    res[tag + '_line'] = {'lines': seen, 'menus': menus, 'rows': rr, 'after': f}
+    run.check('%s：溫州街線的值班事件（%s）演完（HOOK：lineAt 開演 %d 次、WZL.run %s）' % (tag, LINE_EV, sum(1 for r in rr if r['k'] == 'line'),
+              J([r['t'] for r in rr if r['k'] == 'wzrun' and r['n'] == 'start'])), ok2, J({'live': await pg.evaluate(LINE_LIVE)}))
+    shots[tag + '_line_after'] = await shoot_both(pg, run, tag + '_line_after')
+    run.note('%s 溫州街線之後：%s' % (tag, J(slimfl(f))))
+    return ok2, f
+
+
+def said(rows_, needle):
+    return any(r['k'] == 'say' and needle in (r.get('t') or '') for r in rows_)
+
+
+async def boot_case(p, run, res, tag, shared):
+    b, ctx, pg, cdp, errs = await L.launch(p, landscape=True)
+    pg.on('dialog', lambda dd: asyncio.ensure_future(dd.accept()))
+    await pg.goto(URL); ok = await L.wait_loaded(pg); run.check('%s：遊戲載入' % tag, ok)
+    await pg.evaluate("localStorage.clear()"); await P.init(pg)
+    dd = shared.get('days') or await pg.evaluate(DUTY_DAYS, [W1, DAY1, AUNT_DAY]); res['days'] = dd; shared['days'] = dd
+    run.note('%s 值班日：%s' % (tag, J(dd)))
+    return b, pg, cdp, errs, dd['d1']
+
+
+async def case_wz_same(p, run, shared):
+    res = {'case': 'wzline_same', 'shots': {}, 'wz_k': WZ_K, 'inject': WZ_INJECT}; b = None
+    try:
+        b, pg, cdp, errs, d1 = await boot_case(p, run, res, 'wzline_same', shared)
+        st, d = await state_at(pg, d1['key'], 8.25 if START == 'out' else 9.08, 'dorm' if START == 'out' else 'wancai', {'lawclub': True})
+        await load(pg, cdp, st)
+        run.setup('wzline_same：【前置】最小存檔（BASEF＋ROOM_Y2＋lawclub，沒有溫州街線的旗標）→ %s（%s 第 %s 週，六）%s' % (d1['key'], d1['term'], d1['week'], '08:15 宿舍' if START == 'out' else '09:05 萬才館一樓'))
+        f0 = await fl(pg); res['start'] = f0
+        run.check('wzline_same：前置成立（今天值班、是社員、還沒算過、今天沒有溫州街線）', f0['duty'] and f0['member'] and f0['VIS'] == 0 and f0['N'] == 0 and not (f0.get('line') or {}).get('today'), J(slimfl(f0)))
+        res['by_player'] = await arrive_wancai(pg, cdp, run, res, 'wzline_same', await P.snapshot(pg))
+        b4, af, tapped = await one_shift(pg, cdp, run, res, 'wzs_shift', final='先走。')
+        await check_plus1(run, 'wzline_same 坐圓桌', b4, af, tapped)
+        shift_rows = res['wzs_shift_dialog']['rows']
+        res['first_y2'] = {'flag': af.get('FIRST_Y2'), 'line_said': said(shift_rows, FIRST_Y2_LINE)}
+        run.check('wzline_same：坐圓桌那一段演了「大二第一次值班」的前提畫面（story3d.js:757；FAFU_FIRST_SHIFT_Y2＝%s、旁白「%s…」%s）'
+                  % (af.get('FIRST_Y2'), FIRST_Y2_LINE, '有' if res['first_y2']['line_said'] else '沒有'), af.get('FIRST_Y2') == af['day'] and res['first_y2']['line_said'], '')
+        if af['h'] >= 12:
+            run.check('wzline_same：坐圓桌以後還在 12:00 以前（lineAt 只在 9～12 點）', False, hm(af['h'])); return res
+        wz = wz_flags(af['day'])
+        if WZ_INJECT == 'live':
+            await pg.evaluate("f=>Object.assign(GAME.G.flags,f)", wz)
+            run.setup('wzline_same：【前置】不讀檔、直接把溫州街線的旗標寫進目前進度 %s（%s）' % (J(wz), hm(af['h'])))
+        else:
+            s = await P.snapshot(pg); s['flags'].update(wz); s.update(zone='wancai', pos=None); s.pop('_stuck', None); s.pop('_busy', None)
+            await load(pg, cdp, s)
+            run.setup('wzline_same：【前置】坐圓桌以後的同一份進度（GAME.snapshot()）寫進溫州街線的旗標 %s、讀檔回萬才館一樓出生點（%s）' % (J(wz), hm(s.get('hour'))))
+        f1 = await fl(pg); res['after_inject'] = f1
+        run.check('wzline_same：寫旗標以後計數沒變、今天有溫州街線（WZL.lineToday）', f1['VIS'] == af['VIS'] and f1['N'] == af['N'] and bool((f1.get('line') or {}).get('today')), J(slimfl(f1)))
+        ok, f2 = await play_line(pg, cdp, run, res, 'wzline_same')
+        res['tri'] = {'before_shift': tri(b4), 'after_shift': tri(af), 'after_line': tri(f2)}
+        run.note('wzline_same 三個數值：%s' % J(res['tri']))
+        run.check('wzline_same：同一個週六（圓桌＋溫州街線）LAWCLUB_SAT_VISITS 只 +1（%s → %s → %s）' % (b4['VIS'], af['VIS'], f2['VIS']), f2['VIS'] == b4['VIS'] + 1, '')
+        run.check('wzline_same：同一個週六 FAFU_SHIFT_N 只 +1（%s → %s → %s；BUG-FAFU-DOUBLE：head d75871437 預期 FAIL＝+2）' % (b4['N'], af['N'], f2['N']), f2['N'] == b4['N'] + 1, '')
+        run.check('wzline_same：同一個週六 careerLean A 只 +1（%s → %s → %s）' % (b4['A'], af['A'], f2['A']), (f2['A'] or 0) == (b4['A'] or 0) + 1, J({'after_shift': af['lean'], 'after_line': f2['lean']}))
+        # 之後圓桌
+        lab, near = await to_table(pg, cdp, run, 'wzline_same_table_after')
+        res['shots']['table_after'] = await shoot_both(pg, run, 'wzline_same_table_after')
+        f3 = await fl(pg); res['table_after'] = {'label': lab, 'near': near, 'fl': f3}
+        run.check('wzline_same：溫州街線之後圓桌旁沒有「坐到圓桌」（互動鍵「%s」）' % lab, SHIFT_LABEL not in (lab or ''), J({'table': f3.get('table')}))
+        res['rows'] = await rows(pg)
+        run.check('wzline_same：STORY.fafuShift 只真的跑了一次', sum(1 for r in res['rows'] if r['k'] == 'shift' and r['n'] == 'start' and r['t'] == 'true') == 1, J([r for r in res['rows'] if r['k'] == 'shift']))
+        run.check('wzline_same：沒有 JS 例外', not errs, J(errs[:3]))
+    except Exception as e:
+        run.check('wzline_same：跑完（沒有探針例外）', False, repr(e)[:500]); traceback.print_exc()
+        try: await run.shot(pg, 'wzline_same_exception')
+        except Exception: pass
+    finally:
+        with open(os.path.join(OUT, 'transcript_wzline_same.json'), 'w', encoding='utf-8') as f:
+            json.dump(res, f, ensure_ascii=False, indent=1)
+        if b:
+            try: await asyncio.wait_for(b.close(), 30)
+            except Exception: pass
+    return res
+
+
+async def case_wz_first(p, run, shared):
+    res = {'case': 'wzline_first', 'shots': {}, 'wz_k': WZ_K}; b = None
+    try:
+        b, pg, cdp, errs, d1 = await boot_case(p, run, res, 'wzline_first', shared)
+        wz = wz_flags(d1['d'])
+        st, d = await state_at(pg, d1['key'], 8.25 if START == 'out' else 9.08, 'dorm' if START == 'out' else 'wancai', dict({'lawclub': True}, **wz))
+        await load(pg, cdp, st)
+        run.setup('wzline_first：【前置】最小存檔（BASEF＋ROOM_Y2＋lawclub）＋溫州街線的旗標 %s → %s（%s 第 %s 週，六）%s' % (J(wz), d1['key'], d1['term'], d1['week'], '08:15 宿舍' if START == 'out' else '09:05 萬才館一樓'))
+        f0 = await fl(pg); res['start'] = f0
+        run.check('wzline_first：前置成立（今天值班、是社員、還沒算過、今天有溫州街線）', f0['duty'] and f0['member'] and f0['VIS'] == 0 and f0['N'] == 0 and bool((f0.get('line') or {}).get('today')), J(slimfl(f0)))
+        res['shots']['start'] = await shoot_both(pg, run, 'wzf_start')
+        res['by_player'] = await arrive_wancai(pg, cdp, run, res, 'wzline_first', await P.snapshot(pg))
+        ok, f1 = await play_line(pg, cdp, run, res, 'wzline_first')
+        run.check('wzline_first：溫州街線演完 LAWCLUB_SAT_VISITS +1（%s → %s）' % (f0['VIS'], f1['VIS']), f1['VIS'] == f0['VIS'] + 1, '')
+        run.check('wzline_first：溫州街線演完 FAFU_SHIFT_N +1（社員，%s → %s）' % (f0['N'], f1['N']), f1['N'] == f0['N'] + 1, '')
+        run.check('wzline_first：溫州街線演完 LAWCLUB_SAT_LAST＝今天（%s）' % f1['LAST'], f1['LAST'] == f1['day'], '')
+        run.check('wzline_first：溫州街線演完 fafuShiftable＝false', not f1['shiftable'], J(slimfl(f1)))
+        # 再去坐圓桌（應該被擋）
+        c = await second_try(pg, cdp, run, res, 'wzline_first_table', f1)
+        res['tri'] = {'start': tri(f0), 'after_line': tri(f1), 'after_table': tri(c)}
+        run.note('wzline_first 三個數值：%s' % J(res['tri']))
+        res['rows'] = await rows(pg)
+        res['first_y2'] = {'flag': c.get('FIRST_Y2'), 'line_said': said(res['rows'], FIRST_Y2_LINE),
+                           'shift_ran': sum(1 for r in res['rows'] if r['k'] == 'shift' and r['n'] == 'start' and r['t'] == 'true')}
+        run.note('wzline_first：「大二第一次值班」的前提畫面（story3d.js:757）FAFU_FIRST_SHIFT_Y2＝%s、旁白「%s…」%s、fafuShift 真的跑了 %d 次'
+                 '（只記錄：這個順序 FAFU_SHIFT_N 被溫州街線算成 1，之後 fafuShift 再跑 N 也不會是 1）' % (res['first_y2']['flag'], FIRST_Y2_LINE,
+                 '有出現' if res['first_y2']['line_said'] else '沒有出現', res['first_y2']['shift_ran']))
+        run.check('wzline_first：沒有 JS 例外', not errs, J(errs[:3]))
+    except Exception as e:
+        run.check('wzline_first：跑完（沒有探針例外）', False, repr(e)[:500]); traceback.print_exc()
+        try: await run.shot(pg, 'wzline_first_exception')
+        except Exception: pass
+    finally:
+        with open(os.path.join(OUT, 'transcript_wzline_first.json'), 'w', encoding='utf-8') as f:
+            json.dump(res, f, ensure_ascii=False, indent=1)
+        if b:
+            try: await asyncio.wait_for(b.close(), 30)
+            except Exception: pass
+    return res
+
+
 async def main():
     run = L.Run('fasat_' + '+'.join(CASES), OUT); os.makedirs(OUT, exist_ok=True)
     print('==== 法服週六值班（SHA %s）URL %s START %s ====' % (os.environ.get('SHA', '?'), URL, START), flush=True)
@@ -396,6 +578,8 @@ async def main():
             print('---- %s ----' % c, flush=True)
             if c == 'same_sat': await case_same(p, run, shared)
             elif c == 'next_sat': await case_next(p, run, shared)
+            elif c == 'wzline_same': await case_wz_same(p, run, shared)
+            elif c == 'wzline_first': await case_wz_first(p, run, shared)
             else: run.note('不認得的 case：%s' % c)
     print('SHA', os.environ.get('SHA', '?'), flush=True)
     sys.exit(run.finish())
