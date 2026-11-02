@@ -2,7 +2,7 @@
 //   0 接線：index.html（us208_3d.js 後面兩行）、事件、掛勾、記憶的面板名稱
 //   G 第 1 節 挽回中的週六 10:00 交換生群組 16 則（AA_516 第 5 節補 9/2，17 則）：逐字、三個回法（群組＝REPAIR +1、私訊＝已讀不回不加、不回＝沒有）、之後別人接的那一句（何俊朗見過他才有）、
 //     一週最多 +1（和芝加哥的邀約合起來算）、12/2 前回滿三週到得了 REPAIR ≥ 3、照片 9/16 起、11/11 只有沒去芝加哥、12/9 重新交往也有但不加、交往中沒有、舊存檔太舊的不補
-//   S 第 3 節 交往中開學前的週六：前一天 21:00 私訊、「好。」排行程／「明天不行。」→「好。」、三場逐字＋記憶、竹葉／圖書館用 3D（模糊）、說話框「書瑀」；挽回中沒有；9/13 以後沒有
+//   S 第 3 節 交往中開學前的週六：前一天 21:00 私訊、「好。」排行程／「明天不行。」→「好。」、三場逐字＋記憶、竹葉／圖書館用 3D（模糊）、說話框「溫書瑀」、私訊聯絡人「貝貝」（AA_579 第 39 列）；挽回中沒有；9/13 以後沒有
 //   L 第 3-4 節 9/9 洗衣間：上午選「洗衣服」才演、只看看＝AA_287 的字、平常洗衣服 40 分鐘、快轉停 9/9 11:00；AA_412 3-2 多一句（有 US_ASIAN_MARKET）
 //   F 第 2 節 秋假：交往中沒有大峽谷 10/9 私訊 → 10/10 湖邊；大峽谷去了／等出發＝沒有；挽回中 10/12 自習室（第一個選項才記、不加 REPAIR）；六張日期卡（快轉、到時間）
 //   O 第 4 節 8/15 迎新週：第一次出門／快轉跳過才演；何俊朗見過才有；交往中多一句
@@ -136,13 +136,13 @@ const SCN={
 await sec('S',async()=>{
   for(const [ka,kd,h,msg,tag,evid,zone] of SATS){
     const G=fresh(ka,20.75,'us_apartment',{US2:'dating',MET_LONG:true}); dateSis(); rules(); const early=byTag(tag).length; at(ka,21); rules(); const M=byTag(tag);
-    check('S1. '+kd+'：前一天 21:00 她私訊「'+msg+'」、回覆「好。」／「明天不行。」',early===0&&M.length===1&&M[0].th==='p:'+S5&&M[0].from===S5&&M[0].text===msg&&M[0].h===21&&J(M[0].ask.opts.map(o=>o.t))===J(['好。','明天不行。'])&&PHONE.who(M[0])==='書瑀',J(M.map(m=>[m.text,m.h,PHONE.who(m)])));
+    check('S1. '+kd+'：前一天 21:00 她私訊「'+msg+'」、回覆「好。」／「明天不行。」',early===0&&M.length===1&&M[0].th==='p:'+S5&&M[0].from===S5&&M[0].text===msg&&M[0].h===21&&J(M[0].ask.opts.map(o=>o.t))===J(['好。','明天不行。'])&&PHONE.who(M[0])==='貝貝',J(M.map(m=>[m.text,m.h,PHONE.who(m)])));
     ans(tag,0); rules(); const q=OUT.get(G,tag);
     check('S2. '+kd+'：「好。」→ 行事曆 '+kd+' '+h+':00（'+(q&&q.place)+'）',!!q&&q.state==='planned'&&q.day===D(kd)&&q.h===h&&q.ev===evid);
     const S=SCN[evid];
     for(const [k,br] of [[0,'a'],[1,'b']]){ const G2=fresh(kd,h-0.5,'us_apartment',{US2:'dating'}); dateSis(); G2.flags['USB_SAT_'+kd.slice(5,7)+kd.slice(8,10)]='go'; rules(); H.picks=[k]; await go(tag);
       const nm=H.said.filter(s=>S.lines.includes(s.t)&&s.who).map(s=>s.who);
-      check('S3. '+evid+' 選「'+S.opts[k]+'」：台詞逐字、記 '+S.mem+'、她的說話框寫「書瑀」',J(said())===J(S.lines.concat(S[br]))&&J(H.opts[0])===J(S.opts)&&SOCIAL.has(S5,S.mem)&&nm.length>0&&nm.every(w=>w==='書瑀'),J(L()));
+      check('S3. '+evid+' 選「'+S.opts[k]+'」：台詞逐字、記 '+S.mem+'、她的說話框寫「溫書瑀」',J(said())===J(S.lines.concat(S[br]))&&J(H.opts[0])===J(S.opts)&&SOCIAL.has(S5,S.mem)&&nm.length>0&&nm.every(w=>w==='溫書瑀'),J(L()));
       if(k===0) check('S4. '+evid+'：'+(zone?'演之前換到 3D 的 '+zone+'（畫面模糊）、演完回到公寓':'2D 湖邊（us_lake 的圖）'),zone?(H.entered[0]===zone&&H.entered[H.entered.length-1]==='us_apartment'&&H.bgs.includes('blur')&&capt.includes(S.scene)):(H.bgs.some(b=>b&&b.image==='assets/bg/us_lake.webp')&&!H.entered.length),J({e:H.entered,b:H.bgs})); }
     const G3=fresh(ka,21,'us_apartment',{US2:'dating'}); dateSis(); rules(); ans(tag,1); rules();
     check('S5. '+kd+'：「明天不行。」→ 書瑀「好。」、不排行程',J(th('p:'+S5).slice(-2).map(m=>m.from+':'+m.text))===J(['player:明天不行。','heroine_05:好。'])&&!OUT.get(G3,tag));

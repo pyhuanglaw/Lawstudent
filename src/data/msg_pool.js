@@ -1,10 +1,10 @@
-/* 玩家主動傳訊息的回覆池（SYS-PHONE-CHAT／MSG-L1）：AA 六位＝AA_202 第 6 節，BB 九位＝BB_178 第 0～8b 節（企劃線 AA_202@b10d0567f、BB_178@bb6baddf、AA_370@9eaf4e98、AA_393@e81a1afe1、AA_531@a28201f61、AA_538@b9d816288）。
+/* 玩家主動傳訊息的回覆池（SYS-PHONE-CHAT／MSG-L1）：AA 六位＝AA_202 第 6 節，BB 九位＝BB_178 第 0～8b 節（企劃線 AA_202@b10d0567f、BB_178@759e5c000、AA_370@9eaf4e98、AA_393@759e5c000、AA_531@a28201f61、AA_538@b9d816288）。
    產生器 tools/msg/build_pool.py → tools/msg/to_js.py（每一句照抄原文；tests/msg_chat_unit.js 第 F 項逐字比對 git 上的原文）。不要手改句子：改企劃、改產生器、重跑。
    每一則：topic（chat 在幹嘛／course 問課／share_cat、share_food、share_notes 分享／night 晚安）、tier（A／R／L）、variant（情況版）、msgs（同一次回覆的幾個泡泡）、tags（原文的條件）、ask（回問）。
    rules 是各人的回覆時間、開放條件原文（給程式對照；程式的判斷在 src/msg3d.js）。 */
 'use strict';
 const MSG_POOL={
- "source":{"AA_202": "b10d0567f", "BB_178": "bb6baddf", "AA_370": "9eaf4e98", "AA_393": "e81a1afe1", "AA_531": "a28201f61", "AA_538": "b9d816288"},
+ "source":{"AA_202": "b10d0567f", "BB_178": "759e5c000", "AA_370": "9eaf4e98", "AA_393": "759e5c000", "AA_531": "a28201f61", "AA_538": "b9d816288"},
  "people":{
   "heroine_01":{"name":"沈以安","rules":{"replyFree": [1, 10], "noReplyText": "22:30 以後不回，隔天 7 點多回「昨天睡了。早。」（玩家傳的是晚安，就只回這一句）", "openText": "第一次能用：拿到這個人的聯絡方式以後。每個人拿到的時間不同，照現有的「交換聯絡方式」條件（`BB_172`、`AA_134`）", "habitText": "短、快；貼圖只有一張兔子「收到」", "wakeLine": ["昨天睡了。早。"], "lTierText": "L＝曖昧、交往（只有以安、語彤；~~她們的戀愛窗口在大三、大四以後~~ 2026-10-17 AA-C，AA_215／AA_216 R8：交往中（任何學期），或第 5 階以上而且兩人都單身；大一就可能用到）", "otherText": ["22:30 以後傳：隔天早上「昨天睡了。早。」再接一般版（晚安不接，見 3-1 第 4 點）。", "以安：快、短、只有一張兔子「收到」貼圖；"]},"replies":[
    {"topic": "chat", "tier": "A", "variant": null, "msgs": ["在總圖。"], "tags": [], "ask": null, "src": "AA_202 6-2 在幹嘛"},
@@ -256,15 +256,15 @@ const MSG_POOL={
    {"topic": "chat", "tier": "L", "variant": "閒聊版", "msgs": ["在法圖。這裡比研究室安靜。"], "tags": ["在臺灣"], "ask": null, "src": "BB_178 3 閒聊版 在幹嘛", "version": "閒聊版"},
    {"topic": "chat", "tier": "L", "variant": "閒聊版", "msgs": ["在改論文的第四章。", "第四版了。"], "tags": ["大四"], "ask": null, "src": "BB_178 3 閒聊版 在幹嘛", "version": "閒聊版"},
    {"topic": "chat", "tier": "L", "variant": "閒聊版", "msgs": ["在研究室。", "茶泡了兩杯，才發現只有我一個人。"], "tags": ["祐廷大二起，在臺灣；帶感情的那一句"], "ask": null, "src": "BB_178 3 閒聊版 在幹嘛", "version": "閒聊版", "affection": true},
-   {"topic": "course", "tier": "A", "variant": null, "msgs": ["題目拍給我。", "先找條文，再對要件。你先寫，寫完再拍給我。"], "tags": [], "ask": null, "src": "BB_178 3 問課", "version": "事務版、閒聊版都一樣"},
+   {"topic": "course", "tier": "A", "variant": null, "msgs": ["你卡在哪一句。", "拍給我看看。"], "tags": [], "ask": null, "src": "BB_178 3 問課", "version": "事務版、閒聊版都一樣"},
    {"topic": "course", "tier": "A", "variant": null, "msgs": ["這段我以前也沒抄到。去問老師，有人問他會很高興。"], "tags": [], "ask": null, "src": "BB_178 3 問課", "version": "事務版、閒聊版都一樣"},
-   {"topic": "course", "tier": "R", "variant": null, "msgs": ["要交什麼，看課程網站最上面那則公告。", "你看了沒？"], "tags": [], "ask": {"opts": [{"t": "看了。", "r": ["好。"]}, {"t": "還沒。", "r": ["現在去看。"]}]}, "src": "BB_178 3 問課", "version": "事務版、閒聊版都一樣"},
+   {"topic": "course", "tier": "R", "variant": null, "msgs": ["要交什麼，課程網站最上面那則公告有寫。", "你看了沒？"], "tags": [], "ask": {"opts": [{"t": "看了。", "r": ["好。"]}, {"t": "還沒。", "r": ["看完還有問題再問我。"]}]}, "src": "BB_178 3 問課", "version": "事務版、閒聊版都一樣"},
    {"topic": "course", "tier": "R", "variant": null, "msgs": ["這題我們以前也吵過。你先寫你的，我看完再說我的想法。"], "tags": [], "ask": null, "src": "BB_178 3 問課", "version": "事務版、閒聊版都一樣"},
    {"topic": "share_cat", "tier": "A", "variant": "事務版", "msgs": ["看到了。"], "tags": [], "ask": null, "src": "BB_178 3 事務版 分享", "version": "事務版"},
    {"topic": "share_cat", "tier": "R", "variant": "閒聊版", "msgs": ["牠在曬太陽。我也想曬。"], "tags": [], "ask": null, "src": "BB_178 3 分享（閒聊版） 貓", "version": "閒聊版"},
    {"topic": "share_cat", "tier": "L", "variant": "閒聊版", "msgs": ["好可愛。存起來了。"], "tags": [], "ask": null, "src": "BB_178 3 分享（閒聊版） 貓", "version": "閒聊版"},
-   {"topic": "share_food", "tier": "A", "variant": "事務版", "msgs": ["吃完記得喝水。"], "tags": [], "ask": null, "src": "BB_178 3 事務版 分享", "version": "事務版"},
-   {"topic": "share_food", "tier": "R", "variant": "閒聊版", "msgs": ["點他們的湯。那個比主餐好。"], "tags": [], "ask": null, "src": "BB_178 3 分享（閒聊版） 吃的", "version": "閒聊版"},
+   {"topic": "share_food", "tier": "A", "variant": "事務版", "msgs": ["看起來不錯。"], "tags": [], "ask": null, "src": "BB_178 3 事務版 分享", "version": "事務版"},
+   {"topic": "share_food", "tier": "R", "variant": "閒聊版", "msgs": ["這家我還沒吃過。看起來不錯。"], "tags": [], "ask": null, "src": "BB_178 3 分享（閒聊版） 吃的", "version": "閒聊版"},
    {"topic": "share_food", "tier": "L", "variant": "閒聊版", "msgs": ["你有好好吃飯，很好。"], "tags": [], "ask": null, "src": "BB_178 3 分享（閒聊版） 吃的", "version": "閒聊版"},
    {"topic": "share_notes", "tier": "A", "variant": "事務版", "msgs": ["哪裡看不懂再問。"], "tags": [], "ask": null, "src": "BB_178 3 事務版 分享", "version": "事務版"},
    {"topic": "share_notes", "tier": "R", "variant": "閒聊版", "msgs": ["第二頁那段，下面那行比較重要。"], "tags": [], "ask": null, "src": "BB_178 3 分享（閒聊版） 講義", "version": "閒聊版"},
@@ -274,21 +274,21 @@ const MSG_POOL={
    {"topic": "night", "tier": "L", "variant": "閒聊版", "msgs": ["晚安。", "手機我放遠一點了。"], "tags": [], "ask": null, "src": "BB_178 3 晚安", "version": "閒聊版"},
    {"topic": "night", "tier": "L", "variant": "閒聊版", "msgs": ["晚安。我把燈關了。"], "tags": [], "ask": null, "src": "BB_178 3 晚安", "version": "閒聊版"},
    {"topic": "chat", "tier": "A", "variant": "考試週", "msgs": ["在讀。考完再說。"], "tags": [], "ask": null, "src": "BB_178 3 閒聊版 在幹嘛 考試週", "tierMin": true, "version": "事務版、閒聊版都用", "variantNote": "事務版、閒聊版都用；兩則輪流"},
-   {"topic": "chat", "tier": "A", "variant": "考試週", "msgs": ["考試週。有急事再傳。"], "tags": [], "ask": null, "src": "BB_178 3 閒聊版 在幹嘛 考試週", "tierMin": true, "version": "事務版、閒聊版都用", "variantNote": "事務版、閒聊版都用；兩則輪流"},
+   {"topic": "chat", "tier": "A", "variant": "考試週", "msgs": ["考試週。考完再找你。"], "tags": [], "ask": null, "src": "BB_178 3 閒聊版 在幹嘛 考試週", "tierMin": true, "version": "事務版、閒聊版都用", "variantNote": "事務版、閒聊版都用；兩則輪流"},
    {"topic": "chat", "tier": "R", "variant": "在美國", "msgs": ["剛吃完午餐。這邊的三明治很大。"], "tags": ["12:10"], "ask": null, "src": "BB_178 3 閒聊版 在幹嘛 在美國", "tierMin": true, "version": "閒聊版", "variantNote": "2028-08-02 出發到 12-23 回台，每條路線都一樣，`BB_204` 4c；照人在哪裡判斷，不照學期；照她那邊回覆的時間挑"},
    {"topic": "chat", "tier": "R", "variant": "在美國", "msgs": ["從圖書館出來了。天已經黑了。"], "tags": ["17:05", "12 月"], "ask": null, "src": "BB_178 3 閒聊版 在幹嘛 在美國", "tierMin": true, "version": "閒聊版", "variantNote": "2028-08-02 出發到 12-23 回台，每條路線都一樣，`BB_204` 4c；照人在哪裡判斷，不照學期；照她那邊回覆的時間挑", "note": "月份照 `AA_213` 改，句子沒動，請 AA 看"},
    {"topic": "chat", "tier": "R", "variant": "在美國", "msgs": ["從圖書館出來了。這邊風好大。"], "tags": ["17:05", "8～11 月"], "ask": null, "src": "BB_178 3 閒聊版 在幹嘛 在美國", "tierMin": true, "version": "閒聊版", "variantNote": "2028-08-02 出發到 12-23 回台，每條路線都一樣，`BB_204` 4c；照人在哪裡判斷，不照學期；照她那邊回覆的時間挑", "note": "月份照 `AA_213` 改，句子沒動，請 AA 看"},
    {"topic": "chat", "tier": "R", "variant": "在美國", "msgs": ["要睡了。"], "tags": ["22:30"], "ask": null, "src": "BB_178 3 閒聊版 在幹嘛 在美國", "tierMin": true, "version": "閒聊版", "variantNote": "2028-08-02 出發到 12-23 回台，每條路線都一樣，`BB_204` 4c；照人在哪裡判斷，不照學期；照她那邊回覆的時間挑", "note": "同上", "addIf": {"tag": "11～12 月才有第二則", "msgs": ["這邊的暖氣很乾。"]}},
-   {"topic": "course", "tier": "A", "variant": "考試週", "msgs": ["考試週不教新的。範圍有問題可以問。"], "tags": [], "ask": null, "src": "BB_178 3 問課 考試週", "tierMin": true, "version": "事務版、閒聊版都一樣"},
+   {"topic": "course", "tier": "A", "variant": "考試週", "msgs": ["考試週先複習就好。"], "tags": [], "ask": null, "src": "BB_178 3 問課 考試週", "tierMin": true, "version": "事務版、閒聊版都一樣"},
    {"topic": "night", "tier": "R", "variant": "在美國", "msgs": ["中午了，我在吃三明治。", "你睡吧。"], "tags": ["在美國，不是美國路線（台灣的晚上是她那邊的早上，她 12:10 才回）"], "ask": null, "src": "BB_178 3 晚安", "version": "閒聊版", "tierMin": true, "tierCell": "—"},
-   {"topic": "chat", "tier": "R", "variant": "祐廷在日本", "msgs": ["總圖。你那邊比我晚一個小時睡，記得。"], "tags": ["沒交往"], "ask": null, "src": "AA_393 4 在幹嘛 祐廷在日本", "tierMin": true, "version": "閒聊版"},
+   {"topic": "chat", "tier": "R", "variant": "祐廷在日本", "msgs": ["總圖。你那邊快一個小時。"], "tags": ["沒交往"], "ask": null, "src": "AA_393 4 在幹嘛 祐廷在日本", "tierMin": true, "version": "閒聊版"},
    {"topic": "chat", "tier": "R", "variant": "祐廷在日本", "msgs": ["研究室。今天寫了三頁，刪了一頁。"], "tags": ["沒交往"], "ask": null, "src": "AA_393 4 在幹嘛 祐廷在日本", "tierMin": true, "version": "閒聊版"},
    {"topic": "chat", "tier": "L", "variant": "祐廷在日本", "msgs": ["研究室。……你那邊吃晚餐了嗎。"], "tags": ["交往中"], "ask": null, "src": "AA_393 4 在幹嘛 祐廷在日本（交往中）", "tierMin": true, "version": "閒聊版"},
-   {"topic": "share_food", "tier": "R", "variant": "祐廷在日本", "msgs": ["日本的便利商店比較好吃嗎。不用回答，我會想去。"], "tags": ["沒交往"], "ask": null, "src": "AA_393 4 分享 祐廷在日本", "tierMin": true, "version": "閒聊版"},
+   {"topic": "share_food", "tier": "R", "variant": "祐廷在日本", "msgs": ["看起來很好吃。我也想去。"], "tags": ["沒交往"], "ask": null, "src": "AA_393 4 分享 祐廷在日本", "tierMin": true, "version": "閒聊版"},
    {"topic": "share_cat", "tier": "L", "variant": "祐廷在日本", "msgs": ["拍得不錯。下次拍你自己。"], "tags": ["交往中"], "ask": null, "src": "AA_393 4 分享 祐廷在日本（交往中）", "tierMin": true, "version": "閒聊版"},
    {"topic": "share_food", "tier": "L", "variant": "祐廷在日本", "msgs": ["拍得不錯。下次拍你自己。"], "tags": ["交往中"], "ask": null, "src": "AA_393 4 分享 祐廷在日本（交往中）", "tierMin": true, "version": "閒聊版"},
    {"topic": "share_notes", "tier": "L", "variant": "祐廷在日本", "msgs": ["拍得不錯。下次拍你自己。"], "tags": ["交往中"], "ask": null, "src": "AA_393 4 分享 祐廷在日本（交往中）", "tierMin": true, "version": "閒聊版"},
-   {"topic": "night", "tier": "R", "variant": "祐廷在日本", "msgs": ["晚安。你那邊已經過十二點了，快睡。"], "tags": ["沒交往"], "ask": null, "src": "AA_393 4 晚安 祐廷在日本", "tierMin": true, "version": "閒聊版"},
+   {"topic": "night", "tier": "R", "variant": "祐廷在日本", "msgs": ["晚安。你那邊快十二點了。"], "tags": ["沒交往"], "ask": null, "src": "AA_393 4 晚安 祐廷在日本", "tierMin": true, "version": "閒聊版"},
    {"topic": "night", "tier": "L", "variant": "祐廷在日本", "msgs": ["晚安。你那邊比較早天亮，窗簾記得拉。"], "tags": ["交往中"], "ask": null, "src": "AA_393 4 晚安 祐廷在日本（交往中）", "tierMin": true, "version": "閒聊版"}
   ]},
   "classmate_peishan":{"name":"郭沛珊","rules":{"replyFree": null, "noReplyText": "重考消失期（P4 交接讀書會 2026-12-17〔大二上第 15 週〕之後，到 2027-08-06 放榜那天，`BB_194` §19；2026-10-17 BB-C：P4 從大二下第 1 週搬過來）：按鈕照開，訊息只顯示「已送達」、不顯示已讀，她不回；放榜那天她自己先傳（`BB_119` 1b-3）", "openText": "什麼時候開：交換聯絡方式以後（迎新宿營 `BB_177` 3-2，或第 6 週 P2）\n什麼時候不開，或只回事務：一直開；問課只到大二上。重考消失期（P4 交接讀書會 2026-12-17〔大二上第 15 週〕之後，到 2027-08-06 放榜那天，`BB_194` §19；2026-10-17 BB-C：P4 從大二下第 1 週搬過來）：按鈕照開，訊息只顯示「已送達」、不顯示已讀，她不回；放榜那天她自己先傳（`BB_119` 1b-3）", "habitText": "手機習慣：不熟的時候小心、客氣，句子短，很少驚嘆號；熟了以後訊息變長、段落分明，常傳一張書頁的照片，劃了一行線；23:00 以後最常傳。大三起（課輔班以後）訊息變快樂，常有小孩說的好笑的話。", "wakeLine": [], "otherText": ["開放：0-1。", "她在哪裡：大一上週五傍晚搭客運回台中；大二下在台中家裡重考；大三起在別的學校（教育相關科系）、課輔班、書店打工，進不去總圖（`BB_163`）。讀書會只到大二上。", "沛珊（同班，大一上～大二上）（0-7 問課）"], "sectionText": {"course": "問課（同班；大一上～大二上，大二下她不常去上課，大三起在別的學校）", "night": "晚安（`CLOSE_FRIEND` 以上；曖昧、交往。祐廷和別人交往中不開）"}},"replies":[

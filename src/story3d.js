@@ -623,7 +623,10 @@ const STORY = (function(){
   /* 選項的回覆依條件換（AA_211 第 4 節，0ba8d336）：可昕 K3-L7 選項①——沒去系上的電影夜（ev_kexin_film_night，BB_97 9-6，大二還沒做）＝「真的嗎？那下次我坐你旁邊看。」*/
   S.LADDER_REPLY_IF={'K3-L7':{'「我看電影很認真。」':[{unless:{events:['ev_kexin_film_night']},reply:'真的嗎？那下次我坐你旁邊看。'}]},
     'A4-L5':{'「妳跟我講話好像也是。」':[{if:{flags:['dating_heroine_01']},reply:'真的？……跟你講話本來就不用敬語啊。'}]},
-    'A4-L7':{'「讀書會可以先交給 Alison。」':[{if:{flags:['dating_heroine_01']},reply:'嗯。……還有你，半年見不到。'}]}};   /* ROM-1017（AA-C b39f0bb9）＋AA_255 改稿（ladder_aa_y2s2 的 note，25e89f6e）：和以安交往中的回覆；key 換成新的選項 */
+    'A4-L7':{'「讀書會可以先交給 Alison。」':[{if:{flags:['dating_heroine_01']},reply:'嗯。……還有你，半年見不到。'}]},
+    /* AA_580 第 7 節第 10 點（企劃線 759e5c000；AA 審查「交 LAWWW 和疊句一起改，建議值照第 7 節」）：大三上 A5-L2 送過柚子的玩家（linesIf，AN_BDAY_POMELO）已經聽過「那天的柚子……太酸。」，
+       選②「柚子好吃嗎？」的回覆（AA_376 疊句：「很甜。」＋同一句）在這一版只留「很甜。」，不說兩次；其他玩家照舊 */
+    'A5-L2':{'「柚子好吃嗎？」':[{if:{memory:[{npc:'heroine_01',tag:'AN_BDAY_POMELO'}]},reply:'很甜。'}]}};   /* ROM-1017（AA-C b39f0bb9）＋AA_255 改稿（ladder_aa_y2s2 的 note，25e89f6e）：和以安交往中的回覆；key 換成新的選項 */
   /* 旁邊有她的人時，交往中的那一版改說一般版（AA_503 第 14 節第 7 項，企劃線 6bc3cd784；src/privtalk3d.js 登記）：fn(G,x,id,ctx,kind)→true＝這一套這一次不用（說一般版）。
      kind：'linesIf'、'extraIf'（閒聊階梯那一層，ctx＝那一層）、'greet'（招呼的 when，ctx＝招呼的資料）、'reply'（選項的回覆，ctx＝那個選項）、'miss'（沒回訊息那一句，ctx＝那一則；只在有一般版的時候問）*/
   S.DATING_QUIET=[];

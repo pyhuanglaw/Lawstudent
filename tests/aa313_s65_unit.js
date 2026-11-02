@@ -1,5 +1,5 @@
 // AA_313 6-5 的程式項目（第 8、10、11 點）——不需要瀏覽器。
-//   8. 學姊交往以後：聯絡人名稱是「書瑀」，手機上她的訊息也顯示「書瑀」（存的 name 是「溫學姊」也一樣）；沒交往照舊；
+//   8. 學姊交往以後：聯絡人名稱是「貝貝」，手機上她的訊息也顯示「貝貝」（AA_579 第 39 列：手機聯絡人＝貝貝，原本「書瑀」）（存的 name 是「溫學姊」也一樣）；沒交往照舊；
 //      Café 的小交流「今天寫了兩份考古題。」大二起（她念碩士）換「今天改了兩段論文。」。
 //   10. 法服的「研究所學姊」名字框＝「雅筑學姊」（AA-C 35933478）。
 //   11. 沛珊：ev_peishan_split 兩句對調（先說分開了），和 ev_peishan_bohan_split 互斥（同一件事只聽一次）。
@@ -11,11 +11,11 @@ for(const f of ['src/data/calendar.js','src/data/characters.js','src/data/rel_li
 let fails=0; const check=(n,ok,i)=>{ console.log((ok?'PASS ':'FAIL ')+n+(i?'　'+i:'')); if(!ok) fails++; };
 const G={day:400,hour:10,flags:{},social:null,msgs:[],phone:{groups:{},seen:{},q:[],n:0}}; SOCIAL.bind(G);
 const m={th:'g:family_law',from:'heroine_05',name:'溫學姊',text:'學弟好。'};
-check('8. 沒交往：聯絡人名稱照關係、訊息照存的名字「溫學姊」', SOCIAL.contactName('heroine_05')!=='書瑀'&&PHONE.who(m)==='溫學姊', SOCIAL.contactName('heroine_05')+' / '+PHONE.who(m));
+check('8. 沒交往：聯絡人名稱照關係、訊息照存的名字「溫學姊」', SOCIAL.contactName('heroine_05')!=='貝貝'&&PHONE.who(m)==='溫學姊', SOCIAL.contactName('heroine_05')+' / '+PHONE.who(m));
 G.flags.dating_heroine_05=true; G.flags.CALLED_SHUYU=true;   /* 開始交往那天記（romance3d.js ROM.start；never_set_flags_unit 第 5 節）：datingName 讀它 */
-check('8. 交往中：聯絡人名稱「書瑀」、她的訊息也顯示「書瑀」', SOCIAL.contactName('heroine_05')==='書瑀'&&PHONE.who(m)==='書瑀', SOCIAL.contactName('heroine_05')+' / '+PHONE.who(m));
+check('8. 交往中：聯絡人名稱「貝貝」、她的訊息也顯示「貝貝」（AA_579 第 39 列）', SOCIAL.contactName('heroine_05')==='貝貝'&&PHONE.who(m)==='貝貝', SOCIAL.contactName('heroine_05')+' / '+PHONE.who(m));
 delete G.flags.dating_heroine_05; G.flags.romance={heroine_05:{status:'dating'}};
-check('8. 新的感情紀錄（romance.status＝dating）也算', PHONE.who(m)==='書瑀');
+check('8. 新的感情紀錄（romance.status＝dating）也算', PHONE.who(m)==='貝貝');
 G.flags.romance={heroine_05:{status:'ex'}};
 check('8. 分手以後回到「溫學姊」', PHONE.who(m)==='溫學姊');
 { const sm=REL_LINES.heroine_05.cafe.small.find(q=>q.l[0]==='「今天寫了兩份考古題。」'); const st=fs.readFileSync(path.join(ROOT,'src/story3d.js'),'utf8');

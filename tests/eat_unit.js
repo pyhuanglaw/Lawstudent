@@ -1,7 +1,7 @@
-// 吃東西（X67；AA_329＋AA_336 第 A 節，企劃 724d7703；AA_329 照 AA_576 以安改稿第一批換成 b10d0567f，台詞在 src/data/eat_lines.js）：一起吃、吃過的、店員認得你——不需要瀏覽器。照 AA_329 第 5 節給 BB 的 E1～E8，台詞不寫死（讀 EAT_LINES）。
+// 吃東西（X67；AA_329＋AA_336 第 A 節，企劃 724d7703；AA_329 照 AA_576 以安改稿第一批換成 b10d0567f、照 AA_579 學姊改稿第一批換成 759e5c000，台詞在 src/data/eat_lines.js）：一起吃、吃過的、店員認得你——不需要瀏覽器。照 AA_329 第 5 節給 BB 的 E1～E8，台詞不寫死（讀 EAT_LINES）。
 //   E1 118 巷以安在滇香吃飯、和她 FAMILIAR：點完問「坐過去一起吃」→ 開場、熟的那一組、結尾（滇香沒有回收台＝在店門口分開）；時間 +30 分鐘；關係加一點；店裡原本的「吃完」旁白不說
 //   E2 同一天再點一次：不再問（一天一次）
-//   E3 和學姊交往中（她不知道別人）：祐廷先說交往版的第一句（「書瑀。」）；她知道祐廷也和可昕交往＝朋友版
+//   E3 和學姊交往中（她不知道別人）：祐廷先說交往版的第一句（「貝貝。」，AA_579 第 57 列）；她知道祐廷也和可昕交往＝朋友版
 //   E4 第一次去好家自助餐：點餐那句 → 第一次的旁白 → 店裡吃完的旁白；筆記本「吃過的」多一筆
 //   E5 同一間第二次點別的：沒有第一次的旁白（吃過的照樣記新的品項）
 //   E6 六張犁麵舖第 5 次：老闆那一句（只說一次）、選單多「老樣子」＝上一次那一樣、回那一句、扣那一樣的錢
@@ -43,7 +43,7 @@ const has=t=>said.some(s=>s.t===t), idx=t=>said.findIndex(s=>s.t===t);
 const EL=typeof EAT_LINES!=='undefined'?EAT_LINES:{together:{},first:{},staff:{},doorShops:[]};
 const shop=id=>LANE118_SHOPS.shops.find(s=>s.id===id);
 (async()=>{
-  check('0. 有 EAT（src/eat3d.js）、EAT_LINES（AA_329 企劃 b10d0567f＋AA_336 第 A 節，企劃 724d7703）', typeof EAT!=='undefined'&&typeof EAT_LINES!=='undefined'&&/AA_329（企劃 b10d0567f）/.test(EAT_LINES.source||'')&&/AA_336/.test(EAT_LINES.source||''), EAT_LINES&&EAT_LINES.source);
+  check('0. 有 EAT（src/eat3d.js）、EAT_LINES（AA_329 企劃 759e5c000＋AA_336 第 A 節，企劃 724d7703）', typeof EAT!=='undefined'&&typeof EAT_LINES!=='undefined'&&/AA_329（企劃 759e5c000）/.test(EAT_LINES.source||'')&&/AA_336/.test(EAT_LINES.source||''), EAT_LINES&&EAT_LINES.source);
   // ---------- E1 ----------
   const tue=td('Y1S1',3,2);
   fresh(tue,12.4,'l118_dian'); R('heroine_01','FAM'); const an=npcAt('heroine_01');
@@ -64,7 +64,7 @@ const shop=id=>LANE118_SHOPS.shops.find(s=>s.id===id);
   fresh(tue2,17.6,'l118_self',{dating_heroine_05:true}); R('heroine_05','FRI'); npcAt('heroine_05');
   { const e=STORY.schedEnt(CHARACTERS.heroine_05,G); check('E3 前置：Y2S1 第 3 週週二 17:36 學姊在好家自助餐吃飯、店開著', !!e&&e.zone==='l118_self'&&e.act==='eat'&&L118.isOpen('self',G), JSON.stringify(e&&{zone:e.zone,act:e.act})); }
   picks=[0,'坐過去一起吃']; await L118.order(GM,'self'); const D5=(EL.together.heroine_05||{}).dating||[];
-  check('E3 和學姊交往中：交往版——祐廷先說第一句（「書瑀。」），接她的兩句；自助餐有回收台＝一起收盤子', D5.length&&D5[0][0]==='me'&&said.some(s=>s.who==='祐廷'&&s.t===D5[0][1])&&D5.every(x=>has(x[1]))&&has(EL.closeRecycle), said.map(s=>(s.who||'')+':'+s.t).join('｜'));
+  check('E3 和學姊交往中：交往版——祐廷先說第一句（「貝貝。」），接她的兩句；自助餐有回收台＝一起收盤子', D5.length&&D5[0][0]==='me'&&said.some(s=>s.who==='祐廷'&&s.t===D5[0][1])&&D5.every(x=>has(x[1]))&&has(EL.closeRecycle), said.map(s=>(s.who||'')+':'+s.t).join('｜'));
   fresh(tue2,17.6,'l118_self',{dating_heroine_05:true,dating_kexin:true}); R('heroine_05','FRI'); npcAt('heroine_05'); ROM.learn(G,'heroine_05','kexin','test');
   picks=[0,'坐過去一起吃']; await L118.order(GM,'self'); const F5=(EL.together.heroine_05||{}).FRI||[];
   check('E3 她知道祐廷也和可昕交往：朋友版（不是交往版）', F5.length&&F5.every(x=>has(x[1]))&&!has(D5[0]&&D5[0][1]), said.map(s=>s.t).join('｜'));

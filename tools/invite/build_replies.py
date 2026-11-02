@@ -72,7 +72,7 @@ AT = {
     '「今天不行。明天。明天不行的話後天。後天一定。」': {'today': True, 'day': 'tomorrow'},
     '「在趕作業。明天。」': {'today': True, 'day': 'tomorrow'},
     '「我在總圖。五點以後。」': {'day': 'same', 'from': 17},
-    '「這週不行。不是不想。」': {'day': 'nextweek'},
+    '「這週不行。下禮拜好不好？」': {'day': 'nextweek'},   # 學姊 sis31（AA_579 第 34 列：原「這週不行。不是不想。」；改天的時間照舊）
     '「讀書會。九點以後可以。」': {'day': 'same', 'from': 21},
     '「今天要寫心得。明天？」': {'today': True, 'day': 'tomorrow'},
     '「我在社科院上課，四點下課。」': {'day': 'same', 'from': 16, 'before': 16},
@@ -233,7 +233,7 @@ for who, sec, cells in sections(MD):
     n = counts[who] = counts.get(who, 0) + 1
     tags, cond, lim = parse_tags(tagcell)
     via, apart = None, False
-    m = re.match(r'現有(?:（(\w+)）)?$', src)
+    m = re.match(r'現有(?:（(\w+)）)?(?:；.*)?$', src)   # 來源欄「現有（rule）；改天；…」：分號後面是企劃說明（AA_415 an10，企劃線 bd39a1883 把說明從台詞格移到這一欄）
     if m:
         via = m.group(1) or 'acc'
     if stage == '改天':

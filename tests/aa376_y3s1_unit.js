@@ -137,6 +137,9 @@ const in376=t=>MD376.includes(t), in342=t=>MD342.includes(t);
     check('9. 在場的：「那天的柚子，阿哲剝完就沒人吃。……我帶回去了，我室友說太酸。」（照中秋那場）',!!li&&li.lines[1]==='那天的柚子，阿哲剝完就沒人吃。……我帶回去了，我室友說太酸。',J(li));
     check('9. 選項②「柚子好吃嗎？」：引號裡那一句換掉（「很甜。」照舊）',!!ch&&ch.t==='「柚子好吃嗎？」'&&ch.reply==='很甜。那天的柚子，阿哲剝完就沒人吃。……我帶回去了，我室友說太酸。',J(ch));
     check('9. 交往中：「那天晚上，我看了手機好幾次。」',!!ex&&J(ex.lines)===J(['那天晚上，我看了手機好幾次。']),J(ex));
+    /* AA_580 第 7 節第 10 點（企劃線 759e5c000）：送過柚子的（AN_BDAY_POMELO，linesIf 已經說過那一句）選②只回「很甜。」，不說兩次；沒送過的照上面 */
+    fresh(STORY.termDay('Y3S1',4,1),15,'campus'); const r0=STORY.ladReply(s,ch,G,'heroine_01'); SOCIAL.remember('heroine_01','AN_BDAY_POMELO'); const r1=STORY.ladReply(s,ch,G,'heroine_01');
+    check('9. 選項②的回覆：沒送過柚子＝「很甜。」＋那一句；送過（AN_BDAY_POMELO）＝只有「很甜。」（AA_580 第 7 節第 10 點）',r0===ch.reply&&r1==='很甜。',J([r0,r1]));
   });
   // ===== 10. 語彤 Y5-L6／L7、續約轉述 =====
   await sec('10',async()=>{

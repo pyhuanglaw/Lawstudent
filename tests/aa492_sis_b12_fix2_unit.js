@@ -113,11 +113,11 @@ await sec(4,async()=>{ const NAR={law:'（她的包包裡露出那本小說。�
   let tn=0; const date=async(o)=>{ o=o||{}; const G=H.G, t={trip:'T49'+String(++tn).padStart(3,'0'),who:o.who||ID,locs:['D15'],day:G.day,depart:18,back:22,transport:'car',departed:true,status:'booked',spots:['D15.view']};
     H.said=[]; H.opts=[]; H.picks=[]; if(o.overnight) await DATE.settleOvernight(GM,t,['D15.view'],[{id:'D15.view',name:'夜景'}],1,G.money|0); else await DATE.settle(GM,t,['D15.view'],[{id:'D15.view',name:'夜景'}],1,G.money|0,o.quick?{quick:true}:undefined);
     return H.said.map(x=>[x.who,x.t]); };
-  const has=(L,k)=>{ const i=L.findIndex(x=>x[1]===NAR[k]); return i>=0&&L[i][0]===null&&!!L[i+1]&&J(L[i+1])===J(['書瑀',SAY[k]]); };
+  const has=(L,k)=>{ const i=L.findIndex(x=>x[1]===NAR[k]); return i>=0&&L[i][0]===null&&!!L[i+1]&&J(L[i+1])===J(['溫書瑀',SAY[k]]); };
   const any=L=>L.some(x=>x[1]===NAR.law||x[1]===NAR.novel);
   const setup=(key,book,flags,kind)=>fresh(key,10,kind||'dating',Object.assign({SIS_BOOK:book,SIS_BOOK_WITH_YOU:false},flags||{}));
   for(const k of ['law','novel']){ setup('2029-03-10',k); const L1=await date(), b1=H.G.flags.SIS_BOOK_BACK; const L2=await date();
-    check('4. '+k+'：交往中、朋友版、兩版都沒演過：約會結尾演一次（旁白不寫名字＋書瑀「'+SAY[k]+'」）、記 SIS_BOOK_BACK、下一次不再演',has(L1,k)&&b1===true&&!any(L2),J({L1,b1,L2})); }
+    check('4. '+k+'：交往中、朋友版、兩版都沒演過：約會結尾演一次（旁白不寫名字＋溫書瑀「'+SAY[k]+'」，AA_579 第 39 列：對話框「溫書瑀」）、記 SIS_BOOK_BACK、下一次不再演',has(L1,k)&&b1===true&&!any(L2),J({L1,b1,L2})); }
   { setup('2029-03-10','law'); const L=await date({quick:true}); setup('2029-03-10','novel'); const M=await date({overnight:true});
     check('4. 快速約會、兩天一夜也是正式約會：一樣演一次',has(L,'law')&&has(M,'novel'),J({L,M})); }
   { setup('2029-03-10','law'); const L=await date(), i=L.findIndex(x=>x[1]===NAR.law), j=L.findIndex(x=>/^（今天去了/.test(x[1]));
@@ -140,7 +140,7 @@ await sec(4,async()=>{ const NAR={law:'（她的包包裡露出那本小說。�
   { const w=D('2028-07-20'); setup('2029-03-10','law'); delete H.G.flags.SIS_BOOK_WITH_YOU; H.G.events.last.ev_sis_which_book=w; const R=ROM.get(H.G,ID); R.sinceDay=w+40; const a=await date();
     setup('2029-03-10','law'); delete H.G.flags.SIS_BOOK_WITH_YOU; H.G.events.last.ev_sis_which_book=w; ROM.get(H.G,ID).sinceDay=w-10; const b=await date();
     check('4. 舊存檔：選書那天以後才交往＝朋友版（演）；選書那天已經在交往＝交往版（不演，12/24 那一頓演過）',has(a,'law')&&!any(b),J({a,b})); }
-  check('4. 交往中的顯示名字是「書瑀」（social3d.js CALLED_SHUYU）',(()=>{ setup('2029-03-10','law'); return SOCIAL.displayName(ID)==='書瑀'; })()); });
+  check('4. 交往中的顯示名字是「溫書瑀」（social3d.js CALLED_SHUYU；AA_579 第 39 列 DATING_NAME）',(()=>{ setup('2029-03-10','law'); return SOCIAL.displayName(ID)==='溫書瑀'; })()); });
 
 H.done();
 })().catch(e=>{ console.error(e); process.exit(1); });

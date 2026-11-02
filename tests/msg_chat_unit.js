@@ -173,7 +173,7 @@ if(typeof MSG2_POOL!=='undefined'){ global.MSG_POOL=REAL?realPool:FAKE; const P2
   { const s=(k,st,fl)=>{ mk('heroine_05',st,K(k),10,fl); return tk('heroine_05').includes('bday'); };
     check('H8. 學姊 6/2：2026 有；2028（照 BB_98 2-11，句子還沒進回覆池）先不開',s('2026-06-02',3)&&!s('2028-06-02',3));
     s('2026-06-02',2); MSG.send(G,'heroine_05','bday'); check('H8. 有點熟（事務版）：回 A「謝謝。」',reply().slice(-1)[0]==='謝謝。',JSON.stringify(reply()));
-    s('2027-06-02',3); MSG.send(G,'heroine_05','bday'); check('H8. 朋友、兩人都單身：回 R「謝謝。今天的計畫本，我沒有排事情。」',reply().slice(-1)[0]==='謝謝。今天的計畫本，我沒有排事情。',JSON.stringify(reply())); }
+    s('2027-06-02',3); MSG.send(G,'heroine_05','bday'); check('H8. 朋友、兩人都單身：回 R「謝謝。今天難得沒有排事情。」（AA_579 第 11 列）',reply().slice(-1)[0]==='謝謝。今天難得沒有排事情。',JSON.stringify(reply())); }
   { const zq=k=>{ mk('heroine_04',3,K(k),15); G.events.done.ev_ziqing_secret_game=1; MSG.send(G,'heroine_04','bday'); return reply().join('/'); };
     const a=zq('2027-02-10'), b=zq('2029-02-10'); check('H9. 子晴生日 R：2027「我今天收到一個 bug 當禮物」、2029 換「同事買了一個很大的蛋糕」',/bug/.test(a)&&/同事買了一個很大的蛋糕/.test(b),a+' ｜ '+b); }
   { mk('classmate_peishan',3,K('2027-03-15'),15); const t=tk('classmate_peishan'); const r=MSG.send(G,'classmate_peishan','bday');
