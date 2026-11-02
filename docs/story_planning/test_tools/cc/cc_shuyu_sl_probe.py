@@ -51,7 +51,7 @@ TRANS = {'steps': [], 'talks': []}
 LAD_JS = """(id=>{ const G=GAME.G, so=G.social||{}, D=STORY.ladData(G,id), K=D?D.key:id, n=((so.ladder||{})[K])|0, st=D&&D.L.steps[n];
   const T=CALENDAR.termOf(G.day), r=SOCIAL.rel(id);
   return {day:G.day, key:CALENDAR.dateOf(G.day).key, wd:G.weekday, h:+(+G.hour).toFixed(2), zone:G.zone, term:T&&T.id, week:T&&T.week,
-    lad:n, ladKey:K, ladDay:(so.ladderDay||{})[id]==null?null:(so.ladderDay||{})[id], next:st?st.id:null, nextFirst:st?(STORY.ladLines(st,G,id)[0]||''):'',
+    lad:n, ladKey:K, ladDay:(so.ladderDay||{})[id]==null?null:(so.ladderDay||{})[id], next:st?st.id:null, nextFirst:st?(STORY.ladLines(st,G,id)[0]||''):'', nextAll:st?STORY.ladLines(st,G,id).map(l=>typeof l==='string'?l:(l&&l.t)||'').concat(STORY.ladChoices(st).flatMap(c=>[].concat(c.reply||[]))):[],
     nextFirstCh:st?STORY.ladChoices(st).map(c=>c.t):[], relUp:((so.relUp||{})[id])|0, evCount:(G.events&&G.events.count)|0,
     fam:r.fam|0, trust:r.trust|0, comf:r.comf|0, stage:SOCIAL.stage(id), mems:SOCIAL.memories(id).map(m=>m.tag||m.k||m.type||m),
     satFirst:!!(G.flags&&G.flags.LAWCLUB_SAT_FIRST), ladDel:so.ladDel||null}; })(%s)"""
@@ -101,12 +101,14 @@ async def talk(pg, cdp, run, tag):
 def norm(t): return (t or '').strip().lstrip('「').strip()
 
 
-def seen_line(said, dlg, first):
-    """GAME.say 有那一句（startswith）、對話框看得到它的開頭（startswith 前 6 個字）"""
+def seen_line(said, dlg, first, alls=()):
+    """GAME.say 有那一層的第一句（startswith）；對話框看得到那一層的台詞或回覆（任一句，startswith 前 6 個字）——
+    兩個字的短句（「學弟。」）對話框輪詢常常整句漏掉（bbplay 的 say_hook 註解），所以畫面這一項看整層"""
     f = norm(first)
     in_say = any(norm(t).startswith(f) for _, t in said) if f else False
     shown = [norm(t) for _, t in ((dlg or {}).get('lines') or [])]
-    in_box = any(s.startswith(f[:6]) for s in shown) if f else False
+    cands = [norm(x) for x in ([first] + list(alls or [])) if norm(x)]
+    in_box = any(s.startswith(c[:6]) for s in shown for c in cands)
     return in_say, in_box
 
 
@@ -126,7 +128,7 @@ async def advance_layer(pg, cdp, run, label, tries=4):
 
 async def check_layer(pg, cdp, run, sid, label, extra=None):
     b, a, said, r, adv = await advance_layer(pg, cdp, run, label)
-    in_say, in_box = seen_line(said, r, b['nextFirst'])
+    in_say, in_box = seen_line(said, r, b['nextFirst'], b.get('nextAll'))
     ok = adv and b['next'] == sid.split('（')[0] and a['lad'] == b['lad'] + 1 and a['ladDay'] == a['day'] and in_say and in_box
     ex_ok, ex_info = True, ''
     if extra: ex_ok, ex_info = extra(b, a)

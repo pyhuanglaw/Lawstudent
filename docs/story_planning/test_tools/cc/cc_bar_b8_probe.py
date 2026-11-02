@@ -47,7 +47,7 @@ PST = r"""(()=>{ const G=GAME.G, F=G.flags||{}, pick={}; for(const k of Object.k
   return {key:CALENDAR.dateOf(G.day).key,day:G.day,h:+(+G.hour).toFixed(3),zone:G.zone,flags:pick,path,done:done&&Object.keys(done).filter(k=>/^(exam|r1|e2|r2|jretake|j3|jb2|jrole|miss|r2miss|reg|jreg|first|epi)/.test(k)).reduce((o,k)=>(o[k]=done[k],o),{}),
     title:!document.getElementById('titleScreen').classList.contains('hide'),nmsg:(G.msgs||[]).length}; })()"""
 LINES = r"""(()=>{ const PL=POSTGRAD_LINES, J=PL.JUDGE||{}, E=PL.EPI||{}; return {missed:PL.MISSED||null,epiAuto:J.epiAuto||null,epiD:J.epiD||null,epiF:J.epiF||null,distance:J.distance||null,
-  trainee:J.trainee||null,last:E.last||null,meJ:(E.me||{}).J_trainee||null,regText:(PL.REG||{}).text||null,TRAINEE_FROM:PG.TRAINEE_FROM==null?null:PG.TRAINEE_FROM,
+  trainee:J.trainee||null,last:E.last||null,meJ:((PL.FIRST||{}).me||{}).J_trainee||null,firstJR:(PL.FIRST||{}).judgeRetake||null,regText:(PL.REG||{}).text||null,TRAINEE_FROM:PG.TRAINEE_FROM==null?null:PG.TRAINEE_FROM,
   photoJ:(()=>{ try{ return JSON.stringify(PL).match(/（照片：司法官學院的宿舍書桌[^」"]*?）/g); }catch(e){ return null; } })()}; })()"""
 QANS = r"""(([qt])=>{ try{ const all=PG.pool(true).concat(PG.judgePool?PG.judgePool():[]); const q=all.find(x=>String(x.q)===qt); if(!q) return {err:'題庫找不到這一題',n:all.length};
   const o=PG.opts(q); return {id:q.id,course:q.course||null,right:o.findIndex(x=>String(x.v)===String(q.answer)),opts:o.map(x=>x.t)}; }catch(e){ return {err:String(e.message)}; } })"""
@@ -82,7 +82,7 @@ class D(Y.Driver):
                 await P.tap_choice(pg, cdp, want); await pg.wait_for_timeout(800); return True
             self.opts_seen.append([lastsay and lastsay.get('d'), lastsay and lastsay['t'][:60], T])
             if any(t.startswith(RETAKE_OPTS) for t in T): self.shots['retake_choice'] = await run.shot(pg, self.tag + '_retake_choice')
-            return await super().handle(s, ('報名',) + tuple(picks))
+            return await super().handle(s, ('報名', '先不接') + tuple(picks))   # 視訊「晚一點」會一直再提醒：選「先不接」
         return await super().handle(s, picks)
 
 
@@ -127,8 +127,8 @@ async def play(pg, cdp, run, tag):
     drv.shots['end'] = await run.shot(pg, tag + '_end')
     R = await Y.rows(pg, n0); said = [x for x in R if x['k'] == 'say']
     steps = [x['t'] for x in R if x['k'] == 'step' and x['n'] == 'end']
-    try: msgs = await pg.evaluate(Y.MSGS, nm0)
-    except Exception: msgs = []
+    try: msgs = await pg.evaluate(Y.MSGS, nm0); allmsgs = await pg.evaluate(Y.ALLMSG)
+    except Exception: msgs = []; allmsgs = []
     # 尾聲的台詞：epi 那一場開始到結束
     i0 = next((i for i, x in enumerate(R) if x['k'] == 'step' and x['n'] == 'start' and x['t'] == 'epi'), None)
     i1 = next((i for i, x in enumerate(R) if x['k'] == 'step' and x['n'] == 'end' and x['t'] == 'epi'), None)
@@ -136,7 +136,7 @@ async def play(pg, cdp, run, tag):
     run.note('%s：尾聲 %d 句：%s' % (tag, len(epil), J(epil)))
     run.note('%s：演過的場景 %s' % (tag, J(steps)))
     run.note('%s：考卷 %s' % (tag, J([[e['kind'], e['y'], e['i'], e['id'], e['course'], e['correct'], e['same']] for e in drv.exam])))
-    o = dict(info=info, s0=s0, lines=lines, epi=epi, said=said, steps=steps, msgs=msgs, epil=epil, stuck=stuck, drv=drv, elapsed=round(time.time() - t0))
+    o = dict(info=info, s0=s0, lines=lines, epi=epi, said=said, steps=steps, msgs=msgs, allmsgs=allmsgs, epil=epil, stuck=stuck, drv=drv, elapsed=round(time.time() - t0))
     with open(os.path.join(OUT, 'b8_%s.json' % tag), 'w', encoding='utf-8') as f:
         json.dump({'case': tag, 'sha': os.environ.get('SHA', '?'), 'info': info, 'start': s0, 'epi': epi, 'rows': R, 'msgs': msgs, 'epilogue': epil, 'steps': steps, 'stuck': stuck,
                    'exam': drv.exam, 'opts': drv.opts_seen, 'picks': drv.picks_log, 'shots': drv.shots, 'elapsed': o['elapsed']}, f, ensure_ascii=False, indent=1)
@@ -178,8 +178,10 @@ async def case_trainee(pg, cdp, run):
              J([x['t'] for x in o['said'] if '司法官學院的宿舍書桌' in x['t']] + [m['text'] for m in o['msgs'] if '司法官學院的宿舍書桌' in m['text']]), J(Ln.get('photoJ'))))
     run.check('%s：阿凱、沛珊受訓中那兩句（前置兩人都是朋友）' % tag, has(o, tr.get('kai')) and has(o, tr.get('peishan')), J([x['t'][:40] for x in o['said'] if x['n'] in ('阿凱', '沛珊')][-4:]))
     run.check('%s：交往中遠距那一句（前置和語彤交往）' % tag, has(o, Ln.get('distance')), J(Ln.get('distance')))
-    ph = Ln.get('meJ')
-    run.check('%s：照片＝「司法官學院的宿舍書桌」那一張（尾聲或手機）' % tag, bool(ph) and (has(o, ph) or any(ph in m['text'] for m in o['msgs'])), J(ph))
+    # 照片：讀碼 FIRST.me.J_trainee 是「第一份工作」那一張（2030-10-01 firstDay，S.firstPhoto）；這條路線那時候在重考司法官＝照 FIRST.judgeRetake，尾聲本身沒有照片那一行
+    fp = [m['text'] for m in o['allmsgs'] if m['tag'] == 'pg_first_day' and m['from'] == 'player']
+    run.note('%s：第一份工作的照片（前置 2030-10-01 演的）%s；FIRST.me.J_trainee＝%s；FIRST.judgeRetake＝%s' % (tag, J(fp), J(Ln.get('meJ')), J(Ln.get('firstJR'))))
+    run.check('%s：照片：2030-10-01 那一張照「重考司法官」那一版（S.firstPhoto；不是 J_trainee 那一張）' % tag, bool(fp) and bool(Ln.get('firstJR')) and Ln['firstJR'] in fp[0], J({'photo': fp, 'want': Ln.get('firstJR')}))
     run.check('%s：沒有卡住' % tag, o['stuck'] is None, J(o['stuck']))
 
 

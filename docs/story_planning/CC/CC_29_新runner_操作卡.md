@@ -97,3 +97,14 @@ powershell -ExecutionPolicy Bypass -File "$env:USERPROFILE\Documents\Lawstudent_
    - 如果第 3 行出現紅字，例如「無法辨識 run_forever.ps1」或「找不到檔案」，表示第 2 行沒有合併到最新版。把畫面截圖給 BB。
 4. **以後**：這個視窗開著就好，不用再貼任何指令。要停就按 Ctrl+C。
 5. **出問題就退回**：按 Ctrl+C，改貼上一張卡的第 3 行（`python "...\run_queue.py" --parallel 2`），或最舊的 `run_queue.ps1`。兩者都沒有改。
+
+## 當機／重開機以後（BB_00 第 13 點）
+- **雙擊桌面的「啟動測試迴圈」捷徑**就好。捷徑執行的是
+  `powershell -NoExit -ExecutionPolicy Bypass -File "%USERPROFILE%\Documents\Lawstudent_cclocal\tools\cc_local\run_forever.ps1"`。
+- 捷徑不見了：開 PowerShell，貼這一行：
+  `powershell -NoExit -ExecutionPolicy Bypass -File "$env:USERPROFILE\Documents\Lawstudent_cclocal\tools\cc_local\run_forever.ps1"`
+- 不用先手動 fetch／merge：runner 一啟動就會 `git fetch` cc-testing、開發分支、LAWWW2 分支和 cc-local，再把 cc-testing 合併進 `Lawstudent_cclocal`，拿到最新的佇列和最新版 runner。
+- **中斷的項目會自動重跑**：meta.json 只在一項跑完時才寫，沒跑完的項目沒有新的 meta，所以下一輪一定會重跑。上一次留下的 worktree 資料夾，會先刪掉，刪不掉就換一個名字。工作樹裡沒 commit 的殘檔，因為 commit 前會先清索引，不會被帶進結果。
+- **應該看到**：青色的 `run_forever: round 1`，接著是設定那幾行，然後是兩個並排的視窗。雲端會在 cc-local 看到「CC-local: runner start (rf_round 1, …)」。
+- **不要搬動或改名 `tools/cc_local/run_forever.ps1`**：捷徑寫死了這個路徑。
+- 已知的風險（還沒處理）：如果當機剛好發生在 git 寫入的時候，可能留下 `index.lock`，git 指令會失敗。runner 會印出 git 錯誤，然後每 60 秒重試一次。遇到這種情況，請 BB 把 console.log 或畫面給 CC 看。之後 runner 會加上自動清除過期 lock 的功能。

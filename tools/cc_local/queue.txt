@@ -33,12 +33,23 @@ G4v2_ef63   | ef63b1877 | probe | docs/story_planning/test_tools/cc/flow_main_da
 # 雲端還沒跑過（BB_229 規則 1）：子代理在雲端驗證中，跑過就解除
 #HOLD雲端 P1_d124    | ef63b1877 | probe | docs/story_planning/test_tools/cc/cc_d124_probe.py | index.html?turbo | 90 |
 #HOLD雲端 P2_bar     | ef63b1877 | probe | docs/story_planning/test_tools/cc/cc_bar_b8_probe.py | index.html?turbo | 90 |
-#HOLD雲端 G5b_ancf   | ef63b1877 | probe | docs/story_planning/test_tools/cc/cc_next1102_ui_probe.py | index.html | 90 | SHA=ef63b1877;CASES=ancf2;ORIENTS=port（BB：不開 turbo、不用 OUT.go、出發提示等 180 秒；探針要先改）
-#HOLD雲端 P5w_wake   | ef63b1877 | probe | docs/story_planning/test_tools/cc/cc_next1102_ui_probe.py | index.html | 60 | SHA=ef63b1877;CASES=examgoal_wake;ORIENTS=port
-#HOLD雲端 A1_advskip | b1b249873 | probe | docs/story_planning/test_tools/cc/cc_advskip_probe.py | index.html | 60 |
-#HOLD雲端 A2_dorm    | b1b249873 | probe | docs/story_planning/test_tools/cc/cc_dorm_moveout_probe.py | index.html | 60 |
-#HOLD雲端 A3_late15  | b1b249873 | probe | docs/story_planning/test_tools/cc/cc_late15_probe.py | index.html | 60 |
-#HOLD雲端 P3b_sl     | ef63b1877 | probe | docs/story_planning/test_tools/cc/cc_shuyu_sl_probe.py | index.html | 110 | （學姊大一上 S-L1～L4 實走；探針撰寫中）
+G5b_ancf   | ef63b1877 | probe | docs/story_planning/test_tools/cc/cc_next1102_ui_probe.py | index.html | 90 | SHA=ef63b1877;CASES=ancf2;ORIENTS=port;REAL=1
+P5w_wake   | ef63b1877 | probe | docs/story_planning/test_tools/cc/cc_next1102_ui_probe.py | index.html | 60 | SHA=ef63b1877;CASES=examgoal_wake;ORIENTS=port
+A1_advskip | b1b249873 | probe | docs/story_planning/test_tools/cc/cc_advskip_probe.py | index.html | 60 | RERUN=c1
+A2_dorm    | b1b249873 | probe | docs/story_planning/test_tools/cc/cc_dorm_moveout_probe.py | index.html | 60 | RERUN=c1
+A3_late15  | b1b249873 | probe | docs/story_planning/test_tools/cc/cc_late15_probe.py | index.html | 60 | RERUN=c1
+# A1～A3 雲端跑過（CC_31）：b1b 和修改前對照都跑過了。PC 再跑一次 b1b＋對照，然後跑 ef63
+A1_adv_ef63  | ef63b1877 | probe | docs/story_planning/test_tools/cc/cc_advskip_probe.py | index.html | 60 |
+A2_dorm_ef63 | ef63b1877 | probe | docs/story_planning/test_tools/cc/cc_dorm_moveout_probe.py | index.html | 60 |
+A3_l15_ef63  | ef63b1877 | probe | docs/story_planning/test_tools/cc/cc_late15_probe.py | index.html | 60 |
+A1pre        | 03b2721af | probe | docs/story_planning/test_tools/cc/cc_advskip_probe.py | index.html | 60 |
+A2pre        | 3c6207b60 | probe | docs/story_planning/test_tools/cc/cc_dorm_moveout_probe.py | index.html | 60 |
+A3pre        | dc36b401e | probe | docs/story_planning/test_tools/cc/cc_late15_probe.py | index.html | 60 |
+# LAWWW2 BAKE-PC-1102（21:08，BB 已授權 blender 工作單；發布前測試在前面）。腳本在 lawww2 22f1e722c（head fa9b9f5d8）。
+# BB_229 規則 1：CC 這個容器沒有 bpy，沒辦法在雲端先跑；腳本 LAWWW2 已在他的雲端驗過 CPU 路徑（和原本逐像素相同）。HIP 是第一次實測
+BK1_cpu      | lawww2    | blender | tools/blender/env_second/lightbake/pc_ref/pc_bake_dorm_ref.py | index.html | 60 | CC_BLENDER_DEVICE=CPU;XARGS=--out {out} --res 512 --samples 256
+BK1_hip      | lawww2    | blender | tools/blender/env_second/lightbake/pc_ref/pc_bake_dorm_ref.py | index.html | 60 | CC_BLENDER_DEVICE=HIP;XARGS=--out {out} --res 512 --samples 256
+P3b_sl     | ef63b1877 | probe | docs/story_planning/test_tools/cc/cc_shuyu_sl_probe.py | index.html | 75 |
 #HOLD雲端 （第二批 BB_245 的 node／probe 探針、art247 截圖：子代理寫好、雲端跑過再加）
 R4main      | 27e6ce77e | game  | tests/flow_main_day12.py     | index.html       | 180 | XARGS={url} {out}
 R4b1b_rr    | b1b249873 | game  | tests/flow_main_day12.py     | index.html       | 180 | XARGS={url} {out};RERUN=rr1

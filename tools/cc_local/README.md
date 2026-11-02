@@ -105,3 +105,14 @@ runner 印到畫面上的每一行都會留一份，只保留最後 2000 行，�
 8. **送佇列前先做靜態檢查**：`python3 tools/cc_local/probe_lint.py`。內容：py_compile、pyflakes（有裝才跑）、用 ast 檢查 `%` 格式字串的參數數目（跨行串接不會誤報）、`.js` 用 node --check。今晚的三個 `%` bug（b3:745、layout16:304、351），用修正前的版本測都 FAIL，現在全部 81 個檔案 ALL PASS。
 9. **共用函式庫 cc_lib**：認考卷、認選單、等劇情、關手機、存讀檔放在一起，所有探針都用它，修一次就全部修好。今晚的發布判完以後再整理。
 10. **遊戲規則改了，探針要跟著改**：LAWWW 改規則時（例如 D124、AA_582），由 CC 列出受影響的探針，先在雲端跑一次，再排 PC。
+
+## 當機／重開機以後（BB_00 第 13 點）
+- **雙擊桌面的「啟動測試迴圈」捷徑**就好。捷徑執行的是
+  `powershell -NoExit -ExecutionPolicy Bypass -File "%USERPROFILE%\Documents\Lawstudent_cclocal\tools\cc_local\run_forever.ps1"`。
+- 捷徑不見了：開 PowerShell，貼這一行：
+  `powershell -NoExit -ExecutionPolicy Bypass -File "$env:USERPROFILE\Documents\Lawstudent_cclocal\tools\cc_local\run_forever.ps1"`
+- 不用先手動 fetch／merge：runner 一啟動就會 `git fetch` cc-testing、開發分支、LAWWW2 分支和 cc-local，再把 cc-testing 合併進 `Lawstudent_cclocal`，拿到最新的佇列和最新版 runner。
+- **中斷的項目會自動重跑**：meta.json 只在一項跑完時才寫，沒跑完的項目沒有新的 meta，所以下一輪一定會重跑。上一次留下的 worktree 資料夾，會先刪掉，刪不掉就換一個名字。工作樹裡沒 commit 的殘檔，因為 commit 前會先清索引，不會被帶進結果。
+- **應該看到**：青色的 `run_forever: round 1`，接著是設定那幾行，然後是兩個並排的視窗。雲端會在 cc-local 看到「CC-local: runner start (rf_round 1, …)」。
+- **不要搬動或改名 `tools/cc_local/run_forever.ps1`**：捷徑寫死了這個路徑。
+- 已知的風險（還沒處理）：如果當機剛好發生在 git 寫入的時候，可能留下 `index.lock`，git 指令會失敗。runner 會印出 git 錯誤，然後每 60 秒重試一次。遇到這種情況，請 BB 把 console.log 或畫面給 CC 看。之後 runner 會加上自動清除過期 lock 的功能。
