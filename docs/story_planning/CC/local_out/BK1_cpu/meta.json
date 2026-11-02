@@ -1,0 +1,23 @@
+{
+  "rerun": "",
+  "id": "BK1_cpu",
+  "sha": "b5c2e47c0",
+  "kind": "blender",
+  "script": "tools/blender/env_second/lightbake/pc_ref/pc_bake_dorm_ref.py",
+  "env": "CC_BLENDER_DEVICE=CPU;XARGS=--out {out} --res 512 --samples 256",
+  "machine": "MSI",
+  "start": "2026-11-03T07:49:19",
+  "end": "2026-11-03T07:51:06",
+  "seconds": 107,
+  "exit": 0,
+  "error": null,
+  "runner": "a98287fbd6",
+  "rf_round": "5",
+  "url": "http://127.0.0.1:8807/index.html",
+  "res_peak": {
+    "cpu": 79,
+    "mem": 39,
+    "used_gb": 12.4,
+    "chrome_testing": 0
+  }
+}

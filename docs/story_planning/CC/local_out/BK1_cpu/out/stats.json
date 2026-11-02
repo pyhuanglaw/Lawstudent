@@ -1,0 +1,28 @@
+{
+ "res": 512,
+ "samples": 256,
+ "total_seconds": 60.2,
+ "images": {
+  "day": {
+   "mean": 0.06225,
+   "p50": 0.0,
+   "p95": 0.4125,
+   "pixels": 262144
+  },
+  "night": {
+   "mean": 0.06903,
+   "p50": 0.0,
+   "p95": 0.45227,
+   "pixels": 262144
+  },
+  "dark": {
+   "mean": 0.00474,
+   "p50": 0.0,
+   "p95": 0.02884,
+   "pixels": 262144
+  }
+ },
+ "device": "CPU",
+ "blender": "5.2.3 LTS",
+ "bake_seconds": 51.2
+}
