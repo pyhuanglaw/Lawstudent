@@ -159,3 +159,9 @@ LW=<工作樹> node docs/story_planning/test_tools/cc/n3_cue_leak_scan.js --json
 | BBAI_NEG_04 | negotiable_w3 | 背書 | C | (D)可以向背書人丁追索，因為背書人應照匯票文義擔保付款 |
 | Y4MAR_05 | maritime_w4 | 載貨證券 | A | (B)載貨證券的記載 |
 | Y4MAR_06 | maritime_w5 | 共同海損 | A | (C)這是共同海損，由各利害關係人按被保存財產價值與共同海損總額的比例分擔 |
+
+## 重跑：LAWWW 第二輪修正 3004227ff（BB 08:55）
+- 指令：`git archive 3004227ff src | tar -x -C <dir>`；`LW=<dir> node test_tools/cc/n3_cue_leak_scan.js --json out.json`；`LW=<dir> node test_tools/cc/n3_tf_count.js`。
+- ① A、B 級沒擋到的：**0**（A 29／沒擋 0、B 16／沒擋 0）。→ PASS
+- ② 是非題 42 題：**42 題全部不出提示**（cueLeaks 對 tf 一律回 true）。修改前 0c3d9e7a5 是 0／42。→ PASS
+- ③ C 級 35 題：33 題照常出提示、2 題被擋；選擇題被擋總數 **47**（修改前 9），會出提示的選擇題 **394／441**（修改前 432）。被擋的 47 題＝A 29＋B 16＋C 2，沒有關鍵詞命中以外的誤擋。→ CC 初判 PASS（誤擋只有 C 級 2 題）。
