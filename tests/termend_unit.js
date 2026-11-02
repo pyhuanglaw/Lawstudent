@@ -72,7 +72,7 @@ GM.money=function(n){ G.money+=n; };
   { said=[]; picks=[0]; const q=OUT.get(G,'te_Y1S1'); await TERMEND.dinner(GM,q); const L=lines();
     check('5. 一對一的開場（簡餐，AA_250 10-1）、話題池兩句、飯桌一句、收尾',L.includes('（簡餐店的電視在播新聞。靠窗的兩人座。）')&&L.some(t=>t.includes('民總最後一題，我寫到時間到。'))&&L.some(t=>t.includes('我這學期很少出來吃飯。……今天是特地訂的。'))&&L.includes('（餐盤疊好，拿去回收。外面的路燈已經亮了。）'),JSON.stringify(L));
     check('5. 語彤：三選一照 AA_187 9-2、麵店打烊後的開場',TERMEND_LINES.HEART.heroine_03.optsFrom==='confess'&&TERMEND_LINES.HEART.heroine_03.place==='noodle_closed'&&TERMEND_LINES.PLACE.noodle_closed.open==='（鐵門拉下一半。店裡只開了長桌上那一盞燈。）');
-    check('5. 回家的路上：研討室「我的手帳放在這裡。……白板還沒擦。」；選項＝以安的三句＋（先不說）',L.some(t=>t.includes('我的手帳放在這裡。……白板還沒擦。'))&&opts[opts.length-1].length===4&&opts[opts.length-1][3]==='（先不說）',JSON.stringify(opts[opts.length-1]));
+    check('5. 回家的路上（AA_587 第 58、59 列）：「（走出店門，她沒有往宿舍那邊走。）」「走一下。我有東西給你看。」；選項＝以安的三句＋（先不說）',L.some(t=>t.includes('走一下。我有東西給你看。'))&&opts[opts.length-1].length===4&&opts[opts.length-1][3]==='（先不說）',JSON.stringify(opts[opts.length-1]));
     check('5. 說出來＝她答應（confess_lines；旁白是旁白）＋交往（dating_heroine_01）',L.some(t=>t.includes('好。我們在一起。'))&&L.includes('（她翻開手帳，翻到後面某一頁，又闔起來。）')&&G.flags.dating_heroine_01===true,JSON.stringify(L.slice(-4))); }
   // 6. 先不說＝她說 → 讓我想想 → 下學期第二次
   fresh(D('2025-12-18'),9,'campus',{}); G.stage='law'; meet('heroine_04'); R('heroine_04',70,50,45); SOCIAL.rel('heroine_04').npcRom=35; DATE.log(G,'heroine_04').count=4; DATE.log(G,'heroine_04').wish=true;
@@ -94,13 +94,13 @@ GM.money=function(n){ G.money+=n; };
     check('6b. 第二次、玩家選說出來：子晴「欸……你先講了喔」「好啦。」→ 交往',L.some(t=>t.endsWith('欸……你先講了喔'))&&L.some(t=>t.endsWith('好啦。'))&&G.flags.dating_heroine_04===true&&G.termend.think.heroine_04==null,JSON.stringify(L.slice(-4))); }
   fresh(D('2025-12-18'),20,'campus',{}); G.stage='law'; meet('heroine_01'); R('heroine_01',70,50,45); SOCIAL.rel('heroine_01').npcRom=40; DATE.log(G,'heroine_01').count=4; DATE.log(G,'heroine_01').wish=true;
   { run(20,21); PHONE.answer(G,'te_Y1S1_heroine_01',0); STORY.phoneRules(GM); const q=OUT.get(G,'te_Y1S1'); cgs=[]; said=[]; picks=[3,0]; await TERMEND.dinner(GM,q); const L=lines();
-    check('6b. 以安她說：坐回來、手帳舉到下巴前面；CG-11 在那一刻（cg_reason_column_heroine01）',L.includes('（她坐回你對面，翻開手帳，舉到下巴前面。只露出眼睛。）')&&JSON.stringify(cgs)===JSON.stringify(['cg_reason_column_heroine01'])&&L.some(t=>t.endsWith('理由我會補完。……你先回答。')),JSON.stringify(L.slice(-8))); }
+    check('6b. 以安她說（AA_587 第 60～65 列）：手帳「想去的店」那一頁、最下面「和你」、舉到下巴前面；CG-11 新圖出來以前不放',L.includes('（她把手帳拿回去，舉到下巴前面。只露出眼睛。）')&&L.some(t=>t.includes('只寫著：和你。'))&&!cgs.length&&L.some(t=>t.endsWith('……你先回答。')),JSON.stringify(L.slice(-8))); }
   fresh(D('2025-12-18'),20,'campus',{}); G.stage='law'; meet('heroine_01'); R('heroine_01',70,50,45); SOCIAL.rel('heroine_01').npcRom=40; DATE.log(G,'heroine_01').count=4; DATE.log(G,'heroine_01').wish=true;
   { run(20,21); PHONE.answer(G,'te_Y1S1_heroine_01',0); STORY.phoneRules(GM); const q=OUT.get(G,'te_Y1S1'); cgs=[]; said=[]; picks=[0]; await TERMEND.dinner(GM,q);
-    check('6b. 以安玩家先說：CG-11 放在她答應那一句（AA-C 16:5x）',JSON.stringify(cgs)===JSON.stringify(['cg_reason_column_heroine01'])&&G.flags.dating_heroine_01===true); }
+    check('6b. 以安玩家先說：CG-11 新圖出來以前不放（AA_587 第 9 節第 3 點；原本放在她答應那一句）',!cgs.length&&G.flags.dating_heroine_01===true); }
   fresh(D('2026-06-11'),20,'campus',{}); G.stage='law'; meet('heroine_01'); R('heroine_01',70,50,45); SOCIAL.rel('heroine_01').npcRom=40; DATE.log(G,'heroine_01').count=4; DATE.log(G,'heroine_01').wish=true; G.termend={think:{heroine_01:'Y1S1'}};
   { run(20,21); PHONE.answer(G,'te_Y1S2_heroine_01',0); STORY.phoneRules(GM); const q=OUT.get(G,'te_Y1S2'); cgs=[]; said=[]; picks=[3,0]; await TERMEND.dinner(GM,q); const L=lines();
-    check('6b. 以安第二次：她說的後半「上次寫的那一行還在。我把後面寫完了。……你要看嗎？」、不放 CG',L.some(t=>t.endsWith('上次寫的那一行還在。我把後面寫完了。……你要看嗎？'))&&!cgs.length,JSON.stringify(L.slice(-6))); }
+    check('6b. 以安第二次（AA_587 第 68 列）：「上次那一頁，最下面那一行還沒勾。……你要看嗎？」、不放 CG',L.some(t=>t.endsWith('上次那一頁，最下面那一行還沒勾。……你要看嗎？'))&&!cgs.length,JSON.stringify(L.slice(-6))); }
   TERMEND.hookFor=hookFor0;
   // 7b. 不發心意邀約的手機一句：時段最後一天 20:00（BB_203 5-4）；C5 她自己有交往對象（沛珊大一下和柏翰）；玩家已經約她吃過＝不傳
   fresh(D('2026-06-11'),12,'campus',{}); G.stage='law'; meet('classmate_peishan'); R('classmate_peishan',70,50,45); SOCIAL.rel('classmate_peishan').npcRom=40; DATE.log(G,'classmate_peishan').count=4; DATE.log(G,'classmate_peishan').wish=true;
@@ -261,7 +261,7 @@ GM.money=function(n){ G.money+=n; };
     check('13. 語彤大三上：不放 CG-12（只有大四上）',!cgs.length&&G.flags.dating_heroine_03===true);
     // 玩家自己約、選的店
     w=setup('Y1S2','heroine_01'); TERMEND.plan(G,w); said=[]; await TERMEND.dinner(GM,{te:{who:'heroine_01',kind:'heart',term:'Y1S2',place:'brunch',placeName:'半熟'}}); L=lines();
-    check('13. 玩家約以安去半熟（不是她那一家）：開場照半熟、不說飯桌一句、照樣走回研究室',L[0]==='（半熟。）'&&!L.some(x=>x.includes('今天是特地訂的'))&&L.some(x=>x.includes('我的手帳放在這裡')),JSON.stringify(L.slice(0,4)));
+    check('13. 玩家約以安去半熟（不是她那一家）：開場照半熟、不說飯桌一句、照樣走一段路（AA_587 第 59 列）',L[0]==='（半熟。）'&&!L.some(x=>x.includes('今天是特地訂的'))&&L.some(x=>x.includes('走一下。我有東西給你看。')),JSON.stringify(L.slice(0,4)));
     w=setup('Y1S2','heroine_03'); TERMEND.plan(G,w); said=[]; picks=[0]; await TERMEND.dinner(GM,{te:{who:'heroine_03',kind:'heart',term:'Y1S2',place:'noodle',placeName:'阿鳳麵店'}}); L=lines();
     check('13. 玩家約語彤去麵店（剛好是她那一家）：說飯桌一句',L.some(x=>x.includes('這碗沒放蔥')),JSON.stringify(L.slice(0,5)));
     TERMEND.hookFor=hf; }

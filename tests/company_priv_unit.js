@@ -124,7 +124,7 @@ await sec('0',async()=>{ const html=fs.readFileSync(path.join(H.ROOT,'index.html
   check('0. 第一輪問 AA 的 12 項改成定案紀錄（PRIVTALK.DECIDED：第 1～12 項各一筆，問的、AA 定的、怎麼做；S.REF＝AA_503 第 14 節 6bc3cd784；ASK_AA 拿掉）',
     D.length===12&&D.every((x,i)=>x.n===i+1&&x.desc&&x.decided&&x.impl)&&/6bc3cd784/.test(PRIVTALK.REF||'')&&!('ASK_AA' in PRIVTALK),J(D.map(x=>x.n)));
   check('0. 對稿（git show 白名單上的 AA_503 '+SHA503+'）：保底的旁白、第 9 項的旁白、第 10 項的兩句、第 12 項三組都在第 14 節；遊戲裡一字不差',
-    DOC503.indexOf('## 14. 私密的再補 12 項')>0&&DOC503.includes('> '+NARR)&&DOC503.includes(Q7NARR)&&DOC503.includes('`anOther`「理由我懂。不用解釋。」')&&DOC503.includes('`ytAfterAn`「嗯。……她會讓你說理由的。」')
+    DOC503.indexOf('## 14. 私密的再補 12 項')>0&&DOC503.includes('> '+NARR)&&DOC503.includes(Q7NARR)&&DOC503.includes('`anOther`「理由我懂。不用解釋。」')&&DOC503.includes('`ytAfterAn`「嗯。……她會讓你把話講完的。」')
     &&DOC503.includes('・語彤和阿姨（媽媽的事）')&&DOC503.includes('・芷若和子晴（交換申請）')&&PRIVTALK.NARR===NARR&&(PRIVTALK.SCENE_LEAD||[]).length===2&&PRIVTALK.SCENE_LEAD.every(q=>q.text===Q7NARR)
     &&V6EX_LINES.EX.anOther==='理由我懂。不用解釋。'&&V6EX_LINES.EX.ytAfterAn==='嗯。……她會讓你把話講完的。'&&PRIVTALK.WAIT===7,'長度 '+DOC503.length); });
 

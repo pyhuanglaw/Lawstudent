@@ -58,7 +58,7 @@ let DOC=''; try{ DOC=cp.execSync('git -c core.quotepath=false show '+SHA+':"'+DO
 /* 新句（照稿逐字；每一句都要在稿裡）*/
 const NEW={
   A1:['（以安把菜單推到你面前，指甲在「滷蛋」那一格敲了兩下。）','說好的。'],
-  A2:['（把手帳翻到園區那一天）上次沒給你看的那一行。','（理由欄寫著：「想到{name}。」）'],
+  A2:['（她把手帳往前翻，翻到園區那一天。）上次沒給你看的那一行。','（那一天的旁邊，寫著：「想到{name}。」）'],   /* AA_587 第 12 節第 69、70 列（原本 AA_526 的兩句） */
   A3:['寒假東京那兩個禮拜，時差一個小時。……你那邊比較早，我知道。','京都那三個禮拜，訊息你不用每天回。……我有空才傳。'],
   A4:['（她從背包拿出一個保鮮盒。）','番茄炒蛋。練好了。……冷了，你自己熱。'],
   A5:['這份我學到很多。','說從她的報告學到很多'],
@@ -107,7 +107,10 @@ const srcAll=(()=>{ const out=[]; const walk=d=>{ for(const n of fs.readdirSync(
 /* ---------------- 0 ---------------- */
 await sec(0,()=>{
   check('0. 讀得到稿（AA_524 '+SHA+'：第 1～5 節；A1～A14、Z1～Z11、Y1～Y9）',DOC.length>8000&&/### A14/.test(DOC)&&/### Z11/.test(DOC)&&/### Y9/.test(DOC),String(DOC.length));
-  const miss=[]; for(const k in NEW) for(const t of NEW[k]) if(DOC.indexOf(t)<0) miss.push(k+'：'+t);
+  const miss=[]; for(const k in NEW) for(const t of NEW[k]) if(k!=='A2'&&DOC.indexOf(t)<0) miss.push(k+'：'+t);   /* A2 兩句 11-02 改照 AA_587 第 12 節（下面另外比） */
+  { const P587=(()=>{ try{ return cp.execSync('git -c core.quotepath=off ls-tree --name-only -r 27456316d docs/story_planning',{cwd:H.ROOT,encoding:'utf8'}).split('\n').find(x=>/AA_587_/.test(x)); }catch(e){ return null; } })();
+    const D587=(()=>{ try{ return P587?cp.execSync('git show 27456316d:"'+P587+'"',{cwd:H.ROOT,encoding:'utf8',maxBuffer:1<<24}):''; }catch(e){ return ''; } })();
+    check('0. A2 兩句在 AA_587@27456316d 第 12 節（第 69、70 列）',NEW.A2.every(t=>D587.indexOf(t)>=0),J(NEW.A2.filter(t=>D587.indexOf(t)<0))); }
   check('0. 這支測試對的新句每一句都在稿裡（逐字；'+Object.values(NEW).reduce((a,b)=>a+b.length,0)+' 句）',DOC.length>0&&!miss.length,J(miss));
   const A=JSON.parse(fs.readFileSync(path.join(H.ROOT,'docs/handoff/story_import_allow.json'),'utf8')).files.filter(e=>/AA_524_/.test(e.path));
   { const miss=[]; for(const k in NEW526) for(const t of NEW526[k]) if(DOC526.indexOf(t)<0) miss.push(k+'：'+t);
@@ -151,7 +154,7 @@ await sec('A2',async()=>{
   H.G.day=D('2026-06-15'); H.G.hour=21; H.said=[]; H.picks=[0]; r=await TERMEND.walkHome(GM,AN,'Y1S2');
   check('A2. 「讓我想想」以後，下學期第二次邀約那一場玩家先說（yes，第二次的答應 yes2）：最後補同樣兩句、記 AN_REASON_SHOWN',r==='yes'&&has('好。我們在一起。')&&J(said().slice(-2))===J(tail)&&H.G.flags.AN_REASON_SHOWN===H.G.day,J({r,tail:said().slice(-4)}));
   fresh('2025-12-20',20); H.CLOSE(AN); SOCIAL.remember(AN,'AN_REASON_HIDDEN',''); H.picks=[3,1]; await TERMEND.walkHome(GM,AN,'Y1S1'); H.G.day=D('2026-06-15'); H.said=[]; H.picks=[3,0]; r=await TERMEND.walkHome(GM,AN,'Y1S2');
-  check('A2. 第二次邀約那一場她先說（she2）、玩家答應（sheSaid）也補',r==='sheSaid'&&has('上次寫的那一行還在。我把後面寫完了。……你要看嗎？')&&J(said().slice(-2))===J(tail),J({r,tail:said().slice(-4)}));
+  check('A2. 第二次邀約那一場她先說（she2）、玩家答應（sheSaid）也補',r==='sheSaid'&&has('上次那一頁，最下面那一行還沒勾。……你要看嗎？')&&J(said().slice(-2))===J(tail),J({r,tail:said().slice(-4)}));
   fresh('2025-12-20',20,{AN_REASON_SHOWN:5}); H.CLOSE(AN); SOCIAL.remember(AN,'AN_REASON_HIDDEN',''); H.said=[]; H.picks=[0]; r=await TERMEND.walkHome(GM,AN,'Y1S1');
   check('A2. 已經看過（AN_REASON_SHOWN）：不再出',r==='yes'&&!has(tail[0]),r);
   r=await walk([0],false);
