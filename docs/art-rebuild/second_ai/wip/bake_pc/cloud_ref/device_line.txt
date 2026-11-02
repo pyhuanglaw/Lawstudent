@@ -1,0 +1,1 @@
+DEVICE CPU blender 5.2.2 LTS
