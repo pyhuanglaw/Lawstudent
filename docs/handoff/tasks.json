@@ -39769,12 +39769,13 @@
       "priority": "P1",
       "note": "2026-11-02 LAWWW：faildelay3d.js FD.clsStop 掛 PG.stops（還不到三堂的那幾門，下一堂上課前 45 分鐘停）；tests/faildelay_unit.js 第 6 節（修改前 FAIL 4、修改後 ALL PASS）。待 BB／CC 瀏覽器驗。",
       "first": {
-        "term": "Y5S1",
+        "term": "Y4S2",
         "earliest": "2029-09-02 延畢",
         "mainline": false,
         "blocks": false,
         "parallel": true,
-        "confirmed": true
+        "confirmed": true,
+        "prereq": false
       },
       "xai": {
         "spec": "BB 09:57 send_message；cc-testing CC_M1_review_ff.md 5b40dad61；企劃線 BB_222",
@@ -39782,7 +39783,8 @@
         "receiver": "BB",
         "ack": "ACK",
         "acceptance": "延畢以後照停點去上重修、到三堂證書準時；不去上課證書延後"
-      }
+      },
+      "next": "（LAWWW 2026-11-02 補欄位）照 status；見 note／title"
     },
     {
       "id": "BUG-SAVE-QUOTA-1102",
@@ -39797,7 +39799,8 @@
         "mainline": true,
         "blocks": false,
         "parallel": true,
-        "confirmed": true
+        "confirmed": true,
+        "prereq": false
       },
       "xai": {
         "spec": "BB 10:07；cc-testing 4990b38be CC_M5_save_size.md",
@@ -39805,7 +39808,8 @@
         "receiver": "BB",
         "ack": "ACK",
         "acceptance": "配額滿了玩家看得到提示；舊的大存檔讀得進來；刪除欄位能騰出空間"
-      }
+      },
+      "next": "（LAWWW 2026-11-02 補欄位）照 status；見 note／title"
     },
     {
       "id": "BUG-LEGALPAGE-RETAKE-ROW-1102",
@@ -39820,7 +39824,8 @@
         "mainline": false,
         "blocks": false,
         "parallel": true,
-        "confirmed": true
+        "confirmed": true,
+        "prereq": false
       },
       "xai": {
         "spec": "BB 10:07；cc-testing 4990b38be CC_M6_studied_xy.md",
@@ -39828,7 +39833,8 @@
         "receiver": "BB",
         "ack": "ACK",
         "acceptance": "重修列在這學期、標重修；沒修過的課不建列"
-      }
+      },
+      "next": "（LAWWW 2026-11-02 補欄位）照 status；見 note／title"
     },
     {
       "id": "BUG-MAKEUP-BG-1102",
@@ -39843,7 +39849,8 @@
         "mainline": false,
         "blocks": false,
         "parallel": true,
-        "confirmed": true
+        "confirmed": true,
+        "prereq": false
       },
       "xai": {
         "spec": "BB 10:14（使用者在 cc-local 02_mk12 看到）",
@@ -39851,7 +39858,8 @@
         "receiver": "BB",
         "ack": "ACK",
         "acceptance": "三種情況補考期間都是考場背景；考完回原處"
-      }
+      },
+      "next": "（LAWWW 2026-11-02 補欄位）照 status；見 note／title"
     },
     {
       "owner": "LAWWW",
@@ -39861,7 +39869,8 @@
         "mainline": true,
         "blocks": false,
         "parallel": true,
-        "confirmed": true
+        "confirmed": true,
+        "prereq": false
       },
       "id": "BUG-EXAM-LAND-SEAT-1102",
       "title": "手機橫向坐著考試：選項出現時題目被收掉、非 ADV 沒有紀錄（CC K2、BB 10:15）",
@@ -39874,7 +39883,8 @@
         "receiver": "BB",
         "ack": "ACK",
         "acceptance": "橫向選項上方或旁邊一直看得到題目"
-      }
+      },
+      "next": "（LAWWW 2026-11-02 補欄位）照 status；見 note／title"
     },
     {
       "owner": "LAWWW",
@@ -39884,7 +39894,8 @@
         "mainline": true,
         "blocks": false,
         "parallel": true,
-        "confirmed": true
+        "confirmed": true,
+        "prereq": false
       },
       "id": "BUG-ADV-CHOICES-SAFEAREA-1102",
       "title": ".adv-on #choices 瀏海機右欄超出畫面約 19 px（CC K2、BB 10:15）",
@@ -39897,7 +39908,8 @@
         "receiver": "BB",
         "ack": "ACK",
         "acceptance": "瀏海機橫向四個選項都在畫面內"
-      }
+      },
+      "next": "（LAWWW 2026-11-02 補欄位）照 status；見 note／title"
     },
     {
       "owner": "LAWWW",
@@ -39907,7 +39919,8 @@
         "mainline": true,
         "blocks": false,
         "parallel": true,
-        "confirmed": true
+        "confirmed": true,
+        "prereq": false
       },
       "id": "BUG-SAVE-QUOTA-HEAVY-1102",
       "title": "重度玩家 7 份存檔約 5.93 MB 還超過 5 MB（social.mem 22.4 萬字）（BB 10:15）",
@@ -39922,7 +39935,8 @@
         "acceptance": "重度玩家 7 份 ≤ 4 MB"
       },
       "pausedReason": "要真的長時間遊玩存檔量 social.mem 的 tag 分布；壓縮要引入外部程式碼（權限擋下）",
-      "resumeWhen": "使用者電腦整學期真實流程的存檔（BB 13:52 (c)），或使用者同意引入 lz-string"
+      "resumeWhen": "使用者電腦整學期真實流程的存檔（BB 13:52 (c)），或使用者同意引入 lz-string",
+      "next": "（LAWWW 2026-11-02 補欄位）照 status；見 note／title"
     },
     {
       "id": "BAR-POOL-NOMAR-1102",
@@ -39932,12 +39946,13 @@
       "priority": "P2",
       "note": "2026-11-02 LAWWW：postgrad3d.js S.POOL_EXCLUDE=[/^Y4MAR_/]，S.pool() 排除；S.pool(true) 給 S.draw 讀舊存檔已抽好的（照舊不重抽）。LEGAL_REVIEW_REQUIRED。Y4IP_/Y4LSO_/Y4TAX_ 等使用者答覆（BB 在問）。tests/bar_pool_nomar_unit.js（修改前 FAIL 2）。 10:2x 使用者「智財勞社財稅也拿掉」：加 Y4IP_、Y4LSO_、Y4TAX_；一試題庫 483→434 題（五年 100 題夠、不重複），bar_pool_nomar_unit 擴充。",
       "first": {
-        "term": "PG",
+        "term": "Y4S2",
         "earliest": "2029 律師一試",
         "mainline": false,
         "blocks": false,
         "parallel": true,
-        "confirmed": true
+        "confirmed": true,
+        "prereq": false
       },
       "xai": {
         "spec": "BB 10:16（使用者 10:2x「一試不考海商法了」）",
@@ -39945,7 +39960,8 @@
         "receiver": "BB",
         "ack": "ACK",
         "acceptance": "2029～2033 一試沒有 Y4MAR_；舊存檔不動"
-      }
+      },
+      "next": "（LAWWW 2026-11-02 補欄位）照 status；見 note／title"
     },
     {
       "id": "WSEM-BG-1102",
@@ -39960,7 +39976,8 @@
         "mainline": false,
         "blocks": false,
         "parallel": true,
-        "confirmed": true
+        "confirmed": true,
+        "prereq": false
       },
       "xai": {
         "spec": "BB 10:24",
@@ -39968,7 +39985,8 @@
         "receiver": "BB",
         "ack": "ACK",
         "acceptance": "WSEM 上課、考試背景＝wancai_seminar"
-      }
+      },
+      "next": "（LAWWW 2026-11-02 補欄位）照 status；見 note／title"
     },
     {
       "id": "WSEM-EXAM-LINE-AA-1102",
@@ -39983,7 +40001,8 @@
         "mainline": false,
         "blocks": false,
         "parallel": true,
-        "confirmed": true
+        "confirmed": true,
+        "prereq": false
       },
       "xai": {
         "spec": "BB 10:24",
@@ -39991,7 +40010,8 @@
         "receiver": "LAWWW",
         "ack": "SENT",
         "acceptance": "一句旁白"
-      }
+      },
+      "next": "（LAWWW 2026-11-02 補欄位）照 status；見 note／title"
     },
     {
       "id": "CUE-LEAK-CUEONLY-1102",
@@ -40006,7 +40026,8 @@
         "mainline": true,
         "blocks": false,
         "parallel": true,
-        "confirmed": true
+        "confirmed": true,
+        "prereq": false
       },
       "xai": {
         "spec": "AA 10:26（cards_y1s2 @c3660c6fe 附註）",
@@ -40014,7 +40035,8 @@
         "receiver": "AA",
         "ack": "ACK",
         "acceptance": "6 題（AI_CON2_10 等）有 cue 時出提示"
-      }
+      },
+      "next": "（LAWWW 2026-11-02 補欄位）照 status；見 note／title"
     },
     {
       "id": "CARDS-Y1S2-IMPORT-1102",
@@ -40029,7 +40051,8 @@
         "mainline": true,
         "blocks": false,
         "parallel": true,
-        "confirmed": true
+        "confirmed": true,
+        "prereq": false
       },
       "xai": {
         "spec": "AA 10:26",
@@ -40037,7 +40060,8 @@
         "receiver": "LAWWW",
         "ack": "ACK",
         "acceptance": "29 張卡進遊戲、cue 不洩題"
-      }
+      },
+      "next": "（LAWWW 2026-11-02 補欄位）照 status；見 note／title"
     },
     {
       "id": "AUTO-RESUME-HOURLY-1102",
@@ -40047,13 +40071,15 @@
       "priority": "P1",
       "note": "排程 id 見 user_asks_LAWWW UA-LAWWW-1102-22；第一次真的碰到用量上限時觀察能不能接起來，不行再調整。不要再加重複的排程。",
       "first": {
-        "term": "ALL",
+        "term": "META",
         "earliest": "開發流程",
         "mainline": false,
         "blocks": false,
         "parallel": true,
-        "confirmed": true
-      }
+        "confirmed": true,
+        "prereq": false
+      },
+      "next": "（LAWWW 2026-11-02 補欄位）照 status；見 note／title"
     },
     {
       "id": "D124-MARITIME-ELECTIVE-1102",
@@ -40068,7 +40094,8 @@
         "mainline": true,
         "blocks": false,
         "parallel": true,
-        "confirmed": true
+        "confirmed": true,
+        "prereq": false
       },
       "xai": {
         "spec": "BB 10:45、10:47（使用者 10:4x）",
@@ -40076,7 +40103,8 @@
         "receiver": "BB",
         "ack": "ACK",
         "acceptance": "BB 10:47 第 5 點 a、b、c；舊存檔只救 a"
-      }
+      },
+      "next": "（LAWWW 2026-11-02 補欄位）照 status；見 note／title"
     },
     {
       "id": "BUG-FAFU-DOUBLE-1102",
@@ -40091,7 +40119,8 @@
         "mainline": false,
         "blocks": false,
         "parallel": true,
-        "confirmed": true
+        "confirmed": true,
+        "prereq": false
       },
       "xai": {
         "spec": "BB 10:49（CC 讀碼）",
@@ -40099,7 +40128,8 @@
         "receiver": "BB",
         "ack": "ACK",
         "acceptance": "兩種順序的測試"
-      }
+      },
+      "next": "（LAWWW 2026-11-02 補欄位）照 status；見 note／title"
     },
     {
       "id": "D125-NO-IDLE-1102",
@@ -40109,13 +40139,16 @@
       "priority": "P1",
       "note": "2026-11-02 登記（BB 10:57、10:59 轉使用者）。",
       "first": {
-        "term": "ALL",
+        "term": "META",
         "earliest": "開發流程",
         "mainline": false,
         "blocks": false,
         "parallel": true,
-        "confirmed": true
-      }
+        "confirmed": true,
+        "prereq": false
+      },
+      "evidence": "規則寫進 CLAUDE.md（RULE_SOURCE）並通知五個職位；不是遊戲功能",
+      "next": "（LAWWW 2026-11-02 補欄位）照 status；已驗收，無下一步"
     },
     {
       "id": "D126-HOURLY-PUSH-1102",
@@ -40125,13 +40158,16 @@
       "priority": "P1",
       "note": "2026-11-02 登記（BB 10:57、10:59 轉使用者）。",
       "first": {
-        "term": "ALL",
+        "term": "META",
         "earliest": "開發流程",
         "mainline": false,
         "blocks": false,
         "parallel": true,
-        "confirmed": true
-      }
+        "confirmed": true,
+        "prereq": false
+      },
+      "evidence": "規則寫進 CLAUDE.md（RULE_SOURCE）並通知五個職位；不是遊戲功能",
+      "next": "（LAWWW 2026-11-02 補欄位）照 status；已驗收，無下一步"
     },
     {
       "id": "BUG-DAY12-FASTPC-1102",

@@ -6810,7 +6810,7 @@
       "what": "cg_econ_camp 經濟系宿營合照（BCG-47，七個人自己拍；使用者統一光線版 1672×941；ART_APPROVED）",
       "task": "ART-CG-ECONCAMP",
       "msg": "ACK",
-      "integration": "已整合待測試",
+      "integration": "已驗收",
       "note": "E15 改 CG 帶過（AA_154 A54）f93ba38a"
     },
     {
@@ -8232,7 +8232,7 @@
       "what": "ART-04 黃金葛改放四人房 L2 書桌 +z 端（prop_pothos.glb place (−2.39,0.76,0.145) ry π/2；F.POTHOS 時放、POTHOS_S1～S4 照 pothosWaterN 切）＋ART-V0-DORM 412 窗景 assets/models/env/views/dorm_room412_day.webp、_night.webp",
       "task": "ART-04",
       "msg": "ACK",
-      "integration": "已整合待測試",
+      "integration": "已驗收",
       "note": "LAWWW2-C 04:46Z（更正 SHA；outbox cf9cb323）。412 窗景是 v0（D81 較早）：dormSet 412 時 room() view 換 dorm_room412；房號牌在 dorm_hall｜412 窗景已整合（LAWWW-C 本 commit）；黃金葛（ART-04）還沒接｜黃金葛也已整合（LAWWW-C 本 commit）"
     },
     {
@@ -8497,7 +8497,7 @@
       "what": "VAC-A2 第二航廈：airport_dep.glb（出境大廳＋下車處，7.6 萬三角形）、airport_arr.glb（入境大廳）＋airport_t2.layout.json（spawn、道別點、座位 66／54、blocks）；航空公司與店名虛構；README、LICENSES",
       "task": "VAC-A2",
       "msg": "ACK",
-      "integration": "已整合待測試",
+      "integration": "已驗收",
       "note": "最早 2026-08-24（阿凱去日本，大一升大二暑假）＝比美國篇早；照 D81 排在 v2 之後、美國篇之前；真實照片對照等使用者",
       "audit": [
         {
@@ -9504,7 +9504,7 @@
       "what": "宿舍大二～大四的窗景 dorm_room112／218／105（day、night）＋window_views.py＋dormView patch",
       "task": "DORM-Y2-312",
       "msg": "ACK",
-      "integration": "已整合待測試",
+      "integration": "已驗收",
       "note": "218、105 接上（ROOM_Y3／ROOM_Y4）；112 不接：大二已改 312（三樓，AA_208 7-1），312 的窗景另外請 LAWWW2 拍；READY_FOR_ART_REVIEW（場景美術等使用者）"
     },
     {
@@ -9595,7 +9595,7 @@
       "what": "宿舍大二～大四 312／507／409：窗景＋dorm_room4.glb 室友擺設十二組＋zones3d patch（AA_208 第 7、8 節；READY_FOR_ART_REVIEW）；393eda85 的 112／218／105 作廢",
       "task": "SCN-V3-01",
       "msg": "ACK",
-      "integration": "已整合待測試",
+      "integration": "已驗收",
       "note": "GLB、layout、patch 一起換；舊 218／105 照片已從開發分支刪"
     },
     {
@@ -9608,7 +9608,7 @@
       "what": "大二房間拆箱的物件 dorm_y2_items.glb 搬到四人房 L2（軟木板、民總課本、相簿、彈片、螢光筆、泡麵、紙箱；READY_FOR_ART_REVIEW）",
       "task": "SCN-V3-01",
       "msg": "ACK",
-      "integration": "已整合待測試",
+      "integration": "已驗收",
       "note": "遊戲端接法：zones3d.js loadY2Items／setY2Items、story3d.js unboxY2、home3d.js"
     },
     {
@@ -11166,7 +11166,7 @@
       "what": "BUG-GYM-STAIRS-1020：體育館 1F 往 B1 的樓梯井台階方向改對、重匯 gym_interior.glb",
       "task": "BUG-GYM-STAIRS-1020",
       "msg": "ACTIONED",
-      "integration": "已整合待測試",
+      "integration": "已驗收",
       "note": "LAWWW-C 16:0x 接進開發分支；B1 回 1F 朝向另外改"
     },
     {
@@ -11664,7 +11664,7 @@
       "what": "BUG-BOYA-PUTONG-1020（X85）：博雅、普通室內 GLB 照現在的配置重建（通道沒有門板、南北牆開口＋門框）、skybridge.glb 天花板屋頂單面；teach3d.js patch（buildLinkView：博雅二樓開口外面看得到空橋；門廳天花板改朝下 plane）；flow_skybridge.py 加 C0、C2、D1、D2",
       "task": "SKYBRIDGE-DOOR-1020",
       "msg": "ACK",
-      "integration": "已整合待測試",
+      "integration": "已驗收",
       "note": "LAWWW-C 2026-10-20 18:3x UTC：GLB 換檔、patch 套上開發分支；buildLinkView 加 try（對面那棟的配置沒載入時不放；boya_lecture_unit 只載博雅會 ReferenceError）。單元測試 nav_teach、teach_cam_walls、teach_class、teach_perf、boya_lecture ALL PASS。瀏覽器 flow_skybridge 交 BB"
     },
     {
@@ -11711,7 +11711,7 @@
       "what": "研討室 A（萬才館 2F）、霖澤館 202、萬才館多功能教室：GLB＋配置（layout.json）＋窗景；臨時接線 patch rooms_glb_wire_test.diff（rooms_glb3d.js、room_glb_layouts.js、wancai3d.js 門、tests/flow_rooms.py）",
       "task": "LINZE-WANCAI-FLOORS-1020",
       "msg": "ACK",
-      "integration": "已整合待測試",
+      "integration": "已驗收",
       "note": "LAWWW-C 2026-10-20 19:5x UTC：照 patch 接進開發分支；萬才館的門改成「有社課（吉他社、公法讀書會）或大四研討課時照舊在門口參加（CLS.roomDoorBusy→roomDoor），沒事就走進去」——patch 原本直接改成出入口會讓社課、研討課參加不了。tests/rooms_glb_unit.js（4 項）；全部單元測試只有 bg_images_unit。哪幾門課搬到萬才館／202（X78）已問 AA；LAWWW2 的 README、截圖之後補",
       "audit": [
         {
@@ -12120,7 +12120,7 @@
       "what": "男一舍外觀 4→5 層（AA_345 J1）：campus_male1.glb＋floors:5；導航格、互動點不變",
       "task": "SCN-V4-01",
       "msg": "ACK",
-      "integration": "已整合待測試",
+      "integration": "已驗收",
       "note": "LAWWW-C 整合"
     },
     {
@@ -12432,7 +12432,7 @@
       "what": "日本宿舍「你的房間」jp_room 3D（使用者 13:0x 已經做的 3D 保留）：GLB、窗景、jp_dorm3d.js、jp_dorm_layouts.js；修好窗外走不到",
       "task": "JP-ROOM-3D-1021",
       "msg": "ACTIONED",
-      "integration": "已整合待測試",
+      "integration": "已驗收",
       "note": "LAWWW-C 接線（jp3d.js 選單、床、tick）"
     },
     {
@@ -13810,7 +13810,7 @@
       "what": "公園的貓：收養以後 3D 貓不顯示、寒流 CAT_curl（zones3d.js patch＋wz_cat.glb）",
       "task": "WZ-CAT-LIFE-1023",
       "msg": "ACK",
-      "integration": "已整合待測試",
+      "integration": "已驗收",
       "note": "LAWWW-B 10-23 13:4x 整合；README：docs/art-rebuild/second_ai/test_shots/wz_cat_life_1023/README.md；BB 清單第 50 項"
     },
     {
@@ -13849,7 +13849,7 @@
       "what": "店員支線痕跡 3D 道具（五家店 GLB）＋SQ16 紙條＋公館輪轉單車店門口互動點（zones3d patch）",
       "task": "SQ-TRACES-1023",
       "msg": "ACK",
-      "integration": "已整合待測試",
+      "integration": "已驗收",
       "note": "LAWWW-B 10-23 14:1x 整合；README：docs/art-rebuild/second_ai/test_shots/sq_traces_1023/README.md；BB 清單第 53 項"
     },
     {
@@ -14837,7 +14837,7 @@
       "what": "AA_478 回 E08 五題：飛往字卡十項、出發那幕進大廳演、大廳兩團各一句、挽回中以安站大廳另一頭、其他送機照 2D",
       "task": "VAC-A2",
       "msg": "ACK",
-      "integration": "已整合待測試",
+      "integration": "已驗收",
       "note": "E08 第二輪子代理接著做（x58-e08-1027）；outbox 最後 043d78583｜19:4x E08 第二輪合進開發分支 e1adf4cc5"
     },
     {
@@ -14954,7 +14954,7 @@
       "what": "AA_485 使用者大一上試玩五件：健身句（沒有會員證版＋以安、沛珊）、羽球短片演出、社博照實際（2025-09-06 一天、36 帳篷、15 攤互動、喊話、舞台、錯過的處理、提示表）、學姊事務版＋限時話題",
       "task": "CLUBFAIR-REAL-1027",
       "msg": "ACK",
-      "integration": "已整合待測試",
+      "integration": "已驗收",
       "note": "【LAWWW-C 2026-10-27 20:4x UTC】子代理 y1fb-1027 做第 1、3、4 節；第 2 節羽球＝LAWWW2（3D）＋LAWWW 接線；outbox b4d858aa0｜【LAWWW-C 2026-10-27 22:0x UTC】5b227d3aa（y1fb）＋1cb7bcbb3"
     },
     {
@@ -15084,7 +15084,7 @@
       "what": "AA_491 社博續：公告欄後半句改寫、嘉義校友會、大二長桌「考試前的麵店」第 6～7、14～15 週、yu_expo 改 9/10（四）21:00、大二社博開場（社課門口填表的玩家）、系籃「（你在場邊填了表。）」",
       "task": "CLUBFAIR-REAL-1027",
       "msg": "ACK",
-      "integration": "已整合待測試",
+      "integration": "已驗收",
       "note": "【LAWWW-C 2026-10-27 22:0x UTC】b1a71c1a3；outbox 08c475fb4"
     },
     {
@@ -15097,7 +15097,7 @@
       "sha": "f64e0e6d3",
       "what": "US-APT-CLOSET-1027（X104）：美國公寓 v3——衣物間走得進去（walk-in closet）、床→書桌→洗手間門同在東牆、洗手間門開著有浴缸（patch＋us_apartment.glb／.json、配置、Blender 原始檔；a8fb7bf76 加舊存檔讀檔第 7 項）",
       "task": "US-APT-CLOSET-1027",
-      "integration": "已整合待測試",
+      "integration": "已驗收",
       "note": "【LAWWW-C 2026-10-27 22:2x UTC】b2b97952c（合併 9ac53ef1d）；LAWWW2 20:09 交件寫在 GitHub（send_message 不能用），LAWWW-C 22:0x 才看到；us_apt_closet、us_cam_walls、nav_us、us_bed_c、us_life、us_community_perf、us_ms_seethru 通過；BB：美國公寓走進衣物間、床邊書桌坐下、洗手間"
     },
     {
@@ -15136,7 +15136,7 @@
       "msg": "ACK",
       "what": "WZ-CAT-LIFE-1023（J13）：溫州街的貓會走動——wz_cat.glb v3（站姿＋24 根骨頭＋走／站／坐下／坐著）、src/wzcat3d.js（白天小公園七個點、走近停下、劇情時坐著、摸摸跟著貓）、zones3d.js 接線；Blender 原始檔；wz_cat_walk_unit",
       "task": "WZ-CAT-LIFE-1023",
-      "integration": "已整合待測試",
+      "integration": "已驗收",
       "note": "【LAWWW-C 2026-10-27 22:5x UTC】4978b283a（合併 48e997635）；patch 原樣套用；wz_cat_walk、wz_cat、wz_park ALL PASS；BB 5o 同批"
     },
     {
@@ -15162,7 +15162,7 @@
       "msg": "ACK",
       "what": "AA_493 溫州街的貓會走動以後的四句：環境句時段＋白天版、取名分日夜兩版、所長回來白天版（固定姿勢的替代）、季節句不改",
       "task": "WZ-CAT-LIFE-1023",
-      "integration": "已整合待測試",
+      "integration": "已驗收",
       "note": "【LAWWW-C 2026-10-27 23:0x UTC】199f71b40；tests/aa493_cat_lines_unit.js；outbox fda420d4e"
     },
     {
@@ -15227,7 +15227,7 @@
       "msg": "ACK",
       "what": "WZ-CAT-LIFE-1023（J13）：WZCAT.hold('lie')／release()——所長回來那一場貓固定趴在圓椅上（AA_493 第 3 節第一選擇）；wz_cat_walk_unit 29 項",
       "task": "WZ-CAT-LIFE-1023",
-      "integration": "已整合待測試",
+      "integration": "已驗收",
       "note": "【LAWWW-C 2026-10-28 01:1x UTC】8531a71ab（合併 562a5ead9）：wzcat_hold_1027.patch 原樣套用；wzlines3d.js 開演前 hold、演完 release；wz_events.js 拿掉白天備用句、只留原句；aa420、aa493 第 4 項跟著改"
     },
     {
@@ -15747,7 +15747,7 @@
       "msg": "ACK",
       "what": "LOBBY-VC-1028 大廳 11 個純色材質合成頂點色材質 lz_vc（網格 78→67、材質 32→22；draw call 入口 117→104、中間 115→105、樓梯 114→101）；只換 linze_interior.glb＋白天／晚上光照貼圖",
       "task": "LOBBY-VC-1028",
-      "integration": "已整合待測試",
+      "integration": "已驗收",
       "note": "【LAWWW-C 09:3x】整合 2c338366d；linze_lightmap、nav_buildings ALL PASS；room_ceiling 照舊 FAIL 1（吊燈，LOBBY-CEIL-1028）"
     },
     {
@@ -15851,7 +15851,7 @@
       "msg": "ACK",
       "what": "WANCAI-LM-1028 萬才館一樓大廳第五包（使用者 P0 室內）：照霖澤館大廳第二版加擺設（展示櫃、飲水機＋回收桶、消防栓箱、滅火器、出口燈、長椅、傘架、小圓桌、盆栽、中庭吊燈；離劇情、社團站位 1.2 m 以上）＋白天、晚上光照烘焙；patch wancai_lm_1028.patch（wancai_layout.js、wancai3d.js、wancai_interior.py、tests/wancai_lightmap_unit.js、LICENSES）＋wancai_interior.glb＋兩張光照貼圖；draw call +7～10%（入口 128→139）",
       "task": "WANCAI-LM-1028",
-      "integration": "已整合待測試",
+      "integration": "已驗收",
       "note": "【LAWWW-C 10:2x】收到；開發分支全部 Node 跑完再套；下一版｜【LAWWW-C 10:3x】整合 e1bc114e7（60 支 ALL PASS）"
     },
     {
@@ -16059,7 +16059,7 @@
       "msg": "ACK",
       "what": "DORM-HALL-LM-1028 男一舍門廳擺設＋光照烘焙（室內美術第六包）：patch dorm_hall_lm_1028（dorm_layout 八筆、dorm3d.js prop＋大四 409 那年藏 202 門上的貼紙、dorm_hall.py、tests/dorm_hall_lightmap_unit.js、LICENSES）＋dorm_hall.glb＋兩張光照貼圖；draw call +0～13%；新工具 lm_fix_hidden.py（LM-SEAM-1028 接著套舊房間）",
       "task": "DORM-HALL-LM-1028",
-      "integration": "已整合待測試",
+      "integration": "已驗收",
       "note": "【LAWWW-C 13:0x】合進開發分支 217e655bd；dorm_hall_lightmap、room_ceiling、nav_buildings、宿舍相關 17 支 0 失敗；全部 Node 背景跑中"
     },
     {
@@ -16124,7 +16124,7 @@
       "msg": "ACK",
       "what": "LM-SEAM-1028：之前交的五間＋男一舍門廳光照貼圖接縫和全黑的面（只換六個 GLB；lm_fix_hidden 第六版）",
       "task": "LM-SEAM-1028",
-      "integration": "已整合待測試",
+      "integration": "已驗收",
       "note": "【LAWWW-C 14:0x】合進開發分支 96e535901"
     },
     {
@@ -16215,7 +16215,7 @@
       "msg": "ACK",
       "what": "總圖大廳正式光照烘焙（LIB-HALL-LM-1028，LAWWW2-C 的 WIP 收尾）：patch library_hall_lm_1028.patch（library_layout 十筆擺設、library3d 一行、library_interior.py、LICENSES、新 library_hall_lightmap_unit、singleside 拿掉總圖踏面反面一項）＋GLB／日夜光照貼圖＋四支烘焙工具",
       "task": "LIB-HALL-LM-1028",
-      "integration": "已整合待測試",
+      "integration": "已驗收",
       "note": "【LAWWW-B 03:3x ACK】v9.10.14 發布後在獨立工作樹套（和 RT-NIGHT 一起）；LAWWW2 自測全部 Node 725／0、進兩次 0 錯誤、效能 draw call −4～+3%；缺點：光照貼圖填滿率 28.7%、地板 9 px/m；沒跑 flow_library_floors／scene；READY_FOR_ART_REVIEW｜【LAWWW-B 11:5x】整合 bbe0c9469"
     },
     {
@@ -16228,7 +16228,7 @@
       "msg": "ACK",
       "what": "室內光照貼圖晚上：Z3.roomLightmap 沒烘焙的小零件晚上乘 rtK、天窗 dayEmit 晚上暗（rt_night_1028.patch、新 room_rtnight_unit）",
       "task": "RT-NIGHT-1028",
-      "integration": "已整合待測試",
+      "integration": "已驗收",
       "note": "【LAWWW-B 03:3x ACK】和 LIB-HALL-LM 一起套；room_rtnight_unit 開發 FAILED 9 → ALL PASS｜【LAWWW-B 11:5x】整合 bbe0c9469"
     },
     {
@@ -16241,7 +16241,7 @@
       "msg": "ACK",
       "what": "D115 改名美術字（七個 GLB／背景貼圖、glb_patch.py、外框上限 patch）",
       "task": "RENAME-ART-1030",
-      "integration": "已整合待測試",
+      "integration": "已驗收",
       "note": "【LAWWW-B 09:5x ACK】整合 f75d60a4c；相關 Node ALL PASS"
     },
     {
@@ -16267,7 +16267,7 @@
       "msg": "ACK",
       "what": "法律學院圖書館室內光照烘焙（GLB＋lm_day／lm_night、bake_lawlib.sh）",
       "task": "LAWLIB-LM-1030",
-      "integration": "已整合待測試",
+      "integration": "已驗收",
       "note": "【LAWWW-B 10:5x ACK】整合；lawlib／lightmap 相關 Node ALL PASS"
     },
     {
@@ -16280,7 +16280,7 @@
       "msg": "ACK",
       "what": "法律系館B 多功能教室 v2（GLB、光照、flat_classroom.py v2、bake_flat_rooms.sh）",
       "task": "MULTI-ROOM-V2-1030",
-      "integration": "已整合待測試",
+      "integration": "已驗收",
       "note": "【LAWWW-B 11:4x ACK】rooms_glb、wancai_lightmap、room_ceiling、room_map_labels、x78_rooms、nav_buildings ALL PASS"
     },
     {
