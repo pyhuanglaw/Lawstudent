@@ -70,8 +70,8 @@ const docRe=(n,re)=>re.test(docOf(n));
     check('1-2. 稿：AA_523 3-1 三則一字不差；「四行」「三行半」不在遊戲',inDoc('AA_523','Kevin：背面是一題民法')&&inDoc('AA_523','佳穎：我還以為是問候')&&inDoc('AA_523','學姊：問候在正面。')&&SRC('data/sis_b16_events.js').indexOf('三行半')<0);
     fresh('2029-01-10',20,'dorm'); PHONE.join(H.G,'family_law','法律直屬家族'); ruleAt('2029-01-10',21.05); const m=byTag('sisb16_postcard');
     check('1-2. 1/10 21:00 家族群組照送：最後三則是 Kevin、佳穎、學姊',m.length===7&&m[4].name==='Kevin'&&m[5].name==='佳穎'&&m[5].text==='我還以為是問候'&&m[6].text==='問候在正面。',J(m.map(x=>[x.name,x.text]))); });
-  await sec('1-3',()=>{ const o=SISB13_HAND.open.find(l=>/群組裡的照片/.test(l.text||''));
-    check('1-3. AA_512 13-1：「你是{name}吧。」（名字不寫死；口氣表 0-2）',!!o&&o.text==='你是{name}吧。群組裡的照片，看起來比本人緊張。'&&inDoc('AA_512','學姊：你是{name}吧。群組裡的照片，看起來比本人緊張。'),o&&o.text);
+  await sec('1-3',()=>{ const o=SISB13_HAND.open.find(l=>/^你是\{name\}吧。/.test(l.text||''));   /* AA_590 第 40 列：後半「群組裡的照片……」改「你好。」 */
+    check('1-3. AA_512 13-1：「你是{name}吧。」（名字不寫死；口氣表 0-2）；後半照 AA_590 第 40 列改「你好。」（AA_512 稿上是舊句）',!!o&&o.text==='你是{name}吧。你好。'&&inDoc('AA_512','學姊：你是{name}吧。群組裡的照片，看起來比本人緊張。')&&require('./aa590_doc.js').has('你是{name}吧。你好。'),o&&o.text);
     const src=SRC('data/sis_b13_events.js'); check('1-3. 「你是祐廷吧」不在遊戲',src.indexOf('你是祐廷吧')<0); });
   await sec('1-4',()=>{ const W=FEED_DATES.who;
     check('1-4. 子晴：走了一整天／今天沒寫程式／回家就睡（不用遊戲講感情）、又來「第二次 路記得了」',J(W.heroine_04.say.slice(0,3))===J(['走了一整天','今天沒寫程式','回家就睡'])&&W.heroine_04.again==='第二次 路記得了'&&J(W.heroine_04.cm[0])===J(['妳還沒睡？','剛到家','等一下就睡']),J([W.heroine_04.say,W.heroine_04.again,W.heroine_04.cm[0]]));

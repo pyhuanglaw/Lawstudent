@@ -52,7 +52,7 @@ const SISB13_HAND=(function(){
     open:[ N('（長桌另一頭，一個抱著一疊講義的女生坐得很直，面前的茶還沒喝。）'),
       Object.assign(KV('學弟，這是溫學姊。我們家族最大的。'),{unless:noW1,meet:{id:ID,where:'lane118'}}),
       Object.assign(SIS('……溫書瑀。碩一。'),{unless:noW1}),
-      Object.assign(SIS('你是{name}吧。群組裡的照片，看起來比本人緊張。'),{unless:noW1}),
+      Object.assign(SIS('你是{name}吧。你好。'),{unless:noW1}),
       Object.assign(SIS('（對你點了一下頭）來了。'),{if:noW1}) ],
     after:[ N('（學姊把一張紙推到佳穎面前。）'),
       SIS('書單。大一上先讀前面三本，後面的不急。'),

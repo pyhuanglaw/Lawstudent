@@ -40,7 +40,8 @@ const dateSis=()=>{ H.G.flags['dating_'+ID]=true; ROM.get(H.G,ID).status='dating
   /* 2026-10-28 AA_512 第 2 節第 4 點（企劃線 c444f0757）：ev_sis_predepart 加的那一段（帶 aa512 的行、選項）對 AA_512 的稿（tests/aa512_sis_b13_unit.js），這裡不算 */
   const AA512T=new Set(); for(const e of SISY23_EVENTS) for(const l of (e.dialogue||[])){ if(l&&l.aa512&&l.text) AA512T.add(l.text); if(l&&l.choice) for(const c of l.choice) if(c&&c.aa512) AA512T.add(c.text); }
   const AA518T=new Set(['這禮拜六畢業。……之後還是在這裡讀書，只是換一張學生證。']);   /* AA_518 4-6 改的那一句（對 AA_518 的稿，tests/aa518_sis_b15_unit.js）*/
-  const notIn=quoted.filter(t=>!AA512T.has(t)&&!AA518T.has(t)&&!inDoc(t.replace('{name}','{name}'))&&!['法圖・討論室','法圖外面的台階','總圖門口的台階','法圖旁邊的簡餐','電話','霖澤館・研究室','法扶・臺北的辦公室','便利商店門口的桌子','公館・騎樓'].includes(t)&&!LATER.includes(t)&&!(doc392&&doc392.indexOf(t)>=0)&&!['社區活動中心・小房間','社區活動中心門口'].includes(t)&&!(t===CH4&&doc509.indexOf(CH4_SRC)>=0));
+  const A590=require('./aa590_doc.js');   /* AA_590（學姊改稿第三批，企劃線 68ceea665，使用者 11-02 確認）改過的句子在 AA_590 的表上，不在這份原稿 */
+  const notIn=quoted.filter(t=>!A590.has(t)&&!AA512T.has(t)&&!AA518T.has(t)&&!inDoc(t.replace('{name}','{name}'))&&!['法圖・討論室','法圖外面的台階','總圖門口的台階','法圖旁邊的簡餐','電話','霖澤館・研究室','法扶・臺北的辦公室','便利商店門口的桌子','公館・騎樓'].includes(t)&&!LATER.includes(t)&&!(doc392&&doc392.indexOf(t)>=0)&&!['社區活動中心・小房間','社區活動中心門口'].includes(t)&&!(t===CH4&&doc509.indexOf(CH4_SRC)>=0));
   check('0. 每一句台詞都在稿裡（一字不差；地點字幕除外）',!notIn.length,J(notIn));
   /* ---- 1 2-1 研究室 ---- */
   { setup('2026-09-21',20,'dorm','FAMILIAR'); rules(); const a=dms().length; at('2026-09-21',21.05); rules(); const m=PHONE.byAsk(H.G,'sisy23_lab_ask');
@@ -60,9 +61,9 @@ const dateSis=()=>{ H.G.flags['dating_'+ID]=true; ROM.get(H.G,ID).status='dating
     check('2. 11/17（二）21:00 私訊兩則、回覆「好。」「明天晚上不行。」',J(dms())===J(['明天晚上七點，法圖的討論室。','我要練一次 seminar 的報告。需要一個不是法研所的人聽。'])&&!!m&&J(m.ask.opts.map(o=>o.t))===J(['好。','明天晚上不行。']),J(dms()));
     PHONE.answer(H.G,'sisy23_sem_ask',0); rules(); const q=OUT.get(H.G,'sisy23_sem'); check('2. 11/18（三）19:00 法圖・討論室',!!q&&q.day===H.D('2026-11-18')&&q.h===19);
     const L=await play('ev_sis_seminar_y2',[2]);
-    check('2. 問「妳為什麼選這個題目？」：「……這是最後才要問的問題。你先問了。」「下次再回答你。我還沒想好怎麼講。」→「好。我回去改。……你先回宿舍，很晚了。」；asked',L.includes('……這是最後才要問的問題。你先問了。')&&L.includes('下次再回答你。我還沒想好怎麼講。')&&L[L.length-1]==='好。我回去改。……你先回宿舍，很晚了。'&&H.G.flags.SIS_SEMINAR_Y2==='asked',J(L)); }
+    check('2. 問「妳為什麼選這個題目？」：「……這是最後才要問的問題。你先問了。」「下次再回答你。我還沒想好怎麼講。」→「好。我回去改。很晚了，回去小心。」；asked',L.includes('……這是最後才要問的問題。你先問了。')&&L.includes('下次再回答你。我還沒想好怎麼講。')&&L[L.length-1]==='好。我回去改。很晚了，回去小心。'&&H.G.flags.SIS_SEMINAR_Y2==='asked',J(L)); }
   { setup('2026-11-17',20,'dorm','FAMILIAR'); dateSis(); at('2026-11-17',21.05); rules(); PHONE.answer(H.G,'sisy23_sem_ask',0); const L=await play('ev_sis_seminar_y2',[0]);
-    const i=L.indexOf('你坐第一排，我比較不會看錯地方。'), j=L.indexOf('好。我回去改。……你先回宿舍，很晚了。');
+    const i=L.indexOf('你坐第一排，我比較不會看錯地方。'), j=L.indexOf('好。我回去改。很晚了，回去小心。');
     check('2. 交往中：「你坐第一排，我比較不會看錯地方。」在「好。我回去改。」之前；「中間那段，數字太多了。」→劃掉一整段；went',i>=0&&j===i+1&&L.includes('（在講稿上劃掉一整段）……我也覺得。只是捨不得。')&&H.G.flags.SIS_SEMINAR_Y2==='went',J(L)); }
   { setup('2026-11-17',20,'dorm','FAMILIAR'); at('2026-11-17',21.05); rules(); PHONE.answer(H.G,'sisy23_sem_ask',1); rules(); const a=dms().slice(-1)[0]; at('2026-11-18',22.05); rules();
     check('2. 「明天晚上不行。」→「好。那我對著牆講。」；11/18 22:00「講完了。牆沒有意見。」、missed',a==='好。那我對著牆講。'&&dms().slice(-1)[0]==='講完了。牆沒有意見。'&&H.G.flags.SIS_SEMINAR_Y2==='missed',J(dms())); }
@@ -74,9 +75,9 @@ const dateSis=()=>{ H.G.flags['dating_'+ID]=true; ROM.get(H.G,ID).status='dating
     setup(key(d6),15,'cafe','FRIEND'); const c=X().preTalkEv(H.G);
     setup(key(d6),20,'cafe','FRIEND',{SIS_SEMINAR_Y2:'asked'}); const e=X().preTalkEv(H.G); H.said=[]; H.picks=[1]; await X().preTalk(GM); const L=H.said.map(s=>s.t); const f=X().preTalkEv(H.G);
     check('3. 大二下第 6 週週一 20:00 在 Café（朋友以上）：接在前面演；第 4 週、熟悉不到朋友、白天都不演',a===null&&b===null&&c===null&&e==='ev_sis_topic',J({a,b,c,e}));
-    check('3. 「我想寫的東西，找到了。」…「債務清理案件的法律扶助。」；問過為什麼的多「你上次問我為什麼。……我想好怎麼講了。」；「那個阿姨後來呢？」→「……我不知道。那天以後，就沒再見過她。」；記憶 SIS_TOPIC、演過一次就不再',L[0]==='我想寫的東西，找到了。'&&L.includes('你上次問我為什麼。……我想好怎麼講了。')&&L.includes('我想知道『很久』是多久。……還有為什麼要那麼久。')&&L.includes('……我不知道。那天以後，就沒再見過她。')&&!L.includes('我爸媽還不知道。……他們會問，寫這個以後要做什麼。')&&SOCIAL.has(ID,'SIS_TOPIC')&&f===null,J(L)); }
+    check('3. 「我想寫的東西，找到了。」…「債務清理案件的法律扶助。」；問過為什麼的多「你上次問我為什麼。我想好怎麼講了。」；「那個阿姨後來呢？」→「……我不知道。那天以後，就沒再見過她。」；記憶 SIS_TOPIC、演過一次就不再',L[0]==='我想寫的東西，找到了。'&&L.includes('你上次問我為什麼。我想好怎麼講了。')&&L.includes('我想知道『很久』是多久。……還有為什麼要那麼久。')&&L.includes('……我不知道。那天以後，就沒再見過她。')&&!L.includes('我媽還不知道。……她會問，寫這個以後要做什麼。')&&SOCIAL.has(ID,'SIS_TOPIC')&&f===null,J(L)); }
   { const d6=tdy('Y2S2',6,3); setup(key(d6),19.5,'lawlib','FRIEND'); dateSis(); H.said=[]; H.picks=[0]; await X().preTalk(GM); const L=H.said.map(s=>s.t);
-    check('3. 交往中（法圖週三晚上）：沒問過的沒有那一句；最後「我爸媽還不知道。……」',!L.includes('你上次問我為什麼。……我想好怎麼講了。')&&L.includes('還沒。所以要寫兩年。')&&L[L.length-1]==='我爸媽還不知道。……他們會問，寫這個以後要做什麼。',J(L)); }
+    check('3. 交往中（法圖週三晚上）：沒問過的沒有那一句；最後「我爸媽還不知道。……」',!L.includes('你上次問我為什麼。我想好怎麼講了。')&&L.includes('還沒。所以要寫兩年。')&&L[L.length-1]==='我媽還不知道。……她會問，寫這個以後要做什麼。',J(L)); }
   { const d11=tdy('Y2S2',11,3); setup(key(d11),10,'dorm','FRIEND'); rules(); const a=!!OUT.get(H.G,'sisy23_topic'); at(key(d11),21.02); rules(); const q=OUT.get(H.G,'sisy23_topic');
     check('3. 第 5～10 週都沒遇到：第 11 週週三 21:00「法圖外面的台階。等你十分鐘。」→ 21:10 台階的出遊（訊息到了才排）',!a&&dms().slice(-1)[0]==='法圖外面的台階。等你十分鐘。'&&!!q&&q.ev==='ev_sis_topic_steps'&&Math.abs(q.h-(21+1/6))<1e-6,J(q));
     const L=await play('ev_sis_topic_steps',[0]); check('3. 台階那一版同一段（記憶 SIS_TOPIC）',L[0]==='我想寫的東西，找到了。'&&SOCIAL.has(ID,'SIS_TOPIC')); }
@@ -90,7 +91,7 @@ const dateSis=()=>{ H.G.flags['dating_'+ID]=true; ROM.get(H.G,ID).status='dating
   { setup('2027-06-01',18,'dorm','FAMILIAR'); dateSis(); rules(); at('2027-06-01',21.05); rules(); const m=dms().slice(-2); rules(); const q=OUT.get(H.G,'sisy23_bday_y2');
     check('4. 交往中：前一天 21:00「明天我生日。」「晚上七點，法圖旁邊那家。我訂了。」→ 6/2 19:00 的出遊；說話的那一場不演',J(m)===J(['明天我生日。','晚上七點，法圖旁邊那家。我訂了。'])&&!!q&&q.day===H.D('2027-06-02')&&q.h===19&&(at('2027-06-02',19.5),H.G.zone='lawlib',!X().bdayTalkDue(H.G,'y2')),J({m,q}));
     const L=await play('ev_sis_bday_date_y2',[0]);
-    check('4. 交往中那場：「我自己訂的。……」、「生日快樂。」→「謝謝。……你今天穿得比平常好看。」、最後「（回去的路上，她走得比平常慢。）」',L[0]==='我自己訂的。我知道你會想訂，可是你會訂錯家。'&&L.includes('謝謝。……你今天穿得比平常好看。')&&L[L.length-1]==='（回去的路上，她走得比平常慢。）'&&!L.includes('碩一過完一年了。研究室那張靠門的椅子，我換了一個坐墊。'),J(L)); }
+    check('4. 交往中那場：「我自己訂的。……」、「生日快樂。」→「謝謝。……你今天穿得比平常好看。」、最後「（回去的路上，她走得比平常慢。）」',L[0]==='我自己訂的。這家我想來很久了。'&&L.includes('謝謝。……你今天穿得比平常好看。')&&L[L.length-1]==='（回去的路上，她走得比平常慢。）'&&!L.includes('碩一過完一年了。研究室那張靠門的椅子，我換了一個坐墊。'),J(L)); }
   { setup('2026-06-02',19.5,'cafe','FAMILIAR'); at('2026-06-03',9); rules(); check('4. 沒找她：隔天記 missed、沒有台詞',H.G.flags.SIS_BDAY_Y1==='missed'&&!dms().length); }
   /* ---- 5 2-5 訪談 ---- */
   { setup('2027-10-15',20,'dorm','FAMILIAR'); at('2027-10-15',21.05); rules(); const a=dms().length;

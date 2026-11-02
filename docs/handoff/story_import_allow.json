@@ -3917,6 +3917,15 @@
    "approvedBy": "AA（帳號 A）2026-11-02 定稿（第 9 節 AA 審查決定，D109）＋BB_230 口氣審 PASS（第 89～93 列）＋使用者 2026-11-02 18:0x 選擇題 1～10 確認（第 11 節：第 9、10、29、48、67、82 列用使用者的句子；大一上 S-L8、大一下 S2-L6、大二上 S3-L3 整層刪、S3-L6 extraIf[0] 刪、第 72 列那一格刪）；企劃線 14154434b「學姊第二批確認完，可整合」",
    "task": "AA584-SIS-B2-1102",
    "note": "閒聊階梯（ladder.js）：企劃線源稿 build_ladder_bb*.py／ladder_bb*.json 還沒照這份改，由 tools/ladder/import_ladder.py 讀這份對照表疊上去（第 2 節 ladder.js 的 83 列、爸爸三層＋第 11 節三層整層刪、S3-L6 extraIf[0]、大四上招呼一格；刪層的舊存檔進度在 src/story3d.js S.LAD_DEL 換算）；邀約 invites.js 第 79～87 列、sis_grad3d.js STUDY_YES 第 88 列手抄改 src；記憶名稱（第 9 節第 1 點、第 4-4 節連1、連2）在 src/social3d.js；修正本私訊條件（第 9 節第 1 點）在 src/sis_b13_3d.js。tests/aa584_sis_b2_unit.js。子代理 2026-11-02 代登（int/next1102 上），給值班 LAWWW 核"
+  },
+  {
+   "path": "docs/story_planning/AA_590_學姊改稿_第三批_大一大二事件.md",
+   "sha": "68ceea665",
+   "status": "approved",
+   "approvedBy": "AA 2026-11-02 審查（第 9 節，D109；決1～決4 定案）、BB_235 口氣審 PASS、使用者 2026-11-02 18:2x 選擇題 11 題確認（第 10 節：「學姊第三批使用者看完，照本節調整後可以交 LAWWW」）",
+   "task": "AA590-SIS-B3-1102",
+   "kind": "text",
+   "note": "學姊改稿第三批（大一、大二事件）：手抄檔、程式，沒有產生器——tools/story/apply_line_table.py 自動換 57 列，其餘（第 4～7、17、21、53、60、71～82 列、保104、保147）手改；空的保溫瓶（ev_sis_empty_flask，第 16 列）、等放榜（ev_sis15_novel，第 28、29 列）整場 retired（定義留給舊存檔）；成績那一則改問放假（grades3d.js，第 55、56 列；開學以後不演）。tests/aa590_sis_b3_unit.js（稿 tests/aa590_doc.js）。子代理 2026-11-02 代登（int/next1102 上），給值班 LAWWW 核"
   }
  ]
 }

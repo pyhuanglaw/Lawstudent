@@ -72,7 +72,7 @@ const span=(t0,t1,st)=>{ st=st||0.05; for(let t=t0;t<=t1+1e-9;t+=st){ const d=Ma
     { H.G.zone='library_hall'; SISG.tick(GM); H.G.zone='campus'; const again=SISG.tick(GM);
       check('14-2. 記 SIS_PREEXAM_NIGHT；信任 +3、自在 +2（照舊）；只演一次', H.G.flags.SIS_PREEXAM_NIGHT===true&&r.r1.trust-r.r0.trust===3&&r.r1.comf-r.r0.comf===2&&!again, JSON.stringify([r.r0,r.r1])); }
     const a=await lowPlay(d26,21,{},0), b=await lowPlay(d27,20.1,{},1);
-    check('14-2. 選項 a、b 照舊；1/26、1/27 也會', a.b&&b.b&&a.L.slice(-3).join('/')==='好。不用講話。/（你們坐到圖書館熄燈。）/好了，我回去了。明天還是八點到。'&&b.L.slice(-2).join('/')==='大家都這樣說。……可是謝謝。/好了，我回去了。明天還是八點到。', JSON.stringify([a.L.slice(-3),b.L.slice(-2)]));
+    check('14-2. 選項 a、b 照舊；1/26、1/27 也會', a.b&&b.b&&a.L.slice(-3).join('/')==='好。/（你們坐到圖書館熄燈。）/好了，我回去了。明天還是八點到。'&&b.L.slice(-2).join('/')==='大家都這樣說。……可是謝謝。/好了，我回去了。明天還是八點到。', JSON.stringify([a.L.slice(-3),b.L.slice(-2)]));
     { const late=await lowPlay(d26,22.5,{},0), mid=await lowPlay(d26,24.3,{},0), near=(x,y)=>Math.abs(x-y)<1e-6;
       check('14-2. AA_363 R3 路過版演完的時間（修改前 a、c 都不動）：a「（你們坐到圖書館熄燈。）」21:00 → 22:00（總圖關門，places.js）；22:30、過了午夜（00:18）選 a 不動；b 20:06 不動；c「我陪妳走到捷運站。」20:30 → 20:45、人在原地（還在校園）',
         a.b&&near(a.t,Tm(d26,22))&&late.b&&near(late.t,late.t0)&&mid.b&&near(mid.t,mid.t0)&&near(b.t,b.t0)&&r.b&&near(r.t,r.t0+0.25)&&r.zone==='campus'&&near(SISG.lowCloseH({day:d26,hour:21}),1),

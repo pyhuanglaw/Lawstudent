@@ -69,7 +69,7 @@ const TERMEND=(function(){
     if(G.flags&&G.flags['dating_'+id]) return false;   /* C4：交往中＝女朋友的學期末約會 */
     if(typeof ROM!=='undefined'&&ROM.canStart&&!ROM.canStart(G,id)) return false;   /* C8：分手以後還不能重新開始 */
     if(typeof INV!=='undefined'&&INV.cool&&INV.cool(G,id)) return false;   /* 分開以後到下一個學期第 1 週：她不主動約（AA_434 4-3，V6EX.cool），心意邀約不發、那一句也不傳；你自己約她吃飯＝朋友的期末飯（S.playerInvite）*/
-    if(id==='heroine_05'&&typeof SISB4!=='undefined'&&SISB4.brokeUp&&SISB4.brokeUp(G)) return false;   /* AA_386 第 4 節：分開過的學姊不發心意邀約（她的答應是第一次的台詞「考試那時候就有一點了」，接不上）——重新開始照三件事（SIS_REBUILD）＋兩次正式校外約會，第二次那一趟的結尾告白（date3d.js）*/
+    if(id==='heroine_05'&&typeof SISB4!=='undefined'&&SISB4.brokeUp&&SISB4.brokeUp(G)) return false;   /* AA_386 第 4 節：分開過的學姊不發心意邀約（她的答應是第一次的台詞「你確定？」「我很難相處喔。」——AA_590 決3 前是「考試那時候就有一點了」，接不上）——重新開始照三件事（SIS_REBUILD）＋兩次正式校外約會，第二次那一趟的結尾告白（date3d.js）*/
     const c=S.cond(G,id);
     if(!c.ok){ if(c.why==='low'||c.why==='knows') return {nope:c.why}; if(c.why==='partner') return Lx.NOPE.partner&&Lx.NOPE.partner[id]?{nope:'partner'}:false; return false; }   /* 手機一句只給 C5 她自己有交往對象、C6 低潮、C10 她知道（含 5-3 第二欄沒到）；C1、C2 只是還沒到，不傳（BB_203 5-4，AA_254 第 9 節 8c76052b）*/
     if(c.decline==='preexam'||c.decline==='prerank') return false;   /* 學姊：放榜（2026-03-23）以前不發、也不傳（5-3 第一欄，AA_254 第 9 節刪了那一句）*/
