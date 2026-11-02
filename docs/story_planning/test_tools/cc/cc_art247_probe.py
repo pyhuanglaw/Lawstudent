@@ -4,7 +4,7 @@
 截圖一律橫向 844×390；每個 case 另外存幾張直向 390×844（同一個頁面 set_viewport_size，檔名 _port）。
 
 用法：  [CASES=coplanar,lightband,nightrereg,uskitchen] [LW_TESTS=<工作樹>/tests] python3 cc_art247_probe.py <URL index.html> <輸出資料夾>
-        python3 cc_art247_probe.py diff <資料夾> [前綴]      ＝只算連拍相鄰兩張的像素差異（PIL），寫 <資料夾>/diff_<前綴>.json
+        python3 cc_art247_probe.py diff <資料夾> [位置名]    ＝只算連拍相鄰兩張的像素差異（PIL），寫 <資料夾>/diff_<位置名>.json
 環境變數：CASES（預設四個都跑）、SETTLE（換鏡頭後等幾毫秒，預設 2500）、WARM（進區域後等幾毫秒讓正式模型載入，預設 6000）、
         BURST（連拍張數，預設 10）、BURST_MS（連拍間隔，預設 200）、YAW_STEP（繞圈每幾度，預設 30）、PORT（1＝存直向，預設 1）、
         CO_SPOTS（coplanar 的位置，預設 wancai_front,wzpark_pavilion；另有 wzpark_notice、linze_front）、DAY（讀檔的日子，預設 8）。
@@ -53,7 +53,7 @@ def diff_series(files, thr=24):
 
 
 def diff_cli(folder, prefix=''):
-    fs = sorted(os.path.join(folder, f) for f in os.listdir(folder) if f.endswith('.png') and f.startswith(prefix) and '_port' not in f)
+    fs = sorted(os.path.join(folder, f) for f in os.listdir(folder) if f.endswith('.png') and prefix in f and '_port' not in f)   # prefix＝位置名（例 wancai_front）
     res = diff_series(fs)
     p = os.path.join(folder, 'diff_%s.json' % (prefix or 'all'))
     json.dump(res, open(p, 'w', encoding='utf-8'), ensure_ascii=False, indent=1)
@@ -88,7 +88,7 @@ SPOTS = {
 }
 CO_SPOTS = LST('CO_SPOTS', 'wancai_front,wzpark_pavilion')
 LB_ZONES = [  # (區域, 玩家 x, z, lv, 說明)
-    ('library_hall', -4.5, 7.2, 0, '總圖大廳一樓：門廳西側（門廳牆 x −5.2、閘門柱 z 5.4 旁）'),
+    ('library_hall', -4.0, 6.6, 0, '總圖大廳一樓：門廳西側（置物櫃那段細牆 x −5.2、閘門柱 z 5.4 旁；原定 (−4.5, 7.2) 站不住，遊戲放到這裡）'),
     ('bookstore', 4.2, 4.0, 0, '舊路書房：前牆（門、窗 x 3.5）東南角，靠書架端'),
 ]
 # 夜間材質（b1b249873 src/zones3d.js：WZ_NIGHT 1042 行、CAFE_NIGHT 997 行）
@@ -102,9 +102,8 @@ INFO_JS = """(()=>{ const E=GAME.E, G=GAME.G, o=E.player.obj.position; const it=
     loading:!document.getElementById('loading').classList.contains('hide'), stand:E.canStand?E.canStand(o.x,o.z,0.3):null,
     interact:(it&&!it.classList.contains('hide')&&getComputedStyle(it).display!=='none')?((lb&&lb.textContent)||'').trim():null}; })()"""
 MATS_JS = """(names=>{ const out={}, seen=new Set(); GAME.E.scene.traverse(o=>{ if(!o.isMesh) return; for(const m of [].concat(o.material)){ if(!m||!names.includes(m.name)||seen.has(m)) continue; seen.add(m);
-    const r=out[m.name]=out[m.name]||{n:0,min:1e9,max:-1e9,nightI:null,dayI:null,visibleMesh:0}; r.n++; const v=+m.emissiveIntensity; r.min=Math.min(r.min,v); r.max=Math.max(r.max,v);
-    if(m.userData.nightI!=null) r.nightI=m.userData.nightI; if(m.userData.dayI!=null) r.dayI=m.userData.dayI; if(o.visible) r.visibleMesh++; } });
-  for(const k in out){ out[k].min=+out[k].min.toFixed(3); out[k].max=+out[k].max.toFixed(3); } return out; })"""
+    (out[m.name]=out[m.name]||[]).push({id:m.uuid.slice(0,8),mesh:(o.name||'').slice(0,40),visible:o.visible,ei:+(+m.emissiveIntensity).toFixed(3),nightI:m.userData.nightI==null?null:m.userData.nightI,dayI:m.userData.dayI==null?null:m.userData.dayI}); } });
+  return out; })"""
 
 
 def night_k(h):
@@ -115,12 +114,15 @@ def night_k(h):
 
 
 def judge_mats(mats, hour):
+    """每一個材質各自比：應有值＝dayI×(1−k)＋nightI×k（TK.addNight 登記的值）；沒有 nightI＝沒登記過夜間"""
     k = night_k(hour); res = {}
-    for nm, r in mats.items():
-        if r.get('nightI') is None:
-            res[nm] = 'no_nightI'; continue
-        want = (r.get('dayI') or 0) * (1 - k) + r['nightI'] * k
-        res[nm] = 'ok' if abs(r['max'] - want) < 0.05 and abs(r['min'] - want) < 0.05 else 'MISMATCH want %.2f got %.2f..%.2f' % (want, r['min'], r['max'])
+    for nm, lst in mats.items():
+        for r in lst:
+            key = '%s#%s' % (nm, r['id'])
+            if r.get('nightI') is None:
+                res[key] = 'no_nightI ei %.2f' % r['ei']; continue
+            want = (r.get('dayI') or 0) * (1 - k) + r['nightI'] * k
+            res[key] = 'ok' if abs(r['ei'] - want) < 0.05 else 'MISMATCH want %.2f got %.2f（dayI %s nightI %s）' % (want, r['ei'], r.get('dayI'), r['nightI'])
     return {'k': round(k, 3), 'per': res, 'mismatch': sorted(n for n, v in res.items() if v.startswith('MISMATCH'))}
 
 
@@ -310,7 +312,7 @@ async def tap_door(cs, pg, cdp, label, to, max_s=150):
 async def nr_step(cs, pg, seq, step, names):
     i = await pg.evaluate(INFO_JS); m = await pg.evaluate(MATS_JS, names); jd = judge_mats(m, i['hour'])
     rec = dict(seq=seq, step=step, gzone=i['gzone'], ezone=i['ezone'], hour=i['hour'], x=i['x'], z=i['z'], mats=m, judge=jd); cs.steps.append(rec)
-    cs.note('%s %-22s zone=%s/%s hour=%.2f 夜間係數 %.2f 材質 %d 種、不符 %s' % (seq, step, i['gzone'], i['ezone'], i['hour'], jd['k'], len(m), jd['mismatch'] or '無'))
+    cs.note('%s %-22s zone=%s/%s hour=%.2f 夜間係數 %.2f 材質 %d 種 %d 個、不符 %s' % (seq, step, i['gzone'], i['ezone'], i['hour'], jd['k'], len(m), sum(len(v) for v in m.values()), jd['mismatch'] or '無'))
     return rec
 
 
