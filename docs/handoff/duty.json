@@ -471,9 +471,10 @@
     "LAWWW2": {
      "session": "session_01GV1WG3UeT2DhuDpxeWJsvD",
      "branch": "claude/funny-albattani-iawshm",
-     "sha": "a66691f2",
+     "sha": "e16b32ad",
      "state": "handed-off",
-     "handedOffAt": "2026-11-01T09:02Z"
+     "handedOffAt": "2026-11-01T09:02Z",
+     "shaNote": "LAWWW（帳號 A）11-02 03:4x：原本記 a66691f2（交班前一筆）；之後只有該職位自己的交班紀錄 commit（快照、duty handoff、user_asks），已合併進帳號 A 的分支，改記最後這一筆"
     }
    },
    "until": "2026-11-02T03:43Z"
@@ -485,9 +486,10 @@
     "AA": {
      "session": "session_016ACZaD4oB9tX94WqQR4dkS",
      "branch": "claude/cool-heisenberg-o8kuqx",
-     "sha": "3fa74f43",
+     "sha": "c989cc06",
      "state": "handed-off",
-     "handedOffAt": "2026-11-01T08:58Z"
+     "handedOffAt": "2026-11-01T08:58Z",
+     "shaNote": "LAWWW（帳號 A）11-02 03:4x：原本記 3fa74f43（交班前一筆）；之後只有該職位自己的交班紀錄 commit（快照、duty handoff、user_asks），已合併進帳號 A 的分支，改記最後這一筆"
     }
    },
    "until": "2026-11-02T03:43Z"
@@ -499,9 +501,10 @@
     "BB": {
      "session": "session_01J1g2TPcPzWrihXSY2WvseV",
      "branch": "claude/elegant-brown-fcos7n",
-     "sha": "a2b4d9ff",
+     "sha": "22ddbea5",
      "state": "handed-off",
-     "handedOffAt": "2026-11-01T08:58Z"
+     "handedOffAt": "2026-11-01T08:58Z",
+     "shaNote": "LAWWW（帳號 A）11-02 03:4x：原本記 a2b4d9ff（交班前一筆）；之後只有該職位自己的交班紀錄 commit（快照、duty handoff、user_asks），已合併進帳號 A 的分支，改記最後這一筆"
     }
    },
    "until": "2026-11-02T03:43Z"
