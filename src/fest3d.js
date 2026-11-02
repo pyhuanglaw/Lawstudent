@@ -141,8 +141,8 @@ const FEST=(function(){
   const hmText=m=>{ const h=Math.floor(m/60), r=m%60; return (h?h+' 小時':'')+(h&&r?' ':'')+(r?r+' 分鐘':''); };
   /* 出發地（DATE-C7、AA_128 4-1、11-1）：寒暑假住臺北的家（車就在家裡）＝不加回家取車、還車的 30 分（DATE.fromHomeOn）；學期中從宿舍出發照舊去回各多 30 分 */
   S.drive=function(loc,city,G,day){ const tr=typeof DATE!=='undefined'&&DATE.travel?DATE.travel(loc,'car'):null; const min=tr&&tr.mode==='car'?tr.minutes:(loc==='D15'?40:150), fare=tr&&tr.mode==='car'?tr.fare:(loc==='D15'?150:900);
-    const home=!!G&&day!=null&&typeof DATE!=='undefined'&&!!DATE.fromHomeOn&&DATE.fromHomeOn(G,day), pick=home?0:0.5;
-    return {travelH:min/60+pick,travel:(home?'':'回家取車約 30 分鐘，再')+'開車到'+city+'約 '+hmText(min),fare,backH:min/60+pick,home}; };
+    const home=!!G&&day!=null&&typeof DATE!=='undefined'&&!!DATE.fromHomeOn&&DATE.fromHomeOn(G,day), pick=0;   /* AA_599 更正：開車從宿舍直接出發（原本 home?0:0.5）*/
+    return {travelH:min/60+pick,travel:'開車到'+city+'約 '+hmText(min),fare,backH:min/60+pick,home}; };
 
   /* ---------------- 出遊（OUT）---------------- */
   const outId=(f,mode)=>'fest_'+f.id+'_'+f.k+'_'+f.y+(mode?'_'+mode:'');

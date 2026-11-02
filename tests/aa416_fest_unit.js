@@ -258,9 +258,9 @@ const REG=o=>{ global.CG_REGISTRY=o||{}; };
     at('2026-03-14',18.7); const g=await goOut(a.r.id);
     check('8. 映月湖那一場放 CG cg_last_page_peishan（在「最後一頁是空的」那一句）',J(g.L)===J(['（她拿出一本筆記本。）','這一年我問你的問題，我自己的答案都寫在這裡。','最後一頁是空的。……那一題，你來回答。'])&&J(H.cgs)===J(['cg_last_page_peishan'])&&H.G.flags.PS_WHITE_CG===true,J({L:g.L,cgs:H.cgs}));
     setup('2028-03-13',10,{lv:{[PS]:6},flags:{PS_RECONNECT:true}}); const b=await ask(PS,[0]); at('2028-03-14',7); const g2=await goOut(b.r.id);
-    check('8. 2028 在台南：開車去台南（D28 單程 240 分＋學期中從宿舍出發先回家取車 30 分）、運河邊（tn_canal）、多「這裡沒有映月湖。……運河也可以。」、不放 CG',!!b.r&&Math.abs(b.r.travelH-4.5)<1e-9&&img(H.bgs.find(x=>x&&x.image))==='tn_canal'&&g2.L[0]==='這裡沒有映月湖。……運河也可以。'&&!H.cgs.length,J({q:b.r,L:g2.L,cgs:H.cgs,b:H.bgs.map(img)})); delete global.CG_REGISTRY; }
+    check('8. 2028 在台南：開車去台南（D28 單程 240 分；AA_599 更正：開車從宿舍直接出發，不加取車 30 分）、運河邊（tn_canal）、多「這裡沒有映月湖。……運河也可以。」、不放 CG',!!b.r&&Math.abs(b.r.travelH-4)<1e-9&&img(H.bgs.find(x=>x&&x.image))==='tn_canal'&&g2.L[0]==='這裡沒有映月湖。……運河也可以。'&&!H.cgs.length,J({q:b.r,L:g2.L,cgs:H.cgs,b:H.bgs.map(img)})); delete global.CG_REGISTRY; }
     { const dorm=x.drive('D28','台南',H.G,D('2028-03-14')), home=x.drive('D28','台南',H.G,D('2028-07-14'));
-      check('8. 開車的算法（DATE-C7）：學期中＝去回各多 30 分、寫「回家取車約 30 分鐘，再開車到台南約 4 小時」；寒暑假從臺北的家＝不加、不寫那一句',dorm.travelH===4.5&&dorm.backH===4.5&&dorm.travel==='回家取車約 30 分鐘，再開車到台南約 4 小時'&&!dorm.home&&home.travelH===4&&home.backH===4&&home.travel==='開車到台南約 4 小時'&&home.home===true,J({dorm,home})); }
+      check('8. 開車的算法（DATE-C7）：學期中也不加（AA_599 更正：開車從宿舍直接出發）、字「開車到台南約 4 小時」；寒暑假從臺北的家＝不加、不寫那一句',dorm.travelH===4&&dorm.backH===4&&dorm.travel==='開車到台南約 4 小時'&&!dorm.home&&home.travelH===4&&home.backH===4&&home.travel==='開車到台南約 4 小時'&&home.home===true,J({dorm,home})); }
   { setup('2028-02-13',21.05,{lv:{[PS]:'dt'}}); rules(); const m=PHONE.byAsk(H.G,'fest_ask_classmate_peishan_vday_2028');
     check('8. 她約、她在台中（2028 情人節）：「明天情人節。……你要下來台中嗎？不用勉強。」（AA_457 3-1 節①換字；原本「明天你要下來嗎？……不用勉強。」）',J(dms(PS))===J(['明天情人節。……你要下來台中嗎？不用勉強。'])&&!!m,J(dms(PS)));
     PHONE.answer(H.G,'fest_ask_classmate_peishan_vday_2028',0); rules(); const q=OUT.get(H.G,'fest_classmate_peishan_vday_2028');

@@ -77,7 +77,7 @@ let money=[]; GM.money=(n,why)=>{ money.push([n,why]); H.G.money+=n; };
     check('1-1. 「我去台中找妳。」→「……好。」「十四號下午兩點。我把我家附近那個公園的地址傳給你。」「上午我陪我媽去市場，不要太早到。」、AN_VDAY_Y1_GO',J(dms(AN).slice(-4))===J(['我去台中找妳。','……好。','十四號下午兩點。我把我家附近那個公園的地址傳給你。','上午我陪我媽去市場，不要太早到。'])&&H.G.flags.AN_VDAY_Y1_GO===true,J(dms(AN)));
     check('1-1. 出遊：2/14 14:00、late 0.5、標題「情人節（開車去台中找以安）」；開車照 date3d.js（D26 單程 150 分；2/14 在寒假、從臺北的家出發，不加回家取車的 30 分＝2.5 小時，DATE-C7；來回 900 元）',!!q&&q.day===H.D('2026-02-14')&&q.h===14&&q.late===0.5&&q.title==='情人節（開車去台中找以安）'&&q.travelH===DATE.travel('D26','car').minutes/60&&q.travelH===2.5&&q.fare===900&&q.travel==='開車到台中約 2 小時 30 分鐘',J(q));
     { const dorm=ANYTHOL.drive(H.G,H.D('2026-03-14')), home=ANYTHOL.drive(H.G,H.D('2026-02-14'));
-      check('1-1. 開車的算法（DATE-C7）：學期中從宿舍出發＝先回家取車 30 分（3 小時、「回家取車約 30 分鐘，再開車到台中約 2 小時 30 分鐘」）；寒暑假從家裡＝2.5 小時、沒有取車那一句',dorm.travelH===3&&dorm.travel==='回家取車約 30 分鐘，再開車到台中約 2 小時 30 分鐘'&&home.travelH===2.5&&home.travel==='開車到台中約 2 小時 30 分鐘'&&dorm.fare===900,J({dorm,home})); }
+      check('1-1. 開車的算法（DATE-C7）：學期中從宿舍出發＝直接開（AA_599 更正：不加取車 30 分，2.5 小時、字「開車到台中約 2 小時 30 分鐘」）；寒暑假從家裡＝2.5 小時、沒有取車那一句',dorm.travelH===2.5&&dorm.travel==='開車到台中約 2 小時 30 分鐘'&&home.travelH===2.5&&home.travel==='開車到台中約 2 小時 30 分鐘'&&dorm.fare===900,J({dorm,home})); }
     at('2026-02-14',11.3); const due=OUT.due(H.G); const a=relOf(AN), m0=H.G.money; money=[];
     const {L}=await goOut('anyt_an_vday_y1',[0]);
     check('1-1. 11:15 就問出發（14:00 減 2.5 小時再早 15 分；寒假從臺北的家出發不用取車，DATE-C7）',!!due&&due.id==='anyt_an_vday_y1');

@@ -2980,8 +2980,8 @@ const STORY_EVENTS=[
       {label:'g2'},{speaker:'kexin',expression:'serious',text:'沒有後悔喔。只是有時候會想一下。'},{goto:'h'},
       {label:'g3'},{speaker:'kexin',expression:'teasing',text:'現在在想，湯餃要不要再買一份帶回去。'},
       {label:'h'},{speaker:null,text:'（到了宿舍門口，她回頭揮了一下手。你一個人開車下山。）'},
-      {if:{custom:G=>typeof STORY!=='undefined'&&STORY.e37Dorm?STORY.e37Dorm(G):!!(G.flags||{}).E37_LAW},speaker:null,text:'（你把車開回家，再搭捷運回宿舍。）'} ],   /* AA_307 第 6 列；最後一句＝從法律系開局的版本（X81，AA_303「法律系開局的 8/30」，AA-C bcb678e0）；AA_368 M8：改成 8/30 住在宿舍的人都有（經濟系路線 8/29 也搬進宿舍了，STORY.e37Dorm）*/
-    afterOuting:(G,GM)=>{ if((typeof STORY!=='undefined'&&STORY.e37Dorm?STORY.e37Dorm(G):(G.flags||{}).E37_LAW)&&GM.advance) GM.advance(1); } },   /* 住在宿舍的（AA_368 M8；原本只有法律系開局）：開車回家、再搭捷運回宿舍——多 1 小時（14:00 到、回到宿舍 19:00 左右）；出發地點照舊（他先回家開車）*/
+      ],   /* AA_599 第 1 項（企劃線 4ca9995ec，使用者 11-02 選「不寫交通過程」）：「（你把車開回家，再搭捷運回宿舍。）」刪；afterOuting 的時間照算 */   /* AA_307 第 6 列；最後一句＝從法律系開局的版本（X81，AA_303「法律系開局的 8/30」，AA-C bcb678e0）；AA_368 M8：改成 8/30 住在宿舍的人都有（經濟系路線 8/29 也搬進宿舍了，STORY.e37Dorm）*/
+    },   /* AA_599 更正：afterOuting 的 advance(1)（開車回家再搭捷運回宿舍那 1 小時）拿掉——開車直接開回宿舍 */   /* 住在宿舍的（AA_368 M8；原本只有法律系開局）：開車回家、再搭捷運回宿舍——多 1 小時（14:00 到、回到宿舍 19:00 左右）；出發地點照舊（他先回家開車）*/
   /* E35 考完以後：7/19（六）摘要日（AA_154 A47；旁白 AA 寫）：E35_PLAN 有值才演；字卡「7/19（六）」＋一句旁白，接她考前一晚的回應；那一天用摘要帶過（演完到 20:00）。
      ev_y0_e35s＝人不在家；ev_y0_e35sh＝在臺北的家（home3d.js 選單那一輪）*/
   ...(()=>{ const due=G=>{ const d=typeof STORY!=='undefined'&&STORY.dayOfKey?STORY.dayOfKey('2025-07-19'):null; return d!=null&&G.day===d&&!!G.flags.E35_PLAN&&!G.flags.E35_SUM; };

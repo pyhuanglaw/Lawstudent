@@ -40,12 +40,12 @@ const ANYTHOL=(function(){
   const stage6=id=>typeof DATE!=='undefined'&&!!DATE.stageNum&&DATE.stageNum(id)>=6;
   S.ok=(G,a,askDay,day)=>law(G)&&(dating(G,a.who)||(!a.moon&&stage6(a.who)))&&S.herOk(G,a.who,day,a.where)&&!abroad(G,askDay)&&!abroad(G,day)&&contact(G,a.who,askDay)&&S.shopOk(G,a,day);
 
-  /* 1-1 開車去台中：date3d.js 地點表 D26（臺中）開車＝單程 150 分、來回 900 元（油錢加過路費）；從宿舍要先回家取車，多 30 分（DATE.plan 的 pick）*/
-  S.DRIVE={loc:'D26',pick:0.5};
+  /* 1-1 開車去台中：date3d.js 地點表 D26（臺中）開車＝單程 150 分、來回 900 元（油錢加過路費）；開車從宿舍直接出發（AA_599；原本先回家取車多 30 分）*/
+  S.DRIVE={loc:'D26',pick:0};   /* AA_599 更正：開車從宿舍直接出發（原本先回家取車 0.5）*/
   const hm=m=>{ const h=Math.floor(m/60), r=m%60; return (h?h+' 小時':'')+(h&&r?' ':'')+(r?r+' 分鐘':''); };
   S.drive=function(G,day){ const tr=typeof DATE!=='undefined'&&DATE.travel?DATE.travel(S.DRIVE.loc,'car'):null, min=tr&&tr.mode==='car'?tr.minutes:150, fare=tr&&tr.mode==='car'?tr.fare:900;
     const home=!!G&&day!=null&&typeof DATE!=='undefined'&&!!DATE.fromHomeOn&&DATE.fromHomeOn(G,day);   /* 寒暑假從臺北的家出發（車就在家裡）：不加回家取車的 30 分、不寫那一句（DATE-C7，DATE.fromHomeOn）；2/14、2/15 都在寒假 */
-    return {travelH:min/60+(home?0:S.DRIVE.pick),travel:(home?'':'回家取車約 30 分鐘，再')+'開車到台中約 '+hm(min),fare}; };
+    return {travelH:min/60+(home?0:S.DRIVE.pick),travel:'開車到台中約 '+hm(min),fare}; };
   S.payDrive=function(G,GM,q){ if(!q||!q.fare||q.paid) return 0; q.paid=true; if(GM&&GM.money) GM.money(-q.fare,'交通'); return q.fare; };   /* 出發的時候付；到了以後讀檔重演不再扣 */
 
   /* ---------------- 表（AA_414 第 1、2 節）：ask 約的那天（21:00）、opts 回覆（no＝不行）、out 出遊、miss 答應了沒到她傳的（[時間, 句子]）---------------- */

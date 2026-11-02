@@ -1920,7 +1920,7 @@ const STORY = (function(){
        14:15 還沒到＝S.E37_CALL；演完旁白「（你把車開回家，再搭捷運回宿舍。）」、回到宿舍 19:00 左右（ev_y0_e37 的 afterOuting）*/
     if(S.e37LawOn(G)&&typeof OUT!=='undefined'&&typeof PHONE!=='undefined'){ const d29=S.dayOfKey('2025-08-29'), K=t=>({th:'p:kexin',from:'kexin',text:t});
       if(d29!=null&&(G.day>d29||(G.day===d29&&G.hour>=21.5))&&G.day<=d29+1&&!(G.events&&G.events.done&&G.events.done.ev_y0_e37)&&!e37LawBusy){
-        const send=()=>{ if(!PHONE.sent(G,'y0_e37_law_ask')) PHONE.at(G,d29,21.5,[K('我到你家了。阿姨留我住一晚，還煮了麵。'),Object.assign(K('明天下午兩點，你回家開車，載我上山。行李兩箱。'),{ask:{opts:[{t:'好。兩點。',say:[K('嗯。不要遲到。')]}]}})],'y0_e37_law_ask');
+        const send=()=>{ if(!PHONE.sent(G,'y0_e37_law_ask')) PHONE.at(G,d29,21.5,[K('我到你家了。阿姨留我住一晚，還煮了麵。'),Object.assign(K('明天下午兩點，載我上山。行李兩箱。'),{ask:{opts:[{t:'好。兩點。',say:[K('嗯。不要遲到。')]}]}})],'y0_e37_law_ask');
           if(!OUT.get(G,'y0_e37')){ OUT.plan(G,{id:'y0_e37',ev:'ev_y0_e37',day:d29+1,h:14,late:0.25,place:'臺北的家',title:'臺北的家（載可昕上山）14:00',travel:'捷運 約 30 分鐘',travelH:0.5,alarm:true}); F.E37_LAW=true; } };   /* E37_LAW：演完那一句旁白、多 1 小時（events.js ev_y0_e37）*/
         /* AA-C 17:53 選 ①：收到這兩則就算「第一則訊息」（KX_FIRST_MSG，不再演 sleepNow 的 kexinFirstMsg）；旁白「休學到重考的那幾個月，你不是一個人過的。」搬到兩則前面（法律系開局的人第一次知道可昕是誰）*/
         if(!PHONE.sent(G,'y0_e37_law_ask')&&!F.KX_FIRST_MSG&&GM.say){ e37LawBusy=true; F.KX_FIRST_MSG=true; (async()=>{ try{ GM.sceneBegin(); try{ await GM.say(null,'休學到重考的那幾個月，你不是一個人過的。'); } finally { GM.sceneEnd(); } send(); if(GM.phoneBadge) GM.phoneBadge(); } catch(e){ console.warn('E37 law ask',e); send(); } finally { e37LawBusy=false; } })(); }
@@ -1950,7 +1950,7 @@ const STORY = (function(){
        過了時間還沒出發（例：在別的事件裡）＝那件結束後直接出發（沒有電話台詞）；睡著＝coreCallAt 叫醒（CORE_OUT）。舊的 3/20 邀約、3/22 捷運站、17:45 電話拿掉 */
     if(S.isEcon(G)&&typeof OUT!=='undefined'){ const d30=S.dayOfKey(S.Y0_LEAVE_DAY), K=t=>({th:'p:kexin',from:'kexin',text:t}), Y=t=>({th:'p:kexin',from:'player',who:null,text:t});
       if(d30!=null&&G.day===d30&&G.events&&G.events.done&&G.events.done.ev_y0_e30){   /* 15:30 告訴可昕：ev_y0_e30 最後演出來的電話（AA_296；原本的 y0_kx_leave 十則私訊拿掉，舊存檔已經收到的照留）*/
-        if(!OUT.get(G,'y0_e26')) OUT.plan(G,{id:'y0_e26',ev:'ev_y0_e26',day:d30,h:17+40/60,must:true,late:0.25,place:'社科院門口',title:'社科院門口 17:40',travel:'回家拿車鑰匙，再開回學校',travelH:1.5,back:'回到宿舍。'}); }
+        if(!OUT.get(G,'y0_e26')) OUT.plan(G,{id:'y0_e26',ev:'ev_y0_e26',day:d30,h:17+40/60,must:true,late:0.25,place:'社科院門口',title:'社科院門口 17:40',travel:'開車到社科院門口',travelH:1.5,back:'回到宿舍。'}); }
       const q26=OUT.get(G,'y0_e26');
       if(q26&&q26.state!=='done'&&G.events&&G.events.done&&G.events.done.ev_y0_e26) q26.state='done';
       /* AA_304 第 1 列：台詞都是傍晚的事（「你晚上有事嗎？」「去坐摩天輪」）。過了 19:00 還沒出發＝不演，照 KX_CAR 預設帶過（同 lifeLineMigrate）*/
@@ -2871,7 +2871,7 @@ const STORY = (function(){
      麵店團那一趟（4/3～4/4）的事件 ev_noodle_trip_spring_y1 在 events.js（AA_355 第 3 節：已經有了；找不到事件才不排）。silent：沒選就過了 4/2（可昕不回） */
   S.springChoose=function(GM,k,o){ o=o||{}; const G=GM.G, F=G.flags, D=S.springDays(), kx=!!F.dating_kexin, grp=PHONE.inGroup(G,'noodle_team'); F.SPRING_Y1=k;
     const KX=(day,h,L,tag)=>PHONE.at(G,day,h,L.map(t=>({th:'p:kexin',from:'kexin',text:t})),tag);
-    if(k==='kexin'&&typeof OUT!=='undefined') OUT.plan(G,{id:'kx_trip_y1s2',ev:'ev_kexin_trip_spring_y1',day:D.d0,h:7+40/60,place:'木柵大學校門口（先回家取車）',title:'春假：開車旅行',travel:'回家取車約 30 分鐘，再開到木柵大學接她',travelH:40/60,back:'送她回木柵大學，再把車開回家。'});   /* AA_147 第 1 節 #1：祐廷開車、可昕坐副駕駛——07:00 從宿舍回家取車（+30 分）→ 07:40 政大校門接她 → 08:00 出發；回程送她回政大、車開回家（+30 分）*/
+    if(k==='kexin'&&typeof OUT!=='undefined') OUT.plan(G,{id:'kx_trip_y1s2',ev:'ev_kexin_trip_spring_y1',day:D.d0,h:7+40/60,place:'木柵大學校門口',title:'春假：開車旅行',travel:'開車到木柵大學接她',travelH:40/60,back:'送她回木柵大學，再把車開回家。'});   /* AA_147 第 1 節 #1：祐廷開車、可昕坐副駕駛——07:00 從宿舍回家取車（+30 分）→ 07:40 政大校門接她 → 08:00 出發；回程送她回政大、車開回家（+30 分）*/
     if(k==='noodle'){ if(kx){ if(!o.silent) KX(G.day,G.hour+0.1,['好。那我們暑假再去，我先選地方。','你們去哪裡，照片要傳給我。'],'kx_spring_reply'); KX(D.d0,21.5,['📷（她和予樂的宵夜）','予樂說她今天代替你。她吃得比你多。'],'kx_spring_photo'); F.KX_TRIP_DEFERRED='summer'; }
       if(typeof OUT!=='undefined'&&typeof STORY_EVENTS!=='undefined'&&STORY_EVENTS.some(e=>e.id==='ev_noodle_trip_spring_y1')) OUT.plan(G,{id:'ndl_trip_y1s2',ev:'ev_noodle_trip_spring_y1',day:D.d0,h:8,place:'台北車站',title:'春假・小旅行',travel:'',travelH:0.5,back:'回到台北。'}); }
     if(k==='dorm'&&kx){ if(!o.silent) KX(G.day,G.hour+0.1,['留在宿舍？……好。那暑假我們去遠一點。'],'kx_spring_reply'); KX(D.d0+1,16,['📷（木柵大學山上的階梯）','山上都沒人，我自己爬上去了。'],'kx_spring_photo');/* AA_209 附錄B §2 */ F.KX_TRIP_DEFERRED='summer'; }
