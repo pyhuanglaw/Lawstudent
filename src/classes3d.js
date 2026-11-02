@@ -156,7 +156,7 @@ const CLS=(function(){
   S.todayLine=function(G){ const its=S.dayItems(G); if(!its.length){   /* 第二天的民總（劇情課）也列出來：原本濾掉＝HUD 寫「今天沒有課」、劇情目標卻是「進入霖澤館上課（13:20）」（BB-B 10-23 DAY12）；一鍵上課照舊不給它（storyClass 在 S.next／按鈕那邊擋）*/ const hol=CALENDAR.holiday(G.day), t=CALENDAR.termOf(G.day); return hol?'今天放假（'+hol+'），沒有課':(t?'今天沒有課':'放假中，沒有課'); }
     const ex=its[0].exam; return '今天'+(ex?'考試':'的課')+'：'+its.map(it=>hhmm(it.t0)+' '+it.c.name).join('、'); };
   // ---------- 目標（起床時、下課後）：今天的課＋往下一堂的教室導航；不蓋掉劇情的目標 ----------
-  S.goalFor=function(G){ const nx=S.next(G); const txt=S.todayLine(G)+(nx?'。上課、讀書或自由活動都可以':'。自由活動：去圖書館、公館，或找人聊天');
+  S.goalFor=function(G){ const nx=S.next(G); const txt=nx&&nx.exam?hhmm(nx.t0)+' '+S.examName(nx)+'：'+nx.c.name+(nx.room&&nx.room.name?'（'+nx.room.name+'）':''):S.todayLine(G)+(nx?'。上課、讀書或自由活動都可以':'。自由活動：去圖書館、公館，或找人聊天');   /* UX-EXAMDAY-GOAL（BB 14:30）：今天還有沒考的考試＝目標寫「09:10 期末考：刑法總則（一）」*/
     let dest=null; if(nx){ if(nx.room.zone==='classroom'||nx.room.whole) dest={zone:nx.room.zone,name:nx.room.name};   /* whole：整個區域就是那間教室（萬才館多功能教室、霖澤館 202）：導航到那個區域 */ else if(nx.room.zone&&nx.room.room) dest={zone:nx.room.zone,label:S.roomLook(nx.room),name:nx.room.name}; else if(nx.room.door&&nx.room.zone) dest={zone:nx.room.zone,label:nx.room.label||nx.room.name,name:nx.room.name};   /* 區域裡的門口上課（沒有教室座位：萬才館研討室 A）：導航指那扇門 */ else if(nx.room.door) dest={zone:'campus',label:nx.room.name,name:nx.room.name}; }
     return {text:txt,dest}; };
   /* 建築裡的教室（src/teach3d.js）：門口「看看共同 101 教室」那個互動點（目標導航找得到）*/
@@ -1147,7 +1147,7 @@ const CLS=(function(){
     GM.sceneBegin(); try{ await GM.fade(true); GM.caption('','走路到法律系館A。',2400); await GM.sleep(500); } finally { GM.sceneEnd(); } await GM.enter(to,to==='campus'?{x:26,z:-90,yaw:Math.PI}:undefined);   /* 霖澤館前（和舊局第二天 13:05 同一個位置；阿哲 12:30～13:24 在 (30,-93)，story3d.js populate）*/
     return true; };
   /* 每 0.5 秒（S.tick）：待出的選單；期末考到時間（開始前 10 分鐘）自動帶進考場（AA_126 1-1）*/
-  S.oneTick=function(GM){ const G=GM.G; if(!G||goBusy) return; if(typeof ECONFF!=='undefined'&&ECONFF.on(G)) return;   /* 經濟系事件接事件（D102）：不跳「去上課」「起床」選單，由 ECONFF 帶 */ if(typeof PG!=='undefined'&&PG.on&&PG.on(G)) return;   /* 畢業後篇（src/postgrad3d.js）：不再跳去上課、考試 */ if(!freeNow(GM)){ freeSince=0; freeTicks=0; return; } const now=Date.now(); if(!freeSince) freeSince=now; freeTicks++; if(now-freeSince<FREE_MS||freeTicks<3) return;   /* 連續空下來 1.5 秒、而且至少 3 次 tick：這一區的 auto／enter 事件先檢查過（低幀率時一幀可能就超過 1.5 秒）*/
+  S.oneTick=function(GM){ const G=GM.G; if(!G||goBusy) return; if(typeof ECONFF!=='undefined'&&ECONFF.on(G)) return;   /* 經濟系事件接事件（D102）：不跳「去上課」「起床」選單，由 ECONFF 帶 */ if(typeof PG!=='undefined'&&PG.on&&PG.on(G)) return;   /* 畢業後篇（src/postgrad3d.js）：不再跳去上課、考試 */ if(!freeNow(GM)){ freeSince=0; freeTicks=0; return; } if(!G.goal||G.goal==='—'){ const nx=S.next(G); if(nx&&nx.exam) S.setGoal(GM); }   /* UX-EXAMDAY-GOAL：考試日起床劇情演完、目標欄空著（—）＝補上考試的目標 */ const now=Date.now(); if(!freeSince) freeSince=now; freeTicks++; if(now-freeSince<FREE_MS||freeTicks<3) return;   /* 連續空下來 1.5 秒、而且至少 3 次 tick：這一區的 auto／enter 事件先檢查過（低幀率時一幀可能就超過 1.5 秒）*/
     const run=f=>{ goBusy=true; (async()=>{ try{ await f(); }catch(e){ console.warn('oneclick',e); } finally{ goBusy=false; freeSince=0; freeTicks=0; } })(); };
     if(!opening(G)&&!late(G)){ const ex=S.dayItems(G).find(q=>q.exam&&!S.rec(G).done[q.key]&&S.status(G,q)==='open'&&hr(G)>=q.t0-1/6); if(ex&&!S.canGo(GM)){ run(()=>S.goClass(GM,ex,{forced:true})); return; } }   /* 期中、期末都帶進考場（AA_294 ①；原本只有期末）*/
     if(S.day2Due(G)){ run(()=>S.goDay2(GM)); return; }   /* 開學第二天的民總（AA_294 ①）*/
