@@ -111,7 +111,7 @@ const FD=(function(){
       if(GM.fade) await GM.fade(false); if(GM.caption) GM.caption('',S.MK_PLACE,2400);
       await GM.say(null,L.open); await GM.say({name:(typeof SOCIAL!=='undefined'&&SOCIAL.displayName?SOCIAL.displayName('npc_ta_chen'):'')||'陳助教',charId:'npc_ta_chen'},L.proctor);   /* 字幕 → 旁白 → 助教 → 作答 */
       for(const id of ids){ const c=mkCourse(G,id); if(!c){ res[id]='pass'; continue; }   /* 找不到那門課（不應該發生）：不罰 */
-        let r=null; try{ r=await CLS.runExam(GM,{c,exam:'makeup',term:'Y4S2',examName:L.examName}); }catch(e){ console.warn('FD.makeup',e); r=null; }
+        let r=null; try{ r=await CLS.runExam(GM,{c,exam:'makeup',term:'Y4S2',examName:L.examName,skipIntro:true}); }catch(e){ console.warn('FD.makeup',e); r=null; }
         res[id]=!r||!r.held||(r.correct|0)>0?'pass':'fail'; }   /* 題庫不夠沒開考（不會發生：期末有開考才會被當）、出錯＝不罰 */
       M.res=res; const passIds=ids.filter(id=>res[id]==='pass'), failIds=ids.filter(id=>res[id]!=='pass'), g=gradesY4S2(G);
       if(g){ for(const id of passIds) g[id]=L.gradePass; for(const id of failIds) g[id]=L.gradeFail; }

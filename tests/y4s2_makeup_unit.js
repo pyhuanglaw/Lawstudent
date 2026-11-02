@@ -49,7 +49,7 @@ await sec('a',async()=>{ const {G,c}=await planned(); const nm=FD.cname(c.id), M
   check('a5. 6/18～6/25 的日期卡照一般畢業生（不是「九月再回學校」）',!/九月再回學校/.test(cl||''),cl);
   const st=PG.pending(G).find(x=>x.s.id==='fd_makeup'); check('a6. 停點：6/26（二）09:30「補考」',!!st&&st.t===T('2029-06-26',9.5)&&CALENDAR.dateOf(D('2029-06-26')).wd===2,J(st&&st.t));
   const s=await runMakeup(G,c,'right');
-  check('a7. 6/26 09:30 演補考（同一科五題）',!!s&&s.id==='fd_makeup'&&H.said.filter(x=>/^\d／5　/.test(x.t)).length===5&&H.has(L.open)&&H.said.some(x=>x.t==='考卷發下來。'+c.name+'補考。五題。'),J(H.lines().slice(0,3)));
+  check('a7. 6/26 09:30 演補考（同一科五題）',!!s&&s.id==='fd_makeup'&&H.said.filter(x=>/^\d／5　/.test(x.t)).length===5&&H.has(L.open)&&H.has(L.proctor)&&!H.said.some(x=>/^考卷發下來。/.test(x.t)),J(H.lines().slice(0,3)));   /* BB 10:24：補考不播「考卷發下來。…五題。」（助教已經講了）*/
   check('a8. 補考答對：照常畢業（不延畢）、BAR_REG 保持、PG.delayed false',G.flags.FD_MAKEUP.status==='pass'&&!G.flags.FAIL_DELAY&&G.flags.BAR_REG===true&&!PG.delayed(G)&&PG.sits(G,2029)&&!G.flags.FAIL_DELAY_BARCANCEL);
   check('a9. 旁白：「（'+nm+'，補考過了。）」「（這樣，就真的畢業了。）」「（今年的國考，照常考。）」',H.has(FD.fillIds([c.id],L.pass))&&H.has(L.passAll)&&H.has(L.passBar),J(H.lines().slice(-4)));
   check('a10. 成績單改「及格（補考）」、CLS.failedIn 不再算它、reportFor 重算也一樣',CLS.rec(G).grades.Y4S2[c.id]===L.gradePass&&!CLS.failedIn(G,'Y4S2').length&&CLS.reportFor(G,'Y4S2')[c.id]===L.gradePass);
@@ -183,7 +183,7 @@ await sec('k',async()=>{ const bgId=x=>x&&typeof x==='object'?x.image||'obj':x; 
     await run(G=>{ G.home=Object.assign(G.home||{},{at:false}); G.zone='library'; H.E.player=H.E.player||{}; H.E.player.seat={x:0,z:0}; PG.setT(G,H.E,D('2029-06-26'),9.5); });
     check('k3. 坐在總圖的座位：整場考場背景',seen.length===6&&seen.every(x=>x===want),J(seen));
     { const i=rawSay.findIndex(x=>x.t===L.open), p=rawSay[i+1]||{}, pt=fs.existsSync(path.join(H.ROOT,'assets/portraits/npc_ta_chen'));
-      check('k4. 開場：旁白（考場有四五個人）→ 陳助教（立繪：charId npc_ta_chen，不是 compact）「'+L.proctor+'」→ 考卷那一句 → 第 1 題（AA_578 第 6 節，使用者 10:3x「考試教室都沒人也很怪」）',i>=0&&/四五個人/.test(L.open)&&p.t===L.proctor&&!!p.w&&p.w.charId==='npc_ta_chen'&&pt&&/^考卷發下來。/.test((rawSay[i+2]||{}).t||'')&&/^1／5　/.test((rawSay[i+3]||{}).t||''),J(rawSay.slice(i,i+4).map(x=>[x.w&&(x.w.charId||x.w.name),x.t]))); }
+      check('k4. 開場：旁白（考場有四五個人）→ 陳助教（立繪：charId npc_ta_chen，不是 compact）「'+L.proctor+'」→ 第 1 題（不再播「考卷發下來。…五題。」，BB 10:24）（AA_578 第 6 節，使用者 10:3x「考試教室都沒人也很怪」）',i>=0&&/四五個人/.test(L.open)&&p.t===L.proctor&&!!p.w&&p.w.charId==='npc_ta_chen'&&pt&&/^1／5　/.test((rawSay[i+2]||{}).t||'')&&!rawSay.some(x=>/^考卷發下來。/.test(x.t)),J(rawSay.slice(i,i+3).map(x=>[x.w&&(x.w.charId||x.w.name),x.t]))); }
     if(hb0) HOME.bgNow=hb0;
   } finally { ADV.begin=b0; ADV.setBg=s0; ADV.end=e0; GM.say=say0; GM.caption=cap0; ADV.active=false; if(H.E.player) delete H.E.player.seat; } });
 
