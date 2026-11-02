@@ -19,6 +19,15 @@ const FD=(function(){
     plan1:'（這學期，只要重修{課名}。其他的日子——）', plan2:'（這學期，要重修兩門課。其他的日子——）',
     lateNote:['（{課名}的重修，出席不到三堂。）','（證書，要等到六月。）'], lateCert:'延了兩個學期。……這次是真的恭喜。' };   /* AA_471 第 5 節（企劃線 763993620）：12/26（三）09:00 旁白兩句；2030-06-17（一）10:00 系辦助教那一句 */
   S.on=G=>law(G)&&!!(G.flags&&G.flags.FAIL_DELAY);   /* 被當延畢（沒有交換）*/
+  /* BUG-Y4S2-NOFINAL-1102（BB_218 6879）：舊版大四下沒有期末考日，考五題的課一律算缺考 → 6/18 誤判延畢。讀檔時救：
+     FAIL_DELAY_COURSES 裡「考五題、大四下沒有期末考紀錄」的拿掉；拿光了就取消延畢；國考報名是被延畢取消的（BARCANCEL）才恢復。
+     沒有 BARCANCEL 的更舊存檔分不出報名是自己沒報還是被取消，照舊不動、記 FD_RESCUE_BAR_UNKNOWN（交 BB／AA 定）*/
+  S.migrate=function(s){ const F=s&&s.flags; if(!F||!Array.isArray(F.FAIL_DELAY_COURSES)||!F.FAIL_DELAY_COURSES.length||F.FD_RESCUE_NOFINAL) return false;
+    if(typeof CLS==='undefined'||!CLS.isExamCourse||!CLS.byId) return false; const E=(s.courses&&s.courses.exam)||{};
+    const bogus=F.FAIL_DELAY_COURSES.filter(id=>{ const c=CLS.byId(id); if(!c||!CLS.isExamCourse(c)) return false; const e=E['Y4S2:'+id+':final']; return !e||e.status!=='done'; });
+    if(!bogus.length) return false; F.FD_RESCUE_NOFINAL=bogus.slice(); F.FAIL_DELAY_COURSES=F.FAIL_DELAY_COURSES.filter(id=>!bogus.includes(id));
+    if(!F.FAIL_DELAY_COURSES.length){ delete F.FAIL_DELAY; delete F.FAIL_DELAY_DAY; if(F.FAIL_DELAY_BARCANCEL){ F.BAR_REG=true; delete F.FAIL_DELAY_BARCANCEL; } else if(F.BAR_REG===false) F.FD_RESCUE_BAR_UNKNOWN=true; }
+    return true; };
   S.courses=G=>{ const L=G&&G.flags&&G.flags.FAIL_DELAY_COURSES; return Array.isArray(L)?L:[]; };
   const course=id=>typeof CLS!=='undefined'&&CLS.byId?CLS.byId(id):(typeof COURSES!=='undefined'&&COURSES.list?COURSES.list.find(c=>c.id===id):null);
   S.cname=id=>{ const c=course(id); return c?String(c.name).replace(/（重修）/g,''):id; };   /* 「{課名}」不寫「（重修）」*/
@@ -31,7 +40,7 @@ const FD=(function(){
     const fails=CLS.failedIn(G,'Y4S2'); F.FAIL_DELAY_COURSES=fails.map(c=>c.id); if(!fails.length) return false;
     if(exch(G)) return true;   /* 交換路線又被當：大五上多那一門重修，其他照交換版 */
     F.FAIL_DELAY=true; F.FAIL_DELAY_DAY=G.day;
-    const bar=F.BAR_REG===true; if(bar) F.BAR_REG=false;
+    const bar=F.BAR_REG===true; if(bar){ F.BAR_REG=false; F.FAIL_DELAY_BARCANCEL=true; }   /* BARCANCEL：國考報名是被延畢取消的（BUG-Y4S2-NOFINAL-1102 的救援要分得出「自己沒報」和「被取消」）*/
     if(!o.inScene) GM.sceneBegin(); try{ await GM.say(null,S.fill(G,S.LINES.fail)); await GM.say(null,S.LINES.cert); if(bar) await GM.say(null,S.LINES.bar); } finally { if(!o.inScene) GM.sceneEnd(); }
     if(typeof PHONE!=='undefined'&&(typeof STORY==='undefined'||!STORY.knows||STORY.knows('zhe',G))) PHONE.at(G,G.day,22,S.LINES.zhe.map(t=>({th:'p:zhe',from:'zhe',text:t})),'fd_zhe');
     return true; };

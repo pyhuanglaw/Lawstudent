@@ -39002,10 +39002,10 @@
       "title": "出席改成隨機點名日（取代 D74 出席三堂）＋拿掉非上課簽到（只留補習班）",
       "area": "系統",
       "owner": "LAWWW",
-      "status": "待開工",
+      "status": "已實作待整合",
       "priority": "P1",
       "parent": "STUDY-EXAM-SYS-1102",
-      "next": "等 D118-B2 子代理合併（都改 classes3d.js）後做：每門看出席的課每學期 4 次點名日（第 2～16 週、避開期末週、存檔種子、玩家看不到）、缺 3 次以上不及格；只點名日記出席；舊存檔過去週次照 attend≥3、剩下補抽；honor3d 第 12 週提醒改「點過 n 次你缺 m 次」；茶會兩句＋Kevin 一句、路人「每次都點名」改字；劇社 203 簽到表互動拿掉（貼圖轉 LAWWW2 改 boya_203.py）；PROJECT_DECISIONS D74 標已變更",
+      "next": "機制已接（4734c3d9e）；等 AA：各門課第一堂老師講規則的字（S.ATT_RULE）、茶會兩句＋Kevin 一句、路人一句；LAWWW2 博思 203 節目單（542b715f2）待接；D74 在 PROJECT_DECISIONS 標已變更",
       "first": {
         "term": "Y1S1",
         "week": null,
@@ -39024,6 +39024,34 @@
         "acceptance": "只點名日記出席；缺 3 次以上不及格；舊存檔不突然被當；第 12 週提醒新字；茶會、劇社不提簽到",
         "receiver": "BB",
         "ack": "ACK"
+      }
+    },
+    {
+      "id": "BUG-Y4S2-NOFINAL-1102",
+      "title": "大四下沒有期末考日（期末週寫死第 16 週、大四下只有 15 週）→ 海商法等考五題的課判缺考、6/18 延畢、國考報名取消",
+      "area": "系統",
+      "owner": "LAWWW",
+      "status": "已整合待測試",
+      "priority": "P0",
+      "next": "CC 瀏覽器：大四下 5/28 前讀檔，照玩家過到 6/18：考海商法、成績單、沒有延畢（修改前 FAIL、修改後 PASS）；BB 定 FD_RESCUE_BAR_UNKNOWN（更舊存檔分不出報名是不是被取消）怎麼處理",
+      "first": {
+        "term": "Y4S2",
+        "week": 15,
+        "earliest": "大四下期末週",
+        "mainline": true,
+        "blocks": true,
+        "prereq": false,
+        "parallel": false,
+        "confirmed": true
+      },
+      "source": "BB 06:32 P0（BB_218 第 6879 行，企劃線 46a252e3；CC 397609ca）",
+      "authorized": "P0 bug",
+      "xai": {
+        "spec": "BB_218 第 6879 行",
+        "branch": "claude/confident-ritchie-8rwh7t",
+        "acceptance": "tests/exam_every_term_unit.js PASS；瀏覽器大四下考得到海商法、不延畢",
+        "receiver": "BB",
+        "ack": "SENT"
       }
     }
   ]

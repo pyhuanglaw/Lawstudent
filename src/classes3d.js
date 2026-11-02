@@ -524,7 +524,7 @@ const CLS=(function(){
      兩堆：課堂題（askedIn＝這學期這門課在課堂上問過，或 source:'CLASS_DISC'）優先，不夠才從題庫題補（EXAM_MIX）。兩堆加起來不到 5 題＝不開考。
      抽到的題號存進存檔：讀檔再考是同一份。選項不洗牌、答案不動。 */
   S.EXAM_MIX='class_first';   /* 課堂題最多 5 題，不夠才從題庫補（AA_126 1-5 方案一定案，2026-10-15；3_2 已拿掉）*/
-  S.EXAM_WEEKS={mid:[8,9],final:[16]};   /* 16 週制（AA_197 1-6）：期末只有第 16 週 */
+  S.EXAM_WEEKS={mid:[8,9],final:[16]};   /* 16 週制（AA_197 1-6）：期末只有第 16 週；examDay 的期末週照日曆（大四下只有 15 週，BUG-Y4S2-NOFINAL-1102）*/
   /* 進教室時黑板的字（BUG-EXAM-BOARD-1021，BB 10-21 16:51）：今天這間教室還沒考完的期中／期末考＝和坐下開始考的時候一樣的三行；沒有＝null（story3d.js 照星期幾的表）*/
   S.examBoard=function(G,zone){ const h=hr(G), R=S.rec(G); const it=S.dayItems(G).find(x=>x.exam&&x.room&&x.room.zone===zone&&h<x.t1&&!(R.done&&R.done[x.key])); return it?[it.c.name+'：'+(it.exam==='mid'?'期中考':'期末考'),'不可以翻書','鈴響請停筆']:null; };
   S.redoOf=id=>{ const c=typeof COURSES!=='undefined'&&COURSES.list?COURSES.list.find(x=>x.id===id):null; if(!c||!c.redo) return null; const o=COURSES.list.find(x=>x.id===c.redo); return o?{id:o.id,term:o.term}:null; };   /* D118-B1：日本路線的補修（civpro_2_re、insurance_re）考原課（大三下那一門）的題庫——原本只上課、成績照讀書次數（AA_144 X4，D118 取代）*/
@@ -566,11 +566,11 @@ const CLS=(function(){
   const examDayMemo={};
   /* 這門課這個考試的日子：考試週裡那門課第一堂不是假日的課；都放假（例：大一上民法總則 12/25、1/1）＝放假那一堂之後，第二週第一個同一時段空著的平日（1/2 週五下午一）*/
   S.examDay=function(G,c,termId,kind){ if(typeof CALENDAR==='undefined') return null; const el=JSON.stringify((G.courses&&G.courses.electives)||{}); const mk=c.id+'|'+termId+'|'+kind+'|'+el; if(mk in examDayMemo) return examDayMemo[mk];
-    const wk=S.EXAM_WEEKS[kind]||[]; const days=[]; let d0=null; for(let d=(/^Y0/.test(termId)?-420:1);d<1600;d++){ const t=CALENDAR.termOf(d); if(t&&t.id===termId){ if(d0==null) d0=d; if(wk.includes(t.week)) days.push(d); } else if(d0!=null&&d>d0+200) break; }
+    const wk=S.EXAM_WEEKS[kind]||[]; const days=[]; let d0=null; for(let d=(/^Y0/.test(termId)?-420:1);d<1600;d++){ const t=CALENDAR.termOf(d); if(t&&t.id===termId){ if(d0==null) d0=d; if(kind==='final'?t.exam==='final':wk.includes(t.week)) days.push(d); }   /* BUG-Y4S2-NOFINAL-1102（BB_218 6879）：期末週＝這學期最後一週（日曆的 exam==='final'）；原本寫死第 16 週，大四下只有 15 週＝沒有期末考日＝考五題的課全部算缺考、6/18 延畢 */ else if(d0!=null&&d>d0+200) break; }
     let res=null, lastMiss=null;
     for(const d of days){ const wd=CALENDAR.dateOf(d).wd; const s0=c.slots.find(s=>s.wd===wd); if(!s0) continue; if(CALENDAR.holiday(d)){ lastMiss=d; continue; } res={day:d,block:s0.block}; break; }
     if(!res&&lastMiss!=null){ const busy=(d,b)=>S.termCourses(G,termId).some(x=>x!==c&&x.slots.some(s=>s.wd===CALENDAR.dateOf(d).wd&&s.block===b));
-      const lastWeek=days.filter(d=>CALENDAR.termOf(d).week===wk[wk.length-1]); const cand=lastWeek.filter(d=>d>lastMiss).concat(lastWeek.filter(d=>d<=lastMiss));
+      const lw=days.length?Math.max(...days.map(d=>CALENDAR.termOf(d).week)):null; const lastWeek=days.filter(d=>CALENDAR.termOf(d).week===lw); const cand=lastWeek.filter(d=>d>lastMiss).concat(lastWeek.filter(d=>d<=lastMiss));
       for(const d of cand){ const wd=CALENDAR.dateOf(d).wd; if(wd>5||CALENDAR.holiday(d)) continue; for(const s of c.slots){ if(!busy(d,s.block)){ res={day:d,block:s.block,makeup:true}; break; } } if(res) break; } }
     return examDayMemo[mk]=res; };
   /* 考試時段（D14-T3）：這學期考五題的法律課的期中、期末考在哪一天哪一節（S.examDay）；手機「課表」列出來，約人、約會都避開（invites3d.js 的 free、date3d.js 的 DATE.check）*/
