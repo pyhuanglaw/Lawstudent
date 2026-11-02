@@ -203,15 +203,15 @@ const R2Y3B_EVENTS=(function(){
   const TOAST={ id:'ev_y3s2_roof_toast', title:'頂樓烤吐司', participants:[], location:'any', trigger:'outing', once:true, background:'dark', hours:2,
     dialogue:[ {scene:'宿舍頂樓',bg:'dorm_roof'},
       {speaker:null,text:'（宿舍頂樓。阿哲從家裡帶了一台小烤箱，延長線接了兩條。）'},
-      {if:kn('zhe'),speaker:'zhe',text:'期中考版的春假。只有兩個小時。'},
+      {if:kn('zhe'),speaker:'zhe',text:'趕報告版的春假。只有兩個小時。'},
       {if:kn('yu','heroine_01'),speaker:'yu',text:'（把吐司排好）欸，以安在日本有沒有吃早餐。'},
       {if:kn('classmate_bohan','heroine_01'),speaker:'classmate_bohan',text:'她傳了照片。日本的吐司比較厚。'},
       {if:kn('yu','heroine_01'),speaker:null,text:'（Alison 把手機拿給大家看：一片很厚的吐司，旁邊攤著一本手帳。）'},
       {if:kn('classmate_xinci'),speaker:'classmate_xinci',text:'……我們的比較薄。可是我們有四種果醬。'},
-      {choice:[{text:'「我來烤。」',goto:'a'},{text:'（拍一張傳給以安）',if:fam('heroine_01','FRIEND'),goto:'b'},{text:'「期中考完再來一次？」',goto:'c'}]},
+      {choice:[{text:'「我來烤。」',goto:'a'},{text:'（拍一張傳給以安）',if:fam('heroine_01','FRIEND'),goto:'b'},{text:'「期中週過完再來一次？」',goto:'c'}]},
       {label:'a'},{speaker:null,text:'（第一片烤焦了。阿哲：「焦的給我。」）'},{goto:'end'},
       {label:'b'},{speaker:null,text:'（十分鐘後，以安回了一張照片：同一片厚吐司，咬了一口。）'},{phone:'heroine_01',text:'這邊也是晚上。'},{goto:'end'},
-      {label:'c'},{if:kn('classmate_bohan'),speaker:'classmate_bohan',text:'期中考完是第十週。我記一下。'},
+      {label:'c'},{if:kn('classmate_bohan'),speaker:'classmate_bohan',text:'期中週過完是第十週。我記一下。'},
       {label:'end'} ],
     consequences:{flags:{Y3S2_ROOF_TOAST:true},memo:'清明，宿舍頂樓烤吐司'},
     outingMissed:G=>{ const x=X(); if(x) x.toastPhoto(G); } };
@@ -444,7 +444,7 @@ const R2Y3B_EVENTS=(function(){
         [['我去機場接妳。','好。……我記在手帳了。'],['東西變多了嗎？','多了一本手帳。寫滿了。']]],   /* T1 也有回覆按鈕（AA_343 D3）：每則兩個，她回一句；原本四則的回覆照舊 */
     /* AA_524 A10：沒交往的朋友（r2y3b3d.js 的 tier 1）沒有接機那一場——「我去機場接妳。」她的回覆換這一句；交往中照上面（8/5 接機）*/
     t1OFriend:{9:{'我去機場接妳。':'不用。我爸會來。……謝謝。'}},
-    t2:[{L:['上課聽懂七成了。剩下三成，我回房間查字典。','你那邊期中考了嗎？'],O:['考了。','下禮拜。']},{L:['町公所前面的阿伯一直跟我講話，我只聽懂『學生』兩個字。','你最近都去哪裡讀書？'],O:['總圖。','麵店。']},
+    t2:[{L:['上課聽懂七成了。剩下三成，我回房間查字典。','你那邊報告交了嗎？'],O:['交了。','下禮拜。']},{L:['町公所前面的阿伯一直跟我講話，我只聽懂『學生』兩個字。','你最近都去哪裡讀書？'],O:['總圖。','麵店。']},
         {L:['讀書會 Alison 有沒有好好排題目？……你不要幫她排。讓她自己排。','你那邊還好嗎？'],O:['她排得很好。','還好。']},{L:['這邊下了一整天的雨。','你那邊在下雨嗎？'],O:['也在下。','晴天。']}],   /* 回覆按鈕新寫，每則兩個 */
     t3:[ [ {speaker:null,text:'（畫面裡是她房間的書桌，手帳攤在旁邊。）'},{speaker:'heroine_01',text:'你那邊幾點？……我算了一下，你應該剛吃完晚餐。'},{speaker:'heroine_01',text:'這禮拜的課很難。先不講課了，你那邊最近怎樣？'},{speaker:'heroine_01',text:'好，我要去睡了。下禮拜同一個時間。'} ],
       [ {speaker:'heroine_01',text:'（她把手帳翻到這一週）這禮拜好滿，日文小考考了兩次。'},{speaker:'heroine_01',text:'你那邊呢？'},{speaker:'heroine_01',text:'好，我要去睡了。下禮拜同一個時間。'} ],

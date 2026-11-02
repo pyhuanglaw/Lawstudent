@@ -198,7 +198,7 @@ const SISB15_EVENTS=(function(){
       dialogue:[ N('（她的包包裡多帶了一件外套，遞給你。）'),SIS('法圖冷。說好的。') ] },
     /* ---------- 第 3 節第 2 點：2026-11-16 起第一次在 3D 和她說話（說話前接演，src/sis_b15_3d.js S.preTalk；這一筆只放台詞，不會自己觸發）---------- */
     { id:'ev_sis15_midterm', title:'都還好嗎', participants:[ID], location:'any', trigger:'manual', once:true,
-      dialogue:[ SIS('期中考完了。……再說一次，都還好嗎？'),
+      dialogue:[ SIS('下下週了。……再說一次，都還好嗎？'),
         {choice:[{text:'「這次是真的還好。」',goto:'a'},{text:'「其實不太好。」',goto:'b'}]},
         {label:'a'},SIS('好。'),{goto:'e'},
         {label:'b'},SIS('……說來聽聽。'),N('（你講了二十分鐘，她都在聽，沒有打斷。）'),{advance:1/3},   /* 講了二十分鐘＝時間往前 20 分鐘 */

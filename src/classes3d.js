@@ -1029,7 +1029,7 @@ const CLS=(function(){
     return out; };
   /* 翹課確認那一行的說法（1-5：不寫劇情內容，只寫一般的說法；不寫人名、不寫台詞）。這裡沒有的：上課前的事／下課後的事 */
   S.MISS_TEXT={ ev_an_report_split:'同學的報告分組', ev_midterm_walkout:'考完試走出教室', ev_midterm_walkout_y1s2:'考完試走出教室', ev_midterm_walkout_y2:'考完試走出教室', ev_midterm_walkout_y2s2:'考完試走出教室',
-    ev_sis_fam_hall:'家聚的邀約', ev_sis_fam_hall2:'家聚的邀約', ev_zhe_noodle_invite:'同學約吃晚餐', ev_bohan_score:'同學問期中考的題目', ev_econ_hallway:'下課後在走廊遇到人', ev_sk03_lunch:'午餐的邀約',
+    ev_sis_fam_hall:'家聚的邀約', ev_sis_fam_hall2:'家聚的邀約', ev_zhe_noodle_invite:'同學約吃晚餐', ev_bohan_score:'同學問作業的題目', ev_econ_hallway:'下課後在走廊遇到人', ev_sk03_lunch:'午餐的邀約',
     ev_p4_retake:'重修的第一堂', ev_p4b_familiar:'下課後同學的閒聊', ev_sk04_note1:'座位上的便利貼', ev_sk04_note2:'座位上的便利貼', ev_sk04_note3:'座位上的便利貼', ev_sk04_reveal:'座位上的便利貼',
     ev_sk02_spy:'上課前同學的閒聊', ev_sk03_xinci_class:'上課前同學的閒聊', ev_b4_left_an:'聊那天的演講', ev_peishan_table_later_class:'上課前同學找你', ev_ps_w1_room:'找教室', ev_ps_w1_notes:'同學借筆記',
     ev_mx_w1_addclass:'通識第一堂門口', ev_prof_zhou_y4_call:'老師找你', ev_yt_lease_text:'下課後的一則訊息', ev_an_ex_admin:'下課後聊課堂的內容', ev_yc_meet_after:'認識新同學',

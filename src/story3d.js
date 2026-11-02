@@ -1462,7 +1462,7 @@ const STORY = (function(){
       await teaLines(GM,['（窗邊那桌放著餅乾、一大瓶紅茶和紙杯。另外兩個大一在聊選課，一個大三的學長在滑手機。）']); await GM.fade(true); GM.advance(0.25); await GM.fade(false);
       await teaLines(GM,['（過了一陣子，領名牌的桌子沒人了，Kevin 坐過來。）',KV('名牌終於發完了。'),KV('群組說的考古題，民總跟憲法的，去年的。你要先看嗎？')]);
       const i=await GM.choose([{t:'「要，謝謝學長。」'},{t:'「現在就要看考古題了嗎？」'}]); F.TEA_EXAM=i+1;
-      await teaLines(GM,[i===0?KV('好，晚上丟群組。'):KV('不用啦，期中前再看就好。要的時候跟我說。')]);
+      await teaLines(GM,[i===0?KV('好，晚上丟群組。'):KV('不用啦，期末前再看就好。要的時候跟我說。')]);
       if(i===0&&typeof PHONE!=='undefined'){ const th='g:family_law', kv=t=>({th,from:'kevin',name:'Kevin',text:t}); PHONE.at(G,G.day,21,[kv('📎 民總、憲法考古題（去年）'),kv('茶會說的。')],'kevin_exam'); }   /* 9/2 21:00 家族群組（AA_200 2-11b）：只有選①的 */
     } finally { if(typeof ADV!=='undefined'&&ADV.active) ADV.end(); GM.sceneEnd(); }
     F.TEA_STEP=3; if(typeof CLS!=='undefined'&&CLS.setGoal) CLS.setGoal(GM); if(GM.autosave) GM.autosave(); return true; };
@@ -2374,8 +2374,8 @@ const STORY = (function(){
       /* 邀請改到大一上第 10 週週一 21:00、法律系全班群組（AA_218 17-4；BB_191 §8-1、8-6 第 4 點：她是被全班拱出來的，所有法律系同學都收到）。
          以安那一句照用；Alison「我也是發起人喔。」拿掉（新設定：Alison 是第一個來的，不是發起人）；「被拱出來」照 AA_238 5-1、5-2（下面 20:30 那一串，plg_pushed）。不在全班群組、有以安聯絡方式的＝她私訊同一句 */
       const mon1=termDay('Y1S1',10,1);
-      if(mon1&&G.day>=mon1-1&&G.day<=mon1+3&&PHONE.inGroup(G,'law_class')&&!PHONE.sent(G,'plg_invite')){ const th='g:law_class', cls={th,name:'同學'};   /* AA_238 5-1、5-2：那天早上憲法發回期中考；20:30 被全班拱出來、21:00 邀請（沒加班群的玩家開學典禮就會加，原本的私訊備案拿掉）*/
-        PHONE.at(G,mon1,20.5,[Object.assign({text:'憲法期中有人知道第三題到底在問什麼嗎'},cls),Object.assign({text:'我到現在還是不知道憲法在幹嘛'},cls),{th,from:'zhe',text:'問沈以安啊 她考超高'},Object.assign({text:'真的假的 以安開課'},cls),{th,from:'heroine_01',text:'……我不是老師。'},{th,from:'heroine_01',text:'可是可以一起讀。'}],'plg_pushed');
+      if(mon1&&G.day>=mon1-1&&G.day<=mon1+3&&PHONE.inGroup(G,'law_class')&&!PHONE.sent(G,'plg_invite')){ const th='g:law_class', cls={th,name:'同學'};   /* AA_238 5-1、5-2：那天早上憲法發回期中週的案例作業；20:30 被全班拱出來、21:00 邀請（沒加班群的玩家開學典禮就會加，原本的私訊備案拿掉）*/
+        PHONE.at(G,mon1,20.5,[Object.assign({text:'憲法作業發回來了 有人知道第三題到底在問什麼嗎'},cls),Object.assign({text:'我到現在還是不知道憲法在幹嘛'},cls),{th,from:'zhe',text:'問沈以安啊 老師拿她的當範例'},Object.assign({text:'真的假的 以安開課'},cls),{th,from:'heroine_01',text:'……我不是老師。'},{th,from:'heroine_01',text:'可是可以一起讀。'}],'plg_pushed');
         PHONE.at(G,mon1,21,[{th,from:'heroine_01',text:'公法讀書會。週四晚上八點，B館研討室。想來的就來，不用報名。'},{th,from:'yu',text:'+1 可以帶宵夜嗎'},{th,from:'heroine_01',text:'……可以。'}],'plg_invite'); } }
     /* B4 博雅午後講座（交接包 v2 C13；BB_105 4-5、AA_115 第 1 節）：①第 11 週週二 12:30 麵店團群組以安揪人（和以安新 7 前半同一天；時間是 LAWWW 排的），Alison、阿哲回；
        玩家回「我去。」／「我看看。」／不回都一樣（只記 B4_REPLY），去不去看週四有沒有走進博雅 101。②沒去（missed:B4）：週四 21:30 Alison 在群組轉述（AA_209 附錄A §2：三則） */
@@ -2817,7 +2817,7 @@ const STORY = (function(){
     {title:'總圖應該全面禁止占位',pts:['座位是公共的，占著不用，別人就用不到。','規定要簡單：離開超過三十分鐘就清位，沒有例外。','禁止占位，考試週更多人用得到總圖。'],
      cx:[['有人突然不舒服去保健中心，回來位子就沒了？'],['館員沒有人力每三十分鐘巡一次。'],['三十分鐘，對吃飯的人太短，對午睡的人太長。']],
      long:['畫線那一句的問題不在三十分鐘，在「沒有例外」。','好的規定要先問：它要保護誰。','這篇要保護的是想用位子的人。','可是離開的那個人，也是想用位子的人，只是剛好不在。','所以要分兩種離開：一下子，和不回來。','分不出來的時候，留一個說明的機會，不要讓巡的人自己猜。','你要反駁，就打「沒有例外」這四個字。']},
-    {title:'期中考應該全部改成開書考',pts:['背得起來不等於會用。','以後工作都能查資料，開書考比較接近真的工作。','開書考不用作弊，也就沒人作弊。'],
+    {title:'考試應該全部改成開書考',pts:['背得起來不等於會用。','以後工作都能查資料，開書考比較接近真的工作。','開書考不用作弊，也就沒人作弊。'],
      cx:[['急救的時候，沒有時間查。'],['開書考的題目比較難出，老師改得更久。'],['工作也有不能查的時候，像當面跟人談。']],
      long:['畫線那一句把「真的工作」當成只有一種。','有的時候可以查，有的時候不能查，而且常常是同一份工作。','所以問題不是開書或閉書，是這一科要練哪一種時候。','這篇跳過了一步：先說這一科要練什麼，再選考法。','你的反例，打中的是它跳過的那一步。']},
     {title:'通識課應該取消點名',pts:['大學生是成年人，來不來自己決定。','點名不能證明有學到，所以沒有意義。','老師應該用課吸引人，不是用點名。'],
@@ -4022,7 +4022,7 @@ const STORY = (function(){
      ['heroine_05','粥。還是熱的。你先吃，我坐一下就走。'],[null,'（你吃粥的時候，她把你帶下來的講義疊好，沒有翻開。）'],['heroine_05','明天早上我傳訊息給你。有回就好。']],
     heroine_04:t=>[['heroine_04',t?'你說你感冒。我帶了兩樣東西。':'你兩天沒回我訊息。我還以為你被當了。']]};
   const CW_GROUP={zhe:'滷味。我跟老闆說是病人吃的，他多給一顆蛋。',yu:'面紙。你鼻子好紅。',classmate_bohan:'刑訴的筆記。我多印了一份。',heroine_01:'……喉糖。一天不要吃超過五顆。'};
-  const CW_SNEEZE={kexin:['幾度？','量了再跟我說。','……我下週也期中，二十六號考第一科。'],   /* AA_376 #14：10/23 是週六，10/26 在下週 */
+  const CW_SNEEZE={kexin:['幾度？','量了再跟我說。','……我下週期中，二十六號考第一科。'],   /* AA_376 #14：10/23 是週六，10/26 在下週 */
    heroine_01:['量體溫了嗎？','明天晚上我過去。'],heroine_03:['嗯。','明天帶粥過去。'],heroine_05:['……知道了。今天先睡。'],
     heroine_04:['感冒？','你等一下。我明天過去。'],heroine_02:['我這邊是半夜。','你吃藥了嗎？……明天醒來，跟我說一聲。'],classmate_peishan:['……我在台南。','你多喝水。睡前也喝。']};
   /* 第 4 節：誰知道、誰能來、誰問。回傳 {visitors（照 3-2 的出場順序）, rows（每個人是哪一列）, asker（問「那一句」的人，沒有＝null）, partner（親自來的交往對象）,
@@ -4046,7 +4046,7 @@ const STORY = (function(){
     return out; };
   S.coldWeekLines=function(G,id,C){ C=C||S.coldWeekCast(G); const row=C.rows[id];
     if(row==='partner') return CW_PARTNER[id](C.told===id,C); if(row==='yt') return [['heroine_03','嗯。阿姨煮的粥。不要問我怎麼知道的。']]; if(row==='group') return [[id,CW_GROUP[id]]];
-    if(row==='zhe') return [['zhe',S.knows('heroine_01',G)?'你的筆記我幫你借了。小安的，她叫我跟你說不准還。':'刑訴的筆記我幫你印了。後天才考，不要慌。']];   /* 第 4 節第 7 點：「小安的筆記」只給認識以安的 */
+    if(row==='zhe') return [['zhe',S.knows('heroine_01',G)?'你的筆記我幫你借了。小安的，她叫我跟你說不准還。':'刑訴的筆記我幫你印了。上禮拜的都在裡面，不要慌。']];   /* 第 4 節第 7 點：「小安的筆記」只給認識以安的 */
     if(row==='kai') return [['kai','你室友傳訊息給我說你要死了。我帶泡麵。']];
     if(row==='zq'){ const q=!!(G.events&&G.events.done&&G.events.done.ev_ziqing_secret_game)||(typeof SOCIAL!=='undefined'&&SOCIAL.has('heroine_04','PLAYTESTED')); return [['heroine_04','你兩天沒回我訊息。我還以為你被當了。'],[null,'（她打開筆電）'],['heroine_04',q?'先看這個。測試版。':'先看這個。期末的作業。']]; }   /* Q6＝ev_ziqing_secret_game（PLAYTESTED）；Q8b 還沒有事件 */
     return []; };
@@ -4056,7 +4056,7 @@ const STORY = (function(){
   const cwRent=G=>(typeof SOCIAL!=='undefined'&&SOCIAL.has('heroine_03','RENT_RUMOR'))||!!(G.events&&G.events.done&&G.events.done.ev_yt_lease_class);   /* 看過語彤家房東的事（RENT_RUMOR）或 1B-02 演過 */
   S.coldWeekOpts=function(G,again){ const L=[{t:cwRent(G)?'「我想讓麵店那種事，每次都有人幫得上忙。」':'「我想讓遇到事情的人，旁邊有一個看得懂的人。」',k:'help'},{t:'「我想知道條文為什麼是這樣寫的。小時候看不懂，現在想看得更深。」',k:'why'},{t:'「我想知道法律以外，大家是怎麼過日子的。」',k:'life'}];
     if(!again) L.push({t:'「……我想先吃東西。」',k:'food'}); return L; };
-  const CW_AFTER={kexin:'好。那你先把粥吃完。',heroine_01:'好。這句我會記得。',heroine_03:'嗯。……那你要先好起來。',zhe:'好。考完再跟我講一次。',heroine_04:'好。那你先把這瓶喝完。',kai:'……你發燒講話比較像人。',yu:'好啦。那你先吃。',classmate_bohan:'……我會記得你今天說的。'};
+  const CW_AFTER={kexin:'好。那你先把粥吃完。',heroine_01:'好。這句我會記得。',heroine_03:'嗯。……那你要先好起來。',zhe:'好。病好了再跟我講一次。',heroine_04:'好。那你先把這瓶喝完。',kai:'……你發燒講話比較像人。',yu:'好啦。那你先吃。',classmate_bohan:'……我會記得你今天說的。'};
   S.coldWeekAfter=(G,id)=>id==='heroine_05'?(cwDating(G,'heroine_05')?'……好。先吃，要冷了。':'……好。先喝湯，要冷了。'):(CW_AFTER[id]||null);
   const cwUnq=t=>String(t).replace(/^「|」$/g,'');
   async function cwAsk(GM,id,how){ const G=GM.G, F=G.flags, who=cwWho(id);
