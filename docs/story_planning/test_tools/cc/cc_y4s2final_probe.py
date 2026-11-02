@@ -437,6 +437,8 @@ async def run_days(pg, cdp, run, tag, skip_maritime=False):
             if not await quick_go(pg, cdp, run, 'dorm'): await pg.wait_for_timeout(3000)
             continue
         if c['day'] == pack and not F.get('PACKED_Y4') and c['h'] < 20.5:   # 6/1：20:00 收拾房間以前站著等
+            if c['h'] < 17.5:   # CC 11-02：低幀率時從 07:30 站到 20:00 等不到（第一次跑卡 50 分鐘）＝照玩家先「睡到傍晚」
+                await bed(pg, cdp, run, ('睡到傍晚',), '%s %s %s（6/1 先睡到傍晚再等收拾房間）' % (tag, c['key'], hm(c['h']))); continue
             await pg.wait_for_timeout(2000); continue
         if c['h'] < 17.5:
             await bed(pg, cdp, run, ('睡到傍晚',), '%s %s %s' % (tag, c['key'], hm(c['h']))); continue
