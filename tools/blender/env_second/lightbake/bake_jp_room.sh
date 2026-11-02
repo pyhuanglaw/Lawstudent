@@ -23,7 +23,8 @@
 #   5：天光 1.0 → 白天燈下 0.58、整體比晚上暗。
 #   6（定案）：天光 2.4、吸頂燈 32 W → 白天房間中間 0.8～1.0、窗前地上 0.2～0.3（窗台擋住）、門口 0.4～0.6；晚上燈下 0.85、門口 0.3。
 # --hide：窗玻璃。
-# --nolm（照舊即時光）：燈的發光面、筆電螢幕、頂點色的小東西（jp_room_props：檯燈、筆電、筆筒、盆栽、鞋、熱水壺、行李箱……上千個小島，
+# 彩度減半（to_webp.py 第 4 個參數）：木地板、木門、木衣櫃互相反射，白色衣櫃門的光照貼圖偏橘（第六版遊戲內白天衣櫃、門中段一塊橘色）。
+# --nolm（照舊即時光）：被子、枕頭（jp_room_cloth：第六版烘出來灰色、一塊一塊，白被子看起來髒）、燈的發光面、筆電螢幕、頂點色的小東西（jp_room_props：檯燈、筆電、筆筒、盆栽、鞋、熱水壺、行李箱……上千個小島，
 #   排不進一張貼圖——總圖 B1 11-02 的教訓）、金屬（窗框、陽台欄杆、檯燈臂）、書櫃的書、踢腳板和窗台那些細條（trim）、海報、冷氣、掛勾上的外套。
 set -e
 SAMPLES=${1:-512}
@@ -40,14 +41,14 @@ FARH=${FARH:-83}
 BOXES=${BOXES:-"ground,-60,60,-3.15,-3.05,-90,-2.6,#6f7d55;far,-420,420,-3.05,$FARH,-306,-300,#56634f;house_w,-20,-9,-3.05,3.9,-24,-14,#d6d2c6;house_e,9,17,-3.05,3.4,-30,-20,#c8b799;tree_e,8,13,0,5,-17,-12,#4e6b3c;balcony,-1.45,1.45,-0.03,0,-3.25,-2.42,#9c9a94;above,-2.4,2.4,2.52,2.54,-3.3,-2.42,#a8a6a0"}
 python3 tools/blender/env_second/lightbake/glb_add_boxes.py "$TMP/blob.glb" "$PLAIN" "$BOXES"
 HIDE='glass'
-NOLM='tubes|warm|screens|props|metal|books|frame|rail|_ac$|E_cloth|trim|print|BAKEONLY'
+NOLM='tubes|warm|screens|props|metal|books|frame|rail|_ac$|cloth|trim|print|BAKEONLY'
 LCOL=${LCOL:-1.0,0.95,0.88}
 LIGHTS="0,0,-0.4,-0.4,2.40,1,1,${CEILW:-32},0.4,0.4,$LCOL"
 POINTS="0,2.20,-0.4,${UPW:-2},$LCOL,0.2;-0.97,1.10,-1.05,${LAMPW:-3},1.0,0.82,0.6"
 /opt/blenv/bin/python tools/blender/env_second/lightbake/bake_room.py -- --in "$PLAIN" --out "$OUTDIR/jp_room.glb" \
   --lm "$TMP/jp" --url assets/models/env/second_ai/jp_room_lm --res "$RES" --samples "$SAMPLES" --hide "$HIDE" --nolm "$NOLM" \
   --sun 180,${SUNEL:-40},0 --sky "${SKY:-2.4}" --lights "$LIGHTS" --points "$POINTS" --daylights "${DAYL:-0.4}" --smooth 2 --shell N --drop BAKEONLY --knee "${KNEE:-0.9,1.4}"
-python3 tools/blender/env_second/lightbake/to_webp.py "$TMP/jp" "$OUTDIR/jp_room_lm" 90
+python3 tools/blender/env_second/lightbake/to_webp.py "$TMP/jp" "$OUTDIR/jp_room_lm" 90 "${SAT:-0.5}"
 /opt/blenv/bin/python tools/blender/env_second/lightbake/lm_fix_hidden.py -- --in "$OUTDIR/jp_room.glb" --out "$OUTDIR/jp_room.glb" --lm "$OUTDIR/jp_room_lm"
 if [ "$OUTDIR" = "assets/models/env/second_ai" ]; then cp "$TMP/jp.json" tools/blender/env_second/lightbake/jp_room_lm.json; else cp "$TMP/jp.json" "$OUTDIR/jp_room_lm.json"; fi   # 試烘到別的資料夾時不覆蓋 repo 裡定案那一份
 rm -rf "$TMP"
