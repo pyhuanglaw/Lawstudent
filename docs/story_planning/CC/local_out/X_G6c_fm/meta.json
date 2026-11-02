@@ -1,0 +1,23 @@
+{
+  "rerun": "",
+  "id": "X_G6c_fm",
+  "sha": "62d98bfa5",
+  "kind": "game",
+  "script": "tests/save_firstmet_migration.py",
+  "env": "XARGS={url} {out}",
+  "machine": "MSI",
+  "start": "2026-11-03T06:37:57",
+  "end": "2026-11-03T06:39:37",
+  "seconds": 100,
+  "exit": 0,
+  "error": null,
+  "runner": "6cbec96f29",
+  "rf_round": "4",
+  "url": "http://127.0.0.1:8811/index.html",
+  "res_peak": {
+    "cpu": 37,
+    "mem": 57,
+    "used_gb": 17.9,
+    "chrome_testing": 28
+  }
+}
