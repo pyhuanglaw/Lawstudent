@@ -39677,16 +39677,18 @@
       },
       "id": "BUG-SAVE-QUOTA-HEAVY-1102",
       "title": "重度玩家 7 份存檔約 5.93 MB 還超過 5 MB（social.mem 22.4 萬字）（BB 10:15）",
-      "status": "待開工",
+      "status": "等待其他AI／素材",
       "priority": "P2",
-      "note": "評估：①social.mem 每人每種只留最近 N 筆、劇情讀到的 tag 一律保留（要先列出所有被讀的 tag：SOCIAL.has 等，範圍大、風險高）；②備份（backup、backup_new）壓縮後再存（要引入壓縮程式碼＋授權）。目標重度 7 份 ≤ 4 MB。不進今晚版本（已有空間不足提示＋可以刪欄位）；排下一版。CC 會在使用者電腦用真的瀏覽器量配額。",
+      "note": "評估：①social.mem 每人每種只留最近 N 筆、劇情讀到的 tag 一律保留（要先列出所有被讀的 tag：SOCIAL.has 等，範圍大、風險高）；②備份（backup、backup_new）壓縮後再存（要引入壓縮程式碼＋授權）。目標重度 7 份 ≤ 4 MB。不進今晚版本（已有空間不足提示＋可以刪欄位）；排下一版。CC 會在使用者電腦用真的瀏覽器量配額。 ｜LAWWW 14:0x 評估：(a) 壓縮——lz-string（MIT）下載後權限系統擋下執行外部程式碼，不繞過；要用的話請使用者同意引入，或自己寫 LZ（要完整往返測試）。(b) social.mem——ADJUST 只有 4 處會寫（SOCIAL.adjust 帶 why），刪了幫助小；讀取方式有 find（第一筆：loans3d memDay、encounter3d、metAtCamp FIRST_MET）、lastDay（最後一筆）、note 比對（postgrad helpedCoffee、y2b auntKnows、y34b firstOrder、termend AN_TREAT），安全的精簡＝同一 (tag,note) 重複的只留第一筆和最後一筆、超過 80 筆先刪這種重複，不再從最舊的整筆刪（現在的 80 筆上限會刪掉 FIRST_MET＝潛在 bug）。實際能省多少要真的長時間遊玩存檔的 tag 分布，CC 的模擬是估的 tag，不準。下一步：請 BB／CC 給一份真的長時間存檔再動手。",
       "xai": {
         "spec": "BB 10:15；CC 583c7739d",
         "branch": "claude/confident-ritchie-8rwh7t",
         "receiver": "BB",
         "ack": "ACK",
         "acceptance": "重度玩家 7 份 ≤ 4 MB"
-      }
+      },
+      "pausedReason": "要真的長時間遊玩存檔量 social.mem 的 tag 分布；壓縮要引入外部程式碼（權限擋下）",
+      "resumeWhen": "BB／CC 交一份真的長時間存檔，或使用者同意引入 lz-string"
     },
     {
       "id": "BAR-POOL-NOMAR-1102",
@@ -39927,6 +39929,87 @@
       "notes": "2026-10-23 20:4x LAWWW-B：BB-B 第四版 patch（BB 分支 89ed11a99）整合進 tests/flow_main_day12.py、TESTING.md 第〇節加「沙盒太慢時劇情照設計接手」、第七節加一列。結果 28 PASS、0 FAIL、2 項 [未驗]（第二天走樓梯到 201：劇情接手）；發布照第〇節寫「未驗（劇情接手）」。附帶觀察（12:30 以後空下來 1.5 秒就帶走、可能比 13:20 早）：維持現行設計（AA_294 ①「時間到了直接帶去」；BB 沒實際抓到提早，發布前不動第二天開場）。",
       "evidence": "BB-B 第四版（BB 分支 89ed11a99；lw18 bac2e55df 非 turbo 負載 29，20:10 跑完）：flow_main_day12 28 PASS、0 FAIL、2 項 [未驗]（第二天走樓梯到 201：劇情接手 13:16）；整合 7480c24b2",
       "note": "BB 13:32 P0；LAWWW 13:4x 分析送 BB／CC：d75871437→b1b249873 遊戲檔沒動第二天；空下來 1.5 秒（真實時間）就 goDay2；測試 wait_story 繼續 advance_dialogs。v9.10.16 在 BB 判定前不合併 main。"
+    },
+    {
+      "first": {
+        "term": "Y1S1",
+        "week": null,
+        "earliest": "第一次期中考前（讀書、一鍵總複習）；國考與職涯在畢業以後",
+        "mainline": true,
+        "blocks": false,
+        "prereq": false,
+        "parallel": true,
+        "confirmed": true
+      },
+      "area": null,
+      "id": "AA588-AA581-TAIL-1102",
+      "title": "AA_588：沛珊柏翰公開搬到 4/15 麵店（ev_psbh_public_0415＋群組兩則＋20:30 滷蛋照片）、AN_L8_MIDTERM 標籤、課堂內容重匯 1edea905f、home_lines 重匯、K1 又被當七句",
+      "owner": "LAWWW",
+      "status": "已實作待整合",
+      "priority": "P2",
+      "note": "子代理 a56503a4c：ade7cbca3、fd938dd17、7c5d93049、f0f75831f、ae290b370；LAWWW 合併 e7a4383b0；tests/aa588_unit.js 37 項。待 AA 回：兩門以上重修的「一堂{課名}」",
+      "next": "下一版 int/next1102 交 BB 測",
+      "xai": {
+        "spec": "子代理 a56503a4c：ade7cbca3、fd938dd17、7c5d93049、f0f75831f、ae290b370；LAWWW 合併 e7a4383",
+        "branch": "int/next1102（wip_backup bundle）",
+        "acceptance": "BB 測過",
+        "receiver": "BB",
+        "ack": "SENT"
+      }
+    },
+    {
+      "first": {
+        "term": "Y1S1",
+        "week": null,
+        "earliest": "第一次期中考前（讀書、一鍵總複習）；國考與職涯在畢業以後",
+        "mainline": true,
+        "blocks": false,
+        "prereq": false,
+        "parallel": true,
+        "confirmed": true
+      },
+      "area": null,
+      "id": "AA585-MIDWEEK-1102",
+      "title": "AA_585：30 門第 8、9 週黑板（補丁來源、reviewed 60 筆、BB_231）",
+      "owner": "LAWWW",
+      "status": "已實作待整合",
+      "priority": "P2",
+      "note": "子代理 a56503a4c ade7cbca3；tests/aa585_midweek_unit.js；syllabus_unit 第 8、9 週量法改半形算半格（AA_585 第 0 節，LAWWW 接受）；法律頁、自習筆記列第 8、9 週 66a269434",
+      "next": "下一版 int/next1102 交 BB 測",
+      "xai": {
+        "spec": "子代理 a56503a4c ade7cbca3；tests/aa585_midweek_unit.js；syllabus_unit 第 8、9 週量法改半形算半",
+        "branch": "int/next1102（wip_backup bundle）",
+        "acceptance": "BB 測過",
+        "receiver": "BB",
+        "ack": "SENT"
+      }
+    },
+    {
+      "first": {
+        "term": "Y1S1",
+        "week": null,
+        "earliest": "第一次期中考前（讀書、一鍵總複習）；國考與職涯在畢業以後",
+        "mainline": true,
+        "blocks": false,
+        "prereq": false,
+        "parallel": true,
+        "confirmed": true
+      },
+      "area": null,
+      "id": "BUG-MEM-FIRSTMET-1102",
+      "title": "人物記憶 80 筆上限會刪掉 FIRST_MET（S.has 以為不認識、metAtCamp 讀不到）",
+      "owner": "LAWWW",
+      "status": "已實作待整合",
+      "priority": "P2",
+      "note": "LAWWW 518a6d2fb：先刪 ADJUST→同 tag 後面還有的舊筆→最舊的非 FIRST_MET；tests/mem_firstmet_unit.js",
+      "next": "下一版 int/next1102 交 BB 測",
+      "xai": {
+        "spec": "LAWWW 518a6d2fb：先刪 ADJUST→同 tag 後面還有的舊筆→最舊的非 FIRST_MET；tests/mem_firstmet_unit.j",
+        "branch": "int/next1102（wip_backup bundle）",
+        "acceptance": "BB 測過",
+        "receiver": "BB",
+        "ack": "SENT"
+      }
     }
   ]
 }
