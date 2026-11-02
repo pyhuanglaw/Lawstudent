@@ -34,7 +34,8 @@ LAD_JS = "(id=>{ const D=STORY.ladData(GAME.G,id); const K=D?D.key:id; return ((
 BOX_JS = """(()=>{ const vw=innerWidth, vh=innerHeight, inV=r=>r.width>0&&r.height>0&&r.left>=-1&&r.top>=-1&&r.right<=vw+1&&r.bottom<=vh+1;
   const d=document.getElementById('dlg'), rd=d?d.getBoundingClientRect():null, t=(document.getElementById('dlgText')||{}).textContent||'';
   const bs=[...document.querySelectorAll('#choices button')].filter(()=>!document.getElementById('choices').classList.contains('hide')).map(b=>{ const r=b.getBoundingClientRect(); return {t:b.textContent.trim(),h:Math.round(r.height),in:inV(r)}; });
-  return {dlg:rd?{in:inV(rd),h:Math.round(rd.height)}:null,text:t.trim(),choices:bs}; })()"""
+  const nx=document.getElementById('dlgNext'), done=!!nx&&getComputedStyle(nx).visibility==='visible';   /* 打字打完（game3d.js dlgTick 打完才把 dlgNext 設成 visible）*/
+  return {dlg:rd?{in:inV(rd),h:Math.round(rd.height)}:null,text:t.trim(),choices:bs,done}; })()"""
 
 
 async def one(p, run, landscape):
@@ -81,6 +82,8 @@ async def one(p, run, landscape):
             chose = bx['choices'][k]['t'] if bx['choices'] else None
             await L.touch_tap(cdp, cxy[0], cxy[1]); await pg.wait_for_timeout(700); continue
         if s['dlg']:
+            if not bx.get('done'):   # 還在打字：等這一句打完再記、再點（BB 2026-11-02：PC 顯示卡快，抓到打到一半的「過年」）
+                await pg.wait_for_timeout(150); continue
             if bx['text'] and (not seen or seen[-1] != bx['text']): seen.append(bx['text']); boxes.append(bx)
             if len(seen) == 1: await run.shot(pg, f'{"land" if landscape else "port"}_dialog')
             await L.tap(pg, cdp, '#dlg'); await pg.wait_for_timeout(600); continue
