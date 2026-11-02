@@ -84,6 +84,7 @@ const FD=(function(){
     fail:'（{課名}的補考，沒有過。）',
     missed:'（補考的時間過了。{課名}，你沒有去考。）',
     gradePass:'及格（補考）', gradeFail:'不及格（補考未過）', gradeMissed:'不及格（補考缺考）',
+    missItem:'補考：{課名}', fixLabel:'補考',noSkip:'補考的時間到了（10:00，法律系館A）。', migNotice:'（教務處來了通知：{課名}，可以補考。）',
     reviewWhat:'補考的', reviewBlock:'會錯過補考。' , homeOpt:'出發：補考（法律系館A）', homeHint:'{課名}　10:00　捷運＋公車 約 40 分鐘'};
   S.mk=G=>{ const M=G&&G.flags&&G.flags.FD_MAKEUP; return M&&typeof M==='object'&&Array.isArray(M.courses)?M:null; };
   S.mkPending=G=>{ const M=S.mk(G); return !!M&&M.status==='pending'&&law(G); };
@@ -100,6 +101,7 @@ const FD=(function(){
     return true; };
   /* 補考那一場（PG.STEPS fd_makeup）*/
   S.makeup=async function(GM){ const G=GM.G, F=G.flags, M=S.mk(G), L=S.MK_LINES; if(!S.mkPending(G)||typeof CLS==='undefined'||!CLS.runExam) return false; const ids=M.courses.slice(), res={}, d=S.mkDay();
+    if(GM.E&&GM.E.player&&GM.E.player.seat&&GM.standUp) GM.standUp(GM.E.player);   /* 坐著讀到補考前、待到補考前停下來：站起來去考（PG.tick 的 seatOk）*/
     GM.sceneBegin(); try{
       if(GM.fade) await GM.fade(true); if(typeof PG!=='undefined'&&PG.toAtLeast&&d!=null) PG.toAtLeast(GM,T(d,S.MK_AT[1])); if(GM.fade) await GM.fade(false);
       await GM.say(null,L.open);
@@ -156,13 +158,47 @@ const FD=(function(){
     if(Array.isArray(PG.stops)) PG.stops.push(G=>{ if(!S.on(G)||(PG.done&&PG.done(G,'fd_late_note'))||!S.lateLikely(G)) return null; const t=at(S.NOTE_AT); return t!=null&&t>now(G)?t:null; }); }   /* 12/24 記號還沒記的時候就排好 12/26 09:00 的停點（長跳每 6 小時看一次，不然會停在 11:00）*/
   if(typeof STORY!=='undefined'&&Array.isArray(STORY.PHONE_RULES)) STORY.PHONE_RULES.push(G=>{ if(law(G)) S.result(G); });
   if(typeof PG!=='undefined'&&Array.isArray(PG.STEPS)&&!PG.STEPS.some(s=>s.id==='fd_makeup')){ const md=()=>S.mkDay();
-    PG.STEPS.push({id:'fd_makeup',at:G=>{ const d=md(); return d==null?null:T(d,S.MK_STEP_H); },until:G=>{ const d=md(); return d==null?null:T(d,S.MK_UNTIL_H); },cond:G=>S.mkPending(G),run:GM=>S.makeup(GM),onMiss:G=>{ S.mkMissed(G); }},   /* D118 補考 */
-      {id:'fd_mk_missed',at:G=>{ const d=md(); return d==null?null:T(d,S.MK_UNTIL_H); },until:G=>{ const d=md(); return d==null?null:T(d+2,24); },cond:G=>{ const M=S.mk(G); return !!M&&M.status==='missed'&&!M.said&&law(G); },run:GM=>S.mkMissedNarr(GM)}); }   /* 補考沒去：旁白（延畢那幾句）*/
+    PG.STEPS.push({id:'fd_makeup',at:G=>{ const d=md(); return d==null?null:T(d,S.MK_STEP_H); },until:G=>{ const d=md(); return d==null?null:T(d,S.MK_UNTIL_H); },cond:G=>S.mkPending(G),run:GM=>S.makeup(GM),onMiss:G=>{ S.mkMissed(G); },seatOk:true},   /* D118 補考（seatOk：坐著也演，見 postgrad3d.js S.tick）*/
+      {id:'fd_mk_missed',at:G=>{ const d=md(); return d==null?null:T(d,S.MK_UNTIL_H); },until:G=>Infinity,cond:G=>{ const M=S.mk(G); return !!M&&M.status==='missed'&&!M.said&&law(G); },run:GM=>S.mkMissedNarr(GM)},   /* 補考沒去：旁白（延畢那幾句）。until 不設上限（BB 08:59 ④）：缺考是 PG.pending 第一次跑到時才記，之後下一個停點一定演（M.said 擋重複）*/
+      {id:'fd_mk_notice',at:G=>{ const M=S.mk(G); return M&&M.mig!=null?M.mig:null; },until:G=>{ const d=md(); return d==null?null:T(d,S.MK_STEP_H); },cond:G=>{ const M=S.mk(G); return !!M&&M.mig!=null&&!M.noticed&&S.mkPending(G); },run:GM=>S.mkMigNarr(GM)}); }   /* BB 08:59 ⑤：舊存檔改給補考，下一個停點補一句通知 */
   /* BUG-MAKEUP-HOME-1102（BB 08:34 P1）：6/26 人在家（HOME.at）時 PG.tick 不跑，原本會一直待到 11:00 被算缺考。
      家裡的選單直接列「出發：補考」（一鍵：照補考那一場演、考完回到家的選單）；在家睡覺照舊由 PG.sleepJump 跳到 09:30 那一場 */
   S.homeMakeupOpt=G=>{ if(!S.mkPending(G)) return null; const d=S.mkDay(); if(d==null||G.day!==d||now(G)>=T(d,S.MK_UNTIL_H)) return null;
     return {t:S.MK_LINES.homeOpt,hint:S.fillIds(S.mk(G).courses,S.MK_LINES.homeHint),run:async GM=>{ await S.makeup(GM); }}; };
   if(typeof HOME!=='undefined'&&Array.isArray(HOME.MENU_OPTS)&&!HOME.MENU_OPTS.includes(S.homeMakeupOpt)) HOME.MENU_OPTS.push(S.homeMakeupOpt);
+  /* ---------- BB 08:59 第二輪（CC_audit_4174）：補考的時間只登記在 PG.STEPS，一般「會跳時間」的動作看不到——照可昕電話的做法（CLS.STOP_FNS）一個一個登記 ----------
+     ① BUG-MAKEUP-STUDY-NOWARN-1102：CLS.HARD_FNS——座位讀書跨過 10:00 的長度變灰（「會錯過：補考：{課名}」）、多一項「讀到補考：{課名}前（09:50）」、一鍵總複習（CLS.spanCheck 的 hard）也擋
+     ② BUG-MAKEUP-SKIPTO-1102：CLS.STOP_FNS——待到中午、小睡（CLS.skipTo）停在 09:30（PG 的補考停點；停下來以後 PG.tick 演那一場，坐著也演：seatOk）；
+        09:30～11:00 之間不能再跳（CLS.canSkip 擋：「補考的時間到了」）
+     ③ BUG-MAKEUP-HOME-REST-1102：HOME.wouldMiss（在家休息、等晚餐、睡覺的「會錯過」）、TRIP.wouldMiss（自由出行的預告）列補考（過了 11:00＝沒去）
+     ⑤ 舊存檔：6/18 已經判延畢、讀檔時還在 6/26 09:30 以前、被當的全部是考五題的課、不是交換＝改給補考（S.migrateMk，FD.migrate 一起跑）*/
+  S.MK_GO_H=S.MK_AT[1]-1/6;   /* 「讀到補考前」停在 09:50（開考前 10 分鐘；PG 的停點 09:30 已經到了，一站起來就演）*/
+  S.mkToday=G=>S.mkPending(G)&&G.day===S.mkDay();
+  S.mkLabel=G=>S.fillIds(S.mk(G).courses,S.MK_LINES.missItem);
+  S.mkHard=G=>S.mkToday(G)?[{t:S.MK_GO_H,start:S.MK_AT[1],until:S.MK_UNTIL_H,label:S.mkLabel(G),fixLabel:S.MK_LINES.fixLabel}]:[];   /* fixLabel：座位「讀到補考前（09:50）」*/
+  S.mkStops=(G,h0,h1)=>S.mkToday(G)&&h0<S.MK_STEP_H?[{h:S.MK_STEP_H,why:S.mkLabel(G)}]:[];
+  S.mkNoSkip=G=>{ if(!S.mkToday(G)) return ''; const h=+G.hour||0; return h>=S.MK_STEP_H-1e-6&&h<S.MK_UNTIL_H?S.MK_LINES.noSkip:''; };
+  S.mkMissList=(G,toH)=>{ if(!S.mkPending(G)) return []; const d=S.mkDay(); if(d==null) return []; const u=T(d,S.MK_UNTIL_H), a=now(G), b=G.day*24+toH; return u>a&&u<=b?[String(S.MK_AT[1]).padStart(2,'0')+':00 '+S.mkLabel(G)]:[]; };
+  if(typeof CLS!=='undefined'){ if(Array.isArray(CLS.HARD_FNS)&&!CLS.HARD_FNS.includes(S.mkHard)) CLS.HARD_FNS.push(S.mkHard); if(Array.isArray(CLS.STOP_FNS)&&!CLS.STOP_FNS.includes(S.mkStops)) CLS.STOP_FNS.push(S.mkStops);
+    if(CLS.canSkip&&!CLS._fdSkip){ const cs0=CLS.canSkip; CLS.canSkip=function(GM){ const r=cs0.apply(this,arguments); if(r) return r; return GM&&GM.G?S.mkNoSkip(GM.G):''; }; CLS._fdSkip=true; } }
+  if(typeof HOME!=='undefined'&&HOME.wouldMiss&&!HOME._fdMiss){ const w0=HOME.wouldMiss; HOME.wouldMiss=function(G,toH){ const r=w0.apply(this,arguments)||[]; try{ return r.concat(S.mkMissList(G,toH)); }catch(e){ console.warn('FD wouldMiss',e); return r; } }; HOME._fdMiss=true; }   /* home3d.js 的 confirmMiss 叫 S.wouldMiss（＝HOME.wouldMiss）；jp3d.js 也用它 */
+  if(typeof TRIP!=='undefined'&&TRIP.wouldMiss&&!TRIP._fdMiss){ const w0=TRIP.wouldMiss; TRIP.wouldMiss=function(G,h1){ const r=w0.apply(this,arguments)||[]; try{ return r.concat(S.mkMissList(G,h1)).slice(0,3); }catch(e){ return r; } }; TRIP._fdMiss=true; }
+  /* ⑤ 舊存檔改給補考（BB 08:59 判定）：冪等（有 FD_MAKEUP 就不動）。BAR_REG 是被延畢取消的（FAIL_DELAY_BARCANCEL）才恢復；22:00 阿哲那兩則還沒送的拿掉。
+     通知：手機 sys＋前一天 20:00 提醒（S.mkNotify，PHONE_RULES 跑：讀檔時的 s 還不是遊戲中的 G）；旁白在下一個停點補一句（PG fd_mk_notice）*/
+  S.migrateMk=function(s){ const F=s&&s.flags; if(!F||typeof F!=='object'||F.FD_MAKEUP||F.FAIL_DELAY!==true||!Array.isArray(F.FAIL_DELAY_COURSES)||!F.FAIL_DELAY_COURSES.length||!law(s)||typeof s.day!=='number') return false;
+    if(F.FAIL_DELAY_PASS!=null||F.FAIL_DELAY_CERT||exch(s)) return false; const d=S.mkDay(); if(d==null||now(s)>=T(d,S.MK_STEP_H)) return false;
+    if(typeof CLS==='undefined'||!CLS.isExamCourse) return false; const L=CLS.termCourses?CLS.termCourses(s,'Y4S2'):[];
+    if(!F.FAIL_DELAY_COURSES.every(id=>{ const c=L.find(x=>x.id===id); return !!c&&CLS.isExamCourse(c); })) return false;   /* 有點名制的課（沒有考試可以補）、不是大四下排的課（含大四下的重修；exam_every_term ② 那種）＝照舊延畢 */
+    F.FD_MAKEUP={v:1,courses:F.FAIL_DELAY_COURSES.slice(),status:'pending',res:{},mig:now(s)}; F.FAIL_DELAY_COURSES=[]; F.FAIL_DELAY_V=2; delete F.FAIL_DELAY; delete F.FAIL_DELAY_DAY;
+    if(F.FAIL_DELAY_BARCANCEL){ F.BAR_REG=true; delete F.FAIL_DELAY_BARCANCEL; }
+    try{ const P=s.phone&&s.phone.q; if(Array.isArray(P)) s.phone.q=P.filter(q=>q.tag!=='fd_zhe'); else if(typeof PHONE!=='undefined'&&PHONE.rec){ const R=PHONE.rec(s); R.q=R.q.filter(q=>q.tag!=='fd_zhe'); } }catch(e){ console.warn('FD.migrateMk phone',e); }
+    return true; };
+  S.mkNotify=function(G){ const M=S.mk(G); if(!M||M.mig==null||M.notified||!S.mkPending(G)||typeof PHONE==='undefined') return false; M.notified=G.day; const L=S.MK_LINES;
+    if(PHONE.post&&!PHONE.sent(G,'fd_mk_sys')) PHONE.post(G,{th:'sys',text:S.fillIds(M.courses,L.sys),tag:'fd_mk_sys'});
+    const rd=DK(S.MK_REMIND_AT[0]); if(rd!=null&&now(G)<T(rd,S.MK_REMIND_AT[1])) PHONE.at(G,rd,S.MK_REMIND_AT[1],[{th:'sys',text:S.fillIds(M.courses,L.remind)}],'fd_mk_remind'); return true; };
+  S.mkMigNarr=async function(GM){ const G=GM.G, M=S.mk(G); if(!M||M.noticed) return false; M.noticed=G.day; S.mkNotify(G); GM.sceneBegin(); try{ await GM.say(null,S.fillIds(M.courses,S.MK_LINES.migNotice)); await GM.say(null,S.MK_LINES.notice); } finally { GM.sceneEnd(); } return true; };
+  { const mig0=S.migrate; S.migrate=function(s){ let a=false, b=false; try{ a=mig0(s); }catch(e){ console.warn('FD.migrate',e); } try{ b=S.migrateMk(s); }catch(e){ console.warn('FD.migrateMk',e); } return a||b; }; }   /* 先跑原本的救援（BUG-Y4S2-NOFINAL），再看要不要改給補考 */
+  if(typeof STORY!=='undefined'&&Array.isArray(STORY.PHONE_RULES)) STORY.PHONE_RULES.push(G=>{ if(law(G)) S.mkNotify(G); });
   if(typeof STUDY!=='undefined'){ if(Array.isArray(STUDY.REVIEW_EXTRA)&&!STUDY.REVIEW_EXTRA.includes(S.mkReview)) STUDY.REVIEW_EXTRA.push(S.mkReview); if(Array.isArray(STUDY.REVIEW_CHECKS)&&!STUDY.REVIEW_CHECKS.includes(S.mkReviewBlock)) STUDY.REVIEW_CHECKS.push(S.mkReviewBlock); }
   return S;
 })();

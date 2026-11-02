@@ -1169,19 +1169,27 @@ const CLS=(function(){
   S.slotLine=G=>{ if(!S.slotsOn(G)) return ''; const R=S.slotRec(G), ex=S.examWeek(G); return ['am','pm','ev'].map(p=>{ let s=''; const n=S.SLOT_BASE[p]+(ex?1:0); for(let i=0;i<n;i++) s+=i<(R.used[p]||0)?'●':'○'; return S.SLOT_NAME[p]+' '+s; }).join('　'); };
   S.slotHTML=G=>{ if(!S.slotsOn(G)) return ''; const R=S.slotRec(G), ex=S.examWeek(G); return '<div class="item"><b>今天的時間</b>　'+['am','pm','ev'].map(p=>{ let s=''; const b=S.SLOT_BASE[p], n=b+(ex?1:0); for(let i=0;i<n;i++){ const c=i<(R.used[p]||0)?'●':'○'; s+=i>=b?'<span style="color:#e9b96a">'+c+'</span>':c; } return esc(S.SLOT_NAME[p])+' '+s; }).join('　')+'<div class="muted">每個時段一件主要的事：上課、社團活動、出遊約會、自習、打工、自由出行、健身都算一件（上課、約好的出遊照樣能去）；吃飯、聊天、約好的見面不算。'+(ex?'考試週：每個時段多一次（金色），只能拿來自習。':'')+'</div>'+'</div>'; };
   /* 下一件固定行程（「讀到○○前」）：下一堂課的出門時間、約好的見面前 10 分鐘 */
+  /* 不能錯過的固定行程（課表以外，別的模組加：fn(G)→[{t:出發／該停下來的時間, start:開始, until:過了就算沒去, label}]，都是今天的小時）。
+     讀書長度（studyLengths：跨過 start 的變灰、寫「會錯過：label」）、「讀到○○前」（nextFixed：停在 t）、一鍵總複習（spanCheck 的 hard）都看。
+     D118 大四下補考（BUG-MAKEUP-STUDY-NOWARN-1102，BB 08:59；src/faildelay3d.js）。跳過時間（skipTo）照舊看 S.STOP_FNS */
+  S.HARD_FNS=[];
+  S.hardItems=function(G){ const out=[]; for(const f of S.HARD_FNS){ try{ for(const x of (f(G)||[])) if(x&&x.start!=null) out.push(x); }catch(e){ console.warn('CLS.HARD_FNS',e); } } return out; };
+  S.hardMiss=(G,h,hh)=>S.hardItems(G).filter(x=>(x.until!=null?x.until:x.start)>h&&h+hh>x.start+1e-6).map(x=>x.label);   /* 從 h 起做 hh 小時會跨過開始時間 */
   S.nextFixed=function(GM){ const G=GM.G, h=G.hour; if(h>=24) return null; const c=[]; for(const it of S.goList(G)){ if(S.planSkip(G,it)) continue; const pl=S.goPlan(GM,it); c.push({t:pl?pl.depart:it.t0-1/6,label:it.c.name}); }   /* 正在上的課（出門時間已過）跳過，看下一堂 */
+    for(const x of S.hardItems(G)) c.push({t:x.t!=null?x.t:x.start,label:x.fixLabel||x.label});   /* HARD_FNS（補考）：「讀到補考前」*/
     for(const iv of (G.invites||[])) if(iv.day===G.day&&iv.accepted&&!iv.done&&iv.h>h) c.push({t:iv.h-1/6,label:iv.label||'約好的見面'});
     return c.filter(q=>q.t>h+0.25).sort((a,b)=>a.t-b.t)[0]||null; };
   /* 自習要讀多久（2-3）：1～3 小時，或讀到下一件固定行程前（最多 3 小時）；次數不夠、閉館前讀不完的變灰；中間會錯過的課寫出來（R1）*/
   S.studyLengths=function(GM){ const G=GM.G, h=G.hour; const ow=typeof PLACES!=='undefined'?PLACES.hours[G.zone]:null; const close=ow?(ow.rules?(PLACES.windowOf(G.zone,G.day,h)||[0,0])[1]:(ow.close!=null&&ow.close<=24?ow.close:null)):null;
     const miss=hh=>S.dayItems(G).filter(it=>S.status(G,it)!=='done'&&!S.planSkip(G,it)&&!S.storyClass(G,it)&&it.t0<h+hh&&it.t1-LATE_END>h&&!(h>it.t0+WIN1)).map(it=>hhmm(it.t0)+' '+it.c.name);
-    const one=(t,hh)=>{ const pl=S.slotPlan(G,hh,'study'); let dim=!pl.ok, hint=pl.ok?pl.hint:pl.why; if(!dim&&close!=null&&h+hh>close+1e-6){ dim=true; hint='閉館前讀不完'; } if(!dim&&h+hh>26.5){ dim=true; hint='太晚了'; } const m=dim?[]:miss(hh); return {t,hours:hh,dim,hint:hint+(m.length?'。會錯過：'+m.join('、'):''),uses:pl.uses}; };
+    const one=(t,hh)=>{ const pl=S.slotPlan(G,hh,'study'); let dim=!pl.ok, hint=pl.ok?pl.hint:pl.why; if(!dim&&close!=null&&h+hh>close+1e-6){ dim=true; hint='閉館前讀不完'; } if(!dim&&h+hh>26.5){ dim=true; hint='太晚了'; }
+      if(!dim){ const hm0=S.hardMiss(G,h,hh); if(hm0.length){ dim=true; hint='會錯過：'+hm0.join('、'); } }   /* 補考這種不能錯過的（HARD_FNS）：變灰，不是只提醒 */ const m=dim?[]:miss(hh); return {t,hours:hh,dim,hint:hint+(m.length?'。會錯過：'+m.join('、'):''),uses:pl.uses}; };
     const out=[1,2,3].map(hh=>one('讀 '+hh+' 小時',hh)); const fx=S.nextFixed(GM); if(fx){ const hh=Math.round((fx.t-h)*60)/60; if(hh>=0.5&&hh<=3+1e-6) out.push(one('讀到'+fx.label+'前（'+hhmm(fx.t)+'）',hh)); }
     return out; };
   /* 從現在起讀 hh 小時：閉館前讀不完（closed）、會錯過的課（miss）、其中的考試（exam）——和 studyLengths 同一套判斷（D118-B3 一鍵總複習用，study3d.js STUDY.reviewCheck）。o.noClose：不看閉館（在家）*/
   S.spanCheck=function(G,hh,o){ o=o||{}; const h=G.hour; const ow=!o.noClose&&typeof PLACES!=='undefined'&&PLACES.hours?PLACES.hours[G.zone]:null; const close=ow?(ow.rules?(PLACES.windowOf(G.zone,G.day,h)||[0,0])[1]:(ow.close!=null&&ow.close<=24?ow.close:null)):null;
     const its=S.dayItems(G).filter(it=>S.status(G,it)!=='done'&&!S.planSkip(G,it)&&!S.storyClass(G,it)&&it.t0<h+hh&&it.t1-LATE_END>h&&!(h>it.t0+WIN1));
-    return {closed:close!=null&&h+hh>close+1e-6,miss:its.map(it=>hhmm(it.t0)+' '+it.c.name),exam:its.filter(it=>it.exam==='final').map(it=>hhmm(it.t0)+' '+it.c.name)}; };
+    return {closed:close!=null&&h+hh>close+1e-6,miss:its.map(it=>hhmm(it.t0)+' '+it.c.name),exam:its.filter(it=>it.exam==='final').map(it=>hhmm(it.t0)+' '+it.c.name),hard:S.hardMiss(G,h,hh)}; };   /* hard：HARD_FNS（補考）——呼叫的地方當成不能做 */
   /* 選讀多久；回傳 {hours,uses} 或 null（算了、變灰的選項）。呼叫的地方讀完再 S.slotUse */
   S.chooseStudy=async function(GM){ const L=S.studyLengths(GM); const opts=L.map(q=>({t:q.t,hint:q.hint,dim:q.dim})).concat([{t:'算了'}]); const i=await GM.choose(opts); const q=L[i]; if(!q) return null; if(q.dim){ GM.toast(q.hint.replace(/。會錯過.*$/,''),3000); return null; } return {hours:q.hours,uses:q.uses}; };
   return S;
