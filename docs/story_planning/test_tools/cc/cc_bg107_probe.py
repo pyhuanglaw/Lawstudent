@@ -51,13 +51,22 @@ check 只有幾種：事件真的演出來（EVENTS.run 收到那一件，畫面
     jp_old_bookstore    ev_jpb_w_books（交往中；:215 5/27 15:00 私訊 → 探針 2028-05-28 14:00）。
     jp_post_office      ev_jpb_post（jp_blank3d.js:53 jpb_4_3 2028-07-31 11:00 據點自己演；挽回中版只有旁白）。
     jp_secondhand_shop  ev_jpb_r_shop（挽回中 jp_blank3d.js:45 jpb_2_2a 2028-05-13 14:00 據點自己演；沒遇過立衡＝只有旁白）。
+  第 109 組（7ee28d48d，BB 07:50 PASS）：
+    jp_riverbank_fireworks ev_jpb_w_fire（交往中，jp_blank_lines.js:219 7/22 19:30 當天約）、ev_jpb_r_fire（挽回中，jp_blank3d.js:120 JPB_FIRE go → 7/22 19:30；只有旁白）。
+    jp_dorm_gate_morning   ev_jpb_w_chain（交往中，:214 2028-05-13 10:00 宿舍門口）。
+    jp_an_room_door        ev_jpb_w_light（交往中，:216 2028-06-11 16:00 她的房間門口）。
+    jp_an_room_packed      ev_jpb_clean（交往中，:209 7/29 22:30 私訊 → 7/30 14:00；jp_blank3d.js:113 JPB_CLEAN go）。
+    camp_trail_night       ev_camp_d1_walk（src/data/camp_y1.js:137；真實是 2025-08-22 21:30 迎新宿營，story3d.js:122 S.CAMP_SEQ 的序章串，trigger camp）。
+                           序章串（經濟系那一年 S.campY1）最小存檔接不上：【前置】法律系 Y1S1 第 2 週週五 21:30 宿舍＋【捷徑】EVENTS.run（背景只看 OUT.bg，和日期無關）。
+                           另外查：OUT.BG.camp_trail_night 不再有 night:true（7ee28d48d 以前借白天圖 camp_trail＋night）＝#adv 沒有 night class、#advBg 的 filter 是 none
+                           （adv3d.js:17 的 #adv.night #advBg{filter:brightness(.42) saturate(.6)}＋::after 藍色蓋層）——記錄 class 與 computed filter（check）。
   沒有地方讀的資料（INFO，不演）：tainan_school＝y2b3d.js 的 Y2B.PS_TAINAN（第一次去台南；hometown3d.js 用的是 PS_TAINAN_VISITS 的結構，PS_TAINAN 本身沒有人讀）。
   （最小存檔：關係、記憶都是空的，if:custom 的句子照當下的存檔走哪一版就是哪一版；只看畫面，不驗台詞。）
 
 輸出：<輸出資料夾>/NN_<case>_<land|port>_<first|spk|cap>_<dlg|bgonly|bgbox>.png、<case>_<方向>_<tag>_cropmap.png（示意圖，不是遊戲截圖）、cc_bg107_measure.json。
 不是 iPhone：Playwright 手機模擬（is_mobile、觸控、SwiftShader 1～4 fps）。
 用法：LW_TESTS=<工作樹>/tests SHA=<sha> [IDS=police_station,gym_court] python3 cc_bg107_probe.py '<URL>/index.html?turbo' <輸出資料夾>
-環境變數：GROUP=107,dark,108（只跑這幾組；預設全部；停用／INFO 那一段屬於 107＋dark）、IDS（只跑這幾場；用 case 名稱、事件 id 或底圖名；和 GROUP 取交集）、ORIENT=both|land|port、QUIET=1、SPK=1（0＝不拍有人說話那一句）、BGONLY=1（0＝不拍只有底圖的兩張，省時間）、
+環境變數：GROUP=107,dark,108,109（只跑這幾組；預設全部；停用／INFO 那一段屬於 107＋dark）、IDS（只跑這幾場；用 case 名稱、事件 id 或底圖名；和 GROUP 取交集）、ORIENT=both|land|port、QUIET=1、SPK=1（0＝不拍有人說話那一句）、BGONLY=1（0＝不拍只有底圖的兩張，省時間）、
   PRE_S（讀檔後等遊戲自己演，預設 25）、SCENE_S（開演後等到那一張底圖，預設 120）、CASE_MAX（一場最多幾秒，預設 600）、RELAYOUT_MS（預設 1800）。
 不要和別的瀏覽器測試同時跑（SwiftShader 搶 CPU）。"""
 import os, sys, json, asyncio, time, copy, traceback
@@ -68,7 +77,7 @@ from playwright.async_api import async_playwright
 URL, OUT = sys.argv[1], sys.argv[2]
 ROOT = os.path.dirname(os.path.abspath(os.environ['LW_TESTS']))   # 工作樹根目錄（畫 cropmap 用原圖）
 J = lambda o: json.dumps(o, ensure_ascii=False)
-GROUPS = [x.strip() for x in os.environ.get('GROUP', '107,dark,108').replace('，', ',').split(',') if x.strip()]
+GROUPS = [x.strip() for x in os.environ.get('GROUP', '107,dark,108,109').replace('，', ',').split(',') if x.strip()]
 ONLY = [x.strip() for x in os.environ.get('IDS', '').replace('，', ',').split(',') if x.strip()]
 ORIENT = os.environ.get('ORIENT', 'both').strip()
 QUIET = os.environ.get('QUIET', '1') != '0'
@@ -150,6 +159,19 @@ CASES = [
          src='src/jp_blank3d.js:53 jpb_4_3（2028-07-31 11:00 據點自己演；挽回中＝只有旁白）'),
     dict(k='jp_secondhand_shop', bg='jp_secondhand_shop', ev='ev_jpb_r_shop', grp=108, when='2028-05-13', h=14.0, zone='jp_hub', flags=JPF, narr_only=True,
          src='src/jp_blank3d.js:45 jpb_2_2a（挽回中 5/13 14:00 據點自己演；沒遇過立衡＝只有旁白）'),
+    # ---- 第 109 組（7ee28d48d）
+    dict(k='jp_riverbank_fireworks_w', bg='jp_riverbank_fireworks', ev='ev_jpb_w_fire', grp=109, when='2028-07-22', h=19.5, zone='jp_hub', flags=JPD,
+         src='src/data/jp_blank_lines.js:219 fire（交往中 7/22 當天私訊 → 19:30 河堤）'),
+    dict(k='jp_riverbank_fireworks_r', bg='jp_riverbank_fireworks', ev='ev_jpb_r_fire', grp=109, when='2028-07-22', h=19.5, zone='jp_hub', flags=dict(JPF, JPB_FIRE='go'), narr_only=True,
+         src='src/jp_blank3d.js:120 plan jpb_r_fire（挽回中、JPB_FIRE go，7/22 19:30）'),
+    dict(k='jp_dorm_gate_morning', bg='jp_dorm_gate_morning', ev='ev_jpb_w_chain', grp=109, when='2028-05-13', h=10.0, zone='jp_hub', flags=JPD,
+         src='src/data/jp_blank_lines.js:214 chain（交往中 2028-05-13 10:00 宿舍門口）'),
+    dict(k='jp_an_room_door', bg='jp_an_room_door', ev='ev_jpb_w_light', grp=109, when='2028-06-11', h=16.0, zone='jp_hub', flags=JPD,
+         src='src/data/jp_blank_lines.js:216 light（交往中 2028-06-11 16:00 當天約）'),
+    dict(k='jp_an_room_packed', bg='jp_an_room_packed', ev='ev_jpb_clean', grp=109, when='2028-07-30', h=14.0, zone='jp_hub', flags=dict(JPD, JPB_CLEAN='go'),
+         src='src/data/jp_blank_lines.js:209 clean（7/29 22:30 私訊）→ src/jp_blank3d.js:113 plan jpb_clean（7/30 14:00）'),
+    dict(k='camp_trail_night', bg='camp_trail_night', ev='ev_camp_d1_walk', grp=109, when=['Y1S1', 2, 5], h=21.5, zone='dorm', flags={}, nonight=True,
+         src='src/data/camp_y1.js:137 ev_camp_d1_walk（真實：2025-08-22 21:30 迎新宿營序章 story3d.js:122 S.CAMP_SEQ；探針日期不是真實日期，背景只看 OUT.bg）'),
 ]
 RETIRED = [('gg_scooter_shop', 'ev_moot_2'), ('noodle_table', 'ev_moot_6'), ('gongguan', 'ev_y0_e19'), ('ntu_linze', 'ev_y0_e24b2')]
 SUMMARY = {}
@@ -421,6 +443,7 @@ async def shoot_set(pg, run, c, o, tag, rec, bgonly=True):
     if m and m.get('cover'): out['cropmap'] = crop_map(bg, m, os.path.join(OUT, '%s_%s_%s_cropmap.png' % (k, o, tag)))
     sp = [b for b in (m or {}).get('boxes') or [] if b['label'].startswith('sprite')]
     dl = [b for b in (m or {}).get('boxes') or [] if b['label'] == 'dlg']
+    run.note('%s［%s・%s］#adv class=「%s」、#advBg filter=%s' % (k, ONAME[o], tag, (m or {}).get('advCls'), (m or {}).get('bgFilter')))
     run.note('%s［%s・%s］對話框 %s、立繪 %s；%s' % (k, ONAME[o], tag, ('%.1f%%' % dl[0]['coverPct']) if dl else '（沒有）',
                                             '＋'.join('%s %.1f%%' % (b['label'], b['coverPct']) for b in sp) or '（沒有）', describe(m)))
     rec.setdefault('shots', {}).setdefault(tag, {})[o] = out
@@ -505,6 +528,9 @@ async def case_run(p, run, c):
             m = sh['measure'] or {}
             run.check('%s［%s］：背景是 assets/bg/%s.webp（#adv image、不是 dark）' % (k, ONAME[o], bg), bool(m.get('target')),
                       J({'file': m.get('file'), 'adv': m.get('advCls'), 'nat': m.get('nat'), 'bgSize': m.get('bgSize'), 'bgPos': m.get('bgPos')}))
+            if c.get('nonight'):
+                run.check('%s［%s］：夜景圖本身、沒有再被調暗（#adv 沒有 night class、#advBg filter 是 none）' % (k, ONAME[o], ), (not m.get('night')) and str(m.get('bgFilter') or 'none') == 'none',
+                          J({'advCls': m.get('advCls'), 'bgFilter': m.get('bgFilter'), 'file': m.get('file')}))
             run.check('%s［%s］：截圖存在' % (k, ONAME[o]), exists(sh.get('dlg')) and (not BGONLY or exists(sh.get('bgonly'))), J([sh.get('dlg'), sh.get('bgonly'), sh.get('bgbox')]))
         if c.get('hold'):
             run.note('%s：INFO 這一場沒有台詞（AA_397 3-3），沒有對話框、沒有立繪；截圖是 hold 暫時事件的地點字幕＋底圖' % k)
@@ -554,11 +580,11 @@ async def main():
     run = L.Run('bg107', OUT); os.makedirs(OUT, exist_ok=True)
     cases = [c for c in CASES if str(c['grp']) in GROUPS and (not ONLY or c['k'] in ONLY or c['ev'] in ONLY or c['bg'] in ONLY)]
     if ORIENT not in ('both', 'land', 'port'): run.check('ORIENT 認得', False, ORIENT); sys.exit(run.finish())
-    for x in [x for x in GROUPS if x not in ('107', 'dark', '108')]: run.check('GROUP 認得 %s' % x, False, '認得的：107,dark,108')
+    for x in [x for x in GROUPS if x not in ('107', 'dark', '108', '109')]: run.check('GROUP 認得 %s' % x, False, '認得的：107,dark,108,109')
     known = {c['k'] for c in CASES} | {c['ev'] for c in CASES} | {c['bg'] for c in CASES} | {'info'}
     for x in [x for x in ONLY if x not in known]: run.check('IDS 認得 %s' % x, False, '認得的：%s' % ','.join(c['k'] for c in CASES))
-    print('==== cc_bg107_probe（SHA %s；GROUP=' + ','.join(GROUPS) + '；%d 場［%s］；ORIENT=%s；QUIET=%s；BGONLY=%s）====' % (
-        os.environ.get('SHA', '?'), len(cases), ','.join(c['k'] for c in cases), ORIENT, QUIET, BGONLY), flush=True)
+    print('==== cc_bg107_probe（SHA %s；GROUP=%s；%d 場［%s］；ORIENT=%s；QUIET=%s；BGONLY=%s）====' % (
+        os.environ.get('SHA', '?'), ','.join(GROUPS), len(cases), ','.join(c['k'] for c in cases), ORIENT, QUIET, BGONLY), flush=True)
     async with async_playwright() as p:
         if ('107' in GROUPS or 'dark' in GROUPS) and (not ONLY or 'info' in ONLY):
             print('---- 停用／沒有地方讀（只讀）----', flush=True)
