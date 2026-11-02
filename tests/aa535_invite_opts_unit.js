@@ -43,7 +43,9 @@ const band=id=>['FRIEND','CLOSE_FRIEND'].includes(SOCIAL.friendLevel(id))?'R':'A
     check('0. 匯入白名單：'+SPEC_PATH.split('/').pop()+' 一筆 approved＝'+SPEC_SHA+'（INVITE-OPTS-1030）',al.length===1&&al[0].sha===SPEC_SHA&&al[0].status==='approved'&&al[0].task==='INVITE-OPTS-1030'&&!!al[0].approvedBy,J(al.map(e=>[e.sha,e.status,e.task]))); }
   /* 學姊的 meet.slowread R 2026-11-02 照 AA_579 第 54 列改（BB_228 PASS、使用者看過精選句）：也接受 AA_579 的稿（企劃線 759e5c000）*/
   let spec579=''; try{ spec579=cp.execSync('git show 759e5c000:"docs/story_planning/AA_579_學姊改稿_第一批_手機與邀約.md"',{cwd:GIT,encoding:'utf8',maxBuffer:8<<20,stdio:['ignore','pipe','ignore']}); }catch(e){}
-  const inSpec=t=>{ const x=String(t).replace(/^「|」$/g,'').replace(/^（|）$/g,''); return !spec||spec.includes(x)||(!!spec579&&spec579.includes(x)); };
+  /* 以安的慢讀 acc／plan 2026-11-02 照 AA_580 第 35～37 列改：也接受 AA_580 的稿（企劃線 759e5c000）*/
+  let spec580=''; try{ spec580=cp.execSync('git -c core.quotepath=false show 759e5c000:"docs/story_planning/AA_580_以安改稿_第二批_閒聊階梯與邀約.md"',{cwd:GIT,encoding:'utf8',maxBuffer:8<<20,stdio:['ignore','pipe','ignore']}); }catch(e){}
+  const inSpec=t=>{ const x=String(t).replace(/^「|」$/g,'').replace(/^（|）$/g,''); return !spec||spec.includes(x)||(!!spec579&&spec579.includes(x))||(!!spec580&&spec580.includes(x)); };
   /* AA_535b 第 4 節（企劃線 b3e5bca3b）更正 AA_535 4-2 語彤的 walk（H8 在滇香小館）：慢讀台詞也認那一節 */
   let spec4=''; try{ spec4=cp.execSync('git show b3e5bca3b:"docs/story_planning/AA_535b_約她選項_第二份_缺的台詞_法圖_映月湖.md"',{cwd:GIT,encoding:'utf8',maxBuffer:8<<20,stdio:['ignore','pipe','ignore']}); }catch(e){} spec4=spec4.slice(Math.max(0,spec4.indexOf('## 4.')));
   const inSpecSR=t=>inSpec(t)||(!!spec4&&spec4.includes(String(t).replace(/^「|」$/g,'').replace(/^（|）$/g,'')));

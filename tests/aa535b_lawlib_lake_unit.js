@@ -48,8 +48,10 @@ const once=async(id,pid,day,h)=>{ const P=INV.place(pid); return INV.personal(G,
   /* 以安的 meet 旁白（cafe A／F／R、wenzhou R）2026-11-02 照 AA_576 #32～35 改（BB_226 PASS、使用者確認）：也接受 AA_576 的稿 */
   let spec576=''; try{ spec576=cp.execSync('git show 179f227ca:"docs/story_planning/AA_576_以安改稿_第一批_手機與邀約.md"',{cwd:GIT,encoding:'utf8',maxBuffer:8<<20,stdio:['ignore','pipe','ignore']}); }catch(e){}
   /* 學姊的 meet.lawlib F、meet.lake R 2026-11-02 照 AA_579 第 55、56 列改（BB_228 PASS；第 55 列是使用者選的句子）：也接受 AA_579 的稿（企劃線 759e5c000）*/
+  /* 以安的法圖 firstAt、walk、映月湖 walk 2026-11-02 照 AA_580 第 38～41 列改：也接受 AA_580 的稿（企劃線 759e5c000）*/
+  let spec580=''; try{ spec580=cp.execSync('git -c core.quotepath=false show 759e5c000:"docs/story_planning/AA_580_以安改稿_第二批_閒聊階梯與邀約.md"',{cwd:GIT,encoding:'utf8',maxBuffer:8<<20,stdio:['ignore','pipe','ignore']}); }catch(e){}
   let spec579=''; try{ spec579=cp.execSync('git show 759e5c000:"docs/story_planning/AA_579_學姊改稿_第一批_手機與邀約.md"',{cwd:GIT,encoding:'utf8',maxBuffer:8<<20,stdio:['ignore','pipe','ignore']}); }catch(e){}
-  const inSpec=t=>{ const x=String(t).replace(/^「|」$/g,'').replace(/^（|）$/g,''); return !spec||spec.includes(x)||(!!spec576&&spec576.includes(x))||(!!spec579&&spec579.includes(x)); };
+  const inSpec=t=>{ const x=String(t).replace(/^「|」$/g,'').replace(/^（|）$/g,''); return !spec||spec.includes(x)||(!!spec576&&spec576.includes(x))||(!!spec579&&spec579.includes(x))||(!!spec580&&spec580.includes(x)); };
   { const bad=[]; const walk=(tag,v)=>{ if(v==null) return; if(typeof v==='function') return walk(tag,v(null,{r:{}})); if(typeof v==='string'){ if(!inSpec(v)) bad.push(tag+':'+v); return; } if(Array.isArray(v)) return v.forEach(x=>walk(tag,x)); if(v.l) return walk(tag,v.l); for(const k in v) walk(tag+'.'+k,v[k]); };
     walk('lawlib',INVITE_DATA.lawlibLines); walk('lake',INVITE_DATA.lakeLines);
     for(const id of ['heroine_01','heroine_03','kexin']) for(const p of ['cafe','library','noodle','wenzhou']) walk('meet.'+id+'.'+p,((REL_LINES[id]||{}).meet||{})[p]);

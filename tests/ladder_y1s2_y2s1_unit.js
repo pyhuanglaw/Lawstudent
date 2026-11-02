@@ -27,7 +27,7 @@ const lines=()=>said.map(s=>(s.who?s.who+'：':'')+s.t);
 const TH=(th)=>(G.msgs||[]).filter(m=>m.th===th);
 const stepOf=(term,who,id)=>{ const L=LADDER.byTerm[term][who]; return [L.steps.find(s=>s.id===id),L.steps.findIndex(s=>s.id===id)]; };
 (async()=>{
-  check('0. ladder.js 來自匯入白名單（2026-10-17 一次匯入 AA 25e89f6e；2026-10-20 AA-C 定稿 14 檔改 49ed7e6a）',/白名單/.test(LADDER.source)&&LADDER.source.includes('25e89f6e')&&LADDER.source.includes('49ed7e6a'),LADDER.source);
+  check('0. ladder.js 來自匯入白名單（2026-10-17 一次匯入 AA 25e89f6e；2026-10-20 AA-C 定稿 14 檔改 49ed7e6a；2026-11-02 以安 8 檔照 AA_580 改 759e5c000）',/白名單/.test(LADDER.source)&&LADDER.source.includes('759e5c000')&&LADDER.source.includes('49ed7e6a'),LADDER.source);
   { const st=LADDER.byTerm.Y1S2.heroine_01.steps.find(x=>x.id==='A2-L1'), y3=LADDER.byTerm.Y1S2.heroine_03.steps.find(x=>x.id==='Y2-L3');
     check('0b. ROM-1017 交往版：A2-L1 選項②回覆「等我多練幾次，現在煎得還不好看。」、交往中多一句（extraIf dating_heroine_01）；Y2-L3 交往中多一句（dating_heroine_03）',st&&st.choices[1].reply==='等我多練幾次，現在煎得還不好看。'&&(st.extraIf||[]).some(x=>JSON.stringify(x.if||{}).includes('dating_heroine_01'))&&y3&&(y3.extraIf||[]).some(x=>JSON.stringify(x.if||{}).includes('dating_heroine_03')),JSON.stringify([st&&st.choices[1],y3&&y3.extraIf])); }
   // A-L11（大一上以安；AA_238 5-5 讀書會改到大一上，「我可以去嗎？」從 A2-L6 搬來）去過公法讀書會的不出現
@@ -47,7 +47,7 @@ const stepOf=(term,who,id)=>{ const L=LADDER.byTerm[term][who]; return [L.steps.
   check('3. K3-L7 選項①去過電影夜：原本的回覆（「我知道。你哭的時候也很認真。」）',STORY.ladReply(st,c1)===c1.reply&&/哭的時候/.test(c1.reply),STORY.ladReply(st,c1));
   const c2=st.choices.find(c=>c.t!=='「我看電影很認真。」'); check('3. K3-L7 選項②不受影響',STORY.ladReply(st,c2)===c2.reply);
   // A4-L5、A4-L7（大二下以安）和她交往中的回覆（ROM-1017，AA-C b39f0bb9 的 note）
-  for(const [id,ct,def,dat] of [['A4-L5','「妳跟我講話好像也是。」','真的？我自己沒發現。','真的？……跟你講話本來就不用敬語啊。'],['A4-L7','「讀書會可以先交給 Alison。」','嗯。家教比較難，學生才剛習慣我。','嗯。……還有你，半年見不到。']]){   /* AA_255 改稿（25e89f6e）*/
+  for(const [id,ct,def,dat] of [['A4-L5','「妳跟我講話好像也是。」','真的？我自己沒發現。','真的？……跟你講話本來就不用敬語啊。'],['A4-L7','「讀書會可以先交給 Alison。」','嗯。家教比較難。教一年多了，突然換人，學生會不習慣。','嗯。……還有你，半年見不到。']]){   /* AA_255 改稿（25e89f6e）*/
     fresh(termDay('Y2S2',6,2),12,'campus',{}); const [s4]=stepOf('Y2S2','heroine_01',id); const ch=s4.choices.find(c=>c.t===ct);
     check('3b. '+id+' '+ct+'：沒交往＝原本的回覆',STORY.ladReply(s4,ch)===def,STORY.ladReply(s4,ch));
     G.flags.dating_heroine_01=true; check('3b. '+id+' '+ct+'：和以安交往中＝交往版「……還有你。」',STORY.ladReply(s4,ch)===dat,STORY.ladReply(s4,ch));

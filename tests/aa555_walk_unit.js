@@ -56,6 +56,10 @@ const AA1101_WALK=[['classmate_bohan','「那天在三樓說的話，你可以�
   ['heroine_01',AN185,'「我坐第一排，是想先知道有哪些選項。……決定還沒有。」'],
   ['heroine_01','「我決定了。理由我寫了三頁。你只要聽第一句：我想處理規則本身。」','「你只要聽第一句：公司也是靠規則活著的，我想看那些規則是怎麼寫出來的。」']];   /* 第 6 題：兩個泡泡，比最後一個 */
 for(const [id,a,b] of AA1101_WALK){ const r=(EXP[id]||[]).find(x=>x.text===a); if(r) r.text=b; else UNMATCHED.push('AA1101 '+id+' '+String(a).slice(0,12)); }
+/* AA_580 以安改稿第二批（企劃線 759e5c000；BB_228 PASS、使用者確認精選句）第 42～59 列：w118_an_* 的原句→改成（w118_an_20 兩個泡泡，比最後一個＝第 56 列）*/
+const A580=(()=>{ try{ return cp.execSync('git -c core.quotepath=false show 759e5c000:"docs/story_planning/AA_580_以安改稿_第二批_閒聊階梯與邀約.md"',{cwd:H.ROOT,encoding:'utf8',maxBuffer:1<<26,stdio:['ignore','pipe','ignore']}); }catch(e){ return ''; } })();
+for(const ln of A580.split('\n')){ const c=ln.split('|').map(x=>x.trim()); if(c.length<8||!/^\d+$/.test(c[1])||!/^invites\.js:\d+ w118_an_/.test(c[2])||/第 1 則/.test(c[2])) continue; const r=(EXP.heroine_01||[]).find(x=>x.text===c[4]); if(r) r.text=c[5]; else UNMATCHED.push('AA580 '+c[1]+' '+c[4].slice(0,12)); }
+if(!A580) UNMATCHED.push('AA_580 讀不到（git fetch 企劃線 759e5c000）');
 const splitVar=t=>{ const m=/^有 `([A-Z_]+)`：(「[^」]*」)／沒有：(「[^」]*」)$/.exec(t); return m?[m[2],m[3]]:[t]; };   /* Alison 大四上總圖：有 YU_ALONE／沒有 兩個版本 */
 check('0. 稿讀得到（AA_118、AA_555、AA_185 @56c11668d）；模組都載得到',A118.length>10000&&A555.length>4000&&!!AN185&&!loadErr.length,loadErr.join('　')||'git fetch 企劃線（56c11668d）');
 check('0. 同行聊天：AA_118 六人各 24 句、AA_555 的改稿每一列都對到原句（芯慈 1-4 整張 24 列）',Object.keys(W118).length===6&&Object.values(W118).every(L=>L.length===24)&&!UNMATCHED.length&&EXP.classmate_xinci&&EXP.classmate_xinci.length===24,J({n:Object.fromEntries(Object.entries(W118).map(([k,v])=>[k,v.length])),UNMATCHED}));

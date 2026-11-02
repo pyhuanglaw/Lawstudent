@@ -111,7 +111,7 @@ await sec(5,()=>{ const MON=termDay('Y1S1',6,1); fresh(key(MON),'heroine_01',25,
   check('5. 語彤的 acc 照 AA_415；可昕的半熟、一盞照 AA_415（AA_255 T5）',J(P.heroine_03.acc.noodle)===J({A:['「……我阿姨的店？」','「好。阿姨會多給你一顆滷蛋。」']})&&J(P.kexin.acc.brunch)===J({A:['「半熟？我從木柵大學過來要四十分鐘。好，我十點到。」'],R:['「好啊，我先查一下菜單。」']}));
   let out='', rc=0; try{ out=cp.execSync('python3 "'+path.join(H.ROOT,'tools/invite/build_replies.py')+'"',{encoding:'utf8'}); }catch(e){ rc=1; out=String(e.stdout||e); }
   const same=cp.execSync('git -C "'+H.ROOT+'" status --porcelain -- src/data/invite_replies.js',{encoding:'utf8'}).trim()==='';
-  check('5. build_replies.py 照樣通過（AA_415 的「現有」都對得上），重新產生的檔案沒有變',rc===0&&/heroine_01 36 列/.test(out)&&same,out.slice(0,160)); });
+  check('5. build_replies.py 照樣通過（AA_415 的「現有」都對得上），重新產生的檔案沒有變',rc===0&&/heroine_01 39 列/.test(out)&&same,out.slice(0,160)); });
 
 await sec(6,async()=>{ const MON=termDay('Y1S1',6,1); fresh(key(MON),'kai',30,10); H.said=[]; H.picks=['去阿鳳麵店吃飯','今天 12:10']; await INV.flow(GM,'kai',null,false);
   check('6. 手機約阿凱吃飯：念手機版「走 我剛好還沒吃」',H.said.some(s=>s.t==='「走 我剛好還沒吃」'&&/手機/.test(s.who||'')),J(H.said));
