@@ -22,10 +22,13 @@ const FD=(function(){
   /* BUG-Y4S2-NOFINAL-1102（BB_218 6879）：舊版大四下沒有期末考日，考五題的課一律算缺考 → 6/18 誤判延畢。讀檔時救：
      FAIL_DELAY_COURSES 裡「考五題、大四下沒有期末考紀錄」的拿掉；拿光了就取消延畢；國考報名是被延畢取消的（BARCANCEL）才恢復。
      沒有 BARCANCEL 的更舊存檔分不出報名是自己沒報還是被取消，照舊不動、記 FD_RESCUE_BAR_UNKNOWN（交 BB／AA 定）*/
-  S.migrate=function(s){ const F=s&&s.flags; if(!F||!Array.isArray(F.FAIL_DELAY_COURSES)||!F.FAIL_DELAY_COURSES.length||F.FD_RESCUE_NOFINAL) return false;
-    if(typeof CLS==='undefined'||!CLS.isExamCourse||!CLS.byId) return false; const E=(s.courses&&s.courses.exam)||{};
-    const bogus=F.FAIL_DELAY_COURSES.filter(id=>{ const c=CLS.byId(id); if(!c||!CLS.isExamCourse(c)) return false; const e=E['Y4S2:'+id+':final']; return !e||e.status!=='done'; });
+  S.migrate=function(s){ const F=s&&s.flags; if(!F||!Array.isArray(F.FAIL_DELAY_COURSES)||!F.FAIL_DELAY_COURSES.length||F.FD_RESCUE_NOFINAL||(F.FAIL_DELAY_V|0)>=2) return false;   /* BB 06:46 ①：修好以後判的延畢（V2）不救——玩家真的沒去考就照規定延畢 */
+    if(typeof CLS==='undefined'||!CLS.isExamCourse||!CLS.byId||!CLS.termCourses) return false; const R=s.courses&&typeof s.courses==='object'?s.courses:(s.courses={}), E=R.exam&&typeof R.exam==='object'?R.exam:(R.exam={});
+    const y4s2=new Set(CLS.termCourses(s,'Y4S2').map(c=>c.id));   /* BB 06:46 ②：只救大四下有排的課（含排在大四下的重修：舊版重修的期末考一樣沒有日子）*/
+    const bogus=F.FAIL_DELAY_COURSES.filter(id=>{ if(!y4s2.has(id)) return false; const c=CLS.byId(id)||CLS.termCourses(s,'Y4S2').find(x=>x.id===id); if(!c||!CLS.isExamCourse(c)) return false; const e=E['Y4S2:'+id+':final']; return !e||e.status!=='done'; });
     if(!bogus.length) return false; F.FD_RESCUE_NOFINAL=bogus.slice(); F.FAIL_DELAY_COURSES=F.FAIL_DELAY_COURSES.filter(id=>!bogus.includes(id));
+    R.grades=R.grades&&typeof R.grades==='object'?R.grades:{}; const g=R.grades.Y4S2&&typeof R.grades.Y4S2==='object'?R.grades.Y4S2:null;   /* BB 06:46 ③：成績單不能留「缺考」；期末考沒辦法補算＝「及格（期末考補登）」；期末紀錄記 rescued，之後 failedIn 不再算它不及格 */
+    for(const id of bogus){ E['Y4S2:'+id+':final']=Object.assign({},E['Y4S2:'+id+':final']||{},{status:'rescued'}); if(g) g[id]='及格（期末考補登）'; }
     if(!F.FAIL_DELAY_COURSES.length){ delete F.FAIL_DELAY; delete F.FAIL_DELAY_DAY; if(F.FAIL_DELAY_BARCANCEL||(F.BAR_REG===false&&S.regTrace(s))){ F.BAR_REG=true; delete F.FAIL_DELAY_BARCANCEL; F.FD_RESCUE_BAR='restored'; } else if(F.BAR_REG===false) F.FD_RESCUE_BAR_UNKNOWN=true; }
     return true; };
   /* 報名的痕跡（BB 06:35 判定：找得到＝當時有報、是被延畢取消的；找不到＝當作自己沒報，不給重新報名）：
@@ -42,7 +45,7 @@ const FD=(function(){
   S.certLate=G=>!!(G&&G.flags&&G.flags.FAIL_DELAY_CERT);
   /* ---------- 6/18 成績單 ---------- */
   S.check=async function(GM,o){ o=o||{}; const G=GM.G, F=G.flags; if(!law(G)||F.FAIL_DELAY_COURSES!=null||typeof CLS==='undefined'||!CLS.failedIn) return false;
-    const fails=CLS.failedIn(G,'Y4S2'); F.FAIL_DELAY_COURSES=fails.map(c=>c.id); if(!fails.length) return false;
+    const fails=CLS.failedIn(G,'Y4S2'); F.FAIL_DELAY_COURSES=fails.map(c=>c.id); F.FAIL_DELAY_V=2; if(!fails.length) return false;   /* FAIL_DELAY_V＝2：修好以後判的延畢（BUG-Y4S2-NOFINAL-1102 的救援不碰，BB 06:46）*/
     if(exch(G)) return true;   /* 交換路線又被當：大五上多那一門重修，其他照交換版 */
     F.FAIL_DELAY=true; F.FAIL_DELAY_DAY=G.day;
     const bar=F.BAR_REG===true; if(bar){ F.BAR_REG=false; F.FAIL_DELAY_BARCANCEL=true; }   /* BARCANCEL：國考報名是被延畢取消的（BUG-Y4S2-NOFINAL-1102 的救援要分得出「自己沒報」和「被取消」）*/

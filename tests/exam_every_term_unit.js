@@ -25,4 +25,18 @@ for(const route of [null,'JP']){
   check('救援：海商法沒有期末紀錄＝取消延畢；報名是被延畢取消的＝恢復報名',!s1.flags.FAIL_DELAY&&s1.flags.BAR_REG===true&&!s1.flags.FAIL_DELAY_COURSES.length,JSON.stringify(s1.flags));
   check('救援：更舊的存檔（分不出報名是不是被取消）＝取消延畢、報名不動、記 FD_RESCUE_BAR_UNKNOWN',!s2.flags.FAIL_DELAY&&s2.flags.BAR_REG===false&&s2.flags.FD_RESCUE_BAR_UNKNOWN===true,JSON.stringify(s2.flags));
   check('真的考了、0 題＝照舊延畢',s3.flags.FAIL_DELAY===true&&s3.flags.FAIL_DELAY_COURSES.length===1,JSON.stringify(s3.flags)); }
-H.done();
+/* BB 06:46（BUG-Y4S2-RESCUE-OVERREACH-1102）三種情況 */
+(async()=>{
+{ /* ① 修好以後故意不考＝FD.check 判延畢（V2）→ 存讀檔（migrate）→ 還是延畢 */
+  const G=H.fresh('2029-06-18',9,'dorm',{}); const R=CLS.rec(G); const fails=CLS.failedIn(G,'Y4S2').map(c=>c.id);
+  const GM2=Object.assign({},H.GM,{G}); await FD.check(GM2,{inScene:true}); const s=JSON.parse(JSON.stringify(G)); FD.migrate(s);
+  check('①（BB 06:46）修好以後真的沒去考：FD.check 記 FAIL_DELAY_V=2、讀檔以後還是延畢',fails.includes('maritime')&&G.flags.FAIL_DELAY===true&&G.flags.FAIL_DELAY_V===2&&s.flags.FAIL_DELAY===true&&s.flags.FAIL_DELAY_COURSES.includes('maritime'),JSON.stringify({fails,F:s.flags.FAIL_DELAY_COURSES,V:G.flags.FAIL_DELAY_V})); }
+{ /* ② 不是大四下排的課（大四上被當、沒排重修的）＋舊存檔 → 延畢照舊 */
+  const s={day:PG.DK('2029-06-20'),flags:{FAIL_DELAY_COURSES:['enforcement'],FAIL_DELAY:true,BAR_REG:false},courses:{exam:{}}}; FD.migrate(s);
+  const c=COURSES.list.find(x=>x.id==='enforcement');
+  check('②（BB 06:46）不是大四下排的課（'+(c&&c.term)+' 的 enforcement）＋舊存檔＝延畢照舊、不救',!!c&&c.term!=='Y4S2'&&s.flags.FAIL_DELAY===true&&s.flags.FAIL_DELAY_COURSES.includes('enforcement'),JSON.stringify(s.flags)); }
+{ /* ③ 舊存檔救回來：成績單沒有「缺考」 */
+  const s={day:PG.DK('2029-06-20'),flags:{FAIL_DELAY_COURSES:['maritime'],FAIL_DELAY:true,BAR_REG:false},courses:{exam:{},grades:{Y4S2:{maritime:'缺考（不及格）',legal_research:'通過'}}}}; FD.migrate(s);
+  const G=H.fresh('2029-06-20',9,'dorm',{}); CLS.rec(G).exam=s.courses.exam; const f=CLS.failedIn(G,'Y4S2').map(c=>c.id); const rep=CLS.reportFor(G,'Y4S2');
+  check('③（BB 06:46）舊存檔救回來：存下來的成績單改「及格（期末考補登）」、重算也不是缺考、failedIn 不再算它',s.courses.grades.Y4S2.maritime==='及格（期末考補登）'&&!f.includes('maritime')&&rep.maritime==='及格（期末考補登）'&&!s.flags.FAIL_DELAY,JSON.stringify({g:s.courses.grades.Y4S2,f,rep:rep.maritime})); }
+H.done(); })().catch(e=>{ console.log('FAIL 例外',e&&e.stack||e); process.exit(1); });

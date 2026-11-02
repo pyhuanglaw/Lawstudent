@@ -76,7 +76,7 @@ const CLS=(function(){
   S.retakeTermAfter=function(G,termId){ let i=S.LAW_TERMS.indexOf(termId); if(i<0) return null;
     for(i++;i<S.LAW_TERMS.length;i++){ const t=S.LAW_TERMS[i]; if(S.termAway(G,t)) continue; return t; } return null; };
   S.failedIn=function(G,termId){ const R=S.rec(G), out=[]; if(S.termAway(G,termId)) return out; for(const c of S.termCourses(G,termId)){ if(c.kind==='service') continue;
-      if(S.isExamCourse(c)){ const e=(R.exam||{})[termId+':'+c.id+':final']; if(e&&e.status==='insufficient') continue; const p=S.examPool(c.id,termId,'final'); if(!e&&p.cls.length+p.bank.length+p.ai.length<5) continue; if(!e||e.status!=='done'||(e.correct|0)===0) out.push(c); continue; }
+      if(S.isExamCourse(c)){ const e=(R.exam||{})[termId+':'+c.id+':final']; if(e&&(e.status==='insufficient'||e.status==='rescued')) continue;   /* rescued：BUG-Y4S2-NOFINAL-1102 舊存檔救回來的（期末考補登）*/ const p=S.examPool(c.id,termId,'final'); if(!e&&p.cls.length+p.bank.length+p.ai.length<5) continue; if(!e||e.status!=='done'||(e.correct|0)===0) out.push(c); continue; }
       if(S.attCourse(c)&&!S.attPass(G,c,termId)) out.push(c); } return out; };
   S.planRetakes=function(G,termId){ const R=S.rec(G); if(!Array.isArray(R.retake)) R.retake=[]; const fails=S.failedIn(G,termId), to=S.retakeTermAfter(G,termId), made=[]; if(!to) return made;
     for(const c of fails){ if(R.retake.some(r=>r.id===c.id&&r.from===termId)) continue;
@@ -646,7 +646,7 @@ const CLS=(function(){
   // ---------- 學期結束的成績單（AA_104 第 5、10 節：文字，不顯示分數與排名，不會沒過）----------
   S.gradeOf=p=>p>=10?'很好':(p>=5?'不錯':'過了');
   S.reportFor=function(G,termId){ const R=S.rec(G); const g={}; for(const c of S.termCourses(G,termId)){ if(c.kind==='service') continue;
-      if(S.isExamCourse(c)){ const e=(R.exam||{})[termId+':'+c.id+':final']; const p=S.examPool(c.id,termId,'final'); g[c.id]=e&&e.status==='done'?e.score+' 分':e&&e.status==='insufficient'?'未開考':(p.cls.length+p.bank.length+p.ai.length<5?'未開考':'缺考'); if(S.failedIn&&S.failedIn(G,termId).includes(c)) g[c.id]+=S.retakeTermAfter(G,termId)?'（不及格，下學期重修）':'（不及格）'; continue; }   /* D42 */   /* BB 退件 GRADE-NOBANK（10-21）：原本寫「未開考（題庫不足）」＝開發用語給玩家看到；而且沒考的課算題數時漏了 AI 補的題（抽題照課堂→使用者題目→AI 補到 5 題），憲法、民訴甲上被說成題庫不足——其實是缺考。題數不夠的原因只在 ?dev（CLS.examShort）*/   /* 未開考：不算不及格、不算進書卷獎、不擋畢業（AA_130 第 3-2 節第 4 點）*/
+      if(S.isExamCourse(c)){ const e=(R.exam||{})[termId+':'+c.id+':final']; const p=S.examPool(c.id,termId,'final'); g[c.id]=e&&e.status==='done'?e.score+' 分':e&&e.status==='rescued'?'及格（期末考補登）':e&&e.status==='insufficient'?'未開考':(p.cls.length+p.bank.length+p.ai.length<5?'未開考':'缺考'); if(S.failedIn&&S.failedIn(G,termId).includes(c)) g[c.id]+=S.retakeTermAfter(G,termId)?'（不及格，下學期重修）':'（不及格）'; continue; }   /* D42 */   /* BB 退件 GRADE-NOBANK（10-21）：原本寫「未開考（題庫不足）」＝開發用語給玩家看到；而且沒考的課算題數時漏了 AI 補的題（抽題照課堂→使用者題目→AI 補到 5 題），憲法、民訴甲上被說成題庫不足——其實是缺考。題數不夠的原因只在 ?dev（CLS.examShort）*/   /* 未開考：不算不及格、不算進書卷獎、不擋畢業（AA_130 第 3-2 節第 4 點）*/
       if(S.attCourse(c)){ g[c.id]=S.attPass(G,c,termId)?'及格':('不及格'+(S.retakeTermAfter(G,termId)?'（下學期重修）':'')); continue; }   /* D43：出席三堂（舊存檔已經發過的成績單照舊：R.grades 已經存了就不重算）*/
       g[c.id]=S.noExam(c)?'通過':'及格'; } return g; };   /* D118-B1：剩下的課（法律專題研究、法律實習＝通過；經濟系那一年的必修＝及格）不照讀書次數（原本 S.gradeOf(R.prep)）*/   /* 服務學習只記次數，不進成績單（AA_110 6-1）*/
   // ---------- 選課結果（AA_104 第 2 節、AA_110 第 4 點）----------
