@@ -404,7 +404,7 @@ const GAME = (function(){
     if(typeof SOCIAL!=='undefined'){ SOCIAL.feelOn=false; SOCIAL.feel={}; SOCIAL.feelStage={}; SOCIAL.capNotes=[]; } }
   GM.loadRelease=loadRelease;
   /* LOADGEN-LOCKS-1028 補（子代理回報的缺口）：回標題按「新遊戲」不走 applySave——之前玩過（G 不是 null）就照 applySave 那一段收掉凍住的舊流程：讀檔世代加一、舊對話框和選項收掉、loadRelease、場景深度歸零；第一次開遊戲（G 還是 null）不動 */
-  function newGameAbort(){ GM.loadGen=(GM.loadGen|0)+1; if(D.active||D.resolve){ D.active=false; D.resolve=null; D.typing=false; const db=$('dlg'); if(db) db.classList.add('hide'); } { const cb=$('choices'); if(cb){ cb.classList.add('hide'); cb.innerHTML=''; } }
+  function newGameAbort(){ if(typeof CLS!=='undefined'&&CLS.resetExamMemo) CLS.resetExamMemo();   /* BUG-EXAMDAY-MEMO-1102：開新遊戲清考試日快取 */ GM.loadGen=(GM.loadGen|0)+1; if(D.active||D.resolve){ D.active=false; D.resolve=null; D.typing=false; const db=$('dlg'); if(db) db.classList.add('hide'); } { const cb=$('choices'); if(cb){ cb.classList.add('hide'); cb.innerHTML=''; } }
     loadRelease(); if(E&&E.player) E.player.busy=false; if(E&&E.endCinematic) E.endCinematic(); D.busyDepth=0; D.busyWho.length=0; if(GM.chooseReset) GM.chooseReset(); if(typeof STORY!=='undefined'){ STORY._sleeping=false; STORY._resume=null; } D.stale=false; staleT=0; }
   GM.newGameAbort=newGameAbort;
   async function applySave(s){ const err=validate(s); if(err) throw new Error(err); const raw=s; s=migrate(JSON.parse(JSON.stringify(s)));
@@ -423,7 +423,7 @@ const GAME = (function(){
     /* 備份（BUG-SAVE-NEWGAME-1030）：瀏覽器裡全部的 fatiao3d_backup*（開新遊戲前、欄位覆蓋前、匯入前、經濟系最後一天…），新的在上面，只有讀取；放在另一個框（#saveBackups），#saveSlots 的按鈕照舊 */
     let bx=$('saveBackups'); if(!bx&&box.parentNode){ bx=document.createElement('div'); bx.id='saveBackups'; bx.className='list'; box.parentNode.insertBefore(bx,box.nextSibling); } if(bx){ bx.innerHTML=''; const L=backupList();
       if(L.length){ const h=document.createElement('div'); h.className='muted'; h.style.margin='14px 0 6px'; h.textContent='備份（開新遊戲、覆蓋欄位、匯入之前自動留的；讀取＝從那裡接著玩）'; bx.appendChild(h); for(const [k,b] of L) mk('備份：'+(b.backupLabel||(k===KEY_BACKUP?'上一次覆蓋前':'備份')),b,null,()=>loadFrom(b),bx); } } }
-  async function loadFrom(s){ if(D.busyDepth>0&&!D.stale&&$('titleScreen').classList.contains('hide')){ toast('劇情還在進行，結束後再讀檔',3200); return; }   if(!$('titleScreen').classList.contains('hide')) await waitChars();   /* 從標題畫面讀檔：主要角色還在背景下載就先等（boot 的開遊戲加速）*/   /* 遊戲中劇情演到一半不能讀檔（讀了舊的劇情流程會接著演到新存檔）；標題畫面照常 */ try{ closeMenu(); $('titleScreen').classList.add('hide'); await applySave(s); toast('已讀取'); }catch(e){ toast('讀取失敗：'+e.message,3500); } }
+  async function loadFrom(s){ if(typeof CLS!=='undefined'&&CLS.resetExamMemo) CLS.resetExamMemo();   /* BUG-EXAMDAY-MEMO-1102：讀檔清考試日快取 */ if(D.busyDepth>0&&!D.stale&&$('titleScreen').classList.contains('hide')){ toast('劇情還在進行，結束後再讀檔',3200); return; }   if(!$('titleScreen').classList.contains('hide')) await waitChars();   /* 從標題畫面讀檔：主要角色還在背景下載就先等（boot 的開遊戲加速）*/   /* 遊戲中劇情演到一半不能讀檔（讀了舊的劇情流程會接著演到新存檔）；標題畫面照常 */ try{ closeMenu(); $('titleScreen').classList.add('hide'); await applySave(s); toast('已讀取'); }catch(e){ toast('讀取失敗：'+e.message,3500); } }
   // ---------- 選單 ----------
   let menuOpen=false;
   function openMenu(tab){ if(tab==='people'||tab==='map'){ openPhone(tab==='people'?'friends':'places'); return; }   /* 2026-10-16 使用者：右上角手機和選單內容重複——人物併進手機「朋友」、地圖併進手機「地點」；選單只留筆記本、存檔、設定、說明 */
