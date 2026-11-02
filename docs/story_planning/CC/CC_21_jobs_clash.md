@@ -64,3 +64,18 @@ CC 推測的修法（只是建議）：`S.excused` 改成 `classOk` 只略過一
 - 原 `tests/pg_harness.js` 沒有載 JOBS：建議之後和打工有關的 Node 測試都改用 `pg_harness_jobs.js`，或者在原 harness 補載這幾個檔。
 
 執行紀錄（b1b249873）：`/tmp/claude-0/-home-user-Lawstudent/d06332e2-ec70-5e42-a15c-5a4b27dbdb56/scratchpad/n21_b1b.log`（scratchpad，不會進 repo）
+
+## F 段：BB 11:12 判定成立、修法 (a) 的驗收檢查（2026-11-02 補）
+
+BB 11:12 判定 **BUG-JOBS-OFFICE-EXAM 成立**，修法 (a)：`src/jobs3d.js:78` 的 `S.excused` 改成 `classOk` 只略過一般課，考試照樣自動請假（LAWWW 下一版修）。`n21_jobs_clash.js` 補了 F 段三條，給下一版驗收用：
+
+| 檢查 | 量什麼 | b1b249873 | 套 (a) 的副本 |
+|---|---|---|---|
+| F1（3 天：2027-12-23、2028-12-19、2028-12-21） | 考試那天以後，`JOBS.track` 跑到下一班時 `missPend` 是 false、`missedRun` 是 0；真的演下一班，沒有「沒去」那句 | FAIL ×3（舊版只能在出門提醒選「這週請假」去考試 → `missPend:true`，12/23、12/21 還有 `missedRun:1`） | PASS ×3（自動請假、沒有出門提醒，`excused:'exam'`） |
+| F2（同 3 天） | 考試那天 12:00～13:20 每 5 分鐘跑一次 `track`／`plan`／`JOBS.phone`／`OUT.due`：沒有排出 `job_office_*` 出門提醒、沒有跳出來、`G.msgs` 沒有事務所的私訊 | FAIL ×3（排出 `job_office_*@13:30`，13:00～13:10 `OUT.due` 就是它；私訊沒有） | PASS ×3 |
+| F3（2027-09-16（四）證交法 13:20～15:10 一般課） | 事務所撞一般課照樣可以上班（`classOk` 的原意，AA_433 第 3 節）：`excused` 是 null、出門提醒照排、選「出發」以後算上班（`worked`、`shifts`+1、薪水 toast 784 元），那堂課是翹掉的（`missed`） | PASS | PASS |
+
+- 套 (a) 的副本：`scratchpad/hdfix`，和 b1b249873（`scratchpad/hdb1`）只差 `src/jobs3d.js:78` 一行：`if((it.exam||!shop(k).classOk)&&S.overlap(...)) return it.exam?'exam':'class';`。整支 n21 在副本上 **ALL PASS**（A～F），在 b1b249873 上 FAILED 15（A1、B1～B5、B7、B8×2、F1×3、F2×3），F3 PASS。
+- 附帶發現（不是這個 bug）：事務所沒有寫「沒去」那句（`WZ_JOBS_DATA.x.office.miss` 不存在，2D 打工只有 Café 有），所以舊版的錯誤記錄玩家目前聽不到，只會累加 `missedRun`（三週沒去的計數，到 3 會觸發 `ask3`）。F1 量的是旗標本身，之後補上台詞也一樣有效。
+- 【前置／捷徑】：選班表走 `JOBS.apply`（真實流程，跳過公布欄、面試）；`chk`、`missPend`、`missedRun`、`wk` 歸零、`shifts` 至少 3（不演第一班那幾句）；考完直接寫 `CLS.rec(G).done`；寒假選「來。」直接寫 `brk`；時間用 `PG.setT`。只用 Node，沒開瀏覽器。
+- 執行紀錄（scratchpad，不進 repo）：`/tmp/claude-0/-home-user-Lawstudent/d06332e2-ec70-5e42-a15c-5a4b27dbdb56/scratchpad/n21_F_hdb1.log`、`/tmp/claude-0/-home-user-Lawstudent/d06332e2-ec70-5e42-a15c-5a4b27dbdb56/scratchpad/n21_F_hdfix.log`
