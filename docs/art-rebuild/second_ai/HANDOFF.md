@@ -15,7 +15,7 @@
     - 原因是測試本身原本就有的錯：`SHOT_JS` 寫 `(e,clip)`，但呼叫時傳的是 `[e, False]`，`E.placeAt(P,undefined)` 把人物座標變成 undefined，之後每次自動存檔都丟例外。
     - 會不會報錯要看 45 秒的自動存檔有沒有剛好落在那一段，第一版 16:48 那次沒碰到。
     - 另交 `patches/stairs_cam_browser_shotjs_1102.patch`（三個 base 都 apply 乾淨），重跑排在佇列裡。
-  - flow_lib_tour：A 段失敗。人物在一樓 (2, −2) 遇到一個三選項、沒有台詞的選單（場景已開始），測試照慣例點第一個，人物就跑到校園 (−97, −16)，遊戲時間 15:59。
+  - flow_lib_tour：A 段失敗。人物在一樓 (2, −2) 遇到一個三選項、沒有台詞的選單（場景已開始），測試照慣例點第一個，人物就跑到校園 (−97, −16)，遊戲時間 15:35。
     - 正在用 `scratchpad/lib1102/tourdebug3.py` 查是哪一段開的（印出選項文字、`D.busyWho`）。
     - 第一版的對照在跑。
   - seats_on_furniture：這台沙盒沒有它直接 `launch()` 要的 headless shell，改用預裝 Chromium（`scratchpad/lib1102/pwexec.py`，不改測試），排在佇列裡。

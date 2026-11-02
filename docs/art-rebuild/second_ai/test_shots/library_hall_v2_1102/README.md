@@ -116,7 +116,52 @@
 
 ## 六、測試
 
-（交件時補。）
+- **環境**：
+  - int/next1102 `3e6855649`＋這個 patch＋最後的 GLB（`2b86395e8`）；
+  - Playwright＋SwiftShader（電腦），不是實機；
+  - 瀏覽器測試一次只跑一支。
+- **Node**：92 支 ALL PASS（11-02 16:46，最後的 GLB）。
+  - 範圍：載入檔案清單有 `src/library3d.js` 的測試，加上 `nav_buildings_unit`、`library_hall_lightmap_unit`、`library_hall_v2_oldsave_unit`、`aa379_sis_lib_unit` 等。
+- **瀏覽器**：
+
+| 測試 | 結果 | 說明 |
+|---|---|---|
+| `reachability_all`（全部 29 區） | ALL PASS | 1142 個互動點、13 個劇情走路目的地、76 個出入口；總圖大廳 71 個互動點，3F 26 個 |
+| `zone_transitions` | ALL PASS（37 項） | |
+| `flow_library_floors` | ALL PASS | |
+| `flow_library_scene` | （重跑中） | 見下面 1 |
+| `stairs_cam_browser`（`?turbo`） | 鏡頭檢查全過；「沒有 JS 例外」看下面 2 | 大廳：樓梯上被樓板擋住 0／256（關掉修正 16／256）；電梯 0／11（關掉修正 3／11） |
+| `seats_on_furniture`（總圖大廳、3F） | 總圖大廳 66 個座位，有問題 0。3F：見右欄 | 這台沙盒沒有這支測試直接 `launch()` 要的 headless shell，改用預裝的 Chromium 跑（`executablePath`；測試本身不改）。3F（`library`）那一區丟了例外，被測試吞掉了，沒印原因，所以沒量到，補跑中。這一包沒有動 3F |
+| `flow_lib_tour` | A 段 FAIL；**第一版（base）一樣 FAIL** | 見下面 3 |
+
+1. **`flow_library_scene`**：第一次 FAIL 是我寫的測試錯了。
+   - 第一版是走到大樓梯中間的平台（2.5 m）。第二版沒有平台，我原本寫成「點地面點樓梯中段」。
+   - 但遊戲的規則是點在一跑樓梯上就走完整跑（engine3d.js，任務 #42），所以點地面永遠停不在半路，人一路走上二樓，劇情就開始了。
+   - 改成和玩家一樣：先點地面走到樓梯口，鏡頭轉向樓梯，再推搖桿上到 2 m 以上就放開。
+   - 判斷標準不變：高度 1.5～3.5 m、劇情還沒開始。
+   - 改在這個 patch 裡。
+2. **`stairs_cam_browser` 的「沒有 JS 例外」**：是測試本身原本就有的錯，和第二版無關。
+   - `SHOT_JS` 寫成 `((e,clip)=>…)`，但呼叫時傳的是 `[e, False]`（page.evaluate 只傳一個參數）。所以 `e` 拿到整個陣列，`E.placeAt(P, undefined, undefined)` 把人物的座標變成 undefined。
+   - 之後每次自動存檔，`snapshot()` 的 `P.x.toFixed` 都會丟例外。
+   - 會不會報錯要看 45 秒一次的自動存檔有沒有落在那一段。這次第一版剛好沒落到，第二版有。
+   - 修正另外交：`docs/art-rebuild/second_ai/patches/stairs_cam_browser_shotjs_1102.patch`（只改這支測試；`b1b249873`、`a5935aa30`、`3e6855649` 都 `git apply --check` 乾淨）。
+   - 修好以後的結果：（跑完補）。
+3. **`flow_lib_tour`**：在第一版、第二版都一樣失敗。
+   - 跟著館員走到一半（遊戲時間 15:35 左右），跳出一個三選項、沒有台詞的選單（場景已經開始）。
+   - 測試照慣例點第一個，人物就到了校園 (−104, −17)，導覽記成「沒走完」。
+   - 第一版是在 (4.7, 2.4)、第二版在 (2.0, −2.0)，時間相同。
+   - **是哪個選單**：圓窗館前的合照。
+     - 這是 AA_555 L3，`src/campus_l123_3d.js`，11-01 才加進遊戲，在 flow_lib_tour 寫好之後。
+     - 大一上第 3 週星期五 16:00，正好是這支測試讀檔的 9/19。
+     - 中午的手機邀請會排進行程（`OUT.plan`）。15:35 左右跳出 `outings3d.js` 的 `S.prompt`：「出發：圓窗館前 16:00：系學會合照（走過去）」「晚一點（20 分鐘後再提醒）」「不去了」。
+     - 用 `D.busyWho` 查過，開這個場景的就是 `S.prompt`。
+     - 測試點第一個「出發」，人就被帶到圓窗館前 `S.L3_GOTO` (−104, −17)。
+   - **修正**（只改這支測試，另交）：`docs/art-rebuild/second_ai/patches/flow_lib_tour_l3_1102.patch`。
+     - 跳出「出發：…」的選單時選「不去了」：人正在導覽裡，`outings3d.js` 寫明不扣分。其他選單照舊點第一個。
+     - `go_to` 遇到選單就停下來交給測試處理（`stop`）。
+     - `b1b249873`、`a5935aa30`、`3e6855649` 都 `git apply --check` 乾淨。
+     - 修好以後第一版、第二版的結果：（跑完補）。
+   - 遊戲該不該在導覽裡跳行程提醒（導覽 15:30～16:20 和合照 16:00 撞時間）是設計問題，我沒有動，給 LAWWW／AA 決定。
 
 ## 七、還沒做的、限制
 
