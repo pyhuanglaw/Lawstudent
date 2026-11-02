@@ -1,0 +1,23 @@
+{
+  "rerun": "",
+  "id": "X_P2_bar_a",
+  "sha": "62d98bfa5",
+  "kind": "probe",
+  "script": "docs/story_planning/test_tools/cc/cc_bar_b8_probe.py",
+  "env": "CASES=judge2033,trainee",
+  "machine": "MSI",
+  "start": "2026-11-03T06:50:37",
+  "end": "2026-11-03T06:59:46",
+  "seconds": 549,
+  "exit": 0,
+  "error": null,
+  "runner": "a98287fbd6",
+  "rf_round": "5",
+  "url": "http://127.0.0.1:8809/index.html?turbo",
+  "res_peak": {
+    "cpu": 65,
+    "mem": 55,
+    "used_gb": 17.5,
+    "chrome_testing": 31
+  }
+}
