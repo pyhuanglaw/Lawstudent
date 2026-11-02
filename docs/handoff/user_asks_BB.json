@@ -153,6 +153,16 @@
    "task": "STUDY-EXAM-CAREER-1102",
    "src": "BB（帳號 A）對話",
    "note": "BB 03:51 開 CC（session_01TdESzxBpdGoPhdkPD2ENce，分支 claude/cc-testing，BB 的測試執行助手）並派第一批；已請 LAWWW 把 CC 加進 AI_SESSION_HANDOFF 值班表、交接班程序、CLAUDE.md、duty 工具、PROJECT_DECISIONS（等 LAWWW 回 SHA）"
+  },
+  {
+   "id": "UA-BB-1102-05",
+   "at": "2026-11-02T04:3x",
+   "quote": "你自己ART_APPROVED。修改規則",
+   "kind": "原話",
+   "status": "進行中",
+   "task": "STUDY-EXAM-CAREER-1102",
+   "src": "BB（帳號 A）對話",
+   "note": "BB 回報 9 項場景美術等使用者 ART_APPROVED 後的回答：場景、建築美術也由 BB 驗收標 ART_APPROVED（改 D59／CLAUDE.md 第 8 點）；已請 LAWWW 改規則（等 SHA）。重大人物外觀、整體畫風、主要劇情、大量 CG 仍由使用者決定（BB 的理解，待 LAWWW 正式化）。9 項排在讀書／考試驗收空檔"
   }
  ]
 }
