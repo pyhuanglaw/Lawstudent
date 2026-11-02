@@ -1,5 +1,6 @@
 """CC（帳號 A）11-02：第五批 10 張 ADV 2D 底圖（開發分支 63f00030＝第 1～5 張、78ebf658＝第 6～10 張）
-  ＋第六批 10 張（c3036bc9，BB_132 第 103 組；清單在檔案下面的 CASES6）在遊戲裡的畫面——
+  ＋第六批 10 張（c3036bc9，BB_132 第 103 組；清單在檔案下面的 CASES6）
+  ＋第七批 10 張（8c00f06d＝前 5 張、6767db8f＝後 5 張，BB_132 第 104 組；清單在 CASES7）在遊戲裡的畫面——
   ① 對話框（字幕框）有沒有擋到底圖的重點；② 直向（390×844）、橫向（844×390）手機模擬的裁切。
 探針只「客觀記錄＋截圖」：好不好看、重點有沒有被擋，由人看截圖判斷（不寫死「全部通過」）。
 check 只有三種：事件真的演出來（遊戲的 OUT.go／EVENTS.run／JP.playStop 收到那一件，而且畫面到了那一張底圖、對話框開著）、
@@ -76,10 +77,32 @@ check 只有三種：事件真的演出來（遊戲的 OUT.go／EVENTS.run／JP.
   hwaxin_street   ev_sq10_hwaxin（sideq3d.js:475 S.plan10，週六 14:00）；探針大二上第 6 週週六 13:06＋出遊（支線 SQ10 的紀錄 G.sideq 沒放：演完的 after 不會推進支線，只看畫面）。
   vet_clinic      ev_sq14_vet（sideq3d.js:504 S.cage14，公園放進外出籠的那一刻＋15 分鐘）；探針大二上第 10 週週三 15:46 宿舍＋出遊（真實是在溫州街公園排的；這裡從宿舍出發）。
 
+第七批 10 張（8c00f06d 前 5 張、6767db8f 後 5 張；做法同上；kind 'self'＝遊戲自己的劇情串叫 EVENTS.run，等它自己演，FALLBACK【捷徑】＝void EVENTS.run）：
+  kh_hill_harbor_night ev_kexin_qixi_y2 晚上那段（r2y3a_events.js:67，原本借 kh_river_night）：同 kh_hotel_front 那一趟（y3_kh → KH_A → KH_B），
+                  旅館門口兩句＋advance 19:30 點過去，換「高雄・港邊的山上」才拍；沒接到＝【捷徑】同 kh_hotel_front（DIRECT=kh_hill_harbor_night 一開始就走）。
+  jp_konbini_summer ev_jp_lastnight（jp_events.js:101 LAST；JP.SCH g8_konbini 2028-08-04 22:00 據點自己演，dat＝dating_heroine_01 → 交往版；
+                  挽回中版 ev_jp_lastnight_alone 同一張圖，不另拍）。探針 22:00 jp_hub。
+  gg_luggage_shop ev_jp_suitcase（jp_events.js:18 SUITCASE；jp3d.js:211 JP.phone 的 OUT.plan jp_g0_bag 2028-03-11（六）14:00 公館）
+                  真實：日本路線、出發前（2/20 退宿～3/25）、交往中，3/10 21:00 以安私訊（不用回）→ 排出遊。住臺北的家那段（HOME 的 2D 選單）太深：
+                  探針【前置】人在公館（3D，G.home.at 沒設）13:18＋出遊；EXCHANGE_ROUTE JP、X1_JP 2/20、dating_heroine_01（不給 JP_DEPARTED）。
+  us_lake_summer  ev_usl_lake1（us_life_events.js:35 bg 'us_lake' → OUT.bg 照日期換季節版 usLakeVariant：6～8 月＝夏天）；
+                  us_life3d.js:392 8/5 17:30 學姊私訊＝排 usl_lake1 18:30 湖邊。探針 2028-08-05 18:03 us_apartment＋出遊；美國路線旗標＋dating_heroine_05。
+  us_lake_bare    ev_us3_lake（r2y4a_events.js:133 bg 'us_lake' → 11/15 以後＝樹掉光）；r2y4a3d.js:173 us3_lake 2028-11-23 09:00 會所門口。探針 08:48。
+  sf_photo_cablecar／sf_photo_chowder／sf_photo_postbox  ev_sf_photo17／19／21（r2y4a_events.js:254 PHOTO：{scene:'舊金山',bg:<那張>}＋「📷（…）」＋學姊一句）
+                  真實：美國路線交往中，12/16 07:00 以後 R2Y4A.tick → S.leave（r2y4a3d.js:124）一口氣演 ev_us_leave、ev_sf1、照片 17、ev_sf2、照片 19、ev_sf3、照片 21。
+                  手機照片＝遊戲裡就是這一段 ADV 全畫面底圖（S.leave 先 ADV.begin dark、標題卡「12/17 舊金山」）；手機相簿（G.album／G.places.photos）沒有這三張＝不能另外在手機裡拍（INFO）。
+                  探針【前置】2028-12-16 07:06 us_apartment、US_TRIP_MODE 'sf'、dating_heroine_05、前面幾件記成演過（G.events.done：17＝ev_us_leave、ev_sf1；19＝再加 photo17、ev_sf2；21＝再加 photo19、ev_sf3）
+                  → 等 S.leave 自己跳到那一天演那一張。
+  us_farmers_market ev_sis_qixi 2028 美國版（sis_qixi_events.js:57 label y28；sis_qixi3d.js:93 usAsked 排 sisqx_2028 8/26（六）09:00）。探針 2028-08-26 08:36 us_apartment＋出遊。
+  us_chapel_steps_snow ev_us_first_snow（r2y4a3d.js:178 us_snow 2028-12-02 20:00 小教堂前的台階）。
+                  ★6767db8f 只「先登記」（12/2 兩場照舊 us_chapel_snow）；之後 366ac3e2 才接到 ev_us_first_snow、ev_us_snow_repair（BB 987cdace）。
+                  探針先在頁面只讀 STORY_EVENTS 確認這一版事件有沒有接這張圖（hookcheck）：沒接＝記 INFO「先登記、還沒接到事件」，不演、不算 FAIL。探針 19:48。
+  （美國四張、舊金山三張用 USF 美國路線旗標＋met_sis＋dating_heroine_05；最小存檔沒有其他美國篇進度，只看畫面，不驗台詞。）
+
 不是 iPhone：Playwright 手機模擬（is_mobile、觸控、SwiftShader 1～4 fps），不用 ?turbo 也可以（要更快可以加）。
 用法：LW_TESTS=<工作樹>/tests SHA=<sha> python3 cc_bg5_probe.py '<URL>/index.html' <輸出資料夾> [使用者存檔.json]
-環境變數：BATCH=5,6（只跑這幾批；預設兩批 20 張全跑）、IDS=gym_court,jp_beach（只跑這幾張；舊的 ONLY 同義，可以和 BATCH 一起用＝交集）、
-  DIRECT=kh_hotel_front（有寫 direct 的那幾張一開始就走【捷徑】EVENTS.run）、ORIENT=both|land|port、QUIET=1（0＝讀檔不關條件事件）、SPK=1（0＝不拍有人說話那一句）、
+環境變數：BATCH=5,6,7（只跑這幾批；預設 5,6,7 三批 30 張全跑）、IDS=gym_court,jp_beach（只跑這幾張；舊的 ONLY 同義，可以和 BATCH 一起用＝交集）、
+  DIRECT=kh_hotel_front,kh_hill_harbor_night（有寫 direct 的那幾張一開始就走【捷徑】EVENTS.run）、ORIENT=both|land|port、QUIET=1（0＝讀檔不關條件事件）、SPK=1（0＝不拍有人說話那一句）、
   PROMPT_S（等遊戲自己開演，預設 90）、SCENE_S（開演後等到那一張底圖＋對話框，預設 150；CASES 裡有 scene_s 的那一張取比較大的）、CASE_MAX（一張最多幾秒，預設 900；有 case_max 的取比較大的）、RELAYOUT_MS（切方向後等多久，預設 1800）。
 不要和別的瀏覽器測試同時跑（SwiftShader 搶 CPU）。"""
 import os, sys, json, asyncio, time, copy, traceback
@@ -95,7 +118,7 @@ if SAVEF:
     SAVE = json.load(open(SAVEF, encoding='utf-8')); SAVE = SAVE.get('G', SAVE)
 J = lambda o: json.dumps(o, ensure_ascii=False)
 ONLY = [x.strip() for x in (os.environ.get('IDS', '') + ',' + os.environ.get('ONLY', '')).split(',') if x.strip()]
-BATCH = [int(x) for x in os.environ.get('BATCH', '').replace('，', ',').split(',') if x.strip().isdigit()]
+BATCH = [int(x) for x in os.environ.get('BATCH', '5,6,7').replace('，', ',').split(',') if x.strip().isdigit()]
 DIRECT = [x.strip() for x in os.environ.get('DIRECT', '').split(',') if x.strip()]
 ORIENT = os.environ.get('ORIENT', 'both').strip()
 QUIET = os.environ.get('QUIET', '1') != '0'
@@ -189,7 +212,48 @@ CASES6 = [
          flags={}, src='src/sideq3d.js:504 SIDEQ.cage14（公園「看」貓→放進外出籠：h＝那一刻＋0.25）'),
 ]
 for _c in CASES6: _c['batch'] = 6
-CASES = CASES + CASES6
+
+# ---------------------------------------------------------------- 第七批 10 張（8c00f06d 前 5 張、6767db8f 後 5 張；BB_132 第 104 組）
+USS = dict(USF, met_sis=True, dating_heroine_05=True)   # 美國路線＋和學姊交往中（湖邊、市集、初雪、舊金山都是交往版）
+SF_PRE = ['ev_us_leave', 'ev_sf1']
+CASES7 = [
+    dict(k='kh_hill_harbor_night', kind='outing', ev='ev_kexin_qixi_y2', when='2027-08-07', load_h=7.27, zone='dorm', match='高雄', scene_s=700, case_max=1900,
+         q=dict(id='y3_kh', ev='ev_kexin_trip_summer_y2', h=9, late=0.5, place='左營站', title='去高雄找可昕（兩天一夜）', travel='高鐵約一個半小時', travelH=1.5, back='回到臺北。', alarm=True),
+         flags={'KX_KH_GO': True},
+         direct=dict(when='2027-08-08', load_h=16.0, flags={'KX_KH_GO': True, 'KX_KH_DAY1': True},
+                     why='同 kh_hotel_front：KH_B 是 trigger manual，只有 KH_A 整段演完才接；這一張還要再點過旅館門口兩句＋advance 19:30'),
+         src='src/data/r2y3a_events.js:67 ev_kexin_qixi_y2 的 {scene:高雄・港邊的山上,bg:kh_hill_harbor_night}（8c00f06d；原本借 kh_river_night）；同 kh_hotel_front 那一趟'),
+    dict(k='jp_konbini_summer', kind='jpstop', ev='ev_jp_lastnight', stop='g8_konbini', when='2028-08-04', load_h=22.0, zone='jp_hub', match='',
+         q=None, flags=dict(JPF, dating_heroine_01=True),
+         src='src/jp3d.js:127 JP.SCH g8_konbini（2028-08-04 22:00 據點自己演；dat→ev_jp_lastnight，挽回中 ev_jp_lastnight_alone 同一張）；jp_events.js:101 LAST（8c00f06d）'),
+    dict(k='gg_luggage_shop', kind='outing', ev='ev_jp_suitcase', when='2028-03-11', load_h=13.3, zone='gongguan', match='行李箱',
+         q=dict(id='jp_g0_bag', ev='ev_jp_suitcase', h=14, late=0.75, place='公館', title='行李箱的店', travelH=0.5),
+         flags={'EXCHANGE_ROUTE': 'JP', 'EXCH_RULE': 1, 'X1_JP': ('DAY', '2028-02-20'), 'dating_heroine_01': True},
+         src='src/jp3d.js:211 JP.phone 的 OUT.plan jp_g0_bag（3/10 21:00 以安私訊）；jp_events.js:18 SUITCASE（8c00f06d；原本借 gongguan）。【前置】人在公館 3D（不是住家裡的 2D 選單）'),
+    dict(k='us_lake_summer', kind='outing', ev='ev_usl_lake1', when='2028-08-05', load_h=18.05, zone='us_apartment', match='湖邊',
+         q=dict(id='usl_lake1', ev='ev_usl_lake1', h=18.5, late=0.5, place='湖邊', title='湖邊', travel='走路 約 15 分鐘', travelH=0.25),
+         flags=dict(USS), src='src/us_life3d.js:392 8/5 17:30 學姊私訊的 plan usl_lake1；bg us_lake → outings3d.js usLakeVariant 6～8 月（8c00f06d）'),
+    dict(k='us_lake_bare', kind='outing', ev='ev_us3_lake', when='2028-11-23', load_h=8.8, zone='us_apartment', match='湖邊',
+         q=dict(id='us3_lake', ev='ev_us3_lake', h=9, late=0.25, place='會所門口', title='感恩節的湖邊', travel='', travelH=0, back='回到社區。'),
+         flags=dict(USS), src='src/r2y4a3d.js:173 OUT.plan us3_lake；bg us_lake → usLakeVariant 11/15 以後（8c00f06d）'),
+    dict(k='sf_photo_cablecar', kind='self', ev='ev_sf_photo17', when='2028-12-16', load_h=7.1, zone='us_apartment', match='', done=SF_PRE, scene_s=300,
+         q=None, flags=dict(USS, US_TRIP_MODE='sf'), phone_photo=True,
+         src='src/r2y4a3d.js:129 S.leave 的 steps（12/17 10:00 照片）；r2y4a_events.js:255 PHOTO(ev_sf_photo17,…,sf_photo_cablecar)（6767db8f）'),
+    dict(k='sf_photo_chowder', kind='self', ev='ev_sf_photo19', when='2028-12-16', load_h=7.1, zone='us_apartment', match='', done=SF_PRE + ['ev_sf_photo17', 'ev_sf2'], scene_s=300,
+         q=None, flags=dict(USS, US_TRIP_MODE='sf'), phone_photo=True,
+         src='src/r2y4a3d.js:129 S.leave 的 steps（12/19 13:00 照片）；r2y4a_events.js:256 PHOTO(ev_sf_photo19,…,sf_photo_chowder)（6767db8f）'),
+    dict(k='sf_photo_postbox', kind='self', ev='ev_sf_photo21', when='2028-12-16', load_h=7.1, zone='us_apartment', match='', done=SF_PRE + ['ev_sf_photo17', 'ev_sf2', 'ev_sf_photo19', 'ev_sf3'], scene_s=300,
+         q=None, flags=dict(USS, US_TRIP_MODE='sf'), phone_photo=True,
+         src='src/r2y4a3d.js:129 S.leave 的 steps（12/21 12:00 照片）；r2y4a_events.js:257 PHOTO(ev_sf_photo21,…,sf_photo_postbox)（6767db8f）'),
+    dict(k='us_farmers_market', kind='outing', ev='ev_sis_qixi', when='2028-08-26', load_h=8.6, zone='us_apartment', match='七夕',
+         q=dict(id='sisqx_2028', ev='ev_sis_qixi', h=9, late=0.25, place='她宿舍門口', title='七夕（週六市集）', travel='走路 約 5 分鐘', travelH=1 / 12, alarm=True),
+         flags=dict(USS), src='src/sis_qixi3d.js:93 usAsked 的 plan sisqx_2028（8/25 晚上當面那一句）；sis_qixi_events.js:57 label y28（6767db8f 換成自己的圖；原本借 us_chapel_steps）'),
+    dict(k='us_chapel_steps_snow', kind='outing', ev='ev_us_first_snow', when='2028-12-02', load_h=19.8, zone='us_apartment', match='初雪', hookcheck=True,
+         q=dict(id='us_snow', ev='ev_us_first_snow', h=20, late=0.25, place='小教堂前的台階', title='初雪', travel='', travelH=0, back='回到公寓。'),
+         flags=dict(USS), src='src/r2y4a3d.js:178 OUT.plan us_snow；6767db8f 只先登記（12/2 照舊 us_chapel_snow）、366ac3e2 才接到 ev_us_first_snow／ev_us_snow_repair'),
+]
+for _c in CASES7: _c['batch'] = 7
+CASES = CASES + CASES6 + CASES7
 
 # ---------------------------------------------------------------- 頁面裡的小工具
 CLEARP = "(()=>{ if(typeof CLS!=='undefined'&&CLS.clearPending){ CLS.clearPending(); return true; } return false; })()"
@@ -264,6 +328,7 @@ FALLBACK_JS = r"""(c=>{ const G=GAME.G, notes=[]; if(typeof EVENTS!=='undefined'
     if(c.kind==='outing'){ const q=typeof OUT!=='undefined'&&OUT.get?OUT.get(G,c.qid):null; if(!q) return notes.concat(['存檔裡找不到出遊 '+c.qid]).join('');
       notes.push('出遊原本 state='+q.state); q.state='planned'; q.ask=null;
       if(typeof JP!=='undefined'&&JP.inJapan&&JP.inJapan(G)&&JP.goOut){ void JP.goOut(GAME,q,false); notes.push('；void JP.goOut(GAME,q,false)'); } else { void OUT.go(GAME,q); notes.push('；void OUT.go(GAME,q)'); } }
+    else if(c.kind==='self'){ const ev=STORY_EVENTS.find(e=>e.id===c.ev); if(ev){ void EVENTS.run(ev); notes.push('void EVENTS.run('+c.ev+')（背景照事件自己的 background／第一句 bg）'); } else notes.push('找不到 '+c.ev); }
     else if(c.kind==='jpstop'){ const s=typeof JP!=='undefined'&&JP.SCH?JP.SCH.find(x=>x.k===c.stop):null;
       if(s){ void JP.playStop(GAME,s,'jp'); notes.push('void JP.playStop(GAME,'+c.stop+',jp)'); } else { const ev=STORY_EVENTS.find(e=>e.id===c.ev); if(ev){ void EVENTS.run(ev); notes.push('void EVENTS.run('+c.ev+')'); } else notes.push('找不到 '+c.ev); } }
   }catch(e){ notes.push('例外 '+e.message); }
@@ -309,6 +374,9 @@ async def build_state(pg, c):
         dd = (await P.day_of(pg, kk))['d']
         if dd <= d['d']: F[k] = dd
     for fk, fv in (c.get('flags') or {}).items(): F[fk] = await resolve(pg, fv, d['d'])
+    if c.get('done'):   # 【前置】劇情串前面的幾件記成演過（G.events.done＝次數）
+        E = st.setdefault('events', {'done': {}, 'last': {}, 'count': 0}); E.setdefault('done', {}); E.setdefault('last', {})
+        for eid in c['done']: E['done'][eid] = 1; E['last'][eid] = d['d']
     st.update(day=d['d'], weekday=d['wd'], hour=c['load_h'], zone=c['zone'], pos=None, weather='clear', stage='law')
     st['money'] = max(st.get('money') or 0, 30000)
     v = st.get('visited') if isinstance(st.get('visited'), dict) else {}
@@ -504,6 +572,15 @@ async def case_run(p, run, c):
             for eid in c['also']:
                 a = (al or {}).get(eid) or {}
                 run.check('%s：只讀確認 %s 的背景有設 %s（不演）' % (k, eid, k), bool(a.get('hit')), J(a.get('bgs')))
+        if c.get('hookcheck'):   # 先登記的圖：這一版事件有沒有接到（只讀 STORY_EVENTS）；沒接＝INFO，不演、不算 FAIL
+            hk = await pg.evaluate(ALSO_JS, {'ids': [c['ev']], 'k': k}); a = (hk or {}).get(c['ev']) or {}; rec['hook'] = a
+            if not a.get('hit'):
+                rec['info'] = '先登記、還沒接到事件'
+                run.note('%s：INFO 這一版 %s 的背景沒有 %s（%s）＝先登記、還沒接到事件（6767db8f 的狀態；366ac3e2 以後才接）→ 不演、不拍' % (k, c['ev'], k, J(a.get('bgs'))))
+                return
+            run.note('%s：只讀確認 %s 已經接這張圖（%s）→ 照常演' % (k, c['ev'], J(a.get('bgs'))))
+        if c.get('phone_photo'):
+            run.note('%s：手機照片＝遊戲在 S.leave 裡用 ADV 全畫面底圖＋「📷（…）」顯示（不是手機 App 畫面）；手機相簿沒有這張，不另拍（INFO）' % k)
         st, d, q = await build_state(pg, cs)
         rec.update(day=d, q=q, load_h=cs['load_h'], zone=cs['zone'], direct_mode=direct_mode)
         await L.load_state(pg, st, quiet_events=QUIET, quiet_phone=True); await pg.evaluate(CLEARP)
@@ -512,6 +589,7 @@ async def case_run(p, run, c):
             ('；存檔裡已經約好的出遊 %s（%s %s，%s；照 %s）' % (q['id'], d['key'], hm(q['h']), q['place'], c['src'])) if q else '；' + c['src'],
             ('；旗標 %s' % J(st['flags'] and {fk: st['flags'].get(fk) for fk in (cs.get('flags') or {})})) if cs.get('flags') else '',
             '條件事件、手機自動打開先關（QUIET）' if QUIET else '條件事件照常'))
+        if c.get('done'): run.setup('[前置] %s：劇情串前面的 %s 在存檔裡記成演過（G.events.done），讓遊戲自己的串（%s）從這一張開始' % (k, J(c['done']), c['src']))
         await pg.wait_for_timeout(2500); await L.phone_away(pg, cdp); await L.close_panels(pg, cdp)
         cinfo = {'qid': None, 'ev': c['ev'], 'stop': None, 'kind': 'direct'}
         if direct_mode:
