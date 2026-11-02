@@ -50,8 +50,8 @@
 - **環境**：`scratchpad/devwt_k`＝`3e6855649`＋v3.1（patch＋GLB）。Playwright＋SwiftShader（電腦），不是實機。
 - **Node**：`lib_front_unit`、`lib_lawn_unit`、`campus_hall_pillar_seethru_unit` ALL PASS（11-02 19:2x）。
 - **瀏覽器**：
-  - `campus_layout_nav`：（跑完補）
-  - `reachability_all`（只跑 campus）：（跑完補）
+  - `campus_layout_nav`：ALL PASS（82 項，11-02 19:18）。
+  - `reachability_all`（只跑 campus）：ALL PASS（19:18）。45 個互動點、9 個出入口到達點都站得到、走得到；「坐下」的走近點都走得到；沒有 JS 例外。
 - **截圖**：改前、改後各 5 張，沒有 JS 例外。
 
 ## 六、測試單（TEST-OFFLOAD-1102：給 BB／CC 在使用者電腦跑）

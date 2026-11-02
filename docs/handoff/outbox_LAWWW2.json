@@ -5324,6 +5324,25 @@
    "next": "patch 在 1a5110e07、48918ca20、3e6855649 apply --check 乾淨；換 GLB＋兩張光照貼圖；跑 README 第七節測試單（Node 92 支、reachability_all、zone_transitions、flow_library_floors、flow_library_scene、stairs_cam_browser、seats_on_furniture、flow_lib_tour）",
    "noDirectIntegrate": false,
    "note": "layout version 2（version 1 留作備用：換回 library_layout.js 就退回第一版）；舊存檔 715 個取樣點 0 個退回出生點；小安「總圖的下午」座位不變。展演廳弧牆頂點順序修正後重烘（GLB 9d3afdcb73a8）。雲端：Node 92 支 ALL PASS（19:00）、reachability_all 1142 點、zone_transitions 37、flow_library_floors、flow_library_scene、stairs_cam_browser（套 tests patch）都 ALL PASS"
+  },
+  {
+   "branch": "claude/second-ai-env-art",
+   "sha": "(本 commit)",
+   "receiver": "LAWWW",
+   "ack": "SENT",
+   "task": "LIB-FRONT-1102 v3.1（平台上兩棵尖塔形針葉樹，照片 40；BB_234 第二節 2）",
+   "files": [
+    "docs/art-rebuild/second_ai/patches/lib_front_1102_v31_incr.patch",
+    "docs/art-rebuild/second_ai/patches/lib_front_1102_v3d.patch",
+    "assets/models/env/second_ai/campus_lib_lawn.glb",
+    "assets/models/env/second_ai/campus_lib_lawn.json",
+    "docs/art-rebuild/second_ai/test_shots/lib_front_v31_1102/README.md"
+   ],
+   "state": "已交付（READY_FOR_ART_REVIEW；BB 場景驗收，建築最終美術要使用者確認）",
+   "remaining": "v3.2（BB_234 ①③④）另外交；沒跑實機",
+   "next": "已整合第三版：套 lib_front_1102_v31_incr.patch（3caff35d9、1a5110e07 apply --check 乾淨）＋換 campus_lib_lawn.glb／.json；跑 lib_front_unit、lib_lawn_unit、campus_layout_nav、reachability_all(campus)",
+   "noDirectIntegrate": false,
+   "note": "樹在平台 (78.9, ±12.4)，nav.blockCircle 0.75（放在 LIB-FRONT freeRect 後面）；lib_front_unit 多一項（樹擋住、兩邊走得過去）。雲端：Node 3 支、campus_layout_nav 82 項、reachability_all(campus) 45 互動點都 ALL PASS；改前改後截圖各 5 張沒有 JS 例外"
   }
  ]
 }
