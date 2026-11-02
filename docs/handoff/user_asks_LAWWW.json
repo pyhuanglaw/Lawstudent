@@ -1807,6 +1807,16 @@
    "task": "AA299-IMAGES-1018",
    "src": "使用者對 LAWWW-B，2026-11-02 00:3x UTC（AskUserQuestion）",
    "checked": "D112 擴大到 2D 背景圖：以後的生圖提示詞有地板的都寫「淺色木地板或磁磚、磨石子等其他材質，不要深色木地板」；mucha_cafe_night 重生淺色地板版，圖到了以後換檔（同鍵）"
+  },
+  {
+   "id": "UA-LAWWW-1102-03",
+   "at": "2026-11-02T00:3x",
+   "quote": "你可以從我們對話直接得到圖片的原檔\nB B應該有怎麼做的方法？你可以查他的資料",
+   "kind": "原話",
+   "status": "規則（永久）",
+   "task": "AA299-IMAGES-1018",
+   "src": "使用者對 LAWWW-B，2026-11-02 00:3x UTC",
+   "checked": "使用者貼在對話裡的圖直接拿來用，不叫使用者存檔、改檔名（提示詞的檔名只是對照用）。拿法：①平台存的 /root/.claude/uploads/<session>/*.png（無損，優先）；②BB 的方法 docs/story_planning/extract_pasted_images.py（BB 分支）從對話紀錄 .jsonl 解出，是同一張的 JPEG（11-02 比對：10 張都是 1672×941，和 ①平均差 1.3～2.6，JPEG 壓縮的差別）。11-02 的十張用的是 ①。BB 的流程（檢查沒有字、人臉、商標 → bg_approved/ README 一張一列 → LAWWW 放 assets/bg）：LAWWW-B 代做檢查、記在 AA299-IMAGES-1018，README 那一列等 BB 下一班補"
   }
  ]
 }
