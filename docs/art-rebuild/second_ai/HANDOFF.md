@@ -1,58 +1,46 @@
 # LAWWW2 交接紀錄（隨時更新；工作階段中斷時從這裡接）
 
-## 🔨 現在在做（11-02 19:1x 更新）：使用者 P0「總圖」——一樓二樓 version 2 交件中 → LIB-FRONT v3.1 → 3F → 效能 → v3.2
-- **B1**：
-  - 第四版 `54d6e41c1` 已交件，LAWWW 已整合（int/next1102 `5627d9453`）。BB_242：配置方向 ACCEPT，美術要做 4.1。
-  - **4.1 已交件 `cca10dd55`**：
-    - 長條桌、1 m 木牆裙、椅子和隔板加深、A 區方柱 2→1，自習座位 72→76。
-    - 排距照使用者 18:4x 對 LAWWW 說的「B1 排距維持 4.4 m 就好」（UA-LAWWW-1102-26）。
-    - patch 兩份：incr（第四版 → 4.1，在 `1a5110e07` 上 apply --check 乾淨）、完整版（`3e6855649` → 4.1）。
-    - 測試：Node 9 支 ALL PASS；reachability_all(library_b1) ALL PASS（109 個互動點）。
-    - README：`test_shots/library_b1_v41_1102/`。
-  - 交件訊息已送 LAWWW、BB，等 ACK。BB 會拿照片對照問使用者，使用者點頭才標 ART_APPROVED。
-  - 還沒做：⑥ 烘焙（排到使用者電腦）。
-- **一樓＋二樓 version 2**（worktree `scratchpad/devwt_i`＝`3e6855649`＋patch）：
-  - 展演廳弧牆重烘以後，13 張重拍完（18:52），沒有 JS 例外。
-  - README 第二、三節寫好（`e286112dd`）：照片對照、改前改後、新鏡頭、弧牆前後。
-  - patch 重產：在 b1b249873、a5935aa30、3e6855649、48918ca20 上 apply --check 都乾淨。
-  - Node 92 支用最後的 GLB 重跑：ALL PASS（19:00）。
-  - **在拍**：俯視圖重拍（第一次拍到天花板，這次把天花板、燈框藏起來）、從大廳拍展演廳的廣角（`lh2shots2/top.json`）。
-  - 拍完以後：
-    1. `make_lh2_grids.py` 加 `plans_vs_game`；
-    2. README 第二節補平面圖對照；
-    3. outbox；
-    4. 交件給 LAWWW、BB。
-  - flow_lib_tour 的 caption 修正以後，第二版、第一版重跑排在佇列最後（`run_q3.sh`）。跑完重產 `flow_lib_tour_l3_1102.patch`。
-- **LIB-FRONT v3.1**（devwt_k）：改前、改後截圖 → campus_layout_nav → reachability(campus)，在佇列 `run_q2d.sh`，接在俯視圖後面。
-- **LIB-3F-1102**（WIP `477c6cbb1`，`wip/library_3f_v2/`）：
-  - 烘焙中（`scratchpad/lib3f/bake1`）：白天烘好（mean 0.139），晚上在烘。
+## 🔨 現在在做（11-02 19:5x 更新）：使用者 P0「總圖」——大廳第三版（展演廳，BB_244）→ 3F → 效能
+- **今天已交件（都有 LAWWW ACK，除了最後一包）**：
+  - B1 4.1 `cca10dd55`：已整合 `fd5d37105`；使用者 19:2x「B1 4.1 版可以，標定稿」，BB_242 已標 ART_APPROVED。剩烘焙，排到使用者電腦。
+  - 一樓二樓第二版 `c7c2996ff`：已整合 int/m590 `0e11c43a3`。BB_244：中庭、一樓平面、二樓 PASS，**展演廳 NOT PASS → 第三版**。
+  - LIB-FRONT v3.1 `d594acbee`：已整合 int/m590。
+  - LIB-FRONT v3.2 `47851b07d`：19:5x 交件，等 ACK。只換二進位，程式不用改。
+- **大廳第三版（展演廳，BB_244 七點；第 3 點 BB 19:29 同意更正：是吊著的大圓環軌道燈，不是環廊）**：
+  - WIP：`e3a470e4f`、`26122f04b`。README 草稿在 `test_shots/library_hall_v3_1102/`。
+  - 增量 patch 的草稿：`wip/library_hall_v3/library_hall_v3_incr_wip.patch`（library_layout.js、library_hall_v2.js）。
+  - 配置：中庭展示櫃 x ±3.05 → ±4.7；展演廳三扇窗。
+  - Node：nav_buildings、cam_core、oldsave（629 原地）ALL PASS。
+  - 窗景：`assets/models/env/library_view_trees_day.webp`（黑森林）；晚上那張在拍。
+  - **烘焙**：`scratchpad/lib1102/run_lh3bake.sh`，等 3F 重烘完自動開始，輸出到 `scratchpad/lh3bake`。
   - 烘完以後：
-    1. lm_probe、wall_orient；
-    2. 複製到 devwt_n；
-    3. 截圖（`run_3fshots.sh` 排在佇列）；
-    4. floors、scene、lib_tour、reachability_all、學姊總圖 unit、seats；
-    5. README；
-    6. 交件。
-- **背景佇列**（`scratchpad/lib1102`，一支接一支，不同時跑瀏覽器）：
-  - `run_q2d.sh`：俯視圖重拍 → v3.1 改前／改後 → campus_layout_nav → reachability(campus) → all done；
-  - 接著：`run_seatsdbg.sh` → `run_3fshots.sh` → `run_q3.sh`。
-  - 結果寫在 `v31shots/RESULTS.txt`、`lh2flows/RESULTS2.txt`。
-- **TEST-OFFLOAD-1102**（UA-LAWWW2-1102-11，暫停）：
-  - 要不要把慢的瀏覽器測試交給 BB／CC 用使用者的電腦跑，由使用者決定。
-  - 條件：CC 的 runner 要抓得到 `claude/second-ai-env-art`，而且要等 v9.10.16 發布以後。
-  - 已請 LAWWW 開任務（19:0x）。在那之前照舊在雲端跑。
-- **CAMPUS-RELAYOUT-1102**：提案在 `wip/campus_relayout/README.md`（舊社科院那棟＝電機二館）。排在總圖那一串、PERF-CAMPUS-GLB、v3.2 後面。
-- **延後**：
-  - us_market 第三版（`abd76acab`）交件、jp_room 第十版（`568a44330`）交件；
-  - FAIR-TENT-CAM-1102 → DORM1-WALL-SEAM-1102 → PUTONG101-WINDOW-1102。
+    1. wall_orient、lm_probe；
+    2. 複製到 devwt_i；
+    3. Node 92 支；
+    4. 截圖（入口眼睛高度看整個半圓＝驗收鏡頭）＋reachability_all(library_hall)、flow_library_floors；
+    5. README、增量 patch、交件。
+- **LIB-3F-1102**：
+  - 第一次烘焙兩個探針 FAIL。南側長桌、人文庫兩點在桌子正下方，是探針放錯；人文庫本身也偏暗（0.155）。
+  - 所以人文庫加了四片燈，重烘中（`scratchpad/lib3f/bake2`，19:20 開始，白天 0.146）。
+  - 烘完以後：
+    1. `lib3f/post_bake.sh`（記得把裡面的 bake1 改成 bake2）；
+    2. `touch lib3f/READY` → `run_tail.sh` 自動拍 3F 截圖 → `run_q3.sh` 導覽重跑。
+- **背景**：
+  - `run_treenight.sh`（樹景晚上那張）；
+  - `run_lh3bake.sh`（等 3F 烘完）；
+  - `run_tail.sh`（等 lib3f/READY）；
+  - `run_q3.sh`（等 3f shots）。
+- **TEST-OFFLOAD-1102**：使用者 18:5x 同意（UA-LAWWW-1102-27），總表已開、暫停到 v9.10.16 發布、CC runner 支援。交件都附測試單。
+- **之後**：
+  - PERF-CAMPUS-GLB-1102（量測雜訊、四棟減 draw call）；
+  - CAMPUS-RELAYOUT-1102；
+  - us_market 第三版、jp_room 第十版交件；
+  - FAIR-TENT-CAM → DORM1-WALL-SEAM → PUTONG101-WINDOW。
 - **scratchpad worktree**：
-  - chk_b1b：乾淨 `b1b249873`；
-  - devwt_h：`a5935aa30`＋tests patch；
-  - devwt_i：`3e6855649`＋v2；
-  - devwt_k：`3e6855649`＋v3.1＋B1 v3 GLB；
-  - devwt_n：`3e6855649`＋v2＋3F；
-  - devwt_p：`3e6855649`＋B1 4.1；
-  - devwt_j／devwt_m：jp_room、us_market。
+  - devwt_i：`3e6855649`＋大廳 v2＋v3 配置；
+  - devwt_k：`3e6855649`＋v3.1＋v3.2 GLB；
+  - devwt_n：`3e6855649`＋大廳 v2（最後的 GLB）＋3F；
+  - devwt_p：`3e6855649`＋B1 4.1。
 
 ## ✅ 接班（最新）：2026-11-02 03:3x UTC｜帳號 A｜LAWWW2｜`session_01AC1WVgJSmoJK1uRsPK2Zn1`｜分支 `claude/second-ai-env-art`
 - 值班登記：`duty register` 帳號 A、LAWWW2、接班基準 `e16b32ad`（上一任 LAWWW2-B 的交班 commit），2026-11-02 03:37 UTC。使用者：「現在你接班，我也會通知其他AI，你交班之後先跟他們測試通訊功能，然後先確定其他AI留下什麼事情還沒有做，預計還要多久每個階段每個任務」。
