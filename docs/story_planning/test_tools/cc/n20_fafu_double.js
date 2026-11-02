@@ -6,7 +6,7 @@ const H=require(WT+'/tests/pg_harness.js');
 const fs=require('fs'), vm=require('vm'), path=require('path');
 const {check,GM}=H, J=JSON.stringify;
 const load=f=>{ const p=path.join(H.ROOT,f); if(!fs.existsSync(p)) return; const src=fs.readFileSync(p,'utf8').replace(/^const ([A-Z][A-Z0-9_]*)\s*=/mg,'globalThis.$1='); vm.runInThisContext(src,{filename:f}); };
-for(const f of ['src/data/wz_events.js','src/jobs3d.js','src/wzlines3d.js']) try{ if(f==='src/wzlines3d.js'&&typeof WZL!=='undefined') continue; load(f); }catch(e){ console.log('載入失敗 '+f+'：'+e); }
+for(const f of ['src/data/wz_events.js','src/data/wz_jobs.js','src/jobs3d.js','src/wzlines3d.js']) try{ if(f==='src/wzlines3d.js'&&typeof WZL!=='undefined') continue; load(f); }catch(e){ console.log('載入失敗 '+f+'：'+e); }
 GM.caption=()=>{}; GM.toast=()=>{};
 (async()=>{
   /* 找一個法服值班週六（大二上 Y2S1 第 11 週以後） */
