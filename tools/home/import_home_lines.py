@@ -5,8 +5,18 @@ ROOT = os.path.dirname(os.path.dirname(os.path.dirname(os.path.abspath(__file__)
 sys.path.insert(0, os.path.join(ROOT, 'tools', 'story'))
 from import_guard import alison
 REF = sys.argv[1] if len(sys.argv) > 1 else 'origin/claude/story-planning'
+LABEL = None
+if '@' in REF: LABEL, REF = REF.split('@', 1)   # 分支@commit：讀 commit、來源寫分支名（同 tools/syllabus/import_syllabus.py）
 PATH = 'docs/story_planning/AA_138_回家_家人台詞池.md'
 sha = subprocess.check_output(['git', '-C', ROOT, 'rev-parse', '--short', REF], text=True).strip()
+# AA_588 第 3 節（白名單 AA_138@1edea905f）：AA_138 進了白名單——要讀的那一版內容一定要和名單上 approved 的一樣，不一樣就停下來
+import import_guard as _G
+_a138 = _G.approved_files(_G.load(ROOT), PATH).get(PATH)
+if _a138:
+    _ok, _why = _G.allowed(PATH, _a138, _G.load(ROOT))
+    if not _ok: raise SystemExit('拒絕匯入：' + _why)
+    _blob = lambda r: subprocess.run(['git', '-C', ROOT, 'rev-parse', f'{r}:{PATH}'], text=True, capture_output=True).stdout.strip()
+    if not _blob(REF) or _blob(REF) != _blob(_a138): raise SystemExit(f'拒絕匯入：{PATH} 在 {REF} 的內容和白名單 approved 的 {_a138} 不一樣')
 md = alison(subprocess.check_output(['git', '-C', ROOT, 'show', f'{REF}:{PATH}'], text=True))  # AA_380：讀稿先把「小語」換成 Alison（import_guard.alison）
 def section(title):
     i = md.index('**' + title); j = md.find('\n**', i + 2); k = md.find('\n## ', i)
@@ -71,7 +81,7 @@ if a533_sha:
         dinner.append(d)
 reply = section('群組')
 rep = {'yes': q(re.search(r'「會回去」→ 媽媽：(.*?)；', reply).group(1)), 'no': q(re.search(r'「這週不回」→ 媽媽：(.*?)；', reply).group(1)), 'none': q(re.search(r'不回 → 爸爸(?:（[^）]*）)?兩小時後：(.*)$', reply, re.M).group(1))}
-out = {'source': REF.replace('origin/', '') + ' ' + sha + (('＋AA_532 ' + a532_sha) if a532_sha else '') + (('＋AA_533 ' + a533_sha) if a533_sha else ''),'group': group, 'groupReply': rep, 'arrive': arrive, 'dinner': dinner, 'sisDinner': sis, 'morning': morning, 'car': car, 'back': back}
+out = {'source': (LABEL or REF.replace('origin/', '')) + ' ' + sha + (('＋AA_532 ' + a532_sha) if a532_sha else '') + (('＋AA_533 ' + a533_sha) if a533_sha else ''),'group': group, 'groupReply': rep, 'arrive': arrive, 'dinner': dinner, 'sisDinner': sis, 'morning': morning, 'car': car, 'back': back}
 dst = os.path.join(ROOT, 'src', 'data', 'home_lines.js')
 with open(dst, 'w', encoding='utf8') as fo:
     fo.write('/* 週末回臺北的家：家人台詞池（AA_138；產生器 tools/home/import_home_lines.py，不要手改）。來源：' + out['source'] + ' */\n')

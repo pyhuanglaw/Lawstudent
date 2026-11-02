@@ -109,12 +109,14 @@ const has=(a,...ids)=>ids.every(id=>a.includes(id)), hasNot=(a,...ids)=>ids.ever
   // ===== 第 11 項：和沛珊交往中，沒有柏翰那一段 =====
   { const P=CHARACTERS.classmate_peishan.partner; fresh(termDay('Y1S2',8,3),12,'campus',{}); const p0=STORY.partnerOn(G,P); G.flags.dating_classmate_peishan=true; const p1=STORY.partnerOn(G,P);
     check('11. 沛珊的 partner（柏翰）：沒交往＝大一下照常；和她交往中＝沒有（unlessFlag）',p0===true&&p1===false,J([p0,p1]));
-    const sup=async dating=>{ fresh(termDay('Y1S2',8,3),19,'noodle',Object.assign({DORM_FOUR:true},dating?{dating_classmate_peishan:true}:{})); R('classmate_peishan','FRI'); R('yu','FAM'); said=[]; picks=[0,0]; await EVENTS.run(ev('ev_midterm_supper_y1s2')); return lines(); };
-    const s0=await sup(false), s1=await sup(true);
-    check('11. 大一下 4/15 期中晚餐：沒交往＝照舊公開（「對，我們在一起了。你們吃你們的。」）；和沛珊交往中＝沒有柏翰那一段（滷蛋、公開、「上禮拜的事。」、比較晚回 203）',
-      s0.some(t=>/對，我們在一起了/.test(t))&&s0.includes('柏翰幫沛珊把滷蛋切成兩半。')&&!s1.some(t=>/對，我們在一起了|滷蛋切成兩半|上禮拜的事|比較晚回 203/.test(t)),J([s0,s1]));
-    const miss=dating=>{ fresh(termDay('Y1S2',8,3),20,'dorm',dating?{dating_classmate_peishan:true}:{}); R('classmate_peishan','FRI'); PHONE.join(G,'noodle_team','麵店團'); ev('ev_midterm_supper_y1s2').outingMissed(G,GM,{day:G.day}); PHONE.tick(G); G.hour=21; PHONE.tick(G); return PHONE.sent(G,'zhe_supper_mid2_egg'); };
-    check('11. 期中晚餐沒去：沒交往＝阿哲的滷蛋照片；交往中＝沒有',miss(false)&&!miss(true));
+    /* AA_588 第 1 節：公開那一段搬回 4/15 傍晚麵店（ev_psbh_public_0415）；考完的晚餐（期末）交往中的玩家也照樣沒有柏翰那一段 */
+    const pub=async dating=>{ fresh(termDay('Y1S2',8,3),19,'noodle',Object.assign({DORM_FOUR:true},dating?{dating_classmate_peishan:true}:{})); R('classmate_peishan','FRI'); R('yu','FAM'); const e=ev('ev_psbh_public_0415'); const on=!!e&&EVENTS.check(e); said=[]; picks=[0,0]; if(on) await EVENTS.run(e); return {on,L:lines()}; };
+    const sup=async dating=>{ fresh(termDay('Y1S2',16,3),19,'noodle',Object.assign({DORM_FOUR:true},dating?{dating_classmate_peishan:true}:{})); R('classmate_peishan','FRI'); R('yu','FAM'); said=[]; picks=[0,0]; await EVENTS.run(ev('ev_midterm_supper_y1s2')); return lines(); };
+    const q0=await pub(false), q1=await pub(true), s1=await sup(true);
+    check('11. 大一下 4/15 傍晚麵店：沒交往＝照舊公開（「對，我們在一起了。你們吃你們的。」）；和沛珊交往中＝不演，考完的晚餐也沒有柏翰那一段（滷蛋、公開、「上禮拜的事。」、比較晚回 203）',
+      q0.on&&q0.L.some(t=>/對，我們在一起了/.test(t))&&q0.L.includes('柏翰幫沛珊把滷蛋切成兩半。')&&!q1.on&&!s1.some(t=>/對，我們在一起了|滷蛋切成兩半|上禮拜的事|比較晚回 203/.test(t)),J([q0,q1,s1]));
+    const miss=dating=>{ fresh(termDay('Y1S2',8,3),20,'dorm',dating?{dating_classmate_peishan:true}:{}); R('classmate_peishan','FRI'); PHONE.join(G,'noodle_team','麵店團'); ev('ev_psbh_public_0415').missedPhoto(G,G.day); PHONE.tick(G); G.hour=21; PHONE.tick(G); return PHONE.sent(G,'zhe_supper_mid2_egg'); };
+    check('11. 4/15 傍晚沒到麵店：沒交往＝阿哲的滷蛋照片；交往中＝沒有',miss(false)&&!miss(true));
     const sp=dating=>{ fresh(termDay('Y2S1',6,1),12.3,'linze',dating?{dating_classmate_peishan:true}:{}); R('classmate_peishan','FRI'); return EVENTS.check(ev('ev_peishan_split')); };
     const grp=dating=>{ fresh(termDay('Y2S1',6,5),20,'campus',dating?{dating_classmate_peishan:true}:{}); R('classmate_peishan','FRI'); PHONE.join(G,'noodle_team','麵店團'); run(20,21.2); return txt('g:noodle_team').filter(t=>/分開了/.test(t)); };
     check('11. 大一上期末就和沛珊交往的存檔：大二上第 6 週沒有「我和柏翰分開了」（走廊那一件不演、週五群組不發；BB 測試）',sp(false)&&!sp(true)&&grp(false).length===1&&grp(true).length===0,J([sp(false),sp(true),grp(false),grp(true)]));

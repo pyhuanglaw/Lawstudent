@@ -1689,6 +1689,13 @@ const STORY = (function(){
     { const d4=termDay('Y1S1',4,1), d9=termDay('Y1S1',9,1), ps=t=>({th:'p:classmate_peishan',from:'classmate_peishan',text:t});
       if(d4!=null&&G.day===d4&&h(G)>=12&&!PHONE.sent(G,'b105_d4_dm')&&typeof INV!=='undefined'&&INV.hasContact&&INV.hasContact(G,'classmate_peishan')) PHONE.at(G,d4,12,[ps('你借我的筆記，我抄完了！'),ps('你哪天經過女舍門口跟我說，我拿下去給你！')],'b105_d4_dm');
       if(d9!=null&&G.day>=d9&&G.day<d9+7&&!(G.day===d9&&h(G)<12)&&PHONE.sent(G,'b105_d4_dm')&&!(G.events&&G.events.done&&G.events.done.ev_b105_d4_notes)&&!PHONE.sent(G,'b105_d4_desk')) PHONE.at(G,G.day,G.day===d9?12:h(G),[ps('筆記我上課的時候放你桌上了！謝謝你借我！')],'b105_d4_desk'); }
+    /* AA_588 第 1 節：沛珊和柏翰在麵店公開（events.js ev_psbh_public_0415，大一下第 8 週週三 4/15 傍晚）。4/15 不是固定的麵店日，靠群組約：
+       17:00 麵店團群組柏翰「今天晚上麵店，有空的來。」、沛珊「我會到。」（在群組、認識沛珊、沒和她交往＝events.js 的 PS_BH）；
+       那天晚上沒到麵店（20:30 還沒演）＝20:30 阿哲的滷蛋照片（那個事件的 missedPhoto；隔天才回到遊戲的也補）*/
+    { const d=termDay('Y1S2',8,3);
+      if(d!=null&&(G.day===d||G.day===d+1)&&(G.stage||'law')==='law'&&PHONE.inGroup(G,'noodle_team')&&S.knows('classmate_peishan',G)&&!F.dating_classmate_peishan){
+        if(G.day===d&&h(G)<20.5&&!PHONE.sent(G,'psbh_0415_ask')) PHONE.at(G,d,Math.max(17,h(G)),[{th:'g:noodle_team',from:'classmate_bohan',text:'今天晚上麵店，有空的來。'},{th:'g:noodle_team',from:'classmate_peishan',text:'我會到。'}],'psbh_0415_ask');
+        if((G.day===d+1||h(G)>=20.5)&&!(G.events&&G.events.done&&G.events.done.ev_psbh_public_0415)&&!PHONE.sent(G,'zhe_supper_mid2_egg')&&typeof STORY_EVENTS!=='undefined'){ const e=STORY_EVENTS.find(x=>x.id==='ev_psbh_public_0415'); if(e&&e.missedPhoto) e.missedPhoto(G,d); } } }
     if(S.psKeep(G)&&!PHONE.sent(G,'ps_keep_'+G.day)){ const n=+F.PS_KEEP_N||0; F.PS_KEEP_N=n+1; F.PS_KEPT=true; PHONE.at(G,G.day,23+(G.day%6)/10,[{th:'p:classmate_peishan',from:'classmate_peishan',text:S.psKeepLine(G.day)}],'ps_keep_'+G.day); }   /* 沛珊重考消失期、交往中（AA_276 第 4 節）：每晚 23:00 以後一則；挑哪一句照日子排（AA_460 第 2 節，S.psKeepPlan；原本六句照順序輪）。PS_KEEP_N 照舊記（不再用來挑句子）*/
     /* 芷若的第一則私訊（BB_95 4-2）：Café 第五次加了店裡的帳號（zhiruoShopContactDay）→ 那天 22:07；交往中改在隔天 15:10＋友情版的第三句（AA_112 8-1：交往中的玩家不收晚上只傳給他的訊息）*/
     /* 第三句（BB_95 4-2，BB 2026-10-14 654f5dd）：照第一次點的東西——有奶的（拿鐵、卡布奇諾、熱可可）「奶泡我多打了三秒」、手沖「悶蒸我多等了十秒」、

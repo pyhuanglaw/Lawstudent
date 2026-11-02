@@ -12,7 +12,10 @@ const ids=COURSES.list.filter(c=>c.kind!=='service').map(c=>c.id);   /* 服務�
 check('每一門課（'+ids.length+' 門）都有普通課堂內容（BB 的 syllabus 或台詞池）',ids.every(has),ids.filter(i=>!has(i)).join(','));
 const extra=[...Object.keys(SYLLABUS.courses),...Object.keys(SYLLABUS.pools)].filter(i=>!ids.includes(i)&&!(SYLLABUS.y0||[]).includes(i)); check('內容的課程代號都對得上 courses.js（AA_103 第 8 節；經濟系那一年 y0 的課遊戲裡還沒有，先不算）',!extra.length,extra.join(','));
 { const long=[]; const caseNo=[]; const re=/(台上|憲判|釋字|台再|消上)\s*\d|\d+\s*(台上|憲判)/;
-  for(const id in SYLLABUS.courses) for(const w of SYLLABUS.courses[id]){ for(const b of (w.board||[])){ if([...b].length>30) long.push(id+' W'+w.w+' 黑板 '+[...b].length); if(re.test(b)) caseNo.push(id+' W'+w.w+' '+b); } if(w.line&&[...w.line].length>40) long.push(id+' W'+w.w+' 台詞 '+[...w.line].length); if(w.line&&re.test(w.line)) caseNo.push(id+' W'+w.w+' '+w.line); }
+  /* AA_585（第 8、9 週，AA 定稿、字不能改）：黑板照 AA_585 第 0 節量寬度——半形字算半格（教室黑板是 1024 px 畫布，第二三行 30 px），上限照舊 30；其他週照舊一字一格 */
+  const A585=['civ_general','crim_gen1','const_1','const_2','crim_gen2','oblig_gen1','admin_law','crim_spec','property','oblig_gen2','oblig_spec','family_law','admin_remedy','legal_english','civpro_1','crimpro','company_law','securities','civpro_2','insurance','negotiable','labor_law','enforcement','legal_ethics','ip_law','labor_social','tax_law','crim_judgment_sem','public_judgment_sem','maritime'];
+  const w585=(id,n)=>(n===8||n===9)&&A585.includes(id)&&/AA_585@/.test(SYLLABUS.source||''),dw=b=>[...b].reduce((n,ch)=>n+(/[\x20-\x7e]/.test(ch)?0.5:1),0);
+  for(const id in SYLLABUS.courses) for(const w of SYLLABUS.courses[id]){ for(const b of (w.board||[])){ const L=w585(id,w.w)?dw(b):[...b].length; if(L>30) long.push(id+' W'+w.w+' 黑板 '+L); if(re.test(b)) caseNo.push(id+' W'+w.w+' '+b); } if(w.line&&[...w.line].length>40) long.push(id+' W'+w.w+' 台詞 '+[...w.line].length); if(w.line&&re.test(w.line)) caseNo.push(id+' W'+w.w+' '+w.line); }
   check('黑板每行 ≤30 字、教授台詞 ≤40 字（BB 的規則）',!long.length,long.length+'：'+long.slice(0,6).join('；'));
   check('黑板與台詞不講案號（AA_103 第 5 節）',!caseNo.length,caseNo.slice(0,3).join('；')); }
 // 上課時的內容

@@ -956,7 +956,7 @@ const STORY_EVENTS=[
      晚上 19:00 阿鳳麵店長桌（考完的晚餐；大一上是公館滷味，這次換地方）：出遊（到時候問要不要去，不去不扣分）；麵店有 3D 區域，長桌這一幕先用 2D 底＋字幕
      （背景 noodle_table 在 MISSING_EXTERNAL_ART）。開頭不重複大一上（Alison、阿哲：認識 Alison 才有）；明軒的回聲（有 SAW_HIM_STUDY、認識明軒）——
      「（繼續吃麵）」是 LAWWW 照大一上「（繼續吃滷味）」加的選項字；接著沛珊和柏翰（BB_100 2-3：認識沛珊才有；旁白的「她」寫成「沛珊」）。
-     沒去、在麵店團群組、認識沛珊：20:30 群組裡阿哲「……喔。」＋切成兩半的滷蛋照片，記「聽說」（HEARD_ABOUT）*/
+     AA_588 第 1 節：沛珊和柏翰公開那一段（和沒去的滷蛋照片）搬回 4/15 傍晚麵店（ev_psbh_public_0415），這一頓不演 */
   { id:'ev_midterm_walkout_y1s2', title:'考完試走出教室', participants:[], location:'any', trigger:'class', afterClass:'crim_gen2', afterExam:'final', term:['Y1S2'], once:true, background:'blur', /* D118 沒有期中考：AA_578 第 2 節 #9 改到同一門課的期末考（afterExam:'final'）*/
     dialogue:[ {speaker:null,text:'走廊上一群人。有人在翻課本，有人已經在滑手機。'},
       {speaker:'zhe',expression:'laugh',text:'刑總二比上學期難好多，第三題我整題亂寫。'},   /* AA_209 附錄A §2 */
@@ -978,12 +978,7 @@ const STORY_EVENTS=[
       {label:'mx2'},{speaker:null,text:'（他低頭吃了一口麵）'},{speaker:'classmate_mingxuan',expression:'laugh',text:'……好啦，這次我請。'},   /* AA_209 附錄B §2 */
       {label:'ps'},
       {if:{flags:['DORM_FOUR'],notFlags:['dating_classmate_peishan']},speaker:null,text:'（你想起柏翰這幾週都比較晚回 203。）'},   /* AA_209 第 4 節第 4 點（附錄 B 4-4 採用）：玩家住 203（四人房）才播 */
-      {if:PS_BH,speaker:null,text:'柏翰幫沛珊把滷蛋切成兩半。'},   /* PS_BH：認識沛珊、沒有和她交往（AA_374 第 11 項：柏翰×沛珊那一段只在玩家沒有和沛珊交往時發生）*/
-      {if:PS_BH,speaker:'zhe',expression:'surprised',text:'……喔。'},
-      {if:PS_BH,speaker:null,text:'全桌安靜三秒。'},
-      {if:PS_BH,speaker:'classmate_peishan',expression:'neutral',text:'對，我們在一起了。你們吃你們的。'},
-      {if:PS_BH,speaker:'classmate_bohan',expression:'neutral',text:'上禮拜的事。'},
-      {if:PS_BH,speaker:null,text:'（他把另一半滷蛋推回她碗裡。）'},
+      /* 沛珊和柏翰公開（滷蛋、「上禮拜的事。」）：AA_588 第 1 節搬回 4/15 傍晚麵店（ev_psbh_public_0415），這一頓拿掉 */
       /* AA_409 第 1 節（企劃線 86016b84；使用者 10-23 選擇題：沛珊大一上期末可以交往）：和祐廷交往中＝滷蛋夾一半給你；麵店團已經知道（ROM）＝一行旁白。接著柏翰算麵錢三句（AA_245 第 1 節；c42a0dd3 更正：兩個並存）*/
       {if:{custom:G=>PS_DT(G)&&!PS_TOLD(G)},speaker:null,text:'（沛珊坐在你旁邊。她把碗裡的滷蛋夾了一半，放到你碗裡。）'},{if:{custom:G=>PS_DT(G)&&!PS_TOLD(G)},speaker:'zhe',expression:'surprised',text:'……喔。'},{if:{custom:G=>PS_DT(G)&&!PS_TOLD(G)},speaker:null,text:'全桌安靜三秒。'},
       {if:{custom:G=>PS_DT(G)&&!PS_TOLD(G)},speaker:'classmate_peishan',expression:'neutral',text:'對。你們吃你們的。'},{if:{custom:G=>PS_DT(G)&&!PS_TOLD(G)},speaker:null,text:'（Alison 在桌子底下踢了阿哲一腳。）'},
@@ -991,10 +986,22 @@ const STORY_EVENTS=[
       {if:{custom:PS_DT_BH},speaker:null,text:'（柏翰把每個人的麵錢算好，寫在餐巾紙上。）'},{if:{custom:PS_DT_BH},speaker:'classmate_bohan',expression:'neutral',text:'一個人一百一十五。阿哲你多一顆蛋，一百二十五。'},{if:{custom:PS_DT_BH},speaker:'zhe',expression:'neutral',text:'……你連這個都算。'},
       {call:async(G,GM)=>{ if(typeof MREL!=='undefined'&&MREL.ycSupper) await MREL.ycSupper(GM); }} ],   /* 沛珊和宥辰的第一次互動（AA_228 3-4 ①，台詞在 multirel_lines.js 的 YC.n1）*/   /* AA_409 第 1 節更正（企劃線 c42a0dd3）：滷蛋那幾行（或公開的那一行）之後接 AA_245 第 1 節柏翰算麵錢三句，兩個並存 */
     after:(G)=>{ if(!PS_DT(G)||typeof ROM==='undefined'||!ROM.learn) return; for(const x of ['zhe','yu','classmate_bohan','classmate_mingxuan']) if(typeof STORY==='undefined'||!STORY.knows||STORY.knows(x,G)) ROM.learn(G,x,'classmate_peishan','present'); },   /* 這一桌的人都知道了 */   /* AA_209 附錄A §2（2-1 第 5 節第 1 點：沛珊前一句接得上，不改）*/
-    consequences:{stamp:['supperMid2Day'],memo:'考完的晚餐（阿鳳麵店長桌）'},
-    outingMissed:(G,GM,q)=>{ if(typeof PHONE==='undefined'||!PHONE.inGroup(G,'noodle_team')||typeof STORY==='undefined'||!STORY.knows('classmate_peishan',G)||(G.flags&&G.flags.dating_classmate_peishan)) return;   /* 和沛珊交往中：沒有柏翰那一段（AA_374 第 11 項）*/
-      PHONE.at(G,q.day,Math.max(20.5,G.day===q.day?G.hour:0),[{th:'g:noodle_team',from:'zhe',text:'📷（一顆切成兩半的滷蛋）'},{th:'g:noodle_team',from:'zhe',text:'柏翰幫沛珊切的'},{th:'g:noodle_team',from:'zhe',text:'……他們在一起了'}],'zhe_supper_mid2_egg');   /* AA_373 #16：照交接包 v2（2026-10-16 改）——阿哲傳滷蛋照片，配「柏翰幫沛珊切的」「……他們在一起了」（原本只有「……喔。」看不出發生什麼事）*/
-      if(typeof SOCIAL!=='undefined') SOCIAL.remember('classmate_peishan','HEARD_ABOUT','和柏翰在一起了（聽說）'); } },
+    consequences:{stamp:['supperMid2Day'],memo:'考完的晚餐（阿鳳麵店長桌）'} },   /* 沒去的滷蛋照片（outingMissed）跟著公開那一段搬到 ev_psbh_public_0415（AA_588 第 1 節）*/
+  /* 沛珊和柏翰公開（AA_588 第 1 節，AA 採用 LAWWW 的提案；AA_581 第 11 節第 2 點：留在原來的 4/15 一般麵店晚餐，兩人的關係時間線不變——沛珊的 partner 從 2026-04-06 起，柏翰「上禮拜的事。」）：
+     大一下第 8 週週三 4/15 傍晚，在麵店（進店、或已經在店裡）只演 PS_BH 那幾行。4/15 不是固定的麵店日：17:00 麵店團群組柏翰「今天晚上麵店，有空的來。」、沛珊「我會到。」（story3d.js phoneRules）。
+     沒在場、在麵店團群組、認識沛珊、沒和她交往＝20:30 阿哲的滷蛋照片（missedPhoto，原本考完的晚餐的 outingMissed；tag 照舊 zhe_supper_mid2_egg，舊存檔收過的不重收），記「聽說」（HEARD_ABOUT）。沒去不扣任何東西。
+     時間到 20:30 為止（20:30 照片就傳了）*/
+  { id:'ev_psbh_public_0415', title:'上禮拜的事', participants:[], location:'noodle', trigger:'auto', term:['Y1S2'], weeks:[8], weekday:[3], time:[17,20.5], once:true, background:'blur', prereq:PS_BH,
+    dialogue:[ {speaker:null,text:'柏翰幫沛珊把滷蛋切成兩半。'},   /* PS_BH：認識沛珊、沒有和她交往（AA_374 第 11 項：柏翰×沛珊那一段只在玩家沒有和沛珊交往時發生）*/
+      {speaker:'zhe',expression:'surprised',text:'……喔。'},
+      {speaker:null,text:'全桌安靜三秒。'},
+      {speaker:'classmate_peishan',expression:'neutral',text:'對，我們在一起了。你們吃你們的。'},
+      {speaker:'classmate_bohan',expression:'neutral',text:'上禮拜的事。'},
+      {speaker:null,text:'（他把另一半滷蛋推回她碗裡。）'} ],
+    consequences:{memo:'沛珊和柏翰在麵店說了（4/15）'},
+    missedPhoto:(G,day)=>{ if(typeof PHONE==='undefined'||!PHONE.inGroup(G,'noodle_team')||!PS_BH.custom(G)) return false;   /* 和沛珊交往中：沒有柏翰那一段（AA_374 第 11 項）*/
+      const ok=PHONE.at(G,day,20.5,[{th:'g:noodle_team',from:'zhe',text:'📷（一顆切成兩半的滷蛋）'},{th:'g:noodle_team',from:'zhe',text:'柏翰幫沛珊切的'},{th:'g:noodle_team',from:'zhe',text:'……他們在一起了'}],'zhe_supper_mid2_egg');   /* AA_373 #16：照交接包 v2（2026-10-16 改）——阿哲傳滷蛋照片，配「柏翰幫沛珊切的」「……他們在一起了」（原本只有「……喔。」看不出發生什麼事）*/
+      if(ok&&typeof SOCIAL!=='undefined') SOCIAL.remember('classmate_peishan','HEARD_ABOUT','和柏翰在一起了（聽說）'); return ok; } },
   /* 經濟系的朋友（BB_96 第 10 節，BB 2026-10-14）——10-1 P4d「你怎麼又在這裡？」（大一下版）：重修經原（下）下課，普通教學館的走廊；第 2 週週五（3/6）。
      那天沒去上課的，延到下一個有去的週五（第 3～5、7 週；第 6 週週五是春假、第 8 週是期中考）；一直沒去就不發生。
      AA_294 ②（2026-10-18，企劃 b3ec8820）：不限第 2～5、7 週，這學期第一次出席經原下就演（考試週照舊不演：afterClass 不是考完的那一場）。
