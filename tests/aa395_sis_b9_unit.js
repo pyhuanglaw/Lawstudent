@@ -39,9 +39,9 @@ await sec(1,async()=>{ const due=()=>X().rainDue(H.G,E);
   fresh('2028-04-24',16.9,'TW','FAMILIAR'); H.G.zone='campus'; door(86,2); H.G.weather='rain'; const a=due(); H.G.weather='clear'; const b=due(); H.G.weather='rain'; door(40,40); const c=due(); door(86,2); H.at('2028-04-24',16.7); const d=due(); H.at('2028-04-24',16.9); H.G.zone='library_hall'; const e=due();
   check('1. 4/24（一）下雨 16:54 在總圖門口＝演；沒下雨、離門口遠、16:42 都不演；總圖大廳也算',a&&!b&&!c&&!d&&e,J([a,b,c,d,e]));
   H.G.zone='campus'; const r0=Object.assign({},SOCIAL.rel(ID)); await run('ev_sis_y3s2_rain',[0,0]); const r1=SOCIAL.rel(ID);
-  check('1. 一起撐：照稿（「……計畫本上有寫「帶傘」。」→ 傘往她那邊偏 →「今天那頁寫什麼？」→「十七點，回家。」→「謝謝。……下次我會看今天。」）；share；熟悉 +2、自在 +2',seq(['（雨下得很大。她站在屋簷下，看著手機上的天氣。）','……計畫本上有寫「帶傘」。','寫在下禮拜那一頁。','（傘不大。她走在靠馬路那一邊，你把傘往她那邊偏。）','十七點，回家。','謝謝。……下次我會看今天。'])&&H.G.flags.SIS_Y3S2_RAIN==='share'&&r1.fam-r0.fam===2&&r1.comf-r0.comf===2,J(H.said.map(x=>x.t)));
+  check('1. 一起撐：照稿（「計畫本上有寫「帶傘」。」→ 傘往她那邊偏 →「今天那頁寫什麼？」→「十七點，回家。」→「謝謝。下次我會看今天。」）；share；熟悉 +2、自在 +2',seq(['（雨下得很大。她站在屋簷下，看著手機上的天氣。）','計畫本上有寫「帶傘」。','寫在下禮拜那一頁。','（傘不大。她走在靠馬路那一邊，你把傘往她那邊偏。）','十七點，回家。','謝謝。下次我會看今天。'])&&H.G.flags.SIS_Y3S2_RAIN==='share'&&r1.fam-r0.fam===2&&r1.comf-r0.comf===2,J(H.said.map(x=>x.t)));
   fresh('2028-04-25',16.9,'US','FAMILIAR'); H.date(ID); await run('ev_sis_y3s2_rain',[1]);
-  check('1. 美國路線（還沒走）、交往中、買傘：開頭「（她看到你，沒有說話，直接走到你的傘下面。）」；「……好。錢我給你。」…「……我會記得帶。」；buy',has('（她看到你，沒有說話，直接走到你的傘下面。）')&&seq(['……好。錢我給你。','下次換我帶兩把。','八月以後，那邊也會下雨吧。','……我會記得帶。'])&&H.G.flags.SIS_Y3S2_RAIN==='buy');
+  check('1. 美國路線（還沒走）、交往中、買傘：開頭「（她看到你，沒有說話，直接走到你的傘下面。）」；「……好。錢我給你。」…「我會記得帶。」；buy',has('（她看到你，沒有說話，直接走到你的傘下面。）')&&seq(['……好。錢我給你。','下次換我帶兩把。','八月以後，那邊也會下雨吧。','我會記得帶。'])&&H.G.flags.SIS_Y3S2_RAIN==='buy');
   fresh('2028-04-25',16.9,'TW','FAMILIAR'); H.date(ID); await run('ev_sis_y3s2_rain',[0,1]); check('1. 交往中一起撐：「（傘不大。她勾著你的手臂。）」',has('（傘不大。她勾著你的手臂。）')&&!has('（傘不大。她走在靠馬路那一邊，你把傘往她那邊偏。）'));
   fresh('2028-04-26',16.9,'TW','FAMILIAR'); H.G.zone='campus'; door(86,2); H.G.weather='rain'; H.G.events.done.ev_sis_adv_y4=1; H.G.events.last.ev_sis_adv_y4=H.G.day; const f=due();
   fresh('2028-04-26',16.9,'JP','FAMILIAR'); H.G.zone='campus'; door(86,2); H.G.weather='rain'; const g=due();
@@ -76,7 +76,7 @@ await sec(3,async()=>{ fresh('2028-08-05',20,'TW'); H.rel(ID,60,45,40); SOCIAL.r
   for(let d=D('2028-08-06');d<=D('2028-09-11');d++) for(const h of [8,9.5,10.5,20]){ H.at(keyOf(d),h); ph(); }
   const V=OUT.rec(H.G).filter(q=>/^y4_sa_s_/.test(q.id)).sort((a,b)=>a.day-b.day);
   check('3. T2：奇數週（8/13、8/27、9/10）臺灣週日 10:00「和學姊視訊（十分鐘）」、0.2 小時；偶數週照舊是訊息',H.G.flags.SIS_ABROAD_TIER===2&&J(V.map(q=>keyOf(q.day)+'@'+q.h+':'+q.sa.sset))===J(['2028-08-13@10:0','2028-08-27@10:1','2028-09-10@10:2'])&&V.every(q=>q.title==='和學姊視訊（十分鐘）'&&q.hours===0.2&&q.ev==='ev_sis_video_short')&&th().some(m=>/^y4_sa_t2_/.test(m.tag||'')),J(V.map(q=>keyOf(q.day)+'@'+q.h+':'+q.sa.sset)));
-  H.at('2028-08-13',10); await goOut(V[0].id,[0]); const s1=seq(['（她背後是一排洗衣機，有一台在轉。）','洗衣機還有十二分鐘。','聊到它停。','好了。……下次也挑洗衣服的時候。']);
+  H.at('2028-08-13',10); await goOut(V[0].id,[0]); const s1=seq(['（她背後是一排洗衣機，有一台在轉。）','洗衣機還有十二分鐘。','聊到它停。','好了。下次也挑洗衣服的時候。']);
   H.at('2028-08-27',10); await goOut(V[1].id,[1]); const s2=seq(['剛從圖書館出來。這條路燈很少。','……你在管我。','好。下次早一點。','到了。謝謝。']);
   H.at('2028-09-10',10); await goOut(V[2].id,[1]); const s3=seq(['（打字）這邊不能講話。','（你們看著對方，十分鐘沒有人說話。她中間笑了一次。）','（打字）十分鐘到了。……謝謝你沒掛。']);
   check('3. 三組照順序：洗衣間、走回宿舍、不能講話的地方',s1&&s2&&s3,J([s1,s2,s3]));
@@ -96,9 +96,9 @@ await sec(4,async()=>{ fresh('2028-10-26',17.5,'TW','FRIEND'); H.G.zone='dorm'; 
   check('4. 交往中（日本路線）：署名「書瑀」；（不傳）＝她不會問',has('（背面一行小字：「這邊的葉子紅了。寄到的時候，應該掉光了。——書瑀」）')&&!th().some(m=>m.from==='player'));
   fresh('2028-10-26',18.2,'US','FRIEND'); H.G.zone='dorm'; check('4. 美國路線（和她在同一個地方）：沒有',!X().mapleDue(H.G));
   fresh('2028-12-23',20,'TW','FRIEND',{SIS_MAPLE:true,SIS_MAPLE_MSG:'got',SIS_PICKUP_V:'two'}); OUT.plan(H.G,{id:'t_pick',ev:'ev_sis_pickup',day:H.G.day,h:20,place:'x',title:'x',travel:'',travelH:0}); await goOut('t_pick',[1,0]);
-  check('4. 12/23 接機車上：「書籤，你有用嗎。」→「捨不得用。」→「……用啊。不然寄它幹嘛。」',seq(['書籤，你有用嗎。','……用啊。不然寄它幹嘛。','我想吃滷肉飯。現在。']),J(H.said.map(x=>x.t)));
+  check('4. 12/23 接機車上：「書籤，你有用嗎。」→「捨不得用。」→「用啊。不然寄它幹嘛。」',seq(['書籤，你有用嗎。','用啊。不然寄它幹嘛。','我想吃滷肉飯。現在。']),J(H.said.map(x=>x.t)));
   fresh('2028-12-23',20,'TW','FRIEND',{SIS_PICKUP_V:'two'}); OUT.plan(H.G,{id:'t_pick',ev:'ev_sis_pickup',day:H.G.day,h:20,place:'x',title:'x',travel:'',travelH:0}); await goOut('t_pick',[0]);
-  check('4. 沒有書籤：車上沒有那一段',!has('書籤，你有用嗎。')&&!has('……用啊。不然寄它幹嘛。')&&has('我想吃滷肉飯。現在。')); });
+  check('4. 沒有書籤：車上沒有那一段',!has('書籤，你有用嗎。')&&!has('用啊。不然寄它幹嘛。')&&has('我想吃滷肉飯。現在。')); });
 /* ---- 5 ---- */
 await sec(5,()=>{ const setup=(n)=>{ fresh('2028-09-24',9,'TW'); H.rel(ID,65,50,45); const r=SOCIAL.rel(ID); r.npcRom=40; r.rom=10; DATE.log(H.G,ID).count=2; const R=S.saRec(H.G);
     for(let k=0;k<n;k++){ OUT.rec(H.G).push({id:'y4_sa_v_'+(5+k),ev:'ev_sis_video',day:D('2028-09-10')+k*7,h:10,state:'done',sa:{k:5+k,set:0}}); R.log.push({k:5+k,kind:'video',tag:'y4_sa_v_'+(5+k)}); } R.tier=3; R.k=6; };

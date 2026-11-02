@@ -120,13 +120,13 @@ const sec=async(n,f)=>{ try{ await f(); }catch(e){ check(n+'. 丟出例外（中
 
   /* ======================= 2 AA_379 2-6 那一句 ======================= */
   await sec('2',async()=>{
-  const OLD='計畫本上寫了很久。今天才決定要跟人說。', N1='之前跟你提過。', N2='……申請送出去了。今天才覺得是真的。';
+  const OLD='計畫本上寫了很久。今天才決定要跟人說。', N1='之前跟你提過。', N2='申請送出去了。今天才覺得是真的。';
   const go=async(setupF,picks)=>{ setup('2027-11-03',19.5,'lawlib','FAMILIAR'); if(setupF) setupF(H.G); H.said=[]; H.picks=(picks||[0]).slice(); await SISY23.preTalk(GM); return said(); };
   const a=await go(), b=await go(G=>{ G.social.ladder={[ID+'@Y2S2']:3}; }), c=await go(G=>{ G.social.ladder={[ID+'@Y2S2']:2}; }), d=await go(()=>SOCIAL.remember(ID,'SIS5_EXCHANGE_APP','')),
     e=await go(G=>{ G.flags.SIS_ADV_EXCH='go'; }), f=await go(G=>{ G.flags.SIS_ADV_EXCH='same'; }), g=await go(G=>{ G.social.ladder={[ID+'@Y2S2']:3}; dateSis(); });
   const hasNew=L=>{ const i=L.indexOf(N1); return i>0&&L[i+1]===N2&&L[i-1]==='八月走，十二月回來。論文的第四章，要在那邊寫。'&&!L.includes(OLD); }, hasOld=L=>L.includes(OLD)&&!L.includes(N1)&&!L.includes(N2);   /* 前一句「第四章」：AA_509 0-2 第 4 點（28f981438）改的，原本「第三章」（tests/aa379_sis_y2y3_unit.js 對稿）*/
   check('2. 都沒聽過（沒有階梯進度、記憶、1-2 的 go）：照原句「計畫本上寫了很久。今天才決定要跟人說。」',hasOld(a),J(a));
-  check('2. 大二下階梯已經過了 S4-Lx（進度 3）：換成「之前跟你提過。」「……申請送出去了。今天才覺得是真的。」；進度 2（S4-Lx 還沒說）照原句',hasNew(b)&&hasOld(c),J({b,c}));
+  check('2. 大二下階梯已經過了 S4-Lx（進度 3）：換成「之前跟你提過。」「申請送出去了。今天才覺得是真的。」；進度 2（S4-Lx 還沒說）照原句',hasNew(b)&&hasOld(c),J({b,c}));
   check('2. 有記憶 SIS5_EXCHANGE_APP（大三上 S5-L1）、1-2 選了「學姊現在還可以去啊。」（go）＝換兩句；1-2 選另一個（same）照原句',hasNew(d)&&hasNew(e)&&hasOld(f),J({d,e,f}));
   check('2. 交往中那一版不動（本來就沒有這句）',!g.includes(OLD)&&!g.includes(N1)&&g.includes('你如果去，我們同一班飛機。'),J(g));
   { setup('2027-11-12',12.4,'campus','FAMILIAR'); H.G.social.ladder={[ID+'@Y2S2']:4}; H.said=[]; H.picks=[0]; await EVENTS.run(ev('ev_sis_us_told_steps')); const L=said();
@@ -204,8 +204,8 @@ const sec=async(n,f)=>{ try{ await f(); }catch(e){ check(n+'. 丟出例外（中
   { setup('2028-02-13',20,'dorm','FRIEND'); dateSis(); at('2028-02-13',21.05); rules(); const m=PHONE.byAsk(H.G,'sisb4_vday_y3_ask');
     check('3-5. 2028-02-13（日）21:00 私訊「明天是我寒假那一天的假。」「早上十點，公館捷運站二號出口。其他的沒排。」；回覆「好。」「明天不行。」',J(dms())===J(['明天是我寒假那一天的假。','早上十點，公館捷運站二號出口。其他的沒排。'])&&!!m&&J(m.ask.opts.map(o=>o.t))===J(['好。','明天不行。']),J(dms()));
     PHONE.answer(H.G,'sisb4_vday_y3_ask',0); rules(); const q=OUT.get(H.G,'sisb4_vday_y3'); H.bgs=[]; const r0=relOf(); const L=await play('ev_sis_vday_y3',[1]); const r1=relOf(), E=ev('ev_sis_vday_y3');
-    check('3-5. 2/14 10:00 公館捷運站（走路約 15 分鐘）：底圖 gongguan → 公車上（bus_day，11-02 使用者生成；原本深色底）→ 終點站（country_road）；「（陪她看窗外）」→「（過了一個隧道，她的頭靠在你肩膀上。）」；湯圓、「回去以後，那一格，我要畫一個勾。」；時間推到 15:00 左右（hours 5）',
-      !!q&&q.h===10&&q.travelH===0.25&&E.hours===5&&J(L)===J(['（她站在出口，手上沒有計畫本。）','今天沒帶。放在家裡了。','第一班來的公車，我們就上去。坐到最後一站。','（她一開始看著窗外，小聲念站名。念到第七站，就不念了。）','（過了一個隧道，她的頭靠在你肩膀上。）','（終點站在山腳下。站牌旁邊有一家賣湯圓的小店，只有兩張桌子。）','……情人節吃湯圓。','我記一下。明年不要再這樣排。','（她說不要再這樣排，可是一直在笑。）','回去以後，那一格，我要畫一個勾。'])
+    check('3-5. 2/14 10:00 公館捷運站（走路約 15 分鐘）：底圖 gongguan → 公車上（bus_day，11-02 使用者生成；原本深色底）→ 終點站（country_road）；「（陪她看窗外）」→「（過了一個隧道，她的頭靠在你肩膀上。）」；湯圓、「……下次還坐這一班。」；時間推到 15:00 左右（hours 5）',
+      !!q&&q.h===10&&q.travelH===0.25&&E.hours===5&&J(L)===J(['（她站在出口，手上沒有計畫本。）','今天沒帶。放在家裡了。','第一班來的公車，我們就上去。坐到最後一站。','（她一開始看著窗外，小聲念站名。念到第七站，就不念了。）','（過了一個隧道，她的頭靠在你肩膀上。）','（終點站在山腳下。站牌旁邊有一家賣湯圓的小店，只有兩張桌子。）','……情人節吃湯圓。','我記一下。明年不要再這樣排。','（她說不要再這樣排，可是一直在笑。）','……下次還坐這一班。'])
       &&J(H.bgs.slice(-3))===J([{image:'assets/bg/gongguan.webp'},{image:'assets/bg/bus_day.webp'},{image:'assets/bg/country_road.webp'}]),J({q,L,bgs:H.bgs}));
     check('3-5. SIS_VDAY_Y3 went、記憶 SIS_VDAY_Y3、+3／+6／+5、裂縫已經是 0 不變',H.G.flags.SIS_VDAY_Y3==='went'&&SOCIAL.has(ID,'SIS_VDAY_Y3')&&dRel(r0,r1)===J({fam:3,comf:6,npcRom:5})&&!(H.G.flags.SIS_CRACK<0),dRel(r0,r1)); }
   { setup('2028-02-13',21.05,'dorm','FRIEND'); dateSis(); rules(); PHONE.answer(H.G,'sisb4_vday_y3_ask',0); const L=await play('ev_sis_vday_y3',[0]);
@@ -215,12 +215,12 @@ const sec=async(n,f)=>{ try{ await f(); }catch(e){ check(n+'. 丟出例外（中
   /* 3-6 */
   { setup('2029-02-14',9,'dorm','CLOSE',{SIS_VDAY_Y3:'went'}); dateSis(); rules(); const q=OUT.get(H.G,'sisb4_vday_y4'); const r0=relOf(); const L=await play('ev_sis_vday_y4',[1]); const r1=relOf();
     check('3-6. 2029-02-14（三）22:30 她打來（那一天一開始就排好；電話、接起來）',!!q&&q.h===22.5&&q.call===true&&q.verb==='接起來'&&q.place==='電話'&&q.day===H.D('2029-02-14'),J(q));
-    check('3-6. 「我爸剛去睡。我在陽台。」「……情人節快樂。」；去年有去的多「去年那家湯圓，我前幾天又想到。」「……想不起來那一站叫什麼。」；「（陪她在電話裡待著）」→旁白「（她沒有掛。……她才說：）」「好。我進去了。」',
-      J(L)===J(['我爸剛去睡。我在陽台。','……情人節快樂。','去年那家湯圓，我前幾天又想到。','……想不起來那一站叫什麼。','今年的二月十四號，我什麼都沒排。','……過年，一直在吃。','（她沒有掛。你聽著她那邊的風聲，和客廳沒關的電視。過了五分鐘，她才說：）','好。我進去了。'])&&J(H.opts[0])===J(['「開學以後，我們再補一天。」','（陪她在電話裡待著）']),J(L));
+    check('3-6. 「我在陽台。」「……情人節快樂。」；去年有去的多「去年那家湯圓，我前幾天又想到。」「想不起來那一站叫什麼。」；「（陪她在電話裡待著）」→旁白「（她沒有掛。……她才說：）」「好。我進去了。」',
+      J(L)===J(['我在陽台。','……情人節快樂。','去年那家湯圓，我前幾天又想到。','想不起來那一站叫什麼。','今年的二月十四號，我什麼都沒排。','過年一直在吃。','（她沒有掛。你聽著她那邊的風聲，和客廳沒關的電視。過了五分鐘，她才說：）','好。我進去了。'])&&J(H.opts[0])===J(['「開學以後，我們再補一天。」','（陪她在電話裡待著）']),J(L));
     check('3-6. SIS_VDAY_Y4 call、記憶 SIS_VDAY_Y4、熟悉 +2、自在 +3、她的戀愛 +3',H.G.flags.SIS_VDAY_Y4==='call'&&SOCIAL.has(ID,'SIS_VDAY_Y4')&&dRel(r0,r1)===J({fam:2,comf:3,npcRom:3}),dRel(r0,r1)); }
   { setup('2029-02-14',9,'dorm','CLOSE'); dateSis(); rules(); const L=await play('ev_sis_vday_y4',[0]);
     setup('2029-02-14',9,'dorm','CLOSE'); dateSis(); rules(); at('2029-02-14',22.5); const q=OUT.get(H.G,'sisb4_vday_y4'); q.state='missed'; OUT.onMissed(GM,q); rules(); const early=dms().length; at('2029-02-14',22.7); rules();
-    check('3-6. 去年沒去的沒有湯圓那兩句；「開學以後，我們再補一天。」→「嗯。……那一天我來寫。」',!L.includes('去年那家湯圓，我前幾天又想到。')&&L[L.length-1]==='嗯。……那一天我來寫。',J(L));
+    check('3-6. 去年沒去的沒有湯圓那兩句；「開學以後，我們再補一天。」→「嗯。那一天我來寫。」',!L.includes('去年那家湯圓，我前幾天又想到。')&&L[L.length-1]==='嗯。那一天我來寫。',J(L));
     check('3-6. 沒接（先不接）：記 missed、22:40 她傳「情人節快樂。」「我在陽台吹風。……你早點睡。」',H.G.flags.SIS_VDAY_Y4==='missed'&&early===0&&J(dms())===J(['情人節快樂。','我在陽台吹風。……你早點睡。']),J(dms())); }
   /* 沒交往的都沒有 */
   { const r=[]; for(const [k,h] of [['2026-12-23',21.05],['2027-12-24',20.55],['2027-02-13',21.05],['2028-02-13',21.05]]){ setup(k,h,'dorm','CLOSE'); rules(); r.push(dms().length===0); }

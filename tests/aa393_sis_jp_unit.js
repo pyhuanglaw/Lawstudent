@@ -46,7 +46,7 @@ await sec(1,async()=>{ fresh('2028-03-22',20); H.at('2028-03-22',21); ph();
   const sch=CHARACTERS.heroine_05.daily_schedule.find(r=>J(r.days)===J([1,2,4])&&r.zone==='cafe');
   check('1. 3/23（四）19:30～21:30 在 Café 才演（19:24 不演、不在 Café 不演）；她週四晚上本來就在 Café（作息）',!a&&b&&!c&&!!sch&&sch.from<=19.5&&sch.to>=21.5,J([a,b,c]));
   const r0=Object.assign({},SOCIAL.rel(ID)); H.said=[]; H.picks=[0]; const ran=await SISY23.preTalk(GM); const r1=SOCIAL.rel(ID);
-  const F1=['（她坐在窗邊的老位子。桌上除了筆電，還有一張已經寫好的便條。）','明天是以安的餞行，我知道。所以今天。','（她把便條推過來。）','（便條只有一句：「那邊三月還冷。外套不要收進行李箱最下面。」）','到了在群組說一聲。','……我四月中寫到第三章，拍給你看。這是我自己要做到的。','寫不完你會知道，因為我不會拍。','（九點半，她把筆電闔上。）','走吧。我也要回去了。'];
+  const F1=['（她坐在窗邊的老位子。桌上除了筆電，還有一張已經寫好的便條。）','明天是以安的餞行，我知道。所以今天。','（她把便條推過來。）','（便條只有一句：「那邊三月還冷。外套不要收進行李箱最下面。」）','到了在群組說一聲。','我四月中會寫到第三章。寫到了，拍給你看。','寫不完你會知道，因為我不會拍。','（九點半，她把筆電闔上。）','走吧。我也要回去了。'];
   check('1. 說話前接演（SISY23.preTalk）：朋友版照稿；「寫不完呢？」→「寫不完你會知道，因為我不會拍。」',ran===true&&F1.every((t,i)=>idx(t)>=0&&(i===0||idx(t)>idx(F1[i-1])))&&!has('（走到路口，她把你的圍巾拉好，才轉身走。）'),J(H.said.map(x=>x.t)));
   check('1. 記 SIS_JP_NOTE true；熟悉 +2、自在 +2；3/24 不再傳照片',H.G.flags.SIS_JP_NOTE===true&&r1.fam-r0.fam===2&&r1.comf-r0.comf===2&&(H.at('2028-03-24',9.5),ph(),!th().some(m=>/便條/.test(m.text))),J([r1.fam-r0.fam,r1.comf-r0.comf]));
   fresh('2028-03-23',19.5); H.date(ID); H.G.zone='cafe'; H.said=[]; H.picks=[1]; await SISY23.preTalk(GM);

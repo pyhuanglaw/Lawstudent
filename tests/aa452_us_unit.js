@@ -86,12 +86,12 @@ await sec('1-7',async()=>{ const cards=[]; const tc=GM.titleCard; GM.titleCard=a
   check('1-7. 返台字卡：挽回中（布魯明頓）「舊金山轉機」、交往中（舊金山那一週）照舊「舊金山起飛」',cards.indexOf('飛回臺灣｜舊金山轉機　約 14 小時')>=0&&cards.indexOf('飛回臺灣｜舊金山起飛　約 14 小時')>=0,J(cards)); });
 
 /* ======================= 第 4 節 初雪重新開始：選完她要有反應 ======================= */
-await sec('4',async()=>{ const A='（她往旁邊挪了一點，讓出半階台階。你坐下來。雪積在兩個人的帽子上。）', P0='（回公寓以前，她翻開計畫本，在 12 月 2 日那一格寫了一個字。）', P9='（她把計畫本闔起來。那一格寫的是「雪」。）';
+await sec('4',async()=>{ const A='（她往旁邊挪了一點，讓出半階台階。你坐下來。雪積在兩個人的帽子上。）', P0='（回公寓以前，她翻開計畫本，在 12 月 2 日那一格寫了一個字。）', P9='（她把計畫本闔起來。）';
   check('4. 稿裡有「'+A+'」',inDoc(A.slice(1,-1)));
   for(const pick of [0,1]){ fresh('2028-12-02',20.1,'us_outside',{US1:'alone',US2:'repair',REPAIR:{heroine_05:3}}); const L=await play('ev_us_snow_repair',[pick]), i=L.indexOf(A);
     check('4. 重新開始（選項 '+(pick+1)+'）：「這次我先說。」→ CG 後「'+A+'」→ 計畫本「雪」（交往中那一段）',i>0&&L[i-1]==='如果你還想的話，我們重新開始。這次我先說。'&&L[i+1]===P0&&L[L.length-1]===P9&&H.G.flags.US_SNOW==='restart',J(L.slice(-7))); }
   fresh('2028-12-02',20.1,'us_outside',{US1:'alone',US2:'repair',REPAIR:{heroine_05:2}}); const L2=await play('ev_us_snow_repair');
-  check('4. 「……回去吧，會冷。」那一支照舊（沒有半階台階、沒有計畫本）',L2[L2.length-1]==='……回去吧，會冷。'&&L2.indexOf(A)<0&&L2.indexOf(P9)<0,J(L2)); });
+  check('4. 「回去吧，會冷。」那一支照舊（沒有半階台階、沒有計畫本）',L2[L2.length-1]==='回去吧，會冷。'&&L2.indexOf(A)<0&&L2.indexOf(P9)<0,J(L2)); });
 
 H.done();
 })();

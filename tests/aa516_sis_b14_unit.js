@@ -230,7 +230,7 @@ await sec(2,async()=>{ const d=D('2028-08-03'), B=blk(part('### 2-1','### 2-2'))
   const stop=(CLS.STOP_FNS||[]).map(f=>{ try{ return f(H.G,20,23)||[]; }catch(e){ return []; } }).flat();
   check('2. 跳過時間：停在 22:00（手機響了）',stop.some(s=>s.h===22&&s.why==='手機響了'),J(stop));
   at(d,21.9); await goOut('sisb14_call0803',[0]); const s0=said();
-  check('2. 接起來（「累嗎？」）：照稿四句 → 選項 →「累。……可是睡不著。這邊才早上十點。」→「下週日開始，每個禮拜打。……這是第一通，不算。」；記 SIS14_CALL0803',J(s0)===J(want(B,0))&&H.G.flags.SIS14_CALL0803===true&&J(H.opts[0])===J(B.opts.map(o=>o.o)),J(s0));
+  check('2. 接起來（「累嗎？」）：照稿四句 → 選項 →「累。可是睡不著。這邊才早上十點。」→「下週日開始，每個禮拜打。這是第一通，不算。」；記 SIS14_CALL0803',J(s0)===J(want(B,0))&&H.G.flags.SIS14_CALL0803===true&&J(H.opts[0])===J(B.opts.map(o=>o.o)),J(s0));
   for(const k of [1,2]){ fresh(d,21.5,'dating',{SIS_SENDOFF:'airport'}); ph(); at(d,21.9); await goOut('sisb14_call0803',[k]);
     check('2. 機場等她（airport）也有；選項 '+(k+1)+'：'+B.opts[k].o,J(said())===J(want(B,k)),J(said())); }
   fresh(d,20.5,'dating',{SIS_SENDOFF:'family'}); ph(); at(d,22.6); expire(); at(d,23); PHONE.tick(H.G); const m1=TH('p:'+ID).filter(m=>m.tag==='sisb14_call0803_miss');   /* 23:00 才看：照原本的時間補進去（PHONE.tick 15 分鐘以上）*/

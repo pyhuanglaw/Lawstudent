@@ -74,7 +74,7 @@ const sayIdx=t=>H.said.findIndex(s=>s.t===t);
   // ---- E1：學姊條件到齊、單身 → 飯 → 椰林大道告白 → 20:30 研究室戀人版 ----
   { const G=H.fresh('2029-06-02',12,'campus'); H.FRIEND('heroine_05'); heart('heroine_05'); H.picks=['好。'];
     await H.run('grad');
-    check('9. E1：拍照最後「今天晚上……飯吃完，跟我回研究室。」→ 接了＝17:30 學期末的飯（不排 Café）',H.has('今天晚上……飯吃完，跟我回研究室。')&&OUT.get(G,'te_Y4S2')&&OUT.get(G,'te_Y4S2').h===17.5&&!OUT.get(G,'pg_grad_cafe'),JSON.stringify(G.outings));
+    check('9. E1：拍照最後「今天晚上一起吃飯？吃完，陪我走回研究室。」→ 接了＝17:30 學期末的飯（不排 Café）',H.has('今天晚上一起吃飯？吃完，陪我走回研究室。')&&OUT.get(G,'te_Y4S2')&&OUT.get(G,'te_Y4S2').h===17.5&&!OUT.get(G,'pg_grad_cafe'),JSON.stringify(G.outings));
     check('9. E3 的規則：Café 那句由別人說（阿哲；學姊發了邀約不說）',H.has('晚上五點半兩點半啦，能來的都來。'));
     H.at('2029-06-02',17.5); H.said=[]; H.picks=['（先不說）','「好。」'];
     await TERMEND.dinner(GM,OUT.get(G,'te_Y4S2'));

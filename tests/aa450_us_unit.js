@@ -108,7 +108,7 @@ await sec('1-6',async()=>{
 
 /* ======================= 1-7 期末飯（學姊 Y4S1）======================= */
 await sec('1-7',async()=>{ const B=['時差還沒調好。我現在很想睡。','……可是這頓我不想錯過。'], X3=['去年在研究室說的。剛回來一天。','……我們做到了。'];
-  const N=['美國下雪那天，我說回去再跟你說。','……論文還要改兩章。我不知道碩三畢不畢得了業。','還有，我其實不知道自己為什麼要念研究所。以前有人問，我都說「先不要問我」。'];
+  const N=['美國下雪那天，我說回去再跟你說。','論文還要改兩章。我不知道碩三畢不畢得了業。','還有，我其實不知道自己為什麼要念研究所。以前有人問，我都說「先不要問我」。'];
   for(const t of N) check('1-7. 稿裡有「'+t+'」',inDoc('學姊：'+t));
   const din=async(key,flags)=>{ H.fresh(key,18.5,'campus',Object.assign({met_sis:true},flags||{})); H.CLOSE(S5); H.G.flags.dating_heroine_05=true; ROM.get(H.G,S5).status='dating'; if(STORY._bindGM) STORY._bindGM(GM); H.said=[]; H.picks=[0,0,0];
     await TERMEND.dinner(GM,{id:'te_gf_Y4S1_'+S5,te:{term:'Y4S1',who:S5,kind:'gf'}}); return said(); };

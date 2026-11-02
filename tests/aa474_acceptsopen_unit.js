@@ -265,7 +265,7 @@ await sec('8-6',async()=>{
   const canyon=async(picks,pre)=>{ fresh('2028-10-07',7,'dorm',{EXCHANGE_ROUTE:'TW',dating_kexin:true,YT_HONEST:{heroine_05:true}}); H.CLOSE(SIS); learn(SIS,KX); learn(KX,SIS); setRom(SIS,80); const L=DATE.log(H.G,SIS); L.count=4; if(pre) pre(); clr(); H.picks=picks.slice(); await EVENTS.run(ev('ev_sis_canyon')); };
   await canyon([0,'她知道','她說可以']);
   check('8-6. 她知道祐廷和可昕交往：告白「學姊，我喜歡妳。」那一刻接 KNOW.heroine_05「可昕知道嗎？」→「她知道。」→「她說可以。」→「……好。我想一下。」（第一次＝讓我想想）；沒有原本的「好。」',
-    seq(['可昕知道嗎？','……她怎麼說？','……好。我想一下。','十二月二十三號，晚上八點落地。你來接我。'])&&!H.has('……我以為我要先說。')&&!H.has('我們試試看。'),J(T()));
+    seq(['可昕知道嗎？','……她怎麼說？','……好。我想一下。','十二月二十三號，晚上八點落地。你來接我。'])&&!H.has('（她笑了。）你確定？')&&!H.has('我們試試看。'),J(T()));
   check('8-6. 不交往：行程照算兩次約會＋心願地點、SIS_GF_CANYON 不記、不叫書瑀（SIS_CANYON knows）',!H.G.flags.dating_heroine_05&&H.G.flags.SIS_CANYON==='knows'&&H.G.flags.SIS_GF_CANYON==null&&!H.G.flags.CALLED_SHUYU&&DATE.log(H.G,SIS).count===6&&DATE.log(H.G,SIS).wish===true);
   await canyon([1,'我會跟她說','說我們分手']);
   check('8-6. 她先說（看著峽谷）、她知道：只說前兩句就接「可昕知道嗎？」（AA_481 第 2 節：沒有「你要說好，還是要我再說一次。」）；「我會跟她說。」→「說我們分手。」＝不交往、記承諾（exclusive）',seq(['那我先說。','我喜歡你。……我想了很久，要不要在這裡說。','可昕知道嗎？','那等你說完。'])&&!H.has('你要說好，還是要我再說一次。')&&!H.G.flags.dating_heroine_05&&H.G.flags.YT_PROMISED[SIS]==='exclusive'&&H.G.flags.SIS_CANYON==='knows',J(T()));

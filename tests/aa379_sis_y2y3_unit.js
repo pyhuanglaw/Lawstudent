@@ -114,10 +114,10 @@ const dateSis=()=>{ H.G.flags['dating_'+ID]=true; ROM.get(H.G,ID).status='dating
     setup('2028-03-15',10,'dorm','FRIEND'); rules(); const q=OUT.get(H.G,'sisy23_result');
     check('7. 3/15（三）21:30 她打電話來（朋友以上；那一天一開始就排好；熟悉的沒有）',!a&&!!q&&q.h===21.5&&q.place==='電話'&&q.call===true&&q.verb==='接起來',J(q));
     const L=await play('ev_sis_us_result',[0]);
-    check('7. 一般：「……上了。」「信是下午來的。……才打給你。」「八月二號的飛機。……」；「恭喜。」→「嗯。……我以為我會比較高興。……」；SIS_US_RESULT call',J(L.slice(0,3))===J(['……上了。','信是下午來的。我看了好幾遍，確定沒有看錯，才打給你。','八月二號的飛機。……還沒訂，先把日子想好。'])&&L.includes('嗯。……我以為我會比較高興。現在只想到，要在那邊待四個多月。')&&H.G.flags.SIS_US_RESULT==='call',J(L)); }
+    check('7. 一般：「……上了。」「信是下午來的。……才打給你。」「八月二號的飛機。……」；「恭喜。」→「嗯。……我以為我會比較高興。……」；SIS_US_RESULT call',J(L.slice(0,3))===J(['……上了。','信是下午來的。我看了好幾遍，確定沒有看錯，才打給你。','八月二號的飛機。還沒訂，先把日子想好。'])&&L.includes('嗯。……我以為我會比較高興。現在只想到，要在那邊待四個多月。')&&H.G.flags.SIS_US_RESULT==='call',J(L)); }
   { setup('2028-03-15',21.5,'dorm','FRIEND',{EXCHANGE_ROUTE:'US'}); dateSis(); const a=await play('ev_sis_us_result',[1]);
     setup('2028-03-15',21.5,'dorm','FRIEND',{EXCHANGE_ROUTE:'JP'}); dateSis(); const b=await play('ev_sis_us_result',[0]);
-    check('7. 交往中：美國路線「八月二號。我們同一班。」、「我現在過去。」→「很晚了。……明天中午，研究室。」；其他路線「八月二號。……你要來送我。」、「恭喜。」→「……你先不要掛。……」',a.includes('八月二號。我們同一班。')&&a.includes('很晚了。……明天中午，研究室。')&&!a.includes('信是下午來的。我看了好幾遍，確定沒有看錯，才打給你。')&&b.includes('八月二號。……你要來送我。')&&b.includes('嗯。……你先不要掛。我想再聽一下你那邊的聲音。'),J({a,b})); }
+    check('7. 交往中：美國路線「八月二號。我們同一班。」、「我現在過去。」→「很晚了。……明天中午，研究室。」；其他路線「八月二號。你要來送我。」、「恭喜。」→「……你先不要掛。……」',a.includes('八月二號。我們同一班。')&&a.includes('很晚了。……明天中午，研究室。')&&!a.includes('信是下午來的。我看了好幾遍，確定沒有看錯，才打給你。')&&b.includes('八月二號。你要來送我。')&&b.includes('嗯。你可以先不要掛嗎。'),J({a,b})); }
   /* ---- 8 熟悉以下、前任 ---- */
   { const res=[];
     setup('2026-09-21',21.05,'dorm','FAMILIAR',{met_sis:false}); rules(); res.push(dms().length===0);
