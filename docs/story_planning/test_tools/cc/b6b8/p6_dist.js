@@ -31,7 +31,8 @@ async function sim(key,hour,flags,plan,setup){ const G=H.fresh(key,hour,'dorm',O
       if(G.day*24+G.hour<before-1e-6) mono=false; }
   }catch(e){ err=e; } finally { PG.runStep=orun; }
   await new Promise(r=>setTimeout(r,30));
-  const lastKey=Object.keys(EL).find(k=>H.has(EL[k]));
+  let lastKey=Object.keys(EL).find(k=>H.has(EL[k]));
+  { const ll=typeof PG.lastLine==='function'?PG.lastLine(G):null; if(ll&&H.has(ll)&&!lastKey) lastKey=PG.path(G); }   /* 673ef2185 起：2031 以前錄取的檢察官最後一句＝JUDGE.prosServing（postgrad3d.js S.lastLine，AA_582 (m)），不在 EPI.last 裡 */
   return {G,order,stops,it,err,mono,lastKey,photo:((G.msgs||[]).find(m=>m.tag==='pg_first_day'&&m.from==='player')||{}).text||'',said:H.said.map(x=>x.t)}; }
 const okRun=(name,R)=>check(name+'：沒有卡死、不丟例外、時間只往前、演完尾聲（'+R.it+' 步）',!R.err&&!warns.length&&!rej.length&&R.mono&&R.G.flags.EPILOGUE_DONE===true&&R.it<220,
   (R.err&&R.err.stack||'')+warns.slice(0,3).join('｜')+rej.slice(0,2).join('｜')+'　'+R.stops.join(' ')+'　'+R.order.join(' → '));
