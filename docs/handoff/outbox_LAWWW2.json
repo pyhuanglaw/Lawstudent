@@ -5178,7 +5178,7 @@
    "branch": "claude/second-ai-env-art",
    "sha": "542b715f2",
    "receiver": "LAWWW",
-   "ack": "SENT",
+   "ack": "ACK",
    "task": "ATTEND-ROLLCALL-1102",
    "files": [
     "assets/models/env/second_ai/boya_203.glb",
@@ -5195,7 +5195,7 @@
    "remaining": "遊戲裡的「簽到表」互動、台詞由 LAWWW 拿掉；boya_203_unit 第 6 項說明文字還寫「簽到表」（LAWWW 的檔，沒動）；沒跑全部 Node、瀏覽器真實流程、手機實機",
    "next": "LAWWW 換 GLB＋layout、套 room_glb_layouts patch（或用 README 那段重新產生 boya_203 那一筆）；BB 看桌上節目單（D120）",
    "noDirectIntegrate": false,
-   "note": "LAWWW 06:05（P2）派：使用者 11-02「非上課的簽到只留補習班」（AA_574）。簽到→節目單貼圖、拿掉 look signup；GLB 幾何／材質和部署中的相同、只差貼圖；boya 相關 19 支 Node ALL PASS（開發 94c89e8e6＋這包）"
+   "note": "LAWWW 06:05（P2）派：使用者 11-02「非上課的簽到只留補習班」（AA_574）。簽到→節目單貼圖、拿掉 look signup；GLB 幾何／材質和部署中的相同、只差貼圖；boya 相關 19 支 Node ALL PASS（開發 94c89e8e6＋這包）｜LAWWW 06:29 ACK：全套測試跑完就接（GLB、layout、用 README 的 python 重新產生 boya_203），boya_203_unit 第 6 項說明文字他改，接好派 BB（D120）"
   }
  ]
 }
