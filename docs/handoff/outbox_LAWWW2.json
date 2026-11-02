@@ -5226,7 +5226,7 @@
    "branch": "claude/second-ai-env-art",
    "sha": "3591dcb47",
    "receiver": "LAWWW",
-   "ack": "SENT",
+   "ack": "ACKNOWLEDGED",
    "task": "LIB-INTERIOR-1102（B1）",
    "files": [
     "assets/models/env/second_ai/library_b1.glb",
@@ -5244,6 +5244,23 @@
    "next": "LAWWW 換二進位＋套 patch（b1b249873、ba125d6f3 apply --check 乾淨）；BB 照 D120 看畫面（README 第二～四節）",
    "noDirectIntegrate": false,
    "note": "使用者 11-02 08:58、10:0x 直接對 LAWWW2（UA-LAWWW2-1102-04、-07）：照平面圖重排 B1，尤其 24 小時自習室。配置：自習室 A 區 101 座、B 區、大廳（服務台、自助借還、置物櫃）＋下沉中庭、國際會議廳（關）、討論室 1/2（各 6 座）、影印中心，共 115 座，navcheck 全走得到。椅子、檯燈 GPU instancing；29k 三角形（畫出 65k）；GLB 2.7 MB（md5 c20ee8585b37）。patch：library_b1_layout.js 重產、b1story3d.js BAR_SEATS／STAGES、r2y4b3d.js act_bar_study.spot (3.0,8.3)、library_b1_unit 座位 28→101。測試（b1b249873＋patch＋GLB）：Node 61 支 60 PASS（pool_aafix_unit 基準就 FAIL）；guide_flow 10 PASS／3 FAIL（基準逐項相同）",
+   "integrated": "LAWWW 11-02 14:42 ACK：已整合進 int/next1102＝3e6855649（md5 對得上、B1 unit 全過）。BB 14:43 BB_236：可以整合、還不標 ART_APPROVED（木紋、椅子、桌上小物、牆面、烘焙 → B1 第三版）"
+  },
+  {
+   "branch": "claude/second-ai-env-art",
+   "sha": "219e5dc45",
+   "receiver": "LAWWW",
+   "ack": "SENT",
+   "task": "CGI-TESTS-1102（campus_glb_integration 只改 tests）",
+   "files": [
+    "docs/art-rebuild/second_ai/patches/campus_glb_integration_1102.patch",
+    "docs/art-rebuild/second_ai/test_logs/campus_glb_integration_1102/README.md"
+   ],
+   "state": "已交付",
+   "remaining": "效能那一項 FAIL（遊戲本身的數字，門檻沒改）：soc_court 1.105 倍、teach_east 1.106 倍兩次都超過；arts_front、gate_avenue 在邊緣、跟著一組約 26 次 draw call／7.26 萬三角形的量測雜訊變（還沒找到是什麼）",
+   "next": "LAWWW 套 patch（a5935aa30、3e6855649 apply --check 乾淨）；LAWWW2 之後：①找出雜訊讓量測固定（只改 tests，另交）②校門、男一舍、普通、博雅四棟減 draw call",
+   "noDirectIntegrate": false,
+   "note": "LAWWW 11-02 14:30 要的。原因：soc 接的是 campus_socsci_glb（X75）；TAGS 少四棟；改之前那一輪刪 key 會改到總圖（LIBF）、社科院（SOCX）、校門（ckTag）、男一舍（門廊燈）的配置（13 個 key 全刪：擋住的導航格少 4784、互動點少 2、鏡頭碰撞少 8）。改成：刪 key／STUB（key 留著、loadOne 回 null）／KEEP（新社科院兩輪都有）。外框容許只放寬屋頂樓梯間、機房（量過）。兩次全套都是 94 PASS／1 FAIL",
    "integrated": ""
   }
  ]
