@@ -17,7 +17,7 @@ const fs=require('fs'), vm=require('vm'), path=require('path'), cp=require('chil
 const {check}=H, J=JSON.stringify;
 for(const f of ['src/data/study_units.js','src/study3d.js']){ const p=path.join(H.ROOT,f); if(!fs.existsSync(p)) continue; const src=fs.readFileSync(p,'utf8').replace(/^const ([A-Z][A-Z0-9_]*)\s*=/mg,'globalThis.$1='); vm.runInThisContext(src,{filename:f}); }
 const DIR='docs/story_planning/study/';
-const FILES={Y1S1:DIR+'cards_y1s1.json',Y1S2:DIR+'cards_y1s2.json',Y2S1:DIR+'cards_y2s1.json',Y2S2:DIR+'cards_y2s2.json'}, TITLES=DIR+'crimpro_titles.json';
+const FILES={Y1S1:DIR+'cards_y1s1.json',Y1S2:DIR+'cards_y1s2.json',Y2S1:DIR+'cards_y2s1.json',Y2S2:DIR+'cards_y2s2.json',Y3S1:DIR+'cards_y3s1.json'}, TITLES=DIR+'crimpro_titles.json';
 const ALLOW=JSON.parse(fs.readFileSync(path.join(H.ROOT,'docs/handoff/story_import_allow.json'),'utf8'));
 const approved=p=>ALLOW.files.filter(e=>e.path===p&&e.status==='approved'&&e.approvedBy&&e.sha);
 const show=(sha,p)=>{ try{ return JSON.parse(cp.execFileSync('git',['-C',H.ROOT,'show',sha+':'+p],{encoding:'utf8',stdio:['ignore','pipe','pipe']})); }catch(e){ return null; } };
@@ -55,10 +55,10 @@ for(const t of Object.keys(FILES)){ const S=src[t]; if(!S){ check('c. '+t+' 匯�
   check('d. 刑訴題庫卡 '+qu.length+' 張的標題＝crimpro_titles.json（crimpro_q1～q9）',qu.length===9&&!bad.length&&Object.keys(T).filter(k=>!k.startsWith('_')).length===9,J({bad,q1:U.crimpro_q1&&U.crimpro_q1.title})); }
 
 /* e 還沒交定稿的學期沒有匯入 */
-{ const rest=STUDY_UNITS.units.filter(u=>!FILES[u.term]&&u.src!=='qbank'); const leak=rest.filter(has).map(u=>u.id);
+{ const rest=STUDY_UNITS.units.filter(u=>!FILES[u.term]&&u.src!=='qbank');   /* 大三上起（Y3S1）cards_y3s1.json 也匯入了：剩 Y3S2、Y4S1、Y4S2 */ const leak=rest.filter(has).map(u=>u.id);
   check('e. 白名單沒有的學期（'+[...new Set(rest.map(u=>u.term))].join('、')+'）'+rest.length+' 張週卡 plain／example／cue 都空',rest.length>0&&!leak.length,J(leak.slice(0,5)));
-  const qb=STUDY_UNITS.units.filter(u=>u.src==='qbank'&&has(u)).map(u=>u.id);
-  check('e. 刑訴題庫卡只換了標題，plain／example／cue 還空著（AA 另批寫）',!qb.length,J(qb)); }
+  const qb=STUDY_UNITS.units.filter(u=>u.src==='qbank'&&!has(u)).map(u=>u.id);
+  check('e. 刑訴題庫卡 9 張：大三上 cards_y3s1.json 交了內容（AA 11:46），plain／example／cue 都有',!qb.length,J(qb)); }
 
 /* f 洩題檢查 */
 const noHint={};
