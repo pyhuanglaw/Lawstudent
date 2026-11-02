@@ -26,7 +26,7 @@ function el(id){ const cls=new Set(); return {id,style:{},children:[],classList:
 const els={}; const $=id=>els[id]||(els[id]=el(id));
 $('hudR').children=['money','btnPhone','btnQuick','btnMenu','quickPop'].map($);
 const toasts=[]; let saves=0; const store={}; let canWrite=true;
-const ctx={ $, D:{busyDepth:0,busyWho:[],active:false,stale:false}, GM:{titleIdle:false}, S:{joystick:true},
+const ctx={ $, D:{busyDepth:0,busyWho:[],active:false,stale:false}, GM:{titleIdle:false,saveFailText:()=>'存檔失敗（瀏覽器儲存不可用）'}, S:{joystick:true},   /* GM.saveFailText：game3d.js 的寫入失敗那一句（BUG-SAVE-QUOTA-1102；空間不足另一句，tests/save_quota_unit.js）*/
   G:{day:14,hour:17.56}, E:{player:{}}, CALENDAR:{dateOf:d=>({m:9,d:d})}, autosave:()=>{ saves++; }, toast:(t)=>toasts.push(t), String,
   KEY_QUICK:'fatiao3d_quick', KEY_BACKUP:'fatiao3d_backup', KEY_AUTO:'fatiao3d_auto', menuOpen:false, renderSlots:()=>{},
   read:k=>store[k]||null, write:(k,o)=>{ if(!canWrite) return false; store[k]=o; return true; }, snapshot:()=>({day:ctx.G.day,hour:ctx.G.hour,n:++saves}) };
