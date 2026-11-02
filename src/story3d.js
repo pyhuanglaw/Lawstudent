@@ -548,7 +548,12 @@ const STORY = (function(){
     if(!LADDER.byTerm&&LADDER.characters[id]&&!(LADDER.terms&&LADDER.terms[id])) return {L:LADDER.characters[id],term:t,key:id};   /* 舊格式、沒有學期的資料（測試用）*/
     if(B.Y1S1&&B.Y1S1[id]&&!(LADDER.terms&&LADDER.terms[id])) return {L:B.Y1S1[id],term:t,key:id};   /* 沒有寫學期的測試資料 */
     return null; };
-  const ladRec=G=>{ const so=G.social||(G.social={}); if(!so.ladder||typeof so.ladder!=='object') so.ladder={}; if(!so.ladderDay||typeof so.ladderDay!=='object') so.ladderDay={}; if(!so.greetUsed||typeof so.greetUsed!=='object') so.greetUsed={}; return so; };
+  /* 從階梯資料刪掉的層（進度 G.social.ladder[key]＝已經走過幾層，是位置）：舊存檔第一次讀到時換算一次——原本走過 n 層、刪掉的層在 n 以前的有 k 層＝現在走過 n−k 層；
+     換算過的記在 G.social.ladDel（新遊戲第一次用到階梯時進度都是 0，直接記成換算過）。AA_584（學姊第二批，使用者 2026-11-02 18:0x）：大一上 S-L8（第 9 層）、大一下 S2-L5、S2-L6（第 5、6 層）、
+     大二上 S3-L3（第 3 層）、大三上 S5-L5（第 5 層）、大四下 S7-L6（第 6 層），數字是刪以前從 0 算的位置 */
+  S.LAD_DEL={aa584:{'heroine_05':[8],'heroine_05@Y1S2':[4,5],'heroine_05@Y2S1':[2],'heroine_05@Y3S1':[4],'heroine_05@Y4S2':[5]}};
+  const ladDelFix=so=>{ const dm=(so.ladDel&&typeof so.ladDel==='object')?so.ladDel:(so.ladDel={}); for(const k in S.LAD_DEL){ if(dm[k]) continue; const D=S.LAD_DEL[k]; for(const key in D){ const n=so.ladder[key]; if(typeof n==='number'&&n>0) so.ladder[key]=n-D[key].filter(d=>d<n).length; } dm[k]=1; } };
+  const ladRec=G=>{ const so=G.social||(G.social={}); if(!so.ladder||typeof so.ladder!=='object') so.ladder={}; if(!so.ladderDay||typeof so.ladderDay!=='object') so.ladderDay={}; if(!so.greetUsed||typeof so.greetUsed!=='object') so.greetUsed={}; ladDelFix(so); return so; };
   const ladCtxOk=(G,e,id)=>{ const T=typeof CALENDAR!=='undefined'?CALENDAR.termOf(G.day):null, hh=G.hour%24, ec=typeof EVENTS!=='undefined'&&EVENTS.cond;
     if(e.if&&!(ec&&EVENTS.cond(e.if))) return false; if(e.unless&&ec&&EVENTS.cond(e.unless)) return false; if(e.any&&!(ec&&e.any.some(c=>EVENTS.cond(c)))) return false;
     if(e.term&&!(T&&[].concat(e.term).includes(T.id))) return false; if(e.week&&!(T&&T.week>=e.week[0]&&T.week<=e.week[1])) return false;

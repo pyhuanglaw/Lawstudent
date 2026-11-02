@@ -121,8 +121,8 @@ const kxOD=()=>OUT.rec(G).filter(q=>/^kx_od_/.test(q.id));
     check('7. 對照：大一下語彤的飯在 6/19（五）（6/18 雙主修筆試）',K(dd)==='2026-06-19',K(dd)); }
   // ===== 第 8、14 項：學姊 S2-L6、以安的招呼 =====
   { const S=LADDER.byTerm.Y1S2.heroine_05.steps.find(s=>s.id==='S2-L6');
-    check('8. 學姊 S2-L6：「上學期期中的時候，我對著空的保溫瓶喝了好幾次。」',!!S&&S.lines[0]==='上學期期中的時候，我對著空的保溫瓶喝了好幾次。',S&&S.lines[0]);
-    check('8. 學姊 S2-L6（買過黑咖啡的）：「那杯黑咖啡，謝謝。」（不說「上次」）',!!S&&S.linesIf[0].lines[0]==='那杯黑咖啡，謝謝。',S&&S.linesIf[0].lines[0]);
+    // AA_584 第 11 節第 6 點（使用者 2026-11-02 18:0x：空保溫瓶這條線整個拿掉）：學姊 S2-L6 整層刪，第 8 項那兩句跟著沒了（import_ladder.py 的 AA_373 疊句遇到 S2-L6 不在就跳過）
+    check('8. 學姊 S2-L6（AA_373 第 8 項的兩句所在）已經整層刪（AA_584 第 11 節第 6 點）',!S,S&&S.lines[0]);
     const A=(LADDER.byTerm.Y1S2.heroine_01.greet.when||[]).find(x=>J(x.week)===J([10,15]));
     check('14. 以安第 10～15 週的招呼：「日文課下禮拜小考。……片假名我還是會看錯。」（交換是大三的伏筆）',!!A&&A.t==='日文課下禮拜小考。……片假名我還是會看錯。',A&&A.t);
     const allow=JSON.parse(fs.readFileSync(path.join(ROOT,'docs/handoff/story_import_allow.json'),'utf8')).files.filter(e=>/AA_373_/.test(e.path));
@@ -214,7 +214,7 @@ const kxOD=()=>OUT.rec(G).filter(q=>/^kx_od_/.test(q.id));
     check('第 6-2 節第 3 題. 通識第 6 週：黑板「（本週在天文館）」（不是「（本週晚上在操場）」）；觀察「看旁邊的人」＝「宥辰仰著頭，一直到燈亮都沒有說話。」；開頭旁白「（這堂課移到天文館。）」',
       (w6.board||[])[1]==='（本週在天文館）'&&!(w6.board||[]).some(t=>/操場/.test(t))&&!!ob&&ob.result==='宥辰仰著頭，一直到燈亮都沒有說話。'&&!!pre[0]&&pre[0][1]==='（這堂課移到天文館。）',J([w6.board,ob,pre]));
     const S6=LADDER.byTerm.Y1S2.heroine_05.steps.find(s=>s.id==='S2-L6'), fl=S6&&(S6.linesIf||[]).find(x=>x.if&&J(x.if).includes('ev_sis_empty_flask'));
-    check('第 6-2 節第 4 題. 學姊 S2-L6 看過空保溫瓶那一套：「上學期期中那個空的保溫瓶，你看到了。」',!!fl&&fl.lines[0]==='上學期期中那個空的保溫瓶，你看到了。',fl&&fl.lines[0]);
+    check('第 6-2 節第 4 題. 學姊 S2-L6 看過空保溫瓶那一套：整層刪了（AA_584 第 11 節第 6 點，空保溫瓶這條線拿掉）',!S6&&!fl,fl&&fl.lines[0]);
     const h2=TERMEND.heart('heroine_03','Y1S2'), h3=TERMEND.heart('heroine_03','Y2S1');
     check('第 6-2 節第 7 題. 語彤大一下心意第二次：「禮拜五。打烊以後。……你上次說要想，想好了嗎。」（對照：大二上照舊「禮拜四」）',!!h2&&h2.invite2==='禮拜五。打烊以後。……你上次說要想，想好了嗎。'&&!!h3&&h3.invite2==='禮拜四。打烊以後。……你上次說要想，想好了嗎。',J([h2&&h2.invite2,h3&&h3.invite2]));
     const dbt=async day=>{ fresh(day,15,'library',{}); R('classmate_peishan','FAM'); picks=['妳呢']; said=[]; await EVENTS.run(ev('ev_peishan_doubt')); return lines().filter(t=>/A館/.test(t)); };

@@ -286,7 +286,9 @@ await sec(10,async()=>{ const a=D('2029-07-15'), d=D('2029-07-20');
   at(d,18.3); await goOut('sisb13_thesis'); check('10. 3 演：「（桌上一本裝訂好的論文，封面上寫著你的名字。）」「簽名不用。……我寫了一句在第一頁。你回家再看。」；SIS_THESIS_COPY',seq(['（桌上一本裝訂好的論文，封面上寫著你的名字。）','簽名不用。……我寫了一句在第一頁。你回家再看。'])&&H.G.flags.SIS_THESIS_COPY===true,J(said()));
   fresh(a,20,'friend'); SOCIAL.remember(ID,'SIS6_FATHER_COPY',''); phAt(a,21.1); answer('sisb13_thesis_ask',1); ph();
   check('10. 3「不用了…」→「……好。那我留一本在研究室，給學弟妹。」；不排',txt('p:'+ID).slice(-1)[0]==='……好。那我留一本在研究室，給學弟妹。'&&!OUT.get(H.G,'sisb13_thesis'));
-  fresh(a,20,'friend'); phAt(a,21.1); check('10. 3 沒有 SIS6_FATHER_COPY：沒有',!byTag('sisb13_thesis_ask').length);
+  /* AA_584 第 9 節第 1 點：爸爸那一層（S5-L5，記憶 SIS6_FATHER_COPY）刪了，條件改「和她朋友以上」——沒有那個記憶的朋友也收到；有點熟（FAMILIAR）的沒有 */
+  fresh(a,20,'friend'); phAt(a,21.1); check('10. 3 沒有 SIS6_FATHER_COPY、朋友：照送（AA_584 第 9 節第 1 點，條件改朋友以上）',byTag('sisb13_thesis_ask').length===3,J(byTag('sisb13_thesis_ask').map(m=>m.text)));
+  fresh(a,20,'fam'); SOCIAL.remember(ID,'SIS6_FATHER_COPY','S5-L5'); phAt(a,21.1); check('10. 3 只有點熟（FAMILIAR，有沒有 SIS6_FATHER_COPY 都一樣）：沒有',!byTag('sisb13_thesis_ask').length);
   /* 4 慶祝 */
   const call=ev('ev_sis_us_result'); fresh('2028-03-15',21.5,'friend'); await runEv('ev_sis_us_result',[1]);
   check('10. 4 3/15 結果的電話選「要慶祝嗎？」→ 記 SIS_US_CELEB（「要。……等我把八月以前的事排完。」照舊）',H.G.flags.SIS_US_CELEB===true&&has('要。……等我把八月以前的事排完。')&&!!call);
