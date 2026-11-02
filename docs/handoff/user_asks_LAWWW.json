@@ -1827,6 +1827,16 @@
    "task": "AA299-IMAGES-1018",
    "src": "使用者對 LAWWW-B，2026-11-02 01:4x UTC",
    "checked": "給第二批 10 張（照 UA-LAWWW-1101-07 的格式，1～10 編號）：1 zuiyue_day、2 mango_ice（重考那半年 ev_y0_rp）、3～5 car_night／car_morning／car_rain（第 101 組）、6 wenzhou_ice（大二暑假 ev_vf_y2s_0711）、7 vf_lantern（大三寒假元宵 ev_vf_y3_0209，BB_132 第 99 組）、8 bus_day（學姊大三情人節 ev_sis_vday_y3）、9 us_club_lawn（美國勞動節 ev_usl_bbq，第 99 組）、10 us_c_laundry（美國 C 棟洗衣間 ev_sis13_laundry，LAWWW-B 寫）；室內有地板的都寫淺色（UA-LAWWW-1102-02）。等使用者貼圖｜11-02 十張都到了、都接進開發分支"
+  },
+  {
+   "id": "UA-LAWWW-1102-05",
+   "at": "2026-11-02T02:2x",
+   "quote": "給我一次十張提示詞 我要直接給生成ai的 你要說清楚，請他獨立生成十張不要合在一張 要要畫質，所以要獨立十張",
+   "kind": "原話",
+   "status": "規則（永久）",
+   "task": "AA299-IMAGES-1018",
+   "src": "使用者對 LAWWW-B，2026-11-02 UTC",
+   "checked": "之後的提示詞：一次十張放在同一段可以整段貼給生圖 AI 的文字裡；開頭和每一張都寫明「十張分開生成、每段一張獨立的圖、不要合在同一張（不拼貼、不分格、不並排）、要完整畫質」；尺寸 1920×1080 橫向 16:9、PNG。這一批（第三批）：town_market、dihua_newyear、yilan_minsu_night、office_buffet、us_bus_chicago、az_roadside、az_canyon、us_coat_shop、lawlib_diner、gg_family_diner"
   }
  ]
 }
