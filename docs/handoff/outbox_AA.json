@@ -4718,6 +4718,23 @@
    "receiver": "LAWWW",
    "ack": "SENT",
    "note": "大三下 35 張（民訴甲下 10、保險 9、勞動 8、票據 8），42 題；獨立核對後改 2 張＋8 項可選；cue 重疊 0；AI_CP2 scopeWeek 對調延後"
+  },
+  {
+   "task": "STUDY-EXAM-STORY-1102",
+   "branch": "claude/story-planning",
+   "sha": "95630e2f1",
+   "files": [
+    "docs/story_planning/study/cards_y4.json",
+    "docs/story_planning/study/cards_y4_notes.md",
+    "docs/story_planning/study/cards_y4_review.md"
+   ],
+   "state": "已交付",
+   "remaining": "八學期觀念卡全部完成；Y4TAX_11 題幹待 BB 同意",
+   "next": "LAWWW 加白名單匯入；BB 驗收",
+   "noDirectIntegrate": false,
+   "receiver": "LAWWW",
+   "ack": "SENT",
+   "note": "大四 68 張（Y4S1 59、Y4S2 9），88 題；獨立核對後改 8 張＋8 項可選；cue 重疊 0"
   }
  ],
  "items": [
