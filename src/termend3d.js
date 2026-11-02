@@ -229,7 +229,8 @@ const TERMEND=(function(){
       else await talk(3);
       await S.hook(GM,te.term,who);   /* 邀約鉤子（AA_250 10-1：話題之後、收尾之前）*/
       if(kind==='gf'&&spec.lastByTerm&&spec.lastByTerm[te.term]) await run(GM,who,lines(spec.lastByTerm[te.term],G));   /* 那一頓的最後（收尾之前；AA_470 4-2 學姊大四上）。約在哪一家都演（AA_490 第 2 節：句子沒提到店；原本玩家自己約別家＝other 不演）——lastByTerm 只放和店無關的句子 */
-      const cl=kind==='gf'&&P.closeGf?P.closeGf:P.close; if(cl) await GM.say(null,cl); }   /* 學姊的女朋友版收尾（AA_250 10-1）*/
+      const atTbl=kind==='heart'&&spec.againAtTable&&spec.closeAgain&&S.rec(G).think[who]!=null;   /* 以安第二次在桌邊演：收尾換一句，收盤子挪到「……勾了。」之後（AA 2026-11-02 20:57）*/
+      const cl=atTbl?spec.closeAgain:(kind==='gf'&&P.closeGf?P.closeGf:P.close); if(cl) await GM.say(null,cl); }   /* 學姊的女朋友版收尾（AA_250 10-1）*/
     R.done={who,kind,day:G.day};
     if(kind==='heart') await S.walkHome(GM,who,te.term);
     return true; };
@@ -306,10 +307,14 @@ const TERMEND=(function(){
   S.missed=function(GM,q){ const G=GM.G, te=q&&q.te; if(!te||te.kind!=='kexin'||typeof PHONE==='undefined') return; const Lx=L(), K=Lx.KX[te.term], PL=K&&Lx.KX_PLACE[K.place]; if(!PL) return;
     PHONE.at(G,G.day,Math.max(G.hour,q.h+0.75),PL.miss.map(t=>({th:'p:kexin',from:'kexin',text:t})),'te_kx_miss_'+te.term); };   /* 沒去：她傳「我在河堤（正門）等了一下」「你還好嗎」（AA_250 9-2）*/
   /* ---- 回家的路上（AA_254 第 0 節）---- */
-  S.walkHome=async function(GM,who,term){ const G=GM.G, Lx=L(), h=S.heart(who,term), R=S.rec(G,term), Rt=S.rec(G); if(!h) return null;
-    if(typeof ADV!=='undefined'&&ADV.begin) ADV.begin({background:h.walkBg&&typeof OUT!=='undefined'&&OUT.bg?OUT.bg(h.walkBg):'dark',right:{charId:who,expression:'neutral'}});
-    if(h.walkCaption&&GM.caption) GM.caption('',h.walkCaption,2400);   /* 沒有底圖的那一段路：深色底＋字幕（沛珊大三起：台南・往她租的地方；芯慈：羅斯福路・往公館站）。walkPlace 是企劃的欄位、不出字幕（飯換到別的地方時會對不上：沛珊大四下在台南）*/
-    await run(GM,who,Rt.think[who]!=null&&h.walkAgain?h.walkAgain:h.walk);   /* walkAgain：第二次（上次選了「讓我想想」）回家路上換的句子（芯慈 AA_537b 8-5）*/
+  /* againAtTable（以安，AA＋BB 2026-11-02 20:55）：第二次（上次選了「讓我想想」）在店裡、兩人還沒起身的時候演（CG-27 的圖是桌邊）——背景＝那家店、不演走出店門那兩句，演完才「（走出店門…）」；第一次照舊在巷子（CG-11 是巷子路燈下）*/
+  S.walkHome=async function(GM,who,term){ const G=GM.G, h=S.heart(who,term), Rt=S.rec(G); const atTable=!!(h&&h.againAtTable&&Rt.think[who]!=null);
+    const r=await S._walkHome(GM,who,term,atTable); if(atTable&&h.afterTable) await run(GM,who,h.afterTable); return r; };
+  S._walkHome=async function(GM,who,term,atTable){ const G=GM.G, Lx=L(), h=S.heart(who,term), R=S.rec(G,term), Rt=S.rec(G); if(!h) return null;
+    const tbg=atTable?((Lx.PLACE[h.place]||{}).bg||null):h.walkBg;
+    if(typeof ADV!=='undefined'&&ADV.begin) ADV.begin({background:tbg&&typeof OUT!=='undefined'&&OUT.bg?OUT.bg(tbg):'dark',right:{charId:who,expression:'neutral'}});
+    if(!atTable&&h.walkCaption&&GM.caption) GM.caption('',h.walkCaption,2400);   /* 沒有底圖的那一段路：深色底＋字幕（沛珊大三起：台南・往她租的地方；芯慈：羅斯福路・往公館站）。walkPlace 是企劃的欄位、不出字幕（飯換到別的地方時會對不上：沛珊大四下在台南）*/
+    if(!atTable) await run(GM,who,Rt.think[who]!=null&&h.walkAgain?h.walkAgain:h.walk);   /* walkAgain：第二次（上次選了「讓我想想」）回家路上換的句子（芯慈 AA_537b 8-5）*/
     const D=typeof CONFESS_LINES!=='undefined'?CONFESS_LINES[who]:null;
     const say3=h.optsFrom==='confess'&&D&&D.choice?resolve(D.choice,G).map(q=>q.t):Lx.OPTS(h.buddy);
     /* 芯慈（AA_548 第 7 節，h.tellOpt）：交往中、她不知道＝多一個選項「（先告訴她，你在跟誰交往）」，說完再選一次（不再出那一個）；她之前就知道＝答應的時候多一句 */

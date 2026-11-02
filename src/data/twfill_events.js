@@ -3,7 +3,7 @@
    台詞照 AA_342 一字不改（TWFILL_LINES；企劃的舊名字照使用者 10-21 改名寫 Alison，AA_380）；用事件系統演的段落在 TWFILL_EVENTS。
    手機、出遊、摘要日、服務學習和海商法期末考（原本期中考 4/11，AA_578 #2）的那一句的接線在 src/twfill3d.js。
    2-1 大二上：ev_y2s1_noodle_1210（12/10 週四進麵店）
-   3-2 大三下：ev_y3_mothers_day（5/14 18:00 臺北的家：5/10 家人群組回了「回。」的出遊）
+   3-2 大三下：ev_y3_mothers_day（5/14 18:00 家：5/10 家人群組回了「回。」的出遊）
    4-1 大四上：ev_y4_plg_last（12/7 讀書會最後一次；有 PLG_HANDOVER 的）
    4-2 大四下：ev_y4s2_thu_noodle_first（3/1 起這學期第一次週四進麵店）、ev_y4_grad_photo（4/28 10:00 椰林大道學士服拍照）、ev_y4s2_noodle_0524（5/24 週四進麵店）
    測試：node tests/aa342_twfill_unit.js */
@@ -23,7 +23,7 @@ const TWFILL_LINES={
 
   /* ---------- 3-2 大三下（臺灣路線，2028）---------- */
   sum0412:'（大三下的期中週。你在筆記本最後一頁算了一下：再三個學期就畢業了。）',
-  /* 第 12 週：母親節。5/10（三）21:00 家人群組；「回。」＝5/14（日）18:00 臺北的家、「這週不行。」＝姊姊一句 */
+  /* 第 12 週：母親節。5/10（三）21:00 家人群組；「回。」＝5/14（日）18:00 家、「這週不行。」＝姊姊一句 */
   momAsk:'禮拜天母親節 你回不回來吃', momYes:'回。', momNo:'這週不行。', momNoReply:'好 我跟媽說',
   momDay:'（媽媽煮了一桌。姊姊買了蛋糕，上面寫的「媽媽辛苦了」，字是歪的。）', momLine:'……你爸在視訊裡也說了一次。',
   /* 第 13 週 5/18（四）21:00 群組 */
@@ -70,9 +70,9 @@ const TWFILL_EVENTS=(function(){
     { id:'ev_y2s1_noodle_1210', title:'', participants:[], location:'noodle', trigger:'enter', once:true, term:['Y2S1'], weekday:[4], time:[17.5,21], background:'blur',
       prereq:{custom:G=>G.day===D('2026-12-10')&&ndl(G)},
       dialogue:[ {speaker:null,text:L.noodle1210} ] },
-    /* ---------- 3-2 第 12 週：5/14（日）18:00 母親節，臺北的家（5/10 回了「回。」）---------- */
+    /* ---------- 3-2 第 12 週：5/14（日）18:00 母親節，家（5/10 回了「回。」）---------- */
     { id:'ev_y3_mothers_day', title:'母親節', participants:[], location:'any', trigger:'outing', once:true, background:'dark', hours:2,
-      dialogue:[ {scene:'臺北的家',bg:'home_living'}, {speaker:null,text:L.momDay}, {speaker:'媽媽',text:L.momLine} ],
+      dialogue:[ {scene:'家',bg:'home_living'}, {speaker:null,text:L.momDay}, {speaker:'媽媽',text:L.momLine} ],
       after:G=>{ G.flags.Y3_MOM_DAY='went'; } },
     /* ---------- 4-1 第 14 週：12/7（四）大四上最後一次讀書會（有 PLG_HANDOVER 的：交棒那晚在場 there、或在群組看到 heard）---------- */
     { id:'ev_y4_plg_last', title:'最後一次讀書會', participants:[], location:'any', trigger:'manual', clubEvent:'public_law_group', once:true, term:['Y4S1'], background:'blur',

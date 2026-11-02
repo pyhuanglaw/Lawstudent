@@ -1,6 +1,6 @@
 /* ===== AA_442（AA-B 2026-10-24 定稿，企劃線 d94d259ec；第①級、D109）第 1、2 節 =====
    第 1 節：住家裡的時候，週四 20:00 的家人群組換成「住家裡版」H1～H6（不問、不用回、爸爸不傳「？」）；日本路線 3/23（四）那一則換成三句。
-   第 2 節：日本路線出發前（2028-02-20～03-24，住臺北的家、沒有修課）：兩種存檔都有的（2-1）、交往中九點的日文電話（2-2，AN_JP_CALL）、挽回中和沒打電話的平日（2-3）。
+   第 2 節：日本路線出發前（2028-02-20～03-24，住家裡、沒有修課）：兩種存檔都有的（2-1）、交往中九點的日文電話（2-2，AN_JP_CALL）、挽回中和沒打電話的平日（2-3）。
    台詞照 AA_442 一字不改（JPPREP_LINES）；用事件系統演的段落在 JPPREP_EVENTS（JP.SCH 的一列演、3/1 行前說明會是出遊）。接線在 src/jpprep3d.js。
    第 3 節（學姊 3/22 那一句的日子）LAWWW 已經改了（src/data/sis_jp_events.js 的 hint），這裡不重複。
    測試：node tests/aa442_jpprep_unit.js */
@@ -77,20 +77,20 @@ const JPPREP_EVENTS=(function(){
   const ev=(id,dialogue,o)=>Object.assign({id,title:'',participants:[],location:'any',trigger:'manual',once:true,background:'dark',dialogue,after:noMemo(id)},o||{});
   const choice=(opts,labels)=>({choice:opts.map((t,i)=>({text:'「'+t+'」',goto:labels[i]}))});
   const L=[
-    ev('ev_jpp_0221',[ {scene:'臺北的家',bg:'home_room_day'}, {speaker:null,text:X.d0221.narr}, {speaker:'媽媽',name:'媽媽',text:X.d0221.mom}, {speaker:null,text:X.d0221.end} ]),
+    ev('ev_jpp_0221',[ {scene:'家',bg:'home_room_day'}, {speaker:null,text:X.d0221.narr}, {speaker:'媽媽',name:'媽媽',text:X.d0221.mom}, {speaker:null,text:X.d0221.end} ]),
     ev('ev_jpp_0226',[ {scene:'大賣場',bg:'hypermarket'}, {speaker:null,text:X.d0226.narr}, {speaker:'媽媽',name:'媽媽',text:X.d0226.mom}, {speaker:null,text:X.d0226.end} ]),
     /* 3/1 行前說明會：一鍵的出遊（2D）*/
     ev('ev_jpp_0301',[ {scene:'國際事務處',bg:'oia_meeting'}, {speaker:null,text:X.d0301.room}, {speaker:null,text:X.d0301.ins},
       {if:{custom:G=>dat(G)},speaker:null,text:X.d0301.dating}, {if:{custom:G=>!dat(G)},speaker:null,text:X.d0301.repair} ],{title:'出國交換行前說明會',trigger:'outing',hours:2,after:undefined}),
-    ev('ev_jpp_0312',[ {scene:'臺北的家',bg:'home_room_day'}, {speaker:'媽媽',name:'媽媽',text:X.d0312.mom}, {speaker:null,text:X.d0312.end} ]),
+    ev('ev_jpp_0312',[ {scene:'家',bg:'home_room_day'}, {speaker:'媽媽',name:'媽媽',text:X.d0312.mom}, {speaker:null,text:X.d0312.end} ]),
     ev('ev_jpp_0314',[ {scene:'日本台灣交流協會',bg:'visa_counter'}, {speaker:null,text:X.d0314.narr}, {if:{custom:G=>dat(G)},speaker:null,text:X.d0314.dating} ]),
     ev('ev_jpp_0317',[ {scene:'系辦',bg:'law_dept_office'}, {speaker:null,text:X.d0317.narr}, {speaker:'助教',name:'助教',text:X.d0317.ta},
       choice(X.d0317.opts.map(o=>o[0]),['a','b']),
       {label:'a'},{speaker:'助教',name:'助教',text:X.d0317.opts[0][1]},{goto:'e'},
       {label:'b'},{speaker:'助教',name:'助教',text:X.d0317.opts[1][1]},
       {label:'e'} ]),
-    ev('ev_jpp_0319',[ {scene:'臺北的家',bg:'home_living_day'}, {speaker:null,text:X.d0319.narr}, ...X.d0319.lines.map(([s,t])=>({speaker:s,name:s,text:t})) ]),
-    ev('ev_jpp_0321',[ {scene:'臺北的家',bg:'home_living_day'}, {speaker:'媽媽',name:'媽媽',text:X.d0321.mom},
+    ev('ev_jpp_0319',[ {scene:'家',bg:'home_living_day'}, {speaker:null,text:X.d0319.narr}, ...X.d0319.lines.map(([s,t])=>({speaker:s,name:s,text:t})) ]),
+    ev('ev_jpp_0321',[ {scene:'家',bg:'home_living_day'}, {speaker:'媽媽',name:'媽媽',text:X.d0321.mom},
       choice(X.d0321.opts,['a','b']),
       {label:'a'},{speaker:'媽媽',name:'媽媽',text:X.d0321.morning[0]},{speaker:null,text:X.d0321.morning[1]},{goto:'e'},
       {label:'b'},{speaker:'媽媽',name:'媽媽',text:X.d0321.nosend},

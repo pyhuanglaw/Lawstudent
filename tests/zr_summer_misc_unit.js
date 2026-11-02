@@ -117,7 +117,7 @@ const queued=th=>[].concat(...(PHONE.rec(H.G).q||[]).map(q=>(q.items||[]).filter
     for(const [id,k] of [['ev_y0_e26','home_entry_night'],['ev_y0_kh_bus','coach_night'],['ev_y0_kh_bus_h','coach_night']])   /* 11-02 起客運版用夜班客運車廂 coach_night（BB_132 第 100 組第 1 張；原本借 bus_night）*/
       check('C. '+id+' 開頭（稿沒有地點字幕）的底圖＝'+k+'（OUT.BG 有圖）',hasImg(k)&&bgOf(id)===k,J(bgOf(id)));
     check('C. ev_y0_e36r（不在家那一版）＝blur 模糊的 3D（11-01 LAWWW-B 回 BB：人不在家，不用家裡房間）',ev('ev_y0_e36r').background==='blur',J(ev('ev_y0_e36r').background));
-    check('C. 在家看榜 ev_y0_e36rh 照舊 home_room（BB_216 B）',J((ev('ev_y0_e36rh').dialogue||[])[0])===J({scene:'臺北的家',bg:'home_room'}));
+    check('C. 在家看榜 ev_y0_e36rh 照舊 home_room（BB_216 B）',J((ev('ev_y0_e36rh').dialogue||[])[0])===J({scene:'家',bg:'home_room'}));
     /* 實際演：ADV.begin 拿到的背景 */
     { H.fresh('2025-08-13',10,'campus',{}); H.bgs=[]; H.said=[]; await EVENTS.run(ev('ev_y0_e36r')); const b=H.bgs.map(img);
       check('C. 演 ev_y0_e36r（8/13 10:00 不在家）：ADV 開場的背景是 blur、兩句旁白照舊',b[0]==='blur'&&said()[0]==='（八月十三日，早上十點。榜單公布了。）',J({b,L:said()})); }

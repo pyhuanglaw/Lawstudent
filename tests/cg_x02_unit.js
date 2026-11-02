@@ -8,7 +8,7 @@ check('CG_REGISTRY 還是一行', !!m); const REG=m?eval('('+m[1]+')'):{};
 const want={cg_reason_column_heroine01:'assets/cg/heroine_01/cg_reason_column.webp',cg_share_time_heroine03:'assets/cg/heroine_03/cg_share_time.webp',cg_dont_sleep_kexin:'assets/cg/kexin/cg_dont_sleep.webp'};
 for(const id in want){ const r=REG[id]; check(id+' 登錄、檔案在', r&&r.file===want[id]&&fs.existsSync(path.join(ROOT,r.file))&&fs.statSync(path.join(ROOT,r.file)).size>50000, r&&r.file); }
 const te=fs.readFileSync(path.join(ROOT,'src/data/termend_lines.js'),'utf8');
-check('termend_lines.js 呼叫 CG-12；CG-11（白板）在新圖（手帳那一頁）出來以前不放（AA_587 第 9 節第 3 點）', !/cg:'cg_reason_column_heroine01'/.test(te)&&/cg:'cg_share_time_heroine03'/.test(te));
+check('termend_lines.js 呼叫 CG-12；CG-11 新圖（手帳舉到下巴前，BB 2026-11-02 交件）放在「舉到下巴前面」那一拍（AA_597；tests/cg_batch1102_unit.js）', /\{cg:'cg_reason_column_heroine01'\},\{narr:'（她把手帳拿回去，舉到下巴前面。只露出眼睛。）'\}/.test(te)&&/cg:'cg_share_time_heroine03'/.test(te));
 const ev=fs.readFileSync(path.join(ROOT,'src/data/events.js'),'utf8');
 check('K8 回程：「我不睡」→ BCG-29 →「過了收費站」', /我不睡。我要陪你開車。'\},\s*\{cg:'cg_dont_sleep_kexin'\}[^\n]*\n\s*\{speaker:null,text:'過了收費站/.test(ev));
 console.log(fails?'FAILED: '+fails:'ALL PASS'); process.exit(fails?1:0);

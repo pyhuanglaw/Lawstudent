@@ -70,7 +70,7 @@ const keep=()=>JSON.stringify(G), back=s=>{ G=JSON.parse(s); SOCIAL.bind(G); EVE
   check('6. 3/30 起床選「今天出去走走」：排一個和可昕出門（10:00，R3 杜鵑花）',STORY.retakeType(G)==='play'&&q3&&q3.ev==='ev_y0_r3'&&q3.h===10,JSON.stringify(q3));
   G.hour=9.3; said=[]; menus=[]; let card=[]; const tc=GM.titleCard; GM.titleCard=async(a,b)=>{ card.push(a+'｜'+b); }; script=['和可昕出門','慢慢走']; await loop(); GM.titleCard=tc; L=said.map(x=>x.t);
   check('6. 家裡的選單出發（捷運＋公車 30 分鐘）→ R3 大安森林公園（AA_298 第 3 節）：「（大安森林公園。杜鵑花季快過了……）」→「今天不讀書。走到水池那邊，再走回來。」→「好了。去吃東西。」',(menus[0]||[]).some(t=>t.includes('和可昕出門'))&&card[0]==='和可昕出門 10:00｜捷運＋公車 約 30 分鐘'&&L.includes('（大安森林公園。杜鵑花季快過了，靠捷運站那一排還開著。）')&&L.includes('今天不讀書。走到水池那邊，再走回來。')&&L.includes('（你們走得很慢。到了水池，她站在欄杆邊看水裡的烏龜，看了很久。）')&&L.includes('好了。去吃東西。')&&!L.some(t=>/椰林|投票/.test(t)),JSON.stringify(card)+JSON.stringify(L));
-  check('6. habit retake:play +1；演完回臺北的家（不是回宿舍）',EVENTS.habitCount({key:'retake:play'})===1&&HOME.at(G)&&card.some(c=>c.startsWith('回臺北的家')),JSON.stringify(card));
+  check('6. habit retake:play +1；演完回家（不是回宿舍）',EVENTS.habitCount({key:'retake:play'})===1&&HOME.at(G)&&card.some(c=>c.startsWith('回家')),JSON.stringify(card));
   fresh(K('2025-04-01'),20,'dorm',{LEAVE_WEEK:6}); G.stage='econ'; run(20.9,21.1); check('6. 3/30～4/1 都沒玩樂日：4/1 21:00 杜鵑花照片「大安森林公園的杜鵑。今天自己去走了一圈。」',kx().includes('大安森林公園的杜鵑。今天自己去走了一圈。'));
   // 7. 沒有 R 的玩樂日：旁白一句輪流
   homeBase('2025-04-10',8.5); script=['出去走走']; await STORY.retakeWake(GM); const q7=OUT.get(G,'rt_play_'+G.day);
@@ -90,7 +90,7 @@ const keep=()=>JSON.stringify(G), back=s=>{ G=JSON.parse(s); SOCIAL.bind(G); EVE
   fresh(K('2025-04-19'),16.5,'campus',{LEAVE_WEEK:6}); G.stage='econ'; check('9. 4/19 16:00 在校園：R4 不演（retired）',!EVENTS.check(ev('ev_y0_r4')));
   // 10. R7
   homeBase('2025-05-23',20.5); run(20.5,21.1); const T7=(G.msgs||[]).filter(m=>/^g:econ/.test(m.th)).map(m=>(m.from==='player'?'我:':'')+m.text);
-  check('10. 5/23 21:00 阿勳在群組「那張便利貼，你還留著嗎？」→ 祐廷傳照片 →「好。那就算數。……明天兩點。欠我一場。」；出發選單 5/24 保齡球館 14:00',T7.join('|').includes('那張便利貼，你還留著嗎？|我:📷（臺北的家，檯燈上的便利貼）|還在喔。|明天兩點，保齡球館。欠我的那場。')&&OUT.get(G,'y0_r7')&&OUT.get(G,'y0_r7').h===14,JSON.stringify(T7));
+  check('10. 5/23 21:00 阿勳在群組「那張便利貼，你還留著嗎？」→ 祐廷傳照片 →「好。那就算數。……明天兩點。欠我一場。」；出發選單 5/24 保齡球館 14:00',T7.join('|').includes('那張便利貼，你還留著嗎？|我:📷（家，檯燈上的便利貼）|還在喔。|明天兩點，保齡球館。欠我的那場。')&&OUT.get(G,'y0_r7')&&OUT.get(G,'y0_r7').h===14,JSON.stringify(T7));
   L=await runEv('ev_y0_r7'); check('10. R7：旁白「這次不換制服，輸的人請宵夜。」…阿勳「這次看好。」→「（十支瓶子一起倒下。這次，大家都看到了。）」',L[0]==='（週六下午兩點，保齡球館。這次不換制服，輸的人請宵夜。）'&&L[L.length-1]==='（十支瓶子一起倒下。可昕站起來拍手。）',JSON.stringify(L));
   homeBase('2025-05-23',20.5); run(20.5,21.1); G.day=K('2025-05-24'); G.hour=16.9; run(16.9,17.1); check('10. 沒去：5/24 17:00 阿勳舉著球「全倒。這次有證人。」',(G.msgs||[]).some(m=>m.text==='全倒。這次有證人。'));
   // 11. 法律系不受影響

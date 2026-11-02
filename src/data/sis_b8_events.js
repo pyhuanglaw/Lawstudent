@@ -84,7 +84,7 @@ const SISB8_EVENTS=(function(){
         {label:'c'},Object.assign({set:{SIS_OLD_NOTES:true},mem:[{npc:ID,tag:'SIS_OLD_NOTES',note:''}]},rel({fam:1})) ] },
     /* ---------- 3-3：大二下第 14 週週三 21:30 以後，法圖：熱水（大一上她幫你裝過熱水，這次反過來）---------- */
     { id:'ev_sis_hot_water_back', title:'熱水', participants:[ID], location:'lawlib', trigger:'manual', once:true, background:'blur',
-      dialogue:[ N('（她趴在桌上。保溫瓶倒在旁邊，空的。）'),
+      dialogue:[ N('（她趴在桌上。保溫瓶倒在旁邊。）'),
         {choice:[{text:'（等她醒來，陪她去裝熱水）',goto:'a'},{text:'（輕輕敲一下桌子）',goto:'b'}]},
         {label:'a'},N('（過了一下，她坐起來，拿起保溫瓶。你陪她走到飲水機，熱水出得很慢。）'),SIS('……好燙。'),SIS('謝謝。我以為我放了三包茶，原來我只裝了茶包，沒有裝水。'),
         {if:dt,speaker:null,text:'（她把你的手拉過去，在手背上寫了一個『謝』，用手指。）'},

@@ -212,7 +212,7 @@ const VACFILL=(function(){
   (globalThis.LOADLOCKS=globalThis.LOADLOCKS||{})['vacfill3d:ffDepth']=()=>{ ffDepth=0; };   /* 讀檔時放開（LOADGEN-LOCKS-1028）：讀檔凍住的舊劇情走不到 finally，只把旗標設回初始值 */
   S.wakePool=async function(GM){ const G=GM&&GM.G; if(!G||!G.flags||ffDepth>0) return null; const B=brk(G); if(!B) return null;
     const home=!!(typeof HOME!=='undefined'&&HOME.at&&HOME.at(G)); if(!home&&G.zone!=='dorm') return null;   /* 家裡的床、宿舍的床（美國的公寓、公館的套房不算）*/
-    if(abroadOn(G,G.day)||(typeof JP!=='undefined'&&((JP.inJapan&&JP.inJapan(G))||(JP.homeOn&&JP.homeOn(G))))) return null;   /* 日本路線住臺北的家那幾週是 jp3d.js 自己的快轉、摘要（同 holff3d.js 的 noJP）*/
+    if(abroadOn(G,G.day)||(typeof JP!=='undefined'&&((JP.inJapan&&JP.inJapan(G))||(JP.homeOn&&JP.homeOn(G))))) return null;   /* 日本路線住家裡那幾週是 jp3d.js 自己的快轉、摘要（同 holff3d.js 的 noJP）*/
     const R=S.rec(G); if(R.wake===G.day) return null; R.wake=G.day; const place=home?'home':'dorm';
     let line=null; const sd=S.sumDue(G); if(sd!=null&&sd===G.day){ line=X.y3_0219[place]; R.sum.y3_0219=G.day; }   /* 3-4 2/19 摘要 */
     else { if(G.day===B.from||S.dayBusy(GM,G.day)) return null; line=S.poolNext(G,B.key,place,B.kind); }

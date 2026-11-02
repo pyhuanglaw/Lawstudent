@@ -7,7 +7,7 @@
 //   4  K7 週年卡第 4 頁換句
 //   5  長頸鹿鑰匙圈：30 分鐘版信箱那則剪了＝12/29 記旗標時記 due；之後第一張日期卡下面兩句（實際的 y0Jump 跨過 12/29）、只出一次；沒有日期卡＝掛在起床；
 //      長版（信箱那則送到）、E20 演過的不加
-//   6  6-1 K0b-L1 只在 2/15～3/15（4/24 跳過、接 K0b-L2）；出遊演完階梯前面說了「（晚上，回到家。）」就不再接「回臺北的家」卡（沒說的照舊有卡）
+//   6  6-1 K0b-L1 只在 2/15～3/15（4/24 跳過、接 K0b-L2）；出遊演完階梯前面說了「（晚上，回到家。）」就不再接「回家」卡（沒說的照舊有卡）
 //      6-2 品妤 10/31 換句（3/10 那則照留）；6-3 8/29「這個暑假，你還是住在家裡。」；6-4 三個社團各三則（9/27、10/18、12/6 21:00，標籤寫全名，不用回，之前就過了的不補）；
 //      6-5 4/25～6/7 拆兩張
 // 修改前（基準 acc883b3e＝v9.10.14 候選 b38b112a8 的遊戲檔：git archive 出 src、tests、lib、index.html，這支測試用新的，AA529_DOCREPO 指這個 repo）：
@@ -150,13 +150,13 @@ const NEW65=quotes(S65)[0];
     const [g1,s1]=lad('2025-02-20',19), [g2,s2]=lad('2025-03-14',19), [g3,s3]=lad('2025-04-24',20), [g4,s4]=lad('2025-03-16',19);
     check('6-1. K0b-L1「國界」2/15～3/15 出（2/20、3/14）；3/16、4/24（生日那天）跳過、接 K0b-L2',s1&&s1.id==='K0b-L1'&&s2&&s2.id==='K0b-L1'&&s3&&s3.id==='K0b-L2'&&s4&&s4.id==='K0b-L2',J([s1&&s1.id,s2&&s2.id,s3&&s3.id,s4&&s4.id]));
     check('6-1. 日期窗照稿（2/15～3/15）',J(STORY.K0B_L1)===J(['2025-02-15','2025-03-15'])&&/K0b-L1 只在 2\/15～3\/15 出/.test(S61));
-    /* 出遊演完、階梯前面說了「（晚上，回到家。）」：不再接「回臺北的家」卡 */
+    /* 出遊演完、階梯前面說了「（晚上，回到家。）」：不再接「回家」卡 */
     const mk=(id,h)=>{ STORY_EVENTS.push({id,stage:'econ',title:'',participants:['kexin'],location:'any',trigger:'outing',once:true,hours:1,background:'dark',dialogue:[{speaker:null,text:'（測試的出遊。）'}]}); };
     mk('ev_t529_a'); mk('ev_t529_b');
     { const G=home(econ('2025-04-24',18,{})); OUT.plan(G,{id:'t529a',ev:'ev_t529_a',day:G.day,h:18,place:'公館',title:'測試',travel:'x',travelH:0}); const q=OUT.get(G,'t529a'); H.said=[]; cardsMs.length=0; await HOME.goOut(GM,q);
-      check('6-1. 4/24 晚上的出遊（休學在家）：階梯前面「（晚上，回到家。）」、K0b-L2，後面沒有「回臺北的家」卡（只留一個）',H.said.some(s=>s.t==='（晚上，回到家。）')&&!cardsMs.some(c=>c[0]==='回臺北的家')&&HOME.at(G),J([H.said.map(s=>s.t).slice(-4),cardsMs.map(c=>c[0])])); }
+      check('6-1. 4/24 晚上的出遊（休學在家）：階梯前面「（晚上，回到家。）」、K0b-L2，後面沒有「回家」卡（只留一個）',H.said.some(s=>s.t==='（晚上，回到家。）')&&!cardsMs.some(c=>c[0]==='回家')&&HOME.at(G),J([H.said.map(s=>s.t).slice(-4),cardsMs.map(c=>c[0])])); }
     { const G=home(econ('2025-04-26',13,{})); OUT.plan(G,{id:'t529b',ev:'ev_t529_b',day:G.day,h:13,place:'公館',title:'測試',travel:'x',travelH:0}); const q=OUT.get(G,'t529b'); H.said=[]; cardsMs.length=0; await HOME.goOut(GM,q);
-      check('6-1. （對照）白天的出遊不接階梯、沒有「回到家」旁白：照舊有「回臺北的家」卡',!H.said.some(s=>s.t==='（晚上，回到家。）')&&cardsMs.some(c=>c[0]==='回臺北的家'),J(cardsMs.map(c=>c[0]))); }
+      check('6-1. （對照）白天的出遊不接階梯、沒有「回到家」旁白：照舊有「回家」卡',!H.said.some(s=>s.t==='（晚上，回到家。）')&&cardsMs.some(c=>c[0]==='回家'),J(cardsMs.map(c=>c[0]))); }
   });
   await sec('6-2',async()=>{
     const it=STORY.DAILY_PHONE.find(d=>d.id==='y0_py_notes'), it2=STORY.DAILY_PHONE.find(d=>d.id==='y0_py_notes2');

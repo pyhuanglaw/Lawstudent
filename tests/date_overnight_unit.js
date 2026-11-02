@@ -108,7 +108,7 @@ const after=(L,a,b)=>{ const i=L.indexOf(a), j=L.indexOf(b); return i>=0&&j>i; }
   await sec('4',async()=>{
     const d=STORY.termDay('Y1S2',6,6); fresh(d-1,20,{}); setRel('heroine_04',S6);
     const P=DATE.plan(G,{who:'heroine_04',locs:['D31','D32'],day:d,depart:9,kind:'overnight',transport:'hsr+coach'});
-    check('4. D31＋D32：清境要車＝整趟開車；去程照日月潭、回程照清境（210 分＋還車 30 分）；車資＝(1000＋1200)÷2（去程、回程各一半）',P.ok&&P.transport==='car'&&P.fare===1100&&Math.abs(P.back-(19+210/60+0.5))<1e-9&&J(P.locs)==='["D31","D32"]',J(P));
+    check('4. D31＋D32：清境要車＝整趟開車；去程照日月潭、回程照清境（210 分；AA_599 更正：開車直接回宿舍，不加還車 30 分）；車資＝(1000＋1200)÷2（去程、回程各一半）',P.ok&&P.transport==='car'&&P.fare===1100&&Math.abs(P.back-(19+210/60))<1e-9&&J(P.locs)==='["D31","D32"]',J(P));
     check('4. 預約時就算住宿：1100＋2500＝3600',DATE.check(G,{who:'heroine_04',locs:['D31','D32'],day:d,depart:9,kind:'overnight',transport:'car'}).cost===3600,J(DATE.check(G,{who:'heroine_04',locs:['D31','D32'],day:d,depart:9,kind:'overnight',transport:'car'})));
     const r=await trip({who:'heroine_04',locs:['D31','D32'],day:d,transport:'car'},['湖邊步道','湖邊的茶葉蛋攤','觀景台看雲海','大草原']);
     const LS=(loc,k)=>{ const C=(((DATE_LINES.loc[loc]||{}).lines||{}).heroine_04||{})[k]||{}, out=[]; for(const s of [C.first].concat(C.normal||[],C.dating||[])) for(const x of ((s&&s.lines)||[])) out.push(x.text); return out; };

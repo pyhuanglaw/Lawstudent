@@ -3,7 +3,7 @@
 // 兩個人本來就在總圖，S.arrive 只在走進區域的時候看，讀書永遠開始不了；回宿舍她還跟著（存檔 iv6：now、兩小時後 cancelled）。另外第 6、7 天三個約記成沒赴約（要先找她說話才會開始）。
 // 檢查：1. 約好的時間、你在約定的地方、她也在：INV.tick 就開始（不用說話）——有座位的地方兩個人一起坐下、演見面、state done；
 //       2. 已經在那個地方、當面約「現在一起過去」：不變成跟著走，直接開始（兩個人坐下、演見面）；
-//       3. 一起走過去的路上走進宿舍（dorm_hall、dorm）＝作罷、她不再跟著；回臺北的家也是；
+//       3. 一起走過去的路上走進宿舍（dorm_hall、dorm）＝作罷、她不再跟著；回家也是；
 //       4. 你不在約定的地方：不會開始；過了時間照舊記沒赴約；
 //       5. 一起走到約定的地方（S.arrive）：直接開始、一起坐下（不再等你坐到她旁邊或跟她說話）；
 //       6. 麵店（位子面對面、相距 1.6 m）：她坐著，你坐她對面（BB 10-22：原本只找 1.3 m 內，站在門口演完；修改前 FAIL）。
@@ -40,7 +40,7 @@ const npc=id=>{ const n={id,obj:{position:{x:3,z:3},rotation:{y:0}},beh:'idle',p
     check('3. 一起走去 Café 的路上走進宿舍：作罷（cancelled）、她不再跟著（作息不再是 follow）',iv.state==='cancelled'&&n.beh!=='follow'&&!(e&&e.act==='follow'),JSON.stringify({st:iv.state,beh:n.beh,e})); }
   { const G=setup('2025-09-12',15,'campus'); H.FRIEND('heroine_05'); const iv=INV.accept(G,'heroine_05','cafe',G.day,15,{now:true,by:'player'}); npc('heroine_05');
     const h0=typeof HOME!=='undefined'?HOME.at:null; if(typeof HOME!=='undefined') HOME.at=()=>true; try{ INV.tick(GM); } finally { if(typeof HOME!=='undefined') HOME.at=h0; }
-    check('3. 一起走的時候回臺北的家：作罷',iv.state==='cancelled',iv.state); }
+    check('3. 一起走的時候回家：作罷',iv.state==='cancelled',iv.state); }
   /* 4 你不在約定的地方 */
   { const G=setup('2025-09-12',18.9,'campus'); H.FRIEND('heroine_05'); const iv=INV.accept(G,'heroine_05','library',G.day,19,{by:'player'}); npc('heroine_05');
     INV.tick(GM); await W(30); const a=iv.state; H.at('2025-09-12',19.6); INV.tick(GM); await W(10);
@@ -74,12 +74,12 @@ const npc=id=>{ const n={id,obj:{position:{x:3,z:3},rotation:{y:0}},beh:'idle',p
   { const G=setup('2025-09-12',15,'campus'); H.FRIEND('heroine_05'); const iv=INV.accept(G,'heroine_05','cafe',G.day,15,{now:true,by:'player'}); const n=npc('sis'); n.charId='heroine_05'; n.beh='follow';
     G.zone='cafe'; H.at('2025-09-12',15.2); G.zone='cafe'; await INV.arrive(GM,'cafe');
     check('9. Café 的學姊是 GM.npc.sis：一起走到＝直接開始、她坐下（修改前沒坐下）',iv.state==='done'&&!!n.seat&&!iv.waitSeat,JSON.stringify({st:iv.state,seat:!!n.seat,ws:iv.waitSeat})); }
-  /* 10 一起走的路上改去宿舍、回臺北的家（BUG-WALK-DORM-FOLLOW-1022，BB 10-22 06:1x：手機快速前往宿舍，約作罷了、她卻被帶進男生宿舍的房間）：作息不再把她生在你旁邊；公館、校園、目的地照樣跟著 */
+  /* 10 一起走的路上改去宿舍、回家（BUG-WALK-DORM-FOLLOW-1022，BB 10-22 06:1x：手機快速前往宿舍，約作罷了、她卻被帶進男生宿舍的房間）：作息不再把她生在你旁邊；公館、校園、目的地照樣跟著 */
   { const G=setup('2025-09-26',19.5,'gongguan'); H.FRIEND('heroine_05'); const iv=INV.accept(G,'heroine_05','cafe',G.day,19.5,{now:true,by:'player'});
     const at=z=>{ G.zone=z; const e=INV.entryFor(G,'heroine_05'); return e?e.act:null; };
     const r={gongguan:at('gongguan'),campus:at('campus'),cafe:at('cafe'),dorm_hall:at('dorm_hall'),dorm:at('dorm'),fdorm:at('fdorm')};
     G.zone='home'; G.home={at:true}; const hm=INV.entryFor(G,'heroine_05'); G.home=null;
-    check('10. 一起走的路上：公館、校園、Café 照樣跟著（follow）；走進宿舍（走廊、房間、女舍）、回臺北的家＝不再把她生在你旁邊（修改前 FAIL）',r.gongguan==='follow'&&r.campus==='follow'&&r.cafe==='follow'&&r.dorm_hall===null&&r.dorm===null&&r.fdorm===null&&!hm,JSON.stringify([r,hm&&hm.act]));
+    check('10. 一起走的路上：公館、校園、Café 照樣跟著（follow）；走進宿舍（走廊、房間、女舍）、回家＝不再把她生在你旁邊（修改前 FAIL）',r.gongguan==='follow'&&r.campus==='follow'&&r.cafe==='follow'&&r.dorm_hall===null&&r.dorm===null&&r.fdorm===null&&!hm,JSON.stringify([r,hm&&hm.act]));
     G.zone='dorm'; await INV.arrive(GM,'dorm');
     check('10. 進宿舍：約作罷（cancelled、手機「……後來作罷了。」）',iv.state==='cancelled'&&(G.msgs||[]).some(m=>/後來作罷了。$/.test(m.text||'')),JSON.stringify({st:iv.state})); }
   H.done(); })().catch(e=>{ console.log('FAIL 例外',e&&e.stack); process.exit(1); });

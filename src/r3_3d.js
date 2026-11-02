@@ -220,13 +220,13 @@ const R3=(function(){
   S.noteRun=async function(GM){ const G=GM.G, e=typeof STORY_EVENTS!=='undefined'?STORY_EVENTS.find(x=>x.id==='ev_sis_exam_note'):null; if(!e||typeof EVENTS==='undefined') return false; G.flags.SIS_NOTE_GRAD='door';
     if(GM.fade) await GM.fade(true); if(G.hour<8.5){ G.hour=8.5; if(GM.E) GM.E.hour=G.hour; if(GM.updateHUD) GM.updateHUD(); } if(GM.fade) await GM.fade(false); await EVENTS.run(e); return true; };
 
-  /* ===================== 3-13 方奕廷 F4 兩千歲的紅檜（BB_40 F4；BB_99 5-2、10-1 第 11 項）：1/24 21:00 私訊；答應＝1/27 07:00 從臺北的家開車出發（出遊，鬧鐘）===================== */
+  /* ===================== 3-13 方奕廷 F4 兩千歲的紅檜（BB_40 F4；BB_99 5-2、10-1 第 11 項）：1/24 21:00 私訊；答應＝1/27 07:00 從家開車出發（出遊，鬧鐘）===================== */
   S.chiayi=function(G){ const F=G.flags, d=D('2029-01-24'), d27=D('2029-01-27'); if(d==null||d27==null) return; const t=now(G); if(t<T(d,21)||t>=T(d27+1,6)) return;
     if(!PHONE.sent(G,'r3_fang_f4')&&t<T(d+1,18)&&met(G,'npc_fangyt','FAMILIAR')&&contact(G,'npc_fangyt')){ const mtn=has('npc_fangyt','MOUNTAIN_DAY')||!!F.MOUNTAIN_DAY;   /* 大二暑假 F2 一起爬過山（AA_326 2-Y3-02，開發分支還沒有＝沒有）*/
       PHONE.at(G,d,21,[FY('📷（雲海）'),FY('我在嘉義的山上。'),FY(mtn?'這裡的紅檜比那次爬山看的那棵老。兩千歲。':'這裡有一棵兩千歲的紅檜。'),Object.assign(FY('你要不要上來看。不用會。有點遠，你有車。'),{ask:{id:'r3_fang_f4',until:T(d+1,18),opts:[
         {t:'好。我開車上去。',say:[{from:'npc_fangyt',text:'週六早上七點出發剛好。霧中午會散。'}],set:{FANG_F4_GO:true}},{t:'下次。',say:[{from:'npc_fangyt',text:'好。它也不會走。'}],set:{FANG_F4:'later'}}]}})],'r3_fang_f4'); }
     if(F.FANG_F4_GO===true&&!F.FANG_F4&&typeof OUT!=='undefined'&&!OUT.get(G,'r3_fang_f4')&&t<T(d27,7.5))
-      OUT.plan(G,{id:'r3_fang_f4',ev:'ev_fangyt_chiayi',day:d27,h:7,late:0.5,place:'臺北的家',title:'開車去嘉義',travel:'',travelH:0,alarm:true,back:'回到臺北。'}); };   /* 寒假住宿舍的「前一晚回家取車」（AA_140 G04）沒有另外演：出遊的第一段就是臺北的家 */
+      OUT.plan(G,{id:'r3_fang_f4',ev:'ev_fangyt_chiayi',day:d27,h:7,late:0.5,place:'家',title:'開車去嘉義',travel:'',travelH:0,alarm:true,back:'回到臺北。'}); };   /* 寒假住宿舍的「前一晚回家取車」（AA_140 G04）沒有另外演：出遊的第一段就是家 */
   /* 答應了、07:30 還沒出發：10:00、15:00 兩則；照「下次。」那一版，不記 CHIAYI_TREE。「路上塞車嗎？」可以回（AA_343 C4，到 15:00）：「睡過頭了。對不起。」→「嗯。」／「今天去不了了。」→「好。」；不回沒有後續；三種都照樣有 15:00 那則 */
   S.chiayiMissed=function(G){ const F=G.flags, d27=D('2029-01-27'); if(F.FANG_F4) return; F.FANG_F4='missed';
     PHONE.at(G,d27,10,[Object.assign(FY('路上塞車嗎？'),{ask:{id:'r3_fang_f4_late',until:T(d27,15),opts:[{t:'睡過頭了。對不起。',say:[{from:'npc_fangyt',text:'嗯。'}]},{t:'今天去不了了。',say:[{from:'npc_fangyt',text:'好。'}]}]}})],'r3_fang_f4_late'); PHONE.at(G,d27,15,[FY('霧散了。它還在。下次。')],'r3_fang_f4_late2'); };

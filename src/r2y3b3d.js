@@ -104,7 +104,7 @@ const R2Y3B=(function(){
     if(now(G)>=T(d15,21.5)&&now(G)<T(d18,8)&&!PHONE.sent(G,'y3_kx_k18'))
       PHONE.at(G,d15,21.5,[K('這週六早上八點，開車。去一個我們兩個都沒去過的地方。'),Object.assign(K('……地方你到了就知道。'),{ask:{id:'y3_kx_k18',until:T(d15+1,18),opts:[
         {t:'好。八點，木柵大學校門口。',say:[{from:'kexin',text:'好。不要遲到。'}],set:{KX_K18_GO:true}},{t:'這週不行。',say:[{from:'kexin',text:'……好。那我跟予樂去。'}],set:{KX_K18:'missed'}}]}})],'y3_kx_k18');
-    if(F.KX_K18_GO===true&&!outGet(G,'y3_kx_k18')&&now(G)<T(d18,8.25)) plan(G,{id:'y3_kx_k18',ev:'ev_kexin_k18',day:d18,h:8,late:0.25,place:'木柵大學校門口（先回家取車）',title:'和可昕：開車去沒去過的地方',travel:'回家取車約 30 分鐘，再開到木柵大學接她',travelH:40/60,back:'送她回木柵大學，再把車開回家。'});
+    if(F.KX_K18_GO===true&&!outGet(G,'y3_kx_k18')&&now(G)<T(d18,8.25)) plan(G,{id:'y3_kx_k18',ev:'ev_kexin_k18',day:d18,h:8,late:0.25,place:'木柵大學校門口',title:'和可昕：開車去沒去過的地方',travel:'開車到木柵大學接她',travelH:40/60,back:'送她回木柵大學，再把車開回家。'});
     { const m=PHONE.byAsk(G,'y3_kx_k18'); if(m&&m.ans==null&&now(G)>T(d15+1,18)&&!F.KX_K18) F.KX_K18='missed'; }   /* 沒回：她跟予樂去（不算放鴿子）*/
     if(F.KX_K18==='missed'&&now(G)>=T(d18,18)&&!PHONE.sent(G,'y3_kx_k18_photo')) PHONE.at(G,d18,18,[K('（照片：她和予樂在月台上）'),K('你的位子，予樂坐了。')],'y3_kx_k18_photo'); };
   /* 答應了、08:15 還沒到：演出來的電話＋18:00 那張照片；KX_RUB +1 */
@@ -274,15 +274,15 @@ const R2Y3B=(function(){
   S.x1Go=async function(GM){ const G=GM.G, F=G.flags; if(!S.x1Due(G)) return false; const ev=evOf('ev_x1_moveout_us');
     if(G.zone!=='dorm'){ GM.sceneBegin(); try{ await GM.fade(true); if(GM.titleCard) await GM.titleCard('回宿舍','',1800); if(GM.enter) await GM.enter('dorm',{x:0,z:2.4,yaw:Math.PI}); await GM.fade(false); } finally{ GM.sceneEnd(); } }   /* 人在外面：先帶回宿舍 */
     if(ev&&typeof EVENTS!=='undefined') await EVENTS.run(ev); F.X1_US=G.day;
-    GM.sceneBegin(); try{ await GM.fade(true); if(GM.titleCard) await GM.titleCard('搬回臺北的家','計程車　約 30 分鐘',2400); GM.advance(0.5);
+    GM.sceneBegin(); try{ await GM.fade(true); if(GM.titleCard) await GM.titleCard('搬回家','計程車　約 30 分鐘',2400); GM.advance(0.5);
       if(typeof HOME!=='undefined'&&HOME.rec){ const H=HOME.rec(G); H.at=true; H.day=G.day; H.lbreak='Y3S'; H.brk='Y3S'; H.bskip={key:'Y3S',n:0,last:-1}; H.wakeAsk=null; if(typeof ADV!=='undefined'&&ADV.begin) ADV.begin({background:HOME.bgNow?HOME.bgNow():'dark'}); }
       await GM.fade(false); }
     finally{ GM.sceneEnd(); }
-    if(GM.autosave) GM.autosave(); return true; };   /* 之後到 8/2 出發住臺北的家（下一輪 STORY.tick 進家裡的選單）*/
+    if(GM.autosave) GM.autosave(); return true; };   /* 之後到 8/2 出發住家裡（下一輪 STORY.tick 進家裡的選單）*/
   /* 暑假回家住（HOME.breakStart）：美國路線大三暑假，「暑假回家住。……四個紙箱。」後面接床墊那一句（同 home3d.js 的 S.breakStart，多一句、記 X1_US）*/
   S.usBreakStart=async function(GM,B){ const G=GM.G, H=HOME.rec(G), home=HOME.at(G); H.brk=B.key; H.lbreak=B.key; H.bskip={key:B.key,n:0,last:-1}; H.wakeAsk=null; H.stayMon=null; GM.sceneBegin();
     try{ await GM.say(null,HOME.BREAK_HOME_LINE[B.kind]); await GM.say(null,X1_LINE); G.flags.X1_US=G.day;
-      if(!home){ await GM.fade(true); if(GM.titleCard) await GM.titleCard('回臺北的家','捷運＋公車 約 40 分鐘',2400); GM.advance(0.7); H.at=true; H.day=G.day; if(typeof ADV!=='undefined') ADV.begin({background:HOME.bgNow?HOME.bgNow():'dark'}); await GM.fade(false); }
+      if(!home){ await GM.fade(true); if(GM.titleCard) await GM.titleCard('回家','捷運＋公車 約 40 分鐘',2400); GM.advance(0.7); H.at=true; H.day=G.day; if(typeof ADV!=='undefined') ADV.begin({background:HOME.bgNow?HOME.bgNow():'dark'}); await GM.fade(false); }
       if(GM.autosave) GM.autosave(); }
     finally{ GM.sceneEnd(); }
     return true; };
@@ -427,7 +427,7 @@ const R2Y3B=(function(){
     if(PHONE.sent(G,'y3_summer_plan')) return;
     PHONE.at(G,a.d,a.h,[{th:'sys',text:'這個暑假要做什麼？',ask:{id:'y3_summer_plan',until:T(a.d+2,21),opts:[{t:'法律服務中心的暑期實習',post:false,set:{SUMMER_Y3:'intern'}},{t:'打工',post:false,set:{SUMMER_Y3:'work'}},{t:'在家開始讀國考的書',post:false,set:{SUMMER_Y3:'study'}}]}}],'y3_summer_plan'); };
   /* 摘要日的旁白：台灣 6/26、7/24、8/21；美國 6/26、7/24、7/31（8/2 出發，第三句搬到 7/31）。HOME.sumSkip（那天在國外、有報名的活動）＝不播。
-     日本路線沒有三選一：8/21 只有一句，不看三選一（AA_349 L2），在 src/jp3d.js 的 JP.SCH（8/5～9/3 住臺北的家是 JP.homeRound）；AA_343 D5 的三句作廢 */
+     日本路線沒有三選一：8/21 只有一句，不看三選一（AA_349 L2），在 src/jp3d.js 的 JP.SCH（8/5～9/3 住家裡是 JP.homeRound）；AA_343 D5 的三句作廢 */
   S.SUM_DAYS={TW:[['2028-06-26',0],['2028-07-24',1],['2028-08-21',2]],US:[['2028-06-26',0],['2028-07-24',1],['2028-07-31',2]],JP:[]};
   S.jobKind=G=>{ const j=typeof JOBS!=='undefined'&&JOBS.any?JOBS.any(G):null; return j&&j!=='tutor'&&j!==true?j:'tutor'; };   /* 大三下有在做的那一份；沒有的照家教（打工系統只有家教 JOB_TUTOR）*/
   const tutor=G=>S.jobKind(G)==='tutor';

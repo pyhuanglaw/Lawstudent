@@ -285,7 +285,7 @@ const R2Y4A_EVENTS=(function(){
       {phone:S5,text:'……第二句是反的。是我照顧你。'},   /* 下車以後她傳 */
       {set:{CAME_BACK_TOGETHER:true}},{end:true},
       {label:'n'},nar('（你們同一班飛機回來。她坐在前面幾排，下飛機的時候，你看見她先走了。）'),nar('（出口，媽媽在揮手。）') ] });   /* AA_452 1-5：12/10 媽媽說要來接 */
-  EV.push({ id:'ev_us_home', title:'臺北的家', participants:[], location:'any', trigger:'manual', once:true, background:'dark',   /* 上午（AA_144 X2；兩種玩家都有）*/
+  EV.push({ id:'ev_us_home', title:'家', participants:[], location:'any', trigger:'manual', once:true, background:'dark',   /* 上午（AA_144 X2；兩種玩家都有）*/
     dialogue:[ {scene:'臺北・家裡',bg:'home_living_day'},
       nar('（九點。廚房裡有粥的味道。你回來了。）'),   /* AA_370 M5：媽媽 05:40 就接到人了，九點這句是旁白（AA_291 第 5 節；原「媽媽：你回來了。」）*/
       nar('（房間打掃過了。桌上多了一盒你小時候的模型。）') ] });
@@ -648,7 +648,7 @@ const R2Y4A_EVENTS=(function(){
   EV.push({ id:'ev_grad_exam', title:'研究所筆試', participants:[], location:'any', trigger:'manual', once:true, background:'blur',
     dialogue:[ IF(AN_FAM,nar('（教學館門口，以安在看考場的配置圖。）')),
       IF(AN_FAM,an('你在三樓。我在二樓。')),IF(AN_FAM,an('……考完，門口。')),
-      {scene:'考場',bg:'dark'},   /* 故意的深色底：人已經走進 3D 的共同教學館 3F 考場，考試本身用深色底帶過（tests/rooms_ab3_people_unit.js 7）。黑畫面盤點會列出來，不用補圖 */
+      {scene:'考場',bg:'grad_exam_room'},   /* 人已經走進 3D 的共同教學館 3F 考場（tests/rooms_ab3_people_unit.js 7）；考試本身原本用深色底帶過，11-02 BB 跟使用者要了考場的圖（BB_241 第五、六節，企劃線 62395d7da bg_approved/grad_exam_room）*/
       {call:async(G,GM)=>{ if(typeof PG!=='undefined'&&PG.gradQuiz) await PG.gradQuiz(GM,2029); }},   /* D118-B6：研究所筆試改成作答（10 題公法，PG.gradQuiz；GRAD_SCORE_2029、GRAD_EXAM_2029_PASS）*/
       nar('（兩節。第二節最後一題，你寫到鐘響。）'),
       {set:{GRAD_EXAM_2029:true}} ] });

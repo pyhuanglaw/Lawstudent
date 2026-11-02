@@ -47,8 +47,9 @@ await sec(1,()=>{
   check('1. 表：數字列 82 列（第 1～70 列＋第 71～82 列；其中刪句 5 列：第 16、28、29、31、79 列）',num.length===82&&J(del.map(r=>+r.n).sort((a,b)=>a-b))===J([16,28,29,31,79]),J([num.length,del.map(r=>r.n)]));
   /* 選項在遊戲裡帶「」或括號；她的話、旁白就是字串 */
   /* 第 57 列「好。有翻開就好。」：使用者 11-02 第 55 列改成不問成績，照級別回的那幾句（第 57 列、保289～保291）整段不再演，不在遊戲裡 */
-  const miss=keep.filter(r=>r.n!=='57'&&!inGame(r.nw)).map(r=>'#'+r.n+' '+r.nw);
-  check('1. 每一列「改成」一字不差在遊戲裡（字串常數；第 57 列跟著第 55 列整段拿掉）',!miss.length&&!inGame('好。有翻開就好。')&&!inGame('下學期，我出難一點的題目給你。'),J(miss));
+  /* 第 24 列「又遇到你了。」（熱水 HELPED 那一句，原「上次是黑咖啡」）：AA_595「AA 處理決定」第 3 節跟著空保溫瓶那條線拿掉——不在遊戲裡 */
+  const miss=keep.filter(r=>r.n!=='57'&&r.n!=='24'&&!inGame(r.nw)).map(r=>'#'+r.n+' '+r.nw);
+  check('1. 每一列「改成」一字不差在遊戲裡（字串常數；第 57 列跟著第 55 列整段拿掉；第 24 列 AA_595 拿掉）',!miss.length&&!inGame('好。有翻開就好。')&&!inGame('下學期，我出難一點的題目給你。')&&!inGame('又遇到你了。'),J(miss));
   const P104='……其實一點都不早。真的想準備的人，有的大一就開始了。';
   check('1. 保104、保147（使用者 11-02 選擇題改的兩列）：「'+P104+'」「好。」在遊戲裡、表上一字不差',inGame(P104)&&ROWS.some(r=>r.n==='保104'&&r.nw===P104)&&ROWS.some(r=>r.n==='保147'&&r.nw==='好。')&&/\{label:'a'\},SIS\('好。'\)/.test(ALL));
   /* 原句不在遊戲裡：retired 的兩場（第 15、16、28、29 列）、原句是別的句子的一部分（第 7、15、17、73 列、第 71～74 列原句不改）、出現在別處的（第 53、54 列互相）除外 */
@@ -68,11 +69,11 @@ await sec(2,async()=>{
   H.fresh(keyOf(wk('Y1S1',8,2)),15,'lawlib'); H.FAMILIAR(ID); const a=EVENTS.check(ef);
   H.fresh('2026-03-04',19.5,'lawlib',{met_sis:true,SIS_W1:true}); H.FAMILIAR(ID); const b=EVENTS.check(nv);
   check('2. 大一上第 8 週週二 15:00 法圖有點熟（空的保溫瓶原本的時段）、2026-03-04 19:30 法圖（等放榜那一天）：都不演',a===false&&b===false,J([a,b]));
-  check('2. 定義留給舊存檔：空的保溫瓶的選項與記憶、flaskCoffeeDay 照舊（舊存檔的「已裝滿」照演）',J(ef.dialogue).includes('flaskCoffeeDay')&&J(ef.dialogue).includes('HELPED')&&!!ev('ev_sis_flask_full'));
-  /* 舊存檔：演過空的保溫瓶、選黑咖啡（HELPED）→ 熱水那一場照演 W5「又遇到你了。」 */
+  check('2. 定義留給舊存檔：空的保溫瓶的選項與記憶、flaskCoffeeDay 照舊（「已裝滿」AA_595 3-13 也 retired，定義照留）',J(ef.dialogue).includes('flaskCoffeeDay')&&J(ef.dialogue).includes('HELPED')&&!!ev('ev_sis_flask_full')&&/AA_595/.test(String(ev('ev_sis_flask_full').retired)));
+  /* 舊存檔：演過空的保溫瓶、選黑咖啡（HELPED）→ 熱水那一場照演，可是 W5「又遇到你了。」（原「上次是黑咖啡」）AA_595 第 3 節跟著那條線拿掉 */
   H.fresh(keyOf(wk('Y1S1',14,2)),21.6,'lawlib',{SIS_STUDY:true}); H.FAMILIAR(ID); H.G.events.done.ev_sis_empty_flask=1; SOCIAL.remember(ID,'HELPED','空的保溫瓶，買了黑咖啡');
   H.said=[]; H.picks=[0]; await EVENTS.run(ev('ev_sis_hot_water')); const L=H.said.map(s=>s.t);
-  check('2. 舊存檔（演過、選了黑咖啡）：熱水「我陪妳等熱水。」→ 陪她等 →「又遇到你了。」「謝謝。明天八點，一樣的位子？」',J(H.opts[0])===J(['「我陪妳等熱水。」','「我請妳喝一罐。」'])&&L.includes('（她按了下去。飲水機的熱水出得很慢，你站在旁邊陪她等。）')&&L.indexOf('又遇到你了。')>=0&&L[L.indexOf('又遇到你了。')+1]==='謝謝。明天八點，一樣的位子？'&&H.G.flags.HOT_WATER===true,J([L,H.opts]));
+  check('2. 舊存檔（演過、選了黑咖啡）：熱水「我陪妳等熱水。」→ 陪她等 →「謝謝。明天八點，一樣的位子？」；沒有「又遇到你了。」（AA_595）',J(H.opts[0])===J(['「我陪妳等熱水。」','「我請妳喝一罐。」'])&&L.includes('（她按了下去。飲水機的熱水出得很慢，你站在旁邊陪她等。）')&&L.indexOf('又遇到你了。')<0&&L.includes('謝謝。明天八點，一樣的位子？')&&H.G.flags.HOT_WATER===true,J([L,H.opts]));
   H.fresh(keyOf(wk('Y1S1',14,2)),21.6,'lawlib',{SIS_STUDY:true}); H.FAMILIAR(ID); H.said=[]; H.picks=[0]; await EVENTS.run(ev('ev_sis_hot_water'));
   check('2. 新存檔（沒有那一場）：熱水沒有「又遇到你了。」',!H.has('又遇到你了。')&&H.has('謝謝。明天八點，一樣的位子？'));
   let threw=null; try{ SOCIAL.noteShown(ID,{tag:'HELPED',note:'空的保溫瓶，買了黑咖啡'}); }catch(e){ threw=String(e); }

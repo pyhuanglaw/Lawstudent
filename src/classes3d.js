@@ -1018,7 +1018,7 @@ const CLS=(function(){
   /* 路上第一個要停的地方：照路線順序，每一區「到那裡的時間」照 goPlan 的算法倒推（剩下的路程＝從那一區到教室；到那裡＝現在＋總路程−剩下的），
      把時間、地點放到那一刻問 EVENTS.check；有到達時就會演的【固】【必】就停。回傳 {zone, spawn, leg（分鐘）, ev} 或 null */
   S.routeStop=function(GM,it,pl,o){ o=o||{}; const G=GM.G; if(typeof EVENTS==='undefined'||typeof STORY_EVENTS==='undefined'||!EVENTS.check||!pl||!pl.d) return null; if(typeof ECONFF!=='undefined'&&ECONFF.on&&ECONFF.on(G)) return null;   /* 經濟系事件接事件（D102）：S.oneTick 不跑，停下來以後「繼續去上課」出不來＝不在路上停（BB-B 11-01 讀碼）*/ const d=pl.d;
-    const via=o.fromHome?['campus'].concat(S.routeVia('campus',d.zone)).filter(z=>z!==d.zone):S.routeVia(G.zone,d.zone); if(!via.length) return null;   /* 從臺北的家（DL-05）：捷運＋公車到校園 */
+    const via=o.fromHome?['campus'].concat(S.routeVia('campus',d.zone)).filter(z=>z!==d.zone):S.routeVia(G.zone,d.zone); if(!via.length) return null;   /* 從家（DL-05）：捷運＋公車到校園 */
     const rest=(z,spot)=>{ if(z===d.zone) return 0; let m=z==='linze'&&d.zone==='classroom'?3:S.travelMinutes(G,z,d.via,spot,d.pos)+(d.inner&&z!==d.via?3:0); if(pl.bike&&m>0) m=Math.max(5,Math.round(m/3.5/5)*5); return m; };
     for(let i=0;i<via.length;i++){ const z=via[i], spot=z==='campus'?(CAMPUS_AT[via[i+1]||d.zone]||CAMPUS_AT.linze):null, leg=Math.max(0,pl.mins-rest(z,spot));
       const ev=evAt(G,G.hour+leg/60,z,()=>STORY_EVENTS.find(e=>S.arriveEv(e,z)&&S.evGuard(e)&&EVENTS.check(e)));
@@ -1056,7 +1056,7 @@ const CLS=(function(){
     if(typeof OUT!=='undefined'&&OUT.rec) for(const q of OUT.rec(G)) if(q.state==='planned'&&q.day===G.day&&q.h>h) out.push([q.h,(q.title||q.place||'出遊')+'（時間到會跳出「出發」）']);   /* UX-GROUP-NOTICE-1018：玩家不知道約好的活動怎麼去 */
     return out.sort((a,b)=>a[0]-b[0]).slice(0,2).map(([t,l])=>hhmm(t)+' '+l); };
   const freeNow=GM=>{ const E=GM.E, P=E&&E.player; return !!P&&!E.paused&&!P.busy&&!P.seat&&!(GM.D&&GM.D.active)&&!GM.titleIdle&&!(P.path&&P.path.length); };   /* E.paused＝手機或選單開著：下課選單、起床選單不要跳在手機下面（flow_v0_to1017 9/19 卡住：選單在手機後面點不到）*/
-  S.canGo=function(GM){ const why=S.canSkip(GM); if(why) return why; if(typeof HOME!=='undefined'&&HOME.rec&&HOME.rec(GM.G).at) return '你在臺北的家'; return ''; };
+  S.canGo=function(GM){ const why=S.canSkip(GM); if(why) return why; if(typeof HOME!=='undefined'&&HOME.rec&&HOME.rec(GM.G).at) return '你在家'; return ''; };
   /* 起床選單（1-2）*/
   S.wakeMenu=async function(GM){ const G=GM.G; if(S.wakeMenuOn(GM)&&typeof STORY!=='undefined'&&STORY.retakeOn&&STORY.retakeOn(G)&&!(typeof HOME!=='undefined'&&HOME.at&&HOME.at(G))) return !!(await STORY.retakeWake(GM));   /* 經濟系重考期的起床選單（AA_154 A39）*/ if(!S.wakeMenuOn(GM)||S.canGo(GM)) return false; const list=S.goList(G).filter(it=>!S.planSkip(G,it)); if(!list.length) return false; const it=list[0], exam=!!it.exam;   /* 期中、期末都一樣不給翹（AA_294 ①；原本只有期末）*/
     const pl=S.goPlan(GM,it); let k=-1; GM.sceneBegin(); try{
@@ -1090,7 +1090,7 @@ const CLS=(function(){
   /* 直接去上課（1-3）*/
   S.goClass=async function(GM,it,o){ o=o||{}; const G=GM.G; if(S.rec(G).done[it.key]) return false; const why=o.forced||o.fromHome?'':S.canGo(GM); if(why){ GM.toast(why,3000); return false; }
     if(it.room&&it.room.offsite) return S.goOffsite(GM,it,o);   /* 校外（法律實習）：沒有地點，2D */
-    delete S.rec(G).note['plan_skip_'+it.key]; let pl=S.goPlan(GM,it); if(!pl) return false; if(o.fromHome){ pl=Object.assign({},pl,{mins:o.mins||43,bike:false,mrt:true}); }   /* 從臺北的家出發（DL-05）：捷運＋公車；等待在 HOME.homeWake 做完了 */
+    delete S.rec(G).note['plan_skip_'+it.key]; let pl=S.goPlan(GM,it); if(!pl) return false; if(o.fromHome){ pl=Object.assign({},pl,{mins:o.mins||43,bike:false,mrt:true}); }   /* 從家出發（DL-05）：捷運＋公車；等待在 HOME.homeWake 做完了 */
     if(!o.forced&&!o.fromHome&&hr(G)<pl.depart-0.02&&pl.depart-hr(G)>0.06){ const ok=await S.skipTo(GM,pl.depart); if(!ok) return false; if(hr(G)<pl.depart-0.02){ contP={day:G.day,key:it.key}; return false; } pl=S.goPlan(GM,it); }   /* BUG-GOCLASS-WINDOW-1102（BB_218 6865）：離出門不到 3 分鐘＝直接出門（skipTo 對 3 分鐘以內的跳轉回 false，原本按了沒反應）。等待照跳過時間的規則（停點：約好的時間、特殊課堂、劇情）；停下來的話，劇情演完出「繼續去上課」*/
     if(S.status(G,it)==='missed'){ GM.toast(it.c.name+'已經快下課了，現在進去不算出席。',3600); return false; }
     const d=pl.d; if(G.zone!==d.zone||o.fromHome){ if(typeof ACTIVITIES!=='undefined'&&ACTIVITIES.leave) ACTIVITIES.leave(G);

@@ -159,7 +159,7 @@ const VACFILL_EVENTS=(function(){
     /* ===================== 第 1 節 經濟系那年暑假（stage econ；休學住家裡，ECONFF 第二階段：在家的事件 trigger home 到了就演，快轉停在那裡）===================== */
     { id:'ev_vf_y0_0713', stage:'econ', title:'', participants:[], location:'any', trigger:'home', once:true, background:'dark',
       prereq:{custom:G=>on(G,'2025-07-13',10)},
-      dialogue:[ {scene:'臺北的家'}, {speaker:null,text:X.y0_0713.narr}, {speaker:'媽媽',name:'媽媽',text:X.y0_0713.mom[0]}, {speaker:'媽媽',name:'媽媽',text:X.y0_0713.mom[1]},
+      dialogue:[ {scene:'家'}, {speaker:null,text:X.y0_0713.narr}, {speaker:'媽媽',name:'媽媽',text:X.y0_0713.mom[0]}, {speaker:'媽媽',name:'媽媽',text:X.y0_0713.mom[1]},
         choice(X.y0_0713.opts,['y','n']),
         {label:'y'},{speaker:'媽媽',name:'媽媽',text:X.y0_0713.yes[0]},{speaker:null,text:X.y0_0713.yes[1]},{goto:'e'},
         {label:'n'},{speaker:'媽媽',name:'媽媽',text:X.y0_0713.no[0]},{speaker:null,text:X.y0_0713.no[1]},
@@ -167,15 +167,15 @@ const VACFILL_EVENTS=(function(){
     /* 1-3 姊姊回來：7/19 12:00；E35_PLAN sleep（在家睡到下午三點）＝15:30、第一句換；sea／shop（7/19～7/23 在高雄）＝不演，改 7/26（ev_vf_y0_0726_sis）*/
     { id:'ev_vf_y0_0719_sis', stage:'econ', title:'', participants:[], location:'any', trigger:'home', once:true, background:'dark',
       prereq:{custom:G=>!south(G)&&on(G,'2025-07-19',plan(G)==='sleep'?15.5:12)},
-      dialogue:[ {scene:'臺北的家'}, {if:{custom:G=>plan(G)!=='sleep'},speaker:null,text:X.y0_0719.narr}, {if:{custom:G=>plan(G)==='sleep'},speaker:null,text:X.y0_0719.sleepNarr},
+      dialogue:[ {scene:'家'}, {if:{custom:G=>plan(G)!=='sleep'},speaker:null,text:X.y0_0719.narr}, {if:{custom:G=>plan(G)==='sleep'},speaker:null,text:X.y0_0719.sleepNarr},
         {speaker:'宜蓁',name:'宜蓁',text:X.y0_0719.ask}, {speaker:null,text:X.y0_0719.wait}, {speaker:'宜蓁',name:'宜蓁',text:X.y0_0719.rice},
         choice(X.y0_0719.opts,['a','b']),
         {label:'a'},{speaker:'宜蓁',name:'宜蓁',text:X.y0_0719.reply[0]},{goto:'e'},
         {label:'b'},{speaker:'宜蓁',name:'宜蓁',text:X.y0_0719.reply[1]},
         {label:'e'},{if:{custom:G=>F(G).VF_Y0_0719==='go'},speaker:null,text:X.y0_0719.dinner} ] , after:noMemo('ev_vf_y0_0719_sis') },   /* 那一晚：7/16 回了「週末可以。」的（7/19 晚上經濟系聚餐）*/
     { id:'ev_vf_y0_0726_sis', stage:'econ', title:'', participants:[], location:'any', trigger:'home', once:true, background:'dark',
-      prereq:{custom:G=>south(G)&&on(G,'2025-07-26',12)},   /* 7/26 人不在臺北的家＝不演（trigger home）*/
-      dialogue:[ {scene:'臺北的家'}, {speaker:null,text:X.y0_0719.narr}, {speaker:'宜蓁',name:'宜蓁',text:X.y0_0726.ask}, {speaker:null,text:X.y0_0719.wait}, {speaker:'宜蓁',name:'宜蓁',text:X.y0_0719.rice},
+      prereq:{custom:G=>south(G)&&on(G,'2025-07-26',12)},   /* 7/26 人不在家＝不演（trigger home）*/
+      dialogue:[ {scene:'家'}, {speaker:null,text:X.y0_0719.narr}, {speaker:'宜蓁',name:'宜蓁',text:X.y0_0726.ask}, {speaker:null,text:X.y0_0719.wait}, {speaker:'宜蓁',name:'宜蓁',text:X.y0_0719.rice},
         choice(X.y0_0726.opts,['a','b']),
         {label:'a'},{speaker:'宜蓁',name:'宜蓁',text:X.y0_0726.reply[0]},{goto:'e'},
         {label:'b'},{speaker:'宜蓁',name:'宜蓁',text:X.y0_0726.reply[1]},
@@ -190,16 +190,16 @@ const VACFILL_EVENTS=(function(){
         {label:'y'},{speaker:'kexin',text:X.y0_0722.yes[0]},{speaker:null,text:X.y0_0722.yes[1]},{goto:'e'},
         {label:'n'},{speaker:'kexin',text:X.y0_0722.no},
         {label:'e'} ] },
-    /* 1-5 7/27 10:00 在家醒來（人在臺北的家才出）：「（去學校走一走）」＝15:00 一鍵到校門口（src/vacfill3d.js 排出遊）*/
+    /* 1-5 7/27 10:00 在家醒來（人在家才出）：「（去學校走一走）」＝15:00 一鍵到校門口（src/vacfill3d.js 排出遊）*/
     { id:'ev_vf_y0_0727', stage:'econ', title:'', participants:[], location:'any', trigger:'home', once:true, background:'dark',
       prereq:{custom:G=>win(G,'2025-07-27',10,'2025-07-27',14)},
-      dialogue:[ {scene:'臺北的家'}, {speaker:null,text:X.y0_0727.wake},
+      dialogue:[ {scene:'家'}, {speaker:null,text:X.y0_0727.wake},
         {choice:[{text:X.y0_0727.go,set:{VF_Y0_0727:'go'}},{text:X.y0_0727.no,set:{VF_Y0_0727:'no'}}]} ],
       after:noMemo('ev_vf_y0_0727',G=>{ if(typeof VACFILL!=='undefined'&&VACFILL.phone) VACFILL.phone(G); }) },
-    /* 1-5b 7/31 10:00 在家醒來（人在臺北的家才出；交往中、沒交往都一樣，不用選、不加數值）*/
+    /* 1-5b 7/31 10:00 在家醒來（人在家才出；交往中、沒交往都一樣，不用選、不加數值）*/
     { id:'ev_vf_y0_0731', stage:'econ', title:'', participants:[], location:'any', trigger:'home', once:true, background:'dark',
       prereq:{custom:G=>win(G,'2025-07-31',10,'2025-07-31',14)},
-      dialogue:[ {scene:'臺北的家'}, ...X.y0_0731.narr.map(t=>({speaker:null,text:t})) ],
+      dialogue:[ {scene:'家'}, ...X.y0_0731.narr.map(t=>({speaker:null,text:t})) ],
       after:noMemo('ev_vf_y0_0731') },
     { id:'ev_vf_y0_0727_gate', stage:'econ', title:'', participants:[], location:'campus', trigger:'auto', once:true, background:'blur',
       prereq:{custom:G=>{ const d=D('2025-07-27'); if(d==null||G.day!==d||F(G).VF_Y0_0727!=='go') return false; const q=typeof OUT!=='undefined'&&OUT.get?OUT.get(G,'vf_y0_0727'):null; return !!q&&q.state==='done'; }},
@@ -211,7 +211,7 @@ const VACFILL_EVENTS=(function(){
       after:noMemo('ev_vf_y0_0727_linze',G=>{ G.flags.VF_Y0_0727='front'; } )},
     { id:'ev_vf_y0_0808', stage:'econ', title:'父親節', participants:[], location:'any', trigger:'home', once:true, background:'dark',
       prereq:{custom:G=>on(G,'2025-08-08',20)},
-      dialogue:[ {scene:'臺北的家'}, {speaker:null,text:X.y0_0808.narr}, ...X.y0_0808.lines.map(([s,t])=>({speaker:s,name:s,text:t})),
+      dialogue:[ {scene:'家'}, {speaker:null,text:X.y0_0808.narr}, ...X.y0_0808.lines.map(([s,t])=>({speaker:s,name:s,text:t})),
         choice(X.y0_0808.opts,['a','b']),
         {label:'a'},{speaker:'爸爸',name:'爸爸',text:X.y0_0808.reply[0]},{goto:'e'},
         {label:'b'},{speaker:'爸爸',name:'爸爸',text:X.y0_0808.reply[1]},
@@ -226,11 +226,11 @@ const VACFILL_EVENTS=(function(){
     /* 1-8 沒交往：8/10 早上起床放摘要池的一句（第 5 節住家裡・暑假，照順序）*/
     { id:'ev_vf_y0_0810_sum', stage:'econ', title:'', participants:[], location:'any', trigger:'home', once:true, background:'dark',
       prereq:{custom:G=>on(G,'2025-08-10',8.5)&&!dat(G,'kexin')},
-      dialogue:[ {scene:'臺北的家'}, {call:async(G,GM)=>{ if(typeof VACFILL!=='undefined'&&VACFILL.poolSay) await VACFILL.poolSay(GM,'Y0S','home','summer'); }} ] , after:noMemo('ev_vf_y0_0810_sum') },
+      dialogue:[ {scene:'家'}, {call:async(G,GM)=>{ if(typeof VACFILL!=='undefined'&&VACFILL.poolSay) await VACFILL.poolSay(GM,'Y0S','home','summer'); }} ] , after:noMemo('ev_vf_y0_0810_sum') },
     /* 1-9 8/16（六）10:00 在家醒來：錄取通知（放榜 8/13 以後）*/
     { id:'ev_vf_y0_0816', stage:'econ', title:'', participants:[], location:'any', trigger:'home', once:true, background:'dark',
       prereq:{custom:G=>on(G,'2025-08-16',10)},
-      dialogue:[ {scene:'臺北的家'}, ...X.y0_0816.map(t=>({speaker:null,text:t})) ] , after:noMemo('ev_vf_y0_0816') },
+      dialogue:[ {scene:'家'}, ...X.y0_0816.map(t=>({speaker:null,text:t})) ] , after:noMemo('ev_vf_y0_0816') },
     /* 1-10 8/18（一）19:00 熱炒店（餞行；8/17 群組回「好。」）*/
     { id:'ev_vf_y0_0818', stage:'econ', title:'和經濟系那一群吃飯', participants:['econ_pinyu','econ_zhengxun'], location:'any', trigger:'outing', once:true, background:'dark', hours:2,
       dialogue:[ {scene:'公館・熱炒店',bg:'gongguan'}, {speaker:null,text:X.y0_0818.narr}, ...X.y0_0818.lines.map(([s,t])=>({speaker:s,text:t})),
@@ -276,14 +276,14 @@ const VACFILL_EVENTS=(function(){
     /* 大一寒假 1/23 15:00 住家裡：媽媽當面說（留宿舍的是私訊，src/vacfill3d.js）；說完排 1/24 的迪化街 */
     { id:'ev_vf_y1w_0123', title:'', participants:[], location:'any', trigger:'home', once:true, background:'dark',
       prereq:{custom:G=>win(G,'2026-01-23',15,'2026-01-24',0)&&F(G).VF_Y1W_DIHUA_MODE!=='dm'},
-      dialogue:[ {scene:'臺北的家'}, {speaker:'媽媽',name:'媽媽',text:X.y1w_0123.mom} ],
+      dialogue:[ {scene:'家'}, {speaker:'媽媽',name:'媽媽',text:X.y1w_0123.mom} ],
       after:noMemo('ev_vf_y1w_0123',G=>{ G.flags.VF_Y1W_DIHUA_MODE='home'; G.flags.VF_Y1W_DIHUA='go'; if(typeof VACFILL!=='undefined'&&VACFILL.phone) VACFILL.phone(G); } )},
     { id:'ev_vf_y1w_0124', title:'迪化街', participants:[], location:'any', trigger:'outing', once:true, background:'dark', hours:3,
       dialogue:[ {scene:'迪化街',bg:'dihua_newyear'}, {speaker:null,text:X.y1w_0123.narr}, {speaker:'媽媽',name:'媽媽',text:X.y1w_0123.fish} ] },
     /* 大一暑假 8/28（五）～8/29：姊姊回家住兩天（在家的時候演）*/
     { id:'ev_vf_y1s_0828', title:'', participants:[], location:'any', trigger:'home', once:true, background:'dark',
       prereq:{custom:G=>win(G,'2026-08-28',18,'2026-08-30',0)},
-      dialogue:[ {scene:'臺北的家'}, {speaker:null,text:X.y1s_0828.narr}, {speaker:'宜蓁',name:'宜蓁',text:X.y1s_0828.sis} ] , after:noMemo('ev_vf_y1s_0828') },
+      dialogue:[ {scene:'家'}, {speaker:null,text:X.y1s_0828.narr}, {speaker:'宜蓁',name:'宜蓁',text:X.y1s_0828.sis} ] , after:noMemo('ev_vf_y1s_0828') },
     { id:'ev_vf_y2w_0116', title:'阿鳳麵店', participants:[], location:'any', trigger:'outing', once:true, background:'dark', hours:1.5,
       dialogue:[ {scene:'阿鳳麵店・長桌',bg:'noodle_table'}, {speaker:null,text:X.y2w_0114.narr},
         {speaker:null,text:'（語彤端麵過來，順手把你的筷子擺正。）'},{speaker:'heroine_03',text:'寒假人少。阿姨煮得比較慢。'},{speaker:'yu',text:'慢沒關係！我餓到可以等！'},   /* AA_533 4-1：群組說會去的兩個人開口（兩句旁白中間）*/

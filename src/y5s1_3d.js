@@ -129,7 +129,7 @@ const Y5=(function(){
       if(k===1) await GM.say(who('yu'),'……我也不知道。所以今年要吃多一點。'); else await GM.say(who('zhe'),'你說的喔。'); }
     await GM.say(null,'（柚子皮後來被阿哲戴在頭上。這件事，每年都有人做。）');
     G.flags.MIDAUTUMN_2029='went'; };
-  /* AA_363 T9：交通「捷運＋走路 約 30 分鐘」（2029-06-28 以後大家都退宿了，祐廷從臺北的家出發；原本「騎車約 15 分鐘」）。從家裡出發也是這一句（homeTravel，outings3d.js OUT.trip）*/
+  /* AA_363 T9：交通「捷運＋走路 約 30 分鐘」（2029-06-28 以後大家都退宿了，祐廷從家出發；原本「騎車約 15 分鐘」）。從家裡出發也是這一句（homeTravel，outings3d.js OUT.trip）*/
   S.MOON_TRAVEL='捷運＋走路 約 30 分鐘';
   S.moonPlan=G=>typeof OUT!=='undefined'&&OUT.plan(G,{id:'pg_moon29',ev:'ev_pg_moon29',day:DKy(S.MOON_DAY),h:18,late:0.5,place:'河濱',title:'中秋：河濱',travel:S.MOON_TRAVEL,travelH:0.5,homeTravel:S.MOON_TRAVEL});
   S.moonRules=function(G){ const F=(G&&G.flags)||{}; if(!G||!law(G)||typeof PHONE==='undefined') return; const d=DKy(S.MOON_DAY); if(d==null||G.day<d-3||G.day>d+2) return;

@@ -322,7 +322,7 @@ const ZR='heroine_02', ZQ='heroine_04';
   await chk('18. 其中一人自己告訴他（閒聊階梯記 ZZ_TOLD_YT，23-4）＝祐廷知道（confirmed）、4-7 就不演',()=>{
     fresh('2026-09-10',15,'campus'); both('FAM'); zz({state:'dating',since:0,datingDay:D('2026-06-05'),datingTerm:'Y1S2',yt:'mutual'}); SOCIAL.remember(ZQ,'ZZ_TOLD_YT',''); rules(); at('2026-09-18',14.6);
     return [G.flags.ZZ.yt==='confirmed'&&!ZRZQ.next(G),'']; });
-  await chk('18. 在家（臺北的家）：該帶到場了＝STORY.y4HomeDue 回 zrzq（先離開家）',()=>{ fresh('2026-03-11',21.6,'dorm'); both('FAM'); HOME.rec(G).at=true; const r=STORY.y4HomeDue(G); HOME.rec(G).at=false; return [r==='zrzq',String(r)]; });
+  await chk('18. 在家（家）：該帶到場了＝STORY.y4HomeDue 回 zrzq（先離開家）',()=>{ fresh('2026-03-11',21.6,'dorm'); both('FAM'); HOME.rec(G).at=true; const r=STORY.y4HomeDue(G); HOME.rec(G).at=false; return [r==='zrzq',String(r)]; });
   await chk('18. 跳過時間停在帶到場的那一刻（3/11 20:00 在總圖跳到 23:00＝停在 21:30）；寒暑假快轉也停（HOME.STOPS）',()=>{
     fresh('2026-03-11',20,'library_hall'); both('FAM'); const st=CLS.skipStops(GM,23), hs=HOME.STOPS.map(f=>f(G,G.day*24+20)).flat().filter(x=>x!=null);
     return [st.some(s=>Math.abs(s.h-21.5)<1e-6)&&hs.includes(G.day*24+21.5),J({st,hs})]; });

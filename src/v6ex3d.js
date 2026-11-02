@@ -6,7 +6,7 @@
      不鎖重新開始：好好分開的芷若、子晴、沛珊照一般告白可以重新開始（AA_434 第 1 節：BB_119 的「不復合」作廢，照 AA_123 1-10、BB_194）。
    ■ V6-S4 收拾的時刻（AA_182 第 2 節）：
      - 每一次分開（ROM.end）：之後第一個空檔出系統字「（這一週，你可以把這件事放好。）」。
-     - 七天內（CLEANUP_DONE false、還沒過 cleanupDue）：宿舍房間（和有書桌的房間）的書桌旁多一個「收拾」；在臺北的家：週末選單多一個「收拾」（HOME.MENU_OPTS），寒暑假一天問一次（trigger 'home' 的事件）。
+     - 七天內（CLEANUP_DONE false、還沒過 cleanupDue）：宿舍房間（和有書桌的房間）的書桌旁多一個「收拾」；在家：週末選單多一個「收拾」（HOME.MENU_OPTS），寒暑假一天問一次（trigger 'home' 的事件）。
        選項：還東西、收紙箱（記 CLEANUP_BOX；主線 10 大四開學前一天的拆箱多一步，story3d.js STORY.unboxY4，AA_437 第 6 節）／和阿哲說一次話（和阿哲 FAMILIAR 以上：傳「頂樓？」、他回「十分鐘。我帶飲料。」→ 十分鐘後宿舍頂樓；
        在家＝打電話，同一段話）／手機筆記寫一行（三句選一）／BB 的五位：她的物件（BB_119 9-4）／算了。選了任何一個＝ROM.cleanup（CLEANUP_DONE true）。
      - 七天都沒做：第七天 22:00「（你把那件事放好了。）」（story3d.js 原本的 cleanupTick；這裡讓它等到第七天 22:00）。
@@ -101,9 +101,9 @@ const V6EX=(function(){
     if(reach){ const CS=[[-0.35,0.35],[0.35,-0.35],[-0.35,-0.35],[0.35,0.35]]; let ok=false; for(const c of CS){ it.x=d.x+c[0]; it.z=d.z+c[1]; if(reach(E,it,ap)){ ok=true; break; } } if(!ok){ it.x=d.x+0.35; it.z=d.z-0.35; } }
     E.interactables.push(it); };
   if(STORY.populate&&!STORY._v6exPopulate){ const p0=STORY.populate; STORY.populate=function(zoneId,GM){ const r=p0.apply(this,arguments); try{ if(GM&&GM.G) S.place(GM); }catch(e){ console.warn('V6EX.populate',e); } return r; }; STORY._v6exPopulate=true; }
-  /* 在臺北的家：在家的選單之前，一天問一次（trigger 'home'）*/
+  /* 在家：在家的選單之前，一天問一次（trigger 'home'）*/
   S.homeDue=G=>S.pending(G)&&S.rec(G).home!==G.day;   /* 經濟系那一年（休學在家）也算：事件標 stage:'any' */
-  /* 週末在臺北的家（home3d.js 的週末選單沒有跑 trigger 'home' 的事件）：選單多一個「收拾」（HOME.MENU_OPTS），阿哲那一項＝打電話 */
+  /* 週末在家（home3d.js 的週末選單沒有跑 trigger 'home' 的事件）：選單多一個「收拾」（HOME.MENU_OPTS），阿哲那一項＝打電話 */
   S.homeOpt=G=>S.pending(G)?{t:'收拾',run:GM=>S.menu(GM,'call')}:null;
   if(typeof HOME!=='undefined'&&Array.isArray(HOME.MENU_OPTS)&&!HOME.MENU_OPTS.includes(S.homeOpt)) HOME.MENU_OPTS.push(S.homeOpt);
   /* 七天都沒做：等到第七天 22:00 才補那一句（AA_182；ROM.cleanupLate 照原本，第七天 0 點起就不擋新的交往）*/

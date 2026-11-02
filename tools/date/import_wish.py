@@ -81,6 +81,33 @@ if A525:
     hit[0]['text'] = NEW5
     SRC525 = f'＋{os.path.basename(P525)[:6]}@{S525}（子晴結尾 1 句）'
 
+# ---- 1c. AA_595（四條新規則違反清單，白名單 AA595-LIB-NOD-THERMOS-1102；「AA 處理決定」第 3 節）：學姊 D15 陽明山車裡的選項「妳的保溫瓶今天是滿的。」（條件：演過空的保溫瓶）
+#      跟著空保溫瓶那條線一起拿掉（3-14）。整個選項刪；wish_bb.json 下一版自己刪了就跳過 ----
+A595 = G.approved_files(ALLOW, SP + 'AA_595_')
+if A595:
+    P595, S595 = next(iter(A595.items()))
+    ok, why = G.allowed(P595, S595, ALLOW)
+    if not ok:
+        sys.exit('拒絕匯入：' + why)
+    md595 = G.read_fix(subprocess.check_output(['git', '-C', ROOT, 'show', f'{S595}:{P595}'], text=True))
+    T595 = '「妳的保溫瓶今天是滿的。」'
+    if '心願約會選項「妳的保溫瓶今天是滿的」' not in md595:
+        sys.exit(f'AA_595@{S595} 裡找不到第 3 節「心願約會選項」那一句')
+    def _drop595(o):
+        n = 0
+        if isinstance(o, dict):
+            for v in o.values(): n += _drop595(v)
+        elif isinstance(o, list):
+            k = [x for x in o if isinstance(x, dict) and x.get('t') == T595]
+            for x in k: o.remove(x)
+            n += len(k)
+            for v in o: n += _drop595(v)
+        return n
+    n595 = _drop595(EV['heroine_05'])
+    if n595 > 1:
+        sys.exit(f'AA_595 3-14：學姊的心願約會「{T595}」有 {n595} 個（應該是 1 個，或已經刪了）')
+    SRC525 += f'＋{os.path.basename(P595)[:6]}@{S595}（學姊 D15 保溫瓶選項刪）'
+
 # ---- 2. 逐句對原稿（台詞、旁白、選項的字；說明欄不算）----
 SKIP = ('wish', 'rule', 'note', 'where', 'context', 'source', 'title', 'hotspotsTitle', 'scene', 'repeat', 'costNote', 'likeNote', 'album', 'code', 'name', 'memory', 'record')
 def all_text(o, path=''):

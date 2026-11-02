@@ -99,7 +99,7 @@ const SISB4=(function(){
       out:{id:'sisb4_lotus',ev:'ev_sis_lotus',day:'2027-07-03',h:9,late:0.25,place:'臺北植物園・荷花池',title:'荷花池（臺北植物園）',travel:'捷運 約 20 分鐘',travelH:1/3},
       miss:{day:'2027-07-03',h:10,lines:L.lotusMissed}},
     {k:'vday_y3',ask:'2028-02-13',h:21,lines:L.v3Ask,yes:L.v3Yes,noT:L.v3NoT,no:L.v3No,flag:'SIS_VDAY_Y3',ok:'went',go:'SIS_VDAY_Y3_GO',
-      out:{id:'sisb4_vday_y3',ev:'ev_sis_vday_y3',day:'2028-02-14',h:10,late:0.25,place:'公館捷運站',title:'情人節（公館捷運站二號出口）',travel:'走路 約 15 分鐘',travelH:0.25},   /* 在臺北的家照出遊系統現有的算法（OUT.trip）*/
+      out:{id:'sisb4_vday_y3',ev:'ev_sis_vday_y3',day:'2028-02-14',h:10,late:0.25,place:'公館捷運站',title:'情人節（公館捷運站二號出口）',travel:'走路 約 15 分鐘',travelH:0.25},   /* 在家照出遊系統現有的算法（OUT.trip）*/
       miss:{day:'2028-02-14',h:15,lines:L.v3Missed}} ];
   S.asks=function(G){ const F=G.flags;
     for(const a of S.HOL){ const d=D(a.ask), od=D(a.out.day), md=D(a.miss.day); if(d==null||od==null||md==null||!Array.isArray(a.lines)) continue; const tag='sisb4_'+a.k+'_ask';

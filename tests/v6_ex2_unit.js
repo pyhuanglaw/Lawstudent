@@ -3,7 +3,7 @@
 //   G 畢業典禮（postgrad3d.js）：以安新 21、語彤事件 17 的前任＝友情版（修改前前任直接不演）
 //   S 以安新 9（syllabus.js 的 exAfter，tools/syllabus/import_syllabus.py 從 AA_123 匯入；src/v6ex3d.js 的 ev_an_ex_admin 下課後演）
 //   N 以安新 8（ev_plg_rules_after 週六補讀，她看到你那一句）
-//   H 週末在臺北的家（home3d.js 的 HOME.MENU_OPTS）：七天內多一個「收拾」　P 手機筆記（V6EX.note、V6EX.PHONE_ACT）
+//   H 週末在家（home3d.js 的 HOME.MENU_OPTS）：七天內多一個「收拾」　P 手機筆記（V6EX.note、V6EX.PHONE_ACT）
 //   X AA_434（企劃線 434e6d6d7）：可昕分開後第一次見面、Alison 的貼圖、芯慈留位子、之後一個學期她先傳的少一半＋不主動約
 //   T 手機「今天」頁的按鈕（game3d.js 讀 PHONE.TODAY_ACTS）：分開以後一週內「手機筆記寫一行」（AA_182「手機裡，隨時可以」）
 // 修改前（開發分支 HEAD 9a285f768）：G1、G2、S、N、H、P 失敗。用法：node tests/v6_ex2_unit.js
