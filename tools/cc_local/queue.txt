@@ -8,24 +8,10 @@
 #  URL : path after http://127.0.0.1:<port>/
 # 2026-11-02 10:2x 排程（BB_229：常備佇列；跑完、寫好初判就註解掉）
 # 10:3x 整晚循環：run_queue 會跳過「同一個 sha 已經跑完」的項目；長的項目釘 sha（c2d0c24bc＝這一輪），head 只留給便宜的 00／01（LAWWW 每 push 一次就重跑）。要強制重跑：ENV 欄加 RERUN=<新字>
+# 順序（BB 10:38）：00、01 → 發布前必跑組 10～18 → 今天的修正 02b、06b、06c、WSEM → 20～29 → 02～08 → D118 基準 30、31
+# 4（第 9 天存檔）、5（法服週六）探針寫好再加
 00_gpu      | head      | gpu   | tools/cc_local/gpu_check.py                                     | index.html        | 20  |
 01_p0speed  | head      | game  | tests/p0_movement.py                                            | index.html        | 60  |
-02_mk12new  | c2d0c24bc | probe | docs/story_planning/test_tools/cc/cc_makeup_probe.py           | index.html?turbo  | 200 | CASES=study3h,skipnoon_seat,skipnoon_phone,homerest,old_delayed,home,mkbg
-03_delay14  | c2d0c24bc | probe | docs/story_planning/test_tools/cc/cc_delay14_probe.py          | index.html?turbo  | 120 | CASES=dorm_sleep,dorm_stand,home
-06_layout16 | c2d0c24bc | game  | tests/choices_landscape_css.py                                  | index.html        | 40  |
-04_quota    | c2d0c24bc | py    | tools/cc_local/quota_check.py                                   | index.html        | 20  |
-04b_quota15 | c2d0c24bc | probe | docs/story_planning/test_tools/cc/cc_quota15_probe.py          | index.html?turbo  | 60  |
-04c_legal   | c2d0c24bc | probe | docs/story_planning/test_tools/cc/cc_legalpage_probe.py        | index.html?turbo  | 30  |
-07_bg107    | c2d0c24bc | probe | docs/story_planning/test_tools/cc/cc_bg107_probe.py            | index.html?turbo  | 120 |
-08_pt106    | c2d0c24bc | probe | docs/story_planning/test_tools/cc/cc_pt106_probe.py            | index.html?turbo  | 120 |
-05_mk12old  | b4f98ea4e | probe | docs/story_planning/test_tools/cc/cc_makeup_probe.py           | index.html?turbo  | 200 | CASES=study3h,homerest,old_delayed,home,mkbg_home
-# 10:3x dea6b1944 補考跳過「考卷發下來」：02 修改後（只跑會進補考的 case）
-02b_mk12dea | dea6b1944 | probe | docs/story_planning/test_tools/cc/cc_makeup_probe.py           | index.html?turbo  | 120 | CASES=home,mkbg
-# #16 K2 版面（e3a9289ef）：修改後 c2d0c24bc、修改前 e27dd033e
-06b_layoutP | c2d0c24bc | probe | docs/story_planning/test_tools/cc/cc_layout16_probe.py        | index.html?turbo  | 60  | CASES=seat_exam,adv_safe,recall2
-06c_layoutO | e27dd033e | probe | docs/story_planning/test_tools/cc/cc_layout16_probe.py        | index.html?turbo  | 60  | CASES=seat_exam,adv_safe,recall2
-# ===== BB 10:34：雲端瀏覽器佇列整批搬過來 =====
-# 1. 發布前必跑組（TESTING.md 第五節），最新 head d75871437；BB 給 GO 的前提
 10_deploy   | d75871437 | game  | tests/deploy_check.py        | index.html       | 20  | XARGS={url}
 11_reach    | d75871437 | game  | tests/reachability_all.py    | index.html?turbo | 90  | XARGS={url}
 12_flowcls  | d75871437 | game  | tests/flow_class_real.py     | index.html       | 120 | XARGS={url} {out}
@@ -34,9 +20,12 @@
 15_touchwz  | d75871437 | game  | tests/touch_flow_wenzhou.py  | index.html?turbo | 60  | XARGS={url}
 16_p0       | d75871437 | game  | tests/p0_movement.py         | index.html       | 30  | XARGS={url}
 17_savev7   | d75871437 | game  | tests/save_compat_v7.py      | index.html       | 60  | SHA2=385e194;XARGS={url2} {url}
-# 2. 真實玩家流程（不用 turbo）
 18_flowday12| d75871437 | game  | tests/flow_main_day12.py     | index.html       | 180 | XARGS={url} {out}
-# 3. 雲端沒跑完的（Y4S2 299 的 7 個 case 雲端還在跑，不搬）
+02b_mk12dea | dea6b1944 | probe | docs/story_planning/test_tools/cc/cc_makeup_probe.py           | index.html?turbo  | 120 | CASES=home,mkbg
+06b_layoutP | c2d0c24bc | probe | docs/story_planning/test_tools/cc/cc_layout16_probe.py        | index.html?turbo  | 60  | CASES=seat_exam,adv_safe,recall2
+06c_layoutO | e27dd033e | probe | docs/story_planning/test_tools/cc/cc_layout16_probe.py        | index.html?turbo  | 60  | CASES=seat_exam,adv_safe,recall2
+32_wsem     | d75871437 | probe | docs/story_planning/test_tools/cc/cc_wsem_probe.py | index.html?turbo | 120 | CASES=all;NARR=1
+33_wsempre  | dea6b1944 | probe | docs/story_planning/test_tools/cc/cc_wsem_probe.py | index.html?turbo | 120 | CASES=all;EXAM_ROUTES=door;CLASS_ROUTES=door
 20_roll     | 4c8f138f7 | probe | docs/story_planning/test_tools/cc/cc_rollcall_probe.py | index.html | 120 | CASES=a,a0,b,c1,c2,d_old,d_new,cw,bedge
 21_rollpre  | 82f8d28c5 | probe | docs/story_planning/test_tools/cc/cc_rollcall_probe.py | index.html | 120 |
 22_boya     | 6f0122821 | probe | docs/story_planning/test_tools/cc/cc_boya203_probe.py  | index.html | 60  |
@@ -47,9 +36,14 @@
 27_b4       | d75871437 | probe | docs/story_planning/test_tools/cc/cc_d118b4_probe.py   | index.html | 150 |
 28_b4pre    | f57e3ac75 | probe | docs/story_planning/test_tools/cc/cc_d118b4_probe.py   | index.html | 90  | CASES=S1,mix
 29_jpmk     | d75871437 | probe | docs/story_planning/test_tools/cc/cc_d118b1_probe.py   | index.html | 60  | CASES=jp_makeup
+02_mk12new  | c2d0c24bc | probe | docs/story_planning/test_tools/cc/cc_makeup_probe.py           | index.html?turbo  | 200 | CASES=study3h,skipnoon_seat,skipnoon_phone,homerest,old_delayed,home,mkbg
+03_delay14  | c2d0c24bc | probe | docs/story_planning/test_tools/cc/cc_delay14_probe.py          | index.html?turbo  | 120 | CASES=dorm_sleep,dorm_stand,home
+04_quota    | c2d0c24bc | py    | tools/cc_local/quota_check.py                                   | index.html        | 20  |
+04b_quota15 | c2d0c24bc | probe | docs/story_planning/test_tools/cc/cc_quota15_probe.py          | index.html?turbo  | 60  |
+04c_legal   | c2d0c24bc | probe | docs/story_planning/test_tools/cc/cc_legalpage_probe.py        | index.html?turbo  | 30  |
+05_mk12old  | b4f98ea4e | probe | docs/story_planning/test_tools/cc/cc_makeup_probe.py           | index.html?turbo  | 200 | CASES=study3h,homerest,old_delayed,home,mkbg_home
+06_layout16 | c2d0c24bc | game  | tests/choices_landscape_css.py                                  | index.html        | 40  |
+07_bg107    | c2d0c24bc | probe | docs/story_planning/test_tools/cc/cc_bg107_probe.py            | index.html?turbo  | 120 |
+08_pt106    | c2d0c24bc | probe | docs/story_planning/test_tools/cc/cc_pt106_probe.py            | index.html?turbo  | 120 |
 30_b1base   | a3b1bd647 | probe | docs/story_planning/test_tools/cc/cc_d118b1_probe.py   | index.html | 150 | CASES=retake_skip,retake_saveload,guowen_w8
 31_b2base   | a3b1bd647 | probe | docs/story_planning/test_tools/cc/cc_d118b2_probe.py   | index.html | 60  | CASES=wancai
-# 4、5（第 9 天存檔讀檔流程、法服週六兩次）：探針寫好再加
-# WSEM-BG-1102（BB 10:31／10:35）：修改後 d75871437（背景＋旁白 NARR=1）、修改前 dea6b1944（背景應 FAIL）
-32_wsem     | d75871437 | probe | docs/story_planning/test_tools/cc/cc_wsem_probe.py | index.html?turbo | 120 | CASES=all;NARR=1
-33_wsempre  | dea6b1944 | probe | docs/story_planning/test_tools/cc/cc_wsem_probe.py | index.html?turbo | 120 | CASES=all;EXAM_ROUTES=door;CLASS_ROUTES=door
