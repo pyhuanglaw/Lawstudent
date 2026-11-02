@@ -1,0 +1,771 @@
+{
+ "case": "skip",
+ "sha": "a3d80d47a",
+ "sel": {
+  "opts": null,
+  "picked": null,
+  "asked": null,
+  "shots": [],
+  "lines": [],
+  "drv": {
+   "answered": {},
+   "shots": {},
+   "picks": []
+  }
+ },
+ "g": {
+  "clock": {
+   "key": "2029-02-19",
+   "day": 1252,
+   "h": 12.34,
+   "zone": "dorm",
+   "term": "Y4S2",
+   "week": 1
+  },
+  "electives": {},
+  "sel": true,
+  "termCourses": [
+   "legal_research",
+   "legal_practice",
+   "maritime"
+  ],
+  "examDay": {
+   "key": "2029-05-30",
+   "day": 1352,
+   "block": "am"
+  },
+  "examList": [
+   [
+    "maritime",
+    "final",
+    "2029-05-30",
+    "am"
+   ]
+  ],
+  "exam": null,
+  "grades": null,
+  "flags": {
+   "Y4_PATH": "bar"
+  },
+  "pgOn": false,
+  "delayed": false,
+  "fdOn": false,
+  "failed": [
+   "maritime"
+  ],
+  "curExamHook": false,
+  "curExam": null,
+  "nmsg": 1,
+  "groups": []
+ },
+ "scan": [
+  "2029-02-21",
+  "2029-03-07",
+  "2029-03-14",
+  "2029-03-21",
+  "2029-03-28",
+  "2029-04-11",
+  "2029-04-18",
+  "2029-04-25",
+  "2029-05-02",
+  "2029-05-09",
+  "2029-05-16",
+  "2029-05-23",
+  "2029-05-30"
+ ],
+ "wk": {
+  "text": "大四下・第 1 週\n週一\n週二\n週三\n週四\n週五\n上午\n09:10\n法律實習或法律扶助實務\n法扶・臺北的辦公室\n海商法與海洋法\n法律系館A 202\n下午一\n13:20\n法律專題研究\n法律系館B 研討室\n法律實習或法律扶助實務\n法扶・臺北的辦公室\n下午二\n15:30\n出席：法律專題研究 0 次、法律實習或法律扶助實務 0 次、海商法與海洋法 0 次\n考試（這段時間不能約人、約會）\n期末　海商法與海洋法　5/30（三）09:10–12:10　法律系館A 202",
+  "exam": "考試（這段時間不能約人、約會）\n期末　海商法與海洋法　5/30（三）09:10–12:10　法律系館A 202",
+  "shots": [
+   "C:\\Users\\USER\\Documents\\Lawstudent_cclocal\\docs\\story_planning\\CC\\local_out\\X_P1pre\\out\\17_skip_after_select_week_land.png",
+   "C:\\Users\\USER\\Documents\\Lawstudent_cclocal\\docs\\story_planning\\CC\\local_out\\X_P1pre\\out\\18_skip_after_select_week_port.png"
+  ]
+ },
+ "ex": {
+  "today": {
+   "text": "5/30 週三・大四下 第 15 週（期末考週）\n現在 08:16\n今天的時間　上午 ○○　下午 ○○　晚上 ○○\n每個時段一件主要的事：上課、社團活動、出遊約會、自習、打工、自由出行、健身都算一件（上課、約好的出遊照樣能去）；吃飯、聊天、約好的見面不算。考試週：每個時段多一次（金色），只能拿來自習。\n09:10–12:10 海商法與海洋法（考試）\n法律系館A 202・兼任老師・還沒開始\n直接去上課\n法律學院圖書館：今天 08:10–21:45　總圖：08:00–22:00\n跳過時間\n沒有想做的事可以跳過；遇到特殊課堂、約好的時間、劇情會停下來。\n等到下一堂課前（09:00）\n等到中午（12:00）\n等到下午（14:00）\n等到傍晚（17:30）\n等到晚上（20:00）\n翹課不會被扣分；沒去的課，可以在宿舍、圖書館、Café 讀書補回來。",
+   "text_port": "5/30 週三・大四下 第 15 週（期末考週）\n現在 08:16\n今天的時間　上午 ○○　下午 ○○　晚上 ○○\n每個時段一件主要的事：上課、社團活動、出遊約會、自習、打工、自由出行、健身都算一件（上課、約好的出遊照樣能去）；吃飯、聊天、約好的見面不算。考試週：每個時段多一次（金色），只能拿來自習。\n09:10–12:10 海商法與海洋法（考試）\n法律系館A 202・兼任老師・還沒開始\n直接去上課\n法律學院圖書館：今天 08:10–21:45　總圖：08:00–22:00\n跳過時間\n沒有想做的事可以跳過；遇到特殊課堂、約好的時間、劇情會停下來。\n等到下一堂課前（09:00）\n等到中午（12:00）\n等到下午（14:00）\n等到傍晚（17:30）\n等到晚上（20:00）\n翹課不會被扣分；沒去的課，可以在宿舍、圖書館、Café 讀書補回來。",
+   "items": [
+    {
+     "key": "1352:maritime:am",
+     "cid": "maritime",
+     "t0": 9.166666666666666,
+     "exam": "final",
+     "examMain": true,
+     "status": "upcoming"
+    }
+   ],
+   "go": [
+    [
+     "1352:maritime:am",
+     "直接去上課"
+    ]
+   ],
+   "shots": [
+    "C:\\Users\\USER\\Documents\\Lawstudent_cclocal\\docs\\story_planning\\CC\\local_out\\X_P1pre\\out\\19_skip_20290530_today_land.png",
+    "C:\\Users\\USER\\Documents\\Lawstudent_cclocal\\docs\\story_planning\\CC\\local_out\\X_P1pre\\out\\20_skip_20290530_today_port.png"
+   ]
+  },
+  "go": [
+   {
+    "key": "1352:maritime:am",
+    "cid": "maritime",
+    "name": "海商法與海洋法",
+    "t0": 9.166666666666666,
+    "exam": "final",
+    "examMain": true,
+    "status": "upcoming"
+   }
+  ],
+  "trip": {
+   "key": "1352:maritime:am",
+   "ok": true,
+   "stuck": false,
+   "btn": "直接去上課",
+   "done": true,
+   "end": {
+    "day": 1352,
+    "key": "2029-05-30",
+    "h": 12.169,
+    "zone": "linze_202"
+   },
+   "enters": [
+    [
+     "linze_202",
+     9
+    ]
+   ]
+  },
+  "g": {
+   "clock": {
+    "key": "2029-05-30",
+    "day": 1352,
+    "h": 12.169,
+    "zone": "linze_202",
+    "term": "Y4S2",
+    "week": 15
+   },
+   "electives": {},
+   "sel": true,
+   "termCourses": [
+    "legal_research",
+    "legal_practice",
+    "maritime"
+   ],
+   "examDay": {
+    "key": "2029-05-30",
+    "day": 1352,
+    "block": "am"
+   },
+   "examList": [
+    [
+     "maritime",
+     "final",
+     "2029-05-30",
+     "am"
+    ]
+   ],
+   "exam": {
+    "qs": [
+     "Y4MAR_01",
+     "Y4MAR_03",
+     "Y4_MAR_01",
+     "Y4MAR_11",
+     "Y4MAR_10"
+    ],
+    "ans": [
+     "A",
+     "A",
+     "A",
+     "B",
+     "B"
+    ],
+    "correct": 0,
+    "score": 0,
+    "status": "done"
+   },
+   "grades": null,
+   "flags": {
+    "BAR_REG": true,
+    "Y4_PATH": "bar"
+   },
+   "pgOn": false,
+   "delayed": false,
+   "fdOn": false,
+   "failed": [
+    "maritime"
+   ],
+   "curExamHook": false,
+   "curExam": null,
+   "nmsg": 4,
+   "groups": []
+  },
+  "drv": {
+   "answered": {
+    "None|甲將自己所有的貨輪賣給乙，雙方已作成書面，並經航政主管機關蓋": {
+     "i": 1,
+     "ce": null,
+     "by": "text",
+     "id": "Y4MAR_01",
+     "right": 2,
+     "picked": 0,
+     "correct": false,
+     "d": "2029-05-30"
+    },
+    "None|貨輪發航前及發航時，運送人已經為必要的注意及措置，使船舶有安": {
+     "i": 2,
+     "ce": null,
+     "by": "text",
+     "id": "Y4MAR_03",
+     "right": 3,
+     "picked": 0,
+     "correct": false,
+     "d": "2029-05-30"
+    },
+    "None|依海商法第1條，海商法所稱的船舶是指什麼？": {
+     "i": 3,
+     "ce": null,
+     "by": "text",
+     "id": "Y4_MAR_01",
+     "right": 1,
+     "picked": 0,
+     "correct": false,
+     "d": "2029-05-30"
+    },
+    "None|一艘船舶漏油污染海洋，造成沿岸漁民的損害。依海洋污染防治法，": {
+     "i": 4,
+     "ce": null,
+     "by": "text",
+     "id": "Y4MAR_11",
+     "right": 0,
+     "picked": 1,
+     "correct": false,
+     "d": "2029-05-30"
+    },
+    "None|依船員法，下列關於船員勞動條件的敘述，何者正確？": {
+     "i": 5,
+     "ce": null,
+     "by": "text",
+     "id": "Y4MAR_10",
+     "right": 0,
+     "picked": 1,
+     "correct": false,
+     "d": "2029-05-30"
+    }
+   },
+   "shots": {
+    "exam_q1": "C:\\Users\\USER\\Documents\\Lawstudent_cclocal\\docs\\story_planning\\CC\\local_out\\X_P1pre\\out\\21_skip_exam_q1.png"
+   },
+   "picks": [
+    [
+     "2029-05-30",
+     "08:10",
+     [
+      "沒選到的那堂，等第二階段有人退選，再上網加加看。",
+      "算了，下學期再選。"
+     ],
+     "算了，下學期再選。"
+    ],
+    [
+     "2029-05-30",
+     "08:11",
+     [
+      "直接去考場：海商法與海洋法走路 18 分鐘，09:00 到教室",
+      "先起床考試前 10 分鐘會自動帶你進考場"
+     ],
+     "先起床考試前 10 分鐘會自動帶你進考場"
+    ],
+    [
+     "2029-05-30",
+     "09:00",
+     [
+      "坐中間的位子第一次上這門課",
+      "自己找位子走過去坐下就可以上課"
+     ],
+     "坐中間的位子第一次上這門課"
+    ]
+   ]
+  }
+ },
+ "gr": {
+  "g": {
+   "clock": {
+    "key": "2029-09-05",
+    "day": 1450,
+    "h": 8.427,
+    "zone": "gongguan",
+    "term": null,
+    "week": null
+   },
+   "electives": {},
+   "sel": true,
+   "termCourses": [
+    "legal_research",
+    "legal_practice",
+    "maritime"
+   ],
+   "examDay": {
+    "key": "2029-05-30",
+    "day": 1352,
+    "block": "am"
+   },
+   "examList": [
+    [
+     "maritime",
+     "final",
+     "2029-05-30",
+     "am"
+    ]
+   ],
+   "exam": {
+    "qs": [
+     "Y4MAR_01",
+     "Y4MAR_03",
+     "Y4_MAR_01",
+     "Y4MAR_11",
+     "Y4MAR_10"
+    ],
+    "ans": [
+     "A",
+     "A",
+     "A",
+     "B",
+     "B"
+    ],
+    "correct": 0,
+    "score": 0,
+    "status": "done"
+   },
+   "grades": {
+    "legal_research": "通過",
+    "legal_practice": "通過",
+    "maritime": "不及格（補考未過）"
+   },
+   "flags": {
+    "BAR_REG": false,
+    "Y4_PATH": "bar",
+    "FAIL_DELAY": true,
+    "FAIL_DELAY_COURSES": [
+     "maritime"
+    ],
+    "FAIL_DELAY_V": 2,
+    "FD_MAKEUP": {
+     "v": 1,
+     "courses": [
+      "maritime"
+     ],
+     "status": "fail",
+     "res": {
+      "maritime": "fail"
+     }
+    },
+    "GRADUATED": 1355
+   },
+   "pgOn": true,
+   "delayed": true,
+   "fdOn": true,
+   "failed": [
+    "maritime"
+   ],
+   "curExamHook": false,
+   "curExam": null,
+   "nmsg": 6,
+   "groups": []
+  },
+  "gline": "法律專題研究：通過　法律實習或法律扶助實務：通過　海商法與海洋法：0 分（不及格）",
+  "fdl": [
+   [
+    "2029-06-18",
+    "（補考在 6/26（二）上午十點，法律系館A。考過了，就照常畢業。）"
+   ],
+   [
+    "2029-06-26",
+    "（海商法與海洋法的補考，沒有過。）"
+   ],
+   [
+    "2029-06-26",
+    "（證書要等下學期。九月，你要回學校重修。）"
+   ]
+  ],
+  "steps": [
+   "fd_grades_y4s2",
+   "fd_makeup",
+   "late_2029",
+   "r2y4b_y5_plan"
+  ],
+  "stuck": null,
+  "said": [
+   {
+    "k": "say",
+    "n": "",
+    "c": null,
+    "t": "法律專題研究：通過　法律實習或法律扶助實務：通過　海商法與海洋法：0 分（不及格）",
+    "d": "2029-06-18",
+    "h": 9,
+    "z": "dorm"
+   },
+   {
+    "k": "say",
+    "n": "",
+    "c": null,
+    "t": "（海商法與海洋法，不及格。）",
+    "d": "2029-06-18",
+    "h": 9,
+    "z": "dorm"
+   },
+   {
+    "k": "say",
+    "n": "",
+    "c": null,
+    "t": "（補考在 6/26（二）上午十點，法律系館A。考過了，就照常畢業。）",
+    "d": "2029-06-18",
+    "h": 9,
+    "z": "dorm"
+   },
+   {
+    "k": "say",
+    "n": "",
+    "c": null,
+    "t": "（法律系館A 201。前面幾排零零散散坐了四五個人。有人穿著實習的襯衫，有人一邊吃早餐一邊翻講義。）",
+    "d": "2029-06-26",
+    "h": 10,
+    "z": "dorm"
+   },
+   {
+    "k": "say",
+    "n": "陳助教",
+    "c": "npc_ta_chen",
+    "t": "考卷發下去了。一樣五題，十一點收。",
+    "d": "2029-06-26",
+    "h": 10,
+    "z": "dorm"
+   },
+   {
+    "k": "say",
+    "n": "",
+    "c": null,
+    "t": "1／5　依中華民國領海及鄰接區法、中華民國專屬經濟海域及大陸礁層法，下列敘述何者正確？",
+    "d": "2029-06-26",
+    "h": 10,
+    "z": "dorm"
+   },
+   {
+    "k": "say",
+    "n": "",
+    "c": null,
+    "t": "2／5　依海商法第53條，載貨證券由誰、在什麼時候發給？",
+    "d": "2029-06-26",
+    "h": 10,
+    "z": "dorm"
+   },
+   {
+    "k": "say",
+    "n": "",
+    "c": null,
+    "t": "3／5　甲以「以船舶之全部供運送為目的」的運送契約（傭船契約）向乙租船運貨，乙另外簽發了載貨證券，這張載貨證券後來轉讓給丙。依海商法第60條第2項，運送人乙和丙之間的關係，應依什麼決定？",
+    "d": "2029-06-26",
+    "h": 10,
+    "z": "dorm"
+   },
+   {
+    "k": "say",
+    "n": "",
+    "c": null,
+    "t": "4／5　海上保險的保險事故發生後，被保險人沒有採取必要行為去避免或減輕保險標的的損失，使損失擴大。依海商法第130條，保險人對擴大的損失：",
+    "d": "2029-06-26",
+    "h": 10,
+    "z": "dorm"
+   },
+   {
+    "k": "say",
+    "n": "",
+    "c": null,
+    "t": "5／5　船長在航行中操作船舶時判斷錯誤（航行上的過失），導致船上的貨物毀損。依海商法第69條，運送人對這項毀損原則上：",
+    "d": "2029-06-26",
+    "h": 10,
+    "z": "dorm"
+   },
+   {
+    "k": "say",
+    "n": "",
+    "c": null,
+    "t": "交卷。答對 0／5，0 分。",
+    "d": "2029-06-26",
+    "h": 10,
+    "z": "dorm"
+   },
+   {
+    "k": "say",
+    "n": "",
+    "c": null,
+    "t": "第 1 題的答案：（B）鄰接區為鄰接領海外側至距離基線二十四浬間的海域。考點：海域的範圍｜領海 12 浬；鄰接區到距基線 24 浬；專屬經濟海域到距領海基線 200 浬；基線以直線基線為原則。。領海及鄰接區法第3條：領海為自基線起至外側十二浬；第14條：鄰接區為鄰接領海外側至距離基線二十四浬；第4條：基線採直線基線為原則、正常基線為例外的混合基線法。專屬經濟海域及大陸礁層法第2條：專屬經濟海域到距離領海基線二百浬。（中華民國領海及鄰接區法 §3、§4、§14；中華民國專屬經濟海域及大陸礁層法 §2）",
+    "d": "2029-06-26",
+    "h": 10,
+    "z": "dorm"
+   },
+   {
+    "k": "say",
+    "n": "",
+    "c": null,
+    "t": "第 2 題的答案：（A）運送人或船長於貨物裝載後，因託運人之請求發給。考點：運送人或船長於貨物裝載後，因託運人之請求，應發給載貨證券。（海商法 §53）",
+    "d": "2029-06-26",
+    "h": 10,
+    "z": "dorm"
+   },
+   {
+    "k": "say",
+    "n": "",
+    "c": null,
+    "t": "第 3 題的答案：（B）載貨證券的記載。考點：載貨證券的文義性｜運送人和託運人以外的載貨證券持有人之間，依載貨證券的記載。。第60條第2項：以船舶之全部或一部供運送為目的之運送契約另行簽發載貨證券者，運送人與託運人以外載貨證券持有人間的關係，依載貨證券的記載。第1項並規定民法關於提單的規定（第627～630條）準用於載貨證券。（海商法 §60）",
+    "d": "2029-06-26",
+    "h": 10,
+    "z": "dorm"
+   },
+   {
+    "k": "say",
+    "n": "",
+    "c": null,
+    "t": "第 4 題的答案：（D）不負賠償責任。考點：海上保險｜被保險人的損失減輕義務；沒有履行而擴大的損失，保險人不負賠償責任。。第130條第1項。同條第2項：保險人對要保人或被保險人為履行這項義務所生的費用，負償還之責，償還數額和賠償金額合計雖然超過保險標的價值，仍應償還；第3項：以保險金額為限（保險金額不及標的價值時按比例）。（海商法 §130）",
+    "d": "2029-06-26",
+    "h": 10,
+    "z": "dorm"
+   },
+   {
+    "k": "say",
+    "n": "",
+    "c": null,
+    "t": "第 5 題的答案：（A）不負賠償責任。考點：運送人的免責事由｜船長、海員、引水人或運送人的受僱人於航行或管理船舶的過失，運送人不負賠償責任。。第69條第1款。要分清楚：對「貨物本身」的裝載、卸載、搬移、堆存、保管、運送及看守，第63條仍要求運送人為必要的注意及處置；免責的是「航行或管理船舶」的過失。（海商法 §63、§69①）",
+    "d": "2029-06-26",
+    "h": 10,
+    "z": "dorm"
+   },
+   {
+    "k": "say",
+    "n": "",
+    "c": null,
+    "t": "（海商法與海洋法的補考，沒有過。）",
+    "d": "2029-06-26",
+    "h": 10,
+    "z": "dorm"
+   },
+   {
+    "k": "say",
+    "n": "",
+    "c": null,
+    "t": "（證書要等下學期。九月，你要回學校重修。）",
+    "d": "2029-06-26",
+    "h": 10,
+    "z": "dorm"
+   },
+   {
+    "k": "say",
+    "n": "",
+    "c": null,
+    "t": "（今年的國考，考不成了。明年再報。）",
+    "d": "2029-06-26",
+    "h": 10,
+    "z": "dorm"
+   },
+   {
+    "k": "say",
+    "n": "",
+    "c": null,
+    "t": "（紙箱都封好了。學弟們先走了，房間只剩兩張床有東西。）",
+    "d": "2029-06-27",
+    "h": 23.001,
+    "z": "dorm"
+   },
+   {
+    "k": "say",
+    "n": "",
+    "c": null,
+    "t": "（阿哲從二樓上來，手上兩罐飲料，一罐給你，一罐給柏翰。）",
+    "d": "2029-06-27",
+    "h": 23.001,
+    "z": "dorm"
+   },
+   {
+    "k": "say",
+    "n": "阿哲",
+    "c": "zhe",
+    "t": "我自己的喝完了。",
+    "d": "2029-06-27",
+    "h": 23.001,
+    "z": "dorm"
+   },
+   {
+    "k": "say",
+    "n": "許柏翰",
+    "c": "classmate_bohan",
+    "t": "……二十三點了。",
+    "d": "2029-06-27",
+    "h": 23.001,
+    "z": "dorm"
+   },
+   {
+    "k": "say",
+    "n": "阿哲",
+    "c": "zhe",
+    "t": "知道啦。最後一次。",
+    "d": "2029-06-27",
+    "h": 23.001,
+    "z": "dorm"
+   },
+   {
+    "k": "say",
+    "n": "",
+    "c": null,
+    "t": "（燈關了。窗外的路燈照進來一點。三個人都沒說話。）",
+    "d": "2029-06-27",
+    "h": 23.001,
+    "z": "dorm"
+   },
+   {
+    "k": "say",
+    "n": "",
+    "c": null,
+    "t": "（宿舍期滿。舍監在門口收鑰匙。）",
+    "d": "2029-06-28",
+    "h": 10.002,
+    "z": "dorm_hall"
+   },
+   {
+    "k": "say",
+    "n": "",
+    "c": null,
+    "t": "（409 的鑰匙交出去的時候，舍監看了一下名單：「四年，四個房間。」）",
+    "d": "2029-06-28",
+    "h": 10.002,
+    "z": "dorm_hall"
+   },
+   {
+    "k": "say",
+    "n": "",
+    "c": null,
+    "t": "「冬天的衣服」那一箱，最後一個搬上車。",
+    "d": "2029-06-28",
+    "h": 10.002,
+    "z": "dorm_hall"
+   },
+   {
+    "k": "say",
+    "n": "",
+    "c": null,
+    "t": "（你租的套房在公館，走路到總圖十分鐘。）",
+    "d": "2029-06-28",
+    "h": 10.702,
+    "z": "dorm_hall"
+   },
+   {
+    "k": "say",
+    "n": "",
+    "c": null,
+    "t": "（兵役的時間，你排在考試之後。）",
+    "d": "2029-06-28",
+    "h": 10.702,
+    "z": "dorm_hall"
+   },
+   {
+    "k": "say",
+    "n": "",
+    "c": null,
+    "t": "（明年八月，換你。）",
+    "d": "2029-08-04",
+    "h": 17.583,
+    "z": "gongguan"
+   },
+   {
+    "k": "say",
+    "n": "",
+    "c": null,
+    "t": "（這學期，只要重修海商法與海洋法。其他的日子——）",
+    "d": "2029-09-03",
+    "h": 9,
+    "z": "gongguan"
+   }
+  ],
+  "msgs": [
+   {
+    "th": "sys",
+    "from": null,
+    "tag": "fd_mk_sys",
+    "day": 1371,
+    "h": 9,
+    "text": "【教務處】大四下補考通知：海商法與海洋法。6/26（二）10:00，法律系館A。"
+   },
+   {
+    "th": "sys",
+    "from": null,
+    "tag": "fd_mk_remind",
+    "day": 1378,
+    "h": 20,
+    "text": "【教務處】明天上午 10:00 補考：海商法與海洋法（法律系館A）。"
+   },
+   {
+    "th": "p:zhe",
+    "from": "zhe",
+    "tag": "fd_zhe",
+    "day": 1379,
+    "h": 22,
+    "text": "聽說了"
+   },
+   {
+    "th": "p:zhe",
+    "from": "zhe",
+    "tag": "fd_zhe",
+    "day": 1379,
+    "h": 22,
+    "text": "九月我還在總圖 B1 你來，我幫你占位子"
+   },
+   {
+    "th": "g:econ_friends",
+    "from": "econ_pinyu",
+    "tag": "heard_h510_pinyu",
+    "day": 1421,
+    "h": 21.33,
+    "text": "可昕一試考完，第一件事是去吃鹹酥雞。她說忍了半年。"
+   }
+  ],
+  "shots": {
+   "grades": [
+    "C:\\Users\\USER\\Documents\\Lawstudent_cclocal\\docs\\story_planning\\CC\\local_out\\X_P1pre\\out\\22_skip_grades_land.png",
+    "C:\\Users\\USER\\Documents\\Lawstudent_cclocal\\docs\\story_planning\\CC\\local_out\\X_P1pre\\out\\23_skip_grades_port.png"
+   ],
+   "fd:（海商法與海洋法，不及格。）": [
+    "C:\\Users\\USER\\Documents\\Lawstudent_cclocal\\docs\\story_planning\\CC\\local_out\\X_P1pre\\out\\24_skip_fdline0_land.png",
+    "C:\\Users\\USER\\Documents\\Lawstudent_cclocal\\docs\\story_planning\\CC\\local_out\\X_P1pre\\out\\25_skip_fdline0_port.png"
+   ],
+   "exam_q1": "C:\\Users\\USER\\Documents\\Lawstudent_cclocal\\docs\\story_planning\\CC\\local_out\\X_P1pre\\out\\26_skip_exam_q1.png",
+   "fd:（證書要等下學期。九月，你要回學校重修。）": [
+    "C:\\Users\\USER\\Documents\\Lawstudent_cclocal\\docs\\story_planning\\CC\\local_out\\X_P1pre\\out\\27_skip_fdline1_land.png",
+    "C:\\Users\\USER\\Documents\\Lawstudent_cclocal\\docs\\story_planning\\CC\\local_out\\X_P1pre\\out\\28_skip_fdline1_port.png"
+   ],
+   "fd:（今年的國考，考不成了。明年再報。）": [
+    "C:\\Users\\USER\\Documents\\Lawstudent_cclocal\\docs\\story_planning\\CC\\local_out\\X_P1pre\\out\\29_skip_fdline2_land.png",
+    "C:\\Users\\USER\\Documents\\Lawstudent_cclocal\\docs\\story_planning\\CC\\local_out\\X_P1pre\\out\\30_skip_fdline2_port.png"
+   ],
+   "fd:（這學期，只要重修海商法與海洋法。其他的日子——）": [
+    "C:\\Users\\USER\\Documents\\Lawstudent_cclocal\\docs\\story_planning\\CC\\local_out\\X_P1pre\\out\\31_skip_fdline3_land.png",
+    "C:\\Users\\USER\\Documents\\Lawstudent_cclocal\\docs\\story_planning\\CC\\local_out\\X_P1pre\\out\\32_skip_fdline3_port.png"
+   ]
+  },
+  "mk_msgs": [
+   {
+    "th": "sys",
+    "from": null,
+    "tag": "fd_mk_sys",
+    "day": 1371,
+    "h": 9,
+    "text": "【教務處】大四下補考通知：海商法與海洋法。6/26（二）10:00，法律系館A。"
+   },
+   {
+    "th": "sys",
+    "from": null,
+    "tag": "fd_mk_remind",
+    "day": 1378,
+    "h": 20,
+    "text": "【教務處】明天上午 10:00 補考：海商法與海洋法（法律系館A）。"
+   }
+  ]
+ }
+}

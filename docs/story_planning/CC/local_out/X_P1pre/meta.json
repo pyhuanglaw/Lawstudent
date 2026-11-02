@@ -1,0 +1,23 @@
+{
+  "rerun": "",
+  "id": "X_P1pre",
+  "sha": "a3d80d47a",
+  "kind": "probe",
+  "script": "docs/story_planning/test_tools/cc/cc_d124_probe.py",
+  "env": "CASES=take,skip,bar_pool",
+  "machine": "MSI",
+  "start": "2026-11-03T06:59:16",
+  "end": "2026-11-03T07:08:46",
+  "seconds": 570,
+  "exit": 1,
+  "error": null,
+  "runner": "a98287fbd6",
+  "rf_round": "5",
+  "url": "http://127.0.0.1:8807/index.html?turbo",
+  "res_peak": {
+    "cpu": 56,
+    "mem": 49,
+    "used_gb": 15.6,
+    "chrome_testing": 20
+  }
+}
