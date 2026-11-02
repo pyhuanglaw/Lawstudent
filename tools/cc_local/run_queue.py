@@ -346,7 +346,7 @@ class Runner(object):
             with open(pmf, encoding='utf-8-sig') as fh:   # 舊版 PowerShell 寫的有 BOM
                 pm = json.load(fh)
             pr = str(pm.get('rerun') or '')
-            return pm.get('sha') == sha and pm.get('exit') in (0, 1) and not pm.get('error') and pr == it.rerun
+            return pm.get('sha') == sha and pr == it.rerun   # BB 19:46：同一個 Id@sha#RERUN 有 meta 就跳過，不管 exit／error（逾時要重跑＝換 RERUN 記號）
         except Exception:
             log('meta.json of %s unreadable - rerun' % it.id)
             return False
