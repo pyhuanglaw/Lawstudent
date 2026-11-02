@@ -162,8 +162,12 @@ const SOCIAL = (function(){
   /* 畫面上的標題（出遊按鈕、標題卡、事件標題、手機系統提醒）：和學姊交往中（CALLED_SHUYU）顯示的時候「溫學姊」「學姊」換成「書瑀」（AA_411 第 2 節）；
      存起來的字不改，分手以後自動變回學姊。例外：「直屬學姊」、指別人的「○○的學姊」（登山社的學姊）不換 */
   S.shuyuT=function(t){ if(t==null) return t; const nm=S.datingName('heroine_05'); if(!nm) return t; return String(t).replace(/溫學姊/g,nm).replace(/(直屬|的)?學姊/g,(m,p)=>p?m:nm); };
-  S.datingName=function(id){ const d=RL()[id], C=d&&d.contact, F=G&&G.flags; if(!C||!C.DATING||!F) return null; const R=F.romance&&F.romance[id]; return (F['dating_'+id]===true||(R&&R.status==='dating'))&&(!S.CALLED[id]||!!F[S.CALLED[id]])?C.DATING:null; };
-  S.contactName=function(id){ const d=RL()[id], C=d&&d.contact; if(!C) return null; if(C.DATING&&S.datingName(id)) return C.DATING; const s=S.friendLevel(id);
+  /* AA_579 第 39 列（AA 09:30）：交往中的「手機聯絡人」和「對話框／標題」拆開——contact.DATING＝手機聯絡人（私訊串、聯絡人列表）；contact.DATING_NAME＝對話框名字、標題卡、出遊按鈕、事件標題（沒寫＝同 DATING，舊行為）。
+     學姊：AA_579 進遊戲時改成 DATING:'貝貝'、DATING_NAME:'溫書瑀'（AA_566 第 13 節）*/
+  const datingOn=(id,C)=>{ const F=G&&G.flags; if(!C||!C.DATING||!F) return false; const R=F.romance&&F.romance[id]; return (F['dating_'+id]===true||(R&&R.status==='dating'))&&(!S.CALLED[id]||!!F[S.CALLED[id]]); };
+  S.datingName=function(id){ const d=RL()[id], C=d&&d.contact; return datingOn(id,C)?(C.DATING_NAME||C.DATING):null; };
+  S.datingContact=function(id){ const d=RL()[id], C=d&&d.contact; return datingOn(id,C)?C.DATING:null; };
+  S.contactName=function(id){ const d=RL()[id], C=d&&d.contact; if(!C) return null; if(C.DATING&&S.datingContact(id)) return C.DATING; const s=S.friendLevel(id);
     return (s==='CLOSE_FRIEND'&&(C.CLOSE_FRIEND||C.FRIEND))||((s==='FRIEND'||s==='CLOSE_FRIEND')&&C.FRIEND)||(typeof C.base==='function'?C.base(G):C.base)||null; };   /* base 可以是函式（照日期換：學姊 9/4 21:00 以後才加「（直屬）」，AA_372 第 12 項）*/
   /* 手機上已經知道名字（rel_lines 的 contact.knownFlag 那個旗標成立；學姊 9/3 接受交友邀請＝SIS_CONTACTED，AA_372 第 6 節第 10 題）：私訊串、聯絡人寫名字，不寫「不認識的女生」 */
   S.contactKnown=function(id){ const d=RL()[id], C=d&&d.contact, F=G&&G.flags; return !!(C&&C.knownFlag&&F&&F[C.knownFlag]); };
