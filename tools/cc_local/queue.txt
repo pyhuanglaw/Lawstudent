@@ -63,12 +63,12 @@ R12b_fasatpre| ba125d6f3 | probe | docs/story_planning/test_tools/cc/cc_fasat_pr
 29_jpmk     | d75871437 | probe | docs/story_planning/test_tools/cc/cc_d118b1_probe.py   | index.html | 60  | CASES=jp_makeup
 34_day9     | d75871437 | probe | docs/story_planning/test_tools/cc/cc_day9_probe.py   | index.html | 60 | CASES=main
 02_mk12new  | c2d0c24bc | probe | docs/story_planning/test_tools/cc/cc_makeup_probe.py           | index.html?turbo  | 200 | CASES=study3h,skipnoon_seat,skipnoon_phone,homerest,old_delayed,home,mkbg;FAIL_ROUTE=maritime
-03_delay14  | c2d0c24bc | probe | docs/story_planning/test_tools/cc/cc_delay14_probe.py          | index.html?turbo  | 120 | CASES=dorm_sleep,dorm_stand,home;FD_COURSE=maritime
+03_delay14  | c2d0c24bc | probe | docs/story_planning/test_tools/cc/cc_delay14_probe.py          | index.html?turbo  | 120 | CASES=dorm_sleep,dorm_stand,home;FD_COURSE=maritime;RERUN=sw1102
 04_quota    | c2d0c24bc | py    | tools/cc_local/quota_check.py                                   | index.html        | 20  |
 04b_quota15 | c2d0c24bc | probe | docs/story_planning/test_tools/cc/cc_quota15_probe.py          | index.html?turbo  | 60  |
 04c_legal   | c2d0c24bc | probe | docs/story_planning/test_tools/cc/cc_legalpage_probe.py        | index.html?turbo  | 30  |
 05_mk12old  | b4f98ea4e | probe | docs/story_planning/test_tools/cc/cc_makeup_probe.py           | index.html?turbo  | 200 | CASES=study3h,homerest,old_delayed,home,mkbg_home;FAIL_ROUTE=maritime
-06_layout16 | c2d0c24bc | game  | tests/choices_landscape_css.py                                  | index.html        | 40  |
+# DONE 11:04 UTC ALL PASS 06_layout16 | c2d0c24bc | game  | tests/choices_landscape_css.py                                  | index.html        | 40  |
 07_bg107    | c2d0c24bc | probe | docs/story_planning/test_tools/cc/cc_bg107_probe.py            | index.html?turbo  | 120 |
 08_pt106    | c2d0c24bc | probe | docs/story_planning/test_tools/cc/cc_pt106_probe.py            | index.html?turbo  | 120 |
 30_b1base   | a3b1bd647 | probe | docs/story_planning/test_tools/cc/cc_d118b1_probe.py   | index.html | 150 | CASES=retake_skip,retake_saveload,guowen_w8
