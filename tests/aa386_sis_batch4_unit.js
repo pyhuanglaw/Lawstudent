@@ -200,7 +200,7 @@ const sec=async(n,f)=>{ try{ await f(); }catch(e){ check(n+'. 丟出例外（中
     check('3-5. 2028-02-13（日）21:00 私訊「明天是我寒假那一天的假。」「早上十點，公館捷運站二號出口。其他的沒排。」；回覆「好。」「明天不行。」',J(dms())===J(['明天是我寒假那一天的假。','早上十點，公館捷運站二號出口。其他的沒排。'])&&!!m&&J(m.ask.opts.map(o=>o.t))===J(['好。','明天不行。']),J(dms()));
     PHONE.answer(H.G,'sisb4_vday_y3_ask',0); rules(); const q=OUT.get(H.G,'sisb4_vday_y3'); H.bgs=[]; const r0=relOf(); const L=await play('ev_sis_vday_y3',[1]); const r1=relOf(), E=ev('ev_sis_vday_y3');
     check('3-5. 2/14 10:00 公館捷運站（走路約 15 分鐘）：底圖 gongguan → 公車上（bus_day，11-02 使用者生成；原本深色底）→ 終點站（country_road）；「（陪她看窗外）」→「（過了一個隧道，她的頭靠在你肩膀上。）」；湯圓、「沒照計畫走。……可是這樣很好。」（AA_591 保71，使用者 11-02）「……下次還坐這一班。」；時間推到 15:00 左右（hours 5）',
-      !!q&&q.h===10&&q.travelH===0.25&&E.hours===5&&J(L)===J(['（她站在出口，手上沒有計畫本。）','今天沒帶。放在家裡了。','第一班來的公車，我們就上去。坐到最後一站。','（她一開始看著窗外，小聲念站名。念到第七站，就不念了。）','（過了一個隧道，她的頭靠在你肩膀上。）','（終點站在山腳下。站牌旁邊有一家賣湯圓的小店，只有兩張桌子。）','……情人節吃湯圓。','沒照計畫走。……可是這樣很好。','（她說不要再這樣排，可是一直在笑。）','……下次還坐這一班。'])
+      !!q&&q.h===10&&q.travelH===0.25&&E.hours===5&&J(L)===J(['（她站在出口，手上沒有計畫本。）','今天沒帶。放在家裡了。','第一班來的公車，我們就上去。坐到最後一站。','（她一開始看著窗外，小聲念站名。念到第七站，就不念了。）','（過了一個隧道，她的頭靠在你肩膀上。）','（終點站在山腳下。站牌旁邊有一家賣湯圓的小店，只有兩張桌子。）','……情人節吃湯圓。','沒照計畫走。……可是這樣很好。','（她說完，一直在笑。）','……下次還坐這一班。'])
       &&J(H.bgs.slice(-3))===J([{image:'assets/bg/gongguan.webp'},{image:'assets/bg/bus_day.webp'},{image:'assets/bg/country_road.webp'}]),J({q,L,bgs:H.bgs}));
     check('3-5. SIS_VDAY_Y3 went、記憶 SIS_VDAY_Y3、+3／+6／+5、裂縫已經是 0 不變',H.G.flags.SIS_VDAY_Y3==='went'&&SOCIAL.has(ID,'SIS_VDAY_Y3')&&dRel(r0,r1)===J({fam:3,comf:6,npcRom:5})&&!(H.G.flags.SIS_CRACK<0),dRel(r0,r1)); }
   { setup('2028-02-13',21.05,'dorm','FRIEND'); dateSis(); rules(); PHONE.answer(H.G,'sisb4_vday_y3_ask',0); const L=await play('ev_sis_vday_y3',[0]);

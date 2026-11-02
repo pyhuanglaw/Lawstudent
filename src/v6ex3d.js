@@ -47,7 +47,33 @@ const V6EX=(function(){
     for(let x=d+1;x<d+400;x++){ const t=CALENDAR.termOf(x); if(t&&t.id!==cur&&t.week===1) return x; } return null; };   /* 下一個學期第 1 週的第一天 */
   S.cool=(G,id)=>{ const R=G&&G.flags&&G.flags.V6EX, c=R&&R.cool&&R.cool[id]; return !!c&&!dating(G,id)&&G.day>=c.from&&G.day<c.until; };
   /* 每兩則送一則：同一類（need＝主線 4 這週的訊息、dp＝手機小事）她輪到的第 2、4、6…次跳過；同一則（key）問幾次都是同一個答案 */
-  S.coolSkip=function(G,id,cat,key){ const c=G.flags.V6EX.cool[id], M=c.m||(c.m={}), k=cat+'|'+key; if(M[k]!=null) return M[k]; const n=(c.n[cat]|0)+1; c.n[cat]=n; return M[k]=(n%2===0); };
+  /* AA_600 S1（企劃線 031414cad，使用者 11-02「分手，不會主動聯絡」「如果分手他不太會理我」）：以安、學姊分手以後（ROM.exOf：EX_、ex／paused／friend_after_catch、挽回中）
+     她主動傳的訊息、主動的邀約一律不送，直到重新交往——不是「下一個學期恢復」。其他五位照 AA_434 4-3 的一個學期。
+     S.noContact 給各個「她先傳／她先約」的地方讀（主線 4 週日訊息、手機小事、INV.anAsk、動態裡她先傳的私訊、她們主動約、心意邀約、寒暑假私訊揪人…）*/
+  S.NO_CONTACT=[AN,SIS];
+  S.noContact=(G,id)=>!!G&&!!G.flags&&S.NO_CONTACT.includes(id)&&typeof ROM!=='undefined'&&!!ROM.exOf&&ROM.exOf(G,id);
+  /* AA_600 S8～S10、B7：前任的學姊——祐廷找她，要找很多次才回。這一次分開的計數記在 G.flags.SIS_EXC＝{end（分開那天）, msg, inv, talk:{學期: 次數}, tries}；
+     重新交往再分開（end 不一樣）就從 0 開始。tries＝分手以後祐廷找過她幾次（傳訊息、約、當面，S8～S10 哪一種都算；B7 ev_sis_three_conditions 要 2 次以上）*/
+  S.sisExRec=function(G){ const F=G.flags, e=S.endDay(G,SIS); let R=F.SIS_EXC; if(!R||typeof R!=='object'||R.end!==e) R=F.SIS_EXC={end:e,msg:0,inv:0,talk:{},tries:0}; if(!R.talk||typeof R.talk!=='object') R.talk={}; return R; };
+  S.sisExTries=G=>S.noContact(G,SIS)?(S.sisExRec(G).tries|0):0;
+  S.termKey=function(G){ if(typeof CALENDAR==='undefined'||!CALENDAR.termOf) return 'd'+Math.floor(G.day/180); for(let x=G.day;x>G.day-200;x--){ const t=CALENDAR.termOf(x); if(t) return t.id; } return 'd'+Math.floor(G.day/180); };   /* 寒暑假算前一個學期 */
+  /* S8 傳訊息（msg3d.js 的 MSG.send）：第 1、2 則已讀不回（「（她已讀了。）」，us_blank_lines.js 同一句旁白）；第 3 則才回最短的一句，回完歸零 */
+  S.SIS_EX_READ='（她已讀了。）';
+  S.sisExShort=topic=>['thanks','bday','newyear'].includes(topic)?'謝謝。':(['course','ask','help'].includes(topic)?'好。':'嗯。');
+  S.sisExMsg=function(G){ const R=S.sisExRec(G); R.tries++; R.msg=(R.msg|0)+1; if(R.msg<3) return 0; R.msg=0; return 3; };
+  /* S9 約她（invites3d.js 的 INV.flow，校內的邀約；校外約會 DATE 照它自己的條件）：第 1、2 次已讀不回；第 3 次回「最近忙。」；不答應。回傳 'read'／'busy' */
+  S.SIS_EX_BUSY='最近忙。';
+  S.sisExInvite=function(G){ const R=S.sisExRec(G); R.tries++; R.inv=(R.inv|0)+1; if(R.inv<3) return 'read'; R.inv=0; return 'busy'; };
+  /* S10 當面找她（story3d.js 的 talkSis、talkCharacter）：每學期前兩次只點頭，第三次起回一句「嗯。」，不閒聊（sis_b10 3-2 的 SIS_EX_CAFE「之後招呼只點頭」接在這裡）。
+     B7：在她讀書的地方、ev_sis_three_conditions 該演了（SISB4.rebuildDue，要 tries≥2）＝不擋，交給 SISB4.preTalk（這一次也算一次）*/
+  S.SIS_EX_NOD='（她抬頭看了你一眼，點了一下頭。）';
+  S.SIS_EX_HM='嗯。';
+  S.sisExTalk=async function(GM,who){ const G=GM&&GM.G; if(!G||!G.flags||!law(G)||!S.noContact(G,SIS)) return false; const R=S.sisExRec(G);
+    if(typeof SISB4!=='undefined'&&SISB4.rebuildDue&&Array.isArray(SISB4.READ_ZONES)&&SISB4.READ_ZONES.includes(G.zone)&&SISB4.rebuildDue(G)){ R.tries++; return false; }
+    const k=S.termKey(G); R.talk[k]=(R.talk[k]|0)+1; R.tries++;
+    if(R.talk[k]<=2) await GM.say(null,S.SIS_EX_NOD); else await GM.say(who,S.SIS_EX_HM);
+    return true; };
+  S.coolSkip=function(G,id,cat,key){ if(S.noContact(G,id)) return true; const c=G.flags.V6EX&&G.flags.V6EX.cool&&G.flags.V6EX.cool[id]; if(!c) return false; if(!c.n) c.n={}; const M=c.m||(c.m={}), k=cat+'|'+key; if(M[k]!=null) return M[k]; const n=(c.n[cat]|0)+1; c.n[cat]=n; return M[k]=(n%2===0); };
   S.REASON=how=>{ if(how==='apart_drift'||how==='drift') return 'drift'; if(how==='two_hearts'||how==='mrel'||how==='zq_zr'||how==='caught') return 'caught'; return 'talk'; };
   if(!ROM._v6exEnd){ const e0=ROM.end; ROM.end=function(G,id,how){ const ok=e0.apply(this,arguments); if(ok&&G&&G.flags){ const F=G.flags; if(F['EX_'+id+'_REASON']==null) F['EX_'+id+'_REASON']=S.REASON(how);
         (F.CLEANUP_WHO||(F.CLEANUP_WHO=[])).push({id,day:G.day}); if(F.CLEANUP_WHO.length>10) F.CLEANUP_WHO.splice(0,F.CLEANUP_WHO.length-10);
@@ -187,15 +213,15 @@ const V6EX=(function(){
 
   /* ======================= 分開以後一個學期（AA_434 第 4 節第 3 點）======================= */
   /* 主線 4 這週的訊息（STORY.neededPick，週日 21:00）：她的那幾則每兩次送一次 */
-  if(STORY.neededPick&&!STORY._v6exNeed){ const n0=STORY.neededPick; STORY.neededPick=function(G,d){ const L=n0.apply(this,arguments); if(!Array.isArray(L)||!G||!G.flags||!G.flags.V6EX) return L;
-      return L.filter(e=>!(e&&S.COOL_IDS.includes(e.who)&&S.cool(Object.assign({},G,{day:d}),e.who)&&S.coolSkip(G,e.who,'need',e.id+'@'+d))); }; STORY._v6exNeed=true; }
+  if(STORY.neededPick&&!STORY._v6exNeed){ const n0=STORY.neededPick; STORY.neededPick=function(G,d){ const L=n0.apply(this,arguments); if(!Array.isArray(L)||!G||!G.flags) return L;
+      return L.filter(e=>!(e&&S.noContact(G,e.who))).filter(e=>!G.flags.V6EX||!(e&&S.COOL_IDS.includes(e.who)&&S.cool(Object.assign({},G,{day:d}),e.who)&&S.coolSkip(G,e.who,'need',e.id+'@'+d))); }; STORY._v6exNeed=true; }
   /* 手機小事（story3d.js 的 dailyPhone，tag dp_<條目>_<第幾次>_<第幾則>）：她傳的那一則每兩次送一次（同一次的幾則一起送或一起跳過）*/
   if(typeof PHONE!=='undefined'&&PHONE.at&&!PHONE._v6exAt){ const a0=PHONE.at; PHONE.at=function(G,day,h,items,tag){
-      if(G&&G.flags&&G.flags.V6EX&&typeof tag==='string'&&/^dp_/.test(tag)&&Array.isArray(items)){ const keep=items.filter(it=>!(it&&S.COOL_IDS.includes(it.from)&&it.th==='p:'+it.from&&S.cool(Object.assign({},G,{day}),it.from)&&S.coolSkip(G,it.from,'dp',tag.replace(/_\d+$/,''))));
+      if(G&&G.flags&&typeof tag==='string'&&/^dp_/.test(tag)&&Array.isArray(items)){ const keep=items.filter(it=>!(it&&S.noContact(G,it.from)&&it.th==='p:'+it.from)).filter(it=>!(G.flags.V6EX&&it&&S.COOL_IDS.includes(it.from)&&it.th==='p:'+it.from&&S.cool(Object.assign({},G,{day}),it.from)&&S.coolSkip(G,it.from,'dp',tag.replace(/_\d+$/,''))));
         if(!keep.length) return false; if(keep.length!==items.length) return a0.call(this,G,day,h,keep,tag); }
       return a0.apply(this,arguments); }; PHONE._v6exAt=true; }
   /* 她主動約（約人系統：以安週二 21:00 約讀書會完去吃飯，INV.anAsk）：這段期間不約 */
-  if(typeof INV!=='undefined'&&INV.anAsk&&!INV._v6exAsk){ const q0=INV.anAsk; INV.anAsk=function(G){ if(G&&G.flags&&S.cool(G,AN)) return false; return q0.apply(this,arguments); }; INV._v6exAsk=true; }
+  if(typeof INV!=='undefined'&&INV.anAsk&&!INV._v6exAsk){ const q0=INV.anAsk; INV.anAsk=function(G){ if(G&&G.flags&&(S.cool(G,AN)||S.noContact(G,AN))) return false;   /* AA_600 S3：前任不約 */ return q0.apply(this,arguments); }; INV._v6exAsk=true; }
 
   /* ======================= 每 0.5 秒 ======================= */
   let busy=false; const go=fn=>{ busy=true; Promise.resolve().then(fn).catch(e=>console.warn('V6EX',e)).finally(()=>{ busy=false; }); return true; };

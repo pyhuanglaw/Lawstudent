@@ -49,6 +49,7 @@ const SISB4=(function(){
   S.rebuildDue=function(G){ if(!law(G)||!G.flags.met_sis||!S.brokeUp(G)) return false; const F=G.flags, bd=S.breakDay(G);
     if(F.SIS_REBUILD!=null&&(bd==null||F.SIS_REBUILD>=bd)) return false;
     if(bd!=null&&G.day-bd<S.REBUILD_WEEKS*7) return false;
+    if(typeof V6EX!=='undefined'&&V6EX.sisExTries&&V6EX.sisExTries(G)<2) return false;   /* AA_600 B7（企劃線 031414cad）：分手以後祐廷已經找過她兩次（傳訊息、約、當面，S8～S10 哪一種都算），第三次才演 */
     return stageOk('FRIEND')&&!partners(G).length&&here(G)&&!abroad(G); };
   /* 4-2：分開過的學姊＝{done（這一次分開演過 4-1）, dates（那以後和她正式校外約會幾次）, ready（兩次以上）}；沒分開過（照一般的告白條件）＝null */
   S.rebuild=function(G){ if(!S.brokeUp(G)) return null; const F=G.flags, bd=S.breakDay(G), r=F.SIS_REBUILD;

@@ -82,7 +82,7 @@ const SISB10_EVENTS=(function(){
         {choice:[{text:'「最左邊那顆？」',goto:'a29'},{text:'「看起來都一樣。」',goto:'b29'}]},
         {label:'a29'},SIS('……你看得出來。'),{goto:'e29'},
         {label:'b29'},SIS('你在說謊。……謝謝。'),
-        {label:'e29'},SIS('（她傳來一張照片：一盤水餃。）厲害吧。'),
+        {label:'e29'},SIS('厲害吧。'),   /* AA_591 整合九件第 2 件（企劃線 43d27cd80）：照片在開頭那一行已經出現，這裡只留「厲害吧。」*/
         {label:'end'},rel({comf:1,npcRom:1}) ],
       outingMissed:(G,GM,q)=>{ const x=X(); if(x) x.cnyMissed(G,q); } },
     /* ---------- 第 3 節：前任（四場；3-4 是私訊）---------- */
