@@ -59,11 +59,11 @@ await sec(2,async()=>{
   fresh('2025-10-05',22); reset(); { const r=await X().jump(GM,now()+7*24); const en=items('2025-10-09').find(it=>it.c.id==='english_y1');
     check('2a. 10/5 跳一週：停在 10/9 大一英文前 20 分鐘（有課前事件），那堂沒記',r.why==='stop'&&!!en&&Math.abs(now()-(Tm(en.day,en.t0)-1/3))<1e-6&&!CLS.rec(H.G).done[en.key]&&/大一英文/.test(r.stop.why),J({stop:r.stop,at:lbl(now())}));
     check('2a. 字卡：日期＋停下來的原因',/^10\/9（四）08:50$/.test((H.cards.slice(-1)[0]||[])[0])&&/大一英文/.test((H.cards.slice(-1)[0]||[])[1]),J(H.cards.slice(-1))); }
-  // 2b 考試（期中考第 8 週）：停在考前 1 小時（床的鬧鐘那個時間）
-  fresh('2025-10-19',22); reset(); { const r=await X().jump(GM,now()+7*24); const ex=items('2025-10-20').find(it=>it.exam);
-    check('2b. 10/19 跳一週：停在 10/20 第一科期中考前 1 小時（鬧鐘），考試沒有被自動上',r.why==='stop'&&!!ex&&Math.abs(now()-(Tm(ex.day,ex.t0)-1))<1e-6&&!CLS.rec(H.G).done[ex.key],J({stop:r.stop,at:lbl(now())}));
-    const exs=[]; for(let d=D('2025-10-20');d<=D('2025-10-31');d++) for(const it of CLS.dayItems(H.G,d)) if(it.exam) exs.push(it);
-    check('2b. 期中考每一科都算有劇情（classEventful＝exam）',exs.length>=3&&exs.every(it=>X().classEventful(H.G,it)==='exam'),exs.length); }
+  // 2b 考試（D118 起沒有期中考：改測期末考第 16 週）：停在考前 1 小時（床的鬧鐘那個時間）
+  fresh('2025-12-14',22); reset(); { const r=await X().jump(GM,now()+7*24); const ex=items('2025-12-15').find(it=>it.exam);
+    check('2b. 12/14 跳一週：停在 12/15 第一科期末考前 1 小時（鬧鐘），考試沒有被自動上',r.why==='stop'&&!!ex&&Math.abs(now()-(Tm(ex.day,ex.t0)-1))<1e-6&&!CLS.rec(H.G).done[ex.key],J({stop:r.stop,at:lbl(now())}));
+    const exs=[]; for(let d=D('2025-12-15');d<=D('2025-12-19');d++) for(const it of CLS.dayItems(H.G,d)) if(it.exam) exs.push(it);
+    check('2b. 期末考每一科都算有劇情（classEventful＝exam）',exs.length>=3&&exs.every(it=>X().classEventful(H.G,it)==='exam'),exs.length); }
   // 2c CLS.IN_CLASS 的 due：債各第 6 週（語彤 1B-02）、刑訴第 7 週、民總第 4 週 L1
   fresh('2027-03-28',22); reset(); { const r=await X().jump(GM,now()+7*24); const it=items('2027-03-29').find(q=>q.c.id==='oblig_spec');
     check('2c. 大二下第 6 週債各（3/29）：IN_CLASS 的劇情段 → 停在課前 20 分鐘',!!it&&r.why==='stop'&&r.stop.x.kind==='inclass'&&Math.abs(now()-(Tm(it.day,it.t0)-1/3))<1e-6,J({stop:r.stop,at:lbl(now())}));
