@@ -50,3 +50,6 @@
 30_b1base   | a3b1bd647 | probe | docs/story_planning/test_tools/cc/cc_d118b1_probe.py   | index.html | 150 | CASES=retake_skip,retake_saveload,guowen_w8
 31_b2base   | a3b1bd647 | probe | docs/story_planning/test_tools/cc/cc_d118b2_probe.py   | index.html | 60  | CASES=wancai
 # 4、5（第 9 天存檔讀檔流程、法服週六兩次）：探針寫好再加
+# WSEM-BG-1102（BB 10:31／10:35）：修改後 d75871437（背景＋旁白 NARR=1）、修改前 dea6b1944（背景應 FAIL）
+32_wsem     | d75871437 | probe | docs/story_planning/test_tools/cc/cc_wsem_probe.py | index.html?turbo | 120 | CASES=all;NARR=1
+33_wsempre  | dea6b1944 | probe | docs/story_planning/test_tools/cc/cc_wsem_probe.py | index.html?turbo | 120 | CASES=all;EXAM_ROUTES=door;CLASS_ROUTES=door
