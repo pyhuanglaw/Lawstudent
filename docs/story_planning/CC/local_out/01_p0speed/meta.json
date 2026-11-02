@@ -1,14 +1,14 @@
 ﻿{
     "id":  "01_p0speed",
-    "sha":  "5506d6259",
+    "sha":  "c2d0c24bc",
     "kind":  "game",
     "script":  "tests/p0_movement.py",
     "env":  "",
     "machine":  "MSI",
-    "start":  "2026-11-02T18:04:46",
-    "end":  "2026-11-02T18:06:19",
-    "seconds":  93,
-    "exit":  1,
+    "start":  "2026-11-02T18:26:42",
+    "end":  "2026-11-02T18:29:02",
+    "seconds":  140,
+    "exit":  0,
     "error":  null,
     "url":  "http://127.0.0.1:8800/index.html"
 }
