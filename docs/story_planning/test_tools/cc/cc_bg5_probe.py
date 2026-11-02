@@ -1,4 +1,5 @@
-"""CC（帳號 A）11-02：第五批 10 張 ADV 2D 底圖（開發分支 63f00030＝第 1～5 張、78ebf658＝第 6～10 張）在遊戲裡的畫面——
+"""CC（帳號 A）11-02：第五批 10 張 ADV 2D 底圖（開發分支 63f00030＝第 1～5 張、78ebf658＝第 6～10 張）
+  ＋第六批 10 張（c3036bc9，BB_132 第 103 組；清單在檔案下面的 CASES6）在遊戲裡的畫面——
   ① 對話框（字幕框）有沒有擋到底圖的重點；② 直向（390×844）、橫向（844×390）手機模擬的裁切。
 探針只「客觀記錄＋截圖」：好不好看、重點有沒有被擋，由人看截圖判斷（不寫死「全部通過」）。
 check 只有三種：事件真的演出來（遊戲的 OUT.go／EVENTS.run／JP.playStop 收到那一件，而且畫面到了那一張底圖、對話框開著）、
@@ -60,10 +61,26 @@ check 只有三種：事件真的演出來（遊戲的 OUT.go／EVENTS.run／JP.
                  真實：日本路線、人在日本，2028-03-27 10:00 到了據點自己演（JP.loop 的 dueStop）。探針：2028-03-27 10:00 jp_hub，等它自己演。
   （沒有交往的最小存檔：學姊游泳、日本兩件的「交往中」那幾句不會出；日本照「挽回中」那一版（jp3d.js rep＝!dat）。只看畫面，不驗台詞。）
 
+第六批 10 張（c3036bc9；做法同上：最小存檔＋已經約好的出遊、等遊戲自己跳「出發」；每一張的條件寫在 CASES6 那一行的 src／註解）：
+  cafe_door_night ev_sis_xmas_y2（sis_b4_3d.js:89）2026-12-24 22:00；探針 21:36 宿舍＋出遊、SIS_XMAS_Y2_GO。
+  gym_court       ev_zhe_game_y2（story3d.js:2472 y2_ball）2026-12-19（六）14:00；探針 13:36。同一張圖也接在 ev_zhe_game_y2s2、ev_final_game_y3、ev_last_game_y4、
+                  ev_b106_42_game——不演，只在頁面裡讀 STORY_EVENTS 確認 background／dialogue 的 bg 有 gym_court（check「只讀確認」）。
+  gym_gate        ev_sis16_swim 後半（同 gym_pool 那一趟）：先經過 gym_pool 的五句（照玩家點過去），到「新體育館門口」換 gym_gate 才拍。
+  wancai_lobby    ev_concert_y4（r2y4b3d.js:203 y4_concert）2029-05-12 19:00；探針 18:36。
+  us_c_door       ev_sis14_day40（sis_b14_3d.js:110 DAY40_OUT；第四十天私訊回「我過去。」）2028-09-11 22:30 美國；探針 22:16 us_apartment＋美國路線旗標（tests/aa370_us_unit.js 的 US）。
+  noodle_door     ev_yt_vday_y2（an_yt_hol3d.js:73）2027-02-14 12:00；門口那兩句就是第一張底圖（旁白＋語彤一句，SPK 拍語彤那句），之後換 noodle_table。
+  jp_beach        ev_jp_sea（jp3d.js:122 JP.SCH g8_sea，if:dat）2028-07-17 09:00 據點自己演；探針 dating_heroine_01:true（JP 的 dat 只看這個旗標）。
+  kh_hotel_front  ev_kexin_qixi_y2（r2y3a_events.js:62，trigger manual；只有 KH_A ev_kexin_trip_summer_y2 演完 → after khNight（8/8 16:00）→ next_event 才演）
+                  探針：2027-08-07 07:16 宿舍＋已經約好的 y3_kh（r2y3a3d.js:101）、KX_KH_GO，整段 KH_A（左營、旗津、選項照 pick_of 第一個）點過去，接到 KH_B。
+                  SCENE_S 這一張 600 秒；沒接到＝【捷徑】在頁面改到 2027-08-08 16:00、KX_KH_DAY1 → void EVENTS.run(ev_kexin_qixi_y2)。DIRECT=kh_hotel_front＝一開始就走捷徑。
+  hwaxin_street   ev_sq10_hwaxin（sideq3d.js:475 S.plan10，週六 14:00）；探針大二上第 6 週週六 13:06＋出遊（支線 SQ10 的紀錄 G.sideq 沒放：演完的 after 不會推進支線，只看畫面）。
+  vet_clinic      ev_sq14_vet（sideq3d.js:504 S.cage14，公園放進外出籠的那一刻＋15 分鐘）；探針大二上第 10 週週三 15:46 宿舍＋出遊（真實是在溫州街公園排的；這裡從宿舍出發）。
+
 不是 iPhone：Playwright 手機模擬（is_mobile、觸控、SwiftShader 1～4 fps），不用 ?turbo 也可以（要更快可以加）。
 用法：LW_TESTS=<工作樹>/tests SHA=<sha> python3 cc_bg5_probe.py '<URL>/index.html' <輸出資料夾> [使用者存檔.json]
-環境變數：ONLY=gym_pool,psy_lab（只跑這幾張）、ORIENT=both|land|port、QUIET=1（0＝讀檔不關條件事件）、SPK=1（0＝不拍有人說話那一句）、
-  PROMPT_S（等遊戲自己開演，預設 90）、SCENE_S（開演後等到那一張底圖＋對話框，預設 150）、CASE_MAX（一張最多幾秒，預設 900）、RELAYOUT_MS（切方向後等多久，預設 1800）。
+環境變數：BATCH=5,6（只跑這幾批；預設兩批 20 張全跑）、IDS=gym_court,jp_beach（只跑這幾張；舊的 ONLY 同義，可以和 BATCH 一起用＝交集）、
+  DIRECT=kh_hotel_front（有寫 direct 的那幾張一開始就走【捷徑】EVENTS.run）、ORIENT=both|land|port、QUIET=1（0＝讀檔不關條件事件）、SPK=1（0＝不拍有人說話那一句）、
+  PROMPT_S（等遊戲自己開演，預設 90）、SCENE_S（開演後等到那一張底圖＋對話框，預設 150；CASES 裡有 scene_s 的那一張取比較大的）、CASE_MAX（一張最多幾秒，預設 900；有 case_max 的取比較大的）、RELAYOUT_MS（切方向後等多久，預設 1800）。
 不要和別的瀏覽器測試同時跑（SwiftShader 搶 CPU）。"""
 import os, sys, json, asyncio, time, copy, traceback
 sys.path.insert(0, os.environ['LW_TESTS']); import playlib as L
@@ -77,7 +94,9 @@ SAVE = None
 if SAVEF:
     SAVE = json.load(open(SAVEF, encoding='utf-8')); SAVE = SAVE.get('G', SAVE)
 J = lambda o: json.dumps(o, ensure_ascii=False)
-ONLY = [x.strip() for x in os.environ.get('ONLY', '').split(',') if x.strip()]
+ONLY = [x.strip() for x in (os.environ.get('IDS', '') + ',' + os.environ.get('ONLY', '')).split(',') if x.strip()]
+BATCH = [int(x) for x in os.environ.get('BATCH', '').replace('，', ',').split(',') if x.strip().isdigit()]
+DIRECT = [x.strip() for x in os.environ.get('DIRECT', '').split(',') if x.strip()]
 ORIENT = os.environ.get('ORIENT', 'both').strip()
 QUIET = os.environ.get('QUIET', '1') != '0'
 SPK = os.environ.get('SPK', '1') != '0'
@@ -129,6 +148,48 @@ CASES = [
     dict(k='jp_intl_office', kind='jpstop', ev='ev_jp_office', stop='g1_office', when='2028-03-27', load_h=10.0, zone='jp_hub', match='',
          q=None, flags=dict(JPF), src='src/jp3d.js:112 JP.SCH g1_office（2028-03-27 10:00，據點自己演）'),
 ]
+for _c in CASES: _c.setdefault('batch', 5)
+
+# ---------------------------------------------------------------- 第六批 10 張（c3036bc9）；load_h＝約好的時間－車程－15 分鐘（OUT.due 開始問的時間）再加一點
+USF = {'EXCHANGE_ROUTE': 'US', 'EXCH_RULE': 1, 'X1_US': ('DAY', '2028-07-25'), 'US_DEPARTED': True, 'US_ARRIVED': True, 'US_ARRIVED_DAY': ('DAY', '2028-08-02'), 'US1': 'together',
+       'Y4_PATH': 'bar', 'Y4_PATH_DAY': ('DAY', '2028-06-08')}   # tests/aa370_us_unit.js 的 US（人在美國：us_life3d.js USL.here＝US_ARRIVED、出發日～返台日之間）
+GYM_COURT_ALSO = ['ev_zhe_game_y2s2', 'ev_final_game_y3', 'ev_last_game_y4', 'ev_b106_42_game']
+CASES6 = [
+    dict(k='cafe_door_night', kind='outing', ev='ev_sis_xmas_y2', when='2026-12-24', load_h=21.6, zone='dorm', match='聖誕夜',
+         q=dict(id='sisb4_xmas_y2', ev='ev_sis_xmas_y2', h=22, late=0.25, place='兩點半 Café 門口', title='聖誕夜（兩點半 Café 門口）', travel='走路 約 10 分鐘', travelH=1 / 6, alarm=True),
+         flags={'met_sis': True, 'SIS_XMAS_Y2_GO': True}, src='src/sis_b4_3d.js:89 SISB4.HOL xmas_y2 的 out（plan 加 alarm）；真實：交往中 12/23 21:00 她私訊、回好'),
+    dict(k='gym_court', kind='outing', ev='ev_zhe_game_y2', when='2026-12-19', load_h=13.6, zone='dorm', match='系籃', also=GYM_COURT_ALSO,
+         q=dict(id='y2_ball', ev='ev_zhe_game_y2', h=14, late=0.25, place='新體育館', title='系籃比賽（大二）', travel='走過去約 10 分鐘', travelH=1 / 6),
+         flags={}, src='src/story3d.js:2472 y2_ball（12/18 21:00 阿哲揪＝排出遊，不用回）'),
+    dict(k='gym_gate', kind='outing', ev='ev_sis16_swim', when='2029-05-12', load_h=6.6, zone='dorm', match='游泳', scene_s=300,
+         q=dict(id='sisb16_swim', ev='ev_sis16_swim', h=7, late=0.5, place='新體育館', title='新體育館（學姊游泳）', travel='走路 約 10 分鐘', travelH=1 / 6, hours=1.5, alarm=True),
+         flags={}, src='src/sis_b16_3d.js:86 SISB16.SWIM_OUT（同 gym_pool 那一趟；gym_pool 的五句點過去，到「新體育館門口」換 gym_gate）'),
+    dict(k='wancai_lobby', kind='outing', ev='ev_concert_y4', when='2029-05-12', load_h=18.6, zone='dorm', match='成發',
+         q=dict(id='y4_concert', ev='ev_concert_y4', h=19, late=0.5, place='吉他社成發', title='吉他社成發', travel='走過去約 10 分鐘', travelH=1 / 6),
+         flags={}, src='src/r2y4b3d.js:203 ballPhone 的 y4_concert（5/11 21:00 群組）'),
+    dict(k='us_c_door', kind='outing', ev='ev_sis14_day40', when='2028-09-11', load_h=22.27, zone='us_apartment', match='C 棟',
+         q=dict(id='sisb14_day40', ev='ev_sis14_day40', h=22.5, late=0.5, place='C 棟門口', title='C 棟門口（書瑀）', travel='', travelH=0, hours=0.5, back='回到公寓。'),
+         flags=dict(USF, met_sis=True, SIS14_DAY40_GO=('REL', 0)), src='src/sis_b14_3d.js:110 DAY40_OUT＋S.onAnswer（第四十天私訊 sisb13_day40 回「我過去。」）'),
+    dict(k='noodle_door', kind='outing', ev='ev_yt_vday_y2', when='2027-02-14', load_h=11.6, zone='dorm', match='阿鳳',
+         q=dict(id='anyt_yt_vday_y2', ev='ev_yt_vday_y2', h=12, late=0.5, place='阿鳳麵店', title='情人節（阿鳳麵店）', travel='走路', travelH=1 / 6, alarm=True),
+         flags={'YT_VDAY_Y2_GO': True}, src='src/an_yt_hol3d.js:73 HOL yt_y2 的 out（plan 加 alarm）；門口兩句＝事件 background getter BG(noodle_door)'),
+    dict(k='jp_beach', kind='jpstop', ev='ev_jp_sea', stop='g8_sea', when='2028-07-17', load_h=9.0, zone='jp_hub', match='',
+         q=None, flags=dict(JPF, dating_heroine_01=True), src='src/jp3d.js:122 JP.SCH g8_sea（2028-07-17 09:00，if:dat＝dating_heroine_01，據點自己演）'),
+    dict(k='kh_hotel_front', kind='outing', ev='ev_kexin_qixi_y2', when='2027-08-07', load_h=7.27, zone='dorm', match='高雄', scene_s=600, case_max=1500,
+         q=dict(id='y3_kh', ev='ev_kexin_trip_summer_y2', h=9, late=0.5, place='左營站', title='去高雄找可昕（兩天一夜）', travel='高鐵約一個半小時', travelH=1.5, back='回到臺北。', alarm=True),
+         flags={'KX_KH_GO': True},
+         direct=dict(when='2027-08-08', load_h=16.0, flags={'KX_KH_GO': True, 'KX_KH_DAY1': True},
+                     why='KH_B 是 trigger manual，只有 KH_A 整段演完（after khNight → next_event）才接；條件深、KH_A 很長（SwiftShader 可能超過 SCENE_S）'),
+         src='src/r2y3a3d.js:101 khPhone 的 y3_kh（7/20 她問、回去）→ ev_kexin_trip_summer_y2 → next_event ev_kexin_qixi_y2（prereq KX_KH_DAY1＋8/8）'),
+    dict(k='hwaxin_street', kind='outing', ev='ev_sq10_hwaxin', when=['Y2S1', 6, 6], load_h=13.1, zone='dorm', match='華新街',
+         q=dict(id='sq10_hwaxin_{d}', ev='ev_sq10_hwaxin', h=14, late=1, place='中和・華新街', title='中和・華新街：滇香小館的乳扇', travel='捷運 約 40 分鐘（南勢角站）', travelH=2 / 3),
+         flags={}, src='src/sideq3d.js:475 SIDEQ.plan10（planWeekend：下一個週六；id 後面接 day）'),
+    dict(k='vet_clinic', kind='outing', ev='ev_sq14_vet', when=['Y2S1', 10, 3], load_h=15.77, zone='dorm', match='動物醫院',
+         q=dict(id='sq14_vet_{d}', ev='ev_sq14_vet', h=16.25, late=1, place='羅斯福路・動物醫院', title='回診：帶牠去動物醫院', travel='走路 約 15 分鐘', travelH=0.25),
+         flags={}, src='src/sideq3d.js:504 SIDEQ.cage14（公園「看」貓→放進外出籠：h＝那一刻＋0.25）'),
+]
+for _c in CASES6: _c['batch'] = 6
+CASES = CASES + CASES6
 
 # ---------------------------------------------------------------- 頁面裡的小工具
 CLEARP = "(()=>{ if(typeof CLS!=='undefined'&&CLS.clearPending){ CLS.clearPending(); return true; } return false; })()"
@@ -207,6 +268,17 @@ FALLBACK_JS = r"""(c=>{ const G=GAME.G, notes=[]; if(typeof EVENTS!=='undefined'
       if(s){ void JP.playStop(GAME,s,'jp'); notes.push('void JP.playStop(GAME,'+c.stop+',jp)'); } else { const ev=STORY_EVENTS.find(e=>e.id===c.ev); if(ev){ void EVENTS.run(ev); notes.push('void EVENTS.run('+c.ev+')'); } else notes.push('找不到 '+c.ev); } }
   }catch(e){ notes.push('例外 '+e.message); }
   return notes.join(''); })"""
+DIRECT_JS = r"""(a=>{ const G=GAME.G, notes=[]; if(typeof EVENTS!=='undefined'&&EVENTS.running) notes.push('（注意：別的事件正在演 EVENTS.running='+EVENTS.running+'，EVENTS.run 會直接 return）');
+  { const ch=document.getElementById('choices'); if(ch&&!ch.classList.contains('hide')) notes.push('（注意：畫面上的選單還開著，之後的截圖可能帶著它）'); }
+  if(a.day!=null){ G.day=a.day; G.hour=a.h; if(GAME.syncWeekday) GAME.syncWeekday(); if(GAME.updateHUD) GAME.updateHUD(); notes.push('日期時間改成 '+a.key+' '+a.h); }
+  if(a.flags){ G.flags=G.flags||{}; Object.assign(G.flags,a.flags); notes.push('旗標 '+JSON.stringify(a.flags)); }
+  const ev=typeof STORY_EVENTS!=='undefined'?STORY_EVENTS.find(e=>e.id===a.ev):null; if(!ev) return notes.concat(['找不到 '+a.ev]).join('；');
+  try{ void EVENTS.run(ev); notes.push('void EVENTS.run('+a.ev+')'); }catch(e){ notes.push('例外 '+e.message); } return notes.join('；'); })"""
+ALSO_JS = r"""(a=>{ const out={}; for(const id of a.ids){ const e=typeof STORY_EVENTS!=='undefined'?STORY_EVENTS.find(x=>x.id===id):null; if(!e){ out[id]={hit:false,bgs:['找不到事件']}; continue; }
+    const bgs=[]; let b0=null; try{ b0=e.background; }catch(err){ b0='（background 讀取例外）'; } if(b0!=null) bgs.push('background:'+(typeof b0==='string'?b0:JSON.stringify(b0)));
+    for(const l of (Array.isArray(e.dialogue)?e.dialogue:[])) if(l&&l.bg) bgs.push('bg:'+(typeof l.bg==='string'?l.bg:JSON.stringify(l.bg)));
+    out[id]={hit:bgs.some(s=>s==='background:'+a.k||s==='bg:'+a.k||s.indexOf('/assets/bg/'+a.k+'.webp')>=0),bgs:bgs.slice(0,10)}; }
+  return out; })"""
 EXITS = ('不用了', '算了', '就這樣', '先不要', '先這樣', '沒事', '離開', '取消')
 SUMMARY = {}
 
@@ -315,7 +387,7 @@ async def trigger(pg, cdp, run, c, q):
 async def wait_scene(pg, cdp, run, c):
     """開演以後等到底圖換成那一張、第一句打完字（或出選項）。之前的對話（例：台中車站接人）照玩家點過去。回傳 (到了沒, ts, bgnow, 之前點過的句子)"""
     t0 = time.time(); last = None; same = 0; pre = []; s = None; g = None
-    while time.time() - t0 < SCENE_S:
+    while time.time() - t0 < max(SCENE_S, c.get('scene_s') or 0):
         g = await pg.evaluate(BGNOW_JS, c['k']); s = await ts(pg)
         if g['target']:
             if s['ch']: return True, s, g, pre
@@ -417,29 +489,54 @@ def exists(p):
 
 
 async def case_run(p, run, c):
-    k = c['k']; rec = SUMMARY.setdefault(k, {'ev': c['ev'], 'kind': c['kind'], 'src': c['src']})
+    k = c['k']; rec = SUMMARY.setdefault(k, {'ev': c['ev'], 'kind': c['kind'], 'src': c['src'], 'batch': c.get('batch')})
     orients = ['land', 'port'] if ORIENT == 'both' else [ORIENT]
+    dr = c.get('direct'); direct_mode = bool(dr) and k in DIRECT
+    cs = dict(c, when=dr['when'], load_h=dr['load_h'], flags=dict(c.get('flags') or {}, **(dr.get('flags') or {})), q=None) if direct_mode else c   # 存檔照哪一份
     b, ctx, pg, cdp, errs = await L.launch(p, landscape=(orients[0] == 'land'))
     pg.on('dialog', lambda dd: asyncio.ensure_future(dd.accept()))
     try:
         await pg.goto(URL); loaded = await L.wait_loaded(pg)
         if not loaded: run.note('%s：遊戲沒有在時間內載入完（照樣往下）' % k)
         await pg.evaluate("localStorage.clear()"); await P.init(pg); await pg.evaluate(HOOK)
-        st, d, q = await build_state(pg, c)
-        rec.update(day=d, q=q, load_h=c['load_h'], zone=c['zone'])
+        if c.get('also'):   # 同一張圖也接在別的事件：只讀 STORY_EVENTS 確認（不演）
+            al = await pg.evaluate(ALSO_JS, {'ids': c['also'], 'k': k}); rec['also'] = al
+            for eid in c['also']:
+                a = (al or {}).get(eid) or {}
+                run.check('%s：只讀確認 %s 的背景有設 %s（不演）' % (k, eid, k), bool(a.get('hit')), J(a.get('bgs')))
+        st, d, q = await build_state(pg, cs)
+        rec.update(day=d, q=q, load_h=cs['load_h'], zone=cs['zone'], direct_mode=direct_mode)
         await L.load_state(pg, st, quiet_events=QUIET, quiet_phone=True); await pg.evaluate(CLEARP)
         run.setup('[前置] %s：%s存檔讀到 %s（%s 第 %s 週，星期%s%s）%s %s%s%s；%s' % (
-            k, '使用者' if SAVE is not None else '最小', d['key'], d.get('term'), d.get('week'), '日一二三四五六'[d['wd'] % 7], '，假日' if d.get('hol') else '', hm(c['load_h']), c['zone'],
+            k, '使用者' if SAVE is not None else '最小', d['key'], d.get('term'), d.get('week'), '日一二三四五六'[d['wd'] % 7], '，假日' if d.get('hol') else '', hm(cs['load_h']), cs['zone'],
             ('；存檔裡已經約好的出遊 %s（%s %s，%s；照 %s）' % (q['id'], d['key'], hm(q['h']), q['place'], c['src'])) if q else '；' + c['src'],
-            ('；旗標 %s' % J(st['flags'] and {fk: st['flags'].get(fk) for fk in (c.get('flags') or {})})) if c.get('flags') else '',
+            ('；旗標 %s' % J(st['flags'] and {fk: st['flags'].get(fk) for fk in (cs.get('flags') or {})})) if cs.get('flags') else '',
             '條件事件、手機自動打開先關（QUIET）' if QUIET else '條件事件照常'))
         await pg.wait_for_timeout(2500); await L.phone_away(pg, cdp); await L.close_panels(pg, cdp)
-        how, started, menus, lines = await trigger(pg, cdp, run, c, q)
+        cinfo = {'qid': None, 'ev': c['ev'], 'stop': None, 'kind': 'direct'}
+        if direct_mode:
+            r = await pg.evaluate(DIRECT_JS, {'ev': c['ev'], 'day': None, 'h': None, 'key': None, 'flags': None})
+            run.setup('【捷徑】%s：DIRECT 指定一開始就直接演（理由：%s）→ %s' % (k, dr.get('why', ''), r))
+            await pg.wait_for_timeout(2500)
+            how, started, menus, lines = 'direct', await pg.evaluate(STARTED_JS, cinfo), [], []
+        else:
+            how, started, menus, lines = await trigger(pg, cdp, run, c, q)
         rec.update(how=how, started=started, menus_seen=menus, lines_before=lines)
         ok, s, g, pre = await wait_scene(pg, cdp, run, c)
+        if not ok and dr and not direct_mode:   # 真實的一串沒接到那一張：【捷徑】在頁面改日期／旗標，直接演那一件
+            dd = await P.day_of(pg, dr['when'])
+            r = await pg.evaluate(DIRECT_JS, {'ev': c['ev'], 'day': dd['d'], 'h': dr['load_h'], 'key': dd['key'], 'flags': dr.get('flags')})
+            run.setup('【捷徑】%s：真實的一串（%s）%d 秒內沒到那一張底圖（理由：%s；最後的畫面 %s）→ %s' % (
+                k, how, max(SCENE_S, c.get('scene_s') or 0), dr.get('why', ''), J({'bg': g and g.get('bg'), 'line': s and [s.get('name'), s.get('txt')]})[:300], r))
+            await pg.wait_for_timeout(2500)
+            rec['pre_first_try'] = pre; how = 'fallback_direct'
+            started = (started or []) + (await pg.evaluate(STARTED_JS, cinfo) or [])
+            ok, s, g, pre = await wait_scene(pg, cdp, run, c)
+            rec.update(how=how, started=started)
         rec.update(scene_ok=ok, lines_in_event_before_bg=pre, bg_now=g)
         if pre: run.note('%s：到那一張底圖以前點過的：%s' % (k, J(pre)[:1200]))
-        how_t = {'prompt': '遊戲自己跳出「出發」→ 點', 'self': '到了時間自己演', 'fallback': '【捷徑】直接出發'}.get(how, how)
+        how_t = {'prompt': '遊戲自己跳出「出發」→ 點', 'self': '到了時間自己演', 'fallback': '【捷徑】直接出發',
+                 'direct': '【捷徑】DIRECT：直接 EVENTS.run', 'fallback_direct': '【捷徑】真實的一串沒接到 → 直接 EVENTS.run'}.get(how, how)
         run.check('%s：事件演出（%s；%s）' % (k, c['ev'], how_t), bool(started) and ok,
                   J({'started': started, 'bg': g and g.get('bg'), 'adv': g and g.get('cls'), 'line': s and [s.get('name'), s.get('txt')], 'choices': s and s.get('ch')})[:700])
         if not ok:
@@ -483,16 +580,21 @@ async def case_run(p, run, c):
 
 async def main():
     run = L.Run('bg5', OUT); os.makedirs(OUT, exist_ok=True)
-    cases = [c for c in CASES if not ONLY or c['k'] in ONLY]
+    cases = [c for c in CASES if (not BATCH or c['batch'] in BATCH) and (not ONLY or c['k'] in ONLY)]
     if ORIENT not in ('both', 'land', 'port'): run.check('ORIENT 認得', False, ORIENT); sys.exit(run.finish())
-    print('==== cc_bg5_probe（SHA %s；%d 張；ORIENT=%s；QUIET=%s）====' % (os.environ.get('SHA', '?'), len(cases), ORIENT, QUIET), flush=True)
+    known = {c['k'] for c in CASES}
+    for x in [x for x in ONLY + DIRECT if x not in known]: run.check('IDS／ONLY／DIRECT 認得 %s' % x, False, '沒有這一張；認得的：%s' % ','.join(c['k'] for c in CASES))
+    if not cases: run.check('BATCH／IDS 選到至少一張', False, J({'BATCH': BATCH, 'IDS': ONLY})); sys.exit(run.finish())
+    print('==== cc_bg5_probe（SHA %s；%d 張［%s］；BATCH=%s；ORIENT=%s；QUIET=%s；DIRECT=%s）====' % (
+        os.environ.get('SHA', '?'), len(cases), ','.join(c['k'] for c in cases), BATCH or '全部', ORIENT, QUIET, DIRECT or '無'), flush=True)
     async with async_playwright() as p:
         for c in cases:
-            print('---- %s（%s）----' % (c['k'], c['ev']), flush=True)
+            print('---- 第%s批 %s（%s）----' % (c['batch'], c['k'], c['ev']), flush=True)
+            cmax = max(CASE_MAX, c.get('case_max') or 0)
             try:
-                await asyncio.wait_for(case_run(p, run, c), CASE_MAX)
+                await asyncio.wait_for(case_run(p, run, c), cmax)
             except asyncio.TimeoutError:
-                run.check('%s：事件演出（%s）' % (c['k'], c['ev']), False, '超過 CASE_MAX %d 秒' % CASE_MAX)
+                run.check('%s：事件演出（%s）' % (c['k'], c['ev']), False, '超過 CASE_MAX %d 秒' % cmax)
             except Exception as e:
                 run.check('%s：跑完（沒有探針例外）' % c['k'], False, repr(e)[:500]); traceback.print_exc()
             try:
