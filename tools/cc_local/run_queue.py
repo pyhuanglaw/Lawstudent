@@ -594,6 +594,8 @@ class Runner(object):
                     fh.write('screenshots not pushed (over 25 MB): %d\n' % skipped)
                 if nf not in add:
                     add.append(nf)
+            # 先把索引清空（不動檔案）：舊 runner 中斷時可能留下已 git add 但沒 commit 的檔（BB 20:21：R8_y4s2rt／02_mk12），不能被這一筆帶進去
+            git('-C', self.work, 'reset', '-q', quiet=True)
             for i in range(0, len(add), 50):
                 git('-C', self.work, 'add', '--', *add[i:i + 50], quiet=True)
             git('-C', self.work, 'add', '--', sum_file, quiet=True)
@@ -637,6 +639,7 @@ class Runner(object):
             cf = self.write_console()
             if not cf:
                 return
+            git('-C', self.work, 'reset', '-q', quiet=True)
             git('-C', self.work, 'add', '--', cf, quiet=True)
             rc, _ = git('-C', self.work, 'commit', '-q', '-m', 'CC-local: runner start (rf_round %s, runner %s)' % (os.environ.get('CC_RF_ROUND') or '-', self.self_hash[:10]), quiet=True)
             if rc != 0 or self.a.no_push:
