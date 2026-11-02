@@ -132,7 +132,7 @@ bigmart)
   #   遊戲：us3d.js 的 us_market 區域「沒有」走 Z3.attachRoomGLB（g0.add(root)），要加一行 Z3.roomLightmap（patches/us_market_lm_1102.patch）。
   # 輸入：烘焙前、遊戲裡正在用的 us_market.glb（git blob 54fea93d，見 PLAINBLOB）——不從 us_market.py 重做（和總圖 B1 一樣，避免重做出來和部署中的檔不同）。
   # 燈（照 us_market.py「長條 LED」那一段；發光面 GLOW_usm_leds 不烘、照舊自己發光）：每條 LED（4.55～4.6 m）一個往下照的面光源：
-  #   貨架走道上方沿 z 的（每排貨架 x＋1.45，z −7.5／−3.8／−0.1／3.6，長 2.8 m）；前段、後段、蔬果區沿 x 的（x −20～20 每 4 m，z −12.6／9.5／13.2）；熟食那三條（x 14～18.6）。
+  #   貨架走道上方沿 z 的（每排貨架 x＋1.45，z −7.5／−3.8／−0.1／3.6，長 2.8 m）；前段、後段、蔬果區沿 x 的（x −20～20 每 4 m，z −12.6／9.5／13.2）；蔬果平台上方三條（x 14～18.6；第二版以前誤寫成熟食區）。
   #   挑高的天花板只吃得到地板反彈的光（總圖 3F 10-31 的教訓）：每條燈下 1.2 m 再一顆往四周散的點光源。白天燈照樣開（--daylights 1.0）。
   #   冷凍區（11-02 第二版）：西邊冷凍區的兩條走道（x −19、x −13.9）模型的天花板沒有燈條；第一版只照模型放燈，那兩條走道的地板只有 0.03～0.07（中間走道 0.29），
   #     遊戲裡晚上整條走道接近黑的（烘焙前是即時光，整間一樣亮）。照其他走道的間距補四條同樣的燈（天花板 6.4 m、鋼承板深色，抬頭看不太出來沒有燈具）。
@@ -145,25 +145,27 @@ bigmart)
   NAME=us_market; PLAINBLOB=54fea93dcabd6fb16317c09bfb1a152c2b2bbb85
   HIDE='glass|case_doors|usm_outside|GLOW_|DOOR_usm'
   NOLM='usm_products|usm_price|usm_shelves|usm_aisle_signs|usm_fruit|usm_cart|usm_chrome|usm_black|usm_joists|usm_ducts|usm_belts|PLATE_FACE|usm_vc|usm_outside|usm_case_frame|usm_mats|usm_case_back|usm_checkout_top'
-  LIGHTS=$(python3 - "${LEDW:-18}" <<'PY'
+  # 第三版（11-02，三位獨立審查：整間地板比烘焙前暗約 25%、正面玻璃那一帶反而亮）：燈分兩組——貨架走道、冷凍區、蔬果牆前（LEDW、UPW）加亮；
+  #   前段、後段沿 x 的那幾排和蔬果平台上方（XW、UPXW）照舊（第二版前段那一帶已經比烘焙前亮）。試烘對遊戲內地板亮度（中間走道、冷凍走道、蔬果區、結帳區）。
+  LIGHTS=$(python3 - "${LEDW:-34}" "${XW:-21}" <<'PY'
 import json, sys
-J = json.load(open('assets/models/env/second_ai/us_market.layout.json')); W = sys.argv[1]; col = '0.97,0.98,1.0'
+J = json.load(open('assets/models/env/second_ai/us_market.layout.json')); W = sys.argv[1]; XW = sys.argv[2]; col = '0.97,0.98,1.0'
 FROZEN = (-19.0, -13.9, 19.9)   # 天花板沒有燈條的三條走道：西邊冷凍區兩條（冷凍牆和冷凍島中間、冷凍島和第 1 排中間）、東邊蔬果牆前面：見上面「冷凍區」
 out = []
 for g in J['gondolas']:
     xa = g['x'] + 1.45
     for zz in (-7.5, -3.8, -0.1, 3.6): out.append(f'{xa - 0.01:.2f},{xa + 0.01:.2f},{zz - 0.01:.2f},{zz + 0.01:.2f},4.53,1,1,{W},0.12,2.8,{col}')
 for xx in range(-20, 22, 4):
-    for zz in (-12.6, 9.5, 13.2): out.append(f'{xx - 0.01:.2f},{xx + 0.01:.2f},{zz - 0.01:.2f},{zz + 0.01:.2f},4.53,1,1,{W},2.8,0.12,{col}')
-for zz in (-6.0, -1.6, 2.8): out.append(f'16.29,16.31,{zz - 0.01:.2f},{zz + 0.01:.2f},4.53,1,1,{W},4.6,0.12,{col}')
+    for zz in (-12.6, 9.5, 13.2): out.append(f'{xx - 0.01:.2f},{xx + 0.01:.2f},{zz - 0.01:.2f},{zz + 0.01:.2f},4.53,1,1,{XW},2.8,0.12,{col}')
+for zz in (-6.0, -1.6, 2.8): out.append(f'16.29,16.31,{zz - 0.01:.2f},{zz + 0.01:.2f},4.53,1,1,{XW},4.6,0.12,{col}')   # 蔬果平台上方（不是熟食區：熟食在西北角）
 for xa in FROZEN:
     for zz in (-7.5, -3.8, -0.1, 3.6): out.append(f'{xa - 0.01:.2f},{xa + 0.01:.2f},{zz - 0.01:.2f},{zz + 0.01:.2f},4.53,1,1,{W},0.12,2.8,{col}')
 print(';'.join(out))
 PY
 )
-  PT=$(python3 - "${UPW:-10}" <<'PY'
+  PT=$(python3 - "${UPW:-19}" "${UPXW:-12}" <<'PY'
 import json, sys
-J = json.load(open('assets/models/env/second_ai/us_market.layout.json')); W = sys.argv[1]; col = '0.97,0.98,1.0'
+J = json.load(open('assets/models/env/second_ai/us_market.layout.json')); W = sys.argv[1]; XW = sys.argv[2]; col = '0.97,0.98,1.0'
 FROZEN = (-19.0, -13.9, 19.9)
 out = []
 for g in J['gondolas']:
@@ -171,12 +173,12 @@ for g in J['gondolas']:
 for xa in FROZEN:
     for zz in (-7.5, -3.8, -0.1, 3.6): out.append(f'{xa:.2f},3.35,{zz:.2f},{W},{col},0.3')
 for xx in range(-20, 22, 4):
-    for zz in (-12.6, 9.5, 13.2): out.append(f'{xx:.2f},3.35,{zz:.2f},{W},{col},0.3')
+    for zz in (-12.6, 9.5, 13.2): out.append(f'{xx:.2f},3.35,{zz:.2f},{XW},{col},0.3')
 print(';'.join(out))
 PY
 )
   SATD=0.6
-  EXTRA=(--sun 180,40,"${SUNW:-1.0}" --sky "${SKY:-0.8}" --daywb ${DAYWB:-1.0,0.97,0.92} --nightwb ${NIGHTWB:-1.0,0.97,0.92} --daylights "${DAYL:-1.0}" --shell S) ;;
+  EXTRA=(--sun 180,40,"${SUNW:-0.6}" --sky "${SKY:-0.8}" --daywb ${DAYWB:-1.0,0.97,0.92} --nightwb ${NIGHTWB:-1.0,0.97,0.92} --daylights "${DAYL:-1.0}" --shell S) ;;
 *) echo "未知的區域：$ZONE"; exit 1 ;;
 esac
 LIGHTS=${LIGHTS#;}
