@@ -252,15 +252,15 @@ const CHAR = (function(){
      ② 兩手各抓梯子的一側：離身體中線 side，高度在肩膀下 lo（胸口）到肩膀上 hi（額頭）之間、在肩膀前面 fwdLo～fwdHi；手肘往下、往外彎（pole）；
      ③ 兩手交替往上換手、跟腳一致：走路片段裡哪一隻腳在前面（往上一階踩），對側的手就在上面——左右膝蓋（相對大腿根）的前後差換算成 0～1，
         兩端飽和一點（手在最上面、最下面停一下＝抓住），中間平滑變化；
-     ④ 剛開始爬（從站姿換過來）blend 秒內從片段的手漸漸抓上去，不跳格。數值都乘身高比例 u.k。
+     ④ 剛開始爬（從站姿換過來）blend 秒內從片段的手漸漸抓上去（緩進緩出；一般是踩上第一階的時候抓到），不跳格。數值都乘身高比例 u.k。
      u.climbHi＝[左手, 右手] 的高度（0＝胸口、1＝最上面），測試用（tests/climb_pose_unit.js）。C.climbIK=false 可以關掉比較（手照走路片段擺）*/
   C.climbIK=true;
-  C.CLIMB={side:0.2,lo:-0.12,hi:0.27,fwdLo:0.24,fwdHi:0.3,amp:0.3,lean:0.14,chest:0.06,neck:-0.16,blend:0.25};
+  C.CLIMB={side:0.2,lo:-0.12,hi:0.27,fwdLo:0.24,fwdHi:0.3,amp:0.3,lean:0.14,chest:0.06,neck:-0.16,blend:0.7};
   const CLQ=new THREE.Quaternion(), CLV=[0,1,2,3,4,5].map(()=>new THREE.Vector3());
   function climbIK(h,u,dt){ if(!C.climbIK) return; const hm=u.vrm.humanoid, K=C.CLIMB, k=u.k||1;
     const R=u.rawClimb||(u.rawClimb=(()=>{ const o={}; for(const n of ['spine','chest','neck']) o[n]=hm.getRawBoneNode(n); for(const L of LEGS.concat(ARMS)) for(const n of L) o[n]=hm.getRawBoneNode(n); return o; })());
     if(LEGS.concat(ARMS).some(L=>L.slice(0,3).some(n=>!R[n]))) return;
-    const w=u.climbW=Math.min(1,(u.climbW||0)+(dt>0?dt/K.blend:0)); if(!(w>0)) return;
+    const w0=u.climbW=Math.min(1,(u.climbW||0)+(dt>0?dt/K.blend:0)); if(!(w0>0)) return; const w=w0*w0*(3-2*w0);   /* 緩進緩出 */
     h.updateWorldMatrix(true,true); const left=CLV[0].set(1,0,0).applyQuaternion(h.getWorldQuaternion(CLQ)).normalize();   /* 人物的左方（人物座標 +x）：繞它轉正的角度＝往前傾 */
     const Lc=b=>h.worldToLocal(b.getWorldPosition(new THREE.Vector3()));
     // ③ 換手的節奏：左膝比右膝前面多少（人物座標 z 往前）
