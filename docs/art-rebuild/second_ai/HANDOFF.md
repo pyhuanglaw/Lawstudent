@@ -1,16 +1,20 @@
 # LAWWW2 交接紀錄（隨時更新；工作階段中斷時從這裡接）
 
-## 🔨 現在在做（11-02 09:5x 更新）：使用者 P0「總圖」——LIB-FRONT-1102 → LIB-INTERIOR-1102 → CAMPUS-RELAYOUT-1102（LAWWW 09:11 開任務）
-- **使用者原話**：`docs/handoff/user_asks_LAWWW2.json` UA-LAWWW2-1102-02～06（`387fa3aeb`）；照片在本工作階段，`/tmp/.../images/1～6.jpg`＋`scratchpad/lib1102/user_imgs/`（平面圖 B1／1F／2F／3F、行政入口鳥瞰、一樓兩張）。BB 另外放了一份在企劃線 `qa/library_ref_使用者1102/`。
-  - 09:4x 補一張：「台階下方還有磁磚 蠻寬的 之後才是草坪」→ 廣場 12 m 深、整個立面寬。
-  - 使用者 09:15（經 LAWWW 選擇題）：舊社科院 (112,−62) 叫**電機二館**；**電機一館**也照官方地圖蓋（CAMPUS-RELAYOUT-1102，總圖之後）。
-- **LIB-FRONT-1102（外觀＋草坪＋走得上去的台階）**：WIP 檢查點 `dc1b758b1`（還沒交件）。
-  - Blender：`tools/blender/env_second/campus_library.py`（重寫：中央白石山牆＋大拱窗、兩側磚塔、一樓突出的拱廊、五階台階＋0.9 m 平台、花台、北邊方塔、四坡屋頂）、`campus_lib_lawn.py`（第二版：x 35～66 長草坪、龍柏籬、紅磚步道、白色球燈、x 66～78 廣場）。
-  - 遊戲端 patch 草稿：`docs/art-rebuild/second_ai/patches/wip/lib_front_1102.patch`（zones3d.js：大道到 x 35、台階／平台 addSurf、拱廊牆、龍柏籬、椰子改到籬笆外、北側系館縮到 24 m；story3d.js：路人、腳踏車改走兩側步道；測試 lib_lawn_unit 重寫、campus_hall_pillar_seethru_unit 總圖那一項、新 lib_front_unit）。
-  - 測試副本：`scratchpad/devwt_b`（開發 `f729beffb`＋這一包）：lib_front_unit、lib_lawn_unit、nav_buildings_unit、campus_hall_pillar_seethru_unit ALL PASS。瀏覽器的 campus_layout_nav、reachability_all、flow_library_floors、flow_library_scene、guide_flow（LAWWW 指定）還沒跑：`scratchpad/lib1102/run_tests.sh`。
-  - 修過的錯：同一列上下多扇窗只開了一個洞（wall_bands）；龍柏像一顆顆的蛋（改尖圓錐、深綠、擠在一起）。
-  - **下一步**：遊戲內改前改後截圖（`scratchpad/lib1102/shots_after.json`）→ 測試 → README `test_shots/lib_front_1102/` → 正式 patch → outbox → 通知 LAWWW、BB（BB 要 commit 給 CC 對照 2D 背景）。
-- **延後**：us_market 第三版（`abd76acab`，final3 驗證跑完：Node 841／0、rt lightmapped 8、窗景 20:30 變暗）README v3＋交件；jp_room 第十版（`568a44330`）交件。
+## 🔨 現在在做（11-02 11:0x 更新）：使用者 P0「總圖」——LIB-FRONT-1102 → LIB-INTERIOR-1102（B1 優先）→ CAMPUS-RELAYOUT-1102（LAWWW 09:11 開任務）
+- **使用者原話**：`docs/handoff/user_asks_LAWWW2.json` UA-LAWWW2-1102-02～08；照片原檔從本工作階段的對話紀錄抽出來在 `scratchpad/lib1102/orig/`（08:45 五張是 `084543_92937_26～30.jpeg`）＋`scratchpad/lib1102/user_imgs/`（平面圖 B1／1F／2F／3F、行政入口鳥瞰、一樓兩張）。BB 另外放了一份在企劃線 `qa/library_ref_使用者1102/`。
+  - 09:4x「台階下方還有磁磚 蠻寬的 之後才是草坪」；**10:3x 糾正「仔細看我給你的圖 總圖出來還有個平台 之後才是階梯往下」（UA-08）**。
+  - 10:0x「B1自習室我記得給我你照片 ?」（UA-07）：10-17 的兩張 24 小時自習室照片＋平面圖在企劃線 photo_ref；**10:4x 才回覆使用者（當時只記進 GitHub、漏回）**。
+  - 使用者 09:15（經 LAWWW）：舊社科院 (112,−62) 叫**電機二館**；**電機一館**也照官方地圖蓋（CAMPUS-RELAYOUT-1102）。
+- **LIB-FRONT-1102 第三版**：WIP 檢查點 `6b0a18f45`（還沒交件；第二版 `f74e90c70` 不整合，LAWWW 10:52 ACK；今晚的發布不含總圖前，排下一版）。
+  - 平台 6 m 深（x 76～82、高 0.9），台階移到 x 73.75～76，平台兩端白石矮牆＋導航；廣場 x 63.5～73.75、草坪 x 39～63.5；樟樹 (68.5,−25.5)、大樹 (68.5,25.5)、長椅 x 65.3／71.7、球燈 (64.3,±20)、(72.8,±19.2)。
+  - patch `docs/art-rebuild/second_ai/patches/lib_front_1102.patch`（開發 `ba125d6f3` apply --check 乾淨）；測試副本 `scratchpad/devwt_b`（f729beffb＋patch）：lib_front_unit 25 項、lib_lawn_unit、campus_hall_pillar_seethru_unit ALL PASS。
+  - 遊戲內截圖 `scratchpad/lib1102/after3/`（19 張，`run_after3.sh`）；README 第一～五節已改成第三版的數字，**第六節（瀏覽器測試）還沒填**。
+  - **下一步**：做比較圖（`make_grids.py` 改讀 after3）→ 一支一支跑 campus_layout_nav、flow_library_floors、flow_library_scene、guide_flow、campus_glb_integration、reachability_all（`run_tests.sh`；SwiftShader 不要同時開別的瀏覽器）→ README 第六節 → outbox → 交 LAWWW、BB（BB 要 commit 給 CC 對照 2D 背景 ntu_library_rain／night）。
+- **LIB-INTERIOR-1102 B1 第二版**：WIP 檢查點 `11f18b03f`，備份在 `docs/art-rebuild/second_ai/wip/library_b1_v2/`（遊戲還在用第一版，不要整合）。
+  - 照平面圖＋照片：24h 自習室 A（大開間）／B、大廳＋中庭玻璃、會議廳（關著）、討論室 1／2（x −6～6、z 7.5～13）、影印中心；座位 115、navcheck 沒問題；椅子、檯燈 instancing（GLB 5.3→2.5 MB）。
+  - 討論室搬了位置 → **LAWWW 的 `src/b1story3d.js`（BAR_SEATS、STAGES 座位）、`src/r2y4b3d.js`（國考讀書會集合點）要跟著改**；副本 `scratchpad/devwt_c`（888d14c38＋新 GLB＋重產的 library_b1_layout.js）改好：library_b1_unit（座位數 28→101，設計改了）、b1story_unit ALL PASS；其他 42 支有提到 B1／讀書會的單元測試在跑。
+  - **下一步**：遊戲內截圖（`run_b1shots2.sh`）→ 看 → README（改前 `test_shots/library_b1_1023/game_*.jpg`）→ patch（b1story3d.js、r2y4b3d.js、library_b1_layout.js、tests/library_b1_unit.js）→ 交件。之後一樓（中庭木頭階梯書牆＋夾層、大拱窗後面的半圓形大廳）、二三樓。
+- **延後**：us_market 第三版（`abd76acab`）README v3＋交件；jp_room 第十版（`568a44330`）交件；FAIR-TENT-CAM-1102 → DORM1-WALL-SEAM-1102 → PUTONG101-WINDOW-1102；library_b1 光照烘焙（等 B1 第二版定案再烘）。
 
 ## ✅ 接班（最新）：2026-11-02 03:3x UTC｜帳號 A｜LAWWW2｜`session_01AC1WVgJSmoJK1uRsPK2Zn1`｜分支 `claude/second-ai-env-art`
 - 值班登記：`duty register` 帳號 A、LAWWW2、接班基準 `e16b32ad`（上一任 LAWWW2-B 的交班 commit），2026-11-02 03:37 UTC。使用者：「現在你接班，我也會通知其他AI，你交班之後先跟他們測試通訊功能，然後先確定其他AI留下什麼事情還沒有做，預計還要多久每個階段每個任務」。
