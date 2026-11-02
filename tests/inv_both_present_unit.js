@@ -69,7 +69,7 @@ const npc=id=>{ const n={id,obj:{position:{x:3,z:3},rotation:{y:0}},beh:'idle',p
   /* 8 在 3F 閱覽室當面約學姊「去總圖一起念書」「現在一起過去」（平日白天她本來就在總圖）：直接開始，不念手機那句（BB 10-22 03:01）*/
   for(const zone of ['library','library_hall']){ const G=setup('2025-09-24',10,zone); H.FRIEND('heroine_05'); const n=npc('heroine_05'); n.seat={x:0,z:0,lv:0}; E.zone.seats[0]=n.seat;
     H.picks=['去總圖一起念書','現在一起過去']; let iv=null; iv=await INV.flow(GM,'heroine_05',n,true);
-    check('8. '+(zone==='library'?'3F 閱覽室':'總圖大廳')+'（9/24 週三 10:00）當面約學姊「去總圖一起念書」「現在一起過去」：直接開始（done、她不跟著走），沒有「我就在總圖。三樓。不要講話，傳訊息。」',!!iv&&iv.state==='done'&&n.beh!=='follow'&&!H.said.some(x=>/傳訊息/.test(x.t)),JSON.stringify({st:iv&&iv.state,beh:n.beh,said:H.said.map(x=>x.t).slice(0,4)})); }
+    check('8. '+(zone==='library'?'3F 閱覽室':'總圖大廳')+'（9/24 週三 10:00）當面約學姊「去總圖一起念書」「現在一起過去」：直接開始（done、她不跟著走），沒有手機那句「好啊，我在總圖三樓。到了跟我說。」（AA_579 第 15 列）',!!iv&&iv.state==='done'&&n.beh!=='follow'&&!H.said.some(x=>/到了跟我說|傳訊息/.test(x.t)),JSON.stringify({st:iv&&iv.state,beh:n.beh,said:H.said.map(x=>x.t).slice(0,4)})); }
   /* 9 Café 的學姊是舊代號 sis 生成的（story3d.js 照作息生成 GM.npc.sis，沒有 GM.npc.heroine_05）：一起走到 Café 照樣一起坐下（BB 10-22 05:4x 讀碼：S.arrive 只找 GM.npc[iv.who]，找不到就沒安排座位）*/
   { const G=setup('2025-09-12',15,'campus'); H.FRIEND('heroine_05'); const iv=INV.accept(G,'heroine_05','cafe',G.day,15,{now:true,by:'player'}); const n=npc('sis'); n.charId='heroine_05'; n.beh='follow';
     G.zone='cafe'; H.at('2025-09-12',15.2); G.zone='cafe'; await INV.arrive(GM,'cafe');

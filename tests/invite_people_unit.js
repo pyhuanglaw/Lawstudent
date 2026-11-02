@@ -69,7 +69,7 @@ check('7. 學姊筆試（2026-02-02）以前約散步：「散步的話，等我
 { const EX=STORY.dayOfKey('2026-02-02'); let d=EX+1; while(wdOf(d)!==6) d++; fresh(d,9); rel('heroine_05',65,50,45); r=ask('heroine_05','wenzhou',d,15.5); check('7. 筆試以後的週六（不看 W8）：答應',r.res==='accept',r.res+' '+L(r)); }
 r=ask('heroine_05','wenzhou',SAT3,15.5); check('7. 學姊大三下的週六（W8 旗標沒有也一樣）：「散步。好。……溫州街我只有路過，沒有真的走過。」',r.res==='accept'&&L(r)==='「散步。好。……溫州街我只有路過，沒有真的走過。」',r.res+' '+L(r));
 fresh(MON,9); rel('heroine_05',65,50,45); r=ask('heroine_05','cafe',MON,12+10/60); check('7. 學姊平日中午（在總圖）約 Café：「五點以後好不好？我要先把這段寫完。」→ 17:00 以後',r.res==='resched'&&L(r)==='「五點以後好不好？我要先把這段寫完。」'&&r.alt&&r.alt.h>=17,r.res+' '+JSON.stringify(r.alt));
-r=ask('heroine_05','library',MON,12+10/60); check('7. 學姊平日約總圖：「我就在總圖。三樓。不要講話，傳訊息。」',r.res==='here'&&L(r)==='「我就在總圖。三樓。不要講話，傳訊息。」',r.res+' '+L(r));
+r=ask('heroine_05','library',MON,12+10/60); check('7. 學姊平日約總圖：「好啊，我在總圖三樓。到了跟我說。」（AA_579 第 15 列）',r.res==='here'&&L(r)==='「好啊，我在總圖三樓。到了跟我說。」',r.res+' '+L(r));
 r=ask('heroine_05','cafe',MON,19); check('7. 學姊 W8 以後、朋友以上約 Café（晚上）：「今天不看筆記。」',r.res==='accept'&&L(r)==='「今天不看筆記。」',r.res+' '+L(r));
 W8=false;
 // 8 明軒、阿凱、阿哲

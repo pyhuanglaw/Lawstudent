@@ -135,9 +135,9 @@ const CATS=['念書…','吃飯…','喝咖啡、喝茶…','散步…','運動�
     check('F1. 返回回到時間的清單',J(a.opts[4])===J(T1),J(a.opts[4]));
     const b=await ask('heroine_05',['念書','去總圖','其他日子',/（週六）$/,'10:00']);
     const iv=(G.invites||[]).slice(-1)[0]||{};
-    check('F2. 學姊週六 10:00 去總圖：約得到（accepted、by player、週六 10:00；平日白天是「我就在總圖」）',iv.who==='heroine_05'&&iv.place==='library'&&iv.state==='accepted'&&iv.by==='player'&&iv.day===nextWd(tue,6)&&Math.abs(iv.h-10)<1e-6,J([iv,b.L]));
+    check('F2. 學姊週六 10:00 去總圖：約得到（accepted、by player、週六 10:00；平日白天是「我在總圖三樓」）',iv.who==='heroine_05'&&iv.place==='library'&&iv.state==='accepted'&&iv.by==='player'&&iv.day===nextWd(tue,6)&&Math.abs(iv.h-10)<1e-6,J([iv,b.L]));
     const c=await ask('heroine_05',['念書','去總圖','明天 12:10']);
-    check('F2. 對照：平日（明天 12:10）照舊是她自己的規則（她就在總圖、不排邀約）',c.L.some(t=>/我就在總圖/.test(t)),J(c.L));
+    check('F2. 對照：平日（明天 12:10）照舊是她自己的規則（她就在總圖、不排邀約）',c.L.some(t=>/我在總圖三樓/.test(t)),J(c.L));
     Object.assign(SOCIAL.rel('heroine_05'),S5); const g=await ask('heroine_05',['運動','晨跑','其他日子',/（週日）$/,'返回']); const tt=g.opts[4]||[];
     check('F3. 只有固定時間的地點（晨跑 06:30）：其他日子也只列那個時間',J(tt)===J(['06:30','換一天']),J(tt));
   }

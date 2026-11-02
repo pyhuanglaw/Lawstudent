@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-# Builds msg_pool.json from AA_202 section 6 and BB_178 sections 0-8b (first version 8a08c312 / 64aaaa82; 67f74502: AA-C 2026-10-17 回問／問句改句; b61e4f55: 同內容，和 MSG-2 用同一個版本; b10d0567f: AA_576 以安改稿第一批，6-2 三句——在幹嘛 R「剛從家教回來」、分享吃的 R「一直想去」、L 回問「在想妳」拆兩則；AA 2026-11-02 08:36 交，BB_226 口氣審 PASS、使用者確認).
+# Builds msg_pool.json from AA_202 section 6 and BB_178 sections 0-8b (first version 8a08c312 / 64aaaa82; 67f74502: AA-C 2026-10-17 回問／問句改句; b61e4f55: 同內容，和 MSG-2 用同一個版本; b10d0567f: AA_576 以安改稿第一批，6-2 三句——在幹嘛 R「剛從家教回來」、分享吃的 R「一直想去」、L 回問「在想妳」拆兩則；AA 2026-11-02 08:36 交，BB_226 口氣審 PASS、使用者確認; 759e5c000: AA_579 學姊改稿第一批，BB_178 第 3 節七句（問課 A「你卡在哪一句。」、R「課程網站最上面那則公告有寫」與回問「看完還有問題再問我。」、考試週兩句、分享吃的 A／R）、AA_393 第 4 節三句（祐廷在日本）；AA 2026-11-02 09:38 交，BB_228 口氣審 PASS、使用者看過精選句).
 # ZHE_ASK = AA_202 6-4 表下「回問」（67f74502）.
 # Every Chinese string below is copied verbatim from the source docs; verify_pool.py checks that.
 import json, os, copy
@@ -460,7 +460,7 @@ p.add('chat', 'A', ['在這邊的圖書館。有事嗎？'], ['在美國'], vari
 p.add('chat', 'A', ['在圖書館。有事嗎？'], ['祐廷也在美國'], variant=SW, version=SW,
       src='AA_370 6-3 事務版 在幹嘛（祐廷也在布魯明頓）')
 p.add('share_cat', 'A', ['看到了。'], variant=SW, version=SW, src='BB_178 3 事務版 分享')
-p.add('share_food', 'A', ['吃完記得喝水。'], variant=SW, version=SW, src='BB_178 3 事務版 分享')
+p.add('share_food', 'A', ['看起來不錯。'], variant=SW, version=SW, src='BB_178 3 事務版 分享')
 p.add('share_notes', 'A', ['哪裡看不懂再問。'], variant=SW, version=SW, src='BB_178 3 事務版 分享')
 p.add('chat', 'R', ['在研究室。大家都去吃飯了。'], ['祐廷大二起，在臺灣'], variant=XL, version=XL, src='BB_178 3 閒聊版 在幹嘛')
 p.add('chat', 'R', ['剛收東西，要去捷運站。'], ['在臺灣，17:05 那次回覆'], variant=XL, version=XL, src='BB_178 3 閒聊版 在幹嘛')
@@ -471,7 +471,7 @@ p.add('chat', 'L', ['在研究室。', '茶泡了兩杯，才發現只有我一�
       variant=XL, version=XL, affection=True, src='BB_178 3 閒聊版 在幹嘛')
 p.sit('chat', ['在讀。考完再說。'], '考試週', version='事務版、閒聊版都用', variantNote='事務版、閒聊版都用；兩則輪流',
       src='BB_178 3 閒聊版 在幹嘛 考試週')
-p.sit('chat', ['考試週。有急事再傳。'], '考試週', version='事務版、閒聊版都用', variantNote='事務版、閒聊版都用；兩則輪流',
+p.sit('chat', ['考試週。考完再找你。'], '考試週', version='事務版、閒聊版都用', variantNote='事務版、閒聊版都用；兩則輪流',
       src='BB_178 3 閒聊版 在幹嘛 考試週')
 US = '2028-08-02 出發到 12-23 回台，每條路線都一樣，`BB_204` 4c；照人在哪裡判斷，不照學期；照她那邊回覆的時間挑'
 p.sit('chat', ['剛吃完午餐。這邊的三明治很大。'], '在美國', ['12:10'], tier='R', version=XL, variantNote=US,
@@ -483,14 +483,14 @@ p.sit('chat', ['從圖書館出來了。這邊風好大。'], '在美國', ['17:
 p.sit('chat', ['要睡了。'], '在美國', ['22:30'], tier='R', version=XL, variantNote=US, note='同上',
       addIf={'tag': '11～12 月才有第二則', 'msgs': ['這邊的暖氣很乾。']}, src='BB_178 3 閒聊版 在幹嘛 在美國')
 BOTH = '事務版、閒聊版都一樣'
-p.add('course', 'A', ['題目拍給我。', '先找條文，再對要件。你先寫，寫完再拍給我。'], version=BOTH)
+p.add('course', 'A', ['你卡在哪一句。', '拍給我看看。'], version=BOTH)
 p.add('course', 'A', ['這段我以前也沒抄到。去問老師，有人問他會很高興。'], version=BOTH)
-p.add('course', 'R', ['要交什麼，看課程網站最上面那則公告。', '你看了沒？'], version=BOTH,
-      ask=ASK(O('看了。', ['好。']), O('還沒。', ['現在去看。'])))
+p.add('course', 'R', ['要交什麼，課程網站最上面那則公告有寫。', '你看了沒？'], version=BOTH,
+      ask=ASK(O('看了。', ['好。']), O('還沒。', ['看完還有問題再問我。'])))
 p.add('course', 'R', ['這題我們以前也吵過。你先寫你的，我看完再說我的想法。'], version=BOTH)
-p.sit('course', ['考試週不教新的。範圍有問題可以問。'], '考試週', version=BOTH)
+p.sit('course', ['考試週先複習就好。'], '考試週', version=BOTH)
 p.add('share_cat', 'R', ['牠在曬太陽。我也想曬。'], variant=XL, version=XL, src='BB_178 3 分享（閒聊版） 貓')
-p.add('share_food', 'R', ['點他們的湯。那個比主餐好。'], variant=XL, version=XL, src='BB_178 3 分享（閒聊版） 吃的')
+p.add('share_food', 'R', ['這家我還沒吃過。看起來不錯。'], variant=XL, version=XL, src='BB_178 3 分享（閒聊版） 吃的')
 p.add('share_notes', 'R', ['第二頁那段，下面那行比較重要。'], variant=XL, version=XL, src='BB_178 3 分享（閒聊版） 講義')
 p.add('share_cat', 'L', ['好可愛。存起來了。'], variant=XL, version=XL, src='BB_178 3 分享（閒聊版） 貓')
 p.add('share_food', 'L', ['你有好好吃飯，很好。'], variant=XL, version=XL, src='BB_178 3 分享（閒聊版） 吃的')
@@ -504,13 +504,13 @@ p.add('night', 'R', ['中午了，我在吃三明治。', '你睡吧。'], ['在
 # AA_393 第 4 節（企劃線 SIS-B7-1023，AA-B 2026-10-23）：祐廷在日本（日本路線 3/25～8/5）——這個標籤優先（AA_202 3-1 第 2 點）；每一格只出一次（msg3d.js 記 once），之後回到一般句。
 # 朋友以上＝沒交往（R 起，tierMin：好朋友也用）；交往中＝L。分享（照片）：朋友那句講吃的，只放 share_food；交往中那句三種分享都用（同一句只出一次）。
 JP = '祐廷在日本'
-for t in ['總圖。你那邊比我晚一個小時睡，記得。', '研究室。今天寫了三頁，刪了一頁。']:
+for t in ['總圖。你那邊快一個小時。', '研究室。今天寫了三頁，刪了一頁。']:
     p.sit('chat', [t], JP, ['沒交往'], tier='R', version=XL, src='AA_393 4 在幹嘛 祐廷在日本')
 p.sit('chat', ['研究室。……你那邊吃晚餐了嗎。'], JP, ['交往中'], tier='L', version=XL, src='AA_393 4 在幹嘛 祐廷在日本（交往中）')
-p.sit('share_food', ['日本的便利商店比較好吃嗎。不用回答，我會想去。'], JP, ['沒交往'], tier='R', version=XL, src='AA_393 4 分享 祐廷在日本')
+p.sit('share_food', ['看起來很好吃。我也想去。'], JP, ['沒交往'], tier='R', version=XL, src='AA_393 4 分享 祐廷在日本')
 for tp in ['share_cat', 'share_food', 'share_notes']:
     p.sit(tp, ['拍得不錯。下次拍你自己。'], JP, ['交往中'], tier='L', version=XL, src='AA_393 4 分享 祐廷在日本（交往中）')
-p.sit('night', ['晚安。你那邊已經過十二點了，快睡。'], JP, ['沒交往'], tier='R', version=XL, src='AA_393 4 晚安 祐廷在日本')
+p.sit('night', ['晚安。你那邊快十二點了。'], JP, ['沒交往'], tier='R', version=XL, src='AA_393 4 晚安 祐廷在日本')
 p.sit('night', ['晚安。你那邊比較早天亮，窗簾記得拉。'], JP, ['交往中'], tier='L', version=XL, src='AA_393 4 晚安 祐廷在日本（交往中）')
 people.append(p)
 
@@ -795,7 +795,7 @@ people.append(p)
 # ───────────────────────── assemble ─────────────────────────
 TOPIC_ORDER = ['chat', 'course', 'share_cat', 'share_food', 'share_notes', 'share', 'night', 'daily']
 TIER_ORDER = {'A': 0, 'R': 1, 'L': 2}
-data = {'source': {'AA_202': 'b10d0567f', 'BB_178': 'bb6baddf', 'AA_370': '9eaf4e98', 'AA_393': 'e81a1afe1', 'AA_531': 'a28201f61', 'AA_538': 'b9d816288'}, 'people': {}, 'tagsSeen': []}
+data = {'source': {'AA_202': 'b10d0567f', 'BB_178': '759e5c000', 'AA_370': '9eaf4e98', 'AA_393': '759e5c000', 'AA_531': 'a28201f61', 'AA_538': 'b9d816288'}, 'people': {}, 'tagsSeen': []}
 seen = []
 
 

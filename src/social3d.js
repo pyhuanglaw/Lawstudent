@@ -163,7 +163,7 @@ const SOCIAL = (function(){
      存起來的字不改，分手以後自動變回學姊。例外：「直屬學姊」、指別人的「○○的學姊」（登山社的學姊）不換 */
   S.shuyuT=function(t){ if(t==null) return t; const nm=S.datingName('heroine_05'); if(!nm) return t; return String(t).replace(/溫學姊/g,nm).replace(/(直屬|的)?學姊/g,(m,p)=>p?m:nm); };
   /* AA_579 第 39 列（AA 09:30）：交往中的「手機聯絡人」和「對話框／標題」拆開——contact.DATING＝手機聯絡人（私訊串、聯絡人列表）；contact.DATING_NAME＝對話框名字、標題卡、出遊按鈕、事件標題（沒寫＝同 DATING，舊行為）。
-     學姊：AA_579 進遊戲時改成 DATING:'貝貝'、DATING_NAME:'溫書瑀'（AA_566 第 13 節）*/
+     學姊：AA_579 進遊戲，rel_lines.js 已改成 DATING:'貝貝'、DATING_NAME:'溫書瑀'（AA_566 第 13 節）*/
   const datingOn=(id,C)=>{ const F=G&&G.flags; if(!C||!C.DATING||!F) return false; const R=F.romance&&F.romance[id]; return (F['dating_'+id]===true||(R&&R.status==='dating'))&&(!S.CALLED[id]||!!F[S.CALLED[id]]); };
   S.datingName=function(id){ const d=RL()[id], C=d&&d.contact; return datingOn(id,C)?(C.DATING_NAME||C.DATING):null; };
   S.datingContact=function(id){ const d=RL()[id], C=d&&d.contact; return datingOn(id,C)?C.DATING:null; };

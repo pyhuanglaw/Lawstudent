@@ -48,7 +48,7 @@ const S3SAT=termDay('Y3S2',5,6);   /* 學姊美國改到大四上（AA_260／BB_
     !INV.partnerBlock(G,'heroine_05',T)&&!INV.partnerBlock(G,'heroine_05',B)&&!INV.partnerBlock(G,'heroine_05',C)&&!INV.partnerBlock(G,'zhe',T));
   { const d=termDay('Y1S2',8,3), G2=mkG(d); STAGE.classmate_peishan='FRIEND';   /* 有伴侶的機制改用沛珊測（大一下第 7 週 4/6 起有伴侶，AA_373 #3；原本用第 3 週）：一盞擋住、說明照 partnerTea */
     check('7. 有伴侶的人（沛珊大一下）約一盞：擋住、說明「兩個人單獨去喝茶不太好。約在 Café 或總圖吧。」；Café 照常',INV.partnerBlock(G2,'classmate_peishan',T)&&INV.placeWhy(G2,'classmate_peishan',T)==='兩個人單獨去喝茶不太好。約在 Café 或總圖吧。'&&!INV.partnerBlock(G2,'classmate_peishan',C),INV.placeWhy(G2,'classmate_peishan',T)); }
-  check('7. 學姊自己的一句（partnerSay）：「一盞……那裡太安靜了。Café 可以，帶你的筆記。」；teahouse 在 soloPlaces、kind 還是 reason',JSON.stringify(PD.heroine_05.partnerSay.teahouse)==='["「一盞……那裡太安靜了。Café 可以，帶你的筆記。」"]'&&INVITE_DATA.soloPlaces.includes('teahouse')&&T.kind==='reason'); }
+  check('7. 學姊自己的一句（partnerSay）：「一盞……那裡太安靜了。去 Café 讀書吧。」（AA_579 第 35 列）；teahouse 在 soloPlaces、kind 還是 reason',JSON.stringify(PD.heroine_05.partnerSay.teahouse)==='["「一盞……那裡太安靜了。去 Café 讀書吧。」"]'&&INVITE_DATA.soloPlaces.includes('teahouse')&&T.kind==='reason'); }
 (async()=>{
   { STAGE.heroine_02='FRIEND'; const G=mkG(SAT); G.hour=10; const says=[]; const GM={G,sceneBegin(){},sceneEnd(){},fade:async()=>{},advance(h){ G.hour+=h; },caption(){},say:async(w,t)=>{ says.push((w?'W:':'N:')+t); },autosave(){}};
     const iv1={id:'iv1',who:'heroine_02',place:'brunch',zone:'wz_brunch',day:SAT,h:10,state:'going'}; G.invites.push(iv1); await INV.meet(GM,iv1,null); const s1=says.splice(0);

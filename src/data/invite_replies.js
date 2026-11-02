@@ -1,9 +1,9 @@
 /* 自動產生：python3 tools/invite/build_replies.py（不要手改；改 AA_415 或白名單以後重跑）。
-   來源：docs/story_planning/AA_415_邀約回覆照階段變_七位定稿.md @ b10d0567f（docs/handoff/story_import_allow.json，D14-T9／USER_WANTS D37）。句子一字不改。
+   來源：docs/story_planning/AA_415_邀約回覆照階段變_七位定稿.md @ e1e361335（docs/handoff/story_import_allow.json，D14-T9／USER_WANTS D37）。句子一字不改。
    每一筆：id、n（表上第幾列）、k（acc 答應／resched 改天／decline 婉拒）、stage（表上寫的）、st（可以用的階段 [低,高]，7＝交往中）、tags、cond（條件，src/invites3d.js S.REPLY_COND）、
    lines（「…」她說、（…）旁白、{me}祐廷）、say（表上原文）、src（來源）、ex（現有：acc／first／here／plan／rule／partnerSay）、band（現有答應句的 A／R）、
    when（句子說到的時間星期）、at（改天的時間）、sec（可昕 y0／law）、apart（可昕分開以後）、off（不出現的原因）。選句：src/invites3d.js 的 S.replyPick（AA_415 第 0-3 節）。*/
-const INVITE_REPLIES={"src":"docs/story_planning/AA_415_邀約回覆照階段變_七位定稿.md","sha":"b10d0567f","task":"D14-T9","people":{
+const INVITE_REPLIES={"src":"docs/story_planning/AA_415_邀約回覆照階段變_七位定稿.md","sha":"e1e361335","task":"D14-T9","people":{
  "heroine_01":[
   {"id":"an1","n":1,"k":"acc","stage":"1","st":[1,2],"tags":["cafe"],"cond":null,"lines":["「好啊。我本來就想去。」"],"say":"「好啊。我本來就想去。」","src":"現有","ex":"acc","band":"A"},
   {"id":"an2","n":2,"k":"acc","stage":"1","st":[1,1],"tags":["library"],"cond":null,"lines":["「我本來就在總圖。二樓靠窗。」"],"say":"「我本來就在總圖。二樓靠窗。」","src":"現有（here）","ex":"here","off":"現有（here）：照 INVITE_DATA.people.heroine_01.here 原本的程式"},
@@ -14,7 +14,7 @@ const INVITE_REPLIES={"src":"docs/story_planning/AA_415_邀約回覆照階段變
   {"id":"an7","n":7,"k":"acc","stage":"2","st":[2,2],"tags":["library"],"cond":null,"lines":["「好。我幫你留位子。」"],"say":"「好。我幫你留位子。」","src":"新"},
   {"id":"an8","n":8,"k":"acc","stage":"2","st":[2,2],"tags":[],"cond":null,"lines":["「好。」"],"say":"「好。」","src":"新"},
   {"id":"an9","n":9,"k":"acc","stage":"3","st":[3,4],"tags":["noodle"],"cond":null,"lines":["「好。我要乾麵。」"],"say":"「好。我要乾麵。」","src":"現有","ex":"acc","band":"R"},
-  {"id":"an10","n":10,"k":"acc","stage":"3","st":[3,3],"tags":["wenzhou","大一"],"cond":null,"lines":["「好。」","「……今天不行，明天。」"],"say":"「好。」「……今天不行，明天。」（改天；祐廷那句「沒有目的。」刪，AA_576 第 11 列）","src":"現有（rule）","ex":"rule","off":"現有（rule）：照 INVITE_DATA.people.heroine_01.rule 原本的程式"},
+  {"id":"an10","n":10,"k":"acc","stage":"3","st":[3,3],"tags":["wenzhou","大一"],"cond":null,"lines":["「好。」","「……今天不行，明天。」"],"say":"「好。」「……今天不行，明天。」","src":"現有（rule）；改天；祐廷那句「沒有目的。」刪（AA_576 第 11 列）","ex":"rule","off":"現有（rule）：照 INVITE_DATA.people.heroine_01.rule 原本的程式"},
   {"id":"an11","n":11,"k":"acc","stage":"3","st":[3,3],"tags":["wenzhou","大二起"],"cond":null,"lines":["「好。」"],"say":"「好。」","src":"現有（rule）","ex":"rule","off":"現有（rule）：照 INVITE_DATA.people.heroine_01.rule 原本的程式"},
   {"id":"an12","n":12,"k":"acc","stage":"3","st":[3,3],"tags":["library"],"cond":null,"lines":["「好。讀書會的資料我還沒印。……你陪我去印。」"],"say":"「好。讀書會的資料我還沒印。……你陪我去印。」","src":"新"},
   {"id":"an13","n":13,"k":"acc","stage":"3","st":[3,3],"tags":["晚上"],"cond":null,"lines":["「好。十點前結束。我十一點要睡。」"],"say":"「好。十點前結束。我十一點要睡。」","src":"新"},
@@ -156,39 +156,39 @@ const INVITE_REPLIES={"src":"docs/story_planning/AA_415_邀約回覆照階段變
   {"id":"zq37","n":37,"k":"decline","stage":"婉拒","st":[1,7],"tags":[],"cond":null,"lines":["「今天不想出門。……不是你的問題，是我的被子。」"],"say":"「今天不想出門。……不是你的問題，是我的被子。」","src":"BB_123"}
  ],
  "heroine_05":[
-  {"id":"sis1","n":1,"k":"acc","stage":"1","st":[1,2],"tags":["cafe"],"cond":null,"lines":["「好。帶你的筆記，我順便看。」"],"say":"「好。帶你的筆記，我順便看。」","src":"現有","ex":"acc","band":"A"},
-  {"id":"sis2","n":2,"k":"acc","stage":"1","st":[1,1],"tags":["library"],"cond":"平日 9～17","lines":["「我就在總圖。三樓。不要講話，傳訊息。」"],"say":"「我就在總圖。三樓。不要講話，傳訊息。」","src":"現有（rule）","ex":"rule","off":"現有（rule）：照 INVITE_DATA.people.heroine_05.rule 原本的程式"},
-  {"id":"sis3","n":3,"k":"acc","stage":"1","st":[1,1],"tags":[],"cond":null,"lines":["「好。半小時。半小時以後我要回去改東西。」"],"say":"「好。半小時。半小時以後我要回去改東西。」","src":"新"},
-  {"id":"sis4","n":4,"k":"acc","stage":"2","st":[1,2],"tags":["noodle"],"cond":null,"lines":["「好。阿鳳的菜我排過名次。……到了再告訴你。」"],"say":"「好。阿鳳的菜我排過名次。……到了再告訴你。」","src":"現有","ex":"acc","band":"A"},
-  {"id":"sis5","n":5,"k":"acc","stage":"2","st":[1,2],"tags":["brunch"],"cond":null,"lines":["「半熟。好。我九點就到，你不要遲到。」"],"say":"「半熟。好。我九點就到，你不要遲到。」","src":"現有","ex":"acc","band":"A"},
-  {"id":"sis6","n":6,"k":"acc","stage":"2","st":[2,2],"tags":["library"],"cond":null,"lines":["「好。我坐你對面。有問題寫在紙上。」"],"say":"「好。我坐你對面。有問題寫在紙上。」","src":"改（BB_123）"},
-  {"id":"sis7","n":7,"k":"acc","stage":"2","st":[2,2],"tags":[],"cond":null,"lines":["「好。帶問題來。沒有問題就帶書。」"],"say":"「好。帶問題來。沒有問題就帶書。」","src":"新（取代「三件事」那一句）"},
+  {"id":"sis1","n":1,"k":"acc","stage":"1","st":[1,2],"tags":["cafe"],"cond":null,"lines":["「好。」"],"say":"「好。」","src":"現有","ex":"acc","band":"A"},
+  {"id":"sis2","n":2,"k":"acc","stage":"1","st":[1,1],"tags":["library"],"cond":"平日 9～17","lines":["「好啊，我在總圖三樓。到了跟我說。」"],"say":"「好啊，我在總圖三樓。到了跟我說。」","src":"現有（rule）","ex":"rule","off":"現有（rule）：照 INVITE_DATA.people.heroine_05.rule 原本的程式"},
+  {"id":"sis3","n":3,"k":"acc","stage":"1","st":[1,1],"tags":[],"cond":null,"lines":["「好。我只能待半小時。」"],"say":"「好。我只能待半小時。」","src":"新"},
+  {"id":"sis4","n":4,"k":"acc","stage":"2","st":[1,2],"tags":["noodle"],"cond":null,"lines":["「好啊。這次你選地方。」"],"say":"「好啊。這次你選地方。」","src":"現有","ex":"acc","band":"A"},
+  {"id":"sis5","n":5,"k":"acc","stage":"2","st":[1,2],"tags":["brunch"],"cond":null,"lines":["「半熟。好。我九點到。」"],"say":"「半熟。好。我九點到。」","src":"現有","ex":"acc","band":"A"},
+  {"id":"sis6","n":6,"k":"acc","stage":"2","st":[2,2],"tags":["library"],"cond":null,"lines":["「好。總圖見。」"],"say":"「好。總圖見。」","src":"改（BB_123）"},
+  {"id":"sis7","n":7,"k":"acc","stage":"2","st":[2,2],"tags":[],"cond":null,"lines":["「走吧。」"],"say":"「走吧。」","src":"新（取代「三件事」那一句）"},
   {"id":"sis8","n":8,"k":"acc","stage":"3","st":[3,4],"tags":["cafe"],"cond":null,"lines":["「今天不看筆記。」"],"say":"「今天不看筆記。」","src":"現有","ex":"acc","band":"R"},
-  {"id":"sis9","n":9,"k":"acc","stage":"3","st":[3,4],"tags":["noodle"],"cond":null,"lines":["「這次你點。我想知道你喜歡吃什麼。」"],"say":"「這次你點。我想知道你喜歡吃什麼。」","src":"現有","ex":"acc","band":"R"},
+  {"id":"sis9","n":9,"k":"acc","stage":"3","st":[3,4],"tags":["noodle"],"cond":null,"lines":["「好。我想吃阿鳳的乾麵。」"],"say":"「好。我想吃阿鳳的乾麵。」","src":"現有","ex":"acc","band":"R"},
   {"id":"sis10","n":10,"k":"acc","stage":"3","st":[3,4],"tags":["wenzhou"],"cond":"筆試以後","lines":["「散步。好。……溫州街我只有路過，沒有真的走過。」"],"say":"「散步。好。……溫州街我只有路過，沒有真的走過。」","src":"現有","ex":"acc"},
   {"id":"sis11","n":11,"k":"acc","stage":"3","st":[3,4],"tags":["brunch","來過"],"cond":null,"lines":["「好。……這次我點鬆餅。」"],"say":"「好。……這次我點鬆餅。」","src":"現有","ex":"acc","band":"R"},
   {"id":"sis12","n":12,"k":"acc","stage":"3","st":[3,4],"tags":["teahouse"],"cond":null,"lines":["「一盞。……好。那裡有一壺，我一直想再喝。」"],"say":"「一盞。……好。那裡有一壺，我一直想再喝。」","src":"現有","ex":"acc","band":"R"},
-  {"id":"sis13","n":13,"k":"acc","stage":"3","st":[3,3],"tags":["library"],"cond":null,"lines":["「好。今天的便條，我不寫題目。」"],"say":"「好。今天的便條，我不寫題目。」","src":"改（BB_123）"},
-  {"id":"sis14","n":14,"k":"acc","stage":"4","st":[4,4],"tags":[],"cond":null,"lines":["「好。今天計畫本那一格，剛好是空的。」"],"say":"「好。今天計畫本那一格，剛好是空的。」","src":"改（BB_123）"},
-  {"id":"sis15","n":15,"k":"acc","stage":"4","st":[4,4],"tags":["晚上"],"cond":null,"lines":["「可以。十點前我要回去改東西。……十點半。」"],"say":"「可以。十點前我要回去改東西。……十點半。」","src":"BB_123"},
-  {"id":"sis16","n":16,"k":"acc","stage":"4","st":[4,4],"tags":["考試週"],"cond":null,"lines":["「考試週？你念完了嗎。……念完了就好。」"],"say":"「考試週？你念完了嗎。……念完了就好。」","src":"改（BB_123）"},
-  {"id":"sis17","n":17,"k":"acc","stage":"5","st":[5,5],"tags":["外出","第一次"],"cond":null,"lines":["「……出去？不是讀書，也不是家族。」","「好。我排一下。……不對，你排。」"],"say":"「……出去？不是讀書，也不是家族。」「好。我排一下。……不對，你排。」","src":"改（BB_123）"},
-  {"id":"sis18","n":18,"k":"acc","stage":"5","st":[5,5],"tags":["外出"],"cond":"第二次外出","lines":["「上次是你排的。這次也你排。」"],"say":"「上次是你排的。這次也你排。」","src":"BB_123","off":"外出的次數（date3d.js）；外出的邀約接上才用（AA_415 第 8 節）"},
-  {"id":"sis19","n":19,"k":"acc","stage":"5","st":[5,5],"tags":["開車"],"cond":null,"lines":["「好。路上我不看書。……可能看一點。」"],"say":"「好。路上我不看書。……可能看一點。」","src":"新"},
-  {"id":"sis20","n":20,"k":"acc","stage":"5","st":[5,5],"tags":[],"cond":null,"lines":["「好。我在計畫本週末那一格，寫了一個字。」"],"say":"「好。我在計畫本週末那一格，寫了一個字。」","src":"BB_123"},
+  {"id":"sis13","n":13,"k":"acc","stage":"3","st":[3,3],"tags":["library"],"cond":null,"lines":["「好啊。我也正要去。」"],"say":"「好啊。我也正要去。」","src":"改（BB_123）"},
+  {"id":"sis14","n":14,"k":"acc","stage":"4","st":[4,4],"tags":[],"cond":null,"lines":["「好啊。」"],"say":"「好啊。」","src":"改（BB_123）"},
+  {"id":"sis15","n":15,"k":"acc","stage":"4","st":[4,4],"tags":["晚上"],"cond":null,"lines":["「好啊。我十點半要回去。」"],"say":"「好啊。我十點半要回去。」","src":"BB_123"},
+  {"id":"sis16","n":16,"k":"acc","stage":"4","st":[4,4],"tags":["考試週"],"cond":null,"lines":["「好。剛好休息一下。」"],"say":"「好。剛好休息一下。」","src":"改（BB_123）"},
+  {"id":"sis17","n":17,"k":"acc","stage":"5","st":[5,5],"tags":["外出","第一次"],"cond":null,"lines":["「……出去？不是讀書，也不是家族。」","「好。」"],"say":"「……出去？不是讀書，也不是家族。」「好。」","src":"改（BB_123）"},
+  {"id":"sis18","n":18,"k":"acc","stage":"5","st":[5,5],"tags":["外出"],"cond":"第二次外出","lines":["「好。這次也交給你。」"],"say":"「好。這次也交給你。」","src":"BB_123","off":"外出的次數（date3d.js）；外出的邀約接上才用（AA_415 第 8 節）"},
+  {"id":"sis19","n":19,"k":"acc","stage":"5","st":[5,5],"tags":["開車"],"cond":null,"lines":["「好啊。好久沒坐車出去了。」"],"say":"「好啊。好久沒坐車出去了。」","src":"新"},
+  {"id":"sis20","n":20,"k":"acc","stage":"5","st":[5,5],"tags":[],"cond":null,"lines":["「好。我會空下來。」"],"say":"「好。我會空下來。」","src":"BB_123"},
   {"id":"sis21","n":21,"k":"acc","stage":"6","st":[6,6],"tags":["節日"],"cond":null,"lines":["「你知道那天是什麼日子。……我也知道。」"],"say":"「你知道那天是什麼日子。……我也知道。」","src":"改（BB_123）"},
   {"id":"sis22","n":22,"k":"acc","stage":"6","st":[6,6],"tags":[],"cond":null,"lines":["「好。這次我不排，也不看時間。」"],"say":"「好。這次我不排，也不看時間。」","src":"BB_123"},
-  {"id":"sis23","n":23,"k":"acc","stage":"6","st":[6,6],"tags":[],"cond":null,"lines":["「好。我把那天的格子塗掉了。留給你。」"],"say":"「好。我把那天的格子塗掉了。留給你。」","src":"新"},
-  {"id":"sis24","n":24,"k":"acc","stage":"交往中","st":[7,7],"tags":[],"cond":null,"lines":["「好。你今天看起來很累。去吃熱的。」"],"say":"「好。你今天看起來很累。去吃熱的。」","src":"改（BB_123）"},
-  {"id":"sis25","n":25,"k":"acc","stage":"交往中","st":[7,7],"tags":[],"cond":null,"lines":["「好。論文我帶著。……你不准看。」"],"say":"「好。論文我帶著。……你不准看。」","src":"新"},
-  {"id":"sis26","n":26,"k":"acc","stage":"交往中","st":[7,7],"tags":["節日"],"cond":null,"lines":["「那天我沒有排別的。……你排。」"],"say":"「那天我沒有排別的。……你排。」","src":"新"},
+  {"id":"sis23","n":23,"k":"acc","stage":"6","st":[6,6],"tags":[],"cond":null,"lines":["「好。那天留給你。」"],"say":"「好。那天留給你。」","src":"新"},
+  {"id":"sis24","n":24,"k":"acc","stage":"交往中","st":[7,7],"tags":[],"cond":null,"lines":["「好。我想吃熱的。」"],"say":"「好。我想吃熱的。」","src":"改（BB_123）"},
+  {"id":"sis25","n":25,"k":"acc","stage":"交往中","st":[7,7],"tags":[],"cond":null,"lines":["「好。我帶論文去，你陪我寫。」"],"say":"「好。我帶論文去，你陪我寫。」","src":"新"},
+  {"id":"sis26","n":26,"k":"acc","stage":"交往中","st":[7,7],"tags":["節日"],"cond":null,"lines":["「好。那天我沒有排別的。」"],"say":"「好。那天我沒有排別的。」","src":"新"},
   {"id":"sis27","n":27,"k":"acc","stage":"交往中","st":[7,7],"tags":["晚上"],"cond":null,"lines":["「好。研究室九點關燈。九點十分，樓下。」"],"say":"「好。研究室九點關燈。九點十分，樓下。」","src":"新","when":{"from":21}},
   {"id":"sis28","n":28,"k":"resched","stage":"改天","st":[1,7],"tags":["cafe"],"cond":"平日 9～17","lines":["「五點以後好不好？我要先把這段寫完。」"],"say":"「五點以後好不好？我要先把這段寫完。」","src":"現有（rule）","ex":"rule","off":"現有（rule）：照 INVITE_DATA.people.heroine_05.rule 原本的程式"},
   {"id":"sis29","n":29,"k":"resched","stage":"改天","st":[1,7],"tags":["wenzhou"],"cond":"平日 9～17","lines":["「五點以後。……散步，我試試看。」"],"say":"「五點以後。……散步，我試試看。」","src":"現有（rule）","ex":"rule","off":"現有（rule）：照 INVITE_DATA.people.heroine_05.rule 原本的程式"},
   {"id":"sis30","n":30,"k":"resched","stage":"改天","st":[1,7],"tags":[],"cond":null,"lines":["「我在總圖。五點以後。」"],"say":"「我在總圖。五點以後。」","src":"BB_123","at":{"day":"same","from":17}},
-  {"id":"sis31","n":31,"k":"resched","stage":"改天","st":[1,7],"tags":[],"cond":"口試前、出國前一週","lines":["「這週不行。不是不想。」"],"say":"「這週不行。不是不想。」","src":"改（BB_123）","at":{"day":"nextweek"}},
+  {"id":"sis31","n":31,"k":"resched","stage":"改天","st":[1,7],"tags":[],"cond":"口試前、出國前一週","lines":["「這週不行。下禮拜好不好？」"],"say":"「這週不行。下禮拜好不好？」","src":"改（BB_123）","at":{"day":"nextweek"}},
   {"id":"sis32","n":32,"k":"decline","stage":"婉拒","st":[1,7],"tags":["wenzhou"],"cond":"筆試以前","lines":["「散步的話，等我考完。」","「週三晚上我在法圖。要讀書的話，可以一起。」"],"say":"「散步的話，等我考完。」「週三晚上我在法圖。要讀書的話，可以一起。」","src":"現有（rule）","ex":"rule","off":"現有（rule）：照 INVITE_DATA.people.heroine_05.rule 原本的程式"},
-  {"id":"sis33","n":33,"k":"decline","stage":"婉拒","st":[1,7],"tags":["teahouse"],"cond":"祐廷有伴侶","lines":["「一盞……那裡太安靜了。Café 可以，帶你的筆記。」"],"say":"「一盞……那裡太安靜了。Café 可以，帶你的筆記。」","src":"現有（partnerSay）","ex":"partnerSay","off":"現有（partnerSay）：照 INVITE_DATA.people.heroine_05.partnerSay 原本的程式"},
+  {"id":"sis33","n":33,"k":"decline","stage":"婉拒","st":[1,7],"tags":["teahouse"],"cond":"祐廷有伴侶","lines":["「一盞……那裡太安靜了。去 Café 讀書吧。」"],"say":"「一盞……那裡太安靜了。去 Café 讀書吧。」","src":"現有（partnerSay）","ex":"partnerSay","off":"現有（partnerSay）：照 INVITE_DATA.people.heroine_05.partnerSay 原本的程式"},
   {"id":"sis34","n":34,"k":"decline","stage":"婉拒","st":[1,4],"tags":["外出"],"cond":null,"lines":["「出去玩的話，再等一下。」"],"say":"「出去玩的話，再等一下。」","src":"新"}
  ],
  "classmate_peishan":[
