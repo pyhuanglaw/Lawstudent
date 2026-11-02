@@ -159,7 +159,7 @@ SETUP_PS = r"""(()=>{ const G=GAME.G; G.contacts=G.contacts||{}; const day0=STOR
     psbh:!!(ev&&ev.prereq&&ev.prereq.custom(G)),termDay:d,key:CALENDAR.dateOf(d).key,ev:ev?{location:ev.location,trigger:ev.trigger,term:ev.term,weeks:ev.weeks,weekday:ev.weekday,time:ev.time,once:ev.once,lines:ev.dialogue.length}:null}; })()""".replace('__ID__', EVID)
 NSTATE = r"""(()=>{ const G=GAME.G, done=G.events&&G.events.done||{}, last=G.events&&G.events.last||{};
   const msgs=(G.msgs||[]).filter(m=>/psbh_0415_ask|zhe_supper_mid2_egg/.test(m.tag||'')).map(m=>({th:m.th,day:m.day,h:m.h,from:m.from||'',tag:m.tag,text:String(m.text||'')}));
-  const mem=(G.social&&G.social.mem&&G.social.mem.classmate_peishan||[]).filter(x=>x.tag==='HEARD_ABOUT').map(x=>({day:x.day,note:x.note||x.n||''}));
+  const mem=(typeof SOCIAL!=='undefined'&&SOCIAL.memories?SOCIAL.memories('classmate_peishan'):[]).filter(x=>x.tag==='HEARD_ABOUT').map(x=>({day:x.day,note:x.note||x.n||''}));
   return {day:G.day,key:CALENDAR.dateOf(G.day).key,h:+(+G.hour).toFixed(3),zone:G.zone,done:!!done.__ID__,last:last.__ID__!=null?last.__ID__:null,msgs,heard:mem,sentAsk:PHONE.sent(G,'psbh_0415_ask'),sentEgg:PHONE.sent(G,'zhe_supper_mid2_egg')}; })()""".replace('__ID__', EVID)
 
 
@@ -230,8 +230,12 @@ async def noodle_pass(p, run, sub, orient):
             rec['shots']['group17'] = await run.shot(pg, tag + '_group17'); await L.close_panels(pg, cdp)
             await P.jump(pg, cdp, run, ['Y1S2', 8, 3], 20 + 27 / 60, 'dorm', note='（沒去麵店，等 20:30）'); await P.events_on(pg)
             okh = await P.wait_hour(pg, cdp, 20.52, max_s=ENVI('EV_MAX', 300))
-            await pg.wait_for_timeout(2500)
-            ns = await pg.evaluate(NSTATE); rec['at2030'] = ns
+            t1 = time.time()   # PHONE.at 先排進佇列、下一次 PHONE.tick 才到 G.msgs：多等一下（第一輪只等 2.5 秒＝探針太早看）
+            while time.time() - t1 < ENVI('EGG_WAIT', 120):
+                ns = await pg.evaluate(NSTATE)
+                if len([m for m in ns['msgs'] if m['tag'] == 'zhe_supper_mid2_egg']) >= 3: break
+                await pg.wait_for_timeout(2000)
+            ns = await pg.evaluate(NSTATE); rec['at2030'] = ns; run.note('%s：照片到的時間（遊戲）%s，等了 %.0f 秒' % (tag, ns['h'], time.time() - t1))
             egg = [m for m in ns['msgs'] if m['tag'] == 'zhe_supper_mid2_egg']
             run.check('%s：20:30 阿哲三則（📷 滷蛋／柏翰幫沛珊切的／……他們在一起了）' % tag, okh and [m['text'] for m in egg] == ['📷（一顆切成兩半的滷蛋）', '柏翰幫沛珊切的', '……他們在一起了'], J(egg))
             run.check('%s：記「聽說」（HEARD_ABOUT）、事件沒演' % tag, bool(ns['heard']) and not ns['done'], J({'heard': ns['heard'], 'done': ns['done']}))
@@ -446,7 +450,7 @@ async def card_pass(p, run, orient):
         dk = await pg.evaluate(DESK); rec['desk'] = dk
         run.setup('【捷徑】%s：STORY.interact(宿舍書桌互動點, GAME)（按「書桌」的同一個處理函式；沒有走過去）%s' % (tag, J(dk)))
         if not dk: run.check('%s：宿舍有書桌互動點' % tag, False); return
-        cname = ci['name']; target_hdr = None; in_target = False; done_target = False; idx = 0; t0 = time.time(); menu_shot = False
+        cname = ci['name']; last_n = -1; target_hdr = None; in_target = False; done_target = False; idx = 0; t0 = time.time(); menu_shot = False
         while time.time() - t0 < ENVI('CARD_MAX', 900):
             s = await P.ts(pg)
             if s['phone'] and not s['dlg'] and not s['ch']: await L.phone_away(pg, cdp, tries=2); continue
@@ -463,9 +467,12 @@ async def card_pass(p, run, orient):
                 if done_target and T[k].startswith('結束總複習'): break
                 continue
             if s['dlg']:
+                says = [x for x in await pg.evaluate(PL, 0) if x['k'] == 'say']   # 現在這一句＝GAME.say 的最後一句（輪詢看畫面會漏句）
+                tx = says[-1]['t'] if says else ''
+                if len(says) == last_n: await L.tap(pg, cdp, '#dlg'); await pg.wait_for_timeout(600); continue   # 這一句處理過了（上一次的點擊還沒換句）
+                last_n = len(says)
                 m = await pg.evaluate(DLGM)
-                if m['next'] != 'visible': await L.tap(pg, cdp, '#dlg'); await pg.wait_for_timeout(500); m = await pg.evaluate(DLGM)
-                tx = m['text']
+                if m['text'] != tx: await L.tap(pg, cdp, '#dlg'); await pg.wait_for_timeout(500); m = await pg.evaluate(DLGM)   # 打字中：點一下打完
                 if tx.startswith('【') and in_target: in_target = False; done_target = True   # 下一張卡的標題列＝那一張結束
                 if tx.startswith('【' + cname + '　'):
                     target_hdr = target_hdr or ('course:' + tx)   # 已經在那一科：之後只按「下一張」
@@ -474,7 +481,7 @@ async def card_pass(p, run, orient):
                 elif in_target and idx < len(lines) and tx == lines[idx]:
                     shp = await run.shot(pg, '%s_chunk%d' % (tag, idx + 1))
                     rec['chunks'].append({'i': idx, 'len': len(tx), 'm': m, 'shot': shp})
-                    W, H = m['W'], m['H']; full = tx == lines[idx]
+                    W, H = m['W'], m['H']; full = m['text'] == lines[idx]
                     clip = not (m['txtScroll'][0] <= m['txtScroll'][1] + 2 or m['ovf']['txtY'] in ('auto', 'scroll'))
                     samp = all(x['inView'] and x['inDlg'] for x in m['samples'])
                     run.check('%s：第 %d／%d 則（%d 字）對話框在畫面內、文字完整、沒被裁（取樣點在畫面內且最上層是 #dlg）' % (tag, idx + 1, len(lines), len(tx)),
