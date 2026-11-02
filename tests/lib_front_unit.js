@@ -34,7 +34,7 @@ check('① 廣場 0、台階最下面一階的前緣 0、台階中間連續、�
   `廣場 ${H(72,0)}、台階底 ${H(ST.x0+0.01,0).toFixed(3)}、中 ${H((ST.x0+ST.x1)/2,0).toFixed(3)}、頂 ${H(ST.x1-0.01,0).toFixed(3)}、平台 ${H(84,0)}`);
 const vis=[0,1,2,3,4].map(k=>V(ST.x0+ST.tread*(k+0.5),0));
 check('① 畫面上一階一階（每一階 0.18 m，五階）',vis.every((y,k)=>Math.abs(y-(k+1)*ST.rise)<1e-6),vis.map(y=>y.toFixed(2)).join('、'));
-const AF=81.6, terr=[ST.x1+0.4,(ST.x1+AF)/2,AF-0.6].flatMap(x=>[0,-12,12,-25,25].map(zz=>[x,zz]));
+const AF=81.6, terr=[ST.x1+0.4,(ST.x1+AF)/2,AF-0.6].flatMap(x=>[0,-9,9,-25,25].map(zz=>[x,zz]));   /* z ±9：v3.1 平台上的兩棵針葉樹在 z ±12.4（另外檢查） */
 check('① 走出總圖先是平台（使用者 11-02 10:4x）：拱廊正面前面 x '+ST.x1+'～'+AF+'（'+(AF-ST.x1).toFixed(2)+' m）整片都是平台高度 0.9，之後才是台階往下',
   AF-ST.x1>=5.5&&terr.every(([x,zz])=>H(x,zz)===P&&Math.abs(V(x,zz)-P)<1e-6&&stand(x,zz)),`平台深 ${(AF-ST.x1).toFixed(2)} m、${terr.length} 點`);
 // ② 從大道走到大門
@@ -59,6 +59,7 @@ check('④ 拱和拱之間的牆（紅磚段、白石翼）站不住',!stand(82.
 r=both([81,12.2],[85,12.2]); check('④ 白石翼的拱（z 12.2）走得進拱廊',r.ok,fmt(r));
 r=both([85,-20],[85,20]); check('④ 拱廊走道從北走到南',r.ok,fmt(r));
 check('④ 拱廊後牆（大門兩旁）、總圖裡面站不住',!stand(86.7,5)&&!stand(90,0)&&!stand(100,0));
+check('④ v3.1：平台上兩棵尖塔形針葉樹 (78.9,±12.4) 擋住（照片 40），平台上往樹兩邊照樣走得過去',!stand(78.9,12.4)&&!stand(78.9,-12.4)&&stand(78.9,10.6)&&stand(78.9,14.2)&&stand(77.0,12.4)&&stand(80.8,12.4));
 const T=LAY.tower; check('④ 北邊的方塔站不住',!stand(T.x,T.z)&&!stand(T.x-T.s/2+0.4,T.z));
 check('④ 平台兩端（落差 0.9）：平台邊外面是地面、邊上有白石矮牆擋住（走不出平台邊）',H(81,31)===0&&H(81,29.5)===P&&[ST.x1+0.3,78,80.5].every(x=>!stand(x,29.8)&&!stand(x,-29.8)));
 // ⑤ 回到大道

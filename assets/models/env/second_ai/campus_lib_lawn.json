@@ -1,11 +1,11 @@
 {
  "objects": 10,
  "unique_meshes": 10,
- "tris": 13099,
- "tris_drawn": 13099,
+ "tris": 13535,
+ "tris_drawn": 13535,
  "materials": 10,
- "out": "../../../tmp/claude-0/-home-user-Lawstudent/b2086276-f771-5e36-88cb-063a8a6233cc/scratchpad/lib1102/v4/campus_lib_lawn.glb",
- "bytes": 785016,
+ "out": "../../../tmp/claude-0/-home-user-Lawstudent/b2086276-f771-5e36-88cb-063a8a6233cc/scratchpad/lib1102/v31/campus_lib_lawn.glb",
+ "bytes": 800608,
  "texres": 512,
  "layout": {
   "avenue_end": 35.0,
@@ -168,11 +168,21 @@
     30.0
    ]
   ],
+  "conifers": [
+   [
+    78.9,
+    -12.4
+   ],
+   [
+    78.9,
+    12.4
+   ]
+  ],
   "xmas": [
    68.0,
    -12.0
   ],
-  "junipers": 48,
+  "junipers": 50,
   "heights": {
    "pave": 0.022,
    "plaza": 0.026,
