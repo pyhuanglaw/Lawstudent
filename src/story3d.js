@@ -3447,7 +3447,7 @@ const STORY = (function(){
   /* 上床：走到梯子前 → 爬 → 躺下 → 熄燈。回傳 true＝人已經躺在床上（S._bed），之後照原本的睡覺 */
   async function goToBed(GM,sc){ const E=GM.E, P=E.player, T=S.SLEEP_T, st=sc.steps, L=sc.lie; let ok=false; S._bedBusy=true; GM.sceneBegin();
     try{ if(P.seat&&GM.standUp) GM.standUp(P); await GM.walkTo(P,sc.approach[0],sc.approach[1]); const c=S.climbCam(sc); camOn(GM,c); faceTo(P.obj,st[0][0],st[0][2]); P.pose='idle'; await GM.sleep(300);
-      P.pose='climb'; S._bed={sc,zone:E.zone,day:GM.G.day};
+      P.pose='climb'; S._bed={sc,zone:E.zone,day:GM.G.day}; if(P.obj.userData) P.obj.userData.climbTop=(L.mattress_top_y!=null?L.mattress_top_y:L.feet[1])+0.26;   /* 爬梯子的手最高抓到床欄頂（床墊頂＋0.26 m；character3d.js 的 climbIK，CLIMB-POSE-1102）*/
       for(const s of st){ faceTo(P.obj,s[0],s[2]); await bedTween(GM,P.obj,s,T.step); camOn(GM,{pos:c.pos,look:[P.obj.position.x,P.obj.position.y+1.0,P.obj.position.z]}); }
       const be=sc.bed_entry||[L.feet[0],L.mattress_top_y||L.feet[1],L.feet[2]]; faceTo(P.obj,be[0],be[2]); await bedTween(GM,P.obj,be,T.entry);
       await GM.fade(true); S.lieDown(GM,sc); camOn(GM,bedCam(sc),true); await GM.fade(false);
