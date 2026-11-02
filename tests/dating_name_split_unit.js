@@ -11,6 +11,7 @@ try{
   check('2. 對話框名字（datingName／npcName）＝溫書瑀',SOCIAL.datingName('heroine_05')==='溫書瑀'&&SOCIAL.npcName('heroine_05')==='溫書瑀');
   check('3. 標題（shuyuT）：「打給學姊」→「打給溫書瑀」；「直屬學姊」不換',SOCIAL.shuyuT('打給學姊')==='打給溫書瑀'&&SOCIAL.shuyuT('直屬學姊')==='直屬學姊');
   check('4. 手機私訊的說話人（PHONE.who）＝聯絡人「貝貝」',PHONE.who({from:'heroine_05',name:'溫學姊'})==='貝貝',PHONE.who({from:'heroine_05',name:'溫學姊'}));
+  check('3b. 已經是全名（溫書瑀學姊／書瑀學姊）不重複換（CC_23）',SOCIAL.shuyuT('打給溫書瑀學姊')==='打給溫書瑀'&&SOCIAL.shuyuT('書瑀學姊的研究室')==='溫書瑀的研究室'&&!/溫書瑀溫書瑀|書瑀溫書瑀/.test(SOCIAL.shuyuT('溫書瑀學姊、書瑀學姊、學姊')),SOCIAL.shuyuT('溫書瑀學姊、書瑀學姊、學姊'));
   delete G.flags.dating_heroine_05; check('5. 沒交往：都不用交往的叫法',SOCIAL.datingName('heroine_05')===null&&SOCIAL.datingContact('heroine_05')===null);
 } finally { for(const k of Object.keys(C)) delete C[k]; Object.assign(C,keep); }
 H.done();
