@@ -39526,6 +39526,29 @@
         "receiver": "CC",
         "ack": "ACK"
       }
+    },
+    {
+      "id": "BUG-DELAY-RETAKE-SKIP-1102",
+      "title": "延畢大五上：畢業後篇跳日期要停在重修課前（CC M1、BB 09:57）",
+      "owner": "LAWWW",
+      "status": "已整合待測試",
+      "priority": "P1",
+      "note": "2026-11-02 LAWWW：faildelay3d.js FD.clsStop 掛 PG.stops（還不到三堂的那幾門，下一堂上課前 45 分鐘停）；tests/faildelay_unit.js 第 6 節（修改前 FAIL 4、修改後 ALL PASS）。待 BB／CC 瀏覽器驗。",
+      "first": {
+        "term": "Y5S1",
+        "earliest": "2029-09-02 延畢",
+        "mainline": false,
+        "blocks": false,
+        "parallel": true,
+        "confirmed": true
+      },
+      "xai": {
+        "spec": "BB 09:57 send_message；cc-testing CC_M1_review_ff.md 5b40dad61；企劃線 BB_222",
+        "branch": "claude/confident-ritchie-8rwh7t",
+        "receiver": "BB",
+        "ack": "ACK",
+        "acceptance": "延畢以後照停點去上重修、到三堂證書準時；不去上課證書延後"
+      }
     }
   ]
 }

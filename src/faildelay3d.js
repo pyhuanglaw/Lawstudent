@@ -156,6 +156,14 @@ const FD=(function(){
     PG.STEPS.push({id:'fd_late_note',at:G=>at(S.NOTE_AT),until:G=>{ const d=DK('2030-01-20'); return d==null?null:T(d,24); },cond:G=>S.on(G)&&S.certLate(G),run:GM=>S.lateNote(GM)},   /* AA_471 第 5 節 1（記號 12/24 記下以後第一次停）*/
       {id:'fd_late_cert',at:G=>at(S.CERT_AT),until:G=>{ const d=DK('2030-06-30'); return d==null?null:T(d,24); },cond:G=>S.on(G)&&S.certLate(G),run:GM=>S.lateCert(GM)});   /* AA_471 第 5 節 2 */
     if(Array.isArray(PG.stops)) PG.stops.push(G=>{ if(!S.on(G)||(PG.done&&PG.done(G,'fd_late_note'))||!S.lateLikely(G)) return null; const t=at(S.NOTE_AT); return t!=null&&t>now(G)?t:null; }); }   /* 12/24 記號還沒記的時候就排好 12/26 09:00 的停點（長跳每 6 小時看一次，不然會停在 11:00）*/
+  /* BUG-DELAY-RETAKE-SKIP-1102（CC M1、BB 09:57）：畢業後篇跳日期（PG.nextStop）原本看不到重修課——9/2 一跳就到 12/14，中間沒機會上課，12/26 就「不到三堂、證書延到六月」。
+     還不到三堂的那幾門：下一堂上課前 45 分鐘當停點（Y5.status 上課前 1 小時起是 open；剛好 1 小時會因為小數誤差差一點點還沒開）；到三堂、12/24 判過了就不再停 */
+  S.clsStop=function(G){ if(!S.on(G)||G.flags.FAIL_DELAY_PASS!=null||typeof Y5==='undefined'||!Y5.classItems||!Y5.status) return null; const need=S.short(G); if(!need.length) return null;
+    const r=typeof CALENDAR!=='undefined'&&CALENDAR.termDays?CALENDAR.termDays('Y5S1'):null; if(!r) return null; const t=now(G);
+    for(let d=Math.max(G.day,r.from);d<=r.to;d++){ for(const it of Y5.classItems(G,d)){ if(!it.fd||!need.includes(it.c.id)) continue; const st=d===G.day?Y5.status(G,it):'upcoming'; if(st==='done'||st==='missed') continue;
+      const at=T(d,it.t0-0.75); if(at>t+1e-6) return at; } }
+    return null; };
+  if(typeof PG!=='undefined'&&Array.isArray(PG.stops)&&!PG.stops.some(f=>f&&f._fdCls)){ const f=G=>S.clsStop(G); f._fdCls=true; PG.stops.push(f); }
   if(typeof STORY!=='undefined'&&Array.isArray(STORY.PHONE_RULES)) STORY.PHONE_RULES.push(G=>{ if(law(G)) S.result(G); });
   if(typeof PG!=='undefined'&&Array.isArray(PG.STEPS)&&!PG.STEPS.some(s=>s.id==='fd_makeup')){ const md=()=>S.mkDay();
     PG.STEPS.push({id:'fd_makeup',at:G=>{ const d=md(); return d==null?null:T(d,S.MK_STEP_H); },until:G=>{ const d=md(); return d==null?null:T(d,S.MK_UNTIL_H); },cond:G=>S.mkPending(G),run:GM=>S.makeup(GM),onMiss:G=>{ S.mkMissed(G); },seatOk:true},   /* D118 補考（seatOk：坐著也演，見 postgrad3d.js S.tick）*/

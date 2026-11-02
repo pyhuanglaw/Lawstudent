@@ -78,5 +78,23 @@ await sec(5,async()=>{ H.fresh('2029-09-03',9,'dorm',{FAIL_DELAY:true,FAIL_DELAY
   check('5. 證書：助教「恭喜。……延了一學期，還是恭喜。」（不是「你們交換回來的」）',H.has('恭喜。……延了一學期，還是恭喜。')&&!H.has('你們交換回來的，今天第三個了。'));
   H.fresh('2030-01-21',10,'dorm',{EXCHANGE_ROUTE:'US'}); await R2Y4B.cert(GM); check('5. 交換延畢的證書照舊',H.has('你們交換回來的，今天第三個了。')); });
 
+/* BUG-DELAY-RETAKE-SKIP-1102（CC M1）：畢業後篇跳日期要停在重修課前（修改前：9/2 一跳到 12/14、沒機會上課）*/
+await sec(6,async()=>{ H.fresh('2029-09-02',9,'dorm',{FAIL_DELAY:true,FAIL_DELAY_COURSES:[fc.id]}); const s=FD.slots(H.G)[0];
+  let d=D('2029-09-03'); while(CALENDAR.dateOf(d).wd!==s.slot.wd||CALENDAR.holiday(d)) d++; const it0=Y5.classItems(H.G,d)[0];
+  /* 照玩家：跳到下一個停點，停在重修開放的時間就去上課（不是重修的停點照跳）；到 12/25 為止 */
+  let went=0, guard=0, first=null; const end=D('2029-12-25')*24+9;
+  while(guard++<400){ const t=PG.nextStop(H.G); if(t==null||t>=end) break; PG.setT(H.G,E,Math.floor(t/24),t-Math.floor(t/24)*24);
+    const its=Y5.classItems(H.G).filter(x=>x.fd&&Y5.status(H.G,x)==='open'); if(its.length&&first==null) first=H.G.day; for(const x of its){ if(await Y5.attend(GM,x)) went++; } }
+  check('6. 從 9/2 照停點跳：第一次停在能去上課的時間＝第一堂（'+PG.dateLabel(d,it0.t0)+'）',first===d,first==null?'沒停過':PG.dateLabel(first,0));
+  check('6. 照停點去上課：出席到三堂（實際 '+went+'）、到了就不再停在重修',went===3&&FD.attended(H.G,fc.id)===3&&FD.clsStop(H.G)==null,'went='+went+' guard='+guard);
+  PG.setT(H.G,E,D('2029-12-25'),9); FD.result(H.G); check('6. 12/24 以後：過了、證書不延',H.G.flags.FAIL_DELAY_PASS===true&&!H.G.flags.FAIL_DELAY_CERT);
+  /* 對照：停下來也不去上課＝證書延到六月 */
+  H.fresh('2029-09-02',9,'dorm',{FAIL_DELAY:true,FAIL_DELAY_COURSES:[fc.id]}); let stops=0; guard=0;
+  while(guard++<400){ const t=PG.nextStop(H.G); if(t==null||t>=end) break; PG.setT(H.G,E,Math.floor(t/24),t-Math.floor(t/24)*24); if(FD.clsStop(H.G)!==t&&Y5.classItems(H.G).some(x=>x.fd&&Y5.status(H.G,x)==='open')) stops++; }
+  PG.setT(H.G,E,D('2029-12-25'),9); FD.result(H.G);
+  check('6. 對照：每一堂都停過（'+stops+' 次）、不去上課＝證書延到 2030-06',stops>=3&&H.G.flags.FAIL_DELAY_PASS===false&&H.G.flags.FAIL_DELAY_CERT==='2030-06','stops='+stops);
+  /* 已經過了（FAIL_DELAY_PASS 有值）、不是延畢：沒有重修停點 */
+  H.fresh('2029-09-02',9,'dorm',{}); check('6. 不是延畢：沒有重修停點',FD.clsStop(H.G)==null); });
+
 H.done();
 })();
