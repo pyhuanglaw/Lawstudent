@@ -1,0 +1,23 @@
+{
+  "rerun": "",
+  "id": "X_G3_libsc",
+  "sha": "62d98bfa5",
+  "kind": "game",
+  "script": "tests/flow_library_scene.py",
+  "env": "XARGS={url} {out}",
+  "machine": "MSI",
+  "start": "2026-11-03T06:43:14",
+  "end": "2026-11-03T06:46:02",
+  "seconds": 168,
+  "exit": 0,
+  "error": null,
+  "runner": "a98287fbd6",
+  "rf_round": "5",
+  "url": "http://127.0.0.1:8807/index.html",
+  "res_peak": {
+    "cpu": 60,
+    "mem": 55,
+    "used_gb": 17.3,
+    "chrome_testing": 28
+  }
+}
