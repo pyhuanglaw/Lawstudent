@@ -1,0 +1,22 @@
+{
+ "objects": 5,
+ "unique_meshes": 5,
+ "tris": 7346,
+ "tris_drawn": 7346,
+ "materials": 5,
+ "out": "assets/models/env/second_ai/campus_blackforest.glb",
+ "bytes": 1084384,
+ "texres": 512,
+ "layout": {
+  "stats": {
+   "area_m2": 1450,
+   "trees": 52,
+   "banyan": 35,
+   "shrubs": 152
+  },
+  "roots": 242,
+  "ferns": 69,
+  "shrubs": 83
+ },
+ "note": "黑森林地面（CAMPUS-BLACKFOREST-1102）：落葉泥土地、土徑、板根、蕨類、矮灌木；樹由遊戲放（src/data/blackforest_layout.js）"
+}

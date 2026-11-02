@@ -44,7 +44,7 @@
 - **授權**（`docs/art-rebuild/second_ai/patches/licenses_large_sandstone_1102.patch`，在 `1a5110e07` 上 apply --check 乾淨）：
   - `LICENSES.md` 補一列 Poly Haven `large_sandstone_blocks`（CC0）：展演廳的白色石牆。
   - 美國校園的石灰岩台基（`us_campus_kit.py`）早就在用，之前漏登，一起補。
-  - 作者名字這裡查不到（離線），先寫「作者見原頁」，不用猜的。
+  - 作者 Rob Tuytel（Poly Haven API 查的）。
 
 ## 二、測試（做到哪裡）
 
