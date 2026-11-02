@@ -17,18 +17,31 @@
 """
 import json, math, os, random, sys
 
-AREAS = [{'id': 'north', 'x0': 37.5, 'x1': 100.0, 'z0': -78.6, 'z1': -65.4},
+# ---- 第二版（11-02 21:4x，使用者附 5 張實景照片：「黑森林其實是兩個系館之間，而且真的很大，你參考一下校園的分布圖……旁邊還有一個小湖，從系館之間的走道會經過那個小湖，然後湖再往校園才是黑森林」）----
+# 官方地圖（2026-10-14 版）：霖澤館在北邊辛亥路旁，霖澤館南邊、研三舍旁一個小湖，再往南（往校園）、萬才館西邊是一大片樹林（約 97×81 m）。
+# 遊戲（D25 壓縮、D31 兩館朝南）：霖澤館 (34,−112)、萬才館 (88,−112)，兩館中間的空隙 x 54～73。
+#   - 霖澤館前庭（劇情的「法學院廣場」：站位 (50,−93)、(58,−90)、事件 (61,−94)）保留成鋪面：x 25～62、z −106～−84；兩館正面一條鋪面 z −106～−97。
+#   - 兩館之間往南的走道（鋪面 3 m，x 63.75）：經過小湖西邊，接到 z −60 那條路。
+#   - 小湖：走道東邊 (73.5,−87)，水泥弧形池邊、垂柳、石頭、水生植物（照片 4、5）。
+#   - 黑森林：小湖和兩館南邊整塊——走道西邊 x 36～62（z −84～−65.4）、走道東邊 x 65.5～100（z −96～−65.4，小湖、往萬才館的鋪面路除外）、z −60 路南邊 x 37.5～100（z −54.6～−44.6）。
+#   - 地面：草地夾落葉（照片 1、3：樹下落葉多、樹之間是草）、細土徑；遮蔭但不是全黑。
+AREAS = [{'id': 'nw', 'x0': 36.0, 'x1': 62.0, 'z0': -84.0, 'z1': -65.4},
+         {'id': 'ne', 'x0': 65.5, 'x1': 100.0, 'z0': -96.0, 'z1': -65.4},
          {'id': 'south', 'x0': 37.5, 'x1': 100.0, 'z0': -54.6, 'z1': -44.6}]
-# 土徑（中心線、寬）：北塊三條（西北斜向廣場、中間彎的一條、往萬才館那條原本是 4 m 的地磚路＝位置不動改成土徑）；南塊兩條
-PATHS = [{'id': 'nw', 'w': 2.0, 'pts': [[50.0, -80.6], [46.0, -77.4], [41.0, -74.2], [35.2, -70.6]]},
-         {'id': 'mid', 'w': 2.0, 'pts': [[66.0, -80.6], [64.6, -76.0], [67.6, -71.6], [72.4, -68.0], [74.0, -65.0]]},
-         {'id': 'wancai', 'w': 4.0, 'pts': [[92.5, -84.0], [92.5, -64.0]]},
-         {'id': 's1', 'w': 2.0, 'pts': [[55.0, -55.0], [52.2, -50.2], [47.0, -44.2]]},
-         {'id': 's2', 'w': 2.0, 'pts': [[82.0, -55.0], [85.0, -49.6], [80.4, -44.2]]}]
-POND = {'x': 49.0, 'z': -71.0, 'rx': 4.2, 'rz': 2.8}            # zones3d.js 第二十四批的小水池（石砌池邊 +0.15、水邊植物 +0.7）
-KEEP = [[50, -80], [66, -80], [93, -66], [92, -62], [80, -62], [60, -62], [36, -62]]   # 路人走的點（story3d.js walkRoutes）
-PLAZA_TREES = [[x, -80.0] for x in (22, 38, 54, 70, 86)]      # 法學院廣場邊那一排（不在範圍裡，只用來保持距離）
-SPACING = 4.0          # 樹的間距（格子）；隨機偏移 ±1.3、最近不小於 3.0 m（樹冠交疊、林下陰暗）
+# 土徑（中心線、寬）：細的（照片 3 那種一人寬的小徑）；往萬才館那條是鋪面路（kind paved，遊戲 zones3d 照舊畫成鋪面），不放樹
+PATHS = [{'id': 'nw', 'w': 1.2, 'pts': [[46.0, -84.6], [44.5, -78.0], [40.5, -72.0], [35.2, -67.0]]},
+         {'id': 'nw2', 'w': 1.2, 'pts': [[56.0, -84.6], [57.5, -76.0], [54.0, -69.0], [52.0, -65.0]]},
+         {'id': 'ne', 'w': 1.2, 'pts': [[65.5, -79.5], [71.0, -79.0], [78.5, -80.5], [84.0, -77.0], [90.5, -74.0]]},
+         {'id': 'ne2', 'w': 1.2, 'pts': [[82.0, -96.6], [83.5, -88.0], [80.5, -82.5]]},
+         {'id': 'ne3', 'w': 1.2, 'pts': [[71.0, -79.0], [73.5, -72.0], [70.0, -65.0]]},
+         {'id': 'wancai', 'w': 4.0, 'kind': 'paved', 'pts': [[92.5, -97.0], [92.5, -64.0]]},
+         {'id': 'walk', 'w': 3.0, 'kind': 'paved', 'pts': [[63.75, -104.0], [63.75, -64.0]]},
+         {'id': 's1', 'w': 1.2, 'pts': [[55.0, -55.0], [52.2, -50.2], [47.0, -44.2]]},
+         {'id': 's2', 'w': 1.2, 'pts': [[82.0, -55.0], [85.0, -49.6], [80.4, -44.2]]}]
+POND = {'x': 73.5, 'z': -87.0, 'rx': 6.5, 'rz': 4.2, 'willow': [68.2, -92.6]}   # 小湖（水泥池邊 +0.35、水邊植物、石頭在 Blender 模型裡）；垂柳在西北岸（走道邊）
+KEEP = [[50, -80], [66, -80], [93, -66], [92, -62], [80, -62], [60, -62], [36, -62], [61.6, -88]]   # 路人走的點（story3d.js walkRoutes）、湖邊長椅
+PLAZA_TREES = [[22.0, -80.0], [24.5, -94.5]]                   # 範圍外、保持距離的樹（霖澤館前庭西邊那棵、大樟樹）
+SPACING = 4.3          # 樹的間距（格子）；隨機偏移 ±1.4、最近不小於 3.0 m
 MIN_TREE = 3.0
 SEED = 20261102
 
@@ -66,18 +79,18 @@ def build():
                 x = A['x0'] + (i + 0.5) * (A['x1'] - A['x0']) / nx + rnd.uniform(-1.3, 1.3)
                 z = A['z0'] + (j + 0.5) * (A['z1'] - A['z0']) / nz + rnd.uniform(-1.3, 1.3)
                 if not in_area(x, z, 0.8) or path_dist(x, z) < 0.9 or pond_dist(x, z) < 1.4: continue
-                if any(math.hypot(x - k[0], z - k[1]) < 2.4 for k in KEEP + PLAZA_TREES): continue
+                if any(math.hypot(x - k[0], z - k[1]) < 2.4 for k in KEEP + PLAZA_TREES) or math.hypot(x - POND['willow'][0], z - POND['willow'][1]) < 3.2: continue
                 if any(math.hypot(x - t['x'], z - t['z']) < MIN_TREE for t in trees): continue
                 r = rnd.random()
                 if r < 0.78:   # 榕樹：枝幹多、樹冠寬、深綠
-                    t = {'sp': 'banyan', 'h': round(6.4 * rnd.uniform(1.45, 1.95), 2), 'spread': round(rnd.uniform(1.15, 1.45), 2), 'dark': round(rnd.uniform(0.5, 0.62), 2), 'trunk': 0.7}
+                    t = {'sp': 'banyan', 'h': round(6.4 * rnd.uniform(1.45, 1.95), 2), 'spread': round(rnd.uniform(1.15, 1.45), 2), 'dark': round(rnd.uniform(0.62, 0.74), 2), 'trunk': 0.7}
                 else:          # 樟樹：直一點、高一點
-                    t = {'sp': 'camphor', 'h': round(6.4 * rnd.uniform(1.6, 2.1), 2), 'spread': round(rnd.uniform(1.0, 1.2), 2), 'dark': round(rnd.uniform(0.66, 0.76), 2), 'trunk': 0.5}
+                    t = {'sp': 'camphor', 'h': round(6.4 * rnd.uniform(1.6, 2.1), 2), 'spread': round(rnd.uniform(1.0, 1.2), 2), 'dark': round(rnd.uniform(0.8, 0.9), 2), 'trunk': 0.5}
                 t.update({'x': round(x, 2), 'z': round(z, 2), 'ry': round(rnd.uniform(0, 6.283), 3), 'seed': 900 + len(trees)}); trees.append(t)
     # 林下灌木、蕨類（Blender 模型；不擋導航——高 0.5～1.3 m，人可以從旁邊擠過去的那種密度）
     shrubs = []
     for A in AREAS:
-        n = int((A['x1'] - A['x0']) * (A['z1'] - A['z0']) / 9.0)
+        n = int((A['x1'] - A['x0']) * (A['z1'] - A['z0']) / 22.0)   # 照片：林下大多是草，灌木、蕨類稀稀落落
         for _ in range(n * 3):
             if len([s for s in shrubs if s['a'] == A['id']]) >= n: break
             x = rnd.uniform(A['x0'] + 0.4, A['x1'] - 0.4); z = rnd.uniform(A['z0'] + 0.4, A['z1'] - 0.4)
@@ -87,7 +100,7 @@ def build():
             shrubs.append({'a': A['id'], 'x': round(x, 2), 'z': round(z, 2), 'h': round(rnd.uniform(0.5, 1.3), 2), 'r': round(rnd.uniform(0.45, 0.95), 2), 'ry': round(rnd.uniform(0, 6.283), 2),
                            'kind': 'fern' if rnd.random() < 0.45 else 'shrub'})
     area_m2 = sum((a['x1'] - a['x0']) * (a['z1'] - a['z0']) for a in AREAS)
-    return {'version': 1, 'areas': AREAS, 'paths': PATHS, 'pond': POND, 'keep': KEEP, 'trees': trees, 'shrubs': shrubs,
+    return {'version': 2, 'areas': AREAS, 'paths': PATHS, 'pond': POND, 'keep': KEEP, 'trees': trees, 'shrubs': shrubs,
             'stats': {'area_m2': round(area_m2), 'trees': len(trees), 'banyan': sum(t['sp'] == 'banyan' for t in trees), 'shrubs': len(shrubs)}}
 
 
