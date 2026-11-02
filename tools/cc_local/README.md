@@ -70,6 +70,7 @@ powershell -ExecutionPolicy Bypass -File "$env:USERPROFILE\Documents\Lawstudent_
 
 runner 印到畫面上的每一行都會留一份，只保留最後 2000 行，去掉顏色碼，跟著每一項結果的 commit 一起推到 `docs/story_planning/CC/local_out/_console/console.log`。runner 啟動時也會推一次，commit 名稱是「CC-local: runner start (rf_round N, runner <雜湊>)」，裡面看得到設定那幾行。第一行寫 run_forever 第幾輪和 runner 雜湊。
 - run_forever.ps1 自己印的青色訊息不在這個檔裡，因為 .ps1 改了要使用者重啟才會生效。改從 runner 那一行的 `run_forever round` 看輪次。
+- runner 雜湊（console 第一行、meta.json 的 `runner`）是 **PC 上那個檔案**的 sha256。Windows 的 git 會把換行轉成 CRLF，所以雲端要先轉成 CRLF 再算才對得上：`git show <commit>:tools/cc_local/run_queue.py | sed 's/$/\r/' | sha256sum | cut -c1-10`。例：3ce144027＝530a41804c，634b41d05＝81c08e9a7c。
 - 雲端怎麼看：`git show origin/claude/cc-local:docs/story_planning/CC/local_out/_console/console.log | tail -50`
 
 ## 怎麼確認 PC 還在跑（給雲端 CC／接班者）
