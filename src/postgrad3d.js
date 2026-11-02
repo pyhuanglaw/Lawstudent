@@ -3,8 +3,8 @@
    7/12 20:00 總圖 B1 → 8/3 學姊的便條 → 8/4 一試（20 題）→ 9/7 一試放榜 → 10/20～21 二試 → 12/14 二試放榜（18:00 麵店、21:00 以安的電話）→
    2030-01-25 以安三試放榜（電話）→（交換延畢、2029 一試不到 12 題：2030 再一輪，8/3、9/6、10/19～20、12/13）→ 2030-10-01 第一份工作 →
    （2030 一試也沒過：2031～2033 每年再一輪——5 月報名（年份字卡＋報名／不報名）、8 月一試 20 題、9 月一試放榜、10 月二試字卡、12 月二試放榜；不報名＝停在那一年，S.LATE_YEARS）→ 2034-06-03 尾聲（CG-10）→ 回標題。
-   - D118-B8 司法官（AA_582、AA_583；使用者 A1／A2／A5／A6）：一試 ≥16 的人二試第二天考司法官二試 10 題爭點題（S.drawJudge）→ 12 月放榜（第一次考一定沒上；之後答對 ≥7，或 ≥6＋四年在校平均答對 ≥4）→
-     第一次落榜、有律師證照＝當晚二選一（再考／就當律師）→ 重考那一年只考一試＋司法官二試（BAR_YEAR 不動），之後每年 5 月問一次、到 2033 → 錄取＝隔年 1 月三試、1 月下旬錄取（JUDGE_YEAR）→ 結業前選法官／檢察官（J_judge／J_pros）。
+   - D118-B8 司法官（AA_582、AA_583；使用者 A1／A2／A5／A6）：一試 ≥16 的人二試第二天考司法官二試 10 題爭點題（S.drawJudge）→ 12 月放榜（畢業那一年一定沒上〔AA_582 補充二 A1〕；之後每一年看實力：答對 ≥7，或 ≥6＋四年在校平均答對 ≥4）→
+     那一年拿到律師證照、司法官落榜＝當晚二選一（再考／就當律師）→ 重考那一年只考一試＋司法官二試（BAR_YEAR 不動），之後每年 5 月問一次、到 2033 → 錄取＝隔年 1 月三試、1 月下旬錄取（JUDGE_YEAR＝錄取那一年）→ 受訓兩年、結業前選法官／檢察官（J_judge／J_pros；2033 以後錄取＝尾聲還在受訓 J_trainee）。
      旗標：JUDGE_SCORE2_<年>、JUDGE_PASS_<年>、JUDGE_RETAKE（true／false／'done'）、JUDGE_RETAKE_Y、JUDGE_REG_<年>、JUDGE_TRIES、JUDGE_YEAR、JUDGE_ROLE；PG.judge／PG.grad＝抽過的題。測試：tests/d118_b8_unit.js、d118_b6_unit.js
    - D118-B6 落點 v2：有 BAR_YEAR 一定在律師家族（A_bar／C_zq／B_grad／L_firm）；研究所筆試照作答（S.gradQuiz，GRAD_SCORE_<年>）。
    - 一試門檻（使用者 2026-11-02 09:1x，AA_572 第 5 節末 A3、A4）：每一年同一套——答對 ≥16 律師、司法官二試都進，≥12 進律師二試，不到 12 那一年就沒有二試（原本 2030 一律進律師二試的保底取消）。
@@ -80,9 +80,9 @@ const PG=(function(){
   /* ---------- 國考 ---------- */
   S.sits=(G,y)=>{ const F=G.flags||{}; if(y===2029) return F.BAR_REG===true&&!S.delayed(G); if(y>2030) return F['BAR_REG_'+y]===true&&S.failed(G,y-1); return S.delayed(G)?F.BAR_REG_2030===true:((F.BAR_SIT_2029===true&&S.stage(G,2029)==='none')||(S.miss29(G)&&F.BAR_REG_2030===true)); };   /* 2030：交換延畢（第一次考）、2029 一試不到 12 題（AA_319 1A-18 第 7 節）；2031～2033：那一年報了名（BAR_REG_<年>）、前一年一試沒過（A3）*/   /* AA_357 1-6：交換延畢的 2030 看 BAR_REG_2030（2030-05-10 21:00 問一次，沒回答＝不報名）；原本 BAR_REG!==false＝沒問就算報名 */
   S.retaker=G=>!S.delayed(G)&&G.flags.BAR_SIT_2029===true&&S.stage(G,2029)==='none';
-  /* ---------- 司法官重考（D118-B8；AA_582）：第一次考司法官二試落榜、有律師證照的人 12 月那一晚二選一（JUDGE_RETAKE true／false）；
+  /* ---------- 司法官重考（D118-B8；AA_582）：那一年才拿到律師證照、司法官二試落榜的人 12 月那一晚二選一（JUDGE_RETAKE true／false）；
      選重考＝隔年（JUDGE_RETAKE_Y）自動報名、只考一試＋司法官二試（律師照當，BAR_YEAR 不動）；再落榜＝之後每年 5 月問一次報不報（JUDGE_REG_<年>，到 2033）；
-     不報、或 2033 也沒上＝JUDGE_RETAKE 'done'（路線 f）。錄取＝12 月二試放榜通過（JUDGE_PASS_<年>）→ 隔年 1 月三試 → 1 月下旬錄取（JUDGE_YEAR＝考試那一年）→ 結業前選法官／檢察官（JUDGE_ROLE）。
+     不報、或 2033 也沒上＝JUDGE_RETAKE 'done'（路線 f）。錄取＝12 月二試放榜通過（JUDGE_PASS_<年>）→ 隔年 1 月三試 → 1 月下旬錄取（JUDGE_YEAR＝錄取那一年）→ 結業前選法官／檢察官（JUDGE_ROLE）。
      JUDGE_TRIES＝重考考了幾年（有去考一試的年數）。*/
   S.JUDGE_LAST=2033;
   S.jsits=(G,y)=>{ const F=G.flags||{}, y0=F.JUDGE_RETAKE_Y; return F.JUDGE_RETAKE===true&&F.JUDGE_YEAR==null&&F.BAR_YEAR!=null&&y0!=null&&y>=y0&&y<=S.JUDGE_LAST&&(y===y0||F['JUDGE_REG_'+y]===true); };   /* 這一年以司法官重考生的身分考 */
@@ -90,8 +90,8 @@ const PG=(function(){
   S.sitsAny=(G,y)=>S.sits(G,y)||S.jsits(G,y);
   S.jYearFailed=(G,y)=>{ const F=G.flags||{}; if(!S.jsits(G,y)) return false; if(S.rec(G).done['exam_'+y]==='missed') return true; if(S.done(G,'r1_'+y)&&S.stage(G,y)!=='both') return true; return F['JUDGE_PASS_'+y]===false; };   /* 那一年的司法官重考沒上（錯過一試、一試沒到司法官、二試沒上）*/
   S.jAsk=(G,y)=>{ const F=G.flags||{}; return F.JUDGE_RETAKE===true&&F.JUDGE_YEAR==null&&F.JUDGE_RETAKE_Y!=null&&y>F.JUDGE_RETAKE_Y&&y<=S.JUDGE_LAST&&!!Y[y].reg&&F['JUDGE_REG_'+y]==null&&S.jYearFailed(G,y-1); };   /* 下一年要不要再報 */
-  /* 第一次考司法官二試、落榜、有律師證照：二選一（AA_582 (f)）。舊存檔（both、這一版以前二試放榜演過）也算；2033 沒有下一年＝不問 */
-  S.jFirstFail=(G,y)=>{ const F=G.flags||{}; return F['BAR_STAGE_'+y]==='both'&&F.BAR_YEAR===y&&S.done(G,'r2_'+y)&&F.JUDGE_YEAR==null&&F['JUDGE_PASS_'+y]!==true&&!S.judgeSatBefore(G,y); };
+  /* 那一年拿到律師證照、司法官二試落榜：二選一（AA_582 (f)）。舊存檔（both、這一版以前二試放榜演過）也算；2033 沒有下一年＝不問 */
+  S.jFirstFail=(G,y)=>{ const F=G.flags||{}; return F['BAR_STAGE_'+y]==='both'&&F.BAR_YEAR===y&&S.done(G,'r2_'+y)&&F.JUDGE_YEAR==null&&F['JUDGE_PASS_'+y]!==true; };   /* 那一年才拿到律師證照（不是已經在重考的）、司法官沒上 */
   /* 錯過 2029 報名、錯過 2029 一試（D118_PLAN 第 1 節 ③-13）：可以在 2030 年報名（沿用 reg_2030） */
   S.miss29=G=>{ const F=G.flags||{}; return !S.delayed(G)&&F.BAR_YEAR==null&&F.BAR_SIT_2029!==true&&(F.BAR_REG_MISSED_2029===true||S.rec(G).done.exam_2029==='missed'); };
   S.tier=(y,k)=>k>=16?'both':(k>=12?'lawyer':'none');   /* AA_286 第 2 節；每一年同一套（使用者 2026-11-02 09:1x A4：取消「第二年不到 12 題也進律師二試」的保底，BUG-BAR2030-TIER-1102）。
@@ -140,9 +140,9 @@ const PG=(function(){
   S.basis=function(G){ const R=typeof CLS!=='undefined'&&CLS.rec?CLS.rec(G):(G.courses||{}), E=(R&&R.exam)||{}; let n=0, sum=0;
     for(const k in E){ if(!/^Y[1-4]S[12]:[^:]+:final$/.test(k)) continue; const e=E[k]; if(!e||e.status!=='done'||typeof e.correct!=='number') continue; n++; sum+=e.correct; } return n?sum/n:null; };
   S.JUDGE_PASS=7; S.JUDGE_PASS_BASIS=6; S.BASIS_HIGH=4;   /* 門檻（A2 由 LAWWW 定）：二試 10 題答對 7；在校平均答對 ≥4 的人 6 */
-  /* 比 y 早的年份有沒有考過司法官二試：第一次考一定沒上（使用者 A1：只有重考那一年考得上，應屆不能）。舊存檔（這一版以前）both 而且二試放榜演過＝考過 */
-  S.judgeSatBefore=(G,y)=>{ const F=G.flags||{}; for(let k=2029;k<y;k++) if(F['JUDGE_SCORE2_'+k]!=null||(F['BAR_STAGE_'+k]==='both'&&S.done(G,'r2_'+k))) return true; return false; };
-  S.judgeVerdict=(G,y,k)=>{ if(!S.judgeSatBefore(G,y)) return false; const b=S.basis(G); return k>=S.JUDGE_PASS||(k>=S.JUDGE_PASS_BASIS&&b!=null&&b>=S.BASIS_HIGH); };
+  /* A1（AA_582 補充二）：「應屆」＝畢業那一年考不上司法官；之後每一年都看實力。畢業那一年＝2029；延畢（交換、大四下被當）＝2030 */
+  S.gradYear=G=>S.delayed(G)?2030:2029;
+  S.judgeVerdict=(G,y,k)=>{ if(y<=S.gradYear(G)) return false; const b=S.basis(G); return k>=S.JUDGE_PASS||(k>=S.JUDGE_PASS_BASIS&&b!=null&&b>=S.BASIS_HIGH); };
   /* ---------- 研究所筆試改成作答（D118-B6）：10 題公法（憲法一、二、行政法、行政救濟法；已核對的期末考題），答對 ≥6 錄取；Y5_DAYS study 的 2030 門檻 5 ---------- */
   S.GRAD_COURSES=['const_1','const_2','admin_law','admin_remedy']; S.N_GRAD=10; S.GRAD_PASS=6;
   S.gradPool=function(){ const out=[]; if(typeof EXAM_BANK!=='undefined') for(const q of EXAM_BANK.questions) if(S.OK_STATUS.includes(q.status)&&S.GRAD_COURSES.includes(q.course)) out.push(q); return out; };
@@ -154,7 +154,8 @@ const PG=(function(){
     const qs=a.slice(0,S.N_GRAD); X[y]={qs:qs.map(q=>q.id)}; return qs; };
   /* 研究所筆試作答（r2y4a3d.js 2029-02-03 ev_grad_exam、r2y4b3d.js 2030-02-16）：記 GRAD_SCORE_<年>；已經有的（讀檔、舊存檔有 GRAD_EXAM_2029_PASS）不再考 */
   S.gradQuiz=async function(GM,y){ const G=GM.G, F=G.flags; if(typeof F['GRAD_SCORE_'+y]==='number') return F['GRAD_SCORE_'+y]; if(y===2029&&typeof F.GRAD_EXAM_2029_PASS==='boolean') return null;
-    const qs=S.drawGrad(G,y); if(!qs.length) return null; const r=await ask(GM,qs); S.rec(G).grad[y].ans=r.ans; F['GRAD_SCORE_'+y]=r.k; if(y===2029) F.GRAD_EXAM_2029_PASS=r.k>=S.GRAD_PASS; return r.k; };
+    const qs=S.drawGrad(G,y); if(!qs.length) return null; const GE=L()&&L().GRAD_EXAM; if(GE) for(const t of GE.hall) await GM.say(null,t);   /* AA_582 補充二第 1 點：作答畫面前的考場兩句 */ const r=await ask(GM,qs); S.rec(G).grad[y].ans=r.ans; F['GRAD_SCORE_'+y]=r.k; if(y===2029) F.GRAD_EXAM_2029_PASS=r.k>=S.GRAD_PASS; return r.k; };
+  S.gradNotice=async function(GM,ok){ const GE=L()&&L().GRAD_EXAM; if(!GE) return; const R=ok?GE.pass:GE.fail; await GM.say(null,R.sys); await GM.say(null,R.narr); };   /* 研究所放榜（AA_582 補充二第 1 點）：系統字＋旁白 */
   S.gradPassScore=(G,y)=>{ const k=G.flags&&G.flags['GRAD_SCORE_'+y]; if(typeof k!=='number') return null; return k>=(y===2030&&G.flags.Y5_DAYS==='study'?S.GRAD_PASS-1:S.GRAD_PASS); };   /* null＝沒有作答紀錄（舊存檔：照舊規則算一次） */
   /* ---------- 研究所、職涯（1A-01 的傾向＋考試；尾聲、第一份工作同一套）：研究所的旗標開發分支還沒有（AA_327 2-Y4-06、2-Y4-34）---------- */
   S.gradApplied=G=>{ const F=G.flags||{}; return F.Y4_PATH==='grad'||F.GRAD_ADMIT!=null||F.Y4_PUSH!=null||F.GRAD_RETRY!=null; };
@@ -166,8 +167,9 @@ const PG=(function(){
      有律師證照（BAR_YEAR）一定在律師家族：A→A_bar、C＋子晴線→C_zq（法務）、B＋研究所錄取→B_grad，其他→L_firm（事務所律師）；
      兩個都沒有照舊（A_none、B_grad、B_quit、C_zq、C）。第一份工作的照片（2030-10-01）和尾聲最後一句都讀這一個 */
   S.isJ=G=>!!(G&&G.flags&&G.flags.JUDGE_YEAR!=null);
+  S.TRAINEE_FROM=2033;
   S.path=function(G){ const F=G.flags||{}; const top=S.pathTop(G);   /* B、四年沒報考研究所：改用 A、C 裡分數比較高的（再平手 A）——S.pathTop */
-    if(F.JUDGE_YEAR!=null) return F.JUDGE_ROLE==='pros'?'J_pros':'J_judge';
+    if(F.JUDGE_YEAR!=null) return F.JUDGE_YEAR>=S.TRAINEE_FROM?'J_trainee':(F.JUDGE_ROLE==='pros'?'J_pros':'J_judge');   /* JUDGE_YEAR＝錄取那一年；受訓一律兩年：2033 以後錄取＝尾聲還在受訓（AA_582 補充二第 6 點）*/
     if(F.BAR_YEAR!=null){ if(top==='A') return 'A_bar'; if(top==='C'&&S.zqLine(G)) return 'C_zq'; if(top==='B'&&S.gradAdmit(G)) return 'B_grad'; return 'L_firm'; }
     if(top==='A') return 'A_none';
     if(top==='B') return S.gradAdmit(G)?'B_grad':'B_quit';
@@ -433,8 +435,7 @@ const PG=(function(){
       if(y===2029&&S.dating(G,'kexin')&&typeof PHONE!=='undefined') PHONE.at(G,d,17.5+2/60,Lx.EXAM.kexin.map(t=>P_('kexin',t)),'pg_kx_exam_'+y);
     } finally { if(A&&A.active) A.end(); GM.sceneEnd(); } }
   async function lateNarr(GM){ GM.sceneBegin(); try{ await GM.say(null,L().EXAM.lateNarr); } finally { GM.sceneEnd(); } }
-  S.JR_R1={both:'司法官一試：通過。',lawyer:'司法官一試：未通過。',none:'司法官一試：未通過。'};   /* 司法官重考生（已經是律師）：只看司法官那一半（字取自 R1.sys）*/
-  async function result1(GM,y){ const G=GM.G, F=G.flags, st=S.stage(G,y), jr=S.isJR(G,y), t=jr?S.JR_R1[st]:L().R1.sys[st]; F['BAR_STAGE_'+y]=st;
+  async function result1(GM,y){ const G=GM.G, F=G.flags, st=S.stage(G,y), jr=S.isJR(G,y), t=jr?(st==='both'?L().JUDGE.r1.both:L().JUDGE.r1.other):L().R1.sys[st]; F['BAR_STAGE_'+y]=st;   /* 司法官重考生（已經是律師）：只看司法官那一半（AA_582 補充二第 2 點）*/
     if(typeof PHONE!=='undefined'&&!PHONE.sent(G,'pg_r1sys_'+y)) PHONE.post(G,{th:'sys',text:t,tag:'pg_r1sys_'+y});
     const LT=L().LATE||{}, more=jr||st!=='none'?null:(y===2030?LT.fail2030:(y>2030&&LT.r1none?LT.r1none[y]:null));   /* 2030 起一試沒過的那一句（LATE）*/
     GM.sceneBegin(); try{ await GM.say(null,t); if(more) await GM.say(null,more); } finally { GM.sceneEnd(); } }
@@ -450,7 +451,7 @@ const PG=(function(){
         toAtLeast(GM,T(K.e2b,17.5)); if(GM.titleCard) await GM.titleCard(S.dateLabel(G.day,G.hour),'',1600); if(A) A.begin({background:BG('exam_hs_classroom')}); await GM.fade(false); await GM.say(null,Lx.EXAM2.end); await GM.fade(true); }
       if(part===1) toAtLeast(GM,T(K.e2a,17.5)); } finally { if(A&&A.active) A.end(); GM.sceneEnd(); }
     await GM.fade(false); }
-  /* 二試放榜的結果（場景和錯過都用）：司法官＝S.judgeVerdict（第一次考一定沒上；之後看二試答對＋在校平均）；律師照舊一定錄取＝BAR_YEAR（已經是律師的重考生不動）*/
+  /* 二試放榜的結果（場景和錯過都用）：司法官＝S.judgeVerdict（畢業那一年一定沒上；之後看二試答對＋在校平均）；律師照舊一定錄取＝BAR_YEAR（已經是律師的重考生不動）*/
   S.r2Apply=function(G,y,o){ const F=G.flags, both=S.stage(G,y)==='both';
     if(both&&F['JUDGE_PASS_'+y]==null){ const k=F['JUDGE_SCORE2_'+y]; F['JUDGE_PASS_'+y]=S.judgeVerdict(G,y,typeof k==='number'?k:0); }
     if(!(o&&o.judgeOnly)&&!S.isJR(G,y)&&F.BAR_YEAR==null) F.BAR_YEAR=y; };
@@ -485,15 +486,15 @@ const PG=(function(){
   async function jCardScene(GM,y,i){ const c=S.jCard(y,i); if(!c) return; GM.sceneBegin(); try{ await GM.fade(true); if(GM.titleCard) await GM.titleCard(c[0],c[1],2800); await GM.fade(false); } finally { GM.sceneEnd(); } }
   /* (c) 三試（口試）：隔年 1 月 */
   async function oralScene(GM,y){ const G=GM.G, F=G.flags, O=L().JUDGE.oral, A=adv(), j={name:'口試委員'}, me=S.who(G,'me');
-    GM.sceneBegin(); try{ await GM.fade(true); toAtLeast(GM,T(S.oralDay(y),10)); if(GM.titleCard) await GM.titleCard(S.dateLabel(G.day,G.hour),'司法官三試（口試）',2200); if(A) A.begin({background:'blur'}); await GM.fade(false);
+    GM.sceneBegin(); try{ await GM.fade(true); toAtLeast(GM,T(S.oralDay(y),10)); if(GM.titleCard) await GM.titleCard(L().JUDGE.oralCard,S.dateLabel(G.day,G.hour),2200); if(A) A.begin({background:'blur'}); await GM.fade(false);
       await GM.say(null,O.open); for(const [w,t] of O.lines){ const tx=typeof t==='object'?(F.BAR_YEAR!=null?t.lic:t.none):t; await GM.say(w==='j'?j:(w==='me'?me:null),tx); } } finally { if(A&&A.active) A.end(); GM.sceneEnd(); } }
-  /* (b2)＋(h) 錄取：隔年 1 月下旬 → JUDGE_YEAR＝考試那一年 */
+  /* (b2)＋(h) 錄取：隔年 1 月下旬 → JUDGE_YEAR＝錄取那一年（考試的隔年）*/
   async function admitScene(GM,y){ const G=GM.G, F=G.flags, J=L().JUDGE.admit;
     if(typeof PHONE!=='undefined'&&!PHONE.sent(G,'pg_judge_'+y)) PHONE.post(G,{th:'sys',text:J.sys,tag:'pg_judge_'+y});
     GM.sceneBegin(); try{ await GM.say(null,J.sys); for(const t of J.narr.concat(J.after)) await GM.say(null,t); } finally { GM.sceneEnd(); }
-    F.JUDGE_YEAR=y; F.JUDGE_RETAKE='done'; }
-  /* A6 結業前：法官或檢察官（司法官學院最後一學期；遊戲裡錄取後第三年 11 月，最晚 2034-05-01，尾聲以前）*/
-  S.roleDay=G=>{ const y=G.flags&&G.flags.JUDGE_YEAR; if(y==null) return null; return Math.min(S.DK((y+2)+'-11-15'),S.DK('2034-05-01')); };
+    F.JUDGE_YEAR=y+1; F.JUDGE_RETAKE='done'; }   /* JUDGE_YEAR＝錄取那一年（考試的隔年 1 月；AA_582 補充二第 6 點）*/
+  /* A6 結業前：法官或檢察官（受訓一律兩年，AA_582 補充二第 6 點）：2031 錄取＝2033 春天；2032 錄取＝2034-05-01；2033 以後錄取＝尾聲還在受訓、不演 */
+  S.roleDay=G=>{ const y=G.flags&&G.flags.JUDGE_YEAR; if(y==null||y>=S.TRAINEE_FROM) return null; return y<=2031?S.DK((y+2)+'-03-15'):S.DK('2034-05-01'); };
   async function roleScene(GM){ const G=GM.G, F=G.flags, R=L().JUDGE.role;
     GM.sceneBegin(); try{ if(GM.titleCard) await GM.titleCard(R.card[0],R.card[1],2600); await GM.say(null,R.narr); const k=await GM.choose(R.opts.map(o=>({t:o.t}))); F.JUDGE_ROLE=(R.opts[k]||R.opts[0]).v; } finally { GM.sceneEnd(); } }
   S.studyGroup=G=>{ const g=G.flags&&G.flags.BAR_STUDY_GROUP; if(!Array.isArray(g)) return null; const k=g.includes('kexin'), y=g.includes('yutong')||g.includes('heroine_03'); return k&&y?'three':(k?'kexin':(y?'yutong':null)); };   /* AA_327 2-Y4-33（那一批還沒做＝沒有）*/
@@ -553,7 +554,9 @@ const PG=(function(){
       case 'classmate_youchen': return typeof SUP497!=='undefined'&&SUP497.epiYc?SUP497.epiYc(G):null;   /* AA_497 1-6（BB_70 7b）：五年後「法條我還是背得很熟。只是現在背的是著作權法。」；地下室那場去了（YC_GIG）多一句 */
       case 'kexin': { if(!S.dating(G,'kexin')) return null; const R=typeof ROM!=='undefined'&&ROM.get?ROM.get(G,'kexin'):null, back=!!(R&&(R.history||[]).some(h=>h.ev==='end')); return me(E.kx.arrive.concat(back?E.kx.b:[])); }   /* A／B（B＝分開又回來）；她最晚到 */
     } return null; };
-  S.jLine=(G,k)=>{ const J=L().JUDGE; return String(J[k]).replace(/\{job\}/g,J.jobName[S.path(G)]||'法官'); };   /* AA_582 (m)：法官／檢察官照 S.path */
+  S.jLine=(G,k)=>{ const J=L().JUDGE; if(S.path(G)==='J_trainee'&&J.trainee&&J.trainee[k]) return J.trainee[k]; return String(J[k]).replace(/\{job\}/g,J.jobName[S.path(G)]||'法官'); };   /* 受訓中（J_trainee）用 AA_582 補充二那兩句 */
+  /* 尾聲⑤祐廷的最後一句：2031 錄取的檢察官已經上任一年多（拿掉「剛結訓」）*/
+  S.lastLine=G=>{ const p=S.path(G), F=G.flags||{}, J=L().JUDGE; if(p==='J_pros'&&F.JUDGE_YEAR!=null&&F.JUDGE_YEAR<=2031&&J&&J.prosServing) return J.prosServing; return L().EPI.last[p]; };   /* AA_582 (m)：法官／檢察官照 S.path */
   S.EPI_ORDER=['zhe','yu','classmate_bohan','classmate_xinci','heroine_01','heroine_03','heroine_05','heroine_02','heroine_04','kai','classmate_mingxuan','classmate_youchen','classmate_peishan','npc_fangyt','kexin'];   /* 宥辰：AA_497 1-6 五年後那一句（有點熟以上才在桌上，同其他人）*/
   S.epiPresent=(G,id)=>id==='kai'||(id==='kexin'?S.dating(G,'kexin'):S.atTable(G,id));   /* 只有認識的人在場；阿凱是室友 */
   S.econLine=function(G){ const F=G.flags, E=L().EPI.econ; if(!(F.PLAYED_Y0||F.MET_XUN||has('econ_zhengxun','FIRST_MET'))) return null;
@@ -608,7 +611,7 @@ const PG=(function(){
       if(A&&A.cg) A.cg(S.epiCg(G));   /* ③ CG-10 */
       for(const f of S.EPI_AFTER_CG) await f(GM);   /* 事件包的掛勾（AA_327 2-Y4-54：空著的座位那一句；src/r2y4b3d.js）*/
       const al=S.epiAlways(G); if(al) await GM.say(S.who(G,al.id),al.t);   /* ④ */
-      await GM.say(S.who(G,'me'),E.last[S.path(G)]);   /* ⑤ */
+      await GM.say(S.who(G,'me'),S.lastLine(G));   /* ⑤ */
       for(const [w,t] of S.epiAfterLast(G)) await GM.say(w==='me'?S.who(G,'me'):null,t);   /* D118-B8：A5 遠距、(i) 路線 d／f、(k) B_grad 有證照 */
       { const ln=S.lateEpi(G); if(ln) await GM.say(S.who(G,'me'),ln); }   /* A3：2031 以後才考上／考到一半停了／一路考到 2033 都沒上，多一句（暫定字，LATE.epi）*/
       for(const t of S.epiItems(G)) await GM.say(null,t);   /* ⑥ */
@@ -635,7 +638,7 @@ const PG=(function(){
         out.push({id:'jcard1_'+y,at:G=>T(y+'-05-06',21),until:G=>T(y+'-05-08',0),cond:G=>jr(G)&&G.flags.JUDGE_RETAKE_Y===y,run:GM=>jCardScene(GM,y,1)});   /* (g) 五月（自動報名的那一年；之後的年份有報名問題）*/
         out.push({id:'jcard4_'+y,at:G=>T(K.r2,0)-24*7+21,until:G=>T(K.r2,0)-24*5,cond:G=>jr(G)&&G.flags['JUDGE_SCORE2_'+y]!=null,run:GM=>jCardScene(GM,y,4)}); }   /* (g) 等放榜 */
       if(Y[y].reg) out.push({id:'jreg_'+y,judge:true,at:G=>T(Y[y].reg,21),until:G=>T(Y[y].reg,48),cond:G=>S.jAsk(G,y),run:GM=>jRegScene(GM,y),onMiss:G=>{ G.flags['JUDGE_REG_'+y]=false; G.flags.JUDGE_RETAKE='done'; }}); }   /* 2031～2033 再報不報 */
-    out.push({id:'jrole',judge:true,at:G=>{ const d=S.roleDay(G); return d==null?null:T(d,20); },until:G=>Infinity,cond:G=>G.flags.JUDGE_YEAR!=null&&G.flags.JUDGE_ROLE==null,run:roleScene});   /* A6 結業前 */
+    out.push({id:'jrole',judge:true,at:G=>{ const d=S.roleDay(G); return d==null?null:T(d,20); },until:G=>Infinity,cond:G=>G.flags.JUDGE_YEAR!=null&&G.flags.JUDGE_YEAR<S.TRAINEE_FROM&&G.flags.JUDGE_ROLE==null,run:roleScene});   /* A6 結業前 */
     out.push({id:'jnolic_2029',at:G=>T(Y[2029].r2,20.5),until:G=>T(Y[2029].r2,48),cond:G=>!S.delayed(G)&&G.flags.BAR_SIT_2029===true&&S.stage(G,2029)==='none'&&G.flags.BAR_YEAR==null,run:GM=>narrScene(GM,[L().JUDGE.retake.noLic])});   /* (f) 沒有律師證照：沒有選擇，一句旁白 */
     /* (l) 錯過的旁白 */
     out.push({id:'miss_reg_2029',at:G=>T('2029-05-12',0),until:G=>T('2029-07-01',0),cond:G=>G.flags.BAR_REG_MISSED_2029===true&&G.flags.BAR_REG==null,run:GM=>narrScene(GM,[L().MISSED.reg2029])});
