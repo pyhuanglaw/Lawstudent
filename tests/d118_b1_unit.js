@@ -1,5 +1,5 @@
 // D118-B1-1102（D118_PLAN.md 第 4 節 B1）：卡死與考試例外修正——不需要瀏覽器。
-//   b 沒有期中考（使用者 05:0x）：第 8～9 週不是考試週、法律課照常上課（不是考試）、只有第 16 週期末考；黑板不寫期中考
+//   b 沒有期中考（使用者 05:0x）：期中週照常上課（日曆上的期中週照舊給時間系統用）、法律課不考試（不是考試）、只有第 16 週期末考；黑板不寫期中考
 //   c 考試週只有考五題的法律課是考試
 //   d 日本補修兩門考原課五題
 //   e 專題、實習、經濟系那一年的成績不看讀書次數
@@ -15,7 +15,7 @@ const graduated=G=>{ G.flags.GRADUATED=PG.gradDay(); PG.rec(G).done.grad=1; };
     const t8=CALENDAR.termOf(d8), t16=CALENDAR.termOf(d16);
     const G=H.fresh('2025-09-01',8,'dorm',{}); let items=[]; for(let d=d8;d<d8+14;d++) items=items.concat(CLS.dayItems(G,d));
     const ex=items.filter(it=>it.exam); const law=items.filter(it=>CLS.isExamCourse&&CLS.isExamCourse(it.c));
-    check('b1. 大一上第 8 週不是考試週、第 16 週是期末考週',t8&&t8.exam==null&&t16&&t16.exam==='final',JSON.stringify({t8,t16}));
+    check('b1. 大一上第 8 週：日曆上照舊是期中週（給劇情、約會、打工的時間系統用）、考試清單沒有期中考；第 16 週期末考',t8&&t8.exam==='mid'&&t16&&t16.exam==='final'&&!CLS.examList(G,'Y1S1').some(e=>e.kind==='mid')&&CLS.examList(G,'Y1S1').length>0,JSON.stringify({t8,t16,list:CLS.examList(G,'Y1S1').map(e=>e.c.id+':'+e.kind)}));
     check('b2. 第 8～9 週兩週的課都不是考試（法律課照常上課）',law.length>0&&!ex.length,JSON.stringify({law:law.length,ex:ex.map(i=>i.c.id+':'+i.exam)}));
     check('b3. 期中週黑板不寫「期中考」（S.topic 用第 7 週的主題）',!items.some(it=>CLS.content(it).board.join('').includes('期中考'))&&CLS.topic(items[0].c,8)===CLS.topic(items[0].c,7)); }
   /* c 考試週只有考五題的法律課是考試；國文那一堂照常上課 */
