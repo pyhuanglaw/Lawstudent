@@ -3900,6 +3900,15 @@
    "task": "AA588-AA581-TAIL-1102",
    "kind": "text",
    "note": "第 1 節沛珊柏翰公開移到 4/15 傍晚麵店進店事件（events.js ev_psbh_public_0415、story3d.js phoneRules 17:00 兩則、20:30 滷蛋照片）＋期末那頓拿掉公開；第 2 節記憶標籤 AN_L8_MIDTERM（social3d.js）；第 3 節源稿（syllabus 學期檔、AA_138，見那幾列）；第 4 節 K1「又被當」七句（postgrad3d.js CARDS_DELAY、r2y4b3d.js y5Plan）手抄改 src。tests/aa588_unit.js。子代理 2026-11-02 代登（分支 worktree-agent-a56503a4cb939863c），給值班 LAWWW 核"
+  },
+  {
+   "path": "docs/story_planning/study/cards_y4.json",
+   "sha": "95630e2f1",
+   "status": "approved",
+   "approvedBy": "AA（D109 劇情自主；AA 14:18 交付，已獨立核對、改 8 張、可選建議 8 項全採用）",
+   "task": "D118-B2-1102",
+   "kind": "text",
+   "note": "大四觀念卡 68 張（Y4S1 59、Y4S2 9；88 題）；法律專題研究、法律實習不考試沒有卡；LAWWW 2026-11-02 登記"
   }
  ]
 }

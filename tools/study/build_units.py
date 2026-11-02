@@ -23,7 +23,8 @@ CARD_FILES = [('docs/story_planning/study/cards_y1s1.json', 'Y1S1'),
               ('docs/story_planning/study/cards_y2s1.json', 'Y2S1'),
               ('docs/story_planning/study/cards_y2s2.json', 'Y2S2'),
               ('docs/story_planning/study/cards_y3s1.json', 'Y3S1'),
-              ('docs/story_planning/study/cards_y3s2.json', 'Y3S2')]
+              ('docs/story_planning/study/cards_y3s2.json', 'Y3S2'),
+              ('docs/story_planning/study/cards_y4.json', ('Y4S1', 'Y4S2'))]   # 大四上下一個檔（AA 14:18，95630e2f1）：學期寫成 tuple
 TITLES_FILE = 'docs/story_planning/study/crimpro_titles.json'
 CARD_FIELDS = ('plain', 'example', 'cue')
 # basis 裡不是條文出處、AA 說匯入時拿掉的（AA 11:31 交大二下：法學英文那一項是給審稿看的）
@@ -138,6 +139,8 @@ problems = []   # 對不上的（印出來，不默默丟掉）
 imported = {}   # 學期 → 匯入幾張
 sources = []
 for path, term in CARD_FILES:
+    terms = term if isinstance(term, tuple) else (term,)
+    term = '／'.join(terms)
     cards, sha = read_allowed(path)
     sources.append(f'{os.path.basename(path)}@{sha}')
     got = 0
@@ -148,7 +151,7 @@ for path, term in CARD_FILES:
         if not u:
             problems.append(f'{os.path.basename(path)}：卡 {cid} 遊戲裡沒有這張（沒匯入）')
             continue
-        if u['term'] != term:
+        if u['term'] not in terms:
             problems.append(f'{os.path.basename(path)}：卡 {cid} 是 {u["term"]} 的卡，不是 {term}（照樣匯入）')
         if not isinstance(c, dict):
             problems.append(f'{os.path.basename(path)}：卡 {cid} 不是物件（沒匯入）')
@@ -162,13 +165,13 @@ for path, term in CARD_FILES:
         b = c.get('basis')
         u['basis'] = [x for x in b if isinstance(x, str) and x and x not in BASIS_DROP] if isinstance(b, list) else []
         got += 1
-    imported[term] = imported.get(term, 0) + got
+        imported[u['term']] = imported.get(u['term'], 0) + 1
     # 那一學期、稿裡有寫到的那幾門課，遊戲有卡但稿裡沒有的
     courses = {byid[k]['course'] for k in cards if k in byid}
     for u in allu:
-        if u['term'] == term and u['course'] in courses and u['id'] not in cards:
+        if u['term'] in terms and u['course'] in courses and u['id'] not in cards:
             problems.append(f'{os.path.basename(path)}：{term} {u["course"]} 的卡 {u["id"]} 稿裡沒有（照舊空著）')
-    other = sorted({u['course'] for u in allu if u['term'] == term and u['course'] not in courses})
+    other = sorted({u['course'] for u in allu if u['term'] in terms and u['course'] not in courses})
     if other:
         print(f'  {term} 稿裡沒有的課（照舊空著）：' + '、'.join(other))
 
@@ -206,6 +209,6 @@ print('  觀念卡匯入：' + '、'.join(f'{t} {n} 張' for t, n in imported.it
 for p in problems:
     print('  對不上：' + p)
 # 太長的卡（plain＋example 字數，每學期前 5 張；不拆卡，給 LAWWW 決定要不要請 AA 縮）
-for path, term in CARD_FILES:
+for term in [t for _, tt in CARD_FILES for t in (tt if isinstance(tt, tuple) else (tt,))]:
     longest = sorted((u for u in allu if u['term'] == term and u['plain']), key=lambda u: -len(u['plain'] + u['example']))[:5]
     print(f'  {term} 最長的卡：' + '、'.join(f'{u["id"]} {len(u["plain"] + u["example"])} 字' for u in longest))

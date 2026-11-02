@@ -17,10 +17,11 @@ const fs=require('fs'), vm=require('vm'), path=require('path'), cp=require('chil
 const {check}=H, J=JSON.stringify;
 for(const f of ['src/data/study_units.js','src/study3d.js']){ const p=path.join(H.ROOT,f); if(!fs.existsSync(p)) continue; const src=fs.readFileSync(p,'utf8').replace(/^const ([A-Z][A-Z0-9_]*)\s*=/mg,'globalThis.$1='); vm.runInThisContext(src,{filename:f}); }
 const DIR='docs/story_planning/study/';
-const FILES={Y1S1:DIR+'cards_y1s1.json',Y1S2:DIR+'cards_y1s2.json',Y2S1:DIR+'cards_y2s1.json',Y2S2:DIR+'cards_y2s2.json',Y3S1:DIR+'cards_y3s1.json',Y3S2:DIR+'cards_y3s2.json'}, TITLES=DIR+'crimpro_titles.json';
+const FILES={Y1S1:DIR+'cards_y1s1.json',Y1S2:DIR+'cards_y1s2.json',Y2S1:DIR+'cards_y2s1.json',Y2S2:DIR+'cards_y2s2.json',Y3S1:DIR+'cards_y3s1.json',Y3S2:DIR+'cards_y3s2.json',Y4S1:DIR+'cards_y4.json',Y4S2:DIR+'cards_y4.json'}, TITLES=DIR+'crimpro_titles.json';
 const ALLOW=JSON.parse(fs.readFileSync(path.join(H.ROOT,'docs/handoff/story_import_allow.json'),'utf8'));
 const approved=p=>ALLOW.files.filter(e=>e.path===p&&e.status==='approved'&&e.approvedBy&&e.sha);
-const show=(sha,p)=>{ try{ return JSON.parse(cp.execFileSync('git',['-C',H.ROOT,'show',sha+':'+p],{encoding:'utf8',stdio:['ignore','pipe','pipe']})); }catch(e){ return null; } };
+const FIX=raw=>cp.execFileSync('python3',['-c','import sys;sys.path.insert(0,"tools/story");import import_guard as g;sys.stdout.write(g.read_fix(sys.stdin.read()))'],{cwd:H.ROOT,input:raw,encoding:'utf8'});   /* 匯入工具讀稿走 import_guard.read_fix（D115 換名：臺大→首都帝大…），比對也照做 */
+const show=(sha,p)=>{ try{ return JSON.parse(FIX(cp.execFileSync('git',['-C',H.ROOT,'show',sha+':'+p],{encoding:'utf8',stdio:['ignore','pipe','pipe']}))); }catch(e){ return null; } };
 const U={}; for(const u of STUDY_UNITS.units) U[u.id]=u;
 const Q={}; for(const q of EXAM_BANK.questions) Q[q.id]=q; for(const q of QBANK) Q[q.id]=Q[q.id]||q;
 const has=u=>!!(u.plain||u.example||u.cue);
@@ -56,7 +57,8 @@ for(const t of Object.keys(FILES)){ const S=src[t]; if(!S){ check('c. '+t+' 匯�
 
 /* e 還沒交定稿的學期沒有匯入 */
 { const rest=STUDY_UNITS.units.filter(u=>!FILES[u.term]&&u.src!=='qbank');   /* 大三上起（Y3S1）cards_y3s1.json 也匯入了：剩 Y3S2、Y4S1、Y4S2 */ const leak=rest.filter(has).map(u=>u.id);
-  check('e. 白名單沒有的學期（'+[...new Set(rest.map(u=>u.term))].join('、')+'）'+rest.length+' 張週卡 plain／example／cue 都空',rest.length>0&&!leak.length,J(leak.slice(0,5)));
+  check('e. 白名單沒有的學期（'+([...new Set(rest.map(u=>u.term))].join('、')||'無')+'）'+rest.length+' 張週卡 plain／example／cue 都空（大四 cards_y4.json 14:18 交了以後八學期都有卡：0 張也算）',!leak.length,J(leak.slice(0,5)));
+  check('e2. 八學期每一張週卡都有 plain（AA 交齊；法律專題研究、法律實習不考試沒有卡）',!STUDY_UNITS.units.filter(u=>u.src!=='qbank'&&!u.plain).length,J(STUDY_UNITS.units.filter(u=>u.src!=='qbank'&&!u.plain).map(u=>u.id).slice(0,8)));
   const qb=STUDY_UNITS.units.filter(u=>u.src==='qbank'&&!has(u)).map(u=>u.id);
   check('e. 刑訴題庫卡 9 張：大三上 cards_y3s1.json 交了內容（AA 11:46），plain／example／cue 都有',!qb.length,J(qb)); }
 

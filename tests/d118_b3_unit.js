@@ -130,7 +130,9 @@ const freshAt=(d,h,zone)=>{ const G=H.fresh('2025-09-01',9,zone||'library_hall',
     const v1=STUDY.view(us[0]); const idx=L.findIndex(t=>t.startsWith('【')&&t.includes(v1.title)); const body=idx>=0?L[idx+1]:'';
     /* 大一上的卡有 AA 的白話（cards_y1s1.json，tests/cards_import_unit.js）：標題下一句＝白話＋例子；還沒有白話的（大二下以後）照 fallback */
     { const want=STUDY.cardLines(us[0]); check('h2. 有白話的卡：標題下面＝STUDY.cardLines（短卡＝白話＋「　例子：」一則；長卡照句號分段、例子另一則）、第一則是白話的開頭',idx>=0&&!!v1.plain&&body===want[0]&&want[0].startsWith(v1.plain.slice(0,10))&&want.join('').replace(/　?例子：/,'').indexOf(v1.plain.slice(-10))>=0,J(body)); }
-    const ue=STUDY_UNITS.units.find(u=>!u.plain&&STUDY.view(u).board[1]), ve=ue&&STUDY.view(ue), le=ue?STUDY.cardLines(ue):[];
+    /* 八學期都交了白話（AA 14:18 大四）：找不到沒有白話的卡就拿一張有黑板的卡、暫時清掉白話／例子來測 fallback，測完還原 */
+    let ue=STUDY_UNITS.units.find(u=>!u.plain&&STUDY.view(u).board[1]), bak=null; if(!ue){ ue=STUDY_UNITS.units.find(u=>u.src!=='qbank'&&STUDY.view(u).board[1]); if(ue){ bak={plain:ue.plain,example:ue.example}; ue.plain=''; ue.example=''; } }
+    const ve=ue&&STUDY.view(ue), le=ue?STUDY.cardLines(ue):[]; if(bak) Object.assign(ue,bak);
     check('h2b. 白話還沒有的卡（'+(ue&&ue.id)+'）：第一句＝黑板第二、三行＋教授那一句（fallback）',!!ve&&!!le[0]&&le[0].includes(ve.board[1])&&(!ve.line||le[0].includes(ve.prof+'：'+ve.line)),J(le[0]));
     check('h3. 「跳到下一科」：第三張卡是下一科的第一張',!!c1&&cards[2].includes(c1.c.name)&&cards[2].includes('1／'),J(cards[2]));
     const menu=H.opts.slice(-3); check('h4. 每張卡下面：下一張、跳到下一科、結束總複習',menu.every(o=>o.includes('下一張')&&o.some(t=>t.startsWith('結束')))&&menu[0].some(t=>t.startsWith('跳到下一科')),J(menu));
