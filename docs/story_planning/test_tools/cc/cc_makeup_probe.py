@@ -305,6 +305,7 @@ DECL = ('不去了', '晚一點', '自己走過去', '先不', '不用了', '算
 GO_PREFIX = ('出發：', '直接過去：', '接起來：', '上線：')
 GO_PICKS = (CONT, '老位子', '坐中間的位子', '還是進去聽', '先自由活動')
 Q_RE = re.compile(r'^([1-5])／5　(.*)$', re.S)
+TODAY_EXAM = "(()=>{ try{ const G=GAME.G, k=CALENDAR.dateOf(G.day).key, out=[]; for(const c of CLS.termCourses(G,'Y4S2')){ let e=null; try{ e=CLS.examDay(G,c,'Y4S2','final'); }catch(_){ } if(e&&e.key===k) out.push({id:c.id,name:c.name,kind:'final'}); } const M=G.flags&&G.flags.FD_MAKEUP; if(!out.length&&M&&!['pass','fail','missed','cancelled'].includes(M.status)&&(M.courses||[]).length===1){ const c=CLS.termCourses(G,'Y4S2').find(x=>x.id===M.courses[0])||{id:M.courses[0],name:M.courses[0]}; out.push({id:c.id,name:c.name,kind:'makeup'}); } return out.length===1?out[0]:null; }catch(e){ return null; } })()"
 PAPER_RE = re.compile(r'^考卷發下來。(.+?)(期末考|補考|期中練習|期中考)')
 
 
@@ -409,6 +410,9 @@ class Driver:
             if m and not any(t.startswith(CONT) for t in T):
                 pp = self.paper or {}
                 cid = await pg.evaluate(CNAME2ID, pp.get('name', ''))
+                if not cid:   # 「考卷發下來。」被擠出最近 14 行（d75871437 起期末考前有研討室旁白／cue）：改用今天是哪一門課的考試日（cloud／cc-local R5 11-02）
+                    tod = await pg.evaluate(TODAY_EXAM)
+                    if tod: cid = tod['id']; pp = dict(pp, kind=pp.get('kind') or tod['kind'], via='examDay'); self.paper = self.paper or {'name': tod['name'], 'kind': tod['kind'], 'd': lastsay.get('d')}
                 kind = pp.get('kind', 'final'); i = int(m.group(1)); ek = '%s|%s|%s' % (lastsay.get('d'), cid, kind)
                 key = '%s|%d|%s' % (ek, i, m.group(2)[:30])
                 a = await pg.evaluate(ANSWER, [m.group(2), cid, 'Y4S2', kind]) if cid else {'err': '認不出考卷的課（%s）' % J(pp)}

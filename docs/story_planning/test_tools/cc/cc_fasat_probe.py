@@ -145,7 +145,7 @@ EXIT_JS = "(to=>{ const it=(GAME.E.interactables||[]).find(i=>i.exit&&i.exit.to=
 LIVEN = "(()=>({frame:GAME.E.frame|0,day:GAME.G.day,h:+(+GAME.G.hour).toFixed(3),busy:!!GAME.E.player.busy,zone:GAME.G.zone,x:+GAME.E.player.obj.position.x.toFixed(2),z:+GAME.E.player.obj.position.z.toFixed(2)}))()"
 
 HOOK = r"""(()=>{ if(window.__PLH) return 'again'; window.__PLH=1; window.__PL=[];
-  const at=()=>{ try{ const F=GAME.G.flags||{}; return {d:CALENDAR.dateOf(GAME.G.day).key, h:+(+GAME.G.hour).toFixed(3), z:GAME.G.zone, vis:F.LAWCLUB_SAT_VISITS|0, n:F.FAFU_SHIFT_N|0}; }catch(e){ return {}; } };
+  const at=()=>{ try{ const F=GAME.G.flags||{}; return {d:CALENDAR.dateOf(GAME.G.day).key, h:+(+GAME.G.hour).toFixed(3), z:GAME.G.zone, vis:F.LAWCLUB_SAT_VISITS|0, sn:F.FAFU_SHIFT_N|0}; }catch(e){ return {}; } };
   const push=o=>{ try{ Object.assign(o,at()); window.__PL.push(o); if(window.__PL.length>8000) window.__PL.splice(0,2000); }catch(e){} return o; };
   const s0=GAME.say; GAME.say=function(w,t){ push({k:'say',n:(w&&w.name)||(typeof w==='string'?w:''),t:String(t==null?'':t)}); return s0.apply(this,arguments); };
   const c0=GAME.choose; GAME.choose=function(o){ push({k:'choose',n:'',t:(o||[]).filter(x=>x&&!x.hidden).map(x=>((x.t||x.text)||'')+(x.hint?'〔'+x.hint+'〕':'')).join('｜')}); return c0.apply(this,arguments); };

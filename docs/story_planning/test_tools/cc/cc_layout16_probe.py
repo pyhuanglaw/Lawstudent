@@ -348,7 +348,7 @@ async def exam_pass(p, run, case, qid, orient, books=False):
             if nx:
                 rec['next'] = short(nx); rec['shots']['next_say'] = await run.shot(pg, tag + '_q2_say')
                 br, nr = base['dlg']['rect'], nx['dlg']['rect']
-                run.check('%s：下一題那一句 #dlg 回到原位（left、bottom 和第 1 題那一句一樣 ±%g px、沒有 side／static）' % tag,
+                run.check('%s：下一題那一句 #dlg 回到原位（left、bottom 和第 1 題那一句一樣 ±%g px、沒有 side／static）' % (tag, TOL),
                           abs(br['l'] - nr['l']) <= TOL and abs(br['b'] - nr['b']) <= TOL and abs(br['w'] - nr['w']) <= TOL and 'side' not in nx['dlg']['cls'] and 'static' not in nx['dlg']['cls'],
                           J({'base': br, 'next': nr, 'cls': nx['dlg']['cls']}))
             else: run.check('%s：第 2 題那一句出現' % tag, False)
