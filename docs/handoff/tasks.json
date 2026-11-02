@@ -40490,10 +40490,10 @@
       "id": "AA591-SIS-B4-1102",
       "title": "AA_591 學姊改稿第四批（大三、大四、畢業以後；使用者 11-02 18:5x 選擇題確認；學姊不會先告白——她先說的支線整支拿掉）＋AA 19:19 AA_584 補充（林{name}、sis3h、heardClip 刪、修正本私訊、family_context）",
       "owner": "LAWWW",
-      "status": "進行中",
+      "status": "已實作待整合",
       "priority": "P1",
       "note": "企劃線 6b35748c7（AA 19:21 P1）",
-      "next": "子代理在 worktree（aa591，基於 0e11c43a3）；回來後合併、測試、派 BB",
+      "next": "int/m591 4d84930c4（學姊第四批合併）；AA 21:27 九件回覆交 AA600 子代理一起改",
       "xai": {
         "spec": "企劃線 docs/story_planning/AA_591_學姊改稿_第四批_大三大四畢業後.md @6b35748c7",
         "branch": "int/next1102",
@@ -40844,16 +40844,43 @@
       "id": "BUG-CLIMB-ZOMBIE-1102",
       "title": "爬宿舍梯子上床，兩手直直往前抬像殭屍（使用者 22:2x）：character3d.js CLIMB_VRM 固定姿勢蓋掉走路片段的手——改成兩手交替抓梯子、手肘彎；附改前改後遊戲截圖",
       "owner": "LAWWW",
-      "status": "進行中",
+      "status": "已實作待整合",
       "priority": "P1",
       "note": "UA-LAWWW-1102-30",
-      "next": "子代理在 worktree（基於 int/m591，新宿舍）改姿勢、截圖比較；回來後角色動作由 LAWWW 驗收（D100a），BB 測",
+      "next": "int/m591 合併 climbfix a7eb618f2（climbIK：兩手抓梯子兩側、手肘彎、交替、前傾、握拳；截圖 docs/art-rebuild/climb_pose_1102/，LAWWW 看過改前改後 compare 圖＝不再是平舉殭屍手）；剩兩件交給 LAWWW2（DORM-LADDER-HEAD-GRIP-1102）",
       "xai": {
         "spec": "使用者原話",
         "branch": "int/next1102",
         "acceptance": "BB 測",
         "receiver": "BB",
         "ack": "—"
+      }
+    },
+    {
+      "first": {
+        "term": "Y1S1",
+        "week": null,
+        "earliest": "第一次期中考前（讀書、一鍵總複習）；國考與職涯在畢業以後",
+        "mainline": true,
+        "blocks": false,
+        "prereq": false,
+        "parallel": true,
+        "confirmed": true
+      },
+      "area": null,
+      "id": "DORM-LADDER-HEAD-GRIP-1102",
+      "title": "宿舍梯子兩件（爬梯手勢修正時發現）：①第 5 階頭穿天花板（3.0 m 房間）——LAWWW2 初步傾向最上一兩階改彎腰（不改房間高度、不動已 ART_APPROVED 的模型與烘焙；彎腰姿勢 LAWWW 加）；②只有門那一側有扶手——靠床那側加握把、dorm_room4.layout.json 出每一階兩手 grips（LAWWW 的 climbIK 改抓 grips）",
+      "owner": "LAWWW2",
+      "status": "待開工",
+      "priority": "P1",
+      "note": "LAWWW2 22:56 ACK",
+      "next": "下一班 LAWWW2 接班確認方向；LAWWW2 22:5x 換班前 ACK 但沒寫進交接檔，記在這裡",
+      "xai": {
+        "spec": "climbfix 回報＋LAWWW2 22:56",
+        "branch": "int/next1102",
+        "acceptance": "BB 測",
+        "receiver": "LAWWW2",
+        "ack": "ACK"
       }
     }
   ]
