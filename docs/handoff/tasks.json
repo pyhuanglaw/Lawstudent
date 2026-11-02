@@ -39710,6 +39710,52 @@
         "ack": "ACK",
         "acceptance": "2029～2033 一試沒有 Y4MAR_；舊存檔不動"
       }
+    },
+    {
+      "id": "WSEM-BG-1102",
+      "title": "研討室 A（WSEM 三門）門口上課、期末考的背景是空的模糊——改 wancai_seminar；考試開頭旁白等 AA（BB 10:24）",
+      "owner": "LAWWW",
+      "status": "已整合待測試",
+      "priority": "P2",
+      "note": "2026-11-02 LAWWW：CLS.DOOR_BG={wancai_seminar}、CLS.DOOR_EXAM_LINE（AA 的旁白到了填）；attend 門口上課開 ADV 時用那張圖。tests/wsem_bg_unit.js（修改前 FAIL）。共同／普通／博思／體育館門口照舊（BB：不考五題，先記下）。",
+      "first": {
+        "term": "Y4S1",
+        "earliest": "大四上研討課",
+        "mainline": false,
+        "blocks": false,
+        "parallel": true,
+        "confirmed": true
+      },
+      "xai": {
+        "spec": "BB 10:24",
+        "branch": "claude/confident-ritchie-8rwh7t",
+        "receiver": "BB",
+        "ack": "ACK",
+        "acceptance": "WSEM 上課、考試背景＝wancai_seminar"
+      }
+    },
+    {
+      "id": "WSEM-EXAM-LINE-AA-1102",
+      "title": "研討室 A 期末考開頭一句旁白（交代研討室裡的人）",
+      "owner": "AA",
+      "status": "待開工",
+      "priority": "P2",
+      "note": "BB 10:24 轉 AA；到了填 classes3d.js CLS.DOOR_EXAM_LINE.wancai_seminar。",
+      "first": {
+        "term": "Y4S1",
+        "earliest": "大四上期末",
+        "mainline": false,
+        "blocks": false,
+        "parallel": true,
+        "confirmed": true
+      },
+      "xai": {
+        "spec": "BB 10:24",
+        "branch": "claude/story-planning",
+        "receiver": "LAWWW",
+        "ack": "SENT",
+        "acceptance": "一句旁白"
+      }
     }
   ]
 }
