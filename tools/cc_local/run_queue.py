@@ -396,7 +396,10 @@ class Runner(object):
             if not self.node:
                 raise RuntimeError('node not found (set CC_NODE)')
             os.makedirs(out, exist_ok=True)
-            return [self.node, os.path.join(wt, it.script)] + xa, wt
+            sp = os.path.join(wt, it.script)
+            if not os.path.exists(sp):   # N1_node：總管腳本（tools/cc_local/node_units.js）在 cc-testing（Work），受測版本裡沒有；cwd 照樣是 wt
+                sp = os.path.join(self.work, it.script)
+            return [self.node, sp] + xa, wt
         if k == 'blender':
             if not self.blender:
                 raise RuntimeError('blender not found (set CC_BLENDER)')

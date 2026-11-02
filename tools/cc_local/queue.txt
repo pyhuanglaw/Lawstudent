@@ -116,3 +116,6 @@ R9_x3       | b1b249873 | probe | docs/story_planning/test_tools/cc/cc_rollcall_
 08_pt106    | c2d0c24bc | probe | docs/story_planning/test_tools/cc/cc_pt106_probe.py            | index.html?turbo  | 120 |
 30_b1base   | a3b1bd647 | probe | docs/story_planning/test_tools/cc/cc_d118b1_probe.py   | index.html | 150 | CASES=retake_skip,retake_saveload,guowen_w8
 31_b2base   | a3b1bd647 | probe | docs/story_planning/test_tools/cc/cc_d118b2_probe.py   | index.html | 60  | CASES=wancai
+
+# BB_246（下一版 int/next1102）驗收：SHA 等 LAWWW 給正式 SHA 再填、解除 HOLD。N1_node＝第一次用 node kind，和雲端 m590 基準（scratchpad out/n1_cloud_m590）對照
+#HOLD正式SHA N1_node     | <正式SHA> | node  | tools/cc_local/node_units.js | index.html | 240 | XARGS=--out {out} --timeout 600
