@@ -109,13 +109,13 @@ const SISB15_EVENTS=(function(){
       N('（她講到一半停下來，看到你。）'),
       SIS('……你聽到了？'),
       {choice:[{text:'「再講一次。」',goto:'a'},{text:'「我聽不太懂。」',goto:'b'}]},
-      {label:'a'},N('（她講了一次，這次沒有停。）'),SIS('……好。可以了。'),{goto:'e'},
-      {label:'b'},SIS('那就對了。……他們聽得懂就好。'),
+      {label:'a'},N('（她講了一次，這次沒有停。）'),SIS('好。可以了。'),{goto:'e'},
+      {label:'b'},SIS('那就對了。他們聽得懂就好。'),
       {label:'e'} ]),
     /* ---------- 1-9 清研究室（大三暑假 2028-06-28 週三 19:00～21:00，霖澤館 5F 研究室；那一晚她在研究室，4F 刷卡門晚上開，src/lab5f3d.js）---------- */
     Y1({id:'ev_sis15_lab_clear',title:'清研究室',location:'linze_5f',time:[19,21]},[
       N('（研究室的地上排著四個紙箱。她在把書一本一本放進去。）'),
-      SIS('出國前，研究室要清空。……書比我想的多。'),
+      SIS('出國前，研究室要清空。書比我想的多。'),
       {choice:[{text:'「我幫妳。」',goto:'a'},{text:'「這些都要帶去美國？」',goto:'b'}]},
       {label:'a'},N('（你們裝了一個小時。她把最後一箱封起來，抽出三本放在桌上。）'),SIS('這三本，你要的話拿去。我畫過線的。'),{set:{SIS15_BOOKS3:true},advance:1},{goto:'e'},   /* 房間多一個物件（src/sis_b15_3d.js：STORY.ROOM_EXTRA）；裝了一個小時＝時間往前一小時 */
       {label:'b'},SIS('帶不走。放家裡。……放我自己的家。'),
@@ -125,7 +125,7 @@ const SISB15_EVENTS=(function(){
     { id:'ev_sis15_board', title:'家族讀書會', participants:[ID], location:'lawlib', trigger:'auto', weekday:[4], time:[19,21], cooldown_days:1, near:{npc:ID,r:3}, background:'blur',
       prereq:{custom:(G,GM)=>!!X()&&X().boardOk(G,GM)},
       dialogue:[ Object.assign({if:{custom:G=>!!X()&&X().boardIx(G)===0}},SIS('今天的題目在白板上。')),
-        Object.assign({if:{custom:G=>!!X()&&X().boardIx(G)===1}},SIS('坐。題目自己看。')),
+        Object.assign({if:{custom:G=>!!X()&&X().boardIx(G)===1}},SIS('坐。今天這題比較長。')),
         Object.assign({if:{custom:G=>!!X()&&X().boardIx(G)===2}},SIS('佳穎，你先講。……好，換人。')),
         {inc:{SIS15_BOARD_N:1}} ] },
     /* ---------- 2-1 2027-10-21（四）：限制行為能力（民法第 12、13、75、79 條；只講到效力未定）---------- */
@@ -139,7 +139,7 @@ const SISB15_EVENTS=(function(){
       N('（她在白板上寫下「效力未定」四個字，圈起來。）'),
       {choice:[{text:'「效力未定。」',goto:'a'},{text:'「十八歲就成年了。」',goto:'b'}]},
       {label:'a'},SIS('嗯。你大一的時候，這題錯過嗎。'),{goto:'e'},
-      {label:'b'},SIS('對。以前是二十歲。……這題考古題的答案，有幾份是舊的。小心。'),
+      {label:'b'},SIS('對。以前是二十歲。這題考古題的答案，有幾份是舊的。'),
       {label:'e'} ]),
     /* ---------- 2-2 2027-12-09（四）：出題的人 ---------- */
     ST(2,'家族讀書會：出題的人',[
@@ -149,7 +149,7 @@ const SISB15_EVENTS=(function(){
       JUN('……很難。'),
       SIS('嗯。我自己錯了三次，才出得出來。'),
       {choice:[{text:'「妳錯在哪？」',goto:'a'},{text:'（抄題目）',goto:'b'}]},
-      {label:'a'},SIS('第二個箭頭。……你自己找。'),{goto:'e'},
+      {label:'a'},SIS('第二個箭頭。……你找得到嗎？'),{goto:'e'},
       {label:'b'},N('（她看了你一眼，沒有說話，把白板往你那邊轉了一點。）'),
       {label:'e'} ]),
     /* ---------- 2-3 2028-03-16（四）：她遲到（前一天 3/15 她收到美國的信；Kevin 九點那一則在家族群組，src/sis_b15_3d.js）---------- */
@@ -157,7 +157,7 @@ const SISB15_EVENTS=(function(){
       N('（七點十分，她才推門進來。這是第一次。）'),
       SIS('……抱歉。昨天沒睡好。'),
       {choice:[{text:'「發生什麼事？」',goto:'a'},{text:'（不問）',goto:'b'}]},
-      {label:'a'},SIS('……群組看到了吧。美國那邊。'),{goto:'e'},
+      {label:'a'},SIS('群組看到了吧。美國那邊。'),{goto:'e'},
       {label:'b'},N('（那一晚的題目，她講得比平常快。）'),
       {label:'e'} ]),
     /* ---------- 2-4 2028-05-11（四）：交棒前（7/13 最後一次 ev_sis_fam_study_last 照舊）---------- */
@@ -167,7 +167,7 @@ const SISB15_EVENTS=(function(){
       JUN('十週！？'),
       SIS('一週一題。很少了。'),
       {choice:[{text:'「學姊會在美國看嗎？」',goto:'a'},{text:'「佳穎可以的。」',goto:'b'}]},
-      {label:'a'},SIS('她會拍白板。……我看得到。'),{goto:'e'},
+      {label:'a'},SIS('她會拍白板。我看得到。'),{goto:'e'},
       {label:'b'},JUN('……學長不要害我。'),SIS('可以的。'),
       {label:'e'} ]),
 

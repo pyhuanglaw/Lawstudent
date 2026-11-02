@@ -90,7 +90,7 @@ const R3_EVENTS=(function(){
   const abroadRoute=G=>{ const r=route(G); return r==='JP'||r==='US'; };
 
   /* ---------- 3-11 學姊：大四選擇那一週的讀書計畫（BB_99 2-4、10-1 第 4 項）：B 美國路線會所版、C 研究室版、D 研究所筆試的便條（當面）。訊息、出遊在 r3_3d.js ---------- */
-  const PLAN_LINES=[ SIS('你週六排了十二個小時。'), SIS('改成八個。剩下四個拿去睡覺。') ];
+  const PLAN_LINES=[ SIS('你週六排了十二個小時。'), SIS('改成八個吧。剩下四個拿去睡覺。') ];
   const SIS_PLAN_US={ id:'ev_sis_plan_us', title:'讀書計畫', participants:['heroine_05'], location:'any', trigger:'outing', once:true, background:'dark', hours:1,
     dialogue:[ {scene:'會所・自習室',bg:'us_club_study'},   /* 會所裡面不做 3D；11-02 LAWWW-B 用 BB-C 第 93 組的 us_club_study（原本深色底）*/
       {speaker:null,text:'（會所的自習室。她把你的讀書計畫從頭看到尾。）'}, ...PLAN_LINES,

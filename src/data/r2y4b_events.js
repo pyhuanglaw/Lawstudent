@@ -396,7 +396,7 @@ const R2Y4B_EVENTS=(function(){
       {speaker:'heroine_05',text:'你那邊是早上吧。……我這邊剛寫完報告。'},
       {speaker:'heroine_05',text:'今天有人問我臺灣在哪裡。我畫了一張地圖給他。'},
       {speaker:'heroine_05',text:'好，我去睡了。你去吃早餐。'},{goto:'inv'},
-      {label:'v1'},{speaker:'heroine_05',text:'（畫面裡是她的計畫本）這一格寫的是你的考試。……你考完要跟我說。'},
+      {label:'v1'},{speaker:'heroine_05',text:'你下禮拜考試吧。……考完跟我說。'},
       {speaker:'heroine_05',text:'好，我去睡了。你去吃早餐。'},{goto:'inv'},
       {label:'t4'},{speaker:'heroine_05',text:'研究小間隔壁的人，每天都比我早到。',aa516:true},{speaker:'heroine_05',text:'今天我比他早了十分鐘。……他看到我，愣了一下。',aa516:true},
       {choice:[{text:'「妳贏了。」',goto:'t4a',aa516:true},{text:'「你們有說話嗎？」',goto:'t4b',aa516:true}]},
@@ -454,7 +454,7 @@ const R2Y4B_EVENTS=(function(){
       {label:'g1b'},{speaker:'heroine_05',text:'吃了。三明治。這邊的三明治都很大，我吃一半，另一半當明天早餐。'},{end:true},
       {label:'g2'},{speaker:'heroine_05',text:'這邊上課，大家一直舉手。'},{speaker:'heroine_05',text:'我今天舉了一次。……講完教授說「好問題」，然後就換下一個人了。'},
       {choice:[{text:'「那是好問題的意思嗎？」',consequences:{stamp:['SIS13_G2_DAY']},goto:'g2a'},{text:'「妳問了什麼？」',goto:'g2b'}]},   /* AA_512 第 2 節第 9 點：記那一天（SIS13_G2_DAY），下一次視訊開頭兌現 */
-      {label:'g2a'},{speaker:'heroine_05',text:'我也在想。……下禮拜再舉一次，看他怎麼說。'},{end:true},
+      {label:'g2a'},{speaker:'heroine_05',text:'我也在想。下禮拜再舉一次，看他怎麼說。'},{end:true},
       {label:'g2b'},{speaker:'heroine_05',text:'臺灣的法律扶助要等多久。他們那邊等更久。'},{end:true},
       {label:'g3'},{speaker:'heroine_05',text:'這邊沒有中秋。'},{speaker:null,text:'（她把一個小紙盒舉到鏡頭前，裡面是一顆月餅。）'},
       {speaker:'heroine_05',text:'亞洲超市買的。一顆就要五塊美金。'},{speaker:'heroine_05',text:'……我切一半給你看。另一半留到星期二。'},
@@ -490,7 +490,7 @@ const R2Y4B_EVENTS=(function(){
       {label:'h3b'},{speaker:'heroine_05',text:'嗯。可是回去以後，就沒有人這樣叫了。',aa516:true},{end:true},
       {label:'h4'},{speaker:'heroine_05',text:'這邊的葉子全紅了。',aa516:true},{speaker:'heroine_05',text:'我寄了一個東西回去。……不要問，到了就知道。',aa516:true},   /* 10/26 楓葉書籤（ev_sis_maple）前面 */
       {choice:[{text:'「給我一個提示。」',goto:'h4a',aa516:true},{text:'「好。我等。」',goto:'h4b',aa516:true}]},
-      {label:'h4a'},{speaker:'heroine_05',text:'很輕。……好，提示結束。',aa516:true},{end:true},
+      {label:'h4a'},{speaker:'heroine_05',text:'很輕。好，提示結束。',aa516:true},{end:true},
       {label:'h4b'},{speaker:'heroine_05',text:'嗯。',aa516:true},{end:true},
       {label:'h5'},{speaker:'heroine_05',text:'宿舍廚房的鍋子太薄了，咖哩會黏底。',aa516:true},{speaker:'heroine_05',text:'我今天站在旁邊攪了四十分鐘。',aa516:true},
       {choice:[{text:'「好吃嗎？」',set:{SIS14_CURRY_PROMISE:true},goto:'h5a',aa516:true},{text:'「換一個鍋子。」',goto:'h5b',aa516:true}]},   /* 2-5：回臺灣以後 12/31 中午她家（src/sis_b14_3d.js）*/
@@ -529,7 +529,7 @@ const R2Y4B_EVENTS=(function(){
       {speaker:null,text:'（太陽慢慢沉到峽谷另一邊。風很大，她把外套拉鍊拉到最上面。）'},
       {choice:[{text:'「學姊，我喜歡妳。」',goto:'say'},{text:'（看著峽谷，不說話）',goto:'she'}]},
       {label:'say'},{if:SIS_KNOWS,call:async(G,GM)=>{ const r=R(); if(r) await r.canyonKnow(GM,true); }},{goto:'air',if:CANYON_KNEW},   /* AA_474 3b：她知道祐廷正在和別人交往＝告白那一刻接 KNOW.heroine_05（R2Y4B.canyonKnow）*/
-      {speaker:'heroine_05',text:'……我以為我要先說。'},{speaker:'heroine_05',text:'好。'},{goto:'yes'},
+      {speaker:'heroine_05',text:'（她笑了。）你確定？'},{speaker:'heroine_05',text:'好。'},{goto:'yes'},
       {label:'she'},{speaker:'heroine_05',text:'那我先說。'},
       {speaker:'heroine_05',text:'我喜歡你。……我想了很久，要不要在這裡說。'},
       {goto:'shek',if:SIS_KNOWS},   /* AA_481 第 2 節：她知道＝只說前兩句就接知情對話（「你要說好，還是要我再說一次。」接著又先問另一個人，玩家還沒開口就被換了題目）*/

@@ -51,9 +51,9 @@ const R2Y4A_EVENTS=(function(){
     dialogue:[ nar('（亞洲超市。她在泡麵那一排停了很久，拿了一包台灣的泡麵，貴三倍。）'),
       sis('……我在研究室常吃這一種。') ] });   /* AA_450 1-1：原「……這個不算浪費。這是鄉愁。」（口氣表 0-3 禁的「不算 X，這是 Y」）*/
   EV.push({ id:'ev_us1_door', title:'公寓 214', participants:[S5], location:'any', trigger:'manual', once:true, background:'blur',   /* 二樓的戶外樓梯平台；她不進門；BB_98 2-7 原句拿掉編號（裁定第 6 點）*/
-    dialogue:[ sis('你一個人一戶？……有客廳，還有自己的廚房。'),
+    dialogue:[ sis('你一個人一戶？有客廳，還有自己的廚房。'),
       sis('我住 C 棟，三個人合租。廚房是共用的，冰箱上貼了一張輪值表。'),
-      sis('冷氣不要開太強，會很乾。垃圾星期四收。'),
+      sis('冷氣開太強會很乾。垃圾星期四收。'),
       sis('……有事打給我。同一個社區，走路五分鐘。') ] });
   EV.push({ id:'ev_us1_mom', title:'打給媽媽', participants:[], location:'any', trigger:'manual', once:true, background:'blur',   /* 21:30，所有美國路線（AA_291 4-1）*/
     dialogue:[ nar('（行李箱上貼著媽媽的便條：「到了打電話。不管幾點。」）'),
@@ -89,7 +89,7 @@ const R2Y4A_EVENTS=(function(){
       CG('cg_us_kitchen_heroine05'),   /* BCG-32 接這一句 */
       sis('……報告被退了。教授說：「妳的論點很清楚，但我讀不到妳。」'),
       nar('（水滾了。她把麵放進去，放了兩人份，又拿出一把。）'),
-      sis('……你吃過了嗎？'),
+      sis('你吃過了嗎？'),
       {choice:[{text:'「還沒。」',set:{US2_STAYED:true},goto:'a'},{text:'「吃過了。」',goto:'b'}]},
       {label:'a'},nar('（她把那一把麵放回鍋子裡。你在窗口外的高腳椅坐下。）'),{goto:'end'},
       {label:'b'},sis('好。'),nar('（她煮了一人份。）'),
@@ -114,8 +114,8 @@ const R2Y4A_EVENTS=(function(){
       nar('（一路上，何俊朗說了好幾次「還好」：巴士、披薩、湖邊的風。每一次聽起來都不一樣。）'),   /* AA_345 F10：不寫成他的台詞，一句旁白接學姊那句。沒見過他的在上面巴士上認識了（AA_451 1-1；原本 AA_370 L1 的「同行的人」版不再用）*/
       sis('「還好」是好還是不好？'),
       me('看情況。'),
-      sis('……法律系的回答。'),
-      IF(G6,me('……像日文的「大丈夫」。要看前面那一句。')),IF(G6,sis('你修過日文？')),IF(G6,me('修過兩學期。')),IF(G6,sis('……好。那你負責翻譯他。')) ],
+      sis('法律系的回答。'),
+      IF(G6,me('……像日文的「大丈夫」。要看前面那一句。')),IF(G6,sis('你修過日文？')),IF(G6,me('修過兩學期。')),IF(G6,sis('好。那你負責翻譯他。')) ],
     afterOuting:async(G,GM)=>{ if(typeof R2Y4A!=='undefined') await R2Y4A.chicagoDay2(GM); },
     outingMissed:G=>{ if(typeof R2Y4A!=='undefined') R2Y4A.chicagoMissed(G,true); } });
   EV.push({ id:'ev_us_chicago2', title:'芝加哥的週末', participants:[S5], location:'any', trigger:'manual', once:true, background:'dark',
@@ -123,7 +123,7 @@ const R2Y4A_EVENTS=(function(){
       nar('（她讀完每一塊說明牌。）'),
       IF(LONG,{speaker:'何俊朗',text:'妳每一塊都要讀？'}),UN(LONG,nar('（同行的人問她：「妳每一塊都要讀？」）')),   /* 裁定第 15 點 */
       sis('……我只是想讀完。'),
-      sis('（看了一眼後面還有二十塊）……好。我跳過一塊。'),
+      sis('（看了一眼後面還有二十塊）好。我跳過一塊。'),
       IF(G=>dating(G,S5),nar('（回程的巴士上，她睡著了。行程表還在她的外套口袋裡。）')),
       UN(G=>dating(G,S5),nar('（晚上回程的巴士上，兩個人隔一排坐。）')),
       {mem:[{npc:S5,tag:'CHICAGO_TRIP',note:''}]} ] });
@@ -155,21 +155,21 @@ const R2Y4A_EVENTS=(function(){
     outingMissed:G=>{ if(typeof R2Y4A!=='undefined') R2Y4A.lakeMissed(G); } });
 
   /* ---- 2-Y4-20 US4 初雪：小教堂的台階（AA_254 第 8 節；挽回中 AA_253 §6 第 4 步）。這不是告白（BB_203 第 3 節）---- */
-  const SNOW_END=[ nar('（回公寓以前，她翻開計畫本，在 12 月 2 日那一格寫了一個字。）'),me('寫什麼？'),sis('不給你看。'),nar('（她把計畫本闔起來。那一格寫的是「雪」。）') ];   /* 「回宿舍」改「回公寓」（裁定第 14 點）*/
+  const SNOW_END=[ nar('（回公寓以前，她翻開計畫本，在 12 月 2 日那一格寫了一個字。）'),me('寫什麼？'),sis('不給你看。'),nar('（她把計畫本闔起來。）') ];   /* 「回宿舍」改「回公寓」（裁定第 14 點）*/
   EV.push({ id:'ev_us_first_snow', title:'初雪', participants:[S5], location:'any', trigger:'outing', once:true, background:'dark', hours:1,
     dialogue:[ {scene:'小教堂前的台階',bg:'us_chapel_steps_snow'},
       {if:{flags:['US_SNOW_LATE']},speaker:null,text:'（你還是去了。雪下得很小，她坐在台階最上面一階。）'},   /* 20:30 以後、21:30 還沒到＝帶到場 */
       {if:{flags:['SIS14_COAT']},speaker:null,text:'（你穿著那件外套。她也是。）',aa516:true},   /* AA_516 4-3（企劃線 a9b87c588）：SU-L7「好。週六。」那一趟買了外套（src/sis_b14_3d.js）＝開頭多一句 */
       nar('（她坐在台階最上面一階，旁邊放著兩杯熱可可。你坐下的時候，她把一杯推過來。）'),
-      sis('剛買的。……還燙。'),
+      sis('剛買的。還燙。'),
       nar('（雪開始下。一開始很小，落在杯蓋上就化了。）'),
       me('妳還好嗎？'),
       sis('還好。'),
       nar('（她喝了一口。雪落在她的帽子上，沒有化。）'),
       {choice:[{text:'（再問一次）「妳還好嗎？」',goto:'a'},{text:'（不問了）',goto:'b'}]},
       {label:'a'},sis('……你怎麼會問第二次。'),
-      sis('不太好。論文回去還要改兩章。我不知道碩三畢不畢得了業。'),
-      sis('還有……我其實不知道自己為什麼要念研究所。以前有人問，我都說「先不要問我」。'),
+      sis('有一點不好。論文回去還要改兩章。我不知道碩三畢不畢得了業。'),
+      sis('還有，我其實不知道自己為什麼要念研究所。以前有人問，我都說「先不要問我」。'),
       CG('cg_snow_steps_heroine05'),   /* BCG-09 */
       nar('（她把頭靠在你的肩膀上。雪積在兩個人的帽子上。）'),
       {set:{SIS_ASKED_TWICE:true}},{goto:'end'},
@@ -185,7 +185,7 @@ const R2Y4A_EVENTS=(function(){
       sis('你看。'),
       sis('……我在臺灣，從來沒看過雪。'),
       {if:{custom:REP_OK},goto:'ok'},
-      sis('……回去吧，會冷。'),
+      sis('回去吧，會冷。'),
       {set:{US_SNOW:'cold'}},{end:true},
       {label:'ok'},
       sis('如果你還想的話，我們重新開始。這次我先說。'),
@@ -227,16 +227,16 @@ const R2Y4A_EVENTS=(function(){
       sis('……這一頁我不寫。'),
       sis('這一週，你排。'),
       {choice:[{text:'「第一天：睡到自然醒。」',goto:'a'},{text:'「我們一天排一件就好。」',goto:'b'},{text:'「妳也排一件。」',goto:'c'}]},
-      {label:'a'},sis('……這也算行程嗎。'),sis('好。算。'),nar('（她在那一頁寫下：「第一天：睡到自然醒。」然後把筆蓋起來。）'),   /* AA_398 第 32 列 */{goto:'e'},
-      {label:'b'},sis('一天一件。'),nar('（她想了一下）'),sis('……那五天，五件。剛好。'),{goto:'e'},
-      {label:'c'},sis('我？'),nar('（她看著空白頁很久）'),sis('……一件。最後一天，寄一張明信片回台灣。給家族。'),
+      {label:'a'},sis('這也算行程嗎。'),sis('好。算。'),nar('（她在那一頁寫下：「第一天：睡到自然醒。」然後把筆蓋起來。）'),   /* AA_398 第 32 列 */{goto:'e'},
+      {label:'b'},sis('一天一件。'),nar('（她想了一下）'),sis('那五天，五件。剛好。'),{goto:'e'},
+      {label:'c'},sis('我？'),nar('（她看著空白頁很久）'),sis('一件。最後一天，寄一張明信片回台灣。給家族。'),
       {label:'e'} ] });
   EV.push({ id:'ev_sf2', title:'霧裡的大橋', participants:[S5], location:'any', trigger:'manual', once:true, background:'dark',
     dialogue:[ {scene:'霧裡的大橋',bg:'sf_bridge_fog'},
       nar('（大橋的另一頭被霧吃掉了，只看得到最近的兩根橋塔。風很冷。）'),
       sis('看不到另一頭。'),
       {if:{custom:()=>hasCG('cg_sf_bridge_fog_heroine05')},cg:'cg_sf_bridge_fog_heroine05'},   /* BCG-48（使用者 10-17 批准；生成狀態照 BB_184）*/
-      sis('……走得過去嗎。'),
+      sis('走得過去嗎。'),
       {choice:[{text:'「走過去就看得到了。」',goto:'a'},{text:'「那我們走到一半就好。」',goto:'b'},{text:'（不說話，牽她的手）',goto:'c'}]},
       {label:'a'},sis('嗯。'),nar('（她先走。走了幾步回頭。）'),sis('你也要走。'),{goto:'e'},
       {label:'b'},sis('一半。'),nar('（她笑了）'),sis('……好。走到第二根橋塔。'),{goto:'e'},
@@ -268,11 +268,11 @@ const R2Y4A_EVENTS=(function(){
       sis('十二月的臺北，還是比那邊熱。'),
       {unless:{flagIs:{US1:'together'}},goto:'m0'},   /* AA_370 M5：8/2 一起出發（交往中）媽媽已經塞鳳梨酥給她、她說過「謝謝阿姨」——不是第一次見面 */
       nar('（媽媽先看到你，再看到你旁邊的人。她笑了一下。）'),
-      sis('阿姨好。……上次的鳳梨酥，很好吃。'),
+      sis('阿姨好。上次的鳳梨酥，很好吃。'),
       {goto:'m1'},
       {label:'m0'},   /* 8/2 出發那天還沒在交往（挽回中、後來重新開始）：媽媽第一次見到她（原句）*/
       nar('（媽媽先看到你，再看到你旁邊的人。）'),
-      sis('伯母好。……我是書瑀。'),
+      sis('伯母好。我是書瑀。'),
       {label:'m1'},
       sis('（小聲）我搭捷運就好。'),
       {speaker:'媽媽',text:'一起走啦，順路。'},
@@ -621,23 +621,23 @@ const R2Y4A_EVENTS=(function(){
       IF(G=>PV('lover')(G)&&!!G.flags.SIS_JP_COAT,Object.assign(nar('（袖口內側，一排很淡的齒痕。你自己都忘了是哪一邊。）'),{aa512:true})),
       {scene:'車上',bg:'car_night'},
       IF(G=>PV('lover')(G)&&!!G.flags.SIS16_H9B,Object.assign(nar('（回程的高速公路上，她舉起手機，對著開車的你拍了一張。沒有開閃光燈。）'),{aa523:true})),   /* AA_523 5-2：h9b「……好。在車上開。你開車，我拍你。」（r2y4b_events.js 記 SIS16_H9B）＝戀人版回程車上多一句旁白（稿沒寫位置：車上那一段的第一句，子代理解讀）*/
-      {if:{custom:G=>!!G.flags.REPLIED_US0||has(S5,'REPLIED_US0')},speaker:S5,text:'我剛到美國那天，你回得很快。……謝謝。'},
+      {if:{custom:G=>!!G.flags.REPLIED_US0||has(S5,'REPLIED_US0')},speaker:S5,text:'我剛到美國那天，你回得很快。謝謝。'},
       {unless:{custom:G=>!!G.flags.SIS_MAPLE&&G.flags.SIS_MAPLE_MSG==='got'},goto:'mp_e'},   /* AA_395 2-2：有書籤、傳過「書籤收到了。」的才有下面這一段 */
       sis('書籤，你有用嗎。'),{choice:[{text:'「有。」',goto:'mp_e'},{text:'「捨不得用。」',goto:'mp_b'}]},
-      {label:'mp_b'},sis('……用啊。不然寄它幹嘛。'),{label:'mp_e'},
+      {label:'mp_b'},sis('用啊。不然寄它幹嘛。'),{label:'mp_e'},
       IF(G=>has(S5,'DROVE_HER'),sis('這次我一直講。你可以轉頭。')),UN(G=>has(S5,'DROVE_HER'),sis('我一直講。你可以轉頭。')),
-      sis('……不行，看前面。'),
+      sis('不行，看前面。'),
       sis('美國的雞蛋，很難吃。圖書館的咖啡機，很難喝。'),
       sis('我想吃滷肉飯。現在。'),
-      IF(G=>PV('lover')(G)&&G.flags.SIS_JP_FIRST==='secret',Object.assign(sis('……七月說要保密的，就是這個。'),{aa512:true})),   /* AA_512 6-1 (b)：J4「妳決定。」（先保密）*/
+      IF(G=>PV('lover')(G)&&G.flags.SIS_JP_FIRST==='secret',Object.assign(sis('七月說要保密的，就是這個。'),{aa512:true})),   /* AA_512 6-1 (b)：J4「妳決定。」（先保密）*/
       IF(PV('family'),{speaker:'Kevin',text:'學姊妳今天話好多！'}),   /* Kevin 在後座 */
-      IF(PV('lover'),sis('……還有，我想你。')),   /* AA_398 第 35 列 */
+      IF(PV('lover'),sis('……還有。（她轉過頭看著你。）親一下。')),   /* AA_398 第 35 列 */
       {choice:[{text:'「下交流道找一家。」',goto:'a'},{text:'「先回家睡覺。」',goto:'b'},{text:'「公館那家？」',unless:{custom:G=>PV('lover')(G)&&G.flags.SIS_JP_FIRST==='noodle'},goto:'c'},
         {text:'「麵店？說好的。」',if:{custom:G=>PV('lover')(G)&&G.flags.SIS_JP_FIRST==='noodle'},goto:'nd',aa512:true}]},   /* AA_512 6-1 (c)：J4「麵店。」（第一天就去）＝第三個選項換成這一個；其他兩個照舊 */
       {label:'a'},nar('（交流道下面的小店，十點還開著。她吃得很快，一句話都沒說。）'),{goto:'e'},
-      {label:'b'},sis('……好。明天。明天一定。'),{set:{SIS_PICKUP_TMR:true}},{goto:'e'},   /* 隔天她傳「滷肉飯。今天。不要再說明天。」（r2y4a3d.js；AA_398 第 36 列）*/
+      {label:'b'},sis('好。明天。明天一定。'),{set:{SIS_PICKUP_TMR:true}},{goto:'e'},   /* 隔天她傳「滷肉飯。今天。不要再說明天。」（r2y4a3d.js；AA_398 第 36 列）*/
       {label:'c'},sis('對。就那家。'),nar('（你們開回公館。店快打烊了，老闆多給了一碗湯。）'),{goto:'e'},
-      {label:'nd'},Object.assign(sis('……對。第一天。'),{aa512:true}),Object.assign(nar('（你們開回公館。麵店的鐵門拉下一半，阿姨看到你，又把門拉上去。）'),{aa512:true}),
+      {label:'nd'},Object.assign(sis('對。第一天。'),{aa512:true}),Object.assign(nar('（你們開回公館。麵店的鐵門拉下一半，阿姨看到你，又把門拉上去。）'),{aa512:true}),
       Object.assign(nar('（阿姨端了兩碗麵，又多放一碗滷肉飯在她面前。她先吃滷肉飯。）'),{aa512:true}),
       {label:'e'},{mem:[{npc:S5,tag:'PICKED_HER_UP',note:''}]} ],
     after:G=>{ G.flags.SIS_PICKUP=G.flags.SIS_PICKUP_V||'family'; } });

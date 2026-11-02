@@ -676,7 +676,7 @@ const Y34B=(function(){
     {speaker:'heroine_05',text:'回程路上喝。冰的。'},
     {if:C(fam2),cg:S.BCG31},   /* BCG-31（兩個人的版本；見上面 S.BCG31）*/
     {if:C(G=>dating(G,'heroine_05')),speaker:null,text:'（Kevin 去還推車的時候，她把口罩拉下來一下。）'},{if:C(G=>dating(G,'heroine_05')),speaker:'heroine_05',text:'到了先在群組說，再打給你。'},   /* AA_392 第 2-4 節：交往中（家族共乘）*/
-    {if:C(famV),speaker:'heroine_05',text:'……回到家，在群組說一聲。'},
+    {if:C(famV),speaker:'heroine_05',text:'回到家，在群組說一聲。'},
     {if:C(fam2),speaker:'heroine_05',text:'……回到家，傳訊息給我。'},
     {mem:[{npc:'heroine_05',tag:'DROVE_HER',note:''}]},
     {if:C(famV),set:{SIS_SENDOFF:'family'}},{if:C(fam2),set:{SIS_SENDOFF:'two'}} ];
@@ -694,9 +694,9 @@ const Y34B=(function(){
     {speaker:null,text:'（電話那頭有人在笑。研究室的人在幫她慶祝。）'},
     {speaker:'heroine_05',text:'等一下。……好，我走到外面了。'},
     {speaker:'heroine_05',text:'過了。委員問了兩個小時。'},
-    {choice:[{text:'「對不起，我忘了時間。」',goto:'m9c_a'},{text:'「恭喜。」',goto:'m9c_b'}]},
-    {label:'m9c_a'},{speaker:'heroine_05',text:'嗯。'},{speaker:null,text:'（她停了一下）'},{speaker:'heroine_05',text:'下次不要忘。……蛋糕還有一半，明天中午研究室。'},{goto:'m9c_end'},
-    {label:'m9c_b'},{speaker:'heroine_05',text:'……謝謝。他們買的蛋糕把我的名字寫錯了。明天中午你來，我給你看。'},
+    {choice:[{text:'「對不起，我沒趕上。」',goto:'m9c_a'},{text:'「恭喜。」',goto:'m9c_b'}]},
+    {label:'m9c_a'},{speaker:'heroine_05',text:'嗯。'},{speaker:null,text:'（她停了一下）'},{speaker:'heroine_05',text:'蛋糕還有一半。明天中午，研究室。'},{goto:'m9c_end'},
+    {label:'m9c_b'},{speaker:'heroine_05',text:'謝謝。他們買的蛋糕把我的名字寫錯了。明天中午你來，我給你看。'},
     {label:'m9c_end'},{set:{SIS_DEFENSE_CALL:true}} ];
   const M9_CAKE=[ {scene:'法律系館A・研究室',bg:'sis_lab_room'},{speaker:null,text:'（蛋糕上寫著『溫書玉』。她用叉子把那個字刮掉了。）'},{set:{SIS_DEFENSE_CAKE:'went'}} ];
   /* AA_392 第 2-3 節：到機場等她（她搭客運來）；和車上那一版共用最後兩句的位置，開頭換成這兩行；記 SAW_HER_OFF（車上版照舊 DROVE_HER）*/
@@ -844,9 +844,9 @@ const Y34B=(function(){
     {speaker:null,text:'（門開了。她出來。研究室的同學先鼓掌。）'},
     {cg:'cg_defense_day_heroine05'},
     {speaker:'heroine_05',text:'過了。'},
-    {speaker:'heroine_05',text:'……你們怎麼都還在？'},
-    {speaker:'player',text:'等妳。大家都是。'},
-    {unless:C(dSis),speaker:'heroine_05',text:'……好。我請大家喝飲料。販賣機的。'},
+    {speaker:'heroine_05',text:'我說因為我寫得很開心。'},
+    {speaker:'player',text:'許老師怎麼說？'},
+    {unless:C(dSis),speaker:'heroine_05',text:'好。我請大家喝飲料。販賣機的。'},
     {if:C(G=>!dSis(G)&&G.flags.SIS_INTERVIEW==='went'),speaker:'heroine_05',text:'致謝裡有你。'},
     {if:C(G=>!dSis(G)&&G.flags.SIS_INTERVIEW==='went'),speaker:'heroine_05',text:'那一句『他講到這裡，停了很久』，我用在第四章了。'},   /* AA_379 3-4（企劃線 d037c668）：接 2-5 訪談去過（SIS_INTERVIEW went）；研究助理（M8、RA_WORK）作廢、不恢復 */
     {if:C(dSis),speaker:null,text:'（她在你旁邊坐下。）'},{if:C(dSis),speaker:'heroine_05',text:'你坐這裡就好。'},
