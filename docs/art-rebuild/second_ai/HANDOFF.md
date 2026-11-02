@@ -1,29 +1,32 @@
 # LAWWW2 交接紀錄（隨時更新；工作階段中斷時從這裡接）
 
-## 🔨 現在在做（11-02 12:0x 更新）：使用者 P0「總圖」——LIB-FRONT-1102 → LIB-INTERIOR-1102（B1 優先、一樓 version 2）→ CAMPUS-RELAYOUT-1102
-- **使用者 11:1x 去睡覺**：「不要停下來問我…沒回覆的東西可以先放著或自己決定 先做別的」（UA-LAWWW2-1102-09）。LAWWW 11:08：美術、場景程式照 D108、D111 自己決定；建築、場景的 ART_APPROVED 照 D120 給 BB。
-- **LAWWW 11:14**：
-  - 三包（LIB-FRONT 第三版、B1 第二版、一樓 version 2）正式交件後，合進 int/next1102（從今晚的候選 b1b249873 開的本機分支）。
-  - patch 以 b1b249873 驗 apply --check。
-  - 一樓 version 2：version 1 留著當備用；舊存檔站在舊位置的要能 unstick；跑 reachability_all。
-- **BB 10:59**：使用者「每小時把還沒上 GitHub 的東西推上去」。
-- **LIB-FRONT-1102 第三版**（拱廊前 6 m 平台、台階 x 73.75～76、廣場、草坪）：
-  - 測試副本 `scratchpad/devwt_d`（ba125d6f3＋patch＋GLB）。
-  - 瀏覽器：campus_layout_nav、flow_library_floors、flow_library_scene、guide_flow、reachability_all 全部 ALL PASS。
-  - campus_glb_integration 在乾淨的 b1b249873 也 FAIL（soc／SOCX、TAGS 過時；不是這包的問題）。總圖那一項的設計差異加進 BBOX_TOL，patch 是 v3b。
-  - 全部 Node（864 支）跑到一半。
-  - patch：`docs/art-rebuild/second_ai/patches/lib_front_1102.patch`（＝v3b，b1b249873 apply --check 乾淨）。
-  - **下一步**：Node 跑完 → README 第六節補數字 → outbox → 交件（LAWWW、BB）。
-  - v3.1（之後）：平台上拱廊前兩棵尖塔形針葉樹（照片 40；CC 差異清單 ③）。
+## 🔨 現在在做（11-02 14:3x 更新）：使用者 P0「總圖」——LIB-FRONT-1102 ✅交件 → LIB-INTERIOR-1102（B1 第二版、一樓＋二樓 version 2）→ CAMPUS-RELAYOUT-1102
+- **12:2x～14:0x 工作階段中斷**（機器重開）：scratchpad 還在。重開以後的處理：
+  - 光照烘焙重跑；
+  - 補了 Node 全套唯一的 FAIL：socsci_place_unit，路線點 (37,17) → (37,16.2)。
+- **LIB-FRONT-1102 第三版：已正式交件** `32961b6ab`（README `0d45928c8`、patch v3c）。
+  - LAWWW、BB 都 DELIVERED，還在等 ACK。
+  - 瀏覽器 5 支 ALL PASS；Node 864 支只有 1 支 FAIL，v3c 已修。
+  - campus_glb_integration 在乾淨的 b1b249873 也 FAIL（soc／SOCX、TAGS 過時；不是這包的問題，已告訴 LAWWW）。
+  - v3.1（平台上兩棵尖塔形針葉樹，照片 40）排在 B1、一樓＋二樓之後。
 - **B1 第二版**：
-  - 備份在 `docs/art-rebuild/second_ai/wip/library_b1_v2/`；patch `scratchpad/lib1102/library_b1_v2.patch`（b1b249873、ba125d6f3 都乾淨）；副本 `scratchpad/devwt_c`。
-  - 四張重拍（`run_b1shots3.sh`）跑完 → README `test_shots/library_b1_1102/`（改前 `library_b1_1023/game_*.jpg`、照片 `ntu_lib_b1_room_a/b`）→ 交件。
-- **一樓 version 2**（中庭台階書牆＋展演廳＋多元共享區＋數位媒體區；version 1 留著）：
-  - 已推遠端：配置腳本 `tools/blender/env_second/library_hall_v2_layout.py`、Blender `library_hall_v2.py`、烘焙 `lightbake/bake_library_hall_v2.sh`；遊戲程式 WIP patch `docs/art-rebuild/second_ai/wip/library_hall_v2/`（副本 `scratchpad/devwt_e`，ba125d6f3 基準；**交件時要在 b1b249873 重產，index.html 那一段衝突**）。
-  - Node：nav_buildings_unit、library_hall_cam_core_unit（v2 版）、library_hall_v2_oldsave_unit（新：第一版 715 個位置讀進來都站得住、走得到，84 個挪開、最遠 2.69 m）、library_copier／media／upper／b1 都 ALL PASS。library_hall_lightmap_unit 等烘焙好的 GLB。
-  - 光照烘焙 512 取樣在背景跑（`scratchpad/lib1102/lh2/bake/`）。
-  - **下一步**：烘完 → 放進 devwt_e → 遊戲內截圖 → flow_library_floors／flow_library_scene 改 v2 版（平台 2.5 m 那段）→ reachability_all → README → 交件。
-- **之後**：二樓、三樓照平面圖 → CAMPUS-RELAYOUT-1102（舊社科院＝電機二館、電機一館照官方地圖）。
+  - 乾淨 worktree `scratchpad/devwt_f`（b1b249873＋patch＋b1v5 GLB）；相關 Node 56 支 55 PASS，唯一 FAIL 的 pool_aafix_unit 在乾淨的 b1b249873 一樣 FAIL。
+  - 中庭灌木的芯修好了（b1v5）。中庭、門廳在重拍（`run_b1shots4.sh`）。
+  - **下一步**：重拍完 → `make_b1_grids.py` → README 第六節 → 二進位搬進 wip → outbox → 交件。
+- **一樓＋二樓 version 2**（副本 `scratchpad/devwt_e`；WIP patch 推到 `82e85b8ad`）：
+  - 二樓照 11-02 二樓平面圖：
+    - 中日韓文書架（黃，3 排）、西文書架（藍，2 排）；
+    - 討論室 225、226（北牆，關著）、展示區展板（北牆）；
+    - 人字拼地板（2D 背景 ntu_library_2f）、銀行燈（instancing）。
+  - 館員辦公室的門補進 Blender（第一版漏了，正式模型載入後門會不見）。
+  - flow_library_floors、flow_library_scene 改成認得第二版。
+  - 113 支相關 Node 跑到 79 支，只有 lightmap 那支等烘焙。
+  - 光照 512 取樣在烘（`scratchpad/lib1102/lh2/bake/`）。
+  - **下一步**：烘完 → GLB 放進 devwt_e → 遊戲內截圖（改前用 v1）→ 瀏覽器流程（floors、scene、lib_tour、stairs_cam、reachability_all、zone_transitions）→ 在 b1b249873 重產 patch → README → 交件。
+- **3F**：使用者沒給 3F 平面圖（企劃線也沒有），3F 閱覽區照舊。
+- **CAMPUS-RELAYOUT-1102 筆記**：
+  - 官方地圖（`images/6.jpg`）：**電機一館**在化學館東邊、小椰林道西側、蒲葵道北邊（地圖約 (1100,555)；比例尺約 1.43 m／px）。
+  - 電機二館在水杉道北、楓香道東（遊戲 (112,−62) 舊社科院那棟）。
 - **延後**：us_market 第三版（`abd76acab`）交件、jp_room 第十版（`568a44330`）交件、FAIR-TENT-CAM-1102 → DORM1-WALL-SEAM-1102 → PUTONG101-WINDOW-1102。
 
 ## ✅ 接班（最新）：2026-11-02 03:3x UTC｜帳號 A｜LAWWW2｜`session_01AC1WVgJSmoJK1uRsPK2Zn1`｜分支 `claude/second-ai-env-art`

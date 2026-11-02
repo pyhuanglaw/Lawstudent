@@ -46,6 +46,7 @@ CUBES = [(XARC - 0.5, s * 11.0) for s in (-1, 1)]
 PALMS = [(x, s * 13.4) for s in (-1, 1) for x in (40.0, 47.5, 55.0, 62.5)]   # 遊戲放（大道椰子那一圈 x>35 的改到這裡）
 PLANTERS = [(73.75, 76.0, 18.0, 30.0)]   # 總圖台階兩旁的花台（campus_library.py：x 73.75～76、|z| 18～30、高 1.5）
 XMAS = (68.0, -12.0)
+CONIFERS = (78.9, 12.4)   # v3.1（照片 40、BB 轉的 CC 差異清單③）：平台上、白石翼的拱前面兩棵尖塔形針葉樹（z ±12.4；平台 x 76～82、高 0.9）
 
 
 def juniper_tex(path, n=256, seed=7):
@@ -153,6 +154,10 @@ def build():
                    @ L.Matrix.Diagonal((k, k * rnd.uniform(0.9, 1.0), kh, 1.0)))
             ju.add_bm(base_bm, mtx); n_j += 1
             x += rnd.uniform(0.86, 1.0)
+    for s in (-1, 1):   # v3.1：平台上兩棵尖塔形針葉樹（籬笆同一個形狀，拉高 1.6 倍：約 5.4 m）
+        mtx = (L.Matrix.Translation(g2b(CONIFERS[0], 0.9 - 0.05, s * CONIFERS[1])) @ L.Matrix.Rotation(1.1 * s, 4, 'Z') @ L.Matrix.Diagonal((1.05, 1.0, 1.6, 1.0)))
+        ju.add_bm(base_bm, mtx); n_j += 1
+        so.cyl((CONIFERS[0], 0.9, s * CONIFERS[1]), (CONIFERS[0], 0.93, s * CONIFERS[1]), 0.85, seg=14)   # 樹下一圈土
     base_bm.free()
     # 籬笆兩頭各一棵比較矮的（照片 1：籬笆的頭是圓的）
     # ---- 花台上的灌木（總圖台階兩旁，花台頂 1.5）----
@@ -179,7 +184,7 @@ def build():
     info = L.export(out, gpu_instances=False)
     info['layout'] = {'avenue_end': XA, 'lawn': [XLW, XLE, -ZL, ZL], 'lawn_arc_ends_x': XARC, 'hedges': [HX0, HX1, HZ0, HZ1], 'grass_strip': [XARC, XLE, ZL, GZ1],
                       'paths': [XARC, XP0, GZ1, PZ1], 'plaza': [XP0, XP1, -ZP, ZP], 'trees': TREES, 'lamps': LAMPS, 'benches': BENCHES, 'cubes': CUBES, 'palms': PALMS,
-                      'planters': PLANTERS, 'xmas': XMAS, 'junipers': n_j, 'heights': {'pave': Y_PAVE, 'plaza': Y_PLAZA, 'lawn': Y_LAWN, 'curb': Y_CURB}}
+                      'planters': PLANTERS, 'conifers': [[CONIFERS[0], -CONIFERS[1]], [CONIFERS[0], CONIFERS[1]]], 'xmas': XMAS, 'junipers': n_j, 'heights': {'pave': Y_PAVE, 'plaza': Y_PLAZA, 'lawn': Y_LAWN, 'curb': Y_CURB}}
     info['note'] = '總圖前草坪第二版（LIB-FRONT-1102）：地面、草坪、路緣、龍柏籬、花台灌木、白色石墩、白色球形路燈；樹、長椅、大王椰子由遊戲放（patch）'
     L.write_json(out[:-4] + '.json', info)
     return info
