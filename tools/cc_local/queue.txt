@@ -52,7 +52,8 @@ R10_rr2     | b1b249873 | probe | docs/story_planning/test_tools/cc/cc_d118b3_pr
 # 16:59：R6_rr 剩「題目在左欄」2 項＝探針太嚴（遊戲只在選項放不下時才 side；放得下時不重疊）→ 探針改條件、R6_rr2 重跑
 R6_rr2      | b1b249873 | probe | docs/story_planning/test_tools/cc/cc_layout16_probe.py | index.html?turbo | 60  | CASES=seat_exam,adv_safe,recall2;RERUN=side1102
 # 17:2x：R8_rr 的「讀得到正解」＝探針沿用上一場（海商法）的課名；改成用題目文字反查課，R8_rr2 重跑
-R8_rr2      | b1b249873 | probe | docs/story_planning/test_tools/cc/cc_makeup_probe.py   | index.html?turbo | 200 | FAIL_ROUTE=retake;MAIN_FROM=0527;CASES=main_pass,main_fail,route_grades;RERUN=rev1102
+# 20:0x CC：R8_rr2 在 PC 第一次記成 error（舊 runner 中斷留下 wt_cc_R8_rr2 資料夾；run_queue.py 已修）→ 換 RERUN 重跑
+R8_rr2      | b1b249873 | probe | docs/story_planning/test_tools/cc/cc_makeup_probe.py   | index.html?turbo | 200 | FAIL_ROUTE=retake;MAIN_FROM=0527;CASES=main_pass,main_fail,route_grades;RERUN=rev1102wt
 # BB 13:31 第 1 類：長時間真實流程（🟢 不用 turbo；唯一前置＝開頭 localStorage.clear()）。雲端 b1b DAYS=4 2318 秒 ALL PASS（8/29～9/1，存讀檔每天一致、fallbacks 0、pageerror 0）。PC 估每天 1.5～3 分鐘
 FS112       | b1b249873 | probe | docs/story_planning/test_tools/cc/cc_flow_semester_probe.py | index.html | 360 | DAYS=112
 # BB 16:01：R11 完整 4 個 case、R10pre／R11pre（修改前對照，規則 5）排在 FS112 後面

@@ -30,7 +30,7 @@
   ENV：k=v 只傳給這一項的子程序（不改 runner 自己的環境，並行時不互相干擾）；
        XARGS（{url} {url2} {out}）、SHA2（第二個 worktree＋伺服器＝{url2}）、RERUN（強制重跑記號）同舊版。
 """
-import argparse, glob, json, os, platform, queue, re, shutil, socket, subprocess, sys, threading, time
+import argparse, glob, hashlib, json, os, platform, queue, re, shutil, socket, subprocess, sys, threading, time
 from collections import OrderedDict
 from datetime import datetime
 
@@ -51,6 +51,18 @@ _print_lock = threading.Lock()
 GIT_LOCK = threading.RLock()       # 所有 git 寫入（worktree add/remove、merge、add、commit、push）排隊
 PORT_LOCK = threading.Lock()
 _reserved_ports = set()
+
+
+RESTART_EXIT = 75     # BB 2026-11-02 20:08：runner 自己有新版 → 跑完手上的項目、push 完，用 75 結束；run_forever.ps1 收到 75 立刻重跑新版
+SELF_FILE = os.path.abspath(__file__)
+
+
+def file_hash(path):
+    try:
+        with open(path, 'rb') as fh:
+            return hashlib.sha256(fh.read()).hexdigest()
+    except OSError:
+        return ''
 
 
 def log(msg):
@@ -205,6 +217,8 @@ class Runner(object):
         self.queue_file = os.path.abspath(a.queue) if a.queue else None
         self.out_root = os.path.join(self.work, 'docs', 'story_planning', 'CC', 'local_out')
         self.summary = []
+        self.self_hash = file_hash(SELF_FILE)    # 啟動時自己的雜湊；每次合併 cc-testing 以後比對
+        self.restart_pending = False
         self.head = ''
         self.lawww2 = ''
         self.py = sys.executable
@@ -353,12 +367,23 @@ class Runner(object):
 
     # ---------- 3. 跑一項 ----------
     def wt_add(self, path, sha):
+        # 2026-11-02 PC 實跑：舊 PowerShell runner 被 Ctrl+C 中斷時留下 wt_cc_R8_rr2 資料夾（不是登記中的 worktree，
+        # worktree remove 刪不掉）→ 新 runner「already exists」直接記 error。改成：remove → prune → 整個資料夾刪掉
+        # → 還刪不掉（Windows 檔案被占用）就換一個新名字，回傳實際用的路徑。
         with GIT_LOCK:
             if os.path.exists(path):
                 git('-C', self.repo, 'worktree', 'remove', '--force', path, quiet=True)
+                git('-C', self.repo, 'worktree', 'prune', quiet=True)
+                if os.path.exists(path):
+                    shutil.rmtree(path, ignore_errors=True)
+                if os.path.exists(path):
+                    alt = '%s_%d' % (path, int(time.time()))
+                    log('leftover %s cannot be removed - using %s' % (path, alt))
+                    path = alt
             rc, out = git('-C', self.repo, 'worktree', 'add', '--detach', path, sha, quiet=True)
         if rc != 0:
             raise RuntimeError('worktree add %s failed: %s' % (sha, out.strip()[-200:]))
+        return path
 
     def wt_remove(self, path):
         with GIT_LOCK:
@@ -417,7 +442,8 @@ class Runner(object):
         meta = OrderedDict([('rerun', it.rerun), ('id', it.id), ('sha', sha), ('kind', it.kind), ('script', it.script),
                             ('env', it.env), ('machine', os.environ.get('COMPUTERNAME') or platform.node()),
                             ('start', datetime.now().strftime('%Y-%m-%dT%H:%M:%S')), ('end', None), ('seconds', None),
-                            ('exit', None), ('error', None)])
+                            ('exit', None), ('error', None),
+                            ('runner', self.self_hash[:10]), ('rf_round', os.environ.get('CC_RF_ROUND'))])   # 哪一版 runner、run_forever 第幾輪（None＝不是經 run_forever 啟動）
         t0 = time.time()
         wt = os.path.join(self.wtroot, 'wt_cc_' + it.id)
         wt2 = None
@@ -425,7 +451,7 @@ class Runner(object):
         ports = []
         log('==== START %s  (%s @ %s) ====' % (it.id, it.kind, sha))
         try:
-            self.wt_add(wt, sha)
+            wt = self.wt_add(wt, sha)
             srv, port = self.start_server(wt, 8800)
             ports.append(port)
             url = 'http://127.0.0.1:%d/%s' % (port, it.url)
@@ -434,7 +460,7 @@ class Runner(object):
             sha2 = it.envd.get('SHA2', '').strip()
             if sha2:
                 wt2 = wt + '_2'
-                self.wt_add(wt2, sha2)
+                wt2 = self.wt_add(wt2, sha2)
                 srv2, port2 = self.start_server(wt2, port + 1)
                 ports.append(port2)
                 url2 = 'http://127.0.0.1:%d/%s' % (port2, it.url)
@@ -570,6 +596,15 @@ class Runner(object):
                 self.refresh()
                 items = self.read_queue()
                 need_refresh = False
+                if not self.restart_pending and file_hash(SELF_FILE) != self.self_hash:
+                    self.restart_pending = True
+                    log('run_queue.py has a new version - finishing the %d running item(s), then restarting (exit %d)' % (len(running), RESTART_EXIT))
+            if self.restart_pending:
+                if not running:
+                    break
+                fin = done_q.get()
+                running.pop(fin, None)
+                continue
             blender_running = any(r[1].kind == 'blender' for r in running.values())
             while len(running) < self.a.parallel and not blender_running:
                 pick = None
@@ -624,6 +659,10 @@ class Runner(object):
         for line in self.summary:
             print(line)
         print('Results: %s  (%s)' % (self.out_root, 'not pushed: --no-push' if self.a.no_push else 'pushed to origin/' + self.branch))
+        if self.restart_pending:
+            print('run_queue.py was updated - exit %d so run_forever.ps1 restarts the new version now' % RESTART_EXIT)
+            return RESTART_EXIT
+        return 0
 
 
 def parse_args(argv):
@@ -647,4 +686,4 @@ def parse_args(argv):
 
 
 if __name__ == '__main__':
-    Runner(parse_args(sys.argv[1:])).main()
+    sys.exit(Runner(parse_args(sys.argv[1:])).main())
