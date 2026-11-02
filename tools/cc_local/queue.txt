@@ -46,6 +46,11 @@ A3_l15_ef63  | ef63b1877 | probe | docs/story_planning/test_tools/cc/cc_late15_p
 A1pre        | 03b2721af | probe | docs/story_planning/test_tools/cc/cc_advskip_probe.py | index.html | 60 |
 A2pre        | 3c6207b60 | probe | docs/story_planning/test_tools/cc/cc_dorm_moveout_probe.py | index.html | 60 |
 A3pre        | dc36b401e | probe | docs/story_planning/test_tools/cc/cc_late15_probe.py | index.html | 60 |
+# BB_247 美術補證據（雲端最小驗證 ALL PASS，CC 22:0x）：PC headed＋顯示卡拍，BB 看圖判定
+ART_cop    | b1b249873 | probe | docs/story_planning/test_tools/cc/cc_art247_probe.py | index.html | 20 | CC_HEADLESS=0;SHA=b1b249873;CASES=coplanar;CO_SPOTS=wancai_front,wzpark_pavilion,linze_front,wzpark_notice
+ART_lband  | b1b249873 | probe | docs/story_planning/test_tools/cc/cc_art247_probe.py | index.html | 15 | CC_HEADLESS=0;SHA=b1b249873;CASES=lightband
+ART_night  | b1b249873 | probe | docs/story_planning/test_tools/cc/cc_art247_probe.py | index.html | 20 | CC_HEADLESS=0;SHA=b1b249873;CASES=nightrereg
+ART_uskit  | b1b249873 | probe | docs/story_planning/test_tools/cc/cc_art247_probe.py | index.html | 10 | CC_HEADLESS=0;SHA=b1b249873;CASES=uskitchen
 # LAWWW2 BAKE-PC-1102（21:08，BB 已授權 blender 工作單；發布前測試在前面）。腳本在 lawww2 22f1e722c（head fa9b9f5d8）。
 # BB_229 規則 1：CC 這個容器沒有 bpy，沒辦法在雲端先跑；腳本 LAWWW2 已在他的雲端驗過 CPU 路徑（和原本逐像素相同）。HIP 是第一次實測
 BK1_cpu      | lawww2    | blender | tools/blender/env_second/lightbake/pc_ref/pc_bake_dorm_ref.py | index.html | 60 | CC_BLENDER_DEVICE=CPU;XARGS=--out {out} --res 512 --samples 256
