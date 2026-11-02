@@ -1,3 +1,6 @@
+值班登記：帳號 A｜AA｜session_019Y3emYqxxC4Ch1GGf4fMzw｜分支 claude/story-planning｜接班基準 c989cc066｜2026-11-02 03:36 UTC
+上一班：帳號 B｜AA-B｜session_016ACZaD4oB9tX94WqQR4dkS｜最後 commit c989cc066（claude/cool-heisenberg-o8kuqx）｜正常交班（2026-11-01 08:55 UTC）
+
 > **歷史紀錄（2026-10-30 起）**：本文件裡的「臺大／台大、政大、霖澤館、萬才館、傅鐘、椰林大道、醉月湖、小福、活大……」是當時的寫法，原文照留。遊戲現行名稱以 `docs/WORLD_NAMING.md` 為準（首都帝大、木柵大學、法律系館A／B……）；從這裡抄台詞或地名到遊戲、新企劃以前，先照規範換名。
 
 ## 交班（AA-B 帳號 B → 下一班）｜2026-11-01 08:55 UTC｜使用者：「現在交班」（P0 換班口令＋第 5 節六類）

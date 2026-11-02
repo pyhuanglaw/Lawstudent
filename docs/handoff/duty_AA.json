@@ -1,10 +1,10 @@
 {
  "role": "AA",
- "account": "B",
- "session": "session_016ACZaD4oB9tX94WqQR4dkS",
- "branch": "claude/cool-heisenberg-o8kuqx",
- "state": "handed-off",
- "handedOffAt": "2026-11-01T08:58Z",
- "sha": "3fa74f43",
- "snapshot": "docs/handoff/snapshots/2026-11-01T0857Z_B_AA.json"
+ "account": "A",
+ "session": "session_019Y3emYqxxC4Ch1GGf4fMzw",
+ "branch": "claude/story-planning",
+ "since": "2026-11-02T03:36Z",
+ "state": "on",
+ "sinceSha": "c989cc06",
+ "userOk": false
 }
