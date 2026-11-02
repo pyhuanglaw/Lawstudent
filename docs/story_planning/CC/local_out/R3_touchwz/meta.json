@@ -1,0 +1,15 @@
+﻿{
+    "rerun":  "",
+    "id":  "R3_touchwz",
+    "sha":  "b1b249873",
+    "kind":  "game",
+    "script":  "tests/touch_flow_wenzhou.py",
+    "env":  "XARGS={url}",
+    "machine":  "MSI",
+    "start":  "2026-11-02T19:56:59",
+    "end":  "2026-11-02T20:00:06",
+    "seconds":  187,
+    "exit":  0,
+    "error":  null,
+    "url":  "http://127.0.0.1:8801/index.html?turbo"
+}

@@ -17,3 +17,5 @@
       err.log (last 5): [gpu_wrap 340.6s] page close url=http://127.0.0.1:8801/index.html?turbo?turbo | [gpu_wrap 340.6s] BROWSER DISCONNECTED
 - 2026-11-02T19:56:51  R2_flowcls  sha=b1b249873  exit=0  125s    PASS 回到法律系館A二樓、站得住、搖桿走得動  {"zone": "linze", "x": -2.02, "z": -3.52, "ry": -0.0, "busy": false, "pose": "walk", "path": 0, "dlg": false, "dtext": "還有——你剛剛那個，很帥。", "choices": 0, "interact": "", "hour": 15.31, "stand": true, "camYaw": 3.142, "fallbacks": 0, "y": 4.2, "lv": 1, "frame": 2367, "paused": false} 推了 1 次、走了 2.48 m / PASS 沒有 JS 例外  [] / ALL PASS
       err.log (last 5): [gpu_wrap 96.3s] page close url=http://127.0.0.1:8801/index.html | [gpu_wrap 96.3s] BROWSER DISCONNECTED
+- 2026-11-02T20:00:06  R3_touchwz  sha=b1b249873  exit=0  187s    PASS 讀檔後可以走  9.4 / PASS 沒有 JS 例外 / ALL PASS
+      err.log (last 5): [gpu_wrap 159.6s] page close url=http://127.0.0.1:8801/index.html?turbo&turbo | [gpu_wrap 159.7s] BROWSER DISCONNECTED
