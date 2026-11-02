@@ -182,6 +182,69 @@ def glass_wall(c, key, axis, at, a0, a1, gaps=(), dir_=(0, 0, 1), post=1.5):
         for k in range(0, len(segs), 2): (wl.box(segs[k], segs[k + 1], 2.68, H, at - 0.05, at + 0.05) if axis == 'x' else wl.box(at - 0.05, at + 0.05, 2.68, H, segs[k], segs[k + 1]))
 
 
+def court_garden(c, X0, CG0, CG1):
+    """下沉中庭的植栽（從 B1 西門廳的玻璃看出去）：花台（土＋花崗石邊）、中間一棵小樹（樹幹＋分枝＋深色芯外面一圈葉片卡）、
+    花台上的灌木（葉片卡圍著深色芯）、牆腳的蕨類（蕨葉卡）。做法和 118 巷牆後的大樹（lane118_ground.py）、tools/blender/plants.py 同一套；
+    葉子貼圖 olive_leaves.png、fern_leaves.png（tools/blender/textures/gen，本作程式畫的）。"""
+    try:
+        import plants as PL
+        PMc = PL.materials(f'{c.sid}_court_'); LEAFM, FERNM, BARKM = PMc['leaf_small'], PMc['leaf_fern'], PMc['bark']
+    except Exception as ex:   # noqa: BLE001
+        print('plants', ex); LEAFM = FERNM = L.flat(f'{c.sid}_court_leaf', '#46683a', rough=0.8); BARKM = L.flat(f'{c.sid}_court_bark', '#5a4a3c', rough=0.9)
+    rng = random.Random(1102)
+    cards = Mesh(f'{c.sid}_court_cards', LEAFM); ferns = Mesh(f'{c.sid}_court_ferns', FERNM); bark = Mesh(f'{c.sid}_court_bark', BARKM)
+    core = Mesh(f'{c.sid}_court_core', L.flat(f'{c.sid}_court_core', '#2c4325', rough=0.98))
+    bed = c.extra.setdefault('court', None)
+    def card(m, px, py, pz, sz, yaw, tilt, h=None):
+        ca, sa = math.cos(yaw), math.sin(yaw); hh = sz if h is None else h
+        P = lambda du, dv: (px + ca * du, py + dv + tilt * du, pz + sa * du)
+        f = m.bm.faces.new([m.bm.verts.new(L.g2b(*P(du, dv))) for (du, dv) in ((-sz / 2, -hh / 2), (sz / 2, -hh / 2), (sz / 2, hh / 2), (-sz / 2, hh / 2))])
+        uvl = m.bm.loops.layers.uv.verify()
+        for lp, uv in zip(f.loops, ((0, 0), (1, 0), (1, 1), (0, 1))): lp[uvl].uv = uv
+    def crown(cx, cy, cz, rx, ry, rz, n, csz):
+        v0 = set(core.bm.verts); core.ell((cx, cy, cz), rx * 0.6, ry * 0.6, rz * 0.6, seg=7, rings=4)
+        c0 = L.g2b(cx, cy, cz)
+        for vv in core.bm.verts:
+            if vv not in v0: vv.co = c0 + (vv.co - c0) * rng.uniform(0.86, 1.08)
+        for _ in range(n):
+            a_ = rng.uniform(0, 2 * PI); e_ = math.asin(rng.uniform(-0.8, 1.0)); rr = rng.uniform(0.72, 1.02)
+            card(cards, cx + rx * rr * math.cos(a_) * math.cos(e_), cy + ry * rr * math.sin(e_), cz + rz * rr * math.sin(a_) * math.cos(e_), csz * rng.uniform(0.8, 1.25), rng.uniform(0, PI), rng.uniform(-0.5, 0.5))
+    zc = (CG0 + CG1) / 2
+    # 花台：靠對面擋土牆一長條（土、花崗石邊 0.35 高）＋樹下一個方的
+    for (x0, x1, z0, z1) in ((X0 - 6.2, X0 - 4.6, CG0 - 1.9, CG1 + 1.9), (X0 - 4.4, X0 - 2.8, zc - 0.9, zc + 0.9)):
+        bed.cbox(x0, x1, 0.0, 0.35, z0, z0 + 0.12, '#a9a59c'); bed.cbox(x0, x1, 0.0, 0.35, z1 - 0.12, z1, '#a9a59c')
+        bed.cbox(x0, x0 + 0.12, 0.0, 0.35, z0, z1, '#a9a59c'); bed.cbox(x1 - 0.12, x1, 0.0, 0.35, z0, z1, '#a9a59c')
+        bed.cbox(x0 + 0.12, x1 - 0.12, 0.0, 0.3, z0 + 0.12, z1 - 0.12, '#4a3a2c')
+    # 小樹（約 4.6 m 的庭園樹：樹冠在 2.8～3.9 m——從門廳的玻璃（窗頂 2.7）往外看得到；第一版 6.4 m 樹冠在玻璃上緣以上，只看到樹幹）
+    tx_, tz_, th = X0 - 3.6, zc, 4.6
+    bt = L.lathe([(0.2, 0.3), (0.15, 0.7), (0.12, th * 0.42), (0.08, th * 0.6)], seg=8); bark.add_bm(bt, L.Matrix.Translation(L.g2b(tx_, 0.0, tz_))); bt.free()
+    for k in range(4):
+        a_ = k * PI / 2 + rng.uniform(-0.4, 0.4); yb = th * rng.uniform(0.38, 0.5)
+        bark.cyl((tx_, yb, tz_), (tx_ + math.cos(a_) * 1.2, th * rng.uniform(0.62, 0.74), tz_ + math.sin(a_) * 1.2), 0.06, seg=6, r2=0.025)
+    for k in range(6):
+        a_ = rng.uniform(0, 2 * PI); d_ = rng.uniform(0.3, 1.1); r_ = rng.uniform(0.8, 1.1)
+        crown(tx_ + math.cos(a_) * d_, th * rng.uniform(0.66, 0.8), tz_ + math.sin(a_) * d_, r_, r_ * 0.62, r_, int(12 * r_ * r_), 0.62)
+    # 對面擋土牆上的藤蔓（爬牆虎：貼著牆的葉片卡，一片一片往上爬；牆不再是一整面灰）
+    for (vz, vh) in ((CG0 - 1.0, 3.6), (zc + 0.6, 2.8), (CG1 + 1.2, 3.9)):
+        for _ in range(int(26 * vh)):
+            yy = rng.uniform(0.35, vh); spread = 0.9 * (1.0 - 0.45 * yy / vh)
+            card(cards, X0 - 6.18 + rng.uniform(0.0, 0.08), yy, vz + rng.uniform(-spread, spread), rng.uniform(0.28, 0.42), PI / 2 + rng.uniform(-0.3, 0.3), rng.uniform(-0.25, 0.25))
+    # 灌木（靠牆那條花台上，一叢一叢；葉片卡圍著深色芯）
+    z = CG0 - 1.6
+    while z < CG1 + 1.6:
+        r_ = rng.uniform(0.42, 0.6); crown(X0 - 5.4 + rng.uniform(-0.15, 0.15), 0.3 + r_ * 0.8, z, r_, r_ * 0.85, r_, int(14 * r_ * r_ + 8), 0.42); z += rng.uniform(0.75, 0.95)
+    # 蕨類（樹下花台、兩頭的牆腳）：蕨葉卡從中心往外斜出去
+    for (fx, fz) in [(X0 - 3.6 + dx, zc + dz) for (dx, dz) in ((-0.5, -0.5), (0.5, 0.45), (-0.45, 0.55), (0.5, -0.5))] + [(X0 - 1.2, CG0 - 1.5), (X0 - 1.2, CG1 + 1.5), (X0 - 2.0, CG0 - 1.6), (X0 - 2.0, CG1 + 1.6)]:
+        y0 = 0.3 if abs(fx - (X0 - 3.6)) < 1.0 and abs(fz - zc) < 1.0 else 0.0
+        for j in range(9):
+            a_ = j * 2 * PI / 9 + rng.uniform(-0.2, 0.2); Lf = rng.uniform(0.5, 0.75)
+            card(ferns, fx + math.cos(a_) * Lf * 0.45, y0 + 0.28, fz + math.sin(a_) * Lf * 0.45, Lf, a_, 0.35, h=0.36)
+    # 中庭地面的步石（從玻璃看出去有一條路）
+    for k in range(6):
+        sz_ = CG0 - 0.6 + k * (CG1 - CG0 + 1.2) / 5; bed.cbox(X0 - 2.1, X0 - 1.3, 0.0, 0.03, sz_ - 0.3, sz_ + 0.3, '#b9b5ab')
+    c.court_meshes = [cards, ferns, bark, core]
+
+
 def banker_lamp(c, x, z, s):
     """綠色銀行燈（ntu_lib_b1 的樣子）：黃銅底座、桿、沿 x 的綠色半圓燈罩（兩端封口），燈罩下面亮的一條；s＝坐的人在哪一側（±1，燈罩往那邊偏 3 cm）。
     底座、桿、燈罩用 instancing（make_instances：一個網格、每盞一個物件，GLB 的 EXT_mesh_gpu_instancing；115 盞各畫一份太大）；
@@ -473,11 +536,7 @@ def build2(c):
     court.cbox(X0 - 6.2, X0 - 0.05, -0.05, 0.0, CG0 - 2.0, CG1 + 2.0, '#8a8e86')                       # 中庭地面（鋪石）
     court.cbox(X0 - 6.4, X0 - 6.2, 0.0, 4.4, CG0 - 2.0, CG1 + 2.0, '#b7b2a7')                          # 對面的擋土牆（一樓地面在 4.4 m）
     for zz in (CG0 - 2.0, CG1 + 2.0): court.cbox(X0 - 6.4, X0 - 0.05, 0.0, 4.4, zz - 0.1, zz + 0.1, '#b7b2a7')
-    for k in range(9):                                                                                 # 低矮的植栽（龍柏球、蕨類）
-        zz = CG0 - 1.2 + k * ((CG1 - CG0 + 2.4) / 8); xx = X0 - 4.8 + (k % 3) * 1.2
-        c.extra.setdefault('courtleaf', CMesh(f'{c.sid}_courtleaf', M['vc'])).crbox(xx - 0.55, xx + 0.55, 0.0, 0.7 + (k % 2) * 0.25, zz - 0.5, zz + 0.5, '#3f6a34', r=0.25, seg=2)
-    ccyl(court, (X0 - 3.6, 0.0, (CG0 + CG1) / 2), (X0 - 3.6, 2.6, (CG0 + CG1) / 2), 0.09, '#5a4636', seg=8)       # 中間一棵小樹
-    c.extra['courtleaf'].crbox(X0 - 4.8, X0 - 2.4, 2.2, 3.8, (CG0 + CG1) / 2 - 1.2, (CG0 + CG1) / 2 + 1.2, '#4f7a3c', r=0.6, seg=2)
+    court_garden(c, X0, CG0, CG1)                                                                      # 植栽：小樹、灌木、蕨類（葉片卡；第一版是圓角方塊，11-02 遊戲截圖像積木）
     sky = c.extra.setdefault('sky', Mesh(f'GLOW_{c.sid}_courtsky', L.flat(f'GLOW_{c.sid}_courtsky', '#dfe8ef', rough=1.0, emit=B.srgb('#cfdae4'))))
     sky.quad([(X0 - 6.4, 4.45, CG1 + 2.0), (X0 - 6.4, 4.45, CG0 - 2.0), (X0 - 0.05, 4.45, CG0 - 2.0), (X0 - 0.05, 4.45, CG1 + 2.0)])   # 天光（往下看是一片亮的天）
     uvquad(c.wg('W', 'print2', M['print2']), [(X0 + 0.016, 1.6, CG1 + 1.5), (X0 + 0.016, 1.6, CG1 + 0.3), (X0 + 0.016, 1.84, CG1 + 0.3), (X0 + 0.016, 1.84, CG1 + 1.5)], LU.uv('COURT'))
@@ -653,6 +712,7 @@ def finish(c):
     for m in (c.prt, c.scr, c.prt2): m.finish(c.root, uv=False, merge=False)
     c.colm.finish(c.root); c.panel.finish(c.root)
     for m in c.extra.values(): m.finish(c.root, uv=False)
+    for m in getattr(c, 'court_meshes', []): m.finish(c.root, uv=False, merge=False, smooth=(m.name.endswith('_core')))
     make_instances(c)
     L.merge_by_material(c.root, keep=lambda ob: ob.name.startswith('WALL_') or ob.name.startswith('INST_'), key=lambda ob: '')
     out = os.path.join(OUTDIR, f'{c.sid}.glb'); st = L.export(out, gpu_instances=True)
