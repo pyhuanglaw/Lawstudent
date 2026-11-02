@@ -83,11 +83,13 @@ const takeClass=async(it,log)=>{ const G=H.G, R=CLS.rec(G); if(R.done[it.key]) r
   mk(e=>e.beforeClass===it.c.id||(typeof e.beforeClass==='function'&&e.beforeClass(it)),it.t0);
   mk(e=>(e.afterClass===it.c.id||(typeof e.afterClass==='function'&&e.afterClass(it)))&&!e.afterExam,it.t1);
   oAuto(G,it); setT(Math.max(now(),T(it.day,it.t1))); };   /* 有劇情的課：當作上完（劇情不演）*/
-const runTerm=async(term,sc,flags)=>{ const r0=CALENDAR.termDays(term); const log={term,sc,stops:[],err:[],menus:[],reviewRes:null,reviewMenu:0,classEvs:[]};
+const runTerm=async(term,sc,flags)=>{ const r0=CALENDAR.termDays(term); const log={term,sc,stops:[],err:[],menus:[],reviewRes:null,reviewMenu:0,classEvs:[],menuRes:[]};
   let d=r0.from; fresh(d,22,flags); while(!SEMFF.on(H.G)&&d<r0.from+21){ d++; fresh(d,22,flags); }
   log.start=lbl(now()); if(!SEMFF.on(H.G)){ log.err.push('這學期一直不能快轉'); return log; }
   J=[]; autoKeys=[]; examTaken=[]; newEvLog=[]; const msg0=0;
-  const origReview=STUDY.review; STUDY.review=async function(){ const r=await origReview.apply(this,arguments); log.reviewRes=r?{at:lbl(now()),cards:r.cards,courses:r.courses}:false; return r; };
+  const origReview=STUDY.review; STUDY.review=async function(){ const info=STUDY.reviewInfo(H.G,'final'); const r=await origReview.apply(this,arguments);
+    const units=info?[].concat(...info.courses.map(x=>x.units)):[]; const unread=units.filter(u=>!['read','got'].includes(STUDY.stateOf(H.G,u.id))).map(u=>u.id);
+    log.reviewRes=r?{at:lbl(now()),cards:r.cards,courses:r.courses,units:units.length,unread}:false; return r; };
   H.policy=(ts)=>{ if(ts.includes('繼續快轉')){ log.reviewMenu++; log.menus.push({at:lbl(now()),opts:ts}); const want=sc==='A'?STUDY.REVIEW_LABEL:'繼續快轉'; const k=ts.indexOf(want); return k<0?0:k; }
     if(ts.includes('到下一個有事的時候')) return 0; if(ts.includes('結束總複習')) return 0; return 0; };
   let it=0, stuck=0;
@@ -97,6 +99,7 @@ const runTerm=async(term,sc,flags)=>{ const r0=CALENDAR.termDays(term); const lo
       if(!SEMFF.on(H.G)){ const nt=T(H.G.day+1,22); log.gaps.push(lbl(now())+' 不能快轉（SEMFF.on false）→ 手動過到 '+lbl(nt)); setT(nt); continue; }
       try{ r=await SEMFF.menu(GM); }catch(err){ log.err.push('menu '+lbl(now())+'：'+String(err&&err.stack||err).split('\n').slice(0,2).join(' / ')); setT(now()+1); continue; }
       if(!r){ log.err.push('menu 回傳 false @'+lbl(now())); break; }
+      log.menuRes.push({t:now(),why:r.why});
       /* 處理停點（玩家會做的事）*/
       if(r.why==='stop'&&r.stop&&r.stop.x&&r.stop.x.class){ const c=findItem(r.stop.x.class); if(c) await takeClass(c,log); }
       else if(r.why==='now'){ for(const c of CLS.dayItems(H.G,H.G.day)){ if(CLS.rec(H.G).done[c.key]) continue; const st=T(c.day,c.t0); if(st>now()-1e-6&&st-SEMFF.PRE<=now()+1e-6){ await takeClass(c,log); break; } } }
@@ -134,8 +137,9 @@ const judge=(lg)=>{ const {term,sc}=lg, sun=lg.remindDay, tag=term+'・情境 '+
   check('C2['+tag+'] 每一個期末考的日子都有停點（考前 1 小時鬧鐘或課前 20 分鐘）',!dayNoStop.length,JSON.stringify(dayNoStop.map(d=>CALENDAR.dateOf(d).key)));
   if(sc==='B'){ const i=stops.findIndex(e=>e.why==='remind'); const nx=i>=0?stops[i+1]:null; const ex0=Math.min(...exs.map(e=>e.day));
     check('C2['+tag+'] 選「繼續快轉」：選單有出現（'+lg.reviewMenu+' 次），下一個停點在第一科期末考那天（含）以前',lg.reviewMenu===1&&!!nx&&dayOf(nx.t)<=ex0,nx?lbl(nx.t)+' '+(nx.stop||nx.why)+'（第一科考試日 '+CALENDAR.dateOf(ex0).key+'）':'沒有下一個停點'); }
-  if(sc==='A'){ const rv=lg.reviewRes; check('C3['+tag+'] 選「考前總複習」：當場複習（週日 23:00 結束、有卡）',lg.reviewMenu===1&&!!rv&&rv.cards>0&&/ 23:00$/.test(rv.at)&&rv.at.startsWith(CALENDAR.dateOf(sun).key),JSON.stringify(rv));
-    const i=lg.jumps.findIndex(e=>e.why==='review'); check('C3['+tag+'] 複習完停下來（why review），沒有接著快轉',i>=0&&Math.abs(lg.jumps[i].t-T(sun,20))<1e-6,i>=0?lbl(lg.jumps[i].t):'沒有 why review'); }
+  if(sc==='A'){ const rv=lg.reviewRes; check('C3['+tag+'] 選「考前總複習」：選單出現 1 次（實際 '+lg.reviewMenu+'）、當場複習（週日 23:00 結束、有卡）',lg.reviewMenu===1&&!!rv&&rv.cards>0&&/ 23:00$/.test(rv.at)&&rv.at.startsWith(CALENDAR.dateOf(sun).key),JSON.stringify(rv));
+    const mr=lg.menuRes.find(m=>m.why==='review'); check('C3['+tag+'] 複習完快轉就停下來（床的快轉回傳 why review、時間是週日 23:00），沒有接著快轉',!!mr&&Math.abs(mr.t-T(sun,23))<1e-6,mr?lbl(mr.t):JSON.stringify(lg.menuRes.slice(-3).map(m=>lbl(m.t)+' '+m.why)));
+    check('C3['+tag+'] 總複習範圍內的觀念卡全部是「讀過」以上（'+(rv&&rv.units)+' 張）',!!rv&&rv.units>0&&!rv.unread.length,rv?JSON.stringify(rv.unread.slice(0,5)):'沒做'); }
 };
 const table=(lg)=>{ const rows=lg.jumps.filter(e=>e.why!=='end'); P('  停點表（'+lg.term+' 情境 '+lg.sc+'，起點 '+lg.start+'、終點 '+lg.end+'，共 '+rows.length+' 個停點；自動上課 '+lg.auto.length+' 堂；考試 '+lg.examTaken.length+' 場）');
   for(const e of rows) P('   | '+lbl(e.t)+' | '+e.why+' | '+(e.stop||(e.evs?e.evs.join(','):'')||(e.msgs?e.msgs.map(m=>m.th+'「'+m.text+'」').join('；'):'')||(e.inv?e.inv.join(','):'')||(e.out||''))+' | '+classify(e,lg.term)+' |'); };
