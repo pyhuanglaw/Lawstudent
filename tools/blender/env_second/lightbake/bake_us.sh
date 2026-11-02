@@ -134,6 +134,9 @@ bigmart)
   # 燈（照 us_market.py「長條 LED」那一段；發光面 GLOW_usm_leds 不烘、照舊自己發光）：每條 LED（4.55～4.6 m）一個往下照的面光源：
   #   貨架走道上方沿 z 的（每排貨架 x＋1.45，z −7.5／−3.8／−0.1／3.6，長 2.8 m）；前段、後段、蔬果區沿 x 的（x −20～20 每 4 m，z −12.6／9.5／13.2）；熟食那三條（x 14～18.6）。
   #   挑高的天花板只吃得到地板反彈的光（總圖 3F 10-31 的教訓）：每條燈下 1.2 m 再一顆往四周散的點光源。白天燈照樣開（--daylights 1.0）。
+  #   冷凍區（11-02 第二版）：西邊冷凍區的兩條走道（x −19、x −13.9）模型的天花板沒有燈條；第一版只照模型放燈，那兩條走道的地板只有 0.03～0.07（中間走道 0.29），
+  #     遊戲裡晚上整條走道接近黑的（烘焙前是即時光，整間一樣亮）。照其他走道的間距補四條同樣的燈（天花板 6.4 m、鋼承板深色，抬頭看不太出來沒有燈具）。
+  #     沒用冷凍櫃的發光面（GLOW_usm_case）：同一個材質也包括蔬果牆上方、熟食櫃的大片發光板（共 33 m²），一起發光會把蔬果區、熟食區照爆。
   #   太陽在南邊（--sun 180），從正面玻璃照進門口那一帶，強度小（亞洲超市第一版 2.5 太亮，定案 1.0）。
   # --hide：玻璃（正面帷幕、冷藏櫃的門）、窗外的景、發光面 GLOW_、自動門。
   # --nolm：貨架上的商品、價格條、層板、走道牌、水果、推車、鍍鉻、黑色小零件、桁架、風管、收銀台輸送帶、門牌（遊戲畫字）、頂點色小東西、店外的地面——
@@ -145,6 +148,7 @@ bigmart)
   LIGHTS=$(python3 - "${LEDW:-18}" <<'PY'
 import json, sys
 J = json.load(open('assets/models/env/second_ai/us_market.layout.json')); W = sys.argv[1]; col = '0.97,0.98,1.0'
+FROZEN = (-19.0, -13.9)   # 西邊冷凍區的兩條走道（冷凍牆和冷凍島中間、冷凍島和第 1 排中間）：見上面「冷凍區」
 out = []
 for g in J['gondolas']:
     xa = g['x'] + 1.45
@@ -152,15 +156,20 @@ for g in J['gondolas']:
 for xx in range(-20, 22, 4):
     for zz in (-12.6, 9.5, 13.2): out.append(f'{xx - 0.01:.2f},{xx + 0.01:.2f},{zz - 0.01:.2f},{zz + 0.01:.2f},4.53,1,1,{W},2.8,0.12,{col}')
 for zz in (-6.0, -1.6, 2.8): out.append(f'16.29,16.31,{zz - 0.01:.2f},{zz + 0.01:.2f},4.53,1,1,{W},4.6,0.12,{col}')
+for xa in FROZEN:
+    for zz in (-7.5, -3.8, -0.1, 3.6): out.append(f'{xa - 0.01:.2f},{xa + 0.01:.2f},{zz - 0.01:.2f},{zz + 0.01:.2f},4.53,1,1,{W},0.12,2.8,{col}')
 print(';'.join(out))
 PY
 )
   PT=$(python3 - "${UPW:-10}" <<'PY'
 import json, sys
 J = json.load(open('assets/models/env/second_ai/us_market.layout.json')); W = sys.argv[1]; col = '0.97,0.98,1.0'
+FROZEN = (-19.0, -13.9)
 out = []
 for g in J['gondolas']:
     for zz in (-7.5, -3.8, -0.1, 3.6): out.append(f'{g["x"] + 1.45:.2f},3.35,{zz:.2f},{W},{col},0.3')
+for xa in FROZEN:
+    for zz in (-7.5, -3.8, -0.1, 3.6): out.append(f'{xa:.2f},3.35,{zz:.2f},{W},{col},0.3')
 for xx in range(-20, 22, 4):
     for zz in (-12.6, 9.5, 13.2): out.append(f'{xx:.2f},3.35,{zz:.2f},{W},{col},0.3')
 print(';'.join(out))
