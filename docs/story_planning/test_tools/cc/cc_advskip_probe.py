@@ -8,6 +8,7 @@
   【前置／捷徑】用遊戲自己的事件引擎 `void EVENTS.run(那個事件)` 開演（不等條件觸發）。
   驗證動作照玩家：CDP 觸控點 #advTop 裡文字 startswith「略過對話」的按鈕、點選項按鈕、點 #dlg。
 檢查（讀遊戲狀態：ADV.active／ADV.skip／ADV.history／GAME.D.active、#choices 有沒有 hide、E.player.busy；按鈕比對 startswith）：
+  兩輪（每輪重新讀檔、重新開演）：typing＝第一句一出來、還在打字就按（玩家最常見的按法）；full＝第一句整句顯示以後才按。a、b 兩輪都量，c～e 在 full 那一輪量。
   0  一般非 ADV 時「略過對話」不顯示（body 沒有 adv-on 時 #advTop 的 display）——只記錄（INFO），不算 PASS／FAIL
   a  按鈕可點：按鈕中心的 elementFromPoint 是按鈕本身或它的子元素（記下實際蓋在上面的是誰）
   b  按一下以後、中間不再點，選項出現（#choices 不是 hide、有按鈕）；ADV.history 有開場四句
@@ -50,7 +51,7 @@ def setup(s): print('  [前置／捷徑] ' + s, flush=True)
 
 ST_JS = """(()=>{ const ch=document.getElementById('choices'); const D=GAME.D||{}; const A=(typeof ADV!=='undefined')?ADV:{};
   return {adv:!!A.active, skip:A.skip===undefined?null:!!A.skip, hist:(A.history||[]).length, last:((A.history||[]).slice(-1)[0]||{}).text||'',
-    dlg:!!D.active, dtext:((document.getElementById('dlgText')||{}).textContent||'').slice(0,40),
+    dlg:!!D.active, typing:!!D.typing, dtext:((document.getElementById('dlgText')||{}).textContent||'').slice(0,40),
     choices:(ch&&!ch.classList.contains('hide'))?[...ch.querySelectorAll('button')].map(b=>(b.textContent||'').slice(0,24)):[],
     busy:!!(GAME.E&&GAME.E.player&&GAME.E.player.busy), running:EVENTS.running||null, advOn:document.body.classList.contains('adv-on'),
     hour:+GAME.G.hour.toFixed(3)}; })()"""
@@ -73,6 +74,62 @@ async def tap_choice(pg, cdp, prefix):
     await L.touch_tap(cdp, c[0], c[1]); return True
 
 
+async def start_event(pg, label):
+    setup('load_state：第 8 天（週四）18:30 校園總圖門口 (80,4)、下雨、quiet_events（條件事件關掉）［%s］' % label)
+    await L.load_state(pg, {'zone': 'campus', 'hour': 18.5, 'day': 8, 'weekday': 4, 'weather': 'rain', 'pos': {'x': 80, 'z': 4, 'yaw': 3.14}, 'flags': BASE_FLAGS},
+                       quiet_events=True)
+    await pg.wait_for_timeout(4000)
+    s0 = await st(pg); b0 = await pg.evaluate(BTN_JS)
+    info('0 非 ADV［%s］（adv-on=%s、ADV.active=%s）：#advTop %s' % (label, s0['advOn'], s0['adv'], J({k: b0.get(k) for k in ('exists', 'topDisplay', 'topParent', 'rect')})))
+    setup('void EVENTS.run(STORY_EVENTS.find(e=>e.id==="%s"))（用遊戲自己的事件引擎開演）' % EV_ID)
+    await pg.evaluate("void EVENTS.run(STORY_EVENTS.find(e=>e.id===%s))" % J(EV_ID))
+    s = None
+    for _ in range(60):
+        s = await st(pg)
+        if s['adv'] and s['dlg'] and s['hist'] >= 1: break
+        await pg.wait_for_timeout(250)
+    check('［%s］ADV 開始、第一句出現' % label, bool(s and s['adv'] and s['dlg']), J(s))
+    return s
+
+
+async def press_skip(pg, cdp, label, rec):
+    """a＋b：量按鈕、照玩家按一下，等選項。回傳有沒有一路到選項"""
+    s1 = await st(pg); bi = await pg.evaluate(BTN_JS)
+    check('a［%s］「略過對話」按鈕可點（中心點 elementFromPoint 是按鈕本身／子元素）' % label, bool(bi.get('btn') and bi.get('hitOk')),
+          '按鈕=%s 中心=%s 蓋在上面的=%s #advTop 父層=%s z=%s' % (bi.get('btn'), bi.get('c'), bi.get('hit'), bi.get('topParent'), bi.get('topZ')))
+    info('［%s］按之前：ADV.history=%d、這一句還在打字=%s、畫面=「%s」' % (label, s1['hist'], s1['typing'], s1['dtext']))
+    taps = 0
+    if bi.get('c'):
+        await L.touch_tap(cdp, bi['c'][0], bi['c'][1]); taps = 1
+    t0 = time.time(); seen = []; sb = None; first_skip = None
+    while time.time() - t0 < B_WAIT:
+        sb = await st(pg)
+        if sb['skip'] and first_skip is None: first_skip = dict(sb, sec=round(time.time() - t0, 1))
+        if sb['dtext'] and (not seen or seen[-1] != sb['dtext']): seen.append(sb['dtext'])
+        if sb['choices']: break
+        await pg.wait_for_timeout(250)
+    hist_txt = await pg.evaluate("(ADV.history||[]).map(h=>(h.text||'').slice(0,20))")
+    rec[label] = {'before': s1, 'btn': bi, 'first_skip_true': first_skip, 'state': sb, 'seen': seen, 'hist': hist_txt, 'sec': round(time.time() - t0, 1)}
+    b_ok = bool(sb and sb['choices'])
+    check('b［%s］按一下、中間不再點：一路翻到選項出現（%d 秒內）' % (label, B_WAIT), b_ok and taps == 1,
+          '用了 %.1f 秒；選項=%s；ADV.history=%d；ADV.skip=%s；ADV.skip 變 true 那一刻=%s；按完以後畫面上看過的句子=%s' %
+          (time.time() - t0, sb and len(sb['choices']), sb and sb['hist'], sb and sb['skip'], J(first_skip and {k: first_skip[k] for k in ('sec', 'hist', 'typing', 'dtext')}), J(seen)))
+    if b_ok:
+        check('b［%s］ADV.history 有開場 %d 句（每一句都經過，不是直接跳）' % (label, OPEN_LINES), sb['hist'] >= OPEN_LINES, J(hist_txt))
+    await pg.screenshot(path=os.path.join(OUT, 'after_skip_%s.png' % label))
+    return b_ok
+
+
+async def tap_to_choices(pg, cdp, label):
+    n = 0
+    for _ in range(40):
+        q = await st(pg)
+        if q['choices']: break
+        if q['dlg']: await L.tap(pg, cdp, '#dlg'); n += 1
+        await pg.wait_for_timeout(900)
+    info('［%s］b 沒過：改照玩家點 #dlg %d 次到選項' % (label, n))
+
+
 async def main():
     os.makedirs(OUT, exist_ok=True)
     print('cc_advskip_probe  SHA=%s  URL=%s' % (SHA, URL), flush=True)
@@ -81,59 +138,31 @@ async def main():
         b, ctx, pg, cdp, errs = await L.launch(p, landscape=True)
         await pg.goto(URL)
         check('遊戲載入', await L.wait_loaded(pg))
-        setup('load_state：第 8 天（週四）18:30 校園總圖門口 (80,4)、下雨、quiet_events（條件事件關掉）')
-        await L.load_state(pg, {'zone': 'campus', 'hour': 18.5, 'day': 8, 'weekday': 4, 'weather': 'rain', 'pos': {'x': 80, 'z': 4, 'yaw': 3.14}, 'flags': BASE_FLAGS},
-                           quiet_events=True)
-        await pg.wait_for_timeout(4000)
-        # 0：非 ADV 時
-        s0 = await st(pg); b0 = await pg.evaluate(BTN_JS)
-        info('0 非 ADV（adv-on=%s、ADV.active=%s）：#advTop %s' % (s0['advOn'], s0['adv'], J(b0)))
-        rec['nonadv'] = {'state': s0, 'btn': b0}
-        # 開演
-        ok_ev = await pg.evaluate("!!STORY_EVENTS.find(e=>e.id===%s)" % J(EV_ID))
-        check('事件 %s 存在' % EV_ID, ok_ev)
-        setup('void EVENTS.run(STORY_EVENTS.find(e=>e.id==="%s"))（用遊戲自己的事件引擎開演）' % EV_ID)
-        await pg.evaluate("void EVENTS.run(STORY_EVENTS.find(e=>e.id===%s))" % J(EV_ID))
-        s = None
-        for _ in range(60):
-            s = await st(pg)
-            if s['adv'] and s['dlg'] and s['hist'] >= 1: break
-            await pg.wait_for_timeout(500)
-        check('ADV 開始、第一句出現', bool(s and s['adv'] and s['dlg']), J(s))
-        await pg.wait_for_timeout(800)
-        await pg.screenshot(path=os.path.join(OUT, '01_adv_first_line.png'))
-        s1 = await st(pg); bi = await pg.evaluate(BTN_JS)
-        rec['before_skip'] = {'state': s1, 'btn': bi}
-        info('按之前：ADV.history=%d 最後一句「%s」 skip=%s' % (s1['hist'], s1['last'][:20], s1['skip']))
-        # a
-        check('a 「略過對話」按鈕可點（中心點 elementFromPoint 是按鈕本身／子元素）', bool(bi.get('btn') and bi.get('hitOk')),
-              '按鈕=%s 中心=%s 蓋在上面的=%s #advTop 父層=%s z=%s' % (bi.get('btn'), bi.get('c'), bi.get('hit'), bi.get('topParent'), bi.get('topZ')))
-        # b：照玩家按（CDP 觸控按按鈕的中心點；被蓋住就會按到上面那一個）
-        taps = 0
-        if bi.get('c'):
-            await L.touch_tap(cdp, bi['c'][0], bi['c'][1]); taps = 1
-        t0 = time.time(); seen = []; sb = None
-        while time.time() - t0 < B_WAIT:
-            sb = await st(pg)
-            if sb['dtext'] and (not seen or seen[-1] != sb['dtext']): seen.append(sb['dtext'])
-            if sb['choices']: break
+        check('事件 %s 存在' % EV_ID, await pg.evaluate("!!STORY_EVENTS.find(e=>e.id===%s)" % J(EV_ID)))
+        # 第一輪「typing」：第一句一出來（還在打字）就按——玩家最常見的按法
+        print('---- 第一輪 typing：第一句還在打字時按「略過對話」 ----', flush=True)
+        await start_event(pg, 'typing')
+        await pg.screenshot(path=os.path.join(OUT, '01_typing_first_line.png'))
+        if not await press_skip(pg, cdp, 'typing', rec):
+            await tap_to_choices(pg, cdp, 'typing')
+        await tap_choice(pg, cdp, '「我也沒帶')
+        for _ in range(60):   # 把這一輪演完（照玩家點），下一輪重新讀檔
+            q = await st(pg)
+            if not q['adv'] and not q['busy']: break
+            if q['choices']: await tap_choice(pg, cdp, q['choices'][0][:3])
+            elif q['dlg']: await L.tap(pg, cdp, '#dlg')
+            await pg.wait_for_timeout(900)
+        # 第二輪「full」：第一句打完字、整句顯示以後才按；c～e 在這一輪量
+        print('---- 第二輪 full：第一句整句顯示以後才按「略過對話」 ----', flush=True)
+        await start_event(pg, 'full')
+        for _ in range(80):
+            q = await st(pg)
+            if not q['typing']: break
             await pg.wait_for_timeout(250)
-        hist_txt = await pg.evaluate("(ADV.history||[]).map(h=>(h.text||'').slice(0,20))")
-        rec['after_skip'] = {'state': sb, 'seen': seen, 'hist': hist_txt, 'sec': round(time.time() - t0, 1)}
-        b_ok = bool(sb and sb['choices'])
-        check('b 按一下、中間不再點：一路翻到選項出現（%d 秒內）' % B_WAIT, b_ok and taps == 1,
-              '用了 %.1f 秒；選項=%s；ADV.history=%d；按完以後畫面上看過的句子=%s' % (time.time() - t0, sb and sb['choices'], sb and sb['hist'], J(seen)))
-        if b_ok:
-            check('b ADV.history 有開場 %d 句（每一句都經過，不是直接跳）' % OPEN_LINES, sb['hist'] >= OPEN_LINES, J(hist_txt))
-        await pg.screenshot(path=os.path.join(OUT, '02_after_skip.png'))
-        if not b_ok:
-            note_taps = 0
-            for _ in range(40):
-                q = await st(pg)
-                if q['choices']: break
-                if q['dlg']: await L.tap(pg, cdp, '#dlg'); note_taps += 1
-                await pg.wait_for_timeout(900)
-            info('b 沒過：改照玩家點 #dlg %d 次到選項（c～e 照樣量）' % note_taps)
+        await pg.wait_for_timeout(500)
+        await pg.screenshot(path=os.path.join(OUT, '02_full_first_line.png'))
+        if not await press_skip(pg, cdp, 'full', rec):
+            await tap_to_choices(pg, cdp, 'full')
         # c
         c0 = await st(pg)
         await pg.wait_for_timeout(STAY_S * 1000)
@@ -143,11 +172,9 @@ async def main():
         check('c 停在選項：劇情沒前進（ADV.history 不變）', c1['hist'] == c0['hist'], '%d → %d' % (c0['hist'], c1['hist']))
         check('c 停在選項：ADV.skip 變回 false', c1['skip'] is False, 'ADV.skip=%s' % c1['skip'])
         await pg.screenshot(path=os.path.join(OUT, '03_choices.png'))
-        # d
+        # d（選項本身也會記進 ADV.history：選完以後「選項＋下一句」＝+2，所以比「下一句出來」和「3 秒後」）
         h_before = c1['hist']
         picked = await tap_choice(pg, cdp, '「一起走吧')
-        if not picked and c1['choices']:
-            picked = await tap_choice(pg, cdp, c1['choices'][0][:3])
         check('d 選了第一個選項（「一起走吧。」）', picked)
         d1 = None
         for _ in range(40):
@@ -156,14 +183,15 @@ async def main():
             await pg.wait_for_timeout(300)
         await pg.wait_for_timeout(3000)
         d2 = await st(pg)
-        rec['after_choice'] = {'d1': d1, 'd2': d2}
-        check('d 選完：下一句出來、3 秒後還停在同一句（ADV.history 只多 1、對話框還開著）',
-              bool(d1 and d1['dlg']) and d2['dlg'] and d2['hist'] == h_before + 1 and d2['last'] == d1['last'],
+        rec['after_choice'] = {'h_before': h_before, 'd1': d1, 'd2': d2}
+        check('d 選完：下一句出來、3 秒後還停在同一句（ADV.history 不變、對話框還開著、ADV.skip false）',
+              bool(d1 and d1['dlg']) and d2['dlg'] and d2['hist'] == d1['hist'] and d2['last'] == d1['last'] and d2['skip'] is False,
               '選前 history=%d；出來=%d「%s」；3 秒後=%d「%s」 skip=%s' % (h_before, d1 and d1['hist'], d1 and d1['last'][:16], d2['hist'], d2['last'][:16], d2['skip']))
         steps = []
         for k in range(2):
             q0 = await st(pg)
             if not q0['dlg']: break
+            q1 = q0
             for _ in range(4):   # 第一下可能只是把打字效果補完
                 await L.tap(pg, cdp, '#dlg'); await pg.wait_for_timeout(1200)
                 q1 = await st(pg)
@@ -186,7 +214,7 @@ async def main():
         rec['end'] = q
         check('e 沒卡住：點完對話後 ADV 結束、E.player.busy false', not q['adv'] and not q['busy'] and not q['dlg'], '點了 %d 下；%s' % (ntap, J(q)))
         e0 = await pg.evaluate(BTN_JS)
-        info('e 結束後（非 ADV）#advTop：%s' % J(e0))
+        info('e 結束後（非 ADV）#advTop：%s（b1b：body 沒有 adv-on 時 display none＝預期行為，只記錄）' % J({k: e0.get(k) for k in ('exists', 'topDisplay', 'topParent', 'rect')}))
         await pg.screenshot(path=os.path.join(OUT, '04_end.png'))
         rec['errors'] = errs
         check('沒有 JS 例外', not errs, J(errs[:3]))
