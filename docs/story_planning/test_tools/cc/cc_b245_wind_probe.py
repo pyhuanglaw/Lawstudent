@@ -26,7 +26,7 @@ START = {'campus': ('campus', 16.0, -60.0, 0.0, 0), 'wenzhou': ('wenzhou', 16.0,
          'library_hall': ('library_hall', 16.0, -2.0, 3.6, 0)}
 WIND = '風從'
 
-PICK_JS = """(()=>{ const E=GAME.E, P=E.player, o=P.obj.position, lv=P.lv|0; const c=E.interactables.filter(it=>it.seat&&!it.hidden&&!it.park&&!it.shop&&((it.seat.lv|0)===lv)&&(!GAME.freeSeat||GAME.freeSeat(it.seat)===it.seat))
+PICK_JS = """(()=>{ const E=GAME.E, P=E.player, o=P.obj.position, lv=P.lv|0; const c=E.interactables.filter(it=>it.seat&&!it.hidden&&!it.park&&it.shop!=='teahouse'&&((it.seat.lv|0)===lv)&&(!GAME.freeSeat||GAME.freeSeat(it.seat)===it.seat))
   .sort((a,b)=>Math.hypot(a.seat.x-o.x,a.seat.z-o.z)-Math.hypot(b.seat.x-o.x,b.seat.z-o.z));
   const it=c[0]; if(!it) return null; const ap=GAME.seatApproach?GAME.seatApproach(it.seat):[it.seat.x,it.seat.z];
   return {label:it.label, seat:{x:it.seat.x,z:it.seat.z,yaw:it.seat.yaw||0,lv:it.seat.lv|0}, ap:[+ap[0].toFixed(3),+ap[1].toFixed(3)], n:c.length, indoor:!!E.indoor, zone:GAME.G.zone}; })()"""
