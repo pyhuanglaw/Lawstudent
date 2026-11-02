@@ -3,9 +3,6 @@
   "note": "交付登記（D82）：每一筆交付都要對到 tasks.json 的任務；msg＝SENT／DELIVERED／ACK／ACTIONED（接收方有沒有回 ACK）；integration＝未整合／已整合待測試／已驗收／不整合／參考用。scannedThrough＝每條交付分支已經看過的最後一個 commit：check_handoff.py 只掃它以後的 commit（增量）。看過、不是交付的 commit 放 ignored。　**scannedThrough 只在 check 跑完、列出的 commit 都登記或放進 ignored 之後才往前移**（2026-10-16：先移再跑會什麼都掃不到）。",
   "pattern": "交付|ART_APPROVED|READY_FOR_ART_REVIEW|MODEL_READY|通過|驗收|閒聊階梯|交接包|法律審查|盤點|清查|裁定|規則檔|AA_1\\d\\d|BB_1\\d\\d",
   "scannedThrough": {
-    "origin/claude/funny-albattani-iawshm": "2d88db5f",
-    "origin/claude/cool-heisenberg-o8kuqx": "ec63dd53",
-    "origin/claude/elegant-brown-fcos7n": "55717c12",
     "origin/claude/focused-cray-c9uwvw": "edd6fa8a",
     "origin/claude/magical-albattani-bk7b4n": "1b8160a1",
     "origin/claude/wonderful-mayer-7fm9g6": "ad1ee0aa"
@@ -21434,6 +21431,21 @@
       "branch": "origin/claude/second-ai-env-art",
       "kind": "handoff_record",
       "reason": "LAWWW2（帳號 A）11-02 03:3x 接班登記（duty_LAWWW2.json）；LAWWW（帳號 A）04:0x 分類"
+    },
+    {
+      "sha": "4dc6b17b",
+      "branch": "origin/claude/second-ai-env-art",
+      "kind": "wip",
+      "task": "INTERIOR-AAA-REVIEW-1028",
+      "reason": "LAWWW2 11-02 美國草原超市光照烘焙 WIP 檢查點（還沒交件；LAWWW 06:0x 分類）"
+    },
+    {
+      "sha": "8816814f",
+      "branch": "origin/claude/second-ai-env-art",
+      "kind": "wip",
+      "task": "INTERIOR-AAA-REVIEW-1028",
+      "reason": "LAWWW2 11-02 美國草原超市光照烘焙 WIP 檢查點（還沒交件；LAWWW 06:0x 分類）"
     }
-  ]
+  ],
+  "scannedThroughNote": "2026-11-02 05:3x 使用者刪了帳號 B 的分支（funny-albattani、cool-heisenberg、elegant-brown；內容整條在 second-ai-env-art、story-planning）：從這裡拿掉，之後的核對靠 watermarks.json（incr）"
 }
