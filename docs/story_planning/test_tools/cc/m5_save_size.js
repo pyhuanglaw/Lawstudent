@@ -57,13 +57,23 @@ const avgMsg=poolTexts.reduce((a,t)=>a+t.length,0)/Math.max(1,poolTexts.length);
 console.log('INFO 手機訊息取樣句子 '+poolTexts.length+' 句，平均 '+avgMsg.toFixed(1)+' 字');
 const PEOPLE=Object.keys(CHARACTERS).filter(id=>CHARACTERS[id]&&CHARACTERS[id].social_layer&&CHARACTERS[id].social_layer!=='P');
 const MEMTAGS=Object.keys(SOCIAL.MEMORY_LABEL||{}).length?Object.keys(SOCIAL.MEMORY_LABEL):['FIRST_MET','TALKED','STUDIED_TOGETHER','ATE_TOGETHER'];
-const ZONES=['campus','linze','wancai','library','library_hall','cafe','conv','noodle','bookstore','dorm','gongguan','wenzhou','lane118','gym','soclib','lawlib','home','pool','putong','boya','gongtong'];
-const HABIT_ACTS=['enter','sit','study','eat'];
+const ZONES=['campus','linze','wancai','library','library_hall','cafe','conv','noodle','bookstore','dorm','gongguan','wenzhou','lane118','gym','soclib','lawlib','home','pool','putong','boya','gongtong','classroom','teahouse','wzpark','library_b1','linze3','socsci'];
+const TOD=['morning','noon','afternoon','evening','night'];
+/* 習慣的鍵照真的存檔（docs/story_planning/試玩存檔/ day 7：place:<區域>:<時段>、place:<區域>:with:<人>、seat:<區域>:@x,z、seat:<區域>:with:<人>、meal:<區域>、meal:<區域>:with:<人>）*/
+const SEATS={}; for(const z of ZONES){ SEATS[z]=[]; for(let i=0;i<10;i++) SEATS[z].push('@'+(((i*7)%23)-11)+','+(((i*5)%17)-8)); }
+/* 訊息 tag：遊戲裡有 tag 的訊息是有限的（原始碼字面 tag 約 335 個＋帶年份、id 的動態 tag）——這裡用 600 個名字輪流 */
+const TAGS=[]; for(let i=0;i<600;i++) TAGS.push('msgtag_'+(i<335?'lit':'dyn')+'_'+i);
 /* 旗標名稱（原始碼裡出現過的 G.flags.X／F.X）——B 層推估用 */
 const FLAGNAMES=(()=>{ const s=new Set(); for(const f of fs.readdirSync(path.join(SRC,'src'))){ if(!/\.js$/.test(f)) continue; const t=fs.readFileSync(path.join(SRC,'src',f),'utf8'); for(const m of t.matchAll(/\bflags\.([A-Za-z_][A-Za-z0-9_]*)/g)) s.add(m[1]); for(const m of t.matchAll(/\bF\.([A-Z][A-Z0-9_]{2,})\b/g)) s.add(m[1]); } return [...s]; })();
 const EVIDS=(typeof STORY_EVENTS!=='undefined'?STORY_EVENTS:[]).map(e=>e.id);
 console.log('INFO 人物 '+PEOPLE.length+' 位（social_layer 非 P）、記憶 tag '+MEMTAGS.length+' 種、旗標名稱 '+FLAGNAMES.length+' 個、STORY_EVENTS '+EVIDS.length+' 個');
 
+/* ---- B 層（推估）：在存檔的複本上加，不寫進 G（不然旗標會改到遊戲邏輯）---- */
+const EVALL=(()=>{ const s=new Set(EVIDS); for(const f of fs.readdirSync(path.join(SRC,'src/data'))){ const t=fs.readFileSync(path.join(SRC,'src/data',f),'utf8'); for(const m of t.matchAll(/\bid:'(ev_[A-Za-z0-9_]+)'/g)) s.add(m[1]); } return [...s]; })();
+function bLayer(S0,frac,opt){ const S=JSON.parse(JSON.stringify(S0)); S.events=S.events||{done:{},last:{},count:0}; S.events.done=S.events.done||{}; S.events.last=S.events.last||{};
+  const nE=Math.floor(EVALL.length*frac*(opt.evFrac||0.6)); for(let i=0;i<nE;i++){ const id=EVALL[i]; if(!S.events.done[id]){ S.events.done[id]=1; S.events.last[id]=S.day-Math.floor((1-i/nE)*1300); S.events.count=(S.events.count|0)+1; } }
+  const nF=Math.floor(FLAGNAMES.length*frac*(opt.flagFrac||0.5)); for(let i=0;i<nF;i++){ const k=FLAGNAMES[i]; if(S.flags[k]==null) S.flags[k]=(i%5===0)?S.day:true; }
+  return S; }
 /* ---- 欄位大小 ---- */
 function fieldSizes(G){ const s=snap(G), o={}; for(const k in s){ const v=s[k]; o[k]=v===undefined?0:JSON.stringify(v).length; } return o; }
 function subSizes(obj){ const o={}; if(!obj||typeof obj!=='object') return o; for(const k in obj) o[k]=JSON.stringify(obj[k]===undefined?null:obj[k]).length; return o; }
@@ -96,19 +106,18 @@ async function sim(name,opt){ rnd=rngOf(opt.seed); pRight=opt.pRight!=null?opt.p
     if(d===PG.DK('2029-06-18')&&typeof FD!=='undefined'){ try{ await FD.check(GM,{inScene:true}); }catch(e){ console.log('  FD.check 例外 '+e.message); } }
     if(typeof FD!=='undefined'&&FD.mkPending&&FD.mkPending(G)&&d===FD.mkDay()){ G.hour=9.5; forceWrong=!!opt.delay; try{ await FD.makeup(GM); }catch(e){ console.log('  FD.makeup 例外 '+e.message); } finally { forceWrong=false; } }
     /* 手機訊息（每天平均 3 則；真的 PHONE.post：200 則上限、刪掉的 tag 記 cut）*/
-    const nMsg=Math.floor(rnd()*7*(opt.msgMul||1)); for(let k=0;k<nMsg;k++){ const who=meet[Math.floor(rnd()*meet.length)]; G.hour=8+rnd()*15; PHONE.post(G,{who,from:rnd()<0.5?who:'me',text:poolTexts[Math.floor(rnd()*poolTexts.length)]||'嗯',tag:rnd()<0.4?'m_'+d+'_'+k:undefined}); }
+    const nMsg=Math.floor(rnd()*7*(opt.msgMul||1)); for(let k=0;k<nMsg;k++){ const who=meet[Math.floor(rnd()*meet.length)]; G.hour=8+rnd()*15; PHONE.post(G,{who,from:rnd()<0.5?who:'me',text:poolTexts[Math.floor(rnd()*poolTexts.length)]||'嗯',tag:rnd()<0.4?TAGS[Math.floor(rnd()*TAGS.length)]:undefined}); }
     /* 人物記憶（每天平均 1 筆；真的 SOCIAL.remember：同一天同 tag 不重複、每人 80 筆）*/
-    const nMem=Math.floor(rnd()*3*(opt.memMul||1)); for(let k=0;k<nMem;k++){ const who=meet[Math.floor(rnd()*meet.length)]; SOCIAL.remember(who,MEMTAGS[Math.floor(rnd()*MEMTAGS.length)],rnd()<0.3?poolTexts[Math.floor(rnd()*poolTexts.length)].slice(0,20):''); }
+    const nMem=Math.floor(rnd()*4*(opt.memMul||1)); for(let k=0;k<nMem;k++){ const who=meet[Math.floor(rnd()*meet.length)]; SOCIAL.remember(who,MEMTAGS[Math.floor(rnd()*MEMTAGS.length)],rnd()<0.3?poolTexts[Math.floor(rnd()*poolTexts.length)].slice(0,20):''); }
     /* 習慣（每天 3～6 個鍵）*/
-    for(let k=0;k<3+Math.floor(rnd()*4);k++) EVENTS.habit(ZONES[Math.floor(rnd()*ZONES.length)]+':'+HABIT_ACTS[Math.floor(rnd()*HABIT_ACTS.length)]);
+    { const zs=meet.length?ZONES.slice(0,opt.zones||ZONES.length):ZONES; for(let k=0;k<3+Math.floor(rnd()*3);k++){ const z=zs[Math.floor(rnd()*zs.length)], tod=TOD[Math.min(4,k)], who=rnd()<0.3?meet[Math.floor(rnd()*Math.min(meet.length,opt.companions||8))]:null;
+        EVENTS.habit('place:'+z+':'+tod); if(who) EVENTS.habit('place:'+z+':with:'+who);
+        if(rnd()<0.5){ EVENTS.habit('seat:'+z+':'+SEATS[z][Math.floor(rnd()*SEATS[z].length)]); if(who) EVENTS.habit('seat:'+z+':with:'+who); }
+        if(rnd()<0.3){ EVENTS.habit('meal:'+z); if(who) EVENTS.habit('meal:'+z+':with:'+who); } } }
     if(opt.grad&&rnd()<0.05) SOCIAL.gradBump('準備研究所：讀書會','civil');
-    /* B 層：事件、旗標依時間比例 */
-    const frac=(d-D0)/(END-D0); G.events=G.events||{done:{},last:{},count:0}; G.events.done=G.events.done||{}; G.events.last=G.events.last||{};
-    while(ev<EVIDS.length&&ev/EVIDS.length<=frac*(opt.evFrac||0.6)){ const id=EVIDS[ev++]; G.events.done[id]=1; G.events.last[id]=d; G.events.count=(G.events.count|0)+1; }
-    while(fg<FLAGNAMES.length&&fg/FLAGNAMES.length<=frac*(opt.flagFrac||0.5)){ const k=FLAGNAMES[fg++]; if(G.flags[k]==null) G.flags[k]=true; }
     /* 量測點：每學期成績單那天、畢業、延畢後 */
     const lab=termEnds[d]?termEnds[d]+' 成績單後':d===PG.DK('2029-06-02')?'畢業典禮（2029-06-02）':d===END?'2029-06-30':d===END5?'延畢學期後（2030-01-31）':null;
-    if(lab){ const fs_=fieldSizes(G); marks.push({lab,day:d,date:CALENDAR.dateOf(d).key,chars:sizeOf(G),fields:fs_,
+    if(lab){ const frac=Math.min(1,(d-D0)/(END-D0)); const S0=bLayer(snap(G),frac,opt); const fs_={}; for(const k in S0) fs_[k]=S0[k]===undefined?0:JSON.stringify(S0[k]).length; const chars=JSON.stringify(S0).length; const realChars=sizeOf(G); marks.push({lab,day:d,date:CALENDAR.dateOf(d).key,chars,realChars,fields:fs_,
         detail:{courses:subSizes(G.courses),social:subSizes(G.social),notesN:(G.notes||[]).length,notesKinds:(G.notes||[]).reduce((a,n)=>{ const k=/^examfix_/.test(n.id)?'examfix':/^ask_/.test(n.id)?'ask':/_w\d+$/.test(n.id)?'study':'other'; a[k]=(a[k]||0)+1; a[k+'_chars']=(a[k+'_chars']||0)+JSON.stringify(n).length; return a; },{}),
           doneKeys:Object.keys(G.courses.done||{}).length,examKeys:Object.keys(G.courses.exam||{}).length,msgs:(G.msgs||[]).length,memN:Object.values(G.social.mem||{}).reduce((a,x)=>a+x.length,0),habitKeys:Object.keys(G.habits||{}).length,flagsN:Object.keys(G.flags).length,cut:((G.phone||{}).cut||[]).length}}); }
   }
@@ -117,17 +126,18 @@ async function sim(name,opt){ rnd=rngOf(opt.seed); pRight=opt.pRight!=null?opt.p
 (async()=>{
   const SHA=(()=>{ try{ return require('child_process').execSync('git -C '+J(SRC)+' rev-parse --short HEAD').toString().trim(); }catch(e){ return '?'; } })();
   console.log('受測：'+SRC+'（'+SHA+'）');
+  console.log('INFO 事件 id（STORY_EVENTS＋src/data 裡的 ev_ id）'+EVALL.length+' 個');
   const ROUTES=[
     ['TW 一般',{seed:1}],
     ['JP 交換',{seed:2,route:'JP'}],
     ['US 交換',{seed:3,route:'US'}],
     ['延畢一學期（大四下海商法全錯＋補考全錯）',{seed:4,failY4S2:'maritime',delay:true}],
     ['研究所路線',{seed:5,grad:true,pRight:0.85}],
-    ['重度玩家（訊息×2、記憶×2、全部人物）',{seed:6,msgMul:2,memMul:2,people:999,evFrac:1,flagFrac:0.8,pRight:0.5}]];
+    ['重度玩家（記憶×3、全部人物、同行對象 58 位、事件全演、旗標 80%）',{seed:6,msgMul:2,memMul:3,people:999,companions:999,evFrac:1,flagFrac:0.8,pRight:0.5}]];
   const out=[];
   for(const [n,o] of ROUTES){ const t0=Date.now(); const r=await sim(n,o); out.push(r);
     console.log('== '+n+'（'+((Date.now()-t0)/1000).toFixed(0)+' 秒；FAIL_DELAY='+J(r.G.flags.FAIL_DELAY_COURSES)+'、FD_MAKEUP='+J(r.G.flags.FD_MAKEUP&&r.G.flags.FD_MAKEUP.status)+'、y5.cls='+Object.keys((r.G.y5||{}).cls||{}).length+'）');
-    let prev=0; for(const m of r.marks){ const top=Object.entries(m.fields).sort((a,b)=>b[1]-a[1]).slice(0,6).map(([k,v])=>k+' '+v).join('、'); console.log('  '+m.date+' '+m.lab.padEnd(14)+' '+String(m.chars).padStart(7)+' 字（'+(m.chars*2/1024).toFixed(0)+' KB）＋'+(m.chars-prev)+'　最大：'+top); prev=m.chars; }
+    let prev=0; for(const m of r.marks){ const top=Object.entries(m.fields).sort((a,b)=>b[1]-a[1]).slice(0,6).map(([k,v])=>k+' '+v).join('、'); console.log('  '+m.date+' '+m.lab.padEnd(14)+' '+String(m.chars).padStart(7)+' 字（'+(m.chars*2/1024).toFixed(0)+' KB；A 層 '+m.realChars+'）＋'+(m.chars-prev)+'　最大：'+top); prev=m.chars; }
     const L=r.marks[r.marks.length-1]; console.log('  細項：'+J(L.detail).slice(0,900)); }
   /* 總量 */
   const worst=Math.max(...out.map(r=>Math.max(...r.marks.map(m=>m.chars))));
