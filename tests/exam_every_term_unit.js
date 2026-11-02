@@ -29,7 +29,9 @@ for(const route of [null,'JP']){
 (async()=>{
 { /* ① 修好以後故意不考＝FD.check 判延畢（V2）→ 存讀檔（migrate）→ 還是延畢 */
   const G=H.fresh('2029-06-18',9,'dorm',{}); const R=CLS.rec(G); const fails=CLS.failedIn(G,'Y4S2').map(c=>c.id);
-  const GM2=Object.assign({},H.GM,{G}); await FD.check(GM2,{inScene:true}); const s=JSON.parse(JSON.stringify(G)); FD.migrate(s);
+  const GM2=Object.assign({},H.GM,{G}); await FD.check(GM2,{inScene:true});
+  PG.setT(G,null,PG.DK('2029-06-26'),11.25); PG.pending(G);   /* D118 補考（使用者 2026-11-02 05:0x Q4）：考五題的課 6/18 先排 6/26 補考；補考也沒去（11:00 以前沒開始）才延畢 */
+  const s=JSON.parse(JSON.stringify(G)); FD.migrate(s);
   check('①（BB 06:46）修好以後真的沒去考：FD.check 記 FAIL_DELAY_V=2、讀檔以後還是延畢',fails.includes('maritime')&&G.flags.FAIL_DELAY===true&&G.flags.FAIL_DELAY_V===2&&s.flags.FAIL_DELAY===true&&s.flags.FAIL_DELAY_COURSES.includes('maritime'),JSON.stringify({fails,F:s.flags.FAIL_DELAY_COURSES,V:G.flags.FAIL_DELAY_V})); }
 { /* ② 不是大四下排的課（大四上被當、沒排重修的）＋舊存檔 → 延畢照舊 */
   const s={day:PG.DK('2029-06-20'),flags:{FAIL_DELAY_COURSES:['enforcement'],FAIL_DELAY:true,BAR_REG:false},courses:{exam:{}}}; FD.migrate(s);
