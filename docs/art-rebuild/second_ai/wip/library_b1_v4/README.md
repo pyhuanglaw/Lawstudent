@@ -44,3 +44,11 @@
 - Node：library_b1_unit、b1story_unit、d118_b1_unit、aa497_supporting_unit、aa499_501_pool_unit、aa527_528_unit、library_upper_unit、phone_unify_unit、windowless_night_unit ALL PASS。
 - 配置檢查（navcheck）：沒有走不到的座位。
 - 截圖：排在背景佇列（20:30 有同學、15:00 和第三版同一個鏡頭、俯視）。
+
+## 11-02 22:5x：從 B1 走上 1F 的落點站不住（reachability_all 抓到，**底版就有**）
+
+- `reachability_all`（總圖那輪 q4）：「從 library_b1『走樓梯上 1F』到 (−10.1,−2.4,第 0 層) 站得住=False」。
+- 原因：一樓的新書展示台 (−8.4,−1.6)、2.4×1.0 的導航擋到 x −10.0；落點 −10.1 離它不到人物半徑。int/m590 `0e11c43a3` 底版就一樣（不是這幾輪改出來的）。
+- 修：落點改 **(−10.1, −3.1)**（`library_layout.js` 的 `b1Door.spawn`＋`library_b1_3d.js` 的備用值）。站得住、走得到大廳出生點、離樓梯間門的互動點 1.35 m（> 半徑 0.8＋0.3，一上來不會又跳出「走樓梯下 B1」）。
+- patch：`library_b1_spawn_fix_1102.patch`（只動這兩行，對 `0e11c43a3` apply --cached --check 過）。
+- Node：`library_b1_unit`、`b1story_unit`、`library_hall_v2_oldsave_unit`、`library_upper_unit`、`nav_buildings_unit`、`aa379_sis_lib_unit` ALL PASS；瀏覽器 `reachability_all` 還沒重跑。
