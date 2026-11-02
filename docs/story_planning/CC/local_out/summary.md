@@ -81,3 +81,5 @@ fatal: 'C:/Users/USER/Documents/wt_cc_R8_rr2' already exists    [ 135.3s] main_p
       err.log (last 5): [gpu_wrap 1.3s] headed slot 0: --window-position=0,0 --window-size=900,900 --window-name=CC 測試中，請勿點選 [G2_libfl] | [gpu_wrap 267.0s] page close url=http://127.0.0.1:8807/index.html | [gpu_wrap 267.1s] BROWSER DISCONNECTED
 - 2026-11-03T05:38:42  G5_termend  sha=ef63b1877  exit=0  165s    PASS 黑幕沒有擋住對話 / PASS 全程沒有 JS 例外  [] / ALL PASS
       err.log (last 5): [gpu_wrap 1.1s] headed slot 1: --window-position=920,0 --window-size=900,900 --window-name=CC 測試中，請勿點選 [G5_termend] | [gpu_wrap 121.2s] page close url=http://127.0.0.1:8808/index.html?turbo | [gpu_wrap 121.3s] BROWSER DISCONNECTED
+- 2026-11-03T05:43:41  G6a_v7  sha=ef63b1877  exit=0  291s    PASS v7 各區域 48 個位置的存檔：新版都讀得進來、站得住、走得動  [] / PASS 新版沒有 JS 例外  [] / ALL PASS
+      err.log (last 5): [gpu_wrap 1.1s] headed slot 1: --window-position=920,0 --window-size=900,900 --window-name=CC 測試中，請勿點選 [G6a_v7] | [gpu_wrap 36.3s] page close url=http://127.0.0.1:8809/index.html?turbo | [gpu_wrap 261.6s] page close url=http://127.0.0.1:8808/index.html?turbo | [gpu_wrap 261.7s] BROWSER DISCONNECTED

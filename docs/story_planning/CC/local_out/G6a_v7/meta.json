@@ -1,0 +1,19 @@
+{
+  "rerun": "",
+  "id": "G6a_v7",
+  "sha": "ef63b1877",
+  "kind": "game",
+  "script": "tests/save_compat_v7.py",
+  "env": "SHA2=385e194;XARGS={url2} {url}",
+  "machine": "MSI",
+  "start": "2026-11-03T05:38:50",
+  "end": "2026-11-03T05:43:41",
+  "seconds": 291,
+  "exit": 0,
+  "error": null,
+  "runner": "b46848d180",
+  "rf_round": "3",
+  "url": "http://127.0.0.1:8808/index.html",
+  "url2": "http://127.0.0.1:8809/index.html",
+  "sha2": "385e194"
+}
