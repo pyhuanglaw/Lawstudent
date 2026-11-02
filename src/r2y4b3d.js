@@ -808,7 +808,7 @@ const R2Y4B=(function(){
     {id:'r2y4b_y5_intern1',at:G=>T(DK('2029-09-11'),10),until:G=>T(DK('2029-09-13'),24),cond:internOn,run:GM=>S.intern(GM,0)},
     {id:'r2y4b_y5_intern2',at:G=>T(DK('2029-10-16'),10),until:G=>T(DK('2029-10-18'),24),cond:internOn,run:GM=>S.intern(GM,1)},
     {id:'r2y4b_y5_intern3',at:G=>T(DK('2029-11-20'),10),until:G=>T(DK('2029-11-22'),24),cond:internOn,run:GM=>S.intern(GM,2)},
-    {id:'r2y4b_y5_cert',at:G=>T(DK('2030-01-21'),10),until:G=>T(DK('2030-01-24'),24),cond:G=>delayed(G)&&!(fdOnly(G)&&typeof FD!=='undefined'&&FD.certLate(G)),run:GM=>S.cert(GM)},   /* 重修不到三堂：證書延到 2030-06（日期卡帶過，AA_421 1-5）*/
+    {id:'r2y4b_y5_cert',at:G=>T(DK('2030-01-21'),10),until:G=>T(DK('2030-01-24'),24),cond:G=>delayed(G)&&!(typeof FD!=='undefined'&&FD.certLate(G)),run:GM=>S.cert(GM)},   /* 重修不到三堂：證書延到 2030-06（日期卡帶過，AA_421 1-5；BB 10:21 起交換延畢又被當的也一樣，FD.retakeOn）*/
     {id:'r2y4b_grad_exam_2030',at:G=>T(DK('2030-02-16'),9),until:G=>T(DK('2030-02-17'),12),cond:G=>S.gradExam2030Due(G),run:GM=>S.gradExam(GM,2030)},
     {id:'r2y4b_grad_result_2030',at:G=>T(DK('2030-03-15'),15),until:G=>T(DK('2030-03-17'),24),cond:G=>G.flags.GRAD_EXAM_2030===true,run:GM=>S.gradResult2030(GM)},
     {id:'r2y4b_grad_retry_2030',at:G=>T(DK('2030-03-15'),21),until:G=>T(DK('2030-03-22'),24),cond:G=>G.flags.GRAD_EXAM_2030===true&&G.flags.GRAD_EXAM_RESULT==='fail'&&G.flags.GRAD_RETRY2==null&&!G.flags.GRAD_QUIT,run:GM=>S.gradRetry2030(GM)},

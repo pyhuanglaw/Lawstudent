@@ -30,6 +30,9 @@ const Y5=(function(){
   S.INTERN_TEXT='法律實習　10:00（法扶）';
   S.MAKEUP=[{wd:1,id:'enforcement',label:'補修：強制執行法',bg:'classroom_small'},{wd:3,id:'legal_ethics',label:'補修：法律倫理',bg:'wancai_seminar'}];   /* 美國路線：週一、週三上午（AA_291 第 6 節）*/
   S.DAYS_TEXT={study:'總圖',work:'家教',bar:'在家讀書'};
+  S.INTERN_SLOT={wd:2,block:'am'};   /* 週二 10:00 的法扶實習落在上午那一節 */
+  /* 大五上被佔掉的時段（K1-2、K1-3，CC_K1、BB 10:21）：美國路線的補修（週一、週三上午）、週二實習（交換那一版）。FD.slots 的重修避開這些（換時段照 CLS.placeSlots）*/
+  S.busySlots=G=>{ const o=[]; if(S.us(G)) for(const m of S.MAKEUP) o.push({wd:m.wd,block:'am'}); if(S.internOn(G)) o.push(Object.assign({},S.INTERN_SLOT)); return o; };
   const course=id=>typeof COURSES!=='undefined'&&COURSES.list?COURSES.list.find(c=>c.id===id)||null:null;
   const am=()=>(typeof COURSES!=='undefined'&&COURSES.blocks&&COURSES.blocks.am)||{t0:9+10/60,t1:12+10/60};
   /* 補修的那一堂：{key, c（大四上那一門）, label, t0, t1, day, week, slot, bg} */

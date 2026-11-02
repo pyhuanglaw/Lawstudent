@@ -60,7 +60,8 @@ const CLS=(function(){
   S.byId=id=>COURSES.list.find(c=>c.id===id)||null;
   S.enrolled=function(G,c){ if(c.y0leave&&G&&G.flags&&G.flags.Y0_LEFT) return false;   /* 經濟系大一下休學以後（E30，AA_106 第 0 節第 5 點）：經濟系的課、法學緒論都不排 */
     if(c.route&&!(G&&typeof STORY!=='undefined'&&STORY.route&&c.route.includes(STORY.route(G)))) return false;   /* 只給某條交換路線的課（AA_144 X4 日本路線大四下的補修，courses.js 的 route）*/
-    if(!c.route&&G&&typeof JP!=='undefined'&&JP.skipTerm&&JP.skipTerm(G,c.term)) return false;   /* 日本路線不修台灣的大三下（AA_341 J-S6；src/jp3d.js）：不排課、不考試、成績單換日本的兩門 */
+    if(!c.route&&G&&S.termAway(G,c.term)) return false;   /* 日本路線不修台灣的大三下（AA_341 J-S6；src/jp3d.js）：不排課、不考試、成績單換日本的兩門。
+       K1-1（CC_K1、BB 10:21）：美國路線不修台灣的大四上也一樣（原本只問 JP.skipTerm：手機「法律」頁的「這學期」在美國時列出台灣大四上的課、每門 0／N；examList 也排出 5 場）*/
     if(!c.choice) return true; const pick=S.rec(G).electives[c.choice.group]; const cur=pick===undefined?c.choice.default:pick; return cur===c.id; };
   S.termCourses=(G,termId)=>{ const L=COURSES.list.filter(c=>c.term===termId&&S.enrolled(G,c)); if(G) S._lastG=G; const rt=G&&G.courses&&Array.isArray(G.courses.retake)?G.courses.retake.filter(r=>r.term===termId):[]; return rt.length?L.concat(rt.map(r=>S.rtCourse(r)).filter(Boolean)):L; };
   /* ---------- 被當、重修（D42：使用者 10-18 02:2x「沒有暑修」，被當的課下一學期再修；衝堂就開另一個老師的同一門課，放在不衝堂的時段；00_現行設定總表第 3 節）----------
@@ -80,12 +81,13 @@ const CLS=(function(){
       if(S.attCourse(c)&&!S.attPass(G,c,termId)) out.push(c); } return out; };
   /* D118 大四下補考（使用者 2026-11-02 05:0x Q4；src/faildelay3d.js）：補考的紀錄 R.exam['學期:課:makeup']（drawExam／runExam 的 kind 'makeup'）；及格門檻同期末（答對 1 題以上） */
   S.makeupPassed=(R,termId,id)=>{ const m=R&&R.exam&&R.exam[termId+':'+id+':makeup']; return !!m&&m.status==='done'&&(m.correct|0)>0; };
+  /* 重修排時段（planRetakes 的 place；大五上的重修 FD.slots 也用）：原本的時段都沒被佔＝照原本；有一個衝到＝整門換到空著的時段（週一起、同一天只排一堂）；排不下＝null。used＝Set('wd:block')，不會被改 */
+  S.placeSlots=function(slots0,used0){ const used=new Set(used0); const clash=slots0.some(s=>used.has(s.wd+':'+s.block)); let slots=slots0.map(s=>({wd:s.wd,block:s.block})), alt=false;
+    if(clash){ alt=true; slots=[]; for(let wd=1;wd<=5&&slots.length<slots0.length;wd++) for(const b of ['am','pm1','pm2']){ if(slots.length>=slots0.length) break; const k=wd+':'+b; if(used.has(k)||slots.some(s=>s.wd===wd)) continue; slots.push({wd,block:b}); used.add(k); } }
+    return slots.length<slots0.length?null:{slots,alt}; };
   S.planRetakes=function(G,termId){ const R=S.rec(G); if(!Array.isArray(R.retake)) R.retake=[]; const fails=S.failedIn(G,termId), to=S.retakeTermAfter(G,termId), made=[]; if(!to) return made;
     /* 排進某一學期：那學期的課（含已排的重修）佔掉的時段避開；排不下回 null */
-    const place=(c,tt)=>{ const used=new Set(); for(const x of S.termCourses(G,tt)) for(const s of x.slots) used.add(s.wd+':'+s.block);
-      const clash=c.slots.some(s=>used.has(s.wd+':'+s.block)); let slots=c.slots.map(s=>({wd:s.wd,block:s.block})), alt=false;
-      if(clash){ alt=true; slots=[]; for(let wd=1;wd<=5&&slots.length<c.slots.length;wd++) for(const b of ['am','pm1','pm2']){ if(slots.length>=c.slots.length) break; const k=wd+':'+b; if(used.has(k)||slots.some(s=>s.wd===wd)) continue; slots.push({wd,block:b}); used.add(k); } }
-      return slots.length<c.slots.length?null:{slots,alt}; };
+    const place=(c,tt)=>{ const used=new Set(); for(const x of S.termCourses(G,tt)) for(const s of x.slots) used.add(s.wd+':'+s.block); return S.placeSlots(c.slots,used); };
     for(const c of fails){ if(R.retake.some(r=>r.id===c.id&&r.from===termId)) continue;
       /* BUG-RETAKE-OVERFLOW-1102（BB 09:45，CC M3）：全部被當時重修可能把下一學期一週 15 個時段排滿，後面的原本直接消失（繼續修不到、成績一直是不及格）。
          排不下＝順延到再下一學期，手機用教務處的系統通知告訴玩家（暫定字 S.RT_DEFER_TEXT，AA 定稿後換）；再下一學期也排不下（或已經沒有學期）才放棄並記 R.retakeDropped */
