@@ -116,3 +116,11 @@ runner 印到畫面上的每一行都會留一份，只保留最後 2000 行，�
 - **應該看到**：青色的 `run_forever: round 1`，接著是設定那幾行，然後是兩個並排的視窗。雲端會在 cc-local 看到「CC-local: runner start (rf_round 1, …)」。
 - **不要搬動或改名 `tools/cc_local/run_forever.ps1`**：捷徑寫死了這個路徑。
 - 已知的風險（還沒處理）：如果當機剛好發生在 git 寫入的時候，可能留下 `index.lock`，git 指令會失敗。runner 會印出 git 錯誤，然後每 60 秒重試一次。遇到這種情況，請 BB 把 console.log 或畫面給 CC 看。之後 runner 會加上自動清除過期 lock 的功能。
+
+## 並行數、記憶體保護、殘留瀏覽器（BB 2026-11-02 22:09）
+- **並行數改 `tools/cc_local/config.txt` 的 `PARALLEL=n`**（1～4）。runner 每一輪都會重讀，推上 cc-testing 就生效，不用重開，也不用改 run_forever.ps1。改了會在 console 印一行 `config.txt: PARALLEL a -> b`。第 3 個視窗放在 x=1840，螢幕不夠寬的話，有一部分會在畫面外，不影響測試。
+- **記憶體保護**：開新項目前讀系統記憶體使用率，≥85% 就先不開，等一項跑完再看。手上沒有項目時照樣開，不會卡住。每開一項，都會在 console 印 `memory NN% before starting <ID>`，雲端看 console.log 就知道最高值。
+- **殘留瀏覽器**：runner 啟動時（還沒有任何項目在跑），會結束 Playwright 下載路徑（`ms-playwright`）底下所有還在跑的瀏覽器程序，通常是上次 Ctrl+C 或當機留下的。每結束一個印一行 `killed leftover test browser pid …`。**使用者自己的 Google Chrome 不在這個路徑底下，不會被動到。**
+- 單元測試：`python3 tools/cc_local/guard_unit.py`。
+- **資源用量**（BB 22:11）：每一項 START、END 各印一行 `[res] cpu=xx% mem=yy% (used/total GB) chrome_testing=N`，跟著 console.log 推上去；這一項期間每 30 秒取樣一次，最高值寫進 meta.json 的 `res_peak`。只記數字：chrome_testing 只算 ms-playwright 路徑底下的程序數，不記程序名稱。CPU 的讀法依序是 psutil → PowerShell（Win32_Processor LoadPercentage）→ /proc/stat。
+

@@ -152,6 +152,153 @@ def clear_stale_git_locks(gitdir, now=None, running=None):
     return gone
 
 
+MEM_LIMIT = 85         # BB 22:09：系統記憶體已用 ≥85% 就先不開新項目（手上沒有項目時照開，免得卡死）
+BROWSER_DIR_PAT = os.environ.get('CC_BROWSER_DIR_PAT', 'ms-playwright')   # 只清這個路徑底下的瀏覽器（Playwright 下載的）；使用者自己的 Chrome 不在這裡
+
+
+def mem_used_pct():
+    """系統記憶體已用 %（Windows：GlobalMemoryStatusEx；Linux：/proc/meminfo）；讀不到回 None"""
+    try:
+        if IS_WIN:
+            import ctypes
+
+            class MS(ctypes.Structure):
+                _fields_ = [('dwLength', ctypes.c_ulong), ('dwMemoryLoad', ctypes.c_ulong),
+                            ('ullTotalPhys', ctypes.c_ulonglong), ('ullAvailPhys', ctypes.c_ulonglong),
+                            ('ullTotalPageFile', ctypes.c_ulonglong), ('ullAvailPageFile', ctypes.c_ulonglong),
+                            ('ullTotalVirtual', ctypes.c_ulonglong), ('ullAvailVirtual', ctypes.c_ulonglong),
+                            ('ullAvailExtendedVirtual', ctypes.c_ulonglong)]
+            m = MS(); m.dwLength = ctypes.sizeof(MS)
+            ctypes.windll.kernel32.GlobalMemoryStatusEx(ctypes.byref(m))
+            return int(m.dwMemoryLoad)
+        d = {}
+        with open('/proc/meminfo') as fh:
+            for line in fh:
+                k, v = line.split(':', 1); d[k] = int(v.split()[0])
+        return int(round(100 * (1 - d['MemAvailable'] / float(d['MemTotal']))))
+    except Exception:
+        return None
+
+
+def leftover_browsers():
+    """BROWSER_DIR_PAT 路徑底下正在跑的瀏覽器程序 [(pid, 路徑)]"""
+    out = []
+    if IS_WIN:
+        ps = ("Get-CimInstance Win32_Process | Where-Object { $_.ExecutablePath -like '*\\%s\\*' } | "
+              "ForEach-Object { '{0}|{1}' -f $_.ProcessId, $_.ExecutablePath }") % BROWSER_DIR_PAT
+        try:
+            r = subprocess.run(['powershell', '-NoProfile', '-Command', ps], stdout=subprocess.PIPE,
+                               stderr=subprocess.DEVNULL, text=True, errors='replace', timeout=60)
+            for line in (r.stdout or '').splitlines():
+                if '|' in line:
+                    pid, path = line.split('|', 1)
+                    if pid.strip().isdigit():
+                        out.append((int(pid), path.strip()))
+        except Exception:
+            pass
+        return out
+    for d in os.listdir('/proc'):
+        if not d.isdigit():
+            continue
+        try:
+            exe = os.readlink('/proc/%s/exe' % d)
+        except OSError:
+            continue
+        if ('/%s/' % BROWSER_DIR_PAT) in exe:
+            out.append((int(d), exe))
+    return out
+
+
+def kill_leftover_browsers():
+    """runner 啟動時（還沒有任何項目）：結束 Playwright 下載路徑底下的殘留瀏覽器（上次 Ctrl+C／當機留下的）"""
+    found = leftover_browsers()
+    for pid, path in found:
+        try:
+            if IS_WIN:
+                subprocess.run(['taskkill', '/F', '/T', '/PID', str(pid)], stdout=subprocess.DEVNULL, stderr=subprocess.DEVNULL, timeout=30)
+            else:
+                os.kill(pid, 9)
+            log('killed leftover test browser pid %d: %s' % (pid, path))
+        except Exception as e:
+            log('could not kill leftover browser pid %d: %r' % (pid, e))
+    return found
+
+
+_CPU_PREV = [None]
+
+
+def cpu_pct():
+    """整台 CPU 使用率 %（psutil → Windows PowerShell → Linux /proc/stat）；讀不到回 None。只讀數字"""
+    try:
+        import psutil
+        return int(round(psutil.cpu_percent(interval=0.5)))
+    except Exception:
+        pass
+    try:
+        if IS_WIN:
+            r = subprocess.run(['powershell', '-NoProfile', '-Command',
+                                '(Get-CimInstance Win32_Processor | Measure-Object -Property LoadPercentage -Average).Average'],
+                               stdout=subprocess.PIPE, stderr=subprocess.DEVNULL, text=True, errors='replace', timeout=60)
+            v = (r.stdout or '').strip().splitlines()
+            return int(round(float(v[-1]))) if v else None
+        def snap():
+            with open('/proc/stat') as fh:
+                f = [int(x) for x in fh.readline().split()[1:]]
+            return sum(f), f[3] + (f[4] if len(f) > 4 else 0)
+        t1, i1 = snap(); time.sleep(0.5); t2, i2 = snap()
+        return int(round(100 * (1 - (i2 - i1) / float(max(1, t2 - t1)))))
+    except Exception:
+        return None
+
+
+def mem_gb():
+    """(已用 GB, 總共 GB)；讀不到回 (None, None)"""
+    try:
+        if IS_WIN:
+            import ctypes
+
+            class MS(ctypes.Structure):
+                _fields_ = [('dwLength', ctypes.c_ulong), ('dwMemoryLoad', ctypes.c_ulong),
+                            ('ullTotalPhys', ctypes.c_ulonglong), ('ullAvailPhys', ctypes.c_ulonglong),
+                            ('ullTotalPageFile', ctypes.c_ulonglong), ('ullAvailPageFile', ctypes.c_ulonglong),
+                            ('ullTotalVirtual', ctypes.c_ulonglong), ('ullAvailVirtual', ctypes.c_ulonglong),
+                            ('ullAvailExtendedVirtual', ctypes.c_ulonglong)]
+            m = MS(); m.dwLength = ctypes.sizeof(MS)
+            ctypes.windll.kernel32.GlobalMemoryStatusEx(ctypes.byref(m))
+            return round((m.ullTotalPhys - m.ullAvailPhys) / 2.0 ** 30, 1), round(m.ullTotalPhys / 2.0 ** 30, 1)
+        d = {}
+        with open('/proc/meminfo') as fh:
+            for line in fh:
+                k, v = line.split(':', 1); d[k] = int(v.split()[0])
+        return round((d['MemTotal'] - d['MemAvailable']) / 2.0 ** 20, 1), round(d['MemTotal'] / 2.0 ** 20, 1)
+    except Exception:
+        return None, None
+
+
+def res_snapshot():
+    """BB 22:11：只記數字。chrome_testing＝ms-playwright 路徑底下的程序數"""
+    u, t = mem_gb()
+    return {'cpu': cpu_pct(), 'mem': mem_used_pct(), 'used_gb': u, 'total_gb': t, 'chrome_testing': len(leftover_browsers())}
+
+
+def res_line(r):
+    return '[res] cpu=%s%% mem=%s%% (%s/%s GB) chrome_testing=%s' % (r['cpu'], r['mem'], r['used_gb'], r['total_gb'], r['chrome_testing'])
+
+
+def read_config(path):
+    """tools/cc_local/config.txt：k=v 一行一個（# 註解）；回傳 dict"""
+    d = {}
+    try:
+        with open(path, encoding='utf-8-sig') as fh:
+            for line in fh:
+                line = line.split('#', 1)[0].strip()
+                if '=' in line:
+                    k, v = line.split('=', 1); d[k.strip().upper()] = v.strip()
+    except OSError:
+        pass
+    return d
+
+
 def log(msg):
     with _print_lock:
         print('[%s] %s' % (datetime.now().strftime('%H:%M:%S'), msg), flush=True)
@@ -540,6 +687,29 @@ class Runner(object):
         srv = srv2 = p = None
         ports = []
         log('==== START %s  (%s @ %s) ====' % (it.id, it.kind, sha))
+        peak = {'cpu': None, 'mem': None, 'used_gb': None, 'chrome_testing': None}
+        stop_res = threading.Event()
+
+        def sample(tag=None):
+            r = res_snapshot()
+            for k in peak:
+                if r.get(k) is not None and (peak[k] is None or r[k] > peak[k]):
+                    peak[k] = r[k]
+            if tag:
+                log('%s  %s %s' % (res_line(r), tag, it.id))
+
+        def sampler():                      # 這一項期間每 30 秒取一次，記最高值（meta.json 的 res_peak）
+            while not stop_res.wait(30):
+                try:
+                    sample()
+                except Exception:
+                    pass
+        try:
+            sample('START')
+        except Exception:
+            pass
+        th_res = threading.Thread(target=sampler, daemon=True)
+        th_res.start()
         try:
             wt = self.wt_add(wt, sha)
             srv, port = self.start_server(wt, 8800)
@@ -589,6 +759,12 @@ class Runner(object):
             if wt2:
                 self.wt_remove(wt2)
             self.wt_remove(wt)
+        stop_res.set()
+        try:
+            sample('END')
+        except Exception:
+            pass
+        meta['res_peak'] = peak
         meta['end'] = datetime.now().strftime('%Y-%m-%dT%H:%M:%S')
         meta['seconds'] = int(round(time.time() - t0))
         with open(os.path.join(od, 'meta.json'), 'w', encoding='utf-8') as fh:
@@ -666,6 +842,16 @@ class Runner(object):
                     return
             log('push failed for %s (results stay in %s, rerun later)' % (it.id, self.work))
 
+    def apply_config(self):
+        """每一輪讀 tools/cc_local/config.txt（從 cc-testing 合併來的）：PARALLEL=n（1～4）。改了就記一行"""
+        cfg = read_config(os.path.join(self.work, 'tools', 'cc_local', 'config.txt'))
+        v = cfg.get('PARALLEL', '')
+        if v.isdigit():
+            n = max(1, min(4, int(v)))
+            if n != self.a.parallel:
+                log('config.txt: PARALLEL %d -> %d' % (self.a.parallel, n))
+                self.a.parallel = n
+
     def write_console(self):
         """把畫面輸出的最後 2000 行寫到 local_out/_console/console.log；回傳路徑（失敗回 None）"""
         try:
@@ -705,6 +891,9 @@ class Runner(object):
         log('run_forever round: %s   runner sha256: %s' % (os.environ.get('CC_RF_ROUND') or '- (not started by run_forever)', self.self_hash[:10]))
         self.banner()
         self.setup()
+        kill_leftover_browsers()
+        self.apply_config()
+        log('memory used: %s%%  (new items wait while >= %d%%)' % (mem_used_pct(), MEM_LIMIT))
         self.start_commit()
         items = self.read_queue()
         log('queue: ' + ', '.join(it.id for it in items))
@@ -730,6 +919,7 @@ class Runner(object):
                 if not self.restart_pending and file_hash(SELF_FILE) != self.self_hash:
                     self.restart_pending = True
                     log('run_queue.py has a new version - restart (exit %d) after the running item(s) finish; while long items (>=%d min) run, free slots still take short items' % (RESTART_EXIT, LONG_MIN))
+            self.apply_config()
             long_running = any(r[1].tmin >= LONG_MIN for r in running.values())
             if self.restart_pending and not long_running:
                 # 有新版、手上沒有長項目：不開新項目，跑完手上的就 exit 75
@@ -759,11 +949,16 @@ class Runner(object):
                     break
                 if pick is None:
                     break
+                mp = mem_used_pct()
+                if running and mp is not None and mp >= MEM_LIMIT:
+                    log('memory %d%% >= %d%% - not starting %s until a running item finishes' % (mp, MEM_LIMIT, pick.id))
+                    break
                 if pick.kind == 'blender' and running:
                     # 等其他項目都結束再獨佔
                     log('blender item %s waits until the %d running item(s) finish' % (pick.id, len(running)))
                     break
                 pick.rsha = self.resolve(pick.sha)
+                log('memory %s%% before starting %s (%d running)' % (mp if mp is not None else '?', pick.id, len(running)))
                 used = set(r[1].slot for r in running.values())
                 pick.slot = min(i for i in range(self.a.parallel + 1) if i not in used)
                 if pick.kind not in KINDS:
