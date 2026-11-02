@@ -102,8 +102,12 @@ const FD=(function(){
   /* 補考那一場（PG.STEPS fd_makeup）*/
   S.makeup=async function(GM){ const G=GM.G, F=G.flags, M=S.mk(G), L=S.MK_LINES; if(!S.mkPending(G)||typeof CLS==='undefined'||!CLS.runExam) return false; const ids=M.courses.slice(), res={}, d=S.mkDay();
     if(GM.E&&GM.E.player&&GM.E.player.seat&&GM.standUp) GM.standUp(GM.E.player);   /* 坐著讀到補考前、待到補考前停下來：站起來去考（PG.tick 的 seatOk）*/
+    /* BUG-MAKEUP-BG-1102（BB 10:14）：補考那一場不管人在哪裡（家、校園、坐在總圖），從開場到結算都是法律系館A 201 的考場背景、開頭一行地點字幕；考完回到原本的地方（在家＝家裡的背景、原本沒有 ADV＝收掉）*/
+    const A=typeof ADV!=='undefined'?ADV:null, wasAdv=!!(A&&A.active), home=typeof HOME!=='undefined'&&!!HOME.at&&HOME.at(G), bg=typeof OUT!=='undefined'&&OUT.bg?OUT.bg(S.MK_BG):'dark';
     GM.sceneBegin(); try{
-      if(GM.fade) await GM.fade(true); if(typeof PG!=='undefined'&&PG.toAtLeast&&d!=null) PG.toAtLeast(GM,T(d,S.MK_AT[1])); if(GM.fade) await GM.fade(false);
+      if(GM.fade) await GM.fade(true); if(typeof PG!=='undefined'&&PG.toAtLeast&&d!=null) PG.toAtLeast(GM,T(d,S.MK_AT[1]));
+      if(A){ if(A.active&&A.setBg) A.setBg(bg); else if(A.begin) A.begin({background:bg}); }
+      if(GM.fade) await GM.fade(false); if(GM.caption) GM.caption('',S.MK_PLACE,2400);
       await GM.say(null,L.open);
       for(const id of ids){ const c=mkCourse(G,id); if(!c){ res[id]='pass'; continue; }   /* 找不到那門課（不應該發生）：不罰 */
         let r=null; try{ r=await CLS.runExam(GM,{c,exam:'makeup',term:'Y4S2',examName:L.examName}); }catch(e){ console.warn('FD.makeup',e); r=null; }
@@ -114,8 +118,9 @@ const FD=(function(){
       if(!failIds.length){ M.status='pass'; await GM.say(null,L.passAll); if(F.BAR_REG===true) await GM.say(null,L.passBar); }
       else { M.status='fail'; const bar=S.applyDelay(G,failIds); await GM.say(null,S.fillIds(failIds,L.fail)); await GM.say(null,S.LINES.cert); if(bar) await GM.say(null,S.LINES.bar); }   /* 延畢那兩三句照原句（AA_421）*/
       if(typeof PG!=='undefined'&&PG.toAtLeast&&d!=null) PG.toAtLeast(GM,T(d,S.MK_UNTIL_H));
-    } finally { GM.sceneEnd(); }
+    } finally { if(A){ if(wasAdv&&home&&A.setBg&&typeof HOME!=='undefined'&&HOME.bgNow) A.setBg(HOME.bgNow()); else if(!wasAdv&&A.active&&A.end) A.end(); } GM.sceneEnd(); }
     return true; };
+  S.MK_BG='linze_201'; S.MK_PLACE='法律系館A';
   /* 沒去（PG 的 onMiss：時間過了才發現）：旗標當下記好（PG.delayed、BAR_REG 馬上一致），旁白在下一個停點（fd_mk_missed）*/
   S.mkMissed=function(G){ const M=S.mk(G); if(!M||M.status!=='pending') return false; const L=S.MK_LINES; M.status='missed'; M.res={}; for(const id of M.courses) M.res[id]='missed';
     const g=gradesY4S2(G); if(g) for(const id of M.courses) g[id]=L.gradeMissed; M.bar=S.applyDelay(G,M.courses); return true; };

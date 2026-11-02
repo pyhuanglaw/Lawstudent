@@ -39595,6 +39595,29 @@
         "ack": "ACK",
         "acceptance": "重修列在這學期、標重修；沒修過的課不建列"
       }
+    },
+    {
+      "id": "BUG-MAKEUP-BG-1102",
+      "title": "補考那一場背景是玩家當下的地方（家、校園）——改成法律系館A 201 考場（BB 10:14）",
+      "owner": "LAWWW",
+      "status": "已整合待測試",
+      "priority": "P2",
+      "note": "2026-11-02 LAWWW：FD.makeup 開場起 ADV 背景 OUT.bg('linze_201')（已有 ADV＝setBg，沒有＝begin），字幕「法律系館A」；考完在家＝HOME.bgNow()、原本沒有 ADV＝收掉。tests/y4s2_makeup_unit.js 第 k 節（在家、校園、坐著；修改前 FAIL 3）。",
+      "first": {
+        "term": "Y4S2",
+        "earliest": "2029-06-26 補考",
+        "mainline": false,
+        "blocks": false,
+        "parallel": true,
+        "confirmed": true
+      },
+      "xai": {
+        "spec": "BB 10:14（使用者在 cc-local 02_mk12 看到）",
+        "branch": "claude/confident-ritchie-8rwh7t",
+        "receiver": "BB",
+        "ack": "ACK",
+        "acceptance": "三種情況補考期間都是考場背景；考完回原處"
+      }
     }
   ]
 }

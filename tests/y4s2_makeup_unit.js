@@ -168,5 +168,22 @@ await sec('j',async()=>{ const wait=async()=>{ for(let k=0;k<200&&PG.busy;k++) a
   { const {G,c}=await planned(); PG.setT(G,H.E,D('2029-06-29'),9); H.said=[]; PG.pending(G); const s=PG.due(G); if(s) await PG.runStep(GM,s);
     check('j4. ④ 6/29 才第一次算：缺考、旁白照演（不是 missed 掉）',G.flags.FD_MAKEUP.status==='missed'&&!!s&&s.id==='fd_mk_missed'&&H.has(FD.fillIds([c.id],L.missed))&&PG.rec(G).done.fd_mk_missed===1,J({due:s&&s.id,done:PG.rec(G).done.fd_mk_missed})); } });
 
+/* BUG-MAKEUP-BG-1102（BB 10:14）：補考整場都是法律系館A 201 的考場背景（在家、在校園、坐在座位上都一樣）；開頭字幕「法律系館A」；考完回原本的地方 */
+await sec('k',async()=>{ const bgId=x=>x&&typeof x==='object'?x.image||'obj':x; const want=bgId(OUT.bg('linze_201'));
+  const b0=ADV.begin, s0=ADV.setBg, e0=ADV.end, say0=GM.say, cap0=GM.caption; let cur=null; const seen=[], caps=[];
+  ADV.begin=function(o){ cur=o&&o.background; return b0.apply(this,arguments); }; ADV.setBg=function(b){ cur=b; return s0.apply(this,arguments); }; ADV.end=function(){ cur=null; return e0.apply(this,arguments); };
+  GM.say=async function(w,t){ if(/^\d／5　/.test(String(t))||t===L.open) seen.push(ADV.active?bgId(cur):'(沒有 ADV)'); return say0.apply(this,arguments); }; GM.caption=(a,b)=>caps.push(b);
+  try{
+    const run=async(setup)=>{ const {G,c}=await planned(); seen.length=0; caps.length=0; cur=null; ADV.active=false; setup(G); mode='right'; QS=CLS.drawExam(G,c.id,'Y4S2','makeup').qs; H.said=[]; await FD.makeup(GM); QS=[]; return G; };
+    const homeBg={image:'home.webp'}; const hb0=typeof HOME!=='undefined'?HOME.bgNow:null; if(typeof HOME!=='undefined') HOME.bgNow=()=>homeBg;
+    const G1=await run(G=>{ G.home=Object.assign(G.home||{},{at:true}); PG.setT(G,H.E,D('2029-06-26'),9.5); ADV.begin({background:homeBg}); });
+    check('k1. 在家：補考開場、五題都在考場背景（linze_201）；開頭字幕「法律系館A」；考完回到家裡的背景',seen.length===6&&seen.every(x=>x===want)&&caps[0]==='法律系館A'&&ADV.active&&bgId(cur)==='home.webp',J({seen,caps,cur:bgId(cur)}));
+    await run(G=>{ G.home=Object.assign(G.home||{},{at:false}); G.zone='campus'; PG.setT(G,H.E,D('2029-06-26'),9.5); });
+    check('k2. 在校園（原本沒有 ADV）：整場考場背景、考完收掉 ADV',seen.length===6&&seen.every(x=>x===want)&&!ADV.active,J({seen,active:ADV.active}));
+    await run(G=>{ G.home=Object.assign(G.home||{},{at:false}); G.zone='library'; H.E.player=H.E.player||{}; H.E.player.seat={x:0,z:0}; PG.setT(G,H.E,D('2029-06-26'),9.5); });
+    check('k3. 坐在總圖的座位：整場考場背景',seen.length===6&&seen.every(x=>x===want),J(seen));
+    if(hb0) HOME.bgNow=hb0;
+  } finally { ADV.begin=b0; ADV.setBg=s0; ADV.end=e0; GM.say=say0; GM.caption=cap0; ADV.active=false; if(H.E.player) delete H.E.player.seat; } });
+
 H.done();
 })();
