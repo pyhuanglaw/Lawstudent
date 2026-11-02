@@ -151,6 +151,11 @@ const PORTRAIT_FILES={
    "smile"
   ]
  },
+ "jp_caizhen": {
+  "campus": [
+   "neutral"
+  ]
+ },
  "kai": {
   "campus": [
    "laugh",
@@ -211,6 +216,26 @@ const PORTRAIT_FILES={
   ]
  },
  "pool_15": {
+  "campus": [
+   "neutral"
+  ]
+ },
+ "pool_16": {
+  "campus": [
+   "neutral"
+  ]
+ },
+ "pool_20": {
+  "campus": [
+   "neutral"
+  ]
+ },
+ "pool_4": {
+  "campus": [
+   "neutral"
+  ]
+ },
+ "pool_5": {
   "campus": [
    "neutral"
   ]
