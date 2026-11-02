@@ -1,19 +1,22 @@
-[05:35:39] run_forever round: 3   runner sha256: b46848d180
-[05:35:39] python : C:\Users\USER\AppData\Local\Python\pythoncore-3.15-64\python.exe (3.15.2)
-[05:35:39]          playwright 1.64.1 OK
-[05:35:39] git    : git version 2.56.0.windows.4
-[05:35:39] node   : C:\Program Files\nodejs\node.EXE  v26.13.0
-[05:35:39] blender: C:\Program Files\Blender Foundation\Blender 5.2\blender.exe  Blender 5.2.3 LTS (hash e13b728c6880 built 2026-10-22 01:37:16)
-[05:35:39] repo   : C:\Users\USER\Documents\Lawstudent
-[05:35:39] work   : C:\Users\USER\Documents\Lawstudent_cclocal  (branch claude/cc-local, push to origin)
-[05:35:39] parallel: 2  (blender items run alone)
-[05:35:39] browser: visible windows side by side (probe/game/webkit; queue ENV CC_HEADLESS wins) - please do not click them
-[05:35:39] git fetch
+[06:33:41] run_forever round: 4   runner sha256: 6cbec96f29
+[06:33:41] python : C:\Users\USER\AppData\Local\Python\pythoncore-3.15-64\python.exe (3.15.2)
+[06:33:41]          playwright 1.64.1 OK
+[06:33:41] git    : git version 2.56.0.windows.4
+[06:33:41] node   : C:\Program Files\nodejs\node.EXE  v26.13.0
+[06:33:41] blender: C:\Program Files\Blender Foundation\Blender 5.2\blender.exe  Blender 5.2.3 LTS (hash e13b728c6880 built 2026-10-22 01:37:16)
+[06:33:41] repo   : C:\Users\USER\Documents\Lawstudent
+[06:33:41] work   : C:\Users\USER\Documents\Lawstudent_cclocal  (branch claude/cc-local, push to origin)
+[06:33:41] parallel: 2  (blender items run alone)
+[06:33:41] browser: visible windows side by side (probe/game/webkit; queue ENV CC_HEADLESS wins) - please do not click them
+[06:33:41] git fetch
     From https://github.com/pyhuanglaw/Lawstudent
      * branch                claude/cc-testing -> FETCH_HEAD
      * branch                claude/confident-ritchie-8rwh7t -> FETCH_HEAD
+       92f24b714..28ee9add9  claude/cc-testing -> origin/claude/cc-testing
+       165b02eb5..2d0b7d5a5  claude/confident-ritchie-8rwh7t -> origin/claude/confident-ritchie-8rwh7t
     From https://github.com/pyhuanglaw/Lawstudent
      * branch                claude/second-ai-env-art -> FETCH_HEAD
+       b411cd0f0..5c33eb485  claude/second-ai-env-art -> origin/claude/second-ai-env-art
     Already on 'claude/cc-local'
     M	docs/story_planning/CC/local_out/02_mk12/err.log
     M	docs/story_planning/CC/local_out/02_mk12/run.log
@@ -43,56 +46,35 @@
     M	docs/story_planning/CC/local_out/R8_y4s2rt/run.log
     Your branch is up to date with 'origin/claude/cc-local'.
     Already up to date.
-    Already up to date.
-[05:35:53] dev head = c624ce44c   lawww2 head = 2fb10def1
-[05:35:56] queue: N1_node, G1_reach, G2_libfl, G3_libsc, G5_termend, G6a_v7, G6b_v95, G6c_fm, G7_class, P3_ladder, P4_legal, P5_ui, G4v2_ef63, G5b_ancf, P5w_wake, A1_advskip, A2_dorm, A3_late15, A1_adv_ef63, A2_dorm_ef63, A3_l15_ef63, A1pre, A2pre, A3pre, BK1_cpu, BK1_hip, P3b_sl, R4main, R4b1b_rr, R4v2_b1b, B4main, R1_reach, R2_flowcls, R3_touchwz, R4_day12, R6_layout, R6b_layoutcss, R7_quota, R7b_quota15, R8b_y4s2jp, R8c_y4s2fin, R9_roll, R5_rr, R6_rr, R8_rr, R10_b3, R11_b4, R10_rr, R12_fasat, R12b_fasatpre, R10_rr2, R6_rr2, R8_rr2, F1_fps_hl, F2_fps_hd, R1_x2, R2_x2, R3_x2, R4_x2, R5_x2, R9_x2, R1_x3, R2_x3, R3_x3, R4_x3, R5_x3, R9_x3, 00_gpu, 01_p0speed, 10_deploy, 11_reach, 12_flowcls, 13_minimap, 14_zones, 15_touchwz, 16_p0, 17_savev7, 18_flowday12, 19_mkretake, 19b_mkjp, 02b_mk12dea, 06b_layoutP, 06c_layoutO, 32_wsem, 33_wsempre, 20_roll, 21_rollpre, 22_boya, 23_boyapre, 24_b3, 25_b3pre, 26_b3pre2, 27_b4, 28_b4pre, 29_jpmk, 34_day9, 02_mk12new, 04b_quota15, 04c_legal, 05_mk12old, 07_bg107, 08_pt106, 30_b1base, 31_b2base, G4_day12, FS112, R11_full, R10pre, R11pre
-[05:35:56] ==== START N1_node  (node @ ef63b1877) ====
-[05:35:56] skip G1_reach (already done on ef63b1877)
-[05:35:56] skip G2_libfl (already done on ef63b1877)
-[05:35:56] skip G3_libsc (already done on ef63b1877)
-[05:35:56] ==== START G5_termend  (game @ ef63b1877) ====
-    To https://github.com/pyhuanglaw/Lawstudent.git
-       83e6c7ec7..648ef8ae1  claude/cc-local -> claude/cc-local
-    branch 'claude/cc-local' set up to track 'origin/claude/cc-local'.
-[05:38:47] ==== END   G5_termend  exit=0  165s   ====
-[05:38:50] ==== START G6a_v7  (game @ ef63b1877) ====
-    To https://github.com/pyhuanglaw/Lawstudent.git
-       648ef8ae1..c07b614ef  claude/cc-local -> claude/cc-local
-    branch 'claude/cc-local' set up to track 'origin/claude/cc-local'.
-[05:43:45] ==== END   G6a_v7  exit=0  291s   ====
-[05:43:48] ==== START G6b_v95  (game @ ef63b1877) ====
-    To https://github.com/pyhuanglaw/Lawstudent.git
-       c07b614ef..b09c3c7ab  claude/cc-local -> claude/cc-local
-    branch 'claude/cc-local' set up to track 'origin/claude/cc-local'.
-[05:49:08] ==== END   G6b_v95  exit=1  314s   ====
-[05:49:12] ==== START G6c_fm  (game @ ef63b1877) ====
-    To https://github.com/pyhuanglaw/Lawstudent.git
-       b09c3c7ab..37423f77d  claude/cc-local -> claude/cc-local
-    branch 'claude/cc-local' set up to track 'origin/claude/cc-local'.
-[05:50:43] ==== END   G6c_fm  exit=0  86s   ====
-[05:50:45] ==== START G7_class  (game @ ef63b1877) ====
-    To https://github.com/pyhuanglaw/Lawstudent.git
-       37423f77d..89873d96d  claude/cc-local -> claude/cc-local
-    branch 'claude/cc-local' set up to track 'origin/claude/cc-local'.
-[05:52:44] ==== END   G7_class  exit=0  115s   ====
-[05:52:46] ==== START P3_ladder  (game @ ef63b1877) ====
-    To https://github.com/pyhuanglaw/Lawstudent.git
-       89873d96d..593c7736b  claude/cc-local -> claude/cc-local
-    branch 'claude/cc-local' set up to track 'origin/claude/cc-local'.
-[05:54:36] ==== END   P3_ladder  exit=1  104s   ====
-[05:54:38] ==== START P4_legal  (probe @ ef63b1877) ====
-    To https://github.com/pyhuanglaw/Lawstudent.git
-       593c7736b..1a2998566  claude/cc-local -> claude/cc-local
-    branch 'claude/cc-local' set up to track 'origin/claude/cc-local'.
-[05:56:25] ==== END   P4_legal  exit=0  102s   ====
-[05:56:27] ==== START P5_ui  (probe @ ef63b1877) ====
-    To https://github.com/pyhuanglaw/Lawstudent.git
-       1a2998566..91709cea9  claude/cc-local -> claude/cc-local
-    branch 'claude/cc-local' set up to track 'origin/claude/cc-local'.
-[06:02:00] ==== END   P5_ui  exit=0  327s   ====
-[06:02:02] ==== START G4v2_ef63  (probe @ ef63b1877) ====
-    To https://github.com/pyhuanglaw/Lawstudent.git
-       91709cea9..a503e48ce  claude/cc-local -> claude/cc-local
-    branch 'claude/cc-local' set up to track 'origin/claude/cc-local'.
-[06:18:07] ==== END   G4v2_ef63  exit=0  959s   ====
-[06:18:14] run_queue.py has a new version - restart (exit 75) after the running item(s) finish; while long items (>=120 min) run, free slots still take short items
+    Merge made by the 'ort' strategy.
+     ...272\244\346\216\245\347\264\200\351\214\204.md" |   8 +
+     .../test_tools/cc/cc_bar_b8_prefix.js              |   9 +-
+     .../test_tools/cc/cc_bar_b8_probe.py               |  24 +-
+     docs/story_planning/test_tools/cc/cc_d124_probe.py |   7 +-
+     .../test_tools/cc/cc_drive_x81_probe.py            | 346 +++++++++++++++++++++
+     .../test_tools/cc/cc_libwhisper_probe.py           |  18 +-
+     6 files changed, 406 insertions(+), 6 deletions(-)
+     create mode 100644 docs/story_planning/test_tools/cc/cc_drive_x81_probe.py
+[06:33:48] dev head = 2d0b7d5a5   lawww2 head = 5c33eb485
+[06:33:50] killed leftover test browser pid 22164: C:\Users\USER\AppData\Local\ms-playwright\chromium-1248\chrome-win64\chrome.exe
+[06:33:50] killed leftover test browser pid 7484: C:\Users\USER\AppData\Local\ms-playwright\chromium-1248\chrome-win64\chrome.exe
+[06:33:51] killed leftover test browser pid 11148: C:\Users\USER\AppData\Local\ms-playwright\chromium-1248\chrome-win64\chrome.exe
+[06:33:51] killed leftover test browser pid 15540: C:\Users\USER\AppData\Local\ms-playwright\chromium-1248\chrome-win64\chrome.exe
+[06:33:51] killed leftover test browser pid 11804: C:\Users\USER\AppData\Local\ms-playwright\chromium-1248\chrome-win64\chrome.exe
+[06:33:51] killed leftover test browser pid 10824: C:\Users\USER\AppData\Local\ms-playwright\chromium-1248\chrome-win64\chrome.exe
+[06:33:52] killed leftover test browser pid 26564: C:\Users\USER\AppData\Local\ms-playwright\chromium-1248\chrome-win64\chrome.exe
+[06:33:52] killed leftover test browser pid 21448: C:\Users\USER\AppData\Local\ms-playwright\chromium-1248\chrome-win64\chrome.exe
+[06:33:52] killed leftover test browser pid 32132: C:\Users\USER\AppData\Local\ms-playwright\chromium-1248\chrome-win64\chrome.exe
+[06:33:52] killed leftover test browser pid 22304: C:\Users\USER\AppData\Local\ms-playwright\chromium-1248\chrome-win64\chrome.exe
+[06:33:53] killed leftover test browser pid 26992: C:\Users\USER\AppData\Local\ms-playwright\chromium-1248\chrome-win64\chrome.exe
+[06:33:53] killed leftover test browser pid 23280: C:\Users\USER\AppData\Local\ms-playwright\chromium-1248\chrome-win64\chrome.exe
+[06:33:53] killed leftover test browser pid 6444: C:\Users\USER\AppData\Local\ms-playwright\chromium-1248\chrome-win64\chrome.exe
+[06:33:53] killed leftover test browser pid 20920: C:\Users\USER\AppData\Local\ms-playwright\chromium-1248\chrome-win64\chrome.exe
+[06:33:54] killed leftover test browser pid 23812: C:\Users\USER\AppData\Local\ms-playwright\chromium-1248\chrome-win64\chrome.exe
+[06:33:54] killed leftover test browser pid 10072: C:\Users\USER\AppData\Local\ms-playwright\chromium-1248\chrome-win64\chrome.exe
+[06:33:54] killed leftover test browser pid 26128: C:\Users\USER\AppData\Local\ms-playwright\chromium-1248\chrome-win64\chrome.exe
+[06:33:54] killed leftover test browser pid 31604: C:\Users\USER\AppData\Local\ms-playwright\chromium-1248\chrome-win64\chrome.exe
+[06:33:55] killed leftover test browser pid 32436: C:\Users\USER\AppData\Local\ms-playwright\chromium-1248\chrome-win64\chrome.exe
+[06:33:55] killed leftover test browser pid 28068: C:\Users\USER\AppData\Local\ms-playwright\chromium-1248\chrome-win64\chrome.exe
+[06:33:55] config.txt: PARALLEL 2 -> 3
+[06:33:55] memory used: 37%  (new items wait while >= 85%)
