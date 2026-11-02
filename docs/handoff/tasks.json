@@ -38455,6 +38455,34 @@
    "status": "進行中",
    "priority": "P0",
    "next": "【LAWWW（帳號 A）04:0x】使用者直接下 D118（PROJECT_DECISIONS、CLAUDE.md、USER_INSTRUCTION_LOG 已寫）：先現況盤點（多代理唯讀：學習／讀書、考試與成績、法律服務社、國考與職涯結局、交班紀錄與企劃稿）→ 對照 D118 列缺口 → 分工（AA 內容與結局文本、BB 測試、LAWWW2 必要 3D）→ 實作計畫 → 開發 ｜ 【LAWWW（帳號 A）03:4x 登記】先做現況盤點（和 BB 的基準對照），列缺口與要 AA 定的結局條件；排在接班盤點回報使用者之後"
+  },
+  {
+   "id": "STUDY-EXAM-STORY-1102",
+   "title": "D118 劇情面（AA 劇情總監，使用者 11-02 直接指派；AA_570 第 0 節）：法律學習內容（讀得懂、有可靠來源）、考題（不把沒核對的 AI 自編題當正式題庫）、一鍵總複習的內容、司法官／律師／重考六條路線的結局文本（照台灣現行制度、每種都是完整結局）、法服改純劇情（拿掉例行任務）；人物不說教、不貶低自己、不比成績（D116）",
+   "area": null,
+   "owner": "AA",
+   "status": "進行中",
+   "priority": "P0",
+   "first": {
+    "term": "Y1S1",
+    "week": null,
+    "earliest": "第一次讀書、期中考；國考與結局在畢業以後",
+    "mainline": true,
+    "blocks": false,
+    "prereq": false,
+    "parallel": true,
+    "confirmed": true
+   },
+   "source": "使用者 2026-11-02 03:4x 直接對 AA（企劃線 73402665 AA_570 第 0 節）；D118",
+   "authorized": "使用者直接指派；D109 劇情 AA 定",
+   "next": "【LAWWW（帳號 A）04:0x 開】AA 03:5x 開始企劃盤點（系統、題庫與素材來源、規則衝突、國考職涯、法服、寫作限制），先不寫新稿；和 LAWWW 的程式盤點（STUDY-EXAM-SYS-1102）、BB 的修改前基準（STUDY-EXAM-CAREER-1102）對完缺口再分工寫稿",
+   "xai": {
+    "spec": "AA_570 第 0 節、D118",
+    "branch": "claude/story-planning",
+    "acceptance": "缺口清單＋定稿（含來源）交 LAWWW，白名單登記後接進遊戲",
+    "receiver": "LAWWW",
+    "ack": "ACK"
+   }
   }
  ]
 }
