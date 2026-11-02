@@ -108,8 +108,10 @@ async function scenario(route,seed,sc){ const tag='['+route+' s'+seed+' '+sc+']'
         if(isAway) chk(tag+' A6 '+T+'（國外）學期中，手機「法律」頁「這學期」沒有台灣的課（STUDY.courses current）',!cur.length,J(cur.map(e=>e.c.id)));
         else { for(const e of cur){ const p=STUDY.progress(G,e.c,'final',T); chk(tag+' B6 '+T+' 學過 x≤y、y＞0 '+e.c.id,p.total>0&&p.heard<=p.total,J(p));
             const rd=CLS.redoOf&&CLS.redoOf(e.c.id); if(rd){ const pb=STUDY.units(G,CLS.byId(rd.id),rd.term,'final').length; chk(tag+' B6b '+T+' 日本補修 '+e.c.id+' 的 y＝原課（'+rd.id+' '+rd.term+'）的觀念卡數 '+pb,p.total===pb,J(p)); } } } }
-      if(jpPlan!=null&&JP.classesOn){ for(const it of JP.classesOn(G,d)){ jpDone[it.c.id]=jpDone[it.c.id]||0; if(jpDone[it.c.id]>=jpPlan||JP.special(G,it)==='g5') continue; setDay(d,it.t0-0.5); try{ if(await JP.attend(GM,it)) jpDone[it.c.id]++; }catch(e){ info(tag+' JP.attend 例外 '+e); } } }
       for(const it of its){ if(!it.exam) continue; exItems++; if(isAway) continue; setDay(d,it.t0); const want=failSet.has(it.c.id)?0:1+Math.floor(rnd()*5); const r0=await takeExam(it,want); exRun.push({id:it.c.id,day:d,want,held:r0&&r0.held,correct:r0&&r0.correct}); } }
+    /* 日本的學期（4/10～7/21，比台灣的大三下長）：照 JP.classesOn 一天一天上 */
+    if(jpPlan!=null){ for(let d=JP.D('term0');d<=JP.D('term1');d++){ setDay(d,8); for(const it of JP.classesOn(G,d)){ jpDone[it.c.id]=jpDone[it.c.id]||0; if(jpDone[it.c.id]>=jpPlan||JP.special(G,it)==='g5') continue; setDay(d,it.t0-0.5); try{ if(await JP.attend(GM,it)) jpDone[it.c.id]++; }catch(e){ info(tag+' JP.attend 例外 '+e); } } }
+      res.jpMax=jpDone; }
     res.exams[T]=exRun; res.jpN=jpPlan!=null?Object.assign({},JP.rec(G).n):res.jpN;
     const exKeys=Object.keys(R.exam||{}).filter(k=>k.startsWith(T+':'));
     /* 提醒、總複習（考前一週週日）*/
