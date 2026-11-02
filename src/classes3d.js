@@ -663,17 +663,22 @@ const CLS=(function(){
   const optList=q=>q.type==='tf'||!q.options?['對','錯'].map(t=>({t,v:t})):Object.keys(q.options).map(k=>({t:'（'+k+'）'+q.options[k],v:k}));
   /* 考試那一堂：五題答完才交卷；交卷後，答錯的題目顯示答案、考點、解析（有才顯示）。法條只有大四顯示：大一～大三的 basis／mapBasis 是 AA、BB 對週次時自己標的，
      不是使用者給的（AA 2026-10-14 17:4x；匯入時也不帶進來），大四是 AI 出題、使用者授權 */
+  S.curExam=null;
   S.runExam=async function(GM,it){ const G=GM.G, R=S.rec(G), c=it.c, kind=it.exam, termId=it.term; const nm=it.examName||(kind==='mid'?'期中練習':'期末考');   /* it.examName：大四下補考（faildelay3d.js 的 FD.MK_LINES.examName）*/
     const r=S.drawExam(G,c.id,termId,kind);
     if(!r.ok){ console.error('EXAM_BANK_INSUFFICIENT',c.id,r.n); R.exam=R.exam||{}; R.exam[r.key]={status:'insufficient',n:r.n};
       /* BB 09:45 P3：補考（題庫不夠）說「這次不舉行」，不說「這學期不舉行期末考」*/
       await GM.say(null,'這一科的'+nm+'題庫還沒準備好（題目 '+r.n+'／5）。'+(kind==='mid'||kind==='makeup'?'這次不舉行。':'這學期不舉行期末考。')); return {held:false,n:r.n}; }
-    if(!it.skipIntro) await GM.say(null,'考卷發下來。'+c.name+nm+(kind==='mid'?'（不算成績）':'')+'。五題。');   /* skipIntro：補考（陳助教已經說「考卷發下去了。一樣五題」，BB 10:24）*/ const ans=[]; let k=0;
+    S.curExam={cid:c.id,kind,term:termId,i:0,qid:null};   /* 測試用掛勾（BB_229 第 7 條，BB 17:52）：現在考哪一門、第幾題；考完＝null。不影響遊戲 */
+    const ans=[]; let k=0;
+    try{
+    if(!it.skipIntro) await GM.say(null,'考卷發下來。'+c.name+nm+(kind==='mid'?'（不算成績）':'')+'。五題。');   /* skipIntro：補考（陳助教已經說「考卷發下去了。一樣五題」，BB 10:24）*/
     let recall=(kind==='final'||kind==='makeup')&&S.hasBook(G,c)?1:0;   /* 補考同期末 */   /* 有那一科的教科書：期末考多一次想起答案（D102）——第一次選錯，那個選項拿掉、旁白一句（AA 2026-10-21 20:23）、再選一次 */
-    for(let i=0;i<5;i++){ const q=r.qs[i]; if(typeof STUDY!=='undefined'&&STUDY.cueFor){ let cue=null; try{ cue=STUDY.cueFor(G,q); }catch(e){ console.warn('STUDY.cueFor',e); } if(cue) await GM.say(null,cue); }   /* D118-B4：讀過那張卡＝想起筆記上的一行（不影響計分）*/
+    for(let i=0;i<5;i++){ const q=r.qs[i]; S.curExam.i=i+1; S.curExam.qid=q.id; if(typeof STUDY!=='undefined'&&STUDY.cueFor){ let cue=null; try{ cue=STUDY.cueFor(G,q); }catch(e){ console.warn('STUDY.cueFor',e); } if(cue) await GM.say(null,cue); }   /* D118-B4：讀過那張卡＝想起筆記上的一行（不影響計分）*/
       await GM.say(null,(i+1)+'／5　'+q.q); let opts=optList(q); const j=await GM.choose(opts.map(o=>({t:o.t}))); let v=(opts[j]||opts[0]).v;
       if(recall&&String(v)!==String(q.answer)&&opts.length>2){ recall=0; R.examRecall=R.examRecall||{}; R.examRecall[r.key]=(i+1); opts=opts.filter((o,x)=>x!==j); await GM.say(null,'（你想起課本上那一段。旁邊還有你自己畫的線。）'); await GM.say(null,(i+1)+'／5　'+q.q); const j2=await GM.choose(opts.map(o=>({t:o.t}))); v=(opts[j2]||opts[0]).v; }
       ans.push(v); if(String(v)===String(q.answer)) k++; }
+    } finally { S.curExam=null; }
     const score=S.scoreOf(k); R.exam[r.key]=Object.assign({},R.exam[r.key]||{},{qs:r.qs.map(q=>q.id),ans,correct:k,score,status:'done'});
     if(typeof STUDY!=='undefined'){ try{ r.qs.forEach((q,i)=>STUDY.answer(G,q.id,String(ans[i])===String(q.answer),'exam')); }catch(e){ console.warn('STUDY.answer',e); } }   /* D118-B2：答對＝那張觀念卡答對過；答錯只記進 miss（不扣任何東西）*/
     await GM.say(null,'交卷。答對 '+k+'／5'+(kind==='final'||kind==='makeup'?'，'+score+' 分。':'。'));
