@@ -1,0 +1,52 @@
+# -*- coding: utf-8 -*-
+"""CC（帳號 A）：在使用者的 Windows 電腦上跑既有探針的包裝（不改開發分支的 tests/playlib.py）。
+用法：python tools/cc_local/gpu_wrap.py <探針或測試.py> [參數...]
+做的事（只在這個 Python 程序裡，monkeypatch playwright 的 BrowserType.launch）：
+  - executable_path 指到不存在的檔（例如雲端的 /opt/pw-browsers/chromium）＝拿掉，改用本機 playwright 裝的 chromium。
+  - 拿掉 SwiftShader 參數（--use-angle=swiftshader、--enable-unsafe-swiftshader、--use-gl=swiftshader）。
+  - CC_GPU=1（預設）：加 --ignore-gpu-blocklist --use-gl=angle --use-angle=d3d11，headless=False（Windows 上 headless 常會退回軟體算圖）。
+  - CC_GPU=0：只做第一點，其他照原樣。
+"""
+import os, sys, runpy
+
+GPU = os.environ.get('CC_GPU', '1') == '1'
+GPU_ARGS = ['--ignore-gpu-blocklist', '--use-gl=angle', '--use-angle=d3d11', '--enable-gpu-rasterization']
+SOFT = ('--use-angle=swiftshader', '--enable-unsafe-swiftshader', '--use-gl=swiftshader', '--use-gl=angle')
+
+def fix_kwargs(kw):
+    ep = kw.get('executable_path')
+    if ep and not os.path.exists(ep):
+        kw.pop('executable_path', None)
+    args = [a for a in (kw.get('args') or []) if not (GPU and a in SOFT) and not (a in SOFT[:3])]
+    if GPU:
+        for a in GPU_ARGS:
+            if a not in args: args.append(a)
+        kw['headless'] = False
+    kw['args'] = args
+    return kw
+
+def patch():
+    try:
+        from playwright.async_api._generated import BrowserType as ABT
+        orig = ABT.launch
+        async def launch(self, *a, **kw): return await orig(self, *a, **fix_kwargs(kw))
+        ABT.launch = launch
+    except Exception as e:
+        print('[gpu_wrap] async patch 失敗：', e)
+    try:
+        from playwright.sync_api._generated import BrowserType as SBT
+        sorig = SBT.launch
+        def slaunch(self, *a, **kw): return sorig(self, *a, **fix_kwargs(kw))
+        SBT.launch = slaunch
+    except Exception as e:
+        print('[gpu_wrap] sync patch 失敗：', e)
+
+if __name__ == '__main__':
+    if len(sys.argv) < 2:
+        print(__doc__); sys.exit(2)
+    patch()
+    script = os.path.abspath(sys.argv[1])
+    sys.argv = [script] + sys.argv[2:]
+    sys.path.insert(0, os.path.dirname(script))
+    print('[gpu_wrap] CC_GPU=%s 跑 %s %s' % (int(GPU), script, ' '.join(sys.argv[1:])), flush=True)
+    runpy.run_path(script, run_name='__main__')

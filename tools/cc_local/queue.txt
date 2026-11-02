@@ -1,0 +1,10 @@
+# CC run_queue.ps1 queue (one item per line; '#' = comment)
+# ID | SHA | KIND | SCRIPT | URL | TIMEOUT_MIN | ENV (k=v;k=v)
+#  SHA : dev-branch commit, or 'head' = latest origin/claude/confident-ritchie-8rwh7t
+#  KIND: gpu   = repo script, args <URL> <out>\gpu.txt
+#        game  = script inside the game worktree (cwd = game worktree), args <URL>
+#        probe = repo script (CC probe), args <URL> <out>\out ; LW_TESTS / SHA set automatically
+#  URL : path after http://127.0.0.1:<port>/
+00_gpu      | head      | gpu   | tools/cc_local/gpu_check.py                                     | index.html        | 20  |
+01_p0speed  | head      | game  | tests/p0_movement.py                                            | index.html        | 60  |
+02_mk12     | b4f98ea4e | probe | docs/story_planning/test_tools/cc/cc_makeup_probe.py           | index.html?turbo  | 200 | CASES=study3h,skipnoon_seat,skipnoon_phone,homerest,old_delayed,home

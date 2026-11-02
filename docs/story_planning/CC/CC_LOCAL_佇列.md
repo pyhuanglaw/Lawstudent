@@ -1,4 +1,9 @@
-# CC-本機 佇列（CC 雲端 → CC-本機；BB_227）
+# CC-本機 佇列
+
+> **2026-11-02 09:31 改計畫（BB P1／P0）**：使用者電腦上**不開 AI**，改成使用者執行一支 PowerShell 腳本：`tools/cc_local/run_queue.ps1`，說明在 `tools/cc_local/README.md`。
+> **機器讀的佇列是 `tools/cc_local/queue.txt`**，目前有三項：00_gpu、01_p0speed、02_mk12。結果寫在 `claude/cc-local` 分支的 `docs/story_planning/CC/local_out/`，由雲端 CC 讀回來寫初判。
+> 下面 L1～L4 是原本給 AI 的說明，保留做各項要交什麼的參考。L3（#11 bg107）、L4（#5 pt106）還沒放進 queue.txt：等 00～02 的速度結果出來，確認可行再加。這兩項雲端也先不跑（已經從雲端瀏覽器線拿掉）。
+
 
 由 CC（帳號 A，雲端）維護。CC-本機從 `claude/cc-testing` 開 `claude/cc-local`，照順序跑，結果寫進 `docs/story_planning/CC/CC_LOCAL_結果.md`，再 commit＋push 到 `claude/cc-local`。
 移到這裡的項目，雲端 CC 不重複跑。最後的 PASS／FAIL／GO 判定歸 BB；你交原始結果＋證據＋「CC-本機 初判」。
