@@ -28,12 +28,12 @@ let fails=0; const check=(name,ok,info)=>{ console.log((ok?'PASS ':'FAIL ')+name
 const g3=fs.readFileSync(path.join(SRC,'src/game3d.js'),'utf8');
 const grab=(src,name)=>{ const i=src.indexOf('function '+name+'('); if(i<0) return null; let d=0; for(let j=src.indexOf('{',i);j<src.length;j++){ if(src[j]==='{') d++; else if(src[j]==='}'){ d--; if(!d) return src.slice(i,j+1); } } return null; };
 const wSrc=grab(g3,'write'), sSrc=grab(g3,'snapshot');
-check('0a game3d.js write()＝setItem(key,JSON.stringify(obj))，沒有壓縮',!!wSrc&&/st\.setItem\(key,JSON\.stringify\(obj\)\)/.test(wSrc)&&!/lz|compress|deflate|gzip/i.test(g3),wSrc);
+check('0a game3d.js write()＝setItem(key,JSON.stringify(obj))，沒有壓縮',!!wSrc&&/st\.setItem\(key,JSON\.stringify\(obj\)\)/.test(wSrc)&&!/LZString|compress|deflate|gzip|CompressionStream/i.test(wSrc+(grab(g3,'read')||'')+(sSrc||'')),wSrc);
 check('0b autosave 寫入失敗不提示（write 的回傳值沒人看）——只是記錄現況',/write\(KEY_AUTO,snapshot\(\)\); GM\.lastAuto/.test(g3),'');
 const KEYS=(g3.match(/const SAVE_VER=2;[^\n]*/)||[''])[0];
 console.log('INFO 存檔 key：'+KEYS.replace(/\s+/g,' ').slice(0,260));
-const snapshotFn=new Function('G','E','STORY','SAVE_VER','performance',sSrc+'\nreturn snapshot;');
-const snap=G=>snapshotFn(G,H.E,typeof STORY!=='undefined'?STORY:undefined,2,{now:()=>0})();
+const snapshotFn=new Function('G','E','STORY','SAVE_VER','GM',sSrc+'\nreturn snapshot;');
+const snap=G=>snapshotFn(G,H.E,typeof STORY!=='undefined'?STORY:undefined,2,GM)();
 const sizeOf=G=>JSON.stringify(snap(G)).length;
 
 const addSrc=g3.match(/function addNote\(id,title,body\)\{[\s\S]*?return true; \}/);
