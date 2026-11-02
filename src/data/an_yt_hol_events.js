@@ -66,7 +66,6 @@ const ANYTHOL_EVENTS=(function(){
   const TC=tail=>[ {scene:'台中・公園門口',bg:'tc_park'},
         N('（她站在公園門口，圍巾圍到下巴。看到你下車，先看了一下手錶。）'),
         A('你出門的時候傳了訊息。我算你兩點到。'),
-        {if:{custom:G=>hasCG(TC_CG)&&!(G.flags&&G.flags.AN_VDAY_CG)},cg:TC_CG},{if:{custom:G=>hasCG(TC_CG)},set:{AN_VDAY_CG:true}},   /* 「開了兩個多小時，就為了這個？」那一拍 */
         A('開了兩個多小時，就為了這個？……你可以不用來的。'),
         {choice:[{text:'「我想來。」',goto:'a'},{text:'「路上不塞。」',goto:'b'}]},
         {label:'a'},A('……嗯。'),N('（她把圍巾拉下來一點。）'),{goto:'c'},
@@ -76,6 +75,7 @@ const ANYTHOL_EVENTS=(function(){
         A('我在講公司法。今天是情人節。'),
         A('……你不要笑。'),
         N('（傍晚，她送你到車子旁邊。你要上車的時候，她把一個紙袋塞給你。）'),
+        {if:{custom:G=>hasCG(TC_CG)&&!(G.flags&&G.flags.AN_VDAY_CG)},cg:TC_CG},{if:{custom:G=>hasCG(TC_CG)},set:{AN_VDAY_CG:true}},   /* BB_241 第四節（4fb22b51b）：圖是黃昏、車子旁邊＝放在這一拍（原本在 14:00 公園門口，時間地點對不上）*/
         A('回去再打開。開車不要看手機。'),
         {scene:'國道・休息站',bg:'car_night'},
         N('（休息站，你打開紙袋。是一盒太陽餅，盒子上貼著一張便利貼，寫著你的名字。）')].concat(tail);
