@@ -66,6 +66,12 @@ powershell -ExecutionPolicy Bypass -File "$env:USERPROFILE\Documents\Lawstudent_
 7. 每做完一項，只 `git add` 該項的 local_out 和 `local_out/summary.md`。截圖每項最多推 25 MB，沒推上的列在 `notes.txt`。然後 commit「CC-local: <ID> result (sha …, exit …, 秒數)」，push 到 `origin/claude/cc-local`，失敗會重試。
 8. 某一項出錯就記下來，接著跑下一項。腳本裡沒有任何金鑰，push 用你電腦上 git 已經登入的權限。
 
+## PC 畫面輸出（不用截圖）
+
+runner 印到畫面上的每一行都會留一份，只保留最後 2000 行，去掉顏色碼，跟著每一項結果的 commit 一起推到 `docs/story_planning/CC/local_out/_console/console.log`。runner 啟動時也會推一次，commit 名稱是「CC-local: runner start (rf_round N, runner <雜湊>)」，裡面看得到設定那幾行。第一行寫 run_forever 第幾輪和 runner 雜湊。
+- run_forever.ps1 自己印的青色訊息不在這個檔裡，因為 .ps1 改了要使用者重啟才會生效。改從 runner 那一行的 `run_forever round` 看輪次。
+- 雲端怎麼看：`git show origin/claude/cc-local:docs/story_planning/CC/local_out/_console/console.log | tail -50`
+
 ## 怎麼確認 PC 還在跑（給雲端 CC／接班者）
 
 `git fetch origin claude/cc-local && git log -3 --format='%h %ci %s' origin/claude/cc-local`

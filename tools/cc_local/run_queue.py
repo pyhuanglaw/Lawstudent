@@ -31,7 +31,7 @@
        XARGS（{url} {url2} {out}）、SHA2（第二個 worktree＋伺服器＝{url2}）、RERUN（強制重跑記號）同舊版。
 """
 import argparse, glob, hashlib, json, os, platform, queue, re, shutil, socket, subprocess, sys, threading, time
-from collections import OrderedDict
+from collections import OrderedDict, deque
 from datetime import datetime
 
 DEV_BRANCH = 'claude/confident-ritchie-8rwh7t'
@@ -63,6 +63,48 @@ def file_hash(path):
             return hashlib.sha256(fh.read()).hexdigest()
     except OSError:
         return ''
+
+
+class ConsoleTee(object):
+    """BB 2026-11-02 20:20（使用者：「除了截圖，沒有更方便可以複製他說了什麼的方式嗎」）：
+    runner 印到畫面的每一行同時留一份（最後 2000 行），跟著每一項的結果 commit 推到
+    local_out/_console/console.log，雲端不用截圖也看得到 PC 的畫面輸出。"""
+    ANSI = re.compile(r'\x1b\[[0-9;]*[A-Za-z]')
+
+    def __init__(self, stream, buf, lock):
+        self.s, self.buf, self.lk, self.part = stream, buf, lock, ''
+
+    def write(self, t):
+        try:
+            self.s.write(t)
+        except Exception:
+            pass
+        with self.lk:
+            self.part += self.ANSI.sub('', str(t))
+            while '\n' in self.part:
+                line, self.part = self.part.split('\n', 1)
+                self.buf.append(line.rstrip('\r'))
+        return len(t)
+
+    def flush(self):
+        try:
+            self.s.flush()
+        except Exception:
+            pass
+
+    def __getattr__(self, k):
+        return getattr(self.s, k)
+
+
+CONSOLE_BUF = deque(maxlen=2000)
+CONSOLE_LOCK = threading.Lock()
+
+
+def install_console_tee():
+    if not isinstance(sys.stdout, ConsoleTee):
+        sys.stdout = ConsoleTee(sys.stdout, CONSOLE_BUF, CONSOLE_LOCK)
+    if not isinstance(sys.stderr, ConsoleTee):
+        sys.stderr = ConsoleTee(sys.stderr, CONSOLE_BUF, CONSOLE_LOCK)
 
 
 def log(msg):
@@ -552,9 +594,14 @@ class Runner(object):
                     fh.write('screenshots not pushed (over 25 MB): %d\n' % skipped)
                 if nf not in add:
                     add.append(nf)
+            # 先把索引清空（不動檔案）：舊 runner 中斷時可能留下已 git add 但沒 commit 的檔（BB 20:21：R8_y4s2rt／02_mk12），不能被這一筆帶進去
+            git('-C', self.work, 'reset', '-q', quiet=True)
             for i in range(0, len(add), 50):
                 git('-C', self.work, 'add', '--', *add[i:i + 50], quiet=True)
             git('-C', self.work, 'add', '--', sum_file, quiet=True)
+            cf = self.write_console()
+            if cf:
+                git('-C', self.work, 'add', '--', cf, quiet=True)
             rc, out = git('-C', self.work, 'commit', '-q', '-m',
                           'CC-local: %s result (sha %s, exit %s, %ss)' % (it.id, meta['sha'], meta['exit'], meta['seconds']), quiet=True)
             if rc != 0:
@@ -571,10 +618,46 @@ class Runner(object):
                     return
             log('push failed for %s (results stay in %s, rerun later)' % (it.id, self.work))
 
+    def write_console(self):
+        """把畫面輸出的最後 2000 行寫到 local_out/_console/console.log；回傳路徑（失敗回 None）"""
+        try:
+            d = os.path.join(self.out_root, '_console')
+            os.makedirs(d, exist_ok=True)
+            f = os.path.join(d, 'console.log')
+            with CONSOLE_LOCK:
+                lines = list(CONSOLE_BUF)
+            with open(f, 'w', encoding='utf-8', newline='\n') as fh:
+                fh.write('\n'.join(lines) + '\n')
+            return f
+        except Exception as e:
+            log('console.log not written: %r' % (e,))
+            return None
+
+    def start_commit(self):
+        """啟動時推一次 console.log（設定那幾行、run_forever 第幾輪、runner 雜湊）"""
+        with GIT_LOCK:
+            cf = self.write_console()
+            if not cf:
+                return
+            git('-C', self.work, 'reset', '-q', quiet=True)
+            git('-C', self.work, 'add', '--', cf, quiet=True)
+            rc, _ = git('-C', self.work, 'commit', '-q', '-m', 'CC-local: runner start (rf_round %s, runner %s)' % (os.environ.get('CC_RF_ROUND') or '-', self.self_hash[:10]), quiet=True)
+            if rc != 0 or self.a.no_push:
+                return
+            for w in (0, 2, 4, 8):
+                if w:
+                    time.sleep(w)
+                if git('-C', self.work, 'push', '-u', 'origin', self.branch, quiet=True)[0] == 0:
+                    return
+            log('push of the start console.log failed (will go with the next result)')
+
     # ---------- 主迴圈 ----------
     def main(self):
+        install_console_tee()
+        log('run_forever round: %s   runner sha256: %s' % (os.environ.get('CC_RF_ROUND') or '- (not started by run_forever)', self.self_hash[:10]))
         self.banner()
         self.setup()
+        self.start_commit()
         items = self.read_queue()
         log('queue: ' + ', '.join(it.id for it in items))
         attempted = set()
