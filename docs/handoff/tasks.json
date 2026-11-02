@@ -39679,7 +39679,7 @@
       "title": "重度玩家 7 份存檔約 5.93 MB 還超過 5 MB（social.mem 22.4 萬字）（BB 10:15）",
       "status": "等待其他AI／素材",
       "priority": "P2",
-      "note": "評估：①social.mem 每人每種只留最近 N 筆、劇情讀到的 tag 一律保留（要先列出所有被讀的 tag：SOCIAL.has 等，範圍大、風險高）；②備份（backup、backup_new）壓縮後再存（要引入壓縮程式碼＋授權）。目標重度 7 份 ≤ 4 MB。不進今晚版本（已有空間不足提示＋可以刪欄位）；排下一版。CC 會在使用者電腦用真的瀏覽器量配額。 ｜LAWWW 14:0x 評估：(a) 壓縮——lz-string（MIT）下載後權限系統擋下執行外部程式碼，不繞過；要用的話請使用者同意引入，或自己寫 LZ（要完整往返測試）。(b) social.mem——ADJUST 只有 4 處會寫（SOCIAL.adjust 帶 why），刪了幫助小；讀取方式有 find（第一筆：loans3d memDay、encounter3d、metAtCamp FIRST_MET）、lastDay（最後一筆）、note 比對（postgrad helpedCoffee、y2b auntKnows、y34b firstOrder、termend AN_TREAT），安全的精簡＝同一 (tag,note) 重複的只留第一筆和最後一筆、超過 80 筆先刪這種重複，不再從最舊的整筆刪（現在的 80 筆上限會刪掉 FIRST_MET＝潛在 bug）。實際能省多少要真的長時間遊玩存檔的 tag 分布，CC 的模擬是估的 tag，不準。下一步：請 BB／CC 給一份真的長時間存檔再動手。",
+      "note": "評估：①social.mem 每人每種只留最近 N 筆、劇情讀到的 tag 一律保留（要先列出所有被讀的 tag：SOCIAL.has 等，範圍大、風險高）；②備份（backup、backup_new）壓縮後再存（要引入壓縮程式碼＋授權）。目標重度 7 份 ≤ 4 MB。不進今晚版本（已有空間不足提示＋可以刪欄位）；排下一版。CC 會在使用者電腦用真的瀏覽器量配額。 ｜LAWWW 14:0x 評估：(a) 壓縮——lz-string（MIT）下載後權限系統擋下執行外部程式碼，不繞過；要用的話請使用者同意引入，或自己寫 LZ（要完整往返測試）。(b) social.mem——ADJUST 只有 4 處會寫（SOCIAL.adjust 帶 why），刪了幫助小；讀取方式有 find（第一筆：loans3d memDay、encounter3d、metAtCamp FIRST_MET）、lastDay（最後一筆）、note 比對（postgrad helpedCoffee、y2b auntKnows、y34b firstOrder、termend AN_TREAT），安全的精簡＝同一 (tag,note) 重複的只留第一筆和最後一筆、超過 80 筆先刪這種重複，不再從最舊的整筆刪（現在的 80 筆上限會刪掉 FIRST_MET＝潛在 bug）。實際能省多少要真的長時間遊玩存檔的 tag 分布，CC 的模擬是估的 tag，不準。下一步：請 BB／CC 給一份真的長時間存檔再動手。 ｜14:1x CC heavy_save_m5（cc-testing 8a2d0bf23）：mem 224k＝58 人×80 筆頂到上限；tag 是從 600 個隨機抽、重複 (tag,note) 只有 2 筆＝去重量不出效果；等使用者電腦整學期真實存檔（BB (c)）。",
       "xai": {
         "spec": "BB 10:15；CC 583c7739d",
         "branch": "claude/confident-ritchie-8rwh7t",
@@ -39688,7 +39688,7 @@
         "acceptance": "重度玩家 7 份 ≤ 4 MB"
       },
       "pausedReason": "要真的長時間遊玩存檔量 social.mem 的 tag 分布；壓縮要引入外部程式碼（權限擋下）",
-      "resumeWhen": "BB／CC 交一份真的長時間存檔，或使用者同意引入 lz-string"
+      "resumeWhen": "使用者電腦整學期真實流程的存檔（BB 13:52 (c)），或使用者同意引入 lz-string"
     },
     {
       "id": "BAR-POOL-NOMAR-1102",
@@ -39947,7 +39947,7 @@
       "owner": "LAWWW",
       "status": "已實作待整合",
       "priority": "P2",
-      "note": "子代理 a56503a4c：ade7cbca3、fd938dd17、7c5d93049、f0f75831f、ae290b370；LAWWW 合併 e7a4383b0；tests/aa588_unit.js 37 項。待 AA 回：兩門以上重修的「一堂{課名}」",
+      "note": "子代理 a56503a4c：ade7cbca3、fd938dd17、7c5d93049、f0f75831f、ae290b370；LAWWW 合併 e7a4383b0；tests/aa588_unit.js 37 項。待 AA 回：兩門以上重修的「一堂{課名}」 ｜K1 兩門以上：AA 13:53 選 (a)，673ef2185（FD.namesAnd、10/17 換句、y5Plan 拿掉一堂）",
       "next": "下一版 int/next1102 交 BB 測",
       "xai": {
         "spec": "子代理 a56503a4c：ade7cbca3、fd938dd17、7c5d93049、f0f75831f、ae290b370；LAWWW 合併 e7a4383",
