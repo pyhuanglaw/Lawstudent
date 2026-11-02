@@ -1793,10 +1793,10 @@
    "at": "2026-11-02T00:3x",
    "quote": "（選擇題）第 9 張便利商店是傍晚、學姊訪談是早上 10:30 → 重生白天版 (Recommended)",
    "kind": "選擇題答案",
-   "status": "進行中",
+   "status": "在開發分支",
    "task": "AA299-IMAGES-1018",
    "src": "使用者對 LAWWW-B，2026-11-02 00:3x UTC（AskUserQuestion）",
-   "checked": "LAWWW-B 給白天版提示詞（新鍵 cvs_table_day）；傍晚的 cvs_table_night 留著給傍晚場景；圖到了以後 ev_sis_interview 改 cvs_table_day"
+   "checked": "LAWWW-B 給白天版提示詞（新鍵 cvs_table_day）；傍晚的 cvs_table_night 留著給傍晚場景；圖到了以後 ev_sis_interview 改 cvs_table_day｜11-02 使用者交了白天版，已接：ev_sis_interview 用 cvs_table_day"
   },
   {
    "id": "UA-LAWWW-1102-02",
@@ -1806,7 +1806,7 @@
    "status": "規則（永久）",
    "task": "AA299-IMAGES-1018",
    "src": "使用者對 LAWWW-B，2026-11-02 00:3x UTC（AskUserQuestion）",
-   "checked": "D112 擴大到 2D 背景圖：以後的生圖提示詞有地板的都寫「淺色木地板或磁磚、磨石子等其他材質，不要深色木地板」；mucha_cafe_night 重生淺色地板版，圖到了以後換檔（同鍵）"
+   "checked": "D112 擴大到 2D 背景圖：以後的生圖提示詞有地板的都寫「淺色木地板或磁磚、磨石子等其他材質，不要深色木地板」；mucha_cafe_night 重生淺色地板版，圖到了以後換檔（同鍵）｜11-02 使用者交了淺色地板版，mucha_cafe_night 已換（同鍵）"
   },
   {
    "id": "UA-LAWWW-1102-03",
