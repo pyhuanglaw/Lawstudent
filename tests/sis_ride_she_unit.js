@@ -7,7 +7,7 @@ const m0=STORY.rideMode, i0=STORY.rideInfo; STORY.rideMode=()=>'walk'; STORY.rid
 try{
   const sis={charId:'heroine_05',beh:'follow'}, an={charId:'heroine_01',beh:'follow'};
   check('1. 交往中、只有她一個同行：「（她說她走路就好。）」',STORY.rideBlock({G,E:{npcs:[sis]}},sis)==='（她說她走路就好。）',STORY.rideBlock({G,E:{npcs:[sis]}},sis));
-  const two=STORY.rideBlock({G,E:{npcs:[sis,an]}},sis); check('2. 還有以安同行：照舊寫名字',/^（溫書瑀說她走路就好。）$/.test(two),two);
+  const two=STORY.rideBlock({G,E:{npcs:[sis,an]}},sis); check('2. 還有以安同行：照舊寫名字（不是「她」）',!/^（她說/.test(two)&&/說她走路就好。）$/.test(two)&&two.indexOf(SOCIAL.displayName('heroine_05'))>=0,two);
   delete G.flags.dating_heroine_05; const no=STORY.rideBlock({G,E:{npcs:[sis]}},sis); check('3. 沒交往：照舊寫名字（不是「她」）',!/^（她說/.test(no)&&/說她走路就好。）$/.test(no),no);
 } finally { STORY.rideMode=m0; STORY.rideInfo=i0; }
 H.done();
