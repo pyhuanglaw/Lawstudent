@@ -187,7 +187,7 @@ const V6EX=(function(){
     if(id===YT&&isEx(G,YT)&&!F.V6EX_YT_AN&&S.otherAfter(G,YT,AN).length) return ['V6EX_YT_AN',X.ytAfterAn];
     if(id===ZQ&&isEx(G,ZQ)&&!F.V6EX_FIRST_ZQ) return ['V6EX_FIRST_ZQ',X.zqFirst];
     if(id===ZR&&isEx(G,ZR)&&!F.V6EX_FIRST_ZR&&G.zone==='cafe') return ['V6EX_FIRST_ZR',X.zrFirst];
-    if(id===SIS&&isEx(G,SIS)&&!F.V6EX_FIRST_SIS&&(F.JOB_RA||lawZone(G.zone))) return ['V6EX_FIRST_SIS',F.JOB_RA?X.sisRA:X.sisLaw];
+    if(id===SIS&&isEx(G,SIS)&&!F.V6EX_FIRST_SIS&&(F.JOB_RA||lawZone(G.zone))) return ['V6EX_FIRST_SIS',F.JOB_RA?X.sisRA:X.sisLaw];   /* AA_600 S10：前任的學姊當面找她＝S.sisExTalk 先擋（只點頭／「嗯。」），這一句走不到；留給舊存檔讀稿對照 */
     if(id===KX&&isEx(G,KX)&&!F.V6EX_FIRST_KX&&F.KX_ENDED==='drift'&&!(typeof KXDRIFT!=='undefined'&&KXDRIFT.frOn&&KXDRIFT.frOn(G))) return ['V6EX_FIRST_KX',X.kxFirst];   /* 走向 B、C（AA_351 的慢慢分手）分開以後第一次見面；D6 公館那頓午餐（AA_351）先見過＝照它，不說 */
     return null; };
   S.preTalk=async function(GM,who,id){ const G=GM&&GM.G; if(!G||!G.flags) return; const p=S.preLine(G,id); if(!p) return; G.flags[p[0]]=G.day; for(const l of [].concat(p[1])) await (typeof l==='string'?GM.say(who,l):GM.say(null,l.n)); };   /* 旁白＝{n} */
