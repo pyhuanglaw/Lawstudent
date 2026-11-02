@@ -1,0 +1,15 @@
+﻿{
+    "rerun":  "",
+    "id":  "R8_y4s2rt",
+    "sha":  "b1b249873",
+    "kind":  "probe",
+    "script":  "docs/story_planning/test_tools/cc/cc_makeup_probe.py",
+    "env":  "FAIL_ROUTE=retake;MAIN_FROM=0527;CASES=main_pass,main_fail,route_grades",
+    "machine":  "MSI",
+    "start":  "2026-11-02T21:19:49",
+    "end":  "2026-11-02T21:55:17",
+    "seconds":  2128,
+    "exit":  1,
+    "error":  null,
+    "url":  "http://127.0.0.1:8801/index.html?turbo"
+}
