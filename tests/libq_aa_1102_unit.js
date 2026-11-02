@@ -56,8 +56,9 @@ await sec('2',async()=>{
   H.fresh('2025-10-07',15,'library_hall'); H.FRIEND(AN); at('library_hall',1,0,0); LIBQ.reset(); STORY._bindGM(GM);
   INV.accept(H.G,AN,'library',H.G.day,15); const n=npc(AN);
   H.said=[]; const g5=await LIBQ.gate(GM,n); let threw=null; try{ await STORY.talkCharacter(AN,n); }catch(e){ threw=String(e&&e.stack||e).split('\n').slice(0,2).join(' / '); }
-  const sp=spokenT();
-  check('2. doInteract 的順序（gate → talkCharacter → INV.meet）：不點頭、見面照演，說話的句子都小聲',g5===false&&threw===null&&!H.said.some(s=>s.t===LIBQ.NOD.f)&&sp.length>0&&sp.every(t=>quiet(t)||!LIBQ.needsPrefix(t)),threw||J(H.lines()));
+  /* AA 11-02 22:30 定稿 Q16：朋友以上的見面旁白「閉館音樂響了，她才抬頭問你晚餐吃什麼。」之後（道別）不加——只看那句以前（tests/libq_out_1102_unit.js 第 3 節）*/
+  const kML=H.said.findIndex(s=>!s.who&&LIBQ.isOut&&LIBQ.isOut(s.t)), sp=H.said.slice(0,kML<0?H.said.length:kML).filter(s=>s.who).map(s=>s.t);
+  check('2. doInteract 的順序（gate → talkCharacter → INV.meet）：不點頭、見面照演，說話的句子都小聲（Q16 閉館音樂那句以前）',g5===false&&threw===null&&!H.said.some(s=>s.t===LIBQ.NOD.f)&&sp.length>0&&sp.every(t=>quiet(t)||!LIBQ.needsPrefix(t)),threw||J(H.lines()));
 });
 
 await sec('3',async()=>{
@@ -98,7 +99,8 @@ await sec('3',async()=>{
   /* 實際演：空出來的週四選「那就坐著。我陪妳。」——走出總圖以前沒有她開口的句子，之後的不加 */
   H.fresh('2025-10-07',19,'library'); H.FRIEND('heroine_03'); at('library',0,0,0); LIBQ.reset();
   H.said=[]; H.picks=[0]; await EVENTS.run(ev('ev_yt_thursday_free')); const e1=H.lines(), k=e1.findIndex(t=>t.includes('走出總圖時她說'));
-  check('3. 空出來的週四：走出總圖以前的台詞加（小聲），以後的「好安靜。我平常這時候在切蔥。」不加',k>0&&e1.slice(0,k).filter(t=>/：/.test(t)&&LIBQ.needsPrefix(t.split('：').slice(1).join('：'))).length===0&&e1.slice(0,k).some(t=>t.includes(PRE))&&e1.includes(SOCIAL.displayName('heroine_03')+'：好安靜。我平常這時候在切蔥。')&&balanced(),J(e1));
+  /* AA 11-02 22:30 定稿（AA_595 1-B51）：開頭加「（她看到你，闔上書，指了指外面。）」libOut——整場都在館外，都不加（tests/libq_out_1102_unit.js）*/
+  check('3. 空出來的週四：開頭「指了指外面」以後整場不加（小聲），「好安靜。我平常這時候在切蔥。」不加',k>0&&e1[0]==='（她看到你，闔上書，指了指外面。）'&&!e1.some(t=>t.includes('小聲'))&&e1.includes(SOCIAL.displayName('heroine_03')+'：好安靜。我平常這時候在切蔥。')&&balanced(),J(e1));
   H.said=[]; H.picks=[0]; await EVENTS.run(ev('ev_sis_borrowed_card')); const e2=H.lines(), k2=e2.findIndex(t=>t.includes('櫃台蓋完章'));
   check('3. 學生證：櫃台以前小聲、「許老師開的書單。開學以前要讀完。」以後不加',k2>0&&e2.slice(0,k2).some(t=>t.includes(PRE))&&e2.slice(k2).some(t=>t.endsWith('：許老師開的書單。開學以前要讀完。'))&&!e2.slice(k2).some(t=>t.includes('小聲'))&&balanced(),J(e2));
 });

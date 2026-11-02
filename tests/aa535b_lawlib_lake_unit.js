@@ -53,7 +53,8 @@ const once=async(id,pid,day,h)=>{ const P=INV.place(pid); return INV.personal(G,
   let spec579=''; try{ spec579=cp.execSync('git show 759e5c000:"docs/story_planning/AA_579_學姊改稿_第一批_手機與邀約.md"',{cwd:GIT,encoding:'utf8',maxBuffer:8<<20,stdio:['ignore','pipe','ignore']}); }catch(e){}
   /* 學姊的法圖 first／acc.A／here／walk、映月湖 acc／firstAt 2026-11-02 照 AA_584 第 82～87 列改（BB_230 PASS、使用者確認第 82 列）：也接受 AA_584 的稿（企劃線 14154434b）*/
   let spec584=''; try{ spec584=cp.execSync('git -c core.quotepath=false show 14154434b:"docs/story_planning/AA_584_學姊改稿_第二批_閒聊階梯與邀約.md"',{cwd:GIT,encoding:'utf8',maxBuffer:8<<20,stdio:['ignore','pipe','ignore']}); }catch(e){}
-  const inSpec=t=>{ const x=String(t).replace(/^「|」$/g,'').replace(/^（|）$/g,''); return !spec||spec.includes(x)||(!!spec576&&spec576.includes(x))||(!!spec579&&spec579.includes(x))||(!!spec580&&spec580.includes(x))||(!!spec584&&spec584.includes(x)); };
+  /* 沛珊法圖 firstAt 第二句前面的「（走出法圖）」：AA_595 1-D10（AA 11-02 22:30 定稿，圖書館小聲講），其餘照稿 */
+  const inSpec=t=>{ const x=String(t).replace(/^（走出法圖）/,'').replace(/^「|」$/g,'').replace(/^（|）$/g,''); return !spec||spec.includes(x)||(!!spec576&&spec576.includes(x))||(!!spec579&&spec579.includes(x))||(!!spec580&&spec580.includes(x))||(!!spec584&&spec584.includes(x)); };
   { const bad=[]; const walk=(tag,v)=>{ if(v==null) return; if(typeof v==='function') return walk(tag,v(null,{r:{}})); if(typeof v==='string'){ if(!inSpec(v)) bad.push(tag+':'+v); return; } if(Array.isArray(v)) return v.forEach(x=>walk(tag,x)); if(v.l) return walk(tag,v.l); for(const k in v) walk(tag+'.'+k,v[k]); };
     walk('lawlib',INVITE_DATA.lawlibLines); walk('lake',INVITE_DATA.lakeLines);
     for(const id of ['heroine_01','heroine_03','kexin']) for(const p of ['cafe','library','noodle','wenzhou']) walk('meet.'+id+'.'+p,((REL_LINES[id]||{}).meet||{})[p]);
