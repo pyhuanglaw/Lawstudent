@@ -75,7 +75,7 @@ def litter_tex(path, w=512, seed=21):
     from PIL import Image, ImageFilter, ImageEnhance
     import numpy as np
     src = os.path.join(L.tex_dir('forest_leaves_02'), 'forest_leaves_02', 'forest_leaves_02_diff_1k.jpg')
-    im = Image.open(src).convert('RGB').resize((w, w)); im = ImageEnhance.Brightness(im).enhance(0.95)
+    im = Image.open(src).convert('RGB').resize((w, w)); im = ImageEnhance.Color(im).enhance(0.45); im = ImageEnhance.Brightness(im).enhance(0.72); im = ImageEnhance.Contrast(im).enhance(0.85)   # 第一輪截圖太橘、太跳：降飽和、偏暗褐
     rnd = np.random.RandomState(seed); n = rnd.rand(w // 16, w // 16).astype(np.float32)
     a = Image.fromarray((n * 255).astype(np.uint8)).resize((w, w), Image.BICUBIC).filter(ImageFilter.GaussianBlur(6))
     a = np.asarray(a).astype(np.float32) / 255.0; a = np.where(a > 0.38, 255, 0).astype(np.uint8)
@@ -137,7 +137,7 @@ def build():
          'path': L.pbr('bf_dirt_path', 'forest_ground_04', tile=2.2, target='#6e5c47', contrast=0.95, sat=0.75, normal=0.5, maps=('diff', 'nor'), rough_value=0.95),
          'roots': L.pbr('bf_roots', 'chinese_hackberry_bark', tile=1.0, target='#77736a', sat=0.35, maps=('diff', 'nor'), res=256, rough_value=0.85, normal=0.8),
          'rim': L.pbr('bf_pond_rim', 'concrete_wall_006', tile=1.6, target='#a9a79f', sat=0.3, maps=('diff', 'nor'), res=256, rough_value=0.85, normal=0.5),   # 小湖的水泥弧形池邊（照片 4、5）
-         'water': L.flat('bf_pond_water', '#24302a', rough=0.06),
+         'water': L.flat('bf_pond_water', '#34463a', rough=0.12),   # 照片 4、5：深綠、有一點反光（第一輪 #24302a 幾乎全黑）
          'rock': L.pbr('bf_rock', 'mossy_rock', tile=1.0, target='#7d7a6c', maps=('diff', 'nor'), res=256, rough_value=0.9, normal=0.8),
          'wbark': L.pbr('bf_willow_bark', 'chinese_hackberry_bark', tile=1.0, target='#5d5246', sat=0.4, maps=('diff', 'nor'), res=256, rough_value=0.9, normal=0.8),
          'willow': leaf_mat('bf_willow', wpng), 'papyrus': leaf_mat('bf_papyrus', ppng),
@@ -250,7 +250,7 @@ def build():
         ring = []
         for k in range(N):
             a_ = 2 * math.pi * k / N; rr = R * rnd.uniform(0.7, 1.15); x = t['x'] + math.cos(a_) * rr; z = t['z'] + math.sin(a_) * rr
-            if in_pond(x, z, 0.4) or on_paved(x, z, 0.0):   # 落葉不蓋到池子、鋪面上
+            if in_pond(x, z, 0.4) or on_paved(x, z, 0.0) or not any(A['x0'] - 0.3 <= x <= A['x1'] + 0.3 and A['z0'] - 0.3 <= z <= A['z1'] + 0.3 for A in Lay['areas']):   # 落葉不蓋到池子、鋪面、森林外（第一輪截圖蓋到 z −60 的路）
                 rr *= 0.45; x = t['x'] + math.cos(a_) * rr; z = t['z'] + math.sin(a_) * rr
             ring.append(li.bm.verts.new(g2b(x, yy, z)))
         f = li.bm.faces.new(ring); f.normal_update()
@@ -264,8 +264,8 @@ def build():
         a_ = 2 * math.pi * k / N; kk = pond_r(a_); ca, sa = math.cos(a_), math.sin(a_)
         ix, iz = P['x'] + ca * P['rx'] * kk, P['z'] + sa * P['rz'] * kk
         nx_, nz_ = ca / P['rx'], sa / P['rz']; nl = math.hypot(nx_, nz_); nx_, nz_ = nx_ / nl, nz_ / nl
-        inner.append((ix, iz)); outer.append((ix + nx_ * 0.4, iz + nz_ * 0.4))
-    YT, YW = 0.3, 0.14
+        inner.append((ix, iz)); outer.append((ix + nx_ * 0.3, iz + nz_ * 0.3))
+    YT, YW = 0.2, 0.1   # 池邊比地面高 0.2 m（照片：低矮的水泥緣石；第一輪 0.3 m 像澡盆）
     for k in range(N):
         k2 = (k + 1) % N; (ix0, iz0), (ix1, iz1) = inner[k], inner[k2]; (ox0, oz0), (ox1, oz1) = outer[k], outer[k2]
         for q in ([(ix0, YT, iz0), (ix1, YT, iz1), (ox1, YT, oz1), (ox0, YT, oz0)],      # 池邊頂面
@@ -295,17 +295,22 @@ def build():
             for lp, uv in zip(f.loops, [(0, 0), (1, 0), (1, 1), (0, 1)]): lp[uvl_pp].uv = uv
         n_pap += 1
     # 垂柳（照片 4：池邊、走道旁）：彎一點的樹幹＋往下垂的枝條（細長的葉片卡）
-    WX, WZ = P['willow']; lean = (0.7, -0.25); segs = 8; tr = []
-    for k in range(segs + 1):
-        t_ = k / segs; cx = WX + lean[0] * t_ * t_; cz = WZ + lean[1] * t_ * t_; y = 4.2 * t_; r = 0.22 * (1 - 0.6 * t_)
-        tr.append([wb.bm.verts.new(g2b(cx + math.cos(2 * math.pi * j / 8) * r, y, cz + math.sin(2 * math.pi * j / 8) * r)) for j in range(8)])
-    for k in range(segs):
-        for j in range(8):
-            j2 = (j + 1) % 8; wb.bm.faces.new([tr[k][j], tr[k][j2], tr[k + 1][j2], tr[k + 1][j]])
+    WX, WZ = P['willow']; lean = (0.7, -0.25)
+    def limb(p0, p1, r0, r1, segs=6, bend=(0.0, 0.0)):   # 一段彎的樹幹／主枝（8 邊形管）
+        rings = []
+        for k in range(segs + 1):
+            t_ = k / segs; x = p0[0] + (p1[0] - p0[0]) * t_ + bend[0] * math.sin(math.pi * t_); y = p0[1] + (p1[1] - p0[1]) * t_; z = p0[2] + (p1[2] - p0[2]) * t_ + bend[1] * math.sin(math.pi * t_); r = r0 + (r1 - r0) * t_
+            rings.append([wb.bm.verts.new(g2b(x + math.cos(2 * math.pi * j / 8) * r, y, z + math.sin(2 * math.pi * j / 8) * r)) for j in range(8)])
+        for k in range(segs):
+            for j in range(8):
+                j2 = (j + 1) % 8; wb.bm.faces.new([rings[k][j], rings[k][j2], rings[k + 1][j2], rings[k + 1][j]])
+    top = (WX + 0.35, 2.3, WZ - 0.1); limb((WX, 0.0, WZ), top, 0.26, 0.2, 6, (0.12, 0.05))   # 樹幹（照片 4：斜斜的，2 m 多就分枝）
+    for (dx, dy, dz) in ((1.4, 2.4, 0.4), (0.4, 2.8, -1.2), (-0.9, 2.2, 0.6), (0.9, 2.0, 1.3)):   # 四根主枝往上、往外
+        limb(top, (top[0] + dx, top[1] + dy, top[2] + dz), 0.16, 0.06, 5, (0.0, 0.0))
     uvl_wl = wl.bm.loops.layers.uv.verify(); n_str = 0
     CX, CZ = WX + lean[0], WZ + lean[1]
-    for k in range(80):
-        a_ = rnd.uniform(0, 2 * math.pi); rr = 2.6 * math.sqrt(rnd.uniform(0.05, 1.0)); top = 5.2 - 1.3 * (rr / 2.6) ** 2 + rnd.uniform(-0.2, 0.2)
+    for k in range(150):
+        a_ = rnd.uniform(0, 2 * math.pi); rr = 2.8 * math.sqrt(rnd.uniform(0.05, 1.0)); top = 5.0 - 1.4 * (rr / 2.8) ** 2 + rnd.uniform(-0.25, 0.25)
         x = CX + math.cos(a_) * rr; z = CZ + math.sin(a_) * rr; ln = rnd.uniform(2.2, 3.6); bot = max(0.6, top - ln); ww = rnd.uniform(0.3, 0.45)
         b_ = rnd.uniform(0, math.pi); cb, sb = math.cos(b_), math.sin(b_); dx_, dz_ = math.cos(a_) * 0.25, math.sin(a_) * 0.25   # 下端往外飄一點
         q = [(x - cb * ww / 2 + dx_, bot, z - sb * ww / 2 + dz_), (x + cb * ww / 2 + dx_, bot, z + sb * ww / 2 + dz_), (x + cb * ww / 2, top, z + sb * ww / 2), (x - cb * ww / 2, top, z - sb * ww / 2)]

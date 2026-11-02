@@ -1824,7 +1824,7 @@ index 57c1ea64c762777b854453f7f7b865697b657448..5f625bb0c209f5c891f33b8032eb7083
      this.stats.near=Object.fromEntries(Object.entries(this.near).map(([k,v])=>[k,v.n])); this.stats.cards=nc; };
    function treeStats(){ return field&&E3.extras.indexOf(field)>=0?Object.assign({ready:field.ready},field.stats||{}):null; }
 diff --git a/src/zones3d.js b/src/zones3d.js
-index 048bbb648d68dcf25071f991bb1af041a72dccac..293701483cd04e120ceca102784bc359c83e7a25 100644
+index 048bbb648d68dcf25071f991bb1af041a72dccac..d5915b33cd0d26fd716495a31736d260574e39a9 100644
 --- a/src/zones3d.js
 +++ b/src/zones3d.js
 @@ -263,10 +263,14 @@ const Z3 = (function(){
@@ -1881,7 +1881,7 @@ index 048bbb648d68dcf25071f991bb1af041a72dccac..293701483cd04e120ceca102784bc359
 +      g.add(W3.mergeGroup(fg));
 +      // 小水池（霖澤館東南邊）：深色水面、石砌池邊、水邊的植物；不能走
 +      if(BFL.version>=2){ const P=BFL.pond, PR=a=>1+0.10*Math.sin(2*a+0.6)+0.05*Math.cos(3*a);   /* 第二版的小湖（走道東邊）：池邊、水、石頭、水生植物、垂柳是正式模型；這裡是載入前／失敗的備用水面＋導航 */
-+        const wm=new THREE.Mesh(new THREE.CircleGeometry(1,40),new THREE.MeshStandardMaterial({color:0x24302a,roughness:0.08})); wm.scale.set(P.rx*1.04,P.rz*1.04,1); wm.rotation.x=-Math.PI/2; wm.position.set(P.x,0.13,P.z); bfFallback.add(wm);
++        const wm=new THREE.Mesh(new THREE.CircleGeometry(1,40),new THREE.MeshStandardMaterial({color:0x34463a,roughness:0.12})); wm.scale.set(P.rx*1.04,P.rz*1.04,1); wm.rotation.x=-Math.PI/2; wm.position.set(P.x,0.13,P.z); bfFallback.add(wm);
 +        for(let dz=-P.rz*1.2;dz<=P.rz*1.2;dz+=0.25){ let hw=0; for(let k=0;k<72;k++){ const a=k/72*Math.PI*2, kk=PR(a), z=Math.sin(a)*P.rz*kk; if(Math.abs(z-dz)<0.3) hw=Math.max(hw,Math.abs(Math.cos(a))*P.rx*kk); } if(hw>0) nav.blockRect(P.x,P.z+dz,2*(hw+0.4),0.3,0,0); }   /* 水＋0.4 m 的水泥池邊不能走（照輪廓一條一條擋）*/
 +        nav.blockCircle(P.willow[0],P.willow[1],0.4); }   // 垂柳的樹幹
 +      else { const PX=49, PZ=-71, RX=4.2, RZ=2.8;   /* 離路人散步路線 (50,-80)→(30,-60) 約 5.7 m */ const wm=new THREE.Mesh(new THREE.CircleGeometry(1,32),new THREE.MeshStandardMaterial({color:0x2f4b4a,roughness:0.15,metalness:0.3})); wm.scale.set(RX,RZ,1); wm.rotation.x=-Math.PI/2; wm.position.set(PX,0.03,PZ); wm.receiveShadow=true; g.add(wm);

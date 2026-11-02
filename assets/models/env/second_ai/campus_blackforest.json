@@ -1,11 +1,11 @@
 {
  "objects": 12,
  "unique_meshes": 12,
- "tris": 9176,
- "tris_drawn": 9176,
+ "tris": 9604,
+ "tris_drawn": 9604,
  "materials": 12,
  "out": "../../../tmp/claude-0/-home-user-Lawstudent/b2086276-f771-5e36-88cb-063a8a6233cc/scratchpad/bforest/v2/campus_blackforest.glb",
- "bytes": 1156484,
+ "bytes": 1155240,
  "texres": 512,
  "layout": {
   "stats": {
@@ -20,7 +20,7 @@
   "litter": 65,
   "rocks": 14,
   "papyrus": 7,
-  "willow_strands": 80
+  "willow_strands": 150
  },
  "note": "黑森林地面（CAMPUS-BLACKFOREST-1102）：落葉泥土地、土徑、板根、蕨類、矮灌木；樹由遊戲放（src/data/blackforest_layout.js）"
 }
