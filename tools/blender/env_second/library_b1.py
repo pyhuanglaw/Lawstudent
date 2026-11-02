@@ -287,6 +287,46 @@ def study_chair_parts(c, x, z, yaw):
         lx = -0.12 + k * 0.06; rbox(c.vc, T, lx - 0.011, lx + 0.011, 0.6, 0.93, -0.218, -0.202, col)
 
 
+BAG_COLS = (('#22304a', '#1a2438'), ('#2b2b2e', '#1d1d20'), ('#56603e', '#424a2f'))   # 深藍、黑、橄欖綠（主色、側邊／揹帶）
+
+
+def backpack_parts(t, v):
+    """背包（BB_236 ③）：立著放在地上，背面（有揹帶那一面）朝 −z；約 0.30×0.42×0.18 m"""
+    col, dk = BAG_COLS[v]; T = rot(0.0, 0.0, 0.0)
+    rbox(t.vc, T, -0.15, 0.15, 0.0, 0.40, -0.09, 0.09, col, r=0.05, seg=2)                 # 本體
+    rbox(t.vc, T, -0.12, 0.12, 0.05, 0.22, 0.085, 0.13, dk, r=0.03, seg=1)                 # 前面的小袋
+    rbox(t.vc, T, -0.05, 0.05, 0.40, 0.45, -0.02, 0.02, dk, r=0.012, seg=1)                # 提把
+    for lx in (-0.08, 0.08): rbox(t.vc, T, lx - 0.022, lx + 0.022, 0.06, 0.38, -0.11, -0.09, dk)   # 揹帶
+
+
+def desk_items(c):
+    """桌上小物（BB_236 ③）：assets/models/env/second_ai/desk_props.glb（LAWWW2 10-13 的桌上小物模組）的 tset_*——一個人面前的東西，
+    原點＝坐的人正前方的桌緣、y=0＝桌面、+z 往桌子裡面。匯入一次當樣板，每個座位一個共用網格的物件（匯出成 EXT_mesh_gpu_instancing）；
+    背包同一套（三種顏色各一個樣板）。"""
+    from types import SimpleNamespace
+    from lib2 import Matrix
+    desk = c.__dict__.get('inst_desk') or []; bags = c.__dict__.get('inst_bags') or []; n = 0
+    if desk:
+        src = os.path.join(os.path.dirname(os.path.abspath(__file__)), '..', '..', '..', 'assets', 'models', 'env', 'second_ai', 'desk_props.glb')
+        before = set(bpy.data.objects); bpy.ops.import_scene.gltf(filepath=os.path.abspath(src)); new = [o for o in bpy.data.objects if o not in before]
+        tm = {o.name: o for o in new if o.type == 'MESH' and o.name.startswith('tset_') and not o.name.endswith('_lod1')}
+        for i, (kind, x, z, yaw) in enumerate(desk):
+            if kind not in tm: continue
+            o = bpy.data.objects.new(f'INST_{c.sid}_desk_{kind}_{i}', tm[kind].data); bpy.context.scene.collection.objects.link(o); o.parent = c.root
+            o.matrix_world = Matrix.Translation(L.g2b(x, 0.75, z)) @ Matrix.Rotation(yaw, 4, 'Z'); n += 1
+        for o in new: bpy.data.objects.remove(o, do_unlink=True)   # 樣板本身不留（網格資料還被副本用著）
+    for v in range(len(BAG_COLS)):
+        spots = [b for b in bags if b[0] == v]
+        if not spots: continue
+        t = SimpleNamespace(vc=CMesh(f'INST_{c.sid}_bag{v}', c.vc.mat)); backpack_parts(t, v); ob = t.vc.finish(c.root, uv=False)
+        if ob is None: continue
+        for i, (_, x, z, yaw) in enumerate(spots):
+            o = ob if i == 0 else bpy.data.objects.new(f'INST_{c.sid}_bag{v}_{i}', ob.data)
+            if i: bpy.context.scene.collection.objects.link(o); o.parent = c.root
+            o.name = f'INST_{c.sid}_bag{v}_{i}'; o.matrix_world = Matrix.Translation(L.g2b(x, 0.0, z)) @ Matrix.Rotation(yaw, 4, 'Z'); n += 1
+    print(json.dumps({'desk_items': len(desk), 'bags': len(bags), 'objects': n}))
+
+
 def make_instances(c):
     """椅子、檯燈：在原點畫一份樣板（每個材質一個網格），每個位置一個共用同一個網格的物件（位置＋繞垂直軸轉 yaw）。
     匯出時 export_gpu_instances → EXT_mesh_gpu_instancing（遊戲的 GLTFLoader 變成 InstancedMesh，總圖 3F 同一套）。
@@ -331,8 +371,14 @@ def long_desk(c, x0, x1, zc, depth, sides, seats_x):
             if k:   # 座位之間的矮隔板（雙面：中間到這一側的桌緣；單面：整個桌深）
                 xm = (seats_x[k - 1] + xx) / 2; za, zb_ = (zc, z1 - 0.03) if (dbl and s > 0) else ((z0 + 0.03, zc) if dbl else (z0 + 0.03, z1 - 0.03))
                 c.wood.box(xm - 0.015, xm + 0.015, 0.75, 1.02, za, zb_)
-            if c.rng.random() < 0.35:   # 有人留著的書、筆記（佔位）
-                T = rot(xx - 0.08, zc + s * (depth / 2 - 0.22), yaw); rbox(c.vc, T, -0.12, 0.12, 0.75, 0.79, -0.16, 0.16, c.rng.choice(['#7a2a2a', '#2a4a6a', '#e8dcc0', '#3a5a3a']))
+            # 第三版（BB_236 ③）：有人坐過的座位——桌上一組小物（desk_props.glb 的 tset_*）、椅腳邊的背包；第二版是一個色塊的「書」
+            r_ = c.rng.random()
+            if r_ < 0.55:
+                kind = c.rng.choices(('tset_book', 'tset_notes', 'tset_laptop', 'tset_away'), weights=(30, 30, 25, 15))[0]
+                c.__dict__.setdefault('inst_desk', []).append((kind, xx, zc + s * depth / 2, yaw))   # 原點＝坐的人正前方的桌緣，+z 往桌子裡面＝坐的人面向的方向
+                if c.rng.random() < 0.4:
+                    T = rot(xx, zs, yaw); (bx, bz) = T(0.36, -0.05)
+                    c.__dict__.setdefault('inst_bags', []).append((c.rng.randrange(3), bx, bz, yaw + c.rng.uniform(-0.5, 0.5)))
 
 
 def disc_room(c, cx, wbkey, tvside):
@@ -726,6 +772,7 @@ def finish(c):
     for m in c.extra.values(): m.finish(c.root, uv=False)
     for m in getattr(c, 'court_meshes', []): m.finish(c.root, uv=False, merge=False, smooth=(m.name.endswith('_core')))
     make_instances(c)
+    desk_items(c)
     L.merge_by_material(c.root, keep=lambda ob: ob.name.startswith('WALL_') or ob.name.startswith('INST_'), key=lambda ob: '')
     out = os.path.join(OUTDIR, f'{c.sid}.glb'); st = L.export(out, gpu_instances=True)
     tris = 0
