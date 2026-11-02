@@ -39,7 +39,7 @@ function CC-FindPython {
   if ($c) { return @($c.Source, '-3.12') }
   throw "python not found"
 }
-$Py = CC-FindPython
+$Py = @(CC-FindPython)   # @() so a single path is not unrolled into a string
 $PyExe = $Py[0]; $PyPre = @(); if ($Py.Count -gt 1) { $PyPre = $Py[1..($Py.Count-1)] }
 CC-Log "python: $($Py -join ' ')"
 
