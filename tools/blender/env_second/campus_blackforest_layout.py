@@ -70,9 +70,9 @@ def build():
                 if any(math.hypot(x - t['x'], z - t['z']) < MIN_TREE for t in trees): continue
                 r = rnd.random()
                 if r < 0.78:   # 榕樹：枝幹多、樹冠寬、深綠
-                    t = {'sp': 'banyan', 'h': round(6.4 * rnd.uniform(1.45, 1.95), 2), 'spread': round(rnd.uniform(1.15, 1.45), 2), 'dark': round(rnd.uniform(0.6, 0.72), 2), 'trunk': 0.7}
+                    t = {'sp': 'banyan', 'h': round(6.4 * rnd.uniform(1.45, 1.95), 2), 'spread': round(rnd.uniform(1.15, 1.45), 2), 'dark': round(rnd.uniform(0.5, 0.62), 2), 'trunk': 0.7}
                 else:          # 樟樹：直一點、高一點
-                    t = {'sp': 'camphor', 'h': round(6.4 * rnd.uniform(1.6, 2.1), 2), 'spread': round(rnd.uniform(1.0, 1.2), 2), 'dark': round(rnd.uniform(0.82, 0.92), 2), 'trunk': 0.5}
+                    t = {'sp': 'camphor', 'h': round(6.4 * rnd.uniform(1.6, 2.1), 2), 'spread': round(rnd.uniform(1.0, 1.2), 2), 'dark': round(rnd.uniform(0.66, 0.76), 2), 'trunk': 0.5}
                 t.update({'x': round(x, 2), 'z': round(z, 2), 'ry': round(rnd.uniform(0, 6.283), 3), 'seed': 900 + len(trees)}); trees.append(t)
     # 林下灌木、蕨類（Blender 模型；不擋導航——高 0.5～1.3 m，人可以從旁邊擠過去的那種密度）
     shrubs = []

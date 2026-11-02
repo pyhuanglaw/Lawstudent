@@ -15,6 +15,7 @@ import lib2 as L   # noqa: E402
 from lib2 import B, Mesh, g2b, bpy, Vector   # noqa: E402
 
 ARGS = sys.argv[sys.argv.index('--') + 1:] if '--' in sys.argv else []
+SHADE = 0.6   # BB_248 第 1 點「林下要暗」：林下的蕨類、灌木整體壓暗（地面、土徑、樹根用 L.pbr 的 target 顏色壓暗約 45%）
 OUT = ARGS[ARGS.index('--out') + 1] if '--out' in ARGS else 'assets/models/env/second_ai/campus_blackforest.glb'
 LAYOUT = ARGS[ARGS.index('--layout') + 1] if '--layout' in ARGS else os.path.join(L.ROOT, 'src', 'data', 'blackforest_layout.js')
 GEN = os.path.join(HERE, 'textures', 'gen')
@@ -33,7 +34,7 @@ def frond_tex(path, w=128, h=512, seed=3):
     for i in range(n):
         t = i / (n - 1); y = h * 0.96 - t * h * 0.92; L_ = (w * 0.46) * (math.sin(math.pi * min(1.0, 0.15 + t * 0.95)) * (1 - 0.55 * t))
         for s in (-1, 1):
-            g = int(rnd.uniform(70, 110)); col = (int(g * 0.42), g, int(g * 0.3), 255)
+            g = int(rnd.uniform(70, 110) * SHADE); col = (int(g * 0.42), g, int(g * 0.3), 255)
             pts = [(cx, y), (cx + s * L_ * 0.5, y - 9 - L_ * 0.12), (cx + s * L_, y - 6 - L_ * 0.2), (cx + s * L_ * 0.55, y + 2)]
             d.polygon(pts, fill=col)
     d.line([(cx, h * 0.98), (cx, h * 0.03)], fill=(70, 88, 40, 255), width=3)
@@ -41,18 +42,26 @@ def frond_tex(path, w=128, h=512, seed=3):
 
 
 def shrub_tex(path, w=256, h=256, seed=11):
-    """一叢矮灌木的葉片卡（11-02 第一版用 azalea_leaves 鋪滿整張卡＝遊戲裡看起來是方形綠箱子）：
-    透明背景上一個不規則的半圓形葉叢——幾百片小葉子（深綠、上緣幾片亮的），下面露幾根細枝，輪廓是一片一片葉子"""
+    """一叢矮灌木的葉片卡（11-02 第一版用 azalea_leaves 鋪滿整張卡＝方形綠箱子；第二版幾團葉子撐滿卡片寬度，交叉起來還是有幾叢看起來方方的（BB_248 第 2 點））：
+    第三版：透明背景上一個「圓頂」——外輪廓是下寬上窄的半橢圓，邊緣用幾十個小圓團咬出不規則的缺口，左右兩邊不碰到卡片邊（離邊 ≥ 12%），
+    上緣中間高、兩邊低；幾百片小葉子（深綠、上緣幾片亮的；林下整體壓暗 SHADE），下面露幾根細枝"""
     from PIL import Image, ImageDraw
     rnd = random.Random(seed); im = Image.new('RGBA', (w, h), (0, 0, 0, 0)); d = ImageDraw.Draw(im)
-    for k in range(7):   # 細枝
-        x0 = w * rnd.uniform(0.35, 0.65); d.line([(x0, h * 0.99), (x0 + rnd.uniform(-40, 40), h * rnd.uniform(0.55, 0.7))], fill=(58, 46, 32, 255), width=2)
-    blobs = [(w * rnd.uniform(0.22, 0.78), h * rnd.uniform(0.38, 0.62), w * rnd.uniform(0.17, 0.27)) for _ in range(6)]   # 幾團葉子組成的不規則輪廓
-    n = 0
-    while n < 1100:
-        x = rnd.uniform(0, w); y = rnd.uniform(h * 0.12, h * 0.9)
-        if not any((x - bx) ** 2 + ((y - by) * 1.15) ** 2 < br * br for bx, by, br in blobs): continue
-        top = 1.0 - y / h; g = rnd.uniform(48, 92) * (0.85 + 0.45 * top)
+    for k in range(6):   # 細枝
+        x0 = w * rnd.uniform(0.4, 0.6); d.line([(x0, h * 0.99), (x0 + rnd.uniform(-30, 30), h * rnd.uniform(0.6, 0.72))], fill=(40, 32, 22, 255), width=2)
+    cx, base = w * 0.5, h * 0.86
+    def inside(x, y):
+        rx, ry = w * 0.38, h * 0.62; u = (x - cx) / rx; v = (base - y) / ry
+        if v < 0 or u * u + v * v > 1.0: return False
+        return True
+    bites = [(cx + rnd.uniform(-0.45, 0.45) * w, base - rnd.uniform(0.2, 0.65) * h, rnd.uniform(0.04, 0.09) * w) for _ in range(14)]   # 輪廓上咬掉的缺口
+    n = 0; tries = 0
+    while n < 1000 and tries < 40000:
+        tries += 1; x = rnd.uniform(0, w); y = rnd.uniform(0, h)
+        if not inside(x, y): continue
+        rr = math.hypot((x - cx) / (w * 0.38), (base - y) / (h * 0.62))
+        if rr > 0.78 and any((x - bx) ** 2 + (y - by) ** 2 < br * br for bx, by, br in bites): continue
+        top = 1.0 - y / h; g = rnd.uniform(48, 92) * (0.85 + 0.45 * top) * SHADE
         if rnd.random() < 0.07 * (0.5 + top): g *= 1.45
         col = (int(g * 0.45), int(g), int(g * 0.32), 255)
         a = rnd.uniform(0, math.pi); L_ = rnd.uniform(5, 9); W_ = L_ * 0.42; ca, sa = math.cos(a), math.sin(a)
@@ -75,9 +84,9 @@ def build():
     root = B.group('campus_blackforest', props={'kind': 'campus_blackforest'})
     fpng = os.path.join(GEN, 'bf_fern_frond.png'); frond_tex(fpng)
     spng = os.path.join(GEN, 'bf_shrub_card.png'); shrub_tex(spng)
-    M = {'floor': L.pbr('bf_forest_floor', 'forest_leaves_02', tile=3.2, target='#4c4334', contrast=1.05, sat=0.8, normal=0.6, maps=('diff', 'nor'), rough_value=0.96),
-         'path': L.pbr('bf_dirt_path', 'forest_ground_04', tile=2.2, target='#6a5845', contrast=0.95, sat=0.75, normal=0.5, maps=('diff', 'nor'), rough_value=0.95),
-         'roots': L.pbr('bf_roots', 'chinese_hackberry_bark', tile=1.0, target='#7f7b70', sat=0.35, maps=('diff', 'nor'), res=256, rough_value=0.85, normal=0.8),
+    M = {'floor': L.pbr('bf_forest_floor', 'forest_leaves_02', tile=3.2, target='#2b261e', contrast=1.05, sat=0.8, normal=0.6, maps=('diff', 'nor'), rough_value=0.96),
+         'path': L.pbr('bf_dirt_path', 'forest_ground_04', tile=2.2, target='#3c3228', contrast=0.95, sat=0.75, normal=0.5, maps=('diff', 'nor'), rough_value=0.95),
+         'roots': L.pbr('bf_roots', 'chinese_hackberry_bark', tile=1.0, target='#4b4840', sat=0.35, maps=('diff', 'nor'), res=256, rough_value=0.85, normal=0.8),
          'fern': leaf_mat('bf_fern', fpng), 'shrub': leaf_mat('bf_shrub', spng)}
     fl, pa, rt, fe, sh = (Mesh('bf_floor', M['floor'], tile=3.2), Mesh('bf_paths', M['path'], tile=2.2), Mesh('bf_roots', M['roots'], tile=1.0),
                           Mesh('bf_ferns', M['fern']), Mesh('bf_shrubs', M['shrub']))
@@ -158,8 +167,8 @@ def build():
                             elif lp.vert is vb: lp[uvl].uv = (1.0, u)
             n_fern += 1
         else:
-            for k in range(3):
-                a = s['ry'] + math.pi * k / 3; ca, sa = math.cos(a), math.sin(a)
+            for k in range(4):
+                a = s['ry'] + math.pi * k / 4 + rnd.uniform(-0.25, 0.25); ca, sa = math.cos(a), math.sin(a); r = s['r'] * rnd.uniform(0.85, 1.15)
                 q = [(x - ca * r, -0.02, z - sa * r), (x + ca * r, -0.02, z + sa * r), (x + ca * r, h, z + sa * r), (x - ca * r, h, z - sa * r)]
                 vs = [sh.bm.verts.new(g2b(*c)) for c in q]; f = sh.bm.faces.new(vs)
                 uvl = sh.bm.loops.layers.uv.verify(); fl_ = rnd.random() < 0.5   # 整張葉叢卡（bf_shrub_card），一半左右翻
