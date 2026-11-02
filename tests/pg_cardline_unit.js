@@ -28,7 +28,7 @@ const sim=async(flags,setup,o)=>{ o=o||{}; const G=H.fresh('2029-06-02',8,'dorm'
   const until=PG.DK(o.until||'2029-12-15'); let it=0, err=null;
   try{
     for(it=0; it<150&&!G.flags.EPILOGUE_DONE&&G.day<until; it++){
-      const ns=PG.nextStop(G); for(const y of [2029,2030]){ const ex=PG.byId('exam_'+y); if(o.score!=null&&!PG.done(G,'exam_'+y)&&ex.cond(G)&&(PG.due(G)===ex||(ns!=null&&Math.abs(ns-ex.at(G))<1e-6))) H.picks=answerK(PG.draw(G,y),o.score); }
+      const ns=PG.nextStop(G); for(const y of [2029,2030]){ const ex=PG.byId('exam_'+y), sc=(y===2030&&o.score2030!=null)?o.score2030:o.score; if(sc!=null&&!PG.done(G,'exam_'+y)&&ex.cond(G)&&(PG.due(G)===ex||(ns!=null&&Math.abs(ns-ex.at(G))<1e-6))) H.picks=answerK(PG.draw(G,y),sc); }   /* score2030：2030 另外答幾題（使用者 2026-11-02 09:1x A4 取消 2030 保底）*/
       if(await y4(GM)) continue;
       if(OUT.due(G)){ H.picks=[0]; await OUT.tick(GM); }
       else { const s=PG.due(G); if(s) await PG.runStep(GM,s);
@@ -69,7 +69,7 @@ const md=c=>{ const x=CALENDAR.dateOf(c[2]); return x.m*100+x.d; }, yr=c=>CALEND
     const bad=r.lines.filter(t=>[L29.reg1,L29.b1,L29.pre,L29.e1,L29.pass,L29.fail,L29.e2].includes(t));
     check('B. 沒報名：不出「總圖 B1」那幾句（有報名、考試的句子都不出）；出「畢業以後的第一個禮拜……」',!r.err&&!bad.length&&r.lines[0]===L29.noreg1&&new Set(r.lines).size===r.lines.length,JSON.stringify(r.cards)+(r.err?r.err.stack:'')); }
   // ===== C. 2029 一試沒過 =====
-  { const r=await sim({BAR_REG:true,LAWCLUB_SAT_VISITS:10},null,{score:5,until:'2030-12-14'});
+  { const r=await sim({BAR_REG:true,LAWCLUB_SAT_VISITS:10},null,{score:5,score2030:13,until:'2030-12-14'});   /* 2030 答對 13：A4 以後 2030 要真的過 12 題才有二試（原本 5 題也保底進）*/
     const i=r.lines.indexOf(L29.other), c=r.cards[i];   /* 這個模擬沒有載入 r2y4b3d.js（9/8 重考的選擇、10/20 的摘要日），9/7 放榜以後一跳就到 12/14：照「最後一句」出十一月那句（九月那句見 E 節的 9/7→10/20）*/
     check('C. 一試沒過：9/7→12/14 一跳出最後一段（十一月）那一句；不出一試過了、考了二試、沒報名的句子',!r.err&&i>=0&&c&&md(c)===1214&&!r.lines.includes(L29.pass)&&!r.lines.includes(L29.e2)&&!r.lines.includes(L29.noreg9)&&r.G.flags.BAR_STAGE_2029==='none',JSON.stringify(r.cards)+(r.err?r.err.stack:''));
     const L2=r.lines.filter(t=>Object.values(L30).includes(t));
