@@ -38835,7 +38835,7 @@
       "title": "職涯落點 v2：careerLean、律師家族保證、研究所改成作答",
       "area": null,
       "owner": "LAWWW",
-      "status": "進行中",
+      "status": "已實作待整合",
       "priority": "P0",
       "next": "見 docs/handoff/D118_PLAN.md 第 4 節 D118-B6",
       "first": {
@@ -38852,7 +38852,7 @@
       "authorized": "使用者直接指派（X151）；D111 LAWWW 遊戲總監",
       "parent": "STUDY-EXAM-SYS-1102",
       "notes": "依賴：AA：L_firm 結局稿、研究所考場台詞；B5a（法服旗標）；工時：LAWWW 2.5h；BB 30 分鐘；BB 驗收：大四上存檔（傾向 C、報國考）→ 一路到 2030-10-01 → 第一份工作是律師的卡。另一份存檔報研究所，筆試照作答，答 7 題錄取、答 3 題落榜，尾聲分別正確。約 30 分鐘。",
-      "note": "2026-11-02 09:5x 子代理 a7de3d0b1 施工中（AA_582@14ce865f0）；不進今晚版本。"
+      "note": "2026-11-02 09:5x 子代理 a7de3d0b1 施工中（AA_582@14ce865f0）；不進今晚版本。 ｜13:5x 子代理 a7de3d0b1 交件 88c684187（AA_582 補充二：應屆規則、JUDGE_YEAR＝錄取年、J_trainee、研究所考場與放榜字）、a68258ea6（CC_25 三件，AA_582 補充三）；LAWWW 合進 int/next1102（下一版，wip_backup bundle 503ad1ea5）；863 支 unit 860 ALL PASS＋3 支預期格式；待 BB 測。"
     },
     {
       "id": "D118-B7-1102",
@@ -38882,7 +38882,7 @@
       "title": "司法官二試、三試、重考：六條路線",
       "area": null,
       "owner": "LAWWW",
-      "status": "進行中",
+      "status": "已實作待整合",
       "priority": "P0",
       "next": "見 docs/handoff/D118_PLAN.md 第 4 節 D118-B8",
       "first": {
@@ -38899,7 +38899,7 @@
       "authorized": "使用者直接指派（X151）；D111 LAWWW 遊戲總監",
       "parent": "STUDY-EXAM-SYS-1102",
       "notes": "依賴：使用者回答 user_decisions 第 1、2 題；AA 的路線稿（aa_asks 第 4 項）；B7；工時：LAWWW 3h；BB 2h；BB 驗收：情境 S2（主驗收）：大四下存檔 → 報名 → 國考總複習 → 一試作答 → 二試作答 → 放榜 → 三試或重考選擇 → 第一份工作 → 尾聲。(b)、(c→e)、(d)、(f) 四條各走一次，全程不用 turbo。每條約 30 分鐘，共約 2 小時，可以交給 CC 執行，由 BB 判定 PASS／FAIL。",
-      "note": "2026-11-02 09:5x 子代理 a7de3d0b1 施工中（AA_582@14ce865f0）；不進今晚版本。 二試題池照 AA_583@b76dd619e（使用者 09:5x 經 AA：從已核對題庫用程式篩事例題，不出新題；每年民3刑3公2訴2；排除當年一試、重考年換題；AI_CROSS_REVIEWED／Y4_CROSS_REVIEWED 算已核對）。"
+      "note": "2026-11-02 09:5x 子代理 a7de3d0b1 施工中（AA_582@14ce865f0）；不進今晚版本。 二試題池照 AA_583@b76dd619e（使用者 09:5x 經 AA：從已核對題庫用程式篩事例題，不出新題；每年民3刑3公2訴2；排除當年一試、重考年換題；AI_CROSS_REVIEWED／Y4_CROSS_REVIEWED 算已核對）。 ｜13:5x 子代理 a7de3d0b1 交件 88c684187（AA_582 補充二：應屆規則、JUDGE_YEAR＝錄取年、J_trainee、研究所考場與放榜字）、a68258ea6（CC_25 三件，AA_582 補充三）；LAWWW 合進 int/next1102（下一版，wip_backup bundle 503ad1ea5）；863 支 unit 860 ALL PASS＋3 支預期格式；待 BB 測。"
     },
     {
       "id": "D118-B9-1102",
@@ -39896,6 +39896,37 @@
         "parallel": true,
         "confirmed": true
       }
+    },
+    {
+      "id": "BUG-DAY12-FASTPC-1102",
+      "title": "R4 flow_main_day12 在使用者電腦失敗：第二天阿哲以後被 goDay2 帶進 201、測試把整堂課點完（LAWWW 讀碼判斷＝測試時序，待 CC 用 main 對照）",
+      "area": "TEST",
+      "owner": "BB",
+      "status": "進行中",
+      "priority": "P0",
+      "first": {
+        "term": "Y1S1",
+        "week": 1,
+        "earliest": "第一、二天主線",
+        "mainline": true,
+        "blocks": false,
+        "prereq": false,
+        "parallel": true,
+        "confirmed": true
+      },
+      "source": "LAWWW-B 10-23 v9.10.6 發布前清單",
+      "authorized": "D100（測試歸 BB）",
+      "next": "CC 用使用者電腦跑線上 main 對照；main 也失敗＝測試修（進 classroom 停止點對話，交給 taken_over）；main 通過＝LAWWW 從遊戲追",
+      "xai": {
+        "spec": "BB 13:32 訊息",
+        "branch": "claude/cc-testing",
+        "acceptance": "main 對照結果＋BB 判定",
+        "receiver": "BB",
+        "ack": "SENT"
+      },
+      "notes": "2026-10-23 20:4x LAWWW-B：BB-B 第四版 patch（BB 分支 89ed11a99）整合進 tests/flow_main_day12.py、TESTING.md 第〇節加「沙盒太慢時劇情照設計接手」、第七節加一列。結果 28 PASS、0 FAIL、2 項 [未驗]（第二天走樓梯到 201：劇情接手）；發布照第〇節寫「未驗（劇情接手）」。附帶觀察（12:30 以後空下來 1.5 秒就帶走、可能比 13:20 早）：維持現行設計（AA_294 ①「時間到了直接帶去」；BB 沒實際抓到提早，發布前不動第二天開場）。",
+      "evidence": "BB-B 第四版（BB 分支 89ed11a99；lw18 bac2e55df 非 turbo 負載 29，20:10 跑完）：flow_main_day12 28 PASS、0 FAIL、2 項 [未驗]（第二天走樓梯到 201：劇情接手 13:16）；整合 7480c24b2",
+      "note": "BB 13:32 P0；LAWWW 13:4x 分析送 BB／CC：d75871437→b1b249873 遊戲檔沒動第二天；空下來 1.5 秒（真實時間）就 goDay2；測試 wait_story 繼續 advance_dialogs。v9.10.16 在 BB 判定前不合併 main。"
     }
   ]
 }
