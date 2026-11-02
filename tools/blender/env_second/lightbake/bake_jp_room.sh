@@ -24,7 +24,8 @@
 #   6：天光 2.4、吸頂燈 32 W → 白天房間中間 0.8～1.0、窗前地上 0.2～0.3（窗台擋住）、門口 0.4～0.6；晚上燈下 0.85、門口 0.3。
 #     遊戲內：白被子烘成灰色、一塊一塊；白天白衣櫃和門的中段一塊橘色。
 #   7、8：被子不烘；光照貼圖彩度減半 → 被子白、衣櫃不橘；白天窗簾一條一條深色。
-#   9（定案）：窗簾也不烘。
+#   9：窗簾也不烘。遊戲內和烘焙前比（整張畫面平均）：白天暗 7～10%、偏冷（藍減紅多 9～13）；晚上暗 8～11%、顏色差不多。
+#   10（定案）：白平衡 白天 1.14／1.08／0.92、晚上 1.12／1.09／1.02（偏暖、亮約 8%；彩度減半在白平衡後面，所以偏暖的量給大一點）。
 # --hide：窗玻璃。
 # 彩度減半（to_webp.py 第 4 個參數）：木地板、木門、木衣櫃互相反射，白色衣櫃門的光照貼圖偏橘（第六版遊戲內白天衣櫃、門中段一塊橘色）。
 # --nolm（照舊即時光）：被子、枕頭（jp_room_cloth：第六版烘出來灰色、一塊一塊，白被子看起來髒）、窗簾（WALL_N_curtain：第八版白天烘出來一條一條深色的皺褶）、燈的發光面、筆電螢幕、頂點色的小東西（jp_room_props：檯燈、筆電、筆筒、盆栽、鞋、熱水壺、行李箱……上千個小島，
@@ -50,7 +51,7 @@ LIGHTS="0,0,-0.4,-0.4,2.40,1,1,${CEILW:-32},0.4,0.4,$LCOL"
 POINTS="0,2.20,-0.4,${UPW:-2},$LCOL,0.2;-0.97,1.10,-1.05,${LAMPW:-3},1.0,0.82,0.6"
 /opt/blenv/bin/python tools/blender/env_second/lightbake/bake_room.py -- --in "$PLAIN" --out "$OUTDIR/jp_room.glb" \
   --lm "$TMP/jp" --url assets/models/env/second_ai/jp_room_lm --res "$RES" --samples "$SAMPLES" --hide "$HIDE" --nolm "$NOLM" \
-  --sun 180,${SUNEL:-40},0 --sky "${SKY:-2.4}" --lights "$LIGHTS" --points "$POINTS" --daylights "${DAYL:-0.4}" --smooth 2 --shell N --drop BAKEONLY --knee "${KNEE:-0.9,1.4}"
+  --sun 180,${SUNEL:-40},0 --sky "${SKY:-2.4}" --lights "$LIGHTS" --points "$POINTS" --daylights "${DAYL:-0.4}" --smooth 2 --shell N --drop BAKEONLY --knee "${KNEE:-0.9,1.4}" --daywb ${DAYWB:-1.14,1.08,0.92} --nightwb ${NIGHTWB:-1.12,1.09,1.02}
 python3 tools/blender/env_second/lightbake/to_webp.py "$TMP/jp" "$OUTDIR/jp_room_lm" 90 "${SAT:-0.5}"
 /opt/blenv/bin/python tools/blender/env_second/lightbake/lm_fix_hidden.py -- --in "$OUTDIR/jp_room.glb" --out "$OUTDIR/jp_room.glb" --lm "$OUTDIR/jp_room_lm"
 if [ "$OUTDIR" = "assets/models/env/second_ai" ]; then cp "$TMP/jp.json" tools/blender/env_second/lightbake/jp_room_lm.json; else cp "$TMP/jp.json" "$OUTDIR/jp_room_lm.json"; fi   # 試烘到別的資料夾時不覆蓋 repo 裡定案那一份
