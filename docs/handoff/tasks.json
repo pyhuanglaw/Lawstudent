@@ -39802,6 +39802,22 @@
         "ack": "ACK",
         "acceptance": "29 張卡進遊戲、cue 不洩題"
       }
+    },
+    {
+      "id": "AUTO-RESUME-HOURLY-1102",
+      "title": "5 小時用量上限解除後自動接續：五個工作階段各自每小時一次排程（使用者 10:5x 選）",
+      "owner": "LAWWW",
+      "status": "已整合待測試",
+      "priority": "P1",
+      "note": "排程 id 見 user_asks_LAWWW UA-LAWWW-1102-22；第一次真的碰到用量上限時觀察能不能接起來，不行再調整。不要再加重複的排程。",
+      "first": {
+        "term": "ALL",
+        "earliest": "開發流程",
+        "mainline": false,
+        "blocks": false,
+        "parallel": true,
+        "confirmed": true
+      }
     }
   ]
 }

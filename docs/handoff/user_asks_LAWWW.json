@@ -1986,6 +1986,15 @@
       "status": "進行中",
       "task": "CAMPUS-RELAYOUT-1102",
       "note": "舊社科院位置那棟叫電機二館（LAWWW2 建議）；電機一館照官方地圖的相對位置也蓋，LAWWW2 系館重排時一起做"
+    },
+    {
+      "id": "UA-LAWWW-1102-22",
+      "at": "2026-11-02T10:50",
+      "quote": "有辦法設定5小用量到達 四位AI停止後 用量限制解除 自動繼續做嗎 → 選擇題：五個各自每小時一次",
+      "kind": "選擇題答案",
+      "status": "已完成",
+      "task": "AUTO-RESUME-HOURLY-1102",
+      "note": "10:51 建好五個每小時排程（LAWWW trig_01WqEgbbq2VjstnVcJePRKXa、AA trig_01Gs1X6fU3cVNnAyuA26KnRZ、BB trig_01JiSn2Muiwyh4omtacX6Tp4、LAWWW2 trig_01PZ1NbK8H7GTeNrK3Q9bHLh、CC trig_01KdQxKoyn2pQZKW5xXLM8ir；每小時 :51）；被中斷才接續，沒中斷就讀通知後結束。還沒在真的用量上限時驗證過"
     }
   ]
 }
