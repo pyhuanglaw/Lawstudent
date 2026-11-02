@@ -1,0 +1,48 @@
+diff --git a/src/classes3d.js b/src/classes3d.js
+index 86fc2eaf0..ea9767327 100644
+--- a/src/classes3d.js
++++ b/src/classes3d.js
+@@ -407,7 +407,7 @@ const CLS=(function(){
+     {x:-7.0,z:-5.3,lv:1,say:'二樓的長桌不用預約，晚上很搶。插座在桌子底下。'},
+     {x:10.6,z:5.6,lv:1,say:'研究小間要上網預約，兩個人以上才能借。'},
+     {x:10.8,z:-6.0,lv:1,say:'三樓比較安靜。講話請到樓梯間。',up:true},
+-    {x:0,z:3.2,lv:0,say:'以上。法律的書在四樓以上，這學期在整理，下學期再帶你們上去。',zone:'library'} ];
++    {x:0,z:4.4,lv:0,say:'以上。法律的書在四樓以上，這學期在整理，下學期再帶你們上去。',zone:'library'} ];   /* LIB-3F-1102 第二版：最後一站 (0, 4.4)（第一版 (0, 3.2) 在第二版的科技中文書架上）*/
+   S.runLibTour=async function(GM,a){ const G=GM.G, E=GM.E, A=ACTIVITIES.rec(G).att, k=a.id+'@'+G.day; A[k]={h:+(G.hour%24).toFixed(2),end:'left'};
+     if(hr(G)<a.t0){ await GM.fade(true); GM.advance(a.t0-hr(G)); await GM.fade(false); }
+     const D19=(()=>{ for(let d=1;d<30;d++){ const x=CALENDAR.dateOf(d); if(x.m===9&&x.d===19) return d; } return -1; })(), withAn=G.day===D19&&!(G.flags.plan==='library'&&G.flags.afternoonDone);
+@@ -421,7 +421,7 @@ const CLS=(function(){
+     const waitFor=async(cond,maxS)=>{ let t=0; while(!cond()){ await GM.sleep(300); t+=0.3; if(G.zone!==zone0&&!E._tourMove){ left=true; return false; } if(far()) farT+=0.3; else farT=0; if(farT>40){ left=true; return false; } if(maxS&&t>maxS) return true; } return true; };
+     spawnCrew(TOUR[0].x,TOUR[0].z,0); GM.caption('館員',TOUR[0].say,5000); await waitFor(near,20);
+     for(let i=1;i<TOUR.length&&!left;i++){ const st=TOUR[i];
+-      if(st.zone){ E._tourMove=true; GM.caption('','（你們跟著館員從樓梯間上三樓。）',2400); try{ await GM.enter(st.zone,{x:0,z:7,yaw:Math.PI}); } finally { E._tourMove=false; } if(GM.G.zone!==st.zone){ left=true; break; } zone0=st.zone; spawnCrew(0.8,5.6,0); }
++      if(st.zone){ E._tourMove=true; GM.caption('','（你們跟著館員從樓梯間上三樓。）',2400); const sp=(typeof LIBRARY_LAYOUT!=='undefined'&&LIBRARY_LAYOUT.reading&&LIBRARY_LAYOUT.reading.spawnFromStairs)?Object.assign({},LIBRARY_LAYOUT.reading.spawnFromStairs):{x:0,z:7,yaw:Math.PI};   /* 3F 的樓梯間（第一版南牆 (0,7)；LIB-3F-1102 第二版東牆 (10.6,−6)，src/library_3f_v2.js 寫回 reading.spawnFromStairs）*/ try{ await GM.enter(st.zone,sp); } finally { E._tourMove=false; } if(GM.G.zone!==st.zone){ left=true; break; } zone0=st.zone; { const dx=0-sp.x, dz=-4-sp.z, dl=Math.hypot(dx,dz)||1; spawnCrew(sp.x+dx/dl*1.5-dz/dl*0.8,sp.z+dz/dl*1.5+dx/dl*0.8,0); } }
+       let arrived=false; if(!E.moveTo(lib,st.x,st.z,()=>{ arrived=true; },st.lv)){ if(E.placeAt) E.placeAt(lib,st.x,st.z,st.lv); arrived=true; }
+       await waitFor(()=>arrived,60); if(left) break; lib.pose=lib.idlePose='idle'; if(GM.face) GM.face(lib,E.player.obj.position.x,E.player.obj.position.z);
+       await waitFor(near,90); if(left) break; GM.caption('館員',st.say,5200); await GM.sleep(2600); }
+diff --git a/src/data/pool_story.js b/src/data/pool_story.js
+index acf8b8be8..cd0bfaee8 100644
+--- a/src/data/pool_story.js
++++ b/src/data/pool_story.js
+@@ -69,7 +69,7 @@ const POOL_STORY=(function(){
+       where:[ {days:WD,from:12,to:13,zone:'campus',act:'wander',near:[-40,0],noHoliday:true,desc:'走路很快的男生',label:'椰影大道'} ] },
+     pool_9:{ card:'喜歡聽 podcast', personality:'', place:'總圖',
+       model:'char.npc_nf7', props:[],   /* 耳機一邊戴一邊不戴沒有 */
+-      where:[ {days:WD,from:13,to:17,zone:'library',act:'read',seatAt:[5.6,-3.9],noHoliday:true,desc:'坐窗邊的人',label:'總圖三樓，窗邊'} ] },   /* 閱覽室（3F）的窗在後牆（z −8）：最靠窗那一排的位子 */
++      where:[ {days:WD,from:13,to:17,zone:'library',act:'read',seatAt:[10.55,1.6],noHoliday:true,desc:'坐窗邊的人',label:'總圖三樓，窗邊'} ] },   /* 閱覽室（3F）的窗在後牆（z −8）：最靠窗那一排的位子。LIB-3F-1102 第二版（src/library_3f_v2.js）：東側靠窗的閱覽桌 (10.55, 1.6)；第一版的 (5.6, −3.9) */
+     pool_10:{ card:'助教的學弟，想做研究', before:'常在總圖問助教問題的同學', personality:'', place:'總圖',
+       model:'char.npc_nm1', props:['notebook_q'],   /* 寫滿問題的筆記本＝notebook_q（NPC-POOL-ART-1028）*/
+       where:[ {days:WD,from:14,to:16,zone:'library',act:'read',noHoliday:true,desc:'常跟助教說話的男生',label:'總圖，陳助教旁邊那一桌'} ] },   /* 陳助教平日 14～18 在閱覽室（npc_ta_chen 的作息）；SOCIAL_GRAPH pool_10—npc_ta_chen＝坐她旁邊的位子（story3d.js 的 friendSeat）*/
+diff --git a/src/pool_more3d.js b/src/pool_more3d.js
+index e70c99e9f..c225ad2e1 100644
+--- a/src/pool_more3d.js
++++ b/src/pool_more3d.js
+@@ -67,7 +67,7 @@ const POOL_MORE=(function(){
+       {days:WD,from:19,to:21,zone:'campus',act:'linger',at:[97.5,-95,PI,0],terms:['Y3S2'],weeks:[16],pri:true,desc:'背吉他袋的女生',label:'法律系館B旁邊'} ],   /* 4-4 她畢業那一週 */
+     [ZY]:[ {days:WD,from:14,to:18,zone:'library_hall',act:'read',terms:['Y2S1'],weeks:[15],pri:true,noHoliday:true,desc:'騎腳踏車超快的男生',label:'總圖，念書'},   /* 5-4 大二上期末前一週（在總圖）*/
+       {days:WD,from:8,to:18,zone:'campus',act:'linger',at:[-117,3.6,-PI/2,0],terms:['Y3S2'],weeks:[16],pri:true,desc:'騎腳踏車超快的男生',label:'校門口，牽著車'} ],   /* 5-5 畢業那一週，校門口 */
+-    [YS]:[ {days:WD,from:13,to:15,zone:'library',act:'read',seatAt:[-2.4,1.5],terms:['Y2S2'],weeks:[16],pri:true,desc:'愛睡覺的男生',label:'總圖三樓'} ],   /* 4-5 畢業那一週：那張桌子（桌上的紙條在 (−2.4,0.6)）*/
++    [YS]:[ {days:WD,from:13,to:15,zone:'library',act:'read',seatAt:[-3.0,7.25],terms:['Y2S2'],weeks:[16],pri:true,desc:'愛睡覺的男生',label:'總圖三樓'} ],   /* 4-5 畢業那一週：那張桌子（桌上的紙條在 (−2.4,0.6)）*/   /* LIB-3F-1102 第二版：南側長桌 (−3.0, 7.25)；第一版 (−2.4, 1.5) */
+     [M]:[ {days:[6],from:12,to:12.5,zone:'wancai',act:'linger',at:[1.9,1.6,-PI/2,0],terms:['Y1S2'],weeks:[12,13,14,15],pri:true,if:{custom:G=>typeof STORY!=='undefined'&&!!STORY.fafuDuty&&STORY.fafuDuty(G)},desc:'法服攤位那個人',label:'法律系館B一樓，值班結束'} ],   /* 5-3：值班的週六 12:00（值班結束）*/
+     [H]:[ {days:[4],from:8.5,to:10,zone:'linze',act:'linger',at:[4.6,2.6,PI/2,0],dates:[['2028-10-26','2028-10-26']],pri:true,desc:'常跟助教說話的男生',label:'法律系館A一樓，等推甄面試'} ] };   /* 1-6 推甄面試那天 */
+   for(const B of [B2,B3,B4]) if(B) P.extend(B,null);
