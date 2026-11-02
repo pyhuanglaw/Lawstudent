@@ -113,6 +113,16 @@
    "src": "使用者直接問 BB-C",
    "note": "v9.10.12（main d5ca27b89，2026-10-28 04:46 UTC 發布）有：BB-C 05069d928 瀏覽器驗 7 種 PASS（以安、語彤、男生朋友、第二次、跳過、手機約；短片裡兩個人都沒背包、演完包回來），候選 562a5ead9／rc3b d6694cad0 這段程式沒動。已修 056851057、待 BB 瀏覽器驗（5p：以安、語彤、男生朋友各一次看三個鏡頭；工具 test_tools/badclip_bag_probe.py）。羽球小短片（badminton_clip3d.js）祐廷、對手背著包打球＝缺漏；BB-C 22:4x 回答並轉 LAWWW-C（BUG-BADCLIP-BACKPACK-1027）；LAWWW-C 修成 CHAR.carryOff（056851057，tests/badclip_bag_unit.js），驗收照 BB_TEST_QUEUE_1027 5p：以安、語彤、男生朋友各一次看三個鏡頭",
    "wants": "X117"
+  },
+  {
+   "id": "UA-BB-1102-01",
+   "at": "2026-11-02T03:4x",
+   "quote": "我決定調整 Law Student 的讀書、法律考試、國考與職涯結局系統。你是測試總監，這次的主要責任是確保修改後的遊戲真的符合我的玩法要求，而不只是程式測試通過。核心驗收原則：Law Student 不是每天唸書打卡的遊戲。（節錄；全文：BB_222 第 0 節）",
+   "kind": "原話",
+   "status": "進行中",
+   "task": "STUDY-EXAM-CAREER-1102",
+   "src": "BB（帳號 A，session_01XVHYLaK9Vcnae3U1aAJoZv）對話",
+   "note": "四大項：法律學習與考試九條（不讀書可玩、三週沒讀書沒有隱藏懲罰、一鍵總複習、考前集中學、學習進度、教材找得到答案、答案和教材一致、成績看答題、答對多不能被判低分）；法律服務社不刷任務；國考與職涯六條路線；回歸五類。報告分已實作／測試通過／測試失敗／尚未實作／待其他職位交付。總表 id 由值班 LAWWW 登記，BB 先用 STUDY-EXAM-CAREER-1102"
   }
  ]
 }
