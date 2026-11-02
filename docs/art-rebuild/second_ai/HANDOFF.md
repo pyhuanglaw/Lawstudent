@@ -1,65 +1,57 @@
 # LAWWW2 交接紀錄（隨時更新；工作階段中斷時從這裡接）
 
-## 🔨 現在在做（11-02 18:3x 更新）：使用者 P0「總圖」——B1 第四版（18:1x 新糾正）＋一樓二樓 version 2 收尾 → LIB-FRONT v3.1 → 3F → 效能 → v3.2
-- **⛔ 使用者 18:1x 直接糾正（UA-LAWWW2-1102-10，P0）**：「自習室的桌椅太擠了吧…很寬敞」「桌椅的方向…跟進門的門應該是平行的，不是垂直」。
-  - B1 第三版**不交件**；第四版 WIP `b0ffd9c05`（`wip/library_b1_v4/`）：
-    - A 區正門搬到西段南牆、B 區門搬到南牆，桌子東西向＝和門平行；
-    - 兩排雙面、排距 5 m、桌間 2 m 走道；自習室 101 → 72 位。
-  - patch：座位、芯慈／明軒 seatAt、測試（library_b1_unit 新第 8 項：第三版 FAIL、第四版 PASS）；Node 9 支 ALL PASS。
-  - **18:4x 已交件**（`54d6e41c1`；`patches/library_b1_v4_1102.patch`＋三個二進位；README `test_shots/library_b1_v4_1102/`）：截圖 8 張（照片對照、第三版 vs 第四版、20:30 有同學），已給使用者看；LAWWW、BB 都送了（等 ACK）。
-  - 還沒跑：`reachability_all(library_b1)`，排在 `run_q2b.sh` 第一項（一樓二樓重拍之後）。
-  - LAWWW ACK（18:14）：第四版連座位 patch 一起交，基準用 int/next1102 最新 `48918ca20`（`wip_backup/next1102_1102.bundle`）。B1 v4、大廳 v2、3F、兩個 tests patch 都在 48918ca20 上 `apply --check` 過。BB ACK（18:14）：BB_236 等第四版截圖。
-- **測試要不要交給 BB 用使用者的電腦跑（UA-LAWWW2-1102-11，等使用者決定）**：
-  - 我的回答：慢的瀏覽器測試交出去值得。
-  - BB 同意。條件：①我在自己的遠端分支放一個「已套好 patch、可以直接跑」的 SHA；②CC 要先確認使用者電腦的 runner 抓得到 `claude/second-ai-env-art`（目前只抓 cc-testing 和開發分支），抓不到要等 v9.10.16 發布後再加。
-  - 在那之前照舊在雲端跑。
-- **已交件、已整合**（LAWWW ACK）：LIB-FRONT 第三版 int/next1102 `3caff35d9`；B1 第二版 `3e6855649`；campus_glb_integration tests patch `eb3920914`。
+## 🔨 現在在做（11-02 19:1x 更新）：使用者 P0「總圖」——一樓二樓 version 2 交件中 → LIB-FRONT v3.1 → 3F → 效能 → v3.2
+- **B1**：
+  - 第四版 `54d6e41c1` 已交件，LAWWW 已整合（int/next1102 `5627d9453`）。BB_242：配置方向 ACCEPT，美術要做 4.1。
+  - **4.1 已交件 `cca10dd55`**：
+    - 長條桌、1 m 木牆裙、椅子和隔板加深、A 區方柱 2→1，自習座位 72→76。
+    - 排距照使用者 18:4x 對 LAWWW 說的「B1 排距維持 4.4 m 就好」（UA-LAWWW-1102-26）。
+    - patch 兩份：incr（第四版 → 4.1，在 `1a5110e07` 上 apply --check 乾淨）、完整版（`3e6855649` → 4.1）。
+    - 測試：Node 9 支 ALL PASS；reachability_all(library_b1) ALL PASS（109 個互動點）。
+    - README：`test_shots/library_b1_v41_1102/`。
+  - 交件訊息已送 LAWWW、BB，等 ACK。BB 會拿照片對照問使用者，使用者點頭才標 ART_APPROVED。
+  - 還沒做：⑥ 烘焙（排到使用者電腦）。
 - **一樓＋二樓 version 2**（worktree `scratchpad/devwt_i`＝`3e6855649`＋patch）：
-  - 測試：Node 92 支 ALL PASS；reachability_all 1142 點 ALL PASS；zone_transitions 37 ALL PASS；flow_library_floors ALL PASS；flow_library_scene ALL PASS（17:30，測試改成推搖桿以後）。
-  - stairs_cam_browser：另交 tests patch（`SHOT_JS` 參數），修正後的第二版、第一版重跑在佇列。
-  - flow_lib_tour：圓窗館合照的選單（tests patch 處理）以後，第二版走完全程、記成 full；只剩「七站的話依序都出現」是 []。
-    - 原因：館員的話只顯示 5 秒，測試跟著走的時候輪詢不到。改成在頁面裡記 caption（devwt_i 的 tests/flow_lib_tour.py，標準不變），重跑排在佇列最後（run_q3.sh）。
-  - **17:4x 發現展演廳弧牆還是一片一片的平三角**（README 第四節寫「修好了」是錯的，交件前要改）。
-    - 原因：`library_hall_v2.py` 的 `facet_quad` 兩面的頂點順序反了，室內那一面法線朝外。烘焙把它當成背對室內、收成一點；遊戲裡是雙面材質，看到的就是那一點的光。
-    - 已修：`eb4f984eb`。3F 的人文庫弧牆同一個問題，一起修了。
-    - 重烘：`scratchpad/lh2bake2`，17:48 開始，nice 19。
-    - 烘完以後：
-      1. `lib1102/wall_orient.py` 查方向；
-      2. lm_probe；
-      3. 複製到 repo 和 devwt_i，`touch lh2bake2/READY`；
-      4. 佇列自動重拍 13 張（`lib1102/lh2shots2`，多了一樓、二樓俯視）；
-      5. `lib1102/make_lh2_grids.py` 產生 README 第二、三節的圖；
-      6. 改第四節，交件。
-- **B1 第三版**：
-  - GLB 已推（`eb4f984eb`）；README 第二、三、六節寫好了（`test_shots/library_b1_v3_1102/`）；Node 3 支 ALL PASS。
-  - 「有同學」的截圖第一次一個人都沒有，兩個原因：
-    - fast_shots 第一張藏了路人，同一個區域後面幾張也沒人；
-    - B1 的背景同學晚上 8 點以後才來。
-  - 改成 20:30、另一批拍（佇列第一項）→ `make_b1v3_grids.py npc` → 第四節 → 交件。
-- **LIB-FRONT v3.1**：截圖、campus_layout_nav、reachability（campus）在佇列（`wip/lib_front_v31`）。
+  - 展演廳弧牆重烘以後，13 張重拍完（18:52），沒有 JS 例外。
+  - README 第二、三節寫好（`e286112dd`）：照片對照、改前改後、新鏡頭、弧牆前後。
+  - patch 重產：在 b1b249873、a5935aa30、3e6855649、48918ca20 上 apply --check 都乾淨。
+  - Node 92 支用最後的 GLB 重跑：ALL PASS（19:00）。
+  - **在拍**：俯視圖重拍（第一次拍到天花板，這次把天花板、燈框藏起來）、從大廳拍展演廳的廣角（`lh2shots2/top.json`）。
+  - 拍完以後：
+    1. `make_lh2_grids.py` 加 `plans_vs_game`；
+    2. README 第二節補平面圖對照；
+    3. outbox；
+    4. 交件給 LAWWW、BB。
+  - flow_lib_tour 的 caption 修正以後，第二版、第一版重跑排在佇列最後（`run_q3.sh`）。跑完重產 `flow_lib_tour_l3_1102.patch`。
+- **LIB-FRONT v3.1**（devwt_k）：改前、改後截圖 → campus_layout_nav → reachability(campus)，在佇列 `run_q2d.sh`，接在俯視圖後面。
 - **LIB-3F-1102**（WIP `477c6cbb1`，`wip/library_3f_v2/`）：
-  - 整份 patch 接在 `3e6855649`＋大廳第二版上，8 個檔；單元測試 15 項 ALL PASS。
-  - 「看桌上的紙條」「看期刊架」兩個互動點搬到第二版的位置，照 `L3F.active()` 選。
-  - `attach()` 接光照貼圖；烘焙腳本 `bake_library_3f_v2.sh` 寫好了。
-  - 下一步：大廳烘完以後烘 3F → 瀏覽器測試（floors、scene、lib_tour、reachability_all、學姊總圖 unit、seats）→ 截圖 → README → 交件。
+  - 烘焙中（`scratchpad/lib3f/bake1`）：白天烘好（mean 0.139），晚上在烘。
+  - 烘完以後：
+    1. lm_probe、wall_orient；
+    2. 複製到 devwt_n；
+    3. 截圖（`run_3fshots.sh` 排在佇列）；
+    4. floors、scene、lib_tour、reachability_all、學姊總圖 unit、seats；
+    5. README；
+    6. 交件。
 - **背景佇列**（`scratchpad/lib1102`，一支接一支，不同時跑瀏覽器）：
-  1. `run_v31.sh`：導覽、樓梯鏡頭修正後重跑；
-  2. `run_q2.sh`：stairsfix 跑完就接手——B1 有人截圖 → 大廳重拍（等 READY）→ v3.1 截圖 → campus_layout_nav → reachability(campus)；
-  3. `run_seatsdbg.sh`；
-  4. `run_3fshots.sh`；
-  5. `run_q3.sh`（導覽 caption 修正後重跑）。
+  - `run_q2d.sh`：俯視圖重拍 → v3.1 改前／改後 → campus_layout_nav → reachability(campus) → all done；
+  - 接著：`run_seatsdbg.sh` → `run_3fshots.sh` → `run_q3.sh`。
   - 結果寫在 `v31shots/RESULTS.txt`、`lh2flows/RESULTS2.txt`。
-- **CAMPUS-RELAYOUT-1102 筆記**：電機一館在化學館東邊、小椰林道西側、蒲葵道北邊（官方地圖約 (1100,555)，約 1.43 m／px）；電機二館＝遊戲 (112,−62) 舊社科院那棟。
+- **TEST-OFFLOAD-1102**（UA-LAWWW2-1102-11，暫停）：
+  - 要不要把慢的瀏覽器測試交給 BB／CC 用使用者的電腦跑，由使用者決定。
+  - 條件：CC 的 runner 要抓得到 `claude/second-ai-env-art`，而且要等 v9.10.16 發布以後。
+  - 已請 LAWWW 開任務（19:0x）。在那之前照舊在雲端跑。
+- **CAMPUS-RELAYOUT-1102**：提案在 `wip/campus_relayout/README.md`（舊社科院那棟＝電機二館）。排在總圖那一串、PERF-CAMPUS-GLB、v3.2 後面。
 - **延後**：
   - us_market 第三版（`abd76acab`）交件、jp_room 第十版（`568a44330`）交件；
-  - FAIR-TENT-CAM-1102 → DORM1-WALL-SEAM-1102 → PUTONG101-WINDOW-1102；
-  - B1 ④ 牆面、⑤ 烘焙。
+  - FAIR-TENT-CAM-1102 → DORM1-WALL-SEAM-1102 → PUTONG101-WINDOW-1102。
 - **scratchpad worktree**：
   - chk_b1b：乾淨 `b1b249873`；
   - devwt_h：`a5935aa30`＋tests patch；
   - devwt_i：`3e6855649`＋v2；
   - devwt_k：`3e6855649`＋v3.1＋B1 v3 GLB；
   - devwt_n：`3e6855649`＋v2＋3F；
+  - devwt_p：`3e6855649`＋B1 4.1；
   - devwt_j／devwt_m：jp_room、us_market。
 
 ## ✅ 接班（最新）：2026-11-02 03:3x UTC｜帳號 A｜LAWWW2｜`session_01AC1WVgJSmoJK1uRsPK2Zn1`｜分支 `claude/second-ai-env-art`
