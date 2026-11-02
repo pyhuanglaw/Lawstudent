@@ -1,25 +1,25 @@
 # LAWWW2 交接紀錄（隨時更新；工作階段中斷時從這裡接）
 
-## 🔨 現在在做（11-02 16:3x 更新）：使用者 P0「總圖」——一樓＋二樓 version 2 收尾 → B1 第三版 → LIB-FRONT v3.1 → 3F → 效能 → v3.2（BB 15:46、LAWWW 15:34 定的順序）
+## 🔨 現在在做（11-02 17:0x 更新）：使用者 P0「總圖」——一樓＋二樓 version 2 收尾 → B1 第三版 → LIB-FRONT v3.1 → 3F → 效能 → v3.2（BB 15:46、LAWWW 15:34 定的順序）
 - **已交件、已整合**（LAWWW ACK）：
   - LIB-FRONT 第三版：int/next1102 `3caff35d9`；
   - B1 第二版：`3e6855649`；
   - campus_glb_integration tests patch：`eb3920914`。
-- **一樓＋二樓 version 2**（worktree `scratchpad/devwt_i`＝int/next1102 `3e6855649`＋patch＋GLB）：
-  - 改後截圖抓到展演廳兩個錯，都修好、重烘（16:2x）lm_probe 全過：
-    - 地板、天花板的扇形面寫反；
-    - 兩側弧牆東西寫反：dir 朝外 → 朝室內的面縮成一點，鏡頭在裡面反而把牆淡出。
-  - `library_hall_lightmap_unit` 加「牆的 dir 朝房間裡面」：舊 GLB FAIL、新的 PASS。
-  - 最後的 GLB＋光照貼圖＋patch 已推（`2b86395e8`，還沒交件）。
-    - patch 在 b1b249873、a5935aa30、3e6855649 都 apply 乾淨；
-    - Node 92 支 ALL PASS。
-  - 瀏覽器流程（`scratchpad/lib1102/lh2flows/RESULTS.txt`）：
-    - floors ALL PASS；
-    - scene 一項 FAIL：走到台階書牆的樓梯中段時走過頭上了二樓，當時在烘焙、搶 CPU。這批跑完要單獨重跑。
-    - lib_tour、stairs_cam、zone_transitions、seats_on_furniture、reachability_all 在跑。
-  - **下一步**：
-    - 流程跑完 → 重跑 scene；
-    - 重拍改後 11 張（加了展演廳裡面、晚上）→ `next1102/make_lh2_grids.py` → README 第二、三、六節 → outbox → 交件。
+- **一樓＋二樓 version 2**（worktree `scratchpad/devwt_i`＝int/next1102 `3e6855649`＋patch＋最後的 GLB `2b86395e8`）：
+  - Node 92 支：ALL PASS（16:46，最後的 GLB）。
+  - reachability_all：29 區、1142 個互動點 ALL PASS。
+  - zone_transitions：ALL PASS（37）。
+  - flow_library_floors：ALL PASS。
+  - flow_library_scene：第一次 FAIL，是我寫的測試錯了。點在樓梯上＝走完整跑（#42），所以點地面停不在樓梯中段；改成推搖桿，判斷標準不變。patch 已重產（三個 base 都 apply 乾淨），還要重跑。
+  - stairs_cam_browser：鏡頭檢查全過；「沒有 JS 例外」FAIL。
+    - 原因是測試本身原本就有的錯：`SHOT_JS` 寫 `(e,clip)`，但呼叫時傳的是 `[e, False]`，`E.placeAt(P,undefined)` 把人物座標變成 undefined，之後每次自動存檔都丟例外。
+    - 會不會報錯要看 45 秒的自動存檔有沒有剛好落在那一段，第一版 16:48 那次沒碰到。
+    - 另交 `patches/stairs_cam_browser_shotjs_1102.patch`（三個 base 都 apply 乾淨），重跑排在佇列裡。
+  - flow_lib_tour：A 段失敗。人物在一樓 (2, −2) 遇到一個三選項、沒有台詞的選單（場景已開始），測試照慣例點第一個，人物就跑到校園 (−97, −16)，遊戲時間 15:59。
+    - 正在用 `scratchpad/lib1102/tourdebug3.py` 查是哪一段開的（印出選項文字、`D.busyWho`）。
+    - 第一版的對照在跑。
+  - seats_on_furniture：這台沙盒沒有它直接 `launch()` 要的 headless shell，改用預裝 Chromium（`scratchpad/lib1102/pwexec.py`，不改測試），排在佇列裡。
+  - 佇列（自動接著跑）：tour3 → seats → scene 重跑 → 改後 11 張 → B1 第三版改前／改後 → stairs 修正重跑（第二版、第一版）→ v3.1 截圖、campus_layout_nav、reachability（campus）。
 - **B1 第三版**（BB_236，WIP 推了；`wip/library_b1_v3/README.md`）：
   - 已改：
     - 細紋淺橡木（`fine_grained_wood`）；
