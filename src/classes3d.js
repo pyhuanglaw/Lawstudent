@@ -105,7 +105,7 @@ const CLS=(function(){
   S.dayItems=function(G,day){ if(day==null) day=G.day; if(typeof CALENDAR==='undefined'||CALENDAR.holiday(day)) return []; if(typeof STORY!=='undefined'&&STORY.abroad&&STORY.abroad(Object.assign({},G,{day}))) return [];   /* 交換期間人在國外：台灣的課不排（src/exchange3d.js）*/ if(!(t0=>t0&&/^Y0/.test(t0.id))(CALENDAR.termOf(day))){ const ls=typeof STORY!=='undefined'&&STORY.lawStart?STORY.lawStart(G):1, m1=typeof STORY!=='undefined'&&STORY.mainD1?STORY.mainD1(G):1; if(day<ls||(day===m1&&ls===m1)) return []; }   /* 經濟系大一（Y0，負的天數）照常排課（v0）；法律系：這一局開始那天（STORY.lawStart：舊存檔與現在的開局＝第 1 天，開局 B＝第 −16 天 8/31，D91）以前的課不排；從第 1 天開始的局，9/17 白天的課在遊戲開始（21:12）之前，不排、不算沒去（使用者 2026-10-15：「第一天就有一個刑法課顯示沒去？」）*/ const t=CALENDAR.termOf(day); if(!t) return []; const wd=CALENDAR.dateOf(day).wd; const out=[];
     const R0=G.courses&&typeof G.courses==='object'?G.courses:null;
     for(const c of S.termCourses(G,t.id)){ if(c.weeks&&!c.weeks.includes(t.week)){ const att=R0&&R0.attend?(R0.attend[c.id]||0):0; if(!(c.makeupWeeks&&c.makeupWeeks.includes(t.week)&&att<c.weeks.length)) continue; }   /* 只有某幾週的課（服務學習：AA_110 6-1）；次數不夠時補做週也排 */
-     for(const s of c.slots){ if(s.wd!==wd) continue; const b=B(s.block); out.push({c,slot:s,t0:b.t0,t1:b.t1,day,key:day+':'+c.id+':'+s.block,room:COURSES.rooms[c.room]||{},week:t.week,exam:c.kind==='service'||S.noExam(c)?null:t.exam,term:t.id}); } }   /* 沒有考試的課（題庫標 exam:'none'：大四下法律專題研究、法律實習）期中期末週照常上課（AA_327 2-Y4-41：5/28 第 15 週是專題研究最後一堂）*/
+     for(const s of c.slots){ if(s.wd!==wd) continue; const b=B(s.block); out.push({c,slot:s,t0:b.t0,t1:b.t1,day,key:day+':'+c.id+':'+s.block,room:COURSES.rooms[c.room]||{},week:t.week,exam:S.isExamCourse(c)?t.exam:null,term:t.id}); } }   /* D118-B1：只有考五題的法律課有考試；其他課（國文、英文、通識、體育、經濟系那一年、服務學習、法律專題研究、實習）考試週照常上課、算出席——原本是照讀書次數給旁白的假考試、而且那一堂不算出席 */   /* 沒有考試的課（題庫標 exam:'none'：大四下法律專題研究、法律實習）期中期末週照常上課（AA_327 2-Y4-41：5/28 第 15 週是專題研究最後一堂）*/
     if(t.exam&&S.isExamCourse){   /* 考五題的法律課：考試週只考一次（AA_130 第 3-2 節第 2 點）——那門課在考試週的第一堂不是假日的課；兩週都放假就補一堂（S.examDay）*/
       for(let i=out.length-1;i>=0;i--){ const it=out[i]; if(!it.exam||!S.isExamCourse(it.c)) continue; const d=S.examDay(G,it.c,t.id,t.exam); if(d&&d.day===day&&d.block===it.slot.block) it.examMain=true; else out.splice(i,1); }
       for(const c of S.termCourses(G,t.id)){ if(!S.isExamCourse(c)||out.some(it=>it.c===c)) continue; const d=S.examDay(G,c,t.id,t.exam); if(!d||!d.makeup||d.day!==day) continue; const b=B(d.block);
@@ -514,8 +514,8 @@ const CLS=(function(){
   /* 回傳：null＝沒有給選單（放假、沒有課）；{course}＝選了一科；{notes:true}＝整理這週的筆記（不挑一科）；{extra:i}＝選了 extra 的第 i 項（game3d.js：研究所準備）*/
   S.studyPick=async function(GM,extra){ const G=GM.G; const t=CALENDAR.termOf(G.day); if(!t) return null; const cs=S.termCourses(G,t.id).filter(c=>c.kind!=='service'&&(c.kind!=='general'||c.id.startsWith('ge_'))); if(!cs.length) return null;   /* 通識（ge_*）可以自學；國文、英文、體育不列 */
     const nx=S.next(G); cs.sort((a,b)=>(nx&&a===nx.c?-1:0)-(nx&&b===nx.c?-1:0));
-    const ex=extra||[], opts=ex.concat(cs.slice(0,6).map(c=>({t:c.name,hint:'這週：'+(S.topic(c,t.week)||'')}))); opts.push({t:'整理這週的筆記（不挑一科）'}); const i=await GM.choose(opts);
-    if(i<ex.length) return {extra:i}; if(i>=ex.length+cs.slice(0,6).length) return {notes:true};
+    const ex=extra||[], opts=ex.concat(cs.map(c=>({t:c.name,hint:'這週：'+(S.topic(c,t.week)||'')}))); opts.push({t:'整理這週的筆記（不挑一科）'}); const i=await GM.choose(opts);
+    if(i<ex.length) return {extra:i}; if(i>=ex.length+cs.length) return {notes:true};   /* D118-B1：列出全部的課（原本最多 6 門，大二 6 門課＋重修時重修課選不到）*/
     const c=cs[i-ex.length]; const R=S.rec(G); R.prep[c.id]=(R.prep[c.id]||0)+1+(S.hasBook(G,c)?1:0); R.lastStudy={day:G.day,id:c.id,name:c.name}; return {course:c}; };   /* 有那一科的教科書：多一分準備（SYS-BOOKS-1018）*/   /* lastStudy：今天念了哪一科（Café 的學姊問「今天念了什麼？」，BB_120 1-1）*/
   // ---------- 期末考（使用者 2026-10-14 16:15、17:10；企劃分支 AA_126 1-5、AA_130 第 3 節）----------
   /* 考五題的課＝題庫對照表（EXAM_BANK.courseMap）寫 exam:'mc5' 的法律課；非法律課照出席、不考五題（AA_126 1-4）；法律專題研究、實習是 NO_EXAM。
@@ -526,7 +526,8 @@ const CLS=(function(){
   S.EXAM_WEEKS={mid:[8,9],final:[16]};   /* 16 週制（AA_197 1-6）：期末只有第 16 週 */
   /* 進教室時黑板的字（BUG-EXAM-BOARD-1021，BB 10-21 16:51）：今天這間教室還沒考完的期中／期末考＝和坐下開始考的時候一樣的三行；沒有＝null（story3d.js 照星期幾的表）*/
   S.examBoard=function(G,zone){ const h=hr(G), R=S.rec(G); const it=S.dayItems(G).find(x=>x.exam&&x.room&&x.room.zone===zone&&h<x.t1&&!(R.done&&R.done[x.key])); return it?[it.c.name+'：'+(it.exam==='mid'?'期中考':'期末考'),'不可以翻書','鈴響請停筆']:null; };
-  S.isExamCourse=c=>!!c&&typeof EXAM_BANK!=='undefined'&&!!EXAM_BANK.courseMap[c.id]&&EXAM_BANK.courseMap[c.id].exam==='mc5';
+  S.redoOf=id=>{ const c=typeof COURSES!=='undefined'&&COURSES.list?COURSES.list.find(x=>x.id===id):null; if(!c||!c.redo) return null; const o=COURSES.list.find(x=>x.id===c.redo); return o?{id:o.id,term:o.term}:null; };   /* D118-B1：日本路線的補修（civpro_2_re、insurance_re）考原課（大三下那一門）的題庫——原本只上課、成績照讀書次數（AA_144 X4，D118 取代）*/
+  S.isExamCourse=c=>{ if(!c||typeof EXAM_BANK==='undefined') return false; const id=c.redo&&S.redoOf(c.id)?c.redo:c.id; return !!EXAM_BANK.courseMap[id]&&EXAM_BANK.courseMap[id].exam==='mc5'; };
   /* 看出席的課（D43／AA_126 1-4：國文、英文、通識、體育、日文、經濟學原理）：每學期出席三堂才及格，不到三堂不及格；成績單寫及格／不及格。服務學習照舊只記次數 */
   S.ATT_PASS=3;
   S.attCourse=c=>!!c&&!S.isExamCourse(c)&&(c.kind==='general'||c.kind==='elective'||/^econ_principles_\d$/.test(c.id));
@@ -560,7 +561,7 @@ const CLS=(function(){
     if(courseId==='crimpro'&&termId==='Y3S1'&&typeof QBANK!=='undefined') for(const q of QBANK) if(q.complete!==false) out.push(Object.assign({},q,{course:'crimpro',term:'Y3S1',status:'USER_CONFIRMED'}));   /* 刑訴：使用者的 QBANK（沒有週次＝全部）*/
     return out; };
   const okStatus=(q,termId)=>termId==='Y4S1'||termId==='Y4S2'?q.status==='Y4_CROSS_REVIEWED':(q.status==='USER_CONFIRMED'||q.status==='AI_CROSS_REVIEWED');   /* 大一～大三的 AI 補題（exam_ai，使用者 2026-10-16 授權、10-18「下一個版本就要放進去」）：只用來補到 5 題 */
-  S.examPool=function(courseId,termId,kind){ const maxW=kind==='mid'?7:15;   /* 16 週制：期末考範圍到第 15 週（AA_198：原本第 16 週的題目範圍改到第 15 週）*/ const cls=[], bank=[], ai=[]; termId=S.rtTerm?S.rtTerm(courseId,termId):termId;   /* 重修：原本那一學期的題庫 */
+  S.examPool=function(courseId,termId,kind){ const maxW=kind==='mid'?7:15;   /* 16 週制：期末考範圍到第 15 週（AA_198：原本第 16 週的題目範圍改到第 15 週）*/ const cls=[], bank=[], ai=[]; termId=S.rtTerm?S.rtTerm(courseId,termId):termId; { const rd=S.redoOf(courseId); if(rd){ courseId=rd.id; termId=rd.term; } }   /* 重修：原本那一學期的題庫 */
     for(const q of S.examQuestions(courseId,termId)){ if(!okStatus(q,termId)) continue; if(q.scopeWeek!=null&&+q.scopeWeek>maxW) continue; if(q.status==='AI_CROSS_REVIEWED'){ ai.push(q); continue; } const asked=(q.askedIn&&(q.askedIn.course||courseId)===courseId&&(!q.askedIn.term||q.askedIn.term===termId))||q.source==='CLASS_DISC'; (asked?cls:bank).push(q); }
     return {cls,bank,ai}; };   /* 抽題順序（exam_ai/README.md 第 3 節）：課堂題 → 使用者的正式題庫 → AI 題 */
   const hashStr=str=>{ let h=2166136261>>>0; for(let i=0;i<str.length;i++){ h^=str.charCodeAt(i); h=Math.imul(h,16777619)>>>0; } return h>>>0; };
@@ -622,7 +623,7 @@ const CLS=(function(){
   S.reportFor=function(G,termId){ const R=S.rec(G); const g={}; for(const c of S.termCourses(G,termId)){ if(c.kind==='service') continue;
       if(S.isExamCourse(c)){ const e=(R.exam||{})[termId+':'+c.id+':final']; const p=S.examPool(c.id,termId,'final'); g[c.id]=e&&e.status==='done'?e.score+' 分':e&&e.status==='insufficient'?'未開考':(p.cls.length+p.bank.length+p.ai.length<5?'未開考':'缺考'); if(S.failedIn&&S.failedIn(G,termId).includes(c)) g[c.id]+=S.retakeTermAfter(G,termId)?'（不及格，下學期重修）':'（不及格）'; continue; }   /* D42 */   /* BB 退件 GRADE-NOBANK（10-21）：原本寫「未開考（題庫不足）」＝開發用語給玩家看到；而且沒考的課算題數時漏了 AI 補的題（抽題照課堂→使用者題目→AI 補到 5 題），憲法、民訴甲上被說成題庫不足——其實是缺考。題數不夠的原因只在 ?dev（CLS.examShort）*/   /* 未開考：不算不及格、不算進書卷獎、不擋畢業（AA_130 第 3-2 節第 4 點）*/
       if(S.attCourse(c)){ g[c.id]=(R.attend[c.id]||0)>=S.ATT_PASS?'及格':('不及格'+(S.retakeTermAfter(G,termId)?'（下學期重修）':'')); continue; }   /* D43：出席三堂（舊存檔已經發過的成績單照舊：R.grades 已經存了就不重算）*/
-      g[c.id]=S.gradeOf(R.prep[c.id]||0); } return g; };   /* 服務學習只記次數，不進成績單（AA_110 6-1）*/
+      g[c.id]=S.noExam(c)?'通過':'及格'; } return g; };   /* D118-B1：剩下的課（法律專題研究、法律實習＝通過；經濟系那一年的必修＝及格）不照讀書次數（原本 S.gradeOf(R.prep)）*/   /* 服務學習只記次數，不進成績單（AA_110 6-1）*/
   // ---------- 選課結果（AA_104 第 2 節、AA_110 第 4 點）----------
   /* 新學期第一週的前一天早上，讓玩家選這學期的選修：同一組二選一；choice.none＝可以不修（大一下的法律與社會）。預設的那一門排第一。
      錯過前一天（開學頭兩週才第一次起床）就在那時候問；第三週以後才第一次起床（舊存檔）＝照預設，不再問。大一上沒有選課（遊戲從第 3 週開始，AA_103）。 */
