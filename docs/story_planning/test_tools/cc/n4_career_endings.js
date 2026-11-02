@@ -106,9 +106,14 @@ const SAVES=[
         if(typeof PG.judgeVerdict!=='function'){ tag('both（司法官二試資格）→ 司法官一律未錄取，沒有 J 結局'); }   /* 舊版（沒有 judgeVerdict）：照舊記錄，當對照 */
         else {   /* LAWWW 改版（D118-B8 以後，BB 11:09）：both 而且重考二試答對 10 題＝走得到 J 結局才算通過；另加反向：重考只答對 4 題不能是 J */
           const keep=JSON.stringify(F), y=F.BAR_STAGE_2029==='both'?2029:2030;
-          F['JUDGE_SCORE2_'+y]=10; F['JUDGE_PASS_'+y]=PG.judgeVerdict(G,y,10); F.JUDGE_RETAKE=true; F.JUDGE_RETAKE_Y=y+1;
-          const ok=PG.judgeVerdict(G,y+1,10); if(ok){ F.JUDGE_YEAR=y+1; } const pj=PG.path(G);
-          if(F['JUDGE_PASS_'+y]!==false||!ok||!/^J_/.test(pj)) tag('both（司法官二試資格）→ 司法官一律未錄取，沒有 J 結局');
+          /* 5ce715c51（AA_582 補充二）起：畢業那一年一定沒上（gradYear），之後看題數；JUDGE_YEAR＝錄取那一年（考試的隔年）。
+             舊規則（judgeSatBefore：第一次一定沒上）的版本照舊走「重考」那條 */
+          const gy=typeof PG.gradYear==='function'?PG.gradYear(G):null, first=PG.judgeVerdict(G,y,10);
+          F['JUDGE_SCORE2_'+y]=10; F['JUDGE_PASS_'+y]=first; let ok;
+          if(gy!=null&&y>gy){ ok=first; if(ok) F.JUDGE_YEAR=y+1; }
+          else { if(first!==false) tag('both 畢業那一年（或舊版第一次）卻判錄取'); F.JUDGE_RETAKE=true; F.JUDGE_RETAKE_Y=y+1; ok=PG.judgeVerdict(G,y+1,10); if(ok) F.JUDGE_YEAR=gy!=null?y+2:y+1; }
+          const pj=PG.path(G);
+          if(!ok||!/^J_/.test(pj)) tag('both（司法官二試資格）→ 司法官一律未錄取，沒有 J 結局');
           for(const k0 of Object.keys(F)) delete F[k0]; Object.assign(F,JSON.parse(keep));
           F['JUDGE_SCORE2_'+y]=4; F['JUDGE_PASS_'+y]=PG.judgeVerdict(G,y,4); F.JUDGE_RETAKE=true; F.JUDGE_RETAKE_Y=y+1;
           const lo=PG.judgeVerdict(G,y+1,4); if(lo){ F.JUDGE_YEAR=y+1; } const pl=PG.path(G);
