@@ -1,0 +1,14 @@
+﻿{
+    "id":  "00_gpu",
+    "sha":  "5506d6259",
+    "kind":  "gpu",
+    "script":  "tools/cc_local/gpu_check.py",
+    "env":  "",
+    "machine":  "MSI",
+    "start":  "2026-11-02T18:03:23",
+    "end":  "2026-11-02T18:04:41",
+    "seconds":  78,
+    "exit":  0,
+    "error":  null,
+    "url":  "http://127.0.0.1:8800/index.html"
+}
