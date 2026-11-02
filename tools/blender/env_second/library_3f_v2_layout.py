@@ -87,6 +87,11 @@ def build():
     F.append({'type': 'room', 'id': 'disc344', 'x0': -9.2, 'x1': -5.6, 'z0': -17.0, 'z1': -14.6, 'label': '討論室 344'})
     F.append({'type': 'room', 'id': 'disc346', 'x0': 5.6, 'x1': 9.2, 'z0': -17.0, 'z1': -14.6, 'label': '討論室 346'})
     L['furniture'] = F
+    # 窗：西、東、南三面（每 2.4 m 一扇；東牆避開樓梯間門和電梯）。Blender 開窗洞、遊戲在窗外放景（views/library_3f_*）
+    zs = [round(Z0 + 1.6 + 2.4 * k, 2) for k in range(11) if Z0 + 1.6 + 2.4 * k + 0.9 < Z1 - 0.3]
+    xs = [round(X0 + 1.4 + 2.4 * k, 2) for k in range(10) if X0 + 1.4 + 2.4 * k + 0.9 < X1 - 0.3]
+    L['windows'] = {'y0': 0.95, 'y1': 3.05, 'hw': 0.85, 'west': zs,
+                    'east': [z for z in zs if abs(z - STAIR_DOOR['z']) > 1.6 and not (ELEV['z0'] - 1.0 < z < ELEV['z1'] + 1.0)], 'south': xs}
     L['seats'] = [{'x': s[0], 'z': s[1], 'yaw': round(s[2], 4), 'label': s[3]} for s in seats]
     # 第一版 → 第二版的座標對照（劇情、作息寫死的位置；patch 一起改）
     L['seatMap'] = [{'what': '學姊（story3d.js:303，seats[2]）', 'v1': [-2.4, -3.9], 'v2': seats[2][:2]},

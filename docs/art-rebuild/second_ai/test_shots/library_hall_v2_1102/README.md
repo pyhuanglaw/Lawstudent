@@ -129,7 +129,7 @@
 | `reachability_all`（全部 29 區） | ALL PASS | 1142 個互動點、13 個劇情走路目的地、76 個出入口；總圖大廳 71 個互動點，3F 26 個 |
 | `zone_transitions` | ALL PASS（37 項） | |
 | `flow_library_floors` | ALL PASS | |
-| `flow_library_scene` | （重跑中） | 見下面 1 |
+| `flow_library_scene` | ALL PASS（13 項；改測試以後重跑） | 見下面 1。樓梯中段：推搖桿 8 次，停在 (0.10, −9.35)、高 2.14 m、第 0 層，劇情還沒開始；走上二樓劇情才開始，兩個人走到座位坐下，走路保險 0 次，沒有 JS 例外 |
 | `stairs_cam_browser`（`?turbo`） | 鏡頭檢查全過；「沒有 JS 例外」看下面 2 | 大廳：樓梯上被樓板擋住 0／256（關掉修正 16／256）；電梯 0／11（關掉修正 3／11） |
 | `seats_on_furniture`（總圖大廳、3F） | 總圖大廳 66 個座位，有問題 0。3F：見右欄 | 這台沙盒沒有這支測試直接 `launch()` 要的 headless shell，改用預裝的 Chromium 跑（`executablePath`；測試本身不改）。3F（`library`）那一區丟了例外，被測試吞掉了，沒印原因，所以沒量到，補跑中。這一包沒有動 3F |
 | `flow_lib_tour` | A 段 FAIL；**第一版（base）一樣 FAIL** | 見下面 3 |
@@ -139,7 +139,7 @@
    - 但遊戲的規則是點在一跑樓梯上就走完整跑（engine3d.js，任務 #42），所以點地面永遠停不在半路，人一路走上二樓，劇情就開始了。
    - 改成和玩家一樣：先點地面走到樓梯口，鏡頭轉向樓梯，再推搖桿上到 2 m 以上就放開。
    - 判斷標準不變：高度 1.5～3.5 m、劇情還沒開始。
-   - 改在這個 patch 裡。
+   - 改在這個 patch 裡；重跑 ALL PASS。
 2. **`stairs_cam_browser` 的「沒有 JS 例外」**：是測試本身原本就有的錯，和第二版無關。
    - `SHOT_JS` 寫成 `((e,clip)=>…)`，但呼叫時傳的是 `[e, False]`（page.evaluate 只傳一個參數）。所以 `e` 拿到整個陣列，`E.placeAt(P, undefined, undefined)` 把人物的座標變成 undefined。
    - 之後每次自動存檔，`snapshot()` 的 `P.x.toFixed` 都會丟例外。

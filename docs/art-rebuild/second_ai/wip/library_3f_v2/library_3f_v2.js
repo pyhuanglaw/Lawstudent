@@ -44,8 +44,8 @@ const L3F=(function(){
     wallBox(fb,walls,B.x0,B.z0-T,R.open.x0,B.z0,H,[0,0,1],wallM); wallBox(fb,walls,R.open.x1,B.z0-T,B.x1,B.z0,H,[0,0,1],wallM);
     wallBox(fb,walls,B.x0,B.z1,B.x1,B.z1+T,H,[0,0,-1],wallM); wallBox(fb,walls,B.x0-T,B.z0,B.x0,B.z1,H,[1,0,0],wallM);
     const SD=L.stairDoor, EL=L.elevator; wallBox(fb,walls,B.x1,B.z0,B.x1+T,SD.z-SD.w/2,H,[-1,0,0],wallM); wallBox(fb,walls,B.x1,SD.z+SD.w/2,B.x1+T,B.z1,H,[-1,0,0],wallM);
-    // 人文庫：弧牆（不淡出：在北牆外面）＋玻璃門
-    const arc=new THREE.Mesh(new THREE.CylinderGeometry(R.r+0.1,R.r+0.1,H,40,1,true,-Math.PI/2,Math.PI),M('#e6dccb',{side:THREE.BackSide})); arc.position.set(R.cx,H/2,R.cz); fb.add(arc);
+    // 人文庫：弧牆（不淡出：在北牆外面；three.js 圓柱 x＝sinθ、z＝cosθ，θ π/2～3π/2＝北半邊）＋玻璃門
+    const arc=new THREE.Mesh(new THREE.CylinderGeometry(R.r+0.1,R.r+0.1,H,40,1,true,Math.PI/2,Math.PI),M('#e6dccb',{side:THREE.BackSide})); arc.position.set(R.cx,H/2,R.cz); fb.add(arc);
     const door=new THREE.Mesh(new THREE.PlaneGeometry(R.open.x1-R.open.x0,2.4),glassM); door.position.set(R.cx,1.2,B.z0-0.02); fb.add(door);
     // 家具
     for(const f of L.furniture){ const add=(w,h,d,x,y,z,mat)=>{ const m=new THREE.Mesh(new THREE.BoxGeometry(w,h,d),mat); m.position.set(x,y,z); fb.add(m); return m; };
@@ -66,6 +66,12 @@ const L3F=(function(){
       fadeWalls(cam){ for(const w of walls){ const toCam=new THREE.Vector3().subVectors(cam.position,w.userData.center||w.position); const facing=toCam.dot(w.userData.dir)>0; w.material.opacity=facing?1:0.12; w.material.depthWrite=facing; } },
       onLamps(on){ for(const l of lights) l.intensity=on?l.userData.on:l.userData.off; } };
     fallback(L,g,fb,walls,walkMeshes);
+    // 窗外的景（遊戲裡拍的照片＋視差，W3.windowMat；第一版 3F 也是 views/library_3f）：每一扇窗外面一片，窗的位置照配置（Blender 開的窗洞同一份）
+    const WN=L.windows, wins=[]; if(WN&&typeof W3!=='undefined'&&W3.windowMat){ const ww=2*WN.hw, wh=WN.y1-WN.y0, wy=(WN.y0+WN.y1)/2;
+      const add=(x,z,ry)=>{ const m=new THREE.Mesh(new THREE.PlaneGeometry(ww,wh),W3.windowMat(45)); m.position.set(x,wy,z); m.rotation.y=ry; m.userData.dyn=true; g.add(m); wins.push(m); };
+      for(const z of WN.west) add(B.x0-0.16,z,Math.PI/2); for(const z of WN.east) add(B.x1+0.16,z,-Math.PI/2); for(const x of WN.south) add(x,B.z1+0.16,Math.PI); }
+    let night0=null; zone.applyTime=function(h){ const night=(h%24<6||h%24>=19.2); if(night===night0) return; night0=night; for(const w of wins) W3.setWindowView(w.material,'library_3f',night,null,0xffffff); };
+    zone.applyTime(12);
     for(const [x,z] of [[-6,-12],[6,-12],[-6,-3],[6,-3],[-6,5],[6,5],[0,-19.5]]){ const l=new THREE.PointLight(0xfff2dc,6,16,2); l.position.set(x,H-0.4,z); l.userData.on=10; l.userData.off=6; g.add(l); lights.push(l); }
     // 座位：順序照配置（seats[2]＝學姊）
     zone.seats=L.seats.map(s=>({x:s.x,z:s.z,yaw:s.yaw}));
@@ -84,14 +90,16 @@ const L3F=(function(){
     // 指標（中文字：正式模型沒有字）
     for(const s of L.signs){ const sp=new THREE.Mesh(new THREE.PlaneGeometry(s.w,s.w*0.18),new THREE.MeshBasicMaterial({map:TK.signTex(s.text,{bg:'#24303a',color:'#f3efe4'})})); sp.position.set(s.x,s.y,s.z); sp.rotation.y=s.ry||0; g.add(sp); }
     // 正式模型
-    zone.formal=false; if(typeof ASSETS!=='undefined'&&ASSETS.manifest['bldg.library_3f_v2']){ ASSETS.loadOne('bldg.library_3f_v2').then(c=>{ if(!c||!c.scene||E.zone!==zone) return; attach(zone,c.scene.clone(true),fb,walls,walkMeshes); zone.formal=true; }).catch(e=>console.warn('總圖 3F 第二版正式模型載入失敗，用程序化備用模型',e)); }
+    zone.formal=false; if(typeof ASSETS!=='undefined'&&ASSETS.manifest['bldg.library_3f_v2']){ ASSETS.loadOne('bldg.library_3f_v2').then(c=>{ if(!c||!c.scene||E.zone!==zone) return; attach(zone,c.scene.clone(true),fb,walls,walkMeshes,E); zone.formal=true; }).catch(e=>console.warn('總圖 3F 第二版正式模型載入失敗，用程序化備用模型',e)); }
     return zone; }
-  function attach(zone,root,fb,walls,walkMeshes){ const LMS=root.userData&&root.userData.lightmap;
+  function attach(zone,root,fb,walls,walkMeshes,E){ const LMS=root.userData&&root.userData.lightmap;
     root.traverse(o=>{ if(o.isMesh){ o.castShadow=false; o.receiveShadow=true; if(o.material&&/ceiling/.test(o.material.name)&&typeof TK!=='undefined'&&!LMS) TK.bounce(o.material,0.5,0.5); } });
     zone.group.add(root); root.updateMatrixWorld(true); const nw=[];
     root.traverse(o=>{ if(o.isMesh&&/WALL_/.test(o.name)){ o.material=o.material.clone(); o.material.transparent=true; const d=o.userData.dir||[0,0,1]; o.userData.dir=new THREE.Vector3(d[0],d[1],d[2]); o.geometry.computeBoundingBox(); o.userData.center=o.geometry.boundingBox.getCenter(new THREE.Vector3()).applyMatrix4(o.matrixWorld); nw.push(o); } });
     const hid=new THREE.MeshBasicMaterial({visible:false}); for(const m of walkMeshes){ m.material=hid; m.userData.dyn=true; zone.group.attach(m); }
-    fb.visible=false; walls.length=0; for(const w of nw) walls.push(w); }
+    fb.visible=false; walls.length=0; for(const w of nw) walls.push(w);
+    /* 書架（2.1 m 高）擋住玩家時網點透空（engine3d.js 的樹幹透視；大廳第二版的書架同一套）*/
+    zone.seeThru=true; root.traverse(o=>{ if(!o.isMesh) return; for(const m of [].concat(o.material)){ if(!m||m.userData.seeThrough||!/l3_books|l3_vcm|l3_walnut/.test(m.name||'')) continue; m.userData.seeThrough=true; if(E&&E.patchSeeThrough) E.patchSeeThrough(m); } }); }
 
   // 接手 zones3d.js 的 library（第二版的配置有載入才換）
   if(LAY()&&typeof Z3!=='undefined'&&Z3.ZONES&&Z3.ZONES.library){ const Z=Z3.ZONES.library; Z.buildV1=Z.build; Z.build=build; Z.name='總圖書館 3F 閱覽區'; }
