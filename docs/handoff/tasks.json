@@ -39484,10 +39484,10 @@
         "confirmed": true
       },
       "id": "CAMPUS-RELAYOUT-1102",
-      "title": "系館照官方地圖排相對位置；舊社科院 (112,−62) 命名",
+      "title": "系館照官方地圖排相對位置；舊社科院 (112,−62) 那棟＝電機二館，電機一館照官方地圖位置也蓋（使用者 09:15 選擇題）",
       "owner": "LAWWW2",
       "status": "待開工",
-      "next": "命名等使用者回（LAWWW2 建議電機二館）；LIB 之後",
+      "next": "LIB 之後；名稱照 WORLD_NAMING 規則",
       "sha": "",
       "source": "同上",
       "xai": {
