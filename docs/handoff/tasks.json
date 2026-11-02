@@ -38483,6 +38483,27 @@
     "receiver": "LAWWW",
     "ack": "ACK"
    }
+  },
+  {
+   "id": "ROLE-CC-1102",
+   "title": "新增第五個職位 CC（使用者 11-02 03:5x 對 BB）：值班表、接班／交班程序、啟動提示詞、CLAUDE.md、PROJECT_DECISIONS（D119）、交接工具（check_handoff／duty_state／incremental／user_ask_reminder 認得 CC）、duty.json roles.CC、watermarks",
+   "area": null,
+   "owner": "LAWWW",
+   "status": "進行中",
+   "priority": "P0",
+   "first": {
+    "term": "META",
+    "week": null,
+    "earliest": "交接制度",
+    "mainline": false,
+    "blocks": false,
+    "prereq": false,
+    "parallel": true,
+    "confirmed": true
+   },
+   "source": "使用者 2026-11-02 03:5x 對 BB（USER_WANTS X152；BB 03:51、03:54 轉）",
+   "authorized": "使用者直接指示",
+   "next": "【LAWWW（帳號 A）04:0x】子代理在 worktree 改工具與規則文件；合併後回 BB（SHA），BB 轉告 CC"
   }
  ]
 }
