@@ -60,7 +60,7 @@ const PGDATE=(function(){
     if(ym==='2030-03') return PG.delayed(G)&&(F.GRAD_EXAM_2030===true||F.GRAD_EXAM_RESULT!=null);   /* 延畢、研究所筆試有結果的（3/15 私訊，r2y4a3d.js y5_kx_grad）*/
     if(ym==='2030-08') return PG.retaker(G);   /* 重考的（8/2 私訊，r2y4b3d.js y5_kx_0802）*/
     if(ym==='2030-10') return !!F.KX_SHELF;   /* 有 KX_SHELF 的（10/1 私訊，y6_kx_shelf）*/
-    if(ym==='2030-12') return PG.sits(G,2030);   /* 2030 年考的（12/13 麵店，她最後到）*/
+    if(ym==='2030-12') return PG.sits(G,2030)&&!(PG.failed&&PG.failed(G,2030));   /* 2030 年考的（12/13 麵店，她最後到）；一試沒過的沒有那一場（A4 取消保底以後）*/
     return false; };
   S.kxWhen=function(G,s){ const K=D().kexin, seg=K.segs[s.seg], d0=DK(s.key); if(d0==null) return null;
     if(s.week){ const OD=G.flags.KX_OUR_DAY, off=OD&&S.KX_DAY[OD.day]; if(off==null) return null; return {day:d0+off,h:seg.h[OD.day]}; }
@@ -112,12 +112,12 @@ const PGDATE=(function(){
     if(who==='heroine_03'){
       if(yt&&ym>='2029-06'&&ym<='2029-08') return true;   /* 有讀書小組的玩家：2029-06～08 照小組 */
       if(ym==='2029-12'&&yt&&pass29) return true;   /* 2029 年上榜、有讀書小組的（放榜那天的麵店）*/
-      if((ym==='2030-07'||ym==='2030-12')&&yt&&PG.sits(G,2030)) return true; }   /* 2030 年考、有讀書小組的（7/11 總圖 B1、12/13 麵店：那兩場會演就不排）——重考的，和交換延畢 2030 第一次考的（AA_367 第 10 節 A4，企劃線 e6d4a198）*/
+      if((ym==='2030-07'||(ym==='2030-12'&&!(PG.failed&&PG.failed(G,2030))))&&yt&&PG.sits(G,2030)) return true; }   /* 2030 年考、有讀書小組的（7/11 總圖 B1、12/13 麵店：那兩場會演就不排）——重考的，和交換延畢 2030 第一次考的（AA_367 第 10 節 A4，企劃線 e6d4a198）*/
     if(who==='heroine_05'){
       if(ym==='2029-08'&&PG.sits(G,2029)) return true;   /* 2029 年報國考的台灣路線（8/4 考場門口當面給便條）*/
       if(ym==='2029-09'&&F.BAR_SIT_2029===true&&PG.stage(G,2029)==='none') return true;   /* 2029 年沒考上、要重考的（9/7 私訊）*/
       if(ym==='2029-12'&&pass29) return true;   /* 2029 年上榜的（12/14 私訊）*/
-      if((ym==='2030-08'||ym==='2030-12')&&PG.sits(G,2030)) return true; }   /* 2030 年才考的（8/3 考場門口、12/13 私訊）*/
+      if((ym==='2030-08'||(ym==='2030-12'&&!(PG.failed&&PG.failed(G,2030))))&&PG.sits(G,2030)) return true; }   /* 2030 年才考的（12/13 那則私訊要考上才有）（8/3 考場門口、12/13 私訊）*/
     return false; };
   const satCache={};
   S.sats=function(ym){ if(satCache[ym]) return satCache[ym]; const out=[], a=DK(S.FROM), b=DK(S.TO), m=+ym.slice(5);
