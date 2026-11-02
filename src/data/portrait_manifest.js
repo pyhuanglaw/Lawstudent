@@ -156,6 +156,16 @@ const PORTRAIT_FILES={
    "neutral"
   ]
  },
+ "jp_liheng": {
+  "campus": [
+   "neutral"
+  ]
+ },
+ "jp_yuheng": {
+  "campus": [
+   "neutral"
+  ]
+ },
  "kai": {
   "campus": [
    "laugh",
