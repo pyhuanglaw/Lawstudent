@@ -48,6 +48,11 @@ const SHOPENC=(function(){
   /* 她原本的作息（不算店內偶遇自己加的那一筆）*/
   let guard=false;
   S.baseSched=function(c,G){ if(typeof STORY==='undefined'||!STORY.schedEnt||!c) return null; const g=guard; guard=true; try{ return STORY.schedEnt(c,G); } finally { guard=g; } };
+  /* 「整段的背景作息」：作息表裡一筆在遊戲場景裡、做自己的事、時間長（6 小時以上）的（阿凱大一 18:00～08:00 在 203 的書桌、學姊大一大二平日 9～17 在總圖）——
+     那是她平常大概在哪裡，不是約好的事。店內偶遇可以把那一段的一小時換成這間店（STORY.SCHED_X 換掉，別的地方就不生她：還是不會同時兩個地方）。
+     上課、約好的時間、在外面（away）、出遊、劇情的位置（spot、talkEvent）、其他模組加的作息（SCHED_X）都不換 */
+  S.SOFT_ACTS=['read','desk','sit','linger','wander','eat'];
+  S.soft=(c,b)=>!!b&&!!c&&Array.isArray(c.daily_schedule)&&c.daily_schedule.includes(b)&&b.zone!=null&&S.SOFT_ACTS.includes(b.act)&&!b.spot&&!b.talkEvent&&!b.cls&&!b.invite&&!b.activity&&typeof b.from==='number'&&typeof b.to==='number'&&b.to-b.from>=6;
   const tierOf=(G,id)=>typeof ENC!=='undefined'&&ENC.tier?ENC.tier(G,id):{t:'acq',st:'ACQUAINTANCE'};
   const metToday=(G,who)=>{ const R=S.rec(G); if(R.met.includes(who)) return true; const em=G.daily&&G.daily.encMet; return !!(em&&em.day===G.day&&Array.isArray(em.who)&&em.who.includes(who)); };
   const timeOk=(G,days,from,to)=>{ const h=G.hour; return (days||[]).includes(G.weekday)&&h>=from&&h<to; };
@@ -76,8 +81,8 @@ const SHOPENC=(function(){
     if(row.weekMax){ const W=(G.daily&&G.daily.shopEncWk)||{}; const w=W[row.who+'@'+row.spot]; if(w&&w.wk===weekKey(G)&&w.day!==G.day) return no('這週遇過了'); }
     if(row.selfOnly&&S.calm(G,row.spot)) return no('不是自己走進來');
     const c=typeof CHARACTERS!=='undefined'?CHARACTERS[row.who]:null; if(!c) return no('沒有這個人');
-    if(S.baseSched(c,G)) return no('作息在別的地方');   /* 她現在照作息在某個地方（別的區域、在外面、約好的時間）：不能同時在店裡 */
-    return {row,tier:tr}; };
+    const b=S.baseSched(c,G); if(b&&b.zone!==row.spot&&!S.soft(c,b)) return no('作息在別的地方');   /* 她現在照作息在某個地方（別的區域、在外面、約好的時間）：不能同時在店裡 */
+    return {row,tier:tr,here:!!b}; };   /* here：作息本來就在這間店（以安週末下午在兩點半）＝照作息坐她的位子，偶遇只是走過去的那一段 */
   /* 新認識的人（宋知寧）：只看時間、學期、考試週、今天遇過沒（她不在任何人的作息裡）*/
   S.znEligible=function(G,spot,why){ const P=(D().newPeople||[]).find(p=>p.intro_spot===spot); if(!P) return null; const no=w=>{ if(why) why.push(P.id+'@'+spot+':'+w); return null; };
     if(G.stage==='econ') return no('econ'); if(!timeOk(G,P.days,P.from,P.to)) return no('時段'); if(calOk(G,Object.assign({spot},P),no)!==true) return null; if(metToday(G,P.id)) return no('今天遇過了');
@@ -94,7 +99,7 @@ const SHOPENC=(function(){
     for(const k in R.dec){ const d=R.dec[k]; if(!d||d.who!==id||d.cancel) continue; const row=S.rowOf(id,d.spot); if(!row) continue; const to=row.np?row.np.to:row.to; if(G.hour<to&&(+k.split(':')[0])===G.day) return {key:k,spot:d.spot,row,dec:d}; }
     return null; };
   /* STORY.SCHED_X：決定以後到 row.to，她的作息是這間店（別的區域不生她、手機的「現在大概在」照這一筆）；她原本的作息開始了就照原本的 */
-  S.sched=function(c,G){ if(guard||!c||!c.id||!G||!G.daily||!G.daily.shopEnc) return null; const a=S.active(G,c.id); if(!a||a.row.np) return null; if(S.baseSched(c,G)) return null;
+  S.sched=function(c,G){ if(guard||!c||!c.id||!G||!G.daily||!G.daily.shopEnc) return null; const a=S.active(G,c.id); if(!a||a.row.np) return null; { const b=S.baseSched(c,G); if(b&&!S.soft(c,b)) return null; }
     const row=a.row, P=a.dec.place||{}, base={days:[G.weekday],from:row.from,to:row.to,away:row.away,label:row.away,shopEnc:a.key,note:'店內偶遇（'+row.src+'）'};
     if(S.WINDOW[row.spot]||!P.seat&&!P.stand) return Object.assign(base,{zone:null,act:'out'});   /* 外帶窗口：她在溫州街（沒有 3D） */
     if(P.stand) return Object.assign(base,{zone:row.spot,act:'linger',at:[P.stand[0],P.stand[1],P.stand[2]||0,0],noPair:true});
@@ -113,6 +118,7 @@ const SHOPENC=(function(){
     if(!R.dec[k]&&S.busy(GM)) return null; const d=S.decide(G,zoneId); if(!d||!d.who||d.cancel) return d;
     const row=S.rowOf(d.who,zoneId), to=row.np?row.np.to:row.to, C=typeof CROWD!=='undefined'?CROWD:null;
     if(G.hour>=to) return d;
+    if(!row.np&&typeof CHARACTERS!=='undefined'&&CHARACTERS[d.who]){ const b=S.baseSched(CHARACTERS[d.who],G); if(b&&b.zone===zoneId&&!S.soft(CHARACTERS[d.who],b)){ d.place={sched:true}; return d; } }   /* 作息本來就在這間店：populateSchedule 照作息生、坐她自己的位子 */
     if(S.STAND_SPOTS.includes(zoneId)){ const p=(d.place&&d.place.stand)||S.standPick(GM,zoneId,k); if(!p){ d.cancel='沒有站的地方'; return d; } d.place={stand:[p[0],p[1],p[2]]}; if(C&&C.shopStandTake) C.shopStandTake(zoneId,p,{day:G.day,until:to,whoId:d.who}); return d; }
     let st=null; if(d.place&&d.place.seat){ st=(GM.E.zone.seats||[]).find(q=>Math.hypot(q.x-d.place.seat.x,q.z-d.place.seat.z)<0.12)||null; if(st&&C&&C.seatBusy&&C.seatBusy(GM.E,st)&&!(C.shopReserved&&C.shopReserved(zoneId,st,G))) st=null; }
     if(!st) st=S.seatPick(GM,zoneId); if(!st){ d.cancel='沒有位子'; if(d.who) delete R.who[d.who]; return d; }
