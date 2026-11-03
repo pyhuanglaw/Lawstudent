@@ -22,7 +22,7 @@ P = 'shl_'
 sh.M.update({
     'floor': L.pbr(P + 'floor_oak', 'laminate_floor_02', tile=1.6, target='#cfae84', normal=0.4, maps=('diff', 'nor'), res=512, rough_value=0.5),
     'wall': CL.soft_plaster(P + 'wall', '#ece6da', 0.9, tile=1.8, k=0.25),
-    'wood': L.pbr(P + 'oak', 'fine_grained_wood', tile=1.2, target='#cfa877', maps=('diff',), res=256, rough_value=0.5),
+    'wood': L.pbr(P + 'oak', 'walnut_veneer', tile=1.3, target='#d2ad7e', maps=('diff',), res=256, rough_value=0.48),
     'glass': L.flat(P + 'glass', '#dfe9ec', rough=0.05, alpha=0.14),
     'bulb': L.flat(P + 'bulb', '#fff4dc', rough=0.3, emit=B.srgb('#ffdcaa')),
     'ceil': L.flat(P + 'ceiling', '#f2eee6', rough=0.92, cull=True),
@@ -30,6 +30,7 @@ sh.M.update({
     'books': K.img_mat(P + 'books', 'shl_bookrows.png', rough=0.8),
     'pothos': CL.leaf_mat(P + 'leaf_pothos', 'pothos_leaf.png'),
 })
+sh.M['shade'] = sh.M['bulb']   # 檯燈的燈罩＝發光材質
 IT = {}
 for i in LAY['items']: IT.setdefault(i['kind'], []).append(i)
 STEEL = '#3a3c3e'; xf0 = Xf(0, 0)
@@ -129,10 +130,10 @@ for k in range(ST['n'] - 1):
     xf0.rbox(sw, sx0, sx1, y1 - 0.035, y1, z0, z1 + 0.025, r=0.008, seg=1)                                              # 踏板（前緣凸出 2.5 cm、倒角）
     if k > 0: sw.box(sx0, sx1, 0.0, y1 - ri, z0, z1)
 sw.box(sx0, sx1, 0.0, Y2 - 0.03, VD['z0'] - 0.0, VD['z0'] + 0.001)
-pts = [(sx1 + 0.06, 0.0, zb + 0.03), (sx1 + 0.06, 0.0, VD['z0']), (sx1 + 0.06, Y2, VD['z0']), (sx1 + 0.06, ri, zb + 0.03)]   # 東側的實心側板（梯形）
+pts = [(sx1 + 0.06, 0.0, zb), (sx1 + 0.06, 0.0, VD['z0']), (sx1 + 0.06, Y2 - ri, VD['z0']), (sx1 + 0.06, 0.0, zb)]   # 東側的實心側板（三角形：每階的鋸齒由下面的小方塊補）
 side = sh.a('wood'); bm = side.bm
-for xs_ in (sx1, sx1 + 0.06):
-    vs = [bm.verts.new(g2b(xs_, q[1], q[2])) for q in pts]; f = bm.faces.new(vs if xs_ > sx1 else vs[::-1])
+for xs_ in (sx1 + 0.001, sx1 + 0.06):
+    vs = [bm.verts.new(g2b(xs_, q[1], q[2])) for q in pts[:3]]; f = bm.faces.new(vs[::-1] if xs_ > sx1 + 0.01 else vs)
 for k in range(ST['n']):                                                                                                # 側板的鋸齒上緣：每階一小塊
     z1 = zb - k * tr; z0 = max(VD['z0'], z1 - tr); y1 = (k + 1) * ri
     sw.box(sx1, sx1 + 0.06, 0.0 if k == 0 else (k * ri), y1, z0, z1 + (0.03 if k == 0 else 0.0))
