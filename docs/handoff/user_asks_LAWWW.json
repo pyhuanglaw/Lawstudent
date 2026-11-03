@@ -2142,6 +2142,16 @@
       "wants": "X154",
       "task": "GHA-TEST-OFFLOAD-1103",
       "note": "問：LAWWW 自己的全部 Node 單元測試（約 900 支）現在就改丟 GitHub 免費跑嗎？選現在就丟：只搬 LAWWW 的全部 Node 測試、下載完整歷史、平常只跑相關的；BB 瀏覽器測試、使用者電腦測試照舊；量到的時間當評估第一筆數據"
+    },
+    {
+      "id": "UA-LAWWW-1103-09",
+      "at": "2026-11-03T01:2x",
+      "quote": "可能GitHub免費測試跑完之前，使用量就到上限，你可能是邀請下一個帳號或者你下一次上班才能比較花的時間了",
+      "kind": "原話",
+      "status": "進行中",
+      "wants": "X154",
+      "task": "GHA-TEST-OFFLOAD-1103",
+      "note": "實測數字與下一步寫進 docs/handoff/GHA_TEST_OFFLOAD_1103.md 第六節，接班 LAWWW 接著比"
     }
   ]
 }
