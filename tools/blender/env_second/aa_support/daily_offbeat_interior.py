@@ -8,6 +8,7 @@ HERE = os.path.dirname(os.path.abspath(__file__))
 sys.path.insert(0, HERE)
 import aa_kit as K   # noqa: E402
 from aa_kit import L, CL, B, Mesh, g2b, bpy, bmesh, Matrix, Xf   # noqa: E402
+K.AUTO_SEG = True   # v2：小零件倒角一段、細管不封口（省下的三角形給 v2 補的東西）
 
 arg = K.args()
 LAY = K.layout('src/data/daily_offbeat_layout.js', 'DAILY_OFFBEAT_LAYOUT')
@@ -19,19 +20,19 @@ sh._imgkeys = {'print'}
 P = 'dof_'
 sh.M.update({
     'floor': K.img_mat(P + 'floor_checker', 'dof_checker.png', rough=0.32, tile=0.6),
-    'wall': CL.soft_plaster(P + 'wall_cream', '#f0e1b6', 0.88, tile=1.6, k=0.25),
+    'wall': CL.soft_plaster(P + 'wall_cream', '#efd6a6', 0.88, tile=1.6, k=0.25),   # v2：暖一點（參考圖奶油桃色）；v1 #f0e1b6
     'tile': L.pbr(P + 'tile_olive', 'long_white_tiles', tile=0.9, target='#5f8058', normal=0.6, maps=('diff', 'nor'), res=256, rough_value=0.25),
     'wood': L.pbr(P + 'wood_light', 'walnut_veneer', tile=1.2, target='#c39a6c', maps=('diff',), res=256, rough_value=0.45),
     'glass': L.flat(P + 'glass', '#dfe9ec', rough=0.05, alpha=0.16),
     'bulb': L.flat(P + 'bulb', '#fff4dc', rough=0.3, emit=B.srgb('#ffdcaa')),
-    'ceil': L.flat(P + 'ceiling', '#f3ead2', rough=0.92, cull=True),
+    'ceil': L.flat(P + 'ceiling', '#8c857a', rough=0.92, cull=True),   # v2：外露工業天花板（參考圖深色、管線外露）；v1 #f3ead2 一整片白
     'print': K.img_mat(P + 'print', 'dof_print.png', rough=0.8),
     'pothos': CL.leaf_mat(P + 'leaf_pothos', 'pothos_leaf.png'),
 })
 IT = {}
 for i in LAY['items']: IT.setdefault(i['kind'], []).append(i)
 ORANGE, OLIVE, CREAM, MUSTARD, TEAL, RED = '#d9673a', '#7d8f52', '#e8dcc0', '#d9a441', '#4f7f7a', '#c4513e'
-CHAIRS = [ORANGE, ORANGE, OLIVE, ORANGE, CREAM, MUSTARD, ORANGE, TEAL, RED, ORANGE, OLIVE, CREAM]
+CHAIRS = [ORANGE, '#cf5f33', ORANGE, '#e0763f']   # v2：參考圖整排都是橘色殼椅（深淺一點點）；v1 顏色混搭
 _ci = [0]
 def ccol(): c = CHAIRS[_ci[0] % len(CHAIRS)]; _ci[0] += 1; return c
 
@@ -268,4 +269,6 @@ bxf.cyl(sh.a('vc'), (-0.1, 0.72, 0.0), (-0.02, 0.86, 0.04), 0.008, col='#d9cdb2'
 pk = Xf(-3.4, 1.85, 0.4)
 pk.rbox(sh.a('vc'), -0.15, 0.15, 0.0, 0.42, -0.1, 0.1, r=0.06, seg=3, col='#2f4a5a'); pk.rbox(sh.a('vc'), -0.11, 0.11, 0.06, 0.24, 0.09, 0.15, r=0.04, col='#2f4a5a')
 
+exec(open(os.path.join(HERE, 'daily_offbeat_v2_fill.py'), encoding='utf-8').read())   # v2：天花板、燈條、長桌、吊盆
+sh.tally('v2 fill')
 info = sh.finish(OUT, extra_info={'layout': LAY['version'], 'seats': len(LAY['seats'])})
