@@ -43117,6 +43117,26 @@
    "priority": "P1",
    "note": "X186；接 J13 WZ-CAT-LIFE-1023（wzcat3d.js，LAWWW2-C）；蹭的專用動畫交 LAWWW2",
    "next": "子代理（worktree）：查浮空原因、白天為什麼趴著、加蹭的狀態 → 截圖 → 合併 → BB 測"
+  },
+  {
+   "first": {
+    "term": "Y0",
+    "week": 1,
+    "earliest": "經濟系第一週就會進公館、溫州街的店",
+    "mainline": true,
+    "blocks": false,
+    "prereq": false,
+    "parallel": true,
+    "confirmed": true
+   },
+   "area": null,
+   "id": "SHOP-DINERS-1103",
+   "title": "店裡的客人：營業時間照時段（午餐、晚餐尖峰多、下午少）有路人客人坐在座位上吃東西、喝飲料、看書；同一天同一時段固定一批（CROWD 規則）；所有可進入的店（餐廳、Café、茶飲、書店、便利商店等）",
+   "owner": "LAWWW",
+   "status": "進行中",
+   "priority": "P1",
+   "note": "X187；路人用現有 crowd 底模，不用有名字的人；座位用店裡現有的座位",
+   "next": "子代理（worktree）實作 → 截圖 → 合併 → BB 測"
   }
  ]
 }
