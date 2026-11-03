@@ -652,3 +652,5 @@ fatal: 'C:/Users/USER/Documents/wt_cc_R8_rr2' already exists    [ 135.3s] main_p
 - 2026-11-04T05:31:52  LIVE19_day12  sha=e1603907e  exit=  7s  worktree add e1603907e failed: fatal: invalid reference: e1603907e  
 - 2026-11-04T05:31:56  LIVE19_ver  sha=e1603907e  exit=  7s  worktree add e1603907e failed: fatal: invalid reference: e1603907e  
 - 2026-11-04T05:32:00  LIVE19_deploy  sha=e1603907e  exit=  7s  worktree add e1603907e failed: fatal: invalid reference: e1603907e  
+- 2026-11-04T05:35:27  DC_ver_ok  sha=e1603907e  exit=0  188s    PASS 沒有 JS 例外  [] / console error（只列出，不算失敗）：無 / ALL PASS
+      err.log (last 5): [gpu_wrap 1.1s] headed slot 0: --window-position=0,0 --window-size=900,900 --window-name=CC 測試中，請勿點選 [DC_ver_ok] | [gpu_wrap 153.7s] page close url=http://127.0.0.1:8810/index.html?turbo | [gpu_wrap 153.8s] BROWSER DISCONNECTED

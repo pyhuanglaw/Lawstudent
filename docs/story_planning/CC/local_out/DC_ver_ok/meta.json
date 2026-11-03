@@ -1,22 +1,23 @@
 {
-  "rerun": "",
+  "rerun": "fetchmain",
   "id": "DC_ver_ok",
   "sha": "e1603907e",
   "kind": "game",
   "script": "tests/deploy_check.py",
-  "env": "SCRIPT_FROM=d2b962a3f;XARGS={url} v9.10.19（2026-11-03）",
+  "env": "SCRIPT_FROM=d2b962a3f;XARGS={url} v9.10.19（2026-11-03）;RERUN=fetchmain",
   "machine": "MSI",
-  "start": "2026-11-04T05:15:52",
-  "end": "2026-11-04T05:15:59",
-  "seconds": 7,
-  "exit": null,
-  "error": "worktree add e1603907e failed: fatal: invalid reference: e1603907e",
-  "runner": "fa98538ce5",
-  "rf_round": "18",
+  "start": "2026-11-04T05:32:18",
+  "end": "2026-11-04T05:35:27",
+  "seconds": 188,
+  "exit": 0,
+  "error": null,
+  "runner": "9bde5687ff",
+  "rf_round": "22",
+  "url": "http://127.0.0.1:8810/index.html",
   "res_peak": {
-    "cpu": 9,
-    "mem": 38,
-    "used_gb": 12.3,
-    "chrome_testing": 0
+    "cpu": 32,
+    "mem": 61,
+    "used_gb": 19.2,
+    "chrome_testing": 17
   }
 }
