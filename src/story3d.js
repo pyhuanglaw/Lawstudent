@@ -313,7 +313,7 @@ const STORY = (function(){
     /* 總圖大廳（總圖第一階段，D43）的背景人物：服務台的館員、二樓自習區讀書的人、走大樓梯上下樓的人、一樓走動的人。不是劇情人物、沒有對話 */
     if(zoneId==='library_hall'&&typeof LIBRARY_LAYOUT!=='undefined'){ const L=LIBRARY_LAYOUT; const mk=(x,z,lv,yaw,pose,seat)=>{ const o=CHAR.build(extraSpec(xi++)); o.position.set(x,0,z); o.rotation.y=yaw||0; return E.addNPC({obj:o,name:'',beh:'idle',pose:pose||'idle',idlePose:pose||'idle',frozen:true,isExtra:true,lv:lv|0,seat}); };
       if(hr>=8&&hr<22){ const dk=L.furniture.find(f=>f.type==='desk'); if(dk) mk(dk.x-0.6,dk.z+0.75,0,Math.PI,'idle');
-        const sts=E.zone.seats.slice(2); for(const k of (hr<18?[3,8,13]:[8,13])){ const st=sts[k]; if(st) mk(st.x,st.z,1,st.yaw,'read',{x:st.x,z:st.z,yaw:st.yaw,lv:1}); }
+        const sts=E.zone.seats.filter(q=>(q.lv|0)===1).slice(2); for(const k of (hr<18?[3,8,13]:[8,13])){ const st=sts.length?sts[k%sts.length]:null; if(st) mk(st.x,st.z,1,st.yaw,'read',{x:st.x,z:st.z,yaw:st.yaw,lv:1}); }
         GM.spawnExtra(extraSpec(xi++),[[0,2.0,0],[-2.6,0.2,1],[-8.0,-2.0,1],[-2.6,0.2,1],[0,2.0,0],[2.6,0.2,1],[8.0,-3.4,1],[2.6,0.2,1]],{});   /* 走大樓梯上下樓的人：大廳 ⇄ 二樓（西翼、東翼輪流）；東翼那一點 (8,−5) 在第二版（11-02 二樓平面圖）是西文圖書的書架，改 (8,−3.4)（第一版也是空地）*/
         if(hr<18) GM.spawnExtra(extraSpec(xi++),(LIBRARY_LAYOUT.b1Door&&LIBRARY_LAYOUT.b1Door.wall==='vestibule')?[[5.6,-8.6,0],[1.0,3.0,0],[-3.5,3.0,0],[-7.9,-5.0,0]]:[[6.5,-6.5,0],[2.5,2.0,0],[-3.5,3.0,0],[-7.0,-6.5,0]],{}); }   /* 總圖第四版（LIB-PLAN-1103：一樓照平面圖，服務台、十字影音櫃、多一排四人桌）一樓走動的人改走空地；舊配置照舊 */
       if(F.companion==='an') spawnCompanion(GM); }
@@ -370,7 +370,8 @@ const STORY = (function(){
     if(zoneId==='noodle') noodleRegulars(GM,true);   /* 週二、週四傍晚的固定客人（AA_110 6-3）：進店時已經坐著 */
     if(/^linze_[34]f$/.test(zoneId)&&typeof LZUP!=='undefined'){ try{ LZUP.populate(GM,true); }catch(e){ console.warn('LZUP.populate',e); } }   /* 霖澤館 3F、4F：在討論、吃東西、自習的同學（src/linze_upper3d.js）*/
     if(zoneId==='library_b1'&&typeof LB1!=='undefined'){ try{ LB1.populate(GM,true); }catch(e){ console.warn('LB1.populate',e); } }
-    if(zoneId==='library_stacks'&&typeof LUP!=='undefined'){ try{ LUP.populate(GM,true); }catch(e){ console.warn('LUP.populate',e); } }   /* 總圖 5F 書庫：窗下閱覽桌的讀者（src/library_upper3d.js）*/   /* 總圖 B1：24 小時自習室在讀書的同學（src/library_b1_3d.js）*/
+    if(zoneId==='library_stacks'&&typeof LUP!=='undefined'){ try{ LUP.populate(GM,true); }catch(e){ console.warn('LUP.populate',e); } }
+    if(zoneId==='library_carrels'&&typeof LUP!=='undefined'&&LUP.populateCarrels){ try{ LUP.populateCarrels(GM,true); }catch(e){ console.warn('LUP.populateCarrels',e); } }   /* 研究小間：其他九間玻璃後面的讀者（src/library_upper3d.js；LAWWW 11-03 12:08）*/   /* 總圖 5F 書庫：窗下閱覽桌的讀者（src/library_upper3d.js）*/   /* 總圖 B1：24 小時自習室在讀書的同學（src/library_b1_3d.js）*/
     if(zoneId==='noodle'){ if(F.afternoonDone&&hr>=17.5&&hr<20.5&&!F.zheNoodleDone&&F.zheInvite&&(F.zheInviteDay!=null?G.day===F.zheInviteDay:S.mainDay(G)===1)){   /* 第一天下課阿哲約的那一頓：只在約的那一天（BB-B 10-30：沒去的玩家之後每天傍晚、考試週也把阿哲放在麵店）；其他日子照作息 */ GM.spawnNPC('zhe',C.zhe,0,0,{seat:{x:0,z:-0.3,yaw:0},talk:n=>talkZhe(GM,n)}); F.zheAtNoodle=true; } }
     if(zoneId==='dorm'){ for(const [id,u] of S.dormWho(G)) S.dormSpawn(GM,id,u,false);   /* 進房間：現在在書桌前的室友坐好（誰、幾點照 S.dormWho；待在房間裡時間到了自己進門、上床：S.dormLive，DORM203-MATES-1028）*/   /* 經濟系那一年的室友是阿勳（AA_168 第 5 節；阿凱這一年不出現）；E01 還沒演完時由 E01 自己帶他進門 */   /* 阿凱回宜蘭過年（absentDates，BB_171）的晚上不在房間（HOLIDAY-PRESENCE-1021）；AA_374 第 1 項：只有大一同房（9/6 搬進 312 以後他住別棟）*/   /* AA208-L（AA_208 2-4）：四人房的室友晚上在房間；23:30 以後都在上舖（看不到）。誰、幾點照 S.dormMates */
       if(!S.isEcon(G)){
@@ -1018,7 +1019,8 @@ const STORY = (function(){
     if(/^l118_/.test(zoneId)&&typeof L118!=='undefined'&&L118.populateShop){ try{ L118.populateShop(GM,zoneId.slice(5)); }catch(e){ console.warn('L118.populateShop',e); } }   /* 待在店裡時段到了的常客也會來 */
     if(/^linze_[34]f$/.test(zoneId)&&typeof LZUP!=='undefined'){ try{ LZUP.populate(GM,false); }catch(e){ console.warn('LZUP.populate',e); } }   /* 待在霖澤館樓上：時段到了有人從樓梯間走進來、有人離開 */
     if(zoneId==='library_b1'&&typeof LB1!=='undefined'){ try{ LB1.populate(GM,false); }catch(e){ console.warn('LB1.populate',e); } }
-    if(zoneId==='library_stacks'&&typeof LUP!=='undefined'){ try{ LUP.populate(GM,false); }catch(e){ console.warn('LUP.populate',e); } }   /* 待在書庫：時段到了有人從電梯走過來坐下、有人離開 */   /* 待在總圖 B1：時段到了有人從樓梯間走進來坐下、有人離開 */
+    if(zoneId==='library_stacks'&&typeof LUP!=='undefined'){ try{ LUP.populate(GM,false); }catch(e){ console.warn('LUP.populate',e); } }
+    if(zoneId==='library_carrels'&&typeof LUP!=='undefined'&&LUP.populateCarrels){ try{ LUP.populateCarrels(GM,false); }catch(e){ console.warn('LUP.populateCarrels',e); } }   /* 研究小間：時段換了，玻璃後面的讀者跟著換 */   /* 待在書庫：時段到了有人從電梯走過來坐下、有人離開 */   /* 待在總圖 B1：時段到了有人從樓梯間走進來坐下、有人離開 */
     if(zoneId==='cafe'){ try{ cafeRefresh(GM); }catch(e){ console.warn('cafeRefresh',e); } }   /* 待在 Café：客人照時段進出 */
     if(zoneId==='dorm'){ try{ S.dormLive(GM); }catch(e){ console.warn('STORY.dormLive',e); } }   /* 待在宿舍房間：時間到了室友自己進門、上床、出門（DORM203-MATES-1028）*/
     lingerMove(GM,zoneId); roomMove(GM,zoneId);
@@ -3253,7 +3255,8 @@ const STORY = (function(){
      那件東西沒顯示（別的年份、沒有這個旗標）或沒有鏡頭資料就不轉。旁白講完 E.endCinematic 回到原本的鏡頭；sceneEnd 也會再收一次 */
   S.roomItemFocus=function(GM,label){ const E=GM&&GM.E, k=S.roomItemKeyOf(GM&&GM.G,label); if(!E||!E.scene||!k||!E.cinematic) return false; const o=E.scene.getObjectByName('ITEM_desk_'+k), u=o&&o.userData;
     if(!o||!u||!u.eye||!u.look||!o.parent) return false; let v=o; while(v){ if(v.visible===false) return false; v=v.parent; } o.parent.updateMatrixWorld(true);
-    E.cinematic(o.parent.localToWorld(new THREE.Vector3(u.eye[0],u.eye[1],u.eye[2])),o.parent.localToWorld(new THREE.Vector3(u.look[0],u.look[1],u.look[2]))); return true; };
+    const via=u.via?o.parent.localToWorld(new THREE.Vector3(u.via[0],u.via[1],u.via[2])):null;   /* 先經過的點（dorm_desk_items.py 的 VIA：走道上、和 eye 同高同 z），鏡頭不穿過梯子、床欄（BB 11-03 16:16）*/
+    E.cinematic(o.parent.localToWorld(new THREE.Vector3(u.eye[0],u.eye[1],u.eye[2])),o.parent.localToWorld(new THREE.Vector3(u.look[0],u.look[1],u.look[2])),via); return true; };
   /* ★主線 3 第二個房間（AA_12 主線 3；AA_177 第 7 節；劇情事實 AA_176 R8）：大二上開學前一天 9/6（日）以後、還沒搬（ROOM_Y2）。
      在家（週末回家）＝下一輪選單之前：旁白「明天開學。今天搬進新的房間。」→ 字卡「回宿舍」「捷運＋公車 約 40 分鐘」→ 新房間（home3d.js 的 loop）；
      人在宿舍房間＝直接拆箱。四個紙箱，物件一件一件拿出來（只有大一經歷過的才有，AA_12 的表；驗收要點：不能出現玩家沒經歷過的東西），

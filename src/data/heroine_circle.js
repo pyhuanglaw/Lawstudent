@@ -37,7 +37,7 @@ const HCIRCLE_DATA={
     hc_xt:{label:'小婷',sex:'f',model:'char.npc_nf6',props:[{name:'apron',show:true},'name_pin'],note:'Café 同事，外文系大一的學妹（AA_503 5-1）'},
     hc_boss:{label:'老闆',sex:'m',model:'char.npc_nm6',props:[{name:'apron',show:true,color:'#2f3338'},'mug'],note:'Café 老闆（AA_503 5-1）'},
     hc_ayi:{label:'阿姨',sex:'f',model:'char.npc_nf3',props:[{name:'apron',show:true,color:'#8a3a32'},'ladle',{name:'bandage',when:'ayiHand'}],note:'麵店的阿姨（AA_503 6-1：LAWWW2 做中年女性、圍裙、湯杓；先用固定的路人底模）；繃帶只在大一下第 8～9 週（AA_504 阿姨扭到手；AA_527 2-2：when＝hcircle3d.js S.PROP_WHEN，櫃台、廚房那位都一樣）'},
-    wz_su:{label:'蘇姨',sex:'f',model:'char.npc_f2',props:[{name:'apron',show:true,color:'#4f5a48'}],note:'一盞茶屋的蘇姨（AA_630 第 4 節：語彤和「阿姨」那幾列搬到茶屋，旁邊是蘇姨；wz_jobs.js tea 的 bossId）；站水屋＝茶屋店員的位置（hcircle3d.js S.CLERK.wz_teahouse，原本那位店員藏起來）。底模：二十個固定 nf 底模都有人用了（同學、圈子表），先用路人底模 npc_f2＋圍裙（佔位，等 LAWWW2 做中年女性的蘇姨）'},
+    wz_su:{label:'蘇姨',sex:'f',model:'char.su_apron',note:'一盞茶屋的蘇姨（AA_630 第 4 節：語彤和「阿姨」那幾列搬到茶屋，旁邊是蘇姨；wz_jobs.js tea 的 bossId）；站水屋＝茶屋店員的位置（hcircle3d.js S.CLERK.wz_teahouse，原本那位店員藏起來）。底模：二十個固定 nf 底模都有人用了（同學、圈子表），先用路人底模 npc_f2＋圍裙（佔位，等 LAWWW2 做中年女性的蘇姨）'},
     hc_sf1:{label:'學姊的同學',sex:'m',model:'char.npc_nm16',props:[{name:'backpack',color:'#3a3a3a'},'lawbook'],note:'學姊備考的同學（AA_503 8-1，兩個之一）'},
     hc_sf2:{label:'學姊的同學',sex:'m',model:'char.npc_nm2',props:[{name:'backpack',color:'#59463a'},'folder'],note:'學姊備考的同學（AA_503 8-1，兩個之一）'},
     hc_np:{label:'新來的工讀生',sex:'f',model:'char.npc_nf11',props:[{name:'apron',show:true},'name_pin'],note:'Café 新來的工讀生（AA_505 2-1）'},

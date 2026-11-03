@@ -440,7 +440,7 @@ const E3 = (function(){
     C.swing=best; if(!best) return 0; const st=Math.sign(best)*Math.min(Math.abs(best),1.3*dt); C.yaw+=st; if(C.ctl) C.swingAcc=(C.swingAcc||0)+st; return st; }
   E.autoSwing=autoSwing;
   const _lookPt=new THREE.Vector3();
-  function updateCamera(dt){ const C=E.cam; const P=E.player; if(C.mode==='cinematic'&&C.cine){ const s=C.cine; camera.position.lerp(s.pos,Math.min(1,dt*2.4)); C.look=C.look||new THREE.Vector3(); C.look.lerp(s.look,Math.min(1,dt*2.4));   /* 原本 dt*4（約 0.25 秒就轉過去）：轉太快會暈（使用者 2026-10-15），放慢一點 */ slabClip(C.look,camera.position,0.9); camera.lookAt(C.look); if(E.zone&&E.zone.fadeWalls){ E.zone.fadeWalls(camera,P.obj.position); hideFaded(); } updateLevelVis(); cineSeeThrough(); return; }
+  function updateCamera(dt){ const C=E.cam; const P=E.player; if(C.mode==='cinematic'&&C.cine){ const s=C.cine; camera.position.lerp(s.via||s.pos,Math.min(1,dt*2.4)); if(s.via&&camera.position.distanceTo(s.via)<0.15) s.via=null;   /* via：先經過這一點再去 pos（宿舍書桌：先在走道降下來、再從床板下面平移過去，不穿過梯子、床欄；BB 11-03 16:16）*/ C.look=C.look||new THREE.Vector3(); C.look.lerp(s.look,Math.min(1,dt*2.4));   /* 原本 dt*4（約 0.25 秒就轉過去）：轉太快會暈（使用者 2026-10-15），放慢一點 */ slabClip(C.look,camera.position,0.9); camera.lookAt(C.look); if(E.zone&&E.zone.fadeWalls){ E.zone.fadeWalls(camera,P.obj.position); hideFaded(); } updateLevelVis(); cineSeeThrough(); return; }
     C.dist+=(C.distTarget-C.dist)*Math.min(1,dt*4); if(C.manualT>0) C.manualT-=dt; C.target.lerp(tmpV2.copy(P.obj.position).add(tmpV3.set(0,1.45,0)),Math.min(1,dt*7));
     /* 往下走樓梯時鏡頭抬高（戶外：萬才館大樓梯；萬才館第二階段的真實玩家測試抓到）：鏡頭在玩家背後 2.7 m 高，往下走的時候平台邊緣擋住下面的台階，
        畫面上看不到要走去的地方（點下面的台階會點到平台、又走回去）。前方 3～5.5 m 的地面比腳下低超過 0.4 m 時，俯角最多加 0.32（約 18°），平順地變化；室內維持原本的鏡頭 */
@@ -485,7 +485,7 @@ const E3 = (function(){
      階梯教室後排的座位離地板超過 0.5 m，displayLv 會當成在樓梯上、算成二樓（博雅一樓的階梯教室）。測試：node tests/shadow_levels_unit.js */
   function shadowLevels(SM){ const smr=SM.render; SM.render=function(){ const z=E.zone, LG=z&&z.levelGroups, hid=[], P=E.player; if(LG&&LG.length>1){ const dl=P&&P.lv!=null?(P.lv|0):(z.displayLv|0); for(let k=dl+1;k<LG.length;k++){ const g=LG[k]&&LG[k].group; if(g&&g.visible){ g.visible=false; hid.push(g); } } }
       try{ return smr.apply(SM,arguments); } finally{ for(const g of hid) g.visible=true; } }; }
-  E.cinematic=function(pos,look){ if(E.cam.mode!=='cinematic'||!E.cam.look){ /* 從目前的視線方向開始平滑轉過去（舊版注視點從世界原點出發，第一次運鏡會甩頭） */ const fwd=new THREE.Vector3(); camera.getWorldDirection(fwd); E.cam.look=camera.position.clone().addScaledVector(fwd,Math.max(1,camera.position.distanceTo(look))); } E.cam.mode='cinematic'; E.cam.cine={pos:pos.clone(),look:look.clone()}; };
+  E.cinematic=function(pos,look,via){ if(E.cam.mode!=='cinematic'||!E.cam.look){ /* 從目前的視線方向開始平滑轉過去（舊版注視點從世界原點出發，第一次運鏡會甩頭） */ const fwd=new THREE.Vector3(); camera.getWorldDirection(fwd); E.cam.look=camera.position.clone().addScaledVector(fwd,Math.max(1,camera.position.distanceTo(look))); } E.cam.mode='cinematic'; E.cam.cine={pos:pos.clone(),look:look.clone(),via:via?via.clone():null}; };
   /* 劇情鏡頭結束回到跟隨鏡頭（2026-10-18 使用者：「轉換視角太快了，在宿舍認識阿勳的時候轉回來玩的視角也很暈，隔天起來也是」）：
      原本看的點瞬間跳回玩家、位置 0.3 秒內拉回背後（還會繞半圈）。改成：跟隨鏡頭的方向接在劇情鏡頭現在的方位（不繞），1.1 秒內慢慢拉回距離、看的點慢慢移過去 */
   E.endCinematic=function(){ const C=E.cam; if(C.mode==='cinematic'&&E.player){ const p=E.player.obj.position, dx=camera.position.x-p.x, dz=camera.position.z-p.z;
