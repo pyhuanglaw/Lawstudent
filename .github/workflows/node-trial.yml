@@ -1,0 +1,20 @@
+# 可行性試用（使用者 2026-11-03）：在 GitHub 免費的標準執行環境跑一支不需要瀏覽器的 Node 單元測試。
+# 只在這條試用分支觸發，不影響 main、開發分支、BB／CC 的分支。
+name: node-trial
+on:
+  push:
+    branches: [claude/gha-node-trial]
+  workflow_dispatch:
+permissions:
+  contents: read
+jobs:
+  nav-levels:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+      - name: node tests/nav_levels_unit.js
+        run: node tests/nav_levels_unit.js
