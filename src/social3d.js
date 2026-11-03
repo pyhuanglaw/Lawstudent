@@ -225,7 +225,7 @@ const SOCIAL = (function(){
   /* AA_344 第 3 節：③ KX7_LAST_TERM 換新名稱（ladder.js 匯入的舊名稱「她怕畢業以後忘記假設」：這裡優先）；④ 以安不延畢以後沒人用的 AN8_RETAKE、AN8_DIPLOMA 已刪 */ MEMORY_LABEL.KX7_LAST_TERM='她怕畢業以後約吃飯要排半個月';
   /* 面板名稱：208 的週末（AA_412 第 3-8 節，AA-B 10-23；src/us208_3d.js）*/ Object.assign(MEMORY_LABEL,{US208_MEMO:'書瑀幫你看 Legal Writing 的作業',US208_LUROU:'書瑀煮了有一點焦的滷肉',US208_CLIPPING:'書瑀的奶奶寄了一張剪報到美國',US208_REHEARSAL:'聽書瑀練習英文報告',US208_EXTRA_HOUR:'冬令時間那天，計畫本空了一格',US208_PLANT:'書瑀在救客廳那盆植物',US208_LASTWEEK:'期末那個週末，坐在 208 的沙發上讀書'});
   /* 面板名稱：美國篇的空白日（AA_424，AA-B 10-23；src/us_blank3d.js）——名稱 AA_424 第 7-2 節定稿（a4ee6c74a）*/ Object.assign(MEMORY_LABEL,{US_FALLBREAK_LAKE:'秋假的湖邊，長椅只有你們兩個',US_FALLBREAK_STUDY:'秋假的自習室，她空出一格',US_ASIAN_MARKET:'陪書瑀去竹葉，她買了一包八角',US_LAKE_DOG:'書瑀說她小時候很怕狗',US_SYLLABUS:'書瑀替你把第一週的閱讀排進格子',US_LAUNDRY:'她來借洗衣機，在你的沙發上看書'});
-  Object.assign(MEMORY_LABEL,{AN_GRAD_PASS:'她研究所放榜那晚，在麵店',AN_COLUMBIA:'她說紐約的法學院上了，八月要去紐約'});   /* AA_327 2-Y4-34、2-Y4-50（src/data/r2y4b_events.js）：面板名稱 AA_345 第 4 節定稿（G7）*/
+  Object.assign(MEMORY_LABEL,{AN_GRAD_PASS:'她研究所放榜那晚，在麵店',AN_COLUMBIA:'她說紐約那間法學院上了，八月要去'});   /* AA_327 2-Y4-34、2-Y4-50（src/data/r2y4b_events.js）：面板名稱 AA_345 第 4 節定稿（G7）*/
   Object.assign(MEMORY_LABEL,{SIS5_LIBRARY_SEAT:'學姊在法學院圖書館的位子'});   /* 大二上 S3-L3 才記；AA_584 第 11 節整層刪了，源稿 03af79d17 起匯入不再帶這個名稱——舊存檔記過的照樣顯示中文（AA 2026-11-02 19:29）*/
   Object.assign(MEMORY_LABEL,{PS7_SPECIAL_ED:'沛珊說她晚兩年',PS7_DECIDE:'沛珊選了國小'});   /* 沛珊大四上的階梯記憶（AA_262 第 6 點、BB_209：階梯台詞照 AA_282 改了，名稱跟著改；企劃的階梯表 BB_142 還是舊名稱，匯入的 LADDER.labels 會帶舊的——這裡優先）*/
   Object.assign(MEMORY_LABEL,{AN_JP_LIGHT:'她房間的燈，是你換的',AN_JP_FIREWORK:'在河堤看了她在日本的第一場煙火'});   /* 面板名稱：日本篇的空白日（AA_435 第 7 節；src/jp_blank3d.js 也會登記，一字相同）*/

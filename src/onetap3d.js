@@ -50,6 +50,7 @@ const ONETAP=(function(){
     return {k:'sleep',ok:true,w,mins,opt:o,title:'回去睡覺',lines}; };
   /* 住家裡：回到家的第一個選單直接選「睡覺」（GAME.choose 的 menu:true、有 k:'sleep' 的那一個；有該出發的約（out、inv）就不代選，讓玩家看選單）*/
   S._autoSleep=false;
+  (globalThis.LOADLOCKS=globalThis.LOADLOCKS||{})['onetap3d:autoSleep']=()=>{ S._autoSleep=false; S.running=false; };   /* 讀檔時放開（LOADGEN-LOCKS-1028）*/
   S.pickSleep=function(options,opt){ if(!S._autoSleep||!opt||!opt.menu||!Array.isArray(options)) return -1; if(options.some(o=>o&&(o.k==='out'||o.k==='inv'))){ S._autoSleep=false; return -1; } const i=options.findIndex(o=>o&&o.k==='sleep'); if(i>=0) S._autoSleep=false; return i; };
   if(typeof GAME!=='undefined'&&GAME&&typeof GAME.choose==='function'&&!GAME._onetapWrap){ const c0=GAME.choose; GAME.choose=function(options,opt){ const i=S.pickSleep(options,opt); if(i>=0) return Promise.resolve(i); return c0.apply(this,arguments); }; GAME._onetapWrap=true; }
   S.goSleep=async function(GM,p){ const G=GM.G, w=p.w; if(typeof ACTIVITIES!=='undefined'&&ACTIVITIES.leave) ACTIVITIES.leave(G);   /* 活動中＝中途離開（同快速前往）*/

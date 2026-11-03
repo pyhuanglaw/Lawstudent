@@ -311,10 +311,10 @@ const R2Y4B_EVENTS=(function(){
       {label:'end'},{set:{MX_DEPART:'airport'}} ],
     outingMissed:G=>{ const r=R(); if(r) r.mxDepartMissed(G); } },
   /* ---------- 2-Y4-50 以安：哥大（2030-03-28（四）19:00 麵店，她約的；AA_285 第 4 節④）＋紐約送機（2030-08-11（日）10:00；④⑤）---------- */
-  { id:'ev_an_columbia', title:'紐約的法學院', participants:['heroine_01'], location:'any', trigger:'outing', once:true, background:'dark', hours:1.5,
+  { id:'ev_an_columbia', title:'紐約', participants:['heroine_01'], location:'any', trigger:'outing', once:true, background:'dark', hours:1.5,
     dialogue:[ {scene:'阿鳳麵店',bg:'noodle_table'},
       {speaker:null,text:'（麵店。長桌的人還沒到，她坐在角落那張兩人桌。）'},
-      {speaker:'heroine_01',text:'紐約的法學院上了。我要去。'},
+      {speaker:'heroine_01',text:'紐約那間法學院，上了。我要去。'},
       {speaker:'heroine_01',text:'司法官學院，我寫信說不去報到。研究所辦休學。'},
       {speaker:'heroine_01',text:'我媽聽了一個小時。最後她說：你講得比我想的清楚。'},
       {choice:[{text:'「為什麼都不要？」',goto:'a'},{text:'「妳確定？」',goto:'b'}]},

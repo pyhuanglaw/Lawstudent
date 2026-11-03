@@ -57,7 +57,7 @@ const FEST=(function(){
   S.dating=dating;
 
   /* ---------------- 1-1 日子 ---------------- */
-  S.YEARS={vday:[2026,2027,2028,2029],white:[2026,2027,2028,2029],qixi:[2026,2027,2028,2029],bday:[2026,2027,2028,2029],xmas:[2025,2026,2027,2028],nye:[2025,2026,2027,2028]};
+  S.YEARS={vday:[2026,2027,2028,2029],white:[2026,2027,2028,2029],qixi:[2026,2027,2028,2029],bday:[2026,2027,2028,2029],mybday:[2025,2026,2027,2028,2029],xmas:[2025,2026,2027,2028],nye:[2025,2026,2027,2028]};
   S.cell=(id,k)=>((X.PEOPLE[id]||{}).fest||{})[k]||null;
   S.dayOf=function(id,k,y){ const md={vday:'02-14',white:'03-14',xmas:'12-24',nye:'12-31'}[k];
     if(md) return D(y+'-'+md); if(k==='qixi') return X.QIXI[y]?D(X.QIXI[y]):null; if(k==='bday') return X.BDAY[id]?D(y+'-'+X.BDAY[id]):null; return null; };
@@ -303,7 +303,7 @@ const FEST=(function(){
   /* 只有訊息的節日（P.dm；芯慈交往中，AA_537b 第 5 節）：跨年 12/31 23:58、00:01 兩則；你的生日 00:00 一則（X.PLAYER_BDAY 'MM-DD'；還沒定＝null＝不發）。
      時間是臺灣時間（她在臺灣準時傳）；祐廷在國外換成手機上的時間（STORY.tzOffset，同 S.videoH）。到了那個時間才排（同 S.zrDm：睡過去的照原本的時間補進去），過了 36 小時還沒排到的不補；
      那時候要是交往中、有她的聯絡方式（S.barred 照 datingOnly、線開關）。一年一則（tag fest_dm_<人物>_<種類>_<年>_<第幾則>）*/
-  S.DM_YEARS={nye:'nye',myBday:'bday'};
+  S.DM_YEARS={nye:'nye',myBday:'mybday'};   /* 祐廷的生日 11-26（AA_639）：法律系大一 2025 起；經濟系那年（2024）不發 */
   S.dmDay=function(k,y){ if(k==='nye') return D(y+'-12-31'); if(k==='myBday') return X.PLAYER_BDAY?D(y+'-'+X.PLAYER_BDAY):null; return null; };
   S.dmRule=function(G){ for(const id of HER){ const M=(X.PEOPLE[id]||{}).dm; if(!M||!dating(G,id)) continue;
       for(const k of Object.keys(M)) for(const y of (S.YEARS[S.DM_YEARS[k]]||[])){ const d=S.dmDay(k,y); if(d==null||S.barred(G,id,'dm_'+k,y)||!contact(G,id,d)) continue;

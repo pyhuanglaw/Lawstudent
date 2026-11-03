@@ -314,8 +314,8 @@ const date=id=>H.date(id);
   { fresh('2030-03-27',20,'dorm',GD); ANF(); at('2030-03-27',21); pg();
     check('2-Y4-50 3/27 21:00 私訊「明天晚上七點，麵店。」「有事想說。」（去／不去）', JSON.stringify(th('p:heroine_01').slice(-2))===JSON.stringify(['明天晚上七點，麵店。','有事想說。'])&&!!PHONE.byAsk(H.G,'y6_an_col'));
     answer('y6_an_col',0); phone(); const q=OUT.get(H.G,'y6_an_col'); at('2030-03-28',18.4); await goOut('y6_an_col',[0]);
-    check('C1 朋友：3/28 麵店當面「紐約的法學院上了。我要去。」＋她的三句、兩個選項；朋友沒有「八月走。一年。」；記憶 AN_COLUMBIA', !!q&&q.h===19&&has('（麵店。長桌的人還沒到，她坐在角落那張兩人桌。）')&&has('紐約的法學院上了。我要去。')&&has('司法官學院，我寫信說不去報到。研究所辦休學。')&&has('我媽聽了一個小時。最後她說：你講得比我想的清楚。')&&has('都考上，是要知道我做得到。可是我想做的是公司、證券那些案子。法官很少遇到。')&&!has('八月走。一年。')&&SOCIAL.has('heroine_01','AN_COLUMBIA'));
-    at('2030-03-28',22.1); pg(); check('2-Y4-50 當面說過的：22:00 沒有群組那一則', !th('g:noodle_team').includes('紐約的法學院上了。八月去紐約。'));
+    check('C1 朋友：3/28 麵店當面「紐約那間法學院，上了。我要去。」＋她的三句、兩個選項；朋友沒有「八月走。一年。」；記憶 AN_COLUMBIA', !!q&&q.h===19&&has('（麵店。長桌的人還沒到，她坐在角落那張兩人桌。）')&&has('紐約那間法學院，上了。我要去。')&&has('司法官學院，我寫信說不去報到。研究所辦休學。')&&has('我媽聽了一個小時。最後她說：你講得比我想的清楚。')&&has('都考上，是要知道我做得到。可是我想做的是公司、證券那些案子。法官很少遇到。')&&!has('八月走。一年。')&&SOCIAL.has('heroine_01','AN_COLUMBIA'));
+    at('2030-03-28',22.1); pg(); check('2-Y4-50 當面說過的：22:00 沒有群組那一則', !th('g:noodle_team').includes('紐約那間法學院上了。八月出發。'));
     at('2030-08-10',21); pg(); answer('y6_an_ny',0); phone(); at('2030-08-11',8.9); await goOut('y6_an_ny',[0]);
     check('C1 8/10 21:00 阿哲「明天以安的飛機」「早上十點 桃園 要去的舉手」；8/11 朋友版「你們不用全部都來的。」「回來的時候，我會在事務所。你來找我，要預約。」；AN_NY_SENDOFF went', th('g:noodle_team').includes('明天以安的飛機')&&th('g:noodle_team').includes('早上十點 桃園 要去的舉手')&&has('（看了一下手錶）你們不用全部都來的。')&&has('（轉向你）回來的時候，我會在事務所。你來找我，要預約。')&&has('……嗯。')&&!has('……你不用預約。')&&H.G.flags.AN_NY_SENDOFF==='went'); }
   { fresh('2030-03-28',18.4,'dorm',GD); ANF(); date('heroine_01'); OUT.plan(H.G,{id:'y6_an_col',ev:'ev_an_columbia',day:D('2030-03-28'),h:19,place:'阿鳳麵店',title:'t',travelH:0.5}); await goOut('y6_an_col',[1,1]);
@@ -331,10 +331,10 @@ const date=id=>H.date(id);
   { fresh('2030-08-10',20,'dorm',GD); ANF(); H.G.flags.AN_SENDOFF='missed'; at('2030-08-10',21); pg(); answer('y6_an_ny',0); phone(); at('2030-08-11',8.9); await goOut('y6_an_ny',[0]);
     check('AA_447 1-1 2028 沒去送機（missed）：照原本三句', has('（桃園機場，出境的門口。大家站成一排。）')&&has('（看了一下手錶）你們不用全部都來的。')&&!has('上次你也知道我們會來。')); }
   { fresh('2030-03-27',20,'dorm',GD); ANF(); at('2030-03-27',21); pg(); answer('y6_an_col',1); at('2030-03-28',22); pg();
-    check('G6-50 3/27 選「那天不行。」：以安回「好。……那我寫在群組。」（AA_345 G6）；3/28 22:00 群組「紐約的法學院上了。八月去紐約。」照常；沒有排麵店', (()=>{ const T=th('p:heroine_01'), i=T.indexOf('那天不行。'); return i>=0&&T[i+1]==='好。……那我寫在群組。'; })()&&th('g:noodle_team').includes('紐約的法學院上了。八月去紐約。')&&!OUT.get(H.G,'y6_an_col'), JSON.stringify(th('p:heroine_01'))); }
-  { const ML=SOCIAL.MEMORY_LABEL; check('G7 人物面板名稱定稿（AA_345 第 4 節）：AN_GRAD_PASS「她研究所放榜那晚，在麵店」、AN_COLUMBIA「她說紐約的法學院上了，八月要去紐約」', ML.AN_GRAD_PASS==='她研究所放榜那晚，在麵店'&&ML.AN_COLUMBIA==='她說紐約的法學院上了，八月要去紐約', JSON.stringify([ML.AN_GRAD_PASS,ML.AN_COLUMBIA])); }
+    check('G6-50 3/27 選「那天不行。」：以安回「好。……那我寫在群組。」（AA_345 G6）；3/28 22:00 群組「紐約那間法學院上了。八月出發。」照常；沒有排麵店', (()=>{ const T=th('p:heroine_01'), i=T.indexOf('那天不行。'); return i>=0&&T[i+1]==='好。……那我寫在群組。'; })()&&th('g:noodle_team').includes('紐約那間法學院上了。八月出發。')&&!OUT.get(H.G,'y6_an_col'), JSON.stringify(th('p:heroine_01'))); }
+  { const ML=SOCIAL.MEMORY_LABEL; check('G7 人物面板名稱定稿（AA_345 第 4 節）：AN_GRAD_PASS「她研究所放榜那晚，在麵店」、AN_COLUMBIA「她說紐約那間法學院上了，八月要去」', ML.AN_GRAD_PASS==='她研究所放榜那晚，在麵店'&&ML.AN_COLUMBIA==='她說紐約那間法學院上了，八月要去', JSON.stringify([ML.AN_GRAD_PASS,ML.AN_COLUMBIA])); }
   { fresh('2030-03-28',20,'dorm',GD); H.FAMILIAR('heroine_01'); H.FAMILIAR('zhe'); grp(); at('2030-03-28',22); pg(); at('2030-08-10',21); pg(); at('2030-08-11',11.7); pg();
-    check('2-Y4-50 不到 FRIEND：3/28 22:00 群組「紐約的法學院上了。八月去紐約。」；8/10 群組沒有「我去。」；8/11 只有群組的登機證照片', th('g:noodle_team').includes('紐約的法學院上了。八月去紐約。')&&!PHONE.byAsk(H.G,'y6_an_ny')&&th('g:noodle_team').includes('（照片：登機證）')&&!th('p:heroine_01').length&&H.G.flags.AN_NY_SENDOFF==='missed'); }
+    check('2-Y4-50 不到 FRIEND：3/28 22:00 群組「紐約那間法學院上了。八月出發。」；8/10 群組沒有「我去。」；8/11 只有群組的登機證照片', th('g:noodle_team').includes('紐約那間法學院上了。八月出發。')&&!PHONE.byAsk(H.G,'y6_an_ny')&&th('g:noodle_team').includes('（照片：登機證）')&&!th('p:heroine_01').length&&H.G.flags.AN_NY_SENDOFF==='missed'); }
   { fresh('2030-08-10',20,'dorm',GD); ANF(); at('2030-08-10',21); pg(); at('2030-08-11',11.7); pg();
     check('2-Y4-50 FRIEND 以上、沒去：11:40 以安（照片：登機證）「要登機了。」「到了再傳。」（AA_592 第 15、16 列）', JSON.stringify(th('p:heroine_01').slice(-3))===JSON.stringify(['（照片：登機證）','要登機了。','到了再傳。']));
     at('2030-09-01',12); const p=STORY.presence('heroine_01',H.G); check('2-Y4-50 以安 presence：2030-08-11 起在紐約（到 2031 夏天）', p.here===false&&p.kind==='abroad'); }

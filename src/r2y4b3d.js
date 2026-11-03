@@ -778,7 +778,7 @@ const R2Y4B=(function(){
     {tag:'y5_mx_photo',at:['2029-09-02',8+40/60],cond:G=>PHONE.sent(G,'y5_mx_depart')&&G.flags.MX_DEPART!=='airport',items:G=>[GR('classmate_mingxuan','（照片：機場的落地窗，一架飛機）'),GR('classmate_mingxuan','出發了。一年。八月見。'),GR('zhe','帶香腸回來')],after:G=>{ G.flags.MX_DEPART='msg'; }},
     /* 2-Y4-50 以安：哥大、紐約 */
     {tag:'y6_an_col',at:['2030-03-27',21],cond:G=>met(G,'heroine_01','FRIEND')&&!isEx(G,'heroine_01')&&contact(G,'heroine_01'),items:G=>[P_('heroine_01','明天晚上七點，麵店。'),P_('heroine_01','有事想說。',{ask:{id:'y6_an_col',until:T(DK('2030-03-28'),19),opts:[{t:'好。',set:{AN_COL_GO:true}},{t:'那天不行。',set:{AN_COL_GO:false},say:[{from:'heroine_01',text:'好。……那我寫在群組。'}]}]}})]},   /* 「那天不行。」的回話：AA_345 G6；3/28 22:00 群組那一則照常 */
-    {tag:'y6_an_col_grp',at:['2030-03-28',22],cond:G=>grp(G)&&knows('heroine_01',G)&&!evDone(G,'ev_an_columbia'),items:G=>[GR('heroine_01','紐約的法學院上了。八月去紐約。')]},   /* 不到 FRIEND（和當面沒去的）*/
+    {tag:'y6_an_col_grp',at:['2030-03-28',22],cond:G=>grp(G)&&knows('heroine_01',G)&&!evDone(G,'ev_an_columbia'),items:G=>[GR('heroine_01','紐約那間法學院上了。八月出發。')]},   /* 不到 FRIEND（和當面沒去的）*/
     {tag:'y6_an_ny_grp',at:['2030-08-10',21],cond:G=>grp(G)&&knows('heroine_01',G),items:G=>{ const L=[GR('zhe','明天以安的飛機'),GR('zhe','早上十點 桃園 要去的舉手')];
       if(met(G,'heroine_01','FRIEND')) L[1].ask={id:'y6_an_ny',until:T(DK('2030-08-11'),9),opts:[{t:'我去。',set:{AN_NY_GO:true}}]}; return L; }},
     {tag:'y6_an_ny_photo',at:['2030-08-11',11+40/60],cond:G=>knows('heroine_01',G)&&G.flags.AN_NY_SENDOFF!=='went'&&(met(G,'heroine_01','FRIEND')?contact(G,'heroine_01'):grp(G)),
