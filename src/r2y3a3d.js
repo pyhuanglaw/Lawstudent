@@ -282,11 +282,11 @@ const R2Y3A=(function(){
   const Yt=P('heroine_03'), Ytr=R('heroine_03');
   S.leasePhone=function(G){ const F=G.flags, d=DK('2027-11-24'); if(d==null) return; const di=d-1, n=now(G);
     if(G.day>=di&&G.day<=d&&n>=T(di,21)&&n<T(d,14.5)){
-      if(member(G)&&grp(G,'lawclub_study')){ if(!sent(G,'y3_lease_fafu')) PHONE.at(G,di,atH(G,di,21),[Object.assign(BF('明天下午兩點半，麵店。續約的談話，要一個人做紀錄。'),{ask:{id:'y3_lease_fafu',until:T(d,14.5),opts:[{t:'我去。',say:[BFr('好。')],set:{YT_EV14_GO:true}}]}})],'y3_lease_fafu'); }   /* 不回＝別人去 */
-      else if(dating(G,'heroine_03')&&!sent(G,'y3_lease_yt')) PHONE.at(G,di,atH(G,di,21),[Yt('明天下午兩點半 阿姨要談續約'),Object.assign(Yt('……你坐我旁邊就好'),{ask:{id:'y3_lease_yt',until:T(d,14.5),opts:[{t:'好。',say:[Ytr('嗯')],set:{YT_EV14_GO:true}},{t:'那天我不行。',say:[Ytr('嗯 沒關係')]}]}})],'y3_lease_yt'); }
-    if(F.YT_EV14_GO===true&&!F.YT_EV14&&!outGet(G,'y3_lease')&&n<T(d,14.75)) plan(G,{id:'y3_lease',ev:'ev_yt_lease_renew',day:d,h:14.5,late:0.25,place:'阿鳳麵店',title:'續約（阿鳳麵店 14:30）',travel:'走過去約 15 分鐘',travelH:0.25,alarm:true});
+      if(member(G)&&grp(G,'lawclub_study')){ if(!sent(G,'y3_lease_fafu')) PHONE.at(G,di,atH(G,di,21),[Object.assign(BF('明天下午兩點半，法律系館B研討室。續約的談話，要一個人做紀錄。'),{ask:{id:'y3_lease_fafu',until:T(d,14.5),opts:[{t:'我去。',say:[BFr('好。')],set:{YT_EV14_GO:true}}]}})],'y3_lease_fafu'); }   /* 不回＝別人去 */
+      else if(dating(G,'heroine_03')&&!sent(G,'y3_lease_yt')) PHONE.at(G,di,atH(G,di,21),[Yt('明天下午兩點半 秀琴姨要談續約'),Object.assign(Yt('……你坐我旁邊就好'),{ask:{id:'y3_lease_yt',until:T(d,14.5),opts:[{t:'好。',say:[Ytr('嗯')],set:{YT_EV14_GO:true}},{t:'那天我不行。',say:[Ytr('嗯 沒關係')]}]}})],'y3_lease_yt'); }
+    if(F.YT_EV14_GO===true&&!F.YT_EV14&&!outGet(G,'y3_lease')&&n<T(d,14.75)) plan(G,{id:'y3_lease',ev:'ev_yt_lease_renew',day:d,h:14.5,late:0.25,place:'法律系館B研討室',title:'續約（法律系館B研討室 14:30）',travel:'走過去約 10 分鐘',travelH:1/6,alarm:true});   /* AA_625 第 14 節：在法律系館B研討室談 */
     const dm=DK('2027-12-14'); if(dm!=null&&G.day>=dm&&G.day<=dm+1&&n>=T(dm,21)&&!F.YT_EV14&&!done(G,'ev_yt_lease_renew')&&met(G,'heroine_03','FAMILIAR')&&!sent(G,'y3_lease_msg')){   /* 轉述的窗口都沒遇到：她私訊前兩句 */
-      PHONE.at(G,dm,atH(G,dm,21),[Yt('阿姨續約了。五年，寫成書面的。'),Yt('……新屋主說，他高中的時候也來這裡吃過麵。')],'y3_lease_msg'); F.YT_EV14='heard'; } };   /* AA_376 #10：轉述和現場一致（「我高中的時候來過。」）*/
+      PHONE.at(G,dm,atH(G,dm,21),[Yt('續約了。五年。'),Yt('秀琴姨說要煮一桌菜請你吃。……她說『那個學法律的』。')],'y3_lease_msg');   /* AA_625 第 14 節不在場版的兩句 */ F.YT_EV14='heard'; } };   /* AA_376 #10：轉述和現場一致（「我高中的時候來過。」）*/
 
   /* ===================== 2-Y3-19 可昕 K17 ===================== */
   S.k17Phone=function(G){ const F=G.flags; if(!dating(G,'kexin')) return; const n=now(G), d8=DK('2027-12-08');

@@ -433,36 +433,24 @@ const R2Y3A_EVENTS=(function(){
       {speaker:'zhe',text:'修車行估了價。對方照估價付了。'},
       {speaker:'zhe',expression:'smile',text:'（把他碗裡的滷蛋夾一半給你）法律系的好處是，有人陪你不簽字。'} ] };
 
-  /* ---------- 2-Y3-17 語彤事件 14「續約」（LEGAL_REVIEW_REQUIRED：只寫租約到期前受保護、續約是雙方談的）：11/24（三）14:30 麵店；RENT_RENEWED 一律記（story3d.js S.y3Facts）---------- */
+  /* ---------- 2-Y3-17 語彤事件 14「續約」（LEGAL_REVIEW_REQUIRED：只寫租約到期前受保護、續約是雙方談的）：11/24（三）14:30 法律系館B研討室（AA_625 第 14 節）；RENT_RENEWED 一律記（story3d.js S.y3Facts）---------- */
   const GF_YT=dt('heroine_03'), FAFU_REC={custom:G=>member(G)&&!dating(G,'heroine_03')};
   const RENEW={ id:'ev_yt_lease_renew', title:'續約', participants:['heroine_03'], location:'any', trigger:'outing', once:true, background:'dark', hours:1,
-    dialogue:[ {scene:'阿鳳麵店・長桌',bg:'noodle_table'},
-      {speaker:null,text:'（麵店的鐵門拉起一半。桌上有兩樣東西：一張二十年的繳租時間表，和語彤的筆記本，上面抄著老客人說的話。）'},
-      {if:{flags:['YT_LEASE_HELP']},speaker:null,text:'（那張時間表是你排的。）'},
-      {speaker:null,text:'（新屋主三十多歲，穿西裝，看著時間表和語彤的筆記，沒說話。）'},
-      {speaker:null,text:'（阿姨端了一碗麵給他：「先吃。」）'},
-      {speaker:null,text:'（他吃了兩口，停住。）'},
-      {speaker:'新屋主',text:'……我高中的時候來過。補習完。'},
-      {speaker:'新屋主',text:'我那時候都點餛飩湯。'},
-      {speaker:'阿姨',text:'你點的是乾麵加滷蛋。你記錯了。'},
-      {speaker:'新屋主',text:'（笑出來）……對。乾麵。'},
-      {speaker:'新屋主',text:'五年。租金照市價調一點，可以嗎？'},
-      {speaker:'阿姨',text:'……可以。'},
-      {speaker:'阿姨',text:'（轉身，手在發抖，拿起刀）不要看我，蔥要切。'},
-      {speaker:'阿姨',text:'我也要學休息。妳也是。'},
-      {if:GF_YT,speaker:'阿姨',text:'（看你）你也是。禮拜四把她帶走，不要讓她來店裡。'},
-      {if:GF_YT,speaker:'heroine_03',expression:'embarrassed',text:'阿姨。'},
-      {choice:[{text:'（把紀錄存好）',if:FAFU_REC,goto:'r1'},{text:'（看語彤）',goto:'r2'}]},
-      {label:'r1'},{speaker:'律師',text:'紀錄給我一份。'},{goto:'end'},
-      {label:'r2'},{speaker:null,text:'（語彤低著頭，在筆記本最後一頁寫了一行字，沒有給你看。）'},
+    /* AA_625 第 14 節在場版（YT-REWRITE-1103，AA 定稿）：法律系館B研討室；法服的指導律師、新屋主、秀琴姨、語彤 */
+    dialogue:[ {scene:'法律系館B・研討室',bg:'wancai_seminar'},
+      {speaker:'指導律師',text:'租約到明年三月。屋主想重新裝潢，我們理解。秀琴姨在這裡住了十六年，從來沒有晚繳過一次房租。'},
+      {speaker:'新屋主',text:'……我只是想租給學生，比較好收。'},
+      {speaker:'指導律師',text:'秀琴姨願意配合調一點租金，換五年的租約。您不用重新找人、不用空租期。'},
+      {speaker:null,text:'（新屋主看了一下語彤準備的資料：十六年的繳費紀錄，一張一張夾好。）'},
+      {speaker:'新屋主',text:'……五年。租金照這個數字。'},
+      {speaker:'秀琴姨',text:'好。好。'},
+      {speaker:null,text:'（散會。秀琴姨抓著語彤的手，一直沒放。）'},
       {label:'end'},{set:{YT_EV14:'there'}} ] };
   /* 轉述（她之後第一次在麵店的班，11/25～12/14；和她 FAMILIAR 以上、不在場的）*/
-  const RETELL={ id:'ev_yt_lease_retell', title:'續約', participants:['heroine_03'], location:'noodle', trigger:'interact', priority:9, once:true, background:'blur',
+  const RETELL={ id:'ev_yt_lease_retell', title:'續約', participants:['heroine_03'], location:'wz_teahouse', trigger:'interact', priority:9, once:true, background:'blur',   /* AA_625 第 14 節不在場版：茶屋轉述 */
     prereq:{custom:G=>{ const a=D('2027-11-25'), b=D('2027-12-14'); return a!=null&&G.day>=a&&G.day<=b&&!(G.flags&&G.flags.YT_EV14)&&!done(G,'ev_yt_lease_renew')&&stAt(G,'heroine_03','FAMILIAR'); }},
-    dialogue:[ {speaker:'heroine_03',text:'阿姨續約了。五年，寫成書面的。'},
-      {speaker:'heroine_03',text:'……新屋主說，他高中的時候也來這裡吃過麵。'},   /* AA_376 #10：和現場（「我高中的時候來過。」）一致 */
-      {speaker:'heroine_03',text:'阿姨要請一個工讀生。禮拜四。'},
-      {if:{memory:[{npc:'heroine_03',tag:'RENT_CONSULTATION'}]},speaker:'heroine_03',text:'法服那次說的，後來都用上了。'},
+    dialogue:[ {speaker:'heroine_03',text:'續約了。五年。'},
+      {speaker:'heroine_03',text:'秀琴姨說要煮一桌菜請你吃。……她說『那個學法律的』。'},
       {set:{YT_EV14:'heard'}} ] };
 
   /* ---------- 2-Y3-18 慈 5「對答案」（AA_547 2-3 新寫：分工抄筆記）：第 13 週週一～週三 18:00～21:00、週四 18:00～19:45，總圖三樓（兩個人坐同一張桌子；作息在 r2y3a3d.js）。走近＝近的版本；只進三樓＝遠遠看到 ---------- */

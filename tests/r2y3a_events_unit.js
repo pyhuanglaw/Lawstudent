@@ -422,23 +422,23 @@ const W1S=STORY.week1Start, noZhe=()=>{ STORY.week1Start=()=>true; }, zheBack=()
   fresh('2027-11-24',15.4,'dorm'); STORY.y3Facts(G); check('17. 11/24 15:30 以前沒有 RENT_RENEWED',!G.flags.RENT_RENEWED);
   to('2027-11-24',15.5); STORY.y3Facts(G); check('17. R4 11/24 15:30 一律記 RENT_RENEWED（劇情事實，不在場也記）',G.flags.RENT_RENEWED===true);
   fresh('2027-11-23',20,'dorm',{lawclub:true}); join('lawclub_study'); run('2027-11-23',20.75,21.25);
-  check('17. 法服成員：11/23 21:00 柏翰「明天下午兩點半，麵店。續約的談話，要一個人做紀錄。」＋「我去。」',txt('g:lawclub_study').slice(-1)[0]==='classmate_bohan:明天下午兩點半，麵店。續約的談話，要一個人做紀錄。'&&JSON.stringify(PHONE.byAsk(G,'y3_lease_fafu').ask.opts.map(o=>o.t))===JSON.stringify(['我去。']));
-  ans('y3_lease_fafu',0); { const q=OUT.get(G,'y3_lease'); check('17. 「我去。」→「好。」→ 11/24 14:30 麵店',txt('g:lawclub_study').slice(-1)[0]==='classmate_bohan:好。'&&!!q&&q.day===D('2027-11-24')&&q.h===14.5&&q.ev==='ev_yt_lease_renew'); }
+  check('17. 法服成員：11/23 21:00 柏翰「明天下午兩點半，法律系館B研討室。續約的談話，要一個人做紀錄。」（AA_625 第 14 節：在法律系館B研討室）＋「我去。」',txt('g:lawclub_study').slice(-1)[0]==='classmate_bohan:明天下午兩點半，法律系館B研討室。續約的談話，要一個人做紀錄。'&&JSON.stringify(PHONE.byAsk(G,'y3_lease_fafu').ask.opts.map(o=>o.t))===JSON.stringify(['我去。']));
+  ans('y3_lease_fafu',0); { const q=OUT.get(G,'y3_lease'); check('17. 「我去。」→「好。」→ 11/24 14:30 法律系館B研討室',txt('g:lawclub_study').slice(-1)[0]==='classmate_bohan:好。'&&!!q&&q.day===D('2027-11-24')&&q.h===14.5&&q.ev==='ev_yt_lease_renew'&&/法律系館B ?研討室/.test(q.place),JSON.stringify(q)); }
   G.flags.YT_LEASE_HELP=true; picks=[0]; await go('y3_lease',14);
-  { const W=['（麵店的鐵門拉起一半。桌上有兩樣東西：一張二十年的繳租時間表，和語彤的筆記本，上面抄著老客人說的話。）','（那張時間表是你排的。）','（新屋主三十多歲，穿西裝，看著時間表和語彤的筆記，沒說話。）','（阿姨端了一碗麵給他：「先吃。」）','（他吃了兩口，停住。）',
-      '……我高中的時候來過。補習完。','我那時候都點餛飩湯。','你點的是乾麵加滷蛋。你記錯了。','（笑出來）……對。乾麵。','五年。租金照市價調一點，可以嗎？','……可以。','（轉身，手在發抖，拿起刀）不要看我，蔥要切。','我也要學休息。妳也是。','紀錄給我一份。'];
-    check('17. R1 法服成員、去了（逐字）：有 YT_LEASE_HELP 多「（那張時間表是你排的。）」；「（把紀錄存好）」→ 律師「紀錄給我一份。」；YT_EV14 there',JSON.stringify(all())===JSON.stringify(W)&&JSON.stringify(opts[0])===JSON.stringify(['（把紀錄存好）','（看語彤）'])&&G.flags.YT_EV14==='there',JSON.stringify(all())); }
+  /* AA_625 第 14 節在場版（YT-REWRITE-1103）：指導律師、新屋主、秀琴姨、語彤；沒有選項（原本「把紀錄存好」「看語彤」、時間表、交往中阿姨那兩句都拿掉）*/
+  { const W=['租約到明年三月。屋主想重新裝潢，我們理解。秀琴姨在這裡住了十六年，從來沒有晚繳過一次房租。','……我只是想租給學生，比較好收。','秀琴姨願意配合調一點租金，換五年的租約。您不用重新找人、不用空租期。','（新屋主看了一下語彤準備的資料：十六年的繳費紀錄，一張一張夾好。）','……五年。租金照這個數字。','好。好。','（散會。秀琴姨抓著語彤的手，一直沒放。）'];
+    check('17. R1 法服成員、去了（AA_625 第 14 節逐字）；YT_EV14 there',JSON.stringify(all())===JSON.stringify(W)&&G.flags.YT_EV14==='there',JSON.stringify(all())); }
   fresh('2027-11-23',20,'dorm'); date('heroine_03'); run('2027-11-23',20.75,21.25);
-  check('17. 和語彤交往中、不是法服成員：語彤私訊「明天下午兩點半 阿姨要談續約」「……你坐我旁邊就好」',JSON.stringify(txt('p:heroine_03').slice(-2))===JSON.stringify(['heroine_03:明天下午兩點半 阿姨要談續約','heroine_03:……你坐我旁邊就好'])&&JSON.stringify(PHONE.byAsk(G,'y3_lease_yt').ask.opts.map(o=>o.t))===JSON.stringify(['好。','那天我不行。']));
+  check('17. 和語彤交往中、不是法服成員：語彤私訊「明天下午兩點半 秀琴姨要談續約」「……你坐我旁邊就好」',JSON.stringify(txt('p:heroine_03').slice(-2))===JSON.stringify(['heroine_03:明天下午兩點半 秀琴姨要談續約','heroine_03:……你坐我旁邊就好'])&&JSON.stringify(PHONE.byAsk(G,'y3_lease_yt').ask.opts.map(o=>o.t))===JSON.stringify(['好。','那天我不行。']));
   ans('y3_lease_yt',0); await go('y3_lease',14);
-  check('17. R2 交往中：阿姨「（看你）你也是。禮拜四把她帶走，不要讓她來店裡。」語彤「阿姨。」；沒有「把紀錄存好」；（看語彤）的旁白',has('（看你）你也是。禮拜四把她帶走，不要讓她來店裡。')&&has('阿姨。')&&JSON.stringify(opts[0])===JSON.stringify(['（看語彤）'])&&has('（語彤低著頭，在筆記本最後一頁寫了一行字，沒有給你看。）')&&!has('（那張時間表是你排的。）'));
-  fresh('2027-11-23',20,'dorm',{lawclub:true}); join('lawclub_study'); date('heroine_03'); await play('ev_yt_lease_renew',[0]); check('17. 交往中、又是法服成員：紀錄由律師做（沒有「把紀錄存好」）',JSON.stringify(opts[0])===JSON.stringify(['（看語彤）']));
+  check('17. R2 交往中：同一段（AA_625 第 14 節沒有交往中的版本）',has('（散會。秀琴姨抓著語彤的手，一直沒放。）')&&!has('（看你）你也是。禮拜四把她帶走，不要讓她來店裡。'));
+  fresh('2027-11-23',20,'dorm',{lawclub:true}); join('lawclub_study'); date('heroine_03'); await play('ev_yt_lease_renew',[0]); check('17. 交往中、又是法服成員：沒有選項（AA_625 第 14 節）',!opts.length);
   fresh('2027-11-23',20,'dorm'); date('heroine_03'); run('2027-11-23',20.75,21.25); ans('y3_lease_yt',1); check('17. 「那天我不行。」→「嗯 沒關係」；沒有出遊',txt('p:heroine_03').slice(-1)[0]==='heroine_03:嗯 沒關係'&&!OUT.get(G,'y3_lease'));
-  fresh('2027-11-25',18,'noodle'); R('heroine_03','FAM'); SOCIAL.remember('heroine_03','RENT_CONSULTATION','');
-  { const T=ev('ev_yt_lease_retell'); check('17. R3 都沒去：11/25 起麵店跟她說話＝轉述（interact）；11/24 不演；12/15 不演',T.trigger==='interact'&&EVENTS.check(T)&&(()=>{ to('2027-11-24',18); const a=!EVENTS.check(T); to('2027-12-15',18); const b=!EVENTS.check(T); to('2027-11-25',18); return a&&b; })()); }
-  await play('ev_yt_lease_retell'); check('17. R3 轉述四句（「他高中的時候」照 AA_376 第 10 項；有 RENT_CONSULTATION 多「法服那次說的，後來都用上了。」）；YT_EV14 heard',JSON.stringify(all())===JSON.stringify(['阿姨續約了。五年，寫成書面的。','……新屋主說，他高中的時候也來這裡吃過麵。','阿姨要請一個工讀生。禮拜四。','法服那次說的，後來都用上了。'])&&G.flags.YT_EV14==='heard');
+  fresh('2027-11-27',14,'wz_teahouse'); R('heroine_03','FAM'); SOCIAL.remember('heroine_03','RENT_CONSULTATION','');   /* AA_625 第 14 節：茶屋轉述（她的班＝週六、日）*/
+  { const T=ev('ev_yt_lease_retell'); check('17. R3 都沒去：11/25 起在茶屋跟她說話＝轉述（interact）；11/24 不演；12/15 不演',T.trigger==='interact'&&T.location==='wz_teahouse'&&EVENTS.check(T)&&(()=>{ to('2027-11-24',14); const a=!EVENTS.check(T); to('2027-12-15',14); const b=!EVENTS.check(T); to('2027-11-27',14); return a&&b; })()); }
+  await play('ev_yt_lease_retell'); check('17. R3 轉述兩句（AA_625 第 14 節不在場版）；YT_EV14 heard',JSON.stringify(all())===JSON.stringify(['續約了。五年。','秀琴姨說要煮一桌菜請你吃。……她說『那個學法律的』。'])&&G.flags.YT_EV14==='heard');
   fresh('2027-11-25',18,'dorm'); R('heroine_03','FAM'); run('2027-12-14',20.75,21.25);
-  check('17. 轉述的窗口都沒遇到：12/14 21:00 她私訊前兩句；YT_EV14 heard',JSON.stringify(txt('p:heroine_03').slice(-2))===JSON.stringify(['heroine_03:阿姨續約了。五年，寫成書面的。','heroine_03:……新屋主說，他高中的時候也來這裡吃過麵。'])&&G.flags.YT_EV14==='heard');
+  check('17. 轉述的窗口都沒遇到：12/14 21:00 她私訊那兩句（AA_625 第 14 節不在場版）；YT_EV14 heard',JSON.stringify(txt('p:heroine_03').slice(-2))===JSON.stringify(['heroine_03:續約了。五年。','heroine_03:秀琴姨說要煮一桌菜請你吃。……她說『那個學法律的』。'])&&G.flags.YT_EV14==='heard');
   fresh('2027-11-25',18,'dorm'); run('2027-12-14',20.75,21.25); check('17. 不認識語彤：沒有轉述（續約照樣發生）',!PHONE.sent(G,'y3_lease_msg'));
 
   // ===== 18. 2-Y3-18 慈 5「對答案」 =====
