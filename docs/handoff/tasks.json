@@ -39498,7 +39498,7 @@
    "title": "D118 劇情面（AA 劇情總監，使用者 11-02 直接指派；AA_570 第 0 節）：法律學習內容（讀得懂、有可靠來源）、考題（不把沒核對的 AI 自編題當正式題庫）、一鍵總複習的內容、司法官／律師／重考六條路線的結局文本（照台灣現行制度、每種都是完整結局）、法服改純劇情（拿掉例行任務）；人物不說教、不貶低自己、不比成績（D116）",
    "area": null,
    "owner": "AA",
-   "status": "進行中",
+   "status": "已整合待測試",
    "priority": "P0",
    "first": {
     "term": "Y1S1",
@@ -39512,7 +39512,7 @@
    },
    "source": "使用者 2026-11-02 03:4x 直接對 AA（企劃線 73402665 AA_570 第 0 節）；D118",
    "authorized": "使用者直接指派；D109 劇情 AA 定",
-   "next": "【LAWWW（帳號 A）04:0x 開】AA 03:5x 開始企劃盤點（系統、題庫與素材來源、規則衝突、國考職涯、法服、寫作限制），先不寫新稿；和 LAWWW 的程式盤點（STUDY-EXAM-SYS-1102）、BB 的修改前基準（STUDY-EXAM-CAREER-1102）對完缺口再分工寫稿",
+   "next": "AA_638 已接（總複習字、①-4、④-7、④-8）",
    "xai": {
     "spec": "AA_570 第 0 節、D118",
     "branch": "claude/story-planning",
@@ -43046,10 +43046,10 @@
    "id": "DORM-CEIL-1103",
    "title": "宿舍天花板太低、上床撞頭：天花板 3.0→3.4 m＋光照重烘＋sleep_scene 加 ceil_y／head_max／bed_entry_pose",
    "owner": "LAWWW2",
-   "status": "進行中",
+   "status": "已整合待測試",
    "priority": "P1",
    "note": "使用者 11-03 對 LAWWW2：「宿舍天花板太低了 走上去都撞到頭 不合理」「至少微微彎腰不要整個頭卡進去天花板」",
-   "next": "LAWWW2 交 GLB＋光照＋layout patch → LAWWW 合併",
+   "next": "BB 測",
    "xai": {
     "spec": "使用者原話",
     "branch": "claude/second-ai-env-art",
@@ -43073,10 +43073,10 @@
    "id": "DORM-LADDER-STOOP-1103",
    "title": "爬梯上床動作：最上面一兩階微微彎腰（頭頂含頭髮不超過 head_max）、上床那一步跪或爬進去不站直（character3d／story3d）",
    "owner": "LAWWW",
-   "status": "進行中",
+   "status": "已整合待測試",
    "priority": "P1",
    "note": "DORM-CEIL-1103 的動作部分（LAWWW2 11-03 分工）",
-   "next": "子代理做（climbIK 加彎腰、bed_entry kneel）→ 合併 → LAWWW2 同鏡頭截圖"
+   "next": "BB 測（遊戲預設 SLEEP_FULL false：玩家看得到的是起床跪著→下梯）；LAWWW2 同鏡頭截圖"
   },
   {
    "first": {
@@ -43180,10 +43180,10 @@
    "id": "ONE-TAP-GO-1103",
    "title": "一鍵三項：回住的地方直接睡覺、到下一堂課的教室（坐到座位）、到下一個約會地點；每項有確認（去哪、跳過多少時間、會錯過什麼）",
    "owner": "LAWWW",
-   "status": "進行中",
+   "status": "已整合待測試",
    "priority": "P1",
    "note": "X189；使用者「下一個版本」",
-   "next": "子代理（worktree）實作 → 合併 → BB 測 → v9.10.19"
+   "next": "BB 真實流程測試（真的回宿舍上床、真的進教室坐下、真的出發約會；日本、套房、美國）＋iPhone 實機"
   },
   {
    "first": {
@@ -43200,10 +43200,10 @@
    "id": "PHONE-FAV-1103",
    "title": "手機：朋友可以設為最愛（取消也可以），最愛的聊天在訊息列表最上面（多位照最新訊息排）；存檔記住、舊存檔沒有最愛",
    "owner": "LAWWW",
-   "status": "進行中",
+   "status": "已整合待測試",
    "priority": "P1",
    "note": "X190",
-   "next": "子代理（和 ONE-TAP-GO-1103 同一個）實作 → 合併 → BB 測"
+   "next": "BB 測"
   },
   {
    "first": {
