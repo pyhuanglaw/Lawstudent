@@ -473,8 +473,15 @@ const GAME = (function(){
   GM.findPerson=findPerson;
   /* 直接過去以後人還不在眼前（校園裡「走走」的人沒有確切位置，落在快速地點；BB-B 10-30 實測落在 138 m 外）：自動接「帶我去」，地圖畫路線、方向提示指過去（PHONE-UNIFY-1030）*/
   GM.FGO_NEAR=8;
-  function goFollow(id){ if(!G) return false; const w=STORY.whereIs&&STORY.whereIs(GM,id); if(!w||w.zone!==G.zone) return false; const n=GM.npc[id], p=E.player&&E.player.obj;
-    if(n&&n.obj&&p&&Math.hypot(n.obj.position.x-p.position.x,n.obj.position.z-p.position.z)<=GM.FGO_NEAR) return false; return findPerson(id); }
+  /* MAP-FRIEND-GO-1103 第二步（使用者 11-03 23:0x：「不需要再有帶我去這個功能不管是手機裡的還是地圖上的都不需要我要直接過去」）：
+     直接過去＝到他身邊。同一區（或快速前往落點離他還很遠）：轉場、站到他旁邊（離他 1.1 m、站得住的那一側），照距離算走路的時間；不再改成「帶我去」畫路線 */
+  async function snapNear(id){ const n=GM.npc&&GM.npc[id], p=E.player&&E.player.obj; if(!n||!n.obj||!p||n.hidden) return false;
+    const nx=n.obj.position.x, nz=n.obj.position.z, lv=n.lv|0, d0=Math.hypot(nx-p.position.x,nz-p.position.z); if(d0<=GM.FGO_NEAR) return true;
+    const a0=Math.atan2(p.position.x-nx,p.position.z-nz); let at=null; for(let k=0;k<12&&!at;k++){ const a=a0+(k%2?1:-1)*Math.ceil(k/2)*Math.PI/6, x=nx+Math.sin(a)*1.1, z=nz+Math.cos(a)*1.1; if(!E.canStand||E.canStand(x,z,0.3,lv)) at={x,z}; }
+    if(!at) at={x:nx+0.9,z:nz}; await fade(true); E.placeAt(E.player,at.x,at.z,lv); if(E.unstick) E.unstick(E.player,2); p.rotation.y=Math.atan2(nx-at.x,nz-at.z);
+    const mins=Math.max(1,Math.round(d0/1.3/60)); advance(mins/60); await fade(false); return true; }
+  GM.snapNear=snapNear;
+  async function goFollow(id){ if(!G) return false; const w=STORY.whereIs&&STORY.whereIs(GM,id); if(!w||w.zone!==G.zone) return false; return snapNear(id); }
   GM.goFollow=goFollow;
   /* 「帶我去」找到人了（和他說話）：恢復原本的目標（今天的課表；沒有課表系統就自由行動）*/
   function foundPerson(n){ const w=G.flags.findWho; if(!w||!n) return; if(n.charId!==w&&n.id!==w&&CID[n.id]!==w) return; G.flags.findWho=null; E.prefNpc=null; if(typeof CLS!=='undefined'&&CLS.setGoal&&typeof CALENDAR!=='undefined') CLS.setGoal(GM); else setGoal('自由行動',null); }
@@ -569,9 +576,8 @@ const GAME = (function(){
     body.querySelectorAll('[data-thback]').forEach(b=>b.onclick=()=>{ phoneThread=null; phoneMsgPick=null; phoneMsgShare=false; renderPhone(); const pb=$('phoneBody'); if(pb) pb.scrollTop=0; });
     body.querySelectorAll('[data-invgo]').forEach(b=>b.onclick=async()=>{ const iv=(G.invites||[]).find(x=>String(x.id)===b.dataset.invgo); if(iv&&typeof INV!=='undefined'&&INV.goNow) await INV.goNow(GM,iv); });
     body.querySelectorAll('[data-place]').forEach(b=>b.onclick=async()=>{ const pl=PLACE_LIST().find(q=>q[0]+'|'+q[1]===b.dataset.place); if(pl) await quickGo(pl); });
-    body.querySelectorAll('[data-fgo]').forEach(b=>b.onclick=async()=>{ const id=b.dataset.fgo, fg=friendGo(id,STORY.whereIs&&STORY.whereIs(GM,id),PLACE_LIST()); if(fg&&fg.pl){ await quickGo(fg.pl,{force:true}); goFollow(id); } else { toast(fg&&fg.why?'不能直接過去：'+fg.why:'現在不知道人在哪'); renderPhone(); } });   /* 手機「朋友」的直接過去（PHONE-UNIFY-1030）：按的時候照他現在在哪重算（手機開著的時候他可能已經走了）；沒去過也可以 */
+    body.querySelectorAll('[data-fgo]').forEach(b=>b.onclick=async()=>{ const id=b.dataset.fgo, fg=friendGo(id,STORY.whereIs&&STORY.whereIs(GM,id),PLACE_LIST()); closePhone(); await GM.friendGoNow(id); });   /* 手機「朋友」的直接過去（PHONE-UNIFY-1030）：按的時候照他現在在哪重算（手機開著的時候他可能已經走了）；沒去過也可以 */
     body.querySelectorAll('[data-pmapsvg]').forEach(sv=>sv.onclick=e=>{ if(typeof PLACEMAP==='undefined') return; const r=sv.getBoundingClientRect(), V=PLACEMAP.VB; if(!r.width) return; const id=PLACEMAP.pick(V[0]+(e.clientX-r.left)/r.width*V[2],V[1]+(e.clientY-r.top)/r.height*V[3],sv.dataset.pmapsvg.split(',')); if(!id) return; phonePin=phonePin===id?null:id; renderPhone(); });   /* 地點地圖（src/placemap3d.js）：整張圖都可以點，選最近的圖釘（BB-B 10-23：圖釘太小、相鄰的會點錯）*/
-    body.querySelectorAll('[data-find]').forEach(b=>b.onclick=()=>{ if(findPerson(b.dataset.find)) closePhone(); });
     body.querySelectorAll('[data-person]').forEach(b=>b.onclick=()=>{ phonePerson=b.dataset.person; renderPhone(); const pb=$('phoneBody'); if(pb) pb.scrollTop=0; });
     if(inTh&&phoneTab==='msg'&&phoneThread) body.scrollTop=atEnd?body.scrollHeight:st0;   /* 對話裡重畫（回覆、新訊息）：本來在最下面就留在最下面，往上看舊訊息就不動（PHONE-LINE-UI-1018）*/
     body.querySelectorAll('[data-fav]').forEach(b=>b.onclick=ev=>{ if(ev) ev.stopPropagation(); if(typeof PHONE==='undefined'||!PHONE.toggleFav) return; const on=PHONE.toggleFav(G,b.dataset.fav); toast((on?'設為最愛：':'取消最愛：')+PHONE.title(G,b.dataset.fav)+(on?'（訊息列表排在最上面）':''),2400); autosave(); renderPhone(); });   /* PHONE-FAV-1103 */
@@ -653,8 +659,9 @@ const GAME = (function(){
   GM.friendGo=(id)=>friendGo(id,STORY.whereIs&&STORY.whereIs(GM,id),PLACE_LIST());   /* 測試、除錯用 */
   /* 大地圖「認識的人現在大概在」的「直接過去」（MAP-FRIEND-GO-1103；使用者 11-03 22:5x：「我希望地圖上看到朋友在那邊可以選直接過去」）：和手機「朋友」的直接過去同一套（friendGo＋quickGo＋到了接帶我去）。
      GM.friendGoInfo＝{mins}（可以過去、大約幾分鐘）／{why}（不能直接過去的原因）／null（就在這一區、或不知道在哪：只有「帶我去」）；GM.friendGoNow＝按下去 */
-  GM.friendGoInfo=id=>{ if(!G) return null; const fg=friendGo(id,STORY.whereIs&&STORY.whereIs(GM,id),PLACE_LIST()); if(!fg) return null; if(fg.why) return {why:fg.why}; const st=placeState(fg.pl); return {mins:st&&st.mins}; };
-  GM.friendGoNow=async id=>{ const fg=friendGo(id,STORY.whereIs&&STORY.whereIs(GM,id),PLACE_LIST()); if(fg&&fg.pl){ await quickGo(fg.pl,{force:true}); goFollow(id); return true; } toast(fg&&fg.why?'不能直接過去：'+fg.why:'現在不知道人在哪'); return false; };
+  GM.friendGoInfo=id=>{ if(!G) return null; const w=STORY.whereIs&&STORY.whereIs(GM,id); if(w&&w.zone&&w.zone===G.zone&&!w.away) return GM.npc&&GM.npc[id]?{here:true}:null; const fg=friendGo(id,w,PLACE_LIST()); if(!fg) return null; if(fg.why) return {why:fg.why}; const st=placeState(fg.pl); return {mins:st&&st.mins}; };
+  GM.friendGoNow=async id=>{ const w=STORY.whereIs&&STORY.whereIs(GM,id); if(w&&w.zone===G.zone&&!w.away){ if(await snapNear(id)) return true; toast('他不在這附近'); return false; }
+    const fg=friendGo(id,w,PLACE_LIST()); if(fg&&fg.pl){ await quickGo(fg.pl,{force:true}); await goFollow(id); return true; } toast(fg&&fg.why?'不能直接過去：'+fg.why:'現在不知道人在哪'); return false; };
   /* 手機「朋友」裡點「資料」：原本選單「人物」頁的內容（科系年級、現在大概在哪、介紹、關係、最近的記憶）——2026-10-16 選單「人物」併進來 */
   let phonePerson=null, phonePin=null;   /* phonePin：手機「地點」地圖選中的圖釘（UX-PHONE-MAP-1023）*/
   /* 人物頁的進度條（D36；DATE.progress）：不顯示數字，條下面一句寫還差哪一種；交往中只寫「交往中」*/
@@ -680,7 +687,7 @@ const GAME = (function(){
       const msg=typeof INV!=='undefined'&&INV.hasContact(G,id)?'<button class="btn" data-msg="'+esc(id)+'">訊息</button>':'';   /* 有聯絡方式＝可以直接傳訊息（約人和訊息放在一起：使用者 2026-10-15）*/
       const why=typeof INV!=='undefined'&&INV.whyNot?INV.whyNot(G,id):'';   /* 約不了的原因（AA_125 第 1 節：只打過招呼、沒有聯絡方式、已經約好了、不在學校）*/
       const canInv=typeof INV!=='undefined'&&!why&&INV.hasContact(G,id)&&INV.canInvite(G,id);   /* 有聯絡方式的才能用手機約（使用者第 2 點：認識的朋友才有聯絡方式）*/
-      h+='<div class="item phrow"><div><div class="favName">'+esc(nm)+favBtn('p:'+id)+'</div><div class="muted">'+(w?esc(whereText(id))+(w.zone===G.zone?'・就在這裡':''):'現在沒有固定的行程')+(fg&&fg.why?'<div class="muted" style="font-size:12px">不能直接過去：'+esc(fg.why)+'</div>':'')+'</div></div><div class="row2" style="gap:6px">'+(pl&&st?'<button class="btn" data-fgo="'+esc(id)+'">直接過去（約 '+st.mins+' 分鐘）</button>':'')+(w&&w.zone&&!w.away?'<button class="btn" data-find="'+esc(id)+'">帶我去</button>':'')+'<button class="btn" data-person="'+esc(id)+'">資料</button>'+msg+(canInv?'<button class="btn pri" data-inv="'+esc(id)+'">約</button>':(why?'<span class="muted" style="font-size:12px;align-self:center">'+esc(why)+'</span>':''))+'</div></div>'; }
+      h+='<div class="item phrow"><div><div class="favName">'+esc(nm)+favBtn('p:'+id)+'</div><div class="muted">'+(w?esc(whereText(id))+(w.zone===G.zone?'・就在這裡':''):'現在沒有固定的行程')+'</div></div><div class="row2" style="gap:6px">'+(pl&&st?'<button class="btn" data-fgo="'+esc(id)+'">直接過去（約 '+st.mins+' 分鐘）</button>':(w&&w.zone===G.zone&&GM.npc&&GM.npc[id]?'<button class="btn" data-fgo="'+esc(id)+'">直接過去</button>':''))+'<button class="btn" data-person="'+esc(id)+'">資料</button>'+msg+(canInv?'<button class="btn pri" data-inv="'+esc(id)+'">約</button>':(why?'<span class="muted" style="font-size:12px;align-self:center">'+esc(why)+'</span>':''))+'</div></div>'; }
     return h; }
   /* 手機「訊息」（D54 ⑥）：約人、對方的回答、沒赴約……最新的在上面；對方約你、改約的有回覆的按鈕（src/invites3d.js）*/
   /* 手機「訊息」（交接包 v1：群組、置頂、可以回的訊息，src/phone3d.js）：最上面是「待回覆」（邀約、可以回的訊息）、對話串（點了看整段，群組的置頂在最上面），下面照舊是最近的訊息 */

@@ -21,7 +21,7 @@ check('6. 大地圖人名標籤先問 free（會蓋住已經畫的地名、門�
   check('7. HUD 目標最多兩行（-webkit-line-clamp:2、white-space:normal），不再一行截斷',/-webkit-line-clamp:2/.test(g)&&/white-space:normal/.test(g)&&!/nowrap/.test(g),g); }
 /* MAP-FRIEND-GO-1103（使用者 11-03 22:5x：「我希望地圖上看到朋友在那邊可以選直接過去」）：大地圖「認識的人現在大概在」每一行，能直接過去的多一個「直接過去（約 N 分鐘）」，按下去關地圖、和手機「朋友」同一套（friendGo＋quickGo） */
 { const g=fs.readFileSync(path.join(__dirname,'..','src/game3d.js'),'utf8');
-  check('F1. 大地圖的人：GM.friendGoInfo 可以過去＝「直接過去（約 N 分鐘）」按鈕（data-fgo），「帶我去」照留',/GM\.friendGoInfo&&GM\.friendGoInfo\(q\.id\)/.test(src)&&/data-fgo="'\+q\.id\+'">直接過去/.test(src)&&/data-find="'\+q\.id\+'">帶我去/.test(src));
+  check('F1. 大地圖的人：GM.friendGoInfo 可以過去＝「直接過去（約 N 分鐘）」按鈕（data-fgo）；「帶我去」拿掉（使用者 23:0x），走路到不了的沒有按鈕',/GM\.friendGoInfo&&GM\.friendGoInfo\(q\.id\)/.test(src)&&/data-fgo="'\+q\.id\+'">直接過去/.test(src)&&!/data-find=/.test(src)&&!/>帶我去</.test(src));
   check('F2. 按「直接過去」：先關地圖，再 GM.friendGoNow',/data-fgo\]'\)\.forEach\(b=>b\.onclick=async\(\)=>\{ closeMap\(\); if\(GM\.friendGoNow\) await GM\.friendGoNow\(b\.dataset\.fgo\)/.test(src));
-  check('F3. game3d.js：friendGoInfo／friendGoNow 和手機「朋友」同一套（friendGo、quickGo force、到了 goFollow；不能過去寫原因）',/GM\.friendGoInfo=id=>\{[^\n]*friendGo\(id,[^\n]*placeState\(fg\.pl\)/.test(g)&&/GM\.friendGoNow=async id=>\{[^\n]*await quickGo\(fg\.pl,\{force:true\}\); goFollow\(id\)[^\n]*不能直接過去：/.test(g)); }
+  check('F3. game3d.js：friendGoInfo／friendGoNow（friendGo、quickGo force、到了 goFollow＝站到他旁邊 snapNear；同一區也直接站過去）；手機「朋友」也沒有帶我去',/GM\.friendGoInfo=id=>\{[^\n]*friendGo\(id,w,PLACE_LIST\(\)\)[^\n]*placeState\(fg\.pl\)/.test(g)&&/await quickGo\(fg\.pl,\{force:true\}\); await goFollow\(id\)/.test(g)&&/async function goFollow\(id\)\{[^\n]*return snapNear\(id\); \}/.test(g)&&!/data-find=/.test(g)); }
 console.log(fails?('FAILED '+fails):'ALL PASS'); process.exit(fails?1:0);
