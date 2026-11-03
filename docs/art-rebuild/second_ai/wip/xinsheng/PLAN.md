@@ -181,3 +181,14 @@
 3. 新生南路地面的正式模型：柏油、分隔島、斑馬線、紅磚、騎樓地磚、候車亭、側門門柱上「首都帝大」。
 4. 溫州街北口外面的遠景。
 5. 瀏覽器測試（reachability_all、campus_layout_nav、zone_transitions、touch_flow_wenzhou、wz_street_integration）。都過了交 LAWWW，附上 index.html、manifest 要加的那幾行。
+
+## 新店面整合排序（LAWWW 11-03 21:38 問，LAWWW2 21:4x 回）
+1. 新生南路（`xinsheng`）＋側門＋溫州街北口。
+2. 木曜日（`wz_mokuyobi`）。
+3. 日常失速（`wz_offbeat`，W2 一樓）。
+4. 大口漢堡（`xs_dakou`）。
+5. 山嵐（`xs_shanlan`）。
+6. 南洋戲院（`xs_nanyang`，大廳）。
+7. 同弦、大步、好拍、運動廣場（`xs_tongxian`／`xs_dabu`／`xs_haopai`／`xs_xsports`）。
+
+每一批是一份 patch，交件時附 zone id、出入口座標。
