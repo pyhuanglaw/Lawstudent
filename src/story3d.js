@@ -807,7 +807,7 @@ const STORY = (function(){
         { const who=y1?lead:{name:'值班的學長'}; await GM.say(null,y1?'（阿伯被學長帶去填表。社長走到大廳角落，在你旁邊停下來，聲音壓得很低。）':'（阿伯被學長帶去填表。值班的學長走到大廳角落，在你旁邊停下來，聲音壓得很低。）');
           for(const l of FAFU_FIRST2) await GM.say(who,l);
           if(!y1){ const W=F.FAFU_W||(F.FAFU_W={}); W[S.fafuWYear(G)]=G.day; } } }   /* AA_238 2-1：大一＝社長；大二起才第一次來的（沒加入法服）＝值班的學長，台詞同上兩句 */
-      else { let it=null; if(y1&&(F.LAWCLUB_SAT_VISITS|0)>=5&&!F.LAWCLUB_SAT_FIVE){ F.LAWCLUB_SAT_FIVE=true; it={lead:'你來五次了。明年可以報名當志工，來坐圓桌。'}; }   /* BB_145 第 4 句（AA_238 2-2 改社長）：只一次、排最前 */
+      else { let it=null; if(y1&&(F.LAWCLUB_SAT_VISITS|0)>=2&&!F.LAWCLUB_SAT_FIVE){ F.LAWCLUB_SAT_FIVE=true; it={lead:'你又來了。明年可以報名當志工，來坐圓桌。'}; }   /* AA_638 ④-7：大一第二次來就說（原本五次）；旗標名照舊，舊存檔來過兩次以上沒聽過的下一次說 */   /* BB_145 第 4 句（AA_238 2-2 改社長）：只一次、排最前 */
         else if(y1){ const used=Array.isArray(F.fafuPoolUsed)?F.fafuPoolUsed:[]; let cand=FAFU_POOL.map((q,i)=>i).filter(i=>!used.includes(i)); if(!cand.length){ used.length=0; cand=FAFU_POOL.map((q,i)=>i); } const k=cand[0]; used.push(k); F.fafuPoolUsed=used; it=FAFU_POOL[k]; }
         else it=S.fafuWatchLine(G);   /* 大二起（沒加入法服、四年都可以來看，AA_184）：學姊對旁觀的人說的話（BB_160 第 5 節）和旁白池一起輪 */
         const sayIt=async x=>{ for(const l of [].concat(x)) await GM.say(lead,l); };

@@ -3637,7 +3637,7 @@ const STORY_EVENTS=[
     prereq:{memory:[{npc:'classmate_peishan',tag:'FIRST_MET'}]},
     dialogue:[ {speaker:'classmate_peishan',expression:'neutral',text:'下學期的題目，我想換人整理。我一個人出的都太簡單。'},   /* AA_281 第 4 節（使用者 10-18：她什麼都不說，大家放假後才知道她休學）*/{speaker:'classmate_peishan',expression:'neutral',text:'每週的題目整理……（看柏翰，又看你）誰要接？'},
       {speaker:'classmate_peishan',expression:'serious',text:'只有一個條件：要好玩。'},
-      {choice:[{text:'「我接。」',if:{custom:G=>typeof STORY!=='undefined'&&STORY.plgY1Count&&STORY.plgY1Count(G)>=5},set:{STUDYGROUP_LEADER:true}},{text:'（不說話）'}]} ] },
+      {choice:[{text:'「我接。」',if:{custom:G=>typeof STORY!=='undefined'&&STORY.plgY1Count&&STORY.plgY1Count(G)>=1},set:{STUDYGROUP_LEADER:true}},{text:'（不說話）'}]} ] },
   /* 柏翰 翰 3 分數表（AA_40、AA_177 第 5 節；柏翰接題目整理的版本）：第二次聚會＝大二下第 2 週週三 3/3 的讀書會，白板上多了一張分數表；可以去找他談，或什麼都不做（都不改變翰 4）。
      沒去讀書會＝沒有。一個月後（第 6 週起第一次去讀書會）：白板那張表每個人的格子都寫滿了（AA_546 1-4；原本「從八個變四個」）。祐廷接的版本：3/3 21:00 柏翰在全班群組貼白板的照片（story3d.js）*/
   { id:'ev_bohan_scores', title:'白板',   /* AA_546 1-4（D116）：每個人只寫自己的目標 */ participants:['classmate_bohan'], location:'wancai', trigger:'club', term:['Y2S2'], weeks:[2], weekday:[4], once:true, background:'blur',   /* 公法讀書會（週四，BB_191 §8-7）*/

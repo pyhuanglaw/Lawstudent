@@ -38,7 +38,7 @@ const TH=th=>PHONE.thread(G,th).map(m=>m.text);
   G.hour=12; check('4. 12:00 以後不能看',!(await STORY.fafuWatch(GM)));
   // 七句用完再重來、五次那句
   const duty=[]; for(let d=s5;d<s5+400&&duty.length<8;d++){ G.day=d; G.hour=10; if(STORY.fafuWatchable(G)) duty.push(d); } const seen=new Set(); for(let i=0;i<7;i++){ G.day=duty[i]; G.hour=9.5; G.weekday=6; said=[]; await STORY.fafuWatch(GM); if(said[0]) seen.add(said[0].t); }
-  check('5. 第 5 次去（不同的週六）：第一句是社長「你來五次了。明年可以報名當志工，來坐圓桌。」（AA_238 2-2；只一次）',[...seen].includes('你來五次了。明年可以報名當志工，來坐圓桌。'));
+  check('5. 第 2 次以後去（不同的週六）：社長「你又來了。明年可以報名當志工，來坐圓桌。」（AA_638 ④-7，原本第 5 次；只一次）',[...seen].includes('你又來了。明年可以報名當志工，來坐圓桌。')&&G.flags.LAWCLUB_SAT_FIVE===true);
   check('5. 池的七句都出現過（不重複到用完）',seen.size>=7,seen.size);
   console.log(fails?'FAILED '+fails:'ALL PASS'); process.exit(fails?1:0);
 })().catch(e=>{ console.error(e); process.exit(1); });
