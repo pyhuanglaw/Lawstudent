@@ -18,7 +18,8 @@ const YTJOB=(function(){
     const M=s.social&&s.social.mem&&s.social.mem[YT]; if(Array.isArray(M)&&M.some(m=>m&&m.tag==='FIRST_MET')) return true;
     const R=s.social&&s.social.rel&&s.social.rel[YT]; if(R&&((R.fam|0)>=5||(R.trust|0)>0||(R.rom|0)>0)) return true;   /* 熟悉度不是陌生人（SOCIAL.friendLevel：fam 5 以上＝ACQUAINTANCE）*/
     if(F.dating_heroine_03||F.EX_heroine_03) return true; return false; };
-  S.migrate=function(s){ if(!s||!s.flags||typeof s.flags!=='object') return false; if(s.flags.YT_MET_JOB) return false; if(!S.wasMet(s)) return false; s.flags.YT_MET_JOB=true; return true; };
+  /* YT_JOB_V：這一版以後的新遊戲（game3d.js defaults）＝不用看（認識她一定是在茶屋記的）；舊存檔看一次就記上 */
+  S.migrate=function(s){ if(!s||!s.flags||typeof s.flags!=='object') return false; const F=s.flags; if(F.YT_JOB_V) return false; F.YT_JOB_V=1; if(F.YT_MET_JOB||!S.wasMet(s)) return false; F.YT_MET_JOB=true; return true; };
   /* 第一班（AA_610 第 2 節；台詞一字照稿）*/
   S.A=[ [null,'（水屋裡，一個綁馬尾的女生正在一個一個擦茶杯。）'], ['蘇姨','語彤，他今天第一天。妳帶他。'], [YT,'……嗯。'], [YT,'客人坐下先給水，不要先問點什麼。他們會自己看。'],
     {choice:[{t:'「好。」',say:[[null,'（她點了一下頭，回去擦杯子。）']]},{t:'「妳在這裡做多久了？」',say:[[YT,'高三暑假開始。']]}]} ];

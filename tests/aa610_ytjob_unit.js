@@ -78,6 +78,9 @@ await sec(3,()=>{
   YTJOB.migrate(s1); YTJOB.migrate(s2); YTJOB.migrate(s3); YTJOB.migrate(s4);
   check('3. 已經認識（FIRST_MET／熟悉度 12／met_heroine_03）＝YT_MET_JOB',s1.flags.YT_MET_JOB===true&&s2.flags.YT_MET_JOB===true&&s3.flags.YT_MET_JOB===true);
   check('3. 沒認識（陌生人）＝不記',!s4.flags.YT_MET_JOB);
+  const s5={flags:{YT_JOB_V:1},social:{mem:{},rel:{heroine_03:{fam:12,trust:0,comf:0,rom:0}}}}; YTJOB.migrate(s5);
+  check('3. 這一版以後的新遊戲（YT_JOB_V）不看熟悉度、不記',!s5.flags.YT_MET_JOB&&s1.flags.YT_JOB_V===1);
+  check('3. game3d.js 新遊戲 defaults 有 YT_JOB_V',/flags:\{dating_kexin:true,KX_DEC3_MIGRATED:true,YT_JOB_V:1\}/.test(fs.readFileSync(path.join(H.ROOT,'src/game3d.js'),'utf8')));
   const g=fs.readFileSync(path.join(H.ROOT,'src/game3d.js'),'utf8');
   check('3. game3d.js 的 migrate 叫 YTJOB.migrate',/function migrate\(s\)[\s\S]*YTJOB\.migrate\(s\)[\s\S]*s\.v=SAVE_VER; return s; \}/.test(g));
   H.fresh('2026-03-10',10,'campus',{YT_MET_JOB:true}); H.rel(YT,25,0,0);
