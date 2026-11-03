@@ -755,7 +755,7 @@ CV.cbox(dx0 + 0.03, dx1 - 0.03, 0.0, 0.025, dz0 + 0.03, dz1 - 0.03, '#2a2018')  
 DSP = [(-0.25, -1.0, dict(kind='ac', top='sunburst_ac', side='side_mahog', pg='pg_black')), (0.25, -0.45, dict(kind='E', fin='e_cherry', pg='pg_black', fb='fb_rose', neck='neck_mahog')),
        (-0.25, 0.15, dict(kind='ac', top='spruce', side='side_rose', shape='om')), (0.25, 0.85, dict(kind='S', fin='e_seafoam', pg='pg_white', fb='fb_maple'))]   # 四把（三角形預算 6 萬）
 for (ox_, oz_, spec_) in DSP:
-    stand_guitar(dp['x'] + ox_, dp['z'] + oz_, (-math.pi / 2 if ox_ < 0 else math.pi / 2) + (0.25 if oz_ < 0 else -0.25), spec_, y0=dh, tilt_deg=14)
+    stand_guitar(dp['x'] + ox_, dp['z'] + oz_, -0.55 if ox_ < 0 else 0.55, spec_, y0=dh, tilt_deg=14)   # v2b：斜斜朝店門（原本正對兩邊的走道，從店門、鏡頭看是側面，像一把棍子）
 for k, (zz_, col_) in enumerate(((dz0 + 0.12, '#e9e2d0'), (dz1 - 0.12, '#e9e2d0'))):   # 台子兩端的小價格牌（空白卡片）
     CV.crbox(dp['x'] - 0.08, dp['x'] + 0.08, dh, dh + 0.11, zz_ - 0.004, zz_ + 0.004, col_, r=0.002, seg=1)
 # ---------------- v2：左牆兩台疊起來的音箱、吉他紙箱 ----------------
@@ -900,7 +900,7 @@ for name, pts, rect, props in PLATES:
 for ob in list(root.children):
     if ob.type == 'MESH' and ob.data.materials and 'leaf' in ob.data.materials[0].name: L.smooth_mesh(ob, angle=1.2)
 L.merge_by_material(root, keep=lambda ob: 'FACE' in ob.name, key=lambda ob: ('WALL_' + ob.name.split('_')[1]) if ob.name.startswith('WALL_') else '')
-ss = L.single_side(root, keep=r'glass|leaf', nodup=r'plaster', skip=lambda ob: 'FACE' in ob.name)   # 牆只從室內看；前後牆是窗、門四周幾個方盒拼的，會被當成開口零件補反面＝和正面重疊，Cycles 渲染整面黑（CC 11-03）
+ss = L.single_side(root, keep=r'glass|leaf', nodup=r'plaster|wood', skip=lambda ob: 'FACE' in ob.name)   # 牆只從室內看；前後牆是窗、門四周幾個方盒拼的，會被當成開口零件補反面＝和正面重疊，Cycles 渲染整面黑（CC 11-03）；木頭也一樣：櫃台下櫃的方盒和上緣的木框相接，被當成開口零件補了反面，渲染成黑色（v2 PC 渲染）
 print('SINGLE_SIDE', json.dumps(ss, ensure_ascii=False))
 info = L.export(OUT, gpu_instances=True)
 info.update({'layout': LAYALL['version'], 'guitars': {'electric': NE, 'acoustic': NA, 'owner': 1, 'on_stand': 1 + len(DSP)}})
