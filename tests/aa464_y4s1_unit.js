@@ -107,7 +107,7 @@ await sec(3,()=>{
 /* ---- 4 兩個小的 ---- */
 await sec(4,async()=>{
   fresh('2028-12-11',20); H.FAMILIAR('zhe'); PHONE.join(H.G,'noodle_team','麵店團'); run('2028-12-11',20.75,21.25); const m=byTag('y4_a23_count_a23msg');
-  check('4-1. 12/11 21:00 麵店團群組阿哲「'+A23+'」（說是麵店的週年）',m.length===1&&m[0].from==='zhe'&&m[0].text===A23&&/麵店二十三週年/.test(m[0].text),J(m.map(x=>x.text)));
+  check('4-1. 12/11 21:00 麵店團群組阿哲「'+A23+'」（說是燒臘店的週年，AA_612）',m.length===1&&m[0].from==='zhe'&&m[0].text===A23&&/燒臘店二十三週年/.test(m[0].text),J(m.map(x=>x.text)));
   /* 4-2 沛珊同一天 */
   fresh('2028-12-18',8,{PS_BACK_FIRST:1}); H.CLOSE(PS); INV.addContact(H.G,PS); H.G.contacts[PS]=0; ROM.start(H.G,PS); H.G.flags['dating_'+PS]=true;
   for(const k of ['2028-12-18','2028-12-19','2028-12-20','2028-12-21','2028-12-22']) run(k,8,23.5,0.5); run('2028-12-23',8,21.25,0.25);

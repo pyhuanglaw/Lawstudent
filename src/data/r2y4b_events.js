@@ -553,7 +553,7 @@ const R2Y4B_EVENTS=(function(){
       {if:{custom:G=>R().kxVday(G)},speaker:'kexin',expression:'teasing',text:'情人節那張表，我把八月以前都排完了。'},
       {unless:{custom:G=>R().kxVday(G)},speaker:'kexin',expression:'serious',text:'我排了一張表，到八月，一天三科。'},   /* 沒有 2/14 那張表（KX_VDAY[4] 不是 'video'）*/
       {speaker:'kexin',expression:'smile',text:'你那一欄不喜歡的地方圈起來，我改。'},{end:true},
-      {label:'yt'},{scene:'公館燒臘・長桌',bg:'noodle_table'},
+      {label:'yt'},{scene:'阿鳳麵店・長桌',bg:'noodle_table'},
       {speaker:'heroine_03',text:'我今年不考。……可是你考的那幾科，我也要修。'},
       {speaker:'heroine_03',text:'所以你讀的時候，我也在旁邊讀我的。'} ] },   /* 成立那一晚不算讀書（BAR_GROUP_N＝讀的次數，從 2/26 第一次讀書算起；三個人的那一晚先輪到可昕）*/
   /* 讀書的那一晚（麵店）：一晚一句，輪流；只有語彤的第一次是那三句（AA_253 第 11 節）。只出題、不給答案、不寫條號 */

@@ -143,7 +143,7 @@ const night=async()=>{ G.day=d24; G.hour=21.5; G.zone='dorm'; said=[]; cgs=[]; r
 
   // 11. 選項、裂縫
   fresh(d24,21.5,'dorm',{COLD_WEEK:'night'}); check('11. 第 1 個選項：一般', STORY.coldWeekOpts(G)[0].t==='「我想讓遇到事情的人，旁邊有一個看得懂的人。」'&&STORY.coldWeekOpts(G).length===4&&STORY.coldWeekOpts(G,true).length===3);
-  SOCIAL.remember('heroine_03','RENT_RUMOR',''); check('11. 第 1 個選項：看過語彤家房東的事＝「我想讓燒臘店那種事，每次都有人幫得上忙。」', STORY.coldWeekOpts(G)[0].t==='「我想讓燒臘店那種事，每次都有人幫得上忙。」');
+  SOCIAL.remember('heroine_03','RENT_RUMOR',''); check('11. 第 1 個選項：看過語彤家房東的事＝「我想讓麵店那種事，每次都有人幫得上忙。」', STORY.coldWeekOpts(G)[0].t==='「我想讓麵店那種事，每次都有人幫得上忙。」');
   fresh(d24,21.5,'dorm_hall',{COLD_WEEK:'night'}); said=[]; picks=[3,1]; await STORY._cwAsk(GM,'zhe','night');
   check('11. 第 4 個：「好，那吃完再說。」「（你吃完了。）」再問一次通用那一句、沒有第 4 個', said.map(s=>s.t).join('|')==='你每次都在幫別人查。你自己呢？你想用法律做什麼？|好，那吃完再說。|（你吃完了。）|你每次都在幫別人查。你自己呢？你想用法律做什麼？|好。病好了再跟我講一次。'&&opts[1].length===3&&G.flags.COLD_WEEK_ANSWER==='why', JSON.stringify(said.map(s=>s.t)));
   fresh(d24,21.5,'dorm',{COLD_WEEK:'night',COLD_WEEK_TOLD:'heroine_01'}); date('heroine_01'); R('zhe','CLO'); ROM.crack(G,'heroine_01');
