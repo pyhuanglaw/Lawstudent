@@ -17,7 +17,7 @@ const GM={get G(){ return G; },E,D:{active:false},npc:{},
   titleCard:async()=>{},enter:async(z)=>{ G.zone=z; },advance(h){ G.hour+=h; },fade:()=>Promise.resolve(),rel(){},walkTo:()=>Promise.resolve(true),sitAt(){},standUp(){},
   say:async(who,t)=>{ said.push({who:who?(who.name||String(who)):null,t}); },choose:async o=>{ opts.push(o.map(q=>q.t||q.text)); const want=picks.shift(); if(typeof want==='string'){ const k=o.findIndex(q=>(q.t||q.text).includes(want)); return k<0?0:k; } return want||0; }};
 const wdOf=d=>{ const w=CALENDAR.dateOf(d).wd; return w===7?0:w; };
-const fresh=(day,hour,zone,flags)=>{ G={v:3,day,hour,zone,weekday:wdOf(day),weather:'clear',energy:70,money:5000,flags:Object.assign({KX_FIRST_MSG:true,fundsV2:1,allowanceMonth:CALENDAR.dateOf(day).m},flags||{}),choices:{},events:{done:{},last:{},count:0},name:'祐廷',rel:{},social:null,stats:{classes:0}};
+const fresh=(day,hour,zone,flags)=>{ G={v:3,day,hour,zone,weekday:wdOf(day),weather:'clear',energy:70,money:5000,flags:Object.assign({KX_FIRST_MSG:true,YT_MET_JOB:true,fundsV2:1,allowanceMonth:CALENDAR.dateOf(day).m},flags||{}),choices:{},events:{done:{},last:{},count:0},name:'祐廷',rel:{},social:null,stats:{classes:0}};
   SOCIAL.bind(G); EVENTS.bind(GM); INV.rec(G); said=[]; opts=[]; picks=[]; GM.npc={}; E.interactables=[]; E.npcs=[]; if(STORY._fy) STORY._fy.reset(); };
 const R=(id,fam,trust,comf)=>{ const r=SOCIAL.rel(id); r.fam=fam; r.trust=trust||0; r.comf=comf||0; };
 const LV={ACQ:[10],FAM:[25],FRI:[45,30],CLO:[65,50,45]};
@@ -36,34 +36,34 @@ let cards=[]; GM.titleCard=async(a,b)=>{ cards.push(a+'｜'+b); };
   const D=STORY.dayOfKey('2025-08-30'); const e=STORY_EVENTS.find(x=>x.id==='ev_y0_e37'); check('0. E37 在、8/30 是週六',!!e&&CALENDAR.dateOf(D).wd===6); if(!e){ console.log('FAILED '+fails); process.exit(1); }
   fresh(D-2,20.5,'campus'); atHome(); run(20.5,20.9); check('1. 8/28 21:00 以前沒有',!PHONE.sent(G,'y0_e37_ask'));
   run(21,21.1); const K=TH('p:kexin').map(m=>m.text), q=OUT.get(G,'y0_e37');
-  check('1. 8/28 21:00 可昕「我明天坐高鐵上去。後天你載我搬宿舍。」（AA_303，一則）；出發選單 8/30 14:00',K.includes('我明天坐高鐵上去。後天你載我搬宿舍。')&&!K.includes('週六下午兩點，木柵大學校門。')&&!K.includes('我九月要去的地方，想先給你看。')&&q&&q.day===D&&q.h===14,JSON.stringify(K));
+  check('1. 8/28 21:00 可昕「後天我坐高鐵上去，一點半到台北。」「你來車站接我，直接搬宿舍。」（AA_607 兩則）；出發選單 8/30 13:30',K.includes('後天我坐高鐵上去，一點半到台北。')&&K.includes('你來車站接我，直接搬宿舍。')&&!K.includes('週六下午兩點，木柵大學校門。')&&!K.includes('我九月要去的地方，想先給你看。')&&q&&q.day===D&&q.h===13.5,JSON.stringify(K));
   const snap=JSON.stringify(G); const back=()=>{ G=JSON.parse(snap); SOCIAL.bind(G); EVENTS.bind(GM); };
   // 2. 從家裡出發
   G.day=D; G.weekday=wdOf(D); G.hour=13.1; menus=[]; cards=[]; said=[]; script=['家樓下','我也以為']; await loop(); let L=said.map(x=>x.t);
-  check('2. 家裡的選單有「出發：家樓下 14:00」（開車；AA_307 第 3 列）',(menus[0]||[]).some(t=>t.includes('家樓下 14:00'))&&cards[0]==='家樓下 14:00｜開車',JSON.stringify(menus[0])+JSON.stringify(cards));
-  { const k=(menus[0]||[]).findIndex(t=>t.includes('家樓下 14:00')), h=k<0?'':(hints[0]||[])[k]||'';
-    check('2b BB218-P3 ④：選項小字不再重複標題的地點、時間（原本「從家裡出發　家樓下　14:00　開車」）',k>=0&&h.includes('從家裡出發')&&h.includes('開車')&&!h.includes('家樓下')&&!h.includes('14:00'),JSON.stringify(h)); }
-  check('2. E37（AA_303 第 2 節「法律系 8/30」：你開車載她搬宿舍）：「（八月三十日。你開家裡的車，載她和兩個行李箱上山。）」「（木柵大學的宿舍在山上。電梯很小，你們搬了三趟。）」「（擦汗）……好。這是我的床。」→ 小吃街「以後你開車來找我。我負責選宵夜。」→「去年這個時候……」→「我也以為我會在經濟系。」→「結果兩個人都繞了一圈。」→ 後面照舊；沒有導遊、沒有「我只是繞了一點路」「走到山下」',JSON.stringify(L.slice(0,3))===JSON.stringify(['（八月三十日。你開家裡的車，載她和兩個行李箱上山。）','（木柵大學的宿舍在山上。電梯很小，你們搬了三趟。）','（擦汗）……好。這是我的床。'])&&!L.some(t=>/導遊/.test(t))&&L[L.indexOf('以後你開車來找我。我負責選宵夜。')+1]==='去年這個時候，我以為我九月會在首都帝大念大二。'&&L.includes('去年這個時候，我以為我九月會在首都帝大念大二。')&&L.includes('結果兩個人都繞了一圈。')&&L[L.length-1]==='（到了宿舍門口，她回頭揮了一下手。你一個人開車下山。）'&&!L.some(t=>/繞了一點路|走到山下|念了零天/.test(t)),JSON.stringify(L));
+  check('2. 家裡的選單有「出發：台北車站 13:30：接可昕」（開車；AA_607）',(menus[0]||[]).some(t=>t.includes('台北車站 13:30：接可昕'))&&cards[0]==='台北車站 13:30：接可昕｜開車',JSON.stringify(menus[0])+JSON.stringify(cards));
+  { const k=(menus[0]||[]).findIndex(t=>t.includes('台北車站 13:30')), h=k<0?'':(hints[0]||[])[k]||'';
+    check('2b BB218-P3 ④：選項小字不再重複標題的地點、時間（原本「從家裡出發　家樓下　14:00　開車」）',k>=0&&h.includes('從家裡出發')&&h.includes('開車')&&!h.includes('13:30'),JSON.stringify(h)); }
+  check('2. E37（AA_303 第 2 節「法律系 8/30」：你開車載她搬宿舍）：「（八月三十日下午。你在台北車站的高鐵出口接到她，兩個行李箱放進後車廂，開車上山。）」「（木柵大學的宿舍在山上。電梯很小，你們搬了三趟。）」「（擦汗）……好。這是我的床。」→ 小吃街「以後你開車來找我。我負責選宵夜。」→「去年這個時候……」→「我也以為我會在經濟系。」→「結果兩個人都繞了一圈。」→ 後面照舊；沒有導遊、沒有「我只是繞了一點路」「走到山下」',JSON.stringify(L.slice(0,3))===JSON.stringify(['（八月三十日下午。你在台北車站的高鐵出口接到她，兩個行李箱放進後車廂，開車上山。）','（木柵大學的宿舍在山上。電梯很小，你們搬了三趟。）','（擦汗）……好。這是我的床。'])&&!L.some(t=>/導遊/.test(t))&&L[L.indexOf('以後你開車來找我。我負責選宵夜。')+1]==='去年這個時候，我以為我九月會在首都帝大念大二。'&&L.includes('去年這個時候，我以為我九月會在首都帝大念大二。')&&L.includes('結果兩個人都繞了一圈。')&&L[L.length-1]==='（到了宿舍門口，她回頭揮了一下手。你一個人開車下山。）'&&!L.some(t=>/繞了一點路|走到山下|念了零天/.test(t)),JSON.stringify(L));
   check('2. 演完回家',HOME.at(G)&&cards.some(c=>c.startsWith('回家')));
   // 3. 在家沒出發：14:15 可昕打電話 → 直接進出遊
   back(); G.day=D; G.weekday=wdOf(D); G.hour=14.3; said=[]; cards=[]; script=['現在呢']; await loop(); L=said.map(x=>x.t);
-  check('3. 14:15 還在家：可昕打電話「你在哪？行李我都搬到樓下了。」→ 直接進出遊（不用選出發）→「（擦汗）……好。這是我的床。」',L[0]==='你在哪？行李我都搬到樓下了。'&&L.includes('（擦汗）……好。這是我的床。')&&L.includes('現在在想，湯餃要不要再買一份帶回去。')&&!!(G.events.done.ev_y0_e37)&&HOME.at(G),JSON.stringify(L.slice(0,3)));
+  check('3. 14:15 還在家：可昕打電話「你在哪？我已經出閘門了。行李好重。」→ 直接進出遊（不用選出發）→「（擦汗）……好。這是我的床。」',L[0]==='你在哪？我已經出閘門了。行李好重。'&&L.includes('（擦汗）……好。這是我的床。')&&L.includes('現在在想，湯餃要不要再買一份帶回去。')&&!!(G.events.done.ev_y0_e37)&&HOME.at(G),JSON.stringify(L.slice(0,3)));
   // 4. 在家先睡：14:15 被叫醒 → 電話 → 出遊
   back(); G.day=D; G.weekday=wdOf(D); G.hour=12; said=[]; script=['睡覺','照樣','等她說下去']; await loop(); L=said.map(x=>x.t);
-  check('4. 12:00 在家睡覺 → 14:15 被叫醒（同一天）→ 電話 → 出遊「（木柵大學的宿舍在山上。電梯很小，你們搬了三趟。）」（AA_303：導遊那段拿掉）',L.includes('你在哪？行李我都搬到樓下了。')&&L.includes('（木柵大學的宿舍在山上。電梯很小，你們搬了三趟。）')&&!L.some(t=>/導遊/.test(t))&&L.includes('沒有後悔喔。只是有時候會想一下。')&&G.events.done.ev_y0_e37,JSON.stringify(L.slice(0,4)));
+  check('4. 12:00 在家睡覺 → 14:15 被叫醒（同一天）→ 電話 → 出遊「（木柵大學的宿舍在山上。電梯很小，你們搬了三趟。）」（AA_303：導遊那段拿掉）',L.includes('你在哪？我已經出閘門了。行李好重。')&&L.includes('（木柵大學的宿舍在山上。電梯很小，你們搬了三趟。）')&&!L.some(t=>/導遊/.test(t))&&L.includes('沒有後悔喔。只是有時候會想一下。')&&G.events.done.ev_y0_e37,JSON.stringify(L.slice(0,4)));
   // 5. 人在外面：phoneRules 的電話
   back(); HOME.rec(G).at=false; G.day=D; G.weekday=wdOf(D); G.zone='gongguan'; G.hour=14.3; said=[]; script=['我也以為']; run(14.3,14.3); await new Promise(r=>setTimeout(r,50)); L=said.map(x=>x.t);
-  check('5. 14:15 在公館：可昕打電話 → 出遊',L[0]==='你在哪？行李我都搬到樓下了。'&&!!G.events.done.ev_y0_e37,JSON.stringify(L.slice(0,2)));
+  check('5. 14:15 在公館：可昕打電話 → 出遊',L[0]==='你在哪？我已經出閘門了。行李好重。'&&!!G.events.done.ev_y0_e37,JSON.stringify(L.slice(0,2)));
   // 6. BUG-E37-NAP-CEREMONY-1031（BB-B QA-PLAYTHROUGH ①）：8/29 搬進法律系宿舍以後（stage law、PLAYED_Y0），8/30 睡著也要在 14:15 被叫醒接電話；8/31 不再打（原本撞上開學典禮）
   back(); HOME.rec(G).at=false; G.stage='law'; G.flags.PLAYED_Y0=true; G.zone='dorm'; G.day=D; G.weekday=wdOf(D); G.hour=12;
-  { const w=STORY.coreCallAt(G); check('6. 法律系階段 8/30 12:00 睡覺：coreCallAt 停在 14:15（原本 null → 一覺睡過、拖到 8/31 典禮中間）',w!=null&&Math.abs(w-14.25)<1e-6,String(w)); }
+  { const w=STORY.coreCallAt(G); check('6. 法律系階段 8/30 12:00 睡覺：coreCallAt 停在 13:45（AA_607：13:30 到＋15 分鐘；原本 null → 一覺睡過、拖到 8/31 典禮中間）',w!=null&&Math.abs(w-13.75)<1e-6,String(w)); }
   G.hour=13.25; { const st=STORY.outStopsToday(G,13.25), bo=STORY.bedOptions(G).find(o=>o.t==='睡到傍晚（不設鬧鐘）'), sk=typeof CLS!=='undefined'&&CLS.skipStops?CLS.skipStops({G},18):[];
-    check('6b. BB-B 10-31 twice：13:15 第二次上床（出發前 10 分鐘那個點過了）——停點有 14:15（她打來）、「睡到傍晚」寫 14:15 會叫醒你、小睡／跳過時間停在 14:15',st.some(o=>Math.abs(o.h-14.25)<1e-6)&&!!bo&&/14:15/.test(bo.hint)&&sk.length>0&&Math.abs(sk[0].h-14.25)<1e-6,JSON.stringify([st,bo&&bo.hint,sk[0]])); }
+    check('6b. BB-B 10-31 twice：13:15 第二次上床（出發前 10 分鐘那個點過了）——停點有 13:45（她打來，AA_607）、「睡到傍晚」寫 13:45 會叫醒你、小睡／跳過時間停在 13:45',st.some(o=>Math.abs(o.h-13.75)<1e-6)&&!!bo&&/13:45/.test(bo.hint)&&sk.length>0&&Math.abs(sk[0].h-13.75)<1e-6,JSON.stringify([st,bo&&bo.hint,sk[0]])); }
   G.hour=15; check('6. 法律系階段 8/30 15:00（已過 14:15）：不再叫醒（睡下去照常）、電話照打',STORY.coreCallAt(G)==null&&STORY.e37CallDue(G));
   { G.hour=14.3; G.zone='dorm'; said=[]; let went=null; const og=OUT.go; OUT.go=async(GM2,q)=>{ went=q&&q.id; }; try{ await STORY.interact({sleep:true},GM); } finally { OUT.go=og; }
-    check('6c. BB-B 10-31 ③ 睡三次：14:15 以後電話還沒打來就點床——先接可昕的電話、出發（不給「睡到 18:00」）',said.some(x=>x.t==='你在哪？行李我都搬到樓下了。')&&went==='y0_e37',JSON.stringify([said.slice(0,2),went])); }
+    check('6c. BB-B 10-31 ③ 睡三次：14:15 以後電話還沒打來就點床——先接可昕的電話、出發（不給「睡到 18:00」）',said.some(x=>x.t==='你在哪？我已經出閘門了。行李好重。')&&went==='y0_e37',JSON.stringify([said.slice(0,2),went])); }
   G.hour=25; check('6. 8/30 過了半夜（G.day 不換）：電話還在當天',STORY.e37CallDue(G));
-  G.day=D+1; G.weekday=wdOf(D+1); G.hour=18; check('6. 8/31 18:00（開學典禮）：不打「你在哪？行李我都搬到樓下了。」、不叫醒',!STORY.e37CallDue(G)&&STORY.coreCallAt(G)==null);
+  G.day=D+1; G.weekday=wdOf(D+1); G.hour=18; check('6. 8/31 18:00（開學典禮）：不打「你在哪？我已經出閘門了。行李好重。」、不叫醒',!STORY.e37CallDue(G)&&STORY.coreCallAt(G)==null);
   back(); G.stage='law'; G.day=D; G.weekday=wdOf(D); G.hour=12; delete G.flags.PLAYED_Y0; check('6. 沒玩過經濟系、也沒和可昕交往的法律系：不叫醒',STORY.coreCallAt(G)==null);
   back(); HOME.rec(G).at=false; G.stage='law'; G.flags.PLAYED_Y0=true; G.events.done.ev_y0_e37=G.day; G.day=D; G.weekday=wdOf(D); G.hour=12; check('6. E37 演過了：不叫醒',STORY.coreCallAt(G)==null);
   console.log(fails?'FAILED '+fails:'ALL PASS'); process.exit(fails?1:0);

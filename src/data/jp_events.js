@@ -130,7 +130,7 @@ const JP_EVENTS=(function(){
     {label:'re_a'},{speaker:'學弟',text:'喔，日本！那邊的民訴也這樣上嗎？'},{speaker:null,text:'（你想了一下，說不出一樣還是不一樣。）'},{goto:'re_end'},
     {label:'re_b'},{speaker:null,text:'（他沒有再問，把講義往你這邊推了一點。）'},
     {label:'re_end'},{set:{JP_REDO_CIVPRO:true}} ];
-  const REDO_INS=[ {speaker:null,text:'（保險法。老師點名點到你，停了一下：「交換回來的？」你點頭。他在名單上打了一個勾。）'},{set:{JP_REDO_INS:true}} ];
+  const REDO_INS=[ {speaker:null,text:'（保險法的補修班。你坐在最後一排，抄下這學期剩下的上課日期。）'}   /* AA_605 第 1 列（STORY-NO-TEACHER-EXCHANGE-1103，使用者 11-03「老師不會知道我是交換學生回來的」）*/,{set:{JP_REDO_INS:true}} ];
   const ev=(id,title,dialogue,o)=>Object.assign({id,title,participants:[],location:'any',trigger:'manual',once:true,background:'dark',dialogue},o||{});
   const EV=[
     ev('ev_jp_suitcase','行李箱',SUITCASE,{participants:['heroine_01'],trigger:'outing',hours:1.5}),

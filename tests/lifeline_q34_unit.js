@@ -22,7 +22,7 @@ const GM={get G(){ return G; },E,D:{active:false},npc:{},
   titleCard:async()=>{},enter:async(z)=>{ G.zone=z; },advance(h){ G.hour+=h; },fade:()=>Promise.resolve(),rel(){},walkTo:()=>Promise.resolve(true),sitAt(){},standUp(){},
   say:async(who,t)=>{ said.push({who:who?(who.name||String(who)):null,t}); },choose:async o=>{ opts.push(o.map(q=>q.t||q.text)); const want=picks.shift(); if(typeof want==='string'){ const k=o.findIndex(q=>(q.t||q.text).includes(want)); return k<0?0:k; } return want||0; }};
 const wdOf=d=>{ const w=CALENDAR.dateOf(d).wd; return w===7?0:w; };
-const fresh=(day,hour,zone,flags)=>{ G={v:3,day,hour,zone,weekday:wdOf(day),weather:'clear',energy:70,money:5000,flags:Object.assign({KX_FIRST_MSG:true,fundsV2:1,allowanceMonth:CALENDAR.dateOf(day).m},flags||{}),choices:{},events:{done:{},last:{},count:0},name:'祐廷',rel:{},social:null,stats:{classes:0}};
+const fresh=(day,hour,zone,flags)=>{ G={v:3,day,hour,zone,weekday:wdOf(day),weather:'clear',energy:70,money:5000,flags:Object.assign({KX_FIRST_MSG:true,YT_MET_JOB:true,fundsV2:1,allowanceMonth:CALENDAR.dateOf(day).m},flags||{}),choices:{},events:{done:{},last:{},count:0},name:'祐廷',rel:{},social:null,stats:{classes:0}};
   SOCIAL.bind(G); EVENTS.bind(GM); INV.rec(G); said=[]; opts=[]; picks=[]; GM.npc={}; E.interactables=[]; E.npcs=[]; if(STORY._fy) STORY._fy.reset(); };
 const R=(id,fam,trust,comf)=>{ const r=SOCIAL.rel(id); r.fam=fam; r.trust=trust||0; r.comf=comf||0; };
 const LV={ACQ:[10],FAM:[25],FRI:[45,30],CLO:[65,50,45]};
@@ -38,12 +38,13 @@ const D=k=>STORY.dayOfKey(k), Tm=(d,h)=>d*24+h;
   const J=x=>JSON.stringify(x);
   const LONG='祐廷：第一次社會考壞了，差四分。先去念了一個多月的經濟。', SHORT='祐廷：本來就想念法律。第一次沒考上。';
   /* ---------- Q3 ---------- */
-  const talk=async(flags,pick)=>{ fresh(D('2025-08-23'),22.5,'dorm',Object.assign({introDone:true},flags)); picks=[pick]; await EVENTS.run(ev('ev_camp_d2_talk')); return lines(); };
-  { const L=await talk({E24C_REASON:'honest'},'念過經濟系'); const i=L.indexOf('江明軒：為什麼重考？');
-    check('Q3 夜談 econ＋honest：明軒「為什麼重考？」→ 長句 → 阿哲「差四分喔……那真的很煩。」；記 WHY_RETAKE_ASKED',i>0&&L[i+1]===LONG&&L[i+2]==='阿哲：差四分喔……那真的很煩。'&&G.flags.WHY_RETAKE_ASKED===true&&!L.includes('江明軒：好，懂了。'),J(L.slice(i-1,i+4))); }
-  for(const r of ['short','later',undefined,'understand']){ const L=await talk(r?{E24C_REASON:r}:{},'念過經濟系'); const i=L.indexOf('江明軒：為什麼重考？');
-    check('Q3 夜談 econ＋'+(r||'只玩法律系')+'：短句 → 明軒「好，懂了。」',i>0&&L[i+1]===SHORT&&L[i+2]==='江明軒：好，懂了。'&&!L.some(t=>t.includes('差四分')),J(L.slice(i,i+3))); }
-  { const L=await talk({},'大一歲'); check('Q3 夜談選「大一歲」：不問、不記',!L.some(t=>t.includes('為什麼重考'))&&!G.flags.WHY_RETAKE_ASKED); }
+  /* AA_608 10-5／10-6：夜談 retired，學測／哥／為什麼重考移到第一天自由時間打牌（ev_camp_d1_free），由阿哲問 */
+  const talk=async(flags,pick)=>{ fresh(D('2025-08-22'),19.5,'dorm',Object.assign({introDone:true},flags)); picks=[0,pick]; await EVENTS.run(ev('ev_camp_d1_free')); return lines(); };
+  { const L=await talk({E24C_REASON:'honest'},'念過一個多月經濟系'); const i=L.indexOf('阿哲：為什麼重考？');
+    check('Q3 打牌 econ＋honest（AA_608 10-5）：阿哲「為什麼重考？」→ 長句 → 阿哲「差四分喔……那真的很煩。」；記 WHY_RETAKE_ASKED',i>0&&L[i+1]===LONG&&L[i+2]==='阿哲：差四分喔……那真的很煩。'&&G.flags.WHY_RETAKE_ASKED===true&&!L.includes('阿哲：好，懂了。'),J(L.slice(i-1,i+4))); }
+  for(const r of ['short','later',undefined,'understand']){ const L=await talk(r?{E24C_REASON:r}:{},'念過一個多月經濟系'); const i=L.indexOf('阿哲：為什麼重考？');
+    check('Q3 打牌 econ＋'+(r||'只玩法律系')+'：短句 → 阿哲「好，懂了。」',i>0&&L[i+1]===SHORT&&L[i+2]==='阿哲：好，懂了。'&&!L.some(t=>t.includes('差四分')),J(L.slice(i,i+3))); }
+  { const L=await talk({},'「嗯。」'); check('Q3 打牌選「嗯。」［old］：不問、不記',!L.some(t=>t.includes('為什麼重考'))&&!G.flags.WHY_RETAKE_ASKED); }
   const welcome=async(flags,pick)=>{ fresh(D('2025-09-03'),15,'campus',Object.assign({introDone:true},flags)); picks=[pick,0]; await EVENTS.run(ev('ev_welcome_y1s1')); return lines(); };
   { const L=await welcome({},'念過經濟系'); const i=L.findIndex(t=>/：欸，為什麼重考？$/.test(t));
     check('Q3 迎新 econ（夜談沒問過）：Alison「欸，為什麼重考？」→ 短句 →「好，懂了。」（Alison）→ 大地遊戲',i>0&&L[i].split('：')[0]===L[i+2].split('：')[0]&&L[i+1]===SHORT&&/：好，懂了。$/.test(L[i+2])&&L[i+3].startsWith('大地遊戲')&&G.flags.WHY_RETAKE_ASKED===true,J(L.slice(i-1,i+4))); }

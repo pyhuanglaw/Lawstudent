@@ -17,7 +17,7 @@ const GM={get G(){ return G; },E,D:{active:false},npc:{},
   titleCard:async()=>{},enter:async(z)=>{ G.zone=z; },advance(h){ G.hour+=h; },fade:()=>Promise.resolve(),rel(){},walkTo:()=>Promise.resolve(true),sitAt(){},standUp(){},
   say:async(who,t)=>{ said.push({who:who?(who.name||String(who)):null,t}); },choose:async o=>{ opts.push(o.map(q=>q.t||q.text)); const want=picks.shift(); if(typeof want==='string'){ const k=o.findIndex(q=>(q.t||q.text).includes(want)); return k<0?0:k; } return want||0; }};
 const wdOf=d=>{ const w=CALENDAR.dateOf(d).wd; return w===7?0:w; };
-const fresh=(day,hour,zone,flags)=>{ G={v:3,day,hour,zone,weekday:wdOf(day),weather:'clear',energy:70,money:5000,flags:Object.assign({KX_FIRST_MSG:true,fundsV2:1,allowanceMonth:CALENDAR.dateOf(day).m},flags||{}),choices:{},events:{done:{},last:{},count:0},name:'祐廷',rel:{},social:null,stats:{classes:0}};
+const fresh=(day,hour,zone,flags)=>{ G={v:3,day,hour,zone,weekday:wdOf(day),weather:'clear',energy:70,money:5000,flags:Object.assign({KX_FIRST_MSG:true,YT_MET_JOB:true,fundsV2:1,allowanceMonth:CALENDAR.dateOf(day).m},flags||{}),choices:{},events:{done:{},last:{},count:0},name:'祐廷',rel:{},social:null,stats:{classes:0}};
   SOCIAL.bind(G); EVENTS.bind(GM); INV.rec(G); said=[]; opts=[]; picks=[]; GM.npc={}; E.interactables=[]; E.npcs=[]; if(STORY._fy) STORY._fy.reset(); };
 const R=(id,fam,trust,comf)=>{ const r=SOCIAL.rel(id); r.fam=fam; r.trust=trust||0; r.comf=comf||0; };
 const LV={ACQ:[10],FAM:[25],FRI:[45,30],CLO:[65,50,45]};
@@ -43,6 +43,8 @@ const txt=(th)=>TH(th).map(m=>(m.from||'')+':'+m.text);
   // A6
   at('Y1S1',10,2,19,'noodle',{introDone:true,classDone:true,afternoonDone:true}); SOCIAL.remember('heroine_03','SHARED_MEAL'); const c10=chk('ev_yutong_customer');
   at('Y1S1',15,2,19,'noodle',{introDone:true,classDone:true,afternoonDone:true}); SOCIAL.remember('heroine_03','SHARED_MEAL'); const c15=chk('ev_yutong_customer');
-  check('4a. 麵店的糾紛：第 10 週不觸發',!c10); check('4b. 第 15 週起可以',c15);
+  check('4a. 麵店的糾紛：第 10 週不觸發',!c10);
+  /* AA 決定（企劃線 ace533a43）：ev_yutong_customer 退休（AA_610／AA_624：語彤不在燒臘店顧店）——原本「第 15 週起可以」改成第 15 週也不觸發 */
+  check('4b. ev_yutong_customer 退休：第 15 週也不觸發',!c15&&!!(STORY_EVENTS.find(e=>e.id==='ev_yutong_customer')||{}).retired);
   console.log(fails?'FAILED '+fails:'ALL PASS'); process.exit(fails?1:0);
 })();

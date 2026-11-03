@@ -290,7 +290,7 @@ await sec(10,async()=>{ const days=[1,2,3,4,5].map(w=>td('Y1S1',3,w)), ES=EAT_LI
   fresh(td('Y1S1',5,1),12.5,'l118_noodle2'); const R3=rec(); R3.n.noodle2=9; R3.d.noodle2=H.G.day-1; R3.last.noodle2='牛肉麵'; H.G.eat={n:{'六張犁麵舖':9},last:{'六張犁麵舖':'牛肉麵'}}; met('zhe'); here('zhe'); await order('noodle2',['牛肉麵']); const f=said(), of=mo().slice();
   check('10. 店員沒有主動問的時候照樣有「老樣子」：考試週（第 10 次也是考試週那句）、和人一起來（「幾位？」）',d[0]==='阿姨：考試喔？多夾一點，不加錢。'&&od.includes('老樣子')&&f[0]==='老闆：幾位？……那邊那張可以坐。'&&of.includes('老樣子'),J([d,od,f,of]));
   fresh(days[0],12,'noodle'); H.G.eat={n:{'阿鳳麵店':4},last:{'阿鳳麵店':'乾麵'}}; H.said=[]; H.opts=[]; H.picks=['老樣子']; const names=['乾麵','餛飩湯'], k=await EAT.choose(GM,'阿鳳麵店',names.map(t=>({t})).concat([{t:'不用了'}]),names,[50,40]);
-  check('10. 其他店（阿鳳麵店）照 AA_329：第 5 次阿姨那一句、老樣子、阿姨回',has(ES['阿鳳麵店'].line5)&&whoOf(ES['阿鳳麵店'].line5)==='阿姨'&&k===0&&has(ES['阿鳳麵店'].same),J(said())); });
+  check('10. 其他店（公館燒臘）照 AA_329：第 5 次阿姨那一句、老樣子、阿姨回',has(ES['阿鳳麵店'].line5)&&whoOf(ES['阿鳳麵店'].line5)==='阿姨'&&k===0&&has(ES['阿鳳麵店'].same),J(said())); });
 
 H.done();
 })().catch(e=>{ console.log('FAIL 例外',e&&e.stack||e); process.exit(1); });

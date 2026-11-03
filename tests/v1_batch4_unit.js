@@ -28,7 +28,7 @@ const GM={get G(){ return G; },E,D:{active:false},npc:{},
   advance(h){ G.hour+=h; },fade:()=>Promise.resolve(),rel(){},walkTo:()=>Promise.resolve(true),sitAt(){},standUp(){},
   say:async(who,t)=>{ said.push({who:who?(who.name||String(who)):null,t}); },choose:async o=>{ opts.push(o.map(q=>q.t||q.text)); const want=picks.shift(); if(typeof want==='string'){ const k=o.findIndex(q=>(q.t||q.text).includes(want)); return k<0?0:k; } return want||0; }};
 const wdOf=d=>{ const w=CALENDAR.dateOf(d).wd; return w===7?0:w; };
-const fresh=(day,hour,zone,flags)=>{ G={v:3,day,hour,zone,weekday:wdOf(day),weather:'clear',energy:70,money:5000,flags:Object.assign({KX_FIRST_MSG:true,fundsV2:1,allowanceMonth:CALENDAR.dateOf(day).m},flags||{}),choices:{},events:{done:{},last:{},count:0},name:'祐廷',rel:{},social:null,stats:{classes:0}};
+const fresh=(day,hour,zone,flags)=>{ G={v:3,day,hour,zone,weekday:wdOf(day),weather:'clear',energy:70,money:5000,flags:Object.assign({KX_FIRST_MSG:true,YT_MET_JOB:true,fundsV2:1,allowanceMonth:CALENDAR.dateOf(day).m},flags||{}),choices:{},events:{done:{},last:{},count:0},name:'祐廷',rel:{},social:null,stats:{classes:0}};
   SOCIAL.bind(G); EVENTS.bind(GM); said=[]; opts=[]; picks=[]; titles=[]; legalAsked=0; toasts=[]; GM.npc={}; E.interactables=[]; E.npcs=[]; };
 const lines=()=>said.map(s=>s.t);
 const ev=id=>STORY_EVENTS.find(e=>e.id===id);
@@ -154,15 +154,15 @@ const enterEv=()=>{ const L=STORY_EVENTS.filter(e=>e.trigger==='enter'&&EVENTS.c
     const can=(day,h)=>{ fresh(day,h,'gongguan'); return EVENTS.check(e); };
     check('家族聚餐：第 14 週週五 18:00–19:30 在公館（DL-04B 放寬，AA_160 3-4、BB_95 3-8）',!!fri&&can(fri,18.05)&&can(fri,19.4)&&!can(fri,19.6)&&!can(fri,17.9)&&!can(fri-7,18.4)&&!can(fri+1,18.4));
     fresh(fri-7,21,'campus'); grp(); STORY.phoneRules(GM); PHONE.tick(G);
-    check('前一週 Kevin 在家族群組約（BB_95 原文；AA_458 3-1「週五」→「下週五」）＋學姊「收到。」',JSON.stringify(T())===JSON.stringify(['Kevin：家族聚餐！下週五 18:30，阿鳳麵店。學姊說她會來（截圖為證）','溫學姊：收到。']),JSON.stringify(T()));
+    check('前一週 Kevin 在家族群組約（BB_95 原文；AA_458 3-1「週五」→「下週五」）＋學姊「收到。」',JSON.stringify(T())===JSON.stringify(['Kevin：家族聚餐！下週五 18:30，公館燒臘。學姊說她會來（截圖為證）','溫學姊：收到。']),JSON.stringify(T()));
     const HEAD=['18:31。她跑進來，有點喘。','抱歉。抱歉，我遲到了。','一分鐘。學姊，一分鐘。','一分鐘也是遲到。','她坐下，從包包拿出一個資料夾。','周老師歷年的考古題。我整理過，錯的地方用紅筆改了。','下學期的書，開學前我會分。書上標紅的地方是修法了，要查新的。','……還有——','還有傳統！直屬學姊要講一個自己大一的糗事！','……','我大一第一次被點名，老師問什麼是「善意第三人」。我說：心地善良的第三人。','老師說：「那心地不好的第三人，是不是就不用保護了？」','全桌笑。她也笑了一下。','其實「善意」在法律上是「不知道」的意思。下學期你們就會學到。'];
-    for(const [pick,tail,sticker] of [['手心都是汗',['那一題大家都會卡。你有回答就很好了。'],false],['收到',['因為收到了。','她連過年都回收到。','不然要回什麼？','貼圖啊！','我沒有貼圖。'],true],['資料夾收進書包',['學姊看了一眼。','資料夾回去再看。現在吃麵。','學姊說吃麵耶！'],false]]){
+    for(const [pick,tail,sticker] of [['手心都是汗',['那一題大家都會卡。你有回答就很好了。'],false],['收到',['因為收到了。','她連過年都回收到。','不然要回什麼？','貼圖啊！','我沒有貼圖。'],true],['資料夾收進書包',['學姊看了一眼。','資料夾回去再看。現在吃飯。','學姊說吃飯耶！'],false]]){
       fresh(fri,18.55,'gongguan',{classDone:true,classAnswer:'good',SIS_W1:true,met_sis:true}); grp(); picks=[pick]; await EVENTS.run(e); const L=lines();   /* 已經認識她（SIS_W1）：還沒認識的多兩句自我介紹（AA_470 5-1），驗在 tests/aa470_sis_b12_unit.js */
       check('家族聚餐 選「'+pick+'」：BB_95 原文、散會「下學期的書，我會留給你。」、SHARED_MEAL'+(sticker?'、SIS_NO_STICKER':''),JSON.stringify(L)===JSON.stringify(HEAD.concat(tail,['下學期的書，我會留給你。']))&&SOCIAL.has('heroine_05','SHARED_MEAL')&&!!G.flags.SIS_NO_STICKER===sticker,JSON.stringify(L.slice(-6))); }
     fresh(fri,18.55,'gongguan',{classAnswer:'absent'}); picks=[0]; await EVENTS.run(e); check('家族聚餐 第二天沒上課（absent）：沒有「被周老師點名」那個選項；不在家族群組：沒有「收到」那個選項',opts[0].length===1&&/資料夾/.test(opts[0][0]),JSON.stringify(opts[0]));
     fresh(fri,18.55,'gongguan',{}); grp(); picks=['資料夾']; await EVENTS.run(e); G.hour=22.6; STORY.phoneRules(GM); PHONE.tick(G);
     check('家族聚餐 去了：當晚學姊沒有在群組訂正（AA_218 17-12a：她不在群組主動發言）、沒有「沒來的人自己拿」',!T().some(t=>/紅筆改錯/.test(t))&&!T().some(t=>/沒來的人/.test(t)),JSON.stringify(T()));
-    fresh(fri,18.1,'gongguan',{}); grp(); picks=['資料夾']; await EVENTS.run(e); { const L=lines(); check('家族聚餐 18:00～18:30 先到：先旁白「你先到了。麵店的阿姨把你們那一桌的椅子擺好。」，再接 18:31 她跑進來',L[0]==='你先到了。麵店的阿姨把你們那一桌的椅子擺好。'&&L[1]==='18:31。她跑進來，有點喘。',JSON.stringify(L.slice(0,2))); }
+    fresh(fri,18.1,'gongguan',{}); grp(); picks=['資料夾']; await EVENTS.run(e); { const L=lines(); check('家族聚餐 18:00～18:30 先到：先旁白「你先到了。燒臘店的阿姨把你們那一桌的椅子擺好。」，再接 18:31 她跑進來',L[0]==='你先到了。燒臘店的阿姨把你們那一桌的椅子擺好。'&&L[1]==='18:31。她跑進來，有點喘。',JSON.stringify(L.slice(0,2))); }
     fresh(fri-1,21.1,'campus',{}); grp(); STORY.phoneRules(GM); PHONE.tick(G); check('家族聚餐 前一天 21:00 Kevin 提醒一次「明天六點半，公館。記得來。」（AA_218 17-12a）',T().filter(t=>t==='Kevin：明天六點半，公館。記得來。').length===1&&!T().some(t=>/三件事/.test(t)),JSON.stringify(T()));
     fresh(fri,17.6,'campus',{}); grp(); toasts=[]; STORY.phoneRules(GM); STORY.phoneRules(GM); check('家族聚餐 當天 17:30 一則 toast「今天 18:30 家族聚餐（公館）」（只一次）',toasts.filter(t=>t==='今天 18:30 家族聚餐（公館）').length===1,JSON.stringify(toasts));
     fresh(fri,17.6,'campus',{}); toasts=[]; STORY.phoneRules(GM); check('不在家族群組：沒有當天的 toast',!toasts.some(t=>/家族聚餐/.test(t)));

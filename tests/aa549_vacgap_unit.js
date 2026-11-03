@@ -196,9 +196,9 @@ const atHome=()=>{ const Hm=HOME.rec(H.G); Hm.at=true; Hm.day=H.G.day; const B=H
     c=cands('2026-03-10',13,'heroine_01');
     check('3-6. 學期中照舊（沒有假期版）',c.length>=1&&c.every(x=>!x.vs)&&!c.some(x=>x.v.line===VL.an_s||x.v.line===VL.an_w),J(sum(c)));
     c=cands('2026-07-13',13,'heroine_03');
-    check('3-6. 語彤暑假（週一傳、週二她顧店）：麵店「明天店裡不忙。你要來就來。」（她本來就在那裡）；總圖照 AA_532 放假版',at1(c,'noodle').length===1&&at1(c,'noodle')[0].v.line===VL.yt_s&&at1(c,'noodle')[0].e.here===true&&at1(c,'library').every(x=>!x.vs&&x.vac===true),J(sum(c)));
+    check('3-6. 語彤暑假：AA_610／AA_624 她不在燒臘店顧店＝沒有「明天店裡不忙。你要來就來。」那一則（不約在燒臘店）；總圖照 AA_532 放假版',at1(c,'noodle').length===0&&at1(c,'library').length>=1&&at1(c,'library').every(x=>!x.vs&&x.vac===true),J(sum(c)));
     c=cands('2026-01-12',13,'heroine_03');
-    check('3-6. 語彤寒假：麵店「店裡有麻油雞。明天晚上。」',at1(c,'noodle').length===1&&at1(c,'noodle')[0].v.line===VL.yt_w&&at1(c,'noodle')[0].vs==='winter',J(sum(c)));
+    check('3-6. 語彤寒假：也沒有燒臘店那一則（「店裡有麻油雞。明天晚上。」不出現）',at1(c,'noodle').length===0&&!J(sum(c)).includes('店裡有麻油雞'),J(sum(c)));
     c=cands('2026-01-13',13,'heroine_02');
     check('3-6. 芷若寒假（她上班的日子）：Café 換成今天 19:00「店裡今天很冷清。你要不要來陪我一下？我請你一杯熱的。」（17:00 傳、她在店裡＝here）',at1(c,'cafe').length===1&&at1(c,'cafe')[0].v.line===VL.zr_w&&at1(c,'cafe')[0].h===19&&at1(c,'cafe')[0].send.h===17&&at1(c,'cafe')[0].e.here===true,J(sum(c)));
     c=cands('2027-07-13',13,'heroine_02',{dating_heroine_02:true});
@@ -233,7 +233,7 @@ const atHome=()=>{ const Hm=HOME.rec(H.G); Hm.at=true; Hm.day=H.G.day; const B=H
       if(x&&x.ask) PHONE.answer(H.G,x.ask,0); const who={name:SOCIAL.displayName('heroine_03'),charId:'heroine_03'};
       at(x?x.day:H.G.day,19); H.G.zone='campus'; H.said=[]; const PT=HK&&HK.preTalk?HK.preTalk:null, a=PT?await PT(GM,who,'heroine_03'):false;
       H.G.zone='noodle'; const b=PT?await PT(GM,who,'heroine_03'):false, L=H.lines(); const c2=PT?await PT(GM,who,'heroine_03'):false;
-      check('3-6. 語彤（here）：答應了，7/14 19:00 在麵店跟她說話＝先說「阿姨說夏天要吃涼麵。我做的。」；在別的地方不說、說過一次就不再說；掛在 STORY.PRE_TALK',!!x&&x.here===true&&x.ans==='yes'&&x.place==='noodle'&&!a&&b===true&&J(L)===J([who.name+'：阿姨說夏天要吃涼麵。我做的。'])&&!c2&&STORY.PRE_TALK.length>0&&!!STORY._haskPreTalk,J([x,L])); }
+      check('3-6. 語彤：她約你的地方不是燒臘店（AA_610／AA_624）；在燒臘店跟她說話不會先說「阿姨說夏天要吃涼麵。我做的。」',!!x&&x.place!=='noodle'&&!L.some(t=>/涼麵/.test(t))&&STORY.PRE_TALK.length>0&&!!STORY._haskPreTalk,J([x,L])); }
     const all=Object.values(HASK_DATA.people).reduce((A,p)=>{ for(const k in (p.vacTerm||{})){ const e=p.vacTerm[k]; A.push(e.v.line,e.v.first); } return A; },[]);
     const bad=all.filter(t=>!inDoc(t)&&!AA_REPLY.includes(t));
     check('3-6. 假期版的句子（她傳、見面第一句；共 '+all.length+' 句）都在 AA_549 稿或 AA 回覆裡',all.length===20&&!bad.length,J(bad)); }

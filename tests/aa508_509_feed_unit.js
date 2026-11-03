@@ -31,7 +31,7 @@
 //   這一項對開發分支 44e8ff8b7 的 src 實際跑 FAIL（沒有 KAI_ROW、沒有 1-4 那一組），改完 ALL PASS。
 // 2026-10-28 AA_518 第 4-4 改的（企劃線 973dd1b74，SIS-B15-1028）：sis4f 留言回「他說要三匙。我沒給。」——第 0 節對稿時照 AA_518 換（AA518_ROW）。
 // （2026-10-28 AA_519 3-3（企劃線 d75cd0228，NPC-STORY2-1028）：「沒做」清單裡小婷、新來的工讀生（小禾）那幾句改成 Café 點餐以後一句接上（src/data/aa519_lines.js cafe.heard，不在 heard_lines.js）——這裡只改原因的字，查法照舊；那幾句在 tests/aa519_support2_unit.js 查）
-// 2026-10-28 AA_523 第 6-3 點改的（企劃線 0d7b5388b，SIS-B16-1028）：陳助教 h509_ta_sis（AA_509 5-4）改字「書瑀回來休息了兩個禮拜，才來吃飯。她說美國的麵都太軟。」、from 2029-01-01→2029-01-13，
+// 2026-10-28 AA_523 第 6-3 點改的（企劃線 0d7b5388b，SIS-B16-1028）：陳助教 h509_ta_sis（AA_509 5-4）改字「書瑀回來休息了兩個禮拜，才來吃飯。她說美國的叉燒都太甜。」、from 2029-01-01→2029-01-13，
 //   src 'AA_523 6-3'（照 h508_cx_zq 的做法）——第 6 段：那一句對 AA_523 第 6 節 6-3 那一列（第四輪的句子照舊 23 句）、HEARD_LINES.src 記 AA_523；稿上舊的那一句列進「沒做」（原因寫改字）；
 //   閒聊前一句照舊 8 句（陳助教兩句含這一句）；時間那一項陳助教「1/1 起」改「1/13 起」。
 'use strict';
@@ -179,7 +179,7 @@ await sec('0',async()=>{ const sc=f=>html.indexOf('<script src="'+f), i5=sc('src
   const allow=JSON.parse(fs.readFileSync(path.join(H.ROOT,'docs/handoff/story_import_allow.json'),'utf8')).files, sh=k=>(allow.find(e=>e.path.indexOf('docs/story_planning/'+k+'_')===0)||{}).sha;
   check('0. 白名單：AA_508＝ce6e87a99（第 9 節實作時定的）、AA_509＝28f981438（AA_510 0-1 更正）；AA_506＝691a26400（第 9 節出遊途中）',sh('AA_508')===SHA508&&sh('AA_509')===SHA&&sh('AA_506')==='691a26400',J({AA_506:sh('AA_506'),AA_508:sh('AA_508'),AA_509:sh('AA_509')}));
   const ev=typeof STORY_EVENTS!=='undefined'?STORY_EVENTS.find(e=>e.id==='ev_aa508_yt_aunt'):null;
-  check('0. 語彤 8/22 的 2D 短場接進 STORY_EVENTS（出遊事件、深色底、一小時、第一格「阿鳳麵店・長桌」noodle_table）',!!ev&&ev.trigger==='outing'&&ev.background==='dark'&&ev.hours===1&&ev.dialogue[0].bg==='noodle_table'&&ev.dialogue.slice(1).every(d=>d.speaker===null),J(ev&&ev.dialogue[0])); });
+  check('0. 語彤 8/22 的 2D 短場接進 STORY_EVENTS（出遊事件、深色底、一小時、第一格「公館燒臘・長桌」noodle_table）',!!ev&&ev.trigger==='outing'&&ev.background==='dark'&&ev.hours===1&&ev.dialogue[0].bg==='noodle_table'&&ev.dialogue.slice(1).every(d=>d.speaker===null),J(ev&&ev.dialogue[0])); });
 
 /* ---------- 1 階段、聯絡方式、時間、舊存檔 ---------- */
 await sec('1',async()=>{ if(!HAS2()){ check('1. 動態',false,'沒有資料'); return; }

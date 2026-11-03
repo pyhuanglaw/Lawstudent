@@ -16,7 +16,7 @@ let G=null;
 const E={q:{level:'medium'},player:{busy:false,obj:{position:{x:0,y:0,z:0},rotation:{y:0}},lv:0},zone:{roomAt:()=>null,seats:[]},npcs:[],interactables:[],levels:null,setWeather(){},hour:0};
 const GM={get G(){ return G; },E,D:{active:false},npc:{},sceneBegin(){},sceneEnd(){},sleep:()=>Promise.resolve(),memo(){},autosave(){},setGoal(){},toast(){},updateHUD(){},phoneBadge(){},titleCard:async()=>{},enter:async()=>{},advance(h){ G.hour+=h; },fade:()=>Promise.resolve(),say:async()=>{},choose:async()=>0};
 const D=k=>STORY.dayOfKey(k);
-const fresh=(day,hour,zone,flags)=>{ G={v:3,day,hour,zone,stage:'law',weekday:CALENDAR.dateOf(day).wd%7,weather:'clear',energy:70,money:5000,flags:Object.assign({KX_FIRST_MSG:true,fundsV2:1,allowanceMonth:CALENDAR.dateOf(day).m,introDone:true,afternoonDone:true,classDone:true,metAn:true,ROOM_Y2:300,ROOM_Y3:600},flags||{}),choices:{},events:{done:{},last:{},count:0},name:'祐廷',rel:{},social:null,stats:{classes:0}};
+const fresh=(day,hour,zone,flags)=>{ G={v:3,day,hour,zone,stage:'law',weekday:CALENDAR.dateOf(day).wd%7,weather:'clear',energy:70,money:5000,flags:Object.assign({KX_FIRST_MSG:true,YT_MET_JOB:true,fundsV2:1,allowanceMonth:CALENDAR.dateOf(day).m,introDone:true,afternoonDone:true,classDone:true,metAn:true,ROOM_Y2:300,ROOM_Y3:600},flags||{}),choices:{},events:{done:{},last:{},count:0},name:'祐廷',rel:{},social:null,stats:{classes:0}};
   SOCIAL.bind(G); EVENTS.bind(GM); INV.rec(G); ROM.rec(G); return G; };
 check('0. 有 STORY.TICKS、PHONE_RULES、WAKE_AT、ALARMS', Array.isArray(STORY.TICKS)&&Array.isArray(STORY.PHONE_RULES)&&Array.isArray(STORY.WAKE_AT)&&Array.isArray(STORY.ALARMS));
 if(fails){ console.log('FAILED '+fails); process.exit(1); }

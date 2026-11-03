@@ -285,7 +285,7 @@ const PG=(function(){
   S.seaItems=function(G){ const Y=L().SEA_Y5, a=P_('heroine_05',Y.ask[0]), b=P_('heroine_05',Y.ask[1]);
     b.ask={id:'pg_sis_sea',until:T(SEA_DAY,9),opts:[{t:Y.opts[0],set:{PG_SIS_SEA:'yes'}},{t:Y.opts[1],set:{PG_SIS_SEA:'no'},say:[{from:'heroine_05',text:Y.no}]}]}; return [a,b]; };
   S.planSea=G=>typeof OUT!=='undefined'&&OUT.plan(G,{id:'pg_sis_sea',ev:'ev_pg_sis_sea',day:S.DK(SEA_DAY),h:9,late:0.5,place:'她家樓下',title:'學姊的生日：九點，她家樓下',travel:'開車約 15 分鐘',travelH:0.25,back:'回到臺北。',alarm:true,who:'heroine_05'});
-  S.planNoodle=(G,y)=>typeof OUT!=='undefined'&&OUT.plan(G,{id:'pg_bar_noodle_'+y,ev:'ev_pg_noodle',day:S.DK(Y[y].r2),h:18,late:0.5,place:'阿鳳麵店',title:'阿鳳麵店・長桌',travel:'走過去約 15 分鐘',travelH:0.25});
+  S.planNoodle=(G,y)=>typeof OUT!=='undefined'&&OUT.plan(G,{id:'pg_bar_noodle_'+y,ev:'ev_pg_noodle',day:S.DK(Y[y].r2),h:18,late:0.5,place:'公館燒臘',title:'公館燒臘・長桌',travel:'走過去約 15 分鐘',travelH:0.25});
   /* ---------- 手機規則（story3d.js 的 S.tick、跳的途中照時間）---------- */
   S.rules=function(GM){ const G=GM&&GM.G?GM.G:GM; if(!G||!G.flags||!law(G)) return; const now=NOW(G); if(now<T('2029-05-10',0)) return; const F=G.flags;
     if(F.Y4_PATH==='bar'&&F.BAR_REG==null&&now>=T('2029-05-10',21)&&!S.delayed(G)) F.BAR_REG=true;   /* 已經報名的：沒有提醒（X1）。交換延畢的 2029 不考、不設（AA_357 1-6：7/14 照「沒報名」那一版）*/
@@ -325,8 +325,11 @@ const PG=(function(){
   S.gradReady=G=>!S.familyModule()||G.day>S.gradDay()||!!(G.events&&G.events.done&&G.events.done.ev_grad_family);   /* 拍照接在家人那一段後面（那一段在演＝玩家不空，不會插進去）*/
   S.CLASS=['zhe','yu','classmate_bohan','classmate_xinci','classmate_mingxuan','heroine_01','classmate_youchen'];   /* 同班（大合照）*/
   S.PARTNER_ORDER=['kexin','heroine_05','heroine_01','heroine_03','heroine_04','heroine_02'];   /* 沛珊在台南：前一晚的訊息、18:00 視訊 */
-  /* AA_392 第 8 節 fatherGradDue／fatherGrad（典禮上的她爸爸）：AA_591 決1 甲刪 */
-  S.thermos=async function(GM){ const G=GM.G, F=G.flags, W=L().THERMOS, sis=S.who(G,'heroine_05'); await S.play(GM,[].concat(...W.lines.map(x=>Array.isArray(x)&&x[0]==='heroine_05'&&x[1]==='恭喜畢業。'?(W.hug&&S.dating(G,'heroine_05')?[[null,W.hug]]:[]).concat([[x[0],DLY(G,'thermos2',x[1])]]):[x])));   /* AA_591 第 175 列「恭喜畢業。」；決9（新7）交往中先抱一下 */   /* 交換延畢：「學士服借的吧。……一月還要再穿一次。」*/
+  /* AA_392 第 8 節 fatherGradDue／fatherGrad（典禮上的她爸爸）：AA_591 決1 甲刪過；AA_609 第 7 節改成她奶奶——和她交往中、演過 3/17 的晚餐（MET_SIS_FATHER，'grad'＝舊版在典禮上見過的不算）*/
+  S.fatherGradDue=G=>{ const F=G.flags, m=F.MET_SIS_FATHER; return S.dating(G,'heroine_05')&&!!m&&m!=='grad'; };
+  S.fatherGrad=async function(GM){ const G=GM.G, W=L().THERMOS.fatherGrad; if(!W) return; await S.play(GM,W.lines.map(x=>[x[0],String(x[1]).replace('{name}',G.name||'祐廷')]));
+    const k=await GM.choose(W.opts.map(o=>({t:o.t}))); await S.play(GM,(W.opts[k]||W.opts[0]).say); };
+  S.thermos=async function(GM){ const G=GM.G, F=G.flags, W=L().THERMOS, sis=S.who(G,'heroine_05'); if(S.fatherGradDue(G)) await S.fatherGrad(GM); await S.play(GM,[].concat(...W.lines.map(x=>Array.isArray(x)&&x[0]==='heroine_05'&&x[1]==='恭喜畢業。'?(W.hug&&S.dating(G,'heroine_05')?[[null,W.hug]]:[]).concat([[x[0],DLY(G,'thermos2',x[1])]]):[x])));   /* AA_591 第 175 列「恭喜畢業。」；決9（新7）交往中先抱一下 */   /* 交換延畢：「學士服借的吧。……一月還要再穿一次。」*/
     if(F.HOT_WATER) await GM.say(sis,W.hotWater);   /* 黑咖啡那一句（THERMOS 的 helped）拿掉：連著空的保溫瓶那一次（AA 2026-11-02 20:26，D127、AA_595）*/
     if(F.SIS7_PHOTO&&typeof SISB16_LINES!=='undefined'&&Array.isArray(SISB16_LINES.thermosPhoto)) await S.play(GM,SISB16_LINES.thermosPhoto);   /* AA_523 5-5（企劃線 0d7b5388b）：階梯 S7-L8 選「一起參加典禮。」（她回「嗯。那天記得拍照。」，記 SIS7_PHOTO）＝最後多兩句 */
     F.SIS_THERMOS=true; };
@@ -531,7 +534,7 @@ const PG=(function(){
     toAtLeast(GM,T('2030-10-01',21));
     const items=[{th:'g:noodle_team',from:'player',text:'📷'+S.firstPhoto(G)}];   /* AA_331 1a：2029 一試沒過的照 RETAKE_STYLE（cram／home／zhe）；交換延畢沒有＝補習班 */
     for(const [id,ph,t] of Fi.friends) if(S.at(G,id,'FAMILIAR')){ items.push(GR(id,'📷'+ph)); items.push(GR(id,t)); }   /* 認識的人才傳 */
-    if(typeof PHONE!=='undefined'){ if(!PHONE.inGroup(G,'noodle_team')) PHONE.join(G,'noodle_team','法四吃飯'); if(!PHONE.sent(G,'pg_first_day')) items.forEach((it,i)=>PHONE.postAt(G,Object.assign({tag:'pg_first_day'},it),G.day,G.hour+i*0.01)); }
+    if(typeof PHONE!=='undefined'){ if(!PHONE.inGroup(G,'noodle_team')) PHONE.join(G,'noodle_team','桌遊團'); if(!PHONE.sent(G,'pg_first_day')) items.forEach((it,i)=>PHONE.postAt(G,Object.assign({tag:'pg_first_day'},it),G.day,G.hour+i*0.01)); }
     GM.sceneBegin(); try{ await GM.say(null,Fi.narr); } finally { GM.sceneEnd(); }
     F.FIRST_DAY_SEEN=true;
     if(GM.phoneThread) await GM.phoneThread('g:noodle_team');
@@ -870,9 +873,9 @@ const PG=(function(){
       beforeOuting:async(G,GM,q)=>{ await S.bdayScene(GM,'outing'); }, outingMissed:(G,GM,q)=>{ if(G.flags.SIS_BDAY_Y4==null) G.flags.SIS_BDAY_Y4='none'; }},
     {id:'ev_pg_kx_grad',title:'兩個畢業典禮',participants:[],location:'any',trigger:'outing',background:'dark',hours:4.5,dialogue:[],
       beforeOuting:async(G,GM,q)=>{ await S.kxGradScene(GM); }, outingMissed:(G,GM,q)=>{ S.kxGradMissed(GM); }},
-    {id:'ev_pg_noodle',title:'阿鳳麵店・長桌',participants:[],location:'any',trigger:'outing',background:'dark',hours:2,dialogue:[],
+    {id:'ev_pg_noodle',title:'公館燒臘・長桌',participants:[],location:'any',trigger:'outing',background:'dark',hours:2,dialogue:[],
       beforeOuting:async(G,GM,q)=>{ await S.noodleScene(GM); }},
-    {id:'ev_pg_noodle_2030',title:'阿鳳麵店・長桌',participants:[],location:'any',trigger:'outing',background:'dark',hours:2,dialogue:[],
+    {id:'ev_pg_noodle_2030',title:'公館燒臘・長桌',participants:[],location:'any',trigger:'outing',background:'dark',hours:2,dialogue:[],
       beforeOuting:async(G,GM,q)=>{ await S.noodleScene2030(GM); }, outingMissed:(G,GM,q)=>{ S.noodleMissed2030(GM).catch(e=>console.warn('PG noodle 2030 missed',e)); }},
     {id:'ev_pg_sis_sea',title:'學姊的生日：北海岸',participants:[],location:'any',trigger:'outing',background:'dark',hours:4,dialogue:[],
       beforeOuting:async(G,GM,q)=>{ await S.seaScene(GM); }} ];   /* 學姊 2030 年的生日（AA_382 第 4 節；排在最後：測試用 PG.EVS[2] 找麵店）。沒去：6/2 15:00 的照片（S.MSGS pg_sis_sea_alone）*/

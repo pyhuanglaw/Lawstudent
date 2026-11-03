@@ -31,7 +31,7 @@ const GM={get G(){ return G; },E,D:{active:false},npc:{},
   say:async(who,t)=>{ said.push({who:who?(who.name||String(who)):null,t}); },choose:async o=>{ opts.push(o.map(q=>q.t||q.text)); const want=picks.shift(); if(typeof want==='string'){ const k=o.findIndex(q=>(q.t||q.text).includes(want)); return k<0?0:k; } return want||0; }};
 const wdOf=d=>{ const w=CALENDAR.dateOf(d).wd; return w===7?0:w; };
 const D=k=>STORY.dayOfKey(k);
-const fresh=(day,hour,zone,flags)=>{ G={v:3,day,hour,zone,stage:'law',weekday:wdOf(day),weather:'clear',energy:70,money:5000,flags:Object.assign({KX_FIRST_MSG:true,fundsV2:1,allowanceMonth:CALENDAR.dateOf(day).m,introDone:true,afternoonDone:true,classDone:true,metAn:true},flags||{}),choices:{},events:{done:{},last:{},count:0},name:'祐廷',rel:{},social:null,stats:{classes:0}};
+const fresh=(day,hour,zone,flags)=>{ G={v:3,day,hour,zone,stage:'law',weekday:wdOf(day),weather:'clear',energy:70,money:5000,flags:Object.assign({KX_FIRST_MSG:true,YT_MET_JOB:true,fundsV2:1,allowanceMonth:CALENDAR.dateOf(day).m,introDone:true,afternoonDone:true,classDone:true,metAn:true},flags||{}),choices:{},events:{done:{},last:{},count:0},name:'祐廷',rel:{},social:null,stats:{classes:0}};
   SOCIAL.bind(G); EVENTS.bind(GM); INV.rec(G); ROM.rec(G); said=[]; opts=[]; picks=[]; cgs=[]; cards=[]; entered=[]; GM.npc={}; E.interactables=[]; E.npcs=[]; ADV.active=false; return G; };
 const LV={FAM:[25,10,10],FRI:[45,30,10],CLO:[65,50,45]};
 const R=(id,lv,extra)=>{ const r=SOCIAL.rel(id); const [f,t,c]=LV[lv]; r.fam=f+(extra||0); r.trust=t; r.comf=c; SOCIAL.remember(id,'FIRST_MET',''); };
@@ -61,7 +61,7 @@ const night=async()=>{ G.day=d24; G.hour=21.5; G.zone='dorm'; said=[]; cgs=[]; r
   { const C=STORY.coldWeekCast(G); check('1. C1 名單：語彤、阿哲、Alison、柏翰（3-2 的順序）；CG；最熟的人問（阿哲）', JSON.stringify(C.visitors)===JSON.stringify(['heroine_03','zhe','yu','classmate_bohan'])&&C.cg===true&&C.asker==='zhe'&&!C.partner, JSON.stringify(C)); }
   G.money=5000; G.energy=70; picks=[1]; await night(); const L1=lines();
   check('1. C1 21:30 房間一句 → 手機響了 → 下樓到交誼廳（3D dorm_hall）', said[0].t==='（晚上九點半。你躺在床上，額頭燙得不像自己的。）'&&said[1].t==='（手機響了。你披了一件外套，下樓到交誼廳。）'&&entered.includes('dorm_hall'), JSON.stringify(entered));
-  check('1. C1 出場順序與台詞（逐字）', L1.includes('陳語彤：嗯。阿姨煮的粥。不要問我怎麼知道的。')&&L1.indexOf('阿哲：滷味。我跟老闆說是病人吃的，他多給一顆蛋。')>L1.indexOf('陳語彤：嗯。阿姨煮的粥。不要問我怎麼知道的。')&&L1.indexOf('Alison：面紙。你鼻子好紅。')>L1.indexOf('阿哲：滷味。我跟老闆說是病人吃的，他多給一顆蛋。')&&L1.indexOf('許柏翰：刑訴的筆記。我多印了一份。')>L1.indexOf('Alison：面紙。你鼻子好紅。'), JSON.stringify(L1.slice(2,7)));
+  check('1. C1 出場順序與台詞（逐字）', L1.includes('陳語彤：嗯。阿姨煮的粥。不要問我怎麼知道的。')&&L1.indexOf('阿哲：滷味。我跟老闆說是病人吃的，他多給一顆蛋。')>L1.indexOf('陳語彤：嗯。阿姨煮的粥。不要問我怎麼知道的。')&&L1.indexOf('Alison：面紙。你鼻子好紅。')>L1.indexOf('阿哲：滷味。我跟老闆說是病人吃的，他多給一顆蛋。')&&L1.indexOf('柏翰：刑訴的筆記。我多印了一份。')>L1.indexOf('Alison：面紙。你鼻子好紅。'), JSON.stringify(L1.slice(2,7)));
   check('1. C1 CG cg_cold_week_friends 在「那一句」之前', cgs[0]==='cg_cold_week_friends');
   check('1. C1 阿哲問（通用一句）、選第 2 個、回答後「好。病好了再跟我講一次。」、結尾（逐字）', L1.includes('阿哲：你每次都在幫別人查。你自己呢？你想用法律做什麼？')&&L1.includes('阿哲：好。病好了再跟我講一次。')&&L1[L1.length-1]==='（十點半。交誼廳的燈關了一半。你上樓的時候，手上還提著一個塑膠袋。）', JSON.stringify(L1.slice(-3)));
   check('1. C1 旗標：COLD_WEEK_PRESENT、COLD_WEEK_ANSWER why、BEING_HEARD（阿哲）、HELPED（四位）', JSON.stringify(G.flags.COLD_WEEK_PRESENT)===JSON.stringify(['heroine_03','zhe','yu','classmate_bohan'])&&G.flags.COLD_WEEK_ANSWER==='why'&&SOCIAL.has('zhe','BEING_HEARD')&&['heroine_03','zhe','yu','classmate_bohan'].every(id=>SOCIAL.has(id,'HELPED'))&&!SOCIAL.has('yu','BEING_HEARD'));
@@ -123,7 +123,7 @@ const night=async()=>{ G.day=d24; G.hour=21.5; G.zone='dorm'; said=[]; cgs=[]; r
   check('8. C8 問的人＝FAMILIAR 以上最熟的一位（阿哲）', STORY.coldNoodleAsker(G)==='zhe');
   G.day=dN; G.hour=18.2; G.zone='campus'; STORY.coldWeekTick(GM); const qn=OUT.get(G,'y3_cold_noodle'); check('8. C8 18:00 排 19:00 阿鳳麵店的出遊（可以不去）', !!qn&&!qn.must&&qn.goto&&qn.goto.zone==='noodle'&&qn.h===19, JSON.stringify(qn));
   G.hour=19.1; G.zone='noodle'; said=[]; picks=[2]; await STORY.coldWeekNoodle(GM,'zhe'); const L8=lines();
-  check('8. C8 麵店版（逐字；AA_578 #7 刪「期中考完的晚上，」）：「（麵店的長桌只剩你們兩個。他把筷子放下。）」→ 通用那一句 → 「好。病好了再跟我講一次。」', L8[0]==='（麵店的長桌只剩你們兩個。他把筷子放下。）'&&L8.includes('阿哲：你每次都在幫別人查。你自己呢？你想用法律做什麼？')&&L8.includes('阿哲：好。病好了再跟我講一次。')&&G.flags.COLD_WEEK_ANSWER==='life'&&SOCIAL.has('zhe','BEING_HEARD'), JSON.stringify(L8));
+  check('8. C8 麵店版（逐字；AA_578 #7 刪「期中考完的晚上，」）：「（燒臘店的長桌只剩你們兩個。他把筷子放下。）」→ 通用那一句 → 「好。病好了再跟我講一次。」', L8[0]==='（燒臘店的長桌只剩你們兩個。他把筷子放下。）'&&L8.includes('阿哲：你每次都在幫別人查。你自己呢？你想用法律做什麼？')&&L8.includes('阿哲：好。病好了再跟我講一次。')&&G.flags.COLD_WEEK_ANSWER==='life'&&SOCIAL.has('zhe','BEING_HEARD'), JSON.stringify(L8));
   // 私訊版
   fresh(dN,22.1,'dorm',{COLD_WEEK:'noodle',COLD_NOODLE_DAY:dN}); R('heroine_01','FAM'); STORY.coldWeekTick(GM); PHONE.tick(G); const dm=TH('p:heroine_01');
   check('8. C8 沒去：22:00 同一個人私訊兩則（逐字）、四個選項', dm.length===2&&dm[0].text==='你每次都在幫別人查。'&&dm[1].text==='你自己呢？你想用法律做什麼？'&&dm[1].ask&&dm[1].ask.opts.length===4&&G.flags.COLD_WEEK_NOODLE==='dm', JSON.stringify(dm.map(m=>m.text)));
@@ -133,7 +133,7 @@ const night=async()=>{ G.day=d24; G.hour=21.5; G.zone='dorm'; said=[]; cgs=[]; r
     const r2=dm2[0]?PHONE.answer(G,dm2[0].ask.id,0):null; check('8. C8 回答：回答後那一句（以安「好。這句我會記得。」）、BEING_HEARD、ANSWER help', !!r2&&TH('p:heroine_01').some(m=>m.text==='好。這句我會記得。')&&G.flags.COLD_WEEK_ANSWER==='help'&&SOCIAL.has('heroine_01','BEING_HEARD')); }
   fresh(dN,19.2,'noodle',{COLD_WEEK:'noodle',COLD_NOODLE_DAY:dN}); STORY.coldWeekTick(GM); check('8. C8 沒有任何人到 FAMILIAR：不演、COLD_WEEK none、BEING_HEARD 不記', G.flags.COLD_WEEK==='none'&&G.flags.COLD_WEEK_NOODLE==='none');
   fresh(dN,19.2,'noodle',{COLD_WEEK:'night',COLD_WEEK_NIGHT:d24,COLD_NOODLE_DAY:dN}); R('heroine_03','FAM'); said=[]; picks=[0]; await STORY.coldWeekNoodle(GM,'heroine_03');
-  check('8. 3-5 接麵店版：開頭多一句「（感冒好了以後，第一次來麵店。）」、她', said[0]&&said[0].t==='（感冒好了以後，第一次來麵店。）'&&said[1]&&/她把筷子放下/.test(said[1].t));
+  check('8. 3-5 接麵店版：開頭多一句「（感冒好了以後，第一次來燒臘店。）」、她', said[0]&&said[0].t==='（感冒好了以後，第一次來燒臘店。）'&&said[1]&&/她把筷子放下/.test(said[1].t));
 
   // 9. C9
   fresh(d24,21.5,'dorm',{COLD_WEEK:'night',COLD_WEEK_TOLD:'none'}); R('heroine_04','CLO'); R('zhe','CLO');

@@ -63,9 +63,9 @@ const Y2B=(function(){
     { const d21=D('2027-03-21'), d23=D('2027-03-23'), d25=D('2027-03-25');
       if(d21!=null&&G.day>=d21&&G.day<=d25){ const until=T(d25,17.75);
         if(dating(G,'kexin')&&past(G,'2027-03-21',21)&&now(G)<until&&!PHONE.sent(G,'y2_kx_circles'))
-          PHONE.at(G,d21,21,[K('兩邊的朋友該見面了。'),K('週四晚上六點，你們的麵店。'),Object.assign(K('我負責予樂，你負責阿哲。'),{ask:{id:'y2_kx_circles',until,opts:[{t:'好。',say:[K('好。我先跟予樂說，她會穿得很像要去面試。')],set:{KX_CIRCLES_GO:true}},{t:'那天不行。',say:[K('……好。那下次。')],set:{KX_CIRCLES_GO:false}}]}})],'y2_kx_circles');
+          PHONE.at(G,d21,21,[K('兩邊的朋友該見面了。'),K('週四晚上六點，你們的燒臘店。'),Object.assign(K('我負責予樂，你負責阿哲。'),{ask:{id:'y2_kx_circles',until,opts:[{t:'好。',say:[K('好。我先跟予樂說，她會穿得很像要去面試。')],set:{KX_CIRCLES_GO:true}},{t:'那天不行。',say:[K('……好。那下次。')],set:{KX_CIRCLES_GO:false}}]}})],'y2_kx_circles');
         { const m=PHONE.byAsk(G,'y2_kx_circles'); if(m&&m.ans==null&&past(G,'2027-03-23',21)&&now(G)<until&&!PHONE.sent(G,'y2_kx_circles2')) PHONE.at(G,d23,21,[K('週四。六點。你還沒回。')],'y2_kx_circles2'); }
-        if(F.KX_CIRCLES_GO===true&&typeof OUT!=='undefined'&&!OUT.get(G,'y2_kx_circles')) OUT.plan(G,{id:'y2_kx_circles',ev:'ev_kexin_two_circles',day:d25,h:18,late:0.25,place:'阿鳳麵店',title:'阿鳳麵店 18:00',travel:'走過去 約 10 分鐘',travelH:1/6}); } }
+        if(F.KX_CIRCLES_GO===true&&typeof OUT!=='undefined'&&!OUT.get(G,'y2_kx_circles')) OUT.plan(G,{id:'y2_kx_circles',ev:'ev_kexin_two_circles',day:d25,h:18,late:0.25,place:'公館燒臘',title:'公館燒臘 18:00',travel:'走過去 約 10 分鐘',travelH:1/6}); } }
     /* ---- 1B-08 語彤事件 12：9/14（二）12:10 她私訊（FRIEND 以上）；18:30 以前沒到總圖門口＝20:00 兩則 ---- */
     { const d=D('2027-09-14'); if(d!=null&&(G.day===d||G.day===d+1)){
         if(G.day===d&&stageAt('heroine_03','FRIEND')&&contact(G,'heroine_03')&&past(G,'2027-09-14',12+10/60)&&hh(G)<17.5&&!PHONE.sent(G,'y3_yt_umb_noon'))
@@ -146,7 +146,7 @@ const Y2B=(function(){
       await GM.say(aunt,'仲介說他要租給連鎖店。');
       await GM.say(bh,'那是到期以後的事。到期以前，他要等。');
       await GM.say(bh,'這快兩年，可以拿來準備怎麼跟他談續約。');
-      await GM.say(aunt,'談？跟屋主談？我煮麵的耶。');
+      await GM.say(aunt,'談？跟屋主談？我切燒臘的耶。');
       await GM.say(yt,'阿姨，所以才要準備。');
       await GM.say(null,'（阿姨看了她一眼，笑出來。第一次。）');
       await GM.say(aunt,'好啦，聽妳們的。');

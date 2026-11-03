@@ -19,7 +19,9 @@ const lit=t=>/^「.*」$/.test(t)?[t]:["'"+t+"'",'"'+t+'"'];   /* 字串常數�
 const inLit=(code,t)=>lit(t).some(x=>code.includes(x));
 const litWhere=t=>Object.keys(CODE).filter(p=>inLit(CODE[p],t));
 const fileOf=where=>{ const m=where.match(/^`?([\w.]+\.js)/); if(!m) return null; return Object.keys(SRC).find(p=>p.endsWith('/'+m[1]))||null; };
-const rows=[]; for(const line of DOC.split('\n')){ const m=line.match(/^\|\s*([0-9]+)\s*\|(.*)\|\s*$/); if(!m) continue; const c=m[2].split('|').map(x=>x.trim()); if(c.length<5) continue; rows.push({n:+m[1],where:c[0],who:c[1],old:c[2],nw:c[3],why:c[4]}); }
+/* AA_612（企劃線 a3879758c，使用者 11-03 麵店改燒臘店）：遊戲照 A 表換了字，這份稿的「改成」欄還是舊字——照 tools/story/aa612_fix.json 換（只換「改成」欄；原句欄照舊）*/
+const A612=(()=>{ let P=[]; try{ P=JSON.parse(fs.readFileSync(path.join(__dirname,'..','tools','story','aa612_fix.json'),'utf8')).pairs; }catch(e){} return t=>{ for(const [a,b] of P) if(t.indexOf(a)>=0) t=t.split(a).join(b); return t; }; })();
+const rows=[]; for(const line of DOC.split('\n')){ const m=line.match(/^\|\s*([0-9]+)\s*\|(.*)\|\s*$/); if(!m) continue; const c=m[2].split('|').map(x=>x.trim()); if(c.length<5) continue; rows.push({n:+m[1],where:c[0],who:c[1],old:c[2],nw:A612(c[3]),why:c[4]}); }
 // ---------- 1 ----------
 check('1. 讀得到稿（AA_592 @'+SHA+'：第 9、10 節）',DOC.length>30000&&/## 10\. 第 6 節 10 句/.test(DOC)&&/本批全部可以交 LAWWW 整合/.test(DOC),String(DOC.length));
 { const A=JSON.parse(R('docs/handoff/story_import_allow.json')).files.filter(e=>e.path===SPEC);
@@ -37,7 +39,7 @@ check('2. 第 1 列照 BB_238 退回原句「三頁是因為字很大。」（�
     y.includes("冷氣只開一台。','你呢？']")&&y.includes("miss:'在想妳。',missSay:['我在看書。','……看不太下去了。']")&&!y.includes('十點半再傳'),y.slice(0,300)); }
 check('2. 第 15、16 列（送機沒來兩處：日本 3/25、紐約）：「要登機了。」「到了再傳。」',/DM\('heroine_01','要登機了。'\),DM\('heroine_01','到了再傳。'\)/.test(CODE['src/y34b3d.js'])&&/\['（照片：登機證）','要登機了。','到了再傳。'\]/.test(CODE['src/r2y4b3d.js'])&&!/'要登機了'|'到了再傳'/.test(CODE['src/y34b3d.js']+CODE['src/r2y4b3d.js']));
 check('2. 第 25、26 列（大四上 R1 之後）：「明天把那一頁帶來。」「我要看。」',/DM\('heroine_01','明天把那一頁帶來。'\),DM\('heroine_01','我要看。'\)/.test(CODE['src/y34b3d.js']));
-check('2. 第 28、29 列（大四下 2/2 考前一晚）：「明天考完，一起去麵店。」「大碗。」',/A\('明天考完，一起去麵店。'\),A\('大碗。'\)/.test(CODE['src/r2y4a3d.js']));
+check('2. 第 28、29 列（大四下 2/2 考前一晚）：「明天考完，一起去燒臘店。」「大碗。」',/A\('明天考完，一起去燒臘店。'\),A\('大碗。'\)/.test(CODE['src/r2y4a3d.js']));
 check('2. 第 32、33 列（杜鵑第四張）：「杜鵑開了。」「十二點半，老位置。」',/P_\('heroine_01','杜鵑開了。'\),P_\('heroine_01','十二點半，老位置。'\)/.test(CODE['src/r2y4b3d.js']));
 check('2. 第 48、49 列（溫州街 媽媽到過茶屋那天）：「今天謝謝你。」「我媽回家路上問，那間茶屋週末都有開嗎？」',/A\('今天謝謝你。'\),A\('我媽回家路上問，那間茶屋週末都有開嗎？'\)/.test(CODE['src/wzlines3d.js']));
 check('2. 第 38 列（七月最後一次的邀約私訊）：「六點半，同一家。」（「……手帳我帶著。」拿掉）',/inv:\['明天晚上有空嗎。','六點半，同一家。'\]/.test(CODE['src/r2y4b3d.js'])&&!/手帳我帶著/.test(CODE['src/r2y4b3d.js']));

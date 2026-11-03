@@ -16,7 +16,7 @@ const GM={get G(){ return G; },E,D:{active:false},npc:{},
   titleCard:async()=>{},enter:async(z)=>{ G.zone=z; },advance(h){ G.hour+=h; },fade:()=>Promise.resolve(),rel(){},walkTo:()=>Promise.resolve(true),sitAt(){},standUp(){},
   say:async(who,t)=>{ said.push({who:who?(who.name||String(who)):null,t}); },choose:async o=>{ opts.push(o.map(q=>q.t||q.text)); if(atConfess&&o.some(q=>(q.t||q.text)==='（告訴她）')) SOCIAL.rel(atConfess.id).npcRom=atConfess.v;   /* 告白那一刻她的戀愛（約會本身會加一點）*/ const want=picks.shift(); if(typeof want==='string'){ const k=o.findIndex(q=>(q.t||q.text).includes(want)); if(k<0){ picks.unshift(want); return 0; } return k; } return want||0; }};   /* 這個測試：找不到的選項留給下一個選單（中間多出來的回覆選擇點第一個）*/
 const wdOf=d=>{ const w=CALENDAR.dateOf(d).wd; return w===7?0:w; };
-const fresh=(day,hour,zone,flags)=>{ G={v:3,day,hour,zone,weekday:wdOf(day),weather:'clear',energy:70,money:5000,flags:Object.assign({KX_FIRST_MSG:true,fundsV2:1,allowanceMonth:CALENDAR.dateOf(day).m},flags||{}),choices:{},events:{done:{},last:{},count:0},name:'祐廷',rel:{},social:null,stats:{classes:0}};
+const fresh=(day,hour,zone,flags)=>{ G={v:3,day,hour,zone,weekday:wdOf(day),weather:'clear',energy:70,money:5000,flags:Object.assign({KX_FIRST_MSG:true,YT_MET_JOB:true,fundsV2:1,allowanceMonth:CALENDAR.dateOf(day).m},flags||{}),choices:{},events:{done:{},last:{},count:0},name:'祐廷',rel:{},social:null,stats:{classes:0}};
   SOCIAL.bind(G); EVENTS.bind(GM); INV.rec(G); said=[]; opts=[]; picks=[]; GM.npc={}; E.interactables=[]; E.npcs=[]; if(STORY._fy) STORY._fy.reset(); };
 const R=(id,fam,trust,comf)=>{ const r=SOCIAL.rel(id); r.fam=fam; r.trust=trust||0; r.comf=comf||0; };
 const LV={ACQ:[10],FAM:[25],FRI:[45,30],CLO:[65,50,45]};
@@ -94,7 +94,7 @@ const ADV2=global.ADV; ADV2.active=false;
     check('10. 沛珊重考期（大二上第 8 週、PEISHAN_RETAKE）：不出現一般告白選項（改用特別場面，AA_223 @52702c92）、沒有交往',!r.O.some(o=>o[0]==='（告訴她）')&&!G.flags.dating_classmate_peishan&&DATE.confessReady(G,'classmate_peishan',{who:'classmate_peishan',locs:['D13']}).why==='hidden',JSON.stringify(r.O.slice(-2)));
     fresh(termDay('Y1S2',8,6),9,'dorm',{}); ready('classmate_peishan',{count:4}); check('10. 沛珊大一下第 8 週（和柏翰交往的期間，AA_223 第 4 節；AA_373 #3：4/6 第 7 週起）：不出現（她自己有伴侶）',DATE.confessReady(G,'classmate_peishan',{who:'classmate_peishan',locs:['D13']}).why==='partner');
     fresh(termDay('Y1S1',12,6),9,'dorm',{}); ready('classmate_peishan'); r=await go('classmate_peishan',['河邊欄杆','差不多了','告訴她','我喜歡妳。」']);
-    check('10. 沛珊大一上：「今天謝謝你約我。……」→ 答應四句、交往中',G.flags.dating_classmate_peishan===true&&r.L.includes('郭沛珊：今天謝謝你約我。……你要講什麼嗎？')&&r.L.includes('郭沛珊：好啦。好。以後我會一直問你問題喔。'),JSON.stringify(r.L.slice(-6))); }
+    check('10. 沛珊大一上：「今天謝謝你約我。……」→ 答應四句、交往中',G.flags.dating_classmate_peishan===true&&r.L.includes('沛珊：今天謝謝你約我。……你要講什麼嗎？')&&r.L.includes('沛珊：好啦。好。以後我會一直問你問題喔。'),JSON.stringify(r.L.slice(-6))); }
   // 11 答應還是還沒（BB_191 第 10 節 @f3ae0e82）：答應線、第三次一定答應、兩週＋再一次正式約會
   check('11. 答應線（10-2）：子晴 62、沛珊 65、語彤 68、芷若 68、學姊 70、以安 72（＋芯慈 75，AA_537 第 4 節）',JSON.stringify(DATE.YES_LINE)===JSON.stringify({heroine_04:62,classmate_peishan:65,heroine_03:68,heroine_02:68,heroine_05:70,heroine_01:72,classmate_xinci:75}));
   fresh(day,9,'dorm',{}); ready('heroine_03'); atConfess={id:'heroine_03',v:67}; r=await go('heroine_03',['河邊欄杆','差不多了','告訴她','我喜歡妳。」']);

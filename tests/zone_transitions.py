@@ -14,7 +14,7 @@ START = (34, -98)
 # v9.4（D37）：進霖澤館先到一樓大廳（linze 區域），201 教室在二樓（大廳 ↔ 201 由 tests/flow_linze_floors.py 走真實流程）；
 # 走出霖澤館回到穿堂裡、西側玻璃門往東 2 m（building3d.js 的 CAMPUS_DOOR）。v9.3 以前是直接進 classroom、回到台階下 (34,-97.6)
 CASES = [('法律系館A（大廳）', 'campus', '進入法律系館A', 'linze', '走出法律系館A', (30.0, -107.4)),
-         ('法律系館B', 'campus', '進入法律系館B', 'wancai', '離開法律系館B', (93.8, -98.4)),
+         ('法律系館B', 'campus', '進入法律系館B', 'wancai', '離開法律系館B', (89.21, -82.01)),
          ('總圖（大廳）', 'campus', '進入總圖書館', 'library_hall', '離開總圖', (80, 0)),   # 總圖第一階段（D43）：先到總圖大廳，閱覽室在三樓（大廳 ↔ 閱覽室由 tests/flow_library_floors.py 走真實流程）
          ('宿舍（走廊）', 'campus', '回宿舍', 'dorm_hall', '離開宿舍', (20, 54)),   # 宿舍走廊（D44）：先到宿舍門廳，房間在二樓（走廊 ↔ 房間由 tests/flow_dorm_hall.py 走真實流程）
          ('校門 → 公館', 'campus', '走出校門', 'gongguan', '回到校園', (-119, 0))]

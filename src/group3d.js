@@ -102,8 +102,8 @@ const GROUP=(function(){
   /* ---------- 1C-03 寄到英國的那一箱 ---------- */
   const XM={inv:'2027-12-25',d:'2027-12-26'};
   S.xmasBoxPhone=function(G){ const di=DK(XM.inv), d=DK(XM.d); if(di==null||!grp(G)||G.day<di||G.day>d) return; if(T(G.day,G.hour)<T(di,21)) return;
-    PHONE.at(G,di,atH(G,di,21),[Z('明天六點半麵店'),Z('帶一樣東西 不要超過手掌大')],'y3_xmas_box_ask');
-    if(!outGet(G,'y3_xmas_box')&&(G.day<d||G.hour<18.75)) plan(G,{id:'y3_xmas_box',ev:'ev_xmas_y3_box',day:d,h:18.5,late:0.25,place:'阿鳳麵店',title:'寄到英國的那一箱',travel:'走過去約 15 分鐘',travelH:0.25}); };
+    PHONE.at(G,di,atH(G,di,21),[Z('明天六點半燒臘店'),Z('帶一樣東西 不要超過手掌大')],'y3_xmas_box_ask');
+    if(!outGet(G,'y3_xmas_box')&&(G.day<d||G.hour<18.75)) plan(G,{id:'y3_xmas_box',ev:'ev_xmas_y3_box',day:d,h:18.5,late:0.25,place:'公館燒臘',title:'寄到英國的那一箱',travel:'走過去約 15 分鐘',travelH:0.25}); };
   S.xmasBoxPhoto=G=>{ const d=DK(XM.d); if(G.flags.XMAS_Y3_BOX==null) G.flags.XMAS_Y3_BOX='missed'; if(d!=null&&grp(G)) PHONE.at(G,d,22,[Z('📷（一個紙箱，上面寫著倫敦的地址。）')],'y3_xmas_box_photo'); };
   /* 這學期接了阿哲的期末飯（BB_203；TERMEND 的 picked）而且還沒吃：這一場就算那一頓（AA_180 Y3S1-XMAS），排好的那一頓不再出發 */
   S.xmasBoxAfter=function(G){ if(typeof TERMEND==='undefined'||!TERMEND.rec) return; const R=TERMEND.rec(G,'Y3S1'); if(!R.picked||R.picked.who!=='zhe'||R.done) return;
@@ -168,9 +168,9 @@ const GROUP=(function(){
   S.lastTermPhone=function(G){ const F=G.flags, d=DK(LT.d), b=DK(LT.back); if(d==null||!grp(G)||G.day<d||G.day>b+1) return; const now=T(G.day,G.hour);
     if(G.day<=d&&now>=T(d,17)&&!PHONE.sent(G,'y4_last_term_ask')){ rename(G,'最後一學期'); F.LAST_TERM_RENAMED=true;
       PHONE.at(G,d,atH(G,d,17),[{th:NG,text:'（阿哲把群組名稱改成「最後一學期」。）'},Z('開學第一頓 七點，長桌')],'y4_last_term_ask');
-      if(G.hour<19.25) plan(G,{id:'y4_last_term',ev:'ev_last_term_first_dinner',day:d,h:19,late:0.25,place:'阿鳳麵店',title:'最後一學期的開學第一頓',travel:'走過去約 15 分鐘',travelH:0.25}); }
-    if(F.LAST_TERM_RENAMED&&now>=T(b,21)&&!PHONE.sent(G,'y4_last_term_back')){ rename(G,'法四吃飯'); F.LAST_TERM_RENAMED=false;
-      PHONE.at(G,b,atH(G,b,21),[{th:NG,text:'（阿哲把群組名稱改回「法四吃飯」。）'},Z('改回來了'),Z('Alison 說很難過')],'y4_last_term_back'); } };
+      if(G.hour<19.25) plan(G,{id:'y4_last_term',ev:'ev_last_term_first_dinner',day:d,h:19,late:0.25,place:'公館燒臘',title:'最後一學期的開學第一頓',travel:'走過去約 15 分鐘',travelH:0.25}); }
+    if(F.LAST_TERM_RENAMED&&now>=T(b,21)&&!PHONE.sent(G,'y4_last_term_back')){ rename(G,'桌遊團'); F.LAST_TERM_RENAMED=false;
+      PHONE.at(G,b,atH(G,b,21),[{th:NG,text:'（阿哲把群組名稱改回「桌遊團」。）'},Z('改回來了'),Z('Alison 說很難過')],'y4_last_term_back'); } };
   S.lastTermPhoto=G=>{ const d=DK(LT.d); if(G.flags.LAST_TERM_DINNER==null) G.flags.LAST_TERM_DINNER='missed'; if(d!=null&&grp(G)) PHONE.at(G,d,21.5,[Z('📷（長桌上的碗，跟大一的時候一樣多。）')],'y4_last_term_photo'); };
 
   /* ---------- 掛勾 ---------- */

@@ -540,7 +540,7 @@
   },
   {
    "path": "docs/story_planning/date_system/lines/D12.json",
-   "sha": "43d27cd80",
+   "sha": "2b4969352",
    "status": "approved",
    "approvedBy": "AA-C 2026-10-21 12:57Z 約會台詞 32 個地點全部口語審完＋跨地點去重（send_message 12:57Z）：同一人跨地點同一句 0 組、綁選項的「記得上次」0 句；只改引號裡的字，key／tier／likes／選項數／互動點不變；請以 57de1709 整批重新匯入",
    "task": "DATE-S6",
@@ -552,9 +552,13 @@
     {
      "sha": "a5b936a69",
      "note": "AA_439 禁用句總掃描；AA_591 整合決定第 9 點以前"
+    },
+    {
+     "sha": "43d27cd80",
+     "note": "AA_591 第 9 點（我媽）"
     }
    ],
-   "note": "a5b936a69：AA_439 禁用句總掃描；43d27cd80（2026-11-02 子代理代登 sisdate，給值班 LAWWW 核）：AA_591「整合時的 AA 決定」第 9 點，學姊 D12.tea 第一次「這種茶我爸以前每天喝。我那時候覺得好苦。」→「這種茶我媽每天喝。我小時候覺得好苦。」（她爸爸在遊戲開始前過世、不提；任務 AA598-SIS-1C-1102 一起做）。a5b936a69→43d27cd80 這個檔另外只有可昕兩處政大→木柵大學（RENAME-1030；import_guard 讀稿時本來就換名，遊戲不變）"
+   "note": "a5b936a69：AA_439 禁用句總掃描；43d27cd80（2026-11-02 子代理代登 sisdate，給值班 LAWWW 核）：AA_591「整合時的 AA 決定」第 9 點，學姊 D12.tea 第一次「這種茶我爸以前每天喝。我那時候覺得好苦。」→「這種茶我媽每天喝。我小時候覺得好苦。」（她爸爸在遊戲開始前過世、不提；任務 AA598-SIS-1C-1102 一起做）。a5b936a69→43d27cd80 這個檔另外只有可昕兩處政大→木柵大學（RENAME-1030；import_guard 讀稿時本來就換名，遊戲不變）；2b4969352（2026-11-03 LAWWW）：AA_609 第 6 點，D12.tea 改「這種茶我奶奶每天喝。我小時候覺得好苦。」（AA 定稿，使用者 11-03 學姊爸爸改奶奶）"
   },
   {
    "path": "docs/story_planning/date_system/lines/D13.json",
@@ -3994,8 +3998,8 @@
    "task": "AA591-SIS-B4-1102",
    "kind": "text",
    "note": "43d27cd80：AA 2026-11-02 21:25 回 LAWWW 的「整合時的 AA 決定」九件（本檔最後一節）——sis_b4 情人節旁白、除夕只留「厲害吧。」、ev_sis_ex_3 方向兩句不放回＋AA_600 B4、restartYes 放回、multirel「我還是喜歡你。」放回、termend 學姊 invite2／yes2 和第一次相同、大峽谷照留、林{name} 送出時定字（phone3d.js mk）、她爸爸三處改媽媽（pg_dates 源稿 AA_367 那一格照 tools/story/aa600_fix.json 疊稿；D12.tea 另一個子代理處理）。子代理 2026-11-02 代登（ex600 分支），給值班 LAWWW 核。學姊改稿第四批（大三、大四、畢業以後）：手抄檔、程式，沒有產生器——tools/story/apply_line_table.py 自動換 171 列，其餘手改；你的大四你自己排（ev_sis_adv_y4，第 23～25 列）、她爸爸的晚餐（ev_sis_y4_father，決1）、208 剪報（ev_us208_clipping，決2）retired（定義留給舊存檔）；第 11 節：她不先說（大峽谷保467～469、畢業那天保630、631、AA_590 期末飯、AA_593 重新開始那一版、多段感情 Byes）；AA 對 AA_584 的補充（交往中『林{name}』、sis3h、修正本私訊、family_context）一起做"
-    },
-    {
+  },
+  {
    "path": "docs/story_planning/AA_598_學姊改稿_1c_約會地點台詞.md",
    "sha": "c389462be",
    "status": "approved",
@@ -4003,8 +4007,8 @@
    "task": "AA598-SIS-1C-1102",
    "kind": "text",
    "note": "學姊①c：date_lines.js 學姊（heroine_05）約會地點台詞第 1～92 列（＋第 8 節第 6 點九份保753）。企劃線源稿 Dxx.py／Dxx.json、BB_128 還沒改，tools/date/import_date_lines.py 照稿的表疊上去（第 8 節第 4、9 點蓋過表上第 16、85 列）；企劃線源稿改好以後，現在是新句＝跳過。tests/aa598_sis_date_unit.js。子代理 2026-11-02 代登（sisdate 分支，基準 int/m590 d7a468868），給值班 LAWWW 核"
-    },
-    {
+  },
+  {
    "path": "docs/story_planning/AA_587_以安改稿_第三批_大一大二事件.md",
    "sha": "1cf992d66",
    "status": "approved",
@@ -4066,6 +4070,33 @@
    "task": "AA602-FEED-1C-1102",
    "kind": "text",
    "note": "以安動態與零星台詞 32 列（tools/story/apply_line_table.py 自動換 31 列，第 19 列 r2y3a_events.js 手改、註解順手改）；第 8 節 (a) 她先傳的動態私訊分手後不送（feed3d.js S.dmBlocked 走 V6EX.noContact，不走 coolSkip）；(b) 已在 ec2814492。企劃源稿（AA_503～AA_511、AA_504 6-4）還是舊句，讀稿比對用 tools/story/aa602_fix.json。tests/aa602_feed_unit.js。子代理 2026-11-02 代登（ex600 分支），給值班 LAWWW 核"
+  },
+  {
+   "path": "docs/story_planning/shop_enc/shop_enc_aa_v1.json",
+   "sha": "f6b207b30",
+   "status": "approved",
+   "approvedBy": "AA 定稿（AA_632 店內偶遇第一批，第②級，D109）",
+   "task": "SHOP-ENCOUNTER-1103",
+   "kind": "text",
+   "note": "店內偶遇第一批（USER_WANTS X188，使用者 11-03「我希望除了路人 也會隨機在不同店面遇到朋友 或可以認識人」）：五家店九列＋新認識的人宋知寧（npc_songzn）。tools/shop_enc/import_shop_enc.py → src/data/shop_enc.js；src/shopenc3d.js；tests/shop_enc_unit.js、tests/shop_enc_seat_unit.js"
+  },
+  {
+   "path": "docs/story_planning/shop_enc/shop_enc_aa_v2.json",
+   "sha": "2e0df2a67",
+   "status": "approved",
+   "approvedBy": "AA 定稿（AA_633 店內偶遇第二批，第②級，D109）",
+   "task": "SHOP-ENCOUNTER-1103",
+   "kind": "text",
+   "note": "第二批五列（燒臘阿哲、影印柏翰 examOK、乾麵明軒、冰菓室沛珊 months、定食學姊）＋影印店老闆阿德四句（shopkeepers）。學姊「一週最多一次、只有玩家自己走進去」照 AA_633 表下第一點（JSON 沒有欄位，匯入工具加 weekMax、selfOnly）"
+  },
+  {
+   "path": "docs/story_planning/AA_640_店裡客人的路人句.md",
+   "sha": "22c966e4a",
+   "status": "approved",
+   "approvedBy": "AA 定稿（第②級，D109）",
+   "task": "SHOP-DINERS-1103",
+   "kind": "text",
+   "note": "店裡客人點了聽一句：吃飯的店兩人一桌 8 組、Café／書店小聲 7 句（書店 1～6、Café 2～5、7）、便利商店結帳 6 句；考試週那一句「（小聲）考完這科就解脫了。」LAWWW 決定加（放 quiet、只在考試週）。匯入讀最後一節的 JSON"
   }
  ]
 }

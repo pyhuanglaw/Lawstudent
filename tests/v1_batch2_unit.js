@@ -28,7 +28,7 @@ const GM={get G(){ return G; },E,D:{active:false},npc:{},
   advance(h){ G.hour+=h; },fade:()=>Promise.resolve(),rel(){},walkTo:()=>Promise.resolve(true),sitAt(){},standUp(){},
   say:async(who,t)=>{ said.push({who:who?(who.name||String(who)):null,t}); },choose:async o=>{ opts.push(o.map(q=>q.t||q.text)); const want=picks.shift(); if(typeof want==='string'){ const k=o.findIndex(q=>(q.t||q.text).includes(want)); return k<0?0:k; } return want||0; }};
 const wdOf=d=>{ const w=CALENDAR.dateOf(d).wd; return w===7?0:w; };
-const fresh=(day,hour,zone,flags)=>{ G={v:3,day,hour,zone,weekday:wdOf(day),weather:'clear',energy:70,money:5000,flags:Object.assign({},flags||{}),choices:{},events:{done:{},last:{},count:0},name:'祐廷',rel:{},social:null,stats:{classes:0}}; SOCIAL.bind(G); EVENTS.bind(GM); said=[]; opts=[]; picks=[]; legalAsked=0; toasts=[]; GM.npc={}; };
+const fresh=(day,hour,zone,flags)=>{ G={v:3,day,hour,zone,weekday:wdOf(day),weather:'clear',energy:70,money:5000,flags:Object.assign({YT_MET_JOB:true},flags||{}),choices:{},events:{done:{},last:{},count:0},name:'祐廷',rel:{},social:null,stats:{classes:0}}; SOCIAL.bind(G); EVENTS.bind(GM); said=[]; opts=[]; picks=[]; legalAsked=0; toasts=[]; GM.npc={}; };
 const lines=()=>said.map(s=>s.t);
 const ev=id=>STORY_EVENTS.find(e=>e.id===id)||(typeof STORY_EVENTS_V11!=='undefined'&&STORY_EVENTS_V11.find(e=>e.id===id));
 const KX=th=>PHONE.thread(G,th);
@@ -142,9 +142,10 @@ const migrate=new Function('defaults','SAVE_VER',g3.slice(g3.indexOf('  function
     const can=(day)=>{ fresh(day,20.5,'noodle',{dating_kexin:true}); SOCIAL.meet('heroine_03','campus'); SOCIAL.remember('heroine_03','SHARED_MEAL','x'); return EVENTS.check(e); };
     const sat15=termDay('Y1S1',15,6), fsat=STORY.fafuSat(sat15), y2w8=termDay('Y1S2',8,2), y2w1=termDay('Y1S2',1,2), f8b=STORY.fafuSat(y2w8), f1b=STORY.fafuSat(y2w1);
     check('G47 邊界：第 15 週週六晚上 → 值班週六是下週以後（不是今天），不說「這週六」',fsat&&fsat.day>sat15&&!fsat.thisWeek,JSON.stringify(fsat));
-    check('G47 邊界：大一下第 8 週二（期中考週，下一個值班週六在第 11 週）、第 1 週二（第 3 週）不演；第 15 週（這週六值班）演',f8b&&f8b.wk===3&&f1b&&f1b.wk===2&&can(y2w8)===false&&can(y2w1)===false&&can(D15)===true,JSON.stringify({f8b,f1b}));
+    /* AA 決定（ace533a43）：ev_yutong_customer 退休（AA_610／AA_624：語彤不在燒臘店顧店）＝上面直接 EVENTS.run 的是保留下來的內容；遊戲裡不會觸發 */
+    check('G47 邊界：值班週六的算法照舊（大一下第 8 週二→3 週後、第 1 週二→2 週後）；ev_yutong_customer 退休＝第 8 週、第 1 週、第 15 週都不觸發',e.retired===true&&f8b&&f8b.wk===3&&f1b&&f1b.wk===2&&can(y2w8)===false&&can(y2w1)===false&&can(D15)===false,JSON.stringify({f8b,f1b}));
     const okDays=[]; for(let d=termDay('Y1S2',1,1);d<=termDay('Y1S2',18,7);d++){ const f=STORY.fafuSat(d); if(can(d)) okDays.push(d); if(can(d)&&!(f&&f.wk<=1)) { okDays.length=0; break; } }
-    check('G47 邊界：大一下會演的每一天，值班週六都在這週或下週',okDays.length>0,String(okDays.length)); }
+    check('G47 邊界：ev_yutong_customer 退休＝大一下沒有任何一天會演（原本：會演的每一天值班週六都在這週或下週）',okDays.length===0,String(okDays.length)); }
   /* ---------- H 房間物件 ---------- */
   { fresh(5,20,'dorm',{dating_kexin:true}); picks=[0,1,2,3,4,6]; await STORY._v1.roomItems(GM);   /* 大一同房時多一樣「阿凱的泡麵評鑑表」（BB_120 1-7c，在固定的五樣後面；內容在 bb120_fixed_unit）*/
     const W=['以前翻過。看得到字，看不懂意思。','念了一個多月的課本。前六章有畫線，後面是新的。','重考那段時間的筆記。一半是你的字，一半是她的。','摩天輪的票根。兩個人開始交往的那一天。','河堤邊停著幾台腳踏車。那一群人。你休學以後，他們還是會叫你。'];

@@ -17,7 +17,7 @@ const L3=(f,exp)=>{ const p=path.join(H.ROOT,f); if(!fs.existsSync(p)){ loadErr.
 L3('src/r3_3d.js',/^R3$/); L3('src/aa555_3d.js',/^AA555$/);
 const sec=async(n,f)=>{ try{ await f(); }catch(e){ check(n+'. 丟出例外（這一節中斷）',false,String(e&&e.stack||e).split('\n').slice(0,3).join(' / ')); } };
 const D=k=>STORY.dayOfKey(k), keyOf=d=>CALENDAR.dateOf(d).key, wdOf=d=>CALENDAR.dateOf(d).wd%7;
-const git0=p=>{ try{ return cp.execSync('git -c core.quotepath=false show 56c11668d:"'+p+'"',{cwd:H.ROOT,encoding:'utf8',maxBuffer:1<<26,stdio:['ignore','pipe','ignore']}); }catch(e){ return ''; } };
+const git0=p=>{ try{ return require('./alison.js').ndl(cp.execSync('git -c core.quotepath=false show 56c11668d:"'+p+'"',{cwd:H.ROOT,encoding:'utf8',maxBuffer:1<<26,stdio:['ignore','pipe','ignore']})); }catch(e){ return ''; } };   /* 讀稿照 tools/story/*_fix.json 換字（AA_612 麵店改燒臘店：A-003、A-005、A-007）*/
 const git=p=>require('./an_rev_doc.js').overlay(git0(p),/^(aa555_3d|invites)\.js/)[0].split('白板上只寫一條規則：說理由').join('白板上只寫一條規則：每個人講完');   /* 以安改稿①b（AA_592 第 3、9、10、14、24、52 列）改了 AA_555 稿上她的幾則：讀稿時照改成欄換（逐列核對在 tests/aa592_an_1b_unit.js）*/
 const ls=()=>{ try{ return cp.execSync('git -c core.quotepath=false ls-tree -r --name-only 56c11668d -- docs/story_planning',{cwd:H.ROOT,encoding:'utf8',maxBuffer:1<<26}).split('\n'); }catch(e){ return []; } };
 const files=ls(), fOf=re=>files.find(f=>re.test(f))||'';

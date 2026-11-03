@@ -117,6 +117,7 @@ const FEED=(function(){
   /* 子晴 zq_name 回過沒有：STORY.neededAnswered 記 ZQ_NAME_REPLIED（檔尾包住）；舊存檔看訊息（ask id 'need_<日>_zq_name' 回過）*/
   S.zqNamed=G=>!!(G&&G.flags&&G.flags.ZQ_NAME_REPLIED)||(G&&G.msgs||[]).some(m=>m&&m.ask&&/_zq_name$/.test(m.ask.id||'')&&m.ans!=null);
   S.COND={
+    ytOld:G=>!(G&&G.flags&&G.flags.YT_JOB_V),   /* AA_624（企劃線 ace533a43）：阿姨扭到手那條線新遊戲沒有＝只給這一版以前的舊存檔（yt2b）*/
     anRulesGroup:G=>!!(G.flags&&G.flags.AN_DORM_RULES==='group'),   /* 10/14 Alison 在麵店團群組爆料（story3d.js an_rules_grp）*/
     zrAskedDrink:G=>typeof SOCIAL!=='undefined'&&!!SOCIAL.has&&SOCIAL.has('heroine_02','ASKED_HER_DRINK'),   /* 問過她自己喝什麼（events.js Z3：熱可可加一份濃縮）*/
     /* 沛珊和柏翰那一段在（characters.js 沛珊的 partner：2026-04-06 起、玩家和沛珊交往＝沒有；STORY.partnerOn）。AA_504 6-3 第 3 則「只有玩家沒有和沛珊交往的才出」*/

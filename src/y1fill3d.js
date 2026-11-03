@@ -48,7 +48,7 @@ const Y1FILL=(function(){
   /* 2-1 回「去。」＝2/7（六）18:00 麵店的出遊（住家裡的照出遊系統從家裡出發）；「不去。」或沒回：沒有後續 */
   S.NOODLE_LAST_DAY='2026-02-07';
   S.noodleLast=function(G){ const F=G.flags, d=D(S.NOODLE_LAST_DAY); if(d==null||F.Y1W_NOODLE_LAST!=='go'||typeof OUT==='undefined'||!OUT.plan||OUT.get(G,'y1w_noodle_last')||now(G)>=T(d,18.75)) return;
-    OUT.plan(G,{id:'y1w_noodle_last',ev:'ev_y1w_noodle_last',day:d,h:18,place:'公館',title:'阿鳳麵店',travel:'走過去約 10 分鐘',travelH:1/6}); };
+    OUT.plan(G,{id:'y1w_noodle_last',ev:'ev_y1w_noodle_last',day:d,h:18,place:'公館',title:'公館燒臘',travel:'走過去約 10 分鐘',travelH:1/6}); };
   S.phone=function(G){ if(!G||!G.flags||!law(G)||typeof PHONE==='undefined') return; for(const f of [S.groups,S.relay,S.noodleLast]){ try{ f(G); }catch(e){ console.warn('Y1FILL phone',e); } } };
 
   /* ===================== 3-2 大一下的手機小事（八則，term Y1S2）=====================

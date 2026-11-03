@@ -29,7 +29,7 @@ const GM={get G(){ return G; },E,D:{active:false},npc:{},
 ADV.setBg=b=>{ scenes.push(b); };
 const wdOf=d=>{ const w=CALENDAR.dateOf(d).wd; return w===7?0:w; };
 const D=k=>STORY.dayOfKey(k);
-const fresh=(day,hour,zone,flags)=>{ G={v:3,day,hour,zone,stage:'law',weekday:wdOf(day),weather:'clear',energy:70,money:5000,flags:Object.assign({KX_FIRST_MSG:true,fundsV2:1,allowanceMonth:CALENDAR.dateOf(day).m,introDone:true,afternoonDone:true,classDone:true,metAn:true,MET_ZHE:true},flags||{}),choices:{},events:{done:{},last:{},count:0},name:'祐廷',rel:{},social:null,stats:{classes:0},contacts:{}};
+const fresh=(day,hour,zone,flags)=>{ G={v:3,day,hour,zone,stage:'law',weekday:wdOf(day),weather:'clear',energy:70,money:5000,flags:Object.assign({KX_FIRST_MSG:true,YT_MET_JOB:true,fundsV2:1,allowanceMonth:CALENDAR.dateOf(day).m,introDone:true,afternoonDone:true,classDone:true,metAn:true,MET_ZHE:true},flags||{}),choices:{},events:{done:{},last:{},count:0},name:'祐廷',rel:{},social:null,stats:{classes:0},contacts:{}};
   SOCIAL.bind(G); EVENTS.bind(GM); INV.rec(G); ROM.rec(G); said=[]; opts=[]; picks=[]; scenes=[]; GM.npc={}; E.npcs.length=0; E.interactables=[]; E.player.obj.position.x=0; E.player.obj.position.z=0; E.player.lv=0; E.player.seat=null; E.zone={roomAt:()=>null,seats:[]}; ADV.active=false; return G; };
 const LV={ACQ:[10,0,0],FAM:[25,10,10],FRI:[45,30,10],CLO:[65,50,45]};
 const R=(id,lv)=>{ const r=SOCIAL.rel(id); const [f,t,c]=LV[lv||'FAM']; r.fam=f; r.trust=t; r.comf=c; SOCIAL.remember(id,'FIRST_MET',''); };
@@ -339,14 +339,15 @@ const askOpts=id=>{ const m=PHONE.byAsk(G,id); return m?m.ask.opts.map(o=>o.t):n
     fresh(f26,20.5,'dorm'); date('heroine_05'); C('heroine_05'); run(f26,20.5,21.25); run(f28,12,12.25); G.hour=21.9; for(const q of OUT.expire(G)) OUT.onMissed(GM,q); run(f28,22,23.25);
     check('13. 第一次沒去的那一週：23:10「📷（同一張桌子，對面的位子空著）」「你今天沒來。我寫到十一點。」', JSON.stringify(txt('p:heroine_05').slice(-2))===JSON.stringify(['heroine_05:📷（同一張桌子，對面的位子空著）','heroine_05:你今天沒來。我寫到十一點。'])&&Math.abs(at('p:heroine_05','你今天沒來。我寫到十一點。')-(f28*24+23+10/60))<0.26);
     run(f28+7,12,12.25); G.hour=21.9; for(const q of OUT.expire(G)) OUT.onMissed(GM,q); run(f28+7,22,23.5); check('13. 第二次沒去：沒有照片', TH('p:heroine_05').filter(m=>/對面的位子空著/.test(m.text)).length===1);
-    /* AA_591 決1 甲（使用者 2026-11-02「學姊爸爸不在了，不用特別提，也不會帶男主角回去吃飯」）：2-7b 她爸爸的晚餐整條刪——
-       3/14 書桌夜當面約（第 206～209 列）、3/14 21:00 私訊、3/16 再確認、3/17 出遊（ev_sis_y4_father retired，第 210～216 列）、18:45／19:30／21:00 的手機都不再有。原本這裡驗那一條的 13 項改成驗「沒有」 */
+    /* AA_591 決1 甲刪過 2-7b 她爸爸的晚餐；AA_609（使用者 2026-11-03「學姊的爸爸可以都用奶奶取代嗎？」「交往後我也有跟奶奶吃飯，不要安排我沒去」）：
+       改成她奶奶、恢復——3/14 當面或 21:00 私訊只有「好。」、3/17 出遊 must、沒有 outingMissed。台詞細節在 tests/aa609_sis_grandma_unit.js */
     fresh(m14,21,'dorm'); date('heroine_05'); C('heroine_05'); G.flags.SIS_DESK_NIGHTS=2; W1=await play('ev_sis_y4_desks',['好']);
-    check('13. W2 3/14 人在研究室（AA_591 決1）：照一般的書桌夜演，沒有「我爸週六會過來，他要請吃飯。」、沒有選項；不記 SIS_FATHER_ASKED', !has('我爸週六會過來，他要請吃飯。')&&!has('……你要不要來。六點半，公館。')&&G.flags.SIS_FATHER_ASKED==null&&W1.length>0, JSON.stringify(W1));
-    for(const [k,h0,h1] of [[m14,20.5,21.25],[m17-1,20.5,21.25],[m17,17,21.25]]) run(k,h0,h1);
-    check('13. 3/14 不在研究室、3/16、3/17（AA_591 決1）：不傳爸爸的邀約、不排 3/17 的出遊、沒有「我爸」', !PHONE.sent(G,'r3_sis_father')&&!PHONE.sent(G,'r3_sis_father_re')&&!OUT.get(G,'r3_sis_father')&&!txt('p:heroine_05').some(x=>/我爸/.test(x))&&!G.flags.MET_SIS_FATHER, JSON.stringify(txt('p:heroine_05').slice(-3)));
+    check('13. W2 3/14 人在研究室（AA_609）：21:10 她當面說「我奶奶週六要請吃飯。」「她說叫你一起。六點半，公館。」；只有「好。」→「好。不用穿太正式。」；SIS_FATHER_ASKED face', has('我奶奶週六要請吃飯。')&&has('她說叫你一起。六點半，公館。')&&has('好。不用穿太正式。')&&JSON.stringify(opts[0])===JSON.stringify(['「好。」'])&&G.flags.SIS_FATHER_ASKED==='face'&&G.flags.SIS_FATHER_GO===true, JSON.stringify(W1));
+    run(m14,23.5,24); check('13. 當面說過：手機不再傳；3/17 18:30 出遊（must）', !PHONE.sent(G,'r3_sis_father')&&!!OUT.get(G,'r3_sis_father')&&OUT.get(G,'r3_sis_father').day===m17&&OUT.get(G,'r3_sis_father').h===18.5&&OUT.get(G,'r3_sis_father').must===true);
+    fresh(m14,20.5,'dorm'); date('heroine_05'); C('heroine_05'); for(const [k,h0,h1] of [[m14,20.5,21.25],[m17-1,20.5,21.25],[m17,17,17.25]]) run(k,h0,h1);
+    check('13. 3/14 不在研究室（AA_609）：21:00 私訊兩則、回覆只有「好。」；沒回也排 3/17 的出遊（must）；3/16 不再確認；沒有「我爸」', JSON.stringify(txt('p:heroine_05').slice(-2))===JSON.stringify(['heroine_05:我奶奶週六要請吃飯。','heroine_05:她說叫你一起。六點半，公館。'])&&JSON.stringify(askOpts('r3_sis_father'))===JSON.stringify(['好。'])&&!PHONE.sent(G,'r3_sis_father_re')&&!!OUT.get(G,'r3_sis_father')&&OUT.get(G,'r3_sis_father').must===true&&!txt('p:heroine_05').some(x=>/我爸/.test(x)), JSON.stringify(txt('p:heroine_05').slice(-3)));
     { const e=R3_EVENTS.find(x=>x.id==='ev_sis_y4_father');
-      check('13. W3 3/17 她爸爸的晚餐（AA_591 決1）：定義留給舊存檔、retired，EVENTS.check 不演', !!e&&/AA_591/.test(String(e.retired))&&EVENTS.check(e)===false); }
+      check('13. W3 3/17 她奶奶的晚餐（AA_609）：不 retired、沒有 outingMissed、台詞沒有「爸」', !!e&&!e.retired&&e.title==='她奶奶的晚餐'&&typeof e.outingMissed!=='function'&&!/爸/.test(JSON.stringify(e.dialogue))); }
     fresh(a27,20.5,'dorm'); date('heroine_05'); C('heroine_05'); run(a27,20.5,21.25);
     check('13. 2-7c 4/27 21:00「明天我不寫論文。」「……你排。去哪裡都可以。」＋三選一', JSON.stringify(txt('p:heroine_05').slice(-2))===JSON.stringify(['heroine_05:明天我不寫論文。','heroine_05:……你排。去哪裡都可以。'])&&JSON.stringify(askOpts('r3_sis_dayoff'))===JSON.stringify(['河堤，騎腳踏車。','貓空，喝茶。','哪裡都不去。妳睡到中午。']));
     ans('r3_sis_dayoff',0); run(a27,21.25,21.5);

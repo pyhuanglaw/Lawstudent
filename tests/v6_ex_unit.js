@@ -179,7 +179,7 @@ await sec('T',async()=>{
   check('T4. 不是麵店日：不演',!H.said.length);
   fresh('2026-09-20',20); team(); date(YT); ROM.learn(H.G,'zhe',YT,'test'); ROM.end(H.G,YT,'apart_talk'); ROM.cleanup(H.G); date(AN); ROM.learn(H.G,'zhe',AN,'test');
   at(tue,18); H.G.zone='noodle'; clear(); await tick();
-  check('T5. 和同一個朋友圈的另一個人開始（前任也是他們知道的）：阿哲「大家都是大人了。……麵還是一樣好吃。」',J(said())===J(['大家都是大人了。……麵還是一樣好吃。']),J(said()));
+  check('T5. 和同一個朋友圈的另一個人開始（前任也是他們知道的）：阿哲「大家都是大人了。……叉燒還是一樣好吃。」',J(said())===J(['大家都是大人了。……叉燒還是一樣好吃。']),J(said()));
   /* 柏翰的筆記 */
   fresh('2026-10-16',20); SOCIAL.remember('classmate_bohan','FIRST_MET',''); INV.addContact(H.G,'classmate_bohan'); date(AN); ROM.learn(H.G,'classmate_bohan',AN,'test'); ROM.end(H.G,AN,'apart_talk');   /* 週五分開 */
   const NOTE='這兩堂的筆記。……你這幾天應該沒在聽。', mon=D('2026-10-19');   /* 10/19（一）是假日（calendar.js）；tue＝10/20（二）*/

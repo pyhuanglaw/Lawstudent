@@ -77,10 +77,10 @@ await sec(1,async()=>{ let doc=''; try{ doc=cp.execSync('git show b6588bf5:"docs
 
 /* ---------- 2 D0 ---------- */
 await sec(2,async()=>{ const G=fresh('2026-10-07',12); H.FRIEND('heroine_01'); INV.addContact(G,'heroine_01'); G.flags.KX_CRACK=1;
-  H.picks=['阿鳳麵店','明天 19:00','跟可昕說一聲']; H.opts=[]; const iv=await INV.flow(GM,'heroine_01',null,false); const menu=H.opts[H.opts.length-1]||[];
+  H.picks=['公館燒臘','明天 19:00','跟可昕說一聲']; H.opts=[]; const iv=await INV.flow(GM,'heroine_01',null,false); const menu=H.opts[H.opts.length-1]||[];
   const sent=msgs(G).find(m=>m.from==='player'); setT(G,G.day,23.5); PHONE.tick(G); const rep=msgs(G).filter(m=>m.from==='kexin').map(m=>m.text);
   check('2. 和可昕交往中，約以安去阿鳳麵店（吃飯）、她答應：多一個選單「（跟可昕說一聲）」／「（不說）」',!!iv&&iv.state==='accepted'&&eq(menu,['（跟可昕說一聲）','（不說）']),JSON.stringify(menu));
-  check('2. 說了：祐廷傳「明天我跟'+nm('heroine_01')+'去阿鳳麵店吃飯。」、她回第一句「好。吃完跟我說好不好吃。」、KX_CRACK 1→0',!!sent&&sent.text==='明天我跟'+nm('heroine_01')+'去阿鳳麵店吃飯。'&&rep[0]==='好。吃完跟我說好不好吃。'&&cr(G)===0,JSON.stringify({t:sent&&sent.text,rep,c:cr(G)}));
+  check('2. 說了：祐廷傳「明天我跟'+nm('heroine_01')+'去公館燒臘吃飯。」、她回第一句「好。吃完跟我說好不好吃。」、KX_CRACK 1→0',!!sent&&sent.text==='明天我跟'+nm('heroine_01')+'去公館燒臘吃飯。'&&rep[0]==='好。吃完跟我說好不好吃。'&&cr(G)===0,JSON.stringify({t:sent&&sent.text,rep,c:cr(G)}));
   await meet(G,iv); tick(G);
   check('2. 說了的那一次：去了也沒有 D1 的電話',!outs(G,/^kx_drift_r1_/).length,JSON.stringify(outs(G,/^kx_drift/).map(q=>q.id)));
   setT(G,D('2026-10-14'),12); await mkInv(G,'heroine_01','wenzhou',D('2026-10-17'),15,0); setT(G,G.day,23.5); PHONE.tick(G);
@@ -101,7 +101,7 @@ await sec(3,async()=>{ const run=async(pick,o)=>{ o=o||{}; const G=fresh('2026-1
     const iv=await mkInv(G,'heroine_01',o.place||'noodle',D('2026-10-08'),o.h||18,1); await meet(G,iv); tick(G); const q=outs(G,/^kx_drift_r1_/)[0];
     let L=[]; if(q&&pick!=null) L=await go(G,q,[pick]); return {G,q,L}; };
   let {G,q,L}=await run(null); const k5=OUT.rec(G).some(x=>x.kxod&&x.state==='planned'&&x.day===D('2026-10-10'));
-  check('3. 沒說就和以安去公館（阿鳳麵店 18:00～18:45）：那天 21:00 她打來（接起來／先不接）',!!q&&q.day===D('2026-10-08')&&q.h===21&&q.call&&q.verb==='接起來'&&q.no==='先不接',JSON.stringify(q&&{d:key(q.day),h:q.h}));
+  check('3. 沒說就和以安去公館（公館燒臘 18:00～18:45）：那天 21:00 她打來（接起來／先不接）',!!q&&q.day===D('2026-10-08')&&q.h===21&&q.call&&q.verb==='接起來'&&q.no==='先不接',JSON.stringify(q&&{d:key(q.day),h:q.h}));
   check('3. 她打來的電話不算「她的出遊」：那週六的「我們的日子」照排',k5,JSON.stringify(OUT.rec(G).filter(x=>x.kxod).map(x=>key(x.day)+':'+x.state)));
   ({G,q,L}=await run(0));
   check('3. 接起來：（手機響了。可昕。）→「你今天在公館？」→ 兩句；「我忘了講。對不起。」＝「……好。下次講。」（電話掛得很快。）、+0、沒有 D2',L[0]==='（手機響了。可昕。）'&&/你今天在公館？$/.test(L[1]||'')&&/予樂說看到你，跟一個女生。$/.test(L[2]||'')&&/……好。下次講。$/.test(L[L.length-2]||'')&&L[L.length-1]==='（電話掛得很快。）'&&cr(G)===0&&!R(G).r2,JSON.stringify(L));

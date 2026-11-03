@@ -25,9 +25,9 @@ const ev=id=>STORY_EVENTS.find(e=>e.id===id);
 /* AA_519 1-3：AA_467 那兩列的第二、三句換成 AA_519 的（第一句照舊）*/
 const P519='docs/story_planning/AA_519_配角第二批_麵店阿姨_陳助教_Café_黃筱涵_阿凱.md';
 const DOC519=(()=>{ try{ return cp.execSync('git -c core.quotepath=false show d75cd0228:"'+P519+'"',{cwd:process.env.SPEC_GIT_DIR||H.ROOT,encoding:'utf8',maxBuffer:1<<26,stdio:['ignore','pipe','ignore']}); }catch(e){ return ''; } })();
-const FIX519={ev_term_last_meal_y1s2:[null,'（每個人的湯碗裡，都多了兩顆餛飩。）','一年了。……今天的湯，算我的。'],ev_term_last_meal_y2s1:[null,'（桌上多了一碟小黃瓜。沒有人點。）','吃完再走。']};
+const FIX519={ev_term_last_meal_y1s2:[null,'（每個人的盤子裡，都多了一塊叉燒。）','一年了。……今天的湯，算我的。'],ev_term_last_meal_y2s1:[null,'（桌上多了一碟小黃瓜。沒有人點。）','吃完再走。']};
 const W1=id=>(T1[id]||[]).map((t,i)=>FIX519[id][i]||t);
-const in519=()=>DOC519.indexOf('「一年了。吃好一點。」→「一年了。……今天的湯，算我的。」')>=0&&DOC519.indexOf('（不下雨的那一版：「吃完再走。」）')>=0&&DOC519.indexOf('2. （每個人的湯碗裡，都多了兩顆餛飩。）')>=0&&DOC519.indexOf('3. （桌上多了一碟小黃瓜。沒有人點。）')>=0;
+const in519=()=>DOC519.indexOf('「一年了。吃好一點。」→「一年了。……今天的湯，算我的。」')>=0&&DOC519.indexOf('（不下雨的那一版：「吃完再走。」）')>=0&&DOC519.indexOf('2. （每個人的盤子裡，都多了一塊叉燒。）')>=0&&DOC519.indexOf('3. （桌上多了一碟小黃瓜。沒有人點。）')>=0;
 const sec=async(n,f)=>{ try{ await f(); }catch(e){ check(n+'. 丟出例外（這一節中斷）',false,String(e&&e.stack||e).split('\n').slice(0,3).join(' / ')); } };
 const play=async(id,picks,flags)=>{ H.fresh('2027-01-20',19,'noodle',Object.assign({noodleTableDay:3},flags||{})); H.said=[]; H.opts=[]; H.picks=(picks||[]).slice(); await EVENTS.run(ev(id)); return H.said.map(s=>s.t); };
 
@@ -39,7 +39,7 @@ const play=async(id,picks,flags)=>{ H.fresh('2027-01-20',19,'noodle',Object.assi
     const y11=await play('ev_term_last_meal');
     check('1. 大一上 ev_term_last_meal 照舊（原本三句）',J(y11.slice(-3))===J(ORIG),J(y11));
     const y12=await play('ev_term_last_meal_y1s2');
-    check('1. 大一下 ev_term_last_meal_y1s2：「（大一最後一科考完。長桌又併起來了。）」（AA_467）＋AA_519 1-3「（每個人的湯碗裡，都多了兩顆餛飩。）」阿姨「一年了。……今天的湯，算我的。」',in519()&&J(y12)===J(W1('ev_term_last_meal_y1s2'))&&(T1.ev_term_last_meal_y1s2||[])[2]==='一年了。吃好一點。',J(y12));
+    check('1. 大一下 ev_term_last_meal_y1s2：「（大一最後一科考完。長桌又併起來了。）」（AA_467）＋AA_519 1-3「（每個人的盤子裡，都多了一塊叉燒。）」阿姨「一年了。……今天的湯，算我的。」',in519()&&J(y12)===J(W1('ev_term_last_meal_y1s2'))&&(T1.ev_term_last_meal_y1s2||[])[2]==='一年了。吃好一點。',J(y12));
     check('1. 大一下第三句是阿姨說的',H.said[2]&&H.said[2].who==='阿姨'&&H.said[0].who===null&&H.said[1].who===null);
     const k0=STORY.knows; STORY.knows=id=>['zhe','yu','heroine_01','heroine_03'].includes(id);
     let y21; try{ y21=await play('ev_term_last_meal_y2s1',[],{YU_ZHE_TOLD:'msg'}); } finally{ STORY.knows=k0; }

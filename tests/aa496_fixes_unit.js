@@ -121,31 +121,32 @@ const BOSS_FAFU=BOSS.find(s=>/法服/.test(s)), BOSS_GT=BOSS.find(s=>/吉他/.te
     check('2. Alison 不在桌上、哲 4 有值：阿哲「（他把帳單拿走）我請。冠軍賽那晚欠你們的，一起算。」（照舊一句）',said(ZN,Z.final)&&!has(Z.base)&&!has(PAIR[0]));
   });
 
-  /* ===== 3 麵店團群組的補救 ===== */
+  /* ===== 3 麵店團群組的補救（AA_623 第 2 節：補救入口照留、說話的人改明軒；群組叫「桌遊團」、規矩改「隔週五 桌遊」「沒空不用講」；第一次併桌不再加群組）===== */
+    const MX='classmate_mingxuan';
   await sec('3',async()=>{
     const L=ev('ev_zhe_group_late'), T=ev('ev_zhe_group_late_talk');
-    check('3. 兩個入口：麵店遇到阿哲（ev_zhe_group_late，auto、阿哲在旁邊）、和阿哲說話（ev_zhe_group_late_talk，interact）；台詞都是稿上那一句（逐字）',!!L&&!!T&&L.trigger==='auto'&&L.location==='noodle'&&L.near&&L.near.npc==='zhe'&&T.trigger==='interact'&&(T.participants||[])[0]==='zhe'
-      &&[L,T].every(e=>J((e.dialogue||[]).filter(l=>l.text!==undefined).map(l=>[l.speaker,l.text]))===J([['zhe',ZHE_LINE]])));
+    check('3. 兩個入口：麵店遇到明軒（ev_zhe_group_late，auto、明軒在旁邊）、和明軒說話（ev_zhe_group_late_talk，interact）；台詞都是稿上那一句（逐字）',!!L&&!!T&&L.trigger==='auto'&&L.location==='noodle'&&L.near&&L.near.npc===MX&&T.trigger==='interact'&&(T.participants||[])[0]===MX
+      &&[L,T].every(e=>J((e.dialogue||[]).filter(l=>l.text!==undefined).map(l=>[l.speaker,l.text]))===J([[MX,ZHE_LINE]])));
     if(!L||!T) return;
     const W2=TD('Y1S2',2,2), W1=TD('Y1S2',1,2), Y1S1=TD('Y1S1',10,2), Y3=TD('Y3S1',5,2);
     const noodle=(d,flags)=>{ fresh(d,18,'noodle',flags); return EVENTS.check(L); };
     const r={w2:noodle(W2),w1:noodle(W1),y1s1:noodle(Y1S1),y3:noodle(Y3),longTable:noodle(W2,{noodleTableDay:TD('Y1S1',4,4)}),inGroup:(fresh(W2,18,'noodle'),PHONE.join(H.G,'noodle_team','麵店團'),EVENTS.check(L)),campus:(fresh(W2,18,'campus'),EVENTS.check(L))};
     check('3. 麵店那個入口：大一下第 2 週起（之後的學期也算）在麵店＝有；大一下第 1 週、大一上、做過哲 1（noodleTableDay）、已經在群組、不在麵店＝沒有',r.w2&&r.y3&&!r.w1&&!r.y1s1&&!r.longTable&&!r.inGroup&&!r.campus,J(r));
-    fresh(W2,18,'noodle'); npc('zhe',8,0); EVENTS.tick(0.1); await wait(); const far=H.said.length;
-    GM.npc.zhe.obj.position.x=1.5; H.said=[]; EVENTS.tick(0.1); await wait(); await wait();
-    check('3. 阿哲在旁邊（6 m 內）才演：阿哲當面「欸，你還沒進群組？我拉你。」',far===0&&said(SOCIAL.displayName('zhe'),ZHE_LINE),J(H.said));
-    check('3. 記 noodleTableDay（同哲 1）、只一次；說話那個入口也關了',H.G.flags.noodleTableDay===W2&&!EVENTS.check(L)&&(H.FAMILIAR('zhe'),!EVENTS.check(T)));
+    fresh(W2,18,'noodle'); npc(MX,8,0); EVENTS.tick(0.1); await wait(); const far=H.said.length;
+    GM.npc[MX].obj.position.x=1.5; H.said=[]; EVENTS.tick(0.1); await wait(); await wait();
+    check('3. 明軒在旁邊（6 m 內）才演：明軒當面「欸，你還沒進群組？我拉你。」',far===0&&said(SOCIAL.displayName(MX),ZHE_LINE),J(H.said));
+    check('3. 記 noodleTableDay（同哲 1）、只一次；說話那個入口也關了',H.G.flags.noodleTableDay===W2&&!EVENTS.check(L)&&(H.FAMILIAR(MX),!EVENTS.check(T)));
     rules(); const gm=(H.G.msgs||[]).filter(m=>m.th==='g:noodle_team');
-    check('3. 加進群組：系統訊息「阿哲把你加進了群組「法一吃飯」。」（不是「建立了」；AA_542 2-2 群組名照當學年）＋阿哲「吃飯用」「誰要吃什麼就喊」',PHONE.inGroup(H.G,'noodle_team')&&J(gm.map(m=>[m.from||null,m.text]))===J([[null,'阿哲把你加進了群組「'+STORY.ndlGroupName(H.G)+'」。'],['zhe','吃飯用'],['zhe','誰要吃什麼就喊']]),J(gm.map(m=>m.text)));
-    const talk=(d,lv,flags)=>{ fresh(d,10,'campus',flags); if(lv==='FAM') H.FAMILIAR('zhe'); else H.rel('zhe',10,0,0); return EVENTS.check(T); };
+    check('3. 加進群組：系統訊息「明軒把你加進了群組「桌遊團」。」（不是「建立了」）＋明軒「隔週五 桌遊」「沒空不用講」（AA_623 第 2 節）',PHONE.inGroup(H.G,'noodle_team')&&J(gm.map(m=>[m.from||null,m.text]))===J([[null,'明軒把你加進了群組「'+STORY.ndlGroupName(H.G)+'」。'],[MX,'隔週五 桌遊'],[MX,'沒空不用講']]),J(gm.map(m=>m.text)));
+    const talk=(d,lv,flags)=>{ fresh(d,10,'campus',flags); if(lv==='FAM') H.FAMILIAR(MX); else H.rel(MX,10,0,0); return EVENTS.check(T); };
     const q={fam:talk(TD('Y1S2',3,3),'FAM'),acq:talk(TD('Y1S2',3,3),'ACQ'),w1:talk(TD('Y1S2',1,3),'FAM'),y1s1:talk(TD('Y1S1',12,3),'FAM'),y4:talk(TD('Y4S1',3,3),'FAM'),longTable:talk(TD('Y1S2',3,3),'FAM',{noodleTableDay:TD('Y1S1',4,4)})};
     check('3. 說話那個入口：大一下第 2 週起、有點熟以上（FAMILIAR）＝有；不熟（ACQUAINTANCE）、大一下第 1 週、大一上、做過哲 1＝沒有；大四也還有',q.fam&&q.y4&&!q.acq&&!q.w1&&!q.y1s1&&!q.longTable,J(q));
-    fresh(TD('Y1S2',3,3),10,'campus'); H.FAMILIAR('zhe'); H.said=[]; const took=EVENTS.onInteract('zhe'); await wait(); await wait();
-    check('3. 找阿哲說話（talkZhe 先問 EVENTS.onInteract）：演這一句、記 noodleTableDay；麵店那個入口也關了',took===true&&said(SOCIAL.displayName('zhe'),ZHE_LINE)&&H.G.flags.noodleTableDay===TD('Y1S2',3,3)&&(H.G.zone='noodle',!EVENTS.check(L)),J(H.said));
-    rules(); check('3. 說話入口加群組也是「把你加進了」',PHONE.inGroup(H.G,'noodle_team')&&(H.G.msgs||[]).some(m=>m.th==='g:noodle_team'&&m.text==='阿哲把你加進了群組「'+STORY.ndlGroupName(H.G)+'」。')&&!(H.G.msgs||[]).some(m=>/^阿哲建立了群組/.test(m.text||'')));
+    fresh(TD('Y1S2',3,3),10,'campus'); H.FAMILIAR(MX); H.said=[]; const took=EVENTS.onInteract(MX); await wait(); await wait();
+    check('3. 找明軒說話（先問 EVENTS.onInteract）：演這一句、記 noodleTableDay；麵店那個入口也關了',took===true&&said(SOCIAL.displayName(MX),ZHE_LINE)&&H.G.flags.noodleTableDay===TD('Y1S2',3,3)&&(H.G.zone='noodle',!EVENTS.check(L)),J(H.said));
+    rules(); check('3. 說話入口加群組也是「把你加進了」',PHONE.inGroup(H.G,'noodle_team')&&(H.G.msgs||[]).some(m=>m.th==='g:noodle_team'&&m.text==='明軒把你加進了群組「'+STORY.ndlGroupName(H.G)+'」。')&&!(H.G.msgs||[]).some(m=>/^(阿哲|明軒)建立了群組/.test(m.text||'')));
     /* 長桌照舊 */
     fresh(TD('Y1S1',4,4),18,'noodle'); await play('ev_zhe_long_table'); rules(); const g0=(H.G.msgs||[]).filter(m=>m.th==='g:noodle_team');
-    check('3. 哲 1 長桌照舊：系統訊息還是「阿哲建立了群組「法一吃飯」，把你加了進來。」（AA_542 2-2）',g0.length>0&&g0[0].text==='阿哲建立了群組「法一吃飯」，把你加了進來。',J(g0.map(m=>m.text)));
+    check('3. 哲 1 長桌（AA_623 第 2 節）：不再加群組、不記 noodleTableDay',g0.length===0&&H.G.flags.noodleTableDay==null&&!PHONE.inGroup(H.G,'noodle_team'),J(g0.map(m=>m.text)));
   });
 
   /* ===== 4 宥辰的出席 ===== */

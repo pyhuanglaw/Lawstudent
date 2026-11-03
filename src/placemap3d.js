@@ -16,7 +16,7 @@ const PLACEMAP=(function(){
   S.PINS=[
     {id:'lane118',name:'118 巷',x:290,y:24,lab:'r',m:[['lane118','118 巷']]},
     {id:'linze',name:'法律系館A',x:270,y:78,lab:'l',cx:30,cz:-104,m:[['campus','首都帝大校園（法律系館A前）'],['linze','法律系館A（大廳）'],['classroom','法律系館A 201 教室']]},
-    {id:'wancai',name:'法律系館B',x:324,y:82,lab:'t',cx:92,cz:-100,m:[['wancai','法律系館B（大廳）'],['lawlib','法律學院圖書館']]},
+    {id:'wancai',name:'法律系館B',x:326,y:94,lab:'l',cx:88.94,cz:-84.41,m:[['wancai','法律系館B（大廳）'],['lawlib','法律學院圖書館']]},
     {id:'soclib',name:'社科圖',x:268,y:132,lab:'r',cx:11,cz:-66,m:[['soclib','社科院圖書館']]},
     {id:'boya',name:'博思・普通',x:206,y:112,lab:'t',cx:-38,cz:-60,m:[['campus','博思教學館'],['campus','普通教學館']]},
     {id:'avenue',name:'椰影大道',x:220,y:172,lab:'t',cx:-40,cz:6,m:[['campus','椰影大道・晨思鐘']]},
@@ -25,7 +25,7 @@ const PLACEMAP=(function(){
     {id:'gongtong',name:'共同',x:262,y:206,lab:'b',cx:2,cz:22,m:[['campus','共同教學館']]},
     {id:'gdorm',name:'女一舍',x:182,y:228,lab:'r',cx:-93,cz:56,m:[['campus','大一女舍（門口）']]},
     {id:'dorm',name:'宿舍・體育館',x:318,y:228,lab:'b',cx:47,cz:60,m:[['dorm','宿舍'],['gym','新體育館（大廳）']]},   /* 新體育館（門口 x 74、z 59）在男宿東邊，圖上放不下另一顆圖釘（至少相隔 52）：和宿舍同一顆（同 博雅・普通）*/
-    {id:'gongguan',name:'公館',x:100,y:172,lab:'t',m:[['gongguan','公館商圈'],['gongguan','捷運公館站'],['noodle','阿鳳麵店'],['bookstore','舊路書房'],['cvs','日日便利']]},
+    {id:'gongguan',name:'公館',x:100,y:172,lab:'t',m:[['gongguan','公館商圈'],['gongguan','捷運公館站'],['noodle','公館燒臘'],['bookstore','舊路書房'],['cvs','日日便利']]},
     {id:'wenzhou',name:'溫州街',x:66,y:82,lab:'t',m:[['wenzhou','溫州街'],['cafe','兩點半 Café']]}];
   /* 區域的底：校園、公館（羅斯福路那一條）、溫州街 */
   S.AREAS=[{id:'campus',name:'首都帝大校園',x:146,y:52,w:208,h:200,lx:154,ly:68,c:'#2c3a2f'},

@@ -76,24 +76,24 @@ const HOLFF=(function(){
     {tag:'hol_y2w_bh_home',day:'2027-01-09',h:17,th:NT,ms:[['classmate_bohan','我今天回新竹。債總帶回去了，2/19 回來。']]},   /* AA_446 第 1、2 節（企劃線 443360cc0）：大二寒暑假十則換字（和大一一字不差）*/
     {tag:'hol_y2w_an_home',day:'2027-02-01',h:15,an:['回台中了。','我媽來車站接我。她說我瘦了。……沒有。']},
     {tag:'hol_y2w_bh_back',day:'2027-02-19',h:20,th:NT,ms:[['classmate_bohan','回來了。開學前我先去總圖占位子。']]},
-    {tag:'hol_y2w_zhe_back',day:'2027-02-20',h:19,th:NT,ms:[['zhe','我回來了！這次帶了烏魚子 我阿嬤做的'],['zhe','開學那天拿去麵店']]},
+    {tag:'hol_y2w_zhe_back',day:'2027-02-20',h:19,th:NT,ms:[['zhe','我回來了！這次帶了烏魚子 我阿嬤做的'],['zhe','開學那天拿去燒臘店']]},
     {tag:'hol_y2w_an_back',day:'2027-02-21',h:18,an:['回臺北了。我媽在行李箱塞了一袋橘子。']},
     {tag:'hol_y2s_bh_home',day:'2027-06-27',h:20,th:NT,ms:[['classmate_bohan','我回新竹了。家裡的冷氣比宿舍的好。']]},
-    {tag:'hol_y2s_zhe_home',day:'2027-06-30',h:22,th:NT,ms:[['zhe','明天回高雄'],['zhe','你們吃麵 我遠端參加']]},
+    {tag:'hol_y2s_zhe_home',day:'2027-06-30',h:22,th:NT,ms:[['zhe','明天回高雄'],['zhe','你們吃燒臘 我遠端參加']]},
     {tag:'hol_y2s_an_home',day:'2027-07-24',h:15,anS:[['heroine_01','📷（台中家裡的書桌，疊著一疊書）'],['heroine_01','回台中了。這次帶了六本。8 號回去。']]},
     {tag:'hol_y2s_an_back',day:'2027-08-08',h:21,anS:[['heroine_01','回臺北了。六本讀完四本。']]},
-    {tag:'hol_y2s_zhe_back',day:'2027-08-21',h:19,th:NT,ms:[['zhe','我回來了'],['zhe','遠端吃麵 一次都沒成功'],['zhe','誰要吃麵']]},
+    {tag:'hol_y2s_zhe_back',day:'2027-08-21',h:19,th:NT,ms:[['zhe','我回來了'],['zhe','遠端吃燒臘 一次都沒成功'],['zhe','誰要吃燒臘']]},
     {tag:'hol_y2s_bh_back',day:'2027-08-24',h:20,th:NT,ms:[['classmate_bohan','回來了。明天香港。']]},   /* AA_350 9-1 缺的字（企劃線 2e255e9a）：柏翰 2027-08-24 20:00 回臺北（S1「8/24 晚上回臺北」、香港那句「我 24 號晚上上來」）*/
     {tag:'hol_y3w_zhe_home',c01:'Y3',h:21,th:NT,ms:[['zhe','明天回高雄 我阿嬤問你們今年要不要來']]},   /* AA_456 1-4（企劃線 71f260ecc）：大二～大四原本都是「我明天回高雄」，照年份換字；tag 不變 */
     {tag:'hol_y3w_an_home',day:'2028-01-24',h:15,an:['回台中了。','這次只住五天。']},
     {tag:'hol_y3w_bh_home',day:'2028-01-24',h:17,th:NT,ms:[['classmate_bohan','我明天回新竹過年。初三回來。']]},   /* AA_350 S2：大三寒假只回去過年（期末飯「寒假我每天都去總圖」；2028 除夕 1/25）；蓋掉 AA 170a150d 那兩句（1/9「寒假要把民訴讀完」、2/19「民訴沒讀完」）*/
     {tag:'hol_y3w_bh_back',day:'2028-01-28',h:20,th:NT,ms:[['classmate_bohan','回來了。民法讀到物權了。']]},
     {tag:'hol_y3w_an_back',day:'2028-01-29',h:18,an:['回臺北了。','行李箱我先拿出來了。']},
-    {tag:'hol_y3w_zhe_back',day:'2028-02-20',h:17.5,th:NT,ms:[['zhe','我回來了 高雄帶了吃的 等一下拿去麵店']]},   /* AA_345 H1：取代大一那句「開學那天拿去給你們」；2/18 21:00 他揪的那一頓在 S.MSGS */
+    {tag:'hol_y3w_zhe_back',day:'2028-02-20',h:17.5,th:NT,ms:[['zhe','我回來了 高雄帶了吃的 等一下拿去燒臘店']]},   /* AA_345 H1：取代大一那句「開學那天拿去給你們」；2/18 21:00 他揪的那一頓在 S.MSGS */
     {tag:'hol_y3s_bh_home',day:'2028-06-27',h:20,th:NT,ms:[['classmate_bohan','我回新竹幾天。七月三號補習班開課就回來。']]},   /* AA_350 S1：七月要補習（7/08 公館補習班），6/27 原本的「我回新竹了。」和期末飯矛盾 */
-    {tag:'hol_y3s_zhe_home',day:'2028-06-30',h:22,th:NT,ms:[['zhe','明天回高雄'],['zhe','最後一個暑假了 麵店交給你們']]},
+    {tag:'hol_y3s_zhe_home',day:'2028-06-30',h:22,th:NT,ms:[['zhe','明天回高雄'],['zhe','最後一個暑假了 燒臘店交給你們']]},
     {tag:'hol_y3s_bh_back',day:'2028-07-02',h:20,th:NT,ms:[['classmate_bohan','回來了。明天開課。']]},
-    {tag:'hol_y3s_zhe_back',day:'2028-08-21',h:19,th:NT,ms:[['zhe','我回來了'],['zhe','大四了欸'],['zhe','誰要吃麵']]},
+    {tag:'hol_y3s_zhe_back',day:'2028-08-21',h:19,th:NT,ms:[['zhe','我回來了'],['zhe','大四了欸'],['zhe','誰要吃燒臘']]},
     {tag:'hol_y4w_zhe_home',c01:'Y4',h:21,th:NT,ms:[['zhe','明天回高雄 畢業前最後一個寒假了']]},   /* AA_456 1-4 */
     {tag:'hol_y4w_an_home',day:'2029-02-09',h:15,an:['回台中了。','考完了。這次在家什麼都不讀。']},
     {tag:'hol_y4w_bh_home',day:'2029-02-11',h:17,th:NT,ms:[['classmate_bohan','我明天回新竹。初三回來。']]},   /* AA_345 H2：大四寒假兩個人都要考國考，柏翰只回去過年（2029 除夕 2/12，初三＝2/15）*/
@@ -116,7 +116,7 @@ const HOLFF=(function(){
   S.MSGS=[
     {tag:'hol63_y1w_zhe',day:'2026-01-15',h:21,th:NT,ms:[['zhe','高雄今天二十六度'],['zhe','台北的人在幹嘛']],ask:[{t:'讀書。',say:[['zhe','騙人']]},{t:'睡覺。',say:[['zhe','這才對']]}]},   /* 阿哲在高雄 */
     {tag:'hol63_y2w_pl',day:'2027-02-19',h:21,th:'g:public_law',ms:[['heroine_01','下禮拜開學。讀書會第二週開始。'],['classmate_bohan','收到。']],if:()=>atLeast('heroine_01','FAMILIAR')},   /* 和以安 FAMILIAR 以上、在讀書會群組 */
-    {tag:'hol63_y3w_zhe',day:'2028-02-18',h:21,th:NT,ms:[['zhe','禮拜天回台北'],['zhe','開學前最後一頓 禮拜天六點 麵店']],ask:[{t:'去。',set:{HOL_Y3W_NOODLE:'go'}},{t:'不去。',set:{HOL_Y3W_NOODLE:'no'},say:[['zhe','好喔']]}]},   /* AA_345 H1、H4：阿哲 2/20 才從高雄回來；「去。」＝2/20（日）18:00 麵店，開學前一晚（S.EVENTS）*/
+    {tag:'hol63_y3w_zhe',day:'2028-02-18',h:21,th:NT,ms:[['zhe','禮拜天回台北'],['zhe','開學前最後一頓 禮拜天六點 燒臘店']],ask:[{t:'去。',set:{HOL_Y3W_NOODLE:'go'}},{t:'不去。',set:{HOL_Y3W_NOODLE:'no'},say:[['zhe','好喔']]}]},   /* AA_345 H1、H4：阿哲 2/20 才從高雄回來；「去。」＝2/20（日）18:00 麵店，開學前一晚（S.EVENTS）*/
     {tag:'hol63_y4w_yu',day:'2029-01-31',h:21,th:NT,ms:[['yu','考試的人 加油'],['yu','沒考試的人 不要吵他們']]} ];
   S.msgs63=function(G){ const now=T(G.day,G.hour);
     for(const m of S.MSGS){ if(PHONE.sent(G,m.tag)) continue; const d=DK(m.day); if(d==null||now<T(d,m.h)||G.day>d+1) continue; if(!inGrp(G,m.th.slice(2))||(m.if&&!m.if(G))) continue;
@@ -124,10 +124,10 @@ const HOLFF=(function(){
       PHONE.at(G,d,m.h,M,m.tag); }
     /* 大三寒假 2/20（日）18:00 麵店（開學前一晚）：回了「去。」＝排出遊（從宿舍走過去；住家裡的照出遊系統從家裡出發；日本路線 2/20 14:00 退宿、人還在臺北，一樣去得了）*/
     const d20=DK('2028-02-20'), F=G.flags||{}; if(F.HOL_Y3W_NOODLE==='go'&&d20!=null&&G.day<=d20&&typeof OUT!=='undefined'&&OUT.plan&&!OUT.get(G,'hol63_y3w_noodle'))
-      OUT.plan(G,{id:'hol63_y3w_noodle',ev:'ev_hol63_y3w_noodle',day:d20,h:18,place:'公館',title:'阿鳳麵店',travel:'走過去約 10 分鐘',travelH:1/6}); };
+      OUT.plan(G,{id:'hol63_y3w_noodle',ev:'ev_hol63_y3w_noodle',day:d20,h:18,place:'公館',title:'公館燒臘',travel:'走過去約 10 分鐘',travelH:1/6}); };
   S.EVENTS=[
-    { id:'ev_hol63_y3w_noodle', title:'阿鳳麵店', participants:['zhe'], location:'any', trigger:'outing', once:true, background:'dark',
-      dialogue:[ {scene:'阿鳳麵店・長桌',bg:'noodle_table'},
+    { id:'ev_hol63_y3w_noodle', title:'公館燒臘', participants:['zhe'], location:'any', trigger:'outing', once:true, background:'dark',
+      dialogue:[ {scene:'公館燒臘・長桌',bg:'noodle_table'},
         {speaker:null,text:'（開學前一晚。長桌坐了一半，阿哲的行李箱還靠在牆邊。大家都在講下學期要修什麼。）'},   /* AA_345 H1（取代「寒假最後一個週六……」）*/
         {speaker:'zhe',text:'大三下了。……時間過得好快，我先講，你們不要笑。'} ] } ];   /* AA_340 6-3（第①級）；2028 年麵店店休 1/19～1/28（AA_333），2/20 開著 */
 

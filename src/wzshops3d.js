@@ -116,6 +116,7 @@ const WZS=(()=>{
     if(D.shutter&&!S.inSeason(k,G)){ await GM.say(null,D.shutter); return false; }   /* 冰菓室 10～4 月（按鈕已經換成「看」；保險）*/
     if(!S.isOpen364(k,G)){ GM.toast(PLACES.closedText(D.zone,hr(G),G.day),4500); return false; }
     const E_=typeof EAT!=='undefined'?EAT:null, who={name:D.who};
+    if(!D.dine&&typeof SHOPENC!=='undefined'&&SHOPENC.window){ try{ await SHOPENC.window(GM,D.zone); }catch(e){ console.warn('SHOPENC.window',e); } }   /* 店內偶遇（SHOP-ENCOUNTER-1103）：巷口茶飲、冰菓室的窗口前遇到朋友（沛珊、Alison；AA_632、AA_633），遇完照常點 */
     const sqG=typeof SIDEQ!=='undefined'&&SIDEQ.greet?SIDEQ.greet(G,D.key):null;   /* 順手的事 SQ01 做完以後，林家老闆的招呼一次（AA_397）*/
     await GM.say(who,sqG||S.greet364(k,G));
     const items=S.menu364(k,G), opts=items.map(m=>({t:m[0]+'　'+(m[1]?m[1]+' 元':'免費'),dim:(G.money|0)<m[1]})); opts.push({t:'不用了'});
@@ -201,7 +202,7 @@ const WZS=(()=>{
       else if(k==='teahouse'&&kind==='tokonoma'){ await GM.say(null,S.tokonomaLine(G)); }
       else if(k==='print'&&kind==='print'){ const j=job(G,'print'); if(j&&j.today&&j.lv!=null&&j.shiftNow){ GM.toast('今天是你的班。'); return; }   /* 他的班剛好是那一天：不能當客人（DL-10 接「上班」）*/
         if(j&&j.lv>=1) await GM.say(null,'阿德：「自己印吧。你知道機器在哪裡。」');
-        await buy(GM,S.printMenu(G),1/6,async()=>{ await GM.say(null,S.printLine(G)); },false,'阿德影印輸出'); }
+        await buy(GM,S.printMenu(G),1/6,async()=>{ await GM.say(null,S.printLine(G)); const q=typeof SHOPENC!=='undefined'&&SHOPENC.keeperLine?SHOPENC.keeperLine(G,'wz_print'):null; if(q) for(const t of q.lines) await GM.say(/^（/.test(t)?null:{name:q.name},t); },false,'阿德影印輸出'); }   /* 阿德的招呼（AA_633 shopkeepers：隨機一句、考試週機率高；src/shopenc3d.js）*/
       else if(k==='print'&&kind==='stationery'){ await buy(GM,S.STATIONERY,0,async x=>{ await GM.say(null,x[2]); }); }
       else if(S.AA364[k]&&kind==='menu'&&S.AA364[k].wall){ await GM.say(null,S.AA364[k].wall); const sw=typeof SIDEQ!=='undefined'&&SIDEQ.wallExtra?SIDEQ.wallExtra(G,S.AA364[k].key):null; if(sw) await GM.say(null,sw); }   /* SQ01 做完：牆上多一行手寫（AA_397）*/
       else if(k==='ice'&&kind==='board'){ if(typeof SIDEQ!=='undefined'&&SIDEQ.iceBoard) await SIDEQ.iceBoard(GM); }   /* SQ03：看價目板、選誰來寫 */   /* AA_364：看菜單（林家牆上的紅紙、定食店吧台上方的木札），0 分鐘 */

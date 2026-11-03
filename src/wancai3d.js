@@ -9,8 +9,8 @@
 const WC3=(function(){
   const LAYOUT=()=>WANCAI_LAYOUT;
   const M=(c,o)=>P3.M(c,Object.assign({rough:0.9},o||{}));
-  const CAMPUS_1F={x:93.8,z:-98.4,yaw:0};            // 從一樓出去：陽台下的一樓入口前面（和 v9.3 一樣）
-  const CAMPUS_2F={x:87,z:-99.4,yaw:0,lv:1};          // 從二樓出去：大樓梯頂端的平台（校園第 1 層 3.63 m），離平台上的門 1.8 m（不會一出來就又跳出進門按鈕）
+  const CAMPUS_1F={x:89.21,z:-82.01,yaw:-0.733};            // 從一樓出去：陽台下的一樓入口前面（LAW-RELAYOUT-1102 第二輪：萬才館轉 42°、中心 (94,−96)；本地 (5.8,13.6)，以前 (93.8,−98.4)）
+  const CAMPUS_2F={x:84.83,z:-87.31,yaw:-0.733,lv:1};          // 從二樓出去（LAW-RELAYOUT-1102：以前 (87,−99.4)）：大樓梯頂端的平台（校園第 1 層 3.63 m），離平台上的門 1.8 m（不會一出來就又跳出進門按鈕）
 
   // ---- 樓梯的高度（往 +z 爬）：從最下面那一階的邊緣（和地面同高）連續斜上到最上面那一階踏面的中心；畫面上一階一階（tread／rise／low）----
   function stairSurfs(L){ const S=L.stair, r=S.rise, t=S.tread, F1=S.flight1, LD=S.landing, F2=S.flight2, n1=F1.risers, n2=F2.risers;

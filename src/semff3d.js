@@ -128,7 +128,7 @@ const SEMFF=(function(){
       const rv0=new Set(); { const tg=rvTag(G); if(rvSent(G,tg)) rv0.add(tg); } let rvAsked=false;
       for(let k=0;k<40;k++){ r=await S.jump(GM,o.to); auto+=r.auto|0;
         { const tg=rvTag(G); if(!rvAsked&&r.why==='remind'&&rvSent(G,tg)&&!rv0.has(tg)&&typeof STUDY!=='undefined'&&STUDY.reviewOpt){ rvAsked=true; const ro=STUDY.reviewOpt(G,{});
-            if(ro){ const opts=[{t:ro.t,hint:ro.hint,dim:ro.dim},{t:'繼續快轉',hint:'考試那天一定會停'},{t:'先停在這裡',hint:''}]; const j=await GM.choose(opts,{menu:true});   /* 選項文字：暫定字（AA 定稿後換）*/
+            if(ro){ const opts=[{t:ro.t,hint:ro.hint,dim:ro.dim},{t:'繼續快轉',hint:'考試那天會自動停下來'},{t:'先停在這裡',hint:''}]; const j=await GM.choose(opts,{menu:true});   /* 選項文字：AA_638 定稿*/
               if(j===0&&!ro.dim){ await STUDY.review(GM,'final',{}); r=Object.assign({},r,{why:'review'}); break; }
               if(j===2){ r=Object.assign({},r,{why:'review_stop'}); break; }
               if(now(G)>=o.to-1e-6||!S.on(G)) break; continue; } } if(r.why==='remind'){ if(now(G)>=o.to-1e-6||!S.on(G)) break; continue; } }
