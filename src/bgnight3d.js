@@ -34,9 +34,10 @@ const BGN=(function(){
     end:['（你們玩了三輪。最後一輪明軒輸了，他說是規則書寫得不清楚。）','（玩到第二局，店長跳上桌子，坐在牌堆上。大家只好等牠走。）','（十一點半，店員來問要不要最後點餐。你們又加了一份薯條。）','（明軒把每一局的分數記在手機裡。他說期末要結算。）'],
     group1:'我開個群組，之後在這裡約。',
     away:'在日常失速玩桌遊' };
+  S.natHoliday=d=>{ const h=CALENDAR.holiday&&CALENDAR.holiday(d); if(!h) return false; const k=CALENDAR.dateOf(d).key; if(CALENDAR.SCHOOL&&CALENDAR.SCHOOL[k]) return false; if(CALENDAR.typhoon&&CALENDAR.typhoon(d)) return false; return true; };   /* 同 JOBS.natHoliday（勞基法的休假日；校定的不算）*/
   /* 那一天是不是桌遊夜 */
   S.isNight=function(d){ if(!hasCal()||d==null) return false; const t=CALENDAR.termOf(d); if(!t||!S.TERMS.includes(t.id)||t.exam) return false;
-    if(CALENDAR.kind&&CALENDAR.kind(d)!=='term') return false; if(CALENDAR.holiday&&CALENDAR.holiday(d)) return false;
+    if(S.natHoliday(d)) return false;   /* 國定假日停（校定的停課日，例如運動會、颱風假不算國定假日：照辦）*/
     if(CALENDAR.dateOf(d).wd!==5) return false; if(t.week%2!==0) return false; if(t.id==='Y1S1'&&t.week<6) return false; return true; };
   S.yearOf=d=>{ const t=hasCal()?CALENDAR.termOf(d):null, m=t&&/^Y(\d)/.exec(t.id); return m?+m[1]:0; };
   /* 沛珊：大約三次來一次（固定挑法，讀檔不會變）；大一、大二（大三去台南以後不來）*/
