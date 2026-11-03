@@ -42802,6 +42802,26 @@
       "priority": "P2",
       "note": "AA_617（企劃線 3e4651ebf）；使用者排在 D99 三項之後",
       "next": "等 ART-WZ-CAFES-1103 場景＋AA 台詞＋BB 2D 背景"
+    },
+    {
+      "first": {
+        "term": "Y1S1",
+        "week": null,
+        "earliest": "承品書店（新生南路側）",
+        "mainline": false,
+        "blocks": false,
+        "prereq": false,
+        "parallel": true,
+        "confirmed": true
+      },
+      "area": null,
+      "id": "POSE-FLOOR-READ-1103",
+      "title": "坐在地板上看書的姿勢（承品書店的人；character3d.js 程序化姿勢，同 gymIK 做法）",
+      "owner": "LAWWW",
+      "status": "待開工",
+      "priority": "P2",
+      "note": "LAWWW2 10:03 分工（使用者 10:02 要 AA、BB、CC 協助建模）：姿勢歸 LAWWW",
+      "next": "承品書店室內交件後接"
     }
   ]
 }
