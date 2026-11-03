@@ -1,0 +1,23 @@
+{
+  "rerun": "",
+  "id": "V19R_reach",
+  "sha": "15e78dff7",
+  "kind": "game",
+  "script": "tests/reachability_all.py",
+  "env": "XARGS={url}",
+  "machine": "MSI",
+  "start": "2026-11-04T01:19:07",
+  "end": "2026-11-04T01:27:04",
+  "seconds": 477,
+  "exit": 0,
+  "error": null,
+  "runner": "c9cac8a6aa",
+  "rf_round": "5",
+  "url": "http://127.0.0.1:8810/index.html?turbo",
+  "res_peak": {
+    "cpu": 86,
+    "mem": 61,
+    "used_gb": 19.2,
+    "chrome_testing": 27
+  }
+}
