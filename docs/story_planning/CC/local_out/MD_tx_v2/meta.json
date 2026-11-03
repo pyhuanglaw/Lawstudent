@@ -1,0 +1,24 @@
+{
+  "rerun": "",
+  "id": "MD_tx_v2",
+  "sha": "451bb65ee",
+  "kind": "blender",
+  "script": "docs/story_planning/test_tools/cc/blender/render_tx.py",
+  "env": "CC_BLENDER_DEVICE=CPU;CC_SAMPLES=64;XARGS=assets/models/env/second_ai/bb_support/tongxian.glb {out} docs/story_planning/test_tools/cc/blender/tx_views.json",
+  "machine": "MSI",
+  "start": "2026-11-03T23:15:55",
+  "end": "2026-11-03T23:23:49",
+  "seconds": 474,
+  "exit": 0,
+  "error": null,
+  "runner": "c9cac8a6aa",
+  "rf_round": "4",
+  "url": "http://127.0.0.1:8810/index.html",
+  "blender_threads": "14",
+  "res_peak": {
+    "cpu": 100,
+    "mem": 39,
+    "used_gb": 12.4,
+    "chrome_testing": 0
+  }
+}

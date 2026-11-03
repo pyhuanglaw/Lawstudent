@@ -1,0 +1,55 @@
+23:16:32 | INFO: Data are loaded, start creating Blender stuff
+23:16:32 | INFO: Blender create Mesh node PLATE_FACE_tx_door_sign
+23:16:32 | INFO: Blender create Mesh node PLATE_FACE_tx_notice
+23:16:32 | INFO: Blender create Mesh node PLATE_FACE_tx_owner_tag
+23:16:32 | INFO: Blender create Mesh node tx_ceiling
+23:16:32 | INFO: Blender create Mesh node tx_emit
+23:16:32 | INFO: Blender create Mesh node tx_floor
+23:16:32 | INFO: Blender create Mesh node tx_glass
+23:16:32 | INFO: Blender create Mesh node tx_guitar
+23:16:32 | INFO: Blender create Mesh node tx_leaf
+23:16:32 | INFO: Blender create Mesh node tx_metal
+23:16:33 | INFO: Blender create Mesh node tx_props
+23:16:33 | INFO: Blender create Mesh node tx_vc
+23:16:33 | INFO: Blender create Mesh node tx_wood
+23:16:33 | INFO: Blender create Mesh node WALL_back_glass
+23:16:33 | INFO: Blender create Mesh node WALL_back_guitar
+23:16:33 | INFO: Blender create Mesh node WALL_back_metal
+23:16:33 | INFO: Blender create Mesh node WALL_back_plaster
+23:16:33 | INFO: Blender create Mesh node WALL_back_props
+23:16:33 | INFO: Blender create Mesh node WALL_back_vc
+23:16:33 | INFO: Blender create Mesh node WALL_back_wood
+23:16:33 | INFO: Blender create Mesh node WALL_front_metal
+23:16:33 | INFO: Blender create Mesh node WALL_front_plaster
+23:16:33 | INFO: Blender create Mesh node WALL_front_props
+23:16:33 | INFO: Blender create Mesh node WALL_front_vc
+23:16:33 | INFO: Blender create Mesh node WALL_front_wood
+23:16:33 | INFO: Blender create Mesh node WALL_left_metal
+23:16:33 | INFO: Blender create Mesh node WALL_left_plaster
+23:16:33 | INFO: Blender create Mesh node WALL_left_props
+23:16:33 | INFO: Blender create Mesh node WALL_left_vc
+23:16:33 | INFO: Blender create Mesh node WALL_left_wood
+23:16:33 | INFO: Blender create Mesh node WALL_right_guitar
+23:16:33 | INFO: Blender create Mesh node WALL_right_metal
+23:16:33 | INFO: Blender create Mesh node WALL_right_plaster
+23:16:33 | INFO: Blender create Mesh node WALL_right_props
+23:16:33 | INFO: Blender create Mesh node WALL_right_slat
+23:16:33 | INFO: Blender create Mesh node WALL_right_vc
+23:16:33 | INFO: Blender create Mesh node WALL_right_wood
+23:16:33 | INFO: glTF import finished in 0.89s
+00:18.516  cycles           | WARNING CUEW initialization failed: Error opening the library
+01:32.188  render           | Saved: 'C:\Users\USER\Documents\Lawstudent_cclocal\docs\story_planning\CC\local_out\MD_tx_v2\out\tx_ref.png'
+render C:\Users\USER\Documents\Lawstudent_cclocal\docs\story_planning\CC\local_out\MD_tx_v2\out\tx_ref.png
+02:46.844  render           | Saved: 'C:\Users\USER\Documents\Lawstudent_cclocal\docs\story_planning\CC\local_out\MD_tx_v2\out\tx_gamecam.png'
+render C:\Users\USER\Documents\Lawstudent_cclocal\docs\story_planning\CC\local_out\MD_tx_v2\out\tx_gamecam.png
+03:55.641  render           | Saved: 'C:\Users\USER\Documents\Lawstudent_cclocal\docs\story_planning\CC\local_out\MD_tx_v2\out\tx_corner.png'
+render C:\Users\USER\Documents\Lawstudent_cclocal\docs\story_planning\CC\local_out\MD_tx_v2\out\tx_corner.png
+05:02.829  render           | Saved: 'C:\Users\USER\Documents\Lawstudent_cclocal\docs\story_planning\CC\local_out\MD_tx_v2\out\tx_wall.png'
+render C:\Users\USER\Documents\Lawstudent_cclocal\docs\story_planning\CC\local_out\MD_tx_v2\out\tx_wall.png
+06:16.625  render           | Saved: 'C:\Users\USER\Documents\Lawstudent_cclocal\docs\story_planning\CC\local_out\MD_tx_v2\out\tx_counter.png'
+render C:\Users\USER\Documents\Lawstudent_cclocal\docs\story_planning\CC\local_out\MD_tx_v2\out\tx_counter.png
+07:26.875  render           | Saved: 'C:\Users\USER\Documents\Lawstudent_cclocal\docs\story_planning\CC\local_out\MD_tx_v2\out\tx_owner.png'
+render C:\Users\USER\Documents\Lawstudent_cclocal\docs\story_planning\CC\local_out\MD_tx_v2\out\tx_owner.png
+Blender 5.2.3 LTS (hash e13b728c6880 built 2026-10-22 01:37:16)
+
+Blender quit

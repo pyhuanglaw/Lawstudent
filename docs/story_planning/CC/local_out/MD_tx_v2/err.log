@@ -1,0 +1,2 @@
+C:\Users\USER\Documents\wt_cc_MD_tx_v2\docs\story_planning\test_tools\cc\blender\render_tx.py:17: DeprecationWarning: 'World.use_nodes' is expected to be removed in Blender 6.0
+  w = bpy.data.worlds.new('w'); sc.world = w; w.use_nodes = True; w.node_tree.nodes['Background'].inputs['Color'].default_value = (0.75, 0.82, 0.9, 1); w.node_tree.nodes['Background'].inputs['Strength'].default_value = 0.3
