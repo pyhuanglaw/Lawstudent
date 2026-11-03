@@ -34,7 +34,7 @@ const SISB12_LINES={
   lastAway:{t:'我在{國}。',say:[['k','對齁 學弟在{國}'],['s','題目傳給你。']]},
   lastCancel:'行程取消：法圖・討論室（讀書會最後一次）。那天你在國外。',   /* 舊存檔：已經排好 7/13、後來才出國而取消的，取消那一刻手機系統提示（AA_492 第 1 節）*/
   /* 4-2 朋友版「另外一本，回來再看。」之後才交往的：下一次和她正式約會的結尾補演一次（AA_492 第 3 節；句子照 12-7 那兩版，旁白換成約會的場合；說話人照交往中的顯示「書瑀」）*/
-  bookLate:{law:['（她的包包裡露出那本小說。書籤還在快一半的地方。）','回來以後開始看。……還沒看完。'],
+  bookLate:{law:['（她的包包裡露出那本小說。書籤還在快一半的地方。）','回來以後開始看。還沒看完。'],
     novel:['（她的包包裡是那本舊的刑訴，書背的膠帶換了新的。）','回來第一個禮拜翻完了。問號少了一點。']} };
 
 const SISB12_EVENTS=(function(){
@@ -56,7 +56,7 @@ const SISB12_EVENTS=(function(){
         {label:'a'},N('（她點了一下頭，把三本抽出來疊好。）'),{goto:'m'},
         {label:'b'},SIS('畢業了。書還是要讀。'),{goto:'m'},
         {label:'c'},SIS('算我的。……不會逾期。'),
-        {label:'m'},N('（櫃台蓋完章，她把三本書抱在手上。最上面那本的書名，你只看得懂一半。）'),
+        {label:'m'},Object.assign(N('（櫃台蓋完章，她把三本書抱在手上。最上面那本的書名，你只看得懂一半。）'),{libOut:true}),   /* libOut：櫃台以後不在讀書區，不加（小聲）（AA_595 1-B34 後半；AA 11-02 20:54）*/
         SIS('許老師開的書單。開學以前要讀完。'),
         SIS('你暑假讀什麼？'),
         {choice:[{text:'「還沒想。」',goto:'p'},{text:'「民法。」',goto:'q'},{text:'「什麼都不讀。」',goto:'r'}]},
@@ -75,7 +75,7 @@ const SISB12_EVENTS=(function(){
         SIS('期末考得怎樣。'),
         {choice:[{text:'「還可以。」',goto:'a'},{text:'「有一科不太好。」',goto:'b'},{text:'「妳改的考卷改完了？」',if:{events:['ev_sis_ta_papers']},goto:'c'}]},   /* 第三個：演過 AA_394 2-3 助教的考卷 */
         {label:'a'},SIS('嗯。考完的就不講了。'),{goto:'m'},
-        {label:'b'},SIS('哪一科。……開學去問老師你錯在哪裡。不用求分數，去問就好。'),{goto:'m'},
+        {label:'b'},SIS('哪一科。……開學可以去問老師錯在哪裡。我以前也去問過。'),{goto:'m'},
         {label:'c'},SIS('昨天改完。紅筆用完一支。'),
         {label:'m'},N('（湯滾了。她伸手把你那一鍋的火轉小。）'),
         SIS('Kevin 大一的時候，家聚吃到一半睡著。'),
@@ -109,19 +109,19 @@ const SISB12_EVENTS=(function(){
       outingMissed:G=>{ if(G.flags.SIS_FAM_STUDY==null) G.flags.SIS_FAM_STUDY='missed'; } },
     /* ---------- 12-5 大三下（臺灣）：法圖的午休（2028-03-03～04-21 的週五 12:00～14:00、日本路線到 3/24——AA_490 第 1 節；找她說話先演；Kevin 同框）---------- */
     { id:'ev_sis_lawlib_kevin', title:'法圖的午休', participants:[ID], location:'lawlib', trigger:'manual', once:true, background:'blur',
-      dialogue:[ N('（法圖最裡面那張桌子。她對面坐著 Kevin，額頭貼在一疊考古題上。）'),
+      dialogue:[ Object.assign(N('（法圖外的走廊。Kevin 趴在長椅上。）'),{libOut:true}),   /* libOut（AA_595 1-B35：搬到法圖外走廊，取代「（法圖最裡面那張桌子。她對面坐著 Kevin，額頭貼在一疊考古題上。）」；AA 11-02 22:30 定稿）*/
         KEV('學弟……救我。'),
         SIS('他沒事。他在休息。'),
         KEV('學姊，妳當年怎麼撐過來的。'),
         SIS('我沒有撐。（她把保溫瓶的蓋子轉開）……後來我學會睡覺。'),
         {choice:[{text:'「學姊以前不睡覺？」',unless:dt,goto:'a'},{text:'「妳以前不睡覺？」',if:dt,goto:'a'},{text:'「Kevin 學長加油。」',goto:'b'},{text:'「那我不吵你們。」',goto:'c'}]},
-        {label:'a'},SIS('以前覺得睡覺很浪費。……後來倒下過一次。'),{goto:'m'},
+        {label:'a'},SIS('以前覺得睡覺很浪費。後來倒下過一次。'),{goto:'m'},
         {label:'b'},KEV('學弟好溫暖。學姊妳學一下。'),SIS('加油。'),KEV('……謝謝喔。'),{goto:'m'},
         {label:'c'},SIS('不吵。坐。這裡有位子。'),
         {label:'m'},SIS('（看了你一眼）你大三下了。'),
         SIS('明年這個時候，坐在這裡的可能是你。'),
         {choice:[{text:'「我會記得睡覺。」',goto:'p'},{text:'「我還沒想要不要考。」',goto:'q'}]},
-        {label:'p'},SIS('嗯。……我會檢查。'),{goto:'e'},
+        {label:'p'},SIS('嗯。我會檢查。'),{goto:'e'},
         {label:'q'},SIS('那先不要想。大四上再想也來得及。'),
         {label:'e'},N('（一點五十分，她收好計畫本，把 Kevin 叫醒。）'),
         SIS('兩點了。我去研究小間。'),
@@ -142,9 +142,9 @@ const SISB12_EVENTS=(function(){
         {label:'a'},SIS('……好。題目我從那邊寄。'),{goto:'e'},
         {label:'b'},SIS('要不要，你們決定。'),{goto:'e'},
         {label:'c'},N('（她把板擦遞給你，自己去收桌上的考卷。）'),
-        {label:'e'},N('（走出法圖，Kevin 說他要去吃宵夜。她說她要回家收行李。）'),
-        Object.assign({unless:{custom:G=>!!X()&&X().usDating(G)}},SIS('八月二號。……群組會說。')),
-        Object.assign({if:{custom:G=>!!X()&&X().usDating(G)}},SIS('八月二號。……你不用送，我們同一班。')),   /* 美國路線（交往中）：同一班飛機 */
+        {label:'e'},Object.assign(N('（走出法圖，Kevin 說他要去吃宵夜。她說她要回家收行李。）'),{libOut:true}),   /* libOut：走出法圖以後不加（小聲）（AA 11-02 20:54）*/
+        Object.assign({unless:{custom:G=>!!X()&&X().usDating(G)}},SIS('八月二號。群組會說。')),
+        Object.assign({if:{custom:G=>!!X()&&X().usDating(G)}},SIS('八月二號。你不用送，我們同一班。')),   /* 美國路線（交往中）：同一班飛機 */
         Object.assign({set:{SIS_FAM_STUDY_LAST:'went'}},mem('SIS_FAM_STUDY_LAST',{fam:1,comf:1})) ],
       outingMissed:G=>{ if(G.flags.SIS_FAM_STUDY_LAST==null) G.flags.SIS_FAM_STUDY_LAST='missed'; } },
     /* ---------- 12-7 大四寒假：空白的一月（1/2～2/8 週一、二、四 19:00～21:30 兩點半 Café，找她說話先演；朋友版）---------- */
@@ -156,7 +156,7 @@ const SISB12_EVENTS=(function(){
         Object.assign({unless:{flags:['SIS_PLAN_POSTED']}},SIS('寒假你怎麼排的？')),
         {choice:[{text:'「大概一半。」',goto:'a'},{text:'「每一天都照做。」',goto:'b'},{text:'「沒照做。」',goto:'c'}]},
         {label:'a'},SIS('一半很多了。'),{goto:'m'},
-        {label:'b'},SIS('……休息日呢。'),N('（你沒有回答。）'),SIS('那就是沒有。'),{goto:'m'},
+        {label:'b'},SIS('休息日呢？'),N('（你沒有回答。）'),SIS('那就是沒有。'),{goto:'m'},
         {label:'c'},SIS('嗯。至少你說實話。'),
         {label:'m'},N('（她把自己的計畫本翻開，推到你面前。一月那一頁，大部分格子是空的。）'),
         SIS('在美國，最後一格寫的是回臺灣。'),
@@ -166,7 +166,7 @@ const SISB12_EVENTS=(function(){
         {label:'q'},SIS('（看了你一眼）……寫什麼。'),N('（你在下個禮拜那一格寫了「休息」。她看了一下，沒有擦掉。）'),{goto:'bk'},
         {label:'r'},Object.assign(SIS('……法圖的椅子比較矮。'),{aa523:true}),
         {label:'bk'},   /* 4-2「另外一本，回來再看。」朋友版（AA_395 1-2 的 SIS_BOOK；both、沒演過的沒有這段）*/
-        {if:{flagIs:{SIS_BOOK:'law'}},speaker:null,text:'（計畫本旁邊是那本小說。書籤還在快一半的地方。）',set:{SIS_BOOK_BACK:true}},{if:{flagIs:{SIS_BOOK:'law'}},speaker:ID,text:'回來以後開始看。……還沒看完。'},
+        {if:{flagIs:{SIS_BOOK:'law'}},speaker:null,text:'（計畫本旁邊是那本小說。書籤還在快一半的地方。）',set:{SIS_BOOK_BACK:true}},{if:{flagIs:{SIS_BOOK:'law'}},speaker:ID,text:'回來以後開始看。還沒看完。'},
         {if:{flagIs:{SIS_BOOK:'novel'}},speaker:null,text:'（計畫本旁邊是那本舊的刑訴，書背的膠帶換了新的。）',set:{SIS_BOOK_BACK:true}},   /* SIS_BOOK_BACK：「另外一本」演過了（交往以後的約會補演同一個記號，sis_b12_3d.js S.bookLate）*/{if:{flagIs:{SIS_BOOK:'novel'}},speaker:ID,text:'回來第一個禮拜翻完了。問號少了一點。'},
         SIS('下學期要的書，開學以前跟我說。法圖寒假開得很短。'),
         {if:{flags:['SIS_BLANK_JAN_REST']},speaker:null,text:'（她把計畫本收起來。那一格「休息」還在上面。）'},

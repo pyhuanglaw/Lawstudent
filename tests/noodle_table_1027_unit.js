@@ -29,7 +29,7 @@ if(!ok||typeof STORY.ndlTalk!=='function'){ check('0. STORY.ndlTalk 存在',fals
 /* 0. 逐字對稿 */
 const SPEC={
   Y1:[['長桌已經坐了一半。阿哲把菜單推給你，雖然大家都只點那幾樣。','民總的作業誰寫完了？','寫完了。……不給抄。'],['Alison 把滷蛋切成四份，分給整桌。','阿姨今天心情很好！！滷蛋多一顆！','那是因為我昨天幫她搬瓦斯。'],
-    ['期中考範圍我整理成一張表了。','他把表放在桌子中間。三個人同時拿出手機拍。'],['芯慈一坐下就趴在桌上。','昨天讀書讀到兩點。……麵來了再叫我。'],   /* 2026-10-28 改：AA_497 第 8 節第 3 點（企劃線 60fc3b9a3）芯慈追劇減量——「昨天追劇追到兩點。」換成「昨天讀書讀到兩點。」（tests/aa497_supporting_unit.js 第 8 節）*/
+    ['期末考範圍我整理成一張表了。','他把表放在桌子中間。三個人同時拿出手機拍。'],['芯慈一坐下就趴在桌上。','昨天讀書讀到兩點。……麵來了再叫我。'],   /* 2026-10-28 改：AA_497 第 8 節第 3 點（企劃線 60fc3b9a3）芯慈追劇減量——「昨天追劇追到兩點。」換成「昨天讀書讀到兩點。」（tests/aa497_supporting_unit.js 第 8 節）*/
     ['哥，下禮拜系籃練球，你來不來？','欸，下禮拜系籃練球，你來不來？','你還沒回答，他已經在記事本上寫了你的名字。'],['語彤從櫃台後面走過來，放下一盤燙青菜。','阿姨說你們都不吃菜。這盤不用錢。','阿姨萬歲。'],
     ['憲法課老師今天點了阿哲兩次。整桌都在學那個語氣。','「這位同學，你的看法呢？」','我的看法是我想吃麵。'],['吃到一半停電了三秒。燈亮的時候，阿哲的筷子停在 Alison 的碗上面。','……你在幹嘛。','我在保護它。']],
   Y2:[['阿哲和 Alison 坐在同一邊。阿哲的滷蛋少了半顆。','我幫你吃一半，比較健康。','……謝謝喔。'],['法服這禮拜三個個案，兩個是房東不還押金。','那你可以開一門課了。'],
@@ -113,6 +113,6 @@ check('0. 旁白不加括號',!Object.values(NOODLE_TABLE).some(L=>L.some(e=>e.d
   check('8. S.tick 有接（出遊以外、在 OUT.tick 後面）',/if\(!outP&&S\.ndlTalkTick\(GM\)\) return;/.test(fs.readFileSync(path.join(H.ROOT,'src/story3d.js'),'utf8'))); }
 { const e=NOODLE_TABLE.Y2.find(x=>x.dialogue[0]&&x.dialogue[0].text==='考試前的麵店，長桌比平常安靜。每個人的碗旁邊都有一本書。');
   const wk=w=>{ for(let d=1;d<1500;d++){ const t=CALENDAR.termOf(d); if(t&&t.id==='Y2S1'&&t.week===w) return d; } return null; };
-  check('9. AA_491 第 7 點：大二「考試前的麵店」只在第 6～7、14～15 週輪到',!!e&&J(e.if&&e.if.weeks)===J([6,7,14,15])&&STORY.ndlTalkIf({day:wk(6),flags:{}},e.if)&&STORY.ndlTalkIf({day:wk(15),flags:{}},e.if)&&!STORY.ndlTalkIf({day:wk(3),flags:{}},e.if)&&!STORY.ndlTalkIf({day:wk(10),flags:{}},e.if)); }
+  check('9. AA_491 第 7 點：大二「考試前的麵店」只在第 14～15 週輪到（D118 沒有期中考，AA_581 第 7 節 C、第 11 節第 3 點：拿掉期中第 6～7 週）',!!e&&J(e.if&&e.if.weeks)===J([14,15])&&!STORY.ndlTalkIf({day:wk(6),flags:{}},e.if)&&!STORY.ndlTalkIf({day:wk(7),flags:{}},e.if)&&STORY.ndlTalkIf({day:wk(14),flags:{}},e.if)&&STORY.ndlTalkIf({day:wk(15),flags:{}},e.if)&&!STORY.ndlTalkIf({day:wk(3),flags:{}},e.if)&&!STORY.ndlTalkIf({day:wk(10),flags:{}},e.if)); }
 H.done();
 })();

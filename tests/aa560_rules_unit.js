@@ -36,7 +36,7 @@ check('0. 讀得到 AA_560 第 2-7 節（企劃線 '+SHA+'）、資料檔載得�
 { const pg=file('src/data/postgrad_lines.js');
   check('C4. 芯慈畢業照片「（照片：國際法律事務所的電腦螢幕，一排 Excel）」；稿上「國際法律事務所」；src/ 沒有「會計師事務所的電腦螢幕」',SEC.includes('→「國際法律事務所」')&&pg.includes("['classmate_xinci','（照片：國際法律事務所的電腦螢幕，一排 Excel）','併購組。四色筆還是要帶。']")&&!inSrc('會計師事務所的電腦螢幕').length,J(inSrc('會計師事務所的電腦螢幕')));
   const x=(NEEDED_MSGS.list||[]).find(e=>e.id==='xc_grade')||{};
-  check('C4. needed_msgs xc_grade：「期中成績出來，不要跟我說以安考幾分。……我想先自己對完。」（D116）；稿上「不要跟我說以安考幾分。……我想先自己對完。」；其他欄位照舊',SEC.includes('→「不要跟我說以安考幾分。……我想先自己對完。」')&&J(x.msg)===J(['期中成績出來，不要跟我說以安考幾分。……我想先自己對完。'])&&x.who==='classmate_xinci'&&x.term==='Y2S2'&&J(x.w)===J([5,7])&&x.reply==='好。'&&J(x.resp)===J(['謝啦。對完我再請你喝飲料。'])&&(x.miss||[]).length===1,J(x)); }
+  check('C4. needed_msgs xc_grade：「作業發回來了，不要跟我說以安拿幾分。……我想先自己對完。」（D116；AA_581 第 36 列 D118 沒有期中考，原本「期中成績出來，…以安考幾分。…」）；稿上「不要跟我說以安考幾分。……我想先自己對完。」；其他欄位照舊',SEC.includes('→「不要跟我說以安考幾分。……我想先自己對完。」')&&J(x.msg)===J(['作業發回來了，不要跟我說以安拿幾分。……我想先自己對完。'])&&x.who==='classmate_xinci'&&x.term==='Y2S2'&&J(x.w)===J([5,7])&&x.reply==='好。'&&J(x.resp)===J(['謝啦。對完我再請你喝飲料。'])&&(x.miss||[]).length===1,J(x)); }
 
 /* C5 學姊 enc_walk（不數件數）*/
 { const L=(ENC_WALK.leave||[]).filter(e=>e.who==='heroine_05'&&e.spot==='D11'), e=L[0]||{};

@@ -138,7 +138,7 @@ const R2Y4A=(function(){
     finally{ GM.sceneEnd(); }
     if(typeof EXCH!=='undefined'&&EXCH.returnHome) return EXCH.returnHome(GM,{force:true});
     return true; };
-  /* 回到桃園（EXCH.onLand）：入境大廳 → 臺北的家（上午）。之後照 exchange3d.js：睡到下午、19:00 409（roomY4FromAirport）*/
+  /* 回到桃園（EXCH.onLand）：入境大廳 → 家（上午）。之後照 exchange3d.js：睡到下午、19:00 409（roomY4FromAirport）*/
   S.onLand=async function(GM){ const G=GM.G, F=G.flags; if(!isUS(G)) return false; F.US_RETURN=G.day;
     if(typeof ADV!=='undefined') ADV.begin({background:'blur'}); if(GM.fade) await GM.fade(false);   /* blur：落地以後先進入境大廳（airport_arr，AA_340 S10），dark 會把它蓋掉 */
     if(!done(G,'ev_us_return')) await run(GM,'ev_us_return');
@@ -202,7 +202,7 @@ const R2Y4A=(function(){
     /* ---- 2-Y4-01 迎新：8/31 21:00 系學會（法律系（全班））→ 9/2 13:00；沒去、美國路線＝21:30 照片 ---- */
     { const d=D('2028-09-02'), di=D('2028-08-31'); if(d!=null&&di!=null&&G.day>=di&&G.day<=d+2&&PHONE.inGroup(G,'law_class')){ const C=t=>({th:'g:law_class',from:'law_assoc',name:'系學會',text:t});
         if(!us&&past(G,di,21)&&now(G)<T(d,13.25)&&!PHONE.sent(G,'y4_welcome_ask')){ PHONE.at(G,di,G.day===di?Math.max(21,G.hour):21,[C('禮拜六迎新，一點在社科院旁的草地集合。大四的學長姊有空也來。')],'y4_welcome_ask');
-          plan(G,{id:'y4_welcome',ev:'ev_y4_welcome',day:d,h:13,late:0.25,place:'社科院旁的草地',title:'迎新（大四）',travel:'捷運 約 30 分鐘',travelH:0.5}); }   /* 9/3 才搬進 409：從臺北的家出門 */
+          plan(G,{id:'y4_welcome',ev:'ev_y4_welcome',day:d,h:13,late:0.25,place:'社科院旁的草地',title:'迎新（大四）',travel:'捷運 約 30 分鐘',travelH:0.5}); }   /* 9/3 才搬進 409：從家出門 */
         if((us||gone(G,'y4_welcome',d,13))&&!done(G,'ev_y4_welcome')&&pastTW(G,d,21.5)&&!PHONE.sent(G,'y4_welcome_photo')){ atTW(G,d,21.5,[C('📷（新生坐在第一排，手上拿著名牌。）')],'y4_welcome_photo'); F.WELCOME_Y4='missed'; } } }
     /* ---- 2-Y4-02 颱風假：9/17 20:00 停課公告；9/18 08:00 T4b（老師的信 9/17 21:30 寄的、早上才看到＋群組）；美國路線都沒有 ---- */
     { const d17=D('2028-09-17'), d18=d17!=null?d17+1:null; if(d17!=null&&!us&&G.day>=d17&&G.day<=d18+1){
@@ -253,7 +253,8 @@ const R2Y4A=(function(){
   S.pushPass=G=>{ const l=S.pushLevel(G); return l==='high'||(l==='mid'&&S.letter(G)); };
   /* 2-Y4-27 研究所筆試的結果：2028-09-04～2029-02-02 在總圖（含法律學院圖書館）的天數 ≥ 24（裁定第 2 點；G.habits 的 place:／seat: 紀錄）。考完那一刻記 GRAD_EXAM_2029_PASS（放榜在 2-Y4-34）*/
   S.libDays=function(G,a,b){ const H=G.habits||{}, set=new Set(); for(const k in H){ if(!/^(place|seat):(library|library_hall|lawlib):/.test(k)) continue; for(const d of (H[k].days||[])) if(d>=a&&d<=b) set.add(d); } return set.size; };
-  S.gradExamPass=G=>{ const F=G.flags||{}; if(typeof F.GRAD_EXAM_2029_PASS==='boolean') return F.GRAD_EXAM_2029_PASS; const a=D('2028-09-04'), b=D('2029-02-02'); return a!=null&&b!=null&&S.libDays(G,a,b)>=24; };
+  /* D118-B6：研究所筆試改成作答（PG.gradQuiz：10 題公法，答對 ≥6）。已經記了 GRAD_EXAM_2029_PASS 的（考過、舊存檔）照記的；沒有作答紀錄、考試日已經過了的舊存檔＝照舊規則（總圖天數）算一次 */
+  S.gradExamPass=G=>{ const F=G.flags||{}; if(typeof F.GRAD_EXAM_2029_PASS==='boolean') return F.GRAD_EXAM_2029_PASS; const ps=typeof PG!=='undefined'&&PG.gradPassScore?PG.gradPassScore(G,2029):null; if(ps!=null) return ps; const a=D('2028-09-04'), b=D('2029-02-02'); return a!=null&&b!=null&&S.libDays(G,a,b)>=24; };
 
   /* ===================== 大四上（臺灣這邊）的手機之二：大四要怎麼過的姊姊、語彤、推甄、可昕的實習 ===================== */
   S.phoneY4b=function(G){ const F=G.flags, us=isUS(G), SIS=t=>({th:'p:sister',from:'sister',name:'姊姊',text:t});
@@ -265,7 +266,7 @@ const R2Y4A=(function(){
     /* ---- 2-Y4-05 回家再讀：隔天 21:00「讀了嗎」→「讀了」→「嗯」---- */
     if(F.YT_ESSAY==='home'&&typeof F.YT_ESSAY_DAY==='number'&&G.day<=F.YT_ESSAY_DAY+3&&past(G,F.YT_ESSAY_DAY+1,21)&&!PHONE.sent(G,'y4_yt_essay')){ const m={th:'p:'+YT,from:YT,text:'讀了嗎'}; m.ask={id:'y4_yt_essay',opts:[{t:'讀了',say:[{from:YT,text:'嗯'}]}]}; PHONE.at(G,F.YT_ESSAY_DAY+1,21,[m],'y4_yt_essay'); }
     /* ---- 2-Y4-06 推甄 ---- */
-    { const d25=D('2028-10-25'); if(d25!=null&&S.pushOn(G)&&G.day>=d25&&G.day<=d25+1&&past(G,d25,21)&&knows(S5,G)&&stageAt(S5,'FRIEND')&&F.Y4_PATH_ASK2==null&&!PHONE.sent(G,'y4_push_note')){   /* 10/25 21:00 學姊的便條照片（她在美國）；AA_378 S3：她要知道你要推甄＝6 月就選了路（Y4_PATH_ASK2 沒有值，她 8/2 出國前就知道），10/16 才選的不傳 */
+    { const d25=D('2028-10-25'); if(d25!=null&&S.pushOn(G)&&G.day>=d25&&G.day<=d25+1&&past(G,d25,21)&&knows(S5,G)&&stageAt(S5,'FRIEND')&&F.Y4_PATH_ASK2==null&&!PHONE.sent(G,'y4_push_note')&&!(typeof ROM!=='undefined'&&!!ROM.exOf&&ROM.exOf(G,'heroine_05'))){   /* AA_600 B14：前任不送 */   /* 10/25 21:00 學姊的便條照片（她在美國）；AA_378 S3：她要知道你要推甄＝6 月就選了路（Y4_PATH_ASK2 沒有值，她 8/2 出國前就知道），10/16 才選的不傳 */
         const L=[P5('📷（一張手寫的便條）'),{th:'p:'+S5,who:null,text:'（便條：「你可以。」）'}]; if(dating(G,S5)) L.push(P5('考完傳訊息。我這邊是晚上，我等。'));
         L[L.length-1].ask={id:'y4_push_note',opts:[{t:'只有一句。',say:[{from:S5,text:'一句就夠了。'}]},{t:'謝謝。',say:[{from:S5,text:'考完傳訊息。'}]}]};
         PHONE.at(G,d25,G.day===d25?Math.max(21,G.hour):21,L,'y4_push_note'); } }
@@ -396,7 +397,7 @@ const R2Y4A=(function(){
         if(PHONE.inGroup(G,'noodle_team')&&knows(AN,G)&&stageAt(AN,'FRIEND')&&pastTW(G,d,21)&&!PHONE.sent(G,'y4_an_eve')){ const A=t=>({th:'g:noodle_team',from:AN,text:t}), L=[A('明天考試，今天早點睡。'),A('考完再跟你們說。')];
           L[1].ask={id:'y4_an_eve',until:T(d+1,9),opts:[{t:'加油。',set:{AN_EXAM_EVE:'reply'},say:[{from:AN,text:'好。'}]},{t:'早點睡。',set:{AN_EXAM_EVE:'reply'},say:[{from:AN,text:'好。你們也是。'}]}]}; atTW(G,d,21,L,'y4_an_eve'); }
         if(PHONE.sent(G,'y4_an_eve')&&!F.AN_EXAM_EVE&&now(G)>=T(d+1,9)) F.AN_EXAM_EVE='none';   /* 不回（不扣分）*/
-        if(dating(G,AN)&&pastTW(G,d,23+10/60)&&!PHONE.sent(G,'y4_an_eve_dm')){ const A=t=>({th:'p:'+AN,from:AN,text:t}), ex=S.examOn(G), L=ex?[A('明天考完 一起去麵店'),A('大碗')]:[A('明天考完 我想吃麵店的大碗'),A('你可以先去排嗎')];
+        if(dating(G,AN)&&pastTW(G,d,23+10/60)&&!PHONE.sent(G,'y4_an_eve_dm')){ const A=t=>({th:'p:'+AN,from:AN,text:t}), ex=S.examOn(G), L=ex?[A('明天考完，一起去麵店。'),A('大碗。')]:[A('明天考完，我想吃麵店的大碗。'),A('你可以先去排嗎？')];
           L[1].ask={id:'y4_an_eve_dm',opts:[{t:'好。',say:[{from:AN,text:ex?'好。……早點睡。':'好。考完打給你。'}]}]}; atTW(G,d,23+10/60,L,'y4_an_eve_dm'); } } }
     /* ---- 2-Y4-28 除夕：2/12 22:00（她在高雄）三選一；「打給妳。」＝電話；不回＝隔天 10:00 ---- */
     { const d=D('2029-02-12'); if(d!=null&&kxOn(G)&&G.day>=d&&G.day<=d+2){
@@ -494,8 +495,8 @@ const R2Y4A=(function(){
   S.exam=async function(GM,o){ const G=GM.G, F=G.flags; if(!S.exOn(G)) return false;
     if(!S.exHere(GM)){ GM.sceneBegin(); try{ if(o&&o.fromHome) leaveHome(G); if(GM.fade) await GM.fade(true); at(GM,8+50/60); if(GM.enter) await GM.enter('campus',Object.assign({},EX_SPAWN),{noFade:true}); if(GM.fade) await GM.fade(false); } finally{ GM.sceneEnd(); } }
     else at(GM,8+40/60);   /* 08:40 教學館門口 */
-    if(typeof F.GRAD_EXAM_2029_PASS!=='boolean') F.GRAD_EXAM_2029_PASS=S.gradExamPass(G);   /* 9/4～2/2 的總圖天數（考的那一刻定；放榜在 2-Y4-34）*/
-    await run(GM,'ev_grad_exam'); at(GM,12.5);
+    await run(GM,'ev_grad_exam'); at(GM,12.5);   /* 考場裡作答（ev_grad_exam 的 call → PG.gradQuiz）*/
+    if(typeof F.GRAD_EXAM_2029_PASS!=='boolean') F.GRAD_EXAM_2029_PASS=S.gradExamPass(G);   /* 作答沒有跑到（沒有 PG）：照舊規則 */
     if(AN_FAM(G)) await run(GM,'ev_grad_exam_after',{noTitle:true});
     backGoal(GM); if(GM.autosave) GM.autosave(); return true; };
   /* 寒假一起讀（期末飯的以安鉤子 HOOK_AN_WINTER_STUDY，termend_lines.js Y4S1；AA_262 第 2 節第 8 點）：寒假的總圖，早上一句；柏翰（推甄沒上、11/24 去了晚餐）在二樓一句。一天各一次 */

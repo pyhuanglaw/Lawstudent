@@ -19,7 +19,7 @@ global.CHAR={ build:()=>({position:{x:0,y:0,z:0,set(){}},rotation:{y:0}}) }; glo
 const load=f=>{ let src=fs.readFileSync(path.join(ROOT,f),'utf8'); src=src.replace(/^const (\w+)\s*=/mg,(m,n)=>/^(CALENDAR|LIBRARY_LAYOUT|LIBRARY_UPPER_LAYOUTS|LB3|LUP)$/.test(n)?'globalThis.'+n+'=':m); vm.runInThisContext(src,{filename:f}); };
 const ex=p=>fs.existsSync(path.join(ROOT,p));
 let fails=0; const check=(name,ok,info)=>{ console.log((ok?'PASS ':'FAIL ')+name+(info?'　'+info:'')); if(!ok) fails++; };
-for(const f of ['src/data/calendar.js','src/data/library_layout.js','src/data/library_upper_layouts.js','src/library3d.js','src/library_upper3d.js']) if(ex(f)) load(f);
+for(const f of ['src/data/calendar.js','src/data/library_layout.js','src/data/library_upper_layouts.js','src/library3d.js','src/library_hall_v2.js','src/library_upper3d.js']) if(ex(f)) load(f);
 const LL=typeof LIBRARY_LAYOUT!=='undefined'?LIBRARY_LAYOUT:null, LU=typeof LIBRARY_UPPER_LAYOUTS!=='undefined'?LIBRARY_UPPER_LAYOUTS:null;
 const idx=fs.readFileSync(path.join(ROOT,'index.html'),'utf8'), at=s=>idx.indexOf(s);
 check('1. 配置（carrels、stacks）、區域 library_carrels、library_stacks、正式模型登記、GLB 和配置檔都在、index.html 載入（配置在區域檔前面、都在 library3d.js 後面）',

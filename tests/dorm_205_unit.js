@@ -13,7 +13,7 @@ const ctx2d=new Proxy({}, {get:(o,k)=>k==='createRadialGradient'||k==='createLin
 global.document={ createElementNS:()=>({getContext:()=>ctx2d,style:{}}), createElement:()=>({width:1,height:1,getContext:()=>ctx2d,style:{}}), getElementById:()=>null, addEventListener(){} };
 global.navigator={userAgent:'node'}; global.addEventListener=()=>{}; global.innerWidth=844; global.innerHeight=390; global.location={search:''};
 const GAME_G={v:{day:30,hour:20,flags:{},stage:'law'}}; global.GAME={get G(){ return GAME_G.v; }};
-const files=['lib/three.bundle.js','lib/three.jsm.bundle.js','src/people3d.js','src/assets3d.js','src/world3d.js','src/engine3d.js','src/townkit3d.js','src/campuskit3d.js','src/zones3d.js','src/data/socsci_layout.js','src/data/linze_layout.js','src/data/classroom_layout.js','src/building3d.js','src/data/wancai_layout.js','src/wancai3d.js','src/data/library_layout.js','src/library3d.js','src/data/dorm_layout.js','src/data/dorm_room_layout.js','src/dorm3d.js',
+const files=['lib/three.bundle.js','lib/three.jsm.bundle.js','src/people3d.js','src/assets3d.js','src/world3d.js','src/engine3d.js','src/townkit3d.js','src/campuskit3d.js','src/zones3d.js','src/data/socsci_layout.js','src/data/linze_layout.js','src/data/classroom_layout.js','src/building3d.js','src/data/wancai_layout.js','src/wancai3d.js','src/data/library_layout.js','src/library3d.js','src/library_hall_v2.js','src/data/dorm_layout.js','src/data/dorm_room_layout.js','src/dorm3d.js',
   'src/data/calendar.js','src/data/characters.js','src/data/room_glb_layouts.js','src/rooms_glb3d.js'];
 for(const f of files){ let src=fs.readFileSync(path.join(ROOT,f),'utf8'); src=src.replace(/^const (\w+)\s*=/mg,(m,n)=>/^(CALENDAR|CHARACTERS|UNFAMILIAR_POOL|SOCIAL_GRAPH|PORTRAITS|ROOM_GLB_LAYOUTS|DORM_LAYOUT|DORM_ROOM|THREE|THREE_JSM|P3|ASSETS|W3|E3|TK|CK|Z3|B3|WC3|LB3|DM3|SOCSCI_LAYOUT|LINZE_LAYOUT|CLASSROOM_LAYOUT|WANCAI_LAYOUT|LIBRARY_LAYOUT)$/.test(n)?'globalThis.'+n+'=':m); vm.runInThisContext(src,{filename:f}); }
 let fails=0; const check=(name,ok,info)=>{ console.log((ok?'PASS ':'FAIL ')+name+(info?'　'+info:'')); if(!ok) fails++; };
@@ -49,6 +49,7 @@ check('3. 配置：205 的門接到 dorm_205（d.to、有時段 d.gate、門上�
   const ex=E.interactables.find(i=>i.exit&&i.exit.to==='dorm_hall'); check('4. 「離開 205」的落點＝back_spawn', !!ex&&ex.exit.spawn&&ex.exit.spawn.lv===1&&Math.abs(ex.exit.spawn.x-L.back_spawn.x)<1e-6&&Math.abs(ex.exit.spawn.z-L.back_spawn.z)<1e-6);
   const S=L.spots; check('5. 方奕廷站在窗台前、玩家的位置站得住、走得到', [S.fang_stand,S.player].every(p=>E.canStand(p.x,p.z,0.05,0)&&reachNear(p.x,p.z,0.4)));
   const u=DORM_ROOM.units.find(q=>q.id==='R1'); check('5. 方奕廷坐的是 R1 的書桌椅（和祐廷房間的配置同一個位置）', Math.abs(S.fang.x-u.seat.x)<1e-6&&Math.abs(S.fang.z-u.seat.z)<1e-6);
-  check('6. 鏡頭只在中間走道（camBox）、上鋪網點透空（seeThru）', !!z.camBox&&z.camBox.x[0]===-1.6&&z.camBox.x[1]===1.6&&z.seeThru===true);
+  const CBX=Math.min(...DORM_ROOM.units.map(q=>Math.min(Math.abs(q.block.x[0]),Math.abs(q.block.x[1]))))-0.1;   /* 和祐廷房間（zones3d.js dorm）同一個算法：床桌組阻擋的內緣 −0.1（DORM-LOFT-SCALE-1102 房間 6→4.2 m；以前寫死 ±1.6）*/
+  check('6. 鏡頭只在中間走道（camBox）、上鋪網點透空（seeThru）', !!z.camBox&&Math.abs(z.camBox.x[0]+CBX)<1e-6&&Math.abs(z.camBox.x[1]-CBX)<1e-6&&z.seeThru===true, JSON.stringify(z.camBox));
   const DB=DORM_ROOM.blocks.map(b=>b.id).sort().join(','), LB=L.blocks.map(b=>b.why).sort().join(','); check('6. 導航阻擋和祐廷的房間同一組（四組床桌、鞋櫃、垃圾桶、曬衣架、洗手間）', DB===LB, LB); }
 console.log(fails?'FAILED '+fails:'ALL PASS'); process.exit(fails?1:0);

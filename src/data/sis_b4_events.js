@@ -39,15 +39,14 @@ const SISB4_EVENTS=(function(){
   /* 第 3 節的好感（AA_126 7-2）：聖誕單獨見面 熟悉 +4、自在 +4、她的戀愛 +4；情人節（交往中）+3／+6／+5、這學期的裂縫 -1（after）；電話那一場 +2／+3／+3 */
   const XMAS={fam:4,comf:4,npcRom:4}, VDAY={fam:3,comf:6,npcRom:5}, CALL={fam:2,comf:3,npcRom:3};
   const crack=G=>{ const x=X(); if(x&&x.crackDown) x.crackDown(G); };
-  /* ---------- 1-1 「研究所會等你」（大一下第 6～12 週）---------- */
+  /* ---------- 1-1 「什麼時候開始」（大一下第 6～12 週；AA_590 使用者 11-02 改標題，原「研究所會等你」）---------- */
   const GRAD=[ {unless:dt,speaker:'player',text:'學姊是什麼時候開始準備研究所的？'}, {if:dt,speaker:'player',text:'妳是什麼時候開始準備研究所的？'},
     SIS('大三。'),
-    SIS('……現在想起來，太早了。大三那一年，我的計畫本上沒有一格是空的。'),
-    SIS('重點是，先把大學念完。研究所會等你。'),
+    SIS('……其實一點都不早。真的想準備的人，有的大一就開始了。'),   /* AA_590 保104、第 31 列（使用者 11-02 選擇題）：「重點是……研究所會等你。」刪 */
     {choice:[{text:'「那學姊後悔嗎？」',unless:dt,goto:'gr_a'},{text:'「妳後悔嗎？」',if:dt,goto:'gr_a'},{text:'「我還沒想那麼遠。」',goto:'gr_b'}]},
     {label:'gr_a'},SIS('不後悔。'),SIS('……可是如果重來，我會留幾格空的。'),{goto:'gr_c'},
     {label:'gr_b'},SIS('嗯。這樣很好。'),SIS('想好了再來問我。'),
-    {label:'gr_c'},{if:dt,speaker:null,text:'（她翻開計畫本給你看。這個禮拜六那一格，只寫了你的名字。）'},{if:dt,speaker:ID,text:'以前這一格，我會排滿。'},
+    {label:'gr_c'},{if:dt,speaker:null,text:'（她翻開計畫本給你看。這個禮拜六那一格，還是空的。）'},{if:dt,speaker:ID,text:'以前這一格，我會排滿。'},
     mem('SIS_ADV_GRAD',{fam:2,trust:1}) ];
   /* ---------- 1-2 「晚半年會怎樣？」（大二上第 12～15 週；她碩一）---------- */
   const EXCH=[ N('（你的包包裡露出一張傳單：「交換學生甄選說明會」。她看到了。）'),
@@ -59,7 +58,7 @@ const SISB4_EVENTS=(function(){
     {choice:[{text:'「好像也不會怎樣。」',set:{SIS_ADV_EXCH:'same'},goto:'ex_a'},{text:'「學姊現在還可以去啊。」',unless:dt,set:{SIS_ADV_EXCH:'go'},goto:'ex_b'},{text:'「妳現在還可以去啊。」',if:dt,set:{SIS_ADV_EXCH:'go'},goto:'ex_b'}]},
     {label:'ex_a'},SIS('嗯。'),SIS('……我那時候覺得，會怎樣。'),{goto:'ex_c'},
     {label:'ex_b'},SIS('研究生也可以申請。……我查過。'),SIS('只是查過。'),
-    {label:'ex_c'},SIS('傳單收好。大三上就要填志願了。'),
+    {label:'ex_c'},SIS('大三上就要填志願了。'),
     mem('SIS_ADV_EXCH',{fam:2,trust:1}) ];
   /* ---------- 1-3 志願表（AA_398 第 23～25 列：不數件數）（2027-11-13～11-17；交往中＝11/18 那一刻會走美國，這場只是把那張志願表演出來）---------- */
   const PICK=[ {if:dt,goto:'pk_d'},
@@ -146,7 +145,7 @@ const SISB4_EVENTS=(function(){
         {choice:[{text:'（在一棵樹下面停了很久）',goto:'v_a'},{text:'「妳最喜歡哪一區？」',goto:'v_b'}]},
         {label:'v_a'},N('（她走到下一區，又走回來，站在你旁邊。）'),SIS('……超過一分鐘了。'),SIS('沒關係。今天不算時間。'),{goto:'v_c'},
         {label:'v_b'},SIS('荷花池。'),SIS('二月沒有荷花，只有水。'),SIS('……我喜歡看什麼都還沒長出來的時候。'),
-        {label:'v_c'},N('（出來的時候天已經暗了。她在計畫本二月十四號那一格寫了「植物園」，後面又加了三個字：「兩個人」。）'),
+        {label:'v_c'},N('（出來的時候天已經暗了。她說，夏天再來一次。）'),
         Object.assign({set:{SIS_VDAY_Y2:'went'}},mem('SIS_VDAY_Y2',VDAY)) ],
       after:G=>crack(G),
       outingMissed:G=>{ const x=X(); if(x) x.missed(G,'vday_y2'); } },
@@ -175,31 +174,31 @@ const SISB4_EVENTS=(function(){
         {label:'b_c'},{scene:'終點站',bg:'country_road'},
         N('（終點站在山腳下。站牌旁邊有一家賣湯圓的小店，只有兩張桌子。）'),
         SIS('……情人節吃湯圓。'),
-        SIS('我記一下。明年不要再這樣排。'),
-        N('（她說不要再這樣排，可是一直在笑。）'),
-        SIS('回去以後，那一格，我要畫一個勾。'),
+        SIS('沒照計畫走。……可是這樣很好。'),   /* AA_591 保71（使用者 11-02 選擇題：她也喜歡旅途中的偶發事件）*/
+        N('（她說完，一直在笑。）'),   /* AA_591 整合九件第 1 件（AA 11-02 21:25，企劃線 43d27cd80）*/
+        SIS('……下次還坐這一班。'),
         Object.assign({set:{SIS_VDAY_Y3:'went'}},mem('SIS_VDAY_Y3',VDAY)) ],
       after:G=>crack(G),
       outingMissed:G=>{ const x=X(); if(x) x.missed(G,'vday_y3'); } },
     /* ---------- 3-6 2029-02-14（三）22:30 她打來（大年初二；電話場景）---------- */
     { id:'ev_sis_vday_y4', title:'情人節', participants:[ID], location:'any', trigger:'outing', once:true, background:'dark', hours:0.25,
       dialogue:[ {scene:'電話'},
-        SIS('我爸剛去睡。我在陽台。'),
+        SIS('我在陽台。'),
         SIS('……情人節快樂。'),
         {if:{flagIs:{SIS_VDAY_Y3:'went'}},speaker:ID,text:'去年那家湯圓，我前幾天又想到。'},   /* 3-5 有去的多兩句 */
-        {if:{flagIs:{SIS_VDAY_Y3:'went'}},speaker:ID,text:'……想不起來那一站叫什麼。'},
+        {if:{flagIs:{SIS_VDAY_Y3:'went'}},speaker:ID,text:'想不起來那一站叫什麼。'},
         SIS('今年的二月十四號，我什麼都沒排。'),
-        SIS('……過年，一直在吃。'),
+        SIS('過年一直在吃。'),
         {choice:[{text:'「開學以後，我們再補一天。」',set:{SIS_VDAY_MAKEUP:true},goto:'p_a',aa523:true},{text:'（陪她在電話裡待著）',goto:'p_b'}]},   /* AA_523 5-3（企劃線 0d7b5388b）：選「再補一天」記 SIS_VDAY_MAKEUP＝4/27 21:00 她放假那則換成她寫好的那一天（src/sis_b16_3d.js S.dayOffMakeup）*/
-        {label:'p_a'},SIS('嗯。……那一天我來寫。'),{goto:'p_c'},
+        {label:'p_a'},SIS('嗯。那一天我來寫。'),{goto:'p_c'},
         {label:'p_b'},N('（她沒有掛。你聽著她那邊的風聲，和客廳沒關的電視。過了五分鐘，她才說：）'),SIS('好。我進去了。'),
         {label:'p_c'},Object.assign({set:{SIS_VDAY_Y4:'call'}},mem('SIS_VDAY_Y4',CALL)) ],
       outingMissed:G=>{ const x=X(); if(x) x.missed(G,'vday_y4'); } },
     /* ---------- 說話前接演的五段（src/sis_b4_3d.js 的 preTalk 用 EVENTS.runLines 演；這幾筆只放台詞，不會自己觸發）---------- */
-    { id:'ev_sis_adv_grad', title:'研究所會等你', participants:[ID], location:'any', trigger:'manual', once:true, dialogue:GRAD },
+    { id:'ev_sis_adv_grad', title:'什麼時候開始', participants:[ID], location:'any', trigger:'manual', once:true, dialogue:GRAD },
     { id:'ev_sis_adv_exch', title:'晚半年會怎樣？', participants:[ID], location:'any', trigger:'manual', once:true, dialogue:EXCH },
     { id:'ev_sis_adv_pick', title:'志願表', participants:[ID], location:'any', trigger:'manual', once:true, dialogue:PICK },
-    { id:'ev_sis_adv_y4', title:'你的大四，你自己排', participants:[ID], location:'any', trigger:'manual', once:true, dialogue:Y4 },
+    { id:'ev_sis_adv_y4', retired:'AA_591 第 23～25 列（使用者 2026-11-02 選擇題：她不會問人生規劃）：整場拿掉；定義留給已經演過的舊存檔', title:'你的大四，你自己排', participants:[ID], location:'any', trigger:'manual', once:true, dialogue:Y4 },
     { id:'ev_sis_three_conditions', title:'她要的時間', participants:[ID], location:'any', trigger:'manual', dialogue:THREE } ];   /* 這一次分開演一次（再分開一次＝再演一次，sis_b4_3d.js rebuildDue；BB_122 9-5 她永遠保留攻略可能）*/
 })();
 for(const e of SISB4_EVENTS){ if(!STORY_EVENTS.some(x=>x.id===e.id)) STORY_EVENTS.push(e); }

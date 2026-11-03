@@ -145,7 +145,7 @@ sec('3',()=>{ const P=FEED_Y1S1.posts, add=[
 sec('4',()=>{ const SAT=TD(10,6);
   const go=pick=>{ fresh(TD(10,5),8); who('heroine_01','CLOSE'); walk(SAT,10.1); const before=!dm('an_mom'); walk(SAT,10+12/60); const m=dm('an_mom'); if(pick!=null&&m) PHONE.answer(H.G,m.ask.id,pick); return {before,m}; };
   const {before,m}=go(null);
-  check('4. 以安（很熟）第 10 週週五媽媽上台北，隔天 10:12 私訊兩則、三個選項',before&&!!m&&m.day===SAT&&Math.abs(m.h-(10+12/60))<0.02&&J(th('heroine_01').filter(x=>x.tag==='aa503_an_mom').map(x=>x.text))===J(['我媽昨天把我的手帳從頭翻到尾。','她說我寫的「想去的店」，一家都沒去。'])&&J(m.ask.opts.map(o=>o.t))===J(['那妳寒假去。','妳媽媽還說什麼？','（不回）']),J(m&&m.ask.opts.map(o=>o.t)));
+  check('4. 以安（很熟）第 10 週週五媽媽上台北，隔天 10:12 私訊兩則、三個選項',before&&!!m&&m.day===SAT&&Math.abs(m.h-(10+12/60))<0.02&&J(th('heroine_01').filter(x=>x.tag==='aa503_an_mom').map(x=>x.text))===J(['我媽昨天看到我寫的「想去的店」。','七家。她說我一家都還沒去。'])&&J(m.ask.opts.map(o=>o.t))===J(['那妳寒假去。','妳媽媽還說什麼？','（不回）']),J(m&&m.ask.opts.map(o=>o.t)));
   go(0); const r=th('heroine_01').slice(-2).map(x=>x.text);
   check('4. 「那妳寒假去。」→「……好。我寫進去了。」、記 AN_LIST（AN_MOM_DM list）',J(r)===J(['那妳寒假去。','……好。我寫進去了。'])&&H.G.flags.AN_LIST===true&&H.G.flags.AN_MOM_DM==='list',J(r));
   const F=H.G.flags; jump(DK('2026-01-17'),20); check('4. 1/17 19:40 第 8 則「第三家。」',!!item('an8')&&R().done.an8==='p');
@@ -153,7 +153,7 @@ sec('4',()=>{ const SAT=TD(10,6);
   check('4. AN_LIST：隔天（1/18）10:00 多一則私訊「你說寒假去。我去了三家。剩下四家，我寫在下學期那一頁了。」',!a&&b.length===1&&b[0].text==='你說寒假去。我去了三家。剩下四家，我寫在下學期那一頁了。'&&b[0].day===DK('2026-01-18')&&b[0].h===10,J(b.map(x=>[x.day,x.h])));
   go(1); check('4. 「妳媽媽還說什麼？」→ 兩句（AN_MOM_DM more，沒有 AN_LIST）',J(th('heroine_01').slice(-3).map(x=>x.text))===J(['妳媽媽還說什麼？','她說我講話越來越像她。講很快，又不太讓別人插嘴。','我不知道這是不是稱讚。'])&&!H.G.flags.AN_LIST&&H.G.flags.AN_MOM_DM==='more');
   jump(DK('2026-01-18'),12); check('4. 沒有 AN_LIST：1/18 沒有那一則（x:need）',!th('heroine_01').some(x=>x.tag==='aa503_an_list')&&R().dm.an_list==='x:need',J(R().dm.an_list));
-  go(2); check('4. 「（不回）」：不替你傳、沒有後續',th('heroine_01').slice(-1)[0].text==='她說我寫的「想去的店」，一家都沒去。'&&H.G.flags.AN_MOM_DM==='none');
+  go(2); check('4. 「（不回）」：不替你傳、沒有後續',th('heroine_01').slice(-1)[0].text==='七家。她說我一家都還沒去。'&&H.G.flags.AN_MOM_DM==='none');
   fresh(TD(10,5),8); who('heroine_01','FRIEND'); walk(SAT,11); check('4. 以安只是朋友（不到很熟）：沒有那一則私訊',!dm('an_mom')&&R().dm.an_mom==='x:stage'); });
 
 /* ---------- 5 子晴 ---------- */

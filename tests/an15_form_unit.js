@@ -59,7 +59,7 @@ const cafe=async(p)=>{ G.day=d17; G.hour=15.5; G.zone='cafe'; said=[]; opts=[]; 
   G.hour=12; STORY.routeDecide(G); check('2. F1 12:00 路線＝JP（routeDecide；這一場不決定）', G.flags.EXCHANGE_ROUTE==='JP');
   // 3. F2
   fresh(d16,21.2,'dorm'); R('heroine_01','FAM'); date('heroine_05'); runPhone(d16,21.2,21.3); await cafe(); const L2=lines();
-  check('3. F2 B 版：以安不知道＝「美國。好遠。」「那理由欄寫你自己的就好。」、沒有選項', L2.includes('（志願表第一欄，你寫了美國那所大學的名字。大四上，和她同一個學期。附件欄夾了一張語言成績單。）')&&L2.includes('沈以安：美國。好遠。')&&L2.includes('沈以安：那理由欄寫你自己的就好。')&&opts.length===0, JSON.stringify(L2));
+  check('3. F2 B 版：以安不知道＝「美國。好遠。」「那你寫你自己的就好。」、沒有選項', L2.includes('（志願表第一欄，你寫了美國那所大學的名字。大四上，和她同一個學期。附件欄夾了一張語言成績單。）')&&L2.includes('沈以安：美國。好遠。')&&L2.includes('沈以安：那你寫你自己的就好。')&&opts.length===0, JSON.stringify(L2));
   ROM.learn(G,'heroine_01','heroine_05','rumor'); G.flags.AN15_SEEN=null; await cafe(); check('3. F2 以安知道＝「美國。……學姊也去那裡吧。」', lines().includes('沈以安：美國。……學姊也去那裡吧。'));
   runPhone(d17,19.9,20.1); check('3. F2 20:00 學姊「我在法圖。九點四十五關門。」', txt('p:heroine_05').includes('我在法圖。九點四十五關門。'));
   G.day=d17; G.hour=21.5; G.zone='lawlib'; check('3. F2 21:30 在法圖：當面版到期', STORY.sisFormFaceDue(G,E)); said=[]; opts=[]; picks=['一半一半']; await STORY.sisFormFace(GM); const L3=lines();
@@ -74,7 +74,7 @@ const cafe=async(p)=>{ G.day=d17; G.hour=15.5; G.zone='cafe'; said=[]; opts=[]; 
     const r2=q2?PHONE.answer(G,q2.ask.id,0):null; check('4. F3 選「我自己也想去。」→「好。那我相信你。」', !!r2&&TH('p:heroine_05').some(x=>x.text==='好。那我相信你。')); }
   // 5. F4
   fresh(d16,21.2,'dorm'); R('heroine_01','FAM'); R('heroine_05','FRI'); runPhone(d16,21.2,21.3); await cafe(['還在想']); const L5=lines();
-  check('5. F4 C 版（第一個選項照 AA_376 第 20 項）：「（志願表你拿了一張。到現在還是空白的。）」「你不填？」→「還在想。」→「明天中午截止喔。……想好了就好。」；一般「你的呢？……你還沒填。」', L5.includes('（志願表你拿了一張。到現在還是空白的。）')&&L5.includes('沈以安：你不填？')&&L5.includes('沈以安：明天中午截止喔。……想好了就好。')&&L5.includes('沈以安：你的呢？……你還沒填。很少見。你平常都很快。')&&G.flags.AN15_ANSWER==='thinking'&&opts[0].join('|')==='「嗯。大四還沒開始，我想在這裡過。」|「還在想。」', JSON.stringify(L5));
+  check('5. F4 C 版（第一個選項照 AA_376 第 20 項）：「（志願表你拿了一張。到現在還是空白的。）」「你不填？」→「還在想。」→「明天中午截止喔。……想好了就好。」；一般「你的呢？……你還沒填。」', L5.includes('（志願表你拿了一張。到現在還是空白的。）')&&L5.includes('沈以安：你不填？')&&L5.includes('沈以安：明天中午截止喔。……想好了就好。')&&L5.includes('沈以安：你的呢？你還沒填。很少見，你平常都很快。')&&G.flags.AN15_ANSWER==='thinking'&&opts[0].join('|')==='「嗯。大四還沒開始，我想在這裡過。」|「還在想。」', JSON.stringify(L5));
   G.day=d17; G.hour=21.2; G.zone='lawlib'; said=[]; await STORY.sisFormFace(GM); check('5. F4 學姊非交往版（雙方單身）：「志願表填了？」祐廷「沒填。留在臺灣。」「好。那我明年在美國，每天傳一張照片給你。」', JSON.stringify(lines())===JSON.stringify(['溫書瑀：志願表填了？','祐廷：沒填。留在臺灣。','溫書瑀：好。那我明年在美國，每天傳一張照片給你。']), JSON.stringify(lines()));
   G.day=d18; G.hour=9; G.zone='dorm'; said=[]; await STORY.routeNarr(GM); check('5. F4 11/18 旁白（TW）逐字（第二句照 AA_376 第 20 項：他才大三）', JSON.stringify(said.map(s=>s.t))===JSON.stringify(['（志願表你拿了一張，放在書包裡一個禮拜。最後沒有交。）','（你想，大四還沒開始。你想在這裡過。）']));
   fresh(d17,21.2,'lawlib'); date('heroine_01'); R('heroine_05','FRI'); said=[]; await STORY.sisFormFace(GM); check('5. 學姊非交往版、JP：「日本。」「……你們要回。」', JSON.stringify(lines())===JSON.stringify(['溫書瑀：志願表填了？','祐廷：日本。','溫書瑀：好。那我明年在美國，每天在家族群組放一張照片。……你們要回。']), JSON.stringify(lines()));

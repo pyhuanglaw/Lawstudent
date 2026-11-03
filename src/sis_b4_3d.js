@@ -49,6 +49,7 @@ const SISB4=(function(){
   S.rebuildDue=function(G){ if(!law(G)||!G.flags.met_sis||!S.brokeUp(G)) return false; const F=G.flags, bd=S.breakDay(G);
     if(F.SIS_REBUILD!=null&&(bd==null||F.SIS_REBUILD>=bd)) return false;
     if(bd!=null&&G.day-bd<S.REBUILD_WEEKS*7) return false;
+    if(typeof V6EX!=='undefined'&&V6EX.sisExTries&&V6EX.sisExTries(G)<2) return false;   /* AA_600 B7（企劃線 031414cad）：分手以後祐廷已經找過她兩次（傳訊息、約、當面，S8～S10 哪一種都算），第三次才演 */
     return stageOk('FRIEND')&&!partners(G).length&&here(G)&&!abroad(G); };
   /* 4-2：分開過的學姊＝{done（這一次分開演過 4-1）, dates（那以後和她正式校外約會幾次）, ready（兩次以上）}；沒分開過（照一般的告白條件）＝null */
   S.rebuild=function(G){ if(!S.brokeUp(G)) return null; const F=G.flags, bd=S.breakDay(G), r=F.SIS_REBUILD;
@@ -67,6 +68,7 @@ const SISB4=(function(){
   /* ---------------- 說話前接演（第 0 節：第 1 節四場、4-1）---------------- */
   S.READ_ZONES=['cafe','lawlib','library','library_hall'];   /* 她讀書的地方：Café、法圖、閱覽室、總圖大廳二樓自習區 */
   S.ok=(G,min)=>law(G)&&!!G.flags.met_sis&&!S.brokeUp(G)&&stageOk(min)&&here(G)&&!abroad(G);
+  S.retired=id=>typeof STORY_EVENTS!=='undefined'&&STORY_EVENTS.some(e=>e&&e.id===id&&!!e.retired);   /* 定義留給舊存檔、不再接演的事件（events.js 的 retired）*/
   S.preTalkEv=function(G){ if(!law(G)||!S.READ_ZONES.includes(G.zone)||!G.flags.met_sis||abroad(G)) return null;
     if(S.rebuildDue(G)) return 'ev_sis_three_conditions';
     if(!S.ok(G,'FAMILIAR')) return null;
@@ -74,7 +76,7 @@ const SISB4=(function(){
     { const dn=D('2026-03-27'); if(!done(G,'ev_sis_adv_grad')&&wk('Y1S2',6,12)&&(dn==null||G.day>dn)) return 'ev_sis_adv_grad'; }   /* 1-1：放榜聚餐（3/27）以後 */
     if(!done(G,'ev_sis_adv_exch')&&wk('Y2S1',12,15)) return 'ev_sis_adv_exch';
     { const a=D('2027-11-13'), b=D('2027-11-17'); if(!done(G,'ev_sis_adv_pick')&&a!=null&&b!=null&&G.day>=a&&G.day<=b) return 'ev_sis_adv_pick'; }
-    if(!done(G,'ev_sis_adv_y4')&&wk('Y3S2',10,14)&&route(G)!=='JP') return 'ev_sis_adv_y4';   /* 1-4：日本路線這時在日本 */
+    if(!done(G,'ev_sis_adv_y4')&&wk('Y3S2',10,14)&&route(G)!=='JP'&&!S.retired('ev_sis_adv_y4')) return 'ev_sis_adv_y4';   /* 1-4：日本路線這時在日本；AA_591 第 23～25 列（使用者 11-02 選擇題）整場拿掉＝retired，不再接演 */
     return null; };
   S.preTalk=async function(GM){ const G=GM&&GM.G, id=S.preTalkEv(G); if(!id||typeof EVENTS==='undefined'||!EVENTS.runLines||typeof STORY_EVENTS==='undefined') return false;
     const ev=STORY_EVENTS.find(e=>e.id===id); if(!ev) return false;
@@ -99,7 +101,7 @@ const SISB4=(function(){
       out:{id:'sisb4_lotus',ev:'ev_sis_lotus',day:'2027-07-03',h:9,late:0.25,place:'臺北植物園・荷花池',title:'荷花池（臺北植物園）',travel:'捷運 約 20 分鐘',travelH:1/3},
       miss:{day:'2027-07-03',h:10,lines:L.lotusMissed}},
     {k:'vday_y3',ask:'2028-02-13',h:21,lines:L.v3Ask,yes:L.v3Yes,noT:L.v3NoT,no:L.v3No,flag:'SIS_VDAY_Y3',ok:'went',go:'SIS_VDAY_Y3_GO',
-      out:{id:'sisb4_vday_y3',ev:'ev_sis_vday_y3',day:'2028-02-14',h:10,late:0.25,place:'公館捷運站',title:'情人節（公館捷運站二號出口）',travel:'走路 約 15 分鐘',travelH:0.25},   /* 在臺北的家照出遊系統現有的算法（OUT.trip）*/
+      out:{id:'sisb4_vday_y3',ev:'ev_sis_vday_y3',day:'2028-02-14',h:10,late:0.25,place:'公館捷運站',title:'情人節（公館捷運站二號出口）',travel:'走路 約 15 分鐘',travelH:0.25},   /* 在家照出遊系統現有的算法（OUT.trip）*/
       miss:{day:'2028-02-14',h:15,lines:L.v3Missed}} ];
   S.asks=function(G){ const F=G.flags;
     for(const a of S.HOL){ const d=D(a.ask), od=D(a.out.day), md=D(a.miss.day); if(d==null||od==null||md==null||!Array.isArray(a.lines)) continue; const tag='sisb4_'+a.k+'_ask';

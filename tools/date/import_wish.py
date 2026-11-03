@@ -81,6 +81,99 @@ if A525:
     hit[0]['text'] = NEW5
     SRC525 = f'＋{os.path.basename(P525)[:6]}@{S525}（子晴結尾 1 句）'
 
+# ---- 1c. AA_595（四條新規則違反清單，白名單 AA595-LIB-NOD-THERMOS-1102；「AA 處理決定」第 3 節）：學姊 D15 陽明山車裡的選項「妳的保溫瓶今天是滿的。」（條件：演過空的保溫瓶）
+#      跟著空保溫瓶那條線一起拿掉（3-14）。整個選項刪；wish_bb.json 下一版自己刪了就跳過 ----
+A595 = G.approved_files(ALLOW, SP + 'AA_595_')
+if A595:
+    P595, S595 = next(iter(A595.items()))
+    ok, why = G.allowed(P595, S595, ALLOW)
+    if not ok:
+        sys.exit('拒絕匯入：' + why)
+    md595 = G.read_fix(subprocess.check_output(['git', '-C', ROOT, 'show', f'{S595}:{P595}'], text=True))
+    T595 = '「妳的保溫瓶今天是滿的。」'
+    if '心願約會選項「妳的保溫瓶今天是滿的」' not in md595:
+        sys.exit(f'AA_595@{S595} 裡找不到第 3 節「心願約會選項」那一句')
+    def _drop595(o):
+        n = 0
+        if isinstance(o, dict):
+            for v in o.values(): n += _drop595(v)
+        elif isinstance(o, list):
+            k = [x for x in o if isinstance(x, dict) and x.get('t') == T595]
+            for x in k: o.remove(x)
+            n += len(k)
+            for v in o: n += _drop595(v)
+        return n
+    n595 = _drop595(EV['heroine_05'])
+    if n595 > 1:
+        sys.exit(f'AA_595 3-14：學姊的心願約會「{T595}」有 {n595} 個（應該是 1 個，或已經刪了）')
+    SRC525 += f'＋{os.path.basename(P595)[:6]}@{S595}（學姊 D15 保溫瓶選項刪）'
+
+# ---- 1d. AA_592（以安改稿①b，白名單 AA592-AN-1B-1102；第 9 節第 2 點：媽媽那一句統一）第 53 列：以安 D07 法庭「我媽說，坐在上面的人，要先把對方的理由講得比他自己還好，再決定。」
+#      →「我媽說，坐在上面的人，要先把兩邊都講得比他們自己還好，再決定。」（法官面前是兩造、不是「反方」）。整句相同才換；wish_aa.json 下一版自己改好了就跳過。
+#      換上去的句子不在 AA_127 原稿：第 2 步逐句對稿時，那一句改對 AA_592 第 53 列的「改成」欄 ----
+A592 = G.approved_files(ALLOW, SP + 'AA_592_')
+FIX592 = set()
+if A592:
+    P592, S592 = next(iter(A592.items()))
+    ok, why = G.allowed(P592, S592, ALLOW)
+    if not ok:
+        sys.exit('拒絕匯入：' + why)
+    md592 = G.read_fix(subprocess.check_output(['git', '-C', ROOT, 'show', f'{S592}:{P592}'], text=True))
+    OLD53, NEW53 = '我媽說，坐在上面的人，要先把對方的理由講得比他自己還好，再決定。', '我媽說，坐在上面的人，要先把兩邊都講得比他們自己還好，再決定。'
+    if f'| {OLD53} | {NEW53} |' not in md592:
+        sys.exit(f'AA_592@{S592} 裡找不到第 53 列（法庭那一句）')
+    def _fix592(o):
+        n = 0
+        if isinstance(o, dict):
+            if o.get('text') in (OLD53, NEW53) and o.get('who') == 'heroine_01':
+                o['text'] = NEW53; return 1
+            for v in o.values(): n += _fix592(v)
+        elif isinstance(o, list):
+            for v in o: n += _fix592(v)
+        return n
+    n592 = _fix592(EV['heroine_01'])
+    if n592 != 1:
+        sys.exit(f'AA_592 第 53 列：以安 D07 法庭「{OLD53}」有 {n592} 句（應該是 1 句）')
+    FIX592.add(NEW53)
+    SRC525 += f'＋{os.path.basename(P592)[:6]}@{S592}（以安 D07 法庭 1 句）'
+
+# ---- 1e. AA_594（以安改稿④b，白名單 AA594-AN-4B-1102；第 9、10 節「本批全部可以交 LAWWW 整合」）第 2-13 節：心願「規則之外的人」（以安 D07）的 16 列＋記憶名稱（第 368 列）。
+#      源稿 wish_aa.json 沒改（企劃線），照表疊：位置欄寫 date_wish.js 的數字列，在以安那一場裡把整句相同的換掉（台詞、旁白、記憶名稱；旁白的括號照原樣）；
+#      備註寫「兩處都換」的要剛好 2 處，其他剛好 1 處（第 40 列「原句出現 2 次，只換這一處」的另一處不在這一場）；改成＝原句的列（BB_240 補回）跳過 ----
+A594 = G.approved_files(ALLOW, SP + 'AA_594_')
+if A594:
+    P594, S594 = next(iter(A594.items()))
+    ok, why = G.allowed(P594, S594, ALLOW)
+    if not ok:
+        sys.exit('拒絕匯入：' + why)
+    md594 = G.read_fix(subprocess.check_output(['git', '-C', ROOT, 'show', f'{S594}:{P594}'], text=True))
+    rows594 = []
+    for ln in md594.split('\n'):
+        m = re.match(r'^\|\s*([0-9]+)\s*\|(.*)\|\s*$', ln)
+        if not m: continue
+        c = [x.strip() for x in m.group(2).split('|')]
+        if len(c) < 5 or not c[0].startswith('date_wish.js') or c[2] == c[3]: continue
+        rows594.append((m.group(1), c[2], c[3], 2 if '兩處都換' in c[4] else 1))
+    if len(rows594) != 16:
+        sys.exit(f'AA_594@{S594} 第 2-13 節（date_wish.js）應該有 16 列要換，讀到 {len(rows594)} 列')
+    def _sub594(o, old, new):
+        n = 0
+        if isinstance(o, dict):
+            for k, v in list(o.items()):
+                if k in ('text', 't') and isinstance(v, str) and v in (old, '（' + old + '）'):
+                    o[k] = new if v == old else '（' + new + '）'; n += 1
+                elif k not in ('note', 'source', 'rule', 'where', 'context'): n += _sub594(v, old, new)
+        elif isinstance(o, list):
+            for v in o: n += _sub594(v, old, new)
+        return n
+    for n, old, new, want in rows594:
+        cnt = lambda: json.dumps(EV['heroine_01'], ensure_ascii=False).count(json.dumps(new, ensure_ascii=False)[1:-1])
+        c0 = cnt(); _sub594(EV['heroine_01'], old, new); got = cnt() - c0   # 輸出裡多了幾處（AA_127 大一版收尾和一般版共用同一個旁白物件，算輸出的處數）
+        if got != want:
+            sys.exit(f'AA_594 第 {n} 列：以安 D07「{old}」換了 {got} 處（應該是 {want} 處）')
+        FIX592.add(new); FIX592.add('（' + new + '）')
+    SRC525 += f'＋{os.path.basename(P594)[:6]}@{S594}（以安 D07 心願 16 列）'
+
 # ---- 2. 逐句對原稿（台詞、旁白、選項的字；說明欄不算）----
 SKIP = ('wish', 'rule', 'note', 'where', 'context', 'source', 'title', 'hotspotsTitle', 'scene', 'repeat', 'costNote', 'likeNote', 'album', 'code', 'name', 'memory', 'record')
 def all_text(o, path=''):
@@ -110,6 +203,7 @@ for k, e in EV.items():
     for path, who, t0 in all_text(e, k):
         t = norm(t0)
         parts = [p for p in re.split(r'[（）「」]', t) if p] if who in ('narr', 'opt') else [t]
+        if t0 in FIX592: continue   # AA_592 第 53 列換上去的句子（上面 1d 已對過 AA_592 的表）
         if all(found(MDN[e['src']], p) for p in parts): continue
         (extra if path.startswith(free) and free else miss).append(f'{path}：{t0}')
 

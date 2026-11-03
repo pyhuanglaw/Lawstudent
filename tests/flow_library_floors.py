@@ -70,6 +70,8 @@ async def main():
         b, ctx, pg, cdp, errs = await L.launch(p, landscape=True)
         await pg.goto(URL)
         run.check('遊戲載入', await L.wait_loaded(pg))
+        lay = await pg.evaluate("(()=>{ const L=typeof LIBRARY_LAYOUT!=='undefined'?LIBRARY_LAYOUT:null; return {v:(L&&L.version)||1, bs:(L&&L.bookstair)||null}; })()")
+        V2 = lay['v'] == 2; BS = lay['bs'] or {}   # 總圖大廳第二版（中庭台階書牆）：上下樓的取樣照台階書牆（見第 2、8 段）
         run.setup('讀檔：星期六 10:00（第 8 天）、校園總圖門廊前面 (82,0)、晴天')
         await L.load_state(pg, {'zone': 'campus', 'hour': 10.0, 'day': 8, 'weekday': 6, 'weather': 'sunny', 'pos': {'x': 82, 'z': 0, 'yaw': 1.5708}, 'flags': FLAGS})
         await pg.wait_for_timeout(3000)
@@ -97,9 +99,14 @@ async def main():
         ok = await L.go_to(pg, cdp, run, tgt[0], tgt[1], 0.8, '二樓自習區（走大樓梯）', lv=1)
         await asyncio.sleep(1.0); wt.cancel()
         s = await L.state(pg); await run.shot(pg, 'study_2f')
-        land = [y for (y, lv, x, z) in ys if abs(y - 2.5) < 0.05 and z < -4.6]; mids = [y for (y, lv, x, z) in ys if 3.0 < y < 4.8 and abs(x) > 1.7]
-        run.check('走大樓梯上二樓：經過平台（2.5 m）、側邊那一跑（3–4.8 m）、到二樓自習區（第 1 層、5.0 m）', ok and s['lv'] == 1 and abs(s['y'] - Y1) < 0.05 and len(land) >= 1 and len(mids) >= 1,
-                  f'平台取樣 {len(land)}、側邊 {len(mids)}；' + json.dumps(s, ensure_ascii=False))
+        if V2:   # 第二版（LIB-INTERIOR-1102，11-02 一樓照片）：中庭是台階書牆，中間那一跑直接上二樓（沒有平台、兩側那一跑）
+            mids = [y for (y, lv, x, z) in ys if 1.5 < y < 3.5 and abs(x) < 1.2 and BS['z0'] < z < BS['z1']]
+            run.check('走台階書牆中間的樓梯上二樓：經過樓梯中段（1.5–3.5 m）、到二樓自習區（第 1 層、5.0 m）', ok and s['lv'] == 1 and abs(s['y'] - Y1) < 0.05 and len(mids) >= 1,
+                      f'樓梯中段取樣 {len(mids)}；' + json.dumps(s, ensure_ascii=False))
+        else:
+            land = [y for (y, lv, x, z) in ys if abs(y - 2.5) < 0.05 and z < -4.6]; mids = [y for (y, lv, x, z) in ys if 3.0 < y < 4.8 and abs(x) > 1.7]
+            run.check('走大樓梯上二樓：經過平台（2.5 m）、側邊那一跑（3–4.8 m）、到二樓自習區（第 1 層、5.0 m）', ok and s['lv'] == 1 and abs(s['y'] - Y1) < 0.05 and len(land) >= 1 and len(mids) >= 1,
+                      f'平台取樣 {len(land)}、側邊 {len(mids)}；' + json.dumps(s, ensure_ascii=False))
         # 3. 坐下讀書 → 站起來
         seat = await pg.evaluate("(()=>{ const P=GAME.E.player.obj.position; const its=GAME.E.interactables.filter(i=>i.study&&i.lv===1).sort((a,b)=>Math.hypot(a.x-P.x,a.z-P.z)-Math.hypot(b.x-P.x,b.z-P.z)); const it=its[0]; return it?{x:it.x,z:it.z}:null; })()")
         ok = await L.go_to(pg, cdp, run, seat['x'], seat['z'], 0.6, '自習區的座位', lv=1)
@@ -168,8 +175,9 @@ async def main():
         wt = asyncio.ensure_future(watch_y(lambda st: st['lv'] == 0 and abs(st['y']) < 0.05 and st['z'] > 4.0))
         ok = await L.go_to(pg, cdp, run, ex['x'], ex['z'] - 0.5, 0.9, '一樓出口（走大樓梯下來）', lv=0)
         await asyncio.sleep(1.0); wt.cancel()
-        s = await L.state(pg); land = [y for (y, lv, x, z) in ys if abs(y - 2.5) < 0.05 and z < -4.6]
-        run.check('從二樓走大樓梯下一樓、走過閘門到出口（經過平台、第 0 層、地面）', ok and s['lv'] == 0 and abs(s['y']) < 0.05 and len(land) >= 1 and s['interact'].startswith('離開總圖'), f'平台取樣 {len(land)}；' + json.dumps(s, ensure_ascii=False))
+        s = await L.state(pg)
+        land = [y for (y, lv, x, z) in ys if 1.5 < y < 3.5 and abs(x) < 1.2 and BS['z0'] < z < BS['z1']] if V2 else [y for (y, lv, x, z) in ys if abs(y - 2.5) < 0.05 and z < -4.6]
+        run.check('從二樓走大樓梯下一樓、走過閘門到出口（經過' + ('台階書牆的樓梯中段' if V2 else '平台') + '、第 0 層、地面）', ok and s['lv'] == 0 and abs(s['y']) < 0.05 and len(land) >= 1 and s['interact'].startswith('離開總圖'), f'取樣 {len(land)}；' + json.dumps(s, ensure_ascii=False))
         run.check('離開總圖 → 回到校園', await press(pg, cdp, run, '離開總圖', 'campus'))
         await pg.wait_for_timeout(2000); s = await L.state(pg); await run.shot(pg, 'out_campus')
         run.check('回到校園：總圖門廊前面、站得住', s['zone'] == 'campus' and s['lv'] == 0 and s['stand'] and abs(s['x'] - 80) < 0.6 and abs(s['z']) < 0.6, json.dumps(s, ensure_ascii=False))

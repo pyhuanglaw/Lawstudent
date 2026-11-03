@@ -132,7 +132,7 @@ const WZ_EVENTS=(function(){
     {speaker:YU,text:'欸等一下，日治的時候有登記，戰後又要重新登記一次？那沒趕上的人怎麼辦？'},
     {speaker:AN,text:'這就是問題。'},
     {speaker:YU,text:'可是這樣不公平吧！'},
-    {speaker:AN,text:'不公平要說得出理由。理由在這疊紙裡。'},
+    {speaker:AN,text:'不公平，要先排出來。都在這疊紙裡。'},
     N('三個人把每一張紙依日期排好，寫在白板的時間線上。九點半，管理員來敲門。'),
     {if:{flags:['WZ_YE_MAP']},speaker:null,text:'以安指著那本地圖：「這張地圖很有用。哪裡來的？」'},{if:{flags:['WZ_YE_MAP']},speaker:'player',text:'公園的二手市集。'},{if:{flags:['WZ_YE_MAP']},speaker:AN,text:'……你很會逛。'},
     N('以安收白板的時候，把時間線拍了三張照片。'),
@@ -284,7 +284,7 @@ const WZ_EVENTS=(function(){
   L.push(ev('ev_wz_t3','颱風後的院子',{ once:false, dialogue:[ N('樟樹斷了一根枝，蘇姨和{name}一起清。'),{speaker:'蘇姨',text:'樹會自己長回來。人要幫它把斷的地方修乾淨。'},{set:{WZ_TEA_SEAT:true}} ] }));
   /* WZ-T4 學姊一個人來（BB_148 第 4 節＋AA_420 8-4）*/
   L.push(ev('ev_wz_t4','學姊一個人來',{ participants:[SIS], once:false, dialogue:[ N('學姊一個人進來，坐在緣側，把計畫本攤在膝上。你端茶過去的時候，她抬頭。'),
-    {if:C((w,G)=>w.year(G)===2),speaker:SIS,text:'泡茶的時候不要看我。看水。'},
+    {if:C((w,G)=>w.year(G)===2),speaker:SIS,text:'我看你泡就好。不用管我。'},
     {if:C((w,G)=>w.year(G)===3&&w.rel(G,SIS)!=='F'),speaker:SIS,text:'學弟。這壺水要多燙？……我在學，你不用緊張。'},
     {if:C((w,G)=>w.year(G)===3&&w.rel(G,SIS)==='F'),speaker:SIS,text:'{name}。這壺水要多燙？……我在學，你不用緊張。'},
     {if:C((w,G)=>w.year(G)===4),speaker:SIS,text:'這一杯泡得比較久。……剛好。'},

@@ -29,7 +29,7 @@ const GROUP_EVENTS=(function(){
       {speaker:null,text:'（市場在小鎮車站的後面。早上九點，攤販已經在收第一輪了。）'},
       {if:car('heroine_03'),speaker:'heroine_03',text:'這個市場，我田野課看過資料。……想自己來看一次。'},   /* 市場（早上）＝車上的人；搭火車的下午才到（AA_375 第 5 項）*/
       {if:car('zhe'),speaker:'zhe',text:'（手上拿著一袋剛炸好的東西）這個好吃。我不知道是什麼。'},
-      {if:car('heroine_01'),speaker:'heroine_01',text:'第一站選得很有理由。'},
+      {if:car('heroine_01'),speaker:'heroine_01',text:'這裡選得好。早上來是對的。'},
       {if:{custom:G=>stAt(G,'classmate_peishan','FAMILIAR')&&typeof STORY!=='undefined'&&STORY.knows('yu',G)&&inCar(G,'yu')},speaker:'yu',text:'（看著賣菜的阿姨）……以前這種行程都是沛珊排的。'},
       {if:{custom:G=>stAt(G,'classmate_peishan','FAMILIAR')&&typeof STORY!=='undefined'&&STORY.knows('yu',G)&&inCar(G,'yu')&&inCar(G,'heroine_03')},speaker:null,text:'（沒有人接話。語彤把一袋芭樂遞給 Alison。）'},
       {scene:'海邊',bg:'y0_sea_blue'},{speaker:null,text:'（第二站是海邊。四月的風還有點冷。）'},
@@ -83,7 +83,7 @@ const GROUP_EVENTS=(function(){
       {choice:[{text:'「生日快樂。」',goto:'a'},{text:'「許什麼願？」',goto:'b'},{text:'（幫她擋風）',goto:'c'}]},
       {label:'a'},{speaker:'heroine_01',text:'……謝謝。柚子也可以。'},{goto:'end'},
       {label:'b'},{speaker:'heroine_01',text:'說出來就不準。我媽說的。'},{goto:'end'},
-      {label:'c'},{speaker:'heroine_01',text:'（吹熄了）……謝謝。風是你擋的，願望是我的。'},
+      {label:'c'},{speaker:'heroine_01',text:'（吹熄了）……謝謝。'},
       {label:'end'},{speaker:null,text:'（柚子後來被阿哲剝了。蠟燭插過的那一瓣，沒有人吃。）'} ],
     consequences:{flags:{MIDAUTUMN_Y3:true},memo:'大三的中秋（河濱）：以安的生日'},
     after:G=>{ if(typeof STORY!=='undefined'&&STORY.knows('heroine_01',G)&&typeof SOCIAL!=='undefined') SOCIAL.remember('heroine_01','AN_BDAY_POMELO',''); },   /* 在場的玩家（AA_324 1C-02 第 4 節；大三上閒聊階梯 A5-L2 讀它）*/

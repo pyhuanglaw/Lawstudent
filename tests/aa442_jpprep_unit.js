@@ -163,7 +163,7 @@ const sec=async(n,f)=>{ try{ await f(); }catch(e){ check(n+'. 丟出例外（這
     const walk=G=>{ const out=[]; let t=T(G.day,G.hour); for(let i=0;i<80;i++){ const nx=JP.nextStop(G,t,'home'); if(nx==null||nx>=T(D('2028-03-25'),0)) break; out.push(hmT(nx)); t=nx; } return out; };
     G=jpG('2028-02-20',18,{flags:{AN_JP_CALL:true}}); const S1=walk(G);
     const need=['02-21 8','02-25 10','02-25 21','02-26 11','02-29 21','03-04 22','03-05 20','03-08 14','03-10 10','03-12 10','03-14 10','03-17 11','03-18 15','03-18 21','03-19 20.5','03-21 18.5','03-22 21'];
-    check('2. 快轉（住臺北的家）會停在每一件（JP.nextStop）：場景、電話、手機訊息',need.every(x=>S1.includes(x)),J(need.filter(x=>!S1.includes(x))));
+    check('2. 快轉（住家裡）會停在每一件（JP.nextStop）：場景、電話、手機訊息',need.every(x=>S1.includes(x)),J(need.filter(x=>!S1.includes(x))));
     setT('2028-02-25',10.05); rules(); rules(); const S2=walk(G);
     check('2. 2/25 的通知送到以後：3/1 的出遊也停（出發前 45 分鐘＝13:15）；送到的那一則不再停',S2.includes('03-01 13.25')&&!S2.includes('02-25 10'),J(S2));
     G=jpG('2028-02-20',18,{repair:true}); const S3=walk(G); check('2. 挽回中：3/11 14:00、五個早上 10:00 也停',['03-11 14','02-29 10','03-03 10','03-07 10','03-15 10','03-22 10'].every(x=>S3.includes(x))&&!S3.includes('02-29 21'),J(S3));

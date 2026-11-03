@@ -18,11 +18,12 @@ const D=POSTGRAD_LINES.DELAYED;
     for(const [k,v] of pairs) check('0. 企劃檔「'+k+'」那一列的新句子＝'+v,q(row(k).dly).includes(v),JSON.stringify(q(row(k).dly)));
     const ps=q(row('PHONE `peishan`').dly); check('0. 沛珊兩句＝企劃檔',ps[0]===D.peishan[1]&&ps[1]===D.peishan[2],JSON.stringify(ps));
     const ng=q(row('AUTO_NO_GRAD').dly); check('0. AUTO_NO_GRAD 兩句＝企劃檔',ng.includes(TERMEND_LINES.AUTO_NO_GRAD_DELAYED.heroine_01)&&ng.includes(TERMEND_LINES.AUTO_NO_GRAD_DELAYED.yu)&&TERMEND_LINES.AUTO_NO_GRAD_DELAYED.heroine_05===TERMEND_LINES.AUTO_NO_GRAD_DELAYED.heroine_01&&TERMEND_LINES.AUTO_NO_GRAD_DELAYED.classmate_xinci===TERMEND_LINES.AUTO_NO_GRAD_DELAYED.heroine_01,JSON.stringify(ng));
-    check('0. 原本那幾句照舊（企劃檔「現在」那一欄）',q(row('THERMOS 第 2 句').now)[0]===POSTGRAD_LINES.THERMOS.lines[1][1]&&q(row('YT17 `friend`').now)[0]===POSTGRAD_LINES.YT17.friend&&q(row('`ps.card`').now)[0]===POSTGRAD_LINES.EPI.ps.card[0]); }
+    /* THERMOS 第 2 句：企劃檔「現在」那一欄是「畢業快樂。」，AA_591 第 175 列改成「恭喜畢業。」（交換延畢那一句 thermos2 照 AA_381）*/
+    check('0. 原本那幾句照舊（企劃檔「現在」那一欄；THERMOS 第 2 句照 AA_591 第 175 列）',q(row('THERMOS 第 2 句').now)[0]==='畢業快樂。'&&POSTGRAD_LINES.THERMOS.lines[1][1]==='恭喜畢業。'&&q(row('YT17 `friend`').now)[0]===POSTGRAD_LINES.YT17.friend&&q(row('`ps.card`').now)[0]===POSTGRAD_LINES.EPI.ps.card[0]); }
   // ---- 1. 典禮拍照：學姊遞保溫瓶、阿凱、語彤（交換延畢＝美國路線；臺灣路線照舊）----
   for(const route of ['US','JP',null]){ const G=H.fresh('2029-06-02',12,'campus',route?{EXCHANGE_ROUTE:route}:{}); H.FRIEND('heroine_05'); H.FRIEND('heroine_03'); await H.run('grad');
     const d=!!route, tag=route?route+' 路線（交換延畢）':'臺灣路線';
-    check('1. '+tag+'：學姊遞保溫瓶那一句'+(d?'「'+D.thermos2+'」':'「畢業快樂。」'),d?H.has(D.thermos2)&&!H.said.some(s=>s.t==='畢業快樂。'):H.has('畢業快樂。')&&!H.has(D.thermos2));
+    check('1. '+tag+'：學姊遞保溫瓶那一句'+(d?'「'+D.thermos2+'」':'「恭喜畢業。」（AA_591 第 175 列）'),d?H.has(D.thermos2)&&!H.said.some(s=>s.t==='恭喜畢業。'||s.t==='畢業快樂。'):H.has('恭喜畢業。')&&!H.has(D.thermos2));
     check('1. '+tag+'：阿凱'+(d?'「恭喜一半。宵夜？」':'「畢業快樂。宵夜？」')+'，後面兩句照舊',(d?H.has('恭喜一半。宵夜？')&&!H.has('畢業快樂。宵夜？'):H.has('畢業快樂。宵夜？'))&&H.has('……現在才中午。')&&H.has('那晚上。'));
     check('1. '+tag+'：語彤（朋友）'+(d?'「'+D.yt17Friend+'」':'照舊'),d?H.has(D.yt17Friend):H.has(POSTGRAD_LINES.YT17.friend)); }
   { const G=H.fresh('2029-06-02',12,'campus',{EXCHANGE_ROUTE:'US'}); H.FRIEND('heroine_03'); H.FRIEND('kexin'); H.date('kexin'); await H.run('grad');
@@ -34,7 +35,8 @@ const D=POSTGRAD_LINES.DELAYED;
     const d=!!route, tag=d?'交換延畢':'臺灣路線';
     check('2. '+tag+'：沛珊卡片'+(d?'「我學生說要送穿學士服的人卡片。……我拍給你。」「恭喜！」':'照舊'),d?H.msgs('p:classmate_peishan').join('|').endsWith(D.peishan.slice(1).join('|')):H.msgs('p:classmate_peishan').includes('畢業快樂！'),JSON.stringify(H.msgs('p:classmate_peishan')));
     check('2. '+tag+'：芷若票根'+(d?'「恭喜。今天下午替你看了一部。」':'照舊'),d?H.msgs('p:heroine_02').includes(D.zhiruo[1]):H.msgs('p:heroine_02').includes('畢業快樂。今天下午替你看了一部。'),JSON.stringify(H.msgs('p:heroine_02')));
-    check('2. '+tag+'：分手過的學姊'+(d?'「今天恭喜。」':'「畢業快樂。」'),d?H.msgs('p:heroine_05').includes(D.thermosEx)&&!H.msgs('p:heroine_05').includes('畢業快樂。'):H.msgs('p:heroine_05').includes('畢業快樂。'),JSON.stringify(H.msgs('p:heroine_05'))); }
+    /* AA_600 B9（企劃線 031414cad；使用者 11-02「分手，他不太會理我」）：畢業那天中午她不主動私訊前任——原本的期望（交換延畢「今天恭喜。」、臺灣路線「畢業快樂。」）照 AA 定稿換成不送 */
+    check('2. '+tag+'：分手過的學姊（AA_600 B9）中午不私訊（「今天恭喜。」「畢業快樂。」都沒有）',!H.msgs('p:heroine_05').includes(D.thermosEx)&&!H.msgs('p:heroine_05').includes('畢業快樂。'),JSON.stringify(H.msgs('p:heroine_05'))); }
   // ---- 3. 傍晚的當面約：學姊心意邀約不接、接了學姊以後女朋友那一句、子晴 16:30 私訊 ----
   { const G=H.fresh('2029-06-02',12,'campus',{EXCHANGE_ROUTE:'US'}); H.FRIEND('heroine_05'); heart('heroine_05'); H.picks=['今天晚上我有約了'];
     await H.run('grad'); check('3. 學姊心意邀約、回「今天晚上我有約了。」→「'+D.sisDecline+'」',H.has(D.sisDecline)&&!H.has('好。畢業快樂。'),JSON.stringify(H.lines().slice(-6))); }
@@ -50,7 +52,8 @@ const D=POSTGRAD_LINES.DELAYED;
     check('4. 交換延畢、生日友情版「生日快樂。」→「'+D.bdayFriend+'」',H.has(D.bdayFriend)&&!H.has('今天你畢業，我生日。都沒排，結果還不錯。'),JSON.stringify(H.lines())); }
   { const G=H.fresh('2029-06-02',12,'campus',{EXCHANGE_ROUTE:'US'}); H.FRIEND('heroine_05'); H.date('heroine_05'); ROM.end(G,'heroine_05'); H.FRIEND('heroine_05'); PHONE.join(G,'family_law','法律系直屬家族'); await H.run('grad');
     H.at('2029-06-02',19.1); PG.rules(GM); H.at('2029-06-02',19.6); PHONE.tick(G); PHONE.answer(G,'pg_sis_ex_bday',0); PG.rules(GM);
-    check('4. 交換延畢、分手過的學姊：中午「今天恭喜。」已經送到＝晚上只回「謝謝。」（AA_473 第 1 節；原本多一句「今天的典禮，恭喜你。」，DELAYED.bdayEx 第 2 句留給中午那一則沒送到的）',H.msgs('p:heroine_05').join('|').endsWith(D.thermosEx+'|生日快樂。|謝謝。')&&!H.msgs('p:heroine_05').includes(D.bdayEx[1]),JSON.stringify(H.msgs('p:heroine_05'))); }
+    /* AA_600 B10：前任傳生日快樂＝已讀不回（不回「謝謝。」）——原本的期望（AA_473 第 1 節：中午恭喜過的只回「謝謝。」）照 AA 定稿換 */
+    check('4. 交換延畢、分手過的學姊（AA_600 B9、B10）：中午沒有私訊；晚上你傳「生日快樂。」她不回（沒有「謝謝。」）',H.msgs('p:heroine_05').join('|').endsWith('生日快樂。')&&!H.msgs('p:heroine_05').includes('謝謝。')&&!H.msgs('p:heroine_05').includes(D.thermosEx)&&!H.msgs('p:heroine_05').includes(D.bdayEx[1]),JSON.stringify(H.msgs('p:heroine_05'))); }
   // ---- 5. 手機的心意邀約：接了別人，其他人自動回 AUTO_NO_GRAD（termend3d.js）----
   for(const route of ['JP',null]){ const G=H.fresh('2029-06-02',16,'campus',route?{EXCHANGE_ROUTE:route}:{});
     PHONE.at(G,G.day,16,[{th:'p:yu',from:'yu',text:'晚上一起吃飯嗎！！',ask:{id:'te_t_yu',until:G.day*24+20,opts:[{t:'好。'}]}}],'te_t_yu'); PHONE.tick(G);

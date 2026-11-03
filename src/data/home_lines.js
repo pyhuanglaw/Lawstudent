@@ -1,7 +1,7 @@
-/* 週末回臺北的家：家人台詞池（AA_138；產生器 tools/home/import_home_lines.py，不要手改）。來源：claude/magical-albattani-bk7b4n ea43bd9a0＋AA_532 ade80d22f＋AA_533 cf0066ed2 */
+/* 週末回家：家人台詞池（AA_138；產生器 tools/home/import_home_lines.py，不要手改）。來源：claude/story-planning 1edea905f＋AA_532 ade80d22f＋AA_533 cf0066ed2 */
 'use strict';
 const HOME_LINES={
-"source": "claude/magical-albattani-bk7b4n ea43bd9a0＋AA_532 ade80d22f＋AA_533 cf0066ed2",
+"source": "claude/story-planning 1edea905f＋AA_532 ade80d22f＋AA_533 cf0066ed2",
 "group": [
 {
 "who": null,
@@ -156,16 +156,16 @@ const HOME_LINES={
 },
 {
 "n": 8,
-"mom": "期中考考得怎麼樣？",
+"mom": "這學期報告多不多？",
 "opts": [
 {
-"t": "還在等成績。"
+"t": "還好。"
 },
 {
-"t": "有一科不太好。"
+"t": "有一份不太順。"
 }
 ],
-"dad": "不太好就下次好。",
+"dad": "不順的先放著，先吃飯。",
 "weeks": [
 8,
 10

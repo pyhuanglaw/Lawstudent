@@ -52,10 +52,11 @@ const {nk,photoFade:PF,photoTint:PT}=ctx;
 { const S=[['src/building3d.js','大樓大廳 B3.setOutView（霖澤館、萬才館、法圖、社科圖、教學館）',/function setOutView\(o,h,weather,night\)\{[^\n]*W3\.photoTint\(h,weather==='rain'\):0xffffff,ph&&W3\.photoFade\?W3\.photoFade\(h\):0\); \}/],
     ['src/l118_shops3d.js','118 巷店內 setPhotoView',/function setPhotoView\(pv,h,weather\)\{[\s\S]{0,700}?getHex\(\),ph&&W3\.photoFade\?W3\.photoFade\(h\):0\); \}/],
     ['src/zones3d.js','房間 room() 的照片窗景',/W3\.setWindowView\(w\.material,w\.userData\.pview,nightView,viewTex\(nightView\),ph\?W3\.photoTint\(h,rain\):\(nightView\?\(rain\?0x9098a8:0xd8dce6\):winC\),ph&&W3\.photoFade\?W3\.photoFade\(h\):0\)/],
-    ['src/library3d.js','總圖大廳 pOuts',/u\.tint\.value\.set\(v\?W3\.photoTint\(h,weather==='rain'\):0xffffff\); const v2=\(v&&!night&&W3\.photoFade&&W3\.photoFade\(h\)>0\)\?viewOf\(o\.userData\.view,true\):null; if\(u\.xf\)\{ u\.map2\.value=v2; u\.near2\.value=0; u\.xf\.value=v2\?W3\.photoFade\(h\):0; \}/]];
+    ['src/library3d.js','總圖大廳 pOuts',/u\.tint\.value\.set\(v\?W3\.photoTint\(h,weather==='rain'\):0xffffff\); const v2=\(v&&!night&&W3\.photoFade&&W3\.photoFade\(h\)>0\)\?viewOf\(o\.userData\.view,true\):null; if\(u\.xf\)\{ u\.map2\.value=v2; u\.near2\.value=0; u\.xf\.value=v2\?W3\.photoFade\(h\):0; \}/],
+    ['src/library_hall_v2.js','總圖大廳第二版 pOuts（LIB-INTERIOR-1102）',/u\.tint\.value\.set\(v\?W3\.photoTint\(h,weather==='rain'\):0xffffff\); const v2=\(v&&!night&&W3\.photoFade&&W3\.photoFade\(h\)>0\)\?LB3\.viewOf\(o\.userData\.view,true\):null; if\(u\.xf\)\{ u\.map2\.value=v2; u\.near2\.value=0; u\.xf\.value=v2\?W3\.photoFade\(h\):0; \}/]];
   for(const [f,n,re] of S) check('4. '+n+'（'+f+'）', re.test(rd(f)));
-  const calls=(rd('src/building3d.js')+rd('src/l118_shops3d.js')+rd('src/zones3d.js')+rd('src/library3d.js')+rd('src/lawlib3d.js')+rd('src/soclib3d.js')+rd('src/teach3d.js')+rd('src/wancai3d.js')).match(/W3\.photoTint\(/g)||[];
-  check('4. 用 photoTint 的地方都已經在上面（4 處）', calls.length===4, calls.length+' 處'); }
+  const calls=(rd('src/building3d.js')+rd('src/l118_shops3d.js')+rd('src/zones3d.js')+rd('src/library3d.js')+rd('src/library_hall_v2.js')+rd('src/lawlib3d.js')+rd('src/soclib3d.js')+rd('src/teach3d.js')+rd('src/wancai3d.js')).match(/W3\.photoTint\(/g)||[];
+  check('4. 用 photoTint 的地方都已經在上面（5 處：第二版總圖大廳多一處）', calls.length===5, calls.length+' 處'); }
 // 5. 派工指定的時刻（臺北的日落 → 光線用的時刻）
 const lum=hex=>{ const l=c=>{ c/=255; return c<=0.04045?c/12.92:Math.pow((c+0.055)/1.055,2.4); }; return 0.2126*l(hex>>16&255)+0.7152*l(hex>>8&255)+0.0722*l(hex&255); };
 const tp=(key,hh,mm)=>{ const ss=ctx.sunsetPlace(key,'tw'); return {ss, h:ctx.lightHour(hh+mm/60,ss)}; };

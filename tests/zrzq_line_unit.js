@@ -146,10 +146,10 @@ const ZR='heroine_02', ZQ='heroine_04';
   await chk('6. 4-4：6/5 14:30 帶到映月湖；A（子晴先開口）逐字＋結尾；明確說好在一起以後才 dating；YT_HEARD_ZZ、祐廷知道兩人互相喜歡（mutual）',async()=>{
     fresh('2026-06-05',14.6,'campus'); both('FAM'); zz({state:'mutual_interest',since:D('2026-06-05'),lastDay:D('2026-04-30')}); await tick(); const Z=G.flags.ZZ;
     return [said[0].t===L.IN.serious.campus&&entered[0][0]==='campus'&&seq(L.SERIOUS.A.concat(L.SERIOUS.END))&&Z.state==='dating'&&Z.version==='A'&&G.flags.YT_HEARD_ZZ===true&&Z.yt==='mutual'&&K(Z.datingDay)==='2026-06-05'&&!opts.length,J({Z,opts})]; });
-  await chk('6. 4-4：芷若「她自己條件成立」的學期比子晴多＝B（芷若先開口）；上午有課＝「經濟學原理（重修）下課，吃完午餐…」',async()=>{
+  await chk('6. 4-4：芷若「她自己條件成立」的學期比子晴多＝B（芷若先開口）；上午有課＝「經濟學原理（下）下課，吃完午餐…」',async()=>{
     fresh('2026-06-05',14.6,'campus'); both('FAM'); zz({state:'mutual_interest',since:0,lastDay:D('2026-04-30'),sem:{Y1S1:{zr:true,zq:false}}});
     const it=CLS.dayItems(G,G.day).find(x=>x.c.id==='econ_principles_2'); G.courses.done={[it.key]:1}; await tick();
-    return [said[0].t===L.IN.serious.cls.replace('{課名}','經濟學原理（重修）')&&seq(L.SERIOUS.B.concat(L.SERIOUS.END))&&G.flags.ZZ.version==='B',J(said[0])]; });
+    return [said[0].t===L.IN.serious.cls.replace('{課名}','經濟學原理（下）')&&seq(L.SERIOUS.B.concat(L.SERIOUS.END))&&G.flags.ZZ.version==='B',J(said[0])]; });
   await chk('6. 甲：那學期和芷若有過正式校外約會＝只有 4-4 順延（6/5 不演），下學期同一天 12/18 14:30 演；4-2、4-3 照演',async()=>{
     fresh('2026-03-11',21.5,'dorm'); both('FAM'); G.trips=[{trip:'T0001',who:ZR,locs:['D01'],day:D('2026-03-01'),counted:true,status:'done'}];
     const a=await tick(); at('2026-04-30',16.7); G.zone='campus'; const b=await tick(); at('2026-06-05',14.6); const c=await tick(); const st=G.flags.ZZ.state;
@@ -322,7 +322,7 @@ const ZR='heroine_02', ZQ='heroine_04';
   await chk('18. 其中一人自己告訴他（閒聊階梯記 ZZ_TOLD_YT，23-4）＝祐廷知道（confirmed）、4-7 就不演',()=>{
     fresh('2026-09-10',15,'campus'); both('FAM'); zz({state:'dating',since:0,datingDay:D('2026-06-05'),datingTerm:'Y1S2',yt:'mutual'}); SOCIAL.remember(ZQ,'ZZ_TOLD_YT',''); rules(); at('2026-09-18',14.6);
     return [G.flags.ZZ.yt==='confirmed'&&!ZRZQ.next(G),'']; });
-  await chk('18. 在家（臺北的家）：該帶到場了＝STORY.y4HomeDue 回 zrzq（先離開家）',()=>{ fresh('2026-03-11',21.6,'dorm'); both('FAM'); HOME.rec(G).at=true; const r=STORY.y4HomeDue(G); HOME.rec(G).at=false; return [r==='zrzq',String(r)]; });
+  await chk('18. 在家（家）：該帶到場了＝STORY.y4HomeDue 回 zrzq（先離開家）',()=>{ fresh('2026-03-11',21.6,'dorm'); both('FAM'); HOME.rec(G).at=true; const r=STORY.y4HomeDue(G); HOME.rec(G).at=false; return [r==='zrzq',String(r)]; });
   await chk('18. 跳過時間停在帶到場的那一刻（3/11 20:00 在總圖跳到 23:00＝停在 21:30）；寒暑假快轉也停（HOME.STOPS）',()=>{
     fresh('2026-03-11',20,'library_hall'); both('FAM'); const st=CLS.skipStops(GM,23), hs=HOME.STOPS.map(f=>f(G,G.day*24+20)).flat().filter(x=>x!=null);
     return [st.some(s=>Math.abs(s.h-21.5)<1e-6)&&hs.includes(G.day*24+21.5),J({st,hs})]; });

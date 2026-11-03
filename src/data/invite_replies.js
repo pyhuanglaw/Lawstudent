@@ -1,9 +1,9 @@
 /* 自動產生：python3 tools/invite/build_replies.py（不要手改；改 AA_415 或白名單以後重跑）。
-   來源：docs/story_planning/AA_415_邀約回覆照階段變_七位定稿.md @ 759e5c000（docs/handoff/story_import_allow.json，D14-T9／USER_WANTS D37）。句子一字不改。
+   來源：docs/story_planning/AA_415_邀約回覆照階段變_七位定稿.md @ 166dc131a（docs/handoff/story_import_allow.json，D14-T9／USER_WANTS D37）。句子一字不改。
    每一筆：id、n（表上第幾列）、k（acc 答應／resched 改天／decline 婉拒）、stage（表上寫的）、st（可以用的階段 [低,高]，7＝交往中）、tags、cond（條件，src/invites3d.js S.REPLY_COND）、
    lines（「…」她說、（…）旁白、{me}祐廷）、say（表上原文）、src（來源）、ex（現有：acc／first／here／plan／rule／partnerSay）、band（現有答應句的 A／R）、
    when（句子說到的時間星期）、at（改天的時間）、sec（可昕 y0／law）、apart（可昕分開以後）、off（不出現的原因）。選句：src/invites3d.js 的 S.replyPick（AA_415 第 0-3 節）。*/
-const INVITE_REPLIES={"src":"docs/story_planning/AA_415_邀約回覆照階段變_七位定稿.md","sha":"759e5c000","task":"D14-T9","people":{
+const INVITE_REPLIES={"src":"docs/story_planning/AA_415_邀約回覆照階段變_七位定稿.md","sha":"166dc131a","task":"D14-T9","people":{
  "heroine_01":[
   {"id":"an1","n":1,"k":"acc","stage":"1","st":[1,2],"tags":["cafe"],"cond":null,"lines":["「好啊。我本來就想去。」"],"say":"「好啊。我本來就想去。」","src":"現有","ex":"acc","band":"A"},
   {"id":"an2","n":2,"k":"acc","stage":"1","st":[1,1],"tags":["library"],"cond":null,"lines":["「我本來就在總圖。二樓靠窗。」"],"say":"「我本來就在總圖。二樓靠窗。」","src":"現有（here）","ex":"here","off":"現有（here）：照 INVITE_DATA.people.heroine_01.here 原本的程式"},
@@ -162,7 +162,7 @@ const INVITE_REPLIES={"src":"docs/story_planning/AA_415_邀約回覆照階段變
   {"id":"sis1","n":1,"k":"acc","stage":"1","st":[1,2],"tags":["cafe"],"cond":null,"lines":["「好。」"],"say":"「好。」","src":"現有","ex":"acc","band":"A"},
   {"id":"sis2","n":2,"k":"acc","stage":"1","st":[1,1],"tags":["library"],"cond":"平日 9～17","lines":["「好啊，我在總圖三樓。到了跟我說。」"],"say":"「好啊，我在總圖三樓。到了跟我說。」","src":"現有（rule）","ex":"rule","off":"現有（rule）：照 INVITE_DATA.people.heroine_05.rule 原本的程式"},
   {"id":"sis3","n":3,"k":"acc","stage":"1","st":[1,1],"tags":[],"cond":null,"lines":["「好。我只能待半小時。」"],"say":"「好。我只能待半小時。」","src":"新"},
-  {"id":"sis4","n":4,"k":"acc","stage":"2","st":[1,2],"tags":["noodle"],"cond":null,"lines":["「好啊。這次你選地方。」"],"say":"「好啊。這次你選地方。」","src":"現有","ex":"acc","band":"A"},
+  {"id":"sis4","n":4,"k":"acc","stage":"2","st":[1,2],"tags":["noodle"],"cond":null,"lines":["「好啊。」"],"say":"「好啊。」","src":"現有","ex":"acc","band":"A"},
   {"id":"sis5","n":5,"k":"acc","stage":"2","st":[1,2],"tags":["brunch"],"cond":null,"lines":["「半熟。好。我九點到。」"],"say":"「半熟。好。我九點到。」","src":"現有","ex":"acc","band":"A"},
   {"id":"sis6","n":6,"k":"acc","stage":"2","st":[2,2],"tags":["library"],"cond":null,"lines":["「好。總圖見。」"],"say":"「好。總圖見。」","src":"改（BB_123）"},
   {"id":"sis7","n":7,"k":"acc","stage":"2","st":[2,2],"tags":[],"cond":null,"lines":["「走吧。」"],"say":"「走吧。」","src":"新（取代「三件事」那一句）"},

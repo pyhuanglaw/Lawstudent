@@ -49,7 +49,8 @@ const SPEC={AA_503:['docs/story_planning/AA_503_女主角自己的生活_大一�
   AA_523:['docs/story_planning/AA_523_學姊第十六批_回臺灣以後的最後半年.md','0d7b5388b'],   /* AA_523 第 6 節 6-3：陳助教 h509_ta_sis 改字（src 'AA_523 6-3'）；時間在 tests/aa508_509_feed_unit.js 第 6 段、tests/aa523_sis_b16_unit.js 第 6 節 */
   AA_514:['docs/story_planning/AA_514_新稿懸著的承諾自查_可昕最後一場模擬法庭.md','9bca0f407'],   /* AA_514 第 4 節第 3 點：晨希叫子晴不加「學姊」（h507_cx_zq、h508_cx_zq 改字，src 'AA_514 4'）*/
   AA_520:['docs/story_planning/AA_520_予樂自己的線_辦活動的人不在照片裡.md','481dd8238']};   /* AA_520 第 2 節：h503_yule 後面兩句（items 第 4 欄 'AA_520 2'）；其他在 tests/aa520_yule_unit.js */
-const show=(sha,f)=>{ try{ return cp.execSync('git show '+sha+':"'+f+'"',{cwd:H.ROOT,encoding:'utf8',maxBuffer:1<<24}); }catch(e){ return ''; } };
+const show0=(sha,f)=>{ try{ return cp.execSync('git show '+sha+':"'+f+'"',{cwd:H.ROOT,encoding:'utf8',maxBuffer:1<<24}); }catch(e){ return ''; } };
+const show=(sha,f)=>require('./an_rev_doc.js').overlay(show0(sha,f),/^heard_lines\.js/)[0];   /* 以安改稿④b（AA_594 第 35 列：Alison「…她把另一半貼在手帳裡了。」→「…收起來了。」）：讀稿時照改成欄換（逐列核對在 tests/aa594_an_4b_unit.js）*/
 const DOC={}; for(const k in SPEC) DOC[k]=show(SPEC[k][1],SPEC[k][0]);
 const loadG=(f,names)=>{ let s=fs.readFileSync(path.join(H.ROOT,f),'utf8'); for(const n of names) s=s.replace(new RegExp('^const '+n+'\\s*=','m'),'globalThis.'+n+'='); vm.runInThisContext(s,{filename:f}); };
 const errs=[];

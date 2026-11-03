@@ -1,6 +1,6 @@
 // 校外約會：四年裡什麼時候約得到（DATE-S8；AA_128 11-1、11-2）＋淡水示範的系統面（DATE-C2；AA_128 第 8 節）＋淡水七位反應的顯示（DATE-C3；BB_128 第 2 節）。不需要瀏覽器。
 // 檢查：
-//   1 祐廷：最後能預約的是畢業典禮前一天（2029-06-01）、畢業以後不開放；日本／美國路線在國外不能預約；寒暑假從臺北的家出發（開車不加回家取車的 30 分）
+//   1 祐廷：最後能預約的是畢業典禮前一天（2029-06-01）、畢業以後不開放；日本／美國路線在國外不能預約；寒暑假從家出發（開車不加回家取車的 30 分）
 //   2 她：約的那一天在國外、聯絡不到、在老家＝不能約（原本只看今天）；那一天有交往的對象；學姊出發前、口試前一週；子晴下午三點以後、大四只有週六
 //   3 淡水：多一個「夕陽前兩小時」的出發時間；出發時間到她傳一則（BB_128 3-6 的出發）；合照不到第 6 階她說「合照還不行」那一句（可昕只有分開以後）；
 //     說要請客的選項另外扣她那一份（AA_128 5-2 的 extra）；下雨長椅停用（「椅子是濕的」）
@@ -40,7 +40,7 @@ const LN=DATE_LINES;
   setup('2028-09-10',9,{lv:{[YT]:5},flags:{EXCHANGE_ROUTE:'TW'}});
   check('1. 台灣路線照常',ck(YT,'2028-09-16',15).ok&&DATE.canAsk(H.G,YT).ok);
   setup('2026-07-10',9,{lv:{[YT]:5}}); const brk=ck(YT,'2026-07-15',9,['D25'],{tr:'car'}); setup('2026-10-05',9,{lv:{[YT]:5}}); const term=ck(YT,'2026-10-07',9,['D25'],{tr:'car'});
-  check('1. 寒暑假從臺北的家出發：開車去外澳單程 80 分、不加回家取車的 30 分；學期中從宿舍出發多 30 分',brk.ok&&Math.abs(brk.plan.travelH-80/60)<1e-6&&Math.abs(term.plan.travelH-(80/60+0.5))<1e-6,J([brk.plan&&brk.plan.travelH,term.plan&&term.plan.travelH,term.why]));
+  check('1. 開車去外澳單程 80 分：寒暑假從家、學期中從宿舍都一樣（AA_599 更正：開車從宿舍直接出發，不加取車 30 分）',brk.ok&&Math.abs(brk.plan.travelH-80/60)<1e-6&&Math.abs(term.plan.travelH-80/60)<1e-6,J([brk.plan&&brk.plan.travelH,term.plan&&term.plan.travelH,term.why]));
   setup('2026-07-10',9,{lv:{[YT]:5}}); { const b=DATE.book(H.G,{who:YT,locs:['D25'],transport:'car',day:H.D('2026-07-15'),depart:9}); const q=b.ok&&OUT.get(H.G,'date_'+b.trip);
     check('1. 寒暑假訂下的那一趟也照家裡出發（行程的抵達時間沒有多 30 分）',b.ok&&!!q&&Math.abs(q.h-(9+80/60))<1e-6,J(q&&{h:q.h,travel:q.travel})); }
 

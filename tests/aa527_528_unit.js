@@ -50,7 +50,7 @@ const docRe=(n,re)=>re.test(docOf(n));
   check('0. 新檔、src/ 都載得到',!loadErr.length,J(loadErr));
 
   /* ===================== 白名單（AA_527 第 5 節、AA_528 第 5 節最後一列）===================== */
-  await sec('W',()=>{ const want={AA_497:'bfede0a62',AA_498:'7ad5fee84',AA_499:'7ad5fee84',AA_500:'7ad5fee84',AA_501:'7ad5fee84',AA_502:'7ad5fee84',AA_503:'bfede0a62',AA_511:'bfede0a62',AA_512:'bfede0a62',AA_514:'bfede0a62',AA_515:'bfede0a62',AA_518:'bfede0a62',AA_523:'bfede0a62'};
+  await sec('W',()=>{ const want={AA_497:'bfede0a62',AA_498:'7ad5fee84',AA_499:'7ad5fee84',AA_500:'7ad5fee84',AA_501:'7ad5fee84',AA_502:'7ad5fee84',AA_503:'a49f12cdd'/* 11-02 AA：ytAfterAn 改「把話講完」（BB_240） */,AA_511:'bfede0a62',AA_512:'bfede0a62',AA_514:'bfede0a62',AA_515:'bfede0a62',AA_518:'bfede0a62',AA_523:'bfede0a62'};
     const bad=Object.keys(want).filter(n=>{ const a=allowOf(n); return !a||a.sha!==want[n]||a.status!=='approved'; });
     check('W. 白名單：這兩份讀稿改過的原稿換成企劃線最後一次修改的 commit（AA_527 bfede0a62、AA_528 7ad5fee84），補 AA_502',!bad.length,J(bad.map(n=>[n,allowOf(n)&&allowOf(n).sha])));
     const keep={AA_504:'da3e72727'/* 10-30 14:30 AA_504 3-4 阿哲那句改（NDL-EXAM-1030），原本 62849944b */,AA_505:'795fbecfd',AA_508:'ce6e87a99',AA_509:'28f981438',AA_510:'28f981438',AA_519:'e5835610d'};
@@ -59,7 +59,7 @@ const docRe=(n,re)=>re.test(docOf(n));
 
   /* ===================== AA_527 第 1 節：稿的口氣 ===================== */
   await sec('1-1',()=>{ const L13=SISB13_LINES, L15s=SRC('data/sis_b15_events.js'), L16s=SRC('data/sis_b16_events.js'), F=SRC('data/fest_events.js');
-    check('1-1. AA_512 學姊論文：「一本給我爸了。……」「另一本。……你說過要的。」（不編號）',J(L13.thesisMsg)===J(['修正本印好了。','一本給我爸了。他放在辦公室書架最上面。','另一本。……你說過要的。'])&&inDoc('AA_512','學姊：一本給我爸了。他放在辦公室書架最上面。')&&inDoc('AA_512','學姊：另一本。……你說過要的。'),J(L13.thesisMsg));
+    check('1-1. AA_512 學姊論文（不編號）：AA 對 AA_584 的補充第 4 點（2026-11-02 19:19）「一本給我爸了」刪、下一則改「多印了一本。……你說過要的。」；AA_512 原稿照舊',J(L13.thesisMsg)===J(['修正本印好了。','多印了一本。……你說過要的。'])&&inDoc('AA_512','學姊：一本給我爸了。他放在辦公室書架最上面。')&&inDoc('AA_512','學姊：另一本。……你說過要的。'),J(L13.thesisMsg));
     const a='這一段我改了很久。一開始寫得像判決書。', b='……你剛剛讀的，是不像判決書的那一版。';
     check('1-1. AA_523 2-2 學姊：兩句不編號；舊的「我改了三次。第一次……」「……第三次」拿掉',L16s.indexOf("SIS('"+a+"')")>=0&&L16s.indexOf("SIS('"+b+"')")>=0&&L16s.indexOf('我改了三次')<0&&L16s.indexOf('第三次，就是你剛剛讀的')<0&&inDoc('AA_523','學姊：'+a)&&inDoc('AA_523','學姊：'+b));
     check('1-1. AA_523 6-14 2029 白色情人節便條：「上班以後也要。」（便條一張一句）',F.indexOf('（背面寫著：「上班以後也要。」）')>=0&&F.indexOf('明年也要。上班以後也要。')<0&&docRe('AA_523',/\| 6-14 \|.*「上班以後也要。」/));
@@ -70,8 +70,8 @@ const docRe=(n,re)=>re.test(docOf(n));
     check('1-2. 稿：AA_523 3-1 三則一字不差；「四行」「三行半」不在遊戲',inDoc('AA_523','Kevin：背面是一題民法')&&inDoc('AA_523','佳穎：我還以為是問候')&&inDoc('AA_523','學姊：問候在正面。')&&SRC('data/sis_b16_events.js').indexOf('三行半')<0);
     fresh('2029-01-10',20,'dorm'); PHONE.join(H.G,'family_law','法律直屬家族'); ruleAt('2029-01-10',21.05); const m=byTag('sisb16_postcard');
     check('1-2. 1/10 21:00 家族群組照送：最後三則是 Kevin、佳穎、學姊',m.length===7&&m[4].name==='Kevin'&&m[5].name==='佳穎'&&m[5].text==='我還以為是問候'&&m[6].text==='問候在正面。',J(m.map(x=>[x.name,x.text]))); });
-  await sec('1-3',()=>{ const o=SISB13_HAND.open.find(l=>/群組裡的照片/.test(l.text||''));
-    check('1-3. AA_512 13-1：「你是{name}吧。」（名字不寫死；口氣表 0-2）',!!o&&o.text==='你是{name}吧。群組裡的照片，看起來比本人緊張。'&&inDoc('AA_512','學姊：你是{name}吧。群組裡的照片，看起來比本人緊張。'),o&&o.text);
+  await sec('1-3',()=>{ const o=SISB13_HAND.open.find(l=>/^你是\{name\}吧。/.test(l.text||''));   /* AA_590 第 40 列：後半「群組裡的照片……」改「你好。」 */
+    check('1-3. AA_512 13-1：「你是{name}吧。」（名字不寫死；口氣表 0-2）；後半照 AA_590 第 40 列改「你好。」（AA_512 稿上是舊句）',!!o&&o.text==='你是{name}吧。你好。'&&inDoc('AA_512','學姊：你是{name}吧。群組裡的照片，看起來比本人緊張。')&&require('./aa590_doc.js').has('你是{name}吧。你好。'),o&&o.text);
     const src=SRC('data/sis_b13_events.js'); check('1-3. 「你是祐廷吧」不在遊戲',src.indexOf('你是祐廷吧')<0); });
   await sec('1-4',()=>{ const W=FEED_DATES.who;
     check('1-4. 子晴：走了一整天／今天沒寫程式／回家就睡（不用遊戲講感情）、又來「第二次 路記得了」',J(W.heroine_04.say.slice(0,3))===J(['走了一整天','今天沒寫程式','回家就睡'])&&W.heroine_04.again==='第二次 路記得了'&&J(W.heroine_04.cm[0])===J(['妳還沒睡？','剛到家','等一下就睡']),J([W.heroine_04.say,W.heroine_04.again,W.heroine_04.cm[0]]));

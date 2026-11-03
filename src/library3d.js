@@ -219,7 +219,7 @@ const LB3=(function(){
     out.thin=thin; return out; }
 
   // ---- 區域 ----
-  const library_hall={ id:'library_hall', name:'總圖書館 大廳', indoor:true, camDist:4.8, build(E){ const L=LAYOUT(), W=L.W, D=L.D, Y1=L.floors[1].y, EL=L.elevator;
+  const library_hall={ id:'library_hall', name:'總圖書館 大廳', indoor:true, camDist:4.8, build(E){ if(LAYOUT().version===2&&typeof LBV2!=='undefined') return LBV2.build(E);   /* 第二版（LIB-INTERIOR-1102：台階書牆、展演廳；src/library_hall_v2.js）*/ const L=LAYOUT(), W=L.W, D=L.D, Y1=L.floors[1].y, EL=L.elevator;
     const g=new THREE.Group(); const lv0=new THREE.Group(), lv1=new THREE.Group(); lv0.name='L0'; lv1.name='L1'; lv0.userData.dyn=true; lv1.userData.dyn=true; g.add(lv0); g.add(lv1);
     const {nav0,nav1,ss}=buildNav(L);
     const walls=[], walkMeshes=[], outs=[], slabs=[]; const fb0=new THREE.Group(), fb1=new THREE.Group(); fb0.name='fallback0'; fb1.name='fallback1'; fb0.userData.dyn=true; fb1.userData.dyn=true; lv0.add(fb0); lv1.add(fb1);
@@ -270,6 +270,6 @@ const LB3=(function(){
     E.interactables.push({x:zone.elev.cx,z:R.callZ,radius:1.0,label:'搭電梯',elevator:true});
     return zone; }
 
-  return {library_hall,readingExtras,stairSurfs,buildNav,CAMPUS,riseOf,hallFloors,readingFloors};   /* hallFloors／readingFloors：tests/library_upper_unit.js 查電梯的樓層 */
+  return {library_hall,readingExtras,stairSurfs,buildNav,CAMPUS,riseOf,hallFloors,readingFloors,buildFurniture,viewOf,outsideTex};   /* buildFurniture／viewOf／outsideTex：第二版（src/library_hall_v2.js）共用 */   /* hallFloors／readingFloors：tests/library_upper_unit.js 查電梯的樓層 */
 })();
 Z3.ZONES.library_hall=LB3.library_hall;

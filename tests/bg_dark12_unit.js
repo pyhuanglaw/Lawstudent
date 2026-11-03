@@ -5,7 +5,7 @@
 //        gongguan＝ev_y0_e19（停用）；ntu_linze＝ev_y0_e24b2（停用）；wancai_seminar＝吉他社社課 ev_sq06_club
 //   2  沒接的（圖和那一場對不上，註解寫了原因）：河堤的煙火兩場（jp_riverbank 是白天櫻花）、腳踏車的鏈條（jp_dorm_gate 是傍晚＋七夕竹子）、
 //        她退租前的打掃（jp_room 是「你的房間」）——照舊只有地點字幕
-//   3  經濟系暑假「臺北的家」三場（ev_vf_y0_0713、ev_vf_y0_0719_sis、ev_vf_y0_0726_sis）：trigger home，人在家＝沒給 bg 的場景用 HOME.bgNow()
+//   3  經濟系暑假「家」三場（ev_vf_y0_0713、ev_vf_y0_0719_sis、ev_vf_y0_0726_sis）：trigger home，人在家＝沒給 bg 的場景用 HOME.bgNow()
 //        （events3d.js），白天是 home_dining_day，不是深色底——不另外寫死
 // 修改前（d0f895902）：第 1 項九場都是深色底——FAIL。用法：node tests/bg_dark12_unit.js
 require('./alison.js');
@@ -48,8 +48,8 @@ for(const [id,key,o] of [
 /* 第 109 組（BB 07:50）補了對得上的圖：煙火、五月上午的宿舍門口、以安的房間（打包好）——不再借用白天櫻花／七夕／你的房間 */
 for(const [id,scene,bg] of [['ev_jpb_w_fire','河堤','jp_riverbank_fireworks'],['ev_jpb_r_fire','河堤','jp_riverbank_fireworks'],['ev_jpb_w_chain','宿舍門口','jp_dorm_gate_morning'],['ev_jpb_clean','她的房間','jp_an_room_packed'],['ev_jpb_w_light','她的房間門口','jp_an_room_door']]){ const e=ev(id), l=e&&e.dialogue.find(x=>x&&x.scene!==undefined);
   check('2. '+id+'（'+scene+'）：第 109 組的 '+bg+'（不借用對不上的圖）',!!l&&l.scene===scene&&l.bg===bg&&!!OUT.bg(bg),J(l)); }
-/* ---- 3 臺北的家 ---- */
+/* ---- 3 家 ---- */
 for(const [id,day,h] of [['ev_vf_y0_0713','2025-07-13',10],['ev_vf_y0_0719_sis','2025-07-19',12],['ev_vf_y0_0726_sis','2025-07-26',12]]){ const r=await play(id,{day,h,zone:'home',econ:true,home:true});
-  check('3. '+id+'（臺北的家 '+h+':00，在家）：沒給 bg 也是家裡的背景 home_dining_day（HOME.bgNow），不是深色底',!!r.e&&r.got.includes('assets/bg/home_dining_day.webp'),J({found:!!r.e,got:r.got,err:r.err})); }
+  check('3. '+id+'（家 '+h+':00，在家）：沒給 bg 也是家裡的背景 home_dining_day（HOME.bgNow），不是深色底',!!r.e&&r.got.includes('assets/bg/home_dining_day.webp'),J({found:!!r.e,got:r.got,err:r.err})); }
 H.done();
 })();

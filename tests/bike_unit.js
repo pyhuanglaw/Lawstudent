@@ -12,7 +12,7 @@ global.document={ createElementNS:()=>({getContext:()=>ctx2d,style:{}}), createE
 global.navigator={userAgent:'node'}; global.addEventListener=()=>{}; global.innerWidth=844; global.innerHeight=390; global.location={search:''};
 process.on('unhandledRejection',()=>{}); global.fetch=()=>Promise.reject(new Error('no fetch in node')); console.warn=()=>{};
 const files=['lib/three.bundle.js','lib/three.jsm.bundle.js','src/people3d.js','src/assets3d.js','src/world3d.js','src/engine3d.js','src/townkit3d.js','src/campuskit3d.js','src/zones3d.js','src/data/dorm_room_layout.js','src/data/socsci_layout.js',
-  'src/data/linze_layout.js','src/data/classroom_layout.js','src/building3d.js','src/data/library_layout.js','src/library3d.js','src/bike3d.js'];
+  'src/data/linze_layout.js','src/data/classroom_layout.js','src/building3d.js','src/data/library_layout.js','src/library3d.js','src/library_hall_v2.js','src/bike3d.js'];
 for(const f of files){ let src=fs.readFileSync(path.join(ROOT,f),'utf8'); src=src.replace(/^const (\w+)\s*=/mg,(m,n)=>/^(THREE|THREE_JSM|P3|ASSETS|W3|E3|TK|CK|Z3|B3|LINZE_LAYOUT|CLASSROOM_LAYOUT|LIBRARY_LAYOUT|L3|PROPS|CHAR|BIKE)$/.test(n)?'globalThis.'+n+'=':m); vm.runInThisContext(src,{filename:f}); }
 let fails=0; const check=(name,ok,info)=>{ console.log((ok?'PASS ':'FAIL ')+name+(info?'　'+info:'')); if(!ok) fails++; };
 const E=E3; E.scene=new THREE.Scene(); E.q={level:'medium'};
@@ -132,6 +132,6 @@ const step=(dist,turn,n)=>{ for(let i=0;i<n;i++){ P.obj.rotation.y+=turn/n; P.ob
     E.npcs.length=0; P.obj.position.set(G.bike.x,0,G.bike.z); BIKE.mount(GM); caps.length=0; BIKE.manualDismount(GM); check('14 一個人騎時按「下車」：沒有那一句',caps.length===0);
     global.STORY=oldS; global.SOCIAL=oldSo; }
   { const src=require('fs').readFileSync(require('path').join(__dirname,'..','src/bike3d.js'),'utf8'), g3=require('fs').readFileSync(require('path').join(__dirname,'..','src/game3d.js'),'utf8');
-    check('BB-C 10-18：人在臺北的家、經濟系退宿以後不提示宿舍門口的車；經濟系那一年朋友清單不列阿哲、阿凱',/!\(G\.home&&G\.home\.at\)&&!\(F\.Y0_MOVED_OUT&&\(G\.stage\|\|'law'\)==='econ'\)/.test(src)&&/\['zhe','kai','prof_zhou'\]\.includes\(id\)&&\(G\.stage\|\|'law'\)==='law'/.test(g3)); }
+    check('BB-C 10-18：人在家、經濟系退宿以後不提示宿舍門口的車；經濟系那一年朋友清單不列阿哲、阿凱',/!\(G\.home&&G\.home\.at\)&&!\(F\.Y0_MOVED_OUT&&\(G\.stage\|\|'law'\)==='econ'\)/.test(src)&&/\['zhe','kai','prof_zhou'\]\.includes\(id\)&&\(G\.stage\|\|'law'\)==='law'/.test(g3)); }
   console.log(fails?('FAILED '+fails):'ALL PASS'); process.exit(fails?1:0);
 })().catch(e=>{ console.log('FAIL 例外',e&&e.stack||e); process.exit(1); });

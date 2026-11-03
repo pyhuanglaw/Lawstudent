@@ -30,6 +30,9 @@ const Y5=(function(){
   S.INTERN_TEXT='法律實習　10:00（法扶）';
   S.MAKEUP=[{wd:1,id:'enforcement',label:'補修：強制執行法',bg:'classroom_small'},{wd:3,id:'legal_ethics',label:'補修：法律倫理',bg:'wancai_seminar'}];   /* 美國路線：週一、週三上午（AA_291 第 6 節）*/
   S.DAYS_TEXT={study:'總圖',work:'家教',bar:'在家讀書'};
+  S.INTERN_SLOT={wd:2,block:'am'};   /* 週二 10:00 的法扶實習落在上午那一節 */
+  /* 大五上被佔掉的時段（K1-2、K1-3，CC_K1、BB 10:21）：美國路線的補修（週一、週三上午）、週二實習（交換那一版）。FD.slots 的重修避開這些（換時段照 CLS.placeSlots）*/
+  S.busySlots=G=>{ const o=[]; if(S.us(G)) for(const m of S.MAKEUP) o.push({wd:m.wd,block:'am'}); if(S.internOn(G)) o.push(Object.assign({},S.INTERN_SLOT)); return o; };
   const course=id=>typeof COURSES!=='undefined'&&COURSES.list?COURSES.list.find(c=>c.id===id)||null:null;
   const am=()=>(typeof COURSES!=='undefined'&&COURSES.blocks&&COURSES.blocks.am)||{t0:9+10/60,t1:12+10/60};
   /* 補修的那一堂：{key, c（大四上那一門）, label, t0, t1, day, week, slot, bg} */
@@ -41,8 +44,8 @@ const Y5=(function(){
   S.status=(G,it)=>{ const R=S.rec(G); if(R.cls[it.key]) return 'done'; if(it.day<G.day||(it.day===G.day&&G.hour>=24)) return 'missed'; if(it.day>G.day) return 'upcoming'; const h=hh(G); if(h>=it.t1-0.25) return 'missed'; return h>=it.t0-1?'open':'upcoming'; };
   /* 今日頁那一行：放假 → 補修 → 週二實習 → 9/3 的選擇（週一～週五）*/
   S.dayLine=function(G,day){ const d=day==null?G.day:day; if(!S.term(G,d)) return null; const hol=CALENDAR.holiday(d); if(hol) return '今天放假（'+hol+'），沒有課';
-    const its=S.classItems(G,d); if(its.length) return '今天的課：'+its.map(it=>hm(it.t0)+' '+it.label).join('、');
-    const wd=wdOf(d); if(wd===2&&S.internOn(G)) return '今天：'+S.INTERN_TEXT;
+    const its=S.classItems(G,d), wd=wdOf(d), intern=wd===2&&S.internOn(G); if(its.length) return '今天的課：'+its.map(it=>hm(it.t0)+' '+it.label).join('、')+(intern?'；'+S.INTERN_TEXT:'');   /* 週二有重修也有實習：兩個都寫（BB 11:20 P3）*/
+    if(intern) return '今天：'+S.INTERN_TEXT;
     const dt=S.DAYS_TEXT[G.flags&&G.flags.Y5_DAYS]; if(wd<=5&&dt) return '今天：'+dt;
     return '今天沒有課'; };
   /* ---------- 包住課表系統（只在延畢的大五上改結果）---------- */
@@ -126,7 +129,7 @@ const Y5=(function(){
       if(k===1) await GM.say(who('yu'),'……我也不知道。所以今年要吃多一點。'); else await GM.say(who('zhe'),'你說的喔。'); }
     await GM.say(null,'（柚子皮後來被阿哲戴在頭上。這件事，每年都有人做。）');
     G.flags.MIDAUTUMN_2029='went'; };
-  /* AA_363 T9：交通「捷運＋走路 約 30 分鐘」（2029-06-28 以後大家都退宿了，祐廷從臺北的家出發；原本「騎車約 15 分鐘」）。從家裡出發也是這一句（homeTravel，outings3d.js OUT.trip）*/
+  /* AA_363 T9：交通「捷運＋走路 約 30 分鐘」（2029-06-28 以後大家都退宿了，祐廷從家出發；原本「騎車約 15 分鐘」）。從家裡出發也是這一句（homeTravel，outings3d.js OUT.trip）*/
   S.MOON_TRAVEL='捷運＋走路 約 30 分鐘';
   S.moonPlan=G=>typeof OUT!=='undefined'&&OUT.plan(G,{id:'pg_moon29',ev:'ev_pg_moon29',day:DKy(S.MOON_DAY),h:18,late:0.5,place:'河濱',title:'中秋：河濱',travel:S.MOON_TRAVEL,travelH:0.5,homeTravel:S.MOON_TRAVEL});
   S.moonRules=function(G){ const F=(G&&G.flags)||{}; if(!G||!law(G)||typeof PHONE==='undefined') return; const d=DKy(S.MOON_DAY); if(d==null||G.day<d-3||G.day>d+2) return;

@@ -36,7 +36,7 @@ const sec=async(n,f)=>{ try{ await f(); }catch(e){ check(n+'. 丟出例外',fals
     check('e2. 刑訴 QBANK 每一題都在一張刑訴卡（照章分約 10 張）',!qb.length&&qu.length>=6&&qu.length<=14,J({miss:qb.map(q=>q.id),cards:qu.length}));
     const wk=STUDY_UNITS.units.filter(u=>u.src!=='qbank'); const noTitle=wk.filter(u=>!u.title||!Array.isArray(u.qids)||!u.qids.length||!('plain' in u)||!('cue' in u));
     const sylOk=wk.every(u=>{ const sy=(SYLLABUS.courses[u.course]||[]).find(w=>w.w===u.week); return sy&&sy.board&&sy.board[0]===u.title; });
-    check('e3. 週卡 252 張（30 門課）、標題＝那一週的黑板第一行、plain／cue 欄位先空著',wk.length===252&&new Set(wk.map(u=>u.course)).size===30&&!noTitle.length&&sylOk,J({n:wk.length,noTitle:noTitle.map(u=>u.id).slice(0,5),sylOk})); });
+    check('e3. 週卡 251 張（30 門課；AA 1dd6c19be 民訴甲下第 15 週沒有題目也沒有卡了，少一張）、標題＝那一週的黑板第一行、plain／cue 欄位先空著',wk.length===251&&new Set(wk.map(u=>u.course)).size===30&&!noTitle.length&&sylOk,J({n:wk.length,noTitle:noTitle.map(u=>u.id).slice(0,5),sylOk})); });
   /* a 舊存檔 backfill */
   await sec('a',async()=>{ const G=H.fresh('2026-03-02',9,'dorm',{}); delete G.study; G.notes=[];
     const R=CLS.rec(G); R.exam=R.exam||{}; const k=(term,w,cid)=>dayOfWeek(term,w)+':'+cid+':am';

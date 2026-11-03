@@ -2,7 +2,7 @@
    - 書卷獎：只算法律課（CLS.isExamCourse）。當學期法律科期末考答對題數的平均 ≥ 4（缺考算 0、題庫不足沒開考的不算）＝那一學期的書卷獎。
      下學期第 2 週週一 09:00 系上公告（手機系統提醒；旗標 HONOR_<學期>）。好感照 AA_126 第 2 節的表，每次公告只算一次、不受每天上限：
      以安 熟悉 +4、信任 +6、她的戀愛 +6；學姊 +2、+4、+3；其他認識的女主角和朋友 熟悉 +2、信任 +1。
-     公告以後第一次找以安、柏翰說話先一句（AA_124 2-5：以安「名單上有你。理由？」；柏翰把名單拍下來「……好。」）。
+     公告以後第一次找以安、柏翰說話先一句（AA_124 2-5：以安「名單上有你。……卷哥。」（AA_587 第 27 列，使用者 11-02 選）；柏翰把名單拍下來「……好。」）。
      成績單多一行「書卷獎」（classes3d.js showGrades 問 HONOR.won）。
    - 看出席的課：第 12 週週一 08:00 還有課不到三堂＝一門一則系統通知（AA_418 第 2 節的字；每學期一次）。 */
 const HONOR=(function(){
@@ -37,7 +37,7 @@ const HONOR=(function(){
       if(low.length&&typeof PHONE!=='undefined') PHONE.at(G,G.day,Math.max(8,G.hour),low.map(c=>{ const st=CLS.rollStat?CLS.rollStat(G,c,t.id,G.day):null; return {th:'sys',text:st?'【出席】'+c.name+'：這學期點過 '+st.past+' 次名，你缺了 '+st.missed+' 次。':'【出席】'+c.name+'：這學期出席 '+(R.attend[c.id]||0)+'／3 堂。三堂及格，還有 '+left+' 週。'}; }),tag); } };
   /* 公告以後第一次見面（AA_124 2-5）*/
   S.preTalk=async function(GM,who,id){ const G=GM.G, F=G.flags, tm=F.HONOR_LAST; if(!tm||!F['HONOR_'+tm]) return;
-    if(id==='heroine_01'&&F['HONOR_AN_'+tm]==null){ F['HONOR_AN_'+tm]=G.day; await GM.say(who,'名單上有你。理由？'); }
+    if(id==='heroine_01'&&F['HONOR_AN_'+tm]==null){ F['HONOR_AN_'+tm]=G.day; await GM.say(who,'名單上有你。……卷哥。'); }
     else if(id==='classmate_bohan'&&F['HONOR_BH_'+tm]==null){ F['HONOR_BH_'+tm]=G.day; await GM.say(null,'（柏翰把名單拍下來。）'); await GM.say(who,'……好。'); } };
   if(typeof STORY!=='undefined'){ if(Array.isArray(STORY.PHONE_RULES)) STORY.PHONE_RULES.push(G=>S.phone(G)); if(Array.isArray(STORY.PRE_TALK)) STORY.PRE_TALK.push(S.preTalk); }
   return S;

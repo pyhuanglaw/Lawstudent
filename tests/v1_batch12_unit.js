@@ -114,10 +114,10 @@ const KX={dating_kexin:true};
   const D2=2;
   { fresh(D2,17.8,'cafe',{afternoonDone:true,AN_CONTACT_DAY2:D2}); INV.rec(G); G.contacts.heroine_01=D2; run(17.8,21.4); check('A19：21:30 以前還沒有',!anMsgs().length);
     run(21.4,22); const M=anMsgs();
-    check('A19：第二天要了聯絡方式＝當晚 21:30 以安「📷（筆記的照片，字很整齊）」（AA 2026-10-14）',M.length===1&&M[0].tag==='an_first_note'&&M[0].day===D2&&M[0].h===21.5&&M[0].th==='p:heroine_01'&&M[0].from==='heroine_01'&&M[0].text==='📷（筆記的照片，字很整齊）',JSON.stringify(M));
-    run(22,23.5); check('A19：只一則',anMsgs().length===1); }
+    check('A19：第二天要了聯絡方式＝當晚 21:30 以安「📷（筆記的照片，字很整齊）」（AA 2026-10-14）；後面一則「（兔子揮手）」（AA_592 新1）',M.length===2&&M[1].text==='（兔子揮手）'&&M[0].tag==='an_first_note'&&M[0].day===D2&&M[0].h===21.5&&M[0].th==='p:heroine_01'&&M[0].from==='heroine_01'&&M[0].text==='📷（筆記的照片，字很整齊）',JSON.stringify(M));
+    run(22,23.5); check('A19：只有這兩則（照片＋兔子）',anMsgs().length===2); }
   { fresh(D2+1,8,'dorm',{afternoonDone:true,AN_CONTACT_DAY2:D2}); INV.rec(G); G.contacts.heroine_01=D2; run(8,8.3); const M=anMsgs();
-    check('A19：當晚 21:30 以前就睡了＝隔天早上補收、時間照舊（第二天 21:30）',M.length===1&&M[0].day===D2&&M[0].h===21.5,JSON.stringify(M)); }
+    check('A19：當晚 21:30 以前就睡了＝隔天早上補收、時間照舊（第二天 21:30）',M.length===2&&M[0].day===D2&&M[0].h===21.5,JSON.stringify(M)); }
   { fresh(D2,17.8,'campus',{afternoonDone:true}); run(17.8,23); check('A19：沒和她走的玩家（下午結束時默默加聯絡方式）有聯絡方式、沒有這則訊息',INV.hasContact(G,'heroine_01')&&!anMsgs().length,JSON.stringify(anMsgs())); }
   { fresh(D2+4,9,'dorm',{afternoonDone:true,AN_CONTACT_DAY2:D2}); INV.rec(G); G.contacts.heroine_01=D2; run(9,22); check('A19：過了隔天才讀到的存檔不補',!anMsgs().length,JSON.stringify(anMsgs())); }
   /* ---------- A12：分工表 ---------- */

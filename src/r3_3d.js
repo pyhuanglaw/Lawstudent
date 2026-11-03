@@ -196,7 +196,8 @@ const R3=(function(){
   /* 要考 2/3 筆試：台灣路線（未決定也算）、Y4_PATH 'grad'、推甄沒上（AA_327 的 Y4_PUSH／GRAD_ADMIT 還沒有＝當作沒上，同 events.js 跨年大四的單字卡）*/
   S.gradExam=G=>{ const F=(G&&G.flags)||{}, r=route(G); return r!=='JP'&&r!=='US'&&F.Y4_PATH==='grad'&&F.Y4_PUSH!=='pass'&&F.GRAD_ADMIT!=='push'; };
   S.sisKnowsPlan=G=>!!G.flags.SIS_PLAN_POSTED||G.flags.SIS_PLAN_SEEN==='us'||dating(G,SIS);   /* 她知道你的計畫：A 貼過、B 演過、或交往中 */
-  S.noteDoor=G=>dating(G,SIS)||partners(G).length===0;   /* 交往中，或雙方都單身＝當面 */
+  S.noteDoor=G=>dating(G,SIS)||partners(G).length===0;
+  const exS=G=>typeof ROM!=='undefined'&&!!ROM.exOf&&ROM.exOf(G,SIS);   /* AA_600 B16～B18（企劃線 031414cad）：前任的學姊不主動私訊、不來考場門口 */   /* 交往中，或雙方都單身＝當面 */
   S.sisPlan=function(G){ const F=G.flags, t=now(G);
     { const d=D('2028-10-21'), r=route(G); if(d!=null&&t>=T(d,20.5)&&t<T(d+3,0)&&r!=='US'&&PHONE.inGroup(G,'family_law')){   /* A */
         if(!PHONE.sent(G,'r3_sis_plan_a')) PHONE.at(G,d,20.5,[GK('大四的各位 讀書計畫貼上來'),Object.assign(GK('學姊說她可以幫忙看'),{ask:{id:'r3_sis_plan_a',until:T(d+1,18),opts:[{t:'（貼上自己的讀書計畫）',post:'📷（讀書計畫表，一週七欄。週日那一欄只寫了「休息」。）',set:{SIS_PLAN_POSTED:true}},{t:'（不貼）',post:false}]}})],'r3_sis_plan_a');   /* 群組裡是照片（AA_343 C5）；選項的字不進群組 */
@@ -206,27 +207,27 @@ const R3=(function(){
         PHONE.at(G,d,19,[W('你的讀書計畫，帶去會所給我看。八點。')],'r3_sis_plan_b');
         OUT.plan(G,{id:'r3_sis_plan_us',ev:'ev_sis_plan_us',day:d,h:20,late:0.5,place:'會所',title:'會所・自習室',travel:'',travelH:0,back:'回到公寓。'}); } }
     if(F.SIS_PLAN_SEEN!=='us'&&!PHONE.sent(G,'r3_sis_plan_c')&&typeof OUT!=='undefined'){ const d=D(S.gradExam(G)?'2029-01-08':'2029-02-20');   /* C */
-      if(d!=null&&t>=T(d,21)&&t<T(d+1,18)&&met(G,SIS,'FRIEND')&&S.sisKnowsPlan(G)&&contact(G,SIS)&&!(typeof STORY!=='undefined'&&STORY.abroad&&STORY.abroad(G))){
+      if(d!=null&&t>=T(d,21)&&t<T(d+1,18)&&met(G,SIS,'FRIEND')&&!exS(G)&&S.sisKnowsPlan(G)&&contact(G,SIS)&&!(typeof STORY!=='undefined'&&STORY.abroad&&STORY.abroad(G))){
         PHONE.at(G,d,21,[W('你的讀書計畫，拿來研究室給我看。明天晚上七點。')],'r3_sis_plan_c');
         OUT.plan(G,{id:'r3_sis_plan_lab',ev:'ev_sis_plan_lab',day:d+1,h:19,late:0.5,place:'法律系館A・研究室',title:'研究室',travel:'走路 約 10 分鐘',travelH:1/6}); } }
-    { const d3=D('2029-02-03'); if(d3!=null&&F.SIS_NOTE_GRAD==null&&S.gradExam(G)&&met(G,SIS,'FRIEND')&&!S.noteDoor(G)&&t>=T(d3-1,21)&&t<T(d3+1,0)&&contact(G,SIS)){   /* D 照片（祐廷和別人交往中）*/
+    { const d3=D('2029-02-03'); if(d3!=null&&F.SIS_NOTE_GRAD==null&&S.gradExam(G)&&met(G,SIS,'FRIEND')&&!exS(G)&&!S.noteDoor(G)&&t>=T(d3-1,21)&&t<T(d3+1,0)&&contact(G,SIS)){   /* D 照片（祐廷和別人交往中）*/
         F.SIS_NOTE_GRAD='photo'; const same=PHONE.sent(G,'y4_push_note');   /* AA_378 S3：收過 10/25 推甄前那一張的，這一張只寫「同上。」*/
         PHONE.at(G,d3-1,21,[Object.assign(W(same?'📷（一張手寫的便條：同上。）':'📷（一張手寫的便條：你可以。）'),{ask:{id:'r3_sis_note_photo',until:T(d3,18),opts:[{t:same?'同上。':'只有一句。',say:[{from:SIS,text:same?'對。':'一句就夠了。'}]},{t:'謝謝。',say:[{from:SIS,text:'考完傳訊息。'}]}]}})],'r3_sis_note_photo'); } } };
   /* B、C 沒到（outingMissed）：21:00 一則；C 沒到、在群組貼過計畫的＝她自己看了那一張 */
   S.sisPlanMissed=function(G,kind){ const F=G.flags, q=typeof OUT!=='undefined'?OUT.get(G,kind==='us'?'r3_sis_plan_us':'r3_sis_plan_lab'):null; if(!q) return; F.SIS_PLAN_SEEN='missed';
     PHONE.at(G,q.day,21,[W(kind==='us'?'……下次帶來。':(F.SIS_PLAN_POSTED?'我自己看了你傳在群組的那張。……週六十二個小時，改成八個。':'……下次拿來。'))],'r3_sis_plan_miss_'+kind); };
   /* D 當面：2/3 08:00～08:40（醒著、空下來）→ 08:30 考場門口（接著 08:40 是 AA_327 2-Y4-27 以安在門口那一段：開發分支還沒有）*/
-  S.noteDue=function(G){ const F=(G&&G.flags)||{}, d=D('2029-02-03'); return d!=null&&law(G)&&G.day===d&&G.hour>=8&&G.hour<8+40/60&&F.SIS_NOTE_GRAD==null&&S.gradExam(G)&&met(G,SIS,'FRIEND')&&S.noteDoor(G)&&!done(G,'ev_sis_exam_note'); };
+  S.noteDue=function(G){ const F=(G&&G.flags)||{}, d=D('2029-02-03'); return d!=null&&law(G)&&G.day===d&&G.hour>=8&&G.hour<8+40/60&&F.SIS_NOTE_GRAD==null&&S.gradExam(G)&&met(G,SIS,'FRIEND')&&!exS(G)&&S.noteDoor(G)&&!done(G,'ev_sis_exam_note'); };
   S.noteRun=async function(GM){ const G=GM.G, e=typeof STORY_EVENTS!=='undefined'?STORY_EVENTS.find(x=>x.id==='ev_sis_exam_note'):null; if(!e||typeof EVENTS==='undefined') return false; G.flags.SIS_NOTE_GRAD='door';
     if(GM.fade) await GM.fade(true); if(G.hour<8.5){ G.hour=8.5; if(GM.E) GM.E.hour=G.hour; if(GM.updateHUD) GM.updateHUD(); } if(GM.fade) await GM.fade(false); await EVENTS.run(e); return true; };
 
-  /* ===================== 3-13 方奕廷 F4 兩千歲的紅檜（BB_40 F4；BB_99 5-2、10-1 第 11 項）：1/24 21:00 私訊；答應＝1/27 07:00 從臺北的家開車出發（出遊，鬧鐘）===================== */
+  /* ===================== 3-13 方奕廷 F4 兩千歲的紅檜（BB_40 F4；BB_99 5-2、10-1 第 11 項）：1/24 21:00 私訊；答應＝1/27 07:00 從家開車出發（出遊，鬧鐘）===================== */
   S.chiayi=function(G){ const F=G.flags, d=D('2029-01-24'), d27=D('2029-01-27'); if(d==null||d27==null) return; const t=now(G); if(t<T(d,21)||t>=T(d27+1,6)) return;
     if(!PHONE.sent(G,'r3_fang_f4')&&t<T(d+1,18)&&met(G,'npc_fangyt','FAMILIAR')&&contact(G,'npc_fangyt')){ const mtn=has('npc_fangyt','MOUNTAIN_DAY')||!!F.MOUNTAIN_DAY;   /* 大二暑假 F2 一起爬過山（AA_326 2-Y3-02，開發分支還沒有＝沒有）*/
       PHONE.at(G,d,21,[FY('📷（雲海）'),FY('我在嘉義的山上。'),FY(mtn?'這裡的紅檜比那次爬山看的那棵老。兩千歲。':'這裡有一棵兩千歲的紅檜。'),Object.assign(FY('你要不要上來看。不用會。有點遠，你有車。'),{ask:{id:'r3_fang_f4',until:T(d+1,18),opts:[
         {t:'好。我開車上去。',say:[{from:'npc_fangyt',text:'週六早上七點出發剛好。霧中午會散。'}],set:{FANG_F4_GO:true}},{t:'下次。',say:[{from:'npc_fangyt',text:'好。它也不會走。'}],set:{FANG_F4:'later'}}]}})],'r3_fang_f4'); }
     if(F.FANG_F4_GO===true&&!F.FANG_F4&&typeof OUT!=='undefined'&&!OUT.get(G,'r3_fang_f4')&&t<T(d27,7.5))
-      OUT.plan(G,{id:'r3_fang_f4',ev:'ev_fangyt_chiayi',day:d27,h:7,late:0.5,place:'臺北的家',title:'開車去嘉義',travel:'',travelH:0,alarm:true,back:'回到臺北。'}); };   /* 寒假住宿舍的「前一晚回家取車」（AA_140 G04）沒有另外演：出遊的第一段就是臺北的家 */
+      OUT.plan(G,{id:'r3_fang_f4',ev:'ev_fangyt_chiayi',day:d27,h:7,late:0.5,place:'家',title:'開車去嘉義',travel:'',travelH:0,alarm:true,back:'回到臺北。'}); };   /* 寒假住宿舍的「前一晚回家取車」（AA_140 G04）沒有另外演：出遊的第一段就是家 */
   /* 答應了、07:30 還沒出發：10:00、15:00 兩則；照「下次。」那一版，不記 CHIAYI_TREE。「路上塞車嗎？」可以回（AA_343 C4，到 15:00）：「睡過頭了。對不起。」→「嗯。」／「今天去不了了。」→「好。」；不回沒有後續；三種都照樣有 15:00 那則 */
   S.chiayiMissed=function(G){ const F=G.flags, d27=D('2029-01-27'); if(F.FANG_F4) return; F.FANG_F4='missed';
     PHONE.at(G,d27,10,[Object.assign(FY('路上塞車嗎？'),{ask:{id:'r3_fang_f4_late',until:T(d27,15),opts:[{t:'睡過頭了。對不起。',say:[{from:'npc_fangyt',text:'嗯。'}]},{t:'今天去不了了。',say:[{from:'npc_fangyt',text:'好。'}]}]}})],'r3_fang_f4_late'); PHONE.at(G,d27,15,[FY('霧散了。它還在。下次。')],'r3_fang_f4_late2'); };
@@ -239,23 +240,10 @@ const R3=(function(){
     if(!PHONE.sent(G,'r3_sis_desk')) return;
     for(const k of S.DESK_DAYS){ const dd=D(k); if(dd!=null&&G.day===dd&&t<T(dd,21.75)&&!OUT.get(G,'r3_desk_'+k)) OUT.plan(G,{id:'r3_desk_'+k,ev:'ev_sis_y4_desks',day:dd,h:21,late:0.75,place:'法律系館A・研究室',title:'研究室',travel:'走路 約 10 分鐘',travelH:1/6}); } };
   S.deskMissed=function(G,q){ const F=G.flags; if(F.SIS_DESK_MISSED||!q) return; F.SIS_DESK_MISSED=q.day; PHONE.at(G,q.day,23+10/60,[W('📷（同一張桌子，對面的位子空著）'),W('你今天沒來。我寫到十一點。')],'r3_sis_desk_miss'); };
-  /* 2-7b 她爸爸的晚餐：3/14 21:00 私訊（那晚人在研究室＝21:10 當面，r3_events.js）；答應＝3/17 18:30 公館的餐廳（出遊）；18:45 還沒到、19:30 還沒到、婉拒 */
-  S.father=function(G){ const F=G.flags, d14=D('2029-03-14'), d17=D('2029-03-17'), t=now(G); if(d14==null||d17==null||!dating(G,SIS)||typeof OUT==='undefined') return;
-    if(F.SIS_FATHER_ASKED==null&&t>=T(d14,21)&&t<T(d14+1,6)&&contact(G,SIS)){ F.SIS_FATHER_ASKED='msg';
-      PHONE.at(G,d14,21,[W('我爸週六會過來，他要請吃飯。'),Object.assign(W('……你要不要來。六點半，公館。'),{ask:{id:'r3_sis_father',until:T(d14+1,18),opts:[{t:'好。',say:[{from:SIS,text:'好。不用穿太正式。'}],set:{SIS_FATHER_GO:true}},{t:'那天不行。',say:[{from:SIS,text:'好。我跟他說。'}],set:{SIS_FATHER_GO:false}}]}})],'r3_sis_father'); }
-    if(F.SIS_FATHER_GO===true&&!OUT.get(G,'r3_sis_father')&&t<T(d17,19.5)) OUT.plan(G,{id:'r3_sis_father',ev:'ev_sis_y4_father',day:d17,h:18.5,late:1,place:'公館・餐廳',title:'她爸爸的晚餐',travel:'走過去 約 15 分鐘',travelH:0.25});
-    const q=OUT.get(G,'r3_sis_father');
-    if(q&&q.state==='planned'&&t>=T(d17,18.75)&&!PHONE.sent(G,'r3_sis_father_late')) PHONE.at(G,d17,18.75,[Object.assign(W('我爸先點菜了。……你在路上嗎？'),{ask:{id:'r3_sis_father_late',until:T(d17,19.5),opts:[{t:'快到了。',say:[{from:SIS,text:'好。'}]},{t:'今天去不了。',say:[{from:SIS,text:'好。'}],set:{SIS_FATHER_GO:'cancel'}}]}})],'r3_sis_father_late');
-    if(q&&q.state==='planned'&&F.SIS_FATHER_GO==='cancel') q.state='missed';   /* 「今天去不了。」：不再問出發、沒有 19:30 那一則 */
-    if(F.SIS_FATHER_GO===false&&t>=T(d17,21)&&t<T(d17+3,0)&&!PHONE.sent(G,'r3_sis_father_no')) PHONE.at(G,d17,21,[W('我爸說下次。他記住你的名字了。')],'r3_sis_father_no');
-    /* 沒回（AA_343 C2）：她爸爸的飯，她再確認一次（只提這一次）——3/16（五）21:00；還是沒回＝3/17 不排出遊、21:00 一則，不記 MET_SIS_FATHER。
-       3/14 當面說的那一版（人在研究室，SIS_FATHER_ASKED 'face'）沒有「沒回」*/
-    if(F.SIS_FATHER_ASKED==='msg'&&F.SIS_FATHER_GO==null){ const m=PHONE.byAsk(G,'r3_sis_father');
-      if(m&&m.ans==null&&t>=T(d17-1,21)&&t<T(d17+3,0)&&!PHONE.sent(G,'r3_sis_father_re'))
-        PHONE.at(G,d17-1,21,[Object.assign(W('週六六點半，公館。……不能來也跟我說一聲。'),{ask:{id:'r3_sis_father_re',until:T(d17,18),opts:[{t:'好。',say:[{from:SIS,text:'好。不用穿太正式。'}],set:{SIS_FATHER_GO:true}},{t:'那天不行。',say:[{from:SIS,text:'好。我跟他說。'}],set:{SIS_FATHER_GO:false}}]}})],'r3_sis_father_re');
-      const m2=PHONE.byAsk(G,'r3_sis_father_re');
-      if(PHONE.sent(G,'r3_sis_father_re')&&(!m2||m2.ans==null)&&t>=T(d17,21)&&t<T(d17+3,0)&&!PHONE.sent(G,'r3_sis_father_none')) PHONE.at(G,d17,21,[W('我們吃完了。我爸說下次。')],'r3_sis_father_none'); } };
-  S.fatherMissed=function(G,q){ if(G.flags.SIS_FATHER_GO==='cancel'||!q) return; PHONE.at(G,q.day,19.5,[W('我們吃完了。我爸說下次。')],'r3_sis_father_miss'); };   /* 19:30 還沒到：不記 MET_SIS_FATHER */
+  /* 2-7b 她爸爸的晚餐（3/14 私訊、3/17 公館的出遊、18:45／19:30／21:00 的手機 7 則）：AA_591 決1 甲（使用者 2026-11-02「學姊爸爸不在了，不用特別提」）整條刪。
+     ev_sis_y4_father retired（r3_events.js）；S.father 只把舊存檔排好的那一趟取消、不再約；S.fatherMissed 留空殼給存檔裡已經排好的那一趟出遊（outingMissed 會叫它），不再傳訊息 */
+  S.fatherMissed=function(){};
+  S.father=function(G){ const q=typeof OUT!=='undefined'&&OUT.get?OUT.get(G,'r3_sis_father'):null; if(q&&q.state==='planned') q.state='missed'; };   /* 舊存檔已經答應、排好的那一趟：不去（同原本「今天去不了。」的做法）*/
   /* 2-7c 她自己放的一天假：4/27 21:00 三選一（回覆到 4/28 09:00）→ 4/28 河堤 10:00／貓空 13:00（出遊）／「哪裡都不去」＝12:00、21:00 兩則；沒回＝16:00 河邊的照片。
      AA_523 5-3（企劃線 0d7b5388b）：2/14 電話選「開學以後，我們再補一天。」（SIS_VDAY_MAKEUP）的＝那一則換成三句、不給選項，直接排河堤 10:00（src/sis_b16_3d.js S.dayOffMakeup）*/
   const dayOffMark=G=>{ G.flags.SIS_DAY_OFF=true; if(typeof SOCIAL!=='undefined'&&SOCIAL.remember&&!has(SIS,'SIS_DAY_OFF')) SOCIAL.remember(SIS,'SIS_DAY_OFF',''); };
@@ -306,7 +294,7 @@ const R3=(function(){
     KX('y2_kx_giraffe1',Tm=>inT(Tm,'Y2S1','Y4S2',9),23+10/60,null,{items:G=>[P1('kexin','（長頸鹿貼圖）'),P1('kexin','以後我傳這隻，就是累了、不想打字',1/60),Object.assign(P1('kexin','你回一隻一樣的就好',2/60),{ask:{id:'dp_y2_kx_giraffe1',until:until(G),opts:[giraffe]}})]}),
     KX('y2_kx_giraffe',Tm=>inT(Tm,'Y2S1','Y4S2',11),23+10/60,null,{max:()=>12,gap:21,ok:G=>kxOn(G)&&dpGot(G,'y2_kx_giraffe1')&&termN(G,'y2_kx_giraffe')<2,items:(G,n)=>{ termInc(G,'y2_kx_giraffe'); return [Object.assign(P1('kexin','（長頸鹿貼圖）'),{ask:{id:'dp_y2_kx_giraffe_'+n,until:until(G),opts:[giraffe]}})]; }}),
     KX('y3_kx_lunch',Tm=>inT(Tm,'Y3S1','Y3S1'),21+10/60,['📷（木柵大學山下那家的碗）','午餐。']),
-    KX('y3_kx_mid',Tm=>inT(Tm,'Y3S1','Y3S1',10),21+10/60,null,{items:G=>[Object.assign(P1('kexin','民訴期中，你們那邊考哪一題？'),{ask:{id:'dp_y3_kx_mid',until:until(G),opts:[{t:'最後一題沒寫完。',say:[{from:'kexin',text:'我也是。……我們老師一定是約好的。'}]},{t:'不想講。',say:[{from:'kexin',text:'好。不講。'},{from:'kexin',text:'……我也不想講。'}]}]}})]}),
+    KX('y3_kx_mid',Tm=>inT(Tm,'Y3S1','Y3S1',10),21+10/60,null,{items:G=>[Object.assign(P1('kexin','民訴期中考完了。最後一題沒寫完。'),{ask:{id:'dp_y3_kx_mid',until:until(G),opts:[{t:'考哪一題？',say:[{from:'kexin',text:'你們老師上禮拜講的那個。……我們老師一定是約好的。'}]},{t:'不要想了。',say:[{from:'kexin',text:'好。不想。'},{from:'kexin',text:'……還是會想。'}]}]}})]}),
     KX('y3_kx_zhan',Tm=>inT(Tm,'Y3S1','Y3S1'),21+10/60,G=>metZhan(G)?'詹靖拍了山下那家的老闆一整天，老闆只說了一句：好。':'我那個拍片的朋友詹靖，拍了山下那家的老闆一整天。老闆只說了一句：好。'),
     KX('y3_kx_eh1',Tm=>inT(Tm,'Y3S1','Y4S2',4),22+40/60,null,{items:G=>[P1('kexin','欸。'),Object.assign(P1('kexin','……以後我只打一個『欸』，就是想找你講話。',1/60),{ask:{id:'dp_y3_kx_eh1',until:until(G),opts:[{t:'在。',say:[{from:'kexin',text:'好。……沒事了。'}]}]}})]}),
     KX('y3_kx_eh',Tm=>inT(Tm,'Y3S1','Y4S2'),22+40/60,null,{max:()=>8,gap:21,ok:G=>kxOn(G)&&dpGot(G,'y3_kx_eh1')&&termN(G,'y3_kx_eh')<2,items:(G,n)=>{ termInc(G,'y3_kx_eh'); return [Object.assign(P1('kexin','欸'),{ask:{id:'dp_y3_kx_eh_'+n,until:until(G),opts:[{t:'在。',say:[NAR('（她打來，講了十分鐘今天的事。掛之前說：「好，我要讀書了。」）')]}]}})]; }}),

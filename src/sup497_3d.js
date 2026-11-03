@@ -243,6 +243,7 @@ const SUP497=(function(){
   S.buildSecond=function(){ const base=evOf('ev_xinci_second'); if(!base) return null; const D=base.dialogue.slice(), N0=D.findIndex(l=>l&&l.speaker===null&&/^（B1 自習室關燈以後/.test(l.text||''));   /* AA_547 2-1 新稿的第一句旁白 */
     const B1=D.map(l=>Object.assign({},l)); if(N0>=0) B1.splice(N0,1,ln(null,L.xc.secondB1[0]),ln(null,L.xc.secondB1[1]));   /* AA_547 3-1：開頭原本兩句，接「你也還沒睡。」那兩句 */
     swapC(B1,L.xc.secondB1Walk.opt,L.xc.secondB1Walk.r);
+    { const wi=B1.findIndex(l=>l&&l.text===L.xc.secondB1Walk.r[0][1]); if(wi>=0) B1[wi]=Object.assign({},B1[wi],{libOut:true}); }   /* libOut：走到 B1 門口（門廳不算讀書區）以後不加（小聲）（AA_595 1-B54；AA 11-02 20:54）*/
     return { id:'ev_xinci_second_b1', title:base.title, participants:[XC], location:'library_b1', trigger:'auto', term:base.term.slice(), weeks:base.weeks.slice(), weekday:base.weekday.slice(), time:[0,0.25], once:true, near:{npc:XC,r:4}, background:'blur',
       prereq:{custom:G=>xcOld()&&!!STORY.knows&&STORY.knows(XC,G)&&!S.secondDone(G)}, dialogue:B1 }; };
   /* 補救的白天版（大二下第 2 週週二 16:00 Café，INV 的約；AA_547 3-2）：開頭 fix.open＋「你來了。」「我剛算完財管的作業。……」、第三個選項「（坐下來）」、最後「四點半了。我要去上財管。」，記 XINCI_NIGHT */
@@ -324,7 +325,8 @@ const SUP497=(function(){
   /* 4-1 秘密的入口放寬：總圖 B1 二十四小時自習室，週二、四 22:00～23:30（家教完回來），大一上第 7 週～大一下第 16 週；同一場 M1（events.js ev_mingxuan_notes 的對話，前兩句換、「走到校門口」換「走出總圖」）*/
   S.buildM1B1=function(){ const base=evOf('ev_mingxuan_notes'); if(!base) return null; const D=base.dialogue.map(l=>Object.assign({},l));
     if(D[0]&&D[0].speaker===null) D[0]=ln(null,L.mx.b1[0]); if(D[1]&&D[1].speaker===null) D[1]=ln(null,L.mx.b1[1]);
-    for(const l of D) if(l&&l.text==='走到校門口。') l.text=L.mx.b1Out;
+    { const k0=D.findIndex(l=>l&&l.text==='……你沒看到。'), k1=D.findIndex(l=>l&&l.text==='（笑）我在看漫畫啦。'); if(k0>=0&&L.mx.b1Note) D[k0]=ln(null,L.mx.b1Note[0]); if(k1>=0&&L.mx.b1Note) D[k1]=ln(null,L.mx.b1Note[1]); }   /* AA_595 1-B55：B1 自習室裡前兩句改便條（公館版照舊）*/
+    for(const l of D) if(l&&l.text==='走到校門口。'){ l.text=L.mx.b1Out; l.libOut=true; }   /* libOut：走出總圖以後不加（小聲）（AA_595 1-B55；AA 11-02 20:54）*/
     return { id:'ev_mingxuan_notes_b1', title:'B1 的筆記', participants:[MX], location:'library_b1', trigger:'interact', priority:6, weekday:[2,4], time:[22,23.5], term:['Y1S1','Y1S2'], once:true,
       prereq:{stage:{npc:MX,min:'ACQUAINTANCE'},custom:G=>{ const t=termOf(G.day); if(!t) return false; if(done(G,'ev_mingxuan_notes')) return false; return t.id==='Y1S2'?t.week<=16:t.week>=7; }}, background:'blur',
       dialogue:D, consequences:Object.assign(JSON.parse(JSON.stringify(base.consequences||{})),{memo:'在總圖 B1 的自習室遇到明軒'}) }; };   /* 記憶、聯絡方式、MX_M1_DAY（那晚 23:00 的清單）照 M1 */

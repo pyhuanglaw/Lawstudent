@@ -40,7 +40,7 @@ const n={name:'溫學姊'};
   { let d=STORY.termDay('Y2S1',5,6); if(!STORY.fafuDuty({day:d,stage:'law',flags:{}})) d=STORY.termDay('Y2S1',7,6); G.day=d; G.hour=20; delete G.flags.SIS_CAFE; R(25); gm=mk([0]); await STORY.sisCafe(gm,n); check('8c. 大二起單週週六法服值班照舊算累',STORY.fafuDuty(G)&&gm.out[0]==='N:（她抬頭看了你一下，點點頭。）',gm.out.join('｜')); G.day=32; delete G.flags.SIS_CAFE; }
   G.day=34; R(65,50,45); gm=mk([0]); await STORY.sisCafe(gm,n); check('8. 期中考週（看日曆的 exam 標記）好朋友：一樣只點頭',CALENDAR.termOf(34).exam==='mid'&&gm.out[0]==='N:（她抬頭看了你一下，點點頭。）'&&gm.out[1]!=='S:坐啊。',gm.out.join('｜'));
   G.day=40; R(8); gm=mk([0]); await STORY.sisCafe(gm,n); check('8. 考試週但只是認識：照認識的招呼',gm.out[0]==='S:學弟。',gm.out.join('｜'));
-  const s3=fs.readFileSync(path.join(ROOT,'src/story3d.js'),'utf8'), ts=s3.slice(s3.indexOf('async function talkSis(GM,n)'),s3.indexOf('async function talkSis(GM,n)')+900);
+  const s3=fs.readFileSync(path.join(ROOT,'src/story3d.js'),'utf8'), ts=s3.slice(s3.indexOf('async function talkSis(GM,n)'),s3.indexOf('async function talkSis(GM,n)')+1100);   /* 取 talkSis 開頭這一段（AA_600 S10 第一行多了 S.sisExNod，900 字不夠包到 sisCafe 那一句；比的順序不變）*/
   check('7. talkSis：門檻台詞之後、在 Café（見過面以後）才演小場面',ts.indexOf("relUp(GM,'heroine_05',n)")>=0&&ts.indexOf("relUp(GM,'heroine_05',n)")<ts.indexOf("F.met_sis&&G.zone==='cafe'&&await sisCafe(GM,n)"));
   console.log(fails?'FAILED: '+fails:'ALL PASS'); process.exit(fails?1:0);
 })().catch(e=>{ console.log('FAIL 例外 '+e.stack); process.exit(1); });

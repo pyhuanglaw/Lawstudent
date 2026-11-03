@@ -74,7 +74,8 @@ const lines=()=>said.map(s=>(s.who?s.who+'：':'')+s.t);
     if(e){ const R5=(fam,trust)=>{ const r=SOCIAL.rel('heroine_05'); r.fam=fam; r.trust=trust||0; };
       const at=(term,w,wd,h,fam,zone)=>{ fresh(wk(term,w,wd),h,zone||'lawlib'); SOCIAL.meet('heroine_05','campus'); R5(fam); return EVENTS.check(e); };
       const r={ok:at('Y1S1',8,2,15,25),w9:at('Y1S1',9,4,16,25),w7:at('Y1S1',7,2,15,25),eve:at('Y1S1',8,2,18,25),acq:at('Y1S1',8,2,15,10),lib:at('Y1S1',8,2,15,25,'library'),y1s2:at('Y1S2',8,2,15,25)};
-      check('學姊 W4（BB_207 搬到大一上）：大一上第 8～9 週、法學院圖書館、平日 14～17、有點熟以上（第 7 週、18:00、只是認識、總圖、大一下都沒有）',r.ok&&r.w9&&!r.w7&&!r.eve&&!r.acq&&!r.lib&&!r.y1s2,JSON.stringify(r));
+      /* AA_590 第 16 列（使用者 2026-11-02 選擇題）：空的保溫瓶那一場整場拿掉＝retired（定義留給已經演過的舊存檔，下面照舊逐句檢查定義）；原本：大一上第 8～9 週、法學院圖書館、平日 14～17、有點熟以上 */
+      check('學姊 W4（AA_590 第 16 列整場拿掉）：retired；原本會演的大一上第 8～9 週法圖平日 14～17 有點熟以上也不演',!!e.retired&&!r.ok&&!r.w9&&!r.w7&&!r.eve&&!r.acq&&!r.lib&&!r.y1s2,JSON.stringify(r));
       const play=async k=>{ fresh(wk('Y1S1',8,2),15,'lawlib'); SOCIAL.meet('heroine_05','campus'); R5(25); picks=[k]; await EVENTS.run(e); return lines(); };
       let L=await play(0);
       check('學姊 W4：旁白兩句（AA_261：「她在寫考古題」）；三個選項（原文）',L[0]==='她在寫考古題，左手拿著保溫瓶，喝了一口。又喝了一口。'&&L[1]==='保溫瓶是空的。她已經對著空瓶喝了三次。'&&JSON.stringify(opts[0])==='["「學姊，妳的保溫瓶是空的。」","（去 Café 買一杯黑咖啡，放在她桌上）","（什麼都不說）"]',JSON.stringify([L.slice(0,2),opts[0]]));
@@ -166,7 +167,7 @@ const lines=()=>said.map(s=>(s.who?s.who+'：':'')+s.t);
       L=await play(2); check('C16 送水：（中場你把一箱水搬到場邊。阿哲一口氣喝掉半瓶。）「謝啦。」（他把瓶子丟回給你，又跑回場上。）（AA_209 第 8 節）',L.includes('（中場你把一箱水搬到場邊。阿哲一口氣喝掉半瓶。）')&&L.some(t=>/謝啦。$/.test(t))&&L.includes('（他把瓶子丟回給你，又跑回場上。）')&&SOCIAL.has('zhe','WATCHED_GAME'),JSON.stringify(L.slice(1))); } }
   /* ---------- 人物面板：每一種記憶都有中文名稱（沒有的話面板直接顯示英文代號）---------- */
   { const src=fs.readdirSync(path.join(ROOT,'src')).filter(f=>f.endsWith('.js')).map(f=>fs.readFileSync(path.join(ROOT,'src',f),'utf8')).join('\n')+fs.readdirSync(path.join(ROOT,'src/data')).filter(f=>f.endsWith('.js')).map(f=>fs.readFileSync(path.join(ROOT,'src/data',f),'utf8')).join('\n');
-    const used=new Set(); for(const m of src.matchAll(/tag:'([A-Z_0-9]+)'/g)) used.add(m[1]); for(const m of src.matchAll(/remember\([^,()]+,'([A-Z_0-9]+)'/g)) used.add(m[1]); for(const m of src.matchAll(/"mem":\s*"([A-Z_0-9]+)"/g)) used.add(m[1]); used.delete('ADJUST');   /* 閒聊階梯、阿凱宿舍事件（src/data/ladder.js 的 "mem"）也算 */
+    const used=new Set(); for(const m of src.matchAll(/tag:'([A-Z_0-9]+)'/g)) used.add(m[1]); for(const m of src.matchAll(/remember\([^,()]+,'([A-Z_0-9]+)'/g)) used.add(m[1]); for(const m of src.matchAll(/"mem":\s*"([A-Z_0-9]+)"/g)) used.add(m[1]); used.delete('ADJUST'); used.delete('AN_SHOP_PAGE');   /* AA_589：看過「想去的店」那一頁，不在面板顯示 */   /* 閒聊階梯、阿凱宿舍事件（src/data/ladder.js 的 "mem"）也算 */
     const miss=[...used].filter(t=>!SOCIAL.MEMORY_LABEL[t]);
     check('人物面板：遊戲裡用到的 '+used.size+' 種記憶都有中文名稱（ADJUST 不顯示）',used.size>30&&!miss.length,miss.join(' '));
     /* AA_344 第 3 節 ③④（2026-10-21）：KX7_LAST_TERM 換新名稱（social3d.js 優先於 ladder.js 匯入的舊名稱）；以安不延畢以後沒人用的 AN8_RETAKE、AN8_DIPLOMA 刪掉 */

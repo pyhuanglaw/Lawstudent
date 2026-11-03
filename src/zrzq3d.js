@@ -272,7 +272,7 @@ const ZRZQ=(function(){
   /* {課名}：那天實際上的最後一堂課（有去上的、在現在以前下課的；am＝只看上午）*/
   S.lastClass=function(G,o){ if(typeof CLS==='undefined'||!CLS.dayItems) return null; const Dn=(G.courses&&G.courses.done)||{};
     const Lc=CLS.dayItems(G,G.day).filter(it=>Dn[it.key]&&it.t1<=o.upTo+1e-6&&(!o.am||it.t1<=12.5)); return Lc.length?Lc[Lc.length-1]:null; };
-  S.courseName=c=>!c?'':(c.retake?String(c.name).replace(/（[上下一二]）$/,'')+'（重修）':String(c.name));   /* 「經濟學原理（重修）」只在那學期真的有時用（第九節）*/
+  S.courseName=c=>!c?'':(c.retake&&!/^econ_principles/.test(c.id||'')?String(c.name).replace(/（[上下一二]）$/,'')+'（重修）':String(c.name));   /* 「經濟學原理（重修）」只在那學期真的有時用（第九節）*/
   S.intro=function(G,key,s){ const I=L.IN, cat=S.zoneCat(G);
     if(key==='home') return s.grad?I.home.grad:I.home[{lib:'lib',dorm:'dorm',town:'town',cafe:'cafe',campus:'campus',home:'town'}[cat]];
     if(key==='next'){ if(s.grad) return I.next.grad; if(cat==='town') return I.next.none; const c=S.lastClass(G,{upTo:+G.hour||0}); return c?I.next.cls.replace('{課名}',S.courseName(c.c)):I.next.none; }

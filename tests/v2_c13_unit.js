@@ -82,7 +82,7 @@ const meet=id=>SOCIAL.remember(id,'FIRST_MET','');
   check('6. 「最小，要問被限制的人。」：以安「那他說『全部都太多』呢？」Alison「那就……再問一次？」→ 三張便利貼 → 「九點半了。我回宿舍讀刑總。」；B5_THOUGHT＝ask_them',JSON.stringify(L.slice(5))===JSON.stringify(['沈以安：那他說『全部都太多』呢？','Alison：那就……再問一次？','她把三張便利貼並排貼在筆記本上：她的、Alison 的、你的。','沈以安：九點半了。我回宿舍讀刑總。'])&&G.flags.B5_THOUGHT==='ask_them',JSON.stringify(L.slice(5)));
   check('6. 記 B4_DISCUSSED、以安記得便利貼（B5_STICKY）',G.flags.B4_DISCUSSED===true&&SOCIAL.has('heroine_01','B5_STICKY'));
   L=await playB5(1); check('6. 「最小，要看大家換到了什麼。」：以安「好。那換到的東西，要誰來證明？」；trade',L.includes('沈以安：好。那換到的東西，要誰來證明？')&&!L.includes('Alison：那就……再問一次？')&&G.flags.B5_THOUGHT==='trade',JSON.stringify(L));
-  L=await playB5(2); check('6. 「我還不知道。……」：以安「……那就是講者最後那一題。」；where',L.includes('沈以安：……那就是講者最後那一題。')&&G.flags.B5_THOUGHT==='where',JSON.stringify(L));
+  L=await playB5(2); check('6. 「我還不知道。……」：以安「那就是講者最後那一題。」；where',L.includes('沈以安：那就是講者最後那一題。')&&G.flags.B5_THOUGHT==='where',JSON.stringify(L));
   L=await playB5(0,false); check('6. 不認識 Alison：Alison 的兩句不演、便利貼是兩張',!L.some(l=>l.startsWith('Alison：'))&&L.includes('她把兩張便利貼並排貼在筆記本上：她的、你的。'),JSON.stringify(L));
   /* 中途離開 */
   const partial=(st,dd)=>{ fresh(thu,20.6,'boya'); meet('heroine_01'); mark(st); G.day=thu+dd; G.weekday=wdOf(G.day); G.hour=12; G.zone='campus'; return EVENTS.check(ev4); };

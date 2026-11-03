@@ -158,7 +158,7 @@ const R2Y3A_EVENTS=(function(){
       {if:kn('zhe'),speaker:'zhe',text:'五塊。……大三就是這種感覺。'},
       {if:kn('yu'),speaker:'yu',text:'欸，這學期刑訴，聽說林教授點名都點後面。'},
       {if:kn('classmate_bohan'),speaker:'classmate_bohan',text:'後面三排。我問過學長了。'},
-      {if:kn('heroine_01'),speaker:'heroine_01',text:'（翻開手帳）讀書會八點。……我們先走。'},   /* AA_376 #7：讀書會當晚 20:00 就開；19:40 以安、Alison、柏翰一起先走（下面 fm_end 以後，同 10/21 那一場）*/
+      {if:kn('heroine_01'),speaker:'heroine_01',text:'（看了一下錶）讀書會八點。……我們先走。'},   /* AA_376 #7：讀書會當晚 20:00 就開；19:40 以安、Alison、柏翰一起先走（下面 fm_end 以後，同 10/21 那一場）*/
       ...TA_LINES,
       {if:kn('heroine_03'),speaker:'heroine_03',text:'（端麵過來）……今天乾麵剩四碗。'},
       {choice:[{text:'「先吃。」',goto:'fm_a'},{text:'「真的點後面三排？」',if:kn('classmate_bohan'),goto:'fm_b'}]},
@@ -280,7 +280,7 @@ const R2Y3A_EVENTS=(function(){
       {label:'end'} ],
     consequences:{flags:{TYPHOON_Y3:true}} };
   /* T3b「照常的讀書會」：家族群組選「我會上線」＝10/14（四）19:00～19:50 線上，只有學姊和祐廷，各讀各的，鏡頭關著（AA_343 B4 的旁白）。
-     七點五十分她先打一行字：在公法讀書會的（大一去過，或這學期有去）＝「八點你們有讀書會。下線吧。」，其他＝「七點五十了。我先下線。」；兩版都接「……颱風天這樣讀，剛好。」。
+     七點五十分她先打一行字：在公法讀書會的（大一去過，或這學期有去）＝「八點你們有讀書會。我先下線了。」，其他＝「七點五十了。我先下線。」；兩版都接「……颱風天這樣讀，剛好。」。
      答應了、19:10 還沒上線：什麼都不發生，她不追人（沒有 outingMissed；SIS_TYPHOON_Y3 照記 'online'）*/
   const plgThisTerm=G=>{ const A=(G.acts&&G.acts.att)||{}, C=typeof CALENDAR!=='undefined'&&CALENDAR.termOf?CALENDAR:null, t0=C?C.termOf(G.day):null; if(!t0) return false;
     for(const k in A){ const m=/^public_law_group@(-?\d+)$/.exec(k); if(!m) continue; const t=C.termOf(+m[1]); if(t&&t.id===t0.id) return true; } return false; };
@@ -290,7 +290,7 @@ const R2Y3A_EVENTS=(function(){
     dialogue:[ {speaker:null,text:'（七點整，線上讀書室只有兩格。兩格的鏡頭都關著。）'},
       {speaker:null,text:'（她的麥克風沒有關。翻頁的聲音、螢光筆的蓋子，偶爾一聲很小的「……嗯。」）'},
       {speaker:null,text:'（七點五十分，她那一格先打了一行字。）'},
-      {if:PLG,speaker:'heroine_05',text:'八點你們有讀書會。下線吧。'},
+      {if:PLG,speaker:'heroine_05',text:'八點你們有讀書會。我先下線了。'},
       {unless:PLG,speaker:'heroine_05',text:'七點五十了。我先下線。'},
       {speaker:'heroine_05',text:'……颱風天這樣讀，剛好。'},
       {set:{SIS_TYPHOON_Y3_ONLINE:'went'}} ] };
@@ -353,11 +353,31 @@ const R2Y3A_EVENTS=(function(){
       {label:'a1'},{speaker:'heroine_01',text:'嗯。可是法官一直讓他講完。'},{speaker:null,text:'（她把開庭表摺起來。）'},{speaker:'heroine_01',expression:'thinking',text:'……我在想，那是規定，還是那個法官。'},{goto:'end'},
       {label:'a2'},{speaker:'heroine_01',text:'禮拜五去。'},{speaker:null,text:'（她停了一下。）'},{speaker:'heroine_01',text:'刑事庭的旁聽席，有人會認得我。行政法院不會。'},
         {if:kn('zhe'),speaker:'zhe',text:'認得妳？妳是明星喔。'},{if:kn('zhe'),speaker:'heroine_01',text:'……不是。麵要糊了。'},{goto:'end'},
-      {label:'a3'},{speaker:'heroine_01',text:'好。開庭表我傳給你。……要早到，旁聽席很小。'},
+      {label:'a3'},{speaker:'heroine_01',text:'好。開庭表我傳給你。……要早到，旁聽席很小。'},{set:{AN_ADMIN_NEXT:true}},   /* AA_601 第 1 節第 1 點：接 10/27 她傳開庭表 */
       {label:'end'},{advance:toH(19+40/60)},
       {speaker:null,text:'（七點四十，她看了一下錶，把麵吃完。）'},
       {speaker:'heroine_01',text:'讀書會。我先走。'},
       {set:{AN14:'there'}},(mem('heroine_01','AN_ADMIN_COURT')) ] };
+
+  /* ---------- AA_601（企劃線 ebab78c45，AA 定稿第②級）以安「一起去行政法院旁聽」（CG-29 的場）：ev_an_admin_court 選「下次我也想去。」（AN_ADMIN_NEXT）→ 10/27 21:00 她傳開庭表
+     （r2y3a3d.js anAdminPhone；FRIEND 以上、不是前任）→「好。」＝出遊 11/3（三）13:50「行政法院・旁聽席」（不是 must；11/3 下午沒有必修，不用挪）。
+     法庭裡全是旁白（旁聽不說話）。LEGAL_REVIEW_REQUIRED：同 ev_an_admin_court，旁白只寫「行政法院」，不寫哪一級、不寫案由 ---------- */
+  const hasCG=id=>typeof CG_REGISTRY!=='undefined'&&!!CG_REGISTRY[id];
+  const ADMIN_TOGETHER={ id:'ev_an_admin_court_together', title:'行政法院的旁聽席', participants:['heroine_01'], location:'any', trigger:'outing', once:true, background:'dark', hours:2,
+    dialogue:[ {scene:'行政法院・旁聽席'},
+      {speaker:null,text:'（行政法院的旁聽席只有三排。你們坐在最後一排。）'},
+      {speaker:null,text:'（左邊是一個人和他的律師，右邊是機關的兩個代理人。法官進來，大家站起來，再坐下。）'},
+      {if:{custom:()=>hasCG('cg_admin_court_heroine01')},cg:'cg_admin_court_heroine01'},   /* CG-29 */
+      {speaker:null,text:'（一個小時。以安的筆一直停在筆記本上，一個字都沒寫。）'},
+      {speaker:null,text:'（退庭以後，你們走出法院。外面的太陽很大。）'},
+      {speaker:'heroine_01',text:'……他講完了。'},
+      {choice:[{text:'「法官一直讓他講完。」',goto:'a'},{text:'「妳怎麼一個字都沒寫？」',goto:'b'},{text:'（不說話，陪她走到捷運站）',goto:'c'}]},
+      {label:'a'},{speaker:'heroine_01',text:'嗯。這次我自己看到了。'},{goto:'end'},
+      {label:'b'},{speaker:'heroine_01',text:'寫不下來。……我想先記住。'},{goto:'end'},
+      {label:'c'},{speaker:null,text:'（走到捷運站，她才開口。）'},{speaker:'heroine_01',text:'謝謝你來。'},
+      {label:'end'},{set:{AN_ADMIN_TOGETHER:'there'}},(mem('heroine_01','AN_ADMIN_TOGETHER')) ],
+    consequences:{rel:{heroine_01:{fam:2,trust:1}}},
+    outingMissed:(G,GM,q)=>{ const r=R(); if(r) r.anAdminMissed(G,q); } };
 
   /* ---------- 2-Y3-14 翰 4「四樓的樓梯間」（裁定 #8）：第 10 週（11/8～11/12）平日 12:10～13:00，霖澤館 4F（linze_4f）樓梯間，他坐在往五樓那扇刷卡門前的台階上（「5 樓以上是研究室，樓梯間的門要刷教職員證。」；作息在 r2y3a3d.js），和柏翰 FAMILIAR 以上。
      三、四樓已經開放、沒有整修的樓梯口了（AA_343 B7，569621e0 改四樓；第一版的 202 門口作廢：202 已做成正式教室）：標題改、id 不變；「台階」、選項、「走了兩階」照原文。
@@ -402,7 +422,7 @@ const R2Y3A_EVENTS=(function(){
     prereq:{custom:G=>!member(G)&&!done(G,'ev_fair_booth_y3')},
     dialogue:[ {speaker:null,text:'（法服的攤位前，柏翰在跟一個人講話，筆記寫了半頁。）'},
       {if:GM_Y2,speaker:null,text:'（攤位旁邊的阿嬤看到你，揮了一下手。）'},
-      {if:SIS_PASS,speaker:'heroine_05',text:'你。……算了，今年不抓你。'},
+      {if:SIS_PASS,speaker:'heroine_05',text:'（抱著一疊訪談稿，從攤位前面經過，看到你）今天人好多。我回研究室了。'},
       STICKERS,
       {set:{FAIR_Y3:'pass'}} ] };
 
@@ -456,7 +476,7 @@ const R2Y3A_EVENTS=(function(){
       {speaker:'heroine_01',text:'……我們分工好了。'},
       {choice:[{text:'「我可以加入嗎？」',goto:'j'},{text:'「妳們開學就坐在一起了吧。」',goto:'f'},{text:'（聽她們對）',goto:'l'}]},
       {label:'j'},{speaker:'classmate_xinci',expression:'smile',text:'可以。你負責第七題。'},{goto:'end'},
-      {label:'f'},{speaker:'heroine_01',text:'第一排。她把課表推過來給我看。……我那時候想，這個人好細心。'},{goto:'end'},
+      {label:'f'},{speaker:'heroine_01',text:'第一排。她把課表推過來給我看。我那時候想，這個人好細心。'},{goto:'end'},
       {label:'l'},{speaker:null,text:'（對到第十題，三個人都錯了同一題。芯慈笑出來。）'},
       {label:'end'},{set:{CI5:'near',XC5_RECONCILE:true}} ] };   /* XC5_RECONCILE＝慈 5 演完、開始一起讀書（AA_547 改意思；近、遠兩版都算，AA_496 第 9 節第 1 點）：尾聲「以安上個月搬家……」那一組讀它（postgrad3d.js）*/
   const ANSWERS_FAR={ id:'ev_xinci_an_answers_far', title:'對答案', participants:[], location:'library', trigger:'enter', once:true, background:'blur', npcZone:['heroine_01','classmate_xinci'], term:['Y3S1'], weeks:[13],
@@ -496,13 +516,14 @@ const R2Y3A_EVENTS=(function(){
   const NGF_YT=ndt('heroine_03');
   const THU={ id:'ev_yt_thursday_free', title:'空出來的週四', participants:['heroine_03'], location:'library', trigger:'auto', once:true, background:'blur', npcNear:'heroine_03', nearDist:3,
     prereq:{custom:G=>on(G,'2027-12-16',18,19.75)&&stAt(G,'heroine_03','FRIEND')&&!!(G.flags&&G.flags.RENT_RENEWED)},
-    dialogue:[ {speaker:'heroine_03',text:'阿姨請了一個工讀生。今天第一天。'},
+    dialogue:[ {speaker:null,text:'（她看到你，闔上書，指了指外面。）',libOut:true},   /* libOut（AA_595 1-B51 開頭；AA 11-02 22:30 定稿）*/
+      {speaker:'heroine_03',text:'阿姨請了一個工讀生。今天第一天。'},
       {if:NGF_YT,speaker:'heroine_03',text:'她叫我今天不要去。……我不知道週四晚上要幹嘛。'},
       {if:NGF_YT,speaker:'heroine_03',text:'我在這裡坐了一個小時。只是坐著。'},
       {if:GF_YT,speaker:'heroine_03',text:'她叫我今天不要去。……我第一個想到的是你。第二個想到的是，我不知道週四晚上要幹嘛。'},
       {if:GF_YT,speaker:'heroine_03',text:'所以我先來這裡坐。等你下課。'},
       {choice:[{text:'「那就坐著。我陪妳。」',set:{YT_EV13_SEEN:'sat'},goto:'y1'},{text:'「去溫州街走走？」',set:{YT_EV13_SEEN:'walk'},goto:'y2'},{text:'「妳要不要寫點什麼？」',set:{YT_EV13_SEEN:'write'},goto:'y3'}]},
-      {label:'y1'},{speaker:null,text:'（兩個人坐到閉館。走出總圖時她說：）'},{advance:toH(22)},{speaker:'heroine_03',text:'好安靜。我平常這時候在切蔥。'},
+      {label:'y1'},{speaker:null,text:'（兩個人坐到閉館。走出總圖時她說：）',libOut:true},   /* libOut：走出總圖以後不加（小聲）（AA_595 1-B51；AA 11-02 20:54）*/{advance:toH(22)},{speaker:'heroine_03',text:'好安靜。我平常這時候在切蔥。'},
         {if:GF_YT,speaker:'heroine_03',text:'下禮拜四也這樣。'},{goto:'end'},
       {label:'y2'},{speaker:'heroine_03',text:'我從小住公館，沒有在週四晚上走過溫州街。'},{if:NGF_YT,speaker:null,text:'（她站起來。）'},{if:GF_YT,speaker:null,text:'（她站起來，把手伸過來。）'},
         {speaker:null,text:'（你們從總圖走到溫州街，又走回來。她一路沒講什麼，走得很慢。）'},{goto:'end'},
@@ -546,6 +567,6 @@ const R2Y3A_EVENTS=(function(){
     after:G=>{ const r=R(); if(r){ r.kxYear(G,'KX_VDAY','video'); r.vdayGiraffe(G); } },
     outingMissed:(G,GM,q)=>{ const r=R(); if(r) r.vdayMissed(G); } };
 
-  return [KH_A,KH_B,KH_CALL,QIXI_VIDEO,MOUNTAIN,WELCOME,FIRST_MEAL,CAPTAIN,THIRTY,LECTURE,LECTURE_TABLE,DAD_STUCK,TY_NOODLE,TY_FAMILY,CALL1,CALL2,COURT,ADMIN,THIRD,BOOTH,BOOTH_PASS,SCOOTER,RENEW,RETELL,ANSWERS,ANSWERS_FAR,TUTOR,JUNIORS,JUNIORS_VIDEO,THU,XMAS,KN_CALL,VDAY];
+  return [KH_A,KH_B,KH_CALL,QIXI_VIDEO,MOUNTAIN,WELCOME,FIRST_MEAL,CAPTAIN,THIRTY,LECTURE,LECTURE_TABLE,DAD_STUCK,TY_NOODLE,TY_FAMILY,CALL1,CALL2,COURT,ADMIN,ADMIN_TOGETHER,THIRD,BOOTH,BOOTH_PASS,SCOOTER,RENEW,RETELL,ANSWERS,ANSWERS_FAR,TUTOR,JUNIORS,JUNIORS_VIDEO,THU,XMAS,KN_CALL,VDAY];
 })();
 Array.prototype.push.apply(STORY_EVENTS,R2Y3A_EVENTS);

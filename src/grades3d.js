@@ -45,14 +45,10 @@ const GRADES=(function(){
   const say=async(GM,who,t)=>GM.say(who,t), nar=async(GM,t)=>GM.say(null,t);
   const choose=async(GM,opts)=>{ const k=await GM.choose(opts.map(t=>({t}))); return opts[k|0]; };
   S.FACE={
-    heroine_05:async(GM,who,G,t,lv)=>{ await say(GM,who,'成績出來了。三個字以內。');   /* 2-1 */
-      const told=has('heroine_05','TOLD_SCORE'), fail=S.fail(lv), w=fail?'不太好。':LV_WORD[lv], pick=await choose(GM,[w,'不說。']);
-      if(pick==='不說。'){ await say(GM,who,'好。不說也是一種答案。'); return; }
-      if(typeof SOCIAL!=='undefined'&&SOCIAL.remember) SOCIAL.remember('heroine_05','TOLD_SCORE',t);
-      if(lv==='high'){ await say(GM,who,'好。'); await say(GM,who,'下學期，我出難一點的題目給你。'); }
-      else if(lv==='mid') await say(GM,who,'好。重點是你有翻開。');
-      else await say(GM,who,'好。……下學期的進度，我幫你排。');   /* 低、被當（AA_553 第 0 節：取代讀書會那句）*/
-      if(told&&S.improved(G,t)) await say(GM,who,'比上學期好。我看得出來。'); },
+    heroine_05:async(GM,who,G,t,lv)=>{ await say(GM,who,'放假了。有什麼打算？');   /* 2-1；AA_590 第 55、56 列（使用者 11-02 選擇題「就問放假要做什麼就好了」）：不再問成績、不記 TOLD_SCORE；
+         舊的成績那幾句（「下學期，我出難一點的題目給你。」「好。有翻開就好。」「好。……下學期的進度，我幫你排。」「比上學期好。我看得出來。」）不再演 */
+      const R={'在家讀書。':'好。','出去玩。':'好啊。','還沒想。':'那就先睡飽。','不說。':'好。那不問了。'};
+      const pick=await choose(GM,Object.keys(R)); await say(GM,who,R[pick]); },
     heroine_02:async(GM,who,G,t,lv)=>{   /* 2-2：成績出來以後第一次在 Café 跟她說話 */
       if(S.fail(lv)){ await say(GM,who,'……今天這杯我請。不是安慰，是剛好。'); return; }
       if(S.studyN(G,t,'cafe')>=5){ await say(GM,who,'成績出來了吧。今天這杯我請。'); await say(GM,who,'這學期你坐那個位子，坐了好多個晚上。'); }
@@ -86,7 +82,8 @@ const GRADES=(function(){
     classmate_peishan:async(GM,who)=>{ await say(GM,who,'我看到公告了。……拿到的時候，是什麼感覺？'); const pick=await choose(GM,['很開心。','沒什麼感覺。']);
       await say(GM,who,pick==='很開心。'?'好。我記下來。':'……這是最奇怪的答案。'); },
     classmate_mingxuan:async(GM,who)=>{ await say(GM,who,'哈哈，恭喜。'); await say(GM,who,'這次滷蛋你請。'); } };
-  const faceOk=(G,id,t)=>{ if(id==='heroine_02'&&G.zone!=='cafe') return false; if(id==='classmate_peishan'&&!['Y1S1','Y1S2'].includes(t)) return false; return true; };
+  const faceOk=(G,id,t)=>{ if(id==='heroine_02'&&G.zone!=='cafe') return false;
+    if(id==='heroine_05'){ const nx=LAW_TERMS[LAW_TERMS.indexOf(t)+1], r=nx&&typeof CALENDAR!=='undefined'?CALENDAR.termDays(nx):null; if(r&&G.day>=r.from) return false; }   /* AA_590 第 55 列：她問「放假了。有什麼打算？」——下學期開學以後不演（原本到第 3 週） */ if(id==='classmate_peishan'&&!['Y1S1','Y1S2'].includes(t)) return false; return true; };
   /* 吧檯班的芷若（story3d.js 點餐那一條路沒有走 PRE_TALK）：這次說話會不會演成績那段或書卷獎那一句（BB-B 11-01 讀程式預料 FAIL）*/
   S.preTalkDue=function(G,id){ if(!law(G)||!S.FACE[id]) return false; const F=G.flags, t=S.windowTerm(G);
     if(t&&F['GR_'+id+'_'+t]==null&&atLeast(id,'FAMILIAR')&&faceOk(G,id,t)&&S.lv(G,t)) return true;

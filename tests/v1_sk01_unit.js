@@ -50,7 +50,7 @@ const meet=id=>SOCIAL.remember(id,'FIRST_MET','');
   check('2. 私訊：先「是我，阿勳。你經濟系那年的室友。」再兩則',L[0]&&L[0].endsWith('是我，阿勳。你經濟系那年的室友。')&&L[1].endsWith('你在對面喔？我在二樓看到你了。')&&L[2].endsWith('下課來圖書館。我幫你佔位。你以前那一罐，我也買了。'),JSON.stringify(L.slice(0,3)));
   check('2. 兩個按鈕「（去社科圖）」「（先回宿舍）」',JSON.stringify(opts[0])===JSON.stringify(['（去社科圖）','（先回宿舍）']),JSON.stringify(opts));
   const want=['社科圖二樓，靠窗那一排。阿勳旁邊的位子上，壓著一本統計課本。','桌上有一罐飲料。是你以前常喝的那一種。','阿勳：坐。課本是佔位用的，我沒在讀。','祐廷：……你還記得。','阿勳：兩個月。看也看會了。','阿勳：讀不下去就過來。這裡的位子，我很會佔。'];
-  check('2. 社科圖六句（逐字；沒玩經濟系＝沒有保齡球）',JSON.stringify(L.slice(3))===JSON.stringify(want),JSON.stringify(L.slice(3)));
+  check('2. 社科圖六句（逐字；沒玩經濟系＝沒有保齡球）',JSON.stringify(require('./libq_out_lines.js').norm(L).slice(3))===JSON.stringify(want),JSON.stringify(L.slice(3)));   /* LQN：圖書館「走出館外」插進來的旁白拿掉、換掉的換回原句再逐字比（AA_595 1-B；AA 11-02 22:30 定稿；新內容在 tests/libq_out_1102_unit.js 驗）*/
   check('2. 坐一小時；MET_XUN、SK01_CHOICE go、SK01_DAY',Math.abs(G.hour-h0-1)<1e-6&&G.flags.MET_XUN&&G.flags.SK01_CHOICE==='go'&&G.flags.SK01_DAY===D2,G.hour);
   check('2. 私訊進了阿勳的對話',txt('p:econ_zhengxun').length===3);
   check('2. 只有一次',!tick());

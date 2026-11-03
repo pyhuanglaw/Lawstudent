@@ -21,7 +21,11 @@ let err='', loaded=false;
 try{ load('src/data/retake_home.js'); load('src/econff3d.js'); load('src/holff3d.js'); loaded=load('src/data/vacfill_events.js')&&load('src/vacfill3d.js'); }catch(e){ err=String(e&&e.stack||e); }
 /* ---------- 稿 ---------- */
 const SHA='fd200c2c6', P440='docs/story_planning/AA_440_寒暑假的空白日_最空三段_住家裡_留宿舍.md';
-const DOC=(()=>{ try{ return cp.execSync('git -c core.quotepath=false show '+SHA+':"'+P440+'"',{cwd:process.env.SPEC_GIT_DIR||H.ROOT,encoding:'utf8',maxBuffer:1<<26,stdio:['ignore','pipe','ignore']}); }catch(e){ return ''; } })();
+const DOC0=(()=>{ try{ return cp.execSync('git -c core.quotepath=false show '+SHA+':"'+P440+'"',{cwd:process.env.SPEC_GIT_DIR||H.ROOT,encoding:'utf8',maxBuffer:1<<26,stdio:['ignore','pipe','ignore']}); }catch(e){ return ''; } })();
+/* 以安改稿①b（AA_592 第 11、12、13、50 列，企劃線 4162d22e1）改了這份稿上她的四句：讀稿時照改成欄換（每一處都要剛好找到一次；逐列核對在 tests/aa592_an_1b_unit.js）*/
+const AN592=[['> 以安：……你呢？','> 以安：你呢？'],['「……嗯。」「我要讀書了。十點半再傳。」','「我在看書。」「……看不太下去了。」'],['「我說是一起讀書的人。……她說好。」','「我說是男朋友。……她說好。」']];
+const AN592_BAD=AN592.filter(([o])=>DOC0.split(o).length!==2).map(x=>x[0]);
+const DOC=AN592.reduce((d,[o,n])=>d.split(o).join(n),DOC0);
 const part=(a,b)=>{ const i=DOC.indexOf(a); if(i<0) return ''; const j=b?DOC.indexOf(b,i+a.length):-1; return DOC.slice(i,j<0?DOC.length:j); };
 const Q=s=>s.split('\n').map(l=>/^\s*>\s*(.+?)\s*$/.exec(l)).filter(Boolean).map(m=>m[1]).map(t=>{ const k=t.indexOf('：'); return k>0&&k<8?{sp:t.slice(0,k),text:t.slice(k+1)}:{sp:null,text:t}; });
 const rows=s=>s.split('\n').map(l=>l.trim()).filter(l=>/^\|/.test(l)&&!/^\|[-| :]+\|\s*$/.test(l)).map(l=>l.replace(/^\||\|$/g,'').split('|').map(c=>c.trim()));
@@ -98,6 +102,7 @@ const b532all=v=>typeof v==='string'?b532(v):Array.isArray(v)?v.map(b532all):(v&
     const all=[]; const walk=v=>{ if(typeof v==='string') all.push(v); else if(Array.isArray(v)) v.forEach(walk); else if(v&&typeof v==='object') Object.values(v).forEach(walk); };
     walk(L()); const ids=/^(econ_[a-z]+|zhe|yu|classmate_bohan|heroine_0\d|kexin|kai|mom|dad|sister)$/;
     const bad=all.map(b532).filter(t=>!ids.test(t)&&DOC.indexOf(t)<0&&!POOL443.home.winter.concat(POOL443.home.summer,POOL443.dorm.winter,POOL443.dorm.summer).includes(t)&&!(DOC507&&NEW507.some(n=>t.indexOf(n)>=0&&DOC507.indexOf(n)>=0)&&DOC.indexOf(back507(t))>=0)&&!ok519(t));
+    check('0. AA_592 第 11～13、50 列：AA_440 稿上那四句都找得到（剛好一次），讀稿時換成改成欄',!AN592_BAD.length,JSON.stringify(AN592_BAD));
     check('0. VACFILL_LINES 的每一句都在 AA_440（摘要池加寫的在 AA_443 第 2 節；人物 id 除外；1/16 那一句照 AA_519 1-3 拆兩句）',bad.length===0,bad.join('｜'));
     check('0. 稿沒有寫字的兩則照片（VACFILL_UI）：括號裡的字取自稿',['上海下大雨','燈'].every(t=>DOC.indexOf(t)>=0)&&VACFILL_UI.photoTyphoon==='📷（上海下大雨）'&&VACFILL_UI.photoLantern==='📷（燈）');
     check('0. 摘要池：AA_440 住家裡寒假 8、暑假 8；留宿舍各 6',POOL440.home.winter.length===8&&POOL440.home.summer.length===8&&POOL440.dorm.winter.length===6&&POOL440.dorm.summer.length===6);
@@ -231,7 +236,7 @@ const b532all=v=>typeof v==='string'?b532(v):Array.isArray(v)?v.map(b532all):(v&
     rep=answer('vf_y2_0724',0); const w22a=r22[0][1];
     check('2-2. 「在家，也在讀書。」→「讀哪一科？」→（你說了。）→「好。我也讀那一科。明天對進度。」（旁白是對話串裡的一行）',J(rep)===J([AN+':'+qs(w22a)[0],'-:'+nar(w22a)[0],AN+':'+qs(w22a)[1]])&&msgs('p:'+AN).some(m=>m.text==='（你說了。）'&&m.who===null&&!m.from),J(rep));
     G=lawG('2027-07-24',21.55,{date:[AN]}); rules(); rep=answer('vf_y2_0724',1); rules(); const before=tagged('vf_y2_0724_photo').length; setT('2027-07-24',22.55); rules(); const w22b=r22[1][1];
-    check('2-2. 「在想妳。」→「……嗯。」「我要讀書了。十點半再傳。」；22:30（十點半她傳了一張課本的照片，旁邊空白處畫了一個小小的箭頭。）',J(rep)===J(qs(w22b).map(t=>AN+':'+t))&&before===0&&J(tagged('vf_y2_0724_photo').map(m=>m.text))===J(nar(w22b))&&tagged('vf_y2_0724_photo')[0].h>=22.5&&tagged('vf_y2_0724_photo')[0].h<22.6,J(rep));
+    check('2-2. 「在想妳。」→「……嗯。」「……看不太下去了。」；22:30（十點半她傳了一張課本的照片，旁邊空白處畫了一個小小的箭頭。）',J(rep)===J(qs(w22b).map(t=>AN+':'+t))&&before===0&&J(tagged('vf_y2_0724_photo').map(m=>m.text))===J(nar(w22b))&&tagged('vf_y2_0724_photo')[0].h>=22.5&&tagged('vf_y2_0724_photo')[0].h<22.6,J(rep));
     G=lawG('2027-07-24',21.55,{fam:[AN]}); rules(); check('2-2. 沒交往：沒有',!tagged('vf_y2_0724').length);
     /* 2-3 */
     G=lawG('2027-07-28',16.05,{fam:[SIS]}); rules(); const q23=Q(S23);
@@ -292,7 +297,7 @@ const b532all=v=>typeof v==='string'?b532(v):Array.isArray(v)?v.map(b532all):(v&
     G=lawG('2028-02-12',14.05,{fam:[SIS]}); rules(); const q33=Q(S33);
     check('3-3. 2/12（六）14:00 學姊（FAMILIAR 以上、沒交往）：「法圖下週一恢復晚上開館。」（AA_507 0-2 第 4 點）「你開學以前要借書的話，那天人最少。」＋「我那天去。」',J(pairs('vf_y3_0212'))===J(qPairs(q33))&&J(optsOf('vf_y3_0212'))===J(['我那天去。']));
     answer('vf_y3_0212',0); rules(); Ls=await run('ev_vf_y3_0214'); const n33=fx(nar(part('- 回「我那天去。」','- 2/14 是情人節'))[1]||'',FIX507_33);
-    check('3-3. 「我那天去。」＝2/14（一）10:00 法圖一鍵：（開館第一天，借書櫃台前面只有你。…點了一下頭。）',isAt(out('vf_y3_0214'),'2028-02-14',10)&&J(Ls)===J([n33].concat(AA533.y3_0214)),J(Ls)+J(n33));   /* AA_533 4-3：後面加學姊兩句＋選項（預設第一個）*/
+    check('3-3. 「我那天去。」＝2/14（一）10:00 法圖一鍵：（開館第一天，借書櫃台前面只有你。…點了一下頭。）',isAt(out('vf_y3_0214'),'2028-02-14',10)&&J(Ls)===J([n33,'（借完書出來，在法圖門口。）'].concat(AA533.y3_0214)),J(Ls)+J(n33));   /* 「（借完書出來，在法圖門口。）」：AA_595 1-B44（AA 11-02 22:30 定稿）*/   /* AA_533 4-3：後面加學姊兩句＋選項（預設第一個）*/
     G=lawG('2028-02-12',14.05,{date:[SIS]}); rules(); check('3-3. 和學姊交往中：不發',!tagged('vf_y3_0212').length);
     G=lawG('2028-02-12',14.05,{fam:[SIS],date:[AN]}); rules(); check('3-3. 和別人交往中：照發（只是借書，不和情人節衝突）',tagged('vf_y3_0212').length===2);
     /* 3-4 */
@@ -325,7 +330,7 @@ const b532all=v=>typeof v==='string'?b532(v):Array.isArray(v)?v.map(b532all):(v&
     const r0803=row4('8/3（一）');
     G=lawG('2026-08-03',21.05,{fam:[YT]}); rules(); check('4. 8/3（一）語彤（FAMILIAR 以上）「阿姨問你暑假有沒有回來吃麵。」＋「明天去。」',J(tagged('vf_y1s_0803').map(m=>m.text))===J([qs(r0803)[0]])&&J(optsOf('vf_y1s_0803'))===J([qs(r0803)[1]]));
     answer('vf_y1s_0803',0); rules(); check('4. 「明天去。」＝8/4 麵店一鍵（18:00）',isAt(out('vf_y1s_0804'),'2026-08-04',18)&&out('vf_y1s_0804').goto.zone==='noodle');
-    G=lawG('2026-08-05',21.55,{date:[AN]}); rules(); check('4. 交往以安的：8/5 21:30 她從台中「我媽今天問你是誰。」「我說是一起讀書的人。……她說好。」（不用回）',J(tagged('vf_y1s_0805').map(m=>m.text))===J(qs(r0803).slice(2,4))&&!optsOf('vf_y1s_0805').length);
+    G=lawG('2026-08-05',21.55,{date:[AN]}); rules(); check('4. 交往以安的：8/5 21:30 她從台中「我媽今天問你是誰。」「我說是男朋友。……她說好。」（不用回）',J(tagged('vf_y1s_0805').map(m=>m.text))===J(qs(r0803).slice(2,4))&&!optsOf('vf_y1s_0805').length);
     G=lawG('2026-08-05',21.55,{fam:[AN]}); rules(); check('4. 沒交往：沒有',!tagged('vf_y1s_0805').length);
     const r0828=row4('8/28（五）');
     G=lawG('2026-08-28',18,{home:true}); const e28=ev('ev_vf_y1s_0828'); setT('2026-08-28',17.9); const c28=EVENTS.check(e28); setT('2026-08-28',18); Ls=await run('ev_vf_y1s_0828');

@@ -136,8 +136,11 @@ const STUDY=(function(){
   const askQ=u=>{ if(!u||!u.askQid||typeof EXAM_BANK==='undefined') return null; return EXAM_BANK.questions.find(q=>q.id===u.askQid)||null; };
   const ansText=q=>q.type==='tf'||!q.options?q.answer:'（'+q.answer+'）'+q.options[q.answer];
   /* 一張卡要說的幾句（不含標題列）：白話（＋例子）或 fallback（黑板第二三行＋教授那一句、重點）、課堂提問 */
+  S.CARD_CHUNK=220;   /* 一則最多約幾個字（超過就照句號分段）*/
   S.cardLines=function(u){ if(typeof u==='string') u=S.unit(u); const v=S.view(u); if(!v) return []; const out=[], q=askQ(u);
-    if(v.plain) out.push(v.plain+(v.example?'　例子：'+v.example:''));
+    if(v.plain){ const one=v.plain+(v.example?'　例子：'+v.example:'');
+      if(one.length<=S.CARD_CHUNK) out.push(one);
+      else { let cur=''; for(const sen of (v.plain.match(/[^。！？]+[。！？]?/g)||[v.plain])){ if(cur&&(cur+sen).length>S.CARD_CHUNK){ out.push(cur); cur=''; } cur+=sen; } if(cur) out.push(cur); if(v.example) out.push('例子：'+v.example); } }   /* 長卡（AA 11:46：securities_w5 1238 字）：白話照句號分成幾則、例子另一則；不拆卡（卡 id 不動）*/
     else { const b=[v.board.slice(1).filter(Boolean).join('　'),v.line?v.prof+'：'+v.line:''].filter(Boolean).join('　'); if(b) out.push(b);
       const cores=v.cores.filter(t=>!(q&&(t===q.core||t===q.explanation))); if(cores.length){ const all=cores.join('　'); if(all.length<=140) out.push('重點：'+all); else cores.forEach((t,i)=>out.push((i?'':'重點：')+t)); } }
     if(q) out.push('課堂提問：'+q.q+'　答案：'+ansText(q)+(q.core?'　考點：'+q.core:'')+(q.explanation&&q.explanation!==q.core?'　'+q.explanation:''));

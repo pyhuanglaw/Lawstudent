@@ -9,6 +9,14 @@ from playwright.async_api import async_playwright
 import playlib as L
 URL = sys.argv[1] if len(sys.argv) > 1 else 'http://127.0.0.1:8765/index.html?turbo'
 OUT = sys.argv[2] if len(sys.argv) > 2 else '/tmp/guide_flow'
+async def wait_tgt(pg, cond="!!(window.GUIDE&&GUIDE._st&&GUIDE._st.tgt)", ms=60000):
+    """等 GUIDE 的 tick 算出目標再判（BB 17:07：讀檔後只等 4 秒，雲端很慢時 tgt 還是 null；判定標準不變，只是等夠）"""
+    try:
+        await pg.wait_for_function(cond, timeout=ms)
+    except Exception:
+        pass
+
+
 async def main():
     run = L.Run('probe_guide', OUT)
     async with async_playwright() as p:
@@ -16,7 +24,7 @@ async def main():
         await pg.goto(URL); assert await L.wait_loaded(pg)
         run.setup('讀檔：第二天 15:30 校園A館前，舊存檔格式（只有目標文字、沒有 goalDest）')
         await L.load_state(pg, {'day':2,'weekday':4,'hour':15.5,'zone':'campus','pos':{'x':34,'z':-96,'yaw':3.14},'goal':'和小安一起走到校門，往公館・溫州街','flags':{'introDone':True,'classDone':True,'afternoonDone':True,'metAn':True,'zheInvite':False}}, quiet_events=True)
-        await pg.wait_for_timeout(4000)
+        await pg.wait_for_timeout(4000); await wait_tgt(pg)
         st = await pg.evaluate("({dest:GAME.G.goalDest, tgt:GUIDE._st.tgt&&{x:GUIDE._st.tgt.x,z:GUIDE._st.tgt.z,text:GUIDE._st.tgt.text,via:GUIDE._st.tgt.via}, route:GUIDE._st.route&&GUIDE._st.route.length, bar:!document.getElementById('guide').classList.contains('hide'), txt:document.getElementById('guideText').textContent, arrow:document.getElementById('guideArrow').style.transform, markers:GUIDE._st.markers.length})")
         print(json.dumps(st, ensure_ascii=False))
         run.check('舊存檔推算出目的地＝兩點半 Café', bool(st['dest']) and st['dest'].get('zone') == 'cafe')
@@ -41,14 +49,14 @@ async def main():
         run.check('校門的入口標記是金色', any(m['t'].startswith('校門') and m['g'] for m in mk))
         # 公館
         run.setup('進入公館（GAME.enter）')
-        await pg.evaluate("void GAME.enter('gongguan',{x:-2.5,z:-29,yaw:0})"); await pg.wait_for_timeout(5000)
+        await pg.evaluate("void GAME.enter('gongguan',{x:-2.5,z:-29,yaw:0})"); await pg.wait_for_timeout(5000); await wait_tgt(pg, "GAME.G.zone==='gongguan'&&!!(GUIDE._st.tgt)&&GUIDE._st.tgt.text==='往溫州街'")
         st = await pg.evaluate("({tgt:GUIDE._st.tgt&&GUIDE._st.tgt.text, txt:document.getElementById('guideText').textContent, mk:GUIDE._st.markers.map(m=>m.txt+'|'+m.sub+'|'+m.gold)})")
         print(json.dumps(st, ensure_ascii=False)); run.check('公館指向「往溫州街」', st['tgt'] == '往溫州街', str(st['tgt']))
         await run.shot(pg, 'gongguan_bar')
         await pg.evaluate("GAME.E.placeAt(GAME.E.player,-60,14,0); GAME.E.player.obj.rotation.y=Math.PI/2; GAME.E.cam.yaw=-Math.PI/2"); await pg.wait_for_timeout(2500); await run.shot(pg, 'gongguan_marker')
         await L.tap(pg, cdp, '#minimap'); await pg.wait_for_timeout(800); await run.shot(pg, 'bigmap_gongguan'); await L.tap(pg, cdp, '#bmClose'); await pg.wait_for_timeout(300)
         # 溫州街
-        await pg.evaluate("void GAME.enter('wenzhou',{x:51.3,z:-9.8,yaw:0})"); await pg.wait_for_timeout(5000)
+        await pg.evaluate("void GAME.enter('wenzhou',{x:51.3,z:-9.8,yaw:0})"); await pg.wait_for_timeout(5000); await wait_tgt(pg, "GAME.G.zone==='wenzhou'&&!!(GUIDE._st.tgt)&&/Café/.test(GUIDE._st.tgt.text||'')")
         st = await pg.evaluate("({tgt:GUIDE._st.tgt&&GUIDE._st.tgt.text, txt:document.getElementById('guideText').textContent})")
         print(json.dumps(st, ensure_ascii=False)); run.check('溫州街指向 Café 的門', bool(st['tgt']) and 'Café' in st['tgt'], str(st['tgt']))
         await run.shot(pg, 'wenzhou_bar')
@@ -69,7 +77,7 @@ async def main():
         b, ctx, pg, cdp, errs2 = await L.launch(p, landscape=False)
         await pg.goto(URL); assert await L.wait_loaded(pg)
         await L.load_state(pg, {'day':2,'weekday':4,'hour':15.5,'zone':'campus','pos':{'x':34,'z':-96,'yaw':3.14},'goal':'和小安一起走到校門，往公館・溫州街','flags':{'introDone':True,'classDone':True,'afternoonDone':True,'metAn':True,'guideTip':True}}, quiet_events=True)
-        await pg.wait_for_timeout(4000); await pg.evaluate("document.getElementById('rotate')&&document.getElementById('rotate').classList.remove('want')"); await pg.wait_for_timeout(500); await run.shot(pg, 'campus_bar_port')
+        await pg.wait_for_timeout(4000); await wait_tgt(pg); await pg.evaluate("document.getElementById('rotate')&&document.getElementById('rotate').classList.remove('want')"); await pg.wait_for_timeout(500); await run.shot(pg, 'campus_bar_port')
         await L.tap(pg, cdp, '#minimap'); await pg.wait_for_timeout(800); await run.shot(pg, 'bigmap_port')
         run.check('直向：點小地圖打開大地圖', await pg.evaluate("!document.getElementById('bigmap').classList.contains('hide')"))
         bar = await pg.evaluate("(()=>{ const g=document.getElementById('guide').getBoundingClientRect(), h=document.getElementById('hudR').getBoundingClientRect(), m=document.getElementById('minimap').getBoundingClientRect(); const ov=(a,b)=>a.left<b.right&&a.right>b.left&&a.top<b.bottom&&a.bottom>b.top; return {hudR:ov(g,h), minimap:ov(g,m)}; })()")

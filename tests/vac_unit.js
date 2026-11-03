@@ -52,11 +52,11 @@ GM.money=function(n){ G.money+=n; };
   check('3. 沒去營隊：7/5 21:00 芯慈「營隊結束了」＋照片＋「少一個人排班。下次來喔」',txt('p:classmate_xinci').includes('classmate_xinci:營隊結束了')&&txt('p:classmate_xinci').includes('classmate_xinci:少一個人排班。下次來喔'));
   // 4. 日語課：以安 FAMILIAR 以上 6/20 21:00 私訊；報名後三堂（7/7、7/16、7/23）
   fresh(D('2026-06-20'),20.9,'dorm',{}); G.stage='law'; meet('heroine_01'); R('heroine_01',25,0,0); run(20.9,21.2);
-  check('4. 6/20 以安「我暑假要上日語課，公館那間，週二四晚上」…「你如果也想學，報名到這個禮拜五」',txt('p:heroine_01').includes('heroine_01:你如果也想學，報名到這個禮拜五'));
+  check('4. 6/20 以安「我暑假要上日語課。公館那間，週二、四晚上。」…「你也想學的話，報名到這個禮拜五。」',txt('p:heroine_01').includes('heroine_01:你也想學的話，報名到這個禮拜五。'));
   PHONE.answer(G,'vac_ask_C03@Y1',0); STORY.phoneRules(GM);
   check('4. 報了：三個關鍵事件排在 7/7、7/16、7/23 19:00；家裡出（家人群組沒有另外一句＝卡片沒寫）',['vac_C03@Y1_0','vac_C03@Y1_1','vac_C03@Y1_2'].every(k=>!!OUT.get(G,k))&&OUT.get(G,'vac_C03@Y1_1').day===D('2026-07-16'));
   G.day=D('2026-07-16'); said=[]; picks=[1]; const r0=SOCIAL.rel('heroine_01').fam; await VAC.outing(GM,OUT.get(G,'vac_C03@Y1_1')); L=lines();
-  check('4. 小考：「九十二。片假名寫錯一個。」→「我錯了五個。」→「……那下課一起練。十分鐘。」（熟悉 +2）',L.some(t=>t.includes('九十二。片假名寫錯一個。'))&&L.some(t=>t.includes('那下課一起練。十分鐘。'))&&SOCIAL.rel('heroine_01').fam===r0+2);
+  check('4. 小考：旁白「（小考發回來。你把ツ跟シ寫反了。）」（AA_587 第 29 列＋第 14 節第 5 點：寫錯的人改成祐廷，她不再說「九十二。片假名寫錯一個。」）→「我錯了五個。」→「……那下課一起練。十分鐘。」（熟悉 +2）',L.some(t=>t.includes('（小考發回來。你把ツ跟シ寫反了。）'))&&!L.some(t=>t.includes('九十二。')||t.includes('我每次都分不清楚'))&&L.some(t=>t.includes('那下課一起練。十分鐘。'))&&SOCIAL.rel('heroine_01').fam===r0+2);
   fresh(D('2026-06-20'),20.9,'dorm',{}); G.stage='law'; run(20.9,21.2); check('4. 不熟以安：沒有那則私訊',!txt('p:heroine_01').length);
   check('4. 不熟的也可以在手機「活動」的假期行事曆報名（有「報名」）',/data-vac="C03@Y1"/.test(VAC.html(G)));
   // 5. 日本：7/15 阿凱私訊 → 去 → 家人群組「機票多少？我轉給你。」→ 8/24～8/28 整段

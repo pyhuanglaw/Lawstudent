@@ -57,14 +57,14 @@ const AA187=(function(){
   S.countedOk=G=>{ const d=D(S.COUNTED_FROM); return law(G)&&d!=null&&G.day>=d&&member(G)&&plgToday(G)&&here(AN,G)&&stage(AN)>=5&&!S.talkToday(G,AN); };
   S.EV_COUNTED={id:'ev_an_counted',title:'反駁的次數',participants:[AN],location:['wancai','wancai_sema'],trigger:'activity',afterActivity:'public_law_group',once:true,term:['Y3S1'],weekday:[4],background:'blur',
     prereq:{custom:G=>S.countedOk(G)},
-    dialogue:[ nar('（其他人都走了。她的手帳攤在桌上，你看到一頁寫著「反駁」兩個字，下面一排正字。）'),
+    dialogue:[ nar('（其他人都走了。她的筆記本攤在桌上，你看到一頁寫著「反駁」兩個字，下面一排正字。）'),
       me('這是什麼？'),
-      an('（把手帳闔上）統計。'),
-      an('……讀書會上，有人反駁我的次數。'),
+      an('（把筆記本闔上）統計。'),
+      an('讀書會上，有人反駁我的次數。'),
       me('幾次？'),
       an('十七。'),
       an('其他人加起來是三。'),
-      nar('（她把手帳收進包包。拉鍊拉到一半，停住。）'),
+      nar('（她把筆記本收進包包。拉鍊拉到一半，停住。）'),
       an('……樣本還不夠。'),   /* 2026-10-18 AA-C 改稿（原本兩句併成這一句）*/
       {set:{AN_COUNTED:true}} ]};
 

@@ -245,7 +245,7 @@ const K=t=>'kexin:'+t;
   // 12. 2-Y2-14 G1
   { const e=ev('ev_midterm_walkout_y2s2'); check('12. 考完法學英文期末考（D118 沒有期中考，AA_578 第 2 節 #9；原本 AA_375 第 8 項期中最後一科 4/15；afterClass legal_english、afterExam final、大二下）才有；翹考沒有',e.trigger==='class'&&e.afterClass==='legal_english'&&e.afterExam==='final'&&JSON.stringify(e.term)===JSON.stringify(['Y2S2'])); }
   fresh('2027-04-20',12,'linze',{met_yu:true}); for(const id of ['heroine_03','heroine_01','classmate_xinci']) meet(id); await play('ev_midterm_walkout_y2s2');
-  check('12. W1 認識全部：旁白＋五句（以安那句沒有「理由：」）',said.length===6&&has('債各的第二題，我寫了『買賣不破租賃』。……題目問的是租賃。')/* AA_375 第 8 項 */&&has('贈與那題我也寫錯了。我們一起錯。')&&has('……第二題寫完，我才發現背面還有一題。')&&has('我寫了三頁。第二題值得。')&&has('期末考完了。今天之後，我不跟你們對答案。')/* AA_578 #9 */&&!any(/理由：/),JSON.stringify(said.map(s=>s.t)));
+  check('12. W1 認識全部：旁白＋五句（以安那句沒有「理由：」）',said.length===6&&has('債各的第二題，我寫了『買賣不破租賃』。……題目問的是租賃。')/* AA_375 第 8 項 */&&has('贈與那題我也寫錯了。我們一起錯。')&&has('……第二題寫完，我才發現背面還有一題。')&&has('第二題我寫了三頁。手到現在還在痠。')&&has('期末考完了。今天之後，我不跟你們對答案。')/* AA_578 #9 */&&!any(/理由：/),JSON.stringify(said.map(s=>s.t)));
   fresh('2027-04-20',12,'linze',{met_yu:true}); meet('heroine_01'); await play('ev_midterm_walkout_y2s2'); check('12. W2 不認識語彤：沒有她那句',!has('……第二題寫完，我才發現背面還有一題。'));
 
   // 13. 2-Y2-15 生日
@@ -351,7 +351,7 @@ const K=t=>'kexin:'+t;
   to('2027-05-31',21.5); G.zone='dorm_hall'; check('16. 5/31（一）21:30 宿舍：回宿舍的路上觸發',EVENTS.check(ev('ev_mx_m2_walk')));
   await play('ev_mx_m2_walk',['你還好嗎']); check('16. 「我跟以安說了。」三選一；選「你還好嗎？」有「（他上週才把滷蛋給你。）」',has('我跟以安說了。')&&has('她說她想了三天。答案是沒有，理由是她對我沒有那種感覺。')&&opts[0].length===3&&has('（他上週才把滷蛋給你。）')&&has('……好啦，我明天再吃。')&&G.flags.MX_HEARD===true&&SOCIAL.has('classmate_mingxuan','MX_TOLD'));
   { R('heroine_01','FAM'); const r0=JSON.stringify(SOCIAL.rel('heroine_01')); G.zone='cafe'; const o=Y2R2.talkOpts(G,'heroine_01',GM); check('16. 以安的對話選單多「明軒的事……」',o.length===1&&o[0].t==='明軒的事……');
-    said=[]; await o[0].run(GM,{name:'沈以安'}); check('16. X2「他問了，我答了。我們還是朋友。」；關係值不變；只有一次',JSON.stringify(said.map(s=>s.t))===JSON.stringify(['他問了，我答了。我們還是朋友。'])&&JSON.stringify(SOCIAL.rel('heroine_01'))===r0&&Y2R2.talkOpts(G,'heroine_01',GM).length===0); }
+    said=[]; await o[0].run(GM,{name:'沈以安'}); check('16. X2「他還好嗎？」→祐廷「他今天還跟阿哲去打球。」（祐廷說，不是以安）→「嗯。」「……你今天晚餐吃什麼。」（AA_587 第 41 列，原本「他問了，我答了。我們還是朋友。」）；關係值不變；只有一次',JSON.stringify(said.map(s=>s.t))===JSON.stringify(['他還好嗎？','他今天還跟阿哲去打球。','嗯。','……你今天晚餐吃什麼。'])&&said[1].who!=='沈以安'&&said.filter(s=>s.who==='沈以安').length===3&&JSON.stringify(SOCIAL.rel('heroine_01'))===r0&&Y2R2.talkOpts(G,'heroine_01',GM).length===0); }
   fresh('2027-05-31',21.5,'dorm_hall'); R('classmate_mingxuan','FRI'); await play('ev_mx_m2_walk',['你還好嗎']); check('16. X4 沒看到滷蛋那段：沒有「他上週才把滷蛋給你」',!has('（他上週才把滷蛋給你。）')&&has('還好。你看，我還吃得下滷蛋。'));
   fresh('2027-05-31',21.5,'dorm_hall'); R('classmate_mingxuan','FRI'); date('heroine_01'); ROM.learn(G,'classmate_mingxuan','heroine_01','test'); await play('ev_mx_m2_walk',['三對三幾點']);
   check('16. X3 和以安交往、明軒知道：沒有「我跟以安說了」；「期末考完，系籃要打一場三對三。你來。」；MX_3ON3_ASKED、沒有 MX_HEARD',!has('我跟以安說了。')&&has('期末考完，系籃要打一場三對三。你來。')&&has('週六早上九點。……我知道你起不來，所以約九點。')&&G.flags.MX_3ON3_ASKED===true&&!G.flags.MX_HEARD&&Y2R2.talkOpts(G,'heroine_01',GM).length===0);

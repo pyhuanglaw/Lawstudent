@@ -34,7 +34,7 @@ const SISJP_EVENTS=(function(){
         {unless:dt,speaker:null,text:'（便條只有一句：「那邊三月還冷。外套不要收進行李箱最下面。」）'},
         {if:dt,speaker:null,text:'（便條只有一句：「那邊三月還冷。外套我放了一件在你背包裡，不要問。」）'},
         SIS('到了在群組說一聲。'),
-        SIS('……我四月中寫到第三章，拍給你看。這是我自己要做到的。'),   /* AA_509 0-2 第 1 點（691a26400）：大三下在寫第三章（4/17 照片第三章第一頁）*/
+        SIS('我四月中會寫到第三章。寫到了，拍給你看。'),   /* AA_509 0-2 第 1 點（691a26400）：大三下在寫第三章（4/17 照片第三章第一頁）*/
         {choice:[{text:'「寫不完呢？」',goto:'a'},{text:'「妳也要照顧自己。」',goto:'b'}]},
         {label:'a'},SIS('寫不完你會知道，因為我不會拍。'),{goto:'c'},
         {label:'b'},SIS('我在臺灣。……要照顧自己的是你。'),
@@ -52,7 +52,7 @@ const SISJP_EVENTS=(function(){
         {if:dt,speaker:ID,text:'……我算過了。晚一個禮拜走，就碰得到。'},
         {if:dt,speaker:ID,text:'可是論文的時間是排好的。我不想改。'},
         {choice:[{text:'「十二月見。」',goto:'a'},{text:'「到了傳訊息給我。」',goto:'b'},{text:'「行李收完了嗎？」',goto:'c'},{text:'「我知道。」',if:dt,goto:'d'}]},
-        {label:'a'},SIS('十二月二十三號。……到時候群組會說。'),{goto:'e'},
+        {label:'a'},SIS('十二月二十三號。到時候群組會說。'),{goto:'e'},
         {label:'b'},SIS('會。群組先，然後你。'),{goto:'e'},
         {label:'c'},SIS('收了兩箱。第三箱是書，我還在想要帶哪幾本。'),{goto:'e'},
         {label:'d'},SIS('嗯。……謝謝你知道。'),
@@ -71,7 +71,7 @@ const SISJP_EVENTS=(function(){
         {label:'j1b'},SIS('那我也想住日本的房間。'),{goto:'end'},
         {label:'j2'},SIS('第三章被教授退回來一半。'),SIS('我沒有難過。……有一點。'),
         {choice:[{text:'「哪一半？」',goto:'j2a'},{text:'（陪她安靜一下）',goto:'j2b'}]},
-        {label:'j2a'},SIS('後半。他說太像在說服自己。……他說得對。'),{goto:'end'},
+        {label:'j2a'},SIS('後半。他說太像在說服自己。他說得對。'),{goto:'end'},
         {label:'j2b'},N('（你們都沒有說話。她那邊的電風扇在轉。）'),SIS('好了。我去改。'),{goto:'end'},
         {label:'j3'},SIS('以安說你們上個週末去奈良。群組有照片。'),SIS('鹿有沒有咬你。'),
         {choice:[{text:'「咬了一口外套。」',goto:'j3a'},{text:'「沒有，牠們很乖。」',goto:'j3b'}]},

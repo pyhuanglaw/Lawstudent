@@ -37,6 +37,9 @@ const asec=async(name,fn)=>{ try{ await fn(); }catch(e){ check(name+'（例外�
 const html=fs.readFileSync(path.join(H.ROOT,'index.html'),'utf8');
 const show=(sha,f)=>{ try{ return cp.execSync('git show '+sha+':"'+f+'"',{cwd:H.ROOT,encoding:'utf8',maxBuffer:1<<24}); }catch(e){ return ''; } };
 const doc={Y1S2:show(DOC.Y1S2.sha,DOC.Y1S2.spec),Y2S1:show(DOC.Y2S1.sha,DOC.Y2S1.spec)}, old505=show(OLD505,DOC.Y2S1.spec);
+/* AA_581 第 23～25 列（D118 沒有期中考；企劃線 454218182）：以安 an3b（大一下第 9 週週四）照片「期中考的考卷」→「案例作業的題目紙」（讀稿時 d118_fix.json 已換）、
+   她的一句「考完。」→「交了。」、留言「考得怎樣？」→「寫得怎樣？」（短句，只換這一列）；「還沒改。」「背面朝上？」「不想看。」照留（保9～保11）*/
+doc.Y1S2=doc.Y1S2.split('\n').map(l=>l.indexOf('| 案例作業的題目紙，背面朝上 |')>=0?l.replace('| 考完。 |','| 交了。 |').replace('「考得怎樣？」','「寫得怎樣？」'):l).join('\n');
 
 /* ---------- 共用 ---------- */
 const DK=k=>PG.DK(k);
@@ -162,7 +165,7 @@ const answer=(id,k)=>{ const m=dm(id); if(!m) return null; const n=(H.G.msgs||[]
 sec('3',()=>{ if(!HAS()||!SET.Y1S2){ check('3. 私訊',false,'沒有資料'); return; }
   /* 以安：第 10 週週五和媽媽吃飯的隔天 10:05（很熟），不用回 */
   const SAT=TDt('Y1S2',10,6); fresh(SAT,9); who('heroine_01','CLOSE'); walk(SAT,10); const a0=tagged('an_mom2').length; walk(SAT,10.1);
-  check('3. 以安（很熟）大一下第 10 週週六 10:05：三則、不用回',a0===0&&J(tagged('an_mom2'))===J(['我媽問我下學期選什麼。','我說公司法。她說：好。','……她說好的時候，都不太像好。'])&&!(H.G.msgs||[]).some(m=>m.tag==='aa503_an_mom2'&&m.ask),J(tagged('an_mom2')));
+  check('3. 以安（很熟）大一下第 10 週週六 10:05：三則、不用回',a0===0&&J(tagged('an_mom2'))===J(['我媽問我下學期選什麼。','我把課表傳給她。她說：好。','……她說好的時候，都不太像好。'])&&!(H.G.msgs||[]).some(m=>m.tag==='aa503_an_mom2'&&m.ask),J(tagged('an_mom2')));
   fresh(SAT,9); who('heroine_01','FRIEND'); walk(SAT,11); check('3. 以安只是朋友：沒有（x:stage）',!tagged('an_mom2').length&&R().dm.an_mom2==='x:stage');
   /* 8/17 AN_LIST */
   const D817=DK('2026-08-17'); fresh(D817-1,20,{AN_LIST:true}); who('heroine_01','FRIEND'); walk(D817,9.9); const b0=tagged('an_done').length; walk(D817,10.1);

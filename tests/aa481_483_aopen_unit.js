@@ -60,24 +60,24 @@ await sec('481-1',async()=>{
   const nb=()=>{ R2Y3B.anBackPhone(Object.assign(H.G,{day:D('2028-08-05'),hour:12})); return OUT.get(H.G,'y3_an_notebook'); };
   await tana([1,'我會跟她講清楚','跟她分手']);
   const i1=iOf('你不說，那我說。');
-  check('481-1. 她知道、沒答應：「你不說，那我說。」「我喜歡你。」→ 緊接 KNOW.she「你們現在還在一起？」；沒有「我喜歡你。理由我寫在手帳裡，回臺灣再給你看。」「……你不准賴。」；手帳那一場不排',
-    i1>=0&&T()[i1+1]==='我喜歡你。'&&T()[i1+2]==='你們現在還在一起？'&&!H.has('我喜歡你。理由我寫在手帳裡，回臺灣再給你看。')&&!H.has('……你不准賴。')&&!nb(),J(T().slice(i1,i1+4)));
+  check('481-1. 她知道、沒答應：「你不說，那我說。」「我喜歡你。」→ 緊接 KNOW.she「你們現在還在一起？」；沒有「我喜歡你。回臺灣，我有東西給你。」「……你不准賴。」；手帳那一場不排',
+    i1>=0&&T()[i1+1]==='我喜歡你。'&&T()[i1+2]==='你們現在還在一起？'&&!H.has('我喜歡你。回臺灣，我有東西給你。')&&!H.has('……你不准賴。')&&!nb(),J(T().slice(i1,i1+4)));
   await tana([1,'我還是跟她在一起']); const q=nb();
   check('481-1. 她知道、答應（「我還是跟她在一起。」→「我不知道我為什麼會答應。」）＝交往＋OPEN_OK；照原本排手帳那一場（ev_an_notebook）',seq(['你不說，那我說。','我喜歡你。','你們現在還在一起？','我不知道我為什麼會答應。'])&&H.G.flags.dating_heroine_01===true&&okOpen(A1,KX)&&!!q&&q.ev==='ev_an_notebook',J(q));
   await tana([1],false);
-  check('481-1. 她不知道（祐廷沒有別人）＝照原本三句「你不說，那我說。」「我喜歡你。理由我寫在手帳裡，回臺灣再給你看。」「……你不准賴。」',seq(['你不說，那我說。','我喜歡你。理由我寫在手帳裡，回臺灣再給你看。','……你不准賴。'])&&H.G.flags.dating_heroine_01===true);
+  check('481-1. 她不知道（祐廷沒有別人）＝照原本三句「你不說，那我說。」「我喜歡你。回臺灣，我有東西給你。」「……你不准賴。」',seq(['你不說，那我說。','我喜歡你。回臺灣，我有東西給你。','……你不准賴。'])&&H.G.flags.dating_heroine_01===true);
   check('481-1. 兩句照稿（企劃線 AA_481 第 1 節）',inDoc('以安：你不說，那我說。','a481')&&inDoc('以安：我喜歡你。','a481'));
 });
 
 /* ================= AA_481 第 2 節：學姊大峽谷，她先說的那一條 ================= */
 await sec('481-2',async()=>{
   const canyon=async(picks,kx)=>{ fresh('2028-10-07',7,'dorm',Object.assign({EXCHANGE_ROUTE:'TW',YT_HONEST:{heroine_05:true}},kx===false?{}:{dating_kexin:true})); H.CLOSE(SIS); if(kx!==false){ learn(SIS,KX); learn(KX,SIS); } setRom(SIS,80); const L=DATE.log(H.G,SIS); L.count=4; clr(); H.picks=picks.slice(); await EVENTS.run(ev('ev_sis_canyon')); };
-  await canyon([1,'她知道','她說可以']); const i=iOf('那我先說。');
-  check('481-2. 她知道、她先說：「那我先說。」「我喜歡你。……我想了很久，要不要在這裡說。」→ 緊接「可昕知道嗎？」；沒有「你要說好，還是要我再說一次。」（第一次＝讓我想想、不交往）',
-    i>=0&&T()[i+1]==='我喜歡你。……我想了很久，要不要在這裡說。'&&T()[i+2]==='可昕知道嗎？'&&!H.has('你要說好，還是要我再說一次。')&&H.has('……好。我想一下。')&&!H.G.flags.dating_heroine_05&&H.G.flags.SIS_CANYON==='knows',J(T().slice(i,i+4)));
+  /* AA_591 第 11 節第 13 點（使用者 2026-11-02「學姊不會先說」）：她先說的那一支整支拿掉——看著峽谷不說話＝這一次什麼都沒發生（她知道、不知道都一樣）*/
+  await canyon([1,'她知道','她說可以']);
+  check('481-2. 她知道、祐廷不說話（AA_591）：她不先說——沒有「那我先說。」「我喜歡你。……」「可昕知道嗎？」；不交往（SIS_CANYON silent）',!H.has('那我先說。')&&!H.has('我喜歡你。……我想了很久，要不要在這裡說。')&&!H.has('可昕知道嗎？')&&!H.G.flags.dating_heroine_05&&H.G.flags.SIS_CANYON==='silent',J(T()));
   check('481-2. 之後鳳凰城機場「十二月二十三號，晚上八點落地。你來接我。」照舊（沒交往也接得上）',H.has('十二月二十三號，晚上八點落地。你來接我。'));
   await canyon([1],false);
-  check('481-2. 她不知道＝照原本三句、交往（SIS_CANYON confess）',seq(['那我先說。','我喜歡你。……我想了很久，要不要在這裡說。','你要說好，還是要我再說一次。'])&&H.G.flags.SIS_CANYON==='confess'&&H.G.flags.dating_heroine_05===true);
+  check('481-2. 她不知道、祐廷不說話（AA_591）：一樣什麼都沒發生、不交往',!H.has('那我先說。')&&!H.has('你要說好，還是要我再說一次。')&&H.G.flags.SIS_CANYON==='silent'&&!H.G.flags.dating_heroine_05);
   check('481-2. 稿（企劃線 AA_481 第 2 節）',inDoc('學姊：那我先說。','a481')&&inDoc('學姊：我喜歡你。……我想了很久，要不要在這裡說。','a481'));
 });
 

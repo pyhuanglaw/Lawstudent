@@ -17,15 +17,17 @@ const play=async(picks)=>{ H.said=[]; H.picks=(picks||[]).slice(); await EVENTS.
   check('0. 讀得到稿（企劃線 992b58da 的 AA_379 第 4 節）、有 ev_sis_w1_late',/## 4\. 大一沒認識她的玩家/.test(doc)&&!!E);
   if(!E){ H.done(); return; }
   const txt=E.dialogue.filter(n=>n.text&&!n.aa523).map(n=>n.text.replace(/\{name\}/g,'{name}'));
-  check('0. 每一句台詞都在稿裡（一字不差）',txt.every(t=>doc.includes(t)),J(txt.filter(t=>!doc.includes(t))));
+  const A590=require('./aa590_doc.js');   /* AA_590（學姊改稿第三批，企劃線 68ceea665，使用者 11-02 確認）改過的句子在 AA_590 的表上，不在這份原稿 */
+  const LQO=require('./libq_out_lines.js');   /* 圖書館版先走到樓梯間（AA_595 1-B2；AA 11-02 22:30 定稿） */
+  check('0. 每一句台詞都在稿裡（一字不差；AA_590 第 1～3 列改過的在 AA_590；AA_595 走出館外的旁白）',txt.every(t=>doc.includes(t)||A590.has(t)||LQO.added(t)),J(txt.filter(t=>!doc.includes(t)&&!A590.has(t)&&!LQO.added(t))));
   { const t523=E.dialogue.filter(n=>n.text&&n.aa523).map(n=>n.text);   /* AA_523 6-6 */
     check('0. AA_523 6-6 加的兩句（大三、大四她的回答）都在 AA_523 第 6 節 6-6 那一列（企劃線 0d7b5388b，一字不差）',!!row66&&t523.length===2&&t523.every(t=>row66.includes('「'+t+'」')),JSON.stringify(t523)); }
   /* 1 */
   { const G=setup('2026-09-14',20,'cafe'); const ok=EVENTS.check(E); const r0=SOCIAL.rel('heroine_05').fam||0; const L=await play([1]);
     check('1. 大二上 9/14 20:00 Café、沒認識：演晚到版',ok&&L[0]==='（她坐在靠窗的位子，計畫本攤開，旁邊一個保溫瓶。你認得她——家族群組大頭貼上那個學姊。）'&&L[1]==='學姊好，我是祐廷，妳的直屬學弟。'&&L.includes('家族群組裡的那個名字。家聚你一次都沒來。')&&L.includes('我還以為，你是不需要學姊的那種人。'),J(L));
-    check('1. 選「我不知道去哪裡找學姊。」→「晚上我大多在 Café 或法圖。……不難找。」；最後「以後有問題，私訊我。……這次記得問。」',L.includes('晚上我大多在 Café 或法圖。……不難找。')&&!L.includes('嗯。大一都很忙。……我也是。')&&L[L.length-1]==='以後有問題，私訊我。……這次記得問。'&&L[L.length-2]==='溫書瑀。現在在念研究所。',J(L));
+    check('1. 選「我不知道去哪裡找學姊。」→「晚上我大多在 Café 或法圖。不難找。」；最後「以後有問題，私訊我就好。」',L.includes('晚上我大多在 Café 或法圖。不難找。')&&!L.includes('嗯。大一都很忙。我也是。')&&L[L.length-1]==='以後有問題，私訊我就好。'&&L[L.length-2]==='溫書瑀。現在在念研究所。',J(L));
     check('1. 記 met_sis、SIS_W1、SIS_W1_LATE、FIRST_MET',G.flags.met_sis===true&&G.flags.SIS_W1===true&&G.flags.SIS_W1_LATE===true&&SOCIAL.has('heroine_05','FIRST_MET'),J({f:[G.flags.met_sis,G.flags.SIS_W1,G.flags.SIS_W1_LATE]})); }
-  { setup('2026-09-14',20,'cafe'); const L=await play([0]); check('1. 選「大一太忙了。」→「嗯。大一都很忙。……我也是。」',L.includes('嗯。大一都很忙。……我也是。')&&!L.includes('晚上我大多在 Café 或法圖。……不難找。'),J(L)); }
+  { setup('2026-09-14',20,'cafe'); const L=await play([0]); check('1. 選「大一太忙了。」→「嗯。大一都很忙。我也是。」',L.includes('嗯。大一都很忙。我也是。')&&!L.includes('晚上我大多在 Café 或法圖。不難找。'),J(L)); }
   /* 2 */
   { const first={}; for(const z of ['lawlib','library','library_hall']){ setup('2027-03-10',19.5,z); const ok=EVENTS.check(E); const L=await play([0]); first[z]=ok?L[0]:null; }
     setup('2027-03-10',19.5,'campus'); const camp=EVENTS.check(E);

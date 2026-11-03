@@ -10,7 +10,9 @@
 AA_373（企劃線修正稿，白名單 AA373-Y1S2-FIX-1021；AA 定稿）第 9 項：大一下通識第 6 週（ge_y1s2，週一 13:20）改成天文館的圓頂——宥辰那句、觀察的開頭兩處整句換掉；第 6-2 節第 3 題（bdab2f42）再換黑板「（本週在天文館）」、觀察的結果「宥辰仰著頭，一直到燈亮都沒有說話。」
 （旁白「（這堂課移到天文館。）」「（天文館的圓頂關了燈。）」在 src/classes3d.js 的 SPECIAL_PRE）。只讀匯入白名單上的版本；企劃線的 JSON 下一版自己改好了就跳過
 AA_377（大三下修正稿，白名單 AA377-Y3S2-FIX-1021）第 9 項：民訴 civpro_2 第 14 週拿掉作廢的模擬法庭（改成言詞辯論的練習）、第 15 週板書第 2 行
-AA_255（大二下審稿，白名單 AA_255 附錄@52900eb23，任務 AA255-Y2S2）第 4 節第 7 點：行政救濟第 7 週以安「如果……」、親屬第 11 週阿哲刪後半（句子照附錄 A 的改法）"""
+AA_255（大二下審稿，白名單 AA_255 附錄@52900eb23，任務 AA255-Y2S2）第 4 節第 7 點：行政救濟第 7 週以安「如果……」、親屬第 11 週阿哲刪後半（句子照附錄 A 的改法）
+AA_585（白名單 AA_585_midweek.json@1bdfd2304，BB_231 法律審 60 週 PASS，任務 AA585-MIDWEEK-1102）：法律三十門第 8、9 週（前七週整理＋案例作業）當補丁來源疊上去、reviewed 加 60 筆
+白名單上有的學期檔（syllabus/Y1S1.json 等，AA_588 第 3 節）：要讀的那一版內容一定要和名單上 approved 的一樣（2026-11-02 起：claude/story-planning@1edea905f）"""
 import json, os, subprocess, sys
 ROOT = os.path.dirname(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
 sys.path.insert(0, os.path.join(ROOT, 'tools', 'story'))
@@ -31,6 +33,13 @@ DROPPED = ('law_society', 'law_society_2', 'juris', 'intl_public', 'legal_histor
 # AA_342 C1（AA-C c56d4241）：大四下法律專題研究第 6、7 週改成一般的週（使用者 10-18 拿掉大四下的法院旁聽，AA_327 2-Y4-41）——企劃分支的 JSON 還有那兩週，也不匯入（那兩週照一般句子）
 DROPPED_WEEKS = {('legal_research', 6), ('legal_research', 7)}
 dropped_seen = []
+# 白名單上有的學期檔（AA_588 第 3 節：AA 改源稿重產的 Y1S1／Y2S1／Y2S2，和 AA_389 第 9 點的 Y3S2）：要讀的那一版內容一定要和名單上 approved 的那一版一樣，不一樣就停下來
+blob = lambda ref, p: subprocess.run(['git', '-C', ROOT, 'rev-parse', f'{ref}:{p}'], text=True, capture_output=True).stdout.strip()
+for p, s in GUARD.approved_files(GUARD.load(ROOT), 'docs/story_planning/syllabus/').items():
+    ok, why = GUARD.allowed(p, s, GUARD.load(ROOT))
+    if not ok: sys.exit('拒絕匯入：' + why)
+    use = OVR.get(os.path.basename(p), REF)
+    if not blob(use, p) or blob(use, p) != blob(s, p): sys.exit(f'拒絕匯入：{p} 在 {use} 的內容和白名單 approved 的 {s} 不一樣')
 for t in TERMS:
     d = json.loads(show(f'docs/story_planning/syllabus/{t}.json'))
     for c in d.get('courses', []):
@@ -106,6 +115,33 @@ if A377:
         if cur != old: sys.exit(f'AA_377 第 9 項：civpro_2 第 {wk} 週的 {field} 是 {cur!r}（應該是舊的，或已經是新的）')
         cw[wk][field] = new
     out['source'] += f'＋{os.path.basename(P377)[:6]}@{S377}（民訴第 14、15 週）'
+# AA_585（期中週第 8～9 週黑板；AA 定稿 1bdfd2304，BB_231 @995ffc585 法律審 60 週 PASS；任務 AA585-MIDWEEK-1102）：
+#   D118 沒有期中考，法律課第 8～9 週照常上課——第 8 週「前七週整理」、第 9 週「案例作業（當堂寫）」。BB 的源稿 JSON 沒有這兩週（企劃線 syllabus/build.py 的 EXAM_WEEKS 把 8、9 擋掉），
+#   這裡當補丁來源疊上去（BB_231「匯入方式」：BB 的源稿不動）；三十門每門兩週、排在第 7 週和第 10 週之間。
+#   那一週已經有內容：一樣就跳過、不一樣就停下來（不蓋掉 BB 的源稿）。reviewed 加 '<代號>|8'、'<代號>|9'（BB_231 判定 60 週全部 PASS）——加在下面法律審查之後
+P585 = 'docs/story_planning/AA_585_midweek.json'
+A585 = GUARD.approved_files(ALLOW, P585)
+mid585 = []
+if P585 in A585:
+    S585 = A585[P585]
+    ok, why = GUARD.allowed(P585, S585, ALLOW)
+    if not ok: sys.exit('拒絕匯入：' + why)
+    d585 = json.loads(GUARD.read_fix(subprocess.check_output(['git', '-C', ROOT, 'show', f'{S585}:{P585}'], text=True)))
+    for cid, ws in d585.items():
+        if cid.startswith('_'): continue
+        if cid not in out['courses']: sys.exit(f'AA_585：{cid} 不在課表裡')
+        if sorted(w.get('w') for w in ws) != [8, 9]: sys.exit(f'AA_585：{cid} 應該剛好是第 8、9 週')
+        cur = out['courses'][cid]
+        for w in ws:
+            w = {k: w[k] for k in KEEP if k in w}
+            old = next((x for x in cur if x.get('w') == w['w']), None)
+            if old is not None:
+                if old != w: sys.exit(f'AA_585：{cid} 第 {w["w"]} 週 BB 的源稿已經有內容、和 AA_585 不一樣（不蓋掉；請 AA／BB 決定）')
+            else:
+                cur.append(w)
+            mid585.append(f'{cid}|{w["w"]}')
+        cur.sort(key=lambda x: x.get('w', 0))
+    out['source'] += f'＋{os.path.basename(P585)[:6]}@{S585}（期中週第 8、9 週 {len(mid585)} 週）'
 # 法律審查：一週一週開
 rv = json.loads(show('docs/story_planning/BB_115_法律審查清單.json'))
 items = {}   # '課程|週' → [通過嗎]
@@ -120,7 +156,10 @@ closed = []
 for cid, weeks in out['courses'].items():
     for w in weeks:
         k = f"{cid}|{w['w']}"
-        if all(items.get(k, [True])): out['reviewed'].append(k)
+        if k in mid585:   # AA_585 的 60 週：法律審在 BB_231（60 週全部 PASS），不看 BB_115
+            if k in items: print('注意：BB_115 有指到 AA_585 那一週的審查項目（照 BB_231 開）：', k)
+            out['reviewed'].append(k)
+        elif all(items.get(k, [True])): out['reviewed'].append(k)
         else: closed.append(k)
 # AA-C 2026-10-18 審 BB_105 G6（BB_105 @3954f9b62；V3-B105-G2）：日文（下）第 10 週拿掉采蓁的金句「所以學語言，是在學看人。」——企劃線的 JSON 還有，匯入時拿掉（那一堂的劇情段在 src/bbpack3d.js 的 G6）
 DROP_REACT = [('japanese_2', 10, '所以學語言，是在學看人。')]
@@ -170,7 +209,7 @@ dst = os.path.join(ROOT, 'src', 'data', 'syllabus.js')
 with open(dst, 'w', encoding='utf8') as f:
     f.write('/* 普通課堂內容（BB 撰寫；AA_104 第 1 節的 syllabus 格式）。產生器：tools/syllabus/import_syllabus.py（不要手改，改企劃分支的 JSON 再匯入）。\n'
             '   來源：' + out['source'] + '。法律系八學期＋日文＋經濟系那一年（遊戲裡還沒有那一年的課，先放著）。heroine_06 等新人物的句子在遊戲裡略過（人物設定還沒確認）。\n'
-            '   reviewed：法律審查（BB_115）那一週的項目全部通過、或那一週沒有項目，才顯示 BB 的內容；其他週只用寫主題的一般句子（AA_122 第 0a 節）。' + drop_note + ' */\n')
+            '   reviewed：法律審查（BB_115）那一週的項目全部通過、或那一週沒有項目，才顯示 BB 的內容；其他週只用寫主題的一般句子（AA_122 第 0a 節）。AA_585 的第 8、9 週照 BB_231 的法律審（60 週全部 PASS）。' + drop_note + ' */\n')
     f.write('const SYLLABUS=' + json.dumps(out, ensure_ascii=False, separators=(',', ':')) + ';\n')
 nweeks = sum(len(v) for v in out['courses'].values())
 print('wrote', dst, 'courses', len(out['courses']), 'weeks', nweeks, 'reviewed', len(out['reviewed']), 'closed', len(closed), 'pools', len(out['pools']), 'skip', len(out['skip']), 'second', len(out['second']), 'bytes', os.path.getsize(dst))

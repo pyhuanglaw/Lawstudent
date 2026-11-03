@@ -58,19 +58,19 @@ let DOC=''; try{ DOC=cp.execSync('git -c core.quotepath=false show '+SHA+':"'+DO
 /* 新句（照稿逐字；每一句都要在稿裡）*/
 const NEW={
   A1:['（以安把菜單推到你面前，指甲在「滷蛋」那一格敲了兩下。）','說好的。'],
-  A2:['（把手帳翻到園區那一天）上次沒給你看的那一行。','（理由欄寫著：「想到{name}。」）'],
-  A3:['寒假東京那兩個禮拜，時差一個小時。……你那邊比較早，我知道。','京都那三個禮拜，訊息你不用每天回。……我有空才傳。'],
+  A2:['（她把手帳往前翻，翻到園區那一天。）上次沒給你看的那一行。','（那一天的旁邊，寫著：「想到{name}。」）'],   /* AA_587 第 12 節第 69、70 列（原本 AA_526 的兩句） */
+  A3:['寒假東京那兩個禮拜，時差一個小時。……你那邊比較早，我知道。','京都那三個禮拜，我每天晚上傳訊息給你。……你要回。'],
   A4:['（她從背包拿出一個保鮮盒。）','番茄炒蛋。練好了。……冷了，你自己熱。'],
   A5:['這份我學到很多。','說從她的報告學到很多'],
   A6:['考完了。……你說過要請的。','（她點了菜單上最便宜的那一個。）'],
   A7:['好。……櫻花下週就謝了。我拍給你。'],
   A8:['夜景很好看。……另一個原因，我不說。'],
   A9:['……台中的夕陽在海邊。很遠，要開車。','……最南邊。好遠。','你上次說要去最南邊。……我查過了，坐車要六個小時。'],
-  A10:['不用。我爸會來。……謝謝。'],
+  A10:['不用。我媽會來。……謝謝。'],
   A11:['讀書會在山上的茶館，一個月一次。','我們讀到七點。……你不用等，先下山。'],
-  A12:['第三課的單字，你自己背。'],
+  A12:['會。第三課的單字，你先背。'],
   A13:['哪一家？……看起來比麵店的辣。','看起來好好吃'],
-  A14:['考卷發回來你先對。不懂的問我。','例如？……你講。我聽十五分鐘。'],
+  A14:['發回來你先對。不懂的問我。','例如？……你講。我聽十五分鐘。'],
   Z1:['（把筆電轉過去，螢幕上是一部片的片頭）……我排的那部。','機票太貴了，你不用來。我們一人一邊，按同一個播放。','（你們隔著視訊看完一部片。她那邊下午，你這邊半夜。）','……好。看過了。'],
   Z2:['好，你贏了。林芷若，外文系的。……你們法律系，有人看老片嗎？陪審團吵一整晚的那種。','問你看不看老片'],
   Z3:['明天早場。九點十分。','你說過你起得來。','我去。','好。','起不來。','我就知道。','兩張早場電影的票根，片名《冬天以前的港口》','你中間睡著了十分鐘。我有看到。'],
@@ -107,7 +107,12 @@ const srcAll=(()=>{ const out=[]; const walk=d=>{ for(const n of fs.readdirSync(
 /* ---------------- 0 ---------------- */
 await sec(0,()=>{
   check('0. 讀得到稿（AA_524 '+SHA+'：第 1～5 節；A1～A14、Z1～Z11、Y1～Y9）',DOC.length>8000&&/### A14/.test(DOC)&&/### Z11/.test(DOC)&&/### Y9/.test(DOC),String(DOC.length));
-  const miss=[]; for(const k in NEW) for(const t of NEW[k]) if(DOC.indexOf(t)<0) miss.push(k+'：'+t);
+  const miss=[]; const ANREV=require('./an_rev_doc.js'); for(const k in NEW) for(const t of NEW[k]) if(k!=='A2'&&k!=='A12'&&DOC.indexOf(t)<0&&!ANREV.has(t)) miss.push(k+'：'+t);   /* A3、A10 後來又照以安改稿改（AA_594 第 21 列、AA_592 第 51 列）：在改成欄也算 */   /* A2 兩句 11-02 改照 AA_587 第 12 節、A12 改照 AA_587 第 30 列（下面另外比） */
+  { const P587=(()=>{ try{ return cp.execSync('git -c core.quotepath=off ls-tree --name-only -r 27456316d docs/story_planning',{cwd:H.ROOT,encoding:'utf8'}).split('\n').find(x=>/AA_587_/.test(x)); }catch(e){ return null; } })();
+    const D587=(()=>{ try{ return P587?cp.execSync('git show 27456316d:"'+P587+'"',{cwd:H.ROOT,encoding:'utf8',maxBuffer:1<<24}):''; }catch(e){ return ''; } })();
+    check('0. A2 兩句在 AA_587@27456316d 第 12 節（第 69、70 列）',NEW.A2.every(t=>D587.indexOf(t)>=0),J(NEW.A2.filter(t=>D587.indexOf(t)<0)));
+    const D587b=(()=>{ try{ return P587?cp.execSync('git show 1cf992d66:"'+P587+'"',{cwd:H.ROOT,encoding:'utf8',maxBuffer:1<<24}):''; }catch(e){ return ''; } })();
+    check('0. A12 在 AA_587@1cf992d66 第 30 列（以安第三批：「第三課的單字，你自己背。」→「會。第三課的單字，你先背。」）',NEW.A12.every(t=>D587b.indexOf('| 第三課的單字，你自己背。 | '+t+' |')>=0)); }
   check('0. 這支測試對的新句每一句都在稿裡（逐字；'+Object.values(NEW).reduce((a,b)=>a+b.length,0)+' 句）',DOC.length>0&&!miss.length,J(miss));
   const A=JSON.parse(fs.readFileSync(path.join(H.ROOT,'docs/handoff/story_import_allow.json'),'utf8')).files.filter(e=>/AA_524_/.test(e.path));
   { const miss=[]; for(const k in NEW526) for(const t of NEW526[k]) if(DOC526.indexOf(t)<0) miss.push(k+'：'+t);
@@ -151,7 +156,7 @@ await sec('A2',async()=>{
   H.G.day=D('2026-06-15'); H.G.hour=21; H.said=[]; H.picks=[0]; r=await TERMEND.walkHome(GM,AN,'Y1S2');
   check('A2. 「讓我想想」以後，下學期第二次邀約那一場玩家先說（yes，第二次的答應 yes2）：最後補同樣兩句、記 AN_REASON_SHOWN',r==='yes'&&has('好。我們在一起。')&&J(said().slice(-2))===J(tail)&&H.G.flags.AN_REASON_SHOWN===H.G.day,J({r,tail:said().slice(-4)}));
   fresh('2025-12-20',20); H.CLOSE(AN); SOCIAL.remember(AN,'AN_REASON_HIDDEN',''); H.picks=[3,1]; await TERMEND.walkHome(GM,AN,'Y1S1'); H.G.day=D('2026-06-15'); H.said=[]; H.picks=[3,0]; r=await TERMEND.walkHome(GM,AN,'Y1S2');
-  check('A2. 第二次邀約那一場她先說（she2）、玩家答應（sheSaid）也補',r==='sheSaid'&&has('上次寫的那一行還在。我把後面寫完了。……你要看嗎？')&&J(said().slice(-2))===J(tail),J({r,tail:said().slice(-4)}));
+  check('A2. 第二次邀約那一場她先說（she2）、玩家答應（sheSaid）也補',r==='sheSaid'&&has('上次那一頁，最下面那一行還沒勾。……你要看嗎？')&&J(said().slice(-2))===J(tail),J({r,tail:said().slice(-4)}));
   fresh('2025-12-20',20,{AN_REASON_SHOWN:5}); H.CLOSE(AN); SOCIAL.remember(AN,'AN_REASON_HIDDEN',''); H.said=[]; H.picks=[0]; r=await TERMEND.walkHome(GM,AN,'Y1S1');
   check('A2. 已經看過（AN_REASON_SHOWN）：不再出',r==='yes'&&!has(tail[0]),r);
   r=await walk([0],false);
@@ -221,10 +226,10 @@ await sec('A8',async()=>{
 });
 await sec('A9',async()=>{
   fresh('2026-11-14',16); H.FAMILIAR(AN); await spot(AN,'D14','D14.sunset',0,['下次在台中看']);
-  check('A9. 漁人碼頭夕陽「下次在台中看。」→「……台中的夕陽在海邊。很遠，要開車。」',has(NEW.A9[0]),J(said()));
-  fresh('2026-11-14',10); H.FAMILIAR(AN); await spot(AN,'D16','D16.lighthouse',0,['下次去最南邊']); const a=has(NEW.A9[1]);
+  check('A9. 漁人碼頭夕陽「下次在台中看。」→「台中的夕陽在海邊。很遠，要開車。」（AA_524 的「……」照 AA_594 拿掉）',has(require('./an_rev_doc.js').rev(NEW.A9[0])),J(said()));
+  fresh('2026-11-14',10); H.FAMILIAR(AN); await spot(AN,'D16','D16.lighthouse',0,['下次去最南邊']); const a=has(require('./an_rev_doc.js').rev(NEW.A9[1]));
   await spot(AN,'D16','D16.lighthouse',1,[]);
-  check('A9. 富貴角燈塔「下次去最南邊。」→「……最南邊。好遠。」；下一次 remember「你上次說要去最南邊。……我查過了，坐車要六個小時。」',a&&has(NEW.A9[2]),J(said()));
+  check('A9. 富貴角燈塔「下次去最南邊。」→「……最南邊。好遠。」；下一次 remember「你上次說要去最南邊。……我查過了，坐車要六個小時。」',a&&has(require('./an_rev_doc.js').rev(NEW.A9[2])),J(said()));
 });
 await sec('A10',async()=>{
   const SUNS=()=>R2Y3B.abSundays(), t1Of=wk=>byTag('y3_ab_w'+wk).filter(m=>m.from===AN).map(m=>m.text);
@@ -232,18 +237,18 @@ await sec('A10',async()=>{
   fresh('2028-03-26',19); H.FAMILIAR(AN); contact(AN);
   const w=sweepTo('2028-07-30'); const m=w&&PHONE.byAsk(H.G,'y3_ab_w'+w.wk);
   if(m){ answer('y3_ab_w'+w.wk,0); PHONE.tick(H.G); }
-  check('A10. 沒交往的朋友：7/30 行李箱那則回「我去機場接妳。」→「不用。我爸會來。……謝謝。」',!!m&&J(t1Of(w.wk))===J(['（照片：行李箱，攤開在床上）','八月五號。我開始收了。'])&&J(txt('p:heroine_01').slice(-2))===J(['我去機場接妳。',NEW.A10[0]]),J({t1:w&&t1Of(w.wk),last:txt('p:heroine_01').slice(-2)}));
+  check('A10. 沒交往的朋友：7/30 行李箱那則回「我去機場接妳。」→「不用。我媽會來。……謝謝。」',!!m&&J(t1Of(w.wk))===J(['（照片：行李箱，攤開在床上）','八月五號。我開始收了。'])&&J(txt('p:heroine_01').slice(-2))===J(['我去機場接妳。',NEW.A10[0]]),J({t1:w&&t1Of(w.wk),last:txt('p:heroine_01').slice(-2)}));
   fresh('2028-03-26',19); H.FRIEND(AN); H.date(AN); contact(AN);
   let wd=null; for(const x of SUNS()){ at(x.day,20.05); ph(); const L=t1Of(x.wk); if(L[0]==='（照片：行李箱，攤開在床上）'){ wd=x; break; } at(x.day+1,19); ph(); }
   const md=wd&&PHONE.byAsk(H.G,'y3_ab_w'+wd.wk); if(md){ answer('y3_ab_w'+wd.wk,0); PHONE.tick(H.G); }
-  check('A10. 交往中照現有：「好。……我記在手帳了。」（8/5 接機）',!!md&&J(txt('p:heroine_01').slice(-2))===J(['我去機場接妳。','好。……我記在手帳了。']),J(txt('p:heroine_01').slice(-2)));
+  check('A10. 交往中照現有：「好。班機號碼我再傳給你。」（8/5 接機）',!!md&&J(txt('p:heroine_01').slice(-2))===J(['我去機場接妳。','好。班機號碼我再傳給你。']),J(txt('p:heroine_01').slice(-2)));
 });
 await sec('A11',()=>{
   const r=ENCOUNTERS.rows.find(x=>x.who===AN&&x.spot==='D09');
   check('A11. 貓空偶遇：認識的「讀書會在山上的茶館，一個月一次。」（不約、不傳時間）、交往中「我們讀到七點。……你不用等，先下山。」',!!r&&r.lines.acq[1]===NEW.A11[0]&&r.lines.dating[1]===NEW.A11[1]&&r.lines.acq[0]==='你也來貓空？我們讀書會在這裡聚會。',J(r&&r.lines));
 });
 await sec('A12',()=>{
-  const s=J(VAC_DATA); check('A12. 日語課「回來要考我嗎？」→「第三課的單字，你自己背。」',s.indexOf('{"t":"「回來要考我嗎？」","say":[{"who":"heroine_01","text":"'+NEW.A12[0]+'"}]}')>=0);
+  const s=J(VAC_DATA); check('A12. 日語課「回來要考我嗎？」→「會。第三課的單字，你先背。」',s.indexOf('{"t":"「回來要考我嗎？」","say":[{"who":"heroine_01","text":"'+NEW.A12[0]+'"}]}')>=0);
 });
 await sec('A13',()=>{
   const ny=STORY.lunarNewYear(); fresh(ny,8); PHONE.join(H.G,'noodle_team','麵店團');
@@ -253,10 +258,10 @@ await sec('A13',()=>{
   check('A13. 過年群組回牛肉麵：阿哲「牛肉麵！！看起來好好吃」、以安「哪一家？……看起來比麵店的辣。」',J(A)===J(['player:📷（姊姊帶你去吃的牛肉麵）','zhe:牛肉麵！！'+NEW.A13[1],'heroine_01:'+NEW.A13[0]]),J(A));
 });
 await sec('A14',async()=>{
-  fresh('2026-04-20',12); H.FAMILIAR(AN); await ladPlay('Y1S2',AN,'A2-L5',['我也考得不太好']); const a=has(NEW.A14[0]);
+  fresh('2026-04-20',12); H.FAMILIAR(AN); await ladPlay('Y1S2',AN,'A2-L5',['我也寫得不太好']);   /* AA_581 第 49 列：選項字「我也考得不太好。」→「我也寫得不太好。」*/ const a=has(NEW.A14[0]);
   fresh('2027-03-08',12); H.FAMILIAR(AN); await ladPlay('Y2S2',AN,'A4-L6',['排一題好玩的']); const b=has(NEW.A14[1]);
   const c=(step('Y4S1',AN,'A7-L7').choices[1]||{}).reply;
-  check('A14. A2-L5「考卷發回來你先對。不懂的問我。」、A4-L6「例如？……你講。我聽十五分鐘。」；A7-L7「……好。你排的，我不改。」照留',a&&b&&c==='……好。你排的，我不改。',J({a,b,c}));
+  check('A14. A2-L5「發回來你先對。不懂的問我。」、A4-L6「例如？……你講。我聽十五分鐘。」；A7-L7「……好。你排的，我不改。」照留',a&&b&&c==='……好。你排的，我不改。',J({a,b,c}));
 });
 
 /* ================= 芷若 ================= */

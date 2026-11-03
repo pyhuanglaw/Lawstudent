@@ -72,14 +72,14 @@ const Y2B_EVENTS=(function(){
   const MOTHER_MAP={ id:'ev_an_mother_map', title:'媽媽的晚餐（二）', participants:['heroine_01'], location:'noodle', trigger:'auto', once:true, term:['Y2S2'], weeks:[10,11,12,13,14], weekday:[1,2,3,4,5],ndlDay:true, time:[17.5,20.5], background:'blur',
     prereq:{stage:{npc:'heroine_01',min:'FAMILIAR'},custom:G=>knows('heroine_01',G)&&!(G.weekday===4&&((G.hour%24)+24)%24>=19.5)},
     dialogue:[ {unless:{flags:['AN_TUTOR_FAMILY']},if:{custom:G=>!anAdminHeard(G)},speaker:'heroine_01',text:'我家教的學生，家裡申請的補助被駁回了。我在幫他們看那份公文。'},
-      {unless:{flags:['AN_TUTOR_FAMILY']},if:{custom:anAdminHeard},speaker:'heroine_01',text:'上次那份公文，你還記得嗎？我後來陪他們寫了申覆。'},   /* AA_375 第 17 項：大二上 an_admin 發過的（聽過）不再當新消息講 */
+      {unless:{flags:['AN_TUTOR_FAMILY']},if:{custom:anAdminHeard},speaker:'heroine_01',text:'上次那份公文，你還記得嗎？我後來陪他們寫了訴願書。'},   /* AA_375 第 17 項：大二上 an_admin 發過的（聽過）不再當新消息講 */
       {set:{AN_TUTOR_FAMILY:1}},
       {speaker:'heroine_01',text:'我寫了一頁流程，用白話寫的。拿給我媽看。'},
       {speaker:'heroine_01',text:'我媽說，我寫的是地圖，不是答案。'},
       {speaker:null,text:'（她停了一下。）'},
       {speaker:'heroine_01',text:'……她說這樣很好。'},
       {choice:[{text:'「地圖也很難畫。」',set:{AN_MAP:'hard'},goto:'h'},{text:'「妳媽媽說得對。」',set:{AN_MAP:'right'},goto:'r'},{text:'「那答案誰給？」',set:{AN_MAP:'who'},goto:'w'}]},
-      {label:'h'},{speaker:'heroine_01',text:'嗯。畫錯一條路，人家就走錯。'},{goto:'end'},
+      {label:'h'},{speaker:'heroine_01',text:'嗯。我畫了三次。'},{goto:'end'},
       {label:'r'},{speaker:'heroine_01',text:'她常常對。很煩。'},{speaker:null,text:'（她笑了。）'},{goto:'end'},
       {label:'w'},{speaker:'heroine_01',text:'機關跟法院。還有他們自己。'},
       {label:'end'},{if:{custom:G=>dating(G,'heroine_01')},speaker:'heroine_01',text:'你不要跟我媽說我說她很煩。'},
@@ -199,7 +199,7 @@ const Y2B_EVENTS=(function(){
   const TA_NEWS={ id:'ev_yt_ta_news', title:'助教', participants:['heroine_03'], location:'noodle', trigger:'auto', once:true, term:['Y3S1'], weeks:[1], weekday:[2,4], time:[17.5,20.5], background:'blur',
     prereq:{stage:{npc:'heroine_03',min:'FRIEND'},notFlags:['YT_TA']}, dialogue:TA_LINES };
   const TA_NEWS_LIB={ id:'ev_yt_ta_news_lib', title:'助教', participants:['heroine_03'], location:['library','library_hall'], trigger:'auto', once:true, term:['Y3S1'], weeks:[2], weekday:[1], npcZone:'heroine_03', background:'blur',
-    prereq:{stage:{npc:'heroine_03',min:'FRIEND'},notFlags:['YT_TA']}, dialogue:TA_LINES.map(l=>l.text==='下週二第一次上台。我要講二十分鐘。'?Object.assign({},l,{text:'明天第一次上台。我要講二十分鐘。'}):l) };   /* AA_376 #3：第 2 週週一（9/13）在總圖，隔天 9/14 就上台（麵店那一版第 1 週照舊「下週二」）*/
+    prereq:{stage:{npc:'heroine_03',min:'FRIEND'},notFlags:['YT_TA']}, dialogue:[{speaker:null,text:'（她收書出來，在門口叫住你。）',libOut:true}].concat(TA_LINES.map(l=>l.text==='下週二第一次上台。我要講二十分鐘。'?Object.assign({},l,{text:'明天第一次上台。我要講二十分鐘。'}):l)) };   /* libOut（AA_595 1-B22：改在總圖門口；AA 11-02 22:30 定稿）*/   /* AA_376 #3：第 2 週週一（9/13）在總圖，隔天 9/14 就上台（麵店那一版第 1 週照舊「下週二」）*/
 
   /* ---- 1B-08 語彤事件 12「那把傘」：2027-09-14（二）17:30～18:30 總圖門口（大一下雨的那個門口），那天傍晚一定下雨（y2b3d.js）---- */
   const RU=v=>({flagIs:{rain_umbrella:v}});

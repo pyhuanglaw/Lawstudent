@@ -40,7 +40,7 @@ let cards=[], backups=[], entered=[]; GM.titleCard=async(a,b)=>{ cards.push(a+'�
   check('1. 8/30 晚上還不換',!STORY.toLawDue(G));
   let fadeOn=false; const fade0=GM.fade, say0=GM.say, sayFade=[]; GM.fade=async on=>{ fadeOn=!!on; }; GM.say=async(w,t)=>{ sayFade.push([t,fadeOn]); return say0(w,t); };
   said=[]; cards=[]; backups=[]; entered=[]; script=['睡覺']; await loop(); const L=said.map(x=>x.t); GM.fade=fade0; GM.say=say0;
-  const a=L.indexOf('暑假剩下的日子，過得很快。'), b=L.indexOf('書桌上，經濟學原理還沒收起來。'), c=L.indexOf('開學第一週，你走進法律系館A。沒有人知道你來過這個校園。'), d=L.indexOf('重修的經濟學原理排在週五早上，普通教學館。你閉著眼睛也找得到。');
+  const a=L.indexOf('暑假剩下的日子，過得很快。'), b=L.indexOf('書桌上，經濟學原理還沒收起來。'), c=L.indexOf('開學第一週，你走進法律系館A。沒有人知道你來過這個校園。'), d=L.indexOf('經濟學原理排在週五早上，普通教學館。你閉著眼睛也找得到。');
   check('2. 8/31 早上在家醒來：先 3b② 四句（暑假剩下的日子…經濟學原理還沒收起來）',a>=0&&b===a+3,JSON.stringify(L.slice(0,8)));
   check('2. 3b② 之後、換階段之前先備份（「經濟系那一年的最後一天」，fatiao3d_backup_y0end；備份時還是經濟系 8/31）',backups.length===1&&backups[0].label==='經濟系那一年的最後一天'&&backups[0].key==='y0end'&&backups[0].saidAt===b+1&&backups[0].stage==='econ'&&backups[0].day===D31,JSON.stringify(backups));
   check('2. 黑幕字卡「2025 年 9 月　首都帝大法律系　大一」→ 3b③ 四句',cards.includes('2025 年 9 月　首都帝大法律系　大一｜')&&c>b&&d===c+3,JSON.stringify(cards));

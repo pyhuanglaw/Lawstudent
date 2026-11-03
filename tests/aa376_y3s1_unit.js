@@ -57,7 +57,8 @@ const DOCR=process.env.PG_DOC_REPO||ROOT;
 const doc=(sha,p)=>{ try{ return cp.execSync('git -C "'+DOCR+'" show "'+sha+':'+p+'"',{encoding:'utf8',maxBuffer:1<<26}); }catch(e){ return ''; } };
 const P376='docs/story_planning/AA_376_法律系大三上_作息與重複_修正稿.md', P342='docs/story_planning/AA_342_臺灣路線六學期_每一週能做什麼_覆蓋盤點與補空白.md';
 const MD376=doc('69aa3b0c',P376), MD342=doc('f2de8d1c',P342);
-const in376=t=>MD376.includes(t), in342=t=>MD342.includes(t);
+const AN=require('./an_rev_doc.js');   /* 以安改稿第四批（AA_589 第 1、4 列）改過的句子：在 AA_589 的改成欄也算（逐列核對在 tests/aa589_an_b4_unit.js）*/
+const in376=t=>MD376.includes(t)||AN.has(t), in342=t=>MD342.includes(t)||AN.has(t);
 (async()=>{
   await sec('0',async()=>{
     check('0. 讀得到稿（企劃線 69aa3b0c AA_376、f2de8d1c AA_342）',MD376.length>1000&&MD342.length>1000&&in376('AA_376')&&in342('3-1. 大三上'));
@@ -69,8 +70,9 @@ const in376=t=>MD376.includes(t), in342=t=>MD342.includes(t);
     check('0. 匯入白名單：AA_376@69aa3b0c、AA_342@f2de8d1c（approved）',!!a376&&a376.sha==='69aa3b0c'&&a376.status==='approved'&&!!a342&&a342.sha==='f2de8d1c'&&a342.status==='approved');
     const L=typeof Y3FILL_LINES!=='undefined'?Y3FILL_LINES:null, flat=x=>typeof x==='string'?[x]:Array.isArray(x)?x.flatMap(flat):x&&typeof x==='object'?Object.values(x).flatMap(flat):[];
     const S342=L?flat(L).filter(t=>!/^(zhe|yu|classmate_bohan)$/.test(t)).map(t=>t.replace(/^「(.*)」$/,'$1')):[];
-    check('0. AA_342 3-1 的每一句都在稿上（逐字）',!!L&&S342.length>=14&&S342.every(in342),S342.filter(t=>!in342(t)).join('｜'));
-    const NEW376=['明天第一次上台。我要講二十分鐘。','……上次跟你說的那個遊戲。','民總讀書會，我先講一次給你聽。','（翻開手帳）讀書會八點。……我們先走。','我們那棟停電了。你們這棟還有電。','那天的柚子，阿哲剝完就沒人吃。……我帶回去了，我室友說太酸。','那天晚上，我看了手機好幾次。','他高中的時候也來這裡吃過麵。','刑訴老師昨天點了後面三排。','我七點要回學校。','……我下週也期中，二十六號考第一科。','你兩天沒出門了吧。……我猜的。','那我們在日本找一家麵店。','我們同一班。','……那我十點去機場。送兩個。','嗯。大四還沒開始，我想在這裡過。','（你想，大四還沒開始。你想在這裡過。）'];
+    const A600=require('./aa600_doc.js'), in342x=t=>in342(t)||A600.has(t);   /* AA_600 A22（企劃線 031414cad）：前任那一句旁白「（她把下週的題目寫在白板上。）」在 AA_600 的稿裡 */
+    check('0. AA_342 3-1 的每一句都在稿上（逐字；AA_600 新寫的在 AA_600）',!!L&&S342.length>=14&&S342.every(in342x),S342.filter(t=>!in342x(t)).join('｜'));
+    const NEW376=['明天第一次上台。我要講二十分鐘。','……上次跟你說的那個遊戲。','民總讀書會，我先講一次給你聽。','（看了一下錶）讀書會八點。……我們先走。','我們那棟停電了。你們這棟還有電。','那天的柚子，阿哲剝完就沒人吃。……我帶回去了，我室友說太酸。','那天晚上，我看了手機好幾次。','他高中的時候也來這裡吃過麵。','刑訴老師昨天點了後面三排。','我七點要回學校。','……我下週期中，二十六號考第一科。','你兩天沒出門了吧。……我猜的。','那我們在日本找一家麵店。','我們同一班。','……那我十點去機場。送兩個。','嗯。大四還沒開始，我想在這裡過。','（你想，大四還沒開始。你想在這裡過。）'];
     check('0. AA_376 的「改成」都在稿上（測試用的句子對過稿）',NEW376.every(in376),NEW376.filter(t=>!in376(t)).join('｜'));
   });
   // ===== 1. 語彤週四 =====
@@ -123,7 +125,7 @@ const in376=t=>MD376.includes(t), in342=t=>MD342.includes(t);
   await sec('7',async()=>{
     for(const id of ['zhe','yu','classmate_bohan','heroine_01']) void 0;
     fresh('2027-09-09',19,'noodle'); for(const id of ['zhe','yu','classmate_bohan','heroine_01']) R(id,'FAM'); await play('ev_y3_first_meal',[1]); const L=all(), h1=G.hour;
-    check('7. 以安「（翻開手帳）讀書會八點。……我們先走。」（原本「週四的讀書會照常。八點。」）',has('（翻開手帳）讀書會八點。……我們先走。')&&!any(/週四的讀書會照常/),J(L));
+    check('7. 以安「（看了一下錶）讀書會八點。……我們先走。」（原本「週四的讀書會照常。八點。」）',has('（看了一下錶）讀書會八點。……我們先走。')&&!any(/週四的讀書會照常/),J(L));
     check('7. 19:40 以安、Alison、柏翰先走（照 10/21 那一場：跳到 19:40）；出遊照樣 20:30 結束（hours 剩 50 分鐘）',Math.abs(h1-(19+40/60))<0.01&&Math.abs(ev('ev_y3_first_meal').hours*60-50)<1e-6,String(h1));
   });
   // ===== 8. 颱風夜 =====
@@ -172,7 +174,7 @@ const in376=t=>MD376.includes(t), in342=t=>MD342.includes(t);
   // ===== 14、17. 感冒週 =====
   await sec('14',async()=>{
     fresh('2027-10-23',8,'dorm'); date('kexin'); picks=['跟可昕']; await STORY.coldWeekSneeze(GM);
-    check('14. 可昕「……我下週也期中，二十六號考第一科。」（10/23 週六）',txt('p:kexin').includes('kexin:……我下週也期中，二十六號考第一科。')&&!txt('p:kexin').some(t=>/這週也期中/.test(t)),J(txt('p:kexin')));
+    check('14. 可昕「……我下週期中，二十六號考第一科。」（10/23 週六）',txt('p:kexin').includes('kexin:……我下週期中，二十六號考第一科。')&&!txt('p:kexin').some(t=>/這週也期中/.test(t)),J(txt('p:kexin')));
     fresh('2027-10-24',21.5,'dorm',{COLD_WEEK:'night',COLD_WEEK_TOLD:'none'}); date('heroine_05'); const A=STORY.coldWeekLines(G,'heroine_05');
     fresh('2027-10-24',21.5,'dorm',{COLD_WEEK:'night',COLD_WEEK_TOLD:'none'}); date('heroine_05'); R('heroine_03','CLO'); const C=STORY.coldWeekCast(G), B=STORY.coldWeekLines(G,'heroine_05',C);
     check('17. 學姊交往中、沒被告知：語彤沒來（不知道）＝「你兩天沒出門了吧。……我猜的。」；語彤有來（送湯那一條的條件）＝「語彤說你兩天沒出門。」',J(A[0])===J(['heroine_05','你兩天沒出門了吧。……我猜的。'])&&C.visitors.includes('heroine_03')&&J(B[0])===J(['heroine_05','語彤說你兩天沒出門。']),J([A[0],B[0]]));
@@ -234,7 +236,7 @@ const in376=t=>MD376.includes(t), in342=t=>MD342.includes(t);
     picks=['我還不會']; said=[]; await CLS.attendActivity(GM,PL,{door:true}); const a=all();
     check('3-1 10/7（四）讀書會散會：以安「下週的題目，你帶。」→「我還不會。」→「不會才要帶。」（BB T3）',a.includes('下週的題目，你帶。')&&a.includes('不會才要帶。')&&a.indexOf('不會才要帶。')>a.indexOf('下週的題目，你帶。')&&J(opts[opts.length-1])===J(['「好。」','「我還不會。」'])&&G.flags.Y3_PLG_TOPIC==='notyet',J([a,opts]));
     to('2027-10-14',19.9); G.zone='wancai'; said=[]; await CLS.attendActivity(GM,PL,{door:true}); const b=all();
-    check('3-1 10/14（四）讀書會（颱風假隔天照開）：「（你講了十五分鐘。以安只問了一個問題：「理由呢？」你答了。她在手帳上畫了一個勾。）」（BB T3）',ACTIVITIES.on(PL,D('2027-10-14'),G)&&b.includes('（你講了十五分鐘。以安只問了一個問題：「理由呢？」你答了。她在手帳上畫了一個勾。）'),J(b));
+    check('3-1 10/14（四）讀書會（颱風假隔天照開）：「（你講了十五分鐘。以安只問了一個問題：「那反方呢？」你答了。她點了一下頭。）」（BB T3）',ACTIVITIES.on(PL,D('2027-10-14'),G)&&b.includes('（你講了十五分鐘。以安只問了一個問題：「那反方呢？」你答了。她點了一下頭。）'),J(b));
     fresh('2027-10-14',19.9,'wancai',{PUBLIC_LAW_GROUP:true}); R('heroine_01','FRI'); G.events.done.ev_public_law_group=1; said=[]; await CLS.attendActivity(GM,PL,{door:true});
     check('3-1 10/7 沒被點名的（沒去 10/7）：10/14 沒有那一句',!any(/你講了十五分鐘/),J(all()));
     fresh('2027-10-08',20.9,'dorm'); R('classmate_bohan','FAM'); INV.addContact(G,'classmate_bohan'); G.contacts.classmate_bohan=D('2026-09-01'); runPhone('2027-10-08',20.9,21.2,0.1); const m=txt('p:classmate_bohan');
@@ -243,7 +245,7 @@ const in376=t=>MD376.includes(t), in342=t=>MD342.includes(t);
   });
   await sec('342d',async()=>{
     fresh('2027-11-03',18.4,'dorm'); STORY.tick(GM); const c0=cards.length; to('2027-11-03',18.6); STORY.tick(GM); await new Promise(r=>setTimeout(r,0)); const c1=cards.slice(); STORY.tick(GM); await new Promise(r=>setTimeout(r,0));
-    check('3-1 11/3（三）摘要日：18:30 以後日期卡「11/3（三）…」＋「（期中考完的那一週，沒有課。你把刑訴旁聽作業的筆記整理成兩頁。）」，只一次（18:24 還沒有）',c0===0&&c1.length===1&&/^11\/3（三）18:3/.test(c1[0][0])&&c1[0][1]==='（期中考完的那一週，沒有課。你把刑訴旁聽作業的筆記整理成兩頁。）'&&cards.length===1,J(cards));
+    check('3-1 11/3（三）摘要日：18:30 以後日期卡「11/3（三）…」＋「（期中週。你把刑訴旁聽作業的筆記整理成兩頁。）」，只一次（18:24 還沒有）',c0===0&&c1.length===1&&/^11\/3（三）18:3/.test(c1[0][0])&&c1[0][1]==='（期中週。你把刑訴旁聽作業的筆記整理成兩頁。）'&&cards.length===1,J(cards));
     fresh('2027-11-04',8,'dorm'); STORY.tick(GM); await new Promise(r=>setTimeout(r,0)); check('3-1 11/3 那天睡過去了：11/4 不補',cards.length===0);
     fresh('2027-12-18',19,'campus'); STORY.tick(GM); await new Promise(r=>setTimeout(r,0));
     check('3-1 12/18（六）摘要日：「（期末考前的週末。總圖的位子早上八點就沒了。）」',cards.length===1&&cards[0][1]==='（期末考前的週末。總圖的位子早上八點就沒了。）',J(cards));

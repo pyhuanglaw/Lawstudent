@@ -81,7 +81,7 @@ GM.money=function(n){ G.money+=n; };
   { fresh(D('2027-01-17'),7,'dorm',{}); G.stage='law'; meet('heroine_01'); VAC.signup(G,'C11@Y2','yes'); said=[]; await VAC.outing(GM,OUT.get(G,'vac_C11@Y2'));
     check('7. 東京：第一堂（好像通識課）＋以安「回頭用嘴型說：好冷。」、參訪五十年前的照片；1/30',lines().some(t=>t.includes('好像通識課'))&&lines().includes('（休息時間，以安坐在你斜前方，回頭用嘴型說：好冷。）')&&lines().some(t=>t.includes('五十年前的照片'))&&G.day===D('2027-01-30'));
     fresh(D('2027-08-09'),7,'dorm',{}); G.stage='law'; meet('heroine_01'); R('heroine_01',25,0,0); VAC.signup(G,'C12@Y2','yes'); said=[]; picks=[1]; await VAC.outing(GM,OUT.get(G,'vac_C12@Y2')); let L3=lines();
-    check('7. 京都（以安 FAMILIAR）：「你也來了？」→「下課一起吃飯？」→「…我查過了。」、茶道轉了三次、結業「我幫你念一次。」',L3.includes('沈以安：你也來了？')&&L3.includes('沈以安：好。我知道一間便宜的，我查過了。')&&L3.some(t=>t.includes('你轉了三次'))&&L3.includes('沈以安：……我幫你念一次。'),JSON.stringify(L3));
+    check('7. 京都（以安 FAMILIAR）：「你也來了？」→「下課一起吃飯？」→「…我查過了。」、茶道轉了三次、結業「我幫你念一次。」',L3.includes('沈以安：你也來了？')&&L3.includes('沈以安：好。')&&L3.some(t=>t.includes('你轉了三次'))&&L3.includes('沈以安：……我幫你念一次。'),JSON.stringify(L3));
     fresh(D('2027-08-09'),7,'dorm',{}); G.stage='law'; VAC.signup(G,'C12@Y2','yes'); said=[]; opts=[]; await VAC.outing(GM,OUT.get(G,'vac_C12@Y2')); L3=lines();
     check('7. 京都（不熟以安）：一般的第一堂（十二個人、八個國家），沒有以安、沒有選項',L3.some(t=>t.includes('來自八個國家'))&&!L3.some(t=>t.startsWith('沈以安'))&&!opts.length,JSON.stringify(L3)); }
   // 8. 衝突：首爾 7/13～24 撞日語課（7/14、7/16、7/21、7/23）

@@ -105,7 +105,9 @@ const HOLFF=(function(){
      （遊戲時鐘是當地時間；AA_341 J-S13、AA_342 C6；美國路線 AA_370 L2——原本只換日本路線，美國當地 19:00 才收到＝臺灣隔天 07:00）。不在國外＝0 */
   const abTz=(G,d)=>typeof STORY!=='undefined'&&STORY.tzOffset?(STORY.tzOffset(G,d)||0):0;
   S.homeMsgs=function(G){ const now=T(G.day,G.hour), F=G.flags||{};
+    const anEx=typeof ROM!=='undefined'&&!!ROM.exOf&&ROM.exOf(G,'heroine_01');   /* AA_600 A14（企劃線 031414cad）：前任的以安回台中、回臺北的訊息不送（私訊、群組都不送）*/
     for(const m of S.HOME_MSGS){ if(PHONE.sent(G,m.tag)) continue; const d=S.msgDay(m), h=d==null?m.h:m.h+abTz(G,d); if(d==null||now<T(d,h)||G.day>d+(m.c01?1:3)) continue;
+      if((m.an||m.anS)&&anEx) continue;
       if(m.an){ const th='p:heroine_01'; if(atLeast('heroine_01','FAMILIAR')) PHONE.at(G,d,h,m.an.map(t=>({th,from:'heroine_01',text:t})),m.tag); else if(inGrp(G,'noodle_team')&&met('heroine_01')) PHONE.at(G,d,h,[{th:NT,from:'heroine_01',text:m.an[0]}],m.tag); continue; }   /* 大一寒假的寫法（story3d.js an_home_y1）*/
       if(m.anS){ if(!atLeast('heroine_01','FAMILIAR')||F.dating_heroine_01) continue; PHONE.at(G,d,h,m.anS.map(([w,t])=>({th:'p:heroine_01',from:w,text:t})),m.tag); continue; }   /* 大一暑假的寫法（va02_3、va02_4：交往中的另外補）*/
       if(!inGrp(G,m.th.slice(2))) continue; PHONE.at(G,d,h,m.ms.map(([w,t])=>({th:m.th,from:w,text:t})),m.tag); } };
@@ -203,12 +205,12 @@ const HOLFF=(function(){
   S.DRAGON={day:'2026-06-19',h:12,ms:[['mom','📷（廚房掛著一串粽子）'],['mom','南部粽北部粽都有 你回來自己挑']]};
   /* 第 7 節 以安的假期計畫（AA_244 第 1 節，AA-C 2d3a0735d）：學期第 15 週週五 21:00。①（換字的那幾個假期照表）→ 記 AN_PLAN_<假期>＝join；②不記；③只有熟以上（私訊）。大三暑假她在日本、大四暑假畢業了＝沒有 */
   S.AN_PLAN={
-    Y1S1:{key:'Y1W',short:'寒假先在總圖，1/20 回台中',o1:'我也會去總圖。',r1:'三樓。我通常坐靠窗那排。'},
-    Y1S2:{key:'Y1S',short:'暑假我上日語課 公館 週二四晚上',r1:'報名到這個禮拜五。第一堂要自我介紹，用日文。',r3:'好。……你要先把五十音背完。'},
-    Y2S1:{key:'Y2W',short:'我報了東京的冬季短期課 兩週',r1:'國際處下週五截止。要寫一段報名動機，不用很長。',r3:'好。……那邊很冷，你要帶厚外套。'},
-    Y2S2:{key:'Y2S',short:'七月日檢 八月去京都上語言課',r1:'分班考試很難。你是初級的話，我們不會同班。……下課可以一起吃飯。',r3:'好。你到了跟我說。'},
-    Y3S1:{key:'Y3W',short:'寒假在臺北準備出國 3/25 出發',o1:'需要幫忙的話叫我。',r1:'……那行李清單你幫我看一次。我怕漏。'},
-    Y4S1:{key:'Y4W',short:'寒假留臺北讀書 過年回台中',o1:'我也會在總圖。',r1:'好。……不要坐我旁邊，我會一直想講話。'} };
+    Y1S1:{key:'Y1W',short:'寒假我先在總圖。1/20 回台中。',o1:'我也會去總圖。',r1:'三樓。我通常坐靠窗那排。'},
+    Y1S2:{key:'Y1S',short:'暑假我要上日語課。公館，週二、四晚上。',r1:'報名到這個禮拜五。第一堂要自我介紹，用日文。',r3:'好。……你要先把五十音背完。'},
+    Y2S1:{key:'Y2W',short:'我報了東京的冬季短期課。兩週。',r1:'國際處下週五截止。要寫一段報名動機，不用很長。',r3:'好。……那邊很冷，你要帶厚外套。'},
+    Y2S2:{key:'Y2S',short:'七月考日檢。八月去京都上語言課。',r1:'分班考試很難。你是初級的話，我們不會同班。……下課可以一起吃飯。',r3:'好。你到了跟我說。'},
+    Y3S1:{key:'Y3W',short:'寒假我在臺北準備出國。3/25 出發。',o1:'需要幫忙的話叫我。',r1:'……那行李清單你幫我看一次。我怕漏。'},
+    Y4S1:{key:'Y4W',short:'寒假我留在臺北讀書。過年回台中。',o1:'我也會在總圖。',r1:'好。……不要坐我旁邊，我會一直想講話。'} };
   S.AN_ASK='你這個假期要做什麼？'; S.AN_ASK_OK='好。'; S.AN_ASK_NONE='還沒想'; S.AN_ASK_LATER='那我們再排。';
   S.anPlanDay=tid=>{ const r=typeof CALENDAR!=='undefined'&&CALENDAR.termDays?CALENDAR.termDays(tid):null; return r?r.from+14*7+4:null; };   /* 第 15 週週五 */
   /* 那個假期報了的活動（行事曆上的）：交往中那一問的「照行事曆回答」＝活動的名字 */
@@ -217,6 +219,7 @@ const HOLFF=(function(){
   S.anPlan=function(G){ const now=T(G.day,G.hour), AN='heroine_01';
     for(const tid in S.AN_PLAN){ const X=S.AN_PLAN[tid], d=S.anPlanDay(tid), tag='aa532_an_plan_'+tid; if(d==null||now<T(d,21)||G.day>d+1||PHONE.sent(G,tag)) continue;
       if(!met(AN)||abroadOn(G,d)) continue;
+      if(typeof ROM!=='undefined'&&ROM.exOf&&ROM.exOf(G,AN)) continue;   /* AA_600 A15：前任不送（附邀約選項的那一則）*/
       const fam=atLeast(AN,'FAMILIAR'), th=fam?'p:'+AN:NT; if(!fam&&!inGrp(G,'noodle_team')) continue;
       const say=t=>[{th,from:AN,text:t}], set={['AN_PLAN_'+X.key]:'join'};
       const opts=[{t:X.o1||'我也想報。',set,say:say(X.r1)},{t:'好，加油。',say:[]}]; if(fam&&X.r3) opts.push({t:'那我們那邊見？',set,say:say(X.r3)});

@@ -45,7 +45,7 @@ check('2f. 自由出行第一批四個景點的底圖（DL-06，LAWWW2-B）：d0
 { const K=['az_roadside','az_canyon','us_coat_shop','lawlib_diner','gg_family_diner'];   // 第三批第 6～10 張（使用者 11-02 生成）
   const rd=f=>fs.readFileSync(path.join(ROOT,f),'utf8'), y4b=rd('src/data/r2y4b_events.js');
   const ok=[['src/data/sis_y2y3_events.js',"{scene:'法圖旁邊的簡餐',bg:'lawlib_diner'}"],['src/data/events.js',"{scene:'公館・巷子裡的簡餐店',bg:'gg_family_diner'}"],['src/data/sis_b14_events.js',"bg:'us_coat_shop'"]];
-  check('2p. 第三批後五張接上：亞利桑那公路旁（兩條路線開頭）、白天的大峽谷（10/9 第一眼看到峽谷）、美國服飾店、法圖旁邊的簡餐、公館家聚；傍晚告白的「峽谷」不借白天那張',K.every(k=>B[k]&&B[k].image==='assets/bg/'+k+'.webp'&&fs.existsSync(path.join(ROOT,B[k].image)))&&ok.every(([f,x])=>rd(f).includes(x))&&(y4b.match(/\{scene:'亞利桑那',bg:'az_roadside'\}/g)||[]).length===2&&(y4b.match(/\{scene:'大峽谷',bg:'az_canyon'\}/g)||[]).length===2&&!/\{scene:'峽谷',bg:'az_canyon'\}/.test(y4b),ok.filter(([f,x])=>!rd(f).includes(x)).map(([f,x])=>x).join('、')); }
+  check('2p. 第三批後五張接上：亞利桑那公路旁（兩條路線開頭；11-02 19:4x 起改用 BB 交的 gc_roadside_car「租來的車」，az_roadside 留著登錄）、白天的大峽谷（10/9 第一眼看到峽谷）、美國服飾店、法圖旁邊的簡餐、公館家聚；傍晚告白的「峽谷」不借白天那張',K.every(k=>B[k]&&B[k].image==='assets/bg/'+k+'.webp'&&fs.existsSync(path.join(ROOT,B[k].image)))&&ok.every(([f,x])=>rd(f).includes(x))&&(y4b.match(/\{scene:'亞利桑那',bg:'gc_roadside_car'\}/g)||[]).length===2&&(y4b.match(/\{scene:'大峽谷',bg:'az_canyon'\}/g)||[]).length===2&&!/\{scene:'峽谷',bg:'az_canyon'\}/.test(y4b),ok.filter(([f,x])=>!rd(f).includes(x)).map(([f,x])=>x).join('、')); }
 { const K=['gc_rim_sunset','us_chapel_snow','lawlib_steps_night','taipei_botanical_winter','botanical_lotus'];   // 第四批第 1～5 張（使用者 11-02 生成）
   const rd=f=>fs.readFileSync(path.join(ROOT,f),'utf8');
   const ok=[['src/data/r2y4b_events.js',"{scene:'峽谷',bg:'gc_rim_sunset'}"],['src/data/r2y4a_events.js',"{scene:'小教堂前的台階',bg:'us_chapel_steps_snow'}"],['src/data/sis_y2y3_events.js',"{scene:'法圖外面的台階',bg:'lawlib_steps_night'}"],['src/data/sis_b4_events.js',"{scene:'臺北植物園',bg:'taipei_botanical_winter'}"]];
@@ -68,9 +68,9 @@ check('2f. 自由出行第一批四個景點的底圖（DL-06，LAWWW2-B）：d0
     ['src/data/events.js',"{scene:'新體育館',bg:'gym_court'}"],['src/y2r2_3d.js',"{scene:'新體育館',bg:'gym_court'}"],['src/data/group_events.js',"{scene:'新體育館・球場',bg:'gym_court'}"],['src/data/r2y4b_events.js',"{scene:'新體育館・球場',bg:'gym_court'}"],
     ['src/data/r2y4b_events.js',"{scene:'法律系館B大廳',bg:'wancai_lobby'}"],['src/data/sis_b16_events.js',"{scene:'新體育館門口',bg:'gym_gate'}"],['src/data/events.js',"background:'gym_court', hours:3"],['src/data/r2y3a_events.js',"background:'kh_hotel_front'"],
     ['src/data/sis_b14_events.js',"us_c_door"],['src/sideq3d.js',"bg:'hwaxin_street'"],['src/sideq3d.js',"bg:'vet_clinic'"],
-    ['src/data/jpprep_events.js',"ev('ev_jpp_0221',[ {scene:'臺北的家',bg:'home_room_day'}"],['src/data/jpprep_events.js',"ev('ev_jpp_0319',[ {scene:'臺北的家',bg:'home_living_day'}"]];
+    ['src/data/jpprep_events.js',"ev('ev_jpp_0221',[ {scene:'家',bg:'home_room_day'}"],['src/data/jpprep_events.js',"ev('ev_jpp_0319',[ {scene:'家',bg:'home_living_day'}"]];
   const miss=ok.filter(([f,t])=>!rd(f).includes(t));
-  check('2u. 第六批 10 張接上：獸醫診所（SQ14）、華新街（SQ10）、高雄旅館門口（可昕七夕）、麵店門口（語彤情人節）、日本海邊（以安海之日）、新體育館門口（看學姊游泳）、球場（四場系籃）、Café 門口聖誕夜（學姊）、法律系館B大廳（成發）、美國 C 棟門口（兩把傘）；臺北的家四場改用既有圖',K.every(k=>B[k]&&B[k].image==='assets/bg/'+k+'.webp'&&fs.existsSync(path.join(ROOT,B[k].image)))&&!miss.length,JSON.stringify(miss)); }
+  check('2u. 第六批 10 張接上：獸醫診所（SQ14）、華新街（SQ10）、高雄旅館門口（可昕七夕）、麵店門口（語彤情人節）、日本海邊（以安海之日）、新體育館門口（看學姊游泳）、球場（四場系籃）、Café 門口聖誕夜（學姊）、法律系館B大廳（成發）、美國 C 棟門口（兩把傘）；家四場改用既有圖',K.every(k=>B[k]&&B[k].image==='assets/bg/'+k+'.webp'&&fs.existsSync(path.join(ROOT,B[k].image)))&&!miss.length,JSON.stringify(miss)); }
 { const K=['kh_hill_harbor_night','jp_konbini_summer','us_lake_bare','us_lake_summer','gg_luggage_shop'];   // 第七批第 1～5 張（使用者 11-02 生成，BB_132 第 104 組）
   const rd=f=>fs.readFileSync(path.join(ROOT,f),'utf8');
   const ok=[['src/data/r2y3a_events.js',"{scene:'高雄・港邊的山上',bg:'kh_hill_harbor_night'}"],['src/data/jp_events.js',"const LAST=[ {scene:'便利商店',bg:'jp_konbini_summer'}"],['src/data/jp_events.js',"const LAST_ALONE=[ {scene:'便利商店',bg:'jp_konbini_summer'}"],['src/data/jp_events.js',"{scene:'公館',bg:'gg_luggage_shop'}"]];

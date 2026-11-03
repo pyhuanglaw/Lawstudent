@@ -68,14 +68,16 @@ const TERMEND=(function(){
   S.heartWhy=function(G,id,w){ if(typeof DATE==='undefined'||!DATE.log) return false; const Lx=L(); if(!Lx||!Lx.HEART[id]) return false;
     if(G.flags&&G.flags['dating_'+id]) return false;   /* C4：交往中＝女朋友的學期末約會 */
     if(typeof ROM!=='undefined'&&ROM.canStart&&!ROM.canStart(G,id)) return false;   /* C8：分手以後還不能重新開始 */
+    if(typeof V6EX!=='undefined'&&V6EX.noContact&&V6EX.noContact(G,id)) return false;   /* AA_600 S5（企劃線 031414cad）：以安、學姊是前任＝不發心意邀約、也不傳 NOPE 那一句；要復合只走祐廷主動的路（約會結尾告白、挽回）*/
     if(typeof INV!=='undefined'&&INV.cool&&INV.cool(G,id)) return false;   /* 分開以後到下一個學期第 1 週：她不主動約（AA_434 4-3，V6EX.cool），心意邀約不發、那一句也不傳；你自己約她吃飯＝朋友的期末飯（S.playerInvite）*/
-    if(id==='heroine_05'&&typeof SISB4!=='undefined'&&SISB4.brokeUp&&SISB4.brokeUp(G)) return false;   /* AA_386 第 4 節：分開過的學姊不發心意邀約（她的答應是第一次的台詞「考試那時候就有一點了」，接不上）——重新開始照三件事（SIS_REBUILD）＋兩次正式校外約會，第二次那一趟的結尾告白（date3d.js）*/
+    if(id==='heroine_05'&&typeof SISB4!=='undefined'&&SISB4.brokeUp&&SISB4.brokeUp(G)) return false;   /* AA_386 第 4 節：分開過的學姊不發心意邀約（她的答應是第一次的台詞「你確定？」「我很難相處喔。」——AA_590 決3 前是「考試那時候就有一點了」，接不上）——重新開始照三件事（SIS_REBUILD）＋兩次正式校外約會，第二次那一趟的結尾告白（date3d.js）*/
     const c=S.cond(G,id);
     if(!c.ok){ if(c.why==='low'||c.why==='knows') return {nope:c.why}; if(c.why==='partner') return Lx.NOPE.partner&&Lx.NOPE.partner[id]?{nope:'partner'}:false; return false; }   /* 手機一句只給 C5 她自己有交往對象、C6 低潮、C10 她知道（含 5-3 第二欄沒到）；C1、C2 只是還沒到，不傳（BB_203 5-4，AA_254 第 9 節 8c76052b）*/
     if(c.decline==='preexam'||c.decline==='prerank') return false;   /* 學姊：放榜（2026-03-23）以前不發、也不傳（5-3 第一欄，AA_254 第 9 節刪了那一句）*/
     const D=typeof CONFESS_LINES!=='undefined'?CONFESS_LINES[id]:null; if(D&&typeof D.hideIf==='function'&&D.hideIf(G,null)) return false;   /* 沛珊重考期：聯絡不到，不傳 */
     return true; };
   S.friendOk=function(G,id,w){ if(G.flags&&G.flags['dating_'+id]) return false; const st=romStatus(G,id); if(st==='ended'||st==='friend_after_catch'||st==='paused') return false;
+    if(typeof V6EX!=='undefined'&&V6EX.noContact&&V6EX.noContact(G,id)) return false;   /* AA_600 S5：前任的朋友邀約也不發 */
     if(typeof INV!=='undefined'&&INV.cool&&INV.cool(G,id)) return false;   /* 同上（AA_434 4-3）：分開以後這段期間她也不發朋友的邀約（不然心意邀約不發，她會改用朋友的邀約約你）*/
     if(id==='heroine_05'&&w.id==='Y1S1') return false;   /* 學姊筆試前不約（AA_250 10-2）*/
     if(id==='classmate_peishan'&&(w.id==='Y2S1'||w.id==='Y2S2')) return false;   /* 大二上說要重考以後不想見人、大二下聯絡不到（AA_250 第 3、4 節）*/
@@ -229,7 +231,8 @@ const TERMEND=(function(){
       else await talk(3);
       await S.hook(GM,te.term,who);   /* 邀約鉤子（AA_250 10-1：話題之後、收尾之前）*/
       if(kind==='gf'&&spec.lastByTerm&&spec.lastByTerm[te.term]) await run(GM,who,lines(spec.lastByTerm[te.term],G));   /* 那一頓的最後（收尾之前；AA_470 4-2 學姊大四上）。約在哪一家都演（AA_490 第 2 節：句子沒提到店；原本玩家自己約別家＝other 不演）——lastByTerm 只放和店無關的句子 */
-      const cl=kind==='gf'&&P.closeGf?P.closeGf:P.close; if(cl) await GM.say(null,cl); }   /* 學姊的女朋友版收尾（AA_250 10-1）*/
+      const atTbl=kind==='heart'&&spec.againAtTable&&spec.closeAgain&&S.rec(G).think[who]!=null;   /* 以安第二次在桌邊演：收尾換一句，收盤子挪到「……勾了。」之後（AA 2026-11-02 20:57）*/
+      const cl=atTbl?spec.closeAgain:(kind==='gf'&&P.closeGf?P.closeGf:P.close); if(cl) await GM.say(null,cl); }   /* 學姊的女朋友版收尾（AA_250 10-1）*/
     R.done={who,kind,day:G.day};
     if(kind==='heart') await S.walkHome(GM,who,te.term);
     return true; };
@@ -306,10 +309,14 @@ const TERMEND=(function(){
   S.missed=function(GM,q){ const G=GM.G, te=q&&q.te; if(!te||te.kind!=='kexin'||typeof PHONE==='undefined') return; const Lx=L(), K=Lx.KX[te.term], PL=K&&Lx.KX_PLACE[K.place]; if(!PL) return;
     PHONE.at(G,G.day,Math.max(G.hour,q.h+0.75),PL.miss.map(t=>({th:'p:kexin',from:'kexin',text:t})),'te_kx_miss_'+te.term); };   /* 沒去：她傳「我在河堤（正門）等了一下」「你還好嗎」（AA_250 9-2）*/
   /* ---- 回家的路上（AA_254 第 0 節）---- */
-  S.walkHome=async function(GM,who,term){ const G=GM.G, Lx=L(), h=S.heart(who,term), R=S.rec(G,term), Rt=S.rec(G); if(!h) return null;
-    if(typeof ADV!=='undefined'&&ADV.begin) ADV.begin({background:h.walkBg&&typeof OUT!=='undefined'&&OUT.bg?OUT.bg(h.walkBg):'dark',right:{charId:who,expression:'neutral'}});
-    if(h.walkCaption&&GM.caption) GM.caption('',h.walkCaption,2400);   /* 沒有底圖的那一段路：深色底＋字幕（沛珊大三起：台南・往她租的地方；芯慈：羅斯福路・往公館站）。walkPlace 是企劃的欄位、不出字幕（飯換到別的地方時會對不上：沛珊大四下在台南）*/
-    await run(GM,who,Rt.think[who]!=null&&h.walkAgain?h.walkAgain:h.walk);   /* walkAgain：第二次（上次選了「讓我想想」）回家路上換的句子（芯慈 AA_537b 8-5）*/
+  /* againAtTable（以安，AA＋BB 2026-11-02 20:55）：第二次（上次選了「讓我想想」）在店裡、兩人還沒起身的時候演（CG-27 的圖是桌邊）——背景＝那家店、不演走出店門那兩句，演完才「（走出店門…）」；第一次照舊在巷子（CG-11 是巷子路燈下）*/
+  S.walkHome=async function(GM,who,term){ const G=GM.G, h=S.heart(who,term), Rt=S.rec(G); const atTable=!!(h&&h.againAtTable&&Rt.think[who]!=null);
+    const r=await S._walkHome(GM,who,term,atTable); if(atTable&&h.afterTable) await run(GM,who,h.afterTable); return r; };
+  S._walkHome=async function(GM,who,term,atTable){ const G=GM.G, Lx=L(), h=S.heart(who,term), R=S.rec(G,term), Rt=S.rec(G); if(!h) return null;
+    const tbg=atTable?((Lx.PLACE[h.place]||{}).bg||null):h.walkBg;
+    if(typeof ADV!=='undefined'&&ADV.begin) ADV.begin({background:tbg&&typeof OUT!=='undefined'&&OUT.bg?OUT.bg(tbg):'dark',right:{charId:who,expression:'neutral'}});
+    if(!atTable&&h.walkCaption&&GM.caption) GM.caption('',h.walkCaption,2400);   /* 沒有底圖的那一段路：深色底＋字幕（沛珊大三起：台南・往她租的地方；芯慈：羅斯福路・往公館站）。walkPlace 是企劃的欄位、不出字幕（飯換到別的地方時會對不上：沛珊大四下在台南）*/
+    if(!atTable) await run(GM,who,Rt.think[who]!=null&&h.walkAgain?h.walkAgain:h.walk);   /* walkAgain：第二次（上次選了「讓我想想」）回家路上換的句子（芯慈 AA_537b 8-5）*/
     const D=typeof CONFESS_LINES!=='undefined'?CONFESS_LINES[who]:null;
     const say3=h.optsFrom==='confess'&&D&&D.choice?resolve(D.choice,G).map(q=>q.t):Lx.OPTS(h.buddy);
     /* 芯慈（AA_548 第 7 節，h.tellOpt）：交往中、她不知道＝多一個選項「（先告訴她，你在跟誰交往）」，說完再選一次（不再出那一個）；她之前就知道＝答應的時候多一句 */
@@ -328,10 +335,12 @@ const TERMEND=(function(){
     if(k<3){ if(!start()) return 'blocked'; const yes=again&&h.yes2?h.yes2:(h.yes||(D&&D.yes?(typeof D.yes==='function'?D.yes(G,null,k):D.yes):[]));   /* 第二次玩家先說：她上次已經先說過，換 yes2（AA_254 第 0 節第 7 點）*/
       if(!again&&h.yesCg) await run(GM,who,[{cg:resolve(h.yesCg,G)}]);   /* 自己先說的玩家也有那張 CG，放在她答應的那一句（AA-C 16:5x）；第二次不放 */
       await knownLine(); await run(GM,who,yes); (G.flags.confessed||(G.flags.confessed={}))[who]=G.day; delete Rt.think[who]; R.result='yes'; return 'yes'; }
+    { const sl=again?h.she2:h.she; if(!sl){ R.result='silent'; return 'silent'; } }   /* 她不先說（學姊，AA_591 第 11 節第 13 點）：祐廷沒開口＝這一次什麼都沒發生，等下一次 */
     await run(GM,who,again?h.she2:h.she);
+    if(!again&&h.sheMem&&typeof SOCIAL!=='undefined'&&SOCIAL.remember&&!(SOCIAL.has&&SOCIAL.has(who,h.sheMem))) SOCIAL.remember(who,h.sheMem,'');   /* 她先說的那一場給你看過那一頁（以安：AN_SHOP_PAGE，AA_587 第 13 節）*/
     if(h.sheAsks&&!await afterAsk()) return 'others';   /* 她先說的最後一句就是那個問題 */
     const a=await tellMaybe(h.answer||Lx.ANSWER);   /* 沛珊大四上：「從今天開始認識。」／「……讓我想一下。」；芯慈多「（先告訴她…）」那一個 */
-    if(a===0){ if(!start()) return 'blocked'; await knownLine(); (G.flags.confessed||(G.flags.confessed={}))[who]=G.day; delete Rt.think[who]; R.result='sheSaid'; return 'sheSaid'; }
+    if(a===0){ if(again&&h.she2Yes) await run(GM,who,h.she2Yes);   /* 第二次她問「你要看嗎？」、你說好＝補兩拍再交往（以安，AA_587 第 13 節）*/ if(again&&h.she2YesMem&&typeof SOCIAL!=='undefined'&&SOCIAL.remember&&!(SOCIAL.has&&SOCIAL.has(who,h.she2YesMem))) SOCIAL.remember(who,h.she2YesMem,'');   /* 第一次已經記過同一個（AN_SHOP_PAGE）就不重複記（BB_246 P3：記憶上限 80）*/ if(!start()) return 'blocked'; await knownLine(); (G.flags.confessed||(G.flags.confessed={}))[who]=G.day; delete Rt.think[who]; R.result='sheSaid'; return 'sheSaid'; }
     await run(GM,who,[h.think]); Rt.think[who]=term; R.result='think'; return 'think'; };
   return S;
 })();

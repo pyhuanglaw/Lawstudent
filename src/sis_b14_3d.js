@@ -16,7 +16,7 @@
   - 第 8 節懸著的承諾（3cd10909b，SIS-B14-AAFIX-1028）：
       第 1 點 4-1「……下次你用我的碗。」：有 SIS14_US_CURRY 的，之後第一次有吃東西的 208 場景多一句旁白、一次——S.bowlDue（演了記 SIS14_BOWL）；
         第 3 點（d6f8621ac）＋第 4 點（913802344）：先算 9/13 US2（r2y4a_events.js ev_us2_kitchen，三支都出：「那就寫妳。」在「（她把麵分到兩個碗。）」後面、
-        「先吃麵。」在「（你們隔著窗口吃完泡麵。）」前面、「書瑀，休息一下。」在「……休息完再改。先吃麵。」後面）；沒演到＝3-2 滷肉（us208_3d.js，兩支選項會合的地方（label e 後面，盛出來吃的時候；第 5 點 ca08e848c））；
+        「先吃麵。」在「（你們隔著窗口吃完泡麵。）」前面、「貝貝，休息一下。」在「休息完再改。先吃麵。」後面）；沒演到＝3-2 滷肉（us208_3d.js，兩支選項會合的地方（label e 後面，盛出來吃的時候；第 5 點 ca08e848c））；
         3-1 看作業那一類不放；4-2 煎蛋不算（不放、也不算演過）；US2、3-2 都沒演到的沒有。
       第 2 點 h9 選「我會去接妳。」記 SIS14_RIGHT（r2y4b_events.js ev_sis_video_gf）＝12/23 接機戀人版第一句旁白前面多一句（r2y4a_events.js ev_sis_pickup）。
    - 2D 背景：草原超市旁邊那家店、C 棟門口都沒有圖＝深色底＋地點字幕（在這裡登記 image:null；tests/scene_bg_keys_unit.js 的 PENDING）。
@@ -69,7 +69,7 @@ const SISB14=(function(){
   S.selfSent=(G,d)=>!!(G.msgChat&&G.msgChat.sent&&G.msgChat.sent[ID]===d);   /* 那一天自己傳過訊息給她（MSG：同一個人一天一次，記傳的那一天）*/
   S.exam=function(G){ const F=G.flags, d=D(S.EXAM.day), tag='sisb14_exam'; if(d==null||G.day!==d||F.SIS14_EXAM_WAIT!=null||sent(G,tag)||!sent(G,'y4_push_note')||!law(G)) return;
     const gf=S.dating(G), h=gf?S.EXAM.gf:S.EXAM.friend; if(now(G)<T(d,h)||S.selfSent(G,d)||!contact(G)) return;
-    if(!gf&&!stageOk('FRIEND')) return;   /* 朋友版：推甄便條朋友版那一群（FRIEND 以上）*/
+    if(!gf&&(!stageOk('FRIEND')||(typeof ROM!=='undefined'&&!!ROM.exOf&&ROM.exOf(G,'heroine_05')))) return;   /* AA_600 B15：前任不送。朋友版：推甄便條朋友版那一群（FRIEND 以上）*/
     const M=(gf?L.examGf:L.examFriend).map(dm); M[M.length-1].ask={id:tag,opts:(gf?L.examGfOpts:L.examFriendOpts).map(reply)};
     PHONE.at(G,d,h,M,tag); F.SIS14_EXAM_WAIT=gf?'gf':'friend'; };
 

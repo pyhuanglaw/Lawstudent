@@ -3,7 +3,7 @@
 //   G 畢業典禮（postgrad3d.js）：以安新 21、語彤事件 17 的前任＝友情版（修改前前任直接不演）
 //   S 以安新 9（syllabus.js 的 exAfter，tools/syllabus/import_syllabus.py 從 AA_123 匯入；src/v6ex3d.js 的 ev_an_ex_admin 下課後演）
 //   N 以安新 8（ev_plg_rules_after 週六補讀，她看到你那一句）
-//   H 週末在臺北的家（home3d.js 的 HOME.MENU_OPTS）：七天內多一個「收拾」　P 手機筆記（V6EX.note、V6EX.PHONE_ACT）
+//   H 週末在家（home3d.js 的 HOME.MENU_OPTS）：七天內多一個「收拾」　P 手機筆記（V6EX.note、V6EX.PHONE_ACT）
 //   X AA_434（企劃線 434e6d6d7）：可昕分開後第一次見面、Alison 的貼圖、芯慈留位子、之後一個學期她先傳的少一半＋不主動約
 //   T 手機「今天」頁的按鈕（game3d.js 讀 PHONE.TODAY_ACTS）：分開以後一週內「手機筆記寫一行」（AA_182「手機裡，隨時可以」）
 // 修改前（開發分支 HEAD 9a285f768）：G1、G2、S、N、H、P 失敗。用法：node tests/v6_ex2_unit.js
@@ -46,12 +46,13 @@ await sec('S',async()=>{
   const w12=(SYLLABUS.courses.admin_law||[]).find(w=>w.w===12)||{};
   check('S1. syllabus.js：行政法第 12 週（新 9 的課堂）多 exAfter「剛剛那個，是課堂上的。」（以安）；來源寫 AA_123@d805bceee',J(w12.exAfter)===J([{who:AN,text:'剛剛那個，是課堂上的。'}])&&(w12.react||[]).some(r=>r.text==='……你這樣講，我要改我的答案。')&&/AA_123@d805bceee/.test(SYLLABUS.source),J([w12.exAfter,SYLLABUS.source]));
   const e=ev('ev_an_ex_admin');
-  check('S2. ev_an_ex_admin：行政法下課後（afterClass admin_law、大二上第 12 週、一次）',!!e&&e.afterClass==='admin_law'&&J(e.term)===J(['Y2S1'])&&J(e.weeks)===J([12])&&e.once===true);
+  /* AA_600 A2（企劃線 031414cad）：下課後她先開口的那一句＝前任不演——事件不再登錄（syllabus.js 的 exAfter 資料照留，S1）；原本 S2、S3 的期望照 AA_600 換 */
+  check('S2. ev_an_ex_admin（AA_600 A2）：不登錄（V6EX.AN_EX_ADMIN_OFF）',!e&&V6EX.AN_EX_ADMIN_OFF===true);
   let d=null; for(let x=D('2026-09-01');x<D('2027-02-01');x++){ const t=CALENDAR.termOf(x); if(t&&t.id==='Y2S1'&&t.week===12&&wdOf(x)===1){ d=x; break; } }
   const it={c:(COURSES.list||COURSES.courses||[]).find?((COURSES.list||COURSES.courses||[]).find(c=>c.id==='admin_law')||{id:'admin_law'}):{id:'admin_law'},exam:null};
   const run=async(setup)=>{ H.fresh('2026-12-07',11,'classroom'); H.G.day=d; H.G.hour=11.5; H.G.weekday=wdOf(d); H.FRIEND(AN); setup(); clear(); const r=await CLS.afterClassEvent(GM,it); return r; };
   let r=await run(()=>ex(AN));
-  check('S3. 和以安分開過：下課後「剛剛那個，是課堂上的。」（以安）',r===true&&J(H.said.map(s=>s.t))===J(['剛剛那個，是課堂上的。'])&&H.said[0].who===SOCIAL.displayName(AN),J(H.said));
+  check('S3. 和以安分開過（AA_600 A2）：下課後沒有「剛剛那個，是課堂上的。」',!r&&!H.has('剛剛那個，是課堂上的。'),J(H.said));
   r=await run(()=>{}); check('S4. 沒分開過：沒有',!r&&!H.has('剛剛那個，是課堂上的。'));
   r=await run(()=>{ H.CLOSE(AN); ROM.start(H.G,AN); }); check('S5. 交往中：沒有',!r&&!H.has('剛剛那個，是課堂上的。'));
   H.fresh('2026-12-07',11,'classroom'); H.G.day=d+7; H.G.hour=11.5; H.G.weekday=wdOf(d+7); H.FRIEND(AN); ex(AN); clear(); r=await CLS.afterClassEvent(GM,it);
@@ -61,9 +62,10 @@ await sec('S',async()=>{
 /* ======================= N 以安新 8 ======================= */
 await sec('N',async()=>{
   const e=ev('ev_plg_rules_after'), dl=e.dialogue, i=dl.findIndex(l=>l&&l.text==='……你也來了。坐原來的位子。'), c=dl.findIndex(l=>l&&l.cg==='cg_plg_rules');
-  check('N1. ev_plg_rules_after：「……你也來了。坐原來的位子。」（以安）在 CG-2 那一拍前面',i>=0&&c===i+1&&dl[i].speaker===AN&&e.v6exPatched===true,J([i,c]));
+  /* AA_600 A3（企劃線 031414cad）：前任插句「……你也來了。坐原來的位子。」刪（她不先開口）——不再插；原本 N1、N2 的期望照 AA_600 換 */
+  check('N1. ev_plg_rules_after（AA_600 A3）：沒有前任插句「……你也來了。坐原來的位子。」；CG-2 照舊',i<0&&c>=0&&!e.v6exPatched&&V6EX.AN_PLG8_OFF===true,J([i,c]));
   H.fresh('2026-10-17',14,'wancai'); H.FRIEND(AN); ex(AN); clear(); await EVENTS.run(e);
-  const s=said(); check('N2. 前任：她看到你那一句，接著「……好。開始。每人十分鐘。」照常',s.indexOf('……你也來了。坐原來的位子。')>=0&&s.indexOf('……你也來了。坐原來的位子。')<s.indexOf('（回頭看長桌，白板上三行字）……好。開始。每人十分鐘。')&&H.cgs.includes('cg_plg_rules'),J(s));
+  const s=said(); check('N2. 前任（AA_600 A3）：沒有她看到你那一句，「……好。開始。每人十分鐘。」照常',s.indexOf('……你也來了。坐原來的位子。')<0&&s.indexOf('（回頭看長桌，白板上三行字）……好。開始。每人十分鐘。')>=0&&H.cgs.includes('cg_plg_rules'),J(s));
   H.fresh('2026-10-17',14,'wancai'); H.FRIEND(AN); clear(); await EVENTS.run(e);
   check('N3. 沒分開過：沒有那一句',!H.has('……你也來了。坐原來的位子。')&&H.has('人回來了。八個人。'));
 });
@@ -118,7 +120,7 @@ await sec('X',async()=>{
   check('X3. 和子晴分開、和芯慈有點熟：分開以後第一次讀書會兩句旁白（沒有以安那一句）',e&&e.id==='ev_an_ex_plg'&&J(said())===J(SEAT),J([e&&e.id,said()]));
   H.G.day=thu+7; H.G.weekday=wdOf(thu+7); e=plg(); check('X3. 下一次讀書會不再演',!e||e.id!=='ev_an_ex_plg');
   seatSet(AN,true); e=plg(); clear(); if(e) await EVENTS.run(e);
-  check('X3. 和以安分開：先芯慈的筆袋、再以安「規則沒有改。……你也不用換位子。」',J(said())===J(SEAT.concat(['規則沒有改。……你也不用換位子。'])),J(said()));
+  check('X3. 和以安分開：先芯慈的筆袋、再以安那一拍（AA_600 A1：旁白「（她看了你一眼，點了一下頭，翻開講義。）」）',J(said())===J(SEAT.concat(['（她看了你一眼，點了一下頭，翻開講義。）'])),J(said()));
   seatSet(ZQ,false); e=plg(); check('X3. 和芯慈不到有點熟：沒有',!e||e.id!=='ev_an_ex_plg');
   seatSet(ZQ,true); H.G.acts.att['public_law_group@'+(thu-7)]={end:'full'}; H.G.events.done.ev_public_law_group=1; ROM.get(H.G,ZQ); { const R=H.G.flags.V6EX; R.seat[0].day=thu-9; } e=plg();
   check('X3. 分開以後已經去過一次讀書會（那次沒演）：之後不補',!e||e.id!=='ev_an_ex_plg');
@@ -140,7 +142,7 @@ await sec('X',async()=>{
   check('X4. 以安週二約讀書會完吃飯（INV.anAsk）：這段期間不約',INV._v6exAsk===true&&INV.anAsk(H.G)===false&&!(H.G.invites||[]).some(iv=>iv.who===AN&&iv.by==='npc'));
   check('X4. 可昕不管（照 AA_351）',!V().COOL_IDS.includes(KX));
   /* 寒暑假活動她私訊約（vac3d.js 的 signup kind dm）：這段期間不傳；報名的公告欄照樣在 */
-  const c03=ok=>{ H.fresh('2026-06-01',10,'dorm'); H.G.stage='law'; H.FRIEND(AN); INV.addContact(H.G,AN); if(!ok){ H.CLOSE(AN); ROM.start(H.G,AN); ROM.end(H.G,AN,'apart_talk'); H.FRIEND(AN); } H.G.day=D('2026-06-20'); H.G.hour=21.1; H.G.weekday=wdOf(H.G.day); STORY.phoneRules(GM); PHONE.tick(H.G); return H.msgs('p:'+AN).includes('我暑假要上日語課，公館那間，週二四晚上'); };
+  const c03=ok=>{ H.fresh('2026-06-01',10,'dorm'); H.G.stage='law'; H.FRIEND(AN); INV.addContact(H.G,AN); if(!ok){ H.CLOSE(AN); ROM.start(H.G,AN); ROM.end(H.G,AN,'apart_talk'); H.FRIEND(AN); } H.G.day=D('2026-06-20'); H.G.hour=21.1; H.G.weekday=wdOf(H.G.day); STORY.phoneRules(GM); PHONE.tick(H.G); return H.msgs('p:'+AN).includes('我暑假要上日語課。公館那間，週二、四晚上。'); };
   check('X4. 寒暑假活動以安私訊約（C03 日語課 6/20 21:00）：平常傳；6/1 和她分開＝這段期間不傳（vac3d.js 讀 V6EX.cool）',c03(true)&&!c03(false));
 });
 

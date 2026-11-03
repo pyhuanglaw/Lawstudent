@@ -2040,6 +2040,207 @@
       "status": "暫停",
       "task": "TEST-OFFLOAD-1102",
       "note": "三個條件裡「使用者同意」成立；剩 CC 的使用者電腦 runner 支援 claude/second-ai-env-art、v9.10.16 發布以後切換（BB 18:14 的條件）；已轉告 BB、LAWWW2"
+    },
+    {
+      "id": "UA-LAWWW-1102-28",
+      "at": "2026-11-02T19:5x",
+      "quote": "美術應該只需要給B驗收，或者你不用經過我",
+      "kind": "原話",
+      "status": "規則（永久）",
+      "task": "ART-NO-USER-1102",
+      "note": "D128；接在 LAWWW2 LIB-FRONT 交件寫「建築的最終美術要使用者確認」、LAWWW 回報「要你看的」之後"
+    },
+    {
+      "id": "UA-LAWWW-1102-29",
+      "at": "2026-11-02T19:5x",
+      "quote": "全部交出去（建議）",
+      "kind": "選擇題答案",
+      "status": "規則（永久）",
+      "task": "ART-NO-USER-1102",
+      "note": "問：重要人物外觀大改、整體畫風也交出來嗎？選全部交出去：人物外觀大改 LAWWW 定案、整體畫風 LAWWW2 提案＋BB、LAWWW 同意"
+    },
+    {
+      "id": "UA-LAWWW-1102-30",
+      "at": "2026-11-02T22:2x",
+      "quote": "我看測試裡面走上床手為什麼要往上抬高阿 好像殭屍",
+      "kind": "原話",
+      "status": "進行中",
+      "task": "BUG-CLIMB-ZOMBIE-1102",
+      "note": "爬宿舍梯子上床的 climb 姿勢：character3d.js CLIMB_VRM 兩手固定往前抬（蓋掉走路片段的手），看起來像殭屍；改成兩手交替抓梯子、手肘彎、不要直直伸出去"
+    },
+    {
+      "id": "UA-LAWWW-1103-01",
+      "at": "2026-11-03T23:1x",
+      "quote": "你幫我新增一個規則就是只要交班之後就不用用喚醒",
+      "kind": "原話",
+      "status": "規則（永久）",
+      "task": "RULE-NO-WAKE-AFTER-HANDOFF-1103",
+      "note": "D129／HV-23；接在 LAWWW 交班後關掉 LAWWW、LAWWW2、BB 三個每小時保險喚醒之後"
+    },
+    {
+      "id": "UA-LAWWW-1103-02",
+      "at": "2026-11-03",
+      "quote": "現在接班繼續（建議）",
+      "kind": "選擇題答案",
+      "status": "規則（永久）",
+      "task": "RULE-NO-WAKE-AFTER-HANDOFF-1103",
+      "note": "使用者：「你上次交班之後沒有人接班」；問要不要帳號 A 的 LAWWW 重新接班，選現在接班繼續（＝我回來了）。task 掛 D129 這一列只是為了對到總表：接班時打開自己的保險喚醒"
+    },
+    {
+      "id": "UA-LAWWW-1103-03",
+      "at": "2026-11-03T00:4x",
+      "quote": "我想先試用 GitHub Actions 免費執行 Node 測試，減少以後消耗 Claude 使用量……這次只做最小規模的可行性測試……成功就收工，其他整合等 BB 回來再做。",
+      "kind": "原話",
+      "status": "已完成",
+      "task": "GHA-NODE-TRIAL-1103",
+      "note": "試用分支 claude/gha-node-trial、.github/workflows/node-trial.yml；run 41554813408 success"
+    },
+    {
+      "id": "UA-LAWWW-1103-04",
+      "at": "2026-11-03T00:5x",
+      "quote": "請幫我新增一項正式待辦工作：評估將目前不需要使用我自己的電腦執行的自動測試，盡可能改由 GitHub Actions 免費執行，以減少 Claude 使用量。……這次只需要新增待辦，不需要立刻開始實作。……等輪到這項工作時，先提出白話文的評估報告，再決定如何實施。最終目標：GitHub 負責免費執行適合的例行測試，我的電腦負責需要實際畫面與操作的測試，Claude 負責分析與修正問題。三者不要重複浪費資源。",
+      "kind": "原話",
+      "status": "進行中",
+      "wants": "X154",
+      "task": "GHA-TEST-OFFLOAD-1103",
+      "note": "六點要求全文見 tasks.json GHA-TEST-OFFLOAD-1103 的 next"
+    },
+    {
+      "id": "UA-LAWWW-1103-05",
+      "at": "2026-11-03T01:0x",
+      "quote": "請把以下資訊補充到先前的「評估 GitHub Actions 免費自動測試」待辦工作，作為後續評估的背景與驗收標準。……請沿用原本的任務 ID，不要重複新增一項相同工作。……後續輪到這項工作時，先做小規模效能比較，再決定是否擴大。……最終目標不是盲目把所有測試搬到 GitHub，而是找到整體最省錢、最省 Claude 使用量，又不會降低測試品質的分工方式。",
+      "kind": "原話",
+      "status": "進行中",
+      "wants": "X154",
+      "task": "GHA-TEST-OFFLOAD-1103",
+      "note": "全文五節（GitHub 費用與限制、可能較慢的五個因素、八項實測比較、與本機測試分工、執行限制與報告六問）收錄在 docs/handoff/GHA_TEST_OFFLOAD_1103.md"
+    },
+    {
+      "id": "UA-LAWWW-1103-06",
+      "at": "2026-11-03T00:5x",
+      "quote": "其他AI如果你還沒有把他的自動喚醒關掉，你現在管因為你寫的規則，但是他們還是繼續自動喚醒自己",
+      "kind": "原話",
+      "status": "已完成",
+      "task": "RULE-NO-WAKE-AFTER-HANDOFF-1103",
+      "note": "LAWWW 00:54 關掉 AA（trig_01Gs1X6fU3cVNnAyuA26KnRZ）、CC（trig_01KdQxKoyn2pQZKW5xXLM8ir）的每小時保險喚醒（enabled=false，不刪）；LAWWW2、BB 的 11-02 23:04 已關；帳號裡開著的排程只剩 LAWWW 自己的"
+    },
+    {
+      "id": "UA-LAWWW-1103-07",
+      "at": "2026-11-03T01:0x",
+      "quote": "你自己的測試可以先丟給GitHub免費的一部分嗎 為什麼你要跑這麼多測試啊？測試不是給BB做的嗎？",
+      "kind": "原話",
+      "status": "進行中",
+      "wants": "X154",
+      "task": "GHA-TEST-OFFLOAD-1103"
+    },
+    {
+      "id": "UA-LAWWW-1103-08",
+      "at": "2026-11-03T01:0x",
+      "quote": "現在就丟給 GitHub（建議）",
+      "kind": "選擇題答案",
+      "status": "進行中",
+      "wants": "X154",
+      "task": "GHA-TEST-OFFLOAD-1103",
+      "note": "問：LAWWW 自己的全部 Node 單元測試（約 900 支）現在就改丟 GitHub 免費跑嗎？選現在就丟：只搬 LAWWW 的全部 Node 測試、下載完整歷史、平常只跑相關的；BB 瀏覽器測試、使用者電腦測試照舊；量到的時間當評估第一筆數據"
+    },
+    {
+      "id": "UA-LAWWW-1103-09",
+      "at": "2026-11-03T01:2x",
+      "quote": "可能GitHub免費測試跑完之前，使用量就到上限，你可能是邀請下一個帳號或者你下一次上班才能比較花的時間了",
+      "kind": "原話",
+      "status": "進行中",
+      "wants": "X154",
+      "task": "GHA-TEST-OFFLOAD-1103",
+      "note": "實測數字與下一步寫進 docs/handoff/GHA_TEST_OFFLOAD_1103.md 第六節，接班 LAWWW 接著比"
+    },
+    {
+      "id": "UA-LAWWW-1103-10",
+      "at": "2026-11-03T02:0x",
+      "quote": "你要等其他AI都交班完你才交班 我已經通知他們要交班了",
+      "kind": "原話",
+      "status": "已完成",
+      "task": "HANDOFF-A-1103"
+    },
+    {
+      "id": "UA-LAWWW-1103-11",
+      "at": "2026-11-03T02:0x",
+      "quote": "你改規則，然後你也可以自己聯絡CC",
+      "kind": "原話",
+      "status": "規則（永久）",
+      "task": "RULE-LAWWW-CC-DIRECT-1103",
+      "note": "D130：改 D119「CC 只和 BB 溝通」，LAWWW 也可以直接聯絡；判定照舊 BB（AI 讀法：「改規則」指的就是這條）"
+    },
+    {
+      "id": "UA-LAWWW-1103-12",
+      "at": "2026-11-03T08:1x",
+      "quote": "你上次交班之後沒有其他帳號接班 繼續工作 我也會跟其他ai講請他們接班",
+      "kind": "原話",
+      "status": "已完成",
+      "task": "HANDOFF-A-1103",
+      "note": "帳號 A LAWWW 08:17 重新登記值班、開保險喚醒"
+    },
+    {
+      "id": "UA-LAWWW-1103-13",
+      "at": "2026-11-03T08:1x",
+      "quote": "我玩的時候找到的BUG不要每天都給我撥放走上床躺下熄燈 只要第二天從床上起來就好!!",
+      "kind": "原話",
+      "status": "在開發分支",
+      "wants": "X155",
+      "task": "BUG-SLEEP-CINEMATIC-1103"
+    },
+    {
+      "id": "UA-LAWWW-1103-14",
+      "at": "2026-11-03T08:1x",
+      "quote": "老師不會知道我是交換學生回來的 更不會從上課名單看到!!!一堂課這麼多學生",
+      "kind": "原話",
+      "status": "還沒做",
+      "wants": "X156",
+      "task": "STORY-NO-TEACHER-EXCHANGE-1103"
+    },
+    {
+      "id": "UA-LAWWW-1103-15",
+      "at": "2026-11-03T08:1x",
+      "quote": "我覺得主角好朋友應該要有一些事件 甚至自動撥放的劇情 老實說我除了女主角連人名都記不起來",
+      "kind": "原話",
+      "status": "還沒做",
+      "wants": "X157",
+      "task": "STORY-FRIENDS-EVENTS-1103"
+    },
+    {
+      "id": "UA-LAWWW-1103-16",
+      "at": "2026-11-03T08:1x",
+      "quote": "有一個通識課沒選上到底是什麼 現在遊戲不是一開始課表都訂好了?",
+      "kind": "原話",
+      "status": "還沒做",
+      "wants": "X158",
+      "task": "BUG-GE-NOT-SELECTED-1103"
+    },
+    {
+      "id": "UA-LAWWW-1103-17",
+      "at": "2026-11-03T08:1x",
+      "quote": "上課完去吃飯居然扣錢和吃飽 場景都是教室",
+      "kind": "原話",
+      "status": "在開發分支",
+      "wants": "X159",
+      "task": "BUG-EAT-AFTER-CLASS-SCENE-1103"
+    },
+    {
+      "id": "UA-LAWWW-1103-18",
+      "at": "2026-11-03T08:1x",
+      "quote": "進入新場景的時候 都會先出現畫質很爛的版本 卡一下才出現完整的 例如剛進去教室可能只有方塊 之後才會看出是椅子 溫州街地圖還沒讀取完畢 只是從咖啡廳出來 也會看到腳踏車自己在動",
+      "kind": "原話",
+      "status": "還沒做",
+      "wants": "X160",
+      "task": "PERF-ZONE-POPIN-1103"
+    },
+    {
+      "id": "UA-LAWWW-1103-19",
+      "at": "2026-11-03T08:1x",
+      "quote": "教室外面可以不要有一坨人嗎 那個會有什麼插座是壞的劇情 到底有什麼意義",
+      "kind": "原話",
+      "status": "還沒做",
+      "wants": "X161",
+      "task": "STORY-CLASSROOM-CROWD-SOCKET-1103"
     }
   ]
 }

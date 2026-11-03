@@ -3,6 +3,10 @@
    7/12 20:00 總圖 B1 → 8/3 學姊的便條 → 8/4 一試（20 題）→ 9/7 一試放榜 → 10/20～21 二試 → 12/14 二試放榜（18:00 麵店、21:00 以安的電話）→
    2030-01-25 以安三試放榜（電話）→（交換延畢、2029 一試不到 12 題：2030 再一輪，8/3、9/6、10/19～20、12/13）→ 2030-10-01 第一份工作 →
    （2030 一試也沒過：2031～2033 每年再一輪——5 月報名（年份字卡＋報名／不報名）、8 月一試 20 題、9 月一試放榜、10 月二試字卡、12 月二試放榜；不報名＝停在那一年，S.LATE_YEARS）→ 2034-06-03 尾聲（CG-10）→ 回標題。
+   - D118-B8 司法官（AA_582、AA_583；使用者 A1／A2／A5／A6）：一試 ≥16 的人二試第二天考司法官二試 10 題爭點題（S.drawJudge）→ 12 月放榜（畢業那一年一定沒上〔AA_582 補充二 A1〕；之後每一年看實力：答對 ≥7，或 ≥6＋四年在校平均答對 ≥4）→
+     那一年拿到律師證照、司法官落榜＝當晚二選一（再考／就當律師）→ 重考那一年只考一試＋司法官二試（BAR_YEAR 不動），之後每年 5 月問一次、到 2033 → 錄取＝隔年 1 月三試、1 月下旬錄取（JUDGE_YEAR＝錄取那一年）→ 受訓兩年、結業前選法官／檢察官（J_judge／J_pros；2033 以後錄取＝尾聲還在受訓 J_trainee）。
+     旗標：JUDGE_SCORE2_<年>、JUDGE_PASS_<年>、JUDGE_RETAKE（true／false／'done'）、JUDGE_RETAKE_Y、JUDGE_REG_<年>、JUDGE_TRIES、JUDGE_YEAR、JUDGE_ROLE；PG.judge／PG.grad＝抽過的題。測試：tests/d118_b8_unit.js、d118_b6_unit.js
+   - D118-B6 落點 v2：有 BAR_YEAR 一定在律師家族（A_bar／C_zq／B_grad／L_firm）；研究所筆試照作答（S.gradQuiz，GRAD_SCORE_<年>）。
    - 一試門檻（使用者 2026-11-02 09:1x，AA_572 第 5 節末 A3、A4）：每一年同一套——答對 ≥16 律師、司法官二試都進，≥12 進律師二試，不到 12 那一年就沒有二試（原本 2030 一律進律師二試的保底取消）。
    - 拍照演完（F.GRADUATED）以後是「畢業後篇」（S.on）：站著不動 2 秒、或睡覺＝跳到下一件事（場景、手機訊息、出遊；做法同經濟系的 ECONFF）；
      跳的途中照時間跑手機規則，收到訊息就停、打開那一段。課表的提醒、去上課的選單不再跳（classes3d.js 讀 PG.on）。
@@ -74,8 +78,22 @@ const PG=(function(){
   const toAtLeast=(GM,t)=>{ const G=GM.G; if(NOW(G)>=t-1e-6) return false; const d=Math.floor(t/24); setT(G,GM.E,d,t-d*24); if(GM.updateHUD) GM.updateHUD(); return true; };   /* 只往前，不倒回去 */
   S.toAtLeast=toAtLeast;
   /* ---------- 國考 ---------- */
-  S.sits=(G,y)=>{ const F=G.flags||{}; if(y===2029) return F.BAR_REG===true&&!S.delayed(G); if(y>2030) return F['BAR_REG_'+y]===true&&S.failed(G,y-1); return S.delayed(G)?F.BAR_REG_2030===true:(F.BAR_SIT_2029===true&&S.stage(G,2029)==='none'); };   /* 2030：交換延畢（第一次考）、2029 一試不到 12 題（AA_319 1A-18 第 7 節）；2031～2033：那一年報了名（BAR_REG_<年>）、前一年一試沒過（A3）*/   /* AA_357 1-6：交換延畢的 2030 看 BAR_REG_2030（2030-05-10 21:00 問一次，沒回答＝不報名）；原本 BAR_REG!==false＝沒問就算報名 */
+  S.sits=(G,y)=>{ const F=G.flags||{}; if(y===2029) return F.BAR_REG===true&&!S.delayed(G); if(y>2030) return F['BAR_REG_'+y]===true&&S.failed(G,y-1); return S.delayed(G)?F.BAR_REG_2030===true:((F.BAR_SIT_2029===true&&S.stage(G,2029)==='none')||(S.miss29(G)&&F.BAR_REG_2030===true)); };   /* 2030：交換延畢（第一次考）、2029 一試不到 12 題（AA_319 1A-18 第 7 節）；2031～2033：那一年報了名（BAR_REG_<年>）、前一年一試沒過（A3）*/   /* AA_357 1-6：交換延畢的 2030 看 BAR_REG_2030（2030-05-10 21:00 問一次，沒回答＝不報名）；原本 BAR_REG!==false＝沒問就算報名 */
   S.retaker=G=>!S.delayed(G)&&G.flags.BAR_SIT_2029===true&&S.stage(G,2029)==='none';
+  /* ---------- 司法官重考（D118-B8；AA_582）：那一年才拿到律師證照、司法官二試落榜的人 12 月那一晚二選一（JUDGE_RETAKE true／false）；
+     選重考＝隔年（JUDGE_RETAKE_Y）自動報名、只考一試＋司法官二試（律師照當，BAR_YEAR 不動）；再落榜＝之後每年 5 月問一次報不報（JUDGE_REG_<年>，到 2033）；
+     不報、或 2033 也沒上＝JUDGE_RETAKE 'done'（路線 f）。錄取＝12 月二試放榜通過（JUDGE_PASS_<年>）→ 隔年 1 月三試 → 1 月下旬錄取（JUDGE_YEAR＝錄取那一年）→ 結業前選法官／檢察官（JUDGE_ROLE）。
+     JUDGE_TRIES＝重考考了幾年（有去考一試的年數）。*/
+  S.JUDGE_LAST=2033;
+  S.jsits=(G,y)=>{ const F=G.flags||{}, y0=F.JUDGE_RETAKE_Y; return F.JUDGE_RETAKE===true&&F.JUDGE_YEAR==null&&F.BAR_YEAR!=null&&y0!=null&&y>=y0&&y<=S.JUDGE_LAST&&(y===y0||F['JUDGE_REG_'+y]===true); };   /* 這一年以司法官重考生的身分考 */
+  S.isJR=(G,y)=>{ const F=G.flags||{}; return F.JUDGE_RETAKE_Y!=null&&y>=F.JUDGE_RETAKE_Y&&F.BAR_YEAR!=null&&F.BAR_YEAR<y; };   /* 那一年已經是律師、只為司法官考 */
+  S.sitsAny=(G,y)=>S.sits(G,y)||S.jsits(G,y);
+  S.jYearFailed=(G,y)=>{ const F=G.flags||{}; if(!S.jsits(G,y)) return false; if(S.rec(G).done['exam_'+y]==='missed') return true; if(S.done(G,'r1_'+y)&&S.stage(G,y)!=='both') return true; return F['JUDGE_PASS_'+y]===false; };   /* 那一年的司法官重考沒上（錯過一試、一試沒到司法官、二試沒上）*/
+  S.jAsk=(G,y)=>{ const F=G.flags||{}; return F.JUDGE_RETAKE===true&&F.JUDGE_YEAR==null&&F.JUDGE_RETAKE_Y!=null&&y>F.JUDGE_RETAKE_Y&&y<=S.JUDGE_LAST&&!!Y[y].reg&&F['JUDGE_REG_'+y]==null&&S.jYearFailed(G,y-1); };   /* 下一年要不要再報 */
+  /* 那一年拿到律師證照、司法官二試落榜：二選一（AA_582 (f)）。舊存檔（both、這一版以前二試放榜演過）也算；2033 沒有下一年＝不問 */
+  S.jFirstFail=(G,y)=>{ const F=G.flags||{}; return F['BAR_STAGE_'+y]==='both'&&F.BAR_YEAR===y&&S.done(G,'r2_'+y)&&F.JUDGE_YEAR==null&&F['JUDGE_PASS_'+y]!==true; };   /* 那一年才拿到律師證照（不是已經在重考的）、司法官沒上 */
+  /* 錯過 2029 報名、錯過 2029 一試（D118_PLAN 第 1 節 ③-13）：可以在 2030 年報名（沿用 reg_2030） */
+  S.miss29=G=>{ const F=G.flags||{}; return !S.delayed(G)&&F.BAR_YEAR==null&&F.BAR_SIT_2029!==true&&(F.BAR_REG_MISSED_2029===true||S.rec(G).done.exam_2029==='missed'); };
   S.tier=(y,k)=>k>=16?'both':(k>=12?'lawyer':'none');   /* AA_286 第 2 節；每一年同一套（使用者 2026-11-02 09:1x A4：取消「第二年不到 12 題也進律師二試」的保底，BUG-BAR2030-TIER-1102）。
      已經放榜、記了 BAR_STAGE_2030 的舊存檔照記的（S.stage 先讀旗標），BAR_YEAR 已經有的也不收回 */
   S.stage=(G,y)=>{ const F=G.flags||{}; if(F['BAR_STAGE_'+y]) return F['BAR_STAGE_'+y]; return F['BAR_SIT_'+y]?S.tier(y,F['BAR_SCORE_'+y]|0):null; };
@@ -86,26 +104,84 @@ const PG=(function(){
   S.N_Q=20;
   /* LEGAL_REVIEW_REQUIRED：使用者 11-02：一試不考海商法、智財、勞社、財稅（10:2x，經 BB）——海商法與海洋法（Y4MAR_）、智慧財產法（Y4IP_）、勞動社會法（Y4LSO_）、財稅法（Y4TAX_）不放進一試的抽題範圍；題目、答案不改，期末考照用。
      已經抽好的舊存檔（R.exam[y].qs 記著的）照舊（S.draw 先讀存下來的那一份：S.pool(true)）*/
-  S.POOL_EXCLUDE=[/^Y4MAR_/,/^Y4IP_/,/^Y4LSO_/,/^Y4TAX_/];
-  S.pool=function(all){ const out=[];   /* all：連排除的也算（讀舊存檔已經抽好的題目用）*/ if(typeof EXAM_BANK!=='undefined') for(const q of EXAM_BANK.questions) if((q.status==='USER_CONFIRMED'||q.status==='AI_CROSS_REVIEWED'||q.status==='Y4_CROSS_REVIEWED')&&(all||!S.POOL_EXCLUDE.some(r=>r.test(q.id)))) out.push(q);
+  S.POOL_EXCLUDE=[/^Y4_?MAR_/,/^Y4_?IP_/,/^Y4_?LSO_/,/^Y4_?TAX_/];   /* id 有兩種寫法（Y4MAR_01、Y4_MAR_01）*/
+  S.POOL_EXCLUDE_COURSES=['maritime','ip_law','labor_social','tax_law'];   /* BUG-BAR-POOL-PREFIX（CC_34，BB 2026-11-02 22:15）：主要看 q.course——只比 id 開頭會漏 Y4_MAR_01 這種寫法的 7 題 */
+  S.pool=function(all){ const out=[];   /* all：連排除的也算（讀舊存檔已經抽好的題目用）*/ if(typeof EXAM_BANK!=='undefined') for(const q of EXAM_BANK.questions) if((q.status==='USER_CONFIRMED'||q.status==='AI_CROSS_REVIEWED'||q.status==='Y4_CROSS_REVIEWED')&&(all||!(S.POOL_EXCLUDE_COURSES.includes(q.course)||S.POOL_EXCLUDE.some(r=>r.test(q.id))))) out.push(q);
     if(typeof QBANK!=='undefined') for(const q of QBANK) if(q.complete!==false) out.push(q); return out; };   /* 四年各科期末考的題庫＋刑訴（AA_126 第 3 節）*/
   const hashStr=str=>{ let h=2166136261>>>0; for(let i=0;i<str.length;i++){ h^=str.charCodeAt(i); h=Math.imul(h,16777619)>>>0; } return h>>>0; };
   const rng=seed=>()=>{ seed|=0; seed=seed+0x6D2B79F5|0; let t=Math.imul(seed^seed>>>15,1|seed); t=t+Math.imul(t^t>>>7,61|t)^t; return ((t^t>>>14)>>>0)/4294967296; };
   S.draw=function(G,y){ const R=S.rec(G), X=R.exam&&typeof R.exam==='object'?R.exam:(R.exam={}), pool=S.pool(), byId=new Map(S.pool(true).map(q=>[q.id,q]));
-    if(X[y]&&Array.isArray(X[y].qs)&&X[y].qs.length){ const qs=X[y].qs.map(id=>byId.get(id)).filter(Boolean); if(qs.length===X[y].qs.length) return qs; }
     const used=new Set(); for(const k in X) if(+k!==+y) for(const id of (X[k].qs||[])) used.add(id);   /* 第二年換一組（AA_286 2-1）*/
     const F=G.flags; if(F.examSeed==null) F.examSeed=Math.floor(Math.random()*1e9);
+    if(X[y]&&Array.isArray(X[y].qs)&&X[y].qs.length){ const qs=X[y].qs.map(id=>byId.get(id)).filter(Boolean); if(qs.length===X[y].qs.length){
+      if(X[y].ans) return qs;   /* 已經作答（ans 記了）：照舊，分數、放榜要對得上 */
+      const bad=q=>S.POOL_EXCLUDE_COURSES.includes(q.course)||S.POOL_EXCLUDE.some(r=>r.test(q.id));   /* BB 2026-11-02 22:15：抽好還沒作答（開考中途關掉）的舊存檔——四科拿掉、從題池補抽，不讓舊存檔考到海商法 */
+      if(!qs.some(bad)) return qs;
+      const keep=qs.filter(q=>!bad(q)), have=new Set(keep.map(q=>q.id)), r0=rng(hashStr(F.examSeed+'|bar-refill|'+y)), extra=pool.filter(q=>!used.has(q.id)&&!have.has(q.id));
+      for(let i=extra.length-1;i>0;i--){ const j=Math.floor(r0()*(i+1)); const x=extra[i]; extra[i]=extra[j]; extra[j]=x; }
+      const out=keep.concat(extra.slice(0,S.N_Q-keep.length)); X[y].qs=out.map(q=>q.id); return out; } }
     const r=rng(hashStr(F.examSeed+'|bar|'+y)), a=pool.filter(q=>!used.has(q.id)); for(let i=a.length-1;i>0;i--){ const j=Math.floor(r()*(i+1)); const x=a[i]; a[i]=a[j]; a[j]=x; }
     const qs=a.slice(0,S.N_Q); X[y]={qs:qs.map(q=>q.id)}; return qs; };
   S.opts=q=>q.type==='tf'||!q.options?['對','錯'].map(t=>({t,v:t})):Object.keys(q.options).map(k=>({t:'（'+k+'）'+q.options[k],v:k}));   /* 照期末考的介面（classes3d.js optList）*/
+  S.OK_STATUS=['USER_CONFIRMED','AI_CROSS_REVIEWED','Y4_CROSS_REVIEWED'];   /* 已核對（使用者 11-02 09:5x：AI 出題、另一位 AI 交叉審過的算已核對，AA_583）*/
+  const shuffled=(arr,seedStr)=>{ const r=rng(hashStr(seedStr)), a=arr.slice(); for(let i=a.length-1;i>0;i--){ const j=Math.floor(r()*(i+1)); const x=a[i]; a[i]=a[j]; a[j]=x; } return a; };
+  const ask=async(GM,qs)=>{ const ans=[]; let k=0; for(let i=0;i<qs.length;i++){ const q=qs[i]; await GM.say(null,(i+1)+'／'+qs.length+'　'+q.q); const o=S.opts(q); const j=await GM.choose(o.map(x=>({t:x.t}))); const v=(o[j]||o[0]).v; ans.push(v); if(String(v)===String(q.answer)) k++; } return {ans,k}; };   /* 作答畫面照一試（答完不逐題顯示對錯）*/
+  S.ask=ask;
+  /* ---------- 司法官二試（D118-B8；AA_583 b76dd619e）：從已核對的題庫用程式篩「爭點題」——不出新題、題目答案一字不改 ----------
+     池：EXAM_BANK（status 三種已核對、type mc）＋QBANK 的 mc；科目四類；題幹有甲／乙／丙而且 ≥45 字（事例題）。
+     每年 10 題：民法 3、刑法 3、公法 2、訴訟法 2（某類不夠由刑法、民法補）；排除當年一試抽到的題、往年二試抽過的題（重考年換題）；隨機照 S.draw（examSeed＋'|judge|'＋年）。*/
+  S.JUDGE_GROUPS={civ:['civ_general','oblig_gen1','oblig_gen2','oblig_spec','property','family_law'],crim:['crim_gen1','crim_gen2','crim_spec'],
+    pub:['const_1','const_2','admin_law','admin_remedy','public_judgment_sem'],proc:['civpro_1','civpro_2','crimpro','crim_judgment_sem']};
+  S.JUDGE_QUOTA=[['civ',3],['crim',3],['pub',2],['proc',2]];
+  S.N_J=10;
+  S.issueQ=q=>!!q&&typeof q.q==='string'&&/[甲乙丙]/.test(q.q)&&q.q.length>=45;   /* 事例題 */
+  S.judgeGroup=q=>{ if(!q) return null; if(!q.course) return 'proc'; for(const g in S.JUDGE_GROUPS) if(S.JUDGE_GROUPS[g].includes(q.course)) return g; return null; };   /* QBANK（刑訴）沒有 course＝訴訟法 */
+  S.judgePool=function(){ const out=[]; if(typeof EXAM_BANK!=='undefined') for(const q of EXAM_BANK.questions) if(S.OK_STATUS.includes(q.status)&&q.type==='mc'&&S.judgeGroup(q)&&S.issueQ(q)) out.push(q);
+    if(typeof QBANK!=='undefined') for(const q of QBANK) if(q.complete!==false&&q.type==='mc'&&S.issueQ(q)) out.push(q); return out; };
+  S.drawJudge=function(G,y){ const R=S.rec(G), J=R.judge&&typeof R.judge==='object'?R.judge:(R.judge={}), pool=S.judgePool(), byId=new Map(pool.map(q=>[q.id,q]));
+    if(J[y]&&Array.isArray(J[y].qs)&&J[y].qs.length){ const qs=J[y].qs.map(id=>byId.get(id)).filter(Boolean); if(qs.length===J[y].qs.length) return qs; }   /* 已經抽好的不重抽（讀檔）*/
+    const used=new Set(), X=R.exam||{}; for(const id of ((X[y]&&X[y].qs)||[])) used.add(id); for(const k in J) if(+k!==+y) for(const id of (J[k].qs||[])) used.add(id);
+    const F=G.flags; if(F.examSeed==null) F.examSeed=Math.floor(Math.random()*1e9);
+    const left={}; for(const [g] of S.JUDGE_QUOTA) left[g]=shuffled(pool.filter(q=>!used.has(q.id)&&S.judgeGroup(q)===g),F.examSeed+'|judge|'+y+'|'+g);
+    const qs=[]; let short=0; for(const [g,n] of S.JUDGE_QUOTA){ const t=left[g].splice(0,n); qs.push(...t); short+=n-t.length; }
+    for(const g of ['crim','civ','pub','proc']){ while(short>0&&left[g].length){ qs.push(left[g].shift()); short--; } }   /* 某類不夠：刑法、民法補（AA_583）*/
+    J[y]={qs:qs.map(q=>q.id)}; return qs; };
+  /* 四年法律科期末平均答對（A2「四年在校平均」）：R.exam 的 <學期>:<課>:final（考完、有答對數）；沒有紀錄＝null。只當二試的輔助（不保證錄取，10-14「GPA 高也不保證考上」）*/
+  S.basis=function(G){ const R=typeof CLS!=='undefined'&&CLS.rec?CLS.rec(G):(G.courses||{}), E=(R&&R.exam)||{}; let n=0, sum=0;
+    for(const k in E){ if(!/^Y[1-4]S[12]:[^:]+:final$/.test(k)) continue; const e=E[k]; if(!e||e.status!=='done'||typeof e.correct!=='number') continue; n++; sum+=e.correct; } return n?sum/n:null; };
+  S.JUDGE_PASS=7; S.JUDGE_PASS_BASIS=6; S.BASIS_HIGH=4;   /* 門檻（A2 由 LAWWW 定）：二試 10 題答對 7；在校平均答對 ≥4 的人 6 */
+  /* A1（AA_582 補充二）：「應屆」＝畢業那一年考不上司法官；之後每一年都看實力。畢業那一年＝2029；延畢（交換、大四下被當）＝2030 */
+  S.gradYear=G=>S.delayed(G)?2030:2029;
+  S.judgeVerdict=(G,y,k)=>{ if(y<=S.gradYear(G)) return false; const b=S.basis(G); return k>=S.JUDGE_PASS||(k>=S.JUDGE_PASS_BASIS&&b!=null&&b>=S.BASIS_HIGH); };
+  /* ---------- 研究所筆試改成作答（D118-B6）：10 題公法（憲法一、二、行政法、行政救濟法；已核對的期末考題），答對 ≥6 錄取；Y5_DAYS study 的 2030 門檻 5 ---------- */
+  S.GRAD_COURSES=['const_1','const_2','admin_law','admin_remedy']; S.N_GRAD=10; S.GRAD_PASS=6;
+  S.gradPool=function(){ const out=[]; if(typeof EXAM_BANK!=='undefined') for(const q of EXAM_BANK.questions) if(S.OK_STATUS.includes(q.status)&&S.GRAD_COURSES.includes(q.course)) out.push(q); return out; };
+  S.drawGrad=function(G,y){ const R=S.rec(G), X=R.grad&&typeof R.grad==='object'?R.grad:(R.grad={}), pool=S.gradPool(), byId=new Map(pool.map(q=>[q.id,q]));
+    if(X[y]&&Array.isArray(X[y].qs)&&X[y].qs.length){ const qs=X[y].qs.map(id=>byId.get(id)).filter(Boolean); if(qs.length===X[y].qs.length) return qs; }
+    const used=new Set(); for(const k in X) if(+k!==+y) for(const id of (X[k].qs||[])) used.add(id);
+    const F=G.flags; if(F.examSeed==null) F.examSeed=Math.floor(Math.random()*1e9);
+    let a=shuffled(pool.filter(q=>!used.has(q.id)),F.examSeed+'|grad|'+y); if(a.length<S.N_GRAD) a=a.concat(shuffled(pool.filter(q=>used.has(q.id)),F.examSeed+'|grad2|'+y));
+    const qs=a.slice(0,S.N_GRAD); X[y]={qs:qs.map(q=>q.id)}; return qs; };
+  /* 研究所筆試作答（r2y4a3d.js 2029-02-03 ev_grad_exam、r2y4b3d.js 2030-02-16）：記 GRAD_SCORE_<年>；已經有的（讀檔、舊存檔有 GRAD_EXAM_2029_PASS）不再考 */
+  S.gradQuiz=async function(GM,y){ const G=GM.G, F=G.flags; if(typeof F['GRAD_SCORE_'+y]==='number') return F['GRAD_SCORE_'+y]; if(y===2029&&typeof F.GRAD_EXAM_2029_PASS==='boolean') return null;
+    const qs=S.drawGrad(G,y); if(!qs.length) return null; const GE=L()&&L().GRAD_EXAM; if(GE) for(const t of GE.hall) await GM.say(null,t);   /* AA_582 補充二第 1 點：作答畫面前的考場兩句 */ const r=await ask(GM,qs); S.rec(G).grad[y].ans=r.ans; F['GRAD_SCORE_'+y]=r.k; if(y===2029) F.GRAD_EXAM_2029_PASS=r.k>=S.GRAD_PASS; return r.k; };
+  S.gradNotice=async function(GM,ok){ const GE=L()&&L().GRAD_EXAM; if(!GE) return; const R=ok?GE.pass:GE.fail; await GM.say(null,R.sys); await GM.say(null,R.narr); };   /* 研究所放榜（AA_582 補充二第 1 點）：系統字＋旁白 */
+  S.gradPassScore=(G,y)=>{ const k=G.flags&&G.flags['GRAD_SCORE_'+y]; if(typeof k!=='number') return null; return k>=(y===2030&&G.flags.Y5_DAYS==='study'?S.GRAD_PASS-1:S.GRAD_PASS); };   /* null＝沒有作答紀錄（舊存檔：照舊規則算一次） */
   /* ---------- 研究所、職涯（1A-01 的傾向＋考試；尾聲、第一份工作同一套）：研究所的旗標開發分支還沒有（AA_327 2-Y4-06、2-Y4-34）---------- */
   S.gradApplied=G=>{ const F=G.flags||{}; return F.Y4_PATH==='grad'||F.GRAD_ADMIT!=null||F.Y4_PUSH!=null||F.GRAD_RETRY!=null; };
   S.gradAdmit=G=>{ const F=G.flags||{}; return (F.GRAD_ADMIT!=null&&F.GRAD_ADMIT!==false&&F.GRAD_ADMIT!=='fail')||F.Y4_PUSH==='pass'; };
   /* 落點（B 沒報考研究所改 A／C 以後的那一個）：zqLine 和 path 用同一個（BB 09:02 ②：原本 zqLine 看調整前的 top，B→C 的人變成 C 而不是 C_zq）*/
   S.pathTop=G=>{ const c=S.lean(G); let top=c.top; if(top==='B'&&!S.gradApplied(G)) top=(c.C>c.A)?'C':'A'; return top; };
   S.zqLine=G=>S.pathTop(G)==='C'&&S.at(G,'heroine_04','FRIEND')&&G.flags.ZQ_CONTRACT!=null&&G.flags.ZQ_CONTRACT!==false;   /* 子晴線達成：落點 C、FRIEND 以上、Q14 有回（AA_323 1B-23 第 4 節：lawyer／legal_aid／honest 三個都算陪她去找律師；src/y34b3d.js）*/
+  /* 落點 v2（D118-B6／B8）：司法官錄取（JUDGE_YEAR）＝J_judge／J_pros（結業前選，還沒選＝J_judge）；
+     有律師證照（BAR_YEAR）一定在律師家族：A→A_bar、C＋子晴線→C_zq（法務）、B＋研究所錄取→B_grad，其他→L_firm（事務所律師）；
+     兩個都沒有照舊（A_none、B_grad、B_quit、C_zq、C）。第一份工作的照片（2030-10-01）和尾聲最後一句都讀這一個 */
+  S.isJ=G=>!!(G&&G.flags&&G.flags.JUDGE_YEAR!=null);
+  S.TRAINEE_FROM=2033;
   S.path=function(G){ const F=G.flags||{}; const top=S.pathTop(G);   /* B、四年沒報考研究所：改用 A、C 裡分數比較高的（再平手 A）——S.pathTop */
-    if(top==='A') return F.BAR_YEAR!=null?'A_bar':'A_none';
+    if(F.JUDGE_YEAR!=null) return F.JUDGE_YEAR>=S.TRAINEE_FROM?'J_trainee':(F.JUDGE_ROLE==='pros'?'J_pros':'J_judge');   /* JUDGE_YEAR＝錄取那一年；受訓一律兩年：2033 以後錄取＝尾聲還在受訓（AA_582 補充二第 6 點）*/
+    if(F.BAR_YEAR!=null){ if(top==='A') return 'A_bar'; if(top==='C'&&S.zqLine(G)) return 'C_zq'; if(top==='B'&&S.gradAdmit(G)) return 'B_grad'; return 'L_firm'; }
+    if(top==='A') return 'A_none';
     if(top==='B') return S.gradAdmit(G)?'B_grad':'B_quit';
     return S.zqLine(G)?'C_zq':'C'; };
   /* ---------- 台詞 ---------- */
@@ -138,7 +214,7 @@ const PG=(function(){
   S.noteInPerson=(G,y)=>S.sisOk(G)&&(S.dating(G,'heroine_05')||(!(y===2030&&S.retaker(G))&&S.partners(G).length===0));   /* 交往中，或雙方都單身＝考場門口當面給；2030 重考的只有交往中當面（AA_327 2-Y4-51）*/
   S.noteItems=function(G,y){ const N=L().NOTE; if(y===2030&&S.retaker(G)) return [P_('heroine_05',N.retake.photo),{th:'p:heroine_05',who:null,text:N.retake.note}];
     return [P_('heroine_05',N.photo)].concat(N.lines.map(x=>x[0]==='me'?{th:'p:heroine_05',from:'player',text:x[1]}:P_('heroine_05',x[1]))); };
-  S.zhe2030=G=>{ const Z=L().Y2030.zhe, LT=L().LATE||{}; if(G.flags.BAR_YEAR!==2029&&S.sits(G,2030)&&S.failed(G,2030)) return [].concat(LT.zhe2030Fail||Z.none).map(t=>GR('zhe',t));   /* 2030 一試沒過（A4 以後才有）：不是「我們兩個都上了」；暫定照 none（LATE.zhe2030Fail，AA 定稿）*/
+  S.zhe2030=G=>{ const Z=L().Y2030.zhe, LT=L().LATE||{}; if(G.flags.BAR_YEAR!==2029&&S.sits(G,2030)&&S.failed(G,2030)) return [].concat(LT.zhe2030Fail||Z.none).map(t=>GR('zhe',String(t).replace('{name}',G.name||'祐廷')));   /* 2030 一試沒過（A4 以後才有）：不是「我們兩個都上了」；暫定照 none（LATE.zhe2030Fail，AA 定稿）*/
     return (G.flags.BAR_YEAR===2029?Z.done:(S.sits(G,2030)?Z.both:Z.none)).map(t=>GR('zhe',t)); };
   const yearMsgs=y=>{ const K=Y[y]; return [
     {tag:'pg_note_'+y,at:[K.note,21],cond:G=>S.sits(G,y)&&S.notePhoto(G,y),items:G=>S.noteItems(G,y)},
@@ -154,13 +230,17 @@ const PG=(function(){
     {tag:'pg_r2late_'+y,at:[K.r2,15+5/60],cond:G=>y===2029&&S.delayed(G),items:G=>[P_('zhe',L().R2.zheLate)]},
     /* 可昕考上律師（交往中、沒報 2029 國考）：原本 15:05 兩則私訊（pg_r2kx_2029），AA_296 2-3-1 ③ 起改成她打來的電話＝場景 kx_bar_2029（S.STEPS）；沒接＝那兩則（S.kxBarMissed）*/
     {tag:'pg_r2sis_'+y,at:[K.r2,15+20/60],cond:G=>G.flags.BAR_YEAR===y&&S.sisOk(G)&&(y===2029||S.sits(G,2030)),items:G=>(y===2030&&S.retaker(G)?L().R2.sis2:L().R2.sis).map(t=>P_('heroine_05',t))} ]; };   /* AA_327 2-Y4-60（第二年才上：2-Y4-51）*/
+  /* 2031～2033 每年放榜當晚一則（AA_582「畫面安靜」的補充；二選一看誰在場：交往中＝她私訊兩則，沒有＝阿哲群組兩則）：那一年最後一次放榜（一試沒過＝9 月，二試＝12 月）21:00 */
+  S.lateNightItems=function(G){ const N=(L().LATE||{}).night; if(!N) return []; const p=S.partners(G)[0]; if(p) return N.partner.map(t=>P_(p,t)); return inNoodle(G)?N.zhe.map(t=>GR('zhe',t)):[]; };
+  const lateNight=y=>[{tag:'pg_late_night_'+y,at:[Y[y].r1,21],cond:G=>G.flags['BAR_SIT_'+y]===true&&S.stage(G,y)==='none',items:G=>S.lateNightItems(G)},
+    {tag:'pg_late_night2_'+y,at:[Y[y].r2,21],cond:G=>S.two(G,y),items:G=>S.lateNightItems(G)}];
   S.MSGS=[
     /* 1A-13 前一晚 */
     {tag:'pg_ps_eve',at:['2029-06-01',22],cond:G=>S.dating(G,'classmate_peishan'),items:G=>[P_('classmate_peishan',L().PARTNER.classmate_peishan.eve)]},
     {tag:'pg_zr_eve',at:['2029-06-01',23],cond:G=>S.dating(G,'heroine_02'),items:G=>[P_('heroine_02',L().PARTNER.heroine_02.eve)]},
     /* 1A-13 ⑦ 手機（不在現場的人）*/
     {tag:'pg_kx_ex',at:[GRAD,12],cond:G=>S.isEx(G,'kexin'),items:G=>L().PHONE.kexinEx.text.map(t=>P_('kexin',t))},
-    {tag:'pg_sis_ex',at:[GRAD,12],cond:G=>S.isEx(G,'heroine_05'),items:G=>[P_('heroine_05',DLY(G,'thermosEx',L().THERMOS.ex))]},
+    {tag:'pg_sis_ex',at:[GRAD,12],cond:G=>S.isEx(G,'heroine_05')&&!S.EX_NO_CONTACT,   /* AA_600 B9：畢業「今天恭喜。」私訊刪 */items:G=>[P_('heroine_05',DLY(G,'thermosEx',L().THERMOS.ex))]},
     {tag:'pg_ps_card',at:[GRAD,12.5],cond:G=>!S.dating(G,'classmate_peishan')&&!S.isEx(G,'classmate_peishan')&&!!G.flags.PS_RECONNECT&&S.at(G,'classmate_peishan','FAMILIAR'),items:G=>DLY(G,'peishan',L().PHONE.peishan.text).map(t=>P_('classmate_peishan',t)),after:G=>{ G.flags.PS_GRAD_CARD=true; }},   /* AA_327 2-Y4-53：收過照片記 PS_GRAD_CARD */
     {tag:'pg_fy',at:[GRAD,13],cond:G=>!S.isEx(G,'npc_fangyt')&&S.at(G,'npc_fangyt','FAMILIAR'),items:G=>L().PHONE.fangyt.text.map(t=>P_('npc_fangyt',t))},
     {tag:'pg_zr_photo',at:['2029-06-03',5+7/60],cond:G=>!S.dating(G,'heroine_02')&&!S.isEx(G,'heroine_02')&&S.at(G,'heroine_02','FAMILIAR'),items:G=>DLY(G,'zhiruo',L().PHONE.zhiruo.text).map(t=>P_('heroine_02',t))},
@@ -174,9 +254,9 @@ const PG=(function(){
     /* 1A-16～18 */
     {tag:'pg_b1_zhe',at:['2029-07-12',17],cond:G=>S.sits(G,2029)&&inNoodle(G),items:G=>[GR('zhe',L().B1.zhe)]},
     {tag:'pg_b1_zhe_2030',at:['2030-07-11',17],cond:G=>S.sits(G,2030)&&!!L().B1_2030,items:G=>[P_('zhe',L().B1_2030.zhe)]},   /* AA_331：2030 阿哲私訊（不發群組）*/
-    {tag:'pg_an_group',at:['2030-01-25',21],win:6,cond:G=>(!S.at(G,'heroine_01','FRIEND')||(S.isEx(G,'heroine_01')&&S.rec(G).done.an2!==1))&&inNoodle(G),items:G=>[GR('heroine_01',L().AN.group)]},   /* 和以安不到 FRIEND：麵店團一則（到了的是她打來的電話）；前任也是這一則（AA_473 第 2 節；舊版本已經演過電話 an2 的存檔不再發）*/
+    {tag:'pg_an_group',at:['2030-01-25',21],win:6,cond:G=>(!S.at(G,'heroine_01','FRIEND')||(S.isEx(G,'heroine_01')&&S.rec(G).done.an2!==1))&&inNoodle(G),items:G=>[GR('zhe',L().AN.group[0]),GR('heroine_01',L().AN.group[1])]},   /* 和以安不到 FRIEND：麵店團一則（到了的是她打來的電話）；前任也是這一則（AA_473 第 2 節；舊版本已經演過電話 an2 的存檔不再發）*/
     /* win:6（AA-B 10-30 13:33 回 B）：以安二試、司法官放榜那兩則群組和電話版 an1／an2 同一段——到隔天 03:00 以前條件成立才補（訊息照樣標 21:00），過了就不補（BB-B R43 PGF10_AN_EX_LATE：沒寫 win＝48 小時內都補）。測試：node tests/pg_an_ex_win_unit.js */
-    {tag:'pg_an_ex1',at:['2029-12-14',21],win:6,cond:G=>S.isEx(G,'heroine_01')&&S.at(G,'heroine_01','FRIEND')&&inNoodle(G)&&S.rec(G).done.an1!==1,items:G=>[GR('heroine_01',L().AN.exGroup1)]},   /* 舊版本已經演過電話 an1 的存檔不再發（不重演）*/   /* AA_473 第 2 節：前任（FRIEND 以上，原本會打電話的）二試放榜改成麵店團一則，不演電話、不講美國那份申請 */
+    {tag:'pg_an_ex1',at:['2029-12-14',21],win:6,cond:G=>S.isEx(G,'heroine_01')&&S.at(G,'heroine_01','FRIEND')&&inNoodle(G)&&S.rec(G).done.an1!==1,items:G=>[GR('zhe',L().AN.exGroup1[0]),GR('heroine_01',L().AN.exGroup1[1])]},   /* 舊版本已經演過電話 an1 的存檔不再發（不重演）*/   /* AA_473 第 2 節：前任（FRIEND 以上，原本會打電話的）二試放榜改成麵店團一則，不演電話、不講美國那份申請 */
     {tag:'pg_yt_2030_r1',at:['2030-09-06',15+10/60],cond:G=>inNoodle(G)&&S.at(G,'heroine_03','FAMILIAR'),items:G=>L().Y2030.yt1.map(t=>GR('heroine_03',t))},
     {tag:'pg_zhe_2030_r2',at:['2030-12-13',15+6/60],cond:G=>inNoodle(G),items:G=>S.zhe2030(G)},
     {tag:'pg_yu_2030_r2',at:['2030-12-13',15+8/60],cond:G=>inNoodle(G),items:G=>[GR('yu',L().Y2030.yu)]},
@@ -184,7 +264,7 @@ const PG=(function(){
     /* 學姊 2030 年的生日（AA_382 第 4 節）*/
     {tag:'pg_sis_sea_ask',at:[SEA_DAY0,21],cond:G=>S.seaOk(G),items:G=>S.seaItems(G)},
     {tag:'pg_sis_sea_late',at:[SEA_DAY,9.5],cond:G=>S.seaOk(G)&&G.flags.PG_SIS_SEA==='yes'&&G.flags.SIS_BDAY_Y5!=='sea'&&S.seaMissed(G),items:G=>[P_('heroine_05',L().SEA_Y5.late)]},   /* 回了「好。」、9:00 卻沒到（出遊錯過，116d5c72）：09:30 她先傳一則，15:00 照片照下一筆 */
-    {tag:'pg_sis_sea_alone',at:[SEA_DAY,15],cond:G=>S.seaOk(G)&&typeof PHONE!=='undefined'&&PHONE.sent(G,'pg_sis_sea_ask')&&G.flags.SIS_BDAY_Y5!=='sea',items:G=>L().SEA_Y5.alone.map(t=>P_('heroine_05',t)),after:G=>{ G.flags.SIS_BDAY_Y5='alone'; }} ].concat(yearMsgs(2029),yearMsgs(2030));
+    {tag:'pg_sis_sea_alone',at:[SEA_DAY,15],cond:G=>S.seaOk(G)&&typeof PHONE!=='undefined'&&PHONE.sent(G,'pg_sis_sea_ask')&&G.flags.SIS_BDAY_Y5!=='sea',items:G=>L().SEA_Y5.alone.map(t=>P_('heroine_05',t)),after:G=>{ G.flags.SIS_BDAY_Y5='alone'; }} ].concat(yearMsgs(2029),yearMsgs(2030),...S.LATE_YEARS.map(y=>lateNight(y)));
   /* ---------- 出遊（可以不去的）---------- */
   S.PLAZA={x:-34,z:12.5,yaw:Math.PI};   /* 傅鐘廣場北緣（zones3d.js：傅鐘 (-38,16.5)）*/
   S.planTe=function(G,who,kind){ if(typeof TERMEND==='undefined'||typeof OUT==='undefined') return false; const TE=L().TE, spec=(kind==='heart'?TE.HEART:TE.GF)[who]; if(!spec) return false;
@@ -214,12 +294,13 @@ const PG=(function(){
     if(F.PG_SIS_SEA==='yes'&&S.seaOk(G)&&typeof OUT!=='undefined'&&!OUT.get(G,'pg_sis_sea')) S.planSea(G);   /* 6/1 21:00 回了「好。」*/
     if(F.SIS_BDAY_Y5==null&&typeof PHONE!=='undefined'&&PHONE.sent(G,'pg_sis_sea_ask')&&now>=T('2030-06-03',0)) F.SIS_BDAY_Y5='alone';   /* 15:00 那則沒送到（那時已經分手）也記一次 */
     if(typeof F.PG_TE_PICK==='string'){ const [who,kind]=F.PG_TE_PICK.split('|'); delete F.PG_TE_PICK; if(!S.tePicked(G)) S.planTe(G,who,kind); }   /* 子晴 16:30 的邀約回了「好。」*/
-    if(F.PG_SIS_EX_BDAY==='send'&&typeof PHONE!=='undefined'&&!PHONE.sent(G,'pg_sis_ex_bday_reply')){ const B=L().BDAY, R=DLY(G,'bdayEx',B.exReply), noon=PHONE.sent(G,'pg_sis_ex'); PHONE.post(G,{th:'p:heroine_05',from:'player',text:B.exSend,tag:'pg_sis_ex_bday_reply'}); for(const t of (noon?R.slice(0,1):R)) PHONE.post(G,Object.assign(P_('heroine_05',t),{tag:'pg_sis_ex_bday_reply'})); F.SIS_BDAY_Y4='msg'; }   /* AA_473 第 1 節（企劃線 66393bb91）：中午她已經私訊恭喜過（pg_sis_ex）＝只回「謝謝。」；中午那一則沒送到的（那時候還不是前任）照原本兩句 */
+    if(F.PG_SIS_EX_BDAY==='send'&&typeof PHONE!=='undefined'&&!PHONE.sent(G,'pg_sis_ex_bday_reply')){ const B=L().BDAY, R=DLY(G,'bdayEx',B.exReply), noon=PHONE.sent(G,'pg_sis_ex'); PHONE.post(G,{th:'p:heroine_05',from:'player',text:B.exSend,tag:'pg_sis_ex_bday_reply'}); if(!S.EX_NO_CONTACT) for(const t of (noon?R.slice(0,1):R)) PHONE.post(G,Object.assign(P_('heroine_05',t),{tag:'pg_sis_ex_bday_reply'})); F.SIS_BDAY_Y4='msg'; }   /* AA_473 第 1 節（企劃線 66393bb91）：中午她已經私訊恭喜過（pg_sis_ex）＝只回「謝謝。」；中午那一則沒送到的（那時候還不是前任）照原本兩句 */
     if(F.PG_SIS_EX_BDAY==='no'&&F.SIS_BDAY_Y4==null) F.SIS_BDAY_Y4='none';
     const done=S.teDone(G); if(done&&!F.GRAD_EVENING) F.GRAD_EVENING='date:'+done;
     if(graduated(G)&&!F.GRAD_EVENING&&now>=(S.gradDay()+1)*24) F.GRAD_EVENING='none';
     if(!F.GRADUATED&&now>=T('2029-06-04',0)){ F.GRADUATED=S.gradDay(); if(!S.rec(G).done.grad) S.rec(G).done.grad='missed'; }
     if(F.GRADUATED&&!F.GRAD_DONE) F.GRAD_DONE=true;   /* 閒聊階梯的 skipIf GRAD_DONE（story3d.js 撥穗那一句設；讀檔、跳過、舊存檔在這裡補）*/   /* 6/2 那一段沒演到（讀檔、跳過）也算畢業了：不卡在學生的作息裡 */
+    if(F.JUDGE_RETAKE===true&&S.jYearFailed(G,S.JUDGE_LAST)) F.JUDGE_RETAKE='done';   /* 司法官重考考到最後一年（2033）也沒上＝路線 f */
     for(const f of S.RULES){ try{ f(G,GM&&GM.G?GM:null); }catch(e){ console.warn('PG.RULES',e); } } };   /* 別的模組的規則（S.RULES.push(fn)，fn(G, GM)）：每 0.5 秒、跳的每一步都跑（例：畢業以後的固定格到了該問的時間＝排成出遊，src/pgdates3d.js）*/
   /* ---------- 場景（時間到了、玩家空下來就演）---------- */
   async function regScene(GM){ const G=GM.G, F=G.flags, R=L().REG; if(F.BAR_REG!=null) return; if(typeof PHONE!=='undefined'&&!PHONE.sent(G,'pg_reg_sys')) PHONE.post(G,{th:'sys',text:R.text,tag:'pg_reg_sys'});
@@ -244,16 +325,11 @@ const PG=(function(){
   S.gradReady=G=>!S.familyModule()||G.day>S.gradDay()||!!(G.events&&G.events.done&&G.events.done.ev_grad_family);   /* 拍照接在家人那一段後面（那一段在演＝玩家不空，不會插進去）*/
   S.CLASS=['zhe','yu','classmate_bohan','classmate_xinci','classmate_mingxuan','heroine_01','classmate_youchen'];   /* 同班（大合照）*/
   S.PARTNER_ORDER=['kexin','heroine_05','heroine_01','heroine_03','heroine_04','heroine_02'];   /* 沛珊在台南：前一晚的訊息、18:00 視訊 */
-  /* AA_392 第 8 節：交往中、3/17 她爸爸的晚餐約過卻沒吃到（婉拒、取消、沒到、沒回）——她那一段之前，她爸爸那一小段；當面說過畢業快樂，後面就不再轉述「我爸叫我跟你說：恭喜。」*/
-  S.fatherGradDue=G=>{ const F=G.flags; return S.dating(G,'heroine_05')&&F.SIS_FATHER_ASKED!=null&&!F.MET_SIS_FATHER; };
-  S.fatherGrad=async function(GM){ const G=GM.G, W=L().THERMOS.fatherGrad; if(!W) return; await S.play(GM,W.lines.map(x=>[x[0],String(x[1]).replace('{name}',G.name||'祐廷')]));
-    const k=await GM.choose(W.opts.map(o=>({t:o.t}))); await S.play(GM,(W.opts[k]||W.opts[0]).say); G.flags.MET_SIS_FATHER='grad'; };
-  S.thermos=async function(GM){ const G=GM.G, F=G.flags, W=L().THERMOS, sis=S.who(G,'heroine_05'); if(S.fatherGradDue(G)) await S.fatherGrad(GM); await S.play(GM,W.lines.map(x=>Array.isArray(x)&&x[0]==='heroine_05'&&x[1]==='畢業快樂。'?[x[0],DLY(G,'thermos2',x[1])]:x));   /* 交換延畢：「學士服借的吧。……一月還要再穿一次。」*/
-    if(F.HOT_WATER) await GM.say(sis,W.hotWater); else if(S.helpedCoffee(G)) await GM.say(sis,W.helped);
-    if(F.MET_SIS_FATHER&&F.MET_SIS_FATHER!=='grad') await GM.say(sis,W.father);   /* 最後多一句（AA_319 5ae6a133；MET_SIS_FATHER＝AA_328 3-14，開發分支還沒有）*/
+  /* AA_392 第 8 節 fatherGradDue／fatherGrad（典禮上的她爸爸）：AA_591 決1 甲刪 */
+  S.thermos=async function(GM){ const G=GM.G, F=G.flags, W=L().THERMOS, sis=S.who(G,'heroine_05'); await S.play(GM,[].concat(...W.lines.map(x=>Array.isArray(x)&&x[0]==='heroine_05'&&x[1]==='恭喜畢業。'?(W.hug&&S.dating(G,'heroine_05')?[[null,W.hug]]:[]).concat([[x[0],DLY(G,'thermos2',x[1])]]):[x])));   /* AA_591 第 175 列「恭喜畢業。」；決9（新7）交往中先抱一下 */   /* 交換延畢：「學士服借的吧。……一月還要再穿一次。」*/
+    if(F.HOT_WATER) await GM.say(sis,W.hotWater);   /* 黑咖啡那一句（THERMOS 的 helped）拿掉：連著空的保溫瓶那一次（AA 2026-11-02 20:26，D127、AA_595）*/
     if(F.SIS7_PHOTO&&typeof SISB16_LINES!=='undefined'&&Array.isArray(SISB16_LINES.thermosPhoto)) await S.play(GM,SISB16_LINES.thermosPhoto);   /* AA_523 5-5（企劃線 0d7b5388b）：階梯 S7-L8 選「一起參加典禮。」（她回「嗯。那天記得拍照。」，記 SIS7_PHOTO）＝最後多兩句 */
     F.SIS_THERMOS=true; };
-  S.helpedCoffee=G=>{ const M=G.social&&G.social.mem&&G.social.mem.heroine_05; return !!(M&&M.some(m=>m.tag==='HELPED'&&/黑咖啡/.test(m.note||''))); };   /* 只有 HELPED（空的保溫瓶那次選黑咖啡）*/
   S.mother=async function(GM,partner){ const G=GM.G, M=L().MOTHER, A=adv(); await S.play(GM,M.lines);
     if(partner){ await S.play(GM,M.partner); const k=await GM.choose(M.opts.map(o=>({t:o.t}))); await S.play(GM,(M.opts[k]||M.opts[0]).say); }
     if(A&&A.setBg) A.setBg(BG('graduation_avenue'));   /* 離開 CG-9 那一拍 */
@@ -348,45 +424,94 @@ const PG=(function(){
   /* 2029 一試那天她在對面的便利商店等過（戀人版當面給便條）：記 SIS_STORE_2029；舊存檔沒有＝2029 有考、現在這一段交往在 2029-08-04 以前就開始 */
   S.sisWaited2029=G=>{ const F=G.flags||{}; if(F.SIS_STORE_2029!=null) return F.SIS_STORE_2029===true; if(F.BAR_SIT_2029!==true||!S.dating(G,'heroine_05')) return false;
     const R=F.romance&&F.romance.heroine_05, e=S.DK(Y[2029].exam); if(!R) return false; if(typeof R.sinceDay==='number') return R.sinceDay<=e; const m=/^D(-?\d+)$/.exec(String(R.since||'')); return m?+m[1]<=e:!!R.since; };
-  async function examDay(GM,y){ const G=GM.G, F=G.flags, Lx=L(), d=S.DK(Y[y].exam), A=adv();
+  /* (g) 重考那一年的摘要日期卡（AA_582；大字【年 月】、小字一句）：i＝0 三月、1 五月、2 一試、3 二試、4 等放榜 */
+  S.jCard=(y,i)=>{ const c=L().JUDGE&&L().JUDGE.cards[i]; return c?['【'+y+' 年 '+c[0]+'】',c[1]]:null; };
+  async function examDay(GM,y){ const G=GM.G, F=G.flags, Lx=L(), d=S.DK(Y[y].exam), A=adv(), jr=S.isJR(G,y);
     GM.sceneBegin(); try{ await GM.fade(true); toAtLeast(GM,d*24+8);
-      if(y<=2030&&S.noteInPerson(G,y)){ if(GM.titleCard) await GM.titleCard(S.dateLabel(G.day,G.hour),'',1600);   /* 學姊的便條只有 2029、2030（2031 以後 AA 還沒寫）*/ if(A) A.begin({background:BG('ntu_avenue'),right:{charId:'heroine_05',expression:'smile'}}); await GM.fade(false); await S.noteScene(GM,y); await GM.fade(true); if(A&&A.active) A.end(); }
+      if(!jr&&y<=2030&&S.noteInPerson(G,y)){ if(GM.titleCard) await GM.titleCard(S.dateLabel(G.day,G.hour),'',1600);   /* 學姊的便條只有 2029、2030（2031 以後 AA 還沒寫）；司法官重考生（已經是律師）不給 */ if(A) A.begin({background:BG('ntu_avenue'),right:{charId:'heroine_05',expression:'smile'}}); await GM.fade(false); await S.noteScene(GM,y); await GM.fade(true); if(A&&A.active) A.end(); }
+      if(jr){ const c=S.jCard(y,2); if(c&&GM.titleCard) await GM.titleCard(c[0],c[1],2600); }   /* (g)「一試。你比去年早到半小時。」*/
       toAtLeast(GM,d*24+8.5); if(GM.titleCard) await GM.titleCard(Lx.EXAM.card,S.dateLabel(G.day,G.hour),2200);   /* 字幕「考場」*/
       if(A) A.begin({background:BG('exam_hs_classroom')}); await GM.fade(false);
-      const qs=S.draw(G,y), ans=[]; let k=0;
-      for(let i=0;i<qs.length;i++){ const q=qs[i]; await GM.say(null,(i+1)+'／'+qs.length+'　'+q.q); const o=S.opts(q); const j=await GM.choose(o.map(x=>({t:x.t}))); const v=(o[j]||o[0]).v; ans.push(v); if(String(v)===String(q.answer)) k++; }
+      const qs=S.draw(G,y), r=await ask(GM,qs);
       await GM.say(null,'交卷。');   /* 答對題數不在這裡說（9/7 放榜）*/
-      S.rec(G).exam[y].ans=ans; F['BAR_SCORE_'+y]=k; F['BAR_SIT_'+y]=true;
+      S.rec(G).exam[y].ans=r.ans; F['BAR_SCORE_'+y]=r.k; F['BAR_SIT_'+y]=true; if(jr) F.JUDGE_TRIES=(F.JUDGE_TRIES|0)+1;
       await GM.fade(true); toAtLeast(GM,d*24+17.5); await GM.fade(false);
       if(y===2029) await S.play(GM,Lx.EXAM.out);   /* 走出考場（柏翰 2029 考過了，2030 不在）*/
       if(y===2029&&S.dating(G,'kexin')&&typeof PHONE!=='undefined') PHONE.at(G,d,17.5+2/60,Lx.EXAM.kexin.map(t=>P_('kexin',t)),'pg_kx_exam_'+y);
     } finally { if(A&&A.active) A.end(); GM.sceneEnd(); } }
   async function lateNarr(GM){ GM.sceneBegin(); try{ await GM.say(null,L().EXAM.lateNarr); } finally { GM.sceneEnd(); } }
-  async function result1(GM,y){ const G=GM.G, F=G.flags, st=S.stage(G,y), t=L().R1.sys[st]; F['BAR_STAGE_'+y]=st;
+  async function result1(GM,y){ const G=GM.G, F=G.flags, st=S.stage(G,y), jr=S.isJR(G,y), t=jr?(st==='both'?L().JUDGE.r1.both:L().JUDGE.r1.other):L().R1.sys[st]; F['BAR_STAGE_'+y]=st;   /* 司法官重考生（已經是律師）：只看司法官那一半（AA_582 補充二第 2 點）*/
     if(typeof PHONE!=='undefined'&&!PHONE.sent(G,'pg_r1sys_'+y)) PHONE.post(G,{th:'sys',text:t,tag:'pg_r1sys_'+y});
-    const LT=L().LATE||{}, more=st!=='none'?null:(y===2030?LT.fail2030:(y>2030&&LT.r1none?LT.r1none[y]:null));   /* 2030 起一試沒過的那一句（暫定字，LATE）*/
+    const LT=L().LATE||{}, more=jr||st!=='none'?null:(y===2030?LT.fail2030:(y>2030&&LT.r1none?LT.r1none[y]:null));   /* 2030 起一試沒過的那一句（LATE）*/
     GM.sceneBegin(); try{ await GM.say(null,t); if(more) await GM.say(null,more); } finally { GM.sceneEnd(); } }
-  async function exam2(GM,y,part){ const G=GM.G, Lx=L(), K=Y[y], A=adv();
+  /* 二試：律師二試第一天字卡帶過（不出題）；第二天——一試到司法官（both）的人考司法官二試 10 題（爭點題，S.drawJudge；考場照 AA_582 (a)），記 JUDGE_SCORE2_<年> */
+  async function exam2(GM,y,part){ const G=GM.G, F=G.flags, Lx=L(), K=Y[y], A=adv(), jr=S.isJR(G,y), judge=part===2&&S.stage(G,y)==='both';
     GM.sceneBegin(); try{ await GM.fade(true);
       if(part===1){ toAtLeast(GM,T(K.e2a,8.5)); if(GM.titleCard) await GM.titleCard(Lx.EXAM2.card,S.dateLabel(G.day,G.hour),2400); }   /* 考試畫面帶過，不出題 */
-      else { toAtLeast(GM,T(K.e2b,17.5)); if(GM.titleCard) await GM.titleCard(S.dateLabel(G.day,G.hour),'',1600); if(A) A.begin({background:BG('exam_hs_classroom')}); await GM.fade(false); await GM.say(null,Lx.EXAM2.end); await GM.fade(true); }
+      else { if(judge&&F['JUDGE_SCORE2_'+y]==null){ const J=Lx.JUDGE; toAtLeast(GM,T(K.e2b,8.5));
+          if(jr){ const c=S.jCard(y,3); if(c&&GM.titleCard) await GM.titleCard(c[0],c[1],2600); }   /* (g)「二試。題目一樣長……」*/
+          if(GM.titleCard) await GM.titleCard(Lx.EXAM2.card,S.dateLabel(G.day,G.hour),2200); if(A) A.begin({background:BG('exam_hs_classroom')}); await GM.fade(false);
+          if(!jr) for(const t of J.hall) await GM.say(null,t);   /* (a) 第一次進司法官考場 */
+          const qs=S.drawJudge(G,y), r=await ask(GM,qs); S.rec(G).judge[y].ans=r.ans; F['JUDGE_SCORE2_'+y]=r.k; await GM.say(null,'交卷。'); await GM.fade(true); }   /* 答對題數不在這裡說（12 月放榜）*/
+        toAtLeast(GM,T(K.e2b,17.5)); if(GM.titleCard) await GM.titleCard(S.dateLabel(G.day,G.hour),'',1600); if(A) A.begin({background:BG('exam_hs_classroom')}); await GM.fade(false); await GM.say(null,Lx.EXAM2.end); await GM.fade(true); }
       if(part===1) toAtLeast(GM,T(K.e2a,17.5)); } finally { if(A&&A.active) A.end(); GM.sceneEnd(); }
     await GM.fade(false); }
-  async function result2(GM,y){ const G=GM.G, F=G.flags, R=L().R2, judge=S.stage(G,y)==='both';
-    if(typeof PHONE!=='undefined'&&!PHONE.sent(G,'pg_r2sys_'+y)) for(const t of R.sys.concat(judge?[R.judgeNo]:[])) PHONE.post(G,{th:'sys',text:t,tag:'pg_r2sys_'+y});
-    const LT=L().LATE||{}, more=y>2030&&LT.r2pass?LT.r2pass[y]:null;   /* 2031 以後錄取的那一句（暫定字）*/
-    GM.sceneBegin(); try{ for(const t of R.sys) await GM.say(null,t); if(judge){ await GM.say(null,R.judgeNo); await GM.say(null,R.judgeNarr); } if(more) await GM.say(null,more); } finally { GM.sceneEnd(); }
-    F.BAR_YEAR=y;
+  /* 二試放榜的結果（場景和錯過都用）：司法官＝S.judgeVerdict（畢業那一年一定沒上；之後看二試答對＋在校平均）；律師照舊一定錄取＝BAR_YEAR（已經是律師的重考生不動）*/
+  S.r2Apply=function(G,y,o){ const F=G.flags, both=S.stage(G,y)==='both';
+    if(both&&F['JUDGE_PASS_'+y]==null){ const k=F['JUDGE_SCORE2_'+y]; F['JUDGE_PASS_'+y]=S.judgeVerdict(G,y,typeof k==='number'?k:0); }
+    if(!(o&&o.judgeOnly)&&!S.isJR(G,y)&&F.BAR_YEAR==null) F.BAR_YEAR=y; };
+  S.oralDay=y=>(y+1)+'-01-11'; S.admitDay=y=>(y+1)+'-01-25';   /* 三試、錄取（AA_582：一月三試、一月下旬錄取；確切日子遊戲自己定）*/
+  S.oralLabel=y=>{ const p=S.oralDay(y).split('-'); return (+p[1])+' 月 '+(+p[2])+' 日'; };
+  async function result2(GM,y){ const G=GM.G, F=G.flags, R=L().R2, J=L().JUDGE, jr=S.isJR(G,y), both=S.stage(G,y)==='both';
+    S.r2Apply(G,y); const pass=F['JUDGE_PASS_'+y]===true, choiceLater=!jr&&both&&!pass&&y<S.JUDGE_LAST;   /* 第一次落榜、還有下一年：那天晚上演二選一（AA_582 (f)，那一場開頭就是這一行）*/
+    const jsys=both?[pass?J.pass.sys.replace('{月日}',S.oralLabel(y)):J.no]:[];
+    if(typeof PHONE!=='undefined'&&!PHONE.sent(G,'pg_r2sys_'+y)) for(const t of (jr?[]:R.sys).concat(jsys)) PHONE.post(G,{th:'sys',text:t,tag:'pg_r2sys_'+y});
+    const LT=L().LATE||{}, more=!jr&&y>2030&&LT.r2pass?LT.r2pass[y]:null;   /* 2031 以後錄取的那一句 */
+    GM.sceneBegin(); try{ if(!jr) for(const t of R.sys) await GM.say(null,t); if(more) await GM.say(null,more);
+      if(both){ if(pass){ await GM.say(null,jsys[0]); for(const t of J.pass.narr) await GM.say(null,t); }   /* (b) */
+        else if(jr){ await GM.say(null,'（'+J.no+'）'); for(const t of J.still) await GM.say(null,t); }   /* (h) 仍落榜 */
+        else if(!choiceLater){ await GM.say(null,J.no); await GM.say(null,R.judgeNarr); } } } finally { GM.sceneEnd(); }
+    if(both&&!pass){ if(jr&&y>=S.JUDGE_LAST) F.JUDGE_RETAKE='done'; if(!jr&&!choiceLater&&F.JUDGE_RETAKE==null){ F.JUDGE_RETAKE=false; F.JUDGE_RETAKE_AUTO=true; } }   /* 2033 第一次到司法官、沒有下一年＝沒有選過（CC_25 P3：尾聲用 epiAuto，不說「我後來沒有再考」）*/
+    if(jr) return;
     if(y===2029){ if(S.studyGroup(G)==='yutong'){ if(typeof PHONE!=='undefined') PHONE.at(G,S.DK(Y[y].r2),18,L().R2.study.yutong.map(t=>P_('heroine_03',t)),'pg_noodle_yt_'+y); } else S.planNoodle(G,y); }
     else if(y===2030&&L().R2_2030&&typeof OUT!=='undefined') OUT.plan(G,{id:'pg_bar_noodle_2030',ev:'ev_pg_noodle_2030',day:S.DK(Y[y].r2),h:18,late:0.5,place:'阿鳳麵店',title:'阿鳳麵店・長桌',travel:'走過去約 15 分鐘',travelH:0.25}); }   /* AA_331 2a：2030 的 12/13 18:00 麵店（可以錯過）*/   /* 2030 的麵店 AA 沒寫（阿哲那一句在群組）；只有語彤的讀書小組＝18:00 她傳照片 */
+  /* ---------- 司法官的場景（AA_582）---------- */
+  const narrScene=async(GM,arr)=>{ GM.sceneBegin(); try{ for(const t of arr) await GM.say(null,t); } finally { GM.sceneEnd(); } };
+  /* (f) 第一次司法官二試落榜、有律師證照：二試放榜那天晚上 20:30（麵店之後）二選一 */
+  async function jRetakeScene(GM,y){ const G=GM.G, F=G.flags, J=L().JUDGE; let k=0;
+    GM.sceneBegin(); try{ await GM.say(null,'（'+J.no+'）'); for(const t of J.retake.lines) await GM.say(null,t);
+      k=await GM.choose(J.retake.opts.map(o=>({t:o.t}))); const o=J.retake.opts[k]||J.retake.opts[0]; await GM.say(null,o.say);
+      F.JUDGE_RETAKE=o.v; if(o.v===true) F.JUDGE_RETAKE_Y=y+1; } finally { GM.sceneEnd(); } }
+  /* 重考那一年之後（2031～2033）：5 月的報名那一晚，年份字卡＋報名問題（照律師的 regLate）；不報＝JUDGE_RETAKE 'done'（路線 f）*/
+  async function jRegScene(GM,y){ const G=GM.G, F=G.flags, R=L().REG, LT=L().LATE||{}; if(F['JUDGE_REG_'+y]!=null) return; const c=LT.card&&LT.card[y];
+    if(typeof PHONE!=='undefined'&&!PHONE.sent(G,'pg_reg_sys_'+y)) PHONE.post(G,{th:'sys',text:R.text,tag:'pg_reg_sys_'+y});
+    GM.sceneBegin(); try{ if(c&&GM.titleCard) await GM.titleCard(c[0],c[1]||'',2400);
+      await GM.say(null,R.text); const k=await GM.choose(R.opts.map(t=>({t}))); F['JUDGE_REG_'+y]=k===0;
+      if(k!==0){ F.JUDGE_RETAKE='done'; if(LT.stop&&LT.stop[y]) await GM.say(null,LT.stop[y]); } } finally { GM.sceneEnd(); } }
+  async function jCardScene(GM,y,i){ const c=S.jCard(y,i); if(!c) return; GM.sceneBegin(); try{ await GM.fade(true); if(GM.titleCard) await GM.titleCard(c[0],c[1],2800); await GM.fade(false); } finally { GM.sceneEnd(); } }
+  /* (c) 三試（口試）：隔年 1 月 */
+  async function oralScene(GM,y){ const G=GM.G, F=G.flags, O=L().JUDGE.oral, A=adv(), j={name:'口試委員'}, me=S.who(G,'me');
+    GM.sceneBegin(); try{ await GM.fade(true); toAtLeast(GM,T(S.oralDay(y),10)); if(GM.titleCard) await GM.titleCard(L().JUDGE.oralCard,S.dateLabel(G.day,G.hour),2200); if(A) A.begin({background:'blur'}); await GM.fade(false);
+      await GM.say(null,O.open); for(const [w,t] of O.lines){ const tx=typeof t==='object'?(F.BAR_YEAR!=null?t.lic:t.none):t; await GM.say(w==='j'?j:(w==='me'?me:null),tx); } } finally { if(A&&A.active) A.end(); GM.sceneEnd(); } }
+  /* (b2)＋(h) 錄取：隔年 1 月下旬 → JUDGE_YEAR＝錄取那一年（考試的隔年）*/
+  async function admitScene(GM,y){ const G=GM.G, F=G.flags, J=L().JUDGE.admit;
+    if(typeof PHONE!=='undefined'&&!PHONE.sent(G,'pg_judge_'+y)) PHONE.post(G,{th:'sys',text:J.sys,tag:'pg_judge_'+y});
+    GM.sceneBegin(); try{ await GM.say(null,J.sys); for(const t of J.narr.concat(J.after)) await GM.say(null,t); } finally { GM.sceneEnd(); }
+    F.JUDGE_YEAR=y+1; F.JUDGE_RETAKE='done'; }   /* JUDGE_YEAR＝錄取那一年（考試的隔年 1 月；AA_582 補充二第 6 點）*/
+  /* A6 結業前：法官或檢察官（受訓一律兩年，AA_582 補充二第 6 點）：2031 錄取＝2033 春天；2032 錄取＝2034-05-01；2033 以後錄取＝尾聲還在受訓、不演 */
+  S.roleDay=G=>{ const y=G.flags&&G.flags.JUDGE_YEAR; if(y==null||y>=S.TRAINEE_FROM) return null; return y<=2031?S.DK((y+2)+'-03-15'):S.DK('2034-05-01'); };
+  async function roleScene(GM){ const G=GM.G, F=G.flags, R=L().JUDGE.role;
+    GM.sceneBegin(); try{ if(GM.titleCard) await GM.titleCard(R.card[0],R.card[1],2600); await GM.say(null,R.narr); const k=await GM.choose(R.opts.map(o=>({t:o.t}))); F.JUDGE_ROLE=(R.opts[k]||R.opts[0]).v; } finally { GM.sceneEnd(); } }
   S.studyGroup=G=>{ const g=G.flags&&G.flags.BAR_STUDY_GROUP; if(!Array.isArray(g)) return null; const k=g.includes('kexin'), y=g.includes('yutong')||g.includes('heroine_03'); return k&&y?'three':(k?'kexin':(y?'yutong':null)); };   /* AA_327 2-Y4-33（那一批還沒做＝沒有）*/
   S.noodle2030Lines=function(G){ const R=L().R2_2030, sg=S.studyGroup(G); return (sg==='three'||sg==='yutong'?R.yt:R.base).concat(S.dating(G,'kexin')?R.kx:[]); };   /* AA_331 2a：有語彤＝三張紅紙；和可昕交往中＝她最後到 */
   S.noodleScene2030=async function(GM){ const A=adv(); if(A) A.begin({background:BG('noodle_table')}); await S.play(GM,S.noodle2030Lines(GM.G)); };
   S.noodleMissed2030=async function(GM){ if(!GM||!GM.say) return; GM.sceneBegin(); try{ await GM.say(null,L().R2_2030.missed); } finally { GM.sceneEnd(); } };
   S.noodleScene=async function(GM){ const A=adv(), R=L().R2, sg=S.studyGroup(GM.G); if(A) A.begin({background:BG('noodle_table')}); await S.play(GM,sg==='three'?R.study.three:(sg==='kexin'?R.study.kexin:R.noodle)); };   /* 12/14 18:00（AA_319 1A-18）：讀書小組三個人／只有可昕／麵店團 */
-  async function anCall(GM,n){ const G=GM.G, A_=L().AN, me={name:nmD(G,'heroine_01')+'（電話）'}; if(GM.toast) GM.toast('手機響了。',2400);
-    GM.sceneBegin(); try{ if(n===1){ await GM.say(me,A_.call1[0]); await GM.say(me,S.dating(G,'heroine_01')?A_.call1Dating:A_.call1[1]); }
-      else { for(const t of A_.call2) await GM.say(me,t); const k=await GM.choose(A_.call2Opts.map(o=>({t:o.t}))); for(const t of (A_.call2Opts[k]||A_.call2Opts[0]).say) await GM.say(me,t); } } finally { GM.sceneEnd(); } }
+  /* S6（AA_589 第 7-5 節 A 案）：不是她打來——祐廷自己查到榜單、傳訊息，她回。函式名 anCall、步驟 id an1／an2 照舊（舊存檔 rec.done.an1／an2 演過的不重演）*/
+  async function anCall(GM,n){ const G=GM.G, A_=L().AN, an={name:nmD(G,'heroine_01'),charId:'heroine_01'}, me={name:G.name||'祐廷'}, dating=S.dating(G,'heroine_01');
+    GM.sceneBegin(); try{ if(n===1){ await GM.say(null,A_.see1); await GM.say(me,A_.me1); for(const t of A_.call1) await GM.say(an,t); if(dating) await GM.say(an,A_.call1Dating); }
+      else { await GM.say(null,A_.see2); const k=await GM.choose(A_.call2Opts.map(o=>({t:(!dating&&o.tNot)||o.t})));   /* 選項本身就是祐廷傳的那一則；兩個選項她都回一樣的（共創第十六批）*/
+        for(const t of A_.call2) await GM.say(an,t); await GM.say(an,dating?A_.call2Dating:A_.call2Not); } } finally { GM.sceneEnd(); } }
   /* 可昕考上律師（AA_296 2-3-1 ③，企劃線 3f406dbc）：交往中、沒報 2029 國考＝12/14 15:05 她打來的電話（原本兩則私訊 pg_r2kx_2029；寫法照上面以安的電話）。
      「下午三點多」：15:05～16:00 玩家空下來就演（場景 kx_bar_2029；跳到下一件事、睡覺都停在這裡）；沒接（在出遊、在劇情裡，過了 16:00）＝原本那兩則私訊（S.kxBarMissed）。
      最後那一句旁白是那天晚上的宵夜，不另外排出遊。9/7「一試過了。二試十月。」（pg_r1kx_2029）是中途的結果，照用私訊 */
@@ -399,10 +524,12 @@ const PG=(function(){
       const k=await GM.choose(K.opts.map(o=>({t:o.t}))); for(const t of (K.opts[k]||K.opts[0]).say) await GM.say(me,t);
       for(const t of K.close) await GM.say(me,t); await GM.say(null,K.after); } finally { GM.sceneEnd(); } }
   S.kxBarMissed=function(G){ if(typeof PHONE==='undefined') return; PHONE.at(G,S.DK(Y[2029].r2),S.KX_BAR.at,L().R2.kexinNone.map(t=>P_('kexin',t)),'pg_r2kx_2029'); };
-  S.firstLate=G=>S.sits(G,2030)&&G.flags.BAR_YEAR==null;   /* 2030 年還在準備律師二試（AA_319 b6757852）*/
+  S.firstLate=G=>S.sits(G,2030)&&G.flags.BAR_YEAR==null&&S.rec(G).done.exam_2030!=='missed';   /* 2030 年還在準備律師二試（AA_319 b6757852）；2030 一試錯過的不算（CC N4 S03）*/
+  S.judgeRetaking=G=>{ const F=G.flags||{}; return F.JUDGE_RETAKE===true&&F.JUDGE_YEAR==null&&F.BAR_YEAR!=null; };   /* 有律師證照、在重考司法官（AA_582 (d)）*/
+  S.firstPhoto=G=>{ const F=G.flags, Fi=L().FIRST, FR=L().FIRST_RETAKE||{}; if(S.firstLate(G)) return FR[F.RETAKE_STYLE]||Fi.late; if(S.judgeRetaking(G)&&Fi.judgeRetake) return Fi.judgeRetake; return Fi.me[S.path(G)]; };   /* 第一份工作的照片：還在準備律師二試＝讀書的地方；重考司法官＝事務所名牌＋考古題；其他照 S.path（和尾聲最後一句同一個）*/
   async function firstDay(GM){ const G=GM.G, F=G.flags, Fi=L().FIRST, late=S.firstLate(G);
     toAtLeast(GM,T('2030-10-01',21));
-    const FR=L().FIRST_RETAKE||{}, items=[{th:'g:noodle_team',from:'player',text:'📷'+(late?(FR[F.RETAKE_STYLE]||Fi.late):Fi.me[S.path(G)])}];   /* AA_331 1a：2029 一試沒過的照 RETAKE_STYLE（cram／home／zhe）；交換延畢沒有＝補習班 */
+    const items=[{th:'g:noodle_team',from:'player',text:'📷'+S.firstPhoto(G)}];   /* AA_331 1a：2029 一試沒過的照 RETAKE_STYLE（cram／home／zhe）；交換延畢沒有＝補習班 */
     for(const [id,ph,t] of Fi.friends) if(S.at(G,id,'FAMILIAR')){ items.push(GR(id,'📷'+ph)); items.push(GR(id,t)); }   /* 認識的人才傳 */
     if(typeof PHONE!=='undefined'){ if(!PHONE.inGroup(G,'noodle_team')) PHONE.join(G,'noodle_team','法四吃飯'); if(!PHONE.sent(G,'pg_first_day')) items.forEach((it,i)=>PHONE.postAt(G,Object.assign({tag:'pg_first_day'},it),G.day,G.hour+i*0.01)); }
     GM.sceneBegin(); try{ await GM.say(null,Fi.narr); } finally { GM.sceneEnd(); }
@@ -411,7 +538,8 @@ const PG=(function(){
     if(late){ GM.sceneBegin(); try{ await GM.say(null,Fi.lateNarr); } finally { GM.sceneEnd(); } } }
   /* ---------- 尾聲（1A-20；BB 人物照 AA_327 2-Y4-53 的表：條件由低到高，取符合的最後一列）---------- */
   const yes=v=>!!v;
-  S.atTable=(G,id)=>!S.isEx(G,id)&&S.at(G,id,'FAMILIAR');
+  S.seen=id=>typeof SOCIAL==='undefined'||!!((SOCIAL.metD&&SOCIAL.metD(id))||(SOCIAL.has&&(SOCIAL.has(id,'FIRST_MET')||SOCIAL.has(id,'GREETED'))));   /* 見過（叫得出名字）：BB 2026-11-02 CC_34——只靠搭話累積熟悉度、相遇事件被遷移成 GREETED 的舊存檔，不認識的人不上尾聲那一桌 */
+  S.atTable=(G,id)=>!S.isEx(G,id)&&S.at(G,id,'FAMILIAR')&&(S.dating(G,id)||S.seen(id));
   S.ytEnd=function(G){ const F=G.flags, h=t=>has('heroine_03',t); const e1=h('RENT_CONSULTATION')&&h('LAW_MEETS_LIFE'), e2=h('FIELD_NOTES_IDEA')&&yes(F.YT_NOTES_NEXT), e3=e1&&S.pathTop(G)==='A'&&h('APOLOGIZED');   /* AA_11 結局表：5 → 3 → 2 → 1 → 4 */
     const job=e3?3:(e2?2:(e1?1:4)); if(S.dating(G,'heroine_03')) return {end:5,job}; if(e3) return {end:3,job:3}; if(e2) return {end:2,job:2}; if(e1) return {end:1,job:1}; if(S.at(G,'heroine_03','FRIEND')) return {end:4,job:4}; return {end:0,job}; };
   S.epiLine=function(G,id){ const F=G.flags, E=L().EPI, lw=F.BAR_YEAR!=null, me=x=>x.map(t=>[id,t]);
@@ -424,28 +552,32 @@ const PG=(function(){
       case 'classmate_xinci': { if(S.dating(G,'classmate_xinci')&&E.xinci.partner) return me(E.xinci.partner);   /* 交往中（AA_548 第 9 節）*/ if(yes(F.XC1_STICKY)) return [[id,E.xinci.sticky]]; if(yes(F.XC5_RECONCILE)&&S.atTable(G,'heroine_01')) return S.dating(G,'heroine_01')?[E.xinci.reconcile[0]]:E.xinci.reconcile; return [[id,E.xinci.base]]; }
       case 'heroine_01': { if(S.dating(G,'heroine_01')) return me(E.an.partner); if(yes(F.XC5_RECONCILE)&&S.atTable(G,'classmate_xinci')&&!yes(F.XC1_STICKY)) return null; return [[id,E.an.friend]]; }   /* 慈 5 那一組裡以安那句就是她的一句 */
       case 'heroine_03': { const Y3=S.ytEnd(G); if(!Y3.end) return null; if(Y3.end===5) return [[id,E.yt[Y3.job===4?4:Y3.job][0]],[id,E.yt[5]]]; return me(E.yt[Y3.end]); }
-      case 'heroine_05': { const B=E.sis; if(S.dating(G,'heroine_05')) return me(yes(F.SIS_DAY_OFF)?B.dayOff:B.lover); if(yes(F.US4_FRIEND)||yes(F.HEART_FRIEND_heroine_05)) return me(B.peer); return me(S.pathTop(G)==='A'&&lw?B.roadA:B.road); }
+      case 'heroine_05': { const B=E.sis; if(S.dating(G,'heroine_05')) return me(yes(F.SIS_DAY_OFF)?B.dayOff:B.lover); if(yes(F.US4_FRIEND)||yes(F.HEART_FRIEND_heroine_05)) return me(B.peer); return me(S.path(G)==='A_bar'?B.roadA:B.road); }   /* roadA「你們法扶的申請統計」＝落點在法扶（原本 pathTop A＋有證照；司法官錄取的不是法扶）*/
       case 'heroine_02': { if(S.dating(G,'heroine_02')) return E.zr.me; if(yes(F.ZR_FY)) return me(E.zr.fy); return me(E.zr.main); }
-      case 'heroine_04': { const Z=E.zq; if(S.dating(G,'heroine_04')) return me(Z.me); if(S.zqLine(G)&&lw) return me(Z.line); if(F.ZQ_CONTRACT!=null&&!S.zqLine(G)) return me(Z.apart); return me(F.ZQ_Q12==='cat'?Z.cat:Z.nine); }   /* AA_360 第 1 節：她發表的一律是《九點以後》（沒看過 Q12 的也是）；舊存檔已經演完《找插座的貓》（ZQ_Q12 cat）照舊、不改尾聲 */
-      case 'kai': { const K=E.kai; let t=K.base; if(lw) t=K.lawyer; if(has('kai','SUNDAY_SUPPER')) t=K.supper; if(yes(F.KAI_STAYED_UP)||has('kai','KAI_STAYED_UP')) t=K.stayed; return me(t); }
+      case 'heroine_04': { const Z=E.zq; if(S.dating(G,'heroine_04')) return me(Z.me); if(S.zqLine(G)&&lw&&!S.isJ(G)) return me(Z.line); if(F.ZQ_CONTRACT!=null&&!S.zqLine(G)) return me(Z.apart); return me(F.ZQ_Q12==='cat'?Z.cat:Z.nine); }   /* AA_360 第 1 節：她發表的一律是《九點以後》（沒看過 Q12 的也是）；舊存檔已經演完《找插座的貓》（ZQ_Q12 cat）照舊、不改尾聲 */
+      case 'kai': { const K=E.kai; let t=K.base; if(lw) t=K.lawyer; if(S.isJ(G)) t=[S.jLine(G,'kai')];   /* AA_582 (m)：司法官 */ if(has('kai','SUNDAY_SUPPER')) t=K.supper; if(yes(F.KAI_STAYED_UP)||has('kai','KAI_STAYED_UP')) t=K.stayed; return me(t); }
       case 'classmate_mingxuan': { const M=E.mx; let t=M.base; if(S.gradAdmit(G)) t=M.grad; if(F.BAR_YEAR===2029) t=M.bar2029; if(F.BAR_YEAR===2030) t=M.bar2030; if(has('classmate_mingxuan','SAW_HIM_STUDY')) t=M.saw; return me(t); }
-      case 'classmate_peishan': { const P=E.ps; let t=P.base; if(lw&&F.PS_GRAD_CARD) t=S.delayed(G)?[DLY(G,'psCard',P.card[0])].concat(P.card.slice(1)):P.card; if(yes(F.KEPT_FRIEND)) t=P.kept; if(has('classmate_peishan','MIRROR_PEISHAN')) t=P.mirror; if(S.dating(G,'classmate_peishan')) t=yes(F.PS_WAITED)&&P.waited?P.lover.concat([P.waited]):P.lover; return me(t); }   /* PS_WAITED（BB_165 5-1，台南那一天等你問完）：和祐廷那一版多一句 */
+      case 'classmate_peishan': { const P=E.ps; let t=P.base; if(lw&&F.PS_GRAD_CARD) t=S.delayed(G)?[DLY(G,'psCard',P.card[0])].concat(P.card.slice(1)):P.card; if(S.isJ(G)) t=[S.jLine(G,'peishan')]; if(yes(F.KEPT_FRIEND)) t=P.kept; if(has('classmate_peishan','MIRROR_PEISHAN')) t=P.mirror; if(S.dating(G,'classmate_peishan')) t=yes(F.PS_WAITED)&&P.waited?P.lover.concat([P.waited]):P.lover; return me(t); }   /* PS_WAITED（BB_165 5-1，台南那一天等你問完）：和祐廷那一版多一句 */
       case 'npc_fangyt': { const Fy=E.fy; let t=Fy.base; if(yes(F.CHIAYI_TREE)) t=Fy.tree; if(!S.delayed(G)&&F.BAR_YEAR===2030) t=Fy.y2030;   /* AA_331 1b：交換路線 2031 拿掉（交換延畢的 2030 也不再擋，沒有 2031 國考；AI解讀、待使用者確認）*/ if(yes(F.MOUNTAIN_DAY)) t=Fy.day; if(yes(F.ZR_FY)) t=Fy.zr; return me(t); }   /* 多考的那一年：台灣路線 2030、交換路線 2031（AA_327 f252a7b5）*/
       case 'classmate_youchen': return typeof SUP497!=='undefined'&&SUP497.epiYc?SUP497.epiYc(G):null;   /* AA_497 1-6（BB_70 7b）：五年後「法條我還是背得很熟。只是現在背的是著作權法。」；地下室那場去了（YC_GIG）多一句 */
       case 'kexin': { if(!S.dating(G,'kexin')) return null; const R=typeof ROM!=='undefined'&&ROM.get?ROM.get(G,'kexin'):null, back=!!(R&&(R.history||[]).some(h=>h.ev==='end')); return me(E.kx.arrive.concat(back?E.kx.b:[])); }   /* A／B（B＝分開又回來）；她最晚到 */
     } return null; };
+  S.jLine=(G,k)=>{ const J=L().JUDGE; if(S.path(G)==='J_trainee'&&J.trainee&&J.trainee[k]) return J.trainee[k]; return String(J[k]).replace(/\{job\}/g,J.jobName[S.path(G)]||'法官'); };   /* 受訓中（J_trainee）用 AA_582 補充二那兩句 */
+  /* 尾聲⑤祐廷的最後一句：2031 錄取的檢察官已經上任一年多（拿掉「剛結訓」）*/
+  S.lastLine=G=>{ const p=S.path(G), F=G.flags||{}, J=L().JUDGE; if(p==='J_pros'&&F.JUDGE_YEAR!=null&&F.JUDGE_YEAR<=2031&&J&&J.prosServing) return J.prosServing; return L().EPI.last[p]; };   /* AA_582 (m)：法官／檢察官照 S.path */
   S.EPI_ORDER=['zhe','yu','classmate_bohan','classmate_xinci','heroine_01','heroine_03','heroine_05','heroine_02','heroine_04','kai','classmate_mingxuan','classmate_youchen','classmate_peishan','npc_fangyt','kexin'];   /* 宥辰：AA_497 1-6 五年後那一句（有點熟以上才在桌上，同其他人）*/
   S.epiPresent=(G,id)=>id==='kai'||(id==='kexin'?S.dating(G,'kexin'):S.atTable(G,id));   /* 只有認識的人在場；阿凱是室友 */
   S.econLine=function(G){ const F=G.flags, E=L().EPI.econ; if(!(F.PLAYED_Y0||F.MET_XUN||has('econ_zhengxun','FIRST_MET'))) return null;
     if(F.ECON_PAST_SHARED==='full'||F.ECON_PAST_SHARED==='half'){ const nights=!!(G.events&&G.events.done&&Object.keys(G.events.done).some(k=>/^ev_sk05_vending/.test(k))); return {line:nights?E.full:E.noNights,far:false}; }   /* 那幾個晚上＝SK05 三閃，販賣機見 */
     return {line:E.none,far:true}; };
+  S.EX_NO_CONTACT=true;   /* AA_600（企劃線 031414cad）：前任的學姊不主動傳（B9 畢業中午那一則）、生日快樂已讀不回（B10）*/
   S.EX_ORDER=['heroine_01','heroine_03','heroine_02','heroine_04','heroine_05','classmate_peishan','kexin'];
   S.exLines=function(G,id,econFar){ const E=L().EPI, X=E.ex, me=x=>x.map(t=>[id,t]);
-    if(id==='heroine_01') return me(econFar?[X.heroine_01Alt,X.heroine_01[1]]:X.heroine_01);   /* 不再接 */
+    if(id==='heroine_01') return [X.exNod.heroine_01].concat(me(econFar?[X.heroine_01Alt,X.heroine_01[1]]:X.heroine_01));   /* 不再接。AA_600 A13：前面加旁白「（她經過你們那桌。你先打了招呼。）」，她的句子照留（是回應）*/
     if(id==='heroine_03'){ const Y3=S.ytEnd(G); return me(X.heroine_03.concat([E.yt[Y3.job===1||Y3.job===2?Y3.job:4][0]])); }
     if(id==='heroine_02') return me(X.heroine_02.concat(E.zr.main));
     if(id==='heroine_04') return me(X.heroine_04.concat(G.flags.ZQ_Q12==='cat'?E.zq.cat:E.zq.nine));   /* 同上（AA_360 第 1 節）*/
-    if(id==='heroine_05') return me(X.heroine_05.concat(E.sis.road));
+    if(id==='heroine_05') return [X.exNod.heroine_05];   /* AA_600 B11：「……你們看起來很好。」刪，改旁白「（她經過你們那桌，點了一下頭。）」；後面接的研究近況（E.sis.road，她自己開口）一起不演 */
     if(id==='classmate_peishan') return me(X.classmate_peishan.concat(E.ps.base));
     if(id==='kexin') return me(X.kexin.concat(G.flags.GIRAFFE_KEYCHAIN?[X.kexinKey]:[]));
     return null; };
@@ -469,6 +601,11 @@ const PG=(function(){
   /* 尾聲⑤後面那一句（A3）：2031 以後考上＝pass[年]；考過、沒考上：最後一次是 2033＝none（兩邊都沒上），其他＝stop（中途不考了，或那一年一試錯過）。只考過 2029 就考上、沒考過的＝null */
   S.lateEpi=function(G){ const F=G.flags||{}, E=(L().LATE||{}).epi; if(!E) return null; if(F.BAR_YEAR!=null) return F.BAR_YEAR>2030&&E.pass?E.pass[F.BAR_YEAR]||null:null;
     const ly=S.lastSat(G); if(ly==null) return null; return ly===S.LATE_YEARS[S.LATE_YEARS.length-1]?E.none:E.stop; };
+  /* ⑤ 後面多的句子（AA_582）：J 結局交往中＝旁白「這個月輪到你回臺北」（A5）；路線 d（不重考）、f（重考過、沒上）各一句；B_grad 有律師證照一句 */
+  S.epiAfterLast=function(G){ const F=G.flags||{}, J=L().JUDGE, p=S.path(G), out=[]; if(!J) return out;
+    if(S.isJ(G)){ if(S.partners(G).length) out.push([null,J.distance]); return out; }
+    if(F.JUDGE_RETAKE===false) out.push(['me',F.JUDGE_RETAKE_AUTO&&J.epiAuto?J.epiAuto:J.epiD]); else if(F.JUDGE_RETAKE==='done'&&(F.JUDGE_TRIES|0)>0) out.push(['me',J.epiF]);
+    if(p==='B_grad'&&F.BAR_YEAR!=null) out.push(['me',J.epiGradLic]); return out; };
   async function epilogue(GM){ const G=GM.G, F=G.flags, E=L().EPI, A=adv(); let ok=false;
     GM.sceneBegin(); try{ await GM.fade(true); if(A&&A.active) A.end();
       toAtLeast(GM,T('2034-06-03',19));
@@ -483,7 +620,8 @@ const PG=(function(){
       if(A&&A.cg) A.cg(S.epiCg(G));   /* ③ CG-10 */
       for(const f of S.EPI_AFTER_CG) await f(GM);   /* 事件包的掛勾（AA_327 2-Y4-54：空著的座位那一句；src/r2y4b3d.js）*/
       const al=S.epiAlways(G); if(al) await GM.say(S.who(G,al.id),al.t);   /* ④ */
-      await GM.say(S.who(G,'me'),E.last[S.path(G)]);   /* ⑤ */
+      await GM.say(S.who(G,'me'),S.lastLine(G));   /* ⑤ */
+      for(const [w,t] of S.epiAfterLast(G)) await GM.say(w==='me'?S.who(G,'me'):null,t);   /* D118-B8：A5 遠距、(i) 路線 d／f、(k) B_grad 有證照 */
       { const ln=S.lateEpi(G); if(ln) await GM.say(S.who(G,'me'),ln); }   /* A3：2031 以後才考上／考到一半停了／一路考到 2033 都沒上，多一句（暫定字，LATE.epi）*/
       for(const t of S.epiItems(G)) await GM.say(null,t);   /* ⑥ */
       for(const f of S.EPI_AFTER_ITEMS) await f(GM);   /* 事件包的掛勾（AA_327 2-Y4-55：美國路線何俊朗的訊息；src/r2y4b3d.js）*/
@@ -493,14 +631,40 @@ const PG=(function(){
     if(ok){ F.EPILOGUE_DONE=true; if(GM.autosave) GM.autosave(true); S.toTitle(GM); } if(GM.fade) await GM.fade(false); }
   /* ---------- 場景表 ---------- */
   const yStep=y=>{ const K=Y[y]; return [
-    {id:'exam_'+y,at:G=>T(K.exam,8),until:G=>T(K.exam,30),cond:G=>S.sits(G,y),run:GM=>examDay(GM,y)},
+    {id:'exam_'+y,at:G=>T(K.exam,8),until:G=>T(K.exam,30),cond:G=>S.sitsAny(G,y),run:GM=>examDay(GM,y),onMiss:G=>{ if(S.isJR(G,y)) G.flags.JUDGE_TRIES=(G.flags.JUDGE_TRIES|0)+1; }},   /* 司法官重考那一年錯過一試也算考過一年（CC_25 P3：之後不報＝路線 f 那一句）*/   /* 司法官重考生（S.jsits）也考一試 */
     {id:'r1_'+y,at:G=>T(K.r1,15+5/60),until:G=>T(K.r1,48),cond:G=>G.flags['BAR_SIT_'+y]===true,run:GM=>result1(GM,y)},
-    {id:'e2a_'+y,at:G=>T(K.e2a,8.5),until:G=>T(K.e2a,30),cond:G=>G.flags['BAR_SIT_'+y]===true&&S.stage2(G,y),run:GM=>exam2(GM,y,1)},
-    {id:'e2b_'+y,at:G=>T(K.e2b,17.5),until:G=>T(K.e2b,30),cond:G=>G.flags['BAR_SIT_'+y]===true&&S.stage2(G,y),run:GM=>exam2(GM,y,2)},
-    {id:'r2_'+y,at:G=>T(K.r2,15+5/60),until:G=>T(K.r2,48),cond:G=>G.flags['BAR_SIT_'+y]===true&&S.stage2(G,y),run:GM=>result2(GM,y)} ]; };
+    {id:'e2a_'+y,at:G=>T(K.e2a,8.5),until:G=>T(K.e2a,30),cond:G=>G.flags['BAR_SIT_'+y]===true&&S.stage2(G,y)&&!S.isJR(G,y),run:GM=>exam2(GM,y,1)},   /* 律師二試第一天（已經是律師的司法官重考生不考）*/
+    {id:'e2b_'+y,at:G=>T(K.e2b,S.stage(G,y)==='both'?8.5:17.5),until:G=>T(K.e2b,30),cond:G=>S.two(G,y),run:GM=>exam2(GM,y,2)},   /* both＝早上 8:30 考司法官二試（D118-B8）*/
+    {id:'r2_'+y,at:G=>T(K.r2,15+5/60),until:G=>T(K.r2,48),cond:G=>S.two(G,y),run:GM=>result2(GM,y),onMiss:G=>S.r2Missed(G,y)} ]; };
+  /* 二試放榜那一場錯過（CC_25 BUG-BAR-MISS-NOYEAR；原本只算司法官、BAR_YEAR 沒有＝考上的人落到 A_none）：結果照正常放榜一樣記（律師二試一定錄取＝BAR_YEAR），
+     下一個停點演一句「過了幾天才打開考選部的網頁」（AA_582 補充三①；已經是律師的重考生沒有律師那一半，不演）。司法官的結果照算；2033 第一次到司法官沒上＝自動不重考（JUDGE_RETAKE_AUTO）*/
+  S.r2Missed=function(G,y){ const F=G.flags, jr=S.isJR(G,y); S.r2Apply(G,y); if(!jr) F['BAR_R2_MISSED_'+y]=true;
+    if(!jr&&S.stage(G,y)==='both'&&F['JUDGE_PASS_'+y]!==true&&y>=S.JUDGE_LAST&&F.JUDGE_RETAKE==null){ F.JUDGE_RETAKE=false; F.JUDGE_RETAKE_AUTO=true; }
+    if(jr&&S.stage(G,y)==='both'&&F['JUDGE_PASS_'+y]!==true&&y>=S.JUDGE_LAST) F.JUDGE_RETAKE='done'; };
+  S.two=(G,y)=>G.flags['BAR_SIT_'+y]===true&&(S.isJR(G,y)?S.stage(G,y)==='both':S.stage2(G,y));   /* 有二試：一試到律師以上；司法官重考生要到司法官（both）*/
+  /* 司法官（D118-B8）的場景：judge:true＝尾聲要等它演完（S.pendingExam）*/
+  const jSteps=()=>{ const out=[]; for(let y=2029;y<=S.JUDGE_LAST;y++){ const K=Y[y];
+      out.push({id:'jretake_'+y,judge:true,at:G=>G.flags['BAR_R2_MISSED_'+y]?T(K.r2,48)+0.1:T(K.r2,20.5),   /* 放榜那一場錯過：排在「過了幾天才打開網頁」那一句之後 */until:G=>T((y+1)+'-05-09',0),cond:G=>y<S.JUDGE_LAST&&G.flags.JUDGE_RETAKE==null&&S.jFirstFail(G,y),run:GM=>jRetakeScene(GM,y),onMiss:G=>{ if(G.flags.JUDGE_RETAKE==null){ G.flags.JUDGE_RETAKE=false; G.flags.JUDGE_RETAKE_AUTO=true; } }});   /* 二選一沒演到（舊存檔過了隔年 5/9 才讀）＝沒有選過：尾聲 epiAuto */   /* (f)；舊存檔（both、二試放榜演過）在隔年報名以前讀檔也補演一次；過了＝不重考（路線 d）*/
+      out.push({id:'j3_'+y,judge:true,at:G=>T(S.oralDay(y),10),until:G=>Infinity,cond:G=>G.flags['JUDGE_PASS_'+y]===true&&G.flags.JUDGE_YEAR==null,run:GM=>oralScene(GM,y)});   /* (c) 三試 */
+      out.push({id:'jb2_'+y,judge:true,at:G=>T(S.admitDay(y),15),until:G=>Infinity,cond:G=>G.flags['JUDGE_PASS_'+y]===true&&G.flags.JUDGE_YEAR==null&&S.done(G,'j3_'+y),run:GM=>admitScene(GM,y)});   /* (b2)＋(h) 錄取 */
+      if(y>=2030){ const jr=G=>S.isJR(G,y)&&S.jsits(G,y);
+        out.push({id:'jcard0_'+y,at:G=>T(y+'-03-10',21),until:G=>T(y+'-03-12',0),cond:jr,run:GM=>jCardScene(GM,y,0)});   /* (g) 三月 */
+        out.push({id:'jcard1_'+y,at:G=>T(y+'-05-06',21),until:G=>T(y+'-05-08',0),cond:G=>jr(G)&&G.flags.JUDGE_RETAKE_Y===y,run:GM=>jCardScene(GM,y,1)});   /* (g) 五月（自動報名的那一年；之後的年份有報名問題）*/
+        out.push({id:'jcard4_'+y,at:G=>T(K.r2,0)-24*7+21,until:G=>T(K.r2,0)-24*5,cond:G=>jr(G)&&G.flags['JUDGE_SCORE2_'+y]!=null,run:GM=>jCardScene(GM,y,4)}); }   /* (g) 等放榜 */
+      if(Y[y].reg) out.push({id:'jreg_'+y,judge:true,at:G=>T(Y[y].reg,21),until:G=>T(Y[y].reg,48),cond:G=>S.jAsk(G,y),run:GM=>jRegScene(GM,y),onMiss:G=>{ G.flags['JUDGE_REG_'+y]=false; G.flags.JUDGE_RETAKE='done'; }}); }   /* 2031～2033 再報不報 */
+    out.push({id:'jrole',judge:true,at:G=>{ const d=S.roleDay(G); return d==null?null:T(d,20); },until:G=>Infinity,cond:G=>G.flags.JUDGE_YEAR!=null&&G.flags.JUDGE_YEAR<S.TRAINEE_FROM&&G.flags.JUDGE_ROLE==null,run:roleScene});   /* A6 結業前 */
+    out.push({id:'jnolic_2029',at:G=>T(Y[2029].r2,20.5),until:G=>T(Y[2029].r2,48),cond:G=>!S.delayed(G)&&G.flags.BAR_SIT_2029===true&&S.stage(G,2029)==='none'&&G.flags.BAR_YEAR==null,run:GM=>narrScene(GM,[L().JUDGE.retake.noLic])});   /* (f) 沒有律師證照：沒有選擇，一句旁白 */
+    /* (l) 錯過的旁白 */
+    out.push({id:'miss_reg_2029',at:G=>T('2029-05-12',0),until:G=>T('2029-07-01',0),cond:G=>G.flags.BAR_REG_MISSED_2029===true&&G.flags.BAR_REG==null,run:GM=>narrScene(GM,[L().MISSED.reg2029])});
+    out.push({id:'miss_exam_2029',at:G=>T(Y[2029].exam,30),until:G=>T(Y[2029].r1,0),cond:G=>S.rec(G).done.exam_2029==='missed',run:GM=>narrScene(GM,[L().MISSED.exam2029])});
+    for(let y=2030;y<=S.JUDGE_LAST;y++){ out.push({id:'miss_jexam_'+y,at:G=>T(Y[y].exam,30),until:G=>T(Y[y].r1,0),cond:G=>S.rec(G).done['exam_'+y]==='missed'&&S.isJR(G,y),run:GM=>narrScene(GM,[L().MISSED.judgeExam])});   /* AA_582 補充三③：司法官重考那一年錯過一試 */
+      out.push({id:'r2miss_'+y,at:G=>T(Y[y].r2,48),until:G=>T(Y[y].r2,48)+24*30,cond:G=>G.flags['BAR_R2_MISSED_'+y]===true,run:GM=>narrScene(GM,[L().MISSED.r2])}); }   /* AA_582 補充三① */
+    out.push({id:'r2miss_2029',at:G=>T(Y[2029].r2,48),until:G=>T(Y[2029].r2,48)+24*30,cond:G=>G.flags.BAR_R2_MISSED_2029===true,run:GM=>narrScene(GM,[L().MISSED.r2])});
+    out.push({id:'miss_exam_2030',at:G=>T(Y[2030].exam,30),until:G=>T(Y[2030].r1,0),cond:G=>S.rec(G).done.exam_2030==='missed'&&!S.isJR(G,2030),run:GM=>narrScene(GM,[L().MISSED.exam2030])});
+    return out; };
   S.STEPS=[
-    {id:'reg',at:G=>T('2029-05-10',21),until:G=>T('2029-05-12',0),cond:G=>!S.delayed(G)&&G.flags.BAR_REG==null&&G.flags.Y4_PATH!=='bar',run:regScene},
-    {id:'reg_2030',at:G=>T('2030-05-10',21),until:G=>T('2030-05-12',0),cond:G=>S.delayed(G)&&G.flags.BAR_REG_2030==null,run:regScene2030,onMiss:G=>{ G.flags.BAR_REG_2030=false; }},   /* AA_357 1-6；錯過＝沒回答＝不報名（日期卡、考不考都照這個）*/
+    {id:'reg',at:G=>T('2029-05-10',21),until:G=>T('2029-05-12',0),cond:G=>!S.delayed(G)&&G.flags.BAR_REG==null&&G.flags.Y4_PATH!=='bar',run:regScene,onMiss:G=>{ if(G.flags.BAR_REG==null&&G.flags.Y4_PATH!=null&&NOW(G)<T('2029-05-14',0)) G.flags.BAR_REG_MISSED_2029=true; }},   /* 錯過報名（D118 ③-13）：一句旁白、2030 年可以報名（大四選過路的玩家才算；Y4_PATH bar 的 5/10 自動報名）。只算玩的時候真的錯過（跳時間會先停在 5/10 那一場，所以截止後兩天內才標）；很久以後才讀的存檔不補 */
+    {id:'reg_2030',at:G=>T('2030-05-10',21),until:G=>T('2030-05-12',0),cond:G=>(S.delayed(G)||S.miss29(G))&&G.flags.BAR_REG_2030==null,run:regScene2030,onMiss:G=>{ G.flags.BAR_REG_2030=false; }},   /* AA_357 1-6；錯過＝沒回答＝不報名（日期卡、考不考都照這個）*/
     {id:'grad',at:G=>T(GRAD,6),until:G=>T('2029-06-04',0),cond:G=>true,ready:G=>S.gradReady(G),run:gradScene},
     {id:'cafe',at:G=>T(GRAD,17.25),until:G=>T(GRAD,21),cond:G=>{ const q=typeof OUT!=='undefined'?OUT.get(G,'pg_grad_cafe'):null; return !!q&&q.state==='done'&&G.zone==='cafe'; },run:cafeScene},
     {id:'ps_video',at:G=>T(GRAD,18),until:G=>T(GRAD,27),cond:G=>graduated(G)&&S.dating(G,'classmate_peishan'),run:psVideo},
@@ -514,10 +678,13 @@ const PG=(function(){
     {id:'kx_bar_2029',at:G=>T(Y[2029].r2,S.KX_BAR.at),until:G=>T(Y[2029].r2,S.KX_BAR.until),cond:G=>S.kxBarOk(G),run:GM=>kxBarCall(GM),onMiss:G=>S.kxBarMissed(G)},   /* AA_296 2-3-1 ③ 可昕考上律師：她打來 */
     {id:'first',at:G=>T('2030-10-01',21),until:G=>Infinity,cond:G=>true,run:firstDay},
     {id:'epi',at:G=>T('2034-06-03',19),until:G=>Infinity,cond:G=>!!G.flags.FIRST_DAY_SEEN&&!G.flags.EPILOGUE_DONE&&!S.pendingExam(G),run:epilogue} ].concat(yStep(2029),yStep(2030),...S.LATE_YEARS.map(y=>[
-      {id:'reg_'+y,at:G=>T(Y[y].reg,21),until:G=>T(Y[y].reg,48),cond:G=>S.lateAsk(G,y),run:GM=>regLate(GM,y),onMiss:G=>{ G.flags['BAR_REG_'+y]=false; }}].concat(yStep(y))));   /* 2031～2033（A3）：報名＋和 2029、2030 同一套（一試 20 題作答、放榜、二試字卡、放榜）*/
+      {id:'reg_'+y,at:G=>T(Y[y].reg,21),until:G=>T(Y[y].reg,48),cond:G=>S.lateAsk(G,y),run:GM=>regLate(GM,y),onMiss:G=>{ G.flags['BAR_REG_'+y]=false; }}].concat(yStep(y))),jSteps());   /* 2031～2033（A3）：報名＋和 2029、2030 同一套（一試 20 題作答、放榜、二試字卡、放榜）*/
   S.byId=id=>S.STEPS.find(s=>s.id===id)||null;
-  S.yearOver=(G,y)=>{ const d=S.rec(G).done; return d['exam_'+y]==='missed'||S.done(G,'r2_'+y)||(S.done(G,'r1_'+y)&&S.stage(G,y)==='none'); };   /* 那一年演完了：一試錯過、二試放榜了、或一試放榜沒過 */
-  S.pendingExam=G=>{ if(G.flags.BAR_YEAR!=null) return false; for(const y of [2030].concat(S.LATE_YEARS)){ if(S.sits(G,y)&&!S.yearOver(G,y)) return true; if(S.lateAsk(G,y)&&!S.done(G,'reg_'+y)) return true; } return false; };   /* A3：2031～2033 也一樣（一試放榜沒過＝那一年演完，換下一年的報名）*/   /* 2030 年那一輪還沒演完：尾聲等它；2030 一試錯過＝沒考，不等（D118-B1-1102；原本 r2_2030 的條件要 BAR_SIT_2030、永遠不會標 missed＝尾聲永遠不觸發，BB baseline N1、N2）*/
+  S.yearOver=(G,y)=>{ const d=S.rec(G).done; return d['exam_'+y]==='missed'||S.done(G,'r2_'+y)||(S.done(G,'r1_'+y)&&(S.stage(G,y)==='none'||(S.isJR(G,y)&&S.stage(G,y)!=='both'))); };   /* 司法官重考生一試沒到司法官＝那一年演完 */   /* 那一年演完了：一試錯過、二試放榜了、或一試放榜沒過 */
+  S.pendingExam=G=>{ if(G.flags.BAR_YEAR==null) for(const y of [2030].concat(S.LATE_YEARS)){ if(S.sits(G,y)&&!S.yearOver(G,y)) return true; if(S.lateAsk(G,y)&&!S.done(G,'reg_'+y)) return true; }
+    for(let y=2030;y<=S.JUDGE_LAST;y++) if(S.jsits(G,y)&&!S.yearOver(G,y)) return true;   /* D118-B8：司法官重考那一年、重考的報名、二選一、三試、錄取、結業前的選擇都演完才到尾聲 */
+    for(const s of S.STEPS){ if(!s.judge||S.done(G,s.id)) continue; let ok=false; try{ ok=!!s.cond(G); }catch(e){ ok=false; } if(ok) return true; }
+    return false; };   /* A3：2031～2033 也一樣（一試放榜沒過＝那一年演完，換下一年的報名）*/   /* 2030 年那一輪還沒演完：尾聲等它；2030 一試錯過＝沒考，不等（D118-B1-1102；原本 r2_2030 的條件要 BAR_SIT_2030、永遠不會標 missed＝尾聲永遠不觸發，BB baseline N1、N2）*/
   S.y4Due=G=>{ if(typeof STORY==='undefined') return false; for(const k of ['packDue','gradMorningDue','gradLunchDue','moveOutDue']){ try{ if(STORY[k]&&STORY[k](G)) return true; }catch(e){} } return false; };   /* AA_318 那一批的場景（story3d.js S.y4Tick 演）：時間到了先讓它演，不跳 */
   const running=new Set();
   S.pending=function(G){ const now=NOW(G), r=S.rec(G), out=[]; if(!law(G)||G.flags.EPILOGUE_DONE) return out;   /* 尾聲演完：讀那個存檔＝2034 年自由活動，不再有場景 */
@@ -585,18 +752,24 @@ const PG=(function(){
      AA_353 第 3 節：2029 夏天三句（6/3～9/2）；AA_357 第 4 節：大五上（9/4～12/23；Y5_DAYS 三選一；同一段有「共通」的共通先列＝先出）、寒假到 2030-05。
      美國路線那一句（9/4～12/17）：大五上第一次跳的時候先出（first）。「報名」那兩列：2030-05-10 問過的照回答（BAR_REG_2030），還沒問的照 Y4_PATH（bar＝報名）。
      每一列：[起 YYYY-MM-DD, 迄 YYYY-MM-DD（含）, 條件 G, 句子, {first}] */
-  const dl=G=>S.delayed(G), ex=G=>S.exchDelayed(G), fd=G=>dl(G)&&!ex(G), fdc=G=>fd(G)&&!(typeof FD!=='undefined'&&FD.certLate&&FD.certLate(G)), fdLate=G=>fd(G)&&typeof FD!=='undefined'&&!!FD.certLate&&FD.certLate(G), y5d=(G,v)=>dl(G)&&!!G.flags&&G.flags.Y5_DAYS===v, y5us=G=>dl(G)&&typeof STORY!=='undefined'&&!!STORY.routeAbroadRoute&&STORY.routeAbroadRoute(G)==='US';
+  const dl=G=>S.delayed(G), ex=G=>S.exchDelayed(G), fd=G=>dl(G)&&!ex(G), late=G=>typeof FD!=='undefined'&&!!FD.certLate&&FD.certLate(G), fdc=G=>fd(G)&&!late(G), fdLate=G=>dl(G)&&late(G), exc=G=>ex(G)&&!late(G),   /* fdLate、exc：BB 10:21 起交換延畢又被當、重修不到三堂的也證書延到六月（FD.retakeOn）*/ y5d=(G,v)=>dl(G)&&!!G.flags&&G.flags.Y5_DAYS===v, y5us=G=>dl(G)&&typeof STORY!=='undefined'&&!!STORY.routeAbroadRoute&&STORY.routeAbroadRoute(G)==='US';
   S.reg2030=G=>{ const F=G.flags||{}; return F.BAR_REG_2030!=null?F.BAR_REG_2030===true:F.Y4_PATH==='bar'; };
   /* AA_471 第 7 節：2029 跨年（延畢那一年）交往中、那天沒有另外排她的跨年場次（12/31～1/1 的出遊：id 有 nye 或約的是她；現在遊戲裡 2029 沒有這種場次）＝「你沒有在家」那一句 */
   S.nyeOut=G=>{ if(typeof OUT==='undefined'||!OUT.rec) return false; const a=S.DK('2029-12-31'), P=S.partners(G); return OUT.rec(G).some(q=>q&&(q.day===a||q.day===a+1)&&q.state!=='cancelled'&&(/nye/i.test(q.id||'')||(!!q.who&&P.includes(q.who)))); };
   S.nyeAway=G=>S.partners(G).length>0&&!S.nyeOut(G);
+  /* AA_588 第 4 節（K1）：交換延畢、又被當了一門要重修的課（FD.retakeOn；{課名}＝那一門，FD.fill）＝「又被當」版本；沒被當的照原句（重修的上課日照實際課表，句子不寫星期幾）*/
+  const k1=G=>ex(G)&&typeof FD!=='undefined'&&!!FD.retakeOn&&FD.retakeOn(G);
   S.CARDS_DELAY=[
-    ['2029-06-03','2029-06-27',G=>ex(G)&&!y5us(G),'（同屆的人都畢業了。你還差一門實習，九月再回學校。）'],
+    ['2029-06-03','2029-06-27',G=>ex(G)&&!y5us(G)&&!k1(G),'（同屆的人都畢業了。你還差一門實習，九月再回學校。）'],
+    ['2029-06-03','2029-06-27',G=>ex(G)&&!y5us(G)&&k1(G),'（同屆的人都畢業了。你還差一門實習，還有{課名}要重修。九月再回學校。）',{k1:true}],   /* K1（AA_588 第 4 節）*/
     ['2029-06-18','2029-06-27',fd,'（同屆的人都畢業了。你還差{課名}，九月再回學校。）'],   /* 被當延畢（AA_421 1-4）：6/18 成績單以後；6/3～6/17 照一般畢業生（那時候還不是延畢）*/
-    ['2029-06-03','2029-06-27',y5us,'（同屆的人都畢業了。你還差一門實習和兩門課，九月再回學校。）'],   /* 美國路線還要補修強制執行法、法律倫理（AA_382 第 1 節，企劃線 e6d4a198）*/
+    ['2029-06-03','2029-06-27',G=>y5us(G)&&!k1(G),'（同屆的人都畢業了。你還差一門實習和兩門課，九月再回學校。）'],   /* 美國路線還要補修強制執行法、法律倫理（AA_382 第 1 節，企劃線 e6d4a198）*/
+    ['2029-06-03','2029-06-27',G=>y5us(G)&&k1(G),'（同屆的人都畢業了。你還差一門實習、兩門補修，還有{課名}要重修。九月再回學校。）',{k1:true}],   /* K1（AA_588 第 4 節）*/
     ['2029-06-29','2029-08-03',dl,'（七月。退宿以後住在家裡。不用趕早八，反而醒得很早。）'],
     ['2029-08-05','2029-09-02',dl,'（八月。同屆的人在考國考。你在群組裡傳了一句加油，很快就被洗下去了。）'],
-    ['2029-09-04','2029-12-17',y5us,'（週一、週三補修兩門課。教室裡坐的，都是大四的學弟妹。）',{first:true}],
+    ['2029-09-04','2029-12-17',G=>y5us(G)&&!k1(G),'（週一、週三補修兩門課。教室裡坐的，都是大四的學弟妹。）',{first:true}],
+    ['2029-09-04','2029-12-17',G=>y5us(G)&&k1(G),'（週一、週三補修兩門課，{課名}照課表重修。教室裡坐的，都是學弟妹。）',{first:true,k1:true}],   /* K1（AA_588 第 4 節）*/
+    ['2029-09-04','2029-12-17',G=>ex(G)&&!y5us(G)&&k1(G),'（這學期，{課名}重修。教室裡坐的，都是學弟妹。）',{first:true,k1:true}],   /* K1 交換（非美國）新增一張（AA_588 第 4 節：first，同美國那張）；沒被當的原本沒有這張 */
     ['2029-09-04','2029-12-17',fd,'（重修{課名}。教室裡坐的，都是學弟妹。）',{first:true}],
     ['2029-09-04','2029-09-10',G=>y5d(G,'study'),'（開學第一週。總圖三樓的位子，坐的大多是不認識的臉。）'],
     ['2029-09-04','2029-09-10',G=>y5d(G,'work'),'（你接了兩個家教。一個國三，一個高二。）'],
@@ -607,7 +780,9 @@ const PG=(function(){
     ['2029-09-23','2029-10-15',G=>y5d(G,'study'),'（十月。總圖的冷氣比外面冷，你在位子上放了一件外套。）'],
     ['2029-09-23','2029-10-15',G=>y5d(G,'work'),'（家教的錢第一次匯進來。你沒有馬上花。）'],
     ['2029-09-23','2029-10-15',G=>y5d(G,'bar'),'（民法讀完第一輪。第二輪比第一輪慢。）'],
-    ['2029-10-17','2029-11-19',G=>ex(G)||(fd(G)&&typeof FD!=='undefined'&&FD.lp(G)),'（週二去法扶。其他的日子，一天和一天很像。）',{common:true}],
+    ['2029-10-17','2029-11-19',G=>(ex(G)&&!k1(G))||(fd(G)&&typeof FD!=='undefined'&&FD.lp(G)),'（週二去法扶。其他的日子，一天和一天很像。）',{common:true}],
+    ['2029-10-17','2029-11-19',G=>k1(G)&&FD.courses(G).length<2,'（週二去法扶，一週一堂{課名}。其他的日子，一天和一天很像。）',{common:true,k1:true}],
+    ['2029-10-17','2029-11-19',G=>k1(G)&&FD.courses(G).length>=2,'（週二去法扶，還有{課名}的重修。其他的日子，一天和一天很像。）',{common:true,k1:true}],   /* K1 兩門以上（AA 13:53 選 (a)）*/   /* K1（AA_588 第 4 節）*/
     ['2029-10-17','2029-11-19',G=>fd(G)&&!(typeof FD!=='undefined'&&FD.lp(G)),'（一週一堂{課名}。其他的日子，一天和一天很像。）',{common:true}],   /* 共通（AA_363 T3：這一跳落在 11/19 以後＝出下面三選一那句，這句不出）*/
     ['2029-10-17','2029-11-19',G=>y5d(G,'study'),'（有一天，一個大一的跟你借延長線。他叫你學長。）'],
     ['2029-10-17','2029-11-19',G=>y5d(G,'work'),'（高二那個學生期中考進步了。他媽媽多塞了一袋橘子給你。）'],
@@ -619,9 +794,9 @@ const PG=(function(){
     ['2029-12-19','2029-12-23',fd,'（大五上結束了。重修的報告，交出去了。）',{common:true}],   /* 共通（這一段沒有三選一：照現在，AA_363 T3）*/
     ['2030-01-01','2030-01-20',G=>dl(G)&&!S.nyeAway(G),'（跨年那天晚上，你在家。煙火是從電視上看的。）'],   /* AA_477 第 2 節（企劃線 0fae57ee2）：開始日 12-24→01-01——被當延畢 12/26 那一停（AA_471 §5）會讓它在跨年以前出現；下一列同理 */
     ['2030-01-01','2030-01-20',G=>dl(G)&&S.nyeAway(G),'（跨年那天晚上，你沒有在家。煙火很遠，她說這樣剛好。）'],   /* AA_471 第 7 節（企劃線 763993620）：交往中、那天另外沒有排她的跨年場次的；沒在交往的照上面原句 */
-    ['2030-01-22','2030-02-01',G=>ex(G)||fdc(G),'（證書放在書桌上。你媽買了一個框，還沒裝進去。）'],
-    ['2030-02-02','2030-02-10',G=>ex(G)||fdc(G),'（過年。親戚問你什麼時候畢業。你說上個月。）'],
-    ['2030-02-11','2030-03-14',G=>ex(G)||fdc(G),'（二月。學弟妹開學了。這是你第一次，開學跟你沒有關係。）'],
+    ['2030-01-22','2030-02-01',G=>exc(G)||fdc(G),'（證書放在書桌上。你媽買了一個框，還沒裝進去。）'],
+    ['2030-02-02','2030-02-10',G=>exc(G)||fdc(G),'（過年。親戚問你什麼時候畢業。你說上個月。）'],
+    ['2030-02-11','2030-03-14',G=>exc(G)||fdc(G),'（二月。學弟妹開學了。這是你第一次，開學跟你沒有關係。）'],
     ['2030-02-18','2030-03-15',fdLate,'（二月。又一個學期。這次你每一堂都去了。）'],   /* 重修不到三堂、證書延到 2030-06（AA_421 1-5）；上面三張（證書、上個月畢業、開學跟你沒關係）不出（LAWWW-B 解讀：和證書還沒拿到矛盾）*/
     ['2030-06-18','2030-06-30',fdLate,'（證書放在書桌上。你媽這次把框裝上了。）',{first:true}],   /* 先出（同一段的「畢業以後的第一個禮拜」排在它後面）；AA_471 第 5 節：06-18 起，排在 6/17 系辦領證書之後（src/faildelay3d.js，原本 06-01）*/
     ['2030-03-16','2030-04-30',G=>dl(G)&&S.reg2030(G),'（四月。你每天早上九點到總圖。這次是為了國考。）'],
@@ -640,10 +815,10 @@ const PG=(function(){
   S.cardLine=function(G,d0,d1){ if(!G||!G.flags||d1-d0<2) return null; const r=S.rec(G); if(!Array.isArray(r.lines)) r.lines=[]; const k0=d0+1, k1=d1-1; let best=null;
     const rows=S.cardRows(G), okRow=x=>{ try{ return !!x[2](G,x[3]); }catch(e){ return false; } };
     for(const row of rows){ const [da,db,,,t,o]=row; if(r.lines.includes(t)||da>k1||db<k0) continue; if(!okRow(row)) continue;
-      if(o&&o.first){ best={t}; break; }
+      if(o&&o.first){ best={t,o}; break; }
       if(o&&o.common&&d1>=db&&rows.some(x=>x!==row&&x[0]===da&&x[1]===db&&!(x[5]&&(x[5].common||x[5].first))&&!r.lines.includes(x[4])&&okRow(x))) continue;
-      const e=Math.min(db,k1); if(!best||e>best.e||(e===best.e&&da>best.da)) best={t,e,da}; }
-    if(!best) return null; r.lines.push(best.t); return typeof FD!=='undefined'&&FD.fill?FD.fill(G,best.t):best.t; };   /* {課名}：被當延畢的那一門（FD.fill）*/
+      const e=Math.min(db,k1); if(!best||e>best.e||(e===best.e&&da>best.da)) best={t,e,da,o}; }
+    if(!best) return null; r.lines.push(best.t); return typeof FD!=='undefined'&&FD.fill?(best.o&&best.o.k1&&FD.fillAnd?FD.fillAnd(G,best.t):FD.fill(G,best.t)):best.t; };   /* k1：兩門以上用「和」（FD.fillAnd）*/   /* {課名}：被當延畢的那一門（FD.fill）*/
   S.busy=false;
   (globalThis.LOADLOCKS=globalThis.LOADLOCKS||{})['postgrad3d:busy']=()=>{ S.busy=false; running.clear(); };   /* 讀檔時放開（LOADGEN-LOCKS-1028）：讀檔凍住的舊劇情走不到 finally，只把旗標設回初始值 */
   S.DORM={x:0,z:2.4,yaw:Math.PI,lv:0};   /* 宿舍房間（story3d.js Y4_DORM）*/

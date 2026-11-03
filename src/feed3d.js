@@ -247,6 +247,7 @@ const FEED=(function(){
   S.dmBlocked=function(G,q){ const F=G.flags||{}, R=S.rec(G); if(!hasContact(G,q.who)) return 'contact'; if(q.who==='kexin'&&S.kxCool(G)) return 'cool';
     if(q.st&&!S.stageOk(G,q.who,q.st)) return 'stage'; if(q.need&&!F[q.need]) return 'need'; if(q.after&&R.dm[q.after]!=='sent') return 'after';
     if(q.if&&!(S.COND[q.if]&&S.COND[q.if](G))) return 'if';   /* 那一則要的條件（語彤 8/21：8/22 人在臺灣）*/
+    if(typeof V6EX!=='undefined'&&V6EX.noContact&&V6EX.noContact(G,q.who)) return 'ex';   /* AA_602 第 8 節 (a)＝AA_600 S1：以安（an_mom、an_list、an_mom2、an_done）、學姊（sis_ch3、sis_cap、sis_chishang、sis_rest）她先傳的私訊，分手以後一律不送（不走 coolSkip 每兩則送一則）*/
     if(q.who!=='kexin'&&typeof INV!=='undefined'&&INV.cool&&INV.cool(G,q.who)&&typeof V6EX!=='undefined'&&V6EX.coolSkip&&V6EX.coolSkip(G,q.who,'dp','aa503_'+q.id)) return 'cool';   /* 其他六位分開以後一學期：她先傳的每兩則送一則（同手機小事）*/
     return ''; };
   S.dmItems=function(G,q,term){ const th='p:'+q.who, items=q.lines.map(l=>({th,from:q.who,text:S.line(G,l)}));

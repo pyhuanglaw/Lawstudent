@@ -60,7 +60,7 @@ const SISG=(function(){
     if(b==='off') return {res:'decline',why:'exam',lines:[S.offLine(G)],alt:null,study:true};   /* 說完接「那一起念書。」（invites3d.js 的 flow → S.studyOffer）*/
     return {res:'decline',why:'exam',lines:[S.declineLine(G)],alt:null}; };   /* 第 10～13 週：這一週用過了（四句輪流；「這週的時間用完了。下週再問我。」在這裡才合）*/
   /* 「那一起念書。」（AA_535 1-3）：系統替你約同一個時間的念書地點——平日總圖、週末而且慢讀開著＝慢讀咖啡；那個時間都不行＝照一般「改天」算總圖的下一個空檔。她答應的那一句 S.STUDY_YES；「不用了。」什麼都不發生 */
-  S.STUDY_YES='「好。我帶刑訴。……你不要跟我講話，傳訊息。」';
+  S.STUDY_YES='「好。我帶刑訴。」';
   S.STUDY_OPTS=['那一起念書。','不用了。'];
   S.studyAt=function(G,W){ if(typeof INV==='undefined'||!INV.place) return null; const wk=[1,2,3,4,5].includes(wdOf(W.day)), ok=pid=>{ const P=INV.place(pid); return !!P&&(!P.show||P.show(G,ID))&&INV.freeAt(G,ID,P,W.day,W.h); };
     if(!wk&&ok('slowread')) return {pid:'slowread',day:W.day,h:W.h}; if(ok('library')) return {pid:'library',day:W.day,h:W.h};
@@ -100,6 +100,7 @@ const SISG=(function(){
     { id:'ev_sis_walk_alone', title:'一個人走回去', participants:[ID], location:'lawlib', trigger:'auto', npcPresent:ID, term:['Y1S1'], weeks:[14,15], weekday:[1,2,3,4], time:[21+40/60,21.75], once:true, priority:8, background:'blur',
       prereq:{flags:['SIS_STUDY'],events:['ev_sis_hot_water'],custom:G=>{ const L=(G.events&&G.events.last)||{}; return law(G)&&L.ev_sis_hot_water!==G.day&&L.ev_sis_hot_water_again!==G.day; }},
       dialogue:[ {speaker:null,text:'（那一週她比較安靜。閉館的廣播響了，她收書收得比平常慢。）'},
+        {speaker:null,text:'（走到法圖門口，她才開口。）',libOut:true},   /* libOut（AA_595 1-B4；AA 11-02 22:30 定稿）*/
         {speaker:ID,expression:'tired',text:'今天我想一個人走回去。'},
         {choice:[{text:'「好。到家傳一下。」',set:{SISG_WALK_TEXT:true},goto:'a'},{text:'（點頭）',goto:'b'}]},
         {label:'a'},{speaker:ID,expression:'neutral',text:'嗯。'},{goto:'end'},
@@ -126,7 +127,7 @@ const SISG=(function(){
         {choice:[{text:'「我陪妳坐一下。」',goto:'a'},{text:'「妳準備得很夠了。」',goto:'b'},{text:'「我陪妳走到捷運站。」',goto:'c'}]},   /* 這一場沒有告白選項。AA_363 R7：舊存檔（LOW_OLD）的選項 c 也用新的，舊的「要不要吃點熱的？」拿掉（熱的東西已經移到平常日）；舊開頭「學弟。你來了。」照留 */
         /* AA_363 R3：路過版（不是出遊）演完照選項走時間——a 跳到總圖關門（places.js 22:00；已經過了就不動）、b 不動、c 加 15 分鐘（總圖走到公館站，人在原地）。
            舊存檔照出遊系統演的（LOW_OLD，出遊本身快轉 1.5 小時）照舊，不再加 */
-        {label:'a'},{speaker:ID,expression:'neutral',text:'好。不用講話。'},{speaker:null,text:'（你們坐到圖書館熄燈。）'},{unless:LOW_OLD,advance:G=>S.lowCloseH(G)},{goto:'end'},
+        {label:'a'},{speaker:ID,expression:'neutral',text:'好。'},{speaker:null,text:'（你們坐到圖書館熄燈。）'},{unless:LOW_OLD,advance:G=>S.lowCloseH(G)},{goto:'end'},
         {label:'b'},{speaker:ID,expression:'neutral',text:'大家都這樣說。……可是謝謝。'},{goto:'end'},
         {label:'c'},{speaker:ID,expression:'neutral',text:'……好。走到那裡就好。'},{unless:LOW_OLD,advance:0.25},
         {label:'end'},{speaker:ID,expression:'neutral',text:'好了，我回去了。明天還是八點到。'} ],
@@ -155,7 +156,7 @@ const SISG=(function(){
         {speaker:null,text:'（她點了最貴的那一份，然後看了 Kevin 一眼。Kevin 假裝沒看到。）'},
         {if:{flags:['SIS_RESULT_TOLD']},speaker:null,text:'（她小聲對你說。）'},
         {if:{flags:['SIS_RESULT_TOLD']},speaker:ID,expression:'smile',text:'那天你傳的時候，我還在睡。'},
-        {if:{flags:['SIS_NEW_PLANNER'],notFlags:['SIS_RESULT_TOLD']},speaker:ID,expression:'smile',text:'計畫本今天這一格，我寫了『吃飯』。'},{unless:{flags:['SIS_W1']},set:{SIS_W1:true,met_sis:true}} ] },
+        {if:{flags:['SIS_NEW_PLANNER'],notFlags:['SIS_RESULT_TOLD']},speaker:ID,expression:'smile',text:'這幾天，我每天都睡到七點。'},{unless:{flags:['SIS_W1']},set:{SIS_W1:true,met_sis:true}} ] },
     /* 2-10 舊教科書（接 12/5「下學期的書，我會留給你」）：去過 12/5 家族聚餐的玩家，2/22（日）回宿舍那天；回家住的在 17:00 回宿舍（寒假表的 back）以後。
        2/22 那天沒回宿舍的：第一次回宿舍那天演（AA_339 第 10 題；不限 2/28 以前，到大一下結束）*/
     { id:'ev_sis_books_y1s2', title:'舊教科書', participants:[], location:['dorm','dorm_hall'], trigger:'auto', once:true, priority:6, background:'blur',
@@ -177,13 +178,12 @@ const SISG=(function(){
         {label:'end'} ],
       after:(G,GM,npcs)=>{ const n=npcs&&npcs[0]; if(n&&G.zone==='campus'){ n.beh='route'; n.waypoints=[[86.4,1.2]]; n.pauseAt=false; n.talk=null; if(GM.despawnLater) GM.despawnLater(n,6); } } },   /* 走回總圖（和 W1 同一條路）*/
     /* 2-12 畢業典禮（BB_97 2-8；W10）：6/6（六）11:00 法律學院的典禮之後、霖澤館一樓大廳；有點熟以上的玩家當天早上收到她的私訊 → 出遊。
-       她的爸爸、媽媽：路人 compact（沒有立繪）；說話人標「學姊的爸爸」（AA_339 第 3 題；媽媽同理標「學姊的媽媽」——這一場媽媽沒有台詞，只有旁白）；2D linze_auditorium */
+       她的爸爸、媽媽：路人 compact（沒有立繪）；說話人標「學姊的媽媽」（AA_339 第 3 題的標法）；AA_590 第 78、79 列（決2 乙，F10：爸爸在遊戲開始前過世）：「九月開學？」改由媽媽問、「來，拍一張。」刪；2D linze_auditorium */
     { id:'ev_sis_graduation', title:'畢業典禮', participants:[ID], location:'any', trigger:'outing', once:true, background:'dark', hours:1.5,
       dialogue:[ {scene:'法律系館A・一樓大廳',bg:'linze_auditorium'},
-        {speaker:'學姊的爸爸',text:'九月開學？'},
+        {speaker:'學姊的媽媽',text:'九月開學？'},
         {speaker:ID,expression:'neutral',text:'九月。……開學前，我想先睡一個禮拜。'},
         {speaker:null,text:'（媽媽笑了。）'},
-        {speaker:'學姊的爸爸',text:'來，拍一張。'},
         {speaker:null,text:'（她看到你，笑了一下。）'},
         {speaker:ID,expression:'smile',text:'你來了。'},
         {speaker:ID,expression:'smile',text:'……我本來想了很多要說的。'},
@@ -273,8 +273,8 @@ const SISG=(function(){
     if(k===3){ if(typeof PHONE!=='undefined') PHONE.at(G,G.day,Math.max(22,(G.hour%24)+0.5),[K('學姊今天有吃飯嗎'),W('有。飯糰。……早餐、午餐、晚餐都是。')],'sisg_seg3_'+G.day); return; }
     S._seg={k,day:G.day}; };
   S.SEG={1:[[null,'（她和兩個也要考研究所的同學在走廊對答案，吵一個爭點吵到笑出來。看到你，揮一下手，繼續吵。）']],   /* ①不放同學名字（AA_339 第 7 題）*/
-    2:[[null,'（她把字卡遞給你。）'],[ID,'念給我聽。'],[null,'（你念錯一個字，她直接說出正確答案和條號。）'],[ID,'……你念錯了。不過我答對了。']],
-    4:[[null,'（你卡在一題民總，她看了一眼。）'],[ID,'先看題目問誰。你在幫錯的人想。'],[null,'（說完就回去讀自己的。）']],
+    2:[[null,'（她把字卡遞給你。）'],[ID,'可以念給我聽嗎？'],[null,'（你念錯一個字，她直接說出正確答案和條號。）'],[ID,'……你念錯了。不過我答對了。']],
+    4:[[null,'（你卡在一題民總，她看了一眼。）'],[ID,'你卡在哪一句。'],[null,'（你指給她看。她在題目的「誰」上面畫了一個圈，推回來，回去讀自己的。）']],
     5:[[null,'（你把一杯無糖綠茶去冰放在她的書旁邊。她看了杯子一眼。）'],[ID,'……誰跟你說的。']]};   /* ⑤後面接選項；不加數值、不記憶 */
   S.segDue=function(G){ const q=S._seg; if(!q) return false; if(q.day!==G.day||G.zone!=='lawlib'){ S._seg=null; return false; } return true; };
   S.playSeg=async function(GM){ const G=GM.G, q=S._seg; S._seg=null; if(!q) return false; const her=S.who();

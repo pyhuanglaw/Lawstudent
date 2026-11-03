@@ -127,7 +127,7 @@ const VAC=(function(){
             if(s.again&&S.nth(G,I)>=2) M[0].ask={id:tag,until:T(o.to,24),opts:[{t:s.again.t,post:false,set:{VAC_PICK:I.key+':again'},say:[]}]};   /* 去過的人多一個選項（C17「寄信給馮律師」，AA_242 12-1 第 5 點）；不是對全班說的話：不在群組留玩家的一句 */
             PHONE.at(G,o.from,o.h,M,tag); } }   /* 第二年起：同一則公告（換年份、日期），C02、C08 多一句；行事曆報名（AA_264 第 3 節）*/
         else if(s.kind==='group'){ if(!PHONE.inGroup(G,s.th.slice(2))) continue; const M=s.msgs.map(m=>Object.assign({th:s.th},m)); if(gt) M.push({th:'sys',text:gt}); else Object.assign(M[M.length-1],{ask:{id:tag,until:T(o.to,24),opts:[{t:s.yes.t,set:{VAC_PICK:I.key+':yes'},say:(s.yes.say||[]).map(x=>Object.assign({th:s.th},x))}]}}); PHONE.at(G,o.from,o.h,M,tag); }
-        else if(s.kind==='dm'&&(!s.min||atLeast(s.who,s.min))&&!(typeof V6EX!=='undefined'&&V6EX.cool&&V6EX.cool(G,s.who))&&(typeof STORY==='undefined'||!STORY.knows||STORY.knows(s.who,G)||(typeof SOCIAL!=='undefined'&&SOCIAL.has&&SOCIAL.has(s.who,'FIRST_MET')))){ const th='p:'+s.who, M=s.msgs.map(t=>({th,from:s.who,text:t}));
+        else if(s.kind==='dm'&&(!s.min||atLeast(s.who,s.min))&&!(typeof V6EX!=='undefined'&&V6EX.cool&&V6EX.cool(G,s.who))&&!(typeof V6EX!=='undefined'&&V6EX.noContact&&V6EX.noContact(G,s.who))/* AA_600 S6：前任不揪（C03 照 board:true 從行事曆報名）*/&&(typeof STORY==='undefined'||!STORY.knows||STORY.knows(s.who,G)||(typeof SOCIAL!=='undefined'&&SOCIAL.has&&SOCIAL.has(s.who,'FIRST_MET')))){ const th='p:'+s.who, M=s.msgs.map(t=>({th,from:s.who,text:t}));
           const opts=[{t:s.yes.t,set:{VAC_PICK:I.key+':yes'},say:(s.yes.say||[]).map(x=>Object.assign({th},x))}]; if(s.later) opts.push({t:s.later.t,set:{VAC_PICK:I.key+':later'},say:s.later.say.map(x=>Object.assign({th},x))}); if(s.no) opts.push({t:s.no.t,set:{VAC_PICK:I.key+':no'},say:s.no.say.map(x=>Object.assign({th},x))});
           Object.assign(M[M.length-1],{ask:{id:tag,until:T(o.to,24),opts}}); PHONE.at(G,o.from,o.h,M,tag); } }   /* 分開以後一個學期她不主動約（V6EX.cool，AA_434 第 4 節第 3 點）：她私訊約的那一種先不傳；冷卻過了、報名還沒截止就照常傳 */
       /* 沒參加（沒報名、或報了沒去）：卡片的 miss */
@@ -190,7 +190,8 @@ const VAC=(function(){
     for(const m of Dt().MSGS){ if(PHONE.sent(G,m.tag)) continue; const d=DK(m.day); if(d==null||now<T(d,m.h)||G.day>d+2) continue;
       if(m.th.startsWith('g:')&&!PHONE.inGroup(G,m.th.slice(2))) continue; if(m.min&&!atLeast(m.min[0],m.min[1])) continue; if(m.dating&&!F['dating_'+m.dating]) continue;
       if(m.vac&&!S.enrolled(G,m.vac)) continue; if(m.dating&&!m.vac&&S.abroadOn(G,d)) continue;   /* 人在國外的那幾天，交往中的訊息照 AA_242 第 6、8 節（出國期間的那一套）*/ if(m.idle&&Object.values(V.reg).some(v=>v==='yes'||v==='done')) continue;   /* 整個暑假都沒排事才傳（VA-11 最後一列）*/
-      if(!m.dating&&m.th.startsWith('p:')&&F['dating_'+m.th.slice(2)]&&/^va02_/.test(m.tag)) continue;   /* 交往中的返鄉訊息另外補（AA_241 第 6 節最後一點）*/
+      if(!m.dating&&m.th.startsWith('p:')&&F['dating_'+m.th.slice(2)]&&/^va02_/.test(m.tag)) continue;
+      if(m.th.startsWith('p:')&&typeof V6EX!=='undefined'&&V6EX.noContact&&V6EX.noContact(G,m.th.slice(2))) continue;   /* AA_600 A16（va02_3、va02_4）：前任的以安、學姊不主動私訊 */   /* 交往中的返鄉訊息另外補（AA_241 第 6 節最後一點）*/
       PHONE.at(G,d,m.h,m.ms.map(x=>Object.assign({th:m.th},x)),m.tag); } };
   /* ---- VA-09 芯慈的事務所暑假（AA_256 第 1 節）：她自己過，玩家有沒有回都照常；第 2、3 則可以約一次午餐 ---- */
   /* AA_549 2-1（AA 回第 1 題）：行事曆地點「芯慈實習公司樓下的自助餐」；標題的「（事務所樓下）」照她那一句改「（公司樓下）」*/
@@ -320,7 +321,7 @@ const VAC=(function(){
       if(dark!=null&&P.dark){ const th='p:'+id; const ask={id:T0+id+'_dark',until:T(dark+2,24),opts:M.darkRep.map(t=>({t,say:[{th,from:id,text:P.darkAns}]}))}; put(id,dark,22.5,P.dark,T0+id+'_dark',ask); }   /* 停電那晚她傳的，隔天早上才收到 */
       if(tr.missWeek&&P.miss){ const d=sd+(tr.missWeek-1)*7+2; if(d<ed) put(id,at(d).d,at(d).h+0.5,P.miss,T0+id+'_miss',{id:T0+id+'_miss',until:T(d+2,24),opts:M.missRep.map(t=>({t,say:[]}))}); } }
     const fam=id=>atLeast(id,'FAMILIAR');
-    for(const id in M.friend){ if(F['dating_'+id]||!fam(id)||mates.has(id)) continue; if(M.gf[id]&&off(M.gf[id].off,sd)) continue;
+    for(const id in M.friend){ if(F['dating_'+id]||!fam(id)||mates.has(id)) continue; if(typeof V6EX!=='undefined'&&V6EX.noContact&&V6EX.noContact(G,id)) continue;   /* AA_600 S7：祐廷出國時，前任的以安、學姊不傳 */ if(M.gf[id]&&off(M.gf[id].off,sd)) continue;
       M.friend[id].forEach((f,j)=>{ if(f.only&&f.only!==A.id) return; const d=f.day==='mid'?mid:(f.day==='mid1'?mid+1:(f.day==='mid-1'?mid-1:(f.day==='end'?ed-1:sd+f.day))); const h=f.h==='dep'?depH:f.h, fd=f.nextDay?d+1:d;
         const shutF=!!f.shut&&typeof NOODLE_CLOSED!=='undefined'&&!!NOODLE_CLOSED.closed&&NOODLE_CLOSED.closed(G,fd);   /* 那天麵店過年店休：語彤朋友版的照片換 shut（AA_369 第 9 節第 3 題）*/
         put(id,fd,h,tx(shutF?f.shut:f.ms),T0+'f_'+id+'_'+j); }); }
@@ -474,7 +475,7 @@ const VAC=(function(){
   /* ===== E08：寒暑假出國從 3D 的出境大廳出發（使用者 10-16 21:49「3d做機場 旅館 街景 這種都我給妳CG」、10-17 00:0x「機場的也是阿」；src/exchange3d.js 的 EXCH.airGo）=====
      出國的那一趟（出國活動 trip：C05、T02、T03、C08～C12、C18／C18W；C13 自己排的出國旅遊 T13#；VA10 麵店團香港）時間到了「出發」（3D 的出發選單、放假住家裡的「出發」）：
      原本那一張字卡（標題＋「去機場 約 1 小時」）→ 3D 出境大廳（一起出發的人跟在旁邊）→ 走到安檢入口「登機」（或進大廳一小時以後自動登機）
-     → 原本的整趟照舊演（OUT.go：中間的日子 S.jump、關鍵事件、台詞都沒改）→ 演完回到出發前的地方（宿舍等；放假住家裡的＝回臺北的家）。
+     → 原本的整趟照舊演（OUT.go：中間的日子 S.jump、關鍵事件、台詞都沒改）→ 演完回到出發前的地方（宿舍等；放假住家裡的＝回家）。
      存檔：那一趟出遊 q.state＝'airport'（在大廳等登機：OUT 不會再問「出發」、不會算沒去）、q.airFrom（出發前在哪裡）、q.airHome（從家裡出發）、q.airDone（登機了）；G.flags.AIR_DEP（EXCH）。舊存檔都沒有＝照舊。
      進大廳就演：C05、T02、C08 的「出發」那一幕（關鍵事件的 hall:true，AA_478 第 2 節；S.airHallScene）、T03 子晴和阿凱各一句（hallLines，第 3 節；T02 方奕廷兩句接在「出發」後面）；
      其他（C09～C12、C18、VA10、C13）照舊只跟著走、不加話。C10 的那一場改成「抵達」、留在下飛機以後（資料）。
@@ -518,21 +519,21 @@ const VAC=(function(){
     const L=S.hallKeys(G,q); if(!L.length) return false;
     GM.sceneBegin(); try{ for(const x of L) await S.key(GM,x.k,x.I); } finally{ if(typeof ADV!=='undefined'&&ADV.active&&ADV.end) ADV.end(); GM.sceneEnd(); }
     return true; };
-  /* 登機：原本的整趟（OUT.go；已經到了、字卡出過了）。從家裡出發的演完回臺北的家（同 home3d.js breakRound「出遊演完回家」）*/
+  /* 登機：原本的整趟（OUT.go；已經到了、字卡出過了）。從家裡出發的演完回家（同 home3d.js breakRound「出遊演完回家」）*/
   S.airBoardTrip=async function(GM,rec){ const G=GM.G, q=typeof OUT!=='undefined'&&OUT.get?OUT.get(G,rec.q):null;
     if(!q||q.state!=='airport'){ await S.airBack(GM,q,false); return false; }   /* 找不到那一趟（不該發生）：回到出發前的地方 */
     q.state='flying'; q.arrived=true; q.airDone=true;   /* flying：登機了、整趟演完以前（OUT 不會再問「出發」、不會算沒去；途中存的檔讀回來接著演，S.airResume）*/
     return S.airFly(GM,q,S.flyCard(G,q)); };   /* 「飛往〇〇」字卡（AA_478 第 1 節）*/
-  /* 整趟（OUT.go；已經到了、去機場的字卡出過了）。從家裡出發的（OUT.go 不換區域）演完回臺北的家；3D 出發的在 OUT.go 結尾就換回去了（S.airStage）*/
+  /* 整趟（OUT.go；已經到了、去機場的字卡出過了）。從家裡出發的（OUT.go 不換區域）演完回家；3D 出發的在 OUT.go 結尾就換回去了（S.airStage）*/
   S._fly=new Set();   /* 正在演的那一趟（不存檔）*/
   (globalThis.LOADLOCKS=globalThis.LOADLOCKS||{})['vac3d:_fly']=()=>{ S._fly.clear(); };   /* 讀檔時放開（LOADGEN-LOCKS-1028）：讀檔凍住的舊劇情走不到 finally，只把旗標設回初始值 */
   S.airFly=async function(GM,q,card){ const G=GM.G; S._fly.add(q.id);
     try{ const ok=await OUT.go(GM,q,{fromHome:!!q.airHome,noCard:true,card:card||null}); if(G.zone==='airport_dep') await S.airBack(GM,q,false); return ok; }
     finally{ S._fly.delete(q.id); } };
-  /* 回到出發前的地方：放假住家裡＝回臺北的家（字卡「回臺北的家」；inFade＝在 OUT.go 結尾的黑幕裡，不出字卡）；其他＝出發前站的地方（找不到＝宿舍房間）*/
+  /* 回到出發前的地方：放假住家裡＝回家（字卡「回家」；inFade＝在 OUT.go 結尾的黑幕裡，不出字卡）；其他＝出發前站的地方（找不到＝宿舍房間）*/
   S.airBack=async function(GM,q,inFade){ const G=GM.G; if(G.zone!=='airport_dep') return false;
     if(q&&q.airHome&&typeof HOME!=='undefined'&&HOME.livesHome&&HOME.livesHome(G)){ const H=HOME.rec(G);
-      if(!inFade){ await GM.fade(true); if(GM.titleCard) await GM.titleCard('回臺北的家','捷運＋公車 約 30 分鐘',2000); GM.advance(0.5); }
+      if(!inFade){ await GM.fade(true); if(GM.titleCard) await GM.titleCard('回家','捷運＋公車 約 30 分鐘',2000); GM.advance(0.5); }
       H.at=true; H.day=G.day; if(typeof ADV!=='undefined'&&ADV.begin) ADV.begin({background:HOME.bgNow?HOME.bgNow():'dark'}); if(!inFade) await GM.fade(false); return true; }   /* 家裡的選單：story3d.js 的 HOME.tick 接著 */
     const f0=q&&q.airFrom, fine=!!f0&&!!f0.zone&&f0.zone!=='airport_dep'&&(typeof Z3==='undefined'||!Z3.ZONES||!!Z3.ZONES[f0.zone]), f=fine?f0:{zone:'dorm',x:0,z:2.4,yaw:Math.PI,lv:0};
     if(GM.enter) await GM.enter(f.zone,{x:f.x,z:f.z,yaw:f.yaw||0,lv:f.lv|0},inFade?{noFade:true,deferStory:true,noAutosave:true}:{}); return true; };

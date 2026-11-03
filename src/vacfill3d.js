@@ -133,6 +133,7 @@ const VACFILL=(function(){
   S.dayOf=(m,G)=>{ if(!m.dayFn) return DK(m.day); const B=brk(G); return B&&B.key===m.brk?m.dayFn(G):null; };   /* 照行程算日子的（2-2）：只在那個假期裡算 */
   /* 這一則現在成立嗎（stage、國外、條件）。d＝那一則的日子（人物在不在臺北照那一天算）*/
   S.gate=function(G,m,d){ if(m.stage==='econ'?!econ(G):!law(G)) return false; if(d==null) return false; if(!m.stage&&abroadOn(G,d)) return false;
+    { const w=typeof m.th==='string'&&m.th.indexOf('p:')===0?m.th.slice(2):null; if(w&&typeof V6EX!=='undefined'&&V6EX.noContact&&V6EX.noContact(G,w)) return false; }   /* AA_600 B24～B26（vf_y2_0728、vf_y3_0212、vf_y3w_0115）：以安、學姊是前任＝她先傳的私訊不送 */
     try{ return !m.if||!!m.if(G,d); }catch(e){ return false; } };
   S.send=function(G,m){ const d=S.dayOf(m,G); if(d==null||G.day<d||G.day>d+1||sent(G,m.tag)) return false; if(m.at&&NOW(G)<T(d,m.h)) return false; if(!S.gate(G,m,d)) return false;
     if(m.join&&typeof PHONE!=='undefined') PHONE.join(G,'home','家人'); if(m.contact) contactOf(G,m.contact);
@@ -212,7 +213,7 @@ const VACFILL=(function(){
   (globalThis.LOADLOCKS=globalThis.LOADLOCKS||{})['vacfill3d:ffDepth']=()=>{ ffDepth=0; };   /* 讀檔時放開（LOADGEN-LOCKS-1028）：讀檔凍住的舊劇情走不到 finally，只把旗標設回初始值 */
   S.wakePool=async function(GM){ const G=GM&&GM.G; if(!G||!G.flags||ffDepth>0) return null; const B=brk(G); if(!B) return null;
     const home=!!(typeof HOME!=='undefined'&&HOME.at&&HOME.at(G)); if(!home&&G.zone!=='dorm') return null;   /* 家裡的床、宿舍的床（美國的公寓、公館的套房不算）*/
-    if(abroadOn(G,G.day)||(typeof JP!=='undefined'&&((JP.inJapan&&JP.inJapan(G))||(JP.homeOn&&JP.homeOn(G))))) return null;   /* 日本路線住臺北的家那幾週是 jp3d.js 自己的快轉、摘要（同 holff3d.js 的 noJP）*/
+    if(abroadOn(G,G.day)||(typeof JP!=='undefined'&&((JP.inJapan&&JP.inJapan(G))||(JP.homeOn&&JP.homeOn(G))))) return null;   /* 日本路線住家裡那幾週是 jp3d.js 自己的快轉、摘要（同 holff3d.js 的 noJP）*/
     const R=S.rec(G); if(R.wake===G.day) return null; R.wake=G.day; const place=home?'home':'dorm';
     let line=null; const sd=S.sumDue(G); if(sd!=null&&sd===G.day){ line=X.y3_0219[place]; R.sum.y3_0219=G.day; }   /* 3-4 2/19 摘要 */
     else { if(G.day===B.from||S.dayBusy(GM,G.day)) return null; line=S.poolNext(G,B.key,place,B.kind); }

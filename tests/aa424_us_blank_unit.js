@@ -131,7 +131,7 @@ const SATS=[
 const SCN={
   ev_usb_asian:{lines:['（貨架很窄。她拿起一包八角，看了很久，放進籃子。）','醬油有。冰糖沒有。','……那就以後再說。'],opts:['「妳要煮什麼？」','「籃子給我。」'],a:['還沒決定。先買。'],b:['好。','（她把籃子交給你，又拿了一包米粉。）'],mem:'US_ASIAN_MARKET',scene:'竹葉亞洲超市'},
   ev_usb_lake_dog:{lines:['（湖邊的步道上，有人在遛狗。）','這裡的狗都很大。','……我小時候很怕狗。'],opts:['「現在呢？」','（陪她站著）'],a:['現在只怕大的。'],b:['（一隻大狗經過。她往你這邊靠了一點。）'],mem:'US_LAKE_DOG',scene:'湖邊'},
-  ev_usb_syllabus:{lines:['（開學後的第一個週六。一樓中庭的長桌，她把每一門課的 syllabus 攤在桌上。）','第一週的閱讀很多。','你的也拿來。一起排。'],opts:['「好。」','「我自己排。」'],a:['（她在計畫本後面多畫了一頁格子，寫上你的名字。）'],b:['好。排好給我看。'],mem:'US_SYLLABUS',scene:'法學院圖書館'},
+  ev_usb_syllabus:{lines:['（開學後的第一個週六。一樓中庭的長桌，她把每一門課的 syllabus 攤在桌上。）','第一週的閱讀很多。','你的呢？一起排。'],opts:['「好。」','「我自己排。」'],a:['（她把你的課表攤開，和她的並排。）'],b:['好。排好給我看。'],mem:'US_SYLLABUS',scene:'法學院圖書館'},
   ev_usb_fb_lake:{lines:['（秋假的校園沒什麼人。湖邊的長椅，只有你們兩個。）','好久沒有一個下午不用讀書。','（她把計畫本放在膝上，沒有打開。）'],opts:['「那今天不讀。」','「要不要走一圈？」'],a:['嗯。今天不讀。','（她把計畫本收進包包。）'],b:['好。走慢一點。'],mem:'US_FALLBREAK_LAKE',scene:'湖邊'} };
 await sec('S',async()=>{
   for(const [ka,kd,h,msg,tag,evid,zone] of SATS){
@@ -208,11 +208,11 @@ await sec('F',async()=>{
     const G2=fresh('2028-10-12',17.5,'us_apartment',{US2:'repair'}); USL.tick(GM,0.5);
     check('F9. 沒跳過的那天到時間出一次（10/12 17:00 交往中）；挽回中那天沒有卡',!a.includes(CARD.d12)&&b.filter(t=>t===CARD.d12).length===1&&capt.filter(t=>t===CARD.d12).length===0&&!capt.some(t=>Object.values(CARD).includes(t)),J({a,b,c:capt})); }
   /* 挽回中 10/12 自習室 */
-  const STUDY=['（秋假的自習室只有兩個人。她坐在最裡面那張桌子。）','……你也沒有出去。'];
-  for(const [k,tail,mem] of [[0,['嗯。','（她把桌上的書往旁邊推了一點，空出一格。）'],true],[1,['……那你等。我要讀書。'],false]]){
-    const G=fresh('2028-10-12',19.5,'us_outside',{US2:'repair',MET_LONG:true}); H.picks=[0,k,0]; H.said=[]; H.opts=[]; H.bgs=[]; await USL.club(GM);
+  /* AA_600 B33（企劃線 031414cad）：挽回中她不先開口——「……你也沒有出去。」和接它的兩個選項、回答拿掉，只點頭（不記 US_FALLBREAK_STUDY）。原本的期望（逐字、選項、選第 1 個記 US_FALLBREAK_STUDY）照 AA_600 換 */
+  const STUDY=['（秋假的自習室只有兩個人。她坐在最裡面那張桌子。）','（她抬頭看了你一眼，點了一下頭。）'];
+  { const G=fresh('2028-10-12',19.5,'us_outside',{US2:'repair',MET_LONG:true}); H.picks=[0,0,0]; H.said=[]; H.opts=[]; H.bgs=[]; await USL.club(GM);
     const s=said(), i=s.indexOf(STUDY[0]);
-    check('F10. 挽回中 10/12 19:30 會所→「讀書」＝秋假的自習室（選第 '+(k+1)+' 個）：逐字、'+(mem?'記':'不記')+' US_FALLBREAK_STUDY、不加 REPAIR、說話框不是「書瑀」、何俊朗不在',i>0&&J(s.slice(i))===J(STUDY.concat(tail))&&J(H.opts[1])===J(['「沒有。我留下來讀書。」','「我在等妳跟我說話。」'])&&SOCIAL.has(S5,'US_FALLBREAK_STUDY')===mem&&rep()===0&&H.said.filter(q=>STUDY.includes(q.t)&&q.who).every(q=>q.who!=='書瑀')&&!H.said.some(q=>q.who==='何俊朗')&&H.bgs.some(b=>b&&b.image==='assets/bg/us_club_study.webp'),J(L())); }
+    check('F10. 挽回中 10/12 19:30 會所→「讀書」＝秋假的自習室（AA_600 B33）：她不說「……你也沒有出去。」、只點頭、沒有選項、不記 US_FALLBREAK_STUDY、不加 REPAIR、沒用交往中的叫法、何俊朗不在',i>0&&J(s.slice(i,i+2))===J(STUDY)&&!s.includes('……你也沒有出去。')&&!H.opts.some(o=>J(o).includes('我留下來讀書'))&&!SOCIAL.has(S5,'US_FALLBREAK_STUDY')&&rep()===0&&SOCIAL.datingName(S5)===null&&SOCIAL.contactName(S5)!=='貝貝'&&!H.said.some(q=>q.who==='何俊朗')&&H.bgs.some(b=>b&&b.image==='assets/bg/us_club_study.webp'),J(L())); }
   for(const [k,h,dt,why] of [['2028-10-12',18.5,false,'18:30（她還沒到）'],['2028-10-12',19.5,true,'交往中'],['2028-10-10',19.5,false,'10/10（週二：只有 10/12 那一晚）']]){
     const G=fresh(k,h,'us_outside',{US2:dt?'dating':'repair'}); if(dt) dateSis(); const due=US_BLANK.studyDue(G);
     check('F11. '+why+'：不演秋假的自習室',due===false,String(due)); }

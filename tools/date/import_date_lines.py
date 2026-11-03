@@ -12,6 +12,7 @@
     5-3 的兩個到達句另一版（沛珊住臺南的 D28、D31＋D32 同一趟可昕到清境）是條件式的：src/date3d.js 的 DATE.ARRIVE_VAR。
     兩種都只換一字不差的 text（e75d1cce 起 6-1 兩欄都是整句，原本「……」開頭只換後面那一段的做法拿掉）；找不到的印出來、不換。每次都從白名單的原檔重算，重跑結果一樣。
     AA_524（說了沒發生（一））A8、A9、Z7 的七句：那個地點、那個人的台詞整句相同才換（每句剛好一處，不然停下來）。
+    AA_598（學姊改稿①c，AA598-SIS-1C-1102）第 2 節逐句表的第 1～92 列＋第 8 節九份一句：那個地點學姊的台詞整句等於「原句」才換（已經是新句＝源稿改好了，跳過）。
 用法：python3 tools/date/import_date_lines.py [--check 企劃線ref]"""
 import json, os, re, subprocess, sys
 ROOT = os.path.dirname(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
@@ -332,6 +333,55 @@ if A537:
         sys.exit(f'AA_537b 第 3 節應該是八個地點，拆出 {n3} 個')
     FILES['xc537b'] = P537
     print(f'AA_537b：一般台詞 {len(L[XC])} 個 key、喜好 {nlk} 點、不喜歡的句子 {ndl} 句、常去地點 {n3} 個')
+# AA_598（學姊改稿①c：約會地點台詞，任務 AA598-SIS-1C-1102；AA 定稿＝第 8 節 AA 審查決定，企劃線 c389462be）：第 2 節逐句表「#」是數字的 92 列（第 1～92 列）——
+# 那個地點（`Dxx`）學姊（heroine_05）的台詞（lines 底下的 text，或 dislikeLine 的那一句）整句等於「原句」才換成「改成」（每句要剛好一處）；
+# 已經是「改成」＝企劃線源稿（Dxx.py → Dxx.json、BB_128 → D13.json）自己改好了，跳過；兩個都不是＝停下來（源稿改過了要重看）。白名單沒有 AA_598＝不換。
+# 第 8 節的決定蓋過表上沒跟著改的兩列：第 4 點 北投圖書館第一次「合成一個括號」（第 16 列；「……」照表上那一列的說明拿掉）、第 9 點 九份「家裡的茶都是我泡的。」（第 85 列）；
+# 第 6 點 九份階梯（表上保753，不在 92 列裡）改成「老街是慢慢蓋出來的。」。
+A598 = G.approved_files(ALLOW, SP + 'AA_598_')
+FIXED598 = []
+if A598:
+    P598, S598 = next(iter(A598.items()))
+    ok, why = G.allowed(P598, S598, ALLOW)
+    if not ok:
+        sys.exit('拒絕匯入：' + why)
+    md598 = G.read_fix(subprocess.check_output(['git', '-C', ROOT, 'show', f'{S598}:{P598}'], text=True))
+    tag598 = f'AA_598@{S598}'
+    s8 = section(md598, '## 8. AA 審查決定')
+    OVER598 = {16: ('（木造的圖書館。她小聲說）我想在這裡寫論文。', '「（木造的圖書館。她小聲說）……」'),
+               85: ('家裡的茶都是我泡的。', '換「家裡的茶都是我泡的。」')}
+    R598 = []
+    for ln in md598.split('\n'):
+        m = re.match(r'^\|\s*(\d+)\s*\|\s*`(D\d\d)`[^|]*\|\s*學姊\s*\|([^|]*)\|([^|]*)\|', ln)
+        if m:
+            n, loc, old, new = int(m.group(1)), m.group(2), m.group(3).strip(), m.group(4).strip()
+            if n in OVER598:
+                new, quote = OVER598[n]
+                if quote not in s8:
+                    sys.exit(f'{tag598} 第 8 節找不到第 {n} 列的決定：{quote}')
+            R598.append((str(n), loc, old, new))
+    if sorted(int(r[0]) for r in R598) != list(range(1, 93)):
+        sys.exit(f'{tag598}：表上數字列應該是第 1～92 列，拆出 {sorted(int(r[0]) for r in R598)}')
+    if '改成「老街是慢慢蓋出來的。」' not in s8:
+        sys.exit(f'{tag598} 第 8 節找不到九份的決定')
+    R598.append(('第 8 節第 6 點（保753）', 'D18', '老街是慢慢蓋出來的。……每一家砌自己門口那一段。', '老街是慢慢蓋出來的。'))
+    for item, loc, old, new in R598:
+        L5 = (LOC.get(loc) or {}).get('lines', {}).get('heroine_05')
+        objs = [o for o in texts(L5) if o.get('who') in ('heroine_05', 'narr')]
+        dl = (LOC.get(loc) or {}).get('dislikeLine', {}).get('heroine_05') or {}
+        n_old = sum(1 for o in objs if o['text'] == old) + sum(1 for v in dl.values() if v == old)
+        n_new = sum(1 for o in objs if o['text'] == new) + sum(1 for v in dl.values() if v == new)
+        if n_old == 0 and n_new >= 1:
+            FIXED598.append((item + ' ' + loc, old, new, 0)); continue
+        if n_old != 1:
+            sys.exit(f'{tag598} 第 {item} 列：{loc} 學姊的台詞裡「{old}」有 {n_old} 句（應該是 1 句；或已經是新句）')
+        for o in objs:
+            if o['text'] == old: o['text'] = new
+        for k, v in dl.items():
+            if v == old: dl[k] = new
+        FIXED598.append((item + ' ' + loc, old, new, 1))
+    FILES['fix598'] = P598
+    print(f'{tag598}：學姊約會地點台詞 換 {sum(c for *_, c in FIXED598)} 句、已經是新句 {sum(1 for *_, c in FIXED598 if not c)} 句（共 {len(FIXED598)} 列）')
 # 地點檔裡寫成旁白、其實是給開發看的條件或伏筆說明：改成 who:'note'（遊戲不顯示）。整句相同才改，其他旁白不動（DATE-C3：淡水示範的反應，
 # 遊戲裡原本會演出「（第 6 階以上）」——D13 以安、學姊的合照那一句前面；「（第 3 節她的心願的伏筆）」——D13 可昕欄杆第一次的選項②）
 NOTE_NARR = {'第 6 階以上', '第 3 節她的心願的伏筆'}
@@ -342,6 +392,58 @@ print('旁白改成註記（不顯示）：', len(noted), '行')
 bad = [(w, k) for w in NAME.values() for k in KEYS + ['cancel', 'flaked'] if not (L.get(w) or {}).get(k)]
 if bad:
     sys.exit('拆不出來（表格格式變了？）：' + json.dumps(bad, ensure_ascii=False))
+# AA_594（以安改稿④b，白名單 AA594-AN-4B-1102；第 9、10 節「本批全部可以交 LAWWW 整合」）第 2-14 節：以安的約會台詞改 314 列（含全域那幾格，源頭 AA_127 第 8 節）。
+# 源稿 lines/Dxx.json、AA_127 沒改（企劃線），照表疊：位置欄的 `路徑`（DATE_LINES 底下的 lines.… 或 loc.…）那一格現在的字要剛好是「原句」（旁白的括號照原樣），換成「改成」；
+# 對不上（路徑找不到、字不一樣）＝停下來，不猜。改成＝原句的列（BB_240 補回原句）跳過。白名單沒有 AA_594＝不疊
+A594 = G.approved_files(ALLOW, SP + 'AA_594_')
+FIXED594 = 0
+if A594:
+    P594, S594 = next(iter(A594.items()))
+    ok, why = G.allowed(P594, S594, ALLOW)
+    if not ok:
+        sys.exit('拒絕匯入：' + why)
+    md594 = G.read_fix(subprocess.check_output(['git', '-C', ROOT, 'show', f'{S594}:{P594}'], text=True))
+    ROOT594 = {'lines': L, 'loc': LOC}
+    nrow = 0
+    for ln in md594.split('\n'):
+        m = re.match(r'^\|\s*([0-9]+)\s*\|(.*)\|\s*$', ln)
+        if not m: continue
+        c = [x.strip() for x in m.group(2).split('|')]
+        if len(c) < 5 or not c[0].startswith('date_lines.js'): continue
+        nrow += 1
+        if c[2] == c[3]: continue
+        pm = re.search(r'`([^`]+)`', c[0])
+        if not pm:
+            sys.exit(f'AA_594 第 {m.group(1)} 列：位置欄沒有路徑')
+        toks = re.findall(r"\['[^']*'\]|\[\d+\]|[^.\[\]]+", pm.group(1))
+        cur, par, key = ROOT594, None, None
+        i = 0
+        while i < len(toks):
+            t = toks[i]; k = t[2:-2] if t.startswith("['") else int(t[1:-1]) if t.startswith('[') else t
+            if isinstance(cur, dict) and k not in cur and i + 1 < len(toks) and not toks[i + 1].startswith('[') and f'{k}.{toks[i + 1]}' in cur:
+                k = f'{k}.{toks[i + 1]}'; i += 1   # hotspots 的 key 本身有點（D01.expo）
+            try:
+                par, key, cur = cur, k, cur[k]
+            except (KeyError, IndexError, TypeError):
+                sys.exit(f'AA_594 第 {m.group(1)} 列：路徑 {pm.group(1)} 找不到（在 {t}）')
+            i += 1
+        old, new = c[2], c[3]
+        if isinstance(cur, str):
+            if cur != old:
+                sys.exit(f'AA_594 第 {m.group(1)} 列：{pm.group(1)} 現在是「{cur}」，不是原句「{old}」')
+            par[key] = new
+        elif isinstance(cur, dict) and isinstance(cur.get('text'), str):
+            v = cur['text']
+            if v == old: cur['text'] = new
+            elif '（' + v + '）' == old and new.startswith('（') and new.endswith('）'): cur['text'] = new[1:-1]
+            else: sys.exit(f'AA_594 第 {m.group(1)} 列：{pm.group(1)} 現在是「{v}」，不是原句「{old}」')
+        else:
+            sys.exit(f'AA_594 第 {m.group(1)} 列：{pm.group(1)} 不是一句台詞')
+        FIXED594 += 1
+    if nrow != 314:
+        sys.exit(f'AA_594 第 2-14 節應該有 314 列，讀到 {nrow} 列')
+    FILES['fix594'] = P594
+    print(f'AA_594 第 2-14 節：314 列，換了 {FIXED594} 列（其他是 BB_240 補回原句）')
 out = {'source': '白名單 ' + '＋'.join(f'{os.path.basename(p)}@{APPROVED[p]}' for p in FILES.values()), 'lines': L, 'prefs': prefs, 'loc': LOC}
 dst = os.path.join(ROOT, 'src', 'data', 'date_lines.js')
 with open(dst, 'w', encoding='utf8') as fo:

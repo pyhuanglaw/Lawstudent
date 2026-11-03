@@ -34,7 +34,8 @@ LAD_JS = "(id=>{ const D=STORY.ladData(GAME.G,id); const K=D?D.key:id; return ((
 BOX_JS = """(()=>{ const vw=innerWidth, vh=innerHeight, inV=r=>r.width>0&&r.height>0&&r.left>=-1&&r.top>=-1&&r.right<=vw+1&&r.bottom<=vh+1;
   const d=document.getElementById('dlg'), rd=d?d.getBoundingClientRect():null, t=(document.getElementById('dlgText')||{}).textContent||'';
   const bs=[...document.querySelectorAll('#choices button')].filter(()=>!document.getElementById('choices').classList.contains('hide')).map(b=>{ const r=b.getBoundingClientRect(); return {t:b.textContent.trim(),h:Math.round(r.height),in:inV(r)}; });
-  return {dlg:rd?{in:inV(rd),h:Math.round(rd.height)}:null,text:t.trim(),choices:bs}; })()"""
+  const nx=document.getElementById('dlgNext'), done=!!nx&&getComputedStyle(nx).visibility==='visible';   /* 打字打完（game3d.js dlgTick 打完才把 dlgNext 設成 visible）*/
+  return {dlg:rd?{in:inV(rd),h:Math.round(rd.height)}:null,text:t.trim(),choices:bs,done}; })()"""
 
 
 async def one(p, run, landscape):
@@ -59,8 +60,11 @@ async def one(p, run, landscape):
     run.setup(f'{tag}：{tgt["id"]} 設成見過、有點熟；玩家放到旁邊 1.2 公尺（瞬移）')
     cand = await pg.evaluate(PLACE_JS % json.dumps(tgt)); pos = None; s = None
     for c in cand:   # 互動按鈕要是她（旁邊有別人時換一個站的位置）
-        await pg.evaluate(PUT_JS % json.dumps([c[0], c[1], tgt['key']])); await pg.wait_for_timeout(1200)
-        s = await L.state(pg)
+        await pg.evaluate(PUT_JS % json.dumps([c[0], c[1], tgt['key']]))
+        for _w in range(150):   # 輪詢互動按鈕的字，等到出現為止（上限 30 秒；BB_229 第 11 條：不等固定秒數）
+            await pg.wait_for_timeout(200)
+            s = await L.state(pg)
+            if s['interact']: break
         if tgt['name'] in s['interact']: pos = c; break
     run.check(f'{tag}：站在{tgt["name"]}旁邊，互動按鈕是「和{tgt["name"]}說話」（{s and s["interact"]}）', bool(pos), json.dumps([cand[:3], s and s['interact']], ensure_ascii=False))
     if not pos:
@@ -68,7 +72,7 @@ async def one(p, run, landscape):
     lad0 = await pg.evaluate(LAD_JS % json.dumps(tgt['id']))
     await L.tap(pg, cdp, '#interact')
     seen, boxes, chose = [], [], None
-    for _ in range(60):
+    for _ in range(400):   # 等打字完那幾輪也算在內（每輪 150 ms），上限放寬
         s = await L.state(pg)
         bx = await pg.evaluate(BOX_JS)
         if s['choices']:
@@ -81,6 +85,8 @@ async def one(p, run, landscape):
             chose = bx['choices'][k]['t'] if bx['choices'] else None
             await L.touch_tap(cdp, cxy[0], cxy[1]); await pg.wait_for_timeout(700); continue
         if s['dlg']:
+            if not bx.get('done'):   # 還在打字：等這一句打完再記、再點（BB 2026-11-02：PC 顯示卡快，抓到打到一半的「過年」）
+                await pg.wait_for_timeout(150); continue
             if bx['text'] and (not seen or seen[-1] != bx['text']): seen.append(bx['text']); boxes.append(bx)
             if len(seen) == 1: await run.shot(pg, f'{"land" if landscape else "port"}_dialog')
             await L.tap(pg, cdp, '#dlg'); await pg.wait_for_timeout(600); continue

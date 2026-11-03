@@ -3,7 +3,7 @@
 //   0 讀稿（每一句台詞、選項、手機、房間物件都在稿裡）、index.html 接線、人物頁記憶名稱
 //   1 第 1 節條件：一般（臺灣路線）、日本路線＝有邀約；美國路線、ZR_CUP 有值、和子晴交往中（ZZ_DATING）、ZR_FY、心意條件沒到（戀愛 <30／約會 <4 次／沒去心願地點）、和祐廷交往中、演過＝沒有
 //   2 第 2 節：8/24（四）21:00 兩則、回覆兩個（到 8/25 18:00）；「好。」→她回、排 8/26 19:30 出遊；「那天不行。」→她回、ZR_LAST no；沒回＝18:00「不行」那一句、ZR_LAST no
-//   3 第 3、4 節：出遊（公館二輪戲院、底圖 gongguan_cinema、走過去 15 分鐘、2.5 小時；在臺北的家照家裡出發）、逐句、背面兩行說話人空白、ASKED_HER_DRINK 兩種旁白；
+//   3 第 3、4 節：出遊（公館二輪戲院、底圖 gongguan_cinema、走過去 15 分鐘、2.5 小時；在家照家裡出發）、逐句、背面兩行說話人空白、ASKED_HER_DRINK 兩種旁白；
 //     「我等妳回來。」＝ROM 交往（8/26）、「我先收著。」＝學期末心意邀約的「讓我想想」（think）；ZR_LAST、記憶 ZR_LAST_SCREENING；關係數值不變；英國那一年照現有的「交往中」
 //   5 第 5 節：23:00 兩版；交往的 9/1（五）21:00（先收著、交往後分開的沒有）
 //   6 第 6 節：房間物件「她的票根」（兩個選項都有；沒到、不行沒有）
@@ -133,7 +133,7 @@ const roomList=()=>STORY.roomItemList(H.G).filter(r=>r&&r[0]===ROOM[0]);
     { invite(); PHONE.answer(H.G,'zr_last_ask',0); rules(); TERMEND.rec(H.G).think[ZR]='Y3S2'; at('2028-08-26',19.2); rules(); H.picks=[0]; if(q0()) await OUT.go(GM,q0());   /* [前置] 大三下的學期末選過「讓我想想」*/
       check('4. 先前選過「讓我想想」、這次「我等妳回來。」＝交往、清掉 think（同學期末答應那一欄）',TERMEND.rec(H.G).think[ZR]==null&&H.G.flags.dating_heroine_02===true); }
     { setup('2028-08-24',20.5,'dorm'); HOME.rec(H.G).at=true; at('2028-08-24',21.05); rules(); PHONE.answer(H.G,'zr_last_ask',0); rules(); at('2028-08-26',18.8); const q=q0(), dueHome=OUT.due(H.G)===q, tr=OUT.trip(H.G,q,true); HOME.rec(H.G).at=false; const dueDorm=OUT.due(H.G);
-      check('3. 暑假在臺北的家：照出遊系統從家裡出發（捷運＋公車 約 30 分鐘；18:45 起問「出發」，宿舍要到 19:00）',dueHome&&tr.travelH===0.5&&/捷運/.test(tr.travel)&&!dueDorm,J({dueHome,tr,dueDorm:!!dueDorm})); }
+      check('3. 暑假在家：照出遊系統從家裡出發（捷運＋公車 約 30 分鐘；18:45 起問「出發」，宿舍要到 19:00）',dueHome&&tr.travelH===0.5&&/捷運/.test(tr.travel)&&!dueDorm,J({dueHome,tr,dueDorm:!!dueDorm})); }
   });
 
   /* ======================= 5 當晚、出發前的手機 ======================= */

@@ -1,4 +1,4 @@
-"""劇情黑邊不能蓋住對話框（BUG-22，使用者 2026-10-16 iPhone 直向截圖：以安「你要不要一起？……還是你比較想去總圖？那邊安靜。」第二行被下方黑邊切掉，點黑邊也沒反應，看起來像卡住）。
+"""劇情黑邊不能蓋住對話框（BUG-22，使用者 2026-10-16 iPhone 直向截圖：以安「你要不要一起？還是你比較想去總圖？那邊安靜。」第二行被下方黑邊切掉，點黑邊也沒反應，看起來像卡住）。
 直向 390×844、橫向 844×390 各檢查一次（[前置] 讀檔放到校園、直接開一段兩行的對話＋黑邊）：
   1. 對話框最後一行字、「▼ 點一下繼續」的位置，畫面最上層是對話框（不是黑邊）；
   2. 點下方黑邊也能繼續（黑邊不接點擊，點擊落到下面的畫面＝點一下繼續）；
@@ -11,7 +11,7 @@ import playlib as L
 
 URL = sys.argv[1] if len(sys.argv) > 1 else 'http://127.0.0.1:8765/index.html'
 OUT = sys.argv[2] if len(sys.argv) > 2 else '/tmp/letterbox_dialog'
-LINE = '你要不要一起？……還是你比較想去總圖？那邊安靜。我等一下要去溫州街那間咖啡廳整理今天的筆記，就是開到凌晨兩點半那間。'
+LINE = '你要不要一起？還是你比較想去總圖？那邊安靜。我等一下要去溫州街那間咖啡廳整理今天的筆記，就是開到凌晨兩點半那間。'
 
 TOP_AT = """(([sel,fy])=>{ const e=document.querySelector(sel); if(!e||e.offsetParent===null) return {ok:false,why:'不在畫面'}; const r=e.getBoundingClientRect();
   const x=r.left+r.width/2, y=r.top+r.height*fy; if(y>innerHeight-1) return {ok:false,why:'超出畫面 y='+y.toFixed(0)+' / '+innerHeight};

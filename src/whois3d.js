@@ -69,7 +69,8 @@ const WHOIS=(()=>{
 
   /* ---------------- 1-3 許柏翰 ---------------- */
   const BH='classmate_bohan', PS='classmate_peishan';
-  const psBh=G=>{ const d=G&&G.events&&G.events.last&&G.events.last.ev_midterm_supper_y1s2; if(d==null) return mem(G,PS,'HEARD_ABOUT');   /* 大一下刑總二期中考完的晚餐（沛珊：「對，我們在一起了。」）；沒去的聽說（HEARD_ABOUT）*/
+  const psBh=G=>{ const L=(G&&G.events&&G.events.last)||{}, old=L.ev_midterm_supper_y1s2, oldEnd=typeof STORY!=='undefined'&&STORY.termDay?STORY.termDay('Y1S2',10,1):null;
+    const d=L.ev_psbh_public_0415!=null?L.ev_psbh_public_0415:(old!=null&&oldEnd!=null&&old<oldEnd?old:null); if(d==null) return mem(G,PS,'HEARD_ABOUT');   /* 大一下 4/15 傍晚麵店（沛珊：「對，我們在一起了。」；AA_588 第 1 節 ev_psbh_public_0415）；舊存檔在第 8～9 週演過的考完的晚餐照舊算（那時候公開在那一頓）；沒去的聽說（HEARD_ABOUT）*/
     const m=G.social&&G.social.mem&&(G.social.mem[PS]||[]).find(x=>x.tag==='FIRST_MET'); return !!m&&(m.day==null||m.day<=d)&&(!F(G).dating_classmate_peishan||!!F(G).PEISHAN_BOHAN_SPLIT); };   /* 那一句只在認識沛珊、沒和她交往時說（events.js PS_BH）*/
   R[BH]=[
     {c:1,id:'name',if:G=>camp(G,BH),t:'許柏翰。法律系，跟你同班，坐第一排正中間。'},
@@ -81,7 +82,7 @@ const WHOIS=(()=>{
       if(r.y3) return r.four?'室友：大一 203、大二 312、大三 507。':'室友：大二 312、大三 507。';
       if(r.y2) return r.four?'室友：大一 203、大二 312。':'室友：大二 312。';
       return '大一同住 203，他比你先搬進去。'; }},
-    {c:3,id:'score',if:f('BOHAN_SCORE'),t:'大一上期中考完，他問過你第三題怎麼寫。'},   /* AA_546 1-6（D116）*/
+    {c:3,id:'score',if:f('BOHAN_SCORE'),t:'大一上期中週的案例作業，他問過你第三題怎麼寫。'},   /* AA_546 1-6（D116）*/
     {c:3,id:'ps',keep:true,if:psBh,t:'大一下，他和沛珊在一起了。'},
     {c:3,id:'split',keep:true,if:f('PEISHAN_BOHAN_SPLIT'),t:'大一下他和沛珊在一起過，大二上分開了。',rep:['ps']},
     {c:3,id:'club',if:G=>y(G,2)&&heard(G,BH,'「法服的值班表，我排到十二月了。」'),t:'大二當法服社長。'},

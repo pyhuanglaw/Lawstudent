@@ -32,6 +32,8 @@ const load=f=>{ const p=path.join(H.ROOT,f); if(!fs.existsSync(p)) return false;
 const errs=[]; for(const f of ['src/data/date_wish.js','src/wish3d.js','src/data/feed_dates.js','src/feed3d.js']){ try{ if(!load(f)) errs.push('沒有 '+f); }catch(e){ errs.push(f+'：'+(e&&e.message||e)); } }
 const sec=async(name,fn)=>{ try{ await fn(); }catch(e){ check(name+'（例外）',false,String(e&&e.stack||e).split('\n').slice(0,2).join(' | ').slice(0,260)); } };
 const doc=(()=>{ try{ return cp.execSync('git show '+SHA+':"'+SPEC+'"',{cwd:GIT,encoding:'utf8',maxBuffer:1<<24,stdio:['ignore','pipe','ignore']}); }catch(e){ return ''; } })();
+/* 以安改稿④b（AA_594 第 27～30 列：feed_dates.js 她的動態與私訊）：讀稿時照改成欄換（逐列核對在 tests/aa594_an_4b_unit.js）*/
+const docAN=(()=>require('./an_rev_doc.js').overlay(doc,/^feed_dates\.js/)[0])();
 const html=fs.readFileSync(path.join(H.ROOT,'index.html'),'utf8');
 
 /* ---------- 共用 ---------- */
@@ -82,11 +84,11 @@ await sec('0',async()=>{
   { const v=/src\/data\/feed_pg\.js\?v=([^"]+)"/.exec(html), w=/src\/data\/feed_dates\.js\?v=([^"]+)"/.exec(html); check('0. index.html 的 ?v= 和旁邊一樣',!!v&&!!w&&v[1]===w[1],J([v&&v[1],w&&w[1]])); }
   const allow=JSON.parse(fs.readFileSync(path.join(H.ROOT,'docs/handoff/story_import_allow.json'),'utf8')).files, A=allow.find(e=>e.path===SPEC)||{};
   check('0. 白名單：AA_515＝'+SHA+'（approved、approvedBy、FEED-DATES-1028）',A.sha===SHA&&A.status==='approved'&&!!A.approvedBy&&A.task==='FEED-DATES-1028',J(A));
-  check('0. 讀得到稿（git show '+SHA+'）',doc.length>3000&&/交往中約會後的動態/.test(doc),'git fetch origin（企劃線）');
+  check('0. 讀得到稿（git show '+SHA+'）',docAN.length>3000&&/交往中約會後的動態/.test(docAN),'git fetch origin（企劃線）');
   const D=FD(); need();
   check('0. FEED_DATES.src 寫稿的版本',D.src==='AA_515 @ '+SHA,D.src);
   /* ---- 稿 → 資料（第二個方向）：照表格讀出來，整份比 ---- */
-  const part=(a,b)=>{ const i=doc.indexOf(a); if(i<0) return ''; const j=b?doc.indexOf(b,i+1):-1; return doc.slice(i,j<0?doc.length:j); };
+  const part=(a,b)=>{ const i=docAN.indexOf(a); if(i<0) return ''; const j=b?docAN.indexOf(b,i+1):-1; return docAN.slice(i,j<0?docAN.length:j); };
   const rows=s=>s.split('\n').filter(l=>/^\s*\|/.test(l)&&!/^\s*\|[-| :]+\|\s*$/.test(l)).map(l=>l.trim().replace(/^\||\|$/g,'').split('|').map(c=>c.trim()));
   const SP={at:{},pic:{},who:{}};
   for(const r of rows(part('## 1.','## 2.'))){ const m=/（([a-z_0-9]+)）/.exec(r[0]), t=/^(\d\d:\d\d)/.exec(r[1]||''); if(m&&t) SP.at[m[1]]=t[1]; }
@@ -108,7 +110,7 @@ await sec('0',async()=>{
   check('0. 稿 → 遊戲：第 3 節七位各 6 句＋又來、留言兩組、私訊兩組一樣',Object.keys(SP.who).length===7&&Object.keys(D.who).length===7&&!bad.length&&ALL.every(id=>SP.who[id].say.length===6&&SP.who[id].cm.length===2&&SP.who[id].dm.length===2),J(bad.map(id=>[id,SP.who[id]&&shape(SP.who[id]),D.who[id]&&shape(D.who[id])])).slice(0,600));
   /* ---- 遊戲 → 稿（第一個方向）：每一句都在稿裡 ---- */
   const L=[]; for(const k in D.pic) if(D.pic[k]) L.push(D.pic[k]); for(const id in D.who){ const w=D.who[id]; for(const x of w.say) if(x) L.push(x); if(w.again) L.push(w.again); for(const g of w.cm.concat(w.dm)) for(const x of g) L.push(x); }
-  check('0. 遊戲 → 稿：每一句都在 AA_515 裡（一字不差；'+L.length+' 句）',L.length===133&&L.every(t=>doc.includes(t)),J(L.filter(t=>!doc.includes(t))));
+  check('0. 遊戲 → 稿：每一句都在 AA_515 裡（一字不差；'+L.length+' 句）',L.length===133&&L.every(t=>docAN.includes(t)),J(L.filter(t=>!docAN.includes(t))));
   check('0. id 前綴照其他動態（dt_an、dt_zr、dt_yt、dt_zq、dt_sis、dt_kx、dt_ps）',J(ALL.map(id=>D.who[id].pre))===J(['an','zr','yt','zq','sis','kx','ps']));
   check('0. 語彤：6 句、又來都空著（say:\'\'，只有照片）',D.who[YT].say.length===6&&D.who[YT].say.every(x=>x==='')&&D.who[YT].again==='');
   const zq=D.who[ZQ], zqHer=zq.say.concat([zq.again]).concat(zq.cm.flatMap(g=>g.slice(1))).concat(zq.dm.flatMap(g=>g.slice(1)));
@@ -126,11 +128,11 @@ await sec('1',async()=>{ need(); setup('2025-10-04',8,[AN]); const d=H.G.day;
   const x=postAt(T(d,21.5),'dt_an_1');
   check('1. 21:29 還沒有、21:30 動態頁出一則 dt_an_1',!x.before&&!!x.it&&x.it.day===d&&hh(x.it.h)===hh(21.5),J(R().items));
   const p=P('dt_an_1'), D=FD();
-  check('1. 照片是 D01 那一張（有你：兩個人的影子並排）、一句是第 1 句、留言私訊第 1 組',!!p&&p.who===AN&&p.pic===D.pic.D01&&p.say==='手帳上劃掉一個。'&&J(p.cm)===J(['今天很開心。','我也是。……你剛剛已經說過了。'])&&J(p.dm)===J(['手帳上寫了什麼？','日期和地點。還有一句，不給你看。']),J(p));
+  check('1. 照片是 D01 那一張（有你：兩個人的影子並排）、一句是第 1 句、留言私訊第 1 組',!!p&&p.who===AN&&p.pic===D.pic.D01&&p.say==='想去的地方，劃掉一個。'&&J(p.cm)===J(['今天很開心。','我也是。……你剛剛已經說過了。'])&&J(p.dm)===J(['妳今天記了什麼？','日期和地點。還有一句，不給你看。']),J(p));
   check('1. 動態頁籤亮小點（新的）',FEED.newCount(H.G)===1);
   const h=FEED.html(H.G);
-  check('1. 動態頁：她的名字、今天 21:30、（照片：紅磚牆前，兩個人的影子並排）、手帳上劃掉一個。、三個按鈕（按愛心、留言、私訊問一句）',
-    h.includes('今天 21:30')&&h.includes('（照片：紅磚牆前，兩個人的影子並排）')&&h.includes('<div>手帳上劃掉一個。</div>')&&h.includes('data-fd="dt_an_1|heart"')&&h.includes('>今天很開心。</button>')&&h.includes('（私訊問一句）')&&h.includes('手帳上寫了什麼？'),h.slice(0,400));
+  check('1. 動態頁：她的名字、今天 21:30、（照片：紅磚牆前，兩個人的影子並排）、想去的地方，劃掉一個。、三個按鈕（按愛心、留言、私訊問一句）',
+    h.includes('今天 21:30')&&h.includes('（照片：紅磚牆前，兩個人的影子並排）')&&h.includes('<div>想去的地方，劃掉一個。</div>')&&h.includes('data-fd="dt_an_1|heart"')&&h.includes('>今天很開心。</button>')&&h.includes('（私訊問一句）')&&h.includes('妳今天記了什麼？'),h.slice(0,400));
   check('1. 看過就熄',FEED.newCount(H.G)===0);
   check('1. 約會動態不在 G.msgs（不是私訊、不算未讀）',!(H.G.msgs||[]).some(m=>m.fd==='dt_an_1'||/手帳上劃掉一個/.test(m.text||'')));
   check('1. 存檔：R.dt 記第幾句、第幾組、地點、行程、約會的那一天；R.dtTrip 那一趟＝dt_an_1；dq 清掉',J(R().dt.dt_an_1)===J({who:AN,loc:'D01',s:0,g:1,trip:r.trip,b:d})&&R().dtTrip[r.trip]==='dt_an_1'&&!R().dq.length,J([R().dt,R().dtTrip,R().dq]));
@@ -242,7 +244,7 @@ await sec('8',async()=>{ need(); setup('2025-10-04',8,[AN,ZR,ZQ]); const d=H.G.d
   const c=await goDate(AN,['D04'],d+2,9), e=await goDate(AN,['D06'],d+2,15); tickAt(d+2,23.9);
   check('8. 同一位同一天兩趟：一則（第一趟），第二趟 x:dateday',!!item('dt_an_2')&&R().dtTrip[c.trip]==='dt_an_2'&&R().dtTrip[e.trip]==='x:dateday'&&dts().filter(i=>i.day===d+2).length===1,J(R().dtTrip));
   check('8. 沒貼出來的不記（R.dt 以安只有兩則；芷若那一則有）',Object.keys(R().dt).filter(k=>R().dt[k].who===AN).length===2&&!!R().dt.dt_zr_1,J(R().dt));
-  check('8. 對稿：第 6 節（同一天每人各算、擠掉的不挪、畢業以後不開放、照稿以外先定的照用）',/## 6\. 實作時定的/.test(doc)&&doc.includes('「同一天最多一則約會動態」改成每人各算')&&doc.includes('同時交往兩位、同一天各約一場，兩則都出（誰的約會誰貼）。')&&doc.includes('不開放正式校外約會的預約，照 `AA_128` 11-1。'),J({sha:SHA}));
+  check('8. 對稿：第 6 節（同一天每人各算、擠掉的不挪、畢業以後不開放、照稿以外先定的照用）',/## 6\. 實作時定的/.test(docAN)&&docAN.includes('「同一天最多一則約會動態」改成每人各算')&&docAN.includes('同時交往兩位、同一天各約一場，兩則都出（誰的約會誰貼）。')&&docAN.includes('不開放正式校外約會的預約，照 `AA_128` 11-1。'),J({sha:SHA}));
   const f=await goDate(ZQ,['D02'],d+4,15), g=await goDate(AN,['D03'],d+5,9); tickAt(d+5,23.9);
   check('8. 「同一天」照約會的那一天：子晴 00:30 那一則是前一天那一場的；隔天和以安的約會照出（dt_an_3、第 3 句：前面沒貼出來的不佔序號、輪替）',
     !!item('dt_zq_1')&&item('dt_zq_1').day===d+5&&R().dtTrip[f.trip]==='dt_zq_1'&&R().dtTrip[g.trip]==='dt_an_3'&&R().dt.dt_an_3.s===2&&R().dt.dt_zq_1.b===d+4&&R().dt.dt_an_3.b===d+5,J([R().dtTrip,R().dt.dt_an_3]));
@@ -281,7 +283,7 @@ await sec('10',async()=>{ need(); setup('2025-10-04',8,[]); const d=H.G.day;
   at(d+2,20); H.G.flags.dating_heroine_01=false; tickAt(d+2,21.5); tickAt(d+2,23.9);
   check('10. 排好以後、21:30 以前分開了：不貼（x:dating）',!dts().length&&R().dtTrip[r2.trip]==='x:dating',J(R().dtTrip));
   H.G.flags.dating_heroine_01=true; const r5=await goDate(AN,['D03'],d+4,13); postAt(expect(AN,d+4,r5.end),'dt_an_1'); at(d+5,10); H.G.flags.dating_heroine_01=false; tickAt(d+6,12);
-  check('10. 分開以後：已經貼出來的照七天規則留著，不收回（稿第 4 節）',!!item('dt_an_1')&&FEED.visible(H.G).some(i=>i.id==='dt_an_1')&&/手帳上劃掉一個。/.test(FEED.html(H.G)));
+  check('10. 分開以後：已經貼出來的照七天規則留著，不收回（稿第 4 節）',!!item('dt_an_1')&&FEED.visible(H.G).some(i=>i.id==='dt_an_1')&&/想去的地方，劃掉一個。/.test(FEED.html(H.G)));
   setup('2025-10-04',8,[KX],{stage:'econ'}); const t={trip:'TE1',who:KX,locs:['D02'],day:H.G.day,depart:13,back:17,transport:'mrt',departed:true,status:'done',spots:['D02.pond']};
   DATE.complete(H.G,t);
   check('10. 經濟系那一年不排（動態頁只在法律系）',FEED.dateDone(H.G,DATE.trip(H.G,'TE1'),T(H.G.day,17))===null);
@@ -301,7 +303,7 @@ await sec('11',async()=>{ need(); setup('2025-10-04',8,[AN]); const d=H.G.day;
   check('11. 留言（第 2 則＝第 2 組）：你「照片好看。」→ 她「你站得很好。」，進私訊對話串、標「動態「（她那一則的一句，超過十四個字截短）」」',J(b.txt)===J(['照片好看。','你站得很好。'])&&!!b.m&&b.m.fk==='cm'&&(H.G.msgs||[]).filter(m=>m.text==='你站得很好。').every(m=>m.th==='p:'+AN)&&FEED.refLabel(H.G,b.m)===' · 動態「今天沒有照計畫走。」',J([b.txt,b.m&&FEED.refLabel(H.G,b.m)]));
   check('11. 同一個人一天只加一次熟悉（留言那一次不再加）',SOCIAL.rel(AN).fam===f0+1);
   const c=resp('dt_an_3','dm');
-  check('11. 私訊問一句（第 3 則＝第 1 組）：「手帳上寫了什麼？」→「日期和地點。還有一句，不給你看。」',J(c.txt)===J(['手帳上寫了什麼？','日期和地點。還有一句，不給你看。'])&&!!c.m&&c.m.fk==='dm',J(c.txt));
+  check('11. 私訊問一句（第 3 則＝第 1 組）：「妳今天記了什麼？」→「日期和地點。還有一句，不給你看。」',J(c.txt)===J(['妳今天記了什麼？','日期和地點。還有一句，不給你看。'])&&!!c.m&&c.m.fk==='dm',J(c.txt));
   check('11. 回過的：按鈕換成結果（看私訊）',/你留言：照片好看。/.test(FEED.card(H.G,item('dt_an_2')))&&/♥ 你按了愛心/.test(FEED.card(H.G,item('dt_an_1'))));
 });
 
@@ -311,7 +313,7 @@ await sec('12',async()=>{ need(); setup('2025-10-04',8,[AN]); const d=H.G.day;
   tickAt(d+7,21.49); const in7=FEED.visible(H.G).some(i=>i.id==='dt_an_1'); tickAt(d+7,21.51);
   check('12. 只留七天（同其他動態）',in7&&!FEED.visible(H.G).some(i=>i.id==='dt_an_1'));
   tickAt(d+16,12);
-  check('12. 十五天以後 items 清掉；私訊對話串還認得那一則（R.dt 不刪）',!item('dt_an_1')&&!!R().dt.dt_an_1&&FEED.refLabel(H.G,m)===' · 動態「手帳上劃掉一個。」',FEED.refLabel(H.G,m));
+  check('12. 十五天以後 items 清掉；私訊對話串還認得那一則（R.dt 不刪）',!item('dt_an_1')&&!!R().dt.dt_an_1&&FEED.refLabel(H.G,m)===' · 動態「想去的地方，劃掉一個。」',FEED.refLabel(H.G,m));
   /* 舊存檔：FEED 是上一版的樣子（沒有 dq、dt、dtTrip）*/
   setup('2025-10-04',8,[AN]); const d2=H.G.day; H.G.flags.FEED={start:d2-40,items:[],done:{an1:'p'},dm:{},seen:-1e9};
   const r2=await goDate(AN,['D01'],d2,13); postAt(expect(AN,d2,r2.end),'dt_an_1');

@@ -242,7 +242,7 @@ const XCROM=(()=>{
     after:G=>{ const f=F(G); if(typeof ROM!=='undefined'&&ROM.end) ROM.end(G,XC,'found'); else f['dating_'+XC]=false; f.XC_FOUND={n:((f.XC_FOUND&&f.XC_FOUND.n)|0)+1,day:eDay(G)}; } };
   S.EVENTS.push(S.EV_FOUND);
   S.startDay=G=>{ const f=F(G), c=f.confessed&&f.confessed[XC]; if(c!=null) return c; if(dating(G)&&f.XC_DATING_DAY==null) f.XC_DATING_DAY=eDay(G); return f.XC_DATING_DAY; };
-  S.anKnows=function(G){ if(!law(G)||!dating(G)||sent(G,'xc_an_knows')||F(G)['dating_'+AN]===true) return; const d0=S.startDay(G); if(d0==null||eDay(G)<d0+1||eDay(G)>d0+7) return;
+  S.anKnows=function(G){ if(!law(G)||!dating(G)||sent(G,'xc_an_knows')||F(G)['dating_'+AN]===true||(typeof ROM!=='undefined'&&ROM.exOf&&ROM.exOf(G,AN))) return;   /* AA_600 A17：前任不送 */ const d0=S.startDay(G); if(d0==null||eDay(G)<d0+1||eDay(G)>d0+7) return;
     if(typeof INV!=='undefined'&&INV.hasContact&&!INV.hasContact(G,AN)) return; if(eH(G)<21) return;
     PHONE.at(G,eDay(G),eH(G),S.AN_KNOWS.map(t=>({th:'p:'+AN,from:AN,text:t})),'xc_an_knows'); };
   /* ===================== AA_548 第 8 節：她爸爸（8-1）、挽回（8-2）、冷落（8-3）===================== */

@@ -41,12 +41,13 @@ GM.money=function(n){ G.money+=n; };
   const law=COURSES.list.filter(c=>c.term==='Y1S1'&&c.kind==='required'&&/憲法|刑法|民法/.test(c.name)).map(c=>c.id);
   check('0. 大一上有憲法、刑總、民總',law.length>=3,J=JSON.stringify(law));
   const dayIn=(w)=>{ for(let d=-120;d<400;d++){ const t=CALENDAR.termOf(d); if(t&&t.id==='Y1S1'&&t.week===w) return d; } return null; }; const k=(w,wd,cid,blk)=>dayIn(w)+':'+cid+':'+(blk||'am');
-  R.done[k(1,1,'const_1')]=1; R.done[k(2,1,'const_1')]=1; R.done[k(8,1,'const_1')]=1;   /* 第 8 週＝期中考，不算 */
+  R.done[k(1,1,'const_1')]=1; R.done[k(2,1,'const_1')]=1; R.done[k(8,1,'const_1')]=1; (R.exam||(R.exam={}))['Y1S1:const_1:mid']={status:'done',qs:[]};   /* 第 8 週＝舊存檔的期中考（R.exam 有 mid 紀錄），不算；D118 以後第 8、9 週照常上課＝會列（2b 檢查）*/
   R.done[k(3,1,'const_1')]=1; R.abs[k(3,1,'const_1')]=1;   /* 缺席 */
   R.done[k(1,2,'chinese_y1')]=1;   /* 國文 */
   const econ=COURSES.list.find(c=>c.term==='Y1S1'&&/經濟/.test(c.name)); if(econ) R.done[k(1,3,econ.id)]=1;
   console.log('DBG',JSON.stringify(Object.keys(R.done)),JSON.stringify(Object.keys(R.abs)),[1,2,3,8].map(w=>[w,dayIn(w),(CALENDAR.termOf(dayIn(w))||{}).week])); const L=CLS.legalCourses(G);
   check('2. 只有憲法（上）、上過 2 週（第 1、2 週）；國文、經濟、考試週、缺席不算',L.length===1&&L[0].c.id==='const_1'&&JSON.stringify(L[0].topics.map(t=>t.w))==='[1,2]'&&L[0].current===true,JSON.stringify(L.map(e=>[e.c.name,e.topics])));
+  { const R2=CLS.rec(G); const sv=R2.exam['Y1S1:const_1:mid']; delete R2.exam['Y1S1:const_1:mid']; const L2=CLS.legalCourses(G); check('2b. D118 以後（沒有期中考紀錄）第 8 週照常上課＝列進法律頁',L2.length===1&&JSON.stringify(L2[0].topics.map(t=>t.w))==='[1,2,8]',JSON.stringify(L2.map(e=>e.topics.map(t=>t.w)))); R2.exam['Y1S1:const_1:mid']=sv; }
   check('2. 每週有主題字',L[0].topics.every(t=>typeof t.title==='string'&&t.title.length>3));
   G.day=termDay('Y1S2',2,1); const L2=CLS.legalCourses(G);
   check('3. 到了大一下：大一上的課在「之前的學期」（current false）',L2.length===1&&L2[0].current===false&&L2[0].term==='Y1S1');

@@ -15,7 +15,8 @@ const {check,GM}=H, J=JSON.stringify;
 const loadG=(f)=>{ const s=fs.readFileSync(path.join(H.ROOT,f),'utf8').replace(/^const ([A-Z_][A-Z0-9_]*)\s*=/mg,'globalThis.$1='); vm.runInThisContext(s,{filename:f}); };
 let loadErr='';
 for(const f of ['src/holff3d.js','src/noodle_closed3d.js','src/data/heroine_asks.js','src/heroine_asks3d.js','src/data/vacfill_events.js','src/data/cracktalk_lines.js','src/cracktalk3d.js']){ try{ loadG(f); }catch(e){ loadErr+=f+'：'+String(e&&e.message||e)+'　'; } }
-const git=(ref,p)=>{ try{ return cp.execSync('git -c core.quotepath=false show '+ref+':"'+p+'"',{cwd:H.ROOT,encoding:'utf8',maxBuffer:1<<26}); }catch(e){ return ''; } };
+const git0=(ref,p)=>{ try{ return cp.execSync('git -c core.quotepath=false show '+ref+':"'+p+'"',{cwd:H.ROOT,encoding:'utf8',maxBuffer:1<<26}); }catch(e){ return ''; } };
+const git=(ref,p)=>require('./an_rev_doc.js').overlay(git0(ref,p),/^holff3d\.js/)[0];   /* 以安改稿（AA_592 第 42～47 列：假期計畫的標點）：讀稿時照改成欄換（逐列核對在 tests/aa592_an_1b、aa594_an_4b）*/
 const A532='docs/story_planning/AA_532_D99寒暑假一_過年期間別約_除夕年夜飯_家人群組_她們的放假版.md';
 const doc=git('ade80d22f',A532), doc244=git('2d3a0735d','docs/story_planning/AA_244_以安假期計畫_出國旅遊台詞.md');
 check('0. AA_532（ade80d22f）、AA_244（2d3a0735d）讀得到；新模組都載得到',doc.length>3000&&doc244.length>3000&&!loadErr,loadErr||'git fetch origin claude/story-planning');
@@ -141,10 +142,10 @@ const atHome=()=>{ const Hm=HOME.rec(H.G); Hm.at=true; Hm.day=H.G.day; const B=H
     check('7. 晚餐第 7 題選項「我還在念書。」（媽媽的收尾「（笑了一下）先把書念好。」照舊）；home_lines.js 由匯入工具產生（來源寫 AA_532）',!!d7&&d7.opts[0].t==='我還在念書。'&&/笑了一下/.test(d7.dad)&&/AA_532 ade80d22f/.test(HOME_LINES.source)&&!JSON.stringify(HOME_LINES).includes('我才大一'),J(d7)); }
   { const fri=has?HOLFF.anPlanDay('Y1S1'):null, key=fri!=null?CALENDAR.dateOf(fri).key:'2025-12-12';
     fresh(key,20); SOCIAL.rel('heroine_01').fam=30; SOCIAL.remember('heroine_01','FIRST_MET',''); run(key,21); const dm=tagMsgs('aa532_an_plan_Y1S1');
-    check('7. 以安假期計畫：大一上第 15 週週五（'+key+'）21:00，熟＝私訊短版「寒假先在總圖，1/20 回台中」；選項「我也會去總圖。」「好，加油。」（這個假期沒有③）',fri!=null&&wd(fri)===5&&CALENDAR.termOf(fri).week===15&&dm.length===1&&dm[0].th==='p:heroine_01'&&dm[0].text==='寒假先在總圖，1/20 回台中'&&J(dm[0].ask.opts.map(o=>o.t))===J(['我也會去總圖。','好，加油。']),J(dm));
+    check('7. 以安假期計畫：大一上第 15 週週五（'+key+'）21:00，熟＝私訊短版「寒假我先在總圖。1/20 回台中。」；選項「我也會去總圖。」「好，加油。」（這個假期沒有③）',fri!=null&&wd(fri)===5&&CALENDAR.termOf(fri).week===15&&dm.length===1&&dm[0].th==='p:heroine_01'&&dm[0].text==='寒假我先在總圖。1/20 回台中。'&&J(dm[0].ask.opts.map(o=>o.t))===J(['我也會去總圖。','好，加油。']),J(dm));
     PHONE.answer(H.G,'aa532_an_plan_Y1S1',0); check('7. 選①＝她回「三樓。我通常坐靠窗那排。」、記 AN_PLAN_Y1W＝join',H.G.flags.AN_PLAN_Y1W==='join'&&(H.G.msgs||[]).some(m=>m.from==='heroine_01'&&m.text==='三樓。我通常坐靠窗那排。'),'');
     const k2=CALENDAR.dateOf(HOLFF.anPlanDay('Y2S2')).key; fresh(k2,20); SOCIAL.rel('heroine_01').fam=10; SOCIAL.remember('heroine_01','FIRST_MET',''); PHONE.join(H.G,'noodle_team','麵店團'); run(k2,21); const g=tagMsgs('aa532_an_plan_Y2S2');
-    check('7. 不熟（ACQUAINTANCE）、在麵店團：群組短版「七月日檢 八月去京都上語言課」，只有①②',SOCIAL.stage('heroine_01')!=='FAMILIAR'&&g.length===1&&g[0].th==='g:noodle_team'&&g[0].text==='七月日檢 八月去京都上語言課'&&g[0].ask.opts.length===2,J(g.map(m=>[m.th,m.text,m.ask.opts.map(o=>o.t)])));
+    check('7. 不熟（ACQUAINTANCE）、在麵店團：群組短版「七月考日檢。八月去京都上語言課。」，只有①②',SOCIAL.stage('heroine_01')!=='FAMILIAR'&&g.length===1&&g[0].th==='g:noodle_team'&&g[0].text==='七月考日檢。八月去京都上語言課。'&&g[0].ask.opts.length===2,J(g.map(m=>[m.th,m.text,m.ask.opts.map(o=>o.t)])));
     fresh(k2,20); SOCIAL.rel('heroine_01').fam=30; SOCIAL.remember('heroine_01','FIRST_MET',''); H.G.flags.dating_heroine_01=true; VAC.signup(H.G,'C12@Y2','yes'); run(k2,21); const q=tagMsgs('aa532_an_plan_Y2S2');
     check('7. 交往中：私訊短版（①②③）＋「你這個假期要做什麼？」（照行事曆＝報了的活動名字／「還沒想」）',q.length===2&&q[0].ask.opts.length===3&&q[1].text==='你這個假期要做什麼？'&&J(q[1].ask.opts.map(o=>o.t))===J(['海外語言文化課程（京都）','還沒想']),J(q.map(m=>[m.text,m.ask.opts.map(o=>o.t)])));
     PHONE.answer(H.G,'aa532_an_plan_Y2S2_q',1); check('7. 回「還沒想」→ 她「那我們再排。」',(H.G.msgs||[]).slice(-1)[0].text==='那我們再排。','');

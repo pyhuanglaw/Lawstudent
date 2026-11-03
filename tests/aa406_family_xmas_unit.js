@@ -2,7 +2,7 @@
 //   0  逐字對稿、新檔載得到
 //   1  12/15 21:00 家族群組三則、排 12/22 18:30 出遊；不在家族群組沒有
 //   2  禮物五選一（手機；扣錢；手寫券要演過熱水那一場）；五樣各自的反應、關係；沒準備；她送的鉛筆
-//   3  手寫券 2026-01-18 私訊；房間物件；回聲：大一下 ev_grad_reading「用我給你的那支。」、大二聖誕夜她先拿紙袋；大三聖誕夜沒有「去年的禮物」
+//   3  手寫券 2026-01-18 私訊；房間物件；回聲：大一下 ev_grad_reading「我給你的那支剛好。」（AA_590 第 60 列）、大二聖誕夜她先拿紙袋；大三聖誕夜沒有「去年的禮物」
 // 修改前（大二版 9dcbb19d6）：日子、事件、旗標都不同（全部 FAIL）。用法：node tests/aa406_family_xmas_unit.js
 require('./alison.js');
 const H=require('./pg_harness.js');
@@ -47,8 +47,8 @@ await sec(2,async()=>{ fresh('2025-12-15',21.1); ph(); const m=(H.G.msgs||[]).fi
 await sec(3,async()=>{ setup('coupon',true); await goOut('famx_y1',[0]); H.at('2026-01-18',21.1); ph(); check('3. 手寫券：2026-01-18 21:00 她私訊「我用了。昨天。」',(H.G.msgs||[]).some(m=>m.th==='p:'+ID&&m.text==='我用了。昨天。'));
   const Lr=[]; for(const f of STORY.ROOM_EXTRA) f(H.G,Lr); check('3. 房間多一件「學姊送的鉛筆（刻了你的名字）」',Lr.some(r=>r[0]==='學姊送的鉛筆（刻了你的名字）'),J(Lr));
   setup('pencil'); await goOut('famx_y1',[0]); H.at('2026-01-18',21.1); ph(); check('3. 不是手寫券：沒有那則',!(H.G.msgs||[]).some(m=>m.text==='我用了。昨天。'));
-  const gr=STORY_EVENTS.find(e=>e.id==='ev_grad_reading'), gi=gr.dialogue.findIndex(n=>n.text==='不要用螢光筆。用鉛筆，寫你不同意的地方。'), gn=gr.dialogue[gi+1];
-  check('3. 大一下 ev_grad_reading：有那支鉛筆的（去了那一場，沒準備也算）多「用我給你的那支。」',!!gn&&gn.text==='用我給你的那支。'&&gn.if.custom({flags:{SIS_FAMXMAS_Y1:'none'}})&&gn.if.custom({flags:{SIS_FAMXMAS_Y1:'lemon'}})&&!gn.if.custom({flags:{}})&&!gn.if.custom({flags:{SIS_FAMXMAS_Y1:'missed'}}));
+  const gr=STORY_EVENTS.find(e=>e.id==='ev_grad_reading'), gi=gr.dialogue.findIndex(n=>n.text==='用鉛筆讀比較好。可以寫你不同意的地方。'), gn=gr.dialogue[gi+1];
+  check('3. 大一下 ev_grad_reading：有那支鉛筆的（去了那一場，沒準備也算）多「我給你的那支剛好。」（AA_590 第 60 列，原「用我給你的那支。」）',!!gn&&gn.text==='我給你的那支剛好。'&&gn.if.custom({flags:{SIS_FAMXMAS_Y1:'none'}})&&gn.if.custom({flags:{SIS_FAMXMAS_Y1:'lemon'}})&&!gn.if.custom({flags:{}})&&!gn.if.custom({flags:{SIS_FAMXMAS_Y1:'missed'}}));
   const play=async(flags)=>{ fresh('2026-12-24',22,'FRIEND',flags); H.date(ID); OUT.plan(H.G,{id:'t_x2',ev:'ev_sis_xmas_y2',day:H.G.day,h:22,place:'x',title:'x',travel:'',travelH:0}); await goOut('t_x2',[1]); return H.said.map(x=>x.t); };
   const a=await play({SIS_FAMXMAS_Y1:'pencil'}), b=await play({SIS_FAMXMAS_Y1:'none'});
   check('3. 大二聖誕夜（AA_386 3-1）送過禮物的：她先拿紙袋「去年是你先送。今年換我先拿出來。」→ 計畫本 → 你的螢光筆',a.indexOf('去年是你先送。今年換我先拿出來。')>=0&&a.indexOf('明年的計畫本。第一頁我寫了。回去再看。')<a.indexOf('（你把準備好的禮物給她。一盒綠色螢光筆。）')&&a.indexOf('去年是你先送。今年換我先拿出來。')<a.indexOf('明年的計畫本。第一頁我寫了。回去再看。'),J(a));

@@ -90,6 +90,7 @@ const HASK=(function(){
     return null; };
   S.block=function(G,id,day){ if(!P(id)) return 'nodata'; if(G.stage==='econ') return 'econ';   /* AA_529 第 1 點（企劃線 881029f98）：經濟系那一年不約——台詞、地點是政大那一套，她在高雄、衝刺班時也會約，回程還出「回到台大」 */
     if(S.cny(day)) return 'cny';   /* AA_532 第 1 節 */
+    if(typeof V6EX!=='undefined'&&V6EX.noContact&&V6EX.noContact(G,id)) return 'ex';   /* AA_600 S4（企劃線 031414cad）：以安、學姊分手以後一律不主動約，直到重新交往（不因冷卻期過了、或學姊 rebuild 演過就解除）*/
     if(typeof INV!=='undefined'){ if(INV.cool&&INV.cool(G,id)) return 'cool'; if(INV.hasContact&&!INV.hasContact(G,id)) return 'contact'; }
     if(typeof SOCIAL!=='undefined'&&SOCIAL.stage&&SOCIAL.stage(id)==='STRANGER') return 'stranger';
     if(typeof MREL!=='undefined'){ if(MREL.zzRefusing&&MREL.zzRefusing(G,id)) return 'mrel'; if(id==='kexin'&&MREL.kxOdPaused&&MREL.kxOdPaused(G)) return 'kxPaused'; }

@@ -26,6 +26,7 @@ const SISB13=(function(){
   const tzH=(G,d,h)=>h+(typeof STORY!=='undefined'&&STORY.tzOffset?(STORY.tzOffset(G,d)||0):0);   /* 臺灣時間 → 手機的當地時間（人在日本 +1、美國 −12／−13）*/
   S.dating=G=>{ const F=(G&&G.flags)||{}, R=F.romance||{}; return F['dating_'+ID]===true||!!(R[ID]&&R[ID].status==='dating'); };
   S.isEx=G=>!S.dating(G)&&!!(G.flags&&(G.flags['EX_'+ID]||(typeof ROM!=='undefined'&&ROM.isEx&&ROM.isEx(G,ID))));
+  const exAny=G=>typeof ROM!=='undefined'&&!!ROM.exOf&&ROM.exOf(G,ID);   /* AA_600（企劃線 031414cad）的「分手後」：EX_、ex／paused／friend_after_catch */
   const stageOk=min=>{ if(typeof SOCIAL==='undefined'||!SOCIAL.STAGES||!SOCIAL.stage) return false; return SOCIAL.STAGES.indexOf(SOCIAL.stage(ID))>=SOCIAL.STAGES.indexOf(min); };
   const friendUp=G=>S.dating(G)||stageOk('FRIEND');   /* 朋友以上（交往中也算）*/
   const abroad=G=>typeof STORY!=='undefined'&&!!STORY.abroad&&STORY.abroad(G);
@@ -50,7 +51,7 @@ const SISB13=(function(){
   S.CURRY_OUT={id:'sisb13_curry',ev:'ev_sis13_curry',h:12,late:0.5,place:'學姊的新家',title:'學姊的新家（家族吃咖哩）',travel:'捷運 約 30 分鐘',travelH:0.5,hours:2,back:'回到住的地方。'};   /* 車程稿沒寫（她 3/20 搬的新家），LAWWW 排 */
   S.curry=function(G){ const F=G.flags, a=D(S.CURRY.ask), d=D(S.CURRY.day), tag='sisb13_curry_ask'; if(a==null||d==null||G.day<a||G.day>d+1) return;
     if(!sent(G,tag)&&inGrp(G)&&now(G)<T(d,11.5)){ const M=(L.curryAsk||[]).map(g); M[M.length-1].ask={id:tag,until:T(d,11.5),opts:[{t:L.curryGo,set:{SIS13_CURRY_GO:true}}]}; PHONE.at(G,a,21,M,tag); }   /* 回「去。」（所有在群組的人；沒認識也可以來）*/
-    if(sent(G,tag)&&!sent(G,'sisb13_curry_dm')&&G.day<=a+1&&has(ID,'SIS4_CURRY')&&!!G.flags.met_sis&&contact(G)) PHONE.at(G,a,21+5/60,[dm(L.curryDm)],'sisb13_curry_dm');   /* 閒聊 S4-L3 的記憶（那一層兩個選項都記）*/
+    if(sent(G,tag)&&!sent(G,'sisb13_curry_dm')&&G.day<=a+1&&has(ID,'SIS4_CURRY')&&!!G.flags.met_sis&&contact(G)&&!exAny(G)) PHONE.at(   /* AA_600 B19：前任不送 */G,a,21+5/60,[dm(L.curryDm)],'sisb13_curry_dm');   /* 閒聊 S4-L3 的記憶（那一層兩個選項都記）*/
     if(F.SIS13_CURRY_GO===true&&F.SIS13_CURRY==null&&now(G)<T(d,S.CURRY_OUT.h+S.CURRY_OUT.late)) plan(G,Object.assign({},S.CURRY_OUT,{day:d})); };
 
   /* ---------------- 13-3 論文卡住，出來走一圈：朋友以上、沒交往、不是前任；她在研究室那一層（characters.js 那兩天 17:00～18:00 在 linze_5f）---------------- */
@@ -102,7 +103,7 @@ const SISB13=(function(){
   S.yzNotesAsk=G=>({th:'p:family_junior',from:'family_junior',text:L.yzNotesAsk,ask:{id:'sis13_yz_notes',opts:[{t:L.notesOpt,say:[{from:'family_junior',text:L.notesRep}],sisNotes:true},{t:L.yzNotesNo,say:[{from:'family_junior',text:L.yzNotesNoRep}]}]}});
   S.notes=function(G){ const F=G.flags;
     if(F.SIS_OLD_NOTES&&inGrp(G)){ const d=D(S.YZ_NOTES); if(d!=null&&G.day>=d-1&&G.day<=d+1&&!sent(G,'sisb13_yz_notes')) PHONE.at(G,d,21,[S.yzNotesAsk(G)],'sisb13_yz_notes'); }
-    if(F.SIS_NOTES_PASSED===true&&F.SIS_NOTES_DAY!=null&&contact(G)){ const d21=D(S.NOTES_BACK), d22=d21+1; let d=Math.max(d21,F.SIS_NOTES_DAY+1); if(d===d22) d=d22+1;
+    if(F.SIS_NOTES_PASSED===true&&F.SIS_NOTES_DAY!=null&&contact(G)&&!exAny(G)){   /* AA_600 B21：她先傳的，前任不送 */ const d21=D(S.NOTES_BACK), d22=d21+1; let d=Math.max(d21,F.SIS_NOTES_DAY+1); if(d===d22) d=d22+1;
       if(G.day>=d-1&&G.day<=d+1&&!sent(G,'sisb13_notes_back')) PHONE.at(G,d,21,(L.notesBack||[]).map(dm),'sisb13_notes_back'); } };   /* 不用回 */
   S.onAnswer=function(G,m,o){ if(!m||!m.ask||m.ask.id!=='sis13_yz_notes'||!o||!o.sisNotes) return; G.flags.SIS_NOTES_PASSED=true; G.flags.SIS_NOTES_DAY=G.day; };
 
@@ -110,7 +111,7 @@ const SISB13=(function(){
   S.THESIS={ask:'2029-07-15',day:'2029-07-20'};
   S.THESIS_OUT={id:'sisb13_thesis',ev:'ev_sis13_thesis',h:18.5,late:0.5,place:'公館',title:'公館（學姊的論文）',travel:'走過去約 15 分鐘',travelH:0.25,hours:1};
   S.thesis=function(G){ const F=G.flags, a=D(S.THESIS.ask), d=D(S.THESIS.day), tag='sisb13_thesis_ask'; if(a==null||d==null||G.day<a||G.day>d+1) return;
-    if(!sent(G,tag)&&G.day<=a+1&&has(ID,'SIS6_FATHER_COPY')&&!!F.met_sis&&contact(G)){ const M=(L.thesisMsg||[]).map(dm); M[M.length-1].ask={id:tag,until:T(d,18),opts:(L.thesisOpts||[]).map(o=>Object.assign(reply(o),{set:{SIS_THESIS_GO:o.k==='yes'}}))}; PHONE.at(G,a,tzH(G,a,21),M,tag); }   /* 閒聊 S5-L5 的記憶（那一層兩個選項都記）*/
+    if(!sent(G,tag)&&G.day<=a+1&&friendUp(G)&&!exAny(G)&&!!F.met_sis&&contact(G)){   /* AA_600 B20：前任降到 FRIEND 也不算 */ const M=(L.thesisMsg||[]).map(dm); M[M.length-1].ask={id:tag,until:T(d,18),opts:(L.thesisOpts||[]).map(o=>Object.assign(reply(o),{set:{SIS_THESIS_GO:o.k==='yes'}}))}; PHONE.at(G,a,tzH(G,a,21),M,tag); }   /* 朋友以上（交往中也算）：原本是閒聊 S5-L5 的記憶 SIS6_FATHER_COPY，那一層（爸爸要一本論文）AA_584 刪了，條件照第 9 節第 1 點換（私訊內容「一本給我爸了……」留給事件那一批改）*/
     if(F.SIS_THESIS_GO===true&&F.SIS_THESIS_COPY==null&&now(G)<T(d,S.THESIS_OUT.h+S.THESIS_OUT.late)) plan(G,Object.assign({},S.THESIS_OUT,{day:d})); };
 
   /* ---------------- 第 2 節第 5 點：交往中，週一、三 19:00～21:30 她在研究室（大二上起）---------------- */

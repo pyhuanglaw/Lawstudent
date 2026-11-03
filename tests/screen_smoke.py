@@ -4,7 +4,7 @@ A. 標題畫面 → 開新遊戲（經濟系那一年）→ 一路點對話約 9
 B. [前置／捷徑] 讀檔到各個主要區域（法律系大一上第 3 週週二 12:30；只看畫面，條件事件關掉）：校園、宿舍走廊、宿舍房間、共同教學館、博雅、總圖大廳、
    霖澤館、萬才館、公館、溫州街、兩點半 Café；每一區空下來檢查一次。
 C. 校園：打開手機 → 收起來、打開大地圖 → 關掉、打開選單 → 關掉，每次關掉以後檢查 3D 畫面還在（BUG-MAPBLACK：iPhone 按地圖以後變黑）。
-D. 晚上 21:00 的校園；經濟系休學後臺北的家（2D 選單）。
+D. 晚上 21:00 的校園；經濟系休學後家（2D 選單）。
 E. 直向（390×844）：校園、手機。
 用法：python3 tests/screen_smoke.py URL [輸出資料夾]；看 OUT/screens_sheet_*.png（縮圖總表）、screen_problem_*.png（有問題的原圖）"""
 import asyncio, json, sys, time
@@ -74,7 +74,7 @@ async def main():
         await L.tap(pg, cdp, '#bmClose'); await pg.wait_for_timeout(2000); await sc.check(pg, '校園 大地圖關掉以後（BUG-MAPBLACK）')
         await L.tap(pg, cdp, '#btnMenu'); await pg.wait_for_timeout(1200); await sc.check(pg, '校園 選單打開')
         await L.tap(pg, cdp, '#btnClose'); await pg.wait_for_timeout(1200); await sc.check(pg, '校園 選單關掉以後')
-        # ---------- D：晚上、經濟系臺北的家 ----------
+        # ---------- D：晚上、經濟系家 ----------
         await L.load_state(pg, {'stage': 'law', 'zone': 'campus', 'day': d, 'weekday': 2, 'hour': 21, 'flags': dict(FLAGS), 'events': {'done': {}, 'last': {}, 'count': 0}}, quiet_events=True)
         await wait_zone(pg, 'campus'); await settle(pg, cdp); await sc.check(pg, '校園 21:00')
         de = await pg.evaluate("STORY.dayOfKey('2024-11-04')")
@@ -85,7 +85,7 @@ async def main():
             if s['choices']: break
             if s['dlg']: await L.tap(pg, cdp, '#dlg')
             await pg.wait_for_timeout(700)
-        await sc.check(pg, '經濟系 臺北的家（選單）')
+        await sc.check(pg, '經濟系 家（選單）')
         # ---------- E：直向 ----------
         await pg.set_viewport_size({'width': 390, 'height': 844}); await pg.wait_for_timeout(500)
         await L.load_state(pg, {'stage': 'law', 'zone': 'campus', 'day': d, 'weekday': 2, 'hour': 12.5, 'flags': dict(FLAGS), 'events': {'done': {}, 'last': {}, 'count': 0}}, quiet_events=True)

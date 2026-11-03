@@ -54,8 +54,8 @@ const GROUP=(function(){
      沒去麵店團的群組照片。silent：4/1 以前沒回（'none'，可昕不回）*/
   S.springChoose=function(GM,k,o){ o=o||{}; const G=GM.G, F=G.flags, D=S.springDays(), kx=!!F.dating_kexin, g=grp(G); F.SPRING_Y2=k;
     const KX=(day,h,L,tag)=>PHONE.at(G,day,h,L.map(t=>({th:'p:kexin',from:'kexin',text:t})),tag);
-    if(k==='noodle') plan(G,{id:'ndl_trip_y2s2',ev:'ev_spring_y2_noodle',day:D.trip,h:8,place:'臺北的家（先回家取車）',title:'春假：開車載阿哲他們',travel:'回家取車約 30 分鐘',travelH:0.5,back:'回到台北。'});
-    if(k==='kexin') plan(G,{id:'kx_trip_y2s2',ev:'ev_kexin_trip_spring_y2',day:D.d0,h:7+40/60,place:'木柵大學校門口（先回家取車）',title:'春假：開車旅行',travel:'回家取車約 30 分鐘，再開到木柵大學接她',travelH:40/60,back:'送她回木柵大學，再把車開回家。'});
+    if(k==='noodle') plan(G,{id:'ndl_trip_y2s2',ev:'ev_spring_y2_noodle',day:D.trip,h:8,place:'家',title:'春假：開車載阿哲他們',travel:'開車載阿哲他們出發',travelH:0.5,back:'回到台北。'});
+    if(k==='kexin') plan(G,{id:'kx_trip_y2s2',ev:'ev_kexin_trip_spring_y2',day:D.d0,h:7+40/60,place:'木柵大學校門口',title:'春假：開車旅行',travel:'開車到木柵大學接她',travelH:40/60,back:'送她回木柵大學，再把車開回家。'});
     if(kx&&(k==='noodle'||k==='dorm')){ if(!o.silent) KX(G.day,G.hour+0.1,['好。那暑假再去。'],'kx_spring2_reply'); KX(D.d0,21.5,['📷（她和予樂在讀書會的長桌，桌上兩疊講義）','春假。我們在讀書。'],'kx_spring2_photo'); F.KX_TRIP_DEFERRED='summer'; }
     S.springPick(G,k,o);
     if(k!=='noodle'&&g) S.springPhoto(G); };

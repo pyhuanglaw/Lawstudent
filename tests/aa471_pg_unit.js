@@ -24,7 +24,7 @@ const NAME={'阿哲':'zhe','Alison':'yu','爸爸':'dad','媽媽':'mom'};
 const cellMsgs=c=>String(c||'').split('／').filter(Boolean).map(x=>{ const i=x.indexOf('：'); return [NAME[x.slice(0,i)]||x.slice(0,i),x.slice(i+1)]; });
 const D=H.D, T=(k,h)=>D(k)*24+h;
 const tsec=async(n,f)=>{ try{ await f(); }catch(e){ check(n+'. 丟出例外（這一節中斷）',false,String(e&&e.stack||e).split('\n').slice(0,3).join(' / ')); } };
-/* 畢業後篇的存檔（6/2 撥穗、6/28 退宿回臺北的家）*/
+/* 畢業後篇的存檔（6/2 撥穗、6/28 退宿回家）*/
 const grad=(key,h,flags)=>{ const G=H.fresh(key,h==null?10:h,'dorm',Object.assign({GRADUATED:D('2029-06-02'),GRAD_DONE:true,MOVED_OUT:D('2029-06-28'),HOME_AFTER:'home',Y4_PATH:'other',PACKED_Y4:D('2029-06-01'),ROOM_Y2:true,ROOM_Y3:true,ROOM_Y4:true},flags||{}));
   G.acts={att:{}}; G.outings=[]; PG.rec(G).done.grad=1; for(const e of ['ev_grad_family','ev_grad_lunch','ev_grad_envelope','ev_y4_path','ev_move_out_y4']) G.events.done[e]=1; return G; };
 const grpMsgs=(G,th)=>(G.msgs||[]).filter(m=>m.th===th).map(m=>[m.from||null,m.text]);

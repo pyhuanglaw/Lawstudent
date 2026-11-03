@@ -22,7 +22,7 @@ const CONFESS_LINES={
   heroine_01:{ src:'AA_187 9-1 @6a0d2030',
     say:(G,t)=>[t&&t.by==='her'?'今天是我選的地方。……你是不是有話想說？':'今天是你約的。……你是不是有話要說？'],
     choice:G=>{ const A=(G.acts&&G.acts.att)||{}, rg=Object.keys(A).some(k=>k.indexOf('public_law_group@')===0); return [{t:'「我喜歡妳。」'},{t:rg?'「我們可以不只是讀書會的朋友嗎？」':'「我們可以不只是朋友嗎？」'},{t:'「我喜歡妳。妳不用現在回答。」'}]; },   /* 去過她的讀書會的玩家，第二個選項換說法 */
-    yes:(G,t,k)=>[{who:'narr',text:'（她翻開手帳，翻到後面某一頁，又闔起來。）'},'……我上個月就在想這件事了。','只是想說等你先講。'].concat(k===2?['我現在就可以回答。']:[]).concat(['好。我們在一起。']),
+    yes:(G,t,k)=>[{who:'narr',text:'（她翻開手帳，翻到後面某一頁，又闔起來。）'},'……我上個月就在想這件事了。','只是想說等你先講。'].concat(k===2?[{cg:'cg_date_answer_heroine01'},'我現在就可以回答。']:[]).concat(['好。我們在一起。']),   /* CG-32（AA_597；BB 2026-11-02 19:3x）放在「我現在就可以回答。」這一拍 */
     notYet:['……我很高興你跟我說。','可是我還沒想清楚，不想隨便回你。再給我一點時間。'], notYetFlag:'AN_REASON_PENDING' },
   /* 語彤：AA_187 第 9-2 節（企劃線 6a0d2030，AA-C 定稿）。約會收尾只在淡水（她的心願地點，AA_187 第 3 節）；總圖收書包那一版、事件 16 她先開口的不在這裡。
      「還沒」：事件 13（空出來的週四）還沒做，先用事件 13 以前那句 */
@@ -41,9 +41,11 @@ const CONFESS_LINES={
     preexamFlag:'SIS_DECLINED_PREEXAM',
     prerank:G=>G.flags&&G.flags.SIS_DECLINED_PRERANK?['還沒放榜啦。……我說過的，等放榜。']:['……謝謝你。','考完了，可是還沒放榜。我現在每天都在想那個數字。','等放榜好不好？放榜以後，你再跟我說一次。'],
     prerankFlag:'SIS_DECLINED_PRERANK',
+    /* AA_591 整合九件第 4 件（AA 11-02 21:25，企劃線 43d27cd80）：重新開始那一版（restartYes）放回——那是祐廷在約會結尾先說以後她的回答，不是她先告白；也兌現 4-1「想好了告訴你」。
+       （AA_591 第 11 節第 13 點曾整支拿掉，dacaaa9d1；原文照拿掉前的版本）*/
     yes:G=>typeof SISB4!=='undefined'&&SISB4.restartYes&&SISB4.restartYes(G)?['你做到了。','……我也想好了。','其他的，想了很久。……沒有了。','這次，我選你。']   /* AA_386 4-2（BB_122 9-2 答應的版本；企劃線 e848154a）；AA_398 第 47 列不數件數：分開以後、演過 ev_sis_three_conditions、重新開始的那一次。
        AA_512 6-2（企劃線 c444f0757）：4-1「其他的，我還沒想好。想好了告訴你。」在這裡兌現——「……我也想好了。」和「這次，我選你。」中間加「其他的，想了很久。……沒有了。」；第一次答應照舊 */
-      :['……我知道。','其實我也是。考試那時候就有一點了，只是那時候不想想這個。'].concat(G.flags&&(G.flags.SIS_DECLINED_PREEXAM||G.flags.SIS_DECLINED_PRERANK)?['你上次說的，我有記得。']:[]).concat(['好。']),
+      :['……我知道。','其實我也是。考試那時候就有一點了，只是那時候不想想這個。','好。'],   /* AA 2026-11-02 20:26：「你上次說的，我有記得。」拿掉（照 AA_254 第 3 節作廢，和期末飯那一句同一類）*/
     decide:(G,t,k)=>typeof SISB4!=='undefined'&&SISB4.rebuildReady&&SISB4.rebuildReady(G)?'yes':DATE.confessDecide(G,'heroine_05'),   /* AA_386 4-2：三件事以後第二次正式校外約會的結尾告白＝答應（她說好的那天）；其他照 DATE.confessDecide */
     notYet:['……謝謝你。可是我還沒想好。','不是你不好。我想再多認識你一點。'], notYetFlag:'SIS_NOT_YET' },
   /* 芷若：AA_223 第 2 節（32424049；LAWWW Q11 以後第一句不綁約會內容）。有看電影的約會（西門町 D04、光點 D05）第一句換成「今天的電影」 */

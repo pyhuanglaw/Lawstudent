@@ -35,7 +35,8 @@ const settle=async()=>{ for(let i=0;i<50&&US_BLANK.isBusy&&US_BLANK.isBusy();i++
 const LG='npc_long|何俊朗|', ISA='us_isa|國際學生會|';
 
 
-const SNOW0='（下雪了。學姊坐在小教堂前面的台階上，沒有撐傘。）';
+const SNOW0='（下雪了。學姊坐在小教堂前面的台階上，沒有撐傘。你走過去，在下面一階停下來。）';   /* AA_600 3-5（企劃線 031414cad；使用者 11-02 選「祐廷先開口」）：挽回中的初雪改成祐廷走過去——原本「…沒有撐傘。）」照 AA_600 換 */
+const A600=require('./aa600_doc.js');
 const done=id=>!!(H.G.events&&H.G.events.done&&H.G.events.done[id]);
 const waitFor=async f=>{ for(let i=0;i<400&&!f();i++) await new Promise(r=>setTimeout(r,0)); return f(); };
 (async()=>{
@@ -66,11 +67,12 @@ await sec('1-3',async()=>{ const A='（你去 C 棟還上個禮拜跟她室友�
   check('1-3. 稿裡有',inDoc(A.slice(1,-1)));
   fresh('2028-09-13',18.5,'us_shared',{US1:'alone'}); const L=await play('ev_us2_repair',[0]);
   check('1-3. 9/13 退回的報告：第一句交代鍋子',L[0]===A,J(L.slice(0,2))); });
-await sec('1-4',async()=>{ const A='（湖邊。何俊朗和其他人走在前面。她放慢腳步，走到你旁邊。）', B='（湖邊。大家走在前面。她放慢腳步，走到你旁邊。）';
-  check('1-4. 稿裡有兩句',inDoc(A.slice(1,-1))&&inDoc(B.slice(1,-1)));
-  fresh('2028-11-23',10,'us_outside',{US1:'alone',US2:'repair',MET_LONG:true}); let L=await play('ev_us3_lake',[0,0,0]); const i=L.indexOf('分手那天，你沒有解釋。');
+/* AA_600 3-4（企劃線 031414cad；使用者 11-02 選「祐廷先開口」）：祐廷放慢腳步走到她旁邊、先說「分手那天，我沒有解釋。」——原本「她放慢腳步，走到你旁邊」「分手那天，你沒有解釋。」的期望照 AA_600 換；AA_452 1-4 的「大家／何俊朗和其他人」照舊 */
+await sec('1-4',async()=>{ const A='（湖邊。何俊朗和其他人走在前面。你放慢腳步，走到她旁邊。她沒有看你。）', B='（湖邊。大家走在前面。你放慢腳步，走到她旁邊。她沒有看你。）';
+  check('1-4. 稿裡有兩句（AA_452 的「何俊朗和其他人／大家」、AA_600 3-4 的「你放慢腳步，走到她旁邊。她沒有看你。」）',inDoc('湖邊。何俊朗和其他人走在前面。')&&inDoc('湖邊。大家走在前面。')&&A600.has('你放慢腳步，走到她旁邊。她沒有看你。'));
+  fresh('2028-11-23',10,'us_outside',{US1:'alone',US2:'repair',MET_LONG:true}); let L=await play('ev_us3_lake',[0,0,0]); const i=L.indexOf('分手那天，我沒有解釋。');
   check('1-4. 感恩節湖邊（挽回中、見過何俊朗）：「分手那天」前面一句旁白',i>0&&L[i-1]===A,J(L.slice(0,4)));
-  fresh('2028-11-23',10,'us_outside',{US1:'alone',US2:'repair'}); L=await play('ev_us3_lake',[0,0,0]); const k=L.indexOf('分手那天，你沒有解釋。');
+  fresh('2028-11-23',10,'us_outside',{US1:'alone',US2:'repair'}); L=await play('ev_us3_lake',[0,0,0]); const k=L.indexOf('分手那天，我沒有解釋。');
   check('1-4. 沒見過何俊朗：「（湖邊。大家走在前面。……）」',k>0&&L[k-1]===B,J(L.slice(0,4))); });
 await sec('1-5',async()=>{ fresh('2028-12-23',5.7,'airport_arr',{US1:'alone',US2:'repair',US_TRIP_MODE:'bloom',US_TRIP_DONE:true}); const L=await play('ev_us_return');
   check('1-5. 12/23 機場（沒有交往）：「她先走了」之後「（出口，媽媽在揮手。）」',L.slice(-2)[1]==='（出口，媽媽在揮手。）'&&L.slice(-2)[0].indexOf('你看見她先走了')>=0&&inDoc('出口，媽媽在揮手。'),J(L)); });
@@ -86,12 +88,13 @@ await sec('1-7',async()=>{ const cards=[]; const tc=GM.titleCard; GM.titleCard=a
   check('1-7. 返台字卡：挽回中（布魯明頓）「舊金山轉機」、交往中（舊金山那一週）照舊「舊金山起飛」',cards.indexOf('飛回臺灣｜舊金山轉機　約 14 小時')>=0&&cards.indexOf('飛回臺灣｜舊金山起飛　約 14 小時')>=0,J(cards)); });
 
 /* ======================= 第 4 節 初雪重新開始：選完她要有反應 ======================= */
-await sec('4',async()=>{ const A='（她往旁邊挪了一點，讓出半階台階。你坐下來。雪積在兩個人的帽子上。）', P0='（回公寓以前，她翻開計畫本，在 12 月 2 日那一格寫了一個字。）', P9='（她把計畫本闔起來。那一格寫的是「雪」。）';
+await sec('4',async()=>{ const A='（她往旁邊挪了一點，讓出半階台階。你坐下來。雪積在兩個人的帽子上。）', P0='（回公寓以前，她翻開計畫本，在 12 月 2 日那一格寫了一個字。）', P9='（她把計畫本闔起來。）';
   check('4. 稿裡有「'+A+'」',inDoc(A.slice(1,-1)));
   for(const pick of [0,1]){ fresh('2028-12-02',20.1,'us_outside',{US1:'alone',US2:'repair',REPAIR:{heroine_05:3}}); const L=await play('ev_us_snow_repair',[pick]), i=L.indexOf(A);
-    check('4. 重新開始（選項 '+(pick+1)+'）：「這次我先說。」→ CG 後「'+A+'」→ 計畫本「雪」（交往中那一段）',i>0&&L[i-1]==='如果你還想的話，我們重新開始。這次我先說。'&&L[i+1]===P0&&L[L.length-1]===P9&&H.G.flags.US_SNOW==='restart',J(L.slice(-7))); }
+    /* AA_600 3-5：她不先說——祐廷選「我們重新開始，好不好？」／「……我還想跟妳在一起。」、她回「（看了你很久）……好。」，原本「這次我先說。」的期望照 AA_600 換 */
+    check('4. 重新開始（選項 '+(pick+1)+'）：祐廷說、她「（看了你很久）……好。」→ CG 後「'+A+'」→ 計畫本「雪」（交往中那一段）',i>0&&L[i-1]==='（看了你很久）……好。'&&!L.includes('如果你還想的話，我們重新開始。這次我先說。')&&L[i+1]===P0&&L[L.length-1]===P9&&H.G.flags.US_SNOW==='restart',J(L.slice(-7))); }
   fresh('2028-12-02',20.1,'us_outside',{US1:'alone',US2:'repair',REPAIR:{heroine_05:2}}); const L2=await play('ev_us_snow_repair');
-  check('4. 「……回去吧，會冷。」那一支照舊（沒有半階台階、沒有計畫本）',L2[L2.length-1]==='……回去吧，會冷。'&&L2.indexOf(A)<0&&L2.indexOf(P9)<0,J(L2)); });
+  check('4. 「……回去吧，會冷。」那一支（AA_600 3-5 的字）照舊沒有半階台階、沒有計畫本',L2[L2.length-1]==='……回去吧，會冷。'&&L2.indexOf(A)<0&&L2.indexOf(P9)<0,J(L2)); });
 
 H.done();
 })();

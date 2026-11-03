@@ -122,12 +122,15 @@ await sec('0',async()=>{ const sc=f=>html.indexOf('<script src="'+f), i7=sc('src
     !!SET.Y4S2&&!!SET.PG&&J(cnt(SET.Y4S2))===J([6,5,5,5,4,4,4])&&SET.Y4S2.dms.length===0&&J(cnt(SET.PG))===J([4,4,4,3,4,4,3])&&SET.PG.dms.length===0,J([cnt(SET.Y4S2),cnt(SET.PG)]));
   const ids=[]; for(const S of (HAS()?FEED.SETS():[])){ for(const p of S.posts) ids.push('p:'+p.id); for(const q of S.dms) ids.push('d:'+q.id); }
   check('0. 九份的 id 都不重複（動態 284＋33＋26、私訊 23；前七份 284＝多 AA_514 加的 kx4bc）',ids.length===366&&new Set(ids).size===ids.length,J([ids.length,ids.filter((x,i)=>ids.indexOf(x)!==i)]));
+  /* sis3h 的私訊：AA 對 AA_584 的補充第 2 點（2026-11-02 19:19；AA_584 第 9 節第 1 點，企劃線 14154434b）祐廷「恭喜。最後幾頁？」、她「一百二十二頁。指導教授要我刪二十頁，刪了。」——不在 AA_510 的稿，對 AA_584 */
+  let D584=''; try{ D584=cp.execSync('git -c core.quotepath=false show 14154434b:"docs/story_planning/AA_584_學姊改稿_第二批_閒聊階梯與邀約.md"',{cwd:H.ROOT,encoding:'utf8',maxBuffer:1<<24}); }catch(e){ D584=''; }
+  const SIS3H=['恭喜。最後幾頁？','一百二十二頁。指導教授要我刪二十頁，刪了。'], in584=t=>SIS3H.includes(t)&&D584.includes('「'+t+'」');
   for(const term of ['Y4S2','PG']){ const S=SET[term], md=doc[term], sha=term==='Y4S2'?SHA510:SHA511;
     if(!S||!md){ check('0. '+term+' 對稿（'+sha+'）',false,!md?'git fetch origin claude/magical-albattani-bk7b4n':'沒有資料'); continue; }
-    const L=strs(S), bad=L.filter(t=>!md.includes(t));
+    const L=strs(S), bad=L.filter(t=>!md.includes(t)&&!in584(t));
     check('0. '+term+' ① 遊戲裡每一句都在稿裡（'+sha+'，一字不差；'+L.length+' 句）',L.length>=(term==='Y4S2'?180:140)&&!bad.length,J(bad.slice(0,8)));
     const rows=rowsOf(md,term), wrong=[], wd=[];
-    for(const r of rows){ const e=expectRow(term,r), p=S.posts.find(x=>x.id===e.id), w=whenOf(r.when); if(!w||!w.wdOk) wd.push(r.sec+'-'+r.n+' '+r.when);
+    for(const r of rows){ const e=expectRow(term,r), p=S.posts.find(x=>x.id===e.id); if(e.id==='sis3h'&&SIS3H.every(in584)) e.dm=SIS3H; const _u=0, w=whenOf(r.when); if(!w||!w.wdOk) wd.push(r.sec+'-'+r.n+' '+r.when);
       const got=p&&HAS()?FEED.when(H.G||{flags:{}},p.t,term):null;
       const tOk=!!got&&!!w&&(w.place==='紐約'?tzFmt('America/New_York').format(new Date(utcOf(got)))===tzFmt('UTC').format(new Date(Date.UTC(CALENDAR.dateOf(w.day).y,CALENDAR.dateOf(w.day).m-1,CALENDAR.dateOf(w.day).d,Math.floor(w.h),Math.round((w.h-Math.floor(w.h))*60)))):got.day===w.day&&Math.abs(got.h-w.h)<1e-6);
       const same=!!p&&p.who===e.who&&p.st===e.st&&p.pic===e.pic&&p.say===e.say&&C(p.cm)===C(e.cm)&&C(p.dm)===C(e.dm)&&!p.went&&tOk;
@@ -204,7 +207,7 @@ await sec('3',async()=>{ if(!HAS2()){ check('3. 時差',false,'沒有資料'); r
   check('3. 畢業以後玩家都在臺灣：臺灣、日本、美國路線 2030-11-11 STORY.tzOffset＝0（以安在紐約是她的時差，不改玩家的時鐘）',
     ['TW','JP','US'].every(r=>STORY.tzOffset(Object.assign({},H.G,{flags:Object.assign({},H.G.flags,{EXCHANGE_ROUTE:r})}),DK('2030-11-11'))===0));
   const D1111=DK('2030-11-11'); fresh(D1111,8.5); who('heroine_01','FRIEND'); walk(D1111,8.98); const n0=item('an4i'); walk(D1111,9.02);
-  check('3. 以安第 4 則在遊戲裡臺灣 11/11 09:00 出（08:59 還沒有）、手機上寫 09:00、「第三個國家的窗戶。」',!n0&&!!item('an4i')&&HT().includes('今天 09:00')&&HT().includes('第三個國家的窗戶。'),J(item('an4i')));
+  check('3. 以安第 4 則在遊戲裡臺灣 11/11 09:00 出（08:59 還沒有）、手機上寫 09:00、「第三個國家了。」',!n0&&!!item('an4i')&&HT().includes('今天 09:00')&&HT().includes('第三個國家了。'),J(item('an4i')));
   const D311=DK('2029-03-11'); fresh(D311,5.5); who('heroine_02','ACQ'); walk(D311,6.1); const u0=item('zr1h'); walk(D311,6.13);
   check('3. 芷若第 1 則在遊戲裡臺灣 3/11 06:07 出（06:06 還沒有）',!u0&&!!item('zr1h')&&Math.abs(item('zr1h').h-(6+7/60))<0.01,J(item('zr1h'))); });
 
@@ -225,8 +228,9 @@ await sec('4',async()=>{ if(!HAS2()){ check('4. 稿的測試',false,'沒有資�
     h5.includes('第十三本。')&&h5.includes('一本新的手帳，第一頁寫「研究所」')&&J(a5)===J(['之前那十二本呢？','在台中。媽媽照年份排好了。'])&&!!A84&&A84.choices.some(c=>/^十二本，日本又多一本。/.test(c.reply)),J(a5));
   /* 學姊第 3 則「一百二十二頁」：接閒聊 S7-L6（一百四十二頁、指導教授說要刪二十頁）*/
   const D620=DK('2029-06-20'); fresh(D620,20.5); who('heroine_05','FRIEND'); walk(D620,21.1); FEED.respond(H.G,'sis3h','dm'); const s3=th('heroine_05').slice(-2).map(x=>x.text); const S76=lad('S7-L6');
-  check('4. 學姊第 3 則（6/20 修正本「交了。」）私訊問「刪了二十頁？」→「刪了。最後剩一百二十二頁。」＝閒聊 S7-L6 的一百四十二頁刪二十頁',
-    J(s3)===J(['刪了二十頁？','刪了。最後剩一百二十二頁。'])&&!!S76&&S76.lines.some(l=>l.includes('一百四十二頁'))&&S76.choices.some(c=>c.reply.includes('指導教授說要刪二十頁')),J(s3));
+  /* AA_584 第 9 節第 1 點：閒聊 S7-L6（爸爸問論文幾頁）整層刪了；這則私訊 AA 改成「恭喜。最後幾頁？」→「一百二十二頁。指導教授要我刪二十頁，刪了。」，交 BB 口氣審、和手機那一批一起進——那一批進來以前私訊照舊 */
+  check('4. 學姊第 3 則（6/20 修正本「交了。」）私訊問「恭喜。最後幾頁？」→「一百二十二頁。指導教授要我刪二十頁，刪了。」（AA 對 AA_584 的補充第 2 點：閒聊 S7-L6 已照 AA_584 刪，祐廷那句少了前情）',
+    J(s3)===J(['恭喜。最後幾頁？','一百二十二頁。指導教授要我刪二十頁，刪了。'])&&!S76,J(s3));
   /* 可昕非交往的玩家看得到四則（第 2 段也走過）：認識的那三則照時間出 */
   const kxSeen=[]; for(const [id,d,h] of [['kx1h',TDt('Y4S2',2,7),21.1],['kx2h',DK('2029-04-25'),22.1],['kx3h',DK('2029-06-10'),20.1],['kx4h',DK('2029-08-06'),21.1]]){ fresh(d,h-0.5); who('kexin','FRIEND'); walk(d,h); if(item(id)&&HT().includes((post(id)||{}).say)) kxSeen.push(id); }
   check('4. 可昕非交往（朋友）：四則在她貼的時間都看得到（3/4 計畫表、4/25 生日隔天、6/10 畢業、8/6 一試）',J(kxSeen)===J(['kx1h','kx2h','kx3h','kx4h']),J(kxSeen)); });

@@ -108,7 +108,7 @@ const after=(L,a,b)=>{ const i=L.indexOf(a), j=L.indexOf(b); return i>=0&&j>i; }
   await sec('4',async()=>{
     const d=STORY.termDay('Y1S2',6,6); fresh(d-1,20,{}); setRel('heroine_04',S6);
     const P=DATE.plan(G,{who:'heroine_04',locs:['D31','D32'],day:d,depart:9,kind:'overnight',transport:'hsr+coach'});
-    check('4. D31＋D32：清境要車＝整趟開車；去程照日月潭、回程照清境（210 分＋還車 30 分）；車資＝(1000＋1200)÷2（去程、回程各一半）',P.ok&&P.transport==='car'&&P.fare===1100&&Math.abs(P.back-(19+210/60+0.5))<1e-9&&J(P.locs)==='["D31","D32"]',J(P));
+    check('4. D31＋D32：清境要車＝整趟開車；去程照日月潭、回程照清境（210 分；AA_599 更正：開車直接回宿舍，不加還車 30 分）；車資＝(1000＋1200)÷2（去程、回程各一半）',P.ok&&P.transport==='car'&&P.fare===1100&&Math.abs(P.back-(19+210/60))<1e-9&&J(P.locs)==='["D31","D32"]',J(P));
     check('4. 預約時就算住宿：1100＋2500＝3600',DATE.check(G,{who:'heroine_04',locs:['D31','D32'],day:d,depart:9,kind:'overnight',transport:'car'}).cost===3600,J(DATE.check(G,{who:'heroine_04',locs:['D31','D32'],day:d,depart:9,kind:'overnight',transport:'car'})));
     const r=await trip({who:'heroine_04',locs:['D31','D32'],day:d,transport:'car'},['湖邊步道','湖邊的茶葉蛋攤','觀景台看雲海','大草原']);
     const LS=(loc,k)=>{ const C=(((DATE_LINES.loc[loc]||{}).lines||{}).heroine_04||{})[k]||{}, out=[]; for(const s of [C.first].concat(C.normal||[],C.dating||[])) for(const x of ((s&&s.lines)||[])) out.push(x.text); return out; };
@@ -239,7 +239,8 @@ const after=(L,a,b)=>{ const i=L.indexOf(a), j=L.indexOf(b); return i>=0&&j>i; }
   await sec('14c',async()=>{
     // 5-2：D26～D32 時間不對的九句（只改引號裡的字；date_lines.js 由 import_date_lines.py 疊上去）
     const bad=[]; const texts=(x,o)=>{ if(Array.isArray(x)) x.forEach(v=>texts(v,o)); else if(x&&typeof x==='object'){ if(typeof x.text==='string') o.push(x.text); for(const k in x) if(k!=='text') texts(x[k],o); } return o; };
-    for(const f of SP.fix52){ const T=texts((((DATE_LINES.loc[f.loc]||{}).lines||{})[f.who]),[]); if(T.includes(f.old)) bad.push(f.loc+' '+f.who+' 還有舊句：'+f.old); if(!T.includes(f.neu)) bad.push(f.loc+' '+f.who+' 沒有新句：'+f.neu); }
+    const R594=require('./an_rev_doc.js').ROWS.filter(r=>/AA_594_/.test(r.doc)&&/^date_lines\.js/.test(r.where));   /* AA_359 的新句後來又被以安改稿④b（AA_594 第 2-14 節）改的：照 AA_594 的改成找（tests/aa594_an_4b_unit.js 逐列查）*/
+    for(const f of SP.fix52){ const T=texts((((DATE_LINES.loc[f.loc]||{}).lines||{})[f.who]),[]), r=f.who==='heroine_01'&&R594.find(x=>x.old===f.neu&&x.where.includes('loc.'+f.loc+'.')), neu=r?r.nw:f.neu; if(T.includes(f.old)) bad.push(f.loc+' '+f.who+' 還有舊句：'+f.old); if(!T.includes(neu)) bad.push(f.loc+' '+f.who+' 沒有新句：'+neu); }
     check('14. 5-2：九句都換成「改成」那一欄（只在那個地點、那個人；舊句不見了）',SP.fix52.length===9&&!bad.length,bad.join('；'));
     check('14. 5-2：date_lines.js 的來源寫著 AA_359@'+SPEC_SHA,DATE_LINES.source.includes('AA_359_兩天一夜的約會_住宿那一段.md@'+SPEC_SHA),DATE_LINES.source.slice(-200)); });
   await sec('14d',async()=>{

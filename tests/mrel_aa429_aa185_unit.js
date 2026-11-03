@@ -204,9 +204,9 @@ await sec(6,async()=>{
   Object.assign(SOCIAL.rel(A1),{npcRom:35,fam:50,trust:30});
   let a=due(); check('6. 一學期以後的讀書會散會（21:30 人在萬才館）＝祐廷先開口的選項',a&&a.k==='an_rb_open');
   clr(); H.picks=[0]; await play(a);
-  check('6. 「我想再寫一次理由欄。」／（先不說）→「……給我一週。」',J(H.opts[0])===J(['「我想再寫一次理由欄。」','（先不說）'])&&J(T())===J(['……給我一週。']));
+  check('6. 「我想再跟妳試一次。」（AA_594 使2，原本「我想再寫一次理由欄。」）／（先不說）→「……給我一週。」',J(H.opts[0])===J(['「我想再跟妳試一次。」','（先不說）'])&&J(T())===J(['……給我一週。']));
   d=plgFrom(H.G.day+7); setD(d,21.7); a=due(); clr(); await play(a);
-  check('6. 一週後的讀書會：（她遞來一頁空白的理由欄。）「你先寫。」→ 回到第 6 階、心意邀約照一般條件',a.k==='an_rb_form'&&J(T())===J(['（她遞來一頁空白的理由欄。）','你先寫。'])&&DATE.stageNum(A1)===6&&!X().rebuildBlock(H.G,A1));
+  check('6. 一週後的讀書會：（她從筆記本撕下一張空白的紙，遞過來。）「你先寫。」→ 回到第 6 階、心意邀約照一般條件',a.k==='an_rb_form'&&J(T())===J(['（她從筆記本撕下一張空白的紙，遞過來。）','你先寫。'])&&DATE.stageNum(A1)===6&&!X().rebuildBlock(H.G,A1));
   /* 以安不回答：多一步 */
   fresh('2026-09-20',12); H.CLOSE(A1); ROM.start(H.G,A1); ROM.end(H.G,A1,'apart_drift'); Object.assign(SOCIAL.rel(A1),{npcRom:35,fam:50,trust:30});
   d=plgFrom(H.G.day+113); setD(d,21.7); H.G.zone='wancai'; clr(); H.picks=[0,1,0]; await play(due());

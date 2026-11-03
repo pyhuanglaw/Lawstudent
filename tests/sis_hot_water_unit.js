@@ -42,8 +42,8 @@ GM.money=function(n){ G.money+=n; };
   { fresh(termDay('Y1S1',14,2),21.6,'lawlib',{}); G.stage='law'; const e=STORY.schedEnt(CHARACTERS.heroine_05,G); check('1. 作息：那幾晚她在法圖念到閉館（21:45）',!!e&&e.zone==='lawlib'&&e.to===21.75,JSON.stringify(e)); }
   // 2. 裝熱水（演過空的保溫瓶、選黑咖啡＝HELPED 多一句）
   { at('Y1S1',14,2,21.6); SOCIAL.remember('heroine_05','HELPED',''); said=[]; picks=[0]; const cg=[]; const c0=ADV.cg; ADV.cg=id=>cg.push(id); await EVENTS.run(HW); ADV.cg=c0; const L=lines();
-    check('2. 開場旁白、「我在算還剩幾天。」「……算完就不想算了。」',L[0]==='（九點四十分，閉館的廣播響了。自習室的燈一盞一盞關掉。她站在走廊的飲水機前面，手上是空的保溫瓶，沒有按。）'&&/我在算還剩幾天。$/.test(L[1])&&/……算完就不想算了。$/.test(L[2]),JSON.stringify(L.slice(0,3)));
-    check('2. 「我去幫妳裝熱水。」→「……好燙。」笑出聲音、CG BCG-01、HELPED 多「上次是黑咖啡。……這次換熱水。」→「謝謝。明天八點，一樣的位子。」；HOT_WATER',L.some(t=>/……好燙。$/.test(t))&&cg.includes('cg_hot_water_heroine05')&&L.some(t=>/上次是黑咖啡。……這次換熱水。$/.test(t))&&/謝謝。明天八點，一樣的位子。$/.test(L[L.length-1])&&G.flags.HOT_WATER===true,JSON.stringify(L.slice(-4)));
+    check('2. 開場旁白、「我在算還剩幾天。」「算完就不想算了。」',L[0]==='（九點四十分，閉館的廣播響了。自習室的燈一盞一盞關掉。她站在走廊的飲水機前面，手上拿著保溫瓶，沒有按。）'&&/我在算還剩幾天。$/.test(L[1])&&/算完就不想算了。$/.test(L[2]),JSON.stringify(L.slice(0,3)));
+    check('2. 「我去幫妳裝熱水。」→「……好燙。」笑出聲音、CG BCG-01、HELPED 也沒有「又遇到你了。」（AA_595 第 3 節拿掉）→「謝謝。明天八點，一樣的位子？」；HOT_WATER',L.some(t=>/……好燙。$/.test(t))&&cg.includes('cg_hot_water_heroine05')&&!L.some(t=>/又遇到你了。$/.test(t))&&/謝謝。明天八點，一樣的位子？$/.test(L[L.length-1])&&G.flags.HOT_WATER===true,JSON.stringify(L.slice(-4)));
     check('2. 只一次；裝過熱水就沒有第二次',!EVENTS.check(HW)&&(G.day++,near(),!EVENTS.check(HW2))); }
   { at('Y1S1',14,2,21.6); said=[]; picks=[0]; await EVENTS.run(HW); check('2. 沒有 HELPED：沒有「上次是黑咖啡」那句',!lines().some(t=>/上次是黑咖啡/.test(t))); }
   // 3. 請一罐 → 下一次一起念書「……又空了。」

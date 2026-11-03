@@ -11,7 +11,7 @@
        這裡只換、不新增，照舊不發（要發的話：liveDue 的 on 加 HOME.baseMode(G)＆CALENDAR.termOf；經濟系的跳日期收到任何訊息都會停，每週四會多一個停點）。
      - 學期中住家裡的時候，家人群組照原本每次加入（PHONE.join），週四 20:00 才發。
      - 過年爸爸在家那幾天（除夕前 3 天到初五；2029 年他待到元宵 2/26，AA_440 第 4 節）不發。日本路線 3/23（四）換成 JP_0323 三句。
-   第 2 節 日本路線出發前（2028-02-20～03-24，住臺北的家）：
+   第 2 節 日本路線出發前（2028-02-20～03-24，住家裡）：
      - 在家、在外面的一段（2/21、2/26、3/8、3/12、3/14、3/17、3/18、3/19、3/21；九個晚上的日文電話；挽回中 3/11；沒有電話的五個早上）＝JP.SCH 多幾列（w:'home'）：
        jp3d.js 的 homeRound 到了就演（JP.dueStop／playStop），快轉停在那裡（JP.nextStop）。
      - 手機（2/25 10:00 系統、2/25 21:00 以安、3/4 22:00 宜蓁、3/5 20:00 麵店團、3/10 10:00 系統、3/18 21:00 以安）＝STORY.PHONE_RULES；快轉停點＝JP.STOPS（排好了、還沒送到的照樣停）。
@@ -58,7 +58,7 @@ const JPPREP=(function(){
   S.groupFor=function(G){ if(S.is0323(G)) return X.JP_0323; return S.groupLines(G,S.groupIdx(G)); };
   /* 學期中（原本 home3d.js 會發的時候：法律系、CALENDAR.termOf 有、STORY.mainDay≥2）*/
   S.termOn=function(G){ if(!law(G)) return false; const Tm=typeof CALENDAR!=='undefined'&&CALENDAR.termOf?CALENDAR.termOf(G.day):null, md=typeof STORY!=='undefined'&&STORY.mainDay?STORY.mainDay(G):G.day; return !!Tm&&md>=2; };
-  /* AA_466 第 5 節（企劃線 8a7f797ec）：日本路線退宿以後（JP.movedOut：出發前住臺北的家 → 人在日本（6/8 學期表結束以後也發）→ 8/5 回來以後住家裡的暑假，到搬進 409）每週四都發，
+  /* AA_466 第 5 節（企劃線 8a7f797ec）：日本路線退宿以後（JP.movedOut：出發前住家裡 → 人在日本（6/8 學期表結束以後也發）→ 8/5 回來以後住家裡的暑假，到搬進 409）每週四都發，
      同一輪接著輪、不重算（F.HOME_LIVE_N）；人在日本＝國外（STORY.abroad）；臺灣 20:00＝手機的當地時間 20＋時差（日本 21:00）。人在日本那一路由 jp3d.js 的 HOME.phoneRules 放行 */
   S.jpOn=G=>isJP(G)&&typeof JP!=='undefined'&&!!JP.movedOut&&!!JP.movedOut(G)&&!(typeof CALENDAR!=='undefined'&&CALENDAR.dateOf&&CALENDAR.dateOf(G.day).key>='2028-09-04');   /* AA_471 第 1 節：只到大四上開學（2028-09-04 搬進 409）為止——畢業 6/28 搬回家以後 JP.movedOut 又成立，原本一路發到 2030（76 個週四、每則一個停點）；畢業以後照所有人一樣 */
   S.on=G=>S.termOn(G)||S.jpOn(G);
@@ -113,7 +113,7 @@ const JPPREP=(function(){
   S.plan=function(G){ const d=DK('2028-03-01'); if(d==null||typeof OUT==='undefined'||!OUT.plan||OUT.get(G,'jpp_0301')||!arrived(G,'jpp_0225_info')||NOW(G)>=T(d,14.5)||!S.prep(G)) return false;
     return OUT.plan(G,{id:'jpp_0301',ev:'ev_jpp_0301',day:d,h:14,late:0.5,place:'國際事務處',title:'出國交換行前說明會',travel:'捷運＋公車 約 30 分鐘',travelH:0.5}); };
   S.phone=function(G){ if(!G||!G.flags||typeof PHONE==='undefined'||!isJP(G)) return; for(const m of S.MSGS){ try{ S.send(G,m); }catch(e){ console.warn('JPPREP '+m.tag,e); } } try{ S.plan(G); }catch(e){ console.warn('JPPREP plan',e); } };
-  /* 快轉停點（住臺北的家）：手機那幾則的時間（排好了、還沒送到的照樣停）*/
+  /* 快轉停點（住家裡）：手機那幾則的時間（排好了、還沒送到的照樣停）*/
   S.stops=function(G,now,where){ if(where!=='home'||!isJP(G)) return null; const out=[];
     for(const m of S.MSGS){ const d=DK(m.day); if(d==null||arrived(G,m.tag)) continue; const t=T(d,m.h); if(t<=now+1e-6) continue; if(sent(G,m.tag)||S.gate(Object.assign({},G,{day:d,hour:m.h}),m)) out.push(t); }
     return out; };

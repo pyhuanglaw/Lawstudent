@@ -18,7 +18,7 @@
    2-Y3-18 慈 5：第 13 週以安、芯慈在總圖三樓　2-Y3-19 K17：12/8 21:00 → 12/9 21:45 視訊；4/25 21:00 → 4/26 18:30 政大山下（日本路線＝視訊被看；不去＝21:00 照片）
    2-Y3-20 事件 13：12/16 17:00 語彤兩則、18:00～19:45 總圖三樓　2-Y3-21 聖誕：12/24 21:00 → 12/25 21:00 視訊（沒接＝一則）
    2-Y3-23 KN：2028-01-25 22:00（回覆到 1/26 09:00；「打給妳。」＝演出來的短電話；不回＝1/26 09:00 一則）　2-Y3-24 情人節：2/13 21:00 → 2/14 20:00 視訊（沒接＝20:30 兩則）
-   2-Y3-25 日本路線 X1：2/20 14:00 以後人在宿舍房間＝裝箱、搬回臺北的家（人在家＝先帶回宿舍）；21:00 柏翰兩則；2/23 10:00 系辦
+   2-Y3-25 日本路線 X1：2/20 14:00 以後人在宿舍房間＝裝箱、搬回家（人在家＝先帶回宿舍）；21:00 柏翰兩則；2/23 10:00 系辦
    測試：node tests/r2y3a_events_unit.js */
 'use strict';
 const R2Y3A=(function(){
@@ -242,6 +242,16 @@ const R2Y3A=(function(){
     /* AA_462 第 1 節：「我自己去」緊接在「我跟以安去。」後面像放你鴿子——換字；約了她週五一起去地院的（CRIMPRO_WITH 'an'）多一句 */
     PHONE.at(G,d,atH(G,d,22),[{th,from:'heroine_01',text:'今天下午我先去了一趟行政法院。自己想看的。'},{th,from:'heroine_01',text:'是一個人告區公所。'}].concat(F.CRIMPRO_WITH==='an'?[{th,from:'heroine_01',text:'禮拜五的地院照舊。'}]:[]),'y3_an14_msg'); F.AN14='group'; remember('heroine_01','AN_ADMIN_COURT'); };
 
+  /* ===================== AA_601 以安「一起去行政法院旁聽」：ev_an_admin_court 選「下次我也想去。」（AN_ADMIN_NEXT）、FRIEND 以上、不是前任（AA_600）＝10/27（三）21:00 她傳開庭表；
+     「好。」＝出遊 11/3（三）13:50（不是 must；11/3 下午沒有必修）；「那天我有課。」→「好。」；不回＝不約（她不再提）。沒去＝AN_ADMIN_TOGETHER 'missed'、她不再提 ===================== */
+  const AN_ADM={msg:'2027-10-27',day:'2027-11-03'};
+  const isExAn=G=>!!(G.flags&&(G.flags.EX_heroine_01||(typeof ROM!=='undefined'&&ROM.isEx&&ROM.isEx(G,'heroine_01'))))&&!dating(G,'heroine_01');
+  S.anAdminPhone=function(G){ const F=G.flags, a=DK(AN_ADM.msg), d=DK(AN_ADM.day); if(a==null||d==null||G.day<a||G.day>d+1||!F.AN_ADMIN_NEXT||F.AN_ADMIN_TOGETHER) return; const n=now(G);
+    if(n>=T(a,21)&&n<T(d,12)&&!sent(G,'y3_an_admin')&&met(G,'heroine_01','FRIEND')&&!isExAn(G)){ const A=P('heroine_01'), Ar=R('heroine_01');
+      PHONE.at(G,a,atH(G,a,21),[A('下禮拜三下午兩點半，行政法院。'),A('📷（一張開庭表，第二行用螢光筆畫了一條線。）'),Object.assign(A('旁聽席很小。我一點五十到。'),{ask:{id:'y3_an_admin',until:T(d,12),opts:[{t:'好。',set:{AN_ADMIN_GO:true}},{t:'那天我有課。',say:[Ar('好。')],set:{AN_ADMIN_TOGETHER:'no'}}]}})],'y3_an_admin'); }
+    if(F.AN_ADMIN_GO&&!F.AN_ADMIN_TOGETHER&&!outGet(G,'y3_an_admin')&&n<T(d,13+50/60+0.25)) plan(G,{id:'y3_an_admin',ev:'ev_an_admin_court_together',day:d,h:13+50/60,late:0.25,place:'行政法院・旁聽席',title:'行政法院旁聽（以安）13:50',travel:'捷運約 30 分鐘',travelH:0.5,alarm:true}); };
+  S.anAdminMissed=function(G){ G.flags.AN_ADMIN_TOGETHER='missed'; };
+
   /* ===================== 2-Y3-14 翰 4：柏翰接讀書會的版本＝11/18（四）21:40 私訊 ===================== */
   S.bohanPhone=function(G){ const F=G.flags, d=DK('2027-11-18'); if(d==null||G.day<d||G.day>d+1||now(G)<T(d,21+40/60)||sent(G,'y3_bohan_w11')) return;
     if(!done(G,'ev_bohan_third_floor')||F.STUDYGROUP_LEADER||!done(G,'ev_bohan_scores')) return; silentContact(G,'classmate_bohan');
@@ -335,14 +345,14 @@ const R2Y3A=(function(){
       await GM.say(null,'（宿舍的床墊翻起來的時候，下面有一張不知道誰的課表。）');   /* AA_377 第 18 項：507 是大三才搬進去的 */
       await GM.say(null,'（507 你那半邊空了。檯燈原本的位置，桌上留下一圈比較白的印子。）');
       if(typeof ADV!=='undefined'&&ADV.active&&ADV.end) ADV.end();
-      await GM.fade(true); if(GM.titleCard) await GM.titleCard('搬回臺北的家','計程車　約 30 分鐘',2400); GM.advance(0.5);
+      await GM.fade(true); if(GM.titleCard) await GM.titleCard('搬回家','計程車　約 30 分鐘',2400); GM.advance(0.5);
       if(typeof HOME!=='undefined'&&HOME.rec){ const H=HOME.rec(G); H.at=true; H.day=G.day; if(typeof ADV!=='undefined'&&ADV.begin) ADV.begin({background:HOME.bgNow?HOME.bgNow():'dark'}); }
       await GM.fade(false); if(GM.memo) GM.memo('退宿（日本路線）'); if(GM.autosave) GM.autosave(); }
     finally{ GM.sceneEnd(); }
-    if(typeof HOME!=='undefined'&&HOME.loop&&HOME.at(G)) await HOME.loop(GM);   /* 之後住臺北的家（2/21～3/24 不在臺大修課）：HOME 還沒有「日本路線住家裡」的模式（要 LAWWW 在 home3d.js 接 STORY.movedOut）*/
+    if(typeof HOME!=='undefined'&&HOME.loop&&HOME.at(G)) await HOME.loop(GM);   /* 之後住家裡（2/21～3/24 不在臺大修課）：HOME 還沒有「日本路線住家裡」的模式（要 LAWWW 在 home3d.js 接 STORY.movedOut）*/
     return true; };
   S.x1Phone=function(G){ const F=G.flags, d=DK(X1D); if(d==null||G.day<d) return;
-    if(S.x1Due(G)&&atHome(G)&&!outGet(G,'y3_x1_back')) plan(G,{id:'y3_x1_back',must:true,goto:{zone:'dorm',x:0,z:2.4,yaw:Math.PI},day:G.day,h:G.hour,late:8,place:'宿舍',title:'回宿舍',travel:'捷運＋公車 約 40 分鐘',travelH:0.7});   /* 人在臺北的家：先帶回宿舍（字卡「回宿舍」）*/
+    if(S.x1Due(G)&&atHome(G)&&!outGet(G,'y3_x1_back')) plan(G,{id:'y3_x1_back',must:true,goto:{zone:'dorm',x:0,z:2.4,yaw:Math.PI},day:G.day,h:G.hour,late:8,place:'宿舍',title:'回宿舍',travel:'捷運＋公車 約 40 分鐘',travelH:0.7});   /* 人在家：先帶回宿舍（字卡「回宿舍」）*/
     if(F.X1_JP==null) return;
     if(knows('classmate_bohan',G)&&G.day<=d+1&&now(G)>=T(d,21)&&!sent(G,'y3_x1_bohan')){ silentContact(G,'classmate_bohan'); const B=P('classmate_bohan');
       PHONE.at(G,d,atH(G,d,21),[B('你的床，下學期學弟要來住。'),Object.assign(B('東西都拿走了嗎。'),{ask:{id:'y3_x1_bohan',opts:[{t:'拿走了。',say:[R('classmate_bohan')('好。八月見。')]}]}})],'y3_x1_bohan'); }
@@ -351,7 +361,7 @@ const R2Y3A=(function(){
   /* ===================== 掛勾 ===================== */
   S.phone=function(G,GM){ if(!G||!G.flags||!law(G)||typeof PHONE==='undefined') return;
     S.khPhone(G); S.qixiPhone(G); S.f2Phone(G); S.welcomePhone(G); S.firstMealPhone(G); S.captainPhone(G); S.k15Phone(G); S.k11Phone(G); S.q8bPhone(G); S.typhoonPhone(G);
-    S.callPhone(G); S.crPhone(G); S.an14Phone(G); S.bohanPhone(G); S.fairPhone(G); S.c4Phone(G); S.leasePhone(G); S.k17Phone(G); S.yt13Phone(G); S.xmasPhone(G);
+    S.callPhone(G); S.crPhone(G); S.an14Phone(G); S.anAdminPhone(G); S.bohanPhone(G); S.fairPhone(G); S.c4Phone(G); S.leasePhone(G); S.k17Phone(G); S.yt13Phone(G); S.xmasPhone(G);
     S.knPhone(G); S.vdayPhone(G); S.x1Phone(G); };
   let busy=false;
   (globalThis.LOADLOCKS=globalThis.LOADLOCKS||{})['r2y3a3d:busy']=()=>{ busy=false; };   /* 讀檔時放開（LOADGEN-LOCKS-1028）：讀檔凍住的舊劇情走不到 finally，只把旗標設回初始值 */

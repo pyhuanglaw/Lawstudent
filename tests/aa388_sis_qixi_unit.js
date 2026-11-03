@@ -40,8 +40,8 @@ const US=f=>Object.assign({EXCHANGE_ROUTE:'US',EXCH_RULE:1,US_DEPARTED:true,US_A
 const VDAY=J({fam:3,comf:6,npcRom:5}), CALL=J({fam:2,comf:3,npcRom:3});
 const L11=['（店裡只有兩桌客人。她已經坐在靠牆的位子，菜單沒有翻開。）','這家今天不會客滿。我查過了。','鯖魚。你呢？','好。兩份鯖魚。','（吃到一半，她問你暑假在做什麼，你講了，她聽得很認真。）','我九月開學。研究室的位子已經分好了，靠門。','……開學以後，平日晚上我大概都在那裡。','七點以後。七點以前我不理人。','（巷口的花店門口擺了一排包好的玫瑰。她看了一眼，沒有停。）'];
 const L12=['（八點零五分，她從研究室出來，手上拿著一疊印好的稿子。）','第三節寫完了。……第二節被我刪了一半。','（你們坐在法律系館A門口的台階上吃便當。暑假的晚上，校園裡沒什麼人。）','算。刪掉的那一半本來就不該寫。','明年八月，我就在美國了。','（她把便當盒蓋起來，收進袋子裡。）','走吧。我送你到路口。'];
-const L13=['（週六早上的市集，攤子上堆著桃子和玉米。）','這邊沒有七夕。','臺灣那邊快過完了。……我早上算過時差。','（她挑了兩顆桃子，捏了一下，放回去一顆。）','這邊的七夕是什麼？','買桃子。','……好。那就買桃子。'];
-const LV=['我這邊是早上。你那邊是七夕。','我剛起來。頭髮很亂，不要截圖。','……我說了不要。','（她把鏡頭轉到窗外）','好，你截這個。','十二月我就回去了。','（她那邊有人在敲門。她說室友要出門，掛掉以前，對著鏡頭揮了一下手。）'];
+const L13=['（週六早上的市集，攤子上堆著桃子和玉米。）','這邊沒有七夕。','臺灣那邊快過完了。……我早上算過時差。','（她挑了兩顆桃子，捏了一下，放回去一顆。）','這邊的七夕是什麼？','買桃子。','好。那就買桃子。'];
+const LV=['我這邊是早上。你那邊是七夕。','我剛起來。頭髮很亂。','（畫面黑掉。）等我一下。','（過了一分鐘，鏡頭打開。頭髮綁好了。）','好了。','十二月我就回去了。','（她那邊有人在敲門。她說室友要出門，掛掉以前，對著鏡頭揮了一下手。）'];
 const sec=async(n,f)=>{ try{ await f(); }catch(e){ check(n+'. 丟出例外（中斷這一節）',false,String(e&&e.stack||e).slice(0,300)); } };
 (async()=>{
   /* ======================= 0 讀稿、接線 ======================= */
@@ -55,7 +55,7 @@ const sec=async(n,f)=>{ try{ await f(); }catch(e){ check(n+'. 丟出例外（中
     check('0. 劇情匯入白名單：AA_388 @3a509150 approved（AA-B 2026-10-23 07:0x 交付 DL-AA388-QIXI）、task SIS-QIXI-L-1023、kind text',!!f&&f.sha==='3a509150'&&f.status==='approved'&&/AA-B 2026-10-23 07:0x/.test(f.approvedBy||'')&&/DL-AA388-QIXI/.test(f.approvedBy||'')&&f.task==='SIS-QIXI-L-1023'&&f.kind==='text',J(f)); }
   { const e=ev('ev_sis_qixi');
     check('0. ev_sis_qixi 不是 once（每年同一個 id）、出遊（trigger outing）',!e.once&&e.trigger==='outing'&&Array.isArray(e.participants)&&e.participants[0]===ID); }
-  { const bad=[]; const T_=t=>{ if(typeof t==='string'&&!inDoc(t)) bad.push(t); };
+  { const A590=require('./aa590_doc.js'), A591=require('./aa591_doc.js'), bad=[]; const T_=t=>{ if(typeof t==='string'&&!inDoc(t)&&!A590.has(t)&&!A591.has(t)) bad.push(t); };   /* AA_591（學姊改稿第四批，企劃線 6b35748c7）改過的句子在 AA_591 的表上 */   /* AA_590（學姊改稿第三批，企劃線 68ceea665，使用者 11-02 確認）改過的句子在 AA_590 的表上，不在這份原稿 */
     const walk=v=>{ if(typeof v==='string') T_(v); else if(Array.isArray(v)) v.forEach(walk); else if(v&&typeof v==='object') Object.values(v).forEach(walk); };
     for(const k in SISQX_LINES) walk(SISQX_LINES[k]);
     for(const e of SISQX_EVENTS) for(const l of e.dialogue){ if(l.text!==undefined) T_(l.text); if(l.scene!==undefined) T_(l.scene); for(const c of (l.choice||[])) T_(c.text.replace(/^「(.*)」$/,'$1')); }
@@ -115,7 +115,7 @@ const sec=async(n,f)=>{ try{ await f(); }catch(e){ check(n+'. 丟出例外（中
     PHONE.answer(H.G,'sisqx_2027_last',1); rules(); const m=PHONE.byAsk(H.G,'sisqx_2027_ask');
     check('1-2. 「妳呢？」→「讀書。」，後面照舊：「我那天在研究室寫到八點。」「你可以八點來接我。」「晚餐你帶。」＋三個回覆',J(dms())===J(['七夕。去年你在幹嘛？','妳呢？','讀書。','我那天在研究室寫到八點。','你可以八點來接我。','晚餐你帶。'])&&!!m&&J(m.ask.opts.map(o=>o.t))===J(['好，我帶。','要吃什麼？','那天不行。']),J(dms()));
     PHONE.answer(H.G,'sisqx_2027_ask',0); rules(); const q=OUT.get(H.G,'sisqx_2027'); at('2027-08-08',20); const L=await play('ev_sis_qixi',[1]);
-    check('1-2. 「好，我帶。」排 20:00；「（把她的稿子拿過來看）」→「不要看第七頁。……你已經在看第七頁了。」，後面照舊',!!q&&q.h===20&&L[3]==='不要看第七頁。……你已經在看第七頁了。'&&J(L.slice(4))===J(L12.slice(4))&&QX(2027)==='met',J(L)); }
+    check('1-2. 「好，我帶。」排 20:00；「（把她的稿子拿過來看）」→「第七頁還沒改好。」，後面照舊',!!q&&q.h===20&&L[3]==='第七頁還沒改好。'&&J(L.slice(4))===J(L12.slice(4))&&QX(2027)==='met',J(L)); }
   { setup('2027-08-06',21.05,'dorm','FRIEND',{SIS_QIXI:{2026:'declined'}}); dateSis(); rules(); PHONE.answer(H.G,'sisqx_2027_last',0); rules(); const d1=dms().slice();
     const r0=relOf(); PHONE.answer(H.G,'sisqx_2027_ask',2); rules(); const a=dms().slice(-1)[0], q=OUT.get(H.G,'sisqx_2027'), r1=relOf();
     check('1-2. 2026 回過不行（declined）也是去年沒一起過；「不記得了。」沒有她的回話、接著三則；「那天不行。」→「好。那我寫到十點。」、不排、記 declined、不扣關係',J(d1)===J(['七夕。去年你在幹嘛？','不記得了。','我那天在研究室寫到八點。','你可以八點來接我。','晚餐你帶。'])&&a==='好。那我寫到十點。'&&!q&&QX(2027)==='declined'&&dRel(r0,r1)===J({}),J({d1,a,f:H.G.flags.SIS_QIXI})); }
@@ -133,7 +133,7 @@ const sec=async(n,f)=>{ try{ await f(); }catch(e){ check(n+'. 丟出例外（中
     const L=await play('ev_sis_qixi_us_ask'); const q=OUT.get(H.G,'sisqx_2028');
     check('1-3 美國. 她一句「明天早上九點，我在社區門口等你。這邊週六有市集。」→ 排 8/26（六）09:00（出遊、不算正式校外約會）',J(L)===J(['明天早上九點，我在社區門口等你。這邊週六有市集。'])&&!!q&&q.day===H.D('2028-08-26')&&q.h===9&&q.ev==='ev_sis_qixi'&&!q.dateTrip&&!EVENTS.check(E1),J({L,q}));
     at('2028-08-26',9); H.G.flags.SIS_CRACK=1; const c00=logN(), r0=relOf(); const L2=await play('ev_sis_qixi',[0]); const r1=relOf();
-    check('1-3 美國. 週六市集（11-02 第七批有自己的圖：us_farmers_market）：桃子和玉米、「這邊沒有七夕。」；「那我們過這邊的。」→「這邊的七夕是什麼？」祐廷「買桃子。」「……好。那就買桃子。」',
+    check('1-3 美國. 週六市集（11-02 第七批有自己的圖：us_farmers_market）：桃子和玉米、「這邊沒有七夕。」；「那我們過這邊的。」→「這邊的七夕是什麼？」祐廷「買桃子。」「好。那就買桃子。」',
       J(L2)===J(L13)&&J(H.opts[0])===J(['「那我們過這邊的。」','「妳想家嗎？」'])&&H.bgs.some(b=>b&&b.image==='assets/bg/us_farmers_market.webp')&&H.said[5].who!==null&&H.said[5].who!=='溫書瑀',J({L2,O:H.opts,bgs:H.bgs}));
     check('1-3 美國. SIS_QIXI[2028] met；+3／+6／+5、裂縫 1→0；不進 dateLog',QX(2028)==='met'&&dRel(r0,r1)===VDAY&&H.G.flags.SIS_CRACK===0&&logN()===c00,dRel(r0,r1)); }
   { setup('2028-08-26',9,'us_apartment','CLOSE',US()); dateSis(); const L=await play('ev_sis_qixi',[1]);
@@ -148,7 +148,7 @@ const sec=async(n,f)=>{ try{ await f(); }catch(e){ check(n+'. 丟出例外（中
     check('1-3 臺灣路線. 8/25（五）21:00「明天你那邊晚上九點，我視訊給你。」→ 8/26（六）21:00 視訊（接起來；她那邊早上 8:00）；沒有當面那一場',a===0&&J(dms())===J(['明天你那邊晚上九點，我視訊給你。'])&&!!q&&q.day===H.D('2028-08-26')&&q.h===21&&q.verb==='接起來'&&q.place==='視訊'&&q.ev==='ev_sis_qixi'&&!OUT.get(H.G,'sisqx_2028'),J({a,d:dms(),q}));
     H.G.zone='dorm'; at('2028-08-25',21.5); const c=EVENTS.check(E1);
     at('2028-08-26',21); H.G.flags.SIS_CRACK=1; const r0=relOf(); const L=await play('ev_sis_qixi',[0]); const r1=relOf();
-    check('1-3 臺灣路線. 視訊：「我這邊是早上。你那邊是七夕。」「我剛起來。頭髮很亂，不要截圖。」；「（截圖）」→「……我說了不要。」（她把鏡頭轉到窗外）「好，你截這個。」；「十二月我就回去了。」敲門、揮手',
+    check('1-3 臺灣路線. 視訊：「我這邊是早上。你那邊是七夕。」「我剛起來。頭髮很亂。」；「（截圖）」→「（畫面黑掉。）等我一下。」（過了一分鐘，鏡頭打開。頭髮綁好了。）「好了。」；「十二月我就回去了。」敲門、揮手',
       J(L)===J(LV)&&J(H.opts[0])===J(['（截圖）','「妳那邊天氣好嗎？」'])&&H.bgs.some(b=>b&&b.image==='assets/bg/video.webp')&&c===false,J({L,O:H.opts,c}));
     check('1-3 臺灣路線. SIS_QIXI[2028] video；+2／+3／+3；裂縫不動',QX(2028)==='video'&&dRel(r0,r1)===CALL&&H.G.flags.SIS_CRACK===1,dRel(r0,r1));
     at('2028-08-26',21.6); rules(); check('1-3 臺灣路線. 接了：21:30 沒有「你在忙。那我先去圖書館了。」',!dms().includes('你在忙。那我先去圖書館了。')); }

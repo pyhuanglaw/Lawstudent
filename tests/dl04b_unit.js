@@ -1,6 +1,6 @@
 // DL-04B 劇情保護的施工（AA_160 3-4，AA-B 2026-10-16）——不需要瀏覽器。
 // 檢查：民總報告分組的補救（第 6 週起、分組沒演過、記 REPORT_PARTNER＋_LATE；分組演過就不出）；聖誕交換禮物的窗口 12:10～13:40、當天 12:00 提醒；
-//       颱風假：Café、麵店、書店不開（便利商店照開）、不能回臺北的家、家教那天不排；事件條件 typhoon。
+//       颱風假：Café、麵店、書店不開（便利商店照開）、不能回家、家教那天不排；事件條件 typhoon。
 // 修改前：沒有 ev_an_report_split_late、聖誕窗口是 12:20～13:10、颱風假店家照開（第 1 項就失敗）。用法：node tests/dl04b_unit.js
 const fs=require('fs'), vm=require('vm'), path=require('path');
 const ROOT=path.resolve(__dirname,'..');
@@ -35,7 +35,7 @@ let caps=[]; GM.caption=(w,t)=>caps.push(t);
     G.day=W5; G.weekday=wdOf(W5); check('1. 第 5 週（分組的週次還沒過）：不出',!EVENTS.check(e)); G.day=W6; G.weekday=wdOf(W6);
     G.events.done.ev_an_report_split=1; check('1. 分組演過（不管答應或拒絕）：不出',!EVENTS.check(e)); delete G.events.done.ev_an_report_split;
     said=[]; await EVENTS.run(e); const L=lines();
-    check('1. 台詞照 AA-B：「民總的報告，老師分組那天你沒來。」「我把你寫在我這組了。……不用謝。剩下的人裡，你最不會遲交。」（AA_313 4-3：說出口的「理由：」拿掉）',L.some(t=>t.endsWith('民總的報告，老師分組那天你沒來。'))&&L.some(t=>t.endsWith('我把你寫在我這組了。……不用謝。剩下的人裡，你最不會遲交。'))&&!L.some(t=>/理由：/.test(t)),L.join(' / '));
+    check('1. 台詞照 AA-B：「民總的報告，老師分組那天你沒來。」「我把你寫在我這組了。剩下的人裡，你最不會遲交。」（AA_313 4-3：說出口的「理由：」拿掉）',L.some(t=>t.endsWith('民總的報告，老師分組那天你沒來。'))&&L.some(t=>t.endsWith('我把你寫在我這組了。剩下的人裡，你最不會遲交。'))&&!L.some(t=>/理由：/.test(t)),L.join(' / '));
     check('1. 記 REPORT_PARTNER（同一個記憶，後面的事件照常接）＋REPORT_PARTNER_LATE',SOCIAL.has('heroine_01','REPORT_PARTNER')&&G.flags.REPORT_PARTNER_LATE==='assigned_absent');
     check('1. 演過以後不再出',!EVENTS.check(e)); }
   /* 2. 聖誕交換禮物 */
@@ -54,7 +54,7 @@ let caps=[]; GM.caption=(w,t)=>caps.push(t);
     check('3. 颱風假：Café、麵店、書店不開；便利商店照開',!PLACES.isOpen('cafe',15,ty)&&!PLACES.isOpen('noodle',15,ty)&&!PLACES.isOpen('bookstore',15,ty)&&PLACES.isOpen('cvs',15,ty));
     check('3. 平常日：Café、麵店照開',PLACES.isOpen('cafe',15,ty+1)&&PLACES.isOpen('noodle',15,ty+1));
     check('3. 關門的說明寫「颱風假，今天沒開。」',/颱風假，今天沒開/.test(PLACES.closedText('noodle',15,ty)),PLACES.closedText('noodle',15,ty));
-    fresh(ty,15,'dorm',{}); G.weekday=6; check('3. 颱風假不能回臺北的家（就算是週末的時間）',!HOME.canGo(G)); G.weekday=wdOf(ty);
+    fresh(ty,15,'dorm',{}); G.weekday=6; check('3. 颱風假不能回家（就算是週末的時間）',!HOME.canGo(G)); G.weekday=wdOf(ty);
     check('3. 事件條件 typhoon：颱風假成立、隔天不成立',EVENTS.cond({typhoon:true})&&(G.day=ty+1,!EVENTS.cond({typhoon:true}))); }
   console.log(fails?('FAILED '+fails):'ALL PASS'); process.exit(fails?1:0);
 })();
