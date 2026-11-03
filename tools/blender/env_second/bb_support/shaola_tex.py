@@ -67,13 +67,13 @@ def wall(path):
         m_y = np.asarray(Image.fromarray((m_y * 255).astype(np.uint8)).filter(ImageFilter.GaussianBlur(1.2)), np.float32) / 255
         rim = np.clip(np.abs(np.gradient(m_y, axis=0)) + np.abs(np.gradient(m_y, axis=1)), 0, 1) * 3
         col = col * (1 - 0.32 * m_y[..., None]) + np.array([186, 150, 86]) * 0.32 * m_y[..., None]
-        col *= (1 - 0.22 * np.clip(rim, 0, 1))[..., None]                       # 黃斑的深色邊
+        col *= (1 - 0.12 * np.clip(rim, 0, 1))[..., None]                       # 黃斑的深色邊
         np_ = _noise(h, W, 40, 99 + k, 3) + 0.3 * _noise(h, W, 6, 101 + k, 2)
         m_p = ((np_ / 1.3 > 0.71) * np.clip((yy - 0.08) * 8, 0, 1) > 0.5).astype(np.float32)   # 剝落：露出底下比較白的灰泥、邊緣一圈深色
         m_p = np.asarray(Image.fromarray((m_p * 255).astype(np.uint8)).filter(ImageFilter.GaussianBlur(0.8)), np.float32) / 255
         rp = np.clip(np.abs(np.gradient(m_p, axis=0)) + np.abs(np.gradient(m_p, axis=1)), 0, 1) * 4
-        col = col * (1 - 0.38 * m_p[..., None]) + np.array([226, 218, 196]) * 0.38 * m_p[..., None]
-        col *= (1 - 0.24 * np.clip(rp, 0, 1))[..., None]
+        col = col * (1 - 0.3 * m_p[..., None]) + np.array([226, 218, 196]) * 0.3 * m_p[..., None]
+        col *= (1 - 0.16 * np.clip(rp, 0, 1))[..., None]
         img[y0:y0 + h] = col
     im = Image.fromarray(np.clip(img, 0, 255).astype(np.uint8)); d = ImageDraw.Draw(im); r = random.Random(7)
     for k in range(3):   # 撕掉的海報、膠帶痕
@@ -155,7 +155,7 @@ def steel(path):
     lines = rng.normal(0, 1, (H, 1)) * 11
     a = np.repeat(lines, W, 1) + rng.normal(0, 4, (H, W))
     n1 = _noise(H, W, 120, 73); n2 = _noise(H, W, 20, 74, 3)
-    v = 188 + a + 30 * (n1 - 0.5) + 10 * (n2 - 0.5)
+    v = 176 + a + 30 * (n1 - 0.5) + 10 * (n2 - 0.5)
     yy, xx = np.mgrid[0:H, 0:W]
     for k in range(3):   # 反光亮條（斜、柔邊）：日光燈映在不鏽鋼上
         c0 = rng.uniform(0, W); w_ = rng.uniform(18, 50); d = (xx + 0.35 * yy - c0) % W

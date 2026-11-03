@@ -71,7 +71,7 @@ M = dict(
     vm=L.vc_metal('sl_vc_metal', rough=0.32, metal=0.45),                  # 鋼管、鋁框、銅燈罩、勾子
     glass=L.flat('sl_glass', '#e4ecee', rough=0.04, alpha=0.12),
     tube=L.flat('GLOW_sl_tube', '#ffffff', rough=0.3, emit=tuple(v * 8.0 for v in B.srgb('#eef2ff'))),
-    warm=L.flat('GLOW_sl_warm', '#ffe2b0', rough=0.4, emit=tuple(v * 2.5 for v in B.srgb('#ffb85c'))),
+    warm=L.flat('GLOW_sl_warm', '#ffe2b0', rough=0.4, emit=tuple(v * 5.0 for v in B.srgb('#ffb85c'))),
     screen=img_mat('GLOW_sl_screen', P['screen'], rough=0.15, emit=1.2),
 )
 M['steel']['tile'] = 0.7
@@ -519,87 +519,108 @@ def hook(x, z, y1):
 
 
 def bird(x, z, kind):
-    """燒鴨、油雞：勾子穿過脖子吊著；身體是長水滴形（下面寬）、脖子往上變細、頭彎過勾子；兩條腿往下斜、翅膀貼兩側。
-    焦糖色漸層：中間亮、下面和邊緣深（頂點色），材質粗糙度 0.2 看起來油亮"""
-    if kind == 'duck': sc, col_hi, col_lo, col_edge, body_r, body_h = 1.0, '#8e3814', '#4a1406', '#240802', 0.155, 0.32
-    else: sc, col_hi, col_lo, col_edge, body_r, body_h = 0.9, '#dcac52', '#b07424', '#764812', 0.14, 0.27
-    ytop = RAIL_Y - 0.05; hook(x, z, ytop)
-    neck_len = 0.17 * sc; yb = ytop - neck_len - body_h
-    prof = [(0.0, 0.0), (body_r * 0.45, 0.012), (body_r * 0.85, body_h * 0.12), (body_r, body_h * 0.3), (body_r * 0.97, body_h * 0.5), (body_r * 0.8, body_h * 0.7),
-            (body_r * 0.5, body_h * 0.86), (0.03 * sc, body_h * 0.97), (0.022 * sc, body_h + neck_len * 0.6), (0.018 * sc, body_h + neck_len), (0.0, body_h + neck_len + 0.005)]
-    sq = Matrix.Diagonal((1.0, 0.58, 1.0, 1.0))   # 前後扁（Blender y＝遊戲 −z）
-    bm = L.lathe(prof, seg=18); rr = random.Random(int(z * 997))
-    for v in bm.verts:   # 不對稱、表面有起伏（皮皺、油滴）：完美的旋轉體看起來像玩具
-        t = v.co.z / body_h; a = math.atan2(v.co.y, v.co.x)
-        k = 1 + 0.06 * math.sin(a * 3 + rr.uniform(0, 6)) * math.sin(PI * min(1.0, t)) + rr.uniform(-0.025, 0.025)
-        v.co.x *= k * (1.08 if v.co.x > 0 and t < 0.5 else 1.0); v.co.y *= k * (1.15 if v.co.y < 0 else 0.9)   # 胸前鼓、背平
+    """v6 燒鴨、油雞：勾子穿過細長的脖子吊著；身體長（鴨身長 0.45 m）、胸窄、前後扁；皮有一圈一圈的皺褶（頂點往外推、顏色深淺跟著走）；
+    鴨頭深色、彎過勾子；棒腿收在身體下段兩側、翅膀貼兩側。焦糖色漸層：中間亮、下面和邊緣深；油亮反光畫進頂點色"""
+    if kind == 'duck': sc, col_hi, col_lo, col_edge, body_r, body_h, neck_len = 1.0, '#84320e', '#3e1004', '#1c0602', 0.118, 0.45, 0.17
+    else: sc, col_hi, col_lo, col_edge, body_r, body_h, neck_len = 0.9, '#d29c44', '#a0661c', '#6a3e10', 0.12, 0.33, 0.1
+    ytop = RAIL_Y - 0.03; hook(x, z, ytop)
+    yb = ytop - neck_len - body_h
+    prof = [(0.0, 0.0), (body_r * 0.4, 0.012), (body_r * 0.8, body_h * 0.1), (body_r * 0.98, body_h * 0.26), (body_r, body_h * 0.42), (body_r * 0.9, body_h * 0.6),
+            (body_r * 0.66, body_h * 0.78), (body_r * 0.36, body_h * 0.92), (0.022 * sc, body_h * 0.99)]
+    nn = 5
+    prof += [(0.019 * sc - 0.004 * k / nn, body_h + neck_len * k / nn) for k in range(1, nn + 1)] + [(0.0, body_h + neck_len + 0.004)]
+    sq = Matrix.Diagonal((1.0, 0.55, 1.0, 1.0))   # 前後扁（Blender y＝遊戲 −z）
+    bm = L.lathe(prof, seg=20); rr = random.Random(int(z * 997))
+    ph = rr.uniform(0, 6)
+    for v in bm.verts:
+        t = v.co.z / body_h
+        if t > 1.0: continue
+        a = math.atan2(v.co.y, v.co.x)
+        wr = 0.035 * math.sin(t * 34 + ph + 0.6 * math.sin(a * 2)) * math.sin(PI * t)        # 皮的皺褶（一圈一圈、不整齊）
+        k = 1 + wr + 0.05 * math.sin(a * 3 + ph) * math.sin(PI * t) + rr.uniform(-0.02, 0.02)
+        v.co.x *= k * (0.92 if t > 0.55 else 1.0); v.co.y *= k * (1.12 if v.co.y < 0 else 0.88)   # 胸窄、胸前鼓一點、背平
+        v.co.x += 0.012 * math.sin(t * 5 + ph) * math.sin(PI * t)                                 # 掛著有點歪
     f0 = set(GL.bm.faces); GL.add_bm(bm, Matrix.Translation(g2b(x, yb, z)) @ sq); bm.free(); fs = newfaces(GL, f0)
     def grad(px, py, pz):
-        t = (py - yb) / body_h; e = min(1.0, abs(px - x) / body_r)
-        base = mix(col_lo, col_hi, max(0.0, min(1.0, 0.15 + 1.1 * t if t < 0.6 else 0.81 - (t - 0.6) * 1.2)))
-        sp = 0.5 + 0.5 * math.sin(px * 61 + py * 47 + pz * 83) * math.sin(py * 29 - px * 37)   # 烤得深淺不一
-        k = (1 - 0.5 * e ** 2.5) * (0.82 + 0.3 * sp); return [base[0] * k, base[1] * k, base[2] * k, 1.0]
-    paint_fn(GL, fs, grad); gloss_pass(GL, fs, 0.45)
-    # 頭：彎過勾子垂在前面（小、深色）
+        t = (py - yb) / body_h
+        if t > 1.0: return mix(col_edge, col_lo, 0.5)                                            # 脖子：深色
+        e = min(1.0, abs(px - x) / body_r)
+        base = mix(col_lo, col_hi, max(0.0, min(1.0, 0.1 + 1.2 * t if t < 0.55 else 0.76 - (t - 0.55) * 1.4)))
+        wr = 0.5 + 0.5 * math.sin(t * 34 + ph)                                                   # 皺褶的凹處深一點
+        sp = 0.5 + 0.5 * math.sin(px * 61 + py * 47 + pz * 83) * math.sin(py * 29 - px * 37)
+        k = (1 - 0.55 * e ** 2.2) * (0.78 + 0.22 * wr) * (0.86 + 0.22 * sp); return [base[0] * k, base[1] * k, base[2] * k, 1.0]
+    paint_fn(GL, fs, grad); gloss_pass(GL, fs, 0.28, 8)
+    # 頭：深色、彎過勾子垂在前面
     f0 = set(GL.bm.faces)
-    GL.ell((x + 0.03, ytop - 0.005, z), 0.03 * sc, 0.022 * sc, 0.02 * sc, seg=8, rings=5)
-    GL.ell((x + 0.055, ytop - 0.04, z), 0.022 * sc, 0.035 * sc, 0.018 * sc, seg=8, rings=5)
-    paint_fn(GL, newfaces(GL, f0), lambda px, py, pz: mix(col_edge, col_lo, 0.4))
+    GL.ell((x + 0.028, ytop + 0.004, z), 0.03 * sc, 0.02 * sc, 0.019 * sc, seg=8, rings=5)
+    GL.ell((x + 0.052, ytop - 0.04, z), 0.02 * sc, 0.04 * sc, 0.017 * sc, seg=8, rings=5)
+    if kind == 'duck': ccyl(GL, (x + 0.056, ytop - 0.07, z), (x + 0.06, ytop - 0.12, z), 0.012, '#1a0802', seg=6, r2=0.005)
+    paint_fn(GL, newfaces(GL, f0), lambda px, py, pz: lin('#1e0a04') if kind == 'duck' else mix(col_edge, col_lo, 0.5))
     for s in (-1, 1):
-        f0 = set(GL.bm.faces)   # 腿：從身體下段往外下斜（棒腿）
-        GL.ell((x + s * body_r * 0.72, yb + body_h * 0.16, z - 0.01), 0.04 * sc, 0.08 * sc, 0.038 * sc, seg=8, rings=5,
-               matrix=Matrix.Rotation(-s * 0.55, 4, 'Y'))                                                   # 棒腿（收在身體下段兩側）
-        GL.ell((x + s * body_r * 1.0, yb + body_h * 0.02, z - 0.01), 0.016 * sc, 0.03 * sc, 0.016 * sc, seg=6, rings=4)
-        paint_fn(GL, newfaces(GL, f0), lambda px, py, pz: mix(col_edge, col_lo, 0.55))
-        f0 = set(GL.bm.faces)   # 翅膀：貼著身體兩側
-        GL.ell((x + s * body_r * 0.88, yb + body_h * 0.58, z), 0.025 * sc, 0.1 * sc, 0.05 * sc, seg=8, rings=5, matrix=Matrix.Rotation(-s * 0.18, 4, 'Y'))
-        paint_fn(GL, newfaces(GL, f0), lambda px, py, pz: mix(col_edge, col_hi, 0.4))
+        f0 = set(GL.bm.faces)   # 棒腿（收在身體下段兩側，腿骨尖朝下外）
+        GL.ell((x + s * body_r * 0.72, yb + body_h * 0.13, z - 0.01), 0.036 * sc, 0.085 * sc, 0.034 * sc, seg=8, rings=5, matrix=Matrix.Rotation(-s * 0.45, 4, 'Y'))
+        ccyl(GL, (x + s * body_r * 0.95, yb + body_h * 0.0, z - 0.01), (x + s * body_r * 1.15, yb - 0.05, z - 0.01), 0.011, col_edge, seg=6, r2=0.007)
+        paint_fn(GL, newfaces(GL, f0), lambda px, py, pz: mix(col_edge, col_lo, 0.6))
+        f0 = set(GL.bm.faces)   # 翅膀：貼著身體兩側、翅尖往外翹
+        GL.ell((x + s * body_r * 0.86, yb + body_h * 0.55, z), 0.022 * sc, 0.13 * sc, 0.05 * sc, seg=8, rings=5, matrix=Matrix.Rotation(-s * 0.16, 4, 'Y'))
+        paint_fn(GL, newfaces(GL, f0), lambda px, py, pz: mix(col_edge, col_hi, 0.35))
 
 
 def charsiu(x, z, ln):
-    """叉燒：一條長的、扁的、微彎（不規則的粗細），紅色往內漸淡、邊緣和下端焦黑；勾子穿過上端"""
-    ytop = RAIL_Y - 0.04; hook(x, z, ytop)
-    rr = random.Random(int(z * 1000)); n = 9
-    prof = [(0.0, 0.0), (0.024, 0.005)] + [(0.046 * (0.88 + 0.12 * math.sin(PI * k / n)) * (1 + rr.uniform(-0.1, 0.1)), ln * k / n) for k in range(1, n)] + [(0.026, ln), (0.0, ln + 0.004)]
-    f0 = set(GL.bm.faces); bm = L.lathe(prof, seg=8)
-    bend = rr.uniform(-0.04, 0.04)
-    for v in bm.verts: t = v.co.z / ln; v.co.x += bend * math.sin(PI * t); v.co.y *= 0.55
+    """v6 叉燒：長條、截面不規則（每一圈頂點的半徑都亂一點）、邊角焦黑往外翹；紅色往內漸淡；勾子穿過上端"""
+    ytop = RAIL_Y - 0.03; hook(x, z, ytop)
+    rr = random.Random(int(z * 1000)); n = 12; seg = 9
+    prof = [(0.0, 0.0), (0.026, 0.006)] + [(0.046, ln * k / n) for k in range(1, n)] + [(0.03, ln), (0.0, ln + 0.004)]
+    f0 = set(GL.bm.faces); bm = L.lathe(prof, seg=seg)
+    bend = rr.uniform(-0.05, 0.05); flare = [rr.uniform(0.75, 1.25) for _ in range(seg)]; tw = rr.uniform(-0.4, 0.4)
+    for v in bm.verts:
+        t = v.co.z / ln; a = math.atan2(v.co.y, v.co.x); i_ = int(round(a / (2 * PI / seg))) % seg
+        k = flare[i_] * (0.85 + 0.15 * math.sin(t * 9 + i_)) * (1 + rr.uniform(-0.08, 0.08))
+        v.co.x *= k; v.co.y *= k * 0.5
+        ca, sa = math.cos(tw * t), math.sin(tw * t); v.co.x, v.co.y = v.co.x * ca - v.co.y * sa, v.co.x * sa + v.co.y * ca
+        v.co.x += bend * math.sin(PI * t)
     GL.add_bm(bm, Matrix.Translation(g2b(x, ytop - ln, z))); bm.free(); fs = newfaces(GL, f0)
     def grad(px, py, pz):
-        e = min(1.0, math.hypot((px - x) / 0.046, (pz - z) / 0.025)); t = (py - (ytop - ln)) / ln
-        edge = max(0.0, min(1.0, (e - 0.5) / 0.5)) ** 1.5; spot = 0.5 + 0.5 * math.sin(py * 53 + px * 91 + pz * 37)
-        base = mix('#a82a18', '#5a120a', edge)
-        k = (1 - 0.85 * edge * spot) * (0.45 + 0.55 * min(1.0, t * 5)); return [base[0] * k, base[1] * k, base[2] * k, 1.0]
-    paint_fn(GL, fs, grad); gloss_pass(GL, fs, 0.35, 5)
+        e = math.hypot((px - x) / 0.046, (pz - z) / 0.023); t = (py - (ytop - ln)) / ln
+        edge = max(0.0, min(1.0, (e - 0.7) / 0.5)); spot = 0.5 + 0.5 * math.sin(py * 53 + px * 91 + pz * 37)
+        base = mix('#b0301c', '#4a0e06', edge)
+        k = (1 - 0.8 * edge * (0.5 + 0.5 * spot)) * (0.4 + 0.6 * min(1.0, t * 5)); return [base[0] * k, base[1] * k, base[2] * k, 1.0]
+    paint_fn(GL, fs, grad); gloss_pass(GL, fs, 0.22, 7)
 
 
-# 由走道往櫃子裡看：前（靠門）是油雞、中間燒鴨、後面叉燒（參考圖由近到遠：油雞、燒鴨、叉燒）
-for k in range(6): charsiu(RAIL_X + (0.03 if k % 2 else -0.03), kz0 + 0.18 + k * 0.13, 0.5 + 0.06 * ((k * 7) % 3))
-for k in range(3): bird(RAIL_X, kz0 + 1.12 + k * 0.38, 'duck')
-for k in range(3): bird(RAIL_X, kz0 + 2.3 + k * 0.32, 'chicken')
-# 下層：不鏽鋼淺盤 3 個（切好的叉燒、燒肉、油雞）
-for k, kind in enumerate(('cs', 'sy', 'ck')):
-    tz = kz0 + 0.55 + k * 0.95
-    VM.crbox(1.12, 1.78, c['h'], c['h'] + 0.05, tz - 0.38, tz + 0.38, '#b8bcc0', r=0.012, seg=1)
-    for j in range(14):
-        sx, sz = 1.17 + (j % 5) * 0.12 + R.uniform(-0.01, 0.01), tz - 0.32 + (j // 5) * 0.22 + R.uniform(-0.02, 0.02)
+# v6：肉擠滿一排、互相貼近（參考圖由近到遠：油雞、燒鴨、叉燒）：叉燒 9 條、燒鴨 4 隻、油雞 3 隻
+for k in range(9): charsiu(RAIL_X + (0.025 if k % 2 else -0.025), kz0 + 0.14 + k * 0.1, 0.5 + 0.06 * ((k * 7) % 3))
+for k in range(4): bird(RAIL_X, kz0 + 1.2 + k * 0.29, 'duck')
+for k in range(3): bird(RAIL_X, kz0 + 2.42 + k * 0.27, 'chicken')
+# 下層：不鏽鋼淺盤 4 個，堆滿兩層（切好的叉燒、燒肉、油雞、燒鴨）
+for k, kind in enumerate(('cs', 'sy', 'ck', 'dk')):
+    tz = kz0 + 0.42 + k * 0.78
+    VM.crbox(1.1, 1.8, c['h'], c['h'] + 0.05, tz - 0.36, tz + 0.36, '#b8bcc0', r=0.012, seg=1)
+    for j in range(36):
+        lay = j // 18; jj = j % 18
+        sx, sz = 1.14 + (jj % 6) * 0.105 + R.uniform(-0.015, 0.015), tz - 0.32 + (jj // 6) * 0.215 + R.uniform(-0.02, 0.02); y0 = c['h'] + 0.04 + lay * 0.035
+        if lay: sx += 0.05; sz += 0.08
         if kind == 'cs':
-            fs = GL.crbox(sx, sx + 0.1, c['h'] + 0.04, c['h'] + 0.075, sz, sz + 0.14, '#8e2016', r=0.01, seg=1)
-            paint_fn(GL, fs, lambda px, py, pz, sx=sx: mix('#3a0e08', '#b84a30', min(1.0, 4 * min(px - sx, sx + 0.1 - px) / 0.1)))
+            fs = GL.crbox(sx, sx + 0.1, y0, y0 + 0.035, sz, sz + 0.15, '#8e2016', r=0.01, seg=1)
+            paint_fn(GL, fs, lambda px, py, pz, sx=sx: mix('#3a0e08', '#c04a30', min(1.0, 4 * min(px - sx, sx + 0.1 - px) / 0.1)))
         elif kind == 'sy':
-            fs = GL.crbox(sx, sx + 0.1, c['h'] + 0.04, c['h'] + 0.09, sz, sz + 0.12, '#e8d8c0', r=0.006, seg=1)
-            paint_fn(GL, fs, lambda px, py, pz: lin('#b8681e') if py > c['h'] + 0.082 else (lin('#f2e6d4') if py > c['h'] + 0.07 else lin('#c89080')))
+            fs = GL.crbox(sx, sx + 0.1, y0, y0 + 0.05, sz, sz + 0.12, '#e8d8c0', r=0.006, seg=1)
+            paint_fn(GL, fs, lambda px, py, pz, y0=y0: lin('#b8681e') if py > y0 + 0.042 else (lin('#f2e6d4') if py > y0 + 0.03 else lin('#c89080')))
+        elif kind == 'ck':
+            fs = GL.crbox(sx, sx + 0.1, y0, y0 + 0.045, sz, sz + 0.15, '#e8b850', r=0.012, seg=1)
+            paint_fn(GL, fs, lambda px, py, pz, y0=y0: lin('#e8b048') if py > y0 + 0.032 else lin('#f4e8d0'))
         else:
-            fs = GL.crbox(sx, sx + 0.1, c['h'] + 0.04, c['h'] + 0.08, sz, sz + 0.14, '#e8b850', r=0.012, seg=1)
-            paint_fn(GL, fs, lambda px, py, pz: lin('#e8b048') if py > c['h'] + 0.07 else lin('#f4e8d0'))
-# 櫃子裡的暖色燈泡（吊在頂框下、銅燈罩）
-for z in (kz0 + 0.4, kz0 + 1.2, kz0 + 2.0, kz0 + 2.8):
-    clathe(VM, [(0.0, 0.0), (0.03, 0.0), (0.09, -0.08), (0.095, -0.1), (0.0, -0.1)], 1.62, top - 0.01, z, '#b8863e', seg=14)
-    MS['warm'].sphere((1.62, top - 0.1, z), 0.03, seg=10, rings=6)
-# 價目卡（貼在玻璃內側，面向走道）
+            fs = GL.crbox(sx, sx + 0.1, y0, y0 + 0.045, sz, sz + 0.15, '#7a2e10', r=0.012, seg=1)
+            paint_fn(GL, fs, lambda px, py, pz, y0=y0: lin('#6a240c') if py > y0 + 0.032 else lin('#e8c8b0'))
+        gloss_pass(GL, fs, 0.3, 4)
+# 櫃子裡的暖色燈泡：一排 5 盞，直接照在肉上
+for z in [kz0 + 0.3 + k * 0.65 for k in range(5)]:
+    clathe(VM, [(0.0, 0.0), (0.03, 0.0), (0.09, -0.08), (0.095, -0.1), (0.0, -0.1)], 1.3, top - 0.01, z, '#b8863e', seg=14)
+    MS['warm'].sphere((1.3, top - 0.1, z), 0.035, seg=10, rings=6)
+# 價目卡（放大，貼在玻璃正面的靠門那一段、肉的下面，照參考圖）
 for k, key in enumerate(('card0', 'card1')):
-    y0 = 1.28 - k * 0.27; za, zb = 4.15, 4.95
-    uvq(PR, [(gx0 - 0.025, y0, za), (gx0 - 0.025, y0, zb), (gx0 - 0.025, y0 + 0.24, zb), (gx0 - 0.025, y0 + 0.24, za)], C[key])   # 貼在玻璃外側（面向走道）
+    y0 = 1.32 - k * 0.34; za, zb = 3.33, 4.29   # 在兩根玻璃框中間
+    uvq(PR, [(gx0 - 0.025, y0, za), (gx0 - 0.025, y0, zb), (gx0 - 0.025, y0 + 0.31, zb), (gx0 - 0.025, y0 + 0.31, za)], C[key])
 # 櫃台後面（老闆那一側）的地墊、腳下
 VC.cbox(c['x1'] + 0.05, SHELF['x0'] - 0.05, 0.0, 0.015, -4.2, 2.8, '#3a3a36')
 
@@ -628,6 +649,72 @@ for k, key in enumerate(('note1', 'note3', 'note5')):   # 層架上貼的小紙�
 rv = wg('right', 'vc'); rv.crbox(X1 - 0.3, X1, 2.45, 2.9, -1.0, -0.1, '#e6dcc4', r=0.015, seg=1)   # 右牆也有一台冷氣
 for k in range(8): rv.cbox(X1 - 0.315, X1 - 0.3, 2.5 + k * 0.045, 2.515 + k * 0.045, -0.95, -0.15, '#b8ae98')
 
+# ================= v6 密度：後段、每個角落 =================
+def pbox(m, x0, x1, y0, y1, z0, z1, rect, side_rect=None):
+    """印刷貼圖的紙箱（六面，上面和側面可以不同格子）"""
+    sr = side_rect or rect
+    uvq(m, [(x0, y1, z1), (x1, y1, z1), (x1, y1, z0), (x0, y1, z0)], sub(sr, 0, 0.6, 1, 1))
+    uvq(m, [(x0, y0, z1), (x1, y0, z1), (x1, y1, z1), (x0, y1, z1)], rect); uvq(m, [(x1, y0, z0), (x0, y0, z0), (x0, y1, z0), (x1, y1, z0)], rect)
+    uvq(m, [(x1, y0, z1), (x1, y0, z0), (x1, y1, z0), (x1, y1, z1)], sr); uvq(m, [(x0, y0, z0), (x0, y0, z1), (x0, y1, z1), (x0, y1, z0)], sr)
+
+
+def red_stool_stack(x, z, n):
+    """紅色塑膠椅（台灣小吃店的方凳）疊起來：上窄下寬的方殼"""
+    for k in range(n):
+        y = k * 0.055
+        fs = clathe(GL, [(0.17 * 1.414, 0.0), (0.2 * 1.414, 0.0), (0.155 * 1.414, 0.44), (0.0, 0.45)], x, y, z, '#c42e26', seg=4, mat=Matrix.Rotation(PI / 4, 4, 'Z'))
+        gloss_pass(GL, fs, 0.25, 4)
+    VC.cbox(x - 0.07, x + 0.07, n * 0.055 + 0.445, n * 0.055 + 0.452, z - 0.025, z + 0.025, '#5a1010')   # 椅面的提手洞
+
+
+# 走道邊（店門左邊、窗前）：紅色塑膠椅一疊 7 張；最前面左角一疊 5 張
+red_stool_stack(-1.82, 5.78, 7); red_stool_stack(-2.62, 5.9, 5)
+EXTRA_BLOCKS.append([-1.82, 5.78, 0.46, 0.46, '紅色塑膠椅疊（走道邊、店門左邊）'])
+EXTRA_BLOCKS.append([-2.62, 5.9, 0.46, 0.46, '紅色塑膠椅疊（左前角）'])
+# 左後角：紙箱（免洗餐盒、白米）疊三個、一袋米
+pbox(PR, -2.95, -2.45, 0.0, 0.4, -5.85, -5.45, C['box']); pbox(PR, -2.92, -2.5, 0.4, 0.74, -5.82, -5.48, C['box2']); pbox(PR, -2.95, -2.55, 0.74, 1.0, -5.86, -5.5, C['box'])
+VC.crbox(-2.4, -2.02, 0.0, 0.2, -5.85, -5.45, '#e8e2d0', r=0.06, seg=2)   # 一袋米（塑膠編織袋）
+EXTRA_BLOCKS.append([-2.47, -5.65, 0.96, 0.44, '左後角紙箱、米袋'])
+# 櫃台後面靠門那一角（老闆那一側，x 1.9～3.0、z 3.0～6.4）：紙箱、米袋、塑膠桶、一捆塑膠袋
+pbox(PR, 2.35, 2.95, 0.0, 0.42, 5.55, 6.35, C['box']); pbox(PR, 2.4, 2.92, 0.42, 0.78, 5.6, 6.2, C['box2'])
+pbox(PR, 2.3, 2.95, 0.0, 0.42, 4.6, 5.45, C['box2']); clathe(VC, [(0.0, 0.0), (0.19, 0.0), (0.22, 0.48), (0.0, 0.48)], 2.6, 0.0, 3.9, '#2a5aa8', seg=14)
+for k in range(3): clathe(VC, [(0.0, 0.0), (0.12, 0.0), (0.14, 0.3), (0.0, 0.3)], 2.6 + 0.02 * k, 0.78, 5.85 + 0.03 * k, '#f2f0ea', seg=8)
+EXTRA_BLOCKS.append([2.63, 5.47, 0.7, 1.8, '櫃台後面靠門那一角的紙箱'])
+EXTRA_BLOCKS.append([2.6, 3.9, 0.46, 0.46, '櫃台後面的藍色塑膠桶'])
+# 後牆不鏽鋼工作檯：更多鍋、罐、塑膠袋；牆上手寫紙條、外送單（夾子）、延長線
+for (x, r_, h_) in ((-2.75, 0.1, 0.14), (-1.7, 0.09, 0.12), (-0.55, 0.11, 0.3)):
+    clathe(bm_, [(0.0, 0.0), (r_, 0.0), (r_ + 0.004, h_), (r_ + 0.012, h_ + 0.01), (0.0, h_ + 0.01)], x, 0.9, -6.05, '#c0c4c8', seg=14)
+for k in range(6): clathe(bg, [(0.0, 0.0), (0.04, 0.0), (0.04, 0.15), (0.03, 0.18), (0.0, 0.18)], -2.45 + k * 0.12, 0.9, -5.98, ['#f0e8c8', '#3a2a1a', '#a8301e', '#e0c070', '#2a4a2a', '#f4f0e8'][k], seg=8)
+for k in range(2): clathe(bv, [(0.0, 0.0), (0.09, 0.0), (0.1, 0.22), (0.0, 0.22)], -0.85 + k * 0.05, 0.145, -6.3 + k * 0.05, '#f0eee8', seg=8)   # 下層一捆塑膠袋
+pbox(bp, -2.15, -1.6, 0.145, 0.5, -6.45, -6.05, C['box'])
+on_wall(bp, 'back', 3.6, 3.92, 1.5, 1.85, C['order0'], d=0.004); on_wall(bp, 'back', 3.62, 3.94, 1.1, 1.45, C['order1'], d=0.006)   # 外送單（廚房門左邊）
+for y in (1.85, 1.45): bm_.cbox(X0 + 3.74, X0 + 3.82, y - 0.02, y + 0.015, Z0, Z0 + 0.012, '#3a3a3e')
+on_wall(bp, 'back', 0.12, 0.42, 1.48, 1.68, C['note4'], d=0.004); on_wall(bp, 'back', 0.15, 0.45, 2.4, 2.6, C['note2'], d=0.004)
+on_wall(bp, 'back', 5.05, 5.32, 1.0, 1.2, C['note0'], d=0.004)
+bv.crbox(-1.1, -0.75, 0.9, 0.94, -6.2, -6.1, '#f2f2ee', r=0.008, seg=1)   # 延長線（白色插座排）
+for k in range(4): bv.cbox(-1.06 + k * 0.08, -1.02 + k * 0.08, 0.94, 0.945, -6.18, -6.12, '#c83a2a' if k == 0 else '#3a3a3a')
+ccyl(bv, (-0.75, 0.92, -6.15), (-0.4, 0.92, -6.42), 0.006, '#1e1e1e', seg=4); ccyl(bv, (-0.4, 0.92, -6.42), (-0.4, 0.4, -6.47), 0.006, '#1e1e1e', seg=4)
+bv.cbox(-0.48, -0.32, 0.3, 0.42, Z0, Z0 + 0.02, '#ece8de')   # 牆上的插座
+# 左牆後段（工作檯上面）：掛勺子、漏勺的橫桿
+lvm = wg('left', 'vm'); ccyl(lvm, (X0 + 0.07, 1.62, -6.3), (X0 + 0.07, 1.62, -5.25), 0.01, '#a8acb0', seg=6)
+for k in range(7):
+    zz = -6.2 + k * 0.15; ccyl(lvm, (X0 + 0.07, 1.62, zz), (X0 + 0.07, 1.2, zz), 0.008, '#c4c8cc', seg=5)
+    if k % 2: clathe(lvm, [(0.0, 0.0), (0.05, 0.0), (0.055, 0.04), (0.0, 0.01)], X0 + 0.08, 1.12, zz, '#c4c8cc', seg=10)                       # 湯勺
+    else:
+        clathe(lvm, [(0.0, 0.0), (0.06, 0.012), (0.07, 0.03), (0.0, 0.03)], X0 + 0.08, 1.14, zz, '#9a9ea2', seg=12)                                  # 漏勺
+for k in range(2): lv.cbox(X0 + 0.02, X0 + 0.06, 1.66, 1.7, -6.32 + k * 1.1, -6.28 + k * 1.1, '#6a6a6a')
+# 盛飯台：第二個大電鍋、飯匙、另一個湯桶、塑膠袋一捆掛在檯邊、延長線
+clathe(VC, [(0.0, 0.0), (0.22, 0.0), (0.24, 0.04), (0.24, 0.32), (0.21, 0.38), (0.06, 0.42), (0.0, 0.43)], 1.72, c['h'], -4.15, '#ece8e0', seg=20)
+VC.cbox(1.48, 1.5, c['h'] + 0.1, c['h'] + 0.18, -4.2, -4.1, '#c8342c')
+VC.crbox(1.5, 1.56, c['h'] + 0.44, c['h'] + 0.46, -3.75, -3.5, '#e8dcc0', r=0.004, seg=1); _f0 = set(VC.bm.faces); VC.ell((1.53, c['h'] + 0.45, -3.42), 0.035, 0.008, 0.05, seg=8, rings=4); VC.paint(newfaces(VC, _f0), '#ece0c4')   # 飯匙
+clathe(VM, [(0.0, 0.0), (0.17, 0.0), (0.18, 0.32), (0.19, 0.33), (0.0, 0.33)], 1.72, c['h'], -2.95, '#bcc0c4', seg=16)
+clathe(VM, [(0.0, 0.0), (0.18, 0.0), (0.19, 0.03), (0.0, 0.03)], 1.72, c['h'] + 0.33, -2.95, '#c8ccd0', seg=16)
+for k in range(3): clathe(VC, [(0.0, 0.0), (0.06, 0.0), (0.07, 0.24), (0.0, 0.24)], c['x0'] - 0.02 - 0.03 * k, c['h'] - 0.3, -1.15 + 0.03 * k, '#f2f0ea', seg=8)
+VC.crbox(1.15, 1.45, c['h'], c['h'] + 0.035, -4.45, -4.3, '#f2f2ee', r=0.006, seg=1); ccyl(VC, (1.3, c['h'] + 0.02, -4.3), (1.45, c['h'] + 0.15, -4.2), 0.006, '#1e1e1e', seg=4)
+# 砧板檯、收銀機旁：手寫紙條貼在玻璃、塑膠袋掛勾、外帶紙袋
+on_wall(PR, 'right', 1.35 - Z0, 1.62 - Z0, c['h'] + 0.05, c['h'] + 0.22, C['note1'], d=X1 - (c['x0'] - 0.04))
+for k in range(2): clathe(VC, [(0.0, 0.0), (0.07, 0.0), (0.08, 0.28), (0.0, 0.28)], c['x0'] - 0.05, c['h'] - 0.34, -0.15 + 0.06 * k, '#f2f0ea', seg=8)
+for k in range(5): VC.crbox(1.62, 1.85, c['h'] + k * 0.012, c['h'] + 0.01 + k * 0.012, 0.0, 0.3, '#c8a878', r=0.002, seg=1)   # 一疊外帶紙袋
 # ================= 收尾：牆分組、合併、匯出 =================
 for k, m in list(WG.items()):
     side, key = k; m.finish(G[side], uv=(key in ('steel', 'vc', 'vm', 'gloss', 'tube', 'glass') and key != 'print' and key != 'wall'),
@@ -638,6 +725,7 @@ PR.finish(root, uv=False); SCR.finish(root, uv=False)
 for ob in list(root.children_recursive):
     if ob.type == 'MESH' and ob.data and len(ob.data.polygons) == 0: B.remove(ob)
 L.merge_by_material(root, keep=lambda ob: ob.name.startswith('WALL_'), key=lambda ob: '')
+root['extraBlocks'] = json.dumps(EXTRA_BLOCKS, ensure_ascii=False)
 st = L.export(OUT)
 mats = sorted({ms.material.name for ob in bpy.data.objects if ob.type == 'MESH' for ms in ob.material_slots if ms.material})
 print('OK', OUT, 'materials', len(mats), mats, 'extraBlocks', EXTRA_BLOCKS)
