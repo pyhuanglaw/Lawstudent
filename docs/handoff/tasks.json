@@ -40924,6 +40924,34 @@
       "note": "UA-LAWWW-1103-03；使用者：成功就收工，其他整合等 BB 回來再做",
       "evidence": "https://github.com/pyhuanglaw/Lawstudent/actions/runs/41554813408 success（ubuntu-latest、Node 22；整個 job 49 秒，checkout 45 秒、測試本身約 1 秒）；workflow 只在試用分支觸發",
       "next": "BB 回來再決定要不要擴大（放哪些不需要瀏覽器的測試、在哪些分支觸發）"
+    },
+    {
+      "first": {
+        "term": "META",
+        "week": null,
+        "earliest": "開發工具（測試分工）",
+        "mainline": false,
+        "blocks": false,
+        "prereq": false,
+        "parallel": true,
+        "confirmed": true
+      },
+      "area": null,
+      "id": "GHA-TEST-OFFLOAD-1103",
+      "title": "評估把不需要使用者電腦的自動測試盡量改由 GitHub Actions 免費執行（GitHub 跑例行測試、使用者電腦跑實際畫面與操作、Claude 分析修正，三者不重複）",
+      "owner": "LAWWW",
+      "status": "待開工",
+      "priority": "P2",
+      "note": "使用者 2026-11-03 00:5x（UA-LAWWW-1103-04；USER_WANTS X154）。前置：GHA-NODE-TRIAL-1103 已證明可行（run 41554813408）。這次只登記、不實作；目前的遊戲整合與測試照原計畫",
+      "next": "輪到時先交白話評估報告（不先實作），內容：①盤點約 900 支 tests/*_unit.js 和其他測試，哪些適合 GitHub（不需要瀏覽器、不需要 GPU）；②使用者電腦已排的 3D 畫面、人物操作、碰撞、實際遊玩流程照舊（D123、cc-local 佇列），不重複建立；③找出要舊版本（git show 舊 SHA，例 nav_levels_unit 的 92acd48）、其他分支（企劃線稿、白名單 SHA）、特殊資料的測試——GitHub 預設淺層下載會讓它們『跳過卻顯示通過』，要 fetch-depth:0 或改成找不到就 FAIL；④每次上傳只跑相關的、整批完成或發布前跑完整的可行性；⑤GitHub 保留結果（Actions 執行紀錄、artifact、check 狀態）讓接班 AI 直接查、不重跑；⑥只用公開專案免費標準執行環境，不用付費服務或 Claude API。報告後再決定實施方式（和 BB／CC 分工，BB 管測試，D100、D119）",
+      "xai": {
+        "spec": "使用者 2026-11-03 00:5x 原話（user_asks_LAWWW UA-LAWWW-1103-04）",
+        "branch": "claude/gha-node-trial（試用分支）",
+        "acceptance": "白話評估報告交使用者後再決定實施",
+        "receiver": "BB（測試總監，D100）、CC",
+        "ack": "未派",
+        "owner": "LAWWW"
+      }
     }
   ]
 }

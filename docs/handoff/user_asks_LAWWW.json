@@ -2091,9 +2091,19 @@
       "at": "2026-11-03T00:4x",
       "quote": "我想先試用 GitHub Actions 免費執行 Node 測試，減少以後消耗 Claude 使用量……這次只做最小規模的可行性測試……成功就收工，其他整合等 BB 回來再做。",
       "kind": "原話",
-      "status": "已驗收",
+      "status": "已完成",
       "task": "GHA-NODE-TRIAL-1103",
       "note": "試用分支 claude/gha-node-trial、.github/workflows/node-trial.yml；run 41554813408 success"
+    },
+    {
+      "id": "UA-LAWWW-1103-04",
+      "at": "2026-11-03T00:5x",
+      "quote": "請幫我新增一項正式待辦工作：評估將目前不需要使用我自己的電腦執行的自動測試，盡可能改由 GitHub Actions 免費執行，以減少 Claude 使用量。……這次只需要新增待辦，不需要立刻開始實作。……等輪到這項工作時，先提出白話文的評估報告，再決定如何實施。最終目標：GitHub 負責免費執行適合的例行測試，我的電腦負責需要實際畫面與操作的測試，Claude 負責分析與修正問題。三者不要重複浪費資源。",
+      "kind": "原話",
+      "status": "還沒做",
+      "wants": "X154",
+      "task": "GHA-TEST-OFFLOAD-1103",
+      "note": "六點要求全文見 tasks.json GHA-TEST-OFFLOAD-1103 的 next"
     }
   ]
 }
