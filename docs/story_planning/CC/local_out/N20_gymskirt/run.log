@@ -1,0 +1,36 @@
+[gpu_wrap] CC_GPU=1 跑 C:\Users\USER\Documents\Lawstudent_cclocal\docs\story_planning\test_tools\cc\cc_gym_skirt_probe.py http://127.0.0.1:8810/index.html C:\Users\USER\Documents\Lawstudent_cclocal\docs\story_planning\CC\local_out\N20_gymskirt\out
+PASS 遊戲載入
+  [前置／捷徑] 讀檔進 gym_b1 第 7 天（週2）18.83 時（條件事件關閉）
+  拉筋：gym_b1|g3|5 第 7 天 18.83 時 (-21,4.45) 裙子=False 最低 -0.007 m（{"mesh": "Clothes_H01_2", "bone": "J_Bip_L_Foot", "at": [-20.32, 5.22]}）衣服 ["Facebaked", "Facebaked_1", "Facebaked_2", "Facebaked_3", "Facebaked_4", "Facebaked_5", "Facebaked_6", "Facebaked_7", "Body", "Clothes_H01", "Clothes_H01_1", "Clothes_H01_2", "Hair_NM4"]
+  [前置／捷徑] 讀檔進 gym_b1 第 11 天（週6）19.00 時（條件事件關閉）
+  [前置／捷徑] 讀檔進 gym_b1 第 7 天（週2）18.50 時（條件事件關閉）
+  拉筋：gym_b1|g3|5 第 7 天 18.50 時 (-21,4.45) 裙子=False 最低 -0.007 m（{"mesh": "Clothes_H01_2", "bone": "J_Bip_L_Foot", "at": [-20.32, 5.22]}）衣服 ["Facebaked", "Facebaked_1", "Facebaked_2", "Facebaked_3", "Facebaked_4", "Facebaked_5", "Facebaked_6", "Facebaked_7", "Body", "Clothes_H01", "Clothes_H01_1", "Clothes_H01_2", "Hair_NM6"]
+  [前置／捷徑] 讀檔進 gym_b1 第 14 天（週2）19.50 時（條件事件關閉）
+  拉筋：gym_b1|g3|2 第 14 天 19.50 時 (-21,4.45) 裙子=False 最低 -0.008 m（{"mesh": "Clothes_H01_2", "bone": "J_Bip_R_Foot", "at": [-21.11, 5.45]}）衣服 ["Facebaked", "Facebaked_1", "Facebaked_2", "Facebaked_3", "Facebaked_4", "Facebaked_5", "Facebaked_6", "Facebaked_7", "Body", "Clothes_H01", "Clothes_H01_1", "Clothes_H01_2", "Hair_NM6"]
+  [前置／捷徑] 讀檔進 gym_b1 第 21 天（週2）18.00 時（條件事件關閉）
+  拉筋：gym_b1|g3|1 第 21 天 18.00 時 (-18.2,4.45) 裙子=False 最低 -0.007 m（{"mesh": "Clothes_H01_2", "bone": "J_Bip_L_Foot", "at": [-17.52, 5.22]}）衣服 ["Facebaked", "Facebaked_1", "Facebaked_2", "Facebaked_3", "Facebaked_4", "Facebaked_5", "Facebaked_6", "Facebaked_7", "Body", "Clothes_H01", "Clothes_H01_1", "Clothes_H01_2", "Hair_NM6"]
+  [前置／捷徑] 讀檔進 gym_b1 第 25 天（週6）19.00 時（條件事件關閉）
+  拉筋：gym_b1|g3|5 第 25 天 19.00 時 (-21,4.45) 裙子=False 最低 -0.011 m（{"mesh": "Clothes_NM9_4", "bone": "J_Bip_R_Foot", "at": [-21.68, 5.19]}）衣服 ["Facebaked", "Facebaked_1", "Facebaked_2", "Facebaked_3", "Facebaked_4", "Facebaked_5", "Facebaked_6", "Facebaked_7", "Body", "Clothes_NM9_1", "Clothes_NM9_2", "Clothes_NM9_3", "Clothes_NM9_4", "Hair_NM9"]
+  [前置／捷徑] 讀檔進 gym_b1 第 12 天（週0）15.00 時（條件事件關閉）
+  [前置／捷徑] 讀檔進 gym_b1 第 18 天（週6）16.00 時（條件事件關閉）
+  [前置／捷徑] 讀檔進 gym_b1 第 8 天（週3）17.00 時（條件事件關閉）
+  [前置／捷徑] 讀檔進 gym_b1 第 15 天（週3）20.50 時（條件事件關閉）
+  [前置／捷徑] 讀檔進 gym_b1 第 28 天（週2）18.50 時（條件事件關閉）
+  拉筋：gym_b1|g3|3 第 28 天 18.50 時 (-21,4.45) 裙子=False 最低 -0.008 m（{"mesh": "Clothes_NM18_4", "bone": "J_Bip_L_Foot", "at": [-20.3, 5.24]}）衣服 ["Facebaked", "Facebaked_1", "Facebaked_2", "Facebaked_3", "Facebaked_4", "Facebaked_5", "Facebaked_6", "Facebaked_7", "Body", "Clothes_NM18_1", "Clothes_NM18_2", "Clothes_NM18_3", "Clothes_NM18_4", "Hair_NM18"]
+  [前置／捷徑] 讀檔進 gym_b1 第 32 天（週6）19.00 時（條件事件關閉）
+  [前置／捷徑] 讀檔進 gym_b1 第 35 天（週2）19.00 時（條件事件關閉）
+  拉筋：gym_b1|g3|4 第 35 天 19.00 時 (-21,4.45) 裙子=False 最低 -0.007 m（{"mesh": "Clothes_NM18_4", "bone": "J_Bip_R_Foot", "at": [-21.1, 5.42]}）衣服 ["Facebaked", "Facebaked_1", "Facebaked_2", "Facebaked_3", "Facebaked_4", "Facebaked_5", "Facebaked_6", "Facebaked_7", "Body", "Clothes_NM18_1", "Clothes_NM18_2", "Clothes_NM18_3", "Clothes_NM18_4", "Hair_NM18"]
+  [前置／捷徑] 讀檔進 gym_b1 第 39 天（週6）16.00 時（條件事件關閉）
+  拉筋：gym_b1|g2|1 第 39 天 16.00 時 (-18.2,4.45) 裙子=False 最低 -0.011 m（{"mesh": "Clothes_NM19_4", "bone": "J_Bip_R_Foot", "at": [-18.88, 5.19]}）衣服 ["Facebaked", "Facebaked_1", "Facebaked_2", "Facebaked_3", "Facebaked_4", "Facebaked_5", "Facebaked_6", "Facebaked_7", "Body", "Clothes_NM19_1", "Clothes_NM19_2", "Clothes_NM19_3", "Clothes_NM19_4", "Hair_NM19"]
+  [前置／捷徑] 讀檔進 gym_b1 第 42 天（週2）18.00 時（條件事件關閉）
+  拉筋：gym_b1|g3|3 第 42 天 18.00 時 (-18.2,4.45) 裙子=False 最低 -0.007 m（{"mesh": "Clothes_NM12_4", "bone": "J_Bip_L_Foot", "at": [-17.52, 5.22]}）衣服 ["Facebaked", "Facebaked_1", "Facebaked_2", "Facebaked_3", "Facebaked_4", "Facebaked_5", "Facebaked_6", "Facebaked_7", "Body", "Clothes_NM12_1", "Clothes_NM12_2", "Clothes_NM12_3", "Clothes_NM12_4", "Hair_NM12"]
+  [前置／捷徑] 讀檔進 gym_b1 第 46 天（週6）19.00 時（條件事件關閉）
+  拉筋：gym_b1|g3|4 第 46 天 19.00 時 (-21,4.45) 裙子=False 最低 -0.007 m（{"mesh": "Clothes_NM12_4", "bone": "J_Bip_R_Foot", "at": [-21.1, 5.42]}）衣服 ["Facebaked", "Facebaked_1", "Facebaked_2", "Facebaked_3", "Facebaked_4", "Facebaked_5", "Facebaked_6", "Facebaked_7", "Body", "Clothes_NM12_1", "Clothes_NM12_2", "Clothes_NM12_3", "Clothes_NM12_4", "Hair_NM12"]
+  [前置／捷徑] 讀檔進 gym_b1 第 49 天（週2）18.50 時（條件事件關閉）
+  拉筋：gym_b1|g3|2 第 49 天 18.50 時 (-21,4.45) 裙子=False 最低 -0.011 m（{"mesh": "Clothes_NM15_3", "bone": "J_Bip_R_Foot", "at": [-21.68, 5.19]}）衣服 ["Facebaked", "Facebaked_1", "Facebaked_2", "Facebaked_3", "Facebaked_4", "Facebaked_5", "Facebaked_6", "Facebaked_7", "Body", "Clothes_NM15_1", "Clothes_NM15_2", "Clothes_NM15_3", "Hair_NM15"]
+  [前置／捷徑] 讀檔進 gym_b1 第 53 天（週6）15.00 時（條件事件關閉）
+  拉筋：gym_b1|g2|2 第 53 天 15.00 時 (-18.2,4.45) 裙子=False 最低 -0.015 m（{"mesh": "Clothes_NM15_1", "bone": "J_Bip_L_LowerLeg", "at": [-18.05, 5.36]}）衣服 ["Facebaked", "Facebaked_1", "Facebaked_2", "Facebaked_3", "Facebaked_4", "Facebaked_5", "Facebaked_6", "Facebaked_7", "Body", "Clothes_NM15_1", "Clothes_NM15_2", "Clothes_NM15_3", "Hair_NM15"]
+PASS ① 墊子上每一位在拉筋的人最低點離地 ≥ −0.05 m（看到 12 位）  []
+PASS ② 墊子上沒有穿裙子的人（NF1[0479]|[Ss]kirt）——修法是不讓穿裙子的人上墊子  衣服：["Clothes_H01", "Clothes_H01_1", "Clothes_H01_2", "Clothes_NM12_1", "Clothes_NM12_2", "Clothes_NM12_3", "Clothes_NM12_4", "Clothes_NM15_1", "Clothes_NM15_2", "Clothes_NM15_3", "Clothes_NM18_1", "Clothes_NM18_2", "Clothes_NM18_3", "Clothes_NM18_4", "Clothes_NM19_1", "Clothes_NM19_2", "Clothes_NM19_3", "Clothes_NM19_4", "Clothes_NM9_1", "Clothes_NM9_2", "Clothes_NM9_3", "Clothes_NM9_4"]
+PASS 沒有 JS 例外  []
+ALL PASS

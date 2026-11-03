@@ -1,0 +1,23 @@
+{
+  "rerun": "",
+  "id": "N20_gymskirt",
+  "sha": "16629d866",
+  "kind": "probe",
+  "script": "docs/story_planning/test_tools/cc/cc_gym_skirt_probe.py",
+  "env": "NOSKIRT=1",
+  "machine": "MSI",
+  "start": "2026-11-04T07:23:55",
+  "end": "2026-11-04T07:29:51",
+  "seconds": 357,
+  "exit": 0,
+  "error": null,
+  "runner": "9bde5687ff",
+  "rf_round": "22",
+  "url": "http://127.0.0.1:8810/index.html",
+  "res_peak": {
+    "cpu": 73,
+    "mem": 68,
+    "used_gb": 21.5,
+    "chrome_testing": 29
+  }
+}

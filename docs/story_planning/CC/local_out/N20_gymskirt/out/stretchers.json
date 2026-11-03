@@ -1,0 +1,452 @@
+[
+ {
+  "key": "gym_b1|g3|5",
+  "x": -21,
+  "z": 4.45,
+  "meshes": [
+   "Facebaked",
+   "Facebaked_1",
+   "Facebaked_2",
+   "Facebaked_3",
+   "Facebaked_4",
+   "Facebaked_5",
+   "Facebaked_6",
+   "Facebaked_7",
+   "Body",
+   "Clothes_H01",
+   "Clothes_H01_1",
+   "Clothes_H01_2",
+   "Hair_NM4"
+  ],
+  "slot": [
+   7,
+   2,
+   18.83
+  ],
+  "skirt": false,
+  "low": -0.007,
+  "ground": 0,
+  "who": {
+   "mesh": "Clothes_H01_2",
+   "bone": "J_Bip_L_Foot",
+   "at": [
+    -20.32,
+    5.22
+   ]
+  },
+  "pose": "gym_stretch"
+ },
+ {
+  "key": "gym_b1|g3|5",
+  "x": -21,
+  "z": 4.45,
+  "meshes": [
+   "Facebaked",
+   "Facebaked_1",
+   "Facebaked_2",
+   "Facebaked_3",
+   "Facebaked_4",
+   "Facebaked_5",
+   "Facebaked_6",
+   "Facebaked_7",
+   "Body",
+   "Clothes_H01",
+   "Clothes_H01_1",
+   "Clothes_H01_2",
+   "Hair_NM6"
+  ],
+  "slot": [
+   7,
+   2,
+   18.5
+  ],
+  "skirt": false,
+  "low": -0.007,
+  "ground": 0,
+  "who": {
+   "mesh": "Clothes_H01_2",
+   "bone": "J_Bip_L_Foot",
+   "at": [
+    -20.32,
+    5.22
+   ]
+  },
+  "pose": "gym_stretch"
+ },
+ {
+  "key": "gym_b1|g3|2",
+  "x": -21,
+  "z": 4.45,
+  "meshes": [
+   "Facebaked",
+   "Facebaked_1",
+   "Facebaked_2",
+   "Facebaked_3",
+   "Facebaked_4",
+   "Facebaked_5",
+   "Facebaked_6",
+   "Facebaked_7",
+   "Body",
+   "Clothes_H01",
+   "Clothes_H01_1",
+   "Clothes_H01_2",
+   "Hair_NM6"
+  ],
+  "slot": [
+   14,
+   2,
+   19.5
+  ],
+  "skirt": false,
+  "low": -0.008,
+  "ground": 0,
+  "who": {
+   "mesh": "Clothes_H01_2",
+   "bone": "J_Bip_R_Foot",
+   "at": [
+    -21.11,
+    5.45
+   ]
+  },
+  "pose": "gym_stretch"
+ },
+ {
+  "key": "gym_b1|g3|1",
+  "x": -18.2,
+  "z": 4.45,
+  "meshes": [
+   "Facebaked",
+   "Facebaked_1",
+   "Facebaked_2",
+   "Facebaked_3",
+   "Facebaked_4",
+   "Facebaked_5",
+   "Facebaked_6",
+   "Facebaked_7",
+   "Body",
+   "Clothes_H01",
+   "Clothes_H01_1",
+   "Clothes_H01_2",
+   "Hair_NM6"
+  ],
+  "slot": [
+   21,
+   2,
+   18.0
+  ],
+  "skirt": false,
+  "low": -0.007,
+  "ground": 0,
+  "who": {
+   "mesh": "Clothes_H01_2",
+   "bone": "J_Bip_L_Foot",
+   "at": [
+    -17.52,
+    5.22
+   ]
+  },
+  "pose": "gym_stretch"
+ },
+ {
+  "key": "gym_b1|g3|5",
+  "x": -21,
+  "z": 4.45,
+  "meshes": [
+   "Facebaked",
+   "Facebaked_1",
+   "Facebaked_2",
+   "Facebaked_3",
+   "Facebaked_4",
+   "Facebaked_5",
+   "Facebaked_6",
+   "Facebaked_7",
+   "Body",
+   "Clothes_NM9_1",
+   "Clothes_NM9_2",
+   "Clothes_NM9_3",
+   "Clothes_NM9_4",
+   "Hair_NM9"
+  ],
+  "slot": [
+   25,
+   6,
+   19.0
+  ],
+  "skirt": false,
+  "low": -0.011,
+  "ground": 0,
+  "who": {
+   "mesh": "Clothes_NM9_4",
+   "bone": "J_Bip_R_Foot",
+   "at": [
+    -21.68,
+    5.19
+   ]
+  },
+  "pose": "gym_stretch"
+ },
+ {
+  "key": "gym_b1|g3|3",
+  "x": -21,
+  "z": 4.45,
+  "meshes": [
+   "Facebaked",
+   "Facebaked_1",
+   "Facebaked_2",
+   "Facebaked_3",
+   "Facebaked_4",
+   "Facebaked_5",
+   "Facebaked_6",
+   "Facebaked_7",
+   "Body",
+   "Clothes_NM18_1",
+   "Clothes_NM18_2",
+   "Clothes_NM18_3",
+   "Clothes_NM18_4",
+   "Hair_NM18"
+  ],
+  "slot": [
+   28,
+   2,
+   18.5
+  ],
+  "skirt": false,
+  "low": -0.008,
+  "ground": 0,
+  "who": {
+   "mesh": "Clothes_NM18_4",
+   "bone": "J_Bip_L_Foot",
+   "at": [
+    -20.3,
+    5.24
+   ]
+  },
+  "pose": "gym_stretch"
+ },
+ {
+  "key": "gym_b1|g3|4",
+  "x": -21,
+  "z": 4.45,
+  "meshes": [
+   "Facebaked",
+   "Facebaked_1",
+   "Facebaked_2",
+   "Facebaked_3",
+   "Facebaked_4",
+   "Facebaked_5",
+   "Facebaked_6",
+   "Facebaked_7",
+   "Body",
+   "Clothes_NM18_1",
+   "Clothes_NM18_2",
+   "Clothes_NM18_3",
+   "Clothes_NM18_4",
+   "Hair_NM18"
+  ],
+  "slot": [
+   35,
+   2,
+   19.0
+  ],
+  "skirt": false,
+  "low": -0.007,
+  "ground": 0,
+  "who": {
+   "mesh": "Clothes_NM18_4",
+   "bone": "J_Bip_R_Foot",
+   "at": [
+    -21.1,
+    5.42
+   ]
+  },
+  "pose": "gym_stretch"
+ },
+ {
+  "key": "gym_b1|g2|1",
+  "x": -18.2,
+  "z": 4.45,
+  "meshes": [
+   "Facebaked",
+   "Facebaked_1",
+   "Facebaked_2",
+   "Facebaked_3",
+   "Facebaked_4",
+   "Facebaked_5",
+   "Facebaked_6",
+   "Facebaked_7",
+   "Body",
+   "Clothes_NM19_1",
+   "Clothes_NM19_2",
+   "Clothes_NM19_3",
+   "Clothes_NM19_4",
+   "Hair_NM19"
+  ],
+  "slot": [
+   39,
+   6,
+   16.0
+  ],
+  "skirt": false,
+  "low": -0.011,
+  "ground": 0,
+  "who": {
+   "mesh": "Clothes_NM19_4",
+   "bone": "J_Bip_R_Foot",
+   "at": [
+    -18.88,
+    5.19
+   ]
+  },
+  "pose": "gym_stretch"
+ },
+ {
+  "key": "gym_b1|g3|3",
+  "x": -18.2,
+  "z": 4.45,
+  "meshes": [
+   "Facebaked",
+   "Facebaked_1",
+   "Facebaked_2",
+   "Facebaked_3",
+   "Facebaked_4",
+   "Facebaked_5",
+   "Facebaked_6",
+   "Facebaked_7",
+   "Body",
+   "Clothes_NM12_1",
+   "Clothes_NM12_2",
+   "Clothes_NM12_3",
+   "Clothes_NM12_4",
+   "Hair_NM12"
+  ],
+  "slot": [
+   42,
+   2,
+   18.0
+  ],
+  "skirt": false,
+  "low": -0.007,
+  "ground": 0,
+  "who": {
+   "mesh": "Clothes_NM12_4",
+   "bone": "J_Bip_L_Foot",
+   "at": [
+    -17.52,
+    5.22
+   ]
+  },
+  "pose": "gym_stretch"
+ },
+ {
+  "key": "gym_b1|g3|4",
+  "x": -21,
+  "z": 4.45,
+  "meshes": [
+   "Facebaked",
+   "Facebaked_1",
+   "Facebaked_2",
+   "Facebaked_3",
+   "Facebaked_4",
+   "Facebaked_5",
+   "Facebaked_6",
+   "Facebaked_7",
+   "Body",
+   "Clothes_NM12_1",
+   "Clothes_NM12_2",
+   "Clothes_NM12_3",
+   "Clothes_NM12_4",
+   "Hair_NM12"
+  ],
+  "slot": [
+   46,
+   6,
+   19.0
+  ],
+  "skirt": false,
+  "low": -0.007,
+  "ground": 0,
+  "who": {
+   "mesh": "Clothes_NM12_4",
+   "bone": "J_Bip_R_Foot",
+   "at": [
+    -21.1,
+    5.42
+   ]
+  },
+  "pose": "gym_stretch"
+ },
+ {
+  "key": "gym_b1|g3|2",
+  "x": -21,
+  "z": 4.45,
+  "meshes": [
+   "Facebaked",
+   "Facebaked_1",
+   "Facebaked_2",
+   "Facebaked_3",
+   "Facebaked_4",
+   "Facebaked_5",
+   "Facebaked_6",
+   "Facebaked_7",
+   "Body",
+   "Clothes_NM15_1",
+   "Clothes_NM15_2",
+   "Clothes_NM15_3",
+   "Hair_NM15"
+  ],
+  "slot": [
+   49,
+   2,
+   18.5
+  ],
+  "skirt": false,
+  "low": -0.011,
+  "ground": 0,
+  "who": {
+   "mesh": "Clothes_NM15_3",
+   "bone": "J_Bip_R_Foot",
+   "at": [
+    -21.68,
+    5.19
+   ]
+  },
+  "pose": "gym_stretch"
+ },
+ {
+  "key": "gym_b1|g2|2",
+  "x": -18.2,
+  "z": 4.45,
+  "meshes": [
+   "Facebaked",
+   "Facebaked_1",
+   "Facebaked_2",
+   "Facebaked_3",
+   "Facebaked_4",
+   "Facebaked_5",
+   "Facebaked_6",
+   "Facebaked_7",
+   "Body",
+   "Clothes_NM15_1",
+   "Clothes_NM15_2",
+   "Clothes_NM15_3",
+   "Hair_NM15"
+  ],
+  "slot": [
+   53,
+   6,
+   15.0
+  ],
+  "skirt": false,
+  "low": -0.015,
+  "ground": 0,
+  "who": {
+   "mesh": "Clothes_NM15_1",
+   "bone": "J_Bip_L_LowerLeg",
+   "at": [
+    -18.05,
+    5.36
+   ]
+  },
+  "pose": "gym_stretch"
+ }
+]
