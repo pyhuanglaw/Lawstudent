@@ -42096,10 +42096,10 @@
       "id": "STORY-CLASSROOM-CROWD-SOCKET-1103",
       "title": "教室外面不要有一坨人；「插座是壞的」便利貼那條（SK04）到底有什麼意義",
       "owner": "AA",
-      "status": "待開工",
+      "status": "已整合待測試",
       "priority": "P2",
       "note": "使用者 11-03 08:1x 實玩回報（X161）",
-      "next": "便利貼：AA_605 第 4～8 列已在開發分支 a7a97d111；人群：AA 選 (a)（門口不聚人、門口對話改到教室裡前一排／旁邊說），LAWWW 實作中",
+      "next": "教室門口不聚人＋AA_495 門口對話改在教室裡（子代理 0a37eaf1d 合併；crowd_seat_talk 21 項修改前 17 FAIL；382 支相關測試通過）→ BB 在 PC 看；AA 確認：對話自動播（坐著點不到人）、必修 l2 每天聽一次會不會太多",
       "xai": {
         "spec": "使用者 11-03 原話；SK04 便利貼＝events.js ev_sk04_note1～（大一英文的座位，和經濟系的唐睿用便利貼對話，第 15 週揭曉）",
         "branch": "claude/story-planning",

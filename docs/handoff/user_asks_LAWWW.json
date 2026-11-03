@@ -2238,7 +2238,7 @@
       "at": "2026-11-03T08:1x",
       "quote": "教室外面可以不要有一坨人嗎 那個會有什麼插座是壞的劇情 到底有什麼意義",
       "kind": "原話",
-      "status": "進行中",
+      "status": "在開發分支",
       "wants": "X161",
       "task": "STORY-CLASSROOM-CROWD-SOCKET-1103"
     },
@@ -2338,7 +2338,7 @@
       "at": "2026-11-03T09:4x",
       "quote": "就是外面的人很怪，主要也是因為他們都不動誰會這樣一群人都不動 我說教室外面",
       "kind": "原話",
-      "status": "進行中",
+      "status": "在開發分支",
       "wants": "X161",
       "task": "STORY-CLASSROOM-CROWD-SOCKET-1103"
     }
