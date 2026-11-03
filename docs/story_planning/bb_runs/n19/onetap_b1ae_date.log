@@ -1,0 +1,11 @@
+bb_onetap_flow_probe  SHA=b1ae1c390  CASES=['date']  URL=http://127.0.0.1:8793/index.html
+PASS 遊戲載入
+  [前置／捷徑] 最小存檔 2025-09-22（星期一）17.00 時 campus（條件事件照開）；(()=>{ const G=GAME.G; G.invites=[{id:'bb_ot_i1',state:'accepted',day:G.day,h:19
+PASS date 17:00「到下一個約會地點」可以按  [{"k": "sleep", "dim": true, "t": "回去睡覺 / 晚上（17:30 以後）才能直接睡；白天可以回去用床小睡"}, {"k": "cls", "dim": true, "t": "到下一堂課的教室 / 今天的課已經上完了"}, {"k": "date", "dim": false, "t": "到下一個約會地點 / 和沈以安約在兩點半 Café（19:00）"}]
+  [  51.8s] date 確認框：去：和沈以安約在兩點半 Café（19:00） / 現在：週一 17:00 / 路程：約 20 分鐘 / 現在去會太早：先跳過時間到 18:25 出發（等 1 小時 25 分；中途有約好的事、劇情會先停下來） / 約會本身照常演
+  [  67.3s] date 經過：[{"zone": "campus", "day": 6, "h": 17.008, "pose": "idle", "name": "", "txt": "", "ch": []}, {"zone": "campus", "day": 6, "h": 18.417, "pose": "idle", "name": "", "txt": "", "ch": []}, {"zone": "cafe", "day": 6, "h": 18.752, "pose": "idle", "name": "", "txt": "", "ch": []}]
+PASS D1／D2 先跳過時間、到兩點半 Café  {"day": 6, "h": 18.752, "zone": "cafe", "dlg": false, "name": "", "txt": "", "ch": [], "busy": false, "pose": "idle", "seat": false, "sleeping": false, "cf": false, "phone": false, "npcs": ["heroine_01"], "fb": 0, "_slept": false}
+PASS D3 約會開始（以安在場或她開口）  {"npcs": ["heroine_01"], "name": ""}
+PASS 沒有 JS 例外  []
+SHA b1ae1c390
+ALL PASS

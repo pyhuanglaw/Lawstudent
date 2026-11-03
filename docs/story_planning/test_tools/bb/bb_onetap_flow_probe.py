@@ -117,10 +117,13 @@ async def case_sleep(pg, cdp, run):
     await L.touch_tap(cdp, 20, 20); await pg.wait_for_timeout(1200)   # 框外
     s2 = await pg.evaluate(TS)
     run.check('S2 點確認框外面＝取消（框關掉、還在校園、時間沒跳）', not s2['cf'] and s2['zone'] == 'campus' and abs(s2['h'] - s0['h']) < 0.3, J(s2))
-    items, it = await open_item(pg, cdp, 'sleep'); await pg.wait_for_timeout(1200)
+    items, it = await open_item(pg, cdp, 'sleep')
+    run.check('S3 前：讀檔以後再開選單，「回去睡覺」照樣可以按（不能卡在「正在前往」）', bool(it) and not it['dim'], J(items))
+    await pg.wait_for_timeout(1200)
+    cf_open = (await pg.evaluate(TS))['cf']
     await L.tap(pg, cdp, '#goCfYes'); await pg.wait_for_timeout(1500)
     s3 = await pg.evaluate(TS)
-    run.check('S3 等 1 秒再按「確定」：框關掉、開始走', not s3['cf'], J(s3))
+    run.check('S3 等 1 秒再按「確定」：確認框真的有開、按了以後關掉', cf_open and not s3['cf'], J({'cf_open': cf_open, 's3': s3}))
     fin, trail = await follow(pg, cdp, run, lambda s: s['day'] == d['d'] + 1 and 4 <= s['h'] < 12 and s['zone'] == 'dorm' and not s['dlg'] and not s['busy'], 900, 'sleep', 'sleep')
     run.note('sleep 經過：%s' % J(trail[-12:]))
     await pg.screenshot(path=os.path.join(OUT, 'sleep_morning.png'))
