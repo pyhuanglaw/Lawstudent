@@ -651,6 +651,10 @@ const GAME = (function(){
     const why=friendGoWhy(z); if(why) return {why};
     return {pl:[z,(typeof PLACES!=='undefined'&&PLACES.names&&PLACES.names[z])||(Z3.ZONES[z]&&Z3.ZONES[z].name)||z,null]}; }
   GM.friendGo=(id)=>friendGo(id,STORY.whereIs&&STORY.whereIs(GM,id),PLACE_LIST());   /* 測試、除錯用 */
+  /* 大地圖「認識的人現在大概在」的「直接過去」（MAP-FRIEND-GO-1103；使用者 11-03 22:5x：「我希望地圖上看到朋友在那邊可以選直接過去」）：和手機「朋友」的直接過去同一套（friendGo＋quickGo＋到了接帶我去）。
+     GM.friendGoInfo＝{mins}（可以過去、大約幾分鐘）／{why}（不能直接過去的原因）／null（就在這一區、或不知道在哪：只有「帶我去」）；GM.friendGoNow＝按下去 */
+  GM.friendGoInfo=id=>{ if(!G) return null; const fg=friendGo(id,STORY.whereIs&&STORY.whereIs(GM,id),PLACE_LIST()); if(!fg) return null; if(fg.why) return {why:fg.why}; const st=placeState(fg.pl); return {mins:st&&st.mins}; };
+  GM.friendGoNow=async id=>{ const fg=friendGo(id,STORY.whereIs&&STORY.whereIs(GM,id),PLACE_LIST()); if(fg&&fg.pl){ await quickGo(fg.pl,{force:true}); goFollow(id); return true; } toast(fg&&fg.why?'不能直接過去：'+fg.why:'現在不知道人在哪'); return false; };
   /* 手機「朋友」裡點「資料」：原本選單「人物」頁的內容（科系年級、現在大概在哪、介紹、關係、最近的記憶）——2026-10-16 選單「人物」併進來 */
   let phonePerson=null, phonePin=null;   /* phonePin：手機「地點」地圖選中的圖釘（UX-PHONE-MAP-1023）*/
   /* 人物頁的進度條（D36；DATE.progress）：不顯示數字，條下面一句寫還差哪一種；交往中只寫「交往中」*/
