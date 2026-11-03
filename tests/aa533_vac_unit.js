@@ -8,6 +8,7 @@
 // 修改前（d531b973f）FAIL 的：除了 0 的「稿讀得到」，全部。
 const H=require('./pg_harness.js');
 const fs=require('fs'), vm=require('vm'), path=require('path'), cp=require('child_process');
+require('./alison.js');   /* YT-REWRITE-1103：讀稿照匯入工具同一套換（語彤的句子照 AA_627 表 A A-309、A-310 等，aa630_fix.json）*/
 const {check,GM}=H, J=JSON.stringify;
 const loadG=(f)=>{ const s=fs.readFileSync(path.join(H.ROOT,f),'utf8').replace(/^const ([A-Z_][A-Z0-9_]*)\s*=/mg,'globalThis.$1='); vm.runInThisContext(s,{filename:f}); };
 let loadErr='';

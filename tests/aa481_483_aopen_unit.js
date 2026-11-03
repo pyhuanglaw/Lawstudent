@@ -122,8 +122,8 @@ await sec('481-4',async()=>{
     i>=0&&T()[i+1]==='可昕知道嗎？'&&!H.has('你說吧。我聽。')&&T()[T().length-1]==='那等你說完。',J(T().slice(i)));
   await july(A1,[3,'我們還是朋友'],{fl:{dating_kexin:false,BAR_REG:true}});
   check('481-4. 她不知道（祐廷單身）、選「我們還是朋友。」＝照原句「好。……八月四號，你考試加油。」',H.has('好。……八月四號，你考試加油。')&&H.has('你回答。'),J(T()));
-  { const S=RB().JULY, row={heroine_01:['……八月四號，你考試加油。','……九月見。'],heroine_03:['考完來吃麵，算我的。','下次來吃麵，算我的。'],heroine_05:['考完告訴我結果。','有什麼事，再告訴我。'],heroine_04:['那你考完我請宵夜，朋友那種。','那下次宵夜我請，朋友那種。'],classmate_peishan:['……那我以後還可以問你別的問題嗎？',null]};
-    check('481-4-1. 五位拿掉「好。」的那一句照 AA_481 4-1 的表（逐字、在稿裡）',Object.keys(row).every(id=>S[id].friendK===row[id][0]&&(row[id][1]==null||S[id].friendNoK===row[id][1])&&row[id].filter(Boolean).every(t=>inDoc(t,'a481')))&&J(S.heroine_05.lastK)===J(['六月那天說的，我不想再往後排了。'])); }
+  { const S=RB().JULY, row={heroine_01:['……八月四號，你考試加油。','……九月見。'],heroine_03:['考完來吃麵，算我的。','下次來吃麵，算我的。'].map(s=>require('./aa630_expect.js').fix(s,'src/r2y4b3d.js')),heroine_05:['考完告訴我結果。','有什麼事，再告訴我。'],heroine_04:['那你考完我請宵夜，朋友那種。','那下次宵夜我請，朋友那種。'],classmate_peishan:['……那我以後還可以問你別的問題嗎？',null]};
+    check('481-4-1. 五位拿掉「好。」的那一句照 AA_481 4-1 的表（逐字、在稿裡；語彤那兩句照 AA_630 Z-143 換成喝茶）',Object.keys(row).every(id=>S[id].friendK===row[id][0]&&(row[id][1]==null||S[id].friendNoK===row[id][1])&&row[id].filter(Boolean).every(t=>inDoc(t,'a481')))&&J(S.heroine_05.lastK)===J(['六月那天說的，我不想再往後排了。'])); }
 });
 
 /* ================= AA_481 第 5 節＋AA_483 第 1 節第 1、2 點、第 2-1、2-2 節：可昕收回 ================= */
