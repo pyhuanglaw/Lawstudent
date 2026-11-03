@@ -1,0 +1,67 @@
+diff --git a/src/library_upper3d.js b/src/library_upper3d.js
+index 8988e91a9..08db8fc21 100644
+--- a/src/library_upper3d.js
++++ b/src/library_upper3d.js
+@@ -112,6 +112,21 @@ const LUP=(function(){
+       const ap=(GM.seatApproach&&GM.seatApproach(st))||st.ap||[st.x,st.z]; if(!(E.moveTo&&E.moveTo(n,ap[0],ap[1],sit,0))) sit(); }
+     return k; };
+ 
++  /* 研究小間玻璃後面的讀者（LAWWW 11-03 12:08，CARREL-FREE-1103 以後；LAWWW2）：08 開館時間開著給玩家，其他九間關著——整排都空著很怪。
++     開館時段（08:00～22:00）01～10 扣掉 08（玩家的）和 03（學姊的，她自己的劇情 lupstory3d.js 放）每一間照日子、時段（上午／下午／晚上）決定有沒有人：
++     大約六成有人，坐那一間的椅子（carrels[].seat）、pose 'read'、frozen（門關著，從門上的小窗看得到）。閉館、時段換了沒輪到的：藏起來（不走出來：門是關的）。
++     story3d.js 進來（entering）、待著都叫。 */
++  S_.carrelWant=function(G){ const h=G.hour%24; if(h<8||h>=22) return []; const slot=h<12?0:(h<18?1:2), out=[];
++    for(const c of LAY('carrels').carrels||[]){ if(c.id==='08'||c.id==='03'||!c.seat) continue; let sd=(((G.day|0)*131+slot*17+(+c.id)*7919)%2147483646)+1; for(let k=0;k<3;k++) sd=(sd*16807)%2147483647; if(sd%10<6) out.push(c.id); }
++    return out; };
++  S_.populateCarrels=function(GM,entering){ const E=GM.E, G=GM.G; if(G.zone!=='library_carrels'||!E.zone||!E.npcs||typeof CHAR==='undefined'||typeof STORY==='undefined') return 0;
++    const want=S_.carrelWant(G), C=LAY('carrels').carrels||[]; let k=0;
++    for(const n of E.npcs) if(n&&n.carrelId){ const on=want.includes(n.carrelId); if(n.obj) n.obj.visible=on; n.hidden=!on; }
++    for(const id of want){ if(E.npcs.some(n=>n&&n.carrelId===id)) continue; const c=C.find(q=>q.id===id); if(!c) continue; const st=c.seat;
++      const o=CHAR.build(STORY.extraSpec(880+(((G.day|0)*13+(+id))%60))); o.position.set(st.x,0,st.z); o.rotation.y=st.yaw||0;
++      const n=E.addNPC({obj:o,name:'',beh:'idle',pose:'read',idlePose:'read',frozen:true,isExtra:true,carrelId:id,seat:{x:st.x,z:st.z,yaw:st.yaw||0,lv:0}}); if(n) k++; }
++    return k; };
++
+   /* 窗外的景深（tools/shots/shop_views_layers.json：遊戲裡拍的照片，景在幾公尺外）*/
+   S_.viewDepth={library_carrels:30.8,library_stacks:35.6};
+   S_.carrels=carrels; S_.stacks=stacks;
+diff --git a/tests/library_upper_unit.js b/tests/library_upper_unit.js
+index 1dbfe7d83..594f44847 100644
+--- a/tests/library_upper_unit.js
++++ b/tests/library_upper_unit.js
+@@ -105,4 +105,16 @@ const C=LU.carrels, S=LU.stacks, door=LL.doors.find(d=>d.id==='carrels');
+   check('7. story3d.js 進來、待著都叫 LUP.populate（書庫）', /zoneId==='library_stacks'&&typeof LUP!=='undefined'\)\{ try\{ LUP\.populate\(GM,true\)/.test(st)&&/LUP\.populate\(GM,false\)/.test(st));
+   check('7. guide3d.js（大廳 ⇄ 研究小間、電梯 ⇄ 書庫）、placemap 的地圖釘（總圖）、places 的名字和開館時間', /library_hall:\['campus','library','library_b1','library_carrels'\]/.test(g)&&/library_carrels:\['library_hall'\]/.test(g)&&/library_stacks:\['library_hall','library'\]/.test(g)
+     &&/library_carrels:'library',library_stacks:'library'/.test(pm)&&/library_carrels:'總圖 2F 研究小間'/.test(pl)&&/library_stacks:'總圖 5F 書庫'/.test(pl)&&/library_stacks:\{open:8,close:22/.test(pl)); }
++// 8. 研究小間玻璃後面的讀者（LAWWW 11-03 12:08；CARREL-FREE-1103）
++{ const C=LIBRARY_UPPER_LAYOUTS.carrels, ids=C.carrels.map(c=>c.id); let any=0, bad=[];
++  for(let d=1; d<=30; d++) for(const h of [9,14,20]){ const w=LUP.carrelWant({day:d,hour:h}); any+=w.length; if(w.some(id=>id==='08'||id==='03'||!ids.includes(id))) bad.push(d+'/'+h+':'+w.join(',')); }
++  check('8. 研究小間的讀者：只坐 08、03 以外的那八間；30 天×三個時段平均每次 3～7 間有人', !bad.length&&any/90>=3&&any/90<=7, (any/90).toFixed(2)+' 間；'+bad.slice(0,3).join(' '));
++  check('8. 研究小間的讀者：閉館（07:00、22:30）沒有人', LUP.carrelWant({day:5,hour:7}).length===0&&LUP.carrelWant({day:5,hour:22.5}).length===0);
++  const npcs=[]; const GMf={G:{zone:'library_carrels',day:9,hour:15,flags:{}},E:{zone:{},npcs,addNPC:o=>{ npcs.push(o); return o; }}};
++  const keep=global.CHAR, keepS=global.STORY; global.CHAR={build:()=>({position:{set(){}},rotation:{y:0},visible:true})}; global.STORY={extraSpec:i=>({i})};
++  const n1=LUP.populateCarrels(GMf,true), n2=LUP.populateCarrels(GMf,false); GMf.G.hour=23; LUP.populateCarrels(GMf,false); const hid=npcs.every(n=>n.hidden&&n.obj.visible===false);
++  global.CHAR=keep; global.STORY=keepS;
++  check('8. populateCarrels：進來放好（坐椅子、read、frozen）、待著不重複放、閉館藏起來', n1===LUP.carrelWant({day:9,hour:15}).length&&n1>0&&n2===0&&npcs.every(n=>n.pose==='read'&&n.frozen&&n.seat)&&hid, n1+' 位');
++  const st=fs.readFileSync(path.join(ROOT,'src/story3d.js'),'utf8');
++  check('8. story3d.js 進來、待著都叫 LUP.populateCarrels（研究小間）', /zoneId==='library_carrels'&&typeof LUP!=='undefined'&&LUP\.populateCarrels\)\{ try\{ LUP\.populateCarrels\(GM,true\)/.test(st)&&/LUP\.populateCarrels\(GM,false\)/.test(st)); }
+ console.log(fails?('\n'+fails+' FAIL'):'\nALL PASS'); process.exit(fails?1:0);
+diff --git a/src/story3d.js b/src/story3d.js
+index 973f486..1be1522 100644
+--- a/src/story3d.js
++++ b/src/story3d.js
+@@ -371,6 +371,7 @@ const STORY = (function(){
+     if(/^linze_[34]f$/.test(zoneId)&&typeof LZUP!=='undefined'){ try{ LZUP.populate(GM,true); }catch(e){ console.warn('LZUP.populate',e); } }   /* 霖澤館 3F、4F：在討論、吃東西、自習的同學（src/linze_upper3d.js）*/
+     if(zoneId==='library_b1'&&typeof LB1!=='undefined'){ try{ LB1.populate(GM,true); }catch(e){ console.warn('LB1.populate',e); } }
+     if(zoneId==='library_stacks'&&typeof LUP!=='undefined'){ try{ LUP.populate(GM,true); }catch(e){ console.warn('LUP.populate',e); } }   /* 總圖 5F 書庫：窗下閱覽桌的讀者（src/library_upper3d.js）*/   /* 總圖 B1：24 小時自習室在讀書的同學（src/library_b1_3d.js）*/
++    if(zoneId==='library_carrels'&&typeof LUP!=='undefined'&&LUP.populateCarrels){ try{ LUP.populateCarrels(GM,true); }catch(e){ console.warn('LUP.populateCarrels',e); } }   /* 研究小間：其他九間玻璃後面的讀者（src/library_upper3d.js；LAWWW 11-03 12:08）*/   /* 總圖 5F 書庫：窗下閱覽桌的讀者（src/library_upper3d.js）*/   /* 總圖 B1：24 小時自習室在讀書的同學（src/library_b1_3d.js）*/
+     if(zoneId==='noodle'){ if(F.afternoonDone&&hr>=17.5&&hr<20.5&&!F.zheNoodleDone&&F.zheInvite&&(F.zheInviteDay!=null?G.day===F.zheInviteDay:S.mainDay(G)===1)){   /* 第一天下課阿哲約的那一頓：只在約的那一天（BB-B 10-30：沒去的玩家之後每天傍晚、考試週也把阿哲放在麵店）；其他日子照作息 */ GM.spawnNPC('zhe',C.zhe,0,0,{seat:{x:0,z:-0.3,yaw:0},talk:n=>talkZhe(GM,n)}); F.zheAtNoodle=true; } }
+     if(zoneId==='dorm'){ for(const [id,u] of S.dormWho(G)) S.dormSpawn(GM,id,u,false);   /* 進房間：現在在書桌前的室友坐好（誰、幾點照 S.dormWho；待在房間裡時間到了自己進門、上床：S.dormLive，DORM203-MATES-1028）*/   /* 經濟系那一年的室友是阿勳（AA_168 第 5 節；阿凱這一年不出現）；E01 還沒演完時由 E01 自己帶他進門 */   /* 阿凱回宜蘭過年（absentDates，BB_171）的晚上不在房間（HOLIDAY-PRESENCE-1021）；AA_374 第 1 項：只有大一同房（9/6 搬進 312 以後他住別棟）*/   /* AA208-L（AA_208 2-4）：四人房的室友晚上在房間；23:30 以後都在上舖（看不到）。誰、幾點照 S.dormMates */
+       if(!S.isEcon(G)){
+@@ -1019,6 +1020,7 @@ const STORY = (function(){
+     if(/^linze_[34]f$/.test(zoneId)&&typeof LZUP!=='undefined'){ try{ LZUP.populate(GM,false); }catch(e){ console.warn('LZUP.populate',e); } }   /* 待在霖澤館樓上：時段到了有人從樓梯間走進來、有人離開 */
+     if(zoneId==='library_b1'&&typeof LB1!=='undefined'){ try{ LB1.populate(GM,false); }catch(e){ console.warn('LB1.populate',e); } }
+     if(zoneId==='library_stacks'&&typeof LUP!=='undefined'){ try{ LUP.populate(GM,false); }catch(e){ console.warn('LUP.populate',e); } }   /* 待在書庫：時段到了有人從電梯走過來坐下、有人離開 */   /* 待在總圖 B1：時段到了有人從樓梯間走進來坐下、有人離開 */
++    if(zoneId==='library_carrels'&&typeof LUP!=='undefined'&&LUP.populateCarrels){ try{ LUP.populateCarrels(GM,false); }catch(e){ console.warn('LUP.populateCarrels',e); } }   /* 研究小間：時段換了，玻璃後面的讀者跟著換 */   /* 待在書庫：時段到了有人從電梯走過來坐下、有人離開 */   /* 待在總圖 B1：時段到了有人從樓梯間走進來坐下、有人離開 */
+     if(zoneId==='cafe'){ try{ cafeRefresh(GM); }catch(e){ console.warn('cafeRefresh',e); } }   /* 待在 Café：客人照時段進出 */
+     if(zoneId==='dorm'){ try{ S.dormLive(GM); }catch(e){ console.warn('STORY.dormLive',e); } }   /* 待在宿舍房間：時間到了室友自己進門、上床、出門（DORM203-MATES-1028）*/
+     lingerMove(GM,zoneId); roomMove(GM,zoneId);

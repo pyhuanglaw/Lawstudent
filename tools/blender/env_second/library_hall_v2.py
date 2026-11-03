@@ -147,7 +147,7 @@ def cut_elev(r):
     return nxt
 
 
-f1 = C1.get('parquet', tile=2.2); sl = C1.get('plaster', tile=3.0); cl0 = C0.get('ceil', tile=2.4)   # 二樓：人字拼木地板（第一版、2D 背景 ntu_library_2f 都是）
+f1 = C1.get('parquet_l', tile=2.2); sl = C1.get('plaster', tile=3.0); cl0 = C0.get('ceil', tile=2.4)   # 二樓：人字拼木地板（第一版、2D 背景 ntu_library_2f 都是）；第五版改淺色 parquet_l（BB 11-03 12:11：往 3F 那條走道的木地板偏中深，D112 只能淺色木地板）
 for r in slab_rects():
     for q in cut_elev(r):
         f1.quad([(q['x0'], Y1, q['z1']), (q['x1'], Y1, q['z1']), (q['x1'], Y1, q['z0']), (q['x0'], Y1, q['z0'])])
@@ -604,6 +604,30 @@ for f in LAY['furniture']:
             mx = x - 1.0 + k * 1.0; c.vm.cbox(mx - 0.22, mx + 0.22, y + 1.12, y + 1.42, z + 0.1, z + 0.13, '#1e2124')
     elif t == 'partition': c.vc.cbox(f['x'] - f['w'] / 2, f['x'] + f['w'] / 2, y, y + 2.4, f['z'] - f['d'] / 2, f['z'] + f['d'] / 2, '#d9d3c6')
     elif t == 'officeWall': C0.get('plaster', tile=3.0).box(f['x0'], f['x1'], y, y + 3.0, f['z'] - 0.06, f['z'] + 0.06)
+    elif t == 'carrelRow':                            # 第五版⑥：二樓西牆一排研究小間 230～249——前牆（灰泥）＋每間一扇木門（門上小窗，看得到裡面暖色的檯燈光）、兩端的牆、頂蓋（二樓挑高：上面看不進去）
+        hh = 2.6; pl = C1.get('plaster', tile=3.0); n = f['n']; dz = (f['z1'] - f['z0']) / n
+        pl.box(f['x1'] - 0.06, f['x1'] + 0.06, y, y + hh, f['z0'], f['z1']); pl.box(f['x0'], f['x1'], y + hh, y + hh + 0.12, f['z0'], f['z1'])
+        for zz in (f['z0'], f['z1']): pl.box(f['x0'], f['x1'], y, y + hh, zz - 0.06, zz + 0.06)
+        C1.get('wood', tile=1.6).box(f['x1'] + 0.06, f['x1'] + 0.075, y, y + 0.1, f['z0'], f['z1'])                              # 踢腳板
+        for k in range(n):
+            zc = f['z0'] + (k + 0.5) * dz
+            door_leaf(C1, 'z', f['x1'] - 0.03, zc, y, +1, w=min(0.62, dz - 0.14), h=2.1, col='#8a6a4a')
+            gx = f['x1'] - 0.03 + T / 2 + 0.062; C1.get('glass').box(gx, gx + 0.006, y + 1.3, y + 1.85, zc - 0.13, zc + 0.13)          # 門上的小窗
+            if k % 3 != 1: c.vc.cbox(gx - 0.02, gx - 0.012, y + 1.32, y + 1.83, zc - 0.11, zc + 0.11, '#e9c98a')                     # 窗裡暖色的光（使用中）
+            c.vc.cbox(f['x1'] + 0.06, f['x1'] + 0.08, y, y + 2.25, zc + dz / 2 - 0.03, zc + dz / 2 + 0.03, '#6e5034')                # 門和門中間的木條
+    elif t == 'compact':                               # 第五版⑧：密集書庫（可以移動的密集書架）——一列一列東西向的雙面書架緊貼在一起，中間拉開一條縫（看得到書）；朝走道那一端的端板有手輪
+        rows = f.get('rows', 9); H_ = f.get('h', 2.3); D_ = (f['d'] - 0.7) / rows; gap = rows // 2; zz = f['z'] - f['d'] / 2
+        side = 1 if f['x'] < -8.2 else -1                                                                                         # 走道在 x −8.2（兩塊中間）
+        c.vm.cbox(f['x'] - f['w'] / 2, f['x'] + f['w'] / 2, y, y + 0.02, f['z'] - f['d'] / 2, f['z'] + f['d'] / 2, '#5a5e62')     # 地上的軌道
+        for k in range(rows):
+            cz = zz + D_ / 2; stack(c, f['x'], cz, f['w'], y + 0.02, H=H_, D=D_ * 0.96, cap=f.get('cap', '#e8b923'))
+            xe = f['x'] + side * (f['w'] / 2 + 0.04); hy = y + 1.15
+            c.vm.cbox(min(xe, xe + side * 0.03), max(xe, xe + side * 0.03), hy - 0.005, hy + 0.005, cz - 0.13, cz + 0.13, '#9aa0a6')   # 手輪：一圈（簡化成十字＋外框）
+            c.vm.cbox(min(xe, xe + side * 0.03), max(xe, xe + side * 0.03), hy - 0.13, hy + 0.13, cz - 0.005, cz + 0.005, '#9aa0a6')
+            for (a0, a1, b0, b1) in ((-0.13, 0.13, 0.12, 0.13), (-0.13, 0.13, -0.13, -0.12)):
+                c.vm.cbox(min(xe, xe + side * 0.03), max(xe, xe + side * 0.03), hy + b0, hy + b1, cz + a0, cz + a1, '#7d848b')
+                c.vm.cbox(min(xe, xe + side * 0.03), max(xe, xe + side * 0.03), hy + a0, hy + a1, cz + b0, cz + b1, '#7d848b')
+            zz += D_ + (0.7 if k == gap else 0.0)
     elif t == 'roomBlock':                             # 第五版③：一樓北邊翼樓的小房間（廁所、演奏室、討論室）：朝大廳的牆＋靠中間的側牆，頂到二樓樓板；木頭踢腳板
         hh = Y1 - ST; pl = C0.get('plaster', tile=3.0); wd = C0.get('wood', tile=1.6)
         pl.box(f['x0'], f['x1'], y, y + hh, f['z1'] - 0.06, f['z1'] + 0.06); wd.box(f['x0'], f['x1'], y, y + 0.1, f['z1'] + 0.06, f['z1'] + 0.075)
