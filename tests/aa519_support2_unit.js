@@ -130,7 +130,8 @@ await sec('0',async()=>{
 /* 1-1 */
 await sec('1-1',async()=>{
   const door=one(/改成「(（麵店門口貼著一張紙：「[^」]+」）)」/,S11);
-  check('1-1 門口那張紙＝稿上「改成」那一句（r2y4b3d.js S.AUNT_DOOR）；舊的「老闆出國，休息七天」不在遊戲裡',!!door&&R2Y4B.AUNT_DOOR===door&&!CODE('src/r2y4b3d.js').includes('老闆出國，休息七天'),J({door,game:R2Y4B.AUNT_DOOR}));
+  /* AA_642 第 6 節（企劃線 ef468a260，YT-REWRITE-1103）：燒臘店照樣公休七天，紙條改「（燒臘店門口貼著一張紙：「出國，休息七天。」）」、拿掉「阿鳳」的署名（AA_519 1-1 的舊設定）——稿上那一句照舊對（AA_519），遊戲照 AA_642 */
+  check('1-1 門口那張紙：稿上 AA_519 1-1「改成」那一句讀得到；遊戲照 AA_642 第 6 節「（燒臘店門口貼著一張紙：「出國，休息七天。」）」（r2y4b3d.js S.AUNT_DOOR）；舊的「老闆出國，休息七天」不在遊戲裡',!!door&&/阿鳳/.test(door)&&R2Y4B.AUNT_DOOR==='（燒臘店門口貼著一張紙：「出國，休息七天。」）'&&!CODE('src/r2y4b3d.js').includes('老闆出國，休息七天'),J({door,game:R2Y4B.AUNT_DOOR}));
   /* 不再用「老闆娘」：稿上三處（story3d.js 一個人吃麵、events.js 聖誕交換禮物、跨年）*/   /* AA_612 A-050、A-053：麵店改燒臘店 */
   const OLD={ev_xmas_exchange:'（燒臘店最裡面那張桌子。老闆娘多拿了兩張椅子過來。）',ev_nye_dinner:'（十二月三十一日，晚上七點。燒臘店比平常擠，老闆娘把門口那張桌子也搬了進來。）'};
   const bad=Object.keys(OLD).filter(id=>evText(id).includes('老闆娘')||!nar(id,OLD[id].split('老闆娘').join('阿姨')));
@@ -504,8 +505,8 @@ await sec('8-4',async()=>{
   const P=INVITE_DATA.places.find(p=>p.id==='noodle'), v1=P.avail(H.G,D('2029-04-24')), v2=P.avail(H.G,D('2029-05-01'));
   fresh('2029-04-24',18.5,'gongguan'); OUT.rec(H.G).push({id:'old_ndl',day:D('2029-04-24'),h:19,state:'planned',place:'阿鳳麵店',title:'麵店'}); H.said=[]; const dr=await NOODLE_CLOSED.door(GM);
   fresh('2029-04-24',18.5,'gongguan'); H.said=[]; const dr2=await NOODLE_CLOSED.door(GM), dl=said();
-  check('8-4 那一週不排新的麵店出遊（OUT.plan 擋下；別的地方、下一週照常）、麵店邀約那天不能選；舊存檔已經排好的照演（門照常開）；沒有約＝門口那張紙「出國，休息七天。——阿鳳」',
-    p1===false&&!q1&&p2===true&&q2&&p3===true&&q3&&v1===false&&v2!==false&&dr===false&&dr2===true&&J(dl)===J(['（麵店門口貼著一張紙：「出國，休息七天。——阿鳳」）']),J({p1,p2,p3,v1,v2,dr,dr2,dl})); });
+  check('8-4 那一週不排新的麵店出遊（OUT.plan 擋下；別的地方、下一週照常）、麵店邀約那天不能選；舊存檔已經排好的照演（門照常開）；沒有約＝門口那張紙「（燒臘店門口貼著一張紙：「出國，休息七天。」）」（AA_642 第 6 節）',
+    p1===false&&!q1&&p2===true&&q2&&p3===true&&q3&&v1===false&&v2!==false&&dr===false&&dr2===true&&J(dl)===J(['（燒臘店門口貼著一張紙：「出國，休息七天。」）']),J({p1,p2,p3,v1,v2,dr,dr2,dl})); });
 
 /* ===================== 第 9 節（169130daf）===================== */
 /* 9-1 颱風夜：同一場其他地方的泡麵一起換（大二一袋滷味、大三兩杯熱豆漿）*/
@@ -655,6 +656,7 @@ await sec('10',async()=>{
   check('10 遊戲 → 稿：aa519_lines.js 的每一句（'+out.length+' 句）都在稿裡',out.length>=90&&!miss.length,J(miss.slice(0,6)));
   /* (b) 各檔帶 AA_519 註解的行、sup519_3d.js：程式裡玩家看得到的字（去掉註解以後的字串）都在稿裡；照舊的半句、系統字、別份稿的句子列出原因 */
   const WHY={
+    '（燒臘店門口貼著一張紙：「出國，休息七天。」）':'AA_642 第 6 節（企劃線 ef468a260）：燒臘店門口的紙拿掉「阿鳳」的署名（取代 AA_519 1-1 那一句）',
     '公館燒臘':'AA_612 A-368（麵店改燒臘店：明軒清單那一列的店名）','湯免費，這點加分。阿姨有時候多切一片叉燒，這個不能算進排名。':'AA_612 A-368（那一列的註解）','叉燒飯剛上桌，還冒著熱氣。':'AA_612 A-401（阿姨不在的那一句，原本「乾麵很燙。」）',
     '林家乾麵（溫州街）':'一百元清單同一行的第一列（照舊）','小碗乾麵＋貢丸湯':'同上','飽足感除以價錢，第一名。沒有之一。':'同上',
     '燒鴨的皮還是脆的。':'一個人吃麵點餛飩湯的那一句（8-2 只改乾麵那一句）',

@@ -39,9 +39,10 @@ const EXP={
     knew:y=>['……我知道。不用說名字。','你選了。好。'],ask:['為什麼？'],   /* AA_589 第 67 列（原本「理由呢？」）*/
     told:y=>[N('（她沒有馬上說話。）'),'……你說實話了。','我要一點時間。'],quiet:y=>['……好。',N(y===2029?'（她把白板筆的蓋子蓋上。）':'（她把筷子在碗上放好。）')],
     last:y=>[N('（她低下頭，把東西收進包包。）'),   /* AA_589 第 68 列 */'好了。你先走。我再坐一下。']},
-  heroine_03:{o:y=>'（茶屋打烊以後。她在吧檯後面擦杯子，沒有抬頭。）',
-    knew:y=>[N('（杯子一個一個倒扣在架上。）'),'……嗯。我知道會有這一天。'],
-    told:y=>['……嗯。',N('（很久以後。）'),'你坐。我把這碗剝完。'],quiet:y=>['……嗯。',N('（她沒有問為什麼。蒜頭剝完了，她又拿了一顆。）')],
+  /* 語彤：AA_642 第 6 節（YT-REWRITE-1103）——2029 茶屋打烊以後她在吧檯後面洗杯子；2030 她已經畢業、坐吧檯最旁邊，knew／quiet 的旁白換「（她轉著手上的茶杯。）」*/
+  heroine_03:{o:y=>y===2029?'（茶屋打烊以後。她在吧檯後面洗杯子，沒有抬頭。）':'（一盞茶屋。她坐在吧檯最旁邊的位子，蘇姨放下一杯茶就走開了。）',
+    knew:y=>[N(y===2029?'（杯子一個一個倒扣在架子上。）':'（她轉著手上的茶杯。）'),'……嗯。我知道會有這一天。'],
+    told:y=>['……嗯。',N('（很久以後。）'),'你坐。我把這幾個洗完。'],quiet:y=>['……嗯。',N(y===2029?'（她沒有問為什麼。杯子洗完了，她又拿起一個。）':'（她轉著手上的茶杯。）')],
     last:y=>['那我把這段時間，還給我自己。……謝謝你教我分時間。']},
   heroine_02:{o:y=>y===2029?'（視訊。她那邊是下午，窗外是英國灰灰的天。）':'（打烊後的 Café。只開了吧檯一盞燈。）',
     knew:y=>['……我猜到了。你最近話都很短。'],told:y=>[N('（她沒有接話。平常她都會接話。）'),'……我知道了。'],
@@ -62,11 +63,11 @@ const EXP={
     quiet:y=>['……就這樣？',N(y===2029?'（她站起來，自己去付了錢。）':'（她轉身上樓，門沒有關好。）')],last:y=>['我累的時候傳的那隻長頸鹿，先不傳了。','……累了，我自己會去睡。']} };
 const ME='……我想跟妳分開。', DM='你是不是有話要跟我說。', PH='（電話。）', OPTS=['「我喜歡上別人了。」','（不說原因）'];
 /* 表（第 1 節）：[2029 幾點, 2030 幾點, 2029 地點, 2030 地點, 2029 背景, 2030 背景]；背景 null＝深色底、'phone'＝電話（不在家＝晚上的路邊）*/
-const TBL={heroine_01:[18,19,'法律系館B 研討室外的走廊','麵店，兩人桌','wancai_seminar','noodle_table'],heroine_03:[21.5,21.5,'麵店打烊以後','麵店打烊以後','noodle_table','noodle_table'],
+const TBL={heroine_01:[18,19,'法律系館B 研討室外的走廊','麵店，兩人桌','wancai_seminar','noodle_table'],heroine_03:[17.5,17.5,'一盞茶屋打烊以後','一盞茶屋・吧檯最旁邊',null,null],   /* AA_642 第 6 節：茶屋 17:00 打烊、2D（dark＋字幕）*/
   heroine_02:[22,21.5,'約好的視訊','打烊後的 Café','video',null],heroine_04:[21,20,'吉他社辦外面的樓梯','工作室樓下',null,null],heroine_05:[17,18.5,'研究室走廊','她上班的研究中心樓下','linze_prof_hall',null],
   classmate_peishan:[21,21,'電話','電話','phone','phone'],kexin:[18.5,20,'木柵大學山下的小吃店','她家樓下','nccu_food',null]};
 /* AA_350 Q3：電話版（沛珊，以及錯過三次改電話的）看得到動作的旁白換成聽得到的；拿掉的＝null（照 AA 的對照表另抄一份）*/
-const HEAR={'（杯子一個一個倒扣在架上。）':'（電話那頭有剝東西的聲音。）','（她沒有問為什麼。蒜頭剝完了，她又拿了一顆。）':'（電話那頭有剝東西的聲音。）','（她低頭，擦了一下已經乾淨的杯子。）':'（那頭有杯子碰到的聲音。）',
+const HEAR={'（杯子一個一個倒扣在架子上。）':'（那頭有杯子碰到的聲音。）','（她沒有問為什麼。杯子洗完了，她又拿起一個。）':'（那頭有杯子碰到的聲音。）','（她轉著手上的茶杯。）':'（那頭安靜了一下。）',   /* 語彤：AA_642 第 6 節的新旁白（電話版用現有的聲音句）*/'（她低頭，擦了一下已經乾淨的杯子。）':'（那頭有杯子碰到的聲音。）',
   '（她把計畫本闔上，沒有寫任何東西。）':'（紙闔起來的聲音。）','（她低下頭，把東西收進包包。）':'（翻紙的聲音。）','（她把筷子放下。）':'（那頭安靜了一下。）','（她把筷子在碗上放好。）':'（那頭安靜了一下。）',
   '（她站起來，自己去付了錢。）':'（那頭安靜了一下。）','（她轉身上樓，門沒有關好。）':'（那頭安靜了一下。）','（她把帽子拉起來，蓋住半張臉。）':null,'（她把鑰匙握在手裡。）':null,'（她把白板筆的蓋子蓋上。）':null,'（她低頭，看著鏡頭外面的什麼。）':null};
 const hearOf=L=>L.map(x=>x&&x.n&&x.n in HEAR?(HEAR[x.n]==null?null:N(HEAR[x.n])):x).filter(x=>x!=null);
@@ -100,7 +101,7 @@ const missThree=id=>{ for(let n=0;n<3;n++){ const q=OUT.get(H.G,'apart'+(rnd(S.a
       F.MULTI_PRE==='pick:kexin'&&LOVE7.every(id=>F['dating_'+id]===true&&!F['EX_'+id])&&JSON.stringify(H.opts[1])===JSON.stringify(LOVE7.map(nm)), JSON.stringify(H.opts));
     const exp={heroine_01:'2029-05-22',heroine_03:'2029-05-23',heroine_02:'2029-05-24',heroine_04:'2029-05-25',heroine_05:'2029-05-30',classmate_peishan:'2029-05-26'}, bad=[];
     for(const id in exp){ const q=OUT.get(H.G,'apart29_'+id+'_0'); if(!q||q.day!==D(exp[id])||q.h!==TBL[id][0]||q.place!==TBL[id][2]||q.ev!=='ev_choice_apart_'+id||q.state!=='planned'||q.who!==id||q.late!==0.5) bad.push(id+':'+JSON.stringify(q&&{day:q.day,h:q.h,place:q.place})); }
-    check('1. 隔天起一晚一位、照表的順序：以安 5/22 18:00 法律系館B 研討室外的走廊、語彤 5/23 21:30 麵店打烊以後、芷若 5/24 22:00 約好的視訊、子晴 5/25 21:00 吉他社辦外面的樓梯、沛珊 5/26 21:00 電話；學姊固定 5/30 17:00 研究室走廊',
+    check('1. 隔天起一晚一位、照表的順序：以安 5/22 18:00 法律系館B 研討室外的走廊、語彤 5/23 17:30 一盞茶屋打烊以後（AA_642 第 6 節）、芷若 5/24 22:00 約好的視訊、子晴 5/25 21:00 吉他社辦外面的樓梯、沛珊 5/26 21:00 電話；學姊固定 5/30 17:00 研究室走廊',
       !bad.length&&!!R&&JSON.stringify(R.list)===JSON.stringify(['heroine_01','heroine_03','heroine_02','heroine_04','heroine_05','classmate_peishan'])&&R.keep==='kexin', bad.join(' '));
     check('1. 都在 6/2（畢業典禮）以前；一晚只有一位；被選的那一位沒有這一場', apartOuts().every(q=>q.day<D('2029-06-02'))&&new Set(apartOuts().map(q=>q.day)).size===apartOuts().length&&!apartOuts().some(q=>q.who==='kexin'));
     const z=OUT.get(H.G,'apart29_heroine_02_0'), p=OUT.get(H.G,'apart29_classmate_peishan_0'), a=OUT.get(H.G,'apart29_heroine_01_0');
@@ -137,7 +138,7 @@ const missThree=id=>{ for(let n=0;n<3;n++){ const q=OUT.get(H.G,'apart'+(rnd(S.a
     const exp={heroine_01:'2030-05-26',heroine_03:'2030-05-27',heroine_02:'2030-05-28',heroine_04:'2030-05-29',heroine_05:'2030-05-30',classmate_peishan:'2030-05-31'}, bad=[];
     for(const id in exp){ const q=OUT.get(H.G,'apart30_'+id+'_0'); if(!q||q.day!==D(exp[id])||q.h!==TBL[id][1]||q.place!==TBL[id][3]) bad.push(id+':'+JSON.stringify(q&&{day:q.day,h:q.h,place:q.place})); }
     const z=OUT.get(H.G,'apart30_heroine_02_0');
-    check('2. 從 5/26 起一晚一位：以安 19:00 麵店兩人桌、語彤 21:30、芷若 21:30 打烊後的 Café（當面，不是視訊）、子晴 20:00 工作室樓下、學姊 18:30 研究中心樓下（2030 不固定）、沛珊 21:00 電話；MULTI_Y5 pick:kexin、都還在交往',
+    check('2. 從 5/26 起一晚一位：以安 19:00 麵店兩人桌、語彤 17:30 一盞茶屋・吧檯最旁邊（AA_642）、芷若 21:30 打烊後的 Café（當面，不是視訊）、子晴 20:00 工作室樓下、學姊 18:30 研究中心樓下（2030 不固定）、沛珊 21:00 電話；MULTI_Y5 pick:kexin、都還在交往',
       !bad.length&&H.G.flags.MULTI_Y5==='pick:kexin'&&LOVE7.every(id=>H.G.flags['dating_'+id]===true)&&!z.verb&&z.travel==='捷運＋公車 約 30 分鐘', bad.join(' '));
     check('2. 畢業後篇：跳到下一件事會停在第一場出發之前（PG.nextStop）', PG.on(H.G)&&PG.nextStop(H.G)!=null&&PG.nextStop(H.G)<=D('2030-05-26')*24+19-0.5-0.25+1e-6, String(PG.nextStop(H.G)));
     fresh('2030-05-25',22,GD); PG.rec(H.G).done.grad=1; for(const id of LOVE7){ H.FRIEND(id); date(id); } H.picks=[0,0]; await H.run('r2y4b_multi_y5');
@@ -271,7 +272,7 @@ const missThree=id=>{ for(let n=0;n<3;n++){ const q=OUT.get(H.G,'apart'+(rnd(S.a
   /* ===== 10. 收拾的時刻（V6-S4，c2035d7f STORY.cleanupTick）：談完才 ROM.end，一週後照樣補旁白 ===== */
   await block('10. 收拾的時刻',async()=>{
     const settle=()=>new Promise(r=>setTimeout(r,0)), line=STORY.CLEANUP_LINE;
-    setup('heroine_01',2029,{keep:'heroine_04',more:['heroine_03']}); const F=H.G.flags;   /* 以安 5/22 18:00、語彤 5/23 21:30 */
+    setup('heroine_01',2029,{keep:'heroine_04',more:['heroine_03']}); const F=H.G.flags;   /* 以安 5/22 18:00、語彤 5/23 17:30 */
     at('2029-05-22',12); H.said=[]; STORY.cleanupTick(GM); await settle();
     check('10. 選了以後、談話以前：還沒分開，沒有收拾的時刻（CLEANUP_DONE 照舊、不補旁白）', F.CLEANUP_DONE!==false&&!ROM.cleanupLate(H.G)&&!H.has(line));
     let q=OUT.get(H.G,'apart29_heroine_01_0'); atAbs(q.day*24+q.h); await goOut(q.id,[0]);

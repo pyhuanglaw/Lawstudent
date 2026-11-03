@@ -13,9 +13,11 @@ const D=POSTGRAD_LINES.DELAYED;
   const GM=H.GM;
   // ---- 0. 資料和企劃檔一字不差 ----
   { const pairs=[['THERMOS 第 2 句',D.thermos2],['THERMOS `ex`',D.thermosEx],['OTHERS `kai`',D.kai[0][1]],['PHONE `zhiruo`',D.zhiruo[1]],['TE.HEART `heroine_05.decline`',D.sisDecline],
-      ['TE.HEART `heroine_04.invite`',D.zqFirst],['TE.GF `heroine_04.invite`',D.zqGf],['BDAY `friendOpts`',D.bdayFriend],['BDAY `exReply`',D.bdayEx[1]],['YT17 `friend`',D.yt17Friend],['YT17 `other`',D.yt17Other],
+      ['TE.HEART `heroine_04.invite`',D.zqFirst],['TE.GF `heroine_04.invite`',D.zqGf],['BDAY `friendOpts`',D.bdayFriend],['BDAY `exReply`',D.bdayEx[1]],
       ['`heroine_05.thermos`',D.epiThermos],['`ps.card`',D.psCard]];
     for(const [k,v] of pairs) check('0. 企劃檔「'+k+'」那一列的新句子＝'+v,q(row(k).dly).includes(v),JSON.stringify(q(row(k).dly)));
+    /* YT17 friend／other：AA_642 第 4 節（企劃線 ef468a260，AA_629 她四年修完、不延畢）取代 AA_381 那兩格（「我們兩個都還沒畢業」「我們兩個的證書都還要再等」）*/
+    check('0. YT17 friend／other 照 AA_642 第 4 節（取代 AA_381）',D.yt17Friend==='你明年還要再穿一次。……今天先跟我拍一張。'&&D.yt17Other==='今天先恭喜我。你的，明年再說。'&&q(row('YT17 `friend`').dly).includes('我們兩個都還沒畢業。……今天先穿一次學士服。'),JSON.stringify([D.yt17Friend,D.yt17Other]));
     const ps=q(row('PHONE `peishan`').dly); check('0. 沛珊兩句＝企劃檔',ps[0]===D.peishan[1]&&ps[1]===D.peishan[2],JSON.stringify(ps));
     const ng=q(row('AUTO_NO_GRAD').dly); check('0. AUTO_NO_GRAD 兩句＝企劃檔',ng.includes(TERMEND_LINES.AUTO_NO_GRAD_DELAYED.heroine_01)&&ng.includes(TERMEND_LINES.AUTO_NO_GRAD_DELAYED.yu)&&TERMEND_LINES.AUTO_NO_GRAD_DELAYED.heroine_05===TERMEND_LINES.AUTO_NO_GRAD_DELAYED.heroine_01&&TERMEND_LINES.AUTO_NO_GRAD_DELAYED.classmate_xinci===TERMEND_LINES.AUTO_NO_GRAD_DELAYED.heroine_01,JSON.stringify(ng));
     /* THERMOS 第 2 句：企劃檔「現在」那一欄是「畢業快樂。」，AA_591 第 175 列改成「恭喜畢業。」（交換延畢那一句 thermos2 照 AA_381）*/
