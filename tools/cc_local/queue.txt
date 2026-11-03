@@ -15,6 +15,18 @@
 # BB_229（11:52 UTC）規則 1（BB 11:57 修正：只有從來沒有在任何地方完整跑過、而且改動很大的才 HOLD＝day9、boya203、wsem；其餘照跑，這一輪就當第一次實跑）。原文：今晚新寫或改過、雲端沒有跑過紀錄的探針（quota15、legalpage、layout16、wsem、day9、delay14、fasat、makeup、y4s2final、d118b3、d118b4、rollcall、boya203、bg107、pt106）要先在雲端跑過一次。跑過以前，項目前面標「#HOLD雲端 」，PC 會跳過；雲端 PASS 以後拿掉標記。
 # 規則 5（修改前對照）：R5 → 05_mk12old（b4f98ea4e）；R8 → 雲端 4734c3d9e 已跑（CC_01 §13b）；R9 → 21_rollpre；R12 → R12b_fasatpre；R10 → R10pre（299e23345，B3 合併前）；R11 → R11pre（f57e3ac75，B4 前）；R1～R4、R6b、R7 是回歸／量測，不是修 bug 的項目，沒有修改前對照。
 # P0（BB 13:37）：R4 對照組＋b4 對照，排在最前面。main＝27e6ce77e（v9.10.15，床的選單 566f60cd6 已經在裡面）
+# ===== BB 01:56：驗收版本改成 7224af47a（c89＋libq3、以安改稿、AA_600/602/591）。c89 已 PASS 的不重跑；以安改稿相關的重跑 =====
+Z_G5_term  | 7224af47a | game  | tests/flow_termend.py        | index.html | 90  | XARGS={url} {out}
+Z_G5b_ancf | 7224af47a | probe | docs/story_planning/test_tools/cc/cc_next1102_ui_probe.py | index.html | 90 | SHA=7224af47a;CASES=ancf2;ORIENTS=port;REAL=1
+Z_P5w      | 7224af47a | probe | docs/story_planning/test_tools/cc/cc_next1102_ui_probe.py | index.html | 60 | SHA=7224af47a;CASES=examgoal_wake;ORIENTS=port
+Z_A2_dorm  | 7224af47a | probe | docs/story_planning/test_tools/cc/cc_dorm_moveout_probe.py | index.html | 60 |
+Z_A3_l15   | 7224af47a | probe | docs/story_planning/test_tools/cc/cc_late15_probe.py | index.html | 60 |
+Z_G6b_v95  | 0f66c4215 | game  | tests/save_compat_v95.py     | index.html | 60  | SHA2=a4f2760;XARGS={url2} {url} {out}
+#HOLD雲端 Z_P3b_sl   | 7224af47a | probe | docs/story_planning/test_tools/cc/cc_shuyu_sl_probe.py | index.html | 75 | （配合 AA_595 圖書館點頭更新中）
+#HOLD雲端 Z_ANSMOKE  | 7224af47a | probe | docs/story_planning/test_tools/cc/cc_an_smoke_probe.py | index.html?turbo | 60 | （以安七夕短冊「再一次。」／「好。」、行政法院 CG-29；撰寫中）
+#HOLD雲端 Z_LIBWHISPER | 7224af47a | probe | docs/story_planning/test_tools/cc/cc_libwhisper_probe.py | index.html | 60 |
+#HOLD雲端 Z_DRIVE_X81  | 7224af47a | probe | docs/story_planning/test_tools/cc/cc_drive_x81_probe.py | index.html | 60 |
+#HOLD雲端 Z_BACKFILLCG | 7224af47a | probe | docs/story_planning/test_tools/cc/cc_backfillcg_probe.py | index.html | 60 |
 # ===== CC 2026-11-03 09:0x 台灣：LAWWW 00:55「擋發布兩項用 c89a5f9be」（ADV-SKIP 打字中 0d4cf65c3、國考題池 f47d4849a）＋回歸。修改前對照＝62d 的 X_A1／X_P1（PC 已 FAIL）=====
 Y_A1_adv   | c89a5f9be | probe | docs/story_planning/test_tools/cc/cc_advskip_probe.py | index.html | 60 |
 Y_P1_d124  | c89a5f9be | probe | docs/story_planning/test_tools/cc/cc_d124_probe.py | index.html?turbo | 30 | CASES=take,skip,bar_pool
@@ -30,6 +42,9 @@ Y_P3_ladder| c89a5f9be | game  | tests/flow_ladder_y1s2.py    | index.html | 110
 Y_P3b_sl   | c89a5f9be | probe | docs/story_planning/test_tools/cc/cc_shuyu_sl_probe.py | index.html | 75 |
 Y_P5_ui    | c89a5f9be | probe | docs/story_planning/test_tools/cc/cc_next1102_ui_probe.py | index.html | 90 | SHA=c89a5f9be;CASES=examgoal,psbhbg;ORIENTS=port,land
 Y_G5b_ancf | c89a5f9be | probe | docs/story_planning/test_tools/cc/cc_next1102_ui_probe.py | index.html | 90 | SHA=c89a5f9be;CASES=ancf2;ORIENTS=port;REAL=1
+# 改到 7224（Z_）：Y_P5w      | c89a5f9be | probe | docs/story_planning/test_tools/cc/cc_next1102_ui_probe.py | index.html | 60 | SHA=c89a5f9be;CASES=examgoal_wake;ORIENTS=port
+Y_A2pre    | 3c6207b60 | probe | docs/story_planning/test_tools/cc/cc_dorm_moveout_probe.py | index.html | 60 | RERUN=fix4
+Y_A3pre    | dc36b401e | probe | docs/story_planning/test_tools/cc/cc_late15_probe.py | index.html | 60 | RERUN=fix4
 Y_G4v2     | c89a5f9be | probe | docs/story_planning/test_tools/cc/flow_main_day12_v2.py | index.html | 110 |
 Y_P2_bar_a | c89a5f9be | probe | docs/story_planning/test_tools/cc/cc_bar_b8_probe.py | index.html?turbo | 35 | CASES=judge2033,trainee
 Y_A2_dorm  | c89a5f9be | probe | docs/story_planning/test_tools/cc/cc_dorm_moveout_probe.py | index.html | 60 |

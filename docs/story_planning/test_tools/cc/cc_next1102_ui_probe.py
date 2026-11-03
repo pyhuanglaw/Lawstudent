@@ -954,15 +954,19 @@ async def examgoal_pass(p, run, orient):
 # a5935aa30：S.goalFor 考試日＝「09:10 期末考：課名（教室）」；S.oneTick：G.goal 空或「—」、今天還有考試＝S.setGoal。
 # 前置：2025-12-14 22:30 宿舍（隔天 12/15 憲法（上）期末考），條件事件照常；之後全部照玩家：走到床（互動點 sleep:true，按鈕「睡覺」）→ 床的選單 → 睡到隔天 → 起床劇情照玩家點 → 讀 G.goal 與 #goal
 # BB 11-03 01:11：量目標的時機＝起床劇情演完、還沒進考場（PC 快，舊寫法等 play() 全部跑完才量＝已經考完、18:56）。
-# 頁面裡每 100 ms 看一次（不靠 Python 輪詢）：考試日、還沒到開考時刻、沒有對話／選單／事件／劇情忙碌／ADV＝第一個「玩家自己的時間」，連續 2 次成立才記
-EGWATCH = r"""((a)=>{ if(window.__EGW) return 'again'; const W=window.__EGW={first:null,menu:null,n:0}; const day=a[0], t0=a[1];
+# 頁面裡每 100 ms 看一次（不靠 Python 輪詢），條件見 EGWATCH 下面那一行
+EGWATCH = r"""((a)=>{ if(window.__EGW) return 'again'; const W=window.__EGW={first:null,menu:null,seen:null,since:null,h0:null,gaps:[]}; const day=a[0], t0=a[1];
   const snap=()=>{ const G=GAME.G, e=document.getElementById('goal'); return {goalG:G.goal==null?null:(typeof G.goal==='object'?JSON.stringify(G.goal):String(G.goal)),
     dom:e?(e.textContent||'').trim():null,h:+(+G.hour).toFixed(3),day:G.day,zone:G.zone,ms:Math.round(performance.now())}; };
   const iv=setInterval(()=>{ try{ const G=GAME.G; if(!G||G.day!==day) return; const ch=document.getElementById('choices'), chOn=!!ch&&!ch.classList.contains('hide');
     if(chOn&&!W.menu&&[...ch.querySelectorAll('button')].some(b=>/考場/.test(b.textContent||''))) W.menu=snap();
-    const D=GAME.D, P=GAME.E&&GAME.E.player;
-    const free=G.hour<t0&&!(D&&D.active)&&!(D&&D.busyDepth>0)&&!chOn&&!(typeof EVENTS!=='undefined'&&EVENTS.running)&&!!P&&!P.busy&&!(typeof ADV!=='undefined'&&ADV.active)&&!GAME.titleIdle;
-    if(!free){ W.n=0; return; } if(++W.n>=2&&!W.first){ W.first=snap(); clearInterval(iv); } }catch(e){} },100); return 'ok'; })"""
+    const D=GAME.D, P=GAME.E&&GAME.E.player, story=!!(D&&D.active)||chOn||!!(D&&D.busyDepth>0)||(typeof EVENTS!=='undefined'&&!!EVENTS.running)||(typeof ADV!=='undefined'&&!!ADV.active);
+    if(story&&!W.seen) W.seen=snap();
+    const free=!!W.seen&&G.hour<t0&&!story&&!!P&&!P.busy&&!GAME.titleIdle;
+    if(!free){ if(W.since!=null&&W.gaps.length<20) W.gaps.push([W.h0,+G.hour.toFixed(3),Math.round(performance.now()-W.since)]); W.since=null; return; }
+    const now=performance.now(); if(W.since==null){ W.since=now; W.h0=+G.hour.toFixed(3); return; }
+    if(now-W.since>=1500&&G.hour-W.h0>=0.02){ W.first=snap(); W.first.freeFrom=W.h0; clearInterval(iv); } }catch(e){} },100); return 'ok'; })"""
+# 「玩家自己的時間」：考試日、起床劇情（對話／選單／事件／ADV）出現過以後、開考前、連續 1.5 秒沒有劇情而且遊戲時間走了 1.2 分鐘以上——劇情和劇情中間的空檔（PC 上 0.001 小時）不算
 BEDIT = "(()=>{ const it=(GAME.E.interactables||[]).find(x=>x.sleep); return it?{x:it.x,z:it.z,label:it.label||null}:null; })()"
 
 
@@ -1006,15 +1010,16 @@ async def examgoal_wake_pass(p, run, orient):
         while time.time() - t0 < 180:
             g = await pg.evaluate(GOALST)
             if hist[-1][2] != g['goalG']: hist.append([round(time.time() - t0, 1), g['h'], g['goalG']])
-            if has_exam(g['goalG']): break
+            if await pg.evaluate("!!(window.__EGW&&window.__EGW.first)"): break   # 量到「起床劇情演完、開考前」就停（不等到考完）
+            if fd and g['h'] >= fd['t0']: break   # 已經開考：量不到了（下面 check 會 FAIL）
             s = await P.ts(pg)
             if s['ch'] or s['dlg']: run.note('%s：等目標時又出現對話／選單 %s' % (tag, J([s['txt'][:30], [o['t'] for o in s['ch']]])))
             if s['dlg']: await L.tap(pg, cdp, '#dlg')
-            elif s['ch']: await P.tap_choice(pg, cdp, pick_by(s['ch'], ('起床', '照樣')))
+            elif s['ch']: await P.tap_choice(pg, cdp, pick_by(s['ch'], ('先起床', '起床', '照樣')))
             await pg.wait_for_timeout(1000)
         rec['goal_hist'] = hist; rec['goal_final'] = g; rec['shot_goal'] = await run.shot(pg, tag + '_goal')
         run.note('%s：劇情結束時目標＝%s（遊戲 %s）；變化 %s（實際秒、遊戲時刻、目標）' % (tag, J(g0['goalG']), P_hm(g0['h']), J(hist)))
-        egw = await pg.evaluate("window.__EGW&&{first:window.__EGW.first,menu:window.__EGW.menu}") or {}
+        egw = await pg.evaluate("window.__EGW&&{first:window.__EGW.first,menu:window.__EGW.menu,seen:window.__EGW.seen,gaps:window.__EGW.gaps}") or {}
         rec['goal_pre_exam'] = egw
         run.note('%s：起床選單出現那一刻的目標 %s' % (tag, J(egw.get('menu'))))
         run.note('%s：起床劇情演完、開考前第一個玩家時間的目標 %s（之後劇情結束時 %s，僅供參考）' % (tag, J(egw.get('first')), J(g['goalG'])))
