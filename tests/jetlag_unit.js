@@ -37,9 +37,9 @@ const run=(day,h0,h1,st)=>{ st=st||0.25; G.day=day; G.weekday=wdOf(day); for(let
   check('0. 9/6 週三、9/7 週四（大四上第 1 週）；ev_r1_jetlag 不是 auto（S.y4Tick 叫）', CALENDAR.dateOf(d6).wd===3&&CALENDAR.dateOf(d7).wd===4&&CALENDAR.termOf(d7).id==='Y4S1'&&CALENDAR.termOf(d7).week===1&&STORY_EVENTS.find(e=>e.id==='ev_r1_jetlag').trigger==='manual');
   // 1. 邀約
   fresh(d6,20,'dorm'); PHONE.join(G,'noodle_team','麵店團'); run(d6,20,20.9); check('1. 9/6 21:00 以前沒有', !PHONE.sent(G,'y4_r1_ask'));
-  run(d6,21,21.25); check('1. 9/6 21:00 麵店團群組：「明天七點 麵店」「暑假都沒見到人 全部給我來」', JSON.stringify(txt('g:noodle_team').slice(-2))===JSON.stringify(['zhe:明天七點 麵店','zhe:暑假都沒見到人 全部給我來']), JSON.stringify(txt('g:noodle_team')));
+  run(d6,21,21.25); check('1. 9/6 21:00 麵店團群組：「明天七點 燒臘店」「暑假都沒見到人 全部給我來」', JSON.stringify(txt('g:noodle_team').slice(-2))===JSON.stringify(['zhe:明天七點 燒臘店','zhe:暑假都沒見到人 全部給我來']), JSON.stringify(txt('g:noodle_team')));
   run(d7,8,8); { const q=OUT.get(G,'y4_r1'); check('1. 排出遊：阿鳳麵店 19:00（late 0.25，帶到麵店）', !!q&&q.day===d7&&q.h===19&&q.late===0.25&&q.goto&&q.goto.zone==='noodle', JSON.stringify(q)); }
-  fresh(d6,21,'dorm'); FAM('zhe'); run(d6,21,21.25); check('1. 不在群組、和阿哲 FAMILIAR 以上：私訊同一句', JSON.stringify(txt('p:zhe').slice(-2))===JSON.stringify(['zhe:明天七點 麵店','zhe:暑假都沒見到人 全部給我來']));
+  fresh(d6,21,'dorm'); FAM('zhe'); run(d6,21,21.25); check('1. 不在群組、和阿哲 FAMILIAR 以上：私訊同一句', JSON.stringify(txt('p:zhe').slice(-2))===JSON.stringify(['zhe:明天七點 燒臘店','zhe:暑假都沒見到人 全部給我來']));
   fresh(d6,21,'dorm'); run(d6,21,21.5); check('1. 不在群組、和阿哲不熟：沒有', !PHONE.sent(G,'y4_r1_ask'));
   fresh(d6,21,'us_apartment',{EXCHANGE_ROUTE:'US',US_ARRIVED:true}); PHONE.join(G,'noodle_team','麵店團'); run(d6,8,22); check('1. 美國路線：沒有邀約（只有手機版）', !PHONE.sent(G,'y4_r1_ask'));
   // 2. 長桌
@@ -83,7 +83,7 @@ const run=(day,h0,h1,st)=>{ st=st||0.25; G.day=day; G.weekday=wdOf(day); for(let
   // 5. 美國
   fresh(d7,7,'us_apartment',{EXCHANGE_ROUTE:'US',US_DEPARTED:true,US_ARRIVED:true}); PHONE.join(G,'noodle_team','麵店團'); run(d7,7,7.25); check('5. R3 美國：當地 07:30 以前沒有', !PHONE.sent(G,'y4_r1_us')&&STORY.abroad(G)&&STORY.tzOffset(G)===-12);
   run(d7,7.5,7.75); check('5. R3 美國：當地 07:30（台灣 19:30）「（照片：長桌）」「你們在美國吃什麼」，一定要回；R1_SEEN us', JSON.stringify(txt('g:noodle_team').slice(-2))===JSON.stringify(['zhe:（照片：長桌）','zhe:你們在美國吃什麼'])&&PHONE.byAsk(G,'y4_r1_us').ask.must===true&&G.flags.R1_SEEN==='us');
-  { const m=PHONE.byAsk(G,'y4_r1_us'); check('5. 回覆：「超市的冷凍水餃。」→ 阿哲「……回來請你吃麵」；照片 → Alison「好可憐」', JSON.stringify(m.ask.opts.map(o=>o.t))===JSON.stringify(['超市的冷凍水餃。','（傳一張照片：公寓廚房的一鍋泡麵）'])&&m.ask.opts[0].say[0].text==='……回來請你吃麵'&&m.ask.opts[1].say[0].from==='yu'&&m.ask.opts[1].say[0].text==='好可憐'); }
+  { const m=PHONE.byAsk(G,'y4_r1_us'); check('5. 回覆：「超市的冷凍水餃。」→ 阿哲「……回來請你吃燒臘」；照片 → Alison「好可憐」', JSON.stringify(m.ask.opts.map(o=>o.t))===JSON.stringify(['超市的冷凍水餃。','（傳一張照片：公寓廚房的一鍋泡麵）'])&&m.ask.opts[0].say[0].text==='……回來請你吃燒臘'&&m.ask.opts[1].say[0].from==='yu'&&m.ask.opts[1].say[0].text==='好可憐'); }
   G.zone='noodle'; G.hour=19; check('5. 美國路線：長桌不演', !STORY.r1Due(G));
   console.log(fails?('FAILED '+fails):'ALL PASS'); process.exit(fails?1:0);
 })().catch(e=>{ console.log('FAIL 例外',e&&e.stack||e); process.exit(1); });
