@@ -1,0 +1,11 @@
+{
+ "objects": 94,
+ "unique_meshes": 24,
+ "tris": 62492,
+ "tris_drawn": 73890,
+ "materials": 14,
+ "out": "../../../tmp/tmp.Y8T4IaYVC4/l3v2_plain.glb",
+ "bytes": 5423896,
+ "texres": 512,
+ "tris_total": 73890
+}

@@ -50,6 +50,7 @@ async def main():
         b, ctx, pg, cdp, errs = await L.launch(p, landscape=True)
         await pg.goto(URL); run.check('遊戲載入', await L.wait_loaded(pg))
         run.setup('讀檔：2025-09-19（週五）15:20 總圖大廳集合點旁；關掉條件事件')
+        await pg.evaluate("(()=>{ window.__caps=[]; const c0=GAME.caption; GAME.caption=function(w,t){ try{ window.__caps.push(String(t||'')); }catch(e){} return c0.apply(this,arguments); }; })()")   # 記下每一句字幕（館員的話只顯示 5 秒，跟著走的時候輪詢會漏看；判定照舊：七站都要依序出現）
         await join(pg, cdp, run)
         seen, t0, zones = [], time.time(), set()
         while time.time() - t0 < 1500:
@@ -67,7 +68,10 @@ async def main():
                 if d > 2.5: await L.go_to(pg, cdp, run, lib['x'], lib['z'], 1.8, '跟著館員', max_s=60, lv=lib['lv'], stop=lambda q: q['choices'] > 0)   # 選單交給 handle_choices
             await pg.wait_for_timeout(1200)
         st = await pg.evaluate(ST)
-        run.check('A 七站的話依序都出現（館員說）', seen == list(range(7)), json.dumps(seen))
+        caps = await pg.evaluate("window.__caps||[]")
+        order = [next(i for i, l in enumerate(LINES) if l in t) for t in caps if any(l in t for l in LINES)]
+        order = [i for k, i in enumerate(order) if i not in order[:k]]   # 同一句重複顯示只算第一次
+        run.check('A 七站的話依序都出現（館員說）', order == list(range(7)), json.dumps({'order': order, 'polled': seen}))
         run.check('A 跟著館員從總圖大廳走到三樓閱覽區（換區域）', 'library' in zones and 'library_hall' in zones, json.dumps(sorted(zones)))
         run.check('A 走完：記為參加完（full）', st == 'full', str(st))
         # B 中途離開
