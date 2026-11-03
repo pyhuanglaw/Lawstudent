@@ -42942,6 +42942,27 @@
       "priority": "P2",
       "note": "BB 11-03 CC_39；使用者「『不認識的女生』不要出現」",
       "next": "social3d.js displayName（phone_unify B7b，修改前 FAIL）→ CC phone_unmet"
+    },
+    {
+      "first": {
+        "term": "Y1S1",
+        "week": null,
+        "earliest": "（工具）",
+        "mainline": false,
+        "blocks": false,
+        "prereq": false,
+        "parallel": true,
+        "confirmed": true
+      },
+      "area": null,
+      "id": "AA628-STALE-SCRIPTS-1103",
+      "title": "舊腳本清查（AA_628，使用者要全面清查）：開發分支 tools/ 18 支匯入工具重跑＝src/data 一字不差；企劃線 20 支產生器過時已加註",
+      "owner": "AA",
+      "status": "已驗收",
+      "priority": "P2",
+      "evidence": "AA_628（企劃線 e54b6470d）：18 支匯入工具重跑輸出一字不差；--check 差異＝白名單待前進（wish_aa、wish_bb、AA_127、BB_128、AA_373、date_locations、D13）",
+      "note": "注意（所有職位）：過時產生器（wish_aa/wish_bb、以安閒聊階梯八支、D03、md_to_json_D13、solo_before_bb、exam_ai 兩支、syllabus 兩支）不要拿來重建，以 JSON 為準；exam_official 的 check_official.py 不要加 --sync（會把 8 門課從 ENABLED 改回 INSUFFICIENT）",
+      "next": "白名單前進那幾個照語彤第三版批次一起做"
     }
   ]
 }
