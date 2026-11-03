@@ -55,3 +55,16 @@
 [09:17:13] dev head = f87996dc3   lawww2 head = b5c2e47c0
 [09:17:14] config.txt: PARALLEL 2 -> 3
 [09:17:14] memory used: 36%  (new items wait while >= 85%)
+[09:17:17] queue: Y_A1_adv, Y_P1_d124, Y_G1_reach, Y_G2_libfl, Y_G3_libsc, Y_G5_term, Y_G6a_v7, Y_G6b_v95, Y_G6c_fm, Y_G7_class, Y_P3_ladder, Y_P3b_sl, Y_P5_ui, Y_G4v2, Y_P2_bar_a, Y_A2_dorm, Y_A3_l15, X_A1_adv, X_G5_term, X_G5b_ancf, X_G6a_v7, X_G6b_v95, X_G6c_fm, X_G3_libsc, X_P5_ui, X_P5w, X_G4v2, X_P3_ladder, X_P1_d124, X_P2_bar_a, X_P2_bar_b, X_P2_epi, X_P1pre, G1_reach, G2_libfl, G3_libsc, G5_termend, G6a_v7, G6b_v95, G6c_fm, G7_class, P3_ladder, P4_legal, P5_ui, A1_advskip, A2_dorm, A3_late15, A1_adv_ef63, A2_dorm_ef63, A3_l15_ef63, A1pre, A2pre, A3pre, ART_cop, ART_lband, ART_night, ART_uskit, BK1_cpu, BK1_hip, P3b_sl, R4main, R4b1b_rr, R4v2_b1b, B4main, R1_reach, R2_flowcls, R3_touchwz, R4_day12, R6_layout, R6b_layoutcss, R7_quota, R7b_quota15, R8b_y4s2jp, R8c_y4s2fin, R9_roll, R5_rr, R6_rr, R8_rr, R10_b3, R11_b4, R10_rr, R12_fasat, R12b_fasatpre, R10_rr2, R6_rr2, R8_rr2, F1_fps_hl, F2_fps_hd, R1_x2, R2_x2, R3_x2, R4_x2, R5_x2, R9_x2, R1_x3, R2_x3, R3_x3, R4_x3, R5_x3, R9_x3, 00_gpu, 01_p0speed, 10_deploy, 11_reach, 12_flowcls, 13_minimap, 14_zones, 15_touchwz, 16_p0, 17_savev7, 18_flowday12, 19_mkretake, 19b_mkjp, 02b_mk12dea, 06b_layoutP, 06c_layoutO, 32_wsem, 33_wsempre, 20_roll, 21_rollpre, 22_boya, 23_boyapre, 24_b3, 25_b3pre, 26_b3pre2, 27_b4, 28_b4pre, 29_jpmk, 34_day9, 02_mk12new, 04b_quota15, 04c_legal, 05_mk12old, 07_bg107, 08_pt106, 30_b1base, 31_b2base, G4_day12, FS112, R11_full, R10pre, R11pre
+[09:17:17] skip Y_A1_adv (already done on c89a5f9be)
+[09:17:17] skip Y_P1_d124 (already done on c89a5f9be)
+[09:17:17] memory 36% before starting Y_G1_reach (0 running)
+[09:17:17] memory 36% before starting Y_G2_libfl (1 running)
+[09:17:17] memory 36% before starting Y_G3_libsc (2 running)
+[09:17:17] ==== START Y_G1_reach  (game @ c89a5f9be) ====
+[09:17:17] ==== START Y_G2_libfl  (game @ c89a5f9be) ====
+[09:17:17] ==== START Y_G3_libsc  (game @ c89a5f9be) ====
+[09:17:20] [res] cpu=9% mem=36% (11.4/31.4 GB) chrome_testing=0  START Y_G1_reach
+[09:17:20] [res] cpu=9% mem=36% (11.4/31.4 GB) chrome_testing=0  START Y_G2_libfl
+[09:17:20] [res] cpu=9% mem=36% (11.4/31.4 GB) chrome_testing=0  START Y_G3_libsc
+[09:20:42] [res] cpu=13% mem=50% (15.8/31.4 GB) chrome_testing=19  END Y_G3_libsc
