@@ -301,3 +301,16 @@
 [21:28:55] ==== START LIVE18_deploy2  (game @ 0776cafc8) ====
 [21:28:58] [res] cpu=12% mem=44% (14.0/31.4 GB) chrome_testing=10  START LIVE18_deploy2
 [21:32:06] [res] cpu=23% mem=44% (13.9/31.4 GB) chrome_testing=10  END LIVE18_deploy2
+    To https://github.com/pyhuanglaw/Lawstudent.git
+       ffb86c5ae..952800d67  claude/cc-local -> claude/cc-local
+    branch 'claude/cc-local' set up to track 'origin/claude/cc-local'.
+[21:32:11] ==== END   LIVE18_deploy2  exit=0  191s   ====
+[21:32:15] run_queue.py has a new version - restart (exit 75) after the running item(s) finish; while long items (>=120 min) run, free slots still take short items
+[21:32:15] memory 43% before starting 00_gpu (1 running)
+[21:32:15] ==== START 00_gpu  (gpu @ 4fc0dda22) ====
+[21:32:15] memory 43% before starting 01_p0speed (2 running)
+[21:32:15] ==== START 01_p0speed  (game @ 4fc0dda22) ====
+[21:32:18] [res] cpu=7% mem=44% (13.8/31.4 GB) chrome_testing=10  START 00_gpu
+[21:32:18] [res] cpu=8% mem=44% (13.8/31.4 GB) chrome_testing=10  START 01_p0speed
+[21:32:34] 正在跑：FS112（已跑 89 分／上限 360 分）、00_gpu（已跑 0 分／上限 20 分）、01_p0speed（已跑 0 分／上限 60 分）——還沒測完，請不要關 (tests still running - please do not close)
+[21:34:44] [res] cpu=16% mem=51% (16.1/31.4 GB) chrome_testing=19  END 00_gpu
