@@ -25,6 +25,10 @@
   【前置】跳到那一週的值班週六 9:15 萬才館：走到「在旁邊看法服值班」、按、點完 → LAWCLUB_SAT_FIRST。
   下一個平日：S-L3；再下一天：S-Lx3（記憶 GRAD_SCHOOL_DISCUSSION）；之後每天找她（升階那次只聽門檻台詞、同一天再找一次）直到 S-L4（最多 SL4_DAYS 天）。
   OLDSAVE=1（預設）：另外讀一份 AA_584 以前的舊存檔（進度 4、沒有 ladDel、有點熟）→ 找她說話 → 播 S-L4（換算後沒有把 S-L1～L4 這一段推錯位）。
+c89a5f9be 起（D127 小聲講，AA_595；src/libquiet3d.js）：讀書區（總圖 3F 閱覽區等）**每天**第一次按「和她說話」＝LIBQ.gate 只播一句點頭旁白
+  （「（她抬頭看到你，點了一下頭。）」，G.libNod 記今天見過），這次不說話、不推進；之後的台詞前面加「（小聲）」（開頭有動作括號的合成「（…，小聲）」）。
+  探針照玩家：點頭那一次記下來（要確認進度、relUp 沒動），同一天再找她一次才是真的聊天；比對台詞時把「（小聲）」前綴拿掉。舊版（沒有 LIBQ）不會點頭，流程照舊。
+  推進的判斷不變（一天最多一層、條件鏈、S-L4 要有點熟）；反例①＝點頭、推進以後同一天再找她。
 判斷都讀遊戲狀態（G.social.ladder／ladderDay、SOCIAL 記憶、旗標）；畫面上的台詞（對話框）只確認玩家看得到，比對用 startswith。
 用法：LW_TESTS=<受測工作樹>/tests python3 cc_shuyu_sl_probe.py <URL index.html> <輸出資料夾>
 環境變數：TURBO（0）、OLDSAVE（1）、SL4_DAYS（4）、TALK_MAX（秒，每次說話上限 480）。最後一行 ALL PASS 或 FAILED n；exit 0／1；transcript.json。"""
@@ -63,6 +67,7 @@ PLAN_JS = """(()=>{ const out={}, dk=d=>CALENDAR.dateOf(d).key, ok=d=>{ const c=
 SOCIAL_PREP_JS = """(id=>{ if(!SOCIAL.has(id,'FIRST_MET')) SOCIAL.meet(id,'library'); const r=SOCIAL.rel(id); r.fam=5; r.trust=Math.min(r.trust|0,5); r.comf=Math.min(r.comf|0,5);
   const so=GAME.G.social; so.ladder=so.ladder||{}; delete so.ladder[id]; so.ladderDay=so.ladderDay||{}; delete so.ladderDay[id];
   return {stage:SOCIAL.stage(id), fam:r.fam, first:SOCIAL.has(id,'FIRST_MET')}; })(%s)"""
+NODS_JS = "(typeof LIBQ!=='undefined'&&LIBQ.NOD)?Object.values(LIBQ.NOD):[]"
 NPCKEY_JS = """(id=>{ if(GAME.npc&&GAME.npc.sis&&GAME.npc.sis.obj) return 'sis'; if(GAME.npc&&GAME.npc[id]&&GAME.npc[id].obj) return id; const n=(GAME.E.npcs||[]).find(m=>m.charId===id); return n?(n.id||id):null; })(%s)"""
 
 
@@ -98,7 +103,28 @@ async def talk(pg, cdp, run, tag):
     return b, a, said, r
 
 
-def norm(t): return (t or '').strip().lstrip('「').strip()
+def unquiet(t):
+    """拿掉 D127 的「（小聲）」：開頭的「（小聲）」；合成進動作括號的「（…，小聲）」「（…，小聲。）」還原成原文（LIBQ.quiet 的反向）"""
+    t = (t or '').strip()
+    if t.startswith('（小聲）'): t = t[len('（小聲）'):]
+    if t.startswith('（'):
+        k = t.find('）')
+        if k > 0:
+            head = t[:k + 1].replace('，小聲。）', '。）').replace('，小聲）', '）')
+            t = head + t[k + 1:]
+    return t
+
+
+def norm(t): return unquiet(t).strip().lstrip('「').strip()
+
+
+NODS = []
+
+
+def is_nod(said, b, a):
+    """這一次只有 LIBQ.gate 的點頭旁白：沒有人開口、只有那一句，而且進度、relUp、事件數都沒動"""
+    return bool(NODS) and len(said) >= 1 and all((not w) and (t or '').strip() in NODS for w, t in said) \
+        and a['lad'] == b['lad'] and a['relUp'] == b['relUp'] and a['evCount'] == b['evCount']
 
 
 def seen_line(said, dlg, first, alls=()):
@@ -112,7 +138,10 @@ def seen_line(said, dlg, first, alls=()):
     return in_say, in_box
 
 
-async def advance_layer(pg, cdp, run, label, tries=4):
+NODLOG = []
+
+
+async def advance_layer(pg, cdp, run, label, tries=5):
     """這一天找她說話直到推進一層：升階台詞、找她說話演的事件＝這次沒聊階梯，同一天再找一次（像玩家）；短招呼（什麼都沒變）＝今天推進不了。回傳 (前, 後, say, dlg, 是否推進)"""
     b0 = await lad(pg); last = None
     for k in range(tries):
@@ -120,6 +149,11 @@ async def advance_layer(pg, cdp, run, label, tries=4):
         last = (b0, a, said, r)
         if a['lad'] > b['lad']: return b, a, said, r, True
         if r is None: return b0, a, said, r, False
+        if is_nod(said, b, a):
+            NODLOG.append({'label': label, 'day': a['day'], 'try': k + 1})
+            if sum(1 for x in NODLOG if x['day'] == a['day']) > 1:
+                run.check('%s：同一天在讀書區只點頭一次（LIBQ：今天見過就不再點頭）' % label, False, J(NODLOG[-3:])); return b0, a, said, r, False
+            run.note('%s：讀書區今天第一次遇到＝只點頭（D127 LIBQ.gate；進度、relUp 沒動），同一天再找她一次' % label); continue
         if a['relUp'] > b['relUp'] or a['evCount'] > b['evCount']:
             run.note('%s：這次是升階台詞／事件（relUp %s→%s、事件 %s→%s），同一天再找她一次' % (label, b['relUp'], a['relUp'], b['evCount'], a['evCount'])); continue
         return b, a, said, r, False
@@ -256,6 +290,8 @@ async def main():
             await pg.goto(URL)
             if run.check('遊戲載入', await L.wait_loaded(pg, 300)):
                 await P.init(pg)
+                NODS[:] = await pg.evaluate(NODS_JS)
+                run.note('讀書區點頭旁白（LIBQ.NOD；舊版沒有＝不點頭）：%s' % J(NODS))
                 try:
                     await main_flow(pg, cdp, run, errs)
                 except Exception:
