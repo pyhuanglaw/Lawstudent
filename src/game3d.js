@@ -243,7 +243,7 @@ const GAME = (function(){
   GM.minimapArrow=()=>{ const d=mmArrowAngle()*180/Math.PI; return (d+360)%360; };   // 測試用（tests/minimap_direction.py）
   // ---------- 互動 ----------
   let nearIt=null;
-  function updateInteract(){ const btn=$('interact'); if(E.player.busy||D.active||menuOpen){ btn.classList.add('hide'); nearIt=null; return; } const it=E.nearestInteractable(); if(it&&it!==nearIt){ $('interactLabel').textContent=it.label||'互動'; } nearIt=it; btn.classList.toggle('hide',!it); }
+  function updateInteract(){ const btn=$('interact'); if(E.player.busy||D.active||menuOpen){ btn.classList.add('hide'); nearIt=null; return; } E.prefNpc=(G.flags&&G.flags.findWho)||null; const it=E.nearestInteractable(); if(it&&it!==nearIt){ $('interactLabel').textContent=it.label||'互動'; } nearIt=it; btn.classList.toggle('hide',!it); }
   async function doInteract(){ updateInteract(); const it=nearIt; if(!it) return; if(E.player.riding&&typeof BIKE!=='undefined'&&!it.bike&&!it.look&&!(it.exit&&BIKE.ok(it.exit.to))) BIKE.dismount(GM);   /* 騎著車：說話、坐下、買東西、進建築之前先下車（看告示、騎出校門不用）*/ if(it.onInteract){ if(it.npc) foundPerson(it.npc); if(it.npc&&typeof LIBQ!=='undefined'&&await LIBQ.gate(GM,it.npc)) return;   /* 圖書館讀書區今天第一次遇到＝只點頭（D127、AA_595；src/libquiet3d.js）*/ it.onInteract(it); return; } if(STORY.interact&&await STORY.interact(it,GM)) return; if(it.look){ if(it.flag&&G&&G.flags) G.flags[it.flag]=true; caption('',it.look,4600); return; }   /* flag：看過就記下（例：法律學院圖書館的指定參考書＝開學待辦的「教科書」，AA_110 6-4）*/ if(it.exit){ if(it.exit.locked){ toast(it.exit.locked); return; } if(typeof DOOR!=='undefined'){ const dp=DOOR.open(GM,it); if(dp) await dp; } await enter(it.exit.to,it.exit.spawn); return; }   /* DOOR：有門的出入口先推門（src/door3d.js，A21）*/ if(it.elevator){ await elevatorRide(it); return; } if(it.seat){ await seatMenu(it); return; } toast('（這裡現在沒有事可做）'); }
   GM.doInteract=doInteract; GM.updateInteract=updateInteract; GM.snapshot=snapshot;
   // 坐下前要先走到椅子旁邊：原本固定走到椅子正前方 0.5 m，但教室的椅子正前方就是桌子（人站不住）→ 走過去卡在桌邊（v9.3 第二十五批，線上回報「找不到地方坐下」）。
@@ -466,7 +466,7 @@ const GAME = (function(){
      （src/guide3d.js 的 target：d.npc 照他現在的作息決定往哪一區、在同一區就指到他身上）；跟他說上話後恢復原本的目標（story3d.js talkCharacter）*/
   function findPerson(id){ const w=STORY.whereIs&&STORY.whereIs(GM,id); const nm=(typeof SOCIAL!=='undefined'&&SOCIAL.displayName)?SOCIAL.displayName(id):((CHARACTERS[id]||{}).name||id);
     if(!w||!w.zone){ toast(nm+(w&&w.away?'：'+w.away:'現在沒有固定的行程，不知道在哪'),3200); return false; }
-    G.flags.findWho=id; setGoal('去找'+nm+'（'+whereText(id)+'）',{zone:w.zone,npc:id,name:'去找'+nm}); toast('目標：去找'+nm+'。地圖上有路線',2600); return true; }
+    G.flags.findWho=id; E.prefNpc=id; setGoal('去找'+nm+'（'+whereText(id)+'）',{zone:w.zone,npc:id,name:'去找'+nm}); toast('目標：去找'+nm+'。地圖上有路線',2600); return true; }
   GM.findPerson=findPerson;
   /* 直接過去以後人還不在眼前（校園裡「走走」的人沒有確切位置，落在快速地點；BB-B 10-30 實測落在 138 m 外）：自動接「帶我去」，地圖畫路線、方向提示指過去（PHONE-UNIFY-1030）*/
   GM.FGO_NEAR=8;
@@ -474,7 +474,7 @@ const GAME = (function(){
     if(n&&n.obj&&p&&Math.hypot(n.obj.position.x-p.position.x,n.obj.position.z-p.position.z)<=GM.FGO_NEAR) return false; return findPerson(id); }
   GM.goFollow=goFollow;
   /* 「帶我去」找到人了（和他說話）：恢復原本的目標（今天的課表；沒有課表系統就自由行動）*/
-  function foundPerson(n){ const w=G.flags.findWho; if(!w||!n) return; if(n.charId!==w&&n.id!==w&&CID[n.id]!==w) return; G.flags.findWho=null; if(typeof CLS!=='undefined'&&CLS.setGoal&&typeof CALENDAR!=='undefined') CLS.setGoal(GM); else setGoal('自由行動',null); }
+  function foundPerson(n){ const w=G.flags.findWho; if(!w||!n) return; if(n.charId!==w&&n.id!==w&&CID[n.id]!==w) return; G.flags.findWho=null; E.prefNpc=null; if(typeof CLS!=='undefined'&&CLS.setGoal&&typeof CALENDAR!=='undefined') CLS.setGoal(GM); else setGoal('自由行動',null); }
   GM.foundPerson=foundPerson;
   function renderPeople(){ const box=$('peopleList'); box.innerHTML=''; const ids=knownIds(); if(!ids.length){ box.innerHTML='<div class="muted">還沒認識任何人。</div>'; }
     const order={D:0,A:1,C:2,F:3,E:4,B:5}; ids.sort((a,b)=>(order[CHARACTERS[a].social_layer]??9)-(order[CHARACTERS[b].social_layer]??9)); for(const id of ids){ const c=CHARACTERS[id]; const d=document.createElement('div'); d.className='item'; const name=SOCIAL.displayName(id); const tag=SOCIAL.yearTag(id); const mems=(SOCIAL.panelMemories||SOCIAL.memories)(id).slice(-5).map(m=>'<span class="muted">· 第 '+m.day+' 天 '+(SOCIAL.MEMORY_LABEL[m.tag]||m.tag)+((SOCIAL.noteShown?SOCIAL.noteShown(id,m):m.note)?'（'+(SOCIAL.noteShown?SOCIAL.noteShown(id,m):m.note)+'）':'')+'</span>').join('<br>'); const rv=SOCIAL.reveal(id); const poolPage=c.social_layer==='B'&&typeof POOL!=='undefined'&&!!POOL.pageDesc; const desc=poolPage?POOL.pageDesc(id):((c.social_layer==='B'&&rv!=='FRIEND')?(rv==='ACQUAINTANCE'?(c.facts?c.facts[0]:''):''):(c.personality||''));   /* 法律系同學二十位（AA_498 2-2、2-8）：人物頁一句話（升到朋友＝personality）＋做過的事一行一行 */ const wt=whereText(id); d.innerHTML='<b>'+name+'</b> <span class="muted">'+tag+'</span>'+(wt?'<div style="color:#ffd88a">現在大概在：'+wt+'</div>':'')+'<div>'+desc+'</div>'+(poolPage&&POOL.deedsHTML?POOL.deedsHTML(id,G):'')+'<div>'+SOCIAL.describe(id)+'</div>'+(mems?'<div style="margin-top:4px">'+mems+'</div>':''); box.appendChild(d); } }

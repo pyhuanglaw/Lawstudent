@@ -42902,6 +42902,46 @@
       "priority": "P2",
       "note": "BB 11-03 cc_x161_door_probe（84c5）",
       "next": "crowd3d.js S.waitLit（crowd_seat_talk 10，修改前 FAIL）→ BB 重跑 cc_x161_door_probe"
+    },
+    {
+      "first": {
+        "term": "Y1S1",
+        "week": null,
+        "earliest": "手機「朋友」→帶我去",
+        "mainline": true,
+        "blocks": false,
+        "prereq": false,
+        "parallel": true,
+        "confirmed": true
+      },
+      "area": null,
+      "id": "BUG-FIND-TARGET-PRIORITY-1103",
+      "title": "「帶我去」找某人：帶到以後按鈕是旁邊更近的人（和明軒說話），不是要找的人；名字全名（AA_606 合併後已是短名）",
+      "owner": "LAWWW",
+      "status": "已整合待測試",
+      "priority": "P2",
+      "note": "BB 11-03 CC_39（PC 6dc39）",
+      "next": "engine3d.js E.prefNpc 偏好＋game3d.js 同步 findWho（interact_priority 新項，修改前 FAIL）→ CC 在 PC 重跑 D_B02 D 段"
+    },
+    {
+      "first": {
+        "term": "Y1S1",
+        "week": null,
+        "earliest": "手機「朋友」→帶我去",
+        "mainline": true,
+        "blocks": false,
+        "prereq": false,
+        "parallel": true,
+        "confirmed": true
+      },
+      "area": null,
+      "id": "BUG-UNKNOWN-NAME-CONTACT-1103",
+      "title": "有她的聯絡方式卻顯示「不認識的女生」（沒有 FIRST_MET 的舊存檔／其他路徑）：有聯絡方式＝叫得出名字",
+      "owner": "LAWWW",
+      "status": "已整合待測試",
+      "priority": "P2",
+      "note": "BB 11-03 CC_39；使用者「『不認識的女生』不要出現」",
+      "next": "social3d.js displayName（phone_unify B7b，修改前 FAIL）→ CC phone_unmet"
     }
   ]
 }

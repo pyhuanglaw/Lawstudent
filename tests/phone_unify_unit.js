@@ -115,6 +115,8 @@ const FR=['heroine_01','heroine_02','heroine_03','heroine_04','heroine_05','clas
     check('B7. 見過、還沒有聯絡方式（語彤）：不列在「傳訊息給」（PHONE-LIST-CLEAN-1103，使用者 11-03「『不認識的女生』不要出現」「版面太亂」：只列傳得了的人）',!yt,J(yt));
     check('B7. 沒見過的（芷若）：不列',!R.some(x=>x.id==='heroine_02'),J(R.map(x=>x.id)));
     const h=P?P.msgHTML():''; check('B7. 訊息頁：沒有語彤那一顆（沒有灰著的按鈕）',!h.includes('data-noct="heroine_03"')&&!h.includes('data-th="p:heroine_03"')&&!h.includes('不認識的女生'),h.slice(0,600)); }
+  { fresh('2025-11-12',15,'dorm'); INV.addContact(H.G,'heroine_02'); const nm=SOCIAL.displayName('heroine_02'); const P=mk(); const h=P?P.msgHTML():'';
+    check('B7b. 有聯絡方式、但沒有 FIRST_MET（舊存檔／其他路徑）：叫得出名字、訊息頁沒有「不認識」（BB 11-03 CC_39；使用者「『不認識的女生』不要出現」）',!/不認識/.test(nm)&&!h.includes('不認識'),nm+' '+h.slice(0,200)); }
   /* 照劇情保留的擋法：對話裡寫原因 */
   { fresh('2025-11-12',15,'dorm'); H.FRIEND('kexin'); H.G.flags.dating_kexin=false; const P=mk(); const t=P?P.threadHTML('p:kexin'):'';
     check('B8. 可昕分開以後：對話裡寫「不能傳訊息：分開以後不開」、沒有傳訊息',/不能傳訊息：分開以後不開/.test(t)&&!/data-msgto=/.test(t),t.replace(/<[^>]+>/g,' ').slice(0,200));

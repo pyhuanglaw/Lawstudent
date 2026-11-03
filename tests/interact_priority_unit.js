@@ -33,4 +33,8 @@ check('別層的人（高 4.2 m）不算',pick([door],[npc(0.3,0,'郭沛珊',4.2
   check('宿舍：站在回家背包 0.41 m 內、靠床那一側（離床 0.39 m）：按鈕是「收拾背包回家」（prio；flow_law_break 21 批）',at(-1.55,1.555)==='收拾背包回家',at(-1.55,1.555));
   check('宿舍：站在床邊（離床 0.2 m）：照舊是「睡覺」',at(-1.55,1.365)==='睡覺');
   E.player.obj.position.x=0; E.player.obj.position.z=0; }
+{ /* BUG-FIND-TARGET-PRIORITY-1103（BB 11-03 CC_39）：「帶我去」找阿哲，帶到以後明軒（1.86 m）比阿哲（2.0 m）近，按鈕不該變成「和明軒說話」 */
+  const z=npc(0,2.0,'阿哲'), m=npc(1.86,0,'明軒'); z.charId='zhe'; m.charId='classmate_mingxuan';
+  E.prefNpc='zhe'; const a=pick([],[m,z]); E.prefNpc=null; const b=pick([],[m,z]);
+  check('「帶我去」找的人在範圍內就優先（E.prefNpc）；沒在找人＝照舊最近的',a==='和阿哲說話'&&b==='和明軒說話',a+' / '+b); }
 console.log(fails?('FAILED '+fails):'ALL PASS'); process.exit(fails?1:0);
