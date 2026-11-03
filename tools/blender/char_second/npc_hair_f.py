@@ -15,6 +15,7 @@ import h01_hair as HB
 from h01_hair import _unit, sph, slerp, sstep, tangents, catmull, resample
 
 P = dict(seed=20261100, part=0.0, col=(0.155, 0.115, 0.095), tip=(-0.240, -0.250, -0.170, -0.040, -0.120, -0.230, -0.280, -0.300, -0.310, -0.320), n_main=48, n_outer=32, name='NF0')
+PRM = P                   # 同一個 dict（hang_card 裡面的 P 是點陣列）
 SEED = 20261014
 POLE = (180.0, 70.0)      # 髮旋：頭頂稍偏後
 PART = 0.0                # 分線：中分（第一版 −4：頭頂中間、瀏海分開的地方露出一道三角形的縫）
@@ -164,7 +165,7 @@ def apply(m):
                 q += rad * 0.5 * wave * (1 - math.cos(math.pi * 3.2 * t + wph)) * float(sstep(0.25, 0.6, t)) * float(WAVE > 0.004)   # 大波浪：髮束也前後起伏（不只左右擺）
                 q[2] = p0[2] - L2 * t + 0.25 * fv * float(sstep(0.80, 1.0, t)) + 0.55 * fo * float(sstep(0.70, 1.0, t))   # 髮尾外翻時微微往上
                 q[0] += math.copysign(1.0, p0[0] - c[0]) * float(np.interp(az(a), [100, 115, 140, 165, 180], [0.0, 0.008, 0.012, 0.008, 0.0])) * float(sstep(0.05, 0.7, t))   # 背後往兩邊散開：路人 3 cm → 1 cm（散開的髮片在正面看是側著的，跑到臉旁頭髮的外面，變成肩膀兩邊一條一條的細線：nf5、nf12、nf16、nf19）
-                q[1] += float(np.interp(az(a), [72, 82, 100, 112, 125], [0.0, 0.050, 0.060, 0.040, 0.0])) * float(sstep(0.0, 0.55, t))   # 第四版：正側面的頭髮往後、從肩膀後面垂下
+                q[1] += PRM.get('side_back', 1.0) * float(np.interp(az(a), [72, 82, 100, 112, 125], [0.0, 0.050, 0.060, 0.040, 0.0])) * float(sstep(0.0, 0.55, t))   # side_back（秀琴姨第四版，BB 17:36）：短髮不用往後繞過肩膀，髮尾被推到耳後 6 cm、45° 看翹在頭外面   # 第四版：正側面的頭髮往後、從肩膀後面垂下
                 low.append(q)
             low = np.array(low)
             if az(a) < 64:      # 可昕：前面的長髮從下巴以下沿著胸前垂下——貼在衣服前面（第二版：T 字姿勢的寬肩外套把髮尾推到肩膀外側 x≈0.16，遊戲裡會浮在手臂旁）

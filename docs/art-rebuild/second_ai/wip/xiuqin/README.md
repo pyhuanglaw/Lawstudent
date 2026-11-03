@@ -60,3 +60,9 @@ char3d:{model:'char.xiuqin', height:1.58},
 - 檔案、key 都和第二版一樣：`char.xiuqin`（bl_xiuqin.vrm，2.59 MB）、`char.xiuqin_apron`（bl_xiuqin_apron.vrm，2.77 MB）；眼鏡 `prop.glasses_xiuqin` 沒變。
 - 截圖 `v3/look_v3.jpg`（遊戲渲染器 lookdev）：左一＝第二版臉、左二～三＝第三版臉正面／45°、右二～一＝第三版全身正面／背面（背後的蝴蝶結）。
 - 沒做：實際遊戲區域（一盞茶屋／溫州街）裡的截圖；手機實機。
+
+## 第四版（2026-11-03 18:0x，BB 17:36：45° 看，頭的左後方有一束頭髮往外翹）
+- 原因：`npc_hair_f.py` 會把正側面（72°～125°）的髮尾往後推 5～6 cm，這是給長髮從肩膀後面垂下用的；秀琴姨是下巴以上的短髮，髮尾被推到耳後，翹在頭外面。`HAIR_DEBUG` 量到兩片「FAR」（離頭的中心 13.3／13.5 cm，−99° 和 91°）。
+- 改法：加參數 `side_back`（預設 1＝其他人不變），秀琴姨設 0.2。改完 `HAIR_DEBUG` 沒有 FAR。
+- 截圖 `v4/look_v4.jpg`：左一＝第三版 45°（看得到翹出來的那一束），左二～四＝第四版 45°、側面、正面，右二＝走路 45°、右一＝走路側面。
+- 檔案、key 都沒變（`bl_xiuqin.vrm` 2.59 MB、`bl_xiuqin_apron.vrm` 2.77 MB）。

@@ -152,7 +152,7 @@ VARIANTS = {
     'xiuqin': dict(sex='f', base='Darkness_Shibu', head=0.93, height=1.58, iris='#2a1e16',
                  face=dict(EYE_SX=0.94, EYE_SZ=0.48, EYE_TILT=-0.06, BROW_DROP=0.0062, BROW_ARCH=0.22, BROW_K=1.00, LASH_N=10, LASH_L=0.45, IRIS_FRAC=0.50, D_CHIN=0.008, JAW_OUT=0.0042,
                            FACE_NARROW=1.010, CHIN_WIDEN=0.74, MOUTH_K=1.10, CHEEK_TINT_K=1.0, LIP_OUT=(0.78, 0.53, 0.51), LIP_IN=(0.66, 0.40, 0.41), LIP_A=0.6, AGE_K=1.6),   # 第三版（BB 17:19）：AGE_K 1.0→1.6（法令紋、眼下陰影深一級）   # 第二版（BB 16:32）：眼小、眼尾下垂、眉低、睫毛少、臉長一點、腮紅拿掉、眼下陰影＋法令紋
-                 hair=dict(seed=20261103, part=-16.0, col=(0.20, 0.19, 0.19), grey=0.07, grey_k=(0.30, 0.50), soft=0.65, tip=(0.060, 0.055, 0.060, 0.070, 0.064, 0.056, 0.050, 0.046, 0.046, 0.046), n_main=38, n_outer=22),   # 下巴以上的短髮、黑灰；第三版 grey 0.22、0.55～0.9 → 0.07、0.3～0.5（BB 17:19：整頭一條一條像假髮）；soft 0.65＝髮絲條紋柔化（npc_hair_f.py）
+                 hair=dict(seed=20261103, part=-16.0, col=(0.20, 0.19, 0.19), grey=0.07, grey_k=(0.30, 0.50), soft=0.65, side_back=0.2, tip=(0.060, 0.055, 0.060, 0.070, 0.064, 0.056, 0.050, 0.046, 0.046, 0.046), n_main=38, n_outer=22),   # 下巴以上的短髮、黑灰；第三版 grey 0.22、0.55～0.9 → 0.07、0.3～0.5（BB 17:19：整頭一條一條像假髮）；soft 0.65＝髮絲條紋柔化（npc_hair_f.py）
                  layered=dict(style=outer_style(rgb(58, 64, 88), rgb(84, 82, 86), rgb(92, 64, 44), rgb(52, 38, 28), tex='knit', sleeve_k=0.78, ease=0.88, shoe_style='loafer'),
                               skirt=dict(len='long')),
                  apron=dict(rgb=(0.84, 0.79, 0.69)), skin=(0.90, 0.84, 0.78)),   # skin：膚色乘上去（暗一點、偏暖；BB 17:19「太白太亮，像二十幾歲」）   # 黑灰側分短鮑伯＋深靛藍針織衫＋深灰長裙＋棕樂福鞋（圍裙：亞麻米色，只有 bl_xiuqin_apron.vrm 有）
