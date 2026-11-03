@@ -87,9 +87,11 @@ const FR=['heroine_01','heroine_02','heroine_03','heroine_04','heroine_05','clas
   /* ================= B 手機「訊息」：所有聯絡人都能開、傳 ================= */
   const SEVEN=['heroine_01','heroine_02','heroine_03','heroine_04','heroine_05','classmate_peishan','kexin'];
   const allContacts=()=>{ for(const id of SEVEN.filter(x=>x!=='kexin')){ H.FRIEND(id); H.G.contacts[id]=H.G.day-3; } H.G.flags.dating_kexin=true; };   /* [前置] 直接記聯絡方式（INV.addContact 會在對話串放一則「加了…」）*/
-  { fresh('2025-11-12',15,'dorm'); allContacts(); const P=mk(); const R=MSG.contactRows?MSG.contactRows(H.G,P?P.knownIds():[]):[];
+  { fresh('2025-11-12',15,'dorm'); allContacts(); const R0=MSG.contactRows?MSG.contactRows(H.G,(mk()||{knownIds:()=>[]}).knownIds()):[]; const noMet=!R0.some(r=>r.id==='zhe'||r.id==='kai'); H.FRIEND('zhe'); H.FRIEND('kai'); const P=mk(); const R=MSG.contactRows?MSG.contactRows(H.G,P?P.knownIds():[]):[];   /* PHONE-LIST-CLEAN-1103：阿哲、阿凱還沒見過（STRANGER）時不列；見過以後列 */
     check('B1. MSG.contactRows：七位女生都列出、在最前面、都能傳（沒有任何對話串也一樣）',R.length>=7&&R.slice(0,7).map(r=>r.id).join()===SEVEN.join()&&R.slice(0,7).every(r=>r.ok&&!r.gray),J(R.slice(0,8)));
-    check('B1. 其他有聯絡方式的朋友也在（阿哲、阿凱）',R.some(r=>r.id==='zhe')&&R.some(r=>r.id==='kai'),J(R.map(r=>r.id)));
+    { const pr0=STORY.presence; STORY.presence=(id,G)=>id==='zhe'?{here:false,kind:'before',away:''}:pr0(id,G); const o=MSG.open(H.G,'zhe'), R2=MSG.contactRows(H.G,P?P.knownIds():[]); STORY.presence=pr0;
+      check('B1b. 開學前（presence before）見過、有聯絡方式的阿哲：傳得了、在名單上（使用者 11-03「朋友『聯絡不上』不對」；原本「聯絡不上」）',o.ok===true&&R2.some(r=>r.id==='zhe'&&r.ok),J(o)); }
+    check('B1. 其他有聯絡方式的朋友：見過以後在（阿哲、阿凱）、還沒見過不列（PHONE-LIST-CLEAN-1103）',noMet&&R.some(r=>r.id==='zhe'&&r.ok)&&R.some(r=>r.id==='kai'&&r.ok),J({R0:R0.map(r=>r.id),R:R.map(r=>r.id)}));
     const h=P?P.msgHTML():''; check('B2. 訊息頁上面「傳訊息給」：七位女生各一顆，點了開 p:<id> 的對話串',/傳訊息給/.test(h)&&SEVEN.every(id=>h.includes('data-th="p:'+id+'"')),h.slice(0,300));
     check('B2. 子晴沒有傳過訊息、沒有對話串：照樣在聯絡人上',!PHONE.thread(H.G,'p:heroine_04').length&&h.includes('data-th="p:heroine_04"'));
     if(P){ P.setThread('p:heroine_04'); const t=P.threadHTML('p:heroine_04');
@@ -110,13 +112,13 @@ const FR=['heroine_01','heroine_02','heroine_03','heroine_04','heroine_05','clas
     const ny=((typeof MSG2_POOL!=='undefined'&&MSG2_POOL.people.heroine_04)||{replies:[]}).replies.find(x=>x.topic==='newyear'&&x.tier==='R');
     delete H.G.events.done.ev_ziqing_secret_game; check('B6. 第二批新年快樂 R（標「看過 Q6 才用；沒看過：只有第一則」）：Q6 以前只送第一則',!!ny&&!!MSG.msgsOf&&MSG.msgsOf(H.G,'heroine_04',ny).length===1&&ny.msgs.length>1,J(ny&&ny.msgs)); }
   { fresh('2025-11-12',15,'dorm'); SOCIAL.meet('heroine_03','noodle'); const P=mk(); const R=MSG.contactRows?MSG.contactRows(H.G,P?P.knownIds():[]):[]; const yt=R.find(x=>x.id==='heroine_03');
-    check('B7. 見過、還沒有聯絡方式（語彤）：灰著、寫怎麼拿到（還沒有她的聯絡方式……當面問她）',!!yt&&yt.gray&&!yt.ok&&/還沒有她的聯絡方式/.test(yt.why)&&/當面問她/.test(yt.why),J(yt));
+    check('B7. 見過、還沒有聯絡方式（語彤）：不列在「傳訊息給」（PHONE-LIST-CLEAN-1103，使用者 11-03「『不認識的女生』不要出現」「版面太亂」：只列傳得了的人）',!yt,J(yt));
     check('B7. 沒見過的（芷若）：不列',!R.some(x=>x.id==='heroine_02'),J(R.map(x=>x.id)));
-    const h=P?P.msgHTML():''; check('B7. 訊息頁：語彤那一顆是 disabled、有原因，不是 data-th',/disabled[^>]*data-noct="heroine_03"[^>]*>[^<]*<div[^>]*>還沒有她的聯絡方式/.test(h)&&!h.includes('data-th="p:heroine_03"'),h.slice(0,600)); }
+    const h=P?P.msgHTML():''; check('B7. 訊息頁：沒有語彤那一顆（沒有灰著的按鈕）',!h.includes('data-noct="heroine_03"')&&!h.includes('data-th="p:heroine_03"')&&!h.includes('不認識的女生'),h.slice(0,600)); }
   /* 照劇情保留的擋法：對話裡寫原因 */
   { fresh('2025-11-12',15,'dorm'); H.FRIEND('kexin'); H.G.flags.dating_kexin=false; const P=mk(); const t=P?P.threadHTML('p:kexin'):'';
     check('B8. 可昕分開以後：對話裡寫「不能傳訊息：分開以後不開」、沒有傳訊息',/不能傳訊息：分開以後不開/.test(t)&&!/data-msgto=/.test(t),t.replace(/<[^>]+>/g,' ').slice(0,200));
-    const R=MSG.contactRows?MSG.contactRows(H.G,P?P.knownIds():[]):[]; const kx=R.find(x=>x.id==='kexin'); check('B8. 可昕在聯絡人上（點得開、寫原因）',!!kx&&!kx.gray&&!kx.ok&&kx.why==='分開以後不開',J(kx)); }
+    const R=MSG.contactRows?MSG.contactRows(H.G,P?P.knownIds():[]):[]; const kx=R.find(x=>x.id==='kexin'); check('B8. 分開以後的可昕不列在「傳訊息給」（PHONE-LIST-CLEAN-1103：只列傳得了的人；舊的對話串照舊在下面）',!kx,J(kx)); }
   { fresh('2027-10-20',15,'dorm'); H.rel('heroine_02',10,0,0); INV.addContact(H.G,'heroine_02'); const o=MSG.open(H.G,'heroine_02'); const P=mk(); const t=P?P.threadHTML('p:heroine_02'):'';
     check('B9. 芷若在英國、還不熟：對話裡寫「她在英國，只寄明信片」',!o.ok&&/只寄明信片/.test(o.why)&&/不能傳訊息：她在英國，只寄明信片/.test(t),J(o)); }
   { fresh('2027-01-20',15,'dorm'); H.FRIEND('classmate_peishan'); INV.addContact(H.G,'classmate_peishan'); const o=MSG.open(H.G,'classmate_peishan'); const P=mk(); const t=P?P.threadHTML('p:classmate_peishan'):'';

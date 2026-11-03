@@ -41400,6 +41400,54 @@
       "priority": "P1",
       "note": "使用者 11-03 08:3x（UA-LAWWW-1103-20；USER_WANTS X162）",
       "next": "LAWWW 先拿掉 B1 深蹲架、啞鈴架前只站著的人（crowd3d.js S.GYM_STAND_FIT=false；gym_crowd 第 9 項修改前 FAIL）；跑步機上跑、重訓椅坐、墊子聊天照舊 → BB 在 PC 看。之後要有深蹲／舉啞鈴的動作再打開（動作歸 LAWWW2）"
+    },
+    {
+      "first": {
+        "term": "Y1S1",
+        "week": null,
+        "earliest": "玩家實玩回報（使用者 11-03）",
+        "mainline": true,
+        "blocks": false,
+        "prereq": false,
+        "parallel": true,
+        "confirmed": true
+      },
+      "area": null,
+      "id": "PHONE-LIST-CLEAN-1103",
+      "title": "手機「傳訊息給」只列傳得了的人：不列「不認識的女生」、還沒見過、沒有聯絡方式的；開學前見過、有聯絡方式的朋友（阿哲、阿凱、沛珊）不再「聯絡不上」",
+      "owner": "LAWWW",
+      "status": "已整合待測試",
+      "priority": "P1",
+      "note": "使用者 11-03 傳截圖＋選擇題三個都選（UA-LAWWW-1103-21；X163）",
+      "next": "msg3d.js contactRows 只收 open.ok、presence before 不擋（phone_unify B1、B1b、B7、B8，修改前 FAIL）→ BB 在 PC 看手機「訊息」頁"
+    },
+    {
+      "first": {
+        "term": "Y0S2",
+        "week": null,
+        "earliest": "玩家實玩回報（使用者 11-03）",
+        "mainline": true,
+        "blocks": false,
+        "prereq": false,
+        "parallel": true,
+        "confirmed": true
+      },
+      "area": null,
+      "id": "STORY-KX-NCCU-MOVEIN-1103",
+      "title": "可昕去政大宿舍前不該自己住在祐廷家；應該是當天搭高鐵上台北、祐廷去接她",
+      "owner": "AA",
+      "status": "待開工",
+      "priority": "P1",
+      "note": "使用者 11-03 08:4x（UA-LAWWW-1103-22；X164）：「可昕去政大宿舍前為什麼會自己住我家啦 有夠奇怪 他應該當天才搭高鐵上台北 直接我去接他就好」",
+      "next": "AA 找出可昕搬進政大宿舍前住祐廷家的那一段（經濟系那年或法律系大一前）改成當天搭高鐵上來、祐廷去高鐵站接 → LAWWW 照稿改",
+      "xai": {
+        "spec": "使用者 11-03 原話",
+        "branch": "claude/story-planning",
+        "acceptance": "AA 改稿表；LAWWW 實作；BB 驗",
+        "receiver": "LAWWW",
+        "ack": "SENT",
+        "owner": "AA"
+      }
     }
   ]
 }
