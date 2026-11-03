@@ -2515,7 +2515,8 @@
    "confirmed": false,
    "status": "進行中",
    "wants": "X189",
-   "task": "ONE-TAP-GO-1103"
+   "task": "ONE-TAP-GO-1103",
+   "delegatedBy": "UA-LAWWW-1103-59"
   },
   {
    "id": "UA-LAWWW-1103-51",
@@ -2552,7 +2553,8 @@
    "confirmed": false,
    "status": "進行中",
    "wants": "X191",
-   "task": "DORM-DESK-ITEMS-3D-1103"
+   "task": "DORM-DESK-ITEMS-3D-1103",
+   "delegatedBy": "UA-LAWWW-1103-59"
   },
   {
    "id": "UA-LAWWW-1103-55",
@@ -2568,7 +2570,7 @@
    "at": "2026-11-03T12:1x",
    "quote": "為什麼教室地板有奇怪的袋子（附截圖：法律系館A 201 階梯教室，座位旁邊的紙袋浮在走道上）",
    "kind": "原話",
-   "status": "已實作待整合",
+   "status": "在開發分支",
    "task": "CLASSROOM-BAGS-1103"
   },
   {
@@ -2576,7 +2578,7 @@
    "at": "2026-11-03T12:1x",
    "quote": "總圖的研究小間 怎麼用",
    "kind": "原話",
-   "status": "已實作待整合",
+   "status": "在開發分支",
    "task": "CARREL-FREE-1103"
   },
   {
@@ -2584,7 +2586,7 @@
    "at": "2026-11-03T12:2x",
    "quote": "（選擇題答案）大一就能用，免預約",
    "kind": "選擇題答案",
-   "status": "已實作待整合",
+   "status": "在開發分支",
    "wants": "X193",
    "task": "CARREL-FREE-1103"
   },
