@@ -1,0 +1,25 @@
+{
+  "rerun": "",
+  "id": "Z_G6b_v95",
+  "sha": "0f66c4215",
+  "kind": "game",
+  "script": "tests/save_compat_v95.py",
+  "env": "SHA2=a4f2760;XARGS={url2} {url} {out}",
+  "machine": "MSI",
+  "start": "2026-11-03T10:14:13",
+  "end": "2026-11-03T10:18:21",
+  "seconds": 249,
+  "exit": 0,
+  "error": null,
+  "runner": "88d80543f6",
+  "rf_round": "2",
+  "url": "http://127.0.0.1:8809/index.html",
+  "url2": "http://127.0.0.1:8810/index.html",
+  "sha2": "a4f2760",
+  "res_peak": {
+    "cpu": 90,
+    "mem": 53,
+    "used_gb": 18.1,
+    "chrome_testing": 30
+  }
+}
