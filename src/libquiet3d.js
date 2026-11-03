@@ -13,6 +13,9 @@
    2D 場景（ADV 背景是圖片）：照背景判斷——法圖二樓、總圖二樓、B1 自習室、B1 討論室、社科圖閱覽區的背景算；門口、台階、簡餐等其他背景都不算（事件搬到館外演就不會加）。
    事件想整場不加：事件定義寫 loud:true（events3d.js 開演時 LIBQ.loudBegin()）；程式裡用 LIBQ.loud(async()=>{…})。
    事件演到一半搬到館外（AA 2026-11-02 20:54 第 3 點）：那一步寫 libOut:true（events3d.js runLines：從那一步到這段對話結束都不加，前面的照加）。
+   不是事件的字串（invites.js 的 firstAt、rel_lines.js 的見面旁白 meetLine；AA 2026-11-02 22:30 定稿 1-D10、Q16）：沒辦法寫 libOut——
+     LIBQ.isOut(text)＝這一句就是走出館外：開頭「（走出」的（1-D10「（走出法圖）「館員人好好……」」），或 S.OUT_LINES 列的整句（Q16 以安約總圖的見面旁白「閉館音樂響了，她才抬頭問你晚餐吃什麼。」）；
+     開頭「（走出」的那一句本身不加前綴（needsPrefix）；invites3d.js 的 INV.meet 用 LIBQ.scope()：從那一句起到這次見面結束（含道別那句）都不加，結束一定配對 loudEnd。
    約好在讀書區見面（第 2 點）：免點頭（S.invited），對話照加。前綴的位置（第 4 點）：開頭有動作括號的合成「（抬頭，小聲）」（S.quiet）；玩家選項不加。
    存檔：G.libNod＝{day, ids:{角色 id:1}}（今天在讀書區見過的人；換一天就清空）。舊存檔沒有這個欄位＝今天誰都還沒見過（LIBQ.rec 補預設值，壞掉的也重設）。
    測試：node tests/aa595_rules_unit.js */
@@ -38,6 +41,12 @@ const LIBQ=(function(){
   S.loudBegin=()=>{ loudN++; }; S.loudEnd=()=>{ loudN=Math.max(0,loudN-1); };
   S.loud=async function(fn){ S.loudBegin(); try{ return await fn(); } finally { S.loudEnd(); } };
   S.reset=()=>{ loudN=0; };
+  /* 字串版的 libOut（AA 2026-11-02 22:30 定稿 1-D10、Q16）*/
+  S.OUT_LINES=['閉館音樂響了，她才抬頭問你晚餐吃什麼。'];   /* Q16：rel_lines.js 以安約總圖（library）朋友以上的見面旁白；這句之後就要離開了 */
+  const OUT_HEAD='（走出';
+  S.isOut=function(text){ const t=String(text==null?'':text).trim(); return t.startsWith(OUT_HEAD)||S.OUT_LINES.includes(t); };
+  /* 一段不是事件的台詞（INV.meet）：chk(這一句) 遇到走出館外的那一句起 loudBegin（只一次）；end() 在 finally 配對 */
+  S.scope=function(){ let on=0; return { chk(t){ if(!on&&S.isOut(t)){ S.loudBegin(); on=1; } return !!on; }, end(){ if(on){ on=0; S.loudEnd(); } } }; };
   const bgFile=()=>{ if(typeof ADV==='undefined'||!ADV.active) return null; const m=ADV.bgMode; if(!m||typeof m!=='object'||!m.image) return null; return String(m.image).split('/').pop().split('?')[0]; };
   S.quietNow=function(GM){ if(loudN>0) return false; const G=G_(GM); if(!G) return false;
     const bf=bgFile(); if(bf) return S.BG_STUDY.includes(bf);   /* 2D 場景：照背景 */
@@ -68,6 +77,7 @@ const LIBQ=(function(){
   const SOFT=/小聲|氣音|口型|噓|壓低聲音|悄悄/;
   S.needsPrefix=function(text){ const t=String(text==null?'':text).trim(); if(!t) return false;
     if(t.startsWith(S.PREFIX)) return false;
+    if(t.startsWith(OUT_HEAD)) return false;   /* 「（走出法圖）「……」」：走出去以後才說的（1-D10）*/
     let rest=t, lead='';
     while(rest.startsWith('（')){ let depth=0, k=-1; for(let i=0;i<rest.length;i++){ const ch=rest[i]; if(ch==='（') depth++; else if(ch==='）'){ depth--; if(depth===0){ k=i; break; } } } if(k<0) break; lead+=rest.slice(0,k+1); rest=rest.slice(k+1).trim(); }
     if(!rest) return false;   /* 整句都是動作 */

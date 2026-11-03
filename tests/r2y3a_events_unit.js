@@ -37,7 +37,7 @@ const R=(id,lv)=>{ const r=SOCIAL.rel(id); const [f,t,c]=LV[lv]; r.fam=f; r.trus
 const meet=id=>SOCIAL.remember(id,'FIRST_MET','');
 const date=id=>{ G.flags['dating_'+id]=true; const r=ROM.get(G,id); if(r) r.status='dating'; meet(id); };
 const join=g=>PHONE.join(G,g,g);
-const has=t=>said.some(s=>s.t===t), idx=t=>said.findIndex(s=>s.t===t), any=re=>said.some(s=>re.test(s.t)), all=()=>said.map(s=>s.t);
+const has=t=>said.some(s=>s.t===t), idx=t=>said.findIndex(s=>s.t===t), any=re=>said.some(s=>re.test(s.t)), all=()=>require('./libq_out_lines.js').norm(said.map(s=>s.t));   /* LQN：圖書館「走出館外」插進來的旁白拿掉、換掉的換回原句再逐字比（AA_595 1-B；AA 11-02 22:30 定稿；新內容在 tests/libq_out_1102_unit.js 驗）*/
 const TH=th=>(G.msgs||[]).filter(m=>m.th===th), txt=th=>TH(th).map(m=>(m.from||'')+':'+m.text);
 const ev=id=>STORY_EVENTS.find(e=>e.id===id);
 const to=(key,h)=>{ G.day=D(key); G.hour=h; G.weekday=wdOf(G.day); };
@@ -493,7 +493,7 @@ const W1S=STORY.week1Start, noZhe=()=>{ STORY.week1Start=()=>true; }, zheBack=()
   check('20. Y3 交往中：「我第一個想到的是你。」開頭換；去溫州街＝（她站起來，把手伸過來。）＋走回來的旁白',has('她叫我今天不要去。……我第一個想到的是你。第二個想到的是，我不知道週四晚上要幹嘛。')&&has('所以我先來這裡坐。等你下課。')&&!has('我在這裡坐了一個小時。只是坐著。')&&has('（她站起來，把手伸過來。）')&&!has('（她站起來。）')&&has('（你們從總圖走到溫州街，又走回來。她一路沒講什麼，走得很慢。）')&&G.flags.YT_EV13_SEEN==='walk');
   fresh('2027-12-16',18.5,'library',{RENT_RENEWED:true}); R('heroine_03','FRI'); await play('ev_yt_thursday_free',[2]);
   { const W=['妳暑假訪問的那些，要不要整理成自己的東西？','整理成什麼？','不是給阿姨的。給妳自己的。','……我可以拿去問老師，能不能當專題。']; const i=idx(W[0]);
-    check('20. Y2 選第三個：祐廷、語彤四句；記 FIELD_NOTES_IDEA；不是交往中沒有「寫好了，給你讀。」',i>0&&JSON.stringify(all().slice(i,i+4))===JSON.stringify(W)&&said[i].who==='祐廷'&&SOCIAL.has('heroine_03','FIELD_NOTES_IDEA')&&!has('寫好了，給你讀。')&&G.flags.YT_EV13_SEEN==='write'); }
+    check('20. Y2 選第三個：祐廷、語彤四句；記 FIELD_NOTES_IDEA；不是交往中沒有「寫好了，給你讀。」',i>0&&JSON.stringify(said.map(s=>s.t).slice(i,i+4))===JSON.stringify(W)&&said[i].who==='祐廷'&&SOCIAL.has('heroine_03','FIELD_NOTES_IDEA')&&!has('寫好了，給你讀。')&&G.flags.YT_EV13_SEEN==='write'); }
   fresh('2027-12-16',18.5,'library',{RENT_RENEWED:true}); date('heroine_03'); R('heroine_03','FRI'); await play('ev_yt_thursday_free',[2]); check('20. 交往中的第三個：「寫好了，給你讀。」（不是「你第一個讀」）',has('寫好了，給你讀。')&&!any(/第一個讀/));
   fresh('2027-12-16',19.9,'dorm'); STORY.y3Facts(G); to('2027-12-16',20); STORY.y3Facts(G); check('20. Y4 12/16 20:00 一律記 YT_EV13（沒演也記）；演過的另外記 YT_EV13_SEEN',G.flags.YT_EV13===true&&G.flags.YT_EV13_SEEN==null);
 

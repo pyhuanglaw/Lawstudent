@@ -18,7 +18,8 @@ const play=async(picks)=>{ H.said=[]; H.picks=(picks||[]).slice(); await EVENTS.
   if(!E){ H.done(); return; }
   const txt=E.dialogue.filter(n=>n.text&&!n.aa523).map(n=>n.text.replace(/\{name\}/g,'{name}'));
   const A590=require('./aa590_doc.js');   /* AA_590（學姊改稿第三批，企劃線 68ceea665，使用者 11-02 確認）改過的句子在 AA_590 的表上，不在這份原稿 */
-  check('0. 每一句台詞都在稿裡（一字不差；AA_590 第 1～3 列改過的在 AA_590）',txt.every(t=>doc.includes(t)||A590.has(t)),J(txt.filter(t=>!doc.includes(t)&&!A590.has(t))));
+  const LQO=require('./libq_out_lines.js');   /* 圖書館版先走到樓梯間（AA_595 1-B2；AA 11-02 22:30 定稿） */
+  check('0. 每一句台詞都在稿裡（一字不差；AA_590 第 1～3 列改過的在 AA_590；AA_595 走出館外的旁白）',txt.every(t=>doc.includes(t)||A590.has(t)||LQO.added(t)),J(txt.filter(t=>!doc.includes(t)&&!A590.has(t)&&!LQO.added(t))));
   { const t523=E.dialogue.filter(n=>n.text&&n.aa523).map(n=>n.text);   /* AA_523 6-6 */
     check('0. AA_523 6-6 加的兩句（大三、大四她的回答）都在 AA_523 第 6 節 6-6 那一列（企劃線 0d7b5388b，一字不差）',!!row66&&t523.length===2&&t523.every(t=>row66.includes('「'+t+'」')),JSON.stringify(t523)); }
   /* 1 */

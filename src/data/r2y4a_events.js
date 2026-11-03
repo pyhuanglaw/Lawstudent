@@ -464,6 +464,7 @@ const R2Y4A_EVENTS=(function(){
   EV.push({ id:'ev_yt_share_time', title:'分一點時間', participants:[YT], location:'library', trigger:'auto', once:true, time:[17.25,18.75], background:'blur',
     prereq:{custom:G=>{ const a=D('2028-12-21'), b=D('2028-12-28'); return knows(YT,G)&&!G.flags.YT16&&(G.day===a||G.day===b); }},
     dialogue:[ IF(FN,nar('（她把一本寫滿的筆記本推過來。）')),UN(FN,nar('（她把一疊印出來的初稿推過來。）')),
+      Object.assign(nar('（讀完，你們走出總圖。）'),{libOut:true}),   /* libOut（AA_595 1-B52；AA 11-02 22:30 定稿）*/
       yt('我可以給你看一個東西嗎。'),
       yt('這本不是作業，也不是幫阿姨寫的。是我自己想寫的。'),
       {if:{memory:[{npc:YT,tag:'GIFT_NOTEBOOK_YT'}]},speaker:YT,text:'這本是聖誕節抽到的。……寫滿了。'},
@@ -505,7 +506,7 @@ const R2Y4A_EVENTS=(function(){
   EV.push({ id:'ev_kexin_study_really_lib', title:'約讀書，而且真的有讀', participants:[KX], location:['library','library_hall'], trigger:'auto', once:true, time:[13.75,15], background:'blur',
     prereq:{custom:G=>{ const d=D('2028-09-23'); return d!=null&&G.day===d&&KXD(G)&&G.flags.KX_K21_AT==='lib'&&!G.flags.KX_STUDY_PLAN; }},
     outingMissed:(G,GM,q)=>{ if(typeof R2Y4A!=='undefined') R2Y4A.k21Missed(G,q); },
-    dialogue:[ nar('（兩個小時，沒有人說話。她只推過來一張便條：「先讀完。」）'),TO16 ].concat(K21_ECHO,K21_PICK('（給她看自己畫滿重點的那一頁）')) });
+    dialogue:[ nar('（兩個小時，沒有人說話。她只推過來一張便條：「先讀完。」）'),TO16,Object.assign(nar('（閉館音樂響了。你們走出總圖。）'),{libOut:true}) ].concat(K21_ECHO,K21_PICK('（給她看自己畫滿重點的那一頁）')) });   /* libOut（AA_595 1-B23：便條後；AA 11-02 22:30 定稿）*/
   EV.push({ id:'ev_kexin_study_really_us', title:'約讀書，而且真的有讀', participants:[KX], location:'any', trigger:'outing', once:true, background:'dark', hours:0.1,
     outingMissed:(G,GM,q)=>{ if(typeof R2Y4A!=='undefined') R2Y4A.k21Missed(G,q); },
     dialogue:[ {scene:'視訊',bg:'video'},nar('（兩個小時，視訊開著，兩邊都沒有人說話。）'),kx('（把便條舉到鏡頭前）先讀完。'),{advance:2} ].concat(K21_ECHO,K21_PICK('（把自己畫滿重點的那一頁舉到鏡頭前）')) });   /* AA_345 F3 定稿 */
