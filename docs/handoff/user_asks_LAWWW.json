@@ -2123,6 +2123,25 @@
       "status": "已完成",
       "task": "RULE-NO-WAKE-AFTER-HANDOFF-1103",
       "note": "LAWWW 00:54 關掉 AA（trig_01Gs1X6fU3cVNnAyuA26KnRZ）、CC（trig_01KdQxKoyn2pQZKW5xXLM8ir）的每小時保險喚醒（enabled=false，不刪）；LAWWW2、BB 的 11-02 23:04 已關；帳號裡開著的排程只剩 LAWWW 自己的"
+    },
+    {
+      "id": "UA-LAWWW-1103-07",
+      "at": "2026-11-03T01:0x",
+      "quote": "你自己的測試可以先丟給GitHub免費的一部分嗎 為什麼你要跑這麼多測試啊？測試不是給BB做的嗎？",
+      "kind": "原話",
+      "status": "進行中",
+      "wants": "X154",
+      "task": "GHA-TEST-OFFLOAD-1103"
+    },
+    {
+      "id": "UA-LAWWW-1103-08",
+      "at": "2026-11-03T01:0x",
+      "quote": "現在就丟給 GitHub（建議）",
+      "kind": "選擇題答案",
+      "status": "進行中",
+      "wants": "X154",
+      "task": "GHA-TEST-OFFLOAD-1103",
+      "note": "問：LAWWW 自己的全部 Node 單元測試（約 900 支）現在就改丟 GitHub 免費跑嗎？選現在就丟：只搬 LAWWW 的全部 Node 測試、下載完整歷史、平常只跑相關的；BB 瀏覽器測試、使用者電腦測試照舊；量到的時間當評估第一筆數據"
     }
   ]
 }

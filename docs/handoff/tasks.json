@@ -40940,9 +40940,9 @@
       "id": "GHA-TEST-OFFLOAD-1103",
       "title": "評估把不需要使用者電腦的自動測試盡量改由 GitHub Actions 免費執行（GitHub 跑例行測試、使用者電腦跑實際畫面與操作、Claude 分析修正，三者不重複）",
       "owner": "LAWWW",
-      "status": "待開工",
+      "status": "進行中",
       "priority": "P2",
-      "note": "使用者 2026-11-03 00:5x（UA-LAWWW-1103-04；USER_WANTS X154）。前置：GHA-NODE-TRIAL-1103 已證明可行（run 41554813408）。這次只登記、不實作；目前的遊戲整合與測試照原計畫；11-03 01:0x 使用者補充背景與驗收標準（UA-LAWWW-1103-05）→ docs/handoff/GHA_TEST_OFFLOAD_1103.md（以那份為準）",
+      "note": "使用者 2026-11-03 00:5x（UA-LAWWW-1103-04；USER_WANTS X154）。前置：GHA-NODE-TRIAL-1103 已證明可行（run 41554813408）。這次只登記、不實作；目前的遊戲整合與測試照原計畫；11-03 01:0x 使用者補充背景與驗收標準（UA-LAWWW-1103-05）→ docs/handoff/GHA_TEST_OFFLOAD_1103.md（以那份為準）；11-03 01:0x 使用者選「現在就丟給 GitHub」（UA-LAWWW-1103-08）：第一步只搬 LAWWW 自己的全部 Node 單元測試——分支 claude/gha-node-sweep、.github/workflows/node-sweep.yml（fetch-depth 0；改 gha/target.txt 的 SHA＝跑一次；同一台 4 支同時跑；失敗、看不出結果、輸出有跳過字樣的分開列；結果留 14 天 artifact＋執行摘要）；第一次 run 41557768927（開發分支 bc8ffc08f）。LAWWW 平常只跑相關的幾支",
       "next": "照 docs/handoff/GHA_TEST_OFFLOAD_1103.md：先小規模效能比較（下載、準備、執行時間；單批 vs 4／8 批 vs 只跑受影響的；淺層下載造成的跳過要找出來、不能算通過；先確認 BB／CC 的本機測試系統不重複），再交白話評估報告（值不值得、省多少 Claude、慢在哪、怎麼排最快最省、對本機測試的影響、私人專案的費用），使用者決定後才實施。（和 BB／CC 分工，BB 管測試，D100、D119）",
       "xai": {
         "spec": "docs/handoff/GHA_TEST_OFFLOAD_1103.md（使用者 11-03 00:5x、01:0x 原話；UA-LAWWW-1103-04、05）",
