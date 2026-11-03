@@ -1,0 +1,23 @@
+{
+  "rerun": "",
+  "id": "N19S_diners",
+  "sha": "b1ae1c390",
+  "kind": "probe",
+  "script": "docs/story_planning/test_tools/cc/cc_shop_diners_probe.py",
+  "env": "CC_HEADLESS=0",
+  "machine": "MSI",
+  "start": "2026-11-03T22:11:09",
+  "end": "2026-11-03T22:23:34",
+  "seconds": 746,
+  "exit": 1,
+  "error": null,
+  "runner": "8565f3aa98",
+  "rf_round": "3",
+  "url": "http://127.0.0.1:8811/index.html?turbo",
+  "res_peak": {
+    "cpu": 100,
+    "mem": 62,
+    "used_gb": 20.3,
+    "chrome_testing": 28
+  }
+}

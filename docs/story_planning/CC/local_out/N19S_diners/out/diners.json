@@ -1,0 +1,3083 @@
+{
+ "noodle 12:30": {
+  "zone": "noodle",
+  "kind": "meal",
+  "hour": 12.536465999999983,
+  "open": true,
+  "wins": [
+   [
+    11,
+    14
+   ],
+   [
+    17,
+    21
+   ]
+  ],
+  "cap": 10,
+  "seats": 6,
+  "free": 4,
+  "need": 2,
+  "count": 2,
+  "keep": -1,
+  "keepSeats": 0,
+  "keepBusy": 0,
+  "cust": [
+   {
+    "crowd": "shop_noodle_1",
+    "spec": null,
+    "key": "shop_noodle_1|v1@11.86|0",
+    "pose": "sit",
+    "stand": false,
+    "seatD": 0,
+    "dy": 0
+   },
+   {
+    "crowd": "shop_noodle_1",
+    "spec": null,
+    "key": "shop_noodle_1|v1@11.86|1",
+    "pose": "sit",
+    "stand": false,
+    "seatD": 0,
+    "dy": 0
+   }
+  ]
+ },
+ "noodle 15:00": {
+  "zone": "noodle",
+  "kind": "meal",
+  "hour": 15.037576000000172,
+  "open": false,
+  "wins": [
+   [
+    11,
+    14
+   ],
+   [
+    17,
+    21
+   ]
+  ],
+  "cap": 10,
+  "seats": 6,
+  "free": 6,
+  "need": 2,
+  "count": 0,
+  "keep": -1,
+  "keepSeats": 0,
+  "keepBusy": 0,
+  "cust": []
+ },
+ "noodle 18:30": {
+  "zone": "noodle",
+  "kind": "meal",
+  "hour": 18.53819933333311,
+  "open": true,
+  "wins": [
+   [
+    11,
+    14
+   ],
+   [
+    17,
+    21
+   ]
+  ],
+  "cap": 10,
+  "seats": 6,
+  "free": 4,
+  "need": 2,
+  "count": 2,
+  "keep": -1,
+  "keepSeats": 0,
+  "keepBusy": 0,
+  "cust": [
+   {
+    "crowd": "shop_noodle_0",
+    "spec": null,
+    "key": "shop_noodle_0|v3@18.16|0",
+    "pose": "sit",
+    "stand": false,
+    "seatD": 0,
+    "dy": 0
+   },
+   {
+    "crowd": "shop_noodle_1",
+    "spec": null,
+    "key": "shop_noodle_1|v4@17.97|0",
+    "pose": "sit",
+    "stand": false,
+    "seatD": 0,
+    "dy": 0
+   }
+  ]
+ },
+ "noodle 22:45": {
+  "zone": "noodle",
+  "kind": "meal",
+  "hour": 22.788044666666558,
+  "open": false,
+  "wins": [
+   [
+    11,
+    14
+   ],
+   [
+    17,
+    21
+   ]
+  ],
+  "cap": 10,
+  "seats": 6,
+  "free": 6,
+  "need": 2,
+  "count": 0,
+  "keep": -1,
+  "keepSeats": 0,
+  "keepBusy": 0,
+  "cust": []
+ },
+ "cvs 12:30": {
+  "zone": "cvs",
+  "kind": "cvs",
+  "hour": 12.541934000000124,
+  "open": true,
+  "wins": [
+   [
+    0,
+    24
+   ]
+  ],
+  "cap": 10,
+  "seats": 0,
+  "free": 0,
+  "need": 1,
+  "count": 1,
+  "keep": -1,
+  "keepSeats": 0,
+  "keepBusy": 0,
+  "cust": [
+   {
+    "crowd": "shop_cvs_0",
+    "spec": null,
+    "key": "shop_cvs_0|v14@12.43|0",
+    "pose": "idle",
+    "stand": true,
+    "seatD": null,
+    "dy": null
+   }
+  ]
+ },
+ "cvs 15:00": {
+  "zone": "cvs",
+  "kind": "cvs",
+  "hour": 15.038133333333437,
+  "open": true,
+  "wins": [
+   [
+    0,
+    24
+   ]
+  ],
+  "cap": 10,
+  "seats": 0,
+  "free": 0,
+  "need": 1,
+  "count": 1,
+  "keep": -1,
+  "keepSeats": 0,
+  "keepBusy": 0,
+  "cust": [
+   {
+    "crowd": "shop_cvs_4",
+    "spec": null,
+    "key": "shop_cvs_4|v19@14.92|0",
+    "pose": "idle",
+    "stand": true,
+    "seatD": null,
+    "dy": null
+   }
+  ]
+ },
+ "cvs 18:30": {
+  "zone": "cvs",
+  "kind": "cvs",
+  "hour": 18.537889333333226,
+  "open": true,
+  "wins": [
+   [
+    0,
+    24
+   ]
+  ],
+  "cap": 10,
+  "seats": 0,
+  "free": 0,
+  "need": 1,
+  "count": 5,
+  "keep": -1,
+  "keepSeats": 0,
+  "keepBusy": 0,
+  "cust": [
+   {
+    "crowd": "shop_cvs_1",
+    "spec": null,
+    "key": "shop_cvs_1|v25@18.41|0",
+    "pose": "idle",
+    "stand": true,
+    "seatD": null,
+    "dy": null
+   },
+   {
+    "crowd": "shop_cvs_8",
+    "spec": null,
+    "key": "shop_cvs_8|v20@18.49|0",
+    "pose": "idle",
+    "stand": true,
+    "seatD": null,
+    "dy": null
+   },
+   {
+    "crowd": "shop_cvs_9",
+    "spec": null,
+    "key": "shop_cvs_9|v24@18.46|0",
+    "pose": "idle",
+    "stand": true,
+    "seatD": null,
+    "dy": null
+   },
+   {
+    "crowd": "shop_cvs_10",
+    "spec": null,
+    "key": "shop_cvs_10|v22@18.45|0",
+    "pose": "idle",
+    "stand": true,
+    "seatD": null,
+    "dy": null
+   },
+   {
+    "crowd": "shop_cvs_11",
+    "spec": null,
+    "key": "shop_cvs_11|v17@18.42|0",
+    "pose": "idle",
+    "stand": true,
+    "seatD": null,
+    "dy": null
+   }
+  ]
+ },
+ "cvs 22:45": {
+  "zone": "cvs",
+  "kind": "cvs",
+  "hour": 22.787533333333382,
+  "open": true,
+  "wins": [
+   [
+    0,
+    24
+   ]
+  ],
+  "cap": 10,
+  "seats": 0,
+  "free": 0,
+  "need": 1,
+  "count": 1,
+  "keep": -1,
+  "keepSeats": 0,
+  "keepBusy": 0,
+  "cust": [
+   {
+    "crowd": "shop_cvs_5",
+    "spec": null,
+    "key": "shop_cvs_5|v36@22.63|0",
+    "pose": "idle",
+    "stand": true,
+    "seatD": null,
+    "dy": null
+   }
+  ]
+ },
+ "bookstore 12:30": {
+  "zone": "bookstore",
+  "kind": "book",
+  "hour": 12.54239933333331,
+  "open": true,
+  "wins": [
+   [
+    11,
+    21
+   ]
+  ],
+  "cap": 10,
+  "seats": 0,
+  "free": 0,
+  "need": 1,
+  "count": 5,
+  "keep": -1,
+  "keepSeats": 0,
+  "keepBusy": 0,
+  "cust": [
+   {
+    "crowd": "shop_bookstore_3",
+    "spec": null,
+    "key": "shop_bookstore_3|v2@12.41|0",
+    "pose": "idle",
+    "stand": true,
+    "seatD": null,
+    "dy": null
+   },
+   {
+    "crowd": "shop_bookstore_5",
+    "spec": null,
+    "key": "shop_bookstore_5|v0@12.28|0",
+    "pose": "idle",
+    "stand": true,
+    "seatD": null,
+    "dy": null
+   },
+   {
+    "crowd": "shop_bookstore_11",
+    "spec": null,
+    "key": "shop_bookstore_11|v2@12.28|0",
+    "pose": "idle",
+    "stand": true,
+    "seatD": null,
+    "dy": null
+   },
+   {
+    "crowd": "shop_bookstore_20",
+    "spec": null,
+    "key": "shop_bookstore_20|v0@12.51|0",
+    "pose": "walk",
+    "stand": true,
+    "seatD": null,
+    "dy": null
+   },
+   {
+    "crowd": "shop_bookstore_0",
+    "spec": null,
+    "key": "shop_bookstore_0|v1@12.53|0",
+    "pose": "walk",
+    "stand": true,
+    "seatD": null,
+    "dy": null
+   }
+  ]
+ },
+ "bookstore 15:00": {
+  "zone": "bookstore",
+  "kind": "book",
+  "hour": 15.038133333333313,
+  "open": true,
+  "wins": [
+   [
+    11,
+    21
+   ]
+  ],
+  "cap": 10,
+  "seats": 0,
+  "free": 0,
+  "need": 1,
+  "count": 6,
+  "keep": -1,
+  "keepSeats": 0,
+  "keepBusy": 0,
+  "cust": [
+   {
+    "crowd": "shop_bookstore_0",
+    "spec": null,
+    "key": "shop_bookstore_0|v2@14.98|0",
+    "pose": "idle",
+    "stand": true,
+    "seatD": null,
+    "dy": null
+   },
+   {
+    "crowd": "shop_bookstore_6",
+    "spec": null,
+    "key": "shop_bookstore_6|v4@15.00|0",
+    "pose": "idle",
+    "stand": true,
+    "seatD": null,
+    "dy": null
+   },
+   {
+    "crowd": "shop_bookstore_7",
+    "spec": null,
+    "key": "shop_bookstore_7|v3@14.83|0",
+    "pose": "idle",
+    "stand": true,
+    "seatD": null,
+    "dy": null
+   },
+   {
+    "crowd": "shop_bookstore_10",
+    "spec": null,
+    "key": "shop_bookstore_10|v3@14.72|0",
+    "pose": "idle",
+    "stand": true,
+    "seatD": null,
+    "dy": null
+   },
+   {
+    "crowd": "shop_bookstore_13",
+    "spec": null,
+    "key": "shop_bookstore_13|v6@14.82|0",
+    "pose": "idle",
+    "stand": true,
+    "seatD": null,
+    "dy": null
+   },
+   {
+    "crowd": "shop_bookstore_9",
+    "spec": null,
+    "key": "shop_bookstore_9|v4@15.02|0",
+    "pose": "walk",
+    "stand": true,
+    "seatD": null,
+    "dy": null
+   }
+  ]
+ },
+ "bookstore 18:30": {
+  "zone": "bookstore",
+  "kind": "book",
+  "hour": 18.538088666666646,
+  "open": true,
+  "wins": [
+   [
+    11,
+    21
+   ]
+  ],
+  "cap": 10,
+  "seats": 0,
+  "free": 0,
+  "need": 1,
+  "count": 5,
+  "keep": -1,
+  "keepSeats": 0,
+  "keepBusy": 0,
+  "cust": [
+   {
+    "crowd": "shop_bookstore_6",
+    "spec": null,
+    "key": "shop_bookstore_6|v8@18.46|0",
+    "pose": "idle",
+    "stand": true,
+    "seatD": null,
+    "dy": null
+   },
+   {
+    "crowd": "shop_bookstore_15",
+    "spec": null,
+    "key": "shop_bookstore_15|v6@18.45|0",
+    "pose": "idle",
+    "stand": true,
+    "seatD": null,
+    "dy": null
+   },
+   {
+    "crowd": "shop_bookstore_22",
+    "spec": null,
+    "key": "shop_bookstore_22|v7@18.38|0",
+    "pose": "idle",
+    "stand": true,
+    "seatD": null,
+    "dy": null
+   },
+   {
+    "crowd": "shop_bookstore_25",
+    "spec": null,
+    "key": "shop_bookstore_25|v8@18.46|0",
+    "pose": "idle",
+    "stand": true,
+    "seatD": null,
+    "dy": null
+   },
+   {
+    "crowd": "shop_bookstore_1",
+    "spec": null,
+    "key": "shop_bookstore_1|v6@18.52|0",
+    "pose": "walk",
+    "stand": true,
+    "seatD": null,
+    "dy": null
+   }
+  ]
+ },
+ "bookstore 22:45": {
+  "zone": "bookstore",
+  "kind": "book",
+  "hour": 22.78762066666677,
+  "open": false,
+  "wins": [
+   [
+    11,
+    21
+   ]
+  ],
+  "cap": 10,
+  "seats": 0,
+  "free": 0,
+  "need": 1,
+  "count": 0,
+  "keep": -1,
+  "keepSeats": 0,
+  "keepBusy": 0,
+  "cust": []
+ },
+ "wz_brunch 12:30": {
+  "zone": "wz_brunch",
+  "kind": "brunch",
+  "hour": 12.540644666666704,
+  "open": true,
+  "wins": [
+   [
+    8,
+    15
+   ]
+  ],
+  "cap": 10,
+  "seats": 12,
+  "free": 9,
+  "need": 2,
+  "count": 3,
+  "keep": 4,
+  "keepSeats": 2,
+  "keepBusy": 0,
+  "cust": [
+   {
+    "crowd": "shop_wz_brunch_1",
+    "spec": null,
+    "key": "shop_wz_brunch_1|v4@12.49|0",
+    "pose": "sit",
+    "stand": false,
+    "seatD": 0,
+    "dy": 0
+   },
+   {
+    "crowd": "shop_wz_brunch_1",
+    "spec": null,
+    "key": "shop_wz_brunch_1|v4@12.49|1",
+    "pose": "sit",
+    "stand": false,
+    "seatD": 0,
+    "dy": 0
+   },
+   {
+    "crowd": "shop_wz_brunch_5",
+    "spec": null,
+    "key": "shop_wz_brunch_5|v2@11.90|0",
+    "pose": "sit",
+    "stand": false,
+    "seatD": 0,
+    "dy": 0
+   }
+  ]
+ },
+ "wz_brunch 15:00": {
+  "zone": "wz_brunch",
+  "kind": "brunch",
+  "hour": 15.03724400000016,
+  "open": false,
+  "wins": [
+   [
+    8,
+    15
+   ]
+  ],
+  "cap": 10,
+  "seats": 12,
+  "free": 12,
+  "need": 2,
+  "count": 0,
+  "keep": 4,
+  "keepSeats": 2,
+  "keepBusy": 0,
+  "cust": []
+ },
+ "wz_brunch 18:30": {
+  "zone": "wz_brunch",
+  "kind": "brunch",
+  "hour": 18.537687999999815,
+  "open": false,
+  "wins": [
+   [
+    8,
+    15
+   ]
+  ],
+  "cap": 10,
+  "seats": 12,
+  "free": 12,
+  "need": 2,
+  "count": 0,
+  "keep": 4,
+  "keepSeats": 2,
+  "keepBusy": 0,
+  "cust": []
+ },
+ "wz_brunch 22:45": {
+  "zone": "wz_brunch",
+  "kind": "brunch",
+  "hour": 22.787910666666665,
+  "open": false,
+  "wins": [
+   [
+    8,
+    15
+   ]
+  ],
+  "cap": 10,
+  "seats": 12,
+  "free": 12,
+  "need": 2,
+  "count": 0,
+  "keep": 4,
+  "keepSeats": 2,
+  "keepBusy": 0,
+  "cust": []
+ },
+ "wz_teahouse 12:30": {
+  "zone": "wz_teahouse",
+  "kind": "tea",
+  "hour": 12.541244000000162,
+  "open": true,
+  "wins": [
+   [
+    12,
+    20
+   ]
+  ],
+  "cap": 10,
+  "seats": 12,
+  "free": 8,
+  "need": 2,
+  "count": 4,
+  "keep": 1,
+  "keepSeats": 2,
+  "keepBusy": 0,
+  "cust": [
+   {
+    "crowd": "shop_wz_teahouse_4",
+    "spec": null,
+    "key": "shop_wz_teahouse_4|v0@12.06|0",
+    "pose": "sit",
+    "stand": false,
+    "seatD": 0,
+    "dy": 0
+   },
+   {
+    "crowd": "shop_wz_teahouse_5",
+    "spec": null,
+    "key": "shop_wz_teahouse_5|v0@12.17|0",
+    "pose": "sit",
+    "stand": false,
+    "seatD": 0,
+    "dy": 0
+   },
+   {
+    "crowd": "shop_wz_teahouse_5",
+    "spec": null,
+    "key": "shop_wz_teahouse_5|v0@12.17|1",
+    "pose": "sit",
+    "stand": false,
+    "seatD": 0,
+    "dy": 0
+   },
+   {
+    "crowd": "shop_wz_teahouse_3",
+    "spec": null,
+    "key": "shop_wz_teahouse_3|v0@12.52|0",
+    "pose": "sit",
+    "stand": false,
+    "seatD": 0,
+    "dy": 0
+   }
+  ]
+ },
+ "wz_teahouse 15:00": {
+  "zone": "wz_teahouse",
+  "kind": "tea",
+  "hour": 15.037756666666803,
+  "open": true,
+  "wins": [
+   [
+    12,
+    20
+   ]
+  ],
+  "cap": 10,
+  "seats": 12,
+  "free": 10,
+  "need": 2,
+  "count": 2,
+  "keep": 1,
+  "keepSeats": 2,
+  "keepBusy": 0,
+  "cust": [
+   {
+    "crowd": "shop_wz_teahouse_0",
+    "spec": null,
+    "key": "shop_wz_teahouse_0|v1@14.51|0",
+    "pose": "sit",
+    "stand": false,
+    "seatD": 0,
+    "dy": 0
+   },
+   {
+    "crowd": "shop_wz_teahouse_2",
+    "spec": null,
+    "key": "shop_wz_teahouse_2|v1@14.35|0",
+    "pose": "sit",
+    "stand": false,
+    "seatD": 0,
+    "dy": 0
+   }
+  ]
+ },
+ "wz_teahouse 18:30": {
+  "zone": "wz_teahouse",
+  "kind": "tea",
+  "hour": 18.53759933333337,
+  "open": true,
+  "wins": [
+   [
+    12,
+    20
+   ]
+  ],
+  "cap": 10,
+  "seats": 12,
+  "free": 11,
+  "need": 2,
+  "count": 1,
+  "keep": 1,
+  "keepSeats": 2,
+  "keepBusy": 0,
+  "cust": [
+   {
+    "crowd": "shop_wz_teahouse_4",
+    "spec": null,
+    "key": "shop_wz_teahouse_4|v1@17.36|0",
+    "pose": "sit",
+    "stand": false,
+    "seatD": 0,
+    "dy": 0
+   }
+  ]
+ },
+ "wz_teahouse 22:45": {
+  "zone": "wz_teahouse",
+  "kind": "tea",
+  "hour": 22.78768866666672,
+  "open": false,
+  "wins": [
+   [
+    12,
+    20
+   ]
+  ],
+  "cap": 10,
+  "seats": 12,
+  "free": 12,
+  "need": 2,
+  "count": 0,
+  "keep": 1,
+  "keepSeats": 2,
+  "keepBusy": 0,
+  "cust": []
+ },
+ "wz_lin 12:30": {
+  "zone": "wz_lin",
+  "kind": "meal",
+  "hour": 12.541309999999992,
+  "open": true,
+  "wins": [
+   [
+    11,
+    14
+   ],
+   [
+    17,
+    21
+   ]
+  ],
+  "cap": 10,
+  "seats": 10,
+  "free": 7,
+  "need": 2,
+  "count": 3,
+  "keep": 2,
+  "keepSeats": 2,
+  "keepBusy": 0,
+  "cust": [
+   {
+    "crowd": "shop_wz_lin_1",
+    "spec": null,
+    "key": "shop_wz_lin_1|v1@12.04|0",
+    "pose": "sit",
+    "stand": false,
+    "seatD": 0,
+    "dy": 0
+   },
+   {
+    "crowd": "shop_wz_lin_1",
+    "spec": null,
+    "key": "shop_wz_lin_1|v1@12.04|1",
+    "pose": "sit",
+    "stand": false,
+    "seatD": 0,
+    "dy": 0
+   },
+   {
+    "crowd": "shop_wz_lin_4",
+    "spec": null,
+    "key": "shop_wz_lin_4|v1@12.11|0",
+    "pose": "sit",
+    "stand": false,
+    "seatD": 0,
+    "dy": 0
+   }
+  ]
+ },
+ "wz_lin 15:00": {
+  "zone": "wz_lin",
+  "kind": "meal",
+  "hour": 15.037798666666824,
+  "open": false,
+  "wins": [
+   [
+    11,
+    14
+   ],
+   [
+    17,
+    21
+   ]
+  ],
+  "cap": 10,
+  "seats": 10,
+  "free": 10,
+  "need": 2,
+  "count": 0,
+  "keep": 2,
+  "keepSeats": 2,
+  "keepBusy": 0,
+  "cust": []
+ },
+ "wz_lin 18:30": {
+  "zone": "wz_lin",
+  "kind": "meal",
+  "hour": 18.53833400000002,
+  "open": true,
+  "wins": [
+   [
+    11,
+    14
+   ],
+   [
+    17,
+    21
+   ]
+  ],
+  "cap": 10,
+  "seats": 10,
+  "free": 6,
+  "need": 2,
+  "count": 4,
+  "keep": 2,
+  "keepSeats": 2,
+  "keepBusy": 0,
+  "cust": [
+   {
+    "crowd": "shop_wz_lin_0",
+    "spec": null,
+    "key": "shop_wz_lin_0|v2@18.40|0",
+    "pose": "sit",
+    "stand": false,
+    "seatD": 0,
+    "dy": 0
+   },
+   {
+    "crowd": "shop_wz_lin_0",
+    "spec": null,
+    "key": "shop_wz_lin_0|v2@18.40|1",
+    "pose": "sit",
+    "stand": false,
+    "seatD": 0,
+    "dy": 0
+   },
+   {
+    "crowd": "shop_wz_lin_4",
+    "spec": null,
+    "key": "shop_wz_lin_4|v4@18.23|0",
+    "pose": "sit",
+    "stand": false,
+    "seatD": 0,
+    "dy": 0
+   },
+   {
+    "crowd": "shop_wz_lin_4",
+    "spec": null,
+    "key": "shop_wz_lin_4|v4@18.23|1",
+    "pose": "sit",
+    "stand": false,
+    "seatD": 0,
+    "dy": 0
+   }
+  ]
+ },
+ "wz_lin 22:45": {
+  "zone": "wz_lin",
+  "kind": "meal",
+  "hour": 22.787422666666657,
+  "open": false,
+  "wins": [
+   [
+    11,
+    14
+   ],
+   [
+    17,
+    21
+   ]
+  ],
+  "cap": 10,
+  "seats": 10,
+  "free": 10,
+  "need": 2,
+  "count": 0,
+  "keep": 2,
+  "keepSeats": 2,
+  "keepBusy": 0,
+  "cust": []
+ },
+ "wz_teishoku 12:30": {
+  "zone": "wz_teishoku",
+  "kind": "meal",
+  "hour": 12.54193466666669,
+  "open": true,
+  "wins": [
+   [
+    11.5,
+    14
+   ],
+   [
+    17.5,
+    20.5
+   ]
+  ],
+  "cap": 10,
+  "seats": 18,
+  "free": 10,
+  "need": 2,
+  "count": 8,
+  "keep": 4,
+  "keepSeats": 2,
+  "keepBusy": 0,
+  "cust": [
+   {
+    "crowd": "shop_wz_teishoku_1",
+    "spec": null,
+    "key": "shop_wz_teishoku_1|v1@12.30|0",
+    "pose": "sit",
+    "stand": false,
+    "seatD": 0,
+    "dy": 0
+   },
+   {
+    "crowd": "shop_wz_teishoku_1",
+    "spec": null,
+    "key": "shop_wz_teishoku_1|v1@12.30|1",
+    "pose": "sit",
+    "stand": false,
+    "seatD": 0,
+    "dy": 0
+   },
+   {
+    "crowd": "shop_wz_teishoku_2",
+    "spec": null,
+    "key": "shop_wz_teishoku_2|v1@12.26|0",
+    "pose": "sit",
+    "stand": false,
+    "seatD": 0,
+    "dy": 0
+   },
+   {
+    "crowd": "shop_wz_teishoku_2",
+    "spec": null,
+    "key": "shop_wz_teishoku_2|v1@12.26|1",
+    "pose": "sit",
+    "stand": false,
+    "seatD": 0,
+    "dy": 0
+   },
+   {
+    "crowd": "shop_wz_teishoku_3",
+    "spec": null,
+    "key": "shop_wz_teishoku_3|v1@12.48|0",
+    "pose": "sit",
+    "stand": false,
+    "seatD": 0,
+    "dy": 0
+   },
+   {
+    "crowd": "shop_wz_teishoku_3",
+    "spec": null,
+    "key": "shop_wz_teishoku_3|v1@12.48|1",
+    "pose": "sit",
+    "stand": false,
+    "seatD": 0,
+    "dy": 0
+   },
+   {
+    "crowd": "shop_wz_teishoku_5",
+    "spec": null,
+    "key": "shop_wz_teishoku_5|v1@12.27|0",
+    "pose": "sit",
+    "stand": false,
+    "seatD": 0,
+    "dy": 0
+   },
+   {
+    "crowd": "shop_wz_teishoku_6",
+    "spec": null,
+    "key": "shop_wz_teishoku_6|v1@12.51|0",
+    "pose": "sit",
+    "stand": false,
+    "seatD": 0,
+    "dy": 0
+   }
+  ]
+ },
+ "wz_teishoku 15:00": {
+  "zone": "wz_teishoku",
+  "kind": "meal",
+  "hour": 15.038710000000156,
+  "open": false,
+  "wins": [
+   [
+    11.5,
+    14
+   ],
+   [
+    17.5,
+    20.5
+   ]
+  ],
+  "cap": 10,
+  "seats": 18,
+  "free": 18,
+  "need": 2,
+  "count": 0,
+  "keep": 4,
+  "keepSeats": 2,
+  "keepBusy": 0,
+  "cust": []
+ },
+ "wz_teishoku 18:30": {
+  "zone": "wz_teishoku",
+  "kind": "meal",
+  "hour": 18.538044666666732,
+  "open": true,
+  "wins": [
+   [
+    11.5,
+    14
+   ],
+   [
+    17.5,
+    20.5
+   ]
+  ],
+  "cap": 10,
+  "seats": 18,
+  "free": 11,
+  "need": 2,
+  "count": 7,
+  "keep": 4,
+  "keepSeats": 2,
+  "keepBusy": 0,
+  "cust": [
+   {
+    "crowd": "shop_wz_teishoku_1",
+    "spec": null,
+    "key": "shop_wz_teishoku_1|v3@18.49|0",
+    "pose": "sit",
+    "stand": false,
+    "seatD": 0,
+    "dy": 0
+   },
+   {
+    "crowd": "shop_wz_teishoku_1",
+    "spec": null,
+    "key": "shop_wz_teishoku_1|v3@18.49|1",
+    "pose": "sit",
+    "stand": false,
+    "seatD": 0,
+    "dy": 0
+   },
+   {
+    "crowd": "shop_wz_teishoku_3",
+    "spec": null,
+    "key": "shop_wz_teishoku_3|v3@18.35|0",
+    "pose": "sit",
+    "stand": false,
+    "seatD": 0,
+    "dy": 0
+   },
+   {
+    "crowd": "shop_wz_teishoku_3",
+    "spec": null,
+    "key": "shop_wz_teishoku_3|v3@18.35|1",
+    "pose": "sit",
+    "stand": false,
+    "seatD": 0,
+    "dy": 0
+   },
+   {
+    "crowd": "shop_wz_teishoku_6",
+    "spec": null,
+    "key": "shop_wz_teishoku_6|v4@18.43|0",
+    "pose": "sit",
+    "stand": false,
+    "seatD": 0,
+    "dy": 0
+   },
+   {
+    "crowd": "shop_wz_teishoku_7",
+    "spec": null,
+    "key": "shop_wz_teishoku_7|v4@18.39|0",
+    "pose": "sit",
+    "stand": false,
+    "seatD": 0,
+    "dy": 0
+   },
+   {
+    "crowd": "shop_wz_teishoku_8",
+    "spec": null,
+    "key": "shop_wz_teishoku_8|v2@18.27|0",
+    "pose": "sit",
+    "stand": false,
+    "seatD": 0,
+    "dy": 0
+   }
+  ]
+ },
+ "wz_teishoku 22:45": {
+  "zone": "wz_teishoku",
+  "kind": "meal",
+  "hour": 22.78788800000002,
+  "open": false,
+  "wins": [
+   [
+    11.5,
+    14
+   ],
+   [
+    17.5,
+    20.5
+   ]
+  ],
+  "cap": 10,
+  "seats": 18,
+  "free": 18,
+  "need": 2,
+  "count": 0,
+  "keep": 4,
+  "keepSeats": 2,
+  "keepBusy": 0,
+  "cust": []
+ },
+ "wz_print 12:30": {
+  "zone": "wz_print",
+  "kind": "print",
+  "hour": 12.540066000000165,
+  "open": true,
+  "wins": [
+   [
+    9,
+    22
+   ]
+  ],
+  "cap": 10,
+  "seats": 0,
+  "free": 0,
+  "need": 1,
+  "count": 1,
+  "keep": -1,
+  "keepSeats": 0,
+  "keepBusy": 0,
+  "cust": [
+   {
+    "crowd": "shop_wz_print_0",
+    "spec": null,
+    "key": "shop_wz_print_0|v4@12.45|0",
+    "pose": "idle",
+    "stand": true,
+    "seatD": null,
+    "dy": null
+   }
+  ]
+ },
+ "wz_print 15:00": {
+  "zone": "wz_print",
+  "kind": "print",
+  "hour": 15.037844666666777,
+  "open": true,
+  "wins": [
+   [
+    9,
+    22
+   ]
+  ],
+  "cap": 10,
+  "seats": 0,
+  "free": 0,
+  "need": 1,
+  "count": 1,
+  "keep": -1,
+  "keepSeats": 0,
+  "keepBusy": 0,
+  "cust": [
+   {
+    "crowd": "shop_wz_print_0",
+    "spec": null,
+    "key": "shop_wz_print_0|v7@15.03|0",
+    "pose": "walk",
+    "stand": true,
+    "seatD": null,
+    "dy": null
+   }
+  ]
+ },
+ "wz_print 18:30": {
+  "zone": "wz_print",
+  "kind": "print",
+  "hour": 18.537754666666537,
+  "open": true,
+  "wins": [
+   [
+    9,
+    22
+   ]
+  ],
+  "cap": 10,
+  "seats": 0,
+  "free": 0,
+  "need": 1,
+  "count": 1,
+  "keep": -1,
+  "keepSeats": 0,
+  "keepBusy": 0,
+  "cust": [
+   {
+    "crowd": "shop_wz_print_1",
+    "spec": null,
+    "key": "shop_wz_print_1|v17@18.42|0",
+    "pose": "idle",
+    "stand": true,
+    "seatD": null,
+    "dy": null
+   }
+  ]
+ },
+ "wz_print 22:45": {
+  "zone": "wz_print",
+  "kind": "print",
+  "hour": 22.787755333333347,
+  "open": false,
+  "wins": [
+   [
+    9,
+    22
+   ]
+  ],
+  "cap": 10,
+  "seats": 0,
+  "free": 0,
+  "need": 1,
+  "count": 0,
+  "keep": -1,
+  "keepSeats": 0,
+  "keepBusy": 0,
+  "cust": []
+ },
+ "l118_dian 12:30": {
+  "zone": "l118_dian",
+  "kind": "meal",
+  "hour": 12.541466666666809,
+  "open": true,
+  "wins": [
+   [
+    11,
+    14
+   ],
+   [
+    17,
+    20
+   ]
+  ],
+  "cap": 10,
+  "seats": 10,
+  "free": 8,
+  "need": 2,
+  "count": 2,
+  "keep": 1,
+  "keepSeats": 2,
+  "keepBusy": 0,
+  "cust": [
+   {
+    "crowd": "shop_l118_dian_2",
+    "spec": null,
+    "key": "shop_l118_dian_2|v1@12.48|0",
+    "pose": "sit",
+    "stand": false,
+    "seatD": 0,
+    "dy": 0
+   },
+   {
+    "crowd": "shop_l118_dian_4",
+    "spec": null,
+    "key": "shop_l118_dian_4|v1@11.97|0",
+    "pose": "sit",
+    "stand": false,
+    "seatD": 0,
+    "dy": 0
+   }
+  ]
+ },
+ "l118_dian 15:00": {
+  "zone": "l118_dian",
+  "kind": "meal",
+  "hour": 15.037310666666778,
+  "open": false,
+  "wins": [
+   [
+    11,
+    14
+   ],
+   [
+    17,
+    20
+   ]
+  ],
+  "cap": 10,
+  "seats": 10,
+  "free": 10,
+  "need": 2,
+  "count": 0,
+  "keep": 1,
+  "keepSeats": 2,
+  "keepBusy": 0,
+  "cust": []
+ },
+ "l118_dian 18:30": {
+  "zone": "l118_dian",
+  "kind": "meal",
+  "hour": 18.53757800000005,
+  "open": true,
+  "wins": [
+   [
+    11,
+    14
+   ],
+   [
+    17,
+    20
+   ]
+  ],
+  "cap": 10,
+  "seats": 10,
+  "free": 6,
+  "need": 2,
+  "count": 4,
+  "keep": 1,
+  "keepSeats": 2,
+  "keepBusy": 0,
+  "cust": [
+   {
+    "crowd": "shop_l118_dian_3",
+    "spec": null,
+    "key": "shop_l118_dian_3|v3@17.87|0",
+    "pose": "sit",
+    "stand": false,
+    "seatD": 0,
+    "dy": 0
+   },
+   {
+    "crowd": "shop_l118_dian_3",
+    "spec": null,
+    "key": "shop_l118_dian_3|v3@17.87|1",
+    "pose": "sit",
+    "stand": false,
+    "seatD": 0,
+    "dy": 0
+   },
+   {
+    "crowd": "shop_l118_dian_4",
+    "spec": null,
+    "key": "shop_l118_dian_4|v4@17.95|0",
+    "pose": "sit",
+    "stand": false,
+    "seatD": 0,
+    "dy": 0
+   },
+   {
+    "crowd": "shop_l118_dian_4",
+    "spec": null,
+    "key": "shop_l118_dian_4|v4@17.95|1",
+    "pose": "sit",
+    "stand": false,
+    "seatD": 0,
+    "dy": 0
+   }
+  ]
+ },
+ "l118_dian 22:45": {
+  "zone": "l118_dian",
+  "kind": "meal",
+  "hour": 22.787400666666695,
+  "open": false,
+  "wins": [
+   [
+    11,
+    14
+   ],
+   [
+    17,
+    20
+   ]
+  ],
+  "cap": 10,
+  "seats": 10,
+  "free": 10,
+  "need": 2,
+  "count": 0,
+  "keep": 1,
+  "keepSeats": 2,
+  "keepBusy": 0,
+  "cust": []
+ },
+ "l118_self 12:30": {
+  "zone": "l118_self",
+  "kind": "meal",
+  "hour": 12.542622000000003,
+  "open": true,
+  "wins": [
+   [
+    10.5,
+    13.5
+   ],
+   [
+    16.5,
+    19.5
+   ]
+  ],
+  "cap": 10,
+  "seats": 14,
+  "free": 4,
+  "need": 2,
+  "count": 9,
+  "keep": 8,
+  "keepSeats": 2,
+  "keepBusy": 0,
+  "cust": [
+   {
+    "crowd": "shop_l118_self_1",
+    "spec": null,
+    "key": "shop_l118_self_1|v1@12.12|0",
+    "pose": "sit",
+    "stand": false,
+    "seatD": 0,
+    "dy": 0
+   },
+   {
+    "crowd": "shop_l118_self_2",
+    "spec": null,
+    "key": "shop_l118_self_2|v1@12.29|0",
+    "pose": "sit",
+    "stand": false,
+    "seatD": 0,
+    "dy": 0
+   },
+   {
+    "crowd": "shop_l118_self_3",
+    "spec": null,
+    "key": "shop_l118_self_3|v0@12.34|0",
+    "pose": "sit",
+    "stand": false,
+    "seatD": 0,
+    "dy": 0
+   },
+   {
+    "crowd": "shop_l118_self_4",
+    "spec": null,
+    "key": "shop_l118_self_4|v1@11.90|0",
+    "pose": "sit",
+    "stand": false,
+    "seatD": 0,
+    "dy": 0
+   },
+   {
+    "crowd": "shop_l118_self_5",
+    "spec": null,
+    "key": "shop_l118_self_5|v1@11.95|0",
+    "pose": "sit",
+    "stand": false,
+    "seatD": 0,
+    "dy": 0
+   },
+   {
+    "crowd": "shop_l118_self_6",
+    "spec": null,
+    "key": "shop_l118_self_6|v0@12.21|0",
+    "pose": "sit",
+    "stand": false,
+    "seatD": 0,
+    "dy": 0
+   },
+   {
+    "crowd": "shop_l118_self_6",
+    "spec": null,
+    "key": "shop_l118_self_6|v0@12.21|1",
+    "pose": "sit",
+    "stand": false,
+    "seatD": 0,
+    "dy": 0
+   },
+   {
+    "crowd": "shop_l118_self_7",
+    "spec": null,
+    "key": "shop_l118_self_7|v2@12.41|0",
+    "pose": "sit",
+    "stand": false,
+    "seatD": 0,
+    "dy": 0
+   },
+   {
+    "crowd": "shop_l118_self_9",
+    "spec": null,
+    "key": "shop_l118_self_9|v2@12.41|0",
+    "pose": "sit",
+    "stand": false,
+    "seatD": 0,
+    "dy": 0
+   }
+  ]
+ },
+ "l118_self 15:00": {
+  "zone": "l118_self",
+  "kind": "meal",
+  "hour": 15.037644000000121,
+  "open": false,
+  "wins": [
+   [
+    10.5,
+    13.5
+   ],
+   [
+    16.5,
+    19.5
+   ]
+  ],
+  "cap": 10,
+  "seats": 14,
+  "free": 14,
+  "need": 2,
+  "count": 0,
+  "keep": 8,
+  "keepSeats": 2,
+  "keepBusy": 0,
+  "cust": []
+ },
+ "l118_self 18:30": {
+  "zone": "l118_self",
+  "kind": "meal",
+  "hour": 18.538198666666684,
+  "open": true,
+  "wins": [
+   [
+    10.5,
+    13.5
+   ],
+   [
+    16.5,
+    19.5
+   ]
+  ],
+  "cap": 10,
+  "seats": 14,
+  "free": 4,
+  "need": 2,
+  "count": 10,
+  "keep": 8,
+  "keepSeats": 2,
+  "keepBusy": 0,
+  "cust": [
+   {
+    "crowd": "shop_l118_self_1",
+    "spec": null,
+    "key": "shop_l118_self_1|v4@17.80|0",
+    "pose": "sit",
+    "stand": false,
+    "seatD": 0,
+    "dy": 0
+   },
+   {
+    "crowd": "shop_l118_self_3",
+    "spec": null,
+    "key": "shop_l118_self_3|v4@18.33|0",
+    "pose": "sit",
+    "stand": false,
+    "seatD": 0,
+    "dy": 0
+   },
+   {
+    "crowd": "shop_l118_self_4",
+    "spec": null,
+    "key": "shop_l118_self_4|v4@18.00|0",
+    "pose": "sit",
+    "stand": false,
+    "seatD": 0,
+    "dy": 0
+   },
+   {
+    "crowd": "shop_l118_self_5",
+    "spec": null,
+    "key": "shop_l118_self_5|v5@18.09|0",
+    "pose": "sit",
+    "stand": false,
+    "seatD": 0,
+    "dy": 0
+   },
+   {
+    "crowd": "shop_l118_self_6",
+    "spec": null,
+    "key": "shop_l118_self_6|v4@18.31|0",
+    "pose": "sit",
+    "stand": false,
+    "seatD": 0,
+    "dy": 0
+   },
+   {
+    "crowd": "shop_l118_self_6",
+    "spec": null,
+    "key": "shop_l118_self_6|v4@18.31|1",
+    "pose": "sit",
+    "stand": false,
+    "seatD": 0,
+    "dy": 0
+   },
+   {
+    "crowd": "shop_l118_self_7",
+    "spec": null,
+    "key": "shop_l118_self_7|v5@18.04|0",
+    "pose": "sit",
+    "stand": false,
+    "seatD": 0,
+    "dy": 0
+   },
+   {
+    "crowd": "shop_l118_self_7",
+    "spec": null,
+    "key": "shop_l118_self_7|v5@18.04|1",
+    "pose": "sit",
+    "stand": false,
+    "seatD": 0,
+    "dy": 0
+   },
+   {
+    "crowd": "shop_l118_self_9",
+    "spec": null,
+    "key": "shop_l118_self_9|v4@17.78|0",
+    "pose": "sit",
+    "stand": false,
+    "seatD": 0,
+    "dy": 0
+   },
+   {
+    "crowd": "shop_l118_self_9",
+    "spec": null,
+    "key": "shop_l118_self_9|v4@17.78|1",
+    "pose": "sit",
+    "stand": false,
+    "seatD": 0,
+    "dy": 0
+   }
+  ]
+ },
+ "l118_self 22:45": {
+  "zone": "l118_self",
+  "kind": "meal",
+  "hour": 22.787756000000066,
+  "open": false,
+  "wins": [
+   [
+    10.5,
+    13.5
+   ],
+   [
+    16.5,
+    19.5
+   ]
+  ],
+  "cap": 10,
+  "seats": 14,
+  "free": 14,
+  "need": 2,
+  "count": 0,
+  "keep": 8,
+  "keepSeats": 2,
+  "keepBusy": 0,
+  "cust": []
+ },
+ "l118_tea 12:30": {
+  "zone": "l118_tea",
+  "kind": "drink",
+  "hour": 12.54166666666672,
+  "open": true,
+  "wins": [
+   [
+    10,
+    21
+   ]
+  ],
+  "cap": 10,
+  "seats": 2,
+  "free": 1,
+  "need": 1,
+  "count": 1,
+  "keep": -1,
+  "keepSeats": 0,
+  "keepBusy": 0,
+  "cust": [
+   {
+    "crowd": "shop_l118_tea_2",
+    "spec": null,
+    "key": "shop_l118_tea_2|v5@12.52|0",
+    "pose": "idle",
+    "stand": true,
+    "seatD": null,
+    "dy": null
+   }
+  ]
+ },
+ "l118_tea 15:00": {
+  "zone": "l118_tea",
+  "kind": "drink",
+  "hour": 15.037289333333506,
+  "open": true,
+  "wins": [
+   [
+    10,
+    21
+   ]
+  ],
+  "cap": 10,
+  "seats": 2,
+  "free": 2,
+  "need": 1,
+  "count": 0,
+  "keep": -1,
+  "keepSeats": 0,
+  "keepBusy": 0,
+  "cust": []
+ },
+ "l118_tea 18:30": {
+  "zone": "l118_tea",
+  "kind": "drink",
+  "hour": 18.537377999999947,
+  "open": true,
+  "wins": [
+   [
+    10,
+    21
+   ]
+  ],
+  "cap": 10,
+  "seats": 2,
+  "free": 2,
+  "need": 1,
+  "count": 0,
+  "keep": -1,
+  "keepSeats": 0,
+  "keepBusy": 0,
+  "cust": []
+ },
+ "l118_tea 22:45": {
+  "zone": "l118_tea",
+  "kind": "drink",
+  "hour": 22.7873113333333,
+  "open": false,
+  "wins": [
+   [
+    10,
+    21
+   ]
+  ],
+  "cap": 10,
+  "seats": 2,
+  "free": 2,
+  "need": 1,
+  "count": 0,
+  "keep": -1,
+  "keepSeats": 0,
+  "keepBusy": 0,
+  "cust": []
+ },
+ "l118_home 12:30": {
+  "zone": "l118_home",
+  "kind": "meal",
+  "hour": 12.541777333333311,
+  "open": true,
+  "wins": [
+   [
+    11,
+    14
+   ],
+   [
+    17,
+    20
+   ]
+  ],
+  "cap": 10,
+  "seats": 18,
+  "free": 11,
+  "need": 2,
+  "count": 7,
+  "keep": 8,
+  "keepSeats": 2,
+  "keepBusy": 0,
+  "cust": [
+   {
+    "crowd": "shop_l118_home_0",
+    "spec": null,
+    "key": "shop_l118_home_0|v0@11.84|0",
+    "pose": "sit",
+    "stand": false,
+    "seatD": 0,
+    "dy": 0
+   },
+   {
+    "crowd": "shop_l118_home_5",
+    "spec": null,
+    "key": "shop_l118_home_5|v1@12.20|0",
+    "pose": "sit",
+    "stand": false,
+    "seatD": 0,
+    "dy": 0
+   },
+   {
+    "crowd": "shop_l118_home_5",
+    "spec": null,
+    "key": "shop_l118_home_5|v1@12.20|1",
+    "pose": "sit",
+    "stand": false,
+    "seatD": 0,
+    "dy": 0
+   },
+   {
+    "crowd": "shop_l118_home_6",
+    "spec": null,
+    "key": "shop_l118_home_6|v1@12.36|0",
+    "pose": "sit",
+    "stand": false,
+    "seatD": 0,
+    "dy": 0
+   },
+   {
+    "crowd": "shop_l118_home_6",
+    "spec": null,
+    "key": "shop_l118_home_6|v1@12.36|1",
+    "pose": "sit",
+    "stand": false,
+    "seatD": 0,
+    "dy": 0
+   },
+   {
+    "crowd": "shop_l118_home_9",
+    "spec": null,
+    "key": "shop_l118_home_9|v2@12.40|0",
+    "pose": "sit",
+    "stand": false,
+    "seatD": 0,
+    "dy": 0
+   },
+   {
+    "crowd": "shop_l118_home_9",
+    "spec": null,
+    "key": "shop_l118_home_9|v2@12.40|1",
+    "pose": "sit",
+    "stand": false,
+    "seatD": 0,
+    "dy": 0
+   }
+  ]
+ },
+ "l118_home 15:00": {
+  "zone": "l118_home",
+  "kind": "meal",
+  "hour": 15.037755333333457,
+  "open": false,
+  "wins": [
+   [
+    11,
+    14
+   ],
+   [
+    17,
+    20
+   ]
+  ],
+  "cap": 10,
+  "seats": 18,
+  "free": 18,
+  "need": 2,
+  "count": 0,
+  "keep": 8,
+  "keepSeats": 2,
+  "keepBusy": 0,
+  "cust": []
+ },
+ "l118_home 18:30": {
+  "zone": "l118_home",
+  "kind": "meal",
+  "hour": 18.538177333333355,
+  "open": true,
+  "wins": [
+   [
+    11,
+    14
+   ],
+   [
+    17,
+    20
+   ]
+  ],
+  "cap": 10,
+  "seats": 18,
+  "free": 9,
+  "need": 2,
+  "count": 8,
+  "keep": 8,
+  "keepSeats": 2,
+  "keepBusy": 0,
+  "cust": [
+   {
+    "crowd": "shop_l118_home_0",
+    "spec": null,
+    "key": "shop_l118_home_0|v4@18.27|0",
+    "pose": "sit",
+    "stand": false,
+    "seatD": 0,
+    "dy": 0
+   },
+   {
+    "crowd": "shop_l118_home_1",
+    "spec": null,
+    "key": "shop_l118_home_1|v3@18.44|0",
+    "pose": "sit",
+    "stand": false,
+    "seatD": 0,
+    "dy": 0
+   },
+   {
+    "crowd": "shop_l118_home_2",
+    "spec": null,
+    "key": "shop_l118_home_2|v4@17.91|0",
+    "pose": "sit",
+    "stand": false,
+    "seatD": 0,
+    "dy": 0
+   },
+   {
+    "crowd": "shop_l118_home_4",
+    "spec": null,
+    "key": "shop_l118_home_4|v3@18.12|0",
+    "pose": "sit",
+    "stand": false,
+    "seatD": 0,
+    "dy": 0
+   },
+   {
+    "crowd": "shop_l118_home_5",
+    "spec": null,
+    "key": "shop_l118_home_5|v5@18.05|0",
+    "pose": "sit",
+    "stand": false,
+    "seatD": 0,
+    "dy": 0
+   },
+   {
+    "crowd": "shop_l118_home_6",
+    "spec": null,
+    "key": "shop_l118_home_6|v3@17.75|0",
+    "pose": "sit",
+    "stand": false,
+    "seatD": 0,
+    "dy": 0
+   },
+   {
+    "crowd": "shop_l118_home_6",
+    "spec": null,
+    "key": "shop_l118_home_6|v3@17.75|1",
+    "pose": "sit",
+    "stand": false,
+    "seatD": 0,
+    "dy": 0
+   },
+   {
+    "crowd": "shop_l118_home_9",
+    "spec": null,
+    "key": "shop_l118_home_9|v3@17.97|0",
+    "pose": "sit",
+    "stand": false,
+    "seatD": 0,
+    "dy": 0
+   }
+  ]
+ },
+ "l118_home 22:45": {
+  "zone": "l118_home",
+  "kind": "meal",
+  "hour": 22.78786600000003,
+  "open": false,
+  "wins": [
+   [
+    11,
+    14
+   ],
+   [
+    17,
+    20
+   ]
+  ],
+  "cap": 10,
+  "seats": 18,
+  "free": 18,
+  "need": 2,
+  "count": 0,
+  "keep": 8,
+  "keepSeats": 2,
+  "keepBusy": 0,
+  "cust": []
+ },
+ "l118_cafe2 12:30": {
+  "zone": "l118_cafe2",
+  "kind": "cafe",
+  "hour": 12.543087333333403,
+  "open": true,
+  "wins": [
+   [
+    9,
+    18
+   ]
+  ],
+  "cap": 10,
+  "seats": 14,
+  "free": 3,
+  "need": 2,
+  "count": 8,
+  "keep": 4,
+  "keepSeats": 2,
+  "keepBusy": 0,
+  "cust": [
+   {
+    "crowd": "shop_l118_cafe2_0",
+    "spec": null,
+    "key": "shop_l118_cafe2_0|v2@12.47|0",
+    "pose": "read",
+    "stand": false,
+    "seatD": 0,
+    "dy": 0
+   },
+   {
+    "crowd": "shop_l118_cafe2_2",
+    "spec": null,
+    "key": "shop_l118_cafe2_2|v0@11.62|0",
+    "pose": "sit",
+    "stand": false,
+    "seatD": 0,
+    "dy": 0
+   },
+   {
+    "crowd": "shop_l118_cafe2_3",
+    "spec": null,
+    "key": "shop_l118_cafe2_3|v0@11.43|0",
+    "pose": "read",
+    "stand": false,
+    "seatD": 0,
+    "dy": 0
+   },
+   {
+    "crowd": "shop_l118_cafe2_5",
+    "spec": null,
+    "key": "shop_l118_cafe2_5|v0@12.06|0",
+    "pose": "sit",
+    "stand": false,
+    "seatD": 0,
+    "dy": 0
+   },
+   {
+    "crowd": "shop_l118_cafe2_5",
+    "spec": null,
+    "key": "shop_l118_cafe2_5|v0@12.06|1",
+    "pose": "sit",
+    "stand": false,
+    "seatD": 0,
+    "dy": 0
+   },
+   {
+    "crowd": "shop_l118_cafe2_6",
+    "spec": null,
+    "key": "shop_l118_cafe2_6|v1@11.89|0",
+    "pose": "sit",
+    "stand": false,
+    "seatD": 0,
+    "dy": 0
+   },
+   {
+    "crowd": "shop_l118_cafe2_6",
+    "spec": null,
+    "key": "shop_l118_cafe2_6|v1@11.89|1",
+    "pose": "sit",
+    "stand": false,
+    "seatD": 0,
+    "dy": 0
+   },
+   {
+    "crowd": "shop_l118_cafe2_8",
+    "spec": null,
+    "key": "shop_l118_cafe2_8|v0@12.29|0",
+    "pose": "sit",
+    "stand": false,
+    "seatD": 0,
+    "dy": 0
+   }
+  ]
+ },
+ "l118_cafe2 15:00": {
+  "zone": "l118_cafe2",
+  "kind": "cafe",
+  "hour": 15.038022666666706,
+  "open": true,
+  "wins": [
+   [
+    9,
+    18
+   ]
+  ],
+  "cap": 10,
+  "seats": 14,
+  "free": 6,
+  "need": 2,
+  "count": 5,
+  "keep": 4,
+  "keepSeats": 2,
+  "keepBusy": 0,
+  "cust": [
+   {
+    "crowd": "shop_l118_cafe2_1",
+    "spec": null,
+    "key": "shop_l118_cafe2_1|v1@14.33|0",
+    "pose": "read",
+    "stand": false,
+    "seatD": 0,
+    "dy": 0
+   },
+   {
+    "crowd": "shop_l118_cafe2_5",
+    "spec": null,
+    "key": "shop_l118_cafe2_5|v1@14.74|0",
+    "pose": "sit",
+    "stand": false,
+    "seatD": 0,
+    "dy": 0
+   },
+   {
+    "crowd": "shop_l118_cafe2_5",
+    "spec": null,
+    "key": "shop_l118_cafe2_5|v1@14.74|1",
+    "pose": "sit",
+    "stand": false,
+    "seatD": 0,
+    "dy": 0
+   },
+   {
+    "crowd": "shop_l118_cafe2_6",
+    "spec": null,
+    "key": "shop_l118_cafe2_6|v2@14.77|0",
+    "pose": "sit",
+    "stand": false,
+    "seatD": 0,
+    "dy": 0
+   },
+   {
+    "crowd": "shop_l118_cafe2_8",
+    "spec": null,
+    "key": "shop_l118_cafe2_8|v1@13.37|0",
+    "pose": "sit",
+    "stand": false,
+    "seatD": 0,
+    "dy": 0
+   }
+  ]
+ },
+ "l118_cafe2 18:30": {
+  "zone": "l118_cafe2",
+  "kind": "cafe",
+  "hour": 18.537577333333402,
+  "open": false,
+  "wins": [
+   [
+    9,
+    18
+   ]
+  ],
+  "cap": 10,
+  "seats": 14,
+  "free": 14,
+  "need": 2,
+  "count": 0,
+  "keep": 4,
+  "keepSeats": 2,
+  "keepBusy": 0,
+  "cust": []
+ },
+ "l118_cafe2 22:45": {
+  "zone": "l118_cafe2",
+  "kind": "cafe",
+  "hour": 22.787510666666762,
+  "open": false,
+  "wins": [
+   [
+    9,
+    18
+   ]
+  ],
+  "cap": 10,
+  "seats": 14,
+  "free": 14,
+  "need": 2,
+  "count": 0,
+  "keep": 4,
+  "keepSeats": 2,
+  "keepBusy": 0,
+  "cust": []
+ },
+ "l118_pasta 12:30": {
+  "zone": "l118_pasta",
+  "kind": "meal",
+  "hour": 12.539866666666635,
+  "open": false,
+  "wins": [],
+  "cap": 10,
+  "seats": 16,
+  "free": 16,
+  "need": 2,
+  "count": 0,
+  "keep": 8,
+  "keepSeats": 2,
+  "keepBusy": 0,
+  "cust": []
+ },
+ "l118_pasta 15:00": {
+  "zone": "l118_pasta",
+  "kind": "meal",
+  "hour": 15.037376666666626,
+  "open": false,
+  "wins": [],
+  "cap": 10,
+  "seats": 16,
+  "free": 16,
+  "need": 2,
+  "count": 0,
+  "keep": 8,
+  "keepSeats": 2,
+  "keepBusy": 0,
+  "cust": []
+ },
+ "l118_pasta 18:30": {
+  "zone": "l118_pasta",
+  "kind": "meal",
+  "hour": 18.537398666666792,
+  "open": false,
+  "wins": [],
+  "cap": 10,
+  "seats": 16,
+  "free": 16,
+  "need": 2,
+  "count": 0,
+  "keep": 8,
+  "keepSeats": 2,
+  "keepBusy": 0,
+  "cust": []
+ },
+ "l118_pasta 22:45": {
+  "zone": "l118_pasta",
+  "kind": "meal",
+  "hour": 22.787332666666863,
+  "open": false,
+  "wins": [],
+  "cap": 10,
+  "seats": 16,
+  "free": 16,
+  "need": 2,
+  "count": 0,
+  "keep": 8,
+  "keepSeats": 2,
+  "keepBusy": 0,
+  "cust": []
+ },
+ "l118_korea 12:30": {
+  "zone": "l118_korea",
+  "kind": "meal",
+  "hour": 12.542553333333395,
+  "open": true,
+  "wins": [
+   [
+    11,
+    14
+   ],
+   [
+    16.5,
+    20
+   ]
+  ],
+  "cap": 10,
+  "seats": 20,
+  "free": 11,
+  "need": 2,
+  "count": 9,
+  "keep": 4,
+  "keepSeats": 2,
+  "keepBusy": 0,
+  "cust": [
+   {
+    "crowd": "shop_l118_korea_0",
+    "spec": null,
+    "key": "shop_l118_korea_0|v2@12.41|0",
+    "pose": "sit",
+    "stand": false,
+    "seatD": 0,
+    "dy": 0
+   },
+   {
+    "crowd": "shop_l118_korea_0",
+    "spec": null,
+    "key": "shop_l118_korea_0|v2@12.41|1",
+    "pose": "sit",
+    "stand": false,
+    "seatD": 0,
+    "dy": 0
+   },
+   {
+    "crowd": "shop_l118_korea_5",
+    "spec": null,
+    "key": "shop_l118_korea_5|v0@11.75|0",
+    "pose": "sit",
+    "stand": false,
+    "seatD": 0,
+    "dy": 0
+   },
+   {
+    "crowd": "shop_l118_korea_6",
+    "spec": null,
+    "key": "shop_l118_korea_6|v1@12.49|0",
+    "pose": "sit",
+    "stand": false,
+    "seatD": 0,
+    "dy": 0
+   },
+   {
+    "crowd": "shop_l118_korea_6",
+    "spec": null,
+    "key": "shop_l118_korea_6|v1@12.49|1",
+    "pose": "sit",
+    "stand": false,
+    "seatD": 0,
+    "dy": 0
+   },
+   {
+    "crowd": "shop_l118_korea_7",
+    "spec": null,
+    "key": "shop_l118_korea_7|v1@11.93|0",
+    "pose": "sit",
+    "stand": false,
+    "seatD": 0,
+    "dy": 0
+   },
+   {
+    "crowd": "shop_l118_korea_8",
+    "spec": null,
+    "key": "shop_l118_korea_8|v1@12.36|0",
+    "pose": "sit",
+    "stand": false,
+    "seatD": 0,
+    "dy": 0
+   },
+   {
+    "crowd": "shop_l118_korea_8",
+    "spec": null,
+    "key": "shop_l118_korea_8|v1@12.36|1",
+    "pose": "sit",
+    "stand": false,
+    "seatD": 0,
+    "dy": 0
+   },
+   {
+    "crowd": "shop_l118_korea_3",
+    "spec": null,
+    "key": "shop_l118_korea_3|v2@12.53|0",
+    "pose": "walk",
+    "stand": false,
+    "seatD": null,
+    "dy": null
+   }
+  ]
+ },
+ "l118_korea 15:00": {
+  "zone": "l118_korea",
+  "kind": "meal",
+  "hour": 15.037555999999936,
+  "open": false,
+  "wins": [
+   [
+    11,
+    14
+   ],
+   [
+    16.5,
+    20
+   ]
+  ],
+  "cap": 10,
+  "seats": 20,
+  "free": 20,
+  "need": 2,
+  "count": 0,
+  "keep": 4,
+  "keepSeats": 2,
+  "keepBusy": 0,
+  "cust": []
+ },
+ "l118_korea 18:30": {
+  "zone": "l118_korea",
+  "kind": "meal",
+  "hour": 18.53797666666667,
+  "open": true,
+  "wins": [
+   [
+    11,
+    14
+   ],
+   [
+    16.5,
+    20
+   ]
+  ],
+  "cap": 10,
+  "seats": 20,
+  "free": 10,
+  "need": 2,
+  "count": 10,
+  "keep": 4,
+  "keepSeats": 2,
+  "keepBusy": 0,
+  "cust": [
+   {
+    "crowd": "shop_l118_korea_0",
+    "spec": null,
+    "key": "shop_l118_korea_0|v6@18.41|0",
+    "pose": "sit",
+    "stand": false,
+    "seatD": 0,
+    "dy": 0
+   },
+   {
+    "crowd": "shop_l118_korea_2",
+    "spec": null,
+    "key": "shop_l118_korea_2|v4@18.28|0",
+    "pose": "sit",
+    "stand": false,
+    "seatD": 0,
+    "dy": 0
+   },
+   {
+    "crowd": "shop_l118_korea_3",
+    "spec": null,
+    "key": "shop_l118_korea_3|v4@18.31|0",
+    "pose": "sit",
+    "stand": false,
+    "seatD": 0,
+    "dy": 0
+   },
+   {
+    "crowd": "shop_l118_korea_6",
+    "spec": null,
+    "key": "shop_l118_korea_6|v4@18.38|0",
+    "pose": "sit",
+    "stand": false,
+    "seatD": 0,
+    "dy": 0
+   },
+   {
+    "crowd": "shop_l118_korea_7",
+    "spec": null,
+    "key": "shop_l118_korea_7|v5@18.48|0",
+    "pose": "sit",
+    "stand": false,
+    "seatD": 0,
+    "dy": 0
+   },
+   {
+    "crowd": "shop_l118_korea_7",
+    "spec": null,
+    "key": "shop_l118_korea_7|v5@18.48|1",
+    "pose": "sit",
+    "stand": false,
+    "seatD": 0,
+    "dy": 0
+   },
+   {
+    "crowd": "shop_l118_korea_8",
+    "spec": null,
+    "key": "shop_l118_korea_8|v4@18.41|0",
+    "pose": "sit",
+    "stand": false,
+    "seatD": 0,
+    "dy": 0
+   },
+   {
+    "crowd": "shop_l118_korea_8",
+    "spec": null,
+    "key": "shop_l118_korea_8|v4@18.41|1",
+    "pose": "sit",
+    "stand": false,
+    "seatD": 0,
+    "dy": 0
+   },
+   {
+    "crowd": "shop_l118_korea_9",
+    "spec": null,
+    "key": "shop_l118_korea_9|v4@18.31|0",
+    "pose": "sit",
+    "stand": false,
+    "seatD": 0,
+    "dy": 0
+   },
+   {
+    "crowd": "shop_l118_korea_9",
+    "spec": null,
+    "key": "shop_l118_korea_9|v4@18.31|1",
+    "pose": "sit",
+    "stand": false,
+    "seatD": 0,
+    "dy": 0
+   }
+  ]
+ },
+ "l118_korea 22:45": {
+  "zone": "l118_korea",
+  "kind": "meal",
+  "hour": 22.78733333333337,
+  "open": false,
+  "wins": [
+   [
+    11,
+    14
+   ],
+   [
+    16.5,
+    20
+   ]
+  ],
+  "cap": 10,
+  "seats": 20,
+  "free": 20,
+  "need": 2,
+  "count": 0,
+  "keep": 4,
+  "keepSeats": 2,
+  "keepBusy": 0,
+  "cust": []
+ },
+ "l118_omu 12:30": {
+  "zone": "l118_omu",
+  "kind": "meal",
+  "hour": 12.54295533333337,
+  "open": true,
+  "wins": [
+   [
+    11.5,
+    14.5
+   ],
+   [
+    17,
+    20.5
+   ]
+  ],
+  "cap": 10,
+  "seats": 15,
+  "free": 6,
+  "need": 2,
+  "count": 8,
+  "keep": 5,
+  "keepSeats": 2,
+  "keepBusy": 1,
+  "cust": [
+   {
+    "crowd": "shop_l118_omu_0",
+    "spec": null,
+    "key": "shop_l118_omu_0|v1@12.31|0",
+    "pose": "sit",
+    "stand": false,
+    "seatD": 0,
+    "dy": 0
+   },
+   {
+    "crowd": "shop_l118_omu_1",
+    "spec": null,
+    "key": "shop_l118_omu_1|v1@12.30|0",
+    "pose": "sit",
+    "stand": false,
+    "seatD": 0,
+    "dy": 0
+   },
+   {
+    "crowd": "shop_l118_omu_2",
+    "spec": null,
+    "key": "shop_l118_omu_2|v1@12.09|0",
+    "pose": "sit",
+    "stand": false,
+    "seatD": 0,
+    "dy": 0
+   },
+   {
+    "crowd": "shop_l118_omu_3",
+    "spec": null,
+    "key": "shop_l118_omu_3|v1@12.37|0",
+    "pose": "sit",
+    "stand": false,
+    "seatD": 0,
+    "dy": 0
+   },
+   {
+    "crowd": "shop_l118_omu_4",
+    "spec": null,
+    "key": "shop_l118_omu_4|v1@12.49|0",
+    "pose": "sit",
+    "stand": false,
+    "seatD": 0,
+    "dy": 0
+   },
+   {
+    "crowd": "shop_l118_omu_8",
+    "spec": null,
+    "key": "shop_l118_omu_8|v1@12.47|0",
+    "pose": "sit",
+    "stand": false,
+    "seatD": 0,
+    "dy": 0
+   },
+   {
+    "crowd": "shop_l118_omu_9",
+    "spec": null,
+    "key": "shop_l118_omu_9|v1@12.52|0",
+    "pose": "sit",
+    "stand": false,
+    "seatD": 0,
+    "dy": 0
+   },
+   {
+    "crowd": "shop_l118_omu_9",
+    "spec": null,
+    "key": "shop_l118_omu_9|v1@12.52|1",
+    "pose": "sit",
+    "stand": false,
+    "seatD": 0,
+    "dy": 0
+   }
+  ]
+ },
+ "l118_omu 15:00": {
+  "zone": "l118_omu",
+  "kind": "meal",
+  "hour": 15.039355999999957,
+  "open": false,
+  "wins": [
+   [
+    11.5,
+    14.5
+   ],
+   [
+    17,
+    20.5
+   ]
+  ],
+  "cap": 10,
+  "seats": 15,
+  "free": 15,
+  "need": 2,
+  "count": 0,
+  "keep": 5,
+  "keepSeats": 2,
+  "keepBusy": 0,
+  "cust": []
+ },
+ "l118_omu 18:30": {
+  "zone": "l118_omu",
+  "kind": "meal",
+  "hour": 18.54055466666667,
+  "open": true,
+  "wins": [
+   [
+    11.5,
+    14.5
+   ],
+   [
+    17,
+    20.5
+   ]
+  ],
+  "cap": 10,
+  "seats": 15,
+  "free": 5,
+  "need": 2,
+  "count": 9,
+  "keep": 5,
+  "keepSeats": 2,
+  "keepBusy": 0,
+  "cust": [
+   {
+    "crowd": "shop_l118_omu_0",
+    "spec": null,
+    "key": "shop_l118_omu_0|v3@17.97|0",
+    "pose": "sit",
+    "stand": false,
+    "seatD": 0,
+    "dy": 0
+   },
+   {
+    "crowd": "shop_l118_omu_1",
+    "spec": null,
+    "key": "shop_l118_omu_1|v4@17.85|0",
+    "pose": "sit",
+    "stand": false,
+    "seatD": 0,
+    "dy": 0
+   },
+   {
+    "crowd": "shop_l118_omu_2",
+    "spec": null,
+    "key": "shop_l118_omu_2|v4@18.19|0",
+    "pose": "sit",
+    "stand": false,
+    "seatD": 0,
+    "dy": 0
+   },
+   {
+    "crowd": "shop_l118_omu_3",
+    "spec": null,
+    "key": "shop_l118_omu_3|v3@18.09|0",
+    "pose": "sit",
+    "stand": false,
+    "seatD": 0,
+    "dy": 0
+   },
+   {
+    "crowd": "shop_l118_omu_6",
+    "spec": null,
+    "key": "shop_l118_omu_6|v4@17.92|0",
+    "pose": "sit",
+    "stand": false,
+    "seatD": 0,
+    "dy": 0
+   },
+   {
+    "crowd": "shop_l118_omu_8",
+    "spec": null,
+    "key": "shop_l118_omu_8|v3@18.30|0",
+    "pose": "sit",
+    "stand": false,
+    "seatD": 0,
+    "dy": 0
+   },
+   {
+    "crowd": "shop_l118_omu_8",
+    "spec": null,
+    "key": "shop_l118_omu_8|v3@18.30|1",
+    "pose": "sit",
+    "stand": false,
+    "seatD": 0,
+    "dy": 0
+   },
+   {
+    "crowd": "shop_l118_omu_9",
+    "spec": null,
+    "key": "shop_l118_omu_9|v3@18.14|0",
+    "pose": "sit",
+    "stand": false,
+    "seatD": 0,
+    "dy": 0
+   },
+   {
+    "crowd": "shop_l118_omu_4",
+    "spec": null,
+    "key": "shop_l118_omu_4|v5@18.52|0",
+    "pose": "walk",
+    "stand": false,
+    "seatD": null,
+    "dy": null
+   }
+  ]
+ },
+ "l118_omu 22:45": {
+  "zone": "l118_omu",
+  "kind": "meal",
+  "hour": 22.78868866666666,
+  "open": false,
+  "wins": [
+   [
+    11.5,
+    14.5
+   ],
+   [
+    17,
+    20.5
+   ]
+  ],
+  "cap": 10,
+  "seats": 15,
+  "free": 15,
+  "need": 2,
+  "count": 0,
+  "keep": 5,
+  "keepSeats": 2,
+  "keepBusy": 0,
+  "cust": []
+ },
+ "l118_noodle2 12:30": {
+  "zone": "l118_noodle2",
+  "kind": "meal",
+  "hour": 12.541666666666773,
+  "open": true,
+  "wins": [
+   [
+    11,
+    14
+   ],
+   [
+    17,
+    20
+   ]
+  ],
+  "cap": 10,
+  "seats": 16,
+  "free": 8,
+  "need": 2,
+  "count": 7,
+  "keep": 0,
+  "keepSeats": 2,
+  "keepBusy": 1,
+  "cust": [
+   {
+    "crowd": "shop_l118_noodle2_2",
+    "spec": null,
+    "key": "shop_l118_noodle2_2|v1@11.95|0",
+    "pose": "sit",
+    "stand": false,
+    "seatD": 0,
+    "dy": 0
+   },
+   {
+    "crowd": "shop_l118_noodle2_2",
+    "spec": null,
+    "key": "shop_l118_noodle2_2|v1@11.95|1",
+    "pose": "sit",
+    "stand": false,
+    "seatD": 0,
+    "dy": 0
+   },
+   {
+    "crowd": "shop_l118_noodle2_5",
+    "spec": null,
+    "key": "shop_l118_noodle2_5|v1@12.50|0",
+    "pose": "sit",
+    "stand": false,
+    "seatD": 0,
+    "dy": 0
+   },
+   {
+    "crowd": "shop_l118_noodle2_5",
+    "spec": null,
+    "key": "shop_l118_noodle2_5|v1@12.50|1",
+    "pose": "sit",
+    "stand": false,
+    "seatD": 0,
+    "dy": 0
+   },
+   {
+    "crowd": "shop_l118_noodle2_6",
+    "spec": null,
+    "key": "shop_l118_noodle2_6|v1@12.34|0",
+    "pose": "sit",
+    "stand": false,
+    "seatD": 0,
+    "dy": 0
+   },
+   {
+    "crowd": "shop_l118_noodle2_7",
+    "spec": null,
+    "key": "shop_l118_noodle2_7|v2@12.40|0",
+    "pose": "sit",
+    "stand": false,
+    "seatD": 0,
+    "dy": 0
+   },
+   {
+    "crowd": "shop_l118_noodle2_7",
+    "spec": null,
+    "key": "shop_l118_noodle2_7|v2@12.40|1",
+    "pose": "sit",
+    "stand": false,
+    "seatD": 0,
+    "dy": 0
+   }
+  ]
+ },
+ "l118_noodle2 15:00": {
+  "zone": "l118_noodle2",
+  "kind": "meal",
+  "hour": 15.03764400000002,
+  "open": false,
+  "wins": [
+   [
+    11,
+    14
+   ],
+   [
+    17,
+    20
+   ]
+  ],
+  "cap": 10,
+  "seats": 16,
+  "free": 16,
+  "need": 2,
+  "count": 0,
+  "keep": 0,
+  "keepSeats": 2,
+  "keepBusy": 0,
+  "cust": []
+ },
+ "l118_noodle2 18:30": {
+  "zone": "l118_noodle2",
+  "kind": "meal",
+  "hour": 18.53817666666673,
+  "open": true,
+  "wins": [
+   [
+    11,
+    14
+   ],
+   [
+    17,
+    20
+   ]
+  ],
+  "cap": 10,
+  "seats": 16,
+  "free": 10,
+  "need": 2,
+  "count": 6,
+  "keep": 0,
+  "keepSeats": 2,
+  "keepBusy": 0,
+  "cust": [
+   {
+    "crowd": "shop_l118_noodle2_2",
+    "spec": null,
+    "key": "shop_l118_noodle2_2|v5@18.44|0",
+    "pose": "sit",
+    "stand": false,
+    "seatD": 0,
+    "dy": 0
+   },
+   {
+    "crowd": "shop_l118_noodle2_3",
+    "spec": null,
+    "key": "shop_l118_noodle2_3|v4@18.27|0",
+    "pose": "sit",
+    "stand": false,
+    "seatD": 0,
+    "dy": 0
+   },
+   {
+    "crowd": "shop_l118_noodle2_6",
+    "spec": null,
+    "key": "shop_l118_noodle2_6|v4@18.37|0",
+    "pose": "sit",
+    "stand": false,
+    "seatD": 0,
+    "dy": 0
+   },
+   {
+    "crowd": "shop_l118_noodle2_6",
+    "spec": null,
+    "key": "shop_l118_noodle2_6|v4@18.37|1",
+    "pose": "sit",
+    "stand": false,
+    "seatD": 0,
+    "dy": 0
+   },
+   {
+    "crowd": "shop_l118_noodle2_7",
+    "spec": null,
+    "key": "shop_l118_noodle2_7|v4@17.92|0",
+    "pose": "sit",
+    "stand": false,
+    "seatD": 0,
+    "dy": 0
+   },
+   {
+    "crowd": "shop_l118_noodle2_7",
+    "spec": null,
+    "key": "shop_l118_noodle2_7|v4@17.92|1",
+    "pose": "sit",
+    "stand": false,
+    "seatD": 0,
+    "dy": 0
+   }
+  ]
+ },
+ "l118_noodle2 22:45": {
+  "zone": "l118_noodle2",
+  "kind": "meal",
+  "hour": 22.78759933333323,
+  "open": false,
+  "wins": [
+   [
+    11,
+    14
+   ],
+   [
+    17,
+    20
+   ]
+  ],
+  "cap": 10,
+  "seats": 16,
+  "free": 16,
+  "need": 2,
+  "count": 0,
+  "keep": 0,
+  "keepSeats": 2,
+  "keepBusy": 0,
+  "cust": []
+ }
+}
