@@ -1,0 +1,23 @@
+{
+  "rerun": "",
+  "id": "PE_ctl",
+  "sha": "c6814325c",
+  "kind": "probe",
+  "script": "docs/story_planning/test_tools/cc/cc_pe_in_gym_probe.py",
+  "env": "CASES=A;CC_HEADLESS=0",
+  "machine": "MSI",
+  "start": "2026-11-04T07:07:16",
+  "end": "2026-11-04T07:09:08",
+  "seconds": 111,
+  "exit": 1,
+  "error": null,
+  "runner": "9bde5687ff",
+  "rf_round": "22",
+  "url": "http://127.0.0.1:8811/index.html",
+  "res_peak": {
+    "cpu": 80,
+    "mem": 59,
+    "used_gb": 18.5,
+    "chrome_testing": 27
+  }
+}

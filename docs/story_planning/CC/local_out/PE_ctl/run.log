@@ -1,0 +1,22 @@
+[gpu_wrap] CC_GPU=1 跑 C:\Users\USER\Documents\Lawstudent_cclocal\docs\story_planning\test_tools\cc\cc_pe_in_gym_probe.py http://127.0.0.1:8811/index.html C:\Users\USER\Documents\Lawstudent_cclocal\docs\story_planning\CC\local_out\PE_ctl\out
+PASS 遊戲載入
+  [前置／捷徑] 讀檔：2025-09-22（一，day 6）13:00 校園體育館門口南邊（條件事件關閉）
+PASS 前置：這天下午有一堂可以上的體育課（門口 gym）  {"h": 15, "id": "pe_y1s1", "name": "體育"}
+== A 門口
+  [前置／捷徑] 讀檔到 15.05 時、體育館門口南邊 (74, 54)
+PASS A：有「體育館」互動點  {"x": 74, "z": 59.4, "r": 1.6, "label": "體育館", "lv": 0, "y": null}
+  到達「體育館」附近（0.23 m）：點地面 1 次、轉鏡頭 0 次、搖桿 0 次，3 秒
+PASS A：走到「體育館」
+PASS A：互動按鈕是「體育館…」  體育館
+PASS A：選單有「進去上課…」並選了它  進去上課：體育15:30–17:20（點對話可以略過）
+  A 第一句：{"zone": "campus", "x": 74, "z": 59.17, "adv": true, "bg": "blur", "freeze": false, "dlg": true, "name": "老師", "text": "體育會點名。不會每次點。", "choices": [], "it": {"id": "pe_y1s1", "name": "體育", "st": "open"}}
+  老師     體育會點名。不會每次點。
+  老師     鞋子穿對，不要受傷。受傷的不算請假，算我的麻煩
+  （旁白）   （老師今天點名。）
+  （旁白）   體育老師：期中測驗：跑步。量的是你自己的進步。
+FAIL A ① 上課第一句時人已經在體育館（zone＝gym）  {"zone": "campus", "x": 74, "z": 59.17, "adv": true, "bg": "blur", "freeze": false, "dlg": true, "name": "老師", "text": "體育會點名。不會每次點。", "choices": [], "it": {"id": "pe_y1s1", "name": "體育", "st": "open"}}
+FAIL A ② 站在球場中圈前 (0,−2.6) 1.2 m 內  [74, 59.17]
+FAIL A ③ 上課時 ADV 背景是館內 3D（bgMode＝freeze）  {"adv": true, "bg": "blur", "freeze": false}
+PASS A ④ 下課後這堂課記成上過（done）  done；下課後 {"zone": "campus", "x": 74, "z": 59.17, "adv": false, "bg": "blur", "freeze": false, "dlg": false, "name": "", "text": "體育老師：期中測驗：跑步。量的是你自己的進步。", "choices": [], "it": null}
+PASS 沒有 JS 例外  []
+FAILED 3: A ① 上課第一句時人已經在體育館（zone＝gym）；A ② 站在球場中圈前 (0,−2.6) 1.2 m 內；A ③ 上課時 ADV 背景是館內 3D（bgMode＝freeze）
