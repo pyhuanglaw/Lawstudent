@@ -19,15 +19,15 @@
 # ===== P0（BB 11:32，使用者經 LAWWW：「要瀏覽器測試的請 bb 優先建」）：v9.10.18 發布樹 0776cafc8（候選 ffeec06e0＋版本字樣），TESTING.md 第五節，排最前面 =====
 # ===== BB 12:12：v9.10.18 已上線（main e8b6a84dd，PR #24）：線上版驗證，測試程式取自發布樹 0776cafc8 =====
 # ===== CC 23:0x 順序（BB 22:59）：YT3FM 四支 → 體育課在館裡（PE）、大地圖直接過去（MAP）→ N20 其他 → YT3 → ART；店面渲染最後（等 LAWWW2 的規則）=====
-# （PE_fix 4ce25dc1d 要 PASS、PE_ctl c6814325c（修正前）A 要 FAIL；MAP_fix bf6dbda44 要 PASS、MAP_ctl 4ce25dc1d（修正前）M ① 要 FAIL）
+# （PE_fix 4ce25dc1d 要 PASS、PE_ctl c6814325c（修正前）A 要 FAIL；MAP_fix f157d0ff6 要 PASS、MAP_ctl bf6dbda44（還有「帶我去」）① 要 FAIL；BB 23:0x 改條件）
 YT3FM_new  | 9d8e00fdc | probe | docs/story_planning/test_tools/cc/cc_yt_newgame_fm120_probe.py | index.html | 5 | CC_HEADLESS=0
 YT3FM_newc | d2b962a3f | probe | docs/story_planning/test_tools/cc/cc_yt_newgame_fm120_probe.py | index.html | 5 | CC_HEADLESS=0
 YT3FM_fix  | 9d8e00fdc | probe | docs/story_planning/test_tools/cc/cc_yutong_v3_probe.py | index.html | 15 | CASES=tea_first;CASE_S=900;CC_HEADLESS=0
 YT3FM_ctl  | d2b962a3f | probe | docs/story_planning/test_tools/cc/cc_yutong_v3_probe.py | index.html | 15 | CASES=tea_first;CASE_S=900;CC_HEADLESS=0
 PE_fix     | 4ce25dc1d | probe | docs/story_planning/test_tools/cc/cc_pe_in_gym_probe.py | index.html | 25 | CC_HEADLESS=0
 PE_ctl     | c6814325c | probe | docs/story_planning/test_tools/cc/cc_pe_in_gym_probe.py | index.html | 25 | CASES=A;CC_HEADLESS=0
-MAP_fix    | bf6dbda44 | probe | docs/story_planning/test_tools/cc/cc_map_friend_go_probe.py | index.html | 20 | CC_HEADLESS=0
-MAP_ctl    | 4ce25dc1d | probe | docs/story_planning/test_tools/cc/cc_map_friend_go_probe.py | index.html | 20 | CASES=M;CC_HEADLESS=0
+MAP_fix    | f157d0ff6 | probe | docs/story_planning/test_tools/cc/cc_map_friend_go_probe.py | index.html | 30 | CC_HEADLESS=0
+MAP_ctl    | bf6dbda44 | probe | docs/story_planning/test_tools/cc/cc_map_friend_go_probe.py | index.html | 30 | CASES=M,P;CC_HEADLESS=0
 N20_libcorner  | d2b962a3f | probe | docs/story_planning/test_tools/cc/cc_lib_corner_shot_probe.py | index.html | 15 | CC_HEADLESS=0
 ART_V20_XHG    | d2b962a3f | probe | docs/story_planning/test_tools/cc/cc_art_v20_shots_probe.py | index.html | 15 | CASES=xinhai_ground;CC_HEADLESS=0
 N20_tour_tap8  | d2b962a3f | probe | docs/story_planning/test_tools/cc/cc_lib_tour2_probe.py | index.html | 90 | SOLO=1;MODE=tap;PHOTO=1;CC_HEADLESS=0;RERUN=v20
