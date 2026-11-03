@@ -78,7 +78,7 @@ const Y1FILL_EVENTS=(function(){
         {speaker:null,text:'（寒假的日常失速，客人只有兩桌。語彤坐在靠窗的位子，圍裙還塞在背包裡。）'},
         {speaker:'heroine_03',text:'你來了。'},
         {speaker:'heroine_03',text:'下班以後，我不想一個人吃。……蘇姨說這家的厚片可以。'},
-        {speaker:'（這一行換成旁白）（一隻虎斑貓從隔壁椅子跳下來，走到她腳邊。）＋語彤：牠叫店長。……牠不讓我摸。',text:'她包的比我包的好看。不要跟她說。'},
+        {speaker:null,text:'（一隻虎斑貓從隔壁椅子跳下來，走到她腳邊。）'},{speaker:'heroine_03',text:'牠叫店長。……牠不讓我摸。'},   /* AA_630 Z-063：阿姨那一行換成旁白＋語彤一句 */
         {choice:[{text:'「（點一份明太子厚片）」',goto:'a'},{text:'「妳寒假都在台北？」',goto:'b'}]},
         {label:'a'},{speaker:null,text:'（厚片送來了。她把邊撕下來，放到你盤子上。）'},{speaker:'heroine_03',text:'邊邊最好吃。你吃到了。'},{goto:'e'},
         {label:'b'},{speaker:'heroine_03',text:'嗯。週末回來上班。過年那一個禮拜回家。'},

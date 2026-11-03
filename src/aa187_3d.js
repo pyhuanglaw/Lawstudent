@@ -14,7 +14,7 @@
        (b) ev_yt_umbrella_hook：大三上第一個下雨的週二（下雨＝rain／typhoon、麵店那天有開；遊戲的天氣每天隨機，所以「第一個」＝遊戲裡第一次遇到的那一個，S.umbDay 在 TICKS 記下來），
            有 HELPED（大一把傘給她）的玩家那天走進麵店：旁白一句，只一次。櫃台後面那把傘的 3D 模型不在這裡（3D 美術歸 LAWWW2）。
    ■ 2-3 打烊後的那一桌 ev_yt_family_dinner：2029-04-26（四）20:30～21:00 人在麵店（3D）、和語彤交往中＝演（只一次），記 YT_FAMILY_DINNER；
-       當天 17:00 語彤私訊兩則；21:00 還沒演＝兩則（「su=t=>({speaker:'蘇姨',text:t})說下次」…）。尾聲（postgrad3d.js epilogue）語彤的句子前面多一句旁白（交往中、有 YT_FAMILY_DINNER）。
+       當天 17:00 語彤私訊兩則；21:00 還沒演＝兩則（「阿姨說下次」…）。尾聲（postgrad3d.js epilogue）語彤的句子前面多一句旁白（交往中、有 YT_FAMILY_DINNER）。
    ■ 2-4 週四的斜對面 ev_yt_thu_seat：和語彤交往中、事件 13 以後（STORY.ytThuFree）、週四 17:30～18:30 在總圖三樓（zone library）坐下、她在旁邊（npcNear：2.5 m 內或同一張桌子＝「斜對面」），
        四組照順序輪、每個月最多一次（「下雨了」那一組只在下雨）。cracktalk3d.js 已經有的是 12:10 那則「斜對面的位子我留了。」（和輪的四句私訊），坐下以後的這四組遊戲裡沒有，不重複。
        那天是語彤的裂縫談話（ev_yt_talk，人到三樓就演）＝不出。
@@ -103,17 +103,18 @@ const AA187=(function(){
   S.FD_MISS=['蘇姨說下次','她多煮了一碗 我吃掉了'];
   S.FD_EPI='（語彤的手機桌布，是茶屋吧檯那張照片：三個人，一張桌子。）';
   S.fdOk=G=>law(G)&&G.day===D(S.FD_DAY)&&dating(G,YT)&&here(YT,G)&&!abroad(G);
-  S.EV_FD={id:'ev_yt_family_dinner',title:'她家的晚餐',participants:[YT],location:'wz_teahouse',trigger:'auto',once:true,time:[20.5,21],background:'blur',
+  S.EV_FD={id:'ev_yt_family_dinner',title:'打烊後的那一桌',participants:[YT],location:'wz_teahouse',trigger:'auto',once:true,time:[20.5,21],background:'blur',
     prereq:{custom:G=>S.fdOk(G)},
-    dialogue:[ nar('（鐵門拉下一半。桌上擺了三副碗筷。）'),
-      aunt('坐。今天你不是客人。'),
+    /* AA_630 Y-006（AA 定稿）：一盞茶屋打烊後的吧檯，第三個人＝蘇姨；「日本的寺廟」那一組拿掉 */
+    dialogue:[ nar('（茶屋門口的燈關了。吧檯上擺了三副碗筷。）'),
+      su('坐。今天你不是客人。'),
       nar('（語彤把自己那碗推過來一點，又推回去。）'),
-      aunt('她以前不讓同學進廚房的。'),
-      yt('……秀琴姨。'),
-      aunt('日本的寺廟，我幫你們兩個都拜了。'),
-      yt('（低頭吃麵）……我們沒有要你拜。'),
-      aunt('我拜我的。'),
-      nar('（回去的路上，她說今天的麵比較鹹。你說沒有。她說有。）'),
+      su('她在這裡快四年，第一次坐在吧檯這一邊。'),
+      yt('……蘇姨。'),
+      su('菜是我煮的，茶是她泡的。兩個都要說好吃。'),
+      yt('（低頭吃飯）……茶不用說。'),
+      su('我說的。'),
+      nar('（回去的路上，她說今天的茶泡得太濃。你說沒有。她說有。）'),
       {set:{YT_FAMILY_DINNER:true}} ]};
   S.phone=function(G){ if(!law(G)||typeof PHONE==='undefined') return; const d=D(S.FD_DAY); if(d==null||G.day<d||G.day>d+1) return;
     if(G.day===d&&now(G)>=d*24+17&&dating(G,YT)&&here(YT,G)&&!abroad(G)&&!sent(G,'aa187_fd')) PHONE.at(G,d,17,S.FD_MSG.map(t=>DM(YT,t)),'aa187_fd');
@@ -136,6 +137,7 @@ const AA187=(function(){
     dialogue:[ {call:G=>{ S.seatPick(G); }}, ...rotLines(S.SEAT,'YT_SEAT4_CUR') ]};
 
   /* ===================== 掛勾 ===================== */
+  S.EV_UMB.retired=true;   /* AA_630 Y-007：整個 ev_yt_umbrella_hook 刪（新的雨天總圖沒有借傘、她也不在麵店；定義留給舊存檔）*/
   S.EVENTS=[S.EV_COUNTED,S.EV_WALK,S.EV_UMB,S.EV_FD,S.EV_SEAT];
   for(const e of S.EVENTS) if(!STORY_EVENTS.some(x=>x.id===e.id)){
     /* 坐下的事件（STORY.onSeat 挑清單裡第一個符合的）：排在總圖三樓隨機的「插座」（ev_library_outlet，random_weight 0.5）前面——劇情先演，同 EVENTS.onEnter 的「先劇情、再隨機」*/

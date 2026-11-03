@@ -48,8 +48,9 @@ button{font-family:var(--font);cursor:pointer}
 #dlg.static.side{left:max(14px,env(safe-area-inset-left));transform:none;width:calc(100% - min(400px,calc(100% - 28px)) - 42px - env(safe-area-inset-left) - env(safe-area-inset-right))}
 #choices button:active{background:rgba(233,185,106,.9);color:#1c1a17}
 #choices .hint{font-size:12px;color:#b7b0a4;margin-top:3px}
-#nameCard{position:absolute;left:50%;top:calc(max(8px,env(safe-area-inset-top)) + 52px);transform:translateX(-50%);max-width:calc(100% - 32px);padding:5px 14px;border-radius:14px;background:rgba(20,22,30,.72);color:#f3efe6;font-size:13px;letter-spacing:.04em;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;pointer-events:none;opacity:0;z-index:60;transition:opacity .6s ease}   /* AA_637 第 3 節名字卡（src/friends2_3d.js）：淡入 3 秒淡出、不擋點擊 */
+#nameCard{position:fixed;left:50%;top:calc(max(8px,env(safe-area-inset-top)) + 108px);transform:translateX(-50%);max-width:calc(100% - 32px);padding:5px 14px;border-radius:14px;background:rgba(20,22,30,.72);color:#f3efe6;font-size:13px;letter-spacing:.04em;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;pointer-events:none;opacity:0;z-index:9999;transition:opacity .6s ease}   /* AA_637 第 3 節名字卡（src/friends2_3d.js）：淡入 3 秒淡出、不擋點擊 */
 #nameCard.nc-in{opacity:1}#nameCard.nc-out{opacity:0}
+@media (orientation:portrait){#nameCard{top:calc(max(8px,env(safe-area-inset-top)) + 160px)}}   /* 直向、橫向都在上面那一排（紀錄、略過對話、存檔）和通知（#toast）的下面、對話框上面 */
 #caption{position:absolute;left:50%;bottom:calc(max(14px,env(safe-area-inset-bottom)) + 66px);transform:translateX(-50%);width:max-content;max-width:min(620px,calc(100% - 340px));background:rgba(20,22,28,.7);border-radius:10px;padding:8px 14px;font-size:14px;line-height:1.5;color:#f4efe6;text-align:center;pointer-events:none;transition:opacity .3s}
 #caption b{color:var(--accent);font-weight:500;margin-right:6px}
 #ui:has(#dlg:not(.hide)) #caption{bottom:calc(max(14px,env(safe-area-inset-bottom)) + var(--dlgH,112px) + 8px)}   /* UX-BOARDCAP-LAND（BB 16:49，CC_27 截圖 21）：對話框出現時字幕推到對話框上面（橫向第 8 週黑板兩行時疊 14 px）；--dlgH＝對話框高度（game3d.js ResizeObserver）*/

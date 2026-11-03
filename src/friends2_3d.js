@@ -152,7 +152,7 @@ const FRIENDS2=(function(){
   S.onSay=function(G,who){ if(!G||!G.flags||(G.stage||'law')!=='law') return null; const id=idOfWho(who); if(!id||G.flags['NAMECARD_'+id]) return null;
     if(String((who&&who.name)||'').includes('（手機）')) return null;   /* 對話框裡的手機訊息不算「說話」 */
     G.flags['NAMECARD_'+id]=true; const t=S.cardText(id); S.shown=t; S.show(t); return t; };
-  S.show=function(t){ if(typeof document==='undefined'||!document.createElement) return; let el=document.getElementById('nameCard'); if(!el){ el=document.createElement('div'); el.id='nameCard'; (document.getElementById('ui')||document.body).appendChild(el); }
+  S.show=function(t){ if(typeof document==='undefined'||!document.createElement) return; let el=document.getElementById('nameCard'); if(!el){ el=document.createElement('div'); el.id='nameCard'; document.body.appendChild(el); }   /* body 底下＋position:fixed：蓋在 ADV 立繪、背景那一層上面（#ui 裡面會被立繪那一層蓋住）*/
     el.textContent=t; el.classList.remove('nc-out'); el.classList.add('nc-in'); clearTimeout(S._t); S._t=setTimeout(()=>{ el.classList.remove('nc-in'); el.classList.add('nc-out'); },3000); };
   /* 舊存檔：已經認識的（記憶 FIRST_MET、熟悉度不是陌生人、演過名片場）不出現；NAMECARD_V＝這一版以後的新遊戲不用看（game3d.js defaults）*/
   S.known=function(s,id){ const F0=s.flags||{}; if(F0['FRIEND_CARD_'+id]) return true; const M=s.social&&s.social.mem&&s.social.mem[id]; if(Array.isArray(M)&&M.length) return true;
