@@ -441,3 +441,12 @@
 [07:06:08] ==== START PE_fix  (probe @ 4ce25dc1d) ====
 [07:06:13] [res] cpu=82% mem=51% (16.0/31.4 GB) chrome_testing=17  START PE_fix
 [07:07:07] [res] cpu=51% mem=54% (17.1/31.4 GB) chrome_testing=17  END YT3FM_fix
+    To https://github.com/pyhuanglaw/Lawstudent.git
+       003977dbd..96c828990  claude/cc-local -> claude/cc-local
+    branch 'claude/cc-local' set up to track 'origin/claude/cc-local'.
+[07:07:14] ==== END   YT3FM_fix  exit=1  164s   ====
+[07:07:16] memory 55% before starting PE_ctl (2 running)
+[07:07:16] ==== START PE_ctl  (probe @ c6814325c) ====
+[07:07:19] 正在跑：YT3FM_ctl（已跑 1 分／上限 15 分）、PE_fix（已跑 1 分／上限 25 分）、PE_ctl（已跑 0 分／上限 25 分）——還沒測完，請不要關 (tests still running - please do not close)
+[07:07:20] [res] cpu=67% mem=56% (17.6/31.4 GB) chrome_testing=17  START PE_ctl
+[07:08:07] [res] cpu=51% mem=54% (16.5/31.4 GB) chrome_testing=18  END YT3FM_ctl
