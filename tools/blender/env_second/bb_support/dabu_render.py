@@ -1,5 +1,5 @@
 """大步球鞋室內 v2 的 Cycles 預覽（CC 建模子代理 2026-11-03；和參考圖 dabu_int 同角度比對用，不是遊戲截圖）。
-用法：nice -n 15 /opt/blenv/bin/python tools/blender/env_second/bb_support/dabu_render.py -- <glb> <輸出資料夾> <views.json|ref> [--spots spots.json] [--res 480x270] [--samples 16] [--exposure EV] [--only 名稱,…]
+用法：nice -n 15 /opt/blenv/bin/python tools/blender/env_second/bb_support/dabu_render.py -- <glb> <輸出資料夾> <views.json|ref>（視角：docs/story_planning/CC/shots/model/dabu/dabu_views.json；投射燈：同資料夾 dabu_spots.json，dabu_interior.py --spots 產生） [--spots spots.json] [--res 480x270] [--samples 16] [--exposure EV] [--only 名稱,…]
   views.json：[["名稱", [眼睛 x,y,z], [看的點 x,y,z], 焦距mm], ...]（遊戲座標、36 mm 片幅）；寫 ref＝只渲染 dabu_layout.js 的 refView（參考圖的鏡頭）
 燈光（照參考圖：暖色 3000K 左右的軌道投射燈打在鞋牆、層板下燈條、吊燈、櫃台燈條；門口那一側進來的午後陽光；環境光很低）：
   - 投射燈：spots.json（dabu_interior.py --spots 輸出：每個燈頭的位置、方向）→ SPOT 燈
