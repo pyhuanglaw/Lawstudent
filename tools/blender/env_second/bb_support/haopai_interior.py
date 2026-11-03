@@ -804,7 +804,7 @@ for ob in list(root.children):
 L.merge_by_material(root, keep=lambda ob: 'FACE' in ob.name, key=lambda ob: ('WALL_' + ob.name.split('_')[1]) if ob.name.startswith('WALL_') else '')
 for ob in root.children:
     if ob.type == 'MESH' and ob.name.startswith('WALL_') and 'dir' not in ob: ob['dir'] = DIRS[ob.name.split('_')[1]]
-ss = L.single_side(root, keep=r'glass', nodup=r'hp_(plaster|wood|floor_tile|ceiling|goods|sign|emit|alpha)')
+ss = None if os.environ.get('HP_NOSS') else L.single_side(root, keep=r'glass', nodup=r'hp_(plaster|wood|floor_tile|ceiling|goods|sign|emit|alpha)')
 info = L.export(OUT, gpu_instances=True)
 
 
