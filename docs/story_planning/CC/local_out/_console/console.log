@@ -466,3 +466,11 @@
 [10:31:48] ==== START 20_roll  (probe @ 4c8f138f7) ====
 [10:31:51] [res] cpu=20% mem=45% (14.1/31.4 GB) chrome_testing=18  START 20_roll
 [10:35:17] [res] cpu=69% mem=43% (13.5/31.4 GB) chrome_testing=18  END 32_wsem
+    To https://github.com/pyhuanglaw/Lawstudent.git
+       9ee803964..df4c5f6a6  claude/cc-local -> claude/cc-local
+    branch 'claude/cc-local' set up to track 'origin/claude/cc-local'.
+[10:35:26] ==== END   32_wsem  exit=1  743s   ====
+[10:35:28] memory 46% before starting 21_rollpre (2 running)
+[10:35:28] ==== START 21_rollpre  (probe @ 82f8d28c5) ====
+[10:35:32] [res] cpu=29% mem=47% (14.7/31.4 GB) chrome_testing=18  START 21_rollpre
+[10:37:47] [res] cpu=14% mem=48% (15.3/31.4 GB) chrome_testing=12  END 33_wsempre
