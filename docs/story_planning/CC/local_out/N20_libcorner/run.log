@@ -1,0 +1,21 @@
+[gpu_wrap] CC_GPU=1 跑 C:\Users\USER\Documents\Lawstudent_cclocal\docs\story_planning\test_tools\cc\cc_lib_corner_shot_probe.py http://127.0.0.1:8813/index.html C:\Users\USER\Documents\Lawstudent_cclocal\docs\story_planning\CC\local_out\N20_libcorner\out
+PASS 遊戲載入
+  [前置／捷徑] 讀檔 library_hall 第 0 層 (11.39, -2.8)，2025-09-19 15:40
+  導航格（x 9.89→12.89，z 由上往下 -4.30→-1.30）：
+    .......######
+    .......######
+    ........#####
+    ........#####
+    ........#####
+    ........#####
+    ......@######
+    .......######
+    #############
+    #############
+    #############
+    #############
+    #############
+  搖桿各推 1 秒走了幾公尺：{"前": 0.0, "左": 0.0, "右": 0.0, "後": 0.0}
+FAIL 至少一個方向走得出去（≥ 0.3 m）＝沒有被困住  {"前": 0.0, "左": 0.0, "右": 0.0, "後": 0.0}
+PASS 沒有 JS 例外  []
+FAILED 1: 至少一個方向走得出去（≥ 0.3 m）＝沒有被困住
