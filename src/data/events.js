@@ -194,47 +194,23 @@ const ZHE_FIRST_TABLE=[ {unless:{custom:ZHE_FIRST_TABLE_YU},goto:'zft_main'},
   {speaker:'zhe',expression:'smile',text:'（對你）這家便宜，又近。之後想吃飯就來，遇到就一起坐。'} ];
 const STORY_EVENTS=[
   // ────────────────────────────────────────── 語彤：雨天圖書館門口（Vertical Slice）
-  /* AA_140 G06（2026-10-16）：週二、週四 17:30～20:30 語彤在麵店（AA_110 6-3），這個時段不觸發；台詞不改 */
-  { id:'ev_rain_library_door', title:'雨天的總圖門口', participants:['heroine_03'], location:'campus', near:{x:81,z:0,r:7}, trigger:'auto', time:[18,23], weather:'rain', day_min:3, once:true, prereq:{custom:G=>!([2,4].includes(G.weekday)&&(G.hour%24)>=17.5&&(G.hour%24)<20.5),notMemory:[{npc:'heroine_03',tag:'FIRST_MET'}]},   /* AA_120 7-5 第 1 項：不下雨的版本（ev_library_door_phone）認識以後，下雨天不再演一次初遇；對話一個字都不動 */
+  /* AA_625 第 1 節（使用者 11-03 重寫；AA 定稿 D109，一字照稿）：已經在一盞茶屋認識（YT_MET_JOB，events3d.js X.check 對 participants 有 heroine_03 的事件一律要）。
+     她忘了帶傘，祐廷陪她在門口躲雨；雨停，她要回家，在新生南路。記 SHARED_UMBRELLA（名稱照舊；這一版沒有傘，意思是「一起躲過雨」）、rain_umbrella 'wait'。
+     原本四個選項的版本（傘給她、便利商店、我也沒帶）作廢；舊存檔演過的照舊（once）。認識她不再從這裡（FIRST_MET 在茶屋第一班記）*/
+  { id:'ev_rain_library_door', title:'雨天的總圖門口', participants:['heroine_03'], location:'campus', near:{x:81,z:0,r:7}, trigger:'auto', time:[18,23], weather:'rain', day_min:3, once:true, prereq:{flags:['YT_MET_JOB'],notMemory:[{npc:'heroine_03',tag:'SHARED_UMBRELLA'}]},
     spawn:{npc:'heroine_03',at:{x:80.5,z:2.6},pose:'idle'}, background:'blur', cg_id:'cg_library_rain_heroine03',
     dialogue:[
-      {speaker:null,text:'總圖門口的屋簷下站著一個人。雨很大，她看著雨，沒有要走的意思。'},
-      {speaker:'heroine_03',expression:'neutral',text:'……'},
-      {speaker:'heroine_03',expression:'neutral',text:'……我沒帶傘。'},
-      {speaker:null,text:'你在圖書館看過她幾次。社會系的樣子，總是坐在靠窗那排，很安靜。'},
-      {choice:[
-        {text:'「一起走吧。」',hint:'你有傘',consequences:{mem:[{npc:'heroine_03',tag:'SHARED_UMBRELLA',note:'雨天總圖門口'},{npc:'heroine_03',tag:'RAIN_LIBRARY'}],rel:{heroine_03:{fam:8,comf:6,trust:4}},flags:{rain_umbrella:'share'}},goto:'share'},
-        {text:'「我的給妳，我等等搭車。」',consequences:{mem:[{npc:'heroine_03',tag:'HELPED',note:'把傘給她'},{npc:'heroine_03',tag:'RAIN_LIBRARY'}],rel:{heroine_03:{fam:6,trust:7,resp:4}},flags:{rain_umbrella:'give'},energy:-6},goto:'give'},
-        {text:'「便利商店應該有賣。」',consequences:{mem:[{npc:'heroine_03',tag:'RAIN_LIBRARY'}],rel:{heroine_03:{fam:3}},flags:{rain_umbrella:'cvs'}},goto:'cvs'},
-        {text:'「我也沒帶。」',consequences:{mem:[{npc:'heroine_03',tag:'RAIN_LIBRARY'}],rel:{heroine_03:{fam:4,comf:3}},flags:{rain_umbrella:'none'}},goto:'none'} ]},
-      {label:'share'},
-      {speaker:'heroine_03',expression:'surprised',text:'……可以嗎？'},
-      {speaker:'player',text:'反正我也要往校門走。'},
-      {speaker:'heroine_03',expression:'smile',text:'嗯。'},
-      {speaker:null,text:'一把傘兩個人，走到椰影大道的時候你的左肩已經濕了。她一路沒說話，到校門口才開口。'},
-      {speaker:'heroine_03',expression:'neutral',text:'我叫陳語彤。社會系。……你是法律系的吧，我看過你在三樓。'},
-      {speaker:'heroine_03',expression:'smile',text:'謝謝。改天還你一把傘。'},
-      {goto:'end'},
-      {label:'give'},
-      {speaker:'heroine_03',expression:'surprised',text:'那你怎麼辦？'},
-      {speaker:'player',text:'公車站就在對面。'},
-      {speaker:'heroine_03',expression:'thinking',text:'……你會濕掉。'},
-      {speaker:null,text:'她接過傘，看了你三秒，像在決定要不要記住你的臉。'},
-      {speaker:'heroine_03',expression:'neutral',text:'我叫陳語彤。傘我會還。你哪一系？'},
-      {goto:'end'},
-      {label:'cvs'},
-      {speaker:'heroine_03',expression:'neutral',text:'……嗯。我知道。'},
-      {speaker:null,text:'她沒有動。你忽然意識到她不是不知道便利商店在哪。'},
-      {speaker:'heroine_03',expression:'tired',text:'今天不想再花錢了。'},
-      {speaker:null,text:'你們在屋簷下站了一會。雨小了一點，她說了聲謝謝就走進雨裡。'},
-      {goto:'end'},
-      {label:'none'},
-      {speaker:'heroine_03',expression:'smile',text:'……那我們兩個都很慘。'},
-      {speaker:null,text:'她笑了一下，很短。你們並肩看了十分鐘的雨，聊了圖書館三樓哪一排的燈最亮。'},
-      {speaker:'heroine_03',expression:'neutral',text:'我叫陳語彤。社會系的。你呢？'},
-      {label:'end'},   /* AA_313 4-4：最後一行旁白「（她會記得今天。）」刪掉（旁白不替她下結論）*/
-      {unless:{flagIs:{rain_umbrella:'cvs'}},consequences:{memo:'雨天在總圖門口遇到陳語彤'}},
-      {if:{flagIs:{rain_umbrella:'cvs'}},consequences:{memo:{t:'雨天在總圖門口遇到一個借傘的女生',named:'雨天在總圖門口遇到陳語彤',who:'heroine_03'}}} ],   /* AA_372 第 4 項：「便利商店應該有賣。」那一版她沒報名字＝「遇到一個借傘的女生」；之後拿到她的聯絡方式（報了名字）日誌才換成「陳語彤」（STORY.memoText）*/
+      {speaker:null,text:'（總圖門口。雨下得很大。語彤站在屋簷下，手上沒有傘。）'},
+      {speaker:'heroine_03',expression:'neutral',text:'……嗯。我忘了帶傘。'},
+      {choice:[{text:'「我陪妳等一下。」',goto:'wait'},{text:'（站到她旁邊。）',goto:'wait'}]},
+      {label:'wait'},
+      {speaker:null,text:'（你們站在屋簷下。雨打在台階上，濺起來的水碰到鞋子。）'},
+      {speaker:null,text:'（過了二十分鐘，雨停了。）'},
+      {speaker:'player',text:'妳要走去捷運站的方向嗎？'},
+      {speaker:'heroine_03',expression:'neutral',text:'我要回家。……在新生南路。'},
+      {speaker:'player',text:'妳太爽了吧，家裡就住學校對面。'},
+      {speaker:null,text:'（語彤沒說什麼。她看了你一眼，往校門走了。）'},
+      {consequences:{mem:[{npc:'heroine_03',tag:'SHARED_UMBRELLA',note:'雨天總圖門口，一起躲雨'},{npc:'heroine_03',tag:'RAIN_LIBRARY'}],rel:{heroine_03:{fam:4,comf:3}},flags:{rain_umbrella:'wait'},memo:'雨天在總圖門口陪語彤躲雨'}} ],
     consequences:{goal:'自由行動'}, despawn:20, after:(G,GM,npcs)=>{ const n=npcs[0]; if(n){ n.beh='route'; n.waypoints=[[70,-2.5],[40,-2.5],[30,-6]]; n.pauseAt=false; n.talk=null; } } },
   // 沒下雨的另一種初遇
   /* AA_313 4-4：那行是旁白（原本 speaker:'player'，對話框會變成「祐廷：祐廷看了一下手機……」）；選「點個頭就走」直接結束、不記 FIRST_MET（noMeet：開場不替她記認識，
