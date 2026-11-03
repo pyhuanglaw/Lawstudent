@@ -53,7 +53,14 @@ def make_atlas(seed=SEED):
         for name in ('card', 'cardB', 'bang', 'lock', 'shell'):
             x0, x1, y0, y1 = REG[name]; n = int((x1 - x0) * P['grey'] / 2)
             for xx in rng.integers(x0, x1 - 1, n):
-                k = float(rng.uniform(0.55, 0.9)); img[y0:y1, xx:xx + int(rng.integers(1, 3)), :3] = img[y0:y1, xx:xx + 1, :3] * (1 - k) + g * k
+                k = float(rng.uniform(*P.get('grey_k', (0.55, 0.9)))); img[y0:y1, xx:xx + int(rng.integers(1, 3)), :3] = img[y0:y1, xx:xx + 1, :3] * (1 - k) + g * k
+    if P.get('soft'):   # 髮絲條紋柔化（秀琴姨第三版，BB 11-03 17:19「頭髮直條紋太密、像假髮」）：每一區沿著橫向（跨髮絲）做 9 px 的平均，和原圖按 P['soft'] 混合＝保留髮束的明暗、去掉一條一條的細紋
+        s = float(P['soft']); r = 4
+        for name in ('card', 'cardB', 'bang', 'lock', 'shell'):
+            x0, x1, y0, y1 = REG[name]; a = img[y0:y1, x0:x1, :3]
+            pad = np.concatenate([a[:, :1].repeat(r, 1), a, a[:, -1:].repeat(r, 1)], 1); cs = np.cumsum(np.concatenate([np.zeros_like(pad[:, :1]), pad], 1), 1)
+            bl = (cs[:, 2 * r + 1:] - cs[:, :-2 * r - 1]) / (2 * r + 1)
+            img[y0:y1, x0:x1, :3] = a * (1 - s) + bl * s
     return img
 
 

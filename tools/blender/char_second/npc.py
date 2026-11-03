@@ -151,11 +151,11 @@ VARIANTS = {
     #   臉：眼睛小一點、眉平、臉寬一點、下巴寬、腮紅少（50 歲上下）；頭髮：黑灰側分短鮑伯（白頭髮用偏灰的髮色表現）；圍裙是 props3d 的 apron（店裡、家裡才穿）
     'xiuqin': dict(sex='f', base='Darkness_Shibu', head=0.93, height=1.58, iris='#2a1e16',
                  face=dict(EYE_SX=0.94, EYE_SZ=0.48, EYE_TILT=-0.06, BROW_DROP=0.0062, BROW_ARCH=0.22, BROW_K=1.00, LASH_N=10, LASH_L=0.45, IRIS_FRAC=0.50, D_CHIN=0.008, JAW_OUT=0.0042,
-                           FACE_NARROW=1.010, CHIN_WIDEN=0.74, MOUTH_K=1.10, CHEEK_TINT_K=1.0, LIP_OUT=(0.78, 0.53, 0.51), LIP_IN=(0.66, 0.40, 0.41), LIP_A=0.6, AGE_K=1.0),   # 第二版（BB 16:32）：眼小、眼尾下垂、眉低、睫毛少、臉長一點、腮紅拿掉、眼下陰影＋法令紋
-                 hair=dict(seed=20261103, part=-16.0, col=(0.20, 0.19, 0.19), grey=0.22, tip=(0.060, 0.055, 0.060, 0.070, 0.064, 0.056, 0.050, 0.046, 0.046, 0.046), n_main=38, n_outer=22),   # 下巴以上的短髮、黑灰（白頭髮）
+                           FACE_NARROW=1.010, CHIN_WIDEN=0.74, MOUTH_K=1.10, CHEEK_TINT_K=1.0, LIP_OUT=(0.78, 0.53, 0.51), LIP_IN=(0.66, 0.40, 0.41), LIP_A=0.6, AGE_K=1.6),   # 第三版（BB 17:19）：AGE_K 1.0→1.6（法令紋、眼下陰影深一級）   # 第二版（BB 16:32）：眼小、眼尾下垂、眉低、睫毛少、臉長一點、腮紅拿掉、眼下陰影＋法令紋
+                 hair=dict(seed=20261103, part=-16.0, col=(0.20, 0.19, 0.19), grey=0.07, grey_k=(0.30, 0.50), soft=0.65, tip=(0.060, 0.055, 0.060, 0.070, 0.064, 0.056, 0.050, 0.046, 0.046, 0.046), n_main=38, n_outer=22),   # 下巴以上的短髮、黑灰；第三版 grey 0.22、0.55～0.9 → 0.07、0.3～0.5（BB 17:19：整頭一條一條像假髮）；soft 0.65＝髮絲條紋柔化（npc_hair_f.py）
                  layered=dict(style=outer_style(rgb(58, 64, 88), rgb(84, 82, 86), rgb(92, 64, 44), rgb(52, 38, 28), tex='knit', sleeve_k=0.78, ease=0.88, shoe_style='loafer'),
                               skirt=dict(len='long')),
-                 apron=dict(rgb=(0.84, 0.79, 0.69))),   # 黑灰側分短鮑伯＋深靛藍針織衫＋深灰長裙＋棕樂福鞋（圍裙：亞麻米色，只有 bl_xiuqin_apron.vrm 有）
+                 apron=dict(rgb=(0.84, 0.79, 0.69)), skin=(0.90, 0.84, 0.78)),   # skin：膚色乘上去（暗一點、偏暖；BB 17:19「太白太亮，像二十幾歲」）   # 黑灰側分短鮑伯＋深靛藍針織衫＋深灰長裙＋棕樂福鞋（圍裙：亞麻米色，只有 bl_xiuqin_apron.vrm 有）
     'nm9': dict(sex='m', base='HairSample_Male', head=0.93, height=1.72, iris='#2e2218',
                 face=dict(EYE_SX=1.04, EYE_SZ=0.70, EYE_TILT=0.02, BROW_ARCH=0.50, BROW_K=1.50, FACE_NARROW=0.970, CHIN_WIDEN=0.60, JAW_OUT=0.0046, MOUTH_K=1.40),
                 hair=dict(seed=20261219, part=-16.0, col=(0.16, 0.12, 0.10), tip=(-0.010, -0.008, -0.004, 0.004, 0.000, -0.008, -0.014, -0.020, -0.018, -0.016), nape=0.024, vol=0.9, curl=(10, 22)),
@@ -334,7 +334,7 @@ JP_STYLE = {
     'nf5': dict(bang='center', part=0.0), 'nf6': dict(bang='air', flip=0.030), 'nf7': dict(bang='side', flip=0.018), 'nf8': dict(bang='heavy'),
     'nf9': dict(bang='center', part=0.0, wave=0.012), 'nf10': dict(bang='center', part=0.0), 'nf11': dict(bang='side'), 'nf12': dict(bang='air'),
     'nf13': dict(bang='air', flip=0.022), 'nf14': dict(bang='heavy'), 'nf15': dict(bang='center', part=0.0, wave=0.010), 'nf16': dict(bang='air'),
-    'xiuqin': dict(bang='center', part=-4.0, wave=0.016),     'nf17': dict(bang='side', wave=0.008), 'nf18': dict(bang='side', flip=0.024), 'nf19': dict(bang='center', part=0.0, wave=0.014), 'nf20': dict(bang='air', flip=0.020),
+    'xiuqin': dict(bang='center', part=-4.0, wave=0.006),     'nf17': dict(bang='side', wave=0.008), 'nf18': dict(bang='side', flip=0.024), 'nf19': dict(bang='center', part=0.0, wave=0.014), 'nf20': dict(bang='air', flip=0.020),
     'nm2': dict(bang='heavy', tipfront=MASH_M, vol=1.12), 'nm5': dict(bang='heavy', tipfront=MASH_M, vol=1.12),   # nm3 原本 wave=0.004（微捲燙），10-22 改耳上短髮時拿掉（短髮的髮尾捲起來會往外翹）
     'nm8': dict(bang='center', tipfront=CENTER_M, part=0.0, wave=0.004), 'nm9': dict(bang='center', tipfront=CENTER_M, part=0.0),
     'nm10': dict(bang='center', tipfront=CENTER_M, part=0.0), 'nm11': dict(wave=0.004), 'nm12': dict(bang='heavy', tipfront=MASH_M, vol=1.12),
@@ -353,6 +353,22 @@ def hair(m):
     mod.P.update(st)
     if os.environ.get('NPC_HAIR'): mod.P.update(json.loads(os.environ['NPC_HAIR']))   # 試做：不改 VARIANTS，用環境變數蓋掉頭髮參數（JSON）
     mod.apply(m)
+    skin_tint(m)   # 膚色（VARIANTS 有 skin 的人）：放在頭髮這一步，從 --from-blend 重做頭髮時也會套
+
+
+def skin_tint(m):   # VARIANTS 的 skin＝(r,g,b) 乘在所有 *_SKIN 材質（臉、身體）的底色和陰影色上
+    k = VAR.get('skin')
+    if not k: return
+    n = 0
+    for mt in bpy.data.materials:
+        if 'SKIN' not in mt.name: continue
+        try:
+            e = mt.vrm_addon_extension.mtoon1; f = list(e.pbr_metallic_roughness.base_color_factor)
+            e.pbr_metallic_roughness.base_color_factor = (f[0] * k[0], f[1] * k[1], f[2] * k[2], f[3])
+            mt_ = e.extensions.vrmc_materials_mtoon; sc = list(mt_.shade_color_factor)
+            mt_.shade_color_factor = (sc[0] * k[0], sc[1] * k[1], sc[2] * k[2]); n += 1
+        except Exception as ex: print('  skin tint', mt.name, ex)
+    print('  skin tint', k, 'materials', n)
 
 
 def apron(m):   # 圍裙（VARIANTS 有 apron 的人；npc_apron.py）：衣服外面一層貼著身體的布
