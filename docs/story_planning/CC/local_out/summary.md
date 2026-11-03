@@ -512,3 +512,4 @@ fatal: 'C:/Users/USER/Documents/wt_cc_R8_rr2' already exists    [ 135.3s] main_p
       err.log (last 5): [gpu_wrap 1.1s] headed slot 2: --window-position=1840,0 --window-size=900,900 --window-name=CC 測試中，請勿點選 [B245_wind] | [gpu_wrap 249.2s] page close url=http://127.0.0.1:8810/index.html | [gpu_wrap 249.3s] BROWSER DISCONNECTED
 - 2026-11-04T00:55:16  B245_b07  sha=ffeec06e0  exit=0  83s    PASS [land] ③ 點「打開整張地圖」：手機收起來、大地圖（#bigmap）打開  {"bigmap": true, "phone": false} / PASS [land] 沒有 JS 例外  [] / ALL PASS
       err.log (last 5): [gpu_wrap 1.2s] headed slot 1: --window-position=920,0 --window-size=900,900 --window-name=CC 測試中，請勿點選 [B245_b07] | [gpu_wrap 45.3s] page close url=http://127.0.0.1:8813/index.html | [gpu_wrap 45.4s] BROWSER DISCONNECTED
+- 2026-11-04T00:55:57  B245_swing  sha=ffeec06e0  exit=0  33s    INFO 座位 2 對到的座板頂高 0.549 m（ART-PARK2 寫座面 0.48 m；遊戲的座位沒有高度欄位） / PASS 兩個鞦韆座位各對到不同的座板　2 / ALL PASS

@@ -1,0 +1,23 @@
+{
+  "rerun": "",
+  "id": "B245_swing",
+  "sha": "ffeec06e0",
+  "kind": "node",
+  "script": "docs/story_planning/test_tools/cc/cc_b245_swing.js",
+  "env": "",
+  "machine": "MSI",
+  "start": "2026-11-04T00:55:24",
+  "end": "2026-11-04T00:55:57",
+  "seconds": 33,
+  "exit": 0,
+  "error": null,
+  "runner": "c9cac8a6aa",
+  "rf_round": "5",
+  "url": "http://127.0.0.1:8813/index.html",
+  "res_peak": {
+    "cpu": 30,
+    "mem": 51,
+    "used_gb": 16.2,
+    "chrome_testing": 19
+  }
+}
