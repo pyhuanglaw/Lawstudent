@@ -656,8 +656,9 @@ class Runner(object):
         sf = env.get('SCRIPT_FROM', '').strip()
         if not sf: return None
         ref = {'story': STORY_BRANCH, 'lawww2': LAWWW2_BRANCH, 'cc': CC_BRANCH}.get(sf, sf)
+        rev = ref if re.fullmatch(r'[0-9a-f]{7,40}', ref) else 'origin/' + ref   # BB 21:11：也可以直接寫 commit SHA（例：拿 d2b962a3f 的 tests/deploy_check.py 去測別的版本）
         for rel in [it.script] + [x.strip() for x in env.get('SCRIPT_FILES', '').split(',') if x.strip()]:
-            pr = subprocess.run([GIT, '-C', self.repo, 'show', 'origin/%s:%s' % (ref, rel.replace(os.sep, '/'))],
+            pr = subprocess.run([GIT, '-C', self.repo, 'show', '%s:%s' % (rev, rel.replace(os.sep, '/'))],
                                 stdout=subprocess.PIPE, stderr=subprocess.DEVNULL)
             if pr.returncode != 0:
                 raise RuntimeError('SCRIPT_FROM %s: cannot read %s' % (ref, rel))
@@ -680,7 +681,8 @@ class Runner(object):
         if k == 'py':
             return [self.py, os.path.join(self.work, it.script), url, od], self.work
         if k == 'game':
-            return [self.py, wrap, os.path.join(wt, it.script)] + (xa or [url]), wt
+            sp = self.script_from(it, env, os.path.join(self.wtroot, '_script_from', it.id)) or os.path.join(wt, it.script)   # SCRIPT_FROM：用別的版本的測試腳本測這個版本（cwd 照舊是受測的工作樹）
+            return [self.py, wrap, sp] + (xa or [url]), wt
         if k in ('probe', 'webkit'):
             env['LW_TESTS'] = os.path.join(wt, 'tests')
             env['SHA'] = it.rsha

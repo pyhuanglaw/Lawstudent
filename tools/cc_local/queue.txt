@@ -23,6 +23,9 @@ LIVE19_deploy | e1603907e | game  | tests/deploy_check.py    | index.html | 30 |
 LIVE19_ver    | e1603907e | probe | docs/story_planning/test_tools/cc/cc_live_ver_probe.py | index.html | 20 | LIVE_URL=https://pyhuanglaw.github.io/Lawstudent/index.html
 LIVE19_day12  | e1603907e | game  | tests/flow_main_day12.py | index.html | 60 | XARGS=https://pyhuanglaw.github.io/Lawstudent/index.html {out}
 # （LIVE19_ver：每一個載入的 ?v= 都要是 9.10.19、沒有 9.10.18；遇到 503 探針自己等 2 分鐘重試一次）
+DC_ver_ok  | e1603907e | game | tests/deploy_check.py | index.html | 30 | SCRIPT_FROM=d2b962a3f;XARGS={url} v9.10.19（2026-11-03）
+DC_ver_bad | 039a9227a | game | tests/deploy_check.py | index.html | 30 | SCRIPT_FROM=d2b962a3f;XARGS={url} v9.10.19（2026-11-03）;EXPECT=FAIL
+# （DC_ver_*：BB 21:11，LAWWW d2b962a3f 的 deploy_check 新加「?v= 全部同一個版號、和標題字樣一樣」；ok＝main 要 PASS、bad＝#25 漏改那一版要在新的那一項 FAIL）
 # ===== V19：v9.10.19 候選 15e78dff7（BB 17:02 P0：發布前回歸，排最前面；跑完一項報一項） =====
 V19W_tour_tap8  | 55939fc71 | probe | docs/story_planning/test_tools/cc/cc_lib_tour2_probe.py | index.html | 90 | SOLO=1;MODE=tap;PHOTO=1;CC_HEADLESS=0;RERUN=evon
 V19W_tour_later | 55939fc71 | probe | docs/story_planning/test_tools/cc/cc_lib_tour2_probe.py | index.html | 90 | SOLO=1;MODE=tap;PHOTO=1;PHOTO_LATER=1;CC_HEADLESS=0;RERUN=evon
