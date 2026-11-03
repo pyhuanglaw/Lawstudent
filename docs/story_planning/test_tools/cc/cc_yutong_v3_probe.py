@@ -26,7 +26,7 @@ from playwright.async_api import async_playwright  # noqa: E402
 
 URL0, OUT = sys.argv[1], sys.argv[2]
 SHA = os.environ.get('SHA', '?')
-REPO = os.environ.get('LW_REPO', '/home/user/Lawstudent')
+REPO = os.environ.get('LW_REPO') or os.path.abspath(os.path.join(os.path.dirname(os.path.abspath(__file__)), '..', '..', '..', '..'))   # 探針所在的 repo（PC 上是 Lawstudent_cclocal；YT3FM 第一次 PC 用舊的雲端路徑，稿 0 字）
 REF = os.environ.get('STORY_REF', 'origin/claude/story-planning')
 CASE_S = int(os.environ.get('CASE_S', '1500'))
 J = lambda o: json.dumps(o, ensure_ascii=False)
@@ -190,7 +190,11 @@ def url_for():
 def load_docs():
     out = {}
     for k, f in DOCS.items():
-        try: out[k] = subprocess.run(['git', '-C', REPO, 'show', '%s:docs/story_planning/%s' % (REF, f)], capture_output=True, text=True, timeout=60).stdout
+        rd = lambda: subprocess.run(['git', '-C', REPO, 'show', '%s:docs/story_planning/%s' % (REF, f)], capture_output=True, text=True, encoding='utf-8', timeout=60).stdout
+        try:
+            out[k] = rd()
+            if not out[k] and REF.startswith('origin/'):   # 這台的 repo 還沒 fetch 企劃線：fetch 一次再讀（只讀，不改工作樹）
+                subprocess.run(['git', '-C', REPO, 'fetch', 'origin', REF[len('origin/'):]], capture_output=True, text=True, timeout=180); out[k] = rd()
         except Exception: out[k] = ''
     return out
 

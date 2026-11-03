@@ -30,8 +30,8 @@ async def main():
         b, ctx, pg, cdp, errs = await L.launch(p, landscape=True)
         await pg.goto(URL); check('遊戲載入', await L.wait_loaded(pg))
         await pg.evaluate("localStorage.clear(); STORY.phoneAuto=()=>{}")
-        print('  [前置／捷徑] 讀檔 library_hall 第 0 層 (%s, %s)，2025-09-19 15:40' % (P[0], P[1]), flush=True)
-        await L.load_state(pg, {'zone': 'library_hall', 'hour': 15.67, 'day': 3, 'weekday': 5, 'weather': 'clear', 'flags': FLAGS, 'pos': {'x': P[0], 'z': P[1], 'yaw': 0, 'lv': 0}}, quiet_events=True)
+        print('  [前置／捷徑] 讀檔 library_hall 第 0 層 (%s, %s)，第 8 天 14:00（15:40 會跳系學會合照的「出發：」選單，擋住搖桿——N20_libcorner 第一次 PC）' % (P[0], P[1]), flush=True)
+        await L.load_state(pg, {'zone': 'library_hall', 'hour': 14.0, 'day': 8, 'weekday': 4, 'weather': 'clear', 'flags': FLAGS, 'pos': {'x': P[0], 'z': P[1], 'yaw': 0, 'lv': 0}}, quiet_events=True)
         await pg.wait_for_timeout(8000); await L.close_panels(pg, cdp)
         grid = await pg.evaluate(GRID % J(list(P)))
         print('  導航格（x %.2f→%.2f，z 由上往下 %.2f→%.2f）：' % (P[0] - 1.5, P[0] + 1.5, P[1] - 1.5, P[1] + 1.5), flush=True)
@@ -41,7 +41,7 @@ async def main():
             await pg.screenshot(path=os.path.join(OUT, 'corner_%s.png' % nm))
         moved = {}
         for nm, (dx, dy) in (('前', (0, -60)), ('左', (-60, 0)), ('右', (60, 0)), ('後', (0, 60))):
-            await L.load_state(pg, {'zone': 'library_hall', 'hour': 15.67, 'day': 3, 'weekday': 5, 'weather': 'clear', 'flags': FLAGS, 'pos': {'x': P[0], 'z': P[1], 'yaw': 0, 'lv': 0}}, quiet_events=True)
+            await L.load_state(pg, {'zone': 'library_hall', 'hour': 14.0, 'day': 8, 'weekday': 4, 'weather': 'clear', 'flags': FLAGS, 'pos': {'x': P[0], 'z': P[1], 'yaw': 0, 'lv': 0}}, quiet_events=True)
             await pg.wait_for_timeout(5000); await L.close_panels(pg, cdp)
             a = await pg.evaluate(POS); await L.joystick(pg, cdp, dx, dy, 1000); c = await pg.evaluate(POS)
             moved[nm] = round(((c[0] - a[0]) ** 2 + (c[1] - a[1]) ** 2) ** 0.5, 2)

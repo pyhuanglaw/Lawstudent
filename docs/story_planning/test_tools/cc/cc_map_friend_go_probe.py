@@ -34,6 +34,14 @@ WHO = """(()=>{ const G=GAME.G, out=[]; for(const id of Object.keys(CHARACTERS||
   const met=!!(G.flags&&G.flags['met_'+id])||(typeof SOCIAL!=='undefined'&&SOCIAL.known&&SOCIAL.known(id));
   if(!w&&!g) continue; out.push({id, nm, met:!!met, zone:w&&w.zone||null, away:w&&w.away||null, here:!!(w&&w.zone===G.zone&&!w.away), npc:!!(GAME.npc&&GAME.npc[id]), go:g?(g.why?'why:'+g.why:(g.here?'here':'mins:'+g.mins)):null}); }
   return {zone:G.zone, hour:G.hour, people:out}; })()"""
+SCAN = """(()=>{ const G=GAME.G, keep={day:G.day,hour:G.hour,weekday:G.weekday}, out=[];
+  const ids=Object.keys(CHARACTERS||{}).filter(id=>(G.flags&&G.flags['met_'+id])||(typeof SOCIAL!=='undefined'&&SOCIAL.known&&SOCIAL.known(id)));
+  try{ for(let d=4; d<=60 && out.length<12; d++){ const c=CALENDAR.dateOf(d); if(!c) continue; const wd=c.wd%7;
+      for(const hr of [9.5,11,12.5,14,15.5,17,18.5,20]){ G.day=d; G.hour=hr; G.weekday=wd; let n=0, zs=[];
+        for(const id of ids){ let w=null; try{ w=STORY.whereIs(GAME,id); }catch(e){} if(w&&w.zone&&!w.away){ n++; zs.push(id+'@'+w.zone); } }
+        if(n) out.push([d,wd,hr,n,zs.slice(0,6)]); } } }
+  finally{ G.day=keep.day; G.hour=keep.hour; G.weekday=keep.weekday; }
+  return {ids, out}; })()"""
 ROWS_MAP = """(()=>{ const el=document.getElementById('bmPeople'); if(!el) return null; return {html:el.innerText, rows:[...el.querySelectorAll('.row2')].map(r=>({text:(r.innerText||'').trim().slice(0,90), fgo:r.querySelector('[data-fgo]')?r.querySelector('[data-fgo]').dataset.fgo:null, btns:[...r.querySelectorAll('button')].map(b=>(b.textContent||'').trim())}))}; })()"""
 ROWS_PHONE = """(()=>{ const el=document.getElementById('phoneBody'); if(!el) return null; return {html:el.innerText, rows:[...el.querySelectorAll('.phrow')].map(r=>({text:(r.innerText||'').trim().slice(0,90), id:(r.querySelector('[data-person]')||{dataset:{}}).dataset.person||null, fgo:r.querySelector('[data-fgo]')?r.querySelector('[data-fgo]').dataset.fgo:null, btns:[...r.querySelectorAll('button')].map(b=>(b.textContent||'').trim())}))}; })()"""
 NEAR = """(id=>{ const G=GAME.G, E=GAME.E, p=E.player.obj.position, n=GAME.npc&&GAME.npc[id], np=n&&n.obj?n.obj.position:null;
@@ -96,13 +104,17 @@ async def main():
         await pg.goto(URL); check('遊戲載入', await L.wait_loaded(pg))
         await pg.evaluate("localStorage.clear(); STORY.phoneAuto=()=>{}")
         here_st = other_st = None; here_p = other_p = None
-        for (day, wd, hour) in SLOTS:
+        await load(pg, cdp, {'zone': 'campus', 'hour': 14.0, 'day': 8, 'weekday': 4, 'weather': 'clear', 'flags': FLAGS, 'pos': {'x': 30, 'z': 30, 'yaw': 0}}, '先讀一個存檔，在瀏覽器裡掃時段（只算 whereIs，不動存檔；算完改回原本的日期時間）')
+        sc = await pg.evaluate(SCAN)
+        print('  認識的人：%s；有行程的時段（天, 週幾, 時, 人數, 誰@哪）：%s' % (J(sc['ids']), J(sc['out'])), flush=True)
+        slots = [(d, wd, hr) for d, wd, hr, n, zs in sc['out']] + SLOTS
+        for (day, wd, hour) in slots:
             st = {'zone': 'campus', 'hour': hour, 'day': day, 'weekday': wd, 'weather': 'clear', 'flags': FLAGS, 'pos': {'x': 30, 'z': 30, 'yaw': 0}}
             await load(pg, cdp, st, '校園第 %d 天找人' % day)
             who = await pg.evaluate(WHO)
             print('  人：%s' % J([[p['nm'], p['zone'], p['go']] for p in who['people'] if p['go']]), flush=True)
-            h = next((p for p in who['people'] if p['go'] == 'here' and p['npc']), None)
-            o = next((p for p in who['people'] if p['go'] and p['go'].startswith('mins')), None)
+            h = next((p for p in who['people'] if p['met'] and p['go'] == 'here' and p['npc']), None)
+            o = next((p for p in who['people'] if p['met'] and p['go'] and p['go'].startswith('mins')), None)
             if h and not here_st: here_st, here_p = st, h
             if o and not other_st: other_st, other_p = st, o
             if here_st and other_st: break
