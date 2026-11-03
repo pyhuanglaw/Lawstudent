@@ -1,0 +1,538 @@
+diff --git a/src/zones3d.js b/src/zones3d.js
+--- a/src/zones3d.js
++++ b/src/zones3d.js
+@@ -2247,5 +2247,5 @@
+         if(!mobile) for(const t of texs(o)){ if(px>=4e6) break; const im=t.image; try{ R.initTexture(t); out.textures++; const a=im&&im.width&&im.height?im.width*im.height:0; px+=a; out.mpix+=a/1e6; } catch(e){} } }
+       const d=nprog()-p0; out.programs+=d; if(out.done) out.later=(out.later|0)+d; setTimeout(step,gap); };   /* later＝做完以後才看到、才編的（之後才載完的路人底模…）*/
+     setTimeout(step,opts.delay!=null?opts.delay:1000); return out; }
+-  return {ZONES,room,desk,chair,glowTex,attachRoomGLB,roomLightmap,roomDarkMap,seatFold,roomBackdrop,attachDormInterior,glowBatch:wzGlowBatch,wzParkSeason,wzCatModel,wzCatSpot,v0BoxFromFlags,fairDayKey,fairExpoFront,isExpoDay,EXPO_DAYS,pothosSize,prewarm,prefetchNext,warmup,PROP_BLOCKS:{wenzhou:WZ_PROP_BLOCKS,gongguan:GG_PROP_BLOCKS},propBlocks};   /* attachRoomGLB：社科院圖書館（src/soclib3d.js）也用這個接法 ；attachDormInterior：宿舍 205（rooms_glb3d.js 的 dorm_interior，和祐廷的房間同一型）；roomLightmap：霖澤館大廳（src/building3d.js 的 attachFormal）也用 */
++  return {ZONES,attachWenzhouModel,room,desk,chair,glowTex,attachRoomGLB,roomLightmap,roomDarkMap,seatFold,roomBackdrop,attachDormInterior,glowBatch:wzGlowBatch,wzParkSeason,wzCatModel,wzCatSpot,v0BoxFromFlags,fairDayKey,fairExpoFront,isExpoDay,EXPO_DAYS,pothosSize,prewarm,prefetchNext,warmup,PROP_BLOCKS:{wenzhou:WZ_PROP_BLOCKS,gongguan:GG_PROP_BLOCKS},propBlocks};   /* attachRoomGLB：社科院圖書館（src/soclib3d.js）也用這個接法 ；attachDormInterior：宿舍 205（rooms_glb3d.js 的 dorm_interior，和祐廷的房間同一型）；roomLightmap：霖澤館大廳（src/building3d.js 的 attachFormal）也用 */
+ })();
+diff --git a/src/xinsheng3d.js b/src/xinsheng3d.js
+new file mode 100644
+index 000000000..e7eb55f59
+--- /dev/null
++++ b/src/xinsheng3d.js
+@@ -0,0 +1,65 @@
++/* 新生南路（首都帝大新生南路側門外的店面街；ART-XINSHENG-GATE-1103，D108；LAWWW2 11-03 草案，WIP，還沒接進 index.html）
++   需求：AA_615 第 1～3 節、AA_617 第 1 節的路線、AA_622；配置 src/data/xinsheng_layout.js（和 Blender 的 wz_street.py --set xinsheng 共用）。
++   座標：x 往東（+x＝校園那一側）、z 往南。走得到的地方：校園那一側的人行道、兩條斑馬線、店面那一側的人行道和騎樓、溫州街巷口；馬路其他地方走不到（車道）。
++   出口：側門 → campus（校園西側圍牆北段 (−124, −88)，LAWWW 11-03 20:20 同意）；溫州街巷口 → wenzhou 的西端（LAWWW 11-03 20:24 同意）。
++   店：室內由 AA、BB、CC 做（AA 11-03 分工）；還沒有室內的店，門口是「看櫥窗」的互動點（note 寫在 layout 的 shops[].note）。
++   正式模型：bldg.xinsheng_street（立面；接法和 118 巷同一套 Z3.attachWenzhouModel）；地面、校園那一側（圍牆、側門、椰子、樟樹、候車亭）的正式模型還沒做，先用套件。 */
++const XS3=(function(){
++  const S={};
++  const LAY=()=>typeof XINSHENG_LAYOUT!=='undefined'?XINSHENG_LAYOUT:null;
++  const M=c=>TK.col?TK.col(c):new THREE.MeshStandardMaterial({color:c,roughness:0.85});
++  S.build=function(E){ const L=LAY(); const g=new THREE.Group(); g.name='xinsheng_zone';
++    const N=L.nav, nav=new E3.NavGrid(N.w,N.d,N.cell,N.x0,N.z0); nav.b.fill(1);
++    const open=(x0,z0,x1,z1)=>{ for(let cz=0;cz<nav.rows;cz++) for(let cx=0;cx<nav.cols;cx++){ const [wx,wz]=nav.toWorld(cx,cz); if(wx>=x0&&wx<=x1&&wz>=z0&&wz<=z1) nav.b[nav.idx(cx,cz)]=0; } };
++    const R=L.road, WE=L.walkEast, WW=L.walkWest, AR=L.arcade, F=L.facade, CW=L.campusWall, SG=L.sideGate, WL=L.wenzhouLane;
++    const zA=R.z0+0.6, zB=R.z1-0.6;
++    open(WE.x0+0.2,zA,CW.x-0.6,zB);                                        // 校園那一側的人行道（圍牆內縮 0.6）
++    open(AR.x0+0.35,zA,WW.x1-0.2,zB);                                       // 店面那一側：騎樓（店面玻璃內縮 0.35）＋人行道
++    for(const c of L.crossings) open(WW.x1-0.3,c.z-c.w/2,WE.x0+0.3,c.z+c.w/2);   // 斑馬線
++    open(WL.x0+1.0,WL.z0+0.6,AR.x0+0.4,WL.z1-0.6);                          // 溫州街巷口
++    open(CW.x-0.7,SG.z-SG.w/2+0.6,CW.x+0.9,SG.z+SG.w/2-0.6);                // 側門的門洞
++    nav._cm=null;
++    // 騎樓柱子（每間店的分界、每 4 m 一根）、樹、路燈、候車亭、車阻
++    const pillarZ=[]; for(const q of L.shops.concat(L.fill)) for(let z=q.z0;z<=q.z1+0.01;z+=Math.max(3.6,(q.z1-q.z0)/Math.max(1,Math.round((q.z1-q.z0)/4)))) pillarZ.push(z);
++    for(const z of pillarZ){ if(z>WL.z0-0.2&&z<WL.z1+0.2) continue; nav.blockRect(AR.x1-0.3,z,0.5,0.5,0); }
++    for(const [x,z] of L.trees.palms.concat(L.trees.camphor)) nav.blockCircle(x,z,0.45);
++    for(const [x,z] of L.lamps) nav.blockCircle(x,z,0.3);
++    for(const [x,z] of L.bollards) nav.blockCircle(x,z,0.2);
++    { const b=L.busStop; nav.blockRect(b.x+0.9,b.z,0.5,b.w,0); }
++    // 地面（套件，暫代：地面的正式模型還沒做）
++    { const r=TK.road(R.z1-R.z0,R.x1-R.x0); r.position.set((R.x0+R.x1)/2,0,(R.z0+R.z1)/2); r.rotation.y=Math.PI/2; r.userData.dyn=true; g.add(r); }
++    const flat=(x0,x1,z0,z1,c,y)=>{ const m=new THREE.Mesh(new THREE.PlaneGeometry(x1-x0,z1-z0),M(c)); m.rotation.x=-Math.PI/2; m.position.set((x0+x1)/2,y||0.012,(z0+z1)/2); m.receiveShadow=true; m.userData.dyn=true; g.add(m); return m; };
++    flat(WE.x0,CW.x+0.4,R.z0,R.z1,'#b77a62');                               // 紅磚人行道
++    flat(AR.x0,WW.x1,R.z0,R.z1,'#cfc8bb');                                  // 騎樓、人行道
++    flat(WL.x0,AR.x0,WL.z0,WL.z1,'#a9a9a6',0.006);                          // 巷口
++    flat(R.median.x0,R.median.x1,R.z0,R.z1,'#8e8a82',0.03);                 // 分隔島（斑馬線那一段照舊畫，導航是開的）
++    for(const c of L.crossings) for(let x=R.x0+0.7;x<R.x1-0.5;x+=1.2) flat(x-0.28,x+0.28,c.z-c.w/2+0.3,c.z+c.w/2-0.3,'#efefe8',0.022);
++    flat(-120,120,-160,160,'#6d6a64',-0.02);
++    // 校園那一側：圍牆＋側門門柱（套件，暫代）
++    { const wallM=M('#a8634a'), capM=M('#d9d3c6'), postM=M('#bdb5a6'); const segs=[[CW.z0,CW.gateGap[0]],[CW.gateGap[1],CW.z1]];
++      for(const [a,b] of segs){ const m=new THREE.Mesh(new THREE.BoxGeometry(0.6,CW.h,b-a),wallM); m.position.set(CW.x,CW.h/2,(a+b)/2); m.userData.dyn=true; g.add(m); const cap=new THREE.Mesh(new THREE.BoxGeometry(0.75,0.12,b-a),capM); cap.position.set(CW.x,CW.h+0.06,(a+b)/2); cap.userData.dyn=true; g.add(cap); nav.blockRect(CW.x,(a+b)/2,0.9,b-a,0); }
++      for(const z of CW.gateGap){ const p=new THREE.Mesh(new THREE.BoxGeometry(1.0,3.0,1.0),postM); p.position.set(CW.x,1.5,z); p.userData.dyn=true; g.add(p); nav.blockRect(CW.x,z,1.2,1.2,0); } }
++    // 店面那一側：備用方塊（正式模型 bldg.xinsheng_street 載入後藏起來）＋鏡頭碰撞
++    const fb=[]; const colM=new THREE.MeshBasicMaterial({visible:false,side:THREE.DoubleSide});
++    const addCollider=(x,z,w,d,h)=>{ const m=new THREE.Mesh(new THREE.BoxGeometry(w,h||14,d),colM); m.position.set(x,(h||14)/2,z); g.add(m); E.colliders.push(m); };
++    for(const q of L.shops.concat(L.fill)){ const w=q.z1-q.z0, dp=F.upper-F.back, cx=(F.upper+F.back)/2, h=F.groundH+(q.floors-1)*F.floorH;
++      const up=new THREE.Mesh(new THREE.BoxGeometry(dp,h-F.groundH,w),M('#d6cdbd')); up.position.set(cx,F.groundH+(h-F.groundH)/2,(q.z0+q.z1)/2); up.userData.xsfb=true; up.userData.dyn=true; g.add(up); fb.push(up);
++      const lo=new THREE.Mesh(new THREE.BoxGeometry(F.x-F.back,F.groundH,w),M('#bfb6a8')); lo.position.set((F.x+F.back)/2,F.groundH/2,(q.z0+q.z1)/2); lo.userData.xsfb=true; lo.userData.dyn=true; g.add(lo); fb.push(lo);
++      addCollider((F.x+F.back)/2,(q.z0+q.z1)/2,F.x-F.back,w,h); }
++    // 互動點：側門、溫州街巷口、各店門口
++    E.interactables.push({x:SG.x-1.6,z:SG.z,radius:2.2,label:SG.label,exit:{to:'campus',spawn:Object.assign({},SG.campusSpawn)}});
++    E.interactables.push({x:WL.exit.x,z:WL.exit.z,radius:2.4,label:WL.exit.label,exit:{to:WL.exit.to,spawn:Object.assign({},WL.exit.spawn)}});
++    for(const q of L.shops){ const zn='xs_'+q.id, hasRoom=typeof Z3!=='undefined'&&Z3.ZONES&&Z3.ZONES[zn];
++      const it={x:F.x+0.9,z:q.door.z,radius:1.4,label:(hasRoom?'進':'')+q.name+'（'+q.type+'）'};
++      if(hasRoom) it.exit={to:zn}; else it.look=q.name+'。'+(q.type||'')+'。玻璃門裡面看得到店員在整理架子。';   /* 室內還沒做的店：先「看」（暫定的字，AA 可以改）*/
++      E.interactables.push(it); }
++    // 夜間：路燈地上的光圈（套件）
++    const pools=[]; for(const [x,z] of L.lamps){ const pl=TK.lightPool(4.0,'rgba(255,214,150,1)'); pl.position.set(x+(x>0?-0.8:0.8),0.03,z); pl.userData.dyn=true; g.add(pl); pools.push(pl); }
++    const zoneTime=(h,E2)=>{ let k=h>=19.2||h<5.6?1:(h>=17.4?(h-17.4)/1.8:(h<6.3?(6.3-h)/0.7:0)); k=Math.max(0,Math.min(1,k)); TK.setNight(k); if(E2&&E2.hemi) E2.hemi.intensity+=0.7*k; for(const p of pools) if(p.material) p.material.opacity=0.55*k; };
++    const zone={group:g,nav,spawn:Object.assign({},SG.spawn),lamps:[],buildings:fb,applyTimeOutdoor:zoneTime,onLamps(on){}};
++    if(typeof ASSETS!=='undefined'&&ASSETS.manifest['bldg.xinsheng_street']&&Z3.attachWenzhouModel) ASSETS.loadOne('bldg.xinsheng_street').then(c=>{ if(!c||!c.scene||E.zone!==zone) return;
++      Z3.attachWenzhouModel(E,g,c.scene.clone(true),'xsfb','xinsheng_street_glb'); }).catch(e=>console.warn('新生南路正式模型載入失敗，用方塊立面',e));
++    return zone; };
++  if(typeof Z3!=='undefined'&&Z3.ZONES) Z3.ZONES.xinsheng={id:'xinsheng',name:'新生南路',indoor:false,cityLight:0.9,size:[76,136],camDist:5.6,build(E){ return S.build(E); }};
++  return S;
++})();
+diff --git a/src/data/xinsheng_layout.js b/src/data/xinsheng_layout.js
+new file mode 100644
+index 000000000..24a81cbaa
+--- /dev/null
++++ b/src/data/xinsheng_layout.js
+@@ -0,0 +1,412 @@
++/* ===== 新生南路（首都帝大新生南路側門外的店面街）配置（ART-XINSHENG-GATE-1103，D108；LAWWW2 草案 v2（店的順序照 AA_617 第 1 節的路線改，11-03 20:3x），PROPOSAL，還沒接進遊戲）=====
++   需求：AA_615 第 1～3 節、AA_622；參考圖 docs/story_planning/ref_images/shops/xinsheng_street_b.webp（企劃線）。
++   這份給遊戲（之後的 src/xinsheng3d.js：導航格、店門互動點、出口）和 Blender（tools/blender/env_second/xinsheng_street.py）共用，
++   兩邊的立面、店門、路面位置要一致：「const XINSHENG_LAYOUT=」後面接純 JSON。
++   座標：x 往東（+x＝校園那一側）、z 往南（−z＝北：往辛亥路；+z＝南：往羅斯福路、公館），單位公尺，y 往上。照 D29 戶外區域的方向，不用 sunYaw。
++   店名全部虛構（D77），招牌不放真實品牌。各店室內由 AA、BB、CC 做（AA 11-03 分工），出入口對齊 shops[].door。 */
++const XINSHENG_LAYOUT={
++ "version": 2,
++ "size": [
++  76,
++  136
++ ],
++ "nav": {
++  "x0": -38,
++  "z0": -68,
++  "w": 76,
++  "d": 136,
++  "cell": 0.5
++ },
++ "road": {
++  "name": "新生南路",
++  "x0": -7.5,
++  "x1": 7.5,
++  "z0": -68,
++  "z1": 68,
++  "lanes": 4,
++  "median": {
++   "x0": -0.5,
++   "x1": 0.5
++  },
++  "surface": "asphalt"
++ },
++ "walkEast": {
++  "x0": 7.5,
++  "x1": 18.0,
++  "note": "校園那一側的人行道（紅磚，照參考圖；椰子、樟樹在 x 11）"
++ },
++ "walkWest": {
++  "x0": -13.0,
++  "x1": -7.5,
++  "note": "店面那一側的人行道"
++ },
++ "arcade": {
++  "x0": -16.5,
++  "x1": -13.0,
++  "h": 4.2,
++  "note": "騎樓：一樓店面退到 x −16.5，上面樓層蓋到 x −13"
++ },
++ "facade": {
++  "x": -16.5,
++  "upper": -13.0,
++  "back": -34.0,
++  "groundH": 4.2,
++  "floorH": 3.2
++ },
++ "campusWall": {
++  "x": 18.4,
++  "z0": -68,
++  "z1": 68,
++  "h": 1.8,
++  "gateGap": [
++   6.8,
++   13.2
++  ]
++ },
++ "sideGate": {
++  "x": 18.4,
++  "z": 10.0,
++  "w": 6.4,
++  "label": "回到首都帝大（新生南路側門）",
++  "name": "新生南路側門",
++  "campusSpawn": {
++   "x": -121.5,
++   "z": -88.0,
++   "yaw": 1.5708
++  },
++  "spawn": {
++   "x": 15.0,
++   "z": 10.0,
++   "yaw": -1.5708
++  },
++  "note": "門柱寫「首都帝大」、鐵柵門開著、門柱上一盞燈（參考圖）。校園那一側的門在圍牆 (−124, −88)（PLAN.md 第 1 節，等 LAWWW 同意）"
++ },
++ "crossings": [
++  {
++   "id": "gate",
++   "z": 10.0,
++   "w": 5.0,
++   "note": "側門前的斑馬線，對面是山嵐書店"
++  },
++  {
++   "id": "wenzhou",
++   "z": -1.4,
++   "w": 5.0,
++   "note": "溫州街巷口前的斑馬線"
++  }
++ ],
++ "busStop": {
++  "x": 12.6,
++  "z": -12.0,
++  "w": 6.0,
++  "ry": -1.5708,
++  "name": "首都帝大（新生南路）",
++  "note": "候車亭面向馬路；長椅可以坐"
++ },
++ "trees": {
++  "palms": [
++   [
++    11.2,
++    60
++   ],
++   [
++    11.2,
++    48
++   ],
++   [
++    11.2,
++    -22
++   ],
++   [
++    11.2,
++    -34
++   ],
++   [
++    11.2,
++    -48
++   ],
++   [
++    11.2,
++    -60
++   ]
++  ],
++  "camphor": [
++   [
++    10.6,
++    30
++   ],
++   [
++    10.6,
++    20
++   ],
++   [
++    10.6,
++    -2
++   ],
++   [
++    10.6,
++    -6
++   ],
++   [
++    -10.8,
++    52
++   ],
++   [
++    -10.8,
++    26
++   ],
++   [
++    -10.8,
++    8
++   ],
++   [
++    -10.8,
++    -18
++   ],
++   [
++    -10.8,
++    -56
++   ]
++  ]
++ },
++ "wenzhouLane": {
++  "z0": -5.4,
++  "z1": 2.6,
++  "x0": -34.0,
++  "x1": -16.5,
++  "sign": "溫州街",
++  "exit": {
++   "x": -31.0,
++   "z": -1.4,
++   "to": "wenzhou",
++   "label": "往溫州街",
++   "spawn": {
++    "x": -52.0,
++    "z": 0.0,
++    "yaw": 1.5708
++   }
++  },
++  "note": "接 wenzhou 的西端 x≈−55（LAWWW 11-03 20:24 同意；AA_617 第 1 節：側門 → 斑馬線 → 溫州街轉角＝日常失速 → 木曜日 → 兩點半）。從溫州街出來沿騎樓往北：同弦、大步、好拍、運動廣場；往南：山嵐（側門對面）、南洋、大口漢堡（南邊路口）。spawn 暫定，接口做好時照溫州街的導航格改"
++ },
++ "shops": [
++  {
++   "id": "dakou",
++   "name": "大口漢堡",
++   "type": "速食（24 小時）",
++   "z0": 33.4,
++   "z1": 47.4,
++   "floors": 2,
++   "door": {
++    "z": 40.4,
++    "w": 2.4
++   },
++   "ref": "dakou_ext.webp",
++   "by": "BB／CC",
++   "note": "路口那一間；二樓整排窗、24h 燈箱；虛構的配色，不用紅黃"
++  },
++  {
++   "id": "nanyang",
++   "name": "南洋戲院",
++   "type": "二輪戲院",
++   "z0": 17.8,
++   "z1": 32.8,
++   "floors": 3,
++   "door": {
++    "z": 25.3,
++    "w": 3.0
++   },
++   "ticket": {
++    "z": 30.2
++   },
++   "ref": "nanyang_ext.webp",
++   "by": "BB／CC",
++   "note": "舊燈箱招牌、櫥窗海報（虛構片名）、售票口在騎樓下「一票兩片」"
++  },
++  {
++   "id": "shanlan",
++   "name": "山嵐書店",
++   "type": "書店（兩層）",
++   "z0": 3.2,
++   "z1": 17.2,
++   "floors": 2,
++   "door": {
++    "z": 10.2,
++    "w": 2.0
++   },
++   "band": [
++    3.95,
++    4.45
++   ],
++   "ref": "shanlan_ext.webp",
++   "by": "AA",
++   "note": "側門對面；兩層整面玻璃、白磁磚飾帶 3.95～4.45 m（對齊 AA 的室內 shanlan_layout.js：店門 +z 中間 x 0.8 ＝ 這裡 z 10.2）"
++  },
++  {
++   "id": "tongxian",
++   "name": "同弦樂器",
++   "type": "吉他行（二樓）",
++   "z0": -12.4,
++   "z1": -6.0,
++   "floors": 4,
++   "door": {
++    "z": -7.2,
++    "w": 1.2,
++    "stair": true
++   },
++   "groundShop": "手機行",
++   "ref": "tongxian_ext.webp",
++   "by": "BB／CC",
++   "note": "一樓是手機行；騎樓的樓梯口掛一把木吉他、小木牌"
++  },
++  {
++   "id": "dabu",
++   "name": "大步球鞋",
++   "type": "球鞋",
++   "z0": -20.4,
++   "z1": -13.0,
++   "floors": 3,
++   "door": {
++    "z": -16.7,
++    "w": 2.0
++   },
++   "ref": "dabu_ext.webp",
++   "by": "BB／CC",
++   "note": "白色店面、大片玻璃；鞋子不放任何真實品牌標誌"
++  },
++  {
++   "id": "haopai",
++   "name": "好拍運動",
++   "type": "球拍專賣",
++   "z0": -25.4,
++   "z1": -21.0,
++   "floors": 3,
++   "door": {
++    "z": -23.2,
++    "w": 1.4
++   },
++   "ref": "haopai_ext.webp",
++   "by": "BB／CC",
++   "note": "窄而擠，靠側門"
++  },
++  {
++   "id": "xsports",
++   "name": "新生運動廣場",
++   "type": "運動用品（兩層）",
++   "z0": -40.0,
++   "z1": -26.0,
++   "floors": 3,
++   "door": {
++    "z": -33.0,
++    "w": 2.4
++   },
++   "ref": "xinsheng_sports_ext.webp",
++   "by": "BB／CC",
++   "note": "二樓牆上掛系隊球衣（沒有真實品牌）"
++  }
++ ],
++ "fill": [
++  {
++   "z0": -68.0,
++   "z1": -40.6,
++   "floors": 5,
++   "note": "北段公寓（一樓：早餐店、影印店，AA_615 1-2；招牌虛構）",
++   "ground": [
++    "早餐店",
++    "影印店"
++   ]
++  },
++  {
++   "z0": 48.0,
++   "z1": 68.0,
++   "floors": 5,
++   "note": "大口漢堡南邊（路口往羅斯福路）"
++  }
++ ],
++ "lamps": [
++  [
++   9.0,
++   56
++  ],
++  [
++   9.0,
++   36
++  ],
++  [
++   9.0,
++   16
++  ],
++  [
++   9.0,
++   -4
++  ],
++  [
++   9.0,
++   -24
++  ],
++  [
++   9.0,
++   -44
++  ],
++  [
++   9.0,
++   -64
++  ],
++  [
++   -8.6,
++   46
++  ],
++  [
++   -8.6,
++   26
++  ],
++  [
++   -8.6,
++   6
++  ],
++  [
++   -8.6,
++   -14
++  ],
++  [
++   -8.6,
++   -34
++  ],
++  [
++   -8.6,
++   -54
++  ]
++ ],
++ "scooters": {
++  "x": -12.2,
++  "spans": [
++   [
++    34,
++    46
++   ],
++   [
++    -20,
++    -14
++   ],
++   [
++    -39,
++    -28
++   ]
++  ],
++  "note": "店面那一側人行道邊停的機車（參考圖），用公館的機車 InstancedMesh"
++ },
++ "bollards": [
++  [
++   9.2,
++   7.6
++  ],
++  [
++   9.2,
++   12.4
++  ]
++ ],
++ "places": {
++  "name": "新生南路",
++  "desc": "首都帝大新生南路側門外的那條街：書店、戲院、球鞋店、速食店。對面巷子進去就是溫州街。",
++  "note": "LAWWW 接 places.js"
++ }
++}
+diff --git a/tests/xinsheng_unit.js b/tests/xinsheng_unit.js
+new file mode 100644
+index 000000000..384cc3f6e
+--- /dev/null
++++ b/tests/xinsheng_unit.js
+@@ -0,0 +1,33 @@
++/* 新生南路（ART-XINSHENG-GATE-1103，LAWWW2 11-03）：區域建得起來；從側門進來走得到溫州街巷口、七間店的門口、兩條斑馬線的對面；斑馬線以外的車道走不到；
++   互動點：側門回校園、往溫州街。用法：node tests/xinsheng_unit.js */
++const fs=require('fs'), vm=require('vm'), path=require('path');
++const ROOT=path.resolve(__dirname,'..');
++global.window=global; global.self=global;
++const ctx2d=new Proxy({}, {get:(o,k)=>k==='createRadialGradient'||k==='createLinearGradient'||k==='createPattern'?()=>({addColorStop(){}}):(k==='getImageData'?()=>({data:new Uint8ClampedArray(16)}):(k==='measureText'?()=>({width:10}):(()=>{})))});
++global.document={ createElementNS:()=>({getContext:()=>ctx2d,style:{}}), createElement:()=>({width:1,height:1,getContext:()=>ctx2d,style:{}}), getElementById:()=>null, addEventListener(){} };
++global.navigator={userAgent:'node'}; global.addEventListener=()=>{}; global.innerWidth=844; global.innerHeight=390; global.location={search:''};
++const files=['lib/three.bundle.js','lib/three.jsm.bundle.js','src/people3d.js','src/assets3d.js','src/world3d.js','src/engine3d.js','src/townkit3d.js','src/campuskit3d.js','src/zones3d.js','src/data/xinsheng_layout.js','src/xinsheng3d.js'];
++for(const f of files){ let src=fs.readFileSync(path.join(ROOT,f),'utf8'); src=src.replace(/^const (\w+)\s*=/m,'globalThis.$1='); vm.runInThisContext(src,{filename:f}); }
++let fails=0; const check=(name,ok,info)=>{ console.log((ok?'PASS ':'FAIL ')+name+(info?'  '+info:'')); if(!ok) fails++; };
++const L=XINSHENG_LAYOUT;
++check('0. Z3.ZONES.xinsheng 有登記',!!(Z3.ZONES&&Z3.ZONES.xinsheng));
++const E=E3; E.scene=new THREE.Scene(); E.q={level:'medium'}; E.interactables=[]; E.colliders=[]; E.lampGlows=[]; E.seats=[]; E.npcs=[];
++const z=Z3.ZONES.xinsheng.build(E); const nav=z.nav;
++const cellOf=(x,zz)=>[Math.floor((x-nav.ox)/nav.cell),Math.floor((zz-nav.oz)/nav.cell)];
++const freeAt=(x,zz)=>{ const [c,r]=cellOf(x,zz); return c>=0&&r>=0&&c<nav.cols&&r<nav.rows&&!nav.b[nav.idx(c,r)]; };
++function reach(a,b){ const [sx,sz]=cellOf(...a), [tx,tz]=cellOf(...b); const seen=new Uint8Array(nav.cols*nav.rows), q=[[sx,sz]]; seen[nav.idx(sx,sz)]=1;
++  while(q.length){ const [x,y]=q.shift(); if(Math.abs(x-tx)<=1&&Math.abs(y-tz)<=1) return true; for(const [dx,dy] of [[1,0],[-1,0],[0,1],[0,-1]]){ const nx=x+dx, ny=y+dy; if(nx<0||ny<0||nx>=nav.cols||ny>=nav.rows) continue; const i=nav.idx(nx,ny); if(seen[i]||nav.b[i]) continue; seen[i]=1; q.push([nx,ny]); } } return false; }
++const sp=[z.spawn.x,z.spawn.z];
++check('1. 側門進來的出生點站得住',freeAt(...sp),sp.join(','));
++check('2. 出生點走得到溫州街巷口',reach(sp,[L.wenzhouLane.exit.x,L.wenzhouLane.exit.z]));
++const bad=L.shops.filter(q=>!reach(sp,[L.facade.x+0.9,q.door.z])).map(q=>q.id);
++check('3. 出生點走得到七間店的門口',!bad.length,bad.join(' ')||(L.shops.length+' 間'));
++let road=0; for(let x=L.road.x0+0.5;x<L.road.x1-0.5;x+=0.5) for(let zz=L.road.z0+1;zz<L.road.z1-1;zz+=0.5){ if(L.crossings.some(c=>Math.abs(zz-c.z)<=c.w/2+0.5)) continue; if(freeAt(x,zz)) road++; }
++check('4. 斑馬線以外的車道一格都走不到',road===0,road+' 格');
++const cr=L.crossings.filter(c=>!reach([L.walkEast.x0+1.5,c.z],[L.walkWest.x0+1.0,c.z])).map(c=>c.id);
++check('5. 兩條斑馬線從校園那一側走得到店面那一側',!cr.length,cr.join(' '));
++const g=E.interactables.find(q=>q.exit&&q.exit.to==='campus'), w=E.interactables.find(q=>q.exit&&q.exit.to==='wenzhou');
++check('6. 側門「回到首都帝大」→ campus（校園西側圍牆北段那一側）',!!g&&g.exit.spawn.x===L.sideGate.campusSpawn.x&&g.exit.spawn.z===L.sideGate.campusSpawn.z&&reach(sp,[g.x,g.z]));
++check('7. 「往溫州街」→ wenzhou',!!w&&reach(sp,[w.x,w.z]));
++check('8. 每間店門口有互動點（室內還沒做的是「看」）',L.shops.every(q=>E.interactables.some(it=>Math.abs(it.z-q.door.z)<0.01&&(it.look||it.exit))));
++console.log(fails?('FAILED '+fails):'ALL PASS'); process.exit(fails?1:0);

@@ -140,7 +140,7 @@ def _xinsheng_lj():
     import json as _j
     _p = os.path.join(L.ROOT, 'src/data/xinsheng_layout.js')
     if not os.path.exists(_p): _p = os.path.join(L.ROOT, 'docs/art-rebuild/second_ai/wip/xinsheng/xinsheng_layout.js')
-    _s = open(_p, encoding='utf8').read(); X = _j.loads(_s[_s.index('{', _s.index('const XINSHENG_LAYOUT=')):_s.rindex('}') + 1])
+    _s = open(_p, encoding='utf8').read(); X = _j.loads(_s[_s.index('{', _s.index('\nconst XINSHENG_LAYOUT=')):_s.rindex('}') + 1])
     sh = [dict(id=q['id'], side='W', z0=q['z0'], z1=q['z1'], floors=q['floors'], name=q['name'], type=q['type'], door=q['door']) for q in X['shops']]
     wl = X['wenzhouLane']
     return {"sides": ["W"], "lane": {"z0": X['road']['z0'], "z1": X['road']['z1']}, "facade": {"west": X['facade']['upper'], "east": -X['facade']['upper']},

@@ -70,3 +70,28 @@
   3. 校園那一側：圍牆、側門門柱、椰子、樟樹、候車亭。
   4. 招牌字：sign_atlas 設計稿，或遊戲用 TK.signTex 畫。
   5. 等 LAWWW 回覆 PLAN 第 1、3 節，再碰 campus、wenzhou。
+
+## LAWWW 回覆（11-03 20:20、20:24）
+- **校園開側門＋往東步道：同意。** 現有建築、座位、劇情站位不動。做好要跑：nav_buildings、reachability_all、campus_l123（圓窗館前）、campus_layout_nav。
+- **溫州街接口在西端 x≈−55：同意。** AA 確認和 AA_617 第 1 節的路線對得上：
+  - 側門 → 斑馬線 → 溫州街靠新生南路的轉角＝日常失速（綠遮雨棚）→ 中段老公寓二樓＝木曜日（37 號）→ 再往裡＝兩點半；
+  - 從兩點半走到同弦：往回走經過木曜日、日常失速，到新生南路，沿對面騎樓**往北**。
+  - 做好要跑：nav_buildings、reachability_all、touch_flow_wenzhou、wz 系列單元。
+- 這件進 v9.10.19 以後的版本；先交不擋發布的部分。
+- **layout 改成 v2**：照上面的路線重排店的順序。
+  - 溫州街巷口在 z −5.4～2.6；
+  - 往北是同弦、大步、好拍、運動廣場；
+  - 往南是山嵐（側門對面，側門改在 z 10）、南洋、大口漢堡（南邊路口）。
+
+## 區域程式 WIP（11-03 20:2x）
+- `xinsheng_zone_WIP.patch`（接 b049c84e3，`git apply --check` 過）內容：
+  - `src/xinsheng3d.js`：新區域 `Z3.ZONES.xinsheng`。包括導航格、套件暫代的地面／圍牆／側門門柱／方塊立面、鏡頭碰撞、側門和溫州街兩個出口、七間店門口的互動點，載入 `bldg.xinsheng_street` 立面。
+  - `src/data/xinsheng_layout.js`：layout v2。
+  - `tests/xinsheng_unit.js`：8 項。
+  - `src/zones3d.js`：一行，Z3 匯出 `attachWenzhouModel`。
+- `node tests/xinsheng_unit.js`：ALL PASS。用真的引擎 NavGrid，建起整個區域後檢查。
+- **還沒做**：
+  - index.html 載入、assets manifest（GLB 還沒進 assets）；
+  - 校園側門那一端、溫州街西端那一端；
+  - 瀏覽器截圖。
+  - **所以現在套上去，遊戲裡也還走不到這裡。**
