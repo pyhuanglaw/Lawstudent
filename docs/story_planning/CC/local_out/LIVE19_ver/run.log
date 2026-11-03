@@ -1,0 +1,9 @@
+[gpu_wrap] CC_GPU=1 跑 C:\Users\USER\Documents\Lawstudent_cclocal\docs\story_planning\test_tools\cc\cc_live_ver_probe.py http://127.0.0.1:8811/index.html C:\Users\USER\Documents\Lawstudent_cclocal\docs\story_planning\CC\local_out\LIVE19_ver\out
+PASS 遊戲載入
+PASS ① 標題的版本字樣＝「版本 v9.10.19（2026-11-03）」  版本 v9.10.19（2026-11-03）
+PASS ② 309 個 <script src> 都是 ?v=9.10.19  []
+  實際載入的資源 250 個，帶 ?v= 的 249 個
+PASS ③ 實際載入、帶 ?v= 的資源都是 9.10.19（249 個），沒有 9.10.18  {"not_want": [], "old": []}
+PASS ④ 沒有 4xx／5xx  []
+PASS 沒有 JS 例外  []
+ALL PASS
