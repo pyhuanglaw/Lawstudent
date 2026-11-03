@@ -51,6 +51,8 @@ N19S_shots  | b1ae1c390 | game  | tests/shop_diners_shots.py | index.html?turbo 
 # （N19_tour_*：雲端 b1ae joy2 跑完整趟沒當掉，B 段 PASS；A 段在 SwiftShader 上探針跟不上（500 秒只做了 6 次動作），所以解除 HOLD，交給 PC 的 SOLO 跑；CC 11-03 15:2x）
 N19_tour_tap | b1ae1c390 | probe | docs/story_planning/test_tools/cc/cc_lib_tour2_probe.py | index.html | 90 | SOLO=1;MODE=tap;CC_HEADLESS=0
 N19_tour_joy | b1ae1c390 | probe | docs/story_planning/test_tools/cc/cc_lib_tour2_probe.py | index.html | 90 | SOLO=1;MODE=joy;CC_HEADLESS=0
+N19_tour_tap2 | b1ae1c390 | probe | docs/story_planning/test_tools/cc/cc_lib_tour2_probe.py | index.html | 90 | SOLO=1;MODE=tap;CC_HEADLESS=0;RERUN=gostop
+# （N19_tour_tap2：第一次 go_to 把對話後面的「出發：圓窗館前」點掉、被帶到校園；探針改成對話也交給主迴圈）
 # BB 12:03 順序 ①：camp 系列（雲端已驗：camp608 debb ALL PASS、oldsave e799／ffee ALL PASS、kexin ffee ALL PASS、friends606 跑到 9/3）。b1ae1c390 含 debb001c4（BUG-CAMP-RESUME-824 修正）
 N19C_c608   | b1ae1c390 | probe | docs/story_planning/test_tools/cc/cc_camp608_probe.py | index.html | 30  | MAX_S=1500
 N19C_osmake | 0f66c4215 | probe | docs/story_planning/test_tools/cc/cc_camp_oldsave_probe.py | index.html | 30 | CASES=make

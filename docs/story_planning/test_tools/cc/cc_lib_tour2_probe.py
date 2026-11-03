@@ -113,7 +113,7 @@ async def main():
                         p3 = await pg.evaluate("[GAME.E.player.obj.position.x,GAME.E.player.obj.position.z]")
                         acts.append([round(time.time() - t0), 'joy', round(d, 2), bool(tc), round(math.hypot(p3[0] - p0[0], p3[1] - p0[1]), 2)])
                     else:
-                        await L.go_to(pg, cdp, run, lib['x'], lib['z'], 1.8, '跟著館員', max_s=60, lv=lib['lv'], stop=lambda q: q['choices'] > 0)   # 選單交給 handle_choices
+                        await L.go_to(pg, cdp, run, lib['x'], lib['z'], 1.8, '跟著館員', max_s=60, lv=lib['lv'], stop=lambda q: q['choices'] > 0 or q['dlg'])   # 對話、選單都交給主迴圈（handle_choices）：go_to 自己的 advance_dialogs 會把對話後面接的「出發：圓窗館前」點第一個（PC 11-03 N19_tour_tap：t=21 s 被帶到 (−104,−17)）
             await pg.wait_for_timeout(1200)
         trk = await pg.evaluate("window.__trk||[]"); taps = await pg.evaluate("window.__taps||[]")
         li = next((k for k, e in enumerate(trk) if e['cap'].startswith('你離開了')), None)
