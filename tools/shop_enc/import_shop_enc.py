@@ -24,7 +24,7 @@ def src(path):
     if not hits: sys.exit(path + '：不在匯入白名單')
     sha = hits[-1]['sha']; ok, why = IG.allowed(path, sha, allow)
     if not ok: sys.exit(why)
-    return sha, subprocess.check_output(['git', 'show', f'{sha}:{path}'], cwd=ROOT).decode('utf-8')
+    return sha, IG.read_fix(subprocess.check_output(['git', 'show', f'{sha}:{path}'], cwd=ROOT).decode('utf-8'))  # 讀稿先整份 read_fix（alison_unit 4）；下面 fix() 逐字串再過一次、印出換到的
 
 
 def fix(o):
