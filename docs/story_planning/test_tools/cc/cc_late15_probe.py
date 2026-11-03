@@ -42,6 +42,19 @@ def check(name, ok, info=''):
 def info(s): print('INFO ' + s, flush=True)
 
 
+async def close_panels(pg, cdp):
+    """有 playlib.close_panels（10-17 以後的 tests/playlib.py）就用它；舊版沒有（例如 dc36b401e、v9.5）：照同樣的做法像玩家按「收起來／返回遊戲」"""
+    if hasattr(L, 'close_panels'):
+        return await L.close_panels(pg, cdp)
+    shut = []
+    for pid, btn in (('phone', '#btnPhoneClose'), ('menu', '#btnClose'), ('bigmap', '#bmClose')):
+        if await pg.evaluate("(id=>{ const e=document.getElementById(id); return !!e&&!e.classList.contains('hide'); })('%s')" % pid):
+            if await pg.evaluate("(s=>!!document.querySelector(s))('%s')" % btn): await L.tap(pg, cdp, btn)
+            else: await pg.keyboard.press('Escape')
+            await pg.wait_for_timeout(600); shut.append(pid)
+    return shut
+
+
 def setup(s): print('  [前置／捷徑] ' + s, flush=True)
 
 
@@ -129,7 +142,7 @@ async def sub(pg, cdp, k, it, rec):
             h2 = await pg.evaluate("GAME.G.hour"); r['after_no'] = h2
             check('%s 選「先不要」：時間沒有跳（差 < 3 分鐘）' % k, abs(h2 - h0) < 0.05, 'h0=%s → %s' % (hm(h0), hm(h2)))
     rec[k] = r
-    await L.close_panels(pg, cdp)
+    await close_panels(pg, cdp)
 
 
 async def main():

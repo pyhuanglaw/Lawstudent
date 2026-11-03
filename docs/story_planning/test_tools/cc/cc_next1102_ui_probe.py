@@ -987,11 +987,14 @@ async def examgoal_wake_pass(p, run, orient):
         g0 = await pg.evaluate(GOALST); t0 = time.time(); rec['goal_after_story'] = g0
         run.check('%s：睡到考試日早上、真的有起床劇情（隔天有台詞或事件）' % tag, bool(fd) and await pg.evaluate("GAME.G.day") == fd['day'] and (bool(wake_says) or bool(evs)), J({'day': await pg.evaluate("GAME.G.day"), 'events': evs, 'wake': rec['wake_says'][:6]}))
         want = '%s 期末考：' % (fd and P_hm(fd['t0']))
+        # BB 11-03 01:07 判定：一天考兩科時遊戲寫「今天考試：09:10 憲法（上）、15:30 體育…」是合理的——期待值改成「目標包含考試時刻和課名」，不要求逐字「09:10 期末考：課名（教室）」
+        wt, wn = (fd and P_hm(fd['t0'])) or '?', (fd and fd['name']) or '?'
+        def has_exam(t): return bool(t) and wt in t and wn in t
         g = g0; hist = [[0, g0['h'], g0['goalG']]]
         while time.time() - t0 < 180:
             g = await pg.evaluate(GOALST)
             if hist[-1][2] != g['goalG']: hist.append([round(time.time() - t0, 1), g['h'], g['goalG']])
-            if (g['goalG'] or '').startswith(want): break
+            if has_exam(g['goalG']): break
             s = await P.ts(pg)
             if s['ch'] or s['dlg']: run.note('%s：等目標時又出現對話／選單 %s' % (tag, J([s['txt'][:30], [o['t'] for o in s['ch']]])))
             if s['dlg']: await L.tap(pg, cdp, '#dlg')
@@ -999,8 +1002,9 @@ async def examgoal_wake_pass(p, run, orient):
             await pg.wait_for_timeout(1000)
         rec['goal_hist'] = hist; rec['goal_final'] = g; rec['shot_goal'] = await run.shot(pg, tag + '_goal')
         run.note('%s：劇情結束時目標＝%s（遊戲 %s）；變化 %s（實際秒、遊戲時刻、目標）' % (tag, J(g0['goalG']), P_hm(g0['h']), J(hist)))
-        ok2 = (g['goalG'] or '').startswith(want) and fd['name'] in (g['goalG'] or '') and bool(fd['room']) and fd['room'] in (g['goalG'] or '') and (want + fd['name']) in (g['dom'] or '')
-        run.check('%s：劇情演完後目標＝「%s%s（%s）」（G.goal 與 #goal）' % (tag, want, fd['name'], fd['room']), ok2, J(g))
+        ok2 = has_exam(g['goalG']) and has_exam(g['dom'])
+        run.note('%s：舊的逐字期待「%s%s（%s）」：G.goal %s' % (tag, want, wn, fd and fd['room'], '相符' if (g['goalG'] or '').startswith(want + wn) else '不相符（BB 判定可接受）'))
+        run.check('%s：劇情演完後目標包含「%s」和「%s」（G.goal 與 #goal）' % (tag, wt, wn), ok2, J(g))
     except Exception as e:
         run.check('%s：跑完（沒有探針例外）' % tag, False, repr(e)[:500]); traceback.print_exc()
         try: await run.shot(pg, tag + '_exception')
