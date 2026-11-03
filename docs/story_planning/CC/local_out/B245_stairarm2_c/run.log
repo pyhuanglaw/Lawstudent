@@ -1,0 +1,18 @@
+[gpu_wrap] CC_GPU=1 跑 C:\Users\USER\Documents\Lawstudent_cclocal\docs\story_planning\test_tools\cc\cc_b245_stairsarm_probe.py http://127.0.0.1:8810/index.html C:\Users\USER\Documents\Lawstudent_cclocal\docs\story_planning\CC\local_out\B245_stairarm2_c\out
+cc_b245_stairsarm_probe  SHA=5babe1517  URL=http://127.0.0.1:8810/index.html
+PASS 遊戲載入
+  【前置／捷徑】load_state（quiet_events）霖澤館第 8 天（週六）11:00，玩家在大廳 (4,4)
+  【前置／捷徑】跟隨鏡頭轉向樓梯口（樓梯在鏡頭背後）、清掉其他 NPC、spawnCharacter 沛珊在 (-6.6, 6.0)
+INFO spawn：{"yaw": -1.434, "ok": true}
+INFO 沛珊模型：{"vrm": true, "key": "char.classmate_peishan", "driver": "vrm", "vis": false}
+PASS 前置：沛珊的 VRM 載好了（才量得到上臂）  {"vrm": true, "key": "char.classmate_peishan", "driver": "vrm", "vis": false}
+  【前置／捷徑】她爬到第一段 y=0.79：E.cinematic 把鏡頭切到她側前方（模擬劇情運鏡切過去）
+INFO 記到 2190 格；畫面外且 cd<15 m 1884 格；cd 15～17 m 0 格；看得到 306 格
+INFO 前 12 格：[{"f": 1195, "vis": false, "cd": 6.21, "upd": false, "arm": 87.3, "y": 0, "z": 6}, {"f": 1196, "vis": false, "cd": 6.21, "upd": false, "arm": 87.3, "y": 0, "z": 6}, {"f": 1197, "vis": false, "cd": 6.21, "upd": false, "arm": 87.3, "y": 0, "z": 6}, {"f": 1198, "vis": false, "cd": 6.21, "upd": false, "arm": 87.3, "y": 0, "z": 6}, {"f": 1199, "vis": false, "cd": 6.21, "upd": false, "arm": 87.3, "y": 0, "z": 6}, {"f": 1200, "vis": false, "cd": 6.21, "upd": false, "arm": 87.3, "y": 0, "z": 6}, {"f": 1201, "vis": false, "cd": 6.21, "upd": false, "arm": 87.3, "y": 0, "z": 6}, {"f": 1202, "vis": false, "cd": 6.21, "upd": false, "arm": 87.3, "y": 0, "z": 6}, {"f": 1203, "vis": false, "cd": 6.21, "upd": false, "arm": 87.3, "y": 0, "z": 6}, {"f": 1204, "vis": false, "cd": 6.21, "upd": false, "arm": 87.3, "y": 0, "z": 6}, {"f": 1205, "vis": false, "cd": 6.21, "upd": false, "arm": 87.3, "y": 0, "z": 6}, {"f": 1206, "vis": false, "cd": 6.21, "upd": false, "arm": 87.3, "y": 0, "z": 6}]
+PASS 前置：沛珊在畫面外、離鏡頭 < 15 m 的格子至少 5 格  1884
+INFO ① 畫面外、16 m 內的格子沒更新骨架的：1884/1884 格；例 [{"f": 1195, "vis": false, "cd": 6.21, "upd": false, "arm": 87.3, "y": 0, "z": 6}, {"f": 1196, "vis": false, "cd": 6.21, "upd": false, "arm": 87.3, "y": 0, "z": 6}, {"f": 1197, "vis": false, "cd": 6.21, "upd": false, "arm": 87.3, "y": 0, "z": 6}]（BB 17:01：只記錄、不判——時間邊界會誤判，判定看 ② 的手臂角度）
+FAIL ② 畫面外那幾格的左上臂和正下方夾角都 ≤ 45°（不是 T 字）  1216/1884 格 >45°；例 [{"f": 1195, "vis": false, "cd": 6.21, "upd": false, "arm": 87.3, "y": 0, "z": 6}, {"f": 1196, "vis": false, "cd": 6.21, "upd": false, "arm": 87.3, "y": 0, "z": 6}, {"f": 1197, "vis": false, "cd": 6.21, "upd": false, "arm": 87.3, "y": 0, "z": 6}]
+PASS 前置：有切到她爬第一段（y 0.7～1.7）
+PASS ③ 鏡頭切過去以後第一格看得到她：左上臂夾角 ≤ 45°  {"f": 2411, "vis": true, "cd": 3.57, "upd": true, "arm": 11.2, "y": 0.79, "z": 3.77}
+PASS 沒有 JS 例外  []
+FAILED 1：② 畫面外那幾格的左上臂和正下方夾角都 ≤ 45°（不是 T 字）
