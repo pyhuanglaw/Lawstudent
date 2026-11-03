@@ -1,0 +1,111 @@
+[gpu_wrap] CC_GPU=1 跑 C:\Users\USER\Documents\Lawstudent_cclocal\docs\story_planning\test_tools\cc\cc_friends606_probe.py http://127.0.0.1:8811/index.html C:\Users\USER\Documents\Lawstudent_cclocal\docs\story_planning\CC\local_out\N19C_f606\out
+cc_friends606_probe  SHA=b1ae1c390  URL=http://127.0.0.1:8811/index.html  SAVE=docs/story_planning/CC/local_out/N19C_c608/out/camp608_824_save.json  UNTIL=2025-09-23
+  [   0.0s] 存檔 C:\Users\USER\Documents\Lawstudent_cclocal\docs\story_planning\CC\local_out\N19C_c608\out\camp608_824_save.json（寫的版本 b1ae1c390）
+PASS 遊戲載入
+  [前置／捷徑] 讀 ① 匯出的 8/24 存檔 docs/story_planning/CC/local_out/N19C_c608/out/camp608_824_save.json（標題「讀取／匯入存檔」→「匯入存檔」→「匯入」）
+  [  24.7s] 匯入檔 C:\Users\USER\Documents\Lawstudent_cclocal\docs\story_planning\CC\local_out\N19C_c608\out\camp608_824_save.json：讀進文字框 3972 字
+  [  24.9s] 匯入訊息：匯入成功，已備份原本進度。
+PASS 匯入 8/24 存檔
+PASS 讀 8/24 存檔以後遊戲接著演、走到 8/29（不停在 8/24）  {"key": "2025-08-29", "h": 16.086, "zone": "dorm", "campOn": false, "CAMP_Y1": true, "campStep": null}
+DAY 2025-08-29（None 第 None 週）16:05 實際 0 秒
+  [  68.2s] 2025-08-29 22:41 在宿舍空下來：去床
+  [  74.8s] 到達「床」附近（0.23 m）：點地面 1 次、轉鏡頭 1 次、搖桿 0 次，7 秒
+DAY 2025-08-30（None 第 None 週）07:30 實際 42 秒
+  [  80.7s] 2025-08-30 07:31 在宿舍空下來：去床
+  [  89.9s] 到達「床」附近（0.00 m）：點地面 0 次、轉鏡頭 2 次、搖桿 2 次，9 秒
+  [ 111.7s] 2025-08-30 17:31 在宿舍空下來：去床
+  [ 111.8s] 到達「床」附近（0.00 m）：點地面 0 次、轉鏡頭 0 次、搖桿 0 次，0 秒
+DAY 2025-08-31（None 第 None 週）07:30 實際 79 秒
+  [ 117.8s] 2025-08-31 07:31 在宿舍空下來：去床
+  [ 129.5s] 到達「床」附近（0.00 m）：點地面 0 次、轉鏡頭 1 次、搖桿 1 次，12 秒
+  [ 138.9s] 2025-08-31 07:33 在宿舍空下來：去床
+  [ 138.9s] 到達「床」附近（0.00 m）：點地面 0 次、轉鏡頭 0 次、搖桿 0 次，0 秒
+  [ 160.3s] 2025-08-31 15:31 在 gym_arena：手機「地點」回宿舍
+  [ 165.5s] 2025-08-31 15:47 在宿舍空下來：去床
+  [ 168.2s] 到達「床」附近（0.23 m）：點地面 1 次、轉鏡頭 0 次、搖桿 0 次，3 秒
+  [ 174.0s] 2025-08-31 18:01 在宿舍空下來：去床
+  [ 174.0s] 到達「床」附近（0.00 m）：點地面 0 次、轉鏡頭 0 次、搖桿 0 次，0 秒
+DAY 2025-09-01（Y1S1 第 1 週）08:10 實際 141 秒
+  [ 206.7s] 手機「今天」→ -15:const_1:am「直接去上課」
+  [ 361.3s] 2025-09-01 18:03 在 campus：手機「地點」回宿舍
+  [ 366.4s] 2025-09-01 18:19 在宿舍空下來：去床
+  [ 369.0s] 到達「床」附近（0.25 m）：點地面 1 次、轉鏡頭 0 次、搖桿 0 次，3 秒
+DAY 2025-09-02（Y1S1 第 1 週）00:00 實際 336 秒
+  [ 382.9s] 2025-09-02 00:01 在宿舍空下來：去床
+  [ 383.0s] 到達「床」附近（0.25 m）：點地面 0 次、轉鏡頭 0 次、搖桿 0 次，0 秒
+  [ 394.9s] 手機「今天」→ -14:chinese_y1:am「直接去上課」
+  [ 546.7s] 2025-09-02 15:40 在 putong：手機「地點」回宿舍
+  [ 551.3s] 2025-09-02 15:56 在宿舍空下來：去床
+  [ 553.8s] 到達「床」附近（0.25 m）：點地面 1 次、轉鏡頭 0 次、搖桿 0 次，3 秒
+DAY 2025-09-03（Y1S1 第 1 週）22:00 實際 520 秒
+  [ 562.9s] 2025-09-03 22:01 在宿舍空下來：去床
+  [ 562.9s] 到達「床」附近（0.25 m）：點地面 0 次、轉鏡頭 0 次、搖桿 0 次，0 秒
+DAY 2025-09-04（Y1S1 第 1 週）07:30 實際 531 秒
+  [ 569.6s] 2025-09-04 07:31 在宿舍空下來：去床
+  [ 577.9s] 到達「床」附近（0.00 m）：點地面 0 次、轉鏡頭 1 次、搖桿 1 次，8 秒
+DAY 2025-09-05（Y1S1 第 1 週）07:30 實際 545 秒
+  [ 583.6s] 2025-09-05 07:31 在宿舍空下來：去床
+  [ 591.9s] 到達「床」附近（0.00 m）：點地面 0 次、轉鏡頭 1 次、搖桿 1 次，8 秒
+  [ 636.4s] 2025-09-05 12:11 在 putong：手機「地點」回宿舍
+  [ 641.3s] 2025-09-05 12:27 在宿舍空下來：去床
+  [ 643.9s] 到達「床」附近（0.25 m）：點地面 1 次、轉鏡頭 0 次、搖桿 0 次，3 秒
+DAY 2025-09-11（Y1S1 第 2 週）08:50 實際 615 秒
+  [ 660.3s] 手機「今天」→ -5:english_y1:am「直接去上課」
+  [ 811.2s] 2025-09-11 15:40 在 classroom：手機「地點」回宿舍
+  [ 815.8s] 2025-09-11 15:56 在宿舍空下來：去床
+  [ 818.4s] 到達「床」附近（0.25 m）：點地面 1 次、轉鏡頭 0 次、搖桿 0 次，3 秒
+  [ 841.8s] 2025-09-11 20:01 在宿舍空下來：去床
+  [ 841.8s] 到達「床」附近（0.25 m）：點地面 0 次、轉鏡頭 0 次、搖桿 0 次，0 秒
+DAY 2025-09-12（Y1S1 第 2 週）18:30 實際 808 秒
+  [ 865.6s] 2025-09-12 21:01 在宿舍空下來：去床
+  [ 865.6s] 到達「床」附近（0.25 m）：點地面 0 次、轉鏡頭 0 次、搖桿 0 次，0 秒
+DAY 2025-09-15（Y1S1 第 3 週）08:50 實際 832 秒
+  [ 877.5s] 手機「今天」→ -1:const_1:am「直接去上課」
+  [1028.7s] 2025-09-15 18:58 在 campus：手機「地點」回宿舍
+  [1033.6s] 2025-09-15 19:14 在宿舍空下來：去床
+  [1036.2s] 到達「床」附近（0.25 m）：點地面 1 次、轉鏡頭 0 次、搖桿 0 次，3 秒
+DAY 2025-09-16（Y1S1 第 3 週）22:30 實際 1003 秒
+  [1049.8s] 2025-09-16 22:31 在宿舍空下來：去床
+  [1049.8s] 到達「床」附近（0.25 m）：點地面 0 次、轉鏡頭 0 次、搖桿 0 次，0 秒
+DAY 2025-09-18（Y1S1 第 3 週）08:50 實際 1016 秒
+  [1061.6s] 手機「今天」→ 2:english_y1:am「直接去上課」
+  [1212.9s] 2025-09-18 15:52 在 classroom：手機「地點」回宿舍
+  [1217.5s] 2025-09-18 16:08 在宿舍空下來：去床
+  [1220.1s] 到達「床」附近（0.25 m）：點地面 1 次、轉鏡頭 0 次、搖桿 0 次，3 秒
+DAY 2025-09-19（Y1S1 第 3 週）15:45 實際 1191 秒
+  [1233.3s] 2025-09-19 15:46 在宿舍空下來：去床
+  [1233.3s] 到達「床」附近（0.25 m）：點地面 0 次、轉鏡頭 0 次、搖桿 0 次，0 秒
+  [1245.5s] 2025-09-19 15:58 在 campus：手機「地點」回宿舍
+  [1250.5s] 2025-09-19 16:14 在宿舍空下來：去床
+  [1253.1s] 到達「床」附近（0.25 m）：點地面 1 次、轉鏡頭 0 次、搖桿 0 次，3 秒
+DAY 2025-09-22（Y1S1 第 4 週）12:00 實際 1220 秒
+DAY 2025-09-23（Y1S1 第 4 週）22:30 實際 1224 秒
+  [1274.4s] 結束：reached 2025-09-23 22:31 in dorm；{"key": "2025-09-23", "h": 22.526, "zone": "dorm", "fb": 1, "week": 4}；旗標 {"FRIEND_CARD_kai": true, "FRIEND_CARD_classmate_bohan": true, "ZHE_NOODLE_INV": "yes", "noodleTableDay": -5, "FRIEND_CARD_classmate_mingxuan": true, "FRIEND_CARD_zhe": true}
+PASS 走到 2025-09-23 22:00 以後人在 203（或日期過了）  reached 2025-09-23 22:31 in dorm
+CARD 阿凱「凌晨的作業」｜自動播：有｜時間：2025-09-02 00:00（{"term": "Y1S1", "week": 1}）｜區域 dorm｜對話框名字：["阿凱"]
+PASS 1 阿凱「凌晨的作業」 播一次  1
+FAIL 2 阿凱「凌晨的作業」 的時間：2025-09-02 00:00（應為 9/2 23:30～02:00）  {"card": "阿凱「凌晨的作業」", "ev": "ev_card_kai", "auto": true, "n_runs": 1, "when": "2025-09-02 00:00", "zone": "dorm", "names": ["阿凱"], "week": {"term": "Y1S1", "week": 1}}
+PASS 3 阿凱「凌晨的作業」 對話框名字都是「阿凱」  ["阿凱"]
+CARD 柏翰「第一排」｜自動播：有｜時間：2025-09-11 13:10（{"term": "Y1S1", "week": 2}）｜區域 classroom｜對話框名字：["柏翰"]
+PASS 1 柏翰「第一排」 播一次  1
+PASS 2 柏翰「第一排」 的時間：2025-09-11 13:10（應為 第 2 週民總課前（之後接的事件 ["ev_yc_meet_after", "ev_zhe_noodle_invite"]））  {"card": "柏翰「第一排」", "ev": "ev_card_bohan", "auto": true, "n_runs": 1, "when": "2025-09-11 13:10", "zone": "classroom", "names": ["柏翰"], "week": {"term": "Y1S1", "week": 2}}
+PASS 3 柏翰「第一排」 對話框名字都是「柏翰」  ["柏翰"]
+CARD 阿哲介紹 Alison｜自動播：有｜時間：2025-09-11 18:30（{"term": "Y1S1", "week": 2}）｜區域 dorm｜對話框名字：["Alison"]
+PASS 1 阿哲介紹 Alison 播一次  1
+PASS 2 阿哲介紹 Alison 的時間：2025-09-11 18:30（應為 和阿哲第一次去麵店時認識（FIRST_MET {"day": -5, "note": "noodle"}））  {"card": "阿哲介紹 Alison", "ev": "ev_zhe_long_table_out", "auto": true, "n_runs": 1, "when": "2025-09-11 18:30", "zone": "dorm", "names": ["Alison"], "week": {"term": "Y1S1", "week": 2}}
+PASS 3 阿哲介紹 Alison 對話框名字都是「Alison」  ["Alison"]
+CARD 明軒「公館便宜好吃.xlsx」｜自動播：有｜時間：2025-09-15 12:10（{"term": "Y1S1", "week": 3}）｜區域 classroom｜對話框名字：["明軒"]
+PASS 1 明軒「公館便宜好吃.xlsx」 播一次  1
+PASS 2 明軒「公館便宜好吃.xlsx」 的時間：2025-09-15 12:10（應為 第 3 週必修下課）  {"card": "明軒「公館便宜好吃.xlsx」", "ev": "ev_card_mingxuan", "auto": true, "n_runs": 1, "when": "2025-09-15 12:10", "zone": "classroom", "names": ["明軒"], "week": {"term": "Y1S1", "week": 3}}
+PASS 3 明軒「公館便宜好吃.xlsx」 對話框名字都是「明軒」  ["明軒"]
+CARD 阿哲「四碗麵」｜自動播：有｜時間：2025-09-23 22:30（{"term": "Y1S1", "week": 4}）｜區域 dorm｜對話框名字：["阿哲"]
+PASS 1 阿哲「四碗麵」 播一次  1
+PASS 2 阿哲「四碗麵」 的時間：2025-09-23 22:30（應為 9/23 22:00 以後、203）  {"card": "阿哲「四碗麵」", "ev": "ev_card_zhe", "auto": true, "n_runs": 1, "when": "2025-09-23 22:30", "zone": "dorm", "names": ["阿哲"], "week": {"term": "Y1S1", "week": 4}}
+PASS 3 阿哲「四碗麵」 對話框名字都是「阿哲」  ["阿哲"]
+PASS 4 旗標 FRIEND_CARD_kai  {"FRIEND_CARD_kai": true, "FRIEND_CARD_classmate_bohan": true, "ZHE_NOODLE_INV": "yes", "noodleTableDay": -5, "FRIEND_CARD_classmate_mingxuan": true, "FRIEND_CARD_zhe": true}
+PASS 4 旗標 FRIEND_CARD_classmate_bohan  {"FRIEND_CARD_kai": true, "FRIEND_CARD_classmate_bohan": true, "ZHE_NOODLE_INV": "yes", "noodleTableDay": -5, "FRIEND_CARD_classmate_mingxuan": true, "FRIEND_CARD_zhe": true}
+PASS 4 旗標 FRIEND_CARD_classmate_mingxuan  {"FRIEND_CARD_kai": true, "FRIEND_CARD_classmate_bohan": true, "ZHE_NOODLE_INV": "yes", "noodleTableDay": -5, "FRIEND_CARD_classmate_mingxuan": true, "FRIEND_CARD_zhe": true}
+PASS 4 旗標 FRIEND_CARD_zhe  {"FRIEND_CARD_kai": true, "FRIEND_CARD_classmate_bohan": true, "ZHE_NOODLE_INV": "yes", "noodleTableDay": -5, "FRIEND_CARD_classmate_mingxuan": true, "FRIEND_CARD_zhe": true}
+FAIL 5 walkFallbacks 0  1
+PASS 5 沒有 JS 例外  []
+FAILED 2
