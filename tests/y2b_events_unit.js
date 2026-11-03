@@ -94,7 +94,7 @@ const answer=(id,k)=>PHONE.answer(G,id,k);
   at('2027-05-29',14); G.zone='wz_teahouse'; SOCIAL.remember('heroine_03','LAW_MEETS_LIFE',''); said=[]; const hit=EVENTS.onInteract('heroine_03'); await new Promise(r=>setTimeout(r,5));
   check('A3. 之後在茶屋和語彤說話（AA_625 第 9 節不在場版；第一句 AA_643 第 2 節「上次」）：「上次我陪秀琴姨去法服。」「裡面的人說，租約到期以前，新屋主不能叫她搬。」「她出來的時候在笑。」＋「就是你那天傳的那一頁」；記 RENT_CONSULTATION', hit&&has('上次我陪秀琴姨去法服。')&&has('裡面的人說，租約到期以前，新屋主不能叫她搬。')&&has('她出來的時候在笑。')&&has('就是你那天傳的那一頁。')&&SOCIAL.has('heroine_03','RENT_CONSULTATION'), JSON.stringify(lines()));
   fresh('2027-06-12',21.2,'dorm'); R('heroine_03','FRI'); ct('heroine_03'); rules();
-  check('A3. 都沒遇到：6/12 21:00 三句（第一句「前陣子」；其他照 AA_625 第 9 節不在場版）', txt('p:heroine_03').join('|')==='heroine_03:前陣子我陪秀琴姨去法服。|heroine_03:裡面的人說，租約到期以前，新屋主不能叫她搬。|heroine_03:她出來的時候在笑。');
+  check('A3. 都沒遇到：6/12 21:00 三句（第一句「上次」＝AA 11-03 22:43 回 BB；其他照 AA_625 第 9 節不在場版）', txt('p:heroine_03').join('|')==='heroine_03:上次我陪秀琴姨去法服。|heroine_03:裡面的人說，租約到期以前，新屋主不能叫她搬。|heroine_03:她出來的時候在笑。');
   fresh('2027-05-25',18,'noodle'); said=[]; const hit4=EVENTS.onInteract('heroine_03'); fresh('2027-06-12',21.2,'dorm'); ct('heroine_03'); rules();
   check('A4. 不認識語彤：沒有轉述、沒有 6/12 那則', !hit4&&txt('p:heroine_03').length===0);
 

@@ -44,7 +44,7 @@ const Y2B=(function(){
     /* 21:30「我拿給阿姨看了」那兩則：AA_625 第 8 節換成當下「我明天跟她說。」，拿掉（YT-REWRITE-1103）*/
     /* ---- 1B-03 語彤事件 9：都沒遇到＝6/12（六）21:00 私訊三句 ---- */
     { const d=D('2027-06-12'); if(d!=null&&G.day>=d&&G.day<=d+7&&past(G,'2027-06-12',21)&&!done(G,'ev_yt_aunt_consult')&&!has('heroine_03','RENT_CONSULTATION')&&knows('heroine_03',G)&&contact(G,'heroine_03')&&!PHONE.sent(G,'y2_yt_aunt_msg')){
-        PHONE.at(G,d,21,[Y('前陣子我陪秀琴姨去法服。'),Y('裡面的人說，租約到期以前，新屋主不能叫她搬。'),Y('她出來的時候在笑。')],'y2_yt_aunt_msg'); if(SOCIAL.remember) SOCIAL.remember('heroine_03','RENT_CONSULTATION','她傳訊息說陪秀琴姨去法服');   /* 句子照 AA_625 第 9 節不在場版（「禮拜六」改「前陣子」：這一則是 6/12 才傳）*/ } }
+        PHONE.at(G,d,21,[Y('上次我陪秀琴姨去法服。'),Y('裡面的人說，租約到期以前，新屋主不能叫她搬。'),Y('她出來的時候在笑。')],'y2_yt_aunt_msg'); if(SOCIAL.remember) SOCIAL.remember('heroine_03','RENT_CONSULTATION','她傳訊息說陪秀琴姨去法服');   /* 句子照 AA_625 第 9 節不在場版（「禮拜六」改「前陣子」：這一則是 6/12 才傳）*/ } }
     /* ---- 1B-05 子晴 Q8：沒碰到、或沒看過 Q6＝6/4（五）22:00（FRIEND 以上）---- */
     { const d=D('2027-06-04'); if(d!=null&&G.day>=d&&G.day<=d+7&&past(G,'2027-06-04',22)&&!done(G,'ev_ziqing_dad_visit')&&stageAt('heroine_04','FRIEND')&&contact(G,'heroine_04')&&!PHONE.sent(G,'y2_zq_dad_msg')){
         /* AA_255 第 7 節（C10，AA 定稿；AA_375 第 4 節提醒還沒進程式）：四則版——看過 Q6＝「他問我遊戲做好了沒」、沒看過（不提遊戲）＝「他問我最近在忙什麼 我說寫程式」；
