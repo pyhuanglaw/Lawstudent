@@ -1,3 +1,1 @@
-# 要測的版本：任何已經推上 GitHub 的 commit SHA（通常是開發分支 claude/confident-ritchie-8rwh7t 的最新 commit）。
-# 改這一行並 commit 到 claude/gha-node-sweep，GitHub 就會自動跑一次全部 Node 單元測試（.github/workflows/node-sweep.yml）。
-f8d129d5126d5ce3501356517c6de11decfa2e2f
+0ee99b327dd0eff2aa1bbec35e4869f3b9352a3f
