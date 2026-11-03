@@ -17,7 +17,7 @@
       "what": "政大 2D 背景 nccu_gate",
       "task": "DONE-B11",
       "msg": "ACK",
-      "integration": "已整合待測試",
+      "integration": "已驗收",
       "note": "LAWWW-B 00179902 整合"
     },
     {
@@ -29,7 +29,7 @@
       "what": "政大 2D 背景 nccu_food",
       "task": "DONE-B11",
       "msg": "ACK",
-      "integration": "已整合待測試",
+      "integration": "已驗收",
       "note": "LAWWW-B 00179902 整合"
     },
     {
@@ -53,7 +53,7 @@
       "what": "載妹墊 bike_ride.glb＋rear_cushion 小修",
       "task": "DONE-B13",
       "msg": "ACK",
-      "integration": "已整合待測試",
+      "integration": "已驗收",
       "note": "fc56ccde、305052b2"
     },
     {
@@ -169,7 +169,7 @@
       "what": "大一上閒聊階梯 AA（以安、語彤）",
       "task": "DONE-B10",
       "msg": "ACK",
-      "integration": "已整合待測試",
+      "integration": "已驗收",
       "note": "6b7b24a3、17383f2d"
     },
     {
@@ -181,7 +181,7 @@
       "what": "大一上閒聊階梯 BB 最新版（各人物）",
       "task": "DONE-B10",
       "msg": "ACK",
-      "integration": "已整合待測試",
+      "integration": "已驗收",
       "note": "00179902 之後重匯"
     },
     {
@@ -225,7 +225,7 @@
       "what": "大一下閒聊階梯 AA（ladder_aa_y1s2.json，AA_139）",
       "task": "V2-L2",
       "msg": "ACK",
-      "integration": "已整合待測試",
+      "integration": "已驗收",
       "note": "",
       "audit": [
         {
@@ -245,7 +245,7 @@
       "what": "大一下閒聊階梯 BB（ladder_bb_y1s2.json，BB_133）",
       "task": "V2-L2",
       "msg": "ACK",
-      "integration": "已整合待測試",
+      "integration": "已驗收",
       "note": "BB-B 02:00",
       "audit": [
         {
@@ -264,8 +264,8 @@
       "sha": "6f929b71／3aa5d5f6",
       "what": "大二上、大二下閒聊階梯 AA（AA_141、AA_142）",
       "task": "V3-L1",
-      "msg": "DELIVERED",
-      "integration": "已整合待測試",
+      "msg": "ACTIONED",
+      "integration": "已驗收",
       "note": "AA-B 沒有另外傳訊息；從企劃線看到",
       "audit": [
         {
@@ -853,7 +853,7 @@
       "what": "A4-L2 改「地方是早就決定的」＋AN4_EXCHANGE_TALK 字樣",
       "task": "V3-L1",
       "msg": "ACK",
-      "integration": "已整合待測試",
+      "integration": "已驗收",
       "note": "重新匯入＋字樣已改"
     },
     {
@@ -1786,8 +1786,8 @@
       "sha": "fa4ce043",
       "what": "大二上閒聊階梯 BB 五位（BB_136、ladder_bb_y2s1）",
       "task": "V3-L1",
-      "msg": "DELIVERED",
-      "integration": "已整合待測試",
+      "msg": "ACTIONED",
+      "integration": "已驗收",
       "note": "重跑 import_ladder 就進來（v3）",
       "audit": [
         {
@@ -10405,7 +10405,7 @@
       "what": "AA_298：衝刺班 6/9～7/9 每天、只停有戲的日子（retake_home 加 RH-C0～C5、cram_cards、bg、after）；模擬考 R4 拿掉；R3 改大安森林公園；E34 拿掉；媽媽問宿舍（住家裡過濾）；為什麼重考的回答改短",
       "task": "AA298-RETAKE-FIX-1018",
       "msg": "ACK",
-      "integration": "已整合待測試",
+      "integration": "已驗收",
       "note": "AA 已推 523dd2f4（home_lines 早上第 3 句）、1bf69043（阿勳私訊老實選項）；a9446ebb、74e3889b 整合"
     },
     {
@@ -10431,7 +10431,7 @@
       "what": "AA_298 第 7、8 節：考場高中教室（exam_hs_classroom）、爸爸長期在上海家裡只有媽媽（home_lines 重匯、home3d dinner/takeCar 改媽媽、home_unit 4、6）、retake_home 換 294cea95",
       "task": "AA298-RETAKE-FIX-1018",
       "msg": "ACK",
-      "integration": "已整合待測試",
+      "integration": "已驗收",
       "note": "AA 已推 6652f497（考場單人桌椅旁白）；a9446ebb、74e3889b 整合"
     },
     {
@@ -10496,7 +10496,7 @@
       "what": "放榜電話：只高 0.1 可昕說、only_me 兩句拿掉（AA_298 第 9 節）",
       "task": "Q-E36-CALL-1018",
       "msg": "ACK",
-      "integration": "已整合待測試",
+      "integration": "已驗收",
       "note": "74e3889b"
     },
     {
@@ -10561,7 +10561,7 @@
       "what": "AA_298 第 10 節：放榜電話——祐廷問要不要回台大、她想自己從大一開始；「政大的山比較多……比你強壯」與 E36_REPLY 拿掉（使用者：她沒有在跟我比）",
       "task": "Q-E36-CALL-1018",
       "msg": "ACK",
-      "integration": "已整合待測試",
+      "integration": "已驗收",
       "note": ""
     },
     {
@@ -10733,7 +10733,7 @@
       "what": "AA_306 可昕經濟系階梯逐層確認（Y0S1 13 層、Y0S2 4 層）",
       "task": "AA306-KX-LADDER-1018",
       "msg": "ACK",
-      "integration": "已整合待測試",
+      "integration": "已驗收",
       "note": "ded5da04"
     },
     {
@@ -10746,7 +10746,7 @@
       "what": "日期卡「你房間的書桌，一半是她的書」「書桌旁邊多了一台電風扇」（AA 直接推 RULE_SOURCE）",
       "task": "AA306-KX-LADDER-1018",
       "msg": "ACK",
-      "integration": "已整合待測試",
+      "integration": "已驗收",
       "note": "ded5da04"
     },
     {
@@ -10772,7 +10772,7 @@
       "what": "AA_306 經濟系大一上五個人階梯問完（13／6／4／6／7 層）＋AA_305 第 9 節更正",
       "task": "AA306-KX-LADDER-1018",
       "msg": "ACK",
-      "integration": "已整合待測試",
+      "integration": "已驗收",
       "note": "cb4a2ffa"
     },
     {
@@ -10812,7 +10812,7 @@
       "what": "階梯最終版（y0s1／y0s2）＋retake_home（RH-M0 等，712dad6b）",
       "task": "AA306-KX-LADDER-1018",
       "msg": "ACK",
-      "integration": "已整合待測試",
+      "integration": "已驗收",
       "note": "5ac83dbc"
     },
     {
@@ -11570,7 +11570,7 @@
       "what": "AA_327 事件包第 2 輪之三：大四到尾聲 61 件；AA_319 三處更正（W15、7/12 20:00、延畢的二試準備）；AA_323 理由欄",
       "task": "EVPKG-R2Y4-1020",
       "msg": "ACK",
-      "integration": "已整合待測試",
+      "integration": "已驗收",
       "note": "LAWWW-C 18:4x ACK；AA_319 更正轉給正在做的那一批",
       "audit": [
         {
@@ -11978,7 +11978,7 @@
       "what": "AA_343 回 LAWWW 的 40 題（docs/handoff/AA_QUESTIONS_1021.md A～E）：第 0 節一張表，標「改」的 30 多項；面板名稱 13 個定稿；K10 改 10/23 18:30；以安 3/14 交往中一律有",
       "task": "AA343-ANSWERS-1021",
       "msg": "ACK",
-      "integration": "已整合待測試",
+      "integration": "已驗收",
       "note": "LAWWW-C 08:5x 派子代理施工",
       "audit": [
         {
@@ -12193,7 +12193,7 @@
       "what": "AA_350 回 AA_QUESTIONS_1021 M、N 十八題（M1、M5、M7、N1～N4、N8、N9 要改程式）",
       "task": "AA350-ANSWERS-1021",
       "msg": "ACK",
-      "integration": "已整合待測試",
+      "integration": "已驗收",
       "note": "aad9f57e（M1、M5、M7、N1～N4）、382236a5（N9 舊存檔）；N8 併 HOLIDAY-PRESENCE-1021 子代理"
     },
     {
@@ -12323,7 +12323,7 @@
       "what": "AA_350 第 5、6 節：P 節（AA_349 實作）、Q 節（AA_346 實作）補答",
       "task": "AA350-ANSWERS-1021",
       "msg": "ACK",
-      "integration": "已整合待測試",
+      "integration": "已驗收",
       "note": "Q3、Q4、Q6 在 6ee9e78d；P1、P5 子代理實作中"
     },
     {
@@ -12414,7 +12414,7 @@
       "what": "AA_350 第 7 節（R：翹課旗標 7 題＋N3＋S.TELL）、第 8 節（S：回老家 8 題）補答",
       "task": "AA350-ANSWERS-1021",
       "msg": "ACK",
-      "integration": "已整合待測試",
+      "integration": "已驗收",
       "note": "R0、R0b、R6＝10dc79b1；R2、R5、R7、S1～S8 子代理中；R1＝EVPKG-AA227-228-KNOW"
     },
     {
@@ -12505,7 +12505,7 @@
       "what": "AA_350 第 4 節：回 LAWWW O 節八題（AA_347 實作時遇到的）：O1 有專用句的日期卡不接輪替句、O2 可以到 11/2 晚上、O3 22:30 人在宿舍房間就演、O4 運動會沒去補阿哲私訊、O5 12/8 當天才拆紙箱的一句、O6 語彤要有聯絡方式才傳、O7 註解改成正確日子、O8 字幕與地點名稱都可以",
       "task": "AA350-ANSWERS-1021",
       "msg": "ACTIONED",
-      "integration": "已整合待測試",
+      "integration": "已驗收",
       "note": "開發分支 0af48e50（2026-10-21 12:17，commit 訊息寫 AA-C e2fafef2）已照 O 節改；deliveries 之前沒有這一筆（第 1～3 節＝DL-AA-3f406dbc、第 5～8 節＝DL-AA-25637c20／cae5cc76）。同 commit 另有 AA 交接紀錄、user_asks UA-AA-1021-36（使用者 12:0x「AA＝劇情總監，自主完善」）"
     },
     {
@@ -14625,7 +14625,7 @@
       "what": "AA_463 法律系大三下讀後",
       "task": "TERM-READ-Y3S2-1025",
       "msg": "ACK",
-      "integration": "已整合待測試",
+      "integration": "已驗收",
       "note": "LAWWW-B 隔離 worktree 實作、預備分支 int-1025 驗證（全部 Node 639 支 0 失敗），10-25 15:3x v9.10.10 發布後合進開發分支 40a645855；AA 回覆的追加修正（cb5caad65、878496edb、8a7f797ec、7fa83ebc9、9a3de960f）一併"
     },
     {
@@ -14638,7 +14638,7 @@
       "what": "AA_464 法律系大四上讀後",
       "task": "TERM-READ-Y4S1-1025",
       "msg": "ACK",
-      "integration": "已整合待測試",
+      "integration": "已驗收",
       "note": "LAWWW-B 隔離 worktree 實作、預備分支 int-1025 驗證（全部 Node 639 支 0 失敗），10-25 15:3x v9.10.10 發布後合進開發分支 40a645855；AA 回覆的追加修正（cb5caad65、878496edb、8a7f797ec、7fa83ebc9、9a3de960f）一併"
     },
     {
@@ -14651,7 +14651,7 @@
       "what": "AA_465 法律系大四下讀後",
       "task": "TERM-READ-Y4S2-1025",
       "msg": "ACK",
-      "integration": "已整合待測試",
+      "integration": "已驗收",
       "note": "LAWWW-B 隔離 worktree 實作、預備分支 int-1025 驗證（全部 Node 639 支 0 失敗），10-25 15:3x v9.10.10 發布後合進開發分支 40a645855；AA 回覆的追加修正（cb5caad65、878496edb、8a7f797ec、7fa83ebc9、9a3de960f）一併"
     },
     {
@@ -14664,7 +14664,7 @@
       "what": "AA_466 日本路線讀後",
       "task": "JP-READ-1025",
       "msg": "ACK",
-      "integration": "已整合待測試",
+      "integration": "已驗收",
       "note": "LAWWW-B 隔離 worktree 實作、預備分支 int-1025 驗證（全部 Node 639 支 0 失敗），10-25 15:3x v9.10.10 發布後合進開發分支 40a645855；AA 回覆的追加修正（cb5caad65、878496edb、8a7f797ec、7fa83ebc9、9a3de960f）一併"
     },
     {
@@ -14872,7 +14872,7 @@
       "what": "AA_479 美國交換逐日劇本（交往中、有 met_sis）讀後三處",
       "task": "AA479-US-FIX-1027",
       "msg": "ACK",
-      "integration": "已整合待測試",
+      "integration": "已驗收",
       "note": "LAWWW-C 19:3x 手改三處；outbox 最後 1af1f131e；8/2 阿哲中秋烤肉是 BB 測試底檔的舊訊息，AA 會跟 BB 說"
     },
     {
@@ -15015,7 +15015,7 @@
       "what": "AA_489 兩個子代理做完要定的句子：ev_sis_club_expo 兩句、社博學姊手機地點、提早坐下轉暗旁白、體育館路人 13 句、以安吃完麵那一句",
       "task": "AA489-LINES-1027",
       "msg": "ACK",
-      "integration": "已整合待測試",
+      "integration": "已驗收",
       "note": "【LAWWW-C 2026-10-27 21:2x UTC】第 3、5 節合進 8f3d4d2f9；第 1、2、4 節等 y1fb-1027 合進來（社博、crowd 同一帶）；outbox 3fd7f0d03｜【LAWWW-C 2026-10-27 22:0x UTC】第 1、2、4 節 b1a71c1a3"
     },
     {
