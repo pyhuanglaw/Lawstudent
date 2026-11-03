@@ -502,3 +502,11 @@
 [22:33:55] ==== START N19F_fav  (probe @ b1ae1c390) ====
 [22:33:58] [res] cpu=37% mem=51% (15.8/31.4 GB) chrome_testing=18  START N19F_fav
 [22:34:41] [res] cpu=26% mem=50% (16.1/31.4 GB) chrome_testing=19  END N19C_osload
+    To https://github.com/pyhuanglaw/Lawstudent.git
+       861ca321c..ab97b347d  claude/cc-local -> claude/cc-local
+    branch 'claude/cc-local' set up to track 'origin/claude/cc-local'.
+[22:34:46] ==== END   N19C_osload  exit=0  86s   ====
+[22:34:48] memory 51% before starting 00_gpu (2 running)
+[22:34:48] ==== START 00_gpu  (gpu @ 95fdd71af) ====
+[22:34:51] [res] cpu=17% mem=51% (16.1/31.4 GB) chrome_testing=20  START 00_gpu
+[22:36:45] [res] cpu=27% mem=51% (15.8/31.4 GB) chrome_testing=14  END N19F_fav

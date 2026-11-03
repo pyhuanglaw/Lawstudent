@@ -1,0 +1,23 @@
+{
+  "rerun": "",
+  "id": "N19F_fav",
+  "sha": "b1ae1c390",
+  "kind": "probe",
+  "script": "docs/story_planning/test_tools/cc/cc_phone_fav_probe.py",
+  "env": "CC_HEADLESS=0;ORIENTS=port,land",
+  "machine": "MSI",
+  "start": "2026-11-03T22:33:55",
+  "end": "2026-11-03T22:36:45",
+  "seconds": 170,
+  "exit": 1,
+  "error": null,
+  "runner": "8565f3aa98",
+  "rf_round": "3",
+  "url": "http://127.0.0.1:8811/index.html",
+  "res_peak": {
+    "cpu": 43,
+    "mem": 56,
+    "used_gb": 17.5,
+    "chrome_testing": 28
+  }
+}
