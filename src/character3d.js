@@ -324,15 +324,15 @@ const CHAR = (function(){
      手上沒有啞鈴、槓、拉把（器材模型是固定的）：美術缺口，交 LAWWW2。GLB、程序化備用人物沒有這些動作：坐著的（press、bike、row、stretch）照坐下、站著的照站著（C.animate）。
      C.GYM：每個動作一個循環幾秒、幅度、器材上的位置；C.gymIK=false 可以關掉比較。測試：node tests/gym_pose_unit.js */
   C.gymIK=true;
-  C.GYM={ squat:{T:2.8,depth:0.36,back:0.13,lean:0.5,stance:0.13},
+  C.GYM={ blend:0.9, squat:{T:2.8,depth:0.36,back:0.13,lean:0.5,stance:0.13},
     curl:{T:2.4,lo:0.15,hi:2.25},
     press:{T:3.0,seat:[0,0.46,0.28],feet:[0.22,0.78]},
-    bike:{T:0.78,seat:[0,0.985,-0.31],axle:[0,0.36,-0.02],crank:0.17,pedalX:0.12,grip:[0.25,1.14,0.31],lean:0.85},
+    bike:{T:0.9,seat:[0,0.985,-0.31],axle:[0,0.36,-0.02],crank:0.17,pedalX:0.12,grip:[0.25,1.14,0.31],lean:0.85},
     row:{T:3.2,seatY:0.40,zCatch:0.03,zFinish:-0.36,feet:[0.12,0.34,0.43],handle:[0.12,0.50,0.53]},
     stretch:{T:6.0,T2:5.0} };
   C.GYM_POSES=['gym_squat','gym_curl','gym_press','gym_bike','gym_row','gym_stretch'];
   const GYM_SEATED={gym_press:1,gym_bike:1,gym_row:1,gym_stretch:1};   /* 靜態的底子（不放片段）；深蹲、彎舉用站著的片段當底子 */
-  const GYM_BASE=Object.assign({},SIT_VRM,{Hips:[0,0,0],Spine:[0,0,0],Spine1:[0,0,0],Spine2:[0,0,0],Neck:[0,0,0],Head:[0,0,0],LeftHand:[0,0,0],RightHand:[0,0,0]});
+  const GYM_BASE=Object.assign({},SIT_VRM,{Hips:[0,0,0],Spine:[0,0,0],Spine1:[0,0,0],Spine2:[0,0,0],Neck:[0,0,0],Head:[0,0,0],LeftForeArm:[0,-0.6,0],RightForeArm:[0,0.6,0],LeftHand:[0,0,0],RightHand:[0,0,0]});   /* 手肘先微彎（往前）：IK 從打直的手臂開始時，往哪邊彎不穩定 */
   const GYV=[0,1,2,3,4,5,6,7,8,9,10,11].map(()=>new THREE.Vector3()), GYQ=new THREE.Quaternion();
   const sm01=(x,a,b)=>{ const t=Math.max(0,Math.min(1,(x-a)/(b-a))); return t*t*(3-2*t); };
   function gymRaw(u){ return u.rawGym||(u.rawGym=(()=>{ const hm=u.vrm.humanoid, o={}; for(const n of ['hips','spine','chest','upperChest','neck','head']) o[n]=hm.getRawBoneNode(n); for(const L of LEGS.concat(ARMS)) for(const n of L) o[n]=hm.getRawBoneNode(n);
@@ -342,12 +342,14 @@ const CHAR = (function(){
     for(const row of fb) for(let j=0;j<3;j++){ const b=row[j]; if(b) rotWorld(b,ax,sg*G[j]*amt); } }
   function gymIK(h,u,dt){ if(!C.gymIK) return; const g=u.gym, R=gymRaw(u), P=C.GYM, k=u.k||1, w=u.model, base=w.userData.baseY||0;
     if(LEGS.concat(ARMS).some(L=>L.slice(0,3).some(n=>!R[n]))||!R.hips) return;
-    g.w=Math.min(1,(g.w||0)+(dt>0?dt/0.6:0)); const wt=g.w*g.w*(3-2*g.w), t=g.t;   /* 剛換成這個動作：0.6 秒內從原本的姿勢過去（不跳格）*/
+    g.w=Math.min(1,(g.w||0)+(dt>0?dt/C.GYM.blend:0)); const wt=g.w*g.w*(3-2*g.w), t=g.t;   /* 剛換成這個動作：C.GYM.blend 秒內從原本的姿勢過去（不跳格；坐著的動作底子也一起轉，animateVRM）*/
     const Lc=(b,v)=>h.worldToLocal(b.getWorldPosition(v||new THREE.Vector3())), Wd=v=>h.localToWorld(v.clone());
     h.getWorldQuaternion(GYQ); const LEFT=new THREE.Vector3(1,0,0).applyQuaternion(GYQ).normalize(), FWD=new THREE.Vector3(0,0,1).applyQuaternion(GYQ).normalize();   /* 人物的左方、前方（世界座標）：繞左方轉正的角度＝往前傾 */
     const lean=parts=>{ for(const [n,a] of parts) if(R[n]&&Math.abs(a)>1e-5) rotWorld(R[n],LEFT,a*wt); };
     const tilt=parts=>{ for(const [n,a] of parts) if(R[n]&&Math.abs(a)>1e-5) rotWorld(R[n],FWD,a*wt); };
-    const limb=(L,T,pole,keepFoot)=>{ const Tw=Wd(T), Pw=Wd(pole); if(wt<1) Tw.lerp(R[L[2]].getWorldPosition(new THREE.Vector3()),1-wt); if(keepFoot) R[L[2]].getWorldQuaternion(IKQ[3]); ik2(R[L[0]],R[L[1]],R[L[2]],Tw,Pw);
+    const limb=(L,T,pole,keepFoot)=>{ const Tw=Wd(T), Pw=Wd(pole), A=R[L[0]].getWorldPosition(new THREE.Vector3()); if(wt<1) Tw.lerp(R[L[2]].getWorldPosition(new THREE.Vector3()),1-wt);   /* 換過來的時候：目標點從原本的位置慢慢移過去（試過把骨頭角度 slerp 過去：手臂要轉 180° 時路徑不定，會整隻甩到另一邊）*/
+      const ll=len(L), mx=(ll[0]+ll[1])*0.985, dd=Tw.distanceTo(A); if(dd>mx) Tw.sub(A).multiplyScalar(mx/dd).add(A);   /* 搆不到：停在快伸直的地方（完全打直時膝蓋、手肘往哪邊彎不穩，會抖）*/
+      if(keepFoot) R[L[2]].getWorldQuaternion(IKQ[3]); ik2(R[L[0]],R[L[1]],R[L[2]],Tw,Pw);
       if(keepFoot){ R[L[2]].parent.getWorldQuaternion(IKQ[0]); R[L[2]].quaternion.copy(IKQ[0].invert().multiply(IKQ[3])); R[L[2]].updateWorldMatrix(false,true); } };
     const len=L=>{ const a=R[L[0]].getWorldPosition(GYV[2]), b=R[L[1]].getWorldPosition(GYV[3]), c=R[L[2]].getWorldPosition(GYV[4]); return [a.distanceTo(b),b.distanceTo(c)]; };
     /* 身體的座標（上身傾斜以後）：up＝臀部 → 脖子、lf＝人物的左方、fw＝lf×up */
@@ -372,23 +374,24 @@ const CHAR = (function(){
         const E=S.clone().addScaledVector(tf.up,-la*0.985).addScaledVector(tf.fw,la*0.14).addScaledVector(tf.lf,s*0.02*k);
         const H=E.clone().addScaledVector(tf.up,-Math.cos(al)*lb*0.97).addScaledVector(tf.fw,Math.sin(al)*lb*0.97);
         return [H,E.clone().addScaledVector(tf.fw,-0.12)]; },1); }
-    else if(kind==='gym_press'){ const Q=P.press, q=0.5-0.5*Math.cos(cyc(Q.T)), dr=legRootDrop(); g.ph=q;
+    else if(kind==='gym_press'){ const Q=P.press, q=(0.5-0.5*Math.cos(cyc(Q.T)))*wt, dr=legRootDrop(); g.ph=q;   /* ×wt：換過來時從最下面（手在肩膀旁邊）開始，手走的路短 */
       place(Q.seat[1]+SEAT_UP+dr,Q.seat[2]); lean([['spine',-0.04],['neck',0.04]]);
       const ra=RA[u.key||'_']||0.085*k;
       for(const [i,s] of [[0,1],[1,-1]]){ const L=LEGS[i]; limb(L,V(s*Q.feet[0],ra,Q.feet[1]),Lc(R[L[0]]).add(V(s*0.2,0.3,1.0)),true); }
       const [la,lb]=len(ARMS[0]);
       arms((i,s,S,tf)=>{ const bot=S.clone().addScaledVector(tf.lf,s*la*0.92).addScaledVector(tf.up,lb*0.9-la*0.3).addScaledVector(tf.fw,0.03*k), top=S.clone().addScaledVector(tf.lf,s*0.09*k).addScaledVector(tf.up,(la+lb)*0.94).addScaledVector(tf.fw,0.02*k);
-        return [bot.lerp(top,q),S.clone().addScaledVector(tf.lf,s*0.6).addScaledVector(tf.up,-0.25).addScaledVector(tf.fw,0.05)]; },1); }
+        return [bot.lerp(top,q),S.clone().addScaledVector(tf.lf,s*0.5).addScaledVector(tf.up,-0.3).addScaledVector(tf.fw,-0.25)]; },1); }   /* 手肘往外、稍微往後：pole 不在手走的平面上（換過來時手從下面舉到肩膀旁邊，會掃過正側面）*/
     else if(kind==='gym_bike'){ const Q=P.bike, th=cyc(Q.T), dr=legRootDrop(); g.ph=th;
-      const [l1,l2]=len(LEGS[0]), leg=l1+l2, ank=[0,Q.axle[1]-Q.crank+0.075,Q.axle[2]-0.035], hz=Q.seat[2];
+      const [l1,l2]=len(LEGS[0]), leg=l1+l2, ank=[0,Q.axle[1]-Q.crank+0.1,Q.axle[2]-0.035], hz=Q.seat[2], aoff=a=>0.0875-0.0125*Math.cos(a);   /* 腳踝在踏板上面 7.5（最上面）～10 cm（最下面：腳尖往下踩）*/
       const reach=Math.sqrt(Math.max(0,Math.pow(leg*0.99,2)-Math.pow(hz-ank[2],2)))+ank[1];   /* 腿伸直時大腿根最高能到哪裡（踏板在最下面）：腿短的人＝座位調低一點 */
-      const ly=Math.min(Q.seat[1]+SEAT_UP,reach+0.02)+0.008*Math.sin(2*th);
+      const ly=Math.max(Q.seat[1]+0.03*k,Math.min(Q.seat[1]+SEAT_UP,reach-0.015))+0.006*Math.sin(2*th);   /* 腿短的人：寧可最下面腳尖差一點點踩到，也不要坐進座墊裡 */   /* 踩到最下面膝蓋還微彎（腿打直時膝蓋的方向不穩、會抖）*/
       place(ly+dr,hz); lean([['hips',Q.lean*0.4],['spine',Q.lean*0.35],['chest',Q.lean*0.25],['neck',-Q.lean*0.45],['head',-Q.lean*0.2]]);
       for(const [i,s] of [[0,1],[1,-1]]){ const L=LEGS[i], a=th+(i?Math.PI:0);
-        limb(L,V(s*Q.pedalX,Q.axle[1]+Math.cos(a)*Q.crank+0.075,Q.axle[2]+Math.sin(a)*Q.crank-0.035),Lc(R[L[0]]).add(V(s*0.12,0.2,1.0)),true); }
+        limb(L,V(s*Q.pedalX,Q.axle[1]+Math.cos(a)*Q.crank+aoff(a),Q.axle[2]+Math.sin(a)*Q.crank-0.035),Lc(R[L[0]]).add(V(s*0.12,0.2,1.0)),true); }
       arms((i,s,S,tf)=>[V(s*Q.grip[0],Q.grip[1],Q.grip[2]),S.clone().addScaledVector(tf.lf,s*0.5).addScaledVector(tf.up,-0.4)],1); }
     else if(kind==='gym_row'){ const Q=P.row, s0=((t/Q.T)%1+1)%1, p=s0<0.38?sm01(s0,0,0.38):1-sm01(s0,0.38,1), dr=legRootDrop(); g.ph=p;   /* p：0＝前面（膝蓋彎、手往前伸）、1＝後面（腿伸直、手拉到胸口）；推 38%、回 62% */
-      const lg=sm01(p,0,0.6), bk=sm01(p,0.3,0.85), am=sm01(p,0.6,1.0), hz=Q.zCatch+(Q.zFinish-Q.zCatch)*lg;
+      const [l1,l2]=len(LEGS[0]), lgL=(l1+l2)*0.965, dy=Q.seatY+SEAT_UP-Q.feet[1], zMin=Q.feet[2]-Math.sqrt(Math.max(0,lgL*lgL-dy*dy));   /* 腿短的人：座位往後滑到腿伸直為止（腳不離開踏板）*/
+      const lg=sm01(p,0,0.6), bk=sm01(p,0.3,0.85), am=sm01(p,0.6,1.0), hz=Math.max(Q.zCatch+(Q.zFinish-Q.zCatch)*lg,Math.min(Q.zCatch,zMin));
       place(Q.seatY+SEAT_UP+dr,hz); const ln=0.4+(-0.28-0.4)*bk; lean([['hips',ln*0.5],['spine',ln*0.3],['chest',ln*0.2],['neck',-ln*0.3]]);
       for(const [i,s] of [[0,1],[1,-1]]){ const L=LEGS[i]; limb(L,V(s*Q.feet[0],Q.feet[1],Q.feet[2]),Lc(R[L[0]]).add(V(s*0.15,1.0,0.4)),false); }
       const [la,lb]=len(ARMS[0]);
@@ -398,19 +401,21 @@ const CHAR = (function(){
     else if(kind==='gym_stretch'){ const dr=legRootDrop(); place(0.012+SEAT_UP*1.1+dr,0); const [l1,l2]=len(LEGS[0]), leg=(l1+l2)*0.985, ay=0.012+0.05*k;
       const roots=[Lc(R.leftUpperLeg),Lc(R.rightUpperLeg)];
       if(!g.v){   /* 坐姿體前彎：兩腿伸直往前、上身慢慢往前彎再起來，手沿著腿往前伸 */
-        const f=0.5-0.5*Math.cos(cyc(P.stretch.T)), ln=0.25+0.75*f; g.ph=f; lean([['hips',ln*0.55],['spine',ln*0.3],['chest',ln*0.15],['neck',0.08]]);
+        const f=(0.5-0.5*Math.cos(cyc(P.stretch.T)))*wt, ln=0.25+0.75*f; g.ph=f; lean([['hips',ln*0.55],['spine',ln*0.3],['chest',ln*0.15],['neck',0.08]]);
         const an=roots.map((r,i)=>V((i?-1:1)*0.1*k,ay,r.z+Math.sqrt(Math.max(0,leg*leg-Math.pow(r.y-ay,2)))));
         for(const [i,s] of [[0,1],[1,-1]]) limb(LEGS[i],an[i],roots[i].clone().add(V(s*0.05,1.0,0.3)),false);
         arms((i,s,S,tf)=>[roots[i].clone().lerp(an[i],0.4+0.42*f).add(V(s*0.03*k,0.07*k,0)),S.clone().addScaledVector(tf.lf,s*0.4).addScaledVector(tf.up,-0.3)],0.6); }
       else {   /* 兩腿張開、左右輪流側彎：彎向哪一邊，那一邊的手沿著腿滑出去、另一隻手越過頭頂 */
-        const sb=Math.sin(cyc(P.stretch.T2)), ang=0.5*sb; g.ph=sb; lean([['hips',0.18],['spine',0.06]]); tilt([['spine',-ang*0.6],['chest',-ang*0.4]]);
+        const sb=Math.sin(cyc(P.stretch.T2))*wt, ang=0.5*sb; g.ph=sb;   /* ×wt：換過來時從中間（兩手撐地）開始 */ lean([['hips',0.18],['spine',0.06]]); tilt([['spine',-ang*0.6],['chest',-ang*0.4]]);
         const an=roots.map((r,i)=>{ const s=i?-1:1, n=Math.hypot(0.62,0.78); return V(r.x+s*leg*0.62/n,ay,r.z+leg*0.78/n); });
         for(const [i,s] of [[0,1],[1,-1]]) limb(LEGS[i],an[i],roots[i].clone().add(V(s*0.1,1.0,0.2)),false);
         const [la,lb]=len(ARMS[0]);
         arms((i,s,S,tf)=>{ const toward=s*sb>0;   /* 這一隻手那一邊是彎下去的那一邊 */
-          const slide=roots[i].clone().lerp(an[i],0.25+0.35*Math.abs(sb)).add(V(0,0.08*k,0)), over=S.clone().addScaledVector(tf.up,(la+lb)*0.8).addScaledVector(tf.lf,-s*0.22*k*Math.abs(sb));
-          const T=toward?slide:S.clone().addScaledVector(tf.lf,s*0.12*k).addScaledVector(tf.up,-0.35*k).addScaledVector(tf.fw,0.08*k).lerp(over,Math.abs(sb));
-          return [T,S.clone().addScaledVector(tf.lf,s*0.4).addScaledVector(tf.up,toward?-0.3:0.2)]; },0.3); } } }
+          const m=sb*sb, rest=roots[i].clone().add(V(s*0.2*k,0.06*k,0.12*k));   /* 兩邊都沒彎（sb＝0）時兩隻手都撐在大腿旁邊的地上：兩種目標在這裡接起來，不跳 */
+          const over=S.clone().addScaledVector(tf.up,(la+lb)*0.8).addScaledVector(tf.lf,-s*0.22*k), ctl=S.clone().addScaledVector(tf.lf,s*(la+lb)*0.9).addScaledVector(tf.up,0.1*k);   /* 舉過頭：從旁邊繞上去（二次曲線；直線會穿過肩膀，手肘翻面）*/
+          const T=toward?rest.lerp(roots[i].clone().lerp(an[i],0.6).add(V(0,0.08*k,0)),m):rest.multiplyScalar((1-m)*(1-m)).addScaledVector(ctl,2*m*(1-m)).addScaledVector(over,m*m);
+          const pA=S.clone().addScaledVector(tf.lf,s*0.4).addScaledVector(tf.up,-0.3), pB=S.clone().addScaledVector(tf.lf,s*0.15).addScaledVector(tf.fw,-0.5);   /* 舉過頭那隻：手肘往後（pole 在手走的那個面外面，不會和目標排成一直線）*/
+          return [T,toward?pA:pA.lerp(pB,Math.min(1,m*3))]; },0.3); } } }
   C._gymIK=gymIK;
   const GYM_FALL={gym_squat:'idle',gym_curl:'idle',gym_press:'sit',gym_bike:'sit',gym_row:'sit',gym_stretch:'sit'};
   function animateVRM(h,dt,st){ const u=h.userData; const a=u.anim; a.t+=dt; const pose=st.pose||'idle'; const B=u.bones; const spd=st.speed||0; const vrm=u.vrm; const sx=u.sx||1;
@@ -421,7 +426,8 @@ const CHAR = (function(){
     else if(u.gym){ u.gym=null; if(!a.static){ u.model.position.y=u.model.userData.baseY||0; u.model.position.z=0; } }   /* 深蹲改了站姿的高度、前後：換回一般動作時放回去 */   /* 從躺姿起來：整個人轉回直立（DORM-SLEEP-1030）*/
     if(pose==='ride'){ if(!a.static||a.staticKind!=='ride'){ for(const n in a.actions) a.actions[n].stop(); a.static=true; a.staticKind='ride'; a.cur=null; vrm.humanoid.resetNormalizedPose(); } u.ikDrop=0; u.ikSt=null; setBonesV(B,RIDE_VRM,sx); if(B.Head) B.Head.rotation.set(-0.22*sx,0,0); }   /* 頭往上抬，看前面的路（胸口、頭每一幀都由表重設，下面的注視「加」轉角不會累加）*/   /* 騎車：人物的高度、前後位置在 rideIK 依髖關節對座墊 */
     else if(pose==='sit'||pose==='read'){ if(!a.static||a.staticKind!=='sit'){ for(const n in a.actions) a.actions[n].stop(); a.static=true; a.staticKind='sit'; a.cur=null; vrm.humanoid.resetNormalizedPose(); } u.ikDrop=0; u.ikSt=null; u.model.position.y=(u.model.userData.baseY||0)-0.47*u.k; u.model.position.z=0; setBonesV(B,SIT_VRM,sx); if(u.sitFloor) setBonesV(B,SEIZA_VRM,sx); if(pose==='read'){ setBonesV(B,READ_VRM,sx); if(B.Head) B.Head.rotation.set((0.35+Math.sin(a.t*0.6)*0.02)*sx,0,0); } else { if(B.Head) B.Head.rotation.set(Math.sin(a.t*0.7)*0.03*sx,Math.sin(a.t*0.4)*0.15,0); } if(B.Spine) B.Spine.rotation.set(0.06*sx,0,0); if(B.Spine1) B.Spine1.rotation.set(0,0,0); }   /* 胸口每一幀也要重設：下面的注視是在胸口「加」轉角，坐姿沒有動畫把骨頭蓋回去，不重設就會一直累加、整個上半身在椅子上轉圈（使用者 2026-10-11 回報，tests/seated_look_unit.js）*/
-    else if(GYM_SEATED[pose]){ if(!a.static||a.staticKind!=='gym'){ for(const n in a.actions) a.actions[n].stop(); a.static=true; a.staticKind='gym'; a.cur=null; vrm.humanoid.resetNormalizedPose(); } u.ikDrop=0; u.ikSt=null; setBonesV(B,GYM_BASE,sx); }   /* 健身房坐著的動作：底子是坐姿（每一幀由表重設），臀部、手腳在 gymIK（真實骨架）*/
+    else if(GYM_SEATED[pose]){ if(!a.static||a.staticKind!=='gym'){ const from={}; for(const n in B) from[n]=B[n].quaternion.clone(); u.gym.from=from; for(const n in a.actions) a.actions[n].stop(); a.static=true; a.staticKind='gym'; a.cur=null; vrm.humanoid.resetNormalizedPose(); }   /* 換過來那一刻的骨頭角度（站著的片段）：底子從它慢慢轉到坐姿，不跳格 */
+      u.ikDrop=0; u.ikSt=null; setBonesV(B,GYM_BASE,sx); const fr=u.gym.from; if(fr){ const x=Math.min(1,u.gym.w||0), wb=x*x*(3-2*x); if(wb>=1) u.gym.from=null; else for(const n in fr) if(B[n]) B[n].quaternion.slerpQuaternions(fr[n],B[n].quaternion.clone(),wb); } }   /* 健身房坐著的動作：底子是坐姿（每一幀由表重設），臀部、手腳在 gymIK（真實骨架）*/
     else if(pose==='lie'){ if(!a.static||a.staticKind!=='lie'){ for(const n in a.actions) a.actions[n].stop(); a.static=true; a.staticKind='lie'; a.cur=null; vrm.humanoid.resetNormalizedPose(); } u.ikDrop=0; u.ikSt=null; u.model.position.y=(u.model.userData.baseY||0)+LIE_UP*u.k; u.model.position.z=0; u.model.rotation.x=-Math.PI/2; setBonesV(B,LIE_VRM,sx); if(B.Head) B.Head.rotation.set(0.2*sx,0,0); }   /* 躺在床上（LIE_VRM；胸口、頭每一幀由表重設，下面的注視「加」轉角不會累加）*/
     else { if(a.static){ a.static=false; a.staticKind=null; u.model.position.y=u.model.userData.baseY||0; u.model.position.z=0; vrm.humanoid.resetNormalizedPose(); } const clipName=POSE_CLIP[pose]||'idle'; if(a.cur!==clipName&&a.actions[clipName]){ const prev=a.cur&&a.actions[a.cur]; const next=a.actions[clipName]; next.reset().setEffectiveWeight(1).fadeIn(0.22).play(); if(prev) prev.fadeOut(0.22); a.cur=clipName; } const act=a.actions[a.cur]; if(act){ act.timeScale= a.cur==='walk'?Math.max(0.6,spd/1.45): (a.cur==='run'?Math.max(0.7,spd/4.1):1); } a.mixer.update(dt);
       /* 上臂往外張 armOut（manifest，度；ART-PS-SKIRT-HAND，LAWWW2-C 2026-10-21）：長 A 字裙的人走路、上樓梯時，手往後擺會伸進裙子後面鼓起來的地方（裙子綁在大腿上、不跟手臂動）。
