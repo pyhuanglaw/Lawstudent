@@ -20,6 +20,7 @@
 //   ①②對稿不算它（ADD514；它的稿是 AA_514，tests/aa514_kx_moot3_unit.js 逐字對）；可昕第 11 週「下次我去看。」的選項多 set KX_WATCH（這裡不比 set）。
 'use strict';
 require('./alison.js');   // 讀企劃稿（git show）照匯入工具同一套換：Alison、虛構校名（WORLD-RENAME-1030，docs/WORLD_NAMING.md）
+const Y630=require('./aa630_expect.js'), Yf=s=>Y630.fix(s,'src/data/feed_y1s2.js');   /* YT-REWRITE-1103：語彤的句子照 AA_630 第 3 節（F 列）、AA_627 表 A 換（位置是 feed_y1s2.js 的列）*/
 const H=require('./pg_harness.js');
 const fs=require('fs'), vm=require('vm'), path=require('path'), cp=require('child_process');
 const {check,GM}=H, J=JSON.stringify;
@@ -37,6 +38,9 @@ const asec=async(name,fn)=>{ try{ await fn(); }catch(e){ check(name+'（例外�
 const html=fs.readFileSync(path.join(H.ROOT,'index.html'),'utf8');
 const show=(sha,f)=>{ try{ return cp.execSync('git show '+sha+':"'+f+'"',{cwd:H.ROOT,encoding:'utf8',maxBuffer:1<<24}); }catch(e){ return ''; } };
 const doc={Y1S2:show(DOC.Y1S2.sha,DOC.Y1S2.spec),Y2S1:show(DOC.Y2S1.sha,DOC.Y2S1.spec)}, old505=show(OLD505,DOC.Y2S1.spec);
+const old505raw=(()=>{ try{ return (cp.__worldEf||cp.execFileSync).call(cp,'git',['-C',H.ROOT,'show',OLD505+':'+DOC.Y2S1.spec],{encoding:'utf8'}); }catch(e){ return ''; } })();   /* 更正前的原稿（不經 alison.js 換字：語彤那一句已經照 AA_630 換掉了）*/
+/* YT-REWRITE-1103：稿上語彤那一節（### 3-）照 AA_630 第 3 節（F 列）、AA_627 表 A 換成新句再比（tests/aa630_expect.js；只換位置是那一個 feed 檔的列）*/
+{ const Y630=require('./aa630_expect.js'), FF={Y1S2:'src/data/feed_y1s2.js',Y2S1:'src/data/feed_y2s1.js'}; for(const k in FF) if(doc[k]) doc[k]=Y630.fixLines(doc[k],FF[k],(l,h)=>/^### 3-/.test(h)); }
 /* AA_581 第 23～25 列（D118 沒有期中考；企劃線 454218182）：以安 an3b（大一下第 9 週週四）照片「期中考的考卷」→「案例作業的題目紙」（讀稿時 d118_fix.json 已換）、
    她的一句「考完。」→「交了。」、留言「考得怎樣？」→「寫得怎樣？」（短句，只換這一列）；「還沒改。」「背面朝上？」「不想看。」照留（保9～保11）*/
 doc.Y1S2=doc.Y1S2.split('\n').map(l=>l.indexOf('| 案例作業的題目紙，背面朝上 |')>=0?l.replace('| 考完。 |','| 交了。 |').replace('「考得怎樣？」','「寫得怎樣？」'):l).join('\n');
@@ -125,7 +129,7 @@ sec('0',()=>{ const sc=f=>html.indexOf('<script src="'+f), i1=sc('src/data/feed_
   const GONE=['截圖：第四關的地圖，只有線條','第四關','好快。','寒假沒事做','四月。','然後站了一個小時。','灰色的海，一個穿厚外套的中年女人的背影','看得懂漢字。',
     '一個牛皮紙信封，寄件人那一欄寫著她的名字','寄出去了。','英國。這次真的寄了。'];   /* 795fbecfd 第 9 節第 2 點：芷若第 4 則改 12/11「送出去了。」*/
   const src=fs.existsSync(path.join(H.ROOT,'src/data/feed_y2s1.js'))?fs.readFileSync(path.join(H.ROOT,'src/data/feed_y2s1.js'),'utf8'):'';
-  check('0. AA_505 更正前（'+OLD505+'）的舊句子不在遊戲裡（子晴第四關、芷若「四月。」、語彤阿姨站了一個小時、以安「看得懂漢字。」、芷若 12/10 牛皮紙信封「寄出去了。」）',old505.length>1000&&!!src&&GONE.every(t=>old505.includes(t)&&!doc.Y2S1.includes(t)&&!src.includes(t)),J(GONE.filter(t=>src.includes(t)))); });
+  check('0. AA_505 更正前（'+OLD505+'）的舊句子不在遊戲裡（子晴第四關、芷若「四月。」、語彤阿姨站了一個小時、以安「看得懂漢字。」、芷若 12/10 牛皮紙信封「寄出去了。」）',old505.length>1000&&!!src&&GONE.every(t=>(old505.includes(t)||old505raw.includes(t))&&!doc.Y2S1.split('\n<!-- YT-REWRITE-1103 -->')[0].includes(t)   /* 不算 alison.js 接在後面的 AA_630 新句（短句會碰巧是子句）*/&&!src.includes(t)),J(GONE.filter(t=>src.includes(t)))); });
 
 /* ---------- 1 階段、聯絡方式、時間、舊存檔 ---------- */
 sec('1',()=>{ const W2WED=TDt('Y1S2',2,3);
@@ -177,8 +181,8 @@ sec('3',()=>{ if(!HAS()||!SET.Y1S2){ check('3. 私訊',false,'沒有資料'); re
   fresh(W7,20); who('heroine_02','FRIEND'); walk(W7,22.6); check('3. 沒看過冬季菜單那一則：沒有（x:after）',!tagged('zr_spring').length&&R().dm.zr_spring==='x:after',J(R().dm.zr_spring));
   /* 語彤訪問阿姨 */
   const W6=TDt('Y1S2',6,4);
-  for(const [k,flag,want] of [[0,'wrote',['寫她每天四點起來備料。……其他的我沒寫。那是她的。']],[1,'what',['……那是她的。']],[2,'none',[]]]){ fresh(W6,20); who('heroine_03','FRIEND'); walk(W6,20.8); const got=answer('yt_aunt',k);
-    check('3. 語彤訪問阿姨（大一下第 6 週週四 20:45）選第 '+(k+1)+' 個 → YT_AUNT_DM '+flag,J(tagged('yt_aunt').slice(0,3))===J(['作業交了。','我訪問阿姨。她講了兩個小時。','開店之前的事。'])&&J(got)===J(want)&&H.G.flags.YT_AUNT_DM===flag,J(got)); }
+    for(const [k,flag,want] of [[0,'wrote',[Yf('寫她每天四點起來備料。……其他的我沒寫。那是她的。')]],[1,'what',['……那是她的。']],[2,'none',[]]]){ fresh(W6,20); who('heroine_03','FRIEND'); walk(W6,20.8); const got=answer('yt_aunt',k);
+    check('3. 語彤訪問阿姨（大一下第 6 週週四 20:45）選第 '+(k+1)+' 個 → YT_AUNT_DM '+flag,J(tagged('yt_aunt').slice(0,3))===J(['作業交了。','我訪問阿姨。她講了兩個小時。','開店之前的事。'].map(Yf))&&J(got)===J(want)&&H.G.flags.YT_AUNT_DM===flag,J(got)); }
   /* 學姊的帽子 */
   const D67=DK('2026-06-07');
   for(const [k,flag,want] of [[0,'find',['不用。……反正也不會再戴。']],[1,'picked',['那他賺到了。']],[2,'none',[]]]){ fresh(D67,20); who('heroine_05','CLOSE'); walk(D67,21.6); const got=answer('sis_cap',k);
@@ -204,8 +208,8 @@ sec('3',()=>{ if(!HAS()||!SET.Y1S2){ check('3. 私訊',false,'沒有資料'); re
 (async()=>{
 await asec('4a',async()=>{ if(!HAS()||!SET.Y1S2){ check('4. 語彤放榜',false,'沒有資料'); return; }
   const D73=DK('2026-07-03'); fresh(D73,20); who('heroine_03','FRIEND'); walk(D73,20.6); const y3=item('yt3b'), before=tagged('yt_pass').length; walk(D73,20.75);
-  check('4. AA_504：7/3 語彤放榜——20:30 動態第 3 則（沒有字）、20:40 私訊三則、三個選項',!!y3&&Math.abs(y3.h-20.5)<0.01&&before===0&&J(tagged('yt_pass').slice(0,3))===J(['上了。','雙主修。','阿姨說要請你吃麵。'])&&J(dm('yt_pass').ask.opts.map(o=>o.t))===J(['恭喜！','我去吃。','（不回）']),J(tagged('yt_pass')));
-  const got=answer('yt_pass',1); check('4. 「我去吃。」→「好。週末都在茶屋。」（YT_PASS_DM eat；不排約）',J(got)===J(['好。週末都在茶屋。'])&&H.G.flags.YT_PASS_DM==='eat'&&!(typeof OUT!=='undefined'&&OUT.rec(H.G).some(q=>/yt/.test(q.id||''))),J(got));
+  check('4. AA_504：7/3 語彤放榜——20:30 動態第 3 則（沒有字）、20:40 私訊三則、三個選項',!!y3&&Math.abs(y3.h-20.5)<0.01&&before===0&&J(tagged('yt_pass').slice(0,3))===J(['上了。','雙主修。','阿姨說要請你吃麵。'].map(Yf))&&J(dm('yt_pass').ask.opts.map(o=>o.t))===J(['恭喜！','我去吃。','（不回）'].map(Yf)),J(tagged('yt_pass')));
+  const got=answer('yt_pass',1); check('4. 「我去吃。」→「好。週二、四都在。」照 AA_630 換（YT_PASS_DM eat；不排約）',J(got)===J([Yf('好。週二、四都在。')])&&H.G.flags.YT_PASS_DM==='eat'&&!(typeof OUT!=='undefined'&&OUT.rec(H.G).some(q=>/yt/.test(q.id||''))),J(got));
   for(const [k,flag,want] of [[0,'congrats',['嗯。']],[2,'none',[]]]){ fresh(D73,20); who('heroine_03','FRIEND'); walk(D73,20.75); const g=answer('yt_pass',k); check('4. 放榜那則選第 '+(k+1)+' 個 → YT_PASS_DM '+flag,J(g)===J(want)&&H.G.flags.YT_PASS_DM===flag,J(g)); }
   /* 之後第一次在麵店點餐：阿姨一句、不用錢；第二次照付 */
   const paid=[], m0=GM.money; GM.money=d=>{ paid.push(d); }; const it={eat:'noodle',seat:{x:0,z:0}};

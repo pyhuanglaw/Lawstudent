@@ -53,6 +53,8 @@ const html=fs.readFileSync(path.join(H.ROOT,'index.html'),'utf8');
 const show=(sha,f)=>{ try{ return cp.execSync('git show '+sha+':"'+f+'"',{cwd:H.ROOT,encoding:'utf8',maxBuffer:1<<24}); }catch(e){ return ''; } };
 const NDL=require('./alison.js').ndl;   /* AA_546（NO-COMPARE-1030，D116）後來改的句子照 tools/story/nocmp_fix.json 換（第三批第 8 節：可昕 kx3g「他講得很好。我抄了兩頁筆記。」）*/
 const doc={Y3S2:NDL(show(SHA508,DOC.Y3S2.spec)),Y4S1:NDL(show(SHA,DOC.Y4S1.spec))}, mid508=show(SHA,DOC.Y3S2.spec), old={Y3S2:show(OLD508,DOC.Y3S2.spec),Y4S1:show(OLD509,DOC.Y4S1.spec)};
+/* YT-REWRITE-1103：稿上語彤那一節（### 3-）照 AA_630 第 3 節（F 列）、AA_627 表 A 換成新句再比（tests/aa630_expect.js；只換位置是那一個 feed 檔的列）*/
+{ const Y630=require('./aa630_expect.js'), FF={Y3S2:'src/data/feed_y3s2.js',Y4S1:'src/data/feed_y4s1.js'}; for(const k in FF) if(doc[k]) doc[k]=Y630.fixLines(doc[k],FF[k],(l,h)=>/^### 3-/.test(h)); }
 
 /* ---------- 共用 ---------- */
 const DK=k=>PG.DK(k);
