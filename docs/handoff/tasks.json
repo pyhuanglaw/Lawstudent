@@ -42983,6 +42983,26 @@
       "priority": "P0",
       "note": "使用者 11-03 11:2x 選「不等 BB 現在就發布」，接著說「你丟測試給 GITHUB 免費測試的」「要瀏覽器測試的請 bb 優先建」：Node 交 GHA、瀏覽器發布前清單交 BB／CC 優先",
       "next": "GHA Node（a64ddbf1 觸發）＋BB 瀏覽器清單 → PR dev→main → Pages 確認"
+    },
+    {
+      "first": {
+        "term": "Y1S1",
+        "week": null,
+        "earliest": "校外約會（有點熟以上）",
+        "mainline": false,
+        "blocks": false,
+        "prereq": false,
+        "parallel": true,
+        "confirmed": true
+      },
+      "area": null,
+      "id": "AA631-D33-XINYI-1103",
+      "title": "新約會地點 D33「信義區・光年影城」（院線片；只用 CG／2D 背景／旁白，不做 3D；捷運 25 分 35 元、電影 120 分 340 元；互動點：散場大廳、百貨美食街、天橋夜景；七位女主角抵達＋三互動點第一次台詞）",
+      "owner": "LAWWW",
+      "status": "待開工",
+      "priority": "P2",
+      "note": "使用者 11-03 對 AA：「南洋戲院看起來是二輪片欸 那要看院線就要去信義區了 我直接cg處理」，選擇題「加一個信義區，西門町照留」（AA_631）",
+      "next": "date_locations.json 照 AA_631 第 1 節＋第 2 節台詞匯入（白名單）；CG 使用者自己做，到之前用 2D 背景"
     }
   ]
 }
