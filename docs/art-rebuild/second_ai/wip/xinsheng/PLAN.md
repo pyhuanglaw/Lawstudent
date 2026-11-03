@@ -162,7 +162,9 @@
 - `game_wip_v0.jpg`：
   - 左上：從新生南路側門看對面。立面 GLB 載入了，招牌字遊戲畫得出來，看得到「山嵐書店」；有樟樹、路燈。
   - 右上：騎樓。
-  - 左下：校園側門。門洞開了，看出去是公館的遠景；**兩根門柱沒有出現**，下一班查。
+  - 左下：校園側門。門洞開了，看出去是公館的遠景。
+    - 原本兩根門柱沒有出現：用了 `TK.paint`（給 TK.Bin 合併用、要頂點色的材質），單獨的網格沒有頂點色。改成 `TK.col` 以後出現了（`campus_gate_v0.jpg`）。
+    - **還要改**：門外現在看到的是公館（羅斯福路）的遠景，應該是新生南路的街景。校園背景 campusBackdrop 在 x < −124、z −141～−80 這一段，要照 xinsheng layout 換算，做法和公館一樣。
   - 右下：溫州街西側橫巷北口打開了。
 - **整合時要加的**（給 LAWWW；index.html、assets3d.js 是 LAWWW 的檔案）：
   - index.html：在 `src/lane118.js` 後面加 `<script src="src/data/xinsheng_layout.js?v=…"></script>`、`<script src="src/xinsheng3d.js?v=…"></script>`；
