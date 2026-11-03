@@ -1,0 +1,133 @@
+diff --git a/src/assets3d.js b/src/assets3d.js
+index 7d7d09680..2ea6226d4 100644
+--- a/src/assets3d.js
++++ b/src/assets3d.js
+@@ -104,6 +104,7 @@ const ASSETS = (function(){
+     'bldg.dorm_y1_items':{url:'assets/models/env/second_ai/dorm_y1_items.glb', type:'building', lazy:true, source:'本作 Blender 腳本 tools/blender/env_second/dorm_y1_items.py（大一 203：「冬天的衣服」紙箱（封好／壓平）、阿凱的國界紙膠帶（中間那段有字／沒字）；AA_347 1-1、5-1；LAWWW2-C 2026-10-21 ART-Y1-BOX-1021）', license:'本作（貼圖 PIL 程式畫；手寫字 WenQuanYi Zen Hei 點陣圖）'},
+     'bldg.dorm_y3_items':{url:'assets/models/env/second_ai/dorm_y3_items.glb', type:'building', lazy:true, source:'本作 Blender 腳本 tools/blender/env_second/dorm_y3_items.py（主線 5、10 大三 507、大四 409 拆箱拿出來的東西：ROOM_Y3_TEXT 十六件、ROOM_Y4_TEXT 七件，四人房 L2；SCN-V4-01／SCN-V5-01，LAWWW-C 的美術子代理 2026-10-20）', license:'本作（印刷品是程式畫的圖，沒有字和商標）'},
+     'bldg.dorm_wz_items':{url:'assets/models/env/second_ai/dorm_wz_items.glb', type:'building', lazy:true, source:'本作 Blender 腳本 tools/blender/env_second/dorm_wz_items.py（溫州街打工、故事線留在房間的六件東西：蛋的計時器、手寫的卡片、膠裝的空白筆記本、一小罐茶、讀書會白板的照片、子晴成發的藍色海報；AA_420 第 9 節，ART-WZ6，LAWWW2-B 2026-10-24；四人房 L2）', license:'本作（印刷品、手寫、海報都是程式畫的；海報的字是虛構的）'},
++    'bldg.dorm_desk_items':{url:'assets/models/env/second_ai/dorm_desk_items.glb', type:'building', lazy:true, source:'本作 Blender 腳本 tools/blender/env_second/dorm_desk_items.py（DORM-DESK-ITEMS-3D-1103：大一 203 祐廷書桌「看東西」選單上的每一件都看得到——書背、寫滿的筆記本、桌墊下的票根、手機、三色螢光筆、軟木板上的評鑑表／票根／旅行照片／週年卡片；印刷品本作 PIL 畫的，沒有店名、商標、真實片名）', license:'本作原創'},
+     'bldg.wz_market':{url:'assets/models/env/second_ai/wz_market.glb', type:'building', lazy:true, source:'本作 Blender 腳本 tools/blender/env_second/wz_market.py（溫州街小公園的二手市集：晴天入口步道兩邊的兩張摺疊桌＋地攤布、下雨在老樹下的兩個雨棚；AA_420 12-2，ART-WZ-MARKET-1023，LAWWW2-B 2026-10-24）', license:'本作（貼圖是程式畫的；價錢牌的字是虛構的）'},
+     'bldg.dorm_interior':{url:'assets/models/env/second_ai/dorm_interior.glb', type:'building', lazy:true, source:'本作 Blender 腳本 tools/blender/env_second/dorm_interior.py（宿舍雙人房室內；配置照 zones3d.js dorm 區塊；書與雜物的顏色是頂點色；貼圖 Poly Haven CC0）', license:'本作；貼圖 CC0'},
+     'prop.street':{url:'assets/models/env/second_ai/street_props.glb', type:'building', source:'本作 Blender 腳本 tools/blender/env_second/street_props.py（淑女車、路燈、公園長椅：W3.bike／W3.lampPost／長椅的正式模型；開機時預載，W3 的函式同步複製；鐵絲網與鋼絲貼圖本作程式產生、長椅木頭貼圖 Poly Haven CC0）', license:'本作；貼圖 CC0'},   /* 這個不是 lazy（W3.lampPost()、W3.bike() 是同步建立的）；?nobldg 一樣會關掉 */
+diff --git a/src/story3d.js b/src/story3d.js
+index 2fd64df5c..923e26715 100644
+--- a/src/story3d.js
++++ b/src/story3d.js
+@@ -3233,6 +3233,12 @@ const STORY = (function(){
+     { const T=F.KX_TRIP&&F.KX_TRIP.Y1S2, txt={sea:'海邊。她拎著鞋子站在浪裡，褲管濕到膝蓋。',oldtown:'老街。牆上貼滿發黃的老照片，她站在中間，手上拿著第三家的點心。',stars:'山上。照片幾乎全黑，右上角有一個小白點。她說那是星星。你覺得是路燈。'}[T]; if(txt) L.push(['旅行的照片',txt]); }   /* 可昕 K8 春假旅行（BB_96 9-5，BB 14265eb）*/
+     for(const f of S.ROOM_EXTRA){ try{ f(G,L); }catch(e){ console.warn('STORY.ROOM_EXTRA',e); } }   /* 事件包各自的房間物件（例：AA_325 她的聖誕卡片、高雄夜市的照片）*/
+     return L; };
++  /* DORM-DESK-ITEMS-3D-1103（使用者 11-03「不應該還有這些選項? 不然也是在書桌上?? 書桌牆面可以貼東西? 擺書」）：選單上的每一件在房間裡都看得到——
++     3D（zones3d.js loadDeskItems → dorm_desk_items.glb 的 ITEM_desk_<key>）照這裡回傳的 key 開關；key 由 S.roomItemList 的標籤換算，選單和 3D 永遠是同一份條件（不另外寫一套）。
++     沒有 3D 的標籤（事件包 ROOM_EXTRA 加的）不回傳；系外套 jacket 照舊由 dorm_room4 的 JACKET_ 開關。*/
++  const ROOM_ITEM_KEY={'書架上的舊《民法》':'civil','經濟學原理':'econ','寫滿的筆記本':'notebook','摩天輪的票根（夾在桌墊下）':'ferris','手機相簿的一張照片':'phone','桌上的三色螢光筆':'highlighters',
++    '阿凱的泡麵評鑑表':'kai_sheet','三張連號的票根':'film3','電影票根':'film1','她的週年卡片':'anniv','經濟系的系外套':'jacket'};
++  S.roomItemKeys=function(G){ const F=(G&&G.flags)||{}, K=[]; for(const r of S.roomItemList(G)){ let k=ROOM_ITEM_KEY[r[0]]; if(!k&&r[0]==='旅行的照片'){ const T=F.KX_TRIP&&F.KX_TRIP.Y1S2; if(T) k='trip_'+T; } if(k&&!K.includes(k)) K.push(k); } return K; };
+   /* ★主線 3 第二個房間（AA_12 主線 3；AA_177 第 7 節；劇情事實 AA_176 R8）：大二上開學前一天 9/6（日）以後、還沒搬（ROOM_Y2）。
+      在家（週末回家）＝下一輪選單之前：旁白「明天開學。今天搬進新的房間。」→ 字卡「回宿舍」「捷運＋公車 約 40 分鐘」→ 新房間（home3d.js 的 loop）；
+      人在宿舍房間＝直接拆箱。四個紙箱，物件一件一件拿出來（只有大一經歷過的才有，AA_12 的表；驗收要點：不能出現玩家沒經歷過的東西），
+diff --git a/src/zones3d.js b/src/zones3d.js
+index c51331ffd..dc9b66ac9 100644
+--- a/src/zones3d.js
++++ b/src/zones3d.js
+@@ -1853,7 +1853,7 @@ const Z3 = (function(){
+     /* 祐廷椅背上的經濟系系外套（X140；GLB 節點 JACKET_CHAIR，L2 書桌椅，每一年同一張）：預設藏，劇情呼叫 z.setJacketChair(true)；模型還沒載完也先記住 */
+     z.jacketChair=false; z.setJacketChair=on=>{ z.jacketChair=!!on; const o=z.dormRoot&&z.dormRoot.getObjectByName('JACKET_CHAIR'); if(o) o.visible=z.jacketChair; };
+     if(y2Room) roomItemState(z,G0);   /* 拆箱事件一進房間就呼叫 z.setY2Items：模型還沒載完也先記住 */
+-    if(typeof ASSETS!=='undefined'&&ASSETS.manifest['bldg.dorm_room4']) ASSETS.loadOne('bldg.dorm_room4').then(c=>{ if(!c||!c.scene||E.zone!==z) return; const root=c.scene.clone(true); attachRoomGLB(z,g0,g,root); attachDormInterior(z,g0,root); z.dormRoot=root; z.dormSet(z.dormSetKey); if(!econ&&z.dormSetKey==='203') loadY1Items(z,g0,E); if(y2Room) loadY2Items(z,g0,E); if(!econ) loadWzItems(z,g0,E); }).catch(e=>console.warn('宿舍室內正式模型載入失敗，用程序化備用模型',e));
++    if(typeof ASSETS!=='undefined'&&ASSETS.manifest['bldg.dorm_room4']) ASSETS.loadOne('bldg.dorm_room4').then(c=>{ if(!c||!c.scene||E.zone!==z) return; const root=c.scene.clone(true); attachRoomGLB(z,g0,g,root); attachDormInterior(z,g0,root); z.dormRoot=root; z.dormSet(z.dormSetKey); if(!econ&&z.dormSetKey==='203') loadY1Items(z,g0,E); if(y2Room) loadY2Items(z,g0,E); if(!econ) loadWzItems(z,g0,E); if(!econ) loadDeskItems(z,g0,E); }).catch(e=>console.warn('宿舍室內正式模型載入失敗，用程序化備用模型',e));
+     /* 經濟系那一年（412）：開學那晚的紙箱、經濟學原理、阿勳的書桌與保齡球袋（V0-ART-DORM；AA_168、AA_208）。紙箱照 E01（story3d.js 的 y0FirstNight）：
+        開場三箱疊在祐廷的書桌上 → 22:00 兩箱在書桌旁邊的地上 → 先睡＝隔天還在地上（隔天晚上拆完）／拆完＝不見 */
+     z.setV0Box=()=>{};
+@@ -1939,6 +1939,25 @@ const Z3 = (function(){
+         apply(key?key.split(','):[]); }).catch(e=>console.warn('房間的溫州街物件載入失敗',e)); };
+     const up0=z.update; z.update=function(dt,E2){ if(up0) up0.call(z,dt,E2); if(typeof GAME!=='undefined'&&GAME.G) z.setWzItems(GAME.G); };
+     z.setWzItems(typeof GAME!=='undefined'?GAME.G:null); }
++  /* 祐廷書桌「看東西」選單上的東西（DORM-DESK-ITEMS-3D-1103；dorm_desk_items.glb，tools/blender/env_second/dorm_desk_items.py，LAWWW2 2026-11-03；READY_FOR_ART_REVIEW）：
++     ITEM_desk_<key>＝STORY.roomItemKeys(G)（和選單同一份）。節點的 room='203'（書背、筆記本的字、桌墊下的票根、大一的軟木板和釘在上面的東西）只在大一 203；
++     on='board'（釘在軟木板上）要軟木板也顯示（軟木板＝大一才有；大二起換成 dorm_y2_items 那一塊）。手機、三色螢光筆每一年都在。搬家、收拾那幾天全部收起來。
++     牆上的網格叫 WALL_left_desk_*：跟左牆一起淡出（同溫州街那幾件）。旗標在房間裡變了每一幀比一次（只比一個字串）*/
++  function deskItemKeys(G,room){ const F=(G&&G.flags)||{}; if(F.ROOM_Y2_MOVING||F.ROOM_Y3_MOVING||F.ROOM_Y4_MOVING||F.PACKED_Y4||(G&&G.stage==='econ')) return []; const K=typeof STORY!=='undefined'&&STORY.roomItemKeys?STORY.roomItemKeys(G):[]; if(room==='203') K.push('board'); return K; }
++  function loadDeskItems(z,g0,E){ if(typeof ASSETS==='undefined'||!ASSETS.manifest['bldg.dorm_desk_items']) return; let grp=null, key=null, loading=false;
++    const apply=K=>{ if(!grp) return; const room=z.dormSetKey, board=K.includes('board')&&room==='203';
++      grp.traverse(o=>{ if(!/^ITEM_desk_/.test(o.name)) return; const u=o.userData||{}; o.visible=K.includes(o.name.slice(10))&&(!u.room||u.room===room)&&(u.on!=='board'||board); }); };
++    z.setDeskItems=G=>{ const K=deskItemKeys(G,z.dormSetKey), k=z.dormSetKey+':'+K.join(','); if(k===key) return; key=k; if(grp){ apply(K); return; } if(!K.length||loading) return; loading=true;
++      grp=new THREE.Group(); grp.name='dorm_desk_items'; grp.userData.dyn=true; g0.add(grp);
++      ASSETS.loadOne('bldg.dorm_desk_items').then(c=>{ if(!c||!c.scene||E.zone!==z) return; const root=c.scene.clone(true);
++        grp.add(root); root.updateMatrixWorld(true);
++        root.traverse(o=>{ if(!o.isMesh) return; o.castShadow=false; o.receiveShadow=true;
++          if(/WALL_/.test(o.name)){ o.material=o.material.clone(); o.material.transparent=true; const d=o.userData.dir||[1,0,0]; o.userData.dir=new THREE.Vector3(d[0],d[1],d[2]); o.geometry.computeBoundingBox(); o.userData.center=o.geometry.boundingBox.getCenter(new THREE.Vector3()).applyMatrix4(o.matrixWorld); z.walls.push(o); }
++          else if(/glass/.test(o.material&&o.material.name||'')){ o.material.transparent=true; o.material.depthWrite=false; o.renderOrder=2; }   /* 透明桌墊 */
++          if(o.material) TK.bounce(o.material,0.3,0.4); });
++        apply(deskItemKeys(typeof GAME!=='undefined'?GAME.G:null,z.dormSetKey)); }).catch(e=>console.warn('書桌上的東西載入失敗',e)); };
++    const up0=z.update; z.update=function(dt,E2){ if(up0) up0.call(z,dt,E2); if(typeof GAME!=='undefined'&&GAME.G) z.setDeskItems(GAME.G); };
++    z.setDeskItems(typeof GAME!=='undefined'?GAME.G:null); }
+   function dormWallItems(z,g0){ for(const n of ['dorm_calendar','dorm_flyer']){ const o=g0.getObjectByName(n); if(!o||z.walls.includes(o)) continue;
+     o.material.transparent=true; o.userData.dir=new THREE.Vector3(Math.sin(o.rotation.y),0,Math.cos(o.rotation.y));   /* 貼的那一面朝室內的方向（四人房：月曆在洗手間隔間、傳單在書桌前的牆）*/ o.updateWorldMatrix(true,false); o.userData.center=o.getWorldPosition(new THREE.Vector3()); z.walls.push(o); } }
+   /* ---------- 溫州街三家新店的室內（DL-09 第一步；ART-WZ3，LAWWW2-B ce586623；AA_164 第 2 節）----------
+diff --git a/tests/dorm_desk_items_unit.js b/tests/dorm_desk_items_unit.js
+new file mode 100644
+index 000000000..65d61a160
+--- /dev/null
++++ b/tests/dorm_desk_items_unit.js
+@@ -0,0 +1,59 @@
++// DORM-DESK-ITEMS-3D-1103（使用者 11-03「不應該還有這些選項? 不然也是在書桌上?? 書桌牆面可以貼東西? 擺書」）——不需要瀏覽器。
++// 檢查：STORY.roomItemKeys 和選單 STORY.roomItemList 是同一份（每一個有 3D 的標籤都換成 key、旗標開關跟著變），每一個 key 在 dorm_desk_items.glb 都有 ITEM_desk_<key> 節點（jacket 例外：dorm_room4 的 JACKET_）。
++// 用法：node tests/dorm_desk_items_unit.js
++const fs=require('fs'), vm=require('vm'), path=require('path');
++const ROOT=path.resolve(__dirname,'..');
++global.window=global; global.self=global; global.P3={CAST:{}};
++global.document={ getElementById:()=>null, addEventListener(){} }; global.navigator={userAgent:'node'}; global.addEventListener=()=>{}; global.location={search:''};
++const load=f=>{ let src=fs.readFileSync(path.join(ROOT,f),'utf8'); src=src.replace(/^const (\w+)\s*=/mg,(m,n)=>/^(CHARACTERS|UNFAMILIAR_POOL|SOCIAL_GRAPH|PORTRAITS|STORY_EVENTS|STORY_EVENTS_V11|SMALLTALK|SOCIAL|EVENTS|STORY|CALENDAR|PLACES|INVITE_DATA|INV|PHONE|COURSES|CLS|ACTIVITIES|REL_LINES|OUT|LADDER|HOME|HOME_LINES)$/.test(n)?'globalThis.'+n+'=':m); vm.runInThisContext(src,{filename:f}); };
++global.THREE={Vector3:class{ constructor(x,y,z){ this.x=x||0; this.y=y||0; this.z=z||0; } }};
++for(const f of ['src/data/calendar.js','src/data/places.js','src/data/characters.js','src/data/rel_lines.js','src/data/courses.js','src/data/activities.js','src/data/events.js','src/data/ladder.js','src/data/home_lines.js','src/social3d.js','src/events3d.js','src/data/invites.js','src/invites3d.js','src/phone3d.js','src/outings3d.js','src/home3d.js','src/story3d.js','src/classes3d.js']) if(fs.existsSync(path.join(ROOT,f))) load(f);
++let fails=0; const check=(name,ok,info)=>{ console.log((ok?'PASS ':'FAIL ')+name+(info?'　'+info:'')); if(!ok) fails++; };
++global.ADV={active:false,preload(){},begin(){},end(){},log(){},speaker(){},cg(){}}; global.CHAR={setExpr(){}};
++global.LEGAL={ask:async()=>{},apply(){},stateOf:()=>'unseen',STATES:['unseen']};
++let said=[], opts=[], picks=[], G=null;
++const E={q:{level:'medium'},player:{busy:false,obj:{position:{x:0,y:0,z:0},rotation:{y:0}},lv:0},zone:{roomAt:()=>null,seats:[]},npcs:[],interactables:[],levels:null,setWeather(){},hour:0};
++const GM={get G(){ return G; },E,D:{active:false},npc:{},
++  sceneBegin(){},sceneEnd(){},face(){},cine(){},caption(){},sleep:()=>Promise.resolve(),memo(){},autosave(){},addNote(){},energy(){},money(){},setGoal(){},toast(){},updateHUD(){},letterbox(){},phoneBadge(){},
++  titleCard:async()=>{},enter:async(z)=>{ G.zone=z; },advance(h){ G.hour+=h; },fade:()=>Promise.resolve(),rel(){},walkTo:()=>Promise.resolve(true),sitAt(){},standUp(){},
++  say:async(who,t)=>{ said.push({who:who?(who.name||String(who)):null,t}); },choose:async o=>{ opts.push(o.map(q=>q.t||q.text)); const want=picks.shift(); if(typeof want==='string'){ const k=o.findIndex(q=>(q.t||q.text).includes(want)); return k<0?0:k; } return want||0; }};
++const wdOf=d=>{ const w=CALENDAR.dateOf(d).wd; return w===7?0:w; };
++const fresh=(day,hour,zone,flags)=>{ G={v:3,day,hour,zone,weekday:wdOf(day),weather:'clear',energy:70,money:5000,flags:Object.assign({KX_FIRST_MSG:true,fundsV2:1,allowanceMonth:CALENDAR.dateOf(day).m},flags||{}),choices:{},events:{done:{},last:{},count:0},name:'祐廷',rel:{},social:null,stats:{classes:0}};
++  SOCIAL.bind(G); EVENTS.bind(GM); INV.rec(G); said=[]; opts=[]; picks=[]; GM.npc={}; E.interactables=[]; E.npcs=[]; if(STORY._fy) STORY._fy.reset(); };
++const R=(id,fam,trust,comf)=>{ const r=SOCIAL.rel(id); r.fam=fam; r.trust=trust||0; r.comf=comf||0; };
++const LV={ACQ:[10],FAM:[25],FRI:[45,30],CLO:[65,50,45]};
++const run=(h0,h1,st)=>{ st=st||0.05; for(let h=h0;h<=h1+1e-9;h+=st){ G.hour=+h.toFixed(3); STORY.phoneRules(GM); PHONE.tick(G); } };
++const termDay=(term,w,wd)=>STORY.termDay(term,w,wd);
++const ev=id=>STORY_EVENTS.find(e=>e.id===id);
++const lines=()=>said.map(s=>(s.who?s.who+'：':'')+s.t);
++const TH=(th)=>(G.msgs||[]).filter(m=>m.th===th);
++const txt=(th)=>TH(th).map(m=>(m.from||'')+':'+m.text);
++const meet=id=>SOCIAL.remember(id,'FIRST_MET','');
++const D=k=>STORY.dayOfKey(k), Tm=(d,h)=>d*24+h;
++let cards=[], entered=[];
++GM.titleCard=async(a,b)=>{ cards.push([a,b]); }; GM.enter=async(z)=>{ entered.push(z); G.zone=z; };
++GM.money=function(n){ G.money+=n; };
++const J=JSON.parse(fs.readFileSync(path.join(ROOT,'assets/models/env/second_ai/dorm_desk_items.json'),'utf8')), NODES=Object.keys(J.pos||{});
++const keysOf=()=>STORY.roomItemKeys(G), labels=()=>STORY.roomItemList(G).map(r=>r[0]);
++(async()=>{
++  const d1=termDay('Y1S1',3,2);
++  fresh(d1,20,'dorm'); let K=keysOf();
++  check('1. 大一：選單的五件都有 key（舊《民法》、經濟學原理、寫滿的筆記本、桌墊下的票根、手機相簿）',['civil','econ','notebook','ferris','phone'].every(k=>K.includes(k)),JSON.stringify(K));
++  check('2. 沒有聖誕節的螢光筆時，三色螢光筆不顯示',!K.includes('highlighters'),JSON.stringify(K));
++  fresh(d1,20,'dorm',{XMAS_HL3:true}); K=keysOf(); check('3. XMAS_HL3 → 桌上的三色螢光筆',K.includes('highlighters')&&labels().includes('桌上的三色螢光筆'),JSON.stringify(K));
++  fresh(d1,20,'dorm',{KX_TRIP:{Y1S2:'oldtown'}}); K=keysOf(); check('4. 旅行的照片照 KX_TRIP.Y1S2（老街）→ trip_oldtown',K.includes('trip_oldtown')&&!K.includes('trip_sea'),JSON.stringify(K));
++  fresh(d1,20,'dorm',{KX_ANNIV:[0,'went']}); K=keysOf(); check('5. 去了週年 → 她的週年卡片',K.includes('anniv')===labels().includes('她的週年卡片')&&K.includes('anniv'),JSON.stringify(K));
++  fresh(d1,20,'dorm',{KX_ANNIV:[0,'missed']}); K=keysOf(); check('6. 沒去週年（missed）→ 沒有卡片',!K.includes('anniv'),JSON.stringify(K));
++  fresh(d1,20,'dorm'); SOCIAL.remember('heroine_02','WATCHED_FILM',''); K=keysOf(); check('7. 和芷若看過電影 → 一張票根 film1',K.includes('film1')&&!K.includes('film3'),JSON.stringify(K));
++  fresh(d1,20,'dorm'); SOCIAL.remember('heroine_02','WATCHED_FILM_GROUP',''); K=keysOf(); check('8. 三個人一起看 → 三張連號 film3',K.includes('film3')&&!K.includes('film1'),JSON.stringify(K));
++  fresh(d1,20,'dorm',{ECON_JACKET:'wear'}); K=keysOf(); check('9. 系外套照舊在選單上（key jacket，3D 由 dorm_room4 的 JACKET_ 管）',K.includes('jacket'),JSON.stringify(K));
++  { fresh(d1,20,'dorm'); const kai=STORY.kaiRoommate&&STORY.kaiRoommate(G); K=keysOf(); check('10. 阿凱同房 → 阿凱的泡麵評鑑表（選單有＝key 有）',K.includes('kai_sheet')===labels().includes('阿凱的泡麵評鑑表'),JSON.stringify({kai,K})); }
++  // 每一個標籤（有 3D 的）都換成 key：選單上看得到、房間裡卻沒有的情形
++  { const MAP=['書架上的舊《民法》','經濟學原理','寫滿的筆記本','摩天輪的票根（夾在桌墊下）','手機相簿的一張照片','桌上的三色螢光筆','阿凱的泡麵評鑑表','三張連號的票根','電影票根','她的週年卡片','經濟系的系外套','旅行的照片'];
++    fresh(d1,20,'dorm',{XMAS_HL3:true,KX_TRIP:{Y1S2:'sea'},KX_ANNIV:[0,'went'],ECON_JACKET:'wear'}); SOCIAL.remember('heroine_02','WATCHED_FILM','');
++    const Ls=labels().filter(l=>MAP.includes(l)); K=keysOf(); check('11. 全開的存檔：每一個有 3D 的選單標籤都有一個 key（標籤 '+Ls.length+'、key '+K.length+'）',Ls.length===K.length,JSON.stringify({Ls,K}));
++    const miss=K.filter(k=>k!=='jacket'&&!NODES.includes('ITEM_desk_'+k)); check('12. 每一個 key 在 dorm_desk_items.glb 都有 ITEM_desk_<key>（jacket 例外）',!miss.length,JSON.stringify(miss)); }
++  for(const t of ['sea','oldtown','stars']) check('13. 旅行照片三種都有節點：trip_'+t,NODES.includes('ITEM_desk_trip_'+t));
++  check('14. 大一的軟木板 ITEM_desk_board 有節點',NODES.includes('ITEM_desk_board'));
++  console.log(fails?'FAILED: '+fails:'ALL PASS'); process.exit(fails?1:0);
++})().catch(e=>{ console.log('FAIL 例外',e&&e.stack||e); process.exit(1); });
