@@ -1,0 +1,23 @@
+{
+  "rerun": "",
+  "id": "V19D_tour_joy3",
+  "sha": "ddda3d829",
+  "kind": "probe",
+  "script": "docs/story_planning/test_tools/cc/cc_lib_tour2_probe.py",
+  "env": "SOLO=1;MODE=joy;PHOTO=1;CC_HEADLESS=0",
+  "machine": "MSI",
+  "start": "2026-11-04T02:37:21",
+  "end": "2026-11-04T02:41:50",
+  "seconds": 269,
+  "exit": 1,
+  "error": null,
+  "runner": "c9cac8a6aa",
+  "rf_round": "5",
+  "url": "http://127.0.0.1:8810/index.html",
+  "res_peak": {
+    "cpu": 16,
+    "mem": 44,
+    "used_gb": 14.3,
+    "chrome_testing": 10
+  }
+}
