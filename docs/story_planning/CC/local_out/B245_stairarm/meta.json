@@ -1,0 +1,23 @@
+{
+  "rerun": "",
+  "id": "B245_stairarm",
+  "sha": "ffeec06e0",
+  "kind": "probe",
+  "script": "docs/story_planning/test_tools/cc/cc_b245_stairsarm_probe.py",
+  "env": "",
+  "machine": "MSI",
+  "start": "2026-11-04T00:52:22",
+  "end": "2026-11-04T00:53:45",
+  "seconds": 83,
+  "exit": 1,
+  "error": null,
+  "runner": "c9cac8a6aa",
+  "rf_round": "5",
+  "url": "http://127.0.0.1:8813/index.html",
+  "res_peak": {
+    "cpu": 39,
+    "mem": 57,
+    "used_gb": 17.9,
+    "chrome_testing": 28
+  }
+}

@@ -1,0 +1,18 @@
+[gpu_wrap] CC_GPU=1 跑 C:\Users\USER\Documents\Lawstudent_cclocal\docs\story_planning\test_tools\cc\cc_b245_stairsarm_probe.py http://127.0.0.1:8813/index.html C:\Users\USER\Documents\Lawstudent_cclocal\docs\story_planning\CC\local_out\B245_stairarm\out
+cc_b245_stairsarm_probe  SHA=ffeec06e0  URL=http://127.0.0.1:8813/index.html
+PASS 遊戲載入
+  【前置／捷徑】load_state（quiet_events）霖澤館第 8 天（週六）11:00，玩家在大廳 (4,4)
+  【前置／捷徑】跟隨鏡頭轉向樓梯口（樓梯在鏡頭背後）、清掉其他 NPC、spawnCharacter 沛珊在 (-6.6, 6.0)
+INFO spawn：{"yaw": -1.434, "ok": true}
+INFO 沛珊模型：{"vrm": true, "key": "char.classmate_peishan", "driver": "vrm", "vis": false}
+PASS 前置：沛珊的 VRM 載好了（才量得到上臂）  {"vrm": true, "key": "char.classmate_peishan", "driver": "vrm", "vis": false}
+  【前置／捷徑】她爬到第一段 y=0.82：E.cinematic 把鏡頭切到她側前方（模擬劇情運鏡切過去）
+INFO 記到 1512 格；畫面外且 cd<15 m 1331 格；cd 15～17 m 0 格；看得到 181 格
+INFO 前 12 格：[{"f": 224, "vis": false, "cd": 6.56, "upd": true, "arm": 11, "y": 0, "z": 6}, {"f": 225, "vis": false, "cd": 6.31, "upd": true, "arm": 10.9, "y": 0, "z": 6}, {"f": 226, "vis": false, "cd": 6.3, "upd": true, "arm": 10.9, "y": 0, "z": 6}, {"f": 227, "vis": false, "cd": 6.29, "upd": true, "arm": 10.9, "y": 0, "z": 6}, {"f": 228, "vis": false, "cd": 6.29, "upd": true, "arm": 10.9, "y": 0, "z": 6}, {"f": 229, "vis": false, "cd": 6.28, "upd": true, "arm": 10.9, "y": 0, "z": 6}, {"f": 230, "vis": false, "cd": 6.28, "upd": true, "arm": 10.9, "y": 0, "z": 6}, {"f": 231, "vis": false, "cd": 6.27, "upd": true, "arm": 10.9, "y": 0, "z": 6}, {"f": 232, "vis": false, "cd": 6.27, "upd": true, "arm": 10.9, "y": 0, "z": 6}, {"f": 233, "vis": false, "cd": 6.26, "upd": true, "arm": 10.9, "y": 0, "z": 6}, {"f": 234, "vis": false, "cd": 6.26, "upd": true, "arm": 10.9, "y": 0, "z": 6}, {"f": 235, "vis": false, "cd": 6.25, "upd": true, "arm": 10.9, "y": 0, "z": 6}]
+PASS 前置：沛珊在畫面外、離鏡頭 < 15 m 的格子至少 5 格  1331
+FAIL ① 畫面外、16 m 內的格子每一格都更新骨架（CHAR.animate 有叫到她）  1/1331 格沒更新；例 [{"f": 756, "vis": false, "cd": 6.21, "upd": false, "arm": 10.9, "y": 0, "z": 6}]
+PASS ② 畫面外那幾格的左上臂和正下方夾角都 < 70°（不是 T 字）  0/1331 格 ≥70°；例 []
+PASS 前置：有切到她爬第一段（y 0.7～1.7）
+PASS ③ 鏡頭切過去以後第一格看得到她：左上臂夾角 < 70°  {"f": 1221, "vis": true, "cd": 3.57, "upd": true, "arm": 22.8, "y": 0.82, "z": 3.71}
+PASS 沒有 JS 例外  []
+FAILED 1：① 畫面外、16 m 內的格子每一格都更新骨架（CHAR.animate 有叫到她）
