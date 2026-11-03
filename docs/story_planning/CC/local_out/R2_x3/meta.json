@@ -1,0 +1,23 @@
+{
+  "rerun": "x3",
+  "id": "R2_x3",
+  "sha": "b1b249873",
+  "kind": "game",
+  "script": "tests/flow_class_real.py",
+  "env": "XARGS={url} {out};RERUN=x3",
+  "machine": "MSI",
+  "start": "2026-11-03T08:39:10",
+  "end": "2026-11-03T08:41:17",
+  "seconds": 127,
+  "exit": 0,
+  "error": null,
+  "runner": "a98287fbd6",
+  "rf_round": "1",
+  "url": "http://127.0.0.1:8810/index.html",
+  "res_peak": {
+    "cpu": 97,
+    "mem": 59,
+    "used_gb": 18.7,
+    "chrome_testing": 27
+  }
+}
