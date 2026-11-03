@@ -43097,6 +43097,26 @@
    "priority": "P1",
    "note": "X185；書的 GLB 由子代理先做、LAWWW2（美術總監）驗收可以再精修",
    "next": "子代理（worktree）：打開的書 GLB＋讀書手臂姿勢＋只在 read 顯示 → 截圖 → 合併 → BB 測"
+  },
+  {
+   "first": {
+    "term": "Y1S1",
+    "week": 1,
+    "earliest": "溫州街小公園（第一次去溫州街）",
+    "mainline": false,
+    "blocks": false,
+    "prereq": false,
+    "parallel": true,
+    "confirmed": true
+   },
+   "area": null,
+   "id": "WZ-CAT-FLOAT-RUB-1103",
+   "title": "溫州街橘貓：趴在老樹圓椅上不浮空（貼著座面）；白天會走動；玩家站著不動時會走過來蹭腳（使用者 11-03「懸空的橘貓」「要會動吧」「會走過來蹭」）",
+   "owner": "LAWWW",
+   "status": "進行中",
+   "priority": "P1",
+   "note": "X186；接 J13 WZ-CAT-LIFE-1023（wzcat3d.js，LAWWW2-C）；蹭的專用動畫交 LAWWW2",
+   "next": "子代理（worktree）：查浮空原因、白天為什麼趴著、加蹭的狀態 → 截圖 → 合併 → BB 測"
   }
  ]
 }
