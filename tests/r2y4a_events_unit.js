@@ -275,7 +275,7 @@ const sisSaid=()=>said.filter(s=>s.who&&/學姊|書瑀|溫書瑀/.test(s.who)).m
   check('S0. 12/21 12:10「今天我在總圖三樓」「有東西想給你看」', JSON.stringify(txt('p:heroine_03'))===JSON.stringify(['heroine_03:今天我在總圖三樓','heroine_03:有東西想給你看']));
   CG_REGISTRY.cg_share_time_heroine03={file:'x.webp',title:'t'};
   at('2028-12-21',17.5); G.zone='library'; SOCIAL.remember('heroine_03','GIFT_NOTEBOOK_YT',''); const s1ok=EVENTS.check(ev('ev_yt_share_time')); picks=[0]; await run('ev_yt_share_time');
-  check('S1. 朋友、大一抽到筆記本：「這本是聖誕節抽到的。……寫滿了。」；選「我想看下一本。」＝YT_NOTES_NEXT；S4 沒有 CG-12、沒有換位子', s1ok&&has('這本是聖誕節抽到的。……寫滿了。')&&has('……下一本還沒寫。')&&G.flags.YT_NOTES_NEXT===true&&G.flags.YT16==='seen'&&!cgs.includes('cg_share_time_heroine03')&&!has('（她把筆記收回去，換到你旁邊的位子坐。不是斜對面。）'));
+  check('S1. 朋友、大一抽到筆記本：AA_625 第 16 節（「我可以給你看一個東西嗎。」（田野筆記，已經寫到第三本。）…「我媽到現在還是希望我去考牙醫。」「可是這四年…每一件都是我自己選的。」）＋「這本是聖誕節抽到的。……寫滿了。」；選「我想看下一本。」＝YT_NOTES_NEXT；S4 沒有 CG-12、沒有換位子', s1ok&&has('（田野筆記，已經寫到第三本。）')&&has('這本不是作業。是我自己想寫的。')&&has('我媽到現在還是希望我去考牙醫。')&&has('可是這四年，打工、社會系、法律、這本筆記，每一件都是我自己選的。')&&!said.some(s=>/幫阿姨寫/.test(s.t))&&has('這本是聖誕節抽到的。……寫滿了。')&&has('……下一本還沒寫。')&&G.flags.YT_NOTES_NEXT===true&&G.flags.YT16==='seen'&&!cgs.includes('cg_share_time_heroine03')&&!has('（她把筆記收回去，換到你旁邊的位子坐。不是斜對面。）'));
   fresh('2028-12-21',17.5,'library',TWF()); R('heroine_03','FRI'); date('heroine_03'); picks=[1]; await run('ev_yt_share_time');
   check('S2. 和語彤交往：選完以後她換到旁邊的位子', has('畢業專題。老師說可以再寫長一點。')&&has('（她把筆記收回去，換到你旁邊的位子坐。不是斜對面。）'));
   delete CG_REGISTRY.cg_share_time_heroine03;

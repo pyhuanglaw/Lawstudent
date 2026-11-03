@@ -470,12 +470,15 @@ const R2Y4A_EVENTS=(function(){
   const FN=G=>has(YT,'FIELD_NOTES_IDEA');
   EV.push({ id:'ev_yt_share_time', title:'分一點時間', participants:[YT], location:'library', trigger:'auto', once:true, time:[17.25,18.75], background:'blur',
     prereq:{custom:G=>{ const a=D('2028-12-21'), b=D('2028-12-28'); return knows(YT,G)&&!G.flags.YT16&&(G.day===a||G.day===b); }},
-    dialogue:[ IF(FN,nar('（她把一本寫滿的筆記本推過來。）')),UN(FN,nar('（她把一疊印出來的初稿推過來。）')),
+    /* AA_625 第 16 節（YT-REWRITE-1103，AA 定稿）：她先在三樓小聲問（加（小聲））、田野筆記第三本；讀完走出總圖（libOut）以後的句子不加 */
+    dialogue:[ yt('我可以給你看一個東西嗎。'),
+      nar('（田野筆記，已經寫到第三本。）'),
       Object.assign(nar('（讀完，你們走出總圖。）'),{libOut:true}),   /* libOut（AA_595 1-B52；AA 11-02 22:30 定稿）*/
-      yt('我可以給你看一個東西嗎。'),
-      yt('這本不是作業，也不是幫阿姨寫的。是我自己想寫的。'),
+      yt('這本不是作業。是我自己想寫的。'),
+      yt('我媽到現在還是希望我去考牙醫。'),
+      yt('可是這四年，打工、社會系、法律、這本筆記，每一件都是我自己選的。'),
       {if:{memory:[{npc:YT,tag:'GIFT_NOTEBOOK_YT'}]},speaker:YT,text:'這本是聖誕節抽到的。……寫滿了。'},
-      {choice:[{text:'（讀完）「我想看下一本。」',set:{YT_NOTES_NEXT:true},goto:'a'},{text:'（讀完）「這本以後要做什麼？」',goto:'b'}]},
+      {choice:[{text:'「我想看下一本。」',set:{YT_NOTES_NEXT:true},goto:'a'},{text:'「這本以後要做什麼？」',goto:'b'}]},   /* 選項照 AA_625 第 16 節（已經讀完、走出總圖，拿掉「（讀完）」）；回覆照 AA_11 */
       {label:'a'},yt('……下一本還沒寫。'),yt('寫了再說。'),{goto:'e'},
       {label:'b'},yt('畢業專題。老師說可以再寫長一點。'),
       {label:'e'},IF(G=>dating(G,YT),nar('（她把筆記收回去，換到你旁邊的位子坐。不是斜對面。）')),
