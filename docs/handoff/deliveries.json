@@ -6690,8 +6690,9 @@
       "what": "BUG-COPLANAR-DEV 第一批：萬才館外觀（大台階每階只做自己那層、平台西緣縮 2 cm；一定會閃 1,264 → 903，剩屋頂；--check 差 0）、霖澤館外觀（四樓館名石材帶兩端多 2 cm）",
       "task": "BUG-COPLANAR-DEV",
       "msg": "ACK",
-      "integration": "已整合待測試",
-      "note": "只取 GLB＋兩支腳本；wancai_glb_integration、遊戲內截圖 LAWWW-B 跑（宿營流程測試跑完後）"
+      "integration": "已驗收",
+      "note": "只取 GLB＋兩支腳本；wancai_glb_integration、遊戲內截圖 LAWWW-B 跑（宿營流程測試跑完後）",
+      "acceptedBy": "BB 11-03 01:08（BB_247 末節，cc-local ART_*）"
     },
     {
       "id": "DL-LW2-GGSIGNS",
@@ -6771,8 +6772,9 @@
       "what": "BUG-COPLANAR-DEV 霖澤館室內：一定會閃 63 → 0（玻璃帷幕、二樓地板靠牆、牆角、沙發、踢腳板），linze_interior.glb 重新匯出＋tools/blender/linze_interior.py；節點名稱、導航不變",
       "task": "BUG-COPLANAR-DEV",
       "msg": "ACK",
-      "integration": "已整合待測試",
-      "note": "LAWWW-B 收進開發分支；flow_linze_floors.py 待跑｜LAWWW-B 交班時回 ACK（2026-10-17 02:4x，交付紀錄＝跨 AI 文件）：已收進開發分支 d6ce40cf；瀏覽器流程交班時沒跑完，排在 QA-HANDOFF-B1"
+      "integration": "已驗收",
+      "note": "LAWWW-B 收進開發分支；flow_linze_floors.py 待跑｜LAWWW-B 交班時回 ACK（2026-10-17 02:4x，交付紀錄＝跨 AI 文件）：已收進開發分支 d6ce40cf；瀏覽器流程交班時沒跑完，排在 QA-HANDOFF-B1",
+      "acceptedBy": "BB 11-03 01:08（BB_247 末節，cc-local ART_*）"
     },
     {
       "id": "DL-LW2-COPLANAR-201",
@@ -6784,8 +6786,9 @@
       "what": "BUG-COPLANAR-DEV 201 階梯教室：一定會閃 11 → 0（平台收邊、止滑條、牆角）；classroom_201.glb＋腳本；check_coplanar 加宿舍年份互斥",
       "task": "BUG-COPLANAR-DEV",
       "msg": "ACK",
-      "integration": "已整合待測試",
-      "note": "座位、節點名稱不變｜LAWWW-B 交班時回 ACK（2026-10-17 02:4x，交付紀錄＝跨 AI 文件）：已收進開發分支 3d4d1969；瀏覽器流程交班時沒跑完，排在 QA-HANDOFF-B1"
+      "integration": "已驗收",
+      "note": "座位、節點名稱不變｜LAWWW-B 交班時回 ACK（2026-10-17 02:4x，交付紀錄＝跨 AI 文件）：已收進開發分支 3d4d1969；瀏覽器流程交班時沒跑完，排在 QA-HANDOFF-B1",
+      "acceptedBy": "BB 11-03 01:08（BB_247 末節，cc-local ART_*）"
     },
     {
       "id": "DL-LW2-COPLANAR-WANCAI",
@@ -6797,8 +6800,9 @@
       "what": "BUG-COPLANAR-DEV 萬才館室內：一定會閃 54 → 4（帷幕、一二樓牆接縫、樓板、牆角、二樓門框、迴廊收邊、踢腳板）；wancai_interior.glb＋腳本",
       "task": "BUG-COPLANAR-DEV",
       "msg": "ACK",
-      "integration": "已整合待測試",
-      "note": "待跑 flow_wancai_floors、zone_transitions｜LAWWW-B 交班時回 ACK（2026-10-17 02:4x，交付紀錄＝跨 AI 文件）：已收進開發分支 3d4d1969；瀏覽器流程交班時沒跑完，排在 QA-HANDOFF-B1"
+      "integration": "已驗收",
+      "note": "待跑 flow_wancai_floors、zone_transitions｜LAWWW-B 交班時回 ACK（2026-10-17 02:4x，交付紀錄＝跨 AI 文件）：已收進開發分支 3d4d1969；瀏覽器流程交班時沒跑完，排在 QA-HANDOFF-B1",
+      "acceptedBy": "BB 11-03 01:08（BB_247 末節，cc-local ART_*）"
     },
     {
       "id": "DL-BB-BCG47-ECONCAMP",
@@ -6862,8 +6866,9 @@
       "what": "BUG-COPLANAR-DEV 總圖大廳（f1734e3f，129→27）、法圖（6f10b1fe，120→93）：library_interior.glb、lawlib_interior.glb＋json＋腳本；節點、材質名稱不變",
       "task": "BUG-COPLANAR-DEV",
       "msg": "ACK",
-      "integration": "已整合待測試",
-      "note": "待跑 flow_library_floors、flow_library_scene、法圖測試｜LAWWW-B 交班時回 ACK（2026-10-17 02:4x，交付紀錄＝跨 AI 文件）：已收進開發分支 b6f471f7；瀏覽器流程交班時沒跑完，排在 QA-HANDOFF-B1"
+      "integration": "已驗收",
+      "note": "待跑 flow_library_floors、flow_library_scene、法圖測試｜LAWWW-B 交班時回 ACK（2026-10-17 02:4x，交付紀錄＝跨 AI 文件）：已收進開發分支 b6f471f7；瀏覽器流程交班時沒跑完，排在 QA-HANDOFF-B1",
+      "acceptedBy": "BB 11-03 01:08（BB_247 末節，cc-local ART_*）"
     },
     {
       "id": "DL-BB-BG-NCCUDORM-DAY",
@@ -9805,8 +9810,9 @@
       "what": "（LAWWW2 標 ART-US2-FIX-1018，撞名，改登記 BUG-US-KITCHEN-1018）公寓、合租戶窄廚房：冰箱、爐子互動點分開；kit_n、kit_e 隔間牆會淡出（us_apartment.glb、us_shared.glb 重匯）；patch us2_fix_1018.diff（us3d.js、us_layouts.js、nav_us_unit.js）；README docs/art-rebuild/second_ai/test_shots/us2_fix_1018/；outbox 96352d2f",
       "task": "BUG-US-KITCHEN-1018",
       "msg": "ACK",
-      "integration": "已整合待測試",
-      "note": "v9.10 收件範圍外（美國交換），發布後套；BB-C 重跑 flow_us_exchange｜LAWWW-C 04:2x：patch 套上（apply 乾淨）、us_apartment／us_shared GLB＋json 拿 efaca16f 的；nav_us_unit ALL PASS；瀏覽器 reachability us_shared 等 joystick 跑完"
+      "integration": "已驗收",
+      "note": "v9.10 收件範圍外（美國交換），發布後套；BB-C 重跑 flow_us_exchange｜LAWWW-C 04:2x：patch 套上（apply 乾淨）、us_apartment／us_shared GLB＋json 拿 efaca16f 的；nav_us_unit ALL PASS；瀏覽器 reachability us_shared 等 joystick 跑完",
+      "acceptedBy": "BB 11-03 01:08（BB_247 末節，cc-local ART_*）"
     },
     {
       "id": "DL-LAWWW2-8d21b0f2",
@@ -9891,8 +9897,9 @@
       "what": "BUG-US-KITCHEN-1018 追加：合租戶臥室 A 門口——電視櫃移到東牆 (1.12,-1.2)、行李箱移到客廳東北角 (0.9,0.55)，us_shared.glb 重匯；patch us2_fix_1018.diff 重產（對 5ecab8b8 apply --check 乾淨）；reachability_all --zones us_shared、nav_us_unit ALL PASS；outbox 9bd934e9",
       "task": "BUG-US-KITCHEN-1018",
       "msg": "ACK",
-      "integration": "已整合待測試",
-      "note": "v9.10 發布後套（美國交換）｜LAWWW-C 04:2x：patch 套上（apply 乾淨）、us_apartment／us_shared GLB＋json 拿 efaca16f 的；nav_us_unit ALL PASS；瀏覽器 reachability us_shared 等 joystick 跑完"
+      "integration": "已驗收",
+      "note": "v9.10 發布後套（美國交換）｜LAWWW-C 04:2x：patch 套上（apply 乾淨）、us_apartment／us_shared GLB＋json 拿 efaca16f 的；nav_us_unit ALL PASS；瀏覽器 reachability us_shared 等 joystick 跑完",
+      "acceptedBy": "BB 11-03 01:08（BB_247 末節，cc-local ART_*）"
     },
     {
       "id": "DL-BB-2fe51fcf",
@@ -10778,8 +10785,9 @@
       "what": "BUG-COPLANAR-DEV 霖澤館外觀、萬才館外觀重新匯出＋腳本",
       "task": "BUG-COPLANAR-DEV",
       "msg": "ACK",
-      "integration": "已整合待測試",
-      "note": "7e287c19"
+      "integration": "已驗收",
+      "note": "7e287c19",
+      "acceptedBy": "BB 11-03 01:08（BB_247 末節，cc-local ART_*）"
     },
     {
       "id": "DL-AA-c1185dc3",
@@ -12939,8 +12947,9 @@
       "what": "BACKLOG A7 溫州街小公園疊面：wz_park.glb＋wz_park.py（c53c3c6d）",
       "task": "BACKLOG-A7-WZPARK-COPLANAR",
       "msg": "ACK",
-      "integration": "已整合待測試",
-      "note": "LAWWW（帳號 A）19:1x 整合進開發分支 a3837c1c；相關單元測試全過；BB 看畫面"
+      "integration": "已驗收",
+      "note": "LAWWW（帳號 A）19:1x 整合進開發分支 a3837c1c；相關單元測試全過；BB 看畫面",
+      "acceptedBy": "BB 11-03 01:08（BB_247 末節，cc-local ART_*）"
     },
     {
       "id": "DL-LAWWW2-75d40a9e",
