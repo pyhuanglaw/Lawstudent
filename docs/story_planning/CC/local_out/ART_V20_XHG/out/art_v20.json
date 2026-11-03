@@ -1,0 +1,16 @@
+{
+ "sha": "d2b962a3f",
+ "url": "http://127.0.0.1:8810/index.html",
+ "cases": [
+  "xinhai_ground"
+ ],
+ "shots": [
+  "C:\\Users\\USER\\Documents\\Lawstudent_cclocal\\docs\\story_planning\\CC\\local_out\\ART_V20_XHG\\out\\exception_xinhai_ground.png"
+ ],
+ "data": {},
+ "errs": [],
+ "fails": [
+  "xinhai_ground：探針沒有例外"
+ ],
+ "secs": 46
+}

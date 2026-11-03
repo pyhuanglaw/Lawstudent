@@ -395,3 +395,17 @@
 [06:57:19] 正在跑：MD_tx_v3（已跑 4 分／上限 90 分）——還沒測完，請不要關 (tests still running - please do not close)
 [07:02:19] 正在跑：MD_tx_v3（已跑 9 分／上限 90 分）——還沒測完，請不要關 (tests still running - please do not close)
 [07:02:32] [res] cpu=10% mem=44% (13.9/31.4 GB) chrome_testing=0  END MD_tx_v3
+    To https://github.com/pyhuanglaw/Lawstudent.git
+       b82fef502..d18e9c213  claude/cc-local -> claude/cc-local
+    branch 'claude/cc-local' set up to track 'origin/claude/cc-local'.
+[07:02:39] ==== END   MD_tx_v3  exit=0  574s   ====
+[07:02:42] memory 43% before starting N20_libcorner (0 running)
+[07:02:42] memory 43% before starting ART_V20_XHG (1 running)
+[07:02:42] ==== START N20_libcorner  (probe @ d2b962a3f) ====
+[07:02:42] memory 43% before starting YT3FM_new (2 running)
+[07:02:42] ==== START ART_V20_XHG  (probe @ d2b962a3f) ====
+[07:02:42] ==== START YT3FM_new  (probe @ 9d8e00fdc) ====
+[07:02:45] [res] cpu=32% mem=44% (13.8/31.4 GB) chrome_testing=0  START ART_V20_XHG
+[07:02:45] [res] cpu=31% mem=44% (13.8/31.4 GB) chrome_testing=0  START YT3FM_new
+[07:02:45] [res] cpu=31% mem=44% (13.8/31.4 GB) chrome_testing=0  START N20_libcorner
+[07:04:04] [res] cpu=40% mem=49% (15.5/31.4 GB) chrome_testing=9  END ART_V20_XHG
