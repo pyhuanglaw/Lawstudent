@@ -1,0 +1,23 @@
+{
+  "rerun": "",
+  "id": "V19X_gym",
+  "sha": "b267b0534",
+  "kind": "probe",
+  "script": "docs/story_planning/test_tools/cc/cc_gym_shot_probe.py",
+  "env": "CC_HEADLESS=0;CASES=rack,pool,plate,closed,motion",
+  "machine": "MSI",
+  "start": "2026-11-04T02:20:08",
+  "end": "2026-11-04T02:29:58",
+  "seconds": 591,
+  "exit": 0,
+  "error": null,
+  "runner": "c9cac8a6aa",
+  "rf_round": "5",
+  "url": "http://127.0.0.1:8810/index.html",
+  "res_peak": {
+    "cpu": 76,
+    "mem": 56,
+    "used_gb": 17.7,
+    "chrome_testing": 28
+  }
+}
