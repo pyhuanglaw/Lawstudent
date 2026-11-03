@@ -23,6 +23,8 @@ OUT = sys.argv[2] if len(sys.argv) > 2 else '/tmp/flow_lib_tour'
 MODE = os.environ.get('MODE', 'tap')
 # PHOTO=1（候選版 3783ae554 以後；BB 16:11）：導覽途中（15:55 前後）不能跳「出發：」選單；導覽結束後 5 分鐘（遊戲時間）內要跳系學會合照的「出發：」，選了還來得及去
 PHOTO = os.environ.get('PHOTO', '') == '1'
+# PHOTO_LATER=1（BB 19:48）：導覽後第一次跳合照的「出發：」先選「晚一點（20 分鐘後再提醒）」，第二次再選「出發」；等的時間放寬到導覽結束後 30 分鐘
+PHOTO_LATER = os.environ.get('PHOTO_LATER', '') == '1'
 CHOBS = """(()=>{ window.__ch=[]; window.__chClick=[]; const box=document.getElementById('choices'); if(!box||box.__ccObs) return;
               const rec=()=>{ const bs=[...box.querySelectorAll('button')].map(b=>(b.textContent||'').trim().slice(0,40)); if(bs.length&&!box.classList.contains('hide')) window.__ch.push({h:+(+GAME.G.hour).toFixed(3), bs}); };
               new MutationObserver(rec).observe(box,{childList:true,subtree:true,attributes:true,attributeFilter:['class']}); box.__ccObs=1;
@@ -68,6 +70,11 @@ async def handle_choices(pg, cdp, run):
     if any(x.startswith('出發：') for x in c):
         g = await pg.evaluate("({h:+(+GAME.G.hour).toFixed(3), touring:!!(typeof CLS!=='undefined'&&CLS.touring), tour:ACTIVITIES.stateOf(GAME.G,'lib_tour_y1s1',GAME.G.day)})")
         OUTSEEN.append(dict(g, opts=[x[:30] for x in c], post=POST['on']))
+        if POST['on'] and PHOTO_LATER and not POST.get('later'):   # 先選「晚一點」
+            i = next((k for k, x in enumerate(c) if x.startswith('晚一點')), None)
+            if i is not None:
+                run.note('導覽結束後跳出「%s」（%s）：先選「%s」' % (c[0][:30], g['h'], c[i][:20])); POST['later'] = g['h']
+                await L.tap(pg, cdp, '#choices button:nth-child(%d)' % (i + 1)); await pg.wait_for_timeout(1500); return True
         if POST['on']:   # 導覽走完了：去合照
             i = next((k for k, x in enumerate(c) if x.startswith('出發')), None)
             run.note('導覽結束後跳出「%s」（%s）：選「出發」' % (c[i][:30], g['h'])); await L.tap(pg, cdp, '#choices button:nth-child(%d)' % (i + 1)); await pg.wait_for_timeout(1500); POST['went'] = g['h']; return True
@@ -159,7 +166,7 @@ async def main():
             #   在頁面裡掛觀察器：#choices 每一次出現的按鈕文字（和遊戲時間）、每一次按鈕被按（誰按的都記），探針只在看到「出發：」時自己點
             run.note('導覽結束（遊戲時間 %.3f）：等合照的「出發：」選單，最多 5 分鐘遊戲時間；這段不自動點選項，只有看到「出發：」才由探針點' % h0)
             while time.time() - t1 < 900 and 'went' not in POST:
-                if await pg.evaluate("+GAME.G.hour") > h0 + 5 / 60 + 0.005: break
+                if await pg.evaluate("+GAME.G.hour") > h0 + (30 if PHOTO_LATER else 5) / 60 + 0.005: break
                 s = await L.state(pg)
                 if s['choices']:
                     c = await pg.evaluate("[...document.querySelectorAll('#choices button')].map(b=>b.textContent)")
@@ -174,7 +181,9 @@ async def main():
             post = [o for o in OUTSEEN if o['post']]
             ost = await pg.evaluate("(()=>{ const G=GAME.G; let r=null; try{ r=(OUT.rec?OUT.rec(G):[]).map(q=>({id:q.id,state:q.state,day:q.day,h:q.h,late:q.late,ask:q.ask})); }catch(e){ r=String(e); } return {h:+(+G.hour).toFixed(3), day:G.day, zone:G.zone, touring:!!(typeof CLS!=='undefined'&&CLS.touring), due:(()=>{ try{ const q=OUT.due&&OUT.due(G); return q?q.id:null; }catch(e){ return String(e); } })(), rec:r}; })()")
             print('  導覽結束後的出遊狀態（等了 %.0f 秒）：%s' % (time.time() - t1, json.dumps(ost, ensure_ascii=False)[:1200]), flush=True)
-            run.check('A 導覽結束後 5 分鐘內跳出合照的「出發：」', 'went' in POST and POST['went'] <= h0 + 5 / 60 + 0.005, json.dumps({'end': h0, 'seen': post}, ensure_ascii=False))
+            first = min([o['h'] for o in OUTSEEN if o['post']] or [99])
+            if PHOTO_LATER: run.check('A（晚一點）先選「晚一點」以後，20 分鐘左右再提醒、選了「出發」', 'later' in POST and 'went' in POST and POST['went'] > POST['later'], json.dumps({'later': POST.get('later'), 'went': POST.get('went')}, ensure_ascii=False))
+            run.check('A 導覽結束後 5 分鐘內跳出合照的「出發：」', first <= h0 + 5 / 60 + 0.005, json.dumps({'end': h0, 'seen': post}, ensure_ascii=False))
             if 'went' in POST:   # 選了出發：要真的到得了（圓窗館前 (−104,−17)），沒有「錯過／來不及」
                 t2 = time.time(); arrived = None
                 while time.time() - t2 < 600:
@@ -196,7 +205,7 @@ async def main():
                 ph = await pg.evaluate("(()=>{ const D=((GAME.G.events||{}).done||{}); const ids=Object.keys(D).filter(k=>k.startsWith('ev_l3_photo')); return {done:ids, h:+(+GAME.G.hour).toFixed(3)}; })()")
                 run.check('A 到了以後合照真的演了（events.done 有 ev_l3_photo_*；對話裡有合照的句子）', bool(ph['done']), json.dumps({'photo': ph, 'dialog': [x[:30] for x in dl[-8:]]}, ensure_ascii=False))
                 await pg.screenshot(path=OUT + '/A_photo.png')
-            POST['on'] = False; POST.pop('went', None)   # B 段照舊：出發選單選「不去了」
+            POST['on'] = False; POST.pop('went', None); POST.pop('later', None)   # B 段照舊：出發選單選「不去了」
         # B 中途離開
         run.setup('重新讀同一個前置存檔')
         await join(pg, cdp, run); await pg.wait_for_timeout(3000)

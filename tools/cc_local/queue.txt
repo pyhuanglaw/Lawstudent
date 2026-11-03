@@ -28,6 +28,13 @@ V19D_tour_tap4 | ddda3d829 | probe | docs/story_planning/test_tools/cc/cc_lib_to
 V19D_tour_tap5 | ddda3d829 | probe | docs/story_planning/test_tools/cc/cc_lib_tour2_probe.py | index.html | 90 | SOLO=1;MODE=tap;PHOTO=1;CC_HEADLESS=0;RERUN=pool1
 V19D_tour_tap6 | ddda3d829 | probe | docs/story_planning/test_tools/cc/cc_lib_tour2_probe.py | index.html | 90 | SOLO=1;MODE=tap;PHOTO=1;CC_HEADLESS=0;RERUN=evdone
 # （tap6：tap5 ALL PASS，可是 16:42 到圓窗館前，合照事件時段 [15:50,16:30]；加驗 events.done 有 ev_l3_photo_*）
+#HOLD修正 V19Q_tour_tap   | <合照事件修正> | probe | docs/story_planning/test_tools/cc/cc_lib_tour2_probe.py | index.html | 90 | SOLO=1;MODE=tap;PHOTO=1;CC_HEADLESS=0
+#HOLD修正 V19Q_tour_later | <合照事件修正> | probe | docs/story_planning/test_tools/cc/cc_lib_tour2_probe.py | index.html | 90 | SOLO=1;MODE=tap;PHOTO=1;PHOTO_LATER=1;CC_HEADLESS=0
+#HOLD修正 V19Q_deploy     | <合照事件修正> | game | tests/deploy_check.py | index.html | 30 | XARGS={url} v9.10.19（2026-11-03）
+#HOLD修正 V19Q_p0         | <合照事件修正> | game | tests/p0_movement.py | index.html | 30 | XARGS={url}
+# （V19Q：BB 19:48 BUG-TOUR-PHOTO-NOEV-1103 修好的 SHA 下來就填；tour_later＝先選「晚一點」再出發）
+V19D_tour_later | ddda3d829 | probe | docs/story_planning/test_tools/cc/cc_lib_tour2_probe.py | index.html | 90 | SOLO=1;MODE=tap;PHOTO=1;PHOTO_LATER=1;CC_HEADLESS=0
+# （V19D_tour_later：修正前先跑一次，看「晚一點」的流程本身對不對）
 # （tap5：tap4 卡在導覽後的 pool_story 偶遇選單（探針不點）；改成別的選單只點第一個、「出發：」由探針點）
 # （V19D_tour_tap4：BB 18:56，tap3 合照已經 done 卻沒看到選單；探針從導覽開始就記所有選單和按鈕被按，等合照時不自動點）
 # （BB 18:25 P0：候選 ddda3d829（outings3d.js 導覽中 tourHeld、結束後寬限至少 15 分鐘）；這四支最前面，其他沿用）
