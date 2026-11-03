@@ -40903,6 +40903,27 @@
       "note": "UA-LAWWW-1103-01",
       "evidence": "CLAUDE.md D129＋P0 換班口令第 9 點、AI_SESSION_HANDOFF 第 5 節與 HV-23、PROJECT_DECISIONS D129；帳號 A 交班時 LAWWW、LAWWW2、BB 的保險喚醒已 enabled=false（AA、CC 還在值班，照舊）",
       "next": "各職位交班照做；接班時把自己的保險喚醒改回 enabled=true"
+    },
+    {
+      "first": {
+        "term": "META",
+        "week": null,
+        "earliest": "開發工具",
+        "mainline": false,
+        "blocks": false,
+        "prereq": false,
+        "parallel": true,
+        "confirmed": true
+      },
+      "area": null,
+      "id": "GHA-NODE-TRIAL-1103",
+      "title": "試用 GitHub Actions 免費跑 Node 測試（只做可行性：一支 nav_levels_unit.js；試用分支 claude/gha-node-trial，不碰 main、開發分支、BB／CC）",
+      "owner": "LAWWW",
+      "status": "已驗收",
+      "priority": "P2",
+      "note": "UA-LAWWW-1103-03；使用者：成功就收工，其他整合等 BB 回來再做",
+      "evidence": "https://github.com/pyhuanglaw/Lawstudent/actions/runs/41554813408 success（ubuntu-latest、Node 22；整個 job 49 秒，checkout 45 秒、測試本身約 1 秒）；workflow 只在試用分支觸發",
+      "next": "BB 回來再決定要不要擴大（放哪些不需要瀏覽器的測試、在哪些分支觸發）"
     }
   ]
 }
