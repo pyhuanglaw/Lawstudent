@@ -355,3 +355,12 @@
 [21:40:00] ==== START N19_libfl  (game @ 21ab92db0) ====
 [21:40:03] [res] cpu=6% mem=51% (16.2/31.4 GB) chrome_testing=20  START N19_libfl
 [21:41:02] [res] cpu=7% mem=51% (16.2/31.4 GB) chrome_testing=19  END 01_p0speed
+    To https://github.com/pyhuanglaw/Lawstudent.git
+       9adb6fc24..fd46b9d1c  claude/cc-local -> claude/cc-local
+    branch 'claude/cc-local' set up to track 'origin/claude/cc-local'.
+[21:41:06] ==== END   01_p0speed  exit=0  160s   ====
+[21:41:08] memory 53% before starting N19_libsc (2 running)
+[21:41:08] ==== START N19_libsc  (game @ 21ab92db0) ====
+[21:41:11] [res] cpu=10% mem=53% (16.7/31.4 GB) chrome_testing=19  START N19_libsc
+[21:42:34] 正在跑：FS112（已跑 99 分／上限 360 分）、N19_libfl（已跑 2 分／上限 60 分）、N19_libsc（已跑 1 分／上限 60 分）——還沒測完，請不要關 (tests still running - please do not close)
+[21:43:58] [res] cpu=19% mem=50% (16.0/31.4 GB) chrome_testing=19  END N19_libsc
