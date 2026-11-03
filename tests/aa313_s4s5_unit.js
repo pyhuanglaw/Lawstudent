@@ -165,9 +165,9 @@ const SRC=f=>fs.readFileSync(path.join(ROOT,f),'utf8');
     check('5-6. 大二拆箱的便利貼：刪「……她改得對。」（旁白不替玩家下結論）',S.includes("'她改了你的筆記。'")&&!S.includes('她改得對'));
     check('5-6. 慈 3（溫州街便利商店）開頭旁白：AA_547 2-1 新稿「（B1 自習室關燈以後，她在便利商店等一杯熱拿鐵。）」（原本 AA_313 5-6 的「叫車」那一句，新稿沒有）',xs[0]&&xs[0].text==='（B1 自習室關燈以後，她在便利商店等一杯熱拿鐵。）'&&xs[0].speaker===null);
     check('5-5. 美術館之後柏翰的一句：暫代「美術館那張長椅，我下個月還會去坐。」（不說「阿哲問的話，就說我在總圖」）',J(ENCOUNTERS.school.ENC_D06_BH.lines)===J(['美術館那張長椅，我下個月還會去坐。']));
-    { const ops=['ev_zhe_w1_dorm','ev_zhe_w1_meet'].map(id=>choiceTexts(id).filter(t=>/麵店/.test(t)));
+    { const ops=['ev_zhe_w1_dorm','ev_zhe_w1_meet'].map(id=>choiceTexts(id).filter(t=>/燒臘店/.test(t)));   /* AA_612：麵店改燒臘店 */
       check('5-3. 開學第一週阿哲問吃什麼：選項「校門對面那排有一間燒臘店，便宜，份量也夠。」（阿鳳麵店在公館那排店面；AA_389 第 6 點照逐場表）',ops.every(o=>J(o)===J(['「校門對面那排有一間燒臘店，便宜，份量也夠。」'])),J(ops)); }
     fresh(D('2025-09-01'),9,'dorm',{}); STORY.phoneRules(GM); const q=PHONE.rec(G).q.find(x=>x.tag==='bbq_ask');
-    check('5-3. 中秋烤肉的群組訊息不加句號「週六中秋烤肉 河濱 下午三點」',!!q&&q.items[0].text==='週六中秋烤肉 河濱 下午三點',q&&q.items[0].text); }
+    check('5-3. 中秋烤肉的訊息不加句號「週六中秋烤肉 日常失速騎樓 晚上六點」（AA_623 第 3 節：18:00 日常失速騎樓）',!!q&&q.items[0].text==='週六中秋烤肉 日常失速騎樓 晚上六點',q&&q.items[0].text); }
   console.log(fails?'FAILED: '+fails:'ALL PASS'); process.exit(fails?1:0);
 })().catch(e=>{ console.error(e); process.exit(1); });
