@@ -154,7 +154,6 @@ const CHAR = (function(){
         drv.push({o,A,B:Bb,LA,LB,A0:i0(A),B0:Bb&&i0(Bb),LA0:i0(LA),LB0:LB&&i0(LB),CA:ch&&ch[0],CB:ch&&ch[1],CA0:ch&&i0(ch[0]),CB0:ch&&ch[1]&&i0(ch[1]),dn,fw,dir:d.dir||1,max:d.max==null?0.85:+d.max,sig:+d.sig||0.3,gate:Array.isArray(d.gate)&&d.gate.length===4?d.gate.map(Number):null}); }); }
       if(drv.length) root.userData.drive=drv; }
     const sbm=vrm.springBoneManager; if(sbm){ try{ sbm.reset(); sbm.joints.forEach(j=>{ j.center=root; }); root.updateMatrixWorld(true); sbm.setInitState(); }catch(err){ console.warn('spring bone center',err); } }
-    root.userData.headSph=headSphere(key,model,wrap,vrm.humanoid.getRawBoneNode('head'),root);   /* 頭頂（含頭髮）的球：天花板低的地方彎腰用（headFit，DORM-LADDER-STOOP-1103）*/
     root.userData.farLOD=attachFar(key,model);   /* 無名路人的遠距離版本（有的話；預設藏著）*/
     return root; }
   C.MODEL_PROPS={'char.classmate_bohan':[{name:'glasses',glb:'prop.glasses_bohan'},'backpack'],'char.classmate_peishan':[{name:'glasses',glb:'prop.glasses_peishan'}],'char.prof_wei':[{name:'glasses',glb:'prop.glasses_wei'}],'char.econ_weilun':['backpack',{name:'helmet',hang:'side'}],'char.econ_jiahao':['foodmap'],'char.econ_pinyu':['thermos'],'char.yu':['bag_yu'],   /* 許柏翰（?blchar）：方框眼鏡＋後背包（LAWWW2 VISUAL_REVIEW 32.4 的設定）*/
@@ -279,7 +278,7 @@ const CHAR = (function(){
     // ② 手
     for(const [i,side] of [[0,1],[1,-1]]){ const L=ARMS[i], sh=Lc(R[L[0]]), cur=Lc(R[L[2]]), t=hi[i];
       const T=CLV[1].set(side*K.side*k, sh.y+(K.lo+(K.hi-K.lo)*t)*k, sh.z+(K.fwdLo+(K.fwdHi-K.fwdLo)*t)*k); if(w<1) T.lerp(cur,1-w);
-      const pole=h.localToWorld(CLV[2].set(sh.x+side*0.5*k, sh.y-0.6*k, sh.z-0.1*k)), Tw=h.localToWorld(CLV[3].copy(T));
+      const pole=h.localToWorld(CLV[2].set(sh.x+side*0.5*k, sh.y-0.6*k, sh.z-0.1*k)), Tw=h.localToWorld(CLV[3].copy(T)); if(w<1) pole.lerp(R[L[1]].getWorldPosition(CLV[4]),1-w);   /* 權重小（剛開始爬、爬完換成跪）：手肘照原本的方向，權重歸零那一格不翻 */
       if(u.climbTop!=null){ const top=u.climbTop-(1-t)*0.08; if(Tw.y>top) Tw.y=top+(Tw.y-top)*(1-w); }   /* 最上面抓得到的高度（世界座標；story3d.js 給＝床欄頂）：爬到上面幾階，手不伸到床欄上面的空中 */
       ik2(R[L[0]],R[L[1]],R[L[2]],Tw,pole);
       // ⑤ 握住：四根手指往掌心彎（繞指根那一排的連線＝食指根→小指根；左手轉負的、右手轉正的＝往掌心，和 VRM 0.x／1.0 無關：用真實骨架的位置算）；大拇指不動
@@ -289,21 +288,35 @@ const CHAR = (function(){
   /* ===== 天花板低的地方彎腰、跪上床（DORM-LADDER-STOOP-1103；使用者 11-03「宿舍天花板太低了 走上去都撞到頭 不合理」「至少微微彎腰不要整個頭卡進去天花板」）=====
      u.headMax（世界座標的高度；story3d.js 爬宿舍梯子、上下床時設＝sleep_scene.head_max，沒有就天花板高度 − 0.08 m）：頭頂（含頭髮）不高過它。
        只在 climb、climbdown、kneel（和剛從這幾個換出來、權重還沒歸零的那幾格）有用；坐、躺、騎車（靜態姿勢）不管——舊的值留著也不會讓人在別的地方蹲著走。
-     頭頂＝頭的球（u.headSph：建立人物時在靜止姿勢量，球心在頭骨上方、頂端＝含頭髮的模型最高點，換成頭骨的本地座標）的最高點＋margin：頭往前低、往旁邊歪都照樣算。
+     頭頂＝頭（含頭髮）的頂點在頭骨座標裡的支撐點（headPts）照骨頭現在的矩陣蒙皮以後最高的那一個＋margin：頭往前低、往旁邊歪、頭髮甩起來都照樣算。
      超過多少（e）就：① 膝蓋彎一點蹲低（腳踝留在原本的位置：腳照樣踩在那一階；crouchShare 的比例、最多 crouchMax）；② 上身往前彎（脊椎、胸口，繞人物的左右軸；解出剛好的角度，最多 leanMax）；
      ③ 還不夠再蹲（最多 crouchMax×2）；④ 最後低頭（neckMax）。每一格照當下的 e 算（e 跟著人的位置、片段連續變化）＝彎腰的程度連續變化，沒有跳格。跪著（kneel）只彎腰不蹲（腿已經跪在床墊上）。
      kneel（跪上床、從床上起來）：站著的片段（idle）為底，在真實骨架上：大腿根放到膝蓋上方（大腿往前傾 thigh）、兩膝跪在 root 的高度（床墊頂；kneeY＝膝蓋中心離床墊）、小腿往後平放、腳背貼著床墊；
        上身往前傾 lean、兩手放在大腿上。權重 u.kneelW（KNEEL.blend 秒內 0→1、換成別的姿勢 1→0）：目標點從原本的位置慢慢移過去（同 gymIK）。
      C.headTop(h)＝頭頂的高度（世界座標，測試用）；C.HEADROOM、C.KNEEL 是參數；C.headFitOn=false 可以關掉比較。測試：node tests/ladder_headroom_unit.js */
   C.headFitOn=true;
-  C.HEADROOM={margin:0.012,crouchShare:0.4,crouchMax:0.14,leanMax:0.75,neckMax:0.4,poses:{climb:1,climbdown:1,kneel:1}};
+  C.HEADROOM={margin:0.04,soft:0.035,crouchShare:0.4,crouchMax:0.14,leanMax:0.75,neckMax:0.4,poses:{climb:1,climbdown:1,kneel:1}};
   C.KNEEL={blend:0.55,kneeX:0.1,kneeY:0.055,kneeZ:0.12,thigh:0.22,lean:0.42,neck:-0.12,handF:0.62,handUp:0.075,handOut:0.04};
-  const HTV=[0,1,2,3,4,5,6,7].map(()=>new THREE.Vector3()), HTQ=[new THREE.Quaternion(),new THREE.Quaternion()], HEADSPH={};
-  /* 頭的球：靜止姿勢、root 在原點時量（buildVRM 呼叫；同一個模型共用一份）。c＝球心在頭骨的本地座標、r＝半徑（wrap 縮放以前的單位）*/
-  function headSphere(key,model,wrap,headRaw,root){ if(HEADSPH[key]) return HEADSPH[key]; if(!headRaw) return null;
-    root.updateMatrixWorld(true); const box=new THREE.Box3().setFromObject(model); if(box.isEmpty()) return null; const hp=headRaw.getWorldPosition(new THREE.Vector3()), top=box.max.y; if(!(top>hp.y+0.05)) return null;
-    const r=(top-hp.y)/2, c=headRaw.worldToLocal(new THREE.Vector3(hp.x,hp.y+r,hp.z)), sc=wrap.getWorldScale(new THREE.Vector3()).y||1; return (HEADSPH[key]={c,r:r/sc}); }
-  function headTopW(h,u){ const hs=u.headSph, hd=hs&&u.vrm.humanoid.getRawBoneNode('head'); if(!hd) return null; const c=hd.localToWorld(HTV[0].copy(hs.c)); return c.y+hs.r*(u.model.getWorldScale(HTV[1]).y||1); }
+  const HTV=[0,1,2,3,4,5,6,7].map(()=>new THREE.Vector3()), HTQ=[new THREE.Quaternion(),new THREE.Quaternion()], HTM=new THREE.Matrix4();
+  /* 頭頂的量法：頭（頭骨和它底下的骨頭：臉、頭髮的彈簧骨）的頂點，在頭骨的本地座標裡取 128 個方向上最外面的那一點（凸包的支撐點，約 50～100 個頂點）；
+     每一格頭頂＝這些頂點照骨頭現在的矩陣蒙皮以後最高的那一個（頭髮的彈簧骨甩起來、頭往前低、往旁邊歪、後腦勺翹起來都照樣算）。
+     蒙皮自己算（Σ 權重 × 骨頭世界矩陣 × 反綁定矩陣 × bindMatrix × 頂點）：three 的 getVertexPosition 經過 bindMatrixInverse，那個只在 updateMatrixWorld 更新，人物這一格移動過就會多算一次位移。
+     第一次要用的時候量（每個人物自己一份，只有爬梯子的玩家用得到）*/
+  function headPts(u){ if(u.headSup!==undefined) return u.headSup; const hd=u.vrm.humanoid.getRawBoneNode('head'); if(!hd) return (u.headSup=null);
+    u.vrm.scene.updateWorldMatrix(true,true); HTM.copy(hd.matrixWorld).invert(); const V=[], L=[], v=new THREE.Vector3(), q=new THREE.Vector3(), M=new THREE.Matrix4();
+    u.vrm.scene.traverse(o=>{ if(!o.isSkinnedMesh||!o.visible||!o.skeleton) return; const g=o.geometry, si=g.attributes.skinIndex, sw=g.attributes.skinWeight, ps=g.attributes.position; if(!si||!sw||!ps) return;
+      const bs=o.skeleton.bones, bi=o.skeleton.boneInverses, hs=new Set(); bs.forEach((b,i)=>{ for(let p=b;p;p=p.parent) if(p===hd){ hs.add(i); break; } }); if(!hs.size) return;
+      for(let i=0;i<ps.count;i++){ let w=0; for(let c=0;c<4;c++) if(hs.has(si.getComponent(i,c))) w+=sw.getComponent(i,c); if(w<0.5) continue;
+        const vb=new THREE.Vector3().fromBufferAttribute(ps,i).applyMatrix4(o.bindMatrix), parts=[]; v.set(0,0,0);
+        for(let c=0;c<4;c++){ const wt=sw.getComponent(i,c); if(!(wt>0)) continue; const k=si.getComponent(i,c), b=bs[k]; if(!b) continue; const qq=vb.clone().applyMatrix4(bi[k]); parts.push(b,qq,wt); v.addScaledVector(q.copy(qq).applyMatrix4(b.matrixWorld),wt); }
+        V.push(v.clone().applyMatrix4(HTM)); L.push(parts); } });
+    if(V.length<4) return (u.headSup=null); const N=128, out=[], seen=new Set();
+    for(let d=0;d<N;d++){ const y=1-2*(d+0.5)/N, r=Math.sqrt(1-y*y), th=d*2.399963, dx=Math.cos(th)*r, dz=Math.sin(th)*r; let bi=0, bv=-Infinity; for(let i=0;i<V.length;i++){ const t=V[i].x*dx+V[i].y*y+V[i].z*dz; if(t>bv){ bv=t; bi=i; } } if(!seen.has(bi)){ seen.add(bi); out.push(L[bi]); } }
+    return (u.headSup=out); }
+  /* 頭頂（世界座標的高度）；pt 給了就放最高的那一點（世界座標）*/
+  function headTopW(h,u,pt){ const A=headPts(u); if(!A) return null; let best=-Infinity, bp=null;
+    for(const parts of A){ let y=0; for(let c=0;c<parts.length;c+=3){ const e=parts[c].matrixWorld.elements, q=parts[c+1]; y+=parts[c+2]*(e[1]*q.x+e[5]*q.y+e[9]*q.z+e[13]); } if(y>best){ best=y; bp=parts; } }
+    if(pt&&bp){ pt.set(0,0,0); for(let c=0;c<bp.length;c+=3) pt.addScaledVector(HTV[7].copy(bp[c+1]).applyMatrix4(bp[c].matrixWorld),bp[c+2]); } return best; }
   C.headTop=function(h){ const u=h&&h.userData; if(!u||u.driver!=='vrm') return null; h.updateWorldMatrix(true,true); return headTopW(h,u); };
   function fitRaw(u){ return u.rawFit||(u.rawFit=(()=>{ const hm=u.vrm.humanoid, o={}; for(const n of ['hips','spine','chest','neck','head']) o[n]=hm.getRawBoneNode(n); for(const L of LEGS.concat(ARMS)) for(const n of L) o[n]=hm.getRawBoneNode(n); return o; })()); }
   /* 蹲低 c 公尺：腳踝留在原本的位置、腳掌照原本的方向，膝蓋往前彎 */
@@ -313,16 +326,18 @@ const CHAR = (function(){
     LEGS.forEach((L,i)=>{ const pole=R[L[1]].getWorldPosition(new THREE.Vector3()).addScaledVector(fwd,1.0); ik2(R[L[0]],R[L[1]],R[L[2]],keep[i].a,pole); R[L[2]].parent.getWorldQuaternion(HTQ[1]); R[L[2]].quaternion.copy(HTQ[1].invert().multiply(keep[i].q)); R[L[2]].updateWorldMatrix(false,true); }); }
   /* 上身往前彎到頭頂低 need 公尺（最多 cap 弧度）：以脊椎為支點解出角度（頭頂的球心繞支點轉：y'＝r_up·cosδ − r_fw·sinδ），脊椎、胸口各分一部分，量一次再補（最多 4 次）。回傳用掉的角度 */
   function fitLean(h,u,R,lim,cap){ const left=HTV[3].set(1,0,0).applyQuaternion(h.getWorldQuaternion(HTQ[0])).normalize(), fwd=HTV[4].set(0,0,1).applyQuaternion(HTQ[0]).normalize(), piv=R.spine||R.hips; let used=0;
-    for(let it=0;it<4;it++){ const e=headTopW(h,u)-lim; if(!(e>0.001)||used>=cap-1e-4) break; const hs=u.headSph, c=R.head.localToWorld(HTV[5].copy(hs.c)).sub(piv.getWorldPosition(HTV[6]));
+    for(let it=0;it<5;it++){ const e=headTopW(h,u,HTV[5])-lim; if(!(e>0.001)||used>=cap-1e-4) break; const c=HTV[5].sub(piv.getWorldPosition(HTV[6]));
       const ru=c.y, rf=c.dot(fwd), Rr=Math.hypot(ru,rf), be=Math.atan2(rf,ru); let d=Math.acos(Math.max(-1,Math.min(1,(ru-e)/Math.max(1e-4,Rr))))-be; if(!(d>0)) d=0.05; d=Math.min(d,cap-used);
       if(R.spine) rotWorld(R.spine,left,d*0.6); if(R.chest) rotWorld(R.chest,left,d*0.4); else if(R.spine) rotWorld(R.spine,left,d*0.4); used+=d; }
     return used; }
-  function headFit(h,u,crouchK){ if(!C.headFitOn||u.headMax==null||!u.headSph) return; const R=fitRaw(u), K=C.HEADROOM, k=u.k||1; if(!R.head||LEGS.some(L=>L.slice(0,3).some(n=>!R[n]))) return;
-    h.updateWorldMatrix(true,true); const lim=u.headMax-K.margin; let e=headTopW(h,u)-lim; u.fitE=e; if(!(e>0)) return;
+  function headFit(h,u,crouchK){ if(!C.headFitOn||u.headMax==null||!headPts(u)) return; const R=fitRaw(u), K=C.HEADROOM, k=u.k||1; if(!R.head||LEGS.some(L=>L.slice(0,3).some(n=>!R[n]))) return;
+    h.updateWorldMatrix(true,true); const L0=u.headMax-K.margin, raw=headTopW(h,u), sf=K.soft*k, x=(L0-raw)/sf, lim=x<-20?L0:raw-sf*Math.log1p(Math.exp(-x)), drop=raw-lim;   /* 軟的上限：頭頂＝L0 − soft·ln(1+e^((L0−raw)/soft))——離上限還遠＝照原本，接近時慢慢開始彎（不是撞到才突然停住），再高也不超過 L0 */
+    let e=drop; u.fitE=raw-L0; if(!(e>1e-3)){ u.fitR=0; return; }
     if(crouchK>0){ fitCrouch(h,u,R,Math.min(K.crouchMax*k,e*K.crouchShare)*crouchK); e=headTopW(h,u)-lim; }   /* ① */
     if(e>0) fitLean(h,u,R,lim,K.leanMax);   /* ② */
     e=headTopW(h,u)-lim; if(e>0&&crouchK>0){ fitCrouch(h,u,R,Math.min(K.crouchMax*k,e)*crouchK); e=headTopW(h,u)-lim; }   /* ③ */
-    if(e>0&&R.neck){ const left=HTV[3].set(1,0,0).applyQuaternion(h.getWorldQuaternion(HTQ[0])).normalize(); for(let it=0;it<3&&e>0.001;it++){ rotWorld(R.neck,left,Math.min(K.neckMax/3,e*4)); e=headTopW(h,u)-lim; } }   /* ④ */ }
+    if(e>0&&R.neck){ const left=HTV[3].set(1,0,0).applyQuaternion(h.getWorldQuaternion(HTQ[0])).normalize(); for(let it=0;it<3&&e>0.001;it++){ rotWorld(R.neck,left,Math.min(K.neckMax/3,e*4)); e=headTopW(h,u)-lim; } }   /* ④ */
+    u.fitR=e; }
   /* 跪：腿、臀部、上身（headFit 以前）*/
   function kneelBody(h,u,wt){ const R=fitRaw(u), Q=C.KNEEL, k=u.k||1, w=u.model; if(!R.hips||LEGS.concat(ARMS).some(L=>L.slice(0,3).some(n=>!R[n]))) return;
     h.updateWorldMatrix(true,true); const Lc=b=>h.worldToLocal(b.getWorldPosition(new THREE.Vector3())), Wd=v=>h.localToWorld(v.clone());
@@ -334,7 +349,7 @@ const CHAR = (function(){
     if(R.spine) rotWorld(R.spine,left,a*0.6); if(R.chest) rotWorld(R.chest,left,a*0.4); if(R.neck) rotWorld(R.neck,left,Q.neck*wt);
     for(const [i,s] of [[0,1],[1,-1]]){ const L=LEGS[i], Kw=Wd(new THREE.Vector3(s*Q.kneeX*k,ky,kz)), Aw=Wd(new THREE.Vector3(s*Q.kneeX*0.9*k,ky+0.012*k,kz-lb*0.985));
       const cur=R[L[2]].getWorldPosition(new THREE.Vector3()); if(wt<1) Aw.lerp(cur,1-wt);
-      const pole=Kw.clone().addScaledVector(HTV[4].set(0,0,1).applyQuaternion(HTQ[0]),0.3);   /* 膝蓋往前（膝蓋的目標點再往前一點：大腿、小腿折得很緊時方向才穩）*/
+      const pole=Kw.clone().addScaledVector(HTV[4].set(0,0,1).applyQuaternion(HTQ[0]),0.3);   /* 膝蓋往前（膝蓋的目標點再往前一點：大腿、小腿折得很緊時方向才穩）*/ if(wt<1) pole.lerp(R[L[1]].getWorldPosition(HTV[5]),1-wt);   /* 權重小：膝蓋照原本的方向 */
       ik2(R[L[0]],R[L[1]],R[L[2]],Aw,pole);
       const toe=R[L[3]]; if(toe){ const fd=toe.getWorldPosition(new THREE.Vector3()).sub(R[L[2]].getWorldPosition(HTV[5])), sd=R[L[2]].getWorldPosition(new THREE.Vector3()).sub(R[L[1]].getWorldPosition(HTV[6]));   /* 腳背貼床墊：腳尖的方向轉到小腿的方向（往後）*/
         const ax=new THREE.Vector3().crossVectors(fd,sd); if(ax.lengthSq()>1e-10){ ax.normalize(); rotWorld(R[L[2]],ax,fd.angleTo(sd)*wt*0.92); } } }
@@ -345,6 +360,7 @@ const CHAR = (function(){
       const T=r.lerp(kn,Q.handF); T.y+=Q.handUp*k; const lf=HTV[3].set(1,0,0).applyQuaternion(h.getWorldQuaternion(HTQ[0])).normalize(); T.addScaledVector(lf,s*Q.handOut*k);
       const cur=R[L[2]].getWorldPosition(new THREE.Vector3()); if(wt<1) T.lerp(cur,1-wt);
       const sh=R[L[0]].getWorldPosition(new THREE.Vector3()), fwd=HTV[4].set(0,0,1).applyQuaternion(HTQ[0]); const pole=sh.clone().addScaledVector(lf,s*0.45).addScaledVector(fwd,-0.25); pole.y-=0.3;
+      if(wt<1) pole.lerp(R[L[1]].getWorldPosition(HTV[5]),1-wt);   /* 權重小的時候手肘照原本的方向（pole＝手肘現在的位置）：權重歸零那一格手肘不會翻回去 */
       ik2(R[L[0]],R[L[1]],R[L[2]],T,pole); } }
   const RA={}, SFV=[new THREE.Vector3(),new THREE.Vector3(),new THREE.Vector3(),new THREE.Vector3(),new THREE.Vector3()];
   function sitFeet(h,u){ const hm=u.vrm.humanoid; const B=u.rawLegs||(u.rawLegs=(()=>{ const o={}; for(const L of LEGS) for(const n of L) o[n]=hm.getRawBoneNode(n); return o; })());
