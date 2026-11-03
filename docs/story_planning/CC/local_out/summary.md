@@ -263,3 +263,5 @@ fatal: 'C:/Users/USER/Documents/wt_cc_R8_rr2' already exists    [ 135.3s] main_p
       err.log (last 5): [gpu_wrap 1.4s] headed slot 2: --window-position=1840,0 --window-size=900,900 --window-name=CC 測試中，請勿點選 [Z_G5_term] | [gpu_wrap 127.2s] page close url=http://127.0.0.1:8809/index.html?turbo | [gpu_wrap 127.3s] BROWSER DISCONNECTED
 - 2026-11-03T10:10:38  19b_mkjp  sha=690ac5f4d  exit=0  1209s    PASS route_grades：沒有 JS 例外  [] / SHA 690ac5f4d CASES route_grades / ALL PASS
       err.log (last 5): [gpu_wrap 1.4s] headed slot 0: --window-position=0,0 --window-size=900,900 --window-name=CC 測試中，請勿點選 [19b_mkjp] | [gpu_wrap 1173.1s] page close url=http://127.0.0.1:8810/index.html?turbo | [gpu_wrap 1173.2s] BROWSER DISCONNECTED
+- 2026-11-03T10:11:27  Z_G5b_ancf  sha=7224af47a  exit=0  266s    PASS ancf2_think_port：沒有 JS 例外  [] / SHA 7224af47a CASES ancf2 / ALL PASS
+      err.log (last 5): [gpu_wrap 1.5s] headed slot 2: --window-position=1840,0 --window-size=900,900 --window-name=CC 測試中，請勿點選 [Z_G5b_ancf] | [gpu_wrap 230.8s] page close url=http://127.0.0.1:8809/index.html | [gpu_wrap 230.8s] BROWSER DISCONNECTED

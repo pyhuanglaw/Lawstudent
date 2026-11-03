@@ -1,0 +1,1410 @@
+{
+ "orient": "port",
+ "route": "think",
+ "cg0": {
+  "unlocked": [],
+  "reg": true,
+  "regFile": "assets/cg/heroine_01/cg_reason_column.webp"
+ },
+ "Y1S1": {
+  "setup": {
+   "term": "Y1S1",
+   "w": {
+    "from": "2025-12-18",
+    "to": "2025-12-28"
+   },
+   "plan": {
+    "back": "2025-12-18",
+    "heart": [
+     "heroine_01"
+    ],
+    "friend": [],
+    "fallback": null,
+    "nope": {}
+   },
+   "cached": false,
+   "cond": {
+    "ok": true
+   },
+   "think": {},
+   "dating": false,
+   "stage": "POSSIBLE_ROMANTIC_INTEREST",
+   "npcRom": 45
+  },
+  "invite": [
+   {
+    "tag": "te_Y1S1_heroine_01",
+    "day": "2025-12-18",
+    "h": 20.5,
+    "text": "考完了。……這次只有我們兩個，可以嗎？我訂了位子，七點。",
+    "ask": [
+     "好。",
+     "那天有約了。"
+    ]
+   }
+  ],
+  "thread": "‹ 訊息\n小安\n傳訊息\n約\n今天 20:30\n考完了。……這次只有我們兩個，可以嗎？我訂了位子，七點。\n好。\n那天有約了。",
+  "asks": [
+   {
+    "t": "好。",
+    "id": "te_Y1S1_heroine_01|0",
+    "dis": false
+   },
+   {
+    "t": "那天有約了。",
+    "id": "te_Y1S1_heroine_01|1",
+    "dis": false
+   }
+  ],
+  "shot_invite": "C:\\Users\\USER\\Documents\\Lawstudent_cclocal\\docs\\story_planning\\CC\\local_out\\Z_G5b_ancf\\out\\01_ancf2_think_port_Y1S1_invite.png",
+  "shot_answer": "C:\\Users\\USER\\Documents\\Lawstudent_cclocal\\docs\\story_planning\\CC\\local_out\\Z_G5b_ancf\\out\\02_ancf2_think_port_Y1S1_answered.png",
+  "after_ok": {
+   "picked": {
+    "who": "heroine_01",
+    "kind": "heart",
+    "day": 93
+   },
+   "done": null,
+   "result": null,
+   "second": {
+    "heroine_01": false
+   },
+   "think": {},
+   "dating": false,
+   "confessed": null,
+   "out": {
+    "day": 95,
+    "key": "2025-12-20",
+    "h": 19,
+    "state": "planned",
+    "title": "學期末的飯：沈以安（公館巷子裡的小店）"
+   },
+   "msgs": [
+    {
+     "tag": "te_Y1S1_heroine_01",
+     "day": "2025-12-18",
+     "h": 20.5,
+     "text": "考完了。……這次只有我們兩個，可以嗎？我訂了位子，七點。",
+     "ask": [
+      "好。",
+      "那天有約了。"
+     ]
+    }
+   ],
+   "queued": true
+  },
+  "go_wait_s": 0.0,
+  "shot_go": "C:\\Users\\USER\\Documents\\Lawstudent_cclocal\\docs\\story_planning\\CC\\local_out\\Z_G5b_ancf\\out\\03_ancf2_think_port_Y1S1_go.png",
+  "play": {
+   "lines": [
+    {
+     "n": "",
+     "t": "（簡餐店的電視在播新聞。靠窗的兩人座。）",
+     "h": 19,
+     "adv": {
+      "active": true,
+      "mode": {
+       "image": "assets/bg/xiaofu.webp"
+      },
+      "bgImg": "url(\"assets/bg/xiaofu.webp\")",
+      "cls": "on image narr",
+      "cgImg": ""
+     },
+     "shot": "C:\\Users\\USER\\Documents\\Lawstudent_cclocal\\docs\\story_planning\\CC\\local_out\\Z_G5b_ancf\\out\\04_ancf2_think_port_Y1S1_L01.png"
+    },
+    {
+     "n": "沈以安",
+     "t": "民總最後一題，我寫到時間到。",
+     "h": 19,
+     "adv": {
+      "active": true,
+      "mode": {
+       "image": "assets/bg/xiaofu.webp"
+      },
+      "bgImg": "url(\"assets/bg/xiaofu.webp\")",
+      "cls": "on image",
+      "cgImg": ""
+     },
+     "shot": "C:\\Users\\USER\\Documents\\Lawstudent_cclocal\\docs\\story_planning\\CC\\local_out\\Z_G5b_ancf\\out\\05_ancf2_think_port_Y1S1_L02.png"
+    },
+    {
+     "n": "祐廷",
+     "t": "嗯。",
+     "h": 19,
+     "adv": {
+      "active": true,
+      "mode": {
+       "image": "assets/bg/xiaofu.webp"
+      },
+      "bgImg": "url(\"assets/bg/xiaofu.webp\")",
+      "cls": "on image",
+      "cgImg": ""
+     },
+     "shot": "C:\\Users\\USER\\Documents\\Lawstudent_cclocal\\docs\\story_planning\\CC\\local_out\\Z_G5b_ancf\\out\\06_ancf2_think_port_Y1S1_L03.png"
+    },
+    {
+     "n": "沈以安",
+     "t": "下學期的課我排了一版，你要的話傳給你。",
+     "h": 19,
+     "adv": {
+      "active": true,
+      "mode": {
+       "image": "assets/bg/xiaofu.webp"
+      },
+      "bgImg": "url(\"assets/bg/xiaofu.webp\")",
+      "cls": "on image",
+      "cgImg": ""
+     },
+     "shot": "C:\\Users\\USER\\Documents\\Lawstudent_cclocal\\docs\\story_planning\\CC\\local_out\\Z_G5b_ancf\\out\\07_ancf2_think_port_Y1S1_L04.png"
+    },
+    {
+     "n": "沈以安",
+     "t": "我這學期很少出來吃飯。……今天是特地訂的。",
+     "h": 19,
+     "adv": {
+      "active": true,
+      "mode": {
+       "image": "assets/bg/xiaofu.webp"
+      },
+      "bgImg": "url(\"assets/bg/xiaofu.webp\")",
+      "cls": "on image",
+      "cgImg": ""
+     },
+     "shot": "C:\\Users\\USER\\Documents\\Lawstudent_cclocal\\docs\\story_planning\\CC\\local_out\\Z_G5b_ancf\\out\\08_ancf2_think_port_Y1S1_L05.png"
+    },
+    {
+     "n": "沈以安",
+     "t": "寒假我先留在臺北，白天都在總圖。",
+     "h": 19,
+     "adv": null,
+     "shot": null,
+     "missed": true
+    },
+    {
+     "n": "",
+     "t": "（餐盤疊好，拿去回收。外面的路燈已經亮了。）",
+     "h": 19,
+     "adv": {
+      "active": true,
+      "mode": {
+       "image": "assets/bg/xiaofu.webp"
+      },
+      "bgImg": "url(\"assets/bg/xiaofu.webp\")",
+      "cls": "on image narr",
+      "cgImg": ""
+     },
+     "shot": "C:\\Users\\USER\\Documents\\Lawstudent_cclocal\\docs\\story_planning\\CC\\local_out\\Z_G5b_ancf\\out\\10_ancf2_think_port_Y1S1_L07.png"
+    },
+    {
+     "n": "",
+     "t": "（走出店門，她沒有往宿舍那邊走。）",
+     "h": 19,
+     "adv": {
+      "active": true,
+      "mode": {
+       "image": "assets/bg/gongguan.webp"
+      },
+      "bgImg": "url(\"assets/bg/gongguan.webp\")",
+      "cls": "on image narr",
+      "cgImg": ""
+     },
+     "shot": "C:\\Users\\USER\\Documents\\Lawstudent_cclocal\\docs\\story_planning\\CC\\local_out\\Z_G5b_ancf\\out\\11_ancf2_think_port_Y1S1_L08.png"
+    },
+    {
+     "n": "沈以安",
+     "t": "走一下。我有東西給你看。",
+     "h": 19,
+     "adv": {
+      "active": true,
+      "mode": {
+       "image": "assets/bg/gongguan.webp"
+      },
+      "bgImg": "url(\"assets/bg/gongguan.webp\")",
+      "cls": "on image",
+      "cgImg": ""
+     },
+     "shot": "C:\\Users\\USER\\Documents\\Lawstudent_cclocal\\docs\\story_planning\\CC\\local_out\\Z_G5b_ancf\\out\\12_ancf2_think_port_Y1S1_L09.png"
+    },
+    {
+     "n": "",
+     "t": "（她從包包拿出手帳，翻到最後面那一頁，推到你面前。）",
+     "h": 19,
+     "adv": {
+      "active": true,
+      "mode": {
+       "image": "assets/bg/gongguan.webp"
+      },
+      "bgImg": "url(\"assets/bg/gongguan.webp\")",
+      "cls": "on image narr",
+      "cgImg": ""
+     },
+     "shot": "C:\\Users\\USER\\Documents\\Lawstudent_cclocal\\docs\\story_planning\\CC\\local_out\\Z_G5b_ancf\\out\\14_ancf2_think_port_Y1S1_L10.png"
+    },
+    {
+     "n": "",
+     "t": "（那一頁的標題是「想去的店」。一行一家，有幾家已經打了勾，今天這一家也勾了。最下面一行沒有店名，只寫著：和你。）",
+     "h": 19,
+     "adv": {
+      "active": true,
+      "mode": {
+       "image": "assets/bg/gongguan.webp"
+      },
+      "bgImg": "url(\"assets/bg/gongguan.webp\")",
+      "cls": "on image narr",
+      "cgImg": ""
+     },
+     "shot": "C:\\Users\\USER\\Documents\\Lawstudent_cclocal\\docs\\story_planning\\CC\\local_out\\Z_G5b_ancf\\out\\15_ancf2_think_port_Y1S1_L11.png"
+    },
+    {
+     "n": "",
+     "t": "（她把手帳拿回去，舉到下巴前面。只露出眼睛。）",
+     "h": 19,
+     "adv": {
+      "active": true,
+      "mode": {
+       "image": "assets/bg/gongguan.webp"
+      },
+      "bgImg": "url(\"assets/cg/heroine_01/cg_reason_column.webp\")",
+      "cls": "on image cg",
+      "cgImg": "url(\"assets/cg/heroine_01/cg_reason_column.webp\")"
+     },
+     "shot": "C:\\Users\\USER\\Documents\\Lawstudent_cclocal\\docs\\story_planning\\CC\\local_out\\Z_G5b_ancf\\out\\16_ancf2_think_port_Y1S1_L12.png"
+    },
+    {
+     "n": "沈以安",
+     "t": "你不說的話，我寫了。",
+     "h": 19,
+     "adv": {
+      "active": true,
+      "mode": {
+       "image": "assets/bg/gongguan.webp"
+      },
+      "bgImg": "url(\"assets/cg/heroine_01/cg_reason_column.webp\")",
+      "cls": "on image cg",
+      "cgImg": "url(\"assets/cg/heroine_01/cg_reason_column.webp\")"
+     },
+     "shot": "C:\\Users\\USER\\Documents\\Lawstudent_cclocal\\docs\\story_planning\\CC\\local_out\\Z_G5b_ancf\\out\\17_ancf2_think_port_Y1S1_L13.png"
+    },
+    {
+     "n": "沈以安",
+     "t": "……你先回答。",
+     "h": 19,
+     "adv": {
+      "active": true,
+      "mode": {
+       "image": "assets/bg/gongguan.webp"
+      },
+      "bgImg": "url(\"assets/cg/heroine_01/cg_reason_column.webp\")",
+      "cls": "on image cg",
+      "cgImg": "url(\"assets/cg/heroine_01/cg_reason_column.webp\")"
+     },
+     "shot": "C:\\Users\\USER\\Documents\\Lawstudent_cclocal\\docs\\story_planning\\CC\\local_out\\Z_G5b_ancf\\out\\18_ancf2_think_port_Y1S1_L14.png"
+    },
+    {
+     "n": "沈以安",
+     "t": "好。這一行我先不劃掉。",
+     "h": 19,
+     "adv": {
+      "active": true,
+      "mode": {
+       "image": "assets/bg/gongguan.webp"
+      },
+      "bgImg": "url(\"assets/cg/heroine_01/cg_reason_column.webp\")",
+      "cls": "on image cg",
+      "cgImg": "url(\"assets/cg/heroine_01/cg_reason_column.webp\")"
+     },
+     "shot": "C:\\Users\\USER\\Documents\\Lawstudent_cclocal\\docs\\story_planning\\CC\\local_out\\Z_G5b_ancf\\out\\20_ancf2_think_port_Y1S1_L15.png"
+    }
+   ],
+   "chose": [
+    {
+     "opts": [
+      "「我也會去總圖。」",
+      "（笑了一下，沒有接話。）"
+     ],
+     "picked": "「我也會去總圖。」",
+     "shot": "C:\\Users\\USER\\Documents\\Lawstudent_cclocal\\docs\\story_planning\\CC\\local_out\\Z_G5b_ancf\\out\\09_ancf2_think_port_Y1S1_choice1.png"
+    },
+    {
+     "opts": [
+      "「我喜歡妳。」",
+      "「我們可以不只是朋友嗎？」",
+      "「我喜歡妳。妳不用現在回答。」",
+      "（先不說）"
+     ],
+     "picked": "（先不說）",
+     "shot": "C:\\Users\\USER\\Documents\\Lawstudent_cclocal\\docs\\story_planning\\CC\\local_out\\Z_G5b_ancf\\out\\13_ancf2_think_port_Y1S1_choice2.png"
+    },
+    {
+     "opts": [
+      "「好。」",
+      "「讓我想想。」"
+     ],
+     "picked": "「讓我想想。」",
+     "shot": "C:\\Users\\USER\\Documents\\Lawstudent_cclocal\\docs\\story_planning\\CC\\local_out\\Z_G5b_ancf\\out\\19_ancf2_think_port_Y1S1_choice3.png"
+    }
+   ]
+  },
+  "log": [
+   {
+    "k": "adv",
+    "fn": "begin",
+    "arg": {
+     "background": "dark",
+     "right": null,
+     "left": null
+    },
+    "h": 19,
+    "d": 95,
+    "z": "dorm",
+    "ms": 100629
+   },
+   {
+    "k": "adv",
+    "fn": "begin",
+    "arg": {
+     "background": {
+      "image": "assets/bg/xiaofu.webp",
+      "label": null
+     },
+     "right": "heroine_01",
+     "left": null
+    },
+    "h": 19,
+    "d": 95,
+    "z": "dorm",
+    "ms": 101136
+   },
+   {
+    "k": "say",
+    "n": "",
+    "t": "（簡餐店的電視在播新聞。靠窗的兩人座。）",
+    "h": 19,
+    "d": 95,
+    "z": "dorm",
+    "ms": 101137
+   },
+   {
+    "k": "say",
+    "n": "沈以安",
+    "t": "民總最後一題，我寫到時間到。",
+    "h": 19,
+    "d": 95,
+    "z": "dorm",
+    "ms": 102424
+   },
+   {
+    "k": "say",
+    "n": "祐廷",
+    "t": "嗯。",
+    "h": 19,
+    "d": 95,
+    "z": "dorm",
+    "ms": 103341
+   },
+   {
+    "k": "say",
+    "n": "沈以安",
+    "t": "下學期的課我排了一版，你要的話傳給你。",
+    "h": 19,
+    "d": 95,
+    "z": "dorm",
+    "ms": 104242
+   },
+   {
+    "k": "say",
+    "n": "沈以安",
+    "t": "我這學期很少出來吃飯。……今天是特地訂的。",
+    "h": 19,
+    "d": 95,
+    "z": "dorm",
+    "ms": 105175
+   },
+   {
+    "k": "say",
+    "n": "沈以安",
+    "t": "寒假我先留在臺北，白天都在總圖。",
+    "h": 19,
+    "d": 95,
+    "z": "dorm",
+    "ms": 105849
+   },
+   {
+    "k": "choose",
+    "t": [
+     "「我也會去總圖。」",
+     "（笑了一下，沒有接話。）"
+    ],
+    "hint": [
+     "",
+     ""
+    ],
+    "h": 19,
+    "d": 95,
+    "z": "dorm",
+    "ms": 106623
+   },
+   {
+    "k": "say",
+    "n": "",
+    "t": "（餐盤疊好，拿去回收。外面的路燈已經亮了。）",
+    "h": 19,
+    "d": 95,
+    "z": "dorm",
+    "ms": 108032
+   },
+   {
+    "k": "adv",
+    "fn": "begin",
+    "arg": {
+     "background": {
+      "image": "assets/bg/gongguan.webp",
+      "label": null
+     },
+     "right": "heroine_01",
+     "left": null
+    },
+    "h": 19,
+    "d": 95,
+    "z": "dorm",
+    "ms": 109570
+   },
+   {
+    "k": "say",
+    "n": "",
+    "t": "（走出店門，她沒有往宿舍那邊走。）",
+    "h": 19,
+    "d": 95,
+    "z": "dorm",
+    "ms": 109570
+   },
+   {
+    "k": "say",
+    "n": "沈以安",
+    "t": "走一下。我有東西給你看。",
+    "h": 19,
+    "d": 95,
+    "z": "dorm",
+    "ms": 110534
+   },
+   {
+    "k": "choose",
+    "t": [
+     "「我喜歡妳。」",
+     "「我們可以不只是朋友嗎？」",
+     "「我喜歡妳。妳不用現在回答。」",
+     "（先不說）"
+    ],
+    "hint": [
+     "",
+     "",
+     "",
+     ""
+    ],
+    "h": 19,
+    "d": 95,
+    "z": "dorm",
+    "ms": 111488
+   },
+   {
+    "k": "say",
+    "n": "",
+    "t": "（她從包包拿出手帳，翻到最後面那一頁，推到你面前。）",
+    "h": 19,
+    "d": 95,
+    "z": "dorm",
+    "ms": 112909
+   },
+   {
+    "k": "say",
+    "n": "",
+    "t": "（那一頁的標題是「想去的店」。一行一家，有幾家已經打了勾，今天這一家也勾了。最下面一行沒有店名，只寫著：和你。）",
+    "h": 19,
+    "d": 95,
+    "z": "dorm",
+    "ms": 114462
+   },
+   {
+    "k": "adv",
+    "fn": "cg",
+    "arg": "cg_reason_column_heroine01",
+    "h": 19,
+    "d": 95,
+    "z": "dorm",
+    "ms": 115965
+   },
+   {
+    "k": "say",
+    "n": "",
+    "t": "（她把手帳拿回去，舉到下巴前面。只露出眼睛。）",
+    "h": 19,
+    "d": 95,
+    "z": "dorm",
+    "ms": 115965
+   },
+   {
+    "k": "say",
+    "n": "沈以安",
+    "t": "你不說的話，我寫了。",
+    "h": 19,
+    "d": 95,
+    "z": "dorm",
+    "ms": 117414
+   },
+   {
+    "k": "say",
+    "n": "沈以安",
+    "t": "……你先回答。",
+    "h": 19,
+    "d": 95,
+    "z": "dorm",
+    "ms": 118318
+   },
+   {
+    "k": "choose",
+    "t": [
+     "「好。」",
+     "「讓我想想。」"
+    ],
+    "hint": [
+     "",
+     ""
+    ],
+    "h": 19,
+    "d": 95,
+    "z": "dorm",
+    "ms": 119203
+   },
+   {
+    "k": "say",
+    "n": "沈以安",
+    "t": "好。這一行我先不劃掉。",
+    "h": 19,
+    "d": 95,
+    "z": "dorm",
+    "ms": 120607
+   },
+   {
+    "k": "event",
+    "id": "ev_termend_dinner",
+    "h": 19,
+    "d": 95,
+    "z": "dorm",
+    "ms": 122082
+   },
+   {
+    "k": "adv",
+    "fn": "begin",
+    "arg": {
+     "background": "dark",
+     "right": null,
+     "left": null
+    },
+    "h": 19,
+    "d": 95,
+    "z": "dorm",
+    "ms": 122084
+   },
+   {
+    "k": "caption",
+    "n": "",
+    "t": "學期末的飯",
+    "dur": 1500,
+    "h": 19,
+    "d": 95,
+    "z": "dorm",
+    "ms": 122084
+   },
+   {
+    "k": "adv",
+    "fn": "end",
+    "arg": null,
+    "h": 19,
+    "d": 95,
+    "z": "dorm",
+    "ms": 122440
+   },
+   {
+    "k": "caption",
+    "n": "",
+    "t": "回到首都帝大。",
+    "dur": 2400,
+    "h": 21,
+    "d": 95,
+    "z": "dorm",
+    "ms": 123457
+   }
+  ],
+  "end": {
+   "picked": {
+    "who": "heroine_01",
+    "kind": "heart",
+    "day": 93
+   },
+   "done": {
+    "who": "heroine_01",
+    "kind": "heart",
+    "day": 95
+   },
+   "result": "think",
+   "second": {
+    "heroine_01": false
+   },
+   "think": {
+    "heroine_01": "Y1S1"
+   },
+   "dating": false,
+   "confessed": null,
+   "out": {
+    "day": 95,
+    "key": "2025-12-20",
+    "h": 19,
+    "state": "done",
+    "title": "學期末的飯：沈以安（公館巷子裡的小店）"
+   },
+   "msgs": [
+    {
+     "tag": "te_Y1S1_heroine_01",
+     "day": "2025-12-18",
+     "h": 20.5,
+     "text": "考完了。……這次只有我們兩個，可以嗎？我訂了位子，七點。",
+     "ask": [
+      "好。",
+      "那天有約了。"
+     ]
+    }
+   ],
+   "queued": true
+  },
+  "cg": {
+   "unlocked": [
+    "cg_reason_column_heroine01"
+   ],
+   "reg": true,
+   "regFile": "assets/cg/heroine_01/cg_reason_column.webp"
+  }
+ },
+ "mem1": {
+  "mem": [
+   "FIRST_MET",
+   "AN_SHOP_PAGE"
+  ],
+  "panel": [
+   "FIRST_MET"
+  ],
+  "hide": [
+   "AN_SHOP_PAGE"
+  ]
+ },
+ "cg_Y1S1": {
+  "calls": [
+   "cg_reason_column_heroine01"
+  ],
+  "unlocked": [
+   "cg_reason_column_heroine01"
+  ]
+ },
+ "Y1S2": {
+  "setup": {
+   "term": "Y1S2",
+   "w": {
+    "from": "2026-06-11",
+    "to": "2026-06-21"
+   },
+   "plan": {
+    "back": "2026-06-11",
+    "heart": [
+     "heroine_01"
+    ],
+    "friend": [],
+    "fallback": null,
+    "nope": {}
+   },
+   "cached": false,
+   "cond": {
+    "ok": true
+   },
+   "think": {
+    "heroine_01": "Y1S1"
+   },
+   "dating": false,
+   "stage": "POSSIBLE_ROMANTIC_INTEREST",
+   "npcRom": 45
+  },
+  "invite": [
+   {
+    "tag": "te_Y1S1_heroine_01",
+    "day": "2025-12-18",
+    "h": 20.5,
+    "text": "考完了。……這次只有我們兩個，可以嗎？我訂了位子，七點。",
+    "ask": [
+     "好。",
+     "那天有約了。"
+    ]
+   },
+   {
+    "tag": "te_Y1S2_heroine_01",
+    "day": "2026-06-11",
+    "h": 20.5,
+    "text": "考完了。七點，同一家。",
+    "ask": [
+     "好。",
+     "那天有約了。"
+    ]
+   }
+  ],
+  "thread": "‹ 訊息\n小安\n傳訊息\n約\n12/18 20:30\n考完了。……這次只有我們兩個，可以嗎？我訂了位子，七點。\n12/18 20:35\n好。\n12/20 21:40\n📷（宿舍公告欄）\n12/20 21:41\n這張公告的第三行和第五行矛盾。我寫信問了。\n5/2 10:05\n我媽問我下學期選什麼。\n5/2 10:05\n我把課表傳給她。她說：好。\n5/2 10:06\n……她說好的時候，都不太像好。\n昨天 15:20\n總圖三樓的冷氣壞了。\n昨天 15:21\n我換到二樓。……二樓的也壞了。\n今天 20:30\n考完了。七點，同一家。\n好。\n那天有約了。",
+  "asks": [
+   {
+    "t": "好。",
+    "id": "te_Y1S2_heroine_01|0",
+    "dis": false
+   },
+   {
+    "t": "那天有約了。",
+    "id": "te_Y1S2_heroine_01|1",
+    "dis": false
+   }
+  ],
+  "shot_invite": "C:\\Users\\USER\\Documents\\Lawstudent_cclocal\\docs\\story_planning\\CC\\local_out\\Z_G5b_ancf\\out\\21_ancf2_think_port_Y1S2_invite.png",
+  "shot_answer": "C:\\Users\\USER\\Documents\\Lawstudent_cclocal\\docs\\story_planning\\CC\\local_out\\Z_G5b_ancf\\out\\22_ancf2_think_port_Y1S2_answered.png",
+  "after_ok": {
+   "picked": {
+    "who": "heroine_01",
+    "kind": "heart",
+    "day": 268
+   },
+   "done": null,
+   "result": null,
+   "second": {
+    "heroine_01": true
+   },
+   "think": {
+    "heroine_01": "Y1S1"
+   },
+   "dating": false,
+   "confessed": null,
+   "out": {
+    "day": 270,
+    "key": "2026-06-13",
+    "h": 19,
+    "state": "planned",
+    "title": "學期末的飯：沈以安（公館巷子裡的小店）"
+   },
+   "msgs": [
+    {
+     "tag": "te_Y1S1_heroine_01",
+     "day": "2025-12-18",
+     "h": 20.5,
+     "text": "考完了。……這次只有我們兩個，可以嗎？我訂了位子，七點。",
+     "ask": [
+      "好。",
+      "那天有約了。"
+     ]
+    },
+    {
+     "tag": "te_Y1S2_heroine_01",
+     "day": "2026-06-11",
+     "h": 20.5,
+     "text": "考完了。七點，同一家。",
+     "ask": [
+      "好。",
+      "那天有約了。"
+     ]
+    }
+   ],
+   "queued": true
+  },
+  "go_wait_s": 0.0,
+  "shot_go": "C:\\Users\\USER\\Documents\\Lawstudent_cclocal\\docs\\story_planning\\CC\\local_out\\Z_G5b_ancf\\out\\23_ancf2_think_port_Y1S2_go.png",
+  "play": {
+   "lines": [
+    {
+     "n": "",
+     "t": "（簡餐店的電視在播新聞。靠窗的兩人座。）",
+     "h": 19,
+     "adv": {
+      "active": true,
+      "mode": {
+       "image": "assets/bg/xiaofu.webp"
+      },
+      "bgImg": "url(\"assets/bg/xiaofu.webp\")",
+      "cls": "on image narr",
+      "cgImg": ""
+     },
+     "shot": "C:\\Users\\USER\\Documents\\Lawstudent_cclocal\\docs\\story_planning\\CC\\local_out\\Z_G5b_ancf\\out\\24_ancf2_think_port_Y1S2_L01.png"
+    },
+    {
+     "n": "沈以安",
+     "t": "這學期的筆記，我想整理成一本。",
+     "h": 19,
+     "adv": {
+      "active": true,
+      "mode": {
+       "image": "assets/bg/xiaofu.webp"
+      },
+      "bgImg": "url(\"assets/bg/xiaofu.webp\")",
+      "cls": "on image",
+      "cgImg": ""
+     },
+     "shot": "C:\\Users\\USER\\Documents\\Lawstudent_cclocal\\docs\\story_planning\\CC\\local_out\\Z_G5b_ancf\\out\\25_ancf2_think_port_Y1S2_L02.png"
+    },
+    {
+     "n": "祐廷",
+     "t": "嗯。",
+     "h": 19,
+     "adv": {
+      "active": true,
+      "mode": {
+       "image": "assets/bg/xiaofu.webp"
+      },
+      "bgImg": "url(\"assets/bg/xiaofu.webp\")",
+      "cls": "on image",
+      "cgImg": ""
+     },
+     "shot": "C:\\Users\\USER\\Documents\\Lawstudent_cclocal\\docs\\story_planning\\CC\\local_out\\Z_G5b_ancf\\out\\26_ancf2_think_port_Y1S2_L03.png"
+    },
+    {
+     "n": "沈以安",
+     "t": "7/25 回台中兩週。",
+     "h": 19,
+     "adv": {
+      "active": true,
+      "mode": {
+       "image": "assets/bg/xiaofu.webp"
+      },
+      "bgImg": "url(\"assets/bg/xiaofu.webp\")",
+      "cls": "on image",
+      "cgImg": ""
+     },
+     "shot": "C:\\Users\\USER\\Documents\\Lawstudent_cclocal\\docs\\story_planning\\CC\\local_out\\Z_G5b_ancf\\out\\27_ancf2_think_port_Y1S2_L04.png"
+    },
+    {
+     "n": "沈以安",
+     "t": "我這學期很少出來吃飯。……今天是特地訂的。",
+     "h": 19,
+     "adv": {
+      "active": true,
+      "mode": {
+       "image": "assets/bg/xiaofu.webp"
+      },
+      "bgImg": "url(\"assets/bg/xiaofu.webp\")",
+      "cls": "on image",
+      "cgImg": ""
+     },
+     "shot": "C:\\Users\\USER\\Documents\\Lawstudent_cclocal\\docs\\story_planning\\CC\\local_out\\Z_G5b_ancf\\out\\28_ancf2_think_port_Y1S2_L05.png"
+    },
+    {
+     "n": "沈以安",
+     "t": "暑假我要上日語課。",
+     "h": 19,
+     "adv": null,
+     "shot": null,
+     "missed": true
+    },
+    {
+     "n": "",
+     "t": "（兩個碗都空了。窗外的路燈已經亮了。）",
+     "h": 19,
+     "adv": {
+      "active": true,
+      "mode": {
+       "image": "assets/bg/xiaofu.webp"
+      },
+      "bgImg": "url(\"assets/bg/xiaofu.webp\")",
+      "cls": "on image narr",
+      "cgImg": ""
+     },
+     "shot": "C:\\Users\\USER\\Documents\\Lawstudent_cclocal\\docs\\story_planning\\CC\\local_out\\Z_G5b_ancf\\out\\30_ancf2_think_port_Y1S2_L07.png"
+    },
+    {
+     "n": "沈以安",
+     "t": "上次那一頁，最下面那一行還沒勾。……你要看嗎？",
+     "h": 19,
+     "adv": {
+      "active": true,
+      "mode": {
+       "image": "assets/bg/xiaofu.webp"
+      },
+      "bgImg": "url(\"assets/bg/xiaofu.webp\")",
+      "cls": "on image",
+      "cgImg": ""
+     },
+     "shot": "C:\\Users\\USER\\Documents\\Lawstudent_cclocal\\docs\\story_planning\\CC\\local_out\\Z_G5b_ancf\\out\\32_ancf2_think_port_Y1S2_L08.png"
+    },
+    {
+     "n": "",
+     "t": "（她把手帳翻到「想去的店」那一頁，推到你面前。在「和你」旁邊，畫了一個勾。）",
+     "h": 19,
+     "adv": {
+      "active": true,
+      "mode": {
+       "image": "assets/bg/xiaofu.webp"
+      },
+      "bgImg": "url(\"assets/cg/heroine_01/cg_shop_page_check.webp\")",
+      "cls": "on image cg",
+      "cgImg": "url(\"assets/cg/heroine_01/cg_shop_page_check.webp\")"
+     },
+     "shot": "C:\\Users\\USER\\Documents\\Lawstudent_cclocal\\docs\\story_planning\\CC\\local_out\\Z_G5b_ancf\\out\\34_ancf2_think_port_Y1S2_L09.png"
+    },
+    {
+     "n": "沈以安",
+     "t": "……勾了。",
+     "h": 19,
+     "adv": {
+      "active": true,
+      "mode": {
+       "image": "assets/bg/xiaofu.webp"
+      },
+      "bgImg": "url(\"assets/cg/heroine_01/cg_shop_page_check.webp\")",
+      "cls": "on image cg",
+      "cgImg": "url(\"assets/cg/heroine_01/cg_shop_page_check.webp\")"
+     },
+     "shot": "C:\\Users\\USER\\Documents\\Lawstudent_cclocal\\docs\\story_planning\\CC\\local_out\\Z_G5b_ancf\\out\\35_ancf2_think_port_Y1S2_L10.png"
+    },
+    {
+     "n": "",
+     "t": "（餐盤疊好，拿去回收。）",
+     "h": 19,
+     "adv": {
+      "active": true,
+      "mode": {
+       "image": "assets/bg/xiaofu.webp"
+      },
+      "bgImg": "url(\"assets/cg/heroine_01/cg_shop_page_check.webp\")",
+      "cls": "on image cg narr",
+      "cgImg": "url(\"assets/cg/heroine_01/cg_shop_page_check.webp\")"
+     },
+     "shot": "C:\\Users\\USER\\Documents\\Lawstudent_cclocal\\docs\\story_planning\\CC\\local_out\\Z_G5b_ancf\\out\\36_ancf2_think_port_Y1S2_L11.png"
+    },
+    {
+     "n": "",
+     "t": "（走出店門，她沒有往宿舍那邊走。）",
+     "h": 19,
+     "adv": {
+      "active": true,
+      "mode": {
+       "image": "assets/bg/xiaofu.webp"
+      },
+      "bgImg": "url(\"assets/cg/heroine_01/cg_shop_page_check.webp\")",
+      "cls": "on image cg narr",
+      "cgImg": "url(\"assets/cg/heroine_01/cg_shop_page_check.webp\")"
+     },
+     "shot": "C:\\Users\\USER\\Documents\\Lawstudent_cclocal\\docs\\story_planning\\CC\\local_out\\Z_G5b_ancf\\out\\37_ancf2_think_port_Y1S2_L12.png"
+    }
+   ],
+   "chose": [
+    {
+     "opts": [
+      "「我也想報。」",
+      "（笑了一下，沒有接話。）"
+     ],
+     "picked": "「我也想報。」",
+     "shot": "C:\\Users\\USER\\Documents\\Lawstudent_cclocal\\docs\\story_planning\\CC\\local_out\\Z_G5b_ancf\\out\\29_ancf2_think_port_Y1S2_choice1.png"
+    },
+    {
+     "opts": [
+      "「我喜歡妳。」",
+      "「我們可以不只是朋友嗎？」",
+      "「我喜歡妳。妳不用現在回答。」",
+      "（先不說）"
+     ],
+     "picked": "（先不說）",
+     "shot": "C:\\Users\\USER\\Documents\\Lawstudent_cclocal\\docs\\story_planning\\CC\\local_out\\Z_G5b_ancf\\out\\31_ancf2_think_port_Y1S2_choice2.png"
+    },
+    {
+     "opts": [
+      "「好。」",
+      "「讓我想想。」"
+     ],
+     "picked": "「好。」",
+     "shot": "C:\\Users\\USER\\Documents\\Lawstudent_cclocal\\docs\\story_planning\\CC\\local_out\\Z_G5b_ancf\\out\\33_ancf2_think_port_Y1S2_choice3.png"
+    }
+   ]
+  },
+  "log": [
+   {
+    "k": "adv",
+    "fn": "begin",
+    "arg": {
+     "background": "dark",
+     "right": null,
+     "left": null
+    },
+    "h": 19,
+    "d": 270,
+    "z": "dorm",
+    "ms": 197727
+   },
+   {
+    "k": "adv",
+    "fn": "begin",
+    "arg": {
+     "background": {
+      "image": "assets/bg/xiaofu.webp",
+      "label": null
+     },
+     "right": "heroine_01",
+     "left": null
+    },
+    "h": 19,
+    "d": 270,
+    "z": "dorm",
+    "ms": 198234
+   },
+   {
+    "k": "say",
+    "n": "",
+    "t": "（簡餐店的電視在播新聞。靠窗的兩人座。）",
+    "h": 19,
+    "d": 270,
+    "z": "dorm",
+    "ms": 198234
+   },
+   {
+    "k": "say",
+    "n": "沈以安",
+    "t": "這學期的筆記，我想整理成一本。",
+    "h": 19,
+    "d": 270,
+    "z": "dorm",
+    "ms": 199409
+   },
+   {
+    "k": "say",
+    "n": "祐廷",
+    "t": "嗯。",
+    "h": 19,
+    "d": 270,
+    "z": "dorm",
+    "ms": 200282
+   },
+   {
+    "k": "say",
+    "n": "沈以安",
+    "t": "7/25 回台中兩週。",
+    "h": 19,
+    "d": 270,
+    "z": "dorm",
+    "ms": 201153
+   },
+   {
+    "k": "say",
+    "n": "沈以安",
+    "t": "我這學期很少出來吃飯。……今天是特地訂的。",
+    "h": 19,
+    "d": 270,
+    "z": "dorm",
+    "ms": 202064
+   },
+   {
+    "k": "say",
+    "n": "沈以安",
+    "t": "暑假我要上日語課。",
+    "h": 19,
+    "d": 270,
+    "z": "dorm",
+    "ms": 202732
+   },
+   {
+    "k": "choose",
+    "t": [
+     "「我也想報。」",
+     "（笑了一下，沒有接話。）"
+    ],
+    "hint": [
+     "",
+     ""
+    ],
+    "h": 19,
+    "d": 270,
+    "z": "dorm",
+    "ms": 203513
+   },
+   {
+    "k": "say",
+    "n": "",
+    "t": "（兩個碗都空了。窗外的路燈已經亮了。）",
+    "h": 19,
+    "d": 270,
+    "z": "dorm",
+    "ms": 204924
+   },
+   {
+    "k": "adv",
+    "fn": "begin",
+    "arg": {
+     "background": {
+      "image": "assets/bg/xiaofu.webp",
+      "label": null
+     },
+     "right": "heroine_01",
+     "left": null
+    },
+    "h": 19,
+    "d": 270,
+    "z": "dorm",
+    "ms": 206466
+   },
+   {
+    "k": "choose",
+    "t": [
+     "「我喜歡妳。」",
+     "「我們可以不只是朋友嗎？」",
+     "「我喜歡妳。妳不用現在回答。」",
+     "（先不說）"
+    ],
+    "hint": [
+     "",
+     "",
+     "",
+     ""
+    ],
+    "h": 19,
+    "d": 270,
+    "z": "dorm",
+    "ms": 206467
+   },
+   {
+    "k": "say",
+    "n": "沈以安",
+    "t": "上次那一頁，最下面那一行還沒勾。……你要看嗎？",
+    "h": 19,
+    "d": 270,
+    "z": "dorm",
+    "ms": 207882
+   },
+   {
+    "k": "choose",
+    "t": [
+     "「好。」",
+     "「讓我想想。」"
+    ],
+    "hint": [
+     "",
+     ""
+    ],
+    "h": 19,
+    "d": 270,
+    "z": "dorm",
+    "ms": 209396
+   },
+   {
+    "k": "adv",
+    "fn": "cg",
+    "arg": "cg_shop_page_check_heroine01",
+    "h": 19,
+    "d": 270,
+    "z": "dorm",
+    "ms": 210811
+   },
+   {
+    "k": "say",
+    "n": "",
+    "t": "（她把手帳翻到「想去的店」那一頁，推到你面前。在「和你」旁邊，畫了一個勾。）",
+    "h": 19,
+    "d": 270,
+    "z": "dorm",
+    "ms": 210811
+   },
+   {
+    "k": "say",
+    "n": "沈以安",
+    "t": "……勾了。",
+    "h": 19,
+    "d": 270,
+    "z": "dorm",
+    "ms": 212306
+   },
+   {
+    "k": "say",
+    "n": "",
+    "t": "（餐盤疊好，拿去回收。）",
+    "h": 19,
+    "d": 270,
+    "z": "dorm",
+    "ms": 213199
+   },
+   {
+    "k": "say",
+    "n": "",
+    "t": "（走出店門，她沒有往宿舍那邊走。）",
+    "h": 19,
+    "d": 270,
+    "z": "dorm",
+    "ms": 214068
+   },
+   {
+    "k": "event",
+    "id": "ev_termend_dinner",
+    "h": 19,
+    "d": 270,
+    "z": "dorm",
+    "ms": 214964
+   },
+   {
+    "k": "adv",
+    "fn": "begin",
+    "arg": {
+     "background": "dark",
+     "right": null,
+     "left": null
+    },
+    "h": 19,
+    "d": 270,
+    "z": "dorm",
+    "ms": 214964
+   },
+   {
+    "k": "caption",
+    "n": "",
+    "t": "學期末的飯",
+    "dur": 1500,
+    "h": 19,
+    "d": 270,
+    "z": "dorm",
+    "ms": 214964
+   },
+   {
+    "k": "adv",
+    "fn": "end",
+    "arg": null,
+    "h": 19,
+    "d": 270,
+    "z": "dorm",
+    "ms": 215318
+   },
+   {
+    "k": "caption",
+    "n": "",
+    "t": "回到首都帝大。",
+    "dur": 2400,
+    "h": 21,
+    "d": 270,
+    "z": "dorm",
+    "ms": 216326
+   }
+  ],
+  "end": {
+   "picked": {
+    "who": "heroine_01",
+    "kind": "heart",
+    "day": 268
+   },
+   "done": {
+    "who": "heroine_01",
+    "kind": "heart",
+    "day": 270
+   },
+   "result": "sheSaid",
+   "second": {
+    "heroine_01": true
+   },
+   "think": {},
+   "dating": true,
+   "confessed": {
+    "heroine_01": 270
+   },
+   "out": {
+    "day": 270,
+    "key": "2026-06-13",
+    "h": 19,
+    "state": "done",
+    "title": "學期末的飯：沈以安（公館巷子裡的小店）"
+   },
+   "msgs": [
+    {
+     "tag": "te_Y1S1_heroine_01",
+     "day": "2025-12-18",
+     "h": 20.5,
+     "text": "考完了。……這次只有我們兩個，可以嗎？我訂了位子，七點。",
+     "ask": [
+      "好。",
+      "那天有約了。"
+     ]
+    },
+    {
+     "tag": "te_Y1S2_heroine_01",
+     "day": "2026-06-11",
+     "h": 20.5,
+     "text": "考完了。七點，同一家。",
+     "ask": [
+      "好。",
+      "那天有約了。"
+     ]
+    }
+   ],
+   "queued": true
+  },
+  "cg": {
+   "unlocked": [
+    "cg_reason_column_heroine01",
+    "cg_shop_page_check_heroine01"
+   ],
+   "reg": true,
+   "regFile": "assets/cg/heroine_01/cg_reason_column.webp"
+  }
+ },
+ "after_she2": [
+  "上次那一頁，最下面那一行還沒勾。……你要看嗎？",
+  "（她把手帳翻到「想去的店」那一頁，推到你面前。在「和你」旁邊，畫了一個勾。）",
+  "……勾了。",
+  "（餐盤疊好，拿去回收。）",
+  "（走出店門，她沒有往宿舍那邊走。）"
+ ],
+ "cg_calls_Y1S2": [
+  {
+   "k": "adv",
+   "fn": "cg",
+   "arg": "cg_shop_page_check_heroine01",
+   "h": 19,
+   "d": 270,
+   "z": "dorm",
+   "ms": 210811
+  }
+ ],
+ "cgEnd": {
+  "unlocked": [
+   "cg_reason_column_heroine01",
+   "cg_shop_page_check_heroine01"
+  ],
+  "reg": true,
+  "regFile": "assets/cg/heroine_01/cg_reason_column.webp"
+ },
+ "mem2": {
+  "mem": [
+   "FIRST_MET",
+   "AN_SHOP_PAGE"
+  ],
+  "panel": [
+   "FIRST_MET"
+  ],
+  "hide": [
+   "AN_SHOP_PAGE"
+  ]
+ },
+ "cgAll": [
+  {
+   "k": "adv",
+   "fn": "cg",
+   "arg": "cg_reason_column_heroine01",
+   "h": 19,
+   "d": 95,
+   "z": "dorm",
+   "ms": 115965
+  },
+  {
+   "k": "adv",
+   "fn": "cg",
+   "arg": "cg_shop_page_check_heroine01",
+   "h": 19,
+   "d": 270,
+   "z": "dorm",
+   "ms": 210811
+  }
+ ],
+ "errs": [],
+ "sha": "7224af47a",
+ "tag": "ancf2_think_port",
+ "url": "http://127.0.0.1:8809/index.html"
+}
