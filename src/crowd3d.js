@@ -317,7 +317,10 @@ const CROWD=(function(){
         if(done){ const G=GM.G, F=G.flags||(G.flags={}); (F.deptTalkDay||(F.deptTalkDay={}))[id]=G.day; S.deptUntalk(m); } }; }); };
   /* 選一段：照輪的順序（G.flags.deptHear 的 talk:…），這一次放過的、今天聽過的跳過 */
   S.deptTalkPick=function(GM,key,list,pre){ if(!list||!list.length) return null; const G=GM.G, H=(G.flags&&G.flags.deptTalkDay)||{}, k='talk:'+key, st=dStart(GM,k,list.length), V=dVisit(GM), used=V.used[k]||(V.used[k]=[]);
-    for(let u=0;u<list.length;u++){ const c=list[(st+u)%list.length], id=pre+c.n; if(used.includes(id)||H[id]===G.day) continue; used.push(id); return c; } return null; };
+    for(let u=0;u<list.length;u++){ const c=list[(st+u)%list.length], id=pre+c.n; if(used.includes(id)||H[id]===G.day) continue; if(S.WEEKLY_TALK.includes(id)&&H[id]!=null&&S.weekStart(H[id])===S.weekStart(G.day)) continue; used.push(id); return c; } return null; };
+  /* 每週最多一次的段落（AA 11-03：法律系必修課前的「平常」l2 只有一段，每天聽到會變成背景噪音）：同一週（週一到週日）聽過就不再演 */
+  S.WEEKLY_TALK=['l2'];
+  S.weekStart=d=>{ if(typeof CALENDAR==='undefined'||!CALENDAR.dateOf) return Math.floor(d/7); return d-(CALENDAR.dateOf(d).wd-1); };
   S.closingSoon=(G,zone)=>{ if(typeof PLACES==='undefined'||!PLACES.isOpen||!PLACES.hours||!PLACES.hours[zone]) return false; const h=hr(G); return PLACES.isOpen(zone,h,G.day)&&!PLACES.isOpen(zone,h+0.5,G.day); };
   /* 第 2 節：這個地點、這個時段的對話（圖資的只在總圖）；沒有就用「平常」那幾段（寒暑假除外）*/
   S.deptTalksAt=function(G,place,zone){ const D=DP(); if(!D) return []; const f=S.deptFlags(G), col=S.deptCol(G);

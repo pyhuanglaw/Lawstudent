@@ -101,5 +101,9 @@ await one('2. 大一國文（博雅 101 階梯教室）第 3 週上課前：前�
   check('2. 開始的時候才坐下（沒有轉暗等上課）：沒有上課前那一段（和原本一樣，上課前的對話只在等上課的時候）',!t&&has,t?'有第 '+t.c.n+' 組':''); }
 { const r=await attendAt('Y2S1','japanese_1',3); const any=r.said.some(s=>/系的學生$/.test(s.who||''));
   check('2. 選修（日文，共同 102）：沒有那幾段（照舊）',!any&&has,J(r.said.filter(s=>s.who).map(s=>s.who))); }
+{ const JR_D=k=>{ const [y,m,d]=k.split('-').map(Number); return Math.round((Date.UTC(y,m-1,d)-CALENDAR.tOf(1))/86400000)+1; }; /* AA 11-03：法律系必修課前的「平常」l2 每週最多一次（同一週聽過就不再演，下週再有）*/
+  const D=JR_D('2025-09-17'), wd=CALENDAR.dateOf(D).wd, mon=D-(wd-1), mk=(day,heard)=>({G:{day,zone:'puton',flags:{deptTalkDay:{l2:heard}}},enterN:day});
+  const L=[{n:2}], p1=CROWD.deptTalkPick(mk(mon+2,mon),'law:pre',L,'l'), p2=CROWD.deptTalkPick(mk(mon+7,mon),'law:pre',L,'l');
+  check('9. l2 每週最多一次：同一週（週一聽過、週三）不演；下週一照演（AA 11-03）',!p1&&!!p2,J([p1,p2])); }
 console.warn=warn0; console.log(fails?('FAILED '+fails):'ALL PASS'); process.exit(fails?1:0);
 })().catch(e=>{ console.log('FAIL 例外 '+(e&&e.stack||e)); process.exit(1); });
