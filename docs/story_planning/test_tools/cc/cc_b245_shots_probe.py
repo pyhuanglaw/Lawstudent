@@ -27,6 +27,11 @@ MODEL = """(id=>{ const n=GAME.E.npcs.find(k=>k.charId===id); if(!n) return null
   const m=k&&ASSETS.manifest[k]; const o=n.obj.position; return {key:k, driver:d, url:m?m.url:null, x:+o.x.toFixed(2), z:+o.z.toFixed(2), yaw:+n.obj.rotation.y.toFixed(2), pose:n.pose}; })(%s)"""
 
 
+REACH_JS = """(()=>{ const E=GAME.E; return E.interactables.filter(it=>it.park==='swing').map(it=>{ let best=null, at=null;
+  for(let x=it.x-2; x<=it.x+2; x+=0.05) for(let z=it.z-2; z<=it.z+2; z+=0.05){ if(E.canStand&&!E.canStand(x,z,0.32,0)) continue; const d=Math.hypot(x-it.x,z-it.z); if(best===null||d<best){ best=d; at=[+x.toFixed(2),+z.toFixed(2)]; } }
+  return {label:it.label, x:it.x, z:it.z, radius:it.radius||1.8, min:best===null?null:+best.toFixed(3), at, ap:it.seat&&it.seat.ap||null, hasCanStand:!!E.canStand}; }); })()"""
+
+
 async def cam(pg, p, l):
     await pg.evaluate(CAM % (J(p), J(l)))
 
@@ -81,6 +86,12 @@ async def sub_swing(pg, cdp):
             await L.tap(pg, cdp, '#interact'); lab = t; break
     sw = await pg.evaluate("(()=>{ const L=WZ_PARK_LAYOUT, g=L.items.find(i=>i.kind==='swings'); return {g:{x:g.x,z:g.z}, seats:L.seats.filter(s=>s.kind==='swing')}; })()")
     info('鞦韆 layout：' + J(sw))
+    # 11-03 補：站得到的地方按不按得到「盪鞦韆」（讀遊戲狀態：E.interactables 的 park:'swing' 互動點、radius；導航格上人物（半徑 0.32 m）站得住的點每 5 cm 掃一次）
+    reach = await pg.evaluate(REACH_JS)
+    info('鞦韆互動點和最近站得住的點：' + J(reach))
+    for r in reach:
+        check('swing 站得到的地方按得到「%s」（%.1f, %.1f）：最近站得住的點離互動點 < radius' % (r['label'], r['x'], r['z']), r['min'] is not None and r['min'] < r['radius'],
+              '最近 %s m（%s）、radius %s、seat.ap %s' % (r['min'], J(r['at']), r['radius'], J(r['ap'])))
     info('點了 #interact：「%s」' % lab)
     check('swing 前置：#interact 是「盪鞦韆」（文字 startswith）', lab.startswith('盪鞦韆'), lab)
     s = None

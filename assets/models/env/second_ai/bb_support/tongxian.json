@@ -1,11 +1,11 @@
 {
  "objects": 37,
  "unique_meshes": 37,
- "tris": 59889,
- "tris_drawn": 59889,
+ "tris": 58889,
+ "tris_drawn": 58889,
  "materials": 12,
  "out": "../model/out_tx/tongxian_v3.glb",
- "bytes": 3844872,
+ "bytes": 3776600,
  "texres": 512,
  "layout": 2,
  "guitars": {

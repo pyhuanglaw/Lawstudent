@@ -58,6 +58,8 @@ N19C_c608   | b1ae1c390 | probe | docs/story_planning/test_tools/cc/cc_camp608_p
 N19C_osmake | 0f66c4215 | probe | docs/story_planning/test_tools/cc/cc_camp_oldsave_probe.py | index.html | 30 | CASES=make
 N19C_osload | b1ae1c390 | probe | docs/story_planning/test_tools/cc/cc_camp_oldsave_probe.py | index.html | 75 | CASES=load;SAVE=docs/story_planning/CC/local_out/N19C_osmake/out/oldsave_camp_d2.json;SAVE_SHA=0f66c4215;SAVE_WAIT_MIN=40
 N19C_f606   | b1ae1c390 | probe | docs/story_planning/test_tools/cc/cc_friends606_probe.py | index.html | 620 | SAVE=docs/story_planning/CC/local_out/N19C_c608/out/camp608_824_save.json;SAVE_SHA=b1ae1c390;SAVE_WAIT_MIN=40;MAX_S=36000
+N19C_f606wf | b1ae1c390 | probe | docs/story_planning/test_tools/cc/cc_friends606_probe.py | index.html | 620 | SAVE=docs/story_planning/CC/local_out/N19C_c608/out/camp608_824_save.json;SAVE_SHA=b1ae1c390;SAVE_WAIT_MIN=40;MAX_S=36000;RERUN=wf
+# （N19C_f606wf：BB 16:07 要知道 walkFallbacks=1 是哪一段；探針包了 console.warn，記日期、時間、區域、誰、起點→終點）
 N19C_kx607  | b1ae1c390 | probe | docs/story_planning/test_tools/cc/cc_kexin_hsr_probe.py | index.html | 120 | MAX_S=6600
 # BB 14:07：PHONE-FAV-1103（X190）；雲端 b1ae 直向＋橫向 ALL PASS（32 項）
 N19F_fav    | b1ae1c390 | probe | docs/story_planning/test_tools/cc/cc_phone_fav_probe.py | index.html | 40 | CC_HEADLESS=0;ORIENTS=port,land
@@ -66,6 +68,7 @@ N19F_fav2   | b1ae1c390 | probe | docs/story_planning/test_tools/cc/cc_phone_fav
 N19E_exw    | b1ae1c390 | probe | docs/story_planning/test_tools/cc/cc_examweek_trip_probe.py | index.html | 60 |
 # （N19E_exw：雲端 b1ae ALL PASS（④ 改成那天每個出發時間都沒灰掉），PC 再跑一次）
 MD_tx_v2    | 451bb65ee | blender | docs/story_planning/test_tools/cc/blender/render_tx.py | index.html | 90 | CC_BLENDER_DEVICE=CPU;CC_SAMPLES=64;XARGS=assets/models/env/second_ai/bb_support/tongxian.glb {out} docs/story_planning/test_tools/cc/blender/tx_views.json
+MD_tx_v2b   | bae31acad | blender | docs/story_planning/test_tools/cc/blender/render_tx.py | index.html | 90 | CC_BLENDER_DEVICE=CPU;CC_SAMPLES=64;XARGS=assets/models/env/second_ai/bb_support/tongxian.glb {out} docs/story_planning/test_tools/cc/blender/tx_views.json
 # （MD_tx_v2：同弦樂器 WIP v2 的預覽渲染（六個鏡頭 960×540），CC 自己看；不是 BB 驗收）
 # BB 14:40：BB 的一鍵探針（企劃線 52b9e7b88，SCRIPT_FROM=story）；候選 SHA 定了以後把 <候選> 換掉、解 HOLD
 #HOLD候選 N19O_onetap   | <候選> | probe | docs/story_planning/test_tools/bb/bb_onetap_flow_probe.py | index.html | 60 | SCRIPT_FROM=story;CASES=sleep,cls,date;CC_HEADLESS=0
