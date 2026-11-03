@@ -1,0 +1,17 @@
+[gpu_wrap] CC_GPU=1 跑 C:\Users\USER\Documents\Lawstudent_cclocal\docs\story_planning\test_tools\cc\cc_b245_bench_probe.py http://127.0.0.1:8813/index.html C:\Users\USER\Documents\Lawstudent_cclocal\docs\story_planning\CC\local_out\B245_bench_c\out
+cc_b245_bench_probe  SHA=a09d3055e  URL=http://127.0.0.1:8813/index.html
+PASS 遊戲載入
+  【前置／捷徑】load_state（quiet_events）校園第 7 天 10:00
+INFO 長椅讀書的路人：[{"x": -100, "z": 12.94, "seat": null, "bench": {"label": "坐在椰林大道的長椅上", "x": -100, "z": 12.94, "yaw": 3.141592653589793, "d": 0}, "free": {"x": -100, "z": 12.94}, "hasFreeFn": true}, {"x": -50, "z": -12.94, "seat": null, "bench": {"label": "坐在椰林大道的長椅上", "x": -50, "z": -12.94, "yaw": 0, "d": 0}, "free": {"x": -50, "z": -12.94}, "hasFreeFn": true}, {"x": -25, "z": 12.94, "seat": null, "bench": {"label": "坐在椰林大道的長椅上", "x": -25, "z": 12.94, "yaw": 3.141592653589793, "d": 0}, "free": {"x": -25, "z": 12.94}, "hasFreeFn": true}, {"x": 17, "z": -12.94, "seat": null, "bench": {"label": "坐在椰林大道的長椅上", "x": 17, "z": -12.94, "yaw": 0, "d": 0}, "free": {"x": 17, "z": -12.94}, "hasFreeFn": true}]
+PASS 前置：校園白天有長椅讀書的路人（story3d.js seats[1,4,7,10]）  4
+FAIL a 每個讀書的路人都有 seat，而且 seat 就是他坐的位置（< 0.05 m）  [[-100, 12.94, null], [-50, -12.94, null], [-25, 12.94, null], [17, -12.94, null]]
+PASS 前置：讀書的路人坐的位置有長椅互動點（< 0.4 m）  4/4
+FAIL b GAME.freeSeat(有人讀書的那個長椅座位)＝null 或離所有讀書路人 ≥ 0.4 m 的位子  [[{"label": "坐在椰林大道的長椅上", "x": -100, "z": 12.94, "yaw": 3.141592653589793, "d": 0}, {"x": -100, "z": 12.94}], [{"label": "坐在椰林大道的長椅上", "x": -50, "z": -12.94, "yaw": 0, "d": 0}, {"x": -50, "z": -12.94}], [{"label": "坐在椰林大道的長椅上", "x": -25, "z": 12.94, "yaw": 3.141592653589793, "d": 0}, {"x": -25, "z": 12.94}], [{"label": "坐在椰林大道的長椅上", "x": 17, "z": -12.94, "yaw": 0, "d": 0}, {"x": 17, "z": -12.94}]]
+  【前置／捷徑】load_state（quiet_events）校園第 7 天 10:00，站在有人讀書的長椅前面 (-100.00, 12.14)
+INFO c 讀檔後讀書的路人：[[-100, 12.94], [-50, -12.94], [-25, 12.94], [17, -12.94]]；E.nearestInteractable：{"label": "坐在椰林大道的長椅上", "seat": {"x": -100, "z": 12.94}}
+INFO c 點了 #interact：「坐在椰林大道的長椅上」
+INFO c 結果：玩家 {"x": -100, "z": 12.94, "pose": "sit", "seat": {"x": -100, "z": 12.94}}；選項 ["坐一下，看看四周時間 +20 分鐘", "起身"]；toast []
+PASS c 前置：照玩家點長椅以後有結果（坐下的選單，或「長椅坐滿了」）  {"choices": ["坐一下，看看四周時間 +20 分鐘", "起身"], "toast": []}
+FAIL c 照玩家坐長椅：玩家坐下的位置離所有讀書的路人 ≥ 0.4 m（不壓在人身上）  最近 0.000 m；玩家 {"x": -100, "z": 12.94, "pose": "sit", "seat": {"x": -100, "z": 12.94}}
+PASS 沒有 JS 例外  []
+FAILED 3：a 每個讀書的路人都有 seat，而且 seat 就是他坐的位置（< 0.05 m）、b GAME.freeSeat(有人讀書的那個長椅座位)＝null 或離所有讀書路人 ≥ 0.4 m 的位子、c 照玩家坐長椅：玩家坐下的位置離所有讀書的路人 ≥ 0.4 m（不壓在人身上）
