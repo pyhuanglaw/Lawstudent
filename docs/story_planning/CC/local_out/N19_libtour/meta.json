@@ -1,0 +1,23 @@
+{
+  "rerun": "",
+  "id": "N19_libtour",
+  "sha": "21ab92db0",
+  "kind": "probe",
+  "script": "docs/story_planning/test_tools/cc/cc_lib_tour_probe.py",
+  "env": "",
+  "machine": "MSI",
+  "start": "2026-11-03T21:44:07",
+  "end": "2026-11-03T22:10:59",
+  "seconds": 1612,
+  "exit": 1,
+  "error": null,
+  "runner": "8565f3aa98",
+  "rf_round": "3",
+  "url": "http://127.0.0.1:8811/index.html",
+  "res_peak": {
+    "cpu": 94,
+    "mem": 61,
+    "used_gb": 19.6,
+    "chrome_testing": 29
+  }
+}
