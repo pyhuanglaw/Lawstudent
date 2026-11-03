@@ -1,0 +1,25 @@
+[gpu_wrap] CC_GPU=1 跑 C:\Users\USER\Documents\Lawstudent_cclocal\docs\story_planning\test_tools\cc\cc_aa609_grandma_probe.py http://127.0.0.1:8810/index.html C:\Users\USER\Documents\Lawstudent_cclocal\docs\story_planning\CC\local_out\AA609_grandma\out
+cc_aa609_grandma_probe  SHA=ffeec06e0  URL=http://127.0.0.1:8810/index.html
+  [   0.0s] 稿：沒有給 AA609_MD，只用探針裡逐字抄的句子
+PASS 遊戲載入
+  [前置／捷徑] 最小存檔讀檔：2026-06-06（星期六，Y1S2 第 15 週）10:40 宿舍
+  [前置／捷徑] 用遊戲的 API 把學姊設成 FAMILIAR（SOCIAL.rel fam≥25、relUp、contacts、met_sis、SIS_W1）：{"stage": "FAMILIAR", "fam": 25}；GAME.snapshot() 再讀一次（條件事件照開，只關手機自動打開）
+  [  37.5s] 條件事件已還原：true
+PASS ① 前置：學姊 FAMILIAR 以上（S.gradRule 要 atLeast FAMILIAR）  FAMILIAR
+  [  39.9s] 學姊的私訊：[{"d": "2026-06-06", "h": 8, "tag": "sisg_grad_msg", "text": "今天十一點，A館。不用帶花。"}]；出遊：[{"id": "sisg_grad", "d": "2026-06-06", "h": 11, "state": "planned", "title": "學姊的畢業典禮（法律系館A）"}]
+PASS ② 收到她的私訊（startswith「今天十一點，A館。不用帶花。」）  [{"d": "2026-06-06", "h": 8, "tag": "sisg_grad_msg", "text": "今天十一點，A館。不用帶花。"}]
+PASS ③ 照玩家：出現「出發：…畢業典禮…」選項、用手指點了  {"went": "出發：學姊的畢業典禮（法律系館A）11:00　走過去約 10 分鐘", "seen": [["出發：學姊的畢業典禮（法律系館A）11:00　走過去約 10 分鐘", "晚一點（20 分鐘後再提醒）", "不去了"]], "clock": {"dlg": false, "name": "", "txt": "", "ch": [], "busy": true, "depth": 1, "phone": false, "h": 10.675, "key": "2026-06-06", "zone": "dorm"}}
+  媽媽、奶奶那一句時台上的立繪：{"mom_land": [{"id": "advL", "show": false, "dim": false, "off": true, "img": false, "filter": "none"}, {"id": "advR", "show": false, "dim": false, "off": false, "img": false, "filter": "none"}], "mom_port": [{"id": "advL", "show": false, "dim": false, "off": true, "img": false, "filter": "none"}, {"id": "advR", "show": false, "dim": false, "off": false, "img": false, "filter": "none"}], "grandma_land": [{"id": "advL", "show": true, "dim": true, "off": true, "img": true, "filter": "brightness(0.55) saturate(0.8)"}, {"id": "advR", "show": false, "dim": false, "off": false, "img": false, "filter": "none"}], "grandma_port": [{"id": "advL", "show": true, "dim": true, "off": true, "img": true, "filter": "brightness(0.55) saturate(0.8)"}, {"id": "advR", "show": false, "dim": false, "off": false, "img": false, "filter": "none"}]}
+PASS ④ 演了 ev_sis_graduation（EVENTS.run 叫到、events.done 記上）  ["ev_sis_graduation"]
+  [  65.0s] ev_sis_graduation 的台詞（GAME.say）：[["學姊的媽媽", "九月開學？"], ["溫書瑀", "九月。……開學前，我想先睡一個禮拜。"], ["", "（媽媽笑了。）"], ["學姊的奶奶", "來，拍一張。"], ["", "（她看到你，笑了一下。）"], ["溫書瑀", "你來了。"], ["溫書瑀", "……我本來想了很多要說的。"], ["溫書瑀", "今天只說一句：謝謝你來。"]]
+PASS ⑤ 稿逐句：「九月開學？」有演（GAME.say startswith、依序）  ["學姊的媽媽", "九月開學？"]
+PASS ⑤ 稿逐句：「九月開學？」的說話人＝「學姊的媽媽」（GAME.say）  ["學姊的媽媽", "九月開學？"]
+PASS ⑤ 畫面上：「九月開學？」那一句對話框的名字＝「學姊的媽媽」（#dlgName）  ["學姊的媽媽", "九月開學？"]
+PASS ⑤ 稿逐句：「來，拍一張。」有演（GAME.say startswith、依序）  ["學姊的奶奶", "來，拍一張。"]
+PASS ⑤ 稿逐句：「來，拍一張。」的說話人＝「學姊的奶奶」（GAME.say）  ["學姊的奶奶", "來，拍一張。"]
+PASS ⑤ 畫面上：「來，拍一張。」那一句對話框的名字＝「學姊的奶奶」（#dlgName）  ["學姊的奶奶", "來，拍一張。"]
+PASS ⑥ 整個過程畫面上（#caption、對話框、選項）沒有「爸爸」（收到 87 筆字）  []
+  [  65.0s] INFO 畫面上出現「爸」的字（不算 FAIL）：[]
+PASS 沒有 JS 例外  []
+SHA ffeec06e0
+ALL PASS
