@@ -15,7 +15,7 @@ global.CG_REGISTRY=global.CG_REGISTRY||{};
 for(const f of ['src/data/study_units.js','src/study3d.js','src/data/r2y4b_events.js','src/r2y4b3d.js','src/y5s1_3d.js','src/faildelay3d.js']) try{ load(f); }catch(e){ console.log('載入失敗 '+f+'：'+e); }
 const sec=async(n,f)=>{ try{ await f(); }catch(e){ check(n+'. 丟出例外（這一節中斷）',false,String(e&&e.stack||e).split('\n').slice(0,3).join(' / ')); } };
 const git=a=>{ try{ return cp.execFileSync('git',['-C',H.ROOT].concat(a),{encoding:'utf8',maxBuffer:64*1024*1024}); }catch(e){ return ''; } };
-const P588='docs/story_planning/AA_588_回LAWWW_AA581收尾與交換延畢又被當.md', DOC=git(['show','1edea905f:'+P588]);
+const P588='docs/story_planning/AA_588_回LAWWW_AA581收尾與交換延畢又被當.md', DOC=require('./alison.js').ndl(git(['show','1edea905f:'+P588]));   /* 讀稿照 tools/story/*_fix.json 換字 */
 const ALLOW=JSON.parse(fs.readFileSync(path.join(H.ROOT,'docs/handoff/story_import_allow.json'),'utf8')).files;
 const allow=(p,s)=>ALLOW.some(e=>e.path===p&&e.sha===s&&e.status==='approved'&&!!e.approvedBy);
 const ev=id=>STORY_EVENTS.find(e=>e.id===id);
