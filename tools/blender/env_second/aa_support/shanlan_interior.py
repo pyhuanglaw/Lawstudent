@@ -9,6 +9,7 @@ HERE = os.path.dirname(os.path.abspath(__file__))
 sys.path.insert(0, HERE)
 import aa_kit as K   # noqa: E402
 from aa_kit import L, CL, B, Mesh, g2b, bpy, bmesh, Matrix, Xf   # noqa: E402
+K.AUTO_SEG = True   # v2：小零件倒角一段、細管不封口
 
 arg = K.args()
 LAY = K.layout('src/data/shanlan_layout.js', 'SHANLAN_LAYOUT')
@@ -20,12 +21,12 @@ X0, X1, Z0, Z1 = sh.X0, sh.X1, sh.Z0, sh.Z1
 sh._imgkeys = {'print', 'books'}
 P = 'shl_'
 sh.M.update({
-    'floor': L.pbr(P + 'floor_oak', 'laminate_floor_02', tile=1.6, target='#cfae84', normal=0.4, maps=('diff', 'nor'), res=512, rough_value=0.5),
-    'wall': CL.soft_plaster(P + 'wall', '#ece6da', 0.9, tile=1.8, k=0.25),
-    'wood': L.pbr(P + 'oak', 'walnut_veneer', tile=1.3, target='#d2ad7e', maps=('diff',), res=256, rough_value=0.48),
+    'floor': L.pbr(P + 'floor_oak', 'laminate_floor_02', tile=1.6, target='#c49b6c', normal=0.4, maps=('diff', 'nor'), res=512, rough_value=0.5),
+    'wall': CL.soft_plaster(P + 'wall', '#d9cbb4', 0.92, tile=1.8, k=0.25),   # v2：v1 #ece6da 太白、過曝；暖一點、暗一點
+    'wood': L.pbr(P + 'oak', 'walnut_veneer', tile=1.3, target='#c29660', maps=('diff',), res=256, rough_value=0.48),
     'glass': L.flat(P + 'glass', '#dfe9ec', rough=0.05, alpha=0.14),
-    'bulb': L.flat(P + 'bulb', '#fff4dc', rough=0.3, emit=B.srgb('#ffdcaa')),
-    'ceil': L.flat(P + 'ceiling', '#f2eee6', rough=0.92, cull=True),
+    'bulb': L.flat(P + 'bulb', '#ffeccc', rough=0.3, emit=B.srgb('#ffc88a')),
+    'ceil': L.flat(P + 'ceiling', '#ddd2bf', rough=0.95, cull=True),
     'print': K.img_mat(P + 'print', 'shl_print.png', rough=0.75),
     'books': K.img_mat(P + 'books', 'shl_bookrows.png', rough=0.8),
     'pothos': CL.leaf_mat(P + 'leaf_pothos', 'pothos_leaf.png'),
@@ -40,6 +41,28 @@ rng = random.Random(613)
 
 
 def lv(y): return 'L2' if y >= Y2 - 1e-3 else ''
+
+
+R2 = random.Random(1103)
+
+
+def stack(xf, x, z, y, n, bw, bd, lvl='', cover=None, side=None, ry=0.0, cu=None, th=0.03):
+    """v2：一疊平放的書＝一個五面的盒子（10 個三角形），貼 shl_print 的圖：上面是書封（cover＝圖集第 3 列的 16 張），
+    四個側面是「書堆側面」的條（第 6 列：0～11 書背、12～15 頁緣；n 本用條的下面 n/6）——從旁邊看得到一本一本的顏色（v1 是素色的方塊）。
+    xf：物件座標；(x, z) 是這疊書的中心、y 是底；bw 沿 x、bd 沿 z。回傳這疊書的頂。"""
+    m = sh.a('print', lvl); h = th * n; x0, x1, z0, z1 = x - bw / 2, x + bw / 2, z - bd / 2, z + bd / 2; y1 = y + h
+    if ry:
+        c_ = xf.p(x, 0, z); xf = Xf(c_[0], c_[2], xf.ry + ry, xf.py); x0, x1, z0, z1 = -bw / 2, bw / 2, -bd / 2, bd / 2
+    k = cover if cover is not None else R2.randrange(16); cu = cu or (k / 16 + 0.002, 0.5 + 0.002, (k + 1) / 16 - 0.002, 0.625 - 0.002)
+    def strip(kk): return (kk / 16 + 0.003, 0.125 + 0.002, (kk + 1) / 16 - 0.003, 0.125 + 0.125 * n / 6 - 0.002)
+    sp = strip(side if side is not None else R2.randrange(12)); pg = strip(12 + R2.randrange(4))
+    spine_z = R2.random() < 0.7
+    xf.quad(m, [(x0, y1, z1), (x1, y1, z1), (x1, y1, z0), (x0, y1, z0)], uv=cu)
+    xf.quad(m, [(x0, y, z1), (x1, y, z1), (x1, y1, z1), (x0, y1, z1)], uv=sp if spine_z else pg)
+    xf.quad(m, [(x1, y, z0), (x0, y, z0), (x0, y1, z0), (x1, y1, z0)], uv=pg if spine_z else sp)
+    xf.quad(m, [(x1, y, z1), (x1, y, z0), (x1, y1, z0), (x1, y1, z1)], uv=pg if spine_z else sp)
+    xf.quad(m, [(x0, y, z0), (x0, y, z1), (x0, y1, z1), (x0, y1, z0)], uv=sp if spine_z else pg)
+    return y1
 
 
 # ---------------------------------------------------------------- 書架
@@ -63,8 +86,8 @@ def shelf_bank(cx, cz, ry, ln, h, d=0.42, y0=0.0, double=False, rows=GEN_ROWS, b
             if si == 1: u0, u1 = -u1, -u0
             for j, y in enumerate(levels):
                 if (si, k, j) in skip: continue
-                if rng.random() < 0.06 and j > 0:   # 偶爾一格放平放的一疊書＋一個小東西
-                    for q in range(rng.randint(3, 6)): sx.rbox(sh.a('vcg', lvl), u0 + 0.05, u0 + 0.3, y + q * 0.04, y + 0.035 + q * 0.04, v - 0.22, v - 0.02, r=0.003, col=rng.choice(['#e8e0cc', '#2f4a3a', '#8c3b47', '#c9b48a', '#4a6c8c', '#f2efe6']))
+                if rng.random() < 0.09 and j > 0:   # 偶爾一格放平放的一疊書（v2：stack()，看得到書背的顏色）
+                    stack(sx, u0 + 0.175, v - 0.12, y, rng.randint(3, 6), 0.25, 0.2, lvl=lvl)
                     K.book_rows(sh, 'books', sx, u0 + 0.38, u1, y, v, hgt=0.3, depth=0.22, lvl=lvl, rows=rows, rng=rng); continue
                 K.book_rows(sh, 'books', sx, u0, u1, y, v, hgt=0.3, depth=0.22, lvl=lvl, rows=rows, rng=rng)
     return xf
@@ -119,6 +142,7 @@ for sx in (-1, 1):                                                              
     xf0.cyl(fm, (dx + sx * 0.12, 0.85, Z1 - 0.06), (dx + sx * 0.12, 1.55, Z1 - 0.06), 0.015, col='#b8b0a0', seg=8)
     for yy in (0.9, 1.5): xf0.cyl(fm, (dx + sx * 0.12, yy, Z1 - 0.06), (dx + sx * 0.12, yy, Z1 + 0.02), 0.01, col='#b8b0a0', seg=6)
 xf0.rbox(fm, dx - 0.025, dx + 0.025, 0.0, dh, Z1 - 0.02, Z1 + 0.12, r=0.004, seg=1, col=STEEL)
+for (bx0, bz) in ((X0, -0.8), (VD['x1'], 3.3)): xf0.rbox(sh.a('wall'), bx0, X1, H1 - 0.32, H1, bz - 0.17, bz + 0.17, r=0.015, seg=1)   # v2：一樓天花板的兩根樑（v1 一整片白）
 for (cx, cz) in [(c['x'], c['z']) for c in IT['column']]: xf0.rbox(sh.a('wall'), cx - 0.2, cx + 0.2, 0.0, H, cz - 0.2, cz + 0.2, r=0.02, seg=2)
 
 # ---------------------------------------------------------------- 樓梯（實心的淺木階梯、木側板、玻璃欄杆、木扶手）
@@ -170,17 +194,18 @@ sh.wall_img('left', 'print', -4.0, 3.25, 2.4, 1.2, K.cell_uv(0, 4, 4, 2), off=0.
 
 # 雜誌牆（東牆）：斜放的展示架四層、雜誌封面（圖集第 2 列 16 張，每張 64×128 px）
 mg = IT['magazine_wall'][0]; mxf = Xf(X1 - 0.02, mg['z'], -math.pi / 2); mw = mg['w']
-mxf.rbox(sh.a('wood'), -mw / 2, mw / 2, 0.0, 2.2, -0.02, 0.02, r=0.004, seg=1)
-for k in range(5): u = -mw / 2 + k * mw / 4; mxf.rbox(sh.a('wood'), u - 0.02, u + 0.02, 0.0, 2.2, 0.0, 0.36, r=0.004, seg=1)
+mxf.rbox(sh.a('wood'), -mw / 2, mw / 2, 0.0, 2.6, -0.02, 0.02, r=0.004, seg=1)
+for k in range(5): u = -mw / 2 + k * mw / 4; mxf.rbox(sh.a('wood'), u - 0.02, u + 0.02, 0.0, 2.6, 0.0, 0.36, r=0.004, seg=1)
+mxf.rbox(sh.a('wood'), -mw / 2 - 0.02, mw / 2 + 0.02, 2.6, 2.64, -0.02, 0.38, r=0.006, seg=1)
 mi = 0
-for j, y in enumerate((0.25, 0.7, 1.15, 1.6)):
+for j, y in enumerate((0.25, 0.7, 1.15, 1.6, 2.05)):   # v2：多一層
     mxf.rbox(sh.a('wood'), -mw / 2, mw / 2, y - 0.03, y, 0.0, 0.36, r=0.004, seg=1)
     mxf.rbox(sh.a('wood'), -mw / 2, mw / 2, y, y + 0.05, 0.3, 0.33, r=0.004, seg=1)                                     # 擋條
     u = -mw / 2 + 0.06
     while u < mw / 2 - 0.25:
         k = mi % 16; mi += 1; uu = (k / 16 + 0.002, 1 - 384 / 1024 + 0.002, (k + 1) / 16 - 0.002, 1 - 256 / 1024 - 0.002)
         sh.img_quad(sh.a('print'), mxf, u + 0.105, y + 0.01, 0.31, 0.21, 0.29, uu, tilt=0.32)
-        u += 0.24 if (u + 0.48) < mw / 2 else 1.0
+        u += 0.225   # v2：排滿（v1 每層最後空 1 m）
 hang_sign(X1 - 0.6, mg['z'], 3.05, -math.pi / 2, (2, 0, 2, 1), w=0.9, h=0.45)
 
 # 文具：東牆的架子（筆記本、紙膠帶、明信片）＋兩張文具桌
@@ -213,7 +238,7 @@ for st in IT['stationery']:
 # 結帳櫃檯＋後面的矮櫃
 ca = IT['cashier'][0]; cx0, cx1, cz0, cz1 = ca['x'] - ca['w'] / 2, ca['x'] + ca['w'] / 2, ca['z'] - ca['d'] / 2, ca['z'] + ca['d'] / 2
 xf0.rbox(sh.a('wood'), cx0, cx1, 0.06, ca['h'] - 0.04, cz0, cz1, r=0.01, seg=1)
-xf0.rbox(sh.a('vcg'), cx0 - 0.04, cx1 + 0.02, ca['h'] - 0.04, ca['h'], cz0 - 0.02, cz1 + 0.02, r=0.01, seg=2, col='#ece6da')
+xf0.rbox(sh.a('vcg'), cx0 - 0.04, cx1 + 0.02, ca['h'] - 0.04, ca['h'], cz0 - 0.02, cz1 + 0.02, r=0.01, seg=2, col='#d6c4a4')   # v2：v1 #ece6da 太白
 xf0.rbox(sh.a('vc'), cx0 + 0.03, cx1 - 0.03, 0.0, 0.06, cz0 + 0.03, cz1 - 0.03, r=0.004, seg=1, col='#8a7258')
 rg = Xf(ca['x'] + 0.1, ca['z'] - 0.6, -math.pi / 2, ca['h'])
 rg.rbox(sh.a('vcg'), -0.15, 0.15, 0.0, 0.05, -0.12, 0.12, r=0.01, col='#2f3330'); rg.rbox(sh.a('vcg'), -0.13, 0.13, 0.05, 0.25, -0.02, 0.0, r=0.005, col='#1c1d1e')
@@ -238,12 +263,10 @@ def platform(it, lamp=False, flowers=False):
     def stacks(yt, a, b, c0, c1):
         u = a
         while u < b - 0.16:
-            for vv in (c0, c1):
-                n = rng.randint(2, 6); k = rng.randrange(16); uu = (k / 16 + 0.002, 0.5 + 0.002, (k + 1) / 16 - 0.002, 0.625 - 0.002)
-                bw_, bd_ = rng.uniform(0.14, 0.17), rng.uniform(0.2, 0.23)
-                xf.rbox(sh.a('vcg'), u, u + bw_, yt, yt + 0.03 * n, vv - bd_ / 2, vv + bd_ / 2, r=0.003, seg=1, col='#efe7d6')
-                xf.quad(sh.a('print'), [(u, yt + 0.03 * n + 0.001, vv + bd_ / 2), (u + bw_, yt + 0.03 * n + 0.001, vv + bd_ / 2), (u + bw_, yt + 0.03 * n + 0.001, vv - bd_ / 2), (u, yt + 0.03 * n + 0.001, vv - bd_ / 2)], uv=uu)
-            u += 0.2
+            for vv in ([c0, (c0 + c1) / 2, c1] if c1 - c0 > 0.45 else [c0, c1]):   # v2：寬的那一層排三排
+                n = rng.randint(3, 6); bw_, bd_ = rng.uniform(0.14, 0.17), rng.uniform(0.2, 0.23)
+                stack(xf, u + bw_ / 2, vv + rng.uniform(-0.01, 0.01), yt, n, bw_, bd_, ry=rng.uniform(-0.05, 0.05))
+            u += 0.175   # v2：排密一點（v1 0.2）
     stacks(0.5, -L_ / 2 + 0.04, L_ / 2 - 0.02, -S_ / 2 + 0.15, S_ / 2 - 0.15)
     stacks(h - 0.17, -L_ / 2 + 0.32, L_ / 2 - 0.3, -S_ / 2 + 0.42, S_ / 2 - 0.42)
     u = -L_ / 2 + 0.6
@@ -322,6 +345,9 @@ for (x, z, yy, ry) in ((-2.6, 8.72, 0.47, 0.2), (3.6, 8.72, y2 + 0.47, -0.3)):
 bk_ = Xf(0.6, 7.6, 0.4); bk_.rbox(sh.a('vcm'), -0.22, 0.22, 0.02, 0.26, -0.15, 0.15, r=0.02, col='#c4513e')
 bk_.cyl(sh.a('vcm'), (-0.15, 0.26, 0), (0.15, 0.26, 0), 0.008, col='#2a2a2a', seg=5)
 
+sh.tally('v1')
+exec(open(os.path.join(HERE, 'shanlan_v2_fill.py'), encoding='utf-8').read())   # v2：一樓擺滿（另一個檔）
+sh.tally('v2 fill')
 info = sh.finish(OUT, extra_info={'layout': LAY['version'], 'seats': len(LAY['seats']), 'floorSit': len(LAY['floorSit'])})
 # 每層樓的三角形（L2_ 開頭＝二樓；WALL_ 是兩層共用的牆）
 import json as _j

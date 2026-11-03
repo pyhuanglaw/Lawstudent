@@ -162,8 +162,8 @@ for (x, zz) in ((3.75, 1.2), (-1.3, 1.2), (3.1, -3.4), (-1.4, -3.4), (-2.1, 5.2)
     py = 2.22; hx = Xf(x, zz, 0, py)
     hx.lathe(sh.a('vcg'), [(0.05, 0.0), (0.09, 0.03), (0.12, 0.12), (0.125, 0.15), (0.115, 0.15)], 0, 0, 0, seg=14, col=R2.choice(['#b0653e', '#e8dcc0', '#c98a5a']))
     for a in range(3): t = a * 2.094; hx.cyl(sh.a('vc'), (math.cos(t) * 0.12, 0.15, math.sin(t) * 0.12), (0, H - 0.2 - py, 0), 0.003, col='#c9b48a', seg=3, caps=False)
-    sh.hanging_pothos('pothos', x, py + 0.16, zz, n=7, drop=0.45)
-    for k in range(5): a = k * 1.26; CL.card(sh.a('pothos'), x + math.cos(a) * 0.1, py + 0.2, zz + math.sin(a) * 0.1, 0.16, 0.16, ry=a, rx=0.7, uv=CL.rand_uv(0.5))
+    sh.hanging_pothos('pothos', x, py + 0.16, zz, n=9, drop=0.5, size=0.11)   # 小一點的葉子（0.16 的卡片從近看像紙片）
+    for k in range(5): a = k * 1.26; CL.card(sh.a('pothos'), x + math.cos(a) * 0.1, py + 0.2, zz + math.sin(a) * 0.1, 0.12, 0.12, ry=a, rx=0.7, uv=CL.rand_uv(0.5))
 sh.tally('v2 hanging')
 
 # ---------------------------------------------------------------- 7. 桌上：小蠟燭、杯子、書；大書櫃頂上的書、籃子
