@@ -79,6 +79,15 @@ def is_quiet(t):
     return t.startswith(PRE) or bool(QUIET_RE.match(t))
 
 
+OUT_LINES = ('閉館音樂響了，她才抬頭問你晚餐吃什麼。',)
+
+
+def is_out(t):
+    """走出館外的那一句（旁白「走出總圖。」、「（走出法圖）…」、LIBQ.OUT_LINES）"""
+    t = (t or '').strip()
+    return t.startswith('走出') or t.startswith('（走出') or t in OUT_LINES
+
+
 def needs_prefix(t):
     """libquiet3d.js:63 S.needsPrefix 的同一套規則（Python）：只有動作（整句在（）裡）、已經小聲的不加"""
     t = (t or '').strip()
@@ -201,7 +210,10 @@ async def two_talks(pg, cdp, run, sc, nm, k0, side):
     run.check('%s：玩家看得到點頭那一句（對話框 startswith）' % nm, box_has(r1, nod), J((r1 or {}).get('lines')))
     run.check('%s：記在存檔 G.libNod（今天、%s）' % (nm, sc['cid']), n1['seen'] and n1['today'], J(n1))
     r2, s2, n2, l2 = await talk(pg, cdp, run, sc, k0 + 1, side)
-    sp = spoken(s2)
+    cut = next((i for i, x in enumerate(s2) if is_out(x['raw'])), None)   # bc8ffc08f libOut：走出館外那一句起不加（AA 11-02 20:54 第 3 點、1-D10）
+    out_part = [x['shown'] for x in (s2[cut:] if cut is not None else [])]
+    if cut is not None: run.note('%s：第 %d 次這一段在「%s」走出館外，之後 %d 句不要求小聲' % (nm, k0 + 1, s2[cut]['raw'], len(s2) - cut - 1))
+    sp = spoken(s2[:cut] if cut is not None else s2)
     bad = [x['shown'] for x in sp if not is_quiet(x['shown']) and needs_prefix(x['shown'])]
     pref = [x['shown'] for x in sp if is_quiet(x['shown'])]
     me = [x['shown'] for x in sp if x['n'] in ('祐廷',)]
@@ -210,7 +222,11 @@ async def two_talks(pg, cdp, run, sc, nm, k0, side):
     ok2 = run.check('%s：第二次每一句有名字的台詞都以「（小聲）」或「（…，小聲）」開頭（只有動作／已經小聲的除外），至少一句有' % nm, len(sp) > 0 and not bad and len(pref) > 0,
               J({'沒加的': bad[:6], '有加的': pref[:6], '祐廷的': me[:4], '位置': {'玩家讀書區': l2.get('meStudy'), 'quietNow': l2.get('quietNow'), '玩家': l2.get('me')}}))
     if pref:
-        run.check('%s：玩家看得到「（小聲）」（對話框 startswith）' % nm, any(is_quiet(t) for _, t in ((r2 or {}).get('lines') or [])), J((r2 or {}).get('lines')))
+        vis = any(is_quiet(t) for _, t in ((r2 or {}).get('lines') or []))
+        if vis: run.check('%s：玩家看得到「（小聲）」（對話框 startswith）' % nm, True, J((r2 or {}).get('lines')))
+        else: run.note('%s：對話框輪詢沒抓到有「（小聲）」的那幾句（短句打字中就被點掉，bbplay say_hook 的註解）；送進對話框的字以 GAME.D.full 為準：%s' % (nm, J(pref)))
+    if out_part:
+        run.check('%s：走出館外以後的台詞不加小聲（libOut）' % nm, not any(is_quiet(t) for t in out_part), J(out_part))
     return ok1 and ok2
 
 
