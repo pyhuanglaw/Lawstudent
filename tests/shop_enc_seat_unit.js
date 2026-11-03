@@ -5,6 +5,7 @@
 //   4. SHOPENC.after：朋友的按鈕「和○○打招呼」；宋知寧站在書架前（「看二手書架」，女生的路人底模），第二次以後「和知寧說話」。
 //   5. 路人句：吃飯的店兩人一桌點了聽一句（兩個人都可以點、同一組）、一個人吃飯的不說；書店站著的人「（小聲）」；便利商店只有排隊結帳的人說；影印店、茶屋不說；按鈕最後才算（yieldIt）。
 //      點了：說話的人寫「路人」；同一位客人一天同一句；同一句一天內（不同店也一樣）不重複。
+//   6. 一起坐（AA_641 第 5 節）：玩家坐在她旁邊的空位（2.2 m 以內、沒有人坐、不是她的、不是預約給別人的），時間走 30 分鐘、旁白以後站起來；旁邊沒有空位就站著（照樣 30 分鐘）。
 // 修改前：沒有 SHOPENC、CROWD.shopStandTake（第 1 項就 FAIL）。用法：node tests/shop_enc_seat_unit.js
 const fs=require('fs'), vm=require('vm'), path=require('path');
 const ROOT=path.resolve(__dirname,'..');
@@ -32,7 +33,7 @@ const mkG=(d,h,o)=>Object.assign({day:typeof d==='string'?dayOf(d):d,hour:h,flag
 let GM=null; const SAYS=[];
 function build(id,G){ GAME.G=G; G.weekday=CALENDAR.dateOf(G.day).wd%7; E.interactables=[]; E.colliders=[]; E.lampGlows=[]; E.seats=[]; E.npcs=[]; E.spawnHint=null; const z=Z3.ZONES[id].build(E); E.zone=z; E.levels=z.levels||null; E.nav=z.nav; if(z.nav) z.nav._cm=null;
   E.player={obj:{position:new THREE.Vector3(z.spawn.x,0,z.spawn.z),rotation:{y:0}},radius:0.32,lv:0,seat:null}; E.camera=null; G.zone=id;
-  GM={G,E,hourRate:1/150,npc:{},D:{active:false},sceneBegin(){},sceneEnd(){},face(){},say:async(w,t)=>{ SAYS.push((w?(w.name||'')+'：':'')+t); },sitAt:(n,st)=>{ n.seat=st; n.pose='sit'; n.idlePose='sit'; n.frozen=true; n.path=null; n.obj.position.set(st.x,(st.lift||0),st.z); n.obj.rotation.y=st.yaw||0; }};
+  GM={G,E,hourRate:1/150,npc:{},D:{active:false},sceneBegin(){},sceneEnd(){},face(){},say:async(w,t)=>{ SAYS.push((w?(w.name||'')+'：':'')+t); },fade:async()=>{},advance:h=>{ G.hour+=h; },standUp:n=>{ n.seat=null; n.pose='idle'; n.frozen=false; },sitAt:(n,st)=>{ n.seat=st; n.pose='sit'; n.idlePose='sit'; n.frozen=true; n.path=null; n.obj.position.set(st.x,(st.lift||0),st.z); n.obj.rotation.y=st.yaw||0; }};
   return z; }
 /* 進店：SHOPENC 先決定（測試直接寫好今天這個時段是誰）→ 路人客人（CROWD.enter）→ 照作息的人（這裡用假的：坐到預約的位子）→ SHOPENC.after */
 function enter(id,G,who){ for(const k in CROWD.shopRes) delete CROWD.shopRes[k]; for(const k in CROWD.shopStandRes) delete CROWD.shopStandRes[k];
@@ -99,5 +100,17 @@ const SATS=[]; for(let d=dayOf('2025-09-27');SATS.length<8;d+=7) if(CALENDAR.ter
   { const G=mkG(SATS[0],15); enter('l118_cafe2',G); const c=ppl().filter(m=>m.talk); SAYS.length=0; for(const m of c) await m.talk(); const Q=SHOP_ENC.hear.quiet, ok=[Q[1],Q[2],Q[3],Q[4],Q[6]];
     check('5. 慢讀咖啡：Café 的那五句（第 2～5、7）',SAYS.length>0&&SAYS.every(s=>ok.includes(s.replace(/^路人：/,''))),JSON.stringify(SAYS));
     const n=c[0]; if(n){ SAYS.length=0; await n.talk(); const a=SAYS.join(); SAYS.length=0; await n.talk(); check('5. 同一位客人再點一次：同一句',a===SAYS.join()&&!!a); } }
+  // ---------- 6. 一起坐 ----------
+  { const row=SHOP_ENC.rows.find(r=>r.who==='classmate_xinci'&&r.spot==='wz_brunch'), bad=[]; let n=0, stood=0;
+    for(const d of SATS) for(const h of [10.25,11.5]){ const G=mkG(d,h); const r=enter('wz_brunch',G,'classmate_xinci'); const s=r.d&&r.d.place&&r.d.place.seat; if(!s) continue;
+      const her={seat:E.zone.seats.find(q=>near(q,s.x,s.z,0.12)),obj:{position:new THREE.Vector3(s.x,0,s.z)},lv:0}; let sat=null; const sit0=GM.sitAt; GM.sitAt=(e,st)=>{ sat=st; sit0(e,st); };
+      SAYS.length=0; const h0=G.hour; const st=await SHOPENC.sitTogether(GM,row,her); GM.sitAt=sit0; n++;
+      if(Math.abs(G.hour-h0-0.5)>1e-9) bad.push('時間沒走 30 分鐘'); if(SAYS[SAYS.length-1]!==SHOP_ENC.aa641.joinLine) bad.push('沒有旁白');
+      if(!st){ stood++; continue; } if(sat!==st) bad.push('沒坐下'); if(E.player.seat) bad.push('沒站起來');
+      const dd=Math.hypot(st.x-s.x,st.z-s.z); if(dd<0.2||dd>=2.2) bad.push('不在旁邊 '+dd.toFixed(2)); if(ppl().some(m=>near(m.seat,st.x,st.z)||near(m.seatTarget,st.x,st.z))) bad.push('坐到路人的位子'); }
+    check('6. 一起坐（半熟，'+n+' 次、站著 '+stood+' 次）：坐在她旁邊 2.2 m 以內的空位（不是她的、不是路人的）、30 分鐘、旁白、站起來',!bad.length&&n>=8&&stood<n,bad.slice(0,4).join('；'));
+    const G=mkG(SATS[0],10.25); const r=enter('wz_brunch',G,'classmate_xinci'); const s=r.d.place.seat; for(const q of E.zone.seats) if(!near(q,s.x,s.z,0.12)) q.taken=true;
+    const her={seat:E.zone.seats.find(q=>near(q,s.x,s.z,0.12)),obj:{position:new THREE.Vector3(s.x,0,s.z)},lv:0}; const h0=G.hour; const st=await SHOPENC.sitTogether(GM,row,her); for(const q of E.zone.seats) delete q.taken;
+    check('6. 旁邊沒有空位：站著（不坐別人的位子），照樣走 30 分鐘',st===null&&!E.player.seat&&Math.abs(G.hour-h0-0.5)<1e-9); }
   console.log(fails?'FAILED '+fails:'ALL PASS'); process.exit(fails?1:0);
 })().catch(e=>{ console.log('FAIL 例外',e&&e.stack||e); process.exit(1); });

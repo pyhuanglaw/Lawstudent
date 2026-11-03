@@ -1,12 +1,14 @@
-/* 店內偶遇（SHOP-ENCOUNTER-1103；AA_632 第一批、AA_633 第二批）＋店裡客人的路人句（SHOP-DINERS-1103；AA_640）。自動產生，不要手改：python3 tools/shop_enc/import_shop_enc.py
-   來源：docs/story_planning/shop_enc/shop_enc_aa_v1.json@f6b207b30、docs/story_planning/shop_enc/shop_enc_aa_v2.json@2e0df2a67、docs/story_planning/AA_640_店裡客人的路人句.md@22c966e4a（劇情匯入白名單）。台詞照抄 AA 的 JSON。
+/* 店內偶遇（SHOP-ENCOUNTER-1103；AA_632 第一批、AA_633 第二批、AA_641 修正）＋店裡客人的路人句（SHOP-DINERS-1103；AA_640）。自動產生，不要手改：python3 tools/shop_enc/import_shop_enc.py
+   來源：docs/story_planning/shop_enc/shop_enc_aa_v1.json@6adb0e47c、docs/story_planning/shop_enc/shop_enc_aa_v2.json@6adb0e47c、docs/story_planning/AA_640_店裡客人的路人句.md@22c966e4a、docs/story_planning/AA_641_店內偶遇_回LAWWW四件.md@6adb0e47c（劇情匯入白名單）。台詞照抄 AA 的 JSON。
    rows 的格式照 src/data/encounters.js（spot＝店的 zone id；巷口茶飲 wz_tea、夏日冰菓室 wz_ice 是溫州街的外帶窗口）；AA_633 的 examOK、months；學姊定食店的 weekMax、selfOnly 是匯入工具照 AA_633 表下第一點加的。
+   aa641：宋知寧加聯絡人以後的六則訊息（znMsgs）、她的回覆（znReplies）、第 5 則以後她在的店（znMove）、「一起坐」的時間與旁白（joinH、joinLine）——AA_641 第 2、5 節。
    程式：src/shopenc3d.js（SHOPENC）。*/
 const SHOP_ENC={
  "src": [
-  "docs/story_planning/shop_enc/shop_enc_aa_v1.json@f6b207b30",
-  "docs/story_planning/shop_enc/shop_enc_aa_v2.json@2e0df2a67",
-  "docs/story_planning/AA_640_店裡客人的路人句.md@22c966e4a"
+  "docs/story_planning/shop_enc/shop_enc_aa_v1.json@6adb0e47c",
+  "docs/story_planning/shop_enc/shop_enc_aa_v2.json@6adb0e47c",
+  "docs/story_planning/AA_640_店裡客人的路人句.md@22c966e4a",
+  "docs/story_planning/AA_641_店內偶遇_回LAWWW四件.md@6adb0e47c"
  ],
  "rules": {
   "v1": {
@@ -37,7 +39,7 @@ const SHOP_ENC={
   {
    "who": "heroine_01",
    "spot": "cafe",
-   "why": "她坐在靠窗的位子，手帳攤開，旁邊一杯冷掉的拿鐵。",
+   "why": "她坐在沙發那一區，手帳攤開，旁邊一杯冷掉的拿鐵。",
    "days": [
     6,
     0
@@ -241,8 +243,7 @@ const SHOP_ENC={
    "terms": [
     "Y1S1",
     "Y1S2",
-    "Y2S1",
-    "Y2S2"
+    "Y2S1"
    ],
    "stageMin": "ACQUAINTANCE",
    "busy": "short",
@@ -503,13 +504,12 @@ const SHOP_ENC={
    "spot": "wz_ice",
    "why": "她和芯慈坐在一起，中間一大盤芒果冰。",
    "days": [
-    6
+    5
    ],
-   "to": 17,
+   "to": 20.5,
    "terms": [
     "Y1S2",
-    "Y2S1",
-    "Y2S2"
+    "Y2S1"
    ],
    "months": [
     5,
@@ -531,7 +531,7 @@ const SHOP_ENC={
      "……不要吃我這邊的芒果。"
     ]
    },
-   "from": 15,
+   "from": 18.5,
    "src": "AA_633"
   },
   {
@@ -811,6 +811,33 @@ const SHOP_ENC={
    ]
   },
   "quietExam": "（小聲）考完這科就解脫了。"
+ },
+ "aa641": {
+  "znMsgs": [
+   "舊路書房進了一箱法律系的舊書。有一本民總，筆記比內文還多。",
+   "今天買到一本詩集。前一個主人在最後一頁寫了日期：1998.4.2。",
+   "我在一本舊的刑法書裡找到一張公車票。好想知道他那天去哪。",
+   "看到一本藍色封面的《論法的精神》，很舊。要的話跟我說，我幫你留。",
+   "我下個月開始在山嵐書店打工了。二樓那區，有空來坐。",
+   "有人在書裡夾了便條紙，寫「這章不會考」。……前一個主人騙人。"
+  ],
+  "znReplies": [
+   "哈哈。",
+   "好。"
+  ],
+  "znMove": {
+   "after": 5,
+   "spot": "shanlan",
+   "days": [
+    6
+   ],
+   "from": 14,
+   "to": 17
+  },
+  "joinH": 0.5,
+  "joinLine": "（你們坐了一會兒，各做各的事，偶爾說兩句。）",
+  "joinHint": "等一下有",
+  "src": "docs/story_planning/AA_641_店內偶遇_回LAWWW四件.md@6adb0e47c"
  }
 };
 if(typeof module!=='undefined') module.exports=SHOP_ENC;
