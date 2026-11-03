@@ -1,7 +1,7 @@
 {
  "res": 512,
  "samples": 256,
- "total_seconds": 201.1,
+ "total_seconds": 227.1,
  "images": {
   "day": {
    "mean": 0.06227,
@@ -24,5 +24,5 @@
  },
  "device": "HIP：AMD Radeon RX 6600M",
  "blender": "5.2.3 LTS",
- "bake_seconds": 196.1
+ "bake_seconds": 221.2
 }
