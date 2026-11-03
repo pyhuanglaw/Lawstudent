@@ -18,6 +18,11 @@
 # ===== BB 08:35：v9.10.17 已上線，線上版驗證（PC 才連得到 github.io）。測試程式取自發布樹 1d0904473 =====
 # ===== P0（BB 11:32，使用者經 LAWWW：「要瀏覽器測試的請 bb 優先建」）：v9.10.18 發布樹 0776cafc8（候選 ffeec06e0＋版本字樣），TESTING.md 第五節，排最前面 =====
 # ===== BB 12:12：v9.10.18 已上線（main e8b6a84dd，PR #24）：線上版驗證，測試程式取自發布樹 0776cafc8 =====
+# ===== LIVE19：v9.10.19 上線（main e1603907e；BB 21:06 P0，雲端連 Pages 被 proxy 擋 403，只能 PC 跑）=====
+LIVE19_deploy | e1603907e | game  | tests/deploy_check.py    | index.html | 30 | XARGS=https://pyhuanglaw.github.io/Lawstudent/index.html v9.10.19（2026-11-03）
+LIVE19_ver    | e1603907e | probe | docs/story_planning/test_tools/cc/cc_live_ver_probe.py | index.html | 20 | LIVE_URL=https://pyhuanglaw.github.io/Lawstudent/index.html
+LIVE19_day12  | e1603907e | game  | tests/flow_main_day12.py | index.html | 60 | XARGS=https://pyhuanglaw.github.io/Lawstudent/index.html {out}
+# （LIVE19_ver：每一個載入的 ?v= 都要是 9.10.19、沒有 9.10.18；遇到 503 探針自己等 2 分鐘重試一次）
 # ===== V19：v9.10.19 候選 15e78dff7（BB 17:02 P0：發布前回歸，排最前面；跑完一項報一項） =====
 V19W_tour_tap8  | 55939fc71 | probe | docs/story_planning/test_tools/cc/cc_lib_tour2_probe.py | index.html | 90 | SOLO=1;MODE=tap;PHOTO=1;CC_HEADLESS=0;RERUN=evon
 V19W_tour_later | 55939fc71 | probe | docs/story_planning/test_tools/cc/cc_lib_tour2_probe.py | index.html | 90 | SOLO=1;MODE=tap;PHOTO=1;PHOTO_LATER=1;CC_HEADLESS=0;RERUN=evon
