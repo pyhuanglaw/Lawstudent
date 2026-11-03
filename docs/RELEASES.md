@@ -62,7 +62,7 @@ git push origin $C:main        # 快轉，不是強制推送；之後用 GitHub 
 **修正**：BUG-ADV-NOPORTRAIT-DIM-1103（沒有立繪的人說話台上變暗、不擠掉台上的人）、BUG-SWING-FRONT-1103、總圖第四版漏接的窗外圖兩張、BUG-TOUR-PHOTO-MISSED-1103／-NOEV-1103（導覽中間的合照不記錯過、導覽結束後跳出發、到了會演）、BUG-OUT-LATER-MISS-1103（「晚一點」再問不晚過最晚能出發的時候）、alison_unit 4（店內偶遇匯入工具讀稿 read_fix）。秀琴姨 VRM 只進 manifest，遊戲裡還沒出場。
 **已知、不擋**：BUG-GYM-SKIRT-1103（健身房穿長裙的路人拉筋時裙子穿進地板，v9.10.18 就有）、BUG-CARD-BOHAN-WALK-1103（柏翰卡片劇情自動走路卡 4 秒）、BUG-POPIN-WAIT-1103（Café→溫州街先看到方塊；教室黑畫面多等約 5.6 秒）、導覽在樓梯被判離開（BUG-TOUR-STAIRS-FAR-1103，下一版）、辛亥路彎道與總圖第五版 ART_APPROVED 但還沒接、書桌六法還是方塊（LAWWW2 已交下一版）、石磚以外的美術待 LAWWW2 修的照舊。
 **這一版沒有的（在做）**：語彤第三版（AA_624～643，子代理 worktree 49ca251f2，938 支 0 FAIL，下一版合）、約一起念書、茶屋十週年、秀琴姨第四版、蘇姨、茶屋座位、橘貓動畫、研究小間讀者第二版、新生南路街區（WIP）。D33 等 CG。
-**部署**：Pages run 41716647717（#25）、41716916666（#26）。線上驗證由 BB／CC 跑 LIVE19（LAWWW 的雲端機器連不到 github.io）。
+**部署**：Pages run 41716647717（#25）、41716916666（#26）。**線上驗證 PASS**（BB 21:59 UTC，CC 在 PC 跑線上網址）：LIVE19_deploy ALL PASS、LIVE19_ver ALL PASS（?v= 全部 9.10.19）、LIVE19_day12 ALL PASS（新遊戲第一、二天主線）。
 
 ## v9.10.18（2026-11-03 12:09 UTC 合併 `e8b6a84dd`，PR [pyhuanglaw/Lawstudent#24](https://github.com/pyhuanglaw/Lawstudent/pull/24)；BB 11-03 12:03 GO；GitHub Pages run 41633308118）
 
