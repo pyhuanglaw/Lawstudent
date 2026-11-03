@@ -1,0 +1,23 @@
+{
+  "rerun": "",
+  "id": "N19_wcst",
+  "sha": "21ab92db0",
+  "kind": "game",
+  "script": "tests/flow_wancai_stairs.py",
+  "env": "XARGS={url} {out}",
+  "machine": "MSI",
+  "start": "2026-11-03T21:45:26",
+  "end": "2026-11-03T21:48:27",
+  "seconds": 180,
+  "exit": 0,
+  "error": null,
+  "runner": "8565f3aa98",
+  "rf_round": "3",
+  "url": "http://127.0.0.1:8810/index.html",
+  "res_peak": {
+    "cpu": 37,
+    "mem": 58,
+    "used_gb": 18.4,
+    "chrome_testing": 29
+  }
+}

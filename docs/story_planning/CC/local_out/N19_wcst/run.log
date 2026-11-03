@@ -1,0 +1,33 @@
+[gpu_wrap] CC_GPU=1 跑 C:\Users\USER\Documents\wt_cc_N19_wcst\tests\flow_wancai_stairs.py http://127.0.0.1:8810/index.html C:\Users\USER\Documents\Lawstudent_cclocal\docs\story_planning\CC\local_out\N19_wcst\out
+PASS 遊戲載入
+  [前置／捷徑] 讀檔：星期六 10:00（第 8 天）、法學院廣場（萬才館大樓梯前 (74.52,-75.86)，面向樓梯）、晴天
+PASS 在廣場（地面那一層、高度 0）  {"zone": "campus", "x": 74.52, "z": -75.86, "ry": 2.41, "busy": false, "pose": "idle", "path": 0, "dlg": false, "dtext": "", "choices": 0, "interact": "", "hour": 10.02, "stand": true, "camYaw": 5.55, "fallbacks": 0, "y": 0, "lv": 0, "frame": 150, "paused": false}
+PASS 推搖桿走上大樓梯：經過樓梯中段（高度 1–3 m）、到樓梯頂端的平台（第 1 層、3.63 m）  推了 5 次；中段取樣 1 個；{"zone": "campus", "x": 84.03, "z": -86.43, "ry": 2.41, "busy": false, "pose": "idle", "path": 0, "dlg": false, "dtext": "", "choices": 0, "interact": "", "hour": 10.08, "stand": true, "camYaw": 5.55, "fallbacks": 0, "y": 3.63, "lv": 1, "frame": 555, "paused": false}
+  [  43.8s] 到達「弧形陽台（一樓入口正上方）」附近（0.17 m）：點地面 1 次、轉鏡頭 0 次、搖桿 0 次，4 秒
+PASS 點地面走到弧形陽台（第 1 層、3.63 m）  {"zone": "campus", "x": 90.63, "z": -83.81, "ry": 1.19, "busy": false, "pose": "idle", "path": 0, "dlg": false, "dtext": "", "choices": 0, "interact": "", "hour": 10.11, "stand": true, "camYaw": 5.55, "fallbacks": 0, "y": 3.63, "lv": 1, "frame": 794, "paused": false}
+PASS 站在一樓入口正上方：不會跳出「進入法律系館B」（那是陽台下面的門）  按鈕：「」
+  [  49.6s] 到達「二樓入口」附近（0.24 m）：點地面 2 次、轉鏡頭 0 次、搖桿 0 次，5 秒
+PASS 走到二樓入口（出現「進入法律系館B（二樓）」）  {"zone": "campus", "x": 86.19, "z": -88.16, "ry": 3.93, "busy": false, "pose": "idle", "path": 0, "dlg": false, "dtext": "", "choices": 0, "interact": "進入法律系館B（二樓）", "hour": 10.15, "stand": true, "camYaw": 5.55, "fallbacks": 0, "y": 3.63, "lv": 1, "frame": 1114, "paused": false}
+PASS 進入法律系館B（二樓）→ 室內二樓
+PASS 在法律系館B二樓的門廳（第 1 層、4.2 m）  {"zone": "wancai", "x": -6.2, "z": 5, "ry": 3.14, "busy": false, "pose": "idle", "path": 0, "dlg": false, "dtext": "", "choices": 0, "interact": "", "hour": 10.16, "stand": true, "camYaw": 6.283, "fallbacks": 0, "y": 4.2, "lv": 1, "frame": 1190, "paused": false}
+  [  61.3s] 到達「二樓的門（走出去）」附近（0.23 m）：點地面 1 次、轉鏡頭 0 次、搖桿 0 次，3 秒
+PASS 走出去（大樓梯平台）→ 回到校園
+PASS 回到平台（校園第 1 層、3.63 m）、站得住、沒有馬上又跳出進門按鈕  {"zone": "campus", "x": 84.83, "z": -87.31, "ry": -0.73, "busy": false, "pose": "idle", "path": 0, "dlg": false, "dtext": "", "choices": 0, "interact": "", "hour": 10.2, "stand": true, "camYaw": 2.409, "fallbacks": 0, "y": 3.63, "lv": 1, "frame": 1484, "paused": false}
+  [  76.0s] 到達「陽台」附近（0.24 m）：點地面 1 次、轉鏡頭 1 次、搖桿 0 次，7 秒
+PASS 在陽台上存檔：存檔記錄樓層（lv=1）、位置與高度  {"k": "fatiao3d_slot_3", "pos": {"x": 89.38, "z": -84.5, "yaw": 1.017, "lv": 1, "y": 3.63}}
+PASS 重新整理
+PASS 讀檔：回到萬才館陽台（第 1 層、3.63 m）  {"zone": "campus", "x": 89.38, "z": -84.5, "ry": 1.02, "busy": false, "pose": "idle", "path": 0, "dlg": false, "dtext": "", "choices": 0, "interact": "", "hour": 10.25, "stand": true, "camYaw": 4.159, "fallbacks": 0, "y": 3.63, "lv": 1, "frame": 94, "paused": false}
+PASS 讀檔在陽台上：小地圖照常顯示（畫地面那一層）  block
+  [ 101.9s] 到達「陽台東側」附近（0.28 m）：點地面 1 次、轉鏡頭 0 次、搖桿 0 次，3 秒
+PASS 讀檔之後走得動（走到陽台東側，還在第 1 層）  {"zone": "campus", "x": 91.91, "z": -82.88, "ry": 1, "busy": false, "pose": "idle", "path": 0, "dlg": false, "dtext": "", "choices": 0, "interact": "", "hour": 10.26, "stand": true, "camYaw": 4.159, "fallbacks": 0, "y": 3.63, "lv": 1, "frame": 212, "paused": false}
+  [ 111.3s] 到達「廣場（樓梯下）」附近（0.13 m）：點地面 1 次、轉鏡頭 1 次、搖桿 0 次，9 秒
+PASS 走下大樓梯回到廣場：經過樓梯中段、回到地面那一層（高度 0）  中段取樣 1 個；{"zone": "campus", "x": 74.62, "z": -76.94, "ry": -0.92, "busy": false, "pose": "idle", "path": 0, "dlg": false, "dtext": "", "choices": 0, "interact": "", "hour": 10.33, "stand": true, "camYaw": 1.979, "fallbacks": 0, "y": 0, "lv": 0, "frame": 547, "paused": false}
+  [ 131.5s] 到達「陽台下面的一樓入口」附近（0.21 m）：點地面 2 次、轉鏡頭 1 次、搖桿 0 次，19 秒
+PASS 走到陽台下面的一樓入口（地面、出現「進入法律系館B」）  {"zone": "campus", "x": 90.51, "z": -82.92, "ry": 2.21, "busy": false, "pose": "idle", "path": 0, "dlg": false, "dtext": "（有些人就是這樣，從「好像認識」開始的。）", "choices": 0, "interact": "進入法律系館B", "hour": 10.43, "stand": true, "camYaw": 5.076, "fallbacks": 0, "y": 0, "lv": 0, "frame": 1493, "paused": false}
+PASS 進入法律系館B → 一樓大廳
+  [ 138.2s] 到達「大廳出口」附近（0.75 m）：點地面 1 次、轉鏡頭 0 次、搖桿 0 次，3 秒
+PASS 離開法律系館B → 回到校園
+PASS 回到校園：一樓入口前面、地面那一層、站得住  {"zone": "campus", "x": 89.21, "z": -82.01, "ry": -0.73, "busy": false, "pose": "idle", "path": 0, "dlg": false, "dtext": "（有些人就是這樣，從「好像認識」開始的。）", "choices": 0, "interact": "", "hour": 10.49, "stand": true, "camYaw": 2.409, "fallbacks": 0, "y": 0, "lv": 0, "frame": 2013, "paused": false}
+PASS 劇情自動走路沒有用到卡住保險（walkFallbacks＝0）  0
+PASS 沒有 JS 例外  []
+ALL PASS
