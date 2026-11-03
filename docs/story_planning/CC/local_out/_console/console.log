@@ -479,3 +479,12 @@
 [07:11:00] solo item N20_tour_tap8 waits: no new items start until the 1 running item(s) finish
 [07:12:18] [res] cpu=42% mem=42% (13.5/31.4 GB) chrome_testing=0  END MAP_ctl
 [07:12:19] 正在跑：MAP_ctl（已跑 3 分／上限 30 分）——還沒測完，請不要關 (tests still running - please do not close)
+    To https://github.com/pyhuanglaw/Lawstudent.git
+       a52c2cc35..bb099981d  claude/cc-local -> claude/cc-local
+    branch 'claude/cc-local' set up to track 'origin/claude/cc-local'.
+[07:12:23] ==== END   MAP_ctl  exit=1  192s   ====
+[07:12:25] memory 42% before starting N20_tour_tap8 (0 running)
+[07:12:25] ==== START N20_tour_tap8  (probe @ d2b962a3f) ====
+[07:12:28] [res] cpu=44% mem=42% (13.4/31.4 GB) chrome_testing=0  START N20_tour_tap8
+[07:17:19] 正在跑：N20_tour_tap8（已跑 4 分／上限 90 分）——還沒測完，請不要關 (tests still running - please do not close)
+[07:17:55] [res] cpu=46% mem=43% (13.5/31.4 GB) chrome_testing=0  END N20_tour_tap8
