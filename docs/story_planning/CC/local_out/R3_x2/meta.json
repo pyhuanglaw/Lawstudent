@@ -1,0 +1,23 @@
+{
+  "rerun": "x2",
+  "id": "R3_x2",
+  "sha": "b1b249873",
+  "kind": "game",
+  "script": "tests/touch_flow_wenzhou.py",
+  "env": "XARGS={url};RERUN=x2",
+  "machine": "MSI",
+  "start": "2026-11-03T08:11:07",
+  "end": "2026-11-03T08:14:25",
+  "seconds": 198,
+  "exit": 0,
+  "error": null,
+  "runner": "a98287fbd6",
+  "rf_round": "5",
+  "url": "http://127.0.0.1:8807/index.html?turbo",
+  "res_peak": {
+    "cpu": 77,
+    "mem": 57,
+    "used_gb": 17.8,
+    "chrome_testing": 29
+  }
+}
