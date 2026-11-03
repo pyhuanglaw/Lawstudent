@@ -13,6 +13,7 @@ from lib2 import B, Mesh, g2b, bpy, bmesh, Vector, Matrix   # noqa: E402
 import plants as PL   # noqa: E402（cafe_layout 已經把 tools/blender 加進 sys.path）
 
 GEN = os.path.join(ENV2, 'textures', 'gen')
+AUTO_SEG = False   # 第二版（木曜日、山嵐 v2）設 True：小、薄的倒角方塊只倒一段（看不出差別，三角形少六成）
 DIRS = {'front': [0, 0, -1], 'back': [0, 0, 1], 'left': [1, 0, 0], 'right': [-1, 0, 0]}
 
 
@@ -49,7 +50,8 @@ class Xf:
     def p(self, x, y, z): return (self.px + x * self.c + z * self.s, self.py + y, self.pz - x * self.s + z * self.c)
     def M(self, x, y, z, extra=None):
         m = Matrix.Translation(g2b(*self.p(x, y, z))) @ Matrix.Rotation(self.ry, 4, 'Z'); return m @ extra if extra is not None else m
-    def rbox(self, m, x0, x1, y0, y1, z0, z1, r=0.02, seg=2, col=None):
+    def rbox(self, m, x0, x1, y0, y1, z0, z1, r=0.02, seg=None, col=None):
+        if seg is None: seg = 1 if AUTO_SEG and (min(abs(x1 - x0), abs(y1 - y0), abs(z1 - z0)) < 0.06 or r <= 0.008) else 2
         bm = L.rbox_bm(x1 - x0, y1 - y0, z1 - z0, r, seg)
         if col is not None: paint_bm(bm, col)
         m.add_bm(bm, self.M((x0 + x1) / 2, (y0 + y1) / 2, (z0 + z1) / 2)); bm.free(); return m
@@ -245,6 +247,13 @@ class Shop:
 
     def imgkeys(s): return getattr(s, '_imgkeys', set())
 
+    def tally(s, label):
+        """開發用：印出到目前為止累積的三角形（和上一次 tally 的差）——找出哪一段最花三角形"""
+        def tris(bm): return sum(len(f.verts) - 2 for f in bm.faces)
+        t = sum(tris(m.bm) for m in s._acc.values()) + sum(tris(m.bm) for ms in s.walls.values() for m in ms.values())
+        t += sum(sum(len(p.vertices) - 2 for p in ob.data.polygons) for ob in s.root.children_recursive if ob.type == 'MESH')
+        print(f'TALLY {label:24s} {t - getattr(s, "_tally", 0):7d}  total {t:7d}', flush=True); s._tally = t
+
 
 # ======================================================================== 家具
 def shell_chair(sh, x, z, ry, col, leg='#2c2c2c', lvl='', y0=0.0, wood_leg=None):
@@ -284,16 +293,17 @@ def shell_chair(sh, x, z, ry, col, leg='#2c2c2c', lvl='', y0=0.0, wood_leg=None)
 def bentwood_chair(sh, x, z, ry, key='vc', col='#5b3b27', lvl='', y0=0.0, seat_col=None):
     """曲木椅（木曜日：胡桃木）：圓座面（倒角）、四支微外八的腳、腳踏環、彎的椅背框＋兩根直條。約 500 三角形"""
     xf = Xf(x, z, ry, y0); m = sh.a(key, lvl); c = col if key in ('vc', 'vcg', 'vcm') else None
-    xf.lathe(m, [(0.0, 0.42), (0.19, 0.42), (0.205, 0.43), (0.205, 0.45), (0.19, 0.465), (0.0, 0.465)], 0, 0, 0, seg=18, col=seat_col or c)
+    lite = AUTO_SEG   # 第二版：輪廓上看得到的（座面、椅背弧）邊數照舊夠圓，看不到輪廓的細管少幾邊、不封口
+    xf.lathe(m, [(0.0, 0.42), (0.19, 0.42), (0.205, 0.43), (0.205, 0.45), (0.19, 0.465), (0.0, 0.465)], 0, 0, 0, seg=16 if lite else 18, col=seat_col or c)
     for a in range(4):
-        t = a * math.pi / 2 + math.pi / 4; xf.cyl(m, (math.cos(t) * 0.17, 0.0, math.sin(t) * 0.17), (math.cos(t) * 0.14, 0.43, math.sin(t) * 0.14), 0.014, col=c, seg=7)
-    ring = 0.155
-    for k in range(10):
-        a0, a1 = 2 * math.pi * k / 10, 2 * math.pi * (k + 1) / 10; xf.cyl(m, (math.cos(a0) * ring, 0.2, math.sin(a0) * ring), (math.cos(a1) * ring, 0.2, math.sin(a1) * ring), 0.008, col=c, seg=5)
-    pts = []
-    for k in range(13):
-        a = math.pi * (0.08 + 0.84 * k / 12); pts.append((math.cos(a) * 0.19, 0.44 + 0.42 * math.sin(a) ** 0.6, -0.17 - 0.03 * math.sin(a)))
-    for p, q in zip(pts, pts[1:]): xf.cyl(m, p, q, 0.013, col=c, seg=6)
+        t = a * math.pi / 2 + math.pi / 4; xf.cyl(m, (math.cos(t) * 0.17, 0.0, math.sin(t) * 0.17), (math.cos(t) * 0.14, 0.43, math.sin(t) * 0.14), 0.014, col=c, seg=6 if lite else 7, **({'caps': False} if lite else {}))
+    ring = 0.155; nr = 8 if lite else 10
+    for k in range(nr):
+        a0, a1 = 2 * math.pi * k / nr, 2 * math.pi * (k + 1) / nr; xf.cyl(m, (math.cos(a0) * ring, 0.2, math.sin(a0) * ring), (math.cos(a1) * ring, 0.2, math.sin(a1) * ring), 0.008, col=c, seg=4 if lite else 5, **({'caps': False} if lite else {}))
+    pts = []; na = 10 if lite else 12
+    for k in range(na + 1):
+        a = math.pi * (0.08 + 0.84 * k / na); pts.append((math.cos(a) * 0.19, 0.44 + 0.42 * math.sin(a) ** 0.6, -0.17 - 0.03 * math.sin(a)))
+    for p, q in zip(pts, pts[1:]): xf.cyl(m, p, q, 0.013, col=c, seg=6, **({'caps': False} if lite else {}))
     for sx in (-0.06, 0.06): xf.cyl(m, (sx, 0.465, -0.16), (sx, 0.8, -0.2), 0.009, col=c, seg=5)
     xf.cyl(m, (-0.17, 0.62, -0.18), (0.17, 0.62, -0.18), 0.009, col=c, seg=5)
 
@@ -311,7 +321,7 @@ def stool(sh, x, z, h=0.72, seat='#e08a4a', metal='#bfc2c4', lvl='', y0=0.0):
 def round_table(sh, x, z, r=0.33, h=0.74, top_key='wood', top_col=None, base_col='#2c2c2c', lvl='', y0=0.0, base='disc'):
     """圓桌：倒角圓桌面＋單柱＋圓底座（或四爪）"""
     xf = Xf(x, z, 0.0, y0); tm = sh.a(top_key, lvl); c = top_col if top_key in ('vc', 'vcg', 'vcm') else None
-    xf.lathe(tm, [(0.0, h - 0.035), (r - 0.012, h - 0.035), (r, h - 0.025), (r, h - 0.008), (r - 0.01, h), (0.0, h)], 0, 0, 0, seg=28, col=c)
+    xf.lathe(tm, [(0.0, h - 0.035), (r - 0.012, h - 0.035), (r, h - 0.025), (r, h - 0.008), (r - 0.01, h), (0.0, h)], 0, 0, 0, seg=22 if AUTO_SEG else 28, col=c)
     mm = sh.a('vcm', lvl)
     xf.cyl(mm, (0, 0.02, 0), (0, h - 0.035, 0), 0.03, col=base_col, seg=10)
     xf.lathe(mm, [(0.06, h - 0.035), (0.09, h - 0.05), (0.03, h - 0.08)], 0, 0, 0, seg=12, col=base_col)
@@ -344,7 +354,7 @@ def dome_pendant(sh, x, z, y, r=0.2, col='#6f8a5e', inner='#f4ecd8', cord_top=No
         xf.lathe(sh.a('vcg', lvl), [(r * 0.96, y - r * 0.9), (r * 0.8, y - r * 0.45), (r * 0.45, y - r * 0.14), (0.03, y - 0.03)], 0, 0, 0, seg=24, col=inner)
         sh.a('bulb', lvl).sphere((x, y - r * 0.55, z), 0.045, seg=10, rings=6)
     elif kind == 'scallop':
-        bm = bmesh.new(); seg = 40; rows = []
+        bm = bmesh.new(); seg = 30 if AUTO_SEG else 40; rows = []
         prof = [(0.03, 0.0), (r * 0.42, -0.02), (r * 0.72, -r * 0.22), (r * 0.9, -r * 0.48), (r * 1.0, -r * 0.7), (r * 1.04, -r * 0.8)]
         for j, (rr, hh) in enumerate(prof):
             ring = []
@@ -366,18 +376,19 @@ def dome_pendant(sh, x, z, y, r=0.2, col='#6f8a5e', inner='#f4ecd8', cord_top=No
 def table_lamp(sh, x, z, y=0.75, r=0.1, base_col='#8a6a3a', lvl=''):
     """小檯燈（木曜日每張桌子一盞）：黃銅細座＋乳白玻璃蘑菇燈罩"""
     xf = Xf(x, z, 0.0, y)
-    xf.lathe(sh.a('vcm', lvl), [(0.0, 0.0), (0.055, 0.0), (0.06, 0.008), (0.03, 0.02), (0.012, 0.03), (0.012, 0.2), (0.0, 0.2)], 0, 0, 0, seg=14, col=base_col)
-    xf.lathe(sh.a('shade', lvl), [(0.015, 0.17), (r * 0.6, 0.175), (r * 0.95, 0.21), (r, 0.25), (r * 0.8, 0.29), (r * 0.4, 0.31), (0.0, 0.315)], 0, 0, 0, seg=18)
+    xf.lathe(sh.a('vcm', lvl), [(0.0, 0.0), (0.055, 0.0), (0.06, 0.008), (0.03, 0.02), (0.012, 0.03), (0.012, 0.2), (0.0, 0.2)], 0, 0, 0, seg=10 if AUTO_SEG else 14, col=base_col)
+    xf.lathe(sh.a('shade', lvl), [(0.015, 0.17), (r * 0.6, 0.175), (r * 0.95, 0.21), (r, 0.25), (r * 0.8, 0.29), (r * 0.4, 0.31), (0.0, 0.315)], 0, 0, 0, seg=16 if AUTO_SEG else 18)
     CL.glow(sh.root, 'tablelamp', x, y + 0.24, z, color='rgba(255,200,130,1)', size=0.45, day=0.0, night=0.8)
 
 
 def mug(sh, x, z, y, col='#f2efe8', lvl='', r=0.04, h=0.09, handle=True):
     xf = Xf(x, z, 0.0, y)
-    xf.lathe(sh.a('vcg', lvl), [(0.0, 0.0), (r * 0.8, 0.0), (r, 0.01), (r, h), (r * 0.9, h), (r * 0.88, 0.012), (0.0, 0.012)], 0, 0, 0, seg=14, col=col)
+    xf.lathe(sh.a('vcg', lvl), [(0.0, 0.0), (r * 0.8, 0.0), (r, 0.01), (r, h), (r * 0.9, h), (r * 0.88, 0.012), (0.0, 0.012)], 0, 0, 0, seg=12 if AUTO_SEG else 14, col=col)
     if handle:
-        for k in range(5):
-            a0, a1 = math.pi * (-0.5 + k / 5), math.pi * (-0.5 + (k + 1) / 5)
-            xf.cyl(sh.a('vcg', lvl), (r + 0.025 * math.cos(a0), h * 0.5 + 0.025 * math.sin(a0), 0), (r + 0.025 * math.cos(a1), h * 0.5 + 0.025 * math.sin(a1), 0), 0.006, col=col, seg=5)
+        nh = 4 if AUTO_SEG else 5
+        for k in range(nh):
+            a0, a1 = math.pi * (-0.5 + k / nh), math.pi * (-0.5 + (k + 1) / nh)
+            xf.cyl(sh.a('vcg', lvl), (r + 0.025 * math.cos(a0), h * 0.5 + 0.025 * math.sin(a0), 0), (r + 0.025 * math.cos(a1), h * 0.5 + 0.025 * math.sin(a1), 0), 0.006, col=col, seg=4 if AUTO_SEG else 5, **({'caps': False} if AUTO_SEG else {}))
 
 
 def glass_cup(sh, x, z, y, h=0.13, r=0.035, fill='#b07a4a', lvl=''):
@@ -387,7 +398,7 @@ def glass_cup(sh, x, z, y, h=0.13, r=0.035, fill='#b07a4a', lvl=''):
 
 
 def plate(sh, x, z, y, r=0.1, col='#f2efe8', lvl=''):
-    Xf(x, z, 0.0, y).lathe(sh.a('vcg', lvl), [(0.0, 0.0), (r * 0.6, 0.0), (r * 0.65, 0.006), (r, 0.018), (r * 0.97, 0.02), (r * 0.6, 0.01), (0.0, 0.01)], 0, 0, 0, seg=18, col=col)
+    Xf(x, z, 0.0, y).lathe(sh.a('vcg', lvl), [(0.0, 0.0), (r * 0.6, 0.0), (r * 0.65, 0.006), (r, 0.018), (r * 0.97, 0.02), (r * 0.6, 0.01), (0.0, 0.01)], 0, 0, 0, seg=14 if AUTO_SEG else 18, col=col)
 
 
 def bottle(sh, x, z, y, h=0.28, r=0.035, col='#5a6a3a', lvl=''):
@@ -395,8 +406,9 @@ def bottle(sh, x, z, y, h=0.28, r=0.035, col='#5a6a3a', lvl=''):
 
 
 def jar(sh, x, z, y, h=0.16, r=0.05, col='#c9a26a', lid='#3a3a3a', lvl=''):
-    Xf(x, z, 0.0, y).lathe(sh.a('vcg', lvl), [(0.0, 0.0), (r, 0.0), (r, h * 0.85), (r * 0.8, h * 0.9)], 0, 0, 0, seg=12, col=col)
-    Xf(x, z, 0.0, y).lathe(sh.a('vcg', lvl), [(r * 0.82, h * 0.88), (r * 0.82, h), (0.0, h)], 0, 0, 0, seg=12, col=lid)
+    sg = 10 if AUTO_SEG else 12
+    Xf(x, z, 0.0, y).lathe(sh.a('vcg', lvl), [(0.0, 0.0), (r, 0.0), (r, h * 0.85), (r * 0.8, h * 0.9)], 0, 0, 0, seg=sg, col=col)
+    Xf(x, z, 0.0, y).lathe(sh.a('vcg', lvl), [(r * 0.82, h * 0.88), (r * 0.82, h), (0.0, h)], 0, 0, 0, seg=sg, col=lid)
 
 
 def book_rows(sh, mat_key, xf, u0, u1, y, v, hgt=0.3, depth=0.2, lvl='', rows=7, rng=None, top_row=7, gap=0.0):

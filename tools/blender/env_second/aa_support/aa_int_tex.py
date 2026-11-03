@@ -206,6 +206,91 @@ def mok():
     im.save(os.path.join(GEN, 'mok_print.png'))
 
 
+def mok_view():
+    """v2 窗景 mok_view.png（2048×1024；窗外卡片 14 × 6.5 m：x −6.5～7.5、y −1～5.5，離窗 2.5 m）：傍晚、逆光的老樹（一片一片的小葉子、
+    葉縫透出來的光）、樹後面對面的老公寓（磁磚、鐵窗、幾扇亮燈的窗）。v1 是 512×256 的格子、葉子一團一團，近看像色塊。"""
+    W, H = 2048, 1024; rng = random.Random(1103); np_r = np.random.default_rng(1103)
+    px_m = W / 14.0; py_m = H / 6.5
+    def X(x): return (x + 6.5) * px_m
+    def Y(y): return (5.5 - y) * py_m
+    sun = np.array([X(-3.5), Y(4.6)])
+    # 1. 天空：暖色漸層＋太陽附近的光暈
+    yy, xx = np.mgrid[0:H, 0:W].astype(np.float32)
+    t = yy / H; sky = np.array(hexc('#fbe7b8'), np.float32) * (1 - t[..., None]) + np.array(hexc('#f0d29c'), np.float32) * t[..., None]
+    dd = np.hypot(xx - sun[0], yy - sun[1]); sky += (np.exp(-dd / 260.0)[..., None] * np.array([50, 40, 22], np.float32))
+    im = Image.fromarray(np.clip(sky, 0, 255).astype(np.uint8)).convert('RGBA')
+    # 2. 對面的老公寓（樹後 8 m；陰影裡的暖灰，幾扇亮燈的窗、鐵窗、冷氣）
+    bl = Image.new('RGBA', (W, H), (0, 0, 0, 0)); bd = ImageDraw.Draw(bl); x = -40
+    while x < W:
+        bw = rng.randint(330, 520); top = Y(rng.uniform(4.6, 6.0)); base = rng.choice(['#c9b89c', '#bfae94', '#cdbfa6', '#b9a88e'])
+        bd.rectangle([x, top, x + bw, H], fill=hexc(base) + (255,))
+        for fy in np.arange(Y(5.2), H, 3.0 * py_m):   # 每層樓：一排窗
+            for wx in range(int(x + 30), int(x + bw - 90), rng.randint(120, 160)):
+                lit = rng.random() < 0.28; wc = '#f6d58e' if lit else rng.choice(['#8e8472', '#7d7566', '#9a8f7a'])
+                bd.rectangle([wx, fy, wx + 80, fy + 1.3 * py_m], fill=hexc(wc) + (255,))
+                for gx in range(wx, wx + 81, 10): bd.line([gx, fy, gx, fy + 1.3 * py_m], fill=(70, 64, 56, 230), width=2)   # 鐵窗
+                bd.rectangle([wx - 6, fy + 1.3 * py_m, wx + 86, fy + 1.3 * py_m + 8], fill=(120, 110, 96, 255))
+                if rng.random() < 0.25: bd.rectangle([wx + 86, fy + 0.6 * py_m, wx + 120, fy + 1.1 * py_m], fill=(214, 208, 196, 255))   # 冷氣
+            bd.rectangle([x, fy - 10, x + bw, fy - 4], fill=(150, 138, 118, 255))
+        bd.rectangle([x + bw - 3, top, x + bw + 3, H], fill=(128, 116, 98, 255))   # 兩棟之間的接縫
+        x += bw
+    fa = np.asarray(bl, np.float32); fa[..., :3] *= (1 + (noise(W, H, 5, 77) - 0.5)[..., None] * 0.08); bl = Image.fromarray(np.clip(fa, 0, 255).astype(np.uint8))
+    bl = bl.filter(ImageFilter.GaussianBlur(2.2)); im.alpha_composite(bl)
+    haze = Image.new('RGBA', (W, H), hexc('#f3dcac') + (70,)); im.alpha_composite(haze)   # 空氣感：遠的東西淡一點
+    # 3. 樹：兩棵老樹（樹幹、分枝），樹冠是幾百叢小葉子
+    tr = Image.new('RGBA', (W, H), (0, 0, 0, 0)); td = ImageDraw.Draw(tr); tips = []
+    def branch(x0, y0, ang, ln, wd, depth):
+        x1, y1 = x0 + math.cos(ang) * ln, y0 - math.sin(ang) * ln
+        n = 6
+        for i in range(n):   # 有一點彎的樹枝
+            a0 = (x0 + (x1 - x0) * i / n, y0 + (y1 - y0) * i / n); a1 = (x0 + (x1 - x0) * (i + 1) / n + rng.uniform(-3, 3), y0 + (y1 - y0) * (i + 1) / n + rng.uniform(-3, 3))
+            w_ = max(1, int(wd * (1 - 0.35 * i / n))); cc = (78 - depth * 4, 62 - depth * 3, 46, 255); td.line([a0, a1], fill=cc, width=w_)
+            td.ellipse([a1[0] - w_ / 2, a1[1] - w_ / 2, a1[0] + w_ / 2, a1[1] + w_ / 2], fill=cc)   # 圓的接頭（v2 初版接頭有亮縫）
+        if depth >= 5 or ln < 40: tips.append((x1, y1, depth)); return
+        for k in range(rng.choice([2, 3, 3])):
+            na = ang + rng.uniform(-0.8, 0.8); na = min(max(na, 0.15), math.pi - 0.15) if depth < 2 else na - 0.25 * math.cos(na)   # 外側的枝往下垂一點
+            branch(x1, y1, na, ln * rng.uniform(0.62, 0.8), wd * 0.66, depth + 1)
+        if depth >= 1: tips.append((x1, y1, depth))
+    for (bx, lean, size) in ((X(-1.2), 1.62, 1.0), (X(5.2), 1.45, 0.9)):   # 樹在對面人行道（窗外 2～3 m），分岔在二樓窗台下面：窗裡看到的是樹冠中段
+        fy = Y(-0.2); td.polygon([(bx - 36 * size, H), (bx - 22 * size, fy), (bx + 22 * size, fy), (bx + 40 * size, H)], fill=(84, 66, 48, 255))
+        for k in range(12): td.line([(bx - 24 * size + k * 4.5, H), (bx - 16 * size + k * 3, fy)], fill=(96 + (k % 3) * 8, 78, 56, 90), width=2)   # 樹皮的紋
+        for a in (lean + 0.75, lean - 0.7, lean + 0.25, lean - 0.2): branch(bx, fy, a, 300 * size, 24 * size, 0)
+    for k in range(16): tips.append((rng.uniform(0, W), rng.uniform(Y(4.2), Y(0.6)), 3))   # 別棵樹伸過來的枝：窗那一段也是葉子
+    leaf_cols = [(66, 90, 46), (82, 108, 54), (98, 124, 60), (58, 80, 42), (112, 134, 64), (74, 100, 50)]
+    sdir = np.array([-0.7, -0.7])
+    def leaf(dr, cx, cy, ln, ang, col):
+        ca, sa = math.cos(ang), math.sin(ang); w_ = ln * 0.42
+        pts = [(-ln / 2, 0), (-ln * 0.2, -w_ / 2), (ln * 0.2, -w_ * 0.45), (ln / 2, 0), (ln * 0.2, w_ * 0.45), (-ln * 0.2, w_ / 2)]
+        dr.polygon([(cx + p[0] * ca - p[1] * sa, cy + p[0] * sa + p[1] * ca) for p in pts], fill=col)
+    # 後面一層（暗、偏藍綠、模糊一點）
+    back = Image.new('RGBA', (W, H), (0, 0, 0, 0)); bkd = ImageDraw.Draw(back)
+    for (tx, ty, dp) in tips:
+        for j in range(60):
+            cx, cy = tx + rng.gauss(0, 70), ty + rng.gauss(0, 50); leaf(bkd, cx, cy, rng.uniform(10, 16), rng.uniform(0, 6.3), (52, 74, 48, 255))
+    back = back.filter(ImageFilter.GaussianBlur(1.6)); im.alpha_composite(back); im.alpha_composite(tr)
+    # 前面一層：每叢 150～260 片，叢的上緣、靠太陽那一側亮（逆光、透光的黃綠）
+    fr_ = Image.new('RGBA', (W, H), (0, 0, 0, 0)); fd = ImageDraw.Draw(fr_)
+    for (tx, ty, dp) in tips:
+        n = rng.randint(110, 200); rr = rng.uniform(40, 70)
+        for j in range(n):
+            ox, oy = rng.gauss(0, rr), rng.gauss(0, rr * 0.7); cx, cy = tx + ox, ty + oy
+            v = np.array([ox, oy]) / (rr * 1.4); lit = float(np.clip(np.dot(v, sdir) * 0.9 + 0.35 + rng.uniform(-0.25, 0.25), 0, 1))
+            base = np.array(rng.choice(leaf_cols), np.float32); hi = np.array(rng.choice([(176, 190, 92), (196, 200, 104), (156, 178, 80)]), np.float32)
+            c = base * (1 - lit) + hi * lit
+            if rng.random() < 0.07: c = np.array((214, 214, 120), np.float32)   # 透光的葉子
+            leaf(fd, cx, cy, rng.uniform(9, 17), rng.uniform(0, 6.3), tuple(int(q) for q in c) + (255,))
+    im.alpha_composite(fr_)
+    # 4. 葉縫的光（小光點＋光暈）、整體一點點柔焦
+    gl = Image.new('RGBA', (W, H), (0, 0, 0, 0)); gd = ImageDraw.Draw(gl)
+    for (tx, ty, dp) in tips:
+        if rng.random() < 0.45: continue
+        cx, cy = tx + rng.gauss(0, 45), ty + rng.gauss(0, 35); r_ = rng.uniform(2, 5)
+        gd.ellipse([cx - r_, cy - r_, cx + r_, cy + r_], fill=(255, 238, 196, 150))
+    glb = gl.filter(ImageFilter.GaussianBlur(7)); im.alpha_composite(glb); im.alpha_composite(gl.filter(ImageFilter.GaussianBlur(1.2)))
+    a = np.asarray(im.convert('RGB'), np.float32); a += np.exp(-dd / 420.0)[..., None] * np.array([34, 26, 10], np.float32)   # 太陽那一側的光霧
+    Image.fromarray(np.clip(a, 0, 255).astype(np.uint8)).filter(ImageFilter.GaussianBlur(0.6)).save(os.path.join(GEN, 'mok_view.png'))
+
+
 # ---------------------------------------------------------------- 山嵐書店
 def shl():
     rng = np.random.default_rng(613)
@@ -243,23 +328,28 @@ def shl():
         x0, y0 = 512 + k * 64, 640; col = ['#e8b4a0', '#a8c8d8', '#f0d890', '#b8d0a0', '#d8b8d8', '#f4f1ea', '#c9a27a', '#6b7f5a'][k]
         paper(im, (x0, y0, x0 + 64, y0 + 128), col, rng, grain=0.03)
         for j in range(4): d.line([x0, y0 + 20 + j * 28, x0 + 64, y0 + 30 + j * 28], fill='#ffffff', width=3)
-    # (0,6) 8×2：窗外的新生南路街景（路樹、對面騎樓、機車）
-    bx = box(0, 6, 8, 2); x0, y0, x1, y1 = bx; w, h = x1 - x0, y1 - y0
-    yy = np.linspace(0, 1, h)[:, None, None]; sky = np.array(hexc('#dfe8ea'), np.float32) * (1 - yy) + np.array(hexc('#eef0e6'), np.float32) * yy
-    im.paste(Image.fromarray(np.repeat(sky, w, axis=1).astype(np.uint8)), (x0, y0))
-    d.rectangle([x0, y0 + 40, x1, y0 + 200], fill='#cfc8bc')
-    for k in range(9):
-        for j in range(2): d.rectangle([x0 + 20 + k * 112, y0 + 60 + j * 50, x0 + 90 + k * 112, y0 + 90 + j * 50], fill='#9aa4a6')
-    d.rectangle([x0, y0 + 160, x1, y0 + 205], fill='#7f776c')
-    for k in range(10): d.rectangle([x0 + 10 + k * 104, y0 + 170, x0 + 90 + k * 104, y0 + 205], fill=('#b8a888', '#d8c8a8', '#9a8a70')[k % 3])
-    d.rectangle([x0, y0 + 205, x1, y1], fill='#8a8a86'); d.rectangle([x0, y0 + 205, x1, y0 + 214], fill='#b9b4aa')
-    r_ = random.Random(7)
-    for k in range(4):
-        tx = x0 + 120 + k * 260; d.polygon([(tx - 10, y1), (tx - 4, y0 + 90), (tx + 4, y0 + 90), (tx + 12, y1)], fill='#6a5a48')
-        for j in range(380):
-            cx = r_.gauss(tx, 90); cy = max(y0 + 14, r_.gauss(y0 + 60, 45)); rr = r_.uniform(5, 13)
-            d.ellipse([cx - rr, cy - rr, cx + rr, cy + rr], fill=r_.choice(['#6e8f4e', '#86a35c', '#5a7a42', '#9cb46c', '#4e6a3a']))
-    im = im.filter(ImageFilter.SMOOTH)
+    # (0,6) 8×2：書堆的側面（v2：v1 的街景沒用到，換成這個）。16 條、每條 64×128 px＝一疊 6 本（每本 0.03 m 一條色帶，由下往上）。
+    # 第 0～11 條：書背那一面（封面顏色＋書名的細字、偶爾一條書腰）；第 12～15 條：頁緣那一面（米白紙＋上下兩條封面色的細線）。
+    # Blender 端：shanlan_interior.py 的 stack()，n 本就用條的下面 n/6。
+    im = im.filter(ImageFilter.SMOOTH); d = ImageDraw.Draw(im); r_ = random.Random(76)
+    spal = ['#7b2d26', '#2f4a3a', '#1f2e45', '#c9b48a', '#e8e0cc', '#8c3b47', '#3e5a48', '#d9a441', '#5c3a21', '#6b4a7a', '#4a6c8c', '#b8462e',
+            '#e4d4b4', '#9fb4b8', '#d8b8a8', '#6f8a5e', '#c96a4a', '#efe6cf', '#2b2b2b', '#a8c0c8', '#e0c8c0']
+    for k in range(16):
+        x0, y0 = k * 64, 768
+        for b in range(6):
+            yb1 = y0 + 128 - b * 128 / 6; yb0 = yb1 - 128 / 6; col = r_.choice(spal)
+            if k >= 12:   # 頁緣
+                d.rectangle([x0, yb0, x0 + 63, yb1], fill=r_.choice(['#efe7d4', '#f3ecdc', '#e8dfca']))
+                for yy_ in range(int(yb0) + 4, int(yb1) - 3, 2): d.line([x0, yy_, x0 + 63, yy_], fill=r_.choice(['#e4dac3', '#f6f0e2']))
+                d.rectangle([x0, yb0, x0 + 63, yb0 + 2], fill=col); d.rectangle([x0, yb1 - 3, x0 + 63, yb1], fill=col)
+                continue
+            dark = sum(hexc(col)) < 400; fg = '#efe6cf' if dark else '#2a2a2a'
+            a = np.ones((int(yb1) - int(yb0), 64, 3), np.float32) * np.array(hexc(col), np.float32); a *= (1 + (noise(64, a.shape[0], 3, k * 7 + b) - 0.5)[..., None] * 0.08)
+            a[:2] *= 0.8; a[-2:] *= 0.72; im.paste(Image.fromarray(np.clip(a, 0, 255).astype(np.uint8)), (x0, int(yb0)))
+            tl = r_.randint(18, 34); tx = x0 + r_.randint(6, 12); cy = int((yb0 + yb1) / 2)
+            for q in range(tl // 5): d.rectangle([tx + q * 5, cy - 2, tx + q * 5 + 3, cy + 1], fill=fg)    # 橫排的書名（細字）
+            if r_.random() < 0.5: d.rectangle([x0 + 50, cy - 3, x0 + 56, cy + 2], fill=fg)                  # 出版社的小標
+            if r_.random() < 0.2: d.rectangle([x0, int(yb0) + 3, x0 + 63, int(yb0) + 7], fill=r_.choice(['#e8c43a', '#f2efe6', '#c4513e']))   # 書腰
     im.save(os.path.join(GEN, 'shl_print.png'))
 
 
@@ -311,13 +401,18 @@ def bookrows(fn, bg, seed, law=False):
             a *= (1 + n_[..., None] * 0.07); a[:, :2] *= 0.72; a[:, -2:] *= 0.8; a[:3] *= 0.9
             im.paste(Image.fromarray(np.clip(a, 0, 255).astype(np.uint8)), (x, y0 + 128 - h))
             dark = sum(hexc(col)) < 400; fg = '#efe6cf' if dark else '#2a2a2a'
-            if rng.random() < 0.55: d.rectangle([x + 2, y0 + 128 - h + 6, x + w - 3, y0 + 128 - h + 9], fill=fg); d.rectangle([x + 2, y0 + 120, x + w - 3, y0 + 123], fill=fg)
+            band = tuple(int(0.6 * a_ + 0.4 * b_) for a_, b_ in zip(hexc(fg), hexc(col)))
+            if rng.random() < 0.4: d.rectangle([x + 2, y0 + 128 - h + 6, x + w - 3, y0 + 128 - h + 8], fill=band); d.rectangle([x + 2, y0 + 120, x + w - 3, y0 + 122], fill=band)
             if lawrow:
                 t = rng.choice(lawn); gl = Image.new('RGB', (w, 30 * len(t)), col); gd = ImageDraw.Draw(gl)
                 for k, ch in enumerate(t): text_c(gd, (w / 2, 15 + k * 30), ch, F(min(26, w - 6)), fg)
                 gl = gl.resize((w, max(8, int(gl.size[1] / 2.67))), Image.LANCZOS); im.paste(gl, (x, y0 + 128 - h + 14))
-            else:
-                for k in range(rng.randint(2, 5)): d.rectangle([x + w // 2 - max(2, w // 6), y0 + 128 - h + 16 + k * 9, x + w // 2 + max(2, w // 6), y0 + 128 - h + 21 + k * 9], fill=fg)
+            else:   # v2：書名畫成直排的細字（一字一條短橫線，和底色混一半），不再是一格一格的方塊（v1 遠看像大樓的窗）
+                fgm = tuple(int(0.55 * a_ + 0.45 * b_) for a_, b_ in zip(hexc(fg), hexc(col))); tw = max(2, min(w // 3, 8)); ty = y0 + 128 - h + rng.randint(12, 20)
+                for k in range(rng.randint(3, 8)):
+                    if ty + 4 > y0 + 128 - 14: break
+                    d.rectangle([x + w // 2 - tw // 2, ty, x + w // 2 + tw // 2, ty + 1], fill=fgm); ty += rng.choice([4, 4, 5])
+                if w > 26 and rng.random() < 0.5: d.rectangle([x + w // 2 - tw // 2 - 1, y0 + 128 - 16, x + w // 2 + tw // 2 + 1, y0 + 128 - 11], fill=fgm)   # 出版社的小標
             x += w + 1
     y0 = 7 * 128   # 書頂：紙色的直條紋（頁緣）＋一本一本的間隙
     d.rectangle([0, y0, 1024, 1024], fill='#e6dcc6'); x = 0
@@ -330,7 +425,7 @@ if __name__ == '__main__':
     os.makedirs(GEN, exist_ok=True)
     w = sys.argv[1] if len(sys.argv) > 1 else 'all'
     if w in ('dof', 'all'): dof()
-    if w in ('mok', 'all'): mok()
+    if w in ('mok', 'all'): mok(); mok_view()
     if w in ('shl', 'all'): shl()
     if w in ('mok', 'all'): bookrows('mok_bookrows.png', '#3b2a1f', 618)
     if w in ('shl', 'all'): bookrows('shl_bookrows.png', '#a88a62', 613, law=True)
