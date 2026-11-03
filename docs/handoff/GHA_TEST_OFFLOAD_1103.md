@@ -59,7 +59,8 @@
 | 11-03 00:42 | GitHub（試用，run 41554813408） | main e3d773589 | 1 支（nav_levels_unit） | success | job 49 秒：checkout 淺層 45 秒、測試約 1 秒 |
 | 11-03 約 00:41～00:54 | Claude 雲端機器（4 核，`xargs -P 4`，每支 timeout 240 秒） | int/m591 ceb107098 | 全部 902 支 tests/*_unit.js | 902 支通過（bookstore_exit 最後一行固定是 `}`） | **約 13 分鐘**（結束 00:54:27；開始時間是約略值） |
 | 11-03 01:08 | GitHub（run 41557768927） | 開發分支 bc8ffc08f | 全部 | **被取消**（換測 7224af47a，cancel-in-progress） | checkout 完整歷史（fetch-depth 0）**47 秒**；切版本 1 秒；setup-node 1 秒；測試跑了 10 分 48 秒（01:09:38～01:20:26）還沒跑完就取消；部分結果在 artifact node-sweep-out |
-| 11-03 01:19 | GitHub（run 41558969904） | 開發分支 7224af47a（下一版驗收版本） | 全部 | **進行中**——接班的 LAWWW 打開網址看結論、執行摘要（失敗／看不出結果／輸出有跳過字樣）、各步驟時間，填進這一列 | ？ |
+| 11-03 01:19 | GitHub（run 41558969904） | 開發分支 7224af47a（下一版驗收版本） | 全部 | **failure**（有測試失敗；失敗清單只寫在執行摘要和 artifact，Claude 雲端機器連不到 artifact 的儲存網址 productionresultssa17.blob.core.windows.net＝被網路政策擋，讀不到是哪幾支） | 排隊約 1 分鐘；checkout 完整歷史 **40 秒**；**測試 12 分 8 秒**（01:21:17～01:33:25）；整個 job 12 分 54 秒——**和 Claude 雲端機器約 13 分鐘差不多** |
+| 11-03 01:34 | GitHub（改 workflow 把清單印進執行紀錄，自動重跑同一版） | 7224af47a | 全部 | 進行中——用 get_job_logs（return_content）讀「整理結果」那一步 | ？ |
 
 **下一個 LAWWW 要做的（輪到這項工作時）**
 1. 打開 https://github.com/pyhuanglaw/Lawstudent/actions/runs/41558969904 ：結論、「全部 Node 單元測試」那一步花多久、執行摘要的三份清單；結果交 BB（BB 11-03 01:18 說 GO 要等 GHA Node 結果）。
