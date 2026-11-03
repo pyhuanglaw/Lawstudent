@@ -280,6 +280,53 @@ const CHAR = (function(){
       const pre=i?'right':'left', F=u.rawFing||(u.rawFing={}), fb=F[pre]||(F[pre]=['Index','Middle','Ring','Little'].map(f=>['Proximal','Intermediate','Distal'].map(j=>hm.getRawBoneNode(pre+f+j))));
       if(fb[0][0]&&fb[3][0]&&K.grip){ const ax=fb[0][0].getWorldPosition(CLV[4]).sub(fb[3][0].getWorldPosition(CLV[5])); if(ax.lengthSq()>1e-8){ ax.normalize(); const sg=i?1:-1;
         for(const row of fb) for(let j=0;j<3;j++){ const b=row[j]; if(b) rotWorld(b,ax,sg*K.grip[j]*w); } } } } }
+  /* 坐著讀書（pose 'read'；READ-POSE-BOOK-1103，使用者 11-03 附 Café 截圖：「不管事咖啡廳 還是圖書館 都給我這樣念書 會笑出來 書在哪」——舊版只有 READ_VRM 的手臂角度：兩手往前下方張開、手上沒有書）。
+     每一個讀書的人（VRM、GLB driver 都一樣；Café 沙發、總圖書桌、教室）手上捧一本打開的書（PROPS.readBook：tools/blender/char_second/book_open.py 的 GLB），在真實骨架上：
+     ① 書：在兩條大腿根中間的正前方——hips 往上 dy、往前 dz（乘身高比例 u.k；書本身是真實尺寸、不縮放），頁面朝向眼睛（兩眼骨頭的中點；沒有眼睛骨頭用頭往上、往前一點），
+        左頁在人物的左邊；書掛在 vrmWrap（u.model）底下、每一幀照骨頭放（世界矩陣換成 wrap 的座標，wrap 的縮放抵掉）。
+     ② 兩手：和 rideIK／climbIK 同一套兩段式 IK（ik2）：手腕放到書的左右外緣、偏下半部、在封面後面（手掌貼著封底、手指往書溝、往上，大拇指在書的外緣）；手肘往下、往外、往後（pole）。
+     ③ 手掌方向：手指（手腕→中指根）＝書的「往內＋往上」，掌心＝朝向書（書的 +z，也就是朝讀的人）；掌心方向用真實骨架算（食指根→小指根 × 手指方向，左右手號相反：和 VRM 0.x／1.0 無關）。
+     ④ 手指貼著封底、往掌心微彎（grip＝指根、中節和掌心那一面的夾角，弧度）＝扶著封底。頭往下看書（READ_VRM、Head 0.35 rad）。
+     C.READ_BOOK 的長度都是公尺；書的尺寸照 book_open.json（W＝單頁寬、back＝外緣封底的 z）。C.readIK=false：不放書、手照 READ_VRM（比較用）。u.readHands＝[左手腕, 右手腕] 的目標（世界座標，測試用：tests/read_book_unit.js）*/
+  C.readIK=true;
+  C.READ_BOOK={dy:0.2,dz:0.3,W:0.15,back:-0.0005,palmIn:0.035,palmY:-0.035,palmOff:0.022,palm:0.045,fx:0.5,fy:0.85,grip:[0.06,0.16]};
+  const RBV=[0,1,2,3,4,5,6,7,8].map(()=>new THREE.Vector3()), RBM=[new THREE.Matrix4(),new THREE.Matrix4(),new THREE.Matrix4()], RBQ=[new THREE.Quaternion(),new THREE.Quaternion(),new THREE.Quaternion()];
+  /* 手掌的世界方向：f＝手腕→中指根、n＝掌心（左手 +(f×a)、右手 −(f×a)，a＝食指根→小指根的反方向＝小指根→食指根）；回傳正交化的 [f, n] 或 null */
+  function palmFrame(hand,idx,mid,lit,left,f,n){ if(!hand||!idx||!mid||!lit) return false; const p=hand.getWorldPosition(RBV[6]); f.copy(mid.getWorldPosition(RBV[7])).sub(p); const a=idx.getWorldPosition(RBV[8]).sub(lit.getWorldPosition(RBV[7]));
+    if(f.lengthSq()<1e-10||a.lengthSq()<1e-10) return false; f.normalize(); n.crossVectors(f,a); if(!left) n.negate(); n.addScaledVector(f,-n.dot(f)); if(n.lengthSq()<1e-10) return false; n.normalize(); return true; }
+  /* 把 b 在世界座標轉 q（左乘）*/
+  function rotWorldQ(b,q){ b.parent.getWorldQuaternion(RBQ[0]); RBQ[1].copy(RBQ[0]).invert(); b.quaternion.premultiply(RBQ[0]).premultiply(q).premultiply(RBQ[1]); b.updateWorldMatrix(false,true); }
+  function basisQ(f,n,out){ const s=RBV[5].crossVectors(f,n); RBM[2].makeBasis(f,n,s); return out.setFromRotationMatrix(RBM[2]); }
+  /* get(名稱)：VRM humanoid 骨頭名稱（leftUpperArm…）→ 真實骨架的節點 */
+  function readIK(h,u,get){ const K=C.READ_BOOK, k=u.k||1; const hips=get('hips'), lUL=get('leftUpperLeg'), rUL=get('rightUpperLeg'), head=get('head');
+    const AR=[['leftUpperArm','leftLowerArm','leftHand'],['rightUpperArm','rightLowerArm','rightHand']].map(L=>L.map(get));
+    if(!hips||!head||AR.some(L=>L.some(b=>!b))) return;
+    if(!u.readBook){ if(typeof PROPS==='undefined'||!PROPS.readBook) return; u.readBook=PROPS.readBook(); u.model.add(u.readBook); }
+    h.updateWorldMatrix(true,true); const Lc=(b,v)=>h.worldToLocal(b.getWorldPosition(v));
+    // ① 書的位置、方向（人物座標：x 往左、y 往上、z 往前）
+    const hp=Lc(hips,RBV[0]); const cx=lUL&&rUL?(Lc(lUL,RBV[1]).x+Lc(rUL,RBV[2]).x)/2:hp.x;
+    const ctr=RBV[3].set(cx,hp.y+K.dy*k,hp.z+K.dz*k);
+    const eL=get('leftEye'), eR=get('rightEye'); let eye; if(eL&&eR){ eye=Lc(eL,RBV[1]).add(Lc(eR,RBV[2])).multiplyScalar(0.5); } else { eye=Lc(head,RBV[1]).add(RBV[2].set(0,0.06*k,0.06*k)); }
+    const Z=RBV[4].copy(eye).sub(ctr).normalize(), X=RBV[2].set(-1,0,0); X.addScaledVector(Z,-X.dot(Z)).normalize(); const Y=RBV[1].crossVectors(Z,X);   /* X＝書的右邊＝人物的右邊（−x）*/
+    const ML=RBM[0].makeBasis(X,Y,Z).setPosition(ctr), MW=RBM[1].multiplyMatrices(h.matrixWorld,ML);
+    const bk=u.readBook; u.model.updateWorldMatrix(true,false); bk.matrix.copy(u.model.matrixWorld).invert().multiply(MW); bk.matrix.decompose(bk.position,bk.quaternion,bk.scale); bk.updateMatrixWorld(true);
+    const bookQ=RBQ[2].setFromRotationMatrix(MW); const nW=new THREE.Vector3(0,0,1).applyQuaternion(bookQ);
+    // ② 兩手
+    const hands=[];
+    for(const [i,side] of [[0,1],[1,-1]]){ const L=AR[i], bx=-side, pre=i?'right':'left';   /* 左手（人物 +x）在書的 −x */
+      const fB=new THREE.Vector3(-bx*K.fx,K.fy,0).normalize(), pc=new THREE.Vector3(bx*(K.W-K.palmIn),K.palmY,K.back-K.palmOff);
+      const wB=pc.addScaledVector(fB,-K.palm), T=wB.applyMatrix4(MW); hands.push(T.clone());
+      const sh=Lc(L[0],new THREE.Vector3()); const pole=h.localToWorld(sh.add(new THREE.Vector3(side*0.45*k,-0.6*k,-0.2*k)));
+      ik2(L[0],L[1],L[2],T,pole);
+      // ③ 手掌方向
+      const F=u.rawFingRead||(u.rawFingRead={}), fb=F[pre]||(F[pre]=['Index','Middle','Ring','Little'].map(f=>['Proximal','Intermediate','Distal'].map(j=>get(pre+f+j))));
+      const fc=new THREE.Vector3(), nc=new THREE.Vector3();
+      if(palmFrame(L[2],fb[0][0],fb[1][0],fb[3][0],i===0,fc,nc)){ const fw=fB.clone().transformDirection(MW), nw=nW.clone(); nw.addScaledVector(fw,-nw.dot(fw)).normalize();
+        const qc=basisQ(fc,nc,new THREE.Quaternion()), qd=basisQ(fw,nw,new THREE.Quaternion()); rotWorldQ(L[2],qd.multiply(qc.invert()));
+        // ④ 手指貼著封底、往掌心微彎：每一節手指（指根、中節）的方向和掌心那一面的夾角設成 grip（累積；不管模型原本的手指是直的還是彎的：GLB 的綁定姿勢手指本來就彎）
+        if(K.grip){ const nn=nw; for(const row of fb) for(let j=0;j<2;j++){ const b=row[j], c=row[j+1]; if(!b||!c) continue; const d=c.getWorldPosition(RBV[5]).sub(b.getWorldPosition(RBV[6])); const ln=d.length(); if(ln<1e-5) continue;
+            const cur=Math.asin(Math.max(-1,Math.min(1,d.dot(nn)/ln))), ax=RBV[7].crossVectors(d,nn); if(ax.lengthSq()<1e-12) continue; ax.normalize(); rotWorld(b,ax,K.grip[j]-cur); } } } }
+    u.readHands=hands; }
   const RA={}, SFV=[new THREE.Vector3(),new THREE.Vector3(),new THREE.Vector3(),new THREE.Vector3(),new THREE.Vector3()];
   function sitFeet(h,u){ const hm=u.vrm.humanoid; const B=u.rawLegs||(u.rawLegs=(()=>{ const o={}; for(const L of LEGS) for(const n of L) o[n]=hm.getRawBoneNode(n); return o; })());
     if(LEGS.some(L=>L.slice(0,3).some(n=>!B[n]))) return;
@@ -313,6 +360,8 @@ const CHAR = (function(){
     if(!isFinite(lo)) return; const sc=h.getWorldScale(SFV[2]).y||1; u.model.position.y+=(gy+u.sitFloor+0.05-lo)/sc; u.model.updateWorldMatrix(false,true); }
   function animateVRM(h,dt,st){ const u=h.userData; const a=u.anim; a.t+=dt; const pose=st.pose||'idle'; const B=u.bones; const spd=st.speed||0; const vrm=u.vrm; const sx=u.sx||1;
     if(u.props){ const sitting=pose==='sit'||pose==='read', lying=pose==='lie'; for(const k in u.props){ const d=typeof PROPS!=='undefined'&&PROPS.DEF[k]; const o=u.props[k]; if(!o) continue; if(d&&d.sit==='only'){ o.visible=sitting&&!!(u.propOn&&u.propOn[k]===true); continue; } if(!(k==='backpack'||k==='guitar'||k==='bag_yu'||(d&&d.sit==='hide'))) continue; o.visible=!sitting&&!lying&&!(u.propOn&&u.propOn[k]===false); } }   /* 躺在床上也藏（後背包，DORM-SLEEP-1030）*/   /* 坐下時藏：後背包、吉他、側背包＋PROPS.DEF 的 sit:'hide'（垂著拿的東西）；sit:'only'＝坐下而且開了才看得到（NPC-POOL-ART-1028）*/
+    u.readOn=pose==='read'&&C.readIK&&!(u.props&&u.props.laptop_lap&&u.props.laptop_lap.visible); if(u.readBook) u.readBook.visible=!!u.readOn;   /* 讀書：手上那本打開的書（readIK；腿上開著筆電的時候不拿書）*/
+    if(u.props&&pose==='read'!==!!u.readHeldOff){ u.readHeldOff=pose==='read'; for(const k in u.props){ const d=typeof PROPS!=='undefined'&&PROPS.DEF[k], o=u.props[k]; if(!o||!d||!/LowerArm$|Hand$/.test(d.bone)||k==='bandage'||d.sit) continue; o.visible=!u.readHeldOff&&!(u.propOn&&u.propOn[k]===false); } }   /* 讀書的時候手上原本拿的東西（小說、法典、講義、馬克杯…）先收起來：兩手在捧書。繃帶照舊；sit:'hide'／'only' 上面已經處理 */
     u.ride=pose==='ride'?(st.ride||{crank:0}):null;   u.climbOn=pose==='climb'; if(!u.climbOn) u.climbW=0;   /* 爬梯子：手、上身在 climbIK（真實骨架）*/
     if(pose!=='lie'&&u.model.rotation.x!==0) u.model.rotation.x=0;   /* 從躺姿起來：整個人轉回直立（DORM-SLEEP-1030）*/
     if(pose==='ride'){ if(!a.static||a.staticKind!=='ride'){ for(const n in a.actions) a.actions[n].stop(); a.static=true; a.staticKind='ride'; a.cur=null; vrm.humanoid.resetNormalizedPose(); } u.ikDrop=0; u.ikSt=null; setBonesV(B,RIDE_VRM,sx); if(B.Head) B.Head.rotation.set(-0.22*sx,0,0); }   /* 頭往上抬，看前面的路（胸口、頭每一幀都由表重設，下面的注視「加」轉角不會累加）*/   /* 騎車：人物的高度、前後位置在 rideIK 依髖關節對座墊 */
@@ -337,7 +386,7 @@ const CHAR = (function(){
     if(pose==='lie'&&!st.lookAt) u.look.position.set(0,1.6,-1.4);   /* 躺著：眼睛看天花板（不是看腳那邊）*/
     // 表情：眨眼、嘴型
     const em=vrm.expressionManager; if(em){ a.blink-=dt; if(a.blink<=0){ a.blinkT=0.14; a.blink=2.5+Math.random()*3.5; } if(a.blinkT>0){ a.blinkT-=dt; em.setValue('blink',a.blinkT>0.07?1:(a.blinkT/0.07)); } else em.setValue('blink',0); if(u.eyesShut) em.setValue('blink',1);   /* 睡著（story3d.js 的睡覺流程設 h.userData.eyesShut）*/ const target=pose==='talk'?(0.08+Math.abs(Math.sin(a.t*9))*0.3):0; a.mouth+=(target-a.mouth)*Math.min(1,dt*14); em.setValue('aa',a.mouth); }
-    updateVRM(vrm,dt,()=>{ footIK(h,u,u.ikSt,dt); sitFeet(h,u); sitFloorFit(h,u); if(u.ride) rideIK(h,u); if(u.climbOn) climbIK(h,u,dt); if(u.drive) skirtDrive(u.drive); },u.isFar); }
+    updateVRM(vrm,dt,()=>{ footIK(h,u,u.ikSt,dt); sitFeet(h,u); sitFloorFit(h,u); if(u.ride) rideIK(h,u); if(u.climbOn) climbIK(h,u,dt); if(u.readOn) readIK(h,u,u.rawGet||(u.rawGet=n=>vrm.humanoid.getRawBoneNode(n))); if(u.drive) skirtDrive(u.drive); },u.isFar); }
   // VRM 更新：彈簧骨（頭髮、馬尾）用固定小步長。低幀率（SwiftShader 1–4 fps、手機突然卡頓）時一次積分太大，馬尾會失穩往上翹
   // 彈簧骨前先更新整個 VRM 的 world matrix：three-vrm 用「子骨頭的 matrixWorld」算骨長，人物移動／瞬移／動畫之後子骨頭還停在上一幀，
   // 低幀率時一幀差幾十公分 → 骨長算錯、頭髮被甩到耳朵高度往外翹（林芷若走路截圖；30 fps 時也會讓髮尾抖）
@@ -403,6 +452,9 @@ const CHAR = (function(){
     root.userData={driver:'glb',spec,k:H/1.75,parts:{},model,bones,headMesh,anim:{t:Math.random()*10,expr:'normal',pose:'idle',mixer,actions,cur:null,static:false,mouth:0}}; if(actions.idle){ actions.idle.play(); root.userData.anim.cur='idle'; }
     return root; }
   // ---- 動畫 ----
+  /* VRM humanoid 骨頭名稱 → Mixamo 相容骨架（GLB driver 的 readIK 用）*/
+  const GLB_BONE={hips:'Hips',head:'Head',leftEye:'LeftEye',rightEye:'RightEye',leftUpperLeg:'LeftUpLeg',rightUpperLeg:'RightUpLeg'};
+  for(const [s,S] of [['left','Left'],['right','Right']]){ Object.assign(GLB_BONE,{[s+'UpperArm']:S+'Arm',[s+'LowerArm']:S+'ForeArm',[s+'Hand']:S+'Hand'}); for(const [f,F] of [['Index','Index'],['Middle','Middle'],['Ring','Ring'],['Little','Pinky']]) ['Proximal','Intermediate','Distal'].forEach((j,i)=>{ GLB_BONE[s+f+j]=S+'Hand'+F+(i+1); }); }
   const SIT={LeftUpLeg:[1.45,0,0.08],RightUpLeg:[1.45,0,-0.08],LeftLeg:[1.5,0,0],RightLeg:[1.5,0,0],LeftFoot:[0,0,0],RightFoot:[0,0,0],LeftArm:[0.9,0,0.35],RightArm:[0.9,0,-0.35],LeftForeArm:[0,0,0],RightForeArm:[0,0,0]};
   const READ={LeftArm:[1.2,0,0.9],RightArm:[1.2,0,-0.9],LeftForeArm:[0,0,1.2],RightForeArm:[0,0,-1.2]};
   function setBones(bones,tab,blend){ for(const n in tab){ const b=bones[n]; if(!b) continue; const r=tab[n]; if(blend>=1){ b.rotation.set(r[0],r[1],r[2]); } else { b.rotation.x+=(r[0]-b.rotation.x)*blend; b.rotation.y+=(r[1]-b.rotation.y)*blend; b.rotation.z+=(r[2]-b.rotation.z)*blend; } } }
@@ -413,6 +465,8 @@ const CHAR = (function(){
       if(pose==='talk'&&B.Head){ B.Head.rotation.x+=Math.sin(a.t*1.4)*0.05; B.Head.rotation.y+=Math.sin(a.t*0.8)*0.08; if(B.RightArm){ const g=Math.sin(a.t*2.2); B.RightArm.rotation.z-=0.35+g*0.1; if(B.RightForeArm) B.RightForeArm.rotation.z-=0.9+g*0.15; } } }
     // 注視
     if(st.lookAt&&B.Head){ const dx=st.lookAt.x-h.position.x, dz=st.lookAt.z-h.position.z; let ang=Math.atan2(dx,dz)-h.rotation.y; ang=Math.atan2(Math.sin(ang),Math.cos(ang)); ang=Math.max(-0.7,Math.min(0.7,ang)); B.Head.rotation.y+=ang*0.8; if(B.Spine1) B.Spine1.rotation.y+=ang*0.15; }
+    // 讀書：手上那本打開的書（readIK，和 VRM 同一套；骨頭名稱照 Mixamo）
+    u.readOn=pose==='read'&&C.readIK; if(u.readBook) u.readBook.visible=!!u.readOn; if(u.readOn) readIK(h,u,u.glbGet||(u.glbGet=n=>B[GLB_BONE[n]]||null));
     // 嘴型（說話時）與表情
     if(u.headMesh){ const d=u.headMesh.morphTargetDictionary, inf=u.headMesh.morphTargetInfluences; if(d.mouthOpen!==undefined){ const target=pose==='talk'?(0.15+Math.abs(Math.sin(a.t*9))*0.35):0; a.mouth+=(target-a.mouth)*Math.min(1,dt*14); inf[d.mouthOpen]=a.mouth; } } };
   C.setExpr=function(h,expr){ const u=h.userData; if(u.driver==='vrm'){ C.setExprVRM(h,expr); return; } if(u.driver!=='glb'){ P3.setExpr(h,expr); return; } u.anim.expr=expr; const hm=u.headMesh; if(!hm) return; const d=hm.morphTargetDictionary, inf=hm.morphTargetInfluences; if(d.mouthSmile!==undefined) inf[d.mouthSmile]=(expr==='smile'?0.55:(expr==='laugh'?0.9:(expr==='shy'?0.3:0))); };
