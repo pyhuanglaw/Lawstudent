@@ -52,7 +52,9 @@ const card=id=>{ const m=(G.social.mem[id]||[]).find(x=>x.tag==='FRIEND_CARD'); 
     check('C3. 3-1 另一個選項：「九點開始。……不要跟阿哲說，他會拉我去吃宵夜。」',said.includes('阿凱：九點開始。……不要跟阿哲說，他會拉我去吃宵夜。')); }
   // ---------- 3-2 柏翰「第一排」----------
   { const e=ev('ev_card_bohan'); fresh(); at('2025-09-11',13);
-    check('C4. 3-2 條件：民總上課前（beforeClass civ_general）、第 2 週（撞到別的事件延到下一次民總，最晚第 5 週）',e.trigger==='class'&&e.beforeClass==='civ_general'&&JSON.stringify(e.weeks)==='[2]'&&e.carryTo===5&&EVENTS.check(e)&&(()=>{ G.day=day('2025-09-04'); const w1=EVENTS.check(e); G.day=day('2025-10-09'); const w6=EVENTS.check(e); return !w1&&!w6; })());
+    check('C4. 3-2 條件：民總上課前（beforeClass 只認 civ_general）、第 2 週（撞到別的事件延到下一次民總，最晚第 5 週）',e.trigger==='class'&&typeof e.beforeClass==='function'&&e.beforeClass({c:{id:'civ_general'}})&&!e.beforeClass({c:{id:'const_1'}})&&JSON.stringify(e.weeks)==='[2]'&&e.carryTo===5&&EVENTS.check(e)&&(()=>{ G.day=day('2025-09-04'); const w1=EVENTS.check(e); G.day=day('2025-10-09'); const w6=EVENTS.check(e); return !w1&&!w6; })());
+    { fresh(); at('2025-09-11',13); const d={id:'ev_test_before',trigger:'class',location:'any',beforeClass:'civ_general',once:true,dialogue:[]}; STORY_EVENTS.push(d); const y=e.beforeClass({c:{id:'civ_general'}}); STORY_EVENTS.pop();
+      check('C4b. AA_606 第 5 節：同一堂民總已經有別的上課前事件＝柏翰這場讓位（延到下一次）',y===false&&e.beforeClass({c:{id:'civ_general'}})===true); }
     fresh(); at('2025-09-11',13); SOCIAL.meet('classmate_bohan','dorm'); const f0=fam('classmate_bohan'); await EVENTS.run(e);
     check('C5. 3-2 台詞（沒有 9/1 那場：「{name}。這裡。」；預設「你真的量過？」）；記 FRIEND_CARD、熟悉 +2',!block(['（民總。第一排正中間，柏翰已經把課本、筆記本、三支筆排好。）','祐廷。這裡。','第一排聽得最清楚。我量過，第八排開始，老師的聲音會被冷氣蓋掉。','上週。每一排坐五分鐘。','我念得慢。坐前面，回去可以少讀一遍。'])&&said.includes('柏翰：祐廷。這裡。')&&G.flags.FRIEND_CARD_classmate_bohan===true&&card('classmate_bohan')==='第一排'&&fam('classmate_bohan')-f0===2,said.join(' / '));
     fresh(); at('2025-09-11',13); G.events.done.ev_bohan_w1_front=1; picks=['好，我坐這']; await EVENTS.run(e);
@@ -73,6 +75,8 @@ const card=id=>{ const m=(G.social.mem[id]||[]).find(x=>x.tag==='FRIEND_CARD'); 
   // ---------- 3-4 明軒「公館便宜好吃.xlsx」----------
   { const e=ev('ev_card_mingxuan'); fresh(); at('2025-09-15',12.2);
     check('C12. 3-4 條件：任一門必修下課（afterClass）、第 3 週起（最晚第 5 週）',e.trigger==='class'&&typeof e.afterClass==='function'&&e.afterClass({c:{id:'const_1',kind:'required'}})&&!e.afterClass({c:{id:'x',kind:'elective'}})&&JSON.stringify(e.weeks)==='[3]'&&e.carryTo===5&&EVENTS.check(e)&&(()=>{ G.day=day('2025-09-08'); return !EVENTS.check(e); })());
+    { fresh(); at('2025-09-15',12.2); const d={id:'ev_test_after',trigger:'class',location:'any',afterClass:'const_1',once:true,dialogue:[]}; STORY_EVENTS.push(d); global.CLS={afterClassOk:it=>x=>(x.afterClass===it.c.id||(typeof x.afterClass==='function'&&x.afterClass(it)))&&EVENTS.check(x,{chain:true})}; const it={c:{id:'const_1',kind:'required'}}, y=e.afterClass(it); STORY_EVENTS.pop(); const y2=e.afterClass(it); delete global.CLS;
+      check('C12b. AA_606 第 5 節：同一堂下課已經有別的下課事件（例：sup497 的固定場次）＝明軒這場讓位',y===false&&y2===true,JSON.stringify([y,y2])); }
     fresh(); at('2025-09-15',12.2); await EVENTS.run(e);
     check('C13. 3-4 台詞（AA_608 10-1 回扣：遊覽車上睡覺的那個人；預設「你要去哪？」）；記 FRIEND_CARD「公館便宜好吃.xlsx」、熟悉 +2',!block(['（下課鐘一響，前排一個戴帽子的男生第一個收好書包。是宿營遊覽車上一直在睡的那個人。）','欸，祐廷，我先走，公車要趕。','（他把一張摺好的紙塞給你。）','公館便宜好吃的店，我自己整理的。不要外流喔。','家教。國中生，數學。……你什麼都沒看到。','（你打開那張紙。第一行寫著：「江明軒製」。）'])&&said.includes('明軒：欸，祐廷，我先走，公車要趕。')&&card('classmate_mingxuan')==='公館便宜好吃.xlsx'&&G.flags.FRIEND_CARD_classmate_mingxuan===true,said.join(' / '));
     fresh(); at('2025-09-15',12.2); picks=['謝了']; await EVENTS.run(e); check('C14. 3-4 另一個選項：「下次我請。……一顆滷蛋。」',said.includes('明軒：下次我請。……一顆滷蛋。')); }

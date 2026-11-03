@@ -4982,6 +4982,10 @@ STORY_EVENTS.push({ id:'ev_grad_debate_teach', title:'這一段你來講', parti
      演完記 FRIEND_CARD_<id>、記憶 FRIEND_CARD（note＝場名）、熟悉 +2，不給別的。課堂的那兩場（柏翰、明軒）同一堂撞到別的事件就延到下一次同一門課，最晚第 5 週（carryTo，AA_606 第 5 節「撞到已有場次就往後」）。*/
 (function(){ const card=(id,note)=>({set:{['FRIEND_CARD_'+id]:true},mem:[{npc:id,tag:'FRIEND_CARD',note}],rel:{[id]:{fam:2}}}), F=G=>G.flags||{}, dk=k=>typeof STORY!=='undefined'?STORY.dayOfKey(k):null;
     const inDorm=(G,id)=>typeof STORY!=='undefined'&&!!STORY.dormWho&&STORY.dormWho(G).some(w=>w[0]===id);   /* 照 203 的作息現在在房間（書桌前）*/
+    /* 課堂的名片場讓位（AA_606 第 5 節「同一天撞到已有場次就往後」）：同一堂課已經有別的上課前／下課後事件可以演＝這一堂不演，延到下一次（carryTo）。
+       名片場排在 STORY_EVENTS 比較前面（sup497 的事件比較晚 push），不讓位的話會搶走 ev_yu_meet 那類固定場次的那一堂 */
+    let yielding=false; const busyBefore=(it,self)=>{ if(yielding||typeof EVENTS==='undefined') return false; yielding=true; try{ return STORY_EVENTS.some(e=>e!==self&&!e.retired&&(e.beforeClass===it.c.id||(typeof e.beforeClass==='function'&&e.beforeClass(it)))&&EVENTS.check(e,{chain:true})); } finally { yielding=false; } };
+    const busyAfter=(it,self)=>{ if(yielding||typeof CLS==='undefined'||!CLS.afterClassOk) return false; yielding=true; try{ const ok=CLS.afterClassOk(it); return STORY_EVENTS.some(e=>e!==self&&!e.retired&&!e.classAlso&&ok(e)); } finally { yielding=false; } };
   STORY_EVENTS.push(
     /* 3-1 阿凱「凌晨的作業」：第 1 週，9/2（二）23:30 以後第一次在 203（阿凱在房間）*/
     { id:'ev_card_kai', title:'凌晨的作業', participants:['kai'], location:'dorm', trigger:'auto', once:true, term:['Y1S1'], weeks:[1], time:[23.5,26], background:'blur',
@@ -4996,7 +5000,7 @@ STORY_EVENTS.push({ id:'ev_grad_debate_teach', title:'這一段你來講', parti
         {speaker:null,text:'（隔天早上，你桌上多了一杯豆漿。阿凱已經去上課了。）'},
         card('kai','凌晨的作業') ] },
     /* 3-2 柏翰「第一排」：第 2 週民法總則上課前（教室）；9/1 已經有柏翰第一排那場（ev_bohan_w1_front）的，第一句改「{name}。今天也坐這裡。」*/
-    { id:'ev_card_bohan', title:'第一排', participants:['classmate_bohan'], location:'any', trigger:'class', beforeClass:'civ_general', once:true, term:['Y1S1'], weeks:[2], carryTo:5, background:'blur',
+    { id:'ev_card_bohan', title:'第一排', participants:['classmate_bohan'], location:'any', trigger:'class', beforeClass:function(it){ return !!(it&&it.c&&it.c.id==='civ_general')&&!busyBefore(it,this); }, once:true, term:['Y1S1'], weeks:[2], carryTo:5, background:'blur',
       prereq:{custom:G=>!F(G).FRIEND_CARD_classmate_bohan},
       dialogue:[ {speaker:null,text:'（民總。第一排正中間，柏翰已經把課本、筆記本、三支筆排好。）'},
         {unless:{custom:G=>!!(G.events&&G.events.done&&G.events.done.ev_bohan_w1_front)},speaker:'classmate_bohan',text:'{name}。這裡。'},
@@ -5010,7 +5014,7 @@ STORY_EVENTS.push({ id:'ev_grad_debate_teach', title:'這一段你來講', parti
         card('classmate_bohan','第一排') ] },
     /* 3-3 Alison：改成第一次和阿哲去麵店時認識（ZHE_FIRST_TABLE 開頭，AA_606 3-3 11-03 版；原本的「第一班捷運」作廢）*/
     /* 3-4 明軒「公館便宜好吃.xlsx」：第 3 週第一次上完法律系的必修下課（明軒和你同班，每一門必修都有修）*/
-    { id:'ev_card_mingxuan', title:'公館便宜好吃.xlsx', participants:['classmate_mingxuan'], location:'any', trigger:'class', afterClass:it=>!!(it&&it.c&&it.c.kind==='required'), once:true, term:['Y1S1'], weeks:[3], carryTo:5, background:'blur',
+    { id:'ev_card_mingxuan', title:'公館便宜好吃.xlsx', participants:['classmate_mingxuan'], location:'any', trigger:'class', afterClass:function(it){ return !!(it&&it.c&&it.c.kind==='required')&&!busyAfter(it,this); }, once:true, term:['Y1S1'], weeks:[3], carryTo:5, background:'blur',
       prereq:{custom:G=>!F(G).FRIEND_CARD_classmate_mingxuan},
       dialogue:[ {speaker:null,text:'（下課鐘一響，前排一個戴帽子的男生第一個收好書包。是宿營遊覽車上一直在睡的那個人。）'},   /* AA_606 3-4（AA_608 10-1 的回扣）*/
         {speaker:'classmate_mingxuan',text:'欸，{name}，我先走，公車要趕。'},

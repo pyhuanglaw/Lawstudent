@@ -295,8 +295,9 @@ const SUP497=(function(){
     dialogue:lns(L.xc.group).concat([Object.assign(ln.apply(null,L.xc.groupAn),{if:{custom:G=>!!G.flags.XC5_RECONCILE&&!!(typeof STORY==='undefined'||!STORY.present||STORY.present(AN,G))}}),{set:{XC_Y4_GROUP:true}}]) };   /* 以安那一句：有 XC5_RECONCILE、以安在臺灣 */
 
   /* ===================================================================== 3 Alison ===================================================================== */
-  /* 3-1 保證認識：第 2 週結束還沒認識她（met_yu）＝第 3 週第一次上完霖澤館的必修、走出來（進校園）自動演一次；接 talkYu 的自我介紹原文 */
-  S.yuMeetDue=function(G){ if(!law(G)||!inTerm(G,'Y1S1')||week(G)!==3||(G.flags&&G.flags.met_yu)||typeof CLS==='undefined'||!CLS.dayItems||!CLS.rec) return false; const R=CLS.rec(G), h=hr(G);
+  /* 3-1 保證認識：第 2 週結束還沒認識她（met_yu）＝第 3 週第一次上完霖澤館的必修、走出來（進校園）自動演一次；接 talkYu 的自我介紹原文。
+     AA_606 3-3：已經在麵店（和阿哲第一次併桌）認識的（SOCIAL.meet 會記 met_yu）也照演一次，她那句改成「……欸，你剛剛講得很好。」（STORY.yuIntroLines）*/
+  S.yuMeetDue=function(G){ if(!law(G)||!inTerm(G,'Y1S1')||week(G)!==3||(G.flags&&G.flags.met_yu&&!(typeof STORY!=='undefined'&&STORY.yuNoodle&&STORY.yuNoodle(G)))||typeof CLS==='undefined'||!CLS.dayItems||!CLS.rec) return false; const R=CLS.rec(G), h=hr(G);
     return CLS.dayItems(G).some(it=>it.c&&it.c.kind==='required'&&!it.exam&&it.room&&(it.room.zone==='classroom'||it.room.zone==='linze')&&R.done&&R.done[it.key]&&!(R.abs&&R.abs[it.key])&&h>=it.t1-0.05&&h<=it.t1+0.75); };   /* 霖澤館 201（憲法、刑總、民總）*/
   S.YU_MEET={ id:'ev_yu_meet_w3', title:'Alison', participants:[YU], location:'campus', trigger:'enter', once:true, background:'blur',
     prereq:{custom:G=>S.yuMeetDue(G)},
