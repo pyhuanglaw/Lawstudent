@@ -142,12 +142,11 @@ const CROWD=(function(){
      - 1F 大廳：服務台的工讀生、走過大廳的人（大廳 ⇄ 球場兩側的開口、樓梯口）、長椅坐一個；
        1F 球場：兩面羽球場有人打球（平日 12:00 起、週末 09:00～17:00；中間那面留給玩家的「打羽球」、中圈留給體育課）；
        玩家自己的體育課（課表的體育課，門口 gym）上課中：中圈北邊一位體育老師（名字＝課堂上的稱呼）面向一排同學（6 個）。
-     - B1：服務櫃台後面的櫃台阿姨（「去健身房」那幾句是她說的：gym3d.js 的 SAY_DESK）；跑步機上原地跑、深蹲架、啞鈴架前站著、重訓椅上坐著、墊子上拉筋。
+     - B1：服務櫃台後面的櫃台阿姨（「去健身房」那幾句是她說的：gym3d.js 的 SAY_DESK）；跑步機上原地跑、深蹲架前深蹲、啞鈴架前彎舉、臥推椅上肩推、飛輪、划船機、墊子上拉筋（每個人都在用器材，GYM-USE-1103）。
      - 3F 主球場：北邊的籃框半場有人打球（跑一段、停一下、面向籃框）、場邊站著休息聊天；典禮的日子（gym3d.js ceremonyDay：開學、畢業典禮的布置打開）不打球。
      人數照時段（午休、傍晚以後、週末多；早上、寒暑假、國定假日少），一層最多約 12 個完整人物（手機效能：教室 16 個的同一個量級；人數固定，不乘 CROWD_X）。
      玩家的劇情場景不站人：服務台、販賣機、直飲台前面、中圈「體育課集合」、中間那面羽球場的「打羽球」、進門的地方（羽球邀約的朋友在那裡等）、B1 櫃台前面、3F 入口通道。
      同一天同一時段同一批人（日期＋時段當種子，D55）；沒有名字、不能搭話。測試：node tests/gym_crowd_unit.js */
-  S.GYM_STAND_FIT=false;
   S.gymHours=G=>{ if(typeof CALENDAR==='undefined') return null; const d=CALENDAR.dateOf(G.day); if(d.wd===1&&d.d>=22&&d.d<=28) return null; return d.wd===7?[9,18]:(d.wd===6?[9,22]:[8,22]); };   /* 第四個星期一休館（和 gym3d.js 的 fourthMonday 同一個判斷）*/
   S.gymSpots=function(){ const L=typeof GYM_LAYOUT!=='undefined'?GYM_LAYOUT:null; if(!L||!L.b1||!L.arena) return [];
     const quiet=G=>typeof CALENDAR!=='undefined'&&CALENDAR.kind(G.day)!=='term', wk=G=>typeof CALENDAR!=='undefined'&&CALENDAR.weekend(G.day);
@@ -184,9 +183,20 @@ const CROWD=(function(){
         return out; },G=>{ if(typeof CLS==='undefined'||!CLS.dayItems) return []; return CLS.dayItems(G).filter(it=>it.room&&it.room.door==='gym').map(it=>({key:'pe|'+it.key,t0:it.t0-0.5,t1:it.t1,n:[7,7],fixed:true,pose:'idle',talk:0,enter:'door',leave:'door',course:it.c})); });
     /* ---- B1 ---- */
     const TM=eq('GYM_TREADMILL'), SQ=eq('GYM_SQUAT_RACK'), DBR=eq('GYM_DB_RACK'), BN=eq('GYM_BENCH'), MAT=eq('GYM_MAT');
+    const BK=eq('GYM_BIKE'), RW=eq('GYM_ROWER');
+    /* GYM-USE-1103（使用者 11-03「你就設計健身房真的有人在用很難嗎」；之前「都不太會動 更詭異」BUG-GYM-CROWD-STIFF-1103 先拿掉了站著不動的人）：
+       健身中心的每一個人都在用器材，動作在 character3d.js（gymIK：gym_squat、gym_curl、gym_press、gym_bike、gym_row、gym_stretch；一個循環一個循環地動、每個人速度相位不同）：
+       跑步機原地跑（皮帶 0.18 m）、深蹲架前面深蹲（面向鏡子）、啞鈴架前面彎舉（面向鏡子）、臥推椅坐著肩推、飛輪、划船機、墊子上拉筋。
+       坐在器材上的人：人物原點＝器材原點、朝向＝器材的 ry（器材正面 +z＝使用的人面向的方向，gym_layout.js noteFacing）。全部 fixed（照位置放、不走動、小動作不動他們）；
+       沒有站著不動的人（S.GYM_STAND_FIT 拿掉）。挑幾個人照舊由 daySlots 的人數決定 */
+    const G_=(q,o)=>Object.assign({x:+q[0].toFixed(2),z:+q[1].toFixed(2),yaw:0,fixed:true},o);
     const fit=[].concat(TM.filter((q,i)=>i%2===0).map(q=>({x:q[0],z:12.2,y:0.18,yaw:0,pose:'run',idlePose:'run',fixed:true,role:'treadmill'})),   /* 跑步機上原地跑（皮帶 0.18 m 高）*/
-      S.GYM_STAND_FIT?SQ.map(q=>({x:q[0],z:+(q[1]-1.2).toFixed(2),yaw:0,role:'rack'})):[], S.GYM_STAND_FIT?DBR.map(q=>({x:+(q[0]-0.5).toFixed(2),z:+(q[1]-1.0).toFixed(2),yaw:0,role:'dumbbell'})):[],   /* BUG-GYM-CROWD-STIFF-1103（使用者 11-03：「健身房新增了人 但是都不太會動 更詭異」）：深蹲架、啞鈴架前面的人只是站著不動（沒有深蹲、舉啞鈴的動作），先不放；有真的動作再打開 S.GYM_STAND_FIT */
-      BN.slice(1,2).map(q=>({x:q[0],z:q[1],yaw:Math.PI/2,role:'bench',seat:{x:q[0],z:q[1],yaw:Math.PI/2}})), MAT.slice(0,2).map(q=>({x:q[0],z:q[1],yaw:0,role:'mat',pose:'talk'})));
+      SQ.map(q=>G_([q[0],q[1]+1.15],{pose:'gym_squat',role:'rack'})),   /* 深蹲架（前面的立柱在 +0.56、槓在 +0.61）前面 1.15 m、面向鏡子 */
+      DBR.length?[-0.55,0.55].map(dx=>G_([DBR[0][0]+dx,DBR[0][1]-0.95],{pose:'gym_curl',role:'dumbbell'})):[],   /* 啞鈴架（靠著鏡牆）前面、面向鏡子 */
+      [BN[0],BN[2]].filter(Boolean).map(q=>G_(q,{pose:'gym_press',role:'bench'})),   /* 臥推椅的座墊上（中間那張空著）*/
+      BK.filter((q,i)=>i%2===0).map(q=>G_(q,{pose:'gym_bike',role:'bike'})),
+      RW.map(q=>G_(q,{yaw:Math.PI/2,pose:'gym_row',role:'rower'})),   /* 划船機 ry π/2：使用的人面向 +x */
+      [MAT[0],MAT[2]].filter(Boolean).map(q=>G_([q[0],q[1]-0.55],{pose:'gym_stretch',role:'mat'})));   /* 坐在墊子靠南那一端、腿往北伸 */
     const b1=mkSpot('b1','gym_b1',[-6,9],DB,function(G,slot,r){ const n=cnt(r,slot), sp=specs(r,n+1,this.ix), out=[];
         out.push(mk(this,slot,0,{x:B.desk.staff.x,z:B.desk.staff.z,yaw:0,spec:sp[0]&~1,role:'desk_b1',name:'櫃台阿姨',fixed:true}));   /* 櫃台後面，面向客人（偶數＝女生）*/
         const pick=shuffle(fit,r).slice(0,n); pick.forEach((q,k)=>out.push(mk(this,slot,k+1,Object.assign({spec:sp[k+1]},q))));
@@ -219,7 +229,7 @@ const CROWD=(function(){
     fit:{who:'運動的人',L:['你還要用嗎？我輪一組。','今天練腿。明天走樓梯會很好笑。']},
     basketball:{who:'打球的人',L:['三對三，輸的下場。','傳球啦！','明天系盃。我們只求不要輸太多。'],W:[null,null,'化學系的學生']},   /* 化學系的學生（系隊外套：外觀給 LAWWW2）*/
     rest:{who:'看球的人',L:['我們系明天比賽，先來看場地。','我們系每次比賽都來好多人，加油的比打球的多。'],W:[null,'醫學系的學生']} };
-  S.gymHearKind=(spot,role)=>spot&&spot.gym==='b1'&&['treadmill','rack','dumbbell','bench','mat'].includes(role)?'fit':(spot&&spot.gym==='lobby'&&role!=='desk_1f'?null:role);
+  S.gymHearKind=(spot,role)=>spot&&spot.gym==='b1'&&['treadmill','rack','dumbbell','bench','mat','bike','rower'].includes(role)?'fit':(spot&&spot.gym==='lobby'&&role!=='desk_1f'?null:role);
   let gymVisit=null;
   S.gymBind=function(GM,n,p){ const G=GM&&GM.G; if(!G||!n) return; const k=S.gymHearKind(this,p&&p.role), H=k&&S.GYM_HEAR[k]; if(!H){ if(S.deptGymOne) S.deptGymOne(GM,this,n,p); return; }   /* 大廳散步的人、長椅上的人：AA_495 的系 */
     const vk=(GM.enterN|0)+':'+G.zone; if(!gymVisit||gymVisit.key!==vk) gymVisit={key:vk,used:{},start:{}};
