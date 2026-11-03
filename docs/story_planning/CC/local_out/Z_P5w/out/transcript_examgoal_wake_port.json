@@ -1,0 +1,248 @@
+{
+ "orient": "port",
+ "find": {
+  "day": 90,
+  "key": "2025-12-15",
+  "t0": 9.166666666666666,
+  "name": "憲法（上）",
+  "room": "法律系館A 201",
+  "normal": 87,
+  "normalKey": "2025-12-12"
+ },
+ "bed": {
+  "x": -0.55,
+  "z": 1.505,
+  "label": "睡覺"
+ },
+ "shot_bed": "C:\\Users\\USER\\Documents\\Lawstudent_cclocal\\docs\\story_planning\\CC\\local_out\\Z_P5w\\out\\01_examgoal_wake_port_bed.png",
+ "log": [
+  {
+   "k": "choose",
+   "t": [
+    "睡到明天早上（08:10）",
+    "快轉",
+    "再撐一下"
+   ],
+   "hint": [
+    "08:10（考試 09:10 憲法（上）前一小時）",
+    "到下一個有事的時候、過一週；沒有劇情的課自動去上",
+    ""
+   ],
+   "h": 22.535,
+   "d": 89,
+   "z": "dorm",
+   "ms": 31017
+  },
+  {
+   "k": "event",
+   "id": "ev_course_selection",
+   "h": 8.172,
+   "d": 90,
+   "z": "dorm",
+   "ms": 39489
+  },
+  {
+   "k": "adv",
+   "fn": "begin",
+   "arg": {
+    "background": "freeze",
+    "right": null,
+    "left": null
+   },
+   "h": 8.172,
+   "d": 90,
+   "z": "dorm",
+   "ms": 39492
+  },
+  {
+   "k": "caption",
+   "n": "",
+   "t": "選課結果",
+   "dur": 1500,
+   "h": 8.172,
+   "d": 90,
+   "z": "dorm",
+   "ms": 39494
+  },
+  {
+   "k": "say",
+   "n": "",
+   "t": "選課結果出來了。通識「城市與散步」——沒選上。備取十七。",
+   "h": 8.172,
+   "d": 90,
+   "z": "dorm",
+   "ms": 39622
+  },
+  {
+   "k": "choose",
+   "t": [
+    "沒選到的那堂，等第二階段有人退選，再上網加加看。",
+    "算了，下學期再選。"
+   ],
+   "hint": [
+    "",
+    ""
+   ],
+   "h": 8.172,
+   "d": 90,
+   "z": "dorm",
+   "ms": 40715
+  },
+  {
+   "k": "adv",
+   "fn": "end",
+   "arg": null,
+   "h": 8.172,
+   "d": 90,
+   "z": "dorm",
+   "ms": 42210
+  },
+  {
+   "k": "say",
+   "n": "",
+   "t": "早安。今天的課：09:10　憲法（上）　法律系館A 201　／　15:30　體育　體育館",
+   "h": 8.173,
+   "d": 90,
+   "z": "dorm",
+   "ms": 42395
+  },
+  {
+   "k": "choose",
+   "t": [
+    "直接去考場：憲法（上）",
+    "先起床"
+   ],
+   "hint": [
+    "走路 18 分鐘，09:00 到教室",
+    "考試前 10 分鐘會自動帶你進考場"
+   ],
+   "h": 8.173,
+   "d": 90,
+   "z": "dorm",
+   "ms": 44554
+  }
+ ],
+ "play": {
+  "lines": [
+   "選課結果出來了。通識「城市與散步」——沒選上。備取十七。",
+   "早安。今天的課：09:10　憲法（上）　法律系館A 201　／　15:30　體育　體育館"
+  ],
+  "chose": [
+   {
+    "opts": [
+     "睡到明天早上（08:10）08:10（考試 09:10 憲法（上）前一小時）",
+     "快轉到下一個有事的時候、過一週；沒有劇情的課自動去上",
+     "再撐一下"
+    ],
+    "picked": "睡到明天早上（08:10）08:10（考試 09:10 憲法（上）前一小時）",
+    "shot": "C:\\Users\\USER\\Documents\\Lawstudent_cclocal\\docs\\story_planning\\CC\\local_out\\Z_P5w\\out\\02_examgoal_wake_port_choice1.png"
+   },
+   {
+    "opts": [
+     "沒選到的那堂，等第二階段有人退選，再上網加加看。",
+     "算了，下學期再選。"
+    ],
+    "picked": "沒選到的那堂，等第二階段有人退選，再上網加加看。",
+    "shot": "C:\\Users\\USER\\Documents\\Lawstudent_cclocal\\docs\\story_planning\\CC\\local_out\\Z_P5w\\out\\04_examgoal_wake_port_choice2.png"
+   },
+   {
+    "opts": [
+     "直接去考場：憲法（上）走路 18 分鐘，09:00 到教室",
+     "先起床考試前 10 分鐘會自動帶你進考場"
+    ],
+    "picked": "先起床考試前 10 分鐘會自動帶你進考場",
+    "shot": "C:\\Users\\USER\\Documents\\Lawstudent_cclocal\\docs\\story_planning\\CC\\local_out\\Z_P5w\\out\\06_examgoal_wake_port_choice3.png"
+   }
+  ]
+ },
+ "events": [
+  "ev_course_selection"
+ ],
+ "wake_says": [
+  [
+   "",
+   "選課結果出來了。通識「城市與散步」——沒選上。備取十七。",
+   8.172
+  ],
+  [
+   "",
+   "早安。今天的課：09:10　憲法（上）　法律系館A 201　／　15:30　體育　體育館",
+   8.173
+  ]
+ ],
+ "goal_after_story": {
+  "goalG": "09:10 期末考：憲法（上）（法律系館A 201）",
+  "dom": "目標：09:10 期末考：憲法（上）（法律系館A 201）",
+  "next": {
+   "exam": "final",
+   "t0": 9.166666666666666,
+   "name": "憲法（上）"
+  },
+  "curExam": null,
+  "h": 8.223,
+  "zone": "dorm"
+ },
+ "goal_hist": [
+  [
+   0,
+   8.223,
+   "09:10 期末考：憲法（上）（法律系館A 201）"
+  ]
+ ],
+ "goal_final": {
+  "goalG": "09:10 期末考：憲法（上）（法律系館A 201）",
+  "dom": "目標：09:10 期末考：憲法（上）（法律系館A 201）",
+  "next": {
+   "exam": "final",
+   "t0": 9.166666666666666,
+   "name": "憲法（上）"
+  },
+  "curExam": null,
+  "h": 8.223,
+  "zone": "dorm"
+ },
+ "shot_goal": "C:\\Users\\USER\\Documents\\Lawstudent_cclocal\\docs\\story_planning\\CC\\local_out\\Z_P5w\\out\\07_examgoal_wake_port_goal.png",
+ "goal_pre_exam": {
+  "first": {
+   "goalG": "09:10 期末考：憲法（上）（法律系館A 201）",
+   "dom": "目標：09:10 期末考：憲法（上）（法律系館A 201）",
+   "h": 8.193,
+   "day": 90,
+   "zone": "dorm",
+   "ms": 49080,
+   "freeFrom": 8.173
+  },
+  "menu": {
+   "goalG": "09:10 期末考：憲法（上）（法律系館A 201）",
+   "dom": "目標：09:10 期末考：憲法（上）（法律系館A 201）",
+   "h": 8.173,
+   "day": 90,
+   "zone": "dorm",
+   "ms": 44601
+  },
+  "seen": {
+   "goalG": "09:10 期末考：憲法（上）（法律系館A 201）",
+   "dom": "目標：09:10 期末考：憲法（上）（法律系館A 201）",
+   "h": 8.171,
+   "day": 90,
+   "zone": "dorm",
+   "ms": 37395
+  },
+  "gaps": [
+   [
+    8.171,
+    8.172,
+    206
+   ],
+   [
+    8.172,
+    8.173,
+    252
+   ]
+  ]
+ },
+ "errs": [],
+ "sha": "7224af47a",
+ "tag": "examgoal_wake_port",
+ "url": "http://127.0.0.1:8810/index.html?turbo"
+}
