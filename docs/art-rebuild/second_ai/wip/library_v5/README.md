@@ -32,6 +32,21 @@
 - 門的 id：新加 `wc_m`、`wc_f`、`music`、`disc101`、`disc102`、`avroom`（都關著，`wall` 指 `rooms_w`／`rooms_e`）。研究小間 230～249 沒有門 id（備用模型有一個互動點）。
 - **沒動**：電梯（東側，BB 同意記成已知差異）、遊戲能進去的研究小間 `library_carrels`（門照舊在二樓東牆）。如果要把它搬到西牆那一排，需要你決定（會動到 `library_carrels` 的出入口）。
 
+## 交付檔（11-03 19:25）
+- `library_v5_1103.patch`（4.3 MB，含二進位）：`src/data/library_layout.js`、`src/library_hall_v2.js`、`src/story3d.js`（只有上面那一行）、`assets/models/env/second_ai/library_hall_v2.glb`（10.9 MB）、`library_hall_v2_lm_day.webp`、`_lm_night.webp`。開發分支 `b049c84e3` 上 `git apply --check` 通過。`library_v5_layout_WIP.patch` 是之前的半成品，用這一份取代。
+- 研究小間讀者的 patch（`wip/carrel_readers/`）也改 story3d.js，但改的是不同的行，兩份可以一起套用。
+- 光照烘焙：`bake_library_hall_v2.sh 512 … 1024`，lm_probe 全部通過。原本「2F 西翼地板」只有 0.249（門檻 0.3），因為研究小間和密集書庫擋住了屋頂的採光；在西翼加了屋頂採光條（x −11、−9.8、−8、−6.65），烘焙後是 0.361。測量點和門檻都沒改。腳本 `library_hall_v2.py`、`bake_library_hall_v2.sh` 用同一份採光條清單。
+
+## 前後比較（遊戲截圖，第四版的 7 個鏡頭）
+![一樓](v4_vs_v5_1f.jpg)
+![二樓](v4_vs_v5_2f.jpg)
+
+- 「1f_west_tables」和「1f_east_media」這兩個鏡頭，第五版看到的是小房間的牆和門。BB ③ 要求小房間放在北邊兩翼，原本鏡頭對著的地方現在就是這些房間；四人桌和電腦桌已經搬到 ①、② 寫的位置，但這 7 個鏡頭裡都沒拍到。BB 驗收時，可以在遊戲裡從大廳中央往西、往東看。
+- 還沒達到參考照片的地方：
+  - 小房間的牆沒有任何裝飾，看起來太空；
+  - 新書展台的書是貼圖色塊，不是一本一本建模的書；
+  - 研究小間的門一排完全一樣。
+
 ## 測試（開發分支 b049c84e3＋這個 patch）
 - 都通過：`nav_buildings_unit`（含總圖「互動點都走得到」、62 個座位）、`library_copier_unit`、`library_media_unit`、`library_upper_unit`、`library_b1_unit`、`library_hall_v2_oldsave_unit`、`library_hall_cam_core_unit`、`library_hall_lightmap_unit`、`libq_aa_1102_unit`、`libq_out_1102_unit`、`aa379_sis_lib_unit`、`lib_front_unit`、`lib_lawn_unit`。
 - 中途失敗、已經修好的：
