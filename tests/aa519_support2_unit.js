@@ -216,8 +216,8 @@ await sec('1-5',async()=>{
   check('1-5 遊戲沒有麵店打工（JOB_NOODLE）：宿舍期滿那一段（阿姨「暑假你還要來的話，週二一樣。」）、語彤事件 13 那一句（「……你週二來切蔥，週四來陪我發呆。很忙喔。」）都刪掉；不再寫 JOB_NOODLE_SUMMER',
     S15.includes('遊戲沒有麵店打工')&&!SRC('src/story3d.js').includes('暑假你還要來的話')&&!J(R2Y3A_EVENTS).includes('你週二來切蔥')&&!/JOB_NOODLE_SUMMER\s*=/.test(SRC('src/story3d.js'))&&!/\bJOB_NOODLE\b/.test(SRC('src/data/r2y3a_events.js').replace(/\/\*[\s\S]*?\*\//g,'')));
   let want=null; try{ want=JSON.parse(one(/改成 `(\['阿鳳麵店'[^`]+\])`/,S15).replace(/'/g,'"')); }catch(e){}
-  const row=STORY.MX_FM1.rows.find(r=>r[0]==='阿鳳麵店');
-  check('1-5 公館一百元清單（明軒）阿鳳麵店那一列＝稿上「改成」的四格（不再是「乾麵＋餛飩湯 85」）',!!want&&J(row)===J(want)&&!J(STORY.MX_FM1).includes('乾麵＋餛飩湯'),J({want,row})); });
+  const row=STORY.MX_FM1.rows.find(r=>r[0]==='公館燒臘'); if(want) want=['公館燒臘','叉燒飯','90','湯免費，這點加分。阿姨有時候多切一片叉燒，這個不能算進排名。'];   /* AA_612 A-368（麵店改燒臘店）蓋過 AA_519 1-5 的那一列：讀得到 AA_519 的稿才比（稿的格式照舊驗）*/
+  check('1-5 公館一百元清單（明軒）阿鳳麵店那一列＝AA_612 A-368 的四格（公館燒臘、叉燒飯 90；不再是「乾麵＋餛飩湯 85」）',!!want&&J(row)===J(want)&&!J(STORY.MX_FM1).includes('乾麵＋餛飩湯'),J({want,row})); });
 
 /* ===================== 2 陳助教（陳冠廷）===================== */
 await sec('2-1',async()=>{
@@ -467,8 +467,8 @@ await sec('8-2',async()=>{
   const eat=async(d,h,yt)=>{ noodleK(D(d),h,yt); H.G.eat={}; H.said=[]; H.picks=[0]; await STORY.interact({eat:'noodle',seat:{x:0,z:0}},GM); return said(); };
   const a=await eat('2027-07-06',18.5,true), b=await eat(TD('Y1S1',3,3),12.5,false);
   const a0=HCIRCLE.auntAway; HCIRCLE.auntAway=()=>true; let c; try{ c=await eat('2027-07-06',18.5,true); } finally { HCIRCLE.auntAway=a0; }
-  check('8-2 一個人吃麵（乾麵）：阿姨在＝「'+IN+'」（語彤顧店的暑假晚上、平常的中午都是）；阿姨不在（測試強制）＝「'+OUTL+'」；不再寫「老闆娘」',
-    !!IN&&!!OUTL&&a.includes(IN)&&b.includes(IN)&&c.includes(OUTL)&&!c.includes(IN)&&![...a,...b,...c].some(x=>/老闆娘/.test(x)),J({a:a.slice(-1),b:b.slice(-1),c:c.slice(-1)}));
+  check('8-2 一個人吃麵（乾麵）：阿姨在＝「'+IN+'」（語彤顧店的暑假晚上、平常的中午都是）；阿姨不在（測試強制）也是阿姨在那一句（AA_610／AA_624：語彤不顧店＝沒有「阿姨不在、語彤顧店」，「'+OUTL+'」走不到）；不再寫「老闆娘」',
+    !!IN&&!!OUTL&&a.includes(IN)&&b.includes(IN)&&c.includes(IN)&&!c.includes(OUTL)&&![...a,...b,...c].some(x=>/老闆娘/.test(x)),J({a:a.slice(-1),b:b.slice(-1),c:c.slice(-1)}));
   fresh(TD('Y1S1',3,3),12.5,'noodle',{},{nar:true}); noodleK(TD('Y1S1',3,3),12.5,false); delete H.G.flags.AA519; H.G.eat={}; H.said=[]; H.picks=[0]; await STORY.interact({eat:'noodle',seat:{x:0,z:0}},GM); const n=said();
   check('8-2 新的存檔第一次在麵店：第一句提到阿姨的旁白寫「阿姨（阿鳳）」（1-1），之後照原文',n.filter(x=>/阿姨（阿鳳）/.test(x)).length===1&&n.includes(IN),J(n)); });
 await sec('8-3',async()=>{

@@ -78,7 +78,7 @@ const EAT=(function(){
   S.atNow=function(G,key){ S._at={key,day:G.day,hour:G.hour}; };
   /* 點好了（扣完錢）：次數、上一次點的、吃過的；那間店第一次＝旁白 */
   S.ordered=async function(GM,key,item){ const G=GM.G, R=S.rec(G); R.n[key]=(R.n[key]|0)+1; R.last[key]=item; if(!S.isFood(key)) return false;
-    S.note(GM,key,item); if(R.first[key]!=null) return false; R.first[key]=G.day; const t=(L()&&L().first&&L().first[S.shopOf(key)])||(xShop(key)&&xShop(key).first); if(t){ await GM.say(null,t); return true; } return false; };   /* 登記的店：它自己的第一次旁白（AA_364 第 5 節第 4 點）*/
+    S.note(GM,key,item); if(R.first[key]!=null) return false; R.first[key]=G.day; const t=(L()&&L().first&&(L().first[S.shopOf(key)]||L().first[key]))||(xShop(key)&&xShop(key).first); if(t){ await GM.say(null,t); return true; } return false; };   /* 登記的店：它自己的第一次旁白（AA_364 第 5 節第 4 點）*/   /* AA_612：阿鳳麵店顯示「公館燒臘」（FIRST_KEY 的值），第一次的旁白照舊用店名鍵（eat_lines 的 first 鍵沒改，C-003）*/
   S.note=function(GM,key,item){ const G=GM.G, R=S.rec(G), shop=S.shopOf(key)||key; if(!shop||R.ate.some(a=>a.shop===shop&&a.item===item)) return false; R.ate.push({shop,item,day:G.day}); if(GM.toast) GM.toast('📓 吃過的：'+shop+'　'+item,2600); return true; };
   /* 筆記本「吃過的」那一格（game3d.js renderNotes）*/
   S.notesHTML=function(G,dayLab){ const A=G&&G.eat&&Array.isArray(G.eat.ate)?G.eat.ate:[]; if(!A.length) return ''; const esc=s=>String(s).replace(/[&<>]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;'})[c]);
