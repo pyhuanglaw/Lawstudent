@@ -28,6 +28,8 @@
 
 ### 帳號 A → 下一個帳號（看使用者對哪一邊說話）｜LAWWW（`session_01Eds6msqpsuzNEw98sdw8JX`）｜2026-11-02 23:0x UTC 交班（使用者「現在交班」，HANDOFF-A-1102；LAWWW2 22:56、BB 22:59 已先交班）
 
+> **11-03 更新（帳號 A LAWWW 重新接班後）**：int/m591＋sisdate＋libq2 已併進開發分支 **`c89a5f9be`**（全部 Node 902 支 ALL PASS）——**接班的 BB／CC 請用這個 SHA 驗 BAR-POOL-PREFIX、ADV-SKIP 打字中略過**（BB 11-02 22:59 說擋發布的兩項）。還沒進的：libq3、anb、ex600（見 B3）。
+
 **A｜本班成果（11-02 接班以後；細節在 tasks.json、deliveries.json、docs/RELEASES.md）**
 - **發布**：v9.10.16 在線上（見 docs/RELEASES.md）。之後的都在開發分支 `claude/confident-ritchie-8rwh7t`（遠端 `5ec3a0836`＋本次交班 commit）和整合線，**沒有發布**。
 - **開發分支已合併**：int/m590（`ec2814492`→ 開發分支 `62d98bfa5`）：AA_590／AA_595（小聲講、空保溫瓶拿掉、家）、AA_599 不接送、AA_603 重考生、CG 批次＋CG-27、ADV 視窗 GAME 修正、NTU_ZONES gym、LAWWW2 library_hall_v2、LIB-FRONT v3.1／v3.2、宿舍閣樓比例。

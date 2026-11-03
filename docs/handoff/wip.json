@@ -1936,7 +1936,7 @@
    "id": "WIP-LAWWW-INT-M591-1102",
    "role": "LAWWW",
    "task": "BAR-POOL-NOMAR-1102",
-   "state": "WIP",
+   "state": "已整合",
    "sha": "2b7605638",
    "branch": "int-m591（本機；交班 bundle wip_backup/handoff_A_1102_2310.bundle，基準＝遠端開發分支 5ec3a0836）",
    "files": [
@@ -1946,13 +1946,15 @@
    "next": "還原 bundle → 合併進 int/m591 → 相關測試＋整套 Node → 併開發分支 → SHA 交 BB／CC",
    "noDirectIntegrate": true,
    "source": "LAWWW 帳號 A 11-02 交班",
-   "branchSha": "f47d4849a"
+   "branchSha": "f47d4849a",
+   "closedBy": "c89a5f9be",
+   "note": "11-03 併進開發分支 c89a5f9be（全部 Node 902 支 ALL PASS）"
   },
   {
    "id": "WIP-LAWWW-SISDATE-1102",
    "role": "LAWWW",
    "task": "AA598-SIS-1C-1102",
-   "state": "WIP",
+   "state": "已整合",
    "sha": "2b7605638",
    "branch": "sisdate（本機；交班 bundle wip_backup/handoff_A_1102_2310.bundle，基準＝遠端開發分支 5ec3a0836）",
    "files": [
@@ -1962,13 +1964,15 @@
    "next": "還原 bundle → 合併進 int/m591 → 相關測試＋整套 Node → 併開發分支 → SHA 交 BB／CC",
    "noDirectIntegrate": true,
    "source": "LAWWW 帳號 A 11-02 交班",
-   "branchSha": "ab474ff72"
+   "branchSha": "ab474ff72",
+   "closedBy": "c89a5f9be",
+   "note": "11-03 併進開發分支 c89a5f9be（全部 Node 902 支 ALL PASS）"
   },
   {
    "id": "WIP-LAWWW-LIBQ2-1102",
    "role": "LAWWW",
    "task": "AA595-LIB-NOD-THERMOS-1102",
-   "state": "WIP",
+   "state": "已整合",
    "sha": "2b7605638",
    "branch": "libq2（本機；交班 bundle wip_backup/handoff_A_1102_2310.bundle，基準＝遠端開發分支 5ec3a0836）",
    "files": [
@@ -1978,7 +1982,9 @@
    "next": "還原 bundle → 合併進 int/m591 → 相關測試＋整套 Node → 併開發分支 → SHA 交 BB／CC",
    "noDirectIntegrate": true,
    "source": "LAWWW 帳號 A 11-02 交班",
-   "branchSha": "38d65bd27"
+   "branchSha": "38d65bd27",
+   "closedBy": "c89a5f9be",
+   "note": "11-03 併進開發分支 c89a5f9be（全部 Node 902 支 ALL PASS）"
   },
   {
    "id": "WIP-LAWWW-LIBQ3-1102",

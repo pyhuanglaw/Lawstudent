@@ -22788,7 +22788,7 @@
       },
       "source": "使用者 2026-10-18 07:4x",
       "authorized": "使用者回報",
-      "next": "原因：按鈕在 #adv（z-index 5）裡，壓在對話框／選項（6）底下；而且 ADV.skip 沒有人讀，按到也只翻一句。adv3d.js：#advTop 搬到 body、z-index 7、只在 adv-on 時顯示；game3d.js say()：ADV.skip 時 40ms 自動翻、choose() 停止略過讓玩家選。待 BB-C 瀏覽器（手機直向／橫向按得到、一路翻到選項）"
+      "next": "11-03 已在開發分支 c89a5f9be（全部 Node 902 支 ALL PASS）→ BB／CC 瀏覽器驗證；原因：按鈕在 #adv（z-index 5）裡，壓在對話框／選項（6）底下；而且 ADV.skip 沒有人讀，按到也只翻一句。adv3d.js：#advTop 搬到 body、z-index 7、只在 adv-on 時顯示；game3d.js say()：ADV.skip 時 40ms 自動翻、choose() 停止略過讓玩家選。待 BB-C 瀏覽器（手機直向／橫向按得到、一路翻到選項）"
     },
     {
       "id": "BG-CAMP-1018",
@@ -39961,7 +39961,7 @@
         "ack": "ACK",
         "acceptance": "2029～2033 一試沒有 Y4MAR_；舊存檔不動"
       },
-      "next": "（LAWWW 2026-11-02 補欄位）照 status；見 note／title"
+      "next": "11-03 已在開發分支 c89a5f9be（全部 Node 902 支 ALL PASS）→ BB／CC 瀏覽器驗證；（LAWWW 2026-11-02 補欄位）照 status；見 note／title"
     },
     {
       "id": "WSEM-BG-1102",
@@ -40381,7 +40381,7 @@
       "status": "已整合待測試",
       "priority": "P1",
       "note": "AA 掃描中；LAWWW 收到清單後實作（已知相關：postgrad3d helpedCoffee 讀 HELPED 黑咖啡） ｜18:22 AA 轉使用者新規則③：祐廷和學姊都住臺北、學校也在臺北，不能寫「回臺北」 ｜18:38 AA 交清單 AA_595@4755968a4：①讀書區小聲講（系統層：第一次點頭、之後台詞加「（小聲）」，第 1-A 節位置）②「臺北的家」→「家」約 20 處（第 4 節）③sis_y2y3_events.js:65「你們系」→「系上」④剩下 9 處空保溫瓶＋已裝滿那一場、flaskCoffeeDay、「上次是黑咖啡」、心願選項「妳的保溫瓶今天是滿的」拿掉（W8 停用照留）⑤以安「寒假你會回家住嗎？」、經濟系退宿「回家」。等 AA584、AA590 兩個子代理合併後做（同檔案避免衝突）",
-      "next": "開發分支 62d98bfa5（int/m590 合併）；BB 驗收｜子代理在 worktree（aa595，基於 int/m590 0e11c43a3）：小聲講共用機制、臺北的家→家、你們系→系上、保溫瓶整條 retired、以安寒假那句；回來後合併、測試、派 BB",
+      "next": "11-03 已在開發分支 c89a5f9be（全部 Node 902 支 ALL PASS）→ BB／CC 瀏覽器驗證；開發分支 62d98bfa5（int/m590 合併）；BB 驗收｜子代理在 worktree（aa595，基於 int/m590 0e11c43a3）：小聲講共用機制、臺北的家→家、你們系→系上、保溫瓶整條 retired、以安寒假那句；回來後合併、測試、派 BB",
       "xai": {
         "spec": "AA 18:10 訊息",
         "branch": "int/next1102",
@@ -40490,10 +40490,10 @@
       "id": "AA591-SIS-B4-1102",
       "title": "AA_591 學姊改稿第四批（大三、大四、畢業以後；使用者 11-02 18:5x 選擇題確認；學姊不會先告白——她先說的支線整支拿掉）＋AA 19:19 AA_584 補充（林{name}、sis3h、heardClip 刪、修正本私訊、family_context）",
       "owner": "LAWWW",
-      "status": "已實作待整合",
+      "status": "已整合待測試",
       "priority": "P1",
       "note": "企劃線 6b35748c7（AA 19:21 P1）",
-      "next": "int/m591 4d84930c4（學姊第四批合併）；AA 21:27 九件回覆交 AA600 子代理一起改",
+      "next": "11-03 已在開發分支 c89a5f9be（全部 Node 902 支 ALL PASS）→ BB／CC 瀏覽器驗證；int/m591 4d84930c4（學姊第四批合併）；AA 21:27 九件回覆交 AA600 子代理一起改",
       "xai": {
         "spec": "企劃線 docs/story_planning/AA_591_學姊改稿_第四批_大三大四畢業後.md @6b35748c7",
         "branch": "int/next1102",
@@ -40790,10 +40790,10 @@
       "id": "AA598-SIS-1C-1102",
       "title": "AA_598 學姊①c 約會地點台詞（date_lines 改 92 列；改 Dxx.py→build json→白名單→import_date_lines；D13 走 BB_128，date_lines_regress 第 0 項 sha 跟著改；D15.py:23 同步）",
       "owner": "LAWWW",
-      "status": "進行中",
+      "status": "已整合待測試",
       "priority": "P1",
       "note": "AA 20:51 P1",
-      "next": "約會台詞子代理",
+      "next": "11-03 已在開發分支 c89a5f9be（全部 Node 902 支 ALL PASS）→ BB／CC 瀏覽器驗證；約會台詞子代理",
       "xai": {
         "spec": "企劃線 docs/story_planning/AA_598_學姊改稿_1c_約會地點台詞.md @c389462be",
         "branch": "int/next1102",
@@ -40844,10 +40844,10 @@
       "id": "BUG-CLIMB-ZOMBIE-1102",
       "title": "爬宿舍梯子上床，兩手直直往前抬像殭屍（使用者 22:2x）：character3d.js CLIMB_VRM 固定姿勢蓋掉走路片段的手——改成兩手交替抓梯子、手肘彎；附改前改後遊戲截圖",
       "owner": "LAWWW",
-      "status": "已實作待整合",
+      "status": "已整合待測試",
       "priority": "P1",
       "note": "UA-LAWWW-1102-30",
-      "next": "int/m591 合併 climbfix a7eb618f2（climbIK：兩手抓梯子兩側、手肘彎、交替、前傾、握拳；截圖 docs/art-rebuild/climb_pose_1102/，LAWWW 看過改前改後 compare 圖＝不再是平舉殭屍手）；剩兩件交給 LAWWW2（DORM-LADDER-HEAD-GRIP-1102）",
+      "next": "11-03 已在開發分支 c89a5f9be（全部 Node 902 支 ALL PASS）→ BB／CC 瀏覽器驗證；int/m591 合併 climbfix a7eb618f2（climbIK：兩手抓梯子兩側、手肘彎、交替、前傾、握拳；截圖 docs/art-rebuild/climb_pose_1102/，LAWWW 看過改前改後 compare 圖＝不再是平舉殭屍手）；剩兩件交給 LAWWW2（DORM-LADDER-HEAD-GRIP-1102）",
       "xai": {
         "spec": "使用者原話",
         "branch": "int/next1102",
