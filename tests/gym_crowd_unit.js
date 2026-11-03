@@ -90,4 +90,12 @@ for(const [zid,key,h] of [['gym',TUE,12.6],['gym',SAT,19],['gym',MONPE,15.8],['g
   /* BUG-GYM-CROWD-STIFF-1103（使用者 11-03：「健身房新增了人 但是都不太會動 更詭異」）：B1 深蹲架、啞鈴架前面只站著不動的人先不放（沒有那些動作）；跑步機上跑步、重訓椅坐著、墊子上聊天照舊 */
   { let stand=0, total=0; for(const [key,h] of [[TUE,18.5],[SAT,10],[TUE,12.6],[SAT,19]]){ enter('gym_b1',mkG(key,h)); for(const n of ppl()){ total++; if(n.crowdRole==='rack'||n.crowdRole==='dumbbell') stand++; } }
     check('9. B1 沒有站在深蹲架、啞鈴架前面不動的人（BUG-GYM-CROWD-STIFF-1103）',stand===0&&total>0,'站著的 '+stand+'／'+total); }
+  /* 10. BUG-GYM-B1-MARK-THRU-WALL-1103（使用者 11-03 截圖：游泳池邊看得到走廊的「去健身房」）：那個名牌只在牆的南邊（走廊、健身中心）顯示 */
+  { enter('gym_b1',mkG(SAT,19.9)); const it=E.interactables.find(q=>q.label==='去健身房'), gd=require('fs').readFileSync(require('path').join(__dirname,'..','src/guide3d.js'),'utf8');
+    check('10. B1「去健身房」：人在游泳池看不到名牌、在走廊看得到（visIf；guide3d.js 名牌照 visIf）',!!it&&typeof it.visIf==='function'&&!it.visIf({x:2,z:-5})&&it.visIf({x:4,z:1.5})&&/m\.it\.visIf\(p\)/.test(gd)); }
+  /* 11. BUG-GYM-POOL-EMPTY-1103（使用者 11-03「游泳池完全沒人？」）：開館時游泳池有救生員（面向池子）、長椅上有人；閉館沒有 */
+  { enter('gym_b1',mkG(SAT,19.9)); const lg=role('lifeguard'), pb=role('pool_bench');
+    check('11. B1 游泳池（週六 19:54）：救生員一個（池邊、面向池子）＋長椅上至少一個人、都在游泳池那一側',lg.length===1&&pb.length>=1&&lg.concat(pb).every(n=>n.obj.position.z<-0.2)&&Math.abs(lg[0].obj.position.x-13.2)<0.3,JSON.stringify({lg:lg.map(n=>[n.name,+n.obj.position.x.toFixed(2),+n.obj.position.z.toFixed(2)]),pb:pb.length}));
+    enter('gym_b1',mkG('2025-08-30',19.9)); check('11. 暑假 8/30（週六）19:54（使用者截圖那一刻）：救生員＋長椅至少一個人',role('lifeguard').length===1&&role('pool_bench').length>=1,role('pool_bench').length+'');
+    enter('gym_b1',mkG(MON4,15)); check('11. 第四個星期一休館：游泳池沒有人',role('lifeguard').length===0&&role('pool_bench').length===0); }
   console.warn=warn0; console.log(fails?('FAILED '+fails):'ALL PASS'); process.exit(fails?1:0); })();

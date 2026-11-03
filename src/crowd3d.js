@@ -191,6 +191,13 @@ const CROWD=(function(){
         out.push(mk(this,slot,0,{x:B.desk.staff.x,z:B.desk.staff.z,yaw:0,spec:sp[0]&~1,role:'desk_b1',name:'櫃台阿姨',fixed:true}));   /* 櫃台後面，面向客人（偶數＝女生）*/
         const pick=shuffle(fit,r).slice(0,n); pick.forEach((q,k)=>out.push(mk(this,slot,k+1,Object.assign({spec:sp[k+1]},q))));
         return out; },G=>daySlots(G,[[2,3],[3,4],[2,4],[4,6]]));
+    /* ---- B1 游泳池（BUG-GYM-POOL-EMPTY-1103；使用者 11-03 截圖：「游泳池完全沒人？」）：池邊救生員高椅旁站著的救生員（面向池子）、池邊長椅坐著休息的人。
+       水裡游泳的人要游泳的動作和泳裝模型（LAWWW2：ART-GYM-POOL-SWIMMERS-1103），還沒有；池子導航整個擋住，人不會走進水裡 */
+    const LG=(B.entryProps.find(e=>e.node==='GYM2_LIFEGUARD')||{at:[[14.2,-12]]}).at[0], PB=B.poolBenches||[];
+    const pool=mkSpot('pool','gym_b1',[0,-2],DB,function(G,slot,r){ const n=cnt(r,slot), sp=specs(r,n,this.ix), out=[];
+        out.push(mk(this,slot,0,{x:+(LG[0]-1.0).toFixed(2),z:LG[1],yaw:-Math.PI/2,spec:sp[0],role:'lifeguard',name:'救生員',fixed:true}));   /* 高椅西邊、面向池子（-x）*/
+        const bs=shuffle(PB,r); for(let k=1;k<n&&k-1<bs.length;k++){ const q=bs[k-1]; out.push(mk(this,slot,k,{x:q[0],z:+(q[1]-0.1).toFixed(2),yaw:Math.PI,spec:sp[k],role:'pool_bench',seat:{x:q[0],z:+(q[1]-0.1).toFixed(2),yaw:Math.PI}})); }   /* 長椅四張：至少空一張給玩家（n 最多 3）*/
+        return out; },G=>daySlots(G,[[2,3],[2,3],[2,3],[3,3]]));   /* 放假、國定假日少一個：至少救生員＋一個人 */
     /* ---- 3F 主球場 ---- */
     const HOOP=A.court&&A.court.hoops?A.court.hoops[0]:[0,-14.43];
     const arena=mkSpot('arena','gym_arena',[0,-10],DA,function(G,slot,r){ const n=cnt(r,slot), sp=specs(r,n,this.ix), out=[], np=Math.max(2,n-2);
@@ -198,8 +205,8 @@ const CROWD=(function(){
           out.push(mk(this,slot,k,{x:wp[0][0],z:wp[0][1],spec:sp[k],role:'basketball',beh:'route',waypoints:wp,ri:0,walkSpeed:2.8,run:true,pauseAt:true,faceYaw:face([wp[0][0],wp[0][1]],HOOP)})); }
         const REST=[[9.6,-16.8,'talk'],[10.5,-16.2,'idle'],[-9.4,-17.2,'idle']]; for(let k=np;k<n;k++){ const q=REST[(k-np)%REST.length]; out.push(mk(this,slot,k,{x:q[0],z:q[1],yaw:face([q[0],q[1]],[(k-np)===0?10.5:9.6,(k-np)===0?-16.2:-16.8]),spec:sp[k],role:'rest',pose:q[2]})); }
         return out; },G=>{ if(typeof GY3!=='undefined'&&GY3.ceremonyDay&&GY3.ceremonyDay(G)) return []; return daySlots(G,[[2,3],[4,5],[3,5],[6,8]]); });
-    for(const sp of [lobby,court,pe,b1,arena]) sp.bind=S.gymBind;
-    return [lobby,court,pe,b1,arena]; };
+    for(const sp of [lobby,court,pe,b1,pool,arena]) sp.bind=S.gymBind;
+    return [lobby,court,pe,b1,pool,arena]; };
   /* 體育館路人「聽一句」（AA_489 第 4 節，AA-C 2026-10-27 定稿，句子照抄；使用者 X108「體育館不管哪裡都沒有人」）：
      每個人一句；同一次進來（GM.enterN＋區域）不重複，一種人的句子用完了其他人就不說；照區域輪（下一次進來從下一句開始：G.flags.gymHear＝{種類: 從第幾句}）。
      散步的人、1F 長椅上的人：AA_489 沒寫句子；AA_495（路人分科系）起是「體」的系（電機、醫學），說那個系的句子（S.deptGymOne）。B1 健身房的人（跑步機、深蹲架、啞鈴、重訓椅、墊子）＝運動的人；體育老師說話時用課堂上的稱呼。

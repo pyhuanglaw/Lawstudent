@@ -41568,6 +41568,53 @@
       "priority": "P1",
       "note": "使用者 11-03 截圖（UA-LAWWW-1103-27；X168）；camp_y1.js:255 ev_camp_d2_talk",
       "next": "AA 改稿 → LAWWW 照稿改（AA_608 宿營精簡同時在做，同一個檔）"
+    },
+    {
+      "first": {
+        "term": "Y1S1",
+        "week": null,
+        "earliest": "體育館 B1 游泳池（開館時）",
+        "mainline": false,
+        "blocks": false,
+        "prereq": false,
+        "parallel": true,
+        "confirmed": true
+      },
+      "area": null,
+      "id": "BUG-GYM-POOL-EMPTY-1103",
+      "title": "體育館 B1 游泳池完全沒人：加救生員（高椅旁、面向池子）、池邊長椅坐著休息的人；「去健身房」名牌在游泳池那一側不顯示（隔牆看得到）",
+      "owner": "LAWWW",
+      "status": "已整合待測試",
+      "priority": "P1",
+      "note": "使用者 11-03 截圖「游泳池完全沒人？而且為什麼會出現去健身房的選項」（UA-LAWWW-1103-28；X169）",
+      "next": "crowd3d.js pool、gym3d.js visIf、guide3d.js 名牌照 visIf（gym_crowd 10、11 修改前 FAIL）→ BB 在 PC 看"
+    },
+    {
+      "first": {
+        "term": "Y1S1",
+        "week": null,
+        "earliest": "體育館 B1 游泳池（開館時）",
+        "mainline": false,
+        "blocks": false,
+        "prereq": false,
+        "parallel": true,
+        "confirmed": true
+      },
+      "area": null,
+      "id": "ART-GYM-POOL-SWIMMERS-1103",
+      "title": "游泳池水裡游泳的人：游泳動作（自由式／蛙式）＋泳裝人物模型，接 crowd3d 游泳池那一群",
+      "owner": "LAWWW2",
+      "status": "待開工",
+      "priority": "P2",
+      "note": "X169 的後半（使用者 11-03「游泳池完全沒人」）；LAWWW2 休班中，回來接",
+      "next": "LAWWW2 回來：動作與模型 → LAWWW 接進 crowd3d 的 pool（水道裡來回）",
+      "xai": {
+        "spec": "使用者 11-03 截圖；gym_layout.js b1.pool（7 水道、水深 1.4）",
+        "branch": "LAWWW2 自己的分支",
+        "acceptance": "游泳池開館時水道裡有 2～4 個人來回游，手機效能不掉",
+        "receiver": "LAWWW",
+        "ack": "未派"
+      }
     }
   ]
 }
