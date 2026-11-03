@@ -565,3 +565,4 @@ fatal: 'C:/Users/USER/Documents/wt_cc_R8_rr2' already exists    [ 135.3s] main_p
       err.log (last 5): [gpu_wrap 1.0s] headed slot 0: --window-position=0,0 --window-size=900,900 --window-name=CC 測試中，請勿點選 [V19D_tour_tap] | [gpu_wrap 229.2s] page close url=http://127.0.0.1:8810/index.html | [gpu_wrap 229.3s] BROWSER DISCONNECTED
 - 2026-11-04T01:56:10  V19D_tour_joy  sha=15e78dff7  exit=1  256s    PASS B 參加後走出總圖：記「去過但沒走完」（partial），清單不打勾  partial / PASS 沒有 JS 例外  [] / FAILED: A 導覽結束後 5 分鐘內跳出合照的「出發：」
       err.log (last 5): [gpu_wrap 1.0s] headed slot 0: --window-position=0,0 --window-size=900,900 --window-name=CC 測試中，請勿點選 [V19D_tour_joy] | [gpu_wrap 224.6s] page close url=http://127.0.0.1:8810/index.html | [gpu_wrap 224.7s] BROWSER DISCONNECTED
+- 2026-11-04T01:57:32  V19D_swing  sha=15e78dff7  exit=0  74s    INFO 座位 2 對到的座板頂高 0.549 m（ART-PARK2 寫座面 0.48 m；遊戲的座位沒有高度欄位） / PASS 兩個鞦韆座位各對到不同的座板　2 / ALL PASS
