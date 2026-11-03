@@ -1,17 +1,18 @@
-[22:53:23] run_forever round: 4   runner sha256: c9cac8a6aa
-[22:53:23] python : C:\Users\USER\AppData\Local\Python\pythoncore-3.15-64\python.exe (3.15.2)
-[22:53:23]          playwright 1.64.1 OK
-[22:53:23] git    : git version 2.56.0.windows.4
-[22:53:25] node   : C:\Program Files\nodejs\node.EXE  v26.13.0
-[22:53:26] blender: C:\Program Files\Blender Foundation\Blender 5.2\blender.exe  Blender 5.2.3 LTS (hash e13b728c6880 built 2026-10-22 01:37:16)
-[22:53:26] repo   : C:\Users\USER\Documents\Lawstudent
-[22:53:26] work   : C:\Users\USER\Documents\Lawstudent_cclocal  (branch claude/cc-local, push to origin)
-[22:53:26] parallel: 2  (blender items run alone)
-[22:53:26] browser: visible windows side by side (probe/game/webkit; queue ENV CC_HEADLESS wins) - please do not click them
-[22:53:26] git fetch
+[23:29:00] run_forever round: 5   runner sha256: c9cac8a6aa
+[23:29:00] python : C:\Users\USER\AppData\Local\Python\pythoncore-3.15-64\python.exe (3.15.2)
+[23:29:00]          playwright 1.64.1 OK
+[23:29:00] git    : git version 2.56.0.windows.4
+[23:29:00] node   : C:\Program Files\nodejs\node.EXE  v26.13.0
+[23:29:01] blender: C:\Program Files\Blender Foundation\Blender 5.2\blender.exe  Blender 5.2.3 LTS (hash e13b728c6880 built 2026-10-22 01:37:16)
+[23:29:01] repo   : C:\Users\USER\Documents\Lawstudent
+[23:29:01] work   : C:\Users\USER\Documents\Lawstudent_cclocal  (branch claude/cc-local, push to origin)
+[23:29:01] parallel: 2  (blender items run alone)
+[23:29:01] browser: visible windows side by side (probe/game/webkit; queue ENV CC_HEADLESS wins) - please do not click them
+[23:29:01] git fetch
     From https://github.com/pyhuanglaw/Lawstudent
      * branch                claude/cc-testing -> FETCH_HEAD
      * branch                claude/confident-ritchie-8rwh7t -> FETCH_HEAD
+       cb88f8f33..e752b3ffc  claude/cc-testing -> origin/claude/cc-testing
     From https://github.com/pyhuanglaw/Lawstudent
      * branch                claude/second-ai-env-art -> FETCH_HEAD
     Already on 'claude/cc-local'
@@ -38,210 +39,12 @@
     M	docs/story_planning/CC/local_out/R8_y4s2rt/out/transcript_main_pass.json
     M	docs/story_planning/CC/local_out/R8_y4s2rt/out/transcript_route_grades_retake.json
     M	docs/story_planning/CC/local_out/R8_y4s2rt/run.log
-    Your branch is ahead of 'origin/claude/cc-local' by 2 commits.
-      (use "git push" to publish your local commits)
+    Your branch is up to date with 'origin/claude/cc-local'.
     Already up to date.
-    Already up to date.
-[22:53:35] dev head = dd13ce284   lawww2 head = 764a8323c
-[22:53:36] config.txt: PARALLEL 2 -> 3
-[22:53:36] memory used: 37%  (new items wait while >= 85%)
-[22:53:40] queue: LIVE18_deploy, LIVE18_day12, LIVE18_deploy2, V18R_deploy, V18R_p0, V18R_v7, V18R_zone, V18R_mini, V18R_touch, V18R_class, V18R_reach, V18R_touch2, V18G_sleep, V18G_eat, V18G_camp608, N19_libfl, N19_libsc, N19_libtour, N19_wcst, N19_wcfl, N19_wcglb, N19_zone, N19_reach, N19S_diners, N19S_shots, N19C_c608, N19C_osmake, N19C_osload, N19C_f606, N19C_kx607, N19F_fav, V18_ANSMOKE, G1_reach, G2_libfl, G3_libsc, G5_termend, G6a_v7, G6b_v95, G6c_fm, G7_class, P3_ladder, P4_legal, P5_ui, A1_advskip, A2_dorm, A3_late15, A1_adv_ef63, A2_dorm_ef63, A3_l15_ef63, A1pre, A2pre, A3pre, ART_cop, ART_lband, ART_night, ART_uskit, P3b_sl, R4main, R4b1b_rr, R4v2_b1b, B4main, R1_reach, R2_flowcls, R3_touchwz, R4_day12, R6_layout, R6b_layoutcss, R7_quota, R7b_quota15, R8b_y4s2jp, R8c_y4s2fin, R9_roll, R5_rr, R6_rr, R8_rr, R10_b3, R11_b4, R10_rr, R12_fasat, R12b_fasatpre, R10_rr2, R6_rr2, R8_rr2, F1_fps_hl, F2_fps_hd, R1_x2, R2_x2, R3_x2, R4_x2, R5_x2, R9_x2, R1_x3, R2_x3, R3_x3, R4_x3, R5_x3, R9_x3, 00_gpu, 01_p0speed, 10_deploy, 11_reach, 12_flowcls, 13_minimap, 14_zones, 15_touchwz, 16_p0, 17_savev7, 18_flowday12, 19_mkretake, 19b_mkjp, 02b_mk12dea, 06b_layoutP, 06c_layoutO, 32_wsem, 33_wsempre, 20_roll, 21_rollpre, 22_boya, 23_boyapre, 24_b3, 25_b3pre, 26_b3pre2, 27_b4, 28_b4pre, 29_jpmk, 34_day9, 02_mk12new, 04b_quota15, 04c_legal, 05_mk12old, 07_bg107, 08_pt106, 30_b1base, 31_b2base, G4_day12, FS112, R11_full, R10pre, R11pre, D_B12_skybr, D_RUN_p0, D_RUN_movreg, V18_LIBTOUR
-[22:53:40] skip LIVE18_deploy (already done on 0776cafc8)
-[22:53:40] skip LIVE18_day12 (already done on 0776cafc8)
-[22:53:40] skip LIVE18_deploy2 (already done on 0776cafc8)
-[22:53:40] skip V18R_deploy (already done on 0776cafc8)
-[22:53:40] skip V18R_p0 (already done on 0776cafc8)
-[22:53:40] skip V18R_v7 (already done on 0776cafc8)
-[22:53:40] skip V18R_zone (already done on 0776cafc8)
-[22:53:40] skip V18R_mini (already done on 0776cafc8)
-[22:53:40] skip V18R_touch (already done on 0776cafc8)
-[22:53:40] skip V18R_class (already done on 0776cafc8)
-[22:53:40] skip V18R_reach (already done on 0776cafc8)
-[22:53:40] skip V18R_touch2 (already done on 0776cafc8)
-[22:53:40] skip V18G_sleep (already done on ffeec06e0)
-[22:53:40] skip V18G_eat (already done on ffeec06e0)
-[22:53:40] skip V18G_camp608 (already done on ffeec06e0)
-[22:53:40] skip N19_libfl (already done on 21ab92db0)
-[22:53:40] skip N19_libsc (already done on 21ab92db0)
-[22:53:40] skip N19_libtour (already done on 21ab92db0)
-[22:53:40] skip N19_wcst (already done on 9f14aab23)
-[22:53:40] skip N19_wcfl (already done on 9f14aab23)
-[22:53:40] skip N19_wcglb (already done on 9f14aab23)
-[22:53:40] skip N19_zone (already done on 9f14aab23)
-[22:53:40] skip N19_reach (already done on b1ae1c390)
-[22:53:40] skip N19S_diners (already done on b1ae1c390)
-[22:53:40] skip N19S_shots (already done on b1ae1c390)
-[22:53:40] skip N19C_c608 (already done on b1ae1c390)
-[22:53:40] skip N19C_osmake (already done on 0f66c4215)
-[22:53:40] skip N19C_osload (already done on b1ae1c390)
-[22:53:40] memory 36% before starting N19C_f606 (0 running)
-[22:53:40] memory 36% before starting N19C_kx607 (1 running)
-[22:53:40] ==== START N19C_f606  (probe @ b1ae1c390) ====
-[22:53:40] ==== START N19C_kx607  (probe @ b1ae1c390) ====
-[22:53:40] skip N19F_fav (already done on b1ae1c390)
-[22:53:40] skip V18_ANSMOKE (already done on 6a8033f4e)
-[22:53:40] skip G1_reach (already done on ef63b1877)
-[22:53:40] skip G2_libfl (already done on ef63b1877)
-[22:53:40] skip G3_libsc (already done on ef63b1877)
-[22:53:40] skip G5_termend (already done on ef63b1877)
-[22:53:41] skip G6a_v7 (already done on ef63b1877)
-[22:53:41] skip G6b_v95 (already done on ef63b1877)
-[22:53:41] skip G6c_fm (already done on ef63b1877)
-[22:53:41] skip G7_class (already done on ef63b1877)
-[22:53:41] skip P3_ladder (already done on ef63b1877)
-[22:53:41] skip P4_legal (already done on ef63b1877)
-[22:53:41] skip P5_ui (already done on ef63b1877)
-[22:53:41] skip A1_advskip (already done on b1b249873)
-[22:53:41] skip A2_dorm (already done on b1b249873)
-[22:53:41] skip A3_late15 (already done on b1b249873)
-[22:53:41] skip A1_adv_ef63 (already done on ef63b1877)
-[22:53:41] skip A2_dorm_ef63 (already done on ef63b1877)
-[22:53:41] skip A3_l15_ef63 (already done on ef63b1877)
-[22:53:41] skip A1pre (already done on 03b2721af)
-[22:53:41] skip A2pre (already done on 3c6207b60)
-[22:53:41] skip A3pre (already done on dc36b401e)
-[22:53:41] skip ART_cop (already done on b1b249873)
-[22:53:41] skip ART_lband (already done on b1b249873)
-[22:53:41] skip ART_night (already done on b1b249873)
-[22:53:41] skip ART_uskit (already done on b1b249873)
-[22:53:41] skip P3b_sl (already done on ef63b1877)
-[22:53:41] skip R4main (already done on 27e6ce77e)
-[22:53:41] skip R4b1b_rr (already done on b1b249873)
-[22:53:41] skip R4v2_b1b (already done on b1b249873)
-[22:53:41] skip B4main (already done on 27e6ce77e)
-[22:53:41] skip R1_reach (already done on b1b249873)
-[22:53:41] skip R2_flowcls (already done on b1b249873)
-[22:53:41] skip R3_touchwz (already done on b1b249873)
-[22:53:41] skip R4_day12 (already done on b1b249873)
-[22:53:41] skip R6_layout (already done on b1b249873)
-[22:53:41] skip R6b_layoutcss (already done on b1b249873)
-[22:53:41] skip R7_quota (already done on b1b249873)
-[22:53:41] skip R7b_quota15 (already done on b1b249873)
-[22:53:41] skip R8b_y4s2jp (already done on b1b249873)
-[22:53:41] skip R8c_y4s2fin (already done on b1b249873)
-[22:53:41] skip R9_roll (already done on b1b249873)
-[22:53:41] skip R5_rr (already done on b1b249873)
-[22:53:41] skip R6_rr (already done on b1b249873)
-[22:53:41] skip R8_rr (already done on b1b249873)
-[22:53:41] skip R10_b3 (already done on b1b249873)
-[22:53:41] skip R11_b4 (already done on b1b249873)
-[22:53:41] skip R10_rr (already done on b1b249873)
-[22:53:41] skip R12_fasat (already done on b1b249873)
-[22:53:41] skip R12b_fasatpre (already done on ba125d6f3)
-[22:53:41] skip R10_rr2 (already done on b1b249873)
-[22:53:41] skip R6_rr2 (already done on b1b249873)
-[22:53:41] skip R8_rr2 (already done on b1b249873)
-[22:53:41] skip F1_fps_hl (already done on b1b249873)
-[22:53:41] skip F2_fps_hd (already done on b1b249873)
-[22:53:41] skip R1_x2 (already done on b1b249873)
-[22:53:41] skip R2_x2 (already done on b1b249873)
-[22:53:41] skip R3_x2 (already done on b1b249873)
-[22:53:41] skip R4_x2 (already done on b1b249873)
-[22:53:41] skip R5_x2 (already done on b1b249873)
-[22:53:41] skip R9_x2 (already done on b1b249873)
-[22:53:41] skip R1_x3 (already done on b1b249873)
-[22:53:41] skip R2_x3 (already done on b1b249873)
-[22:53:41] skip R3_x3 (already done on b1b249873)
-[22:53:41] skip R4_x3 (already done on b1b249873)
-[22:53:41] skip R5_x3 (already done on b1b249873)
-[22:53:41] skip R9_x3 (already done on b1b249873)
-[22:53:41] memory 37% before starting 00_gpu (2 running)
-[22:53:41] ==== START 00_gpu  (gpu @ b1ae1c390) ====
-[22:53:43] [res] cpu=9% mem=37% (11.6/31.4 GB) chrome_testing=0  START N19C_kx607
-[22:53:43] [res] cpu=9% mem=37% (11.6/31.4 GB) chrome_testing=0  START N19C_f606
-[22:53:44] [res] cpu=10% mem=37% (11.7/31.4 GB) chrome_testing=0  START 00_gpu
-[22:56:50] [res] cpu=18% mem=49% (15.5/31.4 GB) chrome_testing=20  END 00_gpu
-    To https://github.com/pyhuanglaw/Lawstudent.git
-       3f1ffce50..5a00eaffe  claude/cc-local -> claude/cc-local
-    branch 'claude/cc-local' set up to track 'origin/claude/cc-local'.
-[22:56:54] ==== END   00_gpu  exit=0  189s   ====
-[22:56:58] memory 49% before starting N19F_fav2 (2 running)
-[22:56:58] ==== START N19F_fav2  (probe @ b1ae1c390) ====
-[22:57:01] [res] cpu=35% mem=49% (15.6/31.4 GB) chrome_testing=20  START N19F_fav2
-[22:57:31] [res] cpu=29% mem=47% (14.8/31.4 GB) chrome_testing=18  END N19C_kx607
-    To https://github.com/pyhuanglaw/Lawstudent.git
-       5a00eaffe..b8ea31215  claude/cc-local -> claude/cc-local
-    branch 'claude/cc-local' set up to track 'origin/claude/cc-local'.
-[22:57:36] ==== END   N19C_kx607  exit=0  230s   ====
-[22:57:38] memory 49% before starting N19E_exw (2 running)
-[22:57:38] ==== START N19E_exw  (probe @ b1ae1c390) ====
-[22:57:41] [res] cpu=23% mem=49% (15.4/31.4 GB) chrome_testing=18  START N19E_exw
-[22:58:40] 正在跑：N19C_f606（已跑 4 分／上限 620 分）、N19F_fav2（已跑 1 分／上限 40 分）、N19E_exw（已跑 1 分／上限 60 分）——還沒測完，請不要關 (tests still running - please do not close)
-[22:59:40] [res] cpu=12% mem=50% (16.0/31.4 GB) chrome_testing=20  END N19E_exw
-    To https://github.com/pyhuanglaw/Lawstudent.git
-       b8ea31215..0587fbcc2  claude/cc-local -> claude/cc-local
-    branch 'claude/cc-local' set up to track 'origin/claude/cc-local'.
-[22:59:46] ==== END   N19E_exw  exit=0  122s   ====
-[22:59:52] memory 44% before starting 01_p0speed (2 running)
-[22:59:52] ==== START 01_p0speed  (game @ b1ae1c390) ====
-[22:59:53] [res] cpu=12% mem=44% (13.9/31.4 GB) chrome_testing=10  END N19F_fav2
-[22:59:55] [res] cpu=32% mem=44% (14.0/31.4 GB) chrome_testing=10  START 01_p0speed
-    To https://github.com/pyhuanglaw/Lawstudent.git
-       0587fbcc2..adee4ce62  claude/cc-local -> claude/cc-local
-    branch 'claude/cc-local' set up to track 'origin/claude/cc-local'.
-[22:59:59] ==== END   N19F_fav2  exit=0  175s   ====
-[23:00:23] blender item MD_tx_v2 waits until the 2 running item(s) finish; other items go first
-[23:00:23] skip 10_deploy (already done on d75871437)
-[23:00:23] skip 11_reach (already done on d75871437)
-[23:00:23] skip 12_flowcls (already done on d75871437)
-[23:00:23] skip 13_minimap (already done on d75871437)
-[23:00:23] skip 14_zones (already done on d75871437)
-[23:00:23] skip 15_touchwz (already done on d75871437)
-[23:00:23] skip 16_p0 (already done on d75871437)
-[23:00:23] skip 17_savev7 (already done on d75871437)
-[23:00:23] skip 18_flowday12 (already done on d75871437)
-[23:00:23] skip 19_mkretake (already done on 690ac5f4d)
-[23:00:23] skip 19b_mkjp (already done on 690ac5f4d)
-[23:00:23] skip 02b_mk12dea (already done on dea6b1944)
-[23:00:23] skip 06b_layoutP (already done on c2d0c24bc)
-[23:00:23] skip 06c_layoutO (already done on e27dd033e)
-[23:00:23] skip 32_wsem (already done on d75871437)
-[23:00:23] skip 33_wsempre (already done on dea6b1944)
-[23:00:23] skip 20_roll (already done on 4c8f138f7)
-[23:00:23] skip 21_rollpre (already done on 82f8d28c5)
-[23:00:23] skip 22_boya (already done on 6f0122821)
-[23:00:23] skip 23_boyapre (already done on 2c8d47e70)
-[23:00:23] skip 24_b3 (already done on d75871437)
-[23:00:23] skip 25_b3pre (already done on 299e23345)
-[23:00:23] skip 26_b3pre2 (already done on 6ba2a22ad)
-[23:00:23] skip 27_b4 (already done on d75871437)
-[23:00:23] skip 28_b4pre (already done on f57e3ac75)
-[23:00:23] skip 29_jpmk (already done on d75871437)
-[23:00:23] skip 34_day9 (already done on d75871437)
-[23:00:23] skip 02_mk12new (already done on c2d0c24bc)
-[23:00:23] skip 04b_quota15 (already done on c2d0c24bc)
-[23:00:23] skip 04c_legal (already done on c2d0c24bc)
-[23:00:23] skip 05_mk12old (already done on b4f98ea4e)
-[23:00:23] skip 07_bg107 (already done on c2d0c24bc)
-[23:00:23] skip 08_pt106 (already done on c2d0c24bc)
-[23:00:23] skip 30_b1base (already done on a3b1bd647)
-[23:00:23] skip 31_b2base (already done on a3b1bd647)
-[23:00:23] skip G4_day12 (already done on ef63b1877)
-[23:00:23] skip FS112 (already done on 0f66c4215)
-[23:00:23] skip R11_full (already done on b1b249873)
-[23:00:23] skip R10pre (already done on 299e23345)
-[23:00:23] skip R11pre (already done on f57e3ac75)
-[23:00:23] skip D_B12_skybr (already done on ffeec06e0)
-[23:00:23] skip D_RUN_p0 (already done on ffeec06e0)
-[23:00:23] skip D_RUN_movreg (already done on ffeec06e0)
-[23:00:23] skip V18_LIBTOUR (already done on ffeec06e0)
-[23:02:22] [res] cpu=13% mem=44% (14.0/31.4 GB) chrome_testing=10  END 01_p0speed
-    To https://github.com/pyhuanglaw/Lawstudent.git
-       adee4ce62..6605b9790  claude/cc-local -> claude/cc-local
-    branch 'claude/cc-local' set up to track 'origin/claude/cc-local'.
-[23:02:27] ==== END   01_p0speed  exit=0  150s   ====
-[23:02:32] blender item MD_tx_v2 waits until the 1 running item(s) finish; other items go first
-[23:03:40] 正在跑：N19C_f606（已跑 9 分／上限 620 分）——還沒測完，請不要關 (tests still running - please do not close)
-[23:08:40] 正在跑：N19C_f606（已跑 14 分／上限 620 分）——還沒測完，請不要關 (tests still running - please do not close)
-[23:13:40] 正在跑：N19C_f606（已跑 19 分／上限 620 分）——還沒測完，請不要關 (tests still running - please do not close)
-[23:15:47] [res] cpu=6% mem=37% (11.8/31.4 GB) chrome_testing=0  END N19C_f606
-    To https://github.com/pyhuanglaw/Lawstudent.git
-       6605b9790..fbef6dec7  claude/cc-local -> claude/cc-local
-    branch 'claude/cc-local' set up to track 'origin/claude/cc-local'.
-[23:15:53] ==== END   N19C_f606  exit=1  1326s   ====
-[23:15:55] memory 37% before starting MD_tx_v2 (0 running)
-[23:15:55] ==== START MD_tx_v2  (blender @ 451bb65ee) ====
-[23:15:58] [res] cpu=8% mem=37% (11.6/31.4 GB) chrome_testing=0  START MD_tx_v2
-[23:18:40] 正在跑：MD_tx_v2（已跑 2 分／上限 90 分）——還沒測完，請不要關 (tests still running - please do not close)
-[23:23:40] 正在跑：MD_tx_v2（已跑 7 分／上限 90 分）——還沒測完，請不要關 (tests still running - please do not close)
-[23:23:49] [res] cpu=5% mem=37% (11.9/31.4 GB) chrome_testing=0  END MD_tx_v2
+    Merge made by the 'ort' strategy.
+     .../test_tools/cc/cc_gym_shot_probe.py             | 33 ++++++++++++++++------
+     tools/cc_local/queue.txt                           |  5 ++--
+     2 files changed, 27 insertions(+), 11 deletions(-)
+[23:29:07] dev head = ae788cb9f   lawww2 head = af94189c1
+[23:29:08] config.txt: PARALLEL 2 -> 3
+[23:29:08] memory used: 37%  (new items wait while >= 85%)
