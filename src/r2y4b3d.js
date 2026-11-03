@@ -242,7 +242,7 @@ const R2Y4B=(function(){
   S.JULY={
     heroine_01:{inv:['明天晚上有空嗎。','六點半，同一家。'],h:18.5,place:'eatery',placeName:'公館巷子裡她知道的小店',
       last:[G=>(typeof SOCIAL!=='undefined'&&SOCIAL.has('heroine_01','AN_SHOP_PAGE'))?{narr:'（她把手帳翻到「想去的店」那一頁，推到你面前。最下面那一行，還是只有「和你」。）'}:{narr:'（她把手帳翻到「想去的店」那一頁，推到你面前。最下面一行沒有店名，只寫著「和你」。）'},{remember:'AN_SHOP_PAGE'},'這一行，我想今天勾掉。','你回答。'],   /* AA_589 第 88、89 列＋第 10 節：沒看過那一頁＝第一次揭曉的寫法、記 AN_SHOP_PAGE */friend:'好。……八月四號，你考試加油。',friendNo:'好。……九月見。',friendK:'……八月四號，你考試加油。',friendNoK:'……九月見。'},
-    heroine_03:{inv:['明天茶屋打烊以後，你來。','我泡茶。'],h:20.5,place:<茶屋打烊後>,placeName:'一盞茶屋（打烊以後）',
+    heroine_03:{inv:['明天茶屋打烊以後，你來。','我泡茶。'],h:20.5,place:'tea_closed',placeName:'一盞茶屋（打烊以後）',
       last:['你上次說要想。我等到現在。','……我還是想坐你旁邊。'],friend:'好。考完一起喝茶，算我的。',friendNo:'好。下次來喝茶，算我的。',friendK:'考完一起喝茶，算我的。',friendNoK:'下次來喝茶，算我的。'},
     heroine_05:{inv:['明天晚上，同一家。','我請。'],h:18.5,place:'eatery_lib',placeName:'法圖旁邊的簡餐',
       last:['六月那天說的，我不想再往後排了。','你說吧。我聽。'],lastK:['六月那天說的，我不想再往後排了。'],friend:'好。考完告訴我結果。',friendNo:'好。有什麼事，再告訴我。',friendK:'考完告訴我結果。',friendNoK:'有什麼事，再告訴我。'},

@@ -29,7 +29,7 @@ const R2Y3B_EVENTS=(function(){
 
   /* ---------- 2-Y3-26 開學第一頓（大三下）：2028-02-22（二）19:00 麵店長桌（17:00 阿哲揪；沒去＝21:30 群組照片）---------- */
   const FIRST_MEAL={ id:'ev_y3s2_first_meal', title:'開學第一頓（大三下）', participants:[], location:'any', trigger:'outing', once:true, background:'dark', hours:1.5,
-    dialogue:[ {scene:'日常失速・長桌',bg:<日常失速>},
+    dialogue:[ {scene:'日常失速・長桌',bg:'boardgame_gg'},
       {speaker:null,text:'（日常失速的八人長桌。語彤坐在最裡面，背包還沒放下。）'},
       {if:kn('zhe','heroine_01'),speaker:'zhe',text:'這學期以安只吃一個月。'},
       {if:kn('heroine_01'),speaker:'heroine_01',text:'一個月又三天。三月二十五號的飛機。'},

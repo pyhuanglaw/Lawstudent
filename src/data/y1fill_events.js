@@ -74,7 +74,7 @@ const Y1FILL_EVENTS=(function(){
     /* ---------- 2-1 店休前的麵店：2/7（六）18:00 ----------
        AA_549 3-3（企劃線 AA_549 第 3 節 3-3；第①級）：原本只有一句旁白（「過年前最後一個週末。長桌只坐了三個人……」）＝換成語彤的場景 */
     { id:'ev_y1w_noodle_last', title:'日常失速', participants:['heroine_03'], location:'any', trigger:'outing', once:true, background:'dark',
-      dialogue:[ {scene:'阿鳳麵店・長桌',bg:'noodle_table'},
+      dialogue:[ {scene:'日常失速・靠窗的位子',bg:'boardgame_gg'},
         {speaker:null,text:'（寒假的日常失速，客人只有兩桌。語彤坐在靠窗的位子，圍裙還塞在背包裡。）'},
         {speaker:'heroine_03',text:'你來了。'},
         {speaker:'heroine_03',text:'下班以後，我不想一個人吃。……蘇姨說這家的厚片可以。'},

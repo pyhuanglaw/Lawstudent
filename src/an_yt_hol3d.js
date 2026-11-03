@@ -35,6 +35,7 @@ const ANYTHOL=(function(){
   /* 她在臺北，或那一場寫的地方（where：寒暑假在老家的城市也算）*/
   S.herOk=function(G,id,day,where){ const p=pres(G,id,day)||{here:true}; if(p.here||p.kind==='taipei') return true; return !!where&&((!!p.home&&where.includes(p.home))||(!!p.city&&where.includes(p.city))); };
   /* 麵店店休（noodle_closed3d.js）：shop 'closed'＝那天要是店休、'open'＝那天要照常；沒有 NOODLE_CLOSED（測試沒載）＝不看 */
+  const DN=(G,id,d,n)=>dating(G,id)?d:n;   /* AA_630 第 5 節：同一個 key 拆交往中／沒交往兩版 */
   S.shopOk=(G,a,day)=>!a.shop||typeof NOODLE_CLOSED==='undefined'||!NOODLE_CLOSED.closed||NOODLE_CLOSED.closed(G,day)===(a.shop==='closed');
   /* AA_416 第 3、5 節：2/14 那幾場第 6 階（DATE.stageNum，還沒交往）也演；中秋照 AA_414 只有交往中 */
   const stage6=id=>typeof DATE!=='undefined'&&!!DATE.stageNum&&DATE.stageNum(id)>=6;
@@ -64,29 +65,32 @@ const ANYTHOL=(function(){
       opts:[o(L.an3YesT,L.an3Yes),o(L.an3NoT,L.an3No,{no:true})],
       out:{id:'anyt_an_vday_y3',ev:'ev_an_vday_y3',day:'2028-02-14',h:14,late:0.25,place:'總圖門口',title:'情人節（總圖門口）',travel:'走路',travelH:1/6},
       miss:{day:'2028-02-14',at:[[15,L.an3Miss1],[17,L.an3Miss2]]}},
-    {k:'yt_y1',who:YT,ask:'2026-02-13',h:21,lines:L.yt1Ask,flag:'YT_VDAY_Y1',go:'YT_VDAY_Y1_GO',shop:'closed',until:16,   /* 幫忙的 16:00：回覆開到 16:00 */
+    {k:'yt_y1',off:true,who:YT,ask:'2026-02-13',h:21,lines:L.yt1Ask,flag:'YT_VDAY_Y1',go:'YT_VDAY_Y1_GO',until:16,   /* AA_630 第 10 節第 4 點：這一年拿掉（2026-02-14 寒假，她在淡水）；off＝不約（表留著）*/   /* 幫忙的 16:00：回覆開到 16:00 */
       opts:[o(L.yt1YesT,L.yt1Yes),o(L.yt1HelpT,L.yt1Help,{set:{YT_VDAY_Y1_HELP:true}}),o(L.yt1NoT,L.yt1No,{no:true})],
       hOf:G=>G.flags.YT_VDAY_Y1_HELP?16:17,
       out:{id:'anyt_yt_vday_y1',ev:'ev_yt_vday_y1',day:'2026-02-14',h:17,late:0.25,place:'一盞茶屋門口',title:'情人節（茶屋門口）',travel:'走路約 10 分鐘',travelH:1/6},
       miss:{day:'2026-02-14',at:[[17.5,L.yt1Miss1],[19,L.yt1Miss2]]}},
-    {k:'yt_y2',who:YT,ask:'2027-02-13',h:21,lines:L.yt2Ask,flag:'YT_VDAY_Y2',go:'YT_VDAY_Y2_GO',shop:'open',
-      opts:[o(L.yt2YesT,L.yt2Yes),o(L.yt2WhyT,L.yt2Why),o(L.yt2NoT,L.yt2No,{no:true})],
-      out:{id:'anyt_yt_vday_y2',ev:'ev_yt_vday_y2',day:'2027-02-14',h:17.5,late:0.5，交往中 place:'新生南路・她家',title:'情人節（她家）'／沒交往 place:'一盞茶屋門口',title:'情人節（茶屋門口）',travel:'走路',travelH:1/6},
-      miss:{day:'2027-02-14',at:[[13,L.yt2Miss1],[13+1/60,L.yt2Miss2]]}},
-    {k:'yt_y3',who:YT,ask:'2028-02-13',h:21,lines:L.yt3Ask,flag:'YT_VDAY_Y3',go:'YT_VDAY_Y3_GO',shop:'open',
+    /* AA_630 H-007～H-010、H-021：2027-02-14（日）她 13～17 有班＝17:30；交往中＝她家、還沒交往＝茶屋門口（DN：照 dating 挑 D／N 那一套）*/
+    {k:'yt_y2',who:YT,ask:'2027-02-13',h:21,lines:G=>DN(G,YT,L.yt2AskD,L.yt2AskN),flag:'YT_VDAY_Y2',go:'YT_VDAY_Y2_GO',
+      opts:[o(L.yt2YesT,L.yt2Yes),o(L.yt2WhyT,G=>DN(G,YT,L.yt2WhyD,L.yt2WhyN)),o(L.yt2NoT,L.yt2No,{no:true})],
+      out:{id:'anyt_yt_vday_y2',ev:'ev_yt_vday_y2',day:'2027-02-14',h:17.5,late:0.5,place:'一盞茶屋門口',title:'情人節（茶屋門口）',travel:'走路',travelH:1/6},
+      outOf:G=>dating(G,YT)?{place:'新生南路・她家',title:'情人節（她家）'}:{},
+      miss:{day:'2027-02-14',at:[[18,G=>DN(G,YT,L.yt2Miss1D,L.yt2Miss1N)],[18+1/60,G=>DN(G,YT,L.yt2Miss2D,L.yt2Miss2N)]]}},
+    {k:'yt_y3',who:YT,ask:'2028-02-13',h:21,lines:L.yt3Ask,flag:'YT_VDAY_Y3',go:'YT_VDAY_Y3_GO',   /* AA_630 H-022：校門口；店休表不看了 */
       opts:[o(L.yt3YesT,L.yt3Yes),o(L.yt3NoT,L.yt3No,{no:true})],
       out:{id:'anyt_yt_vday_y3',ev:'ev_yt_vday_y3',day:'2028-02-14',h:14,late:0.25,place:'校門口',title:'情人節（語彤要帶你去的地方）',travel:'走路約 15 分鐘',travelH:0.25},
       miss:{day:'2028-02-14',at:[[15,L.yt3Miss1],[15+1/60,L.yt3Miss2]]}},
-    {k:'yt_y4',who:YT,ask:'2029-02-13',h:21,lines:L.yt4Ask,flag:'YT_VDAY_Y4',go:'YT_VDAY_Y4_GO',shop:'closed',
+    {k:'yt_y4',who:YT,ask:'2029-02-13',h:21,lines:G=>DN(G,YT,L.yt4AskD,L.yt4AskN),flag:'YT_VDAY_Y4',go:'YT_VDAY_Y4_GO',   /* AA_630 H-012、H-023：過年她在淡水，晚上回台北；交往中＝她家、還沒交往＝她家樓下 */
       opts:[o(L.yt4YesT,L.yt4Yes),o(L.yt4NoT,L.yt4No,{no:true})],
-      out:{id:'anyt_yt_vday_y4',ev:'ev_yt_vday_y4',day:'2029-02-14',h:19,late:0.25,交往中 place:'新生南路・她家',title:'情人節（她家）'／沒交往 place:'新生南路・她家樓下',title:'情人節',travel:'走路約 15 分鐘',travelH:0.25},
+      out:{id:'anyt_yt_vday_y4',ev:'ev_yt_vday_y4',day:'2029-02-14',h:19,late:0.25,place:'新生南路・她家樓下',title:'情人節',travel:'走路約 15 分鐘',travelH:0.25},
+      outOf:G=>dating(G,YT)?{place:'新生南路・她家',title:'情人節（她家）'}:{},
       miss:{day:'2029-02-14',at:[[19.5,L.yt4Miss1],[19.5+1/60,L.yt4Miss2]]}} ];
   /* 2-5 中秋（AA_127 4-2 的時段，和麵店團的中秋烤肉同一天）*/
   S.MOON=[[2026,'2026-09-24','2026-09-25'],[2027,'2027-09-14','2027-09-15'],[2028,'2028-10-02','2028-10-03']];
   for(const [y,ask,day] of S.MOON) S.HOL.push({k:'yt_moon_'+y,who:YT,ask,h:21,lines:L.moonAsk,flag:'YT_MOON_'+y,go:'YT_MOON_'+y+'_GO',moon:y,
     opts:[o(L.moonYesT,L.moonYes),o(L.moonNoT,L.moonNo,{no:true})],
-    out:{id:'anyt_yt_moon_'+y,ev:'ev_yt_moon',day,h:15,late:0.5,place:'河濱',title:'中秋（河濱）',travel:'走路',travelH:1/6},
-    miss:{day,at:[[16,L.moonMiss]]}});
+    out:{id:'anyt_yt_moon_'+y,ev:'ev_yt_moon',day,h:16.5,late:0.5,place:'河濱',title:'中秋（河濱）',travel:'走路',travelH:1/6},   /* AA_630 H-024：16:30～18:50，接 19:00 河濱烤肉 */
+    miss:{day,at:[[17.5,L.moonMiss]]}});
   /* 1-4 2029-02-14（三，初二）21:00 以安打電話來（台中外婆家；沒有前一天的私訊）*/
   S.CALL={k:'an_y4',who:AN,flag:'AN_VDAY_Y4',ok:'called',where:['台中'],
     out:{id:'anyt_an_vday_y4',ev:'ev_an_vday_y4',day:'2029-02-14',h:21,late:0.25},
@@ -96,17 +100,17 @@ const ANYTHOL=(function(){
   S.byOut=id=>S.HOL.find(a=>a.out.id===id)||(S.CALL.out.id===id?S.CALL:null)||(S.RESCUE.id===id?S.RESCUE:null);
 
   /* 照稿的時間傳（那個時間到了才排；那一天晚兩天以上才讀到的不補）*/
-  const sendAt=function(G,m,base,who){ const md=D(m.day); if(md==null||G.day>md+1||!Array.isArray(m.at)) return; m.at.forEach(([h,lines],i)=>{ const tg=base+i; if(Array.isArray(lines)&&now(G)>=T(md,h)&&!sent(G,tg)) PHONE.at(G,md,h,lines.map(dm(who)),tg); }); };
+  const sendAt=function(G,m,base,who){ const md=D(m.day); if(md==null||G.day>md+1||!Array.isArray(m.at)) return; m.at.forEach(([h,lines0],i)=>{ const tg=base+i, lines=typeof lines0==='function'?lines0(G):lines0; if(Array.isArray(lines)&&now(G)>=T(md,h)&&!sent(G,tg)) PHONE.at(G,md,h,lines.map(dm(who)),tg); }); };
   const gone=(G,q)=>!!q&&(q.state==='missed'||(q.state==='planned'&&now(G)>lateEnd(q)));   /* 答應了沒到：「不去了」或過了時間（OUT.expire 還沒跑到也算）*/
   S.asks=function(G){ const F=G.flags;
-    for(const a of S.HOL){ const d=D(a.ask), od=D(a.out.day); if(d==null||od==null||!Array.isArray(a.lines)) continue; const tag='anyt_'+a.k+'_ask', h0=a.until!=null?a.until:a.out.h;
+    for(const a of S.HOL){ const d=D(a.ask), od=D(a.out.day), AL=typeof a.lines==='function'?a.lines(G):a.lines; if(a.off||d==null||od==null||!Array.isArray(AL)) continue; const tag='anyt_'+a.k+'_ask', h0=a.until!=null?a.until:a.out.h;
       if(!sent(G,tag)&&F[a.flag]==null&&G.day>=d&&G.day<=d+1&&now(G)<T(od,h0)&&S.ok(G,a,d,od)){   /* 那一天一開始就排好（約的時間才送到；快轉會停在要回的訊息）*/
-        const M=a.lines.map(dm(a.who)); M[M.length-1].ask={id:tag,until:T(od,h0),opts:a.opts.map(x=>({t:x.t,
+        const M=AL.map(dm(a.who)); M[M.length-1].ask={id:tag,until:T(od,h0),opts:a.opts.map(x=>({t:x.t,
           set:x.no?{[a.go]:false,[a.flag]:'no'}:Object.assign({[a.go]:true},x.set||{}),
           say:((typeof x.say==='function'?x.say(G):x.say)||[]).map(t=>({from:a.who,text:t}))}))};
         PHONE.at(G,d,a.h,M,tag); }
       const h=a.hOf?a.hOf(G):a.out.h;
-      if(F[a.go]===true&&F[a.flag]==null&&now(G)<T(od,h+a.out.late)) plan(G,Object.assign({},a.out,{day:od,h},a.drive?S.drive(G,od):{},a.hOf&&h!==a.out.h?{help:true}:{}));
+      if(F[a.go]===true&&F[a.flag]==null&&now(G)<T(od,h+a.out.late)) plan(G,Object.assign({},a.out,a.outOf?a.outOf(G):{},{day:od,h},a.drive?S.drive(G,od):{},a.hOf&&h!==a.out.h?{help:true}:{}));
       const q=outGet(G,a.out.id);
       if(F[a.go]===true&&F[a.flag]==null&&(gone(G,q)||G.day>od+1)) F[a.flag]='missed';
       if(F[a.flag]==='missed'&&F[a.go]===true) sendAt(G,a.miss,tag+'_miss',a.who);

@@ -79,7 +79,7 @@ const FEED_Y3S2={
   /* 「好。」的 2D 短場（8/22 21:00～22:00 麵店，旁白；hours 1）。title（出遊的標題）是這裡取的 */
   events:[
     { id:'ev_aa508_yt_aunt', title:'一盞：陪語彤問蘇姨', participants:['heroine_03'], location:'any', trigger:'outing', once:true, background:'dark', hours:1,
-      dialogue:[ {scene:'阿鳳麵店・長桌',bg:'noodle_table'},
+      dialogue:[ {scene:'一盞茶屋・吧檯',bg:'wenzhou_teahouse'},
         {speaker:null,text:'（店裡的燈只開一半。蘇姨坐在吧檯的另一頭，語彤把錄音筆放在中間。）'},
         {speaker:null,text:'（蘇姨先說「沒什麼好講的」。然後一直講到很晚。）'},
         {speaker:null,text:'（你一句話都沒說。語彤也是。）'},
