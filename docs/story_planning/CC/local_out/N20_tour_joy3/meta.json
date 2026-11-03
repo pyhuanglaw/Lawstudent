@@ -1,0 +1,23 @@
+{
+  "rerun": "wait90b",
+  "id": "N20_tour_joy3",
+  "sha": "d2b962a3f",
+  "kind": "probe",
+  "script": "docs/story_planning/test_tools/cc/cc_lib_tour2_probe.py",
+  "env": "SOLO=1;MODE=joy;PHOTO=1;CC_HEADLESS=0;RERUN=wait90b",
+  "machine": "MSI",
+  "start": "2026-11-04T06:40:57",
+  "end": "2026-11-04T06:46:37",
+  "seconds": 339,
+  "exit": 0,
+  "error": null,
+  "runner": "9bde5687ff",
+  "rf_round": "22",
+  "url": "http://127.0.0.1:8810/index.html",
+  "res_peak": {
+    "cpu": 39,
+    "mem": 54,
+    "used_gb": 17.1,
+    "chrome_testing": 9
+  }
+}
