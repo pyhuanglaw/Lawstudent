@@ -4,7 +4,7 @@
    吃飯的店（kind 不是 stand）尖峰比例只記錄（四到六成交給 BB 判），不判 PASS／FAIL。
 ② 每一間尖峰時段一張截圖（鏡頭拉近）；坐著的客人離座位 ≤ 0.05 m、高度差 ≤ 0.05 m（沒浮空、沒穿進桌子）；
    書店、便利商店、影印店（站著的那幾組）的客人不是坐姿。
-③ 同一時段讀檔兩次：出現的是同一批人（crowd 組＋模型 spec 的集合一樣）。
+③ 同一時段讀檔兩次：出現的是同一批人（每位客人的 crowdKey＝地點｜時段｜第幾位 的集合一樣）。
 【前置／捷徑】每一間直接讀檔到店裡（照 tests/shop_diners_shots.py 的做法），不是從街上走進去；只為了看客人，不是玩家流程。
 用法：LW_TESTS=<wt>/tests [SHOPS=cafe,noodle] [HOURS=12.5,15,18.5,22.75] python3 cc_shop_diners_probe.py '<URL>/index.html?turbo' <out>"""
 import asyncio, json, os, sys
@@ -31,7 +31,7 @@ INFO = """(()=>{ const E=GAME.E, G=GAME.G, C=CROWD, def=C.SHOP_ZONES[G.zone]; if
   return {zone:G.zone, kind:def.kind, hour:h, open, wins, cap:C.SHOP_CAP, seats:seats.length, free:C.shopFree(E), need:C.shopNeed(E), count:C.shopCount(E,G.zone),
     keep:plan.keep, keepSeats:keepU&&keepU.seats?keepU.seats.length:0, keepBusy,
     cust:cust.map(n=>{ const o=n.obj.position, st=n.seat, ui=+String(n.crowd).split('_').pop();
-      return {crowd:n.crowd, spec:n.spec!=null?n.spec:(n.char3d&&n.char3d.spec)||null, key:n.key||n.ckey||null, pose:n.pose, stand:standUnits.includes(ui),
+      return {crowd:n.crowd, spec:n.spec!=null?n.spec:(n.char3d&&n.char3d.spec)||null, key:n.crowdKey||null, pose:n.pose, stand:standUnits.includes(ui),
         seatD:st?+Math.hypot(o.x-st.x,o.z-st.z).toFixed(3):null,
         dy:st?+(o.y-((st.y!=null?st.y:E.heightAt(st.x,st.z,n.lv|0))+(st.lift||0))).toFixed(3):null}; }) }; })()"""
 
@@ -86,7 +86,7 @@ async def main():
                 await pg.evaluate("(()=>{ const c=GAME.E.cam; if(c&&c.dist!=null) c.dist=Math.max(2.2,c.dist*0.6); })()"); await pg.wait_for_timeout(1500)
                 await pg.screenshot(path=os.path.join(OUT, f'{z}_{int(h * 100)}.png'))
                 bset = await load(pg, cdp, z, d, wd, h)
-                sig = lambda i: sorted(f"{c['crowd']}#{c['spec']}" for c in i.get('cust', []))
+                sig = lambda i: sorted(str(c['key'] or c['crowd']) for c in i.get('cust', []))
                 check(f'{tag}：同一時段讀檔兩次＝同一批人', sig(a) == sig(bset), json.dumps([sig(a), sig(bset)], ensure_ascii=False)[:300])
             else:
                 print(f'  {z}：這幾個時段都沒有客人，沒有截圖', flush=True)
