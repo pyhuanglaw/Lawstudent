@@ -1,0 +1,23 @@
+{
+  "rerun": "",
+  "id": "LIVE2_day12",
+  "sha": "1d0904473",
+  "kind": "game",
+  "script": "tests/flow_main_day12.py",
+  "env": "XARGS=https://pyhuanglaw.github.io/Lawstudent/index.html {out}",
+  "machine": "MSI",
+  "start": "2026-11-03T16:38:52",
+  "end": "2026-11-03T16:44:46",
+  "seconds": 354,
+  "exit": 0,
+  "error": null,
+  "runner": "02a9caf4ba",
+  "rf_round": "2",
+  "url": "http://127.0.0.1:8811/index.html",
+  "res_peak": {
+    "cpu": 71,
+    "mem": 63,
+    "used_gb": 19.8,
+    "chrome_testing": 26
+  }
+}
