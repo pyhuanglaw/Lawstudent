@@ -1,0 +1,29 @@
+[gpu_wrap] CC_GPU=1 跑 C:\Users\USER\Documents\Lawstudent_cclocal\docs\story_planning\test_tools\cc\cc_sleep_cine_probe.py http://127.0.0.1:8810/index.html C:\Users\USER\Documents\Lawstudent_cclocal\docs\story_planning\CC\local_out\V18G_sleep\out
+PASS 遊戲載入
+  [前置／捷徑] 最小存檔讀到 2025-11-09 22.50 宿舍（遊戲日 54）；條件事件照常，只關「要回覆的訊息自動打開手機」
+PASS 記錄鉤子都掛上（GAME.walkTo、fade、choose、say、STORY.lieDown、roomDark）  {"walkTo": true, "fade": true, "lieDown": true, "roomDark": true, "choose": true, "say": true, "titleCard": true}
+PASS 宿舍有上舖的睡覺場面資料（STORY.sleepSceneOf）  {"approach": [-0.55, 1.505], "steps": [[-1.055, 0.32, 1.505], [-1.265, 0.64, 1.505], [-1.475, 0.96, 1.505], [-1.685, 1.28, 1.505], [-1.895, 1.6, 1.505]], "feet": [-1.485, 1.91, 0.97], "top": 1.86}
+  起點 {"day": 54, "key": "2025-11-09", "h": 22.52, "zone": "dorm", "pose": "idle", "busy": false, "frozen": false, "x": 0, "y": 0, "z": 2.4, "bed": false, "dark": 0, "full": false}
+PASS 宿舍有床的互動點（sleep:true）  {"x": -0.55, "z": 1.505, "label": "睡覺"}
+  「床」途中停下（離目標 0.25 m）：條件成立
+PASS 照玩家走到床、按鈕是「睡覺」  {"lab": "睡覺"}
+PASS 床的選單有「睡到明天…」（開頭比對）  ["睡到明天早上（08:10）08:10（第一堂 09:10 憲法（上）前一小時）", "睡到明天中午12:00。會錯過：09:10 憲法（上）", "睡到明天下午14:00。會錯過：09:10 憲法（上）", "睡到明天晚上18:00。會錯過：09:10 憲法（上）、15:30 體育", "快轉到下一個有事的時候、過一週；沒有劇情的課自動去上", "再撐一下"]
+  點「睡到明天早上（08:10）08:10（第一堂 09:10 憲法（上）前一小時）」
+  play() 停下 （等到醒來）；之後等起床 0.1 秒
+  點選項到 fade(true)／躺下：{"pick_to_fade_ms": 144, "pick_to_lie_ms": 653, "pick_to_lie_game_min": 0.0, "frames_before_lie": 12, "max_y_before_lie": 0}
+  躺下前的鉤子：[["fade", true]]
+PASS 上床：沒有走到梯子前（點選項到躺下之間沒有 GAME.walkTo）  {"walkTo": [], "lie": true}
+PASS 上床：躺下前沒有爬梯（pose 沒有出現 climb）  {"climb_frames": 0, "poses": ["idle"]}
+PASS 上床：躺下前人沒有沿著梯子／床移動（位置變化 < 0.3 m、高度沒超過 0.3 m）  {"moved": 0.0, "maxY": 0}
+PASS 上床：直接黑幕（點選項後第一個畫面動作是 fade(true)，躺下在 fade(true) 之後、fade(false) 之前）  {"fade_on": 144, "lie": 653, "fade_off": 657}
+PASS 上床：不演熄燈（roomDark 沒有 0～1 之間的漸暗，熄燈在黑幕裡一次到 1）  {"roomDark_k": [1]}
+PASS 上床：躺好時燈已熄、閉眼（第一個 lie 取樣 dark=1、eyesShut）  {"pose": "lie", "x": -1.485, "y": 1.86, "z": 0.97, "dark": 1, "eyes": true, "fade": 1, "bed": true, "ms": 51880, "h": 22.547, "d": 54}
+PASS 醒來：從床上起來、一階一階爬下來（隔天 pose climbdown 取樣 ≥ 3、高度往下）  {"n": 52, "y": [1.6, 1.59, 1.57, 1.57, 1.54, 1.54, 1.5, 1.5, 1.44, 1.38, 1.38, 1.34]}
+PASS 醒來：隔天一開始還躺在床上（隔天有 lie 取樣，再接 climbdown）  {"lie": 24, "down": 52}
+PASS 醒來：站回地面、能動（pose 不是 lie／climb／climbdown、y≈0、沒有凍住、床的狀態清掉）  {"s": {"day": 55, "key": "2025-11-10", "h": 8.206, "zone": "dorm", "pose": "idle", "busy": true, "frozen": false, "x": -0.55, "y": 0, "z": 1.5, "bed": false, "dark": 0, "full": false}, "near_approach": true}
+PASS 時間推進：換到隔天（day +1）、早上醒來（05:00～12:00）  {"d0": 54, "s2": {"day": 55, "key": "2025-11-10", "h": 8.206, "zone": "dorm", "pose": "idle", "busy": true, "frozen": false, "x": -0.55, "y": 0, "z": 1.5, "bed": false, "dark": 0, "full": false}, "chose": []}
+  隔天第一個取樣的遊戲時間 8.1671；起床後 8.206
+PASS 存檔：自動存檔是隔天（localStorage fatiao3d_auto 的 day = 55）  {"day": 55, "hour": 8.189, "zone": "dorm"}
+PASS 沒有 JS 例外  []
+SHA ffeec06e0
+ALL PASS

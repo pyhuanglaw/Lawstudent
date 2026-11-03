@@ -1,0 +1,174 @@
+{
+ "sha": "ffeec06e0",
+ "url": "http://127.0.0.1:8810/index.html",
+ "orient": "port",
+ "hooks": {
+  "walkTo": true,
+  "fade": true,
+  "lieDown": true,
+  "roomDark": true,
+  "choose": true,
+  "say": true,
+  "titleCard": true
+ },
+ "scene": {
+  "approach": [
+   -0.55,
+   1.505
+  ],
+  "steps": [
+   [
+    -1.055,
+    0.32,
+    1.505
+   ],
+   [
+    -1.265,
+    0.64,
+    1.505
+   ],
+   [
+    -1.475,
+    0.96,
+    1.505
+   ],
+   [
+    -1.685,
+    1.28,
+    1.505
+   ],
+   [
+    -1.895,
+    1.6,
+    1.505
+   ]
+  ],
+  "feet": [
+   -1.485,
+   1.91,
+   0.97
+  ],
+  "top": 1.86
+ },
+ "s0": {
+  "day": 54,
+  "key": "2025-11-09",
+  "h": 22.52,
+  "zone": "dorm",
+  "pose": "idle",
+  "busy": false,
+  "frozen": false,
+  "x": 0,
+  "y": 0,
+  "z": 2.4,
+  "bed": false,
+  "dark": 0,
+  "full": false
+ },
+ "bed": {
+  "x": -0.55,
+  "z": 1.505,
+  "label": "睡覺"
+ },
+ "s_at_bed": {
+  "day": 54,
+  "key": "2025-11-09",
+  "h": 22.546,
+  "zone": "dorm",
+  "pose": "idle",
+  "busy": false,
+  "frozen": false,
+  "x": -0.42,
+  "y": 0,
+  "z": 1.72,
+  "bed": false,
+  "dark": 0,
+  "full": false
+ },
+ "bed_menu": [
+  {
+   "t": "睡到明天早上（08:10）08:10（第一堂 09:10 憲法（上）前一小時）",
+   "dim": false
+  },
+  {
+   "t": "睡到明天中午12:00。會錯過：09:10 憲法（上）",
+   "dim": false
+  },
+  {
+   "t": "睡到明天下午14:00。會錯過：09:10 憲法（上）",
+   "dim": false
+  },
+  {
+   "t": "睡到明天晚上18:00。會錯過：09:10 憲法（上）、15:30 體育",
+   "dim": false
+  },
+  {
+   "t": "快轉到下一個有事的時候、過一週；沒有劇情的課自動去上",
+   "dim": false
+  },
+  {
+   "t": "再撐一下",
+   "dim": false
+  }
+ ],
+ "chose": [],
+ "s_end": {
+  "day": 55,
+  "key": "2025-11-10",
+  "h": 8.206,
+  "zone": "dorm",
+  "pose": "idle",
+  "busy": true,
+  "frozen": false,
+  "x": -0.55,
+  "y": 0,
+  "z": 1.5,
+  "bed": false,
+  "dark": 0,
+  "full": false
+ },
+ "pick": {
+  "ms": 51208,
+  "h": 22.547,
+  "d": 54
+ },
+ "walks": [],
+ "climb_pre": 0,
+ "darks_bed": [
+  1
+ ],
+ "fade_on": {
+  "k": "fade",
+  "on": true,
+  "ms": 51352,
+  "h": 22.547,
+  "d": 54
+ },
+ "first_lie": {
+  "pose": "lie",
+  "x": -1.485,
+  "y": 1.86,
+  "z": 0.97,
+  "dark": 1,
+  "eyes": true,
+  "fade": 1,
+  "bed": true,
+  "ms": 51880,
+  "h": 22.547,
+  "d": 54
+ },
+ "pos_moved_pre": 0.0,
+ "timing": {
+  "pick_to_fade_ms": 144,
+  "pick_to_lie_ms": 653,
+  "pick_to_lie_game_min": 0.0,
+  "frames_before_lie": 12,
+  "max_y_before_lie": 0
+ },
+ "autosave": {
+  "day": 55,
+  "hour": 8.189,
+  "zone": "dorm"
+ },
+ "errs": []
+}
