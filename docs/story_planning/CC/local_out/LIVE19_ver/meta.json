@@ -1,0 +1,22 @@
+{
+  "rerun": "",
+  "id": "LIVE19_ver",
+  "sha": "e1603907e",
+  "kind": "probe",
+  "script": "docs/story_planning/test_tools/cc/cc_live_ver_probe.py",
+  "env": "LIVE_URL=https://pyhuanglaw.github.io/Lawstudent/index.html",
+  "machine": "MSI",
+  "start": "2026-11-04T05:15:20",
+  "end": "2026-11-04T05:15:28",
+  "seconds": 7,
+  "exit": null,
+  "error": "worktree add e1603907e failed: fatal: invalid reference: e1603907e",
+  "runner": "c9cac8a6aa",
+  "rf_round": "17",
+  "res_peak": {
+    "cpu": 12,
+    "mem": 38,
+    "used_gb": 12.3,
+    "chrome_testing": 0
+  }
+}
