@@ -213,6 +213,16 @@
    "task": "PORTRAIT-HIRES-1103",
    "src": "BB（帳號 A）對話",
    "note": "BB 判定 PC CPU Blender 可用（BK2_cpu 785 秒 exit 0、輸出正常）；13:3x 通知 LAWWW2、AA：長 Blender 工作（烘光影、Cycles 渲染、大批匯出）傳 CC 排 PC 佇列、自己繼續做；CC 改 runner 支援 story-planning 腳本"
+  },
+  {
+   "id": "UA-BB-1103-SLEEP8H",
+   "at": "2026-11-03T13:4x",
+   "quote": "反正我要去睡覺了，接下來8小時我不會管你們你們也不要停下來等我有什麼事情就互相討論你也跟其他人說",
+   "kind": "原話",
+   "status": "規則（永久）",
+   "task": "PORTRAIT-HIRES-1103",
+   "src": "BB（帳號 A）對話",
+   "note": "13:4x 已轉 LAWWW、CC、LAWWW2、AA；大約到 21:4x UTC 不等使用者，互相討論、各自領域決定"
   }
  ]
 }
