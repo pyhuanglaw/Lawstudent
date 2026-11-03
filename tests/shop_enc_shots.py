@@ -6,7 +6,7 @@ import asyncio, json, sys, os
 from playwright.async_api import async_playwright
 sys.path.insert(0, os.path.dirname(__file__))
 import playlib as L
-URL = sys.argv[1]; OUT = sys.argv[2]
+URL = sys.argv[1]; OUT = sys.argv[2]; ONLY = sys.argv[3].split(',') if len(sys.argv) > 3 else None   # 只跑某幾個（逗號分開；none＝只跑路人那一段）
 BASE = {'introDone': True, 'campusIntro': True, 'classDone': True, 'afternoonDone': True, 'metAn': True, 'met_an': True, 'zheNoodleDone': True, 'KX_FIRST_MSG': True, 'KX_EVE_MSG': True, 'FAM_GROUP_SENT': True, 'L118_FIRST_SENT': True}
 # (標籤, 區域, 日期, 時刻, 誰, 熟到哪（social 的 fam／trust）, 要點的選項)
 CASES = [
@@ -26,6 +26,7 @@ async def main():
         await pg.evaluate("localStorage.clear(); STORY.phoneAuto=()=>{}")
         info = {}
         for label, zone, date, hour, who, rel, pick in CASES:
+            if ONLY and label not in ONLY: continue
             d = await pg.evaluate(f"STORY.dayOfKey('{date}')"); wd = await pg.evaluate(f"CALENDAR.dateOf({d}).wd%7")
             per = 'am' if hour < 12 else ('pm' if hour < 18 else 'ev'); key = f'{d}:{zone}:{per}'
             sp = await pg.evaluate(f"(()=>{{ const s=Z3.ZONES['{zone}'].spawn; return s?{{x:s.x,z:s.z,yaw:s.yaw||0}}:null; }})()")
@@ -79,9 +80,11 @@ async def main():
                 run.check(f'{label}：遇過以後按鈕回到一般（{after["label"]}），記在今天遇過的人', who in (after['met'] or []), json.dumps(after, ensure_ascii=False))
         # 路人說一句：巷子裡定食 10/15（三）12:30，一桌兩個人
         label = 'teishoku_diner'; d = await pg.evaluate("STORY.dayOfKey('2025-10-15')"); wd = await pg.evaluate(f"CALENDAR.dateOf({d}).wd%7")
-        sp = await pg.evaluate("(()=>{ const s=Z3.ZONES['wz_teishoku'].spawn; return {x:s.x,z:s.z,yaw:s.yaw||0}; })()")
+        sp = await pg.evaluate("(()=>{ const s=(Z3.ZONES['wz_teishoku']||{}).spawn||(typeof WZ_SHOPS_LAYOUT!=='undefined'&&WZ_SHOPS_LAYOUT.teishoku&&WZ_SHOPS_LAYOUT.teishoku.spawn); return s?{x:s.x,z:s.z,yaw:s.yaw||0}:null; })()")
         run.setup(f'{label}：［捷徑］讀檔到巷子裡定食（2025-10-15 12:30），把玩家放到一桌兩個客人旁邊')
-        await L.load_state(pg, {'zone': 'wz_teishoku', 'hour': 12.5, 'day': d, 'weekday': wd, 'weather': 'sunny', 'stage': 'law', 'money': 3000, 'flags': dict(BASE), 'pos': sp}, quiet_events=True)
+        st = {'zone': 'wz_teishoku', 'hour': 12.5, 'day': d, 'weekday': wd, 'weather': 'sunny', 'stage': 'law', 'money': 3000, 'flags': dict(BASE)}
+        if sp: st['pos'] = sp
+        await L.load_state(pg, st, quiet_events=True)
         for _ in range(30):
             if await pg.evaluate("GAME.G.zone==='wz_teishoku'&&(!GAME.E.zone||GAME.E.zone.formal!==false)"): break
             await pg.wait_for_timeout(1000)
