@@ -1,0 +1,18 @@
+[gpu_wrap] CC_GPU=1 跑 C:\Users\USER\Documents\Lawstudent_cclocal\docs\story_planning\test_tools\cc\cc_b245_stairsarm_probe.py http://127.0.0.1:8811/index.html C:\Users\USER\Documents\Lawstudent_cclocal\docs\story_planning\CC\local_out\V19D_stairarm\out
+cc_b245_stairsarm_probe  SHA=15e78dff7  URL=http://127.0.0.1:8811/index.html
+PASS 遊戲載入
+  【前置／捷徑】load_state（quiet_events）霖澤館第 8 天（週六）11:00，玩家在大廳 (4,4)
+  【前置／捷徑】跟隨鏡頭轉向樓梯口（樓梯在鏡頭背後）、清掉其他 NPC、spawnCharacter 沛珊在 (-6.6, 6.0)
+INFO spawn：{"yaw": -1.434, "ok": true}
+INFO 沛珊模型：{"vrm": true, "key": "char.classmate_peishan", "driver": "vrm", "vis": false}
+PASS 前置：沛珊的 VRM 載好了（才量得到上臂）  {"vrm": true, "key": "char.classmate_peishan", "driver": "vrm", "vis": false}
+  【前置／捷徑】她爬到第一段 y=0.80：E.cinematic 把鏡頭切到她側前方（模擬劇情運鏡切過去）
+INFO 記到 1981 格；畫面外且 cd<15 m 1734 格；cd 15～17 m 0 格；看得到 247 格
+INFO 前 12 格：[{"f": 238, "vis": false, "cd": 7.86, "upd": true, "arm": 11, "y": 0, "z": 6}, {"f": 239, "vis": false, "cd": 6.68, "upd": true, "arm": 11, "y": 0, "z": 6}, {"f": 240, "vis": false, "cd": 6.62, "upd": true, "arm": 11, "y": 0, "z": 6}, {"f": 241, "vis": false, "cd": 6.51, "upd": true, "arm": 10.9, "y": 0, "z": 6}, {"f": 242, "vis": false, "cd": 6.48, "upd": true, "arm": 10.9, "y": 0, "z": 6}, {"f": 243, "vis": false, "cd": 6.46, "upd": true, "arm": 10.9, "y": 0, "z": 6}, {"f": 244, "vis": false, "cd": 6.44, "upd": true, "arm": 10.9, "y": 0, "z": 6}, {"f": 245, "vis": false, "cd": 6.43, "upd": true, "arm": 10.9, "y": 0, "z": 6}, {"f": 246, "vis": false, "cd": 6.42, "upd": true, "arm": 10.9, "y": 0, "z": 6}, {"f": 247, "vis": false, "cd": 6.41, "upd": true, "arm": 10.9, "y": 0, "z": 6}, {"f": 248, "vis": false, "cd": 6.39, "upd": true, "arm": 10.9, "y": 0, "z": 6}, {"f": 249, "vis": false, "cd": 6.38, "upd": true, "arm": 10.9, "y": 0, "z": 6}]
+PASS 前置：沛珊在畫面外、離鏡頭 < 15 m 的格子至少 5 格  1734
+INFO ① 畫面外、16 m 內的格子沒更新骨架的：1/1734 格；例 [{"f": 737, "vis": false, "cd": 6.21, "upd": false, "arm": 11.1, "y": 0, "z": 6}]（BB 17:01：只記錄、不判——時間邊界會誤判，判定看 ② 的手臂角度）
+PASS ② 畫面外那幾格的左上臂和正下方夾角都 ≤ 45°（不是 T 字）  0/1734 格 >45°；例 []
+PASS 前置：有切到她爬第一段（y 0.7～1.7）
+PASS ③ 鏡頭切過去以後第一格看得到她：左上臂夾角 ≤ 45°  {"f": 1539, "vis": true, "cd": 3.57, "upd": true, "arm": 21.1, "y": 0.81, "z": 3.74}
+PASS 沒有 JS 例外  []
+ALL PASS

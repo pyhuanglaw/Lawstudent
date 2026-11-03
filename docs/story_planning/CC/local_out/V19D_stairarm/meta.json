@@ -1,0 +1,23 @@
+{
+  "rerun": "arm45",
+  "id": "V19D_stairarm",
+  "sha": "15e78dff7",
+  "kind": "probe",
+  "script": "docs/story_planning/test_tools/cc/cc_b245_stairsarm_probe.py",
+  "env": "RERUN=arm45",
+  "machine": "MSI",
+  "start": "2026-11-04T01:56:18",
+  "end": "2026-11-04T01:57:58",
+  "seconds": 100,
+  "exit": 0,
+  "error": null,
+  "runner": "c9cac8a6aa",
+  "rf_round": "5",
+  "url": "http://127.0.0.1:8811/index.html",
+  "res_peak": {
+    "cpu": 88,
+    "mem": 51,
+    "used_gb": 16.2,
+    "chrome_testing": 18
+  }
+}
