@@ -65,7 +65,8 @@ const YTJOB=(function(){
   /* AA_625 第 6 節「房東來過了」在茶屋聽她說（YT-REWRITE-1103）：大一下第 10 週以後、她回來上班那一班（10'）之後的下一個週末班打烊；記 RENT_RUMOR，ev_yutong_landlord 記成演過（舊的麵店版退場，接它的訊息、邀約照舊讀「演過」）。
      「在她家當面」那一版要 YT_HOME_SEEN（交往以後才去得到她家），大一下幾乎不會有——還沒做，列給 AA／LAWWW */
   S.RENT=[[YT,'……嗯。昨天秀琴姨煮完飯，沒有馬上走。'],[YT,'她說她的房東要把房子賣了。她住了十四年。'],[YT,'賣了她要住哪裡。……她問我，我也不知道。'],['player','我上課有聽過，房子賣了租約不一定就沒了。我再查。'],[YT,'嗯。你查到再跟我說。']];
-  S.rentDue=G=>{ const F=G.flags; return afterW(G,'Y1S2',10)&&!!F.YT_MOM_BACK&&F.YT_MOM_BACK!==G.day&&!(G.events&&G.events.done&&G.events.done.ev_yutong_landlord)&&!(typeof SOCIAL!=='undefined'&&SOCIAL.has&&SOCIAL.has(YT,'RENT_RUMOR')); };
+  S.rentOpen=G=>afterW(G,'Y1S2',10)&&!afterW(G,'Y2S2',6);   /* AA 11-03 回 LAWWW：事件 6 兩版都在大二下第 5 週結束前（事件 8 在第 6 週）；過了還沒聽過＝沒有事件 6 */
+  S.rentDue=G=>{ const F=G.flags; return S.rentOpen(G)&&!!F.YT_MOM_BACK&&F.YT_MOM_BACK!==G.day&&!(G.events&&G.events.done&&G.events.done.ev_yutong_landlord)&&!(typeof SOCIAL!=='undefined'&&SOCIAL.has&&SOCIAL.has(YT,'RENT_RUMOR')); };
   S.rent=async function(GM){ const G=GM.G; await JOBS.play(GM,S.RENT); if(typeof SOCIAL!=='undefined'&&SOCIAL.remember) SOCIAL.remember(YT,'RENT_RUMOR','秀琴姨的房東要把房子賣了'); (G.events.done=G.events.done||{}).ev_yutong_landlord=G.day; return true; };
   /* AA_625 第 11 節「想幫秀琴姨」（開頭照 AA_643 第 1 節：蘇姨先走了）：大二下第 15 週以後的週末班打烊、要 RENT_CONSULTATION；取代 y2r2_3d.js 的 ev_yt_help_dishes（AA_643 第 7 節），演完記 YT_HELP_OFFERED。
      選①吵架（記 YT_FIGHT）→ 兩週後的週末班她道歉（記 APOLOGIZED）；②不吵、不記 APOLOGIZED；③她笑了一下 */
@@ -109,7 +110,7 @@ const YTJOB=(function(){
   const datingYT=G=>{ const F=(G&&G.flags)||{}, R=romR(G,YT); return F['dating_'+YT]===true||!!(R&&R.status==='dating'); };
   const ytHas2=t=>typeof SOCIAL!=='undefined'&&!!SOCIAL.has&&SOCIAL.has(YT,t);
   S.HOME_INV=['……今天秀琴姨煮很多。你要不要來吃。'];
-  S.homeRentDue=G=>afterW(G,'Y1S2',10)&&!(G.events&&G.events.done&&G.events.done.ev_yutong_landlord)&&!ytHas2('RENT_RUMOR');   /* 事件 6 還沒在茶屋聽過 */
+  S.homeRentDue=G=>S.rentOpen(G)&&!(G.events&&G.events.done&&G.events.done.ev_yutong_landlord)&&!ytHas2('RENT_RUMOR');   /* 事件 6 還沒在茶屋聽過 */
   S.homePhone=function(G){ const F=G.flags; if(!F||F.YT_HOME_SEEN||!datingYT(G)||typeof PHONE==='undefined'||typeof OUT==='undefined') return;
     const R=romR(G,YT), since=R&&typeof R.sinceDay==='number'?R.sinceDay:null, wd=typeof CALENDAR!=='undefined'?CALENDAR.dateOf(G.day).wd%7:0, h=((+G.hour||0)%24+24)%24;
     if(since!=null&&G.day<=since) return; if(wd<1||wd>5||h<17||h>=18.5) return;   /* 交往以後的平日傍晚（開始那一天不算）*/

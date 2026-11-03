@@ -95,6 +95,12 @@ const shift=async(n)=>{ for(const f of JOBS.MID_EV) await f(GM,'tea',n,{}); for(
     check('家. 週末不問、沒交往不問、去過不問',!(G.msgs||[]).some(x=>x.th==='p:heroine_03')&&(()=>{ fresh(); G.day=tdOf('Y2S1',3,2); G.hour=17.1; YTJOB.homePhone(G); PHONE.tick(G); const a=!(G.msgs||[]).length; return a; })());
     m=await home(['Y1S2',11,tdOf('Y1S2',11,2)]); said=[]; picks=['煮得很好吃']; await EVENTS.run(ev('ev_yt_home_first'));
     check('家. 事件 6 在她家當面版（大一下第 10 週以後、還沒在茶屋聽過）：秀琴姨坐下來「房東說要把房子賣了。…」、語彤「秀琴姨，妳先吃。」；記 RENT_RUMOR、ev_yutong_landlord 演過',said.some(x=>is(x,'房東說要把房子賣了。我住了十四年。賣了我要住哪裡。'))&&said.some(x=>is(x,'秀琴姨，妳先吃。'))&&!said.some(x=>/收完碗就走了/.test(x))&&said.some(x=>is(x,'嗯。比茶屋的點心好吃。……不要跟蘇姨說。'))&&SOCIAL.has('heroine_03','RENT_RUMOR')&&!!G.events.done.ev_yutong_landlord,JSON.stringify(said)); }
+  /* 事件 6 的截止（AA 11-03 回 LAWWW）：兩版都在大二下第 5 週結束前；第 6 週以後還沒聽過＝沒有 */
+  { await (async()=>{ fresh(); Object.assign(G.flags,{YT_MET_JOB:true,dating_heroine_03:true,romance:{heroine_03:{status:'dating',sinceDay:tdOf('Y2S2',6,2)-1}}}); G.day=tdOf('Y2S2',6,2); G.hour=17.1; YTJOB.homePhone(G); PHONE.tick(G); const m=(G.msgs||[]).find(x=>x.ask); if(m) PHONE.answer(G,m.ask.id,0); YTJOB.homePlan(G); })();
+    said=[]; picks=['煮得很好吃']; await EVENTS.run(ev('ev_yt_home_first'));
+    check('6. 截止：大二下第 6 週第一次去她家＝一般版（沒有房東那一段、不記 RENT_RUMOR）',said.some(x=>/收完碗就走了/.test(x))&&!said.some(x=>/房東說要把房子賣了/.test(x))&&!SOCIAL.has('heroine_03','RENT_RUMOR'),JSON.stringify(said));
+    const g5={day:tdOf('Y2S2',5,6),flags:{YT_MOM_BACK:1},events:{done:{}}}, g6={day:tdOf('Y2S2',6,6),flags:{YT_MOM_BACK:1},events:{done:{}}};
+    check('6. 截止：茶屋版第 5 週週六還有、第 6 週週六沒有；她家版同一個截止',YTJOB.rentDue(g5)&&!YTJOB.rentDue(g6)&&YTJOB.rentOpen(g5)&&!YTJOB.rentOpen(g6)&&!YTJOB.homeRentDue(g6)); }
   /* 15b 當面（AA_643 第 10 節）：系刊出刊以後她第一次的茶屋班打烊；讀過期刊架＝「你看過了喔。…」，沒讀過＝「這期系刊…」；只講一次 */
   for(const [ys,want] of [['shelf','你看過了喔。……蘇姨也看了。她說寫得太短。'],[null,'這期系刊，第三頁那篇是我寫的。……不用現在看。']]){
     fresh(); Object.assign(G.flags,{YT_MET_JOB:true,TEA_SHIFTS:80,YT_FIRST_PAY:true,YT_CATS_NO:true,YT_MOM_BACK:1,YT_EV11B:1}); G.events.done.ev_yutong_landlord=1; if(ys) G.flags.YT_ESSAY=ys;
