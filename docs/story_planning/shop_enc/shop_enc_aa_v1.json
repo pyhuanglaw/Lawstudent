@@ -22,7 +22,7 @@
   {
    "who": "heroine_01",
    "spot": "cafe",
-   "why": "她坐在靠窗的位子，手帳攤開，旁邊一杯冷掉的拿鐵。",
+   "why": "她坐在沙發那一區，手帳攤開，旁邊一杯冷掉的拿鐵。",
    "days": [
     6,
     0
@@ -226,8 +226,7 @@
    "terms": [
     "Y1S1",
     "Y1S2",
-    "Y2S1",
-    "Y2S2"
+    "Y2S1"
    ],
    "stageMin": "ACQUAINTANCE",
    "busy": "short",
