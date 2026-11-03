@@ -916,6 +916,35 @@
     "D31"
    ],
    "note": ""
+  },
+  {
+   "id": "D33",
+   "name": "信義區・光年影城",
+   "area": "臺北市",
+   "kinds": [
+    "half",
+    "evening"
+   ],
+   "needsCar": false,
+   "transport": [
+    {
+     "mode": "mrt",
+     "minutes": 25,
+     "fare": 35
+    }
+   ],
+   "admission": 0,
+   "fixed": {
+    "label": "看電影",
+    "minutes": 120,
+    "cost": 340
+   },
+   "batch1": false,
+   "wishOf": null,
+   "closed": null,
+   "weather": "indoor",
+   "combo": [],
+   "note": "院線新片；南洋（新生南路）是二輪；西門町 D04 也是院線（AA_631）"
   }
  ]
 }
