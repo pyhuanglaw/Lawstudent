@@ -199,7 +199,7 @@ const Y2B_EVENTS=(function(){
   const TA_NEWS={ id:'ev_yt_ta_news', title:'助教', participants:['heroine_03'], location:'noodle', trigger:'auto', once:true, term:['Y3S1'], weeks:[1], weekday:[2,4], time:[17.5,20.5], background:'blur',
     prereq:{stage:{npc:'heroine_03',min:'FRIEND'},notFlags:['YT_TA']}, dialogue:TA_LINES };
   const TA_NEWS_LIB={ id:'ev_yt_ta_news_lib', title:'助教', participants:['heroine_03'], location:['library','library_hall'], trigger:'auto', once:true, term:['Y3S1'], weeks:[2], weekday:[1], npcZone:'heroine_03', background:'blur',
-    prereq:{stage:{npc:'heroine_03',min:'FRIEND'},notFlags:['YT_TA']}, dialogue:TA_LINES.map(l=>l.text==='下週二第一次上台。我要講二十分鐘。'?Object.assign({},l,{text:'明天第一次上台。我要講二十分鐘。'}):l) };   /* AA_376 #3：第 2 週週一（9/13）在總圖，隔天 9/14 就上台（麵店那一版第 1 週照舊「下週二」）*/
+    prereq:{stage:{npc:'heroine_03',min:'FRIEND'},notFlags:['YT_TA']}, dialogue:[{speaker:null,text:'（她收書出來，在門口叫住你。）',libOut:true}].concat(TA_LINES.map(l=>l.text==='下週二第一次上台。我要講二十分鐘。'?Object.assign({},l,{text:'明天第一次上台。我要講二十分鐘。'}):l)) };   /* libOut（AA_595 1-B22：改在總圖門口；AA 11-02 22:30 定稿）*/   /* AA_376 #3：第 2 週週一（9/13）在總圖，隔天 9/14 就上台（麵店那一版第 1 週照舊「下週二」）*/
 
   /* ---- 1B-08 語彤事件 12「那把傘」：2027-09-14（二）17:30～18:30 總圖門口（大一下雨的那個門口），那天傍晚一定下雨（y2b3d.js）---- */
   const RU=v=>({flagIs:{rain_umbrella:v}});

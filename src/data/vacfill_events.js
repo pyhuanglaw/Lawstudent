@@ -266,6 +266,7 @@ const VACFILL_EVENTS=(function(){
       after:G=>{ G.flags.VF_Y3_LANTERN='went'; } },
     { id:'ev_vf_y3_0214', title:'法圖', participants:['heroine_05'], location:'any', trigger:'outing', once:true, background:'dark', hours:1.5,
       dialogue:[ {scene:'法圖',bg:'law_library'}, {speaker:null,text:X.y3_0212.narr},
+        {speaker:null,text:'（借完書出來，在法圖門口。）',libOut:true},   /* libOut（AA_595 1-B44；AA 11-02 22:30 定稿）*/
         /* AA_533 4-3（企劃線 cf0066ed2）*/
         {speaker:'heroine_05',text:'開學前來借的人，通常是要補上學期的。'},{speaker:'heroine_05',text:'……你是哪一種？'},
         {choice:[{text:'「補上學期的。」',goto:'aa533_a'},{text:'「預習下學期的。」',goto:'aa533_b'}]},

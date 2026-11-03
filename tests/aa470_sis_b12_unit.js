@@ -80,9 +80,10 @@ await sec(0,()=>{ const html=fs.readFileSync(path.join(H.ROOT,'index.html'),'utf
   const A591m=require('./aa591_doc.js').MAP;   /* AA_591（學姊改稿第四批，6b35748c7）：稿上的原句照 AA_591 的表換 */
   const lost=Q.filter(q=>q.t.indexOf('{稱呼}')>=0?!(mine.has(q.t.replace('{稱呼}','學弟'))&&mine.has(q.t.replace('{稱呼}','{name}'))):!mine.has(A591m[q.t]||q.t)).map(q=>q.who+'：'+q.t);
   /* 2026-10-28 改：AA_497 第 5 節（企劃線 7a38216ca；tests/aa497_supporting_unit.js 5-2、5-4）換掉、拿掉的 AA_470 句子：Kevin 動物影片第 6 則（10/26）、2027-03-08 學妹在群組問考古題那一段（改成宜蓁私訊）、gradPost「學姊多講兩個字」 */
+  const LQ_OUT=new Set(['旁白：（法圖最裡面那張桌子。她對面坐著 Kevin，額頭貼在一疊考古題上。）']);   /* AA_595 1-B35（AA 11-02 22:30 定稿）：法圖的午休搬到法圖外的走廊（tests/libq_out_lines.js）*/
   const AA497_OUT=new Set(['Kevin：📹（一隻貓趴在鍵盤上睡著，螢幕上一整排 j）','Kevin：學姊這次有看完嗎','學姊：有。牠到最後都沒醒。','家族的學妹：請問民總的考古題在哪裡🙏','學姊：置頂第二個資料夾。去年的我也放進去了。','Kevin：學姊回得比我快','Kevin：我還在找置頂在哪','Kevin：學姊多講兩個字','學姊：恭喜畢業。']);
   const AA523_OUT=new Set(['學姊：好玩。……照片你都看過了。','Kevin：我回家第三天 已經被我媽唸兩次了','學姊：哪一科。……開學去問老師你錯在哪裡。不用求分數，去問就好。']), AA523_OUT_O=new Set(['「美國好玩嗎？」']);   /* AA_523 6-12 換掉的（12/28、12-7 兩週問兩次）；DIALOGUE-DEPTH-1031 AA_560 2-7 C8 換掉的 Kevin 那一句（他是臺北人）；AA_590 第 42 列（學姊改稿第三批，使用者 11-02 確認）換掉的那一句 */
-  check('0. 第 3 節每一句（'+Q.length+' 句，誰：台詞）都在遊戲裡（{稱呼}＝「學弟」「{name}」兩版；AA_497 換掉的 '+AA497_OUT.size+' 句、AA_523 6-12 換掉的 '+AA523_OUT.size+' 句除外、而且真的不在遊戲裡）',Q.length>=120&&!lost.filter(x=>!AA497_OUT.has(x)&&!AA523_OUT.has(x)).length&&[...AA497_OUT,...AA523_OUT].every(x=>lost.includes(x)),J(lost.filter(x=>!AA497_OUT.has(x)&&!AA523_OUT.has(x))));
+  check('0. 第 3 節每一句（'+Q.length+' 句，誰：台詞）都在遊戲裡（{稱呼}＝「學弟」「{name}」兩版；AA_497 換掉的 '+AA497_OUT.size+' 句、AA_523 6-12 換掉的 '+AA523_OUT.size+' 句除外、而且真的不在遊戲裡）',Q.length>=120&&!lost.filter(x=>!AA497_OUT.has(x)&&!AA523_OUT.has(x)&&!LQ_OUT.has(x)).length&&[...AA497_OUT,...AA523_OUT,...LQ_OUT].every(x=>lost.includes(x)),J(lost.filter(x=>!AA497_OUT.has(x)&&!AA523_OUT.has(x)&&!LQ_OUT.has(x))));
   const O=optsOf(S3), G0=new Set(gameTexts().map(t=>String(t))), lostO=O.filter(o=>!G0.has(o)&&!G0.has(o.replace(/^「|」$/g,'')));
   check('0. 第 3 節每個選項（'+O.length+' 個）都在遊戲裡（AA_523 6-12 換掉的「美國好玩嗎？」除外、而且真的不在遊戲裡）',O.length>=25&&!lostO.filter(o=>!AA523_OUT_O.has(o)).length&&[...AA523_OUT_O].every(o=>lostO.includes(o)),J(lostO.filter(o=>!AA523_OUT_O.has(o))));
   const EXTRA=['「妳大一的時候呢？」','「妳以前不睡覺？」',   /* 交往中祐廷的選項用「妳」（AA_470 第 2 節稱呼）*/
@@ -90,7 +91,7 @@ await sec(0,()=>{ const html=fs.readFileSync(path.join(H.ROOT,'index.html'),'utf
     '寒假第三天 已經被我媽唸兩次了'];   /* DIALOGUE-DEPTH-1031 AA_560 2-7 C8（對 AA_560 的稿：tests/dd_batch1_unit.js）*/
   const AA523_IN=['「回來以後，習慣嗎？」','……法圖的椅子比較矮。'];   /* AA_523 6-12 換上的句子：下一項對 AA_523 第 6 節 6-12 那一列 */
   const A590=require('./aa590_doc.js');   /* AA_590 第 42 列換上的句子：在 AA_590 的表上 */
-  const notIn=[...new Set(gameTexts())].filter(t=>!EXTRA.includes(t)&&!A590.has(t)&&!require('./aa591_doc.js').has(t)&&!AA523_IN.includes(t)&&doc.indexOf(String(t).replace(/^學弟。/,'{稱呼}。').replace(/^\{name\}。(你的學生證|坐。)/,'{稱呼}。$1'))<0);
+  const notIn=[...new Set(gameTexts())].filter(t=>!EXTRA.includes(t)&&!A590.has(t)&&!require('./libq_out_lines.js').added(t)&&!require('./aa591_doc.js').has(t)&&!AA523_IN.includes(t)&&doc.indexOf(String(t).replace(/^學弟。/,'{稱呼}。').replace(/^\{name\}。(你的學生證|坐。)/,'{稱呼}。$1'))<0);
   check('0. 遊戲裡這一批的每一句、選項、群組句都在稿裡（一字不差；交往中「妳」兩個選項除外）',!!doc&&!notIn.length,J(notIn));
   check('0. AA_523 6-12 換上的選項、回覆在遊戲裡，而且一字不差在 AA_523 第 6 節 6-12 那一列（企劃線 0d7b5388b）',!!row612&&AA523_IN.every(t=>G0.has(t)&&row612.includes(t)),J(AA523_IN.filter(t=>!G0.has(t)||!row612.includes(t))));
   const ML=SOCIAL.MEMORY_LABEL||{};
@@ -181,7 +182,7 @@ await sec(4,async()=>{ const a=D('2027-09-13'), d=D('2027-09-16');
 /* ---- 5 12-5 ---- */
 await sec(5,async()=>{
   fresh('2028-03-03',12.5,'fam'); const r0=relNow(); const ran=await talk('lawlib',[2,0]); const r1=relNow(), d=dRel(r0,r1);
-  check('5. 3/3（五）12:30 熟悉、法圖找她說話：先演「法圖的午休」；Kevin 同框照稿',ran===true&&seq(['（法圖最裡面那張桌子。她對面坐著 Kevin，額頭貼在一疊考古題上。）','學弟……救我。','他沒事。他在休息。','學姊，妳當年怎麼撐過來的。','我沒有撐。（她把保溫瓶的蓋子轉開）……後來我學會睡覺。'])&&H.said[1].who==='Kevin',J(H.said));
+  check('5. 3/3（五）12:30 熟悉、法圖找她說話：先演「法圖的午休」；Kevin 同框照稿',ran===true&&seq(['（法圖外的走廊。Kevin 趴在長椅上。）','學弟……救我。','他沒事。他在休息。','學姊，妳當年怎麼撐過來的。','我沒有撐。（她把保溫瓶的蓋子轉開）……後來我學會睡覺。'])&&H.said[1].who==='Kevin',J(H.said));
   check('5. 選項一「學姊以前不睡覺？」「Kevin 學長加油。」「那我不吵你們。」→「不吵。坐。這裡有位子。」；「你大三下了。」；選項二 →「嗯。我會檢查。」；一點五十分叫醒 Kevin、研究小間冷氣',
     J(H.opts[0])===J(['「學姊以前不睡覺？」','「Kevin 學長加油。」','「那我不吵你們。」'])&&J(H.opts[1])===J(['「我會記得睡覺。」','「我還沒想要不要考。」'])&&seq(['不吵。坐。這裡有位子。','（看了你一眼）你大三下了。','明年這個時候，坐在這裡的可能是你。','嗯。我會檢查。','（一點五十分，她收好計畫本，把 Kevin 叫醒。）','兩點了。我去研究小間。','學姊妳的研究小間有冷氣嗎','有。不借你。']),J({o:H.opts,s:said()}));
   check('5. 熟悉 +1、自在 +2；記憶 SIS_LAWLIB_KEVIN；只演一次',d.fam===1&&d.comf===2&&SOCIAL.has(ID,'SIS_LAWLIB_KEVIN')&&evDone('ev_sis_lawlib_kevin')&&(at('2028-03-10',12.5),X().preTalkEv(H.G)==null),J(d));   /* 下一個週五 3/10 不再演 */

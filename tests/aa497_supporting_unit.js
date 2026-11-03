@@ -97,7 +97,7 @@ const inDoc=t=>DOC.indexOf(t)>=0||X547.indexOf(t)>=0;
       '走出總圖。':'4-1「「走到校門口」改「走出總圖」」（原句的句號照舊）','宥辰：法律系館A的電梯':'順手的事的標題（介面的字）','總圖 B1 討論室':'介面的字',
       '（轉貼宥辰）':'AA_527 2-4（企劃線 bfede0a62）：阿哲在麵店團再貼一次宥辰的邀請＝顯示成轉貼（後面接宥辰原文）' };
     const QUOTED=t=>inDoc('「'+t+'」')||(/^「[^「」]+」$/.test(t)&&inDoc(t.slice(1,-1)));   /* 手機的回覆選項：稿寫成「…」，遊戲的按鈕不加引號；閒聊（SMALLTALK 的寫法是「…」）稿寫成「> 芯慈：…」 */
-    const bad=[...new Set(out)].filter(t=>!(inDoc(t)||B7B.indexOf(t)>=0||BB113.indexOf(t)>=0||QUOTED(t)||DERIVED[t]));
+    const bad=[...new Set(out)].filter(t=>!(inDoc(t)||B7B.indexOf(t)>=0||BB113.indexOf(t)>=0||QUOTED(t)||DERIVED[t]||require('./libq_out_lines.js').added(t)));   /* libq_out_lines：AA_595 1-B55 B1 版前兩句改便條（AA 11-02 22:30 定稿）*/
     check('0a. sup497_lines.js 每一句（台詞、旁白、選項、手機訊息）都在稿裡：AA_497 60fc3b9a3（學妹照第 8 節第 5 點叫佳穎）／BB_70 7b／BB_113（一字不差；推導的 '+Object.keys(DERIVED).length+' 句另外列）',out.length>350&&!bad.length,out.length+' 句；不在稿裡：'+J(bad));
     const dv=Object.keys(DERIVED).filter(t=>t.length>4&&!/總圖 B1|順手/.test(t)).filter(t=>!out.includes(t));
     check('0a. 推導的句子都真的用到（沒有多餘的例外）',!dv.length,J(dv));
@@ -541,7 +541,7 @@ const inDoc=t=>DOC.indexOf(t)>=0||X547.indexOf(t)>=0;
   await sec('4-1',async()=>{ const M=L().mx, B=ev('ev_mingxuan_notes_b1'), O=ev('ev_mingxuan_notes');
     check('4-1. B1 的入口：總圖 B1、週二、四 22:00～23:30、大一上～大一下、點明軒（同 M1，interact）',!!B&&B.location==='library_b1'&&B.trigger==='interact'&&J(B.weekday)===J([2,4])&&J(B.time)===J([22,23.5])&&J(B.term)===J(['Y1S1','Y1S2'])&&B.participants[0]===MX);
     const bt=B.dialogue.filter(l=>l.text!=null).map(l=>l.text), ot=O.dialogue.filter(l=>l.text!=null).map(l=>l.text);
-    check('4-1. 前兩句換成「（B1 自習室最角落。……）」「（他看到你，把筆記蓋起來。）」；「走到校門口。」改「走出總圖。」；其他照 M1',bt[0]===M.b1[0]&&bt[1]===M.b1[1]&&!bt.includes('走到校門口。')&&bt.includes(M.b1Out)&&J(bt.slice(2).map(t=>t===M.b1Out?'走到校門口。':t))===J(ot.slice(2)),J(bt.slice(0,3)));
+    check('4-1. 前兩句換成「（B1 自習室最角落。……）」「（他看到你，把筆記蓋起來。）」；「走到校門口。」改「走出總圖。」；其他照 M1',bt[0]===M.b1[0]&&bt[1]===M.b1[1]&&!bt.includes('走到校門口。')&&bt.includes(M.b1Out)&&J(bt.slice(2).map(t=>t===M.b1Out?'走到校門口。':(t===M.b1Note[0]?'……你沒看到。':(t===M.b1Note[1]?'（笑）我在看漫畫啦。':t))))===J(ot.slice(2))&&bt[2]===M.b1Note[0]&&bt[3]===M.b1Note[1],J(bt.slice(0,4)));   /* 第 3、4 句（他說的兩句）B1 版改便條：AA_595 1-B55（AA 11-02 22:30 定稿）*/
     check('4-1. 後果同 M1（SAW_HIM_STUDY、聯絡方式、MX_M1_DAY），日誌寫 B1',J(B.consequences.mem)===J(O.consequences.mem)&&B.consequences.contact===O.consequences.contact&&J(B.consequences.stamp)===J(O.consequences.stamp)&&B.consequences.memo==='在總圖 B1 的自習室遇到明軒');
     const ok=(t,w,wd,h,o)=>{ o=o||{}; fresh(TD(t,w,wd),h,'library_b1'); if(o.acq!==false) acq(MX); if(o.done) H.G.events.done[o.done]=1; return EVENTS.check(B); };
     check('4-1. 大一上第 7 週～大一下第 16 週，週二、四 22:00～23:30、認識他＝點得到',ok('Y1S1',7,2,22.5)&&ok('Y1S2',16,4,23)&&ok('Y1S1',16,4,22.1));

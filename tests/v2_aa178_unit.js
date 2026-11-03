@@ -33,7 +33,7 @@ const meet=id=>SOCIAL.remember(id,'FIRST_MET','');
   // ①
   { const e=ev('ev_yutong_absent'); check('① ev_yutong_absent：term 只有 Y1S2；阿姨兩句的說話人＝阿姨',JSON.stringify(e.term)==='["Y1S2"]'&&e.dialogue.filter(l=>l.speaker==='阿姨'&&!l.if).length===2); }
   /* 交往中的版本（AA_11 事件 4、5；AA-C e2bdcece，AA_215／AA_216 大一下 #3、#4）*/
-  { const e4=ev('ev_yutong_absent'), e5=ev('ev_yutong_thanks'), d=wk('Y1S2',8,2), T=()=>said.map(x=>x.t);
+  { const e4=ev('ev_yutong_absent'), e5=ev('ev_yutong_thanks'), d=wk('Y1S2',8,2), T=()=>require('./libq_out_lines.js').norm(said.map(x=>x.t));   /* LQN：圖書館「走出館外」插進來的旁白拿掉、換掉的換回原句再逐字比（AA_595 1-B；AA 11-02 22:30 定稿；新內容在 tests/libq_out_1102_unit.js 驗）*/
     fresh(d,18,'noodle'); await EVENTS.run(e4); const L0=T(), m0=(G.social.mem.heroine_03||[]).map(m=>m.note).join('|');
     fresh(d,18,'noodle'); G.flags.dating_heroine_03=true; await EVENTS.run(e4); const L1=T(), m1=(G.social.mem.heroine_03||[]).map(m=>m.note).join('|');
     check('③ 事件 4 交往中：阿姨第二句換成「你是語彤那個喔。」「她沒跟你講齁……」「你吃你的……」；記憶多「阿姨說她怕你來幫忙」；沒交往照舊',L1.includes('（看了你一下）你是語彤那個喔。')&&L1.includes('你吃你的。她問的話，就說你自己看到的。')&&!L1.includes('你是她同學喔？她喔，累了也不會講。')&&L0.includes('你是她同學喔？她喔，累了也不會講。')&&!L0.some(t=>/語彤那個/.test(t))&&/怕你來幫忙/.test(m1)&&!/怕你來幫忙/.test(m0),JSON.stringify([L1,m1]));
