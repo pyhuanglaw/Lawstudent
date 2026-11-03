@@ -147,6 +147,7 @@ const CROWD=(function(){
      人數照時段（午休、傍晚以後、週末多；早上、寒暑假、國定假日少），一層最多約 12 個完整人物（手機效能：教室 16 個的同一個量級；人數固定，不乘 CROWD_X）。
      玩家的劇情場景不站人：服務台、販賣機、直飲台前面、中圈「體育課集合」、中間那面羽球場的「打羽球」、進門的地方（羽球邀約的朋友在那裡等）、B1 櫃台前面、3F 入口通道。
      同一天同一時段同一批人（日期＋時段當種子，D55）；沒有名字、不能搭話。測試：node tests/gym_crowd_unit.js */
+  S.GYM_STAND_FIT=false;
   S.gymHours=G=>{ if(typeof CALENDAR==='undefined') return null; const d=CALENDAR.dateOf(G.day); if(d.wd===1&&d.d>=22&&d.d<=28) return null; return d.wd===7?[9,18]:(d.wd===6?[9,22]:[8,22]); };   /* 第四個星期一休館（和 gym3d.js 的 fourthMonday 同一個判斷）*/
   S.gymSpots=function(){ const L=typeof GYM_LAYOUT!=='undefined'?GYM_LAYOUT:null; if(!L||!L.b1||!L.arena) return [];
     const quiet=G=>typeof CALENDAR!=='undefined'&&CALENDAR.kind(G.day)!=='term', wk=G=>typeof CALENDAR!=='undefined'&&CALENDAR.weekend(G.day);
@@ -184,7 +185,7 @@ const CROWD=(function(){
     /* ---- B1 ---- */
     const TM=eq('GYM_TREADMILL'), SQ=eq('GYM_SQUAT_RACK'), DBR=eq('GYM_DB_RACK'), BN=eq('GYM_BENCH'), MAT=eq('GYM_MAT');
     const fit=[].concat(TM.filter((q,i)=>i%2===0).map(q=>({x:q[0],z:12.2,y:0.18,yaw:0,pose:'run',idlePose:'run',fixed:true,role:'treadmill'})),   /* 跑步機上原地跑（皮帶 0.18 m 高）*/
-      SQ.map(q=>({x:q[0],z:+(q[1]-1.2).toFixed(2),yaw:0,role:'rack'})), DBR.map(q=>({x:+(q[0]-0.5).toFixed(2),z:+(q[1]-1.0).toFixed(2),yaw:0,role:'dumbbell'})),
+      S.GYM_STAND_FIT?SQ.map(q=>({x:q[0],z:+(q[1]-1.2).toFixed(2),yaw:0,role:'rack'})):[], S.GYM_STAND_FIT?DBR.map(q=>({x:+(q[0]-0.5).toFixed(2),z:+(q[1]-1.0).toFixed(2),yaw:0,role:'dumbbell'})):[],   /* BUG-GYM-CROWD-STIFF-1103（使用者 11-03：「健身房新增了人 但是都不太會動 更詭異」）：深蹲架、啞鈴架前面的人只是站著不動（沒有深蹲、舉啞鈴的動作），先不放；有真的動作再打開 S.GYM_STAND_FIT */
       BN.slice(1,2).map(q=>({x:q[0],z:q[1],yaw:Math.PI/2,role:'bench',seat:{x:q[0],z:q[1],yaw:Math.PI/2}})), MAT.slice(0,2).map(q=>({x:q[0],z:q[1],yaw:0,role:'mat',pose:'talk'})));
     const b1=mkSpot('b1','gym_b1',[-6,9],DB,function(G,slot,r){ const n=cnt(r,slot), sp=specs(r,n+1,this.ix), out=[];
         out.push(mk(this,slot,0,{x:B.desk.staff.x,z:B.desk.staff.z,yaw:0,spec:sp[0]&~1,role:'desk_b1',name:'櫃台阿姨',fixed:true}));   /* 櫃台後面，面向客人（偶數＝女生）*/

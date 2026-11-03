@@ -87,4 +87,7 @@ for(const [zid,key,h] of [['gym',TUE,12.6],['gym',SAT,19],['gym',MONPE,15.8],['g
 (async()=>{ const G=Object.assign(mkG(TUE,18.5),{money:1000,daily:{}}); enter('gym_b1',G); const said=[]; const GM={G,E,say:async(w,t)=>{ said.push(w); },choose:async()=>0,money(){},toast(){}};
   await GY3.deskB1(GM); const w=said.find(x=>x&&x.name==='櫃台阿姨');
   check('6. 第一次在 B1 櫃台辦卡：說話的是櫃台後面那位阿姨（3D 人物：轉頭看你、嘴巴動），不是只有名字',!!w&&!!w.obj&&w.crowdRole==='desk_b1',w?(w.obj?'3D 人物':'只有名字'):'沒有她說的話');
+  /* BUG-GYM-CROWD-STIFF-1103（使用者 11-03：「健身房新增了人 但是都不太會動 更詭異」）：B1 深蹲架、啞鈴架前面只站著不動的人先不放（沒有那些動作）；跑步機上跑步、重訓椅坐著、墊子上聊天照舊 */
+  { let stand=0, total=0; for(const [key,h] of [[TUE,18.5],[SAT,10],[TUE,12.6],[SAT,19]]){ enter('gym_b1',mkG(key,h)); for(const n of ppl()){ total++; if(n.crowdRole==='rack'||n.crowdRole==='dumbbell') stand++; } }
+    check('9. B1 沒有站在深蹲架、啞鈴架前面不動的人（BUG-GYM-CROWD-STIFF-1103）',stand===0&&total>0,'站著的 '+stand+'／'+total); }
   console.warn=warn0; console.log(fails?('FAILED '+fails):'ALL PASS'); process.exit(fails?1:0); })();

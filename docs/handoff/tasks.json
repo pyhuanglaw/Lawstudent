@@ -41396,10 +41396,10 @@
       "id": "BUG-GYM-CROWD-STIFF-1103",
       "title": "健身房新增的人都不太會動，看起來更詭異（跑步機原地跑、站在器材前、坐重訓椅、拉筋）",
       "owner": "LAWWW",
-      "status": "待開工",
+      "status": "已整合待測試",
       "priority": "P1",
       "note": "使用者 11-03 08:3x（UA-LAWWW-1103-20；USER_WANTS X162）",
-      "next": "LAWWW：crowd3d.js 體育館 B1 的路人（gym_crowd）——加真的動作（跑步、舉啞鈴、深蹲的循環動畫）；做不出像樣的動作就減到少數幾個、不擺在玩家一進門看得到的地方。改完 BB 在 PC 看"
+      "next": "LAWWW 先拿掉 B1 深蹲架、啞鈴架前只站著的人（crowd3d.js S.GYM_STAND_FIT=false；gym_crowd 第 9 項修改前 FAIL）；跑步機上跑、重訓椅坐、墊子聊天照舊 → BB 在 PC 看。之後要有深蹲／舉啞鈴的動作再打開（動作歸 LAWWW2）"
     }
   ]
 }

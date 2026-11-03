@@ -499,7 +499,7 @@
 | X159 | 下課選去吃飯：扣錢、吃飽了，但場景還是教室 | 11-03 08:1x（對 LAWWW） | 在開發分支 | BUG-EAT-AFTER-CLASS-SCENE-1103（LAWWW） | — |
 | X160 | 進新場景先出現畫質很爛的版本（方塊）卡一下才出現完整的；溫州街還沒讀完、腳踏車就在動 | 11-03 08:1x（對 LAWWW） | 在開發分支 | PERF-ZONE-POPIN-1103（LAWWW2） | — |
 | X161 | 教室外面不要有一坨人；「插座是壞的」便利貼那條（SK04）到底有什麼意義 | 11-03 08:1x（對 LAWWW） | 還沒做 | STORY-CLASSROOM-CROWD-SOCKET-1103（AA） | — |
-| X162 | 健身房新增的人都不太會動，更詭異 | 11-03 08:3x（對 LAWWW） | 還沒做 | BUG-GYM-CROWD-STIFF-1103（LAWWW） | — |
+| X162 | 健身房新增的人都不太會動，更詭異 | 11-03 08:3x（對 LAWWW） | 在開發分支 | BUG-GYM-CROWD-STIFF-1103（LAWWW） | — |
 
 ---
 
