@@ -1,0 +1,58 @@
+[gpu_wrap] CC_GPU=1 跑 C:\Users\USER\Documents\wt_cc_D_RUN_movreg\tests\movement_regression.py http://127.0.0.1:8811/index.html
+--- TEST A 宿舍
+FAIL A1 宿舍 spawn → 前進 ≥ 3 m   {'x': 0, 'z': 2.8, 'yaw': 3.14, 'pose': 'idle', 'busy': False, 'cam': 'follow', 'blocked': None, 'stand': True} → {'x': 0, 'z': 2.8, 'yaw': 3.14, 'pose': 'idle', 'busy': False, 'cam': 'follow', 'blocked': None, 'stand': True}
+FAIL A2 左（轉向＋位移）   {'x': 0, 'z': 2.8, 'yaw': 3.14, 'pose': 'idle', 'busy': False, 'cam': 'follow', 'blocked': None, 'stand': True}
+FAIL A3 走（半推，往回）位置改變   {'x': 0, 'z': 2.8, 'yaw': 3.14, 'pose': 'idle', 'busy': False, 'cam': 'follow', 'blocked': None, 'stand': True} pose=idle
+FAIL A4 跑（推到底）位置改變   {'x': 0, 'z': 2.8, 'yaw': 3.14, 'pose': 'idle', 'busy': False, 'cam': 'follow', 'blocked': None, 'stand': True} pose=idle
+FAIL A5 撞牆後仍在合法位置（standable，沒有陷進去）   {'x': 0, 'z': 2.8, 'yaw': 3.14, 'pose': 'idle', 'busy': False, 'cam': 'follow', 'blocked': None, 'stand': True}
+FAIL A6 斜推 → 沿牆滑動（x 改變）   {'x': 0, 'z': 2.8, 'yaw': 3.14, 'pose': 'idle', 'busy': False, 'cam': 'follow', 'blocked': None, 'stand': True} → {'x': 0, 'z': 2.8, 'yaw': 3.14, 'pose': 'idle', 'busy': False, 'cam': 'follow', 'blocked': None, 'stand': True} 推的方向＝左前
+FAIL A7 離開牆 → 繼續走   {'x': 0, 'z': 2.8, 'yaw': 3.14, 'pose': 'idle', 'busy': False, 'cam': 'follow', 'blocked': None, 'stand': True}
+--- TEST B 互動（坐下→起身→走）
+used 坐在書桌前 @-1.1,0.1 nearest=坐在書桌前
+PASS B1 起身後位置合法（standable）且無 seat/busy   {'x': -0.39, 'z': 0.14, 'yaw': -1.57, 'pose': 'idle', 'busy': False, 'cam': 'follow', 'blocked': None, 'stand': True}
+FAIL B2 起身後能走（最佳方向位移 ≥ 1.2 m，宿舍空間有限）   {'x': -0.39, 'z': 0.14, 'yaw': -1.57, 'pose': 'idle', 'busy': False, 'cam': 'follow', 'blocked': None, 'stand': True} → {'x': -0.39, 'z': 0.14, 'yaw': -1.57, 'pose': 'idle', 'busy': False, 'cam': 'follow', 'blocked': None, 'stand': True} via None
+used 坐下讀書 @-5.6,-3.9 nearest=null
+PASS B3 圖書館起身後 standable、不 busy   {'x': -6.6, 'z': -4.4, 'yaw': 3.14, 'pose': 'idle', 'busy': False, 'cam': 'follow', 'blocked': None, 'stand': True}
+FAIL B4 圖書館起身後能走（最佳方向 ≥ 2 m）   {'x': -6.6, 'z': -4.4, 'yaw': 3.14, 'pose': 'idle', 'busy': False, 'cam': 'follow', 'blocked': None, 'stand': True} → {'x': -6.6, 'z': -4.4, 'yaw': 3.14, 'pose': 'idle', 'busy': False, 'cam': 'follow', 'blocked': None, 'stand': True} via None
+--- TEST C ADV 結束後移動
+PASS C1 ADV 中玩家鎖定
+PASS C2 ADV 結束後解鎖（busy=false, cam=follow）   {'x': 74, 'z': -2.5, 'yaw': 0.91, 'pose': 'idle', 'busy': False, 'cam': 'follow', 'blocked': None, 'stand': True}
+FAIL C3 ADV 結束後前進 ≥ 5 m   {'x': 74, 'z': -2.5, 'yaw': 0.91, 'pose': 'idle', 'busy': False, 'cam': 'follow', 'blocked': None, 'stand': True} → {'x': 74, 'z': -2.5, 'yaw': 0.91, 'pose': 'idle', 'busy': False, 'cam': 'follow', 'blocked': None, 'stand': True}
+--- TEST D save → reload → 走
+PASS D1 reload 後未鎖定   {'x': -40, 'z': -5, 'yaw': -1.57, 'pose': 'idle', 'busy': False, 'cam': 'follow', 'blocked': None, 'stand': True}
+FAIL D2 reload 後前進 ≥ 5 m   {'x': -40, 'z': -5, 'yaw': -1.57, 'pose': 'idle', 'busy': False, 'cam': 'follow', 'blocked': None, 'stand': True} → {'x': -40, 'z': -5, 'yaw': -1.57, 'pose': 'idle', 'busy': False, 'cam': 'follow', 'blocked': None, 'stand': True}
+--- TEST E 各區域
+FAIL E 宿舍：walk 位置改變   {'x': 0, 'z': 2.8, 'yaw': 3.14, 'pose': 'idle', 'busy': False, 'cam': 'follow', 'blocked': None, 'stand': True} → {'x': 0, 'z': 2.8, 'yaw': 3.14, 'pose': 'idle', 'busy': False, 'cam': 'follow', 'blocked': None, 'stand': True}
+FAIL E 宿舍：turn   {'x': 0, 'z': 2.8, 'yaw': 3.14, 'pose': 'idle', 'busy': False, 'cam': 'follow', 'blocked': None, 'stand': True}
+FAIL E 宿舍：run（最佳方向）   {'x': 0, 'z': 2.8, 'yaw': 3.14, 'pose': 'idle', 'busy': False, 'cam': 'follow', 'blocked': None, 'stand': True} via None pose=idle
+    used 坐在書桌前 @-1.1,0.1 nearest=坐在書桌前
+PASS E 宿舍：interact 結束後未鎖定且 standable   {'x': -0.39, 'z': 0.14, 'yaw': -1.57, 'pose': 'idle', 'busy': False, 'cam': 'follow', 'blocked': None, 'stand': True}
+FAIL E 宿舍：exit 後能走（最佳方向 ≥ 1 m）   {'x': -0.39, 'z': 0.14, 'yaw': -1.57, 'pose': 'idle', 'busy': False, 'cam': 'follow', 'blocked': None, 'stand': True} → {'x': -0.39, 'z': 0.14, 'yaw': -1.57, 'pose': 'idle', 'busy': False, 'cam': 'follow', 'blocked': None, 'stand': True} via None
+FAIL E 法律系館A前：walk 位置改變   {'x': 34, 'z': -99, 'yaw': 0, 'pose': 'idle', 'busy': False, 'cam': 'follow', 'blocked': None, 'stand': True} → {'x': 34, 'z': -99, 'yaw': 0, 'pose': 'idle', 'busy': False, 'cam': 'follow', 'blocked': None, 'stand': True}
+FAIL E 法律系館A前：turn   {'x': 34, 'z': -99, 'yaw': 0, 'pose': 'idle', 'busy': False, 'cam': 'follow', 'blocked': None, 'stand': True}
+FAIL E 法律系館A前：run（最佳方向）   {'x': 34, 'z': -99, 'yaw': 0, 'pose': 'idle', 'busy': False, 'cam': 'follow', 'blocked': None, 'stand': True} via None pose=idle
+    used 進入法律系館A @27.9,-107.5 nearest=進入法律系館A
+PASS E 法律系館A前：interact 進入 linze   linze
+    exit 走出校門
+PASS E 法律系館A前：interact 結束後未鎖定且 standable   {'x': -2.5, 'z': -29, 'yaw': 0, 'pose': 'idle', 'busy': False, 'cam': 'follow', 'blocked': None, 'stand': True}
+FAIL E 法律系館A前：exit 後能走（最佳方向 ≥ 1 m）   {'x': -2.5, 'z': -29, 'yaw': 0, 'pose': 'idle', 'busy': False, 'cam': 'follow', 'blocked': None, 'stand': True} → {'x': -2.5, 'z': -29, 'yaw': 0, 'pose': 'idle', 'busy': False, 'cam': 'follow', 'blocked': None, 'stand': True} via None
+FAIL E 椰影大道：walk 位置改變   {'x': -40, 'z': -5, 'yaw': -1.57, 'pose': 'idle', 'busy': False, 'cam': 'follow', 'blocked': None, 'stand': True} → {'x': -40, 'z': -5, 'yaw': -1.57, 'pose': 'idle', 'busy': False, 'cam': 'follow', 'blocked': None, 'stand': True}
+FAIL E 椰影大道：turn   {'x': -40, 'z': -5, 'yaw': -1.57, 'pose': 'idle', 'busy': False, 'cam': 'follow', 'blocked': None, 'stand': True}
+FAIL E 椰影大道：run（最佳方向）   {'x': -40, 'z': -5, 'yaw': -1.57, 'pose': 'idle', 'busy': False, 'cam': 'follow', 'blocked': None, 'stand': True} via None pose=idle
+    used 坐在椰影大道的長椅上 @-100.0,12.9 nearest=坐在椰影大道的長椅上
+PASS E 椰影大道：interact 結束後未鎖定且 standable   {'x': -101, 'z': 12.94, 'yaw': 3.14, 'pose': 'idle', 'busy': False, 'cam': 'follow', 'blocked': None, 'stand': True}
+FAIL E 椰影大道：exit 後能走（最佳方向 ≥ 1 m）   {'x': -101, 'z': 12.94, 'yaw': 3.14, 'pose': 'idle', 'busy': False, 'cam': 'follow', 'blocked': None, 'stand': True} → {'x': -101, 'z': 12.94, 'yaw': 3.14, 'pose': 'idle', 'busy': False, 'cam': 'follow', 'blocked': None, 'stand': True} via None
+FAIL E 教室：walk 位置改變   {'x': 0, 'z': 4.6, 'yaw': 3.14, 'pose': 'idle', 'busy': False, 'cam': 'follow', 'blocked': None, 'stand': True} → {'x': 0, 'z': 4.6, 'yaw': 3.14, 'pose': 'idle', 'busy': False, 'cam': 'follow', 'blocked': None, 'stand': True}
+FAIL E 教室：turn   {'x': 0, 'z': 4.6, 'yaw': 3.14, 'pose': 'idle', 'busy': False, 'cam': 'follow', 'blocked': None, 'stand': True}
+FAIL E 教室：run（最佳方向）   {'x': 0, 'z': 4.6, 'yaw': 3.14, 'pose': 'idle', 'busy': False, 'cam': 'follow', 'blocked': None, 'stand': True} via None pose=idle
+    used 坐下 @-3.8,-3.4 nearest=坐下
+PASS E 教室：interact 結束後未鎖定且 standable   {'x': -3.75, 'z': -3.2, 'yaw': 3.14, 'pose': 'idle', 'busy': False, 'cam': 'follow', 'blocked': None, 'stand': True}
+FAIL E 教室：exit 後能走（最佳方向 ≥ 1 m）   {'x': -3.75, 'z': -3.2, 'yaw': 3.14, 'pose': 'idle', 'busy': False, 'cam': 'follow', 'blocked': None, 'stand': True} → {'x': -3.75, 'z': -3.2, 'yaw': 3.14, 'pose': 'idle', 'busy': False, 'cam': 'follow', 'blocked': None, 'stand': True} via None
+FAIL E 咖啡廳：walk 位置改變   {'x': 0, 'z': 4.6, 'yaw': 3.14, 'pose': 'idle', 'busy': False, 'cam': 'follow', 'blocked': None, 'stand': True} → {'x': 0, 'z': 4.6, 'yaw': 3.14, 'pose': 'idle', 'busy': False, 'cam': 'follow', 'blocked': None, 'stand': True}
+FAIL E 咖啡廳：turn   {'x': 0, 'z': 4.6, 'yaw': 3.14, 'pose': 'idle', 'busy': False, 'cam': 'follow', 'blocked': None, 'stand': True}
+FAIL E 咖啡廳：run（最佳方向）   {'x': 0, 'z': 4.6, 'yaw': 3.14, 'pose': 'idle', 'busy': False, 'cam': 'follow', 'blocked': None, 'stand': True} via None pose=idle
+    used 坐在窗邊的雙人桌 @4.5,-1.7 nearest=坐在窗邊的雙人桌
+PASS E 咖啡廳：interact 結束後未鎖定且 standable   {'x': 3.75, 'z': -1.7, 'yaw': 3.14, 'pose': 'idle', 'busy': False, 'cam': 'follow', 'blocked': None, 'stand': True}
+FAIL E 咖啡廳：exit 後能走（最佳方向 ≥ 1 m）   {'x': 3.75, 'z': -1.7, 'yaw': 3.14, 'pose': 'idle', 'busy': False, 'cam': 'follow', 'blocked': None, 'stand': True} → {'x': 3.75, 'z': -1.7, 'yaw': 3.14, 'pose': 'idle', 'busy': False, 'cam': 'follow', 'blocked': None, 'stand': True} via None
+console errors: []
+RESULT: 11/42 PASS  FAILED: A1 宿舍 spawn → 前進 ≥ 3 m | A2 左（轉向＋位移） | A3 走（半推，往回）位置改變 | A4 跑（推到底）位置改變 | A5 撞牆後仍在合法位置（standable，沒有陷進去） | A6 斜推 → 沿牆滑動（x 改變） | A7 離開牆 → 繼續走 | B2 起身後能走（最佳方向位移 ≥ 1.2 m，宿舍空間有限） | B4 圖書館起身後能走（最佳方向 ≥ 2 m） | C3 ADV 結束後前進 ≥ 5 m | D2 reload 後前進 ≥ 5 m | E 宿舍：walk 位置改變 | E 宿舍：turn | E 宿舍：run（最佳方向） | E 宿舍：exit 後能走（最佳方向 ≥ 1 m） | E 法律系館A前：walk 位置改變 | E 法律系館A前：turn | E 法律系館A前：run（最佳方向） | E 法律系館A前：exit 後能走（最佳方向 ≥ 1 m） | E 椰影大道：walk 位置改變 | E 椰影大道：turn | E 椰影大道：run（最佳方向） | E 椰影大道：exit 後能走（最佳方向 ≥ 1 m） | E 教室：walk 位置改變 | E 教室：turn | E 教室：run（最佳方向） | E 教室：exit 後能走（最佳方向 ≥ 1 m） | E 咖啡廳：walk 位置改變 | E 咖啡廳：turn | E 咖啡廳：run（最佳方向） | E 咖啡廳：exit 後能走（最佳方向 ≥ 1 m）

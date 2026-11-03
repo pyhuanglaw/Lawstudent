@@ -1,0 +1,23 @@
+{
+  "rerun": "",
+  "id": "D_RUN_movreg",
+  "sha": "ffeec06e0",
+  "kind": "game",
+  "script": "tests/movement_regression.py",
+  "env": "XARGS={url}",
+  "machine": "MSI",
+  "start": "2026-11-03T20:22:04",
+  "end": "2026-11-03T20:26:59",
+  "seconds": 294,
+  "exit": 1,
+  "error": null,
+  "runner": "8565f3aa98",
+  "rf_round": "3",
+  "url": "http://127.0.0.1:8811/index.html",
+  "res_peak": {
+    "cpu": 43,
+    "mem": 58,
+    "used_gb": 18.4,
+    "chrome_testing": 29
+  }
+}
