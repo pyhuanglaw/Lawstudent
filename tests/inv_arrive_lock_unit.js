@@ -65,7 +65,7 @@ function fresh(key,hour,zone){ const day=DK(key); G={v:3,stage:'law',name:'祐�
   return G; }
 const going=(G,h)=>{ const iv={id:'iv13',who:'heroine_01',place:'noodle',zone:'noodle',day:G.day,h,state:'going',accepted:true,by:'player',now:true,label:'和沈以安約在阿鳳麵店',kxd:1}; G.invites.push(iv); G.msgs.push({day:G.day,h,who:'heroine_01',text:'和沈以安一起去阿鳳麵店吃飯。',iv:'iv13'}); return iv; };
 const anFollow=()=>{ const n=GM.spawnCharacter('heroine_01',0.4,3.8,{beh:'follow'}); n.followOff=1.1; return n; };
-const metMsg=G=>(G.msgs||[]).some(m=>m.iv==='iv13'&&m.text==='和沈以安在阿鳳麵店。');
+const metMsg=G=>(G.msgs||[]).some(m=>m.iv==='iv13'&&m.text==='和沈以安在公館燒臘。');
 const st=()=>JSON.stringify({depth:D.busyDepth,who:D.busyWho,orphans:log.orphans,adv:ADV.active,iv:(G.invites||[]).map(v=>v.id+':'+v.state)});
 /* 跟她說話的選單有沒有「約她去…」（STORY.offerInvite，talkCharacter 最後那一段）*/
 async function inviteOpts(n){ const k0=log.opts.length; const p=STORY.offerInvite(GM,'heroine_01',n); await turn(); const o=log.opts.slice(k0); while(tap()) await turn(); await p; return o.length?o[0]:[]; }
@@ -81,7 +81,7 @@ async function inviteOpts(n){ const k0=log.opts.length; const p=STORY.offerInvit
     await play(400); await Promise.race([pEnter,turn()]);
     check('1. 走進門那一刻就鎖住：玩家 busy、按不到「和沈以安說話」（改前按得到，說話那一段和見面一起演）',!talked,talked?'按到了':'');
     check('1. 見面演完、沒有哪一段停住：劇情層數回到 0、沒有被蓋掉的對話、ADV 關了（改前停在第 1 層 S.talkCharacter＝使用者看到的「卡在她說話的畫面」）',D.busyDepth===0&&!log.orphans.length&&!ADV.active,st());
-    check('1. 吃過了：iv13 done、訊息「和沈以安在阿鳳麵店。」、時間過了 45 分鐘',iv.state==='done'&&metMsg(G)&&Math.abs(G.hour-(iv.h+0.75))<0.02,JSON.stringify({st:iv.state,h:iv.h,hour:G.hour,msg:metMsg(G)}));
+    check('1. 吃過了：iv13 done、訊息「和沈以安在公館燒臘。」、時間過了 45 分鐘',iv.state==='done'&&metMsg(G)&&Math.abs(G.hour-(iv.h+0.75))<0.02,JSON.stringify({st:iv.state,h:iv.h,hour:G.hour,msg:metMsg(G)}));
     check('1. 吃完她不再跟著（beh 不是 follow、作息不再是 follow）',an.beh!=='follow'&&!((INV.entryFor(G,'heroine_01')||{}).act==='follow'),JSON.stringify({beh:an.beh,e:INV.entryFor(G,'heroine_01')}));
     check('2. 換區域的自動存檔不存成「在麵店、還在一起走過去」（改前存了：讀回來她一直跟著）',!entrySave.some(s=>s.zone==='noodle'&&/iv13:going/.test(s.iv)),JSON.stringify(entrySave));
     check('2. 見面演完以後自動存檔（done）',log.saves.length>0&&/iv13:done/.test(log.saves[log.saves.length-1].iv),JSON.stringify(log.saves));
@@ -94,7 +94,7 @@ async function inviteOpts(n){ const k0=log.opts.length; const p=STORY.offerInvit
     const pEnter=STORY.onEnter('noodle',GM,{}); GM.autosave();
     await play(500); await Promise.race([pEnter,turn()]);
     check('1b. 先開始的說話演完、再見面：沒有被蓋掉的對話、劇情層數回到 0、ADV 關了（改前說話那一段停住）',D.busyDepth===0&&!log.orphans.length&&!ADV.active,st()+' 說話：'+talkLine);
-    check('1b. 見面照樣演完（done、「和沈以安在阿鳳麵店。」）、她不再跟著',iv.state==='done'&&metMsg(G)&&an.beh!=='follow',JSON.stringify({st:iv.state,msg:metMsg(G),beh:an.beh})); }
+    check('1b. 見面照樣演完（done、「和沈以安在公館燒臘。」）、她不再跟著',iv.state==='done'&&metMsg(G)&&an.beh!=='follow',JSON.stringify({st:iv.state,msg:metMsg(G),beh:an.beh})); }
   /* ---------- 3 day 9：約好 17:30 麵店，進門時阿哲長桌也成立（同一格 autoStart＋EVENTS.tick）---------- */
   { fresh('2025-09-25',17.6,'noodle'); delete G.flags.zheNoodleDone;
     const iv=INV.accept(G,'heroine_01','noodle',G.day,17.5,{by:'player'}); const an=GM.spawnCharacter('heroine_01',-3,-0.3,{pose:'sit'}); an.seat=E.zone.seats[0];
@@ -104,12 +104,12 @@ async function inviteOpts(n){ const k0=log.opts.length; const p=STORY.offerInvit
     frame();   /* 同一格：INV.tick（autoStart）→ EVENTS.tick */
     await play(600);
     check('3. 兩段都演完、沒有哪一段停住（改前同一格一起開演：被蓋掉的那一段停住＝10-23 day 9 的 _stuck「X.run」）',D.busyDepth===0&&!log.orphans.length,st());
-    check('3. 見面（iv done、「和沈以安在阿鳳麵店。」）和阿哲長桌（noodleTableDay）都有',iv.state==='done'&&(G.msgs||[]).some(m=>m.iv===iv.id&&m.text==='和沈以安在阿鳳麵店。')&&G.flags.noodleTableDay===G.day&&!!(G.events.done||{}).ev_zhe_long_table,JSON.stringify({st:iv.state,ndl:G.flags.noodleTableDay,ev:(G.events.done||{}).ev_zhe_long_table})); }
+    check('3. 見面（iv done、「和沈以安在公館燒臘。」）和阿哲長桌都演（AA_623：長桌不再加群組，不記 noodleTableDay）',iv.state==='done'&&(G.msgs||[]).some(m=>m.iv===iv.id&&m.text==='和沈以安在公館燒臘。')&&G.flags.noodleTableDay==null&&!!(G.events.done||{}).ev_zhe_long_table,JSON.stringify({st:iv.state,ndl:G.flags.noodleTableDay,ev:(G.events.done||{}).ev_zhe_long_table})); }
   /* ---------- 4 讀「途中存的檔」：在麵店、iv13 還是 going（換區域那一刻的自動存檔）---------- */
   { fresh('2025-09-30',16.81,'noodle'); const iv=going(G,16.68); const an=anFollow();   /* 讀檔：S.onEnter 的 fromLoad 不走 S.arrive；作息照 entryFor 把她生成跟著 */
     check('4 前置：讀檔回來在麵店、iv13 going、她跟著（使用者：「重新讀取她才跟著我」）',(INV.entryFor(G,'heroine_01')||{}).act==='follow'&&an.beh==='follow');
     await play(400);
-    check('4. 玩家空下來就照「走到了」開始：見面演完、iv13 done、「和沈以安在阿鳳麵店。」（改前一直是 going、她一直跟著）',iv.state==='done'&&metMsg(G)&&D.busyDepth===0&&!log.orphans.length,JSON.stringify({st:iv.state,msg:metMsg(G),depth:D.busyDepth}));
+    check('4. 玩家空下來就照「走到了」開始：見面演完、iv13 done、「和沈以安在公館燒臘。」（改前一直是 going、她一直跟著）',iv.state==='done'&&metMsg(G)&&D.busyDepth===0&&!log.orphans.length,JSON.stringify({st:iv.state,msg:metMsg(G),depth:D.busyDepth}));
     check('4. 之後她不再跟著',an.beh!=='follow'&&!((INV.entryFor(G,'heroine_01')||{}).act==='follow'),JSON.stringify({beh:an.beh}));
     const o=await inviteOpts(an);
     check('4. 跟她說話有「約她去…」（改前一直跟著的時候沒有任何選項）',o.some(t=>/^約她去/.test(t)),JSON.stringify(o));
@@ -120,7 +120,7 @@ async function inviteOpts(n){ const k0=log.opts.length; const p=STORY.offerInvit
     await play(60);
     check('5. 還沒到麵店：照舊一起走（going、跟著），不會在公館就開始',iv.state==='going'&&an.beh==='follow'&&D.busyDepth===0,JSON.stringify({st:iv.state,beh:an.beh}));
     G.zone='noodle'; const p=STORY.onEnter('noodle',GM,{}); await play(400); await Promise.race([p,turn()]);
-    check('5. 走進麵店：照常見面（done、「和沈以安在阿鳳麵店。」）、沒有停住',iv.state==='done'&&metMsg(G)&&D.busyDepth===0&&!log.orphans.length,st()); }
+    check('5. 走進麵店：照常見面（done、「和沈以安在公館燒臘。」）、沒有停住',iv.state==='done'&&metMsg(G)&&D.busyDepth===0&&!log.orphans.length,st()); }
   /* AA_489 第 5 節：這一趟已經和以安在麵店吃過（約的那一筆 done、同一天、兩小時內）＝她那句換成「你吃完了？我才剛到。……還在看菜單。」*/
   { const g=h=>({day:14,hour:h,invites:[{id:'iv13',who:'heroine_01',place:'noodle',state:'done',day:14,h:16.8}]});
     check('6. AA_489：吃過以後兩小時內＝換句；之前、兩小時以後、別天、沒去成（going）＝照原句',typeof STORY.anAteNoodle==='function'&&STORY.anAteNoodle(g(17.9))&&!STORY.anAteNoodle(g(19.2))&&!STORY.anAteNoodle(g(16.5))&&!STORY.anAteNoodle(Object.assign(g(17.5),{day:15}))&&!STORY.anAteNoodle({day:14,hour:17.5,invites:[{who:'heroine_01',place:'noodle',state:'going',day:14,h:16.8}]})&&STORY.AN_MENU_AFTER==='你吃完了？我才剛到。……還在看菜單。'

@@ -49,13 +49,13 @@ const CATS=['念書…','吃飯…','喝咖啡、喝茶…','散步…','運動�
     check('A1. 手機約以安：第一層＝念書…／吃飯…／喝咖啡、喝茶…／散步…／運動…／出去玩…／算了',J(a.opts[0])===J(CATS.concat(['出去玩…','算了'])),J(a.opts[0])+a.err);
     check('A1. 一層不超過 8 列',max8(a),J(a.opts.map(o=>o.length)));
     const f=a.full[0]||[]; const meal=f.find(o=>o.t==='吃飯…')||{};
-    check('A1. 一類的小字列裡面的地點（吃飯…：阿鳳麵店、半熟）',/阿鳳麵店/.test(meal.hint||'')&&/半熟/.test(meal.hint||'')&&!meal.dim,J(meal));
+    check('A1. 一類的小字列裡面的地點（吃飯…：公館燒臘、半熟；AA_612）',/公館燒臘/.test(meal.hint||'')&&/半熟/.test(meal.hint||'')&&!meal.dim,J(meal));
     const b=await ask('heroine_01',['吃飯','返回','喝咖啡','返回','運動','返回','念書','返回','算了']);
-    check('A2. 吃飯…：麵店、半熟＋返回；返回回到第一層',J(b.opts[1])===J(['去阿鳳麵店吃飯','去半熟吃早午餐','返回'])&&J(b.opts[2])===J(b.opts[0]),J(b.opts.slice(0,3)));
+    check('A2. 吃飯…：麵店、半熟＋返回；返回回到第一層',J(b.opts[1])===J(['去公館燒臘吃飯','去半熟吃早午餐','返回'])&&J(b.opts[2])===J(b.opts[0]),J(b.opts.slice(0,3)));
     check('A2. 喝咖啡、喝茶…：兩點半 Café、一盞、慢讀咖啡＋返回',J(b.opts[3])===J(['去兩點半 Café 坐坐','去一盞喝茶','去慢讀咖啡念書','返回']),J(b.opts[3]));
     check('A2. 念書…：總圖、慢讀咖啡（同一個地點可以放兩類）、法圖＋返回',J(b.opts[7])===J(['去總圖一起念書','去慢讀咖啡念書','去法圖一起念書','返回']),J(b.opts[7]));
     check('A2. 運動…：羽球、晨跑＋返回',J(b.opts[5])===J(['去新體育館打羽球','去椰影大道晨跑','返回']),J(b.opts[5]));
-    const c=await ask('heroine_01',['吃飯','麵店',/^明天/]);
+    const c=await ask('heroine_01',['吃飯','燒臘',/^明天/]);
     const iv=(G.invites||[]).slice(-1)[0]||{};
     check('A3. 從分類選地點：照原本的流程排進 INV（accepted、by player、地點 noodle）',!!c.r&&iv.place==='noodle'&&iv.state==='accepted'&&iv.by==='player'&&iv.who==='heroine_01',J([iv,c.L.slice(-3)]));
   }
